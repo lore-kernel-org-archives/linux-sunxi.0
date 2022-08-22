@@ -1,194 +1,120 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C987EC
-	for <linux-sunxi@lists.linux.dev>; Mon, 22 Aug 2022 08:57:31 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id be9so6364355lfb.12
-        for <linux-sunxi@lists.linux.dev>; Mon, 22 Aug 2022 01:57:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:from:to:cc;
-        bh=km5sUamP86E8C09XJHKxgEiMfglAtrZZbG1g5902shE=;
-        b=mwGXlYgDeWHtuPn9+fhwIJNDqqHi8U0Oa0bWBgUL0Pbm+koLCTIPmRarbN1Oymcs0I
-         SDfpo2ECZWgwI4vygb2X5IDoOgTCZjxIg4IpTyrvEQjdnc1lMuMus4OLkA6+XlAYwM+Z
-         Pnf8dUh88dY9XcFpuW7He6W90OMS3nhfkZiZQO32NhwBDZFy2wj50RlGLCtIdSYk8O0J
-         gYAhXHNfrNkcs551GsKFFXTYVhTCEi0LdUgiMNrHszzn7owT3jIs6T5wlZqm2YMvIoEq
-         4+9/bDaQqImDHTeGGCcek8UN+CgEjQEKBQnJAG8cERkQgla7jsQJ9Lgo9f2eC07o9ToI
-         L3bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:x-gm-message-state:from:to:cc;
-        bh=km5sUamP86E8C09XJHKxgEiMfglAtrZZbG1g5902shE=;
-        b=NiMi+Ty2y776POyWvdEMvCAeLXA42/hwQVEzLI/l+PBefCVs4/kPPxnhVGtV3ZB2El
-         2NjD3oaIYEJVYh0vg05oQUf9x9hxrJSv9QIq5zqZ/WlkJ5ltAfUUviygcDe12DsU+6nC
-         5HKqtM2USxptkDHFFWqvcrfGWk1baBTyYI2f+9DUtl4HImhMb6Z2HgTwpW27mmB+gk54
-         my7Fmj2nquccx8prQrg/+s3UaZeYA1VuP5rVeGglGEd/U6uZY1xiH9wZNxyUW00Ap1VH
-         f3y1lTGImW9nvP/XxcI16O6xmGifyH2x+AIYitS6KUdwnZGrWThDSnrcUoJFugcA4RHr
-         gEnA==
-X-Gm-Message-State: ACgBeo1pt0UQX7KmBQhVYEL3QGi/6jRi1Ejjnwgv34bAoXDON5W1Hw38
-	IjfeokFltO5zLVBi/fD7+BY=
-X-Google-Smtp-Source: AA6agR69A81MYkmHldVuGgogi1ujKmdM8pAvTqfRMtvZzTU6zcjS+6Uua5ug7h2YyUbaP4GpRzjM5A==
-X-Received: by 2002:a05:6512:3f19:b0:48a:874f:534 with SMTP id y25-20020a0565123f1900b0048a874f0534mr6494951lfa.446.1661158648923;
-        Mon, 22 Aug 2022 01:57:28 -0700 (PDT)
-Received: from [10.10.53.53] (81-18-220-16.static.chello.pl. [81.18.220.16])
-        by smtp.googlemail.com with ESMTPSA id d16-20020a0565123d1000b0048ae518364dsm946326lfv.148.2022.08.22.01.57.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Aug 2022 01:57:28 -0700 (PDT)
-From: Mateusz Kwiatkowski <kfyatek@gmail.com>
-X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Message-ID: <9a15b1cf-692c-1b0d-02a6-316cbd954525@gmail.com>
-Date: Mon, 22 Aug 2022 10:57:26 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06FAB7FA
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Aug 2022 10:50:08 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9B0E111FB;
+	Mon, 22 Aug 2022 03:50:11 -0700 (PDT)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9AC603F718;
+	Mon, 22 Aug 2022 03:50:06 -0700 (PDT)
+Date: Mon, 22 Aug 2022 11:50:02 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Conor.Dooley@microchip.com, wens@csie.org, jernej.skrabec@gmail.com,
+ linux-sunxi@lists.linux.dev, palmer@dabbelt.com, paul.walmsley@sifive.com,
+ aou@eecs.berkeley.edu, linux-riscv@lists.infradead.org, robh+dt@kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, Geert Uytterhoeven
+ <geert@linux-m68k.org>, Icenowy Zheng <uwu@icenowy.me>
+Subject: Re: [PATCH 06/12] riscv: dts: allwinner: Add the D1 SoC base
+ devicetree
+Message-ID: <20220822115002.74003b1c@donnerap.cambridge.arm.com>
+In-Reply-To: <932aaefd-e2ca-ef26-bf30-e315fb271ec5@sholland.org>
+References: <20220815050815.22340-1-samuel@sholland.org>
+	<20220815050815.22340-7-samuel@sholland.org>
+	<20220815141159.10edeba5@donnerap.cambridge.arm.com>
+	<3cd9ed5b-8348-38ac-feb1-9a7da858cebc@microchip.com>
+	<932aaefd-e2ca-ef26-bf30-e315fb271ec5@sholland.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v1 00/35] drm: Analog TV Improvements
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
- <narmstrong@baylibre.com>, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Dom Cobley <dom@raspberrypi.com>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <987d6114-5fcb-d668-3b0d-ad6d8723dfdb@tronnes.org>
- <20220822074800.qzyctchqn5usr55g@houat>
-In-Reply-To: <20220822074800.qzyctchqn5usr55g@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Maxime,
+On Sat, 20 Aug 2022 12:24:55 -0500
+Samuel Holland <samuel@sholland.org> wrote:
 
-I tried testing and reviewing your changes properly over the last weekend, but
-ultimately ran into this ("flip_done timed out" etc.) issue and was unable to
-mitigate it, at least so far. This seems to pop up every time I try to change
-modes in any way (either change the TV norm, or just try doing
-"xrandr --output Composite-1 --off" followed by bringing it back on; it also
-means that the Pi goes unusable when the DE's screen saving routine kicks in).
+Hi,
 
-I'm using a Pi 4, and it works with the rpi-5.13.y branch
-https://github.com/raspberrypi/linux, but seemingly nothing newer.
-I specifically tried rpi-5.14.y, rpi-5.15.y and rpi-5.19.y - rpi-5.15.y,
-which is the current main branch in Raspberry Pi OS, seems to be broken since
-forever; at least since my patches (originally written for 5.10) landed there.
+> On 8/15/22 12:01 PM, Conor.Dooley@microchip.com wrote:
+> > On 15/08/2022 14:11, Andre Przywara wrote:  
+> >> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+> >>
+> >> On Mon, 15 Aug 2022 00:08:09 -0500
+> >> Samuel Holland <samuel@sholland.org> wrote:
+> >>
+> >> Hi,
+> >>
+> >> thanks for all the efforts in getting those SoC peripherals supported!
+> >>  
+> >>> D1 is a SoC containing a single-core T-HEAD Xuantie C906 CPU, as well as
+> >>> one HiFi 4 DSP. The SoC is based on a design that additionally contained
+> >>> a pair of Cortex A7's. For that reason, some peripherals are duplicated.  
+> >>
+> >> So because of this, the Allwinner R528 and T113 SoCs would share almost
+> >> everything in this file. Would it be useful to already split this DT up?
+> >> To have a base .dtsi, basically this file without /cpus and /soc/plic,
+> >> then have a RISC-V specific file with just those, including the base?
+> >> There is precedence for this across-arch(-directories) sharing with the
+> >> Raspberry Pi and Allwinner H3/H5 SoCs.  
+> > 
+> > For those playing along at home, one example is the arm64 bananapi m2
+> > dts which looks like:  
+> >> /dts-v1/;
+> >> #include "sun50i-h5.dtsi"
+> >> #include "sun50i-h5-cpu-opp.dtsi"
+> >> #include <arm/sunxi-bananapi-m2-plus-v1.2.dtsi>
+> >>
+> >> / {
+> >> 	model = "Banana Pi BPI-M2-Plus v1.2 H5";
+> >> 	compatible = "bananapi,bpi-m2-plus-v1.2", "allwinner,sun50i-h5";
+> >> };  
+> > 
+> > I think this is a pretty good idea, and putting in the modularity up
+> > front seems logical to me, so when the arm one does eventually get
+> > added it can be done by only touching a single arch.  
+> 
+> This is not feasible, due to the different #interrupt-cells. See
+> https://lore.kernel.org/linux-riscv/CAMuHMdXHSMcrVOH+vcrdRRF+i2TkMcFisGxHMBPUEa8nTMFpzw@mail.gmail.com/
+> 
+> Even if we share some file across architectures, you still have to update files
+> in both places to get the interrupts properties correct.
 
-I'll try identifying the issue further, possibly later today, and maybe check
-the rpi-6.0.y branch as well.
+There are interrupt-maps for that:
+sun8i-r528.dtsi:
+	soc {
+		#interrupt-cells = <1>;
+		interrupt-map = <0  18 &gic GIC_SPI  2 IRQ_TYPE_LEVEL_HIGH>,
+				<0  19 &gic GIC_SPI  3 IRQ_TYPE_LEVEL_HIGH>,
+				....
 
-Best regards,
-Mateusz Kwiatkowski
+sun20i-d1.dtsi:
+	soc {
+		#interrupt-cells = <1>;
+		interrupt-map = <0  18 &plic  18 IRQ_TYPE_LEVEL_HIGH>,
+				<0  19 &plic  19 IRQ_TYPE_LEVEL_HIGH>,
 
-W dniu 22.08.2022 o 09:48, Maxime Ripard pisze:
-> Hi,
->
-> On Sun, Aug 21, 2022 at 06:33:12PM +0200, Noralf Trønnes wrote:
->> Den 29.07.2022 18.34, skrev Maxime Ripard:
->>> Hi,
->>>
->>> Here's a series aiming at improving the command line named modes support,
->>> and more importantly how we deal with all the analog TV variants.
->>>
->>> The named modes support were initially introduced to allow to specify the
->>> analog TV mode to be used.
->>>
->>> However, this was causing multiple issues:
->>>
->>>   * The mode name parsed on the command line was passed directly to the
->>>     driver, which had to figure out which mode it was suppose to match;
->>>
->>>   * Figuring that out wasn't really easy, since the video= argument or what
->>>     the userspace might not even have a name in the first place, but
->>>     instead could have passed a mode with the same timings;
->>>
->>>   * The fallback to matching on the timings was mostly working as long as
->>>     we were supporting one 525 lines (most likely NSTC) and one 625 lines
->>>     (PAL), but couldn't differentiate between two modes with the same
->>>     timings (NTSC vs PAL-M vs NSTC-J for example); 
->>>
->>>   * There was also some overlap with the tv mode property registered by 
->>>     drm_mode_create_tv_properties(), but named modes weren't interacting
->>>     with that property at all.
->>>
->>>   * Even though that property was generic, its possible values were
->>>     specific to each drivers, which made some generic support difficult.
->>>
->>> Thus, I chose to tackle in multiple steps:
->>>
->>>   * A new TV norm property was introduced, with generic values, each driver
->>>     reporting through a bitmask what standard it supports to the userspace;
->>>
->>>   * This option was added to the command line parsing code to be able to
->>>     specify it on the kernel command line, and new atomic_check and reset
->>>     helpers were created to integrate properly into atomic KMS;
->>>
->>>   * The named mode parsing code is now creating a proper display mode for
->>>     the given named mode, and the TV standard will thus be part of the
->>>     connector state;
->>>
->>>   * Two drivers were converted and tested for now (vc4 and sun4i), with
->>>     some backward compatibility code to translate the old TV mode to the
->>>     new TV mode;
->>>
->>> Unit tests were created along the way. Nouveau, ch7006 and gud are
->>> currently broken for now since I expect that work to be reworked fairly
->>> significantly. I'm also not entirely sure about how to migrate GUD to the
->>> new property.
->>>
->>> Let me know what you think,
->>> Maxime
->>>
->> I don't know if it's related to this patchset or not, but I do get this:
->>
->> pi@pi4t:~ $ sudo dmesg -C && sudo modprobe -r vc4 && sudo modprobe vc4
->> && dmesg
->> [  430.066211] Console: switching to colour dummy device 80x30
->> [  431.294788] vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
->> [  431.295115] vc4-drm gpu: bound fec13000.vec (ops vc4_vec_ops [vc4])
->> [  431.295467] vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
->> [  431.295804] vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops
->> [vc4])
->> [  431.298895] [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
->> [  441.444250] vc4-drm gpu: [drm] *ERROR* [CRTC:68:crtc-1] flip_done
->> timed out
->> [  441.446529] Console: switching to colour frame buffer device 90x30
->> [  451.684321] vc4-drm gpu: [drm] *ERROR* flip_done timed out
->> [  451.684347] vc4-drm gpu: [drm] *ERROR* [CRTC:68:crtc-1] commit wait
->> timed out
->> [  461.924255] vc4-drm gpu: [drm] *ERROR* flip_done timed out
->> [  461.924281] vc4-drm gpu: [drm] *ERROR* [CONNECTOR:45:Composite-1]
->> commit wait timed out
->> [  472.164006] vc4-drm gpu: [drm] *ERROR* flip_done timed out
->> [  472.164031] vc4-drm gpu: [drm] *ERROR* [PLANE:61:plane-1] commit wait
->> timed out
->> [  482.403877] vc4-drm gpu: [drm] *ERROR* flip_done timed out
->> [  482.403903] vc4-drm gpu: [drm] *ERROR* Timed out waiting for commit
->> [  492.643799] vc4-drm gpu: [drm] *ERROR* [CRTC:68:crtc-1] flip_done
->> timed out
->> [  492.647073] vc4-drm gpu: [drm] fb0: vc4drmfb frame buffer device
-> Module unloading/reloading has been janky for a while.
->
-> I've fixed it up recently but it doesn't surprise me that there's still
-> some situation that won't work. Is it on a Pi3?
->
-> Maxime
+then, in the shared .dtsi:
+		uart0: serial@2500000 {
+			compatible = "snps,dw-apb-uart";
+			...
+			interrupts = <18>;
 
+This is completely untested, but I have all the files spelt out there, and
+dtc seems happy for both architectures (outside of the kernel tree for now).
 
+> I get the desire to deduplicate things, but we already deal with updating the
+> same/similar nodes across several SoCs, so that is nothing new. I think it would
+> be more confusing/complicated to have all of the interrupts properties
+> overridden in a separate file.
+
+So is this the only thing that prevents sharing? The above paragraph
+sounds a bit you are not very fond of the idea to begin with?
+
+Cheers,
+Andre
