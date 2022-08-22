@@ -1,171 +1,196 @@
-Received: from smtp-fw-33001.amazon.com (smtp-fw-33001.amazon.com [207.171.190.10])
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5477F;
-	Mon, 22 Aug 2022 07:03:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1661151794; x=1692687794;
-  h=references:from:to:cc:date:in-reply-to:message-id:
-   mime-version:subject;
-  bh=nzd0TYYufJ0cvZMq/1825VGB80pelN1uNxD/ulxN3IE=;
-  b=XTOPrOUoX+k2IvUPclwFv0IXtXnF6LwGp3Imo7qSe/5fpnKTFWCMqCRy
-   o58QjlchBJwED4b0r0yzwwUC7H+k6SrCV8Ehva+e2O6BQvI7keSxELuKt
-   ISVvTL2+HNjU1Q61mBkakyHsrA/EFJqwUmvGYZKzNICnY0RK6FilaQLFZ
-   g=;
-X-IronPort-AV: E=Sophos;i="5.93,254,1654560000"; 
-   d="scan'208";a="219871863"
-Subject: Re: [PATCH] net: move from strlcpy with unused retval to strscpy
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-iad-1e-26daedd8.us-east-1.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-33001.sea14.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2022 07:02:58 +0000
-Received: from EX13D28EUC001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
-	by email-inbound-relay-iad-1e-26daedd8.us-east-1.amazon.com (Postfix) with ESMTPS id 4C09AE2EC5;
-	Mon, 22 Aug 2022 07:02:54 +0000 (UTC)
-Received: from u570694869fb251.ant.amazon.com.amazon.com (10.43.161.172) by
- EX13D28EUC001.ant.amazon.com (10.43.164.4) with Microsoft SMTP Server (TLS)
- id 15.0.1497.38; Mon, 22 Aug 2022 07:01:48 +0000
-References: <20220818210050.7108-1-wsa+renesas@sang-engineering.com>
-User-agent: mu4e 1.6.10; emacs 28.0.91
-From: Shay Agroskin <shayagr@amazon.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-CC: <linux-kernel@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Veaceslav
- Falico <vfalico@gmail.com>, Andy Gospodarek <andy@greyhouse.net>, Wolfgang
- Grandegger <wg@grandegger.com>, "Marc Kleine-Budde" <mkl@pengutronix.de>,
-	Florian Fainelli <f.fainelli@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Vivien
- Didelot <vivien.didelot@gmail.com>, Vladimir Oltean <olteanv@gmail.com>,
-	"Kurt Kanzenbach" <kurt@linutronix.de>, Steffen Klassert
-	<klassert@kernel.org>, David Dillow <dave@thedillows.org>, Russell King
-	<linux@armlinux.org.uk>, Ion Badulescu <ionut@badula.org>, Andreas Larsson
-	<andreas@gaisler.com>, Mark Einon <mark.einon@gmail.com>, Lino Sanfilippo
-	<LinoSanfilippo@gmx.de>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, "Jes
- Sorensen" <jes@trained-monkey.org>, Arthur Kiyanovski <akiyano@amazon.com>,
-	David Arinzon <darinzon@amazon.com>, Noam Dagan <ndagan@amazon.com>, "Saeed
- Bishara" <saeedb@amazon.com>, Don Fry <pcnet32@frontier.com>, Tom Lendacky
-	<thomas.lendacky@amd.com>, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Igor
- Russkikh <irusskikh@marvell.com>, Chris Snook <chris.snook@gmail.com>,
-	Michael Chan <michael.chan@broadcom.com>, Broadcom internal kernel review
- list <bcm-kernel-feedback-list@broadcom.com>,
-	=?utf-8?Q?Rafa=C5=82_Mi=C5=82eck?= =?utf-8?Q?i?= <rafal@milecki.pl>, Rasesh
- Mody <rmody@marvell.com>, <GR-Linux-NIC-Dev@marvell.com>, Ariel Elior
-	<aelior@marvell.com>, Sudarsana Kalluru <skalluru@marvell.com>, "Manish
- Chopra" <manishc@marvell.com>, Doug Berger <opendmb@gmail.com>, "Siva Reddy
- Kallam" <siva.kallam@broadcom.com>, Prashant Sreedharan
-	<prashant@broadcom.com>, Sunil Goutham <sgoutham@marvell.com>, "Raju Rangoju"
-	<rajur@chelsio.com>, Ayush Sawal <ayush.sawal@chelsio.com>, "Vinay Kumar
- Yadav" <vinay.yadav@chelsio.com>, Rohit Maheshwari <rohitm@chelsio.com>,
-	Hartley Sweeten <hsweeten@visionengravers.com>, Christian Benvenuti
-	<benve@cisco.com>, Govindarajulu Varadarajan <_govind@gmx.com>, Denis
- Kirjanov <kda@linux-powerpc.org>, Ajit Khaparde <ajit.khaparde@broadcom.com>,
-	Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>, Somnath Kotur
-	<somnath.kotur@broadcom.com>, Madalin Bucur <madalin.bucur@nxp.com>, "Ioana
- Ciornei" <ioana.ciornei@nxp.com>, Claudiu Manoil <claudiu.manoil@nxp.com>,
-	Joakim Zhang <qiangqing.zhang@nxp.com>, Pantelis Antoniou
-	<pantelis.antoniou@gmail.com>, Li Yang <leoyang.li@nxp.com>, Yisen Zhuang
-	<yisen.zhuang@huawei.com>, Salil Mehta <salil.mehta@huawei.com>, "Douglas
- Miller" <dougmill@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
-	<christophe.leroy@csgroup.eu>, Nick Child <nnac123@linux.ibm.com>, "Jesse
- Brandeburg" <jesse.brandeburg@intel.com>, Tony Nguyen
-	<anthony.l.nguyen@intel.com>, Guo-Fu Tseng <cooldavid@cooldavid.org>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Thomas Petazzoni
-	<thomas.petazzoni@bootlin.com>, Marcin Wojtas <mw@semihalf.com>, "Geetha
- sowjanya" <gakula@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>,
-	hariprasad <hkelam@marvell.com>, Taras Chornyi <tchornyi@marvell.com>, Mirko
- Lindner <mlindner@marvell.com>, Stephen Hemminger
-	<stephen@networkplumber.org>, Felix Fietkau <nbd@nbd.name>, John Crispin
-	<john@phrozen.org>, Sean Wang <sean.wang@mediatek.com>, Mark Lee
-	<Mark-MC.Lee@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, Tariq
- Toukan <tariqt@nvidia.com>, Saeed Mahameed <saeedm@nvidia.com>, "Leon
- Romanovsky" <leon@kernel.org>, Ido Schimmel <idosch@nvidia.com>, "Petr
- Machata" <petrm@nvidia.com>, Bryan Whitehead <bryan.whitehead@microchip.com>,
-	<UNGLinuxDriver@microchip.com>, Chris Lee <christopher.lee@cspi.com>, Jon
- Mason <jdmason@kudzu.us>, Simon Horman <simon.horman@corigine.com>, Rain
- River <rain.1986.08.12@gmail.com>, "Zhu Yanjun" <zyjzyj2000@gmail.com>,
-	Vladimir Zapolskiy <vz@mleia.com>, "Rahul Verma" <rahulv@marvell.com>, Shahed
- Shaikh <shshaikh@marvell.com>, "Heiner Kallweit" <hkallweit1@gmail.com>,
-	<nic_swsd@realtek.com>, Jiri Pirko <jiri@resnulli.us>, Byungho An
-	<bh74.an@samsung.com>, Edward Cree <ecree.xilinx@gmail.com>, Martin Habets
-	<habetsm.xilinx@gmail.com>, "Ralf Baechle" <ralf@linux-mips.org>, Francois
- Romieu <romieu@fr.zoreil.com>, Daniele Venzano <venza@brownhat.org>, Nicolas
- Pitre <nico@fluxnic.net>, Steve Glendinning <steve.glendinning@shawell.net>,
-	Jassi Brar <jaswinder.singh@linaro.org>, Ilias Apalodimas
-	<ilias.apalodimas@linaro.org>, Kunihiko Hayashi
-	<hayashi.kunihiko@socionext.com>, Giuseppe Cavallaro
-	<peppe.cavallaro@st.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>, Maxime Coquelin
-	<mcoquelin.stm32@gmail.com>, Grygorii Strashko <grygorii.strashko@ti.com>,
-	Samuel Chessman <chessman@tux.org>, Geoff Levand <geoff@infradead.org>,
-	Ishizaki Kou <kou.ishizaki@toshiba.co.jp>, Kevin Brace
-	<kevinbrace@bracecomputerlab.com>, Radhey Shyam Pandey
-	<radhey.shyam.pandey@xilinx.com>, Michal Simek <michal.simek@xilinx.com>,
-	Krzysztof Halasa <khalasa@piap.pl>, "K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan
- Cui <decui@microsoft.com>, Sridhar Samudrala <sridhar.samudrala@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, "Allen Hubbe" <allenbh@gmail.com>, Michael
- Hennerich <michael.hennerich@analog.com>, Petko Manolov
-	<petkan@nucleusys.com>, Oliver Neukum <oneukum@suse.com>, "Michael S.
- Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Ronak Doshi
-	<doshir@vmware.com>, "VMware PV-Drivers Reviewers" <pv-drivers@vmware.com>,
-	David Ahern <dsahern@kernel.org>, Kalle Valo <kvalo@kernel.org>, Christian
- Lamparter <chunkeey@googlemail.com>, Simon Kelley <simon@thekelleys.org.uk>,
-	"Larry Finger" <Larry.Finger@lwfinger.net>, Arend van Spriel
-	<aspriel@gmail.com>, Franky Lin <franky.lin@broadcom.com>, Hante Meuleman
-	<hante.meuleman@broadcom.com>, Stanislav Yakovlev <stas.yakovlev@gmail.com>,
-	Stanislaw Gruszka <stf_xl@wp.pl>, Jouni Malinen <j@w1.fi>, Ajay Singh
-	<ajay.kathat@microchip.com>, Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Igor Mitsyanko <imitsyanko@quantenna.com>, Sergey Matyukevich
-	<geomatsi@gmail.com>, Herton Ronaldo Krzesinski <herton@canonical.com>,
-	Hin-Tak Leung <htl10@users.sourceforge.net>, <netdev@vger.kernel.org>,
-	<linux-can@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-acenic@sunsite.dk>,
-	<linux-parisc@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
-	<intel-wired-lan@lists.osuosl.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-rdma@vger.kernel.org>, <oss-drivers@corigine.com>,
-	<linux-mips@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
-	<linux-omap@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
-	<ntb@lists.linux.dev>, <linux-usb@vger.kernel.org>,
-	<virtualization@lists.linux-foundation.org>,
-	<linux-wireless@vger.kernel.org>, <b43-dev@lists.infradead.org>,
-	<brcm80211-dev-list.pdl@broadcom.com>, <SHA-cyfmac-dev-list@infineon.com>,
-	<libertas-dev@lists.infradead.org>
-Date: Mon, 22 Aug 2022 10:00:23 +0300
-In-Reply-To: <20220818210050.7108-1-wsa+renesas@sang-engineering.com>
-Message-ID: <pj41zlczcsep7s.fsf@u570694869fb251.ant.amazon.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9307F
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Aug 2022 07:48:05 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailnew.nyi.internal (Postfix) with ESMTP id A0A70580281;
+	Mon, 22 Aug 2022 03:48:04 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Mon, 22 Aug 2022 03:48:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1661154484; x=
+	1661161684; bh=kU6Wak9ut3j71FNKf2BBeHdpI0gagJvWCf5yFVBoM/c=; b=H
+	bUPksQAhrtg9+tEqN67qHrIjYx3E3y97nKNFMOxfK9lHY4b0HrFeFzwozV1/UuEk
+	jnqKKcP3stC2iPQhWubYR88DpkpCQ+uuMuFjx16zDOnclzYiNDLuggYk0ma1ecqH
+	iWU9QgfapN+nXI9i8uiDnSxjt5JQ0TdqPQkalfV8y5CjJrDw5vLmAbP+jVpj8DnB
+	e00fXNBJmCfyaUsLab5atJYRR19hsiMzWrcUAp6mAmXg8R0hLFxe8qLanowPSM73
+	qxRm1ZhHc0NbjkRMgacLggOo41+6BKIXohNNiHiZRJHUJsgkzYdriS7mbp+x3UKS
+	nsizcFAvC+Ux46VqmhIlQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1661154484; x=
+	1661161684; bh=kU6Wak9ut3j71FNKf2BBeHdpI0gagJvWCf5yFVBoM/c=; b=u
+	w8EINgU0Xp5GQ1lo0oDnlD4M/3g7NrEmQW26OlQO6syTa+PG3Mg9ydwcYBiOHF46
+	/FIvYYYKzJ1H7bRCJZE6ylyiqNjP54dWpgjBgYyd1OO83wKp0MpsFbUGnqfm8j8u
+	QzFH+F9F0je0NoE2TbLidJmmTOfr7n4Djzrpo0CXy00gS8AdWsGHvBD0Tbz9YOw4
+	h/9V+JwELqdfASTX2ADBR+PMZmtCcIkiM30mB3CPlg6uo9qJIFaGUyrO+fa6CeDz
+	6oraXWrl7eAXPVXj96Vqqi0vmkritmpm6oNtSE4T2trpYRb6JVf4kIXT1Vbq5Krm
+	WKHp8GO5PibBRxF51f3YQ==
+X-ME-Sender: <xms:szQDY32-2c5mWR1G6LxeX0Vg7R3v1CLjTsw2XvN3mxrjkZXBQxpRXQ>
+    <xme:szQDY2GFDP3KlWF34_cFVKizKKs3AWrYs9Q6vZenN070CU510oF2QPdSKmgrHCNfL
+    NcroseR0DtwkaxouIo>
+X-ME-Received: <xmr:szQDY35I9gju5RuUA5mCnt-8ZEN5A8t_TQMzhO7xKy8Bf_-ZrT77_cSEAek>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeiiedguddvjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtudenucfhrhhomhepofgr
+    gihimhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtf
+    frrghtthgvrhhnpeelleefieelleetteefvdeikeeffeffvefhtdevgfehveduveehjedv
+    vdeiledtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:szQDY819CXMEtZQrV0_neGd6rhjyRqdXcgvkSrSflAOfQMUjguxR9Q>
+    <xmx:szQDY6GCUH1QFarSCmhw55TTNlA9OuQjfAtYBXUkE-DiVJOwqpOjgA>
+    <xmx:szQDY9_g9jurhG8LSKWZHyrOCyfYXnKQN_sPCEwC2Nq6ucBlxHumIA>
+    <xmx:tDQDYz3bSMaJOuQoZ4cxJb4caJ73u13HBUwmHbOAwYXx3L6nBBs47A>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 22 Aug 2022 03:48:02 -0400 (EDT)
+Date: Mon, 22 Aug 2022 09:48:00 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+	David Airlie <airlied@linux.ie>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Phil Elwell <phil@raspberrypi.com>,
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+	Dom Cobley <dom@raspberrypi.com>
+Subject: Re: [PATCH v1 00/35] drm: Analog TV Improvements
+Message-ID: <20220822074800.qzyctchqn5usr55g@houat>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <987d6114-5fcb-d668-3b0d-ad6d8723dfdb@tronnes.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed
-X-Originating-IP: [10.43.161.172]
-X-ClientProxiedBy: EX13D13UWA002.ant.amazon.com (10.43.160.172) To
- EX13D28EUC001.ant.amazon.com (10.43.164.4)
-Precedence: Bulk
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <987d6114-5fcb-d668-3b0d-ad6d8723dfdb@tronnes.org>
 
+Hi,
 
-Wolfram Sang <wsa+renesas@sang-engineering.com> writes:
+On Sun, Aug 21, 2022 at 06:33:12PM +0200, Noralf Tr=F8nnes wrote:
+> Den 29.07.2022 18.34, skrev Maxime Ripard:
+> > Hi,
+> >=20
+> > Here's a series aiming at improving the command line named modes suppor=
+t,
+> > and more importantly how we deal with all the analog TV variants.
+> >=20
+> > The named modes support were initially introduced to allow to specify t=
+he
+> > analog TV mode to be used.
+> >=20
+> > However, this was causing multiple issues:
+> >=20
+> >   * The mode name parsed on the command line was passed directly to the
+> >     driver, which had to figure out which mode it was suppose to match;
+> >=20
+> >   * Figuring that out wasn't really easy, since the video=3D argument o=
+r what
+> >     the userspace might not even have a name in the first place, but
+> >     instead could have passed a mode with the same timings;
+> >=20
+> >   * The fallback to matching on the timings was mostly working as long =
+as
+> >     we were supporting one 525 lines (most likely NSTC) and one 625 lin=
+es
+> >     (PAL), but couldn't differentiate between two modes with the same
+> >     timings (NTSC vs PAL-M vs NSTC-J for example);=20
+> >=20
+> >   * There was also some overlap with the tv mode property registered by=
+=20
+> >     drm_mode_create_tv_properties(), but named modes weren't interacting
+> >     with that property at all.
+> >=20
+> >   * Even though that property was generic, its possible values were
+> >     specific to each drivers, which made some generic support difficult.
+> >=20
+> > Thus, I chose to tackle in multiple steps:
+> >=20
+> >   * A new TV norm property was introduced, with generic values, each dr=
+iver
+> >     reporting through a bitmask what standard it supports to the usersp=
+ace;
+> >=20
+> >   * This option was added to the command line parsing code to be able to
+> >     specify it on the kernel command line, and new atomic_check and res=
+et
+> >     helpers were created to integrate properly into atomic KMS;
+> >=20
+> >   * The named mode parsing code is now creating a proper display mode f=
+or
+> >     the given named mode, and the TV standard will thus be part of the
+> >     connector state;
+> >=20
+> >   * Two drivers were converted and tested for now (vc4 and sun4i), with
+> >     some backward compatibility code to translate the old TV mode to the
+> >     new TV mode;
+> >=20
+> > Unit tests were created along the way. Nouveau, ch7006 and gud are
+> > currently broken for now since I expect that work to be reworked fairly
+> > significantly. I'm also not entirely sure about how to migrate GUD to t=
+he
+> > new property.
+> >=20
+> > Let me know what you think,
+> > Maxime
+> >=20
+>=20
+> I don't know if it's related to this patchset or not, but I do get this:
+>=20
+> pi@pi4t:~ $ sudo dmesg -C && sudo modprobe -r vc4 && sudo modprobe vc4
+> && dmesg
+> [  430.066211] Console: switching to colour dummy device 80x30
+> [  431.294788] vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+> [  431.295115] vc4-drm gpu: bound fec13000.vec (ops vc4_vec_ops [vc4])
+> [  431.295467] vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
+> [  431.295804] vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops
+> [vc4])
+> [  431.298895] [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
+> [  441.444250] vc4-drm gpu: [drm] *ERROR* [CRTC:68:crtc-1] flip_done
+> timed out
+> [  441.446529] Console: switching to colour frame buffer device 90x30
+> [  451.684321] vc4-drm gpu: [drm] *ERROR* flip_done timed out
+> [  451.684347] vc4-drm gpu: [drm] *ERROR* [CRTC:68:crtc-1] commit wait
+> timed out
+> [  461.924255] vc4-drm gpu: [drm] *ERROR* flip_done timed out
+> [  461.924281] vc4-drm gpu: [drm] *ERROR* [CONNECTOR:45:Composite-1]
+> commit wait timed out
+> [  472.164006] vc4-drm gpu: [drm] *ERROR* flip_done timed out
+> [  472.164031] vc4-drm gpu: [drm] *ERROR* [PLANE:61:plane-1] commit wait
+> timed out
+> [  482.403877] vc4-drm gpu: [drm] *ERROR* flip_done timed out
+> [  482.403903] vc4-drm gpu: [drm] *ERROR* Timed out waiting for commit
+> [  492.643799] vc4-drm gpu: [drm] *ERROR* [CRTC:68:crtc-1] flip_done
+> timed out
+> [  492.647073] vc4-drm gpu: [drm] fb0: vc4drmfb frame buffer device
 
-> CAUTION: This email originated from outside of the 
-> organization. Do not click links or open attachments unless you 
-> can confirm the sender and know the content is safe.
->
->
->
-> Follow the advice of the below link and prefer 'strscpy' in this
-> subsystem. Conversion is 1:1 because the return value is not 
-> used.
-> Generated by a coccinelle script.
->
-> Link: 
-> https://lore.kernel.org/r/CAHk-=wgfRnXz0W3D37d01q3JFkr_i_uTL=V6A6G1oUZcprmknw@mail.gmail.com/
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
-...
->  drivers/net/ethernet/amazon/ena/ena_ethtool.c    |  4 ++--
->  drivers/net/ethernet/amazon/ena/ena_netdev.c     |  2 +-
+Module unloading/reloading has been janky for a while.
 
-Reviewed-by: Shay Agroskin <shayagr@amazon.com>
+I've fixed it up recently but it doesn't surprise me that there's still
+some situation that won't work. Is it on a Pi3?
+
+Maxime
