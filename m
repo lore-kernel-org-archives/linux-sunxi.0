@@ -1,159 +1,94 @@
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17FB7B
-	for <linux-sunxi@lists.linux.dev>; Mon, 22 Aug 2022 13:21:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=5/IQY2bAacxoEKLBSNxpFWEsMzg1UnOO/FjIDvTzAwo=; b=OA/E1SvlGVwMNSen7gQbYjjgVy
-	r/vYJH0+bwsw9uE9wnIU1e7D4VYlZHLOuuAXSNSLElI5U6IVlKtgQfoqzW+ZdQn4N+idseDPAZfm6
-	kGTOzmS5vA/yHWodp75z9wg4qr8k/HusEctZz4XXOHuyWuYid/mo61S0WAnx+iuK0ADGqSFBiSaar
-	ZpWaWmTGU0PVtxNEKDcNw0FsECmofbbndMo/FtxUN9B3GAEOgPF3sYYPb/rV6Sc15pfJPfuFfY8kz
-	24QUHp8XvGJqbiyKzUzAXjPL2yCPH1Br4B0mlWOPkpDGwGK/KeyyGQfz3stJNz9fZlEVeqTI1rM/u
-	dJrEYauA==;
-Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=58561)
-	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <noralf@tronnes.org>)
-	id 1oQ7N2-000391-S8; Mon, 22 Aug 2022 15:21:36 +0200
-Message-ID: <2f279dd9-9a6b-8bd2-9d54-b7bd39852ba9@tronnes.org>
-Date: Mon, 22 Aug 2022 15:21:29 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041E27B
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Aug 2022 13:47:23 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id CF55240003;
+	Mon, 22 Aug 2022 13:47:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1661176042;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8sscI+utw7UeN+kt2px5VHaoBUQ5CCQ3wrVjDujYWxo=;
+	b=Dzy88cGhBVSh02adf6d2cLr9vLxIMwZ6RXeyIPfRrQ0DYQe6vOvL0nJrfjjCyzdGy2vS4X
+	Lvzeqs3dbLlD9qIFeGsZ1vV4+vSPgqiGMRphQNKuATrLiHupejBTxhSm8OLWv/J35tbc0l
+	ELkf9zztr8A+1AC83IRddo4qGgoJlm2I5gQwa8wx98P9WT6xHTuTY4xbruSzajx7uGwgvx
+	mEak+Q/cLlxrwkq6C3hnim9zSdgHxYtOE6fLT5wr6kahHAOfmsc6j9gFHdDNBc8t/++/WS
+	2gAgtZJNnfoq5SlCMe58cxkLhQ9mwTUg/qg6Zvo8jkQHgfdPuv4F5QrjFqCERA==
+Date: Mon, 22 Aug 2022 15:47:15 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Maxime Ripard <mripard@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 2/6] media: sun8i-a83t-mipi-csi2: Add a Kconfig
+ dependency on RESET_CONTROLLER
+Message-ID: <YwOI42B5sNnBl3E5@aptenodytes>
+References: <20220812220045.800820-1-paul.kocialkowski@bootlin.com>
+ <20220812220045.800820-2-paul.kocialkowski@bootlin.com>
+ <5847498.lOV4Wx5bFT@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v1 00/35] drm: Analog TV Improvements
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
- <narmstrong@baylibre.com>, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Dom Cobley <dom@raspberrypi.com>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <987d6114-5fcb-d668-3b0d-ad6d8723dfdb@tronnes.org>
- <20220822074800.qzyctchqn5usr55g@houat>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220822074800.qzyctchqn5usr55g@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="JOyupF446Ly1kWag"
+Content-Disposition: inline
+In-Reply-To: <5847498.lOV4Wx5bFT@jernej-laptop>
 
 
+--JOyupF446Ly1kWag
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Den 22.08.2022 09.48, skrev Maxime Ripard:
-> Hi,
-> 
-> On Sun, Aug 21, 2022 at 06:33:12PM +0200, Noralf Trønnes wrote:
->> Den 29.07.2022 18.34, skrev Maxime Ripard:
->>> Hi,
->>>
->>> Here's a series aiming at improving the command line named modes support,
->>> and more importantly how we deal with all the analog TV variants.
->>>
->>> The named modes support were initially introduced to allow to specify the
->>> analog TV mode to be used.
->>>
->>> However, this was causing multiple issues:
->>>
->>>   * The mode name parsed on the command line was passed directly to the
->>>     driver, which had to figure out which mode it was suppose to match;
->>>
->>>   * Figuring that out wasn't really easy, since the video= argument or what
->>>     the userspace might not even have a name in the first place, but
->>>     instead could have passed a mode with the same timings;
->>>
->>>   * The fallback to matching on the timings was mostly working as long as
->>>     we were supporting one 525 lines (most likely NSTC) and one 625 lines
->>>     (PAL), but couldn't differentiate between two modes with the same
->>>     timings (NTSC vs PAL-M vs NSTC-J for example); 
->>>
->>>   * There was also some overlap with the tv mode property registered by 
->>>     drm_mode_create_tv_properties(), but named modes weren't interacting
->>>     with that property at all.
->>>
->>>   * Even though that property was generic, its possible values were
->>>     specific to each drivers, which made some generic support difficult.
->>>
->>> Thus, I chose to tackle in multiple steps:
->>>
->>>   * A new TV norm property was introduced, with generic values, each driver
->>>     reporting through a bitmask what standard it supports to the userspace;
->>>
->>>   * This option was added to the command line parsing code to be able to
->>>     specify it on the kernel command line, and new atomic_check and reset
->>>     helpers were created to integrate properly into atomic KMS;
->>>
->>>   * The named mode parsing code is now creating a proper display mode for
->>>     the given named mode, and the TV standard will thus be part of the
->>>     connector state;
->>>
->>>   * Two drivers were converted and tested for now (vc4 and sun4i), with
->>>     some backward compatibility code to translate the old TV mode to the
->>>     new TV mode;
->>>
->>> Unit tests were created along the way. Nouveau, ch7006 and gud are
->>> currently broken for now since I expect that work to be reworked fairly
->>> significantly. I'm also not entirely sure about how to migrate GUD to the
->>> new property.
->>>
->>> Let me know what you think,
->>> Maxime
->>>
->>
->> I don't know if it's related to this patchset or not, but I do get this:
->>
->> pi@pi4t:~ $ sudo dmesg -C && sudo modprobe -r vc4 && sudo modprobe vc4
->> && dmesg
->> [  430.066211] Console: switching to colour dummy device 80x30
->> [  431.294788] vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
->> [  431.295115] vc4-drm gpu: bound fec13000.vec (ops vc4_vec_ops [vc4])
->> [  431.295467] vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
->> [  431.295804] vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops
->> [vc4])
->> [  431.298895] [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
->> [  441.444250] vc4-drm gpu: [drm] *ERROR* [CRTC:68:crtc-1] flip_done
->> timed out
->> [  441.446529] Console: switching to colour frame buffer device 90x30
->> [  451.684321] vc4-drm gpu: [drm] *ERROR* flip_done timed out
->> [  451.684347] vc4-drm gpu: [drm] *ERROR* [CRTC:68:crtc-1] commit wait
->> timed out
->> [  461.924255] vc4-drm gpu: [drm] *ERROR* flip_done timed out
->> [  461.924281] vc4-drm gpu: [drm] *ERROR* [CONNECTOR:45:Composite-1]
->> commit wait timed out
->> [  472.164006] vc4-drm gpu: [drm] *ERROR* flip_done timed out
->> [  472.164031] vc4-drm gpu: [drm] *ERROR* [PLANE:61:plane-1] commit wait
->> timed out
->> [  482.403877] vc4-drm gpu: [drm] *ERROR* flip_done timed out
->> [  482.403903] vc4-drm gpu: [drm] *ERROR* Timed out waiting for commit
->> [  492.643799] vc4-drm gpu: [drm] *ERROR* [CRTC:68:crtc-1] flip_done
->> timed out
->> [  492.647073] vc4-drm gpu: [drm] fb0: vc4drmfb frame buffer device
-> 
-> Module unloading/reloading has been janky for a while.
-> 
-> I've fixed it up recently but it doesn't surprise me that there's still
-> some situation that won't work. Is it on a Pi3?
-> 
+Hi Jernej,
 
-It's a Pi4.
+On Sun 14 Aug 22, 08:46, Jernej =C5=A0krabec wrote:
+> Dne sobota, 13. avgust 2022 ob 00:00:41 CEST je Paul Kocialkowski napisal=
+(a):
+> > The driver relies on the reset controller API to work, so add
+> > RESET_CONTROLLER as one of its Kconfig dependencies.
+> >=20
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>=20
+> Please add fixes tag here and in the rest of the series.
 
-Noralf.
+Okay I wasn't sure it was worth it since there is no build-time requirement
+and no Kconfig select/depend issue here.
+
+But I guess it doesn't hurt, so will do.
+
+Thanks,
+
+Paul
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--JOyupF446Ly1kWag
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMDiOMACgkQ3cLmz3+f
+v9Hy4Qf+O2dYeRSZv812GHguUIsbBoP1zxN9Irplf8+U+xE52iA5uc3+45JRedmE
+DfQJOBkGVUFGlLB0hTaJuPLo7biU2RqW8cVKNNihiw1AlBMChpoYHtTdGaLHqn5T
+f4GmoTQ7EwfxPw2NsrxxFdgyeH8mLRxfOZv/Ld9q+4w9GooX5cLshjpQ/pmjpz4e
+eYmTyyw9/iIED6mLErLuYmA5TdK2UPet+zf/w6LuIZFNRk6wWcfOhrq701MgtoG3
+KjBFPTaOc5wBoCtjhpwKJQ5EMVOAE8E3qTj8BhgfT9UHJAEUss2xox7a09hrWAK8
+nmShJ8P0wFZ6nrrg5MraxYoxbq15Rw==
+=VBYz
+-----END PGP SIGNATURE-----
+
+--JOyupF446Ly1kWag--
