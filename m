@@ -1,127 +1,194 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E677F;
-	Mon, 22 Aug 2022 08:04:23 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 915AE40002;
-	Mon, 22 Aug 2022 08:04:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1661155456;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Af8UEwDVr1WeGoIs7qSh0v1VGOmRYqe15mtkRmwM7uI=;
-	b=F6wrILK6/Vtb/q8w5hOXTvAsOa3WjkHRwEnPve2X3KrHfH1qA61FhjSKDyZrYWPg/yj3hV
-	HFTOtY/Qu8Oi/VWaorVVxt+27huAxDuUSodv34SjWC99G4DvSZsti2lCCk6e5iuFlaGmVI
-	CC/4b6m2ZoRNFAgueszlc7rX4iTGBqthYkeqISeAR63AkgPINL78Z39GLMOZ8E48S6xDDX
-	r0LdNf7sudzs+grPZ4SfAQ/EyhF1WsoDGHH0DEri8U2IBF0eN26CSmi9MUPkfVJ9PrGcLy
-	6a98B4isZpl/21k/Gu+HCnMnXl05BE2SSMjW5YzQFVacOl+NsOMh9tsh291t5A==
-Date: Mon, 22 Aug 2022 10:04:09 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, kernel@collabora.com,
-	stable@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/3] media: cedrus: Fix watchdog race condition
-Message-ID: <YwM4efK9V4t38RFe@aptenodytes>
-References: <20220818203308.439043-1-nicolas.dufresne@collabora.com>
- <20220818203308.439043-2-nicolas.dufresne@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C987EC
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Aug 2022 08:57:31 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id be9so6364355lfb.12
+        for <linux-sunxi@lists.linux.dev>; Mon, 22 Aug 2022 01:57:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:from:to:cc;
+        bh=km5sUamP86E8C09XJHKxgEiMfglAtrZZbG1g5902shE=;
+        b=mwGXlYgDeWHtuPn9+fhwIJNDqqHi8U0Oa0bWBgUL0Pbm+koLCTIPmRarbN1Oymcs0I
+         SDfpo2ECZWgwI4vygb2X5IDoOgTCZjxIg4IpTyrvEQjdnc1lMuMus4OLkA6+XlAYwM+Z
+         Pnf8dUh88dY9XcFpuW7He6W90OMS3nhfkZiZQO32NhwBDZFy2wj50RlGLCtIdSYk8O0J
+         gYAhXHNfrNkcs551GsKFFXTYVhTCEi0LdUgiMNrHszzn7owT3jIs6T5wlZqm2YMvIoEq
+         4+9/bDaQqImDHTeGGCcek8UN+CgEjQEKBQnJAG8cERkQgla7jsQJ9Lgo9f2eC07o9ToI
+         L3bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:x-gm-message-state:from:to:cc;
+        bh=km5sUamP86E8C09XJHKxgEiMfglAtrZZbG1g5902shE=;
+        b=NiMi+Ty2y776POyWvdEMvCAeLXA42/hwQVEzLI/l+PBefCVs4/kPPxnhVGtV3ZB2El
+         2NjD3oaIYEJVYh0vg05oQUf9x9hxrJSv9QIq5zqZ/WlkJ5ltAfUUviygcDe12DsU+6nC
+         5HKqtM2USxptkDHFFWqvcrfGWk1baBTyYI2f+9DUtl4HImhMb6Z2HgTwpW27mmB+gk54
+         my7Fmj2nquccx8prQrg/+s3UaZeYA1VuP5rVeGglGEd/U6uZY1xiH9wZNxyUW00Ap1VH
+         f3y1lTGImW9nvP/XxcI16O6xmGifyH2x+AIYitS6KUdwnZGrWThDSnrcUoJFugcA4RHr
+         gEnA==
+X-Gm-Message-State: ACgBeo1pt0UQX7KmBQhVYEL3QGi/6jRi1Ejjnwgv34bAoXDON5W1Hw38
+	IjfeokFltO5zLVBi/fD7+BY=
+X-Google-Smtp-Source: AA6agR69A81MYkmHldVuGgogi1ujKmdM8pAvTqfRMtvZzTU6zcjS+6Uua5ug7h2YyUbaP4GpRzjM5A==
+X-Received: by 2002:a05:6512:3f19:b0:48a:874f:534 with SMTP id y25-20020a0565123f1900b0048a874f0534mr6494951lfa.446.1661158648923;
+        Mon, 22 Aug 2022 01:57:28 -0700 (PDT)
+Received: from [10.10.53.53] (81-18-220-16.static.chello.pl. [81.18.220.16])
+        by smtp.googlemail.com with ESMTPSA id d16-20020a0565123d1000b0048ae518364dsm946326lfv.148.2022.08.22.01.57.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Aug 2022 01:57:28 -0700 (PDT)
+From: Mateusz Kwiatkowski <kfyatek@gmail.com>
+X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+Message-ID: <9a15b1cf-692c-1b0d-02a6-316cbd954525@gmail.com>
+Date: Mon, 22 Aug 2022 10:57:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="9C9XXDtt+KGo1SiH"
-Content-Disposition: inline
-In-Reply-To: <20220818203308.439043-2-nicolas.dufresne@collabora.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v1 00/35] drm: Analog TV Improvements
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
+ <noralf@tronnes.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
+ <narmstrong@baylibre.com>, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Dom Cobley <dom@raspberrypi.com>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <987d6114-5fcb-d668-3b0d-ad6d8723dfdb@tronnes.org>
+ <20220822074800.qzyctchqn5usr55g@houat>
+In-Reply-To: <20220822074800.qzyctchqn5usr55g@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Hi Maxime,
+
+I tried testing and reviewing your changes properly over the last weekend, but
+ultimately ran into this ("flip_done timed out" etc.) issue and was unable to
+mitigate it, at least so far. This seems to pop up every time I try to change
+modes in any way (either change the TV norm, or just try doing
+"xrandr --output Composite-1 --off" followed by bringing it back on; it also
+means that the Pi goes unusable when the DE's screen saving routine kicks in).
+
+I'm using a Pi 4, and it works with the rpi-5.13.y branch
+https://github.com/raspberrypi/linux, but seemingly nothing newer.
+I specifically tried rpi-5.14.y, rpi-5.15.y and rpi-5.19.y - rpi-5.15.y,
+which is the current main branch in Raspberry Pi OS, seems to be broken since
+forever; at least since my patches (originally written for 5.10) landed there.
+
+I'll try identifying the issue further, possibly later today, and maybe check
+the rpi-6.0.y branch as well.
+
+Best regards,
+Mateusz Kwiatkowski
+
+W dniu 22.08.2022 o 09:48, Maxime Ripard pisze:
+> Hi,
+>
+> On Sun, Aug 21, 2022 at 06:33:12PM +0200, Noralf Trønnes wrote:
+>> Den 29.07.2022 18.34, skrev Maxime Ripard:
+>>> Hi,
+>>>
+>>> Here's a series aiming at improving the command line named modes support,
+>>> and more importantly how we deal with all the analog TV variants.
+>>>
+>>> The named modes support were initially introduced to allow to specify the
+>>> analog TV mode to be used.
+>>>
+>>> However, this was causing multiple issues:
+>>>
+>>>   * The mode name parsed on the command line was passed directly to the
+>>>     driver, which had to figure out which mode it was suppose to match;
+>>>
+>>>   * Figuring that out wasn't really easy, since the video= argument or what
+>>>     the userspace might not even have a name in the first place, but
+>>>     instead could have passed a mode with the same timings;
+>>>
+>>>   * The fallback to matching on the timings was mostly working as long as
+>>>     we were supporting one 525 lines (most likely NSTC) and one 625 lines
+>>>     (PAL), but couldn't differentiate between two modes with the same
+>>>     timings (NTSC vs PAL-M vs NSTC-J for example); 
+>>>
+>>>   * There was also some overlap with the tv mode property registered by 
+>>>     drm_mode_create_tv_properties(), but named modes weren't interacting
+>>>     with that property at all.
+>>>
+>>>   * Even though that property was generic, its possible values were
+>>>     specific to each drivers, which made some generic support difficult.
+>>>
+>>> Thus, I chose to tackle in multiple steps:
+>>>
+>>>   * A new TV norm property was introduced, with generic values, each driver
+>>>     reporting through a bitmask what standard it supports to the userspace;
+>>>
+>>>   * This option was added to the command line parsing code to be able to
+>>>     specify it on the kernel command line, and new atomic_check and reset
+>>>     helpers were created to integrate properly into atomic KMS;
+>>>
+>>>   * The named mode parsing code is now creating a proper display mode for
+>>>     the given named mode, and the TV standard will thus be part of the
+>>>     connector state;
+>>>
+>>>   * Two drivers were converted and tested for now (vc4 and sun4i), with
+>>>     some backward compatibility code to translate the old TV mode to the
+>>>     new TV mode;
+>>>
+>>> Unit tests were created along the way. Nouveau, ch7006 and gud are
+>>> currently broken for now since I expect that work to be reworked fairly
+>>> significantly. I'm also not entirely sure about how to migrate GUD to the
+>>> new property.
+>>>
+>>> Let me know what you think,
+>>> Maxime
+>>>
+>> I don't know if it's related to this patchset or not, but I do get this:
+>>
+>> pi@pi4t:~ $ sudo dmesg -C && sudo modprobe -r vc4 && sudo modprobe vc4
+>> && dmesg
+>> [  430.066211] Console: switching to colour dummy device 80x30
+>> [  431.294788] vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+>> [  431.295115] vc4-drm gpu: bound fec13000.vec (ops vc4_vec_ops [vc4])
+>> [  431.295467] vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
+>> [  431.295804] vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops
+>> [vc4])
+>> [  431.298895] [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
+>> [  441.444250] vc4-drm gpu: [drm] *ERROR* [CRTC:68:crtc-1] flip_done
+>> timed out
+>> [  441.446529] Console: switching to colour frame buffer device 90x30
+>> [  451.684321] vc4-drm gpu: [drm] *ERROR* flip_done timed out
+>> [  451.684347] vc4-drm gpu: [drm] *ERROR* [CRTC:68:crtc-1] commit wait
+>> timed out
+>> [  461.924255] vc4-drm gpu: [drm] *ERROR* flip_done timed out
+>> [  461.924281] vc4-drm gpu: [drm] *ERROR* [CONNECTOR:45:Composite-1]
+>> commit wait timed out
+>> [  472.164006] vc4-drm gpu: [drm] *ERROR* flip_done timed out
+>> [  472.164031] vc4-drm gpu: [drm] *ERROR* [PLANE:61:plane-1] commit wait
+>> timed out
+>> [  482.403877] vc4-drm gpu: [drm] *ERROR* flip_done timed out
+>> [  482.403903] vc4-drm gpu: [drm] *ERROR* Timed out waiting for commit
+>> [  492.643799] vc4-drm gpu: [drm] *ERROR* [CRTC:68:crtc-1] flip_done
+>> timed out
+>> [  492.647073] vc4-drm gpu: [drm] fb0: vc4drmfb frame buffer device
+> Module unloading/reloading has been janky for a while.
+>
+> I've fixed it up recently but it doesn't surprise me that there's still
+> some situation that won't work. Is it on a Pi3?
+>
+> Maxime
 
 
---9C9XXDtt+KGo1SiH
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Nicolas,
-
-On Thu 18 Aug 22, 16:33, Nicolas Dufresne wrote:
-> The watchdog needs to be schedule before we trigger the decode
-> operation, otherwise there is a risk that the decoder IRQ will be
-> called before we have schedule the watchdog. As a side effect, the
-> watchdog would never be cancelled and its function would be called
-> at an inappropriate time.
->=20
-> This was observed while running Fluster with GStreamer as a backend.
-> Some programming error would cause the decoder IRQ to be call very
-> quickly after the trigger. Later calls into the driver would deadlock
-> due to the unbalanced state.
-
-Good catch, thanks!
-
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-
-Cheers,
-
-Paul
-
-> Cc: stable@vger.kernel.org
-> Fixes: 7c38a551bda1 ("media: cedrus: Add watchdog for job completion")
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus_dec.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/st=
-aging/media/sunxi/cedrus/cedrus_dec.c
-> index 3b6aa78a2985f..e7f7602a5ab40 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> @@ -106,11 +106,11 @@ void cedrus_device_run(void *priv)
-> =20
->  	/* Trigger decoding if setup went well, bail out otherwise. */
->  	if (!error) {
-> -		dev->dec_ops[ctx->current_codec]->trigger(ctx);
-> -
->  		/* Start the watchdog timer. */
->  		schedule_delayed_work(&dev->watchdog_work,
->  				      msecs_to_jiffies(2000));
-> +
-> +		dev->dec_ops[ctx->current_codec]->trigger(ctx);
->  	} else {
->  		v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev,
->  						 ctx->fh.m2m_ctx,
-> --=20
-> 2.37.2
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---9C9XXDtt+KGo1SiH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMDOHgACgkQ3cLmz3+f
-v9ENKwf+JRXzzEmrQxZWhfCKskt7uuVhWKW/HBMQrYb3guv4d6PGcqi52+9lyStB
-49tTvjlH655bRsQKMEC3DT6Md1inbO6G7CZhH8uAaX43iLx3UgXbI13OCTEfz2V2
-CF1UK+Rm/Cv6eZhS7jCml/bOTA058ScUkemASDt61IhDcsjNo1rmKWulkGtiKhl4
-Fj+Hq4ut9YLfyb/l5RAVPixiXgsMUye4J0z0ANN8XADhL5pkjLIh+wU9BT4jB3Y6
-u9KVVjjwRsux5p78R5jZ9PKhWIbtySCtWWmjK+vsl/+X6jUwcgWUW3tPnxB/JYSI
-FRlmnT/A5hJvZu8f2xD+DF23Oyv1HA==
-=7kSt
------END PGP SIGNATURE-----
-
---9C9XXDtt+KGo1SiH--
