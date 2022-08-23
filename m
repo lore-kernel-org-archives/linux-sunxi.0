@@ -1,42 +1,42 @@
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A27A20
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Aug 2022 03:16:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FC5A20;
+	Tue, 23 Aug 2022 03:57:42 +0000 (UTC)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 53EB25C00A0;
-	Mon, 22 Aug 2022 23:16:10 -0400 (EDT)
+	by mailout.nyi.internal (Postfix) with ESMTP id 4B0ED5C017D;
+	Mon, 22 Aug 2022 23:57:41 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Mon, 22 Aug 2022 23:16:10 -0400
+  by compute1.internal (MEProxy); Mon, 22 Aug 2022 23:57:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1661224570; x=
-	1661310970; bh=cYmKT+EG0Bj+G1PyMV6PvL1EzCjw1wIFlNXT1MPSLoM=; b=p
-	KWPlc+cWYP9aV98RZDDXBbo1x7+JjMoQzDlXzsCk1CqXDvj/pSLbPeCuosCqCNbb
-	nXoUnn2c1qmDfiPG49ayKDsK/XtL5pHtBV/n39JWj/1Xe/C11XT6GaLWolo1Hsq/
-	Tkf9Vu54U+G2JpyUBb+jm5wMQ4rwa4iOpOxg9Fcm8LiZv72jtUZN1mvqZu+PIjIy
-	sQSS4d8vjpE8rzOLElYu7gHHEzCXccUP+uu58PnFOesvRJUwP6gg6HaClgah7UCL
-	hOOrVvIyO6HHmp3RcecOx5IcXJLdFyh0+3lEWS5lPdJP2I3uWI2sx9QHL1KzpyK4
-	DCOaas55TjCz0phzZMm+A==
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1661227061; x=
+	1661313461; bh=DCa1+tn2wL/qaiJJ/v6UFWHx8ak4jYt6XIvYs1ogASU=; b=d
+	Nm7xjWcTOqvSwz3gYuAarLkMwyk1L93rhjRpVFZPXwz6dFmRC4aCEh7aEUK0CdWn
+	22sNwpjO0dIWuGu8prCS9bBX1i/IyA51+FVUSZaVQZKK9btir7e4vipNEijX/Tkn
+	vO4fLwEFj2npXJMrqQ81ogpkboWCkX0dDcNBIQtajYby3vP7vl+5G4+8q0EsSro6
+	eKGOifWHQ/RRa9x3V1G9XLKpm6bqpfKVHRYtE93SlymFQDGo1813dhBhO67xidO1
+	dgMvadrQ97zo1PBynbXRYJ4ysZzVyxsZOUy/GS2rqLahrz0L/dFcMV2cydJDPfoK
+	YT1+XlAjXjkjmi4KO7diw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1661224570; x=
-	1661310970; bh=cYmKT+EG0Bj+G1PyMV6PvL1EzCjw1wIFlNXT1MPSLoM=; b=4
-	NLVGMjOA2bLK4uWokogmEGGXeHNl9udHozB2J+7MwJE2yWShz5S83Xw7q/hp6v9o
-	QttOYTIT2sdZXP96EeNWVM42dBYFNs/fY+hUrMITBY0rwAquIIYpsOOz76K38LKI
-	zXsuUJlrY3hCYv4NNMvYfR8wpajvMWap1MwAl2yOH/WRNYQMIcJkb1XJEoRxTg0X
-	zWjpR3bGJFTXj4JawknrJcRIsYn9svjZYI/os+bCCrOpeRE+7EUFh66INkXhUe07
-	K4rli6jIeFpucjuHQt6cF9y0oXKQtKKy5G39wFX4EArc3RXYjw9KJzKUyoTEIlpx
-	/kvKedu/knaJ3ERxmjsEw==
-X-ME-Sender: <xms:ekYEYzCRa3-d2rH1xecEC5n9DhO1WNvU1NkDxxcDndqvoZlr6wF0zw>
-    <xme:ekYEY5gNdKXYJsvpRPt_2P48tGsnqfe2-gpVkku_FcBX_bLmdSXSRhoSdEeCjQWRE
-    Nx6YesI7h-X4WRn1g>
-X-ME-Received: <xmr:ekYEY-mxIAZ8sHmN5RHuAgNDNNq2CubwotoRkv1iTYNn7UULiT3EjNEq_AtFt7hgyzePnbiUfW-8aGzJBgu6oq8UoRaYs1wXfckzryxw_otLZNmqPtK-m0cBnA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeikedgjedtucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1661227061; x=
+	1661313461; bh=DCa1+tn2wL/qaiJJ/v6UFWHx8ak4jYt6XIvYs1ogASU=; b=Z
+	Jm0FM3OvLfkKYN4sFPWIgRAG1XV2ynPZLtVnBLuBZl62D6YysNIz7b9vkCCrT6hW
+	EPgcH+DIJI5sEeNMzV2E4ArYg+k3sKLSiJ3n1nyV/TKtDwLt0VH6biHkGvPPsiFM
+	i1k04urhL3vAYWBJmKPmE/LzCUpVtL75ZiQREHCOQiECVcsf4pAHlR5gyHBv92C1
+	bKYLODji5n6xouXrL3ctRK9srwUY83uySJj5Yi2Mi6w3CyLm/O5+7Y4iu6lBmNCJ
+	FqHVHQfFnWwJuYHZXYaEsRr9c2lcFq5ve6ktzx1MuQkW3sV8BeJgEsI3T48Ks8wg
+	qeo2EapXXryyZU/BKS5jw==
+X-ME-Sender: <xms:NFAEYwBBNuYE_ZHBdryobgdhF8_0FG4RPvEblMksXZuNiyuy51I2Ww>
+    <xme:NFAEYyjJdfcIt3etKUTInGw1u1wHZVWXWqC4xaEyXoQ7ERabdn_xH5bE87l5Mv5iG
+    aa03CUynG3Z_JXodg>
+X-ME-Received: <xmr:NFAEYznuIEgctqizdbNdpLa6Ddy8i5i95biA3eqkV7camQpV-kBM3mqQlNQ3WHgp4sLJFU_z7XHTL1Sf5Sm7vUyyREGLK5M1DDmOvZiy_q7CvoW8sg3-ro-mxQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeikedgjeekucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepuffvvehfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghm
@@ -44,25 +44,32 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeikedgjedtucetufdoteggod
     ggtffrrghtthgvrhhnpedtvefhheehgfdvkeetffeludeuudehudeuvddtveelleekvedv
     uedviefhkeeuheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
     hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:ekYEY1yCclEQKlei9KUq_EhZ0dXbv60c4pePkEx3hJeTnFBY5kn2oQ>
-    <xmx:ekYEY4Tt878--33jBjWkODBn8U9iwfxsBwihzBN2vs6jTX1F1XHjIQ>
-    <xmx:ekYEY4ZV19BCH8qq0-ctPTNXPtaYiT_F4rc-44sToKqEp3s7ipm0vg>
-    <xmx:ekYEY9Qt3AXoaNy1LgzT6UQdpYl521DYErEVTL10K_dHW_pTEhPCOw>
+X-ME-Proxy: <xmx:NFAEY2wQfJuLXStVYDzD7MonbWVO01PvpejRvoHL4XXZ6NpJ0hC_dw>
+    <xmx:NFAEY1TKZ7KRMqXiDDkjRYvmTKCZf3hliiL0xNW8clijGVYSn1tqrA>
+    <xmx:NFAEYxY6TxQu5Kp0zRAHWT5xJFekjf818HchEHzmIgOInMIqav1wHA>
+    <xmx:NVAEY7CNXyIiw1a_-etXr3089TIFW41h48u5JJEGquqbDFAgyEZ5oA>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 22 Aug 2022 23:16:09 -0400 (EDT)
-Subject: Re: [PATCH v2 2/4] arm64: dts: allwinner: h6: Add cooling map for GPU
-To: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220821173051.155038-1-peron.clem@gmail.com>
- <20220821173051.155038-3-peron.clem@gmail.com>
+ 22 Aug 2022 23:57:40 -0400 (EDT)
+Subject: Re: [PATCH v1 2/3] media: cedrus: Set the platform driver data
+ earlier
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai
+ <wens@csie.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: kernel@collabora.com, Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ stable@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220818203308.439043-1-nicolas.dufresne@collabora.com>
+ <4418189.LvFx2qVVIh@jernej-laptop>
+ <47ce07adc73887b5afaf9815a78b793d0e9a6b54.camel@collabora.com>
+ <4733096.GXAFRqVoOG@jernej-laptop>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <72f901e6-f646-336b-70e6-2747363944ab@sholland.org>
-Date: Mon, 22 Aug 2022 22:16:09 -0500
+Message-ID: <0aab3720-7211-9414-0005-6a419b5f04c8@sholland.org>
+Date: Mon, 22 Aug 2022 22:57:39 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -71,63 +78,73 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220821173051.155038-3-peron.clem@gmail.com>
+In-Reply-To: <4733096.GXAFRqVoOG@jernej-laptop>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-On 8/21/22 12:30 PM, Clément Péron wrote:
-> Add a simple cooling map for the GPU.
-
-It would be good to document where the trip point temperatures came from.
-
-> Signed-off-by: Clément Péron <peron.clem@gmail.com>
-
-Acked-by: Samuel Holland <samuel@sholland.org>
-
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 22 ++++++++++++++++++++
->  1 file changed, 22 insertions(+)
+On 8/20/22 3:25 AM, Jernej Škrabec wrote:
+> Dne petek, 19. avgust 2022 ob 17:37:20 CEST je Nicolas Dufresne napisal(a):
+>> Le vendredi 19 août 2022 à 06:17 +0200, Jernej Škrabec a écrit :
+>>> Dne četrtek, 18. avgust 2022 ob 22:33:07 CEST je Nicolas Dufresne 
+> napisal(a):
+>>>> From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>>>
+>>>> The cedrus_hw_resume() crashes with NULL deference on driver probe if
+>>>> runtime PM is disabled because it uses platform data that hasn't been
+>>>> set up yet. Fix this by setting the platform data earlier during probe.
+>>>
+>>> Does it even work without PM? Maybe it would be better if Cedrus would
+>>> select PM in Kconfig.
+>>
+>> I cannot comment myself on this, but it does not seem to invalidate this
+>> Dmitry's fix.
 > 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> index 5a28303d3d4c..943ae5374dd6 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> @@ -186,6 +186,7 @@ gpu: gpu@1800000 {
->  			clocks = <&ccu CLK_GPU>, <&ccu CLK_BUS_GPU>;
->  			clock-names = "core", "bus";
->  			resets = <&ccu RST_BUS_GPU>;
-> +			#cooling-cells = <2>;
->  			status = "disabled";
->  		};
->  
-> @@ -1075,6 +1076,27 @@ gpu-thermal {
->  			polling-delay-passive = <0>;
->  			polling-delay = <0>;
->  			thermal-sensors = <&ths 1>;
-> +
-> +			trips {
-> +				gpu_alert: gpu-alert {
-> +					temperature = <85000>;
-> +					hysteresis = <2000>;
-> +					type = "passive";
-> +				};
-> +
-> +				gpu-crit {
-> +					temperature = <100000>;
-> +					hysteresis = <0>;
-> +					type = "critical";
-> +				};
-> +			};
-> +
-> +			cooling-maps {
-> +				map0 {
-> +					trip = <&gpu_alert>;
-> +					cooling-device = <&gpu THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-> +				};
-> +			};
->  		};
->  	};
->  };
-> 
+> If NULL pointer dereference happens only when PM is disabled, then it does. I 
+> have PM always enabled and I never experienced above issue.
 
+There's still a bug even with PM enabled: the v4l2 device is exposed to
+userspace, and therefore userspace could trigger a PM resume, before
+platform_set_drvdata() is called.
+
+>>>> Cc: stable@vger.kernel.org
+>>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>>> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
+Please add a Fixes tag. With that:
+
+Reviewed-by: Samuel Holland <samuel@sholland.org>
+
+>>>> ---
+>>>>
+>>>>  drivers/staging/media/sunxi/cedrus/cedrus.c | 4 ++--
+>>>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
+>>>> b/drivers/staging/media/sunxi/cedrus/cedrus.c index
+>>>> 960a0130cd620..55c54dfdc585c 100644
+>>>> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+>>>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+>>>> @@ -448,6 +448,8 @@ static int cedrus_probe(struct platform_device
+>>>> *pdev)
+>>>>
+>>>>  	if (!dev)
+>>>>  		return -ENOMEM;
+>>>>
+>>>> +	platform_set_drvdata(pdev, dev);
+>>>> +
+>>>>  	dev->vfd = cedrus_video_device;
+>>>>  	dev->dev = &pdev->dev;
+>>>>  	dev->pdev = pdev;
+>>>>
+>>>> @@ -521,8 +523,6 @@ static int cedrus_probe(struct platform_device
+>>>> *pdev)
+>>>>
+>>>>  		goto err_m2m_mc;
+>>>>  	}
+>>>>
+>>>> -	platform_set_drvdata(pdev, dev);
+>>>> -
+>>>>  	return 0;
+>>>>  
+>>>>  err_m2m_mc:
