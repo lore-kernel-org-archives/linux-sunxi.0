@@ -1,147 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A0D7F;
-	Tue, 23 Aug 2022 01:05:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1BD6C433D6;
-	Tue, 23 Aug 2022 01:05:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1661216757;
-	bh=rLzGcuELxlw6wzYQ32smCo931y+93Ix6heiyYta6PuM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=MR96DcUf7/mwpakCtex8peSxXSqw3SkmRpheR1Y9yV9bbsHlS+ylCyc6+FzPARBgs
-	 Dr3pPRLQ+sNVLvh4ozvPIloaIC16Ch13S1QNULTYZYxAIf7HCot8K/HyKwcznycDHt
-	 FFEnCEvqAgrohThuq5DZktMpvxleT+WdES/F+E9iEpwJ22tMbCYIdiD/iC+zHPPPwS
-	 HdJHWKJxW9//GpH/e/xez+EK8EsiOAF9mByy9EBfJnkGqONB0+VKYiP3TIXyiSFaH4
-	 uxFnUaJAdXByRNMSXCmUJZdLn9vOc6s/svAFBhv4wjVkERTxSIyx64fuHvXXcVmkE1
-	 Unzt3mUFsASlw==
-Date: Mon, 22 Aug 2022 18:05:51 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jay
- Vosburgh <j.vosburgh@gmail.com>, Veaceslav Falico <vfalico@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Wolfgang Grandegger <wg@grandegger.com>,
- Marc Kleine-Budde <mkl@pengutronix.de>, Florian Fainelli
- <f.fainelli@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Vivien Didelot
- <vivien.didelot@gmail.com>, Vladimir Oltean <olteanv@gmail.com>, Kurt
- Kanzenbach <kurt@linutronix.de>, Steffen Klassert <klassert@kernel.org>,
- David Dillow <dave@thedillows.org>, Russell King <linux@armlinux.org.uk>,
- Ion Badulescu <ionut@badula.org>, Andreas Larsson <andreas@gaisler.com>,
- Mark Einon <mark.einon@gmail.com>, Lino Sanfilippo <LinoSanfilippo@gmx.de>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Jes Sorensen
- <jes@trained-monkey.org>, Shay Agroskin <shayagr@amazon.com>, Arthur
- Kiyanovski <akiyano@amazon.com>, David Arinzon <darinzon@amazon.com>, Noam
- Dagan <ndagan@amazon.com>, Saeed Bishara <saeedb@amazon.com>, Don Fry
- <pcnet32@frontier.com>, Tom Lendacky <thomas.lendacky@amd.com>, Shyam
- Sundar S K <Shyam-sundar.S-k@amd.com>, Igor Russkikh
- <irusskikh@marvell.com>, Chris Snook <chris.snook@gmail.com>, Michael Chan
- <michael.chan@broadcom.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
- <rafal@milecki.pl>, Rasesh Mody <rmody@marvell.com>,
- GR-Linux-NIC-Dev@marvell.com, Ariel Elior <aelior@marvell.com>, Sudarsana
- Kalluru <skalluru@marvell.com>, Manish Chopra <manishc@marvell.com>, Doug
- Berger <opendmb@gmail.com>, Siva Reddy Kallam <siva.kallam@broadcom.com>,
- Prashant Sreedharan <prashant@broadcom.com>, Sunil Goutham
- <sgoutham@marvell.com>, Raju Rangoju <rajur@chelsio.com>, Ayush Sawal
- <ayush.sawal@chelsio.com>, Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
- Rohit Maheshwari <rohitm@chelsio.com>, Hartley Sweeten
- <hsweeten@visionengravers.com>, Christian Benvenuti <benve@cisco.com>,
- Govindarajulu Varadarajan <_govind@gmx.com>, Denis Kirjanov
- <kda@linux-powerpc.org>, Ajit Khaparde <ajit.khaparde@broadcom.com>,
- Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>, Somnath Kotur
- <somnath.kotur@broadcom.com>, Madalin Bucur <madalin.bucur@nxp.com>, Ioana
- Ciornei <ioana.ciornei@nxp.com>, Claudiu Manoil <claudiu.manoil@nxp.com>,
- Joakim Zhang <qiangqing.zhang@nxp.com>, Pantelis Antoniou
- <pantelis.antoniou@gmail.com>, Li Yang <leoyang.li@nxp.com>, Yisen Zhuang
- <yisen.zhuang@huawei.com>, Salil Mehta <salil.mehta@huawei.com>, Douglas
- Miller <dougmill@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, Nick Child <nnac123@linux.ibm.com>, Jesse
- Brandeburg <jesse.brandeburg@intel.com>, Tony Nguyen
- <anthony.l.nguyen@intel.com>, Guo-Fu Tseng <cooldavid@cooldavid.org>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, Marcin Wojtas <mw@semihalf.com>, Geetha
- sowjanya <gakula@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>,
- hariprasad <hkelam@marvell.com>, Taras Chornyi <tchornyi@marvell.com>,
- Mirko Lindner <mlindner@marvell.com>, Stephen Hemminger
- <stephen@networkplumber.org>, Felix Fietkau <nbd@nbd.name>, John Crispin
- <john@phrozen.org>, Sean Wang <sean.wang@mediatek.com>, Mark Lee
- <Mark-MC.Lee@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- Tariq Toukan <tariqt@nvidia.com>, Saeed Mahameed <saeedm@nvidia.com>, Leon
- Romanovsky <leon@kernel.org>, Ido Schimmel <idosch@nvidia.com>, Petr
- Machata <petrm@nvidia.com>, Bryan Whitehead
- <bryan.whitehead@microchip.com>, UNGLinuxDriver@microchip.com, Chris Lee
- <christopher.lee@cspi.com>, Jon Mason <jdmason@kudzu.us>, Simon Horman
- <simon.horman@corigine.com>, Rain River <rain.1986.08.12@gmail.com>, Zhu
- Yanjun <zyjzyj2000@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, Rahul
- Verma <rahulv@marvell.com>, Shahed Shaikh <shshaikh@marvell.com>, Heiner
- Kallweit <hkallweit1@gmail.com>, nic_swsd@realtek.com, Jiri Pirko
- <jiri@resnulli.us>, Byungho An <bh74.an@samsung.com>, Edward Cree
- <ecree.xilinx@gmail.com>, Martin Habets <habetsm.xilinx@gmail.com>, Ralf
- Baechle <ralf@linux-mips.org>, Francois Romieu <romieu@fr.zoreil.com>,
- Daniele Venzano <venza@brownhat.org>, Nicolas Pitre <nico@fluxnic.net>,
- Steve Glendinning <steve.glendinning@shawell.net>, Jassi Brar
- <jaswinder.singh@linaro.org>, Ilias Apalodimas
- <ilias.apalodimas@linaro.org>, Kunihiko Hayashi
- <hayashi.kunihiko@socionext.com>, Giuseppe Cavallaro
- <peppe.cavallaro@st.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Jose Abreu <joabreu@synopsys.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Grygorii Strashko <grygorii.strashko@ti.com>,
- Samuel Chessman <chessman@tux.org>, Geoff Levand <geoff@infradead.org>,
- Ishizaki Kou <kou.ishizaki@toshiba.co.jp>, Kevin Brace
- <kevinbrace@bracecomputerlab.com>, Radhey Shyam Pandey
- <radhey.shyam.pandey@xilinx.com>, Michal Simek <michal.simek@xilinx.com>,
- Krzysztof Halasa <khalasa@piap.pl>, "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Sridhar Samudrala
- <sridhar.samudrala@intel.com>, Dave Jiang <dave.jiang@intel.com>, Allen
- Hubbe <allenbh@gmail.com>, Michael Hennerich
- <michael.hennerich@analog.com>, Petko Manolov <petkan@nucleusys.com>,
- Oliver Neukum <oneukum@suse.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Ronak Doshi <doshir@vmware.com>, VMware
- PV-Drivers Reviewers <pv-drivers@vmware.com>, David Ahern
- <dsahern@kernel.org>, Kalle Valo <kvalo@kernel.org>, Christian Lamparter
- <chunkeey@googlemail.com>, Simon Kelley <simon@thekelleys.org.uk>, Larry
- Finger <Larry.Finger@lwfinger.net>, Arend van Spriel <aspriel@gmail.com>,
- Franky Lin <franky.lin@broadcom.com>, Hante Meuleman
- <hante.meuleman@broadcom.com>, Stanislav Yakovlev
- <stas.yakovlev@gmail.com>, Stanislaw Gruszka <stf_xl@wp.pl>, Jouni Malinen
- <j@w1.fi>, Ajay Singh <ajay.kathat@microchip.com>, Claudiu Beznea
- <claudiu.beznea@microchip.com>, Igor Mitsyanko <imitsyanko@quantenna.com>,
- Sergey Matyukevich <geomatsi@gmail.com>, Herton Ronaldo Krzesinski
- <herton@canonical.com>, Hin-Tak Leung <htl10@users.sourceforge.net>,
- netdev@vger.kernel.org, linux-can@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-acenic@sunsite.dk, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, intel-wired-lan@lists.osuosl.org,
- linux-mediatek@lists.infradead.org, linux-rdma@vger.kernel.org,
- oss-drivers@corigine.com, linux-mips@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org,
- linux-hyperv@vger.kernel.org, ntb@lists.linux.dev,
- linux-usb@vger.kernel.org, virtualization@lists.linux-foundation.org,
- linux-wireless@vger.kernel.org, b43-dev@lists.infradead.org,
- brcm80211-dev-list.pdl@broadcom.com, SHA-cyfmac-dev-list@infineon.com,
- libertas-dev@lists.infradead.org
-Subject: Re: [PATCH] net: move from strlcpy with unused retval to strscpy
-Message-ID: <20220822180551.160c2a0b@kernel.org>
-In-Reply-To: <20220818210050.7108-1-wsa+renesas@sang-engineering.com>
-References: <20220818210050.7108-1-wsa+renesas@sang-engineering.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F73A20
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Aug 2022 03:07:15 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 2E2C65C0130;
+	Mon, 22 Aug 2022 23:07:14 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Mon, 22 Aug 2022 23:07:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1661224034; x=
+	1661310434; bh=LGz61TGMJw4eB4K1edx3Y0jE6fpIOCMFMqzcbFbb+4s=; b=0
+	3GRcXBcM6whAkg4wrC6xHUSAX5fzIWR4YLs6tDxiZ4NKmvHC8EeKxJd92UxYgzGm
+	HBvDD5idFIcyyrSAc/Rh+i2YmheOpqmFWao26W4/7GsUrdoqANuN1xEUFOfsggBP
+	uHBiZ/kS9W8qARau8tyJlEYqeD1m6hBMbAA7Dtc56sh/kwNTkFiFkQkaQnZLBjaJ
+	Mi7oP5UTIUVcl+fbg6VxiPGCrOia9/utO3cJ26XU5+NnYLG7iiT768jwXEXplpop
+	U84ceKp5mf43inu6lSYOhHusI1uWbd0i3AqL5NbRnufAEs+IIfV+J3GUdSXHX9t9
+	emXmQ11SnJjucdAEd1tMA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1661224034; x=
+	1661310434; bh=LGz61TGMJw4eB4K1edx3Y0jE6fpIOCMFMqzcbFbb+4s=; b=y
+	NZGT1yP4oTwzsKphPMf8kLo3Nh5wWmYuA4BXo3p65RQuAEkkiXA5fuhyPdbuoTFE
+	1l55jlMun1Rr7hBuCtT+xktw+uDfZrYvxCmG9qXFk5kwvJ6mVN84HipEh/S+UAw9
+	w+WPTXircOp6k2M8Uc55cAcDiDywyTBOzgE3yO886KOGN9purztsqIUg+cUnBzha
+	RajOFVRm/Cs0BrXY5syeon+Wa5DbfZoxOftBCy7bzpRhx3rn7TOeEjMuNC9YHfPq
+	ORDLSzZBADgQq0D6tmFW4fg5kEx1ipeRoUjaGVVCNjo29hTRySC6Nz17wiEbU0dR
+	dMZ+KGWp3grEaS3J38mCw==
+X-ME-Sender: <xms:YUQEY86ajBIkBtX2kcxoyZ9J8ZNU2lBtvnNWAi5EMMOOPG9A3PCflw>
+    <xme:YUQEY94Z0dr54yhZqEMUfz0zj_d10-xsYxQ4XqKROy6DvG0sluSW2fL-MEzI4M601
+    Xko6GVwE-bV1ZBYgg>
+X-ME-Received: <xmr:YUQEY7fPTVxuMj5mVfXhktBftqCZY5qXLpdm1uRlflgIjDNQjebkwoFCgoRPj4SaPhU4oR2jHEfkug5sutbKNK2wXXN_ZNEFWXcQVRK_-oK_kWY6cv5UZmeiQg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeikedgieekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpedtvefhheehgfdvkeetffeludeuudehudeuvddtveelleekvedv
+    uedviefhkeeuheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:YUQEYxJHV6kWpE6Z9A-DqsMoaevhrVFsEwXjiI5AV4UPHcjEgSZ49Q>
+    <xmx:YUQEYwIz3-BmWn_uibdL40Sa8dtCpDIBhu3H6aRSTW-ObOTcgRygRQ>
+    <xmx:YUQEYywgm4lmPS8SWjGimxIs7A0ITKBqj4KW_utJA0OSsiqjsrg_Xw>
+    <xmx:YkQEY5rXTBxSXpWS_WFJGmYR_NCzAynSp-eHOhNKlnj-WHCynfDzLw>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 22 Aug 2022 23:07:13 -0400 (EDT)
+Subject: Re: [PATCH v2 4/4] arm64: dts: allwinner: beelink-gs1: Enable GPU OPP
+To: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220821173051.155038-1-peron.clem@gmail.com>
+ <20220821173051.155038-5-peron.clem@gmail.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <0c028109-bb50-fbaa-de18-9876706a7477@sholland.org>
+Date: Mon, 22 Aug 2022 22:07:12 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20220821173051.155038-5-peron.clem@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Thu, 18 Aug 2022 23:00:34 +0200 Wolfram Sang wrote:
->  261 files changed, 568 insertions(+), 568 deletions(-)
+On 8/21/22 12:30 PM, Clément Péron wrote:
+> Enable GPU OPP table for Beelink GS1
+> 
+> Signed-off-by: Clément Péron <peron.clem@gmail.com>
+> ---
+>  arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
+> index 6249e9e02928..20fc0584d1c6 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
+> @@ -5,6 +5,7 @@
+>  
+>  #include "sun50i-h6.dtsi"
+>  #include "sun50i-h6-cpu-opp.dtsi"
+> +#include "sun50i-h6-gpu-opp.dtsi"
+>  
+>  #include <dt-bindings/gpio/gpio.h>
+>  
+> @@ -261,6 +262,7 @@ reg_dcdca: dcdca {
+>  			};
+>  
+>  			reg_dcdcc: dcdcc {
+> +				regulator-always-on;
 
-Unfortunately looks like patchwork was unable to ingest this change :(
-Not sure why.
+Why is this necessary? This file already has:
 
-Would you mind splitting it into 3 chunks - wireless, ethernet,
-everything else, and resending? Let's see if that'll be small enough..
+&gpu {
+	mali-supply = <&reg_dcdcc>;
+	status = "okay";
+};
+
+So there is a consumer for this regulator.
+
+Regards,
+Samuel
+
+>  				regulator-enable-ramp-delay = <32000>;
+>  				regulator-min-microvolt = <810000>;
+>  				regulator-max-microvolt = <1080000>;
+> 
+
