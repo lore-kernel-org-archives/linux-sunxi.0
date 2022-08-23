@@ -1,41 +1,41 @@
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A73A20
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Aug 2022 03:13:45 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 7EE885C0088;
-	Mon, 22 Aug 2022 23:13:44 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A27A20
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Aug 2022 03:16:11 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 53EB25C00A0;
+	Mon, 22 Aug 2022 23:16:10 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Mon, 22 Aug 2022 23:13:44 -0400
+  by compute1.internal (MEProxy); Mon, 22 Aug 2022 23:16:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1661224424; x=
-	1661310824; bh=GC4pKpm2AJfeKp8/quk8AaX41Q1qRM9JRH1j8mfqckk=; b=C
-	UZj3iQzTZBJ9Z7nv/v6MalPY39Bj9LygcjA1X89qKB0pux8PEp9snloJbPTAQ+aQ
-	b7HG6imcyHvqfOSwssbTdhtydLnuDvGPhXRCb1MH7HELKi3A3NUjQHwmmAuAY8e0
-	R6m2w+8BZr/gsl5mTw7SghtlhrtwYTrbbnq1RKInd+lsR9BjIG91VD/TtHiCn2UN
-	k5+iXlqNCE95kM7WvByGrH6qt9YmFr3yUMhdsntfAsgS7RGjM0EzzImy1JlvR1+2
-	Ttv6I35L0KAcpeFy0bq7I875DEqnGk9oHLQ8gOlFXRokX6lzArENv14G1nLeuz5c
-	AGh0G4w7LKFahMeJgtiiA==
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1661224570; x=
+	1661310970; bh=cYmKT+EG0Bj+G1PyMV6PvL1EzCjw1wIFlNXT1MPSLoM=; b=p
+	KWPlc+cWYP9aV98RZDDXBbo1x7+JjMoQzDlXzsCk1CqXDvj/pSLbPeCuosCqCNbb
+	nXoUnn2c1qmDfiPG49ayKDsK/XtL5pHtBV/n39JWj/1Xe/C11XT6GaLWolo1Hsq/
+	Tkf9Vu54U+G2JpyUBb+jm5wMQ4rwa4iOpOxg9Fcm8LiZv72jtUZN1mvqZu+PIjIy
+	sQSS4d8vjpE8rzOLElYu7gHHEzCXccUP+uu58PnFOesvRJUwP6gg6HaClgah7UCL
+	hOOrVvIyO6HHmp3RcecOx5IcXJLdFyh0+3lEWS5lPdJP2I3uWI2sx9QHL1KzpyK4
+	DCOaas55TjCz0phzZMm+A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1661224424; x=
-	1661310824; bh=GC4pKpm2AJfeKp8/quk8AaX41Q1qRM9JRH1j8mfqckk=; b=P
-	Wbr1oHzUh5GcmhsSli0MVJpz7Bp//g/4DJWKDvqdKpF4OxG2rrL4pPNwS/64rZW2
-	TMk0ZTfZzKEO1fVMf/IC1L9En+HEAEvK2Qj0POzdZyCQq4avOmuQTpIAhYR8tDZA
-	OxarMuHLxKXFy1LeQ7BjD0t77XN97yHXwRJYihJvZozGz2ucuReCiTuIP2pIuTD4
-	b6CDK7IvHLpWIdlv2qkdy4KuI93vc0MT3nhn6mvypyixb0FW5DSdWZoEolnCYQfR
-	lq4K2XkgiBSDTQ1aGuDKE+RSyMngDWPK7fPulYljgVRK80ZHBm+sd2w6SIHhRKfL
-	AP5/GQIFO24fw77wVsiEw==
-X-ME-Sender: <xms:6EUEY4cIYLALYhmblcQnaE-QX4Vp61vStd5Ev-kS_6rsxL1FlhsYYw>
-    <xme:6EUEY6MH95YLUfQz59ha4qLHiO09-am4khNukR8_0aFBWTSNOXMB5j7YkO7wIKNWv
-    Eh4j9FAx-wsADGa4A>
-X-ME-Received: <xmr:6EUEY5gKr5PrI2bYNEIN3jqA00dq1YHQg3ufJ4Kiz0DxHrMPQxeh6D5yGzOx6ieYnOeUcwb_eA3xWIPmLCpgMEJW5rmtXUclgwbdV4vrLtN-NnNepgVTLyuqnQ>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1661224570; x=
+	1661310970; bh=cYmKT+EG0Bj+G1PyMV6PvL1EzCjw1wIFlNXT1MPSLoM=; b=4
+	NLVGMjOA2bLK4uWokogmEGGXeHNl9udHozB2J+7MwJE2yWShz5S83Xw7q/hp6v9o
+	QttOYTIT2sdZXP96EeNWVM42dBYFNs/fY+hUrMITBY0rwAquIIYpsOOz76K38LKI
+	zXsuUJlrY3hCYv4NNMvYfR8wpajvMWap1MwAl2yOH/WRNYQMIcJkb1XJEoRxTg0X
+	zWjpR3bGJFTXj4JawknrJcRIsYn9svjZYI/os+bCCrOpeRE+7EUFh66INkXhUe07
+	K4rli6jIeFpucjuHQt6cF9y0oXKQtKKy5G39wFX4EArc3RXYjw9KJzKUyoTEIlpx
+	/kvKedu/knaJ3ERxmjsEw==
+X-ME-Sender: <xms:ekYEYzCRa3-d2rH1xecEC5n9DhO1WNvU1NkDxxcDndqvoZlr6wF0zw>
+    <xme:ekYEY5gNdKXYJsvpRPt_2P48tGsnqfe2-gpVkku_FcBX_bLmdSXSRhoSdEeCjQWRE
+    Nx6YesI7h-X4WRn1g>
+X-ME-Received: <xmr:ekYEY-mxIAZ8sHmN5RHuAgNDNNq2CubwotoRkv1iTYNn7UULiT3EjNEq_AtFt7hgyzePnbiUfW-8aGzJBgu6oq8UoRaYs1wXfckzryxw_otLZNmqPtK-m0cBnA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeikedgjedtucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -44,14 +44,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeikedgjedtucetufdoteggod
     ggtffrrghtthgvrhhnpedtvefhheehgfdvkeetffeludeuudehudeuvddtveelleekvedv
     uedviefhkeeuheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
     hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:6EUEY99-D_6poQMBvmT4KzCxyikDz2L2Okxab0_IJZVAAJjAH3kl0Q>
-    <xmx:6EUEY0sjbayWoBdCKt9juof8ld3jhgLPYBvS2A1HaeCaFnSdxOakjA>
-    <xmx:6EUEY0EFOIy5LWtSg2NYdQrEWE0cYPyBvYwkaRdmrpytcHq98WtHcA>
-    <xmx:6EUEY5_ADcsp8LN37J8mPWyN7OHy9j5N1EG-wV0UXkkG3uAtb4VZ4A>
+X-ME-Proxy: <xmx:ekYEY1yCclEQKlei9KUq_EhZ0dXbv60c4pePkEx3hJeTnFBY5kn2oQ>
+    <xmx:ekYEY4Tt878--33jBjWkODBn8U9iwfxsBwihzBN2vs6jTX1F1XHjIQ>
+    <xmx:ekYEY4ZV19BCH8qq0-ctPTNXPtaYiT_F4rc-44sToKqEp3s7ipm0vg>
+    <xmx:ekYEY9Qt3AXoaNy1LgzT6UQdpYl521DYErEVTL10K_dHW_pTEhPCOw>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 22 Aug 2022 23:13:43 -0400 (EDT)
-Subject: Re: [PATCH v2 3/4] arm64: dts: allwinner: h6: Add GPU OPP table
+ 22 Aug 2022 23:16:09 -0400 (EDT)
+Subject: Re: [PATCH v2 2/4] arm64: dts: allwinner: h6: Add cooling map for GPU
 To: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: Rob Herring <robh+dt@kernel.org>,
@@ -59,10 +59,10 @@ Cc: Rob Herring <robh+dt@kernel.org>,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 References: <20220821173051.155038-1-peron.clem@gmail.com>
- <20220821173051.155038-4-peron.clem@gmail.com>
+ <20220821173051.155038-3-peron.clem@gmail.com>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <873b8e79-9f68-027a-5c46-153c6a9e62b1@sholland.org>
-Date: Mon, 22 Aug 2022 22:13:43 -0500
+Message-ID: <72f901e6-f646-336b-70e6-2747363944ab@sholland.org>
+Date: Mon, 22 Aug 2022 22:16:09 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -71,52 +71,63 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220821173051.155038-4-peron.clem@gmail.com>
+In-Reply-To: <20220821173051.155038-3-peron.clem@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
 On 8/21/22 12:30 PM, Clément Péron wrote:
-> Add an Operating Performance Points table for the GPU to
-> enable Dynamic Voltage & Frequency Scaling on the H6.
-> 
-> The voltage range is set with minival voltage set to the target
-> and the maximal voltage set to 1.2V. This allow DVFS framework to
-> work properly on board with fixed regulator.
-> 
+> Add a simple cooling map for the GPU.
+
+It would be good to document where the trip point temperatures came from.
+
 > Signed-off-by: Clément Péron <peron.clem@gmail.com>
+
+Acked-by: Samuel Holland <samuel@sholland.org>
+
 > ---
->  .../boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi | 88 +++++++++++++++++++
->  1 file changed, 88 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
+>  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 22 ++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
-> new file mode 100644
-> index 000000000000..a66204243515
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
-> @@ -0,0 +1,88 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +// Copyright (C) 2022 Clément Péron <peron.clem@gmail.com>
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> index 5a28303d3d4c..943ae5374dd6 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> @@ -186,6 +186,7 @@ gpu: gpu@1800000 {
+>  			clocks = <&ccu CLK_GPU>, <&ccu CLK_BUS_GPU>;
+>  			clock-names = "core", "bus";
+>  			resets = <&ccu RST_BUS_GPU>;
+> +			#cooling-cells = <2>;
+>  			status = "disabled";
+>  		};
+>  
+> @@ -1075,6 +1076,27 @@ gpu-thermal {
+>  			polling-delay-passive = <0>;
+>  			polling-delay = <0>;
+>  			thermal-sensors = <&ths 1>;
 > +
-> +/ {
-> +	gpu_opp_table: gpu-opp-table {
-> +		compatible = "operating-points-v2";
+> +			trips {
+> +				gpu_alert: gpu-alert {
+> +					temperature = <85000>;
+> +					hysteresis = <2000>;
+> +					type = "passive";
+> +				};
 > +
-> +		opp@216000000 {
+> +				gpu-crit {
+> +					temperature = <100000>;
+> +					hysteresis = <0>;
+> +					type = "critical";
+> +				};
+> +			};
+> +
+> +			cooling-maps {
+> +				map0 {
+> +					trip = <&gpu_alert>;
+> +					cooling-device = <&gpu THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
+> +				};
+> +			};
+>  		};
+>  	};
+>  };
+> 
 
-Please fix the `make dtbs_check` warnings:
-
-arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dtb: gpu-opp-table:
-$nodename:0: 'gpu-opp-table' does not match '^opp-table(-[a-z0-9]+)?$'
-        From schema: Documentation/devicetree/bindings/opp/opp-v2.yaml
-arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dtb: gpu-opp-table:
-Unevaluated properties are not allowed ('opp@216000000', 'opp@264000000',
-'opp@312000000', 'opp@336000000', 'opp@360000000', 'opp@384000000',
-'opp@408000000', 'opp@420000000', 'opp@432000000', 'opp@456000000',
-'opp@504000000', 'opp@540000000', 'opp@576000000', 'opp@624000000',
-'opp@756000000' were unexpected)
-        From schema: Documentation/devicetree/bindings/opp/opp-v2.yaml
-
-Regards,
-Samuel
