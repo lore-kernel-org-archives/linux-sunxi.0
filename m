@@ -1,84 +1,79 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE93A20
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Aug 2022 04:09:33 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 94B285C0182;
-	Tue, 23 Aug 2022 00:09:32 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Tue, 23 Aug 2022 00:09:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1661227772; x=
-	1661314172; bh=3iYVwXs2ZaQeRDzt5GIWfO2EwoODMlIdh2IIQdfaJPA=; b=d
-	Chl1V6zNcUEdRSQa5E4Po55JmarqA/l3c4yUWqFWXjK44UbNLJKlgtXXtuTfc2q1
-	Ot/wExRoHlGzQjIAn5PTa5OapTYw9fUznjrbgsRcZZg+1S5BjXXN/4+ZeWdd3ha8
-	qHvDIyC/zCJNOENzzw2ccJefs935uwYfwthi5+ij1V8XZ3Yu/Njv1CmqImaLlMco
-	u6iN9jhZU0GM7L4NXuVwJN1EigfNyrXnOpwCnEtLiZEwGtNZqnSv3Jmp5PfmbtHr
-	yus5W/sH0Le+edoJWcRQIberIyI8RAsN8xpMijIk/a7VV69mxNHu1KKQd6w2aqPs
-	ZmDvUgUu2PG4+CJ7eQ4Mg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1661227772; x=
-	1661314172; bh=3iYVwXs2ZaQeRDzt5GIWfO2EwoODMlIdh2IIQdfaJPA=; b=p
-	HQ6XEhfoZYGjGcXcLtZPLwMOjESOaSSD3oCFXmqgZRGd/7PlV4WZjgGbA3hbXRN3
-	LOXQ1LyXTdOtKY7O/6Va3L/A1PM1Rkn8Qd1mZ9mcelqDSJJzBnkw0a0X6uNKTSvN
-	vPVwbdLgOBScw43jHjP2y4ajcJJtNb51K6Jh2236ox88qOnP9TEb/JXN5MOJIxLq
-	8ZY96c9IgC9tGZAMABzv6Xz/SagTml+8RLZeu08QhN/XUlufvSN5nZYH2f6Y95pG
-	K4jpRFRAnt80iKz0rZlpqVbkuaDB580NdsNUd1FO5HhgUlO6MWNqxReVoEFmEbOZ
-	zRpkYp99+48r2+Mg5X8FA==
-X-ME-Sender: <xms:-1IEYySi-ZnrFDFViivbgcDFKv6n__zU952PfXKSEpoGipUcusVvVQ>
-    <xme:-1IEY3x9HNA8rTJjV-PYLI6uDqvtozR9iuZpOglWFSKBalbHbMdOiUORpkiS_pAPL
-    Aw7rGC9Ie5mURPsHg>
-X-ME-Received: <xmr:-1IEY_0tj2L6z2w57R01YjyPpdayRPzC8HNVv3cq14hU6jnCwEhUgKWF9aBpToC7Wnhewn76STk8JlwMlM4JEJK0tkOtcOSVZ-qpwjpS_9rhV6rHfdsr_MVTBw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeikedgkeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
-    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:-1IEY-BOZ6oik9UxcOXs0_qRl8psZq-1Mvoxxse2dklCUkisUOTL0Q>
-    <xmx:-1IEY7iZnZES6vbs5SSNo-K-q-1_Q0RNJV5wUjRxKlyW1qTGkeBqNQ>
-    <xmx:-1IEY6pfvF5CfvMs9lVMAljOX3Wz9rVlAAI3BSV5BJXWVGyBz1UMUw>
-    <xmx:_FIEY7he0F4Llmvb7iB1iJxbfeh2Ol7DtVOOV0onKbq-2ZPoTqYltw>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 23 Aug 2022 00:09:31 -0400 (EDT)
-Subject: Re: [PATCH] pinctrl: sunxi: Fix name for A100 R_PIO
-To: Michael Wu <michael@allwinnertech.com>, linus.walleij@linaro.org,
- wens@csie.org, jernej.skrabec@gmail.com, mripard@kernel.org
-Cc: linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220819024541.74191-1-michael@allwinnertech.com>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <9d389ff6-5601-7a7b-3341-eb624d624ff9@sholland.org>
-Date: Mon, 22 Aug 2022 23:09:30 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B78A20
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Aug 2022 04:27:07 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id w29so6779935pfj.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 22 Aug 2022 21:27:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=8O32nIU+E94T4lj/ioNF6HtVBi6nRMpp7pamJorcVy8=;
+        b=f/dGN8vBO8yvLWXhlmnB2tMhLft+P997o8doz3LRo7SxoJMJRu20XJAU2fNQTKg1tZ
+         K36dTB9LIOgqRtkYe8RkyubzJkqcu+e7f2um2vi+UNlqVVYC18vpN+cZqfcPH/MNaxD7
+         l3bHz3IJTYU5DkoxA9iPqjrjm+nGtdZ2QzR3i9mgmbIYA6TFYhdGkGAPNSYk8+2PSOtN
+         lozYkPmIIc7scMQV6lywikln95Wh6smZBgAWLxispAniUSGE4jNrEtHZjPjBEEiTpe/g
+         48uxpQ+sIP05F+5JHvWTBJCZsdZvLzGIaZCfTXT7UeZ74DqiC8q7hRWIOtq0A+rhkoa/
+         ATzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=8O32nIU+E94T4lj/ioNF6HtVBi6nRMpp7pamJorcVy8=;
+        b=HQGKMjt5kk92NQ62QMGPJXJLZ4S+VHzSp5QmfAywBegFb1zMuqjCJ1oZ26tial+feO
+         /IfTqJYflQwJUp+cXSS4jP9/ryElXPFuhbyzLOKJ2859IqEetWzIcNXphueFIW4AeDQz
+         z63lHf5okx40LVfJwK1mI4qnxLGfIGVC5ZNTzWz0rIBItyCO9G4e12PfkJtI8ACCst0F
+         sllP6G9w17uvk3+CROVw1kk20op2Vp0hSpnbegmFHYauPlOI6bdPnS52jm3Xloyz3Fcd
+         bI3IxbCFHlxJ/7kbHo5n0Z2BMq8DwSFMLj4ICeiUsH9uv8o9UVnKfkmZYUbvah3BOBdv
+         Ud9A==
+X-Gm-Message-State: ACgBeo1peH6qRD3sO0JR1aTeh36GSx54XtVfcbgjCqNkoAS8b0NjI8uQ
+	qcErGjCWGfQpv84oNViArB0=
+X-Google-Smtp-Source: AA6agR7G0/OogiCOKP4W9o8q31gLZFkujaXjy0F/tTrRNtWGMP5nbcz5gKHlv9jri/Bt6+sf4pqLXg==
+X-Received: by 2002:a63:6804:0:b0:422:1689:ed05 with SMTP id d4-20020a636804000000b004221689ed05mr18887367pgc.289.1661228826515;
+        Mon, 22 Aug 2022 21:27:06 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:ebe5:ba37:26e1:8072])
+        by smtp.gmail.com with ESMTPSA id t3-20020a170902d14300b0016f1319d2a7sm9108397plt.297.2022.08.22.21.27.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Aug 2022 21:27:05 -0700 (PDT)
+Date: Mon, 22 Aug 2022 21:27:02 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-kernel@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Stephen Hemminger <sthemmin@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Nick Dyer <nick@shmanahar.org>, linux-input@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] Input: move from strlcpy with unused retval to strscpy
+Message-ID: <YwRXFsEyc39lbPQX@google.com>
+References: <20220818210022.6865-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220819024541.74191-1-michael@allwinnertech.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220818210022.6865-1-wsa+renesas@sang-engineering.com>
 
-On 8/18/22 9:45 PM, Michael Wu wrote:
-> The name of A100 R_PIO driver should be sun50i-a100-r-pinctrl,
-> not sun50iw10p1-r-pinctrl.
+On Thu, Aug 18, 2022 at 11:00:19PM +0200, Wolfram Sang wrote:
+> Follow the advice of the below link and prefer 'strscpy' in this
+> subsystem. Conversion is 1:1 because the return value is not used.
+> Generated by a coccinelle script.
 > 
-> Fixes: 473436e7647d6 ("pinctrl: sunxi: add support for the Allwinner A100 pin controller")
-> 
-> Signed-off-by: Michael Wu <michael@allwinnertech.com>
+> Link: https://lore.kernel.org/r/CAHk-=wgfRnXz0W3D37d01q3JFkr_i_uTL=V6A6G1oUZcprmknw@mail.gmail.com/
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Acked-by: Samuel Holland <samuel@sholland.org>
+Applied, thank you.
+
+-- 
+Dmitry
