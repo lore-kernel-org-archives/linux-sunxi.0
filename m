@@ -1,79 +1,138 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from smtp.smtpout.orange.fr (smtp04.smtpout.orange.fr [80.12.242.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B78A20
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Aug 2022 04:27:07 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id w29so6779935pfj.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 22 Aug 2022 21:27:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=8O32nIU+E94T4lj/ioNF6HtVBi6nRMpp7pamJorcVy8=;
-        b=f/dGN8vBO8yvLWXhlmnB2tMhLft+P997o8doz3LRo7SxoJMJRu20XJAU2fNQTKg1tZ
-         K36dTB9LIOgqRtkYe8RkyubzJkqcu+e7f2um2vi+UNlqVVYC18vpN+cZqfcPH/MNaxD7
-         l3bHz3IJTYU5DkoxA9iPqjrjm+nGtdZ2QzR3i9mgmbIYA6TFYhdGkGAPNSYk8+2PSOtN
-         lozYkPmIIc7scMQV6lywikln95Wh6smZBgAWLxispAniUSGE4jNrEtHZjPjBEEiTpe/g
-         48uxpQ+sIP05F+5JHvWTBJCZsdZvLzGIaZCfTXT7UeZ74DqiC8q7hRWIOtq0A+rhkoa/
-         ATzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=8O32nIU+E94T4lj/ioNF6HtVBi6nRMpp7pamJorcVy8=;
-        b=HQGKMjt5kk92NQ62QMGPJXJLZ4S+VHzSp5QmfAywBegFb1zMuqjCJ1oZ26tial+feO
-         /IfTqJYflQwJUp+cXSS4jP9/ryElXPFuhbyzLOKJ2859IqEetWzIcNXphueFIW4AeDQz
-         z63lHf5okx40LVfJwK1mI4qnxLGfIGVC5ZNTzWz0rIBItyCO9G4e12PfkJtI8ACCst0F
-         sllP6G9w17uvk3+CROVw1kk20op2Vp0hSpnbegmFHYauPlOI6bdPnS52jm3Xloyz3Fcd
-         bI3IxbCFHlxJ/7kbHo5n0Z2BMq8DwSFMLj4ICeiUsH9uv8o9UVnKfkmZYUbvah3BOBdv
-         Ud9A==
-X-Gm-Message-State: ACgBeo1peH6qRD3sO0JR1aTeh36GSx54XtVfcbgjCqNkoAS8b0NjI8uQ
-	qcErGjCWGfQpv84oNViArB0=
-X-Google-Smtp-Source: AA6agR7G0/OogiCOKP4W9o8q31gLZFkujaXjy0F/tTrRNtWGMP5nbcz5gKHlv9jri/Bt6+sf4pqLXg==
-X-Received: by 2002:a63:6804:0:b0:422:1689:ed05 with SMTP id d4-20020a636804000000b004221689ed05mr18887367pgc.289.1661228826515;
-        Mon, 22 Aug 2022 21:27:06 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:ebe5:ba37:26e1:8072])
-        by smtp.gmail.com with ESMTPSA id t3-20020a170902d14300b0016f1319d2a7sm9108397plt.297.2022.08.22.21.27.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Aug 2022 21:27:05 -0700 (PDT)
-Date: Mon, 22 Aug 2022 21:27:02 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-kernel@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Stephen Hemminger <sthemmin@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB71A3B
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Aug 2022 07:42:12 +0000 (UTC)
+Received: from pop-os.home ([90.11.190.129])
+	by smtp.orange.fr with ESMTPA
+	id QOXyo53B7XaJmQOXyoHkvv; Tue, 23 Aug 2022 09:42:04 +0200
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Tue, 23 Aug 2022 09:42:04 +0200
+X-ME-IP: 90.11.190.129
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Nick Dyer <nick@shmanahar.org>, linux-input@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] Input: move from strlcpy with unused retval to strscpy
-Message-ID: <YwRXFsEyc39lbPQX@google.com>
-References: <20220818210022.6865-1-wsa+renesas@sang-engineering.com>
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 1/2] media: sunxi: Fix some error handling path of sun8i_a83t_mipi_csi2_probe()
+Date: Tue, 23 Aug 2022 09:42:01 +0200
+Message-Id: <28d04b260acff7eb4416a410d5678cbafb5e2784.1661240416.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220818210022.6865-1-wsa+renesas@sang-engineering.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 18, 2022 at 11:00:19PM +0200, Wolfram Sang wrote:
-> Follow the advice of the below link and prefer 'strscpy' in this
-> subsystem. Conversion is 1:1 because the return value is not used.
-> Generated by a coccinelle script.
-> 
-> Link: https://lore.kernel.org/r/CAHk-=wgfRnXz0W3D37d01q3JFkr_i_uTL=V6A6G1oUZcprmknw@mail.gmail.com/
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Release some resources in the error handling path of the probe and of
+sun8i_a83t_mipi_csi2_resources_setup(), as already done in the remove
+function.
 
-Applied, thank you.
+Fixes: 576d196c522b ("media: sunxi: Add support for the A83T MIPI CSI-2 controller")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+I'm unsure about the phy_exit() call in
+sun8i_a83t_mipi_csi2_resources_cleanup() because no explicit phy_init()
+call is performed.
 
+The same code is in sun6i-mipi-csi2/sun6i_mipi_csi2.c, but in this driver
+phy_init() IS called.
+
+I leave it as-is because I don't if it is an issue or not.
+My feeling is that it is a copy'n'paste error and that it should be
+removed.
+
+Changes in v2:
+  * add some blank line   [Paul Kocialkowski <paul.kocialkowski@bootlin.com>]
+  * rename the new labels   [Paul Kocialkowski <paul.kocialkowski@bootlin.com>]
+
+v1:
+  https://lore.kernel.org/all/62c0aef8d3b86d8f290bf6787f1b2b41efbb0b55.1659295329.git.christophe.jaillet@wanadoo.fr/
+---
+ .../sun8i_a83t_mipi_csi2.c                    | 23 +++++++++++++++----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
+index d052ee77ef0a..b032ec13a683 100644
+--- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
++++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
+@@ -719,13 +719,15 @@ sun8i_a83t_mipi_csi2_resources_setup(struct sun8i_a83t_mipi_csi2_device *csi2_de
+ 	csi2_dev->clock_mipi = devm_clk_get(dev, "mipi");
+ 	if (IS_ERR(csi2_dev->clock_mipi)) {
+ 		dev_err(dev, "failed to acquire mipi clock\n");
+-		return PTR_ERR(csi2_dev->clock_mipi);
++		ret = PTR_ERR(csi2_dev->clock_mipi);
++		goto error_clock_rate_exclusive;
+ 	}
+ 
+ 	csi2_dev->clock_misc = devm_clk_get(dev, "misc");
+ 	if (IS_ERR(csi2_dev->clock_misc)) {
+ 		dev_err(dev, "failed to acquire misc clock\n");
+-		return PTR_ERR(csi2_dev->clock_misc);
++		ret = PTR_ERR(csi2_dev->clock_misc);
++		goto error_clock_rate_exclusive;
+ 	}
+ 
+ 	/* Reset */
+@@ -733,7 +735,8 @@ sun8i_a83t_mipi_csi2_resources_setup(struct sun8i_a83t_mipi_csi2_device *csi2_de
+ 	csi2_dev->reset = devm_reset_control_get_shared(dev, NULL);
+ 	if (IS_ERR(csi2_dev->reset)) {
+ 		dev_err(dev, "failed to get reset controller\n");
+-		return PTR_ERR(csi2_dev->reset);
++		ret = PTR_ERR(csi2_dev->reset);
++		goto error_clock_rate_exclusive;
+ 	}
+ 
+ 	/* D-PHY */
+@@ -741,7 +744,7 @@ sun8i_a83t_mipi_csi2_resources_setup(struct sun8i_a83t_mipi_csi2_device *csi2_de
+ 	ret = sun8i_a83t_dphy_register(csi2_dev);
+ 	if (ret) {
+ 		dev_err(dev, "failed to initialize MIPI D-PHY\n");
+-		return ret;
++		goto error_clock_rate_exclusive;
+ 	}
+ 
+ 	/* Runtime PM */
+@@ -749,6 +752,11 @@ sun8i_a83t_mipi_csi2_resources_setup(struct sun8i_a83t_mipi_csi2_device *csi2_de
+ 	pm_runtime_enable(dev);
+ 
+ 	return 0;
++
++error_clock_rate_exclusive:
++	clk_rate_exclusive_put(csi2_dev->clock_mod);
++
++	return ret;
+ }
+ 
+ static void
+@@ -778,9 +786,14 @@ static int sun8i_a83t_mipi_csi2_probe(struct platform_device *platform_dev)
+ 
+ 	ret = sun8i_a83t_mipi_csi2_bridge_setup(csi2_dev);
+ 	if (ret)
+-		return ret;
++		goto error_resources;
+ 
+ 	return 0;
++
++error_resources:
++	sun8i_a83t_mipi_csi2_resources_cleanup(csi2_dev);
++
++	return ret;
+ }
+ 
+ static int sun8i_a83t_mipi_csi2_remove(struct platform_device *platform_dev)
 -- 
-Dmitry
+2.34.1
+
