@@ -1,78 +1,153 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB1A7B
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Aug 2022 12:30:06 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id j21so27813230ejs.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 24 Aug 2022 05:30:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=A4ebziFGIGKWedk4/E9Y9YHWqlnnQT7eJEB+itOg6jY=;
-        b=JV4NxLJrrSRlvhdBCQR0BmBXWvBPD2WWY57yL9lQtZiNURXqJpW+V5TxKtgglU8sfr
-         8h0saIQScUeus/RY4HdeNiEsA6CqBZsV5Z9pDrACaY0tZcAxGuVb7q083EomrLNDC40e
-         odwPYLn28lzNGxZNRAjiuAPURDYf9lpPS9WKBAGU5Ly214gBijHGAUB5XOWefa2WXJTh
-         I4V+h/62ngM8TNNQUcvs4g16JwsYe9ZtdRvwBVyGQqgULED08G3uMVf1nyDa14i+tesK
-         7IHifg30XF+EjhDYcPgPLX+unpTE3yx0aumKCsZoelIzFF3+cnpPGECjoTxRKYH5Khuq
-         e3Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=A4ebziFGIGKWedk4/E9Y9YHWqlnnQT7eJEB+itOg6jY=;
-        b=B9ee+Q/IAC1MM+XdckucGKJWwdfawLfNs36xNcZxCz0wUdxxJodKcj0RRkvubpqqJO
-         N905rVgOpvDnaE+kXPezLqr9acIMMuiqyAt9MATyTgs1Ht1nLLKH2zFd7KV7G8IW/Lmm
-         F0G/YaCeTS3qATlLM24hpfbhx1bQs5hojygzZc5MkghLgSN610PgEZre8QPrGKfWmARw
-         R/J1aOCbujVCP0+64T3daJZTYFOx5G81IZ4aAjjXgIaClnjsUlyf18ChNldzXNR42n4e
-         gRmIr4J8UuTnkW1+moehKpyVm+jmJxgmFYbRSaaAmyXIzTBehPZYJAjwQOFKNho0jfVS
-         cw+w==
-X-Gm-Message-State: ACgBeo1zEJHK52+VXibA1vTTK+9KeEPuoSuYa1fKiEhxK6XzMNLpojrI
-	SLGa9nwMNE1/rYrjTXNj8S/+ZycwY5vkLWGSAbF7IA==
-X-Google-Smtp-Source: AA6agR4y8IkROVTTFYuvJGLyuFpJlX7rUg/lBd9WKIqzPf1600ZmKhkQ1tKmij2PmJr9CSFfVIP2c0YYAvxPH8SXo4Y=
-X-Received: by 2002:a17:907:6293:b0:73d:b27b:e594 with SMTP id
- nd19-20020a170907629300b0073db27be594mr2746905ejc.526.1661344204322; Wed, 24
- Aug 2022 05:30:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA7F7E
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 Aug 2022 15:26:27 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailnew.west.internal (Postfix) with ESMTP id 9567D2B05F68;
+	Wed, 24 Aug 2022 11:26:24 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Wed, 24 Aug 2022 11:26:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1661354784; x=1661361984; bh=uVniGVlvs8
+	/VCkoClJeb3GLOoc5DfbVlVeAGhJHYCzs=; b=ZohUdrdOe6oHquhp58vsz1bBKW
+	7PpFcRZvPL5/30O13xXZ48fKIdvUtvG1UHo0EH0udeCa46ANWX4agHz7Hlw2ABGT
+	+y6ATFBQDrmjhbqhDXs1KzWTURdH+I+3335K1QvFAEqphvIn7LfEMwRq5JZzfRrx
+	7HbXlTKMvyZWvBYXr4Rj9wse/5oVSKL8xLfYnulgrEyyoJqRa9QkdgI12kTmoPz5
+	+2qmb9ao+VNVrwDGxjkPNigJ6InaXp2U/CMi/D6/Kh6JcQncYn/upOydSlOr6Rn3
+	ps5WU3KRW1mK7R6a91x9uZqjx8564kP6YWr6+pazwtun/+n3xPuKAJkP5eFg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1661354784; x=1661361984; bh=uVniGVlvs8/VCkoClJeb3GLOoc5D
+	fbVlVeAGhJHYCzs=; b=CRNsZc8gHQ+ZxkLfpS8/NSRYjUVZVWKX2CXvZ4lWxP2+
+	1We9Nm3TLIk9jbAQi/o4euGDgaGFMI07Hym7GVkcxJ86s916UPcq5uvETrct85lD
+	eclNGZwxOIwiaRaSPagxYjSgqJPVuhjTBOKQDyCFDpkO/r50+ZbcayVbZnf/o2i4
+	TQ+SS7HtgbmZmLKcIRhuX0SaVtQKOmUw0D8DoB+abdUttrA3khr/NFqaL2uRTeWW
+	k4FjjhLkPEEOXDL0FVTfVi2/vtw5O/8zLmTx5otNnOdWO7yuyY9cwFHrIuObc9Na
+	NY+ceIMklapWHCgXIbrqkETFeFowp0eyRomr3lnjPQ==
+X-ME-Sender: <xms:HkMGY8agO_-jhd4QU6iPe3aZHqTr6emyQdqVIRQy90KXIFbqP7BJrw>
+    <xme:HkMGY3Z0U3GE7huOj7noW7F0UAJeFHLV6_OouX2UTRaWQDvwwWnVSxsj59xsqDD4w
+    ZYa-W3438YmSKov2yo>
+X-ME-Received: <xmr:HkMGY2_yUuOCnekxGXtiJPXMeTKHxRqIaSfdRTw0OggrGbTaY13siGk56EOQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejuddgledtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
+    ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:HkMGY2pfWFVL7uoXenkx6Oc-CrvJOOHFiapBidIWT-bFPSNV3adPMA>
+    <xmx:HkMGY3qgVdqGXAr4tQgVDuDcQC9KWpZ90-1INqNikiUnT-3Var2vqQ>
+    <xmx:HkMGY0SMASJWYckG-Hnzj7JtOEAsG4lZVKe4bP7RyOTALmO0WM6R7g>
+    <xmx:IEMGYwaW3uSisxgPNxzG9eOSephDxqJrulTyfenRj7pLUPrvVsK3UHzwRQ8>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 24 Aug 2022 11:26:21 -0400 (EDT)
+Date: Wed, 24 Aug 2022 17:26:19 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+	David Airlie <airlied@linux.ie>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Phil Elwell <phil@raspberrypi.com>,
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+	Dom Cobley <dom@raspberrypi.com>
+Subject: Re: [PATCH v1 23/35] drm/vc4: vec: Convert to the new TV mode
+ property
+Message-ID: <20220824152619.5def5b2puj5b2a3o@houat>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-23-3d53ae722097@cerno.tech>
+ <0255f7c6-0484-6456-350d-cf24f3fee5d6@tronnes.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220823145649.3118479-4-robh@kernel.org>
-In-Reply-To: <20220823145649.3118479-4-robh@kernel.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 24 Aug 2022 14:29:52 +0200
-Message-ID: <CACRpkdb28sHn3XOEJD_rqYRWU1GxWGX1udMpk8Cdu3Qn-rxS0g@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: mfd: Add missing (unevaluated|additional)Properties
- on child nodes
-To: Rob Herring <robh@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Tim Harvey <tharvey@gateworks.com>, 
-	Robert Jones <rjones@gateworks.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Maxime Ripard <mripard@kernel.org>, 
-	- <patches@opensource.cirrus.com>, Steve Twiss <stwiss.opensource@diasemi.com>, 
-	Chris Zhong <zyw@rock-chips.com>, Zhang Qing <zhangqing@rock-chips.com>, 
-	Alistair Francis <alistair@alistair23.me>, Amelie Delaunay <amelie.delaunay@foss.st.com>, 
-	Renner Berthing <kernel@esmil.dk>, Krzysztof Kozlowski <krzk@kernel.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-stm32@st-md-mailman.stormreply.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="36wi22d63kleuedj"
+Content-Disposition: inline
+In-Reply-To: <0255f7c6-0484-6456-350d-cf24f3fee5d6@tronnes.org>
 
-On Tue, Aug 23, 2022 at 4:57 PM Rob Herring <robh@kernel.org> wrote:
 
-> In order to ensure only documented properties are present, node schemas
-> must have unevaluatedProperties or additionalProperties set to false
-> (typically).
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
+--36wi22d63kleuedj
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+Hi,
 
-Yours,
-Linus Walleij
+On Sat, Aug 20, 2022 at 07:22:48PM +0200, Noralf Tr=F8nnes wrote:
+> Den 29.07.2022 18.35, skrev Maxime Ripard:
+> > Now that the core can deal fine with analog TV modes, let's convert the=
+ vc4
+> > VEC driver to leverage those new features.
+> >=20
+> > We've added some backward compatibility to support the old TV mode prop=
+erty
+> > and translate it into the new TV norm property.
+> >=20
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >=20
+> > diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_ve=
+c.c
+>=20
+> >  static int vc4_vec_connector_get_modes(struct drm_connector *connector)
+> >  {
+> > -	struct drm_connector_state *state =3D connector->state;
+> >  	struct drm_display_mode *mode;
+> > =20
+> > -	mode =3D drm_mode_duplicate(connector->dev,
+> > -				  vc4_vec_tv_modes[state->tv.mode].mode);
+> > +	mode =3D drm_mode_duplicate(connector->dev, &drm_mode_480i);
+> > +	if (!mode) {
+> > +		DRM_ERROR("Failed to create a new display mode\n");
+> > +		return -ENOMEM;
+> > +	}
+> > +
+> > +	drm_mode_probed_add(connector, mode);
+> > +
+> > +	mode =3D drm_mode_duplicate(connector->dev, &drm_mode_576i);
+>=20
+> Maybe the mode that matches tv.norm should be marked as preferred so
+> userspace knows which one to pick?
+
+I'm not sure how realistic that would be. Doing this based on the driver
+/ cmdline preference is going to be fairly easy, but then it's a
+property, it's going to be updated, and we probably don't want to mess
+around the mode flags based on new property values?
+
+Maxime
+
+--36wi22d63kleuedj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYwZDGwAKCRDj7w1vZxhR
+xe5DAP9Z+ZFY+aCR73/Vff7dgZ2qWrSVvFjPY8E7F+CacQmV8wEA7ngIetY5PT9h
+6Cpd1zevB5ugZR1rHGjakT3tMaM5Vgo=
+=YI0f
+-----END PGP SIGNATURE-----
+
+--36wi22d63kleuedj--
