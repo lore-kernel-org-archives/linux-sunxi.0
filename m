@@ -1,40 +1,40 @@
 Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA7F7E
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Aug 2022 15:26:27 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailnew.west.internal (Postfix) with ESMTP id 9567D2B05F68;
-	Wed, 24 Aug 2022 11:26:24 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA83F7E
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 Aug 2022 15:45:49 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailnew.west.internal (Postfix) with ESMTP id BD1B32B060D6;
+	Wed, 24 Aug 2022 11:45:46 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Wed, 24 Aug 2022 11:26:26 -0400
+  by compute1.internal (MEProxy); Wed, 24 Aug 2022 11:45:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
 	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1661354784; x=1661361984; bh=uVniGVlvs8
-	/VCkoClJeb3GLOoc5DfbVlVeAGhJHYCzs=; b=ZohUdrdOe6oHquhp58vsz1bBKW
-	7PpFcRZvPL5/30O13xXZ48fKIdvUtvG1UHo0EH0udeCa46ANWX4agHz7Hlw2ABGT
-	+y6ATFBQDrmjhbqhDXs1KzWTURdH+I+3335K1QvFAEqphvIn7LfEMwRq5JZzfRrx
-	7HbXlTKMvyZWvBYXr4Rj9wse/5oVSKL8xLfYnulgrEyyoJqRa9QkdgI12kTmoPz5
-	+2qmb9ao+VNVrwDGxjkPNigJ6InaXp2U/CMi/D6/Kh6JcQncYn/upOydSlOr6Rn3
-	ps5WU3KRW1mK7R6a91x9uZqjx8564kP6YWr6+pazwtun/+n3xPuKAJkP5eFg==
+	:subject:to:to; s=fm3; t=1661355946; x=1661363146; bh=k0jUUwZlCp
+	Fb8RacICxbFXp0XcVVSWVRMQYkg+IsL/w=; b=VsZuzuWdjynggiS089ISUrX+XF
+	H2BRJSxCBnBl3CsIA/QQl6XyiPxYXEfJYDVkH8/TAg+/TsZe1jPkooNoJ83yeDKd
+	wRQBdZMq+S+bTTTLPcNRVTGL+MBWRp/ueuJ0Ho0ZfZv1c6/HlOwwpuGL8Kfe9XM8
+	CTzUtb7o/5LsIiWM4LJDLDOz30et9eWxW0pxZGZJruPuDw4uugRPT1L9w7w9n+P5
+	wxEqFw8WZNGMkyxBzthn64/wOHoKdoowcqtim7edifBOtwSHRhWg+Iu8XwSG6TY8
+	eb3k1LgRZ9QuHbUpIbIHfABQkHgNCBOo3KE01SYM7MsWkprPEtBIScI9pgdg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
 	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
 	:mime-version:references:reply-to:sender:subject:subject:to:to
 	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1661354784; x=1661361984; bh=uVniGVlvs8/VCkoClJeb3GLOoc5D
-	fbVlVeAGhJHYCzs=; b=CRNsZc8gHQ+ZxkLfpS8/NSRYjUVZVWKX2CXvZ4lWxP2+
-	1We9Nm3TLIk9jbAQi/o4euGDgaGFMI07Hym7GVkcxJ86s916UPcq5uvETrct85lD
-	eclNGZwxOIwiaRaSPagxYjSgqJPVuhjTBOKQDyCFDpkO/r50+ZbcayVbZnf/o2i4
-	TQ+SS7HtgbmZmLKcIRhuX0SaVtQKOmUw0D8DoB+abdUttrA3khr/NFqaL2uRTeWW
-	k4FjjhLkPEEOXDL0FVTfVi2/vtw5O/8zLmTx5otNnOdWO7yuyY9cwFHrIuObc9Na
-	NY+ceIMklapWHCgXIbrqkETFeFowp0eyRomr3lnjPQ==
-X-ME-Sender: <xms:HkMGY8agO_-jhd4QU6iPe3aZHqTr6emyQdqVIRQy90KXIFbqP7BJrw>
-    <xme:HkMGY3Z0U3GE7huOj7noW7F0UAJeFHLV6_OouX2UTRaWQDvwwWnVSxsj59xsqDD4w
-    ZYa-W3438YmSKov2yo>
-X-ME-Received: <xmr:HkMGY2_yUuOCnekxGXtiJPXMeTKHxRqIaSfdRTw0OggrGbTaY13siGk56EOQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejuddgledtucetufdoteggodetrfdotf
+	fm1; t=1661355946; x=1661363146; bh=k0jUUwZlCpFb8RacICxbFXp0XcVV
+	SWVRMQYkg+IsL/w=; b=0Imn5JCOC0WiGzpT0k91VjTy8yvPpQT21DKTMRYUaOIU
+	sVYc6lcCAKUzlsO7M0g9ZuyY85s14FiF7Jv6lyJNc+tUikgsJoSnyDn7tgRhOghN
+	t3A9B2Rl3JSuSRFuPeWO4D1Ykh3svlsQpHq24F6szaCQCRG3hH1X/U7fRev/WeoS
+	KKE4COiFBTvEKSDPFGC9Hh0IvugYt1lQxOqR9gMDTzQgGRrWS+uscDrs37LCL+ll
+	EHLDmBjd9DFlg7L0b2Zy0CBa6yITRDksQMNFzkjHCGLojYQsP7Pq1oMQP3i50VpJ
+	CuEn8xamB0p+mtmm+8YF28aDUd774vLyoMtRVNrLxw==
+X-ME-Sender: <xms:qUcGYzDFrcpSHuvMtYDZYCmk3OqqfBUNHEHNQRr47kQ_AzR2afIyIg>
+    <xme:qUcGY5gxXBuPRXb7sxz-fD3XY1K28G2HCR-RvP38qj6v37MMQtWuZzLkuflXKz6hS
+    T87sk6NzGExfyCcTEI>
+X-ME-Received: <xmr:qUcGY-kFUPrn5v4AZYHh9aAI1eHSI_0zzF-GVUOwsOwOCrZ2qMRsINvOscBW>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejuddgleehucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
@@ -42,14 +42,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejuddgledtucetufdoteggod
     htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
     ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
     hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:HkMGY2pfWFVL7uoXenkx6Oc-CrvJOOHFiapBidIWT-bFPSNV3adPMA>
-    <xmx:HkMGY3qgVdqGXAr4tQgVDuDcQC9KWpZ90-1INqNikiUnT-3Var2vqQ>
-    <xmx:HkMGY0SMASJWYckG-Hnzj7JtOEAsG4lZVKe4bP7RyOTALmO0WM6R7g>
-    <xmx:IEMGYwaW3uSisxgPNxzG9eOSephDxqJrulTyfenRj7pLUPrvVsK3UHzwRQ8>
+X-ME-Proxy: <xmx:qUcGY1xGET_pULNFhGqvRG7BMhJOOVXBW1PlHuuLfiGF87hbYnxCwQ>
+    <xmx:qUcGY4RhpUBWSdpBficCdhAPILHPAM02fbxTamOx4Uo_5Z2mW7Rolw>
+    <xmx:qUcGY4a5nfolhfg1OrHPchsQpZQXLra_1S2Z5ttkhMUYzjn83OUf6w>
+    <xmx:qkcGY3A3Xa53RJusfXMGoi1NFvbhxZYRynCLfPYcniNVbVPTK5RITUscqak>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 24 Aug 2022 11:26:21 -0400 (EDT)
-Date: Wed, 24 Aug 2022 17:26:19 +0200
+ 24 Aug 2022 11:45:44 -0400 (EDT)
+Date: Wed, 24 Aug 2022 17:45:43 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -72,12 +72,12 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
 	Dom Cobley <dom@raspberrypi.com>
-Subject: Re: [PATCH v1 23/35] drm/vc4: vec: Convert to the new TV mode
- property
-Message-ID: <20220824152619.5def5b2puj5b2a3o@houat>
+Subject: Re: [PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
+ command-line option
+Message-ID: <20220824154543.bdtpz2evwzsjrdrz@houat>
 References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-23-3d53ae722097@cerno.tech>
- <0255f7c6-0484-6456-350d-cf24f3fee5d6@tronnes.org>
+ <20220728-rpi-analog-tv-properties-v1-34-3d53ae722097@cerno.tech>
+ <eedb1a86-c1fb-cc76-2a43-4ed349d7d826@tronnes.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -85,69 +85,50 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="36wi22d63kleuedj"
+	protocol="application/pgp-signature"; boundary="fetwu2vf2sqny7wk"
 Content-Disposition: inline
-In-Reply-To: <0255f7c6-0484-6456-350d-cf24f3fee5d6@tronnes.org>
+In-Reply-To: <eedb1a86-c1fb-cc76-2a43-4ed349d7d826@tronnes.org>
 
 
---36wi22d63kleuedj
+--fetwu2vf2sqny7wk
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Noralf,
 
-On Sat, Aug 20, 2022 at 07:22:48PM +0200, Noralf Tr=F8nnes wrote:
+On Sat, Aug 20, 2022 at 10:18:47PM +0200, Noralf Tr=F8nnes wrote:
 > Den 29.07.2022 18.35, skrev Maxime Ripard:
-> > Now that the core can deal fine with analog TV modes, let's convert the=
- vc4
-> > VEC driver to leverage those new features.
+> > Our new tv mode option allows to specify the TV mode from a property.
+> > However, it can still be useful, for example to avoid any boot time
+> > artifact, to set that property directly from the kernel command line.
 > >=20
-> > We've added some backward compatibility to support the old TV mode prop=
-erty
-> > and translate it into the new TV norm property.
+> > Let's add some code to allow it, and some unit tests to exercise that c=
+ode.
 > >=20
 > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > >=20
-> > diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_ve=
-c.c
 >=20
-> >  static int vc4_vec_connector_get_modes(struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector_state *state =3D connector->state;
-> >  	struct drm_display_mode *mode;
-> > =20
-> > -	mode =3D drm_mode_duplicate(connector->dev,
-> > -				  vc4_vec_tv_modes[state->tv.mode].mode);
-> > +	mode =3D drm_mode_duplicate(connector->dev, &drm_mode_480i);
-> > +	if (!mode) {
-> > +		DRM_ERROR("Failed to create a new display mode\n");
-> > +		return -ENOMEM;
-> > +	}
-> > +
-> > +	drm_mode_probed_add(connector, mode);
-> > +
-> > +	mode =3D drm_mode_duplicate(connector->dev, &drm_mode_576i);
->=20
-> Maybe the mode that matches tv.norm should be marked as preferred so
-> userspace knows which one to pick?
+> In the subject it says "tv_mode property", but the property is called
+> "tv norm", so the option should be tv_norm?
 
-I'm not sure how realistic that would be. Doing this based on the driver
-/ cmdline preference is going to be fairly easy, but then it's a
-property, it's going to be updated, and we probably don't want to mess
-around the mode flags based on new property values?
+Yeah... I don't know. mode is taken but it's obviously the best name. So
+I went with norm to avoid the (internal) conflict but I left mode for
+the user facing property.
+
+I'm not sure what's best here, or maybe we can pick another name entirely?
 
 Maxime
 
---36wi22d63kleuedj
+--fetwu2vf2sqny7wk
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYwZDGwAKCRDj7w1vZxhR
-xe5DAP9Z+ZFY+aCR73/Vff7dgZ2qWrSVvFjPY8E7F+CacQmV8wEA7ngIetY5PT9h
-6Cpd1zevB5ugZR1rHGjakT3tMaM5Vgo=
-=YI0f
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYwZHpwAKCRDj7w1vZxhR
+xb3AAP9tWGleJEtkD6UwMhukbZIQ59/uDegXZyj1E6YRYC78RAEApPnjLjYnLERA
+E4Ahd6Pzh7p0TuGpdjYkO1Ufgfim2AA=
+=Le3o
 -----END PGP SIGNATURE-----
 
---36wi22d63kleuedj--
+--fetwu2vf2sqny7wk--
