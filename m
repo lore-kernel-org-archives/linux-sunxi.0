@@ -1,49 +1,65 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from out20-218.mail.aliyun.com (out20-218.mail.aliyun.com [115.124.20.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B302F28
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 12:05:32 +0000 (UTC)
-Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1oRBbh-0001K3-BL; Thu, 25 Aug 2022 14:05:09 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-arm-kernel@lists.infradead.org
-Cc: Samuel Holland <samuel@sholland.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 1/4] nvmem: sunxi_sid: Always use 32-bit MMIO reads
-Date: Thu, 25 Aug 2022 14:05:08 +0200
-Message-ID: <5410996.rnE6jSC6OK@diego>
-In-Reply-To: <20220814173656.11856-2-samuel@sholland.org>
-References: <20220814173656.11856-1-samuel@sholland.org> <20220814173656.11856-2-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103EC2F28
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 12:18:23 +0000 (UTC)
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.3045855|-1;BR=01201311R131S89rulernew998_84748_2000303;CH=blue;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.025949-0.00105542-0.972996;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047190;MF=fuyao@sjterm.com;NM=1;PH=DS;RN=9;RT=9;SR=0;TI=SMTPD_---.P.m81RD_1661428046;
+Received: from localhost(mailfrom:fuyao@sjterm.com fp:SMTPD_---.P.m81RD_1661428046)
+          by smtp.aliyun-inc.com;
+          Thu, 25 Aug 2022 19:47:26 +0800
+Date: Thu, 25 Aug 2022 19:47:26 +0800
+From: fuyao <fuyao1697@cyg.com>
+To: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Maxime Ripard <mripard@kernel.org>,
+	maijianzhang <maijianzhang@allwinnertech.com>
+Subject: [PATCH] iio: adc: sun4i-gpadc-iio: adaptation interrupt number
+Message-ID: <YwdhTlk+7h+FMrwm@scg>
+Mail-Followup-To: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+	maijianzhang <maijianzhang@allwinnertech.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Organization: work_work_work
 
-Am Sonntag, 14. August 2022, 19:36:52 CEST schrieb Samuel Holland:
-> The SID SRAM on at least some SoCs (A64 and D1) returns different values
-> when read with bus cycles narrower than 32 bits. This is not immediately
-> obvious, because memcpy_fromio() uses word-size accesses as long as
-> enough data is being copied.
-> 
-> The vendor driver always uses 32-bit MMIO reads, so do the same here.
-> This is faster than the register-based method, which is currently used
-> as a workaround on A64. And it fixes the values returned on D1, where
-> the SRAM method was being used.
-> 
-> The special case for the last word is needed to maintain .word_size == 1
-> for sysfs ABI compatibility, as noted previously in commit de2a3eaea552
-> ("nvmem: sunxi_sid: Optimize register read-out method").
-> 
-> Fixes: 07ae4fde9efa ("nvmem: sunxi_sid: Add support for D1 variant")
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+__platform_get_irq_byname determinies whether the interrupt
+number is 0 and returns EINVAL.
 
-On a D1-Nezha:
-Tested-by: Heiko Stuebner <heiko@sntech.de>
+Signed-off-by: fuyao <fuyao1697@cyg.com>
+---
+ include/linux/mfd/sun4i-gpadc.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/linux/mfd/sun4i-gpadc.h b/include/linux/mfd/sun4i-gpadc.h
+index ea0ccf33a459..021f820f9d52 100644
+--- a/include/linux/mfd/sun4i-gpadc.h
++++ b/include/linux/mfd/sun4i-gpadc.h
+@@ -81,8 +81,8 @@
+ #define SUN4I_GPADC_TEMP_DATA				0x20
+ #define SUN4I_GPADC_DATA				0x24
+ 
+-#define SUN4I_GPADC_IRQ_FIFO_DATA			0
+-#define SUN4I_GPADC_IRQ_TEMP_DATA			1
++#define SUN4I_GPADC_IRQ_FIFO_DATA			1
++#define SUN4I_GPADC_IRQ_TEMP_DATA			2
+ 
+ /* 10s delay before suspending the IP */
+ #define SUN4I_GPADC_AUTOSUSPEND_DELAY			10000
+-- 
+2.32.0
 
 
+-- 
+Technology is exciting
