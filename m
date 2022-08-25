@@ -1,145 +1,217 @@
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A0533F3
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 15:55:12 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 7263B5809BC;
-	Thu, 25 Aug 2022 11:55:11 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Thu, 25 Aug 2022 11:55:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1661442911; x=1661450111; bh=tqptnFbA7h
-	c7h/4TDLxF1PP/YGhchwUmCeAxXxdoHRo=; b=RFffi5cPCoCoz36n0Z8bN6eFVo
-	0sldhf8QeuR3gcVvDvDA14WK7m4PCGogEN5hgOGNhMxp86aHJmN5QCxoI6JEhCbF
-	SnB2daum5piCYP9HFE0Sk47iUU1dDYq//YjNQ1YzbKqsUgYdvCJfpJ8055ay/Zoy
-	FMOQIFumgNUTa9nWhOrV6SrtiQk6Vx/wi1GE+0qlZ72ReSlAXTkUCsNMzngMBrIu
-	cQbZV5YxB9MegL+jACYJqF8sbi9DrBrZ7Fqp6Mnigl3BL5c9bw0cXZ6XUZDK0Igc
-	d8M18gBNErH4jzQ0A0iITF6KOd+qvh7IhYLUrastuhlkXfXPkbAaIGAu91kA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1661442911; x=1661450111; bh=tqptnFbA7hc7h/4TDLxF1PP/YGhc
-	hwUmCeAxXxdoHRo=; b=E8A8tVJzDj9pu9GbygbxuEQP8MB41DMI91z2ueoX8nBy
-	zySUgxlsfCZSiTrHU5+aI3u6QnvYVuHp2kMEVivQlWk8zqcMXzuar6Xd0QNFm+hk
-	RyLc9PCRXMRyq7+RH2cxVzw2yFYT5JhNg6nCfs4t6MXRXpPCCSN2I/jj1EMN6Yr7
-	c5Hticfaet3zeUGcT5DDX95lN+/61APn8enJPVDcrmOcGUZM67WJ7NNUniFuqnCM
-	d9eiETS+xNIVxMbovGUiM5RwZoFKkGKeLL0fEU41xLpnhXxQF3yvKqadjfKoP8UY
-	YKG9dXlEP/QCRdsfcAIaiQgTDmAPobAl5xm48eFJFw==
-X-ME-Sender: <xms:XZsHY0xsv4iDhjXgedHZcaQ9BoeKJEsj0XKKPtURgGDvdVmCrAp2zQ>
-    <xme:XZsHY4SA0zrQVDzvrKCYS_108LKJSh88MN_v67-LfnsoEcx1f6Kgv43WwUTneaOfG
-    3Tt0KRWe6xuxjCpnkw>
-X-ME-Received: <xmr:XZsHY2WolPrgWEYiYyCgZ092JoyS0D-qIhr4rkuG2-slyMuUoj8dLuVefag>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejfedgledvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpefhkeehfedthfejfeejtdfhvddvueeigeejjeeuteegveffhfffgeffieeu
-    ueduvdenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
-    hh
-X-ME-Proxy: <xmx:XpsHYyjdlVhneiSB4ustS7xDJwI1mC6wv4gJhjpJXLF3JfdGi3cf1w>
-    <xmx:XpsHY2DepCkheOhxgh4cnsdJEgcwkyRqcq23RUfJ3SWuKnwJGa16kA>
-    <xmx:XpsHYzKLY5z2Qt95j_xLe_zMkehclF39eHC4SCWy3DliPelW2Vixjg>
-    <xmx:X5sHY4ycPKM8nQmjvA_fj97WxxkhwpA3jPTgoMqJP0U0Rk2ysCJr2A>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 25 Aug 2022 11:55:09 -0400 (EDT)
-Date: Thu, 25 Aug 2022 17:55:06 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Mateusz Kwiatkowski <kfyatek@gmail.com>
-Cc: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
-	David Airlie <airlied@linux.ie>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Neil Armstrong <narmstrong@baylibre.com>,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Phil Elwell <phil@raspberrypi.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
-	Dom Cobley <dom@raspberrypi.com>
-Subject: Re: [PATCH v1 00/35] drm: Analog TV Improvements
-Message-ID: <20220825155506.wqurh5r752qfufqs@houat>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <987d6114-5fcb-d668-3b0d-ad6d8723dfdb@tronnes.org>
- <20220822074800.qzyctchqn5usr55g@houat>
- <9a15b1cf-692c-1b0d-02a6-316cbd954525@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F217E33F7
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 16:09:17 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27PG49vk003441;
+	Thu, 25 Aug 2022 16:09:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2022-7-12;
+ bh=qEdZSa1CIXS3i8JP2KmL9uSLRgybPoVA3dZPWzgtEUE=;
+ b=gYliDAnDc0B4DaL4PdjUKgMEnSQajawfnSE+6SbZ0KvfkZr8ADcRXxr5g7qpkPZG6dyd
+ 5K/LE9KIcZM2ukt9t//fiacrONg7T1a/nAfP3POSK2G/z/TIfl1dauz67XNGDW9hgI9s
+ pIRtnInTxudHXzkJf/5llGksGIrYVe2FhFl9OmnZ1xG+n08Mjam7m6stytZ3ZKPJoZAO
+ a5G2XYgK6tCV8nmSCYekMoa+AElo+nQU4oXO+7oeHoIEtloboACxjaGhAIkvfPTQCkj6
+ UJx6P8HeiSQbyiC2zQEnUK7079sQWwIKc+FPMf2DQ9bgGIjG8jPwyyR6xnYhsgCXgdwb Mg== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3j5aww4js4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 25 Aug 2022 16:09:10 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 27PFJH5q016667;
+	Thu, 25 Aug 2022 16:09:09 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2168.outbound.protection.outlook.com [104.47.57.168])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3j5n57sfbg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 25 Aug 2022 16:09:08 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bDbeqRagaVQRi/B5JdF12SuFF9piqGWMZ/v5cHp8MX2wsmQQB9GjvDlwET7VVQd/9moH25yRDkhPi0woan08DA9Y0+693qYEyFcV5BZhK+HQKOhhx+bd3A9AE15PG+LUpQOMSWjZnKETEmo4Xi98jNkiYfa0HjefnQCNxa8TkJeiQEtbQQFNWHq6PfmCGhpDmh7MHYILu4US1polmb2D2EkCNbBSv3QsQqG4Jn6qMEJbLOMkmkYr5zLhZaAo/06Q5pzXoMZXX3Lq7IowAJy8vrcs1ktkeW050+3NP7swaKm5Ri4ucQqaTtw159D/oEBBR5+Tum1y0pXrCMftg4QhKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qEdZSa1CIXS3i8JP2KmL9uSLRgybPoVA3dZPWzgtEUE=;
+ b=BHJWH6o5ilzacZFggTqbZjlcsH6CNiE/Ah0PoA8CCjD/3ELULYy5fb75p6MrGbHoDp2XODtl98nM7fxCGZUFPL9lFPIgOHOIKtugp49k5NdwhJq8J5whqt2X5Vd+Qd/Js75Fm5xJRF8+MC1gCk0pUfaVkPNfLmRozV6rG+qV+LWbFNOaIwW68IBPwOOV3wBra7MoBgW974zxHXkHTkFxMZxaE8G/2SvwEyPevKtQlK/Wjb244EsA9meOmcROQqNSLypt7Q/wVN7OOHi8ILFXBPdD7eaVKNIyoRHngHAvUMaXi2OHL5XPODgYmw52Z4EOAHA95xdIq901c9qEVnMsRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qEdZSa1CIXS3i8JP2KmL9uSLRgybPoVA3dZPWzgtEUE=;
+ b=EIvnjTZxtJftk7DP2K8PtnHTQcsTPx+G+eVVK+7i3e92XMGWRH4G2AnZAGaR+83ZtkIfX+6M7CjkLbPVuqFY4OLBeuNr08iT+SNUWFdsoj3RZ5G7eUwYMdGKnUdINvKgeK5tbuvTjUZWtsn3kMQJ/UbeO9uBOXustmI2pqOn2JI=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by PH0PR10MB5450.namprd10.prod.outlook.com
+ (2603:10b6:510:ee::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.18; Thu, 25 Aug
+ 2022 16:09:06 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::209e:de4d:68ea:c026]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::209e:de4d:68ea:c026%3]) with mapi id 15.20.5546.024; Thu, 25 Aug 2022
+ 16:09:06 +0000
+Date: Thu, 25 Aug 2022 19:08:56 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: clabbe@baylibre.com
+Cc: linux-crypto@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: [bug report] crypto: sun8i-ss - rework handling of IV
+Message-ID: <YweemJw2a5OSWx1h@kili>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-ClientProxiedBy: ZR0P278CA0088.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:22::21) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="o2rxfoydvcfezv5r"
-Content-Disposition: inline
-In-Reply-To: <9a15b1cf-692c-1b0d-02a6-316cbd954525@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1e4ea2d5-d766-4c14-cc65-08da86b422c3
+X-MS-TrafficTypeDiagnostic: PH0PR10MB5450:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	axaloQGWkUCfW+by6EfwzL5MQo2/8dxho+nVXp03tTW6xKHcdoOKXj5YZ7rexHuMF66Jhwcq5Jg4xr5YSlaDPetPyLRfqgWraf3+rVUqyPNtrPa7h+1tiKbLgyc/A6qTO5OxBuaX7zL524IdEqfAUiuBmTDADd/s1K3NLmNO13y5yfZWE2n6Du0+bRfzGCSKOHaD7458Smo5/iqhcIRNHz5tWj0hrp1ZripJS8PEdRSF6JPVjip8IBeytg2ZartXXSCjYEUBIFgZKkPwHsM5mrSP7AHLGdVtPc0xjOJ9OnbbO1cg79aYPXZvkInFTqdmbYmPA4pMrmRJlDxJBdQMW2U2ysQTm9czEnOJcfUwhmXREKHoPlnbArmXgsavI9H/li2WUeGrG0AF0+Ib2iSRs3H93b1TLyia4aHufo75vF3+iTZP7/Dwit4KsJvaR5Qc1Ipx4j6HIyCji6+MVY+agIk9MtvSz3F8jXNhWNem0dqpHV3hnVPDn3JcR5JzlOs6PjhIGViri28aJI2L5X2XpOJVQMTTfbF15PINbskiRLNoCbpjUQiETNgLurPlHiZ0KiEM9QF4afqxoFimMjXxaBUiol2WmPKpXxLIu1VxNKhfMXhZiIdugsj8bsB3Y5H4SF/n6CQzPSBQKrSWsF8rc4XzdQQgxfefIdX1+eGpyUbolNdos2v2TOF8/IkqpuYIr+yW7eywuUHynxPy5VuPlGj/OY5k2DAWiPuM3LDhem+xZuV/KroV+zSv1Gje3MJa2eOuZj+XTmwJblUtwv9LY5WC3gqqTENETZzNbAOTP50=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(396003)(366004)(39860400002)(346002)(136003)(376002)(44832011)(6666004)(41300700001)(6506007)(478600001)(186003)(26005)(83380400001)(52116002)(6486002)(9686003)(6512007)(2906002)(5660300002)(33716001)(316002)(66556008)(66476007)(66946007)(6916009)(8676002)(4326008)(38100700002)(38350700002)(86362001)(8936002)(32563001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?WI5Cnm4isiTB6atheLnhDMNuqaKB6Hj8/y//ib4qCwotZWvy6Mu95KBCbF9J?=
+ =?us-ascii?Q?G7Pgk4G9sY/cJ6jlbri2lyA/MLgi42lIKr2l0NSVMNy1P9Aq0MM3Ertk9AOk?=
+ =?us-ascii?Q?gPiGQ2XiFfMPXE29aCoVQ3z5BUtLFJb0pmv5Ryz5L/efOMO9NDIpMnIMm9vc?=
+ =?us-ascii?Q?Ifs4NeZEtDeYNqGRj2ibMSvKnNLIBwZnl2CGlcp6X1FnUiyeIqBQjEAcuwat?=
+ =?us-ascii?Q?syRwFxoqlgj3PQFvg40wqC2yxfsoBpyCo2mly9vXKGOO6kV1bsWLtnUW+a00?=
+ =?us-ascii?Q?e9StK6NMjlonDOAFz9mi17ZBqFIgJ9+A9In3rIPAaOzP1kjpk+oOpUZdw+Rz?=
+ =?us-ascii?Q?fMIR6xZDMqrzkVzYne+pxNISh7qXMGcECK2r+nUZ8Va0LGkCGEFaoYFuaXOP?=
+ =?us-ascii?Q?J7XcW+t5+w44O+u45Zbia8UwNXaKuuchFkSgdeL+uleisITqDEX88JUbvPCN?=
+ =?us-ascii?Q?9tYzZXLhHDmYb7pwyzD+sNr7hUPdPjn77RBkyc1Jkj5enjBRvNYTi2HSIbS5?=
+ =?us-ascii?Q?zvmi+3VyjameFyz7yuUWCPo2/Kb5eXm49itKW7+QXtXvTZRopKTsfkmyhcri?=
+ =?us-ascii?Q?EuzMXzGXQ3WoEBaDb7SBLQyB/MOi0xeGrVKMW5cxtkTxeqENmBAcC7DL7LRJ?=
+ =?us-ascii?Q?m2dOdr5MiuDr/3pp3FNohghhkwCgRjeQP4dpY/cxstIYZ0Pyz4FVxfDGBmxG?=
+ =?us-ascii?Q?PtUs+zSbdeFgKDeH8zS9FAtKUFaM/rnjcny6KhS8AhmIuHCjwpN2XVPTvkdl?=
+ =?us-ascii?Q?HobSthBpq8p3ly4uurQw4EpXBeWRKO11Ek25OqPuAZ7hVuPtlx1qovoMJbfw?=
+ =?us-ascii?Q?1uP3YuuzZ4xkYV0H5D2ykCVMrMmvjDFjm0OKxHW3xQcbPImXi+bl1MiFoRiW?=
+ =?us-ascii?Q?uszwQeErQZbHEIehAnrqS238hDgRnhw0aBtesgXlxICkJMhZO3+L7jzEZIfi?=
+ =?us-ascii?Q?/t/3UcsrJjejSlzshZu0QTroAuXwugnO/BG2YrOenkoXy/xd+4pcqBH9iOqU?=
+ =?us-ascii?Q?5CnpgvIew/vx7N7UxwjineZK4E0skmNNc3O1rgK4rnc4SPPU3DAehiqcvrF9?=
+ =?us-ascii?Q?dW/qenomPPcwjFShlEdTXd3qV9VHyoVfrzeOvCOmBCWefeGxf4WNVSJO587t?=
+ =?us-ascii?Q?pt1Dcsye3BpTzT4kK4nJdqiu6gA0goZ4vg03CsHWnYchamfEai2G/QGn3+Rp?=
+ =?us-ascii?Q?B9D+zfIX6+hSoEO6VIZ89npCX6UrV9w91Lj8jPEy3SHwhLSZaw7rtDfui4ga?=
+ =?us-ascii?Q?vUtt+V98/+WWS2K1iZsbU0QlPvefryEdoGxMGwSjaOCoiHFSSgaB/YgOCc/R?=
+ =?us-ascii?Q?VmAa3mrSiR75d23m69DlTsZTwlOUS+Vjq7uMEcCj5rvkch4+Ylw6AAnlkulJ?=
+ =?us-ascii?Q?EFMBYCRFW7Oily5s37lEvVPTdSLbdqbY8d0RY8k7i+NOT1lTdROj2thKVrZp?=
+ =?us-ascii?Q?JgWhrV5EquJ+P02F0he5GPLNS3E2H3Z+Y6exS4cvwgGg8OrbvV5sFzruWBHo?=
+ =?us-ascii?Q?4TSLbhT95vwyvTtuPHJjf53532+rFOYk6kinI++jl9/Hr6MF9wkeDfZu5kkL?=
+ =?us-ascii?Q?PelaTEst8sNC8Wpz28kcBpw8g+CfWGGbtySTzLiQopPpFP9FW36PVtWh9eHd?=
+ =?us-ascii?Q?xw=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e4ea2d5-d766-4c14-cc65-08da86b422c3
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2022 16:09:06.3713
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3WPyXQint0wtvPlT8KqSTj0VtY5faIhPe0V1Z03wimv+rNB0ZB+TnZqyAWP6f7uWtN32yJ9zEsdc/dDeCf9sIiECvQXbU9ukqL1W4jlQnfM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5450
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-25_08,2022-08-25_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=924 mlxscore=0 spamscore=0
+ adultscore=0 phishscore=0 bulkscore=0 malwarescore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
+ definitions=main-2208250061
+X-Proofpoint-GUID: JFnWR-63XR1UA__hhCMNy5ALdOdc_okK
+X-Proofpoint-ORIG-GUID: JFnWR-63XR1UA__hhCMNy5ALdOdc_okK
 
+Hello Corentin Labbe,
 
---o2rxfoydvcfezv5r
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The patch 359e893e8af4: "crypto: sun8i-ss - rework handling of IV"
+from May 2, 2022, leads to the following Smatch static checker
+warning:
 
-Hi Mateusz,
+    drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c:146 sun8i_ss_setup_ivs()
+    warn: 'a' is not a DMA mapping error
 
-On Mon, Aug 22, 2022 at 10:57:26AM +0200, Mateusz Kwiatkowski wrote:
-> Hi Maxime,
->=20
-> I tried testing and reviewing your changes properly over the last weekend=
-, but
-> ultimately ran into this ("flip_done timed out" etc.) issue and was unabl=
-e to
-> mitigate it, at least so far. This seems to pop up every time I try to ch=
-ange
-> modes in any way (either change the TV norm, or just try doing
-> "xrandr --output Composite-1 --off" followed by bringing it back on; it a=
-lso
-> means that the Pi goes unusable when the DE's screen saving routine kicks=
- in).
->=20
-> I'm using a Pi 4, and it works with the rpi-5.13.y branch
-> https://github.com/raspberrypi/linux, but seemingly nothing newer.
-> I specifically tried rpi-5.14.y, rpi-5.15.y and rpi-5.19.y - rpi-5.15.y,
-> which is the current main branch in Raspberry Pi OS, seems to be broken s=
-ince
-> forever; at least since my patches (originally written for 5.10) landed t=
-here.
->=20
-> I'll try identifying the issue further, possibly later today, and maybe c=
-heck
-> the rpi-6.0.y branch as well.
+    drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c:213 sun8i_ss_cipher()
+    warn: 'rctx->p_key' is not a DMA mapping error
 
-I've tried it this, and I can't reproduce it here. But I'm curious, how
-did you apply this series? rpi-5.13.y is probably full of conflicts
-everywhere?
+drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
+    115 static int sun8i_ss_setup_ivs(struct skcipher_request *areq)
+    116 {
+    117         struct crypto_skcipher *tfm = crypto_skcipher_reqtfm(areq);
+    118         struct sun8i_cipher_tfm_ctx *op = crypto_skcipher_ctx(tfm);
+    119         struct sun8i_ss_dev *ss = op->ss;
+    120         struct sun8i_cipher_req_ctx *rctx = skcipher_request_ctx(areq);
+    121         struct scatterlist *sg = areq->src;
+    122         unsigned int todo, offset;
+    123         unsigned int len = areq->cryptlen;
+    124         unsigned int ivsize = crypto_skcipher_ivsize(tfm);
+    125         struct sun8i_ss_flow *sf = &ss->flows[rctx->flow];
+    126         int i = 0;
+    127         u32 a;
 
-Maxime
+This needs to be a dma_addr_t a;
 
---o2rxfoydvcfezv5r
-Content-Type: application/pgp-signature; name="signature.asc"
+    128         int err;
+    129 
+    130         rctx->ivlen = ivsize;
+    131         if (rctx->op_dir & SS_DECRYPTION) {
+    132                 offset = areq->cryptlen - ivsize;
+    133                 scatterwalk_map_and_copy(sf->biv, areq->src, offset,
+    134                                          ivsize, 0);
+    135         }
+    136 
+    137         /* we need to copy all IVs from source in case DMA is bi-directionnal */
+    138         while (sg && len) {
+    139                 if (sg_dma_len(sg) == 0) {
+    140                         sg = sg_next(sg);
+    141                         continue;
+    142                 }
+    143                 if (i == 0)
+    144                         memcpy(sf->iv[0], areq->iv, ivsize);
+    145                 a = dma_map_single(ss->dev, sf->iv[i], ivsize, DMA_TO_DEVICE);
+--> 146                 if (dma_mapping_error(ss->dev, a)) {
 
------BEGIN PGP SIGNATURE-----
+This can't be true because of the 32/63 bit bug.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYwebWgAKCRDj7w1vZxhR
-xWTZAQDwNGx7ING3Lb1EnLGPTAGR3tQpH/72q4zipEWhAbBLSwEAuSVMBrPHUOys
-oIi4MLhNS5Ak7DHUrbr+dgxHf4umjwA=
-=vOq0
------END PGP SIGNATURE-----
+    147                         memzero_explicit(sf->iv[i], ivsize);
+    148                         dev_err(ss->dev, "Cannot DMA MAP IV\n");
+    149                         err = -EFAULT;
+    150                         goto dma_iv_error;
+    151                 }
+    152                 rctx->p_iv[i] = a;
 
---o2rxfoydvcfezv5r--
+But then only 32 bits are used later in the driver in ->p_iv[].  So it's
+more complicated than I thought.
+
+    153                 /* we need to setup all others IVs only in the decrypt way */
+    154                 if (rctx->op_dir & SS_ENCRYPTION)
+    155                         return 0;
+    156                 todo = min(len, sg_dma_len(sg));
+    157                 len -= todo;
+    158                 i++;
+    159                 if (i < MAX_SG) {
+    160                         offset = sg->length - ivsize;
+    161                         scatterwalk_map_and_copy(sf->iv[i], sg, offset, ivsize, 0);
+    162                 }
+    163                 rctx->niv = i;
+    164                 sg = sg_next(sg);
+    165         }
+    166 
+    167         return 0;
+    168 dma_iv_error:
+    169         i--;
+    170         while (i >= 0) {
+    171                 dma_unmap_single(ss->dev, rctx->p_iv[i], ivsize, DMA_TO_DEVICE);
+    172                 memzero_explicit(sf->iv[i], ivsize);
+    173                 i--;
+    174         }
+    175         return err;
+    176 }
+
+regards,
+dan carpenter
