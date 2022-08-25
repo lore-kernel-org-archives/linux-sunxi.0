@@ -1,130 +1,145 @@
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D1233E0
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 15:13:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=ds1ED9/E8RnGTPOcmFhmM3nxfl6XFIk5DEUz5wvPIYY=; b=XM7AfOD/00Npw2p+NjBfouwELf
-	I9bRHc2R4q55W61qDwzprV6raEBmp4A4jIPmklgYwmujyF0ZIsrepW67YNfWDpYTQejiqU9UfqPgu
-	mLwLWAV5zakGYqrErCtzYBGrEqWkK/I2qst6oBbL5qVI12WDJ14XSDOOvRgSJlxheFZKfmjx5bf4n
-	Gk+1H7L8wo6G2gMVjrLOhbMm1TG24aLDoJYl7EU+tXEf21icteOQdosRQJ5RsbGNc2n6g9FGV4VH8
-	RrJn1xVGCUvZumcitD1aHU1U76EUa9VdCG9QH08Xd74yBAyeiWBUMrUxhU5cSSEYP/n3RhqRonkjf
-	lUzM52kQ==;
-Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=49886)
-	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <noralf@tronnes.org>)
-	id 1oREY2-0007oo-36; Thu, 25 Aug 2022 17:13:34 +0200
-Message-ID: <863beb42-1012-b38a-0c3d-89b7e035aa82@tronnes.org>
-Date: Thu, 25 Aug 2022 17:13:29 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A0533F3
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 15:55:12 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 7263B5809BC;
+	Thu, 25 Aug 2022 11:55:11 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Thu, 25 Aug 2022 11:55:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1661442911; x=1661450111; bh=tqptnFbA7h
+	c7h/4TDLxF1PP/YGhchwUmCeAxXxdoHRo=; b=RFffi5cPCoCoz36n0Z8bN6eFVo
+	0sldhf8QeuR3gcVvDvDA14WK7m4PCGogEN5hgOGNhMxp86aHJmN5QCxoI6JEhCbF
+	SnB2daum5piCYP9HFE0Sk47iUU1dDYq//YjNQ1YzbKqsUgYdvCJfpJ8055ay/Zoy
+	FMOQIFumgNUTa9nWhOrV6SrtiQk6Vx/wi1GE+0qlZ72ReSlAXTkUCsNMzngMBrIu
+	cQbZV5YxB9MegL+jACYJqF8sbi9DrBrZ7Fqp6Mnigl3BL5c9bw0cXZ6XUZDK0Igc
+	d8M18gBNErH4jzQ0A0iITF6KOd+qvh7IhYLUrastuhlkXfXPkbAaIGAu91kA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1661442911; x=1661450111; bh=tqptnFbA7hc7h/4TDLxF1PP/YGhc
+	hwUmCeAxXxdoHRo=; b=E8A8tVJzDj9pu9GbygbxuEQP8MB41DMI91z2ueoX8nBy
+	zySUgxlsfCZSiTrHU5+aI3u6QnvYVuHp2kMEVivQlWk8zqcMXzuar6Xd0QNFm+hk
+	RyLc9PCRXMRyq7+RH2cxVzw2yFYT5JhNg6nCfs4t6MXRXpPCCSN2I/jj1EMN6Yr7
+	c5Hticfaet3zeUGcT5DDX95lN+/61APn8enJPVDcrmOcGUZM67WJ7NNUniFuqnCM
+	d9eiETS+xNIVxMbovGUiM5RwZoFKkGKeLL0fEU41xLpnhXxQF3yvKqadjfKoP8UY
+	YKG9dXlEP/QCRdsfcAIaiQgTDmAPobAl5xm48eFJFw==
+X-ME-Sender: <xms:XZsHY0xsv4iDhjXgedHZcaQ9BoeKJEsj0XKKPtURgGDvdVmCrAp2zQ>
+    <xme:XZsHY4SA0zrQVDzvrKCYS_108LKJSh88MN_v67-LfnsoEcx1f6Kgv43WwUTneaOfG
+    3Tt0KRWe6xuxjCpnkw>
+X-ME-Received: <xmr:XZsHY2WolPrgWEYiYyCgZ092JoyS0D-qIhr4rkuG2-slyMuUoj8dLuVefag>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejfedgledvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpefhkeehfedthfejfeejtdfhvddvueeigeejjeeuteegveffhfffgeffieeu
+    ueduvdenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+    hh
+X-ME-Proxy: <xmx:XpsHYyjdlVhneiSB4ustS7xDJwI1mC6wv4gJhjpJXLF3JfdGi3cf1w>
+    <xmx:XpsHY2DepCkheOhxgh4cnsdJEgcwkyRqcq23RUfJ3SWuKnwJGa16kA>
+    <xmx:XpsHYzKLY5z2Qt95j_xLe_zMkehclF39eHC4SCWy3DliPelW2Vixjg>
+    <xmx:X5sHY4ycPKM8nQmjvA_fj97WxxkhwpA3jPTgoMqJP0U0Rk2ysCJr2A>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 25 Aug 2022 11:55:09 -0400 (EDT)
+Date: Thu, 25 Aug 2022 17:55:06 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Mateusz Kwiatkowski <kfyatek@gmail.com>
+Cc: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+	David Airlie <airlied@linux.ie>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Phil Elwell <phil@raspberrypi.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+	Dom Cobley <dom@raspberrypi.com>
+Subject: Re: [PATCH v1 00/35] drm: Analog TV Improvements
+Message-ID: <20220825155506.wqurh5r752qfufqs@houat>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <987d6114-5fcb-d668-3b0d-ad6d8723dfdb@tronnes.org>
+ <20220822074800.qzyctchqn5usr55g@houat>
+ <9a15b1cf-692c-1b0d-02a6-316cbd954525@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
- <narmstrong@baylibre.com>, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Dom Cobley <dom@raspberrypi.com>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
- <37a76651-a457-e50d-9a05-00ca9ed5d729@tronnes.org>
- <20220825134408.dioj2lbycl7jm3ld@houat>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220825134408.dioj2lbycl7jm3ld@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="o2rxfoydvcfezv5r"
+Content-Disposition: inline
+In-Reply-To: <9a15b1cf-692c-1b0d-02a6-316cbd954525@gmail.com>
 
 
+--o2rxfoydvcfezv5r
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Den 25.08.2022 15.44, skrev Maxime Ripard:
-> Hi,
-> 
-> On Sat, Aug 20, 2022 at 10:12:46PM +0200, Noralf Trønnes wrote:
->>> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
->>> index 1e9996b33cc8..78275e68ff66 100644
->>> --- a/include/drm/drm_connector.h
->>> +++ b/include/drm/drm_connector.h
->>> @@ -143,6 +143,32 @@ enum subpixel_order {
->>>  
->>>  };
->>>  
->>> +#define DRM_MODE_TV_NORM_NTSC_443	(1 << 0)
->>> +#define DRM_MODE_TV_NORM_NTSC_J		(1 << 1)
->>> +#define DRM_MODE_TV_NORM_NTSC_M		(1 << 2)
->>> +#define DRM_MODE_TV_NORM_PAL_60		(1 << 3)
->>> +#define DRM_MODE_TV_NORM_PAL_B		(1 << 4)
->>> +#define DRM_MODE_TV_NORM_PAL_D		(1 << 5)
->>> +#define DRM_MODE_TV_NORM_PAL_G		(1 << 6)
->>> +#define DRM_MODE_TV_NORM_PAL_H		(1 << 7)
->>> +#define DRM_MODE_TV_NORM_PAL_I		(1 << 8)
->>> +#define DRM_MODE_TV_NORM_PAL_M		(1 << 9)
->>> +#define DRM_MODE_TV_NORM_PAL_N		(1 << 10)
->>> +#define DRM_MODE_TV_NORM_PAL_NC		(1 << 11)
->>> +#define DRM_MODE_TV_NORM_SECAM_60	(1 << 12)
->>> +#define DRM_MODE_TV_NORM_SECAM_B	(1 << 13)
->>> +#define DRM_MODE_TV_NORM_SECAM_D	(1 << 14)
->>> +#define DRM_MODE_TV_NORM_SECAM_G	(1 << 15)
->>> +#define DRM_MODE_TV_NORM_SECAM_K	(1 << 16)
->>> +#define DRM_MODE_TV_NORM_SECAM_K1	(1 << 17)
->>> +#define DRM_MODE_TV_NORM_SECAM_L	(1 << 18)
->>> +#define DRM_MODE_TV_NORM_HD480I		(1 << 19)
->>> +#define DRM_MODE_TV_NORM_HD480P		(1 << 20)
->>> +#define DRM_MODE_TV_NORM_HD576I		(1 << 21)
->>> +#define DRM_MODE_TV_NORM_HD576P		(1 << 22)
->>> +#define DRM_MODE_TV_NORM_HD720P		(1 << 23)
->>> +#define DRM_MODE_TV_NORM_HD1080I	(1 << 24)
->>> +
->>
->> This is an area where DRM overlaps with v4l2, see:
->> - include/dt-bindings/display/sdtv-standards.h
->> - v4l2_norm_to_name()
->>
->> Maybe we should follow suit, but if we do our own thing please mention
->> why in the commit message.
-> 
-> Are you suggesting that we'd share that definition with v4l2?
-> 
+Hi Mateusz,
 
-If possible, yes.
+On Mon, Aug 22, 2022 at 10:57:26AM +0200, Mateusz Kwiatkowski wrote:
+> Hi Maxime,
+>=20
+> I tried testing and reviewing your changes properly over the last weekend=
+, but
+> ultimately ran into this ("flip_done timed out" etc.) issue and was unabl=
+e to
+> mitigate it, at least so far. This seems to pop up every time I try to ch=
+ange
+> modes in any way (either change the TV norm, or just try doing
+> "xrandr --output Composite-1 --off" followed by bringing it back on; it a=
+lso
+> means that the Pi goes unusable when the DE's screen saving routine kicks=
+ in).
+>=20
+> I'm using a Pi 4, and it works with the rpi-5.13.y branch
+> https://github.com/raspberrypi/linux, but seemingly nothing newer.
+> I specifically tried rpi-5.14.y, rpi-5.15.y and rpi-5.19.y - rpi-5.15.y,
+> which is the current main branch in Raspberry Pi OS, seems to be broken s=
+ince
+> forever; at least since my patches (originally written for 5.10) landed t=
+here.
+>=20
+> I'll try identifying the issue further, possibly later today, and maybe c=
+heck
+> the rpi-6.0.y branch as well.
 
-> I've tried to share some code in the past between v4l2 and DRM, and it
-> got completely shut down so it's not something I'd like to try again, if
-> possible.
-> 
+I've tried it this, and I can't reproduce it here. But I'm curious, how
+did you apply this series? rpi-5.13.y is probably full of conflicts
+everywhere?
 
-But that is a good enough reason not to do so. I just got the impression
-from some of Laurent's emails a while back that there was some
-cooperativ atmosphere, but I might be mistaken in my reading/understanding.
+Maxime
 
-It is ofc possible to just copy the values from sdtv-standards.h, but I
-see that hd* is missing from that list, so not sure if there's much
-point if it has to be extended without changing the source.
+--o2rxfoydvcfezv5r
+Content-Type: application/pgp-signature; name="signature.asc"
 
-We can at least use the names from v4l2_norm_to_name(), but from a quick
-look it seems you already do so.
+-----BEGIN PGP SIGNATURE-----
 
-Noralf.
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYwebWgAKCRDj7w1vZxhR
+xWTZAQDwNGx7ING3Lb1EnLGPTAGR3tQpH/72q4zipEWhAbBLSwEAuSVMBrPHUOys
+oIi4MLhNS5Ak7DHUrbr+dgxHf4umjwA=
+=vOq0
+-----END PGP SIGNATURE-----
+
+--o2rxfoydvcfezv5r--
