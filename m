@@ -1,48 +1,49 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09313D72
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 20:18:14 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id h5so25159949wru.7
-        for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 13:18:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD661C2E;
+	Thu, 25 Aug 2022 20:33:50 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id d5so10761505wms.5;
+        Thu, 25 Aug 2022 13:33:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc;
-        bh=5boySqx/QOquxLdl8JfduLgh/CCKYPrGmebEc48BqF0=;
-        b=jLv3eDLvx9cgcOp5gVtcmROUr2uL6GYDlm8F4RBQWUGoBZn2VuJHqqH7BCvQLkCifO
-         ljH9VuP0Da5A5DQjni+AeAf38v2ml/1zwzOjnYptmctUe7jiHMFLsHoVqZiICXOXNtrf
-         UNp8UCcHyj3io+wolu6mPwkxm8ZqYX7u+sc1RY6WlPTQOd1y9aK3r6hwtRSthvXQhVc6
-         xWW50IGEq7ybZp8R5H9EcpOq/NgBKaZyTmvtg5rXOIesPVsuuCD8rm6S1/Q+SidPCJM0
-         gN0VgnX0bUdIA+RW6Uh+X9EwueDctoU1FcLqMAZCWTt7HVjh7W2mqBAFK1z4fwXj0fIl
-         /Plg==
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=qVqkkNnf4SASPkgKSjn2GG1shVqF3TWmPJPS8FLXE3I=;
+        b=gbr/XcfRW4/g0YwuvJN8eIeMGEpDvRnLXU4M0ltlr36lQlhVjhEpEQ4KTnDurtaN4O
+         cmBGpATpwU8rU88mI1DN6YaK3l0BJ2mzyKsaRD0npSylctOnqFCqk171t3zniI/qIvRv
+         zS7/eZdHgAM+6FuLuxcLD/wejbAY3PxgCycwMZu42It3h7TZKe7YvnApYlP0+ox3B7l9
+         4356e0je1uRA+n5XAfZvswom2ijbgNG9mBOvsQ6VsSn1ruI2P8c7qCgmAj+Yk8Zl9I8T
+         8fxPom+kgbvKMiI1xm18KoF59MMrNlXiwvWSWzODSeDm+HEJnYM+GsNVsvnjU62KNuE3
+         wpqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
-        bh=5boySqx/QOquxLdl8JfduLgh/CCKYPrGmebEc48BqF0=;
-        b=dP5fNl86qC+ZvPwQvUjOijhUIDZIAffHGtf7zsPUOK7cUBrecO97JNVqUaQ7ss9tiU
-         k6pbDH9UNBRPEf1WLvkaIf2wDg21hcHQp9QnFZdf9GUQMez5pmfUW1xlezi6y3Vs13ga
-         gKSTr3d6CuqCNXGJQLR4km7X2g2zYNLTYqUNEdZ265qZtOew4nCg4xEkW2bZ/q4PWxpH
-         gxjKQUbLiI1IostvtAO/kd4Ny/I9SLVJ9FyzpFTfet3uWadqBm+R1x6Q6Q36iG9ofaGn
-         Q//wUcB9cEmcwrblwiRXgOCqLC7Ct7N/CLKLF2A76f+H8udN8XLSkjr8TZZqKOsox574
-         OmLA==
-X-Gm-Message-State: ACgBeo1VgQkLr4x7GQ85a0zan3cdiz8zH0Cemer4rh/nWf0EfMPei1Jo
-	UHyFJLFFv1qymTjp5QVXWiQ=
-X-Google-Smtp-Source: AA6agR7qqebJ62S4jnfJLHIVKwuKG1XL7+sEEI5x6RLTUccSKg0PKv9fP153dYaHKowzV88ZPlHI6w==
-X-Received: by 2002:a05:6000:2a3:b0:225:7ce8:a318 with SMTP id l3-20020a05600002a300b002257ce8a318mr2611163wry.350.1661458692998;
-        Thu, 25 Aug 2022 13:18:12 -0700 (PDT)
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=qVqkkNnf4SASPkgKSjn2GG1shVqF3TWmPJPS8FLXE3I=;
+        b=d9+1ThR8YQzsD7zmySucZvfK9c+VxUT7sn3jbUFV/MW+4GTeKAVxbW4z4zumZVpGy5
+         nHBZ744a6yYT1ZhRFZ4X/xbQem+JP0NgoA6EGXWGkfhOhv4PAzgJ/iHdXMCH64gxy/io
+         7fRP9ySf4lCgvrfo6wWrLI9XCcS7pdPPL/hNAtu9bim/4TBUgiGMLqb7aTwwNIuhQUc5
+         CtoH6nzpkEIRwBxOvAXGZFtQCOzw5zjKo8dM+c+ZKfGKzvJH+qsYBEJWP4zHGwEU2hkR
+         WcN9xMy2j9H63vC+0li+ja/LDDy1HSGKdAQDfv8xac5iC/9Hc/kMd+NGXXnUyHZgph/b
+         VADA==
+X-Gm-Message-State: ACgBeo33ehMuIWKLyk/RaFpoGPq/AllX2si2DSnl5DDdQejO+N4Eb7wF
+	7A5aLki2xu2TmdBb104V0xU=
+X-Google-Smtp-Source: AA6agR5Ynz7Rmm7gcdFxsN3lveFtTF3/kHvW9oN+UTgyFfVQkQRjOaoG2/21rmBBvay2fnTa8CJoVw==
+X-Received: by 2002:a05:600c:3d90:b0:3a6:161b:4d77 with SMTP id bi16-20020a05600c3d9000b003a6161b4d77mr9089022wmb.87.1661459629000;
+        Thu, 25 Aug 2022 13:33:49 -0700 (PDT)
 Received: from kista.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
-        by smtp.gmail.com with ESMTPSA id i186-20020a1c3bc3000000b003a601707174sm242129wma.33.2022.08.25.13.18.12
+        by smtp.gmail.com with ESMTPSA id f16-20020a05600c155000b003a5c75bd36fsm7363625wmg.10.2022.08.25.13.33.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Aug 2022 13:18:12 -0700 (PDT)
+        Thu, 25 Aug 2022 13:33:48 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, maijianzhang <maijianzhang@allwinnertech.com>
-Subject: Re: [PATCH] iio: adc: sun4i-gpadc-iio: adaptation interrupt number
-Date: Thu, 25 Aug 2022 22:18:11 +0200
-Message-ID: <5595575.DvuYhMxLoT@kista>
-In-Reply-To: <YwdhTlk+7h+FMrwm@scg>
-References: <YwdhTlk+7h+FMrwm@scg>
+To: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Sakari Ailus <sakari.ailus@linux.intel.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 0/7] media: sunxi: Add a Kconfig dependencies on RESET_CONTROLLER
+Date: Thu, 25 Aug 2022 22:33:47 +0200
+Message-ID: <4420213.LvFx2qVVIh@kista>
+In-Reply-To: <20220825102035.419087-1-paul.kocialkowski@bootlin.com>
+References: <20220825102035.419087-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -52,41 +53,40 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-Dne =C4=8Detrtek, 25. avgust 2022 ob 13:47:26 CEST je fuyao napisal(a):
-> __platform_get_irq_byname determinies whether the interrupt
-> number is 0 and returns EINVAL.
+Dne =C4=8Detrtek, 25. avgust 2022 ob 12:20:28 CEST je Paul Kocialkowski nap=
+isal(a):
+> Changes since v1:
+> - Added collected tag;
+> - Added cedrus to the list of drivers to fix;
+> - Added fixes tags on all commits as requested.
 >=20
-> Signed-off-by: fuyao <fuyao1697@cyg.com>
+> Paul Kocialkowski (7):
+>   media: sun6i-mipi-csi2: Add a Kconfig dependency on RESET_CONTROLLER
+>   media: sun8i-a83t-mipi-csi2: Add a Kconfig dependency on
+>     RESET_CONTROLLER
+>   media: sun6i-csi: Add a Kconfig dependency on RESET_CONTROLLER
+>   media: sun4i-csi: Add a Kconfig dependency on RESET_CONTROLLER
+>   media: sun8i-di: Add a Kconfig dependency on RESET_CONTROLLER
+>   media: sun8i-rotate: Add a Kconfig dependency on RESET_CONTROLLER
+>   media: cedrus: Add a Kconfig dependency on RESET_CONTROLLER
 
+Looks good. Whole series is:
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
-> ---
->  include/linux/mfd/sun4i-gpadc.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/include/linux/mfd/sun4i-gpadc.h
-> b/include/linux/mfd/sun4i-gpadc.h index ea0ccf33a459..021f820f9d52 100644
-> --- a/include/linux/mfd/sun4i-gpadc.h
-> +++ b/include/linux/mfd/sun4i-gpadc.h
-> @@ -81,8 +81,8 @@
->  #define SUN4I_GPADC_TEMP_DATA				0x20
->  #define SUN4I_GPADC_DATA				0x24
->=20
-> -#define SUN4I_GPADC_IRQ_FIFO_DATA			0
-> -#define SUN4I_GPADC_IRQ_TEMP_DATA			1
-> +#define SUN4I_GPADC_IRQ_FIFO_DATA			1
-> +#define SUN4I_GPADC_IRQ_TEMP_DATA			2
->=20
->  /* 10s delay before suspending the IP */
->  #define SUN4I_GPADC_AUTOSUSPEND_DELAY			10000
-> --
-> 2.32.0
->=20
+>  drivers/media/platform/sunxi/sun4i-csi/Kconfig            | 2 +-
+>  drivers/media/platform/sunxi/sun6i-csi/Kconfig            | 2 +-
+>  drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig      | 2 +-
+>  drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig | 2 +-
+>  drivers/media/platform/sunxi/sun8i-di/Kconfig             | 2 +-
+>  drivers/media/platform/sunxi/sun8i-rotate/Kconfig         | 2 +-
+>  drivers/staging/media/sunxi/cedrus/Kconfig                | 1 +
+>  7 files changed, 7 insertions(+), 6 deletions(-)
 >=20
 > --
-> Technology is exciting
+> 2.37.1
 
 
