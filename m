@@ -1,120 +1,108 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CAF04C74
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 21:25:37 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id bd26-20020a05600c1f1a00b003a5e82a6474so3153223wmb.4
-        for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 14:25:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F124C74
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 21:27:33 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id j26so10838475wms.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 14:27:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=nls6DGbfFRAP957pxJ4lCmbOvdtMF+yoGyK/eIAHqyg=;
-        b=dlpbM58i2Zl35pjmx5L7mRNtdc5YCm71F9sFmlELYER6ov9p1Zhw7Uryp66w+fECkw
-         uWkzwI4ANxiJqV2NAH5qiBvSocnn8gCiQ2esbEPyK9VfrLMG6MP+UW57WsLhfQeb18Xm
-         ywTHy3WQy2y0FYikqc1VoN0s6VRtWmBPqvQ7ayhaGh2a543N2UKdV/DJLzBcZZCckZJ6
-         ioibCRuSXHClGOmbzN9j5ra8iRima6daMxIf45aGXMyoGgBcf5Q8AplMooQ7YxG8j1KJ
-         +wVv5gF0Swo9gXi4Wnksh6Jhf6DtKC3uqCuZv3IfpxDnq0EW8o52F4JCeA7KQe1HLfXz
-         RrSQ==
+        bh=gVyA5Z8on1cy579HoV3noOGIo3WqfSZOmskPQryMgtM=;
+        b=eh/92dgXe0iyyY3sIgffq4zQH1CFGZMuz44bFe8eqZHrFui9w/sE6IF5yB6Fdl31m9
+         q/giSA6K9TF82r9Z7/3a4lVAFzW09wfSy/165AHuuX16K0vRUPKCGD88QxiQrmNNKFx/
+         PNqEaEBMyUErAL98l5VkqMECNhnqLIbgF9x4D6cHJgp36/cUymxzMzQQUJrrxSPR1sbt
+         tHiJVRpf39VhrJtrS58T4jfliailuywTFaV0Thv6p9mpo8wn9z+7N1sXsoBeOU89UV5s
+         QbzmqMrzJx9P96pqjjVEkAMxG/vEgHLJT3Oq/CqKdjvYxbHH4kMnlj0pz7TUi/E6SNFj
+         m1bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=nls6DGbfFRAP957pxJ4lCmbOvdtMF+yoGyK/eIAHqyg=;
-        b=OgMfTmPiU+eYJBBmr5LMReZWrOiMHIf7Ezbv6ku8/oOOnEUChHfLEvmlNz+eWe4VZa
-         o8wf1yh8hOeVlLUAZJkJit9BSEsvG7duohdilx4J8B2h1AIykdPC7uIae7WnE2Q9TPvq
-         +UMsA1dO3xEDGF1qVaT113DUcTP9DNHXQmNqpjoHgbgHYdwXUt/QS2HUpAVHZPhBMMZV
-         une67ZVK0e/lUVeLimGm6AOJ8XvNMOYN89GIgf24in64GZ6pjV3yXtZjQBDHZ93DvbYm
-         tg6ENCQloCZBcZ9yj6Nti/CsJvps2ao5KxCvT61+i1eTdIkNHgzSeJg50SXdttteGm2/
-         QiCQ==
-X-Gm-Message-State: ACgBeo2QkJo3CxR8gtyBiqgY8RwphuJM7dlM9MCatNeJnZGExq2YXomM
-	qJenpPu9HMavWsS35ciuvUI=
-X-Google-Smtp-Source: AA6agR4u4BAmHRat5LFEkPb1QUEY6oOp43RCL7jbGC6PWwiKhCvUcU/tuSQkwukDJ89Tw4ddFY+90Q==
-X-Received: by 2002:a05:600c:b47:b0:3a5:a431:ce36 with SMTP id k7-20020a05600c0b4700b003a5a431ce36mr3484083wmr.89.1661462735769;
-        Thu, 25 Aug 2022 14:25:35 -0700 (PDT)
+        bh=gVyA5Z8on1cy579HoV3noOGIo3WqfSZOmskPQryMgtM=;
+        b=a9v8IOBEUxPvC2eqBdovqHX8Ll18cVuWW9gM1p53ZFS9A9sVCAf6WNLhZ3aqg2SvXz
+         ZraoBSXUsppb8guPuSy42ItMdASVo6cYh9zVIQbF5iE7vmlXd0KWZ2ly18FRDLpnkgZt
+         JSGSk3kCkY8rWjYoMthwo1WCmcgD/4KCd0blEiHvj8TetccjaclNW+HcL3Lr3PgsDbhv
+         LwR5O227pCLOO+TWh1XZHAZK0MuBdUccDO2w+5GOpTCyFVWbXgqceM7Mh/jWc60s1F3Z
+         IaIzECjlrmns+He6a1FRJ/33+SMHwdNZyutwA36A0PCCGsqXvGHyjlC83YK+FFGD1Wx3
+         iIsQ==
+X-Gm-Message-State: ACgBeo30Dd2VNfM4X2N6ZIJvCvEyI90Rc0abKg8MgfzW5qdKCNa5Yi03
+	IySimFuljjogd/UT96xBvGo=
+X-Google-Smtp-Source: AA6agR6cucYg/Du4YLrUO/NU1z88fXBAfmGuIRfE4Qrrqd+tO0lSZk3dovhgHxZZ4bK1jgQbd4MAWw==
+X-Received: by 2002:a05:600c:198e:b0:3a5:d4a2:8896 with SMTP id t14-20020a05600c198e00b003a5d4a28896mr8967780wmq.140.1661462851646;
+        Thu, 25 Aug 2022 14:27:31 -0700 (PDT)
 Received: from kista.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
-        by smtp.gmail.com with ESMTPSA id m5-20020a05600c4f4500b003a64f684704sm7324411wmq.40.2022.08.25.14.25.33
+        by smtp.gmail.com with ESMTPSA id k1-20020a5d6e81000000b0021e8d205705sm242110wrz.51.2022.08.25.14.27.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Aug 2022 14:25:35 -0700 (PDT)
+        Thu, 25 Aug 2022 14:27:31 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: vkoul@kernel.org, Tudor Ambarus <tudor.ambarus@microchip.com>
-Cc: f.fainelli@gmail.com, rjui@broadcom.com, sbranden@broadcom.com, 
-	bcm-kernel-feedback-list@broadcom.com, lars@metafoo.de, 
-	Eugeniy.Paltsev@synopsys.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
-	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com, 
-	sean.wang@mediatek.com, matthias.bgg@gmail.com, daniel@zonque.org, 
-	haojian.zhuang@gmail.com, robert.jarzmik@free.fr, agross@kernel.org, 
-	bjorn.andersson@linaro.org, konrad.dybcio@somainline.org, 
-	alim.akhtar@samsung.com, green.wan@sifive.com, mcoquelin.stm32@gmail.com, 
-	alexandre.torgue@foss.st.com, wens@csie.org, samuel@sholland.org, 
-	ldewangan@nvidia.com, jonathanh@nvidia.com, thierry.reding@gmail.com, 
-	peter.ujfalusi@gmail.com, michal.simek@xilinx.com, tony@atomide.com, 
-	trix@redhat.com, radhey.shyam.pandey@xilinx.com, dmaengine@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	Tudor Ambarus <tudor.ambarus@microchip.com>
-Subject: Re: [PATCH] dmaengine: drivers: Use devm_platform_ioremap_resource()
-Date: Thu, 25 Aug 2022 23:25:33 +0200
-Message-ID: <1922204.usQuhbGJ8B@kista>
-In-Reply-To: <20220820130925.589472-1-tudor.ambarus@microchip.com>
-References: <20220820130925.589472-1-tudor.ambarus@microchip.com>
+To: linux-kernel@vger.kernel.org, Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Alex Deucher <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	"Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
+	Evan Quan <evan.quan@amd.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Russell King <linux@armlinux.org.uk>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, amd-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] gpu: move from strlcpy with unused retval to strscpy
+Date: Thu, 25 Aug 2022 23:27:29 +0200
+Message-ID: <22761203.6Emhk5qWAg@kista>
+In-Reply-To: <20220818210008.6721-1-wsa+renesas@sang-engineering.com>
+References: <20220818210008.6721-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Dne sobota, 20. avgust 2022 ob 15:09:25 CEST je Tudor Ambarus napisal(a):
-> platform_get_resource() and devm_ioremap_resource() are wrapped up in the
-> devm_platform_ioremap_resource() helper. Use the helper and get rid of the
-> local variable for struct resource *. We now have a function call less.
-> 
-> Signed-off-by: Tudor Ambarus <tudor.ambarus@microchip.com>
-> ---
->  drivers/dma/bcm2835-dma.c                      |  4 +---
->  drivers/dma/dma-axi-dmac.c                     |  4 +---
->  drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c |  4 +---
->  drivers/dma/fsl-edma.c                         |  8 +++-----
->  drivers/dma/fsl-qdma.c                         | 10 +++-------
->  drivers/dma/idma64.c                           |  4 +---
->  drivers/dma/img-mdc-dma.c                      |  4 +---
->  drivers/dma/imx-dma.c                          |  4 +---
->  drivers/dma/imx-sdma.c                         |  4 +---
->  drivers/dma/mcf-edma.c                         |  5 +----
->  drivers/dma/mediatek/mtk-hsdma.c               |  4 +---
->  drivers/dma/mmp_pdma.c                         |  4 +---
->  drivers/dma/mmp_tdma.c                         |  4 +---
->  drivers/dma/moxart-dma.c                       |  4 +---
->  drivers/dma/mv_xor_v2.c                        |  7 ++-----
->  drivers/dma/mxs-dma.c                          |  4 +---
->  drivers/dma/nbpfaxi.c                          |  4 +---
->  drivers/dma/pxa_dma.c                          |  4 +---
->  drivers/dma/qcom/bam_dma.c                     |  4 +---
->  drivers/dma/s3c24xx-dma.c                      |  4 +---
->  drivers/dma/sf-pdma/sf-pdma.c                  |  4 +---
->  drivers/dma/sh/usb-dmac.c                      |  4 +---
->  drivers/dma/stm32-dma.c                        |  4 +---
->  drivers/dma/stm32-dmamux.c                     |  4 +---
->  drivers/dma/stm32-mdma.c                       |  4 +---
->  drivers/dma/sun4i-dma.c                        |  4 +---
->  drivers/dma/sun6i-dma.c                        |  4 +---
+Dne =C4=8Detrtek, 18. avgust 2022 ob 23:00:07 CEST je Wolfram Sang napisal(=
+a):
+> Follow the advice of the below link and prefer 'strscpy' in this
+> subsystem. Conversion is 1:1 because the return value is not used.
+> Generated by a coccinelle script.
+>=20
+> Link:
+> https://lore.kernel.org/r/CAHk-=3DwgfRnXz0W3D37d01q3JFkr_i_uTL=3DV6A6G1oU=
+Zcprmk
+> nw@mail.gmail.com/ Signed-off-by: Wolfram Sang
+> <wsa+renesas@sang-engineering.com>
 
-For sun4i-dma.c and sun6i-dma.c:
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
->  drivers/dma/tegra210-adma.c                    |  4 +---
->  drivers/dma/ti/cppi41.c                        | 10 +++-------
->  drivers/dma/ti/omap-dma.c                      |  4 +---
->  drivers/dma/xilinx/zynqmp_dma.c                |  4 +---
->  31 files changed, 38 insertions(+), 106 deletions(-)
+> ---
+>  drivers/gpu/drm/amd/amdgpu/atom.c                   | 2 +-
+>  drivers/gpu/drm/amd/pm/legacy-dpm/legacy_dpm.c      | 2 +-
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 6 +++---
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c           | 2 +-
+>  drivers/gpu/drm/display/drm_dp_helper.c             | 2 +-
+>  drivers/gpu/drm/display/drm_dp_mst_topology.c       | 2 +-
+>  drivers/gpu/drm/drm_mipi_dsi.c                      | 2 +-
+>  drivers/gpu/drm/i2c/tda998x_drv.c                   | 2 +-
+>  drivers/gpu/drm/i915/selftests/i915_perf.c          | 2 +-
+>  drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c             | 2 +-
+>  drivers/gpu/drm/radeon/radeon_atombios.c            | 4 ++--
+>  drivers/gpu/drm/radeon/radeon_combios.c             | 4 ++--
+>  drivers/gpu/drm/rockchip/inno_hdmi.c                | 2 +-
+>  drivers/gpu/drm/rockchip/rk3066_hdmi.c              | 2 +-
+>  drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c              | 2 +-
+>  15 files changed, 19 insertions(+), 19 deletions(-)
 
 
 
