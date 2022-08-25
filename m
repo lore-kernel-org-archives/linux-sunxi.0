@@ -1,146 +1,130 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6F61841
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 14:37:40 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 7C17F5C00A6;
-	Thu, 25 Aug 2022 10:37:39 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Thu, 25 Aug 2022 10:37:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1661438259; x=
-	1661524659; bh=uQZAkfIx3BtXGm6NsJ9y2axRk4c1HylK1+1Iy6cM5qM=; b=c
-	bRaru4GC2gO7/NsJgLNSC7kPw5lEOXfQhCBenCG+ykPTz9ye7y+CqCzJeq8AEqE0
-	GYLg0SLqCPcq17RFjk5QaFP0VPCTsADN7gpBatGAmwILkg4QDrZbnHTKc25eDmMY
-	jsUnjB1v2uKCWO3ppIr30qA0OKt7rqs0bCPSJ6QJQ2ujYz4o8Sun54+WoFh8xEsi
-	EBiQGvVjObDvfYaRGOWOnALcoOqMCkz1BIZ8z6sxITr46WG/nBNyw1DI166mCG3a
-	ucYdoLpAsHrAEhrLD8o7f7O6j+q10F1VjAffT7hrkG8lGgDsubFhOa8PlTL4jgG5
-	N3JuEtdTy3g4lZj4i1tGA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1661438259; x=
-	1661524659; bh=uQZAkfIx3BtXGm6NsJ9y2axRk4c1HylK1+1Iy6cM5qM=; b=d
-	zCzKqjhUGuHGxMq8DZxIHFgJIN0+PZFEen85/okLW7fnVb9RtTB/XzO/S8XTSVH5
-	SDaV4pK3xNTdFVObfPjh/OMsOg+7za5EaZNcnc2GFgktGGR/R8xSc+5miOkLp7c+
-	7MjQn/M4WkhWUCWJdFM2SM2HyGikqt7vGiQaGKKh9800dlQeuZ7ej2rzFKITfVQS
-	VVM4ek89oEIDz6wlFhiR9Zd7QDH9abVd/Xnf6KKwnZWzYjIuwdjX4LXta+KWrosS
-	cujV9P1xiV8P+MVXcCo3n1+wCqt/ZaPv46gV4iBAH5s4duWayYiduDY2+ZYxxiCn
-	QrBY1Zcz9Hi6ZV7kx3nuw==
-X-ME-Sender: <xms:MokHY9ytPkTelAYkCj0iAzVWDqlrgLIGuw0E_hxgdx2iyzD0l8oFrA>
-    <xme:MokHY9TKqbXS0yMdtPT3tS84Lb1DwPQqoF7k8cZgsWUnLSCMRLnfCZEZLjKiKiE7s
-    8jhHZ6JJdcCWH3ikA>
-X-ME-Received: <xmr:MokHY3UsVrDjl35b9s1YJpNcsdIjn0VHXocn46bjZw51AuAt7y4dqAmZy99kkEWAH4NeC2d2MFdZPNToC6_Vnkt01oSEy9cndwzwnxlAME8Yn75E2j_0Q4yelQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejfedgjeekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpeeitedvhfejhfdvjefggeeutdegteejfffgvedtjedukefgueek
-    tddtvdegfedtgfenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhl
-    rghnugdrohhrgh
-X-ME-Proxy: <xmx:MokHY_h3YTcDjZq0MRYPBf26oIlQvEjMzMId5yc-Ay03yFu7MNu2qQ>
-    <xmx:MokHY_CoLAv5UX4krtnT5UK1jnBH7SrUcBfwqNTlOYvd21H11pHC9Q>
-    <xmx:MokHY4Iq8j-Jkd-3UOB6BRLmn4qtxtYRxkv46gHUHCLyDlnJso79wA>
-    <xmx:M4kHY_wMZpDE9efVbs_vbH2-tFpL-K1rK9zFl-k-J0r4XT05Xy_C4w>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 25 Aug 2022 10:37:38 -0400 (EDT)
-Subject: Re: [PATCH 4/8] dt-bindings: sun6i-a31-mipi-dphy: Add the A100 DPHY
- variant
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Maxime Ripard <maxime@cerno.tech>, Rob Herring <robh+dt@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20220812075603.59375-1-samuel@sholland.org>
- <20220812075603.59375-5-samuel@sholland.org> <YwdRvBSGDNIUOMnH@aptenodytes>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <95464d37-6da5-1f63-8f21-93ede5666312@sholland.org>
-Date: Thu, 25 Aug 2022 09:37:37 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D1233E0
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 15:13:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=ds1ED9/E8RnGTPOcmFhmM3nxfl6XFIk5DEUz5wvPIYY=; b=XM7AfOD/00Npw2p+NjBfouwELf
+	I9bRHc2R4q55W61qDwzprV6raEBmp4A4jIPmklgYwmujyF0ZIsrepW67YNfWDpYTQejiqU9UfqPgu
+	mLwLWAV5zakGYqrErCtzYBGrEqWkK/I2qst6oBbL5qVI12WDJ14XSDOOvRgSJlxheFZKfmjx5bf4n
+	Gk+1H7L8wo6G2gMVjrLOhbMm1TG24aLDoJYl7EU+tXEf21icteOQdosRQJ5RsbGNc2n6g9FGV4VH8
+	RrJn1xVGCUvZumcitD1aHU1U76EUa9VdCG9QH08Xd74yBAyeiWBUMrUxhU5cSSEYP/n3RhqRonkjf
+	lUzM52kQ==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=49886)
+	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <noralf@tronnes.org>)
+	id 1oREY2-0007oo-36; Thu, 25 Aug 2022 17:13:34 +0200
+Message-ID: <863beb42-1012-b38a-0c3d-89b7e035aa82@tronnes.org>
+Date: Thu, 25 Aug 2022 17:13:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YwdRvBSGDNIUOMnH@aptenodytes>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
+ <narmstrong@baylibre.com>, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Dom Cobley <dom@raspberrypi.com>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
+ <noralf@tronnes.org>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+ <37a76651-a457-e50d-9a05-00ca9ed5d729@tronnes.org>
+ <20220825134408.dioj2lbycl7jm3ld@houat>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220825134408.dioj2lbycl7jm3ld@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 8/25/22 5:41 AM, Paul Kocialkowski wrote:
-> Hi Samuel,
-> 
-> On Fri 12 Aug 22, 02:55, Samuel Holland wrote:
->> A100 features an updated DPHY, which moves PLL control inside the DPHY
->> register space. (Previously PLL-MIPI was controlled from the CCU. This
->> does not affect the "clocks" property because the link between PLL-MIPI
->> and the DPHY was never represented in the devicetree.) It also requires
->> a modified analog power-on sequence. Finally, the new DPHY adds support
->> for operating as an LVDS PHY. D1 uses this same variant.
-> 
-> Do you have some pointers about that? I'd be surprised that this PHY is now
-> used for "traditional" LVDS display output, which is usually done with a simpler
-> LVDS phy attached to the display controller.
 
-Yes, this is documented in the A133 User Manual. As for the BSP code, see:
 
-https://github.com/Tina-Linux/tina-d1x-linux-5.4/blob/master/drivers/video/fbdev/sunxi/disp2/disp/de/lowlevel_v2x/de_dsi.c#L773
-https://github.com/Tina-Linux/tina-d1x-linux-5.4/blob/master/drivers/video/fbdev/sunxi/disp2/disp/de/lowlevel_v2x/de_lcd_sun50iw10.c#L390
-https://github.com/Tina-Linux/tina-d1x-linux-5.4/blob/master/drivers/video/fbdev/sunxi/disp2/disp/de/disp_lcd.c#L786
-
-Regards,
-Samuel
-
-> However I've seen that some new Allwinner SoCs come with sub-LVDS camera input,
-> which typically requires a more complex PHY due to the high number of lanes.
+Den 25.08.2022 15.44, skrev Maxime Ripard:
+> Hi,
 > 
-> Anyway for now this is:
-> Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> 
-> Cheers,
-> 
-> Paul
-> 
->> Signed-off-by: Samuel Holland <samuel@sholland.org>
->> ---
+> On Sat, Aug 20, 2022 at 10:12:46PM +0200, Noralf Trønnes wrote:
+>>> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+>>> index 1e9996b33cc8..78275e68ff66 100644
+>>> --- a/include/drm/drm_connector.h
+>>> +++ b/include/drm/drm_connector.h
+>>> @@ -143,6 +143,32 @@ enum subpixel_order {
+>>>  
+>>>  };
+>>>  
+>>> +#define DRM_MODE_TV_NORM_NTSC_443	(1 << 0)
+>>> +#define DRM_MODE_TV_NORM_NTSC_J		(1 << 1)
+>>> +#define DRM_MODE_TV_NORM_NTSC_M		(1 << 2)
+>>> +#define DRM_MODE_TV_NORM_PAL_60		(1 << 3)
+>>> +#define DRM_MODE_TV_NORM_PAL_B		(1 << 4)
+>>> +#define DRM_MODE_TV_NORM_PAL_D		(1 << 5)
+>>> +#define DRM_MODE_TV_NORM_PAL_G		(1 << 6)
+>>> +#define DRM_MODE_TV_NORM_PAL_H		(1 << 7)
+>>> +#define DRM_MODE_TV_NORM_PAL_I		(1 << 8)
+>>> +#define DRM_MODE_TV_NORM_PAL_M		(1 << 9)
+>>> +#define DRM_MODE_TV_NORM_PAL_N		(1 << 10)
+>>> +#define DRM_MODE_TV_NORM_PAL_NC		(1 << 11)
+>>> +#define DRM_MODE_TV_NORM_SECAM_60	(1 << 12)
+>>> +#define DRM_MODE_TV_NORM_SECAM_B	(1 << 13)
+>>> +#define DRM_MODE_TV_NORM_SECAM_D	(1 << 14)
+>>> +#define DRM_MODE_TV_NORM_SECAM_G	(1 << 15)
+>>> +#define DRM_MODE_TV_NORM_SECAM_K	(1 << 16)
+>>> +#define DRM_MODE_TV_NORM_SECAM_K1	(1 << 17)
+>>> +#define DRM_MODE_TV_NORM_SECAM_L	(1 << 18)
+>>> +#define DRM_MODE_TV_NORM_HD480I		(1 << 19)
+>>> +#define DRM_MODE_TV_NORM_HD480P		(1 << 20)
+>>> +#define DRM_MODE_TV_NORM_HD576I		(1 << 21)
+>>> +#define DRM_MODE_TV_NORM_HD576P		(1 << 22)
+>>> +#define DRM_MODE_TV_NORM_HD720P		(1 << 23)
+>>> +#define DRM_MODE_TV_NORM_HD1080I	(1 << 24)
+>>> +
 >>
->>  .../bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml           | 4 ++++
->>  1 file changed, 4 insertions(+)
+>> This is an area where DRM overlaps with v4l2, see:
+>> - include/dt-bindings/display/sdtv-standards.h
+>> - v4l2_norm_to_name()
 >>
->> diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
->> index cf49bd99b3e2..b88c4b52af7d 100644
->> --- a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
->> +++ b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
->> @@ -17,9 +17,13 @@ properties:
->>    compatible:
->>      oneOf:
->>        - const: allwinner,sun6i-a31-mipi-dphy
->> +      - const: allwinner,sun50i-a100-mipi-dphy
->>        - items:
->>            - const: allwinner,sun50i-a64-mipi-dphy
->>            - const: allwinner,sun6i-a31-mipi-dphy
->> +      - items:
->> +          - const: allwinner,sun20i-d1-mipi-dphy
->> +          - const: allwinner,sun50i-a100-mipi-dphy
->>  
->>    reg:
->>      maxItems: 1
->> -- 
->> 2.35.1
->>
+>> Maybe we should follow suit, but if we do our own thing please mention
+>> why in the commit message.
+> 
+> Are you suggesting that we'd share that definition with v4l2?
 > 
 
+If possible, yes.
+
+> I've tried to share some code in the past between v4l2 and DRM, and it
+> got completely shut down so it's not something I'd like to try again, if
+> possible.
+> 
+
+But that is a good enough reason not to do so. I just got the impression
+from some of Laurent's emails a while back that there was some
+cooperativ atmosphere, but I might be mistaken in my reading/understanding.
+
+It is ofc possible to just copy the values from sdtv-standards.h, but I
+see that hd* is missing from that list, so not sure if there's much
+point if it has to be extended without changing the source.
+
+We can at least use the names from v4l2_norm_to_name(), but from a quick
+look it seems you already do so.
+
+Noralf.
