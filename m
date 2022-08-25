@@ -1,55 +1,56 @@
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E4592F57
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 13:44:13 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 19B495801FA;
-	Thu, 25 Aug 2022 09:44:12 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Thu, 25 Aug 2022 09:44:12 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19B1E323B
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 14:22:37 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailnew.nyi.internal (Postfix) with ESMTP id AD0985802EA;
+	Thu, 25 Aug 2022 10:22:36 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Thu, 25 Aug 2022 10:22:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
 	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1661435052; x=1661442252; bh=AjAS+mxokB
-	mADly8X+bwM1z4OrzJr2RjjjUhIDL33q8=; b=aBX2Pd5RY+tOBxJp7Q9Kg9QlAE
-	xXlvpoCjmRubOY7P6I+BHGd97QgDL2AVDpf/PUw0n7ySzAAszNwsNCpT3/6eJzEW
-	ZBFbOi70av8ROP3lP1CdNz7yZvvHR/yrhtbwEMZXtNh1HL3cI89A8wGRa9C3E9UV
-	A+c4wlyqASoo87i0QjufCH7CVRVRSRpTF4nNZ+0z8qGhWYKmg0+XYW0ib5ztTETf
-	xuwCqRc6LcdjmDg3dNjTRco2xb/pl71VGwBtufxCc+xvEUJIhri0VnpUdOWsAqo7
-	mhYCwDVlz5GLR452UO+zMhnOwRTjRxovWcbVEQ9qzK6llfkPNdv4zxVP50SA==
+	:subject:to:to; s=fm3; t=1661437356; x=1661444556; bh=RV6+m2/IKb
+	pNbL3HnR/lfcPmXYFzOBcMOHuOZs1FFyw=; b=CoblA8c/dnDMqygK3KshyENrTM
+	fgwrKQXIdYl00cHPmW0wVRXvGhEchAKnHak9wTrZ6EfJoH9YiDWAvp9oDp07Y9sh
+	OCZR6oXWF32en10uhsYJ9W8pgGr38sx5CQY4s4LIRa0cTcUsgTGLXebcK/pPwaaY
+	1uy3XCwk9EF+RexMg09Q1HPP9Ou7E2GAj81nbnQAnG66FLwNZ1YAr2BtEojJm8X1
+	KEE0Ho5Xc+S0HTVtusXPrBBqgDv9fX+hm2x9nqZapuPIdhzwcys+lhP90xyQykyO
+	LgQ3kDAK49zHpLe7zq36mmE9vYTA48A49w6gBZfKI2Sun5Y/C46VoJ91YpQQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
 	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
 	:mime-version:references:reply-to:sender:subject:subject:to:to
 	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1661435052; x=1661442252; bh=AjAS+mxokBmADly8X+bwM1z4OrzJ
-	r2RjjjUhIDL33q8=; b=wbLRi+/MnqRVf8XYD5hMxddwmSfrpNixFPg+0EmqSYBx
-	jwROxs3/NjSL4LioG7sMaH+N8R/T1ro+6MeZQhmS/n89Q/3oJvLaXlNTeOANhQYk
-	W6i066GwHdY+6za9liIVlBS/mMTKwUJ1LVKqRc24ThfkFz4zMBCsNU6xG4okTCZj
-	YEXbQS0vrV4RKuYPBM0zprcS2is85jC2ukDCfYhR0kK7Ci75uG10EPLAzpz1TczY
-	IyS3ORjSCMDrsJNgVegd7cn6gWbb4OlQlwBobnbEIt9Wo5ghJpCHAuM/FaSTEeen
-	BqUrteGdd4JGYA9bRf2PwsmPhm2ZQTF1aKqCLfAkvA==
-X-ME-Sender: <xms:q3wHYwJEFPKwRD-bJ0WNXQpQ6u0YGXCm5ZZAHqJAbi145PikINxAlw>
-    <xme:q3wHYwLdiP1ka_ZE7YIIi9kgJ_cUq0KUIcUngIQW9aUxkAVprI2YOaS0NAaO1vNIv
-    0HUL2DMMQ5V3h-Hhxs>
-X-ME-Received: <xmr:q3wHYws-Dltmw0Gwp92UWSQjXICrzHSGC5rZK5B0Dvbc7RqFM0P7kaZ1mIM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejfedgieejucetufdoteggodetrfdotf
+	fm1; t=1661437356; x=1661444556; bh=RV6+m2/IKbpNbL3HnR/lfcPmXYFz
+	OBcMOHuOZs1FFyw=; b=1PElorIivv3D3E2Mtug4cGsBBBJnlc7vsnd4WXFjzT31
+	ovdC1Vq8l+4ZlV4/f0pCFGOZbczdPMICmJXeALmDpHygU6bmWSpg+0Hap/CBpc+d
+	qotUptK8G4kZ2vUnk9nIQYXhUcwioVRuAL1SWNlQfNhyHumuAtl+ODAvc4JVjTuh
+	4wSKb/bEMXZVq2SqYIzgqVyQtvEdz3UNbUlfWzn3EkOjMaOQ6CfkC84L0RA/SHFE
+	/krvVs/w1gPleAbJ2DwLdX9l8ZVk761KsN9BUO69GQBLvwkQDgtWm4LMboWPvpUG
+	gBYI+340H+o1H7DodoQmB25GR7dSXroyrITqcLzn9w==
+X-ME-Sender: <xms:rIUHY2yh60Mi5u6ajiw4CedkuXPivu_kAm2BnrvS4nuy4cL631jadw>
+    <xme:rIUHYyTf4F3loMDCft_qY_V9MVnmi_9Rk-q916taI4AghgIF35IxUVntDCQMyMonx
+    fCqccYDGInEN6W5D54>
+X-ME-Received: <xmr:rIUHY4WyyeXKH9A_r_pqFP-Tgxb_GzgK-qopajLDCLr4nTbMnEJcfUzNIHQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejfedgjeehucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
     mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
-    ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:q3wHY9a41ZGeJtSzfcaj6aGoJPhwlf8ciS6VwRTvQfHeJUCOksk2RA>
-    <xmx:q3wHY3a7m1F_nSW3ahQtqPfda5UN-wj-3jRwNvzxCt-5sJwCBzpMtA>
-    <xmx:q3wHY5BxaU8J5xmINtViC1twyVZYYENBvV6Erv1zpi7DQAOGQbFhlQ>
-    <xmx:rHwHY0KHVaeKaL82Q-OroPeXq2HQX9yNggQVAJkSmXZDju0qAhQ1cA>
+    htthgvrhhnpeeljeeugfegveetleevkeetffegudevieetieeugeeugeeivddtjeejvdef
+    feetgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+    hh
+X-ME-Proxy: <xmx:rIUHY8jswzoS4PJSLbnlzLHBEnUsTo1_QsEBnuImvDqrsQcsoWlGRg>
+    <xmx:rIUHY4BFywCbEVwtuLs-2MGOeEvVD1jQWslkPmAKZj1VcYam89kWgQ>
+    <xmx:rIUHY9Iz5IlFuF9jYxe3a-sJm8pP6FgK3Bkp6fUwE8z6N0vwu33i-Q>
+    <xmx:rIUHY6zhSdc7OGetpahmgv3J2Pd83tE7OL0PYhg5A5rkAlwx4Cm7vQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 25 Aug 2022 09:44:10 -0400 (EDT)
-Date: Thu, 25 Aug 2022 15:44:08 +0200
+ 25 Aug 2022 10:22:35 -0400 (EDT)
+Date: Thu, 25 Aug 2022 16:22:33 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -72,11 +73,11 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
 	Dom Cobley <dom@raspberrypi.com>
-Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
-Message-ID: <20220825134408.dioj2lbycl7jm3ld@houat>
+Subject: Re: [PATCH v1 35/35] drm/modes: Introduce more named modes
+Message-ID: <20220825142233.po6yh5outlhwih73@houat>
 References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
- <37a76651-a457-e50d-9a05-00ca9ed5d729@tronnes.org>
+ <20220728-rpi-analog-tv-properties-v1-35-3d53ae722097@cerno.tech>
+ <ba36ab96-962e-2b99-30fd-f62d51e06b47@tronnes.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -84,78 +85,82 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ztityevrt7lawo2u"
+	protocol="application/pgp-signature"; boundary="ymrrl4zdj4mfkoha"
 Content-Disposition: inline
-In-Reply-To: <37a76651-a457-e50d-9a05-00ca9ed5d729@tronnes.org>
+In-Reply-To: <ba36ab96-962e-2b99-30fd-f62d51e06b47@tronnes.org>
 
 
---ztityevrt7lawo2u
+--ymrrl4zdj4mfkoha
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Sat, Aug 20, 2022 at 10:12:46PM +0200, Noralf Tr=F8nnes wrote:
-> > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> > index 1e9996b33cc8..78275e68ff66 100644
-> > --- a/include/drm/drm_connector.h
-> > +++ b/include/drm/drm_connector.h
-> > @@ -143,6 +143,32 @@ enum subpixel_order {
-> > =20
-> >  };
-> > =20
-> > +#define DRM_MODE_TV_NORM_NTSC_443	(1 << 0)
-> > +#define DRM_MODE_TV_NORM_NTSC_J		(1 << 1)
-> > +#define DRM_MODE_TV_NORM_NTSC_M		(1 << 2)
-> > +#define DRM_MODE_TV_NORM_PAL_60		(1 << 3)
-> > +#define DRM_MODE_TV_NORM_PAL_B		(1 << 4)
-> > +#define DRM_MODE_TV_NORM_PAL_D		(1 << 5)
-> > +#define DRM_MODE_TV_NORM_PAL_G		(1 << 6)
-> > +#define DRM_MODE_TV_NORM_PAL_H		(1 << 7)
-> > +#define DRM_MODE_TV_NORM_PAL_I		(1 << 8)
-> > +#define DRM_MODE_TV_NORM_PAL_M		(1 << 9)
-> > +#define DRM_MODE_TV_NORM_PAL_N		(1 << 10)
-> > +#define DRM_MODE_TV_NORM_PAL_NC		(1 << 11)
-> > +#define DRM_MODE_TV_NORM_SECAM_60	(1 << 12)
-> > +#define DRM_MODE_TV_NORM_SECAM_B	(1 << 13)
-> > +#define DRM_MODE_TV_NORM_SECAM_D	(1 << 14)
-> > +#define DRM_MODE_TV_NORM_SECAM_G	(1 << 15)
-> > +#define DRM_MODE_TV_NORM_SECAM_K	(1 << 16)
-> > +#define DRM_MODE_TV_NORM_SECAM_K1	(1 << 17)
-> > +#define DRM_MODE_TV_NORM_SECAM_L	(1 << 18)
-> > +#define DRM_MODE_TV_NORM_HD480I		(1 << 19)
-> > +#define DRM_MODE_TV_NORM_HD480P		(1 << 20)
-> > +#define DRM_MODE_TV_NORM_HD576I		(1 << 21)
-> > +#define DRM_MODE_TV_NORM_HD576P		(1 << 22)
-> > +#define DRM_MODE_TV_NORM_HD720P		(1 << 23)
-> > +#define DRM_MODE_TV_NORM_HD1080I	(1 << 24)
-> > +
+On Sun, Aug 21, 2022 at 06:16:15PM +0200, Noralf Tr=F8nnes wrote:
 >=20
-> This is an area where DRM overlaps with v4l2, see:
-> - include/dt-bindings/display/sdtv-standards.h
-> - v4l2_norm_to_name()
 >=20
-> Maybe we should follow suit, but if we do our own thing please mention
-> why in the commit message.
+> Den 29.07.2022 18.35, skrev Maxime Ripard:
+> > Now that we can easily extend the named modes list, let's add a few more
+> > analog TV modes that were used in the wild, and some unit tests to make
+> > sure it works as intended.
+> >=20
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >=20
+> > diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> > index 3634ac9f787d..09ed5ce7746d 100644
+> > --- a/drivers/gpu/drm/drm_modes.c
+> > +++ b/drivers/gpu/drm/drm_modes.c
+> > @@ -1853,7 +1853,9 @@ struct drm_named_mode {
+> > =20
+> >  static const struct drm_named_mode drm_named_modes[] =3D {
+> >  	{ "NTSC", &drm_mode_480i, DRM_MODE_TV_NORM_NTSC_M, },
+> > +	{ "NTSC_J", &drm_mode_480i, DRM_MODE_TV_NORM_NTSC_J, },
+> >  	{ "PAL", &drm_mode_576i, DRM_MODE_TV_NORM_PAL_B, },
+> > +	{ "PAL_M", &drm_mode_480i, DRM_MODE_TV_NORM_PAL_M, },
+>=20
+> Please use a dash instead of an underscore to keep it consistent with
+> what's used elsewhere.
 
-Are you suggesting that we'd share that definition with v4l2?
+Yeah, I tried not to use it since I didn't want to cripple the parser
+with bad heuristics, but Geert has done a much better job than my
+attempts here:
+https://lore.kernel.org/dri-devel/2eb205da88c3cb19ddf04d167ece4e16a330948b.=
+1657788997.git.geert@linux-m68k.org/
 
-I've tried to share some code in the past between v4l2 and DRM, and it
-got completely shut down so it's not something I'd like to try again, if
-possible.
+I've taken that patch in, renamed the modes and we already have unit
+tests in other patches to cover that part of the parser.
+
+> I tried to use PAL and set the connector as connected, but that didn't
+> work: video=3DComposite-1:PALe
+>=20
+> Is this a bug and it should work or should it be phrased differently?
+
+I'm not sure. We never supported something like that so far, because the
+expectation is that if it starts with a letter, it's a named mode. Thus
+the named mode is PALe in your case, which doesn't match.
+
+I'm not even sure what would be a good heuristic to support it, since
+interpreting any e, E, or D as the last letter seems like a recipe for
+disaster when some modes might legitimately end with e or d.
+
+> It would have been nice to get a warning in the log if the parser fails
+> to understand.
+>=20
+> This very verbose version did work:
+> video=3DComposite-1:720x576@50ie,tv_mode=3DPAL-B
+
+I think that's what we should be using in that case.
 
 Maxime
 
---ztityevrt7lawo2u
+--ymrrl4zdj4mfkoha
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYwd8qAAKCRDj7w1vZxhR
-xbq9AP9Ut8DrTs4R98n7uEJ4qsWpbIOQoxH89Co6dV81OZDd4AD/XTYHIrgOsCVX
-KF7npRlfSwUkz5ZgJBgTt5iDHapUmAQ=
-=Heqx
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYweFqQAKCRDj7w1vZxhR
+xV/2AQCEOkXsmNlZMo+QfkCyGaznRmqYioamDTNeMIZ2vMGfKQD/SIdv50hSYVi7
+cHftkdI6Lpbb3uTtIrSd+FFDTn/z7wM=
+=miGi
 -----END PGP SIGNATURE-----
 
---ztityevrt7lawo2u--
+--ymrrl4zdj4mfkoha--
