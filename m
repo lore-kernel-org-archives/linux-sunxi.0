@@ -1,47 +1,45 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E47186F
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Aug 2022 17:08:30 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id q7so21190069lfu.5
-        for <linux-sunxi@lists.linux.dev>; Wed, 24 Aug 2022 10:08:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F0F7B
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 06:13:13 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id s8so958133ljj.5
+        for <linux-sunxi@lists.linux.dev>; Wed, 24 Aug 2022 23:13:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
-         :from:from:to:cc;
-        bh=d+0sUP6TSKAiALBIXDZGYdNvi1F0yA0KJXnjoK2G2T8=;
-        b=o3Gvvtf7KSV4tiw6VYPIJEAh479Uovr253pXVInVVaECnk6jFELDM6fxh9wl8+9FsW
-         17R1qztaIRSST5xXH/PTplmH3+scKpeeAADuFYik2/15xjAz/2n3RdtU80ceqJ/sYCkr
-         o7OX+zS4VJqL8EQDEgFSWpqS8tRSAK3rfe4sEEwa1m1m1ThQK4aElW43U7P1TaQIbJiB
-         p2lv2+LNFuRXaqnOJbnZNRnrqXJgL66+fz6VBLS9wCEwnmuOM48+6upvyp2JhhRlI1Wr
-         jjCcDSezsqKhjLcL8vsnBJkcFKCwQKpT9QQ2M9OJA6RYaN0Wz7tvgxK55ayzuGzRplq9
-         KOsQ==
+         :from:to:cc;
+        bh=wXqYQNt6cQwwovEWaPctQuIwu12r6o/ryFEQHXvmidw=;
+        b=Z8V/D1iHr+3qt3pSFcQ5ZOeH0iO4G/pHn+XoNotaIYjxtt+oIh0RJD9YL3fzn6NmF2
+         keRguEOY+JCT3rPJ4clH8kP1+xBJEQvelpo2RA91EyugRKUr7jACpJxh49EkA75pYy+R
+         4u1FzXdV5fEX3vnN7Uuu1Tcxfrs4J3riE0OLKIGGS8Wuio93l6VtWFG3NUMbWDRZ2XIj
+         m3cArYVlka9n7JbWg2A0+Pbrvx+Afr3ku+XlfM8+eqZ6HURCFjdxteLrXE0IuPmQJzai
+         lUJDfZtzcC0W0+lYdbZeAgdnRKGwUbTbD/6hq31m3HOs5yzAyK5n0yqIel30J6Tw8bSs
+         OHBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
-         :from:x-gm-message-state:from:to:cc;
-        bh=d+0sUP6TSKAiALBIXDZGYdNvi1F0yA0KJXnjoK2G2T8=;
-        b=niFALf9iV+P+egCvV2rkDOy8jDmIr+nNf/hli1qKPuTGQTLQkMwfgtLogle5H776m/
-         Lc0MKsgmVE/h1d/KIa760wyBGNyUiaITbyGox0C28mohTHGUHg/2CJE+/bpN2qqpI4OM
-         UzGbJJk+Fvg4D+I/x7M9bTXXeNKCGwxdaA+fbWZ/7qBU/4rvrOMka1/rRKNeDoibIS6H
-         i0juEFIFH5RoVMGUhHYoSQT2ElkxTuEmJKgVgD2FHyVFtL5KSq5NOajFDRY9ceifsrZh
-         R4zBNqKfR3sao+SHw6XbjEsNbopEGu5y7X2/ld1Wg3V+lVTdRpISG5vUa9qMG2HvRr2n
-         l0NQ==
-X-Gm-Message-State: ACgBeo3XjMyvK7kqnchgQMjE4g8eFnotCSBEOJ6wgO4Vt2CGhB2E6z4t
-	CuEUfesiYCRrNNRVxBME8vE=
-X-Google-Smtp-Source: AA6agR5cz1tKv0yfrrQuMBGx5Y9mKvqvHWQ2qHORxA31eXjsfhACgWXyuZD/7Wc/aX7wwd3M3XFp3w==
-X-Received: by 2002:a05:6512:22d3:b0:48c:df73:d0a4 with SMTP id g19-20020a05651222d300b0048cdf73d0a4mr10044284lfu.584.1661360908835;
-        Wed, 24 Aug 2022 10:08:28 -0700 (PDT)
-Received: from [10.10.53.53] (81-18-220-16.static.chello.pl. [81.18.220.16])
-        by smtp.googlemail.com with ESMTPSA id j24-20020ac253b8000000b00492df78f311sm13975lfh.57.2022.08.24.10.08.27
+         :x-gm-message-state:from:to:cc;
+        bh=wXqYQNt6cQwwovEWaPctQuIwu12r6o/ryFEQHXvmidw=;
+        b=UDP5xsEabnTdAw6aNsFNcU3cFqihapxK0DTveS5KFtXo+JpEJw/3fueNZ16JvjOErh
+         JBAPkevJOkaDgRdXrevL8onAfOqR9zi4VUQjyUueajctKrnwcXqEvhTG7h7vlpXfTQxe
+         2ZYqHMBNdMVZUoJ9Y+7m/+lZlK80j/asWWCDVQ0XeVmYV4E5ntegYM7FdbnB6BO3Xa+2
+         n3rCncRGnLP8JTTfI70U49rpxaHdKEt4U6F9DRjaKMqMplbNpklAySMR3NCNhrdqx6qu
+         iroTYo9M4HcT7mO078Dn94y5J5wqPrf4+dTU1RGgizHzOosUzmplb1bEYeVPN3/nhdyx
+         Hb+g==
+X-Gm-Message-State: ACgBeo1oEnh+eXXPcvdIZEitZLBvw9RemcZRk9B9Ia9By9qwdXYiQ0jV
+	zJ0x09iOme9TU+GCrtrzqMzyCA==
+X-Google-Smtp-Source: AA6agR4m4Z9GwEQ+k4jSc0Z8Nk2/b5GFxRJY/8LmssR1LVZFSvwsKEH0v/tzq4so1SvajWcwWWcQxw==
+X-Received: by 2002:a2e:9913:0:b0:261:ccfa:da6d with SMTP id v19-20020a2e9913000000b00261ccfada6dmr580559lji.269.1661407991448;
+        Wed, 24 Aug 2022 23:13:11 -0700 (PDT)
+Received: from [192.168.0.71] (82.131.98.15.cable.starman.ee. [82.131.98.15])
+        by smtp.gmail.com with ESMTPSA id p3-20020ac24ec3000000b00492b494c4e8sm301859lfr.298.2022.08.24.23.13.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Aug 2022 10:08:28 -0700 (PDT)
-From: Mateusz Kwiatkowski <kfyatek@gmail.com>
-X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Message-ID: <baee6917-dada-9ab2-9244-d6679e91033f@gmail.com>
-Date: Wed, 24 Aug 2022 19:08:26 +0200
+        Wed, 24 Aug 2022 23:13:10 -0700 (PDT)
+Message-ID: <9f293197-b4f9-c53c-ead4-08e2113d9c8d@linaro.org>
+Date: Thu, 25 Aug 2022 09:13:09 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -49,74 +47,50 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
- command-line option
+ Thunderbird/91.12.0
+Subject: Re: [PATCH] dt-bindings: mfd: Add missing
+ (unevaluated|additional)Properties on child nodes
 Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
- <narmstrong@baylibre.com>, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Dom Cobley <dom@raspberrypi.com>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-34-3d53ae722097@cerno.tech>
- <eedb1a86-c1fb-cc76-2a43-4ed349d7d826@tronnes.org>
- <20220824154543.bdtpz2evwzsjrdrz@houat>
-In-Reply-To: <20220824154543.bdtpz2evwzsjrdrz@houat>
+To: Rob Herring <robh@kernel.org>, Lee Jones <lee@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Tim Harvey <tharvey@gateworks.com>, Robert Jones <rjones@gateworks.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Heiko Stuebner <heiko@sntech.de>,
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Maxime Ripard <mripard@kernel.org>, - <patches@opensource.cirrus.com>,
+ Steve Twiss <stwiss.opensource@diasemi.com>, Chris Zhong
+ <zyw@rock-chips.com>, Zhang Qing <zhangqing@rock-chips.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Amelie Delaunay <amelie.delaunay@foss.st.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Renner Berthing <kernel@esmil.dk>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <20220823145649.3118479-4-robh@kernel.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220823145649.3118479-4-robh@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi Maxime & Noralf,
+On 23/08/2022 17:56, Rob Herring wrote:
+> In order to ensure only documented properties are present, node schemas
+> must have unevaluatedProperties or additionalProperties set to false
+> (typically).
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
 
-W dniu 24.08.2022 o 17:45, Maxime Ripard pisze:
-> Hi Noralf,
->
-> On Sat, Aug 20, 2022 at 10:18:47PM +0200, Noralf Trønnes wrote:
->> Den 29.07.2022 18.35, skrev Maxime Ripard:
->>> Our new tv mode option allows to specify the TV mode from a property.
->>> However, it can still be useful, for example to avoid any boot time
->>> artifact, to set that property directly from the kernel command line.
->>>
->>> Let's add some code to allow it, and some unit tests to exercise that code.
->>>
->>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->>>
->>
->> In the subject it says "tv_mode property", but the property is called
->> "tv norm", so the option should be tv_norm?
->
-> Yeah... I don't know. mode is taken but it's obviously the best name. So
-> I went with norm to avoid the (internal) conflict but I left mode for
-> the user facing property.
->
-> I'm not sure what's best here, or maybe we can pick another name entirely?
 
-I think "standard" and "system" are also fairly common names for this property.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-I once had an old multi-standard Sharp CRT TV that allowed manually selecting
-the expected color encoding (PAL/SECAM/NTSC/NTSC-443), and the relevant button
-on the remote was labeled "SYSTEM".
-
-V4L2 calls this "standard", see include/uapi/linux/videodev2.h, compare with
-v4l2_std_id, V4L2_STD_* etc.
-
-BTW, maybe reusing those V4L2 constants, or aligning the numerical values,
-would make some sense?
-
->
-> Maxime
 
 Best regards,
-Mateusz Kwiatkowski
+Krzysztof
