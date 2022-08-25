@@ -1,70 +1,48 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E603D72
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 19:48:57 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id bs25so25915701wrb.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 12:48:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09313D72
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 20:18:14 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id h5so25159949wru.7
+        for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 13:18:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=EEQaOMPMio1TV/1T2nsXijwtVuTW2Re2GSl+fTHb2hE=;
-        b=EOSwTGoA0nee7KFDbY0hqShMabo5lvAZLhzj+GVpXhf++Nzj9OmUn1OmWPoyWldHhh
-         dbnv+/P4Q5eGuNwR8TRpA5vnA71y/Ce1/+KcGBQ6tdxjU8neWPGCvfemSOgYsxBw8wWD
-         /r9CrCVNubmy7oRWc7HuFASont4/bo0USnvpHoPD4sH8l2EyTnNC/e/T0T/K21K+q93v
-         ZgCFsmmoNiygJD27wzIH2Y0gk2krAVmjCcEsgBCs8+912zcjpv5PrvliOdMBJuwshUXM
-         5AuVZDl8hY1dUgNxix/rwOXM95rTapj4RVl6B2/HXjH88mM8Vf/D4YhYMVe3E0VrWWyE
-         q9Hg==
+         :message-id:date:subject:to:from:from:to:cc;
+        bh=5boySqx/QOquxLdl8JfduLgh/CCKYPrGmebEc48BqF0=;
+        b=jLv3eDLvx9cgcOp5gVtcmROUr2uL6GYDlm8F4RBQWUGoBZn2VuJHqqH7BCvQLkCifO
+         ljH9VuP0Da5A5DQjni+AeAf38v2ml/1zwzOjnYptmctUe7jiHMFLsHoVqZiICXOXNtrf
+         UNp8UCcHyj3io+wolu6mPwkxm8ZqYX7u+sc1RY6WlPTQOd1y9aK3r6hwtRSthvXQhVc6
+         xWW50IGEq7ybZp8R5H9EcpOq/NgBKaZyTmvtg5rXOIesPVsuuCD8rm6S1/Q+SidPCJM0
+         gN0VgnX0bUdIA+RW6Uh+X9EwueDctoU1FcLqMAZCWTt7HVjh7W2mqBAFK1z4fwXj0fIl
+         /Plg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=EEQaOMPMio1TV/1T2nsXijwtVuTW2Re2GSl+fTHb2hE=;
-        b=Srn9LCjRVffjHl6O3NQFm5VFlSkEYTVq9nnwu2xo7qP7qMo+tUTt4C4aHQO3wQrKdm
-         SuBaf6V9L849rKdnQU0Bu6ZywJmuqBSDySusxCWZWDjsO7nEbdptohJGXJfkw5WEzrvq
-         mImWOsfqZfGiUVDXNr5u6S82ftQoyxiU+WpOhqu50igf1DODjfbBFdIbJPaATLO7lEuy
-         fldrK4V7abxQjMhOofbKx+o66WOeEU5101CAIO4N+EP8ggO8/jxuFm2D57CrOVKwBXB6
-         oHBSxZPWlNRi43DzyAnvhB/pnqsa2+JSO1s1U0AwjPf/XthAwP+YB0RMcOGCtTsOZxq8
-         3/tA==
-X-Gm-Message-State: ACgBeo1GYIEMNqnt1akmL+IZZkJ2NmzpFJTO6mcZ7EoAgRDWYUuw7HIS
-	bnY6RGWLqOjBKSgMpaefMGI=
-X-Google-Smtp-Source: AA6agR6a+jB85i972kXbhLkKKpllW7496fpWqVVpOsWOvIO65uvf0tz0QQyG4Bto1DkO00QbeWBtGA==
-X-Received: by 2002:a5d:514d:0:b0:225:3507:79e6 with SMTP id u13-20020a5d514d000000b00225350779e6mr3063920wrt.85.1661456935527;
-        Thu, 25 Aug 2022 12:48:55 -0700 (PDT)
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc;
+        bh=5boySqx/QOquxLdl8JfduLgh/CCKYPrGmebEc48BqF0=;
+        b=dP5fNl86qC+ZvPwQvUjOijhUIDZIAffHGtf7zsPUOK7cUBrecO97JNVqUaQ7ss9tiU
+         k6pbDH9UNBRPEf1WLvkaIf2wDg21hcHQp9QnFZdf9GUQMez5pmfUW1xlezi6y3Vs13ga
+         gKSTr3d6CuqCNXGJQLR4km7X2g2zYNLTYqUNEdZ265qZtOew4nCg4xEkW2bZ/q4PWxpH
+         gxjKQUbLiI1IostvtAO/kd4Ny/I9SLVJ9FyzpFTfet3uWadqBm+R1x6Q6Q36iG9ofaGn
+         Q//wUcB9cEmcwrblwiRXgOCqLC7Ct7N/CLKLF2A76f+H8udN8XLSkjr8TZZqKOsox574
+         OmLA==
+X-Gm-Message-State: ACgBeo1VgQkLr4x7GQ85a0zan3cdiz8zH0Cemer4rh/nWf0EfMPei1Jo
+	UHyFJLFFv1qymTjp5QVXWiQ=
+X-Google-Smtp-Source: AA6agR7qqebJ62S4jnfJLHIVKwuKG1XL7+sEEI5x6RLTUccSKg0PKv9fP153dYaHKowzV88ZPlHI6w==
+X-Received: by 2002:a05:6000:2a3:b0:225:7ce8:a318 with SMTP id l3-20020a05600002a300b002257ce8a318mr2611163wry.350.1661458692998;
+        Thu, 25 Aug 2022 13:18:12 -0700 (PDT)
 Received: from kista.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
-        by smtp.gmail.com with ESMTPSA id f5-20020a5d4dc5000000b002235eb9d200sm120536wru.10.2022.08.25.12.48.53
+        by smtp.gmail.com with ESMTPSA id i186-20020a1c3bc3000000b003a601707174sm242129wma.33.2022.08.25.13.18.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Aug 2022 12:48:54 -0700 (PDT)
+        Thu, 25 Aug 2022 13:18:12 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Russell King <linux@armlinux.org.uk>, Florian Fainelli <f.fainelli@gmail.com>, 
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	NXP Linux Team <linux-imx@nxp.com>, Vladimir Zapolskiy <vz@mleia.com>, 
-	Taichi Sugaya <sugaya.taichi@socionext.com>, Takao Orito <orito.takao@socionext.com>, 
-	Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>, Tony Lindgren <tony@atomide.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Andy Gross <agross@kernel.org>, 
-	Bjorn Andersson <bjorn.andersson@linaro.org>, Konrad Dybcio <konrad.dybcio@somainline.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	linux-omap@vger.kernel.org, linux-oxnas@groups.io, 
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, arnd@arndb.de, 
-	olof@lixom.net, soc@kernel.org, Stefan Hansson <newbie13xd@gmail.com>
-Cc: Stefan Hansson <newbie13xd@gmail.com>
-Subject: Re: [RESEND PATCH] ARM: configs: replace CONFIG_NO_HZ=y with CONFIG_NO_HZ_IDLE=y
-Date: Thu, 25 Aug 2022 21:48:52 +0200
-Message-ID: <2642863.mvXUDI8C0e@kista>
-In-Reply-To: <20220825162034.5901-1-newbie13xd@gmail.com>
-References: <20220825162034.5901-1-newbie13xd@gmail.com>
+To: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, maijianzhang <maijianzhang@allwinnertech.com>
+Subject: Re: [PATCH] iio: adc: sun4i-gpadc-iio: adaptation interrupt number
+Date: Thu, 25 Aug 2022 22:18:11 +0200
+Message-ID: <5595575.DvuYhMxLoT@kista>
+In-Reply-To: <YwdhTlk+7h+FMrwm@scg>
+References: <YwdhTlk+7h+FMrwm@scg>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -74,57 +52,41 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-Dne =C4=8Detrtek, 25. avgust 2022 ob 18:20:35 CEST je Stefan Hansson napisa=
-l(a):
-> According to https://www.kernel.org/doc/html/latest/timers/no_hz.html,
-> CONFIG_NO_HZ=3Dy should be replaced by CONFIG_NO_HZ_IDLE=3Dy for newer
-> kernels, so let's reflect that in the 32-bit ARM defconfigs.
+Dne =C4=8Detrtek, 25. avgust 2022 ob 13:47:26 CEST je fuyao napisal(a):
+> __platform_get_irq_byname determinies whether the interrupt
+> number is 0 and returns EINVAL.
 >=20
-> Signed-off-by: Stefan Hansson <newbie13xd@gmail.com>
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> # Samsung
-> ---
->  arch/arm/configs/bcm2835_defconfig       | 2 +-
->  arch/arm/configs/cm_x300_defconfig       | 2 +-
->  arch/arm/configs/davinci_all_defconfig   | 2 +-
->  arch/arm/configs/dove_defconfig          | 2 +-
->  arch/arm/configs/exynos_defconfig        | 2 +-
->  arch/arm/configs/ezx_defconfig           | 2 +-
->  arch/arm/configs/hisi_defconfig          | 2 +-
->  arch/arm/configs/imx_v4_v5_defconfig     | 2 +-
->  arch/arm/configs/imx_v6_v7_defconfig     | 2 +-
->  arch/arm/configs/integrator_defconfig    | 2 +-
->  arch/arm/configs/lpc32xx_defconfig       | 2 +-
->  arch/arm/configs/magician_defconfig      | 2 +-
->  arch/arm/configs/milbeaut_m10v_defconfig | 2 +-
->  arch/arm/configs/moxart_defconfig        | 2 +-
->  arch/arm/configs/multi_v5_defconfig      | 2 +-
->  arch/arm/configs/multi_v7_defconfig      | 2 +-
->  arch/arm/configs/mv78xx0_defconfig       | 2 +-
->  arch/arm/configs/mvebu_v5_defconfig      | 2 +-
->  arch/arm/configs/mxs_defconfig           | 2 +-
->  arch/arm/configs/omap1_defconfig         | 2 +-
->  arch/arm/configs/omap2plus_defconfig     | 2 +-
->  arch/arm/configs/orion5x_defconfig       | 2 +-
->  arch/arm/configs/oxnas_v6_defconfig      | 2 +-
->  arch/arm/configs/pcm027_defconfig        | 2 +-
->  arch/arm/configs/pxa168_defconfig        | 2 +-
->  arch/arm/configs/pxa910_defconfig        | 2 +-
->  arch/arm/configs/pxa_defconfig           | 2 +-
->  arch/arm/configs/qcom_defconfig          | 2 +-
->  arch/arm/configs/s5pv210_defconfig       | 2 +-
->  arch/arm/configs/shmobile_defconfig      | 2 +-
->  arch/arm/configs/sunxi_defconfig         | 2 +-
+> Signed-off-by: fuyao <fuyao1697@cyg.com>
 
-=46or sunxi:
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
->  arch/arm/configs/tegra_defconfig         | 2 +-
->  arch/arm/configs/vt8500_v6_v7_defconfig  | 2 +-
->  arch/arm/configs/xcep_defconfig          | 2 +-
->  34 files changed, 34 insertions(+), 34 deletions(-)
-
+> ---
+>  include/linux/mfd/sun4i-gpadc.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/include/linux/mfd/sun4i-gpadc.h
+> b/include/linux/mfd/sun4i-gpadc.h index ea0ccf33a459..021f820f9d52 100644
+> --- a/include/linux/mfd/sun4i-gpadc.h
+> +++ b/include/linux/mfd/sun4i-gpadc.h
+> @@ -81,8 +81,8 @@
+>  #define SUN4I_GPADC_TEMP_DATA				0x20
+>  #define SUN4I_GPADC_DATA				0x24
+>=20
+> -#define SUN4I_GPADC_IRQ_FIFO_DATA			0
+> -#define SUN4I_GPADC_IRQ_TEMP_DATA			1
+> +#define SUN4I_GPADC_IRQ_FIFO_DATA			1
+> +#define SUN4I_GPADC_IRQ_TEMP_DATA			2
+>=20
+>  /* 10s delay before suspending the IP */
+>  #define SUN4I_GPADC_AUTOSUSPEND_DELAY			10000
+> --
+> 2.32.0
+>=20
+>=20
+> --
+> Technology is exciting
 
 
