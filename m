@@ -1,102 +1,161 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 605753211
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 13:41:05 +0000 (UTC)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27P6MixA004380;
-	Thu, 25 Aug 2022 08:29:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=PODMain02222019;
- bh=gJwGJFOg+PHJxQ8GqbYk+5x4TFGmNBMycRNhoucedzk=;
- b=dOsfC2wk+NU/FTwxvM+o+MtI+cRTYtIl7fNr+UKOqHpdjYsklEgJFYb1uYciDDXGH6nN
- NyIZeYrogjNXqTE6CKdPKtSvHYkGYY14DXr6VXHIFV/OufVxEVY2UM+q7QcKkgXxyHlo
- ioEUtAmWpOqDzw1gg+n6AQLdXvEDLZnNxb++2gdEoXtSZtLecuT8JT2QYcSoSYCAlRbV
- 92trEPxPVQitk4PiZBknHGFrBFQKU2+rh9uyb6YBErw2Zpa9W8tMS/515/9eMKVQAwId
- rRy4Mvfs4aBKFEEK59HutkLBtc0Tfvpk0Sr980Gk7blSvvt0LsK+d52gUo8opnSrTcmd sQ== 
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3j5a3ra2a6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 25 Aug 2022 08:29:41 -0500
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.9; Thu, 25 Aug
- 2022 08:29:39 -0500
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.9 via Frontend
- Transport; Thu, 25 Aug 2022 08:29:39 -0500
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 13DC3B0E;
-	Thu, 25 Aug 2022 13:29:39 +0000 (UTC)
-Date: Thu, 25 Aug 2022 13:29:39 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Rob Herring <robh@kernel.org>
-CC: Lee Jones <lee@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej
- Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Tim Harvey
-	<tharvey@gateworks.com>,
-        Robert Jones <rjones@gateworks.com>,
-        Chanwoo Choi
-	<cw00.choi@samsung.com>,
-        Bartlomiej Zolnierkiewicz
-	<b.zolnierkie@samsung.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Fabrice Gasnier
-	<fabrice.gasnier@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Maxime Ripard
-	<mripard@kernel.org>, - <patches@opensource.cirrus.com>,
-        Steve Twiss
-	<stwiss.opensource@diasemi.com>,
-        Chris Zhong <zyw@rock-chips.com>,
-        Zhang Qing
-	<zhangqing@rock-chips.com>,
-        Alistair Francis <alistair@alistair23.me>,
-        Amelie
- Delaunay <amelie.delaunay@foss.st.com>,
-        Linus Walleij
-	<linus.walleij@linaro.org>,
-        Renner Berthing <kernel@esmil.dk>,
-        Krzysztof
- Kozlowski <krzk@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
-        <linux-kernel@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>
-Subject: Re: [PATCH] dt-bindings: mfd: Add missing
- (unevaluated|additional)Properties on child nodes
-Message-ID: <20220825132939.GO92394@ediswmail.ad.cirrus.com>
-References: <20220823145649.3118479-4-robh@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E4592F57
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 13:44:13 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 19B495801FA;
+	Thu, 25 Aug 2022 09:44:12 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Thu, 25 Aug 2022 09:44:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1661435052; x=1661442252; bh=AjAS+mxokB
+	mADly8X+bwM1z4OrzJr2RjjjUhIDL33q8=; b=aBX2Pd5RY+tOBxJp7Q9Kg9QlAE
+	xXlvpoCjmRubOY7P6I+BHGd97QgDL2AVDpf/PUw0n7ySzAAszNwsNCpT3/6eJzEW
+	ZBFbOi70av8ROP3lP1CdNz7yZvvHR/yrhtbwEMZXtNh1HL3cI89A8wGRa9C3E9UV
+	A+c4wlyqASoo87i0QjufCH7CVRVRSRpTF4nNZ+0z8qGhWYKmg0+XYW0ib5ztTETf
+	xuwCqRc6LcdjmDg3dNjTRco2xb/pl71VGwBtufxCc+xvEUJIhri0VnpUdOWsAqo7
+	mhYCwDVlz5GLR452UO+zMhnOwRTjRxovWcbVEQ9qzK6llfkPNdv4zxVP50SA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1661435052; x=1661442252; bh=AjAS+mxokBmADly8X+bwM1z4OrzJ
+	r2RjjjUhIDL33q8=; b=wbLRi+/MnqRVf8XYD5hMxddwmSfrpNixFPg+0EmqSYBx
+	jwROxs3/NjSL4LioG7sMaH+N8R/T1ro+6MeZQhmS/n89Q/3oJvLaXlNTeOANhQYk
+	W6i066GwHdY+6za9liIVlBS/mMTKwUJ1LVKqRc24ThfkFz4zMBCsNU6xG4okTCZj
+	YEXbQS0vrV4RKuYPBM0zprcS2is85jC2ukDCfYhR0kK7Ci75uG10EPLAzpz1TczY
+	IyS3ORjSCMDrsJNgVegd7cn6gWbb4OlQlwBobnbEIt9Wo5ghJpCHAuM/FaSTEeen
+	BqUrteGdd4JGYA9bRf2PwsmPhm2ZQTF1aKqCLfAkvA==
+X-ME-Sender: <xms:q3wHYwJEFPKwRD-bJ0WNXQpQ6u0YGXCm5ZZAHqJAbi145PikINxAlw>
+    <xme:q3wHYwLdiP1ka_ZE7YIIi9kgJ_cUq0KUIcUngIQW9aUxkAVprI2YOaS0NAaO1vNIv
+    0HUL2DMMQ5V3h-Hhxs>
+X-ME-Received: <xmr:q3wHYws-Dltmw0Gwp92UWSQjXICrzHSGC5rZK5B0Dvbc7RqFM0P7kaZ1mIM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejfedgieejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
+    ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:q3wHY9a41ZGeJtSzfcaj6aGoJPhwlf8ciS6VwRTvQfHeJUCOksk2RA>
+    <xmx:q3wHY3a7m1F_nSW3ahQtqPfda5UN-wj-3jRwNvzxCt-5sJwCBzpMtA>
+    <xmx:q3wHY5BxaU8J5xmINtViC1twyVZYYENBvV6Erv1zpi7DQAOGQbFhlQ>
+    <xmx:rHwHY0KHVaeKaL82Q-OroPeXq2HQX9yNggQVAJkSmXZDju0qAhQ1cA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 25 Aug 2022 09:44:10 -0400 (EDT)
+Date: Thu, 25 Aug 2022 15:44:08 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+	David Airlie <airlied@linux.ie>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Phil Elwell <phil@raspberrypi.com>,
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+	Dom Cobley <dom@raspberrypi.com>
+Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+Message-ID: <20220825134408.dioj2lbycl7jm3ld@houat>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+ <37a76651-a457-e50d-9a05-00ca9ed5d729@tronnes.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ztityevrt7lawo2u"
 Content-Disposition: inline
-In-Reply-To: <20220823145649.3118479-4-robh@kernel.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-GUID: sT2u7Xs6q1g-zrXUkym3ve5E5LQDcjOO
-X-Proofpoint-ORIG-GUID: sT2u7Xs6q1g-zrXUkym3ve5E5LQDcjOO
-X-Proofpoint-Spam-Reason: safe
+In-Reply-To: <37a76651-a457-e50d-9a05-00ca9ed5d729@tronnes.org>
 
-On Tue, Aug 23, 2022 at 09:56:35AM -0500, Rob Herring wrote:
-> In order to ensure only documented properties are present, node schemas
-> must have unevaluatedProperties or additionalProperties set to false
-> (typically).
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
 
-Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+--ztityevrt7lawo2u
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Charles
+Hi,
+
+On Sat, Aug 20, 2022 at 10:12:46PM +0200, Noralf Tr=F8nnes wrote:
+> > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> > index 1e9996b33cc8..78275e68ff66 100644
+> > --- a/include/drm/drm_connector.h
+> > +++ b/include/drm/drm_connector.h
+> > @@ -143,6 +143,32 @@ enum subpixel_order {
+> > =20
+> >  };
+> > =20
+> > +#define DRM_MODE_TV_NORM_NTSC_443	(1 << 0)
+> > +#define DRM_MODE_TV_NORM_NTSC_J		(1 << 1)
+> > +#define DRM_MODE_TV_NORM_NTSC_M		(1 << 2)
+> > +#define DRM_MODE_TV_NORM_PAL_60		(1 << 3)
+> > +#define DRM_MODE_TV_NORM_PAL_B		(1 << 4)
+> > +#define DRM_MODE_TV_NORM_PAL_D		(1 << 5)
+> > +#define DRM_MODE_TV_NORM_PAL_G		(1 << 6)
+> > +#define DRM_MODE_TV_NORM_PAL_H		(1 << 7)
+> > +#define DRM_MODE_TV_NORM_PAL_I		(1 << 8)
+> > +#define DRM_MODE_TV_NORM_PAL_M		(1 << 9)
+> > +#define DRM_MODE_TV_NORM_PAL_N		(1 << 10)
+> > +#define DRM_MODE_TV_NORM_PAL_NC		(1 << 11)
+> > +#define DRM_MODE_TV_NORM_SECAM_60	(1 << 12)
+> > +#define DRM_MODE_TV_NORM_SECAM_B	(1 << 13)
+> > +#define DRM_MODE_TV_NORM_SECAM_D	(1 << 14)
+> > +#define DRM_MODE_TV_NORM_SECAM_G	(1 << 15)
+> > +#define DRM_MODE_TV_NORM_SECAM_K	(1 << 16)
+> > +#define DRM_MODE_TV_NORM_SECAM_K1	(1 << 17)
+> > +#define DRM_MODE_TV_NORM_SECAM_L	(1 << 18)
+> > +#define DRM_MODE_TV_NORM_HD480I		(1 << 19)
+> > +#define DRM_MODE_TV_NORM_HD480P		(1 << 20)
+> > +#define DRM_MODE_TV_NORM_HD576I		(1 << 21)
+> > +#define DRM_MODE_TV_NORM_HD576P		(1 << 22)
+> > +#define DRM_MODE_TV_NORM_HD720P		(1 << 23)
+> > +#define DRM_MODE_TV_NORM_HD1080I	(1 << 24)
+> > +
+>=20
+> This is an area where DRM overlaps with v4l2, see:
+> - include/dt-bindings/display/sdtv-standards.h
+> - v4l2_norm_to_name()
+>=20
+> Maybe we should follow suit, but if we do our own thing please mention
+> why in the commit message.
+
+Are you suggesting that we'd share that definition with v4l2?
+
+I've tried to share some code in the past between v4l2 and DRM, and it
+got completely shut down so it's not something I'd like to try again, if
+possible.
+
+Maxime
+
+--ztityevrt7lawo2u
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYwd8qAAKCRDj7w1vZxhR
+xbq9AP9Ut8DrTs4R98n7uEJ4qsWpbIOQoxH89Co6dV81OZDd4AD/XTYHIrgOsCVX
+KF7npRlfSwUkz5ZgJBgTt5iDHapUmAQ=
+=Heqx
+-----END PGP SIGNATURE-----
+
+--ztityevrt7lawo2u--
