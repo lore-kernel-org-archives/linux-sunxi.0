@@ -1,181 +1,130 @@
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496EA3D72
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 19:36:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=hNcXx9nN3QJm/KwwCuUmxJMM/1rNwvQsLqXj+GDGgR0=; b=iAUKq3byUHJUQwjEQdZa4HBdm+
-	TnfaOzLFJUDgeEpKCKO7CR9l31QS6Y2TXLx4DoFuYrKWIC4U2+1whY9M0Ya8Eqwj2bvuceT6a7eUh
-	snsQja2LrBdkoQsAzUMoXYkjsFgbTxRikuj7dBpISa9HVStMVuOMUkWpV9n4FYoRhbj+cWYUqOhrm
-	0f6lxRNMD1+HBAcD2tQz4QuLakPByIEbiEE9cLt2iZQVyp4LxiQlASHmFPyNTfdM+HXDiXxr2L/8+
-	+orYmoEZ4/+KkxlQIGBEaFLbduE06L0rynjVgF/4aQ7JsX56hYzkrEls1sJSbV0B1wAZNjC+cnBND
-	FTfSSQwQ==;
-Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=57533)
-	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <noralf@tronnes.org>)
-	id 1oRIeg-000615-7S; Thu, 25 Aug 2022 21:36:42 +0200
-Message-ID: <32c0b057-02fe-4818-7020-7b8f4942aed6@tronnes.org>
-Date: Thu, 25 Aug 2022 21:36:35 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E603D72
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 19:48:57 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id bs25so25915701wrb.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 12:48:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=EEQaOMPMio1TV/1T2nsXijwtVuTW2Re2GSl+fTHb2hE=;
+        b=EOSwTGoA0nee7KFDbY0hqShMabo5lvAZLhzj+GVpXhf++Nzj9OmUn1OmWPoyWldHhh
+         dbnv+/P4Q5eGuNwR8TRpA5vnA71y/Ce1/+KcGBQ6tdxjU8neWPGCvfemSOgYsxBw8wWD
+         /r9CrCVNubmy7oRWc7HuFASont4/bo0USnvpHoPD4sH8l2EyTnNC/e/T0T/K21K+q93v
+         ZgCFsmmoNiygJD27wzIH2Y0gk2krAVmjCcEsgBCs8+912zcjpv5PrvliOdMBJuwshUXM
+         5AuVZDl8hY1dUgNxix/rwOXM95rTapj4RVl6B2/HXjH88mM8Vf/D4YhYMVe3E0VrWWyE
+         q9Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=EEQaOMPMio1TV/1T2nsXijwtVuTW2Re2GSl+fTHb2hE=;
+        b=Srn9LCjRVffjHl6O3NQFm5VFlSkEYTVq9nnwu2xo7qP7qMo+tUTt4C4aHQO3wQrKdm
+         SuBaf6V9L849rKdnQU0Bu6ZywJmuqBSDySusxCWZWDjsO7nEbdptohJGXJfkw5WEzrvq
+         mImWOsfqZfGiUVDXNr5u6S82ftQoyxiU+WpOhqu50igf1DODjfbBFdIbJPaATLO7lEuy
+         fldrK4V7abxQjMhOofbKx+o66WOeEU5101CAIO4N+EP8ggO8/jxuFm2D57CrOVKwBXB6
+         oHBSxZPWlNRi43DzyAnvhB/pnqsa2+JSO1s1U0AwjPf/XthAwP+YB0RMcOGCtTsOZxq8
+         3/tA==
+X-Gm-Message-State: ACgBeo1GYIEMNqnt1akmL+IZZkJ2NmzpFJTO6mcZ7EoAgRDWYUuw7HIS
+	bnY6RGWLqOjBKSgMpaefMGI=
+X-Google-Smtp-Source: AA6agR6a+jB85i972kXbhLkKKpllW7496fpWqVVpOsWOvIO65uvf0tz0QQyG4Bto1DkO00QbeWBtGA==
+X-Received: by 2002:a5d:514d:0:b0:225:3507:79e6 with SMTP id u13-20020a5d514d000000b00225350779e6mr3063920wrt.85.1661456935527;
+        Thu, 25 Aug 2022 12:48:55 -0700 (PDT)
+Received: from kista.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
+        by smtp.gmail.com with ESMTPSA id f5-20020a5d4dc5000000b002235eb9d200sm120536wru.10.2022.08.25.12.48.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Aug 2022 12:48:54 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Russell King <linux@armlinux.org.uk>, Florian Fainelli <f.fainelli@gmail.com>, 
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	NXP Linux Team <linux-imx@nxp.com>, Vladimir Zapolskiy <vz@mleia.com>, 
+	Taichi Sugaya <sugaya.taichi@socionext.com>, Takao Orito <orito.takao@socionext.com>, 
+	Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>, Tony Lindgren <tony@atomide.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Andy Gross <agross@kernel.org>, 
+	Bjorn Andersson <bjorn.andersson@linaro.org>, Konrad Dybcio <konrad.dybcio@somainline.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+	linux-omap@vger.kernel.org, linux-oxnas@groups.io, 
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, arnd@arndb.de, 
+	olof@lixom.net, soc@kernel.org, Stefan Hansson <newbie13xd@gmail.com>
+Cc: Stefan Hansson <newbie13xd@gmail.com>
+Subject: Re: [RESEND PATCH] ARM: configs: replace CONFIG_NO_HZ=y with CONFIG_NO_HZ_IDLE=y
+Date: Thu, 25 Aug 2022 21:48:52 +0200
+Message-ID: <2642863.mvXUDI8C0e@kista>
+In-Reply-To: <20220825162034.5901-1-newbie13xd@gmail.com>
+References: <20220825162034.5901-1-newbie13xd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v1 00/35] drm: Analog TV Improvements
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
- <narmstrong@baylibre.com>, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Dom Cobley <dom@raspberrypi.com>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <987d6114-5fcb-d668-3b0d-ad6d8723dfdb@tronnes.org>
- <20220822074800.qzyctchqn5usr55g@houat>
- <2f279dd9-9a6b-8bd2-9d54-b7bd39852ba9@tronnes.org>
- <20220825162140.oaob4szbssf6cuvq@houat>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220825162140.oaob4szbssf6cuvq@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+
+Dne =C4=8Detrtek, 25. avgust 2022 ob 18:20:35 CEST je Stefan Hansson napisa=
+l(a):
+> According to https://www.kernel.org/doc/html/latest/timers/no_hz.html,
+> CONFIG_NO_HZ=3Dy should be replaced by CONFIG_NO_HZ_IDLE=3Dy for newer
+> kernels, so let's reflect that in the 32-bit ARM defconfigs.
+>=20
+> Signed-off-by: Stefan Hansson <newbie13xd@gmail.com>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> # Samsung
+> ---
+>  arch/arm/configs/bcm2835_defconfig       | 2 +-
+>  arch/arm/configs/cm_x300_defconfig       | 2 +-
+>  arch/arm/configs/davinci_all_defconfig   | 2 +-
+>  arch/arm/configs/dove_defconfig          | 2 +-
+>  arch/arm/configs/exynos_defconfig        | 2 +-
+>  arch/arm/configs/ezx_defconfig           | 2 +-
+>  arch/arm/configs/hisi_defconfig          | 2 +-
+>  arch/arm/configs/imx_v4_v5_defconfig     | 2 +-
+>  arch/arm/configs/imx_v6_v7_defconfig     | 2 +-
+>  arch/arm/configs/integrator_defconfig    | 2 +-
+>  arch/arm/configs/lpc32xx_defconfig       | 2 +-
+>  arch/arm/configs/magician_defconfig      | 2 +-
+>  arch/arm/configs/milbeaut_m10v_defconfig | 2 +-
+>  arch/arm/configs/moxart_defconfig        | 2 +-
+>  arch/arm/configs/multi_v5_defconfig      | 2 +-
+>  arch/arm/configs/multi_v7_defconfig      | 2 +-
+>  arch/arm/configs/mv78xx0_defconfig       | 2 +-
+>  arch/arm/configs/mvebu_v5_defconfig      | 2 +-
+>  arch/arm/configs/mxs_defconfig           | 2 +-
+>  arch/arm/configs/omap1_defconfig         | 2 +-
+>  arch/arm/configs/omap2plus_defconfig     | 2 +-
+>  arch/arm/configs/orion5x_defconfig       | 2 +-
+>  arch/arm/configs/oxnas_v6_defconfig      | 2 +-
+>  arch/arm/configs/pcm027_defconfig        | 2 +-
+>  arch/arm/configs/pxa168_defconfig        | 2 +-
+>  arch/arm/configs/pxa910_defconfig        | 2 +-
+>  arch/arm/configs/pxa_defconfig           | 2 +-
+>  arch/arm/configs/qcom_defconfig          | 2 +-
+>  arch/arm/configs/s5pv210_defconfig       | 2 +-
+>  arch/arm/configs/shmobile_defconfig      | 2 +-
+>  arch/arm/configs/sunxi_defconfig         | 2 +-
+
+=46or sunxi:
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Best regards,
+Jernej
+
+>  arch/arm/configs/tegra_defconfig         | 2 +-
+>  arch/arm/configs/vt8500_v6_v7_defconfig  | 2 +-
+>  arch/arm/configs/xcep_defconfig          | 2 +-
+>  34 files changed, 34 insertions(+), 34 deletions(-)
 
 
 
-Den 25.08.2022 18.21, skrev Maxime Ripard:
-> On Mon, Aug 22, 2022 at 03:21:29PM +0200, Noralf Trønnes wrote:
->>
->>
->> Den 22.08.2022 09.48, skrev Maxime Ripard:
->>> Hi,
->>>
->>> On Sun, Aug 21, 2022 at 06:33:12PM +0200, Noralf Trønnes wrote:
->>>> Den 29.07.2022 18.34, skrev Maxime Ripard:
->>>>> Hi,
->>>>>
->>>>> Here's a series aiming at improving the command line named modes support,
->>>>> and more importantly how we deal with all the analog TV variants.
->>>>>
->>>>> The named modes support were initially introduced to allow to specify the
->>>>> analog TV mode to be used.
->>>>>
->>>>> However, this was causing multiple issues:
->>>>>
->>>>>   * The mode name parsed on the command line was passed directly to the
->>>>>     driver, which had to figure out which mode it was suppose to match;
->>>>>
->>>>>   * Figuring that out wasn't really easy, since the video= argument or what
->>>>>     the userspace might not even have a name in the first place, but
->>>>>     instead could have passed a mode with the same timings;
->>>>>
->>>>>   * The fallback to matching on the timings was mostly working as long as
->>>>>     we were supporting one 525 lines (most likely NSTC) and one 625 lines
->>>>>     (PAL), but couldn't differentiate between two modes with the same
->>>>>     timings (NTSC vs PAL-M vs NSTC-J for example); 
->>>>>
->>>>>   * There was also some overlap with the tv mode property registered by 
->>>>>     drm_mode_create_tv_properties(), but named modes weren't interacting
->>>>>     with that property at all.
->>>>>
->>>>>   * Even though that property was generic, its possible values were
->>>>>     specific to each drivers, which made some generic support difficult.
->>>>>
->>>>> Thus, I chose to tackle in multiple steps:
->>>>>
->>>>>   * A new TV norm property was introduced, with generic values, each driver
->>>>>     reporting through a bitmask what standard it supports to the userspace;
->>>>>
->>>>>   * This option was added to the command line parsing code to be able to
->>>>>     specify it on the kernel command line, and new atomic_check and reset
->>>>>     helpers were created to integrate properly into atomic KMS;
->>>>>
->>>>>   * The named mode parsing code is now creating a proper display mode for
->>>>>     the given named mode, and the TV standard will thus be part of the
->>>>>     connector state;
->>>>>
->>>>>   * Two drivers were converted and tested for now (vc4 and sun4i), with
->>>>>     some backward compatibility code to translate the old TV mode to the
->>>>>     new TV mode;
->>>>>
->>>>> Unit tests were created along the way. Nouveau, ch7006 and gud are
->>>>> currently broken for now since I expect that work to be reworked fairly
->>>>> significantly. I'm also not entirely sure about how to migrate GUD to the
->>>>> new property.
->>>>>
->>>>> Let me know what you think,
->>>>> Maxime
->>>>>
->>>>
->>>> I don't know if it's related to this patchset or not, but I do get this:
->>>>
->>>> pi@pi4t:~ $ sudo dmesg -C && sudo modprobe -r vc4 && sudo modprobe vc4
->>>> && dmesg
->>>> [  430.066211] Console: switching to colour dummy device 80x30
->>>> [  431.294788] vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
->>>> [  431.295115] vc4-drm gpu: bound fec13000.vec (ops vc4_vec_ops [vc4])
->>>> [  431.295467] vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
->>>> [  431.295804] vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops
->>>> [vc4])
->>>> [  431.298895] [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
->>>> [  441.444250] vc4-drm gpu: [drm] *ERROR* [CRTC:68:crtc-1] flip_done
->>>> timed out
->>>> [  441.446529] Console: switching to colour frame buffer device 90x30
->>>> [  451.684321] vc4-drm gpu: [drm] *ERROR* flip_done timed out
->>>> [  451.684347] vc4-drm gpu: [drm] *ERROR* [CRTC:68:crtc-1] commit wait
->>>> timed out
->>>> [  461.924255] vc4-drm gpu: [drm] *ERROR* flip_done timed out
->>>> [  461.924281] vc4-drm gpu: [drm] *ERROR* [CONNECTOR:45:Composite-1]
->>>> commit wait timed out
->>>> [  472.164006] vc4-drm gpu: [drm] *ERROR* flip_done timed out
->>>> [  472.164031] vc4-drm gpu: [drm] *ERROR* [PLANE:61:plane-1] commit wait
->>>> timed out
->>>> [  482.403877] vc4-drm gpu: [drm] *ERROR* flip_done timed out
->>>> [  482.403903] vc4-drm gpu: [drm] *ERROR* Timed out waiting for commit
->>>> [  492.643799] vc4-drm gpu: [drm] *ERROR* [CRTC:68:crtc-1] flip_done
->>>> timed out
->>>> [  492.647073] vc4-drm gpu: [drm] fb0: vc4drmfb frame buffer device
->>>
->>> Module unloading/reloading has been janky for a while.
->>>
->>> I've fixed it up recently but it doesn't surprise me that there's still
->>> some situation that won't work. Is it on a Pi3?
->>>
->>
->> It's a Pi4.
-> 
-> With which kernel? I just tested it on last next and it seems to work ok
-> there. I've fixed it recently though, so it's only in drm-misc-next and
-> linux-next at the moment.
-> 
-
-I'm on a week old drm-misc-next.
-
-What's your setup so I can try that.
-
-This is mine:
-https://gist.github.com/notro/41c59d77c3022dc6d931d4f9547c4ea6
-
-I can't see anything that should differ significantly from what you
-could have done. Only maybe that I use the latest firmware and perhaps
-you've got a 64-bit kernel.
-
-Noralf.
