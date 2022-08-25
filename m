@@ -1,45 +1,45 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60DDF10F5
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 06:35:34 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id bt10so13964433lfb.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 24 Aug 2022 23:35:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40AD41C30
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 06:40:34 +0000 (UTC)
+Received: by mail-lj1-f173.google.com with SMTP id k22so3796468ljg.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 24 Aug 2022 23:40:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc;
-        bh=EvKjZn6Jwen4vu3P72obwS4c6ve0NpMMiuM5nFUjsc4=;
-        b=hA4GPgaoc/uO4LTyPl6C3Xt+kHB33H1tgfQHneoEsl2dH6kJVkPkiVqziKkgko6psm
-         sykCnNuBjKSGW65OLNnTjZsc1gMvL8pxzST7G8ZaC26d1V9GnCb8gADMrX52Pg5WmWCC
-         MFk+i+s7g5Oj+JlpHgSvV2gIhBbpO8NKxa5qw7xPHWMlOMRk1AL6omhiRuXnNvaZnV7C
-         hzs9IqK1KglzKfqWlH1w0ETUDb9CENa5j95XHDtoTAK8Tdo/Y/REu5u5q9EduEq8Rjsd
-         lawoJlipNd21qz0GU9CDOlfVn2/cLAWisLJlvtML6nXytSjRYSh6PEQckm243xqW+hR8
-         iTUQ==
+        bh=Hxs/x32k0wl5TtEJWin9IF/OZYyYHuwn2WA9sVkAPH4=;
+        b=ggHLVlPzMVeo5o60HoxiBTPeE4b7XvUvw7wCzxVRNSSxvZrDzA0vum3fttHKJZb1fR
+         ST8lBPut9MqchJJeAk+l32ls+cCSMyClhfXUvVYMKIEhPoNwHBoIrhjkvVDI2hc/QbDh
+         pgjS3TRKKqt46IeSOS3sTeECjqy8EEbXyu7dFuu5GTwYGmOMnU7ROusgefK8z35FK/e4
+         0i7ICMCPQxxrz3krhI1mirSmSzgAmZGdmZM6HYzcNk4VNzZvSWefNz2tttcalQl43l/V
+         lqnW25YgvOxlavOf3rM4vrivoTNbdMcBJLeQRPCXEiwVKsJ3WVtb88F7aCzDu2UXWzKs
+         F5/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc;
-        bh=EvKjZn6Jwen4vu3P72obwS4c6ve0NpMMiuM5nFUjsc4=;
-        b=EOPbCuV+IHkSnMVCkUnVnNKkIM0zLSrCLA8yViJfn+GwLTd1lfRvkzuIpq1PCGqKOz
-         sbN/o9YJq60sYKZ1zyzZVljZ3Uz+CuUgi6ZL7ienf1nbsDOMgG+pXiIxXzm6DgZd8pIv
-         lrEVSdBg1Lotl/K7Zv+yDmx30a4EBSPPqJdf93b41mH3L1v+ZF5vaMm8AlKdJcBuU3JE
-         rx7yjqhYhrTP+nW3RDx2zeIzatDG0KTMqQvLyF+MbWUEXh/q3MHMMZ/yjC4282Reky74
-         NPDg1u2d59ug6bWD73DkDBvyPcLrFSmvnONuYAQJaAgzMf8a1KKvSIdI/xlOJRQgQMvH
-         Yftg==
-X-Gm-Message-State: ACgBeo31X8lh/Lhzi8B7H2G9LRmDX4aROqQQXAxRaJhgVNlSKGCyJiDP
-	GSuMEnpWhKByUsgMfnP2AyNAVw==
-X-Google-Smtp-Source: AA6agR4MXfi9uA9HEyxEy5/qdbVPXms4C7TdYuwdEmdffkyYQy/oAl819Jf7A8eMC6blyL3NxEOxFA==
-X-Received: by 2002:a19:6a05:0:b0:492:f775:6f43 with SMTP id u5-20020a196a05000000b00492f7756f43mr638867lfu.10.1661409332398;
-        Wed, 24 Aug 2022 23:35:32 -0700 (PDT)
+        bh=Hxs/x32k0wl5TtEJWin9IF/OZYyYHuwn2WA9sVkAPH4=;
+        b=tIsZvisJOVW8MsusCiFxpiwXXipCLe/3a/H1/7v8NW4o0OPwc/aJVWSpnYMTAgsnGV
+         b93++ezbG8HB7hSUYIeOwUqEMgp1EXS0z93+2yi1BwLWSzjGpwBlnOuam0nERMP7f/UO
+         RQQvrQqpSiUz90lU33hiigjrXqM8Fppp0MHqsu1cdpD4cR41COqhV9891fda34FqhvNK
+         mMBPuwYhsJszeY6MCvVTmZnDYCasGIMjkwFCBnh8kIJEGJh37jWr2Z2+5l/dok1MSX8K
+         Lh1gVsTu8OwnZCuDkUUK2FUZEaUfB2qtDPkU22Axt0XDhV5vTYosfrumrb84SrDHTRMR
+         z/LQ==
+X-Gm-Message-State: ACgBeo3OxU5RzucDRoMQbaTgof1OdCxUOAo+6ehTHJ+bIq8iJI4JHRs2
+	zqIVrMwqNtYdvNvwWUFCA+3vAQ==
+X-Google-Smtp-Source: AA6agR4sp9L/aoyZrx2uYhRDhFUfFvBZsJbtMUKU/6yfJBjXbHfPdGvgpeQbd0c1lWSvZ8iGu6FKYQ==
+X-Received: by 2002:a05:651c:b2c:b0:261:d82f:75b8 with SMTP id b44-20020a05651c0b2c00b00261d82f75b8mr601195ljr.266.1661409632356;
+        Wed, 24 Aug 2022 23:40:32 -0700 (PDT)
 Received: from [192.168.0.71] (82.131.98.15.cable.starman.ee. [82.131.98.15])
-        by smtp.gmail.com with ESMTPSA id k16-20020a05651c10b000b00260fdfdd23csm329602ljn.109.2022.08.24.23.35.30
+        by smtp.gmail.com with ESMTPSA id m6-20020a056512114600b00492d7a7b4e3sm339246lfg.4.2022.08.24.23.40.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Aug 2022 23:35:31 -0700 (PDT)
-Message-ID: <3ea10afc-61f4-a5ac-aef9-16ddc6f845e6@linaro.org>
-Date: Thu, 25 Aug 2022 09:35:29 +0300
+        Wed, 24 Aug 2022 23:40:31 -0700 (PDT)
+Message-ID: <e5239fb9-07fd-3263-76a8-afb2f89b7d7e@linaro.org>
+Date: Thu, 25 Aug 2022 09:40:30 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -93,10 +93,11 @@ On 22/08/2022 19:10, Stefan Hansson wrote:
 > CONFIG_NO_HZ=y should be replaced by CONFIG_NO_HZ_IDLE=y for newer
 > kernels, so let's reflect that in the 32-bit ARM defconfigs.
 > 
-> Signed-off-by: Stefan Hansson <newbie13xd@gmail.com>
 
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> # Samsung
+Thanks for the patch. You did not send it to ARM SoC maintainers and
+their Patchwork mailbox, so I don't think it will be picked up. Please
+resend with proper Cc list to ARM AND ARM64 SoC SUB-ARCHITECTURES
+(COMMON PARTS)
 
 Best regards,
 Krzysztof
