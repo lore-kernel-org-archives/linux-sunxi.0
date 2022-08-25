@@ -1,105 +1,87 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1026A1C2E;
-	Thu, 25 Aug 2022 21:02:39 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id m17-20020a7bce11000000b003a5bedec07bso3382103wmc.0;
-        Thu, 25 Aug 2022 14:02:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=oLKhkirV3w4L2ZpLtqGDyVCrVsxu0uPLz0/+c0FrP44=;
-        b=cvHGeIXHYzFMNUpkQTBDkSniG2v59mghDuSFV0tkUtvEoW+OcczMmvv9OQ5xC4rS56
-         fr2ynukpR+2LGPbaDEjzEZi1uCf2uyrHgIHbfOYpNuZ7oiHMCIRUNzgucdgHA6fHxZ75
-         OvITw0Knx5/j+DXdZtiM+w9cHWUZmGCZpf7Lw3pkX7ATiUElQsCDQnhIGsmbZqIadcT5
-         tsLiGmdYSrgbcJVNXPDbFTdmF/dqFqQMjKpug6IPbzHNnoohsn0YNGM3Nfo9huB1ECeS
-         DmYZ5NBmjiEO12CdKSnS+AjHjxSojhdbWVQbCelhDnlNafwUSVCCIRSsvkDkmq2m3b3W
-         Ndjw==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B251F1C2E
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 21:02:54 +0000 (UTC)
+Received: by mail-ot1-f53.google.com with SMTP id t11-20020a05683014cb00b0063734a2a786so14728890otq.11
+        for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 14:02:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=oLKhkirV3w4L2ZpLtqGDyVCrVsxu0uPLz0/+c0FrP44=;
-        b=BQIXcSyshHLKPj0TCPCBxQbiF9m7hkO5uWQ7Y4UM6XHZm51DQz7M18p2dOwe59L9Nn
-         qJkR1EjyvjNgjrGLl+TEXPa8AP+ygM1TJFdgQ+612x457seRrumjB5ET48CGtEPZwaep
-         +MLTUw9Gxj4+iB8nzcXkUhy5E+kv5IZZ1GZorDk4w0Z5Dao/kJd8r+E3Giw8PymDRWEh
-         sUcIFwTH+Me4eglsYanj7RpjE7vrAhrq/MnYB5SJvW4DA8AIkl3JY7/GpUTCpnUTf3Y6
-         vdKr5RVvFS2ZumV3WElyBBAv28e5Ya36kERbmFxyph9RtgG235tjcjPF+TU3MjJmudmz
-         dnBA==
-X-Gm-Message-State: ACgBeo1akk5gwjgr8THf1H+SemTNxm/HmgtYaYI1P8j4qYP9NRXxXMx2
-	qqtVjeD5f7xGXDoi4d+fcns=
-X-Google-Smtp-Source: AA6agR613VB97nXMu5ne+PQ1UsaX69bwQs2+kN0UuMNISDwePR0opBgEMh3oUBCIfifoMUUEFOAF2Q==
-X-Received: by 2002:a05:600c:a09:b0:3a6:8900:c651 with SMTP id z9-20020a05600c0a0900b003a68900c651mr3343962wmp.145.1661461358339;
-        Thu, 25 Aug 2022 14:02:38 -0700 (PDT)
-Received: from kista.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
-        by smtp.gmail.com with ESMTPSA id ib6-20020a05600ca14600b003a62400724bsm534290wmb.0.2022.08.25.14.02.37
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=zlDgSVi6ybm28ADf/l4jQxot81q6KSDv8EU/4KXm+fU=;
+        b=i5i9YkbLOptbG0HvMxV/j/uzJyDOzBSU3v0ozQ5m/OaPpe1byjuO4zvxqONl4u60pi
+         aStcWP1U510sXY8q0pMkuDG7XXvNn5ZjE4KFF15+0H+gDwhodF0yX48ubLC6othCdmr7
+         UmMGbozx7k3skT2zpoqQjOh/h+J2EoIus3HJRSAGLDw+BdbFvsh2wkPZcV/ARQsN9o6e
+         B3ENDjPkJzf6SC1APKe5XpXvZC0hS8WKOT1+v/nhM56SxTApv5gwSiExAnkCTqJy3TRg
+         i4qcI+xQk942f24Tv02j+LpNaZYkYCkqc2QbJkO+Q5NPuk9tsght9y06ZWMq+sgFBAbh
+         J+aA==
+X-Gm-Message-State: ACgBeo3V+emjRsLyjuzxX/6ZhgYBDulprEPw8aSLO48e5KgLT9yPDkVd
+	TizlUT75+o6yUGfwIyWn7g==
+X-Google-Smtp-Source: AA6agR6Vlp9ebEknuUxzZiq3qwYENpFauxFBuzd6t2b++gnkgaGivXI0o6LrZdEEH5fh0PFr5laTyg==
+X-Received: by 2002:a9d:748a:0:b0:637:1cf2:c8c4 with SMTP id t10-20020a9d748a000000b006371cf2c8c4mr338370otk.274.1661461373789;
+        Thu, 25 Aug 2022 14:02:53 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id t5-20020a4ab585000000b00448aff53822sm142942ooo.40.2022.08.25.14.02.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Aug 2022 14:02:37 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: kernel@collabora.com, Nicolas Dufresne <nicolas.dufresne@collabora.com>, stable@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/3] media: cedrus: Fix watchdog race condition
-Date: Thu, 25 Aug 2022 23:02:36 +0200
-Message-ID: <7418676.EvYhyI6sBW@kista>
-In-Reply-To: <20220818203308.439043-2-nicolas.dufresne@collabora.com>
-References: <20220818203308.439043-1-nicolas.dufresne@collabora.com> <20220818203308.439043-2-nicolas.dufresne@collabora.com>
+        Thu, 25 Aug 2022 14:02:53 -0700 (PDT)
+Received: (nullmailer pid 1682027 invoked by uid 1000);
+	Thu, 25 Aug 2022 21:02:52 -0000
+Date: Thu, 25 Aug 2022 16:02:52 -0500
+From: Rob Herring <robh@kernel.org>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 3/4] dt-bindings: nvmem: Allow bit offsets greater than a
+ byte
+Message-ID: <20220825210252.GA1671168-robh@kernel.org>
+References: <20220814173656.11856-1-samuel@sholland.org>
+ <20220814173656.11856-4-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220814173656.11856-4-samuel@sholland.org>
 
-Dne =C4=8Detrtek, 18. avgust 2022 ob 22:33:06 CEST je Nicolas Dufresne napi=
-sal(a):
-> The watchdog needs to be schedule before we trigger the decode
-> operation, otherwise there is a risk that the decoder IRQ will be
-> called before we have schedule the watchdog. As a side effect, the
-> watchdog would never be cancelled and its function would be called
-> at an inappropriate time.
->=20
-> This was observed while running Fluster with GStreamer as a backend.
-> Some programming error would cause the decoder IRQ to be call very
-> quickly after the trigger. Later calls into the driver would deadlock
-> due to the unbalanced state.
->=20
-> Cc: stable@vger.kernel.org
-> Fixes: 7c38a551bda1 ("media: cedrus: Add watchdog for job completion")
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+On Sun, Aug 14, 2022 at 12:36:54PM -0500, Samuel Holland wrote:
+> Some NVMEM devices contain cells which do not start at a multiple of the
+> device's stride. However, the "reg" property of a cell must be aligned
+> to its provider device's stride.
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+How is a DT author supposed to know this? 
 
-Best regards,
-Jernej
+I would lean toward it's the OS's problem to deal with (your option 1 I 
+guess). I worry that one client could expect it one way and another 
+client the other. Or folks making DT changes to 'fix' things.
 
+> 
+> These cells can be represented in the DT using the "bits" property if
+> that property allows offsets up to the full stride. 63 is chosen
+> assuming that NVMEM devices will not have strides larger than 8 bytes.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
->  drivers/staging/media/sunxi/cedrus/cedrus_dec.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c index
-> 3b6aa78a2985f..e7f7602a5ab40 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> @@ -106,11 +106,11 @@ void cedrus_device_run(void *priv)
->=20
->  	/* Trigger decoding if setup went well, bail out otherwise. */
->  	if (!error) {
-> -		dev->dec_ops[ctx->current_codec]->trigger(ctx);
-> -
->  		/* Start the watchdog timer. */
->  		schedule_delayed_work(&dev->watchdog_work,
->  				      msecs_to_jiffies(2000));
-> +
-> +		dev->dec_ops[ctx->current_codec]->trigger(ctx);
->  	} else {
->  		v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev,
->  						 ctx-
->fh.m2m_ctx,
-> --
-> 2.37.2
-
-
+> 
+>  Documentation/devicetree/bindings/nvmem/nvmem.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/nvmem/nvmem.yaml b/Documentation/devicetree/bindings/nvmem/nvmem.yaml
+> index 3bb349c634cb..4f440ab6a13c 100644
+> --- a/Documentation/devicetree/bindings/nvmem/nvmem.yaml
+> +++ b/Documentation/devicetree/bindings/nvmem/nvmem.yaml
+> @@ -53,7 +53,7 @@ patternProperties:
+>          $ref: /schemas/types.yaml#/definitions/uint32-array
+>          items:
+>            - minimum: 0
+> -            maximum: 7
+> +            maximum: 63
+>              description:
+>                Offset in bit within the address range specified by reg.
+>            - minimum: 1
+> -- 
+> 2.35.1
+> 
+> 
