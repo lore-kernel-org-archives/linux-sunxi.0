@@ -1,184 +1,156 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0FD3D81
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 20:36:25 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id c187-20020a1c35c4000000b003a30d88fe8eso3336880wma.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 13:36:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A621C2E
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 20:48:58 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id d16so20753145wrr.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 13:48:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=m4tEcGBACEGWaQEpUxdmWQR6J1Khyc3oluJxMJzdBgo=;
-        b=N2fAhrsl+kv9ZYKhW5EJYguEcSWxvXTY54bQUjLprmAcyC8Pa4oIWZXv2vCW7XK24I
-         hl9vRRFcXaUFvUSnB7MJmtdF8YRRYkL1ae2Xja7m2tThhuimRk0+anfJw1UAV7fpjscX
-         sROzAb/6r8vu5B2GH36HZ3Tmn1qmCzeTz8aBfi3WzC0FdoiJ2t/C7OG6Bqgu8DBDFcRE
-         SMpgZljWW6enGuPxxF7cmilQehbK/czz5o/Nx5bGDz6j+iEkhhoySaaISUzqTwG5I9p+
-         x5Phhdcjgh0mlWgWa7CSmPHetKPwnABLGOse9lGcbZLQSF67OvWd8mANePgcBA8pkM6i
-         /ZTQ==
+        bh=6UzUCNgt4y0AHaBNJHl0u/FLrxd0vX2AFvB+HEQd8NM=;
+        b=E96RMdPc6kX9TtDJzrOqo1gGRHBzfP6XCPrz5N8u6kh2oo7pX+NvWTtXitAGAyhOYZ
+         dLItkLw4f906wzOWubVOl/F2SWCkaHk/7bPn+J3AUOnkJCWEAVLrTFRlPF9ems0p6hJ3
+         rqSs+G7ZXvCYbMxGQdTxdVkLQuSAS6snMZ7uZ7YmuI5cL9Qd6Kl17IYR8qF65hLEIzAz
+         D7fnTM3kkZKCh29/6g/AIk87eu0ky3FNRGVFb95NdU1qt+007aFXG+0xtNjdzOgUvERN
+         q5HP8HsJWwKJm/sRFdO/V+N0yfalBVs6XtPel5rDvkIRQifRPC/ddv7c1LEI1dUkh+5b
+         R61w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=m4tEcGBACEGWaQEpUxdmWQR6J1Khyc3oluJxMJzdBgo=;
-        b=F1F6ykuDF+7Hur868afE2ML2UMPpULkqvdoNWxmK/ihAEvr+i+0tXkPWOy+FuVtz1I
-         axmvnJmjfFsknow3984rYJZJ/bZ4EcPUAFPd5o8SxE3Bo6GfgZSKl3DSg4y4ZlbJuueV
-         aUaXXs72Aw/wfUIJN1d6SxSN4qYJolK/OVbWhsLMntNTv3/JlIeGlpkgIejBBfYf/5qo
-         0B9vsp1dgsO3sOTxkMwBGggbU7jklDAfsfLXS2pAGa2a8yZ8WAfcSBarBydOMO/D20x4
-         PqNeD9t9XbhbKItD3N1bO5r1vg6XxmUIIkOuhsz22NhhLpt2+8JZdYewdHPf8QGMj7yZ
-         jkVg==
-X-Gm-Message-State: ACgBeo3y4YAnZVdY0EQB3RHWPVEfpFtG8cc1ywaR2t7xAIk+ZTromTed
-	Ha3VZjonshKqnm/pvdsfdC8=
-X-Google-Smtp-Source: AA6agR5nmXXz4cnhxS3dpy898DY4fWV2qphQL7t2YuAZhFtAOHTBLIUInnvIoHdSrPi8xqnPsqzwSQ==
-X-Received: by 2002:a05:600c:3c9:b0:3a5:c5b3:4bf with SMTP id z9-20020a05600c03c900b003a5c5b304bfmr9185791wmd.195.1661459784116;
-        Thu, 25 Aug 2022 13:36:24 -0700 (PDT)
+        bh=6UzUCNgt4y0AHaBNJHl0u/FLrxd0vX2AFvB+HEQd8NM=;
+        b=vwIOewhfsx3qqc9SFo8ZYTYWpR28KLkBvwn/7oRTLpmsEpx3zRlyta3kg9BMXyuXNG
+         zA5jLhRXVTsBiM9CUHBYixyoRbwxcoOHPkIyGWx1f74544gKO+4gFom+YVmWnuCqOvde
+         IhnzVxyTa0bngaQqNL6CMUuynHY1SPA+I9ig9hUwBNXSwElqKM1SgrZVwkIzyAkXwB8r
+         eCh5OLN+PSj5+ZV4/ipR6Fmaw2Sp69LQFCBdZbY0kQagjhmNWH4IzkRL/s70McmRnXTj
+         YaACJgvQBH9wuWs607r6rt/wyD1pTJWS1ufKLhqRTQj7emqhqNODK5rVVeiPmRdgdx1R
+         o1pw==
+X-Gm-Message-State: ACgBeo1mn8U2gHzd22xPf4hiv3ayYXLRdYoQg9BQBpPuQ43rn56zJubN
+	NGa8zLgx2znC9yTbFsb61wA=
+X-Google-Smtp-Source: AA6agR5luFniLeLJR/gpv3f8y8PSO9iYmRy9xopByet6i9pxvH109nYNZOhflEi5Ej+3VAkPWavVHw==
+X-Received: by 2002:a5d:64e1:0:b0:225:5495:ff75 with SMTP id g1-20020a5d64e1000000b002255495ff75mr3216411wri.21.1661460536349;
+        Thu, 25 Aug 2022 13:48:56 -0700 (PDT)
 Received: from kista.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
-        by smtp.gmail.com with ESMTPSA id n4-20020a05600c3b8400b003a608d69a64sm6328926wms.21.2022.08.25.13.36.23
+        by smtp.gmail.com with ESMTPSA id l14-20020a5d668e000000b002253fd19a6asm266939wru.18.2022.08.25.13.48.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Aug 2022 13:36:23 -0700 (PDT)
+        Thu, 25 Aug 2022 13:48:55 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: herbert@gondor.apana.org.au, linux-crypto@vger.kernel.org, Jack Wang <jinpu.wang@ionos.com>
-Cc: Corentin Labbe <clabbe.montjoie@gmail.com>, "David S. Miller" <davem@davemloft.net>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Dan Carpenter <dan.carpenter@oracle.com>, Minghao Chi <chi.minghao@zte.com.cn>, Peng Wu <wupeng58@huawei.com>, Alexey Khoroshilov <khoroshilov@ispras.ru>, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] crypto: allwinner: Fix dma_map_sg error check
-Date: Thu, 25 Aug 2022 22:36:22 +0200
-Message-ID: <4734941.GXAFRqVoOG@kista>
-In-Reply-To: <20220825072421.29020-6-jinpu.wang@ionos.com>
-References: <20220825072421.29020-1-jinpu.wang@ionos.com> <20220825072421.29020-6-jinpu.wang@ionos.com>
+To: Lee Jones <lee@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, Tim Harvey <tharvey@gateworks.com>, Robert Jones <rjones@gateworks.com>, Chanwoo Choi <cw00.choi@samsung.com>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Heiko Stuebner <heiko@sntech.de>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Maxime Ripard <mripard@kernel.org>, - <patches@opensource.cirrus.com>, Steve Twiss <stwiss.opensource@diasemi.com>, Chris Zhong <zyw@rock-chips.com>, Zhang Qing <zhangqing@rock-chips.com>, Alistair Francis <alistair@alistair23.me>, Amelie Delaunay <amelie.delaunay@foss.st.com>, Linus Walleij <linus.walleij@linaro.org>, Renner Berthing <kernel@esmil.dk>, Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH] dt-bindings: mfd: Add missing (unevaluated|additional)Properties on child nodes
+Date: Thu, 25 Aug 2022 22:48:54 +0200
+Message-ID: <13083804.uLZWGnKmhe@kista>
+In-Reply-To: <20220823145649.3118479-4-robh@kernel.org>
+References: <20220823145649.3118479-4-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Dne =C4=8Detrtek, 25. avgust 2022 ob 09:24:20 CEST je Jack Wang napisal(a):
-> dma_map_sg return 0 on error.
->=20
-> Cc: Corentin Labbe <clabbe.montjoie@gmail.com>
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Samuel Holland <samuel@sholland.org>
-> Cc: Dan Carpenter <dan.carpenter@oracle.com>
-> Cc: Minghao Chi <chi.minghao@zte.com.cn>
-> Cc: Peng Wu <wupeng58@huawei.com>
-> Cc: Alexey Khoroshilov <khoroshilov@ispras.ru>
-> Cc: linux-crypto@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-sunxi@lists.linux.dev
-> Cc: linux-kernel@vger.kernel.org
-> Fixes: 06f751b61329 ("crypto: allwinner - Add sun8i-ce Crypto Engine")
-> Fixes: d9b45418a917 ("crypto: sun8i-ss - support hash algorithms")
-> Signed-off-by: Jack Wang <jinpu.wang@ionos.com>
+Dne torek, 23. avgust 2022 ob 16:56:35 CEST je Rob Herring napisal(a):
+> In order to ensure only documented properties are present, node schemas
+> must have unevaluatedProperties or additionalProperties set to false
+> (typically).
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../mfd/allwinner,sun6i-a31-prcm.yaml         | 40 +++++++++++++++++++
+>  .../mfd/allwinner,sun8i-a23-prcm.yaml         | 10 +++++
+>  .../bindings/mfd/cirrus,lochnagar.yaml        |  5 +++
+>  .../devicetree/bindings/mfd/dlg,da9063.yaml   |  7 ++--
+>  .../bindings/mfd/gateworks-gsc.yaml           |  5 ++-
+>  .../bindings/mfd/maxim,max14577.yaml          |  1 +
+>  .../bindings/mfd/maxim,max77843.yaml          |  1 +
+>  .../bindings/mfd/rockchip,rk817.yaml          |  2 +
+>  .../bindings/mfd/silergy,sy7636a.yaml         |  1 +
+>  .../bindings/mfd/st,stm32-lptimer.yaml        |  4 ++
+>  .../bindings/mfd/st,stm32-timers.yaml         |  3 ++
+>  .../devicetree/bindings/mfd/st,stmfx.yaml     |  1 +
+>  .../bindings/mfd/stericsson,ab8500.yaml       | 22 ++++++++++
+>  .../devicetree/bindings/mfd/ti,tps65086.yaml  |  1 +
+>  .../bindings/mfd/x-powers,axp152.yaml         |  1 +
+>  15 files changed, 100 insertions(+), 4 deletions(-)
+> 
+> diff --git
+> a/Documentation/devicetree/bindings/mfd/allwinner,sun6i-a31-prcm.yaml
+> b/Documentation/devicetree/bindings/mfd/allwinner,sun6i-a31-prcm.yaml index
+> d131759ccaf3..021d33cb3dd6 100644
+> --- a/Documentation/devicetree/bindings/mfd/allwinner,sun6i-a31-prcm.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/allwinner,sun6i-a31-prcm.yaml
+> @@ -22,6 +22,7 @@ properties:
+>  patternProperties:
+>    "^.*_(clk|rst)$":
+>      type: object
+> +    unevaluatedProperties: false
+> 
+>      properties:
+>        compatible:
+> @@ -34,6 +35,45 @@ patternProperties:
+>            - fixed-factor-clock
+> 
+>      allOf:
+> +      - if:
+> +          properties:
+> +            compatible:
+> +              contains:
+> +                const: fixed-factor-clock
+> +
+> +        then:
+> +          $ref: /schemas/clock/fixed-factor-clock.yaml#
+> +
+> +      - if:
+> +          properties:
+> +            compatible:
+> +              contains:
+> +                const: allwinner,sun4i-a10-mod0-clk
+> +
+> +        then:
+> +          properties:
+> +            "#clock-cells":
+> +              const: 0
+> +
+> +            # Already checked in the main schema
+> +            compatible: true
+> +
+> +            clocks:
+> +              maxItems: 2
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Last time node with allwinner,sun4i-a10-mod0-clk compatible was used, it had 3 
+clocks. See:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/
+arm/boot/dts/sun4i-a10.dtsi?id=f18698e1c66338b902de386e4ad97b8b1b9d999d#n406
+
+Once that fixed, allwinner,sun6i-a31-prcm.yaml and allwinner,sun8i-a23-
+prcm.yaml  are:
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-> ---
->  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c | 6 +++---
->  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c   | 2 +-
->  drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c | 4 ++--
->  drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c   | 2 +-
->  4 files changed, 7 insertions(+), 7 deletions(-)
->=20
-> diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-> b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c index
-> 74b4e910a38d..be7f46faef7e 100644
-> --- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-> +++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-> @@ -208,7 +208,7 @@ static int sun8i_ce_cipher_prepare(struct crypto_engi=
-ne
-> *engine, void *async_req
->=20
->  	if (areq->src =3D=3D areq->dst) {
->  		nr_sgs =3D dma_map_sg(ce->dev, areq->src, ns,=20
-DMA_BIDIRECTIONAL);
-> -		if (nr_sgs <=3D 0 || nr_sgs > MAX_SG) {
-> +		if (!nr_sgs || nr_sgs > MAX_SG) {
->  			dev_err(ce->dev, "Invalid sg number %d\n",=20
-nr_sgs);
->  			err =3D -EINVAL;
->  			goto theend_iv;
-> @@ -216,13 +216,13 @@ static int sun8i_ce_cipher_prepare(struct
-> crypto_engine *engine, void *async_req nr_sgd =3D nr_sgs;
->  	} else {
->  		nr_sgs =3D dma_map_sg(ce->dev, areq->src, ns,=20
-DMA_TO_DEVICE);
-> -		if (nr_sgs <=3D 0 || nr_sgs > MAX_SG) {
-> +		if (!nr_sgs || nr_sgs > MAX_SG) {
->  			dev_err(ce->dev, "Invalid sg number %d\n",=20
-nr_sgs);
->  			err =3D -EINVAL;
->  			goto theend_iv;
->  		}
->  		nr_sgd =3D dma_map_sg(ce->dev, areq->dst, nd,=20
-DMA_FROM_DEVICE);
-> -		if (nr_sgd <=3D 0 || nr_sgd > MAX_SG) {
-> +		if (!nr_sgd || nr_sgd > MAX_SG) {
->  			dev_err(ce->dev, "Invalid sg number %d\n",=20
-nr_sgd);
->  			err =3D -EINVAL;
->  			goto theend_sgs;
-> diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
-> b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c index
-> 8b5b9b9d04c3..0e6843ec197f 100644
-> --- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
-> +++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
-> @@ -389,7 +389,7 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, v=
-oid
-> *breq) cet->t_asym_ctl =3D 0;
->=20
->  	nr_sgs =3D dma_map_sg(ce->dev, areq->src, ns, DMA_TO_DEVICE);
-> -	if (nr_sgs <=3D 0 || nr_sgs > MAX_SG) {
-> +	if (!nr_sgs || nr_sgs > MAX_SG) {
->  		dev_err(ce->dev, "Invalid sg number %d\n", nr_sgs);
->  		err =3D -EINVAL;
->  		goto theend;
-> diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
-> b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c index
-> 910d6751644c..fdcc98cdecaa 100644
-> --- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
-> +++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
-> @@ -232,13 +232,13 @@ static int sun8i_ss_cipher(struct skcipher_request
-> *areq) nr_sgd =3D nr_sgs;
->  	} else {
->  		nr_sgs =3D dma_map_sg(ss->dev, areq->src, nsgs,=20
-DMA_TO_DEVICE);
-> -		if (nr_sgs <=3D 0 || nr_sgs > 8) {
-> +		if (!nr_sgs || nr_sgs > 8) {
->  			dev_err(ss->dev, "Invalid sg number %d\n",=20
-nr_sgs);
->  			err =3D -EINVAL;
->  			goto theend_iv;
->  		}
->  		nr_sgd =3D dma_map_sg(ss->dev, areq->dst, nsgd,=20
-DMA_FROM_DEVICE);
-> -		if (nr_sgd <=3D 0 || nr_sgd > 8) {
-> +		if (!nr_sgd || nr_sgd > 8) {
->  			dev_err(ss->dev, "Invalid sg number %d\n",=20
-nr_sgd);
->  			err =3D -EINVAL;
->  			goto theend_sgs;
-> diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
-> b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c index
-> 36a82b22953c..fcb8c41cc957 100644
-> --- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
-> +++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
-> @@ -527,7 +527,7 @@ int sun8i_ss_hash_run(struct crypto_engine *engine, v=
-oid
-> *breq) rctx->method =3D ss->variant->alg_hash[algt->ss_algo_id];
->=20
->  	nr_sgs =3D dma_map_sg(ss->dev, areq->src, sg_nents(areq->src),
-> DMA_TO_DEVICE); -	if (nr_sgs <=3D 0 || nr_sgs > MAX_SG) {
-> +	if (!nr_sgs || nr_sgs > MAX_SG) {
->  		dev_err(ss->dev, "Invalid sg number %d\n", nr_sgs);
->  		err =3D -EINVAL;
->  		goto theend;
-> --
-> 2.34.1
+
+
+> +
+> +            clock-output-names:
+> +              maxItems: 1
+> +
+> +            phandle: true
+> +
+> +          required:
+> +            - "#clock-cells"
+> +            - compatible
+> +            - clocks
+> +            - clock-output-names
+> +
+> +          additionalProperties: false
+> +
+>        - if:
+>            properties:
+>              compatible:
+
 
 
