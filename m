@@ -1,23 +1,23 @@
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71DF4441B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE781441F
 	for <linux-sunxi@lists.linux.dev>; Fri, 26 Aug 2022 18:33:15 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id C103DFF80E;
-	Fri, 26 Aug 2022 18:33:12 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 3A0AEFF806;
+	Fri, 26 Aug 2022 18:33:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1661538793;
+	t=1661538788;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FYndyIwb4wxaIEmCQyi66LXpTme/wFRWwWZTh38SwDI=;
-	b=ZkRMH6KONqbzj9PrgZzzNbnosp/5L2U462n8LT9cghUgOEI4BuJnQsDwoXMY/KVBTF9V7K
-	syyyr2p8lWJGF/Zur08yn1Fi95LgVSaqsPdtx2cry632l6i/lJiKTUA1TVXATetMm40TjH
-	xpyqQ212WwPDthyi3PPjnDnVJV63kFPDGP2g/wrjQ4jqYring8AQRRJ3uWsD0jnGgoWbxt
-	tndeS/Xvt+Y+nsxsDLrtxbaYyXmcuw3uJ06hJixVcG5cxk69SfA0saOXma9MiFwcpYA0FX
-	xi8bhI14Ya4HkaeyTbPJyHzYCZRyiCLoVA4nmYoclboi+UvSEbPQFGaxJ2sqmw==
+	bh=5rBr3+qqAn3wAUjJFm8oO+0CVMx2myg+ws/ifNsAPGY=;
+	b=bQLjgpq2E/+Th5cFDyD9kJNla7S7PSDrLJThWttEhXFNFh1qvHJbyKMcZFRWddY5Nux/Q7
+	01AyCeadMzTFvxPg8k6MK20ARGqhFoevspBANLTSDkb7uMV9OPJaOAiRNsCCJ1hVWpQFNr
+	FuW/cvMTjcR4e/9DxlUiy0nDaGET9aYwvj8/0jcMfkYLIEw3/9R1rqi2e1YynKaKnw4cP7
+	0UFv65Ccgr9DdzalBCD2JCzvBF/va7Y6j0aHd+7QO3TiFqI1tiI0FIPrj4QnSPT/lzw2tW
+	aVlUyD53Mb5V3/sczJS9dtlSAdiCOxX2SEoMjetGYPVY97wNNkZGcJL9nd2h3Q==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
@@ -31,10 +31,11 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Samuel Holland <samuel@sholland.org>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v6 06/43] media: sun6i-csi: Use runtime pm for clocks and reset
-Date: Fri, 26 Aug 2022 20:32:03 +0200
-Message-Id: <20220826183240.604834-7-paul.kocialkowski@bootlin.com>
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH v6 01/43] media: sun6i-csi: Define and use driver name and (reworked) description
+Date: Fri, 26 Aug 2022 20:31:58 +0200
+Message-Id: <20220826183240.604834-2-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220826183240.604834-1-paul.kocialkowski@bootlin.com>
 References: <20220826183240.604834-1-paul.kocialkowski@bootlin.com>
@@ -46,166 +47,91 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Wrap the clock and reset preparation into runtime pm functions
-for better organization of the code. Also fix the clock and
-reset enable order to first deassert reset, as recommended in
-Allwinner literature.
+Add proper defines for driver name and description instead of
+MODULE_NAME and hardcoding (cosmetics).
 
-Make the driver depend on PM while at it since runtime pm is
-mandatory for the driver to work.
+Also rework the description while at it to mention the hardware
+generation that the driver supports and remove the video capture
+mentions since it applies to the whole media device.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Reviewed-by: Maxime Ripard <maxime@cerno.tech>
 ---
- .../media/platform/sunxi/sun6i-csi/Kconfig    |  2 +-
- .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 84 +++++++++++++------
- 2 files changed, 60 insertions(+), 26 deletions(-)
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 14 ++++++--------
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h |  3 +++
+ 2 files changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/Kconfig b/drivers/media/platform/sunxi/sun6i-csi/Kconfig
-index e5b6991ce7f0..a472f46648af 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/Kconfig
-+++ b/drivers/media/platform/sunxi/sun6i-csi/Kconfig
-@@ -2,7 +2,7 @@
- config VIDEO_SUN6I_CSI
- 	tristate "Allwinner V3s Camera Sensor Interface driver"
- 	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && COMMON_CLK && RESET_CONTROLLER && HAS_DMA
-+	depends on VIDEO_DEV && COMMON_CLK && RESET_CONTROLLER && HAS_DMA && PM
- 	depends on ARCH_SUNXI || COMPILE_TEST
- 	select MEDIA_CONTROLLER
- 	select VIDEO_V4L2_SUBDEV_API
 diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-index 800851f4e18c..31374d45eb9f 100644
+index a971587dbbd1..5ca05f348021 100644
 --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
 +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-@@ -152,40 +152,18 @@ int sun6i_csi_set_power(struct sun6i_csi_device *csi_dev, bool enable)
+@@ -27,8 +27,6 @@
+ #include "sun6i_csi.h"
+ #include "sun6i_csi_reg.h"
  
- 	if (!enable) {
- 		regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN, 0);
-+		pm_runtime_put(dev);
+-#define MODULE_NAME	"sun6i-csi"
+-
+ struct sun6i_csi_dev {
+ 	struct sun6i_csi		csi;
+ 	struct device			*dev;
+@@ -730,7 +728,7 @@ static int sun6i_csi_v4l2_init(struct sun6i_csi *csi)
+ 	int ret;
  
--		clk_disable_unprepare(csi_dev->clock_ram);
--		clk_disable_unprepare(csi_dev->clock_mod);
--		reset_control_assert(csi_dev->reset);
- 		return 0;
+ 	csi->media_dev.dev = csi->dev;
+-	strscpy(csi->media_dev.model, "Allwinner Video Capture Device",
++	strscpy(csi->media_dev.model, SUN6I_CSI_DESCRIPTION,
+ 		sizeof(csi->media_dev.model));
+ 	csi->media_dev.hw_revision = 0;
+ 
+@@ -753,7 +751,7 @@ static int sun6i_csi_v4l2_init(struct sun6i_csi *csi)
+ 		goto free_ctrl;
  	}
  
--	ret = clk_prepare_enable(csi_dev->clock_mod);
--	if (ret) {
--		dev_err(csi_dev->dev, "Enable csi clk err %d\n", ret);
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret < 0)
+-	ret = sun6i_video_init(&csi->video, csi, "sun6i-csi");
++	ret = sun6i_video_init(&csi->video, csi, SUN6I_CSI_NAME);
+ 	if (ret)
+ 		goto unreg_v4l2;
+ 
+@@ -868,8 +866,8 @@ static int sun6i_csi_resource_request(struct sun6i_csi_dev *sdev,
+ 	if (irq < 0)
+ 		return -ENXIO;
+ 
+-	ret = devm_request_irq(&pdev->dev, irq, sun6i_csi_isr, 0, MODULE_NAME,
+-			       sdev);
++	ret = devm_request_irq(&pdev->dev, irq, sun6i_csi_isr, 0,
++			       SUN6I_CSI_NAME, sdev);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "Cannot request csi IRQ\n");
  		return ret;
--	}
--
--	ret = clk_prepare_enable(csi_dev->clock_ram);
--	if (ret) {
--		dev_err(csi_dev->dev, "Enable clk_dram_csi clk err %d\n", ret);
--		goto clk_mod_disable;
--	}
--
--	ret = reset_control_deassert(csi_dev->reset);
--	if (ret) {
--		dev_err(csi_dev->dev, "reset err %d\n", ret);
--		goto clk_ram_disable;
--	}
- 
- 	regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN, CSI_EN_CSI_EN);
- 
- 	return 0;
--
--clk_ram_disable:
--	clk_disable_unprepare(csi_dev->clock_ram);
--clk_mod_disable:
--	clk_disable_unprepare(csi_dev->clock_mod);
--	return ret;
- }
- 
- static enum csi_input_fmt get_csi_input_format(struct sun6i_csi_device *csi_dev,
-@@ -797,6 +775,56 @@ static irqreturn_t sun6i_csi_interrupt(int irq, void *private)
- 	return IRQ_HANDLED;
- }
- 
-+static int sun6i_csi_suspend(struct device *dev)
-+{
-+	struct sun6i_csi_device *csi_dev = dev_get_drvdata(dev);
-+
-+	reset_control_assert(csi_dev->reset);
-+	clk_disable_unprepare(csi_dev->clock_ram);
-+	clk_disable_unprepare(csi_dev->clock_mod);
-+
-+	return 0;
-+}
-+
-+static int sun6i_csi_resume(struct device *dev)
-+{
-+	struct sun6i_csi_device *csi_dev = dev_get_drvdata(dev);
-+	int ret;
-+
-+	ret = reset_control_deassert(csi_dev->reset);
-+	if (ret) {
-+		dev_err(dev, "failed to deassert reset\n");
-+		return ret;
-+	}
-+
-+	ret = clk_prepare_enable(csi_dev->clock_mod);
-+	if (ret) {
-+		dev_err(dev, "failed to enable module clock\n");
-+		goto error_reset;
-+	}
-+
-+	ret = clk_prepare_enable(csi_dev->clock_ram);
-+	if (ret) {
-+		dev_err(dev, "failed to enable ram clock\n");
-+		goto error_clock_mod;
-+	}
-+
-+	return 0;
-+
-+error_clock_mod:
-+	clk_disable_unprepare(csi_dev->clock_mod);
-+
-+error_reset:
-+	reset_control_assert(csi_dev->reset);
-+
-+	return ret;
-+}
-+
-+static const struct dev_pm_ops sun6i_csi_pm_ops = {
-+	.runtime_suspend	= sun6i_csi_suspend,
-+	.runtime_resume		= sun6i_csi_resume,
-+};
-+
- static const struct regmap_config sun6i_csi_regmap_config = {
- 	.reg_bits       = 32,
- 	.reg_stride     = 4,
-@@ -876,6 +904,10 @@ static int sun6i_csi_resources_setup(struct sun6i_csi_device *csi_dev,
- 		goto error_clock_rate_exclusive;
- 	}
- 
-+	/* Runtime PM */
-+
-+	pm_runtime_enable(dev);
-+
- 	return 0;
- 
- error_clock_rate_exclusive:
-@@ -886,6 +918,7 @@ static int sun6i_csi_resources_setup(struct sun6i_csi_device *csi_dev,
- 
- static void sun6i_csi_resources_cleanup(struct sun6i_csi_device *csi_dev)
- {
-+	pm_runtime_disable(csi_dev->dev);
- 	clk_rate_exclusive_put(csi_dev->clock_mod);
- }
- 
-@@ -968,6 +1001,7 @@ static struct platform_driver sun6i_csi_platform_driver = {
- 	.driver	= {
- 		.name		= SUN6I_CSI_NAME,
- 		.of_match_table	= of_match_ptr(sun6i_csi_of_match),
-+		.pm		= &sun6i_csi_pm_ops,
+@@ -922,12 +920,12 @@ static struct platform_driver sun6i_csi_platform_driver = {
+ 	.probe = sun6i_csi_probe,
+ 	.remove = sun6i_csi_remove,
+ 	.driver = {
+-		.name = MODULE_NAME,
++		.name = SUN6I_CSI_NAME,
+ 		.of_match_table = of_match_ptr(sun6i_csi_of_match),
  	},
  };
+ module_platform_driver(sun6i_csi_platform_driver);
  
+-MODULE_DESCRIPTION("Allwinner V3s Camera Sensor Interface driver");
++MODULE_DESCRIPTION("Allwinner A31 Camera Sensor Interface driver");
+ MODULE_AUTHOR("Yong Deng <yong.deng@magewell.com>");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+index 3a38d107ae3f..e04f3c3fa27b 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+@@ -14,6 +14,9 @@
+ 
+ #include "sun6i_video.h"
+ 
++#define SUN6I_CSI_NAME		"sun6i-csi"
++#define SUN6I_CSI_DESCRIPTION	"Allwinner A31 CSI Device"
++
+ struct sun6i_csi;
+ 
+ /**
 -- 
 2.37.1
 
