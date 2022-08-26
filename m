@@ -1,19 +1,19 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98146441B
-	for <linux-sunxi@lists.linux.dev>; Fri, 26 Aug 2022 19:08:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26F6C441B
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Aug 2022 19:08:50 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 16817547;
-	Fri, 26 Aug 2022 21:08:10 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 519BE2B3;
+	Fri, 26 Aug 2022 21:00:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1661540891;
-	bh=3x5c84ET66BZj+Rj//NkR71TpQss27e3h7UwwnNl6YA=;
+	s=mail; t=1661540400;
+	bh=ssabbTy5MKSrv/V8sgDdoX5TEjDpuV0Khzcx+zOOY9E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GkRyHFtwQwQHvovGaGdQVI2oadFmuvach8EPNPJ20on2n6dEdOZNzZja/xZoOibm4
-	 C6uC6mAOX/hxsOp8njVgUgO9Yq0L+5oSAYAVBFTz35thZRW9bfoVTZBF3gAv7IYxc7
-	 IMpr7/u/ar6ar3IcH6YEgxP9ZUQ833aS3rCG2jd4=
-Date: Fri, 26 Aug 2022 22:08:04 +0300
+	b=I7P/V+m4ueBHnBc1to1KT6ZebT537tW55GmSelssGNZL1o8f/3o6V7nNu4UhUR6Jn
+	 rPLpJ87mZrj0IaXwJXCuIrd2UoTDgnwhfo9YVuAb3ULuYC9+Ja/bEo822nT5ItE3U4
+	 bSaMvJAtzCxdzJ5MOTvJG08xaKTVk3hVggJymnbw=
+Date: Fri, 26 Aug 2022 21:59:53 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -26,13 +26,12 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	Stephen Boyd <sboyd@kernel.org>,
 	Frank Rowand <frowand.list@gmail.com>,
 	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	=?utf-8?B?S8OpdmluIEwnaMO0cGl0YWw=?= <kevin.lhopital@bootlin.com>
-Subject: Re: [PATCH NOT FOR MERGE v5 6/6] ARM: dts: sun8i: a83t: bananapi-m3:
- Enable MIPI CSI-2 with OV8865
-Message-ID: <YwkaFC2tm96X5qon@pendragon.ideasonboard.com>
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v5 5/6] ARM: dts: sun8i: a83t: Add MIPI CSI-2 controller
+ node
+Message-ID: <YwkYKcffdRGnq+pK@pendragon.ideasonboard.com>
 References: <20220826182803.604563-1-paul.kocialkowski@bootlin.com>
- <20220826182803.604563-7-paul.kocialkowski@bootlin.com>
+ <20220826182803.604563-6-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -41,199 +40,67 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220826182803.604563-7-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20220826182803.604563-6-paul.kocialkowski@bootlin.com>
 
-Hi Paul and Kévin,
+Hi Paul,
 
 Thank you for the patch.
 
-On Fri, Aug 26, 2022 at 08:28:03PM +0200, Paul Kocialkowski wrote:
-> From: Kévin L'hôpital <kevin.lhopital@bootlin.com>
+On Fri, Aug 26, 2022 at 08:28:02PM +0200, Paul Kocialkowski wrote:
+> MIPI CSI-2 is supported on the A83T with a dedicated controller that
+> covers both the protocol and D-PHY. It can be connected to the CSI
+> interface as a V4L2 subdev through the fwnode graph.
 > 
-> The Bananapi M3 supports a camera module which includes an OV8865 sensor
-> connected via the parallel CSI interface and an OV8865 sensor connected
-> via MIPI CSI-2.
-> 
-> The I2C2 bus is shared by the two sensors as well as the (active-low)
-> reset signal, but each sensor has it own shutdown line.
+> This is not done by default since connecting the bridge without a
+> subdev attached to it will cause a failure on the CSI driver.
 
-I see a single sensor in this file, am I missing something ?
+No urgency, but would it be possible to fix this so that the CSI-2
+receiver can be connected to the CSI unconditionally in DT ? The
+connection exists at the hardware level in the SoC, and should thus
+exist here too, regardless of whether or not a sensor is connected.
 
-Sounds like a perfect candidate for an overlay, it could then be merged
-upstream.
-
-> Signed-off-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > ---
->  arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts | 102 +++++++++++++++++++
->  1 file changed, 102 insertions(+)
+>  arch/arm/boot/dts/sun8i-a83t.dtsi | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
 > 
-> diff --git a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
-> index 5a7e1bd5f825..80fd99cf24b2 100644
-> --- a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
-> +++ b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
-> @@ -85,6 +85,30 @@ led-1 {
+> diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8i-a83t.dtsi
+> index 82fdb04122ca..ecf9f3b2c0c0 100644
+> --- a/arch/arm/boot/dts/sun8i-a83t.dtsi
+> +++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
+> @@ -1064,6 +1064,32 @@ csi: camera@1cb0000 {
+>  			status = "disabled";
 >  		};
->  	};
 >  
-> +	reg_ov8865_avdd: ov8865-avdd {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "ov8865-avdd";
-> +		regulator-min-microvolt = <2800000>;
-> +		regulator-max-microvolt = <2800000>;
-> +		vin-supply = <&reg_dldo4>;
-> +	};
+> +		mipi_csi2: csi@1cb1000 {
+> +			compatible = "allwinner,sun8i-a83t-mipi-csi2";
+> +			reg = <0x01cb1000 0x1000>;
+> +			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&ccu CLK_BUS_CSI>,
+> +				 <&ccu CLK_CSI_SCLK>,
+> +				 <&ccu CLK_MIPI_CSI>,
+> +				 <&ccu CLK_CSI_MISC>;
+> +			clock-names = "bus", "mod", "mipi", "misc";
+> +			resets = <&ccu RST_BUS_CSI>;
+> +			status = "disabled";
 > +
-> +	reg_ov8865_dovdd: ov8865-dovdd {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "ov8865-dovdd";
-> +		regulator-min-microvolt = <2800000>;
-> +		regulator-max-microvolt = <2800000>;
-> +		vin-supply = <&reg_dldo4>;
-> +	};
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
 > +
-> +	reg_ov8865_dvdd: ov8865-dvdd {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "ov8865-dvdd";
-> +		regulator-min-microvolt = <1200000>;
-> +		regulator-max-microvolt = <1200000>;
-> +		vin-supply = <&reg_eldo1>;
-> +	};
-
-Are those three regulators on the Banana Pi, or on the camera module ?
-
+> +				mipi_csi2_in: port@0 {
+> +					reg = <0>;
+> +				};
 > +
->  	reg_usb1_vbus: reg-usb1-vbus {
->  		compatible = "regulator-fixed";
->  		regulator-name = "usb1-vbus";
-> @@ -115,6 +139,23 @@ &cpu100 {
->  	cpu-supply = <&reg_dcdc3>;
->  };
->  
-> +&csi {
-> +	status = "okay";
-> +
-> +	ports {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +
-> +		port@1 {
-> +			reg = <1>;
-
-All of this (except the status = "okay") should go to sun8i-a83t.dtsi.
-
-> +
-> +			csi_in_mipi_csi2: endpoint {
-> +				remote-endpoint = <&mipi_csi2_out_csi>;
-> +			};
-
-This too actually, once the issue mentioned in patch 5/6 gets fixed.
-
-> +		};
-> +	};
-> +};
-> +
->  &de {
->  	status = "okay";
->  };
-> @@ -147,6 +188,36 @@ hdmi_out_con: endpoint {
->  	};
->  };
->  
-> +&i2c2 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&i2c2_pe_pins>;
-
-This looks like a candidate for upstreaming in
-sun8i-a83t-bananapi-m3.dts, it shouldn't be in the overlay.
-
-> +	status = "okay";
-> +
-> +	ov8865: camera@36 {
-> +		compatible = "ovti,ov8865";
-> +		reg = <0x36>;
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&csi_mclk_pin>;
-> +		clocks = <&ccu CLK_CSI_MCLK>;
-> +		assigned-clocks = <&ccu CLK_CSI_MCLK>;
-> +		assigned-clock-rates = <24000000>;
-> +		avdd-supply = <&reg_ov8865_avdd>;
-> +		dovdd-supply = <&reg_ov8865_dovdd>;
-> +		dvdd-supply = <&reg_ov8865_dvdd>;
-> +		powerdown-gpios = <&pio 4 17 GPIO_ACTIVE_LOW>; /* PE17 */
-> +		reset-gpios = <&pio 4 16 GPIO_ACTIVE_LOW>; /* PE16 */
-> +
-> +		port {
-> +			ov8865_out_mipi_csi2: endpoint {
-> +				data-lanes = <1 2 3 4>;
-> +				link-frequencies = /bits/ 64 <360000000>;
-> +
-> +				remote-endpoint = <&mipi_csi2_in_ov8865>;
+> +				mipi_csi2_out: port@1 {
+> +					reg = <1>;
+> +				};
 > +			};
 > +		};
-> +	};
-> +};
 > +
->  &mdio {
->  	rgmii_phy: ethernet-phy@1 {
->  		compatible = "ethernet-phy-ieee802.3-c22";
-> @@ -154,6 +225,24 @@ rgmii_phy: ethernet-phy@1 {
->  	};
->  };
->  
-> +&mipi_csi2 {
-> +	status = "okay";
-> +};
-> +
-> +&mipi_csi2_in {
-> +	mipi_csi2_in_ov8865: endpoint {
-> +		data-lanes = <1 2 3 4>;
-> +
-> +		remote-endpoint = <&ov8865_out_mipi_csi2>;
-> +	};
-> +};
-> +
-> +&mipi_csi2_out {
-> +	mipi_csi2_out_csi: endpoint {
-> +		remote-endpoint = <&csi_in_mipi_csi2>;
-> +	};
-> +};
-> +
->  &mmc0 {
->  	pinctrl-names = "default";
->  	pinctrl-0 = <&mmc0_pins>;
-> @@ -327,11 +416,24 @@ &reg_dldo3 {
->  	regulator-name = "vcc-pd";
->  };
->  
-> +&reg_dldo4 {
-> +	regulator-always-on;
-
-Does it have to be always on ?
-
-> +	regulator-min-microvolt = <2800000>;
-> +	regulator-max-microvolt = <2800000>;
-> +	regulator-name = "avdd-csi";
-
-Doesn't this belong to the base board .dts ? Same below.
-
-> +};
-> +
->  &reg_drivevbus {
->  	regulator-name = "usb0-vbus";
->  	status = "okay";
->  };
->  
-> +&reg_eldo1 {
-> +	regulator-min-microvolt = <1200000>;
-> +	regulator-max-microvolt = <1200000>;
-> +	regulator-name = "dvdd-csi-r";
-> +};
-> +
->  &reg_fldo1 {
->  	regulator-min-microvolt = <1080000>;
->  	regulator-max-microvolt = <1320000>;
+>  		hdmi: hdmi@1ee0000 {
+>  			compatible = "allwinner,sun8i-a83t-dw-hdmi";
+>  			reg = <0x01ee0000 0x10000>;
 
 -- 
 Regards,
