@@ -1,67 +1,157 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A57C258F
-	for <linux-sunxi@lists.linux.dev>; Fri, 26 Aug 2022 08:38:09 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id w10so1255405edc.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 26 Aug 2022 01:38:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=yIFcteN6sC/bfaP1WTd/RHoQds62wkqs1tJOKGjVr+0=;
-        b=TeZv4iLFDzDlcRMZdcxFYD8iBhkkl6ru8OscF0CczIJjoMszenrw8WXPQMojvZNMOK
-         yrAvVSDX9JVbS5BynSn+dLfRkI2zFiGvM0Oe6uKk7WyPVO9RJDVe9sqHugHczQfpCMDR
-         ewTeM6bWdEy+c/W+FBLIRWgyGjZ+hn85AjjApkYMhNowxNh4Am5N3s80e9FzA7pkCxNV
-         lI7T3WYv0MOOPYrSMD+bRtrut4zCc0dtxaV2bGCTh3VL/N5UfavBSYgyu6xT08ZKdnCf
-         dJtGcL1ZgCr1ZZfPa1GrAiGI8cd4GsttG4+r/CH5iYJs6K1jAgkud5zOone5CA+39eU7
-         sLiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=yIFcteN6sC/bfaP1WTd/RHoQds62wkqs1tJOKGjVr+0=;
-        b=kYoQhduyan+MWYeEoTUNNTZIhU6j8h4xYlufh/TnEb7wxNFLJ+cxg/AFM1poS2vttg
-         uQdOTTnQWfNqqWS5LAbUape6X45hT2I5Hi+nsonU5RZQoz+Kg46rgYIEC+DLd9duFYJw
-         fSLJP0OHdB555ng0WfvYjrv9hxqPnJShJkPEIoTE5DTSQwPmtjBQCy96Rtk/NRgIHc8j
-         l9sJIrqoXn71OB8EnMygGYx47AohQE2XWguT0wxJeA5KRp+Kjr2AHLo2aWgaHB/FR6+/
-         HLHj92M0TMCpMGSz6WEGuUyVIQgL2ARB24Qmkhu4aB8CIje2lhV40fvaybtzk5jjxShH
-         7NHw==
-X-Gm-Message-State: ACgBeo1yU9r1mg6utrjnQxg7uPASvkR5eVwzyc/4qZ1IwWEyb5+tSS85
-	v5Cf/VJpb6gctoKlrW1Y5tJu4urZ2V+pBNzU07GjyA==
-X-Google-Smtp-Source: AA6agR7ozWh1h3e0/Xth50fQGocQFY1NAJzq0Z5PFKq8ZMWLhAvNOdudXPHZBKkMRV1id5Oh5mABiceM7paZHMDcSNk=
-X-Received: by 2002:a05:6402:5384:b0:431:6d84:b451 with SMTP id
- ew4-20020a056402538400b004316d84b451mr5948537edb.46.1661503087619; Fri, 26
- Aug 2022 01:38:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD45258F
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Aug 2022 08:39:36 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.nyi.internal (Postfix) with ESMTP id BADFF5803A3;
+	Fri, 26 Aug 2022 04:39:35 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Fri, 26 Aug 2022 04:39:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1661503175; x=1661510375; bh=9xtBw9bGVh
+	/VC2EF6GzMgiE93Tg5R1QYL3cLjDRDYzc=; b=cyxbPTjcl4hcUxTxY9R3TEaBtP
+	ChkWzg86WrWHSb8+ifunp/H1FZDvxH36HLAyVP6q4NBEtlCQSrihx87KO4+HjQIZ
+	S+6jjIJ9aHhKlPyBEjm1Z196OjkLhy5dSL1+CrJ+mcGPC9sPf/zKipQ7dwl7BcA+
+	3XxEv/SySp5yWccenDgtPsQK7clK5UaTfvBWZx+80EG9L3HSpEp+1W+hpBIiIyxH
+	jsHv7RjzkIxKfNT1krrbsp7I0R9Tuf7R9ax/YLuZ4vcr9SNf0F2ZlXc/7Gyh4dFf
+	DTJQ8704P5yE0RMQDOEwKNyK/VdockUbBz1FIuLiKnBmYW+qkWj4+xPuR37g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1661503175; x=1661510375; bh=9xtBw9bGVh/VC2EF6GzMgiE93Tg5
+	R1QYL3cLjDRDYzc=; b=tApEFqsJzgIpkdw3IAPFB+tnDdhT/p4Z/63Z0OYt3OTc
+	VdzFOn+20lhMDNIyvxC/XxNpxpIwVJ4TSpZXW+lqW+L8XV6ikpUlITX/lSTGgBlC
+	qbZNwcpKCj0A93ph8YNR5gLzOMi87MBG5cWctotHXU5TA7u2b9BPHToT68urDc9V
+	j7uLnWRM3nka8Pt/dc+5boJIPbNnwX0hYblSYD5r+/EjgHWhXEg1tr4fy6exNY96
+	s0yxTzw1nD2Sd0lyxPOj6u817l+NAqIu5ofSqBW+9WYUPT0/bMSJcbP+JdHJjh5I
+	iY6py0HZTr4oqeNyuoLaYNKCMv7kwtWuc+vEa6sVNQ==
+X-ME-Sender: <xms:xoYIY-bWt0kDLwGe_MuCy3E-nXQf6GJweskoJXSSAxT0QDNXhcck2g>
+    <xme:xoYIYxZAV2bURDoMbSb4oZwCK6jVpg6zu9qesNnODHH4Dx1zqgTOKxOtzZTGEuFLE
+    jTxbcmn_YMzNB3euRU>
+X-ME-Received: <xmr:xoYIY49lYhb1uM0-1L_ltuZCJ4-FAVszUJmu66xWZPGW7F81Gnc9byQW454>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejhedgtdeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeevuddthffgfeeiffejgfeghfeludegkedtgefgffejtdegtddvleduvdfh
+    teehveenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+    hh
+X-ME-Proxy: <xmx:xoYIYwok29UQGcnLMHb6Bz0QVvzQUwkG5u8Jjo3kNt44HmYdjYpTnA>
+    <xmx:xoYIY5oYKxL0RG3Z8nBl3J3f19P2Bhcnrp8YROGaca0jh0pheWolwg>
+    <xmx:xoYIY-RxUi_8QDamJh6hWOr4i3lYTtgp4tKuufNO5MXg7wx__HWbFQ>
+    <xmx:x4YIYyZcUH30FUMCvxBJ4wrOJiTrOL_b0pYJw95tPAU9nCwstGOmuw>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 26 Aug 2022 04:39:34 -0400 (EDT)
+Date: Fri, 26 Aug 2022 10:39:31 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Mateusz Kwiatkowski <kfyatek@gmail.com>
+Cc: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+	David Airlie <airlied@linux.ie>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Phil Elwell <phil@raspberrypi.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+	Dom Cobley <dom@raspberrypi.com>
+Subject: Re: [PATCH v1 00/35] drm: Analog TV Improvements
+Message-ID: <20220826083931.sd7oxpbsnxrqij52@houat>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <987d6114-5fcb-d668-3b0d-ad6d8723dfdb@tronnes.org>
+ <20220822074800.qzyctchqn5usr55g@houat>
+ <9a15b1cf-692c-1b0d-02a6-316cbd954525@gmail.com>
+ <20220825155506.wqurh5r752qfufqs@houat>
+ <18737c8a-78f4-5b9f-aea2-588bc65c13d9@gmail.com>
+ <9d9ba040-99d7-25cb-ba10-1c132d7f7663@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220819024541.74191-1-michael@allwinnertech.com>
-In-Reply-To: <20220819024541.74191-1-michael@allwinnertech.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 26 Aug 2022 10:37:56 +0200
-Message-ID: <CACRpkdbx+r8SLRAJKjMHGn1MzmcqmXhorXoPxouooMv6VJL89A@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: sunxi: Fix name for A100 R_PIO
-To: Michael Wu <michael@allwinnertech.com>
-Cc: wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org, 
-	mripard@kernel.org, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ztr76q3jbdkzy3rp"
+Content-Disposition: inline
+In-Reply-To: <9d9ba040-99d7-25cb-ba10-1c132d7f7663@gmail.com>
 
-On Fri, Aug 19, 2022 at 4:45 AM Michael Wu <michael@allwinnertech.com> wrote:
 
-> The name of A100 R_PIO driver should be sun50i-a100-r-pinctrl,
-> not sun50iw10p1-r-pinctrl.
->
-> Fixes: 473436e7647d6 ("pinctrl: sunxi: add support for the Allwinner A100 pin controller")
->
-> Signed-off-by: Michael Wu <michael@allwinnertech.com>
+--ztr76q3jbdkzy3rp
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Patch applied for fixes!
+On Fri, Aug 26, 2022 at 06:07:47AM +0200, Mateusz Kwiatkowski wrote:
+> Hi Maxime, Noralf and everyone,
+>=20
+> Just as a quick update. I isolated the issue to the power management subs=
+ystem.
+> Unfortunately I know very little about the power management subsystem so
+> I don't think I can help.
+>=20
+> There are two alternative dirty ad-hoc hacks that get things working.
+>=20
+> - Commenting out the pm_runtime_put() / pm_runtime_get_sync() calls in vc=
+4_vec.c
+> - Reverting this PR by Dom Cobley a.k.a. popcornmix:
+> =A0 https://github.com/raspberrypi/linux/pull/4639
 
-Yours,
-Linus Walleij
+We don't have that PR upstream, so that might be the explanation to why
+you're seeing this and I don't. I'll look into this further and will
+open an issue.
+
+I can't see anything wrong with the pm_runtime use though.
+
+> Either of these approaches makes VEC mode switching work again. Obviously
+> neither is appropriate for a permanent solution.
+>=20
+> I tried some random code permutations that came to my mind, like using the
+> vc4_encoder callbacks (e.g. post_crtc_powerdown) instead of the standard
+> enable/disable encoder callbacks, but to no avail.
+>=20
+> Since the clocks and power management seem to be delegated to the firmwar=
+e now,
+> my guess is that this might be a firmware issue, but I can't really check=
+ all
+> the firmware versions. It certainly crashes on the version currently avai=
+lable
+> in Raspberry Pi OS repos, and on this one:
+> https://github.com/raspberrypi/rpi-firmware/commit/4dde751. My Pi4 doesn'=
+t boot
+> using any newer firmware, at least not from USB - I might try some SD card
+> after the weekend.
+
+Thanks for your testing
+
+Maxime
+
+--ztr76q3jbdkzy3rp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYwiGwwAKCRDj7w1vZxhR
+xVloAP9b+eN7Fz3nq/+s3sKOXlcj/RDnTbMCfoNAKYheAd1bJQD/SVISMs+ofJwg
+ATFobKVjQ6spDBEO2dCXYu2C237MFwM=
+=AUEX
+-----END PGP SIGNATURE-----
+
+--ztr76q3jbdkzy3rp--
