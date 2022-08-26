@@ -1,22 +1,23 @@
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B352429AC
-	for <linux-sunxi@lists.linux.dev>; Fri, 26 Aug 2022 18:33:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71DF4441B
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Aug 2022 18:33:15 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 7BBD5FF80A;
-	Fri, 26 Aug 2022 18:33:05 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id C103DFF80E;
+	Fri, 26 Aug 2022 18:33:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1661538787;
+	t=1661538793;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=rgiedVDI26uxmOnUF2UJgB4eZJ7cOZaNiQBMvaYqW4s=;
-	b=gLIsTM5NxKI2dhCCbY6x/kJwmqWh7nX4eiERnxLo0f4e2Fb5AAFJvBHAT6B8S5qVcnKTlm
-	4kGogzau17hKqgQu7A2rvhbDfndrkn7EMb0PiAO4XM+g+U2ZSFHmNrKIX/14O2bMflC7X9
-	ZqpQ67aWYkIXzuJl4GnZfCTljC0iMILA2Ecp7bkbmCM4dMViwM4B17dp0oaNNjodZKHWVf
-	8cuJy+S900u9Zxi3UjaOzOUWjKb5bc7fkbSJPJyNgNZa8UGBLGtm7txb+qn2M0g15BihgO
-	2my+02U0yZ2lMEo4QP7xRnVOLOvdBVtLMCTCXElvCaM/D4MGzmdcgjw3V05q0g==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FYndyIwb4wxaIEmCQyi66LXpTme/wFRWwWZTh38SwDI=;
+	b=ZkRMH6KONqbzj9PrgZzzNbnosp/5L2U462n8LT9cghUgOEI4BuJnQsDwoXMY/KVBTF9V7K
+	syyyr2p8lWJGF/Zur08yn1Fi95LgVSaqsPdtx2cry632l6i/lJiKTUA1TVXATetMm40TjH
+	xpyqQ212WwPDthyi3PPjnDnVJV63kFPDGP2g/wrjQ4jqYring8AQRRJ3uWsD0jnGgoWbxt
+	tndeS/Xvt+Y+nsxsDLrtxbaYyXmcuw3uJ06hJixVcG5cxk69SfA0saOXma9MiFwcpYA0FX
+	xi8bhI14Ya4HkaeyTbPJyHzYCZRyiCLoVA4nmYoclboi+UvSEbPQFGaxJ2sqmw==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
@@ -31,10 +32,12 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v6 00/43] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / CSI Rework
-Date: Fri, 26 Aug 2022 20:31:57 +0200
-Message-Id: <20220826183240.604834-1-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v6 06/43] media: sun6i-csi: Use runtime pm for clocks and reset
+Date: Fri, 26 Aug 2022 20:32:03 +0200
+Message-Id: <20220826183240.604834-7-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220826183240.604834-1-paul.kocialkowski@bootlin.com>
+References: <20220826183240.604834-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -43,115 +46,166 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This part only concerns the rework of the CSI driver to support the MIPI CSI-2
-and ISP workflows.
+Wrap the clock and reset preparation into runtime pm functions
+for better organization of the code. Also fix the clock and
+reset enable order to first deassert reset, as recommended in
+Allwinner literature.
 
-Very few patches have not received any review at this point and the whole
-thing looks good to go. Since this multi-part series has been going on for a
-while, it would be great to see it merged soon!
+Make the driver depend on PM while at it since runtime pm is
+mandatory for the driver to work.
 
-Changes since v5:
-- Rebased on latest media tree;
-- Switched to using media_pad_remote_pad_first;
-- Switched to using media_pad_remote_pad_unique.
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ .../media/platform/sunxi/sun6i-csi/Kconfig    |  2 +-
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 84 +++++++++++++------
+ 2 files changed, 60 insertions(+), 26 deletions(-)
 
-Changes since v4:
-- Removed the v4l2 controls handler from the driver;
-- Removed the info message about video device registration;
-- Fixed "literature" typos;
-- Moved patches dependent on the ISP driver to its dedicated series;
-- Rebased on the latest media tree;
-- Added collected tags;
-
-Changes since v3:
-- Updated Kconfig to follow the latest media-wide changes;
-- Rebased on latest changes to the driver (JPEG/sRGB colorspaces);
-- Added helper to get a single enabled link for an entity's pad, to replace
-  source selection at link_validate time and select the remote source at
-  stream on time instead;
-- Kept clock-managed regmap mmio;
-- Added collected review tags;
-- Various cosmetic cleanups;
-
-Changes since all-in-one v2:
-- Reworked capture video device registration, which stays in the main path.
-- Reworked async subdev handling with a dedicated structure holding the
-  corresponding source to avoid matching in the driver;
-- Added mutex for mbus format serialization;
-- Remove useless else in link_validate;
-- Reworked commit logs to include missing information;
-- Cleaned up Kconfig, added PM dependency;
-- Moved platform-specific clock rate to of match data;
-- Added collected Reviewed-by tags;
-- Updated copyright years;
-
-Paul Kocialkowski (43):
-  media: sun6i-csi: Define and use driver name and (reworked)
-    description
-  media: sun6i-csi: Refactor main driver data structures
-  media: sun6i-csi: Tidy up platform code
-  media: sun6i-csi: Always set exclusive module clock rate
-  media: sun6i-csi: Define and use variant to get module clock rate
-  media: sun6i-csi: Use runtime pm for clocks and reset
-  media: sun6i-csi: Tidy up Kconfig
-  media: sun6i-csi: Tidy up v4l2 code
-  media: sun6i-csi: Tidy up video code
-  media: sun6i-csi: Pass and store csi device directly in video code
-  media: sun6i-csi: Register the media device after creation
-  media: sun6i-csi: Remove controls handler from the driver
-  media: sun6i-csi: Add media ops with link notify callback
-  media: sun6i-csi: Introduce and use video helper functions
-  media: sun6i-csi: Move csi buffer definition to main header file
-  media: sun6i-csi: Add bridge v4l2 subdev with port management
-  media: sun6i-csi: Rename sun6i_video to sun6i_csi_capture
-  media: sun6i-csi: Add capture state using vsync for page flip
-  media: sun6i-csi: Rework register definitions, invert misleading
-    fields
-  media: sun6i-csi: Add dimensions and format helpers to capture
-  media: sun6i-csi: Implement address configuration without indirection
-  media: sun6i-csi: Split stream sequences and irq code in capture
-  media: sun6i-csi: Move power management to runtime pm in capture
-  media: sun6i-csi: Move register configuration to capture
-  media: sun6i-csi: Rework capture format management with helper
-  media: sun6i-csi: Remove custom format helper and rework configure
-  media: sun6i-csi: Add bridge dimensions and format helpers
-  media: sun6i-csi: Get mbus code from bridge instead of storing it
-  media: sun6i-csi: Tidy capture configure code
-  media: sun6i-csi: Introduce bridge format structure, list and helper
-  media: sun6i-csi: Introduce capture format structure, list and helper
-  media: sun6i-csi: Configure registers from format tables
-  media: sun6i-csi: Introduce format match structure, list and helper
-  media: sun6i-csi: Implement capture link validation with logic
-  media: sun6i-csi: Get bridge subdev directly in capture stream ops
-  media: sun6i-csi: Move hardware control to the bridge
-  media: sun6i-csi: Rename the capture video device to sun6i-csi-capture
-  media: sun6i-csi: Cleanup headers and includes, update copyright lines
-  media: sun6i-csi: Add support for MIPI CSI-2 to the bridge code
-  media: sun6i-csi: Only configure capture when streaming
-  media: sun6i-csi: Add extra checks to the interrupt routine
-  media: sun6i-csi: Request a shared interrupt
-  MAINTAINERS: Add myself as sun6i-csi maintainer and rename/move entry
-
- MAINTAINERS                                   |   17 +-
- .../media/platform/sunxi/sun6i-csi/Kconfig    |   12 +-
- .../media/platform/sunxi/sun6i-csi/Makefile   |    2 +-
- .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 1027 ++++------------
- .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  149 +--
- .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |  844 +++++++++++++
- .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   69 ++
- .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 1089 +++++++++++++++++
- .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   88 ++
- .../platform/sunxi/sun6i-csi/sun6i_csi_reg.h  |  362 +++---
- .../platform/sunxi/sun6i-csi/sun6i_video.c    |  685 -----------
- .../platform/sunxi/sun6i-csi/sun6i_video.h    |   38 -
- 12 files changed, 2551 insertions(+), 1831 deletions(-)
- create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
- create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.h
- create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
- create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
- delete mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
- delete mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_video.h
-
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/Kconfig b/drivers/media/platform/sunxi/sun6i-csi/Kconfig
+index e5b6991ce7f0..a472f46648af 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/Kconfig
++++ b/drivers/media/platform/sunxi/sun6i-csi/Kconfig
+@@ -2,7 +2,7 @@
+ config VIDEO_SUN6I_CSI
+ 	tristate "Allwinner V3s Camera Sensor Interface driver"
+ 	depends on V4L_PLATFORM_DRIVERS
+-	depends on VIDEO_DEV && COMMON_CLK && RESET_CONTROLLER && HAS_DMA
++	depends on VIDEO_DEV && COMMON_CLK && RESET_CONTROLLER && HAS_DMA && PM
+ 	depends on ARCH_SUNXI || COMPILE_TEST
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+index 800851f4e18c..31374d45eb9f 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+@@ -152,40 +152,18 @@ int sun6i_csi_set_power(struct sun6i_csi_device *csi_dev, bool enable)
+ 
+ 	if (!enable) {
+ 		regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN, 0);
++		pm_runtime_put(dev);
+ 
+-		clk_disable_unprepare(csi_dev->clock_ram);
+-		clk_disable_unprepare(csi_dev->clock_mod);
+-		reset_control_assert(csi_dev->reset);
+ 		return 0;
+ 	}
+ 
+-	ret = clk_prepare_enable(csi_dev->clock_mod);
+-	if (ret) {
+-		dev_err(csi_dev->dev, "Enable csi clk err %d\n", ret);
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret < 0)
+ 		return ret;
+-	}
+-
+-	ret = clk_prepare_enable(csi_dev->clock_ram);
+-	if (ret) {
+-		dev_err(csi_dev->dev, "Enable clk_dram_csi clk err %d\n", ret);
+-		goto clk_mod_disable;
+-	}
+-
+-	ret = reset_control_deassert(csi_dev->reset);
+-	if (ret) {
+-		dev_err(csi_dev->dev, "reset err %d\n", ret);
+-		goto clk_ram_disable;
+-	}
+ 
+ 	regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN, CSI_EN_CSI_EN);
+ 
+ 	return 0;
+-
+-clk_ram_disable:
+-	clk_disable_unprepare(csi_dev->clock_ram);
+-clk_mod_disable:
+-	clk_disable_unprepare(csi_dev->clock_mod);
+-	return ret;
+ }
+ 
+ static enum csi_input_fmt get_csi_input_format(struct sun6i_csi_device *csi_dev,
+@@ -797,6 +775,56 @@ static irqreturn_t sun6i_csi_interrupt(int irq, void *private)
+ 	return IRQ_HANDLED;
+ }
+ 
++static int sun6i_csi_suspend(struct device *dev)
++{
++	struct sun6i_csi_device *csi_dev = dev_get_drvdata(dev);
++
++	reset_control_assert(csi_dev->reset);
++	clk_disable_unprepare(csi_dev->clock_ram);
++	clk_disable_unprepare(csi_dev->clock_mod);
++
++	return 0;
++}
++
++static int sun6i_csi_resume(struct device *dev)
++{
++	struct sun6i_csi_device *csi_dev = dev_get_drvdata(dev);
++	int ret;
++
++	ret = reset_control_deassert(csi_dev->reset);
++	if (ret) {
++		dev_err(dev, "failed to deassert reset\n");
++		return ret;
++	}
++
++	ret = clk_prepare_enable(csi_dev->clock_mod);
++	if (ret) {
++		dev_err(dev, "failed to enable module clock\n");
++		goto error_reset;
++	}
++
++	ret = clk_prepare_enable(csi_dev->clock_ram);
++	if (ret) {
++		dev_err(dev, "failed to enable ram clock\n");
++		goto error_clock_mod;
++	}
++
++	return 0;
++
++error_clock_mod:
++	clk_disable_unprepare(csi_dev->clock_mod);
++
++error_reset:
++	reset_control_assert(csi_dev->reset);
++
++	return ret;
++}
++
++static const struct dev_pm_ops sun6i_csi_pm_ops = {
++	.runtime_suspend	= sun6i_csi_suspend,
++	.runtime_resume		= sun6i_csi_resume,
++};
++
+ static const struct regmap_config sun6i_csi_regmap_config = {
+ 	.reg_bits       = 32,
+ 	.reg_stride     = 4,
+@@ -876,6 +904,10 @@ static int sun6i_csi_resources_setup(struct sun6i_csi_device *csi_dev,
+ 		goto error_clock_rate_exclusive;
+ 	}
+ 
++	/* Runtime PM */
++
++	pm_runtime_enable(dev);
++
+ 	return 0;
+ 
+ error_clock_rate_exclusive:
+@@ -886,6 +918,7 @@ static int sun6i_csi_resources_setup(struct sun6i_csi_device *csi_dev,
+ 
+ static void sun6i_csi_resources_cleanup(struct sun6i_csi_device *csi_dev)
+ {
++	pm_runtime_disable(csi_dev->dev);
+ 	clk_rate_exclusive_put(csi_dev->clock_mod);
+ }
+ 
+@@ -968,6 +1001,7 @@ static struct platform_driver sun6i_csi_platform_driver = {
+ 	.driver	= {
+ 		.name		= SUN6I_CSI_NAME,
+ 		.of_match_table	= of_match_ptr(sun6i_csi_of_match),
++		.pm		= &sun6i_csi_pm_ops,
+ 	},
+ };
+ 
 -- 
 2.37.1
 
