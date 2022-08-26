@@ -1,155 +1,80 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282183D6D
-	for <linux-sunxi@lists.linux.dev>; Fri, 26 Aug 2022 13:00:47 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id c187-20020a1c35c4000000b003a30d88fe8eso4375509wma.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 26 Aug 2022 06:00:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE9D2F2E
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Aug 2022 14:56:30 +0000 (UTC)
+Received: by mail-io1-f48.google.com with SMTP id h78so1325048iof.13
+        for <linux-sunxi@lists.linux.dev>; Fri, 26 Aug 2022 07:56:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc;
-        bh=gbEN9UxsU21xAmPqLRQ6bvCHMSIs70CWk4vdsoTV/Vs=;
-        b=gh589+6W1ZyYJ1lLD3Z/wqWLWBk+C3Y7Ck1WtAelzQ4mZ5TBg6OXaVXj48DaY0y0xA
-         nnKT7jc2LYXkebw597InPMdPiu6PyxAB34f5wQ7TAa8WJwxWcluBVRnAF7VLusPoRBiY
-         2khmNbwrBXUcuH4p6WHWTtS1U94HS+jWPlZ/tfHrq6skV7RmMq7TYpX3Rblmf0tEVX0p
-         tKS+pqokJb3mqHbk89QHFXrpNX4KYfYMaHd6s6XfrJd5F72vETmRwHNkB07k8z9ob/7w
-         6XkTDYlPV4s0zH9AnHwgvZKcdY91vpuiuSeNv3zW1dcZi6atxDFhEuuYmBlvkS7ADQxO
-         rAAw==
+        d=raspberrypi.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=WfP7PKK/kP/UQn6JDVR+ao9+K/wbktbl89yGlLt1XDA=;
+        b=qSriLe6sGxvcFbE/UHHD2rI2XMDjAW0dHY7O7RcRp7Us3ZJw9H8hpT+s/MJgZyqjES
+         riAXklRISS8D2FV5i5FXSxtAgiq7SZJTZ2osW8Z7a9i7LkvOYOTVRVTAuVxSdiS8lhQu
+         4nBlp0HhwuO/O5FxkF2GOa7t+NodiQtKbTuBvAqfMKBPnjlia9SJhH1VTgzw4QlOlucO
+         JNWKaV8jw4rzRhOEYM8SvQDbyVM2fnncFlNdJ45d9V+UuXFFsOEQ/WQmNTIBZo34/QVi
+         3x6jHlYcMiCAH5TeYyOg9Aa90XVIZIg9PrgRDtDU+rGiMF/f6XMYWUMEFEDQRPdo5QKz
+         vweQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc;
-        bh=gbEN9UxsU21xAmPqLRQ6bvCHMSIs70CWk4vdsoTV/Vs=;
-        b=y+ojfmn/O3H8MINsHMjyypJuDoc+A3tlYhSHNIVdlz9h4S4gxWYqKKPxH9dmlLy/Pk
-         MRDuELxZJuyQD0fIWXt4Zz5rC353JufHHpr4UwxD41B3f45AYDsdXgVNJPoVqnKzDuvq
-         3vqoRB3h8ftsjY+JZdSZ7wGTCSW/yS1UoO32XCsyONaraGGFuXVOvvztXm1lASWA5BHm
-         XLl23JS/jtOWAOddnxHeOGiDJivnKeaHocLRl1gKTNUuVTvrnrBw1VWZAHjooY7Ti2C8
-         jGddyu0oBzrWU+Hfi/i+lePsZA8fYDcKTWQ7CSTtXbolf/nHuZbXjyNRWE5rCr8zTYVH
-         N3wQ==
-X-Gm-Message-State: ACgBeo2GTR7CPwrmlRrK92KcqqslQ5gkh1k2fyfk/VhcZTLpHWfVpIBX
-	h0Y3x6CmbAvXICtzcVjNMIh69g==
-X-Google-Smtp-Source: AA6agR4bhrOYV2p970IFCBpbHLMVir888AHSL15uhcTxUv65WoqURpaZJd3jKHG9An4NPBZAeQZDYQ==
-X-Received: by 2002:a05:600c:3482:b0:3a6:e09:1ebf with SMTP id a2-20020a05600c348200b003a60e091ebfmr5158387wmq.173.1661518846210;
-        Fri, 26 Aug 2022 06:00:46 -0700 (PDT)
-Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id a4-20020adfeec4000000b002258c4e82casm1359965wrp.98.2022.08.26.06.00.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Aug 2022 06:00:45 -0700 (PDT)
-Date: Fri, 26 Aug 2022 15:00:42 +0200
-From: LABBE Corentin <clabbe@baylibre.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: linux-crypto@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [bug report] crypto: sun8i-ss - rework handling of IV
-Message-ID: <YwjD+mlHrexwVuQc@Red>
-References: <YweemJw2a5OSWx1h@kili>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=WfP7PKK/kP/UQn6JDVR+ao9+K/wbktbl89yGlLt1XDA=;
+        b=luTrjZ35/ZHsdnIbfe1gB/c56hPtJozoKM5unerAgB0krrdH3FB/dqOlGOKIzg1MTA
+         TkP4WNBkgsXjy6lWSXW9Ko1gC/knXMzcwJvIs7fr5dIm2QLJ3VC2gQVMKiDU69nfekL8
+         xib2AMCEX2VqGx7pQNa+Ilc9uFYWOMebZSzDlEQpw7pF3TX9nJXXUKL3Bb31drLKYC/L
+         BYClISllQJgwx+IiBLLU3QPfkjyLFG3+zekh6gm1rK+iIyxZuHyxkqFCjybl+TMI83yw
+         DUyiXMlc8c2he1Zhjk3TGt4IX9grChtafgbC7H6spUBjLenY7aG7j6oK2yiSGjngvFyf
+         YPQg==
+X-Gm-Message-State: ACgBeo3Vd/1LxCihNV/8mZQM2wsA6QJS7UD5jYfyW9EEeLjTDYjwrNcU
+	5YcJoK/U+8Efvb0sG4copop8vN80H9CathUiLYyd6w==
+X-Google-Smtp-Source: AA6agR6NYFhimbin+zyrq+sDMrYVT/drrxOiPOtliWNwKfkaSwhjjkNjiz6pmebIrhxHD/9opEX+9yjdpWBkP9XvnLw=
+X-Received: by 2002:a05:6638:3722:b0:349:41f1:7ff5 with SMTP id
+ k34-20020a056638372200b0034941f17ff5mr4067740jav.283.1661525789304; Fri, 26
+ Aug 2022 07:56:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YweemJw2a5OSWx1h@kili>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <987d6114-5fcb-d668-3b0d-ad6d8723dfdb@tronnes.org> <20220822074800.qzyctchqn5usr55g@houat>
+ <9a15b1cf-692c-1b0d-02a6-316cbd954525@gmail.com> <20220825155506.wqurh5r752qfufqs@houat>
+ <18737c8a-78f4-5b9f-aea2-588bc65c13d9@gmail.com> <9d9ba040-99d7-25cb-ba10-1c132d7f7663@gmail.com>
+In-Reply-To: <9d9ba040-99d7-25cb-ba10-1c132d7f7663@gmail.com>
+From: Dom Cobley <dom@raspberrypi.com>
+Date: Fri, 26 Aug 2022 15:56:18 +0100
+Message-ID: <CANUESCG22TrxasYoE2U0OJ7TVzNAcs_9zkuAfBQfZrEbM4h9dg@mail.gmail.com>
+Subject: Re: [PATCH v1 00/35] drm: Analog TV Improvements
+To: Mateusz Kwiatkowski <kfyatek@gmail.com>
+Cc: Maxime Ripard <maxime@cerno.tech>, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Samuel Holland <samuel@sholland.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Kevin Hilman <khilman@baylibre.com>, 
+	Neil Armstrong <narmstrong@baylibre.com>, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>, 
+	linux-arm-kernel@lists.infradead.org, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 
-Le Thu, Aug 25, 2022 at 07:08:56PM +0300, Dan Carpenter a écrit :
-> Hello Corentin Labbe,
-> 
-> The patch 359e893e8af4: "crypto: sun8i-ss - rework handling of IV"
-> from May 2, 2022, leads to the following Smatch static checker
-> warning:
-> 
->     drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c:146 sun8i_ss_setup_ivs()
->     warn: 'a' is not a DMA mapping error
-> 
->     drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c:213 sun8i_ss_cipher()
->     warn: 'rctx->p_key' is not a DMA mapping error
+On Fri, 26 Aug 2022 at 05:08, Mateusz Kwiatkowski <kfyatek@gmail.com> wrote:
+> - Commenting out the pm_runtime_put() / pm_runtime_get_sync() calls in vc4_vec.c
+> - Reverting this PR by Dom Cobley a.k.a. popcornmix:
+>    https://github.com/raspberrypi/linux/pull/4639
+>
+> Either of these approaches makes VEC mode switching work again. Obviously
+> neither is appropriate for a permanent solution.
 
-Hello
+Might be worth trying the latest rpi-update firmware.
+There was a change that affects restoring PIXEL/VEC clocks after a
+power domain cycle.
+There is also a fix for a USB boot breakage.
 
-I dont know why I used an u32 and not a dma_addr_t.
-I will work on a patch fixing this soon.
-
-Thanks for the report.
-
-> 
-> drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
->     115 static int sun8i_ss_setup_ivs(struct skcipher_request *areq)
->     116 {
->     117         struct crypto_skcipher *tfm = crypto_skcipher_reqtfm(areq);
->     118         struct sun8i_cipher_tfm_ctx *op = crypto_skcipher_ctx(tfm);
->     119         struct sun8i_ss_dev *ss = op->ss;
->     120         struct sun8i_cipher_req_ctx *rctx = skcipher_request_ctx(areq);
->     121         struct scatterlist *sg = areq->src;
->     122         unsigned int todo, offset;
->     123         unsigned int len = areq->cryptlen;
->     124         unsigned int ivsize = crypto_skcipher_ivsize(tfm);
->     125         struct sun8i_ss_flow *sf = &ss->flows[rctx->flow];
->     126         int i = 0;
->     127         u32 a;
-> 
-> This needs to be a dma_addr_t a;
-> 
->     128         int err;
->     129 
->     130         rctx->ivlen = ivsize;
->     131         if (rctx->op_dir & SS_DECRYPTION) {
->     132                 offset = areq->cryptlen - ivsize;
->     133                 scatterwalk_map_and_copy(sf->biv, areq->src, offset,
->     134                                          ivsize, 0);
->     135         }
->     136 
->     137         /* we need to copy all IVs from source in case DMA is bi-directionnal */
->     138         while (sg && len) {
->     139                 if (sg_dma_len(sg) == 0) {
->     140                         sg = sg_next(sg);
->     141                         continue;
->     142                 }
->     143                 if (i == 0)
->     144                         memcpy(sf->iv[0], areq->iv, ivsize);
->     145                 a = dma_map_single(ss->dev, sf->iv[i], ivsize, DMA_TO_DEVICE);
-> --> 146                 if (dma_mapping_error(ss->dev, a)) {
-> 
-> This can't be true because of the 32/63 bit bug.
-> 
->     147                         memzero_explicit(sf->iv[i], ivsize);
->     148                         dev_err(ss->dev, "Cannot DMA MAP IV\n");
->     149                         err = -EFAULT;
->     150                         goto dma_iv_error;
->     151                 }
->     152                 rctx->p_iv[i] = a;
-> 
-> But then only 32 bits are used later in the driver in ->p_iv[].  So it's
-> more complicated than I thought.
-> 
->     153                 /* we need to setup all others IVs only in the decrypt way */
->     154                 if (rctx->op_dir & SS_ENCRYPTION)
->     155                         return 0;
->     156                 todo = min(len, sg_dma_len(sg));
->     157                 len -= todo;
->     158                 i++;
->     159                 if (i < MAX_SG) {
->     160                         offset = sg->length - ivsize;
->     161                         scatterwalk_map_and_copy(sf->iv[i], sg, offset, ivsize, 0);
->     162                 }
->     163                 rctx->niv = i;
->     164                 sg = sg_next(sg);
->     165         }
->     166 
->     167         return 0;
->     168 dma_iv_error:
->     169         i--;
->     170         while (i >= 0) {
->     171                 dma_unmap_single(ss->dev, rctx->p_iv[i], ivsize, DMA_TO_DEVICE);
->     172                 memzero_explicit(sf->iv[i], ivsize);
->     173                 i--;
->     174         }
->     175         return err;
->     176 }
-> 
-> regards,
-> dan carpenter
+If you still have an issue that occurs in downstream pi tree but not
+upstream, then create a linux github issue.
