@@ -1,148 +1,152 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDEF623A5
-	for <linux-sunxi@lists.linux.dev>; Fri, 26 Aug 2022 05:10:04 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id 4B6A13200A1A;
-	Fri, 26 Aug 2022 01:10:03 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01FD01851
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Aug 2022 06:46:51 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailnew.nyi.internal (Postfix) with ESMTP id AE6495801D4;
+	Fri, 26 Aug 2022 02:46:50 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Fri, 26 Aug 2022 01:10:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1661490602; x=1661577002; bh=lg
-	MUYAy9j4HMAzVd6ulb5pY9oKdUbr3uOMOw2xD/sDA=; b=DpPNMSmHU0i37Vmbcc
-	qCoHGnn+LrspEAmECTrWmummsYrYWJf9mb9q+xXbTsDrpMAV5XYiWrLwNGRmUw5n
-	otrnEMz0lL9PX+ff+ibQ8+mfj1/SREJq/irGU9Z+V/uQaFL6FfzfwDsETiud4Yef
-	4K/9UN3QIkFjRj4X4M9IA09BWyURU5Sv06GqnKct5rJjrVTWOki7QYFbnYzxJ3gC
-	ctI96I5pUC9kepWgrxCTs9FYiR50Ey4DKhTw9FJ0NTXbD5jAzSTlzvAodtAC5O5l
-	6L+cGFB/GnbIBg4F2VhVMG5s+1R4baYzTNub+Ltaqq/vALXNz34U1qt3uDfEeYXW
-	LO9g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+  by compute4.internal (MEProxy); Fri, 26 Aug 2022 02:46:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1661490602; x=1661577002; bh=lgMUYAy9j4HMA
-	zVd6ulb5pY9oKdUbr3uOMOw2xD/sDA=; b=HdOFS5T2V1Zn0gW2HR2TDHlGpXR9f
-	jpRm6qNysvjwWQCuw4sgw1HE/25CuGLB2QlSesn4brA+SqM4q+BXPAPXds9ut8Bt
-	zMB3edJwf4rsnXzTEvX0Fg4uOz79RyVu0k8HLpNnp1xOOVbESIABrmB29tyToRWb
-	ZxzWt5pbwUfIWbWj4lRQa0sz9JgXCMroJXKFYL2YKTUPSyrJ4TDdqTbij1WkJ3Lf
-	EwFlM6qI185JoCUDr8UUX3csloaQVgRh0lL5JxPdiXUCZy9jxNFG0TiHUDy6hEXx
-	DNXRl0Mx9RNQRVlnD7g7e9CfQD12AQZX/Sp1lg3WNJjp3xXz/rbPpm5Gw==
-X-ME-Sender: <xms:qlUIYxseD6rLT8TxSLogbtleYlWuixK5tIf5IgZCls-aAP-gzZjmvw>
-    <xme:qlUIY6cvVnDF00ZR9SgdwgIbo1nfUGpmq9dTtPrucH3aGWX91d1Fkylz86tpLvdCL
-    Fbe3ygEwxc-atFfQw>
-X-ME-Received: <xmr:qlUIY0ys1vqhUiultf3p3OgysMd1GhbRbuCZssKDWZBcUSFUOybu17Atc6M4p1a7w6buwrBblpNOKwMKz_vAxxqXjDTxrBCTAQux5oibGGRsNO8KspfWjCn7ct3vyP7uWgel5A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejgedgledvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepudekteeuudehtdelteevgfduvddvjefhfedulefgudevgeeghefg
-    udefiedtveetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:qlUIY4MQJ6-pd4xuotE1dE2OI9_UQ5pQq-I8Y0pJ0g7oWH1g_TFcug>
-    <xmx:qlUIYx9-f7vuFwGJ1vGihx_81H5K3tXk_lxLTMr78Zeaj6QpbzFHXA>
-    <xmx:qlUIY4UpEwgxXlw3FXsXX9OjMd7Z2TCW4ICn9_RnS2SPr3dxlLY5Yg>
-    <xmx:qlUIYy3WzfBMGpC62woSvziMxyaELkQdIhL1KM877PiSs3_CVkjxuQ>
-Feedback-ID: i0ad843c9:Fastmail
+	:subject:to:to; s=fm3; t=1661496410; x=1661503610; bh=GDI1p03KIm
+	VlfJybKQmUVUO7IOmo/SYqjAdeD+YEJlU=; b=kCGkvMU71YpuR26/BKv0WV1a8b
+	HFbSpBa/AZvbeZIWSFNRmNXoz2q2vhGz0rySdhoz44mNNocXjRG1c14i1Y+F7n5h
+	khGLctRYXvDyDUaCX3/TmOKGntJ3dN6hfgChVT5gyPCE86HKR7hr9xgOAv8j6lBT
+	+LbtcVKIN8zD/4fhLAOM5Rvh4KkKHvwUKeff4bYQD8U2+oszeErGrhpQIaQf1WLE
+	k0nC9C8EfvsvsWjz32WHx3SEEKR6Tp/89mJ92XfpIGVEHTapg1T46i87PI+LpJrE
+	RMX4qLx5RWeXXU5yWBHcFxsL/OkjrdmyXnUY2+Kc7eN6XM3EPkBeNv2rhcjw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1661496410; x=1661503610; bh=GDI1p03KImVlfJybKQmUVUO7IOmo
+	/SYqjAdeD+YEJlU=; b=v5dH7JbPy1IjrkFwNE91odQ9Pi2I1YbQg3CGPgZH5DNO
+	PgS+UZwQI/9OIN3Mw+BswZMVY2PPrtphpUQ6SBehjCfhh+2siZ3Iflf53yf2gevY
+	NRl0YUaJGBhFbnLLx3bIQn7923tn9oZuGG1lX38tW7IghHSLhccydpTz0QyPgfle
+	w+BDa+BXIGvR6rp1T0xTjVg4qIbmditFP7NSonQ2ZoRoOZxAirvao0PF18843l6H
+	QkCKw5hV4HXdoivMKM1u38gkuHb60F5gyv+vLagdPu1UlMBwltx3/qhJSSBZX4Sr
+	DPzLhMHIJouKzESjiHxDBss0Prtt9IWN0WyxfkUmBw==
+X-ME-Sender: <xms:WWwIY6mWhwXyPvQHW9ng4gRF2i8k9txnwlR4YLWfR_rEd2UYjS5uLQ>
+    <xme:WWwIYx0Y2eUBmPlog9hpI4LEX3PhrJNmCQkvyv0aWUUwuPte5HOiJbpLcRCeRFMzv
+    rHAJ9FFcA2EAaDUj2A>
+X-ME-Received: <xmr:WWwIY4qqNUGA5fPGP-gEIC6fDCMnhKUpiDTQYs74jmirZVGwXgiiHaZuzjY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejgedgudduvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgig
+    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+    grthhtvghrnhepjeevfeehfeekieffgeevleevtefgffefkedtfeeuhfettdegjeehgfeg
+    udffffdunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:WWwIY-kELSNkvT5OTKcPcBlLosMsWuRTQ1p2ap0ODb2uF_14bohidg>
+    <xmx:WWwIY40xpD1KNavaFfgWv5DNg2kdPM95OVtb9Q8-suNNSx9qlAVNeg>
+    <xmx:WWwIY1tjUDiMWUKCyprecgvVaV4VN0ZOjmFvzEKNh-1_nPrhWsGLHg>
+    <xmx:WmwIY2k5gsHGbCQV212q7BtOW0FaBUG9v5-0MZJUDbO7gD54xN_nXw>
+Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 26 Aug 2022 01:10:01 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Pavel Machek <pavel@ucw.cz>,
+ 26 Aug 2022 02:46:48 -0400 (EDT)
+Date: Fri, 26 Aug 2022 08:46:46 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
 	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-leds@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+	David Airlie <airlied@linux.ie>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Phil Elwell <phil@raspberrypi.com>,
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	devicetree@vger.kernel.org,
-	Rob Herring <robh+dt@kernel.org>,
-	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v5 6/6] riscv: dts: allwinner: d1: Add RGB LEDs to boards
-Date: Fri, 26 Aug 2022 00:09:42 -0500
-Message-Id: <20220826050942.20067-7-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220826050942.20067-1-samuel@sholland.org>
-References: <20220826050942.20067-1-samuel@sholland.org>
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+	Dom Cobley <dom@raspberrypi.com>
+Subject: Re: [PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
+ command-line option
+Message-ID: <20220826064646.ug2djacis7whybpd@houat>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-34-3d53ae722097@cerno.tech>
+ <eedb1a86-c1fb-cc76-2a43-4ed349d7d826@tronnes.org>
+ <20220824154543.bdtpz2evwzsjrdrz@houat>
+ <3cc08f9d-9f01-b771-c16f-ea95acd7e7cd@tronnes.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dmczm7av6szyde4h"
+Content-Disposition: inline
+In-Reply-To: <3cc08f9d-9f01-b771-c16f-ea95acd7e7cd@tronnes.org>
 
-Some D1-based boards feature an onboard RGB LED. Enable them.
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+--dmczm7av6szyde4h
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Changes in v5:
- - New patch for v5
+On Thu, Aug 25, 2022 at 02:41:27PM +0200, Noralf Tr=F8nnes wrote:
+> Den 24.08.2022 17.45, skrev Maxime Ripard:
+> > Hi Noralf,
+> >=20
+> > On Sat, Aug 20, 2022 at 10:18:47PM +0200, Noralf Tr=F8nnes wrote:
+> >> Den 29.07.2022 18.35, skrev Maxime Ripard:
+> >>> Our new tv mode option allows to specify the TV mode from a property.
+> >>> However, it can still be useful, for example to avoid any boot time
+> >>> artifact, to set that property directly from the kernel command line.
+> >>>
+> >>> Let's add some code to allow it, and some unit tests to exercise that=
+ code.
+> >>>
+> >>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >>>
+> >>
+> >> In the subject it says "tv_mode property", but the property is called
+> >> "tv norm", so the option should be tv_norm?
+> >=20
+> > Yeah... I don't know. mode is taken but it's obviously the best name. So
+> > I went with norm to avoid the (internal) conflict but I left mode for
+> > the user facing property.
+> >=20
+> > I'm not sure what's best here, or maybe we can pick another name entire=
+ly?
+> >=20
+>=20
+> Why not just call it "tv mode" or even better "TV Mode". The state
+> member can be called tv_mode, but the mode_config member will need a
+> temporary name until the "mode" property is removed. tv_tv_mode or maybe
+> connector_tv_mode?
 
- .../boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts | 12 ++++++++++++
- arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts   | 13 +++++++++++++
- 2 files changed, 25 insertions(+)
+Yeah, that seems like a good idea. Would legacy_tv_mode work for you?
 
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts
-index ca36a5d75a7f..02d13e987e02 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts
-@@ -25,6 +25,18 @@ &ehci1 {
- 	status = "okay";
- };
- 
-+&ledc {
-+	pinctrl-0 = <&ledc_pc0_pin>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+
-+	multi-led@0 {
-+		reg = <0x0>;
-+		color = <LED_COLOR_ID_RGB>;
-+		function = LED_FUNCTION_STATUS;
-+	};
-+};
-+
- &lradc {
- 	status = "okay";
- 
-diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
-index df865ee15fcf..099075462998 100644
---- a/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
-+++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
-@@ -5,6 +5,7 @@
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/input/input.h>
-+#include <dt-bindings/leds/common.h>
- 
- #include "sun20i-d1.dtsi"
- #include "sun20i-d1-common-regulators.dtsi"
-@@ -90,6 +91,18 @@ pcf8574a: gpio@38 {
- 	};
- };
- 
-+&ledc {
-+	pinctrl-0 = <&ledc_pc0_pin>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+
-+	multi-led@0 {
-+		reg = <0x0>;
-+		color = <LED_COLOR_ID_RGB>;
-+		function = LED_FUNCTION_STATUS;
-+	};
-+};
-+
- &lradc {
- 	status = "okay";
- 
--- 
-2.35.1
+> But IMO, if there are no users of this property, adding it should have a
+> drm maintainers ack.
 
+Yep, of course :)
+
+Maxime
+
+--dmczm7av6szyde4h
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYwhsVgAKCRDj7w1vZxhR
+xagcAQCspBwGYBSb/ilXsoY7WZaVorZ+0k/rDn3zQOob2qwY7wD+IadLV+q7Qw9q
+D1RIs0Z4w2lGo0vSFi33xoW6p6/S6wk=
+=qZ8U
+-----END PGP SIGNATURE-----
+
+--dmczm7av6szyde4h--
