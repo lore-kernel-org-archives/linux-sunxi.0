@@ -1,160 +1,145 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124E31FCC
-	for <linux-sunxi@lists.linux.dev>; Fri, 26 Aug 2022 04:07:51 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id u24so492073lji.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 21:07:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:from:to:cc;
-        bh=lG3KBGxgM0IZ0jal5mxcI9GiPn0tOppPs9EWUxXKMzc=;
-        b=EUXkPEtjiOsAOCIESOEqHeNyhWwNegFwwh3Lj8+SDfQogvhW95SYMog+dzO7ZbJlkl
-         cnmlffs10Jy62yQ3vsjLGkVxplEH9hCSxi9kEtmnyx+CJSFO4+MKYKXjFvCNrS0EaYrl
-         bmagE/DzPD/eD08koEKLBZ66Q/TTC19wW9aW9k6RCKYWgaaBKcmTirXuLrNH60BuPpYk
-         wimXNdhDydQARpFtKvG1++3xm4MOOSAyltOgd8bEQywrwEP+7vl6FslX5gvxg8WQZspJ
-         ehCG3TToh9lrHtn7KzIr5mPP4gDdPhyUpoUn9ISNB9VaGwkQmf/Lbuj0jOVZAUv0M2SM
-         9UWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:x-gm-message-state:from:to:cc;
-        bh=lG3KBGxgM0IZ0jal5mxcI9GiPn0tOppPs9EWUxXKMzc=;
-        b=7EZpmCNa+xqCM6KK6WPun/Jb7OedI+D51P0lvI8UTjENr3Yno33JQeLfFg2pIukapW
-         QJzbvqoh2qqv/rHdyzSY7AzS0RybtGM3PnkAfr9KZaT/0g4KeD0547qqR39PRzBveuTL
-         YpLfSPvnH4pUp1Pw6oBXqL0wcSa4Or0hVMETFw+n55KfCTyKs11SC0G1IrHr0q3kWvxl
-         mv+LSqOyVizZrJgQrp7aVtUDbRiTn6O5tQzszQjXe+R0t0U9vQQ5GbaOujd0yCCOK36t
-         CBRPQirIBC571DIEk9cNRFELCWWmJeNiyOG1cmA4tLpxWwjsAFzD5AAftp4Rv73RKeH8
-         hk/g==
-X-Gm-Message-State: ACgBeo0QGV58pvMtIKbchT2DxNWPaqxqVYTtpo8H7KO7SmOlBOhiZSUW
-	WlhzOru0U4qMPcpyS/HSH2A=
-X-Google-Smtp-Source: AA6agR6KtaCESfzpTHDLkoCDLh4paQXM/kfy5jk3CTr71K94Vrr2wmpHWobsZfb+FPRxr4a/5jN0Jw==
-X-Received: by 2002:a05:651c:1542:b0:249:5d86:3164 with SMTP id y2-20020a05651c154200b002495d863164mr1851650ljp.500.1661486870019;
-        Thu, 25 Aug 2022 21:07:50 -0700 (PDT)
-Received: from ?IPV6:2a02:a31a:a240:1700:7563:5c5e:5903:bdb? ([2a02:a31a:a240:1700:7563:5c5e:5903:bdb])
-        by smtp.googlemail.com with ESMTPSA id k8-20020a2ea268000000b0025e304903f5sm264075ljm.6.2022.08.25.21.07.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Aug 2022 21:07:49 -0700 (PDT)
-From: Mateusz Kwiatkowski <kfyatek@gmail.com>
-X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Message-ID: <9d9ba040-99d7-25cb-ba10-1c132d7f7663@gmail.com>
-Date: Fri, 26 Aug 2022 06:07:47 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14E623A5
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Aug 2022 05:09:46 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id 208683200A8A;
+	Fri, 26 Aug 2022 01:09:45 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Fri, 26 Aug 2022 01:09:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1661490584; x=1661576984; bh=NEvgS4Y1TGOoJYMfZcyVI7VSq
+	u0kF4KmZH4aP8oll78=; b=f8802ZT0NXEE+nsRnbik4K9cWZcHki4hnSdjJZfGn
+	PBgM6nwfWv691zRaAK77mn+43zu0xFXjMGA0i3QLNI3hpTnweYHI0Kw4LmqWLZfC
+	QUgZBj80ayu+BYuBKHbbz1em3Yj+qNSeTIb8XcLfQ0qcoUGAn3timDgkhC6OpMXI
+	OYBSh47xGcrHvLt06VsQILSSNKkRNuqMlB2/iRZdPmka+6LYrqlx3u1bFJE1nNFZ
+	+bxcvtcXdl2sBqgR/LU0d5RAiBSquFv4mUhWh34CETvoJRNPNCqSw23rOj4DM70h
+	iU4Zro3OgouG3TE6fLRRwmBsixTWucDiE9o6YYzVhbZLg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1661490584; x=1661576984; bh=NEvgS4Y1TGOoJYMfZcyVI7VSqu0kF4KmZH4
+	aP8oll78=; b=YNSmRSML2ldp/e9zXzgdBhzVPrRhlFXUacx2mCIlkJAreIK24FV
+	hS9ey9XNCPCMjJC5aYYH8DvK66X2S7p8g2iID9nS0fJ6ChkEIylObpCwlYSiWgsd
+	TKtD4D3M0K2enCV19wFxQHgghdj7PAOi3VP55RfZfBTCRzIQXCfI6c0sjbuTNa0X
+	BvJuPQOxtk8s11tYWyQCs/Bwkd7EtNBloFPatWNNLlMx27pi70TB8sZ3K74fDy0D
+	rEGoQ7MmM5MOnebfjSSGjYFmPRTOetk8S+HTTtggi+OUQtgq1spszhCnGz8pOX/O
+	1a1LcAj4f3nXBlH4R0Jv52wp3S7UqhemBsw==
+X-ME-Sender: <xms:mFUIY8MBMQnlzLkG6OGsoaFw6qLEeQjNBa6mjRpimGauLfmPn_hF3w>
+    <xme:mFUIYy8OLfPPugBExTwKIuB30LAkBZGMfJ5r7zOZTHLFqjHrbI5l29R0ywSsjiDCi
+    Lp3OFSf020YfI49BQ>
+X-ME-Received: <xmr:mFUIYzScodFYc7oMlO-7JoltIBvDkLmNZDeZBE-3O91LmxLDFUuK43hW35flrPHpNDIwsFVFwkLryOefjmibzGemc7KW9bTV8E1Ei95YRiFAaXoFykHok1YwEpS-W_z8m7Ev1Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejgedgleefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepkeehffethedtteffgfefteetjedvfeelueevudffgfeutdejvdehledv
+    vdffhfevnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgrnhgu
+    rdhorhhg
+X-ME-Proxy: <xmx:mFUIY0um-dA0-TUql_kJQgsSGpbfeo_bURQjsilFxtJ6gEt1c8voyw>
+    <xmx:mFUIY0f0GtmvgtYxBLAxh6kjP-2RZA4fH_RZMcz-SRfqjMButhNp8A>
+    <xmx:mFUIY41oTOzbWnPgFdIe_Yt_p6OvPe7HYVMyelx76C1zaGJYdGl11Q>
+    <xmx:mFUIY1UmUzaDG3fFjkAm4cvTI90F4Qdt5xPqeHdmMpp5v5ba7RNlew>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 26 Aug 2022 01:09:43 -0400 (EDT)
+From: Samuel Holland <samuel@sholland.org>
+To: Pavel Machek <pavel@ucw.cz>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-leds@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-riscv@lists.infradead.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	devicetree@vger.kernel.org,
+	Rob Herring <robh+dt@kernel.org>,
+	Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v5 0/6] leds: Allwinner A100 LED controller support
+Date: Fri, 26 Aug 2022 00:09:36 -0500
+Message-Id: <20220826050942.20067-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.1.2
-Subject: Re: [PATCH v1 00/35] drm: Analog TV Improvements
-Content-Language: pl
-To: Maxime Ripard <maxime@cerno.tech>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
- <narmstrong@baylibre.com>, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Dom Cobley <dom@raspberrypi.com>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <987d6114-5fcb-d668-3b0d-ad6d8723dfdb@tronnes.org>
- <20220822074800.qzyctchqn5usr55g@houat>
- <9a15b1cf-692c-1b0d-02a6-316cbd954525@gmail.com>
- <20220825155506.wqurh5r752qfufqs@houat>
- <18737c8a-78f4-5b9f-aea2-588bc65c13d9@gmail.com>
-In-Reply-To: <18737c8a-78f4-5b9f-aea2-588bc65c13d9@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Maxime, Noralf and everyone,
+This series adds bindings and a driver for the RGB LED controller found
+in some Allwinner SoCs, starting with A100. The hardware in the R329 and
+D1 SoCs appears to be identical.
 
-Just as a quick update. I isolated the issue to the power management subsystem.
-Unfortunately I know very little about the power management subsystem so
-I don't think I can help.
+Patch 3 is included because the LED controller binding requires the DMA
+properties. That patch was sent previously[1], but never got merged.
 
-There are two alternative dirty ad-hoc hacks that get things working.
+Patches 5-6 depend on the D1 devicetree series[2], but the rest of this
+series can be merged without them.
 
-- Commenting out the pm_runtime_put() / pm_runtime_get_sync() calls in vc4_vec.c
-- Reverting this PR by Dom Cobley a.k.a. popcornmix:
-   https://github.com/raspberrypi/linux/pull/4639
+This driver was tested on the D1 Nezha board.
 
-Either of these approaches makes VEC mode switching work again. Obviously
-neither is appropriate for a permanent solution.
+[1]: https://lore.kernel.org/linux-arm-kernel/20201110040553.1381-7-frank@allwinnertech.com/
+[2]: https://lore.kernel.org/linux-riscv/20220815050815.22340-1-samuel@sholland.org/
 
-I tried some random code permutations that came to my mind, like using the
-vc4_encoder callbacks (e.g. post_crtc_powerdown) instead of the standard
-enable/disable encoder callbacks, but to no avail.
+Changes in v5:
+ - A100 contains the original implementation, so use that as the base
+   compatible string, and rename the binding to match
+ - Add "unevaluatedProperties: false" to the child multi-led binding
+ - Rename the driver R329 -> A100, since that is the actual original
+   implementation
 
-Since the clocks and power management seem to be delegated to the firmware now,
-my guess is that this might be a firmware issue, but I can't really check all
-the firmware versions. It certainly crashes on the version currently available
-in Raspberry Pi OS repos, and on this one:
-https://github.com/raspberrypi/rpi-firmware/commit/4dde751. My Pi4 doesn't boot
-using any newer firmware, at least not from USB - I might try some SD card
-after the weekend.
+Changes in v4:
+ - Use "default" instead of "maxItems" for timing properties
+ - Depend on LEDS_CLASS_MULTICOLOR
 
-Best regards,
-Mateusz Kwiatkowski
+Changes in v3:
+ - Removed quotes from enumeration values
+ - Added vendor prefix to timing/format properties
+ - Renamed "format" property to "pixel-format" for clarity
+ - Dropped "vled-supply" as it is unrelated to the controller hardware
+ - Added vendor prefix to timing/format properties
+ - Renamed "format" property to "pixel-format" for clarity
+ - Dropped "vled-supply" as it is unrelated to the controller hardware
+ - Changed "writesl" to "iowrite32_rep" so the driver builds on hppa
 
-W dniu 25.08.2022 o 18:17, Mateusz Kwiatkowski pisze:
-> Hi Maxime,
->
-> W dniu 25.08.2022 o 17:55, Maxime Ripard pisze:
->> Hi Mateusz,
->>
->> On Mon, Aug 22, 2022 at 10:57:26AM +0200, Mateusz Kwiatkowski wrote:
->>> Hi Maxime,
->>>
->>> I tried testing and reviewing your changes properly over the last weekend, but
->>> ultimately ran into this ("flip_done timed out" etc.) issue and was unable to
->>> mitigate it, at least so far. This seems to pop up every time I try to change
->>> modes in any way (either change the TV norm, or just try doing
->>> "xrandr --output Composite-1 --off" followed by bringing it back on; it also
->>> means that the Pi goes unusable when the DE's screen saving routine kicks in).
->>>
->>> I'm using a Pi 4, and it works with the rpi-5.13.y branch
->>> https://github.com/raspberrypi/linux, but seemingly nothing newer.
->>> I specifically tried rpi-5.14.y, rpi-5.15.y and rpi-5.19.y - rpi-5.15.y,
->>> which is the current main branch in Raspberry Pi OS, seems to be broken since
->>> forever; at least since my patches (originally written for 5.10) landed there.
->>>
->>> I'll try identifying the issue further, possibly later today, and maybe check
->>> the rpi-6.0.y branch as well.
->> I've tried it this, and I can't reproduce it here. But I'm curious, how
->> did you apply this series? rpi-5.13.y is probably full of conflicts
->> everywhere?
-> I applied your patches onto rpi-5.15.y. There were conflicts, but they seemed
-> relatively minor. I'm not sure if I did a good job at resolving them - I ran
-> into various problems trying to test your changes, but I chose not to criticize
-> you before making sure that it's really due to your changes, or without some
-> remarks more constructive than "doesn't work" ;-)
->
-> I can push my rebase onto some Github fork if you're interested.
->
-> I was able to work around some of those problems, and also saw that some
-> of them were already mentioned by other reviewers (such as the generic modes
-> not matching due to the aspect ratio setting).
->
-> Ultimately I got stuck on this bug, so I put testing this series on hold
-> in favor of debugging the bigger issue. So far unfortunately no luck with it.
->
-> I did not try rebasing your changes onto 5.13 or older.
->
->> Maxime
-> Best regards,
-> Mateusz Kwiatkowski
+Changes in v2:
+ - Fixed typo leading to duplicate t1h-ns property
+ - Removed "items" layer in definition of dmas/dma-names
+ - Replaced uint32 type reference with maxItems in timing properties
+ - Renamed from sunxi-ledc to sun50i-r329-ledc
+ - Added missing "static" to functions/globals as reported by 0day bot
 
+Samuel Holland (5):
+  dt-bindings: leds: Add Allwinner A100 LED controller
+  leds: sun50i-a100: New driver for the A100 LED controller
+  arm64: dts: allwinner: a100: Add LED controller node
+  riscv: dts: allwinner: d1: Add LED controller node
+  riscv: dts: allwinner: d1: Add RGB LEDs to boards
+
+Yangtao Li (1):
+  arm64: dts: allwinner: a100: Add device node for DMA controller
+
+ .../leds/allwinner,sun50i-a100-ledc.yaml      | 139 +++++
+ .../arm64/boot/dts/allwinner/sun50i-a100.dtsi |  26 +
+ .../allwinner/sun20i-d1-lichee-rv-dock.dts    |  12 +
+ .../boot/dts/allwinner/sun20i-d1-nezha.dts    |  13 +
+ arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi  |  21 +
+ drivers/leds/Kconfig                          |   9 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-sun50i-a100.c               | 554 ++++++++++++++++++
+ 8 files changed, 775 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/allwinner,sun50i-a100-ledc.yaml
+ create mode 100644 drivers/leds/leds-sun50i-a100.c
+
+-- 
+2.35.1
 
