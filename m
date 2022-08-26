@@ -1,73 +1,130 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D734C74
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 21:45:59 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id s23so10823616wmj.4
-        for <linux-sunxi@lists.linux.dev>; Thu, 25 Aug 2022 14:45:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=mE/4YBZh38TyYLhC6G5fQYeRHrAbzB7JvF8agv/vdQg=;
-        b=P6++xFNR1j0FfYdfcet9OwwFkgk8uW+QeGrsGedHWY32iLGlB2WTWHd0wEKUvrLfyw
-         8PIs4gz3vkR9Mxv5wfuXVMTHU5ZYIkrj2GBHeqM27WwzY2tF1tPpbagfTsmfbx5BWVPp
-         DOePwUjptMdp2mN1L2K2lS6WdQXAd6gNyRoxaMAiNlGePB3owtm/aCrRQguMiHKITf/4
-         VuMJC7mvsdos057Hw1T5i8rDb58UF3RBi40wqWBJpnN75SZxCwMjbhaogevZ3kXA+BN8
-         RsJ9P04/SH/PsScmrAk2cxLYQ7MuPMUBB5HUnXSfEKoNqoNx3PVdxp0gvFUiBwB/zH5t
-         Jpjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=mE/4YBZh38TyYLhC6G5fQYeRHrAbzB7JvF8agv/vdQg=;
-        b=ZOAgDg/8xzKLrC+PuktxjXNTr9pVgeFhqZwaXyjll+4BIouPReyxkRiJj1wmB5xmjU
-         DbmKgx2CEVdYIw3bakGeDMe49W0FoAyelCQN+PIT3PhliAP6UzLOhKg220Zr3NvcNqdE
-         dYhrLQD03mSsrfxHbKaQmO0wJX6dVye1WRUuwjIu8w6J1mMWWyBTxT+d8buxihl8wAhC
-         nxENGuc41BIeBKD6tiPV05YzH2sM9ARVEzIhZrEOurIdWfUMoceM2MpFVPwcEt7l6UnQ
-         +cn+prMKKr4PwxeG6h43DCQ6IJpT50WvEgBK7ETssyArkYrDIg/9+gq4MlMpVjs4q09I
-         +wSA==
-X-Gm-Message-State: ACgBeo2lNQ17DoJycE9aTTZTa/TLAtT8Xu341fzYYeXUMoHbAJnZP63V
-	v5JbkqdroJGd5s8zOiGAI+s=
-X-Google-Smtp-Source: AA6agR7230MGbs821+A8YN82pus383ho1o4vUi1fAFFJ5dzUVRhvyyd967MFX7/eyIwgOmyNIlfCpQ==
-X-Received: by 2002:a05:600c:4ed0:b0:3a6:de8:5e7d with SMTP id g16-20020a05600c4ed000b003a60de85e7dmr9320639wmq.181.1661463957948;
-        Thu, 25 Aug 2022 14:45:57 -0700 (PDT)
-Received: from kista.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
-        by smtp.gmail.com with ESMTPSA id az41-20020a05600c602900b003a60bc8ae8fsm466499wmb.21.2022.08.25.14.45.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Aug 2022 14:45:57 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
-Cc: Samuel Holland <samuel@sholland.org>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: Re: [PATCH] clk: sunxi-ng: d1: Limit PLL rates to stable ranges
-Date: Thu, 25 Aug 2022 23:45:56 +0200
-Message-ID: <1870351.taCxCBeP46@kista>
-In-Reply-To: <2839208.e9J7NaK4W3@jernej-laptop>
-References: <20220812080050.59850-1-samuel@sholland.org> <2839208.e9J7NaK4W3@jernej-laptop>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78181FCC
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Aug 2022 03:35:37 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 048F53200A5A;
+	Thu, 25 Aug 2022 23:35:35 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Thu, 25 Aug 2022 23:35:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1661484935; x=
+	1661571335; bh=ml0QXgJ11ruYlZ5YBTcNNwBdbFxRHL+i328CjCLIyDQ=; b=E
+	rudUJeoAWxjsiGudYFg/YqyOI1UcDJYDuAlZvPjSs/8nnR+3qtXp0cqbzV5QjLgY
+	6Bn/1zavNXJegVdtEWVuBt5Hhe2DU6xpmkiOmkCynMN/zIr55nh51mANZBC6cxFe
+	0MVugqYnZRc4aDAVy1+hiapL4FfN2ShEzvK1tMG3z3ma1ZZSW3HPG8BExmtZ86Ly
+	EdAlJpVJrW22Wr9WzFj+XTNNLt7nUzO2FlbpUvxscxdOXDyyHXO3dRHfV3W+ESwf
+	v3MVVREIx3lRwbo9KYHTw0rX+bItIR9CLZTqpffcAsACXeXXd4zuPJIHAPM75275
+	osI3e2wyd4XuK1yMCqAjQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1661484935; x=
+	1661571335; bh=ml0QXgJ11ruYlZ5YBTcNNwBdbFxRHL+i328CjCLIyDQ=; b=k
+	7jTPLkA1GPCOeTF315UggtQcrak/RA7HRfKj+M6s5YwS0fVDo9M9Q33hGbASCCV2
+	pWPdtYOabfbGXyzBZ3rNGZWXiRSKpYtOVT8y0Q7IKFBghFlLNb7wYmI0bdudixRZ
+	opE4/iC5qfes23b2iSGKs8z6rqND+EVLi7Nk7NGkfWX0M7uGvWdilr/3+/Jtez0z
+	Leo0hDndSftiUlEACjaHJpIFjjB6hcheWukJqMK5+MR3E6Dfn8oPOfRFEEZuHq3j
+	Ls7af1+rMsfC9s1UX8pBI31ogw7+ZlI7gv4wXNpDYs4wd4bKnqvxxV6esvn/KdPk
+	dSbTzH5NEkHeENDstf6DA==
+X-ME-Sender: <xms:hj8IYx2jLPdY01J7fBuycr5CoyzUqALP10wfY_IIyLHQTyQguABCqA>
+    <xme:hj8IY4GdPyXCaPniZoMYyM8pchTQVUpK69fBuDVKBS8SQpotv1UsNpUCw7q6O_Cn0
+    forb8BBejgGwVQexg>
+X-ME-Received: <xmr:hj8IYx5O5AutYUSEanpcTm5aA-16d5lnWIBmxVj-kpe4Rwn-5PXIqUUDxC62guVCWOxHwuG-Fgp7_QhduUs7DqEoNishu6bI4fOzhRblWInADF1DXHG6ENV4TA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejgedgjeegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefuvfevfhfhkffffgggjggtgfesth
+    ekredttdefjeenucfhrhhomhepufgrmhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghl
+    sehshhholhhlrghnugdrohhrgheqnecuggftrfgrthhtvghrnhepleeiheeggedtieeugf
+    effffhvdelkefgheetheehffevteffheejiefgffehtdehnecuffhomhgrihhnpehlihhn
+    uhigqdhsuhhngihirdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+    hmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:hj8IY-2i73q8zn_wt-Wb1Fo896455wFu9JfcSCTIfmE3uBJX8l-oiw>
+    <xmx:hj8IY0ERKZmBwqX01GbY0q0TRKDeBeAlb7Y2J7mbr59ShiDrYa24kA>
+    <xmx:hj8IY_9az-L6uVcr5r_l7GXpQ7pn_CysvjFBHD77q7zbA-_TGhfF6Q>
+    <xmx:hz8IY_BYl-btqlxHbQ0yed6dZqtz2hFG1a_oIkzCxsnQAc85N_gPgA>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 25 Aug 2022 23:35:34 -0400 (EDT)
+Subject: Re: [PATCH v8 1/2] ASoC: sunxi: Add Allwinner H6 Digital MIC driver
+To: =?UTF-8?B?54+t5rab?= <fengzheng923@gmail.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ wens@csie.org, jernej.skrabec@gmail.com, linux-kernel@vger.kernel.org,
+ alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <1660229343-14133-1-git-send-email-fengzheng923@gmail.com>
+ <3fb9adb7-96ef-c85e-069d-ef7f7ff09bc3@sholland.org>
+ <CAE=m618gz8mzRnvX-w6fpNmTc=5Bd0KTKeR1NvpNZkbj29=ayg@mail.gmail.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <b36262df-9324-6cd3-b74c-5b93840dabb0@sholland.org>
+Date: Thu, 25 Aug 2022 22:35:33 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAE=m618gz8mzRnvX-w6fpNmTc=5Bd0KTKeR1NvpNZkbj29=ayg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Dne nedelja, 14. avgust 2022 ob 09:47:42 CEST je Jernej =C5=A0krabec napisa=
-l(a):
-> Dne petek, 12. avgust 2022 ob 10:00:49 CEST je Samuel Holland napisal(a):
-> > Set the min/max rates for audio and video PLLs to keep them from going
-> > outside their documented stable ranges. Use the most restrictive of the
-> > "stable" and "actual" frequencies listed in the manual.
-> >=20
-> > Signed-off-by: Samuel Holland <samuel@sholland.org>
->=20
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+On 8/23/22 10:08 AM, 班涛 wrote:
+> Samuel Holland <samuel@sholland.org> 于2022年8月20 日周六 14:57写道：
+>     On 8/11/22 9:49 AM, Ban Tao wrote:
+>     > +     switch (params_format(params)) {
+>     > +     case SNDRV_PCM_FORMAT_S16_LE:
+>     > +             regmap_update_bits(host->regmap, SUN50I_DMIC_RXFIFO_CTL,
+>     > +                                SUN50I_DMIC_RXFIFO_CTL_SAMPLE_MASK,
+>     > +                                SUN50I_DMIC_RXFIFO_CTL_SAMPLE_16);
+>     > +             break;
+>     > +     case SNDRV_PCM_FORMAT_S24_LE:
+>     > +             regmap_update_bits(host->regmap, SUN50I_DMIC_RXFIFO_CTL,
+>     > +                                SUN50I_DMIC_RXFIFO_CTL_SAMPLE_MASK,
+>     > +                                SUN50I_DMIC_RXFIFO_CTL_SAMPLE_24);
+>     > +             break;
+>     > +     default:
+>     > +             dev_err(cpu_dai->dev, "Invalid format!\n");
+>     > +             return -EINVAL;
+>     > +     }
+>     > +     regmap_update_bits(host->regmap, SUN50I_DMIC_RXFIFO_CTL,
+>     > +                        SUN50I_DMIC_RXFIFO_CTL_MODE_MASK,
+>     > +                        SUN50I_DMIC_RXFIFO_CTL_MODE_MSB);
+> 
+>     I checked the manuals again, and I may have given you bad information. There
+>     appear to be two variants of the DMIC hardware.
+> 
+>     A63, H6, V5 V100, and V5x6 manuals list Mode 1 as "reserved" for a 24-bit sample
+>     resolution. The newer SoCs (A50, A133, D1, H616, and R329) describe Mode 1 as
+>     extending the 21-bit sample with three zeros at the LSB to make 24 bits, which
+>     is what we want.
+> 
+>     On my D1 board, recording in S24_LE gives me good audio data, with equivalent
+>     loudness to S16_LE, as I would expect. If this also works on older SoCs like H6,
+>     then the manual is wrong, and the driver is fine.
+> 
+>  
+> I checked the H6 manual, DMIC also supports 24bits. The H6 SoC works fine in
+> mode 1. I don't know where your manual came from, mine is provided by SUNXI. 
 
-Applied, thanks!
+I am referencing the manual linked from the linux-sunxi wiki, section 7.4.5.7:
 
-Best regards,
-Jernej
+https://linux-sunxi.org/images/4/46/Allwinner_H6_V200_User_Manual_V1.1.pdf
 
+    For 24-bit received audio sample:
+    Mode 0: RXDATA[31:0] = {FIFO_O[23:0], 8'h0}
+    Mode 1: Reserved
 
+Since the manual is wrong, could you please add a comment? Something like "The
+hardware supports FIFO mode 1 for 24-bit samples, even though the H6 manual
+describes that combination as reserved."
 
+Regards,
+Samuel
