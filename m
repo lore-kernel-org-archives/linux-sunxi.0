@@ -1,97 +1,132 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108AC15A3
-	for <linux-sunxi@lists.linux.dev>; Sat, 27 Aug 2022 11:07:40 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id b44so4842607edf.9
-        for <linux-sunxi@lists.linux.dev>; Sat, 27 Aug 2022 04:07:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=KkLBgHjqLVMK1fwCBUUK4kuHMU4tLcffN+IAMJpgXe8=;
-        b=iZpl5NHEwzGcgFJBKmhpTHZLBNZEpO8w0BHof64cEERIZrF6+Bd+Vxx8nYg++2wVaV
-         j8IoizILxnTbZt1KfTHo3mX2j42E70ofeASh58y3f16tcyPprgEI6gtRtqkRF4rq3Woj
-         lJks/rDU+GKqtjkdhZ6favIWbiBado7MbQyunsRHc6vvnIAbk123KY9MxiDkS2OoaTnQ
-         5yewCscX4Bhy1hXUkWmd335icJFNuX4pJ5aBqFrfaCdgKGRq2gd+hO/BX2qY2byewzu0
-         qiRSDPIfzv5b2lM4bxd9NTpwBV866P8HQqprxDsrYNp2WNxg7JZ3rlj1ppoAvcE530yW
-         hp+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=KkLBgHjqLVMK1fwCBUUK4kuHMU4tLcffN+IAMJpgXe8=;
-        b=HKBga3q6/PMs/4SOme+2MPvRWBF7pQtIRM6RCMZxzRkMcu40g2lDIn8GV5c0DMRg2k
-         yDUYVxzTW9eCAAvMbZrrT/PCp7kstm+7G4J9kLIgq+stfB7giJhfXoE3WF/4DStQZyWl
-         0LlOWb29HH6byCBO+Q37Q/46P5BIV+HAreqIoz3djKVbXXW+EsB4ThulI/iK3SN06OO9
-         NZjkZbdHQAt8zmxHmFoAHZ90j8fEPLcw9G2oGJx4Ca9ASNob8D6WCliPKMOvB/wTl9kw
-         S405C/pe7594sV88Q9IcqNvDriJrJnOxSlknSkusmSSOmcNIW6t8+SECkyRtBqrY1ksS
-         TCQQ==
-X-Gm-Message-State: ACgBeo2xMBrGZDHd0zYYT98ijdJGcUv9NSYyTnPZBUcQVpj9DQA0l17/
-	k+HFRICGdLnLn8teq2XVUkA=
-X-Google-Smtp-Source: AA6agR79JkqEXhoYIuRUBbhwrFqT1EXnC+yp4Avh6kLZcgbJbvYbPwfxQgOUH7aOk4HPN/63R0no5w==
-X-Received: by 2002:aa7:d5da:0:b0:448:ec:7b31 with SMTP id d26-20020aa7d5da000000b0044800ec7b31mr4228814eds.193.1661598459413;
-        Sat, 27 Aug 2022 04:07:39 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id uo39-20020a170907cc2700b0073da32b7db0sm1918147ejc.199.2022.08.27.04.07.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Aug 2022 04:07:39 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, wens@csie.org
-Subject: Re: [PATCH -next 3/3] clk: sunxi-ng: ccu-sun9i-a80-usb: Use dev_err_probe() helper
-Date: Sat, 27 Aug 2022 13:07:38 +0200
-Message-ID: <4742528.GXAFRqVoOG@jernej-laptop>
-In-Reply-To: <20220827094151.3323450-3-yangyingliang@huawei.com>
-References: <20220827094151.3323450-1-yangyingliang@huawei.com> <20220827094151.3323450-3-yangyingliang@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483054413
+	for <linux-sunxi@lists.linux.dev>; Sat, 27 Aug 2022 16:11:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=zPmPnNZPACtq5NG+tqbATF9Mb19lHqa2VFl/1U7+gUI=; b=AhPD18DZbKKJmlXMNxIYTfrKst
+	fKssAO+7MzubKlPMFGuayViwHzeZwzg205Psce9ksNdiy6+qfNCeGKOpR49vwuKOgaYbarbLYTnj/
+	kdBEjjfXv+Vpr8DpdQmt+LSGIFgsKlRBmPAzRx6BuSJE56vz6mfeXEwX//wj+aRCUeBIgBDAZ2b7U
+	hiLQAOPSQGKpW7+ag68TV6M5WSpZQRLFxmIeRDr7F2rLHKau4LNPnAPbZgWYKttqYW0H8OQ/an1uk
+	giISumJkudveqD5XeevSpJuj/s943fJQz/ZRYMcpmmskNh0NDu8/5Ak5FtWtYahTrcXGLxH5zJ2ns
+	y5BdY1uw==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=65252)
+	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <noralf@tronnes.org>)
+	id 1oRyPV-0003Mx-Q9; Sat, 27 Aug 2022 18:11:49 +0200
+Message-ID: <3da6e58f-1e23-7106-abf2-206af0fabc13@tronnes.org>
+Date: Sat, 27 Aug 2022 18:11:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v1 00/35] drm: Analog TV Improvements
+To: Dom Cobley <dom@raspberrypi.com>
+Cc: Maxime Ripard <maxime@cerno.tech>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
+ <narmstrong@baylibre.com>, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>,
+ Mateusz Kwiatkowski <kfyatek@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <987d6114-5fcb-d668-3b0d-ad6d8723dfdb@tronnes.org>
+ <20220822074800.qzyctchqn5usr55g@houat>
+ <9a15b1cf-692c-1b0d-02a6-316cbd954525@gmail.com>
+ <20220825155506.wqurh5r752qfufqs@houat>
+ <18737c8a-78f4-5b9f-aea2-588bc65c13d9@gmail.com>
+ <9d9ba040-99d7-25cb-ba10-1c132d7f7663@gmail.com>
+ <CANUESCG22TrxasYoE2U0OJ7TVzNAcs_9zkuAfBQfZrEbM4h9dg@mail.gmail.com>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <CANUESCG22TrxasYoE2U0OJ7TVzNAcs_9zkuAfBQfZrEbM4h9dg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Dne sobota, 27. avgust 2022 ob 11:41:51 CEST je Yang Yingliang napisal(a):
-> dev_err() can be replace with dev_err_probe() which will check if error
-> code is -EPROBE_DEFER.
+
+
+Den 26.08.2022 16.56, skrev Dom Cobley:
+> On Fri, 26 Aug 2022 at 05:08, Mateusz Kwiatkowski <kfyatek@gmail.com> wrote:
+>> - Commenting out the pm_runtime_put() / pm_runtime_get_sync() calls in vc4_vec.c
+>> - Reverting this PR by Dom Cobley a.k.a. popcornmix:
+>>    https://github.com/raspberrypi/linux/pull/4639
+>>
+>> Either of these approaches makes VEC mode switching work again. Obviously
+>> neither is appropriate for a permanent solution.
 > 
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Best regards,
-Jernej
-
-> ---
->  drivers/clk/sunxi-ng/ccu-sun9i-a80-usb.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
+> Might be worth trying the latest rpi-update firmware.
+> There was a change that affects restoring PIXEL/VEC clocks after a
+> power domain cycle.
+> There is also a fix for a USB boot breakage.
 > 
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun9i-a80-usb.c
-> b/drivers/clk/sunxi-ng/ccu-sun9i-a80-usb.c index 575ae4ccc65f..a0fb0da8f356
-> 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun9i-a80-usb.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun9i-a80-usb.c
-> @@ -101,12 +101,9 @@ static int sun9i_a80_usb_clk_probe(struct
-> platform_device *pdev) return PTR_ERR(reg);
-> 
->  	bus_clk = devm_clk_get(&pdev->dev, "bus");
-> -	if (IS_ERR(bus_clk)) {
-> -		ret = PTR_ERR(bus_clk);
-> -		if (ret != -EPROBE_DEFER)
-> -			dev_err(&pdev->dev, "Couldn't get bus clk: 
-%d\n", ret);
-> -		return ret;
-> -	}
-> +	if (IS_ERR(bus_clk))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(bus_clk),
-> +				     "Couldn't get bus clk\n");
-> 
->  	/* The bus clock needs to be enabled for us to access the 
-registers */
->  	ret = clk_prepare_enable(bus_clk);
 
+That firmware gives me firmware timeout references in the 5 attempts
+I've done.
 
+My first attempt gave me this:
 
+[  112.454982] WARNING: CPU: 2 PID: 855 at
+drivers/firmware/raspberrypi.c:63 rpi_firmware_property_list+0x204/0x270
+[  112.466985] Firmware transaction timeout
+...
+[  112.533740]  warn_slowpath_fmt from
+rpi_firmware_property_list+0x204/0x270
+[  112.541449]  rpi_firmware_property_list from
+rpi_firmware_property+0x68/0x94
+[  112.549326]  rpi_firmware_property from
+raspberrypi_clock_property+0x50/0x84
+[  112.557197]  raspberrypi_clock_property from
+raspberrypi_fw_set_rate+0x4c/0xc4
+[  112.565242]  raspberrypi_fw_set_rate from clk_change_rate+0x16c/0x6f8
+[  112.572502]  clk_change_rate from clk_core_set_rate_nolock+0x1c4/0x2a4
+[  112.579857]  clk_core_set_rate_nolock from
+clk_set_rate_range.part.0+0x128/0x2ac
+[  112.588091]  clk_set_rate_range.part.0 from
+vc4_atomic_commit_tail+0x2b4/0x854 [vc4]
+[  112.596832]  vc4_atomic_commit_tail [vc4] from commit_tail+0xa4/0x19c
+[  112.604269]  commit_tail from drm_atomic_helper_commit+0x16c/0x194
+[  112.611279]  drm_atomic_helper_commit from drm_atomic_commit+0xb4/0xec
+[  112.618625]  drm_atomic_commit from drm_mode_atomic_ioctl+0x8f0/0xb6c
+[  112.625877]  drm_mode_atomic_ioctl from drm_ioctl_kernel+0xcc/0x170
+[  112.632950]  drm_ioctl_kernel from drm_ioctl+0x1d8/0x374
+[  112.639056]  drm_ioctl from sys_ioctl+0xe4/0xbac
+[  112.644462]  sys_ioctl from ret_fast_syscall+0x0/0x1c
+...
+[  112.726171] raspberrypi-clk soc:firmware:clocks: Failed to change
+fw-clk-core frequency: -110
 
+I've also done one with drm debug enabled.
+Kernel messages:
+https://gist.github.com/notro/53afe9fdc3d0afbf0fb12678be1ab377
+
+Dom, in case you want to debug this I've uploaded a rpi-update'able
+archive plus config.txt and cmdline.txt.
+There are some custom overlays in there that are needed.
+
+Kernel: tronnes.org/downloads/vec-kernel-2022-08-27.gz
+Build/setup info from another post:
+https://gist.github.com/notro/41c59d77c3022dc6d931d4f9547c4ea6
+
+I've tried this on another Pi4 (same revision: c03111) as well to rule
+out any hw issues. The first attempt also gave me an mmc fault (no dmesg
+-w) and the second one (dmesg -w) gave me the timeout.
+
+Noralf.
