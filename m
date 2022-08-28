@@ -1,146 +1,102 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02BD7C
-	for <linux-sunxi@lists.linux.dev>; Sat, 27 Aug 2022 16:50:09 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id w19so8280055ejc.7
-        for <linux-sunxi@lists.linux.dev>; Sat, 27 Aug 2022 09:50:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=VJNF98Jqt99AprHtKq0G9VG/d2DqpgJHfktlSDmD0pg=;
-        b=MN8/ETsFbLJzerJD4Via51PdSRuPXLXahkl3CImMSuj4F8mgXXCxd1i7VSiHIxGCFt
-         gBttjvyy2grENAq0rDAl+cNdRaDE3lNvlKf2IeqZwyYRDjDvyPc/pN/XP/gjo4gyM/x3
-         4XXg7RiJ0uzLoKXcfRrl/IJbFKNAc1nJvBBkxWeZVMOibC4FAJgnVctwKodiVPTIDhQc
-         LTlbKqwN7Fbw69qAMl6oyXnRmHf8viBq8EaaXO6UUQC2h1AhyBinSnJBLKHSQoJrGF7d
-         qXcB4TVtkJAqlqafVN1p1VDLGDnktOE7BgFdMFAeOvhc6yegecVQM8v34b9IUzLbaDfR
-         TSZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=VJNF98Jqt99AprHtKq0G9VG/d2DqpgJHfktlSDmD0pg=;
-        b=HHWdIWqltdJpC4JqW6ul4L3mWVsmy/gSizDW+X/LNwiEPFKXkT3yNzamCGn6B2sDJQ
-         Y5GmbEuOjECZHcspo7gVh0pRuLhf2suc1gPsOliBOweJ5Hj3Qt2BO1ChU7RDXQVNwZ0G
-         22ZlNc/ygyNwvMtLz4ZO5giX0N6VIJ0/h0o/TQSyp2BMnBaqPXr/0mTUaB8AG5p/oF1r
-         vYMuo5y4HEpMIe1R8fGQ+Hj4a2SGXBbZUHuPkBROBjjYcz3mB6KzBoOYlhykkQgj/eak
-         Dts+l0qlMrUCyN7hGlB2ljbroDjtZwr1cOuLWm4sebEfKtnDKGtHbZeOiihk0EsQqKHU
-         GLZA==
-X-Gm-Message-State: ACgBeo1qy65d3eiTXwHXR8cuU0oe2uS2GuSxcPve1NzsRB+zAjozhgcH
-	B58aXiQr81lIcuICAT4NdFFYjQeAzMOiaL1pAwA=
-X-Google-Smtp-Source: AA6agR45ebN9N8dztQ/gX5HvnhEDpExulXI+ZZGejqq5d1WBpjxzmH9DKLOsuHlQFtJuyFzYNpSq3aIf5qCCqjTt62c=
-X-Received: by 2002:a17:907:8a09:b0:731:610:ff8d with SMTP id
- sc9-20020a1709078a0900b007310610ff8dmr8431923ejc.399.1661619008050; Sat, 27
- Aug 2022 09:50:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1992A2F45
+	for <linux-sunxi@lists.linux.dev>; Sun, 28 Aug 2022 17:06:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=VB+iShHArjJp41BB5dqP4/59fbHxHAh8j4VWglqFn7E=; b=U1fK7sWUEHCoKWz84mzGfnRtEQ
+	UrW5fXCEBL4DXz/NpfWik98RVrmZoEVwrwKWPWqQ0D7qmdd5DmT5KDBvnK7BW36hkK2ZBwHN6yVBQ
+	add4aNGQ0gHcc64K2WMXXFCgY/ZT2ZWuJK7zFKRwTtuWXhz3HEcrGpvUxT3KW0F4xQSlzDG+x9qrb
+	a6lUJ/EOI1KyvNFg+KoWOfNGa4TOD9W0e1vfCMmejMqaO4B5WgI9T3oUX781k9Pz/ajsBNJwi/AkG
+	e6l5w3Yg/B8Vlc/dOtdyU30knuOvm5MIZcPp7eyelDP/khmC6e1nNYIFzqScoH8s7FpI/pgIDN42X
+	onXXhHAg==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=60461)
+	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <noralf@tronnes.org>)
+	id 1oSLjq-0002PX-L9; Sun, 28 Aug 2022 19:06:22 +0200
+Message-ID: <3b6ec59d-4fad-52f9-e96a-55a25ff3cfb4@tronnes.org>
+Date: Sun, 28 Aug 2022 19:06:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220821173051.155038-1-peron.clem@gmail.com> <20220821173051.155038-3-peron.clem@gmail.com>
- <72f901e6-f646-336b-70e6-2747363944ab@sholland.org>
-In-Reply-To: <72f901e6-f646-336b-70e6-2747363944ab@sholland.org>
-From: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Date: Sat, 27 Aug 2022 18:49:56 +0200
-Message-ID: <CAJiuCcfF=1Ob1oGABtHhM88m0LST727h88fXqCKYBiWRsYmtnA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] arm64: dts: allwinner: h6: Add cooling map for GPU
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, devicetree <devicetree@vger.kernel.org>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Samuel,
-
-On Tue, 23 Aug 2022 at 05:16, Samuel Holland <samuel@sholland.org> wrote:
->
-> On 8/21/22 12:30 PM, Cl=C3=A9ment P=C3=A9ron wrote:
-> > Add a simple cooling map for the GPU.
->
-> It would be good to document where the trip point temperatures came from.
-
-If I remember correctly, I got those when getting the dtb from my
-Beelink GS1 when it was running vendor Android with the oldest
-Allwinner kernel.
-
-But now that you ask I double check with the "new" vendor kernel source:
-https://github.com/Allwinner-Homlet/H6-BSP4.9-linux/blob/master/arch/arm64/=
-boot/dts/sunxi/sun50iw6p1.dtsi#L2034-L2053
-
-And It's different from what I got in the past.
-The throttling starts when the GPU is already very hot (95, 100 and
-105=C2=B0C) and seems to only disable the highest frequency (756, 624 and
-576MHz).
-Which let the GPU running at 0.91V @ 540MHz.
-
-Which is far to be the lowest possible consumption for the GPU (0.81V
-@ 336MHz would be better in the hottest situation)
-
-I'm not an expert but either I could just try to copy/paste the same
-behavior or try to have a more smooth cooling map (70, 85, 100=C2=B0C).
-
-What do you think?
-
-Thanks,
-Clement
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
+ command-line option
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
+ <narmstrong@baylibre.com>, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Dom Cobley <dom@raspberrypi.com>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
+ <noralf@tronnes.org>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-34-3d53ae722097@cerno.tech>
+ <eedb1a86-c1fb-cc76-2a43-4ed349d7d826@tronnes.org>
+ <20220824154543.bdtpz2evwzsjrdrz@houat>
+ <3cc08f9d-9f01-b771-c16f-ea95acd7e7cd@tronnes.org>
+ <20220826064646.ug2djacis7whybpd@houat>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220826064646.ug2djacis7whybpd@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
 
->
-> > Signed-off-by: Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
->
-> Acked-by: Samuel Holland <samuel@sholland.org>
->
-> > ---
-> >  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 22 ++++++++++++++++++++
-> >  1 file changed, 22 insertions(+)
-> >
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/=
-boot/dts/allwinner/sun50i-h6.dtsi
-> > index 5a28303d3d4c..943ae5374dd6 100644
-> > --- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> > @@ -186,6 +186,7 @@ gpu: gpu@1800000 {
-> >                       clocks =3D <&ccu CLK_GPU>, <&ccu CLK_BUS_GPU>;
-> >                       clock-names =3D "core", "bus";
-> >                       resets =3D <&ccu RST_BUS_GPU>;
-> > +                     #cooling-cells =3D <2>;
-> >                       status =3D "disabled";
-> >               };
-> >
-> > @@ -1075,6 +1076,27 @@ gpu-thermal {
-> >                       polling-delay-passive =3D <0>;
-> >                       polling-delay =3D <0>;
-> >                       thermal-sensors =3D <&ths 1>;
-> > +
-> > +                     trips {
-> > +                             gpu_alert: gpu-alert {
-> > +                                     temperature =3D <85000>;
-> > +                                     hysteresis =3D <2000>;
-> > +                                     type =3D "passive";
-> > +                             };
-> > +
-> > +                             gpu-crit {
-> > +                                     temperature =3D <100000>;
-> > +                                     hysteresis =3D <0>;
-> > +                                     type =3D "critical";
-> > +                             };
-> > +                     };
-> > +
-> > +                     cooling-maps {
-> > +                             map0 {
-> > +                                     trip =3D <&gpu_alert>;
-> > +                                     cooling-device =3D <&gpu THERMAL_=
-NO_LIMIT THERMAL_NO_LIMIT>;
-> > +                             };
-> > +                     };
-> >               };
-> >       };
-> >  };
-> >
->
+Den 26.08.2022 08.46, skrev Maxime Ripard:
+> On Thu, Aug 25, 2022 at 02:41:27PM +0200, Noralf Trønnes wrote:
+>> Den 24.08.2022 17.45, skrev Maxime Ripard:
+>>> Hi Noralf,
+>>>
+>>> On Sat, Aug 20, 2022 at 10:18:47PM +0200, Noralf Trønnes wrote:
+>>>> Den 29.07.2022 18.35, skrev Maxime Ripard:
+>>>>> Our new tv mode option allows to specify the TV mode from a property.
+>>>>> However, it can still be useful, for example to avoid any boot time
+>>>>> artifact, to set that property directly from the kernel command line.
+>>>>>
+>>>>> Let's add some code to allow it, and some unit tests to exercise that code.
+>>>>>
+>>>>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>>>>>
+>>>>
+>>>> In the subject it says "tv_mode property", but the property is called
+>>>> "tv norm", so the option should be tv_norm?
+>>>
+>>> Yeah... I don't know. mode is taken but it's obviously the best name. So
+>>> I went with norm to avoid the (internal) conflict but I left mode for
+>>> the user facing property.
+>>>
+>>> I'm not sure what's best here, or maybe we can pick another name entirely?
+>>>
+>>
+>> Why not just call it "tv mode" or even better "TV Mode". The state
+>> member can be called tv_mode, but the mode_config member will need a
+>> temporary name until the "mode" property is removed. tv_tv_mode or maybe
+>> connector_tv_mode?
+> 
+> Yeah, that seems like a good idea. Would legacy_tv_mode work for you?
+> 
+
+Oh yeah, renaming the "mode" property, that works fine.
+
+Noralf.
