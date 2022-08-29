@@ -1,83 +1,154 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7698553B9;
-	Mon, 29 Aug 2022 16:27:57 +0000 (UTC)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:3d67:aec0:f788:1143])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id D42376600360;
-	Mon, 29 Aug 2022 17:22:07 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1661790128;
-	bh=iBVc29gKZFKqyDDdPbh8NNqE2+5tS5jY80daWeZGfmw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=i6qHqulyX4bx1mBsTqn1R7eaM5k9788KC9y/nCwrzs43gu99+zGQZLJgy21cV0gEk
-	 IdQ0bsVqESQOv40FBuADSyI2x0mZHF9XYkgtw8fqNDWoDMv/TenC7+vwCyNnFd+Rqp
-	 ZEfLa5EmB/Q/d1Wq+M9w1ISzETPO4R9WACAuWg8un+gsyeDPUnBqJw786ogbShNwtX
-	 SahsN/L8+LbNqtxpxPdcRUaBpJ8Nmz1OylEo8RMvqDmIVhEyiMWGatkCW/YIXZG4L8
-	 A7N0VpcyvJ6YMF8HGE9YhX895bUMAH2ylC7CJVJahqG2e8ldq+GdMrK+q8lFimP3iP
-	 ErSui+dKCqkow==
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: mchehab@kernel.org,
-	hverkuil@xs4all.nl,
-	ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de,
-	gregkh@linuxfoundation.org,
-	mripard@kernel.org,
-	paul.kocialkowski@bootlin.com,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	nicolas.dufresne@collabora.com,
-	andrzej.p@collabora.com
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v3 0/7] Enable 10bits bitstream for Hantro/G2 HEVC codec
-Date: Mon, 29 Aug 2022 18:21:52 +0200
-Message-Id: <20220829162159.881588-1-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.32.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEBE2F53
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Aug 2022 18:47:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=LIXwPXe6uDCw8puUWwXJwlt9Qctgfa7237R9Ay9Rr94=; b=lEkiEUddmC83T3gPlX9iC1HPqE
+	SNqV0HNvj3WohDUJb3awRux40lCfk6tyQB/y/P0NkxAmJvnLotHmUwjl8aOOgP7Mq2i6NQQK+Qfzy
+	aGX/MisxWkzuPdRvBFUrgVFV5Pp5E73ZOuHT2POkj46RBMOqXiYPFKcqFeqYAz83p2JMvS2jO7pEf
+	1Nfovc1pcY/rW+YbwdLiXSg03RCMaci4y5cXg2twznwbCvQHEeFLKuqBYsK06/LVq5t3DUgZOvADK
+	7zf9RrPQcFL/TgKO86KFtdoAnMH8IPBBc/k4+dp4YbP4PPdWhQGbwwkVcLgx7cXqgK+UELGvisvi2
+	nlmQP40g==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=60573)
+	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <noralf@tronnes.org>)
+	id 1oSjme-00079u-AJ; Mon, 29 Aug 2022 20:46:52 +0200
+Message-ID: <f6289e5d-98e3-1a0d-f514-136e2b7978c1@tronnes.org>
+Date: Mon, 29 Aug 2022 20:46:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 01/41] drm/tests: Order Kunit tests in Makefile
+To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
+ Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+ Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>,
+ Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ linux-arm-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ intel-gfx@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, Dom Cobley <dom@raspberrypi.com>,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-1-459522d653a7@cerno.tech>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v2-1-459522d653a7@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-This series add 10bits support for newer hardware blocks (i.e without
-legacy regs) and for HEVC codec.
 
-Tested on IMX8MQ with HEVC conformance tests, the result is that all 
-10bits bitstreams are OK.
 
-version 3:
-- Based on top of Ezequiel's patch "media: destage Hantro VPU driver"
+Den 29.08.2022 15.11, skrev Maxime Ripard:
+> Since we've recently added a ton of tests, the list starts to be a bit
+> 
+> of a mess and creates unneeded conflicts.
+> 
+> 
+> 
+> Let's order it alphabetically.
+> 
+> 
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> 
+> 
+> 
 
-Benjamin Gaignard (7):
-  media: hantro: Store HEVC bit depth in context
-  media: hantro: HEVC: Fix auxilary buffer size calculation
-  media: hantro: HEVC: Fix chroma offset computation
-  media: hantro: postproc: Configure output regs to support 10bit
-  media: Hantro: HEVC: Allows 10-bit bitstream
-  media: hantro: imx8m: Enable 10bit decoding
-  media: hantro: Allows luma and chroma depth to be different
+Something has gone wrong with this patchset, there are double line endings.
 
- .../media/platform/verisilicon/hantro_drv.c   | 14 ++++++----
- .../platform/verisilicon/hantro_g2_hevc_dec.c |  4 +--
- .../media/platform/verisilicon/hantro_hevc.c  |  4 +--
- .../platform/verisilicon/hantro_postproc.c    |  7 ++++-
- .../media/platform/verisilicon/imx8m_vpu_hw.c | 27 +++++++++++++++++++
- 5 files changed, 45 insertions(+), 11 deletions(-)
+I looked at the patchwork version and it look all right there so I
+figured it might have fixed up the patches, but it failed:
 
--- 
-2.32.0
+git apply -v --check
+/home/pi/tinydrm.gud-gadget/workdirs/tv_norm_gadget/500003.patch
+Checking patch drivers/gpu/drm/tests/Makefile...
+error: while searching for:
+# SPDX-License-Identifier: GPL-2.0?
+?
+obj-$(CONFIG_DRM_KUNIT_TEST) += drm_format_helper_test.o
+drm_damage_helper_test.o \?
+        drm_cmdline_parser_test.o drm_rect_test.o drm_format_test.o
+drm_plane_helper_test.o \?
+        drm_dp_mst_helper_test.o drm_framebuffer_test.o drm_buddy_test.o
+drm_mm_test.o?
 
+error: patch failed: drivers/gpu/drm/tests/Makefile:1
+error: drivers/gpu/drm/tests/Makefile: patch does not apply
+
+ERROR: Failed check apply patch
+
+pi@build-server:~/tinydrm.gud-gadget$ file
+workdirs/tv_norm_gadget/500003.patch
+workdirs/tv_norm_gadget/500003.patch: unified diff output, ASCII text,
+with CRLF, LF line terminators
+
+Noralf.
+
+> diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
+> 
+> index 91b70f7d2769..2d9f49b62ecb 100644
+> 
+> --- a/drivers/gpu/drm/tests/Makefile
+> 
+> +++ b/drivers/gpu/drm/tests/Makefile
+> 
+> @@ -1,5 +1,13 @@
+> 
+>  # SPDX-License-Identifier: GPL-2.0
+> 
+>  
+> 
+> -obj-$(CONFIG_DRM_KUNIT_TEST) += drm_format_helper_test.o drm_damage_helper_test.o \
+> 
+> -	drm_cmdline_parser_test.o drm_rect_test.o drm_format_test.o drm_plane_helper_test.o \
+> 
+> -	drm_dp_mst_helper_test.o drm_framebuffer_test.o drm_buddy_test.o drm_mm_test.o
+> 
+> +obj-$(CONFIG_DRM_KUNIT_TEST) += \
+> 
+> +	drm_buddy_test.o \
+> 
+> +	drm_cmdline_parser_test.o \
+> 
+> +	drm_damage_helper_test.o \
+> 
+> +	drm_dp_mst_helper_test.o \
+> 
+> +	drm_format_helper_test.o \
+> 
+> +	drm_format_test.o \
+> 
+> +	drm_framebuffer_test.o \
+> 
+> +	drm_mm_test.o \
+> 
+> +	drm_plane_helper_test.o \
+> 
+> +	drm_rect_test.o
+> 
+> 
+> 
