@@ -1,106 +1,204 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB16625
-	for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 09:36:35 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id z23so7861093ljk.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 02:36:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=kCi8L1+oD+4JTBvg0D7KspDhAid2IOnvW3ckVIUBt9U=;
-        b=YO/VLJYgQtWvyKOuDYePVhu0MG9qTHHNwyrER5jP7xrz5Ovu8sFTgTrT9hUTRdyN3+
-         4TFLgf2CI3a5HHtqwqZ/JiUdBvEVWGpzZBskvMxHeqBgofR6zQjMX+YCXZevj+KiQj5Z
-         Q1unqYNIZPZEVMqv8FrAEl7qK38tahod0e5h3d+ECr9O1oMkNGId9Oviz7MsvZUJwVOt
-         1NF497u1MgpgtGPjqkVGj3GGumW0HBKkE2S3x3tAwK8XgJ6oyVgF09DpwatmEyCHYFEs
-         FALpdbKoWv3Kr/BmJ+mDTqr8a5WOoGXvutD/GcI/HUrqfzyLnqQd4Jwuddr8bkVAXRpY
-         biGA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5A6625
+	for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 10:12:11 +0000 (UTC)
+Received: by mail-qk1-f182.google.com with SMTP id g21so8004172qka.5
+        for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 03:12:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=kCi8L1+oD+4JTBvg0D7KspDhAid2IOnvW3ckVIUBt9U=;
-        b=lJ+N1x1Uv4JSCLWzULEAa/GKTpENixkQqkFXmsJSnyFCbAY7IsvERx4tyaRE1G/ECa
-         ff3njcGQB7mOPirtEXaRq3pgCHhoiRF37jwBC1SyJktGWHSFyykdDj+wGA41i+aMi1S7
-         6+SU89UiIhgclLXuoHHcla9ZuN5OUWbDpSyQDsi7LZzGpmam6UDlNw23GxZMykVunsIf
-         S90OyZmH4ho3/PqhIamW3UGbFLqloHhFsEMUe11PE7MizJq6t9xwjXz9kyCzTZyYHqso
-         fQTQkEWGkNkQ+ZxVL5MQoswq/Zr2M01I9w0HhyvB6q9mr4cT1YWPq3v6IMEmgZAGPNnO
-         1ZHg==
-X-Gm-Message-State: ACgBeo3V5DYVMpOVtH6Xa21UYknZgWnuDvBnjtKOfR4RPLBQWu42XL2d
-	kNw/sxeSmPjWjek0Kt5lMvxgDQ==
-X-Google-Smtp-Source: AA6agR4d1/sQGxXZPNDK/31Tjg9grm6UsSbjOwAS5Sq/aDGVQCp4oN3d9PYLjMqb5EjZ0bcCmPIeQg==
-X-Received: by 2002:a2e:3006:0:b0:266:6677:5125 with SMTP id w6-20020a2e3006000000b0026666775125mr1872362ljw.352.1661852193294;
-        Tue, 30 Aug 2022 02:36:33 -0700 (PDT)
-Received: from [192.168.28.124] (balticom-73-99-134.balticom.lv. [109.73.99.134])
-        by smtp.gmail.com with ESMTPSA id c9-20020a05651c014900b0025e15fe421bsm1705374ljd.17.2022.08.30.02.36.31
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=B6sPmfOEwPF2h7f07mGfudT4aQe+F6kN6ETICFIZHMY=;
+        b=LSQhD6x6QZzw/PAiwIibjVWFRkIKWwNVU1lQiGhxBL7CFfgmfuQRh6xuxpGM1xPTLc
+         64bpJK1ZGolzCyf2/tB8cAJUSpmYnhnjrVuYbsUQUdiwa+TTUxY7paQqhePTVI7ctYyi
+         Jo9a6+qfdzCxBF07pmNoMnIjyCTj/TbJKe6r9eQYuTpsfZw9FHs7gv+STwAhGDmlFJP+
+         j8z7fIyBEg1qJ8lsC2a+w+1XsB/u33HHIT0ut6KegvtbveoUvJ5ekmcWGrsZJ/DKjdn/
+         rEuCppKItIP6NWGhAIuXNgz/jR+jcOw1x5IFusMaqk57DLTSO0hEaH7mADIz+GJVd6B3
+         DovQ==
+X-Gm-Message-State: ACgBeo3HIEMVNcvJOa96PZqjWWoGbbJ4MB89pNSAgd85cCetEvy68xXc
+	kOJxp5AL77p6j7zSA2140xG9SIzhmfp9PQ==
+X-Google-Smtp-Source: AA6agR743sGJdaRNNON+hJsWoSktjv2M2Co1wf2qdeSo/lrmui18312OdV3s32ztchi8KT/BsOaaMg==
+X-Received: by 2002:a05:620a:40d5:b0:6bb:208:93d3 with SMTP id g21-20020a05620a40d500b006bb020893d3mr11344216qko.223.1661854330405;
+        Tue, 30 Aug 2022 03:12:10 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id br13-20020a05620a460d00b006bad20a6cfesm8055835qkb.102.2022.08.30.03.12.10
+        for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Aug 2022 02:36:32 -0700 (PDT)
-Message-ID: <1c9cb6c2-2030-257d-a50d-dada0ab4449e@linaro.org>
-Date: Tue, 30 Aug 2022 12:36:31 +0300
+        Tue, 30 Aug 2022 03:12:10 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-3376851fe13so260978157b3.6
+        for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 03:12:10 -0700 (PDT)
+X-Received: by 2002:a25:8e84:0:b0:696:466c:baa with SMTP id
+ q4-20020a258e84000000b00696466c0baamr10033148ybl.604.1661854027231; Tue, 30
+ Aug 2022 03:07:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 1/3] dt-bindings: i2c: mv64xxx: Document DMA properties
-Content-Language: en-US
-To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Gregory CLEMENT <gregory.clement@bootlin.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-References: <20220830020824.62288-1-samuel@sholland.org>
- <20220830020824.62288-2-samuel@sholland.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220830020824.62288-2-samuel@sholland.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech> <20220728-rpi-analog-tv-properties-v2-14-459522d653a7@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v2-14-459522d653a7@cerno.tech>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 30 Aug 2022 12:06:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV9wVgHFfwHoqtBoYzJDnjDmKTfaZkAKvTVKh1Y-2x1pA@mail.gmail.com>
+Message-ID: <CAMuHMdV9wVgHFfwHoqtBoYzJDnjDmKTfaZkAKvTVKh1Y-2x1pA@mail.gmail.com>
+Subject: Re: [PATCH v2 14/41] drm/modes: Move named modes parsing to a
+ separate function
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Maxime Ripard <mripard@kernel.org>, Ben Skeggs <bskeggs@redhat.com>, 
+	David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Lyude Paul <lyude@redhat.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>, 
+	=?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
+	Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Hans de Goede <hdegoede@redhat.com>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, Phil Elwell <phil@raspberrypi.com>, 
+	Intel Graphics Development <intel-gfx@lists.freedesktop.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	DRI Development <dri-devel@lists.freedesktop.org>, Dom Cobley <dom@raspberrypi.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Nouveau Dev <nouveau@lists.freedesktop.org>, 
+	linux-sunxi@lists.linux.dev, 
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 30/08/2022 05:08, Samuel Holland wrote:
-> Allwinner's I2C offload engine includes bidirectional DMA support. Add
-> the properties for describing this in the devicetree. "dmas" is optional
-> because not all instances of the controller have their DRQs hooked up.
-> For example, R_I2C0 and R_I2C1 on V536 have no DRQ number assigned.
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+Hi Maxime,
 
-Thank you for your patch. There is something to discuss/improve.
+On Mon, Aug 29, 2022 at 3:13 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> The current construction of the named mode parsing doesn't allow to extend
+> it easily. Let's move it to a separate function so we can add more
+> parameters and modes.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-> ---
-> 
->  .../bindings/i2c/marvell,mv64xxx-i2c.yaml           | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml b/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml
-> index 0ec033e48830..63d665a4f9bb 100644
-> --- a/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml
-> +++ b/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml
-> @@ -66,6 +66,19 @@ properties:
->    resets:
->      maxItems: 1
->  
-> +  dmas:
-> +    items:
-> +      - description: RX DMA Channel
-> +      - description: TX DMA Channel
+Thanks for your patch!
+
+> --- a/drivers/gpu/drm/drm_modes.c
+> +++ b/drivers/gpu/drm/drm_modes.c
+> @@ -1909,6 +1909,9 @@ void drm_connector_list_update(struct drm_connector *connector)
+>  }
+>  EXPORT_SYMBOL(drm_connector_list_update);
+>
+> +#define STR_STRICT_EQ(str, len, cmp) \
+> +       ((strlen(cmp) == len) && !strncmp(str, cmp, len))
+
+This is not part of the move, but newly added.
+
 > +
-> +  dma-names:
-> +    items:
-> +      - const: rx
-> +      - const: tx
+>  static int drm_mode_parse_cmdline_bpp(const char *str, char **end_ptr,
+>                                       struct drm_cmdline_mode *mode)
+>  {
+> @@ -2208,6 +2211,52 @@ static const char * const drm_named_modes_whitelist[] = {
+>         "PAL",
+>  };
+>
+> +static int drm_mode_parse_cmdline_named_mode(const char *name,
+> +                                            unsigned int name_end,
+> +                                            struct drm_cmdline_mode *cmdline_mode)
+> +{
+> +       unsigned int i;
 > +
-> +dependencies:
-> +  dmas: [ dma-names ]
+> +       if (!name_end)
+> +               return 0;
 
-Dependency is not needed. meta-schema has it.
+This is already checked by the caller.
 
-Best regards,
-Krzysztof
+> +
+> +       /* If the name starts with a digit, it's not a named mode */
+> +       if (isdigit(name[0]))
+> +               return 0;
+> +
+> +       /*
+> +        * If there's an equal sign in the name, the command-line
+> +        * contains only an option and no mode.
+> +        */
+> +       if (strnchr(name, name_end, '='))
+> +               return 0;
+> +
+> +       /* The connection status extras can be set without a mode. */
+> +       if (STR_STRICT_EQ(name, name_end, "d") ||
+> +           STR_STRICT_EQ(name, name_end, "D") ||
+> +           STR_STRICT_EQ(name, name_end, "e"))
+> +               return 0;
+
+These checks are not part of the move, and should probably be added
+in a separate patch.
+
+> +
+> +       /*
+> +        * We're sure we're a named mode at that point, iterate over the
+> +        * list of modes we're aware of.
+> +        */
+> +       for (i = 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
+> +               int ret;
+> +
+> +               ret = str_has_prefix(name, drm_named_modes_whitelist[i]);
+> +               if (ret != name_end)
+> +                       continue;
+> +
+> +               strcpy(cmdline_mode->name, drm_named_modes_whitelist[i]);
+> +               cmdline_mode->specified = true;
+> +
+> +               return 1;
+> +       }
+> +
+> +       return -EINVAL;
+> +}
+> +
+>  /**
+>   * drm_mode_parse_command_line_for_connector - parse command line modeline for connector
+>   * @mode_option: optional per connector mode option
+> @@ -2244,7 +2293,7 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
+>         const char *bpp_ptr = NULL, *refresh_ptr = NULL, *extra_ptr = NULL;
+>         const char *options_ptr = NULL;
+>         char *bpp_end_ptr = NULL, *refresh_end_ptr = NULL;
+> -       int i, len, ret;
+> +       int len, ret;
+>
+>         memset(mode, 0, sizeof(*mode));
+>         mode->panel_orientation = DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
+> @@ -2285,17 +2334,19 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
+>                 parse_extras = true;
+>         }
+>
+> -       /* First check for a named mode */
+> -       for (i = 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
+> -               ret = str_has_prefix(name, drm_named_modes_whitelist[i]);
+> -               if (ret == mode_end) {
+> -                       if (refresh_ptr)
+> -                               return false; /* named + refresh is invalid */
+>
+> -                       strcpy(mode->name, drm_named_modes_whitelist[i]);
+> -                       mode->specified = true;
+> -                       break;
+> -               }
+> +       if (mode_end) {
+> +               ret = drm_mode_parse_cmdline_named_mode(name, mode_end, mode);
+> +               if (ret < 0)
+> +                       return false;
+> +
+> +               /*
+> +                * Having a mode that starts by a letter (and thus is named)
+> +                * and an at-sign (used to specify a refresh rate) is
+> +                * disallowed.
+> +                */
+> +               if (ret && refresh_ptr)
+> +                       return false;
+>         }
+>
+>         /* No named mode? Check for a normal mode argument, e.g. 1024x768 */
+>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
