@@ -1,121 +1,125 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294133200
-	for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 13:23:44 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id z20so11371923ljq.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 06:23:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=GmyXrOY1Xiae60zSU+ZgbAWGCTGdp1fVOg/uqPLmDNM=;
-        b=O69XPEfN28apshm2HKFJYNlPgvk4cZwsxX5/2pojKJKOVLq1oCuul5KRCgl5d+93/K
-         YbRD4gGaiyItamL22++uXidZAeuTB1agY2+RsTzPblDkBLQpn9yh3B3y2iEYiPurBrl/
-         vVUgHPiK/U8gHWP769xSA9kWzE+GeiNXEb9KyvSEckGAk/hM1vwsi7hHW/EWwt/A9JFO
-         wtXhVxqZn9pegze34aZ6LwwQE3LuvL0uVu+uEDT9G1MxLjyGpI97JnLXJ4J5fuu6qO9a
-         xz5y/nLRgf6e+Wozf0bOJMwApb0r/64i8/pauMDE2324D8DWpbQSp8rBY3cW3bh0JJvR
-         PE5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=GmyXrOY1Xiae60zSU+ZgbAWGCTGdp1fVOg/uqPLmDNM=;
-        b=Use9LTgoUYA7DVtnG5N0hbCRX390R9gSPvUsJN7H8YG7qSK+s0Ia1HhTNo99aWH4UP
-         IStbRCnoVSd1BnATJRtQAoZ2TjKZsRC74Bp7xV3mczYu6j+CrJu8OBl6cGZOEPKU7CBz
-         TvAJukzYo+mrTvWUisCndfDjlvTnkGQhGDoK9O2DVqa+x+FtzWVNb41u0wcmZiJHcTmk
-         a8nYzjG7GxULGq9+Yj9ZSMao4634kwtv/xuOy56HQnN9eNdFbCguwd1EbCKaAxPQ+27e
-         FR6P5fGW5xx3QUksYbiJx+aewO/ySu9STCAe976k6JfGcD1EjIjAH2fpZtaKzi0ucKVN
-         UCHg==
-X-Gm-Message-State: ACgBeo03GkGfJyPyZatc1ktf+QvoZ2fVuEUdHVeLA4ACidKPDKbXXkWJ
-	i5g1xgzWd3WqxTR0sYaWfXPZkQ==
-X-Google-Smtp-Source: AA6agR50cIf3Mt9PZa0xKouqGjK/1gjIZbSp3wkE7CgFYqlToqqlPQnhYhgJ/8wg0QsrgJmvlE34+Q==
-X-Received: by 2002:a05:651c:1587:b0:261:b558:b6ab with SMTP id h7-20020a05651c158700b00261b558b6abmr6782829ljq.204.1661865822205;
-        Tue, 30 Aug 2022 06:23:42 -0700 (PDT)
-Received: from [192.168.28.124] (balticom-73-99-134.balticom.lv. [109.73.99.134])
-        by smtp.gmail.com with ESMTPSA id p12-20020a2ea4cc000000b0025e6e1c836dsm1780859ljm.126.2022.08.30.06.23.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Aug 2022 06:23:41 -0700 (PDT)
-Message-ID: <12f51601-9a21-cbe9-370a-69034a416483@linaro.org>
-Date: Tue, 30 Aug 2022 16:23:40 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E103200
+	for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 13:36:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1661866599; x=1693402599;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=O9CgTkDBOczWNsw6xgnL7AlVgHCVygWfHTMUKa/QgD8=;
+  b=d8YuDrvsUXU2NT992PGZ3eotpCrktdhojJf8pVMRj+fcwKWLbe0GZZtm
+   jIBdjYv2oBkMDZIFCGt0iwkkk+w3bWFoJQMIJbJcuzWe+hJ2ghHT98L4i
+   OMusSZaWd7GqULYvF89gQeXFn4tQxEDnoT1jX4trc5g8wxt9atYHYqTpw
+   6F4yJsF+gDuDjh7aPBm2xnpL6W2GHTa+xsIr4QOmKae71qY0PTx6HzO56
+   QmD6PPInon52r0u7HIqpLW0eLTI54DM2sDmukr+j+/wrnWS/qNSAgIYBx
+   uTnL1+dOqEX7tnhE1iHeTHce9nEtcN5FjQRoHFnYqerJvY/6Uv8pJFc2O
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10455"; a="275574098"
+X-IronPort-AV: E=Sophos;i="5.93,275,1654585200"; 
+   d="scan'208";a="275574098"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2022 06:36:38 -0700
+X-IronPort-AV: E=Sophos;i="5.93,275,1654585200"; 
+   d="scan'208";a="672867819"
+Received: from amrabet-mobl.ger.corp.intel.com (HELO localhost) ([10.252.41.211])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2022 06:36:31 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs
+ <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>, Chen-Yu Tsai
+ <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>, Lyude Paul
+ <lyude@redhat.com>, Philipp Zabel <p.zabel@pengutronix.de>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>, Noralf
+ =?utf-8?Q?Tr=C3=B8nnes?=
+ <noralf@tronnes.org>, Emma Anholt <emma@anholt.net>, Daniel Vetter
+ <daniel@ffwll.ch>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Hans
+ de Goede <hdegoede@redhat.com>, Linux ARM
+ <linux-arm-kernel@lists.infradead.org>, Phil Elwell
+ <phil@raspberrypi.com>, Intel Graphics Development
+ <intel-gfx@lists.freedesktop.org>, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, DRI Development
+ <dri-devel@lists.freedesktop.org>, Dom Cobley <dom@raspberrypi.com>, Linux
+ Kernel Mailing List <linux-kernel@vger.kernel.org>, Nouveau Dev
+ <nouveau@lists.freedesktop.org>, linux-sunxi@lists.linux.dev, Mateusz
+ Kwiatkowski <kfyatek+publicgit@gmail.com>
+Subject: Re: [PATCH v2 14/41] drm/modes: Move named modes parsing to a
+ separate function
+In-Reply-To: <20220830120330.6f5f22d35gu7cbr3@houat>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-14-459522d653a7@cerno.tech>
+ <CAMuHMdV9wVgHFfwHoqtBoYzJDnjDmKTfaZkAKvTVKh1Y-2x1pA@mail.gmail.com>
+ <87czcidnb8.fsf@intel.com> <20220830120330.6f5f22d35gu7cbr3@houat>
+Date: Tue, 30 Aug 2022 16:36:23 +0300
+Message-ID: <875yi9etuw.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 1/3] dt-bindings: i2c: mv64xxx: Document DMA properties
-Content-Language: en-US
-To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Gregory CLEMENT <gregory.clement@bootlin.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-References: <20220830020824.62288-1-samuel@sholland.org>
- <20220830020824.62288-2-samuel@sholland.org>
- <1c9cb6c2-2030-257d-a50d-dada0ab4449e@linaro.org>
- <7fd702e9-dedc-e5bf-fd54-f07d053b1870@sholland.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <7fd702e9-dedc-e5bf-fd54-f07d053b1870@sholland.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On 30/08/2022 16:10, Samuel Holland wrote:
-> On 8/30/22 4:36 AM, Krzysztof Kozlowski wrote:
->> On 30/08/2022 05:08, Samuel Holland wrote:
->>> Allwinner's I2C offload engine includes bidirectional DMA support. Add
->>> the properties for describing this in the devicetree. "dmas" is optional
->>> because not all instances of the controller have their DRQs hooked up.
->>> For example, R_I2C0 and R_I2C1 on V536 have no DRQ number assigned.
->>>
->>> Signed-off-by: Samuel Holland <samuel@sholland.org>
->>
->> Thank you for your patch. There is something to discuss/improve.
->>
->>> ---
->>>
->>>  .../bindings/i2c/marvell,mv64xxx-i2c.yaml           | 13 +++++++++++++
->>>  1 file changed, 13 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml b/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml
->>> index 0ec033e48830..63d665a4f9bb 100644
->>> --- a/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml
->>> +++ b/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml
->>> @@ -66,6 +66,19 @@ properties:
->>>    resets:
->>>      maxItems: 1
->>>  
->>> +  dmas:
->>> +    items:
->>> +      - description: RX DMA Channel
->>> +      - description: TX DMA Channel
->>> +
->>> +  dma-names:
->>> +    items:
->>> +      - const: rx
->>> +      - const: tx
->>> +
->>> +dependencies:
->>> +  dmas: [ dma-names ]
->>
->> Dependency is not needed. meta-schema has it.
-> 
-> The only dma-names dependencies I see in dtschema (meta-schemas/dma.yaml and
-> schemas/dma/dma.yaml) are in the other direction. Those are saying that
-> dma-names only makes sense if dmas is provided.
-> 
-> Here I am saying that the two DMA requests are optional, but only optional
-> "together". The node must either have no DMA properties or both DMA properties.
+On Tue, 30 Aug 2022, Maxime Ripard <maxime@cerno.tech> wrote:
+> Hi,
+>
+> On Tue, Aug 30, 2022 at 01:43:07PM +0300, Jani Nikula wrote:
+>> On Tue, 30 Aug 2022, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>> > On Mon, Aug 29, 2022 at 3:13 PM Maxime Ripard <maxime@cerno.tech> wrote:
+>> >> +#define STR_STRICT_EQ(str, len, cmp) \
+>> >> +       ((strlen(cmp) == len) && !strncmp(str, cmp, len))
+>> >
+>> > This is not part of the move, but newly added.
+>> 
+>> The same construct is also duplicated elsewhere in the series, and I
+>> kept being confused by it.
+>
+> I'm not sure what is confusing, but I can add a comment if needed.
 
-Right, that's correct.
+STR_STRICT_EQ() is what's confusing. I have to look at the
+implementation to understand what it means. What does "strict" string
+equality mean?
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>
+>> The above is precisely the same as:
+>> 
+>> 	str_has_prefix(str, cmp) == len
+>
+> Here, it's used to make sure we don't have a named mode starting with
+> either e, d, or D.
+>
+> If I understood str_has_prefix() right, str_has_prefix("DUMB-MODE", "D")
+> == strlen("DUMB-MODE") would return true, while it's actually what we
+> want to avoid.
 
-Best regards,
-Krzysztof
+That's not true, str_has_prefix("DUMB-MODE", "D") == strlen("D") is.
+
+> It's also used indeed in drm_get_tv_mode_from_name(), where we try to
+> match a list of names with one passed as argument.
+>
+> With drm_get_tv_mode_from_name("NSTC", strlen("NTSC")), we would end up
+> calling str_has_prefix("NTSC-J", "NTSC") == strlen("NTSC-J") which would
+> work. However, we end up calling prefix not a prefix, but an entire
+> string we want to match against, which is very confusing to me too.
+
+If I get this right, you have a string and you want to check if that has
+a certain prefix. Additionally, you want to check the prefix is a
+certain length.
+
+Sure, that the prefix is a certain length is more of a property of the
+string, which is NUL terminated later than at length, but that's doesn't
+really matter.
+
+That condition is simply str_has_prefix(string, prefix) == length.
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
