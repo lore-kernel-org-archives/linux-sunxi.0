@@ -1,87 +1,118 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67727468F
-	for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 18:11:08 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id p7so5506564lfu.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 11:11:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A511468F
+	for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 18:17:24 +0000 (UTC)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-11edd61a9edso12659096fac.5
+        for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 11:17:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=0jx9VNj/HcW0dooShctB6tlNBtRfv946EPoOPim3t0E=;
-        b=IdHkGy3kZluHn+s1pCS1fWDIsltwMDgJ5SLNDPu4jLO5nDxOv7HtdjosNkKuyV0DmG
-         eUVjPmcsRIc71d5lUiyCBv5yz5iwuKITxlkI2CCTrVITfLANq+620vJrpokgFTnjMf65
-         PPqxsSS+0cG9/10Su2NyJ/PoPuhyRXxyjcg+WLJwi+0JwWn4830Atw3YAVd9seGZ8bBd
-         pQb455HbnE8H9AyoNrefVsPmjpWDZYG8ji2B4reou+a4cddd1nX5+NK/Opneeh+VVpgv
-         0tybYtY7AnI1k1Wc5+hDcL2lPd/zK924fpvX3KRBLJpdU13SX0L3NR2Wv2HkylcGhsWw
-         6Kig==
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=/oobhOGqi42449FzVMt/oGmisZwCvSy7BW4jgCCfch0=;
+        b=VpcBG8Kr9vdsWOXvnH/lxth7STxi7dPMe1S74WAQ0tsnMozC2LRIB+dqX1liq81G2Y
+         yyPmtCE49iIH9Fhy/cwlPemm2EGu9uniW2KsQuiF7MX+MYVFMBaMOjvwx46TrqqqRbGl
+         8XBzxZUSiHCaXKTvBxmFYuUo6Zwb1pFbLMRXsm4k7H9NogSa0vxs+LhF5EvK3e7gR2//
+         bZeUNISUliBPshw1v7PEqeHOzBzk/dUbVf5KyKBqPjWgrajFewGmNDFNb7w+KbjxQWhZ
+         UeDcBrELMkpX3E1DzJ9aovTWQ9WWdwofMXXyXTNFaT6J86/MkQfqpmI/54EVY9g1Ia6R
+         3SwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=0jx9VNj/HcW0dooShctB6tlNBtRfv946EPoOPim3t0E=;
-        b=oCgwX9e10A33gDuky551tgCh4fMNLUSTdaLC2UOeucLgLezb/dwFLK0U//yHGTdSkj
-         ZLM/cJRj/O/4Rxx+9FMwRKwts+Zw1gs5DxLP98rE42Cftny0TNQHl184IvNhk+po+5IF
-         GhL86WABaBSIzGjyaCOgS69IL0gLpwV0WhysuQxKTp8/9efXLfatMTvp3eh5cBvjRWEd
-         9lBceNs00Cms12TYh+HFmebQC6iXF1nAhJM16psHY0giYtYtywj0XPhCz268BWsPJm/r
-         3wcV9U4Et/rACdkm0Pwxm0oubFh0ZeNOx4nV8aSy1lCYWQeKA9EDd9oP6hkRJ2uETLJF
-         ebmw==
-X-Gm-Message-State: ACgBeo1hxUD73VX2qcTmnVleH/RvYoL/7pVpTHi4WaUwZUXDvtDg+cq3
-	QbHrhoBIpbEjuz7R4Kkrv/y+zQ==
-X-Google-Smtp-Source: AA6agR4LS54/XWSxpR5JM4CrvVaGHIeYIc+KzFnzxBcHugfK4mmyTYOXAfXMhla6rcSZpaiqZFIh6g==
-X-Received: by 2002:a05:6512:3503:b0:481:4470:4128 with SMTP id h3-20020a056512350300b0048144704128mr7794471lfs.303.1661883066495;
-        Tue, 30 Aug 2022 11:11:06 -0700 (PDT)
-Received: from [192.168.28.124] (balticom-73-99-134.balticom.lv. [109.73.99.134])
-        by smtp.gmail.com with ESMTPSA id o17-20020ac24e91000000b00492ef074fc1sm1683629lfr.183.2022.08.30.11.11.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Aug 2022 11:11:05 -0700 (PDT)
-Message-ID: <ce096b36-b678-63e1-e98c-7549f3df357f@linaro.org>
-Date: Tue, 30 Aug 2022 21:11:03 +0300
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=/oobhOGqi42449FzVMt/oGmisZwCvSy7BW4jgCCfch0=;
+        b=F8ug8n5JQwdzu53cLi/C6pkUSwdUUgTv//xl3C/dHUwapbkJXkH0G7kp8Y1TJBPFoO
+         jLzHj/pmTOfRGOlvhaJz/Vzc9KqLYBcSbgf/m3/lekixXD51iMaiT4JDX+ysN1vKBdHS
+         ErYZFzc6mNKRjrlZavlSZYK/UCSn0E+/jZJoosPw22ucUTiAcFZK4MigTjvuTyasRiaR
+         pzmtQMmfbUSUAABqXBl6Dwq/2jZ+BkRi2MxcRUJD4KygbF50cjs0+1PRenyjB4FTterq
+         qXgqxjVHkgX9wLLfpn3mah6fWl3siVCsfaX61CBVM+aRTXmkK2WlooCMGv2uB2OB+uLS
+         HqCA==
+X-Gm-Message-State: ACgBeo1cCluV17FvcxIjJGXVIwXKp8GkCYSDaW/AcVc/armu7nSl7KZX
+	Yv4LVb6FGy85tUXII91X4w5zEw==
+X-Google-Smtp-Source: AA6agR4PjkWk+Bc8nvP17VYGP14YkKDkOOcw6aw7cjJ213TLpMFs5PvxMnyRL7Ny9EsqHgqfqYsRJg==
+X-Received: by 2002:a05:6870:328d:b0:10d:ce86:ceee with SMTP id q13-20020a056870328d00b0010dce86ceeemr10941976oac.80.1661883443167;
+        Tue, 30 Aug 2022 11:17:23 -0700 (PDT)
+Received: from eze-laptop ([190.190.187.68])
+        by smtp.gmail.com with ESMTPSA id p7-20020a056830130700b006396521c804sm7532039otq.55.2022.08.30.11.17.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Aug 2022 11:17:22 -0700 (PDT)
+Date: Tue, 30 Aug 2022 15:17:16 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl, p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org, mripard@kernel.org,
+	paul.kocialkowski@bootlin.com, wens@csie.org,
+	jernej.skrabec@gmail.com, samuel@sholland.org,
+	nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	kernel@collabora.com
+Subject: Re: [PATCH v3 1/7] media: hantro: Store HEVC bit depth in context
+Message-ID: <Yw5ULOEDLWaHQav7@eze-laptop>
+References: <20220829162159.881588-1-benjamin.gaignard@collabora.com>
+ <20220829162159.881588-2-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v9 2/2] ASoC: sun50i-dmic: dt-bindings: add DT bindings
- for DMIC controller
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>
-Cc: Ban Tao <fengzheng923@gmail.com>, lgirdwood@gmail.com,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, wens@csie.org,
- jernej.skrabec@gmail.com, samuel@sholland.org, alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <1661872039-40174-1-git-send-email-fengzheng923@gmail.com>
- <25072fba-64e2-df11-c8f0-a274037141f0@linaro.org>
- <Yw5Qd7ZNPIc/o7+6@sirena.org.uk>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <Yw5Qd7ZNPIc/o7+6@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220829162159.881588-2-benjamin.gaignard@collabora.com>
 
-On 30/08/2022 21:01, Mark Brown wrote:
-> On Tue, Aug 30, 2022 at 08:35:09PM +0300, Krzysztof Kozlowski wrote:
->> On 30/08/2022 18:07, Ban Tao wrote:
->>> DT binding documentation for this new ASoC driver.
-> 
->>> +properties:
->>> +  "#sound-dai-cells":
->>> +    const: 0
->>> +
->>> +  compatible:
->>> +    const: allwinner,sun50i-h6-dmic
-> 
->> Put compatible first in the list of properties (also in required:).
-> 
-> Can the tooling be taught about this?
+Hi Benjamin,
 
-Probably could save me some time in writing reviews... Let me look.
+On Mon, Aug 29, 2022 at 06:21:53PM +0200, Benjamin Gaignard wrote:
+> Store HEVC bit depth in context.
+> Bit depth is equal to hevc sps bit_depth_luma_minus8 + 8.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
-Best regards,
-Krzysztof
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+
+Looks good!
+
+I have limited access to the hardware at the moment.
+
+Can you make sure things look good not only for HEVC
+but also for the other codecs?
+
+Thanks!
+Ezequiel
+
+> ---
+> version 3:
+> - Based on top of Ezequiel's patch "media: destage Hantro VPU driver"
+>  drivers/media/platform/verisilicon/hantro_drv.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+> index 2036f72eeb4a..1dd8312d824c 100644
+> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> @@ -251,6 +251,11 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
+>  
+>  static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+> +	struct hantro_ctx *ctx;
+> +
+> +	ctx = container_of(ctrl->handler,
+> +			   struct hantro_ctx, ctrl_handler);
+> +
+>  	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
+>  		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
+>  
+> @@ -272,6 +277,8 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+>  		if (sps->bit_depth_luma_minus8 != 0)
+>  			/* Only 8-bit is supported */
+>  			return -EINVAL;
+> +
+> +		ctx->bit_depth = sps->bit_depth_luma_minus8 + 8;
+>  	} else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
+>  		const struct v4l2_ctrl_vp9_frame *dec_params = ctrl->p_new.p_vp9_frame;
+>  
+> -- 
+> 2.32.0
+> 
