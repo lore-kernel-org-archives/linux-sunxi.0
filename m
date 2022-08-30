@@ -1,27 +1,27 @@
 Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CF72F34
-	for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 18:37:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3F22F34
+	for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 18:40:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
 	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
 	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=jpEYN07ng1p1k4JMUOjV6laIOSRv7F+n3Ots9iXgaiI=; b=P5mpqSBO2bmeMCABz1L/7uZ1rK
-	KXueoPKIqk3NZ/awAOvafdjGp/1wJnjdkkxFIcDfuVZWVFeyrdvtdinB23o/BX1y3uNPmPrcq+U+4
-	4u+p8NTm8pomQcLkfRhAYNp2J2QbywiIoQEEGpfTZOtAxsfvA9baPJwO3xplisnqFXdXZEP5GE5W2
-	CKOqzs1/u9hN6RU0gp3IeYL7JIYUvlI7b8vjIhCYipEyxo960qBRd7XTSZmv4vt4eNRPbNKiQErGJ
-	HQ3F9UJzCly7+02p26u/sjZ1OvXv/G0w5ZSOvV8CAjO92/jAJ87abobBMUPYEvEJbrShsdJ6NgX+l
-	g1ayhYdA==;
-Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=62540)
+	bh=OPfU7EYvarB45fWQzZdu0npVFhUWUeYhIkhCHgTEXEU=; b=WArebUZ5eRHEbo/xVMgkMZSLes
+	jzhnj8ZYA3rVVx333C5sHfxnwCw4yp7NDivwj0xXBZaIM7kwOo6oW02ySkmM7CzZ0GeKoCRmin3YT
+	bYMxZbjbb+AYmGl2RqNlC1MNnR7dvVIzy8JSkW3/TaJ4z3vsTjSDCUqW4kVto8Z3IcB5UiKpXsTK5
+	7e3FVIPzXpUBbQIsIWLLeKllnzpfkPULWZL+KP+OQhG+inbbNnNFPEZBLFclgRb8Vhrcxyvr4hQ1R
+	GNeuIKpRreVkJUkOX6nA/iXydR66BLaw195ceitrDvs39ZL5PSFoYPeX2vn44HmD1Ke3prLjfzCRU
+	DI8u7kAg==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=62725)
 	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <noralf@tronnes.org>)
-	id 1oT66c-0006sf-4N; Tue, 30 Aug 2022 20:36:58 +0200
-Message-ID: <24d5ee78-ccd1-1427-691b-152cb734a188@tronnes.org>
-Date: Tue, 30 Aug 2022 20:36:52 +0200
+	id 1oT6AF-0000TL-0c; Tue, 30 Aug 2022 20:40:43 +0200
+Message-ID: <1ba93c71-44f3-dafc-443f-2d77c94ae5da@tronnes.org>
+Date: Tue, 30 Aug 2022 20:40:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -30,7 +30,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH v2 29/41] drm/vc4: vec: Switch for common modes
+Subject: Re: [PATCH v2 22/41] drm/atomic-helper: Add a TV properties reset
+ helper
 To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
  Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
  Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -54,124 +55,28 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
  Geert Uytterhoeven <geert@linux-m68k.org>,
  =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
 References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-29-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-22-459522d653a7@cerno.tech>
 From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v2-29-459522d653a7@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v2-22-459522d653a7@cerno.tech>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 
 
 Den 29.08.2022 15.11, skrev Maxime Ripard:
-> Now that the core has a definition for the 525 and 625 lines analog TV
+> The drm_tv_create_properties() function will create a bunch of properties,
 > 
-> modes, let's switch to it for vc4.
+> but it's up to each and every driver using that function to properly reset
+> 
+> the state of these properties leading to inconsistent behaviours.
+> 
+> 
+> 
+> Let's create a helper that will take care of it.
 > 
 > 
 > 
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > 
-> 
-> 
-> diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
-> 
-> index d1d40b69279e..63e4e617e321 100644
-> 
-> --- a/drivers/gpu/drm/vc4/vc4_vec.c
-> 
-> +++ b/drivers/gpu/drm/vc4/vc4_vec.c
-> 
-> @@ -224,38 +224,24 @@ static const struct debugfs_reg32 vec_regs[] = {
-> 
->  	VC4_REG32(VEC_DAC_MISC),
-> 
->  };
-> 
->  
-> 
-> -static const struct drm_display_mode ntsc_mode = {
-> 
-> -	DRM_MODE("720x480", DRM_MODE_TYPE_DRIVER, 13500,
-> 
-> -		 720, 720 + 14, 720 + 14 + 64, 720 + 14 + 64 + 60, 0,
-> 
-> -		 480, 480 + 7, 480 + 7 + 6, 525, 0,
-> 
-> -		 DRM_MODE_FLAG_INTERLACE)
-> 
-> -};
-> 
-> -
-> 
-> -static const struct drm_display_mode pal_mode = {
-> 
-> -	DRM_MODE("720x576", DRM_MODE_TYPE_DRIVER, 13500,
-> 
-> -		 720, 720 + 20, 720 + 20 + 64, 720 + 20 + 64 + 60, 0,
-> 
-> -		 576, 576 + 4, 576 + 4 + 6, 625, 0,
-> 
-> -		 DRM_MODE_FLAG_INTERLACE)
-> 
-> -};
-> 
-> -
-> 
->  static const struct vc4_vec_tv_mode vc4_vec_tv_modes[] = {
-> 
->  	[VC4_VEC_TV_MODE_NTSC] = {
-> 
-> -		.mode = &ntsc_mode,
-> 
-> +		.mode = &drm_mode_480i,
-> 
 
-I can't find drm_mode_480i anywhere, maybe the compiler doesn't complain
-since you remove the reference in a later patch?
-
-Noralf.
-
->  		.config0 = VEC_CONFIG0_NTSC_STD | VEC_CONFIG0_PDEN,
-> 
->  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
-> 
->  	},
-> 
->  	[VC4_VEC_TV_MODE_NTSC_J] = {
-> 
-> -		.mode = &ntsc_mode,
-> 
-> +		.mode = &drm_mode_480i,
-> 
->  		.config0 = VEC_CONFIG0_NTSC_STD,
-> 
->  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
-> 
->  	},
-> 
->  	[VC4_VEC_TV_MODE_PAL] = {
-> 
-> -		.mode = &pal_mode,
-> 
-> +		.mode = &drm_mode_576i,
-> 
->  		.config0 = VEC_CONFIG0_PAL_BDGHI_STD,
-> 
->  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
-> 
->  	},
-> 
->  	[VC4_VEC_TV_MODE_PAL_M] = {
-> 
-> -		.mode = &pal_mode,
-> 
-> +		.mode = &drm_mode_576i,
-> 
->  		.config0 = VEC_CONFIG0_PAL_BDGHI_STD,
-> 
->  		.config1 = VEC_CONFIG1_C_CVBS_CVBS | VEC_CONFIG1_CUSTOM_FREQ,
-> 
->  		.custom_freq = 0x223b61d1,
-> 
-> 
-> 
+Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
