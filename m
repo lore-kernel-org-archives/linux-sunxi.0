@@ -1,245 +1,109 @@
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF00833FF
-	for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 15:45:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=8Ocmq31Puja4OESZlCsLhCSEzQOMmNoJhX4heKRiwq4=; b=tns5VaTmz03kuJUTzM0RUHOLB4
-	+ngDm3NvgS2S0bDwolvt+98eMyESiJrpMoVKNkOMRbz5xHnOiiq+0S8yotNYtN540yDjriQZa+l17
-	yhCd5NvwPEJWb3nfx5mYhV8QVFFBdFedj2MV4I6fNxIAq1oPk2o0msMWHU0aa4HD/Um6wC/uAmGmM
-	D7+QEUH4yxGGZ4n3ObU7SKMy3tDgS7iP8DsbBimqI+FhGsS2AITUct9vEkRsQ0WbAEqWqqFv+BgkF
-	ShctodeiRqxbQO8mPwlbBB6xMNkr/kKKJPRudae4kcUBrVMIHZzJEcywm7y8QiYbMlv0UhUF+nn9/
-	eEdWx1yA==;
-Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=58133)
-	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <noralf@tronnes.org>)
-	id 1oT3Qi-00029u-8W; Tue, 30 Aug 2022 17:45:32 +0200
-Message-ID: <daa74061-a11c-dc26-cd41-b64db17fb989@tronnes.org>
-Date: Tue, 30 Aug 2022 17:45:26 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5FC468F
+	for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 17:35:13 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id p5so13383025lfc.6
+        for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 10:35:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=gNZdcqkFwpNa2I0ZP3eEeP6iX1q8vNso/HI+NR+Wx8E=;
+        b=K8NWIl4eTtxKMgxcHr0MIzPzdVgYSCUCp81ghSu7meddtK3chMXIKr+qwyWbPJGzmG
+         8W3xXxN/B51i//ogBN8MeRMD1mToPV2S7fIdmrWGHthGbGQQVaE+LvCi9YmHAnelefy/
+         TmfXzAeyUnlChV7q9cYDO5sL8XsU6HiMfyNLN7Vo0YHxcj6trabCeHTss65VulL76M9b
+         X1p+mVUnZBCMN6lTnUa7SR14LqISxxeEJmj7dw0rlWcmMdHUNK0fp4q8qHoSTtokjWOV
+         8WLvrLA3MTAMEb/eFPgmmQfnlWXo1Z9B//6B2lGFbGKsX96lem68ssvamyYoeJNlBmZs
+         uQ/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=gNZdcqkFwpNa2I0ZP3eEeP6iX1q8vNso/HI+NR+Wx8E=;
+        b=t0UszsX3kCxLaOwkIkWWKTN6qmn09fhoaxo6erYBVAnhydPDe8W5OSuKz5KAd4/xqR
+         DNLRQjjrIzVHd7x7syT34GpJWRpvjindlHmmD3AQ4sM+BqBG12SxaAk+Y4WCjvn77bVt
+         LAYJyxQ9JZ6Ri1FknyfG/r/58npm3qUtpg2yzZOkWGhEdz9yRVbfqJxAlQaZIOIeL6vC
+         BX4qVPqMTx4bfkXJ/IMaQr69HLwqQU5VQeFy7Fak3Pk6Y8HPyLhPG85QdJlad0lfqflU
+         JXUMwF6HXYJYGM101yfqaQBkzn6SWe2jDV/6vzGU4lGy8+So3tzwrSlHu9vwrv5vzN1g
+         rlkg==
+X-Gm-Message-State: ACgBeo34afIRkLHjMnCN5R2xhiWRVXqDH33EKzeqg28J8Gbll4vm8Seh
+	467wS0N1kdcegQ3NlNovwZm8Nw==
+X-Google-Smtp-Source: AA6agR6TqO5OOu79KvMsRgImLRyvGwihNJE/dbXQVJ4Zf+PE3vnSCPfDI1eQNKvWu0egoLgfX/vldA==
+X-Received: by 2002:a05:6512:1686:b0:491:3199:d407 with SMTP id bu6-20020a056512168600b004913199d407mr8192887lfb.476.1661880911305;
+        Tue, 30 Aug 2022 10:35:11 -0700 (PDT)
+Received: from [192.168.28.124] (balticom-73-99-134.balticom.lv. [109.73.99.134])
+        by smtp.gmail.com with ESMTPSA id m6-20020a056512114600b0048b12c4c7e6sm636622lfg.12.2022.08.30.10.35.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Aug 2022 10:35:10 -0700 (PDT)
+Message-ID: <25072fba-64e2-df11-c8f0-a274037141f0@linaro.org>
+Date: Tue, 30 Aug 2022 20:35:09 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH v2 27/41] drm/vc4: vec: Remove redundant atomic_mode_set
-To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
- Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
- Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>,
- Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- linux-arm-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- intel-gfx@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Dom Cobley <dom@raspberrypi.com>,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- linux-sunxi@lists.linux.dev,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-27-459522d653a7@cerno.tech>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v2-27-459522d653a7@cerno.tech>
+Subject: Re: [PATCH v9 2/2] ASoC: sun50i-dmic: dt-bindings: add DT bindings
+ for DMIC controller
+Content-Language: en-US
+To: Ban Tao <fengzheng923@gmail.com>, lgirdwood@gmail.com,
+ broonie@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+ alsa-devel@alsa-project.org
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <1661872039-40174-1-git-send-email-fengzheng923@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <1661872039-40174-1-git-send-email-fengzheng923@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
+On 30/08/2022 18:07, Ban Tao wrote:
+> DT binding documentation for this new ASoC driver.
 
+Thank you for your patch. There is something to discuss/improve.
 
-Den 29.08.2022 15.11, skrev Maxime Ripard:
-> From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-> 
-> 
-> 
-> Let's remove the superfluous tv_mode field, which was redundant with the
-> 
-> mode field in struct drm_tv_connector_state.
-> 
-> 
-> 
-> Signed-off-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
-> 
-> 
-> diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
-> 
-> index 9a37c3fcc295..4d7bc7c20704 100644
-> 
-> --- a/drivers/gpu/drm/vc4/vc4_vec.c
-> 
-> +++ b/drivers/gpu/drm/vc4/vc4_vec.c
-> 
-> @@ -171,8 +171,6 @@ struct vc4_vec {
-> 
->  
-> 
->  	struct clk *clock;
-> 
->  
-> 
-> -	const struct vc4_vec_tv_mode *tv_mode;
-> 
-> -
-> 
->  	struct debugfs_regset32 regset;
-> 
->  };
-> 
->  
-> 
-> @@ -316,7 +314,6 @@ static int vc4_vec_connector_init(struct drm_device *dev, struct vc4_vec *vec)
-> 
->  	drm_object_attach_property(&connector->base,
-> 
->  				   dev->mode_config.legacy_tv_mode_property,
-> 
->  				   VC4_VEC_TV_MODE_NTSC);
-> 
-> -	vec->tv_mode = &vc4_vec_tv_modes[VC4_VEC_TV_MODE_NTSC];
-> 
->  
-> 
->  	drm_connector_attach_encoder(connector, &vec->encoder.base);
-> 
->  
-> 
-> @@ -360,6 +357,11 @@ static void vc4_vec_encoder_enable(struct drm_encoder *encoder,
-> 
->  {
-> 
->  	struct drm_device *drm = encoder->dev;
-> 
->  	struct vc4_vec *vec = encoder_to_vc4_vec(encoder);
-> 
-> +	struct drm_connector *connector = &vec->connector;
-> 
-> +	struct drm_connector_state *conn_state =
-> 
-> +		drm_atomic_get_new_connector_state(state, connector);
-> 
-> +	const struct vc4_vec_tv_mode *tv_mode =
-> 
-> +		&vc4_vec_tv_modes[conn_state->tv.mode];
-> 
->  	int idx, ret;
-> 
->  
-> 
->  	if (!drm_dev_enter(drm, &idx))
-> 
-> @@ -418,15 +420,14 @@ static void vc4_vec_encoder_enable(struct drm_encoder *encoder,
-> 
->  	/* Mask all interrupts. */
-> 
->  	VEC_WRITE(VEC_MASK0, 0);
-> 
->  
-> 
-> -	VEC_WRITE(VEC_CONFIG0, vec->tv_mode->config0);
-> 
-> -	VEC_WRITE(VEC_CONFIG1, vec->tv_mode->config1);
-> 
-> +	VEC_WRITE(VEC_CONFIG0, tv_mode->config0);
-> 
-> +	VEC_WRITE(VEC_CONFIG1, tv_mode->config1);
-> 
->  
-> 
-> -	if (vec->tv_mode->custom_freq != 0) {
-> 
-> +	if (tv_mode->custom_freq != 0) {
-> 
->  		VEC_WRITE(VEC_FREQ3_2,
-> 
-> -			  (vec->tv_mode->custom_freq >> 16) &
-> 
-> -			  0xffff);
-> 
-> +			  (tv_mode->custom_freq >> 16) & 0xffff);
-> 
->  		VEC_WRITE(VEC_FREQ1_0,
-> 
-> -			  vec->tv_mode->custom_freq & 0xffff);
-> 
-> +			  tv_mode->custom_freq & 0xffff);
 > 
 
-Nit: This patch will be smaller if you add the tv_mode variable to the
-previous patch.
+>  .../bindings/sound/allwinner,sun50i-h6-dmic.yaml   | 79 ++++++++++++++++++++++
+>  1 file changed, 79 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml
+> new file mode 100644
+> index 0000000..0cfc07f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml
+> @@ -0,0 +1,79 @@
+> +# SPDX-License-Identifier: (GPL-2.0+ OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/allwinner,sun50i-h6-dmic.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner H6 DMIC Device Tree Bindings
 
-Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
+s/Device Tree Bindings//
 
->  	}
-> 
->  
-> 
->  	VEC_WRITE(VEC_DAC_MISC,
-> 
-> @@ -442,15 +443,6 @@ static void vc4_vec_encoder_enable(struct drm_encoder *encoder,
-> 
->  	drm_dev_exit(idx);
-> 
->  }
-> 
->  
-> 
-> -static void vc4_vec_encoder_atomic_mode_set(struct drm_encoder *encoder,
-> 
-> -					struct drm_crtc_state *crtc_state,
-> 
-> -					struct drm_connector_state *conn_state)
-> 
-> -{
-> 
-> -	struct vc4_vec *vec = encoder_to_vc4_vec(encoder);
-> 
-> -
-> 
-> -	vec->tv_mode = &vc4_vec_tv_modes[conn_state->tv.mode];
-> 
-> -}
-> 
-> -
-> 
->  static int vc4_vec_encoder_atomic_check(struct drm_encoder *encoder,
-> 
->  					struct drm_crtc_state *crtc_state,
-> 
->  					struct drm_connector_state *conn_state)
-> 
-> @@ -470,7 +462,6 @@ static const struct drm_encoder_helper_funcs vc4_vec_encoder_helper_funcs = {
-> 
->  	.atomic_check = vc4_vec_encoder_atomic_check,
-> 
->  	.atomic_disable = vc4_vec_encoder_disable,
-> 
->  	.atomic_enable = vc4_vec_encoder_enable,
-> 
-> -	.atomic_mode_set = vc4_vec_encoder_atomic_mode_set,
-> 
->  };
-> 
->  
-> 
->  static int vc4_vec_late_register(struct drm_encoder *encoder)
-> 
-> 
-> 
+> +
+> +maintainers:
+> +  - Ban Tao <fengzheng923@gmail.com>
+> +
+> +properties:
+> +  "#sound-dai-cells":
+> +    const: 0
+> +
+> +  compatible:
+> +    const: allwinner,sun50i-h6-dmic
+
+Put compatible first in the list of properties (also in required:).
+
+Rest is ok, so keep the Rb-tags you already got.
+
+Best regards,
+Krzysztof
