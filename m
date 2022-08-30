@@ -1,215 +1,388 @@
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6158E625
-	for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 19:27:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Jw/BMXkk2bSHu/Tn+I+6WJ+P0/BJrbEZIqETssOewfE=; b=FepPHpMH52mF3S0z0Dm1b4Eacx
-	9+AXytqqf2FpuKYbi23zay3TpsN1Qa5Q9ZkzqxJjCttzr9TbuU3Y1j/0qcm5VAs+WPWFBSs8c7qjs
-	Ow5sr31xj7N3A3bvEX668fQGtcUvcKdM7cSj52sWE9TkD0gMAMWjUAfsp32+l7lCQ85m/Me1gusc1
-	Bijp7ApUsaRAyASgzl0JpYLAKf134opQ/OVT9w+laZNSwPdSYEqPkUXnZ6oc+o6ps0anvP72eR/Hi
-	lxMQf2MbxPx9Kg5GtUca4Efma7JwlR1CB4y7YhlP5O2HKvik27Ie2kJPKAzIuX4xEJIwxTGRSCnOv
-	X+uONqhA==;
-Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=64134)
-	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <noralf@tronnes.org>)
-	id 1oT6tW-0001t3-6u; Tue, 30 Aug 2022 21:27:30 +0200
-Message-ID: <8d99b275-d0c2-c7be-5abc-8db17f8792ad@tronnes.org>
-Date: Tue, 30 Aug 2022 21:27:22 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A561C5CA8
+	for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 20:05:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=k1; bh=A8bVRCFI98pRUSlXVuZ0JuXQWSsk
+	LWEPpZPSCxPQ4Yc=; b=bvs8E5/fix4EfPuCb+OWMHT6Bu46TU1l+IigRSvtvn9P
+	EPjUjEMoaKMAh5zUmSlIUll78CFyvIAIO22BPo+YYx2/PHVMYseFmKF27NnJ760a
+	yJnn+PLBTo5LOy0cZ+CcMvpCeYZvUs2xJ9oI/cferGF5V0ikEASasUiMDmVqo9M=
+Received: (qmail 417445 invoked from network); 30 Aug 2022 21:59:10 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Aug 2022 21:59:10 +0200
+X-UD-Smtp-Session: l3s3148p1@xaob0HrnKMEgAwDtxxrgAFH1RcxMblwv
+Date: Tue, 30 Aug 2022 21:59:06 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jay Vosburgh <j.vosburgh@gmail.com>,
+	Veaceslav Falico <vfalico@gmail.com>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	Wolfgang Grandegger <wg@grandegger.com>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Vivien Didelot <vivien.didelot@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Kurt Kanzenbach <kurt@linutronix.de>,
+	Steffen Klassert <klassert@kernel.org>,
+	David Dillow <dave@thedillows.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Ion Badulescu <ionut@badula.org>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Mark Einon <mark.einon@gmail.com>,
+	Lino Sanfilippo <LinoSanfilippo@gmx.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Jes Sorensen <jes@trained-monkey.org>,
+	Shay Agroskin <shayagr@amazon.com>,
+	Arthur Kiyanovski <akiyano@amazon.com>,
+	David Arinzon <darinzon@amazon.com>, Noam Dagan <ndagan@amazon.com>,
+	Saeed Bishara <saeedb@amazon.com>, Don Fry <pcnet32@frontier.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Igor Russkikh <irusskikh@marvell.com>,
+	Chris Snook <chris.snook@gmail.com>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+	Rasesh Mody <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Ariel Elior <aelior@marvell.com>,
+	Sudarsana Kalluru <skalluru@marvell.com>,
+	Manish Chopra <manishc@marvell.com>,
+	Doug Berger <opendmb@gmail.com>,
+	Siva Reddy Kallam <siva.kallam@broadcom.com>,
+	Prashant Sreedharan <prashant@broadcom.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Raju Rangoju <rajur@chelsio.com>,
+	Ayush Sawal <ayush.sawal@chelsio.com>,
+	Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
+	Rohit Maheshwari <rohitm@chelsio.com>,
+	Hartley Sweeten <hsweeten@visionengravers.com>,
+	Christian Benvenuti <benve@cisco.com>,
+	Govindarajulu Varadarajan <_govind@gmx.com>,
+	Denis Kirjanov <kda@linux-powerpc.org>,
+	Ajit Khaparde <ajit.khaparde@broadcom.com>,
+	Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>,
+	Somnath Kotur <somnath.kotur@broadcom.com>,
+	Madalin Bucur <madalin.bucur@nxp.com>,
+	Ioana Ciornei <ioana.ciornei@nxp.com>,
+	Claudiu Manoil <claudiu.manoil@nxp.com>,
+	Joakim Zhang <qiangqing.zhang@nxp.com>,
+	Pantelis Antoniou <pantelis.antoniou@gmail.com>,
+	Li Yang <leoyang.li@nxp.com>,
+	Yisen Zhuang <yisen.zhuang@huawei.com>,
+	Salil Mehta <salil.mehta@huawei.com>,
+	Douglas Miller <dougmill@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Nick Child <nnac123@linux.ibm.com>,
+	Jesse Brandeburg <jesse.brandeburg@intel.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Guo-Fu Tseng <cooldavid@cooldavid.org>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Marcin Wojtas <mw@semihalf.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	hariprasad <hkelam@marvell.com>,
+	Taras Chornyi <tchornyi@marvell.com>,
+	Mirko Lindner <mlindner@marvell.com>,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Mark Lee <Mark-MC.Lee@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, Ido Schimmel <idosch@nvidia.com>,
+	Petr Machata <petrm@nvidia.com>,
+	Bryan Whitehead <bryan.whitehead@microchip.com>,
+	UNGLinuxDriver@microchip.com, Chris Lee <christopher.lee@cspi.com>,
+	Jon Mason <jdmason@kudzu.us>,
+	Simon Horman <simon.horman@corigine.com>,
+	Rain River <rain.1986.08.12@gmail.com>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Vladimir Zapolskiy <vz@mleia.com>, Rahul Verma <rahulv@marvell.com>,
+	Shahed Shaikh <shshaikh@marvell.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>, nic_swsd@realtek.com,
+	Jiri Pirko <jiri@resnulli.us>, Byungho An <bh74.an@samsung.com>,
+	Edward Cree <ecree.xilinx@gmail.com>,
+	Martin Habets <habetsm.xilinx@gmail.com>,
+	Ralf Baechle <ralf@linux-mips.org>,
+	Francois Romieu <romieu@fr.zoreil.com>,
+	Daniele Venzano <venza@brownhat.org>,
+	Nicolas Pitre <nico@fluxnic.net>,
+	Steve Glendinning <steve.glendinning@shawell.net>,
+	Jassi Brar <jaswinder.singh@linaro.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Grygorii Strashko <grygorii.strashko@ti.com>,
+	Samuel Chessman <chessman@tux.org>,
+	Geoff Levand <geoff@infradead.org>,
+	Ishizaki Kou <kou.ishizaki@toshiba.co.jp>,
+	Kevin Brace <kevinbrace@bracecomputerlab.com>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
+	Michal Simek <michal.simek@xilinx.com>,
+	Krzysztof Halasa <khalasa@piap.pl>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Petko Manolov <petkan@nucleusys.com>,
+	Oliver Neukum <oneukum@suse.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>, Ronak Doshi <doshir@vmware.com>,
+	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
+	David Ahern <dsahern@kernel.org>, Kalle Valo <kvalo@kernel.org>,
+	Christian Lamparter <chunkeey@googlemail.com>,
+	Simon Kelley <simon@thekelleys.org.uk>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Arend van Spriel <aspriel@gmail.com>,
+	Franky Lin <franky.lin@broadcom.com>,
+	Hante Meuleman <hante.meuleman@broadcom.com>,
+	Stanislav Yakovlev <stas.yakovlev@gmail.com>,
+	Stanislaw Gruszka <stf_xl@wp.pl>, Jouni Malinen <j@w1.fi>,
+	Ajay Singh <ajay.kathat@microchip.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Igor Mitsyanko <imitsyanko@quantenna.com>,
+	Sergey Matyukevich <geomatsi@gmail.com>,
+	Herton Ronaldo Krzesinski <herton@canonical.com>,
+	Hin-Tak Leung <htl10@users.sourceforge.net>, netdev@vger.kernel.org,
+	linux-can@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-acenic@sunsite.dk,
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	intel-wired-lan@lists.osuosl.org,
+	linux-mediatek@lists.infradead.org, linux-rdma@vger.kernel.org,
+	oss-drivers@corigine.com, linux-mips@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-omap@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	ntb@lists.linux.dev, linux-usb@vger.kernel.org,
+	virtualization@lists.linux-foundation.org,
+	linux-wireless@vger.kernel.org, b43-dev@lists.infradead.org,
+	brcm80211-dev-list.pdl@broadcom.com,
+	SHA-cyfmac-dev-list@infineon.com, libertas-dev@lists.infradead.org
+Subject: Re: [PATCH] net: move from strlcpy with unused retval to strscpy
+Message-ID: <Yw5sCpdgdR9k/mgs@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jay Vosburgh <j.vosburgh@gmail.com>,
+	Veaceslav Falico <vfalico@gmail.com>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	Wolfgang Grandegger <wg@grandegger.com>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Vivien Didelot <vivien.didelot@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Kurt Kanzenbach <kurt@linutronix.de>,
+	Steffen Klassert <klassert@kernel.org>,
+	David Dillow <dave@thedillows.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Ion Badulescu <ionut@badula.org>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Mark Einon <mark.einon@gmail.com>,
+	Lino Sanfilippo <LinoSanfilippo@gmx.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Jes Sorensen <jes@trained-monkey.org>,
+	Shay Agroskin <shayagr@amazon.com>,
+	Arthur Kiyanovski <akiyano@amazon.com>,
+	David Arinzon <darinzon@amazon.com>, Noam Dagan <ndagan@amazon.com>,
+	Saeed Bishara <saeedb@amazon.com>, Don Fry <pcnet32@frontier.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Igor Russkikh <irusskikh@marvell.com>,
+	Chris Snook <chris.snook@gmail.com>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+	Rasesh Mody <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Ariel Elior <aelior@marvell.com>,
+	Sudarsana Kalluru <skalluru@marvell.com>,
+	Manish Chopra <manishc@marvell.com>,
+	Doug Berger <opendmb@gmail.com>,
+	Siva Reddy Kallam <siva.kallam@broadcom.com>,
+	Prashant Sreedharan <prashant@broadcom.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Raju Rangoju <rajur@chelsio.com>,
+	Ayush Sawal <ayush.sawal@chelsio.com>,
+	Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
+	Rohit Maheshwari <rohitm@chelsio.com>,
+	Hartley Sweeten <hsweeten@visionengravers.com>,
+	Christian Benvenuti <benve@cisco.com>,
+	Govindarajulu Varadarajan <_govind@gmx.com>,
+	Denis Kirjanov <kda@linux-powerpc.org>,
+	Ajit Khaparde <ajit.khaparde@broadcom.com>,
+	Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>,
+	Somnath Kotur <somnath.kotur@broadcom.com>,
+	Madalin Bucur <madalin.bucur@nxp.com>,
+	Ioana Ciornei <ioana.ciornei@nxp.com>,
+	Claudiu Manoil <claudiu.manoil@nxp.com>,
+	Joakim Zhang <qiangqing.zhang@nxp.com>,
+	Pantelis Antoniou <pantelis.antoniou@gmail.com>,
+	Li Yang <leoyang.li@nxp.com>,
+	Yisen Zhuang <yisen.zhuang@huawei.com>,
+	Salil Mehta <salil.mehta@huawei.com>,
+	Douglas Miller <dougmill@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Nick Child <nnac123@linux.ibm.com>,
+	Jesse Brandeburg <jesse.brandeburg@intel.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Guo-Fu Tseng <cooldavid@cooldavid.org>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Marcin Wojtas <mw@semihalf.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	hariprasad <hkelam@marvell.com>,
+	Taras Chornyi <tchornyi@marvell.com>,
+	Mirko Lindner <mlindner@marvell.com>,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Mark Lee <Mark-MC.Lee@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, Ido Schimmel <idosch@nvidia.com>,
+	Petr Machata <petrm@nvidia.com>,
+	Bryan Whitehead <bryan.whitehead@microchip.com>,
+	UNGLinuxDriver@microchip.com, Chris Lee <christopher.lee@cspi.com>,
+	Jon Mason <jdmason@kudzu.us>,
+	Simon Horman <simon.horman@corigine.com>,
+	Rain River <rain.1986.08.12@gmail.com>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Vladimir Zapolskiy <vz@mleia.com>, Rahul Verma <rahulv@marvell.com>,
+	Shahed Shaikh <shshaikh@marvell.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>, nic_swsd@realtek.com,
+	Jiri Pirko <jiri@resnulli.us>, Byungho An <bh74.an@samsung.com>,
+	Edward Cree <ecree.xilinx@gmail.com>,
+	Martin Habets <habetsm.xilinx@gmail.com>,
+	Ralf Baechle <ralf@linux-mips.org>,
+	Francois Romieu <romieu@fr.zoreil.com>,
+	Daniele Venzano <venza@brownhat.org>,
+	Nicolas Pitre <nico@fluxnic.net>,
+	Steve Glendinning <steve.glendinning@shawell.net>,
+	Jassi Brar <jaswinder.singh@linaro.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Grygorii Strashko <grygorii.strashko@ti.com>,
+	Samuel Chessman <chessman@tux.org>,
+	Geoff Levand <geoff@infradead.org>,
+	Ishizaki Kou <kou.ishizaki@toshiba.co.jp>,
+	Kevin Brace <kevinbrace@bracecomputerlab.com>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
+	Michal Simek <michal.simek@xilinx.com>,
+	Krzysztof Halasa <khalasa@piap.pl>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Petko Manolov <petkan@nucleusys.com>,
+	Oliver Neukum <oneukum@suse.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>, Ronak Doshi <doshir@vmware.com>,
+	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
+	David Ahern <dsahern@kernel.org>, Kalle Valo <kvalo@kernel.org>,
+	Christian Lamparter <chunkeey@googlemail.com>,
+	Simon Kelley <simon@thekelleys.org.uk>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Arend van Spriel <aspriel@gmail.com>,
+	Franky Lin <franky.lin@broadcom.com>,
+	Hante Meuleman <hante.meuleman@broadcom.com>,
+	Stanislav Yakovlev <stas.yakovlev@gmail.com>,
+	Stanislaw Gruszka <stf_xl@wp.pl>, Jouni Malinen <j@w1.fi>,
+	Ajay Singh <ajay.kathat@microchip.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Igor Mitsyanko <imitsyanko@quantenna.com>,
+	Sergey Matyukevich <geomatsi@gmail.com>,
+	Herton Ronaldo Krzesinski <herton@canonical.com>,
+	Hin-Tak Leung <htl10@users.sourceforge.net>, netdev@vger.kernel.org,
+	linux-can@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-acenic@sunsite.dk,
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	intel-wired-lan@lists.osuosl.org,
+	linux-mediatek@lists.infradead.org, linux-rdma@vger.kernel.org,
+	oss-drivers@corigine.com, linux-mips@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-omap@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	ntb@lists.linux.dev, linux-usb@vger.kernel.org,
+	virtualization@lists.linux-foundation.org,
+	linux-wireless@vger.kernel.org, b43-dev@lists.infradead.org,
+	brcm80211-dev-list.pdl@broadcom.com,
+	SHA-cyfmac-dev-list@infineon.com, libertas-dev@lists.infradead.org
+References: <20220818210050.7108-1-wsa+renesas@sang-engineering.com>
+ <20220822180551.160c2a0b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 06/41] drm/connector: Rename legacy TV property
-To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
- Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
- Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>,
- Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- linux-arm-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- intel-gfx@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Dom Cobley <dom@raspberrypi.com>,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- linux-sunxi@lists.linux.dev,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-6-459522d653a7@cerno.tech>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v2-6-459522d653a7@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bu+qW3icU8857Hzl"
+Content-Disposition: inline
+In-Reply-To: <20220822180551.160c2a0b@kernel.org>
 
 
+--bu+qW3icU8857Hzl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Den 29.08.2022 15.11, skrev Maxime Ripard:
-> The current tv_mode has driver-specific values that don't allow to
-> 
-> easily share code using it, either at the userspace or kernel level.
-> 
-> 
-> 
-> Since we're going to introduce a new, generic, property that fit the
-> 
-> same purpose, let's rename this one to legacy_tv_mode to make it
-> 
-> obvious we should move away from it.
-> 
-> 
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
 
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> 
-> index 1d5e3cccb9e3..5cfad8b6ad83 100644
-> 
-> --- a/include/drm/drm_connector.h
-> 
-> +++ b/include/drm/drm_connector.h
-> 
-> @@ -695,7 +695,7 @@ struct drm_connector_tv_margins {
-> 
->   * @select_subconnector: selected subconnector
-> 
->   * @subconnector: detected subconnector
-> 
->   * @margins: TV margins
-> 
-> - * @mode: TV mode
-> 
-> + * @legacy_mode: Legacy TV mode, driver specific value
-> 
->   * @brightness: brightness in percent
-> 
->   * @contrast: contrast in percent
-> 
->   * @flicker_reduction: flicker reduction in percent
-> 
-> @@ -707,7 +707,7 @@ struct drm_tv_connector_state {
-> 
->  	enum drm_mode_subconnector select_subconnector;
-> 
->  	enum drm_mode_subconnector subconnector;
-> 
->  	struct drm_connector_tv_margins margins;
-> 
-> -	unsigned int mode;
-> 
-> +	unsigned int legacy_mode;
+> Unfortunately looks like patchwork was unable to ingest this change :(
+> Not sure why.
 
-I suggest you do a build of the affected drivers after adding this patch
-to make sure you have changed all mode -> legacy_mode occurrences
-_before_ adding back mode in a later patch.
+vger rejected this mail because the header was too big. I updated my
+scripts to estimate that before sending out.
 
-A simple grep gave me these:
+> Would you mind splitting it into 3 chunks - wireless, ethernet,
+> everything else, and resending? Let's see if that'll be small enough..
 
-drivers/gpu/drm/vc4/vc4_vec.c:
-vc4_vec_tv_modes[state->tv.mode].mode);
-drivers/gpu/drm/vc4/vc4_vec.c:  vec->tv_mode =
-&vc4_vec_tv_modes[conn_state->tv.mode];
-drivers/gpu/drm/vc4/vc4_vec.c:  vec_mode =
-&vc4_vec_tv_modes[conn_state->tv.mode];
-drivers/gpu/drm/i915/display/intel_tv.c:        int format =
-conn_state->tv.mode;
-drivers/gpu/drm/i915/display/intel_tv.c:
-connector->state->tv.mode = i;
-drivers/gpu/drm/i915/display/intel_tv.c:        if (old_state->tv.mode
-!= new_state->tv.mode ||
-drivers/gpu/drm/i915/display/intel_tv.c:        state->tv.mode =
-initial_mode;
-drivers/gpu/drm/i915/display/intel_tv.c:
-   state->tv.mode);
-drivers/gpu/drm/i915/display/intel_sdvo.c:      format_map = 1 <<
-conn_state->tv.mode;
-drivers/gpu/drm/i915/display/intel_sdvo.c:      format_map = 1 <<
-conn_state->tv.mode;
-drivers/gpu/drm/i915/display/intel_sdvo.c:                      if
-(state->tv.mode == intel_sdvo_connector->tv_format_supported[i]) {
-drivers/gpu/drm/i915/display/intel_sdvo.c:              state->tv.mode =
-intel_sdvo_connector->tv_format_supported[val];
-drivers/gpu/drm/i915/display/intel_sdvo.c:
-intel_sdvo_connector->base.base.state->tv.mode =
-intel_sdvo_connector->tv_format_supported[0];
+I did this and my scripts estimate that the patches will be small enough
+now. Let's see...
 
-Not so easy to grep for is this in gud:
 
-static unsigned int *gud_connector_tv_state_val(u16 prop, struct
-drm_tv_connector_state *state)
-{
-	switch (prop) {
-...
-	case GUD_PROPERTY_TV_MODE:
-		return &state->mode;
+--bu+qW3icU8857Hzl
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Noralf.
+-----BEGIN PGP SIGNATURE-----
 
-> 
->  	unsigned int brightness;
-> 
->  	unsigned int contrast;
-> 
->  	unsigned int flicker_reduction;
-> 
-> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> 
-> index 6b5e01295348..35a827175c24 100644
-> 
-> --- a/include/drm/drm_mode_config.h
-> 
-> +++ b/include/drm/drm_mode_config.h
-> 
-> @@ -714,11 +714,13 @@ struct drm_mode_config {
-> 
->  	 * between different TV connector types.
-> 
->  	 */
-> 
->  	struct drm_property *tv_select_subconnector_property;
-> 
-> +
-> 
->  	/**
-> 
-> -	 * @tv_mode_property: Optional TV property to select
-> 
-> +	 * @legacy_tv_mode_property: Optional TV property to select
-> 
->  	 * the output TV mode.
-> 
->  	 */
-> 
-> -	struct drm_property *tv_mode_property;
-> 
-> +	struct drm_property *legacy_tv_mode_property;
-> 
-> +
-> 
->  	/**
-> 
->  	 * @tv_left_margin_property: Optional TV property to set the left
-> 
->  	 * margin (expressed in pixels).
-> 
-> 
-> 
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmMObAUACgkQFA3kzBSg
+KbYmbxAAhLDry8AFCMs0JeaOiDjRHrHjQEgpCeivV6b/gp/jt/RKiaPiEcHJAMtv
+EIS+TTWc+VeHctybJ5IXx6ABcP64zEBQmcWaExve4a8QAEd5OBjFBqHMBNYLOjl3
+2LGdKq94jeX80mkXitqnxGKCZHvD+3fv86hgce4psGaByDBgrtFvnCYOEMOAb/i/
+QevZg2nDRS9Agwpz1u+L/byfiIP9L8n0FxFFkM8acJmU68E7zd1DZ4Zo0CKajVGa
+7VuzjWEjYpIRrp6BQh+HCfL+FvHJoxE7euZQ+b5t4jOqEKZwsH8J2367g4NtnTQd
+EE9vTTG1K07rfBoratigsH2yyNoi93cTR9mk7WgeYCSzFW5hyc/wrFM+tpIe9OUj
+9mOstqkAgKfUeIrkpnH/e1S9S7J8iMehTSU8HvIrX+gyBDXn7IgFTizgT+Kb1N95
+gyaciis4a5wdBiEJndYoQup2O94FRuqP4jvs3b6nU4DnspMrcp7OZ1iUYs2MJf/+
+jqtbi6y3n3y+PyeB3yic/rT9OKhEMO06A+Th68Ys/EK5KFs71763znTEsqfqMAzs
+HJZ6OhnNREklAf0x9E3jQbHD9I90WXUUp8OwiGVa7p+Y2kwa6L/PVTMon/J+97zk
+AqapabC9SVMN1KMRdpPlCJsb0CViQ0aWpW2gmfmsNb42RjFBjdQ=
+=9XVx
+-----END PGP SIGNATURE-----
+
+--bu+qW3icU8857Hzl--
