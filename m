@@ -1,118 +1,187 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7383B7E1
-	for <linux-sunxi@lists.linux.dev>; Wed, 31 Aug 2022 08:22:57 +0000 (UTC)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-11ee4649dfcso16070601fac.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 31 Aug 2022 01:22:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=tL3Pu80GajPbXIuFp2pntr8ejcDbNLFHN+ltW3MDRBA=;
-        b=YnU/zduouf7ZL50JCFVDoWmHpq4rWyZK+N3780caJ2mgaIG3OjYy/g9qSw/2SIOepZ
-         GP6bpZpDtIBHF8cbOw9x2mvWGctbsHa6nfnXaDOU1i1+bkL/Tvp5anEPq+M8aitGGjuH
-         NPJ8MBsdjk2+lncvHPDFyoBUBIW/qwFN6lUKoW5sSXjQ2XU/CywkTFAHI45N/UtYxFbv
-         vhERs0E1huO0+VNC17dm7bzkMWkgguL4SRQAnH1VntMmLdT63WEUtSGdtvYg8nZEp4oY
-         UhBbYLLCFa0x9p5mPQ2WGvw8ZJTp8pcr6cYhfqiQhTuyKahBCzC0ECtykrkdvUMyQK5S
-         hyvA==
-X-Gm-Message-State: ACgBeo0O2m4uuMjAEGRRvlrP37SKnTRhXRLQrchRJYG3XuwSiQikDRKd
-	7CCJi+Svdx2Z7gDJ71phBy5SObSB8kWGKg==
-X-Google-Smtp-Source: AA6agR7Aw3chUBSUiWGpNVb/0y03PyuYZM9GRyvcvrnQW1FEEj8Jr5DRrnTnfSwmO7NV+YfO/u1flw==
-X-Received: by 2002:a05:6870:a1a5:b0:120:8d35:c8a3 with SMTP id a37-20020a056870a1a500b001208d35c8a3mr830248oaf.237.1661934176310;
-        Wed, 31 Aug 2022 01:22:56 -0700 (PDT)
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com. [209.85.210.50])
-        by smtp.gmail.com with ESMTPSA id s8-20020a056830148800b0063911de9fd8sm8635466otq.24.2022.08.31.01.22.56
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Aug 2022 01:22:56 -0700 (PDT)
-Received: by mail-ot1-f50.google.com with SMTP id d18-20020a9d72d2000000b0063934f06268so9783423otk.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 31 Aug 2022 01:22:56 -0700 (PDT)
-X-Received: by 2002:a25:24b:0:b0:696:4e87:7cec with SMTP id
- 72-20020a25024b000000b006964e877cecmr14439821ybc.202.1661933679611; Wed, 31
- Aug 2022 01:14:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69234A3D
+	for <linux-sunxi@lists.linux.dev>; Wed, 31 Aug 2022 19:14:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=lFykXXuh414AMHOUrkjMCmREYuLQabBQPnrg6lAfPPY=; b=ZZ198Xf6PPUp/l53rhljFuGMcF
+	4zuRseMWeZpoj311RIFnjrUYtADjn9wuJNnEsMO5CjZC+xEdH2c5qjeG0ILG3eq0DkS+/UAuBjtmA
+	lj9MawJD7bAGX1645naLEYPOhTdWjb1DKDqwDt5sCid+4EKbwJJ+m1nntHZqZTCOwtH2m0Y9w0pvq
+	ypgdce4iD49nSDTQOHr/OQAfe1DigWSkskMg6tndHXcqQjah9nFLMqXz3YF7rBpOLW1ZK9v7rG2Lt
+	fwCHewKIgkfbPSZuTdFO+kk9VvsODXV4OOvjxUHa5qpzXfN6R8L2vlOWdmejD3IUudqW/Bg3YIvS9
+	NvG7WR9A==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=57178)
+	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <noralf@tronnes.org>)
+	id 1oTTAj-0002O5-TA; Wed, 31 Aug 2022 21:14:45 +0200
+Message-ID: <dab9899b-b3e5-b99f-7219-9b5efa3a3591@tronnes.org>
+Date: Wed, 31 Aug 2022 21:14:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 18/41] drm/connector: Add a function to lookup a TV
+ mode by its name
+To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
+ Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+ Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>,
+ Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ linux-arm-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ intel-gfx@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, Dom Cobley <dom@raspberrypi.com>,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
 References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-10-459522d653a7@cerno.tech> <242d272b-5b79-986c-9aaf-64e62f6b37ff@gmail.com>
-In-Reply-To: <242d272b-5b79-986c-9aaf-64e62f6b37ff@gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 31 Aug 2022 10:14:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWq3aOO4-2AReDeaC2VBJb=QJF2dTMZP=DGmwCg6ZOffA@mail.gmail.com>
-Message-ID: <CAMuHMdWq3aOO4-2AReDeaC2VBJb=QJF2dTMZP=DGmwCg6ZOffA@mail.gmail.com>
-Subject: Re: [PATCH v2 10/41] drm/modes: Add a function to generate analog
- display modes
-To: Mateusz Kwiatkowski <kfyatek@gmail.com>
-Cc: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>, 
-	Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Jani Nikula <jani.nikula@linux.intel.com>, 
-	Lyude Paul <lyude@redhat.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>, 
-	=?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
-	Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Hans de Goede <hdegoede@redhat.com>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, Phil Elwell <phil@raspberrypi.com>, 
-	Intel Graphics Development <intel-gfx@lists.freedesktop.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	DRI Development <dri-devel@lists.freedesktop.org>, Dom Cobley <dom@raspberrypi.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Nouveau Dev <nouveau@lists.freedesktop.org>, 
-	linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+ <20220728-rpi-analog-tv-properties-v2-18-459522d653a7@cerno.tech>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v2-18-459522d653a7@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Mateusz,
 
-On Wed, Aug 31, 2022 at 3:44 AM Mateusz Kwiatkowski <kfyatek@gmail.com> wrote:
-> Wow. That's an enormous amount of effort put into this patch.
->
-> But I'm tempted to say that this is actually overengineered quite a bit :D
-> Considering that there's no way to access all these calculations from user
-> space, and I can't imagine anybody using anything else than those standard
-> 480i/576i (and maybe 240p/288p) modes at 13.5 MHz any time soon... I'm not
-> sure if we actually need all this.
 
-We'll need it when we get an Amiga DRM driver, which will use
-7/14/28 MHz pixel clocks.
+Den 29.08.2022 15.11, skrev Maxime Ripard:
+> As part of the command line parsing rework coming in the next patches,
+> 
+> we'll need to lookup drm_connector_tv_mode values by their name, already
+> 
+> defined in drm_tv_mode_enum_list.
+> 
+> 
+> 
+> In order to avoid any code duplication, let's do a function that will
+> 
+> perform a lookup of a TV mode name and return its value.
+> 
+> 
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> 
+> 
+> 
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> 
+> index b1fcacd150e8..0fe01a1c20ad 100644
+> 
+> --- a/drivers/gpu/drm/drm_connector.c
+> 
+> +++ b/drivers/gpu/drm/drm_connector.c
+> 
+> @@ -1003,6 +1003,30 @@ static const struct drm_prop_enum_list drm_tv_mode_enum_list[] = {
+> 
+>  };
+> 
+>  DRM_ENUM_NAME_FN(drm_get_tv_mode_name, drm_tv_mode_enum_list)
+> 
+>  
+> 
+> +/**
+> 
+> + * drm_get_tv_mode_from_name - Translates a TV mode name into its enum value
+> 
+> + * @name: TV Mode name we want to convert
+> 
+> + * @len: Length of @name
+> 
+> + *
+> 
+> + * Translates @name into an enum drm_connector_tv_mode.
+> 
+> + *
+> 
+> + * Returns: the enum value on success, a negative errno otherwise.
+> 
+> + */
+> 
+> +int drm_get_tv_mode_from_name(const char *name, size_t len)
+> 
+> +{
+> 
+> +	unsigned int i;
+> 
+> +
+> 
+> +	for (i = 0; i < ARRAY_SIZE(drm_tv_mode_enum_list); i++) {
+> 
+> +		const struct drm_prop_enum_list *item = &drm_tv_mode_enum_list[i];
+> 
+> +
+> 
+> +		if (strlen(item->name) == len && !strncmp(item->name, name, len))
+> 
+> +			return item->type;
+> 
+> +	}
+> 
+> +
+> 
+> +	return -EINVAL;
+> 
+> +}
+> 
+> +EXPORT_SYMBOL(drm_get_tv_mode_from_name)
 
-> But anyway, I'm not the maintainer of this subsystem, so I'm not the one to
-> decide.
->
-> > +enum drm_mode_analog {
-> > +    DRM_MODE_ANALOG_NTSC,
-> > +    DRM_MODE_ANALOG_PAL,
-> > +};
->
-> Using "NTSC" and "PAL" to describe the 50Hz and 60Hz analog TV modes is common,
-> but strictly speaking a misnomer. Those are color encoding systems, and your
-> patchset fully supports lesser used, but standard encodings for those (e.g.
-> PAL-M for 60Hz and SECAM for 50Hz). I'd propose switching to some more neutral
-> naming scheme. Some ideas:
->
-> - DRM_MODE_ANALOG_60_HZ / DRM_MODE_ANALOG_50_HZ (after standard refresh rate)
-> - DRM_MODE_ANALOG_525_LINES / DRM_MODE_ANALOG_625_LINES (after standard line
->   count)
+Missing semicolon.
 
-IMHO these are bad names, as e.g. VGA640x480@60 is also analog, using
-60 Hz and 525 lines.  Add "TV" to the name?
+Noralf.
 
-> - DRM_MODE_ANALOG_JM / DRM_MODE_ANALOG_BDGHIKLN (after corresponding ITU System
->   Letter Designations)
-
-Or DRM_MODE_ITU_*?
-But given the long list of letters, this looks fragile to me.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> 
+> +
+> 
+>  static const struct drm_prop_enum_list drm_tv_select_enum_list[] = {
+> 
+>  	{ DRM_MODE_SUBCONNECTOR_Automatic, "Automatic" }, /* DVI-I and TV-out */
+> 
+>  	{ DRM_MODE_SUBCONNECTOR_Composite, "Composite" }, /* TV-out */
+> 
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> 
+> index bb39d2bb806e..49d261977d4e 100644
+> 
+> --- a/include/drm/drm_connector.h
+> 
+> +++ b/include/drm/drm_connector.h
+> 
+> @@ -1943,6 +1943,8 @@ const char *drm_get_dp_subconnector_name(int val);
+> 
+>  const char *drm_get_content_protection_name(int val);
+> 
+>  const char *drm_get_hdcp_content_type_name(int val);
+> 
+>  
+> 
+> +int drm_get_tv_mode_from_name(const char *name, size_t len);
+> 
+> +
+> 
+>  int drm_mode_create_dvi_i_properties(struct drm_device *dev);
+> 
+>  void drm_connector_attach_dp_subconnector_property(struct drm_connector *connector);
+> 
+>  
+> 
+> 
+> 
