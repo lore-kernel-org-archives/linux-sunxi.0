@@ -1,47 +1,47 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255836108
-	for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 21:31:28 +0000 (UTC)
-Received: by mail-lj1-f180.google.com with SMTP id s15so7581354ljp.5
-        for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 14:31:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8CA620
+	for <linux-sunxi@lists.linux.dev>; Wed, 31 Aug 2022 01:44:57 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id z29so9368366lfb.13
+        for <linux-sunxi@lists.linux.dev>; Tue, 30 Aug 2022 18:44:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:from:to:cc;
-        bh=ycOUS51f/+hxr26Bfki5rqNC0+Cghd136Ub/gFA0SaA=;
-        b=kSqNn3A96fFfYAvZMnZM6fCkCnjNdGOAfgbjh9xsCUhPlw304ML9UOEGEq0noWgIeP
-         e8mzpa9LJOTPz3mo314puee4Fei78Xd3dwfhduIl+R9me/flZOEnbstk45R5T8xMBH5j
-         qj1SBot1DkuqGKcyF7RI8id8AqXjy7LQG9OWw/dcdOmtkhYzextF2jhnGSmja1hGlzqs
-         8uFyhJM+XooSUzJnWBsnt2T9p8alpMeedc8qVliCE16DCl0Nea+DeCk5ybxPVZk/RlN9
-         3wS6qGlyAK0i3imci6ec/k3ZZuvuHvx8V/aL+wP4XOiVLZG8emIw8ni+mIZBgQVmJWF/
-         gsLw==
+        bh=drG6RMH0zFREgohP7fUu6e8MBztAwMPOm+LE74724sA=;
+        b=EFsFMp+canY/hKJink3xfIjzSIs5nK0ATMHsiNLvxO07lOyOzwsvad8rVyDd2wmSeg
+         cWCjphxF3TSGFFDKqyBmATL/jehCiz7Ylb6ULQwm/mKEET2IUotRhOyHBInnuwebAx/W
+         o98i4bzpAYKvvI2sU//Sa2wKHsHNlK0Ik4KVSfjlV5E7mJwynZVYZggwdjMG3KRyfVMo
+         xPbIu9xAaQjWAcnqbsVBfJmmxCjJL8AJzz30l+qNOOOt1j+HNC9Xoq1+ko3At8FQwbwc
+         GgYRNngTbp8HBenXcqfoYJexOO63aFwrEEDYhvuQd/DuP/2j454qxLb21o5XEYcIYyWs
+         Dtmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:x-gm-message-state:from:to:cc;
-        bh=ycOUS51f/+hxr26Bfki5rqNC0+Cghd136Ub/gFA0SaA=;
-        b=bz8FGWpMDBeBUa4MpgfQxhiK01M1J4Gcu7mSGS6d7zG1fnq9iQjZt+Daf6R2v1qICB
-         +M30Qvi1ArPb1jgxSRHORx6moqhNBcfxxOQX3qFOdyQ+DBzzGlKAoIYYe8IznkrefnRL
-         CqCWRd+y/HgKgOBZYIIdvhx9RNItocpFvg/wUpwOY8QwNda3p6ck6sECJl+353wi8+p7
-         X6yXU3fMtSwvEZVK3MUdg796SiSHLl8Z2p0yqiI61OL+dxTAsMhJ730pLTmfI5AMEZOC
-         jvhV2xWWKaT7iaXKc+T8IKisDIk0hnUKeFSQg0YJzflGDSj32aWQ9watcGWhLorPYfxo
-         FqjQ==
-X-Gm-Message-State: ACgBeo21pW//dHAV3yFXw0RjI4n6x8fsNoUmgiprneo5/aEZJEg9fGRz
-	fzB8UhmYASh8WMprMyXUxBk=
-X-Google-Smtp-Source: AA6agR4S4WuypWhRAErxoi920Fo8fv4SJcbnBpQK5wzzMSWUXZMHydNeVYFmYA2Bqfe1pnKLfGrkYg==
-X-Received: by 2002:a05:651c:507:b0:25e:73af:1661 with SMTP id o7-20020a05651c050700b0025e73af1661mr8063374ljp.195.1661895086153;
-        Tue, 30 Aug 2022 14:31:26 -0700 (PDT)
+        bh=drG6RMH0zFREgohP7fUu6e8MBztAwMPOm+LE74724sA=;
+        b=UuNe8mK+yqf/lNgY3ubelWgNDSlkY8XGzWWvqjcymykbPYS5EwX3yAeI5ezBeKVUTW
+         7149XupCZGIeYef7lQ32yp8dvxxG4wxV0PcRJ658e9h2fVHvP7Uf6/d38OFSgxrLI/mM
+         /5sHNY4C8JbDkLooxX7CJhMrjBDW5y0L01aQOfJvR13FmTGuOs1VFDS4E8Sd+W1EsvUv
+         jXnx+N/B+Qhl6oWR1hlsPPIp/HjHgzUkwXquqR0WpgDVN+iCz4nOyL8Em+YURFEH7EF9
+         AS5I170R+XXwh9UyXEAHXxXPOfwEOmXteUsvonp+MdMKaW7sV51cWsdWU3Ck8S9hl+Wv
+         VmPg==
+X-Gm-Message-State: ACgBeo2j3HUg0bFXoWDdwRceuMHE58kZFc1/TFKeoSKLQDqC0AaZ9miO
+	ayHHiZuwPNQ4IwmARDVa5GE=
+X-Google-Smtp-Source: AA6agR5Z8V/gUf3Mh2HitGw7sMfYSuNjRXxRlM0XOW/4Yz6ST42Ov+CXOy5ZF8ScFy9ud/OgRIMt7A==
+X-Received: by 2002:ac2:4901:0:b0:494:88dc:7efc with SMTP id n1-20020ac24901000000b0049488dc7efcmr411746lfi.408.1661910295748;
+        Tue, 30 Aug 2022 18:44:55 -0700 (PDT)
 Received: from ?IPV6:2a02:a31a:a240:1700:d40b:b088:5bfe:3b81? ([2a02:a31a:a240:1700:d40b:b088:5bfe:3b81])
-        by smtp.googlemail.com with ESMTPSA id x7-20020a056512078700b0048b0aa2f87csm1733424lfr.181.2022.08.30.14.31.24
+        by smtp.googlemail.com with ESMTPSA id g1-20020a0565123b8100b004948f583e6bsm42248lfv.138.2022.08.30.18.44.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Aug 2022 14:31:25 -0700 (PDT)
-From: kFYatek <kfyatek@gmail.com>
-X-Google-Original-From: kFYatek <kfyatek+publicgit@gmail.com>
-Message-ID: <a2ebfb0b-7b54-8059-036b-7aa1bdf4dd78@gmail.com>
-Date: Tue, 30 Aug 2022 23:31:21 +0200
+        Tue, 30 Aug 2022 18:44:55 -0700 (PDT)
+From: Mateusz Kwiatkowski <kfyatek@gmail.com>
+X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+Message-ID: <242d272b-5b79-986c-9aaf-64e62f6b37ff@gmail.com>
+Date: Wed, 31 Aug 2022 03:44:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -50,56 +50,95 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.2.0
-Subject: Re: [PATCH v1 00/35] drm: Analog TV Improvements
+Subject: Re: [PATCH v2 10/41] drm/modes: Add a function to generate analog
+ display modes
 Content-Language: pl
-To: Dom Cobley <dom@raspberrypi.com>
-Cc: Maxime Ripard <maxime@cerno.tech>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
+ Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+ Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
- <narmstrong@baylibre.com>, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ linux-arm-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ intel-gfx@lists.freedesktop.org,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <987d6114-5fcb-d668-3b0d-ad6d8723dfdb@tronnes.org>
- <20220822074800.qzyctchqn5usr55g@houat>
- <9a15b1cf-692c-1b0d-02a6-316cbd954525@gmail.com>
- <20220825155506.wqurh5r752qfufqs@houat>
- <18737c8a-78f4-5b9f-aea2-588bc65c13d9@gmail.com>
- <9d9ba040-99d7-25cb-ba10-1c132d7f7663@gmail.com>
- <CANUESCG22TrxasYoE2U0OJ7TVzNAcs_9zkuAfBQfZrEbM4h9dg@mail.gmail.com>
-In-Reply-To: <CANUESCG22TrxasYoE2U0OJ7TVzNAcs_9zkuAfBQfZrEbM4h9dg@mail.gmail.com>
+ dri-devel@lists.freedesktop.org, Dom Cobley <dom@raspberrypi.com>,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-10-459522d653a7@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v2-10-459522d653a7@cerno.tech>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-W dniu 26.08.2022 o 16:56, Dom Cobley pisze:
-> On Fri, 26 Aug 2022 at 05:08, Mateusz Kwiatkowski <kfyatek@gmail.com> wrote:
->> - Commenting out the pm_runtime_put() / pm_runtime_get_sync() calls in vc4_vec.c
->> - Reverting this PR by Dom Cobley a.k.a. popcornmix:
->>    https://github.com/raspberrypi/linux/pull/4639
->>
->> Either of these approaches makes VEC mode switching work again. Obviously
->> neither is appropriate for a permanent solution.
-> Might be worth trying the latest rpi-update firmware.
-> There was a change that affects restoring PIXEL/VEC clocks after a
-> power domain cycle.
-> There is also a fix for a USB boot breakage.
->
-> If you still have an issue that occurs in downstream pi tree but not
-> upstream, then create a linux github issue.
+Hi Maxime,
 
-Hi Dom,
+Wow. That's an enormous amount of effort put into this patch.
 
-I just tested the 868f1cf firmware and its associated kernel, and everything
-works like a charm for me, both USB boot and VEC power management.
+But I'm tempted to say that this is actually overengineered quite a bit :D
+Considering that there's no way to access all these calculations from user
+space, and I can't imagine anybody using anything else than those standard
+480i/576i (and maybe 240p/288p) modes at 13.5 MHz any time soon... I'm not
+sure if we actually need all this.
 
-Thanks!
+But anyway, I'm not the maintainer of this subsystem, so I'm not the one to
+decide.
 
+> +enum drm_mode_analog {
+> +    DRM_MODE_ANALOG_NTSC,
+> +    DRM_MODE_ANALOG_PAL,
+> +};
+
+Using "NTSC" and "PAL" to describe the 50Hz and 60Hz analog TV modes is common,
+but strictly speaking a misnomer. Those are color encoding systems, and your
+patchset fully supports lesser used, but standard encodings for those (e.g.
+PAL-M for 60Hz and SECAM for 50Hz). I'd propose switching to some more neutral
+naming scheme. Some ideas:
+
+- DRM_MODE_ANALOG_60_HZ / DRM_MODE_ANALOG_50_HZ (after standard refresh rate)
+- DRM_MODE_ANALOG_525_LINES / DRM_MODE_ANALOG_625_LINES (after standard line
+  count)
+- DRM_MODE_ANALOG_JM / DRM_MODE_ANALOG_BDGHIKLN (after corresponding ITU System
+  Letter Designations)
+
+> +#define NTSC_HFP_DURATION_TYP_NS    1500
+> +#define NTSC_HFP_DURATION_MIN_NS    1270
+> +#define NTSC_HFP_DURATION_MAX_NS    2220
+
+You've defined those min/typ/max ranges, but you're not using the "typ" field
+for anything other than hslen. The actual "typical" value is thus always the
+midpoint, which isn't necessarily the best choice.
+
+In particular, for the standard 720px wide modes at 13.5 MHz, hsync_start
+ends up being 735 for 480i and 734 for 576i, instead of 736 and 732 requested
+by BT.601. That's all obviously within tolerances, but the image ends up
+noticeably off-center (at least on modern TVs), especially in the 576i case.
+
+> +    htotal = params->line_duration_ns * pixel_clock_hz / NSEC_PER_SEC;
+
+You're multiplying an unsigned int and an unsigned long - both types are only
+required to be 32 bit, so this is likely to overflow. You need to use a cast to
+unsigned long long, and then call do_div() for 64-bit division.
+
+This actually overflowed on me on my Pi running ARM32 kernel, resulting in
+negative horizontal porch lengths, and drm_helper_probe_add_cmdline_mode()
+taking over the mode generation (badly), and a horrible mess on screen.
+
+> +    vfp = vfp_min + (porches_rem / 2);
+> +    vbp = porches - vfp;
+
+Relative position of the vertical sync within the VBI effectively moves the
+image up and down. Adding that (porches_rem / 2) moves the image up off center
+by that many pixels. I'd keep the VFP always at minimum to keep the image
+centered.
+
+Best regards,
+Mateusz Kwiatkowski
