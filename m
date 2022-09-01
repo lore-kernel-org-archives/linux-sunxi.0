@@ -1,25 +1,21 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA6A46A9
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 Sep 2022 14:04:51 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 52F5BE0002;
-	Thu,  1 Sep 2022 14:04:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1662041084;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Lw/b6gMufWECAX3seoCAwz85Lfff7SY9MngeM/poOiQ=;
-	b=pVXCmuvw0nSzp9uwaVdKCDH5ubtCP4d/S619ihZ+U1Y4k648ZQ2pF6sZ4Mfn/ZsCMyPDtT
-	CMPArZ6NtwlnZvElQt/WgcUxuQZj4QfzKHujzswTjfvc5CWXQHNV2cU/0SF38RgjCBh6nW
-	09LD6GOR2M5umPsd7TF4ep+4Fo4Vdp2E2C+V+1vhdiSTjJkmg33WWcDSJWL8eE2ATV389M
-	LyD3s6GyBc3XHVUI72FFBn4znnvrN8jYpfqSWMgd/ttEcSse5NPg6z1sfpYGJoXWHfSwac
-	PL1d33OqXLyLcxMNFgXM4ODh6B92GFqI9hwbikk+oFQRO3vL9XDGvtjfiaqHtQ==
-Date: Thu, 1 Sep 2022 16:04:40 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6874C63
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Sep 2022 14:21:30 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2B4846CD;
+	Thu,  1 Sep 2022 16:21:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1662042088;
+	bh=A5gkBR9bPfI62fiXWS9MBQdkIPuX3rhZB6oxYtEU7sc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UpYA6BFhSUdU8txv9sZ2xFyWokhbwkCjKKCPikq1hPctQaIdop/y9Nj3Jl5fR5sVJ
+	 kzTb1dap0tPiMNh+RDtJUVq8vTpicd2AvWEzo0dXqKbNhE6Iwc7TzOVnRdR4auWExG
+	 ty4J+5/QDmMW8XyiY1cCWC9TbkvdSB4NFvSN6dxg=
+Date: Thu, 1 Sep 2022 17:21:16 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
@@ -33,135 +29,103 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
 Subject: Re: [PATCH v5 5/6] ARM: dts: sun8i: a83t: Add MIPI CSI-2 controller
  node
-Message-ID: <YxC7+Pi4v3Bc1oXc@aptenodytes>
+Message-ID: <YxC/3KLfJHpld+jx@pendragon.ideasonboard.com>
 References: <20220826182803.604563-1-paul.kocialkowski@bootlin.com>
  <20220826182803.604563-6-paul.kocialkowski@bootlin.com>
  <YwkYKcffdRGnq+pK@pendragon.ideasonboard.com>
+ <YxC7+Pi4v3Bc1oXc@aptenodytes>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="IMztB6PSZ8uhBkMR"
-Content-Disposition: inline
-In-Reply-To: <YwkYKcffdRGnq+pK@pendragon.ideasonboard.com>
-
-
---IMztB6PSZ8uhBkMR
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YxC7+Pi4v3Bc1oXc@aptenodytes>
 
-Hi Laurent,
+On Thu, Sep 01, 2022 at 04:04:40PM +0200, Paul Kocialkowski wrote:
+> Hi Laurent,
+> 
+> On Fri 26 Aug 22, 21:59, Laurent Pinchart wrote:
+> > Hi Paul,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Fri, Aug 26, 2022 at 08:28:02PM +0200, Paul Kocialkowski wrote:
+> > > MIPI CSI-2 is supported on the A83T with a dedicated controller that
+> > > covers both the protocol and D-PHY. It can be connected to the CSI
+> > > interface as a V4L2 subdev through the fwnode graph.
+> > > 
+> > > This is not done by default since connecting the bridge without a
+> > > subdev attached to it will cause a failure on the CSI driver.
+> > 
+> > No urgency, but would it be possible to fix this so that the CSI-2
+> > receiver can be connected to the CSI unconditionally in DT ? The
+> > connection exists at the hardware level in the SoC, and should thus
+> > exist here too, regardless of whether or not a sensor is connected.
+> 
+> Yes it's true that having the link always would be legitimate.
+> 
+> For the context, this CSI controller can be switched between the MIPI CSI-2
+> controller and a parallel sensor input (i.e. it's not dedicated to one or the
+> other like on the V3).
+> 
+> Last time I tried, having the connection between the two always there resulted
+> in the unability to use a parallel sensor when no sensor is attached to the
+> mipi csi-2 receiver. Probably because the async notifier never completes since
+> the mipi csi-2's subdev is never registered without a sensor subdev attached.
+> 
+> Do you see a way to handle this case properly?
 
-On Fri 26 Aug 22, 21:59, Laurent Pinchart wrote:
-> Hi Paul,
->=20
-> Thank you for the patch.
->=20
-> On Fri, Aug 26, 2022 at 08:28:02PM +0200, Paul Kocialkowski wrote:
-> > MIPI CSI-2 is supported on the A83T with a dedicated controller that
-> > covers both the protocol and D-PHY. It can be connected to the CSI
-> > interface as a V4L2 subdev through the fwnode graph.
-> >=20
-> > This is not done by default since connecting the bridge without a
-> > subdev attached to it will cause a failure on the CSI driver.
->=20
-> No urgency, but would it be possible to fix this so that the CSI-2
-> receiver can be connected to the CSI unconditionally in DT ? The
-> connection exists at the hardware level in the SoC, and should thus
-> exist here too, regardless of whether or not a sensor is connected.
+It sounds like an issue in the CSI-2 receiver driver. If there's no
+input device attached to it, it should register its subdev directly,
+without its own async notifier.
 
-Yes it's true that having the link always would be legitimate.
+> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > ---
+> > >  arch/arm/boot/dts/sun8i-a83t.dtsi | 26 ++++++++++++++++++++++++++
+> > >  1 file changed, 26 insertions(+)
+> > > 
+> > > diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8i-a83t.dtsi
+> > > index 82fdb04122ca..ecf9f3b2c0c0 100644
+> > > --- a/arch/arm/boot/dts/sun8i-a83t.dtsi
+> > > +++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
+> > > @@ -1064,6 +1064,32 @@ csi: camera@1cb0000 {
+> > >  			status = "disabled";
+> > >  		};
+> > >  
+> > > +		mipi_csi2: csi@1cb1000 {
+> > > +			compatible = "allwinner,sun8i-a83t-mipi-csi2";
+> > > +			reg = <0x01cb1000 0x1000>;
+> > > +			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> > > +			clocks = <&ccu CLK_BUS_CSI>,
+> > > +				 <&ccu CLK_CSI_SCLK>,
+> > > +				 <&ccu CLK_MIPI_CSI>,
+> > > +				 <&ccu CLK_CSI_MISC>;
+> > > +			clock-names = "bus", "mod", "mipi", "misc";
+> > > +			resets = <&ccu RST_BUS_CSI>;
+> > > +			status = "disabled";
+> > > +
+> > > +			ports {
+> > > +				#address-cells = <1>;
+> > > +				#size-cells = <0>;
+> > > +
+> > > +				mipi_csi2_in: port@0 {
+> > > +					reg = <0>;
+> > > +				};
+> > > +
+> > > +				mipi_csi2_out: port@1 {
+> > > +					reg = <1>;
+> > > +				};
+> > > +			};
+> > > +		};
+> > > +
+> > >  		hdmi: hdmi@1ee0000 {
+> > >  			compatible = "allwinner,sun8i-a83t-dw-hdmi";
+> > >  			reg = <0x01ee0000 0x10000>;
 
-For the context, this CSI controller can be switched between the MIPI CSI-2
-controller and a parallel sensor input (i.e. it's not dedicated to one or t=
-he
-other like on the V3).
+-- 
+Regards,
 
-Last time I tried, having the connection between the two always there resul=
-ted
-in the unability to use a parallel sensor when no sensor is attached to the
-mipi csi-2 receiver. Probably because the async notifier never completes si=
-nce
-the mipi csi-2's subdev is never registered without a sensor subdev attache=
-d.
-
-Do you see a way to handle this case properly?
-
-Thanks,
-
-Paul
-
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > ---
-> >  arch/arm/boot/dts/sun8i-a83t.dtsi | 26 ++++++++++++++++++++++++++
-> >  1 file changed, 26 insertions(+)
-> >=20
-> > diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8=
-i-a83t.dtsi
-> > index 82fdb04122ca..ecf9f3b2c0c0 100644
-> > --- a/arch/arm/boot/dts/sun8i-a83t.dtsi
-> > +++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
-> > @@ -1064,6 +1064,32 @@ csi: camera@1cb0000 {
-> >  			status =3D "disabled";
-> >  		};
-> > =20
-> > +		mipi_csi2: csi@1cb1000 {
-> > +			compatible =3D "allwinner,sun8i-a83t-mipi-csi2";
-> > +			reg =3D <0x01cb1000 0x1000>;
-> > +			interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks =3D <&ccu CLK_BUS_CSI>,
-> > +				 <&ccu CLK_CSI_SCLK>,
-> > +				 <&ccu CLK_MIPI_CSI>,
-> > +				 <&ccu CLK_CSI_MISC>;
-> > +			clock-names =3D "bus", "mod", "mipi", "misc";
-> > +			resets =3D <&ccu RST_BUS_CSI>;
-> > +			status =3D "disabled";
-> > +
-> > +			ports {
-> > +				#address-cells =3D <1>;
-> > +				#size-cells =3D <0>;
-> > +
-> > +				mipi_csi2_in: port@0 {
-> > +					reg =3D <0>;
-> > +				};
-> > +
-> > +				mipi_csi2_out: port@1 {
-> > +					reg =3D <1>;
-> > +				};
-> > +			};
-> > +		};
-> > +
-> >  		hdmi: hdmi@1ee0000 {
-> >  			compatible =3D "allwinner,sun8i-a83t-dw-hdmi";
-> >  			reg =3D <0x01ee0000 0x10000>;
->=20
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---IMztB6PSZ8uhBkMR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMQu/gACgkQ3cLmz3+f
-v9FfGgf/bUMOB5DarPNVlB6cB7ecutOIL2h9YZR6cAqSwT3S9OzsDPTgN+b8AuP6
-x9K6FblBxuQQKeysoJmym088qRKSIozBsf++zfGtAPu6aORTI0ACT9oYX0ZekSAa
-3mc9QM6ALIgGaahDFz5K3Vr5c5pMt5z+r7FPL1zNYwHDwuE5J2b38/cLh723rVaU
-MtdiA1Rw8BymidVxPbcInyeQ7FtS7DbIlq1T0wtK7qhRO6Pjf8V6sRGOgUKA4+DO
-R5miZyF62faENsnijrnnZ5YhrFJ+z/wzyAqdvPFuKxoeDCFaJLUQrZH9nz5F9UvC
-LdyBeOjbv+I1iyJW+76mQgLz6nAtNQ==
-=Id0r
------END PGP SIGNATURE-----
-
---IMztB6PSZ8uhBkMR--
+Laurent Pinchart
