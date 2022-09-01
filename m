@@ -1,187 +1,338 @@
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69234A3D
-	for <linux-sunxi@lists.linux.dev>; Wed, 31 Aug 2022 19:14:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=lFykXXuh414AMHOUrkjMCmREYuLQabBQPnrg6lAfPPY=; b=ZZ198Xf6PPUp/l53rhljFuGMcF
-	4zuRseMWeZpoj311RIFnjrUYtADjn9wuJNnEsMO5CjZC+xEdH2c5qjeG0ILG3eq0DkS+/UAuBjtmA
-	lj9MawJD7bAGX1645naLEYPOhTdWjb1DKDqwDt5sCid+4EKbwJJ+m1nntHZqZTCOwtH2m0Y9w0pvq
-	ypgdce4iD49nSDTQOHr/OQAfe1DigWSkskMg6tndHXcqQjah9nFLMqXz3YF7rBpOLW1ZK9v7rG2Lt
-	fwCHewKIgkfbPSZuTdFO+kk9VvsODXV4OOvjxUHa5qpzXfN6R8L2vlOWdmejD3IUudqW/Bg3YIvS9
-	NvG7WR9A==;
-Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=57178)
-	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <noralf@tronnes.org>)
-	id 1oTTAj-0002O5-TA; Wed, 31 Aug 2022 21:14:45 +0200
-Message-ID: <dab9899b-b3e5-b99f-7219-9b5efa3a3591@tronnes.org>
-Date: Wed, 31 Aug 2022 21:14:36 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694C281C
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Sep 2022 12:49:47 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id E630D40009;
+	Thu,  1 Sep 2022 12:49:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1662036586;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LLjeDHGimLQUxXbTACnXVBtEQbYwP8b9e1Fg0R+UKC4=;
+	b=iOqWi9lfxGhbmHbv6uAQlMsC7xBGNHlRWXZboZHVTQFGlknMBUTZ7tm8qK7yzt9MRWIl3z
+	4j9j8zXRB/gf7stojrsdml6xrrTqJo1yfJ7217v6MURiBg8n8/9jhPcu7g02/NJ419TEpr
+	Aqwjd3vzf5s9bPuzCPpPksxYhBidLnUedejex59S+jaKH3iiXmiAVutkPIbAdVEXaNZfgj
+	gWl0v5taNTyhHDIuJhWf/tvg6gFwnNVdl5+RhNOOCfpMkchABlkOChp6F4M7rU3Cp9t9o0
+	38QOSoPMEd3Tn0QD6avLjxRZ7ddx9aESBD6JLZkniprCvmmsdWkoOD7PZqy59g==
+Date: Thu, 1 Sep 2022 14:49:43 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	=?utf-8?B?S8OpdmluIEwnaMO0cGl0YWw=?= <kevin.lhopital@bootlin.com>
+Subject: Re: [PATCH NOT FOR MERGE v5 6/6] ARM: dts: sun8i: a83t: bananapi-m3:
+ Enable MIPI CSI-2 with OV8865
+Message-ID: <YxCqZ8GhiTJlZ8MC@aptenodytes>
+References: <20220826182803.604563-1-paul.kocialkowski@bootlin.com>
+ <20220826182803.604563-7-paul.kocialkowski@bootlin.com>
+ <YwkaFC2tm96X5qon@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 18/41] drm/connector: Add a function to lookup a TV
- mode by its name
-To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
- Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
- Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>,
- Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- linux-arm-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- intel-gfx@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Dom Cobley <dom@raspberrypi.com>,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- linux-sunxi@lists.linux.dev,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-18-459522d653a7@cerno.tech>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v2-18-459522d653a7@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="rp38fnbGK/Yr/phy"
+Content-Disposition: inline
+In-Reply-To: <YwkaFC2tm96X5qon@pendragon.ideasonboard.com>
 
 
+--rp38fnbGK/Yr/phy
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Den 29.08.2022 15.11, skrev Maxime Ripard:
-> As part of the command line parsing rework coming in the next patches,
-> 
-> we'll need to lookup drm_connector_tv_mode values by their name, already
-> 
-> defined in drm_tv_mode_enum_list.
-> 
-> 
-> 
-> In order to avoid any code duplication, let's do a function that will
-> 
-> perform a lookup of a TV mode name and return its value.
-> 
-> 
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
-> 
-> 
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> 
-> index b1fcacd150e8..0fe01a1c20ad 100644
-> 
-> --- a/drivers/gpu/drm/drm_connector.c
-> 
-> +++ b/drivers/gpu/drm/drm_connector.c
-> 
-> @@ -1003,6 +1003,30 @@ static const struct drm_prop_enum_list drm_tv_mode_enum_list[] = {
-> 
->  };
-> 
->  DRM_ENUM_NAME_FN(drm_get_tv_mode_name, drm_tv_mode_enum_list)
-> 
->  
-> 
-> +/**
-> 
-> + * drm_get_tv_mode_from_name - Translates a TV mode name into its enum value
-> 
-> + * @name: TV Mode name we want to convert
-> 
-> + * @len: Length of @name
-> 
-> + *
-> 
-> + * Translates @name into an enum drm_connector_tv_mode.
-> 
-> + *
-> 
-> + * Returns: the enum value on success, a negative errno otherwise.
-> 
-> + */
-> 
-> +int drm_get_tv_mode_from_name(const char *name, size_t len)
-> 
-> +{
-> 
-> +	unsigned int i;
-> 
-> +
-> 
-> +	for (i = 0; i < ARRAY_SIZE(drm_tv_mode_enum_list); i++) {
-> 
-> +		const struct drm_prop_enum_list *item = &drm_tv_mode_enum_list[i];
-> 
-> +
-> 
-> +		if (strlen(item->name) == len && !strncmp(item->name, name, len))
-> 
-> +			return item->type;
-> 
-> +	}
-> 
-> +
-> 
-> +	return -EINVAL;
-> 
-> +}
-> 
-> +EXPORT_SYMBOL(drm_get_tv_mode_from_name)
+Hi Laurent,
 
-Missing semicolon.
+Thansk for the review,
 
-Noralf.
+On Fri 26 Aug 22, 22:08, Laurent Pinchart wrote:
+> Hi Paul and K=C3=A9vin,
+>=20
+> Thank you for the patch.
+>=20
+> On Fri, Aug 26, 2022 at 08:28:03PM +0200, Paul Kocialkowski wrote:
+> > From: K=C3=A9vin L'h=C3=B4pital <kevin.lhopital@bootlin.com>
+> >=20
+> > The Bananapi M3 supports a camera module which includes an OV8865 sensor
+> > connected via the parallel CSI interface and an OV8865 sensor connected
+> > via MIPI CSI-2.
+> >=20
+> > The I2C2 bus is shared by the two sensors as well as the (active-low)
+> > reset signal, but each sensor has it own shutdown line.
+>=20
+> I see a single sensor in this file, am I missing something ?
 
-> 
-> +
-> 
->  static const struct drm_prop_enum_list drm_tv_select_enum_list[] = {
-> 
->  	{ DRM_MODE_SUBCONNECTOR_Automatic, "Automatic" }, /* DVI-I and TV-out */
-> 
->  	{ DRM_MODE_SUBCONNECTOR_Composite, "Composite" }, /* TV-out */
-> 
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> 
-> index bb39d2bb806e..49d261977d4e 100644
-> 
-> --- a/include/drm/drm_connector.h
-> 
-> +++ b/include/drm/drm_connector.h
-> 
-> @@ -1943,6 +1943,8 @@ const char *drm_get_dp_subconnector_name(int val);
-> 
->  const char *drm_get_content_protection_name(int val);
-> 
->  const char *drm_get_hdcp_content_type_name(int val);
-> 
->  
-> 
-> +int drm_get_tv_mode_from_name(const char *name, size_t len);
-> 
-> +
-> 
->  int drm_mode_create_dvi_i_properties(struct drm_device *dev);
-> 
->  void drm_connector_attach_dp_subconnector_property(struct drm_connector *connector);
-> 
->  
-> 
-> 
-> 
+Indeed this patch only adds the OV8865, not the OV5640 which is also present
+on the same camera board extension.
+
+A patch was submitted some time ago adding support for (only) the OV5640:
+https://lore.kernel.org/lkml/20190408165744.11672-7-wens@kernel.org/
+
+> Sounds like a perfect candidate for an overlay, it could then be merged
+> upstream.
+
+Do we have an upstream place to merge device-tree overlays now?
+
+I'll check if it's possible to describe both sensors together and actually
+be able to select one or the other properly from userspace. Last time I tri=
+ed
+this wasn't possible: there's at least the shared reset GPIO used by both
+sensors, which cannot be requested by the two drivers in parallel.
+
+To be honest this is very poor hardware design and it was almost certainly
+designed with the idea that only one sensor will be configured per boot.
+See https://wiki.banana-pi.org/Camera and
+https://drive.google.com/file/d/0B4PAo2nW2KfnOEFTMjZ2aEVGUVU/view?usp=3Dsha=
+ring
+for the schematics pdf
+
+> > Signed-off-by: K=C3=A9vin L'h=C3=B4pital <kevin.lhopital@bootlin.com>
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > ---
+> >  arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts | 102 +++++++++++++++++++
+> >  1 file changed, 102 insertions(+)
+> >=20
+> > diff --git a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts b/arch/arm/bo=
+ot/dts/sun8i-a83t-bananapi-m3.dts
+> > index 5a7e1bd5f825..80fd99cf24b2 100644
+> > --- a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
+> > +++ b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
+> > @@ -85,6 +85,30 @@ led-1 {
+> >  		};
+> >  	};
+> > =20
+> > +	reg_ov8865_avdd: ov8865-avdd {
+> > +		compatible =3D "regulator-fixed";
+> > +		regulator-name =3D "ov8865-avdd";
+> > +		regulator-min-microvolt =3D <2800000>;
+> > +		regulator-max-microvolt =3D <2800000>;
+> > +		vin-supply =3D <&reg_dldo4>;
+> > +	};
+> > +
+> > +	reg_ov8865_dovdd: ov8865-dovdd {
+> > +		compatible =3D "regulator-fixed";
+> > +		regulator-name =3D "ov8865-dovdd";
+> > +		regulator-min-microvolt =3D <2800000>;
+> > +		regulator-max-microvolt =3D <2800000>;
+> > +		vin-supply =3D <&reg_dldo4>;
+> > +	};
+> > +
+> > +	reg_ov8865_dvdd: ov8865-dvdd {
+> > +		compatible =3D "regulator-fixed";
+> > +		regulator-name =3D "ov8865-dvdd";
+> > +		regulator-min-microvolt =3D <1200000>;
+> > +		regulator-max-microvolt =3D <1200000>;
+> > +		vin-supply =3D <&reg_eldo1>;
+> > +	};
+>=20
+> Are those three regulators on the Banana Pi, or on the camera module ?
+
+That's on the camera module.
+
+> > +
+> >  	reg_usb1_vbus: reg-usb1-vbus {
+> >  		compatible =3D "regulator-fixed";
+> >  		regulator-name =3D "usb1-vbus";
+> > @@ -115,6 +139,23 @@ &cpu100 {
+> >  	cpu-supply =3D <&reg_dcdc3>;
+> >  };
+> > =20
+> > +&csi {
+> > +	status =3D "okay";
+> > +
+> > +	ports {
+> > +		#address-cells =3D <1>;
+> > +		#size-cells =3D <0>;
+> > +
+> > +		port@1 {
+> > +			reg =3D <1>;
+>=20
+> All of this (except the status =3D "okay") should go to sun8i-a83t.dtsi.
+>=20
+> > +
+> > +			csi_in_mipi_csi2: endpoint {
+> > +				remote-endpoint =3D <&mipi_csi2_out_csi>;
+> > +			};
+>=20
+> This too actually, once the issue mentioned in patch 5/6 gets fixed.
+>=20
+> > +		};
+> > +	};
+> > +};
+> > +
+> >  &de {
+> >  	status =3D "okay";
+> >  };
+> > @@ -147,6 +188,36 @@ hdmi_out_con: endpoint {
+> >  	};
+> >  };
+> > =20
+> > +&i2c2 {
+> > +	pinctrl-names =3D "default";
+> > +	pinctrl-0 =3D <&i2c2_pe_pins>;
+>=20
+> This looks like a candidate for upstreaming in
+> sun8i-a83t-bananapi-m3.dts, it shouldn't be in the overlay.
+
+I2C2 is actually also exported in the PH pins, which is available on the bo=
+ard
+header, so it's not obvious that using the PE pins should be the default.
+
+The context is that Allwinner SoCs usually have a dedicated I2C controller =
+for
+cameras, but also route a "generic" I2C controller on the same pins.
+Here that's on the PE14/15 pins. Since we don't have mainline support for t=
+his
+camera-dedicated I2C controller, we end up routing the generic one to the PE
+pins, which are routed to the camera connector.
+
+In the future we could add support for this camera-dedicated controller, wh=
+ich
+would then allow routing i2c2 to the PH pins independently. This is what the
+downstream Allwinner BSP kernel does.
+
+> > +	status =3D "okay";
+> > +
+> > +	ov8865: camera@36 {
+> > +		compatible =3D "ovti,ov8865";
+> > +		reg =3D <0x36>;
+> > +		pinctrl-names =3D "default";
+> > +		pinctrl-0 =3D <&csi_mclk_pin>;
+> > +		clocks =3D <&ccu CLK_CSI_MCLK>;
+> > +		assigned-clocks =3D <&ccu CLK_CSI_MCLK>;
+> > +		assigned-clock-rates =3D <24000000>;
+> > +		avdd-supply =3D <&reg_ov8865_avdd>;
+> > +		dovdd-supply =3D <&reg_ov8865_dovdd>;
+> > +		dvdd-supply =3D <&reg_ov8865_dvdd>;
+> > +		powerdown-gpios =3D <&pio 4 17 GPIO_ACTIVE_LOW>; /* PE17 */
+> > +		reset-gpios =3D <&pio 4 16 GPIO_ACTIVE_LOW>; /* PE16 */
+> > +
+> > +		port {
+> > +			ov8865_out_mipi_csi2: endpoint {
+> > +				data-lanes =3D <1 2 3 4>;
+> > +				link-frequencies =3D /bits/ 64 <360000000>;
+> > +
+> > +				remote-endpoint =3D <&mipi_csi2_in_ov8865>;
+> > +			};
+> > +		};
+> > +	};
+> > +};
+> > +
+> >  &mdio {
+> >  	rgmii_phy: ethernet-phy@1 {
+> >  		compatible =3D "ethernet-phy-ieee802.3-c22";
+> > @@ -154,6 +225,24 @@ rgmii_phy: ethernet-phy@1 {
+> >  	};
+> >  };
+> > =20
+> > +&mipi_csi2 {
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&mipi_csi2_in {
+> > +	mipi_csi2_in_ov8865: endpoint {
+> > +		data-lanes =3D <1 2 3 4>;
+> > +
+> > +		remote-endpoint =3D <&ov8865_out_mipi_csi2>;
+> > +	};
+> > +};
+> > +
+> > +&mipi_csi2_out {
+> > +	mipi_csi2_out_csi: endpoint {
+> > +		remote-endpoint =3D <&csi_in_mipi_csi2>;
+> > +	};
+> > +};
+> > +
+> >  &mmc0 {
+> >  	pinctrl-names =3D "default";
+> >  	pinctrl-0 =3D <&mmc0_pins>;
+> > @@ -327,11 +416,24 @@ &reg_dldo3 {
+> >  	regulator-name =3D "vcc-pd";
+> >  };
+> > =20
+> > +&reg_dldo4 {
+> > +	regulator-always-on;
+>=20
+> Does it have to be always on ?
+
+Mhh so I realize the regulators handling here is quite messy.
+I guess I didn't do such a good review of this patch internally.
+
+The situation is that the regulators on the camera board all have their
+enable pin tied to the DLDO4 output, but that would be best described as
+a vin-supply of the ov8865 regulators above. Their real vin supply is an
+always-on board-wide power source but I don't think we can represent another
+regulator acting as enable signal in a better way.
+
+Now beware that the camera board schematics are confusing as they show resi=
+stors
+(R17, R18, R19, R20, R23) connecting some power lines together, but they ar=
+e not
+populated on the board (I guess the point is to make a variant of the design
+without regulators on the camera board and to use ones from the PMU instead=
+).
+This probably confused Kevin and I back when this patch was made.
+
+> > +	regulator-min-microvolt =3D <2800000>;
+> > +	regulator-max-microvolt =3D <2800000>;
+> > +	regulator-name =3D "avdd-csi";
+>=20
+> Doesn't this belong to the base board .dts ? Same below.
+>=20
+> > +};
+> > +
+> >  &reg_drivevbus {
+> >  	regulator-name =3D "usb0-vbus";AVDD-CSI
+> >  	status =3D "okay";
+> >  };
+> > =20
+> > +&reg_eldo1 {
+> > +	regulator-min-microvolt =3D <1200000>;
+> > +	regulator-max-microvolt =3D <1200000>;
+> > +	regulator-name =3D "dvdd-csi-r";
+> > +};
+> > +
+> >  &reg_fldo1 {
+> >  	regulator-min-microvolt =3D <1080000>;
+> >  	regulator-max-microvolt =3D <1320000>;
+>=20
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--rp38fnbGK/Yr/phy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMQqmcACgkQ3cLmz3+f
+v9GDFQf/VQ+p3Xw3yW2ohEmut7L4XdltqMO4frDEo6VgTcy5w0Xf0jpm7KVVv9Bz
+aPl77g81aEpNwSIcFOaKv4N0pLCHTpxj03KjWK2vvjGT9bkmILakeMg1dq1QLDjd
+ngyr6Prxg8pNOtr7zGjpr0S2RSiztuQ/iuDcv7d+Ky/1E1QKAvnllkoeIs9JcWHm
+xDxK1XwIb06PcC5ZPHy4KkxC/Ek8dbAOio/bmf9tXE89Cx04nPMyqACTV6FPlDaS
+LP10oNKaUdGZxs/QMs/Lp84R5yDlFE9m8ISDr4suixGqdzd6CzMpCXw/8qW8oE9D
+hX6ce4EJHKbclBUy8yd5i+ZRHHaCbw==
+=elp2
+-----END PGP SIGNATURE-----
+
+--rp38fnbGK/Yr/phy--
