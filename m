@@ -1,23 +1,23 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0C2C5C82;
-	Thu,  1 Sep 2022 15:03:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2840C6AA9;
+	Thu,  1 Sep 2022 15:11:05 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 569522000F;
-	Thu,  1 Sep 2022 15:03:18 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 75DDA200010;
+	Thu,  1 Sep 2022 15:11:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1662044601;
+	t=1662045064;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=scHOxPLJc2mIdZy+ocLkyQPw2mekrtVBOig7nZ4p7Tc=;
-	b=V/VzarijTnZgS3sRdroUnUGr05FAQdZ45PShfkrfxGnnT9zI61ZvoQ6MDf2grtEZ8I0lUn
-	g/YBV3l7UflQx+aSKhe19v+mTSzBAr5pFhd/ogFbao/EutQaCBMPLDKMqyqOwv2j3zD7Nd
-	APgAzjI/ecDbYmEs31PEo31BCFH2ZNiMmtfOHL0lj9ge0b4vg20t/T+xBo8LtPwVft0FN/
-	FY+ImlQJDrxbVaLvYt+DGYjEiMJ7kHYnpYCSIfFEa9E/VhetuZrEUbeGYZ0+ECPE4ftU/e
-	PRjOmeBsDKNQ6vNHy3ngLxly8n509kLTvOhHWeq6kxvoFZW5Z8ayfyN4sjxp4Q==
-Date: Thu, 1 Sep 2022 17:03:17 +0200
+	bh=hPAZFTv0OR8dOw9wKgqi4Kvh5eCGaJ3DTwQLR0c7o2o=;
+	b=c5981UEzRxWDuafkKOPkAwjINHBGfzuF9vrUkJxwdwrtDvfGJbXFtJoir/1EsYtNGHmC+o
+	ohg2NlW6Q668Z+BNI8lCHe4B+NqcByWvofNwtwBJ9xd3vh4PsEAzZ06+of+HyuNZks4yZz
+	WDK5UhQUMHmJdadf0j+9dfcPntXTRG/MS1fTKigh8bga93OQh4mAj0WBiEzy/HQwm3sV3w
+	ag1LGnVqu1VMRqvDje+Y8c+tWL+EL8UZKll1UpOakhga5Vpu8PHSZurQpkOPNvRBzSyxJI
+	wI6oaruZD3wYTNKLKfRuuDUpd9OKNsMk3ey/8L4vRcML2JQYPnNPmOOgJlOp3g==
+Date: Thu, 1 Sep 2022 17:11:00 +0200
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -32,14 +32,13 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hans.verkuil@cisco.com>,
 	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v6 1/6] dt-bindings: media: Add Allwinner A31 ISP
- bindings documentation
-Message-ID: <YxDJtYgW/NYLw77u@aptenodytes>
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v6 5/6] media: sun6i-csi: Detect the availability of the
+ ISP
+Message-ID: <YxDLhPMibhXO1oU/@aptenodytes>
 References: <20220826184144.605605-1-paul.kocialkowski@bootlin.com>
- <20220826184144.605605-2-paul.kocialkowski@bootlin.com>
- <Ywk3W6pTOOlzLYVn@pendragon.ideasonboard.com>
+ <20220826184144.605605-6-paul.kocialkowski@bootlin.com>
+ <YwlLsKaEOoXdqRK0@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -47,162 +46,154 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="G/X/1fL20N7fVp/v"
+	protocol="application/pgp-signature"; boundary="wChqMM/2eeW8sfq3"
 Content-Disposition: inline
-In-Reply-To: <Ywk3W6pTOOlzLYVn@pendragon.ideasonboard.com>
+In-Reply-To: <YwlLsKaEOoXdqRK0@pendragon.ideasonboard.com>
 
 
---G/X/1fL20N7fVp/v
+--wChqMM/2eeW8sfq3
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi Laurent,
 
-On Sat 27 Aug 22, 00:12, Laurent Pinchart wrote:
+On Sat 27 Aug 22, 01:39, Laurent Pinchart wrote:
 > Hi Paul,
 >=20
 > Thank you for the patch.
 
 Thanks for the review!
 
-> On Fri, Aug 26, 2022 at 08:41:39PM +0200, Paul Kocialkowski wrote:
-> > This introduces YAML bindings documentation for the Allwinner A31 Image
-> > Signal Processor (ISP).
+> On Fri, Aug 26, 2022 at 08:41:43PM +0200, Paul Kocialkowski wrote:
+> > Add a helper to detect whether the ISP is available and connected
+> > and store the indication in a driver-wide variable.
+>=20
+> This sounds like it would be a global variable, while it's stored in the
+> driver-specific device structure.
+
+Okay I can clarify the commit message here.
+
 > >=20
 > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
 > > ---
-> >  .../media/allwinner,sun6i-a31-isp.yaml        | 97 +++++++++++++++++++
-> >  1 file changed, 97 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,s=
-un6i-a31-isp.yaml
+> >  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 33 +++++++++++++++++++
+> >  .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  3 ++
+> >  2 files changed, 36 insertions(+)
 > >=20
-> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
-1-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-is=
-p.yaml
-> > new file mode 100644
-> > index 000000000000..2fda6e05e16c
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.y=
-aml
-> > @@ -0,0 +1,97 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drive=
+rs/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > index 00521f966cee..b16166cba2ef 100644
+> > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > @@ -24,6 +24,35 @@
+> >  #include "sun6i_csi_capture.h"
+> >  #include "sun6i_csi_reg.h"
+> > =20
+> > +/* ISP */
 > > +
-> > +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree B=
-indings
-> > +
-> > +maintainers:
-> > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - allwinner,sun6i-a31-isp
-> > +      - allwinner,sun8i-v3s-isp
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: Bus Clock
-> > +      - description: Module Clock
-> > +      - description: DRAM Clock
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: bus
-> > +      - const: mod
-> > +      - const: ram
-> > +
-> > +  resets:
-> > +    maxItems: 1
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: CSI0 input port
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: CSI1 input port
-> > +
-> > +    anyOf:
-> > +      - required:
-> > +          - port@0
-> > +      - required:
-> > +          - port@1
+> > +static bool sun6i_csi_isp_detect(struct sun6i_csi_device *csi_dev)
+> > +{
+> > +	struct device *dev =3D csi_dev->dev;
+> > +	struct fwnode_handle *handle =3D NULL;
 >=20
-> I'd still like to see all ports that exist in the hardware being
-> mandatory. I assume at least one of the A31 and V3s has two connected
-> ports in the SoC or you wouldn't declare them both here :-)
+> No need to initialize this to NULL.
 
-Some SoCs (e.g. A83T) only have one CSI controller so we can't require both.
-This could be a decision based on the compatible but my personal opinion is
-that it's not really worth making this binding so complex.
+Indeed.
 
-We can always informally enforce that all possible links should be present
-when merging changes to the soc dts.
+> > +
+> > +	/* ISP is not available if disabled in kernel config. */
+> > +	if (!IS_ENABLED(CONFIG_VIDEO_SUN6I_ISP))
+> > +		return 0;
+>=20
+> Hmmm... The ISP driver may be disabled when compiling the sun6i-csi
+> driver, but later enabled and deployed. Disabling ISP support silently
+> like this could be confusing. Could it be better to move this check
+> after the graph check, and print a warning message in this case ?
 
-What do you think?
+Yeah I'm not too surprised corner cases like this can exist.
+Agreed that printing a warning message would be good, but I don't follow the
+point of moving the check later on. Do you have something in mind there?
+
+> > +
+> > +	/*
+> > +	 * ISP is not available if not connected via fwnode graph.
+> > +	 * This weill also check that the remote parent node is available.
+>=20
+> s/weill/will/
+
+Good catch, thanks!
+
+> 	 * ISP is not available if not connected via fwnode graph. This will
+> 	 * also check that the remote parent node is available.
+>=20
+> > +	 */
+> > +	handle =3D fwnode_graph_get_endpoint_by_id(dev_fwnode(dev),
+> > +						 SUN6I_CSI_PORT_ISP, 0,
+> > +						 FWNODE_GRAPH_ENDPOINT_NEXT);
+> > +	if (!handle)
+> > +		return 0;
+> > +
+> > +	fwnode_handle_put(handle);
+> > +
+> > +	dev_info(dev, "ISP link is available\n");
+>=20
+> You could make that a debug message, it's not crucial information that
+> needs to be printed when the driver is loaded. If you prefer keeping an
+> info message, then I'd move it to the probe function and print that the
+> CSI has been probed, and indicate in that message if the ISP is
+> available.
+
+You're right, let's make this debug. It's more the opposite case that is wo=
+rth
+a warning message.
+
+Thanks,
 
 Paul
 
-> Apart from that, this looks good.
->=20
+> > +	csi_dev->isp_available =3D true;
 > > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +  - clock-names
-> > +  - resets
+> > +	return 0;
+> > +}
 > > +
-> > +additionalProperties: false
+> >  /* Media */
+> > =20
+> >  static const struct media_device_ops sun6i_csi_media_ops =3D {
+> > @@ -290,6 +319,10 @@ static int sun6i_csi_probe(struct platform_device =
+*platform_dev)
+> >  	if (ret)
+> >  		return ret;
+> > =20
+> > +	ret =3D sun6i_csi_isp_detect(csi_dev);
+> > +	if (ret)
+> > +		goto error_resources;
 > > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
-> > +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
+> >  	ret =3D sun6i_csi_v4l2_setup(csi_dev);
+> >  	if (ret)
+> >  		goto error_resources;
+> > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h b/drive=
+rs/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> > index e611bdd6e9b2..8e232cd91ebe 100644
+> > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> > @@ -21,6 +21,7 @@
+> >  enum sun6i_csi_port {
+> >  	SUN6I_CSI_PORT_PARALLEL		=3D 0,
+> >  	SUN6I_CSI_PORT_MIPI_CSI2	=3D 1,
+> > +	SUN6I_CSI_PORT_ISP		=3D 2,
+> >  };
+> > =20
+> >  struct sun6i_csi_buffer {
+> > @@ -44,6 +45,8 @@ struct sun6i_csi_device {
+> >  	struct clk			*clock_mod;
+> >  	struct clk			*clock_ram;
+> >  	struct reset_control		*reset;
 > > +
-> > +    isp: isp@1cb8000 {
-> > +        compatible =3D "allwinner,sun8i-v3s-isp";
-> > +        reg =3D <0x01cb8000 0x1000>;
-> > +        interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-> > +        clocks =3D <&ccu CLK_BUS_CSI>,
-> > +             <&ccu CLK_CSI1_SCLK>,
-> > +             <&ccu CLK_DRAM_CSI>;
-> > +        clock-names =3D "bus", "mod", "ram";
-> > +        resets =3D <&ccu RST_BUS_CSI>;
-> > +
-> > +        ports {
-> > +            #address-cells =3D <1>;
-> > +            #size-cells =3D <0>;
-> > +
-> > +            port@0 {
-> > +                reg =3D <0>;
-> > +
-> > +                isp_in_csi0: endpoint {
-> > +                    remote-endpoint =3D <&csi0_out_isp>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +
-> > +...
+> > +	bool				isp_available;
+> >  };
+> > =20
+> >  struct sun6i_csi_variant {
 >=20
 > --=20
 > Regards,
@@ -214,19 +205,19 @@ Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---G/X/1fL20N7fVp/v
+--wChqMM/2eeW8sfq3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMQybUACgkQ3cLmz3+f
-v9FY1Qf+MjlIt9ACVEy5fR7m2aNXvgztFaDP7rND1ypJ61HVqYq5bNCR35e0/rKW
-AgN9KbDyvtNRjocFEb9kB/ueg/GF1trZ5hPPoE26sRl/ZeSveWYWAFw1JKONZPxa
-j/+CMQbp1JKd6VTvY+T42hp/4TIQ55q9Km4xGsH3uFeQFXWVDTBRJ/KIpmq1bumJ
-3CohtIp1XziiuKvW+GwF//VTvbqLP4OnPi2/AOpsKTtgmZu3heW5ykMRPsxkQf2D
-Vf3TA/wnv9ehWz98Uxl/d5Sv1YZCJEXWMUeqjOV1ao7vKVcfQ+zJnF4CnJL+3cdy
-rk4gNANwhYFpIY8Aip6d8rwnEwkVuQ==
-=YcBa
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMQy4QACgkQ3cLmz3+f
+v9GtJQf/XNoL23Tf/tABOubjKLDGCcpO8JAwFSVCLTLp0SrTV//p7vHq/QKayRXP
+5mBJNOaAe797XnyFs9k6oaYGhbFP8/K3pOPs43RqZbta/w0/aOjaJP+e6aHWIZGA
+gH2lN2nOfZRfw/3S58z8lDuqhtTDvdIfSIcqtQkW8+/l+Oi9tZIXwqEcY768YjzA
+f6nhiDZQoY+5V75ebH5DmXftNUSv5el9ip1SssvhKljVlK7NLSnVAkE6ouMhI0gi
+TVClcmFbaT1qNqEG5m9RZJsLCk59olG/otZIcu14laypVPHVyOI3fH55ZqA1i5tE
+XfF4NGbHS8bQJkoB2RciCHuBglQrmg==
+=tFCj
 -----END PGP SIGNATURE-----
 
---G/X/1fL20N7fVp/v--
+--wChqMM/2eeW8sfq3--
