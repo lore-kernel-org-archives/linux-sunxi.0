@@ -1,108 +1,147 @@
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D95139C
-	for <linux-sunxi@lists.linux.dev>; Fri,  2 Sep 2022 11:28:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=3P4G0s8jHHnMDuhy8+v0Q+ixmj390VbhdMQwj5y5Wjc=; b=bZtQWi7EyAVPLA42Rzf8cb5JdM
-	G/3PyoSsE4+TzQ45xyyuvyIG/+TEOpTWEC9Otb+gWl6o0joUn+Fb2soBCKyda0m/awdEZrUKc7uak
-	z51s4DGVhtB++KNaE9LcvK41LZ+PM5S/HiBly41wGr52SLb4ElQBdb5IssVAsOaMMzlyCEgKM7B4P
-	wiVGMqooxE9e6urqnga+WXRKxxZVYoGuxulJw2ZV1V29cJpJe+yW0s0LvhhpPHIehl5vgWFClYJI4
-	xk9vQt5rQTEuzB79xm1Vd+fefkG8uvdSATf2/klQmygxH9N0KRAJEPTZEgVWsKx0Q385qyG2Lyz62
-	t3IxvyDQ==;
-Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=64065)
-	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <noralf@tronnes.org>)
-	id 1oU4qX-0004pl-Pv; Fri, 02 Sep 2022 13:28:25 +0200
-Message-ID: <020d44e6-884b-a817-8265-3461638cac71@tronnes.org>
-Date: Fri, 2 Sep 2022 13:28:16 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78106709
+	for <linux-sunxi@lists.linux.dev>; Fri,  2 Sep 2022 14:51:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64954C4314D
+	for <linux-sunxi@lists.linux.dev>; Fri,  2 Sep 2022 14:51:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1662130279;
+	bh=4Hkr87g3PnzCLM9ZxFNQa5qADO4ZTPUXVLBqOM+przo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=h89XrqJuOXVQ4/8j/RjAq2NaBhz3+B4MWMgpH+S85BBgwuJpO7HMyGFtHxu9/UISb
+	 Ooo9ElCQqawa3/ew19xm+Tz8ntL2NNlg5mAxSK0mq26A0evpSb4NxGfhghyXeznQXl
+	 /aHP8dyeitoacHRZMR1sxLILr14GNLypUZxk2V5lEPeSv+9Ou0tnxKyOviLCLvJGqH
+	 nCTIO4INBz1uA6d8Mp3wUvJL8ixuaiePPI1AhxbL4ojKFomWDsXe4zwK1IqJNXOipd
+	 sHAb2Ql5+ML2QYQ8EHQtg0orVkUV23sLA/WQA20OOSIVe1Qav+eGismKrmZ/GiiczB
+	 WC/lWgSOFhgew==
+Received: by mail-vk1-f176.google.com with SMTP id t82so1086013vkb.6
+        for <linux-sunxi@lists.linux.dev>; Fri, 02 Sep 2022 07:51:19 -0700 (PDT)
+X-Gm-Message-State: ACgBeo3vSgoxYImBxoTFMacR5z+2lfaXXSo1SldnK94L6FmfU4yVQpKm
+	ImtNv1n74l9BYtrGgK3sDN7p8RLry2WC8jD5Vg==
+X-Google-Smtp-Source: AA6agR7gPR2eoNK8OlOt6H6YcAAUxzaXErLPZTaQL7XqzgtAc9mBmf8rXIp3NGDWwMeU3NPODBPf4sb4u9Hs3ebXLSY=
+X-Received: by 2002:a05:6122:d86:b0:37d:3fe:df43 with SMTP id
+ bc6-20020a0561220d8600b0037d03fedf43mr10496067vkb.15.1662130278184; Fri, 02
+ Sep 2022 07:51:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 00/41] drm: Analog TV Improvements
-To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
- Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
- Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>,
- Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Dom Cobley <dom@raspberrypi.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- linux-arm-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- intel-gfx@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <24e09a29-6d04-3b1e-63ce-cd3c31d350e2@tronnes.org>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <24e09a29-6d04-3b1e-63ce-cd3c31d350e2@tronnes.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220823145649.3118479-4-robh@kernel.org> <13083804.uLZWGnKmhe@kista>
+In-Reply-To: <13083804.uLZWGnKmhe@kista>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 2 Sep 2022 09:51:07 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJTgrSZcKNr1ky5LAXRQbj3MADMpCCYVC26rcZvzwY1Xw@mail.gmail.com>
+Message-ID: <CAL_JsqJTgrSZcKNr1ky5LAXRQbj3MADMpCCYVC26rcZvzwY1Xw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: mfd: Add missing (unevaluated|additional)Properties
+ on child nodes
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Tim Harvey <tharvey@gateworks.com>, 
+	Robert Jones <rjones@gateworks.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
+	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Heiko Stuebner <heiko@sntech.de>, 
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Maxime Ripard <mripard@kernel.org>, 
+	- <patches@opensource.cirrus.com>, Steve Twiss <stwiss.opensource@diasemi.com>, 
+	Chris Zhong <zyw@rock-chips.com>, Zhang Qing <zhangqing@rock-chips.com>, 
+	Alistair Francis <alistair@alistair23.me>, Amelie Delaunay <amelie.delaunay@foss.st.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Renner Berthing <kernel@esmil.dk>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
+	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Aug 25, 2022 at 3:49 PM Jernej =C5=A0krabec <jernej.skrabec@gmail.c=
+om> wrote:
+>
+> Dne torek, 23. avgust 2022 ob 16:56:35 CEST je Rob Herring napisal(a):
+> > In order to ensure only documented properties are present, node schemas
+> > must have unevaluatedProperties or additionalProperties set to false
+> > (typically).
+> >
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+> > ---
+> >  .../mfd/allwinner,sun6i-a31-prcm.yaml         | 40 +++++++++++++++++++
+> >  .../mfd/allwinner,sun8i-a23-prcm.yaml         | 10 +++++
+> >  .../bindings/mfd/cirrus,lochnagar.yaml        |  5 +++
+> >  .../devicetree/bindings/mfd/dlg,da9063.yaml   |  7 ++--
+> >  .../bindings/mfd/gateworks-gsc.yaml           |  5 ++-
+> >  .../bindings/mfd/maxim,max14577.yaml          |  1 +
+> >  .../bindings/mfd/maxim,max77843.yaml          |  1 +
+> >  .../bindings/mfd/rockchip,rk817.yaml          |  2 +
+> >  .../bindings/mfd/silergy,sy7636a.yaml         |  1 +
+> >  .../bindings/mfd/st,stm32-lptimer.yaml        |  4 ++
+> >  .../bindings/mfd/st,stm32-timers.yaml         |  3 ++
+> >  .../devicetree/bindings/mfd/st,stmfx.yaml     |  1 +
+> >  .../bindings/mfd/stericsson,ab8500.yaml       | 22 ++++++++++
+> >  .../devicetree/bindings/mfd/ti,tps65086.yaml  |  1 +
+> >  .../bindings/mfd/x-powers,axp152.yaml         |  1 +
+> >  15 files changed, 100 insertions(+), 4 deletions(-)
+> >
+> > diff --git
+> > a/Documentation/devicetree/bindings/mfd/allwinner,sun6i-a31-prcm.yaml
+> > b/Documentation/devicetree/bindings/mfd/allwinner,sun6i-a31-prcm.yaml i=
+ndex
+> > d131759ccaf3..021d33cb3dd6 100644
+> > --- a/Documentation/devicetree/bindings/mfd/allwinner,sun6i-a31-prcm.ya=
+ml
+> > +++ b/Documentation/devicetree/bindings/mfd/allwinner,sun6i-a31-prcm.ya=
+ml
+> > @@ -22,6 +22,7 @@ properties:
+> >  patternProperties:
+> >    "^.*_(clk|rst)$":
+> >      type: object
+> > +    unevaluatedProperties: false
+> >
+> >      properties:
+> >        compatible:
+> > @@ -34,6 +35,45 @@ patternProperties:
+> >            - fixed-factor-clock
+> >
+> >      allOf:
+> > +      - if:
+> > +          properties:
+> > +            compatible:
+> > +              contains:
+> > +                const: fixed-factor-clock
+> > +
+> > +        then:
+> > +          $ref: /schemas/clock/fixed-factor-clock.yaml#
+> > +
+> > +      - if:
+> > +          properties:
+> > +            compatible:
+> > +              contains:
+> > +                const: allwinner,sun4i-a10-mod0-clk
+> > +
+> > +        then:
+> > +          properties:
+> > +            "#clock-cells":
+> > +              const: 0
+> > +
+> > +            # Already checked in the main schema
+> > +            compatible: true
+> > +
+> > +            clocks:
+> > +              maxItems: 2
+>
+> Last time node with allwinner,sun4i-a10-mod0-clk compatible was used, it =
+had 3
+> clocks. See:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/a=
+rch/
+> arm/boot/dts/sun4i-a10.dtsi?id=3Df18698e1c66338b902de386e4ad97b8b1b9d999d=
+#n406
 
+Humm, we already have constraints in
+bindings/clock/allwinner,sun4i-a10-mod0-clk.yaml. I'll just make it
+'clocks: true' here instead.
 
-Den 01.09.2022 21.35, skrev Noralf Trønnes:
-> 
-> 
-> I have finally found a workaround for my kernel hangs.
-> 
-> Dom had a look at my kernel and found that the VideoCore was fine, and
-> he said this:
-> 
->> That suggests cause of lockup was on arm side rather than VC side.
->>
->> But it's hard to diagnose further. Once you've had a peripheral not
->> respond, the AXI bus locks up and no further operations are possible.
->> Usual causes of this are required clocks being stopped or domains
->> disabled and then trying to access the hardware.
->>
-> 
-> So when I got this on my 64-bit build:
-> 
-> [  166.702171] SError Interrupt on CPU1, code 0x00000000bf000002 -- SError
-> [  166.702187] CPU: 1 PID: 8 Comm: kworker/u8:0 Tainted: G        W
->     5.19.0-rc6-00096-gba7973977976-dirty #1
-> [  166.702200] Hardware name: Raspberry Pi 4 Model B Rev 1.1 (DT)
-> [  166.702206] Workqueue: events_freezable_power_ thermal_zone_device_check
-> [  166.702231] pstate: 200000c5 (nzCv daIF -PAN -UAO -TCO -DIT -SSBS
-> BTYPE=--)
-> [  166.702242] pc : regmap_mmio_read32le+0x10/0x28
-> [  166.702261] lr : regmap_mmio_read+0x44/0x70
-> ...
-> [  166.702606]  bcm2711_get_temp+0x58/0xb0 [bcm2711_thermal]
-> 
-> I wondered if that reg read was stalled due to a clock being stopped.
-> 
-> Lo and behold, disabling runtime pm and keeping the vec clock running
-> all the time fixed it[1].
-> 
-> I don't know what the problem is, but at least I can now test this patchset.
-> 
-> [1] https://gist.github.com/notro/23b984e7fa05cfbda2db50a421cac065
-> 
-
-It turns out I didn't have to disable runtime pm:
-https://gist.github.com/notro/0adcfcb12460b54e54458afe11dc8ea2
-
-Noralf.
+Rob
