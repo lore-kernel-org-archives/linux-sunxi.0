@@ -1,152 +1,142 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6865510F0
-	for <linux-sunxi@lists.linux.dev>; Fri,  2 Sep 2022 05:44:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1662097453; x=1693633453;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=RI5IWgF0NlDdnH4pfBoje3Tn5l02Jj+23E4OE5feF7g=;
-  b=2q7HhwfL88/uG1JqnzvjjQwq0PcBRoekUEmMMe6WmPgm5Am45dcT6eJJ
-   0XBQgRwazNxcGMbwyZMFixpFKyka0Xbs8XVko+e6+1xwbkHvEiBzk+nEo
-   zCtdnIKvzU4os5pygbTd8n7odYnZRcJKFGbG2R9B71SeXua+MhEhVUrDK
-   cYzSFCHCQp6/DlJFqxxPce/qxTs5v88W85YvHQHBh/hrwCZqOpMWAywWl
-   oHUawPkMc+JN7RSJZVf6GpwjWZGLydMt+2Mk7xYo0Fgx+F1xcWPX6Jjfa
-   EoWVdKn7zQ3ckZ8/R9+GyWzb1lzS67WOmBCfFBV6UULURrbEAj2B/ZnMl
-   w==;
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; 
-   d="scan'208";a="189116070"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 01 Sep 2022 22:43:03 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Thu, 1 Sep 2022 22:43:03 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.72) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12 via Frontend
- Transport; Thu, 1 Sep 2022 22:43:03 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F5qRfMkEStoSgvSVt0t3KifxOiCOM+vFAM/3rZYtKfsCLLO3xWE2OEQqgVb4JdOQSXfEMf/ePLAEkemMyoG4QNpIMDMAk0tBqLCVyekBiiQk3rqcqdCdscHSrvmxEFPcwp5j3zFz64IsXR80voS/ZVOYt6Nx32lUkXchyVKgfQKdBtqQtPZhgYc5ldii4pAWK3blitcH8/9AP77aueZ693TvGrbWR1ko0ixTsQjttSYnfw0pn/osxCsJlPXjZoj4Ju54djJsKFOAYscVlfe88j/dX2ePSCwwYsSQKaSAk+5k1J0R/rLmVcxLP8BjX2v18IGaUdJjuLW1KrW3yHxngA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RI5IWgF0NlDdnH4pfBoje3Tn5l02Jj+23E4OE5feF7g=;
- b=ItI5URcx9XenIG3xzzIxrqTDiItwANsdEVmLjC3CqjeJFfn2SD+9Mhe0QUbWAT5M2LPrwGrxWlsQARhDYGYJwK4hvb/vYyglgQgbTpn4NZZGjeesv3RNBi9l1r+gRQY7jHYxOxU7yYDC6Z6+ndHttgq8N0nkQgI1rrD3OFBv874F+xliMLI9oqQWBp0PmnK9DUXIbv0Vkw5oM/k/hOBlNzL5FJ0/L/yIQAeYtAdmw2aeRwvQlasjUXP4dCKX6xXJ+8IWs8lUHZ+oWI55ZA0Vtf8P8kSR3hhGhDE5VjibJFu70zMcocQ6jqoI/1cbfZo2Zj+AZ52AfmJe+juN7PRJSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RI5IWgF0NlDdnH4pfBoje3Tn5l02Jj+23E4OE5feF7g=;
- b=pP2f9Wcdo8Q17S8WsnXF4a3S15SVcOh5PL6URjJHyrDdtGqPqCiGBLyWeFNR2a9cTiZNOHB3zrtTQUfE85JVkRQ3Aa9sG0alsXzWDjeRt4iPA+b/XGWDHu0rFFXkW+jIz/jqBDPnWYs6A9A8hxR0X4/EhDitK2pyXKfYP4bbo7E=
-Received: from CO1PR11MB5154.namprd11.prod.outlook.com (2603:10b6:303:99::15)
- by DM6PR11MB4577.namprd11.prod.outlook.com (2603:10b6:5:2a1::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Fri, 2 Sep
- 2022 05:42:59 +0000
-Received: from CO1PR11MB5154.namprd11.prod.outlook.com
- ([fe80::545a:72f5:1940:e009]) by CO1PR11MB5154.namprd11.prod.outlook.com
- ([fe80::545a:72f5:1940:e009%3]) with mapi id 15.20.5588.010; Fri, 2 Sep 2022
- 05:42:59 +0000
-From: <Conor.Dooley@microchip.com>
-To: <palmer@dabbelt.com>, <samuel@sholland.org>
-CC: <wens@csie.org>, <jernej.skrabec@gmail.com>,
-	<linux-sunxi@lists.linux.dev>, <paul.walmsley@sifive.com>,
-	<aou@eecs.berkeley.edu>, <linux-riscv@lists.infradead.org>,
-	<robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <krzysztof.kozlowski+dt@linaro.org>
-Subject: Re: [PATCH 00/12] riscv: Allwinner D1 platform support
-Thread-Topic: [PATCH 00/12] riscv: Allwinner D1 platform support
-Thread-Index: AQHYsGUX6yPEPkvFO0eCq9swdC/Ww63K+16AgADBj4A=
-Date: Fri, 2 Sep 2022 05:42:59 +0000
-Message-ID: <9234d061-bab5-d8ac-cf5c-f90bb942dbf0@microchip.com>
-References: <mhng-d98d3324-5f4b-4cb0-a116-522b124dcdea@palmer-ri-x1c9>
-In-Reply-To: <mhng-d98d3324-5f4b-4cb0-a116-522b124dcdea@palmer-ri-x1c9>
-Accept-Language: en-IE, en-US
-Content-Language: en-IE
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ff10d81b-34d6-4b3a-57d9-08da8ca5fea3
-x-ms-traffictypediagnostic: DM6PR11MB4577:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: vNOjVfnpcyovFrJi9dsKa9JPjpVT2Pan5soxqi4YDEhyR26ryRFDeIPZlK23lohKW8xtsMEQdtluyKcqOM+sP1qyIlE/Q4+Bzf4IUEGoQA/1V7T+5TRoA6kdp4m1OeIfxNvzVZsjXzdLLb6/tyeB8fvCwOBbDBxa6GajKPcbBnQ3EVJi2P/OxHltbGo5joZCQCncd/J0v8z1bitoPLTfMU4SBLBW0+pTRChQqo38gogHRiQsc9830G302uNLh8jerECVpTqMqmR/r0PQBzV+m40f4sL+MmbsqcSJZ4tTWLoDjagnj8c+PPfiPFWlCyBEuo5m9fONDo+OavZ+KdofzzpsXvXvsYsCBQ4MgiVbRDcNtDg3DyIXqq4YJSl6veV/RWqA3fjGrIxiePO8NfdCykgMiV/eTvMno7+fzrifHzOOVA+JzR72Zt+QCRwwGytG2D+ycaeJZ7idqbdF78FleKn9I/kzu3v4V1zO08LdJgW3sPmkCuUdRjrQtBA/rN/c/XTkdO/HEJ1n1FKCRmlDNyKqPUy3hVNsrh/iCpuOFMB94DOD3H5oegP60ORMHbMvHG3DvBSm6CfBbpoooKOiTdz+yY1JyIvPANW3joBURFzBJMwQhLJtCvYcv0LYbFjq6LJk2banzDwR565rTL9q4GpWUfDqOwvDz8mL7Ksb84GbcPNxo3zKn9v7tgqF1yfvbFqbR0oo1U5sBLnOunxIc7zHDUljlklg1eXKX/NPeJjlo9kW0x4V7CanoG0I4RCd13CZei9gMpiYkWlAJ2otJYpgR+1N+QwSd/A+Ed/0AfCurDf2aqzLSgvFAYJRFKnVzz9+jVUGWH6iQzxoznjpzw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5154.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(366004)(39860400002)(346002)(396003)(376002)(136003)(2906002)(186003)(36756003)(7416002)(4744005)(26005)(31686004)(6512007)(2616005)(38070700005)(66556008)(66946007)(91956017)(66476007)(8676002)(66446008)(64756008)(4326008)(76116006)(5660300002)(8936002)(86362001)(31696002)(316002)(54906003)(6486002)(110136005)(41300700001)(53546011)(6506007)(122000001)(478600001)(38100700002)(71200400001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bUlUVW5pdDZwT1ZFazJGK3hheGdMbTNLSDRDOHMrc1NFaHVaQWh6Sk5ra25H?=
- =?utf-8?B?UlZ2aWE2VUZPQi81MW5sVkEvTWl1bEZHNzF1Z0JmV0RqcHZ5eVBtTXhiTlZu?=
- =?utf-8?B?eDdIWWNub2NOYmFXWGJPUnIxQk9tZDhjNjVGL0tZVEVzbGhmdnF6azNUdThH?=
- =?utf-8?B?SzBmVFozcFdadFpYUko4N2lQSGlXeHdJQ0Z5czV4NEpVZG9HNmlEUy8xNFFD?=
- =?utf-8?B?dHROb0FIWjF5emt0SitUR09KSVFQMzNaaDBseUZreWZXWmovTG4vUTNWS0Zt?=
- =?utf-8?B?MHl6cmtmU1pRWCtyMWhoU1NvYVRnUVA1VmVrc0RiZUYwWXhycXd3NTd1Wmla?=
- =?utf-8?B?SDdoWFJUNkNYR3hldTlCR1A1SWo5SmlzTTI4VzRLeUtrNzN0cVF0VW5PaCs1?=
- =?utf-8?B?bHV3RzVXOW5JNVpJZ2ViM2dtelFOZEZJZHVyMzJ3SWtiV3BqRVovaTBMcFNY?=
- =?utf-8?B?bEdEb2xJbkVTZlZHckV0Y0d4VkltTGU1enNPU2NkZThLQUFDSmZLaW1JaXkz?=
- =?utf-8?B?dmNjbXpmM0NFSzY0ZUxGckZnajV0NTMwN1F1MGdRQi9iU21KYWptd2hYdGJz?=
- =?utf-8?B?M1NvNk9PR1l2NTk2Y1NuenVJcW4ycDd1RU9XTEVFSVIwVFRNNHB0S0ZGQ2pz?=
- =?utf-8?B?ZzNoZ0N5OUJMZmEvQVhVSUVwWFYrYWZQSzFGQ2tPcWpXNHJjZWFQRnJLbG5j?=
- =?utf-8?B?VWd5OFBEMTNRMkNSZmZNZFlScEpZUzA2MmkwanVWeHBxVWFPRys4cmRybWtW?=
- =?utf-8?B?MkJ5T3VwbDZ2RDNrN1ZKU3VsdXJwcFgyekZXNXlpQ25kclRXRVRwd3p4dFND?=
- =?utf-8?B?WVdhRGpnVXhoVXU4cEplVlNxMmMvNEg2dFd3OURidis2aTYwL2NEN1JuNlU1?=
- =?utf-8?B?dmhoQTVEd2JrcnN2RGQ2Nlp2YkdHeGlIaHc0MW1jZ1BHYm5XTXBYS3RSZmNO?=
- =?utf-8?B?eVp4L0pZc2pPZ0o5aTlraUVjSEYxMTRqM3FOZ0lhcnFIeEZMdHFiUlY4OE5O?=
- =?utf-8?B?bUlqYjd4MnhDdUZqK1B4aUZQOU96YkhKd21TRTFCQ0kxbjR1YUVlRy9uZkZ3?=
- =?utf-8?B?Wm5nKzJIZnlPYllTTG5CbzU0bHlyWUNKMk1UVzNOSi9XMkl6TTBUZHFmakhr?=
- =?utf-8?B?b010UktzMXJ1MEZ1NmJDbXNGYm5lVms0a0hHckduY2J4cGZ0aThJL1U5Q0hl?=
- =?utf-8?B?V2RBRWdUM3YyMVdMTUVsVmtxa0N4Y2NyZ21oNlVQWHlVRnhDVXVVMTN3Rk40?=
- =?utf-8?B?RElQc0d0bzFMWjZLQjlMVld0dlFkNFZRaGFXZ25qUkJjczJzeWJUOStZVDRw?=
- =?utf-8?B?c1BBVXVkRFNzVkV4UEdJc3BabERnQyt1RHBKd2RIMk9EVStWaVdTdGZZMGMw?=
- =?utf-8?B?aTZIbzNSUGw4R05EVFdvajE5SnNNdldrRDRZUnU5NkQzM2tqT3pqeXBZejVZ?=
- =?utf-8?B?RXZtRWJVelJFV1hVcUdOa2t4c0ovcGFYcnZLM2VJVWlmOThkbjhtT1RRbGpT?=
- =?utf-8?B?Y2hwZWdZZDZFNWdEczBIcng5MXk5TzI0cFovTUZsZERWbzJRcjRTNUYvNkJH?=
- =?utf-8?B?Q2JPMXNLd3NuTG43SnBqL0c3MDI5cmtBTlMzNExNSG1UdjRIaFNNZzFiOEVl?=
- =?utf-8?B?SGRVeWRqUmZoL08vOXVjeGhpbHZXekRadFZpUVBZS25QVldMVHNiQ2RBbzJu?=
- =?utf-8?B?MDRtTkEwNDdHaDEwRmp2SU5kb28xVjNudkhVWkdmMnIyc01heEthckFmdXNK?=
- =?utf-8?B?RnpKeXN5Y0ZmR1JyMkhrMDVnUHhNb1dmZmI4UllsbDNkUjJib0VwdFlzNWcz?=
- =?utf-8?B?Lzh6M1NTR3MxYzVnMGt6WEFvY2VqcklpNlFyck5wdmpDbGtSZTEzaG0zdHls?=
- =?utf-8?B?Z05xeWpWNTQ2dzZkK0t1K3hzRERXL0paRlBLMENlZllaZUEwTE9rNU9WbW1M?=
- =?utf-8?B?WU9PYzUxUmk2bTRhTHlGL2lUZHZ1aDhONkdyQTN0UjNzRkRsL0FOVjhoVlky?=
- =?utf-8?B?QkJnTXpkYm56bDFMWStnUjlnRGowSEVMTVNlVkdkNU90aFFTM2theEtLYXkv?=
- =?utf-8?B?QmZENTRVZHQrc0t3TEg3MXl6Z2NtUEZsUHhFSy9wby9PMGdjekRtckZ0Mm9D?=
- =?utf-8?Q?9ZCbwWeY5HKI6VqhUxZicVm0J?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <DC1BD8B3311A814B942687B284E28C8E@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151927E
+	for <linux-sunxi@lists.linux.dev>; Fri,  2 Sep 2022 07:41:21 +0000 (UTC)
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-11f11d932a8so2903602fac.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 02 Sep 2022 00:41:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=I0BzN+oySEF5bQ4YY03gLnpAlLeJEFGcm1NmTucRGdY=;
+        b=mBYdei7qf4A2A8Zne+eqMXO2r9yV4UXF1e/3IEB5ZdMjCxML+VUYEBIonlomSY0cM6
+         PHQ9Ru7DsxcItMKC0X22KumGoQjpaKJ7AQqc11I7uEmaoTflACk3dDI+oDjcZYMdU0uu
+         bpMH7/0erE6UDWT8TxuNacoXXgWuGhMYugPcUDIuQY7HNHZEvcn9jBX2rmJHQT/kprQJ
+         ezzYQ7KWUAIckMsDTTDjzAetg+7RwhINsCvHKTAspgdZktawkE0CkGuXFyEiIFr94FO9
+         XK/RBzCjQMlgKTjMIOtbrr4g4ax3kDRbll43QZITmNS5OimhUReIaYG450P3czhkp0wQ
+         OvuQ==
+X-Gm-Message-State: ACgBeo3P49+Tryw4O62j/ShKsVyUOFrGp1CImOVji77/vOTpk/wvee3y
+	6dRMjX4o2Mc3ONdkYWYzk5mGTYKJf5satg==
+X-Google-Smtp-Source: AA6agR5HG+8tjaDa99I1TrIcyYimfq9+JTluPWSCKGZFYw7zCqvbsymvnzeXyONpMjWUROIybmlkpw==
+X-Received: by 2002:a05:6808:2028:b0:344:246d:2bed with SMTP id q40-20020a056808202800b00344246d2bedmr1272494oiw.19.1662104480871;
+        Fri, 02 Sep 2022 00:41:20 -0700 (PDT)
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com. [209.85.210.51])
+        by smtp.gmail.com with ESMTPSA id n45-20020a4a9570000000b0044afc1ba91asm428150ooi.44.2022.09.02.00.41.20
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Sep 2022 00:41:20 -0700 (PDT)
+Received: by mail-ot1-f51.google.com with SMTP id q39-20020a056830442700b0063889adc0ddso930305otv.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 02 Sep 2022 00:41:20 -0700 (PDT)
+X-Received: by 2002:a81:750b:0:b0:341:10ef:2c37 with SMTP id
+ q11-20020a81750b000000b0034110ef2c37mr20502429ywc.316.1662104131692; Fri, 02
+ Sep 2022 00:35:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5154.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ff10d81b-34d6-4b3a-57d9-08da8ca5fea3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Sep 2022 05:42:59.5331
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Ndl/Ohh/lFVyzbUrzrl+rtux43wSyl9uv5t0xNINDgiHNlzUEcoHAkjmQAqXg8mBLFeyl0ozwG/BDi5Z7HZ00riCvHSf4w7jxznaDoZZe3A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4577
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-9-459522d653a7@cerno.tech> <30a9d7cd-d9ff-3177-ac6c-e7c1f966d89a@gmail.com>
+In-Reply-To: <30a9d7cd-d9ff-3177-ac6c-e7c1f966d89a@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 2 Sep 2022 09:35:20 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU_yfr1ybNM9Dyk6n34Cqv5WJv1wZxQ_ZGJ_T8JCOeB2g@mail.gmail.com>
+Message-ID: <CAMuHMdU_yfr1ybNM9Dyk6n34Cqv5WJv1wZxQ_ZGJ_T8JCOeB2g@mail.gmail.com>
+Subject: Re: [PATCH v2 09/41] drm/connector: Add TV standard property
+To: Mateusz Kwiatkowski <kfyatek@gmail.com>
+Cc: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>, 
+	Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Lyude Paul <lyude@redhat.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>, 
+	=?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
+	Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Hans de Goede <hdegoede@redhat.com>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, Phil Elwell <phil@raspberrypi.com>, 
+	Intel Graphics Development <intel-gfx@lists.freedesktop.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	DRI Development <dri-devel@lists.freedesktop.org>, Dom Cobley <dom@raspberrypi.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Nouveau Dev <nouveau@lists.freedesktop.org>, 
+	linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-T24gMDEvMDkvMjAyMiAxOToxMCwgUGFsbWVyIERhYmJlbHQgd3JvdGU6DQo+IE9uIFN1biwgMTQg
-QXVnIDIwMjIgMjI6MDg6MDMgUERUICgtMDcwMCksIHNhbXVlbEBzaG9sbGFuZC5vcmcgd3JvdGU6
-DQo+PiBUaGlzIHNlcmllcyBhZGRzIHRoZSBLY29uZmlnL2RlZmNvbmZpZyBwbHVtYmluZyBhbmQg
-ZGV2aWNldHJlZXMgZm9yIGENCj4+IHJhbmdlIG9mIEFsbHdpbm5lciBEMS1iYXNlZCBib2FyZHMu
-IE1hbnkgZmVhdHVyZXMgYXJlIGFscmVhZHkgZW5hYmxlZCwNCj4+IGluY2x1ZGluZyBVU0IsIEV0
-aGVybmV0LCBhbmQgV2lGaS4NCj4+DQoNCj4gSSBjYW4ndCBmaW5kIGEgdjIsIG5vdCBzdXJlIGlm
-IEkgbWlzc2VkIGl0LsKgIE5vIHJ1c2ggb24gbXkgZW5kLCBqdXN0DQo+IHdhbnQgdG8gbWFrZSBz
-dXJlIEknbSBub3QgZHJvcHBpbmcgdGhlIGJhbGwgb24gYW55dGhpbmcuDQoNClRoZXJlJ3MgYmVl
-biBubyB2MiB5ZXQuDQoNClRoYW5rcywNCkNvbm9yLg0K
+Hi Mateusz,
+
+On Fri, Sep 2, 2022 at 12:00 AM Mateusz Kwiatkowski <kfyatek@gmail.com> wrote:
+> W dniu 29.08.2022 o 15:11, Maxime Ripard pisze:
+> > The TV mode property has been around for a while now to select and get the
+> > current TV mode output on an analog TV connector.
+> >
+> > Despite that property name being generic, its content isn't and has been
+> > driver-specific which makes it hard to build any generic behaviour on top
+> > of it, both in kernel and user-space.
+> >
+> > Let's create a new bitmask tv norm property, that can contain any of the
+> > analog TV standards currently supported by kernel drivers. Each driver can
+> > then pass in a bitmask of the modes it supports.
+>
+> This is not a bitmask property anymore, you've just changed it to an enum.
+> The commit message is now misleading.
+>
+> > +static const struct drm_prop_enum_list drm_tv_mode_enum_list[] = {
+> > +    { DRM_MODE_TV_MODE_NTSC_443, "NTSC-443" },
+> > +    { DRM_MODE_TV_MODE_NTSC_J, "NTSC-J" },
+> > +    { DRM_MODE_TV_MODE_NTSC_M, "NTSC-M" },
+> > +    { DRM_MODE_TV_MODE_PAL_60, "PAL-60" },
+> > +    { DRM_MODE_TV_MODE_PAL_B, "PAL-B" },
+> > +    { DRM_MODE_TV_MODE_PAL_D, "PAL-D" },
+> > +    { DRM_MODE_TV_MODE_PAL_G, "PAL-G" },
+> > +    { DRM_MODE_TV_MODE_PAL_H, "PAL-H" },
+> > +    { DRM_MODE_TV_MODE_PAL_I, "PAL-I" },
+> > +    { DRM_MODE_TV_MODE_PAL_M, "PAL-M" },
+> > +    { DRM_MODE_TV_MODE_PAL_N, "PAL-N" },
+> > +    { DRM_MODE_TV_MODE_PAL_NC, "PAL-Nc" },
+> > +    { DRM_MODE_TV_MODE_SECAM_60, "SECAM-60" },
+> > +    { DRM_MODE_TV_MODE_SECAM_B, "SECAM-B" },
+> > +    { DRM_MODE_TV_MODE_SECAM_D, "SECAM-D" },
+> > +    { DRM_MODE_TV_MODE_SECAM_G, "SECAM-G" },
+> > +    { DRM_MODE_TV_MODE_SECAM_K, "SECAM-K" },
+> > +    { DRM_MODE_TV_MODE_SECAM_K1, "SECAM-K1" },
+> > +    { DRM_MODE_TV_MODE_SECAM_L, "SECAM-L" },
+> > +};
+>
+> I did not comment on it the last time, but this list looks a little bit random.
+>
+> Compared to the standards defined by V4L2, you also define SECAM-60 (a good
+> thing to define, because why not), but don't define PAL-B1, PAL-D1, PAL-K,
+> SECAM-H, SECAM-LC (whatever that is - probably just another name for SECAM-L,
+> see my comment about PAL-Nc below), or NTSC-M-KR (a Korean variant of NTSC).
+>
+> Like I mentioned previously, I'm personally not a fan of including all those
+> CCIR/ITU system variants, as they don't mean any difference to the output unless
+> there is an RF modulator involved. But I get it that they have already been used
+> and regressing probably wouldn't be a very good idea. But in that case keeping
+> it consistent with the set of values used by V4L2 would be wise, I think.
+
+Exactly. Anything outputting RGB (e.g. through a SCART or VGA connector)
+doesn't care about the color subcarrier or modulator parts.  Likewise,
+anything outputting CVBS doesn't care about the modulator part.
+
+Perhaps "generic" variants of NSTC and PAL/SECAM should be added, which
+would really just mean 525/60 resp. 625/50.
+
+Alternatively, the tv_mode field could be split in two parts (either
+two separate fields, or bitwise), to maintain a clear separation between
+lines/fields versus color encoding and RF modulation (with zero for the
+latter meaning a generic version)? That would also keep the door open
+for TV_MODE_405_50, TV_MODE_819_50, TV_MODE_750_50, TV_MODE_750_60, ...
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
