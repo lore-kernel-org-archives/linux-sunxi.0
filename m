@@ -1,83 +1,108 @@
-Received: from fornost.hmeau.com (helcar.hmeau.com [216.24.177.18])
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B8B111E
-	for <linux-sunxi@lists.linux.dev>; Fri,  2 Sep 2022 10:55:55 +0000 (UTC)
-Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
-	by fornost.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
-	id 1oU3ku-000Kds-Rx; Fri, 02 Sep 2022 20:18:33 +1000
-Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Fri, 02 Sep 2022 18:18:32 +0800
-Date: Fri, 2 Sep 2022 18:18:32 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Jack Wang <jinpu.wang@ionos.com>
-Cc: linux-crypto@vger.kernel.org,
-	Corentin Labbe <clabbe.montjoie@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Minghao Chi <chi.minghao@zte.com.cn>, Peng Wu <wupeng58@huawei.com>,
-	Alexey Khoroshilov <khoroshilov@ispras.ru>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] crypto: allwinner: Fix dma_map_sg error check
-Message-ID: <YxHYeCSwfAEgMngX@gondor.apana.org.au>
-References: <20220825072421.29020-1-jinpu.wang@ionos.com>
- <20220825072421.29020-6-jinpu.wang@ionos.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D95139C
+	for <linux-sunxi@lists.linux.dev>; Fri,  2 Sep 2022 11:28:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=3P4G0s8jHHnMDuhy8+v0Q+ixmj390VbhdMQwj5y5Wjc=; b=bZtQWi7EyAVPLA42Rzf8cb5JdM
+	G/3PyoSsE4+TzQ45xyyuvyIG/+TEOpTWEC9Otb+gWl6o0joUn+Fb2soBCKyda0m/awdEZrUKc7uak
+	z51s4DGVhtB++KNaE9LcvK41LZ+PM5S/HiBly41wGr52SLb4ElQBdb5IssVAsOaMMzlyCEgKM7B4P
+	wiVGMqooxE9e6urqnga+WXRKxxZVYoGuxulJw2ZV1V29cJpJe+yW0s0LvhhpPHIehl5vgWFClYJI4
+	xk9vQt5rQTEuzB79xm1Vd+fefkG8uvdSATf2/klQmygxH9N0KRAJEPTZEgVWsKx0Q385qyG2Lyz62
+	t3IxvyDQ==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=64065)
+	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <noralf@tronnes.org>)
+	id 1oU4qX-0004pl-Pv; Fri, 02 Sep 2022 13:28:25 +0200
+Message-ID: <020d44e6-884b-a817-8265-3461638cac71@tronnes.org>
+Date: Fri, 2 Sep 2022 13:28:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220825072421.29020-6-jinpu.wang@ionos.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 00/41] drm: Analog TV Improvements
+To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
+ Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+ Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>,
+ Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ linux-arm-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ intel-gfx@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <24e09a29-6d04-3b1e-63ce-cd3c31d350e2@tronnes.org>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <24e09a29-6d04-3b1e-63ce-cd3c31d350e2@tronnes.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 25, 2022 at 09:24:20AM +0200, Jack Wang wrote:
-> dma_map_sg return 0 on error.
+
+
+Den 01.09.2022 21.35, skrev Noralf Trønnes:
 > 
-> Cc: Corentin Labbe <clabbe.montjoie@gmail.com>
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Samuel Holland <samuel@sholland.org>
-> Cc: Dan Carpenter <dan.carpenter@oracle.com>
-> Cc: Minghao Chi <chi.minghao@zte.com.cn>
-> Cc: Peng Wu <wupeng58@huawei.com>
-> Cc: Alexey Khoroshilov <khoroshilov@ispras.ru>
-> Cc: linux-crypto@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-sunxi@lists.linux.dev
-> Cc: linux-kernel@vger.kernel.org
-> Fixes: 06f751b61329 ("crypto: allwinner - Add sun8i-ce Crypto Engine")
-> Fixes: d9b45418a917 ("crypto: sun8i-ss - support hash algorithms")
-> Signed-off-by: Jack Wang <jinpu.wang@ionos.com>
-> ---
->  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c | 6 +++---
->  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c   | 2 +-
->  drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c | 4 ++--
->  drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c   | 2 +-
->  4 files changed, 7 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-> index 74b4e910a38d..be7f46faef7e 100644
-> --- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-> +++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-> @@ -208,7 +208,7 @@ static int sun8i_ce_cipher_prepare(struct crypto_engine *engine, void *async_req
->  
->  	if (areq->src == areq->dst) {
->  		nr_sgs = dma_map_sg(ce->dev, areq->src, ns, DMA_BIDIRECTIONAL);
-> -		if (nr_sgs <= 0 || nr_sgs > MAX_SG) {
-> +		if (!nr_sgs || nr_sgs > MAX_SG) {
+> I have finally found a workaround for my kernel hangs.
+> 
+> Dom had a look at my kernel and found that the VideoCore was fine, and
+> he said this:
+> 
+>> That suggests cause of lockup was on arm side rather than VC side.
+>>
+>> But it's hard to diagnose further. Once you've had a peripheral not
+>> respond, the AXI bus locks up and no further operations are possible.
+>> Usual causes of this are required clocks being stopped or domains
+>> disabled and then trying to access the hardware.
+>>
+> 
+> So when I got this on my 64-bit build:
+> 
+> [  166.702171] SError Interrupt on CPU1, code 0x00000000bf000002 -- SError
+> [  166.702187] CPU: 1 PID: 8 Comm: kworker/u8:0 Tainted: G        W
+>     5.19.0-rc6-00096-gba7973977976-dirty #1
+> [  166.702200] Hardware name: Raspberry Pi 4 Model B Rev 1.1 (DT)
+> [  166.702206] Workqueue: events_freezable_power_ thermal_zone_device_check
+> [  166.702231] pstate: 200000c5 (nzCv daIF -PAN -UAO -TCO -DIT -SSBS
+> BTYPE=--)
+> [  166.702242] pc : regmap_mmio_read32le+0x10/0x28
+> [  166.702261] lr : regmap_mmio_read+0x44/0x70
+> ...
+> [  166.702606]  bcm2711_get_temp+0x58/0xb0 [bcm2711_thermal]
+> 
+> I wondered if that reg read was stalled due to a clock being stopped.
+> 
+> Lo and behold, disabling runtime pm and keeping the vec clock running
+> all the time fixed it[1].
+> 
+> I don't know what the problem is, but at least I can now test this patchset.
+> 
+> [1] https://gist.github.com/notro/23b984e7fa05cfbda2db50a421cac065
+> 
 
-This is also less robust than the original code and I'll be
-reverting it.
+It turns out I didn't have to disable runtime pm:
+https://gist.github.com/notro/0adcfcb12460b54e54458afe11dc8ea2
 
-Thanks,
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Noralf.
