@@ -1,146 +1,123 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6688B23C4
-	for <linux-sunxi@lists.linux.dev>; Sat,  3 Sep 2022 19:06:22 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id e18so6696458edj.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 03 Sep 2022 12:06:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=PgXAoEjaK+oBqIHlUNSsVz+XYAWaT4gNl9Cw4DlvWvk=;
-        b=nZdmq14cxKphnBHlXGOFXuqbYhrcbVOU4VintRpC40x9LLWper3dLsYcLp5ygtBhn9
-         tKiqtuw0oIevYBzRZx9G8S4jS5IeoJ0EpFRDJvS/N4GExmNsdo6DOMQOrcxOk6AU5hSl
-         99G1p6i3mpTRjH0dE9tMWHGUPCnsDC4G/6n9cr7x5UvXoRXwxCOtLfFWSfqSyqCg+Px5
-         niF+CkffW/D/oI/fRDxM+amUYVmv8VNkbd4z9yZNgbEyRAKalQS+iJ155EC99xyhqHdX
-         d8sKL0CtzjMhR3zGYMQ1P1rhS9AnBYAXZYdYq4HsEU0TX8mip5bOkTqRpQdEPX4EPniM
-         Notg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=PgXAoEjaK+oBqIHlUNSsVz+XYAWaT4gNl9Cw4DlvWvk=;
-        b=OcdSQUQlTbBE+5iYvXONN6kvNYJLHUJp0gL4qEXwUVixx/UwKXZq/TDHeW5dW4YgWl
-         K/Nn1ZiWUJbKv21mpavd2b8TCOwRKkAiyMRMWa7+wJ2qS57+nnMxKasQJiqI9oElrD/I
-         XVp5OR33SEu+kOfINx0tNdibSo+UE2JYDPYyB6KkxxCadQwMv8rXWdKmf5ZLKNkjpeiN
-         1l6E2A4znnLEsvW/s4VzZEpfCoRqBJ5A29UlaNY9l4ZayuECj5NNow0yjYZJpGVMgNT9
-         wfdW+X8tJwQsORclqXZoHcGk8LVYFanQ1vK5yICO8unCSHL+4X1CWz4/XpdpSw0aY+Iq
-         ZSaA==
-X-Gm-Message-State: ACgBeo2B0VbqNxKbvMaHuwFFWuQ9mYXZo9eNS0mjeCMUTS50WTvANyvY
-	FrY+6jEht7BVXb6wlXbyIFMLqycufI8BbeqgOVY=
-X-Google-Smtp-Source: AA6agR6tzif0PTLPRjrJRC9n3NDsx1UfOC1EJTRL9N+BQ1uPNw79YC5jgfZkorGBMCmrSqeEBuuzrKuZ9NMh6JiQIfY=
-X-Received: by 2002:a05:6402:11d0:b0:448:89ff:88f0 with SMTP id
- j16-20020a05640211d000b0044889ff88f0mr23202839edw.166.1662231980416; Sat, 03
- Sep 2022 12:06:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C84E1FC3
+	for <linux-sunxi@lists.linux.dev>; Sun,  4 Sep 2022 03:24:43 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 003895C00B3;
+	Sat,  3 Sep 2022 23:24:40 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Sat, 03 Sep 2022 23:24:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1662261880; x=
+	1662348280; bh=0XXu/7DvRXDjmgtdk2so2BnsRSmyqUu6JOo0IYyP3A0=; b=x
+	uCAiKHP6q6NKkjf6wYDENnaVnPJQhuiCqIjpGEYBY5HTUgHCFZkwmIk8dKwdhtGA
+	OM4ibytOqLASxjKlYVu11EbyRe+v7h3TMUzgqA36gMFGsPLPASncx7j1NY4ndu+A
+	B2qlflsNUZE5oMcgjW3DvloYAkka8xYa+iD8Z+tBYOFpGP2dzD05pk/caCdfKqwj
+	B0SwuOFxUCYP6ES64Kt994ibldA82n5qE7MP+ESoLqt8Pqsckcy7ySgy8LAlSTud
+	RZMl790hanLPJdVl5jI2K7qguEPmyjQxmq3WBttavsqet1qtRcmXxlzGTiwVZcNy
+	lGiaUDxRaTwWOSvoknyaw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1662261880; x=
+	1662348280; bh=0XXu/7DvRXDjmgtdk2so2BnsRSmyqUu6JOo0IYyP3A0=; b=B
+	Vl0MxPGF0gpLofnYY0JShxJKIuMVf/s0o/152ScCPuDzR7LRTGoMUnm7MJticb8t
+	Z9/U1s0oKNPuBKc/CemlngEIRvC9mCa7EtblEavItvW514mdu51ZzFhfhCdxEBRy
+	QmpyVfZIQpsUza/cc18bJ/GAD+7VdCrjXdu45+BDoiAz5YT+qY/I+SJmJantJpl4
+	JKV7Vq0g8zHQjYYFEzKRcoesz5BHzVLBlhm5ECLJHfysUDWx/yac4SiyVAGhpK3k
+	sW2CpyTQrWiwTtmcKVLZddJX1AkgU6wpOgoK5iTw+JdRrIdyZrtfjEbTW3ACysgD
+	GQiyezu80+q5oO/kVQmuA==
+X-ME-Sender: <xms:eBoUY4he11Ld-BQDoQ7l7B6C1vzFi0r30vsSrJ1pPHYGCYif0jR2Dg>
+    <xme:eBoUYxCM9yE483ixyQNyeT6w0YCyJi_nF94hXBjpjmosqyNzAgGUcb2op2ZY2M0Ec
+    e-b-LHnI4_a59MVOg>
+X-ME-Received: <xmr:eBoUYwFbXdTAuFU68_gvFlB9PIQHZ8Sh-JlRf5W30xTR_7H2eZv7JlK0SQy50r2Qi9EhmGxU5cXVWQCopjdSonPLDeOEGeHJL9YECV5Aun_EyhN-ZbVqeNtbrQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdelfedgieelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpedtvddvudelveeuleegveduiefggeegheffgefhjeduhfeigfei
+    vedthfduleegueenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrh
+    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhl
+    rghnugdrohhrgh
+X-ME-Proxy: <xmx:eBoUY5QRUlMOfIQFOq0D8VDSJZMdboKohX-bf_oVmNeQN29p_2O87Q>
+    <xmx:eBoUY1w4cP59bwd7Lc5YvUzbgdz2XqrtdJpa4-Vf2q9F1_ETP5bOwQ>
+    <xmx:eBoUY35DIWZixjQXi9QYT9rvMME0dGlizYMicdG3KRfzBYFdMgRXDA>
+    <xmx:eBoUY0w6nPh945XJOAnymstvCukZfy8WocK4O5-vpjMK57AY_Ntg4g>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 3 Sep 2022 23:24:39 -0400 (EDT)
+Subject: Re: [PATCH v2 2/4] arm64: dts: allwinner: h6: Add cooling map for GPU
+To: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree <devicetree@vger.kernel.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ linux-sunxi@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>
+References: <20220821173051.155038-1-peron.clem@gmail.com>
+ <20220821173051.155038-3-peron.clem@gmail.com>
+ <72f901e6-f646-336b-70e6-2747363944ab@sholland.org>
+ <CAJiuCcfF=1Ob1oGABtHhM88m0LST727h88fXqCKYBiWRsYmtnA@mail.gmail.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <a45abb3d-b765-c87b-df2c-85a03b5634cd@sholland.org>
+Date: Sat, 3 Sep 2022 22:24:38 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220821173051.155038-1-peron.clem@gmail.com> <20220821173051.155038-5-peron.clem@gmail.com>
- <0c028109-bb50-fbaa-de18-9876706a7477@sholland.org> <CAJiuCcf7NuXFFLw6-RFcyZPNFPagfSB5aR7rY5528USzNB-iKg@mail.gmail.com>
-In-Reply-To: <CAJiuCcf7NuXFFLw6-RFcyZPNFPagfSB5aR7rY5528USzNB-iKg@mail.gmail.com>
-From: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Date: Sat, 3 Sep 2022 21:06:08 +0200
-Message-ID: <CAJiuCcf0io5T=+Ap8io2uKn+CNqrCi2pbaCtyq2PVW=bEqKakg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] arm64: dts: allwinner: beelink-gs1: Enable GPU OPP
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, devicetree <devicetree@vger.kernel.org>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAJiuCcfF=1Ob1oGABtHhM88m0LST727h88fXqCKYBiWRsYmtnA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Hi Samuel,
-
-On Sat, 3 Sept 2022 at 20:41, Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com=
-> wrote:
->
+On 8/27/22 11:49 AM, Clément Péron wrote:
 > Hi Samuel,
->
-> On Tue, 23 Aug 2022 at 05:07, Samuel Holland <samuel@sholland.org> wrote:
-> >
-> > On 8/21/22 12:30 PM, Cl=C3=A9ment P=C3=A9ron wrote:
-> > > Enable GPU OPP table for Beelink GS1
-> > >
-> > > Signed-off-by: Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
-> > > ---
-> > >  arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> > >
-> > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts =
-b/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
-> > > index 6249e9e02928..20fc0584d1c6 100644
-> > > --- a/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
-> > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
-> > > @@ -5,6 +5,7 @@
-> > >
-> > >  #include "sun50i-h6.dtsi"
-> > >  #include "sun50i-h6-cpu-opp.dtsi"
-> > > +#include "sun50i-h6-gpu-opp.dtsi"
-> > >
-> > >  #include <dt-bindings/gpio/gpio.h>
-> > >
-> > > @@ -261,6 +262,7 @@ reg_dcdca: dcdca {
-> > >                       };
-> > >
-> > >                       reg_dcdcc: dcdcc {
-> > > +                             regulator-always-on;
-> >
-> > Why is this necessary? This file already has:
->
-> This is a relica from the first serie at this time the OPP doesn't
-> properly enable the regulator it's now fixed since:
-> https://patchwork.kernel.org/project/linux-pm/patch/81eb2efeeed1556d12406=
-5252f32777838a6d850.1589528491.git.viresh.kumar@linaro.org/
->
-> I will drop it.
+> 
+> On Tue, 23 Aug 2022 at 05:16, Samuel Holland <samuel@sholland.org> wrote:
+>>
+>> On 8/21/22 12:30 PM, Clément Péron wrote:
+>>> Add a simple cooling map for the GPU.
+>>
+>> It would be good to document where the trip point temperatures came from.
+> 
+> If I remember correctly, I got those when getting the dtb from my
+> Beelink GS1 when it was running vendor Android with the oldest
+> Allwinner kernel.
+> 
+> But now that you ask I double check with the "new" vendor kernel source:
+> https://github.com/Allwinner-Homlet/H6-BSP4.9-linux/blob/master/arch/arm64/boot/dts/sunxi/sun50iw6p1.dtsi#L2034-L2053
+> 
+> And It's different from what I got in the past.
+> The throttling starts when the GPU is already very hot (95, 100 and
+> 105°C) and seems to only disable the highest frequency (756, 624 and
+> 576MHz).
+> Which let the GPU running at 0.91V @ 540MHz.
+> 
+> Which is far to be the lowest possible consumption for the GPU (0.81V
+> @ 336MHz would be better in the hottest situation)
+> 
+> I'm not an expert but either I could just try to copy/paste the same
+> behavior or try to have a more smooth cooling map (70, 85, 100°C).
+> 
+> What do you think?
 
-After retesting it, it seems to still no take the regulator and make
-my board hang... :(
+I would generally prefer something conservative, to be appropriate for most
+boards. But I do not have any strong opinion on the exact trip points used; I am
+fine with adjusting them.
 
-[   17.698597] sun8i-dw-hdmi 6000000.hdmi: registered DesignWare HDMI
-I2C bus driver
-[   17.708475] sun4i-drm display-engine: bound 6000000.hdmi (ops
-sun8i_dw_hdmi_ops [sun8i_drm_hdmi])
-[   17.718350] [drm] Initialized sun4i-drm 1.0.0 20150629 for
-display-engine on minor 1
-[   17.877443] Console: switching to colour frame buffer device 320x90
-[   17.936050] sun4i-drm display-engine: [drm] fb0: sun4i-drmdrmfb
-frame buffer device
-[   17.961881] platform 5200000.usb: deferred probe pending
->>>> [   31.710731] vdd-gpu: disabling <<<<<
+Mostly I want to know the source of the cooling map -- where the numbers came
+from, and what changes were made. That provides context if we want to change the
+map in the future, or if we run in to issues on some other board.
 
-
-
-
->
-> Thanks for the review.
-> Regards,
-> Clement
->
->
->
->
-> >
-> > &gpu {
-> >         mali-supply =3D <&reg_dcdcc>;
-> >         status =3D "okay";
-> > };
-> >
-> > So there is a consumer for this regulator.
-> >
-> > Regards,
-> > Samuel
-> >
-> > >                               regulator-enable-ramp-delay =3D <32000>=
-;
-> > >                               regulator-min-microvolt =3D <810000>;
-> > >                               regulator-max-microvolt =3D <1080000>;
-> > >
-> >
+Regards,
+Samuel
