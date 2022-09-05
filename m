@@ -1,47 +1,47 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3363C02
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 Sep 2022 16:32:18 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id x10so9756566ljq.4
-        for <linux-sunxi@lists.linux.dev>; Mon, 05 Sep 2022 09:32:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909A33C02
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Sep 2022 16:44:47 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id z29so13772386lfb.13
+        for <linux-sunxi@lists.linux.dev>; Mon, 05 Sep 2022 09:44:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:from:to:cc:subject:date;
-        bh=8JQHR0mNkkvaucEp4HNFvrtWVwipxgdCyYirWkcxCuc=;
-        b=Ee8/zXiC17K5Rmn0dM8r0JytBnfg1FnzFfKZcmoJMYt08MtgAEUEjpKH7+0UHsqlkK
-         BZrCCHBnA1Je5o+/sxNlA3yrl0TxM37U7XpZXjbsaVxHKMl2x7PzYQchiiwPobO+z7V/
-         tYJCFJd1YCvEbeeLM6BvAS/M1DUr6tpSFJVdgoRwA8WStFNY9E6PPHdk4RZZCOrggakT
-         xyQ8/6DOwLr6S51gainQauwtIl7r4PsEHnn/94yga+F5jpf0cp7C0OxDPl+JWqQDMoGv
-         UZySK3bX2kiLPPNYAc06FY4U1q0dxZf5LlWu/claShZQeiMPrvC2bab0MTV9I+5YA40i
-         L12g==
+        bh=pg/PAiNvnu7vtuOyQRQ/USUHgpjKV+PX2R3Qe58I9a8=;
+        b=gpdNZAEDxje8wnITyn+RZoWmy+HDFnOquwNGCkPFH4u26oFe9BJkGsChjuvli+EpUC
+         udG041BUDBCsixXiASZMPopuq5kkYgAZ75M5qx/664s54esc8z1HhBFqbN3K9kHPpL1i
+         /c/k2keYZOCrifzS9i3Jol3/Ys8sNIUeajA/nxV7uULUR3TcQoLuptOLB6RGc/f719/2
+         O/X4incruiAcIvG6rSJmQeWED2QziZfV7nNN+Xw4npnDsDvap4T4VaB6gU99RsKT0/sK
+         ObY9ODTZh1llvOmzGkvb7+zUE3IWaTV/TsOIDkNGg6kHEUV4Ijytw/jtF/wsnn40KB7l
+         WmKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:x-gm-message-state:from:to:cc:subject:date;
-        bh=8JQHR0mNkkvaucEp4HNFvrtWVwipxgdCyYirWkcxCuc=;
-        b=NJAGktUqHJSFe8uXMTaRlKoGo7qYRIVqvSTmTg/p7S3vry+Qi7Hrcg3J+KNUSJv5LW
-         HnwNigl97LYuPxZycqrVZYoV5N5AMyRJQigmAibp/BTpGIdhYiq2tKFleMAGb3X2C+kE
-         bpbEEpUdubXS4UPqpVcgSfm8mpMBoi40ofLQmfkjhIlAcJVaFGpL3BSofb6uuQIGU0mu
-         sL5mep7RS1gt3kXbn/hayHh9cEDH/u6UVPa2OoLf52iwL4ynXhWW9Oc3cmXbyd8gxubr
-         ekEUqeN8MvnLCKoi+V/D2JURc5ZwvTB6n15qXNWhzfeOd0mcLtas61d84MhsIgNzC9Qf
-         fQiQ==
-X-Gm-Message-State: ACgBeo32qiNrIW7eUfnmICL7DRQT3LjurW4CLmnDBw00XERBzKV2wxVu
-	QB2E4cML9imlYIf+HL6zzNA=
-X-Google-Smtp-Source: AA6agR47yvdHHgnlIjy9Ip2njnz0g5/SwgXMzTGVjcmNgzpxzvtvdxNNmmfmzBYcTnu1KYoufiDMaA==
-X-Received: by 2002:a2e:88d2:0:b0:263:2c63:d784 with SMTP id a18-20020a2e88d2000000b002632c63d784mr11481762ljk.12.1662395536908;
-        Mon, 05 Sep 2022 09:32:16 -0700 (PDT)
+        bh=pg/PAiNvnu7vtuOyQRQ/USUHgpjKV+PX2R3Qe58I9a8=;
+        b=7TJ4JHccDgm+YKonLehdSS5mEPGSpEV7VyBIQEJyJxtLOlR//pqXWB0fgegYOJEpXv
+         0EVfznP8z/23ybKxYCT+CE6gPs8hYCRKKzEeOJPnHF7vRNig6sMP8LpIFkmPUNtMwF0p
+         1ghqHBRqdvRpOIbLfidPq5giUvqxiKHZn13jos1A8SKq4KWbrKvB0FS6DcmV16z9u/72
+         lJc1StKsDasN0dI1iqr5oWHEqHFbyXvgq2PwZ0EknDWnb2TcfTvbSuPTPnD/bd75gA90
+         D4yaEjH2UKU1LwrTX1re4c84UryIHMN8ubU2/yWhzNTEqIzLOM+gDQfyaFBu/Uy2HSrG
+         pIZQ==
+X-Gm-Message-State: ACgBeo242k2A+3hk/suY0Oez6TlId+d3uvf80nXJMIZC674768NvNHZY
+	2KbmPBTl9YIBRmTaVg64tJA=
+X-Google-Smtp-Source: AA6agR5QgKJH0v/+7sAguBYeCvG9a+g/CeSbeIITanudZorCWC9+TludMawIYPfRu4Xh0pTJ0sIw1w==
+X-Received: by 2002:a05:6512:ba2:b0:494:6d93:e9ee with SMTP id b34-20020a0565120ba200b004946d93e9eemr11762898lfv.378.1662396285601;
+        Mon, 05 Sep 2022 09:44:45 -0700 (PDT)
 Received: from ?IPV6:2a02:a31a:a240:1700:9c45:8fa1:8ce7:8852? ([2a02:a31a:a240:1700:9c45:8fa1:8ce7:8852])
-        by smtp.googlemail.com with ESMTPSA id q13-20020a056512210d00b004946a758d21sm1235189lfr.161.2022.09.05.09.32.14
+        by smtp.googlemail.com with ESMTPSA id q5-20020a2eb4a5000000b0025e59f125fbsm1469514ljm.53.2022.09.05.09.44.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Sep 2022 09:32:16 -0700 (PDT)
+        Mon, 05 Sep 2022 09:44:45 -0700 (PDT)
 From: Mateusz Kwiatkowski <kfyatek@gmail.com>
 X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Message-ID: <6ac67d1f-e5b5-2687-372f-4146eed5cc5d@gmail.com>
-Date: Mon, 5 Sep 2022 18:32:14 +0200
+Message-ID: <10ce686a-d7c8-9ce4-3979-735ad8eab3b5@gmail.com>
+Date: Mon, 5 Sep 2022 18:44:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,8 +53,7 @@ User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
 Subject: Re: [PATCH v2 10/41] drm/modes: Add a function to generate analog
  display modes
 Content-Language: pl
-To: Maxime Ripard <maxime@cerno.tech>,
- Geert Uytterhoeven <geert@linux-m68k.org>
+To: Maxime Ripard <maxime@cerno.tech>
 Cc: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
  Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
@@ -67,61 +66,53 @@ Cc: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
  =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
  Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Phil Elwell <phil@raspberrypi.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>, linux-arm-kernel@lists.infradead.org,
+ Phil Elwell <phil@raspberrypi.com>, intel-gfx@lists.freedesktop.org,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Dom Cobley <dom@raspberrypi.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Nouveau Dev <nouveau@lists.freedesktop.org>, linux-sunxi@lists.linux.dev
+ dri-devel@lists.freedesktop.org, Dom Cobley <dom@raspberrypi.com>,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, Geert Uytterhoeven <geert@linux-m68k.org>
 References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
  <20220728-rpi-analog-tv-properties-v2-10-459522d653a7@cerno.tech>
  <242d272b-5b79-986c-9aaf-64e62f6b37ff@gmail.com>
- <CAMuHMdWq3aOO4-2AReDeaC2VBJb=QJF2dTMZP=DGmwCg6ZOffA@mail.gmail.com>
- <20220905133251.js26hxdosibx4r4i@houat>
-In-Reply-To: <20220905133251.js26hxdosibx4r4i@houat>
+ <20220905133755.gcmmntg3wnecyqjq@houat>
+In-Reply-To: <20220905133755.gcmmntg3wnecyqjq@houat>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Hi Maxime,
 
-W dniu 5.09.2022 o 15:32, Maxime Ripard pisze:
-> Hi,
+W dniu 5.09.2022 o 15:37, Maxime Ripard pisze:
+>>> +    vfp = vfp_min + (porches_rem / 2);
+>>> +    vbp = porches - vfp;
+>>
+>> Relative position of the vertical sync within the VBI effectively moves the
+>> image up and down. Adding that (porches_rem / 2) moves the image up off center
+>> by that many pixels. I'd keep the VFP always at minimum to keep the image
+>> centered.
 >
-> On Wed, Aug 31, 2022 at 10:14:28AM +0200, Geert Uytterhoeven wrote:
->>>> +enum drm_mode_analog {
->>>> +    DRM_MODE_ANALOG_NTSC,
->>>> +    DRM_MODE_ANALOG_PAL,
->>>> +};
->>>
->>> Using "NTSC" and "PAL" to describe the 50Hz and 60Hz analog TV modes is common,
->>> but strictly speaking a misnomer. Those are color encoding systems, and your
->>> patchset fully supports lesser used, but standard encodings for those (e.g.
->>> PAL-M for 60Hz and SECAM for 50Hz). I'd propose switching to some more neutral
->>> naming scheme. Some ideas:
->>>
->>> - DRM_MODE_ANALOG_60_HZ / DRM_MODE_ANALOG_50_HZ (after standard refresh rate)
->>> - DRM_MODE_ANALOG_525_LINES / DRM_MODE_ANALOG_625_LINES (after standard line
->>>   count)
->>
->> IMHO these are bad names, as e.g. VGA640x480@60 is also analog, using
->> 60 Hz and 525 lines.  Add "TV" to the name?
->>
->>> - DRM_MODE_ANALOG_JM / DRM_MODE_ANALOG_BDGHIKLN (after corresponding ITU System
->>>   Letter Designations)
->>
->> Or DRM_MODE_ITU_*?
->> But given the long list of letters, this looks fragile to me.
->
-> Does it matter at all? It's an internal API that isn't exposed at all.
-> I'd rather have a common name that everyone can understand in this case
-> rather than a *perfect* name where most will scratch their head
-> wondering what it's about.
+> And you would increase the back porch only then?
 
-You may have a point. But in that case, maybe it'd make sense to at least add
-a short comment explaining what do you mean by "NTSC" and "PAL" in this context?
+Well, increasing vbp only gives a centered image with the default 480i/576i
+resolutions. However, only ever changing vbp will cause the image to be always
+at the bottom of the screen when the active line count is decreased (e.g.
+setting the resolution to 720x480 but for 50Hz "PAL" - like many game consoles
+did back in the day).
+
+I believe that the perfect solution would:
+
+- Use the canonical / standard-defined blanking line counts for the standard
+  vertical resolutions (480/486/576)
+- Increase vfp and vbp from there by the same number if a smaller number of
+  active lines is specified, so that the resulting image is centered
+- Likewise, decrease vfp and vbp by the same number if the active line number
+  is larger and there is still leeway (this should allow for seamless handling
+  of 480i vs. 486i for 60 Hz "NTSC")
+- If even more active lines are specified, once the limit for vfp is hit, then
+  decrease vbp only - the resulting image will definitely be off-center, but
+  there's no other way
+
+I hope this makes sense for you as well.
 
 Best regards,
 Mateusz Kwiatkowski
