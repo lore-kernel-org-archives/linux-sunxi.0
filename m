@@ -1,42 +1,42 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6174C469E
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 Sep 2022 17:16:09 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id h204-20020a1c21d5000000b003a5b467c3abso8125267wmh.5
-        for <linux-sunxi@lists.linux.dev>; Mon, 05 Sep 2022 10:16:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCC1468E
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Sep 2022 17:16:10 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id az27so12152202wrb.6
+        for <linux-sunxi@lists.linux.dev>; Mon, 05 Sep 2022 10:16:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=TzfY9hsKE+/NMaAr86KQtgckRDntIH8+oY7tsTfeowI=;
-        b=KLV4Nstc48KFC9+jc2u0EphqKQQEB8LLwdQ0MEoORpOpwyjOGK1pAH3k7ehAfPlIAt
-         oB8G74ze0PuXWXf3t6pZD6VPc3YhmM4BCVpRGZp6SiBoMw+qMNs9T71AVmTpAv8ytiqG
-         kRJXVXfx6rtjygzsxEpw6KjmpxxJPYfrb+rEFuFQ1MRemKWk49UayCPAt4edf69erBoI
-         fpjN6oI2MNhp0i6YJ5Dp3u3CcGKSLXPVjshGHixbDR+OgnvjQw5DyPiXUVuvdrsfIl2l
-         VUw+dQqRImBdMl5cNBZgKqq9/7waLoiFDRM4G2eCmYqRV6QIY4C6/h3uF5vPIUEHvxHF
-         2sqA==
+        bh=WUkQWFeaJEpRmCMCeC5H0e01SJTSdoAluI/3ZHffQec=;
+        b=KRzIb9xvRSM6Mplxtn5bTHZHQZGfAhcrIjCCKHU2e93WHngHSu8VlsSJFaGWIyucby
+         bDXFaZKqWnTJc23XyqWhnlPUTrkYR0RoPyG3u/1/pQC27tnQ0Y0gtd5ae0q+sebK3VWY
+         4vwoHXYDBoq1bEv89Hb/MbDeiaOHeMFPcIqoCEQZRjlEAcqRpbS5MA1YON2IUTbIcAZK
+         lLjsoObOKljR4tvcj/WXqCV2dnmbawFPubd3YPN6N9sa4bBJxSw0bCW9v498ExGdwg6Y
+         NXqLF+7IbA9lxxxkbqamA0IA3PNcBn5yJMSImqP6hFrapcGoFTBuZVOCZKA3TjvPeL18
+         gY9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=TzfY9hsKE+/NMaAr86KQtgckRDntIH8+oY7tsTfeowI=;
-        b=f+DgwHigVXMUg1RjpcHsamwyjqn0KDtedC7rJSKoIGzFGjuHYEb6taoHp1IPD+/7KG
-         b3o+rn7UZ8JeA7YyknqVO8lf+QQnLR3HlkK5A3RvrZtsQQA2c4+5QT5pHIt94hLr+eYu
-         krtQcoutmxDb7ZJaUiwox0+CZnbvWgC+SHLXMwViL+tXaTvT6EqFCbFNdA+yHN2j9OzU
-         T/tcwpCFPF5GrB4mDL62dsuM5s3EbS+aJ3M5Vt3VSDaTRMJkdXiqtdWgI/rDz9bkJuRg
-         t4b63QrIcWE79i7aDLE/zf/L3WNiCb6wX7opKgdguQGIkOARo+04eEHiRzbNnuPf0aeh
-         lY4Q==
-X-Gm-Message-State: ACgBeo0UE79WWf6/vBRqH29mX3UdIHb/vYl8VwEV/A66Psgtxll8I4HO
-	eMxxgn3/G5WZsZTZCQyMaTE=
-X-Google-Smtp-Source: AA6agR4RwpjPOOTqBKl/6DsHS3haY3qQDvxQ4RNUYlwerXpgCNpvdgAPmkUKgUdWtUeRFLIuXnBAew==
-X-Received: by 2002:a05:600c:3b10:b0:3a5:3357:ecf4 with SMTP id m16-20020a05600c3b1000b003a53357ecf4mr11296930wms.193.1662398167450;
-        Mon, 05 Sep 2022 10:16:07 -0700 (PDT)
+        bh=WUkQWFeaJEpRmCMCeC5H0e01SJTSdoAluI/3ZHffQec=;
+        b=jRQsxm8fgYri179o43CZUrdOmna9nFIzJkdh2Z4QpAYICsDO4b+RqhAIWdGTdSdwSf
+         poVDmtbqJGtZmnL8xsLdsZcIJ5JNJabq7OncpBQr4Dgv220e3Bo6iSTu1FialVSG8Jfv
+         YAp4h2NsHqYoYHOEedUrHnrs0ldc5zxqAMae8/cor992yGxyLJ0NyVzN/iYE9tyTVQCE
+         LkgErI0k4Y3XZeha+5Z3/qjUKMA3Oo3V5khXJoHI9St8BQaQnp05xdVNs5bE0amynD/s
+         3VwnxmKHc92ZOw6E28xdh7KdPFrDRFJ0xESbWA7PzAjGJmYsSym5YtYM+UfvCJlhwdan
+         7TcA==
+X-Gm-Message-State: ACgBeo1fB947cc11PSMTxgi1Uplxfn4TENPVC7VP66vZG9IBZ5sKymV4
+	blDmzhqWTkerHKAH6cNKUAw=
+X-Google-Smtp-Source: AA6agR5Nxeu56Er6g5rkDeoSz+06KNQ9pCwbj2Yh5prPUnqlQfoaZny43onJt5aJLXnFQEywU5iB8A==
+X-Received: by 2002:adf:f642:0:b0:226:d4b1:8502 with SMTP id x2-20020adff642000000b00226d4b18502mr23772737wrp.553.1662398168829;
+        Mon, 05 Sep 2022 10:16:08 -0700 (PDT)
 Received: from Clement-Blade14.home (2a01cb000c0d3d00995730c36491d21b.ipv6.abo.wanadoo.fr. [2a01:cb00:c0d:3d00:9957:30c3:6491:d21b])
-        by smtp.gmail.com with ESMTPSA id v22-20020a7bcb56000000b003a5ad7f6de2sm11437072wmj.15.2022.09.05.10.16.06
+        by smtp.gmail.com with ESMTPSA id v22-20020a7bcb56000000b003a5ad7f6de2sm11437072wmj.15.2022.09.05.10.16.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Sep 2022 10:16:06 -0700 (PDT)
+        Mon, 05 Sep 2022 10:16:08 -0700 (PDT)
 From: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
 To: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -64,9 +64,9 @@ Cc: devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	=?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
-Subject: [PATCH v3 1/5] arm64: defconfig: Enable devfreq cooling device
-Date: Mon,  5 Sep 2022 19:15:57 +0200
-Message-Id: <20220905171601.79284-2-peron.clem@gmail.com>
+Subject: [PATCH v3 2/5] arm64: dts: allwinner: h6: Add cooling map for GPU
+Date: Mon,  5 Sep 2022 19:15:58 +0200
+Message-Id: <20220905171601.79284-3-peron.clem@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220905171601.79284-1-peron.clem@gmail.com>
 References: <20220905171601.79284-1-peron.clem@gmail.com>
@@ -79,29 +79,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Devfreq cooling device framework is used in Panfrost
-to throttle GPU in order to regulate its temperature.
+Add a simple cooling map for the GPU.
 
-Enable this driver for ARM64 SoC.
+This cooling map come from the vendor kernel 4.9 with a
+2°C hysteresis added.
 
 Signed-off-by: Clément Péron <peron.clem@gmail.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 51 +++++++++++++++++++-
+ 1 file changed, 49 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 91e58cf59c99..e557ccac8d9c 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -582,6 +582,7 @@ CONFIG_SENSORS_INA2XX=m
- CONFIG_SENSORS_INA3221=m
- CONFIG_THERMAL_GOV_POWER_ALLOCATOR=y
- CONFIG_CPU_THERMAL=y
-+CONFIG_DEVFREQ_THERMAL=y
- CONFIG_THERMAL_EMULATION=y
- CONFIG_IMX_SC_THERMAL=m
- CONFIG_IMX8MM_THERMAL=m
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+index 5a28303d3d4c..1259ab0c3956 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+@@ -186,6 +186,7 @@ gpu: gpu@1800000 {
+ 			clocks = <&ccu CLK_GPU>, <&ccu CLK_BUS_GPU>;
+ 			clock-names = "core", "bus";
+ 			resets = <&ccu RST_BUS_GPU>;
++			#cooling-cells = <2>;
+ 			status = "disabled";
+ 		};
+ 
+@@ -1072,9 +1073,55 @@ map0 {
+ 		};
+ 
+ 		gpu-thermal {
+-			polling-delay-passive = <0>;
+-			polling-delay = <0>;
++			polling-delay-passive = <1000>;
++			polling-delay = <2000>;
+ 			thermal-sensors = <&ths 1>;
++
++			trips {
++				gpu_alert0: gpu-alert-0 {
++					temperature = <95000>;
++					hysteresis = <2000>;
++					type = "passive";
++				};
++
++				gpu_alert1: gpu-alert-1 {
++					temperature = <100000>;
++					hysteresis = <2000>;
++					type = "passive";
++				};
++
++				gpu_alert2: gpu-alert-2 {
++					temperature = <105000>;
++					hysteresis = <2000>;
++					type = "passive";
++				};
++
++				gpu-crit {
++					temperature = <115000>;
++					hysteresis = <0>;
++					type = "critical";
++				};
++			};
++
++			cooling-maps {
++				// Fordid the GPU to go over 756MHz
++				map0 {
++					trip = <&gpu_alert0>;
++					cooling-device = <&gpu 1 THERMAL_NO_LIMIT>;
++				};
++
++				// Fordid the GPU to go over 624MHz
++				map1 {
++					trip = <&gpu_alert1>;
++					cooling-device = <&gpu 2 THERMAL_NO_LIMIT>;
++				};
++
++				// Fordid the GPU to go over 576MHz
++				map2 {
++					trip = <&gpu_alert2>;
++					cooling-device = <&gpu 3 THERMAL_NO_LIMIT>;
++				};
++			};
+ 		};
+ 	};
+ };
 -- 
 2.34.1
 
