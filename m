@@ -1,93 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E5F2561
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 Sep 2022 14:37:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 560CDC433C1;
-	Mon,  5 Sep 2022 14:37:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1662388651;
-	bh=EfVrz7hsdJqROChFgfcYCDytEwOKRltEWiE8QmfhHwU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tywYUqphQhOv05BJumMzuExgaYoPQG/4CejLoVhTcrmNS8ekT98j/E2d4GqEbAJDp
-	 Oc4+TRNanONALJaIXa9nkNFr1tZelmE3waxmWX/DYzgA7ha/k/qyblsiLWC4Khw7Pf
-	 t0axjVOeaU4DIYGMdtVGsWbrargAjwfEkbrkESTF0NfQcgAH7ObadRHt3+w4D3Ivze
-	 Ci8pn5Ndd/v74Mhl85Sv2NK1sFBDmXE7uQWj1coElMOm3V+iXcFJnApLDhMSq1tObY
-	 uv+/9RkIIqifriNevXFx9QDm/rbH9iicn7p4I8HSDWovXfplDzt0ADT0mWNEmIRGNq
-	 nSWS9DG2BOaow==
-Date: Mon, 5 Sep 2022 15:37:15 +0100
-From: Lee Jones <lee@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D39B2561
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Sep 2022 14:57:34 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 5A39E580222;
+	Mon,  5 Sep 2022 10:57:33 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Mon, 05 Sep 2022 10:57:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1662389853; x=1662397053; bh=8QpD9QHWJ3
+	ZAcUP/Du443zVv5hbNZSb8ty9lWaa/wGU=; b=lXM2P4WcRuf2ASsUJZF7RCJkH6
+	Ylyv1uOXjUelst3OGCJ40g1RO9cicrzW0DqHtFx67qOZQepycOt7YODaS+Z3UCYU
+	xiUPjSX+t7Za0NcWq3NcKWcgr7XHoRHPOkVrpkAaK9xqXD5Zgxq1foaua3jyn6b7
+	0eyaPuCXIONCQMeka19bc7gavaKm7QF1uedVc/PdcQ6jwHF+aLi3pHsE253hFhqy
+	EyD7BJb5w0faD7aDun6hDK9IKeDBA+AvggdMB52XffsrDNVrH8RSVaZVjphTLlM5
+	i1Whk8kNZP7VMTZwHCjzwFUJ7wEm+xrlPVTUNsBErjzBZ9t3Wa0f+D3iSX7g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1662389853; x=1662397053; bh=8QpD9QHWJ3ZAcUP/Du443zVv5hbN
+	ZSb8ty9lWaa/wGU=; b=eJLuR+KUme8o4FRaICwZbGRxSjB3xBftb4Gb7nWDUB7U
+	pv0r3P3krh6wz+XI/1n1JeQhUha+e0DnnieItY6gT2/1hAfhqeEAb5xQzjw7tOhm
+	p20Evv6rotQicrPL8uugGearEiwZRoZv9qWmM8cgP2sQeK/Ik2l2DFFtBvXMXFTi
+	8C9putitPMtDKOfGpGhtY9FkL7TYMVXdIkMkk3vyoypSETZDe9I5Z/tRVd+GzrGs
+	fHEvHNzFhOu3/x+JSU/blWXyLOlVWvOMeSeDxsTt1yBbjlJQK7DhPbHIZ3k9weXd
+	KarSty3ixWH8DcV4u6stghnOewWvxAQ1JwGFbyWWsg==
+X-ME-Sender: <xms:XA4WY1fiBU1ECfDf7wmaBkisGTWTvm7s8Ies8w1PtVwZ1L5mbrQ8Fg>
+    <xme:XA4WYzOlBXenNXjKDVayk8WfQRF-pGVRHZjdD5yUuhOozYNWUMIzSPZJ9cbsqMn64
+    uuJQMDWlS14Mcixgjw>
+X-ME-Received: <xmr:XA4WY-iANzxwUTMWFgq-LsGvxR8KKEHoPP9JzTnmgX7lfJfZ6fDaSPaiyxY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeliedgkeegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeevuddthffgfeeiffejgfeghfeludegkedtgefgffejtdegtddvleduvdfh
+    teehveenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+    hh
+X-ME-Proxy: <xmx:XA4WY---Ncx0ZtdxgQEbadw4u4oWLWaa-7P65288auVolghcPBvPqg>
+    <xmx:XA4WYxvKBL8vyFG3nWU1jEibhAPGnTExbgYL-TwX_LWRS97WjEKaHQ>
+    <xmx:XA4WY9HraN7M_qm-dwOKPjrqnwiQ1TNB6MxGXaTCeKryw8hkBIhprw>
+    <xmx:XQ4WYxdVilKmghQfD17Zzl66x1m1EWhGFxB48Aw90XtbjJoW3D6Qfw>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 5 Sep 2022 10:57:32 -0400 (EDT)
+Date: Mon, 5 Sep 2022 16:57:29 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+	Chen-Yu Tsai <wens@csie.org>,	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jani Nikula <jani.nikula@linux.intel.com>,	Lyude Paul <lyude@redhat.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Tim Harvey <tharvey@gateworks.com>,
-	Robert Jones <rjones@gateworks.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	- <patches@opensource.cirrus.com>,
-	Steve Twiss <stwiss.opensource@diasemi.com>,
-	Chris Zhong <zyw@rock-chips.com>,
-	Zhang Qing <zhangqing@rock-chips.com>,
-	Alistair Francis <alistair@alistair23.me>,
-	Amelie Delaunay <amelie.delaunay@foss.st.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Renner Berthing <kernel@esmil.dk>,
-	Krzysztof Kozlowski <krzk@kernel.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH] dt-bindings: mfd: Add missing
- (unevaluated|additional)Properties on child nodes
-Message-ID: <YxYH+POIURB9RO7T@google.com>
-References: <20220823145649.3118479-4-robh@kernel.org>
+	Samuel Holland <samuel@sholland.org>,	Karol Herbst <kherbst@redhat.com>,
+ Emma Anholt <emma@anholt.net>,	Daniel Vetter <daniel@ffwll.ch>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Dom Cobley <dom@raspberrypi.com>,	Hans de Goede <hdegoede@redhat.com>,
+	linux-arm-kernel@lists.infradead.org,	Phil Elwell <phil@raspberrypi.com>,
+ intel-gfx@lists.freedesktop.org,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	nouveau@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v2 00/41] drm: Analog TV Improvements
+Message-ID: <20220905145729.ln675jko3aw6sgzs@houat>
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <24e09a29-6d04-3b1e-63ce-cd3c31d350e2@tronnes.org>
+ <020d44e6-884b-a817-8265-3461638cac71@tronnes.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fq3utlr2k6iltjfz"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220823145649.3118479-4-robh@kernel.org>
+In-Reply-To: <020d44e6-884b-a817-8265-3461638cac71@tronnes.org>
 
-On Tue, 23 Aug 2022, Rob Herring wrote:
 
-> In order to ensure only documented properties are present, node schemas
-> must have unevaluatedProperties or additionalProperties set to false
-> (typically).
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../mfd/allwinner,sun6i-a31-prcm.yaml         | 40 +++++++++++++++++++
->  .../mfd/allwinner,sun8i-a23-prcm.yaml         | 10 +++++
->  .../bindings/mfd/cirrus,lochnagar.yaml        |  5 +++
->  .../devicetree/bindings/mfd/dlg,da9063.yaml   |  7 ++--
->  .../bindings/mfd/gateworks-gsc.yaml           |  5 ++-
->  .../bindings/mfd/maxim,max14577.yaml          |  1 +
->  .../bindings/mfd/maxim,max77843.yaml          |  1 +
->  .../bindings/mfd/rockchip,rk817.yaml          |  2 +
->  .../bindings/mfd/silergy,sy7636a.yaml         |  1 +
->  .../bindings/mfd/st,stm32-lptimer.yaml        |  4 ++
->  .../bindings/mfd/st,stm32-timers.yaml         |  3 ++
->  .../devicetree/bindings/mfd/st,stmfx.yaml     |  1 +
->  .../bindings/mfd/stericsson,ab8500.yaml       | 22 ++++++++++
->  .../devicetree/bindings/mfd/ti,tps65086.yaml  |  1 +
->  .../bindings/mfd/x-powers,axp152.yaml         |  1 +
->  15 files changed, 100 insertions(+), 4 deletions(-)
+--fq3utlr2k6iltjfz
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-What are your plans for this set?
+On Fri, Sep 02, 2022 at 01:28:16PM +0200, Noralf Tr=F8nnes wrote:
+>=20
+>=20
+> Den 01.09.2022 21.35, skrev Noralf Tr=F8nnes:
+> >=20
+> >=20
+> > I have finally found a workaround for my kernel hangs.
+> >=20
+> > Dom had a look at my kernel and found that the VideoCore was fine, and
+> > he said this:
+> >=20
+> >> That suggests cause of lockup was on arm side rather than VC side.
+> >>
+> >> But it's hard to diagnose further. Once you've had a peripheral not
+> >> respond, the AXI bus locks up and no further operations are possible.
+> >> Usual causes of this are required clocks being stopped or domains
+> >> disabled and then trying to access the hardware.
+> >>
+> >=20
+> > So when I got this on my 64-bit build:
+> >=20
+> > [  166.702171] SError Interrupt on CPU1, code 0x00000000bf000002 -- SEr=
+ror
+> > [  166.702187] CPU: 1 PID: 8 Comm: kworker/u8:0 Tainted: G        W
+> >     5.19.0-rc6-00096-gba7973977976-dirty #1
+> > [  166.702200] Hardware name: Raspberry Pi 4 Model B Rev 1.1 (DT)
+> > [  166.702206] Workqueue: events_freezable_power_ thermal_zone_device_c=
+heck
+> > [  166.702231] pstate: 200000c5 (nzCv daIF -PAN -UAO -TCO -DIT -SSBS
+> > BTYPE=3D--)
+> > [  166.702242] pc : regmap_mmio_read32le+0x10/0x28
+> > [  166.702261] lr : regmap_mmio_read+0x44/0x70
+> > ...
+> > [  166.702606]  bcm2711_get_temp+0x58/0xb0 [bcm2711_thermal]
+> >=20
+> > I wondered if that reg read was stalled due to a clock being stopped.
+> >=20
+> > Lo and behold, disabling runtime pm and keeping the vec clock running
+> > all the time fixed it[1].
+> >=20
+> > I don't know what the problem is, but at least I can now test this patc=
+hset.
+> >=20
+> > [1] https://gist.github.com/notro/23b984e7fa05cfbda2db50a421cac065
+> >=20
+>=20
+> It turns out I didn't have to disable runtime pm:
+> https://gist.github.com/notro/0adcfcb12460b54e54458afe11dc8ea2
 
-Want me to merge it?
+If the bcm2711_thermal IP needs that clock to be enabled, it should grab
+a reference itself, but it looks like even the device tree binding
+doesn't ask for one.
 
--- 
-Lee Jones [李琼斯]
+Maxime
+
+--fq3utlr2k6iltjfz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYxYOWQAKCRDj7w1vZxhR
+xZXhAP94pqs+pj7lGSsjwlmP/UEuFHEg9U2CXHj8wPM/2qMMIgEAnt6LqzGRnWKu
+1s/dJJP8pFIF3pOYAXRfYltS8OWIzAs=
+=ha9g
+-----END PGP SIGNATURE-----
+
+--fq3utlr2k6iltjfz--
