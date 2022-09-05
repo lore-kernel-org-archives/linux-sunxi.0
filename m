@@ -1,63 +1,188 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5CE3C02
-	for <linux-sunxi@lists.linux.dev>; Sun,  4 Sep 2022 20:16:09 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (unknown [217.70.183.199])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 2F66CD108D
-	for <linux-sunxi@lists.linux.dev>; Sun,  4 Sep 2022 20:11:12 +0000 (UTC)
-Received: (Authenticated sender: peter@korsgaard.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 74875FF804;
-	Sun,  4 Sep 2022 20:10:53 +0000 (UTC)
-Received: from peko by dell.be.48ers.dk with local (Exim 4.94.2)
-	(envelope-from <peter@korsgaard.com>)
-	id 1oUvxD-005rMX-Lq; Sun, 04 Sep 2022 22:10:51 +0200
-From: Peter Korsgaard <peter@korsgaard.com>
-To: <Conor.Dooley@microchip.com>
-Cc: <samuel@sholland.org>,  <wens@csie.org>,  <jernej.skrabec@gmail.com>,
-  <linux-sunxi@lists.linux.dev>,  <palmer@dabbelt.com>,
-  <paul.walmsley@sifive.com>,  <aou@eecs.berkeley.edu>,
-  <linux-riscv@lists.infradead.org>,  <robh+dt@kernel.org>,
-  <devicetree@vger.kernel.org>,  <linux-kernel@vger.kernel.org>,
-  <krzysztof.kozlowski+dt@linaro.org>,  <heiko@sntech.de>
-Subject: Re: [PATCH 07/12] riscv: dts: allwinner: Add Allwinner D1 Nezha
- devicetree
-References: <20220815050815.22340-1-samuel@sholland.org>
-	<20220815050815.22340-8-samuel@sholland.org>
-	<adc4a8e2-7347-7616-99b9-59762023b2ff@microchip.com>
-Date: Sun, 04 Sep 2022 22:10:51 +0200
-In-Reply-To: <adc4a8e2-7347-7616-99b9-59762023b2ff@microchip.com> (Conor
-	Dooley's message of "Fri, 19 Aug 2022 22:10:44 +0000")
-Message-ID: <87o7vuzyr8.fsf@dell.be.48ers.dk>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637813D7A
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Sep 2022 10:18:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=nGjgsqGfJ0L+5KqUZMoJ4DGF2/kaGZuM3mOBrnObORY=; b=GuFH49lIq7dXPIMGs2vx4oc3BR
+	e4YS/7YXDJgB9v/zgketZQx9j+ssn++8p5j5K3bgQHeAgYXYvDb4xMsOlhPfqz7vlqzPscXDqPiDp
+	TuZk6qPEaf9gEEvSTnRfIOwWc95dRQfj//0k4w1VdwEkrGqBd9ai/8uZRyhuSxUeSOOObjAaIyW6B
+	2x5vmyH3jI24qzuKuKEcC/2jq+sAieA5uyVJr0iVO0oz10Maa9WzNwr34UsF7CYZqJWlbCMUkDiex
+	HCn3YQ35Mqkh6eFmO3/78uayPkQngfVpngj7+TknlebgMGDtZ5dq9zlx9rs99wN7jTx7Ln6187TRI
+	kHjBOxRA==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=59939)
+	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <noralf@tronnes.org>)
+	id 1oV9BW-00065d-5J; Mon, 05 Sep 2022 12:18:30 +0200
+Message-ID: <ae5932bf-c34d-8e11-c71f-f470e03822e4@tronnes.org>
+Date: Mon, 5 Sep 2022 12:18:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 09/41] drm/connector: Add TV standard property
+To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
+ Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+ Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>,
+ Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ linux-arm-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ intel-gfx@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, Dom Cobley <dom@raspberrypi.com>,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-9-459522d653a7@cerno.tech>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v2-9-459522d653a7@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
->>>>>   <Conor.Dooley@microchip.com> writes:
 
- > Hey Samuel,
- > Finally got around to giving this a go with the fix for loading
- > modules which is mostly what was blocking me before..
 
- > On 15/08/2022 06:08, Samuel Holland wrote:
- >> "D1 Nezha" is Allwinner's first-party development board for the D1 SoC.
- >> It was shipped with 512M, 1G, or 2G of DDR3. It supports onboard audio,
+Den 29.08.2022 15.11, skrev Maxime Ripard:
+> The TV mode property has been around for a while now to select and get the
+> 
+> current TV mode output on an analog TV connector.
+> 
+> 
+> 
+> Despite that property name being generic, its content isn't and has been
+> 
+> driver-specific which makes it hard to build any generic behaviour on top
+> 
+> of it, both in kernel and user-space.
+> 
+> 
+> 
+> Let's create a new bitmask tv norm property, that can contain any of the
+> 
+> analog TV standards currently supported by kernel drivers. Each driver can
+> 
+> then pass in a bitmask of the modes it supports.
+> 
+> 
+> 
+> We'll then be able to phase out the older tv mode property.
+> 
+> 
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> 
+> 
+> 
 
- > I am really not keen on the way you have things, with the memory
- > nodes removed from the device tree. I know your preferred flow
- > for booting these things might be to pass the dtb up from U-Boot,
- > but I think the devicetree in the kernel should be usable in a
- > standalone manner, even if that is the barest-minimum memory
- > config.
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
 
-Yes, this also confused me. Part of the reason seems to be that u-boot
-on RISC-V doesn't fixup the memory node of a provided device tree like
-it is done on E.G. ARM for some reason.
+> +/**
+> 
+> + * drm_mode_create_tv_properties - create TV specific connector properties
+> 
+> + * @dev: DRM device
+> 
+> + * @supported_tv_modes: Bitmask of TV modes supported (See DRM_MODE_TV_MODE_*)
+> 
+> +
+> 
+> + * Called by a driver's TV initialization routine, this function creates
+> 
+> + * the TV specific connector properties for a given device.  Caller is
+> 
+> + * responsible for allocating a list of format names and passing them to
+> 
+> + * this routine.
+> 
+> + *
+> 
+> + * Returns:
+> 
+> + * 0 on success or a negative error code on failure.
+> 
+> + */
+> 
+> +int drm_mode_create_tv_properties(struct drm_device *dev,
+> 
+> +				  unsigned int supported_tv_modes)
+> 
+> +{
+> 
+> +	struct drm_prop_enum_list tv_mode_list[DRM_MODE_TV_MODE_MAX];
+> 
+> +	struct drm_property *tv_mode;
+> 
+> +	unsigned int i, len = 0;
+> 
+> +
+> 
 
--- 
-Bye, Peter Korsgaard
+Can you add a check here like in the legacy version:
+
+	if (dev->mode_config.tv_mode_property)
+		return 0;
+
+This way it's possible to call this multiple times. Like in drm/gud
+during connector init if there are multiple TV connectors or if a device
+with multiple IP blocks should show up.
+
+Noralf.
+
+> +	for (i = 0; i < DRM_MODE_TV_MODE_MAX; i++) {
+> 
+> +		if (!(supported_tv_modes & BIT(i)))
+> 
+> +			continue;
+> 
+> +
+> 
+> +		tv_mode_list[len].type = i;
+> 
+> +		tv_mode_list[len].name = drm_get_tv_mode_name(i);
+> 
+> +		len++;
+> 
+> +	}
+> 
+> +
+> 
+> +	tv_mode = drm_property_create_enum(dev, 0, "TV mode",
+> 
+> +					   tv_mode_list, len);
+> 
+> +	if (!tv_mode)
+> 
+> +		return -ENOMEM;
+> 
+> +
+> 
+> +	dev->mode_config.tv_mode_property = tv_mode;
+> 
+> +
+> 
+> +	return drm_mode_create_tv_properties_legacy(dev, 0, NULL);
+> 
+> +}
+> 
+> +EXPORT_SYMBOL(drm_mode_create_tv_properties);
+> 
