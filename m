@@ -1,57 +1,62 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A320E17D1
-	for <linux-sunxi@lists.linux.dev>; Tue,  6 Sep 2022 15:30:43 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id c131-20020a1c3589000000b003a84b160addso9140684wma.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 06 Sep 2022 08:30:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 036945393
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 Sep 2022 15:30:44 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id k9so16061343wri.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 06 Sep 2022 08:30:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=zJZPxQVJEy8FT+BLePfAsrbdveDVonWnxw7E4dm+iGc=;
-        b=jKxJ93rzIhzwM+an4KKX7gs+eUdz1/4iPoMYXEGxDsJrptfsYkEkmpqywMJbpbLAnw
-         5a7R2dZQP0CiDTDqEDS5h/lCedNJvxUCqcbN+LInDDMZP3HBNGsuL0Hg3IMCkKhE6R+i
-         IuJmwVoyxm+BpJEk85mmEmFWpfH+bz6RMKP/ZrT+LeQ4tDqKNGAIHvty77DmsWKitgli
-         ZyhQwk72QenVaKDKdv5r91j4wclvfUMkjgsdE2rH/IY5vsvwB6ivc+fSeVNvWNwWBZdH
-         9oYVJEv0jJja/bvp/vqdd/C9mCtzrY91AJt9pc736309slFTFOPOfT3AdAMtQ6Al1xn7
-         FuoQ==
+        bh=deNM8qIhqEaf1BX3jHfJgbq+ntr7dEybvk2vQtWGvA8=;
+        b=hQ2ek4yNVW7yd3MqyzdOpp9dpyjXZQcaP3Ka31WgTs7bJBdonNXKn9nFKFVfCZxIkP
+         qwaxe2flVffWR6WHNb5hREtROfAUl2UX9FdyCHFuwXGCrxlBJJYGDIa1zulG11zNHl+w
+         JliIq5ET9TIyvOpGqpx51TD0uG7Ib21wVAdwhYCZmCy5Iqp/aCVgvVZrMmX6OM0pukAU
+         hSKJTFfk8Gka5a2gWpHQa1AzFjYNuSWBgImwH/LyzOrPDOWiEG9hdheSOGjurtS7/HdI
+         5ENk2RmhTXaaL954QfXE/uc/tR9z4iHn4T0c+Qhgio3RCAWy1hvmzL9S821lInjlwyux
+         /9UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=zJZPxQVJEy8FT+BLePfAsrbdveDVonWnxw7E4dm+iGc=;
-        b=AekHRisscbOMS8J8TriK1G2BT+rbxm0uc2RE2vi8Kr15hnCeNUCVKVGeTDolWaL3Uf
-         voMUAeXXFL0a8QiUXPtdahFHG7hh9pop2Y1fBB8oV646/I6wqJDfPsp9905H19kJSOaL
-         1ly222krj1OPdeV8H4hVZcsWImEjhs6S7KxsXk0nOgmJlHchI3s7Yf1gpntHY1JEoDBP
-         DHQXRUybRMtEBBtyP5AhxZZ/0vWmb1+9SoY54Ca+3bDBAGvDQm7xQStPEz+ZeuFV94Om
-         3k+YEs5J1tPismJR09swdjXMYpriWtX4ZIRVlHLzUfkQJX/G6i6cohEkSgIvQCgiD821
-         ON9A==
-X-Gm-Message-State: ACgBeo3MMnco+b0x10bqF7lvzP/i+u+r5XleneIieHEZt4/amiLGpKOE
-	2vH2ra9CeQ2JE92BPrSAb3e+302VO5uYcA==
-X-Google-Smtp-Source: AA6agR6X8fTOGpPx9SyhJ018vZ730P+biN2CXUDw5K/HkGx0KjlSD838vU8LLk6q1i8Pn9Eltxyhsg==
-X-Received: by 2002:a05:600c:3c96:b0:3a6:59b1:5eb5 with SMTP id bg22-20020a05600c3c9600b003a659b15eb5mr14328095wmb.187.1662478241867;
-        Tue, 06 Sep 2022 08:30:41 -0700 (PDT)
+        bh=deNM8qIhqEaf1BX3jHfJgbq+ntr7dEybvk2vQtWGvA8=;
+        b=frIrsW8ubYAQYD/Em2QlsGy9nUDmKz73ZzwxvtR0BvY3XWtWyG1SaYLcTsh09qrclq
+         +sgOQhbyQQx5KycoXuiYN96JqowemFgdQMSlP0Qil74pjyOPBgJtlyW7r0weAY1xLYob
+         q8tyw8kp0/ML1qFmH68+Kx9QUgH/h2uQyqPZNH+R4sq5WvWeJ+k/ISdfgcMlE/hOjuth
+         +FO/C9CXTVWXg8YR92h//LvoSHjdvjKUqLq8wLnc+4loa7r1pF799v4662chEcnItCt8
+         MsJvifX+QUhXAbwSzoVnJrezom8obRy97fG6pIlJDl8UcyHO7tiGTB0XH5z05bHpL1Vq
+         qkQQ==
+X-Gm-Message-State: ACgBeo2GLrj9/pTX+5HDOm1dfh4V3+BY+xpx3J+AQanaFQtHy9ot2ppR
+	F0JGfz2AyA9EaUckGxEMH0g=
+X-Google-Smtp-Source: AA6agR7XgMMod/UzqnVyMp/Du84+AgxUL59KAC6k2gnekD3iXBLrlQFzXfkAgYjmWGxaKnWPSA2U5A==
+X-Received: by 2002:a5d:6e8e:0:b0:220:5fa1:d508 with SMTP id k14-20020a5d6e8e000000b002205fa1d508mr29501866wrz.337.1662478243202;
+        Tue, 06 Sep 2022 08:30:43 -0700 (PDT)
 Received: from Clement-Blade14.outsight.local (lputeaux-656-1-11-33.w82-127.abo.wanadoo.fr. [82.127.142.33])
-        by smtp.gmail.com with ESMTPSA id 24-20020a05600c22d800b003a6125562e1sm14922731wmg.46.2022.09.06.08.30.40
+        by smtp.gmail.com with ESMTPSA id 24-20020a05600c22d800b003a6125562e1sm14922731wmg.46.2022.09.06.08.30.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Sep 2022 08:30:41 -0700 (PDT)
+        Tue, 06 Sep 2022 08:30:42 -0700 (PDT)
 From: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
 To: Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+	Rob Herring <robh@kernel.org>,
+	Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+	Steven Price <steven.price@arm.com>,
+	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+	David Airlie <airlied@linux.ie>,
+	Daniel Vetter <daniel@ffwll.ch>
 Cc: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
-	=?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
-Subject: [PATCH v4 3/5] arm64: dts: allwinner: h6: Add GPU OPP table
-Date: Tue,  6 Sep 2022 17:30:32 +0200
-Message-Id: <20220906153034.153321-4-peron.clem@gmail.com>
+	=?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>
+Subject: [PATCH v4 4/5] drm/panfrost: devfreq: set opp to the recommended one to configure regulator
+Date: Tue,  6 Sep 2022 17:30:33 +0200
+Message-Id: <20220906153034.153321-5-peron.clem@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220906153034.153321-1-peron.clem@gmail.com>
 References: <20220906153034.153321-1-peron.clem@gmail.com>
@@ -64,112 +69,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add an Operating Performance Points table for the GPU to
-enable Dynamic Voltage & Frequency Scaling on the H6.
+Enabling panfrost GPU OPP with dynamic regulator will make OPP
+responsible to enable and configure it.
 
-The voltage range is set with minimal voltage set to the target
-and the maximal voltage set to 1.2V. This allow DVFS framework to
-work properly on board with fixed regulator.
+Unfortunatly OPP configure and enable the regulator when an OPP
+is asked to be set, which is not the case during
+panfrost_devfreq_init().
 
+This leave the regulator unconfigured and if no GPU load is
+triggered, no OPP is asked to be set which make the regulator framework
+switching it off during regulator_late_cleanup() without
+noticing and therefore make the board hang as any access to GPU
+memory space make bus locks up.
+
+Call dev_pm_opp_set_opp() with the recommend OPP in
+panfrost_devfreq_init() to enable the regulator, this will properly
+configure and enable the regulator and will avoid any switch off
+by regulator_late_cleanup().
+
+Suggested-by: Viresh Kumar <viresh.kumar@linaro.org>
 Signed-off-by: Clément Péron <peron.clem@gmail.com>
 ---
- .../boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi | 87 +++++++++++++++++++
- 1 file changed, 87 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
-new file mode 100644
-index 000000000000..b48049c4fc85
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
-@@ -0,0 +1,87 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+// Copyright (C) 2022 Clément Péron <peron.clem@gmail.com>
+diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+index 5110cd9b2425..fe5f12f16a63 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
++++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+@@ -131,6 +131,17 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+ 		return PTR_ERR(opp);
+ 
+ 	panfrost_devfreq_profile.initial_freq = cur_freq;
 +
-+/ {
-+	gpu_opp_table: opp-table-gpu {
-+		compatible = "operating-points-v2";
++	/*
++	 * Set the recommend OPP this will enable and configure the regulator
++	 * if any and will avoid a switch off by regulator_late_cleanup()
++	 */
++	ret = dev_pm_opp_set_opp(dev, opp);
++	if (ret) {
++		DRM_DEV_ERROR(dev, "Couldn't set recommended OPP\n");
++		return ret;
++	}
 +
-+		opp-216000000 {
-+			opp-hz = /bits/ 64 <216000000>;
-+			opp-microvolt = <810000 810000 1200000>;
-+		};
-+
-+		opp-264000000 {
-+			opp-hz = /bits/ 64 <264000000>;
-+			opp-microvolt = <810000 810000 1200000>;
-+		};
-+
-+		opp-312000000 {
-+			opp-hz = /bits/ 64 <312000000>;
-+			opp-microvolt = <810000 810000 1200000>;
-+		};
-+
-+		opp-336000000 {
-+			opp-hz = /bits/ 64 <336000000>;
-+			opp-microvolt = <810000 810000 1200000>;
-+		};
-+
-+		opp-360000000 {
-+			opp-hz = /bits/ 64 <360000000>;
-+			opp-microvolt = <820000 820000 1200000>;
-+		};
-+
-+		opp-384000000 {
-+			opp-hz = /bits/ 64 <384000000>;
-+			opp-microvolt = <830000 830000 1200000>;
-+		};
-+
-+		opp-408000000 {
-+			opp-hz = /bits/ 64 <408000000>;
-+			opp-microvolt = <840000 840000 1200000>;
-+		};
-+
-+		opp-420000000 {
-+			opp-hz = /bits/ 64 <420000000>;
-+			opp-microvolt = <850000 850000 1200000>;
-+		};
-+
-+		opp-432000000 {
-+			opp-hz = /bits/ 64 <432000000>;
-+			opp-microvolt = <860000 860000 1200000>;
-+		};
-+
-+		opp-456000000 {
-+			opp-hz = /bits/ 64 <456000000>;
-+			opp-microvolt = <870000 870000 1200000>;
-+		};
-+
-+		opp-504000000 {
-+			opp-hz = /bits/ 64 <504000000>;
-+			opp-microvolt = <890000 890000 1200000>;
-+		};
-+
-+		opp-540000000 {
-+			opp-hz = /bits/ 64 <540000000>;
-+			opp-microvolt = <910000 910000 1200000>;
-+		};
-+
-+		opp-576000000 {
-+			opp-hz = /bits/ 64 <576000000>;
-+			opp-microvolt = <930000 930000 1200000>;
-+		};
-+
-+		opp-624000000 {
-+			opp-hz = /bits/ 64 <624000000>;
-+			opp-microvolt = <950000 950000 1200000>;
-+		};
-+
-+		opp-756000000 {
-+			opp-hz = /bits/ 64 <756000000>;
-+			opp-microvolt = <1040000 1040000 1200000>;
-+		};
-+	};
-+};
-+
-+&gpu {
-+	operating-points-v2 = <&gpu_opp_table>;
-+};
+ 	dev_pm_opp_put(opp);
+ 
+ 	/*
 -- 
 2.34.1
 
