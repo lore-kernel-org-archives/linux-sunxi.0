@@ -1,237 +1,121 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10247E
-	for <linux-sunxi@lists.linux.dev>; Tue,  6 Sep 2022 08:08:31 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id lx1so21322255ejb.12
-        for <linux-sunxi@lists.linux.dev>; Tue, 06 Sep 2022 01:08:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=ixcTJEmX6ojSJFpffdmxDEeT09//71awlYUYMTCkQ2k=;
-        b=ZEw2t8eu/IGDJPWWS2O9AIx5J+sVDehAoSc0jwGGUi62VfOxEv0EBn/OlitZ+YCeRf
-         PR7LKeKeVrdvAjyp8thX5wqf3UHxdpDl/5T0XW+lG1qku5rK3Hmmkzjsm47nUXSsg7+J
-         8Q8z8iDRqSYxh3qlGRknUNhrP+SLOPhXZYUqTDAd5ceCxMn3My+V9VqLUS81gaE+cIXs
-         9GfSR3XtxUG6oomZZeXFRlN68cuesq9Zl6Ovhe3SK7WEcHMxmTFlxs4Xjq5ADtAWyUOX
-         oVY5p05K7+V5XUbz+R/MJUb0BWZLhdSpttHWjB9fbbrIPyoqqov5dyuatCRJqfNPHBKQ
-         mU6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=ixcTJEmX6ojSJFpffdmxDEeT09//71awlYUYMTCkQ2k=;
-        b=MK04gXxqfDkVRg9OmIVu1f3zcYqcnrtACXJ53Cv1Dh29vsH6vFQbE0KrX2iCU4wwWa
-         PLqA0erHnzlbYCGoKrs+kcelpfrMdT7N7FANdXY16yUhPXIgo5JFS0DoEVTA3iJxElZu
-         /TGnrxE31UfmKOsIIDdTdxNN6eYdIYK2wZlG8gsPhYgS867s0jCcsQXLB3sQHzYFQfJq
-         StzpxcbWq4Y2Qp+Y/1lB8COrLHs29I2KTltWDpIinY/LOttmGLn1JlS5CtRkj5kzysIM
-         RiDlaH0fWrRvYWHITZGAXfdac0JY6j4WHCWt4BQ0jougXgV71CqpnsRKFEJs/vN/r/ZX
-         9ugQ==
-X-Gm-Message-State: ACgBeo2g/k/Y8uoLgsXcQMCDE9ZPdcfyn+B2tAb/qP/5t5EFWE1naw1K
-	3V6m4aheA3/3ZlNMTeZzJpfPk1nwB+n+XCqPKI8=
-X-Google-Smtp-Source: AA6agR7l2FBAWvpWs6dGX+cL9sjarYnZLQUBlXz3+1QQvQp7fIsevP7hAeerxFCrUwKA5g5IT5oDby9FydR2xo3Y+I4=
-X-Received: by 2002:a17:906:8450:b0:741:5b1b:5c7f with SMTP id
- e16-20020a170906845000b007415b1b5c7fmr30767205ejy.766.1662451709902; Tue, 06
- Sep 2022 01:08:29 -0700 (PDT)
+Received: from m12-12.163.com (m12-12.163.com [220.181.12.12])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A82E37E
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 Sep 2022 08:12:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=+xJPG
+	LVVPK9/2WNOsQZiw8/Tc51nwCdtlBxjc0EKuGk=; b=L4Y9+vtJro9GCd4pI1DlD
+	fjvE5b6IKpy11ILalLowDipnL4dEj9O9mFpz5z7YJArB+pJ4jEgsTlzK2xgEKSoW
+	AvXdIlWQCM5nmKC/QgbgV8h+9LKgQ4MLU2D5xrQEhiZ0v+5gezhyduvDs88O/1zL
+	FDEbRMtkY8k9nT+v6+vaiM=
+Received: from DESKTOP-B1R4FVG.localdomain (unknown [218.201.129.20])
+	by smtp8 (Coremail) with SMTP id DMCowAD3nSIh_RZjXrl6ZQ--.31024S2;
+	Tue, 06 Sep 2022 15:56:18 +0800 (CST)
+From: qianfanguijin@163.com
+To: linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Evgeny Boger <boger@wirenboard.com>,
+	qianfan Zhao <qianfanguijin@163.com>
+Subject: [PATCH 1/2] drivers: net: mdio-sun4i: Speedup mdio read and write
+Date: Tue,  6 Sep 2022 15:56:15 +0800
+Message-Id: <20220906075616.21347-1-qianfanguijin@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220905171601.79284-1-peron.clem@gmail.com> <20220905171601.79284-5-peron.clem@gmail.com>
- <OS0PR01MB5922142861E78A1DD81AD1C9867F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAJiuCceGZJr24hVjpP0ptOkG8bMFKr=QLj0LcyDX4fUy7Rr2xA@mail.gmail.com>
- <OS0PR01MB5922EE3F6CDD827919A7763E867E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAJiuCcd7upgT6vQWHos-X1-89+Z-5xxDe2SMCdC2=_LgZaVMiw@mail.gmail.com> <OS0PR01MB5922240073630A409D67ED03867E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922240073630A409D67ED03867E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Date: Tue, 6 Sep 2022 10:08:18 +0200
-Message-ID: <CAJiuCcddO9m3L2--rycO9TVtoELy24OMb9NRdpin2mbokm=Hog@mail.gmail.com>
-Subject: Re: [PATCH v3 4/5] drm/panfrost: devfreq: set opp to the recommended
- one to configure and enable regulator
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Tomeu Vizoso <tomeu.vizoso@collabora.com>, Steven Price <steven.price@arm.com>, 
-	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>, David Airlie <airlied@linux.ie>, 
-	Daniel Vetter <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Arnd Bergmann <arnd@arndb.de>, 
-	Marcel Ziswiler <marcel.ziswiler@toradex.com>, Vinod Koul <vkoul@kernel.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Herring <robh@kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Viresh Kumar <viresh.kumar@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:DMCowAD3nSIh_RZjXrl6ZQ--.31024S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxXw47WrW3Zr15Wry8AF47Jwb_yoW5GFyxpF
+	WagrZxKr48Ja1093yqyw4DWrsxXryxJry2yFWxCa9Yqwn5Crn8KFWDKF9Yqry5KrWUJ3yq
+	vrWjyF429wnFqaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRoa0dUUUUU=
+X-Originating-IP: [218.201.129.20]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/xtbCqRx07V0Dg3ODygAAsL
 
-Hi,
+From: qianfan Zhao <qianfanguijin@163.com>
 
-On Tue, 6 Sept 2022 at 10:06, Biju Das <biju.das.jz@bp.renesas.com> wrote:
->
-> Hi Clement,
->
-> > Subject: Re: [PATCH v3 4/5] drm/panfrost: devfreq: set opp to the
-> > recommended one to configure and enable regulator
-> >
-> > Hi Biju,
-> >
-> > On Tue, 6 Sept 2022 at 08:42, Biju Das <biju.das.jz@bp.renesas.com>
-> > wrote:
-> > >
-> > > Hi Clement,
-> > >
-> > > >
-> > > > Hi,
-> > > >
-> > > > On Mon, 5 Sept 2022 at 20:17, Biju Das <biju.das.jz@bp.renesas.com>
-> > > > wrote:
-> > > > >
-> > > > > Hi,
-> > > > >
-> > > > > Thanks for the patch.
-> > > > >
-> > > > > > Subject: [PATCH v3 4/5] drm/panfrost: devfreq: set opp to the
-> > > > > > recommended one to configure and enable regulator
-> > > > > >
-> > > > > > devm_pm_opp_set_regulators() doesn't enable regulator, which
-> > > > > > make regulator framework switching it off during
-> > regulator_late_cleanup().
-> > > > >
-> > > > > In that case, why not regulator_get()for Dynamic regulator(non
-> > > > > fixed regulator)??
-> > > >
-> > > > Sorry I don't understand, what do you mean?
-> > >
-> > > Normally we need to turn on regulator and clock only when needed.
-> > > I am not sure with your new code, will make it always on and drains
-> > > the power unnecessarily and does it set lower opp or higher opp at th=
-e
-> > > start??
-> >
-> > The code doesn't make it always on, it makes it how it should be at the
-> > recommended OPP which is the "start point".
-> >
-> > If the recommended OPP says to switch off the regulator then it will.
-> >
-> > >
-> > > Compared to the fixed regulator, you have voltage regulator to contro=
-l
-> > > that is the difference between my environment and Your environment.
-> > >
-> > > I am not sure any other SoC is using voltage regulator??
-> > > If yes, thenthere should be some bug or some difference in HW which i=
-s
-> > > giving different behaviour??
-> > >
-> > > If you are the first one using voltage regulator with mali gpu, Then
-> > > Your implementation may be correct, as you have proper HW to check.
-> >
-> > The issue is that my regulator is not marked as "always-on", if no OPP =
-is
-> > called before regulator_late_cleanup() then nobody sets the
-> > regulator_enable() and the regulator is switched off, which makes my
-> > board hang.
->
-> Cool, From your testing looks like no one tested this feature with
-> mali GPU on mainline??
+msleep(1) on my board takes about 30ms, and it is too long to accept.
+Use read_poll_timeout to speedup.
 
-Or no one without always-on.
+Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
+---
+ drivers/net/mdio/mdio-sun4i.c | 29 ++++++++++++-----------------
+ 1 file changed, 12 insertions(+), 17 deletions(-)
 
-Clement
+diff --git a/drivers/net/mdio/mdio-sun4i.c b/drivers/net/mdio/mdio-sun4i.c
+index f798de3276dc..168e2a375535 100644
+--- a/drivers/net/mdio/mdio-sun4i.c
++++ b/drivers/net/mdio/mdio-sun4i.c
+@@ -26,8 +26,6 @@
+ #define EMAC_MAC_MIND_REG	(0x10)
+ #define EMAC_MAC_SSRR_REG	(0x14)
+ 
+-#define MDIO_TIMEOUT		(msecs_to_jiffies(100))
+-
+ struct sun4i_mdio_data {
+ 	void __iomem		*membase;
+ 	struct regulator	*regulator;
+@@ -36,8 +34,7 @@ struct sun4i_mdio_data {
+ static int sun4i_mdio_read(struct mii_bus *bus, int mii_id, int regnum)
+ {
+ 	struct sun4i_mdio_data *data = bus->priv;
+-	unsigned long timeout_jiffies;
+-	int value;
++	int ret, tmp, value;
+ 
+ 	/* issue the phy address and reg */
+ 	writel((mii_id << 8) | regnum, data->membase + EMAC_MAC_MADR_REG);
+@@ -45,12 +42,11 @@ static int sun4i_mdio_read(struct mii_bus *bus, int mii_id, int regnum)
+ 	writel(0x1, data->membase + EMAC_MAC_MCMD_REG);
+ 
+ 	/* Wait read complete */
+-	timeout_jiffies = jiffies + MDIO_TIMEOUT;
+-	while (readl(data->membase + EMAC_MAC_MIND_REG) & 0x1) {
+-		if (time_is_before_jiffies(timeout_jiffies))
+-			return -ETIMEDOUT;
+-		msleep(1);
+-	}
++	ret = read_poll_timeout(readl, tmp, (tmp & 1) == 0,
++				20, 10000, false,
++				data->membase + EMAC_MAC_MIND_REG);
++	if (ret < 0)
++		return ret;
+ 
+ 	/* push down the phy io line */
+ 	writel(0x0, data->membase + EMAC_MAC_MCMD_REG);
+@@ -64,7 +60,7 @@ static int sun4i_mdio_write(struct mii_bus *bus, int mii_id, int regnum,
+ 			    u16 value)
+ {
+ 	struct sun4i_mdio_data *data = bus->priv;
+-	unsigned long timeout_jiffies;
++	int ret, tmp;
+ 
+ 	/* issue the phy address and reg */
+ 	writel((mii_id << 8) | regnum, data->membase + EMAC_MAC_MADR_REG);
+@@ -72,12 +68,11 @@ static int sun4i_mdio_write(struct mii_bus *bus, int mii_id, int regnum,
+ 	writel(0x1, data->membase + EMAC_MAC_MCMD_REG);
+ 
+ 	/* Wait read complete */
+-	timeout_jiffies = jiffies + MDIO_TIMEOUT;
+-	while (readl(data->membase + EMAC_MAC_MIND_REG) & 0x1) {
+-		if (time_is_before_jiffies(timeout_jiffies))
+-			return -ETIMEDOUT;
+-		msleep(1);
+-	}
++	ret = read_poll_timeout(readl, tmp, (tmp & 1) == 0,
++				20, 10000, false,
++				data->membase + EMAC_MAC_MIND_REG);
++	if (ret < 0)
++		return ret;
+ 
+ 	/* push down the phy io line */
+ 	writel(0x0, data->membase + EMAC_MAC_MCMD_REG);
+-- 
+2.25.1
 
->
-> Cheers,
-> Biju
->
->
-> >
-> > Like Viresh recommends I will send an update with more details in the
-> > commit log.
-> >
-> > Regards,
-> > Clement
-> >
-> >
-> > >
-> > > >
-> > > > >
-> > > > > >
-> > > > > > Call dev_pm_opp_set_opp() with the recommend OPP in
-> > > > > > panfrost_devfreq_init() to enable the regulator and avoid any
-> > > > > > switch off by regulator_late_cleanup().
-> > > > > >
-> > > > > > Suggested-by: Viresh Kumar <viresh.kumar@linaro.org>
-> > > > > > Signed-off-by: Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
-> > > > > > ---
-> > > > > >  drivers/gpu/drm/panfrost/panfrost_devfreq.c | 8 ++++++++
-> > > > > >  1 file changed, 8 insertions(+)
-> > > > > >
-> > > > > > diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > > > > > b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > > > > > index 5110cd9b2425..67b242407156 100644
-> > > > > > --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > > > > > +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > > > > > @@ -131,6 +131,14 @@ int panfrost_devfreq_init(struct
-> > > > > > panfrost_device
-> > > > > > *pfdev)
-> > > > > >               return PTR_ERR(opp);
-> > > > > >
-> > > > > >       panfrost_devfreq_profile.initial_freq =3D cur_freq;
-> > > > > > +
-> > > > > > +     /* Setup and enable regulator */
-> > > > > > +     ret =3D dev_pm_opp_set_opp(dev, opp);
-> > > > > > +     if (ret) {
-> > > > > > +             DRM_DEV_ERROR(dev, "Couldn't set recommended
-> > OPP\n");
-> > > > > > +             return ret;
-> > > > > > +     }
-> > > > >
-> > > > >
-> > > > > FYI,
-> > > > > On RZ/G2L mali gpu, we have fixed regulator and I was able to do
-> > > > > GPU OPP transition without any issues previously.
-> > > >
-> > > > rzg2l-smarc-som.dtsi uses regulator reg_1p1v; which is marked as
-> > > > regulator-always-on; that's why
-> > > > regulator_late_cleanup() doesn't switch it off.
-> > >
-> > > Yes that is correct. It is fixed regulator and always on.
-> > > We control only frequency.
-> > >
-> > > Cheers,
-> > > Biju
-> > >
-> > > >
-> > > > >
-> > > > > root@smarc-rzg2l:~# cat /sys/class/devfreq/11840000.gpu/trans_sta=
-t
-> > > > >      From  :   To
-> > > > >            :  50000000  62500000 100000000 125000000 200000000
-> > > > 250000000 400000000 500000000   time(ms)
-> > > > > *  50000000:         0         0         0         0         0
-> > > > 0         0         1       144
-> > > > >    62500000:         0         0         0         0         0
-> > > > 0         0         0         0
-> > > > >   100000000:         0         0         0         0         0
-> > > > 0         0         9       524
-> > > > >   125000000:         0         0         9         0         0
-> > > > 0         0         3      2544
-> > > > >   200000000:         0         0         0        11         0
-> > > > 0         0        46      3304
-> > > > >   250000000:         1         0         0         0        33
-> > > > 0         0         0      7496
-> > > > >   400000000:         0         0         0         0        16
-> > > > 19         0         0      2024
-> > > > >   500000000:         1         0         0         1         8
-> > > > 15        35         0      4032
-> > > > > Total transition : 208
-> > > > >
-> > > > > Cheers,
-> > > > > Biju
-> > > > >
