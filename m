@@ -1,158 +1,140 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D503239
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 Sep 2022 19:39:42 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id b16so12493785edd.4
-        for <linux-sunxi@lists.linux.dev>; Mon, 05 Sep 2022 12:39:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F34317D1
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 Sep 2022 05:17:42 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id o2-20020a17090a9f8200b0020025a22208so6567606pjp.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 05 Sep 2022 22:17:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=7sK3Pxg5lI33PaTu+416/SIw+tV3vaPUu4gPNzWPobI=;
-        b=NH4qlg6QZbeqoZj2Tm2AcMxa8dQt6DIOCmBbcpO/afGOmdkHJcxG6jxB6WcHA2zgZr
-         idzdlVtYYBmnO5OjykgPHGjqJguRfUJ8AJ6wuCKJwhP2kPNBb1vbriSXXdqvRGzgOK+x
-         7QRwxQ2ZxFvWz+99M7MaMNy07R4c5Fk1fLBQ8J5h2tTPuIU5HkUIND5fT2SzEfFizdj0
-         j1qedhwfOykL7oofHK38q0xsLgxlDMDSkanFA5SzEGZZX56RhDeE3JT8Cv1cMeoPxYbE
-         wwtggQukF1Vi9dumdIfhYW5DEjfh+LWhGrMoQIBATY0KhSzp73lDSRCb714AKRbHeeMJ
-         09+Q==
+        d=linaro.org; s=google;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date;
+        bh=8BL6o4IX1wUUdMQMOvYouiU2H1/IxMVvREYC6zLqjSM=;
+        b=TWVCL/xy2HDW+mX4jbgIhLGwdV/WxyPA4RoAN/5cH9gLWKElDmudiSt+BLgWyygYUL
+         auKw1A2QkYSevImuO2n+o1XgSBLll2Nco8q4XhnA187HbOc+U5Cp2i67rR50rs/ELzDy
+         NOtzxC8RjpPfc87jCp8e46Po/HF2L2I6nSSJbvvD4JIfQX74pWpHmEYRtB4vJrLGTYca
+         4ujNx+OlzLtM/0sqxh9DgCzOQT2n5EXHKZTz1lQZ/Fd6ziMtNu6WBBgU06Oqa3MTPYnl
+         hX27qfDSveO7p6PQRACejLid/fnq8hfCpPvh9G5VqGJjnxXq7xfwCNID6B7qc2jqgHMK
+         vsAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=7sK3Pxg5lI33PaTu+416/SIw+tV3vaPUu4gPNzWPobI=;
-        b=fCLWl9jdjYHkawmunFWY9Utur5MTFQ4d/ZxxaP5MKdWlm5SIfa6ul9c+kOsNbYbr4j
-         gOmVVUluJt6wZvQBdL+JHowjlwyrS/PKkKQXZcJhgj+9uf+bOv2GVqgVCC86jRXGiqlw
-         iwO/nmBkE+ZKc4xRB7NHRFsvY79JwGc4NakVL6ZAzFEL0y0FcMR/VWMiD3XnRQscVrum
-         6bFgA9Svv0dwpPfssOgb3LMVtUY8EGN6se1cKuD4FnZmKUoQhmP/+UqTN8rjmXkDw+NO
-         /pDVoZwtUY6LNgTxSihE/Gp4gJhl4ueaFHinpriL9yVUDT2pnYGAylelmvyJTblwAads
-         JVuQ==
-X-Gm-Message-State: ACgBeo0OdVAPcn/LNGT+K4ngOMB9dIP2UszT+qzDNYEwSP+mMxF93p9T
-	h+QgkfiVaKD5jfhoID+IVnWPJ8ZxJ3oK9as8RxE=
-X-Google-Smtp-Source: AA6agR6gCIxLGxghgPAj+EP0DXZOoyA9fExHCpxZBIF9zuDXx572eXiJijGmbmWkD3eqAnsSwuyri4I9kFJQughdEyU=
-X-Received: by 2002:aa7:c610:0:b0:44e:9a0f:753a with SMTP id
- h16-20020aa7c610000000b0044e9a0f753amr3781906edq.140.1662406781082; Mon, 05
- Sep 2022 12:39:41 -0700 (PDT)
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=8BL6o4IX1wUUdMQMOvYouiU2H1/IxMVvREYC6zLqjSM=;
+        b=B0rUxgJEi5utvvF10PJuwslqAgaRMg8QNlesWUKhXaRFm1W2miEKV0QAa6LkqWcO/x
+         mSC13sXF6BHlLJCNSMHS9Ql817tYLwmVNVZbQ416+e6q3JI1oAQZmuNayU08vyMoeGIF
+         iZ7g0KOjNB06cohEC4ZYY0uqxIsaybZoVavvYWwaItXHJvl1x6B3qgPEBaJUkEB9qezm
+         Fra7H3lgxwEuG2TvfplYpsTZRoID9JtqlZAAitpV3/lsnm+RiX2m7Ls7bIyLKH+MX68O
+         jIldQY8zNBS2EWBFwtecu+6fEBOqDvXNixAz3bZKGnzZQRorjkijEY63t9P/pBv/GSVv
+         aTCw==
+X-Gm-Message-State: ACgBeo2IdSIi2mO+UTNQHG2X9/E7I+EYdXuHKyKJqsHvc1U47eVDqW1j
+	doCtLPP3WCSimZ/oq6fsLWkfBg==
+X-Google-Smtp-Source: AA6agR4vigj/R654EMDF6SU1v26ypc66waj+AKqfllO/bMw5BRTXkx05tlGvD43pNns3B2wikjG6YA==
+X-Received: by 2002:a17:902:9007:b0:176:9f9d:463 with SMTP id a7-20020a170902900700b001769f9d0463mr10844798plp.32.1662441461799;
+        Mon, 05 Sep 2022 22:17:41 -0700 (PDT)
+Received: from localhost ([122.171.18.80])
+        by smtp.gmail.com with ESMTPSA id cp15-20020a170902e78f00b00176ae5c0f38sm3276959plb.178.2022.09.05.22.17.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Sep 2022 22:17:40 -0700 (PDT)
+Date: Tue, 6 Sep 2022 10:47:38 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+	Steven Price <steven.price@arm.com>,
+	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+	David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 4/5] drm/panfrost: devfreq: set opp to the recommended
+ one to configure and enable regulator
+Message-ID: <20220906051738.doyrdfcas7f5avkp@vireshk-i7>
+References: <20220905171601.79284-1-peron.clem@gmail.com>
+ <20220905171601.79284-5-peron.clem@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220905171601.79284-1-peron.clem@gmail.com> <20220905171601.79284-5-peron.clem@gmail.com>
- <OS0PR01MB5922142861E78A1DD81AD1C9867F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922142861E78A1DD81AD1C9867F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Date: Mon, 5 Sep 2022 21:39:29 +0200
-Message-ID: <CAJiuCceGZJr24hVjpP0ptOkG8bMFKr=QLj0LcyDX4fUy7Rr2xA@mail.gmail.com>
-Subject: Re: [PATCH v3 4/5] drm/panfrost: devfreq: set opp to the recommended
- one to configure and enable regulator
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Tomeu Vizoso <tomeu.vizoso@collabora.com>, Steven Price <steven.price@arm.com>, 
-	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>, David Airlie <airlied@linux.ie>, 
-	Daniel Vetter <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Arnd Bergmann <arnd@arndb.de>, 
-	Marcel Ziswiler <marcel.ziswiler@toradex.com>, Vinod Koul <vkoul@kernel.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Herring <robh@kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Viresh Kumar <viresh.kumar@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220905171601.79284-5-peron.clem@gmail.com>
 
-Hi,
+Your subject is 87 columns long, better to squeeze it a bit.
 
-On Mon, 5 Sept 2022 at 20:17, Biju Das <biju.das.jz@bp.renesas.com> wrote:
->
-> Hi,
->
-> Thanks for the patch.
->
-> > Subject: [PATCH v3 4/5] drm/panfrost: devfreq: set opp to the recommend=
-ed
-> > one to configure and enable regulator
-> >
-> > devm_pm_opp_set_regulators() doesn't enable regulator, which make
-> > regulator framework switching it off during regulator_late_cleanup().
->
-> In that case, why not regulator_get()for
-> Dynamic regulator(non fixed regulator)??
+On 05-09-22, 19:16, Clément Péron wrote:
+> devm_pm_opp_set_regulators() doesn't enable regulator, which make
+> regulator framework switching it off during regulator_late_cleanup().
 
-Sorry I don't understand, what do you mean?
+This isn't the normal behavior as it works for everyone at the moment.
+You need to explain what special you are doing here, because of which
+you are reaching such a situation.
 
->
-> >
-> > Call dev_pm_opp_set_opp() with the recommend OPP in
-> > panfrost_devfreq_init() to enable the regulator and avoid any switch of=
-f
-> > by regulator_late_cleanup().
-> >
-> > Suggested-by: Viresh Kumar <viresh.kumar@linaro.org>
-> > Signed-off-by: Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
-> > ---
-> >  drivers/gpu/drm/panfrost/panfrost_devfreq.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > index 5110cd9b2425..67b242407156 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > @@ -131,6 +131,14 @@ int panfrost_devfreq_init(struct panfrost_device
-> > *pfdev)
-> >               return PTR_ERR(opp);
-> >
-> >       panfrost_devfreq_profile.initial_freq =3D cur_freq;
-> > +
-> > +     /* Setup and enable regulator */
-> > +     ret =3D dev_pm_opp_set_opp(dev, opp);
-> > +     if (ret) {
-> > +             DRM_DEV_ERROR(dev, "Couldn't set recommended OPP\n");
-> > +             return ret;
-> > +     }
->
->
-> FYI,
-> On RZ/G2L mali gpu, we have fixed regulator and
-> I was able to do GPU OPP transition without any issues previously.
+i.e. you are disabling some code that uses GPU ? Please specify exact
+code so others can reproduce it as well.
 
-rzg2l-smarc-som.dtsi uses regulator reg_1p1v;
-which is marked as regulator-always-on; that's why
-regulator_late_cleanup() doesn't switch it off.
+> Call dev_pm_opp_set_opp() with the recommend OPP in
+> panfrost_devfreq_init() to enable the regulator and avoid any switch off
+> by regulator_late_cleanup().
 
-Regards,
-Clement
+The regulator is already enabled I think at this point by the
+bootloader. What you are doing here is syncing the state of the
+hardware with the software, which would disallow disabling of the
+resource unnecessarily.
 
->
-> root@smarc-rzg2l:~# cat /sys/class/devfreq/11840000.gpu/trans_stat
->      From  :   To
->            :  50000000  62500000 100000000 125000000 200000000 250000000 =
-400000000 500000000   time(ms)
-> *  50000000:         0         0         0         0         0         0 =
-        0         1       144
->    62500000:         0         0         0         0         0         0 =
-        0         0         0
->   100000000:         0         0         0         0         0         0 =
-        0         9       524
->   125000000:         0         0         9         0         0         0 =
-        0         3      2544
->   200000000:         0         0         0        11         0         0 =
-        0        46      3304
->   250000000:         1         0         0         0        33         0 =
-        0         0      7496
->   400000000:         0         0         0         0        16        19 =
-        0         0      2024
->   500000000:         1         0         0         1         8        15 =
-       35         0      4032
-> Total transition : 208
->
-> Cheers,
-> Biju
->
+> Suggested-by: Viresh Kumar <viresh.kumar@linaro.org>
+> Signed-off-by: Clément Péron <peron.clem@gmail.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_devfreq.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> index 5110cd9b2425..67b242407156 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> @@ -131,6 +131,14 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+>  		return PTR_ERR(opp);
+>  
+>  	panfrost_devfreq_profile.initial_freq = cur_freq;
+> +
+> +	/* Setup and enable regulator */
+
+Similarly here, explain why this is required to be done.
+
+> +	ret = dev_pm_opp_set_opp(dev, opp);
+> +	if (ret) {
+> +		DRM_DEV_ERROR(dev, "Couldn't set recommended OPP\n");
+> +		return ret;
+> +	}
+> +
+>  	dev_pm_opp_put(opp);
+
+Do this before checking if (ret), so the resource can be freed all the
+time.
+
+>  
+>  	/*
+> -- 
+> 2.34.1
+
+-- 
+viresh
