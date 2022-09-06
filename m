@@ -1,196 +1,152 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FDB686E6
-	for <linux-sunxi@lists.linux.dev>; Tue,  6 Sep 2022 19:26:48 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id fg1so3429098ejc.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 06 Sep 2022 12:26:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A467686E9
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 Sep 2022 19:52:28 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id gh9so3763877ejc.8
+        for <linux-sunxi@lists.linux.dev>; Tue, 06 Sep 2022 12:52:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=3oOVdi/bQtPCfcN+ik9XE1mlmO3wSv0j3YsV+Rxg9iA=;
-        b=oi+lsbgrsow9eDnffOWYdWZn4LHOIOGIOUe13rTHqTRCoiuHIMKfqZu2hMrnBmEDZf
-         sdpLszwKJF4wcItH10Gu5dYZH85MdPRVCwbugwAhEuAFcgxy6hkXnUaszaH8TcTxKbBT
-         dRfDl0qCbcEA/yByUASgFx/EuLvYr/BJYr27xx8NkZ4VRhKy4YkRwlDKzBJjFB8y9DO0
-         hwVyxz0Z6dgjavxRhDvcb3YBNnUROMbRikIG6tqHMf6AWhGvg0homiIxi7iyiu4FlMTY
-         bHfRzthhlW3dusDlm/x94JHGS5coTG5jDaStTJBO5aknisKj/UugmTQ/UcIi8Fa+gJMa
-         uUDg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=1VmPA5Yq8eTH/6a8GLeRpEEPUlpUiovS+eHf396Ag4g=;
+        b=fAEZWrlW3WNegmJlRFl5z4yJJNGBDMHOlL8r6C0EeIaNM/067+srYLvfeOAtwtihYf
+         3UxoQg6Lw4seebei0SaHQnYlb947cZAXMTcplsL63gt0t2KsN7OGNCmh6HXh0xHMAOwS
+         vLEB4QJhnmMdFnAJfVxE/h0yXpyjffrmM+LGKA+vhIm7kwA0GHIA7GdMIOBVFH9wzkUq
+         j+SXUxSv9QsiOuy5eRxsFuJEuxsVJkjQq9AQPlqYxUhEpfLWD29XFbFQSot7nyySSg0Z
+         slO2S8jGDSFLx7yGuwV6ZaLoihH3bq4KGOaglNRJLR8/GnJdZMmum0vTmDHwSqVjwlA8
+         HAuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=3oOVdi/bQtPCfcN+ik9XE1mlmO3wSv0j3YsV+Rxg9iA=;
-        b=8NOWPoJzZP2HdKRuN1if/Eg1FILGmLBPE9Niv6iu75+oG6KM5cSoCK210NIQpaGltT
-         sNXMIy2KuniiQmVDNluvBPQXFUGg0o/OvKZD1XMk28dqwMcMIR1P6jEZ6FihqRWbuG06
-         QJD0odVjbQ1vdcNsj42L/NzbmXKm2HRoykgPOtO8/tBRmmPKwpReC0ctK5VXFivm0fmz
-         P/MIcjOOP8Dr7PxPOaoKuFNYNkmgs5r071PoRgHQ6ubbHaDRzSlcClhawXq+HFqHqYM0
-         6zPzA5yJz/Cdxi/fmabYDv66qXBrDo9/lMioJTQrKfs1/dIlfRLutFGIqVmsAwAo5ABK
-         C7ZQ==
-X-Gm-Message-State: ACgBeo3KvC9JxKhfWLHkRLCpFBM5fEiQ4f9XVAHFVWgL1KckGkdyAVy4
-	bYA6wbWiLKfs1ISR3d6kSi0JJCm/PzC9gUvNIEA=
-X-Google-Smtp-Source: AA6agR70GthhctG+XzaKnAyD3X1E8+YQzb/0n4Tcz5GSF++oD42tAArTNShHfOuNh/UxP2ah4WQAFSc4TdMmm+SuxC4=
-X-Received: by 2002:a17:906:9fc1:b0:761:9192:504f with SMTP id
- hj1-20020a1709069fc100b007619192504fmr23306ejc.116.1662492406523; Tue, 06 Sep
- 2022 12:26:46 -0700 (PDT)
+        bh=1VmPA5Yq8eTH/6a8GLeRpEEPUlpUiovS+eHf396Ag4g=;
+        b=UoYAfgvpCkZHb+ncDEGSO50f8r53/GRJ43YS0QKB+wULT4e0wwbbnQwyOQ3lue6+V/
+         TsULYVT+65OGvhlHZnIiTVlddiMFx5cKnIxpHiqD5TIaH6fZo32Wgeg+5j248WlqJZrS
+         lE+z85fHfhx5atKWGpOnJePyhCCJKgZaR996uqBTF781M7F6g5UaNfVznjwRRkXKS7Nb
+         ouvIyOoAeVmmXSYNqsT+6H+A8iFIkcHtOA/gpYYOQ2gf1MzdaPT1Q2JAFpShxIpW9rvv
+         rKMTgpbV/I3MhCltyiqPK3S4cU6WLitiOxp69OA8rMIsXz+R6LNLNC3sixSeTbsb50yc
+         hZZw==
+X-Gm-Message-State: ACgBeo19xYf+Tk+iVVojh/vIU0uCfoBmBWuRPNsplV38agzCoHW+xaxi
+	I9Lvs4toz2FQ3AZvqhXKV7Z54fkwjCIVWQ==
+X-Google-Smtp-Source: AA6agR6l9+2gcUu/mhmRnnWa80cHCNMhpaeUYeFi2zZRQMHUqum76qUrEMPtgl3MaTjDFRyJM6+y3Q==
+X-Received: by 2002:a17:907:97c1:b0:741:a098:1703 with SMTP id js1-20020a17090797c100b00741a0981703mr74480ejc.216.1662493946813;
+        Tue, 06 Sep 2022 12:52:26 -0700 (PDT)
+Received: from kista.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
+        by smtp.gmail.com with ESMTPSA id r9-20020a1709061ba900b0073dd99a0febsm7115788ejg.188.2022.09.06.12.52.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Sep 2022 12:52:25 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, qianfanguijin@163.com
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, linux-arm-kernel@lists.infradead.org, Evgeny Boger <boger@wirenboard.com>, qianfan Zhao <qianfanguijin@163.com>
+Subject: Re: [PATCH 1/2] drivers: net: mdio-sun4i: Speedup mdio read and write
+Date: Tue, 06 Sep 2022 21:52:24 +0200
+Message-ID: <4737709.GXAFRqVoOG@kista>
+In-Reply-To: <20220906075616.21347-1-qianfanguijin@163.com>
+References: <20220906075616.21347-1-qianfanguijin@163.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220906153034.153321-1-peron.clem@gmail.com> <20220906153034.153321-4-peron.clem@gmail.com>
- <12048299.O9o76ZdvQC@kista>
-In-Reply-To: <12048299.O9o76ZdvQC@kista>
-From: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Date: Tue, 6 Sep 2022 21:26:34 +0200
-Message-ID: <CAJiuCceZg_6p4yo89e0X3fD9aXFs9Xik8b8KUM+Psdy_4paKPw@mail.gmail.com>
-Subject: Re: [PATCH v4 3/5] arm64: dts: allwinner: h6: Add GPU OPP table
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, devicetree <devicetree@vger.kernel.org>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	linux-kernel <linux-kernel@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Jernej,
+Dne torek, 06. september 2022 ob 09:56:15 CEST je qianfanguijin@163.com 
+napisal(a):
+> From: qianfan Zhao <qianfanguijin@163.com>
+> 
+> msleep(1) on my board takes about 30ms, and it is too long to accept.
+> Use read_poll_timeout to speedup.
+> 
+> Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
+> ---
+>  drivers/net/mdio/mdio-sun4i.c | 29 ++++++++++++-----------------
+>  1 file changed, 12 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/net/mdio/mdio-sun4i.c b/drivers/net/mdio/mdio-sun4i.c
+> index f798de3276dc..168e2a375535 100644
+> --- a/drivers/net/mdio/mdio-sun4i.c
+> +++ b/drivers/net/mdio/mdio-sun4i.c
+> @@ -26,8 +26,6 @@
+>  #define EMAC_MAC_MIND_REG	(0x10)
+>  #define EMAC_MAC_SSRR_REG	(0x14)
+> 
+> -#define MDIO_TIMEOUT		(msecs_to_jiffies(100))
+> -
+>  struct sun4i_mdio_data {
+>  	void __iomem		*membase;
+>  	struct regulator	*regulator;
+> @@ -36,8 +34,7 @@ struct sun4i_mdio_data {
+>  static int sun4i_mdio_read(struct mii_bus *bus, int mii_id, int regnum)
+>  {
+>  	struct sun4i_mdio_data *data = bus->priv;
+> -	unsigned long timeout_jiffies;
+> -	int value;
+> +	int ret, tmp, value;
+> 
+>  	/* issue the phy address and reg */
+>  	writel((mii_id << 8) | regnum, data->membase + EMAC_MAC_MADR_REG);
+> @@ -45,12 +42,11 @@ static int sun4i_mdio_read(struct mii_bus *bus, int
+> mii_id, int regnum) writel(0x1, data->membase + EMAC_MAC_MCMD_REG);
+> 
+>  	/* Wait read complete */
+> -	timeout_jiffies = jiffies + MDIO_TIMEOUT;
+> -	while (readl(data->membase + EMAC_MAC_MIND_REG) & 0x1) {
+> -		if (time_is_before_jiffies(timeout_jiffies))
+> -			return -ETIMEDOUT;
+> -		msleep(1);
+> -	}
+> +	ret = read_poll_timeout(readl, tmp, (tmp & 1) == 0,
+> +				20, 10000, false,
+> +				data->membase + 
+EMAC_MAC_MIND_REG);
 
-On Tue, 6 Sept 2022 at 21:10, Jernej =C5=A0krabec <jernej.skrabec@gmail.com=
-> wrote:
->
-> Dne torek, 06. september 2022 ob 17:30:32 CEST je Cl=C3=A9ment P=C3=A9ron=
- napisal(a):
-> > Add an Operating Performance Points table for the GPU to
-> > enable Dynamic Voltage & Frequency Scaling on the H6.
-> >
-> > The voltage range is set with minimal voltage set to the target
-> > and the maximal voltage set to 1.2V. This allow DVFS framework to
-> > work properly on board with fixed regulator.
-> >
-> > Signed-off-by: Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
-> > ---
-> >  .../boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi | 87 +++++++++++++++++++
-> >  1 file changed, 87 insertions(+)
-> >  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dts=
-i
-> >
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
-> > b/arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi new file mode 10=
-0644
-> > index 000000000000..b48049c4fc85
-> > --- /dev/null
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
-> > @@ -0,0 +1,87 @@
-> > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> > +// Copyright (C) 2022 Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
-> > +
-> > +/ {
-> > +     gpu_opp_table: opp-table-gpu {
-> > +             compatible =3D "operating-points-v2";
-> > +
-> > +             opp-216000000 {
-> > +                     opp-hz =3D /bits/ 64 <216000000>;
-> > +                     opp-microvolt =3D <810000 810000 1200000>;
-> > +             };
-> > +
-> > +             opp-264000000 {
-> > +                     opp-hz =3D /bits/ 64 <264000000>;
-> > +                     opp-microvolt =3D <810000 810000 1200000>;
-> > +             };
->
-> As mentioned in clock patch review, rates below 288 MHz are deemed unstab=
-le on
-> GPU PLL by vendor GPU kernel driver. At least in the BSP version that I h=
-ave.
-> Did you test these points? If not, better to drop them.
+You should use readl_poll_timeout() instead, as instructed by documentation. 
+Additionally, are you sure about both delay parameters? They are both much 
+smaller than in original code.
 
-I changed the governor to userspace and set the freq to 216MHz / 264MHz
-Run glmark2 and didn't observe any glitch nor issue.
+Same comments apply to patch 2.
 
-I'm not sure if it's enough to say it's stable but I didn't observe
-any strange behavior.
+Best regards,
+Jernej
 
-Regards,
-Clement
+> +	if (ret < 0)
+> +		return ret;
+> 
+>  	/* push down the phy io line */
+>  	writel(0x0, data->membase + EMAC_MAC_MCMD_REG);
+> @@ -64,7 +60,7 @@ static int sun4i_mdio_write(struct mii_bus *bus, int
+> mii_id, int regnum, u16 value)
+>  {
+>  	struct sun4i_mdio_data *data = bus->priv;
+> -	unsigned long timeout_jiffies;
+> +	int ret, tmp;
+> 
+>  	/* issue the phy address and reg */
+>  	writel((mii_id << 8) | regnum, data->membase + EMAC_MAC_MADR_REG);
+> @@ -72,12 +68,11 @@ static int sun4i_mdio_write(struct mii_bus *bus, int
+> mii_id, int regnum, writel(0x1, data->membase + EMAC_MAC_MCMD_REG);
+> 
+>  	/* Wait read complete */
+> -	timeout_jiffies = jiffies + MDIO_TIMEOUT;
+> -	while (readl(data->membase + EMAC_MAC_MIND_REG) & 0x1) {
+> -		if (time_is_before_jiffies(timeout_jiffies))
+> -			return -ETIMEDOUT;
+> -		msleep(1);
+> -	}
+> +	ret = read_poll_timeout(readl, tmp, (tmp & 1) == 0,
+> +				20, 10000, false,
+> +				data->membase + 
+EMAC_MAC_MIND_REG);
+> +	if (ret < 0)
+> +		return ret;
+> 
+>  	/* push down the phy io line */
+>  	writel(0x0, data->membase + EMAC_MAC_MCMD_REG);
+> --
+> 2.25.1
 
->
-> Best regards,
-> Jernej
->
-> > +
-> > +             opp-312000000 {
-> > +                     opp-hz =3D /bits/ 64 <312000000>;
-> > +                     opp-microvolt =3D <810000 810000 1200000>;
-> > +             };
-> > +
-> > +             opp-336000000 {
-> > +                     opp-hz =3D /bits/ 64 <336000000>;
-> > +                     opp-microvolt =3D <810000 810000 1200000>;
-> > +             };
-> > +
-> > +             opp-360000000 {
-> > +                     opp-hz =3D /bits/ 64 <360000000>;
-> > +                     opp-microvolt =3D <820000 820000 1200000>;
-> > +             };
-> > +
-> > +             opp-384000000 {
-> > +                     opp-hz =3D /bits/ 64 <384000000>;
-> > +                     opp-microvolt =3D <830000 830000 1200000>;
-> > +             };
-> > +
-> > +             opp-408000000 {
-> > +                     opp-hz =3D /bits/ 64 <408000000>;
-> > +                     opp-microvolt =3D <840000 840000 1200000>;
-> > +             };
-> > +
-> > +             opp-420000000 {
-> > +                     opp-hz =3D /bits/ 64 <420000000>;
-> > +                     opp-microvolt =3D <850000 850000 1200000>;
-> > +             };
-> > +
-> > +             opp-432000000 {
-> > +                     opp-hz =3D /bits/ 64 <432000000>;
-> > +                     opp-microvolt =3D <860000 860000 1200000>;
-> > +             };
-> > +
-> > +             opp-456000000 {
-> > +                     opp-hz =3D /bits/ 64 <456000000>;
-> > +                     opp-microvolt =3D <870000 870000 1200000>;
-> > +             };
-> > +
-> > +             opp-504000000 {
-> > +                     opp-hz =3D /bits/ 64 <504000000>;
-> > +                     opp-microvolt =3D <890000 890000 1200000>;
-> > +             };
-> > +
-> > +             opp-540000000 {
-> > +                     opp-hz =3D /bits/ 64 <540000000>;
-> > +                     opp-microvolt =3D <910000 910000 1200000>;
-> > +             };
-> > +
-> > +             opp-576000000 {
-> > +                     opp-hz =3D /bits/ 64 <576000000>;
-> > +                     opp-microvolt =3D <930000 930000 1200000>;
-> > +             };
-> > +
-> > +             opp-624000000 {
-> > +                     opp-hz =3D /bits/ 64 <624000000>;
-> > +                     opp-microvolt =3D <950000 950000 1200000>;
-> > +             };
-> > +
-> > +             opp-756000000 {
-> > +                     opp-hz =3D /bits/ 64 <756000000>;
-> > +                     opp-microvolt =3D <1040000 1040000 1200000>;
-> > +             };
-> > +     };
-> > +};
-> > +
-> > +&gpu {
-> > +     operating-points-v2 =3D <&gpu_opp_table>;
-> > +};
-> > --
-> > 2.34.1
->
->
+
