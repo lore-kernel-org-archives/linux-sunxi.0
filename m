@@ -1,247 +1,128 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869F4441E
-	for <linux-sunxi@lists.linux.dev>; Wed,  7 Sep 2022 10:07:28 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::225])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 028CDDC055
-	for <linux-sunxi@lists.linux.dev>; Wed,  7 Sep 2022 10:03:27 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 6A3401C000B;
-	Wed,  7 Sep 2022 10:03:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1662545000;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LU+zY2Jwd4kGJSZPj1OwZLuTVU96ZZVbSnnFj4Wo8zI=;
-	b=nBsTT7pah7wiKx7rluTTL/vACsuRcN2Oy8lB7MWf/G+yJP4YtF2lB/JBufoan5TRslDugL
-	qQG9/Xd9a1i/Y4EfQnoHSB2piI9J9n5SCaacI9yp4f6kgQNoHU5JXZC10jd3IDrl2gCQSM
-	kTeRuLcUwFN/rFy8Dw6gnrYbGx3JfkX8rWNtNGWgIXZAdKUYQopp6m8b7vqtQK9MrBiSFm
-	CfWrW2nWlsNDVQwKfIDmgnOe8QdZGodk0mCCvZjfY/xaj0bf7iUEr2mWcAsDq8JbKce0BD
-	v+icHAowg2/qTusuSV/EIXvP/D4klSs/3EbnnBw7Moad127BDGkKLJKbjpY1kA==
-Date: Wed, 7 Sep 2022 12:03:14 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v6 00/43] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / CSI
- Rework
-Message-ID: <YxhsYu293t7h3655@aptenodytes>
-References: <20220826183240.604834-1-paul.kocialkowski@bootlin.com>
- <9270d6c8-fc8d-3a15-5469-aca3faab098b@xs4all.nl>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6760615A2
+	for <linux-sunxi@lists.linux.dev>; Wed,  7 Sep 2022 10:36:53 +0000 (UTC)
+Received: from [192.168.1.138] ([37.4.248.23]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MBlgy-1odXvW2p1o-00CEBe; Wed, 07 Sep 2022 12:36:06 +0200
+Message-ID: <965de5c0-bc6a-7210-c946-b916ae2219fc@i2se.com>
+Date: Wed, 7 Sep 2022 12:36:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="o/kNkGguw6K7pQKQ"
-Content-Disposition: inline
-In-Reply-To: <9270d6c8-fc8d-3a15-5469-aca3faab098b@xs4all.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 00/41] drm: Analog TV Improvements
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
+ <noralf@tronnes.org>
+Cc: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+ Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>,
+ Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>, Hans de Goede <hdegoede@redhat.com>,
+ linux-arm-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ intel-gfx@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <24e09a29-6d04-3b1e-63ce-cd3c31d350e2@tronnes.org>
+ <020d44e6-884b-a817-8265-3461638cac71@tronnes.org>
+ <20220905145729.ln675jko3aw6sgzs@houat>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <20220905145729.ln675jko3aw6sgzs@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:raTGFr7ptnGZr2h9Jh6nKg1Z14xx0x8riNatR19Mgp3HoRXLPdX
+ FN+/gOxN9VXjXLIhXVkBpgujUpNMYSy+G4CQp211BQEbL4066eK8AZ57x7+Ryp53nqef83R
+ XG19WvSzjiVdclyB4a503Xj8phHhNIsA5aMzvA3iiMzzCLqNQD5cu7Y+WiuUERVXn8PvvlY
+ lI8tCye4pEPGe1CN/8vMQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:E39iEAiAV7Y=:B7mNG1qnV2phLThzbzU+Hn
+ NQxcGOSbNAanP4JFBiG/LtUzvemWljyfBLqG/pDWW9VEGnlD2Z6Byz8MlVpn2coz7SlBEBqWJ
+ vYLcC4JbBOShkgf2NTR6WBg3qXiJudSE3MMRePAsAyo3vR4RBUgT3V2jInNShmHq+6uqaK69s
+ m/gUWat40aKVNI+zKOvfA6c5LkkTTK1rfzGu5+fVN+lr92s89ql2BYpLtWJAFJPu0aREY3Jcl
+ o6Qv31yCfynAH8ybEjCwB+ZPkAoqDOhtPPyRvgC6QAeDVMxIHxmG71bvc90BM3FByUgYYO9d3
+ DwpaMfHXZLeFE+eKmnZQ6yl6jm6TdtmvqVxdoTAw5KXtyTzAec4gDPzb5VGSRvxg8OvfJ+TWQ
+ qxwy/Q3YLXNDsgCT587OiJRU5ufu4eZnh2hVnsYjSqTA2SyX+IlHS0+Xg7M1XCSFMY1G9Wvgv
+ ja1dUFtjah7IHTtojE9CJ6b2MLv6JN5bQmECuHgOxvcCl5dciehUuQyvYwu+pt7XAh/vTC1Ik
+ WqxG0IHgf8kahngmdt77rJa5MOJ4JkdZcoxCxFbPiRjzPwETizl93zOicz9U9+Cqj4hhjvn32
+ 8KvRyd0oJFVcoCdGvjL/FQdH6XKNhVYcZsmoimp7izfN4vkA7RPDiDpQ2bSnPPz2SdN0cQkRw
+ vNOR/WK2hni3ZtIl3NvfiyfjotquCr+LcNl5UyBLbOoRzo1vlsiH5NIPkUr+lEu1c/gMnSGeX
+ l/r/PCOvk6YRCsCJU026ilkZ7/hpuQ0eNBqGeCE6VHiykFWFxcjSIom+HMy3l++Meqq6kRIXg
+ HDI7jT8dag3sJoNTX9ctgnZDvvoww==
 
+Hi Maxime,
 
---o/kNkGguw6K7pQKQ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Hans,
-
-On Wed 07 Sep 22, 10:47, Hans Verkuil wrote:
-> Hi Paul,
->=20
-> On 26/08/2022 20:31, Paul Kocialkowski wrote:
-> > This part only concerns the rework of the CSI driver to support the MIP=
-I CSI-2
-> > and ISP workflows.
-> >=20
-> > Very few patches have not received any review at this point and the who=
-le
-> > thing looks good to go. Since this multi-part series has been going on =
-for a
-> > while, it would be great to see it merged soon!
->=20
-> Testing with just patches 1-15 gives me these kerneldoc results:
->=20
-> kerneldoc: WARNINGS
-> drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:79: warning: Function =
-parameter or member 'csi_dev' not described in 'sun6i_csi_is_format_support=
-ed'
-> drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:79: warning: Excess fu=
-nction parameter 'csi' description in 'sun6i_csi_is_format_supported'
-> drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:86: warning: Function =
-parameter or member 'csi_dev' not described in 'sun6i_csi_set_power'
-> drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:86: warning: Excess fu=
-nction parameter 'csi' description in 'sun6i_csi_set_power'
-> drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:94: warning: Function =
-parameter or member 'csi_dev' not described in 'sun6i_csi_update_config'
-> drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:94: warning: Excess fu=
-nction parameter 'csi' description in 'sun6i_csi_update_config'
-> drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:102: warning: Function=
- parameter or member 'csi_dev' not described in 'sun6i_csi_update_buf_addr'
-> drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:102: warning: Excess f=
-unction parameter 'csi' description in 'sun6i_csi_update_buf_addr'
-> drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:109: warning: Function=
- parameter or member 'csi_dev' not described in 'sun6i_csi_set_stream'
-> drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:109: warning: Excess f=
-unction parameter 'csi' description in 'sun6i_csi_set_stream'
->=20
-> If this is caused by just 1 or 2 patches, then please post a v6.1 version=
- of just
-> those patches fixing this. Otherwise perhaps a v7 is needed.
-
-Only a single patch was concerned by the change so I've sent it as v6.1.
-
-It looks like some return code descriptions were also missing so I've added
-them in as well and updated the commit log.
-
-Cheers,
-
-Paul
-
-> Regards,
->=20
-> 	Hans
->=20
-> >=20
-> > Changes since v5:
-> > - Rebased on latest media tree;
-> > - Switched to using media_pad_remote_pad_first;
-> > - Switched to using media_pad_remote_pad_unique.
-> >=20
-> > Changes since v4:
-> > - Removed the v4l2 controls handler from the driver;
-> > - Removed the info message about video device registration;
-> > - Fixed "literature" typos;
-> > - Moved patches dependent on the ISP driver to its dedicated series;
-> > - Rebased on the latest media tree;
-> > - Added collected tags;
-> >=20
-> > Changes since v3:
-> > - Updated Kconfig to follow the latest media-wide changes;
-> > - Rebased on latest changes to the driver (JPEG/sRGB colorspaces);
-> > - Added helper to get a single enabled link for an entity's pad, to rep=
-lace
-> >   source selection at link_validate time and select the remote source at
-> >   stream on time instead;
-> > - Kept clock-managed regmap mmio;
-> > - Added collected review tags;
-> > - Various cosmetic cleanups;
-> >=20
-> > Changes since all-in-one v2:
-> > - Reworked capture video device registration, which stays in the main p=
-ath.
-> > - Reworked async subdev handling with a dedicated structure holding the
-> >   corresponding source to avoid matching in the driver;
-> > - Added mutex for mbus format serialization;
-> > - Remove useless else in link_validate;
-> > - Reworked commit logs to include missing information;
-> > - Cleaned up Kconfig, added PM dependency;
-> > - Moved platform-specific clock rate to of match data;
-> > - Added collected Reviewed-by tags;
-> > - Updated copyright years;
-> >=20
-> > Paul Kocialkowski (43):
-> >   media: sun6i-csi: Define and use driver name and (reworked)
-> >     description
-> >   media: sun6i-csi: Refactor main driver data structures
-> >   media: sun6i-csi: Tidy up platform code
-> >   media: sun6i-csi: Always set exclusive module clock rate
-> >   media: sun6i-csi: Define and use variant to get module clock rate
-> >   media: sun6i-csi: Use runtime pm for clocks and reset
-> >   media: sun6i-csi: Tidy up Kconfig
-> >   media: sun6i-csi: Tidy up v4l2 code
-> >   media: sun6i-csi: Tidy up video code
-> >   media: sun6i-csi: Pass and store csi device directly in video code
-> >   media: sun6i-csi: Register the media device after creation
-> >   media: sun6i-csi: Remove controls handler from the driver
-> >   media: sun6i-csi: Add media ops with link notify callback
-> >   media: sun6i-csi: Introduce and use video helper functions
-> >   media: sun6i-csi: Move csi buffer definition to main header file
-> >   media: sun6i-csi: Add bridge v4l2 subdev with port management
-> >   media: sun6i-csi: Rename sun6i_video to sun6i_csi_capture
-> >   media: sun6i-csi: Add capture state using vsync for page flip
-> >   media: sun6i-csi: Rework register definitions, invert misleading
-> >     fields
-> >   media: sun6i-csi: Add dimensions and format helpers to capture
-> >   media: sun6i-csi: Implement address configuration without indirection
-> >   media: sun6i-csi: Split stream sequences and irq code in capture
-> >   media: sun6i-csi: Move power management to runtime pm in capture
-> >   media: sun6i-csi: Move register configuration to capture
-> >   media: sun6i-csi: Rework capture format management with helper
-> >   media: sun6i-csi: Remove custom format helper and rework configure
-> >   media: sun6i-csi: Add bridge dimensions and format helpers
-> >   media: sun6i-csi: Get mbus code from bridge instead of storing it
-> >   media: sun6i-csi: Tidy capture configure code
-> >   media: sun6i-csi: Introduce bridge format structure, list and helper
-> >   media: sun6i-csi: Introduce capture format structure, list and helper
-> >   media: sun6i-csi: Configure registers from format tables
-> >   media: sun6i-csi: Introduce format match structure, list and helper
-> >   media: sun6i-csi: Implement capture link validation with logic
-> >   media: sun6i-csi: Get bridge subdev directly in capture stream ops
-> >   media: sun6i-csi: Move hardware control to the bridge
-> >   media: sun6i-csi: Rename the capture video device to sun6i-csi-capture
-> >   media: sun6i-csi: Cleanup headers and includes, update copyright lines
-> >   media: sun6i-csi: Add support for MIPI CSI-2 to the bridge code
-> >   media: sun6i-csi: Only configure capture when streaming
-> >   media: sun6i-csi: Add extra checks to the interrupt routine
-> >   media: sun6i-csi: Request a shared interrupt
-> >   MAINTAINERS: Add myself as sun6i-csi maintainer and rename/move entry
-> >=20
-> >  MAINTAINERS                                   |   17 +-
-> >  .../media/platform/sunxi/sun6i-csi/Kconfig    |   12 +-
-> >  .../media/platform/sunxi/sun6i-csi/Makefile   |    2 +-
-> >  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 1027 ++++------------
-> >  .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  149 +--
-> >  .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |  844 +++++++++++++
-> >  .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   69 ++
-> >  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 1089 +++++++++++++++++
-> >  .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   88 ++
-> >  .../platform/sunxi/sun6i-csi/sun6i_csi_reg.h  |  362 +++---
-> >  .../platform/sunxi/sun6i-csi/sun6i_video.c    |  685 -----------
-> >  .../platform/sunxi/sun6i-csi/sun6i_video.h    |   38 -
-> >  12 files changed, 2551 insertions(+), 1831 deletions(-)
-> >  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_br=
-idge.c
-> >  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_br=
-idge.h
-> >  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_ca=
-pture.c
-> >  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_ca=
-pture.h
-> >  delete mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
-> >  delete mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_video.h
-> >=20
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---o/kNkGguw6K7pQKQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMYbGEACgkQ3cLmz3+f
-v9FJtwgAnkpeX7G3aSjaRipBe9p9k2eYVDvvBqgOZTj12TGcUi9OaHnEXCsacepX
-eLcRiFNtOGZ2mKaO9mkgGxEEvh6Uknxq0evBqAvKfFtIVe7sOk/nhTr0zZp2Vyht
-debjUt5wfpyt7O69f0Ez8opyG9wuh/RDNVFrRA7NLbZVCLETglIGzf9dMDnSJJhu
-D9RIOIQSmF+vglfbG/HqRmoPAQataJ8ShzRp+qOwE0m4cHF6xURd3PsK2+rGgrum
-k69Wqiv7ze4lDlDmvbxZOMCPej0IunwB889BIQBCTLiWniO7PyGb9jrXVR7E0Vjx
-HJK1sN78oZ2PKj8DQEcIiw/wCVjxvg==
-=sHhU
------END PGP SIGNATURE-----
-
---o/kNkGguw6K7pQKQ--
+Am 05.09.22 um 16:57 schrieb Maxime Ripard:
+> On Fri, Sep 02, 2022 at 01:28:16PM +0200, Noralf Trønnes wrote:
+>>
+>> Den 01.09.2022 21.35, skrev Noralf Trønnes:
+>>>
+>>> I have finally found a workaround for my kernel hangs.
+>>>
+>>> Dom had a look at my kernel and found that the VideoCore was fine, and
+>>> he said this:
+>>>
+>>>> That suggests cause of lockup was on arm side rather than VC side.
+>>>>
+>>>> But it's hard to diagnose further. Once you've had a peripheral not
+>>>> respond, the AXI bus locks up and no further operations are possible.
+>>>> Usual causes of this are required clocks being stopped or domains
+>>>> disabled and then trying to access the hardware.
+>>>>
+>>> So when I got this on my 64-bit build:
+>>>
+>>> [  166.702171] SError Interrupt on CPU1, code 0x00000000bf000002 -- SError
+>>> [  166.702187] CPU: 1 PID: 8 Comm: kworker/u8:0 Tainted: G        W
+>>>      5.19.0-rc6-00096-gba7973977976-dirty #1
+>>> [  166.702200] Hardware name: Raspberry Pi 4 Model B Rev 1.1 (DT)
+>>> [  166.702206] Workqueue: events_freezable_power_ thermal_zone_device_check
+>>> [  166.702231] pstate: 200000c5 (nzCv daIF -PAN -UAO -TCO -DIT -SSBS
+>>> BTYPE=--)
+>>> [  166.702242] pc : regmap_mmio_read32le+0x10/0x28
+>>> [  166.702261] lr : regmap_mmio_read+0x44/0x70
+>>> ...
+>>> [  166.702606]  bcm2711_get_temp+0x58/0xb0 [bcm2711_thermal]
+>>>
+>>> I wondered if that reg read was stalled due to a clock being stopped.
+>>>
+>>> Lo and behold, disabling runtime pm and keeping the vec clock running
+>>> all the time fixed it[1].
+>>>
+>>> I don't know what the problem is, but at least I can now test this patchset.
+>>>
+>>> [1] https://gist.github.com/notro/23b984e7fa05cfbda2db50a421cac065
+>>>
+>> It turns out I didn't have to disable runtime pm:
+>> https://gist.github.com/notro/0adcfcb12460b54e54458afe11dc8ea2
+> If the bcm2711_thermal IP needs that clock to be enabled, it should grab
+> a reference itself, but it looks like even the device tree binding
+> doesn't ask for one.
+The missing clock in the device tree binding is expected, because 
+despite of the code there is not much information about the BCM2711 
+clock tree. But i'm skeptical that the AVS IP actually needs the VEC 
+clock, i think it's more likely that the VEC clock parent is changed and 
+that cause this issue. I could take care of the bcm2711 binding & driver 
+if i know which clock is really necessary.
+>
+> Maxime
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
