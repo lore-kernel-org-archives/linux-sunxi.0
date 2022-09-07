@@ -1,181 +1,171 @@
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A411259D
-	for <linux-sunxi@lists.linux.dev>; Wed,  7 Sep 2022 08:39:53 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.west.internal (Postfix) with ESMTP id 320A72B058ED;
-	Wed,  7 Sep 2022 04:39:50 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Wed, 07 Sep 2022 04:39:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1662539989; x=1662547189; bh=rHnQqoPJFb
-	fCoyXvlScJxF/2TX4ozlRbjwh/s/ZcTXY=; b=rlqCba81GDVgmFo9BLO/+vxElt
-	00saXH5K4+1wgARPrortKc3X6tNhaIagHxtFq9FX3QmW3eYm/dcZ/Xd4W+DrIVIq
-	q0ZxCwyGbK8ynlgCZPdKYsO6989NICVWzfThhQB+swIE/SocQxL0blVkHOFtYt2a
-	+2+eIDIfs+YcNgfST8S5UY09pFJI0qh1RWs4gmUb3i2JerXi6IRhUpSQtzv5IYsh
-	1R00Oxsydc4sydZCByQlMfEFKKC8TlhHoFWg6uhtxDCJ6cXS1GbN/TN7SCCOMP3q
-	4NhkrIyfgxjadagzbyrTdMplcJk1ooyf72O8s6MEfTM5H43N/6TUUkM/iTMg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1662539989; x=1662547189; bh=rHnQqoPJFbfCoyXvlScJxF/2TX4o
-	zlRbjwh/s/ZcTXY=; b=Ft2HiBtALvBCzHSoyFouoM2RlHha3pW36vRYiiF/Aj9p
-	jgB1+hT9SxJN781aapotSR/nkYu/nTdv1O9qZsnJ5VQJfDsXDF2E1tN+Vf4mRiWm
-	G3SR4pPvfJAXEDu2a05LRJ6/2dgvjxxBVBsk9pwViUxDpoVGiuqZtFXraPe+syba
-	nVKdja+C+91rr9ysqLwQhbdr720KzsCw9Fz/J/VUWbcfg/4nkWZiYcuLP+R0Pc0C
-	HA3z5f5hC4bLUng7cKExSmOjYAXPw/PxIhiALmfh/1nzPMTG1+X572MR4zmCPVA9
-	ibD0tPdUx+IXQ3o/2bEzZzCONQqNRDoUM4Iv38uutA==
-X-ME-Sender: <xms:1VgYY9PFmBkjp0A7V2bAvop2SdEyXbVH_QNWffffyTGZZlmvW9zTOg>
-    <xme:1VgYY__oQcg990U2Ytw0kb6kVkiaTRlq3gCt6yktxijiRju56YzaqVM5TpIr3LCLa
-    m8uXyfwKPsq_TBiKeM>
-X-ME-Received: <xmr:1VgYY8Sm2V9A-f-DlbfvRBXYrF873-ZITm50jnaOpA1ZX4ooWEOKRX9mZ5I>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedttddgtdegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
-    hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:1VgYY5uFE1WbjoOrw3Lre0EoafBbvnBB2ypQ4HWQOs-it5Cdl6-FHw>
-    <xmx:1VgYY1fpgJSwUcfS6TGnANh5IEL_p7D07vbwqnvWXJKXepArMPGHHQ>
-    <xmx:1VgYY10gohsFHOuwqMe2C54wVRArFsMFtgg869v4JlHnNkmOqGq3bw>
-    <xmx:1VgYY6O_FMI7-UBHsQNAFH9El9UhTIjZAXjM7SKD_8RFiBosm1XRCs5wey8>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Sep 2022 04:39:48 -0400 (EDT)
-Date: Wed, 7 Sep 2022 10:39:45 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
-	Chen-Yu Tsai <wens@csie.org>,	Thomas Zimmermann <tzimmermann@suse.de>,
-	Lyude Paul <lyude@redhat.com>,	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,	Karol Herbst <kherbst@redhat.com>,
-	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-	Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	DRI Development <dri-devel@lists.freedesktop.org>,
-	Dom Cobley <dom@raspberrypi.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Nouveau Dev <nouveau@lists.freedesktop.org>,	linux-sunxi@lists.linux.dev,
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Subject: Re: [PATCH v2 14/41] drm/modes: Move named modes parsing to a
- separate function
-Message-ID: <20220907083945.3cqmz765vmnjt3ol@houat>
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-14-459522d653a7@cerno.tech>
- <CAMuHMdV9wVgHFfwHoqtBoYzJDnjDmKTfaZkAKvTVKh1Y-2x1pA@mail.gmail.com>
- <87czcidnb8.fsf@intel.com>
- <20220830120330.6f5f22d35gu7cbr3@houat>
- <875yi9etuw.fsf@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3737E
+	for <linux-sunxi@lists.linux.dev>; Wed,  7 Sep 2022 08:48:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A623C433C1;
+	Wed,  7 Sep 2022 08:48:00 +0000 (UTC)
+Message-ID: <9270d6c8-fc8d-3a15-5469-aca3faab098b@xs4all.nl>
+Date: Wed, 7 Sep 2022 10:47:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qxovco4c3ldtue3z"
-Content-Disposition: inline
-In-Reply-To: <875yi9etuw.fsf@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v6 00/43] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / CSI
+ Rework
+Content-Language: en-US
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Cc: Yong Deng <yong.deng@magewell.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <20220826183240.604834-1-paul.kocialkowski@bootlin.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220826183240.604834-1-paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi Paul,
 
---qxovco4c3ldtue3z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 26/08/2022 20:31, Paul Kocialkowski wrote:
+> This part only concerns the rework of the CSI driver to support the MIPI CSI-2
+> and ISP workflows.
+> 
+> Very few patches have not received any review at this point and the whole
+> thing looks good to go. Since this multi-part series has been going on for a
+> while, it would be great to see it merged soon!
 
-Hi,
+Testing with just patches 1-15 gives me these kerneldoc results:
 
-On Tue, Aug 30, 2022 at 04:36:23PM +0300, Jani Nikula wrote:
-> On Tue, 30 Aug 2022, Maxime Ripard <maxime@cerno.tech> wrote:
-> > Hi,
-> >
-> > On Tue, Aug 30, 2022 at 01:43:07PM +0300, Jani Nikula wrote:
-> >> On Tue, 30 Aug 2022, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> >> > On Mon, Aug 29, 2022 at 3:13 PM Maxime Ripard <maxime@cerno.tech> wr=
-ote:
-> >> >> +#define STR_STRICT_EQ(str, len, cmp) \
-> >> >> +       ((strlen(cmp) =3D=3D len) && !strncmp(str, cmp, len))
-> >> >
-> >> > This is not part of the move, but newly added.
-> >>=20
-> >> The same construct is also duplicated elsewhere in the series, and I
-> >> kept being confused by it.
-> >
-> > I'm not sure what is confusing, but I can add a comment if needed.
->=20
-> STR_STRICT_EQ() is what's confusing. I have to look at the
-> implementation to understand what it means. What does "strict" string
-> equality mean?
+kerneldoc: WARNINGS
+drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:79: warning: Function parameter or member 'csi_dev' not described in 'sun6i_csi_is_format_supported'
+drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:79: warning: Excess function parameter 'csi' description in 'sun6i_csi_is_format_supported'
+drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:86: warning: Function parameter or member 'csi_dev' not described in 'sun6i_csi_set_power'
+drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:86: warning: Excess function parameter 'csi' description in 'sun6i_csi_set_power'
+drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:94: warning: Function parameter or member 'csi_dev' not described in 'sun6i_csi_update_config'
+drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:94: warning: Excess function parameter 'csi' description in 'sun6i_csi_update_config'
+drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:102: warning: Function parameter or member 'csi_dev' not described in 'sun6i_csi_update_buf_addr'
+drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:102: warning: Excess function parameter 'csi' description in 'sun6i_csi_update_buf_addr'
+drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:109: warning: Function parameter or member 'csi_dev' not described in 'sun6i_csi_set_stream'
+drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h:109: warning: Excess function parameter 'csi' description in 'sun6i_csi_set_stream'
 
-Same length, same sequence of characters
+If this is caused by just 1 or 2 patches, then please post a v6.1 version of just
+those patches fixing this. Otherwise perhaps a v7 is needed.
 
-> >
-> >> The above is precisely the same as:
-> >>=20
-> >> 	str_has_prefix(str, cmp) =3D=3D len
-> >
-> > Here, it's used to make sure we don't have a named mode starting with
-> > either e, d, or D.
-> >
-> > If I understood str_has_prefix() right, str_has_prefix("DUMB-MODE", "D")
-> > =3D=3D strlen("DUMB-MODE") would return true, while it's actually what =
-we
-> > want to avoid.
->=20
-> That's not true, str_has_prefix("DUMB-MODE", "D") =3D=3D strlen("D") is.
->=20
-> > It's also used indeed in drm_get_tv_mode_from_name(), where we try to
-> > match a list of names with one passed as argument.
-> >
-> > With drm_get_tv_mode_from_name("NSTC", strlen("NTSC")), we would end up
-> > calling str_has_prefix("NTSC-J", "NTSC") =3D=3D strlen("NTSC-J") which =
-would
-> > work. However, we end up calling prefix not a prefix, but an entire
-> > string we want to match against, which is very confusing to me too.
->=20
-> If I get this right, you have a string and you want to check if that has
-> a certain prefix. Additionally, you want to check the prefix is a
-> certain length.
->=20
-> Sure, that the prefix is a certain length is more of a property of the
-> string, which is NUL terminated later than at length, but that's doesn't
-> really matter.
->=20
-> That condition is simply str_has_prefix(string, prefix) =3D=3D length.
+Regards,
 
-Ack. I'm ok with the implementation being done that way, but I'd really
-prefer to still have some macro to make the name less confusing. Would
-that work for you? What name would be better in your opinion?
+	Hans
 
-Thanks!
-Maxime
+> 
+> Changes since v5:
+> - Rebased on latest media tree;
+> - Switched to using media_pad_remote_pad_first;
+> - Switched to using media_pad_remote_pad_unique.
+> 
+> Changes since v4:
+> - Removed the v4l2 controls handler from the driver;
+> - Removed the info message about video device registration;
+> - Fixed "literature" typos;
+> - Moved patches dependent on the ISP driver to its dedicated series;
+> - Rebased on the latest media tree;
+> - Added collected tags;
+> 
+> Changes since v3:
+> - Updated Kconfig to follow the latest media-wide changes;
+> - Rebased on latest changes to the driver (JPEG/sRGB colorspaces);
+> - Added helper to get a single enabled link for an entity's pad, to replace
+>   source selection at link_validate time and select the remote source at
+>   stream on time instead;
+> - Kept clock-managed regmap mmio;
+> - Added collected review tags;
+> - Various cosmetic cleanups;
+> 
+> Changes since all-in-one v2:
+> - Reworked capture video device registration, which stays in the main path.
+> - Reworked async subdev handling with a dedicated structure holding the
+>   corresponding source to avoid matching in the driver;
+> - Added mutex for mbus format serialization;
+> - Remove useless else in link_validate;
+> - Reworked commit logs to include missing information;
+> - Cleaned up Kconfig, added PM dependency;
+> - Moved platform-specific clock rate to of match data;
+> - Added collected Reviewed-by tags;
+> - Updated copyright years;
+> 
+> Paul Kocialkowski (43):
+>   media: sun6i-csi: Define and use driver name and (reworked)
+>     description
+>   media: sun6i-csi: Refactor main driver data structures
+>   media: sun6i-csi: Tidy up platform code
+>   media: sun6i-csi: Always set exclusive module clock rate
+>   media: sun6i-csi: Define and use variant to get module clock rate
+>   media: sun6i-csi: Use runtime pm for clocks and reset
+>   media: sun6i-csi: Tidy up Kconfig
+>   media: sun6i-csi: Tidy up v4l2 code
+>   media: sun6i-csi: Tidy up video code
+>   media: sun6i-csi: Pass and store csi device directly in video code
+>   media: sun6i-csi: Register the media device after creation
+>   media: sun6i-csi: Remove controls handler from the driver
+>   media: sun6i-csi: Add media ops with link notify callback
+>   media: sun6i-csi: Introduce and use video helper functions
+>   media: sun6i-csi: Move csi buffer definition to main header file
+>   media: sun6i-csi: Add bridge v4l2 subdev with port management
+>   media: sun6i-csi: Rename sun6i_video to sun6i_csi_capture
+>   media: sun6i-csi: Add capture state using vsync for page flip
+>   media: sun6i-csi: Rework register definitions, invert misleading
+>     fields
+>   media: sun6i-csi: Add dimensions and format helpers to capture
+>   media: sun6i-csi: Implement address configuration without indirection
+>   media: sun6i-csi: Split stream sequences and irq code in capture
+>   media: sun6i-csi: Move power management to runtime pm in capture
+>   media: sun6i-csi: Move register configuration to capture
+>   media: sun6i-csi: Rework capture format management with helper
+>   media: sun6i-csi: Remove custom format helper and rework configure
+>   media: sun6i-csi: Add bridge dimensions and format helpers
+>   media: sun6i-csi: Get mbus code from bridge instead of storing it
+>   media: sun6i-csi: Tidy capture configure code
+>   media: sun6i-csi: Introduce bridge format structure, list and helper
+>   media: sun6i-csi: Introduce capture format structure, list and helper
+>   media: sun6i-csi: Configure registers from format tables
+>   media: sun6i-csi: Introduce format match structure, list and helper
+>   media: sun6i-csi: Implement capture link validation with logic
+>   media: sun6i-csi: Get bridge subdev directly in capture stream ops
+>   media: sun6i-csi: Move hardware control to the bridge
+>   media: sun6i-csi: Rename the capture video device to sun6i-csi-capture
+>   media: sun6i-csi: Cleanup headers and includes, update copyright lines
+>   media: sun6i-csi: Add support for MIPI CSI-2 to the bridge code
+>   media: sun6i-csi: Only configure capture when streaming
+>   media: sun6i-csi: Add extra checks to the interrupt routine
+>   media: sun6i-csi: Request a shared interrupt
+>   MAINTAINERS: Add myself as sun6i-csi maintainer and rename/move entry
+> 
+>  MAINTAINERS                                   |   17 +-
+>  .../media/platform/sunxi/sun6i-csi/Kconfig    |   12 +-
+>  .../media/platform/sunxi/sun6i-csi/Makefile   |    2 +-
+>  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 1027 ++++------------
+>  .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  149 +--
+>  .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |  844 +++++++++++++
+>  .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   69 ++
+>  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 1089 +++++++++++++++++
+>  .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   88 ++
+>  .../platform/sunxi/sun6i-csi/sun6i_csi_reg.h  |  362 +++---
+>  .../platform/sunxi/sun6i-csi/sun6i_video.c    |  685 -----------
+>  .../platform/sunxi/sun6i-csi/sun6i_video.h    |   38 -
+>  12 files changed, 2551 insertions(+), 1831 deletions(-)
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.h
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
+>  delete mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+>  delete mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_video.h
+> 
 
---qxovco4c3ldtue3z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYxhY0QAKCRDj7w1vZxhR
-xa5XAP9sWfv5tHnxQJpN3hRmX3ErZIQ33tjnxBrnbPX7t8NAjwD/emsxhT5EFzpt
-Y/lLUUTztSaE0qu2ofT3EG9ZeOf9fw8=
-=dNn8
------END PGP SIGNATURE-----
-
---qxovco4c3ldtue3z--
