@@ -1,79 +1,110 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F9D07E
-	for <linux-sunxi@lists.linux.dev>; Wed,  7 Sep 2022 08:14:50 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id b5so19100228wrr.5
-        for <linux-sunxi@lists.linux.dev>; Wed, 07 Sep 2022 01:14:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=WNKKGWN+WFUu1oa3BX6+NmApFTzWRBHzKK4NOWIbTqo=;
-        b=SZDDwsi0AoB2G4+KibXTfTibP3Oppkq6dveQcXInabz6Lemcdu5SL2sFUspyVKzz2S
-         PGL2Jxscgtr7Vv82xViWHea2t8H6H3wUKSpyIlgzVY7EuyoArMJWz+FTgI3c90iOHOFP
-         cIA+5BHuphOsOuDZ88Ec9Aa7yPHIxbx0HMfWNXP4qvTLCD+/v5XH/2HbR24JdpGUGzId
-         1ELkQO/iPwwljHvxRr74jhVWAtzllVPBGVoCw7ctvSZW7xaF8V3S/wN2hWNLpgzoqYsL
-         6ELR54wpnI3Rf+YA321Wl6NrqRRcv/rYaVPdSaytIdiy58yvh7TPfzRdk94sWnZ7YOYk
-         Kd0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=WNKKGWN+WFUu1oa3BX6+NmApFTzWRBHzKK4NOWIbTqo=;
-        b=Hkc61t5BhTl4RLXIeHaLFbYbbzXSzIon276gkhcxtBYoRPbIXFb9MeIvKq18u5aVWN
-         2JIj4CFJm1ySHH6n1GxS2l+cyElLPbLh/ILMtONeXUgo4P5mJ8Ev3cx74jkkI6MM+TTo
-         9/GoIVBNibyPYSGYK5XgkD8YUaUSQ61hOfMtsCsuo6uJqysyRcfC1sM1CD62dap23hnU
-         nZCpJr6rEwkuua+qQfbPaT/aCQikUlccjpfO43aifff6xcUaGe91AFFCki8u8a4Skr5K
-         gbBZvosMbYXJsjMNlq30tM0vzeTKkTDBhky5ZpL6ZW9dpmZdfmaWQq8uEv3KxU9N4AjH
-         +QQw==
-X-Gm-Message-State: ACgBeo1vpd7MDICAuAudRxu7wDoztQ/thZ4LlqNIxsOz46fRtkAhgNK2
-	R/Gt1Oz7BPUSASCvhv0duYveDQ==
-X-Google-Smtp-Source: AA6agR7U0b4uvQP/9XxTMhY5KOg/uOkGhISPokUyB6IpUnggVIGAc3fQEfsiDBnibuM3vwsq30Y8HA==
-X-Received: by 2002:a5d:5489:0:b0:228:94fa:9caa with SMTP id h9-20020a5d5489000000b0022894fa9caamr1285103wrv.227.1662538488801;
-        Wed, 07 Sep 2022 01:14:48 -0700 (PDT)
-Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.googlemail.com with ESMTPSA id t64-20020a1c4643000000b003a673055e68sm29260780wma.0.2022.09.07.01.14.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Sep 2022 01:14:48 -0700 (PDT)
-Message-ID: <def4f82f-7438-b29e-dc1c-f971aeee0448@linaro.org>
-Date: Wed, 7 Sep 2022 10:14:47 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D577E
+	for <linux-sunxi@lists.linux.dev>; Wed,  7 Sep 2022 08:35:19 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.west.internal (Postfix) with ESMTP id 5074F2B058ED;
+	Wed,  7 Sep 2022 04:35:16 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Wed, 07 Sep 2022 04:35:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1662539715; x=
+	1662546915; bh=igr6qV0Eap7xUGhc2oop9vyUXnwE0FGWJSHkINHCAhI=; b=q
+	/5Cpz5wmf1mwzJktQrLqiRJNbE7FRpX5OQ9rnZKjEoNjOTcODD6+ZhKiu8tQOzZB
+	rSQlX15NnPEovbWp8NMQKTuvlQT3Sop7RIqzbvKRIFPVZfGmTGG9SpBfUuljPzDs
+	EXwg+xlIN3mwm5YMDk7cdUphSv3OYYUFLjh272Zd6JrXUNHUAp7MX8gOs0Rxlf1J
+	DPff3VAZmv6ipflX74mSUzdKbDZle4Q1m1LXku19YZwumEcHT1pgorDdsDhRdWl7
+	Q+wKdOGX/HfGRo5O+2tnBOADgjfTZ0Oc8HHEhkU7VSpmSZ9qtYaZGk1rBAyLVIZb
+	wnSA/DtNHyImh+pgetFKg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1662539715; x=
+	1662546915; bh=igr6qV0Eap7xUGhc2oop9vyUXnwE0FGWJSHkINHCAhI=; b=g
+	5nMgFf4L+SbZW5HRS12/t7VBHgbkL/z+rbOvxjR/VCekvNEF73oked/eSz7PMgov
+	f+Pi2IpkNA9cgYKx7RN7Ns0p/L0GhxDZtmT7bk66JSYXUP7BdjTSSlC6HNA8mlWY
+	MOcQ+I/+JYOEmcaqiakd4+tGo/9M3R/Dpv7Qop9bJzD4nYcdwIrvIJHOhXPPZCd/
+	gGU2xS6hYhOOWmObEBzZL+89OFSHQ8QpaW1FkKsEpIXx4aPkbtn1FCNIH0bSa12s
+	aIQ04+40fq8yS+VXPenRq5RgSczs4SkVBb8Y7tZgf1VjmtG8ARCgRGQe2ZXeBuPN
+	6Hx6kFAxRHAXJXBPX3D5Q==
+X-ME-Sender: <xms:wlcYYyA5D20iK0dkKl3xZV0Zr0xtX9Cl-s4qTNz0mNEPiZ-Szt_lVw>
+    <xme:wlcYY8guRM42Vsz4FMirJ5nd3gTsWFtW8PZAJAcnEA6eSm0Q56zggl7-qtZXTO-7P
+    gH5ODvk8DRGDCjMRFg>
+X-ME-Received: <xmr:wlcYY1nzz5wnA5jZVnNGqyZJHxlGX7l18PgNy3b6J3zMZUWWsOHKWbonAPA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedttddgtdegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgig
+    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+    grthhtvghrnhepueeigefghfffffeifeehudeiuedvteegueefffevgfetvdffheehkeff
+    vedufeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:wlcYYwz_G2L-cl3Ll3DtPNYWBQ7-RrX9uURvSRH_BQlJTN7iSsT9Zg>
+    <xmx:wlcYY3QkZLAgjj7B9kCtDPo0QY2REcE_Db0Xp8IzisSWmScHi7ro4w>
+    <xmx:wlcYY7ZZOsebrukJK5WuKsVzXZvvJHznw38uGNDBnEQrHiWiagEQmA>
+    <xmx:w1cYY7LvDbHLfmef9qCFQIGfOnFAsRRpVRNR4HQ1DbDGwqvJOEUo30-zx8c>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 7 Sep 2022 04:35:13 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: David Airlie <airlied@linux.ie>,
+	Samuel Holland <samuel@sholland.org>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Ben Skeggs <bskeggs@redhat.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Emma Anholt <emma@anholt.net>,
+	=?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Lyude Paul <lyude@redhat.com>,
+	Karol Herbst <kherbst@redhat.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maxime Ripard <maxime@cerno.tech>
+Cc: Dom Cobley <dom@raspberrypi.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	intel-gfx@lists.freedesktop.org,
+	Phil Elwell <phil@raspberrypi.com>,
+	linux-sunxi@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	nouveau@lists.freedesktop.org
+Subject: Re: (subset) [PATCH v2 24/41] drm/vc4: vec: Remove empty mode_fixup
+Date: Wed,  7 Sep 2022 10:34:59 +0200
+Message-Id: <166253967461.2236193.9388419483041463666.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220728-rpi-analog-tv-properties-v2-24-459522d653a7@cerno.tech>
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech> <20220728-rpi-analog-tv-properties-v2-24-459522d653a7@cerno.tech>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [RESEND] clocksource: sun4i: add definition of clear interrupt
-Content-Language: en-US
-To: Victor Hassan <victor@allwinnertech.com>, maxime@cerno.tech,
- tglx@linutronix.de, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20220906052056.43404-1-victor@allwinnertech.com>
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <20220906052056.43404-1-victor@allwinnertech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On 06/09/2022 07:20, Victor Hassan wrote:
-> To prevent misunderstanding, use TIMER_IRQ_CLEAR instead of TIMER_IRQ_EN
-> in function sun4i_timer_clear_interrupt.
+On Mon, 29 Aug 2022 15:11:38 +0200, Maxime Ripard wrote:
+> The mode_fixup hooks are deprecated, and the behaviour we implement is the
+> default one anyway. Let's remove it.
 > 
-> Signed-off-by: Victor Hassan <victor@allwinnertech.com>
-> ---
+> 
 
-Applied, thanks
+Applied to drm/drm-misc (drm-misc-next).
 
-
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+Thanks!
+Maxime
