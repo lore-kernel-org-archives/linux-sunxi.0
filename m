@@ -1,237 +1,182 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20BEB89CD
-	for <linux-sunxi@lists.linux.dev>; Wed,  7 Sep 2022 20:43:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1662583404; x=1694119404;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=8G+icUka9hWhQWHpS0EIdJL34gkm63S5OP7SP4oZsGY=;
-  b=xYiWJ3D60kP45Jd+4G2zsnN5l6mfLWrak/E8tXHOYTTBhnbzZAvXjRvj
-   tjsuBSQPcJoK12rjMy2+4NJe3LeEjoy5Q+5IdV3x6xLVZxcVLbwVgxvdi
-   LXplti2vHWoozy6Zs9x0L9Y2mdAuM+F18TtDfgQ0Th1YmEr832Efg36u6
-   k8/+9PBkP15Y9XzAoHvo8y9vcBLE2OwrjtRI0oh4dSD4UDiyurnEjBB7a
-   kATULpdFsLMTxpbmDoi3/RB+2kfzkj6OvwcLLoT6ZMCJBLov3xwCB6WkN
-   KSiRhfoQ/Ke9XRuOvPwtbXhsdsi44/2ifyhmFKJkn/URlyqjwE9TzqGk1
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.93,297,1654585200"; 
-   d="scan'208";a="189875554"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 07 Sep 2022 13:43:17 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Wed, 7 Sep 2022 13:43:16 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12 via Frontend
- Transport; Wed, 7 Sep 2022 13:43:16 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QMWUo4vEHMe5V/aZdO24usY6OlQ5ytMoOP5Q7bKQ2JcwkKy7bWdmp6QnriUBIVpqEmMVswpd/a/Q2M+peIpKUL2ewHLTreX1DEt92mmsDjliA9huoFJkcZ6T4L/c6PFRUwOHRndj9+qBTlAk6u7xMpckaaZ4FauQ91jrA8A+VIH7F06F1Altg+U2dpSi2Uibq7Z8Uww76pv3zGogmPg6G08T3wkg/4oioVnFU4LgSRyTUmWlDLVwnvAUG8X/mqe+fgoRfyvS32uPRlpsE4vl/XUDs/uY92wqo/ZL/OtgHhG6fyKnAMSg/Tz56ENfLRtQRnVLvHILOOWUGLAhcpn04A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8G+icUka9hWhQWHpS0EIdJL34gkm63S5OP7SP4oZsGY=;
- b=C6H7vpLWfEbpwtoHT38mC+gkPM5QPrEkZ1uSWsuZQ3clx3p7YK/kGIXviU730UpCBjp7FG9E/Np+xnKpocHZZt44lXMCkga0EwwMorMabnMERs9ZOx395bPvkWiGfuOKBibHmYtdytE7BTaFI9ppMDOnmH8BC3PSwrCmlpFQb3xLpYNf/SYCexmVI0bHSQp3/lb5FmhZ4LBseZzwjccHqAvSiXoI0v9qAgvTBNs3uOBntkQ+3T5+sEkhaveWUJiv7ayBFOvrbsodHvqx7ZYPk7iGWEaCHy7paS7ZjUQzSGRifITlfnhao1YUZCQrwyJd8tFadDxV1DZbbC+KX9sJRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5236789D1
+	for <linux-sunxi@lists.linux.dev>; Wed,  7 Sep 2022 21:31:26 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id b19so17512743ljf.8
+        for <linux-sunxi@lists.linux.dev>; Wed, 07 Sep 2022 14:31:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8G+icUka9hWhQWHpS0EIdJL34gkm63S5OP7SP4oZsGY=;
- b=awx374UDSuG9sbtM48hhX28Q8bKbvbmoCwm9YL/MS16mQ9Ck8XXnavEpv8rfpirVttNVuXDRNPSin89ImO5FTb4eVV0DfwVzRiBgEj82GMyaZPptKklsKE5C80AHeEQB2zHrEDoeGY41dxq/ND2yHQR3r8m4v+J3P47JhZ1PvVU=
-Received: from SA2PR11MB5163.namprd11.prod.outlook.com (2603:10b6:806:113::20)
- by CO1PR11MB5138.namprd11.prod.outlook.com (2603:10b6:303:94::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.14; Wed, 7 Sep
- 2022 20:43:10 +0000
-Received: from SA2PR11MB5163.namprd11.prod.outlook.com
- ([fe80::1169:5ec9:62a8:d220]) by SA2PR11MB5163.namprd11.prod.outlook.com
- ([fe80::1169:5ec9:62a8:d220%5]) with mapi id 15.20.5588.011; Wed, 7 Sep 2022
- 20:43:10 +0000
-From: <Conor.Dooley@microchip.com>
-To: <jernej.skrabec@gmail.com>, <samuel@sholland.org>, <palmer@dabbelt.com>,
-	<geert+renesas@glider.be>
-CC: <wens@csie.org>, <linux-sunxi@lists.linux.dev>,
-	<paul.walmsley@sifive.com>, <aou@eecs.berkeley.edu>,
-	<linux-riscv@lists.infradead.org>, <robh+dt@kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>
-Subject: Re: [PATCH 00/12] riscv: Allwinner D1 platform support
-Thread-Topic: [PATCH 00/12] riscv: Allwinner D1 platform support
-Thread-Index: AQHYwvpxfKxttznj2k2qHIUOyg7r/Q==
-Date: Wed, 7 Sep 2022 20:43:10 +0000
-Message-ID: <84f28dc3-3b65-ea70-4fa4-765d0c773c28@microchip.com>
-References: <mhng-d98d3324-5f4b-4cb0-a116-522b124dcdea@palmer-ri-x1c9>
- <7423117.EvYhyI6sBW@kista>
-In-Reply-To: <7423117.EvYhyI6sBW@kista>
-Accept-Language: en-IE, en-US
-Content-Language: en-IE
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3f8c6bb3-d9ee-422e-04e5-08da911193b4
-x-ms-traffictypediagnostic: CO1PR11MB5138:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: DXjfgx53qMLQ2ZHCgoRozMVQCriHWZweJ25+C5O3axYgzY58LAaHDWNEMTz7VnueKAHVFom1Um5iAaQLGKAPFB8oshYEzGWfgBikJPRaBJF97j08tkoyipWHIWeAgEZwDVOMrBrc/p1lsiPQgwAYRIimHT7h7Iz+8ufY4cG1APLQ2sq1SWgVHJToE2tW1hxKFGyTUtKCTz0o+vJyyS0SfXm4Y6SLVv9d7JY0dP8eOQc2zERY6GjkIwSgoyB436qt8Aj62n36wt2bD1MPtjG3oKsZ+vVLKokJPWzh7gR9WDTQ3bRU3DKTDsVTfMht33Cm+eia/cqIPqvAQ7N2g4yHKZjWLxVjmpKBPy4KO1Bn7Zjk/S22ux6YLN8aNU4X0Qh5lPlbfKeOCP42VjgZh9aAADT6mpQzn5g8HXLZfMGjF9oHqUXeIr3/OVH95N18hxGCH3KEx4Cy7rH8ei0GZETAkj0gZ8T7ES4s2hRD1bNHSS2FuN/F3MJilCnL8+k3cNYrycphH+2yulCSzxo8JDwxolPsu8x68uDOvfDmD7hlwlVxvZnz3sH7l3TzpVQMOAP/Doxsq6Ug5wnTOdoAQ5zbSkG7X76HiLH9ctD/hc9JQ4Yhlz/0VrUrmK9jL/uL0x6BL+1QvT/ooK7BQ8mTMT5QgbMRL95PFFShGlavBJ4K+Dm6Q/kz1Ear36uWXT5hY1JueggjUnKaIT+dPkq4pApubmHwvI5fudlePNpL2/TRU8IBx6DA+ccqM9ug6jpRnyf8WK5zz/sUPmklPTYF7R2Kk4MJPpoWrbzT54X9FkGSpCzAuMKfj6r2TQZU4GocjuPiNIJUgg7E1QsPoHuO+k7RPOnvU2JQRYFGaqej0j/03muw98sAGMCH4hAC1TkfVIG0Uo4Hp8xGViZUrZ3tZbKODA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA2PR11MB5163.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(396003)(376002)(346002)(136003)(39860400002)(366004)(36756003)(31686004)(316002)(83380400001)(5660300002)(8936002)(110136005)(54906003)(2906002)(4326008)(8676002)(66946007)(64756008)(91956017)(7416002)(76116006)(66446008)(66476007)(66556008)(66574015)(478600001)(26005)(41300700001)(6486002)(966005)(31696002)(53546011)(71200400001)(2616005)(186003)(38100700002)(38070700005)(6506007)(86362001)(6512007)(122000001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NGI0Z1hGYUlFUE5XVjBLZGZKOVRHSFlSZU5wRTYyTSsxZ2Y0VU1nYmJaWVk2?=
- =?utf-8?B?NGdCZjJqeGZSbElYcVhDZ2taNTN0ME52R3k1RlJMcHEvU3BOVzE1MGtPcXJV?=
- =?utf-8?B?NTJYeW9zVDkyajFPWDRjY0laeFV1OGxYM1ovWDFadFRZbGNBam5NNHU1L2Jk?=
- =?utf-8?B?cW9EUWQzVUlKM1FNRy8yVlNDa2FiemZtRDRtbStkQ0g5L1pRd2tvV3VadW5O?=
- =?utf-8?B?dkF4MzFLYmVKZ1ZubU94UEF4U0lKVkFJYnFSNDRmU1BuajFpeFdkdjQ4dnFH?=
- =?utf-8?B?SGJiams2d2lVVldMUHBhNWhQVDhoM3RyTWNKcDhraUxFbGxaK0NGV0VQVW0x?=
- =?utf-8?B?UEtCTnVxUHltWGlLSC80OFJ5WjVMeDhZOGZnTmZ5Mjdsdmk5UUtJRkVWcHQ1?=
- =?utf-8?B?K1hzQ0YrSXI2SjhvZmRKVDRWMkw2eUsrYzlZbkt0bndTVTVoZ0FRZGtpYTYz?=
- =?utf-8?B?S1ptOWxMMURnOXdxTEs2d01hL2paOTdXWFExalVRRjdsOGpzdGFkMFdPdHRN?=
- =?utf-8?B?RU9hQ1BtYlBkSmhmT3hmaDVkeEVKYzJneldEKzJpVnFEM1YvVmVWZVdHWEVm?=
- =?utf-8?B?QVVNN1I0bnJwWFVYeGNENDJCWldhSVJKcmo5RWFrck9HRWJJODg2WDRXRGcv?=
- =?utf-8?B?TDQrWmlxc29EYnR5c1AxN1NFWitKTE9CNk5qR250dmdyV1lWWERBQ1NUNG5U?=
- =?utf-8?B?SXJXRGEzeUVpelNyc1ZVaHFCZDRUdmx5NjZJbXVtRjZaTHprQnFEUTZQWThz?=
- =?utf-8?B?cjhYWmxFNzBZVnpnM1MxWXRQV3psUDJaVlY3clBUMmlpcjlSU2plR2VxMXpR?=
- =?utf-8?B?aXpjOEtpZDZkaVkvVjVUUVdvUmp5VjFjbE5ZZEMvajBpSFMxQWJ5TlVlLzhW?=
- =?utf-8?B?YW1wRGUvOUVTVndGZEF6TXpEM2dVbjhYdjdWUHV0bSszMk0yZnZaampDY1ZV?=
- =?utf-8?B?ZkJNN2JteVh3WFpDdmRnNitRNjYvS3MyZXJzbDNxVmRxcTJzMmxXZm9tV3M2?=
- =?utf-8?B?RC9iVndEWU5mZXNycElIYjRoQWQwUnFwSEkwbS9aenlibE1lRW1vb245dW5R?=
- =?utf-8?B?dFFIY1pMaXpDSkRlUjBacTZDOHVwRmpPZ3VwU0RPNDNYQ0tYSmo3TmJtVFpy?=
- =?utf-8?B?M3hsRTYwQS9xeTEwK29TTHJkSWgyekFhODJ4WUIyOHdnVmZwNEdUV3pMMSs2?=
- =?utf-8?B?dXRtbkNCMjNhWk9ZODNlZTBSK2oyRkFMRWRwTVJpWXA3clovSGtjVHZuSkh0?=
- =?utf-8?B?TTBKcWVkTk1Qd1ZBZEI5SDk2ZDl5VWEvWHdKOGsyZE04bnhSeUJhUHdiVGFo?=
- =?utf-8?B?TFNLaXplRWFpaVA4aC9IUS9FbThBVmp4QmZlOHNkM1JuSXFqMzlYZE52Wjln?=
- =?utf-8?B?Skx0cjIxREd0MG9SY2IvOVNGSGxlTm9nV2wxeE9GeGVXb0VINTRoVnpoVkR6?=
- =?utf-8?B?dG9KOGlOalhKMDFHdXAxSERFRjJZd2xIZDlETkxPS3VHbGtVUy84ZjNFcy9L?=
- =?utf-8?B?TEQ1REZiUWdJaldSSEhxVUxqTERqN3pBNDNwdTNjMkhMaUd1bXErQVVoVzBy?=
- =?utf-8?B?MlpoMHJ6YVBvZEczR2NNRkI4Qm92WmFiT0t5SjU2VHF1MUVlenhYSm1OS2NQ?=
- =?utf-8?B?QzhhdE0vankyclkvOUlTbGpWU29jL1RpajN1UjZJMVdxVFdEUlh3cktPa2ph?=
- =?utf-8?B?eHlQZktPQzRReE1pMHQ4QzRuenhqMkxrQUpGMjdFZGtISHlGZGR2NGtNWUFC?=
- =?utf-8?B?YkFrbXY3SDNUMzl4Uzc0dDRTa2g5SE5jU2NWTjJDMjJmRVpsQ3FoS1k0NW1E?=
- =?utf-8?B?WmNiNUZVV1kyYiszWFo1RnFaQVUrVGN5ZlZDeG9yTnE3aFl3bnVuRFkxRVMw?=
- =?utf-8?B?Vm5Za2pWUStScUNjNEh4dU1zUDBLVnRtNjF4RVdManhJUGZJYU1rSlJIQi9w?=
- =?utf-8?B?ODBlbFp6Znc0dHIwWTZ2Q0Q0MjVFUkJuY2Q3d3pjRy9tY0w3VFRVL2NpelFS?=
- =?utf-8?B?Y1JqdFNyL0d1elR3UTRYQlo4bEhYUnRXQjhBY1dzNmY1RHVKdVZIYnFMOHRK?=
- =?utf-8?B?SGhLbWFpa0F5Q2V1QlhrcXRucTdPbVdySUlzYzVXRTN2Yk5KWmhoa1ROSjc5?=
- =?utf-8?Q?TNyodzsR2FgZPx5DyuDx+FOEn?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <84131E511918F948A150A9440FBA607A@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:from:to:cc:subject:date;
+        bh=ZfOYfQtThYd/KyFSNNpcBedgaTk1E4F3yRLEgfbAULY=;
+        b=VRxQGzqTWKt5NLlk4/wdj2oLSzWbBr8RLMvN8dSsLKXanZhEt7wkBCuhODX+wBxFOB
+         YTpixeZ69A3ll346PHc6UjYp+sEzIa6jvWfNAroxoqXtG5fVeMQheB6W+g903B1RFpz1
+         Cq3FJ1B6nb2XHFOxcTYykeMACstiOgC0BbqUGmbqeBL8KimqxYHmULsWon3QTQym9BKH
+         4tn2ZzTYfcyZoD58/obnR57g9KQEGRzIJEUkqSJhjiK++7tIBUFFCrIZUPnUwja+oNgc
+         CcQHsGOjipzC9jRFhpGz7LhorgQnalnrEH6Qtdhj0qE1s727C/8tslBuXXnbF6Tutr9I
+         97Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:x-gm-message-state:from:to:cc:subject:date;
+        bh=ZfOYfQtThYd/KyFSNNpcBedgaTk1E4F3yRLEgfbAULY=;
+        b=y8q5fC21ZZTAg54IXppHije41W3/rrszAZike00xCsHDtpyKnyKOEtex5fwi8+OQyc
+         6pQlOAr0yTU8winZFjfV36R4UGQSvlTbsKtfaYRJLhuXmtNDzwpfwCaZMtoHTTQsZGYM
+         a82ypVDgU9z1Q9blGnwGss6Nnd/3WshMO88+W+HaJCKOD1NQ819q0nh3sPormH6/JEom
+         iz+6mEr1X4IbfBklOM8ai0OIpNFEafv8S6cdgv3Keaij1tjpEJHQ8QsgbdaNF/63Or9H
+         f9L5OaC+YgyhX9wBuvudGOhn6Fh/64idScNb8M6AFX9VCSydoRrFnEQU7m08LvTDuQMb
+         /jdw==
+X-Gm-Message-State: ACgBeo3zMyRziCBTsz0ERec7B7jYfnnu2ChIM5/c6uWOeU1jeFW18xTU
+	g1ZjEWMUNmdzpadqEn5V1DA=
+X-Google-Smtp-Source: AA6agR63jg/DfvolpHhSn3tY0Cl+lM71H7YGuQTXytiA5QL42uEm7EIa+ryHFFQxZzUJpplqg82nJg==
+X-Received: by 2002:a2e:804a:0:b0:26b:66d3:4d51 with SMTP id p10-20020a2e804a000000b0026b66d34d51mr172137ljg.293.1662586284210;
+        Wed, 07 Sep 2022 14:31:24 -0700 (PDT)
+Received: from ?IPV6:2a02:a31a:a240:1700:e929:c054:a46d:3844? ([2a02:a31a:a240:1700:e929:c054:a46d:3844])
+        by smtp.googlemail.com with ESMTPSA id p20-20020a2e9a94000000b0026acfe1b3b4sm549047lji.17.2022.09.07.14.31.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Sep 2022 14:31:23 -0700 (PDT)
+From: Mateusz Kwiatkowski <kfyatek@gmail.com>
+X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+Message-ID: <dc1d9499-d4d5-1032-f39f-d4ac4cbb8412@gmail.com>
+Date: Wed, 7 Sep 2022 23:31:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA2PR11MB5163.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f8c6bb3-d9ee-422e-04e5-08da911193b4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Sep 2022 20:43:10.4554
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SzrZhNwM+Ja7tcosMsAjFnli+VqqY0l1q82icXFkn30qtFuZflz/0yDT7vQyRHgQM7/oGQJfl2X7j/I5jYc5V6lw7mLZn1BnrHj1ImLEazM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5138
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.2.1
+Subject: Re: [PATCH v2 10/41] drm/modes: Add a function to generate analog
+ display modes
+Content-Language: pl
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+ Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Hans de Goede <hdegoede@redhat.com>, linux-arm-kernel@lists.infradead.org,
+ Phil Elwell <phil@raspberrypi.com>, intel-gfx@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, Dom Cobley <dom@raspberrypi.com>,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-10-459522d653a7@cerno.tech>
+ <242d272b-5b79-986c-9aaf-64e62f6b37ff@gmail.com>
+ <20220905133755.gcmmntg3wnecyqjq@houat>
+ <10ce686a-d7c8-9ce4-3979-735ad8eab3b5@gmail.com>
+ <20220907143421.4iopqwhp3yfircsh@houat>
+In-Reply-To: <20220907143421.4iopqwhp3yfircsh@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-T24gMDYvMDkvMjAyMiAyMToyOSwgSmVybmVqIMWga3JhYmVjIHdyb3RlOg0KPiBFWFRFUk5BTCBF
-TUFJTDogRG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW5sZXNzIHlvdSBr
-bm93IHRoZSBjb250ZW50IGlzIHNhZmUNCj4gDQo+IERuZSDEjWV0cnRlaywgMDEuIHNlcHRlbWJl
-ciAyMDIyIG9iIDIwOjEwOjEzIENFU1QgamUgUGFsbWVyIERhYmJlbHQgbmFwaXNhbChhKToNCj4+
-IE9uIFN1biwgMTQgQXVnIDIwMjIgMjI6MDg6MDMgUERUICgtMDcwMCksIHNhbXVlbEBzaG9sbGFu
-ZC5vcmcgd3JvdGU6DQo+Pj4gVGhpcyBzZXJpZXMgYWRkcyB0aGUgS2NvbmZpZy9kZWZjb25maWcg
-cGx1bWJpbmcgYW5kIGRldmljZXRyZWVzIGZvciBhDQo+Pj4gcmFuZ2Ugb2YgQWxsd2lubmVyIEQx
-LWJhc2VkIGJvYXJkcy4gTWFueSBmZWF0dXJlcyBhcmUgYWxyZWFkeSBlbmFibGVkLA0KPj4+IGlu
-Y2x1ZGluZyBVU0IsIEV0aGVybmV0LCBhbmQgV2lGaS4NCj4+Pg0KPj4+IFRoZSBTb0MgZGV2aWNl
-dHJlZSB1c2VzIGJpbmRpbmdzIGZyb20gdGhlIGZvbGxvd2luZyBzZXJpZXMgd2hpY2ggaGF2ZQ0K
-Pj4+IG5vdCB5ZXQgYmVlbiBtZXJnZWQ6DQo+Pj4NCj4+PiAtIFNSQU0gY29udHJvbGxlcjoNCj4+
-PiAgIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xrbWwvMjAyMjA4MTUwNDEyNDguNTMyNjgtMS1z
-YW11ZWxAc2hvbGxhbmQub3JnLw0KPj4+DQo+Pj4gLSBOVk1FTSBjZWxsIGJpdHMgcHJvcGVydHkg
-Y2hhbmdlOg0KPj4+ICAgaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC8yMDIyMDgxNDE3MzY1
-Ni4xMTg1Ni0xLXNhbXVlbEBzaG9sbGFuZC5vcmcvDQo+Pj4NCj4+PiAtIEluLXBhY2thZ2UgTERP
-IHJlZ3VsYXRvcnM6DQo+Pj4gICBodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sLzIwMjIwODE1
-MDQzNDM2LjIwMTcwLTEtc2FtdWVsQHNob2xsYW5kLm9yZy8NCj4+Pg0KPj4+IEFsbCB0aHJlZSBv
-ZiB0aGVzZSBhcmUgcmVxdWlyZWQgdG8gc2V0IHRoZSBjb3JyZWN0IEkvTyBkb21haW4gdm9sdGFn
-ZXMNCj4+PiBpbiB0aGUgcGluIGNvbnRyb2xsZXIsIHdoaWNoIEkgd291bGQgY29uc2lkZXIgaW1w
-b3J0YW50IHRvIGhhdmUgaW4gdGhlDQo+Pj4gaW5pdGlhbCB2ZXJzaW9uIG9mIHRoZSBkZXZpY2V0
-cmVlLg0KPj4+DQo+Pj4gVGhlIFNvQyBkZXZpY2V0cmVlIGRvZXMgY29udGFpbiBvbmUgc21hbGwg
-aGFjayB0byBhdm9pZCBhIGRlcGVuZGVuY3kgb24NCj4+PiB0aGUgYXVkaW8gY29kZWMgYmluZGlu
-Zywgc2luY2UgdGhhdCBpcyBub3QgcmVhZHkgeWV0OiB0aGUgY29kZWMgbm9kZQ0KPj4+IHVzZXMg
-YSBiYXJlICJzaW1wbGUtbWZkIiwgInN5c2NvbiIgY29tcGF0aWJsZS4NCj4+Pg0KPj4+IFNhbXVl
-bCBIb2xsYW5kICgxMik6DQo+Pj4gICBNQUlOVEFJTkVSUzogTWF0Y2ggdGhlIHN1bjIwaSBmYW1p
-bHkgb2YgQWxsd2lubmVyIFNvQ3MNCj4+PiAgIGR0LWJpbmRpbmdzOiByaXNjdjogQWRkIFQtSEVB
-RCBDOTA2IGFuZCBDOTEwIGNvbXBhdGlibGVzDQo+Pj4gICBkdC1iaW5kaW5nczogdmVuZG9yLXBy
-ZWZpeGVzOiBBZGQgQWxsd2lubmVyIEQxIGJvYXJkIHZlbmRvcnMNCj4+PiAgIGR0LWJpbmRpbmdz
-OiByaXNjdjogQWRkIEFsbHdpbm5lciBEMSBib2FyZCBjb21wYXRpYmxlcw0KPj4+ICAgcmlzY3Y6
-IEFkZCB0aGUgQWxsd2lubmVyIFNvQyBmYW1pbHkgS2NvbmZpZyBvcHRpb24NCj4+PiAgIHJpc2N2
-OiBkdHM6IGFsbHdpbm5lcjogQWRkIHRoZSBEMSBTb0MgYmFzZSBkZXZpY2V0cmVlDQo+Pj4gICBy
-aXNjdjogZHRzOiBhbGx3aW5uZXI6IEFkZCBBbGx3aW5uZXIgRDEgTmV6aGEgZGV2aWNldHJlZQ0K
-Pj4+ICAgcmlzY3Y6IGR0czogYWxsd2lubmVyOiBBZGQgU2lwZWVkIExpY2hlZSBSViBkZXZpY2V0
-cmVlcw0KPj4+ICAgcmlzY3Y6IGR0czogYWxsd2lubmVyOiBBZGQgTWFuZ29QaSBNUSBQcm8gZGV2
-aWNldHJlZQ0KPj4+ICAgcmlzY3Y6IGR0czogYWxsd2lubmVyOiBBZGQgRG9uZ3NoYW4gTmV6aGEg
-U1RVIGRldmljZXRyZWUNCj4+PiAgIHJpc2N2OiBkdHM6IGFsbHdpbm5lcjogQWRkIENsb2Nrd29y
-a1BpIGFuZCBEZXZUZXJtIGRldmljZXRyZWVzDQo+Pj4gICByaXNjdjogZGVmY29uZmlnOiBFbmFi
-bGUgdGhlIEFsbHdpbm5lciBEMSBwbGF0Zm9ybSBhbmQgZHJpdmVycw0KPj4+DQo+Pj4gIC4uLi9k
-ZXZpY2V0cmVlL2JpbmRpbmdzL3Jpc2N2L2NwdXMueWFtbCAgICAgICB8ICAgMiArDQo+Pj4gIC4u
-Li9kZXZpY2V0cmVlL2JpbmRpbmdzL3Jpc2N2L3N1bnhpLnlhbWwgICAgICB8ICA2NCArKw0KPj4+
-ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy92ZW5kb3ItcHJlZml4ZXMueWFtbCAgfCAgIDQgKw0K
-Pj4+ICBNQUlOVEFJTkVSUyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDIg
-Ky0NCj4+PiAgYXJjaC9yaXNjdi9LY29uZmlnLnNvY3MgICAgICAgICAgICAgICAgICAgICAgIHwg
-ICA5ICsNCj4+PiAgYXJjaC9yaXNjdi9ib290L2R0cy9NYWtlZmlsZSAgICAgICAgICAgICAgICAg
-IHwgICAxICsNCj4+PiAgYXJjaC9yaXNjdi9ib290L2R0cy9hbGx3aW5uZXIvTWFrZWZpbGUgICAg
-ICAgIHwgIDEwICsNCj4+PiAgLi4uL2FsbHdpbm5lci9zdW4yMGktZDEtY2xvY2t3b3JrcGktdjMu
-MTQuZHRzIHwgMjQyICsrKysrDQo+Pj4gIC4uLi9zdW4yMGktZDEtY29tbW9uLXJlZ3VsYXRvcnMu
-ZHRzaSAgICAgICAgICB8ICA1MSArDQo+Pj4gIC4uLi9kdHMvYWxsd2lubmVyL3N1bjIwaS1kMS1k
-ZXZ0ZXJtLXYzLjE0LmR0cyB8ICAzNyArDQo+Pj4gIC4uLi9zdW4yMGktZDEtZG9uZ3NoYW4tbmV6
-aGEtc3R1LmR0cyAgICAgICAgICB8IDExNCArKysNCj4+PiAgLi4uL3N1bjIwaS1kMS1saWNoZWUt
-cnYtODYtcGFuZWwtNDgwcC5kdHMgICAgIHwgIDI5ICsNCj4+PiAgLi4uL3N1bjIwaS1kMS1saWNo
-ZWUtcnYtODYtcGFuZWwtNzIwcC5kdHMgICAgIHwgIDEwICsNCj4+PiAgLi4uL3N1bjIwaS1kMS1s
-aWNoZWUtcnYtODYtcGFuZWwuZHRzaSAgICAgICAgIHwgIDkyICsrDQo+Pj4gIC4uLi9hbGx3aW5u
-ZXIvc3VuMjBpLWQxLWxpY2hlZS1ydi1kb2NrLmR0cyAgICB8ICA3NCArKw0KPj4+ICAuLi4vZHRz
-L2FsbHdpbm5lci9zdW4yMGktZDEtbGljaGVlLXJ2LmR0cyAgICAgfCAgODQgKysNCj4+PiAgLi4u
-L2FsbHdpbm5lci9zdW4yMGktZDEtbWFuZ29waS1tcS1wcm8uZHRzICAgIHwgMTI4ICsrKw0KPj4+
-ICAuLi4vYm9vdC9kdHMvYWxsd2lubmVyL3N1bjIwaS1kMS1uZXpoYS5kdHMgICAgfCAxNzEgKysr
-Kw0KPj4+ICBhcmNoL3Jpc2N2L2Jvb3QvZHRzL2FsbHdpbm5lci9zdW4yMGktZDEuZHRzaSAgfCA5
-MDAgKysrKysrKysrKysrKysrKysrDQo+Pj4gIGFyY2gvcmlzY3YvY29uZmlncy9kZWZjb25maWcg
-ICAgICAgICAgICAgICAgICB8ICAyMyArLQ0KPj4+ICAyMCBmaWxlcyBjaGFuZ2VkLCAyMDQ1IGlu
-c2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+Pj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1
-bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvcmlzY3Yvc3VueGkueWFtbA0KPj4+ICBjcmVh
-dGUgbW9kZSAxMDA2NDQgYXJjaC9yaXNjdi9ib290L2R0cy9hbGx3aW5uZXIvTWFrZWZpbGUNCj4+
-PiAgY3JlYXRlIG1vZGUgMTAwNjQ0DQo+Pj4gIGFyY2gvcmlzY3YvYm9vdC9kdHMvYWxsd2lubmVy
-L3N1bjIwaS1kMS1jbG9ja3dvcmtwaS12My4xNC5kdHMgY3JlYXRlDQo+Pj4gIG1vZGUgMTAwNjQ0
-DQo+Pj4gIGFyY2gvcmlzY3YvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjIwaS1kMS1jb21tb24tcmVn
-dWxhdG9ycy5kdHNpIGNyZWF0ZQ0KPj4+ICBtb2RlIDEwMDY0NCBhcmNoL3Jpc2N2L2Jvb3QvZHRz
-L2FsbHdpbm5lci9zdW4yMGktZDEtZGV2dGVybS12My4xNC5kdHMNCj4+PiAgY3JlYXRlIG1vZGUg
-MTAwNjQ0DQo+Pj4gIGFyY2gvcmlzY3YvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjIwaS1kMS1kb25n
-c2hhbi1uZXpoYS1zdHUuZHRzIGNyZWF0ZQ0KPj4+ICBtb2RlIDEwMDY0NA0KPj4+ICBhcmNoL3Jp
-c2N2L2Jvb3QvZHRzL2FsbHdpbm5lci9zdW4yMGktZDEtbGljaGVlLXJ2LTg2LXBhbmVsLTQ4MHAu
-ZHRzDQo+Pj4gIGNyZWF0ZSBtb2RlIDEwMDY0NA0KPj4+ICBhcmNoL3Jpc2N2L2Jvb3QvZHRzL2Fs
-bHdpbm5lci9zdW4yMGktZDEtbGljaGVlLXJ2LTg2LXBhbmVsLTcyMHAuZHRzDQo+Pj4gIGNyZWF0
-ZSBtb2RlIDEwMDY0NA0KPj4+ICBhcmNoL3Jpc2N2L2Jvb3QvZHRzL2FsbHdpbm5lci9zdW4yMGkt
-ZDEtbGljaGVlLXJ2LTg2LXBhbmVsLmR0c2kgY3JlYXRlDQo+Pj4gIG1vZGUgMTAwNjQ0IGFyY2gv
-cmlzY3YvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjIwaS1kMS1saWNoZWUtcnYtZG9jay5kdHMNCj4+
-PiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGFyY2gvcmlzY3YvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjIw
-aS1kMS1saWNoZWUtcnYuZHRzDQo+Pj4gIGNyZWF0ZSBtb2RlIDEwMDY0NA0KPj4+ICBhcmNoL3Jp
-c2N2L2Jvb3QvZHRzL2FsbHdpbm5lci9zdW4yMGktZDEtbWFuZ29waS1tcS1wcm8uZHRzIGNyZWF0
-ZSBtb2RlDQo+Pj4gIDEwMDY0NCBhcmNoL3Jpc2N2L2Jvb3QvZHRzL2FsbHdpbm5lci9zdW4yMGkt
-ZDEtbmV6aGEuZHRzIGNyZWF0ZSBtb2RlDQo+Pj4gIDEwMDY0NCBhcmNoL3Jpc2N2L2Jvb3QvZHRz
-L2FsbHdpbm5lci9zdW4yMGktZDEuZHRzaQ0KPj4NCj4+IEknbSBhc3N1bWluZyB0aGVzZSBhcmUg
-YWltZWQgYXQgdGhlIFJJU0MtViB0cmVlPyAgSSdtIGdlbmVyYWxseSBPSyB3aXRoDQo+PiB0aGF0
-LCB0aG91Z2ggdGhlIERUIGZvbGtzIGhhdmUgcG9pbnRlZCBvdXQgYSBoYW5kZnVsIG9mIGlzc3Vl
-cyB0aGF0IGxvb2sNCj4+IHByZXR0eSByZWFzb25hYmxlIHRvIG1lLg0KPiANCj4gRFQgY2hhbmdl
-cyBmb3IgQWxsd2lubmVyIEFSTSBTb0NzIGdvIHRyb3VnaCBzdW54aSB0cmVlLiBTaG91bGQgdGhp
-cyBiZSBoYW5kbGVkDQo+IGRpZmZlcmVudGx5IGZvciBSSVNDLVY/DQoNCk1pY3JvY2hpcCBSSVND
-LVYgRFQgZ28gdmlhIGEgTWljcm9jaGlwIHRyZWUgdG8gUGFsbWVyLiBUaGUgb3RoZXIgc3R1ZmYg
-Z2V0cw0KcGlja2VkIGRpcmVjdGx5IGJ5IGhpbSBhcyBpdCBoYXMgbm8gY2xlYXIgIm93bmVyIi4g
-SSB0aGluayBpdCB3b3VsZCBiZSBuaWNlDQp0byBiZSBjb25zaXN0ZW50IGZvciB0aGUgbmV3IHty
-ZW5lc2FzLHN1bnhpfSBzdHVmZiBhbmQgc2VuZCB0aG9zZSB2aWEgdmVuZG9yDQp0cmVlcyB0byBQ
-YWxtZXIgdG9vLiBKdXN0IG15IDIgY2VudHMuLi4NCg0KQ29ub3IuDQoNCg0K
+Hi Maxime,
+
+W dniu 7.09.2022 o 16:34, Maxime Ripard pisze:
+> On Mon, Sep 05, 2022 at 06:44:42PM +0200, Mateusz Kwiatkowski wrote:
+>> Hi Maxime,
+>>
+>> W dniu 5.09.2022 o 15:37, Maxime Ripard pisze:
+>>>>> +    vfp = vfp_min + (porches_rem / 2);
+>>>>> +    vbp = porches - vfp;
+>>>>
+>>>> Relative position of the vertical sync within the VBI effectively moves the
+>>>> image up and down. Adding that (porches_rem / 2) moves the image up off center
+>>>> by that many pixels. I'd keep the VFP always at minimum to keep the image
+>>>> centered.
+>>>
+>>> And you would increase the back porch only then?
+>>
+>> Well, increasing vbp only gives a centered image with the default 480i/576i
+>> resolutions. However, only ever changing vbp will cause the image to be always
+>> at the bottom of the screen when the active line count is decreased (e.g.
+>> setting the resolution to 720x480 but for 50Hz "PAL" - like many game consoles
+>> did back in the day).
+>>
+>> I believe that the perfect solution would:
+>>
+>> - Use the canonical / standard-defined blanking line counts for the standard
+>>   vertical resolutions (480/486/576)
+>> - Increase vfp and vbp from there by the same number if a smaller number of
+>>   active lines is specified, so that the resulting image is centered
+>> - Likewise, decrease vfp and vbp by the same number if the active line number
+>>   is larger and there is still leeway (this should allow for seamless handling
+>>   of 480i vs. 486i for 60 Hz "NTSC")
+>
+> I'm not sure I understand how that's any different than the code you
+> initially commented on.
+>
+> I would start by taking the entire blanking area, remove the sync
+> period. We only have the two porches now, and I'm starting from the
+> minimum, adding as many pixels in both (unless it's not an even number,
+> in which case the backporch will have the extra pixel).
+>
+> Isn't it the same thing?
+> [...]
+> Unless you only want me to consider the front porch maximum?
+
+I think you're confusing the "post-equalizing pulses" with the "vertical back
+porch" a little bit. The "vertical back porch" includes both the post-equalizing
+pulses and the entire rest of the VBI period, for the standard resolutions at
+least.
+
+The "canonical" modelines (at least for vc4's VEC, see the notes below):
+
+- (vfp==4, vsync==6, vbp==39) for 576i
+- (vfp==7, vsync==6, vbp==32) for 480i
+- (vfp==5, vsync==6, vbp==28) for 486i (full frame NTSC as originally specified)
+
+The numbers for vfp don't exactly match the theoretical values, because:
+
+- VEC actually adds a half-line pulse on top of VFP_ODD, and in the 625-line
+  mode also on top of VFP_EVEN (not always, but let's not dwell too much)
+- Conversely, VEC subtracts the half-line pulse from VSYNC_ODD and VSYNC_EVEN
+  in the 625-line mode
+- SMPTE S170M (see https://www.itu.int/rec/R-REC-BT.1700-0-200502-I/en) defines
+  that active picture for NTSC is on lines 21-263 and 283-525; 263 and 283 are
+  half-lines that are represented as full lines in the "486i" spec
+- SMPTE 314M, which is the spec for DV, defines the 480 active lines as lines
+  23-262 and 285-524; see Table 20 on page 26 in
+  https://last.hit.bme.hu/download/firtha/video/SMPTE/SMPTE-314M%20DV25-50.pdf;
+  this means that the standard 480i frame shaves off four topmost and two
+  bottommost lines (2 and 1 per field) of the 486i full frame
+
+Note that the half-line pulses in vfp/vsync may be generated in a different way
+on encoders other than vc4's VEC. Maybe we should define some concrete
+semantics for vfp/vsync in analog TV modes, and compensate for that in the
+drivers. But anyway, that's a separate issue.
+
+My point is that, to get a centered image, you can then proportionately add
+values to those "canonical" vfp/vbp values. For example if someone specifies
+720x480 frame, but 50 Hz PAL, you should set (vfp==52, vsync==6, vbp==87).
+Those extra vbp lines will be treated as a black bar at the top of the frame,
+and extra vfp lines will be at the bottom of the frame.
+
+However if someone specifies e.g. 720x604, there's nothing more you could
+remove from vfp, so your only option is to reduce vbp compared to the standard
+mode, so you'll end up with (vfp==4, vsync==6, vbp==11). The image will not be
+centered, the topmost lines will get cropped out, but that's the best we can do
+and if someone is requesting such resolution, they most likely want to actually
+access the VBI to e.g. emit teletext.
+
+Your current code always starts at (vfp==5 or 6, vsync=6, vbp==6) and then
+increases both vfp and vbp proportionately. This puts vsync dead center in the
+VBI, which is not how it's supposed to be - and that in turn causes the image
+to be significantly shifted upwards.
+
+I hope this makes more sense to you now.
+
+Best regards,
+Mateusz Kwiatkowski
