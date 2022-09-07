@@ -1,167 +1,105 @@
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4BDC3201
-	for <linux-sunxi@lists.linux.dev>; Wed,  7 Sep 2022 14:38:41 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 7F43F580314;
-	Wed,  7 Sep 2022 10:38:40 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 07 Sep 2022 10:38:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1662561520; x=1662568720; bh=G+dQi/CqDE
-	Andi9GeELhOR4Fo+JzDcf4uQRnrofBKd8=; b=3FFUrZ7s6VxSN6vL5Cw4baUUa5
-	jDBnxlmgMIp8WXQLYEovPXCkQh6iup20i9PZhFoxra1kWYALiWJTZXWq3TmijN13
-	wOktSWoa4r9C2d/jfCHKOjD60uJdIV1cuw2dsF/I4D8umuBbgxF9XIjbv1CDZoRs
-	RAQLXHXxejuH5YF82ejQpmx2qR/d4wDR6lZaS5Ovf+IX5gMMSapTfn7ISApQJDjD
-	0cPaQ+8P46SeUgUy1AQdKInb+GK1uCL3syzskNavZvuCAYDUHrpX04Rp+DupVEhJ
-	EnsexyIYQUz53CjNBZqcaUnqrZP20gelrB0FmBIrMi5bOoPfrbStmlsSbntg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1662561520; x=1662568720; bh=G+dQi/CqDEAndi9GeELhOR4Fo+Jz
-	Dcf4uQRnrofBKd8=; b=J1gj70TqeaZBOD/8F/Ysvvj+yYSkSbaho7x/umphLAnU
-	DUE17Aqnpoa9lFiXO0DkkIV7pC8wKxK+D2hZwIdoyWZthInu9EQK//CrgXd7BAr8
-	8fsdivkrN/oFOLjVGwBH91Yh0285SHGE/BsQMwS9TGegZp6Q5W5brP1C94HVf5Io
-	/GjHfnowkowVZDMXD3MthtXJTnw5n6pt308G7686nBE8GmwZynE/kR4xruMshW8c
-	idaoHumZSyBEg0wb9D8BPb12LjqHZD1EGRqaDa5ZJKhCd0GVZBxspLBG7bCc6E0c
-	4pBJt/G9KiCH+hndbmPhXbgfK9r4uRuAQVxjn8V+YA==
-X-ME-Sender: <xms:8KwYY9oHdo_fef7xbGZvQ7RU6e5VqNtiwYTPzfH5zP1cBvBRPYXXKg>
-    <xme:8KwYY_pPPbFPbihsZjJJ161P5ISbfJMsmByJfwS3HxBdv_w8GnpAgHW_vZwcxeZ0U
-    rxCVJgLIQv0v2LDp_I>
-X-ME-Received: <xmr:8KwYY6MBzgqAzm8k0YKFAOjcXh_JzEkVwk9KeAbf6Zes-QmlekUYjit_Kg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedttddgjeekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
-    ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:8KwYY46QVtCc1FB4h9YEHP1n5sKVROo8PqNFS5ybv2YrktUHAwxqjg>
-    <xmx:8KwYY87k5h0Z88PudROgDw3LEkJ-mSadMDDDdHVsk_fUwn4PfV8fMA>
-    <xmx:8KwYYwgcrz8kjGCriG7u5kEQ0bQX_6R7ku9_agV9z6YwESV4urxPXg>
-    <xmx:8KwYY87sl9s6K8vlDCAbttgkC_W4xWTggHCz4yAWsg7BETWXCafDog>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Sep 2022 10:38:39 -0400 (EDT)
-Date: Wed, 7 Sep 2022 16:38:37 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Mateusz Kwiatkowski <kfyatek@gmail.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
-	Chen-Yu Tsai <wens@csie.org>,	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jani Nikula <jani.nikula@linux.intel.com>,	Lyude Paul <lyude@redhat.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,	Karol Herbst <kherbst@redhat.com>,
-	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-	Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	DRI Development <dri-devel@lists.freedesktop.org>,
-	Dom Cobley <dom@raspberrypi.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Nouveau Dev <nouveau@lists.freedesktop.org>,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 10/41] drm/modes: Add a function to generate analog
- display modes
-Message-ID: <20220907143837.ys76egf2yg5uyq2z@houat>
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-10-459522d653a7@cerno.tech>
- <242d272b-5b79-986c-9aaf-64e62f6b37ff@gmail.com>
- <CAMuHMdWq3aOO4-2AReDeaC2VBJb=QJF2dTMZP=DGmwCg6ZOffA@mail.gmail.com>
- <20220905133251.js26hxdosibx4r4i@houat>
- <6ac67d1f-e5b5-2687-372f-4146eed5cc5d@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF125CA6
+	for <linux-sunxi@lists.linux.dev>; Wed,  7 Sep 2022 15:09:08 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id dv25so1800135ejb.12
+        for <linux-sunxi@lists.linux.dev>; Wed, 07 Sep 2022 08:09:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=q+70v53buIxQaWBchIFk8shCKU1WJV1DdLwWTP+ddeI=;
+        b=PsSk7c5ChVk3DJTul0PslXYL3Ii3rxu7S+9k3ZdWO7J5+Rg3SJKW/GHR+l1IdCcqbD
+         QzOSg+X20xKhDWwzVNp1EVZBeuM2og/eiCkM9VRatVBVuKtFUtC1IFd6TnphWbjqABrV
+         lPI8ekc2MCGq7SaNBqXRHV/YntEXs/I2px8KM7Uiih87ZHZU+6OWWEzoS4qPY0Dysev9
+         Kf1PW1ximX/Nir+q+GFzRH9fkY+Yz9NccxBJ97dIkXFYKX6Fbwdx2rSEm5fgP9TwN8TP
+         Yn0/K6m8BPkKDGCZQYLjYFkzq7AqD2/EwCvermdk+S+d7m7gCF9XDJd4z+oxXRFK59CM
+         CsMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=q+70v53buIxQaWBchIFk8shCKU1WJV1DdLwWTP+ddeI=;
+        b=KQ3vjnx6AaXqDQZ4gxJHAfXn5bBXRCK1385HBRv1FMYfKLHim/nfyypsg2cXTrszRX
+         f+A5aufrJV6Mw2Sa1TXTsRb90/n6yrQD7mf0hLRfHxKDB2SYd6os4W0Ff0HafQDuzNiQ
+         TQge7wgIc1gUpD4p8etu+1j+XA+PaosT1sNOBu622HDRlUjNhJsNzI0vRV4PJnGOtlnm
+         dMMkzw6jZ921MCTXo+yhnb/A1w8s7EcKil7dTx2FkdGsTQxGQum90P908SDZ4eeBn/My
+         Q22lqbTa9WSViTi60yFviaS/rUxio5LPtboMsRgpkxuDoTjdPd8O6ZVAPiR4bw6CZaU5
+         dXVA==
+X-Gm-Message-State: ACgBeo2PwIgYG5r1tpZckd9Xsn/gLxJvKbphQPrBpuYFWSyQmXfdWfti
+	rbraRiNfUtO5zhCbmOz4Nfc=
+X-Google-Smtp-Source: AA6agR7+yo4NVJ1b3xBSrgRyiVKs02kmJQtjtA3mve9GOkmdtQU6KrWKBuLTC8Uj3eslmjookwi2Eg==
+X-Received: by 2002:a17:907:7d8e:b0:742:8ea0:686c with SMTP id oz14-20020a1709077d8e00b007428ea0686cmr2603244ejc.591.1662563347199;
+        Wed, 07 Sep 2022 08:09:07 -0700 (PDT)
+Received: from kista.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
+        by smtp.gmail.com with ESMTPSA id p23-20020a056402501700b0043ba7df7a42sm10858179eda.26.2022.09.07.08.09.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Sep 2022 08:09:06 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Lyude Paul <lyude@redhat.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Samuel Holland <samuel@sholland.org>, 
+	Karol Herbst <kherbst@redhat.com>, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
+	Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Hans de Goede <hdegoede@redhat.com>, 
+	linux-arm-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>, 
+	intel-gfx@lists.freedesktop.org, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, dri-devel@lists.freedesktop.org, 
+	Dom Cobley <dom@raspberrypi.com>, linux-kernel@vger.kernel.org, 
+	nouveau@lists.freedesktop.org, linux-sunxi@lists.linux.dev, 
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: Re: [PATCH v2 36/41] drm/sun4i: tv: Merge mode_set into atomic_enable
+Date: Wed, 07 Sep 2022 17:09:04 +0200
+Message-ID: <4210281.ejJDZkT8p0@kista>
+In-Reply-To: <20220907074134.36yysxrnnpty4ngw@houat>
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech> <10138422.nUPlyArG6x@kista> <20220907074134.36yysxrnnpty4ngw@houat>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nnvo5o5a2xq4dkin"
-Content-Disposition: inline
-In-Reply-To: <6ac67d1f-e5b5-2687-372f-4146eed5cc5d@gmail.com>
-
-
---nnvo5o5a2xq4dkin
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Sep 05, 2022 at 06:32:14PM +0200, Mateusz Kwiatkowski wrote:
-> Hi Maxime,
+Dne sreda, 07. september 2022 ob 09:41:34 CEST je Maxime Ripard napisal(a):
+> On Tue, Sep 06, 2022 at 10:04:32PM +0200, Jernej =C5=A0krabec wrote:
+> > Dne ponedeljek, 29. avgust 2022 ob 15:11:50 CEST je Maxime Ripard=20
+napisal(a):
+> > > Our mode_set implementation can be merged into our atomic_enable
+> > > implementation to simplify things, so let's do this.
+> >=20
+> > Are you sure this is a good thing in long term? What if user wants to
+> > change mode? Unlikely, but why not.
 >=20
-> W dniu 5.09.2022 o 15:32, Maxime Ripard pisze:
-> > Hi,
-> >
-> > On Wed, Aug 31, 2022 at 10:14:28AM +0200, Geert Uytterhoeven wrote:
-> >>>> +enum drm_mode_analog {
-> >>>> +=A0=A0=A0 DRM_MODE_ANALOG_NTSC,
-> >>>> +=A0=A0=A0 DRM_MODE_ANALOG_PAL,
-> >>>> +};
-> >>>
-> >>> Using "NTSC" and "PAL" to describe the 50Hz and 60Hz analog TV modes =
-is common,
-> >>> but strictly speaking a misnomer. Those are color encoding systems, a=
-nd your
-> >>> patchset fully supports lesser used, but standard encodings for those=
- (e.g.
-> >>> PAL-M for 60Hz and SECAM for 50Hz). I'd propose switching to some mor=
-e neutral
-> >>> naming scheme. Some ideas:
-> >>>
-> >>> - DRM_MODE_ANALOG_60_HZ / DRM_MODE_ANALOG_50_HZ (after standard refre=
-sh rate)
-> >>> - DRM_MODE_ANALOG_525_LINES / DRM_MODE_ANALOG_625_LINES (after standa=
-rd line
-> >>>=A0=A0 count)
-> >>
-> >> IMHO these are bad names, as e.g. VGA640x480@60 is also analog, using
-> >> 60 Hz and 525 lines.=A0 Add "TV" to the name?
-> >>
-> >>> - DRM_MODE_ANALOG_JM / DRM_MODE_ANALOG_BDGHIKLN (after corresponding =
-ITU System
-> >>>=A0=A0 Letter Designations)
-> >>
-> >> Or DRM_MODE_ITU_*?
-> >> But given the long list of letters, this looks fragile to me.
-> >
-> > Does it matter at all? It's an internal API that isn't exposed at all.
-> > I'd rather have a common name that everyone can understand in this case
-> > rather than a *perfect* name where most will scratch their head
-> > wondering what it's about.
+> It doesn't change anything feature-wise: whenever the mode is changed on
+> the CRTC, the encoder is going to be disabled and enabled.
 >=20
-> You may have a point. But in that case, maybe it'd make sense to at least=
- add
-> a short comment explaining what do you mean by "NTSC" and "PAL" in this c=
-ontext?
+> It's disabled here:
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_atomic=
+_he
+> lper.c#L1064
+>=20
+> And enabled here:
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_atomic=
+_he
+> lper.c#L1403
+>=20
+> With drm_atomic_crtc_needs_modeset() being defined here:
+> https://elixir.bootlin.com/linux/latest/source/include/drm/drm_atomic.h#L=
+104
+> 9
 
-Consider it done :)
+Right.
 
-Maxime
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
---nnvo5o5a2xq4dkin
-Content-Type: application/pgp-signature; name="signature.asc"
+Best regards,
+Jernej
 
------BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYxis7QAKCRDj7w1vZxhR
-xTvFAP9Y3LOGR153AWzkGlQJzp68VIaTnrTJdhwA2F1nff9iPAEA5bUMZNpshaSy
-QX+PeKcbA3F+gDjgQKft9KnC247cTgA=
-=3r/y
------END PGP SIGNATURE-----
-
---nnvo5o5a2xq4dkin--
