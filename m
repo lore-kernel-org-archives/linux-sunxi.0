@@ -1,66 +1,69 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93D15CA6
-	for <linux-sunxi@lists.linux.dev>; Thu,  8 Sep 2022 19:55:12 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id d5so11575182wms.5
-        for <linux-sunxi@lists.linux.dev>; Thu, 08 Sep 2022 12:55:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB415CA6
+	for <linux-sunxi@lists.linux.dev>; Thu,  8 Sep 2022 20:01:04 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id d5so11585317wms.5
+        for <linux-sunxi@lists.linux.dev>; Thu, 08 Sep 2022 13:01:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=ze639+PCW1w/1gzP9YrJsTcy8enh9M6YW+cBRHStBHM=;
-        b=eI755+/JrHuVT4ZUClHcldAg3qKaDAIl8ZYYAjjL/iFC0VYHY/D6VN4Z7N+zZNsQe1
-         8mBNw9wWVip4sybiJ5OmLV6lPSagGxbea2maGdvwG5LgnZxIzynrWXCznblZADSNOeBp
-         4iXCde1WgUlinCzu792ngEaRVZ9wcYjConrodIm6PwfPtk8NeLovUJN7W2F+o6km1eWB
-         fMyLSwg2gK6bTFWFY3SUVSx266ijChnkgL7J6zF+irSXh53W9vHV2dC+690LhNbVFPS8
-         krkNWsEGNgglpDyJnvIqHe416220WU85RKcuO6PqqhR+wc9q/LnM5Nc04WWmfIAzWjI2
-         BYXA==
+        bh=0ab0C3Pt3y+AUtGAmk+cGrgQVzgDrXyFcmGY9LIPg7I=;
+        b=DE7ZxcwuTdu0khBFNHcr5Sc7L4fS7iVOBLTIvKCsgzyQlbNBXmHD9fZKJ/LXb7717t
+         BoSkWRPMB8qtpvAyffGQYSKkcy8s9NphwB69i05tQNPEKvLiorY2ycNhuZBJ6dT+kERO
+         O3Qjr/1sl+5MdNXrHu4qdApNHrU1GzImPv4lRGm4xkxXjhpDb8Eaz0qVqDsTXfJnsJbe
+         9BHIknG9QpqZnmv7CvFxAacbOyhUwRH+6dqkk57ZS5itz8tETJi2gBDc2zpSEhYthSWw
+         aMKTMYwh5jAloWEF1IhCrETkdTayr3vNqd88JyTv3bZL7f4G3Byq+ZGYnYrxK+xmg3Q0
+         K+Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=ze639+PCW1w/1gzP9YrJsTcy8enh9M6YW+cBRHStBHM=;
-        b=Y+BosLCkZpK7Wk+04Denj8sxd1XyyEyeez0tNFg7u3Yrv1A905Hh2VfYZiVvXXfleC
-         wc+ms0vyaYvf25bU+Si9g+82YBBn4fHf0AWnQcRYppTU1UU9gwQC+blhOtSV5bADsYm1
-         DRpVqnNmRtoWcDQqk1WuYN6wkOLmhRK/x3PuN3lHC9SR7ZPxI6S6ikGkcZUfiQjxOlTv
-         Y8IV67teFO2uKBTLDO6Wlr1qkVfvMNzZtBypKg9FwAr42AMiYhIMFv8ZPn3FOdGyCd30
-         ZXGajM+1lVvPeqvpVldkzDLDWvslK4GqjkFv2U4Odho7rLvMZFCDPG8KmaDoj7b9yiUf
-         +w1g==
-X-Gm-Message-State: ACgBeo1k8UNloyCd/orVYayx9caw1GukeY29BiyuZiofhkraK62bUySh
-	Zu6e3Ux3CXNOUykz6cWp/2M=
-X-Google-Smtp-Source: AA6agR4uOK9Y+XgtBif61scKKj69FBQPUc6mobXPQibWu1bZU2IkD3ZcYROeOEjv2Eq3erchmhaVng==
-X-Received: by 2002:a7b:c848:0:b0:3a5:41f6:4d37 with SMTP id c8-20020a7bc848000000b003a541f64d37mr3495955wml.23.1662666911070;
-        Thu, 08 Sep 2022 12:55:11 -0700 (PDT)
+        bh=0ab0C3Pt3y+AUtGAmk+cGrgQVzgDrXyFcmGY9LIPg7I=;
+        b=qbwEFR6Fxzkl96Cnowk6CvMZovVkXPBvp0tZNrSQ/aQSseS9Q3rY82UpUYlfg1Sbq/
+         m9nKRW3WNk5j/lyh/L0xKy2oRFlO14xCELdh0UnbPAxujgMhU7845ZDFicpxlslCVlr/
+         E/OY0Iedc4PwzADfGFbV6Wat64aKcwYLYLOfGdCmpR0uEdhqfXY1Re225YWqmW1A1/Fp
+         PxIkR5zIzqL7cq+krE/Dkasu7ZOp0PngrpLebW1EDEIXWurPvAhy1xvykAhImMyFkTmz
+         hym3KmJBOPUtIF0g+RJOzMo8ihoJBktOFKsUI2T6tOrD9tx4whyFcn+KVUqu5HBUUCNA
+         gmqw==
+X-Gm-Message-State: ACgBeo08oQCq9lYnDwPhAccVbTKuwi/n5k/TBcuGrcY6KhJMbztAB9Mp
+	GORslARs7sWmnnMq3bx8yC8=
+X-Google-Smtp-Source: AA6agR4UVng5AUyO+Lb+M/d2q9vC91aXyrkT8ydz2RnziObmJg3cal0aghkmKspPlBplLPOjwPHi/w==
+X-Received: by 2002:a05:600c:89a:b0:3a5:4ea9:d5ee with SMTP id l26-20020a05600c089a00b003a54ea9d5eemr3350715wmp.8.1662667262590;
+        Thu, 08 Sep 2022 13:01:02 -0700 (PDT)
 Received: from kista.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
-        by smtp.gmail.com with ESMTPSA id h2-20020a5d4302000000b0021e51c039c5sm21346668wrq.80.2022.09.08.12.55.09
+        by smtp.gmail.com with ESMTPSA id o12-20020a05600c4fcc00b003a5b6086381sm4314038wmq.48.2022.09.08.13.01.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Sep 2022 12:55:10 -0700 (PDT)
+        Thu, 08 Sep 2022 13:01:02 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, wens@csie.org
-Subject: Re: [PATCH -next 1/3] clk: sunxi-ng: sun8i-de2: Use dev_err_probe() helper
-Date: Thu, 08 Sep 2022 21:55:09 +0200
-Message-ID: <5296377.Sb9uPGUboI@kista>
-In-Reply-To: <20220827094151.3323450-1-yangyingliang@huawei.com>
-References: <20220827094151.3323450-1-yangyingliang@huawei.com>
+To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
+Cc: Samuel Holland <samuel@sholland.org>, Gregory CLEMENT <gregory.clement@bootlin.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: Re: [PATCH 3/3] arm64: dts: allwinner: a100: Add I2C DMA requests
+Date: Thu, 08 Sep 2022 22:01:01 +0200
+Message-ID: <2079594.OBFZWjSADL@kista>
+In-Reply-To: <22775214.6Emhk5qWAg@kista>
+References: <20220830020824.62288-1-samuel@sholland.org> <20220830020824.62288-4-samuel@sholland.org> <22775214.6Emhk5qWAg@kista>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Dne sobota, 27. avgust 2022 ob 11:41:49 CEST je Yang Yingliang napisal(a):
-> dev_err() can be replace with dev_err_probe() which will check if error
-> code is -EPROBE_DEFER.
-> 
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+Dne torek, 06. september 2022 ob 23:11:02 CEST je Jernej =C5=A0krabec napis=
+al(a):
+> Dne torek, 30. avgust 2022 ob 04:08:24 CEST je Samuel Holland napisal(a):
+> > The I2C controllers in the A100 SoC are all connected to the DMA engine.
+> >=20
+> > Signed-off-by: Samuel Holland <samuel@sholland.org>
+>=20
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Applied all three, thanks!
+Applied, thanks!
 
 Best regards,
 Jernej
