@@ -1,154 +1,91 @@
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951547C
-	for <linux-sunxi@lists.linux.dev>; Thu,  8 Sep 2022 09:05:10 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.west.internal (Postfix) with ESMTP id 28B182B05F4F;
-	Thu,  8 Sep 2022 05:05:08 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Thu, 08 Sep 2022 05:05:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1662627907; x=
-	1662631507; bh=+4JBKyAgNVyjuO006dBopVHz/GfCNknoVdO7ePY3/Hk=; b=C
-	mcN0b/Od190n5MB0AdCLVFloes8ieySxEWAWqoGU4VGEhq+HpQXAdss5LDBNdtak
-	Iac9/dkzpcDMALjjhFgcy7ubvhpd32g/Hk1jHdd346BD9cpqEbt+4zAQAXxL48eV
-	AZiGdAckOmTQxCbLIjl4KZA/fLfbx/USfMPPDRiaTo3nIGbMsK4iyHebSH7QSw/p
-	qCUrYrwkw+esyl4OvrU4GGya31novdNFCHY0qbngYdeY+6BVvvMjHSjRa/ywyUKX
-	oG9hIrS50AaGE67DDHQbHhyWk7EQtUP/wZW1mtI7dCkegj0Kaqn1LANOPibqWmzR
-	x37tO/2DerEmm3Aax1K9Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1662627907; x=
-	1662631507; bh=+4JBKyAgNVyjuO006dBopVHz/GfCNknoVdO7ePY3/Hk=; b=j
-	m3vqUBDfEvIx2QMQAkNXrw6a+bx7x3E7c6/fKzMcib9tkSOgwo/myH6xOcN+vRaC
-	U70gsxP7gwLeZy3+ExVtgxi+IeEFXJNHqgv7x7eSIT4l4NiNTq2F99k+R/MvTH5f
-	idht99RCqxXdYQ58xFLJeiGCPnf9L2cd+ONMzbhHMvywpuSKZ0CQdaQmxjvilgau
-	yKGzabIFzOZiUMOacyxc+83ys09wNBlZkTKoeICvqsj+IErAl1VxM+4BDe9E5e/W
-	PFuErol62Qbw9UYprmAjqvKgOQELCDrpiLMU8WddpkXMIoY/B6XftdEfUMzRf6if
-	uLyHC/pHlAiyxh072SqoQ==
-X-ME-Sender: <xms:QrAZY_dbG31HtUcpaNeQxBDzBR_nFQScOqMh5mJDCYQFFMU13sBSXg>
-    <xme:QrAZY1Mu8Bqhlev1Fc1n2s7c_En5tWvLv4PeyOlRBsBjTM_cnTWZH55u1EjiHB_zD
-    aKGh_yrkKyjY8o6hY0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedtvddguddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
-    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:QrAZY4ijxueD9zKsbowy653ahcuHJrSNOypzTMi1yP67FiiMGAgo9w>
-    <xmx:QrAZYw89wxygUMlhNz8tcjXS4BiBGfr07yglIEKEHp-6UnD9fCvYBA>
-    <xmx:QrAZY7s9FDDlNkrEqB0lLip6DdRRDmDSW_J6FuYWUuXXlVLrHB7rag>
-    <xmx:Q7AZY0G7qXDQM-beMAjWGZHqemwXc-2oPtVmS3gfrTC3F0EvZFYatNaHp3w>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 0D5A8B60083; Thu,  8 Sep 2022 05:05:06 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-927-gf4c98c8499-fm-20220826.002-gf4c98c84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEEB17C
+	for <linux-sunxi@lists.linux.dev>; Thu,  8 Sep 2022 09:22:52 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id i26so10963049lfp.11
+        for <linux-sunxi@lists.linux.dev>; Thu, 08 Sep 2022 02:22:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=dH3CbhVOQrBIzFdsMYEQAzEoE3B2m4SSznn5rAk+rYM=;
+        b=FHf5Ic/nwRoqqtgsFHSSGFDXZc98X2hpVH5Ttn0/VY/T+Rl1xxX8eAP+p5gs+pa44G
+         dqojHG/7TfSA3gOeWxAIl+UZh8PDFCPoea9kdGdQqDETSUMlihGsJQtxcvAzwkVOy9sT
+         3fDJ01OAxnONes0Gle2gdPEa0FKu6zFZ/j+W9iF0qpfbRbL6px2LC8vg21uN+B1a+F6d
+         U7OQShHt5p86KP5e2r9IZo+K/7ynXnUdLMF1xVA5svaLjFkS8ALinaYJ0yT0hTOm1z5y
+         5k/Ar9Kn+1s6rjhMYGbHk8a9pG3X93HkuWGNY4axTv/+yed/0Q6jeQnF9lV+pUJTF328
+         eDOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=dH3CbhVOQrBIzFdsMYEQAzEoE3B2m4SSznn5rAk+rYM=;
+        b=uA2IbPutX/jqOaOWMnP8pMXYLOXlXiGQgS0s2ZG72HegvPuYvvQXGIpVMDCOBOZ4J4
+         8FB20sverscxU0ugw3pWvOWpOh2rsF0InrpFokj6cmq/K9ePZgaDMsFnmeN6kQrNaDze
+         UtiJErSBzTNOWE168tjeZvcL/KhHFp7aT2pBSphl9P5oCsJk4B6CuwiDoyzb9Zb1zwGw
+         sqg6saIjag1GGt1Z09YNHlMXLo3GWtGW1eX0Ofq5czOqy0wNzG77Ts+wr8lLH3o4z9Q1
+         6W26iAPj3R/xVUsLyYUAPmhKbebunAZal+OUebE/MQyYQZmXsozLPLoz5bha1VVMf8A4
+         8WCw==
+X-Gm-Message-State: ACgBeo2GK3LrOEbehB5DrtuAL96wK/bV97YyahToMo/2V1/qQVgrC3QV
+	mY2upqPB9kIsaJBvSMLCpDzf/g==
+X-Google-Smtp-Source: AA6agR4x1bQbWHYoUICIygFzuOYuWPgfmCbP5o72xJn3+fJ+P+x9kq1cdfCrhlbhILkhk07z1Y2DaA==
+X-Received: by 2002:a05:6512:1193:b0:492:7e33:870 with SMTP id g19-20020a056512119300b004927e330870mr2475777lfr.37.1662628970810;
+        Thu, 08 Sep 2022 02:22:50 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id bu13-20020a056512168d00b004947f8b6266sm175119lfb.203.2022.09.08.02.22.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Sep 2022 02:22:50 -0700 (PDT)
+Message-ID: <0b8b2e01-5209-6437-c79e-3cff9b29bfcb@linaro.org>
+Date: Thu, 8 Sep 2022 11:22:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <d03941e4-5ea6-4ff3-887a-423f5caedf4c@www.fastmail.com>
-In-Reply-To: 
- <CAMuHMdWVcoHqPa5AqoPqvw=ZuHdqG7p5HWOHUx9ecNZvzUG4Xw@mail.gmail.com>
-References: <mhng-d98d3324-5f4b-4cb0-a116-522b124dcdea@palmer-ri-x1c9>
- <7423117.EvYhyI6sBW@kista>
- <84f28dc3-3b65-ea70-4fa4-765d0c773c28@microchip.com>
- <CAMuHMdWVcoHqPa5AqoPqvw=ZuHdqG7p5HWOHUx9ecNZvzUG4Xw@mail.gmail.com>
-Date: Thu, 08 Sep 2022 11:04:45 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Geert Uytterhoeven" <geert@linux-m68k.org>,
- "Conor.Dooley" <Conor.Dooley@microchip.com>
-Cc: "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>,
- "Palmer Dabbelt" <palmer@dabbelt.com>, "Chen-Yu Tsai" <wens@csie.org>,
- linux-sunxi@lists.linux.dev, "Paul Walmsley" <paul.walmsley@sifive.com>,
- "Albert Ou" <aou@eecs.berkeley.edu>,
- linux-riscv <linux-riscv@lists.infradead.org>,
- "Rob Herring" <robh+dt@kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
- "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
- "Olof Johansson" <olof@lixom.net>
-Subject: Re: [PATCH 00/12] riscv: Allwinner D1 platform support
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v9 2/2] ASoC: sun50i-dmic: dt-bindings: add DT bindings
+ for DMIC controller
+Content-Language: en-US
+To: =?UTF-8?B?54+t5rab?= <fengzheng923@gmail.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, alsa-devel@alsa-project.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <1661872039-40174-1-git-send-email-fengzheng923@gmail.com>
+ <25072fba-64e2-df11-c8f0-a274037141f0@linaro.org>
+ <CAE=m619qeaDYkWiB5kh50gY1Kndyrvo4oZuZjFKRCKK=j99K2w@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAE=m619qeaDYkWiB5kh50gY1Kndyrvo4oZuZjFKRCKK=j99K2w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 8, 2022, at 9:00 AM, Geert Uytterhoeven wrote:
-> On Wed, Sep 7, 2022 at 10:43 PM <Conor.Dooley@microchip.com> wrote:
->> On 06/09/2022 21:29, Jernej =C5=A0krabec wrote:
->> > Dne =C4=8Detrtek, 01. september 2022 ob 20:10:13 CEST je Palmer Dab=
-belt napisal(a):
->> >> On Sun, 14 Aug 2022 22:08:03 PDT (-0700), samuel@sholland.org wrot=
-e:
->> >>>  arch/riscv/boot/dts/allwinner/sun20i-d1-clockworkpi-v3.14.dts cr=
-eate
->> >>>  mode 100644
->> >>>  arch/riscv/boot/dts/allwinner/sun20i-d1-common-regulators.dtsi c=
-reate
->> >>>  mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.1=
-4.dts
->> >>>  create mode 100644
->> >>>  arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts c=
-reate
->> >>>  mode 100644
->> >>>  arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.=
-dts
->> >>>  create mode 100644
->> >>>  arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.=
-dts
->> >>>  create mode 100644
->> >>>  arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel.dtsi =
-create
->> >>>  mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-do=
-ck.dts
->> >>>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-liche=
-e-rv.dts
->> >>>  create mode 100644
->> >>>  arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dts creat=
-e mode
->> >>>  100644 arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts create =
-mode
->> >>>  100644 arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi
->> >>
->> >> I'm assuming these are aimed at the RISC-V tree?  I'm generally OK=
- with
->> >> that, though the DT folks have pointed out a handful of issues tha=
-t look
->> >> pretty reasonable to me.
->> >
->> > DT changes for Allwinner ARM SoCs go trough sunxi tree. Should this=
- be handled
->> > differently for RISC-V?
+On 07/09/2022 15:03, 班涛 wrote:
+>>> +++
+>> b/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml
+>>> @@ -0,0 +1,79 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0+ OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/sound/allwinner,sun50i-h6-dmic.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Allwinner H6 DMIC Device Tree Bindings
 >>
->> Microchip RISC-V DT go via a Microchip tree to Palmer. The other stuf=
-f gets
->> picked directly by him as it has no clear "owner". I think it would b=
-e nice
->> to be consistent for the new {renesas,sunxi} stuff and send those via=
- vendor
->> trees to Palmer too. Just my 2 cents...
->
-> Wasn't the intention behind the rename s/arm-soc/soc/ to start
-> accepting PRs for non-arm DT, too?
-> Especially if we start having dependencies due to riscv DTS files
-> including arm64 DTS snippets through scripts/dtc/include-prefixes/arm6=
-4/.
+>> s/Device Tree Bindings//
+>>
+> 
+> So, modify it to 'Allwinner H6 DMIC Devices Tree Bindings', sure?
 
-Yes, absolutely. My impression was that most architecture
-maintainers prefer to handle the SoC support themselves, and
-I would not want to step on anyone's toes with this, but I'm
-definitely happy to take pull requests for dts files etc on
-any architecture if that helps.
+You pasted the same message, so what is the modification? I wrote you a
+ search&replace pattern.
 
-    Arnd
+
+
+Best regards,
+Krzysztof
