@@ -1,91 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186947C
-	for <linux-sunxi@lists.linux.dev>; Thu,  8 Sep 2022 09:48:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15870C433D6;
-	Thu,  8 Sep 2022 09:47:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1662630480;
-	bh=twVKFDNBiJV5imqH0rJ1FX3tasybHNqPAbjuEtEEwBo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FTq/jmjllxhZf4zqdTbijiuwMtav33tMrjaok6lXSDwstIvkbH0YUMS4yDf20f60i
-	 ZVdSXww5SMFHSElQwpEitJ9FoqjQZ/g4EkeyQPPUI4epDqcZs9o3EOIdfmhDAdMH6s
-	 YEItpf+8/16v3s554D+vQ39R+LZgo0XQmgjJ3bnbJeI9DmBSt/4PIr9tbPQz7deN6T
-	 krbmFeljz554fQy/FmUfKvuJxkUqcxkXN6f60A+LJy6KsdS90OIev6KZ6oW5cPDebA
-	 gQqyywgAeG4xCdRFKRyTA4LgOblHtVFa2LL71xeynVJxwELW4CkSkO9t+VgKvREazq
-	 m2yHENAGjSIgw==
-Date: Thu, 8 Sep 2022 10:47:51 +0100
-From: Lee Jones <lee@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Tim Harvey <tharvey@gateworks.com>,
-	Robert Jones <rjones@gateworks.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	- <patches@opensource.cirrus.com>,
-	Steve Twiss <stwiss.opensource@diasemi.com>,
-	Chris Zhong <zyw@rock-chips.com>,
-	Zhang Qing <zhangqing@rock-chips.com>,
-	Alistair Francis <alistair@alistair23.me>,
-	Amelie Delaunay <amelie.delaunay@foss.st.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Renner Berthing <kernel@esmil.dk>,
-	Krzysztof Kozlowski <krzk@kernel.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH] dt-bindings: mfd: Add missing
- (unevaluated|additional)Properties on child nodes
-Message-ID: <Yxm6R21Uw0/ghRsn@google.com>
-References: <20220823145649.3118479-4-robh@kernel.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EC967C
+	for <linux-sunxi@lists.linux.dev>; Thu,  8 Sep 2022 10:03:35 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 58C9114BF;
+	Thu,  8 Sep 2022 03:03:36 -0700 (PDT)
+Received: from [10.1.39.19] (e122027.cambridge.arm.com [10.1.39.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 936833F73D;
+	Thu,  8 Sep 2022 03:03:23 -0700 (PDT)
+Message-ID: <65948185-b017-3da5-fdce-e28887b01ff4@arm.com>
+Date: Thu, 8 Sep 2022 11:03:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v4 4/5] drm/panfrost: devfreq: set opp to the recommended
+ one to configure regulator
+Content-Language: en-GB
+To: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Viresh Kumar <viresh.kumar@linaro.org>,
+ Qiang Yu <yuq825@gmail.com>
+References: <20220906153034.153321-1-peron.clem@gmail.com>
+ <20220906153034.153321-5-peron.clem@gmail.com>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20220906153034.153321-5-peron.clem@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220823145649.3118479-4-robh@kernel.org>
 
-On Tue, 23 Aug 2022, Rob Herring wrote:
-
-> In order to ensure only documented properties are present, node schemas
-> must have unevaluatedProperties or additionalProperties set to false
-> (typically).
+On 06/09/2022 16:30, Clément Péron wrote:
+> Enabling panfrost GPU OPP with dynamic regulator will make OPP
+> responsible to enable and configure it.
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> Unfortunatly OPP configure and enable the regulator when an OPP
+
+NIT: Unfortunately
+
+> is asked to be set, which is not the case during
+> panfrost_devfreq_init().
+> 
+> This leave the regulator unconfigured and if no GPU load is
+> triggered, no OPP is asked to be set which make the regulator framework
+> switching it off during regulator_late_cleanup() without
+> noticing and therefore make the board hang as any access to GPU
+> memory space make bus locks up.
+> 
+> Call dev_pm_opp_set_opp() with the recommend OPP in
+> panfrost_devfreq_init() to enable the regulator, this will properly
+> configure and enable the regulator and will avoid any switch off
+> by regulator_late_cleanup().
+> 
+> Suggested-by: Viresh Kumar <viresh.kumar@linaro.org>
+> Signed-off-by: Clément Péron <peron.clem@gmail.com>
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+Note this same sequence is used in the Lima driver, so it would be good
+to submit the fix there too as it presumably is affected by the same
+issue. I've CC'd Qiang for visibility.
+
+I'll push this patch to drm-misc-fixes (with the typo above fixed), the
+device tree patches can go through a different tree.
+
+Steve
+
 > ---
->  .../mfd/allwinner,sun6i-a31-prcm.yaml         | 40 +++++++++++++++++++
->  .../mfd/allwinner,sun8i-a23-prcm.yaml         | 10 +++++
->  .../bindings/mfd/cirrus,lochnagar.yaml        |  5 +++
->  .../devicetree/bindings/mfd/dlg,da9063.yaml   |  7 ++--
->  .../bindings/mfd/gateworks-gsc.yaml           |  5 ++-
->  .../bindings/mfd/maxim,max14577.yaml          |  1 +
->  .../bindings/mfd/maxim,max77843.yaml          |  1 +
->  .../bindings/mfd/rockchip,rk817.yaml          |  2 +
->  .../bindings/mfd/silergy,sy7636a.yaml         |  1 +
->  .../bindings/mfd/st,stm32-lptimer.yaml        |  4 ++
->  .../bindings/mfd/st,stm32-timers.yaml         |  3 ++
->  .../devicetree/bindings/mfd/st,stmfx.yaml     |  1 +
->  .../bindings/mfd/stericsson,ab8500.yaml       | 22 ++++++++++
->  .../devicetree/bindings/mfd/ti,tps65086.yaml  |  1 +
->  .../bindings/mfd/x-powers,axp152.yaml         |  1 +
->  15 files changed, 100 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/panfrost/panfrost_devfreq.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> index 5110cd9b2425..fe5f12f16a63 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> @@ -131,6 +131,17 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+>  		return PTR_ERR(opp);
+>  
+>  	panfrost_devfreq_profile.initial_freq = cur_freq;
+> +
+> +	/*
+> +	 * Set the recommend OPP this will enable and configure the regulator
+> +	 * if any and will avoid a switch off by regulator_late_cleanup()
+> +	 */
+> +	ret = dev_pm_opp_set_opp(dev, opp);
+> +	if (ret) {
+> +		DRM_DEV_ERROR(dev, "Couldn't set recommended OPP\n");
+> +		return ret;
+> +	}
+> +
+>  	dev_pm_opp_put(opp);
+>  
+>  	/*
 
-Applied, thanks.
-
--- 
-Lee Jones [李琼斯]
