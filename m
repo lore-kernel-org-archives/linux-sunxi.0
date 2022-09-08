@@ -1,110 +1,71 @@
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4C133C6
-	for <linux-sunxi@lists.linux.dev>; Thu,  8 Sep 2022 14:03:04 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.west.internal (Postfix) with ESMTP id 331AB2B05B92;
-	Thu,  8 Sep 2022 10:03:01 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Thu, 08 Sep 2022 10:03:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1662645780; x=
-	1662652980; bh=ZcIBIDlpdLVKZg4IlXd05S6h4JkWIhQqXXzWfBJ83ow=; b=c
-	zNe6gLuyvdjRW551IVFEYSdvQD3T1eshLEO+8vISeoBxTjKAUZaGJdL08oseMrqZ
-	Fut6XphRqmkGK1h4QU7mkM6EW6nEBRN/eRh9i/MqyJFJKZ4oq0aEfd3rKhkg/snx
-	7lFjef8FWWTagRHm6af1CHCss+2PSst8CB7iPb2m8HnNbecu2BQ4EgjjjVSZTx6W
-	Dxga0MidtrFihJM85mmSVwcrI9Rush4dDlAy/Iouc2qHobNbKdWj2voBmEfOyWka
-	GGQwayc6261/IF5J7i0pEiv2N0ryPWw/2rgqUlV2pcgIAAktZN3HwNjrAyyJ7ml1
-	p04Wsngh4+31AfndU9nSA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1662645780; x=
-	1662652980; bh=ZcIBIDlpdLVKZg4IlXd05S6h4JkWIhQqXXzWfBJ83ow=; b=n
-	afufB3YRGZd7vArNXwFSQtbB56G4qFj1c2iTf8oXEIZJfq/cpgOEWgDEI2p+EXfl
-	0MmREMov9f691O0PEgmDn2QdCY0LcUXjI0veG6f0P84fh/PjdFS3OTYJdDe6uKFm
-	ikxXlF689P+AZ32ATwlcdZvGmIgqybmD4OJfmrhg8wREg8k3WyS7epbT7zq+E5Jo
-	mWYxQrLdvvDWYibTVAhJTrvUXTUsC2jGvc/1aFrHZG8w+Y3SoYg+c+1VVqHbNxgw
-	wY0EyD/EQgciCBrFuGituKnIHN5QfHt786H59uJntnddeH9LMqntUWc3+2fIUDnp
-	L0T/cryCIafj8x+1QKqTw==
-X-ME-Sender: <xms:E_YZY5vKIBQ3SRZPsaFTs-xNCu4rej7pwqWIobPdZ20jgV8las1G2g>
-    <xme:E_YZYyei14DxCSGS2IAfDQugKMVik5VcUneHV-CcrUuimar3TzLS6Xq8-MclN__XH
-    VXNLWZiJ50f9Ku_Z9M>
-X-ME-Received: <xmr:E_YZY8xs09y0S8XFFwW_yCAdG-1jSOKDZx_cku77g7U-ZMOtMtrWDQiOpw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedtfedguddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgig
-    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
-    grthhtvghrnhepueeigefghfffffeifeehudeiuedvteegueefffevgfetvdffheehkeff
-    vedufeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:E_YZYwMHuHLjTtcD4id5zjudOWWh84hu3GkTVuOPu-ThDVpls32v5Q>
-    <xmx:E_YZY59yr3vj3GSjDbehToXaDzaOLHdvPijpyn8hLZT5HDHINbnEGA>
-    <xmx:E_YZYwVEKVh_ApDL07RXjXw2dv-oLAeCIMsfsJiNUgiySgC6m7hFFw>
-    <xmx:FPYZY5lfjsH1-vUzgP5LB5dOEZNbB11TWY6qNAU_GjLsPJzPD6qV-PBttKk>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 8 Sep 2022 10:02:58 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Karol Herbst <kherbst@redhat.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	David Airlie <airlied@linux.ie>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Emma Anholt <emma@anholt.net>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <maxime@cerno.tech>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Ben Skeggs <bskeggs@redhat.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Lyude Paul <lyude@redhat.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Dom Cobley <dom@raspberrypi.com>,
-	linux-sunxi@lists.linux.dev,
-	Hans de Goede <hdegoede@redhat.com>,
-	linux-arm-kernel@lists.infradead.org,
-	intel-gfx@lists.freedesktop.org,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	dri-devel@lists.freedesktop.org,
-	Phil Elwell <phil@raspberrypi.com>,
-	nouveau@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Subject: Re: (subset) [PATCH v2 36/41] drm/sun4i: tv: Merge mode_set into atomic_enable
-Date: Thu,  8 Sep 2022 16:02:54 +0200
-Message-Id: <166264577079.2930603.15990827641277549331.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220728-rpi-analog-tv-properties-v2-36-459522d653a7@cerno.tech>
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech> <20220728-rpi-analog-tv-properties-v2-36-459522d653a7@cerno.tech>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2693D65
+	for <linux-sunxi@lists.linux.dev>; Thu,  8 Sep 2022 16:22:52 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id m17-20020a7bce11000000b003a5bedec07bso2157221wmc.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 08 Sep 2022 09:22:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=BGJkDCrH9LUETLojStwhWIkhR+B86SO7RtaDm8mEauY=;
+        b=RwwiQVwY3vPDuBMeJPweBE13KC2iNRsTP4Vym9M1/Csm0+yjy39dSZH1eRmMJQ7DPf
+         X1W0LL7pZBiVEjDYb8rni6zFiWXk6JPpre+OPuSyyTGKG2J2Lnw2ZZ/DiioV2puNrvxe
+         lgJKA6xkp4yD0gVlJsyYmJT98qPycD9g3d8Ef3nRiaS4pnFgg/9+NXbuH2wplSNb3PLX
+         5iwiYkF0c//LMUt89PSWwemaaMg+fpQPqjwinnhTywaw5UFB7ztNNK95XEVRyiqkvweg
+         A2pWaONnp6dXB4FXxNq+2FnCwhN57frNVkLEhERdAExAlMezKX2Dll3/t0Lx5pi82Cj9
+         iRLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=BGJkDCrH9LUETLojStwhWIkhR+B86SO7RtaDm8mEauY=;
+        b=MEOb5cQiYBplSjLUqIdfoFWcsWJa298j8Jz/hYGXFMkmWWzSMCfqqWVvLaQNjyBkUW
+         HZ12e3tfbJ7Md1xdCYxhV9FrQ8Jt9glOLQjpsyWW7HEMgvsgXhZWndBuUB1LLOeI7e/d
+         FwIZQIpdhulyDuRCHXZ0WktA4kthRK+VO0EceXTmPluJyqJQ0qiTGk+jF0jyW7cCiSWp
+         UHgiy4Do6EhYUc9mcVGHutSvuDrUw0k8Kinka5CI2c2v3Pr3LMvc03ZFS4ndKFG9/nmD
+         eISeFJ0MslxKJi8K7R/Kz6z9AYddZkHMdNkafBKbkNSY7sh7eJ7Wazp3KOigQq2/qZKL
+         fAAg==
+X-Gm-Message-State: ACgBeo3FjQkZabxl6eCBTHBl87dxdcSWOKnh6ldUBqQCIkNflcWkG87z
+	vjbK8dJYYajaEVBE4rI5Fq8=
+X-Google-Smtp-Source: AA6agR6pbG+z44fWrfFFIpuYP73XS0I+jlnQ3zyiFTQUkL9ZblBelz2Ua8uw4IiIH1knjpm6bfYGuA==
+X-Received: by 2002:a05:600c:a199:b0:3a5:dddf:ac6d with SMTP id id25-20020a05600ca19900b003a5dddfac6dmr2795265wmb.44.1662654170957;
+        Thu, 08 Sep 2022 09:22:50 -0700 (PDT)
+Received: from kista.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
+        by smtp.gmail.com with ESMTPSA id l21-20020a05600c4f1500b003a607e395ebsm4357001wmq.9.2022.09.08.09.22.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Sep 2022 09:22:50 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>
+Subject: Re: [PATCH v4 2/5] arm64: dts: allwinner: h6: Add cooling map for GPU
+Date: Thu, 08 Sep 2022 18:22:49 +0200
+Message-ID: <3508969.R56niFO833@kista>
+In-Reply-To: <20220906153034.153321-3-peron.clem@gmail.com>
+References: <20220906153034.153321-1-peron.clem@gmail.com> <20220906153034.153321-3-peron.clem@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-On Mon, 29 Aug 2022 15:11:50 +0200, Maxime Ripard wrote:
-> Our mode_set implementation can be merged into our atomic_enable
-> implementation to simplify things, so let's do this.
-> 
-> 
+Dne torek, 06. september 2022 ob 17:30:31 CEST je Cl=E9ment P=E9ron napisal=
+(a):
+> Add a simple cooling map for the GPU.
+>=20
+> This cooling map come from the vendor kernel 4.9 with a
+> 2=B0C hysteresis added.
+>=20
+> Signed-off-by: Cl=E9ment P=E9ron <peron.clem@gmail.com>
 
-Applied to drm/drm-misc (drm-misc-next).
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Thanks!
-Maxime
+Best regards,
+Jernej
+
+
