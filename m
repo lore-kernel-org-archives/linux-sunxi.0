@@ -1,118 +1,124 @@
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CFAA7C
-	for <linux-sunxi@lists.linux.dev>; Thu,  8 Sep 2022 11:23:20 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.west.internal (Postfix) with ESMTP id E85232B05D9F;
-	Thu,  8 Sep 2022 07:23:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Thu, 08 Sep 2022 07:23:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1662636196; x=
-	1662643396; bh=LRXHHYqivNqoVLbWqJK32thupyw+X6RFeaqN+1YtJGU=; b=d
-	sC+SqVQmxl2y5Nk0Wo2cxN30d9BbikQWddcTN8RCpYICpF8LlCzKr/kBw19ppyX4
-	o5/Uu5DKj0x+wBViDK44z4s5rYsczPE5rRPizWZPx2W/S/EF4mgUgfHju2nQCV6M
-	XDUg2pHR79vZl8sHJsWDbAhhDy/3lmdVlYqf84KZ3VCU/gFaGv9ee4EZ3ZbeSVfu
-	gCULjFlhER8GApHWb8tOv6e4TXbHQeUvXbj1gie6NLufr9c/UdVBNemHUAYptAH0
-	yy611N/bBISEJ9I39w1Wsi+/AbHEVXH6ZXf7MHgK9zjiEHacfhdveCkxqv1ZjX2D
-	dWfxwdLMnrkJN8rQXtSMQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1662636196; x=
-	1662643396; bh=LRXHHYqivNqoVLbWqJK32thupyw+X6RFeaqN+1YtJGU=; b=Y
-	oMzWULxQE204GYN9jXkFiDp/SoaiWo8KEv/4aMIhp2VFvErCXC8WuotjstL+KeKZ
-	yFnkPjVloE/igCxgmN+K/18lbV8maVuyl2HwNDcTC3o70GOWpL+rmv3erG9UKIA4
-	ihQ05wbBTBbpk/0SdRh6TxGMDqqxQKfJZdo/0ajVrpKQyIy8ONaYi7WUSbx6zZL5
-	MiEU4ZM7BALznq/KKN/TvqvL/fJUVCWCFNFWr8HUsVeFMZuzRHuCt9z6uqdiyIqR
-	NytajlftLikd2QSuJ+2TYREmhFVuSNeKLojERFsy/VQFhWrz9vKx4U3caGn/2Mz2
-	IVSocSEk13MrU+xJRvBJw==
-X-ME-Sender: <xms:o9AZY6AbUi_7GQjeOkhCGnRYVgsoNbvNm_0WAbYlh9qtRsDM-R2IRQ>
-    <xme:o9AZY0ifPWrh6dba4HNwntIYw7gT_rfcI9QS7dB0v7UWlSfqlStY5k5F8o1rFEN_E
-    cfXzqw7T_U0XA2B4Yw>
-X-ME-Received: <xmr:o9AZY9nZF9ejuwKTvotqXwpWb4P9AAPWaJGA8GOEo6NHvVPExn9Wg5jVCQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedtvddggedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddunecuhfhrohhmpeforgig
-    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
-    grthhtvghrnhepteejiedvkeelhedtlefgkefgkefhheefteevleekgfejgeekfffhveff
-    tdegiedvnecuffhomhgrihhnpehmohguvgdrihhmnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:o9AZY4wj0Em0p9wdifA1dOoRtWl4K3h5H3piyQJ28cO5-mrSsTLtEA>
-    <xmx:o9AZY_Su4tYf9Zjqdx-PntTwrcOdJQFCp8Hq5iCim6nyfT3CbHH0PQ>
-    <xmx:o9AZYzZSiolL2P5NuabaWmahY6CGSAdKWzeBR8P23J9g-ILVnC2Urg>
-    <xmx:pNAZY_zR36dG-f0hFKJ3mCUS5uoKF2GMiVvKl18RO68d8Co3ppVWHNpYewU>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 8 Sep 2022 07:23:15 -0400 (EDT)
-Date: Thu, 8 Sep 2022 13:23:12 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Cc: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
-	Chen-Yu Tsai <wens@csie.org>,	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jani Nikula <jani.nikula@linux.intel.com>,	Lyude Paul <lyude@redhat.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,	Karol Herbst <kherbst@redhat.com>,
- Emma Anholt <emma@anholt.net>,	Daniel Vetter <daniel@ffwll.ch>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	linux-arm-kernel@lists.infradead.org,	Phil Elwell <phil@raspberrypi.com>,
- intel-gfx@lists.freedesktop.org,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	dri-devel@lists.freedesktop.org, Dom Cobley <dom@raspberrypi.com>,
-	linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
-	linux-sunxi@lists.linux.dev,
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v2 32/41] drm/vc4: vec: Convert to the new TV mode
- property
-Message-ID: <20220908112312.hlb7mzneuxnethhr@houat>
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-32-459522d653a7@cerno.tech>
- <199cf4b3-8ace-e047-3050-b810cf0c6b63@tronnes.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D21CE7C
+	for <linux-sunxi@lists.linux.dev>; Thu,  8 Sep 2022 11:40:15 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id c11so21358742wrp.11
+        for <linux-sunxi@lists.linux.dev>; Thu, 08 Sep 2022 04:40:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:from:to:cc:subject:date;
+        bh=Pe/I+w+iO2pwgJXl8T4sC38en64C2l3oERN/xelPq20=;
+        b=V4sxO+75nLSa4ntHYBDYJK7NyyItm+0ZuqLo4c8gxEblOEQGHihNxBzP1ywfeAMYWP
+         A6gbXFUa+oFissD0CGGT9qZjiT57qAO/LcaelBX/nJDUId7ciewfaXSWVpw6M29eM72Z
+         q0uRM6YPLLMRxsucdQdim3Ufr73pusbVeQPwM6bfhtQ87iWKRwLxmE3cBBQxY4H9VZIf
+         pQM3O1hiKQXGJzsJvyphYtgmgFfp7lXMh65ITn1H0JW5pYN/LHrKWP/ORM0dXXFdRZOf
+         6SddjB7+yub2ELpu5aTF2EbiCg6LgO8CuZOMv2TnRuzKXVquW5W4obBFXEUnssRCyD4H
+         ta2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:x-gm-message-state:from:to:cc:subject:date;
+        bh=Pe/I+w+iO2pwgJXl8T4sC38en64C2l3oERN/xelPq20=;
+        b=LbN4zp9JAEmu2LG0Zt/56qn0VYo9Kr2ys6jNHiu6At6njIzuP4Ygnk6P1DdWVccdTH
+         Vi5Kk4Hl/I6Sa9x/KUjdTO3s95vlzVIbLMxyfKzO1aQMQXwVRoKyzGgUZECYNdwQJTzY
+         nsko1cdFPPFlSUldn2AHp3MGURCfMzT0jc+FcligfDg0p8TZj1Hy4Uety8QHGoOO9y9+
+         6q8hMZ/3Dvg2VpA0vhe52GiwURrg5gtW5+IQQCPku+R2zQE7sUk88HopHCNQtY+3Wrjg
+         aFvD3WPjuRyxBLN6Ae0wsdas3RoSwuLrl+8lhkI0MUbhcDMu3cZnsr7+w/9KmVzyOF88
+         OxEw==
+X-Gm-Message-State: ACgBeo3DJ/WM7rB8jCME42QRmyRePrBVjJvEsscdldkJaNrTkX3GM4MD
+	F6/bwjnAp15sQQ/ExlZAaL+A78W7CfSSqw==
+X-Google-Smtp-Source: AA6agR7hqDYt7a6c30Zzx2HM7qo0bpBArfiiaiAMashCn8pCJhXeqGkG5/jvmcd17AYfIZXNcSfBMg==
+X-Received: by 2002:a2e:b16c:0:b0:266:175c:cd54 with SMTP id a12-20020a2eb16c000000b00266175ccd54mr2425837ljm.278.1662636698015;
+        Thu, 08 Sep 2022 04:31:38 -0700 (PDT)
+Received: from [10.10.53.53] (81-18-220-16.static.chello.pl. [81.18.220.16])
+        by smtp.googlemail.com with ESMTPSA id z20-20020a195e54000000b00497a879e552sm930968lfi.291.2022.09.08.04.31.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Sep 2022 04:31:37 -0700 (PDT)
+From: Mateusz Kwiatkowski <kfyatek@gmail.com>
+X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+Message-ID: <aa510ec2-a72d-364b-424e-816872ab6923@gmail.com>
+Date: Thu, 8 Sep 2022 13:31:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <199cf4b3-8ace-e047-3050-b810cf0c6b63@tronnes.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 32/41] drm/vc4: vec: Convert to the new TV mode
+ property
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
+ <noralf@tronnes.org>
+Cc: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+ Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Karol Herbst <kherbst@redhat.com>,
+ Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Hans de Goede <hdegoede@redhat.com>, linux-arm-kernel@lists.infradead.org,
+ Phil Elwell <phil@raspberrypi.com>, intel-gfx@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, Dom Cobley <dom@raspberrypi.com>,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-32-459522d653a7@cerno.tech>
+ <199cf4b3-8ace-e047-3050-b810cf0c6b63@tronnes.org>
+ <20220908112312.hlb7mzneuxnethhr@houat>
+In-Reply-To: <20220908112312.hlb7mzneuxnethhr@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Noralf,
+Hi Maxime,
 
-On Tue, Aug 30, 2022 at 09:01:08PM +0200, Noralf Tr=F8nnes wrote:
-> > +static const struct drm_prop_enum_list tv_mode_names[] =3D {
->=20
-> Maybe call it legacy_tv_mode_enums?
->=20
-> >=20
-> > +	{ VC4_VEC_TV_MODE_NTSC, "NTSC", },
-> >=20
-> > +	{ VC4_VEC_TV_MODE_NTSC_J, "NTSC-J", },
-> >=20
-> > +	{ VC4_VEC_TV_MODE_PAL, "PAL", },
-> >=20
-> > +	{ VC4_VEC_TV_MODE_PAL_M, "PAL-M", },
->=20
-> If you use DRM_MODE_TV_MODE_* here you don't need to translate the value
-> using the switch statement in get/set property, you can use the value
-> directly to get/set tv.mode.
+W dniu 08.09.2022 o 13:23, Maxime Ripard pisze:
+> Hi Noralf,
+>
+> On Tue, Aug 30, 2022 at 09:01:08PM +0200, Noralf Trønnes wrote:
+>>> +static const struct drm_prop_enum_list tv_mode_names[] = {
+>>
+>> Maybe call it legacy_tv_mode_enums?
+>>
+>>>
+>>> +    { VC4_VEC_TV_MODE_NTSC, "NTSC", },
+>>>
+>>> +    { VC4_VEC_TV_MODE_NTSC_J, "NTSC-J", },
+>>>
+>>> +    { VC4_VEC_TV_MODE_PAL, "PAL", },
+>>>
+>>> +    { VC4_VEC_TV_MODE_PAL_M, "PAL-M", },
+>>
+>> If you use DRM_MODE_TV_MODE_* here you don't need to translate the value
+>> using the switch statement in get/set property, you can use the value
+>> directly to get/set tv.mode.
+>
+> I'm sorry, I'm not quite sure what you mean by that. If we expose the
+> DRM_MODE_TV_MODE_* properties there, won't that change the values the
+> userspace will need to use to set that property?
 
-I'm sorry, I'm not quite sure what you mean by that. If we expose the
-DRM_MODE_TV_MODE_* properties there, won't that change the values the
-userspace will need to use to set that property?
+I'd just like to point out that if numerical values of these enums are your
+concern, then you're (or perhaps I am ;) already breaking this by adding new
+modes in patch 33/41 in this series.
 
-Maxime
+And the values (and names!) added by that patch (33/41) don't match those
+currently used by the downstream version
+(https://github.com/raspberrypi/linux/blob/rpi-5.15.y/drivers/gpu/drm/vc4/vc4_vec.c).
+If any userspace software is manipulating this property, it's most likely
+targeting the downstream code. But since you're not aiming for consistency with
+that, I was under the impression that compatibility isn't a concern.
+
+Best regards,
+Mateusz Kwiatkowski
