@@ -1,221 +1,68 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447B646B4
-	for <linux-sunxi@lists.linux.dev>; Thu,  8 Sep 2022 16:51:42 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id d12-20020a05600c34cc00b003a83d20812fso2276091wmq.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 08 Sep 2022 09:51:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93D15CA6
+	for <linux-sunxi@lists.linux.dev>; Thu,  8 Sep 2022 19:55:12 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id d5so11575182wms.5
+        for <linux-sunxi@lists.linux.dev>; Thu, 08 Sep 2022 12:55:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=e5KYqEBWQ8THQ17spmw0xDJTw5S+n1XJ78rOUrMQLWE=;
-        b=mrMqJeHL2N1h5YAyTrrec9CeEwKwlyw0SO1YzY2f9pfRJGSVdOlHcFrmGSKiXw1Apo
-         ScBrula6ozGf+tln/IXFTkzWqIP/D5NYEEBu7NoJUhGqkzh9AoM28r6qzDtTZnh0n+3O
-         GZL9ws3a8VAdYQSSBtB2J6kXuKlcmNF+TpVV2dV+XviwVdibSwcjpfjg9Gl9Y9DvmMrQ
-         3vKTmRGcutvFGjffbl1PsGbkYZnm8Kp2ARj2Lt2IQCHG31+8QjhbI/CKAH4dd5s1Qrrq
-         +f9+ZubY6dtkvfoydCQWiLB3p5YYO1z5Ko+pcWcIhAej+JfYw/33EgEj+9qNBA8a/AOM
-         +upQ==
+        bh=ze639+PCW1w/1gzP9YrJsTcy8enh9M6YW+cBRHStBHM=;
+        b=eI755+/JrHuVT4ZUClHcldAg3qKaDAIl8ZYYAjjL/iFC0VYHY/D6VN4Z7N+zZNsQe1
+         8mBNw9wWVip4sybiJ5OmLV6lPSagGxbea2maGdvwG5LgnZxIzynrWXCznblZADSNOeBp
+         4iXCde1WgUlinCzu792ngEaRVZ9wcYjConrodIm6PwfPtk8NeLovUJN7W2F+o6km1eWB
+         fMyLSwg2gK6bTFWFY3SUVSx266ijChnkgL7J6zF+irSXh53W9vHV2dC+690LhNbVFPS8
+         krkNWsEGNgglpDyJnvIqHe416220WU85RKcuO6PqqhR+wc9q/LnM5Nc04WWmfIAzWjI2
+         BYXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=e5KYqEBWQ8THQ17spmw0xDJTw5S+n1XJ78rOUrMQLWE=;
-        b=BQkf1MkmIDT8EFe3zbnyEmo/s9rVL8apcgYCbicZguSpZ1+XZw9u1Sk5FmjnlXYcZF
-         UK7Ir2JDDyMU2AWmit5p9KSiTZ9NMe9hfQA0DAWmhQE+xudB1TVOFM5SJhjDnIAF1mxj
-         KalhHQNCRRqGcE4t+9Wywx5qYbXjd+4OTw0lpPid2ci30wwDT19ToNBUXUX61JYCxVlw
-         OXhSz1SMTgwUtaU4+5cIyN+5gkc6eV7DxApRSg6722WEp3gdbBJEEgksmxPmISuR1RiB
-         hKbCR/bIeuch6jLG1wV0Zl+vrlok07G8IiE+zfSJjBMB0x/XQAw1juf9S8wcKzq+0zTv
-         OYLw==
-X-Gm-Message-State: ACgBeo3a9eFuKqvMuGzYRcJcWiD5gaC3hqqK21FqbNy8YfBJiOXXxwwn
-	iUN9KSX4R5FZo28F00eCqFs=
-X-Google-Smtp-Source: AA6agR7PpD+198B5Y3yHlP3CrDqe+4xxzwp+pmGtD3TVKQAJdPtBsk5cDvgpY5VnGVgDIaunPcagbQ==
-X-Received: by 2002:a05:600c:3309:b0:3b2:973d:b533 with SMTP id q9-20020a05600c330900b003b2973db533mr2951570wmp.105.1662655900588;
-        Thu, 08 Sep 2022 09:51:40 -0700 (PDT)
+        bh=ze639+PCW1w/1gzP9YrJsTcy8enh9M6YW+cBRHStBHM=;
+        b=Y+BosLCkZpK7Wk+04Denj8sxd1XyyEyeez0tNFg7u3Yrv1A905Hh2VfYZiVvXXfleC
+         wc+ms0vyaYvf25bU+Si9g+82YBBn4fHf0AWnQcRYppTU1UU9gwQC+blhOtSV5bADsYm1
+         DRpVqnNmRtoWcDQqk1WuYN6wkOLmhRK/x3PuN3lHC9SR7ZPxI6S6ikGkcZUfiQjxOlTv
+         Y8IV67teFO2uKBTLDO6Wlr1qkVfvMNzZtBypKg9FwAr42AMiYhIMFv8ZPn3FOdGyCd30
+         ZXGajM+1lVvPeqvpVldkzDLDWvslK4GqjkFv2U4Odho7rLvMZFCDPG8KmaDoj7b9yiUf
+         +w1g==
+X-Gm-Message-State: ACgBeo1k8UNloyCd/orVYayx9caw1GukeY29BiyuZiofhkraK62bUySh
+	Zu6e3Ux3CXNOUykz6cWp/2M=
+X-Google-Smtp-Source: AA6agR4uOK9Y+XgtBif61scKKj69FBQPUc6mobXPQibWu1bZU2IkD3ZcYROeOEjv2Eq3erchmhaVng==
+X-Received: by 2002:a7b:c848:0:b0:3a5:41f6:4d37 with SMTP id c8-20020a7bc848000000b003a541f64d37mr3495955wml.23.1662666911070;
+        Thu, 08 Sep 2022 12:55:11 -0700 (PDT)
 Received: from kista.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
-        by smtp.gmail.com with ESMTPSA id j7-20020a05600c190700b003a342933727sm3814303wmq.3.2022.09.08.09.51.38
+        by smtp.gmail.com with ESMTPSA id h2-20020a5d4302000000b0021e51c039c5sm21346668wrq.80.2022.09.08.12.55.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Sep 2022 09:51:39 -0700 (PDT)
+        Thu, 08 Sep 2022 12:55:10 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, devicetree <devicetree@vger.kernel.org>, linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>
-Subject: Re: Re: Re: [PATCH v4 3/5] arm64: dts: allwinner: h6: Add GPU OPP table
-Date: Thu, 08 Sep 2022 18:51:38 +0200
-Message-ID: <2313716.NG923GbCHz@kista>
-In-Reply-To: <1800669.atdPhlSkOF@kista>
-References: <20220906153034.153321-1-peron.clem@gmail.com> <CAJiuCceZg_6p4yo89e0X3fD9aXFs9Xik8b8KUM+Psdy_4paKPw@mail.gmail.com> <1800669.atdPhlSkOF@kista>
+To: linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: mturquette@baylibre.com, sboyd@kernel.org, wens@csie.org
+Subject: Re: [PATCH -next 1/3] clk: sunxi-ng: sun8i-de2: Use dev_err_probe() helper
+Date: Thu, 08 Sep 2022 21:55:09 +0200
+Message-ID: <5296377.Sb9uPGUboI@kista>
+In-Reply-To: <20220827094151.3323450-1-yangyingliang@huawei.com>
+References: <20220827094151.3323450-1-yangyingliang@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Dne =C4=8Detrtek, 08. september 2022 ob 18:26:31 CEST je Jernej =C5=A0krabe=
-c napisal(a):
-> Dne torek, 06. september 2022 ob 21:26:34 CEST je Cl=C3=A9ment P=C3=A9ron=
- napisal(a):
-> > Hi Jernej,
-> >=20
-> > On Tue, 6 Sept 2022 at 21:10, Jernej =C5=A0krabec <jernej.skrabec@gmail=
-=2Ecom>
->=20
-> wrote:
-> > > Dne torek, 06. september 2022 ob 17:30:32 CEST je Cl=C3=A9ment P=C3=
-=A9ron
->=20
-> napisal(a):
-> > > > Add an Operating Performance Points table for the GPU to
-> > > > enable Dynamic Voltage & Frequency Scaling on the H6.
-> > > >=20
-> > > > The voltage range is set with minimal voltage set to the target
-> > > > and the maximal voltage set to 1.2V. This allow DVFS framework to
-> > > > work properly on board with fixed regulator.
-> > > >=20
-> > > > Signed-off-by: Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
-> > > > ---
-> > > >=20
-> > > >  .../boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi | 87
-> > > >  +++++++++++++++++++
-> > > >  1 file changed, 87 insertions(+)
-> > > >  create mode 100644
-> > > >  arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
-> > > >=20
-> > > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
-> > > > b/arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi new file mode
-> > > > 100644
-> > > > index 000000000000..b48049c4fc85
-> > > > --- /dev/null
-> > > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
-> > > > @@ -0,0 +1,87 @@
-> > > > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> > > > +// Copyright (C) 2022 Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.co=
-m>
-> > > > +
-> > > > +/ {
-> > > > +     gpu_opp_table: opp-table-gpu {
-> > > > +             compatible =3D "operating-points-v2";
-> > > > +
-> > > > +             opp-216000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <216000000>;
-> > > > +                     opp-microvolt =3D <810000 810000 1200000>;
-> > > > +             };
-> > > > +
-> > > > +             opp-264000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <264000000>;
-> > > > +                     opp-microvolt =3D <810000 810000 1200000>;
-> > > > +             };
-> > >=20
-> > > As mentioned in clock patch review, rates below 288 MHz are deemed
-> > > unstable on GPU PLL by vendor GPU kernel driver. At least in the BSP
-> > > version that I have. Did you test these points? If not, better to drop
-> > > them.
-> >=20
-> > I changed the governor to userspace and set the freq to 216MHz / 264MHz
-> > Run glmark2 and didn't observe any glitch nor issue.
-> >=20
-> > I'm not sure if it's enough to say it's stable but I didn't observe
-> > any strange behavior.
->=20
-> Ok then.
->=20
-> Forgot to ask, where did you get 1.2 V as an upper limit? H6 datasheet li=
-sts
-> max. GPU voltage as 1.08 V.
+Dne sobota, 27. avgust 2022 ob 11:41:49 CEST je Yang Yingliang napisal(a):
+> dev_err() can be replace with dev_err_probe() which will check if error
+> code is -EPROBE_DEFER.
+> 
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 
-To answer my own question, absolute max. voltage is 1.3 V, so 1.2 V is stil=
-l=20
-somewhat acceptable and in practice, fixed regulator on Tanix TX6 board is=
-=20
-around 1.12 V. Boards with PMIC can set lower voltage anyway.
+Applied all three, thanks!
 
-All good.
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-=20
 Best regards,
 Jernej
-=20
-> > Regards,
-> > Clement
-> >=20
-> > > Best regards,
-> > > Jernej
-> > >=20
-> > > > +
-> > > > +             opp-312000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <312000000>;
-> > > > +                     opp-microvolt =3D <810000 810000 1200000>;
-> > > > +             };
-> > > > +
-> > > > +             opp-336000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <336000000>;
-> > > > +                     opp-microvolt =3D <810000 810000 1200000>;
-> > > > +             };
-> > > > +
-> > > > +             opp-360000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <360000000>;
-> > > > +                     opp-microvolt =3D <820000 820000 1200000>;
-> > > > +             };
-> > > > +
-> > > > +             opp-384000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <384000000>;
-> > > > +                     opp-microvolt =3D <830000 830000 1200000>;
-> > > > +             };
-> > > > +
-> > > > +             opp-408000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <408000000>;
-> > > > +                     opp-microvolt =3D <840000 840000 1200000>;
-> > > > +             };
-> > > > +
-> > > > +             opp-420000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <420000000>;
-> > > > +                     opp-microvolt =3D <850000 850000 1200000>;
-> > > > +             };
-> > > > +
-> > > > +             opp-432000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <432000000>;
-> > > > +                     opp-microvolt =3D <860000 860000 1200000>;
-> > > > +             };
-> > > > +
-> > > > +             opp-456000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <456000000>;
-> > > > +                     opp-microvolt =3D <870000 870000 1200000>;
-> > > > +             };
-> > > > +
-> > > > +             opp-504000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <504000000>;
-> > > > +                     opp-microvolt =3D <890000 890000 1200000>;
-> > > > +             };
-> > > > +
-> > > > +             opp-540000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <540000000>;
-> > > > +                     opp-microvolt =3D <910000 910000 1200000>;
-> > > > +             };
-> > > > +
-> > > > +             opp-576000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <576000000>;
-> > > > +                     opp-microvolt =3D <930000 930000 1200000>;
-> > > > +             };
-> > > > +
-> > > > +             opp-624000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <624000000>;
-> > > > +                     opp-microvolt =3D <950000 950000 1200000>;
-> > > > +             };
-> > > > +
-> > > > +             opp-756000000 {
-> > > > +                     opp-hz =3D /bits/ 64 <756000000>;
-> > > > +                     opp-microvolt =3D <1040000 1040000 1200000>;
-> > > > +             };
-> > > > +     };
-> > > > +};
-> > > > +
-> > > > +&gpu {
-> > > > +     operating-points-v2 =3D <&gpu_opp_table>;
-> > > > +};
-> > > > --
-> > > > 2.34.1
 
 
