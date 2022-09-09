@@ -1,78 +1,186 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7D02583
-	for <linux-sunxi@lists.linux.dev>; Fri,  9 Sep 2022 13:40:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4915E2583
+	for <linux-sunxi@lists.linux.dev>; Fri,  9 Sep 2022 13:45:35 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 2C18F1C0010;
-	Fri,  9 Sep 2022 13:40:29 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 34A74100018;
+	Fri,  9 Sep 2022 13:45:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1662730831;
+	t=1662731127;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wnsPpYWGZuTk1tpyFk296/+SYVaoumCMjKuS00DqX7w=;
-	b=gpmwwK+JKNadGBF56nUYxyD0cs9NIIXnD4P+WuEi8JtDfqzW/QDPy3cCS7v68WOKXPtqM8
-	pa3cRg3L5ss2Sj+YgwFeefyn6JUyXuSeWg0HCdjp4AsrHTxL18ucm4IsbChm1MRp9n54BB
-	dm/zLMqP0kj33LAiUJBXV1p8XkkRpHpQlBG9YSojyugEHU9kYtaHYlCMTJQSOqBPWq9cht
-	CBna6stCsAVPjpxDprIXpGe1EA+cPxRr22+sI3imsmcaJfuj3vAYvgaPBeYKa1UBvE9MWt
-	dpfXNyjopsaarQBCBIRzkWOyXAe2IpEY7OvIEQoVCOrMCMGIaLuH/14QOh/AbA==
+	bh=gyLP9CmLkcl1bGVvXClRy+vUMLTzbqd++Vuh487Ocsk=;
+	b=oMQznvKITh0Ti9IbYYaYWltTgRzj0erZ3nEh9JkMg6qA15h7sYxX2EF65aX3mmzXRk293A
+	+HG/yTf4Ni6GyAQhiTSga94vVXPypRU6YO2dhOEmwKHjvW4e2RgJ3KykvbG5+Bq6X6jEyI
+	ETn2U854M/fwiHLSqxO073gW3IDHfUl91R5HlwCyyDUkoWQXj3QTvpo/f4V2OkdEO1k/10
+	bne2wy20JT4FwGDoRvu6Hgc908GM9EdRIGphOPZSOQg72KwYQSDcZjHKR+y2bA3lG1EXtq
+	0qI8UeLQNX17RDT/fOShMmUi6fowMDBGKoJpGYSEechAQ5GW/WD2J94Mm+AYNg==
+Date: Fri, 9 Sep 2022 15:45:19 +0200
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>,
 	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH 2/4] media: sun8i-a83t-mipi-csi2: Require both pads to be connected for streaming
-Date: Fri,  9 Sep 2022 15:39:52 +0200
-Message-Id: <20220909133954.97010-3-paul.kocialkowski@bootlin.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220909133954.97010-1-paul.kocialkowski@bootlin.com>
-References: <20220909133954.97010-1-paul.kocialkowski@bootlin.com>
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v5 5/6] ARM: dts: sun8i: a83t: Add MIPI CSI-2 controller
+ node
+Message-ID: <YxtDb/jrR7uMabs5@aptenodytes>
+References: <20220826182803.604563-1-paul.kocialkowski@bootlin.com>
+ <20220826182803.604563-6-paul.kocialkowski@bootlin.com>
+ <YwkYKcffdRGnq+pK@pendragon.ideasonboard.com>
+ <YxC7+Pi4v3Bc1oXc@aptenodytes>
+ <YxC/3KLfJHpld+jx@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="0g1R3vKr/uSZfMdm"
+Content-Disposition: inline
+In-Reply-To: <YxC/3KLfJHpld+jx@pendragon.ideasonboard.com>
 
-The bridge needs both its pads connected to be able to stream data.
-Enforcing this is useful to produce an error when no sensor is
-connected.
 
-Fixes: 576d196c522b ("media: sunxi: Add support for the A83T MIPI CSI-2 controller")
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
----
- .../sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c       | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+--0g1R3vKr/uSZfMdm
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
-index b032ec13a683..5e1c25db7bc4 100644
---- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
-+++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
-@@ -557,8 +557,10 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t_mipi_csi2_device *csi2_dev)
- 
- 	/* Media Pads */
- 
--	pads[SUN8I_A83T_MIPI_CSI2_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
--	pads[SUN8I_A83T_MIPI_CSI2_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
-+	pads[SUN8I_A83T_MIPI_CSI2_PAD_SINK].flags = MEDIA_PAD_FL_SINK |
-+						    MEDIA_PAD_FL_MUST_CONNECT;
-+	pads[SUN8I_A83T_MIPI_CSI2_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE |
-+						      MEDIA_PAD_FL_MUST_CONNECT;
- 
- 	ret = media_entity_pads_init(&subdev->entity,
- 				     SUN8I_A83T_MIPI_CSI2_PAD_COUNT, pads);
--- 
-2.37.3
+Hi Laurent,
 
+On Thu 01 Sep 22, 17:21, Laurent Pinchart wrote:
+> On Thu, Sep 01, 2022 at 04:04:40PM +0200, Paul Kocialkowski wrote:
+> > Hi Laurent,
+> >=20
+> > On Fri 26 Aug 22, 21:59, Laurent Pinchart wrote:
+> > > Hi Paul,
+> > >=20
+> > > Thank you for the patch.
+> > >=20
+> > > On Fri, Aug 26, 2022 at 08:28:02PM +0200, Paul Kocialkowski wrote:
+> > > > MIPI CSI-2 is supported on the A83T with a dedicated controller that
+> > > > covers both the protocol and D-PHY. It can be connected to the CSI
+> > > > interface as a V4L2 subdev through the fwnode graph.
+> > > >=20
+> > > > This is not done by default since connecting the bridge without a
+> > > > subdev attached to it will cause a failure on the CSI driver.
+> > >=20
+> > > No urgency, but would it be possible to fix this so that the CSI-2
+> > > receiver can be connected to the CSI unconditionally in DT ? The
+> > > connection exists at the hardware level in the SoC, and should thus
+> > > exist here too, regardless of whether or not a sensor is connected.
+> >=20
+> > Yes it's true that having the link always would be legitimate.
+> >=20
+> > For the context, this CSI controller can be switched between the MIPI C=
+SI-2
+> > controller and a parallel sensor input (i.e. it's not dedicated to one =
+or the
+> > other like on the V3).
+> >=20
+> > Last time I tried, having the connection between the two always there r=
+esulted
+> > in the unability to use a parallel sensor when no sensor is attached to=
+ the
+> > mipi csi-2 receiver. Probably because the async notifier never complete=
+s since
+> > the mipi csi-2's subdev is never registered without a sensor subdev att=
+ached.
+> >=20
+> > Do you see a way to handle this case properly?
+>=20
+> It sounds like an issue in the CSI-2 receiver driver. If there's no
+> input device attached to it, it should register its subdev directly,
+> without its own async notifier.
+
+Yes it turns out there was an error on that side, thanks for bringing it up!
+I have sent a fixup series which takes care of it.
+
+Now it becomes possible to always describe the links without downsides.
+Well, the CSI driver will still wait for the MIPI CSI-2 bridge's subdev
+when its node is enabled in device-tree, but I think that is expected.
+
+Cheers,
+
+Paul
+
+> > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > > ---
+> > > >  arch/arm/boot/dts/sun8i-a83t.dtsi | 26 ++++++++++++++++++++++++++
+> > > >  1 file changed, 26 insertions(+)
+> > > >=20
+> > > > diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/=
+sun8i-a83t.dtsi
+> > > > index 82fdb04122ca..ecf9f3b2c0c0 100644
+> > > > --- a/arch/arm/boot/dts/sun8i-a83t.dtsi
+> > > > +++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
+> > > > @@ -1064,6 +1064,32 @@ csi: camera@1cb0000 {
+> > > >  			status =3D "disabled";
+> > > >  		};
+> > > > =20
+> > > > +		mipi_csi2: csi@1cb1000 {
+> > > > +			compatible =3D "allwinner,sun8i-a83t-mipi-csi2";
+> > > > +			reg =3D <0x01cb1000 0x1000>;
+> > > > +			interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> > > > +			clocks =3D <&ccu CLK_BUS_CSI>,
+> > > > +				 <&ccu CLK_CSI_SCLK>,
+> > > > +				 <&ccu CLK_MIPI_CSI>,
+> > > > +				 <&ccu CLK_CSI_MISC>;
+> > > > +			clock-names =3D "bus", "mod", "mipi", "misc";
+> > > > +			resets =3D <&ccu RST_BUS_CSI>;
+> > > > +			status =3D "disabled";
+> > > > +
+> > > > +			ports {
+> > > > +				#address-cells =3D <1>;
+> > > > +				#size-cells =3D <0>;
+> > > > +
+> > > > +				mipi_csi2_in: port@0 {
+> > > > +					reg =3D <0>;
+> > > > +				};
+> > > > +
+> > > > +				mipi_csi2_out: port@1 {
+> > > > +					reg =3D <1>;
+> > > > +				};
+> > > > +			};
+> > > > +		};
+> > > > +
+> > > >  		hdmi: hdmi@1ee0000 {
+> > > >  			compatible =3D "allwinner,sun8i-a83t-dw-hdmi";
+> > > >  			reg =3D <0x01ee0000 0x10000>;
+>=20
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--0g1R3vKr/uSZfMdm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMbQ28ACgkQ3cLmz3+f
+v9HuxQf/URHJvX9hyDkHJd/fZD6Tl0GkdanL5dUdysUgnQe+i1ceqqoOGzF+ZJpW
+mv+Rbum00q/RE6nm+lGpFT2ig1SYGuOCxnZrbsXZiSvSzZ8+YY/cB6sRm+ywP7Go
+QbVk+I+bEky7qtcKIWa3guNbtFBLm3rixBZ6CmjKnxdTXh6vN9lJlTMbbui0pffQ
+k1QuoQ1Ea9AK7Rxyc4tWIIGK9Ljn96j7cHKqW1/Bi5FQyqDtFWgvwQGA4eiOxWOj
+RrkwZH7D28Z1mHgUO6Mc8O+z/t2AzE3VvD7hcxt1RtNh1Un6t3YS4I9d6LSNCDyH
+ylFJhr0z42NWy3mkaxagW6QSEaVn1A==
+=jCke
+-----END PGP SIGNATURE-----
+
+--0g1R3vKr/uSZfMdm--
