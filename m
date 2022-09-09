@@ -1,22 +1,23 @@
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F19CA2596
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C6C2583
 	for <linux-sunxi@lists.linux.dev>; Fri,  9 Sep 2022 13:40:34 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id F1FF31C0007;
-	Fri,  9 Sep 2022 13:40:20 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 405B21C0002;
+	Fri,  9 Sep 2022 13:40:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1662730826;
+	t=1662730833;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ymJxpyXPHP7SnAhvIF7gZ8BpVklD5DeS9VKlbiuGSqo=;
-	b=aMUOBNCAEpF9nr+LoVLA74Tm2wRdWubL7OjHHSiyxjNF7A5DyJnc+Tw8Ry0qoodVDZTRGD
-	Bn4rtApb/9sE30UV7S24NOsKqrDHZuLNvhqrNsbfIxeQt1y7REkrP02NNSADgM+DoGSYWu
-	shA/LsPKsCqimA/DlAcdto195BwSyJB0Qb0e25G71nXurK+HWiCAiKeVNza3UX1HYxf93u
-	PQ2wAu2+XsbTK2s361PNJ23W0dNbAknKuFwV7iY3a5I3jgLrmH7b9MOmBOj+2ejPM9aGJs
-	L8C0UkQFZS5QPIHJrL4uPSQBNmtHWj/Nr0CgDq8vI/TuwaWPr/PKKECRYDynNw==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZerUL4Gdisb2y9R2p//xDrZ6J/om1/Cqv1NWlhDE1r0=;
+	b=SStNj42S1NJs6+iKh8x8tOPS+CgWTGDLxl2w3+iLzSnti4UpfHViowxfZ2C+dP8FbPuJId
+	xRgWYeAjZ3QD89dNItbMtMg9VhwlTTLyrzdfXoM2F6QZgDCadtZXK83Po/iLeu1D4fmZ9O
+	MfyKHZYA9A71qvgx/5EIIEvWMFhEKn+migqRzSFljVMTx8bPtPfSn8chwEpBenx9Aizfs0
+	axkMmCz/sZiojdgqxEXA4wBCKQa4hljMGWRuEOJ/uShcKrhbZQx5VoUBs09qvljoE6Nvmg
+	sw2yAK9sS73dec9J4sZ6bhROFGA/JE6eWww1+1kvr+catp8vgnePO0hw2G6ZHA==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -31,10 +32,12 @@ Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH 0/4] media: sunxi: MIPI CSI-2 controllers link fixups
-Date: Fri,  9 Sep 2022 15:39:50 +0200
-Message-Id: <20220909133954.97010-1-paul.kocialkowski@bootlin.com>
+Subject: [PATCH 3/4] media: sun6i-mipi-csi2: Register async subdev with no sensor attached
+Date: Fri,  9 Sep 2022 15:39:53 +0200
+Message-Id: <20220909133954.97010-4-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20220909133954.97010-1-paul.kocialkowski@bootlin.com>
+References: <20220909133954.97010-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -43,32 +46,67 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix the MIPI CSI-2 drivers to correctly check enabled links and to
-register their subdev even without a sensor attached. This allows
-their parent driver to register in that situation and makes it
-possible to use a parallel sensor when both parallel and MIPI CSI-2
-are fed to the same controller but no sensor is connected to the
-MIPI CSI-2 bridge.
+This allows the device to probe and register its async subdev without
+a sensor attached.
 
-With this change, it becomes possible to always describe the links
-between the CSI and MIPI CSI-2 blocks in device-tree.
+The rationale is that the parent driver might otherwise wait for the
+subdev to be registered when it should be available (from the fwnode
+graph endpoint perspective). This is generally not problematic when
+the MIPI CSI-2 bridge is the only device attached to the parent, but
+in the case of a CSI controller that can feed from both MIPI CSI-2
+and parallel, it would prevent using the parallel sensor due to the
+parent waiting for the MIPI CSI-2 subdev to register.
 
-This series is based atop Christophe JAILLET's fixes at:
-https://patchwork.kernel.org/project/linux-media/list/?series=670059
+Fixes: af54b4f4c17f ("media: sunxi: Add support for the A31 MIPI CSI-2 controller")
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+---
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c     | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-Paul Kocialkowski (4):
-  media: sun6i-mipi-csi2: Require both pads to be connected for
-    streaming
-  media: sun8i-a83t-mipi-csi2: Require both pads to be connected for
-    streaming
-  media: sun6i-mipi-csi2: Register async subdev with no sensor attached
-  media: sun8i-a83t-mipi-csi2: Register async subdev with no sensor
-    attached
-
- .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 23 +++++++++++++------
- .../sun8i_a83t_mipi_csi2.c                    | 23 +++++++++++++------
- 2 files changed, 32 insertions(+), 14 deletions(-)
-
+diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+index 340380a5f66f..484ac5f054d5 100644
+--- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
++++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+@@ -498,6 +498,7 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
+ 	struct v4l2_async_notifier *notifier = &bridge->notifier;
+ 	struct media_pad *pads = bridge->pads;
+ 	struct device *dev = csi2_dev->dev;
++	bool notifier_registered = false;
+ 	int ret;
+ 
+ 	mutex_init(&bridge->lock);
+@@ -535,12 +536,17 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
+ 	notifier->ops = &sun6i_mipi_csi2_notifier_ops;
+ 
+ 	ret = sun6i_mipi_csi2_bridge_source_setup(csi2_dev);
+-	if (ret)
++	if (ret && ret != -ENODEV)
+ 		goto error_v4l2_notifier_cleanup;
+ 
+-	ret = v4l2_async_subdev_nf_register(subdev, notifier);
+-	if (ret < 0)
+-		goto error_v4l2_notifier_cleanup;
++	/* Only register the notifier when a sensor is connected. */
++	if (ret != -ENODEV) {
++		ret = v4l2_async_subdev_nf_register(subdev, notifier);
++		if (ret < 0)
++			goto error_v4l2_notifier_cleanup;
++
++		notifier_registered = true;
++	}
+ 
+ 	/* V4L2 Subdev */
+ 
+@@ -551,7 +557,8 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
+ 	return 0;
+ 
+ error_v4l2_notifier_unregister:
+-	v4l2_async_nf_unregister(notifier);
++	if (notifier_registered)
++		v4l2_async_nf_unregister(notifier);
+ 
+ error_v4l2_notifier_cleanup:
+ 	v4l2_async_nf_cleanup(notifier);
 -- 
 2.37.3
 
