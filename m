@@ -1,124 +1,231 @@
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BBF64A02
-	for <linux-sunxi@lists.linux.dev>; Fri,  9 Sep 2022 14:01:13 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.west.internal (Postfix) with ESMTP id B0EA22B0591B;
-	Fri,  9 Sep 2022 10:01:09 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Fri, 09 Sep 2022 10:01:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1662732069; x=1662739269; bh=m8uWKdPqim
-	TWOzbuWW9LjUIAMA5qm4azX49SLBOts+k=; b=YnzdqFanu76LTppWsnIK8yLtaw
-	lPA9imn+DZMPpvmB+I+7lJ6Jtp5+Hpp/Tok4Syo0TZ+GIWgrmrIbPdzEP4csf+60
-	UpEKybV/LKbOlJdebq8NtpHOX+q7UOoX+sClEWg/wr6povq2rrWI+ugq/sOCi5sZ
-	xXq4KnkJMjk8hfkCCos2ghiXoM12HoF0kloEOtYmIVJ6ltnGXUKNF564vpDCPNZ8
-	s3ORSfM8MEpwoQU39DDpbNTFwB5Y6PTP2jBZlZSeNbsxTCVjtqfLM5MdZpTnhTm0
-	1aNFaQE+vAnk+ZlPCXOLfH3n3kaTBYCY1K1ZgQJMdDQ0emXorULHJv6IpDTg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1662732069; x=1662739269; bh=m8uWKdPqimTWOzbuWW9LjUIAMA5q
-	m4azX49SLBOts+k=; b=UytRIGBeAIK3cYsdpEIIrN8FMBS+DdyAfw8Linj+rJgL
-	g9vqVDLzMqf7z+Zq8GuX6nB76z8BX3FKfH+w0cZYcxf5Vz1m0pmqpzc3QIz1lW3i
-	+qcJUgH8UYU/JZkQyJ+J0ILb8T/3YoB894efCxXtrvJD63y7GfgcmlpZQaGweQGA
-	3eQ73GeIApaHjQjnZeXMJ6l+v13ZgTzTWY7kfviqp+zfyuG5zITuOFrJ7DO7a31p
-	LGTFP167QAdPLgsgxgQNe88zlb9eOnmg96qLVG2u074AnI7rabwwsuOPnUoohp3d
-	BjaoBlxQzhdosblojNXzRuwyvhSKAM638mnzlx7/7w==
-X-ME-Sender: <xms:HUcbY1qT4kf-mTq2fLzQRaYzl9AUayFOIl0kpRAPDPE4ezb1dL-L8w>
-    <xme:HUcbY3q1yVbTY68aHnr8xWgLWQ2NifWxNpAv2F6FOlAMWgmXE5VamBILHxPMGXevN
-    _IGnIPLwdFJ29d9c7o>
-X-ME-Received: <xmr:HUcbYyM5xjzmO3e3dtMoonVbYC1ch27-ZEspCcDtsSMffAErxYBzJgCFtjCs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedthedgjeefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
-    hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:HkcbYw4y40JUDqNYJ2TTJTgsJ4f-o9o3EZPSRODX5u_vtjccrEFEtg>
-    <xmx:HkcbY06o4B69hhN80GOqN_IEEzN6bZfUaP6ctsZrDz9l9eV09pSOOw>
-    <xmx:HkcbY4hZrEnQSH_qfGbJ9HkdECI_If740JoappUZ-WA_oiQJHLK6Cg>
-    <xmx:JUcbY07qgZzJA_p9otXIwoarGt3HNeaPn6bgdqRlPR-XGkX3B4ktoodc5Z8>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 9 Sep 2022 10:01:01 -0400 (EDT)
-Date: Fri, 9 Sep 2022 16:00:59 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Mateusz Kwiatkowski <kfyatek@gmail.com>
-Cc: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
-	Chen-Yu Tsai <wens@csie.org>,	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jani Nikula <jani.nikula@linux.intel.com>,	Lyude Paul <lyude@redhat.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,	Karol Herbst <kherbst@redhat.com>,
-	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-	Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	linux-arm-kernel@lists.infradead.org,	Phil Elwell <phil@raspberrypi.com>,
- intel-gfx@lists.freedesktop.org,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	dri-devel@lists.freedesktop.org, Dom Cobley <dom@raspberrypi.com>,
-	linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
-	linux-sunxi@lists.linux.dev,	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v2 10/41] drm/modes: Add a function to generate analog
- display modes
-Message-ID: <20220909140059.g57oihcmhuym62ei@houat>
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-10-459522d653a7@cerno.tech>
- <242d272b-5b79-986c-9aaf-64e62f6b37ff@gmail.com>
- <20220905133755.gcmmntg3wnecyqjq@houat>
- <10ce686a-d7c8-9ce4-3979-735ad8eab3b5@gmail.com>
- <20220907143421.4iopqwhp3yfircsh@houat>
- <dc1d9499-d4d5-1032-f39f-d4ac4cbb8412@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C977433FE
+	for <linux-sunxi@lists.linux.dev>; Fri,  9 Sep 2022 19:04:05 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id bj14so4341069wrb.12
+        for <linux-sunxi@lists.linux.dev>; Fri, 09 Sep 2022 12:04:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jrtc27.com; s=gmail.jrtc27.user;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date;
+        bh=pKUha8KPeXhipsOQ5xtfWdepBcWzrEN7wq95Ka7WsLo=;
+        b=Cz31QytU1QsjnJJn8X8BLIOOskEjB11J65qBwAk1qWhP4jZKat84rlSLWDg+u26uQf
+         3QcSlXC5tofl7XtpLytxNY+SPWv4eMDMC7CUDTvBuqQ270re+jlbOdSmdpK7l/9eWbuj
+         1LwCGsA7kG6q6aY2sYVoRLwrHDa8fmapoGVJkeNJMtDPKo17p808Hb5tAm03QCCs1Pl4
+         vwDb+A67HZFdRW+cMVyr/eA2iinX1CzT54D35Tl0q6PFnYhSgshWsyH2HklP7kkzTR82
+         +UzpcHWXKsUQsDQ5rrWhb6OIleF1Oa+9Qx684a6aUPOP9gbkJnFqQRKAes6kf6gedSw5
+         fWXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=pKUha8KPeXhipsOQ5xtfWdepBcWzrEN7wq95Ka7WsLo=;
+        b=BgRjmrQwlK+SIHz/FpPqIzATpVPx0PhuwtyeIpQw30XJKW/00WnmlBROp7dn+fKP4e
+         aQYNJLZ95oA2lIlBvdKG+knOTLzKrr/+CVuB1BwOYc185Eyd/GAClW6jAAfagHsJD+K1
+         k6U0mfbUS8ZZpkroQLqTRB/+19mjFdFJPfgv0qO5ao7WgXVIg0grIYTXjl3xkjtMs8P1
+         yCmlKj32C9rsfjhTwP836GgIIhSM0+iAvIgPJp8UKuqPRD65WeXuBGwdMpKPHrJlXiQa
+         i0W3N4kK9ylPNNrsOreuDP1rULF2E0Y6zWTCQ1L6kUJwihZk79cIw8DFX3nOUwAWyt3m
+         E0KQ==
+X-Gm-Message-State: ACgBeo2pnhiVeHhky+ngVb1GL6rISWT4s68K1JlfHUeA8RQmHyC6BFlY
+	AkTF7hXL9IVvJ5LcqknvHfLvtw==
+X-Google-Smtp-Source: AA6agR4l4brO8ikaIINZSOF+InPTKxeLv1Ydx1twqMU5rtBcqinD3ZOU61suidSBYZGeFV2c2TaYSg==
+X-Received: by 2002:adf:ea4a:0:b0:228:635a:d491 with SMTP id j10-20020adfea4a000000b00228635ad491mr9083471wrn.137.1662750243964;
+        Fri, 09 Sep 2022 12:04:03 -0700 (PDT)
+Received: from smtpclient.apple (global-5-141.n-2.net.cam.ac.uk. [131.111.5.141])
+        by smtp.gmail.com with ESMTPSA id b8-20020adfe308000000b00228de351fc0sm1144987wrj.38.2022.09.09.12.04.02
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 09 Sep 2022 12:04:03 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kc2bu6zgime3t2ko"
-Content-Disposition: inline
-In-Reply-To: <dc1d9499-d4d5-1032-f39f-d4ac4cbb8412@gmail.com>
-
-
---kc2bu6zgime3t2ko
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
+Subject: Re: [PATCH 07/12] riscv: dts: allwinner: Add Allwinner D1 Nezha
+ devicetree
+From: Jessica Clarke <jrtc27@jrtc27.com>
+In-Reply-To: <3687587.6M6d0yLqnL@diego>
+Date: Fri, 9 Sep 2022 20:04:02 +0100
+Cc: Samuel Holland <samuel@sholland.org>,
+ Conor.Dooley@microchip.com,
+ devicetree <devicetree@vger.kernel.org>,
+ Peter Korsgaard <peter@korsgaard.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ jernej.skrabec@gmail.com,
+ Chen-Yu Tsai <wens@csie.org>,
+ robh+dt@kernel.org,
+ palmer@dabbelt.com,
+ krzysztof.kozlowski+dt@linaro.org,
+ paul.walmsley@sifive.com,
+ linux-riscv@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <F27C6531-E91E-4311-B64D-D26FE12086CA@jrtc27.com>
+References: <20220815050815.22340-1-samuel@sholland.org>
+ <8a2194bf-93bd-de4d-8d39-0cd72aabb0a9@sholland.org>
+ <52217b50-c22f-5a21-e509-05d178e4a173@microchip.com>
+ <3687587.6M6d0yLqnL@diego>
+To: =?utf-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
+X-Mailer: Apple Mail (2.3696.80.82.1.1)
 
-On Wed, Sep 07, 2022 at 11:31:21PM +0200, Mateusz Kwiatkowski wrote:
-> The "canonical" modelines (at least for vc4's VEC, see the notes below):
+On 9 Sept 2022, at 09:11, Heiko St=C3=BCbner <heiko@sntech.de> wrote:
 >=20
-> - (vfp=3D=3D4, vsync=3D=3D6, vbp=3D=3D39) for 576i
-> - (vfp=3D=3D7, vsync=3D=3D6, vbp=3D=3D32) for 480i
-> - (vfp=3D=3D5, vsync=3D=3D6, vbp=3D=3D28) for 486i (full frame NTSC as or=
-iginally specified)
+> Am Freitag, 9. September 2022, 09:18:40 CEST schrieb =
+Conor.Dooley@microchip.com:
+>> On 09/09/2022 05:37, Samuel Holland wrote:
+>>> EXTERNAL EMAIL: Do not click links or open attachments unless you
+>>> know the content is safe
+>>>=20
+>>> Hi Conor,
+>>>=20
+>>> On 8/19/22 5:10 PM, Conor.Dooley@microchip.com wrote:
+>>>> Finally got around to giving this a go with the fix for loading=20
+>>>> modules which is mostly what was blocking me before..
+>>>>=20
+>>>> On 15/08/2022 06:08, Samuel Holland wrote:
+>>>>> "D1 Nezha" is Allwinner's first-party development board for the
+>>>>> D1 SoC. It was shipped with 512M, 1G, or 2G of DDR3. It supports
+>>>>> onboard audio,
+>>>>=20
+>>>> I am really not keen on the way you have things, with the memory=20
+>>>> nodes removed from the device tree. I know your preferred flow for
+>>>> booting these things might be to pass the dtb up from U-Boot, but I
+>>>> think the devicetree in the kernel should be usable in a standalone
+>>>> manner, even if that is the barest-minimum memory config.
+>>>=20
+>>> That is simply not possible to guarantee. As an obvious example,
+>>> consider the MangoPi MQ-Pro board with socketed DRAM:
+>>=20
+>> Yeah, I knew in my heart-of-hearts that this probably was a non
+>> runner.
+>>=20
+>>>=20
+>>> https://twitter.com/mangopi_sbc/status/1516225559214583808
+>>>=20
+>>> But focusing on the /memory node misses the bigger picture. The DTB
+>>> is passed through _all_ of the firmware stages, and gets patched by
+>>> every one of them:
+>>>=20
+>>> - SPL/boot0 adds the /memory node with the detected DRAM size. If =
+the
+>>> in-tree DTS has a "minimum memory config" (which for a board with
+>>> socketed DRAM means the smallest possible die), I guarantee people
+>>> will use it and complain about missing DRAM.
+>>=20
+>> True, but they are also complaining about missing DRAM as is ;)
+>> No possibility of winning here unfortunately.
+>>=20
+>>> - The SBI implementation reserves memory for itself and any possible
+>>> secure partitions. Right now, booting happens to work without the
+>>> reserved-memory node because the SBI implementation is loaded at the
+>>> beginning of RAM, and Linux ignores RAM below the kernel load
+>>> address.
+>>=20
+>> Surely this sort of thing is a common problem though, it's not like
+>> any of us are doing something unique here are we? At least if there
+>> was a arch wide policy about the validity of the upstream DTS in the
+>> face of the SBI etc inflicting changes there'd be something to point
+>> to. I am just looking at this from a "everyone else has a usable dts
+>> in the kernel, but the D1 boards wont have" point of view.
+>=20
+> Not sure if this would fly, but what about having an sbi call for
+> "modify this dtb for me as well"?
+>=20
+> I'll just assume that spl/boot0 + main uboot come in some sort
+> of package so moving the memory node over should be in uboot's
+> scope, but for the sbi part just have a call pointing to the
+> new dtb in memory and have it modify it in the same way as the
+> original one?
 
-It's not clear to me either how you come up with those timings?
+There=E2=80=99s an EFI protocol for it.
 
-Maxime
+Jess
 
---kc2bu6zgime3t2ko
-Content-Type: application/pgp-signature; name="signature.asc"
+> Heiko
+>=20
+>=20
+>=20
+>>> However, memory-constrained devices (e.g. D1s) will need to get =
+those
+>>> 2 MiB back by loading the kernel at the start of DRAM and SBI at the
+>>> end of DRAM. Then the reserved-memory node becomes quite important.
+>>>=20
+>>> It also adds nodes for CPU idle states, since the available states
+>>> and their latencies depend on the SBI implementation.
+>>>=20
+>>> It also reserves devices used by it or by a secure partition. And it
+>>> is responsible for extracting data (e.g. MAC addresses) from =
+"secure"
+>>> eFuses which the OS may not have access to.
+>>>=20
+>>> - U-Boot adds other information, like boot arguments, the address of
+>>> the initramfs and framebuffer, etc. These are less of a concern
+>>> because of course U-Boot can patch these in to a DTB loaded from
+>>> disk, but they are relevant if you want to load a DTB from a later
+>>> bootloader like GRUB.
+>>>=20
+>>> If you load a DTB from disk, you lose all of the changes made by the
+>>> earlier firmware stages. On ARM, U-Boot tries to work around this by
+>>> copying a few specific bits of information from the firmware DTB to
+>>> the DTB loaded from disk. But this misses the point that the SBI
+>>> implementation can modify *any* part of the DTB. (So in practice
+>>> U-Boot on ARM already loses CPU idle states and reserved memory =
+nodes
+>>> that were added by the PSCI implementation.)
+>>=20
+>> All of these things are valid, but they are reasons why your flow in
+>> your bootloaders etc are the way they are more than a reason why the
+>> upstream dts will not work for someone who is not interested in that
+>> flow. At the end of the day, I only care so much about this as it is
+>> not me that has to deal with any confusion from either approach. I'll
+>> continue to modify my dts in U-Boot so I can test things without me
+>> having to re-program the world. /shrug
+>>=20
+>>> As an extreme example, consider paravirtualization, where only a
+>>> small subset of DRAM and peripherals may be made available to any =
+one
+>>> OS partition.
+>>=20
+>> Or AMP - though not likely that that is a problem for the D1..
+>>=20
+>>> Fundamentally, I reserve the right to make arbitrary changes to the
+>>> DTB in the SBI implementation, and thus I cannot condone using the
+>>> DTBs generated from the Linux source tree for any purpose other than
+>>> validation.
+>>=20
+>> Fundamentally, I reserve the right to complain that the upstream dts
+>> cannot be entirely validated as it does not work out-of-the-box ;)
+>>=20
+>> Either way, I am only going to complain so much about something that
+>> triggers my OCD about keeping things the same, you have a
+>> Tested-by: Conor Dooley <conor.dooley@microchip.com>
+>> already and once the other issues are cleaned up an R-b too. Not =
+trying
+>> make an issue out of this, just expressing my dislike for the
+>> inconsistency between the D1 stuff and vendors - partly in the hopes
+>> that the "higher powers" get involved. I can't imagine that this is
+>> the last time something like this comes up.
+>>=20
+>> Thanks,
+>> Conor.
+>>=20
+>>=20
+>>=20
+>>=20
+>>=20
+>>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYxtHGwAKCRDj7w1vZxhR
-xYMtAQC2BqS997PQeLRZyCLXvTlUXGBvB07pmDNLHPWzQICluwD9FWnB9aaQ3tLC
-/OsNpUuYwh9XQJfUVrt4RcFvukTzXgc=
-=jc5S
------END PGP SIGNATURE-----
-
---kc2bu6zgime3t2ko--
