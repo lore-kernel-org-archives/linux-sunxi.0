@@ -1,23 +1,23 @@
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C6C2583
-	for <linux-sunxi@lists.linux.dev>; Fri,  9 Sep 2022 13:40:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89C5D259A
+	for <linux-sunxi@lists.linux.dev>; Fri,  9 Sep 2022 13:40:36 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 405B21C0002;
-	Fri,  9 Sep 2022 13:40:31 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id E01401C0003;
+	Fri,  9 Sep 2022 13:40:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1662730833;
+	t=1662730829;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZerUL4Gdisb2y9R2p//xDrZ6J/om1/Cqv1NWlhDE1r0=;
-	b=SStNj42S1NJs6+iKh8x8tOPS+CgWTGDLxl2w3+iLzSnti4UpfHViowxfZ2C+dP8FbPuJId
-	xRgWYeAjZ3QD89dNItbMtMg9VhwlTTLyrzdfXoM2F6QZgDCadtZXK83Po/iLeu1D4fmZ9O
-	MfyKHZYA9A71qvgx/5EIIEvWMFhEKn+migqRzSFljVMTx8bPtPfSn8chwEpBenx9Aizfs0
-	axkMmCz/sZiojdgqxEXA4wBCKQa4hljMGWRuEOJ/uShcKrhbZQx5VoUBs09qvljoE6Nvmg
-	sw2yAK9sS73dec9J4sZ6bhROFGA/JE6eWww1+1kvr+catp8vgnePO0hw2G6ZHA==
+	bh=NzDRiNxlngXMkep4VlkVbmP7SB6g960sXKbI90dfLZ4=;
+	b=hGtcLJPqM6oYiVcr1WZyCzBbTYzH6GqgwUSJpWEVhLJj54xhH2+gf6jNPZ5lhKogjzqxMz
+	M4+Rh08pagsRVtaGzmKC/MmFVBOJsrUmg+6wDlc3QXZi2YNnFAXmkeg0gLLSUtUkBY/Gdn
+	vLppwZCqwWJVX6DEQlRuFeHgpNx0Ovtgyx2292NAtRRO+Ycnhx0PbuGo3WRuqd/9ea8Jhp
+	nIIAaMYBdHhhu+zsg0JExUKGfajlOgZqeBWyvDCIIEhDmQ78fEiaEV8T6aiND8FR5WQnir
+	AIgZ1j2wJXmSYCu+1FaZqbzyK/eeaGPkkQhnMDbZzubKyFg1tD7NbBtPWNgFpQ==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -32,9 +32,9 @@ Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH 3/4] media: sun6i-mipi-csi2: Register async subdev with no sensor attached
-Date: Fri,  9 Sep 2022 15:39:53 +0200
-Message-Id: <20220909133954.97010-4-paul.kocialkowski@bootlin.com>
+Subject: [PATCH 1/4] media: sun6i-mipi-csi2: Require both pads to be connected for streaming
+Date: Fri,  9 Sep 2022 15:39:51 +0200
+Message-Id: <20220909133954.97010-2-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220909133954.97010-1-paul.kocialkowski@bootlin.com>
 References: <20220909133954.97010-1-paul.kocialkowski@bootlin.com>
@@ -46,67 +46,33 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This allows the device to probe and register its async subdev without
-a sensor attached.
-
-The rationale is that the parent driver might otherwise wait for the
-subdev to be registered when it should be available (from the fwnode
-graph endpoint perspective). This is generally not problematic when
-the MIPI CSI-2 bridge is the only device attached to the parent, but
-in the case of a CSI controller that can feed from both MIPI CSI-2
-and parallel, it would prevent using the parallel sensor due to the
-parent waiting for the MIPI CSI-2 subdev to register.
+The bridge needs both its pads connected to be able to stream data.
+Enforcing this is useful to produce an error when no sensor is
+connected.
 
 Fixes: af54b4f4c17f ("media: sunxi: Add support for the A31 MIPI CSI-2 controller")
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c     | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ .../media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c  | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-index 340380a5f66f..484ac5f054d5 100644
+index 30d6c0c5161f..340380a5f66f 100644
 --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
 +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-@@ -498,6 +498,7 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
- 	struct v4l2_async_notifier *notifier = &bridge->notifier;
- 	struct media_pad *pads = bridge->pads;
- 	struct device *dev = csi2_dev->dev;
-+	bool notifier_registered = false;
- 	int ret;
+@@ -519,8 +519,10 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
  
- 	mutex_init(&bridge->lock);
-@@ -535,12 +536,17 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
- 	notifier->ops = &sun6i_mipi_csi2_notifier_ops;
+ 	/* Media Pads */
  
- 	ret = sun6i_mipi_csi2_bridge_source_setup(csi2_dev);
--	if (ret)
-+	if (ret && ret != -ENODEV)
- 		goto error_v4l2_notifier_cleanup;
+-	pads[SUN6I_MIPI_CSI2_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
+-	pads[SUN6I_MIPI_CSI2_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
++	pads[SUN6I_MIPI_CSI2_PAD_SINK].flags = MEDIA_PAD_FL_SINK |
++					       MEDIA_PAD_FL_MUST_CONNECT;
++	pads[SUN6I_MIPI_CSI2_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE |
++						 MEDIA_PAD_FL_MUST_CONNECT;
  
--	ret = v4l2_async_subdev_nf_register(subdev, notifier);
--	if (ret < 0)
--		goto error_v4l2_notifier_cleanup;
-+	/* Only register the notifier when a sensor is connected. */
-+	if (ret != -ENODEV) {
-+		ret = v4l2_async_subdev_nf_register(subdev, notifier);
-+		if (ret < 0)
-+			goto error_v4l2_notifier_cleanup;
-+
-+		notifier_registered = true;
-+	}
- 
- 	/* V4L2 Subdev */
- 
-@@ -551,7 +557,8 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
- 	return 0;
- 
- error_v4l2_notifier_unregister:
--	v4l2_async_nf_unregister(notifier);
-+	if (notifier_registered)
-+		v4l2_async_nf_unregister(notifier);
- 
- error_v4l2_notifier_cleanup:
- 	v4l2_async_nf_cleanup(notifier);
+ 	ret = media_entity_pads_init(&subdev->entity, SUN6I_MIPI_CSI2_PAD_COUNT,
+ 				     pads);
 -- 
 2.37.3
 
