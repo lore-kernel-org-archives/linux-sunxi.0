@@ -1,112 +1,164 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03705CA6
-	for <linux-sunxi@lists.linux.dev>; Thu,  8 Sep 2022 20:12:34 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id d2so10963408wrn.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 08 Sep 2022 13:12:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=NZgMNXmwX6SnvwK87AGk7VHv1cRLy9ojL7C9GfQltcQ=;
-        b=YJ4s58i5EeQ/uWSSo5Qua0Tu9JxeF7gHHmv6fGDm9QWyiqerXu4Ilr2+q5WcCokQpd
-         s5ar2mQZ4qckmj8UstMJ1D5NmhDBLq/hZCLkj/1jV6CIx4Lotf4dIr8qxuN18hOdbaRK
-         I3q+IFxGDa4L94z8INS+n2AlUJaBDKJ5s6GbSvprWURXKAUiyetY4D5W6f4J+dmAwoN/
-         zFtoXWrNsEuFGpQTrpFvl9HvTgJTUPCPd4vSDKzcXyzL2ggoLchBpbC2TNy1CAh1tG2d
-         uVX/3Wui6ini3rsil9KvPp43yLaUjvrqRUe3OgNIpv/8dX41fBz3KD8yrbz4cYzcavBj
-         jOwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=NZgMNXmwX6SnvwK87AGk7VHv1cRLy9ojL7C9GfQltcQ=;
-        b=vH5YWIuEIfurLmadr3SqG2Z7DFd0lMr/MS66ye/si5erlJvv+x5dm7H8/e1rdZ8NTh
-         O9jwSGMzmBjgCeW7rQltPKXG1WABw43E1crvjE515PqddeLjyDesbolsw2hla9xrCO6c
-         nC6QKR6ZTLGdcmgtFNO9UvveBIrSzVUX5xkb9K3fKTfMECr+geLzMOBPCD88tt2FX1zj
-         z5UWXN9L0hJkizdtlh13DxVNncyY35Xh2jEaBWnT2NOeKwybu01aNNm/aj8BmtH6Ffc3
-         FtKnn9iEn498JGzmXjqmTFpkQgcU0EucBQs+FsJcIADPPClYYhV8Ezr+zplC+y7AjVz9
-         tofA==
-X-Gm-Message-State: ACgBeo0DHvkwFR+eaWTutsOEM1Img5oDEqtO586AQEuZk/c1uVvs4mkR
-	JQXNFTI2aVhqFENHB2/3sLE=
-X-Google-Smtp-Source: AA6agR7zdskVsvESm8kGX7KqfMmGDv2c4HseHMS5FFGiG85C0bwgWAPGhSMfCb228haUWNp4WODYSw==
-X-Received: by 2002:a05:6000:1f9d:b0:228:6446:3d67 with SMTP id bw29-20020a0560001f9d00b0022864463d67mr6210529wrb.575.1662667952965;
-        Thu, 08 Sep 2022 13:12:32 -0700 (PDT)
-Received: from kista.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
-        by smtp.gmail.com with ESMTPSA id o5-20020a05600c510500b003a3561d4f3fsm4852904wms.43.2022.09.08.13.12.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Sep 2022 13:12:32 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>
-Subject: Re: [PATCH v4 0/5] Allwinner H6 GPU devfreq
-Date: Thu, 08 Sep 2022 22:12:31 +0200
-Message-ID: <4086439.1IzOArtZ34@kista>
-In-Reply-To: <20220906153034.153321-1-peron.clem@gmail.com>
-References: <20220906153034.153321-1-peron.clem@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B9B622
+	for <linux-sunxi@lists.linux.dev>; Fri,  9 Sep 2022 03:29:15 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id D19D85C009A;
+	Thu,  8 Sep 2022 23:29:14 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Thu, 08 Sep 2022 23:29:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1662694154; x=
+	1662780554; bh=u2mfimWztm9KQP3elvYFu0j6jCYKTV0elyvFijpDNZE=; b=U
+	cQXJWFplo5C80tlInQnC7VDI+iOufXSaNlaaYvNptR7kUx7Bg3jc3ULvMkZ+b+sa
+	fGwAk/BAW6vvqpntekBUl0jV/KinZoPeHVBh98CxTPSgma4n9Wvdj2MP73ZImBw7
+	bynA4VrdojWaiCc12pVjSseaE1X2gvhmL6D5L6nXfYMUm0vfqd39yOxhqfYef/DR
+	bDhXAFW50pIgGi/hgi54YJPt32xS9Fh+4PWOJ8urPeVIGuY1MrRS9+Abwv6KGXfC
+	VAom3Ru3t7nTHyqqhlvQw7u99kSFuE7P4HOcKUeTJ+Q8s5ZuH0GrsXjMldPYaW40
+	rCeI5YRoJfN9wH9EJMR4Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1662694154; x=
+	1662780554; bh=u2mfimWztm9KQP3elvYFu0j6jCYKTV0elyvFijpDNZE=; b=i
+	t/wbNrxp0itN7StKmyyMHHugswmXmiV7t5lWxjizWH9CfpoxDb6mgmRKEy8+BFAp
+	fOUaI7Z0l8UbZbSDhGvUbCoySdbKksYnci8MPzcgn5KAqlGHrG1juQOVirVWXg4p
+	DM6i8+MX8RFW1oJcCHl4V95kuCUKd1A8GydfIiL1oa6HJWFeoxFDjhqGREMpMZmF
+	bO74sRNhctbuerjCnB6laJYuoIv2xAJDblSqC/HgqgG9cQI2bmqgm2vFVJnyClAy
+	J2TOzv9ysrGNMMz8LiloL2bsUU8ZODulZB2pqZiNyi6MNaGAEErguemyDIQnhO4u
+	7YE+CIswm3MmFAXLMFUxA==
+X-ME-Sender: <xms:CrMaY6smHBadu5yYDpW5j-zT8znrXqT2XcnWLtOJcLaSSL9z8tq0pA>
+    <xme:CrMaY_c0VOwwzSIiQICsHl89-7meHYBkTr75cCagNYhmr292NbPSHqkVCzurKuPWz
+    -kdt46tndBpXG6pCw>
+X-ME-Received: <xmr:CrMaY1zPhER_XoX2JfqfYaNbw4csqJ0XGmr8SVvYpYnACYyGhdGEglzALdzeKjF1ADMxFbZpbYuqQZy5i2cGLo7Vm-6BFotudQzr7hKsZvAvX7CSvmuOnKlgFg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedtgedgjedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
+    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:CrMaY1NejLR4p4P3Nh8NQc1Ok2HV9EkKTy0P9RC6NBwMdBpN8fFQXw>
+    <xmx:CrMaY69_SieeYHAVsd8xoIFZG6CIwNqPe2QZXTl_HNPODm7KNgAMlg>
+    <xmx:CrMaY9UzqqFGPhrrpEO2th7Q89ORTk4Zkwiq-xJVSjGNrjuOAyQIJA>
+    <xmx:CrMaY-RGthwMylriTPBwcXBMxWfGiOdc4_-N3R8FjFpRZjmjzcTe4w>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 8 Sep 2022 23:29:13 -0400 (EDT)
+Subject: Re: [PATCH 3/4] dt-bindings: nvmem: Allow bit offsets greater than a
+ byte
+To: Rob Herring <robh@kernel.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+References: <20220814173656.11856-1-samuel@sholland.org>
+ <20220814173656.11856-4-samuel@sholland.org>
+ <20220825210252.GA1671168-robh@kernel.org>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <68274f65-48f0-fe37-cefc-876d18e327e6@sholland.org>
+Date: Thu, 8 Sep 2022 22:29:13 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+In-Reply-To: <20220825210252.GA1671168-robh@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Dne torek, 06. september 2022 ob 17:30:29 CEST je Cl=E9ment P=E9ron napisal=
-(a):
-> Hi,
->=20
-> This is a refresh of previous patches sent to enable GPU Devfreq on H6
-> Beelink GS1 but that wasn't stable at that time[0].
->=20
-> With the recent fix on GPU PLL from Roman Stratiienko I have retested
-> and everything seems stable and works as expected[1].
->=20
-> Regards,
-> Clement
+On 8/25/22 4:02 PM, Rob Herring wrote:
+> On Sun, Aug 14, 2022 at 12:36:54PM -0500, Samuel Holland wrote:
+>> Some NVMEM devices contain cells which do not start at a multiple of the
+>> device's stride. However, the "reg" property of a cell must be aligned
+>> to its provider device's stride.
+> 
+> How is a DT author supposed to know this? 
 
-All patches except patch 4 pushed to sunxi tree. Thanks!
+To know the stride? They know the compatible string of the NVMEM provider
+device, and the stride is a property of the hardware.
 
-Best regards,
-Jernej
+To know that alignment to the stride is required? That's not documented in the
+binding. I can add that to the "reg" description in this file.
 
->=20
-> 0:
-> https://lore.kernel.org/lkml/CAJiuCce58Gaxf_Qg2cnMwvOgUqYU__eKb3MDX1Fe_+4=
-7h
-> tg2bA@mail.gmail.com/ 1:
-> https://lore.kernel.org/linux-arm-kernel/2562485.k3LOHGUjKi@kista/T/
->=20
-> Changes since v3:
->  - Try to be more explicit for panfrost OPP patch
->  - Fix typo
->=20
-> Changes since v2:
->  - Fixes device-tree warnings
->  - Add panfrost fix to enable regulator
->  - Remove always-on regulator from device-tree
->  - Update cooling map from vendor kernel
->=20
->=20
-> Cl=E9ment P=E9ron (5):
->   arm64: defconfig: Enable devfreq cooling device
->   arm64: dts: allwinner: h6: Add cooling map for GPU
->   arm64: dts: allwinner: h6: Add GPU OPP table
->   drm/panfrost: devfreq: set opp to the recommended one to configure
->     regulator
->   arm64: dts: allwinner: beelink-gs1: Enable GPU OPP
->=20
->  .../dts/allwinner/sun50i-h6-beelink-gs1.dts   |  1 +
->  .../boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi | 87 +++++++++++++++++++
->  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 51 ++++++++++-
->  arch/arm64/configs/defconfig                  |  1 +
->  drivers/gpu/drm/panfrost/panfrost_devfreq.c   | 11 +++
->  5 files changed, 149 insertions(+), 2 deletions(-)
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
->=20
-> --
-> 2.34.1
+> I would lean toward it's the OS's problem to deal with (your option 1 I 
+> guess). I worry that one client could expect it one way and another 
+> client the other. Or folks making DT changes to 'fix' things.
 
+After this binding change, the meaning of
+
+	reg = <0x2a 1>;
+	bits = <0 8>; // optional
+
+and
+
+	reg = <0x28 4>;
+	bits = <16 8>;
+
+would be identical.
+
+With option 1, only the first representation would be valid in the DT.
+
+With this series (option 2), either representation would validate in the DT, but
+only the second representation would be accepted by Linux for the driver in
+question (sunxi-sid).
+
+With option 3, either representation would work in the DT and Linux.
+
+Note that there is no restriction on the bit length, so the following are
+already equivalent today:
+
+	reg = <0x28 1>;
+	bits = <0 8>; // optional
+
+and
+
+	reg = <0x28 2>;
+	bits = <0 8>;
+
+So there are already multiple possible representations. I don't really think
+that is a problem, since the meaning is still unambiguous.
+
+Regards,
+Samuel
+
+>> These cells can be represented in the DT using the "bits" property if
+>> that property allows offsets up to the full stride. 63 is chosen
+>> assuming that NVMEM devices will not have strides larger than 8 bytes.
+>>
+>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>> ---
+>>
+>>  Documentation/devicetree/bindings/nvmem/nvmem.yaml | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/nvmem/nvmem.yaml b/Documentation/devicetree/bindings/nvmem/nvmem.yaml
+>> index 3bb349c634cb..4f440ab6a13c 100644
+>> --- a/Documentation/devicetree/bindings/nvmem/nvmem.yaml
+>> +++ b/Documentation/devicetree/bindings/nvmem/nvmem.yaml
+>> @@ -53,7 +53,7 @@ patternProperties:
+>>          $ref: /schemas/types.yaml#/definitions/uint32-array
+>>          items:
+>>            - minimum: 0
+>> -            maximum: 7
+>> +            maximum: 63
+>>              description:
+>>                Offset in bit within the address range specified by reg.
+>>            - minimum: 1
+>> -- 
+>> 2.35.1
+>>
+>>
 
