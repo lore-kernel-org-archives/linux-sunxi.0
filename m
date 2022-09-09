@@ -1,71 +1,83 @@
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B9B622
-	for <linux-sunxi@lists.linux.dev>; Fri,  9 Sep 2022 03:29:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DC7622
+	for <linux-sunxi@lists.linux.dev>; Fri,  9 Sep 2022 03:42:08 +0000 (UTC)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id D19D85C009A;
-	Thu,  8 Sep 2022 23:29:14 -0400 (EDT)
+	by mailout.nyi.internal (Postfix) with ESMTP id F3A575C0087;
+	Thu,  8 Sep 2022 23:42:07 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Thu, 08 Sep 2022 23:29:14 -0400
+  by compute1.internal (MEProxy); Thu, 08 Sep 2022 23:42:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1662694154; x=
-	1662780554; bh=u2mfimWztm9KQP3elvYFu0j6jCYKTV0elyvFijpDNZE=; b=U
-	cQXJWFplo5C80tlInQnC7VDI+iOufXSaNlaaYvNptR7kUx7Bg3jc3ULvMkZ+b+sa
-	fGwAk/BAW6vvqpntekBUl0jV/KinZoPeHVBh98CxTPSgma4n9Wvdj2MP73ZImBw7
-	bynA4VrdojWaiCc12pVjSseaE1X2gvhmL6D5L6nXfYMUm0vfqd39yOxhqfYef/DR
-	bDhXAFW50pIgGi/hgi54YJPt32xS9Fh+4PWOJ8urPeVIGuY1MrRS9+Abwv6KGXfC
-	VAom3Ru3t7nTHyqqhlvQw7u99kSFuE7P4HOcKUeTJ+Q8s5ZuH0GrsXjMldPYaW40
-	rCeI5YRoJfN9wH9EJMR4Q==
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1662694927; x=
+	1662781327; bh=hHcRVaJDud/Kkwj96NHPi6sduLW48zHvi95z05DrcZM=; b=R
+	yzDn6bSgQ9fyqJoqSbrYu/CpkvLBdEPqdFYHDGTVbGmED49rI51HW9+pJ4J/0C8n
+	2AIuXjp4KvGDAEpuAhFEqKJZUrvl2V/iWoaRL6EReOfkmcVaGFZ86fnRjnOMNnsn
+	GVYgBwdiOO2yzy6pfKoVlTaghkZ7bWMthnZWahTzmoHitrOEZPF2h2HjFP10HUTa
+	zEebWXQArm+TXyOFsWxOa2p121mlrl2lTuwBI3C3nIlmL+/Z1Va8hshgg/im3nwt
+	o+DqGuFbXpdT6VOUuHvk/bHJ67zCp0rXPP7SgdSlDE+IEPmzipGWRoZJBM+xbVLP
+	+HxYQvxAXCJGgr66gz94w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1662694154; x=
-	1662780554; bh=u2mfimWztm9KQP3elvYFu0j6jCYKTV0elyvFijpDNZE=; b=i
-	t/wbNrxp0itN7StKmyyMHHugswmXmiV7t5lWxjizWH9CfpoxDb6mgmRKEy8+BFAp
-	fOUaI7Z0l8UbZbSDhGvUbCoySdbKksYnci8MPzcgn5KAqlGHrG1juQOVirVWXg4p
-	DM6i8+MX8RFW1oJcCHl4V95kuCUKd1A8GydfIiL1oa6HJWFeoxFDjhqGREMpMZmF
-	bO74sRNhctbuerjCnB6laJYuoIv2xAJDblSqC/HgqgG9cQI2bmqgm2vFVJnyClAy
-	J2TOzv9ysrGNMMz8LiloL2bsUU8ZODulZB2pqZiNyi6MNaGAEErguemyDIQnhO4u
-	7YE+CIswm3MmFAXLMFUxA==
-X-ME-Sender: <xms:CrMaY6smHBadu5yYDpW5j-zT8znrXqT2XcnWLtOJcLaSSL9z8tq0pA>
-    <xme:CrMaY_c0VOwwzSIiQICsHl89-7meHYBkTr75cCagNYhmr292NbPSHqkVCzurKuPWz
-    -kdt46tndBpXG6pCw>
-X-ME-Received: <xmr:CrMaY1zPhER_XoX2JfqfYaNbw4csqJ0XGmr8SVvYpYnACYyGhdGEglzALdzeKjF1ADMxFbZpbYuqQZy5i2cGLo7Vm-6BFotudQzr7hKsZvAvX7CSvmuOnKlgFg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedtgedgjedvucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1662694927; x=
+	1662781327; bh=hHcRVaJDud/Kkwj96NHPi6sduLW48zHvi95z05DrcZM=; b=f
+	rV/SjL4XvIfnU4Dzej6LrZmJJMuw/hFjTcei3tVYxch/RbPsjItXbRFO4y+xNFYz
+	Qr4NMxj902kv76XLcvXXo/CBJZbxcc4DoMv+rPP1KZaHcPL4QUVEkLd7V6wvdLSh
+	SaVJIoTAVwkDo/VV8/oY7f9b0gg3Y2gsqAd34DzyA0koZDvhmpzeZMgyNWEyWv1N
+	lHNtlehWE8uw045FigZCYudf51G3NANIVkg5zDknxsYc1777YYocNBL9OZjOLCm4
+	KV8qr9ALacd3xgej3Q3yQnuLPMYt3Di94+pLfMDLCy9TaIOBHgydAlbD1dYjU5fv
+	LPQGIO/7QK7NmJWlMo/xg==
+X-ME-Sender: <xms:D7YaY9LYwZ3ckTY5KkEq3d2eF7SQOJkzifwqeDRSkXn5msoDRrQIIA>
+    <xme:D7YaY5IZ5JmeCsWYe6COcwqhKTSB1ms6gUm59tdBTyJax_LODBa7Q6tQpvyFLWgJK
+    PDMEYD7bI3elMMUXg>
+X-ME-Received: <xmr:D7YaY1tnEJseTRlxT0hJ4zdX_QDf3UlOgrUSklA5cGXJIXEIngqDn3JPp4pf7harkenpSVl9QTtyI2RkE2Q0yuK1Yaory8Aipmk6wC6ojoKFtzJpwXVyJTJ_GA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedtgedgjeehucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghm
     uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
-    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    ggtffrrghtthgvrhhnpedtvefhheehgfdvkeetffeludeuudehudeuvddtveelleekvedv
+    uedviefhkeeuheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
     hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:CrMaY1NejLR4p4P3Nh8NQc1Ok2HV9EkKTy0P9RC6NBwMdBpN8fFQXw>
-    <xmx:CrMaY69_SieeYHAVsd8xoIFZG6CIwNqPe2QZXTl_HNPODm7KNgAMlg>
-    <xmx:CrMaY9UzqqFGPhrrpEO2th7Q89ORTk4Zkwiq-xJVSjGNrjuOAyQIJA>
-    <xmx:CrMaY-RGthwMylriTPBwcXBMxWfGiOdc4_-N3R8FjFpRZjmjzcTe4w>
+X-ME-Proxy: <xmx:D7YaY-Yvnzk6zVR-NXRj6mzK98B9YiRu2pRq7_logQEU-yrIwa__uw>
+    <xmx:D7YaY0bNG2buxhBr6ZBqCdIvb3Ta1rnHfoAtq74qoydD2o3v08eV9w>
+    <xmx:D7YaYyDnseUnCj0dWMLyBT0z9zNTBxXGwvuD3_6QxepPX6NA5o-0QA>
+    <xmx:D7YaY6wdmXnEKB-Zwp3yftpPOhXQUT05jscMzhvCoheKxfZ4xlthuw>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 8 Sep 2022 23:29:13 -0400 (EDT)
-Subject: Re: [PATCH 3/4] dt-bindings: nvmem: Allow bit offsets greater than a
- byte
-To: Rob Herring <robh@kernel.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-References: <20220814173656.11856-1-samuel@sholland.org>
- <20220814173656.11856-4-samuel@sholland.org>
- <20220825210252.GA1671168-robh@kernel.org>
+ 8 Sep 2022 23:42:06 -0400 (EDT)
+Subject: Re: [PATCH 06/12] riscv: dts: allwinner: Add the D1 SoC base
+ devicetree
+To: Conor Dooley <conor.dooley@microchip.com>, andre.przywara@arm.com
+Cc: Jessica Clarke <jrtc27@jrtc27.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ devicetree <devicetree@vger.kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ jernej.skrabec@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ wens@csie.org, robh+dt@kernel.org, palmer@dabbelt.com,
+ krzysztof.kozlowski+dt@linaro.org, paul.walmsley@sifive.com,
+ linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20220815050815.22340-1-samuel@sholland.org>
+ <20220815050815.22340-7-samuel@sholland.org>
+ <20220815141159.10edeba5@donnerap.cambridge.arm.com>
+ <3cd9ed5b-8348-38ac-feb1-9a7da858cebc@microchip.com>
+ <932aaefd-e2ca-ef26-bf30-e315fb271ec5@sholland.org>
+ <ff9e8bd3-c5f7-6319-060e-250151087a8e@microchip.com>
+ <c6cba83ea9eea7fc41a9e78d0e45487b21f0f560.camel@icenowy.me>
+ <c7599abd-c4cf-9ddd-1e74-e47dec9366d4@microchip.com>
+ <CAMuHMdUHVpj9ikE2NxpBSBtTG8K6v92vGdbw3GLmEYUoVzatvg@mail.gmail.com>
+ <538ae41e-664f-2efb-f941-9a063b727b6a@microchip.com>
+ <CAMuHMdWWbR+Y=bJ7gdqV3d+ffHE1-hwQf-Owb8FAvZAaScdOgA@mail.gmail.com>
+ <44b6f601-1a11-aacf-5592-5b61550afb9f@microchip.com>
+ <C0B4F750-1C99-408A-A2DA-B72BBF7361B4@jrtc27.com>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <68274f65-48f0-fe37-cefc-876d18e327e6@sholland.org>
-Date: Thu, 8 Sep 2022 22:29:13 -0500
+Message-ID: <b3fdb3cc-a8fc-b980-c8f4-f96d4733ce56@sholland.org>
+Date: Thu, 8 Sep 2022 22:42:06 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -74,91 +86,62 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220825210252.GA1671168-robh@kernel.org>
+In-Reply-To: <C0B4F750-1C99-408A-A2DA-B72BBF7361B4@jrtc27.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/25/22 4:02 PM, Rob Herring wrote:
-> On Sun, Aug 14, 2022 at 12:36:54PM -0500, Samuel Holland wrote:
->> Some NVMEM devices contain cells which do not start at a multiple of the
->> device's stride. However, the "reg" property of a cell must be aligned
->> to its provider device's stride.
+On 8/22/22 10:29 AM, Jessica Clarke wrote:
+> On 22 Aug 2022, at 14:56, conor.dooley@microchip.com wrote:
+>>
+>> On 22/08/2022 13:31, Geert Uytterhoeven wrote:
+>>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+>>>
+>>
+>>
+>>>> Do you think this is worth doing? Or are you just providing an
+>>>> example of what could be done?
+>>>
+>>> Just some brainstorming...
+>>>
+>>>> Where would you envisage putting these macros? I forget the order
+>>>> of the CPP operations that are done, can they be put in the dts?
+>>>
+>>> The SOC_PERIPHERAL_IRQ() macro should be defined in the
+>>> ARM-based SoC.dtsi file and the RISC-V-based SoC.dtsi file.
+>>
+>> Right, one level up but ~the same result.
+>>
+>>
+>>>>> Nice! But it's gonna be a very large interrupt-map.
+>>>>
+>>>> I quite like the idea of not duplicating files across the archs
+>>>> if it can be helped, but not at the expense of making them hard to
+>>>> understand & I feel like unfortunately the large interrupt map is
+>>>> in that territory.
+>>>
+>>> I feel the same.
+>>> Even listing both interrupt numbers in SOC_PERIPHERAL_IRQ(na, nr)
+>>> is a risk for making mistakes.
+>>>
+>>> So personally, I'm in favor of teaching dtc arithmetic, so we can
+>>> handle the offset in SOC_PERIPHERAL_IRQ().
+>>
+>> Yup, in the same boat here. mayb I'll get bored enough to bite..
 > 
-> How is a DT author supposed to know this? 
+> Note that GPL’ed dtc isn’t the only implementation. FreeBSD uses a
+> BSD-licensed implementation[1] and so adding new features like this to
+> GPL dtc that actually get used would require us to reimplement it too.
+> I don’t know how much effort it would be but please keep this in mind.
 
-To know the stride? They know the compatible string of the NVMEM provider
-device, and the stride is a property of the hardware.
+I plan to go with the "SOC_PERIPHERAL_IRQ(na, nr)" implementation for v2. I like
+that it only affects the DT source, and does not leak into the DTB. We still
+have the freedom to switch to using arithmetic later when all of the tools
+support it.
 
-To know that alignment to the stride is required? That's not documented in the
-binding. I can add that to the "reg" description in this file.
-
-> I would lean toward it's the OS's problem to deal with (your option 1 I 
-> guess). I worry that one client could expect it one way and another 
-> client the other. Or folks making DT changes to 'fix' things.
-
-After this binding change, the meaning of
-
-	reg = <0x2a 1>;
-	bits = <0 8>; // optional
-
-and
-
-	reg = <0x28 4>;
-	bits = <16 8>;
-
-would be identical.
-
-With option 1, only the first representation would be valid in the DT.
-
-With this series (option 2), either representation would validate in the DT, but
-only the second representation would be accepted by Linux for the driver in
-question (sunxi-sid).
-
-With option 3, either representation would work in the DT and Linux.
-
-Note that there is no restriction on the bit length, so the following are
-already equivalent today:
-
-	reg = <0x28 1>;
-	bits = <0 8>; // optional
-
-and
-
-	reg = <0x28 2>;
-	bits = <0 8>;
-
-So there are already multiple possible representations. I don't really think
-that is a problem, since the meaning is still unambiguous.
+My other concern is that the big interrupt-map property would make DT overlays
+even more painful to deal with. I don't think overlays can append to a property,
+only replace it.
 
 Regards,
 Samuel
-
->> These cells can be represented in the DT using the "bits" property if
->> that property allows offsets up to the full stride. 63 is chosen
->> assuming that NVMEM devices will not have strides larger than 8 bytes.
->>
->> Signed-off-by: Samuel Holland <samuel@sholland.org>
->> ---
->>
->>  Documentation/devicetree/bindings/nvmem/nvmem.yaml | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/Documentation/devicetree/bindings/nvmem/nvmem.yaml b/Documentation/devicetree/bindings/nvmem/nvmem.yaml
->> index 3bb349c634cb..4f440ab6a13c 100644
->> --- a/Documentation/devicetree/bindings/nvmem/nvmem.yaml
->> +++ b/Documentation/devicetree/bindings/nvmem/nvmem.yaml
->> @@ -53,7 +53,7 @@ patternProperties:
->>          $ref: /schemas/types.yaml#/definitions/uint32-array
->>          items:
->>            - minimum: 0
->> -            maximum: 7
->> +            maximum: 63
->>              description:
->>                Offset in bit within the address range specified by reg.
->>            - minimum: 1
->> -- 
->> 2.35.1
->>
->>
-
