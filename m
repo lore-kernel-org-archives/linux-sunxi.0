@@ -1,186 +1,309 @@
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4915E2583
-	for <linux-sunxi@lists.linux.dev>; Fri,  9 Sep 2022 13:45:35 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 34A74100018;
-	Fri,  9 Sep 2022 13:45:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1662731127;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gyLP9CmLkcl1bGVvXClRy+vUMLTzbqd++Vuh487Ocsk=;
-	b=oMQznvKITh0Ti9IbYYaYWltTgRzj0erZ3nEh9JkMg6qA15h7sYxX2EF65aX3mmzXRk293A
-	+HG/yTf4Ni6GyAQhiTSga94vVXPypRU6YO2dhOEmwKHjvW4e2RgJ3KykvbG5+Bq6X6jEyI
-	ETn2U854M/fwiHLSqxO073gW3IDHfUl91R5HlwCyyDUkoWQXj3QTvpo/f4V2OkdEO1k/10
-	bne2wy20JT4FwGDoRvu6Hgc908GM9EdRIGphOPZSOQg72KwYQSDcZjHKR+y2bA3lG1EXtq
-	0qI8UeLQNX17RDT/fOShMmUi6fowMDBGKoJpGYSEechAQ5GW/WD2J94Mm+AYNg==
-Date: Fri, 9 Sep 2022 15:45:19 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797FE4A0A
+	for <linux-sunxi@lists.linux.dev>; Fri,  9 Sep 2022 13:54:52 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.west.internal (Postfix) with ESMTP id 11AC82B059E3;
+	Fri,  9 Sep 2022 09:54:48 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Fri, 09 Sep 2022 09:54:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1662731688; x=1662738888; bh=twsyF+dYRj
+	XjnnGW4P2FrhcauKzDn/tda3IgcxV76Lc=; b=K8t4cEw2S1jTGUeOlMJf8kslEo
+	QJyj678Lu8Kob+/9eWZagC2oRLjkSTAc0jeY16K+jwvEyPq60b7YpNsaRMptdInB
+	HoJX2gz4TupUnyw1F5YdO8sItHXGsFBsUduHDRXFLN/2np2/yyd7PYvY0FVwwVit
+	j3wL/7WNski567FQCYDMqTBdiIQwVqR8VPkz4UW/NqKLrjkY/qtE1LmNN7N3HRsP
+	zRQsA0TJjJ8mADyZVvJIalbriX4DKPJeDthVRHRJNCgAtW7IMF3xN67/o6EthDv+
+	s6gXj5TxpVtV7vZt8LM4Vt8UmWhu5zUx0uH8eR3tConKHPNbzjCftYF4MIrA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1662731688; x=1662738888; bh=twsyF+dYRjXjnnGW4P2FrhcauKzD
+	n/tda3IgcxV76Lc=; b=RtBk1llT4lqeInj5g2sNFdZ2HVb6sArX5J8FMtXnYtZy
+	6yIaShdwuTNh2CM7A3cxA6V81Laj8JF+AX9cgKHnwWhNFUfLtEf65m7QYt10l0DY
+	ylhdn3JUl3zMfzz/fD+brQ9bhJUStZayX64p1pQyLXO3IGPK/wv2WRGpZB7VIzIN
+	A+MsChORQ3n2DJYL+5IAkYTGs254ytq/smndyfQwCnx9png80n0uJIOwdtg+lzgI
+	kkaS/f1QqyJdXEWreIsNU5HNUCK9jk9ZXnERNgZIK80BB+mduATiEQOAlg7BW/2p
+	MqXeV+J8UFus2OTkVCke3KT1zcpbKW2NNwc32MuRnA==
+X-ME-Sender: <xms:p0UbY9PPcVi_cAOlpxhqeVxz66Mh6lBkP6qPu1H5KanrG-JtFTEwaA>
+    <xme:p0UbY_8qp8Hzt1sLplBlAJpjlyukLbD7b3xHTktsN1s9MlyFAxIRkXNZmUj8EzRMd
+    BpZ6tz5Gx83ihkgpuE>
+X-ME-Received: <xmr:p0UbY8TAQmH9ul3ky2SB-HR0Lzt-ZSZt5CpzRdtONm1W7ErkNLrpqwPDCz15>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedthedgjeduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpedtffetudfgleeukeevveevveeggfeliefhffeivdekfeeijeelledvueek
+    tdfhteenucffohhmrghinhepihhtuhdrihhnthdpsghmvgdrhhhunecuvehluhhsthgvrh
+    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhho
+    rdhtvggthh
+X-ME-Proxy: <xmx:p0UbY5uXL1R6lTBIJIZKSSJcjb48n2G8L5Gc7jjknEsFaeVeFxpkDA>
+    <xmx:p0UbY1eToAMQkOxSYebYZ7mJ8HNyTHUl_2EtJMyTrwhNRsTDETyjvQ>
+    <xmx:p0UbY12C2ZYYcGAb13oEeTH3xNYga-jddHXc-5MAQ-npF-iCg_UgQg>
+    <xmx:qEUbY6MhpeZv12RGpjivI_KdabOBM4t_MLD0TMNZ879KCK8J5gAoKDVf8ck>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 9 Sep 2022 09:54:46 -0400 (EDT)
+Date: Fri, 9 Sep 2022 15:54:44 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Mateusz Kwiatkowski <kfyatek@gmail.com>
+Cc: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+	Chen-Yu Tsai <wens@csie.org>,	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jani Nikula <jani.nikula@linux.intel.com>,	Lyude Paul <lyude@redhat.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v5 5/6] ARM: dts: sun8i: a83t: Add MIPI CSI-2 controller
- node
-Message-ID: <YxtDb/jrR7uMabs5@aptenodytes>
-References: <20220826182803.604563-1-paul.kocialkowski@bootlin.com>
- <20220826182803.604563-6-paul.kocialkowski@bootlin.com>
- <YwkYKcffdRGnq+pK@pendragon.ideasonboard.com>
- <YxC7+Pi4v3Bc1oXc@aptenodytes>
- <YxC/3KLfJHpld+jx@pendragon.ideasonboard.com>
+	Samuel Holland <samuel@sholland.org>,	Karol Herbst <kherbst@redhat.com>,
+	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+	Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	linux-arm-kernel@lists.infradead.org,	Phil Elwell <phil@raspberrypi.com>,
+ intel-gfx@lists.freedesktop.org,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	dri-devel@lists.freedesktop.org, Dom Cobley <dom@raspberrypi.com>,
+	linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+	linux-sunxi@lists.linux.dev,	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v2 10/41] drm/modes: Add a function to generate analog
+ display modes
+Message-ID: <20220909135444.5oi6oh6nqwuke3jl@houat>
+References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-10-459522d653a7@cerno.tech>
+ <242d272b-5b79-986c-9aaf-64e62f6b37ff@gmail.com>
+ <20220905133755.gcmmntg3wnecyqjq@houat>
+ <10ce686a-d7c8-9ce4-3979-735ad8eab3b5@gmail.com>
+ <20220907143421.4iopqwhp3yfircsh@houat>
+ <dc1d9499-d4d5-1032-f39f-d4ac4cbb8412@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="0g1R3vKr/uSZfMdm"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="exp3fcsdo7vrdnhl"
 Content-Disposition: inline
-In-Reply-To: <YxC/3KLfJHpld+jx@pendragon.ideasonboard.com>
+In-Reply-To: <dc1d9499-d4d5-1032-f39f-d4ac4cbb8412@gmail.com>
 
 
---0g1R3vKr/uSZfMdm
-Content-Type: text/plain; charset=utf-8
+--exp3fcsdo7vrdnhl
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent,
+Hi,
 
-On Thu 01 Sep 22, 17:21, Laurent Pinchart wrote:
-> On Thu, Sep 01, 2022 at 04:04:40PM +0200, Paul Kocialkowski wrote:
-> > Hi Laurent,
-> >=20
-> > On Fri 26 Aug 22, 21:59, Laurent Pinchart wrote:
-> > > Hi Paul,
-> > >=20
-> > > Thank you for the patch.
-> > >=20
-> > > On Fri, Aug 26, 2022 at 08:28:02PM +0200, Paul Kocialkowski wrote:
-> > > > MIPI CSI-2 is supported on the A83T with a dedicated controller that
-> > > > covers both the protocol and D-PHY. It can be connected to the CSI
-> > > > interface as a V4L2 subdev through the fwnode graph.
-> > > >=20
-> > > > This is not done by default since connecting the bridge without a
-> > > > subdev attached to it will cause a failure on the CSI driver.
-> > >=20
-> > > No urgency, but would it be possible to fix this so that the CSI-2
-> > > receiver can be connected to the CSI unconditionally in DT ? The
-> > > connection exists at the hardware level in the SoC, and should thus
-> > > exist here too, regardless of whether or not a sensor is connected.
-> >=20
-> > Yes it's true that having the link always would be legitimate.
-> >=20
-> > For the context, this CSI controller can be switched between the MIPI C=
-SI-2
-> > controller and a parallel sensor input (i.e. it's not dedicated to one =
-or the
-> > other like on the V3).
-> >=20
-> > Last time I tried, having the connection between the two always there r=
-esulted
-> > in the unability to use a parallel sensor when no sensor is attached to=
- the
-> > mipi csi-2 receiver. Probably because the async notifier never complete=
-s since
-> > the mipi csi-2's subdev is never registered without a sensor subdev att=
-ached.
-> >=20
-> > Do you see a way to handle this case properly?
+On Wed, Sep 07, 2022 at 11:31:21PM +0200, Mateusz Kwiatkowski wrote:
+> W dniu 7.09.2022 o 16:34, Maxime Ripard pisze:
+> > On Mon, Sep 05, 2022 at 06:44:42PM +0200, Mateusz Kwiatkowski wrote:
+> >> Hi Maxime,
+> >>
+> >> W dniu 5.09.2022 o 15:37, Maxime Ripard pisze:
+> >>>>> +=A0=A0=A0 vfp =3D vfp_min + (porches_rem / 2);
+> >>>>> +=A0=A0=A0 vbp =3D porches - vfp;
+> >>>>
+> >>>> Relative position of the vertical sync within the VBI effectively mo=
+ves the
+> >>>> image up and down. Adding that (porches_rem / 2) moves the image up =
+off center
+> >>>> by that many pixels. I'd keep the VFP always at minimum to keep the =
+image
+> >>>> centered.
+> >>>
+> >>> And you would increase the back porch only then?
+> >>
+> >> Well, increasing vbp only gives a centered image with the default 480i=
+/576i
+> >> resolutions. However, only ever changing vbp will cause the image to b=
+e always
+> >> at the bottom of the screen when the active line count is decreased (e=
+=2Eg.
+> >> setting the resolution to 720x480 but for 50Hz "PAL" - like many game =
+consoles
+> >> did back in the day).
+> >>
+> >> I believe that the perfect solution would:
+> >>
+> >> - Use the canonical / standard-defined blanking line counts for the st=
+andard
+> >>=A0=A0 vertical resolutions (480/486/576)
+> >> - Increase vfp and vbp from there by the same number if a smaller numb=
+er of
+> >>=A0=A0 active lines is specified, so that the resulting image is center=
+ed
+> >> - Likewise, decrease vfp and vbp by the same number if the active line=
+ number
+> >>=A0=A0 is larger and there is still leeway (this should allow for seaml=
+ess handling
+> >>=A0=A0 of 480i vs. 486i for 60 Hz "NTSC")
+> >
+> > I'm not sure I understand how that's any different than the code you
+> > initially commented on.
+> >
+> > I would start by taking the entire blanking area, remove the sync
+> > period. We only have the two porches now, and I'm starting from the
+> > minimum, adding as many pixels in both (unless it's not an even number,
+> > in which case the backporch will have the extra pixel).
+> >
+> > Isn't it the same thing?
+> > [...]
+> > Unless you only want me to consider the front porch maximum?
 >=20
-> It sounds like an issue in the CSI-2 receiver driver. If there's no
-> input device attached to it, it should register its subdev directly,
-> without its own async notifier.
-
-Yes it turns out there was an error on that side, thanks for bringing it up!
-I have sent a fixup series which takes care of it.
-
-Now it becomes possible to always describe the links without downsides.
-Well, the CSI driver will still wait for the MIPI CSI-2 bridge's subdev
-when its node is enabled in device-tree, but I think that is expected.
-
-Cheers,
-
-Paul
-
-> > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > ---
-> > > >  arch/arm/boot/dts/sun8i-a83t.dtsi | 26 ++++++++++++++++++++++++++
-> > > >  1 file changed, 26 insertions(+)
-> > > >=20
-> > > > diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/=
-sun8i-a83t.dtsi
-> > > > index 82fdb04122ca..ecf9f3b2c0c0 100644
-> > > > --- a/arch/arm/boot/dts/sun8i-a83t.dtsi
-> > > > +++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
-> > > > @@ -1064,6 +1064,32 @@ csi: camera@1cb0000 {
-> > > >  			status =3D "disabled";
-> > > >  		};
-> > > > =20
-> > > > +		mipi_csi2: csi@1cb1000 {
-> > > > +			compatible =3D "allwinner,sun8i-a83t-mipi-csi2";
-> > > > +			reg =3D <0x01cb1000 0x1000>;
-> > > > +			interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-> > > > +			clocks =3D <&ccu CLK_BUS_CSI>,
-> > > > +				 <&ccu CLK_CSI_SCLK>,
-> > > > +				 <&ccu CLK_MIPI_CSI>,
-> > > > +				 <&ccu CLK_CSI_MISC>;
-> > > > +			clock-names =3D "bus", "mod", "mipi", "misc";
-> > > > +			resets =3D <&ccu RST_BUS_CSI>;
-> > > > +			status =3D "disabled";
-> > > > +
-> > > > +			ports {
-> > > > +				#address-cells =3D <1>;
-> > > > +				#size-cells =3D <0>;
-> > > > +
-> > > > +				mipi_csi2_in: port@0 {
-> > > > +					reg =3D <0>;
-> > > > +				};
-> > > > +
-> > > > +				mipi_csi2_out: port@1 {
-> > > > +					reg =3D <1>;
-> > > > +				};
-> > > > +			};
-> > > > +		};
-> > > > +
-> > > >  		hdmi: hdmi@1ee0000 {
-> > > >  			compatible =3D "allwinner,sun8i-a83t-dw-hdmi";
-> > > >  			reg =3D <0x01ee0000 0x10000>;
+> I think you're confusing the "post-equalizing pulses" with the "vertical =
+back
+> porch" a little bit. The "vertical back porch" includes both the post-equ=
+alizing
+> pulses and the entire rest of the VBI period, for the standard resolution=
+s at
+> least.
 >=20
-> --=20
-> Regards,
+> The "canonical" modelines (at least for vc4's VEC, see the notes below):
 >=20
-> Laurent Pinchart
+> - (vfp=3D=3D4, vsync=3D=3D6, vbp=3D=3D39) for 576i
+> - (vfp=3D=3D7, vsync=3D=3D6, vbp=3D=3D32) for 480i
+> - (vfp=3D=3D5, vsync=3D=3D6, vbp=3D=3D28) for 486i (full frame NTSC as or=
+iginally specified)
+>=20
+> The numbers for vfp don't exactly match the theoretical values, because:
+>=20
+> - VEC actually adds a half-line pulse on top of VFP_ODD, and in the 625-l=
+ine
+> =A0 mode also on top of VFP_EVEN (not always, but let's not dwell too muc=
+h)
+> - Conversely, VEC subtracts the half-line pulse from VSYNC_ODD and VSYNC_=
+EVEN
+> =A0 in the 625-line mode
+> - SMPTE S170M (see https://www.itu.int/rec/R-REC-BT.1700-0-200502-I/en) d=
+efines
+> =A0 that active picture for NTSC is on lines 21-263 and 283-525; 263 and =
+283 are
+> =A0 half-lines that are represented as full lines in the "486i" spec
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+It's going to be a bit difficult to match that into a drm_display_mode,
+since as far I understand it, all the timings are the sum of the timings
+of both fields in interlaced. I guess we'll have to be close enough.
 
---0g1R3vKr/uSZfMdm
+> - SMPTE 314M, which is the spec for DV, defines the 480 active lines as l=
+ines
+> =A0 23-262 and 285-524; see Table 20 on page 26 in
+> =A0 https://last.hit.bme.hu/download/firtha/video/SMPTE/SMPTE-314M%20DV25=
+-50.pdf;
+> =A0 this means that the standard 480i frame shaves off four topmost and t=
+wo
+> =A0 bottommost lines (2 and 1 per field) of the 486i full frame
+
+I'm still struggling a bit to match that into front porch, sync period
+and back porch. I guess the sync period is easy since it's pretty much
+fixed. That line 0-23 is the entire blanking area though, right?
+
+> Note that the half-line pulses in vfp/vsync may be generated in a differe=
+nt way
+> on encoders other than vc4's VEC. Maybe we should define some concrete
+> semantics for vfp/vsync in analog TV modes, and compensate for that in the
+> drivers. But anyway, that's a separate issue.
+>=20
+> My point is that, to get a centered image, you can then proportionately a=
+dd
+> values to those "canonical" vfp/vbp values. For example if someone specif=
+ies
+> 720x480 frame, but 50 Hz PAL, you should set (vfp=3D=3D52, vsync=3D=3D6, =
+vbp=3D=3D87).
+
+In this case, you add 48 both front porches, right? How is that
+proportionate?
+
+> Those extra vbp lines will be treated as a black bar at the top of the fr=
+ame,
+> and extra vfp lines will be at the bottom of the frame.
+>=20
+> However if someone specifies e.g. 720x604, there's nothing more you could
+> remove from vfp, so your only option is to reduce vbp compared to the sta=
+ndard
+> mode, so you'll end up with (vfp=3D=3D4, vsync=3D=3D6, vbp=3D=3D11). The =
+image will not be
+> centered, the topmost lines will get cropped out, but that's the best we =
+can do
+> and if someone is requesting such resolution, they most likely want to ac=
+tually
+> access the VBI to e.g. emit teletext.
+>=20
+> Your current code always starts at (vfp=3D=3D5 or 6, vsync=3D6, vbp=3D=3D=
+6) and then
+> increases both vfp and vbp proportionately. This puts vsync dead center i=
+n the
+> VBI, which is not how it's supposed to be - and that in turn causes the i=
+mage
+> to be significantly shifted upwards.
+>=20
+> I hope this makes more sense to you now.
+
+I'm really struggling with this, so thanks for explaining this further
+(and patiently ;))
+
+If I get this right, what you'd like to change is this part of the
+calculus (simplified a bit, and using PAL, 576i):
+
+  vfp_min =3D params->vfp_lines.even + params->vfp_lines.odd; // 5
+  vbp_min =3D params->vbp_lines.even + params->vbp_lines.odd; // 6
+  vslen =3D params->vslen_lines.even + params->vslen_lines.odd; // 6
+
+  porches =3D params->num_lines - vactive - vslen; // 43
+  porches_rem =3D porches - vfp_min - vbp_min; // 32
+
+  vfp =3D vfp_min + (porches_rem / 2); // 21
+  vbp =3D porches - vfp; // 22
+
+Which is indeed having sync centered.
+
+I initially changed it to:
+
+  vfp =3D vfp_min; // 6
+  vbp =3D num_lines - vactive - vslen - vfp; // 38
+
+Which is close enough for 576i, but at 480i/50Hz would end up with 134,
+so still fairly far off.
+
+I guess your suggestion would be along the line of:
+
+  vfp_min =3D params->vfp_lines.even + params->vfp_lines.odd; // 5
+  vbp_min =3D params->vbp_lines.even + params->vbp_lines.odd; // 38
+  vslen =3D params->vslen_lines.even + params->vslen_lines.odd; // 6
+
+  porches =3D params->num_lines - vactive - vslen; // 0
+  porches_rem =3D porches - vfp_min - vbp_min; // 0
+
+  vfp =3D vfp_min + (porches_rem / 2); // 5
+  vbp =3D porches - vfp; // 38
+
+Which is still close enough for 576i, but for 480i would end up with:
+
+  porches =3D params->num_lines - vactive - vslen; // 139
+  porches_rem =3D porches - vfp_min - vbp_min; // 96
+
+  vfp =3D vfp_min + (porches_rem / 2); // 53
+  vbp =3D porches - vfp; // 86
+
+Right?
+
+Maxime
+
+--exp3fcsdo7vrdnhl
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMbQ28ACgkQ3cLmz3+f
-v9HuxQf/URHJvX9hyDkHJd/fZD6Tl0GkdanL5dUdysUgnQe+i1ceqqoOGzF+ZJpW
-mv+Rbum00q/RE6nm+lGpFT2ig1SYGuOCxnZrbsXZiSvSzZ8+YY/cB6sRm+ywP7Go
-QbVk+I+bEky7qtcKIWa3guNbtFBLm3rixBZ6CmjKnxdTXh6vN9lJlTMbbui0pffQ
-k1QuoQ1Ea9AK7Rxyc4tWIIGK9Ljn96j7cHKqW1/Bi5FQyqDtFWgvwQGA4eiOxWOj
-RrkwZH7D28Z1mHgUO6Mc8O+z/t2AzE3VvD7hcxt1RtNh1Un6t3YS4I9d6LSNCDyH
-ylFJhr0z42NWy3mkaxagW6QSEaVn1A==
-=jCke
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYxtFpAAKCRDj7w1vZxhR
+xQthAP48zJ8g779BqSdxUbioH+WvlR067prjIQRN+Yc036muGAD/R7i4n/1FakDa
+JQXyYQwjZa0/ToIqQHeTfHP+kWLvFAM=
+=rFHL
 -----END PGP SIGNATURE-----
 
---0g1R3vKr/uSZfMdm--
+--exp3fcsdo7vrdnhl--
