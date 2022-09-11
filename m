@@ -1,47 +1,47 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE877F
-	for <linux-sunxi@lists.linux.dev>; Sun, 11 Sep 2022 04:32:51 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id q21so9664890lfo.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 10 Sep 2022 21:32:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C837F
+	for <linux-sunxi@lists.linux.dev>; Sun, 11 Sep 2022 04:48:55 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id p5so6827974ljc.13
+        for <linux-sunxi@lists.linux.dev>; Sat, 10 Sep 2022 21:48:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:from:to:cc:subject:date;
-        bh=eJ5+kSvRGx0e5DL23FMmsR32sATG84wn3pUtXfVNfJk=;
-        b=UzwIqo7BotutKHABezU/5M4r1hFosIJShwkvIMqCyzl5TtN9VYDKXW7hFWomPhiGph
-         Ym1yfhdW374PMwpW1PzT0+GQxyoj0se63YjLGw94N2hSZLa/vT+gtWArl6kk26PLdEw2
-         +SlenG2reH47juH0ULuJ70Gf02WSKtrR2KLFtjVbQ9twzPi2bgcpBZrX3OjcKYn0lwXZ
-         2IqDSdbK+ycclzRuVBZeW7CMnb3SVXqXzqSEH4jsllcB7PexwSKS4xCFyxDhhOsLsJgl
-         RZ8+FTf+kdXOxVD/qjINJ/6P+5NUSOLgod5Ro4JMwXgX7O14od0BP7D0sF5hZAfjpql+
-         bhKg==
+        bh=Dzsg7L5ZergN95ne20wSAndouco2GHRCcAKDGT5ut8M=;
+        b=lnJSJ1rpPquPPQQ7+qwNxZU0KY4cxdt9cZsUfORqiByh5zBeV7T/f2AeD4CHLeQWsL
+         pn/QAS+EYTqsiG33r4KCLVivr4UVR2fkrWlUbBFPEs2NN8DOnjcYFzDbEeCxW6j/eSrk
+         UpfjmHvlyE5mteYOdPzKQlvIJjr45s4gE4qzJ9Aguut4RLgTyipHyMQAZLcC1fwFHgoL
+         sO1OkWvcsJfljWKfyz3usM58D7bW30DTD4Lk2j6CKNy4eRRSn6HoiBzaIuU5kxmYdb3A
+         DWw8dBUSROSbZrw422MwwHDwQfmjPxfumFzmZsU7nuvtjQWZB2IHbIG3YAHF+KSJ/l0q
+         Grmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:x-gm-message-state:from:to:cc:subject:date;
-        bh=eJ5+kSvRGx0e5DL23FMmsR32sATG84wn3pUtXfVNfJk=;
-        b=l9YwEf8j8xUPw29kNckdDHMwfzv3ph9VPE6qmIjkzTYwCfPVlQFWcV3VEmuyRbfFrN
-         TTR3SLumsPjs0XFSbB7xeJ6VV9qNI03b2pW87auMiuzg74zyblUI5CT7WmqrMg911K//
-         XloBluvRLskXQ4bM5sHyzWniwm4E5l20fYT7Yf637FXzwzgDCbCZqkuRZONVmLsJGEK5
-         zNFsuQ0PaVWcky3epFijRHB34kwvSnD1nMwBo8fC9M5YyP94w2ttg/WisaspDIemNt9M
-         ZXZk7gQ2EaC/cyV4C5+uu94IpizpS9kXG/uNh718eIIBiDl+C3IzVzNl+t0Z1m24ae+U
-         gYrA==
-X-Gm-Message-State: ACgBeo24ZBr32XlSJdbJWlN7gGVo9EFhL0X6RDGbBUeqiW+zYS5KBpY4
-	HstjSGuNwHgKO6dryu3HXQs=
-X-Google-Smtp-Source: AA6agR5M1zbvVnaz19qs5aPClS3RbrwZxmnw+bU2659kQnERb5o7G/3kodQNdYL47ha1OqfWKOi8Kw==
-X-Received: by 2002:a05:6512:308d:b0:499:bd1a:d1bc with SMTP id z13-20020a056512308d00b00499bd1ad1bcmr1536967lfd.274.1662870770059;
-        Sat, 10 Sep 2022 21:32:50 -0700 (PDT)
+        bh=Dzsg7L5ZergN95ne20wSAndouco2GHRCcAKDGT5ut8M=;
+        b=MXfOMr0/d9rqwdBqms3yxhfUtXixNb65qRFtJfl1I89EV88/d90xfsP30WZTpWroqE
+         tKLTUmWD+Wopfy5qrQrbsGSZRTDu0Cql4uBf6B3LLsDNs4wby+F4BEW5K8qKB7kPfPGb
+         24Y5SqCNbPIlWhsBslDjMArxcRD11gdTpZlBm+8zYnHaQqHzmUFQ8elOpZqX780nrJlf
+         xP0sdS3Kp5WkMPsvQa4lcBlPKwEH0UOodfMjPQYCQMkZvXAETpMsRZYIoYznZFKiY9kN
+         mCh3GKza7ZMU/bTUKmCK8d7H4HVFWVSH5Cngw7GBKd7YO3YR5wVyvQ9UwihojdVKXim1
+         4OoQ==
+X-Gm-Message-State: ACgBeo0gaKOZNbDL8ThrJTESW+m/bK2Zg0Xx6cJcsPm4VBGFS410oaxi
+	stvrNY72wwOfDKjSH0DIHiA=
+X-Google-Smtp-Source: AA6agR4/MY0JB6ClAyvCNHYM+nBqc9ZHtZAEN3tIKgEe93m/3PECgyhOeLoav75g49sW8ehsPZL7+w==
+X-Received: by 2002:a2e:a7c6:0:b0:26b:e7b4:5136 with SMTP id x6-20020a2ea7c6000000b0026be7b45136mr2628014ljp.425.1662871733790;
+        Sat, 10 Sep 2022 21:48:53 -0700 (PDT)
 Received: from ?IPV6:2a02:a31a:a240:1700:e929:c054:a46d:3844? ([2a02:a31a:a240:1700:e929:c054:a46d:3844])
-        by smtp.googlemail.com with ESMTPSA id a17-20020a2eb551000000b00261a8e56fe4sm539994ljn.55.2022.09.10.21.32.48
+        by smtp.googlemail.com with ESMTPSA id m9-20020a056512358900b00497a7dfe6a9sm482145lfr.64.2022.09.10.21.48.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 10 Sep 2022 21:32:49 -0700 (PDT)
+        Sat, 10 Sep 2022 21:48:53 -0700 (PDT)
 From: Mateusz Kwiatkowski <kfyatek@gmail.com>
 X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Message-ID: <efb2e46d-28be-737c-caa9-5b271523bbbb@gmail.com>
-Date: Sun, 11 Sep 2022 06:32:47 +0200
+Message-ID: <79ab3fef-fdaa-e191-d839-4af88191e672@gmail.com>
+Date: Sun, 11 Sep 2022 06:48:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -50,7 +50,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.2.2
-Subject: Re: [PATCH v2 09/41] drm/connector: Add TV standard property
+Subject: Re: [PATCH v2 10/41] drm/modes: Add a function to generate analog
+ display modes
 Content-Language: pl
 To: Maxime Ripard <maxime@cerno.tech>
 Cc: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
@@ -72,141 +73,167 @@ Cc: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
  linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
  linux-sunxi@lists.linux.dev, Geert Uytterhoeven <geert@linux-m68k.org>
 References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-9-459522d653a7@cerno.tech>
- <30a9d7cd-d9ff-3177-ac6c-e7c1f966d89a@gmail.com>
- <20220907121009.toizfolruuazcrns@houat>
- <6639fb8f-e16c-1ef5-5978-c522f76c8ded@gmail.com>
- <20220909094647.aahohiwtwbbeyzj3@houat>
-In-Reply-To: <20220909094647.aahohiwtwbbeyzj3@houat>
+ <20220728-rpi-analog-tv-properties-v2-10-459522d653a7@cerno.tech>
+ <242d272b-5b79-986c-9aaf-64e62f6b37ff@gmail.com>
+ <20220905133755.gcmmntg3wnecyqjq@houat>
+ <10ce686a-d7c8-9ce4-3979-735ad8eab3b5@gmail.com>
+ <20220907143421.4iopqwhp3yfircsh@houat>
+ <dc1d9499-d4d5-1032-f39f-d4ac4cbb8412@gmail.com>
+ <20220909135444.5oi6oh6nqwuke3jl@houat>
+In-Reply-To: <20220909135444.5oi6oh6nqwuke3jl@houat>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-W dniu 9.09.2022 o 11:46, Maxime Ripard pisze:
-> On Wed, Sep 07, 2022 at 09:52:09PM +0200, Mateusz Kwiatkowski wrote:
->> W dniu 7.09.2022 o 14:10, Maxime Ripard pisze:
->>> Hi,
->>>
->>> On Fri, Sep 02, 2022 at 12:00:33AM +0200, Mateusz Kwiatkowski wrote:
->>>> W dniu 29.08.2022 o 15:11, Maxime Ripard pisze:
->>>>> The TV mode property has been around for a while now to select and get the
->>>>> current TV mode output on an analog TV connector.
->>>>>
->>>>> Despite that property name being generic, its content isn't and has been
->>>>> driver-specific which makes it hard to build any generic behaviour on top
->>>>> of it, both in kernel and user-space.
->>>>>
->>>>> Let's create a new bitmask tv norm property, that can contain any of the
->>>>> analog TV standards currently supported by kernel drivers. Each driver can
->>>>> then pass in a bitmask of the modes it supports.
->>>>
->>>> This is not a bitmask property anymore, you've just changed it to an enum.
->>>> The commit message is now misleading.
->>>>
->>>>> +static const struct drm_prop_enum_list drm_tv_mode_enum_list[] = {
->>>>> +    { DRM_MODE_TV_MODE_NTSC_443, "NTSC-443" },
->>>>> +    { DRM_MODE_TV_MODE_NTSC_J, "NTSC-J" },
->>>>> +    { DRM_MODE_TV_MODE_NTSC_M, "NTSC-M" },
->>>>> +    { DRM_MODE_TV_MODE_PAL_60, "PAL-60" },
->>>>> +    { DRM_MODE_TV_MODE_PAL_B, "PAL-B" },
->>>>> +    { DRM_MODE_TV_MODE_PAL_D, "PAL-D" },
->>>>> +    { DRM_MODE_TV_MODE_PAL_G, "PAL-G" },
->>>>> +    { DRM_MODE_TV_MODE_PAL_H, "PAL-H" },
->>>>> +    { DRM_MODE_TV_MODE_PAL_I, "PAL-I" },
->>>>> +    { DRM_MODE_TV_MODE_PAL_M, "PAL-M" },
->>>>> +    { DRM_MODE_TV_MODE_PAL_N, "PAL-N" },
->>>>> +    { DRM_MODE_TV_MODE_PAL_NC, "PAL-Nc" },
->>>>> +    { DRM_MODE_TV_MODE_SECAM_60, "SECAM-60" },
->>>>> +    { DRM_MODE_TV_MODE_SECAM_B, "SECAM-B" },
->>>>> +    { DRM_MODE_TV_MODE_SECAM_D, "SECAM-D" },
->>>>> +    { DRM_MODE_TV_MODE_SECAM_G, "SECAM-G" },
->>>>> +    { DRM_MODE_TV_MODE_SECAM_K, "SECAM-K" },
->>>>> +    { DRM_MODE_TV_MODE_SECAM_K1, "SECAM-K1" },
->>>>> +    { DRM_MODE_TV_MODE_SECAM_L, "SECAM-L" },
->>>>> +};
->>>>
->>>> I did not comment on it the last time, but this list looks a little bit random.
->>>>
->>>> Compared to the standards defined by V4L2, you also define SECAM-60 (a good
->>>> thing to define, because why not), but don't define PAL-B1, PAL-D1, PAL-K,
->>>> SECAM-H, SECAM-LC (whatever that is - probably just another name for SECAM-L,
->>>> see my comment about PAL-Nc below), or NTSC-M-KR (a Korean variant of NTSC).
->>>>
->>>> Like I mentioned previously, I'm personally not a fan of including all those
->>>> CCIR/ITU system variants, as they don't mean any difference to the output unless
->>>> there is an RF modulator involved. But I get it that they have already been used
->>>> and regressing probably wouldn't be a very good idea. But in that case keeping
->>>> it consistent with the set of values used by V4L2 would be wise, I think.
->>>
->>> Ack. What would be the list of standards we'd absolutely need? NSTC-M,
->>> NTSC-J, PAL-60, PAL-B, PAL-M, SECAM-60 and SECAM-B?
->>
->> The "essential list" IMO is NTSC, NTSC-J, NTSC-443, PAL, PAL-M, PAL-N and SECAM.
->> Note that:
->>
->> - I intentionally propose "NTSC", "PAL" and "SECAM" without an ITU system
->>   designation. If we only consider composite signals, there's no difference
->>   between e.g. PAL-B, PAL-D and PAL-I, so it's better to label it as a generic
->>   mode, IMO.
->>
->>   * PAL-M and PAL-N are different, because those unique color encodings were
->>     only ever used with Systems M and N, respectively.
->>
->>   * NTSC-J is also different, because "System J" doesn't exist anywhere in ITU
->>     documents. Japan technically uses System M with a non-standard black level.
->>     But "NTSC-J" stuck as a universally recognized name for that variant.
->>
->> - I intentionally did not list PAL-60 or SECAM-60. TBH... PAL-60 is just
->>   regular PAL paired with 480i60 modeline. Most if not all displays that
->>   accept PAL-60 input will just label it as "PAL". If we are not introducing
->>   strict modeline validation, then maybe separating PAL and PAL-60 isn't really
->>   necessary? Same goes for SECAM vs. SECAM-60.
->>  
->>   ...and same goes for NTSC vs. NTSC-50 a.k.a NTSC-N, which is a very exotic
->>   mode, but known to exist at least in the Atari ST world, see also:
->>   https://en.wikipedia.org/wiki/NTSC#NTSC-N/NTSC50
->>
->> Combining PAL and PAL-60 into a single setting would complicate the vc4 driver
->> a little bit, though, as the registers need to be set up differently for those.
->>
->> My feelings about the PAL-60 issue are not that strong, though. Merging PAL
->> and PAL-60 in this context is just a loose suggestion, I won't even try to
->> argue if you disagree.
->
-> Ack
->
->>>>> +/**
->>>>> + * drm_mode_create_tv_properties - create TV specific connector properties
->>>>> + * @dev: DRM device
->>>>> + * @supported_tv_modes: Bitmask of TV modes supported (See DRM_MODE_TV_MODE_*)
->>>>> +
->>>>> + * Called by a driver's TV initialization routine, this function creates
->>>>> + * the TV specific connector properties for a given device.  Caller is
->>>>> + * responsible for allocating a list of format names and passing them to
->>>>> + * this routine.
->>>>> + *
->>>>> + * Returns:
->>>>> + * 0 on success or a negative error code on failure.
->>>>> + */
->>>>> +int drm_mode_create_tv_properties(struct drm_device *dev,
->>>>> +                  unsigned int supported_tv_modes)
->>>>
->>>> supported_tv_modes is supposed to be a bitmask of BIT(DRM_MODE_TV_MODE_*)
->>>> (or (1<<DRM_MODE_TV_MODE_*)) rather than DRM_MODE_TV_MODE_* directly, but this
->>>> is not said explicitly anywhere in this doc comment.
->>>
->>> The argument doc mentions that it's a "Bitmask of TV modes supported
->>> (See DRM_MODE_TV_MODE_*)", how would you improve it?
->>
->> Maybe something like "Bitwise OR of BIT(DRM_MODE_TV_MODE_*) values"? Or maybe
->> just add a little usage example?
->
-> This is the way we're usually documenting it in DRM:
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_plane.c#L357
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_crtc.c#L861
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_blend.c#L546
->
-> So I'd rather keep it consistent
->
-> Maxime
+Hi Maxime,
 
-Ack, OK then.
+W dniu 9.09.2022 o 15:54, Maxime Ripard pisze:
+> Hi,
+>
+> On Wed, Sep 07, 2022 at 11:31:21PM +0200, Mateusz Kwiatkowski wrote:
+> [...]
+>> I think you're confusing the "post-equalizing pulses" with the "vertical back
+>> porch" a little bit. The "vertical back porch" includes both the post-equalizing
+>> pulses and the entire rest of the VBI period, for the standard resolutions at
+>> least.
+>>
+>> The "canonical" modelines (at least for vc4's VEC, see the notes below):
+>>
+>> - (vfp==4, vsync==6, vbp==39) for 576i
+>> - (vfp==7, vsync==6, vbp==32) for 480i
+>> - (vfp==5, vsync==6, vbp==28) for 486i (full frame NTSC as originally specified)
+>>
+>> The numbers for vfp don't exactly match the theoretical values, because:
+>>
+>> - VEC actually adds a half-line pulse on top of VFP_ODD, and in the 625-line
+>>   mode also on top of VFP_EVEN (not always, but let's not dwell too much)
+>> - Conversely, VEC subtracts the half-line pulse from VSYNC_ODD and VSYNC_EVEN
+>>   in the 625-line mode
+>> - SMPTE S170M (see https://www.itu.int/rec/R-REC-BT.1700-0-200502-I/en) defines
+>>   that active picture for NTSC is on lines 21-263 and 283-525; 263 and 283 are
+>>   half-lines that are represented as full lines in the "486i" spec
+>
+> It's going to be a bit difficult to match that into a drm_display_mode,
+> since as far I understand it, all the timings are the sum of the timings
+> of both fields in interlaced. I guess we'll have to be close enough.
+
+Well, it's probably the job of the CRTC driver to split the values from
+drm_display_mode back into separate values for odd and even fields. That's how
+it's done in the vc4 driver, anyway.
+
+>
+>> - SMPTE 314M, which is the spec for DV, defines the 480 active lines as lines
+>>   23-262 and 285-524; see Table 20 on page 26 in
+>>   https://last.hit.bme.hu/download/firtha/video/SMPTE/SMPTE-314M%20DV25-50.pdf;
+>>   this means that the standard 480i frame shaves off four topmost and two
+>>   bottommost lines (2 and 1 per field) of the 486i full frame
+>
+> I'm still struggling a bit to match that into front porch, sync period
+> and back porch. I guess the sync period is easy since it's pretty much
+> fixed. That line 0-23 is the entire blanking area though, right?
+
+Yes, lines 0-23 is the entire blanking area. And the "back porch" in this
+context is everything from the start of the sync pulse to the start of active
+video. It's not just the equalizing pulses.
+
+The equalizing pulses have no equivalent in DRM terms. VC4/VEC inserts those
+automatically and there's no direct control over them, I'm not sure about other
+encoders.
+
+The equalizing pulses are also not essential for the composite video to work.
+The spec requires them, but most TVs will tolerate them not being there (and
+early systems like the British 405-line system didn't have any).
+
+>> Note that the half-line pulses in vfp/vsync may be generated in a different way
+>> on encoders other than vc4's VEC. Maybe we should define some concrete
+>> semantics for vfp/vsync in analog TV modes, and compensate for that in the
+>> drivers. But anyway, that's a separate issue.
+>>
+>> My point is that, to get a centered image, you can then proportionately add
+>> values to those "canonical" vfp/vbp values. For example if someone specifies
+>> 720x480 frame, but 50 Hz PAL, you should set (vfp==52, vsync==6, vbp==87).
+>
+> In this case, you add 48 both front porches, right? How is that
+> proportionate?
+
+Yes, I meant adding 48 lines to both porches, and I meant "proportionately" as
+"split equally". Maybe that was an unfortunate choice of words.
+
+>> Those extra vbp lines will be treated as a black bar at the top of the frame,
+>> and extra vfp lines will be at the bottom of the frame.
+>>
+>> However if someone specifies e.g. 720x604, there's nothing more you could
+>> remove from vfp, so your only option is to reduce vbp compared to the standard
+>> mode, so you'll end up with (vfp==4, vsync==6, vbp==11). The image will not be
+>> centered, the topmost lines will get cropped out, but that's the best we can do
+>> and if someone is requesting such resolution, they most likely want to actually
+>> access the VBI to e.g. emit teletext.
+>>
+>> Your current code always starts at (vfp==5 or 6, vsync=6, vbp==6) and then
+>> increases both vfp and vbp proportionately. This puts vsync dead center in the
+>> VBI, which is not how it's supposed to be - and that in turn causes the image
+>> to be significantly shifted upwards.
+>>
+>> I hope this makes more sense to you now.
+>
+> I'm really struggling with this, so thanks for explaining this further
+> (and patiently ;))
+>
+> If I get this right, what you'd like to change is this part of the
+> calculus (simplified a bit, and using PAL, 576i):
+>
+>   vfp_min = params->vfp_lines.even + params->vfp_lines.odd; // 5
+>   vbp_min = params->vbp_lines.even + params->vbp_lines.odd; // 6
+>   vslen = params->vslen_lines.even + params->vslen_lines.odd; // 6
+>
+>   porches = params->num_lines - vactive - vslen; // 43
+>   porches_rem = porches - vfp_min - vbp_min; // 32
+>
+>   vfp = vfp_min + (porches_rem / 2); // 21
+>   vbp = porches - vfp; // 22
+>
+> Which is indeed having sync centered.
+>
+> I initially changed it to:
+>
+>   vfp = vfp_min; // 6
+>   vbp = num_lines - vactive - vslen - vfp; // 38
+>
+> Which is close enough for 576i, but at 480i/50Hz would end up with 134,
+> so still fairly far off.
+>
+> I guess your suggestion would be along the line of:
+>
+>   vfp_min = params->vfp_lines.even + params->vfp_lines.odd; // 5
+>   vbp_min = params->vbp_lines.even + params->vbp_lines.odd; // 38
+>   vslen = params->vslen_lines.even + params->vslen_lines.odd; // 6
+>
+>   porches = params->num_lines - vactive - vslen; // 0
+>   porches_rem = porches - vfp_min - vbp_min; // 0
+>
+>   vfp = vfp_min + (porches_rem / 2); // 5
+>   vbp = porches - vfp; // 38
+>
+> Which is still close enough for 576i, but for 480i would end up with:
+>
+>   porches = params->num_lines - vactive - vslen; // 139
+>   porches_rem = porches - vfp_min - vbp_min; // 96
+>
+>   vfp = vfp_min + (porches_rem / 2); // 53
+>   vbp = porches - vfp; // 86
+>
+> Right?
+
+Yes. And if that's supposed to mean 480i in 50 Hz "PAL" mode, that's also
+"close enough" to the values I suggested above.
+
+If you substitute values for true 60 Hz "NTSC" 480i, you should also get values
+that are "close enough" to the official spec.
+
+The only thing I'd conceptually change is that the 38 lines is not really
+"vbp_min". It's more like "vbp_typ". As I mentioned above, we may want to lower
+this value if someone wants more active lines than the official 486/576.
+If they're doing that, they probably want to have vbp in the framebuffer,
+like VBIT2.
+
+Best regards,
+Mateusz Kwiatkowski
