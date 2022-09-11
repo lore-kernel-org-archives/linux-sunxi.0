@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E690A7F
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C17D257A
 	for <linux-sunxi@lists.linux.dev>; Mon, 12 Sep 2022 00:01:49 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BB9A9113E;
-	Sun, 11 Sep 2022 17:01:49 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A8A8816F8;
+	Sun, 11 Sep 2022 17:01:55 -0700 (PDT)
 Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AC5713F73B;
-	Sun, 11 Sep 2022 17:01:40 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9AFF03F73B;
+	Sun, 11 Sep 2022 17:01:46 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
@@ -23,10 +23,12 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	linux-sunxi@lists.linux.dev,
 	Karl Kurbjun <karl.os@veroson.com>,
 	Icenowy Zheng <icenowy@aosc.io>
-Subject: [PATCH 0/7] arm64: sunxi: h616: Add USB support
-Date: Mon, 12 Sep 2022 00:59:38 +0100
-Message-Id: <20220911235945.6635-1-andre.przywara@arm.com>
+Subject: [PATCH 2/7] dt-bindings: usb: Add special clock for Allwinner H616 PHY
+Date: Mon, 12 Sep 2022 00:59:40 +0100
+Message-Id: <20220911235945.6635-3-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20220911235945.6635-1-andre.przywara@arm.com>
+References: <20220911235945.6635-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -35,55 +37,72 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The USB IP used in the Allwinner H616 SoC is very similar to the one
-used in the H3 chip: it contains four USB 2.0 host controllers and four
-PHYs, where the first PHY is shared with a separate USB-OTG controller.
+The USB PHY IP in the Allwinner H616 SoC requires a quirk that involves
+some resources from port 2's PHY and HCI IP. In particular the PMU clock
+for port 2 must be surely ungated before accessing the REG_HCI_PHY_CTL
+register of port 2. To allow each USB port to be controlled
+independently of port 2, we need a handle to that particular PMU clock
+in the *PHY* node, as the HCI and PHY part might be handled by separate
+drivers.
 
-But out of the four ports, only port 2 works out of the box, the other
-ports require some resources and registers of port 2 to be enabled as
-well.
+Add that clock to the requirements of the H616 PHY binding, so that a
+PHY driver can apply the quirk in isolation, without requiring help from
+port 2's HCI driver.
 
-Implement the required workaround in the Allwinner USB PHY driver, and
-key this off the respective compatible string. This core code is
-contained in patch 3/7. The first two patches add the respective DT
-binding documentation, whereas patch 4/7 encodes all the configuration
-options for the H616 USB PHY into the driver.
-The last three patches add the respective devicetree nodes, to the H616
-.dtsi, but also to the DTs of the two supported boards.
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ .../phy/allwinner,sun8i-h3-usb-phy.yaml       | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-This allows USB to be used on any H616 based machine. This was tested on
-the X96 Mate box.
-
-This series is an update on what was included in earlier versions of the
-initial H616 support series, but was later dropped to get the basic
-support in first more quickly.
-It is now based on v6.0-rc4 and is also available here:
-https://github.com/apritzel/linux/commits/h616-usb
-
-Please have a look and test on your hardware, especically on all ports
-exposed on header pins of the OrangePi Zero2 board.
-
-Cheers,
-Andre
-
-Andre Przywara (7):
-  dt-bindings: usb: Add H616 compatible string
-  dt-bindings: usb: Add special clock for Allwinner H616 PHY
-  phy: sun4i-usb: Introduce port2 SIDDQ quirk
-  phy: sun4i-usb: Add support for the H616 USB PHY
-  arm64: dts: allwinner: h616: Add USB nodes
-  arm64: dts: allwinner: h616: OrangePi Zero 2: Add USB nodes
-  arm64: dts: allwinner: h616: X96 Mate: Add USB nodes
-
- .../phy/allwinner,sun8i-h3-usb-phy.yaml       |  19 +++
- .../devicetree/bindings/usb/generic-ehci.yaml |   1 +
- .../devicetree/bindings/usb/generic-ohci.yaml |   1 +
- .../allwinner/sun50i-h616-orangepi-zero2.dts  |  42 +++++
- .../dts/allwinner/sun50i-h616-x96-mate.dts    |  25 +++
- .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 160 ++++++++++++++++++
- drivers/phy/allwinner/phy-sun4i-usb.c         |  71 ++++++++
- 7 files changed, 319 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml
+index e288450e0844..3a3168392597 100644
+--- a/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml
+@@ -36,18 +36,22 @@ properties:
+       - const: pmu3
+ 
+   clocks:
++    minItems: 4
+     items:
+       - description: USB OTG PHY bus clock
+       - description: USB Host 0 PHY bus clock
+       - description: USB Host 1 PHY bus clock
+       - description: USB Host 2 PHY bus clock
++      - description: PMU clock for host port 2
+ 
+   clock-names:
++    minItems: 4
+     items:
+       - const: usb0_phy
+       - const: usb1_phy
+       - const: usb2_phy
+       - const: usb3_phy
++      - const: pmu2_clk
+ 
+   resets:
+     items:
+@@ -98,6 +102,21 @@ required:
+ 
+ additionalProperties: false
+ 
++if:
++  properties:
++    compatible:
++      contains:
++        enum:
++          - sun50i-h616-usb-phy
++
++then:
++  properties:
++    clocks:
++      minItems: 5
++
++    clock-names:
++      minItems: 5
++
+ examples:
+   - |
+     #include <dt-bindings/gpio/gpio.h>
 -- 
 2.35.3
 
