@@ -1,108 +1,94 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56CE7F
-	for <linux-sunxi@lists.linux.dev>; Sun, 11 Sep 2022 13:28:44 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id bq23so10653554lfb.7
-        for <linux-sunxi@lists.linux.dev>; Sun, 11 Sep 2022 06:28:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 026957F
+	for <linux-sunxi@lists.linux.dev>; Sun, 11 Sep 2022 14:57:30 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id f9so10151234lfr.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 11 Sep 2022 07:57:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=+9UPKb7Ii6FzBDArfIx0mfVT3Zwlk63jeV9czZ35D+0=;
-        b=me0+3UlNEKv/v6DZqOPfcO4uSIDs3xkvdhHto4CLAR3VdMynR1c1Kbm3ZYrqIGKYfJ
-         VLVB5MrinHp2+2Q3tl+14ZONtMbB+Xr6x0VJpnggNCZYXJwf7RTHoyqiOp+Vl6vjYZGg
-         a5j3ubD8QHTK+OTZsBZ8ny6TrkyuCzAIkTLpMQW6OJFkU0x2x3TWHcH9lX4H1SsMoEsd
-         v0pgK4CNWQjqw2ZBDAGNeIfkOzqmTcl6bfO+pJv55s0Df1cqB7wmquEsIOuZHuD5DTKF
-         d9P1NH3QDR3ctRs0Im7NPYhBI78zEj/plZZlyMypPV4D9IRJeWwZsvcQiEZ9fkXpvZAS
-         q+3Q==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=eAQ7pZ3gOqppStIbzWQfQ4sG+iuDRIjLuat0vE00Rkw=;
+        b=i/f4nXEJosWajMhzlcgxo2AeRYy8/SU8YuJsy/YUexGUSfmdHSfyaXFHg67uwCzsZb
+         CR/VJbhPFE3qG02Dz87HQ9kq3KyWDatY6+wb99maWe+95+TNU45rKgTiCOv+VSP/9V1V
+         vguqDDgMyaJ1D8i7P6UXyIX41SjYzJx6HmUoG126H/Q+EzuVmAZ7DYCLqVHx3IapunVh
+         v1m5TVQdblRjU6beiAIxjsWfs76gCfl3dAqV45FHzMxtddBYYRobhEMYXGHeotwh+sXv
+         1Rq2SavvkmaOgsDp+osvWjbzAHvUIG/Vop9j/gtmGReUBz7NqGju/T7zQxZKpe2oyA2a
+         xvcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=+9UPKb7Ii6FzBDArfIx0mfVT3Zwlk63jeV9czZ35D+0=;
-        b=htf2A+PqALRBUsJJJSWkZOedNP0ejYL90lt0gWSfQW2z0uX9QpYQFaR0uHEE9dvhqG
-         5wqG8/hYxWxCsVcLBbAn99FpIRb4Vu/CHaw9l5sjfsH0Z+VhtNm7v+qF6w9EK8E6UTwM
-         F+dcoBNSFkHzXAUzhfRNBnyEppXI6R78bBdlP43N6xQGKe0aqkW2aGGMFUkCvWuoqrxg
-         xCeBXRft1fMzVjBDU13b9jb5jqjH9FunzCsxWBWCMVo+t9e0B25hrGwKYc85BtRThQtT
-         gi9QOLnV1xg18f5ZvMGWkFsCMwEn+EmJvXA4bHKzVBcia9HgjKziSERIQ0VGzawgt5db
-         TWLA==
-X-Gm-Message-State: ACgBeo1txLQNvqf29+OdQQikDYv4QxKQIns7PXBGcN5V2i/GuXqqTw0V
-	fmYVi2VQor5ObRRYVsIu3nxfEg==
-X-Google-Smtp-Source: AA6agR5Qa+jJgnLCmlDWo1wDT3VmVkwiXfyp+ekNEOEo4vuUYmkt4gZpNxtizVLDAYMar2xpMDVxVw==
-X-Received: by 2002:a05:6512:280d:b0:498:fd40:51d4 with SMTP id cf13-20020a056512280d00b00498fd4051d4mr4083477lfb.167.1662902922803;
-        Sun, 11 Sep 2022 06:28:42 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id bj24-20020a2eaa98000000b0026acfe1b3b4sm674886ljb.17.2022.09.11.06.28.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Sep 2022 06:28:42 -0700 (PDT)
-Message-ID: <1bfa4397-47a1-ea46-5ced-8b69fb2452c0@linaro.org>
-Date: Sun, 11 Sep 2022 15:28:41 +0200
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=eAQ7pZ3gOqppStIbzWQfQ4sG+iuDRIjLuat0vE00Rkw=;
+        b=rN7VfIfDY7Ugu+KNc6ciDvcCxybBQfpqf2LdXrc5S/Z3mUf5VRINjFIw/o1uQ7oLAG
+         ttMzmskNp8SvurpQ8ksDHdBCji0p8dJvruJvaXKwi7Lg4ZJygmMzcZ33D5aAJylEjb/a
+         rpR4zbzb3WdErBP09k5C9skXzAqedSz4rATb75qOBqNtslidgrDiX8Q9yrYeSqlu5ewC
+         oyDt0fxxrRrYZ12A0k2WNFdqoK6e2Zxgqm//Wpd70mPiP12H8yUX/8U3Y49BhB2cM/La
+         4s5RSm+P6WIw1uunbFWK3A3tYuIO3/XnPT5Wf8f/6FPB/GIpjuqNxs0lvLcz9BOim7aL
+         qVjw==
+X-Gm-Message-State: ACgBeo13vZWz773U6AhdTz2Wfrg01HmH/TyDojJBw7EDkH/knYaCeAjP
+	TQi9I56Uayax3js2QVAT478=
+X-Google-Smtp-Source: AA6agR4dOV0r3KZlPBj/fj8prupK0Ya8fCrBCJbZOIV671RYwn5zSNIK6JfGj+HSnJYrgcAzn07meQ==
+X-Received: by 2002:a05:6512:3090:b0:48b:6e1:1b55 with SMTP id z16-20020a056512309000b0048b06e11b55mr8106591lfd.535.1662908248930;
+        Sun, 11 Sep 2022 07:57:28 -0700 (PDT)
+Received: from localhost (95-31-185-216.broadband.corbina.ru. [95.31.185.216])
+        by smtp.gmail.com with ESMTPSA id k5-20020a2e9205000000b0026181f65600sm675817ljg.136.2022.09.11.07.57.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Sep 2022 07:57:28 -0700 (PDT)
+From: Mikhail Rudenko <mike.rudenko@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Mikhail Rudenko <mike.rudenko@gmail.com>,
+	alsa-devel@alsa-project.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] ASoC: sunxi: sun4i-codec: silence misleading error in probe
+Date: Sun, 11 Sep 2022 17:57:11 +0300
+Message-Id: <20220911145713.55199-1-mike.rudenko@gmail.com>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v9 2/2] ASoC: sun50i-dmic: dt-bindings: add DT bindings
- for DMIC controller
-Content-Language: en-US
-To: =?UTF-8?B?54+t5rab?= <fengzheng923@gmail.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <1661872039-40174-1-git-send-email-fengzheng923@gmail.com>
- <25072fba-64e2-df11-c8f0-a274037141f0@linaro.org>
- <CAE=m619qeaDYkWiB5kh50gY1Kndyrvo4oZuZjFKRCKK=j99K2w@mail.gmail.com>
- <0b8b2e01-5209-6437-c79e-3cff9b29bfcb@linaro.org>
- <CAE=m618WS-RKgWn6r1=Zfsd5N-gp3A4S725RtbDKDQ4PLsBk5w@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAE=m618WS-RKgWn6r1=Zfsd5N-gp3A4S725RtbDKDQ4PLsBk5w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 11/09/2022 08:18, 班涛 wrote:
-> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> 于2022年9月8日周四 17:22写道：
-> 
->> On 07/09/2022 15:03, 班涛 wrote:
->>>>> +++
->>>> b/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml
->>>>> @@ -0,0 +1,79 @@
->>>>> +# SPDX-License-Identifier: (GPL-2.0+ OR BSD-2-Clause)
->>>>> +%YAML 1.2
->>>>> +---
->>>>> +$id:
->> http://devicetree.org/schemas/sound/allwinner,sun50i-h6-dmic.yaml#
->>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>>> +
->>>>> +title: Allwinner H6 DMIC Device Tree Bindings
->>>>
->>>> s/Device Tree Bindings//
->>>>
->>>
->>> So, modify it to 'Allwinner H6 DMIC Devices Tree Bindings', sure?
->>
->> You pasted the same message, so what is the modification? I wrote you a
->>  search&replace pattern.
->>
-> 
-> "s/Device Tree Bindings//"
-> I don't understand what you mean.
+In the case when a codec device is probed before codec analog
+controls, snd_soc_register_card() returns -EPROBE_DEFER, resulting in
+a misleading error message
 
-It's a search&replace command from Unix tools...
+    sun4i-codec 1c22c00.codec: Failed to register our card
 
-https://www.cyberciti.biz/faq/how-to-use-sed-to-find-and-replace-text-in-files-in-linux-unix-shell/
+even if the device is probed successfully later. Use dev_err_probe()
+to demote the above error to a debug message.
 
-https://vim.fandom.com/wiki/Search_and_replace#Basic_search_and_replace
+Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
+---
+ sound/soc/sunxi/sun4i-codec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Just remove that string.
+diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
+index 60712f24ade5..01b461c64d68 100644
+--- a/sound/soc/sunxi/sun4i-codec.c
++++ b/sound/soc/sunxi/sun4i-codec.c
+@@ -1825,7 +1825,7 @@ static int sun4i_codec_probe(struct platform_device *pdev)
+ 
+ 	ret = snd_soc_register_card(card);
+ 	if (ret) {
+-		dev_err(&pdev->dev, "Failed to register our card\n");
++		dev_err_probe(&pdev->dev, ret, "Failed to register our card\n");
+ 		goto err_assert_reset;
+ 	}
+ 
+-- 
+2.37.3
 
-
-Best regards,
-Krzysztof
