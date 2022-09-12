@@ -1,565 +1,143 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C74B7F
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Sep 2022 06:46:42 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id 9so7646856plj.11
-        for <linux-sunxi@lists.linux.dev>; Sun, 11 Sep 2022 23:46:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=j4PjTccEHYjDAuf3hVA7eWXv6Iz54soeMzMlWCGF0To=;
-        b=F+Nio2awuO+Cikv2ptj7D0EiPaHp7+2G8sp4ODZCuoCaBVdULE9EIdE0fXxZTtMOyv
-         VTEbrbOM4jPLTN3pf6STQx/kjQumyOmZiigdj1pwSPadH3lw4o+R+8kflycvOV9Sndn8
-         cj70o74Ysqpn427lYBRZy3Og4cIsG1rW5Ro1boQ/M4niHCvPllkV21tugCxj7OuY76MM
-         VJ94jTW0rUvMQYyA2OosHVb9+/cSYxuD3UqRbUTeOkTx1AxTlAjT4t3p+tHA5P/I6PKw
-         f/lyIMEODt+duz2xucHhSOHBtKQJQIM/dzT/2ztBkZwCnnZgSoGr3qlq5jaO/YXOfP/7
-         Yjuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=j4PjTccEHYjDAuf3hVA7eWXv6Iz54soeMzMlWCGF0To=;
-        b=1q5sdGieMe/3LLa6lISEtQyl5IPdUPp4bIeMnmYL5Rsxw+IviqqpNPKai9LigOwhTf
-         YinhhDi1J9LIw9uS1W5+3/PgKDVuAGnxh2ztFh4SDAzTIJSRZVC9nuGy2mySULrYCtpH
-         oLa9dJi3HMZMvN74r3vOhKa95ETsdSjtdPkl/dhpN72j6hRGP8fFy3yXIbo15V7riLbc
-         ZwjttdVZFf9WAlGc5my+9FJ0Khp7XRO/64ZfRG95M2e5YIF+WtUlOdP70HVZXKaSteWB
-         s+7JpnVLBpla5cPEuiJuKEj3nFTP9lJ2f7qRShpAXIaQTJNAQL3xUYa/O4oCGUqCmBbf
-         lQkw==
-X-Gm-Message-State: ACgBeo2pSDu4fu9exuEPpIbsnKJDg+2t9482vh1pBgCzL68IGreZmaa1
-	NNjVlte+GxzoIgFQGpN/Bg==
-X-Google-Smtp-Source: AA6agR7w4e1ZQ953H7iXYAVe9XFnfJKALiZH/QVbFS6KNIW09oP5iQi/un0KgCoU4C7vt58nHLXxYg==
-X-Received: by 2002:a17:902:cec8:b0:178:1b77:5afe with SMTP id d8-20020a170902cec800b001781b775afemr10077240plg.63.1662965201656;
-        Sun, 11 Sep 2022 23:46:41 -0700 (PDT)
-Received: from localhost.localdomain ([113.110.235.160])
-        by smtp.gmail.com with ESMTPSA id a2-20020a170902710200b00172f4835f60sm5025954pll.189.2022.09.11.23.46.36
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 11 Sep 2022 23:46:40 -0700 (PDT)
-From: Ban Tao <fengzheng923@gmail.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	fengzheng923@gmail.com
-Cc: linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-arm-kernel@lists.infradead.org,
+Received: from m12-15.163.com (m12-15.163.com [220.181.12.15])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C8CE7F
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Sep 2022 06:49:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=4EqH1
+	chU5d770X/kuYiWfOyfZ4c8rIYHHXZj6bS5NoQ=; b=al1qouJMZuNywPpg9ueYg
+	WsmLBT7us/rp7Hte28eU+NTZRVhFQnX014VSfu/tIQvHRyqo0JqXv5c2h2gsk+rv
+	3gcnStvgcTF8m0MwqPa5zY+hhX79VkKE1Y80oGhjhj9JV2vGLT0tMezIcztXiqzc
+	UnBZdCqAZDBX/N3uKO0EGw=
+Received: from DESKTOP-B1R4FVG.localdomain (unknown [218.201.129.20])
+	by smtp11 (Coremail) with SMTP id D8CowAC353W60h5jxXlpBQ--.26310S2;
+	Mon, 12 Sep 2022 14:33:32 +0800 (CST)
+From: qianfanguijin@163.com
+To: linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v10 1/2] ASoC: sunxi: Add Allwinner H6 Digital MIC driver
-Date: Sun, 11 Sep 2022 23:45:33 -0700
-Message-Id: <1662965133-9232-1-git-send-email-fengzheng923@gmail.com>
-X-Mailer: git-send-email 2.7.4
+Cc: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Evgeny Boger <boger@wirenboard.com>,
+	Andre Przywara <andre.przywara@arm.com>,
+	=?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+	qianfan Zhao <qianfanguijin@163.com>
+Subject: [PATCH v2] net: allwinner: emac: Fix double spinlock in emac_timeout
+Date: Mon, 12 Sep 2022 14:33:31 +0800
+Message-Id: <20220912063331.23369-1-qianfanguijin@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:D8CowAC353W60h5jxXlpBQ--.26310S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxuryrCF45KrWkWw15Zr15XFb_yoWrCFyfpF
+	yUAa48Cw4xX3Wqvw4xtrW0qFWvq3Zay34xCr4xAw4fuFn3G34rXFy8tFy2kFWYyrZrAa47
+	KF1qy3ySkF4kXaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pisqXdUUUUU=
+X-Originating-IP: [218.201.129.20]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiGhx67VaECzBFRAAAs5
 
-The Allwinner H6 and later SoCs have an DMIC block
-which is capable of capture.
+From: qianfan Zhao <qianfanguijin@163.com>
 
-Signed-off-by: Ban Tao <fengzheng923@gmail.com>
-Tested-by: Samuel Holland <samuel@sholland.org>
+emac_timeout() callback acquires lock and so does emac_init_device(),
+which called inside lock protected region. This hangs the system and
+produces following warning:
+
+WARNING: CPU: 2 PID: 0 at net/sched/sch_generic.c:478
+dev_watchdog+0x2e4/0x2e8
+NETDEV WATCHDOG: FE0 (sun4i-emac): transmit queue 0 timed out
+Modules linked in:
+CPU: 2 PID: 0 Comm: swapper/2 Tainted: G W 5.15.0-00047-g0848e4aeb313
+Hardware name: Wisdom T3 based CCT Family
+[<c010f740>] (unwind_backtrace) from [<c010b744>] (show_stack+0x10/0x14)
+[<c010b744>] (show_stack) from [<c0a4d978>] (dump_stack_lvl+0x40/0x4c)
+[<c0a4d978>] (dump_stack_lvl) from [<c0120734>] (__warn+0x104/0x108)
+[<c0120734>] (__warn) from [<c01207b0>] (warn_slowpath_fmt+0x78/0xbc)
+[<c01207b0>] (warn_slowpath_fmt) from [<c0898a54>]
+(dev_watchdog+0x2e4/0x2e8)
+[<c0898a54>] (dev_watchdog) from [<c019a888>] (call_timer_fn+0x3c/0x178)
+[<c019a888>] (call_timer_fn) from [<c019bddc>]
+(run_timer_softirq+0x540/0x624)
+[<c019bddc>] (run_timer_softirq) from [<c0101298>]
+(__do_softirq+0x130/0x3bc)
+[<c0101298>] (__do_softirq) from [<c0127ea0>] (irq_exit+0xbc/0x100)
+[<c0127ea0>] (irq_exit) from [<c017e514>] (handle_domain_irq+0x60/0x78)
+[<c017e514>] (handle_domain_irq) from [<c05a6130>]
+(gic_handle_irq+0x7c/0x90)
+[<c05a6130>] (gic_handle_irq) from [<c0100afc>] (__irq_svc+0x5c/0x78)
+Exception stack(0xc14f3f70 to 0xc14f3fb8)
+3f60:                                     0003475c 00000000 00000001
+c01188a0
+3f80: c107b200 c0f06b4c c0f06b90 00000004 c1079ff8 c0c62774 00000000
+00000000
+3fa0: c10b2198 c14f3fc0 c0107fcc c0107fd0 60030013 ffffffff
+[<c0100afc>] (__irq_svc) from [<c0107fd0>] (arch_cpu_idle+0x38/0x3c)
+[<c0107fd0>] (arch_cpu_idle) from [<c0a57f38>]
+(default_idle_call+0x3c/0xcc)
+[<c0a57f38>] (default_idle_call) from [<c0157258>] (do_idle+0xdc/0x13c)
+[<c0157258>] (do_idle) from [<c01575a4>] (cpu_startup_entry+0x18/0x1c)
+[<c01575a4>] (cpu_startup_entry) from [<401015d0>] (0x401015d0)
+---[ end trace a70942a1265338f1 ]---
+rcu: INFO: rcu_sched detected stalls on CPUs/tasks:
+rcu: \x092-...0: (1 GPs behind) idle=75d/0/0x1 softirq=8288/8289 fqs=931
+\x09(detected by 0, t=2102 jiffies, g=13485, q=1635)
+Sending NMI from CPU 0 to CPUs 2:
+spi_master spi2: spi2.1: timeout transferring 4 bytes@100000Hz for
+110(100)ms
+spidev spi2.1: SPI transfer failed: -110
+
+Fixes: 492205050d77b (net: Add EMAC ethernet driver found on Allwinner A10 SoC's)
+Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
 ---
-v1->v2:
-1.Fix some compilation errors.
-2.Modify some code styles.
+ drivers/net/ethernet/allwinner/sun4i-emac.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-v2->v3:
-None.
-
-v3->v4:
-1.add sig_bits.
-
-v4->v5:
-None.
-
-v5->v6:
-1.Modify RXFIFO_CTL_MODE to mode 1.
-
-v6->v7:
-1.Modify dmic_rate_s to be a global variable.
-2.Changed some macro names to make more sense.
-3.Align code format.
-4.Add a depends on PM to Kconfig entry.
-
-v7->v8:
-None.
-
-v8->v9:
-1.Modified Kconfig.
-2.Added a comment.
-
-v9->v10:
-None.
----
- MAINTAINERS                   |   7 +
- sound/soc/sunxi/Kconfig       |   7 +
- sound/soc/sunxi/Makefile      |   1 +
- sound/soc/sunxi/sun50i-dmic.c | 406 ++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 421 insertions(+)
- create mode 100644 sound/soc/sunxi/sun50i-dmic.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e9d5b05..839f625 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -796,6 +796,13 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	drivers/staging/media/sunxi/cedrus/
+diff --git a/drivers/net/ethernet/allwinner/sun4i-emac.c b/drivers/net/ethernet/allwinner/sun4i-emac.c
+index 49759deeed8e..034989b396f7 100644
+--- a/drivers/net/ethernet/allwinner/sun4i-emac.c
++++ b/drivers/net/ethernet/allwinner/sun4i-emac.c
+@@ -378,14 +378,11 @@ static int emac_set_mac_address(struct net_device *dev, void *p)
+ }
  
-+ALLWINNER DMIC DRIVERS
-+M:	Ban Tao <fengzheng923@gmail.com>
-+L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml
-+F:	sound/soc/sunxi/sun50i-dmic.c
-+
- ALPHA PORT
- M:	Richard Henderson <rth@twiddle.net>
- M:	Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-diff --git a/sound/soc/sunxi/Kconfig b/sound/soc/sunxi/Kconfig
-index ddcaaa9..1f18f01 100644
---- a/sound/soc/sunxi/Kconfig
-+++ b/sound/soc/sunxi/Kconfig
-@@ -56,6 +56,13 @@ config SND_SUN4I_SPDIF
- 	  Say Y or M to add support for the S/PDIF audio block in the Allwinner
- 	  A10 and affiliated SoCs.
+ /* Initialize emac board */
+-static void emac_init_device(struct net_device *dev)
++static void emac_init_device_no_lock(struct net_device *dev)
+ {
+ 	struct emac_board_info *db = netdev_priv(dev);
+-	unsigned long flags;
+ 	unsigned int reg_val;
  
-+config SND_SUN50I_DMIC
-+	tristate "Allwinner H6 DMIC Support"
-+	select SND_SOC_GENERIC_DMAENGINE_PCM
-+	help
-+	  Say Y or M to add support for the DMIC audio block in the Allwinner
-+	  H6 and affiliated SoCs.
-+
- config SND_SUN8I_ADDA_PR_REGMAP
- 	tristate
- 	select REGMAP
-diff --git a/sound/soc/sunxi/Makefile b/sound/soc/sunxi/Makefile
-index a86be34..4483fe9 100644
---- a/sound/soc/sunxi/Makefile
-+++ b/sound/soc/sunxi/Makefile
-@@ -6,3 +6,4 @@ obj-$(CONFIG_SND_SUN8I_CODEC_ANALOG) += sun8i-codec-analog.o
- obj-$(CONFIG_SND_SUN50I_CODEC_ANALOG) += sun50i-codec-analog.o
- obj-$(CONFIG_SND_SUN8I_CODEC) += sun8i-codec.o
- obj-$(CONFIG_SND_SUN8I_ADDA_PR_REGMAP) += sun8i-adda-pr-regmap.o
-+obj-$(CONFIG_SND_SUN50I_DMIC) += sun50i-dmic.o
-diff --git a/sound/soc/sunxi/sun50i-dmic.c b/sound/soc/sunxi/sun50i-dmic.c
-new file mode 100644
-index 0000000..cd3c07f
---- /dev/null
-+++ b/sound/soc/sunxi/sun50i-dmic.c
-@@ -0,0 +1,406 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+//
-+// This driver supports the DMIC in Allwinner's H6 SoCs.
-+//
-+// Copyright 2021 Ban Tao <fengzheng923@gmail.com>
-+
-+#include <linux/clk.h>
-+#include <linux/device.h>
-+#include <linux/of_device.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/reset.h>
-+#include <sound/dmaengine_pcm.h>
-+#include <sound/pcm_params.h>
-+#include <sound/soc.h>
-+
-+#define SUN50I_DMIC_EN_CTL			(0x00)
-+	#define SUN50I_DMIC_EN_CTL_GLOBE			BIT(8)
-+	#define SUN50I_DMIC_EN_CTL_CHAN(v)			((v) << 0)
-+	#define SUN50I_DMIC_EN_CTL_CHAN_MASK			GENMASK(7, 0)
-+#define SUN50I_DMIC_SR				(0x04)
-+	#define SUN50I_DMIC_SR_SAMPLE_RATE(v)			((v) << 0)
-+	#define SUN50I_DMIC_SR_SAMPLE_RATE_MASK			GENMASK(2, 0)
-+#define SUN50I_DMIC_CTL				(0x08)
-+	#define SUN50I_DMIC_CTL_OVERSAMPLE_RATE			BIT(0)
-+#define SUN50I_DMIC_DATA			(0x10)
-+#define SUN50I_DMIC_INTC			(0x14)
-+	#define SUN50I_DMIC_FIFO_DRQ_EN				BIT(2)
-+#define SUN50I_DMIC_INT_STA			(0x18)
-+	#define SUN50I_DMIC_INT_STA_OVERRUN_IRQ_PENDING		BIT(1)
-+	#define SUN50I_DMIC_INT_STA_DATA_IRQ_PENDING		BIT(0)
-+#define SUN50I_DMIC_RXFIFO_CTL			(0x1c)
-+	#define SUN50I_DMIC_RXFIFO_CTL_FLUSH			BIT(31)
-+	#define SUN50I_DMIC_RXFIFO_CTL_MODE_MASK		BIT(9)
-+	#define SUN50I_DMIC_RXFIFO_CTL_MODE_LSB			(0 << 9)
-+	#define SUN50I_DMIC_RXFIFO_CTL_MODE_MSB			(1 << 9)
-+	#define SUN50I_DMIC_RXFIFO_CTL_SAMPLE_MASK		BIT(8)
-+	#define SUN50I_DMIC_RXFIFO_CTL_SAMPLE_16		(0 << 8)
-+	#define SUN50I_DMIC_RXFIFO_CTL_SAMPLE_24		(1 << 8)
-+#define SUN50I_DMIC_CH_NUM			(0x24)
-+	#define SUN50I_DMIC_CH_NUM_N(v)				((v) << 0)
-+	#define SUN50I_DMIC_CH_NUM_N_MASK			GENMASK(2, 0)
-+#define SUN50I_DMIC_CNT				(0x2c)
-+	#define SUN50I_DMIC_CNT_N				(1 << 0)
-+#define SUN50I_DMIC_HPF_CTRL			(0x38)
-+#define SUN50I_DMIC_VERSION			(0x50)
-+
-+struct sun50i_dmic_dev {
-+	struct clk *dmic_clk;
-+	struct clk *bus_clk;
-+	struct reset_control *rst;
-+	struct regmap *regmap;
-+	struct snd_dmaengine_dai_dma_data dma_params_rx;
-+};
-+
-+struct dmic_rate {
-+	unsigned int samplerate;
-+	unsigned int rate_bit;
-+};
-+
-+const static struct dmic_rate dmic_rate_s[] = {
-+	{48000, 0x0},
-+	{44100, 0x0},
-+	{32000, 0x1},
-+	{24000, 0x2},
-+	{22050, 0x2},
-+	{16000, 0x3},
-+	{12000, 0x4},
-+	{11025, 0x4},
-+	{8000,  0x5},
-+};
-+
-+static int sun50i_dmic_startup(struct snd_pcm_substream *substream,
-+			       struct snd_soc_dai *cpu_dai)
-+{
-+	struct snd_soc_pcm_runtime *rtd = substream->private_data;
-+	struct sun50i_dmic_dev *host = snd_soc_dai_get_drvdata(asoc_rtd_to_cpu(rtd, 0));
-+
-+	/* only support capture */
-+	if (substream->stream != SNDRV_PCM_STREAM_CAPTURE)
-+		return -EINVAL;
-+
-+	regmap_update_bits(host->regmap, SUN50I_DMIC_RXFIFO_CTL,
-+			SUN50I_DMIC_RXFIFO_CTL_FLUSH,
-+			SUN50I_DMIC_RXFIFO_CTL_FLUSH);
-+	regmap_write(host->regmap, SUN50I_DMIC_CNT, SUN50I_DMIC_CNT_N);
-+
-+	return 0;
+-	spin_lock_irqsave(&db->lock, flags);
+-
+ 	emac_update_speed(dev);
+ 	emac_update_duplex(dev);
+ 
+@@ -398,7 +395,15 @@ static void emac_init_device(struct net_device *dev)
+ 	reg_val = readl(db->membase + EMAC_INT_CTL_REG);
+ 	reg_val |= (0xf << 0) | (0x01 << 8);
+ 	writel(reg_val, db->membase + EMAC_INT_CTL_REG);
 +}
 +
-+static int sun50i_dmic_hw_params(struct snd_pcm_substream *substream,
-+				 struct snd_pcm_hw_params *params,
-+				 struct snd_soc_dai *cpu_dai)
++static void emac_init_device(struct net_device *dev)
 +{
-+	int i = 0;
-+	unsigned long rate = params_rate(params);
-+	unsigned int mclk = 0;
-+	unsigned int channels = params_channels(params);
-+	unsigned int chan_en = (1 << channels) - 1;
-+	struct sun50i_dmic_dev *host = snd_soc_dai_get_drvdata(cpu_dai);
-+
-+	/* DMIC num is N+1 */
-+	regmap_update_bits(host->regmap, SUN50I_DMIC_CH_NUM,
-+			   SUN50I_DMIC_CH_NUM_N_MASK,
-+			   SUN50I_DMIC_CH_NUM_N(channels - 1));
-+	regmap_write(host->regmap, SUN50I_DMIC_HPF_CTRL, chan_en);
-+	regmap_update_bits(host->regmap, SUN50I_DMIC_EN_CTL,
-+			   SUN50I_DMIC_EN_CTL_CHAN_MASK,
-+			   SUN50I_DMIC_EN_CTL_CHAN(chan_en));
-+
-+	switch (params_format(params)) {
-+	case SNDRV_PCM_FORMAT_S16_LE:
-+		regmap_update_bits(host->regmap, SUN50I_DMIC_RXFIFO_CTL,
-+				   SUN50I_DMIC_RXFIFO_CTL_SAMPLE_MASK,
-+				   SUN50I_DMIC_RXFIFO_CTL_SAMPLE_16);
-+		break;
-+	case SNDRV_PCM_FORMAT_S24_LE:
-+		regmap_update_bits(host->regmap, SUN50I_DMIC_RXFIFO_CTL,
-+				   SUN50I_DMIC_RXFIFO_CTL_SAMPLE_MASK,
-+				   SUN50I_DMIC_RXFIFO_CTL_SAMPLE_24);
-+		break;
-+	default:
-+		dev_err(cpu_dai->dev, "Invalid format!\n");
-+		return -EINVAL;
-+	}
-+	/* The hardware supports FIFO mode 1 for 24-bit samples */
-+	regmap_update_bits(host->regmap, SUN50I_DMIC_RXFIFO_CTL,
-+			   SUN50I_DMIC_RXFIFO_CTL_MODE_MASK,
-+			   SUN50I_DMIC_RXFIFO_CTL_MODE_MSB);
-+
-+	switch (rate) {
-+	case 11025:
-+	case 22050:
-+	case 44100:
-+		mclk = 22579200;
-+		break;
-+	case 8000:
-+	case 12000:
-+	case 16000:
-+	case 24000:
-+	case 32000:
-+	case 48000:
-+		mclk = 24576000;
-+		break;
-+	default:
-+		dev_err(cpu_dai->dev, "Invalid rate!\n");
-+		return -EINVAL;
-+	}
-+
-+	if (clk_set_rate(host->dmic_clk, mclk)) {
-+		dev_err(cpu_dai->dev, "mclk : %u not support\n", mclk);
-+		return -EINVAL;
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(dmic_rate_s); i++) {
-+		if (dmic_rate_s[i].samplerate == rate) {
-+			regmap_update_bits(host->regmap, SUN50I_DMIC_SR,
-+					   SUN50I_DMIC_SR_SAMPLE_RATE_MASK,
-+					   SUN50I_DMIC_SR_SAMPLE_RATE(dmic_rate_s[i].rate_bit));
-+			break;
-+		}
-+	}
-+
-+	switch (params_physical_width(params)) {
-+	case 16:
-+		host->dma_params_rx.addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
-+		break;
-+	case 32:
-+		host->dma_params_rx.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
-+		break;
-+	default:
-+		dev_err(cpu_dai->dev, "Unsupported physical sample width: %d\n",
-+			params_physical_width(params));
-+		return -EINVAL;
-+	}
-+
-+	/* oversamplerate adjust */
-+	if (params_rate(params) >= 24000)
-+		regmap_update_bits(host->regmap, SUN50I_DMIC_CTL,
-+				   SUN50I_DMIC_CTL_OVERSAMPLE_RATE,
-+				   SUN50I_DMIC_CTL_OVERSAMPLE_RATE);
-+	else
-+		regmap_update_bits(host->regmap, SUN50I_DMIC_CTL,
-+				   SUN50I_DMIC_CTL_OVERSAMPLE_RATE, 0);
-+
-+	return 0;
-+}
-+
-+static int sun50i_dmic_trigger(struct snd_pcm_substream *substream, int cmd,
-+			       struct snd_soc_dai *dai)
-+{
-+	int ret = 0;
-+	struct sun50i_dmic_dev *host = snd_soc_dai_get_drvdata(dai);
-+
-+	if (substream->stream != SNDRV_PCM_STREAM_CAPTURE)
-+		return -EINVAL;
-+
-+	switch (cmd) {
-+	case SNDRV_PCM_TRIGGER_START:
-+	case SNDRV_PCM_TRIGGER_RESUME:
-+	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-+		/* DRQ ENABLE */
-+		regmap_update_bits(host->regmap, SUN50I_DMIC_INTC,
-+				   SUN50I_DMIC_FIFO_DRQ_EN,
-+				   SUN50I_DMIC_FIFO_DRQ_EN);
-+		/* Global enable */
-+		regmap_update_bits(host->regmap, SUN50I_DMIC_EN_CTL,
-+				   SUN50I_DMIC_EN_CTL_GLOBE,
-+				   SUN50I_DMIC_EN_CTL_GLOBE);
-+		break;
-+	case SNDRV_PCM_TRIGGER_STOP:
-+	case SNDRV_PCM_TRIGGER_SUSPEND:
-+	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-+		/* DRQ DISABLE */
-+		regmap_update_bits(host->regmap, SUN50I_DMIC_INTC,
-+				   SUN50I_DMIC_FIFO_DRQ_EN, 0);
-+		/* Global disable */
-+		regmap_update_bits(host->regmap, SUN50I_DMIC_EN_CTL,
-+				   SUN50I_DMIC_EN_CTL_GLOBE, 0);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+	return ret;
-+}
-+
-+static int sun50i_dmic_soc_dai_probe(struct snd_soc_dai *dai)
-+{
-+	struct sun50i_dmic_dev *host = snd_soc_dai_get_drvdata(dai);
-+
-+	snd_soc_dai_init_dma_data(dai, NULL, &host->dma_params_rx);
-+
-+	return 0;
-+}
-+
-+static const struct snd_soc_dai_ops sun50i_dmic_dai_ops = {
-+	.startup        = sun50i_dmic_startup,
-+	.trigger        = sun50i_dmic_trigger,
-+	.hw_params      = sun50i_dmic_hw_params,
-+};
-+
-+static const struct regmap_config sun50i_dmic_regmap_config = {
-+	.reg_bits = 32,
-+	.reg_stride = 4,
-+	.val_bits = 32,
-+	.max_register = SUN50I_DMIC_VERSION,
-+	.cache_type = REGCACHE_NONE,
-+};
-+
-+#define SUN50I_DMIC_RATES (SNDRV_PCM_RATE_8000_48000)
-+#define SUN50I_DMIC_FORMATS (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE)
-+
-+static struct snd_soc_dai_driver sun50i_dmic_dai = {
-+	.capture = {
-+		.channels_min = 1,
-+		.channels_max = 8,
-+		.rates = SUN50I_DMIC_RATES,
-+		.formats = SUN50I_DMIC_FORMATS,
-+		.sig_bits = 21,
-+	},
-+	.probe = sun50i_dmic_soc_dai_probe,
-+	.ops = &sun50i_dmic_dai_ops,
-+	.name = "dmic",
-+};
-+
-+static const struct of_device_id sun50i_dmic_of_match[] = {
-+	{
-+		.compatible = "allwinner,sun50i-h6-dmic",
-+	},
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, sun50i_dmic_of_match);
-+
-+static const struct snd_soc_component_driver sun50i_dmic_component = {
-+	.name           = "sun50i-dmic",
-+};
-+
-+static int sun50i_dmic_runtime_suspend(struct device *dev)
-+{
-+	struct sun50i_dmic_dev *host  = dev_get_drvdata(dev);
-+
-+	clk_disable_unprepare(host->dmic_clk);
-+	clk_disable_unprepare(host->bus_clk);
-+
-+	return 0;
-+}
-+
-+static int sun50i_dmic_runtime_resume(struct device *dev)
-+{
-+	struct sun50i_dmic_dev *host  = dev_get_drvdata(dev);
-+	int ret;
-+
-+	ret = clk_prepare_enable(host->dmic_clk);
-+	if (ret)
-+		return ret;
-+
-+	ret = clk_prepare_enable(host->bus_clk);
-+	if (ret) {
-+		clk_disable_unprepare(host->dmic_clk);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int sun50i_dmic_probe(struct platform_device *pdev)
-+{
-+	struct sun50i_dmic_dev *host;
-+	struct resource *res;
-+	int ret;
-+	void __iomem *base;
-+
-+	host = devm_kzalloc(&pdev->dev, sizeof(*host), GFP_KERNEL);
-+	if (!host)
-+		return -ENOMEM;
-+
-+	/* Get the addresses */
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	base = devm_ioremap_resource(&pdev->dev, res);
-+	if (IS_ERR(base))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(base),
-+				     "get resource failed.\n");
-+
-+	host->regmap = devm_regmap_init_mmio(&pdev->dev, base,
-+					     &sun50i_dmic_regmap_config);
-+
-+	/* Clocks */
-+	host->bus_clk = devm_clk_get(&pdev->dev, "bus");
-+	if (IS_ERR(host->bus_clk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(host->bus_clk),
-+				     "failed to get bus clock.\n");
-+
-+	host->dmic_clk = devm_clk_get(&pdev->dev, "mod");
-+	if (IS_ERR(host->dmic_clk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(host->dmic_clk),
-+				     "failed to get dmic clock.\n");
-+
-+	host->dma_params_rx.addr = res->start + SUN50I_DMIC_DATA;
-+	host->dma_params_rx.maxburst = 8;
-+
-+	platform_set_drvdata(pdev, host);
-+
-+	host->rst = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
-+	if (IS_ERR(host->rst))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(host->rst),
-+				     "Failed to get reset.\n");
-+	reset_control_deassert(host->rst);
-+
-+	ret = devm_snd_soc_register_component(&pdev->dev, &sun50i_dmic_component,
-+					      &sun50i_dmic_dai, 1);
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret,
-+				     "failed to register component.\n");
-+
-+	pm_runtime_enable(&pdev->dev);
-+	if (!pm_runtime_enabled(&pdev->dev)) {
-+		ret = sun50i_dmic_runtime_resume(&pdev->dev);
-+		if (ret)
-+			goto err_disable_runtime_pm;
-+	}
-+
-+	ret = devm_snd_dmaengine_pcm_register(&pdev->dev, NULL, 0);
-+	if (ret)
-+		goto err_suspend;
-+
-+	return 0;
-+err_suspend:
-+	if (!pm_runtime_status_suspended(&pdev->dev))
-+		sun50i_dmic_runtime_suspend(&pdev->dev);
-+err_disable_runtime_pm:
-+	pm_runtime_disable(&pdev->dev);
-+	return ret;
-+}
-+
-+static int sun50i_dmic_remove(struct platform_device *pdev)
-+{
-+	pm_runtime_disable(&pdev->dev);
-+	if (!pm_runtime_status_suspended(&pdev->dev))
-+		sun50i_dmic_runtime_suspend(&pdev->dev);
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops sun50i_dmic_pm = {
-+	SET_RUNTIME_PM_OPS(sun50i_dmic_runtime_suspend,
-+			   sun50i_dmic_runtime_resume, NULL)
-+};
-+
-+static struct platform_driver sun50i_dmic_driver = {
-+	.driver         = {
-+		.name   = "sun50i-dmic",
-+		.of_match_table = of_match_ptr(sun50i_dmic_of_match),
-+		.pm     = &sun50i_dmic_pm,
-+	},
-+	.probe          = sun50i_dmic_probe,
-+	.remove         = sun50i_dmic_remove,
-+};
-+
-+module_platform_driver(sun50i_dmic_driver);
-+
-+MODULE_DESCRIPTION("Allwinner sun50i DMIC SoC Interface");
-+MODULE_AUTHOR("Ban Tao <fengzheng923@gmail.com>");
-+MODULE_LICENSE("GPL");
-+MODULE_ALIAS("platform:sun50i-dmic");
++	struct emac_board_info *db = netdev_priv(dev);
++	unsigned long flags;
+ 
++	spin_lock_irqsave(&db->lock, flags);
++	emac_init_device_no_lock(dev);
+ 	spin_unlock_irqrestore(&db->lock, flags);
+ }
+ 
+@@ -416,7 +421,7 @@ static void emac_timeout(struct net_device *dev, unsigned int txqueue)
+ 
+ 	netif_stop_queue(dev);
+ 	emac_reset(db);
+-	emac_init_device(dev);
++	emac_init_device_no_lock(dev);
+ 	/* We can accept TX packets again */
+ 	netif_trans_update(dev);
+ 	netif_wake_queue(dev);
 -- 
-2.7.4
+2.25.1
 
