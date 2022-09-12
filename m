@@ -1,45 +1,45 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977801108
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Sep 2022 10:59:25 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id a3so2205415lfk.9
-        for <linux-sunxi@lists.linux.dev>; Mon, 12 Sep 2022 03:59:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15EFE2589
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Sep 2022 11:00:01 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id z25so14222690lfr.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 12 Sep 2022 04:00:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date;
-        bh=CMrXYaGd9ZuPwxoNdr3XH/ga8t3rjLvzGOmRkyTn3g4=;
-        b=EewBJK9lJIVVIFZKkl8dLluz2Rdy1ntj1KjhRquGAFJS+M1ds/Xwvtbd+2yebKnSY/
-         d3kTQ+Vz1KIH4DhRg8Cw8xACvbVVXAsvID4WBMm/nkUZP2npSatCoYOXaRoa9kc/Tkt7
-         /topHc7fSV4h6p58PvDBiDHJNpY85eULd6TZwcJN44bJW16l4EgHp2oBXlYwVLpZMI5H
-         XmtjwOs8q7SQxC/rUL8HwxjfrquHiU6zH+RK6YFhHltQFV5gNhNeW+VNoqh438fAl01q
-         yzTFzxjOVwTsCnebCWWYsziqICUrMR8b9sPuf3yg7UzElZ7936iArGpJJkMOlTHMkQqM
-         wdGg==
+        bh=4DmliD4/zIbuq1/hYo/pvsJYEUacMOuT576x7WYBpkI=;
+        b=xYUh82Zyx9wOjMvPUvP+6d7lEmi4uSdWgPAbfRDS31BFI3WiHx1bLSVHb04/dG4Xjt
+         Oz0XaMRqI+RVrljbCSOuNVrEXkRG6q3MW/uEvM5yMMIhf8rOP9XqaO6tvsqfkGdWAgNl
+         YOPs4EXq7jJo1pJe+u3F9jG4xAJOnlBk1Ng++dbH2681nHE3h5HyiBiJS0997Sc6nZvq
+         V/alJlR3RKx8runQp//qjUyRQL7hwXkgJfs/Pj+qPAbWTfgmLxWtnVJjAmhPV6/Pivla
+         5WvQaYYrwngfOq4GFdJDVGptZt+d7WaDa8SGOzspQ0HKtlyGhwmWTkHzuZYCGTsWlfXb
+         hxbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=CMrXYaGd9ZuPwxoNdr3XH/ga8t3rjLvzGOmRkyTn3g4=;
-        b=dfcl5rQ4YhJVCTH13gPJ0JmRB17DNZDxkgeIxUt2/ouWcWO66uls12KRjry0arHCQo
-         d1pBCxUa1WZNe5ULBiOYHK1slE3fO6Z5WW+WbqvE2JevbPr2rnjuMTQ5ACAb2M/iACxS
-         R8AqjW2KqN7bL/1Qgo/bo9HoZtMMP8OPW2VgqTxSu5GJhQk+kN7k1DEL8QMkKX+LZKb/
-         JQB0RuZ4rzVbKp/Vt3r4LJ0mqRSzrgSQ1cNXi8a61eKcVBGl/JCDon8I8h1w91zrMS8z
-         w6yghcI32W3B4vl4JQVrsm4kSm6Z/7O9IJ8KcT8K7Rggrw5VLONqjV8N35h+LVQY5IOS
-         W/KA==
-X-Gm-Message-State: ACgBeo2ASU/486RCv8FoT4s9rKhHGktJDxSQ2PODZSL2sIf6kc4iu0/1
-	mCyLFOkWTYqHwfJGigAHEnh3kg==
-X-Google-Smtp-Source: AA6agR79u4VfbHvM2AGUDo4UiTk9vFf7uaAXP5srMfNWlWtZd7B/cZLyZS3VkamXHLZWSSjOiS3nkw==
-X-Received: by 2002:a05:6512:409:b0:49a:eadb:5ec9 with SMTP id u9-20020a056512040900b0049aeadb5ec9mr622074lfk.253.1662980363641;
-        Mon, 12 Sep 2022 03:59:23 -0700 (PDT)
+        bh=4DmliD4/zIbuq1/hYo/pvsJYEUacMOuT576x7WYBpkI=;
+        b=CcJcpzLv1NeKKdDGBVV9wUir8ih9axhVBokez0wZ6N3gZLcIzNF5j9ziGKj+nJaEPq
+         ecziW2+n9cAfmllp+r0M24fU91TR7o/DNbfDEmz0gvEIA5T9QtXD+Ga/BNkf7jy2WcTF
+         QR+rqoMyPy/IpKzC+5iZfoUHfxhhtWHkZf2TI5xi25lVfaLYQDRu9nYy+721lRf1jvOm
+         pOLLMXTBSqEpUBQW4B6InYi3zNJ8QFyuv6WWMwp1rVcC7NdogSOqGvpKFfrRJJIYiBXW
+         wEydktY+zdlP6FEyCt92xXpqVRM1itGtLJgNaqAeMh7ekJJbjWhi9xZjo6lpv2dgDs9j
+         QQdw==
+X-Gm-Message-State: ACgBeo1B+qoSu5CPg8d206RjLfKfhhp0HKE24pcSmlm8erdMdZ1cv0T1
+	gYC9bwFiMhOmJ+4QLn7JdMcRvw==
+X-Google-Smtp-Source: AA6agR7JWVX4/4qKNWe/mwV9K0XiykbUAzUfMg4rLs8KCX/XP+IHWn3pNWkdAf9vO1D8pXUcvatRGA==
+X-Received: by 2002:a05:6512:c18:b0:49a:d44b:435 with SMTP id z24-20020a0565120c1800b0049ad44b0435mr1144873lfu.468.1662980399214;
+        Mon, 12 Sep 2022 03:59:59 -0700 (PDT)
 Received: from [10.129.96.84] ([109.232.243.34])
-        by smtp.gmail.com with ESMTPSA id be30-20020a056512251e00b00492a0f02758sm1009117lfb.28.2022.09.12.03.59.22
+        by smtp.gmail.com with ESMTPSA id s15-20020a056512202f00b0048b003c4bf7sm1002592lfs.169.2022.09.12.03.59.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Sep 2022 03:59:23 -0700 (PDT)
-Message-ID: <b372688e-8e4c-f726-667f-b79f1bb2bca9@linaro.org>
-Date: Mon, 12 Sep 2022 12:59:20 +0200
+        Mon, 12 Sep 2022 03:59:58 -0700 (PDT)
+Message-ID: <0826b754-4027-bda3-b8ab-06dcb7292c90@linaro.org>
+Date: Mon, 12 Sep 2022 12:59:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -48,8 +48,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH 2/7] dt-bindings: usb: Add special clock for Allwinner
- H616 PHY
+Subject: Re: [PATCH 1/7] dt-bindings: usb: Add H616 compatible string
 Content-Language: en-US
 To: Andre Przywara <andre.przywara@arm.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -63,72 +62,21 @@ Cc: Rob Herring <robh+dt@kernel.org>,
  linux-sunxi@lists.linux.dev, Karl Kurbjun <karl.os@veroson.com>,
  Icenowy Zheng <icenowy@aosc.io>
 References: <20220911235945.6635-1-andre.przywara@arm.com>
- <20220911235945.6635-3-andre.przywara@arm.com>
+ <20220911235945.6635-2-andre.przywara@arm.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220911235945.6635-3-andre.przywara@arm.com>
+In-Reply-To: <20220911235945.6635-2-andre.przywara@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 12/09/2022 01:59, Andre Przywara wrote:
+> The Allwinner H616 contains four fully OHCI/EHCI compatible USB host
+> controllers, so just add their compatible strings to the list of
+> generic OHCI/EHCI controllers.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Thank you for your patch. There is something to discuss/improve.
 
->    clocks:
-> +    minItems: 4
->      items:
->        - description: USB OTG PHY bus clock
->        - description: USB Host 0 PHY bus clock
->        - description: USB Host 1 PHY bus clock
->        - description: USB Host 2 PHY bus clock
-> +      - description: PMU clock for host port 2
->  
->    clock-names:
-> +    minItems: 4
->      items:
->        - const: usb0_phy
->        - const: usb1_phy
->        - const: usb2_phy
->        - const: usb3_phy
-> +      - const: pmu2_clk
->  
->    resets:
->      items:
-> @@ -98,6 +102,21 @@ required:
->  
->  additionalProperties: false
->  
-> +if:
-
-Please enclose it within allOf: block. Helps to reduce indentation
-changes later when this grows.
-
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        enum:
-> +          - sun50i-h616-usb-phy
-> +
-> +then:
-> +  properties:
-> +    clocks:
-> +      minItems: 5
-> +
-> +    clock-names:
-> +      minItems: 5
-
-I assume other variants do not have this clock? If correct, then:
-
-else:
-  clocks:
-    maxItems: 4
-
-and the same for clock-names
-
-> +
->  examples:
->    - |
->      #include <dt-bindings/gpio/gpio.h>
-
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
