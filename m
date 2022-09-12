@@ -1,187 +1,116 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486067F
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Sep 2022 07:06:53 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id bh13so7432241pgb.4
-        for <linux-sunxi@lists.linux.dev>; Mon, 12 Sep 2022 00:06:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF007F
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Sep 2022 07:40:14 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id bg5-20020a05600c3c8500b003a7b6ae4eb2so10354449wmb.4
+        for <linux-sunxi@lists.linux.dev>; Mon, 12 Sep 2022 00:40:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=VPkcWUP8a7bxjZ+WnoIZDgbqJYUoZq4umIQXPyi4AwU=;
-        b=Az0bMM9e4dFt4KHB2/pRHFbq9bHidUOx4uwY+g5vmKGfujje6higRXjTPrQv9h09zc
-         OJ+zoqvKJGygUBoY7C0K8uRCvNqviM45Rh54aQTAVjs7nBfUXFIoJVcbw3Qk3IKolU3r
-         Qc8zWrVkUUv4acgeKlNwqErbMzQNQq+AG01AjbxMCuNqwUo0U+whAuYtz+bWorSSQ+7H
-         /BHBa3p+QM7qrtxihgqoKy/jDht3kPBPr595gWZ/fOfeqORMCKdM1ICkgduzRqawJjLq
-         ntTLtjM1+FY4HxEJGqonauBnnwIjlYThL859HZoochqRJJCVIZPPlgfxFt/u9CaxjMTx
-         Nf4g==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=dQ76VMQhXb9hhh82jyPv/oM68Fv8aNARfJwVefdFGDc=;
+        b=KfJ+Fx2rGUtduzdvQ6eVVbQ3lN2jGqIQQCuWauULPGyiN/NWq3saXuvZPl4idyWA3K
+         lWkyT8lALSlq4x3I5Wjao7IHpLS+Dlyfw0ZP5G11iXTkzNVddv/y+Bpyq05ZYn7Nv/4/
+         MZNrkCfrQclDMBe9f8fHdYe5Zx/kPKSiDX1XlJ74eAVywNJOCRsopDsxh2tscKBJfRvW
+         hkFAL7Pjq5LLj3U+U19ZdEqMGnUu6BqMx8F7wbMdv8W2iMW7q+PLB3NbfT+umnK/+kHO
+         t7ZCYLYl+ZHDj776Z/nviQBq7uTzEL9YaWlHXYeVo9oOEXIUMwV0NIHiT9ZNhWkchD2G
+         3LXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=VPkcWUP8a7bxjZ+WnoIZDgbqJYUoZq4umIQXPyi4AwU=;
-        b=NFrepsJvjCO2BqDOtcQZK6D3IYI9Ghyh0oyORI3Yxd+Xhatswr3coAxGDrUmsLtkFs
-         7r/aI/DTEv8W3lpv/QzgfTe9qy8d8mHU0o/WSlm7BukE5uXsYP4BcgVtzRXQyL+uCS80
-         m1chbGVyj/6uB2QuW08Ppj8fhv4aKAqkuHT+OQpmBdZgchF87A94k9nDwBKztyg4Pt+9
-         l6HK7hMNYO49EahlA/9gcr4VgtbeRKQOfc4/4UJWPHCPTUtO9lsrf9hGfPjRFX4fYzjh
-         Ge0SvR2srFefvs98yGlR6mflJKT0t9ctQKzUOj85pgdWgQruVGqoOZ9YUY91u6udFNXU
-         baSw==
-X-Gm-Message-State: ACgBeo27z4UkbBoAo+3lVsVpu16GX1wKNxfN71IWS3NlJaeF0qrRM4hx
-	7A5lFfF2gz9zISTfSLElBQ==
-X-Google-Smtp-Source: AA6agR5sOzgwjECD1D0nDs7nRdEwTgd64nguOrzqvuMeMOIlt4aTkfSLaD6/5aTj/YYygs27FibgfA==
-X-Received: by 2002:a05:6a00:114c:b0:528:2c7a:630e with SMTP id b12-20020a056a00114c00b005282c7a630emr26125991pfm.86.1662966412655;
-        Mon, 12 Sep 2022 00:06:52 -0700 (PDT)
-Received: from localhost.localdomain ([113.110.235.160])
-        by smtp.gmail.com with ESMTPSA id u14-20020a170902e80e00b0017685f53537sm5123557plg.186.2022.09.12.00.06.46
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 12 Sep 2022 00:06:52 -0700 (PDT)
-From: Ban Tao <fengzheng923@gmail.com>
-To: fengzheng923@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	alsa-devel@alsa-project.org
-Cc: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v10 2/2] ASoC: sun50i-dmic: dt-bindings: add DT bindings for DMIC controller
-Date: Mon, 12 Sep 2022 00:05:33 -0700
-Message-Id: <1662966333-18000-1-git-send-email-fengzheng923@gmail.com>
-X-Mailer: git-send-email 2.7.4
+        bh=dQ76VMQhXb9hhh82jyPv/oM68Fv8aNARfJwVefdFGDc=;
+        b=pKJYB09EcdDUch520lgss92D+QZRR05AG3I5Llo1J2gU/Ui0lQZywxb+fC+3JpMElM
+         Vuls6PiGKEzKETlNoE3NjzlZQWlhGMA7kmRHehZySOeoNs4jonkn1KvP/F+7ihCrmDGY
+         iYcmuRd62OffVW5yPvZIKbtkCHueIYO+7ZYBCcUY1iqeGj/nF+lX/ivKPh9mIfBeR7Yc
+         29AvHo+vQWsizBe/VaDVteMk4tWTL10ECu/Z3EvSQhSBlnUKmwKD1gkxmkfjpSDPryS7
+         5gPsa50+jGeoLGFqq8hdVD+FZbZrI/y66+IUFGLfwVjydN+3+68Rbp9hFjW/15pE8p9Q
+         XnyA==
+X-Gm-Message-State: ACgBeo3tnzQsljIkxsAx2JGBciFIeTGg8JHytd0U/DvilvZrZ635bZES
+	UXdDrPHrYgFefy9/6YzwD3s=
+X-Google-Smtp-Source: AA6agR5A3SOR9AtS59XgAPlVXc/Q2Cvze/xaWb7e5lYdilBpDpYW6n35FpofqV0ZZ9OEWi75Ss8gFQ==
+X-Received: by 2002:a1c:7905:0:b0:3b3:3fa9:4c3a with SMTP id l5-20020a1c7905000000b003b33fa94c3amr11108308wme.55.1662968412757;
+        Mon, 12 Sep 2022 00:40:12 -0700 (PDT)
+Received: from jernej-laptop.localnet ([89.101.193.71])
+        by smtp.gmail.com with ESMTPSA id 11-20020a05600c020b00b003b4868eb6bbsm3422776wmi.23.2022.09.12.00.40.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Sep 2022 00:40:12 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, qianfanguijin@163.com
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Evgeny Boger <boger@wirenboard.com>, Andre Przywara <andre.przywara@arm.com>, qianfan Zhao <qianfanguijin@163.com>
+Subject: Re: [PATCH v2] net: allwinner: emac: Fix double spinlock in emac_timeout
+Date: Mon, 12 Sep 2022 09:40:11 +0200
+Message-ID: <2644795.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20220912063331.23369-1-qianfanguijin@163.com>
+References: <20220912063331.23369-1-qianfanguijin@163.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-DT binding documentation for this new ASoC driver.
+Dne ponedeljek, 12. september 2022 ob 08:33:31 CEST je qianfanguijin@163.com 
+napisal(a):
+> From: qianfan Zhao <qianfanguijin@163.com>
+> 
+> emac_timeout() callback acquires lock and so does emac_init_device(),
+> which called inside lock protected region. This hangs the system and
+> produces following warning:
+> 
+> WARNING: CPU: 2 PID: 0 at net/sched/sch_generic.c:478
+> dev_watchdog+0x2e4/0x2e8
+> NETDEV WATCHDOG: FE0 (sun4i-emac): transmit queue 0 timed out
+> Modules linked in:
+> CPU: 2 PID: 0 Comm: swapper/2 Tainted: G W 5.15.0-00047-g0848e4aeb313
+> Hardware name: Wisdom T3 based CCT Family
+> [<c010f740>] (unwind_backtrace) from [<c010b744>] (show_stack+0x10/0x14)
+> [<c010b744>] (show_stack) from [<c0a4d978>] (dump_stack_lvl+0x40/0x4c)
+> [<c0a4d978>] (dump_stack_lvl) from [<c0120734>] (__warn+0x104/0x108)
+> [<c0120734>] (__warn) from [<c01207b0>] (warn_slowpath_fmt+0x78/0xbc)
+> [<c01207b0>] (warn_slowpath_fmt) from [<c0898a54>]
+> (dev_watchdog+0x2e4/0x2e8)
+> [<c0898a54>] (dev_watchdog) from [<c019a888>] (call_timer_fn+0x3c/0x178)
+> [<c019a888>] (call_timer_fn) from [<c019bddc>]
+> (run_timer_softirq+0x540/0x624)
+> [<c019bddc>] (run_timer_softirq) from [<c0101298>]
+> (__do_softirq+0x130/0x3bc)
+> [<c0101298>] (__do_softirq) from [<c0127ea0>] (irq_exit+0xbc/0x100)
+> [<c0127ea0>] (irq_exit) from [<c017e514>] (handle_domain_irq+0x60/0x78)
+> [<c017e514>] (handle_domain_irq) from [<c05a6130>]
+> (gic_handle_irq+0x7c/0x90)
+> [<c05a6130>] (gic_handle_irq) from [<c0100afc>] (__irq_svc+0x5c/0x78)
+> Exception stack(0xc14f3f70 to 0xc14f3fb8)
+> 3f60:                                     0003475c 00000000 00000001
+> c01188a0
+> 3f80: c107b200 c0f06b4c c0f06b90 00000004 c1079ff8 c0c62774 00000000
+> 00000000
+> 3fa0: c10b2198 c14f3fc0 c0107fcc c0107fd0 60030013 ffffffff
+> [<c0100afc>] (__irq_svc) from [<c0107fd0>] (arch_cpu_idle+0x38/0x3c)
+> [<c0107fd0>] (arch_cpu_idle) from [<c0a57f38>]
+> (default_idle_call+0x3c/0xcc)
+> [<c0a57f38>] (default_idle_call) from [<c0157258>] (do_idle+0xdc/0x13c)
+> [<c0157258>] (do_idle) from [<c01575a4>] (cpu_startup_entry+0x18/0x1c)
+> [<c01575a4>] (cpu_startup_entry) from [<401015d0>] (0x401015d0)
+> ---[ end trace a70942a1265338f1 ]---
+> rcu: INFO: rcu_sched detected stalls on CPUs/tasks:
+> rcu: \x092-...0: (1 GPs behind) idle=75d/0/0x1 softirq=8288/8289 fqs=931
+> \x09(detected by 0, t=2102 jiffies, g=13485, q=1635)
+> Sending NMI from CPU 0 to CPUs 2:
+> spi_master spi2: spi2.1: timeout transferring 4 bytes@100000Hz for
+> 110(100)ms
+> spidev spi2.1: SPI transfer failed: -110
+> 
+> Fixes: 492205050d77b (net: Add EMAC ethernet driver found on Allwinner A10
+> SoC's) Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
 
-Signed-off-by: Ban Tao <fengzheng923@gmail.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Maxime Ripard <maxime@cerno.tech>
----
-v1->v2:
-1.Fix some build errors.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-v2->v3:
-1.Fix some build errors.
+Best regards,
+Jernej
 
-v3->v4:
-1.None.
-
-v4->v5:
-1.Add interrupt.
-2.Keep clock and reset index.
-
-v5->v6:
-1.None.
-
-v6->v7:
-1.None.
-
-v7->v8:
-1.Fix some build errors.
-
-v8->v9:
-1.None.
-
-v9->v10:
-1.Put compatible first in the list of properties.
----
- .../bindings/sound/allwinner,sun50i-h6-dmic.yaml   | 79 ++++++++++++++++++++++
- 1 file changed, 79 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml
-
-diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml
-new file mode 100644
-index 0000000..2f12cab
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml
-@@ -0,0 +1,79 @@
-+# SPDX-License-Identifier: (GPL-2.0+ OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/allwinner,sun50i-h6-dmic.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Allwinner H6 DMIC
-+
-+maintainers:
-+  - Ban Tao <fengzheng923@gmail.com>
-+
-+properties:
-+  compatible:
-+    const: allwinner,sun50i-h6-dmic
-+
-+  "#sound-dai-cells":
-+    const: 0
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: Bus Clock
-+      - description: Module Clock
-+
-+  clock-names:
-+    items:
-+      - const: bus
-+      - const: mod
-+
-+  dmas:
-+    items:
-+      - description: RX DMA Channel
-+
-+  dma-names:
-+    items:
-+      - const: rx
-+
-+  resets:
-+    maxItems: 1
-+
-+required:
-+  - "#sound-dai-cells"
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - dmas
-+  - dma-names
-+  - resets
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    #include <dt-bindings/clock/sun50i-h6-ccu.h>
-+    #include <dt-bindings/reset/sun50i-h6-ccu.h>
-+
-+    dmic: dmic@5095000 {
-+      #sound-dai-cells = <0>;
-+      compatible = "allwinner,sun50i-h6-dmic";
-+      reg = <0x05095000 0x400>;
-+      interrupts = <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH>;
-+      clocks = <&ccu CLK_BUS_DMIC>, <&ccu CLK_DMIC>;
-+      clock-names = "bus", "mod";
-+      dmas = <&dma 7>;
-+      dma-names = "rx";
-+      resets = <&ccu RST_BUS_DMIC>;
-+    };
-+
-+...
--- 
-2.7.4
 
