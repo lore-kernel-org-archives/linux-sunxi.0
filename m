@@ -1,116 +1,134 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF007F
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Sep 2022 07:40:14 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id bg5-20020a05600c3c8500b003a7b6ae4eb2so10354449wmb.4
-        for <linux-sunxi@lists.linux.dev>; Mon, 12 Sep 2022 00:40:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977801108
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Sep 2022 10:59:25 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id a3so2205415lfk.9
+        for <linux-sunxi@lists.linux.dev>; Mon, 12 Sep 2022 03:59:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=dQ76VMQhXb9hhh82jyPv/oM68Fv8aNARfJwVefdFGDc=;
-        b=KfJ+Fx2rGUtduzdvQ6eVVbQ3lN2jGqIQQCuWauULPGyiN/NWq3saXuvZPl4idyWA3K
-         lWkyT8lALSlq4x3I5Wjao7IHpLS+Dlyfw0ZP5G11iXTkzNVddv/y+Bpyq05ZYn7Nv/4/
-         MZNrkCfrQclDMBe9f8fHdYe5Zx/kPKSiDX1XlJ74eAVywNJOCRsopDsxh2tscKBJfRvW
-         hkFAL7Pjq5LLj3U+U19ZdEqMGnUu6BqMx8F7wbMdv8W2iMW7q+PLB3NbfT+umnK/+kHO
-         t7ZCYLYl+ZHDj776Z/nviQBq7uTzEL9YaWlHXYeVo9oOEXIUMwV0NIHiT9ZNhWkchD2G
-         3LXA==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=CMrXYaGd9ZuPwxoNdr3XH/ga8t3rjLvzGOmRkyTn3g4=;
+        b=EewBJK9lJIVVIFZKkl8dLluz2Rdy1ntj1KjhRquGAFJS+M1ds/Xwvtbd+2yebKnSY/
+         d3kTQ+Vz1KIH4DhRg8Cw8xACvbVVXAsvID4WBMm/nkUZP2npSatCoYOXaRoa9kc/Tkt7
+         /topHc7fSV4h6p58PvDBiDHJNpY85eULd6TZwcJN44bJW16l4EgHp2oBXlYwVLpZMI5H
+         XmtjwOs8q7SQxC/rUL8HwxjfrquHiU6zH+RK6YFhHltQFV5gNhNeW+VNoqh438fAl01q
+         yzTFzxjOVwTsCnebCWWYsziqICUrMR8b9sPuf3yg7UzElZ7936iArGpJJkMOlTHMkQqM
+         wdGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=dQ76VMQhXb9hhh82jyPv/oM68Fv8aNARfJwVefdFGDc=;
-        b=pKJYB09EcdDUch520lgss92D+QZRR05AG3I5Llo1J2gU/Ui0lQZywxb+fC+3JpMElM
-         Vuls6PiGKEzKETlNoE3NjzlZQWlhGMA7kmRHehZySOeoNs4jonkn1KvP/F+7ihCrmDGY
-         iYcmuRd62OffVW5yPvZIKbtkCHueIYO+7ZYBCcUY1iqeGj/nF+lX/ivKPh9mIfBeR7Yc
-         29AvHo+vQWsizBe/VaDVteMk4tWTL10ECu/Z3EvSQhSBlnUKmwKD1gkxmkfjpSDPryS7
-         5gPsa50+jGeoLGFqq8hdVD+FZbZrI/y66+IUFGLfwVjydN+3+68Rbp9hFjW/15pE8p9Q
-         XnyA==
-X-Gm-Message-State: ACgBeo3tnzQsljIkxsAx2JGBciFIeTGg8JHytd0U/DvilvZrZ635bZES
-	UXdDrPHrYgFefy9/6YzwD3s=
-X-Google-Smtp-Source: AA6agR5A3SOR9AtS59XgAPlVXc/Q2Cvze/xaWb7e5lYdilBpDpYW6n35FpofqV0ZZ9OEWi75Ss8gFQ==
-X-Received: by 2002:a1c:7905:0:b0:3b3:3fa9:4c3a with SMTP id l5-20020a1c7905000000b003b33fa94c3amr11108308wme.55.1662968412757;
-        Mon, 12 Sep 2022 00:40:12 -0700 (PDT)
-Received: from jernej-laptop.localnet ([89.101.193.71])
-        by smtp.gmail.com with ESMTPSA id 11-20020a05600c020b00b003b4868eb6bbsm3422776wmi.23.2022.09.12.00.40.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Sep 2022 00:40:12 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, qianfanguijin@163.com
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Evgeny Boger <boger@wirenboard.com>, Andre Przywara <andre.przywara@arm.com>, qianfan Zhao <qianfanguijin@163.com>
-Subject: Re: [PATCH v2] net: allwinner: emac: Fix double spinlock in emac_timeout
-Date: Mon, 12 Sep 2022 09:40:11 +0200
-Message-ID: <2644795.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20220912063331.23369-1-qianfanguijin@163.com>
-References: <20220912063331.23369-1-qianfanguijin@163.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=CMrXYaGd9ZuPwxoNdr3XH/ga8t3rjLvzGOmRkyTn3g4=;
+        b=dfcl5rQ4YhJVCTH13gPJ0JmRB17DNZDxkgeIxUt2/ouWcWO66uls12KRjry0arHCQo
+         d1pBCxUa1WZNe5ULBiOYHK1slE3fO6Z5WW+WbqvE2JevbPr2rnjuMTQ5ACAb2M/iACxS
+         R8AqjW2KqN7bL/1Qgo/bo9HoZtMMP8OPW2VgqTxSu5GJhQk+kN7k1DEL8QMkKX+LZKb/
+         JQB0RuZ4rzVbKp/Vt3r4LJ0mqRSzrgSQ1cNXi8a61eKcVBGl/JCDon8I8h1w91zrMS8z
+         w6yghcI32W3B4vl4JQVrsm4kSm6Z/7O9IJ8KcT8K7Rggrw5VLONqjV8N35h+LVQY5IOS
+         W/KA==
+X-Gm-Message-State: ACgBeo2ASU/486RCv8FoT4s9rKhHGktJDxSQ2PODZSL2sIf6kc4iu0/1
+	mCyLFOkWTYqHwfJGigAHEnh3kg==
+X-Google-Smtp-Source: AA6agR79u4VfbHvM2AGUDo4UiTk9vFf7uaAXP5srMfNWlWtZd7B/cZLyZS3VkamXHLZWSSjOiS3nkw==
+X-Received: by 2002:a05:6512:409:b0:49a:eadb:5ec9 with SMTP id u9-20020a056512040900b0049aeadb5ec9mr622074lfk.253.1662980363641;
+        Mon, 12 Sep 2022 03:59:23 -0700 (PDT)
+Received: from [10.129.96.84] ([109.232.243.34])
+        by smtp.gmail.com with ESMTPSA id be30-20020a056512251e00b00492a0f02758sm1009117lfb.28.2022.09.12.03.59.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Sep 2022 03:59:23 -0700 (PDT)
+Message-ID: <b372688e-8e4c-f726-667f-b79f1bb2bca9@linaro.org>
+Date: Mon, 12 Sep 2022 12:59:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 2/7] dt-bindings: usb: Add special clock for Allwinner
+ H616 PHY
+Content-Language: en-US
+To: Andre Przywara <andre.przywara@arm.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+ Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Karl Kurbjun <karl.os@veroson.com>,
+ Icenowy Zheng <icenowy@aosc.io>
+References: <20220911235945.6635-1-andre.przywara@arm.com>
+ <20220911235945.6635-3-andre.przywara@arm.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220911235945.6635-3-andre.przywara@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Dne ponedeljek, 12. september 2022 ob 08:33:31 CEST je qianfanguijin@163.com 
-napisal(a):
-> From: qianfan Zhao <qianfanguijin@163.com>
-> 
-> emac_timeout() callback acquires lock and so does emac_init_device(),
-> which called inside lock protected region. This hangs the system and
-> produces following warning:
-> 
-> WARNING: CPU: 2 PID: 0 at net/sched/sch_generic.c:478
-> dev_watchdog+0x2e4/0x2e8
-> NETDEV WATCHDOG: FE0 (sun4i-emac): transmit queue 0 timed out
-> Modules linked in:
-> CPU: 2 PID: 0 Comm: swapper/2 Tainted: G W 5.15.0-00047-g0848e4aeb313
-> Hardware name: Wisdom T3 based CCT Family
-> [<c010f740>] (unwind_backtrace) from [<c010b744>] (show_stack+0x10/0x14)
-> [<c010b744>] (show_stack) from [<c0a4d978>] (dump_stack_lvl+0x40/0x4c)
-> [<c0a4d978>] (dump_stack_lvl) from [<c0120734>] (__warn+0x104/0x108)
-> [<c0120734>] (__warn) from [<c01207b0>] (warn_slowpath_fmt+0x78/0xbc)
-> [<c01207b0>] (warn_slowpath_fmt) from [<c0898a54>]
-> (dev_watchdog+0x2e4/0x2e8)
-> [<c0898a54>] (dev_watchdog) from [<c019a888>] (call_timer_fn+0x3c/0x178)
-> [<c019a888>] (call_timer_fn) from [<c019bddc>]
-> (run_timer_softirq+0x540/0x624)
-> [<c019bddc>] (run_timer_softirq) from [<c0101298>]
-> (__do_softirq+0x130/0x3bc)
-> [<c0101298>] (__do_softirq) from [<c0127ea0>] (irq_exit+0xbc/0x100)
-> [<c0127ea0>] (irq_exit) from [<c017e514>] (handle_domain_irq+0x60/0x78)
-> [<c017e514>] (handle_domain_irq) from [<c05a6130>]
-> (gic_handle_irq+0x7c/0x90)
-> [<c05a6130>] (gic_handle_irq) from [<c0100afc>] (__irq_svc+0x5c/0x78)
-> Exception stack(0xc14f3f70 to 0xc14f3fb8)
-> 3f60:                                     0003475c 00000000 00000001
-> c01188a0
-> 3f80: c107b200 c0f06b4c c0f06b90 00000004 c1079ff8 c0c62774 00000000
-> 00000000
-> 3fa0: c10b2198 c14f3fc0 c0107fcc c0107fd0 60030013 ffffffff
-> [<c0100afc>] (__irq_svc) from [<c0107fd0>] (arch_cpu_idle+0x38/0x3c)
-> [<c0107fd0>] (arch_cpu_idle) from [<c0a57f38>]
-> (default_idle_call+0x3c/0xcc)
-> [<c0a57f38>] (default_idle_call) from [<c0157258>] (do_idle+0xdc/0x13c)
-> [<c0157258>] (do_idle) from [<c01575a4>] (cpu_startup_entry+0x18/0x1c)
-> [<c01575a4>] (cpu_startup_entry) from [<401015d0>] (0x401015d0)
-> ---[ end trace a70942a1265338f1 ]---
-> rcu: INFO: rcu_sched detected stalls on CPUs/tasks:
-> rcu: \x092-...0: (1 GPs behind) idle=75d/0/0x1 softirq=8288/8289 fqs=931
-> \x09(detected by 0, t=2102 jiffies, g=13485, q=1635)
-> Sending NMI from CPU 0 to CPUs 2:
-> spi_master spi2: spi2.1: timeout transferring 4 bytes@100000Hz for
-> 110(100)ms
-> spidev spi2.1: SPI transfer failed: -110
-> 
-> Fixes: 492205050d77b (net: Add EMAC ethernet driver found on Allwinner A10
-> SoC's) Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
+On 12/09/2022 01:59, Andre Przywara wrote:
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Thank you for your patch. There is something to discuss/improve.
+
+>    clocks:
+> +    minItems: 4
+>      items:
+>        - description: USB OTG PHY bus clock
+>        - description: USB Host 0 PHY bus clock
+>        - description: USB Host 1 PHY bus clock
+>        - description: USB Host 2 PHY bus clock
+> +      - description: PMU clock for host port 2
+>  
+>    clock-names:
+> +    minItems: 4
+>      items:
+>        - const: usb0_phy
+>        - const: usb1_phy
+>        - const: usb2_phy
+>        - const: usb3_phy
+> +      - const: pmu2_clk
+>  
+>    resets:
+>      items:
+> @@ -98,6 +102,21 @@ required:
+>  
+>  additionalProperties: false
+>  
+> +if:
+
+Please enclose it within allOf: block. Helps to reduce indentation
+changes later when this grows.
+
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        enum:
+> +          - sun50i-h616-usb-phy
+> +
+> +then:
+> +  properties:
+> +    clocks:
+> +      minItems: 5
+> +
+> +    clock-names:
+> +      minItems: 5
+
+I assume other variants do not have this clock? If correct, then:
+
+else:
+  clocks:
+    maxItems: 4
+
+and the same for clock-names
+
+> +
+>  examples:
+>    - |
+>      #include <dt-bindings/gpio/gpio.h>
+
 
 Best regards,
-Jernej
-
-
+Krzysztof
