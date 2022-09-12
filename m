@@ -1,109 +1,96 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A7112589
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Sep 2022 11:00:56 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id y29so10075986ljq.7
-        for <linux-sunxi@lists.linux.dev>; Mon, 12 Sep 2022 04:00:56 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9623232
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Sep 2022 16:14:47 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id n17-20020a05600c501100b003a84bf9b68bso7521558wmr.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 12 Sep 2022 09:14:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=VNRLB5dMr8KxcMuJauPpZNtGEDYIcFeLhKYuKfQ2WK4=;
-        b=Wr271pDa4rYLOMj1WYVJWc+MhXbFaiyoYNkavxMyqSK0firTu7PnHjPX39Rgx7kg6O
-         stiKUajPEgJzCGa8pAk3WO8Qc91CsGQGrOY8LJ9j52EVVd1MgNPN3WaVUuEJnJN11u4b
-         Qpg5WIoDM7DlRIOn4EJIs4ZEtbl9xc8upENfntB+G01YNTtdBEv/YwlO25SJuNNc/nL6
-         a3+S9EEJWQBLPyv5sAJ4LR/Wj54TYjrFhtt0kPua0B2frGbW9lGlwZ1V6Oqz7i7sx03d
-         yGtQxThRzGLvFRlb8Np9yms1PBoIZPkKtHK6nE3JHQPr1W9wN+R147UYGbkNUD7oxVWm
-         S0PA==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=p2UuUVGgNeM7cWoN9co4RiFexO2JQRrTt6fDZRT2l6Q=;
+        b=WjrnQt4bUeUHZEbDpxtLxWOhdOwi5lTqQ099s2SU4zwqBVZeCaJ99AWi+Lje4bC1nB
+         O3tzwj3cB/y8uJIrxyAMmpAZZiZE1oAoe+CmU6tvH6uuu7kRH4qjFLTPX3X+w5dUwOFX
+         o8co/TSCDVVOqEY+F9a2elNlGE789+JRJGg/2swqnsMphCm5dTxSs6un8KvwqrN4el9C
+         w0tyhgDMmpoZdlDcn3+rt2sQ0+UJNLN3YSXLC/LCoofMNzJoj+5eLDxrmnRvgtE8+/mt
+         XEj06YGEsdvvuzfqdQzL+utyOMeqWfZy+0ykcJCPkT0Rne+IksX8EnxcGIR/uJ517dRo
+         zh5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=VNRLB5dMr8KxcMuJauPpZNtGEDYIcFeLhKYuKfQ2WK4=;
-        b=CVdR2VGfURfy66EyOGpM6mujpPe8OtjrdYkBDf4YT3r3CWXIsjYKCHb3g8iBLKZrZe
-         +v9NS1vlJcbXvQV0l/OHu6zowtJkj+SFvJ4VCxjsPDV0xsNL2yjzlyyySVYRhjTVS9Oa
-         W0vDmIpcG2oTPPP9vqIs1ZpNJ03Ip08d04mc/bLe0O+q3X98PHBGmzXfZpEQ+BWCPp0i
-         KNOpcX3V8zJq1CwjBXtrVwZp1rQGN4IM2lg+jLfpNAK+ValvOGNJHUXj9GPYHTa4eze7
-         B6fk/0isAb++EdKNrbVvTeax86LkiXyBt3RlE90CWOjMvJ6XVSNL8Ds7jwnXHKEDNZ1n
-         Wu7A==
-X-Gm-Message-State: ACgBeo12Z2m58zoW/mBdpi8YRf3HeiBbglcalRlOyEpQSmaq0lmfczZ7
-	z9nVvKOg87QdoKvvAKhrK7ZnPA==
-X-Google-Smtp-Source: AA6agR5qUmM2ZmB3u+ceQgLmGH1b3qt0oNh2whK2G3kPo3FfMoZ57icsO07DBG7SNBSMhG5XpY/UNg==
-X-Received: by 2002:a2e:9801:0:b0:25e:45ed:edc5 with SMTP id a1-20020a2e9801000000b0025e45ededc5mr7229723ljj.467.1662980454897;
-        Mon, 12 Sep 2022 04:00:54 -0700 (PDT)
-Received: from [10.129.96.84] ([109.232.243.34])
-        by smtp.gmail.com with ESMTPSA id v6-20020a197406000000b004979df1c1fasm1010823lfe.61.2022.09.12.04.00.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Sep 2022 04:00:54 -0700 (PDT)
-Message-ID: <15b65ac4-6656-dec5-80fd-e3c29b226a25@linaro.org>
-Date: Mon, 12 Sep 2022 13:00:51 +0200
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=p2UuUVGgNeM7cWoN9co4RiFexO2JQRrTt6fDZRT2l6Q=;
+        b=ZqIuKfgQpqHgL+BjU925YORIkQNvRy4cCtTypAlY5+6/8oxMFjB4+qOqIesVAFPjCI
+         56e8ZQJcMozaKw5LOuWYKi8Zo51PMujBfBVJUWqVTomYrHuoPowM3maCNifp+vWjClYH
+         RNnkNOoJEYBA6PKhpBB8YidPcu8u2jyIaYAvCJgD9n9jjtrWILE5jSOj2nPh9/O47hdh
+         jAd1RfcDAnLKl+rDNDqnWLsA4rDyfqmV9Wohhrqxa2N5lLO9/nEHr9lbNpHj9Zke/Twg
+         iDR+52KgPeWWLNHOb71iySpsOOXey7EWRSAzYXv5+B3EnCOLnAmUwam28RzGdoOk6Xsc
+         XW7Q==
+X-Gm-Message-State: ACgBeo36TGZUvjOKtXlq4oXeebjYYLOIchqJmoq5oUqvOpyOyaEBj/Qi
+	qu8diBbjt25K3DnFqoJacRU=
+X-Google-Smtp-Source: AA6agR6TxM9HREIppAFy4INv7lrvGZZIc1xY0Z0z6Wz7xBGrYJrUQHdC7xeeaLg8OPCnLJ3WpI/YYw==
+X-Received: by 2002:a05:600c:1c1f:b0:3b4:8330:5a46 with SMTP id j31-20020a05600c1c1f00b003b483305a46mr5102190wms.45.1662999285997;
+        Mon, 12 Sep 2022 09:14:45 -0700 (PDT)
+Received: from jernej-laptop.localnet ([89.101.193.71])
+        by smtp.gmail.com with ESMTPSA id a6-20020a5d4d46000000b00228aea99efcsm7717117wru.14.2022.09.12.09.14.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Sep 2022 09:14:45 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Mikhail Rudenko <mike.rudenko@gmail.com>
+Cc: Mikhail Rudenko <mike.rudenko@gmail.com>, alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] ASoC: sunxi: sun4i-codec: silence misleading error in probe
+Date: Mon, 12 Sep 2022 18:14:44 +0200
+Message-ID: <5600291.DvuYhMxLoT@jernej-laptop>
+In-Reply-To: <20220911145713.55199-1-mike.rudenko@gmail.com>
+References: <20220911145713.55199-1-mike.rudenko@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 6/7] arm64: dts: allwinner: h616: OrangePi Zero 2: Add USB
- nodes
-Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
- Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>
-Cc: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Karl Kurbjun <karl.os@veroson.com>,
- Icenowy Zheng <icenowy@aosc.io>
-References: <20220911235945.6635-1-andre.przywara@arm.com>
- <20220911235945.6635-7-andre.przywara@arm.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220911235945.6635-7-andre.przywara@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 12/09/2022 01:59, Andre Przywara wrote:
-> The OrangePi Zero 2 has one USB-A host port, VBUS is provided by
-> a GPIO controlled regulator.
-> The USB-C port is meant to power the board, but is also connected to
-> the USB 0 port, which we configure as an MUSB peripheral.
+Dne nedelja, 11. september 2022 ob 16:57:11 CEST je Mikhail Rudenko 
+napisal(a):
+> In the case when a codec device is probed before codec analog
+> controls, snd_soc_register_card() returns -EPROBE_DEFER, resulting in
+> a misleading error message
 > 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  .../allwinner/sun50i-h616-orangepi-zero2.dts  | 42 +++++++++++++++++++
->  1 file changed, 42 insertions(+)
+>     sun4i-codec 1c22c00.codec: Failed to register our card
 > 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-> index 02893f3ac99d..3197dc43397b 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-> @@ -49,8 +49,25 @@ reg_vcc5v: vcc5v {
->  		regulator-max-microvolt = <5000000>;
->  		regulator-always-on;
->  	};
-> +
-> +	reg_usb1_vbus: usb1-vbus {
+> even if the device is probed successfully later. Use dev_err_probe()
+> to demote the above error to a debug message.
+> 
+> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
 
-Generic node names, so at least generic prefix/suffix (regulator-usb1-vbus)
-
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "usb1-vbus";
-> +		regulator-min-microvolt = <5000000>;
-> +		regulator-max-microvolt = <5000000>;
-> +		vin-supply = <&reg_vcc5v>;
-> +		enable-active-high;
-> +		gpio = <&pio 2 16 GPIO_ACTIVE_HIGH>; /* PC16 */
-> +		status = "okay";
-
-No need for status.
-
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
-Krzysztof
+Jernej
+
+> ---
+>  sound/soc/sunxi/sun4i-codec.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
+> index 60712f24ade5..01b461c64d68 100644
+> --- a/sound/soc/sunxi/sun4i-codec.c
+> +++ b/sound/soc/sunxi/sun4i-codec.c
+> @@ -1825,7 +1825,7 @@ static int sun4i_codec_probe(struct platform_device
+> *pdev)
+> 
+>  	ret = snd_soc_register_card(card);
+>  	if (ret) {
+> -		dev_err(&pdev->dev, "Failed to register our card\n");
+> +		dev_err_probe(&pdev->dev, ret, "Failed to register our 
+card\n");
+>  		goto err_assert_reset;
+>  	}
+
+
+
+
