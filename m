@@ -1,65 +1,22 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EEF73C3F
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Sep 2022 21:23:07 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id f9so21393331lfr.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 13 Sep 2022 14:23:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=s9fWB+KIpWEfG0ChDe1LcnxfLz16/kGFFSIfjNPpFqg=;
-        b=PFSKJZ6gXwhxNTRmtTVhaeQp46N+lP4VFWn/lQvm2dv0lKJ+ah8FUS5waaRZoZ9RVs
-         TJHS2AGrgxI29RRAmLT9EJZFTvbQSopCWNEjNpAUL2QijGQFQJECoAEAIAsTTC2ZskBg
-         qIn79PNZHDQ8/Ae27hX0fyiU/UHXr9+jbNzxtHFAMCD4Ju/UQ++1zPEP9yaDLxTMEUVn
-         r58L3YJxIdUuZVPZeU471yBBWlLnj1+li4hj1sKKKkwHWET7uWm3Mja8T5hG8M9oFAJO
-         1w4d5oy3+pqBl3WbCafGgg6rWWnwSHXXt7fAA1z+rGzILMywDlcP1EEDGx19P37AfpbR
-         x/EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=s9fWB+KIpWEfG0ChDe1LcnxfLz16/kGFFSIfjNPpFqg=;
-        b=4ubKy+Xm7JacTt2JzxZ2Icu6byvtGFpu5onHY1/Y2g792+7bK68hETcqvwgkUdpEEA
-         kSEl2oPSOzRCKjt5YgSa63ACUM/0zaj9q14Op/0Xttc2PkB1BNGss8Xja9/+VqF6raon
-         BS8v8niMmzleobVgSPyRFJudocFL+LDQQYFS/chBMcNakaeJjBWadG1/MISNDtv+Em9G
-         ZvM1F1WD/yG80k6GIMfCKl55ygDJczdhZm59o7Gs4x7ipoJNdqlQ2tU7wNTMQLRwMeS3
-         w2GxJVxrqR/FtCSYSRDP0VVomxCpG1nxRuKjQcsyfS6mJnlJnG7T6pr2czcxUHCspMVZ
-         /gzg==
-X-Gm-Message-State: ACgBeo2RSTWh2dg9pset16/l/xETzKQKBzlv54pbUoDThxHV+eWMSnkf
-	iNorqj3xpPPxOd6unmUft04=
-X-Google-Smtp-Source: AA6agR7Omz0Ba3AN6qiv2ULvX39qzey9tyjPowF3y2cHjuujTfPT0e38hrLtPKHjw1JIch+djby9Zw==
-X-Received: by 2002:a05:6512:4002:b0:499:280:9c5b with SMTP id br2-20020a056512400200b0049902809c5bmr7376695lfb.593.1663104185266;
-        Tue, 13 Sep 2022 14:23:05 -0700 (PDT)
-Received: from localhost (95-31-185-216.broadband.corbina.ru. [95.31.185.216])
-        by smtp.gmail.com with ESMTPSA id 28-20020ac25f5c000000b004998d9ccb62sm1597517lfz.99.2022.09.13.14.23.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Sep 2022 14:23:04 -0700 (PDT)
-From: Mikhail Rudenko <mike.rudenko@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C1A2671B
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Sep 2022 23:33:42 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 51BCD1A32;
+	Tue, 13 Sep 2022 16:33:48 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6E61E3F73B;
+	Tue, 13 Sep 2022 16:33:39 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Tom Rini <trini@konsulko.com>,
+	Jagan Teki <jagan@amarulasolutions.com>
+Cc: Simon Glass <sjg@chromium.org>,
 	Samuel Holland <samuel@sholland.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Li Chen <lchen@ambarella.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Mikhail Rudenko <mike.rudenko@gmail.com>,
-	alsa-devel@alsa-project.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] ASoC: sunxi: sun4i-codec: set debugfs_prefix for CPU DAI component
-Date: Wed, 14 Sep 2022 00:22:55 +0300
-Message-Id: <20220913212256.151799-2-mike.rudenko@gmail.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220913212256.151799-1-mike.rudenko@gmail.com>
-References: <YyCqC2EypxnoJFk7@sirena.org.uk>
- <20220913212256.151799-1-mike.rudenko@gmail.com>
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 0/2] sunxi: defconfig: use Kconfig defaults
+Date: Wed, 14 Sep 2022 00:32:15 +0100
+Message-Id: <20220913233217.24717-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -68,37 +25,191 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-At present, succesfull probing of H3 Codec results in an error
+Some recent patches from Tom (thanks for that!) were converting some
+configuration options from header files to Kconfig symbols.
+For sunxi, this moved their value definition into every *board*
+defconfig, although they are actual per-SoC choices.
 
-    debugfs: Directory '1c22c00.codec' with parent 'H3 Audio Codec' already present!
+Make this obvious by defining per-SoC default values in the Kconfig
+stanza, and removing the now redundant explicit defconfig definitions.
 
-This is caused by a directory name conflict between codec
-components. Fix it by setting debugfs_prefix for the CPU DAI
-component.
+Apart from using the opportunity to upgrading the uncompressed arm64
+kernel size to 64MB, this does not change configs otherwise.
 
-Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
----
-changes in v2:
-- rebase against current tree
-- add #ifdef CONFIG_DEBUG_FS guard
-- change prefix from "dai" to more specific "cpu"
+Patch 1 adds the default definitions, patch 2 removes the defconfig
+definitions.
 
- sound/soc/sunxi/sun4i-codec.c | 3 +++
- 1 file changed, 3 insertions(+)
+Thanks,
+Andre
 
-diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
-index 3a7075d03c23..835dc3404367 100644
---- a/sound/soc/sunxi/sun4i-codec.c
-+++ b/sound/soc/sunxi/sun4i-codec.c
-@@ -1232,6 +1232,9 @@ static const struct snd_soc_component_driver sun8i_a23_codec_codec = {
- static const struct snd_soc_component_driver sun4i_codec_component = {
- 	.name			= "sun4i-codec",
- 	.legacy_dai_naming	= 1,
-+#ifdef CONFIG_DEBUG_FS
-+	.debugfs_prefix		= "cpu",
-+#endif
- };
+Andre Przywara (2):
+  sunxi: Kconfig: use SoC-wide values for some symbols
+  sunxi: defconfig: drop redundant definitions
 
- #define SUN4I_CODEC_RATES	SNDRV_PCM_RATE_CONTINUOUS
---
-2.37.3
+ cmd/Kconfig                                    | 1 +
+ common/spl/Kconfig                             | 6 ++++++
+ configs/A10-OLinuXino-Lime_defconfig           | 2 --
+ configs/A10s-OLinuXino-M_defconfig             | 2 --
+ configs/A13-OLinuXinoM_defconfig               | 2 --
+ configs/A13-OLinuXino_defconfig                | 2 --
+ configs/A20-OLinuXino-Lime2-eMMC_defconfig     | 2 --
+ configs/A20-OLinuXino-Lime2_defconfig          | 2 --
+ configs/A20-OLinuXino-Lime_defconfig           | 2 --
+ configs/A20-OLinuXino_MICRO-eMMC_defconfig     | 2 --
+ configs/A20-OLinuXino_MICRO_defconfig          | 2 --
+ configs/A20-Olimex-SOM-EVB_defconfig           | 2 --
+ configs/A20-Olimex-SOM204-EVB-eMMC_defconfig   | 2 --
+ configs/A20-Olimex-SOM204-EVB_defconfig        | 2 --
+ configs/A33-OLinuXino_defconfig                | 2 --
+ configs/Ainol_AW1_defconfig                    | 2 --
+ configs/Ampe_A76_defconfig                     | 2 --
+ configs/Auxtek-T003_defconfig                  | 2 --
+ configs/Auxtek-T004_defconfig                  | 2 --
+ configs/Bananapi_M2_Ultra_defconfig            | 2 --
+ configs/Bananapi_defconfig                     | 2 --
+ configs/Bananapi_m2m_defconfig                 | 2 --
+ configs/Bananapro_defconfig                    | 2 --
+ configs/CHIP_defconfig                         | 2 --
+ configs/CHIP_pro_defconfig                     | 2 --
+ configs/CSQ_CS908_defconfig                    | 2 --
+ configs/Chuwi_V7_CW0825_defconfig              | 2 --
+ configs/Colombus_defconfig                     | 2 --
+ configs/Cubieboard2_defconfig                  | 2 --
+ configs/Cubieboard4_defconfig                  | 2 --
+ configs/Cubieboard_defconfig                   | 2 --
+ configs/Cubietruck_defconfig                   | 2 --
+ configs/Cubietruck_plus_defconfig              | 2 --
+ configs/Empire_electronix_d709_defconfig       | 2 --
+ configs/Empire_electronix_m712_defconfig       | 2 --
+ configs/Hummingbird_A31_defconfig              | 2 --
+ configs/Hyundai_A7HD_defconfig                 | 2 --
+ configs/Itead_Ibox_A20_defconfig               | 2 --
+ configs/Lamobo_R1_defconfig                    | 2 --
+ configs/LicheePi_Zero_defconfig                | 2 --
+ configs/Linksprite_pcDuino3_Nano_defconfig     | 2 --
+ configs/Linksprite_pcDuino3_defconfig          | 2 --
+ configs/Linksprite_pcDuino_defconfig           | 2 --
+ configs/MK808C_defconfig                       | 2 --
+ configs/MSI_Primo73_defconfig                  | 2 --
+ configs/MSI_Primo81_defconfig                  | 2 --
+ configs/Marsboard_A10_defconfig                | 2 --
+ configs/Mele_A1000G_quad_defconfig             | 2 --
+ configs/Mele_A1000_defconfig                   | 2 --
+ configs/Mele_I7_defconfig                      | 2 --
+ configs/Mele_M3_defconfig                      | 2 --
+ configs/Mele_M5_defconfig                      | 2 --
+ configs/Mele_M9_defconfig                      | 2 --
+ configs/Merrii_A80_Optimus_defconfig           | 2 --
+ configs/Mini-X_defconfig                       | 2 --
+ configs/Nintendo_NES_Classic_Edition_defconfig | 2 --
+ configs/Orangepi_defconfig                     | 2 --
+ configs/Orangepi_mini_defconfig                | 2 --
+ configs/Sinlinx_SinA31s_defconfig              | 2 --
+ configs/Sinlinx_SinA33_defconfig               | 2 --
+ configs/Sinovoip_BPI_M2_defconfig              | 2 --
+ configs/Sinovoip_BPI_M3_defconfig              | 2 --
+ configs/Sunchip_CX-A99_defconfig               | 2 --
+ configs/UTOO_P66_defconfig                     | 2 --
+ configs/Wexler_TAB7200_defconfig               | 2 --
+ configs/Wits_Pro_A20_DKT_defconfig             | 2 --
+ configs/Wobo_i5_defconfig                      | 2 --
+ configs/Yones_Toptech_BD1078_defconfig         | 2 --
+ configs/Yones_Toptech_BS1078_V2_defconfig      | 2 --
+ configs/a64-olinuxino-emmc_defconfig           | 3 ---
+ configs/a64-olinuxino_defconfig                | 3 ---
+ configs/amarula_a64_relic_defconfig            | 3 ---
+ configs/ba10_tv_box_defconfig                  | 2 --
+ configs/bananapi_m1_plus_defconfig             | 2 --
+ configs/bananapi_m2_berry_defconfig            | 2 --
+ configs/bananapi_m2_plus_h3_defconfig          | 2 --
+ configs/bananapi_m2_plus_h5_defconfig          | 3 ---
+ configs/bananapi_m2_zero_defconfig             | 2 --
+ configs/bananapi_m64_defconfig                 | 3 ---
+ configs/beelink_gs1_defconfig                  | 3 ---
+ configs/beelink_x2_defconfig                   | 2 --
+ configs/colorfly_e708_q1_defconfig             | 2 --
+ configs/difrnce_dit4350_defconfig              | 2 --
+ configs/dserve_dsrv9703c_defconfig             | 2 --
+ configs/emlid_neutis_n5_devboard_defconfig     | 3 ---
+ configs/ga10h_v1_1_defconfig                   | 2 --
+ configs/gt90h_v4_defconfig                     | 2 --
+ configs/h8_homlet_v2_defconfig                 | 2 --
+ configs/i12-tvbox_defconfig                    | 2 --
+ configs/iNet_3F_defconfig                      | 2 --
+ configs/iNet_3W_defconfig                      | 2 --
+ configs/iNet_86VS_defconfig                    | 2 --
+ configs/iNet_D978_rev2_defconfig               | 2 --
+ configs/icnova-a20-swac_defconfig              | 2 --
+ configs/inet1_defconfig                        | 2 --
+ configs/inet86dz_defconfig                     | 2 --
+ configs/inet97fv2_defconfig                    | 2 --
+ configs/inet98v_rev2_defconfig                 | 2 --
+ configs/inet9f_rev03_defconfig                 | 2 --
+ configs/inet_q972_defconfig                    | 2 --
+ configs/jesurun_q5_defconfig                   | 2 --
+ configs/libretech_all_h3_cc_h2_plus_defconfig  | 2 --
+ configs/libretech_all_h3_cc_h3_defconfig       | 2 --
+ configs/libretech_all_h3_cc_h5_defconfig       | 3 ---
+ configs/libretech_all_h3_it_h5_defconfig       | 3 ---
+ configs/libretech_all_h5_cc_h5_defconfig       | 3 ---
+ configs/licheepi_nano_defconfig                | 2 --
+ configs/mixtile_loftq_defconfig                | 2 --
+ configs/mk802_a10s_defconfig                   | 2 --
+ configs/mk802_defconfig                        | 2 --
+ configs/mk802ii_defconfig                      | 2 --
+ configs/nanopi_a64_defconfig                   | 3 ---
+ configs/nanopi_m1_defconfig                    | 2 --
+ configs/nanopi_m1_plus_defconfig               | 2 --
+ configs/nanopi_neo2_defconfig                  | 3 ---
+ configs/nanopi_neo_air_defconfig               | 2 --
+ configs/nanopi_neo_defconfig                   | 2 --
+ configs/nanopi_neo_plus2_defconfig             | 3 ---
+ configs/nanopi_r1s_h5_defconfig                | 3 ---
+ configs/oceanic_5205_5inmfd_defconfig          | 3 ---
+ configs/orangepi_2_defconfig                   | 2 --
+ configs/orangepi_3_defconfig                   | 3 ---
+ configs/orangepi_lite2_defconfig               | 3 ---
+ configs/orangepi_lite_defconfig                | 2 --
+ configs/orangepi_one_defconfig                 | 2 --
+ configs/orangepi_one_plus_defconfig            | 3 ---
+ configs/orangepi_pc2_defconfig                 | 3 ---
+ configs/orangepi_pc_defconfig                  | 2 --
+ configs/orangepi_pc_plus_defconfig             | 2 --
+ configs/orangepi_plus2e_defconfig              | 2 --
+ configs/orangepi_plus_defconfig                | 2 --
+ configs/orangepi_prime_defconfig               | 3 ---
+ configs/orangepi_r1_defconfig                  | 2 --
+ configs/orangepi_win_defconfig                 | 3 ---
+ configs/orangepi_zero2_defconfig               | 4 ----
+ configs/orangepi_zero_defconfig                | 2 --
+ configs/orangepi_zero_plus2_defconfig          | 3 ---
+ configs/orangepi_zero_plus2_h3_defconfig       | 2 --
+ configs/orangepi_zero_plus_defconfig           | 3 ---
+ configs/parrot_r16_defconfig                   | 2 --
+ configs/pine64-lts_defconfig                   | 3 ---
+ configs/pine64_plus_defconfig                  | 3 ---
+ configs/pine_h64_defconfig                     | 3 ---
+ configs/pinebook_defconfig                     | 3 ---
+ configs/pinecube_defconfig                     | 2 --
+ configs/pinephone_defconfig                    | 3 ---
+ configs/pinetab_defconfig                      | 3 ---
+ configs/polaroid_mid2407pxe03_defconfig        | 2 --
+ configs/polaroid_mid2809pxe04_defconfig        | 2 --
+ configs/pov_protab2_ips9_defconfig             | 2 --
+ configs/q8_a13_tablet_defconfig                | 2 --
+ configs/q8_a23_tablet_800x480_defconfig        | 2 --
+ configs/q8_a33_tablet_1024x600_defconfig       | 2 --
+ configs/q8_a33_tablet_800x480_defconfig        | 2 --
+ configs/r7-tv-dongle_defconfig                 | 2 --
+ configs/sopine_baseboard_defconfig             | 3 ---
+ configs/sun8i_a23_evb_defconfig                | 2 --
+ configs/sunxi_Gemei_G9_defconfig               | 2 --
+ configs/tanix_tx6_defconfig                    | 3 ---
+ configs/tbs_a711_defconfig                     | 2 --
+ configs/teres_i_defconfig                      | 3 ---
+ configs/zeropi_defconfig                       | 2 --
+ 162 files changed, 7 insertions(+), 354 deletions(-)
+
+-- 
+2.35.3
+
