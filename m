@@ -1,42 +1,42 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F74F3C3F
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Sep 2022 21:23:04 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id u18so22113810lfo.8
-        for <linux-sunxi@lists.linux.dev>; Tue, 13 Sep 2022 14:23:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EEF73C3F
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Sep 2022 21:23:07 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id f9so21393331lfr.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 13 Sep 2022 14:23:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=IcnIgmMTd0DbyquQgMbmNfx9FsBF4BI9rV5mzK+kC9s=;
-        b=Qik0HCAE4mWGdPhhl3Z4XxHZp2Fsh0qBqor3gfQ7RHj1oA6dc1TrGetu03nykh1gIs
-         w+ofH7Fq69SEMBdJ6Ch4oIylIIktjNbYHlz/yjxBxzoJ4pRA+e6nMmQ4GUXJUYgi7fdO
-         ZUY3CacnUYhm1obecq1Z183lWv5T5Jw0YJnsIXaiSMe7zocNkqyvQzKrIM4M7d88m2HQ
-         IfJM1vEV597EU42uX81zY0iOXdGc5+/VGJG/4bp5uVAFNB1s5HEJw0Q0DB/s4FOosgez
-         t5RMwiGNUr3quyrVSVMEYmfX6VB1rt+KlxCbBwURFi/6i0gclZ8xRNSu6UiGPjteEK2U
-         6pPw==
+        bh=s9fWB+KIpWEfG0ChDe1LcnxfLz16/kGFFSIfjNPpFqg=;
+        b=PFSKJZ6gXwhxNTRmtTVhaeQp46N+lP4VFWn/lQvm2dv0lKJ+ah8FUS5waaRZoZ9RVs
+         TJHS2AGrgxI29RRAmLT9EJZFTvbQSopCWNEjNpAUL2QijGQFQJECoAEAIAsTTC2ZskBg
+         qIn79PNZHDQ8/Ae27hX0fyiU/UHXr9+jbNzxtHFAMCD4Ju/UQ++1zPEP9yaDLxTMEUVn
+         r58L3YJxIdUuZVPZeU471yBBWlLnj1+li4hj1sKKKkwHWET7uWm3Mja8T5hG8M9oFAJO
+         1w4d5oy3+pqBl3WbCafGgg6rWWnwSHXXt7fAA1z+rGzILMywDlcP1EEDGx19P37AfpbR
+         x/EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=IcnIgmMTd0DbyquQgMbmNfx9FsBF4BI9rV5mzK+kC9s=;
-        b=RJWR9TdYiP61NjbbfXBcB9tJoZ7VPhJIBPEu6wViklSLIegdckToHGzo81MrMn9qu4
-         /RNdFSWqiMSd2P5czSkAgUU3oonTo1HDD6T03+HZIXoRUioezo1z/gtoHnd/+Y2v/etF
-         d2fjNZNrpNWKYS39d094Lw5PLbvATR6ocWk6/kut/cKqfAavxJVntMBGJxgD2kbGPVUh
-         djSMH1YDB2s1hA5RX20O2Yhbo3CBp/+xe9y02EGuytGVOJF+TCCCHDJWIcK5LR6fgO85
-         /yWulXpFweo1Oz9z0JY/0WUWwwvJHuOIAAUIQyEUMeFuS8gozlY/5DsGun3ezrrZxuYy
-         XZ+A==
-X-Gm-Message-State: ACgBeo1tEWAz67/vpqtQujGbfsKFYzaL37dzI/ZrO+9+CWxFatSwZfyS
-	ZUvgSNcELztbz82JNY0T+mA=
-X-Google-Smtp-Source: AA6agR7lqpwxdnlrp1g555khCJ+9y1Mn78ZuFzcawcY9GJzf7Jw2t+odgShu0RDTZclAju9cgeR/kw==
-X-Received: by 2002:a19:e00d:0:b0:492:e5a5:588b with SMTP id x13-20020a19e00d000000b00492e5a5588bmr10452415lfg.243.1663104182075;
-        Tue, 13 Sep 2022 14:23:02 -0700 (PDT)
+        bh=s9fWB+KIpWEfG0ChDe1LcnxfLz16/kGFFSIfjNPpFqg=;
+        b=4ubKy+Xm7JacTt2JzxZ2Icu6byvtGFpu5onHY1/Y2g792+7bK68hETcqvwgkUdpEEA
+         kSEl2oPSOzRCKjt5YgSa63ACUM/0zaj9q14Op/0Xttc2PkB1BNGss8Xja9/+VqF6raon
+         BS8v8niMmzleobVgSPyRFJudocFL+LDQQYFS/chBMcNakaeJjBWadG1/MISNDtv+Em9G
+         ZvM1F1WD/yG80k6GIMfCKl55ygDJczdhZm59o7Gs4x7ipoJNdqlQ2tU7wNTMQLRwMeS3
+         w2GxJVxrqR/FtCSYSRDP0VVomxCpG1nxRuKjQcsyfS6mJnlJnG7T6pr2czcxUHCspMVZ
+         /gzg==
+X-Gm-Message-State: ACgBeo2RSTWh2dg9pset16/l/xETzKQKBzlv54pbUoDThxHV+eWMSnkf
+	iNorqj3xpPPxOd6unmUft04=
+X-Google-Smtp-Source: AA6agR7Omz0Ba3AN6qiv2ULvX39qzey9tyjPowF3y2cHjuujTfPT0e38hrLtPKHjw1JIch+djby9Zw==
+X-Received: by 2002:a05:6512:4002:b0:499:280:9c5b with SMTP id br2-20020a056512400200b0049902809c5bmr7376695lfb.593.1663104185266;
+        Tue, 13 Sep 2022 14:23:05 -0700 (PDT)
 Received: from localhost (95-31-185-216.broadband.corbina.ru. [95.31.185.216])
-        by smtp.gmail.com with ESMTPSA id s28-20020a195e1c000000b004979da67114sm1964736lfb.255.2022.09.13.14.22.59
+        by smtp.gmail.com with ESMTPSA id 28-20020ac25f5c000000b004998d9ccb62sm1597517lfz.99.2022.09.13.14.23.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Sep 2022 14:23:01 -0700 (PDT)
+        Tue, 13 Sep 2022 14:23:04 -0700 (PDT)
 From: Mikhail Rudenko <mike.rudenko@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -53,12 +53,13 @@ Cc: Mikhail Rudenko <mike.rudenko@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2] ASoC: sunxi: sun4i-codec: silence misleading error in probe
-Date: Wed, 14 Sep 2022 00:22:54 +0300
-Message-Id: <20220913212256.151799-1-mike.rudenko@gmail.com>
+Subject: [PATCH v2 2/2] ASoC: sunxi: sun4i-codec: set debugfs_prefix for CPU DAI component
+Date: Wed, 14 Sep 2022 00:22:55 +0300
+Message-Id: <20220913212256.151799-2-mike.rudenko@gmail.com>
 X-Mailer: git-send-email 2.37.3
-In-Reply-To: <YyCqC2EypxnoJFk7@sirena.org.uk>
+In-Reply-To: <20220913212256.151799-1-mike.rudenko@gmail.com>
 References: <YyCqC2EypxnoJFk7@sirena.org.uk>
+ <20220913212256.151799-1-mike.rudenko@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -67,37 +68,37 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In the case when a codec device is probed before codec analog
-controls, snd_soc_register_card() returns -EPROBE_DEFER, resulting in
-a misleading error message
+At present, succesfull probing of H3 Codec results in an error
 
-    sun4i-codec 1c22c00.codec: Failed to register our card
+    debugfs: Directory '1c22c00.codec' with parent 'H3 Audio Codec' already present!
 
-even if the device is probed successfully later. Use dev_err_probe()
-to demote the above error to a debug message.
+This is caused by a directory name conflict between codec
+components. Fix it by setting debugfs_prefix for the CPU DAI
+component.
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
 ---
 changes in v2:
 - rebase against current tree
-- add Jernej's Acked-by
+- add #ifdef CONFIG_DEBUG_FS guard
+- change prefix from "dai" to more specific "cpu"
 
- sound/soc/sunxi/sun4i-codec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/sunxi/sun4i-codec.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
-index 830beb38bf15..3a7075d03c23 100644
+index 3a7075d03c23..835dc3404367 100644
 --- a/sound/soc/sunxi/sun4i-codec.c
 +++ b/sound/soc/sunxi/sun4i-codec.c
-@@ -1804,7 +1804,7 @@ static int sun4i_codec_probe(struct platform_device *pdev)
+@@ -1232,6 +1232,9 @@ static const struct snd_soc_component_driver sun8i_a23_codec_codec = {
+ static const struct snd_soc_component_driver sun4i_codec_component = {
+ 	.name			= "sun4i-codec",
+ 	.legacy_dai_naming	= 1,
++#ifdef CONFIG_DEBUG_FS
++	.debugfs_prefix		= "cpu",
++#endif
+ };
 
- 	ret = snd_soc_register_card(card);
- 	if (ret) {
--		dev_err(&pdev->dev, "Failed to register our card\n");
-+		dev_err_probe(&pdev->dev, ret, "Failed to register our card\n");
- 		goto err_assert_reset;
- 	}
-
+ #define SUN4I_CODEC_RATES	SNDRV_PCM_RATE_CONTINUOUS
 --
 2.37.3
