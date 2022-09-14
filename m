@@ -1,61 +1,167 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 864873D7C
-	for <linux-sunxi@lists.linux.dev>; Wed, 14 Sep 2022 14:24:11 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A9AA21576;
-	Wed, 14 Sep 2022 07:24:11 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5FDC13F73D;
-	Wed, 14 Sep 2022 07:24:04 -0700 (PDT)
-Date: Wed, 14 Sep 2022 15:24:00 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Tom Rini <trini@konsulko.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, Simon Glass <sjg@chromium.org>,
- Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev, U-Boot
- Mailing List <u-boot@lists.denx.de>
-Subject: Re: [PATCH 1/2] sunxi: Kconfig: use SoC-wide values for some
- symbols
-Message-ID: <20220914152400.1e9fe273@donnerap.cambridge.arm.com>
-In-Reply-To: <20220914140444.GQ6993@bill-the-cat>
-References: <20220913233217.24717-1-andre.przywara@arm.com>
-	<20220913233217.24717-2-andre.przywara@arm.com>
-	<20220914140444.GQ6993@bill-the-cat>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685313D62;
+	Wed, 14 Sep 2022 15:03:17 +0000 (UTC)
+Received: from dimapc.. (109-252-122-187.nat.spd-mgts.ru [109.252.122.187])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dmitry.osipenko)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 087C56601BDF;
+	Wed, 14 Sep 2022 16:03:11 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1663167792;
+	bh=MKe6/s3tvLmdyJXZjKooDqWZzASfXtNe2FVvnbAhZLM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=RKoQTFo8BXGuXtV1ZJtrlPH1iX7chZWETLyGqWYcAfSu+PT2P3sRjrQrbdeOok/tg
+	 di91k1Bjtixc6gaBuvHWc72tPj4IVVdM3D/blyyTynKXBIZ57KjRJJINHL3JFQigOo
+	 0ykVUxISaO6Ty3jVxSez7Ct6HYQSroGAGsLsvZdi8vgg7nxfqwadw764uzmfvWPEAj
+	 JiVPqJ0BCWhQgyXgYByRaYocmJrubd33yH0rKD/jqRKQ598XLaRhUTkMPHpUV+xnwc
+	 q0FODgTcS4USQB/2UrGMCd00pMKW8OyGShTcQR6DPYwWs55tl7HcDNhvoZylJNQoXP
+	 43ONzAShPnKlw==
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	kernel@collabora.com
+Subject: [PATCH v1] media: cedrus: Propagate error code from cedrus_h265_skip_bits()
+Date: Wed, 14 Sep 2022 18:01:05 +0300
+Message-Id: <20220914150105.209484-1-dmitry.osipenko@collabora.com>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 14 Sep 2022 10:04:44 -0400
-Tom Rini <trini@konsulko.com> wrote:
+The cedrus_h265_skip_bits() may get into infinite loop if decoding
+parameters are incorrect. In this case we detect the loop and print
+a error message, continuing the decoding that is fated to fail.
 
-Hi Tom,
+Will be cleaner to abort the decoding early. Propagate the error code
+to cedrus_device_run() and reset hardware on the cedrus_h265_skip_bits()
+failure.
 
-> On Wed, Sep 14, 2022 at 12:32:16AM +0100, Andre Przywara wrote:
-> 
-> > Some configuration symbols formerly defined in header files were
-> > recently converted to Kconfig symbols. This moved their value definition
-> > into *every* defconfig file, even though those values are hardly board
-> > choices.
-> > Use the new Kconfig option to define per-SoC default values, in just one
-> > place, which makes the definition in each defconfig file redundant.
-> > 
-> > We refrain from setting a sunxi specific value for CONFIG_SYS_BOOTM_LEN,
-> > so this defaults to a much better 64MB for uncompressed arm64 kernels.
-> > 
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> 
-> Note that you forgot to CC the U-Boot list on this series.
-> 
-> Reviewed-by: Tom Rini <trini@konsulko.com>
+Suggested-by: Jernej Škrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+---
+ drivers/staging/media/sunxi/cedrus/cedrus_dec.c  |  2 ++
+ drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 15 ++++++++++++---
+ drivers/staging/media/sunxi/cedrus/cedrus_hw.c   |  7 ++++++-
+ drivers/staging/media/sunxi/cedrus/cedrus_hw.h   |  2 ++
+ 4 files changed, 22 insertions(+), 4 deletions(-)
 
-Many thanks! And yeah, I realised that missing CC: afterwards, and sent it
-again, just to the list this time. CC:ing now to record your tag.
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+index e7f7602a5ab4..ae5df3dc01c0 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+@@ -112,6 +112,8 @@ void cedrus_device_run(void *priv)
+ 
+ 		dev->dec_ops[ctx->current_codec]->trigger(ctx);
+ 	} else {
++		cedrus_hw_reset(dev);
++
+ 		v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev,
+ 						 ctx->fh.m2m_ctx,
+ 						 VB2_BUF_STATE_ERROR);
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+index 4952fc17f3e6..f409f59452d8 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+@@ -224,9 +224,10 @@ static void cedrus_h265_pred_weight_write(struct cedrus_dev *dev,
+ 	}
+ }
+ 
+-static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
++static int cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
+ {
+ 	int count = 0;
++	int err;
+ 
+ 	while (count < num) {
+ 		int tmp = min(num - count, 32);
+@@ -235,11 +236,16 @@ static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
+ 			     VE_DEC_H265_TRIGGER_FLUSH_BITS |
+ 			     VE_DEC_H265_TRIGGER_TYPE_N_BITS(tmp));
+ 
+-		if (cedrus_wait_for(dev, VE_DEC_H265_STATUS, VE_DEC_H265_STATUS_VLD_BUSY))
++		err = cedrus_wait_for(dev, VE_DEC_H265_STATUS, VE_DEC_H265_STATUS_VLD_BUSY);
++		if (err) {
+ 			dev_err_ratelimited(dev->dev, "timed out waiting to skip bits\n");
++			return err;
++		}
+ 
+ 		count += tmp;
+ 	}
++
++	return 0;
+ }
+ 
+ static void cedrus_h265_write_scaling_list(struct cedrus_ctx *ctx,
+@@ -408,6 +414,7 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
+ 	u32 pic_order_cnt[2];
+ 	u8 *padding;
+ 	int count;
++	int err;
+ 	u32 reg;
+ 
+ 	sps = run->h265.sps;
+@@ -534,7 +541,9 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
+ 	/* Include the one bit. */
+ 	count++;
+ 
+-	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8 - count);
++	err = cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8 - count);
++	if (err)
++		return err;
+ 
+ 	/* Bitstream parameters. */
+ 
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+index a6470a89851e..e9ceca332062 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+@@ -168,11 +168,16 @@ void cedrus_watchdog(struct work_struct *work)
+ 					 VB2_BUF_STATE_ERROR);
+ }
+ 
++void cedrus_hw_reset(struct cedrus_dev *dev)
++{
++	reset_control_reset(dev->rstc);
++}
++
+ int cedrus_hw_suspend(struct device *device)
+ {
+ 	struct cedrus_dev *dev = dev_get_drvdata(device);
+ 
+-	reset_control_assert(dev->rstc);
++	cedrus_hw_reset(dev);
+ 
+ 	clk_disable_unprepare(dev->ram_clk);
+ 	clk_disable_unprepare(dev->mod_clk);
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+index 7c92f00e36da..919c4475f0d7 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+@@ -30,4 +30,6 @@ void cedrus_hw_remove(struct cedrus_dev *dev);
+ 
+ void cedrus_watchdog(struct work_struct *work);
+ 
++void cedrus_hw_reset(struct cedrus_dev *dev);
++
+ #endif
+-- 
+2.37.3
 
-Cheers,
-Andre
