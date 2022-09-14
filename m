@@ -1,103 +1,137 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5CA3D62
-	for <linux-sunxi@lists.linux.dev>; Wed, 14 Sep 2022 15:33:40 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id sb3so5971540ejb.9
-        for <linux-sunxi@lists.linux.dev>; Wed, 14 Sep 2022 08:33:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7392F23
+	for <linux-sunxi@lists.linux.dev>; Wed, 14 Sep 2022 18:34:52 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id z14-20020a05600c0a0e00b003b486df42a3so7049086wmp.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 14 Sep 2022 11:34:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=euBywoUqWY+9yPtFA/h7+K25+vefjCBo4JeDdhHgIhg=;
-        b=na7tS1cWTqcfmwovO/xG7sjSvLAaRTdSCnO+6swrap87QiTLrqQKu4jppnggBiwxR0
-         CX2heIiM4FhpIb/birHu1wjC6MTWWWHjIH3QY15ZFGcPx2nTOUQWwo4nPl76tJD94AAY
-         zsJwmVWai2JY/gyBwxAcR7dRmRUj7vlBd5bbt7dug8Bt2ckZDoGakuqqKPVzsgWuEthk
-         9pxgkGEFzkr0BnV3R9ohnK2lLB64JJ+0YXI6TKhJIZwzoRrzAF52erwFi/u+a/KnpAS6
-         y/o7yHTZBawGCDWaol6hc3jMrZlk2TfwPKLbxMpVNmNsBudZmGgJPs+cN/A8drMjf35l
-         VNYQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=JsISeLX5mpCpxthlxP4ErXH6DoBjoU0NuzMWeuum25Y=;
+        b=b8XJVfQgh6f42h4IZgOyV2auxtNTfJY3Mk7tvhffw5JvkTV1xU/OF/9oVfq+T3vsGw
+         7ACWO0CxkPuDOSE95YphAae2xw8NLfOsAVlrOw+rm91jS4inQJllP262nDZdKw86Y2Sb
+         FfMkC5eCONnnz405vkcfga5Db6IQmBplsIxluHiSEtctoQjmxaIXPKASB4EPTsBvya9U
+         I7TDRD5wRGAwaglR8FLXYj3LmLWZirwBtEIRr1mIbkxmG91CE5V1KBiY0/I4olvPK2ax
+         WGVgXBVa6oN5F6HC0jhJzZri8BLPk11xKLDDeKkmFJNmP4No8PR/gpI4CiCsnzyUWO9+
+         6ENw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=euBywoUqWY+9yPtFA/h7+K25+vefjCBo4JeDdhHgIhg=;
-        b=FkV1wMbl9qXlM7Giq0OOfzkY7JY/PWpgUbTZY9wH2P6DC8FD5fkqNx/1/yGtqk8BYy
-         TjFRNiz9G4mevUGpKQej5tybB+BNV5H6M68CSgFS4pEb5hp0SpJqPNbVTyboxjsSnYNK
-         kh4Wy7Zmxk3MLZ9lkVd01bUoCVeSQ5K9nJNvp3aDG8xdFzxju3mCgSegqaMNU1GUHGrY
-         1JssJtSvQvl4mtI3sBF6PO9EyU/pz3d/sqmt+M5E8x1Sd83HOH0OKmbLGb6D7b1KKX+b
-         eRrFW/KuCGlqeVaAEvWgRtTFKIfbEXVGBCUmARei/V1HpSwL0fYAj/F9PzSopJp17KCu
-         ulUQ==
-X-Gm-Message-State: ACgBeo0GN3NCU5eFpMOiaOf1RZEKaKirR8f90AuEVV5gPYivEfmoXOL/
-	Nb7IUeelc4qtj2wDDivqYqngraEYD32TNoPIVZw=
-X-Google-Smtp-Source: AA6agR6FfLnXUSOTPacpx7RREDFu38n5a5EdGdNa5zwcSzUCfG/WghGZdEtUSgmo4eg0hC4iuJsVeuEL0FdtOUeP6Kg=
-X-Received: by 2002:a17:907:80d:b0:73d:a576:dfbd with SMTP id
- wv13-20020a170907080d00b0073da576dfbdmr26468956ejb.402.1663169618930; Wed, 14
- Sep 2022 08:33:38 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=JsISeLX5mpCpxthlxP4ErXH6DoBjoU0NuzMWeuum25Y=;
+        b=OrO7skU4PnAfjRkoH/qlELavrcuTW2DghkpXs6ycyDls1TP2qc9u1S/YciqSOnBtUM
+         q6PV8BCFpalHdKAb4n04S8nx/UzGXHCQcT7Z5x0T/BK7y+7UXmew6nJNJZ0xbzsF2hPz
+         5DDDhLanW0XYka+AbIUDYoS07bzUi8ReweJERbBytXA+I4X3Ti0zuxUy8ONRUfWFa9wl
+         V/Rbz/r7AWlDl/NuJCaCC09ItRLbdMxpVGPpT8WF8f5+VCGCZ3th2HJZvx7VpA8uImA3
+         6zsApwiSmJBws3FWf6z9GgX1QLfLK/SSitR+ev9bi89Y+tSh0zc6JKEvBFJUV5vijXFP
+         OBPw==
+X-Gm-Message-State: ACgBeo3O3MIMZmM82sVEAsztjwoRzZyLT6u3CzZnkukUCrpatHvO/0n2
+	qOqpKnvl2/HMGzzbMD04x+c=
+X-Google-Smtp-Source: AA6agR6UytNvjwp9AcqLcUEBZZ05NnxYruVwOlvPiNIgw9/oAArA3qxOg8XR4dS2Q4nnZMWmAxFQWw==
+X-Received: by 2002:a05:600c:444b:b0:3a6:6b99:2394 with SMTP id v11-20020a05600c444b00b003a66b992394mr4105344wmn.43.1663180490778;
+        Wed, 14 Sep 2022 11:34:50 -0700 (PDT)
+Received: from jernej-laptop.localnet ([89.100.165.250])
+        by smtp.gmail.com with ESMTPSA id y25-20020a05600c365900b003b483000583sm12313287wmq.48.2022.09.14.11.34.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Sep 2022 11:34:50 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>, =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>, devicetree <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v1] ARM: dts: sun8i: h3: orangepi-pc: Add CMA reserved memory node
+Date: Wed, 14 Sep 2022 20:34:49 +0200
+Message-ID: <1826631.tdWV9SEqCh@jernej-laptop>
+In-Reply-To: <CAJiuCcefkre611=1UXEkwScN+bYSBhE_ivGzTK7ZMvp-j4MbRQ@mail.gmail.com>
+References: <20220914151125.212876-1-dmitry.osipenko@collabora.com> <CAJiuCcefkre611=1UXEkwScN+bYSBhE_ivGzTK7ZMvp-j4MbRQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220914151125.212876-1-dmitry.osipenko@collabora.com>
-In-Reply-To: <20220914151125.212876-1-dmitry.osipenko@collabora.com>
-From: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Date: Wed, 14 Sep 2022 17:33:27 +0200
-Message-ID: <CAJiuCcefkre611=1UXEkwScN+bYSBhE_ivGzTK7ZMvp-j4MbRQ@mail.gmail.com>
-Subject: Re: [PATCH v1] ARM: dts: sun8i: h3: orangepi-pc: Add CMA reserved
- memory node
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev, 
-	linux-kernel <linux-kernel@vger.kernel.org>, devicetree <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-Hi Dmitry,
+Dne sreda, 14. september 2022 ob 17:33:27 CEST je Cl=E9ment P=E9ron napisal=
+(a):
+> Hi Dmitry,
+>=20
+> On Wed, 14 Sept 2022 at 17:12, Dmitry Osipenko
+>=20
+> <dmitry.osipenko@collabora.com> wrote:
+> > Add 256MB CMA node to the Orange Pi PC board. This fixes memory allocat=
+ion
+> > failures for Cedrus video decoder on trying to play a 1080p video with
+> > gstreamer.
+> >=20
+> > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> > ---
+> >=20
+> >  arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts | 14 ++++++++++++++
+> >  1 file changed, 14 insertions(+)
+> >=20
+> > diff --git a/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts
+> > b/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts index
+> > b96e015f54ee..e655346a9fb4 100644
+> > --- a/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts
+> > +++ b/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts
+> > @@ -60,6 +60,20 @@ chosen {
+> >=20
+> >                 stdout-path =3D "serial0:115200n8";
+> >        =20
+> >         };
+> >=20
+> > +       reserved-memory {
+> > +               #address-cells =3D <1>;
+> > +               #size-cells =3D <1>;
+> > +               ranges;
+> > +
+> > +               linux,cma@40000000 {
+> > +                       compatible =3D "shared-dma-pool";
+> > +                       alloc-ranges =3D <0x40000000 0x40000000>;
+> > +                       size =3D <0x10000000>; /* 256MiB */
+> > +                       linux,cma-default;
+> > +                       reusable;
+> > +               };
+> > +       };
+> > +
+>=20
+> This change seems legit for all H3 boards and could be moved to the H3 dt=
+si,
+> no?
 
-On Wed, 14 Sept 2022 at 17:12, Dmitry Osipenko
-<dmitry.osipenko@collabora.com> wrote:
->
-> Add 256MB CMA node to the Orange Pi PC board. This fixes memory allocation
-> failures for Cedrus video decoder on trying to play a 1080p video with
-> gstreamer.
->
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->
-> diff --git a/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts b/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts
-> index b96e015f54ee..e655346a9fb4 100644
-> --- a/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts
-> +++ b/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts
-> @@ -60,6 +60,20 @@ chosen {
->                 stdout-path = "serial0:115200n8";
->         };
->
-> +       reserved-memory {
-> +               #address-cells = <1>;
-> +               #size-cells = <1>;
-> +               ranges;
-> +
-> +               linux,cma@40000000 {
-> +                       compatible = "shared-dma-pool";
-> +                       alloc-ranges = <0x40000000 0x40000000>;
-> +                       size = <0x10000000>; /* 256MiB */
-> +                       linux,cma-default;
-> +                       reusable;
-> +               };
-> +       };
-> +
+That's true. However, there is a reason why this node doesn't exist. One or=
+=20
+two H2+ boards (which use H3 dtsi) have only 256 MiB of RAM, so this can't=
+=20
+work with them. A few H3 boards have 512 MiB of RAM, so you eat basically h=
+alf=20
+of the RAM with that. Additionally, contrary to A20 and similar SoCs, which=
+=20
+have such node, Cedrus can address whole RAM, so this is not strictly neede=
+d.=20
+It's better to leave this decision to distribution. Some don't care about=20
+Cedrus and some do a lot. Default size can be set via kernel config and it =
+can=20
+be overriden by kernel argument if necessary.
 
-This change seems legit for all H3 boards and could be moved to the H3 dtsi, no?
+Best regards,
+Jernej
 
-Regards,
-Clement
+>=20
+> Regards,
+> Clement
+>=20
+> >         connector {
+> >        =20
+> >                 compatible =3D "hdmi-connector";
+> >                 type =3D "a";
+> >=20
+> > --
+> > 2.37.3
 
->         connector {
->                 compatible = "hdmi-connector";
->                 type = "a";
-> --
-> 2.37.3
->
->
+
+
+
