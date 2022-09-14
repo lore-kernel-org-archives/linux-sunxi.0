@@ -1,41 +1,34 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685313D62;
-	Wed, 14 Sep 2022 15:03:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20ECB3D62
+	for <linux-sunxi@lists.linux.dev>; Wed, 14 Sep 2022 15:10:02 +0000 (UTC)
 Received: from dimapc.. (109-252-122-187.nat.spd-mgts.ru [109.252.122.187])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: dmitry.osipenko)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 087C56601BDF;
-	Wed, 14 Sep 2022 16:03:11 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 0754A6600367;
+	Wed, 14 Sep 2022 16:09:59 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1663167792;
-	bh=MKe6/s3tvLmdyJXZjKooDqWZzASfXtNe2FVvnbAhZLM=;
+	s=mail; t=1663168200;
+	bh=uWfhIj94xNpIhpVyASAmYnEvUVFgfYgu4vMvd86qMK4=;
 	h=From:To:Cc:Subject:Date:From;
-	b=RKoQTFo8BXGuXtV1ZJtrlPH1iX7chZWETLyGqWYcAfSu+PT2P3sRjrQrbdeOok/tg
-	 di91k1Bjtixc6gaBuvHWc72tPj4IVVdM3D/blyyTynKXBIZ57KjRJJINHL3JFQigOo
-	 0ykVUxISaO6Ty3jVxSez7Ct6HYQSroGAGsLsvZdi8vgg7nxfqwadw764uzmfvWPEAj
-	 JiVPqJ0BCWhQgyXgYByRaYocmJrubd33yH0rKD/jqRKQ598XLaRhUTkMPHpUV+xnwc
-	 q0FODgTcS4USQB/2UrGMCd00pMKW8OyGShTcQR6DPYwWs55tl7HcDNhvoZylJNQoXP
-	 43ONzAShPnKlw==
+	b=gmZ1Dzs/Bs7mPmuMnbAyGtg0QdhRaQgIF4nyYAPiaIlpuhIRaBUHTKChqY7puyQOE
+	 SlE5mFgKW9c5WCyhJuOJFLuRhSaZbQ8PGTe2Epo47CZLaR2zGO1GtM9dX8+Hr622I4
+	 pOi84l1h8n3jtxUXD9Mk+iUKTsPj80R+7PHXeBxS0W5Ox6IX3ps9YyIn3dJJpUKgfc
+	 Bhunx1aGvppbRJmmlx9HyueJa6n4JK2WFBMoDe3Kw52euJtaZhXWZaxY8GH/TVuk9B
+	 428GtEYjj0rdV2SQShDeFAGHkNtVzwYY9uZAdJx5lf9dRm36+powNN2T9AwEDoq7F7
+	 5onuGU7ENympA==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
+To: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Chen-Yu Tsai <wens@csie.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	kernel@collabora.com
-Subject: [PATCH v1] media: cedrus: Propagate error code from cedrus_h265_skip_bits()
-Date: Wed, 14 Sep 2022 18:01:05 +0300
-Message-Id: <20220914150105.209484-1-dmitry.osipenko@collabora.com>
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1] ARM: sunxi_defconfig: Enable display framebuffer
+Date: Wed, 14 Sep 2022 18:09:33 +0300
+Message-Id: <20220914150933.212182-1-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -43,125 +36,30 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The cedrus_h265_skip_bits() may get into infinite loop if decoding
-parameters are incorrect. In this case we detect the loop and print
-a error message, continuing the decoding that is fated to fail.
+The display framebuffer config options changed in kernel awhile ago
+and FB isn't enabled anymore using sunxi_defconfig. Add the missing
+config options needed by display.
 
-Will be cleaner to abort the decoding early. Propagate the error code
-to cedrus_device_run() and reset hardware on the cedrus_h265_skip_bits()
-failure.
-
-Suggested-by: Jernej Škrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus_dec.c  |  2 ++
- drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 15 ++++++++++++---
- drivers/staging/media/sunxi/cedrus/cedrus_hw.c   |  7 ++++++-
- drivers/staging/media/sunxi/cedrus/cedrus_hw.h   |  2 ++
- 4 files changed, 22 insertions(+), 4 deletions(-)
+ arch/arm/configs/sunxi_defconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-index e7f7602a5ab4..ae5df3dc01c0 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-@@ -112,6 +112,8 @@ void cedrus_device_run(void *priv)
- 
- 		dev->dec_ops[ctx->current_codec]->trigger(ctx);
- 	} else {
-+		cedrus_hw_reset(dev);
-+
- 		v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev,
- 						 ctx->fh.m2m_ctx,
- 						 VB2_BUF_STATE_ERROR);
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-index 4952fc17f3e6..f409f59452d8 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -224,9 +224,10 @@ static void cedrus_h265_pred_weight_write(struct cedrus_dev *dev,
- 	}
- }
- 
--static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
-+static int cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
- {
- 	int count = 0;
-+	int err;
- 
- 	while (count < num) {
- 		int tmp = min(num - count, 32);
-@@ -235,11 +236,16 @@ static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
- 			     VE_DEC_H265_TRIGGER_FLUSH_BITS |
- 			     VE_DEC_H265_TRIGGER_TYPE_N_BITS(tmp));
- 
--		if (cedrus_wait_for(dev, VE_DEC_H265_STATUS, VE_DEC_H265_STATUS_VLD_BUSY))
-+		err = cedrus_wait_for(dev, VE_DEC_H265_STATUS, VE_DEC_H265_STATUS_VLD_BUSY);
-+		if (err) {
- 			dev_err_ratelimited(dev->dev, "timed out waiting to skip bits\n");
-+			return err;
-+		}
- 
- 		count += tmp;
- 	}
-+
-+	return 0;
- }
- 
- static void cedrus_h265_write_scaling_list(struct cedrus_ctx *ctx,
-@@ -408,6 +414,7 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
- 	u32 pic_order_cnt[2];
- 	u8 *padding;
- 	int count;
-+	int err;
- 	u32 reg;
- 
- 	sps = run->h265.sps;
-@@ -534,7 +541,9 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
- 	/* Include the one bit. */
- 	count++;
- 
--	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8 - count);
-+	err = cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8 - count);
-+	if (err)
-+		return err;
- 
- 	/* Bitstream parameters. */
- 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-index a6470a89851e..e9ceca332062 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-@@ -168,11 +168,16 @@ void cedrus_watchdog(struct work_struct *work)
- 					 VB2_BUF_STATE_ERROR);
- }
- 
-+void cedrus_hw_reset(struct cedrus_dev *dev)
-+{
-+	reset_control_reset(dev->rstc);
-+}
-+
- int cedrus_hw_suspend(struct device *device)
- {
- 	struct cedrus_dev *dev = dev_get_drvdata(device);
- 
--	reset_control_assert(dev->rstc);
-+	cedrus_hw_reset(dev);
- 
- 	clk_disable_unprepare(dev->ram_clk);
- 	clk_disable_unprepare(dev->mod_clk);
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-index 7c92f00e36da..919c4475f0d7 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-@@ -30,4 +30,6 @@ void cedrus_hw_remove(struct cedrus_dev *dev);
- 
- void cedrus_watchdog(struct work_struct *work);
- 
-+void cedrus_hw_reset(struct cedrus_dev *dev);
-+
- #endif
+diff --git a/arch/arm/configs/sunxi_defconfig b/arch/arm/configs/sunxi_defconfig
+index 3d14827e0a31..2241e3d037b1 100644
+--- a/arch/arm/configs/sunxi_defconfig
++++ b/arch/arm/configs/sunxi_defconfig
+@@ -112,6 +112,8 @@ CONFIG_DRM_PANEL_EDP=y
+ CONFIG_DRM_SIMPLE_BRIDGE=y
+ CONFIG_DRM_LIMA=y
+ CONFIG_FB_SIMPLE=y
++CONFIG_FB=y
++CONFIG_FRAMEBUFFER_CONSOLE=y
+ CONFIG_BACKLIGHT_CLASS_DEVICE=y
+ CONFIG_BACKLIGHT_PWM=y
+ CONFIG_SOUND=y
 -- 
 2.37.3
 
