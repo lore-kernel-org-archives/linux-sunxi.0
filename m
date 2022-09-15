@@ -1,137 +1,128 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7392F23
-	for <linux-sunxi@lists.linux.dev>; Wed, 14 Sep 2022 18:34:52 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id z14-20020a05600c0a0e00b003b486df42a3so7049086wmp.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 14 Sep 2022 11:34:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=JsISeLX5mpCpxthlxP4ErXH6DoBjoU0NuzMWeuum25Y=;
-        b=b8XJVfQgh6f42h4IZgOyV2auxtNTfJY3Mk7tvhffw5JvkTV1xU/OF/9oVfq+T3vsGw
-         7ACWO0CxkPuDOSE95YphAae2xw8NLfOsAVlrOw+rm91jS4inQJllP262nDZdKw86Y2Sb
-         FfMkC5eCONnnz405vkcfga5Db6IQmBplsIxluHiSEtctoQjmxaIXPKASB4EPTsBvya9U
-         I7TDRD5wRGAwaglR8FLXYj3LmLWZirwBtEIRr1mIbkxmG91CE5V1KBiY0/I4olvPK2ax
-         WGVgXBVa6oN5F6HC0jhJzZri8BLPk11xKLDDeKkmFJNmP4No8PR/gpI4CiCsnzyUWO9+
-         6ENw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=JsISeLX5mpCpxthlxP4ErXH6DoBjoU0NuzMWeuum25Y=;
-        b=OrO7skU4PnAfjRkoH/qlELavrcuTW2DghkpXs6ycyDls1TP2qc9u1S/YciqSOnBtUM
-         q6PV8BCFpalHdKAb4n04S8nx/UzGXHCQcT7Z5x0T/BK7y+7UXmew6nJNJZ0xbzsF2hPz
-         5DDDhLanW0XYka+AbIUDYoS07bzUi8ReweJERbBytXA+I4X3Ti0zuxUy8ONRUfWFa9wl
-         V/Rbz/r7AWlDl/NuJCaCC09ItRLbdMxpVGPpT8WF8f5+VCGCZ3th2HJZvx7VpA8uImA3
-         6zsApwiSmJBws3FWf6z9GgX1QLfLK/SSitR+ev9bi89Y+tSh0zc6JKEvBFJUV5vijXFP
-         OBPw==
-X-Gm-Message-State: ACgBeo3O3MIMZmM82sVEAsztjwoRzZyLT6u3CzZnkukUCrpatHvO/0n2
-	qOqpKnvl2/HMGzzbMD04x+c=
-X-Google-Smtp-Source: AA6agR6UytNvjwp9AcqLcUEBZZ05NnxYruVwOlvPiNIgw9/oAArA3qxOg8XR4dS2Q4nnZMWmAxFQWw==
-X-Received: by 2002:a05:600c:444b:b0:3a6:6b99:2394 with SMTP id v11-20020a05600c444b00b003a66b992394mr4105344wmn.43.1663180490778;
-        Wed, 14 Sep 2022 11:34:50 -0700 (PDT)
-Received: from jernej-laptop.localnet ([89.100.165.250])
-        by smtp.gmail.com with ESMTPSA id y25-20020a05600c365900b003b483000583sm12313287wmq.48.2022.09.14.11.34.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Sep 2022 11:34:50 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>, =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>, devicetree <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v1] ARM: dts: sun8i: h3: orangepi-pc: Add CMA reserved memory node
-Date: Wed, 14 Sep 2022 20:34:49 +0200
-Message-ID: <1826631.tdWV9SEqCh@jernej-laptop>
-In-Reply-To: <CAJiuCcefkre611=1UXEkwScN+bYSBhE_ivGzTK7ZMvp-j4MbRQ@mail.gmail.com>
-References: <20220914151125.212876-1-dmitry.osipenko@collabora.com> <CAJiuCcefkre611=1UXEkwScN+bYSBhE_ivGzTK7ZMvp-j4MbRQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D34C2F2C
+	for <linux-sunxi@lists.linux.dev>; Thu, 15 Sep 2022 09:01:42 +0000 (UTC)
+Received: from [192.168.2.145] (unknown [109.252.122.187])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dmitry.osipenko)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 14A926601DA4;
+	Thu, 15 Sep 2022 10:01:40 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1663232500;
+	bh=Lg8x2KaZ7hVZZk80CwF+sAIarPY10iBqx4YldrZ0lBQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=JClQMzpdHP5zg2xtxTM+w95zpFhhIREXMToaD23kFIwHp1JCmWip+il2XKCaUmZcj
+	 jWyD4qWzvBj4sGQb8sSsKzR1HKnjiqXlezttVC8ksv85MqZBpgxcJCpKlnO8plI6im
+	 A5BE7+2yj93Anf2p80UA3eYnrlDSUhYjForHis3jqP9K0RDlLnX8Wi+AnP5GSw6izW
+	 V9w4mJt1NYi2hJQC7sh2Cqw5Vo56nvpAmCf16oL1Sq7dRV2jvcMt0DJtoTN+FfwM1P
+	 RvJYem2xKo6dZPWXh0kWc6Gv626UTH5TvKSQDhnBWfUDHAT7O6vCszM7m/khU2kVun
+	 wOX7Cd/Z67l7g==
+Message-ID: <f0e66966-b1c5-f130-54a4-ad63b77e1f26@collabora.com>
+Date: Thu, 15 Sep 2022 12:01:36 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v1] ARM: dts: sun8i: h3: orangepi-pc: Add CMA reserved
+ memory node
+Content-Language: en-US
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ linux-sunxi@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>,
+ devicetree <devicetree@vger.kernel.org>
+References: <20220914151125.212876-1-dmitry.osipenko@collabora.com>
+ <CAJiuCcefkre611=1UXEkwScN+bYSBhE_ivGzTK7ZMvp-j4MbRQ@mail.gmail.com>
+ <1826631.tdWV9SEqCh@jernej-laptop>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <1826631.tdWV9SEqCh@jernej-laptop>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Dne sreda, 14. september 2022 ob 17:33:27 CEST je Cl=E9ment P=E9ron napisal=
-(a):
-> Hi Dmitry,
->=20
-> On Wed, 14 Sept 2022 at 17:12, Dmitry Osipenko
->=20
-> <dmitry.osipenko@collabora.com> wrote:
-> > Add 256MB CMA node to the Orange Pi PC board. This fixes memory allocat=
-ion
-> > failures for Cedrus video decoder on trying to play a 1080p video with
-> > gstreamer.
-> >=20
-> > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> > ---
-> >=20
-> >  arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts | 14 ++++++++++++++
-> >  1 file changed, 14 insertions(+)
-> >=20
-> > diff --git a/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts
-> > b/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts index
-> > b96e015f54ee..e655346a9fb4 100644
-> > --- a/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts
-> > +++ b/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts
-> > @@ -60,6 +60,20 @@ chosen {
-> >=20
-> >                 stdout-path =3D "serial0:115200n8";
-> >        =20
-> >         };
-> >=20
-> > +       reserved-memory {
-> > +               #address-cells =3D <1>;
-> > +               #size-cells =3D <1>;
-> > +               ranges;
-> > +
-> > +               linux,cma@40000000 {
-> > +                       compatible =3D "shared-dma-pool";
-> > +                       alloc-ranges =3D <0x40000000 0x40000000>;
-> > +                       size =3D <0x10000000>; /* 256MiB */
-> > +                       linux,cma-default;
-> > +                       reusable;
-> > +               };
-> > +       };
-> > +
->=20
-> This change seems legit for all H3 boards and could be moved to the H3 dt=
-si,
-> no?
+Hi,
 
-That's true. However, there is a reason why this node doesn't exist. One or=
-=20
-two H2+ boards (which use H3 dtsi) have only 256 MiB of RAM, so this can't=
-=20
-work with them. A few H3 boards have 512 MiB of RAM, so you eat basically h=
-alf=20
-of the RAM with that. Additionally, contrary to A20 and similar SoCs, which=
-=20
-have such node, Cedrus can address whole RAM, so this is not strictly neede=
-d.=20
-It's better to leave this decision to distribution. Some don't care about=20
-Cedrus and some do a lot. Default size can be set via kernel config and it =
-can=20
-be overriden by kernel argument if necessary.
+On 9/14/22 21:34, Jernej Škrabec wrote:
+> Dne sreda, 14. september 2022 ob 17:33:27 CEST je Clément Péron napisal(a):
+>> Hi Dmitry,
+>>
+>> On Wed, 14 Sept 2022 at 17:12, Dmitry Osipenko
+>>
+>> <dmitry.osipenko@collabora.com> wrote:
+>>> Add 256MB CMA node to the Orange Pi PC board. This fixes memory allocation
+>>> failures for Cedrus video decoder on trying to play a 1080p video with
+>>> gstreamer.
+>>>
+>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>> ---
+>>>
+>>>  arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts | 14 ++++++++++++++
+>>>  1 file changed, 14 insertions(+)
+>>>
+>>> diff --git a/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts
+>>> b/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts index
+>>> b96e015f54ee..e655346a9fb4 100644
+>>> --- a/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts
+>>> +++ b/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts
+>>> @@ -60,6 +60,20 @@ chosen {
+>>>
+>>>                 stdout-path = "serial0:115200n8";
+>>>         
+>>>         };
+>>>
+>>> +       reserved-memory {
+>>> +               #address-cells = <1>;
+>>> +               #size-cells = <1>;
+>>> +               ranges;
+>>> +
+>>> +               linux,cma@40000000 {
+>>> +                       compatible = "shared-dma-pool";
+>>> +                       alloc-ranges = <0x40000000 0x40000000>;
+>>> +                       size = <0x10000000>; /* 256MiB */
+>>> +                       linux,cma-default;
+>>> +                       reusable;
+>>> +               };
+>>> +       };
+>>> +
+>>
+>> This change seems legit for all H3 boards and could be moved to the H3 dtsi,
+>> no?
+> 
+> That's true. However, there is a reason why this node doesn't exist. One or 
+> two H2+ boards (which use H3 dtsi) have only 256 MiB of RAM, so this can't 
+> work with them. A few H3 boards have 512 MiB of RAM, so you eat basically half 
+> of the RAM with that.
 
+It's a "reusable" CMA, hence it won't be eaten. System is free to use
+the reusable CMA. In practice, CMA may get populated with a pinned pages
+over time, hence system will work fine, but CMA will get fragmented and
+this may cause problems for a larger CMA allocations.
+
+The main problem with 512M boards should be that they may not have a
+suitable area for 256M CMA because it should be only either a low or
+high part of the memory that might be busy at a boot time, and then
+kernel will fail to boot.
+
+> Additionally, contrary to A20 and similar SoCs, which 
+> have such node, Cedrus can address whole RAM, so this is not strictly needed. 
+> It's better to leave this decision to distribution. Some don't care about 
+> Cedrus and some do a lot. Default size can be set via kernel config and it can 
+> be overriden by kernel argument if necessary.
+
+In my experience generic distributions usually don't care about
+particular boards/devices. They ship a multiplatform kernel using
+default config that has 64M for CMA and Cedrus doesn't work well with that.
+
+BTW, the sunxi_defconfig doesn't specify CMA size at all, so it defaults
+to 16M.
+
+-- 
 Best regards,
-Jernej
-
->=20
-> Regards,
-> Clement
->=20
-> >         connector {
-> >        =20
-> >                 compatible =3D "hdmi-connector";
-> >                 type =3D "a";
-> >=20
-> > --
-> > 2.37.3
-
-
-
+Dmitry
 
