@@ -1,128 +1,146 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D34C2F2C
-	for <linux-sunxi@lists.linux.dev>; Thu, 15 Sep 2022 09:01:42 +0000 (UTC)
-Received: from [192.168.2.145] (unknown [109.252.122.187])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dmitry.osipenko)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 14A926601DA4;
-	Thu, 15 Sep 2022 10:01:40 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1663232500;
-	bh=Lg8x2KaZ7hVZZk80CwF+sAIarPY10iBqx4YldrZ0lBQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JClQMzpdHP5zg2xtxTM+w95zpFhhIREXMToaD23kFIwHp1JCmWip+il2XKCaUmZcj
-	 jWyD4qWzvBj4sGQb8sSsKzR1HKnjiqXlezttVC8ksv85MqZBpgxcJCpKlnO8plI6im
-	 A5BE7+2yj93Anf2p80UA3eYnrlDSUhYjForHis3jqP9K0RDlLnX8Wi+AnP5GSw6izW
-	 V9w4mJt1NYi2hJQC7sh2Cqw5Vo56nvpAmCf16oL1Sq7dRV2jvcMt0DJtoTN+FfwM1P
-	 RvJYem2xKo6dZPWXh0kWc6Gv626UTH5TvKSQDhnBWfUDHAT7O6vCszM7m/khU2kVun
-	 wOX7Cd/Z67l7g==
-Message-ID: <f0e66966-b1c5-f130-54a4-ad63b77e1f26@collabora.com>
-Date: Thu, 15 Sep 2022 12:01:36 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A2620EA
+	for <linux-sunxi@lists.linux.dev>; Fri, 16 Sep 2022 04:16:50 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id B3D845C0082;
+	Fri, 16 Sep 2022 00:16:49 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Fri, 16 Sep 2022 00:16:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1663301809; x=
+	1663388209; bh=hjMcp89C2jkXIYsBxRnx/xoB4u1WmalrxLV/Xe3flCk=; b=m
+	DBiIIiCyDyFeVeQm3ja9dS8EX6NCDF9tzHhW8DHE09A7U3kAckcnhqzJicrEhrrt
+	8vv7t7QuSRe/U1OTpQWipnepf/O9GA+6tNblM8XGeQaxyU0eZa+PZZqvmTVQsxeL
+	k2kVgGikUoWx10lU1UOmd4wrUeQXGGuN0Rd9wjmT+G30KzjRKlBDP3XEaLr/2zCb
+	tho4/T47Y7J2TtT1SB/Vy8yAzd6zIHeSBVBRzL108Gg9r2kUvmC3sI/pZWt+Sztc
+	/lTvzc5SJuVYhnXjnqsvSD2bL7QNjNmCghLOdCTSIyn+sQQH1KwnG6dr9PDHV6yN
+	PGJMUz8XQam13QdK7Q5UQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1663301809; x=
+	1663388209; bh=hjMcp89C2jkXIYsBxRnx/xoB4u1WmalrxLV/Xe3flCk=; b=C
+	CYWWIVEE4m7VNW7jhFBd1UIjfS1EslnN1EGBqP4+EgN4Z9hGnYPeKhiBAimVwVkW
+	r8mbXSfdg2aFESQ9CpvZ3G1GGHKoeEPxbCuhBEaIj0xoT1oPI9G38cTLmg14VUqn
+	X+hO4XoBd0+op2WAj7yqtRVMl9Q0UyNOrO1Ez7FeH6pAKftfwRWjvtVt8shqriUw
+	yXj0uz+qiZ0j/B58Nvs0Ib+YIYqMDVHcLy7Or+YHDfKcNSftldjHwVROafz5DicP
+	IoF0pJO74a6/I2Cpw1c1pwTeUJ+em3BRXqtnPVEIKRAHfYl9CvedWXN+cw0rFXG9
+	lW0G4oDobqJZBxK7SbJvQ==
+X-ME-Sender: <xms:sfgjYz4e7MZ42PmEBnedXq5TxML7oaZ6LgnllFHVIQTfH4176evBUg>
+    <xme:sfgjY46w0sLpfSkfwbYQIA3bZa5Idxc2wtLsnKyQqJF3017ntC5hv69Yp8un8a7bt
+    nGn1hRN5-R8rYxXpg>
+X-ME-Received: <xmr:sfgjY6cYnRyoKYgZm3LEvcMJNuP-9m7reDw_SasGJ5AAptkCGmswBkVxG4L3QXU4Kwq8R1zzcbS1bDWaiUNKvr1DnaM9pcTQ4i7oNSnEOdpUrC9Za4jPbn-kzg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeduledgjeelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepkfffgggfvfevfhfhufgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpeejgfffhfdujeeftdeuudeguedttefgieetffffheejuefguedv
+    heejteeftdfftdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:sfgjY0L14CMoVti6SmIHeVX1vQ0b4zYnofIgkJl4I5UN1q8ZcwzhLQ>
+    <xmx:sfgjY3J9PfR1sng34eJL-iSZJDiO9FGZEakjIJsJB6SMzv2lXyngcg>
+    <xmx:sfgjY9xx4T7iVJ82LzvUP1sLynnc5puuVLAEcIEz38B-eBdV9UyDIQ>
+    <xmx:sfgjY4XqBd3fnHIM93wJlm0XJYToap_wV12HbzBvrh6iZSZ3c9GQFw>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 16 Sep 2022 00:16:48 -0400 (EDT)
+Message-ID: <4358760c-92b1-f77e-9bed-42e647afbc3e@sholland.org>
+Date: Thu, 15 Sep 2022 23:16:47 -0500
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v1] ARM: dts: sun8i: h3: orangepi-pc: Add CMA reserved
- memory node
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
 Content-Language: en-US
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- linux-sunxi@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>,
- devicetree <devicetree@vger.kernel.org>
-References: <20220914151125.212876-1-dmitry.osipenko@collabora.com>
- <CAJiuCcefkre611=1UXEkwScN+bYSBhE_ivGzTK7ZMvp-j4MbRQ@mail.gmail.com>
- <1826631.tdWV9SEqCh@jernej-laptop>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <1826631.tdWV9SEqCh@jernej-laptop>
+To: wens@csie.org
+Cc: Lee Jones <lee.jones@linaro.org>, Linus Walleij
+ <linus.walleij@linaro.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ devicetree <devicetree@vger.kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev
+References: <20220621034224.38995-1-samuel@sholland.org>
+ <20220621034224.38995-5-samuel@sholland.org>
+ <CAGb2v64Mrn88+w5kCbMn7Z23-UdyrTG-Q2cboPswMj=9z4HgrQ@mail.gmail.com>
+From: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v2 4/4] ARM: dts: axp22x/axp809: Add GPIO controller nodes
+In-Reply-To: <CAGb2v64Mrn88+w5kCbMn7Z23-UdyrTG-Q2cboPswMj=9z4HgrQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi,
-
-On 9/14/22 21:34, Jernej Škrabec wrote:
-> Dne sreda, 14. september 2022 ob 17:33:27 CEST je Clément Péron napisal(a):
->> Hi Dmitry,
+On 6/26/22 08:03, Chen-Yu Tsai wrote:
+> On Tue, Jun 21, 2022 at 11:42 AM Samuel Holland <samuel@sholland.org> wrote:
 >>
->> On Wed, 14 Sept 2022 at 17:12, Dmitry Osipenko
+>> These PMICs all contain a GPIO controller. Now that the binding is
+>> documented, wire up the controller in the device tree.
 >>
->> <dmitry.osipenko@collabora.com> wrote:
->>> Add 256MB CMA node to the Orange Pi PC board. This fixes memory allocation
->>> failures for Cedrus video decoder on trying to play a 1080p video with
->>> gstreamer.
->>>
->>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->>> ---
->>>
->>>  arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts | 14 ++++++++++++++
->>>  1 file changed, 14 insertions(+)
->>>
->>> diff --git a/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts
->>> b/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts index
->>> b96e015f54ee..e655346a9fb4 100644
->>> --- a/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts
->>> +++ b/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts
->>> @@ -60,6 +60,20 @@ chosen {
->>>
->>>                 stdout-path = "serial0:115200n8";
->>>         
->>>         };
->>>
->>> +       reserved-memory {
->>> +               #address-cells = <1>;
->>> +               #size-cells = <1>;
->>> +               ranges;
->>> +
->>> +               linux,cma@40000000 {
->>> +                       compatible = "shared-dma-pool";
->>> +                       alloc-ranges = <0x40000000 0x40000000>;
->>> +                       size = <0x10000000>; /* 256MiB */
->>> +                       linux,cma-default;
->>> +                       reusable;
->>> +               };
->>> +       };
->>> +
+>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>> ---
 >>
->> This change seems legit for all H3 boards and could be moved to the H3 dtsi,
->> no?
+>> (no changes since v1)
+>>
+>>  arch/arm/boot/dts/axp22x.dtsi | 18 ++++++++++++++++++
+>>  arch/arm/boot/dts/axp809.dtsi | 19 +++++++++++++++++++
+>>  2 files changed, 37 insertions(+)
+>>
+>> diff --git a/arch/arm/boot/dts/axp22x.dtsi b/arch/arm/boot/dts/axp22x.dtsi
+>> index a020c12b2884..5c233c84be92 100644
+>> --- a/arch/arm/boot/dts/axp22x.dtsi
+>> +++ b/arch/arm/boot/dts/axp22x.dtsi
+>> @@ -67,6 +67,24 @@ battery_power_supply: battery-power {
+>>                 status = "disabled";
+>>         };
+>>
+>> +       axp_gpio: gpio {
+>> +               compatible = "x-powers,axp221-gpio";
+>> +               gpio-controller;
+>> +               #gpio-cells = <2>;
+>> +
+>> +               /omit-if-no-ref/
+>> +               gpio0_ldo: gpio0-ldo-pin {
+>> +                       pins = "GPIO0";
+>> +                       function = "ldo";
+>> +               };
+>> +
+>> +               /omit-if-no-ref/
+>> +               gpio1_ldo: gpio1-ldo-pin {
+>> +                       pins = "GPIO1";
+>> +                       function = "ldo";
+>> +               };
+>> +       };
+>> +
 > 
-> That's true. However, there is a reason why this node doesn't exist. One or 
-> two H2+ boards (which use H3 dtsi) have only 256 MiB of RAM, so this can't 
-> work with them. A few H3 boards have 512 MiB of RAM, so you eat basically half 
-> of the RAM with that.
+> We have
+> 
+>     reg_ldo_io0: ldo-io0 {
+>             pinctrl-names = "default";
+>             pinctrl-0 = <&gpio0_ldo>;
+>             /* Disable by default to avoid conflicts with GPIO */
+>             ...
+>     }
+> 
+> in axp81x.dtsi . Should we add it here and for axp803.dtsi as well?
 
-It's a "reusable" CMA, hence it won't be eaten. System is free to use
-the reusable CMA. In practice, CMA may get populated with a pinned pages
-over time, hence system will work fine, but CMA will get fragmented and
-this may cause problems for a larger CMA allocations.
+Actually, I don't think these pinctrl nodes should exist at all. The
+regulator already sets the pinmux, because that is the only way to turn
+the regulator on/off. So I think we should leave it alone here.
 
-The main problem with 512M boards should be that they may not have a
-suitable area for 256M CMA because it should be only either a low or
-high part of the memory that might be busy at a boot time, and then
-kernel will fail to boot.
+Regards,
+Samuel
 
-> Additionally, contrary to A20 and similar SoCs, which 
-> have such node, Cedrus can address whole RAM, so this is not strictly needed. 
-> It's better to leave this decision to distribution. Some don't care about 
-> Cedrus and some do a lot. Default size can be set via kernel config and it can 
-> be overriden by kernel argument if necessary.
-
-In my experience generic distributions usually don't care about
-particular boards/devices. They ship a multiplatform kernel using
-default config that has 64M for CMA and Cedrus doesn't work well with that.
-
-BTW, the sunxi_defconfig doesn't specify CMA size at all, so it defaults
-to 16M.
-
--- 
-Best regards,
-Dmitry
+> Otherwise,
+> 
+> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 
