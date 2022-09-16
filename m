@@ -1,71 +1,30 @@
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D7920EA
-	for <linux-sunxi@lists.linux.dev>; Fri, 16 Sep 2022 04:27:56 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 654335C021B;
-	Fri, 16 Sep 2022 00:27:55 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Fri, 16 Sep 2022 00:27:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1663302475; x=1663388875; bh=Di
-	L2PG2GPLYyviQvFsfljqZCMe4E9U/861rwG5Z393w=; b=MB7zTG8SQEPBaX9Ot2
-	tY+J8n7TdmNpnL0bMVPP6DelmfZAiyxOh2qVyvwJ1kwxMI6s1thRylaissHVz6FC
-	3iDYypwTg/uCxlNl7maMRnpr5p9szPOXMT24aF+bZ4hLujFIQn0TbHruNTOAneCQ
-	nvRWgbxn72FDauaobaZfwSRn8p27ap1j2EWo3pWTTjybH6t2OKD2ArxUnWpAnJJG
-	ynZlFfYbcoiW01u5GWXfAVV+5pDmPyVtLicie00tcGhC7Feb2N8s1Nccm8k1a6u+
-	Kn9RnXXxVPGd1A5qJYD4J+yzqh2bZGvnrVZaHbsYVoo1aeIT+5oqDmscia/R3ZKk
-	bvVQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1663302475; x=1663388875; bh=DiL2PG2GPLYyv
-	iQvFsfljqZCMe4E9U/861rwG5Z393w=; b=AtM5RRrFTK1SCq1ILeiSqYx4Icenk
-	XXWdIiKJaaK0j6mDjrR8NEduxZjyA3XZrOkUI0DNspOUUs8DNl80dQzGn8RCG1Jl
-	Jew7y4d2QmS47w20Pycn1vdFyRKjR8yLU+dGs9c27tyAAy4yN2kt4nBjQpoYXOi3
-	N4yNBGX1aKrOKrPWIIR+ADJWT7z+uAvBAC5s0zrv53Gg/W1CiWc0UTsJx34SelAU
-	G7Fotm/1wbUSIy+5G/LMD0wDfvgriyKKEN8v5gBS6zbNMQ1rHcWyNgrGh1u8z7ZH
-	iYZpP8o0NZ1invbK4fnSLvuqz4+zrKR3akkN9wbzSJY2/avPTt1IRQGRA==
-X-ME-Sender: <xms:S_sjY4vU5OGKTw32h0ewbnhlvwUbGth0orQmlguh1qZnXj5bNjwoqA>
-    <xme:S_sjY1d9fYd5WFxpB5kZiH6V48BoNIaoBZvLassyC903utEPHZdtXk238yD2Zlgfz
-    e9gmvtmbiOOJm0auw>
-X-ME-Received: <xmr:S_sjYzzgnmTn96Z9sl_8gwjW78WhAQk3DCqQ48WTKqHlV6hiRXs5OaGAqud9p5t1RaRvlrOEL-W3eNs4jVPAK5ct-YzhN5BiEa5IQxy0LVGjYiGGZlD11vN9w8IlGiVUBJ-7ZQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeduledgkeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepudekteeuudehtdelteevgfduvddvjefhfedulefgudevgeeghefg
-    udefiedtveetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:S_sjY7PNTpmJ5CMRh9uL0I-Sju2J_hlsfbh9TPs2CbR73KgyPvNcCA>
-    <xmx:S_sjY48rpCoBPiIOPcK-gXR6roWPjwnnOE_rIDF-Y_YIFgfDy0WocA>
-    <xmx:S_sjYzWiw1GIKNd3t06gkKlkL-LBaGo2Ig_s1EvahLXoAMM1Frg4sg>
-    <xmx:S_sjY1MLrb8U5d9eEaYwSMlcBmblnrL55clnprOindw6Tksv3mr1Vg>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 16 Sep 2022 00:27:54 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v3 2/2] ARM: dts: axp22x/axp809: Add GPIO controller nodes
-Date: Thu, 15 Sep 2022 23:27:51 -0500
-Message-Id: <20220916042751.47906-3-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220916042751.47906-1-samuel@sholland.org>
-References: <20220916042751.47906-1-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6133C53A7
+	for <linux-sunxi@lists.linux.dev>; Fri, 16 Sep 2022 13:39:56 +0000 (UTC)
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.57])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MTZrS5kzczBsM4;
+	Fri, 16 Sep 2022 21:37:44 +0800 (CST)
+Received: from dggpemm100009.china.huawei.com (7.185.36.113) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 16 Sep 2022 21:39:49 +0800
+Received: from huawei.com (10.175.113.32) by dggpemm100009.china.huawei.com
+ (7.185.36.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 16 Sep
+ 2022 21:39:48 +0800
+From: Liu Shixin <liushixin2@huawei.com>
+To: Corentin Labbe <clabbe.montjoie@gmail.com>, Herbert Xu
+	<herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>,
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+CC: <linux-crypto@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, Liu Shixin <liushixin2@huawei.com>
+Subject: [PATCH] crypto: sun4i-ss - use DEFINE_SHOW_ATTRIBUTE to simplify sun4i_ss_debugfs
+Date: Fri, 16 Sep 2022 22:13:40 +0800
+Message-ID: <20220916141340.2174495-1-liushixin2@huawei.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -73,53 +32,53 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.113.32]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm100009.china.huawei.com (7.185.36.113)
+X-CFilter-Loop: Reflected
 
-These PMICs all contain a GPIO controller. Now that the binding for this
-variant is documented, wire up the controller in the device tree.
+Use DEFINE_SHOW_ATTRIBUTE helper macro to simplify the code.
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
+Signed-off-by: Liu Shixin <liushixin2@huawei.com>
 ---
+ .../crypto/allwinner/sun4i-ss/sun4i-ss-core.c    | 16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
 
-Changes in v3:
- - Remove "ldo" pinctrl children from new nodes
-
- arch/arm/boot/dts/axp22x.dtsi | 6 ++++++
- arch/arm/boot/dts/axp809.dtsi | 7 +++++++
- 2 files changed, 13 insertions(+)
-
-diff --git a/arch/arm/boot/dts/axp22x.dtsi b/arch/arm/boot/dts/axp22x.dtsi
-index a020c12b2884..f79650afd0a7 100644
---- a/arch/arm/boot/dts/axp22x.dtsi
-+++ b/arch/arm/boot/dts/axp22x.dtsi
-@@ -67,6 +67,12 @@ battery_power_supply: battery-power {
- 		status = "disabled";
- 	};
- 
-+	axp_gpio: gpio {
-+		compatible = "x-powers,axp221-gpio";
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
- 	regulators {
- 		/* Default work frequency for buck regulators */
- 		x-powers,dcdc-freq = <3000>;
-diff --git a/arch/arm/boot/dts/axp809.dtsi b/arch/arm/boot/dts/axp809.dtsi
-index ab8e5f2d9246..d134d4c00bd8 100644
---- a/arch/arm/boot/dts/axp809.dtsi
-+++ b/arch/arm/boot/dts/axp809.dtsi
-@@ -50,4 +50,11 @@ &axp809 {
- 	compatible = "x-powers,axp809";
- 	interrupt-controller;
- 	#interrupt-cells = <1>;
-+
-+	axp_gpio: gpio {
-+		compatible = "x-powers,axp809-gpio",
-+			     "x-powers,axp221-gpio";
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
+diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
+index 44b8fc4b786d..006e40133c28 100644
+--- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
++++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
+@@ -235,7 +235,7 @@ static struct sun4i_ss_alg_template ss_algs[] = {
+ #endif
  };
+ 
+-static int sun4i_ss_dbgfs_read(struct seq_file *seq, void *v)
++static int sun4i_ss_debugfs_show(struct seq_file *seq, void *v)
+ {
+ 	unsigned int i;
+ 
+@@ -266,19 +266,7 @@ static int sun4i_ss_dbgfs_read(struct seq_file *seq, void *v)
+ 	}
+ 	return 0;
+ }
+-
+-static int sun4i_ss_dbgfs_open(struct inode *inode, struct file *file)
+-{
+-	return single_open(file, sun4i_ss_dbgfs_read, inode->i_private);
+-}
+-
+-static const struct file_operations sun4i_ss_debugfs_fops = {
+-	.owner = THIS_MODULE,
+-	.open = sun4i_ss_dbgfs_open,
+-	.read = seq_read,
+-	.llseek = seq_lseek,
+-	.release = single_release,
+-};
++DEFINE_SHOW_ATTRIBUTE(sun4i_ss_debugfs);
+ 
+ /*
+  * Power management strategy: The device is suspended unless a TFM exists for
 -- 
-2.35.1
+2.25.1
 
