@@ -1,80 +1,121 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E06A31
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Sep 2022 23:10:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEEA3C433D6;
-	Mon, 19 Sep 2022 23:10:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A38A20
+	for <linux-sunxi@lists.linux.dev>; Tue, 20 Sep 2022 06:35:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5B27C433C1;
+	Tue, 20 Sep 2022 06:35:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663629048;
-	bh=cBqstNirVp3/LMuUXyvejfY8+hDyu9PM9y6tIN40Ns8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=W8/NtMe9xnaROAp8gN8JdYtjSBMspTUF946nQawzwiMcwyDXI9gLP0NiKs8ZqL34b
-	 MBKiNnKZ/AT/CaDMjMqtb1MC7Dxz/mdodgJDB18yUBcHL93cf5mShwNoaR/0jx2inG
-	 s2vF+zxmCCesL8tgK8B9VPdlnTW+8bfNPI2N7oarlnw7v/QMaXsm0isK9LemyrI19H
-	 COWv4fqk3i7sAT7BSTMGX1OcKcmvXr57FWA+Bgzz+f2mhN5CnuKO0E6pixAyE9Ert7
-	 Pzt9ffOlj5YySWpMBlez7e+oSCFeHjiZEmHYSEnCFTUVN5k+UbFSlMnWPBUGjjS7ef
-	 6ietrQW7ZgPIg==
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Jaroslav Kysela <perex@perex.cz>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Charles Keepax <ckeepax@opensource.cirrus.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Samuel Holland <samuel@sholland.org>, Li Chen <lchen@ambarella.com>,
- Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, Mikhail Rudenko <mike.rudenko@gmail.com>
-Cc: alsa-devel@alsa-project.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-In-Reply-To: <20220913212256.151799-1-mike.rudenko@gmail.com>
-References: <YyCqC2EypxnoJFk7@sirena.org.uk> <20220913212256.151799-1-mike.rudenko@gmail.com>
-Subject: Re: [PATCH v2 1/2] ASoC: sunxi: sun4i-codec: silence misleading error in probe
-Message-Id: <166362904468.3419825.3057946964587586588.b4-ty@kernel.org>
-Date: Tue, 20 Sep 2022 00:10:44 +0100
+	s=k20201202; t=1663655734;
+	bh=z4g70PWNS19WDaZZAXAoI1HGOBQ1YJ7dA7waNDxTJ+U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=l5Twc8sPOZQJX+kvswAylubH6gwPowlY7GN/3Z8oGoS5TZfrtK7a4uw/aA34Hr/0i
+	 1Hvnz9QIGt+0ykQoZKjXYskD2llkqqcGkBnMgOW7C6Tz0T3V9NZqYx/uvuMXhmJrqk
+	 JncAZzUVlWHHkplP7W4bIDFqmq3O0/M0PaS9DfI+MnT47jD5MIXSADJo63pevsCPnb
+	 Itn0HRwiaLbZdB+t/BnVmlBzNALhmgH0kevAkMp9maNERiBLRJsKYNktFVEsKsI7Mb
+	 hQXq+h6kbdfeF+OOhh5BFHVvVTLC3+OOVKYnYr+2/lGB+UvIag5cm2JbcJeIqGhJYj
+	 KxdmvuLnuSecA==
+Date: Tue, 20 Sep 2022 12:05:30 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, Karl Kurbjun <karl.os@veroson.com>,
+	Icenowy Zheng <icenowy@aosc.io>
+Subject: Re: [PATCH 2/7] dt-bindings: usb: Add special clock for Allwinner
+ H616 PHY
+Message-ID: <YylfMk4QJsgTOCe0@matsya>
+References: <20220911235945.6635-1-andre.przywara@arm.com>
+ <20220911235945.6635-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.11.0-dev-8af31
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220911235945.6635-3-andre.przywara@arm.com>
 
-On Wed, 14 Sep 2022 00:22:54 +0300, Mikhail Rudenko wrote:
-> In the case when a codec device is probed before codec analog
-> controls, snd_soc_register_card() returns -EPROBE_DEFER, resulting in
-> a misleading error message
+On 12-09-22, 00:59, Andre Przywara wrote:
+> The USB PHY IP in the Allwinner H616 SoC requires a quirk that involves
+> some resources from port 2's PHY and HCI IP. In particular the PMU clock
+> for port 2 must be surely ungated before accessing the REG_HCI_PHY_CTL
+> register of port 2. To allow each USB port to be controlled
+> independently of port 2, we need a handle to that particular PMU clock
+> in the *PHY* node, as the HCI and PHY part might be handled by separate
+> drivers.
 > 
->     sun4i-codec 1c22c00.codec: Failed to register our card
+> Add that clock to the requirements of the H616 PHY binding, so that a
+> PHY driver can apply the quirk in isolation, without requiring help from
+> port 2's HCI driver.
+
+This is phy binding patch and not a usb one, pls fix the subystem name
+for patch
+
 > 
-> even if the device is probed successfully later. Use dev_err_probe()
-> to demote the above error to a debug message.
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  .../phy/allwinner,sun8i-h3-usb-phy.yaml       | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
 > 
-> [...]
+> diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml
+> index e288450e0844..3a3168392597 100644
+> --- a/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml
+> +++ b/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml
+> @@ -36,18 +36,22 @@ properties:
+>        - const: pmu3
+>  
+>    clocks:
+> +    minItems: 4
+>      items:
+>        - description: USB OTG PHY bus clock
+>        - description: USB Host 0 PHY bus clock
+>        - description: USB Host 1 PHY bus clock
+>        - description: USB Host 2 PHY bus clock
+> +      - description: PMU clock for host port 2
+>  
+>    clock-names:
+> +    minItems: 4
+>      items:
+>        - const: usb0_phy
+>        - const: usb1_phy
+>        - const: usb2_phy
+>        - const: usb3_phy
+> +      - const: pmu2_clk
+>  
+>    resets:
+>      items:
+> @@ -98,6 +102,21 @@ required:
+>  
+>  additionalProperties: false
+>  
+> +if:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        enum:
+> +          - sun50i-h616-usb-phy
+> +
+> +then:
+> +  properties:
+> +    clocks:
+> +      minItems: 5
+> +
+> +    clock-names:
+> +      minItems: 5
+> +
+>  examples:
+>    - |
+>      #include <dt-bindings/gpio/gpio.h>
+> -- 
+> 2.35.3
 
-Applied to
-
-   broonie/sound.git for-next
-
-Thanks!
-
-[1/2] ASoC: sunxi: sun4i-codec: silence misleading error in probe
-      commit: 30248f618d30cf1ad9d5a72126799f2f0239860c
-[2/2] ASoC: sunxi: sun4i-codec: set debugfs_prefix for CPU DAI component
-      commit: 717a8ff20f32792d6a94f2883e771482c37d844b
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+~Vinod
