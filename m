@@ -1,121 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A38A20
-	for <linux-sunxi@lists.linux.dev>; Tue, 20 Sep 2022 06:35:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5B27C433C1;
-	Tue, 20 Sep 2022 06:35:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663655734;
-	bh=z4g70PWNS19WDaZZAXAoI1HGOBQ1YJ7dA7waNDxTJ+U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=l5Twc8sPOZQJX+kvswAylubH6gwPowlY7GN/3Z8oGoS5TZfrtK7a4uw/aA34Hr/0i
-	 1Hvnz9QIGt+0ykQoZKjXYskD2llkqqcGkBnMgOW7C6Tz0T3V9NZqYx/uvuMXhmJrqk
-	 JncAZzUVlWHHkplP7W4bIDFqmq3O0/M0PaS9DfI+MnT47jD5MIXSADJo63pevsCPnb
-	 Itn0HRwiaLbZdB+t/BnVmlBzNALhmgH0kevAkMp9maNERiBLRJsKYNktFVEsKsI7Mb
-	 hQXq+h6kbdfeF+OOhh5BFHVvVTLC3+OOVKYnYr+2/lGB+UvIag5cm2JbcJeIqGhJYj
-	 KxdmvuLnuSecA==
-Date: Tue, 20 Sep 2022 12:05:30 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
-	Kishon Vijay Abraham I <kishon@ti.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, Karl Kurbjun <karl.os@veroson.com>,
-	Icenowy Zheng <icenowy@aosc.io>
-Subject: Re: [PATCH 2/7] dt-bindings: usb: Add special clock for Allwinner
- H616 PHY
-Message-ID: <YylfMk4QJsgTOCe0@matsya>
-References: <20220911235945.6635-1-andre.przywara@arm.com>
- <20220911235945.6635-3-andre.przywara@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE507C
+	for <linux-sunxi@lists.linux.dev>; Wed, 21 Sep 2022 03:31:39 +0000 (UTC)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.57])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MXP6B1MqSzHpfS;
+	Wed, 21 Sep 2022 11:29:22 +0800 (CST)
+Received: from huawei.com (10.175.103.91) by dggpemm500022.china.huawei.com
+ (7.185.36.162) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Wed, 21 Sep
+ 2022 11:31:30 +0800
+From: Zeng Heng <zengheng4@huawei.com>
+To: <fengzheng923@gmail.com>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
+	<perex@perex.cz>, <tiwai@suse.com>, <wens@csie.org>,
+	<jernej.skrabec@gmail.com>, <samuel@sholland.org>,
+	<alsa-devel@alsa-project.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>
+CC: <zengheng4@huawei.com>, <liwei391@huawei.com>
+Subject: [PATCH -next] sound: sunxi: fix declaration compile error
+Date: Wed, 21 Sep 2022 11:38:19 +0800
+Message-ID: <20220921033819.2188233-1-zengheng4@huawei.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220911235945.6635-3-andre.przywara@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500022.china.huawei.com (7.185.36.162)
+X-CFilter-Loop: Reflected
 
-On 12-09-22, 00:59, Andre Przywara wrote:
-> The USB PHY IP in the Allwinner H616 SoC requires a quirk that involves
-> some resources from port 2's PHY and HCI IP. In particular the PMU clock
-> for port 2 must be surely ungated before accessing the REG_HCI_PHY_CTL
-> register of port 2. To allow each USB port to be controlled
-> independently of port 2, we need a handle to that particular PMU clock
-> in the *PHY* node, as the HCI and PHY part might be handled by separate
-> drivers.
-> 
-> Add that clock to the requirements of the H616 PHY binding, so that a
-> PHY driver can apply the quirk in isolation, without requiring help from
-> port 2's HCI driver.
+Just fix compile error without any logic changes.
 
-This is phy binding patch and not a usb one, pls fix the subystem name
-for patch
+sound/soc/sunxi/sun50i-dmic.c:62:1: error: ‘static’ is not at beginning of declaration [-Werror=old-style-declaration]
+   62 | const static struct dmic_rate dmic_rate_s[] = {
+      | ^~~~~
 
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  .../phy/allwinner,sun8i-h3-usb-phy.yaml       | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml
-> index e288450e0844..3a3168392597 100644
-> --- a/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml
-> +++ b/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml
-> @@ -36,18 +36,22 @@ properties:
->        - const: pmu3
->  
->    clocks:
-> +    minItems: 4
->      items:
->        - description: USB OTG PHY bus clock
->        - description: USB Host 0 PHY bus clock
->        - description: USB Host 1 PHY bus clock
->        - description: USB Host 2 PHY bus clock
-> +      - description: PMU clock for host port 2
->  
->    clock-names:
-> +    minItems: 4
->      items:
->        - const: usb0_phy
->        - const: usb1_phy
->        - const: usb2_phy
->        - const: usb3_phy
-> +      - const: pmu2_clk
->  
->    resets:
->      items:
-> @@ -98,6 +102,21 @@ required:
->  
->  additionalProperties: false
->  
-> +if:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        enum:
-> +          - sun50i-h616-usb-phy
-> +
-> +then:
-> +  properties:
-> +    clocks:
-> +      minItems: 5
-> +
-> +    clock-names:
-> +      minItems: 5
-> +
->  examples:
->    - |
->      #include <dt-bindings/gpio/gpio.h>
-> -- 
-> 2.35.3
+Signed-off-by: Zeng Heng <zengheng4@huawei.com>
+---
+ sound/soc/sunxi/sun50i-dmic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/sound/soc/sunxi/sun50i-dmic.c b/sound/soc/sunxi/sun50i-dmic.c
+index cd3c07f2070f..86cff5a5b1bd 100644
+--- a/sound/soc/sunxi/sun50i-dmic.c
++++ b/sound/soc/sunxi/sun50i-dmic.c
+@@ -59,7 +59,7 @@ struct dmic_rate {
+ 	unsigned int rate_bit;
+ };
+ 
+-const static struct dmic_rate dmic_rate_s[] = {
++static const struct dmic_rate dmic_rate_s[] = {
+ 	{48000, 0x0},
+ 	{44100, 0x0},
+ 	{32000, 0x1},
 -- 
-~Vinod
+2.25.1
+
