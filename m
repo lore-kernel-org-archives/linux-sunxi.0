@@ -1,74 +1,53 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 582F31102
-	for <linux-sunxi@lists.linux.dev>; Wed, 21 Sep 2022 12:37:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96FA9C433D7;
-	Wed, 21 Sep 2022 12:37:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663763877;
-	bh=supMv855KnyburSSx3KwyTUOX8zU5PSNqbdh6ZA3Vz8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=WZDZuujrMgbAZ0EtjjBEvWI5Ft+3VTLbXG8OKqfuMqpwAuC+EJt8lw4U0viNvEXSD
-	 qL/3cVIUW/eMV6lPZ46skTL5Q1JyhJ96bXYX73et6xBHYUwdWpaR+ZA/NCBZJ6vk3F
-	 ls+hA9TbIkQDsJnrDyPceXkkKcm4jnFhwWrgOnMExwJpVt+DonbjhuYXLHqyejPIpB
-	 V4dQ3uwFBqFGSAkZdrT6eJjabTJtPncSq0B7uTxNikFhokt4aAgGB4f5k2h5G6Hl3Y
-	 9d2QPW2KO+ZtGJKlCuZ4vteUBI/3mUxE+U3f/+uDxKz41SySBNi4W4lTc99bNeQgcc
-	 wtMpvwh/RxvPQ==
-From: Mark Brown <broonie@kernel.org>
-To: perex@perex.cz, tiwai@suse.com, fengzheng923@gmail.com, lgirdwood@gmail.com, Zeng Heng <zengheng4@huawei.com>,
- jernej.skrabec@gmail.com, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- alsa-devel@alsa-project.org, wens@csie.org, samuel@sholland.org
-Cc: liwei391@huawei.com
-In-Reply-To: <20220921033819.2188233-1-zengheng4@huawei.com>
-References: <20220921033819.2188233-1-zengheng4@huawei.com>
-Subject: Re: [PATCH -next] sound: sunxi: fix declaration compile error
-Message-Id: <166376386829.569475.6485211079114910926.b4-ty@kernel.org>
-Date: Wed, 21 Sep 2022 13:37:48 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E29BD33D4
+	for <linux-sunxi@lists.linux.dev>; Wed, 21 Sep 2022 13:28:20 +0000 (UTC)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.54])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MXfHr0fDfzMnvr;
+	Wed, 21 Sep 2022 21:23:36 +0800 (CST)
+Received: from [10.174.179.163] (10.174.179.163) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 21 Sep 2022 21:28:17 +0800
+Message-ID: <d49dd06d-2681-9dcf-75d0-f434e33cc4e4@huawei.com>
+Date: Wed, 21 Sep 2022 21:28:17 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [PATCH -next] sound: sunxi: fix declaration compile error
+To: Mark Brown <broonie@kernel.org>
+CC: <fengzheng923@gmail.com>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+	<tiwai@suse.com>, <wens@csie.org>, <jernej.skrabec@gmail.com>,
+	<samuel@sholland.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <liwei391@huawei.com>
+References: <20220921033819.2188233-1-zengheng4@huawei.com>
+ <YyrZIEH+n5UfbFGZ@sirena.org.uk>
+From: Zeng Heng <zengheng4@huawei.com>
+In-Reply-To: <YyrZIEH+n5UfbFGZ@sirena.org.uk>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.11.0-dev-8af31
+X-Originating-IP: [10.174.179.163]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500022.china.huawei.com (7.185.36.162)
+X-CFilter-Loop: Reflected
 
-On Wed, 21 Sep 2022 11:38:19 +0800, Zeng Heng wrote:
-> Just fix compile error without any logic changes.
-> 
-> sound/soc/sunxi/sun50i-dmic.c:62:1: error: ‘static’ is not at beginning of declaration [-Werror=old-style-declaration]
->    62 | const static struct dmic_rate dmic_rate_s[] = {
->       | ^~~~~
-> 
-> 
-> [...]
+Thanks for your recommend.
 
-Applied to
+I would pay more attention to proper subject line (like 'ASoC: sunxi: 
+...') in the following patch.
 
-   broonie/sound.git for-next
 
-Thanks!
-
-[1/1] sound: sunxi: fix declaration compile error
-      commit: ee81cfb58286c1aed3263d2fc94b321e7d963f08
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+在 2022/9/21 17:28, Mark Brown 写道:
+> On Wed, Sep 21, 2022 at 11:38:19AM +0800, Zeng Heng wrote:
+>> Just fix compile error without any logic changes.
+> Please submit patches using subject lines reflecting the style for the
+> subsystem, this makes it easier for people to identify relevant patches.
+> Look at what existing commits in the area you're changing are doing and
+> make sure your subject lines visually resemble what they're doing.
+> There's no need to resubmit to fix this alone.
