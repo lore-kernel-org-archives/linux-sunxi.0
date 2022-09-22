@@ -1,211 +1,104 @@
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
+Received: from antelope.elm.relay.mailchannels.net (antelope.elm.relay.mailchannels.net [23.83.212.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7432FB2
-	for <linux-sunxi@lists.linux.dev>; Wed, 21 Sep 2022 15:05:25 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailnew.nyi.internal (Postfix) with ESMTP id C21DF5817DE;
-	Wed, 21 Sep 2022 11:05:24 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Wed, 21 Sep 2022 11:05:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1663772724; x=1663779924; bh=zeS7eGWYYn
-	Wb55o8vuEX3/JmL16HTSaXpqzOa1s1OmM=; b=0M0YkAeojZnssmyhGXTFWP/RJZ
-	4B8i4ouZeY4Z0QBWU2jdU/tzOhqGkJ1aqGFIB2I04jyXAxjSy0ci//9zfroeC7wM
-	LMhxWYautGXCGopjGBLTDH1FfyC+SfUGoOibhhRwdC+Ce/YdLlG9kTXffTYdu7SR
-	Hc0N2svmjWpTyfyUzmbi79YgSkM9dkHe907rAXMjcNhnIg88r1LrpeyMcdsqe1KZ
-	Qpg4SRjzHeUYWzrbQDI40b2zvETLltU4hWGPw/h6K2UaiJpS2W8tghWMoRUAVmge
-	tjzvPmZvnewYbJK1A1qNqwF0DMbHD9+Ozt//ouyH3ZfmFq/OtaSlHd/m/rXg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1663772724; x=1663779924; bh=zeS7eGWYYnWb55o8vuEX3/JmL16H
-	TSaXpqzOa1s1OmM=; b=Q4FoZUSX4afJiLdXFgUX6H3zrL89vNlEFmSRSXS6LrJ6
-	Ef8fRPiTCNuyN3jetlga5TL/UJtnNEdkRiHKaNqeTkfmJUm/QLvlhaQ/+uKMTBFe
-	Fb+3rOhcLc/FkboGJOJdAZqcLFHNreA+HtC03cpW58fk9MdfEkFeGmMqWrbnEquy
-	fDbRb6aGvmY6bwafdLYJ2wbiKo+8gNZetyJjimUY3wso5RbK4Sk/FUVCjPu5gMq3
-	ESVdiPCTFfqTcrc0SBn3ikXEzTmvx1XX5tOximQ1/6HhE2ElwMP7mKT1K0u0fAu7
-	sGAzubusb+SRToiLf63KGpTVCM9W/c4bC5cX/8gqBQ==
-X-ME-Sender: <xms:MSgrY-G_PEpPNWtp560qTOommMGyn_lvYh-L40-DoB_gukOyFQGN7w>
-    <xme:MSgrY_X0o3nseHlFj2vqJkhlbZZEboNKfIPc_XARZ6J_Cb07Jl0W52snqCvhp5DeC
-    Bj6pI2gP_jwhcWXvek>
-X-ME-Received: <xmr:MSgrY4LCH1jS7ypIzTVdEztXDwdSWwob65j5lysqYD5Vfi0tZZy0PIYlOck>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefuddgkeehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
-    ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:MigrY4EJAl-jotY3IGkRPhoXT0kp79JD_LmDPDSLYdwZDIgMKphrig>
-    <xmx:MigrY0W2lyWqHBTMC74oLOnUbExtmb_Fqy8L8bpi_uL6I7qDOIaNXg>
-    <xmx:MigrY7M13a3l5SVv7Sdl9LGvAfdBiKexsZQFIf5gfnVFl_yq4As86w>
-    <xmx:NCgrYzPgN6L8k4xVAuYjZlFnCc6phS1DYSqtqC40QZTz7DYuI4Os_w>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 21 Sep 2022 11:05:21 -0400 (EDT)
-Date: Wed, 21 Sep 2022 17:05:19 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Mateusz Kwiatkowski <kfyatek@gmail.com>
-Cc: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
-	Chen-Yu Tsai <wens@csie.org>,	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jani Nikula <jani.nikula@linux.intel.com>,	Lyude Paul <lyude@redhat.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,	Karol Herbst <kherbst@redhat.com>,
-	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-	Emma Anholt <emma@anholt.net>, Daniel Vetter <daniel@ffwll.ch>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	linux-arm-kernel@lists.infradead.org,	Phil Elwell <phil@raspberrypi.com>,
- intel-gfx@lists.freedesktop.org,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	dri-devel@lists.freedesktop.org, Dom Cobley <dom@raspberrypi.com>,
-	linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
-	linux-sunxi@lists.linux.dev,	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v2 10/41] drm/modes: Add a function to generate analog
- display modes
-Message-ID: <20220921150519.hijgemsk7o2tdrb3@houat>
-References: <20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-10-459522d653a7@cerno.tech>
- <242d272b-5b79-986c-9aaf-64e62f6b37ff@gmail.com>
- <20220905133755.gcmmntg3wnecyqjq@houat>
- <10ce686a-d7c8-9ce4-3979-735ad8eab3b5@gmail.com>
- <20220907143421.4iopqwhp3yfircsh@houat>
- <dc1d9499-d4d5-1032-f39f-d4ac4cbb8412@gmail.com>
- <20220909135444.5oi6oh6nqwuke3jl@houat>
- <79ab3fef-fdaa-e191-d839-4af88191e672@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5168B844A
+	for <linux-sunxi@lists.linux.dev>; Thu, 22 Sep 2022 04:37:11 +0000 (UTC)
+X-Sender-Id: dreamhost|x-authsender|karl.os@veroson.com
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 26AD13C09D9;
+	Thu, 22 Sep 2022 04:19:22 +0000 (UTC)
+Received: from pdx1-sub0-mail-a258.dreamhost.com (unknown [127.0.0.6])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 319973C1403;
+	Thu, 22 Sep 2022 04:19:21 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1663820361; a=rsa-sha256;
+	cv=none;
+	b=TYw2cYGifTDPWrgyFyfgt313iKNm4d/WLn1nR/Kup7mMUGBIUlflillh/0TCYUONW60VlE
+	fdxgbb8lGZU+bZA1seDJzjSHIBbIYwWzrUOvEK5muUEDvvPyXfliN1dyKwg+02dHeuFqOH
+	7palR6BAFKUEHlccofZdV6gjmz249tvzgp2/7zBhaZpk92EowrVPbZ3vS8jj25Hjkdcdsp
+	A5Vowl6tJWQxsVC204rN+F3u7kG6eWEJ4xMnA5AdVYvfE8p8UQs8pAuXuEiTnUzgzdA9f0
+	bWGB1Euk3ihOIEip7rBsB8ExV4/1lgASwuzTU8Ugk/A62oGj8x35pU/xRetLQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1663820361;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=vT6bv/WisUBq8m8o70j6fGYTfeF1p35BvwzYIUgbun4=;
+	b=z3OeJSoJ3J+TeIuk+PoXhldFdDomO4OHY6hwsYK9aVJd+ZOJOhbW/XJM/De/gdrthmOF/X
+	TdZ8MozweuHAYOBtDRdUc2dKdQVHVceT/yqsalpHUwxpO9XJFjZep6HKzDYGgzcKB/Z14D
+	F8m7/7NhcqCEu4reoIHA0o1j5NbW5u2kbZfedfQ7/3GGH3tB26veTiapOIKZCTyAt13KCP
+	ujf7LbHowTrh2WSck1+kCniHVgpvGlTqk1nVG8raxIjDnQ6ul5WerDfMrfOATLR+trausN
+	ODS0vEALWEJ1hY+y9bIQ5f+E4TLCmqTzZH4kRBCS0+3NTRhJl2DrMd11H+3wMg==
+ARC-Authentication-Results: i=1;
+	rspamd-f776c45b8-2q8n5;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=karl.os@veroson.com
+X-Sender-Id: dreamhost|x-authsender|karl.os@veroson.com
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|karl.os@veroson.com
+X-MailChannels-Auth-Id: dreamhost
+X-Slimy-Tart: 59bdc4d919ef7503_1663820361943_1131412379
+X-MC-Loop-Signature: 1663820361943:2608944700
+X-MC-Ingress-Time: 1663820361943
+Received: from pdx1-sub0-mail-a258.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.97.77.208 (trex/6.7.1);
+	Thu, 22 Sep 2022 04:19:21 +0000
+Received: from localhost (unknown [38.15.43.255])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: karl.os@veroson.com)
+	by pdx1-sub0-mail-a258.dreamhost.com (Postfix) with ESMTPSA id 4MY29J35Bvz3K;
+	Wed, 21 Sep 2022 21:19:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veroson.com;
+	s=dreamhost; t=1663820360;
+	bh=vT6bv/WisUBq8m8o70j6fGYTfeF1p35BvwzYIUgbun4=;
+	h=Date:From:To:Cc:Subject:Content-Type;
+	b=PlopfdrLhjlzM3ToPlwPsbjqQc0IEzTTD5Us58EDWXQtNvflNlL0OVp4K6Vh+UcNn
+	 6wYs5hWW7kew6OXbeeoiDkXtvsJFPal7HZ2VnFKMbg7vFV5NeRB0q9Bi7BYMmWZ410
+	 pXKaGjr1LtHC9iHblQxeICDrn9NLqIb75CDRcOjSxF/hSQokzKE9xBjVK/HQXljzZ6
+	 PeAiwR+5EeU/4UNM4mGUySaWw+fC2kzo4QwKxzq7peTt5mz6nRcWOsNySYzr/XylqS
+	 1ddL8Qa4SVP+OUCTv5rPRy2hlK8mBm7EeW1FVTvs4n97OfLv+Swrf3mdK0XsdYHpHK
+	 QmhdZ5JAlMpJw==
+Date: Wed, 21 Sep 2022 22:19:14 -0600
+From: Karl Kurbjun <karl.os@veroson.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, Icenowy Zheng <icenowy@aosc.io>
+Subject: Re: [PATCH 0/7] arm64: sunxi: h616: Add USB support
+Message-ID: <YyviQkLXUX9FuLED@localhost>
+References: <20220911235945.6635-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="f6nvjv3uvyvilujx"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <79ab3fef-fdaa-e191-d839-4af88191e672@gmail.com>
+In-Reply-To: <20220911235945.6635-1-andre.przywara@arm.com>
 
+On 09/12, Andre Przywara wrote:
+<snip>
+> Please have a look and test on your hardware, especically on all ports
+> exposed on header pins of the OrangePi Zero2 board.
 
---f6nvjv3uvyvilujx
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I tested this patch set on an OrangePi Zero 2 with each of the USB ports:
 
-Hi,
+Port 0: I tested this with a UART gadget to make sure I could access a console over the port.
+Ports 1-3: I tested these with a USB memory stick - I was able to see the device and mount a partition.
 
-On Sun, Sep 11, 2022 at 06:48:50AM +0200, Mateusz Kwiatkowski wrote:
-> >> Those extra vbp lines will be treated as a black bar at the top of the=
- frame,
-> >> and extra vfp lines will be at the bottom of the frame.
-> >>
-> >> However if someone specifies e.g. 720x604, there's nothing more you co=
-uld
-> >> remove from vfp, so your only option is to reduce vbp compared to the =
-standard
-> >> mode, so you'll end up with (vfp=3D=3D4, vsync=3D=3D6, vbp=3D=3D11). T=
-he image will not be
-> >> centered, the topmost lines will get cropped out, but that's the best =
-we can do
-> >> and if someone is requesting such resolution, they most likely want to=
- actually
-> >> access the VBI to e.g. emit teletext.
-> >>
-> >> Your current code always starts at (vfp=3D=3D5 or 6, vsync=3D6, vbp=3D=
-=3D6) and then
-> >> increases both vfp and vbp proportionately. This puts vsync dead cente=
-r in the
-> >> VBI, which is not how it's supposed to be - and that in turn causes th=
-e image
-> >> to be significantly shifted upwards.
-> >>
-> >> I hope this makes more sense to you now.
-> >
-> > I'm really struggling with this, so thanks for explaining this further
-> > (and patiently ;))
-> >
-> > If I get this right, what you'd like to change is this part of the
-> > calculus (simplified a bit, and using PAL, 576i):
-> >
-> >=A0=A0 vfp_min =3D params->vfp_lines.even + params->vfp_lines.odd; // 5
-> >=A0=A0 vbp_min =3D params->vbp_lines.even + params->vbp_lines.odd; // 6
-> >=A0=A0 vslen =3D params->vslen_lines.even + params->vslen_lines.odd; // 6
-> >
-> >=A0=A0 porches =3D params->num_lines - vactive - vslen; // 43
-> >=A0=A0 porches_rem =3D porches - vfp_min - vbp_min; // 32
-> >
-> >=A0=A0 vfp =3D vfp_min + (porches_rem / 2); // 21
-> >=A0=A0 vbp =3D porches - vfp; // 22
-> >
-> > Which is indeed having sync centered.
-> >
-> > I initially changed it to:
-> >
-> >=A0=A0 vfp =3D vfp_min; // 6
-> >=A0=A0 vbp =3D num_lines - vactive - vslen - vfp; // 38
-> >
-> > Which is close enough for 576i, but at 480i/50Hz would end up with 134,
-> > so still fairly far off.
-> >
-> > I guess your suggestion would be along the line of:
-> >
-> >=A0=A0 vfp_min =3D params->vfp_lines.even + params->vfp_lines.odd; // 5
-> >=A0=A0 vbp_min =3D params->vbp_lines.even + params->vbp_lines.odd; // 38
-> >=A0=A0 vslen =3D params->vslen_lines.even + params->vslen_lines.odd; // 6
-> >
-> >=A0=A0 porches =3D params->num_lines - vactive - vslen; // 0
-> >=A0=A0 porches_rem =3D porches - vfp_min - vbp_min; // 0
-> >
-> >=A0=A0 vfp =3D vfp_min + (porches_rem / 2); // 5
-> >=A0=A0 vbp =3D porches - vfp; // 38
-> >
-> > Which is still close enough for 576i, but for 480i would end up with:
-> >
-> >=A0=A0 porches =3D params->num_lines - vactive - vslen; // 139
-> >=A0=A0 porches_rem =3D porches - vfp_min - vbp_min; // 96
-> >
-> >=A0=A0 vfp =3D vfp_min + (porches_rem / 2); // 53
-> >=A0=A0 vbp =3D porches - vfp; // 86
-> >
-> > Right?
->=20
-> Yes. And if that's supposed to mean 480i in 50 Hz "PAL" mode, that's also
-> "close enough" to the values I suggested above.
->=20
-> If you substitute values for true 60 Hz "NTSC" 480i, you should also get =
-values
-> that are "close enough" to the official spec.
->=20
-> The only thing I'd conceptually change is that the 38 lines is not really
-> "vbp_min". It's more like "vbp_typ". As I mentioned above, we may want to=
- lower
-> this value if someone wants more active lines than the official 486/576.
+As would be expected: for ports 2-3 I had to enable the ohci and ehci entries in the target dts file to test them.
 
-porches_rem is an int, so if vactive > (num_lines + vslen + vfp_min +
-vbp_min), porches_rem is going to be negative and we'll remove equally
-between vfp and vbp to match what's been asked
+Tested-By: Karl Kurbjun <karl.os@veroson.com>
 
-So I believe this should work fine?
-
-Maxime
-
---f6nvjv3uvyvilujx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYysoLwAKCRDj7w1vZxhR
-xURjAQCbncH6Fc/QtaLetEslcTLx/26P2Sm8OvJplugFXHTJ7QD/dTht2uJh+cg/
-SgzXrpjHpRt/MIrMNo1Y+QG6L3LLpgY=
-=4e/k
------END PGP SIGNATURE-----
-
---f6nvjv3uvyvilujx--
+Karl
