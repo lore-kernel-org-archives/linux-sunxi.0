@@ -1,245 +1,163 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BFD1FBA
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Sep 2022 20:45:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1663879545;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D7D2561
+	for <linux-sunxi@lists.linux.dev>; Fri, 23 Sep 2022 08:06:10 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D8075219EA;
+	Fri, 23 Sep 2022 08:06:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1663920368; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2pTwmQ+KMlHtgNXiw9Gsc6D/W6nJso72Y3DgksJPfuk=;
-	b=JIa6DsYdCEmgTjwzbofSUbXPm9ZEGH7aWrRVMFWp9HjwIZ7McFFVFKjXSaf1U7J2h+NXXH
-	Hm5O9sbgCTietJzNQwCu4VMuLe3XQA8tr0OJ0lt/TBBdS9zetxII3vZIKTInfP0hQs7+7v
-	bTV+wpvOabRGxoR6FVxcSLKZzAIoFbs=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-83-j0mIFLT0NFC3awZIuEq5rQ-1; Thu, 22 Sep 2022 16:45:42 -0400
-X-MC-Unique: j0mIFLT0NFC3awZIuEq5rQ-1
-Received: by mail-qv1-f72.google.com with SMTP id lq8-20020a0562145b8800b004ad7229e4e9so3902802qvb.6
-        for <linux-sunxi@lists.linux.dev>; Thu, 22 Sep 2022 13:45:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:user-agent:organization
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=2pTwmQ+KMlHtgNXiw9Gsc6D/W6nJso72Y3DgksJPfuk=;
-        b=k8ahHKt6JsmyplBiP1Z9pLF1CbTMmTOh6WsYlvTIX+yFCZ8YXrqoUowa7s3J40JDXH
-         saFSzISMjAnZZDEJgkvmo12KmlCU/EPMrqvCdZKI/qNIrbGA6FbrKcUmamvSKEyFwyQS
-         c9Kqj41Y284hXYQ/BrUDAZjDUNx3e4ayZH6bb+YVhTdxCcdrc9gltIAdQAFohl3onb7Z
-         xplyCuRUBn/adpSKZfD1jtJBMr+4B+DeQFgIk6AMDeuZqiFvakkCj/WoeDAWpVK4F4HJ
-         EfvKH5rVV2566rEUUSubZ3xnANzfcWAYyTvuNEVRwehaYI+bRMKwSBVQrnt3IlWuC8s0
-         jqZA==
-X-Gm-Message-State: ACrzQf2jb7cafJ7ZaM17N2h1akgvp4F8EpRaO+lrGcsxQOICQiOYU3we
-	tMf1J+970YJi+zx25uWh7NiBBVXWIyYsBtvvn5hZFHqHJWaKscIM/J5Ps2FW+uP8nlzzE1zuesk
-	kd88fIptY8Jvz01LQ/h8vnGg=
-X-Received: by 2002:ac8:57cc:0:b0:35c:b5d1:9024 with SMTP id w12-20020ac857cc000000b0035cb5d19024mr4552770qta.214.1663879541910;
-        Thu, 22 Sep 2022 13:45:41 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6UJCB0gG/rO87ayUHT6cZoHMF2bD+DFkmZIeVDat+OrR1utdi7dIqfkWvtqZHLQ+pmTyKJ5A==
-X-Received: by 2002:ac8:57cc:0:b0:35c:b5d1:9024 with SMTP id w12-20020ac857cc000000b0035cb5d19024mr4552744qta.214.1663879541641;
-        Thu, 22 Sep 2022 13:45:41 -0700 (PDT)
-Received: from ?IPv6:2600:4040:5c48:e00::feb? ([2600:4040:5c48:e00::feb])
-        by smtp.gmail.com with ESMTPSA id n12-20020a05620a294c00b006ce63901d27sm4686286qkp.4.2022.09.22.13.45.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Sep 2022 13:45:40 -0700 (PDT)
-Message-ID: <3bfe5ffbba617f56290e79db358364ba8dc49fee.camel@redhat.com>
-Subject: Re: [PATCH v2 08/33] drm/connector: Rename
- drm_mode_create_tv_properties
-From: Lyude Paul <lyude@redhat.com>
-To: Maxime Ripard <maxime@cerno.tech>, Jernej Skrabec
- <jernej.skrabec@gmail.com>,  Rodrigo Vivi <rodrigo.vivi@intel.com>, Ben
- Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,  Maxime
- Ripard <mripard@kernel.org>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Emma Anholt <emma@anholt.net>, Karol
- Herbst <kherbst@redhat.com>, Samuel Holland <samuel@sholland.org>, Jani
- Nikula <jani.nikula@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Tvrtko Ursulin
- <tvrtko.ursulin@linux.intel.com>, Chen-Yu Tsai <wens@csie.org>
-Cc: Hans de Goede <hdegoede@redhat.com>, nouveau@lists.freedesktop.org, 
- Geert Uytterhoeven <geert@linux-m68k.org>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>,  linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- intel-gfx@lists.freedesktop.org, Noralf =?ISO-8859-1?Q?Tr=F8nnes?=
- <noralf@tronnes.org>, Dom Cobley <dom@raspberrypi.com>, 
- linux-sunxi@lists.linux.dev, Mateusz Kwiatkowski
- <kfyatek+publicgit@gmail.com>,  dri-devel@lists.freedesktop.org
-Date: Thu, 22 Sep 2022 16:45:39 -0400
-In-Reply-To: <20220728-rpi-analog-tv-properties-v2-8-f733a0ed9f90@cerno.tech>
-References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
-	 <20220728-rpi-analog-tv-properties-v2-8-f733a0ed9f90@cerno.tech>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+	bh=W32O2yVRih3gwoLv5jL3J0R/1OnRljKFS2FDN0VocOE=;
+	b=Pl+SdTc+QcZJWIEU7QfsDd9fWk+tzpEKp98gH4KLelmFYEfxGSkZDcpoW93NPCiQEEZlRA
+	1/U+svWsV7gEff7FfI+aU0ZK3lquksmd+Ub4khv76ZN+gNsorAqcgk9Fm61CGQm67HM4gW
+	7yVWAAJIOCnqk4Gn3Ot22Qei23yZeEc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1663920368;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W32O2yVRih3gwoLv5jL3J0R/1OnRljKFS2FDN0VocOE=;
+	b=NEpLtuMet7hLasS4xxYkCmyMQfFFoYvb6ECDUGdet0SLgusoImC7tJ/mUOcja0Sxt59rAE
+	jJ3Ap0C7aW+8EYDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 56F2E13AA5;
+	Fri, 23 Sep 2022 08:06:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id MOJIFPBoLWNLfwAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Fri, 23 Sep 2022 08:06:08 +0000
+Message-ID: <73cd87f9-655a-5510-f3f7-e552dcefdf0d@suse.de>
+Date: Fri, 23 Sep 2022 10:06:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2 01/33] drm/tests: Order Kunit tests in Makefile
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Ben Skeggs <bskeggs@redhat.com>,
+ David Airlie <airlied@linux.ie>, Maxime Ripard <mripard@kernel.org>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Lyude Paul <lyude@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Chen-Yu Tsai <wens@csie.org>
+Cc: Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-1-f733a0ed9f90@cerno.tech>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v2-1-f733a0ed9f90@cerno.tech>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------009tUO10dHwudn8iU0mykD8M"
 
-For nouveau:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------009tUO10dHwudn8iU0mykD8M
+Content-Type: multipart/mixed; boundary="------------c3qicYVAnU4Lh99nFLW5qyTI";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Maxime Ripard <maxime@cerno.tech>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Ben Skeggs <bskeggs@redhat.com>,
+ David Airlie <airlied@linux.ie>, Maxime Ripard <mripard@kernel.org>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Lyude Paul <lyude@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Chen-Yu Tsai <wens@csie.org>
+Cc: Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+Message-ID: <73cd87f9-655a-5510-f3f7-e552dcefdf0d@suse.de>
+Subject: Re: [PATCH v2 01/33] drm/tests: Order Kunit tests in Makefile
+References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-1-f733a0ed9f90@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v2-1-f733a0ed9f90@cerno.tech>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+--------------c3qicYVAnU4Lh99nFLW5qyTI
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-On Thu, 2022-09-22 at 16:25 +0200, Maxime Ripard wrote:
-> drm_mode_create_tv_properties(), among other things, will create the
-> "mode" property that stores the analog TV mode that connector is
-> supposed to output.
-> 
-> However, that property is getting deprecated, so let's rename that
-> function to mention it's deprecated. We'll introduce a new variant of
-> that function creating the property superseeding it in a later patch.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index 17a5913cefe3..4e4fbc9e0049 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -1600,7 +1600,7 @@ EXPORT_SYMBOL(drm_connector_attach_tv_margin_properties);
->   * Called by a driver's HDMI connector initialization routine, this function
->   * creates the TV margin properties for a given device. No need to call this
->   * function for an SDTV connector, it's already called from
-> - * drm_mode_create_tv_properties().
-> + * drm_mode_create_tv_properties_legacy().
->   *
->   * Returns:
->   * 0 on success or a negative error code on failure.
-> @@ -1635,7 +1635,7 @@ int drm_mode_create_tv_margin_properties(struct drm_device *dev)
->  EXPORT_SYMBOL(drm_mode_create_tv_margin_properties);
->  
->  /**
-> - * drm_mode_create_tv_properties - create TV specific connector properties
-> + * drm_mode_create_tv_properties_legacy - create TV specific connector properties
->   * @dev: DRM device
->   * @num_modes: number of different TV formats (modes) supported
->   * @modes: array of pointers to strings containing name of each format
-> @@ -1648,9 +1648,9 @@ EXPORT_SYMBOL(drm_mode_create_tv_margin_properties);
->   * Returns:
->   * 0 on success or a negative error code on failure.
->   */
-> -int drm_mode_create_tv_properties(struct drm_device *dev,
-> -				  unsigned int num_modes,
-> -				  const char * const modes[])
-> +int drm_mode_create_tv_properties_legacy(struct drm_device *dev,
-> +					 unsigned int num_modes,
-> +					 const char * const modes[])
->  {
->  	struct drm_property *tv_selector;
->  	struct drm_property *tv_subconnector;
-> @@ -1733,7 +1733,7 @@ int drm_mode_create_tv_properties(struct drm_device *dev,
->  nomem:
->  	return -ENOMEM;
->  }
-> -EXPORT_SYMBOL(drm_mode_create_tv_properties);
-> +EXPORT_SYMBOL(drm_mode_create_tv_properties_legacy);
->  
->  /**
->   * drm_mode_create_scaling_mode_property - create scaling mode property
-> diff --git a/drivers/gpu/drm/gud/gud_connector.c b/drivers/gpu/drm/gud/gud_connector.c
-> index 86e992b2108b..034e78360d4f 100644
-> --- a/drivers/gpu/drm/gud/gud_connector.c
-> +++ b/drivers/gpu/drm/gud/gud_connector.c
-> @@ -400,7 +400,7 @@ static int gud_connector_add_tv_mode(struct gud_device *gdrm, struct drm_connect
->  	for (i = 0; i < num_modes; i++)
->  		modes[i] = &buf[i * GUD_CONNECTOR_TV_MODE_NAME_LEN];
->  
-> -	ret = drm_mode_create_tv_properties(connector->dev, num_modes, modes);
-> +	ret = drm_mode_create_tv_properties_legacy(connector->dev, num_modes, modes);
->  free:
->  	kfree(buf);
->  	if (ret < 0)
-> @@ -539,7 +539,7 @@ static int gud_connector_add_properties(struct gud_device *gdrm, struct gud_conn
->  			fallthrough;
->  		case GUD_PROPERTY_TV_HUE:
->  			/* This is a no-op if already added. */
-> -			ret = drm_mode_create_tv_properties(drm, 0, NULL);
-> +			ret = drm_mode_create_tv_properties_legacy(drm, 0, NULL);
->  			if (ret)
->  				goto out;
->  			break;
-> diff --git a/drivers/gpu/drm/i2c/ch7006_drv.c b/drivers/gpu/drm/i2c/ch7006_drv.c
-> index d29b63fd6178..506f6f932518 100644
-> --- a/drivers/gpu/drm/i2c/ch7006_drv.c
-> +++ b/drivers/gpu/drm/i2c/ch7006_drv.c
-> @@ -250,7 +250,7 @@ static int ch7006_encoder_create_resources(struct drm_encoder *encoder,
->  	struct drm_device *dev = encoder->dev;
->  	struct drm_mode_config *conf = &dev->mode_config;
->  
-> -	drm_mode_create_tv_properties(dev, NUM_TV_NORMS, ch7006_tv_norm_names);
-> +	drm_mode_create_tv_properties_legacy(dev, NUM_TV_NORMS, ch7006_tv_norm_names);
->  
->  	priv->scale_property = drm_property_create_range(dev, 0, "scale", 0, 2);
->  	if (!priv->scale_property)
-> diff --git a/drivers/gpu/drm/i915/display/intel_tv.c b/drivers/gpu/drm/i915/display/intel_tv.c
-> index abaf9ded942d..5e88da8185ee 100644
-> --- a/drivers/gpu/drm/i915/display/intel_tv.c
-> +++ b/drivers/gpu/drm/i915/display/intel_tv.c
-> @@ -1984,7 +1984,7 @@ intel_tv_init(struct drm_i915_private *dev_priv)
->  
->  		tv_format_names[i] = tv_modes[i].name;
->  	}
-> -	drm_mode_create_tv_properties(dev, i, tv_format_names);
-> +	drm_mode_create_tv_properties_legacy(dev, i, tv_format_names);
->  
->  	drm_object_attach_property(&connector->base,
->  				   dev->mode_config.legacy_tv_mode_property,
-> diff --git a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-> index 1a15534adc60..e5480dab55e3 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-> @@ -653,7 +653,7 @@ static int nv17_tv_create_resources(struct drm_encoder *encoder,
->  			tv_enc->tv_norm = i;
->  	}
->  
-> -	drm_mode_create_tv_properties(dev, num_tv_norms, nv17_tv_norm_names);
-> +	drm_mode_create_tv_properties_legacy(dev, num_tv_norms, nv17_tv_norm_names);
->  
->  	drm_object_attach_property(&connector->base,
->  					conf->tv_select_subconnector_property,
-> diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
-> index 77c50ecb0309..f31fef938f11 100644
-> --- a/drivers/gpu/drm/vc4/vc4_vec.c
-> +++ b/drivers/gpu/drm/vc4/vc4_vec.c
-> @@ -514,8 +514,9 @@ static int vc4_vec_bind(struct device *dev, struct device *master, void *data)
->  	struct vc4_vec *vec;
->  	int ret;
->  
-> -	ret = drm_mode_create_tv_properties(drm, ARRAY_SIZE(tv_mode_names),
-> -					    tv_mode_names);
-> +	ret = drm_mode_create_tv_properties_legacy(drm,
-> +						   ARRAY_SIZE(tv_mode_names),
-> +						   tv_mode_names);
->  	if (ret)
->  		return ret;
->  
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 5cfad8b6ad83..d566b4a4709c 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -1799,9 +1799,9 @@ int drm_mode_create_dvi_i_properties(struct drm_device *dev);
->  void drm_connector_attach_dp_subconnector_property(struct drm_connector *connector);
->  
->  int drm_mode_create_tv_margin_properties(struct drm_device *dev);
-> -int drm_mode_create_tv_properties(struct drm_device *dev,
-> -				  unsigned int num_modes,
-> -				  const char * const modes[]);
-> +int drm_mode_create_tv_properties_legacy(struct drm_device *dev,
-> +					 unsigned int num_modes,
-> +					 const char * const modes[]);
->  void drm_connector_attach_tv_margin_properties(struct drm_connector *conn);
->  int drm_mode_create_scaling_mode_property(struct drm_device *dev);
->  int drm_connector_attach_content_type_property(struct drm_connector *dev);
-> 
+DQoNCkFtIDIyLjA5LjIyIHVtIDE2OjI1IHNjaHJpZWIgTWF4aW1lIFJpcGFyZDoNCj4gU2lu
+Y2Ugd2UndmUgcmVjZW50bHkgYWRkZWQgYSB0b24gb2YgdGVzdHMsIHRoZSBsaXN0IHN0YXJ0
+cyB0byBiZSBhIGJpdA0KPiBvZiBhIG1lc3MgYW5kIGNyZWF0ZXMgdW5uZWVkZWQgY29uZmxp
+Y3RzLg0KPiANCj4gTGV0J3Mgb3JkZXIgaXQgYWxwaGFiZXRpY2FsbHkuDQo+IA0KPiBTaWdu
+ZWQtb2ZmLWJ5OiBNYXhpbWUgUmlwYXJkIDxtYXhpbWVAY2Vybm8udGVjaD4NCg0KQWNrZWQt
+Ynk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KDQo+IA0KPiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Rlc3RzL01ha2VmaWxlIGIvZHJpdmVycy9n
+cHUvZHJtL3Rlc3RzL01ha2VmaWxlDQo+IGluZGV4IDkxYjcwZjdkMjc2OS4uMmQ5ZjQ5YjYy
+ZWNiIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGVzdHMvTWFrZWZpbGUNCj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL3Rlc3RzL01ha2VmaWxlDQo+IEBAIC0xLDUgKzEsMTMg
+QEANCj4gICAjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wDQo+ICAgDQo+IC1v
+YmotJChDT05GSUdfRFJNX0tVTklUX1RFU1QpICs9IGRybV9mb3JtYXRfaGVscGVyX3Rlc3Qu
+byBkcm1fZGFtYWdlX2hlbHBlcl90ZXN0Lm8gXA0KPiAtCWRybV9jbWRsaW5lX3BhcnNlcl90
+ZXN0Lm8gZHJtX3JlY3RfdGVzdC5vIGRybV9mb3JtYXRfdGVzdC5vIGRybV9wbGFuZV9oZWxw
+ZXJfdGVzdC5vIFwNCj4gLQlkcm1fZHBfbXN0X2hlbHBlcl90ZXN0Lm8gZHJtX2ZyYW1lYnVm
+ZmVyX3Rlc3QubyBkcm1fYnVkZHlfdGVzdC5vIGRybV9tbV90ZXN0Lm8NCj4gK29iai0kKENP
+TkZJR19EUk1fS1VOSVRfVEVTVCkgKz0gXA0KPiArCWRybV9idWRkeV90ZXN0Lm8gXA0KPiAr
+CWRybV9jbWRsaW5lX3BhcnNlcl90ZXN0Lm8gXA0KPiArCWRybV9kYW1hZ2VfaGVscGVyX3Rl
+c3QubyBcDQo+ICsJZHJtX2RwX21zdF9oZWxwZXJfdGVzdC5vIFwNCj4gKwlkcm1fZm9ybWF0
+X2hlbHBlcl90ZXN0Lm8gXA0KPiArCWRybV9mb3JtYXRfdGVzdC5vIFwNCj4gKwlkcm1fZnJh
+bWVidWZmZXJfdGVzdC5vIFwNCj4gKwlkcm1fbW1fdGVzdC5vIFwNCj4gKwlkcm1fcGxhbmVf
+aGVscGVyX3Rlc3QubyBcDQo+ICsJZHJtX3JlY3RfdGVzdC5vDQo+IA0KDQotLSANClRob21h
+cyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJl
+IFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVy
+ZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhy
+ZXI6IEl2byBUb3Rldg0K
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+--------------c3qicYVAnU4Lh99nFLW5qyTI--
 
+--------------009tUO10dHwudn8iU0mykD8M
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMtaO8FAwAAAAAACgkQlh/E3EQov+B0
+hw/+LQ747nt5mB/33pcmDcLYpCscgMBYQNTV/Sz4gO0OeWb5p2GydGSx3oBbGoigBcPktrGYfbQ7
+ZOIMPQNHdVeUy73nL5nCvyVjiLM1YkwrD8JtwgS8YxBzTkiv6noQz3RgQJECkMFJToW+sjEZOofR
+cm9NVEiN6uvC3746K+O8/Tk4vQjqgWjUWmcjliRuao7r8SbLvPHDz3HaB3DajOw9kltJqiOw6QNq
+mbxSz2+ovZbk1Pt51M/PZnMBLhI0T/K0Haz8A6voMM6xj1ROGWF4svTDiXJj7bWjZ+s3orvKmNl2
+lkSDGXSQWD1tAzkkNGE+hiRD0chELIFyx53L8n49cIkGq3GvN/04cMDpRdNFTTYdgSqibjx+0Sd3
+nBCcThQ4O0ONL4HQ/yIHdz9eZy6zLAuSU0XgtFwfSeLvayhTOnukJPKXsUpOJ7RrnUDhmZkCpgnz
+P4U2lIzrnum0eNvk1LQuUIfcurPAeHj5uwhq8gGraWv2r0IOqlaAzM9TXiCfBnqgvzLORbx7o3w/
+pEZp8kX9deCUF2H1EQ5XIJFqQNtwI/lyfXNL9q18zb0AvfR8uxOVselZE+3H6igyDYEOAty6XrTb
+Fc/23cwmvW3diIDAL6z4+hAKVLKR8UOc+OjB1DUfBF1FbOFfjGAkp+F4R2aWq017QCQwphE31vX/
+Xvw=
+=fZ0n
+-----END PGP SIGNATURE-----
+
+--------------009tUO10dHwudn8iU0mykD8M--
