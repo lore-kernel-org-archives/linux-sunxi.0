@@ -1,204 +1,77 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCC817F6
-	for <linux-sunxi@lists.linux.dev>; Sat, 24 Sep 2022 15:43:28 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::225])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id A251BCBC46
-	for <linux-sunxi@lists.linux.dev>; Sat, 24 Sep 2022 15:28:45 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 797301C0004;
-	Sat, 24 Sep 2022 15:28:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1664033317;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aqr+73QF+KcAToJwE6yKo6ZCzrB6161goSgjB/7oNOw=;
-	b=nDAwQxTW0jDqbFUMrKlnofrEU60u5ZRHgA+LKP1wKx5IQJ2MkllndKvq/5f7Fpb3kr66Ts
-	ROgvkdjDPvMCBO30HRPo2Ilo3d9GJQfGd6M65TesLO07XrjZd4deHHDsOnD8st+eW0AVrq
-	stz+Rvh6ejhAZOeGcftY159YZ8U9+MA9+m0m+r2cIGtbukywEgYBgkZ9JfBVLdmyDfTbsO
-	c7INmeOgjw1zeIqr8mdb5BEPJDhizGvgrAB71ZL5Yarjr8LlhLF9FG6jWsOe8M3e+Mtsxw
-	gdo/AHZ9GL2KpvnKZBhgR8aAV/ZWnXHlGcgDzs/OIQjPC3U6t+ZVMRGrGHHYHw==
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH v6 6/7] ARM: dts: sun8i-a83t: Add BananaPi M3 OV5640 camera overlay
-Date: Sat, 24 Sep 2022 17:28:19 +0200
-Message-Id: <20220924152820.77149-7-paul.kocialkowski@bootlin.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220924152820.77149-1-paul.kocialkowski@bootlin.com>
-References: <20220924152820.77149-1-paul.kocialkowski@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581A717E6
+	for <linux-sunxi@lists.linux.dev>; Sat, 24 Sep 2022 15:43:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=wJ3QEyWkmY8RlSuN62aAGatFlHuAsFeH7umWSZjHaso=; b=Y38Zj+fGoq99os0S54RMK5NV/y
+	Lx5qVNsY4pc1N++s3R74gotMZ5riDN+0eIK6k4DIO2RvqNjoHpWeW6d647+mKMTLQq1ctKJ0F0rX7
+	fwYyJ+2WCTLZnyhTFusk6EVxVrl0nMKpi3y/hczY23DAPvUTHfWgI68vPa5t6So1DnzUb0Imz9cdN
+	35p3TRqdP+V0/gz7SThzMI2bi39XT05w9ndX7Niy//VbwZhzKYMivdpQToBHhfAo9t+6jvdQNn/Q/
+	XFVmpv3Dn4fEGoAcL8DankyrjydfWBqmXbc43+Q1jM7PyVhXCAl0jRVZsDgMkF4aVRYcePktK3BtU
+	EcDGSF1w==;
+Received: from [2a01:799:961:d200:8cf6:761:40ec:1ff7] (port=52398)
+	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <noralf@tronnes.org>)
+	id 1oc7Jg-00032W-0a; Sat, 24 Sep 2022 17:43:44 +0200
+Message-ID: <4bab19b9-f33d-b9b8-9108-153e93ca0cdd@tronnes.org>
+Date: Sat, 24 Sep 2022 17:43:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v2 08/33] drm/connector: Rename
+ drm_mode_create_tv_properties
+To: Maxime Ripard <maxime@cerno.tech>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Ben Skeggs <bskeggs@redhat.com>,
+ David Airlie <airlied@linux.ie>, Maxime Ripard <mripard@kernel.org>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ Lyude Paul <lyude@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Chen-Yu Tsai <wens@csie.org>
+Cc: Hans de Goede <hdegoede@redhat.com>, nouveau@lists.freedesktop.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Phil Elwell <phil@raspberrypi.com>, intel-gfx@lists.freedesktop.org,
+ Dom Cobley <dom@raspberrypi.com>, linux-sunxi@lists.linux.dev,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ dri-devel@lists.freedesktop.org, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
+ <noralf@tronnes.org>
+References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-8-f733a0ed9f90@cerno.tech>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v2-8-f733a0ed9f90@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add an overlay supporting the OV5640 from the BananaPi Camera v3
-peripheral board. The board has two sensors (OV5640 and OV8865)
-which cannot be supported in parallel as they share the same reset
-pin and the kernel currently has no support for this case.
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
----
- arch/arm/boot/dts/Makefile                    |   1 +
- .../sun8i-a83t-bananapi-m3-camera-ov5640.dts  | 117 ++++++++++++++++++
- 2 files changed, 118 insertions(+)
- create mode 100644 arch/arm/boot/dts/sun8i-a83t-bananapi-m3-camera-ov5640.dts
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 05d8aef6e5d2..1f1173efeb14 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1339,6 +1339,7 @@ dtb-$(CONFIG_MACH_SUN8I) += \
- 	sun8i-a33-sinlinx-sina33.dtb \
- 	sun8i-a83t-allwinner-h8homlet-v2.dtb \
- 	sun8i-a83t-bananapi-m3.dtb \
-+	sun8i-a83t-bananapi-m3-camera-ov5640.dtbo \
- 	sun8i-a83t-cubietruck-plus.dtb \
- 	sun8i-a83t-tbs-a711.dtb \
- 	sun8i-h2-plus-bananapi-m2-zero.dtb \
-diff --git a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3-camera-ov5640.dts b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3-camera-ov5640.dts
-new file mode 100644
-index 000000000000..5868ef11bdee
---- /dev/null
-+++ b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3-camera-ov5640.dts
-@@ -0,0 +1,117 @@
-+// SPDX-License-Identifier: GPL-2.0 OR X11
-+/*
-+ * Copyright 2022 Bootlin
-+ * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-+ */
-+
-+/dts-v1/;
-+/plugin/;
-+
-+#include <dt-bindings/clock/sun8i-a83t-ccu.h>
-+#include <dt-bindings/gpio/gpio.h>
-+
-+&{/} {
-+	/*
-+	 * These regulators actually have DLDO4 tied to their EN pin, which is
-+	 * described as input supply here for lack of a better representation.
-+	 * Their actual supply is PS, which is always-on.
-+	 */
-+
-+	ov5640_avdd: ov5640-avdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov5640-avdd";
-+		regulator-min-microvolt = <2800000>;
-+		regulator-max-microvolt = <2800000>;
-+		vin-supply = <&reg_dldo4>;
-+	};
-+
-+	ov5640_dovdd: ov5640-dovdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov5640-dovdd";
-+		regulator-min-microvolt = <2800000>;
-+		regulator-max-microvolt = <2800000>;
-+		vin-supply = <&reg_dldo4>;
-+	};
-+
-+	ov5640_dvdd: ov5640-dvdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov5640-dvdd";
-+		regulator-min-microvolt = <1500000>;
-+		regulator-max-microvolt = <1500000>;
-+		vin-supply = <&reg_dldo4>;
-+	};
-+};
-+
-+&csi {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&csi_8bit_parallel_pins>;
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+
-+			csi_in_ov5640: endpoint {
-+				remote-endpoint = <&ov5640_out_csi>;
-+				bus-width = <8>;
-+				data-shift = <2>;
-+				hsync-active = <1>;
-+				vsync-active = <1>;
-+				pclk-sample = <1>;
-+			};
-+		};
-+	};
-+};
-+
-+&i2c2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2c2_pe_pins>;
-+	status = "okay";
-+
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	ov5640: camera@3c {
-+		compatible = "ovti,ov5640";
-+		reg = <0x3c>;
-+
-+		clocks = <&ccu CLK_CSI_MCLK>;
-+		clock-names = "xclk";
-+		assigned-clocks = <&ccu CLK_CSI_MCLK>;
-+		assigned-clock-parents = <&osc24M>;
-+		assigned-clock-rates = <24000000>;
-+
-+		AVDD-supply = <&ov5640_avdd>;
-+		DOVDD-supply = <&ov5640_dovdd>;
-+		DVDD-supply = <&ov5640_dvdd>;
-+
-+		powerdown-gpios = <&pio 3 15 GPIO_ACTIVE_HIGH>; /* PD15 */
-+		reset-gpios = <&pio 4 16 GPIO_ACTIVE_LOW>; /* PE16 */
-+
-+		rotation = <180>;
-+
-+		port {
-+			ov5640_out_csi: endpoint {
-+				remote-endpoint = <&csi_in_ov5640>;
-+				bus-width = <8>;
-+				data-shift = <2>;
-+				hsync-active = <1>; 
-+				vsync-active = <1>;
-+				pclk-sample = <1>;
-+			};
-+		};
-+	};
-+};
-+
-+&pio {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&csi_mclk_pin>;
-+};
-+
-+&reg_dldo4 {
-+	regulator-min-microvolt = <2800000>;
-+	regulator-max-microvolt = <2800000>;
-+};
--- 
-2.37.3
+Den 22.09.2022 16.25, skrev Maxime Ripard:
+> drm_mode_create_tv_properties(), among other things, will create the
+> "mode" property that stores the analog TV mode that connector is
+> supposed to output.
+> 
+> However, that property is getting deprecated, so let's rename that
+> function to mention it's deprecated. We'll introduce a new variant of
+> that function creating the property superseeding it in a later patch.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> 
 
+Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
