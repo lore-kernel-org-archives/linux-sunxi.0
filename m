@@ -1,25 +1,26 @@
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB5CE17E6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71BE17F5
 	for <linux-sunxi@lists.linux.dev>; Sat, 24 Sep 2022 15:43:24 +0000 (UTC)
 Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 4AB71CBB47
-	for <linux-sunxi@lists.linux.dev>; Sat, 24 Sep 2022 15:28:38 +0000 (UTC)
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 8882CCBB6A
+	for <linux-sunxi@lists.linux.dev>; Sat, 24 Sep 2022 15:28:39 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 0EB961C0002;
-	Sat, 24 Sep 2022 15:28:27 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 531151C0007;
+	Sat, 24 Sep 2022 15:28:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1664033309;
+	t=1664033312;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Y+GN/Y77mrI21YaO//Y6K2OXQ50jAuwAWf6PBaSr6oE=;
-	b=RarHNf+P7agemyGav7PmtXraa+xdOav9nMXQlgDQcVk6Ba3X3p+jBBzxLwfoyRVsnb+RIp
-	iLtHeA2zL9O8xtizkcaq9dzz1j15O/GcOMhbIpe8KF1mu9vSA2Jju7/MZfp7a6HSiVBSSB
-	olL8g5lplqyjOpGaDVEI+oSNu6iSQ8cv2kxwSLUqucE0G4UPSqbBxJchtCzXZjVKTYs3Hl
-	rbfZHMGcWEyB3K9sJtPVa2/m7aqmkqS6My8rT7TFLxN3KjKk6x8uRJ1DjN9/6A1OSWC1UL
-	t/MB/VMV/k1B9axw+qFxLdhNRUupSvNfoKH9tfNTbLXreg8+3I4MEaVOaWDE4w==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8H7TxPSMHgc/OchAiVB655J+THkaG5W4vW2uZPkmijo=;
+	b=p4PUmw2nCJs3KyRDm+QvOOkySCL+RoRN1/469EjW+XykguRnftdlTMzmiBAmFZZ8S6Is6c
+	jQ3kn+yonelwEEHaqjlA2r2GSJ2OSD8EZHjWLgPg1Nwsrh6JHlFet5xQroW+qNiAOWiI5e
+	oaIqxXvulaaYoY8UDLbQeOEEh0YDei31AOtEis0AlztKian5E5ZLAgmzfSa5DJs+hOnjA1
+	PxxI07KFC3HY62J8uk1lDjTdsIfi7/qkuKpxfTZuv62sjFkyfYAcsHECwa7p/KThNIWml4
+	JX64GZ3SJIRh0V4GMKdiqRSi1P7YsiZrXTSR23pUxQcobJWj25LihmxIfg1Hmg==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -37,10 +38,12 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH v6 0/7] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / Platform Support
-Date: Sat, 24 Sep 2022 17:28:13 +0200
-Message-Id: <20220924152820.77149-1-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v6 2/7] ARM: dts: sun8i: v3s: Add mbus node to represent the interconnect
+Date: Sat, 24 Sep 2022 17:28:15 +0200
+Message-Id: <20220924152820.77149-3-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20220924152820.77149-1-paul.kocialkowski@bootlin.com>
+References: <20220924152820.77149-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -49,58 +52,42 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This part only concerns Allwinner platform support changes.
+The V3s uses the mbus interconnect to provide DRAM access for a
+number of blocks. The SoC can only map 2 GiB of DRAM, which is
+reflected in the dma-ranges property.
 
-Though some patches still need reviewing, they feel ready to go since the
-MIPI CSI-2 bindings were merged, the updated CSI bindings were reviewed by
-Rob and the new ISP bindings as well. Although they were not merged yet,
-they seem ready to go at this point.
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Reviewed-by: Samuel Holland <samuel@sholland.org>
+---
+ arch/arm/boot/dts/sun8i-v3s.dtsi | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-Since this multi-part series has been going on for a while, it would be
-great to see it merged soon!
-
-Changes since v5:
-- Added BananaPi M3 camera sensor support as device-tree overlays;
-- Cleaned-up OV8865 regulator definitions;
-- Always declared the internal links between CSI and MIPI CSI-2 on A83T
-  in device-tree.
-
-Changes since v4:
-- Removed mbus bindings patch: an equivalent change was merged;
-- Added collected tags;
-- Rebased on latest media tree.
-
-Changes since v3:
-- Reordered v3s mbus compatible in binding;
-- Added collected tag;
-- Removed rejected interconnects fix.
-
-Changes since all-in-one v2:
-- Corrected mbus index used for the interconnects;
-- Used extended mbus binding and exported the DRAM clock for that;
-- Reworked the description of the core openfirmware change to give
-  more insight about the situation.
-
-Paul Kocialkowski (7):
-  clk: sunxi-ng: v3s: Export MBUS and DRAM clocks to the public header
-  ARM: dts: sun8i: v3s: Add mbus node to represent the interconnect
-  ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2 support
-  ARM: dts: sun8i: v3s: Add support for the ISP
-  ARM: dts: sun8i: a83t: Add MIPI CSI-2 controller node
-  ARM: dts: sun8i-a83t: Add BananaPi M3 OV5640 camera overlay
-  ARM: dts: sun8i-a83t: Add BananaPi M3 OV8865 camera overlay
-
- arch/arm/boot/dts/Makefile                    |   2 +
- .../sun8i-a83t-bananapi-m3-camera-ov5640.dts  | 117 +++++++++++++++++
- .../sun8i-a83t-bananapi-m3-camera-ov8865.dts  | 109 ++++++++++++++++
- arch/arm/boot/dts/sun8i-a83t.dtsi             |  43 +++++++
- arch/arm/boot/dts/sun8i-v3s.dtsi              | 121 ++++++++++++++++++
- drivers/clk/sunxi-ng/ccu-sun8i-v3s.h          |   4 -
- include/dt-bindings/clock/sun8i-v3s-ccu.h     |   4 +-
- 7 files changed, 394 insertions(+), 6 deletions(-)
- create mode 100644 arch/arm/boot/dts/sun8i-a83t-bananapi-m3-camera-ov5640.dts
- create mode 100644 arch/arm/boot/dts/sun8i-a83t-bananapi-m3-camera-ov8865.dts
-
+diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
+index db194c606fdc..34f7df6b3960 100644
+--- a/arch/arm/boot/dts/sun8i-v3s.dtsi
++++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
+@@ -579,6 +579,21 @@ int_mii_phy: ethernet-phy@1 {
+ 			};
+ 		};
+ 
++		mbus: dram-controller@1c62000 {
++			compatible = "allwinner,sun8i-v3s-mbus";
++			reg = <0x01c62000 0x1000>,
++			      <0x01c63000 0x1000>;
++			reg-names = "mbus", "dram";
++			clocks = <&ccu CLK_MBUS>,
++				 <&ccu CLK_DRAM>,
++				 <&ccu CLK_BUS_DRAM>;
++			clock-names = "mbus", "dram", "bus";
++			#address-cells = <1>;
++			#size-cells = <1>;
++			dma-ranges = <0x00000000 0x40000000 0x80000000>;
++			#interconnect-cells = <1>;
++		};
++
+ 		spi0: spi@1c68000 {
+ 			compatible = "allwinner,sun8i-h3-spi";
+ 			reg = <0x01c68000 0x1000>;
 -- 
 2.37.3
 
