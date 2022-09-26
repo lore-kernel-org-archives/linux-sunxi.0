@@ -1,178 +1,187 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6F163A
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Sep 2022 09:30:23 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 85EE1240005;
-	Mon, 26 Sep 2022 09:30:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1664184615;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4DIslgriYh/ETMrXcfHJGuJVgbSPAelyn/x0LZzTFuw=;
-	b=hZ5XaLg6Wt9nBt34WKi4TMYczvDeAu3+nimfXO7cj8VdOd5cFS4US/KXGRSzhxoDgfJjHQ
-	QsMwqfQatDBuYqhK8KfWLNkl5LPzR5/6WQITG/D71yIrrqGHuzoXjBUcuvs52qRG/kuoE7
-	XmS6Ig3DGmXKXnwUAjVWOANaqPFQhFlqfE+VQchDvNYcvV4RSJpJ9tWy3wZyuyay+lpTh6
-	8vnfHoU0lsEm1W4w1vxy6/LREPmniLDPXETky1/LnMzlF5t5djjH65g+KD/0EIoAhe/rNt
-	7yrHmDjvz3uH4oXu+2gVP0hhEc8nCyYFZS0kHM8R4CTDOTMTiNPeAnPBrYdBgg==
-Date: Mon, 26 Sep 2022 11:30:13 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Maxime Ripard <maxime@cerno.tech>, Rob Herring <robh+dt@kernel.org>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 5/8] phy: allwinner: phy-sun6i-mipi-dphy: Make RX support
- optional
-Message-ID: <YzFxJUhypKHkSGgy@aptenodytes>
-References: <20220812075603.59375-1-samuel@sholland.org>
- <20220812075603.59375-6-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04DC63A
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Sep 2022 09:36:22 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailnew.west.internal (Postfix) with ESMTP id A27792B0689B;
+	Mon, 26 Sep 2022 05:36:16 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Mon, 26 Sep 2022 05:36:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1664184976; x=1664192176; bh=iMhV2MQCYE
+	l08x7MCNwj+bMXhT0kipZzBnwNpIfB8gg=; b=nJeRGFALZvB203VwJ3MiqZV0H9
+	SgOgeQdWX4BuXqw5zho/RS25xCKP8KzdQRqm2mCuyRCuOyNsg99A+lAMh76HqDOD
+	x+eTg6WYdZgrHKS0zSICLvO8j/3SJP13HCCOJDkPl0uPhzva8dlItg1Ao8XIGumK
+	Vbx9nh+ELeMIBIDKskokk2eSRhBBTy+Ebrn/rCkgwq5UieGaMJkByqoK+baIJH2C
+	5/HTEUfuOUF0Aewimr0CqDc5o4qad0/cuXBZvtQDDPTeP6obnNVGzbrPy1O7EYyt
+	KA2581CvfZVH/CjRitmTgJKzFxhYz6lW5pJezzh6VmVJ0W1Vk1jK/Rf7r3oA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1664184976; x=1664192176; bh=iMhV2MQCYEl08x7MCNwj+bMXhT0k
+	ipZzBnwNpIfB8gg=; b=SvSPhEi02+Ihox7kOmDVhX4pbeqMyi4CJjvjX99cbEyr
+	+Smb2FJx3Ykc2JdeOsoir0jS89/4SjDKcOp0VS69YroKe5ZScShh/wzbeal++grP
+	T3kz/sLVTtvTxyWcC7amFT8p0IQ7unvvIhjLZMctMR9p2aebfl5O2flACUCM2iCZ
+	2P5b3wXbgjghbYrR6Kyohv5VMzKI7Yp0WJKOOxliNMEAlU2NYmH7nDfcOatZJmwA
+	R60diWPuTdqMHff6/EjwHJOUIq8bKG5D5uiy2lrUcwW+cHnxd0gbHlloPbAiVSxw
+	3+0du3C5VZZ06FibJPIilHWQYsr44TrJRhrXkcRR1Q==
+X-ME-Sender: <xms:j3IxY2-QhYgO74s3trfwff3DryeNTqQlmXsu9yGRCxphn4GACYCIvw>
+    <xme:j3IxY2tV7NB_e-mau1S7WaAft2UEAesKgySU0wjigMGs7JoPvAF_XnZv8xyRwLir7
+    96x3L2BZSiZ3G5aD1o>
+X-ME-Received: <xmr:j3IxY8DYYskkI72wKJw06xyNYUTiZjyG07uxoj73uLs5P24I9NFaDGqbqIho>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegvddgudelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
+    ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:j3IxY-c1tiNct3gIbQHjSvEYT5Xb3k1T-pot_aoZBis1vo7mxgBG4A>
+    <xmx:j3IxY7NBOijxM_Ba2H7o24TnGSFShkp4aYK8hhYtoN3RnR8bUq6Ebw>
+    <xmx:j3IxY4lnv8PCJVU1vCHuVIUJ7mwiGoNPkRCtxB_VBaxHfk_3O1upOg>
+    <xmx:kHIxY0ttx0rynzRFEyFoPEdNc13wMnnQR88F_DEk4Ml1iNEFAY-Kynb_HoE>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 26 Sep 2022 05:36:14 -0400 (EDT)
+Date: Mon, 26 Sep 2022 11:36:12 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,	Ben Skeggs <bskeggs@redhat.com>,
+ David Airlie <airlied@linux.ie>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,	Daniel Vetter <daniel@ffwll.ch>,
+ Lyude Paul <lyude@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	Chen-Yu Tsai <wens@csie.org>, Hans de Goede <hdegoede@redhat.com>,
+	nouveau@lists.freedesktop.org,	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Phil Elwell <phil@raspberrypi.com>, intel-gfx@lists.freedesktop.org,
+	Dom Cobley <dom@raspberrypi.com>, linux-sunxi@lists.linux.dev,
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 02/33] drm/tests: Add Kunit Helpers
+Message-ID: <20220926093612.wvbou2srbo3uinar@houat>
+References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-2-f733a0ed9f90@cerno.tech>
+ <3f7000ab-b845-a7e8-f215-02121da779b7@tronnes.org>
+ <c7bd9bcb-77a1-9f2d-fe93-afefac5e6def@tronnes.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="xoZ1kkt8jdbs2RvB"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wdbx6g5pylyw5se6"
 Content-Disposition: inline
-In-Reply-To: <20220812075603.59375-6-samuel@sholland.org>
+In-Reply-To: <c7bd9bcb-77a1-9f2d-fe93-afefac5e6def@tronnes.org>
 
 
---xoZ1kkt8jdbs2RvB
-Content-Type: text/plain; charset=utf-8
+--wdbx6g5pylyw5se6
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Samuel,
+Hi Noralf,
 
-On Fri 12 Aug 22, 02:56, Samuel Holland wrote:
-> While all variants of the DPHY likely support RX mode, the new variant
-> in the A100 is not used in this direction by the BSP, and it has some
-> analog register changes, so its RX power-on sequence is unknown. To be
-> safe, limit RX support to variants where the power-on sequence is known.
+On Sat, Sep 24, 2022 at 08:06:17PM +0200, Noralf Tr=F8nnes wrote:
+> Den 24.09.2022 19.56, skrev Noralf Tr=F8nnes:
+> >=20
+> >=20
+> > Den 22.09.2022 16.25, skrev Maxime Ripard:
+> >> As the number of kunit tests in KMS grows further, we start to have
+> >> multiple test suites that, for example, need to register a mock DRM
+> >> driver to interact with the KMS function they are supposed to test.
+> >>
+> >> Let's add a file meant to provide those kind of helpers to avoid
+> >> duplication.
+> >>
+> >> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >>
+> >> diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Ma=
+kefile
+> >> index 2d9f49b62ecb..b29ef1085cad 100644
+> >> --- a/drivers/gpu/drm/tests/Makefile
+> >> +++ b/drivers/gpu/drm/tests/Makefile
+> >> @@ -8,6 +8,7 @@ obj-$(CONFIG_DRM_KUNIT_TEST) +=3D \
+> >>  	drm_format_helper_test.o \
+> >>  	drm_format_test.o \
+> >>  	drm_framebuffer_test.o \
+> >> +	drm_kunit_helpers.o \
+> >>  	drm_mm_test.o \
+> >>  	drm_plane_helper_test.o \
+> >>  	drm_rect_test.o
+> >> diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.c b/drivers/gpu/d=
+rm/tests/drm_kunit_helpers.c
+> >> new file mode 100644
+> >> index 000000000000..7ebd620481c1
+> >> --- /dev/null
+> >> +++ b/drivers/gpu/drm/tests/drm_kunit_helpers.c
+> >> @@ -0,0 +1,54 @@
+> >> +#include <drm/drm_drv.h>
+> >> +#include <drm/drm_managed.h>
+> >> +
+> >> +#include <linux/device.h>
+> >> +
+> >> +static const struct drm_mode_config_funcs drm_mode_config_funcs =3D {
+> >> +};
+> >> +
+> >> +static const struct drm_driver drm_mode_driver =3D {
+> >> +};
+> >> +
+> >> +static void drm_kunit_free_device(struct drm_device *drm, void *ptr)
+> >> +{
+> >> +	struct device *dev =3D ptr;
+> >> +
+> >> +	root_device_unregister(dev);
+> >> +}
+> >> +
+> >> +struct drm_device *drm_kunit_device_init(const char *name)
+> >> +{
+> >> +	struct drm_device *drm;
+> >> +	struct device *dev;
+> >> +	int ret;
+> >> +
+> >> +	dev =3D root_device_register(name);
+> >> +	if (IS_ERR(dev))
+> >> +		return ERR_CAST(dev);
+> >> +
+> >> +	drm =3D drm_dev_alloc(&drm_mode_driver, dev);
+> >=20
+> > I can't find drm being freed anywhere?
+> > Maybe you could assign it to drm->managed.final_kfree.
 
-Coming back to this series, with some minor cosmetic suggestions.
+There's a drm_dev_put in the test_exit hook which should free it.
 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
->=20
->  drivers/phy/allwinner/phy-sun6i-mipi-dphy.c | 25 +++++++++++++++++++--
->  1 file changed, 23 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c b/drivers/phy/al=
-lwinner/phy-sun6i-mipi-dphy.c
-> index 3900f1650851..625c6e1e9990 100644
-> --- a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
-> +++ b/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
-> @@ -114,6 +114,10 @@ enum sun6i_dphy_direction {
->  	SUN6I_DPHY_DIRECTION_RX,
->  };
-> =20
-> +struct sun6i_dphy_variant {
-> +	bool	supports_rx;
+> Perhaps a better solution would be to use devm_drm_dev_alloc() and
+> unregister the root device on exit. That avoids reaching into the drm
+> managed internals and it looks more like a regular driver.
 
-Since you're introducing a "tx_power_on" field later on, it would be more
-consistent to call this one "rx_supported".
+But yeah, this is a good idea, I'll do it.
 
-> +};
-> +
->  struct sun6i_dphy {
->  	struct clk				*bus_clk;
->  	struct clk				*mod_clk;
-> @@ -123,6 +127,7 @@ struct sun6i_dphy {
->  	struct phy				*phy;
->  	struct phy_configure_opts_mipi_dphy	config;
-> =20
-> +	const struct sun6i_dphy_variant		*variant;
->  	enum sun6i_dphy_direction		direction;
->  };
-> =20
-> @@ -409,6 +414,10 @@ static int sun6i_dphy_probe(struct platform_device *=
-pdev)
->  	if (!dphy)
->  		return -ENOMEM;
-> =20
-> +	dphy->variant =3D device_get_match_data(&pdev->dev);
-> +	if (!dphy->variant)
-> +		return -EINVAL;
-> +
->  	regs =3D devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(regs)) {
->  		dev_err(&pdev->dev, "Couldn't map the DPHY encoder registers\n");
-> @@ -445,8 +454,13 @@ static int sun6i_dphy_probe(struct platform_device *=
-pdev)
->  	ret =3D of_property_read_string(pdev->dev.of_node, "allwinner,direction=
-",
->  				      &direction);
-> =20
-> -	if (!ret && !strncmp(direction, "rx", 2))
-> +	if (!ret && !strncmp(direction, "rx", 2)) {
-> +		if (!dphy->variant->supports_rx) {
-> +			dev_err(&pdev->dev, "RX not supported on this variant\n");
-> +			return -EOPNOTSUPP;
-> +		}
+Maxime
 
-Maybe add a blank line here for readability.
-
-Looks good to me otherwise!
-
-Paul
-
->  		dphy->direction =3D SUN6I_DPHY_DIRECTION_RX;
-> +	}
-> =20
->  	phy_set_drvdata(dphy->phy, dphy);
->  	phy_provider =3D devm_of_phy_provider_register(&pdev->dev, of_phy_simpl=
-e_xlate);
-> @@ -454,8 +468,15 @@ static int sun6i_dphy_probe(struct platform_device *=
-pdev)
->  	return PTR_ERR_OR_ZERO(phy_provider);
->  }
-> =20
-> +static const struct sun6i_dphy_variant sun6i_a31_mipi_dphy_variant =3D {
-> +	.supports_rx	=3D true,
-> +};
-> +
->  static const struct of_device_id sun6i_dphy_of_table[] =3D {
-> -	{ .compatible =3D "allwinner,sun6i-a31-mipi-dphy" },
-> +	{
-> +		.compatible	=3D "allwinner,sun6i-a31-mipi-dphy",
-> +		.data		=3D &sun6i_a31_mipi_dphy_variant,
-> +	},
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(of, sun6i_dphy_of_table);
-> --=20
-> 2.35.1
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---xoZ1kkt8jdbs2RvB
+--wdbx6g5pylyw5se6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMxcSUACgkQ3cLmz3+f
-v9HgvggAgB23uIrZwveFcOqLL25MJcIrZoNcRPexfnFQcvz/nerHdLde83N+Q2uh
-IiksEqx3C3iRc3Tw1OGvzg9MDWMW+w/rFTo4Fwx6kO8QtfpQ15wL0pL/VX+CxCoB
-16cABES3igwy2adnVEWnWqEETdexJDgvKgXxVIalYB7pcoCKxnsyfQie6nMfiozz
-bkar91bBTlbbZ/tQcGWtYwF3HJhWxQDsTnrHRHolNTn8+2iGzldKjfNjjON8hTjI
-RIInNPKY64O2Qhep++QvfkERmjmfgewhQaHWOTWO9rEbgWhlTcULDX5idNGpJahn
-W1LA84xdKPzwLkQSXzqeZXZf3yRflw==
-=KS3e
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYzFyjAAKCRDj7w1vZxhR
+xfL5AP9r8SOCVdiPcnR+tkP1VdDT4xdxvsJmgcz60MJ5iuvezwEAwp/UpYjOSXCb
+YrQ0Vm/0KNnlKIDIInbF28eMSo1bSw0=
+=31r4
 -----END PGP SIGNATURE-----
 
---xoZ1kkt8jdbs2RvB--
+--wdbx6g5pylyw5se6--
