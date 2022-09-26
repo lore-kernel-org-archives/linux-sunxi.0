@@ -1,93 +1,128 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7287B
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Sep 2022 10:34:15 +0000 (UTC)
-Received: by mail-qv1-f53.google.com with SMTP id ml1so4055760qvb.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 26 Sep 2022 03:34:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=Lmh1Xq7Cw51uqBYTm5xf2C78YKt/PjveAkuJS0FQxk4=;
-        b=NEhCzjRJBluhqylELVW9Q/0JCVf9znIgUoC3bhlopHXaSkH1k+ExgYZO08w+e7kwla
-         pDU1q/RCb1IbOxXPBoW+CD5bRF/NFN3MB8rKUKkvfpRmTLDTQV5+02e4JCdI/AOxQV8B
-         lG7NerpEAvNKF/ozZn5VskHT2HqLv/bQku0ccf8jP90edZft05HFKqEKoik4EEhlm1jH
-         wNib9p3UyfRsYIdcC+TL9+9HeWxUVqDQ3q/vfLJQ8trF3hw7zq2zUlNHamwmffsHaUMJ
-         2SIkmA4sUqvznUqZkzSoB13CX6x64vA4PJmyVAKdRImYKJR5dgdyslULGb91a9kvpLqt
-         vsIw==
-X-Gm-Message-State: ACrzQf3RpfTqNqJRGLUOBmkDaMQXQNH70ehrzWrxc1lKtv4umYVZE9lJ
-	M10SJmlPfg6z1KzlwyeXELEtvqvqTzbepg==
-X-Google-Smtp-Source: AMsMyM7HLcmdm1+iOVl6vSWldoe2jVhMQ4kGSQlgH1CEoKrFDZMupzb+/gf4rMlJkigMogsL1dS2rg==
-X-Received: by 2002:a05:6214:c89:b0:4ac:c6ba:3f22 with SMTP id r9-20020a0562140c8900b004acc6ba3f22mr16291581qvr.9.1664188454001;
-        Mon, 26 Sep 2022 03:34:14 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id h5-20020a05620a284500b006ce5f4720cdsm11377314qkp.47.2022.09.26.03.34.12
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Sep 2022 03:34:12 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-350cb1c0abaso26478687b3.9
-        for <linux-sunxi@lists.linux.dev>; Mon, 26 Sep 2022 03:34:12 -0700 (PDT)
-X-Received: by 2002:a81:758a:0:b0:345:450b:6668 with SMTP id
- q132-20020a81758a000000b00345450b6668mr19133647ywc.316.1664188452440; Mon, 26
- Sep 2022 03:34:12 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 974D37B
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Sep 2022 10:34:59 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 757481063;
+	Mon, 26 Sep 2022 03:34:59 -0700 (PDT)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B0F5A3F73B;
+	Mon, 26 Sep 2022 03:34:51 -0700 (PDT)
+Date: Mon, 26 Sep 2022 11:34:38 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Samuel Holland <samuel@sholland.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Tom Rini <trini@konsulko.com>, Simon Glass
+ <sjg@chromium.org>, u-boot@lists.denx.de, linux-sunxi@lists.linux.dev,
+ Chen-Yu Tsai <wens@csie.org>
+Subject: Re: [PATCH 0/2] sunxi: update devicetree files from the kernel
+Message-ID: <20220926113438.65b64a06@donnerap.cambridge.arm.com>
+In-Reply-To: <20220913234004.24850-1-andre.przywara@arm.com>
+References: <20220913234004.24850-1-andre.przywara@arm.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-10-f733a0ed9f90@cerno.tech>
- <72a8c3ce-ed03-0a77-fb92-eaa992eb86fe@suse.de> <20220926101716.urehomr2lzv5pqln@houat>
-In-Reply-To: <20220926101716.urehomr2lzv5pqln@houat>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 26 Sep 2022 12:34:00 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXonxXiw4x2PvnQ=xedOQO1y=K0O8g1+ixeSvXmzcOOVw@mail.gmail.com>
-Message-ID: <CAMuHMdXonxXiw4x2PvnQ=xedOQO1y=K0O8g1+ixeSvXmzcOOVw@mail.gmail.com>
-Subject: Re: [PATCH v2 10/33] drm/modes: Add a function to generate analog
- display modes
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, Ben Skeggs <bskeggs@redhat.com>, 
-	David Airlie <airlied@linux.ie>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
-	Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>, 
-	Samuel Holland <samuel@sholland.org>, Jani Nikula <jani.nikula@linux.intel.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Lyude Paul <lyude@redhat.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Hans de Goede <hdegoede@redhat.com>, nouveau@lists.freedesktop.org, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>, 
-	intel-gfx@lists.freedesktop.org, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
-	Dom Cobley <dom@raspberrypi.com>, linux-sunxi@lists.linux.dev, 
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Maxime,
+On Wed, 14 Sep 2022 00:40:02 +0100
+Andre Przywara <andre.przywara@arm.com> wrote:
 
-On Mon, Sep 26, 2022 at 12:17 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> On Fri, Sep 23, 2022 at 11:05:48AM +0200, Thomas Zimmermann wrote:
-> > > +   /* 63.556us * 13.5MHz = 858 pixels */
-> >
-> > I kind of get what the comment wants to tell me, but the units don't add up.
->
-> I'm not sure how it doesn't add up?
->
-> We have a frequency in Hz (equivalent to s^-1) and a duration in s, so
-> the result ends up with no dimension, which is to be expected for a
-> number of periods?
+Hi,
 
-To make the units add up, it should be 13.5 Mpixel/s
-(which is what a pixel clock of 13.5 MHz really means ;-)
+can someone please have a look and confirm that this is legit? Could be as
+easy as just diff'ing against what's in the kernel tree and checking that
+the differences are just due to the r_intc change.
 
-Gr{oetje,eeting}s,
+I would like to push the DT update still into the release, so that we live
+up to the promise of providing a good experience with $fdtcontroladdr.
 
-                        Geert
+Cheers,
+Andre
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> This syncs the .dts and .dtsi files from the Linux kernel repository
+> as of v6.0-rc4 into U-Boot. As before, we skip the r_intc change, as
+> this breaks older kernels.
+> The first patch handles the 64-bit parts, the second one the 32-bit
+> SoCs.
+> 
+> Thanks,
+> Andre
+> 
+> Andre Przywara (2):
+>   sunxi: dts: arm64: update devicetree files
+>   sunxi: dts: arm: update devicetree files
+> 
+>  arch/arm/dts/Makefile                         |   3 +-
+>  arch/arm/dts/sun4i-a10-inet9f-rev03.dts       |  40 +--
+>  arch/arm/dts/sun4i-a10-pcduino.dts            |   6 +-
+>  arch/arm/dts/sun50i-a64-amarula-relic.dts     |   2 +-
+>  arch/arm/dts/sun50i-a64-bananapi-m64.dts      |   4 +-
+>  arch/arm/dts/sun50i-a64-nanopi-a64.dts        |   2 +-
+>  arch/arm/dts/sun50i-a64-olinuxino.dts         |  30 ++
+>  arch/arm/dts/sun50i-a64-orangepi-win.dts      |   6 +-
+>  arch/arm/dts/sun50i-a64-pinebook.dts          |   4 +-
+>  arch/arm/dts/sun50i-a64-pinephone-1.0.dts     |   4 +
+>  arch/arm/dts/sun50i-a64-pinephone-1.1.dts     |   4 +
+>  arch/arm/dts/sun50i-a64-teres-i.dts           |   8 +
+>  arch/arm/dts/sun50i-a64.dtsi                  |  10 +-
+>  arch/arm/dts/sun50i-h5-nanopi-r1s-h5.dts      |   4 +-
+>  arch/arm/dts/sun50i-h5-orangepi-pc2.dts       |   4 +-
+>  arch/arm/dts/sun50i-h5-orangepi-prime.dts     |   4 +-
+>  arch/arm/dts/sun50i-h6-orangepi-3.dts         |   4 +-
+>  arch/arm/dts/sun50i-h6-orangepi-lite2.dts     |   4 +-
+>  arch/arm/dts/sun50i-h6-tanix.dtsi             |   2 +-
+>  arch/arm/dts/sun50i-h6.dtsi                   |  12 +-
+>  arch/arm/dts/sun50i-h616-orangepi-zero2.dts   |  55 +---
+>  arch/arm/dts/sun50i-h616-x96-mate.dts         | 177 +++++++++++
+>  arch/arm/dts/sun50i-h616.dtsi                 | 286 +++++-------------
+>  arch/arm/dts/sun5i-a13-licheepi-one.dts       |   6 +-
+>  arch/arm/dts/sun6i-a31.dtsi                   |  13 +-
+>  arch/arm/dts/sun7i-a20-pcduino3.dts           |   6 +-
+>  arch/arm/dts/sun8i-a23-a33.dtsi               |   9 +-
+>  arch/arm/dts/sun8i-a23-ippo-q8h-v1.2.dts      |  74 +----
+>  arch/arm/dts/sun8i-a23-ippo-q8h-v5.dts        |  74 +----
+>  arch/arm/dts/sun8i-a33-et-q8-v1.6.dts         |  58 +---
+>  arch/arm/dts/sun8i-a33-ippo-q8h-v1.2.dts      |  58 +---
+>  .../dts/sun8i-h2-plus-bananapi-m2-zero.dts    |   8 +-
+>  arch/arm/dts/sun8i-h2-plus-orangepi-zero.dts  |   2 +-
+>  arch/arm/dts/sun8i-h3-beelink-x2.dts          |   6 +-
+>  arch/arm/dts/sun8i-h3-mapleboard-mp130.dts    |   6 +-
+>  arch/arm/dts/sun8i-h3-nanopi-duo2.dts         |   8 +-
+>  arch/arm/dts/sun8i-h3-nanopi-neo-air.dts      |   2 +-
+>  arch/arm/dts/sun8i-h3-nanopi-r1.dts           |   4 +-
+>  arch/arm/dts/sun8i-h3-nanopi.dtsi             |   5 +-
+>  arch/arm/dts/sun8i-h3-orangepi-2.dts          |   6 +-
+>  arch/arm/dts/sun8i-h3-orangepi-lite.dts       |   4 +-
+>  arch/arm/dts/sun8i-h3-orangepi-one.dts        |   4 +-
+>  arch/arm/dts/sun8i-h3-orangepi-pc.dts         |   4 +-
+>  arch/arm/dts/sun8i-r16-bananapi-m2m.dts       |   4 +-
+>  arch/arm/dts/sun8i-r40-bananapi-m2-ultra.dts  |   5 +
+>  arch/arm/dts/sun8i-r40-cpu-opp.dtsi           |  52 ++++
+>  arch/arm/dts/sun8i-r40-feta40i.dtsi           |   5 +
+>  arch/arm/dts/sun8i-r40.dtsi                   |  44 ++-
+>  arch/arm/dts/sun8i-t3-cqa3t-bv3.dts           |   5 +
+>  arch/arm/dts/sun8i-v3s.dtsi                   |   6 +-
+>  arch/arm/dts/sun8i-v40-bananapi-m2-berry.dts  |   5 +
+>  arch/arm/dts/sun9i-a80.dtsi                   |   1 -
+>  arch/arm/dts/sunxi-bananapi-m2-plus.dtsi      |   8 +-
+>  arch/arm/dts/sunxi-h3-h5-emlid-neutis.dtsi    |   4 +-
+>  arch/arm/dts/sunxi-h3-h5.dtsi                 |  13 +-
+>  arch/arm/dts/sunxi-libretech-all-h3-cc.dtsi   |   4 +-
+>  include/dt-bindings/clock/sun50i-h6-r-ccu.h   |   1 +
+>  include/dt-bindings/clock/sun50i-h616-ccu.h   |   1 +
+>  include/dt-bindings/clock/sun6i-rtc.h         |  10 +
+>  59 files changed, 562 insertions(+), 638 deletions(-)
+>  create mode 100644 arch/arm/dts/sun50i-h616-x96-mate.dts
+>  mode change 100644 => 120000 arch/arm/dts/sun8i-a23-ippo-q8h-v1.2.dts
+>  mode change 100644 => 120000 arch/arm/dts/sun8i-a23-ippo-q8h-v5.dts
+>  mode change 100644 => 120000 arch/arm/dts/sun8i-a33-et-q8-v1.6.dts
+>  mode change 100644 => 120000 arch/arm/dts/sun8i-a33-ippo-q8h-v1.2.dts
+>  create mode 100644 arch/arm/dts/sun8i-r40-cpu-opp.dtsi
+>  create mode 100644 include/dt-bindings/clock/sun6i-rtc.h
+> 
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
