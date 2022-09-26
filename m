@@ -1,150 +1,119 @@
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE267B
-	for <linux-sunxi@lists.linux.dev>; Sun, 25 Sep 2022 15:59:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=sDUzqos38NTHKjqKIbjlgYCo7KMd6hyJQ5kwVtvn2uY=; b=aUOU3kpP1xZAGZ3dK/FPnPmN44
-	IFB5fkqB+7/gDaDlxHDtUFNwExLm2Y82UixoykTgQQFV7UJ6zCaI0TRAb016BK+MWPxFKYT87rEuu
-	A1bemkbLrV1sxM+2rSTYFVMhsHyHGsq8Rf5UKYL8o5L/v38Oko/QwO4yL+3vCtNEhQg8MU+JZMiPA
-	EVy0sNCfGvxloaFKqVVe04oxeKvT4KDyGC/4SyyWNp2P84LU3a9mSkwuvbNZUIkVWdQ0IQJa+7xOQ
-	D6+Uxr3m1gcVDNPJI6COfxOM261GO67oHOOTfGyHSXgD0+10bhAg/cDRWDQBl5062iEgkhFEBsL6J
-	km1Dw7Vw==;
-Received: from [2a01:799:961:d200:f09d:f08a:eb68:87b1] (port=49636)
-	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <noralf@tronnes.org>)
-	id 1ocU1u-0001pc-49; Sun, 25 Sep 2022 17:58:54 +0200
-Message-ID: <b5fcb40b-fe9a-c634-902f-35808adfca68@tronnes.org>
-Date: Sun, 25 Sep 2022 17:58:45 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D1163A
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Sep 2022 09:28:28 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id C714B1BF208;
+	Mon, 26 Sep 2022 09:28:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1664184500;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i4eAWY2bCZloQbtUvwHPDqDRZ7KYya4jLR9cP3JLjAs=;
+	b=li4fsrvQKROc8CKyC+R4/UqgUDDRf5Pyf3nmR8WsGj2LsPjSm2DXYnriOdYqBtWaBzIEfJ
+	aPpFUw0GNfdcsQFrEo2FekF7QUX2HElU4qThZXF49qqomyXti/u962WhJO4BGj0RLdne+D
+	UifQsQSI4/je59Fszumgs/JjVROG/4mPjrv1Wt0PdcinEsgEkulCHooWwaZGyX6d8fel63
+	snUGu35xFnH8vlZHAn/RB08j7h1oGS9cD8aGwaqOpgArhUbtcut/tNBAWpIvfE15XJ2aPA
+	pDj1a+u2YgoAV1bopgP/rpdWwxHwdxvqiA6WhqIQx0tJc6X1RWcTL5KG8SX5sQ==
+Date: Mon, 26 Sep 2022 11:28:18 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Maxime Ripard <maxime@cerno.tech>, Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/8] dt-bindings: sun6i-a31-mipi-dphy: Add the interrupts
+ property
+Message-ID: <YzFwst0GpdRBx/9l@aptenodytes>
+References: <20220812075603.59375-1-samuel@sholland.org>
+ <20220812075603.59375-2-samuel@sholland.org>
+ <c85ec3a3-fa6e-aa71-a847-22062b9683e9@linaro.org>
+ <0d2bf232-8aa6-2dc1-121d-f0439bfd7b54@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v2 00/33] drm: Analog TV Improvements
-To: Maxime Ripard <maxime@cerno.tech>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Ben Skeggs <bskeggs@redhat.com>,
- David Airlie <airlied@linux.ie>, Maxime Ripard <mripard@kernel.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
- Samuel Holland <samuel@sholland.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- Lyude Paul <lyude@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Chen-Yu Tsai <wens@csie.org>
-Cc: Hans de Goede <hdegoede@redhat.com>, nouveau@lists.freedesktop.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Phil Elwell <phil@raspberrypi.com>, intel-gfx@lists.freedesktop.org,
- Dom Cobley <dom@raspberrypi.com>, linux-sunxi@lists.linux.dev,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- dri-devel@lists.freedesktop.org, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>
-References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="RtKXtsMKKEGalrQn"
+Content-Disposition: inline
+In-Reply-To: <0d2bf232-8aa6-2dc1-121d-f0439bfd7b54@sholland.org>
 
 
+--RtKXtsMKKEGalrQn
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Den 22.09.2022 16.25, skrev Maxime Ripard:
-> Hi,
-> 
-> Here's a series aiming at improving the command line named modes support,
-> and more importantly how we deal with all the analog TV variants.
-> 
-> The named modes support were initially introduced to allow to specify the
-> analog TV mode to be used.
-> 
-> However, this was causing multiple issues:
-> 
->   * The mode name parsed on the command line was passed directly to the
->     driver, which had to figure out which mode it was suppose to match;
-> 
->   * Figuring that out wasn't really easy, since the video= argument or what
->     the userspace might not even have a name in the first place, but
->     instead could have passed a mode with the same timings;
-> 
->   * The fallback to matching on the timings was mostly working as long as
->     we were supporting one 525 lines (most likely NSTC) and one 625 lines
->     (PAL), but couldn't differentiate between two modes with the same
->     timings (NTSC vs PAL-M vs NSTC-J for example);
-> 
->   * There was also some overlap with the tv mode property registered by
->     drm_mode_create_tv_properties(), but named modes weren't interacting
->     with that property at all.
-> 
->   * Even though that property was generic, its possible values were
->     specific to each drivers, which made some generic support difficult.
-> 
-> Thus, I chose to tackle in multiple steps:
-> 
->   * A new TV mode property was introduced, with generic values, each driver
->     reporting through a bitmask what standard it supports to the userspace;
-> 
->   * This option was added to the command line parsing code to be able to
->     specify it on the kernel command line, and new atomic_check and reset
->     helpers were created to integrate properly into atomic KMS;
-> 
->   * The named mode parsing code is now creating a proper display mode for
->     the given named mode, and the TV standard will thus be part of the
->     connector state;
-> 
->   * Two drivers were converted and tested for now (vc4 and sun4i), with
->     some backward compatibility code to translate the old TV mode to the
->     new TV mode;
-> 
-> Unit tests were created along the way.
-> 
-> One can switch from NTSC to PAL now using (on vc4)
-> 
-> modetest -M vc4  -s 53:720x480i -w 53:'TV mode':1 # NTSC
-> modetest -M vc4  -s 53:720x576i -w 53:'TV mode':4 # PAL
-> 
-> Let me know what you think,
-> Maxime
+Hi Samuel,
 
-<snip>
+On Fri 12 Aug 22, 17:19, Samuel Holland wrote:
+> On 8/12/22 5:45 AM, Krzysztof Kozlowski wrote:
+> > On 12/08/2022 10:55, Samuel Holland wrote:
+> >> The sun6i DPHY can generate several interrupts, mostly for reporting
+> >> error conditions, but also for detecting BTA and UPLS sequences.
+> >> Document this capability in order to accurately describe the hardware.
+> >>
+> >> The DPHY has no interrupt number provided in the vendor documentation
+> >> because its interrupt line is shared with the DSI controller.
+> >>
+> >> Fixes: c25b84c00826 ("dt-bindings: display: Convert Allwinner DSI to a=
+ schema")
+> >=20
+> > I don't understand what is being fixed in that commit. That commit did
+> > not have interrupts in D-PHY, so what was broken by it?
+> >=20
+> > The Fixes tag annotates the commit which introduced a bug.
+>=20
+> The binding had a bug because it did not accurately describe the hardware.
 
->  drivers/gpu/drm/drm_atomic_state_helper.c       | 128 ++++-
->  drivers/gpu/drm/drm_atomic_uapi.c               |   8 +
->  drivers/gpu/drm/drm_client_modeset.c            |   4 +
->  drivers/gpu/drm/drm_connector.c                 | 111 +++-
->  drivers/gpu/drm/drm_modes.c                     | 658 +++++++++++++++++++++++-
->  drivers/gpu/drm/gud/gud_connector.c             |  12 +-
->  drivers/gpu/drm/i2c/ch7006_drv.c                |   6 +-
->  drivers/gpu/drm/i915/display/intel_tv.c         |   5 +-
->  drivers/gpu/drm/nouveau/dispnv04/tvnv17.c       |   6 +-
->  drivers/gpu/drm/sun4i/sun4i_tv.c                | 148 ++----
->  drivers/gpu/drm/tests/Makefile                  |  16 +-
->  drivers/gpu/drm/tests/drm_client_modeset_test.c | 239 +++++++++
->  drivers/gpu/drm/tests/drm_cmdline_parser_test.c |  67 +++
->  drivers/gpu/drm/tests/drm_kunit_helpers.c       |  54 ++
->  drivers/gpu/drm/tests/drm_kunit_helpers.h       |   9 +
->  drivers/gpu/drm/tests/drm_modes_test.c          | 136 +++++
->  drivers/gpu/drm/vc4/vc4_hdmi.c                  |   2 +-
->  drivers/gpu/drm/vc4/vc4_vec.c                   | 339 ++++++++++--
->  include/drm/drm_atomic_state_helper.h           |   4 +
->  include/drm/drm_connector.h                     |  92 +++-
->  include/drm/drm_mode_config.h                   |  12 +-
->  include/drm/drm_modes.h                         |  17 +
+[...]
 
-These also needs updating:
+Coming back to this series, I don't really get the point of introducing the
+interrupt in the bindings and the device-tree sources if the interrupt is n=
+ot
+required for normal operation. I would just drop it.
 
-Documentation/gpu/kms-properties.csv
-Documentation/fb/modedb.rst
+I recall I was in the same situation for the MIPI CSI-2 controllers, which =
+also
+have a dedicated interrupt but only useful for debugging/error reporting.
+I was asked not to introduce it back then, so I suppose the same should app=
+ly.
 
-Noralf.
+What do you think?
+
+Cheers,
+
+Paul
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--RtKXtsMKKEGalrQn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMxcLIACgkQ3cLmz3+f
+v9F45QgAgRfNk3+SZO+L1kab89gYMzHlxi/cF34heKSAUZslSgtSK1TAlLPy3L5W
+d6tKc1hk1xLdzi+lxA+Z+mR8giHn+7zbVRSCzsiRttdT8rBCZueqwHJrUSSXpwEp
+MLN/2J5kNEM0lQeZSXOXUmB9FhjD+KFlHP3k7vTkTS/TaeuqjRZWtyn1339W6lU0
+bN6cjE4c2caEqJE3u6lLMdSVMAZm4OVMXf8YWuwo+7IaTbKkyo30UFCXXubk0aRo
+/L6SedS/uAl6xmYaCrOQvS1ooSFFKsy8hHvpt5JliG5xtblYw4P67FbEcdRlNsCI
+Wgu0Ky5ajXx1ApZjDWfuVSOeITQwFQ==
+=LwNy
+-----END PGP SIGNATURE-----
+
+--RtKXtsMKKEGalrQn--
