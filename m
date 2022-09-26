@@ -1,143 +1,93 @@
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C6863A
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Sep 2022 10:18:57 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailnew.west.internal (Postfix) with ESMTP id 126772B06A11;
-	Mon, 26 Sep 2022 06:18:51 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Mon, 26 Sep 2022 06:18:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1664187531; x=1664194731; bh=5Mi0ax84vN
-	Q8Ik9brdJtvB0uXGlTRxv6OA013bAZpL0=; b=mPjz0W9wujiA8FNtfwEiBpyqV5
-	Uqi3K6rfEHhCDoLBYocGrwnZDkbF04q7vXpH25z1j96pKnGkXXWVq7RygYRVO1+k
-	Zt0FV7UI3P08wPJrRa1bI+g8iOUe1VL7ortevqgZnntf8sBJ0oObT5s5wvThe1Ua
-	Z/YmKoMgwJTphA0EKfpEOFT9LBCN1c+H9u0o9ioZecJgfvan31OYF4ZpDtOjJlPN
-	4bUOs4vjlK09jFXq23EPpj2q7SNBTV4zNsMKuhQf1BTZA2PREikwGuiZybx0NtOk
-	Y46T3p/xM3pHwPrSL7WvKZlANcOzZ2Fz/kv1vU/+cbaiVtIGDpTm5IqWH4lw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1664187531; x=1664194731; bh=5Mi0ax84vNQ8Ik9brdJtvB0uXGlT
-	Rxv6OA013bAZpL0=; b=Pbd2EZ6uT1eqTF/biLA5le3FiI0tHPHXbHbzJ8Vaihts
-	LTM+fBnyxQHyTNztlAJUtYHpBhW8tok8RUeg3ikKxP+yOyqKz+epGAtLuMkFjMBG
-	fBQ9B0BFxeWxMYcg9hrPSxljJ6A3tikN73bhwcFqHyPjXMoBmMzBcIjoroP6cAKm
-	JEeUn55n34+nZLMUn9sQPzQeEl/PzfYJkheXxbMsmq+NUZgXT+YBJc260YmJSQk3
-	N5X3nUBPLA0zQHgpVpvTQ8s315+DEplU18scVVRJ9dvWw5RMmXzDnVDAdDK5zG8S
-	VO/Ctzt65RgiKeKDHjzo2p3pxw67zdDYOJRt/Xb7ag==
-X-ME-Sender: <xms:i3wxY9xwl3kZ_jM-VepsytbsBLcquF37MQJo8kAEWTA8q21bZvO7tw>
-    <xme:i3wxY9TRpu9pHpxHNHWwm1Xjg0uMZ_NVDETo_Mb7kgDFQeOOQA2RUSM0YMj-n4NuF
-    f_d6K9TMfgVwGlxiZA>
-X-ME-Received: <xmr:i3wxY3UnXCmOxPzS0jXYbtpvMezjClRHQgLY1Vr8iQbNQ-ezMNzSSyNUnOq8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegvddgvdekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpefgueeutdefgfevveehjeefgeehvdejjeefheekffduteeutdfgieeiieff
-    uedtffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgv
-    tghh
-X-ME-Proxy: <xmx:i3wxY_hWb4KR6szUdqDRlDMUrKa3vyQpFMbSn83YrPlgjm1QHttysg>
-    <xmx:i3wxY_Cbbgr9IV5qY0e5CWHmSc0Lke64rk1YaA1Jwq3leJIoT65MoQ>
-    <xmx:i3wxY4KhWDOB6CajfkPU9JMoeW1otbcqvviAR3jcDVfv_mZhEgy4Fw>
-    <xmx:i3wxY7gCjKLywrsbaBhdNtzjYdmSzjvNIh1YfEz5SGHfusRLWhAIMT6mGVY>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 26 Sep 2022 06:18:50 -0400 (EDT)
-Date: Mon, 26 Sep 2022 12:18:49 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,	Ben Skeggs <bskeggs@redhat.com>,
- David Airlie <airlied@linux.ie>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
-	Samuel Holland <samuel@sholland.org>,	Daniel Vetter <daniel@ffwll.ch>,
- Lyude Paul <lyude@redhat.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Chen-Yu Tsai <wens@csie.org>, Hans de Goede <hdegoede@redhat.com>,
-	nouveau@lists.freedesktop.org,	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Phil Elwell <phil@raspberrypi.com>, intel-gfx@lists.freedesktop.org,
-	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-	Dom Cobley <dom@raspberrypi.com>, linux-sunxi@lists.linux.dev,
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 10/33] drm/modes: Add a function to generate analog
- display modes
-Message-ID: <20220926101849.uiyc7zhgkgz4wy46@houat>
-References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-10-f733a0ed9f90@cerno.tech>
- <72a8c3ce-ed03-0a77-fb92-eaa992eb86fe@suse.de>
- <87h70y4ffb.fsf@intel.com>
- <f17b239c-715a-7c9c-fb56-477daed28009@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7287B
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Sep 2022 10:34:15 +0000 (UTC)
+Received: by mail-qv1-f53.google.com with SMTP id ml1so4055760qvb.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 26 Sep 2022 03:34:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=Lmh1Xq7Cw51uqBYTm5xf2C78YKt/PjveAkuJS0FQxk4=;
+        b=NEhCzjRJBluhqylELVW9Q/0JCVf9znIgUoC3bhlopHXaSkH1k+ExgYZO08w+e7kwla
+         pDU1q/RCb1IbOxXPBoW+CD5bRF/NFN3MB8rKUKkvfpRmTLDTQV5+02e4JCdI/AOxQV8B
+         lG7NerpEAvNKF/ozZn5VskHT2HqLv/bQku0ccf8jP90edZft05HFKqEKoik4EEhlm1jH
+         wNib9p3UyfRsYIdcC+TL9+9HeWxUVqDQ3q/vfLJQ8trF3hw7zq2zUlNHamwmffsHaUMJ
+         2SIkmA4sUqvznUqZkzSoB13CX6x64vA4PJmyVAKdRImYKJR5dgdyslULGb91a9kvpLqt
+         vsIw==
+X-Gm-Message-State: ACrzQf3RpfTqNqJRGLUOBmkDaMQXQNH70ehrzWrxc1lKtv4umYVZE9lJ
+	M10SJmlPfg6z1KzlwyeXELEtvqvqTzbepg==
+X-Google-Smtp-Source: AMsMyM7HLcmdm1+iOVl6vSWldoe2jVhMQ4kGSQlgH1CEoKrFDZMupzb+/gf4rMlJkigMogsL1dS2rg==
+X-Received: by 2002:a05:6214:c89:b0:4ac:c6ba:3f22 with SMTP id r9-20020a0562140c8900b004acc6ba3f22mr16291581qvr.9.1664188454001;
+        Mon, 26 Sep 2022 03:34:14 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id h5-20020a05620a284500b006ce5f4720cdsm11377314qkp.47.2022.09.26.03.34.12
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Sep 2022 03:34:12 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-350cb1c0abaso26478687b3.9
+        for <linux-sunxi@lists.linux.dev>; Mon, 26 Sep 2022 03:34:12 -0700 (PDT)
+X-Received: by 2002:a81:758a:0:b0:345:450b:6668 with SMTP id
+ q132-20020a81758a000000b00345450b6668mr19133647ywc.316.1664188452440; Mon, 26
+ Sep 2022 03:34:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="orq4q4azvl3jus4q"
-Content-Disposition: inline
-In-Reply-To: <f17b239c-715a-7c9c-fb56-477daed28009@suse.de>
+References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-10-f733a0ed9f90@cerno.tech>
+ <72a8c3ce-ed03-0a77-fb92-eaa992eb86fe@suse.de> <20220926101716.urehomr2lzv5pqln@houat>
+In-Reply-To: <20220926101716.urehomr2lzv5pqln@houat>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 26 Sep 2022 12:34:00 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXonxXiw4x2PvnQ=xedOQO1y=K0O8g1+ixeSvXmzcOOVw@mail.gmail.com>
+Message-ID: <CAMuHMdXonxXiw4x2PvnQ=xedOQO1y=K0O8g1+ixeSvXmzcOOVw@mail.gmail.com>
+Subject: Re: [PATCH v2 10/33] drm/modes: Add a function to generate analog
+ display modes
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Ben Skeggs <bskeggs@redhat.com>, 
+	David Airlie <airlied@linux.ie>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+	Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>, 
+	Samuel Holland <samuel@sholland.org>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Lyude Paul <lyude@redhat.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Hans de Goede <hdegoede@redhat.com>, nouveau@lists.freedesktop.org, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>, 
+	intel-gfx@lists.freedesktop.org, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
+	Dom Cobley <dom@raspberrypi.com>, linux-sunxi@lists.linux.dev, 
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Maxime,
 
---orq4q4azvl3jus4q
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Sep 26, 2022 at 12:17 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> On Fri, Sep 23, 2022 at 11:05:48AM +0200, Thomas Zimmermann wrote:
+> > > +   /* 63.556us * 13.5MHz = 858 pixels */
+> >
+> > I kind of get what the comment wants to tell me, but the units don't add up.
+>
+> I'm not sure how it doesn't add up?
+>
+> We have a frequency in Hz (equivalent to s^-1) and a duration in s, so
+> the result ends up with no dimension, which is to be expected for a
+> number of periods?
 
-On Fri, Sep 23, 2022 at 12:16:13PM +0200, Thomas Zimmermann wrote:
-> Hi
->=20
-> Am 23.09.22 um 11:18 schrieb Jani Nikula:
-> > On Fri, 23 Sep 2022, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > > Am 22.09.22 um 16:25 schrieb Maxime Ripard:
-> > > > +	drm_dbg_kms(dev,
-> > > > +		    "Generating a %ux%u%c, %u-line mode with a %lu kHz clock\n",
-> > > > +		    hactive, vactive,
-> > > > +		    interlace ? 'i' : 'p',
-> > > > +		    params->num_lines,
-> > > > +		    pixel_clock_hz / 1000);
-> > >=20
-> > > Divide by HZ_PER_KHZ here and in other places.
-> > >=20
-> > >     https://elixir.bootlin.com/linux/latest/source/include/linux/unit=
-s.h#L23
-> >=20
-> >  From the Department of Bikeshedding:
-> >=20
-> > I find "pixel_clock_hz / 1000" has much more clarity than
-> > "pixel_clock_hz / HZ_PER_KHZ".
->=20
-> This one's easy to see because it tells you with the _hz postfix. Many
-> places don't and then it quickly gets confusing what units the code's
-> converting.
+To make the units add up, it should be 13.5 Mpixel/s
+(which is what a pixel clock of 13.5 MHz really means ;-)
 
-So if I add it to places that don't have it explicitly (ie, tests) would
-that be acceptable to both of you?
+Gr{oetje,eeting}s,
 
-Maxime
+                        Geert
 
---orq4q4azvl3jus4q
-Content-Type: application/pgp-signature; name="signature.asc"
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYzF8iQAKCRDj7w1vZxhR
-xWF2AP9QJyjfI+kgaD0AWfK2cf0qTy7Uwc2SUiuCNG4ADKxe0QEAhWoobr2NZ8lL
-ukynl2SUCjF+Bk3Hw/p6n2flp1R3NwQ=
-=v4yB
------END PGP SIGNATURE-----
-
---orq4q4azvl3jus4q--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
