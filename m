@@ -1,128 +1,165 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 974D37B
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Sep 2022 10:34:59 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 757481063;
-	Mon, 26 Sep 2022 03:34:59 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B0F5A3F73B;
-	Mon, 26 Sep 2022 03:34:51 -0700 (PDT)
-Date: Mon, 26 Sep 2022 11:34:38 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Samuel Holland <samuel@sholland.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Tom Rini <trini@konsulko.com>, Simon Glass
- <sjg@chromium.org>, u-boot@lists.denx.de, linux-sunxi@lists.linux.dev,
- Chen-Yu Tsai <wens@csie.org>
-Subject: Re: [PATCH 0/2] sunxi: update devicetree files from the kernel
-Message-ID: <20220926113438.65b64a06@donnerap.cambridge.arm.com>
-In-Reply-To: <20220913234004.24850-1-andre.przywara@arm.com>
-References: <20220913234004.24850-1-andre.przywara@arm.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7187B
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Sep 2022 10:55:32 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 220FF21EB6;
+	Mon, 26 Sep 2022 10:55:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1664189725; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=awuoa00c/zFKYrk4TkkPEqL+aFMAJslAQCViiDFZeBw=;
+	b=QA6dcXG+cDXz2zQxEUuwn9DPBFbTykhOd3xpEnu5fs8i6ST34mv2QGmnj3oaO/eKaCgibO
+	HPgPqyabcyRfu2W8HcBYBQMBeoHe44+if91y4GeWmnM2bEnevL7R7q0H86ZVEyvnbsWEoe
+	uDnPlQMrSUimLyXIKSd/9pQ06epaQj4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1664189725;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=awuoa00c/zFKYrk4TkkPEqL+aFMAJslAQCViiDFZeBw=;
+	b=l18A59Kc2oBBrw11GwZxl8oSDL+zn6/HgdixSomlVX7g9VsRFi9LUSOzdXq9IitDlOlljv
+	X+HURmTI9pMFviBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AC46813486;
+	Mon, 26 Sep 2022 10:55:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id OWsVKRyFMWMMIwAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 26 Sep 2022 10:55:24 +0000
+Message-ID: <6d073586-0962-48b8-1ccf-ba9d8652be26@suse.de>
+Date: Mon, 26 Sep 2022 12:55:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2 10/33] drm/modes: Add a function to generate analog
+ display modes
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-10-f733a0ed9f90@cerno.tech>
+ <72a8c3ce-ed03-0a77-fb92-eaa992eb86fe@suse.de> <87h70y4ffb.fsf@intel.com>
+ <f17b239c-715a-7c9c-fb56-477daed28009@suse.de>
+ <20220926101849.uiyc7zhgkgz4wy46@houat>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220926101849.uiyc7zhgkgz4wy46@houat>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Eh5fPpvnuSpDpm0VAZYIAG4S"
 
-On Wed, 14 Sep 2022 00:40:02 +0100
-Andre Przywara <andre.przywara@arm.com> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Eh5fPpvnuSpDpm0VAZYIAG4S
+Content-Type: multipart/mixed; boundary="------------nLRW0fdZeS13F20fT0F7VzGt";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <6d073586-0962-48b8-1ccf-ba9d8652be26@suse.de>
+Subject: Re: [PATCH v2 10/33] drm/modes: Add a function to generate analog
+ display modes
+References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v2-10-f733a0ed9f90@cerno.tech>
+ <72a8c3ce-ed03-0a77-fb92-eaa992eb86fe@suse.de> <87h70y4ffb.fsf@intel.com>
+ <f17b239c-715a-7c9c-fb56-477daed28009@suse.de>
+ <20220926101849.uiyc7zhgkgz4wy46@houat>
+In-Reply-To: <20220926101849.uiyc7zhgkgz4wy46@houat>
 
-Hi,
+--------------nLRW0fdZeS13F20fT0F7VzGt
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-can someone please have a look and confirm that this is legit? Could be as
-easy as just diff'ing against what's in the kernel tree and checking that
-the differences are just due to the r_intc change.
+SGkNCg0KQW0gMjYuMDkuMjIgdW0gMTI6MTggc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBP
+biBGcmksIFNlcCAyMywgMjAyMiBhdCAxMjoxNjoxM1BNICswMjAwLCBUaG9tYXMgWmltbWVy
+bWFubiB3cm90ZToNCj4+IEhpDQo+Pg0KPj4gQW0gMjMuMDkuMjIgdW0gMTE6MTggc2Nocmll
+YiBKYW5pIE5pa3VsYToNCj4+PiBPbiBGcmksIDIzIFNlcCAyMDIyLCBUaG9tYXMgWmltbWVy
+bWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+Pj4+IEFtIDIyLjA5LjIyIHVt
+IDE2OjI1IHNjaHJpZWIgTWF4aW1lIFJpcGFyZDoNCj4+Pj4+ICsJZHJtX2RiZ19rbXMoZGV2
+LA0KPj4+Pj4gKwkJICAgICJHZW5lcmF0aW5nIGEgJXV4JXUlYywgJXUtbGluZSBtb2RlIHdp
+dGggYSAlbHUga0h6IGNsb2NrXG4iLA0KPj4+Pj4gKwkJICAgIGhhY3RpdmUsIHZhY3RpdmUs
+DQo+Pj4+PiArCQkgICAgaW50ZXJsYWNlID8gJ2knIDogJ3AnLA0KPj4+Pj4gKwkJICAgIHBh
+cmFtcy0+bnVtX2xpbmVzLA0KPj4+Pj4gKwkJICAgIHBpeGVsX2Nsb2NrX2h6IC8gMTAwMCk7
+DQo+Pj4+DQo+Pj4+IERpdmlkZSBieSBIWl9QRVJfS0haIGhlcmUgYW5kIGluIG90aGVyIHBs
+YWNlcy4NCj4+Pj4NCj4+Pj4gICAgICBodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51
+eC9sYXRlc3Qvc291cmNlL2luY2x1ZGUvbGludXgvdW5pdHMuaCNMMjMNCj4+Pg0KPj4+ICAg
+RnJvbSB0aGUgRGVwYXJ0bWVudCBvZiBCaWtlc2hlZGRpbmc6DQo+Pj4NCj4+PiBJIGZpbmQg
+InBpeGVsX2Nsb2NrX2h6IC8gMTAwMCIgaGFzIG11Y2ggbW9yZSBjbGFyaXR5IHRoYW4NCj4+
+PiAicGl4ZWxfY2xvY2tfaHogLyBIWl9QRVJfS0haIi4NCj4+DQo+PiBUaGlzIG9uZSdzIGVh
+c3kgdG8gc2VlIGJlY2F1c2UgaXQgdGVsbHMgeW91IHdpdGggdGhlIF9oeiBwb3N0Zml4LiBN
+YW55DQo+PiBwbGFjZXMgZG9uJ3QgYW5kIHRoZW4gaXQgcXVpY2tseSBnZXRzIGNvbmZ1c2lu
+ZyB3aGF0IHVuaXRzIHRoZSBjb2RlJ3MNCj4+IGNvbnZlcnRpbmcuDQo+IA0KPiBTbyBpZiBJ
+IGFkZCBpdCB0byBwbGFjZXMgdGhhdCBkb24ndCBoYXZlIGl0IGV4cGxpY2l0bHkgKGllLCB0
+ZXN0cykgd291bGQNCj4gdGhhdCBiZSBhY2NlcHRhYmxlIHRvIGJvdGggb2YgeW91Pw0KDQpJ
+J20gT0sgd2l0aCBlaXRoZXIuIE9yIGp1c3QgbGVhdmUgaXQgYXMtaXMuDQoNCkEgSFpfVE9f
+S0haIG1hY3JvIHdvdWxkIGJlIG5pY2UsIGJ1dCB0aGF0J3MgYmV5b25kIHRoaXMgcGF0Y2hz
+ZXQuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IE1heGltZQ0KDQotLSANClRo
+b21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3
+YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJu
+YmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bD
+vGhyZXI6IEl2byBUb3Rldg0K
 
-I would like to push the DT update still into the release, so that we live
-up to the promise of providing a good experience with $fdtcontroladdr.
+--------------nLRW0fdZeS13F20fT0F7VzGt--
 
-Cheers,
-Andre
+--------------Eh5fPpvnuSpDpm0VAZYIAG4S
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> This syncs the .dts and .dtsi files from the Linux kernel repository
-> as of v6.0-rc4 into U-Boot. As before, we skip the r_intc change, as
-> this breaks older kernels.
-> The first patch handles the 64-bit parts, the second one the 32-bit
-> SoCs.
-> 
-> Thanks,
-> Andre
-> 
-> Andre Przywara (2):
->   sunxi: dts: arm64: update devicetree files
->   sunxi: dts: arm: update devicetree files
-> 
->  arch/arm/dts/Makefile                         |   3 +-
->  arch/arm/dts/sun4i-a10-inet9f-rev03.dts       |  40 +--
->  arch/arm/dts/sun4i-a10-pcduino.dts            |   6 +-
->  arch/arm/dts/sun50i-a64-amarula-relic.dts     |   2 +-
->  arch/arm/dts/sun50i-a64-bananapi-m64.dts      |   4 +-
->  arch/arm/dts/sun50i-a64-nanopi-a64.dts        |   2 +-
->  arch/arm/dts/sun50i-a64-olinuxino.dts         |  30 ++
->  arch/arm/dts/sun50i-a64-orangepi-win.dts      |   6 +-
->  arch/arm/dts/sun50i-a64-pinebook.dts          |   4 +-
->  arch/arm/dts/sun50i-a64-pinephone-1.0.dts     |   4 +
->  arch/arm/dts/sun50i-a64-pinephone-1.1.dts     |   4 +
->  arch/arm/dts/sun50i-a64-teres-i.dts           |   8 +
->  arch/arm/dts/sun50i-a64.dtsi                  |  10 +-
->  arch/arm/dts/sun50i-h5-nanopi-r1s-h5.dts      |   4 +-
->  arch/arm/dts/sun50i-h5-orangepi-pc2.dts       |   4 +-
->  arch/arm/dts/sun50i-h5-orangepi-prime.dts     |   4 +-
->  arch/arm/dts/sun50i-h6-orangepi-3.dts         |   4 +-
->  arch/arm/dts/sun50i-h6-orangepi-lite2.dts     |   4 +-
->  arch/arm/dts/sun50i-h6-tanix.dtsi             |   2 +-
->  arch/arm/dts/sun50i-h6.dtsi                   |  12 +-
->  arch/arm/dts/sun50i-h616-orangepi-zero2.dts   |  55 +---
->  arch/arm/dts/sun50i-h616-x96-mate.dts         | 177 +++++++++++
->  arch/arm/dts/sun50i-h616.dtsi                 | 286 +++++-------------
->  arch/arm/dts/sun5i-a13-licheepi-one.dts       |   6 +-
->  arch/arm/dts/sun6i-a31.dtsi                   |  13 +-
->  arch/arm/dts/sun7i-a20-pcduino3.dts           |   6 +-
->  arch/arm/dts/sun8i-a23-a33.dtsi               |   9 +-
->  arch/arm/dts/sun8i-a23-ippo-q8h-v1.2.dts      |  74 +----
->  arch/arm/dts/sun8i-a23-ippo-q8h-v5.dts        |  74 +----
->  arch/arm/dts/sun8i-a33-et-q8-v1.6.dts         |  58 +---
->  arch/arm/dts/sun8i-a33-ippo-q8h-v1.2.dts      |  58 +---
->  .../dts/sun8i-h2-plus-bananapi-m2-zero.dts    |   8 +-
->  arch/arm/dts/sun8i-h2-plus-orangepi-zero.dts  |   2 +-
->  arch/arm/dts/sun8i-h3-beelink-x2.dts          |   6 +-
->  arch/arm/dts/sun8i-h3-mapleboard-mp130.dts    |   6 +-
->  arch/arm/dts/sun8i-h3-nanopi-duo2.dts         |   8 +-
->  arch/arm/dts/sun8i-h3-nanopi-neo-air.dts      |   2 +-
->  arch/arm/dts/sun8i-h3-nanopi-r1.dts           |   4 +-
->  arch/arm/dts/sun8i-h3-nanopi.dtsi             |   5 +-
->  arch/arm/dts/sun8i-h3-orangepi-2.dts          |   6 +-
->  arch/arm/dts/sun8i-h3-orangepi-lite.dts       |   4 +-
->  arch/arm/dts/sun8i-h3-orangepi-one.dts        |   4 +-
->  arch/arm/dts/sun8i-h3-orangepi-pc.dts         |   4 +-
->  arch/arm/dts/sun8i-r16-bananapi-m2m.dts       |   4 +-
->  arch/arm/dts/sun8i-r40-bananapi-m2-ultra.dts  |   5 +
->  arch/arm/dts/sun8i-r40-cpu-opp.dtsi           |  52 ++++
->  arch/arm/dts/sun8i-r40-feta40i.dtsi           |   5 +
->  arch/arm/dts/sun8i-r40.dtsi                   |  44 ++-
->  arch/arm/dts/sun8i-t3-cqa3t-bv3.dts           |   5 +
->  arch/arm/dts/sun8i-v3s.dtsi                   |   6 +-
->  arch/arm/dts/sun8i-v40-bananapi-m2-berry.dts  |   5 +
->  arch/arm/dts/sun9i-a80.dtsi                   |   1 -
->  arch/arm/dts/sunxi-bananapi-m2-plus.dtsi      |   8 +-
->  arch/arm/dts/sunxi-h3-h5-emlid-neutis.dtsi    |   4 +-
->  arch/arm/dts/sunxi-h3-h5.dtsi                 |  13 +-
->  arch/arm/dts/sunxi-libretech-all-h3-cc.dtsi   |   4 +-
->  include/dt-bindings/clock/sun50i-h6-r-ccu.h   |   1 +
->  include/dt-bindings/clock/sun50i-h616-ccu.h   |   1 +
->  include/dt-bindings/clock/sun6i-rtc.h         |  10 +
->  59 files changed, 562 insertions(+), 638 deletions(-)
->  create mode 100644 arch/arm/dts/sun50i-h616-x96-mate.dts
->  mode change 100644 => 120000 arch/arm/dts/sun8i-a23-ippo-q8h-v1.2.dts
->  mode change 100644 => 120000 arch/arm/dts/sun8i-a23-ippo-q8h-v5.dts
->  mode change 100644 => 120000 arch/arm/dts/sun8i-a33-et-q8-v1.6.dts
->  mode change 100644 => 120000 arch/arm/dts/sun8i-a33-ippo-q8h-v1.2.dts
->  create mode 100644 arch/arm/dts/sun8i-r40-cpu-opp.dtsi
->  create mode 100644 include/dt-bindings/clock/sun6i-rtc.h
-> 
+-----BEGIN PGP SIGNATURE-----
 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMxhRwFAwAAAAAACgkQlh/E3EQov+CC
+LhAAueruhpwqOuABLNSgIxssP4CHA5YeIPHJtcgQsVCJ/YkZMWYogfGLQ5LvjmRKP7zOmj0eh097
+Jl+Mhu65w5/8Kvc2xPuGJK7QnemQ4pIBwgR8T7EP4lo7Qc2juh4jew9eUqZx55RyUHixvouyhgqn
+BzgGTsyoYwd1+9qRBhIDWDCtxENHGwO0JGWPFgF7Uwlqgwt+T7BWO8givua8hE6kOuQujT96ovBg
+dOZ1AsqeGASwTjr1g9TB5WOnVeLpg+mqf+ZZRwWKGqQy9zVb3Wn8bmrBW53vPKwCkKpDLJ1FBRKc
+O2ug8SeIsHBrZ16iz6bexm2E+MlkVeLrtd72ZqcI2/DhzgUV1ibVq0cFEn/kk2gYS6oINTQHHMN1
+rA6wmftGfJ7iBDoRZmO++gTtrWzIzXbjB8vn7kZBdL9899qMWlCyCFVa1KL7nLqyruYf+KfqlKLU
+wHoLu9JI/8pfAlk21Pa46ICmwGHKxq0THKuX7cJPzPFwGd14NnLWe2gvpUf52fk3Rclbh6KQO+FI
+9Tb7FqXeRRLhkN1qJWHlFNZQH3dFW0Oi6K+iH7XMypQfqGvwoYaaBAtyDXVwC3ZbyluU/CcZdvhR
+T9ONl6Lvq0qYg5hOT1DKKf//OoahDG12LqTY+2lmZ4J2zIFAlL92nE7PwWGwfXEB8lkluttN1f6r
+oHs=
+=u9by
+-----END PGP SIGNATURE-----
+
+--------------Eh5fPpvnuSpDpm0VAZYIAG4S--
