@@ -1,57 +1,57 @@
 Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04DC63A
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Sep 2022 09:36:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA7F63A
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Sep 2022 09:50:41 +0000 (UTC)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailnew.west.internal (Postfix) with ESMTP id A27792B0689B;
-	Mon, 26 Sep 2022 05:36:16 -0400 (EDT)
+	by mailnew.west.internal (Postfix) with ESMTP id BA80C2B06A16;
+	Mon, 26 Sep 2022 05:50:35 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Mon, 26 Sep 2022 05:36:21 -0400
+  by compute1.internal (MEProxy); Mon, 26 Sep 2022 05:50:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
 	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1664184976; x=1664192176; bh=iMhV2MQCYE
-	l08x7MCNwj+bMXhT0kipZzBnwNpIfB8gg=; b=nJeRGFALZvB203VwJ3MiqZV0H9
-	SgOgeQdWX4BuXqw5zho/RS25xCKP8KzdQRqm2mCuyRCuOyNsg99A+lAMh76HqDOD
-	x+eTg6WYdZgrHKS0zSICLvO8j/3SJP13HCCOJDkPl0uPhzva8dlItg1Ao8XIGumK
-	Vbx9nh+ELeMIBIDKskokk2eSRhBBTy+Ebrn/rCkgwq5UieGaMJkByqoK+baIJH2C
-	5/HTEUfuOUF0Aewimr0CqDc5o4qad0/cuXBZvtQDDPTeP6obnNVGzbrPy1O7EYyt
-	KA2581CvfZVH/CjRitmTgJKzFxhYz6lW5pJezzh6VmVJ0W1Vk1jK/Rf7r3oA==
+	:subject:to:to; s=fm2; t=1664185835; x=1664193035; bh=Q5YqCB+bWv
+	ZnM9/MP8ojAxE88SZk5mFeXFT7vJkPnOQ=; b=CbM+ffh8hGO/4EshyJBj+hQOby
+	uSKuQbZ08yV/O7npvaPQjbriXKz7qwOJBEikhupb5sz0HlXEtWmHAHdOA4qf5RBY
+	pfDNJ1VLYDnr70g9GdLd9IYldjQxT/Iq6J9hTa+K5/VWSkT5KChkQ0B9AibPm/8n
+	7nfRE08jBYGvUlDqTzM12ThVEgQispAaoWewCio/6R1E8zGatUiJL1a+b5T66KIN
+	rq7Gk7j+Mb5JHSO8r9EHWK6oOf4amJ1qF/YtwN0UF7wYp7CX8CMRTEhqe/ANmvXe
+	f81xbiiXBtST8iwQWcPL1/9auidpuErFhQTpVnBYNBQpxN217qqrf3Gqq/FQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
 	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
 	:mime-version:references:reply-to:sender:subject:subject:to:to
 	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1664184976; x=1664192176; bh=iMhV2MQCYEl08x7MCNwj+bMXhT0k
-	ipZzBnwNpIfB8gg=; b=SvSPhEi02+Ihox7kOmDVhX4pbeqMyi4CJjvjX99cbEyr
-	+Smb2FJx3Ykc2JdeOsoir0jS89/4SjDKcOp0VS69YroKe5ZScShh/wzbeal++grP
-	T3kz/sLVTtvTxyWcC7amFT8p0IQ7unvvIhjLZMctMR9p2aebfl5O2flACUCM2iCZ
-	2P5b3wXbgjghbYrR6Kyohv5VMzKI7Yp0WJKOOxliNMEAlU2NYmH7nDfcOatZJmwA
-	R60diWPuTdqMHff6/EjwHJOUIq8bKG5D5uiy2lrUcwW+cHnxd0gbHlloPbAiVSxw
-	3+0du3C5VZZ06FibJPIilHWQYsr44TrJRhrXkcRR1Q==
-X-ME-Sender: <xms:j3IxY2-QhYgO74s3trfwff3DryeNTqQlmXsu9yGRCxphn4GACYCIvw>
-    <xme:j3IxY2tV7NB_e-mau1S7WaAft2UEAesKgySU0wjigMGs7JoPvAF_XnZv8xyRwLir7
-    96x3L2BZSiZ3G5aD1o>
-X-ME-Received: <xmr:j3IxY8DYYskkI72wKJw06xyNYUTiZjyG07uxoj73uLs5P24I9NFaDGqbqIho>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegvddgudelucetufdoteggodetrfdotf
+	fm2; t=1664185835; x=1664193035; bh=Q5YqCB+bWvZnM9/MP8ojAxE88SZk
+	5mFeXFT7vJkPnOQ=; b=cPnysf/P2PbQ+IH15wTtgZdBsVOpPnb2MQAnFYR//HLr
+	0AtcpJNkLsq9mQwQeO0StKNYJ8NYvfjVmONFwBj+KE076TaUJsOMWsPV4Sx5OYD/
+	hjLEVXsK94HIO89vQZZCSsDYXmrRS2NjtzyoQWC1gU2aA0xVHpl0OtKgOFAxfitT
+	SXV7/exwbblPSjKAOl4+Wx4EvEMdGuaUmmTxpl/pX0QzUCWC6qwxy9GqumaZV1th
+	uSI8hyrUNQS7ER9MT9IOAZUx1eNatyvuJn8MY+uHvs3iFzF0F3bDZD1rP2uNxpcf
+	tyNVlUMI3dhfW0OBU6Ug6vm2Aw6DYXXdBv8q0BSZEw==
+X-ME-Sender: <xms:6nUxY87En6rl5JtBuegrYVkuYyU3-SsDG1klILVdtAL6Qwdkf8M7_A>
+    <xme:6nUxY977tYpT4xSW1ett0FDl09ghWQIlAFzl3xyO7crQB2rXhCSY2Z_0W_LC4_1iA
+    tiIUVtOu2qn7sxu7J8>
+X-ME-Received: <xmr:6nUxY7cJzjsH4MvX7DFh81T_6wT9FR0cWe1i0iFlKHQ-ZIBz0noGBnTuxkmZ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegvddgvddvucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
     mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
-    ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+    hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
     hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:j3IxY-c1tiNct3gIbQHjSvEYT5Xb3k1T-pot_aoZBis1vo7mxgBG4A>
-    <xmx:j3IxY7NBOijxM_Ba2H7o24TnGSFShkp4aYK8hhYtoN3RnR8bUq6Ebw>
-    <xmx:j3IxY4lnv8PCJVU1vCHuVIUJ7mwiGoNPkRCtxB_VBaxHfk_3O1upOg>
-    <xmx:kHIxY0ttx0rynzRFEyFoPEdNc13wMnnQR88F_DEk4Ml1iNEFAY-Kynb_HoE>
+X-ME-Proxy: <xmx:6nUxYxL5C3_5Sf-v0pBL2lLWMha6XHNYSheIMrAReX6Ir_PDDc5nZg>
+    <xmx:6nUxYwL9uk7F2dJOprwNmH-QHjyshXE5TmqygRW_2TebDZ25AJWT5w>
+    <xmx:6nUxYywirP_MNHdMbw3JQf71HU-KaS1e7RhGNrcmmnLC8C1XxAOspA>
+    <xmx:63UxY6qYHueW2DoYIPmZe-TsKLaxZoD5D2QROroXMgvC9MPpd2kLiSOmsB0>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 26 Sep 2022 05:36:14 -0400 (EDT)
-Date: Mon, 26 Sep 2022 11:36:12 +0200
+ 26 Sep 2022 05:50:33 -0400 (EDT)
+Date: Mon, 26 Sep 2022 11:50:31 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Rodrigo Vivi <rodrigo.vivi@intel.com>,	Ben Skeggs <bskeggs@redhat.com>,
  David Airlie <airlied@linux.ie>,
@@ -59,24 +59,24 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
 	Samuel Holland <samuel@sholland.org>,
 	Jani Nikula <jani.nikula@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,	Daniel Vetter <daniel@ffwll.ch>,
- Lyude Paul <lyude@redhat.com>,
+	Daniel Vetter <daniel@ffwll.ch>, Lyude Paul <lyude@redhat.com>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Chen-Yu Tsai <wens@csie.org>, Hans de Goede <hdegoede@redhat.com>,
-	nouveau@lists.freedesktop.org,	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Chen-Yu Tsai <wens@csie.org>, Dom Cobley <dom@raspberrypi.com>,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Phil Elwell <phil@raspberrypi.com>, intel-gfx@lists.freedesktop.org,
-	Dom Cobley <dom@raspberrypi.com>, linux-sunxi@lists.linux.dev,
+	nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-sunxi@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>,
+	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
 	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 02/33] drm/tests: Add Kunit Helpers
-Message-ID: <20220926093612.wvbou2srbo3uinar@houat>
+	Phil Elwell <phil@raspberrypi.com>,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 06/33] drm/connector: Rename legacy TV property
+Message-ID: <20220926095031.vlwsw7willi36yd4@houat>
 References: <20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech>
- <20220728-rpi-analog-tv-properties-v2-2-f733a0ed9f90@cerno.tech>
- <3f7000ab-b845-a7e8-f215-02121da779b7@tronnes.org>
- <c7bd9bcb-77a1-9f2d-fe93-afefac5e6def@tronnes.org>
+ <20220728-rpi-analog-tv-properties-v2-6-f733a0ed9f90@cerno.tech>
+ <fa71ae1c-f9ca-167c-7993-b698ea3473a0@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -84,104 +84,55 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wdbx6g5pylyw5se6"
+	protocol="application/pgp-signature"; boundary="wppcaqoyqh7rspqt"
 Content-Disposition: inline
-In-Reply-To: <c7bd9bcb-77a1-9f2d-fe93-afefac5e6def@tronnes.org>
+In-Reply-To: <fa71ae1c-f9ca-167c-7993-b698ea3473a0@suse.de>
 
 
---wdbx6g5pylyw5se6
-Content-Type: text/plain; charset=iso-8859-1
+--wppcaqoyqh7rspqt
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Noralf,
+Hi Thomas,
 
-On Sat, Sep 24, 2022 at 08:06:17PM +0200, Noralf Tr=F8nnes wrote:
-> Den 24.09.2022 19.56, skrev Noralf Tr=F8nnes:
+On Fri, Sep 23, 2022 at 10:19:08AM +0200, Thomas Zimmermann wrote:
+> Hi
+>=20
+> Am 22.09.22 um 16:25 schrieb Maxime Ripard:
+> > The current tv_mode has driver-specific values that don't allow to
+> > easily share code using it, either at the userspace or kernel level.
 > >=20
+> > Since we're going to introduce a new, generic, property that fit the
+> > same purpose, let's rename this one to legacy_tv_mode to make it
+> > obvious we should move away from it.
 > >=20
-> > Den 22.09.2022 16.25, skrev Maxime Ripard:
-> >> As the number of kunit tests in KMS grows further, we start to have
-> >> multiple test suites that, for example, need to register a mock DRM
-> >> driver to interact with the KMS function they are supposed to test.
-> >>
-> >> Let's add a file meant to provide those kind of helpers to avoid
-> >> duplication.
-> >>
-> >> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> >>
-> >> diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Ma=
-kefile
-> >> index 2d9f49b62ecb..b29ef1085cad 100644
-> >> --- a/drivers/gpu/drm/tests/Makefile
-> >> +++ b/drivers/gpu/drm/tests/Makefile
-> >> @@ -8,6 +8,7 @@ obj-$(CONFIG_DRM_KUNIT_TEST) +=3D \
-> >>  	drm_format_helper_test.o \
-> >>  	drm_format_test.o \
-> >>  	drm_framebuffer_test.o \
-> >> +	drm_kunit_helpers.o \
-> >>  	drm_mm_test.o \
-> >>  	drm_plane_helper_test.o \
-> >>  	drm_rect_test.o
-> >> diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.c b/drivers/gpu/d=
-rm/tests/drm_kunit_helpers.c
-> >> new file mode 100644
-> >> index 000000000000..7ebd620481c1
-> >> --- /dev/null
-> >> +++ b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-> >> @@ -0,0 +1,54 @@
-> >> +#include <drm/drm_drv.h>
-> >> +#include <drm/drm_managed.h>
-> >> +
-> >> +#include <linux/device.h>
-> >> +
-> >> +static const struct drm_mode_config_funcs drm_mode_config_funcs =3D {
-> >> +};
-> >> +
-> >> +static const struct drm_driver drm_mode_driver =3D {
-> >> +};
-> >> +
-> >> +static void drm_kunit_free_device(struct drm_device *drm, void *ptr)
-> >> +{
-> >> +	struct device *dev =3D ptr;
-> >> +
-> >> +	root_device_unregister(dev);
-> >> +}
-> >> +
-> >> +struct drm_device *drm_kunit_device_init(const char *name)
-> >> +{
-> >> +	struct drm_device *drm;
-> >> +	struct device *dev;
-> >> +	int ret;
-> >> +
-> >> +	dev =3D root_device_register(name);
-> >> +	if (IS_ERR(dev))
-> >> +		return ERR_CAST(dev);
-> >> +
-> >> +	drm =3D drm_dev_alloc(&drm_mode_driver, dev);
-> >=20
-> > I can't find drm being freed anywhere?
-> > Maybe you could assign it to drm->managed.final_kfree.
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>=20
+> It's not wrong, but 'legacy' is already overloaded with meaning. If you c=
+an,
+> maybe name it 'driver_tv_mode_property' or 'custom_tv_mode_property'
+> instead.
+>=20
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-There's a drm_dev_put in the test_exit hook which should free it.
+I'd really like to point out that new drivers shouldn't be using this.
+If we're using either of your proposals then writers might get the
+impression that this is ok to us.
 
-> Perhaps a better solution would be to use devm_drm_dev_alloc() and
-> unregister the root device on exit. That avoids reaching into the drm
-> managed internals and it looks more like a regular driver.
-
-But yeah, this is a good idea, I'll do it.
+Would you prefer deprecated to legacy?
 
 Maxime
 
---wdbx6g5pylyw5se6
+--wppcaqoyqh7rspqt
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYzFyjAAKCRDj7w1vZxhR
-xfL5AP9r8SOCVdiPcnR+tkP1VdDT4xdxvsJmgcz60MJ5iuvezwEAwp/UpYjOSXCb
-YrQ0Vm/0KNnlKIDIInbF28eMSo1bSw0=
-=31r4
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYzF15wAKCRDj7w1vZxhR
+xXcKAP9L/I+uhmTIq76oVEB9ee7MilxBf4AgksOX/7k93P3lJAD/Q9YHrVicNYNH
+d5hLg5xM8KI/DdLiQRhSunqAKaDeKAk=
+=OLhV
 -----END PGP SIGNATURE-----
 
---wdbx6g5pylyw5se6--
+--wppcaqoyqh7rspqt--
