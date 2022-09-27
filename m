@@ -1,88 +1,132 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1792565E
-	for <linux-sunxi@lists.linux.dev>; Tue, 27 Sep 2022 08:56:05 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id iv17so6070556wmb.4
-        for <linux-sunxi@lists.linux.dev>; Tue, 27 Sep 2022 01:56:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=bEQ+cO4PtSvPHzqNY25Rk57cl8sc42zs+u1n/Vf8KZg=;
-        b=XOIvxDxpY8g1tcDM9f3ZfJNAfiXKalsyBRMkO6YU1eeQ2kIfWL9DQ/j4zmvwazNZXd
-         UNhVd6jnOgv6MD0rqH548Mf7l5ZwaPA+gZcqeoo11t+0ZSW48HUgNQCUqLYNXP4D3ApU
-         rK5ZKovFnxJcUiwkzVx5J3oyBaGbsA/tY8pIDSvvHhtye8mlL0iQCBEocGUALy5WNhLF
-         81ZbVXHb6EHFRL6r56Xw204S7+CQghY04kYmyHf4Xku82mUumsYbb/Vgq75I3NSA7/D+
-         FFGBUbdvbGmUgZPuvD2FNKg2Z2sXHjsrYEmgiudPo0+Vp/mQU8D/Xs57iktslVuXYj/n
-         AmvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=bEQ+cO4PtSvPHzqNY25Rk57cl8sc42zs+u1n/Vf8KZg=;
-        b=owFR75K6UzVJtX6o7fgoMbPt7cH4CNY/jkgQ1SKeyrhuB7hBf0mLKEfBZJ1dkKNCSK
-         Y48M70dbfYkN/3Rh16Zj2Cyao8rNACJQbUJoDXVDJidN5uXeQ3VkcLOlghOh8CI2jd6l
-         VqNzL3hVrEQjEbz0PJ8bsie5aMH3Mj95CQfzfCltKOAE27rqlj9yeNXux5smt2LNj2KI
-         +JqAKpS2hYAGxGKdWHKjwnvlWP9WkfoTvWVx4avkDuJNgiRlhRXpxEblW0h2jzFO/i0z
-         AWbymr7kJ4AjxxMO8VD2wauzl5VTPqO7UEqyyeg0aK/Q2Zrnh4TSkp1p2TdaP4qHLwQ3
-         szFg==
-X-Gm-Message-State: ACrzQf0Fi34m011MTmkSzQ7/V0/6uMhs7t6p2235CinYlnrBOA4OApJ8
-	jm4iO351dkUVJ/OawcN2vDChVg==
-X-Google-Smtp-Source: AMsMyM6dnWsD/C8sFek13thSn84HTvLHGHHhfLDclUX5OEqJ+U7Jyg5vYkgBcr7E1Hl6m25sd9Tbcw==
-X-Received: by 2002:a05:600c:310b:b0:3b4:c618:180d with SMTP id g11-20020a05600c310b00b003b4c618180dmr1773755wmo.25.1664268964293;
-        Tue, 27 Sep 2022 01:56:04 -0700 (PDT)
-Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id t126-20020a1c4684000000b003b505d26776sm13183734wma.5.2022.09.27.01.56.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Sep 2022 01:56:03 -0700 (PDT)
-From: Corentin Labbe <clabbe@baylibre.com>
-To: dan.carpenter@oracle.com,
-	davem@davemloft.net,
-	herbert@gondor.apana.org.au,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	wens@csie.org
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-crypto@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-sunxi@googlegroups.com,
-	Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH] crypto: allwinner: sun8i-ss: use dma_addr instead u32
-Date: Tue, 27 Sep 2022 08:55:55 +0000
-Message-Id: <20220927085555.3196257-1-clabbe@baylibre.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10EC7EB
+	for <linux-sunxi@lists.linux.dev>; Tue, 27 Sep 2022 09:36:20 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id C7D6410000B;
+	Tue, 27 Sep 2022 09:36:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1664271373;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lztctaXpuBh23+RJMFSBb8KRhYG7OptTx91tvx4/3kk=;
+	b=iXC2/jH+tpxbpJ3YGexQykGVbYGfOQ1qtFA8gzE8O6LntvgnmBum8FmgxImkSNDCME4ME/
+	LhB4PXeGlQ6T0Dv67wBbuU1JyTAEVIZK9+6dwUeaXizW2pMJYRA46xh3a1BknMPl7e1/CE
+	tss8HJBzyax0/dJCQk0Djk3bYXyX5UDHu4oxn04t1gdtNgFrU8GmzJy46K7YhjKXe7PGoR
+	N8hZFQwixvw5fDmwoZL83zvkvj0am66kV92BOVUv68j7ek3iFN+8bm8dBvCAK0pPvrL1kH
+	AbDoDnEyAJBkAz/IG69ULOhioern06HvZjAr4nzFoNMe6v945CUHjrrUmhsVcA==
+Date: Tue, 27 Sep 2022 11:36:02 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Maxime Ripard <maxime@cerno.tech>, Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/8] dt-bindings: sun6i-a31-mipi-dphy: Add the interrupts
+ property
+Message-ID: <YzLEApjzpGaDxKni@aptenodytes>
+References: <20220812075603.59375-1-samuel@sholland.org>
+ <20220812075603.59375-2-samuel@sholland.org>
+ <c85ec3a3-fa6e-aa71-a847-22062b9683e9@linaro.org>
+ <0d2bf232-8aa6-2dc1-121d-f0439bfd7b54@sholland.org>
+ <YzFwst0GpdRBx/9l@aptenodytes>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="PiLFU6KiWb8KPWLq"
+Content-Disposition: inline
+In-Reply-To: <YzFwst0GpdRBx/9l@aptenodytes>
 
-The DMA address need to be stored in a dma_addr_t
 
-Fixes: 359e893e8af4 ("crypto: sun8i-ss - rework handling of IV")
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
----
- drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--PiLFU6KiWb8KPWLq
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
-index 910d6751644c..902f6be057ec 100644
---- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
-+++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
-@@ -124,7 +124,7 @@ static int sun8i_ss_setup_ivs(struct skcipher_request *areq)
- 	unsigned int ivsize = crypto_skcipher_ivsize(tfm);
- 	struct sun8i_ss_flow *sf = &ss->flows[rctx->flow];
- 	int i = 0;
--	u32 a;
-+	dma_addr_t a;
- 	int err;
- 
- 	rctx->ivlen = ivsize;
--- 
-2.35.1
+Hi,
 
+On Mon 26 Sep 22, 11:28, Paul Kocialkowski wrote:
+> Hi Samuel,
+>=20
+> On Fri 12 Aug 22, 17:19, Samuel Holland wrote:
+> > On 8/12/22 5:45 AM, Krzysztof Kozlowski wrote:
+> > > On 12/08/2022 10:55, Samuel Holland wrote:
+> > >> The sun6i DPHY can generate several interrupts, mostly for reporting
+> > >> error conditions, but also for detecting BTA and UPLS sequences.
+> > >> Document this capability in order to accurately describe the hardwar=
+e.
+> > >>
+> > >> The DPHY has no interrupt number provided in the vendor documentation
+> > >> because its interrupt line is shared with the DSI controller.
+> > >>
+> > >> Fixes: c25b84c00826 ("dt-bindings: display: Convert Allwinner DSI to=
+ a schema")
+> > >=20
+> > > I don't understand what is being fixed in that commit. That commit did
+> > > not have interrupts in D-PHY, so what was broken by it?
+> > >=20
+> > > The Fixes tag annotates the commit which introduced a bug.
+> >=20
+> > The binding had a bug because it did not accurately describe the hardwa=
+re.
+>=20
+> [...]
+>=20
+> Coming back to this series, I don't really get the point of introducing t=
+he
+> interrupt in the bindings and the device-tree sources if the interrupt is=
+ not
+> required for normal operation. I would just drop it.
+>=20
+> I recall I was in the same situation for the MIPI CSI-2 controllers, whic=
+h also
+> have a dedicated interrupt but only useful for debugging/error reporting.
+> I was asked not to introduce it back then, so I suppose the same should a=
+pply.
+
+Coming back to this, my memories were wrong and the interrupt was in fact a=
+dded
+to the binding and the dt description.
+
+Nevermind my previous comment, I guess it does make sense to have it in the=
+ dt
+hardware description even if the driver does not use it.
+
+Sorry for the noise,
+
+Paul
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--PiLFU6KiWb8KPWLq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMyxAIACgkQ3cLmz3+f
+v9HwAgf/duJh5AF/wrOPWoxEDWSWSf/54+O5EtPf1cpHo1tW2RMzwVgVNSiFXlUW
+Wef8LOxHWLSYdC+Aq7EmPa8t/3PW0t3j2leA4FPIUY6LArocr2HUFzoh90ivZxJE
+r8VR1P1ZbubureBZQJwFhDflDqR67qnUwEM9be++4LcBUM0RWZzYKhD1YmR6GxbV
+OVn+VWkeDSdb3fK4Prmh3ogRivMorGs7GvyFM3QJFv+arKCDBSG9/NVmVIbzgr1k
+Xa+M/cWNMfxvSuyTltrI0kAeQPpqjEDnaL6unrG/le9MZsducKOSOyGOlxPDYHqm
+lu1MFlBQGEhhcv/hIQFmJhI2e8JkTA==
+=3Zbu
+-----END PGP SIGNATURE-----
+
+--PiLFU6KiWb8KPWLq--
