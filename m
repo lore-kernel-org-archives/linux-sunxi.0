@@ -1,27 +1,58 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD67E2F21
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Sep 2022 14:58:44 +0000 (UTC)
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Mbm6Y10LSzHpb6;
-	Mon, 26 Sep 2022 22:56:21 +0800 (CST)
-Received: from kwepemm600014.china.huawei.com (7.193.23.54) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 26 Sep 2022 22:58:36 +0800
-Received: from huawei.com (10.90.53.225) by kwepemm600014.china.huawei.com
- (7.193.23.54) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 26 Sep
- 2022 22:58:35 +0800
-From: Zhang Qilong <zhangqilong3@huawei.com>
-To: <jic23@kernel.org>, <lars@metafoo.de>, <wens@csie.org>,
-	<jernej.skrabec@gmail.com>, <samuel@sholland.org>
-CC: <linux-iio@vger.kernel.org>, <linux-sunxi@lists.linux.dev>
-Subject: [PATCH -next] iio: adc: sun4i-gpadc-iio: fix PM disable depth imbalance in sun4i_gpadc_probe
-Date: Mon, 26 Sep 2022 23:02:06 +0800
-Message-ID: <20220926150206.133549-1-zhangqilong3@huawei.com>
-X-Mailer: git-send-email 2.26.0.106.g9fadedd
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1792565E
+	for <linux-sunxi@lists.linux.dev>; Tue, 27 Sep 2022 08:56:05 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id iv17so6070556wmb.4
+        for <linux-sunxi@lists.linux.dev>; Tue, 27 Sep 2022 01:56:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=bEQ+cO4PtSvPHzqNY25Rk57cl8sc42zs+u1n/Vf8KZg=;
+        b=XOIvxDxpY8g1tcDM9f3ZfJNAfiXKalsyBRMkO6YU1eeQ2kIfWL9DQ/j4zmvwazNZXd
+         UNhVd6jnOgv6MD0rqH548Mf7l5ZwaPA+gZcqeoo11t+0ZSW48HUgNQCUqLYNXP4D3ApU
+         rK5ZKovFnxJcUiwkzVx5J3oyBaGbsA/tY8pIDSvvHhtye8mlL0iQCBEocGUALy5WNhLF
+         81ZbVXHb6EHFRL6r56Xw204S7+CQghY04kYmyHf4Xku82mUumsYbb/Vgq75I3NSA7/D+
+         FFGBUbdvbGmUgZPuvD2FNKg2Z2sXHjsrYEmgiudPo0+Vp/mQU8D/Xs57iktslVuXYj/n
+         AmvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=bEQ+cO4PtSvPHzqNY25Rk57cl8sc42zs+u1n/Vf8KZg=;
+        b=owFR75K6UzVJtX6o7fgoMbPt7cH4CNY/jkgQ1SKeyrhuB7hBf0mLKEfBZJ1dkKNCSK
+         Y48M70dbfYkN/3Rh16Zj2Cyao8rNACJQbUJoDXVDJidN5uXeQ3VkcLOlghOh8CI2jd6l
+         VqNzL3hVrEQjEbz0PJ8bsie5aMH3Mj95CQfzfCltKOAE27rqlj9yeNXux5smt2LNj2KI
+         +JqAKpS2hYAGxGKdWHKjwnvlWP9WkfoTvWVx4avkDuJNgiRlhRXpxEblW0h2jzFO/i0z
+         AWbymr7kJ4AjxxMO8VD2wauzl5VTPqO7UEqyyeg0aK/Q2Zrnh4TSkp1p2TdaP4qHLwQ3
+         szFg==
+X-Gm-Message-State: ACrzQf0Fi34m011MTmkSzQ7/V0/6uMhs7t6p2235CinYlnrBOA4OApJ8
+	jm4iO351dkUVJ/OawcN2vDChVg==
+X-Google-Smtp-Source: AMsMyM6dnWsD/C8sFek13thSn84HTvLHGHHhfLDclUX5OEqJ+U7Jyg5vYkgBcr7E1Hl6m25sd9Tbcw==
+X-Received: by 2002:a05:600c:310b:b0:3b4:c618:180d with SMTP id g11-20020a05600c310b00b003b4c618180dmr1773755wmo.25.1664268964293;
+        Tue, 27 Sep 2022 01:56:04 -0700 (PDT)
+Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.googlemail.com with ESMTPSA id t126-20020a1c4684000000b003b505d26776sm13183734wma.5.2022.09.27.01.56.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Sep 2022 01:56:03 -0700 (PDT)
+From: Corentin Labbe <clabbe@baylibre.com>
+To: dan.carpenter@oracle.com,
+	davem@davemloft.net,
+	herbert@gondor.apana.org.au,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	wens@csie.org
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-sunxi@googlegroups.com,
+	Corentin Labbe <clabbe@baylibre.com>
+Subject: [PATCH] crypto: allwinner: sun8i-ss: use dma_addr instead u32
+Date: Tue, 27 Sep 2022 08:55:55 +0000
+Message-Id: <20220927085555.3196257-1-clabbe@baylibre.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -29,45 +60,29 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.225]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemm600014.china.huawei.com (7.193.23.54)
-X-CFilter-Loop: Reflected
 
-The pm_runtime_enable will increase power disable depth. Thus
-a pairing decrement is needed on the error handling path to
-keep it balanced according to context.
+The DMA address need to be stored in a dma_addr_t
 
-Fixes:b0a242894f11d ("iio: adc: sun4i-gpadc-iio: register in the thermal after registering in pm")
-Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
+Fixes: 359e893e8af4 ("crypto: sun8i-ss - rework handling of IV")
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- drivers/iio/adc/sun4i-gpadc-iio.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iio/adc/sun4i-gpadc-iio.c b/drivers/iio/adc/sun4i-gpadc-iio.c
-index a6ade70dedf8..ec0b09878d54 100644
---- a/drivers/iio/adc/sun4i-gpadc-iio.c
-+++ b/drivers/iio/adc/sun4i-gpadc-iio.c
-@@ -648,7 +648,8 @@ static int sun4i_gpadc_probe(struct platform_device *pdev)
- 			dev_err(&pdev->dev,
- 				"could not register thermal sensor: %ld\n",
- 				PTR_ERR(info->tzd));
--			return PTR_ERR(info->tzd);
-+			ret = PTR_ERR(info->tzd);
-+			goto err_pm;
- 		}
- 	}
+diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
+index 910d6751644c..902f6be057ec 100644
+--- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
++++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
+@@ -124,7 +124,7 @@ static int sun8i_ss_setup_ivs(struct skcipher_request *areq)
+ 	unsigned int ivsize = crypto_skcipher_ivsize(tfm);
+ 	struct sun8i_ss_flow *sf = &ss->flows[rctx->flow];
+ 	int i = 0;
+-	u32 a;
++	dma_addr_t a;
+ 	int err;
  
-@@ -663,7 +664,7 @@ static int sun4i_gpadc_probe(struct platform_device *pdev)
- err_map:
- 	if (!info->no_irq && IS_ENABLED(CONFIG_THERMAL_OF))
- 		iio_map_array_unregister(indio_dev);
--
-+err_pm:
- 	pm_runtime_put(&pdev->dev);
- 	pm_runtime_disable(&pdev->dev);
- 
+ 	rctx->ivlen = ivsize;
 -- 
-2.25.1
+2.35.1
 
