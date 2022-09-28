@@ -1,132 +1,100 @@
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10EC7EB
-	for <linux-sunxi@lists.linux.dev>; Tue, 27 Sep 2022 09:36:20 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id C7D6410000B;
-	Tue, 27 Sep 2022 09:36:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1664271373;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lztctaXpuBh23+RJMFSBb8KRhYG7OptTx91tvx4/3kk=;
-	b=iXC2/jH+tpxbpJ3YGexQykGVbYGfOQ1qtFA8gzE8O6LntvgnmBum8FmgxImkSNDCME4ME/
-	LhB4PXeGlQ6T0Dv67wBbuU1JyTAEVIZK9+6dwUeaXizW2pMJYRA46xh3a1BknMPl7e1/CE
-	tss8HJBzyax0/dJCQk0Djk3bYXyX5UDHu4oxn04t1gdtNgFrU8GmzJy46K7YhjKXe7PGoR
-	N8hZFQwixvw5fDmwoZL83zvkvj0am66kV92BOVUv68j7ek3iFN+8bm8dBvCAK0pPvrL1kH
-	AbDoDnEyAJBkAz/IG69ULOhioern06HvZjAr4nzFoNMe6v945CUHjrrUmhsVcA==
-Date: Tue, 27 Sep 2022 11:36:02 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Kishon Vijay Abraham I <kishon@ti.com>,
-	Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Maxime Ripard <maxime@cerno.tech>, Rob Herring <robh+dt@kernel.org>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/8] dt-bindings: sun6i-a31-mipi-dphy: Add the interrupts
- property
-Message-ID: <YzLEApjzpGaDxKni@aptenodytes>
-References: <20220812075603.59375-1-samuel@sholland.org>
- <20220812075603.59375-2-samuel@sholland.org>
- <c85ec3a3-fa6e-aa71-a847-22062b9683e9@linaro.org>
- <0d2bf232-8aa6-2dc1-121d-f0439bfd7b54@sholland.org>
- <YzFwst0GpdRBx/9l@aptenodytes>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3634C7A
+	for <linux-sunxi@lists.linux.dev>; Wed, 28 Sep 2022 20:01:39 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id lc7so29454714ejb.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 28 Sep 2022 13:01:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=FQdphxTZ66QYAOnofKNGBcQ+Caq9QNc6A+A5EnAfs9Y=;
+        b=SM+pQmHMUu1Vdwr3vzMUhNyVQ9jB8MnLgDbQ/hRsO7FdT4yxGbemcSVjmdYT2u/ZGE
+         lNbO88owrJ2OnaThIlKlUxYJfAU9fA64pGyCEKoM288TgzJeWwHqEMedl2T6EncQ2S/m
+         7v/kFCOJrN6Guw4DRF3G26IaXbA5dae8ufGFE01fGWOZqnxDgmfQ3Xkt/CKpcyokB5WK
+         zjRoMku6hV9fYptQD318/1iiKewLG4MK8yDAmwNIU2Pxu/Q4k5GwHCUpOGv9eVc6cJXZ
+         k5koN4qVNzWhiYUI4vAHYxpyAUFNdYqxOly19A7ygtdhUeeAKLnXVM4qr+Dg0C5Wtg9W
+         1XXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=FQdphxTZ66QYAOnofKNGBcQ+Caq9QNc6A+A5EnAfs9Y=;
+        b=BqXqg4KZ8BuBnBOqGmiZfQzjvZg2PcQbDu2drBGqb4x/FV1PeKQlrJPQ0DnDqBc6u7
+         St6AiWIZ64esfLs97X4dlmhPHbf+50e2jl4dzgN/9NQmsNL+y2pCYa3QckMoiEo4jOHK
+         j4FfoINcaL/jsB4mb7VLVSYmgXgW83HUzGK1PRey9zJpxjuLk4TNHNIBgGqU4I4t2qaF
+         pU96M4x5uKnMYKt38NZhzp4usFyUDGeduZb82qNs5Y4nEQtcBR/X5EmuYqRDHq1i38d0
+         eIPHfevAYX9xvv0WfYJtWjTP86hl/9x1JpDd9WtyU5TKzHk/awf7lH0qyOqZSBOlnH7X
+         442A==
+X-Gm-Message-State: ACrzQf12eUADp7nXy10fQlpqJnoGlXOpWA5KzfjISFchGH0Rla/FL0gH
+	jO1MjlkEdO6VnZ4zhWKKUTk=
+X-Google-Smtp-Source: AMsMyM7/ltV50qoXxcf2RzeCPuJDZ5lLR05PmqL0JITzHOT79EBbmXSaWJFFFNsWKyP31DkaBFZ7Eg==
+X-Received: by 2002:a17:907:74e:b0:74f:83d4:cf58 with SMTP id xc14-20020a170907074e00b0074f83d4cf58mr29389544ejb.178.1664395297439;
+        Wed, 28 Sep 2022 13:01:37 -0700 (PDT)
+Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id n25-20020a05640204d900b00457cdb5cf76sm3015769edw.50.2022.09.28.13.01.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Sep 2022 13:01:36 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: wens@csie.org,
+	samuel@sholland.org
+Cc: mturquette@baylibre.com,
+	sboyd@kernel.org,
+	r.stratiienko@gmail.com,
+	linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] clk: sunxi-ng: h6: Fix default PLL GPU rate
+Date: Wed, 28 Sep 2022 22:01:22 +0200
+Message-Id: <20220928200122.3963509-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="PiLFU6KiWb8KPWLq"
-Content-Disposition: inline
-In-Reply-To: <YzFwst0GpdRBx/9l@aptenodytes>
+Content-Transfer-Encoding: 8bit
 
+In commit 4167ac8a657e ("clk: sunxi-ng: sun50i: h6: Modify GPU clock
+configuration to support DFS") divider M0 was forced to be 1 in order to
+support DFS. However, that left N as it is, at high value of 36. On
+boards without devfreq enabled (all of them in kernel 6.0), this
+effectively sets GPU frequency to 864 MHz. This is about 100 MHz above
+maximum supported frequency.
 
---PiLFU6KiWb8KPWLq
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In order to fix this, let's set N to 18 (register value 17). That way
+default frequency of 432 MHz is preserved.
 
-Hi,
+Fixes: 4167ac8a657e ("clk: sunxi-ng: sun50i: h6: Modify GPU clock configuration to support DFS")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/clk/sunxi-ng/ccu-sun50i-h6.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-On Mon 26 Sep 22, 11:28, Paul Kocialkowski wrote:
-> Hi Samuel,
->=20
-> On Fri 12 Aug 22, 17:19, Samuel Holland wrote:
-> > On 8/12/22 5:45 AM, Krzysztof Kozlowski wrote:
-> > > On 12/08/2022 10:55, Samuel Holland wrote:
-> > >> The sun6i DPHY can generate several interrupts, mostly for reporting
-> > >> error conditions, but also for detecting BTA and UPLS sequences.
-> > >> Document this capability in order to accurately describe the hardwar=
-e.
-> > >>
-> > >> The DPHY has no interrupt number provided in the vendor documentation
-> > >> because its interrupt line is shared with the DSI controller.
-> > >>
-> > >> Fixes: c25b84c00826 ("dt-bindings: display: Convert Allwinner DSI to=
- a schema")
-> > >=20
-> > > I don't understand what is being fixed in that commit. That commit did
-> > > not have interrupts in D-PHY, so what was broken by it?
-> > >=20
-> > > The Fixes tag annotates the commit which introduced a bug.
-> >=20
-> > The binding had a bug because it did not accurately describe the hardwa=
-re.
->=20
-> [...]
->=20
-> Coming back to this series, I don't really get the point of introducing t=
-he
-> interrupt in the bindings and the device-tree sources if the interrupt is=
- not
-> required for normal operation. I would just drop it.
->=20
-> I recall I was in the same situation for the MIPI CSI-2 controllers, whic=
-h also
-> have a dedicated interrupt but only useful for debugging/error reporting.
-> I was asked not to introduce it back then, so I suppose the same should a=
-pply.
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+index 30056da3e0af..42568c616181 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+@@ -1191,9 +1191,13 @@ static int sun50i_h6_ccu_probe(struct platform_device *pdev)
+ 	if (IS_ERR(reg))
+ 		return PTR_ERR(reg);
+ 
+-	/* Force PLL_GPU output divider bits to 0 */
++	/*
++	 * Force PLL_GPU output divider bits to 0 and adjust
++	 * multiplier to sensible default value of 432 MHz.
++	 */
+ 	val = readl(reg + SUN50I_H6_PLL_GPU_REG);
+-	val &= ~BIT(0);
++	val &= ~(GENMASK(15, 8) | BIT(0));
++	val |= 17 << 8;
+ 	writel(val, reg + SUN50I_H6_PLL_GPU_REG);
+ 
+ 	/* Force GPU_CLK divider bits to 0 */
+-- 
+2.37.3
 
-Coming back to this, my memories were wrong and the interrupt was in fact a=
-dded
-to the binding and the dt description.
-
-Nevermind my previous comment, I guess it does make sense to have it in the=
- dt
-hardware description even if the driver does not use it.
-
-Sorry for the noise,
-
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---PiLFU6KiWb8KPWLq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMyxAIACgkQ3cLmz3+f
-v9HwAgf/duJh5AF/wrOPWoxEDWSWSf/54+O5EtPf1cpHo1tW2RMzwVgVNSiFXlUW
-Wef8LOxHWLSYdC+Aq7EmPa8t/3PW0t3j2leA4FPIUY6LArocr2HUFzoh90ivZxJE
-r8VR1P1ZbubureBZQJwFhDflDqR67qnUwEM9be++4LcBUM0RWZzYKhD1YmR6GxbV
-OVn+VWkeDSdb3fK4Prmh3ogRivMorGs7GvyFM3QJFv+arKCDBSG9/NVmVIbzgr1k
-Xa+M/cWNMfxvSuyTltrI0kAeQPpqjEDnaL6unrG/le9MZsducKOSOyGOlxPDYHqm
-lu1MFlBQGEhhcv/hIQFmJhI2e8JkTA==
-=3Zbu
------END PGP SIGNATURE-----
-
---PiLFU6KiWb8KPWLq--
