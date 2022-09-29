@@ -1,52 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-54.freemail.mail.aliyun.com (out30-54.freemail.mail.aliyun.com [115.124.30.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D9557B
-	for <linux-sunxi@lists.linux.dev>; Wed, 28 Sep 2022 23:42:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E92FC433C1;
-	Wed, 28 Sep 2022 23:42:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1664408579;
-	bh=NaykREuRBBPpeJBtk+CLEf+97EYWNNqVH6121J8EZRU=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=icHtNeOeVcY5Yyr5KbjX9VLE0HNZ2i7DK6Dy+oxCiJ2djz0wE5TpZcuIY7aOjQ7Vi
-	 pMB8yuEn76VpWmpoLW7YVtZ7N0QW2GDGC4+cOCDRzn18/ndV4dSGPTHZhm+EggPPG/
-	 LYVjJVADbPIeoYq7MIhLaxMt0td+aiH2D/Wj61x05bdE8RMedtDf4cjVZiGNBSUrK7
-	 nEcmb9blSuNfrUsaX9lK07fzijbgvihR981s9uVPC9UfLQBb4ZKAWRWpVnqC0LIN8E
-	 Yns159I2ZDPy2qQrLrQcYI4kMFOJemittcoD7SmoPQVEGCDvHXR2siVjwDwvywypDa
-	 QWqmgZJDL9YFw==
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CAA10E8
+	for <linux-sunxi@lists.linux.dev>; Thu, 29 Sep 2022 05:55:43 +0000 (UTC)
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046060;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0VQyR3bJ_1664430004;
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0VQyR3bJ_1664430004)
+          by smtp.aliyun-inc.com;
+          Thu, 29 Sep 2022 13:40:05 +0800
+From: Yang Li <yang.lee@linux.alibaba.com>
+To: yong.deng@magewell.com
+Cc: mchehab@kernel.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Yang Li <yang.lee@linux.alibaba.com>,
+	Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH -next] media: sun6i-csi: Remove unnecessary print function dev_err()
+Date: Thu, 29 Sep 2022 13:40:03 +0800
+Message-Id: <20220929054003.37487-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220928200122.3963509-1-jernej.skrabec@gmail.com>
-References: <20220928200122.3963509-1-jernej.skrabec@gmail.com>
-Subject: Re: [PATCH] clk: sunxi-ng: h6: Fix default PLL GPU rate
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: mturquette@baylibre.com, r.stratiienko@gmail.com, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, samuel@sholland.org, wens@csie.org
-Date: Wed, 28 Sep 2022 16:42:56 -0700
-User-Agent: alot/0.10
-Message-Id: <20220928234259.9E92FC433C1@smtp.kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Quoting Jernej Skrabec (2022-09-28 13:01:22)
-> In commit 4167ac8a657e ("clk: sunxi-ng: sun50i: h6: Modify GPU clock
-> configuration to support DFS") divider M0 was forced to be 1 in order to
-> support DFS. However, that left N as it is, at high value of 36. On
-> boards without devfreq enabled (all of them in kernel 6.0), this
-> effectively sets GPU frequency to 864 MHz. This is about 100 MHz above
-> maximum supported frequency.
->=20
-> In order to fix this, let's set N to 18 (register value 17). That way
-> default frequency of 432 MHz is preserved.
->=20
-> Fixes: 4167ac8a657e ("clk: sunxi-ng: sun50i: h6: Modify GPU clock configu=
-ration to support DFS")
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
+The print function dev_err() is redundant because platform_get_irq()
+already prints an error.
 
-Applied to clk-fixes
+Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=2314
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+index 8b99c17e8403..9119f5e0e05e 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+@@ -913,7 +913,6 @@ static int sun6i_csi_resources_setup(struct sun6i_csi_device *csi_dev,
+ 
+ 	irq = platform_get_irq(platform_dev, 0);
+ 	if (irq < 0) {
+-		dev_err(dev, "failed to get interrupt\n");
+ 		ret = -ENXIO;
+ 		goto error_clock_rate_exclusive;
+ 	}
+-- 
+2.20.1.7.g153144c
+
