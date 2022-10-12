@@ -1,196 +1,94 @@
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
+Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7B128F4
-	for <linux-sunxi@lists.linux.dev>; Mon, 10 Oct 2022 12:11:44 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.west.internal (Postfix) with ESMTP id D0D1C2B05E7C;
-	Mon, 10 Oct 2022 08:11:39 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Mon, 10 Oct 2022 08:11:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1665403899; x=1665411099; bh=DyBqLlTati
-	P71v0xssFNP/ZJW4ZM9ga+yL599aLXAGs=; b=JHBNpla2tKyffYFyXKYvT37Nb6
-	n49ayggr3uMwlFYI6CsBtbAHTv60YvtehqJw2FvvfXI43IoEX2leHnUCwaw2pB/U
-	G/t5XfYE5EKBZQFZd9dj51IDaED/UKOcRd4YlYpc9XK51K6H7B2N3Og1/bpHJ7J+
-	VTrymxbhz7fmcMMo7gCS+CKKTYrv2J19G+T8fT+xlgf8UW31XMyQ2e13oQMGm3L8
-	yvyzi3e7f9ZNY2z/m1MkgJCpu0lyPoMClopLWrx9LmH0hMfCwk+tzIXXR0RbdhCG
-	iVyXkKwznsZyxeQcZjXgTiTb+zHmGvxDnQCaCoCr1taT9aX4PN6JSycmQ7rQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1665403899; x=1665411099; bh=DyBqLlTatiP71v0xssFNP/ZJW4ZM
-	9ga+yL599aLXAGs=; b=EWgIqPFfCd5tKKxSo/vFZa07QQpFj12IHOhsbZS4c1zo
-	gjW9xV7rpWeuLyEUuFXrnKzZJVwHie0MZoThjH4RqEkA9Fx/eG113evRQMxZNNSs
-	rrGX5HBbteM5HqefpX8SSd2yamYaJaN+ELhq9T/+UDtRTynkRowimbY1tJUmNziF
-	7SQ5VOhXYrzigolMvzludZXv69w8+HGBp1P1Jjf/N0lXljiE/Y1xAwyH7tkT9Osu
-	Hr/2tBRtgPNbvDeZcWiFZLUCP+rst6BA6mi5KEtxBCwWzEF54vWKNIFc+SL9CxJg
-	dK5ZHj4rKtvzJ19iL2uTUr0nEgLHH0tIjfHcFK4Bpg==
-X-ME-Sender: <xms:-wtEY5GMlkfAIihLh9XjV0WsIlOe72t7RcK6ya_j_w2dio0cPoc5nw>
-    <xme:-wtEY-U7BlkWtIg2Q56h0CKvYoPINkbR8aztvjvZRkm_3CHePezmvBnxY7shPujou
-    fmhs5z19RUT93ZaQf0>
-X-ME-Received: <xmr:-wtEY7KW80VsAHz3cs7kULZsIdCbpR4Etpx_g1pYM4tdjh__Y-0Zrc6v9plF>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejgedggeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
-    ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:-wtEY_GBFi9a_rc7g_YFxHOPZu_Oht3vx_VLNJqATdCxCwR1D_wcAg>
-    <xmx:-wtEY_Wdw0lk3LNhtDK7NVoTu5MGxddipjj1aJWJ16EVtQPVmB_Wxw>
-    <xmx:-wtEY6P79rzWTI3XcjQIsWH8Oe7LxU5NwRwsj1s6n0cNWMcUSXgCaA>
-    <xmx:-wtEY21b_rE1izp8uZhxbuu2qR7COe-Hg2eXi8Zd-drs10b1u4HXOj9HkCA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 10 Oct 2022 08:11:38 -0400 (EDT)
-Date: Mon, 10 Oct 2022 14:11:23 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-	Karol Herbst <kherbst@redhat.com>,	Samuel Holland <samuel@sholland.org>,
- Lyude Paul <lyude@redhat.com>,	Jani Nikula <jani.nikula@linux.intel.com>,
-	Daniel Vetter <daniel@ffwll.ch>,	Thomas Zimmermann <tzimmermann@suse.de>,
-	Emma Anholt <emma@anholt.net>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	linux-arm-kernel@lists.infradead.org,	dri-devel@lists.freedesktop.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	intel-gfx@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
-	Hans de Goede <hdegoede@redhat.com>, nouveau@lists.freedesktop.org,
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	linux-kernel@vger.kernel.org, Dom Cobley <dom@raspberrypi.com>,
-	Phil Elwell <phil@raspberrypi.com>
-Subject: Re: [PATCH v4 00/30] drm: Analog TV Improvements
-Message-ID: <20221010121123.sn6rxj3iwubn5tkc@houat>
-References: <20220728-rpi-analog-tv-properties-v4-0-60d38873f782@cerno.tech>
- <0db1c833-eeee-cadd-b050-837d79a3d691@tronnes.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C596D8F4F
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Oct 2022 05:56:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1665554179; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=WTV4I9AqtF8NEWKXiyfe37p9e+3uoQyKfYMMKC12oZwAqz4QMe1JsRy0FOu6vtNPkZZOx44lwIrjHLxj5Ft++yIKburl2OVO1e1Gfl66Iqdk79W7+QcsxShPpG3e7vSbUx8IITKC8jd69cc8e0offrgSAMPoQiOWjXJwYGLIAUs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1665554179; h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+	bh=KU9sLoTveoefxunUD/xdovaMeWXf7cwcD0GVI0joPoM=; 
+	b=b6n5b7nv2V1N5TSB4RwZK0omSrjLg+YImusPP3qRMMRygR1wb6J6JC4hb0aKS9iAi9CwS6g3H+CAMcUb707DHFxAIZzENW6shhWF7osZ1bLpQvAM3+h1XKSg1W0EqOaiC1pl+VWUlAwBbekhzptXkucPt54L3wTSDYDRd31Ecmo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1665554179;
+	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
+	bh=KU9sLoTveoefxunUD/xdovaMeWXf7cwcD0GVI0joPoM=;
+	b=I0EvLcljuAF5RCf6YxJRtkrDKcdbE147s35vorQxWDUg3pV+1dbVCelleqy6AOkf
+	f3LXbzBFjoena2/XcwRiiz/RBkuQAZhEA1JosuPLeduMBqm0QEg33YBxS7A9blXtzWf
+	RfZTwSpNaVmwBaIZHIELyvyQrPAb1p5pZ/+9I7DQ=
+Received: from edelgard.fodlan.icenowy.me (112.94.102.144 [112.94.102.144]) by mx.zohomail.com
+	with SMTPS id 1665554178267857.678933146887; Tue, 11 Oct 2022 22:56:18 -0700 (PDT)
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andre Przywara <andre.przywara@arm.com>
+Cc: soc@kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-phy@lists.infradead.org,
+	linux-usb@vger.kernel.org,
+	Icenowy Zheng <uwu@icenowy.me>
+Subject: [PATCH v2 00/10] SUNIV USB and PopStick support (and updating mailmap)
+Date: Wed, 12 Oct 2022 13:55:52 +0800
+Message-Id: <20221012055602.1544944-1-uwu@icenowy.me>
+X-Mailer: git-send-email 2.37.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dlolvdd7kvjkjbu5"
-Content-Disposition: inline
-In-Reply-To: <0db1c833-eeee-cadd-b050-837d79a3d691@tronnes.org>
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
+This patchset introduces support for F1C100s' USB and SourceParts
+PopStick board.
 
---dlolvdd7kvjkjbu5
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+As I switched to a new mail address, and this patchset contains patches
+authored before this change, a mailmap update is added.
 
-On Sat, Oct 01, 2022 at 03:12:06PM +0200, Noralf Tr=F8nnes wrote:
->=20
->=20
-> Den 29.09.2022 18.30, skrev Maxime Ripard:
-> > Hi,
-> >=20
-> > Here's a series aiming at improving the command line named modes suppor=
-t,
-> > and more importantly how we deal with all the analog TV variants.
-> >=20
-> > The named modes support were initially introduced to allow to specify t=
-he
-> > analog TV mode to be used.
-> >=20
-> > However, this was causing multiple issues:
-> >=20
-> >   * The mode name parsed on the command line was passed directly to the
-> >     driver, which had to figure out which mode it was suppose to match;
-> >=20
-> >   * Figuring that out wasn't really easy, since the video=3D argument o=
-r what
-> >     the userspace might not even have a name in the first place, but
-> >     instead could have passed a mode with the same timings;
-> >=20
-> >   * The fallback to matching on the timings was mostly working as long =
-as
-> >     we were supporting one 525 lines (most likely NSTC) and one 625 lin=
-es
-> >     (PAL), but couldn't differentiate between two modes with the same
-> >     timings (NTSC vs PAL-M vs NSTC-J for example);
-> >=20
-> >   * There was also some overlap with the tv mode property registered by
-> >     drm_mode_create_tv_properties(), but named modes weren't interacting
-> >     with that property at all.
-> >=20
-> >   * Even though that property was generic, its possible values were
-> >     specific to each drivers, which made some generic support difficult.
-> >=20
-> > Thus, I chose to tackle in multiple steps:
-> >=20
-> >   * A new TV mode property was introduced, with generic values, each dr=
-iver
-> >     reporting through a bitmask what standard it supports to the usersp=
-ace;
-> >=20
-> >   * This option was added to the command line parsing code to be able to
-> >     specify it on the kernel command line, and new atomic_check and res=
-et
-> >     helpers were created to integrate properly into atomic KMS;
-> >=20
-> >   * The named mode parsing code is now creating a proper display mode f=
-or
-> >     the given named mode, and the TV standard will thus be part of the
-> >     connector state;
-> >=20
-> >   * Two drivers were converted and tested for now (vc4 and sun4i), with
-> >     some backward compatibility code to translate the old TV mode to the
-> >     new TV mode;
-> >=20
-> > Unit tests were created along the way.
-> >=20
-> > One can switch from NTSC to PAL now using (on vc4)
-> >=20
-> > modetest -M vc4  -s 53:720x480i -w 53:'TV mode':1 # NTSC
-> > modetest -M vc4  -s 53:720x576i -w 53:'TV mode':4 # PAL
-> >=20
-> > Let me know what you think,
-> > Maxime
-> >=20
->=20
-> I suggest that you apply the patches that are reviewed, have merrit on
-> their own and are not tied to the TV mode property.
-> This will help in keeping this rather big patchset focused and ease the
-> task for reviewers.
->=20
-> The following seems to be in that group:
->=20
->   drm/tests: Order Kunit tests in Makefile
->   drm/atomic-helper: Rename drm_atomic_helper_connector_tv_reset to
-> avoid ambiguity
->   drm/connector: Rename subconnector state variable
->   drm/atomic: Add TV subconnector property to get/set_property
->   drm/modes: Only consider bpp and refresh before options
->   drm/modes: parse_cmdline: Add support for named modes containing dashes
->   drm/vc4: vec: Fix definition of PAL-M mode
+The DT binding and driver support for SUNIV USB PHY/MUSB are added, in
+addition to DT changes to the DTSI and Lichee Nano DT. A new DT is added
+for SourceParts PopStick v1.1 board.
 
-Yeah, that was my intention with this series, it's done now, thanks for the=
- reminder :)
+Icenowy Zheng (10):
+  mailmap: update Icenowy Zheng's mail address
+  dt-bindings: phy: add binding document for Allwinner F1C100s USB PHY
+  dt-bindings: usb: sunxi-musb: add F1C100s MUSB compatible string
+  phy: sun4i-usb: add support for the USB PHY on F1C100s SoC
+  musb: sunxi: add support for the F1C100s MUSB controller
+  ARM: suniv: add USB-related device nodes
+  ARM: suniv: f1c100s: enable USB on Lichee Pi Nano
+  dt-bindings: vendor-prefixes: add Source Parts
+  dt-binding: arm: sunxi: add compatible strings for PopStick v1.1
+  ARM: dts: suniv: add device tree for PopStick v1.1
 
-Maxime
+ .mailmap                                      |   3 +
+ .../devicetree/bindings/arm/sunxi.yaml        |   7 ++
+ .../phy/allwinner,suniv-f1c100s-usb-phy.yaml  |  83 ++++++++++++++
+ .../usb/allwinner,sun4i-a10-musb.yaml         |   1 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/arm/boot/dts/Makefile                    |   3 +-
+ .../boot/dts/suniv-f1c100s-licheepi-nano.dts  |  16 +++
+ arch/arm/boot/dts/suniv-f1c100s.dtsi          |  26 +++++
+ .../boot/dts/suniv-f1c200s-popstick-v1.1.dts  | 101 ++++++++++++++++++
+ drivers/phy/allwinner/phy-sun4i-usb.c         |  11 ++
+ drivers/usb/musb/sunxi.c                      |   8 +-
+ 11 files changed, 258 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/phy/allwinner,suniv-f1c100s-usb-phy.yaml
+ create mode 100644 arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
 
---dlolvdd7kvjkjbu5
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.37.1
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY0QL6wAKCRDj7w1vZxhR
-xRDnAQCxLDoVhFPZlORYkrlxoTezGu1S3AQmL4/t11gdtxozgQD/WRdupXy8iNif
-MB/QIxtk3f/Wt+CP26Ii1CnsJaRGqA0=
-=1Yvq
------END PGP SIGNATURE-----
-
---dlolvdd7kvjkjbu5--
