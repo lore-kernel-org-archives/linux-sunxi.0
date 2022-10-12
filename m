@@ -1,91 +1,65 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDC117CF
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Oct 2022 13:11:52 +0000 (UTC)
-Received: by mail-qt1-f169.google.com with SMTP id s3so1793982qtn.12
-        for <linux-sunxi@lists.linux.dev>; Wed, 12 Oct 2022 06:11:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=j9+Qzqxt7KgFYl9VgYt697oSnxHcZquHPbAgGS8SmaM=;
-        b=i5KopcYd0S5y0FTk8nOqwzf8ktlLqOldknYkrP3HNP4L0gxn1qLfp6zc1VSeil/a4c
-         Dj0ATrsfm2XpDxT4RPnP6LLHYrTKzEFncU4SilZIDae2qND+yB5sr1H6kAqJk82ULgD7
-         h/ZBZChFmXrw8+k5PsL9z2X+3tA+9BBa1+Nc0xhhqYaKhEOooV4SLrUtEwL6i1XFt5fD
-         Cj2TPfB3FhW6GNAL96hHNz8TnskC+0EZg49cZmc1+TJcMX2Nu28bCfC7AgpoCbRp6AiU
-         WlAgrkbuIfVXvZZp1CcJQcvRy8rlxZnGXkvep55efNGEmTX4K9VAcac+tPLjiFuZPVLB
-         7gNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=j9+Qzqxt7KgFYl9VgYt697oSnxHcZquHPbAgGS8SmaM=;
-        b=PbrM6F8/Wn3jLiIqsM4zu9WNMpZJBsadLMYg1TGHVUcfnOo9mBSyyESGdM6ApsWhId
-         Yf8kFjIwmSV4TWepNw78ibKne0uKlIAH6oHJhGtvqEXyWrKhZkB0Gja/o3FoI2JQbvl0
-         JqVnLg2giB1mWbMaLTgsGOewa8C9HMgtXb64RXy4a0qZBTs0bu1FyNTrd07AktAxQB4h
-         lQe89ZMlROp8NuWLirUx/ZGxwKUs49PqksIc2iR+bE0EvPHrT53qC5LZwvo1rKl0/RaY
-         bRd2JAEATFYsb1cV+LdyPM4vWXWowlPSTBZn6FogUne8ajPBAzAl81jvy3zW9c+Bf+KD
-         7ryQ==
-X-Gm-Message-State: ACrzQf01wAkyvmHywCcZLlnl/TafDUlWTAH0ey8dWDIUlOpuAz6wgvUA
-	UNTHVTF0YOCvvnZ0Ov1UXzQtZA==
-X-Google-Smtp-Source: AMsMyM4DfJC9ae7XyPW6fznrM10FQvK0VWx3DRthKZeCyYFIdrTbENb97n54jeRF57xiaUxKMbK7vw==
-X-Received: by 2002:a05:622a:3ce:b0:39c:c112:3c03 with SMTP id k14-20020a05622a03ce00b0039cc1123c03mr1737435qtx.575.1665580311970;
-        Wed, 12 Oct 2022 06:11:51 -0700 (PDT)
-Received: from [192.168.1.57] (cpe-72-225-192-120.nyc.res.rr.com. [72.225.192.120])
-        by smtp.gmail.com with ESMTPSA id 126-20020a370684000000b006ec5238eb97sm11062076qkg.83.2022.10.12.06.11.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Oct 2022 06:11:51 -0700 (PDT)
-Message-ID: <d483a82a-851c-6907-995d-a59638854fe7@linaro.org>
-Date: Wed, 12 Oct 2022 09:11:49 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BBB0256E
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Oct 2022 16:26:22 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AF97F165C;
+	Wed, 12 Oct 2022 09:26:21 -0700 (PDT)
+Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 983573F766;
+	Wed, 12 Oct 2022 09:26:14 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Cc: u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Subject: [PATCH] sunxi: defconfig: Add X96 Mate TV box
+Date: Wed, 12 Oct 2022 17:26:10 +0100
+Message-Id: <20221012162610.1968666-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH v2 07/10] ARM: suniv: f1c100s: enable USB on Lichee Pi
- Nano
-Content-Language: en-US
-To: Icenowy Zheng <uwu@icenowy.me>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andre Przywara <andre.przywara@arm.com>
-Cc: soc@kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-phy@lists.infradead.org, linux-usb@vger.kernel.org
-References: <20221012055602.1544944-1-uwu@icenowy.me>
- <20221012055602.1544944-8-uwu@icenowy.me>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221012055602.1544944-8-uwu@icenowy.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 12/10/2022 01:55, Icenowy Zheng wrote:
-> Lichee Pi Nano has a Micro-USB connector, with its D+, D- pins connected
-> to the USB pins of the SoC and ID pin connected to PE2 GPIO.
-> 
-> Enable the USB functionality.
+The X96 Mate TV box is a TV box with the Allwinner H616 SoC. It is
+available with up to 4GB of DRAM and 64GB eMMC.
+The DRAM chips require a different configuration when compared to the
+OrangePi Zero2, we must not use read/write training and write leveling.
 
-Use subject prefixes matching the subsystem (git log --oneline -- ...).
+Add a defconfig for the box, so that we can easily build U-Boot for it.
+We synced the .dts file already from the kernel tree.
 
-This is a DTS change.
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ configs/x96_mate_defconfig | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+ create mode 100644 configs/x96_mate_defconfig
 
-> 
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> ---
-> No changes since v1.
-> 
->  .../arm/boot/dts/suniv-f1c100s-licheepi-nano.dts | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-
-Best regards,
-Krzysztof
+diff --git a/configs/x96_mate_defconfig b/configs/x96_mate_defconfig
+new file mode 100644
+index 00000000000..4276f4f543b
+--- /dev/null
++++ b/configs/x96_mate_defconfig
+@@ -0,0 +1,15 @@
++CONFIG_ARM=y
++CONFIG_ARCH_SUNXI=y
++CONFIG_DEFAULT_DEVICE_TREE="sun50i-h616-x96-mate"
++CONFIG_SPL=y
++CONFIG_DRAM_SUN50I_H616_READ_CALIBRATION=y
++CONFIG_MACH_SUN50I_H616=y
++CONFIG_MMC0_CD_PIN="PF6"
++CONFIG_R_I2C_ENABLE=y
++# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
++CONFIG_SPL_I2C=y
++CONFIG_SPL_SYS_I2C_LEGACY=y
++CONFIG_SYS_I2C_MVTWSI=y
++CONFIG_SYS_I2C_SLAVE=0x7f
++CONFIG_SYS_I2C_SPEED=400000
++CONFIG_SUPPORT_EMMC_BOOT=y
+-- 
+2.25.1
 
