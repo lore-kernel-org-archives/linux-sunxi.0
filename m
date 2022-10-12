@@ -1,199 +1,97 @@
-Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D499917CA
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Oct 2022 05:57:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1665554262; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=atvxzaSC6LFGcRfJpsJMIxtZIt352jx03gJSKk9uG2bkcg77Y15gkiUasLg3zDhLReHbGEjnx3tJ2gkVMUb3aK7fyFOk6f5pWP0PjglEZcMHnXpc8g3weSsl8It/gmsCOF/SoFoUsKAy8Jv6bkLp9jxZB+M2JOEP+t8kMvODrMk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1665554262; h=Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=UaXtIwhiAd0KbivjBK2cgrEAbkI3s44C7vM8EyFF4v0=; 
-	b=L6Lud2AdEMM5tJTi0UUUFx1GxiYaGqtDGvSfxIof0tDU+nBc3J11SgE1BeFJWySk25dxe0Luhy/MpsioQaqeTtXrpAL/E3ejaLqzRvo5h2+DPe2maA9043VnkaIONCT7dS1Tx+DtxTco4HTvzqUBOlOwwxBp/PUYzefz1NItZug=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1665554262;
-	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Reply-To;
-	bh=UaXtIwhiAd0KbivjBK2cgrEAbkI3s44C7vM8EyFF4v0=;
-	b=hq5MQdXicXEsg+vm/uyU/1/Dn97R6FibHgNnj8zV92K4aKrpJK0iyObxJ+qLhApu
-	FtnxRSOc/uhim8UcT0Y3n078oC9JCn6qmecZx+NY0ivRckdEyTAFgMfoGoQmtXHEB1s
-	4X0J6n/Tr5Fgu4XjuDCktzCDKTT7RWyLWPbtfgTQ=
-Received: from edelgard.fodlan.icenowy.me (112.94.102.144 [112.94.102.144]) by mx.zohomail.com
-	with SMTPS id 1665554261224772.6070403474648; Tue, 11 Oct 2022 22:57:41 -0700 (PDT)
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andre Przywara <andre.przywara@arm.com>
-Cc: soc@kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-phy@lists.infradead.org,
-	linux-usb@vger.kernel.org,
-	Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH v2 10/10] ARM: dts: suniv: add device tree for PopStick v1.1
-Date: Wed, 12 Oct 2022 13:56:02 +0800
-Message-Id: <20221012055602.1544944-11-uwu@icenowy.me>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20221012055602.1544944-1-uwu@icenowy.me>
-References: <20221012055602.1544944-1-uwu@icenowy.me>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942088F61
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Oct 2022 08:32:29 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id E4D293200ADD;
+	Wed, 12 Oct 2022 04:32:27 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute3.internal (MEProxy); Wed, 12 Oct 2022 04:32:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1665563547; x=1665649947; bh=drXjAnf5EG
+	6LY0d4rMqtLwe0Q0qL+1NyMM0xSAeom8o=; b=kvJMB0HKsf3T3tnF246Uu0lBHE
+	H5IxuchGk+SXM+cfd/bySjSbJZs9MezJPl/fUeyJID4HJnwUCK3rWOCSjabi3Jsx
+	42SqO07dJ/dpkHQPqpfM1ErVkE/WvTkB6C94v0uAgCSBI38PsGcpLtBjZBozWJJS
+	WqL9I8qAEUXnvsXAnKzvlsJX9BOdThWd5F9R/ISsWgutlnYG3HPjGRyUwjvUSTCm
+	K/bglNEfdJSKVoE82TNxrTptEDCEVh8hdEoXdNHZwUyVPKxdRUxdbKXigfIhE0ma
+	408PwV+rDTsc0Vy1hKf8arqh8Ey9i3VrOunCiZzd6x2ldwWWY5W8xdgvbz+w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1665563547; x=1665649947; bh=drXjAnf5EG6LY0d4rMqtLwe0Q0qL
+	+1NyMM0xSAeom8o=; b=VbWX1YJ1vJxQ7Vl4OkXAnG94vCvudl/0SQGVEcRxBN2F
+	6a1isiyHEYlQ6d8EwOpJOWkKYjGKeWE4l7rrqIWesJDuPKQa+Aj4y0p/JsTef9Y8
+	muu+cTLCM04OA/B3cnHdV/DWzX6l64HlwheLqg/TCu/MLSVFN33jBjgjFCA0w1aC
+	9fVunCz4SVEhHxpHjLZurj1qWw80dN6q4l2a9fIfnk+lEWg6ByFhk318uGSGuCYQ
+	tWGZpF54HXQ1OYsR4/kOwbY+kuek4wV7+COiMELxczUL6eS/hk4PpDWVJezrEtJl
+	fMMk3B0x4e3ujf+U+ahoYUUOuAV7l9gaXPuuA2iGNA==
+X-ME-Sender: <xms:mntGY397JwN9UJtXR7rce5mX1q2K94oRw56NbOOb3ULnQEo7IYtjbQ>
+    <xme:mntGYzvLzRPy0Nq4soBbNWdktCppbu0EjcuK5q3QM8q5Dc9LN1ZlzM9_0b8C30iZC
+    HW2VrLjDkZs7MaFa9E>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejkedgtdehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepvefhffeltdegheeffffhtdegvdehjedtgfekueevgfduffettedtkeekueef
+    hedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:mntGY1Di-s4erkgfLTBZzFQM0wZ62J7JEhi5y2i6phuNL2VJjtSryw>
+    <xmx:mntGYzeoyc5jOjJu0VUYYNtSZ1m8gUXHuUUwm_CPBtnYOBjAxkkXQw>
+    <xmx:mntGY8PN9Tm5EZHYCK06K4rFExmFvoiJcj-aT5J0rUfpB0lcJjxXVQ>
+    <xmx:m3tGY4mATT-vASwsyhylUrfNYRngSDvk23n0imsjp7-fLYT-aHO4Pw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id CBF50B60086; Wed, 12 Oct 2022 04:32:26 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1047-g9e4af4ada4-fm-20221005.001-g9e4af4ad
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Mime-Version: 1.0
+Message-Id: <60a2cb70-bde4-4423-9a54-7abc1ba466f8@app.fastmail.com>
+In-Reply-To: <20221012055602.1544944-2-uwu@icenowy.me>
+References: <20221012055602.1544944-1-uwu@icenowy.me>
+ <20221012055602.1544944-2-uwu@icenowy.me>
+Date: Wed, 12 Oct 2022 10:31:00 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Icenowy Zheng" <uwu@icenowy.me>, "Rob Herring" <robh+dt@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+ "Chen-Yu Tsai" <wens@csie.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Samuel Holland" <samuel@sholland.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Andre Przywara" <andre.przywara@arm.com>
+Cc: soc@kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-phy@lists.infradead.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 01/10] mailmap: update Icenowy Zheng's mail address
+Content-Type: text/plain
 
-PopStick is a minimal Allwinner F1C200s dongle, with its USB controller
-wired to a USB Type-A port, a SD slot and a SPI NAND flash on board, and
-an on-board CH340 USB-UART converted connected to F1C200s's UART0.
+On Wed, Oct 12, 2022, at 7:55 AM, Icenowy Zheng wrote:
+> Due to the SMTP provider adopted by AOSC applied some more restricted
+> rate limit that is not suitable for sending kernel patches, I switched
+> to a mailbox hosted on my own domain name now. In addition, there's a
+> single commit that is pushed to the mainline kernel tree during my
+> internship at Sipeed the last year.
+>
+> Map two AOSC mail addresses (both aosc.io and aosc.xyz domain names) and
+> a defunct Sipeed mail address to the new mail address.
+>
+> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 
-Add a device tree for it. As F1C200s is just F1C100s with a different
-DRAM chip co-packaged, directly use F1C100s DTSI here.
+I don't see a patch for updating the MAINTAINERS file here, if you
+haven't already sent that another way, you should probably change
+both at the same time.
 
-This commit covers the v1.1 version of this board, which is now shipped.
-v1.0 is some internal sample that have not been shipped at all.
+As a driver maintainer, you can also apply for a kernel.org account
+[https://korg.docs.kernel.org/accounts.html] and use that for
+sending patches and forwarding to another address.
 
-Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
----
-New patch introduced in v2.
-
- arch/arm/boot/dts/Makefile                    |   3 +-
- .../boot/dts/suniv-f1c200s-popstick-v1.1.dts  | 101 ++++++++++++++++++
- 2 files changed, 103 insertions(+), 1 deletion(-)
- create mode 100644 arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
-
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 6aa7dc4db2fc..0249c07bd8a6 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1391,7 +1391,8 @@ dtb-$(CONFIG_MACH_SUN9I) += \
- 	sun9i-a80-optimus.dtb \
- 	sun9i-a80-cubieboard4.dtb
- dtb-$(CONFIG_MACH_SUNIV) += \
--	suniv-f1c100s-licheepi-nano.dtb
-+	suniv-f1c100s-licheepi-nano.dtb \
-+	suniv-f1c200s-popstick-v1.1.dtb
- dtb-$(CONFIG_ARCH_TEGRA_2x_SOC) += \
- 	tegra20-acer-a500-picasso.dtb \
- 	tegra20-asus-tf101.dtb \
-diff --git a/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts b/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
-new file mode 100644
-index 000000000000..121dfc6f609d
---- /dev/null
-+++ b/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
-@@ -0,0 +1,101 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright 2022 Icenowy Zheng <uwu@icenowy.me>
-+ */
-+
-+/dts-v1/;
-+#include "suniv-f1c100s.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/leds/common.h>
-+
-+/ {
-+	model = "Popcorn Computer PopStick v1.1";
-+	compatible = "sourceparts,popstick-v1.1", "sourceparts,popstick",
-+		     "allwinner,suniv-f1c200s", "allwinner,suniv-f1c100s";
-+
-+	aliases {
-+		mmc0 = &mmc0;
-+		serial0 = &uart0;
-+		spi0 = &spi0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led {
-+			function = LED_FUNCTION_STATUS;
-+			color = <LED_COLOR_ID_GREEN>;
-+			gpios = <&pio 4 6 GPIO_ACTIVE_HIGH>; /* PE6 */
-+			linux,default-trigger = "heartbeat";
-+		};
-+	};
-+
-+	reg_vcc3v3: vcc3v3 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+	};
-+};
-+
-+&mmc0 {
-+	cd-gpios = <&pio 4 3 GPIO_ACTIVE_LOW>; /* PE3 */
-+	bus-width = <4>;
-+	disable-wp;
-+	status = "okay";
-+	vmmc-supply = <&reg_vcc3v3>;
-+};
-+
-+&spi0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&spi0_pc_pins>;
-+	status = "okay";
-+
-+	flash@0 {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		compatible = "spi-nand";
-+		reg = <0>;
-+		spi-max-frequency = <40000000>;
-+
-+		partitions {
-+			compatible = "fixed-partitions";
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+
-+			partition@0 {
-+				label = "u-boot-with-spl";
-+				reg = <0x0 0x100000>;
-+			};
-+
-+			ubi@100000 {
-+				label = "ubi";
-+				reg = <0x100000 0x7f00000>;
-+			};
-+		};
-+	};
-+};
-+
-+&otg_sram {
-+	status = "okay";
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_pe_pins>;
-+	status = "okay";
-+};
-+
-+&usb_otg {
-+	dr_mode = "peripheral";
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	status = "okay";
-+};
--- 
-2.37.1
-
+     Arnd
