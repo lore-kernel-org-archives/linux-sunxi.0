@@ -1,51 +1,51 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9D9321E
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Oct 2022 21:24:08 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id w18so14203648ejq.11
-        for <linux-sunxi@lists.linux.dev>; Wed, 12 Oct 2022 14:24:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909336126
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Oct 2022 21:28:25 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id q9so68933ejd.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 12 Oct 2022 14:28:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AeJANbhYyBwy4ZbmnuIiUtzQb03C3ow/09NmLLrUl6A=;
-        b=JPL4aQt1cmlonH9wzqkdGwGX4yiWzBYuoNUgmryEg9d/JOfQlDrmkcICVOC/33yqcl
-         s0mTrzMYEWAgpf0uUa7YeZFD7CZ68ey2ehAGfeag4Z2kxjakghVUyBtUToFJmxKe+1wG
-         yJTCP2EuO/e6a8snlf+yd6pfpqoYRtMGSRyL3dmp7H0rzxos9JYoRmle2O3h9lHUA/DC
-         +K7hxS8Pn4f3tUSLLAPFIUxmVCpr/sSqr25uP6x3TlKVAwyzLB+POxUi2ZY8CECqmyKi
-         2HKXnaZIbOLLDoX2ntROXy4GRbnHUyek0QBvzOilU9uZ2dpSccEDOhCzPMmlsvSxPiLM
-         9ysg==
+        bh=I8fBRpP3hmDFPN53n4iXfam4Dmp+wv1KkApBTIXMFz8=;
+        b=gz9uQcUyTze+E+zoPDXg4B4g3xXceyUfhHvDQ7DTgYFp1GytBqGlHxo+GuV0DtwpJb
+         i+5wcxvvqpLTHDkarbZwQAyKVZpBDmQAIEUSPLseMbT3VOAWqi5Uy6oHE5DwI7uF4lsl
+         2fKpZT8nqB1vyir2h6cS9jjeEvF4oiSti1AETDDRWldZbjN3xXKREX93WfLFv2xOEEa/
+         QtUet/ZiZwyGwfqpfyJNEUh7YwIxkyOJA/DKu7dTZdGJAh04t35k5CwCGwyCTaDLGFd/
+         8dSv+mMrRcsat2nsNW3rci7l6BIsQdahvsDpWPR27EVA8mqVed6GYAdsMyhSXvzH9hCG
+         CvnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AeJANbhYyBwy4ZbmnuIiUtzQb03C3ow/09NmLLrUl6A=;
-        b=zQfMV4uvoPXNU21Xd1LpotPhKSbyp3DXMqvjho4n1EyQb6q+mp3QM8DMEUDqRHm7XC
-         //uHUZkb03lYPbeaZi9bTETXOz8nh8mqwDGcg1pXGYJ09MccOZlxnXvU70wmcQQPcISE
-         shK4hLs4CuJ2gH4r/mf9QDXR0hMtLHwy/1EqyDQ2cxbOlFS3vFfUDGJBGsCZB9G1FhQR
-         lMpwO0xjeebEe+XlKCLT3DHTxwH9691JNlluZXxVCEWduicRy+7XgL75echpl0eo1k/D
-         B+a1znlc4pNwwY3LT1oF2mtzbnJs70q4BAaezPITdyxL+noruP6dtmXLinFPWdhqkR7E
-         S0eQ==
-X-Gm-Message-State: ACrzQf3CYqpsmyLwoQ9GdX5Bj97I6YylujrtNaER1OWVYb2OThJG0QlB
-	apdrM3tP1T+xKy1oKAIQg0k=
-X-Google-Smtp-Source: AMsMyM7BxsquvcB3WVD34NXGQwFZsJW43aw77Eq7EcPTf+1OXMK4gIIlb5g5xCn3wdhAQzLGAw7V7w==
-X-Received: by 2002:a17:907:8688:b0:78b:eaa5:8a9d with SMTP id qa8-20020a170907868800b0078beaa58a9dmr24591147ejc.509.1665609846821;
-        Wed, 12 Oct 2022 14:24:06 -0700 (PDT)
+        bh=I8fBRpP3hmDFPN53n4iXfam4Dmp+wv1KkApBTIXMFz8=;
+        b=j5uvPholR52x14xwt5n+SfGwDkfH94TQFu4XDq5H31atYotJy4EAwXExULvSnYEpcY
+         STeibUkbh7csBe2+uKbb7/BR7hl3eKSb7yWi81nok8bmMo5oOMuI4hVMiowukAEjboEJ
+         ZebIMbkomj15yGwUwYc7ay6rS5ai3sqAmrA0jvO3QKW1GbYluKreS1Fx1RLEl7YpUhfx
+         3iqVIXm2/3Rm8fazch3/nosk8tIgP1SbLQrKOGeCqVM0Ptp8Qafni1JFi870NJDIlfAX
+         JOzgRygT1z/htnSAOZd24vD7pJdJgbS33U2E7odxDhfx1Bhnn9NaIiZ2e+dG8lihSBZb
+         E2NQ==
+X-Gm-Message-State: ACrzQf0qrMUIZuZEraNzSzefKCCeMVkhZE6ttjvxumeNYxCmV/m7+xUW
+	Urj7ilwXIOt9TT2wwfelQ0g=
+X-Google-Smtp-Source: AMsMyM7T57tlAXs8lZ8iAZ/tGPxerp7/euHUaub2p9ONCcS167g4u3dXzSDmOXZFRgdijYtq3qm9Lw==
+X-Received: by 2002:a17:907:7b95:b0:731:113a:d7a2 with SMTP id ne21-20020a1709077b9500b00731113ad7a2mr23326617ejc.377.1665610103866;
+        Wed, 12 Oct 2022 14:28:23 -0700 (PDT)
 Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id kw24-20020a170907771800b0073d87068042sm1807772ejc.110.2022.10.12.14.24.05
+        by smtp.gmail.com with ESMTPSA id gr24-20020a170906e2d800b007815c3e95f6sm1886716ejb.146.2022.10.12.14.28.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Oct 2022 14:24:06 -0700 (PDT)
+        Wed, 12 Oct 2022 14:28:23 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andre Przywara <andre.przywara@arm.com>, Icenowy Zheng <uwu@icenowy.me>
-Cc: soc@kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org, linux-usb@vger.kernel.org, Icenowy Zheng <uwu@icenowy.me>
-Subject: Re: [PATCH v2 05/10] musb: sunxi: add support for the F1C100s MUSB controller
-Date: Wed, 12 Oct 2022 23:24:04 +0200
-Message-ID: <3515217.R56niFO833@kista>
-In-Reply-To: <20221012055602.1544944-6-uwu@icenowy.me>
-References: <20221012055602.1544944-1-uwu@icenowy.me> <20221012055602.1544944-6-uwu@icenowy.me>
+To: Jagan Teki <jagan@amarulasolutions.com>, Andre Przywara <andre.przywara@arm.com>
+Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev, Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH] sunxi: defconfig: Add X96 Mate TV box
+Date: Wed, 12 Oct 2022 23:28:22 +0200
+Message-ID: <1803881.atdPhlSkOF@kista>
+In-Reply-To: <20221012162610.1968666-1-andre.przywara@arm.com>
+References: <20221012162610.1968666-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -55,61 +55,51 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi Icenowy,
+Hi Andre,
 
-Dne sreda, 12. oktober 2022 ob 07:55:57 CEST je Icenowy Zheng napisal(a):
-> The suniv SoC has a MUSB controller like the one in A33, but with a SRAM
-> region to be claimed.
+Dne sreda, 12. oktober 2022 ob 18:26:10 CEST je Andre Przywara napisal(a):
+> The X96 Mate TV box is a TV box with the Allwinner H616 SoC. It is
+> available with up to 4GB of DRAM and 64GB eMMC.
+> The DRAM chips require a different configuration when compared to the
+> OrangePi Zero2, we must not use read/write training and write leveling.
 > 
-> Add support for it.
+> Add a defconfig for the box, so that we can easily build U-Boot for it.
+> We synced the .dts file already from the kernel tree.
 > 
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> ---
-> No changes since v1.
-> 
->  drivers/usb/musb/sunxi.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
-> index 7f9a999cd5ff..4b368d16a73a 100644
-> --- a/drivers/usb/musb/sunxi.c
-> +++ b/drivers/usb/musb/sunxi.c
-> @@ -722,14 +722,17 @@ static int sunxi_musb_probe(struct platform_device
-> *pdev) INIT_WORK(&glue->work, sunxi_musb_work);
->  	glue->host_nb.notifier_call = sunxi_musb_host_notifier;
-> 
-> -	if (of_device_is_compatible(np, "allwinner,sun4i-a10-musb"))
-> +	if (of_device_is_compatible(np, "allwinner,sun4i-a10-musb") ||
-> +	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
->  		set_bit(SUNXI_MUSB_FL_HAS_SRAM, &glue->flags);
-> +	}
-> 
->  	if (of_device_is_compatible(np, "allwinner,sun6i-a31-musb"))
->  		set_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags);
-> 
->  	if (of_device_is_compatible(np, "allwinner,sun8i-a33-musb") ||
-> -	    of_device_is_compatible(np, "allwinner,sun8i-h3-musb")) {
-> +	    of_device_is_compatible(np, "allwinner,sun8i-h3-musb") ||
-> +	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-All that should be eventually converted to quirks. But for now:
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
->  		set_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags);
->  		set_bit(SUNXI_MUSB_FL_NO_CONFIGDATA, &glue->flags);
->  	}
-> @@ -815,6 +818,7 @@ static const struct of_device_id sunxi_musb_match[] = {
->  	{ .compatible = "allwinner,sun6i-a31-musb", },
->  	{ .compatible = "allwinner,sun8i-a33-musb", },
->  	{ .compatible = "allwinner,sun8i-h3-musb", },
-> +	{ .compatible = "allwinner,suniv-f1c100s-musb", },
->  	{}
->  };
->  MODULE_DEVICE_TABLE(of, sunxi_musb_match);
+> ---
+>  configs/x96_mate_defconfig | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+>  create mode 100644 configs/x96_mate_defconfig
+> 
+> diff --git a/configs/x96_mate_defconfig b/configs/x96_mate_defconfig
+> new file mode 100644
+> index 00000000000..4276f4f543b
+> --- /dev/null
+> +++ b/configs/x96_mate_defconfig
+> @@ -0,0 +1,15 @@
+> +CONFIG_ARM=y
+> +CONFIG_ARCH_SUNXI=y
+> +CONFIG_DEFAULT_DEVICE_TREE="sun50i-h616-x96-mate"
+> +CONFIG_SPL=y
+> +CONFIG_DRAM_SUN50I_H616_READ_CALIBRATION=y
+> +CONFIG_MACH_SUN50I_H616=y
+> +CONFIG_MMC0_CD_PIN="PF6"
+> +CONFIG_R_I2C_ENABLE=y
+> +# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> +CONFIG_SPL_I2C=y
+> +CONFIG_SPL_SYS_I2C_LEGACY=y
+> +CONFIG_SYS_I2C_MVTWSI=y
+> +CONFIG_SYS_I2C_SLAVE=0x7f
+> +CONFIG_SYS_I2C_SPEED=400000
+> +CONFIG_SUPPORT_EMMC_BOOT=y
 > --
-> 2.37.1
+> 2.25.1
 
 
