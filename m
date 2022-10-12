@@ -1,28 +1,28 @@
 Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D069417CA
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Oct 2022 05:57:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1665554228; cv=none; 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE8417CA
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Oct 2022 05:57:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1665554236; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=Sh0fN5seShmABWmmPhLfq6HOJSM1Jbgjj9JIy+dUiN2MEFJw7jG9CQVV9yVo9HnB6JbVW6K/w3ciBvRtGUVVTIoLapCmemcMmEbzqVel4HYpDIBI9BNHVirdW2iVIQvDGQsNrBRx6uXquk+AcOHUcVcLx/JBGl8NH/AI2bJFOR0=
+	b=fHZjzfmamhzrEnIDA9zpP0ppKM0+OaQXHewct/+lOmhAHZoZ79l7hEpaEboNs1bezjqa0dB7Axx/ImS+mXq8XXIWo9UWk2tAW0kAqxx4yOOtZplU56aKZCTGxbq21J9iQRXHXjEAmGOX69Fhx4xLzzGhFNOy1R2XXE/ITLY+kSI=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1665554228; h=Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=ViIK05Q+GfR4lkwmGAJ30lw+1V3VdsMiq3fDv32+df0=; 
-	b=B9K71C7R5hKmW8ybqfb+0e1oVjNEYPAJ2kiYt6Dg+rzH6+j0bXa34Y9E04usjSNMgIybnC8rlW26Jpmmb3D6MdtQ4xkaiTZfMk342ZIT+jAtGT+MocXHGoEifXQTO0q9GXwwPwiawjRLvUcXefTQBwpOEMk8mFFrL/PUF595HJs=
+	t=1665554236; h=Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=4dCk0OX6Iak7UTI77SNseqMA7iIhg+6t2NIsg5fBNN0=; 
+	b=GyLE0D7xHAgrE3JS/2oHy4cQyPjIOmEPxb3fXASraWTkq1C8BLDm6HtJE814JVjeQfLr5ttL5byUIPUo3c1UpI+HZdD++ydEcv1PKBv/7ANGj/LhIkBERcVE66xRIWGAbwjHT/ZcIciUBL1j7uEv8iZHGnSQmuiqOoU4/WJyL2I=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=icenowy.me;
 	spf=pass  smtp.mailfrom=uwu@icenowy.me;
 	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1665554228;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1665554236;
 	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Reply-To;
-	bh=ViIK05Q+GfR4lkwmGAJ30lw+1V3VdsMiq3fDv32+df0=;
-	b=PF0YG3n+Ilr0rEfoGwZl5t9ipBb0b+GYB/dv6guINw3aknqFOySWzPImgD8FuK8b
-	o9DxMdygBwsiI4RYNHMTFaSXqQaL3SnjB2Yg/Vdbp9k5BE4Ooa+anX5G7aTLlQKocD7
-	zXgzRkeQYW8ofzYZzQ6+UFeD/2rnuuNqNZja1Ivw=
+	bh=4dCk0OX6Iak7UTI77SNseqMA7iIhg+6t2NIsg5fBNN0=;
+	b=RHmjJBkN/G1HYnAdzGWni3NlRgmZvZVMXXMjqESaQy+Jau64ZRRilUpptM6+DCqE
+	ry97za2dB7xE1mXgi60wHhwECyWM6YRfmT5m2apRwpBMjSWGfsH2kFJaWHSi77GP/dU
+	+0Ta4PNDUwq2CRoA3GSJYMtmLKd2VomgdHGX/rJw=
 Received: from edelgard.fodlan.icenowy.me (112.94.102.144 [112.94.102.144]) by mx.zohomail.com
-	with SMTPS id 1665554226549388.7219000626267; Tue, 11 Oct 2022 22:57:06 -0700 (PDT)
+	with SMTPS id 1665554235117218.30983413595652; Tue, 11 Oct 2022 22:57:15 -0700 (PDT)
 From: Icenowy Zheng <uwu@icenowy.me>
 To: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -39,9 +39,9 @@ Cc: soc@kernel.org,
 	linux-phy@lists.infradead.org,
 	linux-usb@vger.kernel.org,
 	Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH v2 06/10] ARM: suniv: add USB-related device nodes
-Date: Wed, 12 Oct 2022 13:55:58 +0800
-Message-Id: <20221012055602.1544944-7-uwu@icenowy.me>
+Subject: [PATCH v2 07/10] ARM: suniv: f1c100s: enable USB on Lichee Pi Nano
+Date: Wed, 12 Oct 2022 13:55:59 +0800
+Message-Id: <20221012055602.1544944-8-uwu@icenowy.me>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20221012055602.1544944-1-uwu@icenowy.me>
 References: <20221012055602.1544944-1-uwu@icenowy.me>
@@ -54,55 +54,54 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-The suniv SoC has a USB OTG controller and a USB PHY like other
-Allwinner SoCs.
+Lichee Pi Nano has a Micro-USB connector, with its D+, D- pins connected
+to the USB pins of the SoC and ID pin connected to PE2 GPIO.
 
-Add their device tree node.
+Enable the USB functionality.
 
 Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 ---
 No changes since v1.
 
- arch/arm/boot/dts/suniv-f1c100s.dtsi | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ .../arm/boot/dts/suniv-f1c100s-licheepi-nano.dts | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-index 0edc1724407b..a01541ba42c5 100644
---- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
-+++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-@@ -133,6 +133,32 @@ mmc1: mmc@1c10000 {
- 			#size-cells = <0>;
- 		};
+diff --git a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts b/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
+index 04e59b8381cb..1935d8c8855b 100644
+--- a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
++++ b/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
+@@ -6,6 +6,8 @@
+ /dts-v1/;
+ #include "suniv-f1c100s.dtsi"
  
-+		usb_otg: usb@1c13000 {
-+			compatible = "allwinner,suniv-f1c100s-musb";
-+			reg = <0x01c13000 0x0400>;
-+			clocks = <&ccu CLK_BUS_OTG>;
-+			resets = <&ccu RST_BUS_OTG>;
-+			interrupts = <26>;
-+			interrupt-names = "mc";
-+			phys = <&usbphy 0>;
-+			phy-names = "usb";
-+			extcon = <&usbphy 0>;
-+			allwinner,sram = <&otg_sram 1>;
-+			status = "disabled";
-+		};
++#include <dt-bindings/gpio/gpio.h>
 +
-+		usbphy: phy@1c13400 {
-+			compatible = "allwinner,suniv-f1c100s-usb-phy";
-+			reg = <0x01c13400 0x10>;
-+			reg-names = "phy_ctrl";
-+			clocks = <&ccu CLK_USB_PHY0>;
-+			clock-names = "usb0_phy";
-+			resets = <&ccu RST_USB_PHY0>;
-+			reset-names = "usb0_reset";
-+			#phy-cells = <1>;
-+			status = "disabled";
-+		};
+ / {
+ 	model = "Lichee Pi Nano";
+ 	compatible = "licheepi,licheepi-nano", "allwinner,suniv-f1c100s";
+@@ -50,8 +52,22 @@ flash@0 {
+ 	};
+ };
+ 
++&otg_sram {
++	status = "okay";
++};
 +
- 		ccu: clock@1c20000 {
- 			compatible = "allwinner,suniv-f1c100s-ccu";
- 			reg = <0x01c20000 0x400>;
+ &uart0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&uart0_pe_pins>;
+ 	status = "okay";
+ };
++
++&usb_otg {
++	dr_mode = "otg";
++	status = "okay";
++};
++
++&usbphy {
++	usb0_id_det-gpio = <&pio 4 2 GPIO_ACTIVE_HIGH>; /* PE2 */
++	status = "okay";
++};
 -- 
 2.37.1
 
