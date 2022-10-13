@@ -1,158 +1,137 @@
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
+Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926757B
-	for <linux-sunxi@lists.linux.dev>; Thu, 13 Oct 2022 08:36:42 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 6EFA258035B;
-	Thu, 13 Oct 2022 04:36:41 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Thu, 13 Oct 2022 04:36:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1665650201; x=1665657401; bh=ysquayv/A7
-	PcL91ZGvk9c45xdKAQrAqStjB+DbTAf4Y=; b=fGvAjI49FOoCVdB2M5Hcd/j++r
-	uN93U9tVW2glfFC3Ec4uivVmTIoUp9RyKrzQj9rqlvHgmCRd7k7w6Zlt1tuABskA
-	4x3SkxmWIavMHV3/kZm+xfhpEHwy8/Bio04nFnSxKdrm0yErAGR6KB8Kh1QknV9g
-	/hsVp0Dz5H6wV2W4I17ytz/klpxpmFO8+cH1fM0WhfOsjz0OA8mR5Kb3zEkefAHZ
-	lzhcX8ym5wGpXcZ98qntF0EqOua/rZpPGqGBrtWSMJzRnXfGoiQqogs8dGIXN3KZ
-	POWt7SZMSJK5HM8Evv5ZvRkqNIQbekuYrO4DwcYMr4in2nAKyq/JfTXedpEg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1665650201; x=1665657401; bh=ysquayv/A7PcL91ZGvk9c45xdKAQ
-	rAqStjB+DbTAf4Y=; b=UIna1zpHZ1vH/wEBK0RE1zIRyKk8c7mWVVtYYnm5tgxC
-	n4RYdAVYlpupi30CudvozDGzmCYDPpPtmH9D0eWIXLCajpR7omgKafbsYcZH4YLs
-	QdsQqYKofIf6uCaX34V6KBjRd/ezHyACFVwO6NzcdD8rb2mW+XJHwJ9Gm0fMxw6+
-	402X5BgJ539CgC0DQsbLocznUiImNqOlCFkL3QQodiJ5PX+FkQapOroNBr3T64p6
-	o69aovrHr/bGBmokirOWWOmlqAvvDus+HBfPAtwgFCCVGmYNHEhB35+kdlOCXu/E
-	uEAVTNdLUmbnG7m9JflUeeeLe6B3/VHckfUgBS4FBw==
-X-ME-Sender: <xms:GM5HY57zldkiHq5DHxAIqMV4ri47KWkn6Le_F7uS085pkYYDXfyqow>
-    <xme:GM5HY27KVj_mt2XtG7EP7IB6svmVpDO7LonsYm2ujyBE-nlqEoCchoGmKL89ClIlJ
-    N8O7_mxpduYCJnfNQA>
-X-ME-Received: <xmr:GM5HYwddm-oPwfORmFSjtwNqA0b18uKjC3Ob64gsDEeq1Mj9tg99JPrXa83w4ymyDD0jE72JF_rvEhhly1eyvqDZbAx-FGco9Gb8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeektddgtdeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeeljeeugfegveetleevkeetffegudevieetieeugeeugeeivddtjeejvdef
-    feetgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
-    hh
-X-ME-Proxy: <xmx:GM5HYyJSEpM6YUHDJ03U9cB9w9_g4vqlvanymVLGPphkerK5JsVKoA>
-    <xmx:GM5HY9JIM4TAqtjnia8joUvmM5SPGvCpFzPqoNzuSEa5ukp3Wbwb4w>
-    <xmx:GM5HY7xJwRvkDe2E2lR2wHgOFMQGNv9JMT0AVe08Jz4EeBoP0wBzXg>
-    <xmx:Gc5HY3oXqNmr3oRXKiMt81wFysmXGv5MzjjahHsr3YO7T93tVZbvkQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 13 Oct 2022 04:36:39 -0400 (EDT)
-Date: Thu, 13 Oct 2022 10:36:38 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-	Karol Herbst <kherbst@redhat.com>,	Samuel Holland <samuel@sholland.org>,
- Lyude Paul <lyude@redhat.com>,	Jani Nikula <jani.nikula@linux.intel.com>,
-	Daniel Vetter <daniel@ffwll.ch>,	Thomas Zimmermann <tzimmermann@suse.de>,
-	Emma Anholt <emma@anholt.net>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	linux-arm-kernel@lists.infradead.org,	dri-devel@lists.freedesktop.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	intel-gfx@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
-	Hans de Goede <hdegoede@redhat.com>, nouveau@lists.freedesktop.org,
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	linux-kernel@vger.kernel.org, Dom Cobley <dom@raspberrypi.com>,
-	Phil Elwell <phil@raspberrypi.com>
-Subject: Re: [PATCH v4 11/30] drm/modes: Add a function to generate analog
- display modes
-Message-ID: <20221013083638.kloiaxervnhii7ew@houat>
-References: <20220728-rpi-analog-tv-properties-v4-0-60d38873f782@cerno.tech>
- <20220728-rpi-analog-tv-properties-v4-11-60d38873f782@cerno.tech>
- <0aa690b8-988a-878f-4d4f-d391295bc591@tronnes.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 894C87B
+	for <linux-sunxi@lists.linux.dev>; Thu, 13 Oct 2022 08:50:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1665650999; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=mAXTfNQx4KK9U3hKLTy2Vu1XiBfkJTEQgI+t2gr+tHIZwjiSpe4WpePGfugU5vLm0UjfgYLh/SKAzQydZT/N7Q+ARKGxowo6xQkyQqMPwBsQjgueCM/UrelMUsCzNstnuSlNpnPSlLvj85maTN16f/ucdiqI8IUTCET2TlEyRM4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1665650999; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=h+wv9BWVpxAEeVBWGF8N5xlC4ECUzHofGlXe/WmnrJs=; 
+	b=NUVJ6aPmn6fBNHnE3dW3SY0oM6InJa+Qx1d9G69TNW7K2WImfpRyXCQ3dnHdPPT7mLFwIaNj06VS49jmfG/6WjSEph0pmNtfV226t9Eic/MRKfOv4HGHzpTN7YnLLvIC4fp6T9t6JzcDpSX9a/tpfkzNxyZVBV4cluY+FLaYANY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1665650999;
+	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=h+wv9BWVpxAEeVBWGF8N5xlC4ECUzHofGlXe/WmnrJs=;
+	b=LVp9SE8gVJU1f+WjTS3Iw7cWc4QspHdlvHzXmf9Oxy3mwzclD9hQpgVAJO0UcDLd
+	xUSytzEPrRsDSJEiGYdItiKU4uah204LZhup02JQBBQsAXQWycS/jKZMEfHL9btMKbR
+	IeNrlMDLpJHFsiS/E9YRJ33+x3KnuIOAo+fFeDxY=
+Received: from edelgard.fodlan.icenowy.me (112.94.102.144 [112.94.102.144]) by mx.zohomail.com
+	with SMTPS id 1665650997135403.57608440342176; Thu, 13 Oct 2022 01:49:57 -0700 (PDT)
+Message-ID: <439b685e3aada19021d94669f6f855f1fc81d08e.camel@icenowy.me>
+Subject: Re: [PATCH v2 04/10] phy: sun4i-usb: add support for the USB PHY on
+ F1C100s SoC
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Jernej =?gb2312?Q?=810=947krabec?= <jernej.skrabec@gmail.com>, Rob
+ Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Samuel
+ Holland <samuel@sholland.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Andre Przywara <andre.przywara@arm.com>
+Cc: soc@kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev,  linux-phy@lists.infradead.org,
+ linux-usb@vger.kernel.org
+Date: Thu, 13 Oct 2022 16:49:51 +0800
+In-Reply-To: <4218006.ejJDZkT8p0@kista>
+References: <20221012055602.1544944-1-uwu@icenowy.me>
+	 <20221012055602.1544944-5-uwu@icenowy.me> <4218006.ejJDZkT8p0@kista>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="l3aewuzyqmtjebmf"
-Content-Disposition: inline
-In-Reply-To: <0aa690b8-988a-878f-4d4f-d391295bc591@tronnes.org>
+X-ZohoMailClient: External
 
-
---l3aewuzyqmtjebmf
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Noralf,
-
-On Sat, Oct 01, 2022 at 02:52:06PM +0200, Noralf Tr=F8nnes wrote:
-> Den 29.09.2022 18.31, skrev Maxime Ripard:
-> > Multiple drivers (meson, vc4, sun4i) define analog TV 525-lines and
-> > 625-lines modes in their drivers.
-> >=20
-> > Since those modes are fairly standard, and that we'll need to use them
-> > in more places in the future, it makes sense to move their definition
-> > into the core framework.
-> >=20
-> > However, analog display usually have fairly loose timings requirements,
-> > the only discrete parameters being the total number of lines and pixel
-> > clock frequency. Thus, we created a function that will create a display
-> > mode from the standard, the pixel frequency and the active area.
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> >=20
-> > ---
-> >=20
-> > Changes in v4:
-> > - Reworded the line length check comment
-> > - Switch to HZ_PER_KHZ in tests
-> > - Use previous timing to fill our mode
-> > - Move the number of lines check earlier
-> > ---
-> >  drivers/gpu/drm/drm_modes.c            | 474 +++++++++++++++++++++++++=
-++++++++
-> >  drivers/gpu/drm/tests/Makefile         |   1 +
-> >  drivers/gpu/drm/tests/drm_modes_test.c | 144 ++++++++++
-> >  include/drm/drm_modes.h                |  17 ++
-> >  4 files changed, 636 insertions(+)
-> >=20
+=E5=9C=A8 2022-10-12=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 23:21 +0200=EF=BC=
+=8CJernej =C5=A0krabec=E5=86=99=E9=81=93=EF=BC=9A
+> Hi Icenowy,
 >=20
-> I haven't followed the discussion on this patch, but it seems rather
-> excessive to add over 600 lines of code (including tests) to add 2 fixed
-> modes. And it's very difficult to see from the code what the actual
-> display mode timings really are, which would be useful for other
-> developers down the road wanting to use them.
+> Dne sreda, 12. oktober 2022 ob 07:55:56 CEST je Icenowy Zheng
+> napisal(a):
+> > The F1C100s SoC has one USB OTG port connected to a MUSB
+> > controller.
+> >=20
+> > Add support for its USB PHY.
+> >=20
+> > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> > ---
+> > No changes since v1.
+> >=20
+> > =C2=A0drivers/phy/allwinner/phy-sun4i-usb.c | 11 +++++++++++
+> > =C2=A01 file changed, 11 insertions(+)
+> >=20
+> > diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c
+> > b/drivers/phy/allwinner/phy-sun4i-usb.c index
+> > 3a3831f6059a..2f94cb77637b
+> > 100644
+> > --- a/drivers/phy/allwinner/phy-sun4i-usb.c
+> > +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
+> > @@ -109,6 +109,7 @@ enum sun4i_usb_phy_type {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun8i_v3s_phy,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun50i_a64_phy,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun50i_h6_phy,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0suniv_f1c100s_phy,
+> > =C2=A0};
+> >=20
+> > =C2=A0struct sun4i_usb_phy_cfg {
+> > @@ -859,6 +860,14 @@ static int sun4i_usb_phy_probe(struct
+> > platform_device
+> > *pdev) return 0;
+> > =C2=A0}
+> >=20
+> > +static const struct sun4i_usb_phy_cfg suniv_f1c100s_cfg =3D {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.num_phys =3D 1,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.type =3D suniv_f1c100s_phy,
 >=20
-> Why not just hardcode the modes?
+> I think you should just use sun4i_a10_phy. It has no special
+> handling. I don't=20
+> see a point adding new phy types if there is no special cases for it.
 
-Yeah, I have kind of the same feeling tbh, but it was asked back on the
-v1 to ease the transition of old fbdev drivers, since they will need
-such a function:
-https://lore.kernel.org/dri-devel/CAMuHMdUrwzPYjA0wdR7ADj5Ov6+m03JbnY8fBYzR=
-YyWDuNm5=3Dg@mail.gmail.com/
+Sounds reasonable, although I think we should finally drop .type and
+use only describing items.
 
-Maxime
+>=20
+> Best regards,
+> Jernej
+>=20
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.disc_thresh =3D 3,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.phyctl_offset =3D REG_PHYCT=
+L_A10,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.dedicated_clocks =3D true,
+> > +};
+> > +
+> > =C2=A0static const struct sun4i_usb_phy_cfg sun4i_a10_cfg =3D {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.num_phys =3D 3,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.type =3D sun4i_a10_phy=
+,
+> > @@ -988,6 +997,8 @@ static const struct of_device_id
+> > sun4i_usb_phy_of_match[] =3D { { .compatible =3D
+> > "allwinner,sun50i-a64-usb-phy",
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .data =3D &sun50=
+i_a64_cfg},
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ .compatible =3D "allw=
+inner,sun50i-h6-usb-phy", .data =3D=20
+> &sun50i_h6_cfg },
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ .compatible =3D "allwinner=
+,suniv-f1c100s-usb-phy",
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .data =3D &suniv_f1c1=
+00s_cfg },
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ },
+> > =C2=A0};
+> > =C2=A0MODULE_DEVICE_TABLE(of, sun4i_usb_phy_of_match);
+> > --
+> > 2.37.1
+>=20
+>=20
+>=20
 
---l3aewuzyqmtjebmf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY0fOFgAKCRDj7w1vZxhR
-xRPTAPsHbpjwggNPU38hdpfJ1NG62HfnGiMtgUpIeY78VLwdvAD+ID6+idT6/neO
-8RrFdtowwtZdPyNPHMeV6f3x0uD7BgM=
-=iymO
------END PGP SIGNATURE-----
-
---l3aewuzyqmtjebmf--
