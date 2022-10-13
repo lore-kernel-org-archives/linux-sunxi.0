@@ -1,150 +1,287 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFB7D7B
-	for <linux-sunxi@lists.linux.dev>; Thu, 13 Oct 2022 09:54:03 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 09BF315A1;
-	Thu, 13 Oct 2022 02:54:09 -0700 (PDT)
-Received: from [192.168.42.194] (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8B5973F792;
-	Thu, 13 Oct 2022 02:54:00 -0700 (PDT)
-Message-ID: <1377fdd9-cec6-2d2e-3b06-7750a273acca@arm.com>
-Date: Thu, 13 Oct 2022 10:53:43 +0100
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143FD2C9C
+	for <linux-sunxi@lists.linux.dev>; Thu, 13 Oct 2022 13:19:08 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailnew.nyi.internal (Postfix) with ESMTP id BC9E5580351;
+	Thu, 13 Oct 2022 09:19:07 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Thu, 13 Oct 2022 09:19:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1665667147; x=1665674347; bh=G6fgTFiIkO
+	NzGD9gpRNcfHn47HEkhVUzgdJVPhYERKg=; b=uRC1JBQqOPGLdv4sPWy6p1yoXX
+	VsMHTmxEb0Hfk8iR7HN/LMEXSGzclQNGqxiMpzHR17NjpwqqO+xyTLtz0wyGm5r2
+	mft3zlSIUObnluziDTkAJXd09Kqyx3AZEqSZKUK2/sm8Fi5Hx6N5IdlV9DhLYISM
+	vVrJccAAyWOqmteC+Dz5J2ei+HQfpmu2xwtWGdEGYVneT2pHjZCIaQiyLWebmov0
+	qQSG/gpGI3HR1QAusu0+ntpRe8k+tJmopXowvWJVA1o7DP6vti6o8e1GZNiQ49Zt
+	kz07rDvitBztrHw83vuWY+o/Tolwf3ix8IDk2OsdKfl5o9/5psv47FLUP4iA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1665667147; x=1665674347; bh=G6fgTFiIkONzG
+	D9gpRNcfHn47HEkhVUzgdJVPhYERKg=; b=Z9+diphb086tWqFIovbrlLcj/1uKP
+	39MARFtdyZjLbGAZXUntB0jZF4VfjnO0rDU0ej0aEqznipQwOXDaZ+Ww5uZxjmhj
+	fk+zHv49rrK0+/rWPBO0eplEFNrTEm87DpDdMHq8BhlRKW8pkoYboSONhCvsisXz
+	SJbUuzrrCu/IC/qL/BKEDmj8gYwA00XqcT8MUrC23BA0S0OMnHLrNvslNMHBpePs
+	KHcm2bY/4H5gOQUDgfUfMtb7HKQzobx8PfjlqfMehhPsU+60kzn80D3JK5etS5Ew
+	1+nzyt+8jbeZqNnGjwDZwMHEugxLHo++TJ1S+FjWivZhpRvslqP8CR9Gg==
+X-ME-Sender: <xms:ShBIY0f_jRfX827KaJr634lKqFpguR8cHU56VIYXCO3xORqgFs9A5w>
+    <xme:ShBIY2OXOcr76AP6Nl9CJVuzauJckHfk1X0Vv9CZ23LI0uZWGyOy-A2H3wjrKL-ld
+    xaXPNb00011XHAF3zk>
+X-ME-Received: <xmr:ShBIY1i_LDkUTwEsV-225WzBZx5DEDrG1PM_NzYpk81OT2m1ZEHZg7X6hvTRWY0gZCbQOKFo31YYO5Zdcx37aCP39EJjFxYYg7JQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeektddgieehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepufggtgfghfffkffvvefosehtkeertdertdejnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleeuveetteffvdevlefgffelgeduueefleevfedvudegheekfeekheejieek
+    gedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:ShBIY5_0-YWcw1EP6TyRn-18Ur_EEAReIijOGL70v3K73dpFJBZCOw>
+    <xmx:ShBIYwvGCz6O3LhgK6A-25rWSbYVLq-Nhgh7U35gSrwV8oM44fXnyQ>
+    <xmx:ShBIYwHR-5tEXqeVWphtv2gthZBvDQlVdl53Rcq6n3YOtflpdjT9cg>
+    <xmx:SxBIY55T6rJOSvlir9Ns9Uj-DBI2jWUU8ZcdCz1g0No35cTCOsUqCg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 13 Oct 2022 09:19:05 -0400 (EDT)
+Subject: [PATCH v5 00/22] drm: Analog TV Improvements
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 6/6] sunxi: add CherryPi-F1C200s support
-Content-Language: en-GB
-To: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, Icenowy Zheng <uwu@icenowy.me>,
- Jesse Taube <mr.bossman075@gmail.com>, Yifan Gu <me@yifangu.com>,
- Giulio Benetti <giulio.benetti@benettiengineering.com>,
- George Hilliard <thirtythreeforty@gmail.com>,
- Samuel Holland <samuel@sholland.org>, u-boot@lists.denx.de,
- linux-sunxi@lists.linux.dev
-References: <20221012163458.1968900-1-andre.przywara@arm.com>
- <20221012163458.1968900-7-andre.przywara@arm.com>
- <CAJiuCceW_pnDn=dhZKKUmxs1y=NOuT0m_XFea-SY7XFFA7pUGw@mail.gmail.com>
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <CAJiuCceW_pnDn=dhZKKUmxs1y=NOuT0m_XFea-SY7XFFA7pUGw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-b4-tracking: H4sIADQQSGMC/43NQQrDIBAF0KsU151i1ETTVe9RujA6JkLRoCKUkLvXdNddVsNn+O9vJGPymMn9sp
+ GE1WcfQwv99ULMosOM4G3LhFHGqGQK0upBB/2OM5QKa4orptIEoGMnrDOIYqCk1SedEaakg1kOQPIe
+ RWc5H4093ovPJabPb7jydp4nNioDCk5yrina0Y30YTCFeCvYRl5NreKsJJo0UMuVktxJxf6kfd+/I9 wJZBoBAAA=
+From: Maxime Ripard <maxime@cerno.tech>
+Date: Thu, 13 Oct 2022 15:18:44 +0200
+Message-Id: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
+To: Karol Herbst <kherbst@redhat.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, David Airlie <airlied@linux.ie>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Lyude Paul <lyude@redhat.com>, Maxime Ripard <mripard@kernel.org>,
+ Emma Anholt <emma@anholt.net>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Ben Skeggs <bskeggs@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Dom Cobley <dom@raspberrypi.com>, Maxime Ripard <maxime@cerno.tech>, linux-sunxi@lists.linux.dev,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, Noralf Trønnes <noralf@tronnes.org>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ linux-arm-kernel@lists.infradead.org, Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>, Phil Elwell <phil@raspberrypi.com>
+X-Mailer: b4 0.11.0-dev-7da52
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9285; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=7GxKft3Lddw6iGnxcQzoeGHxuf2aXt58Gxn3+SVNeTc=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMkeAm4Htri1tsZZVUhOnaX75+UknQcTFG2XnONR7THvSzzG
+ rbywo5SFQYyLQVZMkSVG2HxJ3KlZrzvZ+ObBzGFlAhnCwMUpABNJW8Twv/bD5HMrrM7UxlU8TLLcdU
+ PA4yrz9o0nHB5rVd+4J8btG8Hwz754dYHlovySNqF3i6xOZR15WOU0tVf3yGTbi01H2w+08QEA
+X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-On 13/10/2022 09:33, Clément Péron wrote:
+Hi,
 
-Hi Clément,
+Here's a series aiming at improving the command line named modes support,
+and more importantly how we deal with all the analog TV variants.
 
-> On Wed, 12 Oct 2022 at 18:35, Andre Przywara <andre.przywara@arm.com> wrote:
->>
->> The CherryPi F1C200s board is a small development board, featuring the
->> F1C200s with 64MB of co-packaged DRAM. It comes with two USB-C sockets,
->> of which one is connected to a USB-UART chip, that provides easy access
->> to UART1.
-> 
-> A similar board is trying to been upstreamed by Icenowy:
-> 
-> see : https://lore.kernel.org/lkml/20221012055602.1544944-11-uwu@icenowy.me/
-> [PATCH v2 10/10] ARM: dts: suniv: add device tree for PopStick v1.1
-> 
-> Maybe we should take into account the remarks that Krzysztof Kozlowski
-> made to follow the same device-tree rules on U-boot.
+The named modes support were initially introduced to allow to specify the
+analog TV mode to be used.
 
-Yeah, thanks for the heads up, I saw that. I just wanted to post this to 
-demonstrate what needs to be done. I will be sending a Linux DT patch 
-anyway, since DTs need to go via Linux anyway.
+However, this was causing multiple issues:
 
-Thanks,
-Andre
+  * The mode name parsed on the command line was passed directly to the
+    driver, which had to figure out which mode it was suppose to match;
 
-> 
-> Regards,
-> Clement
-> 
->> Beside the usual micro-SD card slot, the board comes with a SPI NAND
->> flash chip, which is not yet supported.
->>
->> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
->> ---
->>   .../dts/suniv-f1c100s-cherrypi-f1c200s.dts    | 45 +++++++++++++++++++
->>   configs/cherrypi_f1c200s_defconfig            | 11 +++++
->>   2 files changed, 56 insertions(+)
->>   create mode 100644 arch/arm/dts/suniv-f1c100s-cherrypi-f1c200s.dts
->>   create mode 100644 configs/cherrypi_f1c200s_defconfig
->>
->> diff --git a/arch/arm/dts/suniv-f1c100s-cherrypi-f1c200s.dts b/arch/arm/dts/suniv-f1c100s-cherrypi-f1c200s.dts
->> new file mode 100644
->> index 00000000000..f0ebcb6d893
->> --- /dev/null
->> +++ b/arch/arm/dts/suniv-f1c100s-cherrypi-f1c200s.dts
->> @@ -0,0 +1,45 @@
->> +// SPDX-License-Identifier: (GPL-2.0+ OR X11)
->> +/*
->> + * Copyright 2022 Arm Ltd.
->> + * based on another DT, which is:
->> + *   Copyright 2018 Icenowy Zheng <icenowy@aosc.io>
->> + */
->> +
->> +/dts-v1/;
->> +#include "suniv-f1c100s.dtsi"
->> +
->> +/ {
->> +       model = "Cherry Pi F1C200s";
->> +       compatible = "lctech,cherrypi-f1c200s", "allwinner,suniv-f1c100s";
->> +
->> +       aliases {
->> +               mmc0 = &mmc0;
->> +               serial0 = &uart1;
->> +               spi0 = &spi0;
->> +       };
->> +
->> +       chosen {
->> +               stdout-path = "serial0:115200n8";
->> +       };
->> +
->> +       reg_vcc3v3: vcc3v3 {
->> +               compatible = "regulator-fixed";
->> +               regulator-name = "vcc3v3";
->> +               regulator-min-microvolt = <3300000>;
->> +               regulator-max-microvolt = <3300000>;
->> +       };
->> +};
->> +
->> +&mmc0 {
->> +       broken-cd;
->> +       bus-width = <4>;
->> +       disable-wp;
->> +       status = "okay";
->> +       vmmc-supply = <&reg_vcc3v3>;
->> +};
->> +
->> +&uart1 {
->> +       pinctrl-names = "default";
->> +       pinctrl-0 = <&uart1_pa_pins>;
->> +       status = "okay";
->> +};
->> diff --git a/configs/cherrypi_f1c200s_defconfig b/configs/cherrypi_f1c200s_defconfig
->> new file mode 100644
->> index 00000000000..306d363f485
->> --- /dev/null
->> +++ b/configs/cherrypi_f1c200s_defconfig
->> @@ -0,0 +1,11 @@
->> +CONFIG_ARM=y
->> +CONFIG_SYS_DCACHE_OFF=y
->> +CONFIG_ARCH_SUNXI=y
->> +CONFIG_DEFAULT_DEVICE_TREE="suniv-f1c100s-cherrypi-f1c200s"
->> +CONFIG_SPL=y
->> +CONFIG_MACH_SUNIV=y
->> +CONFIG_DRAM_CLK=156
->> +CONFIG_DRAM_ZQ=0
->> +CONFIG_SUNXI_MINIMUM_DRAM_MB=64
->> +# CONFIG_VIDEO_SUNXI is not set
->> +CONFIG_CONS_INDEX=2
->> --
->> 2.25.1
->>
->>
+  * Figuring that out wasn't really easy, since the video= argument or what
+    the userspace might not even have a name in the first place, but
+    instead could have passed a mode with the same timings;
 
+  * The fallback to matching on the timings was mostly working as long as
+    we were supporting one 525 lines (most likely NSTC) and one 625 lines
+    (PAL), but couldn't differentiate between two modes with the same
+    timings (NTSC vs PAL-M vs NSTC-J for example);
+
+  * There was also some overlap with the tv mode property registered by
+    drm_mode_create_tv_properties(), but named modes weren't interacting
+    with that property at all.
+
+  * Even though that property was generic, its possible values were
+    specific to each drivers, which made some generic support difficult.
+
+Thus, I chose to tackle in multiple steps:
+
+  * A new TV mode property was introduced, with generic values, each driver
+    reporting through a bitmask what standard it supports to the userspace;
+
+  * This option was added to the command line parsing code to be able to
+    specify it on the kernel command line, and new atomic_check and reset
+    helpers were created to integrate properly into atomic KMS;
+
+  * The named mode parsing code is now creating a proper display mode for
+    the given named mode, and the TV standard will thus be part of the
+    connector state;
+
+  * Two drivers were converted and tested for now (vc4 and sun4i), with
+    some backward compatibility code to translate the old TV mode to the
+    new TV mode;
+
+Unit tests were created along the way.
+
+One can switch from NTSC to PAL now using (on vc4)
+
+modetest -M vc4  -s 53:720x480i -w 53:'TV mode':1 # NTSC
+modetest -M vc4  -s 53:720x576i -w 53:'TV mode':4 # PAL
+
+Let me know what you think,
+Maxime
+
+To: David Airlie <airlied@linux.ie>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: Emma Anholt <emma@anholt.net>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Ben Skeggs <bskeggs@redhat.com>
+To: Karol Herbst <kherbst@redhat.com>
+To: Lyude Paul <lyude@redhat.com>
+To: Chen-Yu Tsai <wens@csie.org>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+Cc: "Noralf Trønnes" <noralf@tronnes.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Dom Cobley <dom@raspberrypi.com>
+Cc: Phil Elwell <phil@raspberrypi.com>
+Cc: <dri-devel@lists.freedesktop.org>
+Cc: linux-kernel@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-sunxi@lists.linux.dev
+Cc: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+---
+Changes in v5:
+- Dropped TV Standard documentation removal
+- Switched the TV Mode documentation from CSV to actual documentation
+- Switched to kunit assertions where possible
+- Switched to KUNIT_ASSERT_NOT_NULL instead of KUNIT_ASSERT_PTR_NE(..., NULL)
+- Shuffled a bit the introduction of drm_client_modeset_connector_get_modes between patches
+- Renamed tv_mode_names to legacy_tv_mode_names
+- Removed the count variable in sun4i_tv_comp_get_modes
+- Rebased on top of current drm-misc-next
+- Link to v4: https://lore.kernel.org/r/20220728-rpi-analog-tv-properties-v4-0-60d38873f782@cerno.tech
+
+Changes in v4:
+- Removed the unused TV Standard property documentation
+- Added the TV Mode property documentation to kms-properties.csv
+- Fixed the documentation of drm_mode_create_tv_properties()
+- Removed DRM_MODE_TV_MODE_NONE
+- Reworded the line length check comment in drm_mode_analog_tv tests
+- Switched to HZ_PER_KHZ in drm_mode_analog_tv tests
+- Reworked drm_mode_analog_tv to fill our mode using the previously computed
+  timings
+- Added the command-line option documentation to modedb.rst
+- Improved the Kunit helpers cleanup
+- Moved the subconnector documentation renaming to the proper patch
+- Added the various review tags
+- Removed the count variable in vc4_vec_connector_get_modes
+- Rebased on drm-misc-next-2022-09-23 and fixed a merge conflict
+- Folded all the named mode parsing improvements in a single patch
+- Link to v3: https://lore.kernel.org/r/20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech
+
+Changes in v3:
+- Applied some of the fixes to vc4 and sun4i
+- Renamed the old TV mode property to legacy_mode
+- Fixed a bunch of bisection errors
+- Removed most of the redundant TV modes
+- Added a new None TV mode to not fall back on NTSC by mistake
+- Fixed the mode generation function to match better what is expected
+- Added some logging to the mode generation function
+- Split the improvements to the named mode parsing logic into separate patches
+- Added more checks to the TV atomic_check helper
+- Link to v2: https://lore.kernel.org/dri-devel/20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech/
+
+Changes in v2:
+- Kept the older TV mode property as legacy so we can keep the old drivers functional
+- Renamed the tv_norm property to tv_mode
+- Added a function to create PAL and NTSC compatible display modes
+- Added some helpers to instantiate a mock DRM device in Kunit
+- More Kunit tests
+- Removed the HD analog TV modes
+- Renamed some of the tests
+- Renamed some of the named modes
+- Fixed typos in commit logs
+- Added the various tags
+- Link to v1: https://lore.kernel.org/dri-devel/20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech/
+
+---
+Mateusz Kwiatkowski (2):
+      drm/vc4: vec: Check for VEC output constraints
+      drm/vc4: vec: Add support for more analog TV standards
+
+Maxime Ripard (20):
+      drm/tests: Add Kunit Helpers
+      drm/connector: Rename legacy TV property
+      drm/connector: Only register TV mode property if present
+      drm/connector: Rename drm_mode_create_tv_properties
+      drm/connector: Add TV standard property
+      drm/modes: Add a function to generate analog display modes
+      drm/client: Add some tests for drm_connector_pick_cmdline_mode()
+      drm/modes: Move named modes parsing to a separate function
+      drm/modes: Switch to named mode descriptors
+      drm/modes: Fill drm_cmdline mode from named modes
+      drm/connector: Add pixel clock to cmdline mode
+      drm/connector: Add a function to lookup a TV mode by its name
+      drm/modes: Introduce the tv_mode property as a command-line option
+      drm/modes: Properly generate a drm_display_mode from a named mode
+      drm/modes: Introduce more named modes
+      drm/atomic-helper: Add a TV properties reset helper
+      drm/atomic-helper: Add an analog TV atomic_check implementation
+      drm/vc4: vec: Use TV Reset implementation
+      drm/vc4: vec: Convert to the new TV mode property
+      drm/sun4i: tv: Convert to the new TV mode property
+
+ Documentation/fb/modedb.rst                     |   2 +
+ Documentation/gpu/drm-kms.rst                   |   6 +
+ drivers/gpu/drm/drm_atomic_state_helper.c       | 124 +++++
+ drivers/gpu/drm/drm_atomic_uapi.c               |   4 +
+ drivers/gpu/drm/drm_client_modeset.c            |   4 +
+ drivers/gpu/drm/drm_connector.c                 | 173 ++++++-
+ drivers/gpu/drm/drm_modes.c                     | 640 +++++++++++++++++++++++-
+ drivers/gpu/drm/gud/gud_connector.c             |  10 +-
+ drivers/gpu/drm/i2c/ch7006_drv.c                |   6 +-
+ drivers/gpu/drm/i915/display/intel_tv.c         |   5 +-
+ drivers/gpu/drm/nouveau/dispnv04/tvnv17.c       |   6 +-
+ drivers/gpu/drm/sun4i/sun4i_tv.c                | 145 ++----
+ drivers/gpu/drm/tests/Makefile                  |   2 +
+ drivers/gpu/drm/tests/drm_client_modeset_test.c | 229 +++++++++
+ drivers/gpu/drm/tests/drm_cmdline_parser_test.c |  67 +++
+ drivers/gpu/drm/tests/drm_kunit_helpers.c       |  61 +++
+ drivers/gpu/drm/tests/drm_kunit_helpers.h       |   9 +
+ drivers/gpu/drm/tests/drm_modes_test.c          | 144 ++++++
+ drivers/gpu/drm/vc4/vc4_vec.c                   | 322 ++++++++++--
+ include/drm/drm_atomic_state_helper.h           |   4 +
+ include/drm/drm_connector.h                     |  82 ++-
+ include/drm/drm_mode_config.h                   |  12 +-
+ include/drm/drm_modes.h                         |  17 +
+ 23 files changed, 1889 insertions(+), 185 deletions(-)
+---
+base-commit: 735e41d339cd617ce056dfd630c6de03c56eb6cd
+change-id: 20220728-rpi-analog-tv-properties-0914dfcee460
+
+Best regards,
+-- 
+Maxime Ripard <maxime@cerno.tech>
