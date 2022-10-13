@@ -1,140 +1,165 @@
 Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4C94405
-	for <linux-sunxi@lists.linux.dev>; Thu, 13 Oct 2022 18:25:21 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id b2so5731354eja.6
-        for <linux-sunxi@lists.linux.dev>; Thu, 13 Oct 2022 11:25:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24104416
+	for <linux-sunxi@lists.linux.dev>; Thu, 13 Oct 2022 19:01:45 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id ot12so5975124ejb.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 13 Oct 2022 12:01:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=B5L/tN8Nk5G1hFHXmpnHlaxEzIusr004HXV2igjx6Dg=;
-        b=WaMkAHVPl8AWTlsWCOn5940xJ4n2+DGuI4BNxlNTPRVWDmpiouz4lLGIdgOc56G/S6
-         iSHRYRPLpu31hPIR2oj21xQEuSdwrLDTdg/IugpMzX8dl4YOSahc+Yqf4kLYlruz8JzY
-         64PxNCx8ufShrGobabHugKDumGeDPrBw9+AWABQqzAidTIT/coJDU4Tn5zSPLWr8sdEf
-         oNp8J+itnMQD5L8G24GuDwqs4kj/GWhSmrVNWx4UmvfjtfwYAlO3E248VRJATnUSBFyS
-         20aXm6B8tZUCaWd3U1V2l5NDledETwN6ROnHCmJiV5fH9PIprBjM0gH3bh3kAWQdj8xr
-         54IA==
+        bh=IqWLroX/XqkgzeOrlJN1iOfF6saezPXoUff4VZqP+Sw=;
+        b=ZFG2fqviYEaCgu+r4KArp/M17GkBncIAhVOHR++KJzTQrmq3+k0gr5bkPRmcDTCqbH
+         MTnSiysyn3P+Edfktnyp5ACx7eZfFXKySeucz6Bvkfwr8kr6GS41TieFf3ed3mnhkVzp
+         +hvSR1eUNYmn9EGQyCEqSOAbkZrNi+FrudW3Lb24eiKDUhNc8vX4e5yFy/BdGa8746Up
+         mCzBoFE5qaiMY1mWFU+PlqJmcMKxx/nPwpdOtLh0xCFD98/A7YVtmikAvNnx+OoB/SHa
+         HbxPelr8VOdiLMN2P0dJBORSxUIHs9YLh94bWViKs6UbphgpMSytLcLNf/igpJM0WluD
+         mAfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=B5L/tN8Nk5G1hFHXmpnHlaxEzIusr004HXV2igjx6Dg=;
-        b=uX1v1nl1Qe8qd4dp0b9EUXq2mP7+lnHnW6Lnc5addrjYNm28XKZ1UNk5zKdillSAm0
-         ZX+NOpZRcftUjjA4fUpKeX6UKgGMWeOFDAEImswjeqtLkC3Xn84XDvlUwwAY2QD8zANM
-         ojyYNJ5OXwaqjMCN6CpAcLaADOSna9cKdtPZBs2CSqDI+rMOCMKmDo4QIdl4VN/QaXDk
-         CxrUIFDukOFqHz/IjZ8mgaWKOl+TASsdI9zXHfdcMRPkZTu6UI3qtLDRBHDSzw6Kmac3
-         8vaufsbS9p6ujan7aaYddK+045WYtE65aZh5QYjJoIVLrUiHcuzAn3XBbiI74WUNa9Cm
-         nmLw==
-X-Gm-Message-State: ACrzQf15PMFW9ffKUILSOvkczrvzOUpiJ7Li6L3O3iX/4CeBOIWUIJ+Y
-	IZU83Hu4M7TAODeXcqS3Y9U=
-X-Google-Smtp-Source: AMsMyM5D9VcyYdymrteUFP/uy7fZdMK47gw4RIDknOofM1/3bcKBsARkwBkRONaV/eI3T52TMYs+Xg==
-X-Received: by 2002:a17:907:75ed:b0:78d:97ed:2894 with SMTP id jz13-20020a17090775ed00b0078d97ed2894mr732203ejc.739.1665685520104;
-        Thu, 13 Oct 2022 11:25:20 -0700 (PDT)
+        bh=IqWLroX/XqkgzeOrlJN1iOfF6saezPXoUff4VZqP+Sw=;
+        b=FsywcJaFCPLMs3FBOjr+cX2eYmRQheuqlZCrIVZsLByO1TxvBaciiuolHOeLJ3qOTf
+         T1/+nt24egpSXq+Rn9cyU9Xqu46csP9y7ALrhnFs9WxgjWfxsefIl7ZHE+KU7vWIbVYp
+         AIh6mZD2xQuuB3KqXY+Tv8Zg1tGiZwVU9aWezeLsbIHyKobBKv3ZsL99tTcfJ37i9Q4j
+         8X8GgaXROzs/5caL1K9rLyJ+xWEvYQV+trT62yxbJTk7R5dUValbnQuxoGZ4da9AKMKs
+         +QiTLRBj+y28SIf0gqx5AN2WNU0PALGBT2iFzZ4udj3JDawtoaQBjElxKNy1ChucXjmu
+         OA7Q==
+X-Gm-Message-State: ACrzQf3Wh6AE5WifCsyUFajydo4sRU+r8NJitOoVhqo7VfFcE/D26kXu
+	h2a3EQO+r+qh3f/YqdV+d8qBTGmXyaRlKfS9
+X-Google-Smtp-Source: AMsMyM5R8UKxO3EMF5J5VV5c9/S+TazIBOSR+J3U14Wb//78s5PhGsnVdK+/1IPSPevt97yOoBTxSw==
+X-Received: by 2002:a17:907:daa:b0:78d:9bc9:7d7a with SMTP id go42-20020a1709070daa00b0078d9bc97d7amr842284ejc.567.1665687704090;
+        Thu, 13 Oct 2022 12:01:44 -0700 (PDT)
 Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id i24-20020a056402055800b004588ef795easm283249edx.34.2022.10.13.11.25.19
+        by smtp.gmail.com with ESMTPSA id hx15-20020a170906846f00b0074134543f82sm272620ejc.90.2022.10.13.12.01.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Oct 2022 11:25:19 -0700 (PDT)
+        Thu, 13 Oct 2022 12:01:43 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andre Przywara <andre.przywara@arm.com>, Icenowy Zheng <uwu@icenowy.me>
-Cc: soc@kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org, linux-usb@vger.kernel.org
-Subject: Re: Re: [PATCH v2 04/10] phy: sun4i-usb: add support for the USB PHY on F1C100s SoC
-Date: Thu, 13 Oct 2022 20:25:18 +0200
-Message-ID: <3442772.V25eIC5XRa@kista>
-In-Reply-To: <439b685e3aada19021d94669f6f855f1fc81d08e.camel@icenowy.me>
-References: <20221012055602.1544944-1-uwu@icenowy.me> <4218006.ejJDZkT8p0@kista> <439b685e3aada19021d94669f6f855f1fc81d08e.camel@icenowy.me>
+To: Jagan Teki <jagan@amarulasolutions.com>, Andre Przywara <andre.przywara@arm.com>
+Cc: Samuel Holland <samuel@sholland.org>, Tom Rini <trini@konsulko.com>, Simon Glass <sjg@chromium.org>, u-boot@lists.denx.de, linux-sunxi@lists.linux.dev, Chen-Yu Tsai <wens@csie.org>
+Subject: Re: Re: [PATCH 0/2] sunxi: update devicetree files from the kernel
+Date: Thu, 13 Oct 2022 21:01:42 +0200
+Message-ID: <2167316.72vocr9iq0@kista>
+In-Reply-To: <20220926113438.65b64a06@donnerap.cambridge.arm.com>
+References: <20220913234004.24850-1-andre.przywara@arm.com> <20220926113438.65b64a06@donnerap.cambridge.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Dne =C4=8Detrtek, 13. oktober 2022 ob 10:49:51 CEST je Icenowy Zheng napisa=
-l(a):
-> =E5=9C=A8 2022-10-12=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 23:21 +0200=EF=
-=BC=8CJernej =C5=A0krabec=E5=86=99=E9=81=93=EF=BC=9A
->=20
-> > Hi Icenowy,
-> >=20
-> > Dne sreda, 12. oktober 2022 ob 07:55:56 CEST je Icenowy Zheng
-> >=20
-> > napisal(a):
-> > > The F1C100s SoC has one USB OTG port connected to a MUSB
-> > > controller.
-> > >=20
-> > > Add support for its USB PHY.
-> > >=20
-> > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> > > ---
-> > > No changes since v1.
-> > >=20
-> > >  drivers/phy/allwinner/phy-sun4i-usb.c | 11 +++++++++++
-> > >  1 file changed, 11 insertions(+)
-> > >=20
-> > > diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c
-> > > b/drivers/phy/allwinner/phy-sun4i-usb.c index
-> > > 3a3831f6059a..2f94cb77637b
-> > > 100644
-> > > --- a/drivers/phy/allwinner/phy-sun4i-usb.c
-> > > +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-> > > @@ -109,6 +109,7 @@ enum sun4i_usb_phy_type {
-> > >         sun8i_v3s_phy,
-> > >         sun50i_a64_phy,
-> > >         sun50i_h6_phy,
-> > > +       suniv_f1c100s_phy,
-> > >  };
-> > >=20
-> > >  struct sun4i_usb_phy_cfg {
-> > > @@ -859,6 +860,14 @@ static int sun4i_usb_phy_probe(struct
-> > > platform_device
-> > > *pdev) return 0;
-> > >  }
-> > >=20
-> > > +static const struct sun4i_usb_phy_cfg suniv_f1c100s_cfg =3D {
-> > > +       .num_phys =3D 1,
-> > > +       .type =3D suniv_f1c100s_phy,
-> >=20
-> > I think you should just use sun4i_a10_phy. It has no special
-> > handling. I don't
-> > see a point adding new phy types if there is no special cases for it.
->=20
-> Sounds reasonable, although I think we should finally drop .type and
-> use only describing items.
+Dne ponedeljek, 26. september 2022 ob 12:34:38 CEST je Andre Przywara 
+napisal(a):
+> On Wed, 14 Sep 2022 00:40:02 +0100
+> Andre Przywara <andre.przywara@arm.com> wrote:
+> 
+> Hi,
+> 
+> can someone please have a look and confirm that this is legit? Could be as
+> easy as just diff'ing against what's in the kernel tree and checking that
+> the differences are just due to the r_intc change.
+> 
+> I would like to push the DT update still into the release, so that we live
+> up to the promise of providing a good experience with $fdtcontroladdr.
 
-That would be even better. Will you do it?
+I checked that all files are either equal or have r_int difference.
 
->=20
-> > Best regards,
-> > Jernej
-> >=20
-> > > +       .disc_thresh =3D 3,
-> > > +       .phyctl_offset =3D REG_PHYCTL_A10,
-> > > +       .dedicated_clocks =3D true,
-> > > +};
-> > > +
-> > >  static const struct sun4i_usb_phy_cfg sun4i_a10_cfg =3D {
-> > >         .num_phys =3D 3,
-> > >         .type =3D sun4i_a10_phy,
-> > > @@ -988,6 +997,8 @@ static const struct of_device_id
-> > > sun4i_usb_phy_of_match[] =3D { { .compatible =3D
-> > > "allwinner,sun50i-a64-usb-phy",
-> > >           .data =3D &sun50i_a64_cfg},
-> > >         { .compatible =3D "allwinner,sun50i-h6-usb-phy", .data =3D
-> >=20
-> > &sun50i_h6_cfg },
-> >=20
-> > > +       { .compatible =3D "allwinner,suniv-f1c100s-usb-phy",
-> > > +         .data =3D &suniv_f1c100s_cfg },
-> > >         { },
-> > >  };
-> > >  MODULE_DEVICE_TABLE(of, sun4i_usb_phy_of_match);
-> > > --
-> > > 2.37.1
+FWIW:
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Best regards,
+Jernej
+
+> 
+> Cheers,
+> Andre
+> 
+> > This syncs the .dts and .dtsi files from the Linux kernel repository
+> > as of v6.0-rc4 into U-Boot. As before, we skip the r_intc change, as
+> > this breaks older kernels.
+> > The first patch handles the 64-bit parts, the second one the 32-bit
+> > SoCs.
+> > 
+> > Thanks,
+> > Andre
+> > 
+> > Andre Przywara (2):
+> >   sunxi: dts: arm64: update devicetree files
+> >   sunxi: dts: arm: update devicetree files
+> >  
+> >  arch/arm/dts/Makefile                         |   3 +-
+> >  arch/arm/dts/sun4i-a10-inet9f-rev03.dts       |  40 +--
+> >  arch/arm/dts/sun4i-a10-pcduino.dts            |   6 +-
+> >  arch/arm/dts/sun50i-a64-amarula-relic.dts     |   2 +-
+> >  arch/arm/dts/sun50i-a64-bananapi-m64.dts      |   4 +-
+> >  arch/arm/dts/sun50i-a64-nanopi-a64.dts        |   2 +-
+> >  arch/arm/dts/sun50i-a64-olinuxino.dts         |  30 ++
+> >  arch/arm/dts/sun50i-a64-orangepi-win.dts      |   6 +-
+> >  arch/arm/dts/sun50i-a64-pinebook.dts          |   4 +-
+> >  arch/arm/dts/sun50i-a64-pinephone-1.0.dts     |   4 +
+> >  arch/arm/dts/sun50i-a64-pinephone-1.1.dts     |   4 +
+> >  arch/arm/dts/sun50i-a64-teres-i.dts           |   8 +
+> >  arch/arm/dts/sun50i-a64.dtsi                  |  10 +-
+> >  arch/arm/dts/sun50i-h5-nanopi-r1s-h5.dts      |   4 +-
+> >  arch/arm/dts/sun50i-h5-orangepi-pc2.dts       |   4 +-
+> >  arch/arm/dts/sun50i-h5-orangepi-prime.dts     |   4 +-
+> >  arch/arm/dts/sun50i-h6-orangepi-3.dts         |   4 +-
+> >  arch/arm/dts/sun50i-h6-orangepi-lite2.dts     |   4 +-
+> >  arch/arm/dts/sun50i-h6-tanix.dtsi             |   2 +-
+> >  arch/arm/dts/sun50i-h6.dtsi                   |  12 +-
+> >  arch/arm/dts/sun50i-h616-orangepi-zero2.dts   |  55 +---
+> >  arch/arm/dts/sun50i-h616-x96-mate.dts         | 177 +++++++++++
+> >  arch/arm/dts/sun50i-h616.dtsi                 | 286 +++++-------------
+> >  arch/arm/dts/sun5i-a13-licheepi-one.dts       |   6 +-
+> >  arch/arm/dts/sun6i-a31.dtsi                   |  13 +-
+> >  arch/arm/dts/sun7i-a20-pcduino3.dts           |   6 +-
+> >  arch/arm/dts/sun8i-a23-a33.dtsi               |   9 +-
+> >  arch/arm/dts/sun8i-a23-ippo-q8h-v1.2.dts      |  74 +----
+> >  arch/arm/dts/sun8i-a23-ippo-q8h-v5.dts        |  74 +----
+> >  arch/arm/dts/sun8i-a33-et-q8-v1.6.dts         |  58 +---
+> >  arch/arm/dts/sun8i-a33-ippo-q8h-v1.2.dts      |  58 +---
+> >  .../dts/sun8i-h2-plus-bananapi-m2-zero.dts    |   8 +-
+> >  arch/arm/dts/sun8i-h2-plus-orangepi-zero.dts  |   2 +-
+> >  arch/arm/dts/sun8i-h3-beelink-x2.dts          |   6 +-
+> >  arch/arm/dts/sun8i-h3-mapleboard-mp130.dts    |   6 +-
+> >  arch/arm/dts/sun8i-h3-nanopi-duo2.dts         |   8 +-
+> >  arch/arm/dts/sun8i-h3-nanopi-neo-air.dts      |   2 +-
+> >  arch/arm/dts/sun8i-h3-nanopi-r1.dts           |   4 +-
+> >  arch/arm/dts/sun8i-h3-nanopi.dtsi             |   5 +-
+> >  arch/arm/dts/sun8i-h3-orangepi-2.dts          |   6 +-
+> >  arch/arm/dts/sun8i-h3-orangepi-lite.dts       |   4 +-
+> >  arch/arm/dts/sun8i-h3-orangepi-one.dts        |   4 +-
+> >  arch/arm/dts/sun8i-h3-orangepi-pc.dts         |   4 +-
+> >  arch/arm/dts/sun8i-r16-bananapi-m2m.dts       |   4 +-
+> >  arch/arm/dts/sun8i-r40-bananapi-m2-ultra.dts  |   5 +
+> >  arch/arm/dts/sun8i-r40-cpu-opp.dtsi           |  52 ++++
+> >  arch/arm/dts/sun8i-r40-feta40i.dtsi           |   5 +
+> >  arch/arm/dts/sun8i-r40.dtsi                   |  44 ++-
+> >  arch/arm/dts/sun8i-t3-cqa3t-bv3.dts           |   5 +
+> >  arch/arm/dts/sun8i-v3s.dtsi                   |   6 +-
+> >  arch/arm/dts/sun8i-v40-bananapi-m2-berry.dts  |   5 +
+> >  arch/arm/dts/sun9i-a80.dtsi                   |   1 -
+> >  arch/arm/dts/sunxi-bananapi-m2-plus.dtsi      |   8 +-
+> >  arch/arm/dts/sunxi-h3-h5-emlid-neutis.dtsi    |   4 +-
+> >  arch/arm/dts/sunxi-h3-h5.dtsi                 |  13 +-
+> >  arch/arm/dts/sunxi-libretech-all-h3-cc.dtsi   |   4 +-
+> >  include/dt-bindings/clock/sun50i-h6-r-ccu.h   |   1 +
+> >  include/dt-bindings/clock/sun50i-h616-ccu.h   |   1 +
+> >  include/dt-bindings/clock/sun6i-rtc.h         |  10 +
+> >  59 files changed, 562 insertions(+), 638 deletions(-)
+> >  create mode 100644 arch/arm/dts/sun50i-h616-x96-mate.dts
+> >  mode change 100644 => 120000 arch/arm/dts/sun8i-a23-ippo-q8h-v1.2.dts
+> >  mode change 100644 => 120000 arch/arm/dts/sun8i-a23-ippo-q8h-v5.dts
+> >  mode change 100644 => 120000 arch/arm/dts/sun8i-a33-et-q8-v1.6.dts
+> >  mode change 100644 => 120000 arch/arm/dts/sun8i-a33-ippo-q8h-v1.2.dts
+> >  create mode 100644 arch/arm/dts/sun8i-r40-cpu-opp.dtsi
+> >  create mode 100644 include/dt-bindings/clock/sun6i-rtc.h
 
 
