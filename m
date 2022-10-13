@@ -1,45 +1,42 @@
 Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 894C87B
-	for <linux-sunxi@lists.linux.dev>; Thu, 13 Oct 2022 08:50:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1665650999; cv=none; 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5EE7B
+	for <linux-sunxi@lists.linux.dev>; Thu, 13 Oct 2022 08:51:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1665651082; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=mAXTfNQx4KK9U3hKLTy2Vu1XiBfkJTEQgI+t2gr+tHIZwjiSpe4WpePGfugU5vLm0UjfgYLh/SKAzQydZT/N7Q+ARKGxowo6xQkyQqMPwBsQjgueCM/UrelMUsCzNstnuSlNpnPSlLvj85maTN16f/ucdiqI8IUTCET2TlEyRM4=
+	b=amK+vACTa4eWwZNJ53R0P4WkjxsTiumTGJpJPcWNQ+0qAgiS6tREPs226X4Rr09CTdYDj9HOhOjjP1fPCQHZfO9VdWvBvNtSgiS5VsuZeBPZwdLwZG5n84T2ZBtowpOVnttwuONo8ymB/oRvNS5KetNoyre6z/n6hoWJboR/sGc=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1665650999; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=h+wv9BWVpxAEeVBWGF8N5xlC4ECUzHofGlXe/WmnrJs=; 
-	b=NUVJ6aPmn6fBNHnE3dW3SY0oM6InJa+Qx1d9G69TNW7K2WImfpRyXCQ3dnHdPPT7mLFwIaNj06VS49jmfG/6WjSEph0pmNtfV226t9Eic/MRKfOv4HGHzpTN7YnLLvIC4fp6T9t6JzcDpSX9a/tpfkzNxyZVBV4cluY+FLaYANY=
+	t=1665651082; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=2SOih9jDMl6YptCFB2WpWu7nQBPXRoD7QRK6/8sq3aU=; 
+	b=BdHS88hrw9oG9z39Fh1LlCmwwVDNvgMx9LB6iFZf+fPNvTj+vr3Vc3rwJMUYgS+M8Vix8clUPRB4Xd0QkSBKczV3iPXj3bj16PS3gHtk/+kkdPmgS+SNYlxcwRZsecforYbj+ZKMptOghnVzshniKP1MktKoDYqNNnrr36/CkJo=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=icenowy.me;
 	spf=pass  smtp.mailfrom=uwu@icenowy.me;
 	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1665650999;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1665651082;
 	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
 	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=h+wv9BWVpxAEeVBWGF8N5xlC4ECUzHofGlXe/WmnrJs=;
-	b=LVp9SE8gVJU1f+WjTS3Iw7cWc4QspHdlvHzXmf9Oxy3mwzclD9hQpgVAJO0UcDLd
-	xUSytzEPrRsDSJEiGYdItiKU4uah204LZhup02JQBBQsAXQWycS/jKZMEfHL9btMKbR
-	IeNrlMDLpJHFsiS/E9YRJ33+x3KnuIOAo+fFeDxY=
+	bh=2SOih9jDMl6YptCFB2WpWu7nQBPXRoD7QRK6/8sq3aU=;
+	b=Tes01Wp4PXhDfmuiLAW1lhAGR8EcGsjzRVIkW/LO5Y1J7JO/BXdadis3uxk+r+4S
+	muodPfqAU6XIEKK0S/alY8L+vO0PhonxiqxHkf1aoeTuDy0z6AN1omrKcNFU396E2P4
+	j9oqe5MLxMOiNu651nf/tYb9x9u4i4EnQ55vENpE=
 Received: from edelgard.fodlan.icenowy.me (112.94.102.144 [112.94.102.144]) by mx.zohomail.com
-	with SMTPS id 1665650997135403.57608440342176; Thu, 13 Oct 2022 01:49:57 -0700 (PDT)
-Message-ID: <439b685e3aada19021d94669f6f855f1fc81d08e.camel@icenowy.me>
-Subject: Re: [PATCH v2 04/10] phy: sun4i-usb: add support for the USB PHY on
- F1C100s SoC
+	with SMTPS id 1665651080901534.8214091260292; Thu, 13 Oct 2022 01:51:20 -0700 (PDT)
+Message-ID: <7b5ae696469b2a67cbcc4b8b5e91af6329ec5399.camel@icenowy.me>
+Subject: Re: [PATCH 3/6] sunxi: f1c100: move SKIP_LOWLEVEL_INIT_ONLY into
+ Kconfig
 From: Icenowy Zheng <uwu@icenowy.me>
-To: Jernej =?gb2312?Q?=810=947krabec?= <jernej.skrabec@gmail.com>, Rob
- Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Samuel
- Holland <samuel@sholland.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: soc@kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev,  linux-phy@lists.infradead.org,
- linux-usb@vger.kernel.org
-Date: Thu, 13 Oct 2022 16:49:51 +0800
-In-Reply-To: <4218006.ejJDZkT8p0@kista>
-References: <20221012055602.1544944-1-uwu@icenowy.me>
-	 <20221012055602.1544944-5-uwu@icenowy.me> <4218006.ejJDZkT8p0@kista>
+To: Andre Przywara <andre.przywara@arm.com>, Jagan Teki
+	 <jagan@amarulasolutions.com>
+Cc: Jesse Taube <mr.bossman075@gmail.com>, Yifan Gu <me@yifangu.com>, Giulio
+ Benetti <giulio.benetti@benettiengineering.com>, George Hilliard
+ <thirtythreeforty@gmail.com>,  Samuel Holland <samuel@sholland.org>,
+ u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
+Date: Thu, 13 Oct 2022 16:51:16 +0800
+In-Reply-To: <20221012163458.1968900-4-andre.przywara@arm.com>
+References: <20221012163458.1968900-1-andre.przywara@arm.com>
+	 <20221012163458.1968900-4-andre.przywara@arm.com>
 Organization: Anthon Open-Source Community
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -52,86 +49,57 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-ZohoMailClient: External
 
-=E5=9C=A8 2022-10-12=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 23:21 +0200=EF=BC=
-=8CJernej =C5=A0krabec=E5=86=99=E9=81=93=EF=BC=9A
-> Hi Icenowy,
->=20
-> Dne sreda, 12. oktober 2022 ob 07:55:56 CEST je Icenowy Zheng
-> napisal(a):
-> > The F1C100s SoC has one USB OTG port connected to a MUSB
-> > controller.
-> >=20
-> > Add support for its USB PHY.
-> >=20
-> > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> > ---
-> > No changes since v1.
-> >=20
-> > =C2=A0drivers/phy/allwinner/phy-sun4i-usb.c | 11 +++++++++++
-> > =C2=A01 file changed, 11 insertions(+)
-> >=20
-> > diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c
-> > b/drivers/phy/allwinner/phy-sun4i-usb.c index
-> > 3a3831f6059a..2f94cb77637b
-> > 100644
-> > --- a/drivers/phy/allwinner/phy-sun4i-usb.c
-> > +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-> > @@ -109,6 +109,7 @@ enum sun4i_usb_phy_type {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun8i_v3s_phy,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun50i_a64_phy,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun50i_h6_phy,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0suniv_f1c100s_phy,
-> > =C2=A0};
-> >=20
-> > =C2=A0struct sun4i_usb_phy_cfg {
-> > @@ -859,6 +860,14 @@ static int sun4i_usb_phy_probe(struct
-> > platform_device
-> > *pdev) return 0;
-> > =C2=A0}
-> >=20
-> > +static const struct sun4i_usb_phy_cfg suniv_f1c100s_cfg =3D {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.num_phys =3D 1,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.type =3D suniv_f1c100s_phy,
->=20
-> I think you should just use sun4i_a10_phy. It has no special
-> handling. I don't=20
-> see a point adding new phy types if there is no special cases for it.
+I am against using "f1c100" in commit message, because there is a chip
+called F1C100 that is part of legacy sun3i instead of suniv.
 
-Sounds reasonable, although I think we should finally drop .type and
-use only describing items.
+Using "suniv" or "f1c100s" is better.
 
+=E5=9C=A8 2022-10-12=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 17:34 +0100=EF=BC=
+=8CAndre Przywara=E5=86=99=E9=81=93=EF=BC=9A
+> So far we stated the lack of a lowlevel() init function for the
+> F1C100s
+> board by defining the respective SKIP_* symbol in the board's
+> defconfig. However we don't expect any *board* to employ such low
+> level
+> code, so expect this to be never used for the ARMv5 Allwinner SoCs.
 >=20
-> Best regards,
-> Jernej
+> Select the appropriate symbols in the Kconfig, so that we can remove
+> them from the defconfig, and avoid putting them in future defconfigs
+> for
+> other boards.
 >=20
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.disc_thresh =3D 3,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.phyctl_offset =3D REG_PHYCT=
-L_A10,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.dedicated_clocks =3D true,
-> > +};
-> > +
-> > =C2=A0static const struct sun4i_usb_phy_cfg sun4i_a10_cfg =3D {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.num_phys =3D 3,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.type =3D sun4i_a10_phy=
-,
-> > @@ -988,6 +997,8 @@ static const struct of_device_id
-> > sun4i_usb_phy_of_match[] =3D { { .compatible =3D
-> > "allwinner,sun50i-a64-usb-phy",
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .data =3D &sun50=
-i_a64_cfg},
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ .compatible =3D "allw=
-inner,sun50i-h6-usb-phy", .data =3D=20
-> &sun50i_h6_cfg },
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ .compatible =3D "allwinner=
-,suniv-f1c100s-usb-phy",
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .data =3D &suniv_f1c1=
-00s_cfg },
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ },
-> > =C2=A0};
-> > =C2=A0MODULE_DEVICE_TABLE(of, sun4i_usb_phy_of_match);
-> > --
-> > 2.37.1
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+> =C2=A0arch/arm/mach-sunxi/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0 | 2 ++
+> =C2=A0configs/licheepi_nano_defconfig | 2 --
+> =C2=A02 files changed, 2 insertions(+), 2 deletions(-)
 >=20
->=20
->=20
+> diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-
+> sunxi/Kconfig
+> index 9aa66deb9fd..fc5d8bb3c19 100644
+> --- a/arch/arm/mach-sunxi/Kconfig
+> +++ b/arch/arm/mach-sunxi/Kconfig
+> @@ -185,6 +185,8 @@ config MACH_SUNIV
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0select CPU_ARM926EJS
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0select SUNXI_GEN_SUN6I
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0select SUPPORT_SPL
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0select SKIP_LOWLEVEL_INIT_ONLY
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0select SPL_SKIP_LOWLEVEL_INIT_=
+ONLY
+> =C2=A0
+> =C2=A0config MACH_SUN4I
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0bool "sun4i (Allwinner A1=
+0)"
+> diff --git a/configs/licheepi_nano_defconfig
+> b/configs/licheepi_nano_defconfig
+> index 14e6bcda927..09f1a19cdbe 100644
+> --- a/configs/licheepi_nano_defconfig
+> +++ b/configs/licheepi_nano_defconfig
+> @@ -1,6 +1,4 @@
+> =C2=A0CONFIG_ARM=3Dy
+> -CONFIG_SKIP_LOWLEVEL_INIT_ONLY=3Dy
+> -CONFIG_SPL_SKIP_LOWLEVEL_INIT_ONLY=3Dy
+> =C2=A0CONFIG_SYS_DCACHE_OFF=3Dy
+> =C2=A0CONFIG_ARCH_SUNXI=3Dy
+> =C2=A0CONFIG_DEFAULT_DEVICE_TREE=3D"suniv-f1c100s-licheepi-nano"
 
