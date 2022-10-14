@@ -1,154 +1,194 @@
-Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40EDF36E
-	for <linux-sunxi@lists.linux.dev>; Fri, 14 Oct 2022 02:56:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1665716176; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=B4NBc5U0vzrb2IVhCmCpkKbCP4qH6kmHNgQSDj+NtSA5jy6VPbXqQlkeejCusg+9/wBJgR5EcHRDsUQIz6pxypvy52qRI/6ulmI1R2lmS/J1ZbTfW2ty8iBUBjDXIRJtBm3J05o6IQYIqLeRxKLF810fC8/Zo61/3MdlzEANXIU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1665716176; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=Xch6Ahc6mpKh0o//bMOoqcUw4dYUZ7qun8hT0y/mZyM=; 
-	b=lhkNZN9QvOxPKHYEAuGj43TIiyLsQArkOSH8XbnoRMmkzMai5z1JlRYDeabWrq0jqw7+Zr8J454IiHdmIx20AG9MjcdsP6eYC6493ZgZV6umO8OWa21GIFf6Ckz111JoJVLYt5fyNA/lsPGmVU3EMpDUHqoeX3R/w/EkUmcK4HU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1665716176;
-	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=Xch6Ahc6mpKh0o//bMOoqcUw4dYUZ7qun8hT0y/mZyM=;
-	b=BtjTPZBXxvbVdpOh5ub/SM0ayFIbV8M1wxZx54XiFfx8hRU/8tD6FLJhpUrxjMVN
-	jbv1ebptl52p5/ndZF3nTB0YRCeGVfQ+nM+bwk1H+3YZe5aShg4rznGSNsd3dq/9J1y
-	0M7HZZQzzgvtjqiwEyW6IkMxed3z6SKH5OPSXxhU=
-Received: from edelgard.fodlan.icenowy.me (112.94.102.144 [112.94.102.144]) by mx.zohomail.com
-	with SMTPS id 1665716174157848.8917127364606; Thu, 13 Oct 2022 19:56:14 -0700 (PDT)
-Message-ID: <fc626a1eacee3ff9e25d4ef71ecb153c1fa836eb.camel@icenowy.me>
-Subject: Re: Re: [PATCH v2 04/10] phy: sun4i-usb: add support for the USB
- PHY on F1C100s SoC
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Jernej =?gb2312?Q?=810=947krabec?= <jernej.skrabec@gmail.com>, Rob
- Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Samuel
- Holland <samuel@sholland.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: soc@kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev,  linux-phy@lists.infradead.org,
- linux-usb@vger.kernel.org
-Date: Fri, 14 Oct 2022 10:56:08 +0800
-In-Reply-To: <3442772.V25eIC5XRa@kista>
-References: <20221012055602.1544944-1-uwu@icenowy.me>
-	 <4218006.ejJDZkT8p0@kista>
-	 <439b685e3aada19021d94669f6f855f1fc81d08e.camel@icenowy.me>
-	 <3442772.V25eIC5XRa@kista>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0B136D
+	for <linux-sunxi@lists.linux.dev>; Fri, 14 Oct 2022 05:04:20 +0000 (UTC)
+Received: by mail-qk1-f174.google.com with SMTP id o22so1806899qkl.8
+        for <linux-sunxi@lists.linux.dev>; Thu, 13 Oct 2022 22:04:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=q/wmFvV+43R0dHjMTCQrgpLsTiLrwqLz5jp6EZeXBIY=;
+        b=VEhyeEnyMRy52alw+5nGaMSNAggKQkoXsldUxdw2VWm0WdPFepYFKpagf3h7kXUcBZ
+         83mRgIOOuiqug9Nv4YpV1jHSs4PRzcrmxNkBDkl6mBzo8HNNKDISz1361Ts/WeOaP6Ms
+         TQkCdZhsSSt9M6hXhp6+wkc6uEiZXD+s/a6GBvOyUdoPkIPCfeb+V7TTd0H1n9UMy3G3
+         T8z16EuUwNVzZ/I9qjscUCYZL5ONBZpZ6oVpwhLty86yPOCwJahATCvpkF3fB47AKUg0
+         tEWRJ1O0lL8B7YdzifJqfzwKnc2M3/6dF439a1m624P8qTvBV6GUGfz5+2w/xxj5hTJL
+         QP5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=q/wmFvV+43R0dHjMTCQrgpLsTiLrwqLz5jp6EZeXBIY=;
+        b=L963Lpa44kdw2oBHtRqVewhFzVOYby9VfFPqBy/TW1uo8pVbbNOfroD/OR5PUyGC77
+         b0e8HJyYOV1jclWYXge45qIpn3mN7WCdyRe0O/cVsKzaH3fXyER7lF1HEcExVOnRVED9
+         yiDBpbKtUJeVfmZqhXDn3Og6okbOWXnWo0+JKoaLpGGKfKRpbWGHQDDU/ncQnCCSFfoU
+         aS61qNNlcNibkAO7LZ3WybCEX/4663b5ULf8wl+ir283gOF+YkAXTW+0MMNG74BfDQHk
+         efK9ro+qONQFlbGGm2sk6ZjYzUWwf7PsxHmJnrlVQId+6sAjpP0P/PjxBgx+39xg6IJw
+         d/vQ==
+X-Gm-Message-State: ACrzQf2VGd9zvAhEXgq+qjdRtcCnUq1F05Ii+zUFuwv3FKwch81ZJwBm
+	VSyCmHJystKg4PxGmQdbiVw=
+X-Google-Smtp-Source: AMsMyM7+zV07B99QGQRuoZTe8JpO86qcVSlal6HXsABv6qE3m/Mk4kPiAkLI0ZzzLHF1LKHlbi4QvA==
+X-Received: by 2002:a05:620a:28cf:b0:6df:9a0a:c5d8 with SMTP id l15-20020a05620a28cf00b006df9a0ac5d8mr2514693qkp.12.1665723859211;
+        Thu, 13 Oct 2022 22:04:19 -0700 (PDT)
+Received: from [10.4.10.38] (pool-108-26-185-122.bstnma.fios.verizon.net. [108.26.185.122])
+        by smtp.gmail.com with ESMTPSA id h3-20020a05620a400300b006cea2984c9bsm1606095qko.100.2022.10.13.22.04.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Oct 2022 22:04:18 -0700 (PDT)
+Message-ID: <142d084b-2950-515c-85ea-0f9c82748580@gmail.com>
+Date: Fri, 14 Oct 2022 01:04:18 -0400
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH 6/6] sunxi: add CherryPi-F1C200s support
+To: Andre Przywara <andre.przywara@arm.com>,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, Icenowy Zheng <uwu@icenowy.me>,
+ Yifan Gu <me@yifangu.com>,
+ Giulio Benetti <giulio.benetti@benettiengineering.com>,
+ George Hilliard <thirtythreeforty@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev
+References: <20221012163458.1968900-1-andre.przywara@arm.com>
+ <20221012163458.1968900-7-andre.przywara@arm.com>
+ <CAJiuCceW_pnDn=dhZKKUmxs1y=NOuT0m_XFea-SY7XFFA7pUGw@mail.gmail.com>
+ <1377fdd9-cec6-2d2e-3b06-7750a273acca@arm.com>
+Content-Language: en-US
+From: Jesse Taube <mr.bossman075@gmail.com>
+In-Reply-To: <1377fdd9-cec6-2d2e-3b06-7750a273acca@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-=E5=9C=A8 2022-10-13=E6=98=9F=E6=9C=9F=E5=9B=9B=E7=9A=84 20:25 +0200=EF=BC=
-=8CJernej =C5=A0krabec=E5=86=99=E9=81=93=EF=BC=9A
-> Dne =C4=8Detrtek, 13. oktober 2022 ob 10:49:51 CEST je Icenowy Zheng
-> napisal(a):
-> > =E5=9C=A8 2022-10-12=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 23:21 +0200=EF=
-=BC=8CJernej =C5=A0krabec=E5=86=99=E9=81=93=EF=BC=9A
-> >=20
-> > > Hi Icenowy,
-> > >=20
-> > > Dne sreda, 12. oktober 2022 ob 07:55:56 CEST je Icenowy Zheng
-> > >=20
-> > > napisal(a):
-> > > > The F1C100s SoC has one USB OTG port connected to a MUSB
-> > > > controller.
-> > > >=20
-> > > > Add support for its USB PHY.
-> > > >=20
-> > > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> > > > ---
-> > > > No changes since v1.
-> > > >=20
-> > > > =C2=A0drivers/phy/allwinner/phy-sun4i-usb.c | 11 +++++++++++
-> > > > =C2=A01 file changed, 11 insertions(+)
-> > > >=20
-> > > > diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c
-> > > > b/drivers/phy/allwinner/phy-sun4i-usb.c index
-> > > > 3a3831f6059a..2f94cb77637b
-> > > > 100644
-> > > > --- a/drivers/phy/allwinner/phy-sun4i-usb.c
-> > > > +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-> > > > @@ -109,6 +109,7 @@ enum sun4i_usb_phy_type {
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sun8i_v3s_phy,
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sun50i_a64_phy,
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sun50i_h6_phy,
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 suniv_f1c100s_phy,
-> > > > =C2=A0};
-> > > >=20
-> > > > =C2=A0struct sun4i_usb_phy_cfg {
-> > > > @@ -859,6 +860,14 @@ static int sun4i_usb_phy_probe(struct
-> > > > platform_device
-> > > > *pdev) return 0;
-> > > > =C2=A0}
-> > > >=20
-> > > > +static const struct sun4i_usb_phy_cfg suniv_f1c100s_cfg =3D {
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .num_phys =3D 1,
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .type =3D suniv_f1c100s_phy,
-> > >=20
-> > > I think you should just use sun4i_a10_phy. It has no special
-> > > handling. I don't
-> > > see a point adding new phy types if there is no special cases for
-> > > it.
-> >=20
-> > Sounds reasonable, although I think we should finally drop .type
-> > and
-> > use only describing items.
->=20
-> That would be even better. Will you do it?
 
-At least not now.
 
-But I will at least drop suniv_f1c100s_phy in the next revision.
+On 10/13/22 05:53, Andre Przywara wrote:
+> On 13/10/2022 09:33, Clément Péron wrote:
+> 
+> Hi Clément,
+> 
+>> On Wed, 12 Oct 2022 at 18:35, Andre Przywara <andre.przywara@arm.com> wrote:
+>>>
+>>> The CherryPi F1C200s board is a small development board, featuring the
+>>> F1C200s with 64MB of co-packaged DRAM. It comes with two USB-C sockets,
+>>> of which one is connected to a USB-UART chip, that provides easy access
+>>> to UART1.
+>>
+>> A similar board is trying to been upstreamed by Icenowy:
+>>
+>> see : https://lore.kernel.org/lkml/20221012055602.1544944-11-uwu@icenowy.me/
+>> [PATCH v2 10/10] ARM: dts: suniv: add device tree for PopStick v1.1
+>>
+>> Maybe we should take into account the remarks that Krzysztof Kozlowski
+>> made to follow the same device-tree rules on U-boot.
+> 
+> Yeah, thanks for the heads up, I saw that. I just wanted to post this to
+> demonstrate what needs to be done. I will be sending a Linux DT patch
+> anyway, since DTs need to go via Linux anyway.
+> 
+> Thanks,
+> Andre
+> 
+>>
+>> Regards,
+>> Clement
+>>
+>>> Beside the usual micro-SD card slot, the board comes with a SPI NAND
+>>> flash chip, which is not yet supported.
+>>>
+>>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+>>> ---
+>>>    .../dts/suniv-f1c100s-cherrypi-f1c200s.dts    | 45 +++++++++++++++++++
+>>>    configs/cherrypi_f1c200s_defconfig            | 11 +++++
+>>>    2 files changed, 56 insertions(+)
+>>>    create mode 100644 arch/arm/dts/suniv-f1c100s-cherrypi-f1c200s.dts
+>>>    create mode 100644 configs/cherrypi_f1c200s_defconfig
+>>>
+>>> diff --git a/arch/arm/dts/suniv-f1c100s-cherrypi-f1c200s.dts b/arch/arm/dts/suniv-f1c100s-cherrypi-f1c200s.dts
+>>> new file mode 100644
+>>> index 00000000000..f0ebcb6d893
+>>> --- /dev/null
+>>> +++ b/arch/arm/dts/suniv-f1c100s-cherrypi-f1c200s.dts
+>>> @@ -0,0 +1,45 @@
+>>> +// SPDX-License-Identifier: (GPL-2.0+ OR X11)
+>>> +/*
+>>> + * Copyright 2022 Arm Ltd.
+>>> + * based on another DT, which is:
+>>> + *   Copyright 2018 Icenowy Zheng <icenowy@aosc.io>
+Her email changed IDK if it is proper to change here.
+>>> + */
+>>> +
+>>> +/dts-v1/;
+>>> +#include "suniv-f1c100s.dtsi"
+>>> +
+>>> +/ {
+>>> +       model = "Cherry Pi F1C200s";
+>>> +       compatible = "lctech,cherrypi-f1c200s", "allwinner,suniv-f1c100s";
+>>> +
+>>> +       aliases {
+>>> +               mmc0 = &mmc0;
+>>> +               serial0 = &uart1;
+>>> +               spi0 = &spi0;
+no need for spi.
+>>> +       };
+>>> +
+>>> +       chosen {
+>>> +               stdout-path = "serial0:115200n8";
+>>> +       };
+>>> +
+>>> +       reg_vcc3v3: vcc3v3 {
+>>> +               compatible = "regulator-fixed";
+>>> +               regulator-name = "vcc3v3";
+>>> +               regulator-min-microvolt = <3300000>;
+>>> +               regulator-max-microvolt = <3300000>;
+>>> +       };
+>>> +};
+>>> +
+>>> +&mmc0 {
+>>> +       broken-cd;
+>>> +       bus-width = <4>;
+>>> +       disable-wp;
+>>> +       status = "okay";
+>>> +       vmmc-supply = <&reg_vcc3v3>;
+>>> +};
+>>> +
+>>> +&uart1 {
+>>> +       pinctrl-names = "default";
+>>> +       pinctrl-0 = <&uart1_pa_pins>;
+>>> +       status = "okay";
+>>> +};
+>>> diff --git a/configs/cherrypi_f1c200s_defconfig b/configs/cherrypi_f1c200s_defconfig
+>>> new file mode 100644
+>>> index 00000000000..306d363f485
+>>> --- /dev/null
+>>> +++ b/configs/cherrypi_f1c200s_defconfig
+>>> @@ -0,0 +1,11 @@
+>>> +CONFIG_ARM=y
+>>> +CONFIG_SYS_DCACHE_OFF=y
+>>> +CONFIG_ARCH_SUNXI=y
+>>> +CONFIG_DEFAULT_DEVICE_TREE="suniv-f1c100s-cherrypi-f1c200s"
+>>> +CONFIG_SPL=y
+>>> +CONFIG_MACH_SUNIV=y
+>>> +CONFIG_DRAM_CLK=156
+>>> +CONFIG_DRAM_ZQ=0
+You need
++CONFIG_SPL_STACK=0x8000
 
->=20
-> >=20
-> > > Best regards,
-> > > Jernej
-> > >=20
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .disc_thresh =3D 3,
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .phyctl_offset =3D REG_PHYCTL=
-_A10,
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .dedicated_clocks =3D true,
-> > > > +};
-> > > > +
-> > > > =C2=A0static const struct sun4i_usb_phy_cfg sun4i_a10_cfg =3D {
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .num_phys =3D 3,
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .type =3D sun4i_a10_phy,
-> > > > @@ -988,6 +997,8 @@ static const struct of_device_id
-> > > > sun4i_usb_phy_of_match[] =3D { { .compatible =3D
-> > > > "allwinner,sun50i-a64-usb-phy",
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .data =3D &s=
-un50i_a64_cfg},
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { .compatible =3D "allwi=
-nner,sun50i-h6-usb-phy", .data =3D
-> > >=20
-> > > &sun50i_h6_cfg },
-> > >=20
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { .compatible =3D "allwinner,=
-suniv-f1c100s-usb-phy",
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .data =3D &suniv_=
-f1c100s_cfg },
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { },
-> > > > =C2=A0};
-> > > > =C2=A0MODULE_DEVICE_TABLE(of, sun4i_usb_phy_of_match);
-> > > > --
-> > > > 2.37.1
->=20
->=20
-
+I will test this on both 100s and 200s.
+Thanks,
+Jesse Taube
+>>> +CONFIG_SUNXI_MINIMUM_DRAM_MB=64
+>>> +# CONFIG_VIDEO_SUNXI is not set
+>>> +CONFIG_CONS_INDEX=2
+>>> --
+>>> 2.25.1
+>>>
+>>>
+> 
