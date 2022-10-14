@@ -1,161 +1,142 @@
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F507B
-	for <linux-sunxi@lists.linux.dev>; Fri, 14 Oct 2022 07:38:15 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.nyi.internal (Postfix) with ESMTP id B63FA58035A;
-	Fri, 14 Oct 2022 03:38:14 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Fri, 14 Oct 2022 03:38:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1665733094; x=
-	1665740294; bh=O4wijGYkNa2eVXpEmjczg9Kq8zs8dAQ0sjegIV/rrSw=; b=M
-	B6P4muAr8m7upKfRH0bzwQSBtvGu/6BhswoTVp8Bsa6bVPpeoIX16Eb+H+r9bF0D
-	3lDYEGQS54GzTWVUN9L6dFmlmnOBUyYuDaz24fBcoS+tZGFP8SAbQokp2NpgX5Q3
-	Yzbg578TdvwgWTYlxgIC/BHI+4XLBUki4yM/Os1QCz1MpC6YVn/0W4Nyeq2UzGrX
-	f78+Pj5mkvqe0hMPZ1kRstZn6pcsr1WcbO1lSOu9ly05nL0NzFFKS9xUw2uE69Ew
-	vLzJrbSs3jfhf+Qf7vFM+TtlzWP130ZqeSeUgsgM4nC9K1UPFEep055m21gdmKsK
-	mzbZNaWD9p7rI7WvnnXFQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665733094; x=
-	1665740294; bh=O4wijGYkNa2eVXpEmjczg9Kq8zs8dAQ0sjegIV/rrSw=; b=h
-	129WbAqVQuOXhsJp7BE7++/9+ResYVbw7hRwxli+3d8hEzu84hA3fm3sQRmX2PRK
-	M85iSaX4OE7ICHvyYbYOv141NQjyweoWpuiyuKtawhOUK4uYoAmuHA8z9ZIMBnHj
-	KFn2zZ3ojFwIxCAK5FgEA942uOJHakgkrNdkgffqglUR+Q7MOe05hcdJ/XboMUGJ
-	EAa0WAD98+f2FwoCDx1lkDqwFpiYyCF6ByX0MqeQ1l9mwPq2xc0kz6eyy7ec0k8j
-	73jp50OsB6QZ2aRtbRfhdulJzbZaIOjpSVC3bFMGsxkXo1UqijH44o9P1gHxu76K
-	LPniYumygDmNyzU9s5zRg==
-X-ME-Sender: <xms:5RFJYyRbSbbLR31eIk4ygF3IDrfMfTnuEHbuX3I3cdSI10OQebM4Zw>
-    <xme:5RFJY3xCRArAijsTN6ij-wkAhZKdVwlPLSHJFOHAzZK_JHBawZ2GT8OWSgP4XTpYH
-    5OY695DV9xFOp8Gxeg>
-X-ME-Received: <xmr:5RFJY_0OfHykeBmzejCXRzl6cvuPU4p99mUsL6KY-RNnU0Zn-RZgzrOgyyzn>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeekuddguddvfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtjeenucfhrhhomhepofgr
-    gihimhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtf
-    frrghtthgvrhhnpefftddtueefgfffgedtjeffveduvdduhfdugeejgeekteeugfefhfeh
-    keduhfdvhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:5RFJY-AbafJ5iOck2RgaTp5aFNN92AQjTSH7RtpnVr2zFEIqi_oKzA>
-    <xmx:5RFJY7jij9QvqqI0Wy0B63LNK8drv30f710X0bOsyBcfwh2hqchdEg>
-    <xmx:5RFJY6p0e9lA80anBs9T23g5dtLSTDEFD_QoSp9DYbMGiQCeRmY1Pg>
-    <xmx:5hFJYwB1xYd7ubyWBI1jINnxho1OIPOm_ne3TIez6rRUnpH2TxhFEg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 14 Oct 2022 03:38:12 -0400 (EDT)
-Date: Fri, 14 Oct 2022 09:38:10 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Karol Herbst <kherbst@redhat.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	David Airlie <airlied@linux.ie>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Lyude Paul <lyude@redhat.com>, Emma Anholt <emma@anholt.net>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	Ben Skeggs <bskeggs@redhat.com>,	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,	Dom Cobley <dom@raspberrypi.com>,
- linux-sunxi@lists.linux.dev,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Noralf =?utf-8?B?VHLDg8K4bm5lcw==?= <noralf@tronnes.org>,
-	intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	nouveau@lists.freedesktop.org,	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
-	dri-devel@lists.freedesktop.org,	Hans de Goede <hdegoede@redhat.com>,
-	Phil Elwell <phil@raspberrypi.com>
-Subject: Re: [PATCH v5 22/22] drm/sun4i: tv: Convert to the new TV mode
- property
-Message-ID: <20221014073810.akfoyfzxerywnt65@houat>
-References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
- <20220728-rpi-analog-tv-properties-v5-22-d841cc64fe4b@cerno.tech>
- <6482539.4vTCxPXJkl@kista>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FBAC1378;
+	Fri, 14 Oct 2022 10:23:40 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3ACD213D5;
+	Fri, 14 Oct 2022 03:23:39 -0700 (PDT)
+Received: from [10.57.5.134] (unknown [10.57.5.134])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7FF733F67D;
+	Fri, 14 Oct 2022 03:23:31 -0700 (PDT)
+Message-ID: <71fb875f-5884-cbc6-534f-6ba72167bf6a@arm.com>
+Date: Fri, 14 Oct 2022 11:23:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <6482539.4vTCxPXJkl@kista>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH 5/5] iommu/sun50i: Invalidate iova in map and unmap
+ callback
+Content-Language: en-GB
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, maxime@cerno.tech,
+ joro@8bytes.org, will@kernel.org, wens@csie.org, samuel@sholland.org
+Cc: iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20221013181221.3247429-1-jernej.skrabec@gmail.com>
+ <20221013181221.3247429-7-jernej.skrabec@gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20221013181221.3247429-7-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Jernej,
+On 2022-10-13 19:12, Jernej Skrabec wrote:
+> Mapped and unmapped iova addresses needs to be invalidated immediately
+> or otherwise they might or might not work when used by master or CPU.
+> 
+> This was discovered when running video decoder conformity test with
+> Cedrus. Some videos were now and then decoded incorrectly and generated
+> page faults.
+> 
+> Fixes: 4100b8c229b3 ("iommu: Add Allwinner H6 IOMMU driver")
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>   drivers/iommu/sun50i-iommu.c | 51 ++++++++++++++++++++++++++++++++++++
+>   1 file changed, 51 insertions(+)
+> 
+> diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
+> index 7c3b2ac552da..21e47ce6946a 100644
+> --- a/drivers/iommu/sun50i-iommu.c
+> +++ b/drivers/iommu/sun50i-iommu.c
+> @@ -518,6 +518,53 @@ static u32 *sun50i_dte_get_page_table(struct sun50i_iommu_domain *sun50i_domain,
+>   	return page_table;
+>   }
+>   
+> +static void sun50i_iommu_zap_iova(struct sun50i_iommu *iommu, unsigned long iova)
+> +{
+> +	unsigned long flags;
+> +	u32 reg;
+> +	int ret;
+> +
+> +	spin_lock_irqsave(&iommu->iommu_lock, flags);
+> +
+> +	iommu_write(iommu, IOMMU_AUTO_GATING_REG, 0);
+> +
+> +	iommu_write(iommu, IOMMU_TLB_IVLD_ADDR_REG, iova);
+> +	iommu_write(iommu, IOMMU_TLB_IVLD_ADDR_MASK_REG, GENMASK(11, 0));
+> +	iommu_write(iommu, IOMMU_TLB_IVLD_ENABLE_REG, IOMMU_TLB_IVLD_ENABLE_ENABLE);
+> +
+> +	ret = readl_poll_timeout_atomic(iommu->base + IOMMU_TLB_IVLD_ENABLE_REG,
+> +					reg, !reg, 1, 2000);
+> +	if (ret)
+> +		dev_warn(iommu->dev, "TLB invalidation timed out!\n");
+> +
+> +	iommu_write(iommu, IOMMU_AUTO_GATING_REG, IOMMU_AUTO_GATING_ENABLE);
+> +
+> +	spin_unlock_irqrestore(&iommu->iommu_lock, flags);
+> +}
+> +
+> +static void sun50i_iommu_zap_ptw_cache(struct sun50i_iommu *iommu, unsigned long iova)
+> +{
+> +	unsigned long flags;
+> +	u32 reg;
+> +	int ret;
+> +
+> +	spin_lock_irqsave(&iommu->iommu_lock, flags);
+> +
+> +	iommu_write(iommu, IOMMU_AUTO_GATING_REG, 0);
+> +
+> +	iommu_write(iommu, IOMMU_PC_IVLD_ADDR_REG, iova);
+> +	iommu_write(iommu, IOMMU_PC_IVLD_ENABLE_REG, IOMMU_PC_IVLD_ENABLE_ENABLE);
+> +
+> +	ret = readl_poll_timeout_atomic(iommu->base + IOMMU_PC_IVLD_ENABLE_REG,
+> +					reg, !reg, 1, 2000);
+> +	if (ret)
+> +		dev_warn(iommu->dev, "PTW cache invalidation timed out!\n");
+> +
+> +	iommu_write(iommu, IOMMU_AUTO_GATING_REG, IOMMU_AUTO_GATING_ENABLE);
+> +
+> +	spin_unlock_irqrestore(&iommu->iommu_lock, flags);
+> +}
+> +
+>   static int sun50i_iommu_map(struct iommu_domain *domain, unsigned long iova,
+>   			    phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
+>   {
+> @@ -546,6 +593,8 @@ static int sun50i_iommu_map(struct iommu_domain *domain, unsigned long iova,
+>   
+>   	*pte_addr = sun50i_mk_pte(paddr, prot);
+>   	sun50i_table_flush(sun50i_domain, pte_addr, 1);
+> +	sun50i_iommu_zap_iova(iommu, iova);
+> +	sun50i_iommu_zap_ptw_cache(iommu, iova);
 
-On Thu, Oct 13, 2022 at 08:23:51PM +0200, Jernej =C5=A0krabec wrote:
-> Dne =C4=8Detrtek, 13. oktober 2022 ob 15:19:06 CEST je Maxime Ripard napi=
-sal(a):
-> > Now that the core can deal fine with analog TV modes, let's convert the
-> > sun4i TV driver to leverage those new features.
-> >=20
-> > Acked-by: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> >=20
-> > ---
-> > Changes in v5:
-> > - Removed the count variable in get_modes
-> > - Removed spurious vc4 change
-> > ---
-> >  drivers/gpu/drm/sun4i/sun4i_tv.c | 145
-> > +++++++++++++-------------------------- 1 file changed, 48 insertions(+=
-),
-> > 97 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/sun4i/sun4i_tv.c
-> > b/drivers/gpu/drm/sun4i/sun4i_tv.c index c65f0a89b6b0..4f07aff11551 100=
-644
-> > --- a/drivers/gpu/drm/sun4i/sun4i_tv.c
-> > +++ b/drivers/gpu/drm/sun4i/sun4i_tv.c
-> > @@ -141,23 +141,14 @@ struct resync_parameters {
-> >  struct tv_mode {
-> >  	char		*name;
-> >=20
-> > +	unsigned int	tv_mode;
-> > +
-> >  	u32		mode;
-> >  	u32		chroma_freq;
-> >  	u16		back_porch;
-> >  	u16		front_porch;
-> > -	u16		line_number;
-> >  	u16		vblank_level;
->=20
-> isn't there a way to get or calculate back_porch, front_porch and vblank_=
-level=20
-> from mode? From quick glance over removed values below, I would say that =
-at=20
-> least back_porch can be removed too?
+Consider hooking up .sync_map if you need that behaviour. I'd guess the 
+address/mask combination allows invalidating multiple pages at once, 
+which would be a heck of a lot more efficient.
 
-I tried actually, but I'm not sure what the front porch and back porch
-parameters actually are. They are called that way by Allwinner, but it
-doesn't match the PAL or NTSC timings at all.
+In principle we probably shouldn't need walk cache maintenance for just 
+changing leaf entries, so that could perhaps be pushed further down into 
+sun50i_dte_get_page_table().
 
-For example, back_porch is 118 for NTSC and 138 for PAL. Actual back
-porches would be around 12 and 16, respectively. Actually, the entire
-blanking area are 138 and 144. This is close enough for PAL, but pretty
-far off for NTSC.
+>   out:
+>   	return ret;
+> @@ -571,6 +620,8 @@ static size_t sun50i_iommu_unmap(struct iommu_domain *domain, unsigned long iova
+>   
+>   	memset(pte_addr, 0, sizeof(*pte_addr));
+>   	sun50i_table_flush(sun50i_domain, pte_addr, 1);
+> +	sun50i_iommu_zap_iova(sun50i_domain->iommu, iova);
+> +	sun50i_iommu_zap_ptw_cache(sun50i_domain->iommu, iova);
 
-Allwinner has the habit of integrating the sync period into one of the
-porches, but still there's no obvious match.
+Hmm, we already have .iotlb_sync hooked up for this, so at best adding 
+more maintenance here is simply redundant, but at worst it would be 
+papering over some bug in sun50i_iommu_iotlb_sync() - if unmaps really 
+aren't working properly then that wants fixing instead. Of course it 
+could also be enhanced to use the gather mechanism to perform more 
+selective invalidations, but that's another patch in its own right.
 
-front_porch is pretty much in the same case.
+Thanks,
+Robin.
 
-Since it affected the display output quite a lot, I chose to keep it for
-now unfortunately.
-
-> Otherwise this patch looks ok.
-
-Can I add your Acked-by/Reviewed-by then?
-
-Thanks!
-Maxime
+>   
+>   	return SZ_4K;
+>   }
