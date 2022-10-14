@@ -1,165 +1,154 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24104416
-	for <linux-sunxi@lists.linux.dev>; Thu, 13 Oct 2022 19:01:45 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id ot12so5975124ejb.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 13 Oct 2022 12:01:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IqWLroX/XqkgzeOrlJN1iOfF6saezPXoUff4VZqP+Sw=;
-        b=ZFG2fqviYEaCgu+r4KArp/M17GkBncIAhVOHR++KJzTQrmq3+k0gr5bkPRmcDTCqbH
-         MTnSiysyn3P+Edfktnyp5ACx7eZfFXKySeucz6Bvkfwr8kr6GS41TieFf3ed3mnhkVzp
-         +hvSR1eUNYmn9EGQyCEqSOAbkZrNi+FrudW3Lb24eiKDUhNc8vX4e5yFy/BdGa8746Up
-         mCzBoFE5qaiMY1mWFU+PlqJmcMKxx/nPwpdOtLh0xCFD98/A7YVtmikAvNnx+OoB/SHa
-         HbxPelr8VOdiLMN2P0dJBORSxUIHs9YLh94bWViKs6UbphgpMSytLcLNf/igpJM0WluD
-         mAfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IqWLroX/XqkgzeOrlJN1iOfF6saezPXoUff4VZqP+Sw=;
-        b=FsywcJaFCPLMs3FBOjr+cX2eYmRQheuqlZCrIVZsLByO1TxvBaciiuolHOeLJ3qOTf
-         T1/+nt24egpSXq+Rn9cyU9Xqu46csP9y7ALrhnFs9WxgjWfxsefIl7ZHE+KU7vWIbVYp
-         AIh6mZD2xQuuB3KqXY+Tv8Zg1tGiZwVU9aWezeLsbIHyKobBKv3ZsL99tTcfJ37i9Q4j
-         8X8GgaXROzs/5caL1K9rLyJ+xWEvYQV+trT62yxbJTk7R5dUValbnQuxoGZ4da9AKMKs
-         +QiTLRBj+y28SIf0gqx5AN2WNU0PALGBT2iFzZ4udj3JDawtoaQBjElxKNy1ChucXjmu
-         OA7Q==
-X-Gm-Message-State: ACrzQf3Wh6AE5WifCsyUFajydo4sRU+r8NJitOoVhqo7VfFcE/D26kXu
-	h2a3EQO+r+qh3f/YqdV+d8qBTGmXyaRlKfS9
-X-Google-Smtp-Source: AMsMyM5R8UKxO3EMF5J5VV5c9/S+TazIBOSR+J3U14Wb//78s5PhGsnVdK+/1IPSPevt97yOoBTxSw==
-X-Received: by 2002:a17:907:daa:b0:78d:9bc9:7d7a with SMTP id go42-20020a1709070daa00b0078d9bc97d7amr842284ejc.567.1665687704090;
-        Thu, 13 Oct 2022 12:01:44 -0700 (PDT)
-Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id hx15-20020a170906846f00b0074134543f82sm272620ejc.90.2022.10.13.12.01.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Oct 2022 12:01:43 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Jagan Teki <jagan@amarulasolutions.com>, Andre Przywara <andre.przywara@arm.com>
-Cc: Samuel Holland <samuel@sholland.org>, Tom Rini <trini@konsulko.com>, Simon Glass <sjg@chromium.org>, u-boot@lists.denx.de, linux-sunxi@lists.linux.dev, Chen-Yu Tsai <wens@csie.org>
-Subject: Re: Re: [PATCH 0/2] sunxi: update devicetree files from the kernel
-Date: Thu, 13 Oct 2022 21:01:42 +0200
-Message-ID: <2167316.72vocr9iq0@kista>
-In-Reply-To: <20220926113438.65b64a06@donnerap.cambridge.arm.com>
-References: <20220913234004.24850-1-andre.przywara@arm.com> <20220926113438.65b64a06@donnerap.cambridge.arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40EDF36E
+	for <linux-sunxi@lists.linux.dev>; Fri, 14 Oct 2022 02:56:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1665716176; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=B4NBc5U0vzrb2IVhCmCpkKbCP4qH6kmHNgQSDj+NtSA5jy6VPbXqQlkeejCusg+9/wBJgR5EcHRDsUQIz6pxypvy52qRI/6ulmI1R2lmS/J1ZbTfW2ty8iBUBjDXIRJtBm3J05o6IQYIqLeRxKLF810fC8/Zo61/3MdlzEANXIU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1665716176; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=Xch6Ahc6mpKh0o//bMOoqcUw4dYUZ7qun8hT0y/mZyM=; 
+	b=lhkNZN9QvOxPKHYEAuGj43TIiyLsQArkOSH8XbnoRMmkzMai5z1JlRYDeabWrq0jqw7+Zr8J454IiHdmIx20AG9MjcdsP6eYC6493ZgZV6umO8OWa21GIFf6Ckz111JoJVLYt5fyNA/lsPGmVU3EMpDUHqoeX3R/w/EkUmcK4HU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1665716176;
+	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=Xch6Ahc6mpKh0o//bMOoqcUw4dYUZ7qun8hT0y/mZyM=;
+	b=BtjTPZBXxvbVdpOh5ub/SM0ayFIbV8M1wxZx54XiFfx8hRU/8tD6FLJhpUrxjMVN
+	jbv1ebptl52p5/ndZF3nTB0YRCeGVfQ+nM+bwk1H+3YZe5aShg4rznGSNsd3dq/9J1y
+	0M7HZZQzzgvtjqiwEyW6IkMxed3z6SKH5OPSXxhU=
+Received: from edelgard.fodlan.icenowy.me (112.94.102.144 [112.94.102.144]) by mx.zohomail.com
+	with SMTPS id 1665716174157848.8917127364606; Thu, 13 Oct 2022 19:56:14 -0700 (PDT)
+Message-ID: <fc626a1eacee3ff9e25d4ef71ecb153c1fa836eb.camel@icenowy.me>
+Subject: Re: Re: [PATCH v2 04/10] phy: sun4i-usb: add support for the USB
+ PHY on F1C100s SoC
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Jernej =?gb2312?Q?=810=947krabec?= <jernej.skrabec@gmail.com>, Rob
+ Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Samuel
+ Holland <samuel@sholland.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Andre Przywara <andre.przywara@arm.com>
+Cc: soc@kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev,  linux-phy@lists.infradead.org,
+ linux-usb@vger.kernel.org
+Date: Fri, 14 Oct 2022 10:56:08 +0800
+In-Reply-To: <3442772.V25eIC5XRa@kista>
+References: <20221012055602.1544944-1-uwu@icenowy.me>
+	 <4218006.ejJDZkT8p0@kista>
+	 <439b685e3aada19021d94669f6f855f1fc81d08e.camel@icenowy.me>
+	 <3442772.V25eIC5XRa@kista>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-ZohoMailClient: External
 
-Dne ponedeljek, 26. september 2022 ob 12:34:38 CEST je Andre Przywara 
-napisal(a):
-> On Wed, 14 Sep 2022 00:40:02 +0100
-> Andre Przywara <andre.przywara@arm.com> wrote:
-> 
-> Hi,
-> 
-> can someone please have a look and confirm that this is legit? Could be as
-> easy as just diff'ing against what's in the kernel tree and checking that
-> the differences are just due to the r_intc change.
-> 
-> I would like to push the DT update still into the release, so that we live
-> up to the promise of providing a good experience with $fdtcontroladdr.
+=E5=9C=A8 2022-10-13=E6=98=9F=E6=9C=9F=E5=9B=9B=E7=9A=84 20:25 +0200=EF=BC=
+=8CJernej =C5=A0krabec=E5=86=99=E9=81=93=EF=BC=9A
+> Dne =C4=8Detrtek, 13. oktober 2022 ob 10:49:51 CEST je Icenowy Zheng
+> napisal(a):
+> > =E5=9C=A8 2022-10-12=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 23:21 +0200=EF=
+=BC=8CJernej =C5=A0krabec=E5=86=99=E9=81=93=EF=BC=9A
+> >=20
+> > > Hi Icenowy,
+> > >=20
+> > > Dne sreda, 12. oktober 2022 ob 07:55:56 CEST je Icenowy Zheng
+> > >=20
+> > > napisal(a):
+> > > > The F1C100s SoC has one USB OTG port connected to a MUSB
+> > > > controller.
+> > > >=20
+> > > > Add support for its USB PHY.
+> > > >=20
+> > > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> > > > ---
+> > > > No changes since v1.
+> > > >=20
+> > > > =C2=A0drivers/phy/allwinner/phy-sun4i-usb.c | 11 +++++++++++
+> > > > =C2=A01 file changed, 11 insertions(+)
+> > > >=20
+> > > > diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c
+> > > > b/drivers/phy/allwinner/phy-sun4i-usb.c index
+> > > > 3a3831f6059a..2f94cb77637b
+> > > > 100644
+> > > > --- a/drivers/phy/allwinner/phy-sun4i-usb.c
+> > > > +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
+> > > > @@ -109,6 +109,7 @@ enum sun4i_usb_phy_type {
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sun8i_v3s_phy,
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sun50i_a64_phy,
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sun50i_h6_phy,
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 suniv_f1c100s_phy,
+> > > > =C2=A0};
+> > > >=20
+> > > > =C2=A0struct sun4i_usb_phy_cfg {
+> > > > @@ -859,6 +860,14 @@ static int sun4i_usb_phy_probe(struct
+> > > > platform_device
+> > > > *pdev) return 0;
+> > > > =C2=A0}
+> > > >=20
+> > > > +static const struct sun4i_usb_phy_cfg suniv_f1c100s_cfg =3D {
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .num_phys =3D 1,
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .type =3D suniv_f1c100s_phy,
+> > >=20
+> > > I think you should just use sun4i_a10_phy. It has no special
+> > > handling. I don't
+> > > see a point adding new phy types if there is no special cases for
+> > > it.
+> >=20
+> > Sounds reasonable, although I think we should finally drop .type
+> > and
+> > use only describing items.
+>=20
+> That would be even better. Will you do it?
 
-I checked that all files are either equal or have r_int difference.
+At least not now.
 
-FWIW:
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+But I will at least drop suniv_f1c100s_phy in the next revision.
 
-Best regards,
-Jernej
-
-> 
-> Cheers,
-> Andre
-> 
-> > This syncs the .dts and .dtsi files from the Linux kernel repository
-> > as of v6.0-rc4 into U-Boot. As before, we skip the r_intc change, as
-> > this breaks older kernels.
-> > The first patch handles the 64-bit parts, the second one the 32-bit
-> > SoCs.
-> > 
-> > Thanks,
-> > Andre
-> > 
-> > Andre Przywara (2):
-> >   sunxi: dts: arm64: update devicetree files
-> >   sunxi: dts: arm: update devicetree files
-> >  
-> >  arch/arm/dts/Makefile                         |   3 +-
-> >  arch/arm/dts/sun4i-a10-inet9f-rev03.dts       |  40 +--
-> >  arch/arm/dts/sun4i-a10-pcduino.dts            |   6 +-
-> >  arch/arm/dts/sun50i-a64-amarula-relic.dts     |   2 +-
-> >  arch/arm/dts/sun50i-a64-bananapi-m64.dts      |   4 +-
-> >  arch/arm/dts/sun50i-a64-nanopi-a64.dts        |   2 +-
-> >  arch/arm/dts/sun50i-a64-olinuxino.dts         |  30 ++
-> >  arch/arm/dts/sun50i-a64-orangepi-win.dts      |   6 +-
-> >  arch/arm/dts/sun50i-a64-pinebook.dts          |   4 +-
-> >  arch/arm/dts/sun50i-a64-pinephone-1.0.dts     |   4 +
-> >  arch/arm/dts/sun50i-a64-pinephone-1.1.dts     |   4 +
-> >  arch/arm/dts/sun50i-a64-teres-i.dts           |   8 +
-> >  arch/arm/dts/sun50i-a64.dtsi                  |  10 +-
-> >  arch/arm/dts/sun50i-h5-nanopi-r1s-h5.dts      |   4 +-
-> >  arch/arm/dts/sun50i-h5-orangepi-pc2.dts       |   4 +-
-> >  arch/arm/dts/sun50i-h5-orangepi-prime.dts     |   4 +-
-> >  arch/arm/dts/sun50i-h6-orangepi-3.dts         |   4 +-
-> >  arch/arm/dts/sun50i-h6-orangepi-lite2.dts     |   4 +-
-> >  arch/arm/dts/sun50i-h6-tanix.dtsi             |   2 +-
-> >  arch/arm/dts/sun50i-h6.dtsi                   |  12 +-
-> >  arch/arm/dts/sun50i-h616-orangepi-zero2.dts   |  55 +---
-> >  arch/arm/dts/sun50i-h616-x96-mate.dts         | 177 +++++++++++
-> >  arch/arm/dts/sun50i-h616.dtsi                 | 286 +++++-------------
-> >  arch/arm/dts/sun5i-a13-licheepi-one.dts       |   6 +-
-> >  arch/arm/dts/sun6i-a31.dtsi                   |  13 +-
-> >  arch/arm/dts/sun7i-a20-pcduino3.dts           |   6 +-
-> >  arch/arm/dts/sun8i-a23-a33.dtsi               |   9 +-
-> >  arch/arm/dts/sun8i-a23-ippo-q8h-v1.2.dts      |  74 +----
-> >  arch/arm/dts/sun8i-a23-ippo-q8h-v5.dts        |  74 +----
-> >  arch/arm/dts/sun8i-a33-et-q8-v1.6.dts         |  58 +---
-> >  arch/arm/dts/sun8i-a33-ippo-q8h-v1.2.dts      |  58 +---
-> >  .../dts/sun8i-h2-plus-bananapi-m2-zero.dts    |   8 +-
-> >  arch/arm/dts/sun8i-h2-plus-orangepi-zero.dts  |   2 +-
-> >  arch/arm/dts/sun8i-h3-beelink-x2.dts          |   6 +-
-> >  arch/arm/dts/sun8i-h3-mapleboard-mp130.dts    |   6 +-
-> >  arch/arm/dts/sun8i-h3-nanopi-duo2.dts         |   8 +-
-> >  arch/arm/dts/sun8i-h3-nanopi-neo-air.dts      |   2 +-
-> >  arch/arm/dts/sun8i-h3-nanopi-r1.dts           |   4 +-
-> >  arch/arm/dts/sun8i-h3-nanopi.dtsi             |   5 +-
-> >  arch/arm/dts/sun8i-h3-orangepi-2.dts          |   6 +-
-> >  arch/arm/dts/sun8i-h3-orangepi-lite.dts       |   4 +-
-> >  arch/arm/dts/sun8i-h3-orangepi-one.dts        |   4 +-
-> >  arch/arm/dts/sun8i-h3-orangepi-pc.dts         |   4 +-
-> >  arch/arm/dts/sun8i-r16-bananapi-m2m.dts       |   4 +-
-> >  arch/arm/dts/sun8i-r40-bananapi-m2-ultra.dts  |   5 +
-> >  arch/arm/dts/sun8i-r40-cpu-opp.dtsi           |  52 ++++
-> >  arch/arm/dts/sun8i-r40-feta40i.dtsi           |   5 +
-> >  arch/arm/dts/sun8i-r40.dtsi                   |  44 ++-
-> >  arch/arm/dts/sun8i-t3-cqa3t-bv3.dts           |   5 +
-> >  arch/arm/dts/sun8i-v3s.dtsi                   |   6 +-
-> >  arch/arm/dts/sun8i-v40-bananapi-m2-berry.dts  |   5 +
-> >  arch/arm/dts/sun9i-a80.dtsi                   |   1 -
-> >  arch/arm/dts/sunxi-bananapi-m2-plus.dtsi      |   8 +-
-> >  arch/arm/dts/sunxi-h3-h5-emlid-neutis.dtsi    |   4 +-
-> >  arch/arm/dts/sunxi-h3-h5.dtsi                 |  13 +-
-> >  arch/arm/dts/sunxi-libretech-all-h3-cc.dtsi   |   4 +-
-> >  include/dt-bindings/clock/sun50i-h6-r-ccu.h   |   1 +
-> >  include/dt-bindings/clock/sun50i-h616-ccu.h   |   1 +
-> >  include/dt-bindings/clock/sun6i-rtc.h         |  10 +
-> >  59 files changed, 562 insertions(+), 638 deletions(-)
-> >  create mode 100644 arch/arm/dts/sun50i-h616-x96-mate.dts
-> >  mode change 100644 => 120000 arch/arm/dts/sun8i-a23-ippo-q8h-v1.2.dts
-> >  mode change 100644 => 120000 arch/arm/dts/sun8i-a23-ippo-q8h-v5.dts
-> >  mode change 100644 => 120000 arch/arm/dts/sun8i-a33-et-q8-v1.6.dts
-> >  mode change 100644 => 120000 arch/arm/dts/sun8i-a33-ippo-q8h-v1.2.dts
-> >  create mode 100644 arch/arm/dts/sun8i-r40-cpu-opp.dtsi
-> >  create mode 100644 include/dt-bindings/clock/sun6i-rtc.h
-
+>=20
+> >=20
+> > > Best regards,
+> > > Jernej
+> > >=20
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .disc_thresh =3D 3,
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .phyctl_offset =3D REG_PHYCTL=
+_A10,
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .dedicated_clocks =3D true,
+> > > > +};
+> > > > +
+> > > > =C2=A0static const struct sun4i_usb_phy_cfg sun4i_a10_cfg =3D {
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .num_phys =3D 3,
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .type =3D sun4i_a10_phy,
+> > > > @@ -988,6 +997,8 @@ static const struct of_device_id
+> > > > sun4i_usb_phy_of_match[] =3D { { .compatible =3D
+> > > > "allwinner,sun50i-a64-usb-phy",
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .data =3D &s=
+un50i_a64_cfg},
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { .compatible =3D "allwi=
+nner,sun50i-h6-usb-phy", .data =3D
+> > >=20
+> > > &sun50i_h6_cfg },
+> > >=20
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { .compatible =3D "allwinner,=
+suniv-f1c100s-usb-phy",
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .data =3D &suniv_=
+f1c100s_cfg },
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { },
+> > > > =C2=A0};
+> > > > =C2=A0MODULE_DEVICE_TABLE(of, sun4i_usb_phy_of_match);
+> > > > --
+> > > > 2.37.1
+>=20
+>=20
 
