@@ -1,27 +1,27 @@
 Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9861FBB
-	for <linux-sunxi@lists.linux.dev>; Sat, 15 Oct 2022 15:06:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE08D20E0
+	for <linux-sunxi@lists.linux.dev>; Sat, 15 Oct 2022 15:09:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
 	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
 	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=77Lg64p8/R9tZGnndPHn4KfYVzEjBmwCzK3REgaXQZg=; b=WdSHCzhebt6a0zY62k6qLC7maU
-	y32Bsd5HeiRDzxYhM4aO3D20oVR3eyk6uPZUUuvR4ktUUodELPeLuQCXC1jANhIdAha0TGvIhTDkm
-	SiWTSroNGWy+f1AbcD537ZagDXn02umkC0F2OEHDE5kjFhmm3m+j0Ep17pjG2ha7xsIof2yHv5aA2
-	hJEUeoxHfaT0vGQEpZDOlRMqyCQEKm5z600AfoRg6+a1YRPADp4/tk3Pz+vMMBgZ0nSVbPjMosIrY
-	qHOLLS8bAYY1G73LAlmjToAX9lZ09pU4pS9vEeFwYn4Yj+PLccK4zZgBEFANtS53qZtq+sEDln8fE
-	Tob5zQTg==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:65061 helo=[192.168.10.61])
+	bh=P7pRTxq7KYO3k44s3qhhCAVY4oTb2mw2IirE3FSx1ng=; b=GxgJFEJBFZcqMt7jvrGYCAAGvx
+	DhywpEK9lBqlpQmTL4JiLK3wR0cIB5uIM7Vt45U6b7uvvqRM17u4wpNFNJ+6HWbBXQB2B8bPvXXcc
+	SF6kMCb+eFJkntalEPfxQRkTmvEAT5YSt+VnrxWIv835yQ0c5WBfTxfdeZW3tPWyZRRGZJQj7T8m0
+	Nwjnxm9d/Kec3pBZRybCzuqaSZT7YWXxBDldAQ0+bMLTxvqNh/nPKfl9IKbpdXGAnTgVbO6w4Iei4
+	xE654Ew2Owk/VskBBICvPXnHWLrbN62n6D61UnEqU0XnG0aVsZ7niE1H3xvX8rAikZ5owhybXqkb3
+	8dPL05TQ==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:64825 helo=[192.168.10.61])
 	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <noralf@tronnes.org>)
-	id 1ojikU-0000is-0q; Sat, 15 Oct 2022 17:06:50 +0200
-Message-ID: <c6a8cac1-c566-af3c-d274-35195964f980@tronnes.org>
-Date: Sat, 15 Oct 2022 17:06:45 +0200
+	id 1ojiih-0008O3-ML; Sat, 15 Oct 2022 17:04:59 +0200
+Message-ID: <71e53906-ae9b-55b9-7a93-7bb04a891423@tronnes.org>
+Date: Sat, 15 Oct 2022 17:04:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -30,48 +30,90 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
-Subject: Re: [PATCH v5 01/22] drm/tests: Add Kunit Helpers
-To: Maxime Ripard <maxime@cerno.tech>, Karol Herbst <kherbst@redhat.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@linux.ie>,
+Subject: Re: [PATCH v4 11/30] drm/modes: Add a function to generate analog
+ display modes
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Karol Herbst <kherbst@redhat.com>, Samuel Holland <samuel@sholland.org>,
+ Lyude Paul <lyude@redhat.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Lyude Paul <lyude@redhat.com>, Maxime Ripard <mripard@kernel.org>,
- Emma Anholt <emma@anholt.net>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Ben Skeggs <bskeggs@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+ Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Dom Cobley <dom@raspberrypi.com>, linux-sunxi@lists.linux.dev,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>, intel-gfx@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>,
+ nouveau@lists.freedesktop.org,
  Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-kernel@vger.kernel.org, Dom Cobley <dom@raspberrypi.com>,
  Phil Elwell <phil@raspberrypi.com>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
  <noralf@tronnes.org>
-References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
- <20220728-rpi-analog-tv-properties-v5-1-d841cc64fe4b@cerno.tech>
+References: <20220728-rpi-analog-tv-properties-v4-0-60d38873f782@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v4-11-60d38873f782@cerno.tech>
+ <0aa690b8-988a-878f-4d4f-d391295bc591@tronnes.org>
+ <20221013083638.kloiaxervnhii7ew@houat>
 From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v5-1-d841cc64fe4b@cerno.tech>
+In-Reply-To: <20221013083638.kloiaxervnhii7ew@houat>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
 
-Den 13.10.2022 15.18, skrev Maxime Ripard:
-> As the number of kunit tests in KMS grows further, we start to have
-> multiple test suites that, for example, need to register a mock DRM
-> driver to interact with the KMS function they are supposed to test.
+Den 13.10.2022 10.36, skrev Maxime Ripard:
+> Hi Noralf,
 > 
-> Let's add a file meant to provide those kind of helpers to avoid
-> duplication.
+> On Sat, Oct 01, 2022 at 02:52:06PM +0200, Noralf Trønnes wrote:
+>> Den 29.09.2022 18.31, skrev Maxime Ripard:
+>>> Multiple drivers (meson, vc4, sun4i) define analog TV 525-lines and
+>>> 625-lines modes in their drivers.
+>>>
+>>> Since those modes are fairly standard, and that we'll need to use them
+>>> in more places in the future, it makes sense to move their definition
+>>> into the core framework.
+>>>
+>>> However, analog display usually have fairly loose timings requirements,
+>>> the only discrete parameters being the total number of lines and pixel
+>>> clock frequency. Thus, we created a function that will create a display
+>>> mode from the standard, the pixel frequency and the active area.
+>>>
+>>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>>>
+>>> ---
+>>>
+>>> Changes in v4:
+>>> - Reworded the line length check comment
+>>> - Switch to HZ_PER_KHZ in tests
+>>> - Use previous timing to fill our mode
+>>> - Move the number of lines check earlier
+>>> ---
+>>>  drivers/gpu/drm/drm_modes.c            | 474 +++++++++++++++++++++++++++++++++
+>>>  drivers/gpu/drm/tests/Makefile         |   1 +
+>>>  drivers/gpu/drm/tests/drm_modes_test.c | 144 ++++++++++
+>>>  include/drm/drm_modes.h                |  17 ++
+>>>  4 files changed, 636 insertions(+)
+>>>
+>>
+>> I haven't followed the discussion on this patch, but it seems rather
+>> excessive to add over 600 lines of code (including tests) to add 2 fixed
+>> modes. And it's very difficult to see from the code what the actual
+>> display mode timings really are, which would be useful for other
+>> developers down the road wanting to use them.
+>>
+>> Why not just hardcode the modes?
 > 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> Yeah, I have kind of the same feeling tbh, but it was asked back on the
+> v1 to ease the transition of old fbdev drivers, since they will need
+> such a function:
+> https://lore.kernel.org/dri-devel/CAMuHMdUrwzPYjA0wdR7ADj5Ov6+m03JbnY8fBYzRYyWDuNm5=g@mail.gmail.com/
 > 
-> ---
 
-Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
+If that's the case I suggest you just hardcode them for now and leave
+the complexity to the developer doing the actual conversion of the fbdev
+driver. Who knows when that will happen, but that person will have your
+well documented and discussed work to fall back on.
+
+Noralf.
