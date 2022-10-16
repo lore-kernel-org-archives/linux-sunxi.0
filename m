@@ -1,88 +1,235 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7097E4
-	for <linux-sunxi@lists.linux.dev>; Sun, 16 Oct 2022 04:46:19 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id x31-20020a17090a38a200b0020d2afec803so8261618pjb.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 15 Oct 2022 21:46:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gOPGjdkUUwBD33Ljs14iPONiNzANh82bKNKcOAVpv2U=;
-        b=ig6Dy5kUHX/xCi/qhfXtOSmXyx21TOvJnI+Qe0WYy+CrzaePjxltimPIbm/E/bz4b0
-         Thq1g4ovro3P/B4Pwzu2sbOQuw9JJ4CvxNedhA80rlTJcVgvMeUPAxVGRH2KYByPLfe/
-         1RtuE2vyn1ARWx3ulPnABCPzy/EN3bXPyTcUYUcsq8oAvuIogH6oszJV8ymX2h/Y14Wo
-         /PJNTVd/8mzaKDQyvwYbQQuMOjN7S48l3S8H603mRUAwkTWiSdR4gZuhD+KEJDUXHVrg
-         fQdjrKnaCKiIqEtn9b8tpLq/Fe2+Zf0lP0aeI6z1eYMqy6d8ldiYOn7B5fyVGwY1HsUv
-         BKeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gOPGjdkUUwBD33Ljs14iPONiNzANh82bKNKcOAVpv2U=;
-        b=YXKRhJa9vawAVEzTYgX73S75dwohb8JMdw83W8BMHIuunzHSGlR+SqqtLfUwH8k1cV
-         u5cUfEIeI+syH+hZTlT7p/oI0fiZx7pPAi+rjywhJ490EHMX9sbzetTjg7JHYJxgkEaS
-         j7GdrS//ct8S6QooheHRzdtobOej7/zlEo7hyU4YQpVR7XlcAppyKgjOiA+e5dLFMYkY
-         xhrvCI5sWyMH/txUurze3ep6SkvO0x4BkGfzBEP2rHdkrmFWLw13/boimvi25UvyYr9L
-         doJPDq4genIvoZwAl2WLsu0aWjV3L2YshxYZrlc9TWQ4dBdbVPPwLkVM0RJdQUw7M2y5
-         hJ4g==
-X-Gm-Message-State: ACrzQf29FisfQqa/DSWAQPyxg0JOI2UiUPOoGCLlbgAAiTGLNArbWDjO
-	SLVdKHuTZYPscTViJ3ME/g==
-X-Google-Smtp-Source: AMsMyM63j0z/1xvhysZgEbmP6pbY1z3+XW9PpVel3uuw8eOMbfB7ujM/Qo5QvMY8PkoBbfj2qSylXw==
-X-Received: by 2002:a17:902:c7c3:b0:182:7a62:4fa with SMTP id r3-20020a170902c7c300b001827a6204famr5855511pla.122.1665895579262;
-        Sat, 15 Oct 2022 21:46:19 -0700 (PDT)
-Received: from localhost.localdomain ([113.110.232.129])
-        by smtp.gmail.com with ESMTPSA id z14-20020aa79e4e000000b005631a40a00bsm4308555pfq.139.2022.10.15.21.46.16
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 15 Oct 2022 21:46:18 -0700 (PDT)
-From: Ban Tao <fengzheng923@gmail.com>
-To: fengzheng923@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org
-Cc: alsa-devel@alsa-project.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: sun50i-dmic: avoid unused variable warning for sun50i_dmic_of_match
-Date: Sat, 15 Oct 2022 21:45:24 -0700
-Message-Id: <1665895524-122458-1-git-send-email-fengzheng923@gmail.com>
-X-Mailer: git-send-email 2.7.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A338223A1
+	for <linux-sunxi@lists.linux.dev>; Sun, 16 Oct 2022 16:11:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=SoBF0g+FxVXYhyEJbqnBUYS67u0wCvqTfgLTEmDo6Rs=; b=chyU99w3w9UnsJiZdgEZxPywYK
+	2KFqsArMDjFwStLaJzCr0FFMBxUEZdZSor1/8gZukX9II02z5mT8+lPXJWm5X5KybeOaDgyjfUVXx
+	nSd9rTChH84m+/0qpy3JcAB9/zqz528MlroFmgwAk3KsiLi34gVTMlrQZUUqkr/sWHT149wrgyGbw
+	ACRXUuRsqa1btBXk7YTvArU3dnpTkza00kF5bK3PxTtiGfy5+0V5z0VlP6JSfRgMqrv7Jt+V/cJMy
+	AycYhU90dxCflKYFL6EbN34GAlb/nPpojAQLos+HyhvPPTelcr1bp2sWGdu/t2coHum3e+KJaAnOd
+	PmE/yO7Q==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:51414 helo=[192.168.10.61])
+	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <noralf@tronnes.org>)
+	id 1ok6Ec-0003SN-2l; Sun, 16 Oct 2022 18:11:30 +0200
+Message-ID: <729f849a-0287-a2fb-125f-892b4dd6053f@tronnes.org>
+Date: Sun, 16 Oct 2022 18:11:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v5 08/22] drm/modes: Move named modes parsing to a
+ separate function
+To: Maxime Ripard <maxime@cerno.tech>, Karol Herbst <kherbst@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>, Maxime Ripard <mripard@kernel.org>,
+ Emma Anholt <emma@anholt.net>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Ben Skeggs <bskeggs@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Dom Cobley <dom@raspberrypi.com>, linux-sunxi@lists.linux.dev,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Phil Elwell <phil@raspberrypi.com>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
+ <noralf@tronnes.org>
+References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v5-8-d841cc64fe4b@cerno.tech>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v5-8-d841cc64fe4b@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-In configurations with CONFIG_OF=n, we get a harmless build warning:
 
-sound/soc/sunxi/sun50i-dmic.c:268:34: warning: unused variable
-'sun50i_dmic_of_match' [-Wunused-const-variable]
 
-Signed-off-by: Ban Tao <fengzheng923@gmail.com>
-Reported-by: kernel test robot <lkp@intel.com>
----
- sound/soc/sunxi/sun50i-dmic.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Den 13.10.2022 15.18, skrev Maxime Ripard:
+> The current construction of the named mode parsing doesn't allow to extend
+> it easily. Let's move it to a separate function so we can add more
+> parameters and modes.
+> 
+> In order for the tests to still pass, some extra checks are needed, so
+> it's not a 1:1 move.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> 
 
-diff --git a/sound/soc/sunxi/sun50i-dmic.c b/sound/soc/sunxi/sun50i-dmic.c
-index 86cff5a..62509cb 100644
---- a/sound/soc/sunxi/sun50i-dmic.c
-+++ b/sound/soc/sunxi/sun50i-dmic.c
-@@ -391,7 +391,7 @@ static const struct dev_pm_ops sun50i_dmic_pm = {
- static struct platform_driver sun50i_dmic_driver = {
- 	.driver         = {
- 		.name   = "sun50i-dmic",
--		.of_match_table = of_match_ptr(sun50i_dmic_of_match),
-+		.of_match_table = sun50i_dmic_of_match,
- 		.pm     = &sun50i_dmic_pm,
- 	},
- 	.probe          = sun50i_dmic_probe,
--- 
-2.7.4
+I was hoping that someone else would step up and review these parser
+patches since the parser code is rather difficult to read, for me at
+least. I have studied it now, so I'll give it a try.
 
+> ---
+> Changes in v4:
+> - Fold down all the named mode patches that were split into a single
+>   patch again to maintain bisectability
+> ---
+>  drivers/gpu/drm/drm_modes.c | 73 ++++++++++++++++++++++++++++++++++++++-------
+>  1 file changed, 62 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> index c0dceff51cac..2f020ef2ddf2 100644
+> --- a/drivers/gpu/drm/drm_modes.c
+> +++ b/drivers/gpu/drm/drm_modes.c
+> @@ -2229,6 +2229,55 @@ static const char * const drm_named_modes_whitelist[] = {
+>  	"PAL",
+>  };
+>  
+> +static int drm_mode_parse_cmdline_named_mode(const char *name,
+> +					     unsigned int name_end,
+> +					     struct drm_cmdline_mode *cmdline_mode)
+> +{
+> +	unsigned int i;
+> +
+> +	if (!name_end)
+> +		return 0;
+
+name_end can't be zero since the argument is checked before calling this
+function.
+
+> +
+> +	/* If the name starts with a digit, it's not a named mode */
+> +	if (isdigit(name[0]))
+> +		return 0;
+> +
+> +	/*
+> +	 * If there's an equal sign in the name, the command-line
+> +	 * contains only an option and no mode.
+> +	 */
+> +	if (strnchr(name, name_end, '='))
+> +		return 0;
+
+I think this check actually belongs in
+drm_mode_parse_command_line_for_connector() after options_off is set. If
+theres an equal sign it should skip all mode parsing and skip down to
+drm_mode_parse_cmdline_options(). Which probably means that the mode
+parsing should have been moved out to separate function to avoid using a
+goto.
+But that's probably beyond the scope of this patchset :)
+
+> +
+> +#define STR_STRICT_EQ(str, len, cmp) \
+> +	(str_has_prefix(str, cmp) == len)
+> +
+> +	/* The connection status extras can be set without a mode. */
+> +	if (STR_STRICT_EQ(name, name_end, "d") ||
+> +	    STR_STRICT_EQ(name, name_end, "D") ||
+> +	    STR_STRICT_EQ(name, name_end, "e"))
+> +		return 0;
+
+It took me a while to understand what is going on here.
+If str_has_prefix() finds a match it returns strlen(prefix). Since
+prefix is always of length 1, name_end has to always be 1 for the
+statement to be true.
+
+I would have written it like this:
+
+	/* The connection status extras can be set without a mode. */
+	if (name_end == 1) {
+		if (name[0] == "d" || name[0] == "D" || name[0] == "e")
+			return 0;
+	}
+
+> +
+> +	/*
+> +	 * We're sure we're a named mode at that point, iterate over the
+
+that -> this ?
+
+> +	 * list of modes we're aware of.
+> +	 */
+> +	for (i = 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
+> +		int ret;
+> +
+> +		ret = str_has_prefix(name, drm_named_modes_whitelist[i]);
+> +		if (ret != name_end)
+> +			continue;
+> +
+> +		strcpy(cmdline_mode->name, drm_named_modes_whitelist[i]);
+> +		cmdline_mode->specified = true;
+> +
+> +		return 1;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+>  /**
+>   * drm_mode_parse_command_line_for_connector - parse command line modeline for connector
+>   * @mode_option: optional per connector mode option
+> @@ -2265,7 +2314,7 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
+>  	const char *bpp_ptr = NULL, *refresh_ptr = NULL, *extra_ptr = NULL;
+>  	const char *options_ptr = NULL;
+>  	char *bpp_end_ptr = NULL, *refresh_end_ptr = NULL;
+> -	int i, len, ret;
+> +	int len, ret;
+>  
+>  	memset(mode, 0, sizeof(*mode));
+>  	mode->panel_orientation = DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
+> @@ -2306,17 +2355,19 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
+>  		parse_extras = true;
+>  	}
+>  
+> -	/* First check for a named mode */
+> -	for (i = 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
+> -		ret = str_has_prefix(name, drm_named_modes_whitelist[i]);
+> -		if (ret == mode_end) {
+> -			if (refresh_ptr)
+> -				return false; /* named + refresh is invalid */
+>  
+> -			strcpy(mode->name, drm_named_modes_whitelist[i]);
+> -			mode->specified = true;
+> -			break;
+> -		}
+> +	if (mode_end) {
+
+Shouldn't this be:
+
+	if (!mode_end)
+		return false;
+
+I can't see how mode_end == 0 can produce anything valid.
+Scenarios for mode_option that gives mode_end == 0:
+- zero length
+- starts with a comma
+- starts with -bpp
+- starts with @refresh
+
+Maybe it's a separate patch with matching tests ;)
+
+Noralf.
+
+> +		ret = drm_mode_parse_cmdline_named_mode(name, mode_end, mode);
+> +		if (ret < 0)
+> +			return false;
+> +
+> +		/*
+> +		 * Having a mode that starts by a letter (and thus is named)
+> +		 * and an at-sign (used to specify a refresh rate) is
+> +		 * disallowed.
+> +		 */
+> +		if (ret && refresh_ptr)
+> +			return false;
+>  	}
+>  
+>  	/* No named mode? Check for a normal mode argument, e.g. 1024x768 */
+> 
