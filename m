@@ -1,37 +1,60 @@
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A338223A1
-	for <linux-sunxi@lists.linux.dev>; Sun, 16 Oct 2022 16:11:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=SoBF0g+FxVXYhyEJbqnBUYS67u0wCvqTfgLTEmDo6Rs=; b=chyU99w3w9UnsJiZdgEZxPywYK
-	2KFqsArMDjFwStLaJzCr0FFMBxUEZdZSor1/8gZukX9II02z5mT8+lPXJWm5X5KybeOaDgyjfUVXx
-	nSd9rTChH84m+/0qpy3JcAB9/zqz528MlroFmgwAk3KsiLi34gVTMlrQZUUqkr/sWHT149wrgyGbw
-	ACRXUuRsqa1btBXk7YTvArU3dnpTkza00kF5bK3PxTtiGfy5+0V5z0VlP6JSfRgMqrv7Jt+V/cJMy
-	AycYhU90dxCflKYFL6EbN34GAlb/nPpojAQLos+HyhvPPTelcr1bp2sWGdu/t2coHum3e+KJaAnOd
-	PmE/yO7Q==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:51414 helo=[192.168.10.61])
-	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <noralf@tronnes.org>)
-	id 1ok6Ec-0003SN-2l; Sun, 16 Oct 2022 18:11:30 +0200
-Message-ID: <729f849a-0287-a2fb-125f-892b4dd6053f@tronnes.org>
-Date: Sun, 16 Oct 2022 18:11:21 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6037D7F
+	for <linux-sunxi@lists.linux.dev>; Sun, 16 Oct 2022 17:34:18 +0000 (UTC)
+Received: by mail-lj1-f173.google.com with SMTP id b18so11472396ljr.13
+        for <linux-sunxi@lists.linux.dev>; Sun, 16 Oct 2022 10:34:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:references:cc:to
+         :content-language:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=U4iSKyq/6RLyBw4TdJevIeK6LIwDkSY3maF+UHfhRrc=;
+        b=Kb3uE39EqEeKXPUs/mXs6k65peycq9pdE/WXMK4E2BFk1YiAINvgg+vkC0YAaXyJnp
+         VK5A3ChSRZG1GvlLyiVqIqR5FOG7BypHyXE38dY0/pytGejDjoy1MFeH0Fv01/KdamSk
+         dZEaHlsAJAeQjNRCuzfXMbSHy6BItSb+Zs8ov21H6w0Gj+ByuPNU/m8dOTkEA+lrlBqH
+         rF6WY3dsgRh0pnnkPbOdwVIrSy3hXsXiHkPJQJdUs7ysttYGu0er+okgYgRjQTy+uLr5
+         dPyr+xyJy5N4rXlgSGh7/EXSDczjfBivOJ82p8PRq8ByRq2YVEecIGSpp222OndxdRHd
+         XoHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:references:cc:to
+         :content-language:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U4iSKyq/6RLyBw4TdJevIeK6LIwDkSY3maF+UHfhRrc=;
+        b=ZuEfEegFH2Ad9QrMEiAPARBOOIhFC5XLo8RetUEg+1G/CuRsQm5D4086o7a/xF2KfD
+         Q5U186ptS+9L8zLLDVp0gKl1UB2LsPv73UNgvJmaUIDS0+GjIJIZrP1mGtoii6MTTwBw
+         H2HnWklfbCUOy1NyV1rIUcdRufa52Ggdb/SWM+SKMD8gKdb4YYpIWADKFf3FKyy6OWWF
+         y2XfQjyqolHdzGykX6/6aqjau3lWDLsx9jli25BpFUS/94Rvk+FMi43HpqJ0yx6kgn06
+         ZN+a4BnNMyol2fAHXhTfnpbFjm6rH0EmjU9o8kc5j9pYtmAforqd08WaZLLCpQJy140M
+         A44A==
+X-Gm-Message-State: ACrzQf1HSshjFe2BmRDlfOmDDdgZRHH6uAYw2IHpWZGt2SBsh2bvfiFf
+	75+g1NdIrZjCLP2TcPz/E7A=
+X-Google-Smtp-Source: AMsMyM4FwFL8YTyWV0uuDmptwQ58R53jPCOYdbjm/t3gf92/x+NDTiDZK/HMDmSdTIkPCQ0ey+Q6jw==
+X-Received: by 2002:a05:651c:114:b0:26f:a696:5a40 with SMTP id a20-20020a05651c011400b0026fa6965a40mr2909134ljb.350.1665941656107;
+        Sun, 16 Oct 2022 10:34:16 -0700 (PDT)
+Received: from ?IPV6:2a02:a31a:a240:1700:64bb:87df:aad7:a9f0? ([2a02:a31a:a240:1700:64bb:87df:aad7:a9f0])
+        by smtp.googlemail.com with ESMTPSA id v23-20020ac258f7000000b0048a8586293asm1131359lfo.48.2022.10.16.10.34.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 16 Oct 2022 10:34:15 -0700 (PDT)
+From: Mateusz Kwiatkowski <kfyatek@gmail.com>
+X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+Message-ID: <30dbbcc8-1d14-0fc8-ed7c-0c3f7d094ea3@gmail.com>
+Date: Sun, 16 Oct 2022 19:34:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v5 08/22] drm/modes: Move named modes parsing to a
- separate function
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.3
+Reply-To: kfyatek+publicgit@gmail.com
+Subject: Re: [PATCH v5 06/22] drm/modes: Add a function to generate analog
+ display modes
+Content-Language: pl
 To: Maxime Ripard <maxime@cerno.tech>, Karol Herbst <kherbst@redhat.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
@@ -47,189 +70,128 @@ To: Maxime Ripard <maxime@cerno.tech>, Karol Herbst <kherbst@redhat.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: Dom Cobley <dom@raspberrypi.com>, linux-sunxi@lists.linux.dev,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
  intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  nouveau@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-arm-kernel@lists.infradead.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Phil Elwell <phil@raspberrypi.com>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, Phil Elwell <phil@raspberrypi.com>
 References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
- <20220728-rpi-analog-tv-properties-v5-8-d841cc64fe4b@cerno.tech>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v5-8-d841cc64fe4b@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v5-6-d841cc64fe4b@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v5-6-d841cc64fe4b@cerno.tech>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+Hi Maxime & everyone,
 
+Sorry for being inactive in the discussions about this patchset for the last
+couple of weeks.
 
-Den 13.10.2022 15.18, skrev Maxime Ripard:
-> The current construction of the named mode parsing doesn't allow to extend
-> it easily. Let's move it to a separate function so we can add more
-> parameters and modes.
-> 
-> In order for the tests to still pass, some extra checks are needed, so
-> it's not a 1:1 move.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
-
-I was hoping that someone else would step up and review these parser
-patches since the parser code is rather difficult to read, for me at
-least. I have studied it now, so I'll give it a try.
-
-> ---
-> Changes in v4:
-> - Fold down all the named mode patches that were split into a single
->   patch again to maintain bisectability
-> ---
->  drivers/gpu/drm/drm_modes.c | 73 ++++++++++++++++++++++++++++++++++++++-------
->  1 file changed, 62 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> index c0dceff51cac..2f020ef2ddf2 100644
-> --- a/drivers/gpu/drm/drm_modes.c
-> +++ b/drivers/gpu/drm/drm_modes.c
-> @@ -2229,6 +2229,55 @@ static const char * const drm_named_modes_whitelist[] = {
->  	"PAL",
->  };
->  
-> +static int drm_mode_parse_cmdline_named_mode(const char *name,
-> +					     unsigned int name_end,
-> +					     struct drm_cmdline_mode *cmdline_mode)
-> +{
-> +	unsigned int i;
+> +const static struct analog_parameters tv_modes_parameters[] = {
+> +	TV_MODE_PARAMETER(DRM_MODE_ANALOG_NTSC,
+> +			  NTSC_LINES_NUMBER,
+> +			  NTSC_LINE_DURATION_NS,
+> +			  PARAM_RANGE(NTSC_HACT_DURATION_MIN_NS,
+> +				      NTSC_HACT_DURATION_TYP_NS,
+> +				      NTSC_HACT_DURATION_MAX_NS),
+> +			  PARAM_RANGE(NTSC_HFP_DURATION_MIN_NS,
+> +				      NTSC_HFP_DURATION_TYP_NS,
+> +				      NTSC_HFP_DURATION_MAX_NS),
+> +			  PARAM_RANGE(NTSC_HSLEN_DURATION_MIN_NS,
+> +				      NTSC_HSLEN_DURATION_TYP_NS,
+> +				      NTSC_HSLEN_DURATION_MAX_NS),
+> +			  PARAM_RANGE(NTSC_HBP_DURATION_MIN_NS,
+> +				      NTSC_HBP_DURATION_TYP_NS,
+> +				      NTSC_HBP_DURATION_MAX_NS),
+> +			  PARAM_RANGE(NTSC_HBLK_DURATION_MIN_NS,
+> +				      NTSC_HBLK_DURATION_TYP_NS,
+> +				      NTSC_HBLK_DURATION_MAX_NS),
+> +			  16,
+> +			  PARAM_FIELD(3, 3),
+> +			  PARAM_FIELD(3, 3),
+> +			  PARAM_FIELD(16, 17)),
+> +	TV_MODE_PARAMETER(DRM_MODE_ANALOG_PAL,
+> +			  PAL_LINES_NUMBER,
+> +			  PAL_LINE_DURATION_NS,
+> +			  PARAM_RANGE(PAL_HACT_DURATION_MIN_NS,
+> +				      PAL_HACT_DURATION_TYP_NS,
+> +				      PAL_HACT_DURATION_MAX_NS),
+> +			  PARAM_RANGE(PAL_HFP_DURATION_MIN_NS,
+> +				      PAL_HFP_DURATION_TYP_NS,
+> +				      PAL_HFP_DURATION_MAX_NS),
+> +			  PARAM_RANGE(PAL_HSLEN_DURATION_MIN_NS,
+> +				      PAL_HSLEN_DURATION_TYP_NS,
+> +				      PAL_HSLEN_DURATION_MAX_NS),
+> +			  PARAM_RANGE(PAL_HBP_DURATION_MIN_NS,
+> +				      PAL_HBP_DURATION_TYP_NS,
+> +				      PAL_HBP_DURATION_MAX_NS),
+> +			  PARAM_RANGE(PAL_HBLK_DURATION_MIN_NS,
+> +				      PAL_HBLK_DURATION_TYP_NS,
+> +				      PAL_HBLK_DURATION_MAX_NS),
+> +			  12,
 > +
-> +	if (!name_end)
-> +		return 0;
-
-name_end can't be zero since the argument is checked before calling this
-function.
-
+> +			  /*
+> +			   * The front porch is actually 6 short sync
+> +			   * pulses for the even field, and 5 for the
+> +			   * odd field. Each sync takes half a life so
+> +			   * the odd field front porch is shorter by
+> +			   * half a line.
+> +			   *
+> +			   * In progressive, we're supposed to use 6
+> +			   * pulses, so we're fine there
+> +			   */
+> +			  PARAM_FIELD(3, 2),
 > +
-> +	/* If the name starts with a digit, it's not a named mode */
-> +	if (isdigit(name[0]))
-> +		return 0;
+> +			  /*
+> +			   * The vsync length is 5 long sync pulses,
+> +			   * each field taking half a line. We're
+> +			   * shorter for both fields by half a line.
+> +			   *
+> +			   * In progressive, we're supposed to use 5
+> +			   * pulses, so we're off by half
+> +			   * a line.
+> +			   *
+> +			   * In interlace, we're now off by half a line
+> +			   * for the even field and one line for the odd
+> +			   * field.
+> +			   */
+> +			  PARAM_FIELD(3, 3),
 > +
-> +	/*
-> +	 * If there's an equal sign in the name, the command-line
-> +	 * contains only an option and no mode.
-> +	 */
-> +	if (strnchr(name, name_end, '='))
-> +		return 0;
+> +			  /*
+> +			   * The back porch starts with post-equalizing
+> +			   * pulses, consisting in 5 short sync pulses
+> +			   * for the even field, 4 for the odd field. In
+> +			   * progressive, it's 5 short syncs.
+> +			   *
+> +			   * In progressive, we thus have 2.5 lines,
+> +			   * plus the 0.5 line we were missing
+> +			   * previously, so we should use 3 lines.
+> +			   *
+> +			   * In interlace, the even field is in the
+> +			   * exact same case than progressive. For the
+> +			   * odd field, we should be using 2 lines but
+> +			   * we're one line short, so we'll make up for
+> +			   * it here by using 3.
+> +			   *
+> +			   * The entire blanking area is supposed to
+> +			   * take 25 lines, so we also need to account
+> +			   * for the rest of the blanking area that
+> +			   * can't be in either the front porch or sync
+> +			   * period.
+> +			   */
+> +			  PARAM_FIELD(19, 20)),
+> +};
 
-I think this check actually belongs in
-drm_mode_parse_command_line_for_connector() after options_off is set. If
-theres an equal sign it should skip all mode parsing and skip down to
-drm_mode_parse_cmdline_options(). Which probably means that the mode
-parsing should have been moved out to separate function to avoid using a
-goto.
-But that's probably beyond the scope of this patchset :)
+Nit: setting vbp limits like that makes it impossible to use
+drm_analog_tv_mode() to generate modes that include the VBI for e.g. emitting
+teletext.
 
-> +
-> +#define STR_STRICT_EQ(str, len, cmp) \
-> +	(str_has_prefix(str, cmp) == len)
-> +
-> +	/* The connection status extras can be set without a mode. */
-> +	if (STR_STRICT_EQ(name, name_end, "d") ||
-> +	    STR_STRICT_EQ(name, name_end, "D") ||
-> +	    STR_STRICT_EQ(name, name_end, "e"))
-> +		return 0;
+This probably doesn't matter, as it can still be created as a custom mode from
+userspace, hence I'm mentioning it as a nit.
 
-It took me a while to understand what is going on here.
-If str_has_prefix() finds a match it returns strlen(prefix). Since
-prefix is always of length 1, name_end has to always be 1 for the
-statement to be true.
+> +		 * By convention, NSTC (aka 525/60) systems start with
 
-I would have written it like this:
+Typo: s/NSTC/NTSC/
 
-	/* The connection status extras can be set without a mode. */
-	if (name_end == 1) {
-		if (name[0] == "d" || name[0] == "D" || name[0] == "e")
-			return 0;
-	}
+Best regards,
+Mateusz Kwiatkowski
 
-> +
-> +	/*
-> +	 * We're sure we're a named mode at that point, iterate over the
-
-that -> this ?
-
-> +	 * list of modes we're aware of.
-> +	 */
-> +	for (i = 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
-> +		int ret;
-> +
-> +		ret = str_has_prefix(name, drm_named_modes_whitelist[i]);
-> +		if (ret != name_end)
-> +			continue;
-> +
-> +		strcpy(cmdline_mode->name, drm_named_modes_whitelist[i]);
-> +		cmdline_mode->specified = true;
-> +
-> +		return 1;
-> +	}
-> +
-> +	return -EINVAL;
-> +}
-> +
->  /**
->   * drm_mode_parse_command_line_for_connector - parse command line modeline for connector
->   * @mode_option: optional per connector mode option
-> @@ -2265,7 +2314,7 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
->  	const char *bpp_ptr = NULL, *refresh_ptr = NULL, *extra_ptr = NULL;
->  	const char *options_ptr = NULL;
->  	char *bpp_end_ptr = NULL, *refresh_end_ptr = NULL;
-> -	int i, len, ret;
-> +	int len, ret;
->  
->  	memset(mode, 0, sizeof(*mode));
->  	mode->panel_orientation = DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
-> @@ -2306,17 +2355,19 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
->  		parse_extras = true;
->  	}
->  
-> -	/* First check for a named mode */
-> -	for (i = 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
-> -		ret = str_has_prefix(name, drm_named_modes_whitelist[i]);
-> -		if (ret == mode_end) {
-> -			if (refresh_ptr)
-> -				return false; /* named + refresh is invalid */
->  
-> -			strcpy(mode->name, drm_named_modes_whitelist[i]);
-> -			mode->specified = true;
-> -			break;
-> -		}
-> +	if (mode_end) {
-
-Shouldn't this be:
-
-	if (!mode_end)
-		return false;
-
-I can't see how mode_end == 0 can produce anything valid.
-Scenarios for mode_option that gives mode_end == 0:
-- zero length
-- starts with a comma
-- starts with -bpp
-- starts with @refresh
-
-Maybe it's a separate patch with matching tests ;)
-
-Noralf.
-
-> +		ret = drm_mode_parse_cmdline_named_mode(name, mode_end, mode);
-> +		if (ret < 0)
-> +			return false;
-> +
-> +		/*
-> +		 * Having a mode that starts by a letter (and thus is named)
-> +		 * and an at-sign (used to specify a refresh rate) is
-> +		 * disallowed.
-> +		 */
-> +		if (ret && refresh_ptr)
-> +			return false;
->  	}
->  
->  	/* No named mode? Check for a normal mode argument, e.g. 1024x768 */
-> 
