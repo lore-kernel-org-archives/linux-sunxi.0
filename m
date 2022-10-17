@@ -1,14 +1,14 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED0C710EA
-	for <linux-sunxi@lists.linux.dev>; Mon, 17 Oct 2022 06:47:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDAFD10F7
+	for <linux-sunxi@lists.linux.dev>; Mon, 17 Oct 2022 09:26:38 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E61821042;
-	Sun, 16 Oct 2022 23:47:40 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6ECCC1042;
+	Mon, 17 Oct 2022 02:26:44 -0700 (PDT)
 Received: from [192.168.42.194] (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D1FBB3F792;
-	Sun, 16 Oct 2022 23:47:33 -0700 (PDT)
-Message-ID: <6d310c9a-fe29-49a7-3905-74a3b521d168@arm.com>
-Date: Mon, 17 Oct 2022 07:47:11 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 64B453F792;
+	Mon, 17 Oct 2022 02:26:37 -0700 (PDT)
+Message-ID: <ba42f4fd-359a-d748-939b-9eef240fcbce@arm.com>
+Date: Mon, 17 Oct 2022 10:26:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -17,45 +17,48 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 0/2] sunxi: fix SUNIV D$ support
+Subject: Re: [PATCH 1/2] sunxi: fix SUNIV build when enabling D-Cache
 Content-Language: en-GB
 To: Icenowy Zheng <uwu@icenowy.me>, Jagan Teki <jagan@amarulasolutions.com>
 Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
 References: <20221013132645.2469041-1-uwu@icenowy.me>
+ <20221013132645.2469041-2-uwu@icenowy.me>
 From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20221013132645.2469041-1-uwu@icenowy.me>
+In-Reply-To: <20221013132645.2469041-2-uwu@icenowy.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 13/10/2022 14:26, Icenowy Zheng wrote:
-
-Hi Icenowy,
-
-> Currently D$ support of SUNIV is broken because of duplicated definition
-> of the D$ enabling function.
+> The enable_caches function in architecture-specific board code is only
+> necessary for V7A CPUs, code for both V8A and ARM926 have already
+> declared this function.
 > 
-> Mask the one in mach-sunxi to fix the build error when D$ is enabled,
-> and enable the D$ on Lichee Pi Nano.
+> Only provide our implementation of enable_caches() for V7A CPUs.
+> 
+> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 
-Ah, very nice. I was always wondering why we would need to disable the 
-data cache, but it wasn't high enough on my list to investigate.
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
-So indeed that both builds and works nicely: md5sum-ing 48MB goes from 
-21 seconds down to 3 seconds now!
+Merging into sunxi/master.
 
-Will merge it as part of the first pull request.
-
-Many thanks!
+Cheers,
 Andre
 
-
+> ---
+>   arch/arm/mach-sunxi/board.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Icenowy Zheng (2):
->    sunxi: fix SUNIV build when enabling D-Cache
->    configs: sunxi: licheepi_nano: enable D-Cache
-> 
->   arch/arm/mach-sunxi/board.c     | 2 +-
->   configs/licheepi_nano_defconfig | 1 -
->   2 files changed, 1 insertion(+), 2 deletions(-)
-> 
+> diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
+> index 62bb40b8c8..60ccf909db 100644
+> --- a/arch/arm/mach-sunxi/board.c
+> +++ b/arch/arm/mach-sunxi/board.c
+> @@ -488,7 +488,7 @@ void reset_cpu(void)
+>   }
+>   #endif
+>   
+> -#if !CONFIG_IS_ENABLED(SYS_DCACHE_OFF) && !defined(CONFIG_ARM64)
+> +#if !CONFIG_IS_ENABLED(SYS_DCACHE_OFF) && defined(CONFIG_CPU_V7A)
+>   void enable_caches(void)
+>   {
+>   	/* Enable D-cache. I-cache is already enabled in start.S */
 
