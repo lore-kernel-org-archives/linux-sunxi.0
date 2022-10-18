@@ -1,215 +1,117 @@
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1D17B
-	for <linux-sunxi@lists.linux.dev>; Tue, 18 Oct 2022 10:00:42 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.west.internal (Postfix) with ESMTP id 9840A2B0681B;
-	Tue, 18 Oct 2022 06:00:37 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Tue, 18 Oct 2022 06:00:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1666087237; x=1666094437; bh=Mew53OXTwH
-	iFXmVQ6iZl8wdqIVw1qLYYMvOjSnGQjvA=; b=h783S06UIS10ylSuF1/o838YPM
-	DbVp8c65C70IDJcdNMmiaofP7qPuufEnKRs4zQAgwHIPvIVKKvV6EDExmWiGRi80
-	CgRIJfH7KeyuWSnNBSqtBiCKNTxKOKb3kOtEtr/ts5UQ8kPVBhmL4xei7tMXKVS1
-	rUH8E9RIAkUwWFOya33EWvEZ4HEOH6PsAHspGS0SR2G6UqMqvqA/N+ODJRzp/ATP
-	nTOFmQZx3gM0oZRqQeyHnMo7y/2hAMjrE+b7i49b9nSCy36Ora+nv2YToDQcv7Vu
-	XdKa+TQj7D2+4zdj1THQvExQSF3thASe4B5aE3rTc5kGB53FGePLt/3Y9OlQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1666087237; x=1666094437; bh=Mew53OXTwHiFXmVQ6iZl8wdqIVw1
-	qLYYMvOjSnGQjvA=; b=MBih877Ia2R4AkvypNa7P62ofASd5XL0SrMcb9zmgHoO
-	aXlyIzvS0leCX1CXutgzIouWAlIOMdSV9mQhs091IGwG7qhjErxmL+3ayoVJpmYm
-	aDbBlEqIZIWC/kOKNTgZG7jyj0RCg0ABFUzlIpihFdjX0+0TdrNk+cDVmXUka/rJ
-	UjhwInHkfq6DmPlnpqiTVtzmJigNO3ga+uVvYw3fEoE1AiVkGqMILI1Ztk5u36u1
-	salh1ELf0Isya9OJKJgV1e8qChcxXTtWWtE2uTRwjqVTEVD8vkY1WTSbA9yORqRV
-	5no88hoRCkwa4Ui9AWEQbqmNzaTqf6+6vUyIszuGWg==
-X-ME-Sender: <xms:Q3lOY2nQJX9RqPjmQNiTRRY4F2L4fPkbPAe0gSi-UyAPVOarLyhXaw>
-    <xme:Q3lOY90uGpOpg9mVbr79O-uj9LXljCEdpQ0-EZMwFa2Ocz39PpD0TO-cuvKu14ok-
-    uit2P9CtjP2JOWcwRs>
-X-ME-Received: <xmr:Q3lOY0raXPka89ULQeI7CnDB39OHXy5yWKa5IRPKT60wDypyuJ7kED84_NBp>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeluddgvdefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeeljeeugfegveetleevkeetffegudevieetieeugeeugeeivddtjeejvdef
-    feetgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
-    hh
-X-ME-Proxy: <xmx:RHlOY6nZwkVmV8fTV_dnJgszqGV7bUWlw6HJPq4x2iIjiOpRPgw1LA>
-    <xmx:RHlOY01HlDURHhJ5_MRfx5sLZOkPNcVYwpknmpFPSaNwIV9rdW1Msw>
-    <xmx:RHlOYxsmFAoVXp0zSZohSbuqaM0lnza9lt7ed7ZkjJpPnjuwQQZe2Q>
-    <xmx:RXlOY0U3sTCTETZD1EFyaz82r4EUI5m6-X92lt0_6gKLympJ51598NuFJKU>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 18 Oct 2022 06:00:35 -0400 (EDT)
-Date: Tue, 18 Oct 2022 12:00:33 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Cc: kfyatek+publicgit@gmail.com, Karol Herbst <kherbst@redhat.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	David Airlie <airlied@linux.ie>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Lyude Paul <lyude@redhat.com>, Emma Anholt <emma@anholt.net>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	Ben Skeggs <bskeggs@redhat.com>,	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Dom Cobley <dom@raspberrypi.com>, linux-sunxi@lists.linux.dev,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	nouveau@lists.freedesktop.org,	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-arm-kernel@lists.infradead.org,	dri-devel@lists.freedesktop.org,
-	Hans de Goede <hdegoede@redhat.com>,	Phil Elwell <phil@raspberrypi.com>
-Subject: Re: [PATCH v5 20/22] drm/vc4: vec: Convert to the new TV mode
- property
-Message-ID: <20221018100033.d2sf7xagyycx5d4p@houat>
-References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
- <20220728-rpi-analog-tv-properties-v5-20-d841cc64fe4b@cerno.tech>
- <c1949248-fb40-682c-492e-bafbd915cee3@gmail.com>
- <81936381-ae37-8c84-4681-9eff19f653b5@tronnes.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346EE4A24
+	for <linux-sunxi@lists.linux.dev>; Tue, 18 Oct 2022 12:29:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=/VMmtMu4pQhq3eb3CmoCzX4wgnyZcOj95TFTQ8SYeac=; b=MhYLd2PQ4CLURN4fZx7LJYFGlc
+	f18Cit2mCb9dZGn9UkBRC9+Bpla51HhjDEFdmmsNcWBdcx4T35meDGoP7CUSvF6Sm7KtX83nXemCn
+	YwYtxOULoeeyEizMFkBf/5rhLSKDbUDMK7IA7wvIVA0aG7n22ta2bUN0KBfJTBV0TgglUrVfBitA2
+	Gf2sK5RaxJeCX3jdyh4SJVCK4Dpb+O+TBijpKiF/prYMnUgGAAfsKfgwniZdEzwxQKmyzq0LlVTK7
+	U55+ylYLtbACenlyou3/I9wCoNsJN0EelI5asWYVDExI7TrrWU2+5ay53rXTuwdsbiimGX9p48MZ/
+	3aomOqhw==;
+Received: from [2a01:799:95a:cb00:cc2f:df30:b81e:38c0] (port=62480)
+	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <noralf@tronnes.org>)
+	id 1okliU-00015y-Is; Tue, 18 Oct 2022 14:29:06 +0200
+Message-ID: <e3b98674-5a9e-16f3-4741-ffea43e05cc8@tronnes.org>
+Date: Tue, 18 Oct 2022 14:29:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ni7t7du2ochwvprb"
-Content-Disposition: inline
-In-Reply-To: <81936381-ae37-8c84-4681-9eff19f653b5@tronnes.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v5 12/22] drm/connector: Add a function to lookup a TV
+ mode by its name
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Karol Herbst <kherbst@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>, Emma Anholt <emma@anholt.net>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Ben Skeggs <bskeggs@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Dom Cobley <dom@raspberrypi.com>,
+ linux-sunxi@lists.linux.dev, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Phil Elwell <phil@raspberrypi.com>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
+ <noralf@tronnes.org>
+References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v5-12-d841cc64fe4b@cerno.tech>
+ <7dcf479c-8ac7-ed47-8587-30268684373c@tronnes.org>
+ <20221018093353.pt4vset6o2ldxrbs@houat>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20221018093353.pt4vset6o2ldxrbs@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
---ni7t7du2ochwvprb
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 17, 2022 at 12:31:31PM +0200, Noralf Tr=F8nnes wrote:
-> Den 16.10.2022 20.52, skrev Mateusz Kwiatkowski:
-> >>  static int vc4_vec_connector_get_modes(struct drm_connector *connecto=
-r)
-> >>  {
-> >> -	struct drm_connector_state *state =3D connector->state;
-> >>  	struct drm_display_mode *mode;
-> >> =20
-> >> -	mode =3D drm_mode_duplicate(connector->dev,
-> >> -				  vc4_vec_tv_modes[state->tv.legacy_mode].mode);
-> >> +	mode =3D drm_mode_analog_ntsc_480i(connector->dev);
-> >>  	if (!mode) {
-> >>  		DRM_ERROR("Failed to create a new display mode\n");
-> >>  		return -ENOMEM;
-> >>  	}
-> >> =20
-> >> +	mode->type |=3D DRM_MODE_TYPE_PREFERRED;
-> >>  	drm_mode_probed_add(connector, mode);
-> >> =20
-> >> -	return 1;
-> >> +	mode =3D drm_mode_analog_pal_576i(connector->dev);
-> >> +	if (!mode) {
-> >> +		DRM_ERROR("Failed to create a new display mode\n");
-> >> +		return -ENOMEM;
-> >> +	}
-> >> +
-> >> +	drm_mode_probed_add(connector, mode);
-> >> +
-> >> +	return 2;
-> >> +}
-> >=20
-> > Referencing those previous discussions:
-> > - https://lore.kernel.org/dri-devel/0255f7c6-0484-6456-350d-cf24f3fee5d=
-6@tronnes.org/
-> > - https://lore.kernel.org/dri-devel/c8f8015a-75da-afa8-ca7f-b2b134cacd1=
-6@gmail.com/
-> >=20
-> > Unconditionally setting the 480i mode as DRM_MODE_TYPE_PREFERRED causes=
- Xorg
-> > (at least on current Raspberry Pi OS) to display garbage when
-> > video=3DComposite1:PAL is specified on the command line, so I'm afraid =
-this won't
-> > do.
-> >=20
-> > As I see it, there are three viable solutions for this issue:
-> >=20
-> > a) Somehow query the video=3D command line option from this function, a=
-nd set
-> >    DRM_MODE_TYPE_PREFERRED appropriately. This would break the abstract=
-ion
-> >    provided by global DRM code, but should work fine.
-> >=20
-> > b) Modify drm_helper_probe_add_cmdline_mode() so that it sets
-> >    DRM_MODE_TYPE_PREFERRED in addition to DRM_MODE_TYPE_USERDEF. This s=
-eems
-> >    pretty robust, but affects the entire DRM subsystem, which may break
-> >    userspace in different ways.
-> >=20
-> >    - Maybe this could be mitigated by adding some additional conditions=
-, e.g.
-> >      setting the PREFERRED flag only if no modes are already flagged as=
- such
-> >      and/or only if the cmdline mode is a named one (~=3D analog TV mod=
-e)
-> >=20
-> > c) Forcing userspace (Xorg / Raspberry Pi OS) to get fixed and honor th=
-e USERDEF
-> >    flag.
-> >=20
-> > Either way, hardcoding 480i as PREFERRED does not seem right.
-> >=20
->=20
-> My solution for this is to look at tv.mode to know which mode to mark as
-> preferred. Maxime didn't like this since it changes things behind
-> userspace's back. I don't see how that can cause any problems for userspa=
-ce.
->=20
-> If userspace uses atomic and sets tv_mode, it has to know which mode to
-> use before hand, so it doesn't look at the preferreded flag.
->=20
-> If it uses legacy and sets tv_mode, it can end up with a stale preferred
-> flag, but no worse than not having the flag or that ntsc is always
-> preferred.
->=20
-> If it doesn't change tv_mode, there's no problem, the preferred flag
-> doesn't change.
+Den 18.10.2022 11.33, skrev Maxime Ripard:
+> On Mon, Oct 17, 2022 at 12:44:45PM +0200, Noralf Trønnes wrote:
+>> Den 13.10.2022 15.18, skrev Maxime Ripard:
+>>> As part of the command line parsing rework coming in the next patches,
+>>> we'll need to lookup drm_connector_tv_mode values by their name, already
+>>> defined in drm_tv_mode_enum_list.
+>>>
+>>> In order to avoid any code duplication, let's do a function that will
+>>> perform a lookup of a TV mode name and return its value.
+>>>
+>>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>>> ---
+>>>  drivers/gpu/drm/drm_connector.c | 24 ++++++++++++++++++++++++
+>>>  include/drm/drm_connector.h     |  2 ++
+>>>  2 files changed, 26 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+>>> index 820f4c730b38..30611c616435 100644
+>>> --- a/drivers/gpu/drm/drm_connector.c
+>>> +++ b/drivers/gpu/drm/drm_connector.c
+>>> @@ -991,6 +991,30 @@ static const struct drm_prop_enum_list drm_tv_mode_enum_list[] = {
+>>>  };
+>>>  DRM_ENUM_NAME_FN(drm_get_tv_mode_name, drm_tv_mode_enum_list)
+>>>  
+>>> +/**
+>>> + * drm_get_tv_mode_from_name - Translates a TV mode name into its enum value
+>>> + * @name: TV Mode name we want to convert
+>>> + * @len: Length of @name
+>>> + *
+>>> + * Translates @name into an enum drm_connector_tv_mode.
+>>> + *
+>>> + * Returns: the enum value on success, a negative errno otherwise.
+>>> + */
+>>> +int drm_get_tv_mode_from_name(const char *name, size_t len)
+>>
+>> Do we really need to pass in length here? item->name has to always be
+>> NUL terminated otherwise things would break elsewhere, so it shouldn't
+>> be necessary AFAICS.
+> 
+> The only user so far is the command-line parsing code, and we might very
+> well have an option after the tv_mode, something like
+> 720x480i,tv_mode=NTSC,rotate=180
+> 
+> In this case, we won't get a NULL-terminated name.
+> 
 
-I don't like it because I just see no way to make this reliable. When we
-set tv_mode, we're not only going to change the preferred flag, but also
-the order of the modes to make the preferred mode first.
+My point is that item->name will always be NUL terminated so strcmp()
+will never look past that.
 
-Since we just changed the mode lists, we also want to send a hotplug
-event to userspace so that it gets notified of it. It will pick up the
-new preferred mode, great.
-
-But what if it doesn't? There's no requirement for userspace to handle
-hotplug events, and Kodi won't for example. So we just changed the TV
-mode but not the actual mode, and that's it. It's just as broken for
-Kodi as it is for X11 right now.
-
-If we can't get a bullet-proof solution, then I'm not convinced it's
-worth addressing. Especially since it's already the current state, and
-it doesn't seem to bother a lot of people.
-
-Maxime
-
---ni7t7du2ochwvprb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY055QQAKCRDj7w1vZxhR
-xfTwAQDVEQYvVeMYoH1YAgDNEqY24+2ZZadq3pHFsRymVwrROQEAhc/jki+ik+Hi
-+gkkmtM8W9Ky6PhkIjnV9vsG9oldYgs=
-=FjLb
------END PGP SIGNATURE-----
-
---ni7t7du2ochwvprb--
+Noralf.
