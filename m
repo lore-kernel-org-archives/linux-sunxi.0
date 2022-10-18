@@ -1,100 +1,141 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E30227B
-	for <linux-sunxi@lists.linux.dev>; Tue, 18 Oct 2022 09:24:01 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BD61D113E;
-	Tue, 18 Oct 2022 02:24:01 -0700 (PDT)
-Received: from [10.1.26.48] (unknown [10.1.26.48])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D88263F7D8;
-	Tue, 18 Oct 2022 02:23:53 -0700 (PDT)
-Message-ID: <905be4d0-74c3-c563-00e8-fcd039694cb7@arm.com>
-Date: Tue, 18 Oct 2022 10:23:41 +0100
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE047B
+	for <linux-sunxi@lists.linux.dev>; Tue, 18 Oct 2022 09:34:01 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.west.internal (Postfix) with ESMTP id EAE112B06818;
+	Tue, 18 Oct 2022 05:33:56 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Tue, 18 Oct 2022 05:34:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1666085636; x=
+	1666092836; bh=m28wxnmpSj23GfJ8mguF+RJIPvACWR84C4m9tbBSs2o=; b=h
+	TJ3XFHJn+A8AI/ROPkt+sIqGY3kA4wSIJQT4tHkHl+eM5Yfcjt6X7MYAIUr7Abas
+	QlFe4tD6eLZR/VbYzPHxfb+mmQH0VGNqwYSwV55YB9bcLtz9qxFOwi+BOde3q9ZL
+	WdyVIaCLx1fnmBze8W9xAi0Xv9M2vR2QswXYasftU70eL5G8ZfZ8+hpqiwgPBj3H
+	zWNl5CCgBqV4/lI9o9tIFZT1qgjc8Pd+gffFcHNDISfRVCglOWOLAfXGbTEbRPHa
+	Yz24wplENATRxJGBJBtfQnc7xW25Q8+KWoVVjAMvG2CUhQpR0EOOqAfh4FLpp1cX
+	5yqaqwrN0S2MK9P/SNs2A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1666085636; x=
+	1666092836; bh=m28wxnmpSj23GfJ8mguF+RJIPvACWR84C4m9tbBSs2o=; b=C
+	5vPZsR4g/v/XssSsF5UxPaTyZ5O744YcQyhklPLOetbH0yOlm0PCjh/iY9EZAJ7V
+	uV1SXQOu4CUug0AgTmJ/2n1SCC+FiOjwNU3KptPZNHLSFmFP+8iV5lLytvRIUGet
+	rm3PKGYW8OeqKYNn1TEkhD/N2isE6ds71ZBkQxifTbeGuWIRkEVk9UXVoR30F2Oj
+	/sS8v3YS+KgU4lbjlS5aVXX6eC3gIVIM5iMgDzUe9o/irGu1tn9AAF/Rb3EzIPMM
+	KRBA13tpcwrQwVfkPIv8up+9rplog66fg2VIZD8/j785WDx8QoZg38fgIKAMaVCE
+	j3Kt7kvbfUNsxFzFQk3RA==
+X-ME-Sender: <xms:A3NOY95eeuFlDtiXSd2HrgE85y8GqJmS-uQzUlFg1W2eqOCqjp_BKg>
+    <xme:A3NOY6708zJtmRk4V9UAXdHNs8tZhS1ylzZ9_LPNnb0SRp6ZTjIVvtaIEsSs3rO0E
+    Pqd7SXsQaag2VqpTFA>
+X-ME-Received: <xmr:A3NOY0fae0uVaJ1UzSmyFv1i8G1BkH14Mj-mYvsxa-8778Yi3-eBZbfnGEeX>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeluddgudejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddunecuhfhrohhmpeforgig
+    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+    grthhtvghrnhepleelfeeileelteetfedvieekfeefffevhfdtvefgheevudevheejvddv
+    ieeltdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:A3NOY2ImL3oAvGPDqk3mhpaFWs5EcG4v-6NNxYq5KwhG_8Mhk8FqXw>
+    <xmx:A3NOYxIoK_2l01GHo2u3j-yabTPEaxvxxS66qSJ0Pno0VCAZe_RdEA>
+    <xmx:A3NOY_zX3p7YYO0k9S7NWgf64pymTdTf0j475KvkelKtvWwSlMG_RA>
+    <xmx:BHNOY7rCCVuSX-xwJHsXrJ7QI3T3--uNZV0KkEr0FJdIrGwcgv-bEJjia5c>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 18 Oct 2022 05:33:55 -0400 (EDT)
+Date: Tue, 18 Oct 2022 11:33:53 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc: Karol Herbst <kherbst@redhat.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	David Airlie <airlied@linux.ie>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Lyude Paul <lyude@redhat.com>, Emma Anholt <emma@anholt.net>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	Ben Skeggs <bskeggs@redhat.com>,	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Dom Cobley <dom@raspberrypi.com>, linux-sunxi@lists.linux.dev,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	nouveau@lists.freedesktop.org,	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+	dri-devel@lists.freedesktop.org,	Hans de Goede <hdegoede@redhat.com>,
+	Phil Elwell <phil@raspberrypi.com>
+Subject: Re: [PATCH v5 12/22] drm/connector: Add a function to lookup a TV
+ mode by its name
+Message-ID: <20221018093353.pt4vset6o2ldxrbs@houat>
+References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v5-12-d841cc64fe4b@cerno.tech>
+ <7dcf479c-8ac7-ed47-8587-30268684373c@tronnes.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 4/6] sunxi: f1c100: add UART1 support
-Content-Language: en-GB
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>
-Cc: Icenowy Zheng <uwu@icenowy.me>, Jesse Taube <mr.bossman075@gmail.com>,
- Yifan Gu <me@yifangu.com>,
- Giulio Benetti <giulio.benetti@benettiengineering.com>,
- George Hilliard <thirtythreeforty@gmail.com>,
- Samuel Holland <samuel@sholland.org>, u-boot@lists.denx.de,
- linux-sunxi@lists.linux.dev
-References: <20221012163458.1968900-1-andre.przywara@arm.com>
- <20221012163458.1968900-5-andre.przywara@arm.com> <1917971.yKVeVyVuyW@kista>
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <1917971.yKVeVyVuyW@kista>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <7dcf479c-8ac7-ed47-8587-30268684373c@tronnes.org>
 
-On 12/10/2022 22:42, Jernej Škrabec wrote:
+On Mon, Oct 17, 2022 at 12:44:45PM +0200, Noralf Tr=F8nnes wrote:
+> Den 13.10.2022 15.18, skrev Maxime Ripard:
+> > As part of the command line parsing rework coming in the next patches,
+> > we'll need to lookup drm_connector_tv_mode values by their name, already
+> > defined in drm_tv_mode_enum_list.
+> >=20
+> > In order to avoid any code duplication, let's do a function that will
+> > perform a lookup of a TV mode name and return its value.
+> >=20
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+> >  drivers/gpu/drm/drm_connector.c | 24 ++++++++++++++++++++++++
+> >  include/drm/drm_connector.h     |  2 ++
+> >  2 files changed, 26 insertions(+)
+> >=20
+> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_conn=
+ector.c
+> > index 820f4c730b38..30611c616435 100644
+> > --- a/drivers/gpu/drm/drm_connector.c
+> > +++ b/drivers/gpu/drm/drm_connector.c
+> > @@ -991,6 +991,30 @@ static const struct drm_prop_enum_list drm_tv_mode=
+_enum_list[] =3D {
+> >  };
+> >  DRM_ENUM_NAME_FN(drm_get_tv_mode_name, drm_tv_mode_enum_list)
+> > =20
+> > +/**
+> > + * drm_get_tv_mode_from_name - Translates a TV mode name into its enum=
+ value
+> > + * @name: TV Mode name we want to convert
+> > + * @len: Length of @name
+> > + *
+> > + * Translates @name into an enum drm_connector_tv_mode.
+> > + *
+> > + * Returns: the enum value on success, a negative errno otherwise.
+> > + */
+> > +int drm_get_tv_mode_from_name(const char *name, size_t len)
+>=20
+> Do we really need to pass in length here? item->name has to always be
+> NUL terminated otherwise things would break elsewhere, so it shouldn't
+> be necessary AFAICS.
 
-Hi Jernej,
+The only user so far is the command-line parsing code, and we might very
+well have an option after the tv_mode, something like
+720x480i,tv_mode=3DNTSC,rotate=3D180
 
-many thanks for the review of this series, that's much appreciated!
+In this case, we won't get a NULL-terminated name.
 
-> Dne sreda, 12. oktober 2022 ob 18:34:56 CEST je Andre Przywara napisal(a):
->> Some boards use UART1 for its debug UART, so define the pins for the SPL
->> and the pinmux name and mux value for U-Boot proper.
->>
->> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
->> ---
->>   arch/arm/mach-sunxi/board.c           | 4 ++++
->>   drivers/pinctrl/sunxi/pinctrl-sunxi.c | 1 +
->>   2 files changed, 5 insertions(+)
->>
->> diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
->> index 62bb40b8c89..77216157908 100644
->> --- a/arch/arm/mach-sunxi/board.c
->> +++ b/arch/arm/mach-sunxi/board.c
->> @@ -147,6 +147,10 @@ static int gpio_init(void)
->>   	sunxi_gpio_set_cfgpin(SUNXI_GPH(12), SUN9I_GPH_UART0);
->>   	sunxi_gpio_set_cfgpin(SUNXI_GPH(13), SUN9I_GPH_UART0);
->>   	sunxi_gpio_set_pull(SUNXI_GPH(13), SUNXI_GPIO_PULL_UP);
->> +#elif CONFIG_CONS_INDEX == 2 && defined(CONFIG_MACH_SUNIV)
->> +	sunxi_gpio_set_cfgpin(SUNXI_GPA(2), SUNIV_GPE_UART0);
->> +	sunxi_gpio_set_cfgpin(SUNXI_GPA(3), SUNIV_GPE_UART0);
->> +	sunxi_gpio_set_pull(SUNXI_GPA(3), SUNXI_GPIO_PULL_UP);
->>   #elif CONFIG_CONS_INDEX == 2 && defined(CONFIG_MACH_SUN5I)
->>   	sunxi_gpio_set_cfgpin(SUNXI_GPG(3), SUN5I_GPG_UART1);
->>   	sunxi_gpio_set_cfgpin(SUNXI_GPG(4), SUN5I_GPG_UART1);
->> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
->> b/drivers/pinctrl/sunxi/pinctrl-sunxi.c index 9ce2bc1b3af..061104be056
->> 100644
->> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
->> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
->> @@ -245,6 +245,7 @@ static const struct sunxi_pinctrl_function
->> suniv_f1c100s_pinctrl_functions[] = { #else
->>   	{ "uart0",	5 },	/* PE0-PE1 */
->>   #endif
->> +	{ "uart1",	5 },	/* PA0-PA3 */
-> 
-> Comment should be PA2-PA3. With that fixed:
-
-Well, PA0 and PA1 are RTS and CTS for UART1, so if you don't mind, I 
-will keep it like this. Not that the comment really matters anyway ;-)
-
-Cheers,
-Andre
-
-> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> 
-> Best regards,
-> Jernej
-> 
->>   };
->>
->>   static const struct sunxi_pinctrl_desc __maybe_unused
->> suniv_f1c100s_pinctrl_desc = { --
->> 2.25.1
-> 
-> 
-> 
-
+Maxime
