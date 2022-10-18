@@ -1,155 +1,162 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C494699;
-	Mon, 17 Oct 2022 19:44:43 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id r17so27296577eja.7;
-        Mon, 17 Oct 2022 12:44:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TATHs2k56ufe8lMmyZToJvN32Rg6lEJir/LHJFUdZoQ=;
-        b=N3sgwEdi/Li9SwIj/vg8LX7AlvncoeCI/CvSob3JryDoMtcajL9Cd/gfa/CHNCK3V2
-         /+e09Gsxp9TYe/Um/zGAOSjHpKWWCn705BM0SuiF2d2RfEM9Uemyj3dh+G/l+9fYWOGG
-         bkL8KJH3p/ZHIb5bJL5DAg4abHZX86DtWHAuiKneynkSRDr/Ct0vEUIFnNEwU0p8Vp9U
-         HVCjMCoBZqky86jWTElx7jHZgqj/cQNDLZpTU3QL91+EKAspLGMdmatW3Ef6ndE7xkWM
-         Ili2sXBR2M8G/TbUFT8qf0GArmRWYYC24xWAucLpcMA3BVA6z7pZTy7ZMoXJfrXfc4P3
-         vODg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TATHs2k56ufe8lMmyZToJvN32Rg6lEJir/LHJFUdZoQ=;
-        b=UqshbD5O4IgNyh+H0IkoNvaA3tEh2BSdPyhMEd3r0xEWWdhhYinNKW/YMLmDqvbqd0
-         x1+xD0lYv/dksrGxdwaR7+YXdGkRXAh0263GjvHSMzDptSGwCkjBHo9m0COeuT3NeOSW
-         3RqMAqEnXf5tGOUsShN5088yEjgP2pI9o2gRfbmrfb84jiya1OKMDMmOP0/U6ESpnhoz
-         boXynB/acfp3+KXOHIy6GWXWY14yv13/qP3G23vsmMBjKTgV6kNy0zNIheMXo5rWwCJ9
-         NEQQneV+V0Ez/7dESVdMyOIN2kSTyJPLwW5M96TsK9Ad54d/DcLoyQblvl9V7gYiwSQs
-         fYeg==
-X-Gm-Message-State: ACrzQf3mBjmi6kdK85ptLi5jX7rwbj3IwMvEONSqOKLu9HV/Mht490U2
-	MZQfhLMYh8NeBqdb+JRvTOQ=
-X-Google-Smtp-Source: AMsMyM6VFvvFARE0TYh11hDuODd833Jng1g6K9nzB2kniIQ47qpcVhXiqYHDBu0L24rK8hkcGYdGJg==
-X-Received: by 2002:a17:907:1ded:b0:78d:4606:268 with SMTP id og45-20020a1709071ded00b0078d46060268mr10090820ejc.163.1666035881499;
-        Mon, 17 Oct 2022 12:44:41 -0700 (PDT)
-Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id z5-20020a17090665c500b0078d9c2c8250sm6588957ejn.84.2022.10.17.12.44.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Oct 2022 12:44:40 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	paul.kocialkowski@bootlin.com
-Cc: mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	wens@csie.org,
-	samuel@sholland.org,
-	hverkuil-cisco@xs4all.nl,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] media: cedrus: hevc: Fix offset adjustments
-Date: Mon, 17 Oct 2022 21:44:13 +0200
-Message-Id: <20221017194413.1198301-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.38.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824EB1FAF
+	for <linux-sunxi@lists.linux.dev>; Tue, 18 Oct 2022 07:34:24 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.west.internal (Postfix) with ESMTP id AFA6D2B06898;
+	Tue, 18 Oct 2022 03:34:19 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Tue, 18 Oct 2022 03:34:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1666078459; x=
+	1666085659; bh=O28Ra42je2l6WzDm/ZO6o7rlbUD0f6okc6FR7gCx5gY=; b=c
+	D7GfdBBYv+RNoIJNHU7ZMe6/6FlTZtIgN1EVcdn7q+/E/tX8MUYD6cWK70SP+095
+	HIysOx6U4hzAzd9Oxr1+lfRNMsdTrBALP5TJwpaKAdsT441k54XiJefZoNwksmDX
+	epJn3K0Zl1gXfWdEG3WyJCO0Gf4YYQgf2AUQhy43zcRtbq4ZG8vbW4fHpJJY6cl7
+	0Q+/7raGCos6wWg5jQEYEg7BQqlsDeJTfOy8H9hEmeU6/YEQZPzEpuEl/LaL/Vj9
+	qkVpo76vgbxd82LnIZMcIfpuQG5kuH7S0M4AfuBlXTCRA+4FgLH2GFv3vIhwBUIm
+	g/6L/exJNRAJueyn9q0Kw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1666078459; x=
+	1666085659; bh=O28Ra42je2l6WzDm/ZO6o7rlbUD0f6okc6FR7gCx5gY=; b=K
+	AziRhUbnFvkdSTAUOgSQwizWhJotp/ejPbOhWNRWwnOuNmPW89LQCRyji9fSEqPD
+	1U1Vltxi+zQuJhVmX9ufaEWhogLUTRpo42yYA/2OigiBIqfDHRcy99ab9ABS3u1S
+	MWPxl+1+f28ZICrHoxJAhEBL+J94+rIw7nBuIcHb7v1ooKaC4Zbinx62GNjEEy6V
+	PxLrPZ0nYSx4mS0ZC0abfrisiOcnTxgGTGK+K0Yj2Xqn9Mat/rJmJALyGyi19B1/
+	6whf2Y9wu8Z/7EdAVzlj462ybn51hI35XvXMYfbn7EOh8dHJRLKXFejvqm6ySDRi
+	xJDOsXQ3TH3VGqeNPNL0Q==
+X-ME-Sender: <xms:-lZOY2ANOVo_-VHFDC2BsVOUuyO5VW3WiDQ9xO5aOvTmwO6WQXYQxw>
+    <xme:-lZOYwgOxYjEsZMPGEguSQiviJKiwhs1S-50MRE0pJCGpMKsWo2PBRIunN_pl-rN5
+    35xj_K3svuXb7EjHnQ>
+X-ME-Received: <xmr:-lZOY5mBQh0qtc_Bbrc-pAUe2L5T5LPNYiTMFtT2v7i-3fhzSAW_G6rXN08f>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeltddguddvfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtudenucfhrhhomhepofgr
+    gihimhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtf
+    frrghtthgvrhhnpeejvefftdehvedvfeevffffjeektdfgkedviefgfefhfefgtefhjeej
+    ieegieeugeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuih
+    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordht
+    vggthh
+X-ME-Proxy: <xmx:-lZOY0wQsKHOedSZNpvC-ut337YUuHIfSe8ADCh2G9hhIAUJz6Ho5A>
+    <xmx:-lZOY7T87jDiXPJk9cTa2Wcnzym12ZRSxOTme6T_ESJE1jBCmh6aNw>
+    <xmx:-lZOY_bsoRtzVSwxTgox0TAERmVOBddBaC3ItH-FBFBaC2V_L2o1mA>
+    <xmx:-1ZOYzzDVwXhCAG5OpWMTYanWa3VUWo4DwXwhLLxzzu4VZfUqiNMi22WE54>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 18 Oct 2022 03:34:17 -0400 (EDT)
+Date: Tue, 18 Oct 2022 09:34:16 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	Karol Herbst <kherbst@redhat.com>,	Samuel Holland <samuel@sholland.org>,
+ Lyude Paul <lyude@redhat.com>,	Jani Nikula <jani.nikula@linux.intel.com>,
+	Daniel Vetter <daniel@ffwll.ch>,	Thomas Zimmermann <tzimmermann@suse.de>,
+	Emma Anholt <emma@anholt.net>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	linux-arm-kernel@lists.infradead.org,	dri-devel@lists.freedesktop.org,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	intel-gfx@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
+	Hans de Goede <hdegoede@redhat.com>, nouveau@lists.freedesktop.org,
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	linux-kernel@vger.kernel.org, Dom Cobley <dom@raspberrypi.com>,
+	Phil Elwell <phil@raspberrypi.com>
+Subject: Re: [PATCH v4 11/30] drm/modes: Add a function to generate analog
+ display modes
+Message-ID: <20221018073416.7tttm6mnbt2pdrpk@houat>
+References: <20220728-rpi-analog-tv-properties-v4-0-60d38873f782@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v4-11-60d38873f782@cerno.tech>
+ <0aa690b8-988a-878f-4d4f-d391295bc591@tronnes.org>
+ <20221013083638.kloiaxervnhii7ew@houat>
+ <71e53906-ae9b-55b9-7a93-7bb04a891423@tronnes.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <71e53906-ae9b-55b9-7a93-7bb04a891423@tronnes.org>
 
-As it turns out, current padding size check works fine in theory but it
-doesn't in practice. Most probable reason are caching issues.
+Hi,
 
-Let's rework reading data from bitstream using Cedrus engine instead of
-CPU. That way we avoid all cache issues and make sure that we're reading
-same data as Cedrus.
+On Sat, Oct 15, 2022 at 05:04:50PM +0200, Noralf Tr=F8nnes wrote:
+> Den 13.10.2022 10.36, skrev Maxime Ripard:
+> > On Sat, Oct 01, 2022 at 02:52:06PM +0200, Noralf Tr=F8nnes wrote:
+> >> Den 29.09.2022 18.31, skrev Maxime Ripard:
+> >>> Multiple drivers (meson, vc4, sun4i) define analog TV 525-lines and
+> >>> 625-lines modes in their drivers.
+> >>>
+> >>> Since those modes are fairly standard, and that we'll need to use them
+> >>> in more places in the future, it makes sense to move their definition
+> >>> into the core framework.
+> >>>
+> >>> However, analog display usually have fairly loose timings requirement=
+s,
+> >>> the only discrete parameters being the total number of lines and pixel
+> >>> clock frequency. Thus, we created a function that will create a displ=
+ay
+> >>> mode from the standard, the pixel frequency and the active area.
+> >>>
+> >>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >>>
+> >>> ---
+> >>>
+> >>> Changes in v4:
+> >>> - Reworded the line length check comment
+> >>> - Switch to HZ_PER_KHZ in tests
+> >>> - Use previous timing to fill our mode
+> >>> - Move the number of lines check earlier
+> >>> ---
+> >>>  drivers/gpu/drm/drm_modes.c            | 474 +++++++++++++++++++++++=
+++++++++++
+> >>>  drivers/gpu/drm/tests/Makefile         |   1 +
+> >>>  drivers/gpu/drm/tests/drm_modes_test.c | 144 ++++++++++
+> >>>  include/drm/drm_modes.h                |  17 ++
+> >>>  4 files changed, 636 insertions(+)
+> >>>
+> >>
+> >> I haven't followed the discussion on this patch, but it seems rather
+> >> excessive to add over 600 lines of code (including tests) to add 2 fix=
+ed
+> >> modes. And it's very difficult to see from the code what the actual
+> >> display mode timings really are, which would be useful for other
+> >> developers down the road wanting to use them.
+> >>
+> >> Why not just hardcode the modes?
+> >=20
+> > Yeah, I have kind of the same feeling tbh, but it was asked back on the
+> > v1 to ease the transition of old fbdev drivers, since they will need
+> > such a function:
+> > https://lore.kernel.org/dri-devel/CAMuHMdUrwzPYjA0wdR7ADj5Ov6+m03JbnY8f=
+BYzRYyWDuNm5=3Dg@mail.gmail.com/
+> >=20
+>=20
+> If that's the case I suggest you just hardcode them for now and leave
+> the complexity to the developer doing the actual conversion of the fbdev
+> driver. Who knows when that will happen, but that person will have your
+> well documented and discussed work to fall back on.
 
-Fixes: e7060d9a78c2 ("media: uapi: Change data_bit_offset definition")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- .../staging/media/sunxi/cedrus/cedrus_h265.c  | 25 ++++++++++++++-----
- .../staging/media/sunxi/cedrus/cedrus_regs.h  |  2 ++
- 2 files changed, 21 insertions(+), 6 deletions(-)
+I'd rather not, tbh. We've collectively spent weeks figuring this out,
+reviewing it and so on, I very much want to avoid doing this all over
+again if it's going to be useful at some point.
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-index 687f87598f78..d3a29359a5a2 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -241,6 +241,18 @@ static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
- 	}
- }
- 
-+static u32 cedrus_h265_show_bits(struct cedrus_dev *dev, int num)
-+{
-+	cedrus_write(dev, VE_DEC_H265_TRIGGER,
-+		     VE_DEC_H265_TRIGGER_SHOW_BITS |
-+		     VE_DEC_H265_TRIGGER_TYPE_N_BITS(num));
-+
-+	cedrus_wait_for(dev, VE_DEC_H265_STATUS,
-+			VE_DEC_H265_STATUS_VLD_BUSY);
-+
-+	return cedrus_read(dev, VE_DEC_H265_BITS_READ);
-+}
-+
- static void cedrus_h265_write_scaling_list(struct cedrus_ctx *ctx,
- 					   struct cedrus_run *run)
- {
-@@ -405,7 +417,7 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
- 	u32 num_entry_point_offsets;
- 	u32 output_pic_list_index;
- 	u32 pic_order_cnt[2];
--	u8 *padding;
-+	u8 padding;
- 	int count;
- 	u32 reg;
- 
-@@ -519,21 +531,22 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
- 	if (slice_params->data_byte_offset == 0)
- 		return -EOPNOTSUPP;
- 
--	padding = (u8 *)vb2_plane_vaddr(&run->src->vb2_buf, 0) +
--		slice_params->data_byte_offset - 1;
-+	cedrus_h265_skip_bits(dev, (slice_params->data_byte_offset - 1) * 8);
-+
-+	padding = cedrus_h265_show_bits(dev, 8);
- 
- 	/* at least one bit must be set in that byte */
--	if (*padding == 0)
-+	if (padding == 0)
- 		return -EINVAL;
- 
- 	for (count = 0; count < 8; count++)
--		if (*padding & (1 << count))
-+		if (padding & (1 << count))
- 			break;
- 
- 	/* Include the one bit. */
- 	count++;
- 
--	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8 - count);
-+	cedrus_h265_skip_bits(dev, 8 - count);
- 
- 	/* Bitstream parameters. */
- 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-index d81f7513ade0..655c05b389cf 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-@@ -505,6 +505,8 @@
- #define VE_DEC_H265_LOW_ADDR_ENTRY_POINTS_BUF(a) \
- 	SHIFT_AND_MASK_BITS(a, 7, 0)
- 
-+#define VE_DEC_H265_BITS_READ			(VE_ENGINE_DEC_H265 + 0xdc)
-+
- #define VE_DEC_H265_SRAM_OFFSET			(VE_ENGINE_DEC_H265 + 0xe0)
- 
- #define VE_DEC_H265_SRAM_OFFSET_PRED_WEIGHT_LUMA_L0	0x00
--- 
-2.38.0
+Jani also wanted to expose a function and not a raw mode, so this patch
+also addresses that:
+https://lore.kernel.org/dri-devel/8735eeg31e.fsf@intel.com/
 
+Maxime
