@@ -1,133 +1,102 @@
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B143028E8
-	for <linux-sunxi@lists.linux.dev>; Wed, 19 Oct 2022 10:43:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=DadoXiqteYpnLJ29i7DeTRmR70Jdg+khLdbmGW+Xm0A=; b=eqGdTjr9Okxo1LuL0OBpnuWT3+
-	gswk4qO1MpzOsSl6Q5tK5MSZ/Z/EdiBzxQt9FQ/wxMqG9fgH3dZRqaqyaofErZC1occiE6A0eT9bF
-	+cgAEOI31xUQIRTSYuoGi20bLNWgXKOYHZS6VB6YkAH5z1K8oS3hWitIGLDuSl/2M3ulT4BUuB423
-	9VtMxYnT4ibV5DI47JR82Uk8FWIzCNdhfAtB3dF4sOREpDgFRPfGKZyclSmiQh+tb5Xrp7OzQtj7N
-	NxO6opDh/Sse/qWjJq1ExuRKm9NBp/QhuxXZL0S+GDTDtFzw97F6Q00OwoLtb81+8L5Ij3TBBkhfq
-	KPbfXByw==;
-Received: from [2a01:799:95a:cb00:cca0:57ac:c55d:a485] (port=55269)
-	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <noralf@tronnes.org>)
-	id 1ol6Xm-0007CC-Pr; Wed, 19 Oct 2022 12:43:26 +0200
-Message-ID: <694facef-00bc-6b59-7c44-d68c7ca0c40f@tronnes.org>
-Date: Wed, 19 Oct 2022 12:43:19 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3FD04C72;
+	Wed, 19 Oct 2022 17:45:56 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id u21so26364075edi.9;
+        Wed, 19 Oct 2022 10:45:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b3qQsYa/7ZweA0u9kpHAV4Ioh1PIQ7YV+2Zy1Ir6xbc=;
+        b=EF+8GxOqjD7tz5bBqhQA4A8MVrYO9BfsHFXvcqliLTVztgNGNy46gTL+cw8it3RwDk
+         I/yhw3zBTCKhOcz/MgyqQTstezO7xTAkqm0DgFYQ4Tx83dsic6vwctukoJj3QKIMWym0
+         x75Ep7MCrpFRgXJuifRFM79uan1zhrm/Yy7bXUf/HDFQ3dP3EMZUYM6SGW5RNUd6aL5u
+         EUc/wtxvAwVC0n+0OSEmsqktGpgf6+SMfQdJgBK7Jxr4LzxOhQpW+d2LaXnc+cpxZdmp
+         xqyfYl5yO4B1HRkjPdhh33z4p7MAPeFrW3wRXwICAgaTIPIVpFTcNF0U9GRU0JWpsX/e
+         LRkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b3qQsYa/7ZweA0u9kpHAV4Ioh1PIQ7YV+2Zy1Ir6xbc=;
+        b=z4EdcLkFilnwSu6XyAN7bg7lgyS+eu7Nv5fQMeRUq+zk1cesp8x9MnnMOu5wDeY76O
+         +vhWzDAJCWlY4cnoATyfNU7BiItFIGqTgOXkmS4uRKGsk6jiW5ZKGFuwBkuJF8PGfxjm
+         TxRNbd/5CScaOFsJBUABC5teWMkJx5wS6XhyR9WG61fP/VcVnWKejGvqriQLdPo6hD9w
+         HzghXrNibIAxfXW3Iwvj3nqHe4ttBNXwZgl8pkZhAOQmb7rb8qaAYG4MhZfaS0ZO4daT
+         d5Lwre5krG1huhYrcH4Fgw7zwAE0BxibKjVjrNfnh1isjsNmVVb6oYd1/iVA2cNUkNY3
+         SDlQ==
+X-Gm-Message-State: ACrzQf3rk+RJi5807Zxv2djcx763OBCLplZozuvwZjritLZf+b/OBIjv
+	GrY/ifm5cPcywsDnc1fFkXw=
+X-Google-Smtp-Source: AMsMyM7+C12t1o8higEU9r6SRH5hrJEdLyfeE4a3rQuBGmahnVZeQqTgOz5AVJmtx85oAd+c0bbn/g==
+X-Received: by 2002:aa7:ca45:0:b0:458:d9a2:6164 with SMTP id j5-20020aa7ca45000000b00458d9a26164mr8734873edt.340.1666201555073;
+        Wed, 19 Oct 2022 10:45:55 -0700 (PDT)
+Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id qn24-20020a170907211800b0073c10031dc9sm9218382ejb.80.2022.10.19.10.45.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Oct 2022 10:45:54 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	paul.kocialkowski@bootlin.com
+Cc: mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	wens@csie.org,
+	samuel@sholland.org,
+	hverkuil-cisco@xs4all.nl,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH 0/2] media: cedrus: h264/h265: Improve aux buffer management
+Date: Wed, 19 Oct 2022 19:45:49 +0200
+Message-Id: <20221019174551.2695149-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.38.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v5 12/22] drm/connector: Add a function to lookup a TV
- mode by its name
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Karol Herbst <kherbst@redhat.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@linux.ie>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Lyude Paul <lyude@redhat.com>, Emma Anholt <emma@anholt.net>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Ben Skeggs <bskeggs@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Dom Cobley <dom@raspberrypi.com>,
- linux-sunxi@lists.linux.dev, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-arm-kernel@lists.infradead.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Phil Elwell <phil@raspberrypi.com>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>
-References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
- <20220728-rpi-analog-tv-properties-v5-12-d841cc64fe4b@cerno.tech>
- <7dcf479c-8ac7-ed47-8587-30268684373c@tronnes.org>
- <20221018093353.pt4vset6o2ldxrbs@houat>
- <e3b98674-5a9e-16f3-4741-ffea43e05cc8@tronnes.org>
- <20221019084828.muy46td63bkyewxk@houat>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20221019084828.muy46td63bkyewxk@houat>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Current handling of mv col aux buffers in h264 and h265 code is not
+optimal. In h264 case, it allocates pool for worst case possible which
+basically never happens with typical videos. This also prevents it from
+working well on very memory constrained devices, where CMA pool is very
+small. In h265 case, number of buffers in a pool is equal to number of
+capture buffers allocated before streaming is started. If any capture
+buffer is allocated afterwards, Cedrus gets bogus pointers. This might
+cause memory corruption.
 
+Solution is the same in both cases. Instead of using memory pool, do
+individual allocations later, right before aux buffer is first used.
+Such approach allocates just right amount of buffers of optimal size.
 
-Den 19.10.2022 10.48, skrev Maxime Ripard:
-> On Tue, Oct 18, 2022 at 02:29:00PM +0200, Noralf Trønnes wrote:
->>
->>
->> Den 18.10.2022 11.33, skrev Maxime Ripard:
->>> On Mon, Oct 17, 2022 at 12:44:45PM +0200, Noralf Trønnes wrote:
->>>> Den 13.10.2022 15.18, skrev Maxime Ripard:
->>>>> As part of the command line parsing rework coming in the next patches,
->>>>> we'll need to lookup drm_connector_tv_mode values by their name, already
->>>>> defined in drm_tv_mode_enum_list.
->>>>>
->>>>> In order to avoid any code duplication, let's do a function that will
->>>>> perform a lookup of a TV mode name and return its value.
->>>>>
->>>>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->>>>> ---
->>>>>  drivers/gpu/drm/drm_connector.c | 24 ++++++++++++++++++++++++
->>>>>  include/drm/drm_connector.h     |  2 ++
->>>>>  2 files changed, 26 insertions(+)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
->>>>> index 820f4c730b38..30611c616435 100644
->>>>> --- a/drivers/gpu/drm/drm_connector.c
->>>>> +++ b/drivers/gpu/drm/drm_connector.c
->>>>> @@ -991,6 +991,30 @@ static const struct drm_prop_enum_list drm_tv_mode_enum_list[] = {
->>>>>  };
->>>>>  DRM_ENUM_NAME_FN(drm_get_tv_mode_name, drm_tv_mode_enum_list)
->>>>>  
->>>>> +/**
->>>>> + * drm_get_tv_mode_from_name - Translates a TV mode name into its enum value
->>>>> + * @name: TV Mode name we want to convert
->>>>> + * @len: Length of @name
->>>>> + *
->>>>> + * Translates @name into an enum drm_connector_tv_mode.
->>>>> + *
->>>>> + * Returns: the enum value on success, a negative errno otherwise.
->>>>> + */
->>>>> +int drm_get_tv_mode_from_name(const char *name, size_t len)
->>>>
->>>> Do we really need to pass in length here? item->name has to always be
->>>> NUL terminated otherwise things would break elsewhere, so it shouldn't
->>>> be necessary AFAICS.
->>>
->>> The only user so far is the command-line parsing code, and we might very
->>> well have an option after the tv_mode, something like
->>> 720x480i,tv_mode=NTSC,rotate=180
->>>
->>> In this case, we won't get a NULL-terminated name.
->>
->> My point is that item->name will always be NUL terminated so strcmp()
->> will never look past that.
-> 
-> Right, but we don't have the guarantee that strlen(item->name) <
-> strlen(name), and we could thus just access after the end of our name
-> 
+Proposed solution frees aux buffers in streaming off callback, which
+is first possible occasion. I can move this to .buf_cleanup too, if you
+think that it's more appropriate.
 
-Ok, using the length limiting str funtions is the safe thing to do, so
-len needs to stay. But I don't get the 'strlen(item->name) == len'
-check. strncmp() will stop when it reaches a NUL in either string so no
-need for the length check?
+Finally, h265 patch can be considered as a fix (prevents overwriting
+random memory). If deemed appropriate, fixes tag can be added.
 
-Anyways:
+Let me know what you think.
 
-Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
+Best regards,
+Jernej
+
+Jernej Skrabec (2):
+  media: cedrus: h265: Associate mv col buffers with buffer
+  media: cedrus: h264: Optimize mv col buffer allocation
+
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |  16 +--
+ .../staging/media/sunxi/cedrus/cedrus_h264.c  | 118 +++++++++---------
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |  63 +++++-----
+ 3 files changed, 99 insertions(+), 98 deletions(-)
+
+--
+2.38.0
+
