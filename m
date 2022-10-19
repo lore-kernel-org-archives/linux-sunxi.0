@@ -1,63 +1,23 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5A04C72;
-	Wed, 19 Oct 2022 17:45:59 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id s30so26390199eds.1;
-        Wed, 19 Oct 2022 10:45:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZYFckWwX9uTEigsRmSE8M+w2FU9LcSUPeNXHRx9aVqY=;
-        b=FRSQXJ2BQOtMb5aSzMw31RLJqB1kdyiJ2FvPYpQ4RpU6MfaRJEplG2JkNKxInXU2w0
-         y9GML01FZxWhLNXu10zW1YJZ4x7l5wcGWEIb+GrZ0yNop5k4Sxk0WklHRTMhFP2eR0VD
-         ZPqDSKdEc3pCHlBpGpDuWaKQlC7j5cMJi/m4E0i1oCX1tPwjAJMBYLvkz6aaWh5fd52+
-         D9MZSgl3tQvYL+RPFzA2EtbuSpXEmgOT8IcTpS2FMiyGzURAdK7gLTMlbeB2mr2Kx+tX
-         lxwUvWXfsBplme9oCJukwySDiNRfEtugnwJ/cAFGmXj1Kdvo9Bx2Lf5IrUHECk0Y8Ma6
-         X6cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZYFckWwX9uTEigsRmSE8M+w2FU9LcSUPeNXHRx9aVqY=;
-        b=X5C9rokC85wHNal0+QGKoF7+T6/urnC/p0CBPpFAy7817g5d4mh9D/lNY3Ukuh7aBz
-         rw0xYPtiH11WCBtVvogaKOp0Jr5tJsv40QRhz7JoLRZHuECieo8xdSJpFychBvCnZjte
-         s8qREF1UhzWmCs5XkynssvsEvsCb8Y/xD0A+DcyTIJgTW506EIJVx+cT5iEpq/YssqvD
-         eY/2S/kLspP21JRLOzMVXo3IYJug6M9xOgdQK5aT5KuDyusktv5pep7cWuyjmHtIFiU5
-         AYmtIDkORobXA7BgpzkB6+nJyJgx5YXtliSUQeBXAzPF+9uRhNyBpZ1AfvrzU8wtU7zX
-         y73w==
-X-Gm-Message-State: ACrzQf3tCSTKOtS90izUpskFTYIlhxIseRsKTqQ9Yl6vnmzndoqWN2Gt
-	xHLxPHWPJyGkZiKt/jJNtE4=
-X-Google-Smtp-Source: AMsMyM5Ty5xHTPGhC2T9qTK5EqK4582xj+OeMFekmQLzYQCqgZXR+jVo3JQMs8Ff0+3PnznlTMhxEA==
-X-Received: by 2002:a05:6402:3887:b0:458:289e:c9cc with SMTP id fd7-20020a056402388700b00458289ec9ccmr8583598edb.101.1666201557860;
-        Wed, 19 Oct 2022 10:45:57 -0700 (PDT)
-Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id qn24-20020a170907211800b0073c10031dc9sm9218382ejb.80.2022.10.19.10.45.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Oct 2022 10:45:57 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	paul.kocialkowski@bootlin.com
-Cc: mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	wens@csie.org,
-	samuel@sholland.org,
-	hverkuil-cisco@xs4all.nl,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 668805C87
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 Oct 2022 23:55:51 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 403231424;
+	Wed, 19 Oct 2022 16:55:56 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B8C4A3F7D8;
+	Wed, 19 Oct 2022 16:55:48 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
+	Icenowy Zheng <uwu@icenowy.me>,
+	Jagan Teki <jagan@amarulasolutions.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 2/2] media: cedrus: h264: Optimize mv col buffer allocation
-Date: Wed, 19 Oct 2022 19:45:51 +0200
-Message-Id: <20221019174551.2695149-3-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.38.0
-In-Reply-To: <20221019174551.2695149-1-jernej.skrabec@gmail.com>
-References: <20221019174551.2695149-1-jernej.skrabec@gmail.com>
+Subject: Pull request: u-boot-sunxi/master for 2023.01
+Date: Thu, 20 Oct 2022 00:54:27 +0100
+Message-Id: <20221019235427.8253-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -66,256 +26,292 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently allocation for mv col buffer pool is very wasteful. It
-allocates memory for worst case which is a lot more than it's needed for
-typical use. Fix that by replacing pool with individual allocations when
-such buffer is really needed. At that time all needed information for
-determining optimal mv col buffer size is also known.
+Hi Tom,
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/staging/media/sunxi/cedrus/cedrus.h   |   7 +-
- .../staging/media/sunxi/cedrus/cedrus_h264.c  | 118 +++++++++---------
- 2 files changed, 61 insertions(+), 64 deletions(-)
+please pull the first bunch of the sunxi pull request for this cycle.
+Beside some rather unexciting sync of the DTs from the kernel tree, and
+some Kconfig cleanup, there are some improvements for the ARMv5 Allwinner
+family, to support boards with the F1C200s (64MB DRAM) better. We will
+get actual board support as soon as the DTs have passed the Linux review
+process.
+There is also support for the X96 Mate TV Box, featuring the H616 SoC and
+a full 4GB of DRAM.
+Also we found the secret to enable SPI booting on the H616 (pin PC5 must
+be pulled to GND), so the SPI boot support patch is now good to go.
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
-index cb99610f3e12..9cffaf228422 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-@@ -108,6 +108,9 @@ struct cedrus_buffer {
- 		struct {
- 			unsigned int			position;
- 			enum cedrus_h264_pic_type	pic_type;
-+			void				*mv_col_buf;
-+			dma_addr_t			mv_col_buf_dma;
-+			ssize_t				mv_col_buf_size;
- 		} h264;
- 		struct {
- 			void		*mv_col_buf;
-@@ -130,10 +133,6 @@ struct cedrus_ctx {
- 
- 	union {
- 		struct {
--			void		*mv_col_buf;
--			dma_addr_t	mv_col_buf_dma;
--			ssize_t		mv_col_buf_field_size;
--			ssize_t		mv_col_buf_size;
- 			void		*pic_info_buf;
- 			dma_addr_t	pic_info_buf_dma;
- 			ssize_t		pic_info_buf_size;
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-index a8b236cd3800..c92dec21c1ac 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-@@ -54,17 +54,13 @@ static void cedrus_h264_write_sram(struct cedrus_dev *dev,
- 		cedrus_write(dev, VE_AVC_SRAM_PORT_DATA, *buffer++);
- }
- 
--static dma_addr_t cedrus_h264_mv_col_buf_addr(struct cedrus_ctx *ctx,
--					      unsigned int position,
-+static dma_addr_t cedrus_h264_mv_col_buf_addr(struct cedrus_buffer *buf,
- 					      unsigned int field)
- {
--	dma_addr_t addr = ctx->codec.h264.mv_col_buf_dma;
--
--	/* Adjust for the position */
--	addr += position * ctx->codec.h264.mv_col_buf_field_size * 2;
-+	dma_addr_t addr = buf->codec.h264.mv_col_buf_dma;
- 
- 	/* Adjust for the field */
--	addr += field * ctx->codec.h264.mv_col_buf_field_size;
-+	addr += field * buf->codec.h264.mv_col_buf_size / 2;
- 
- 	return addr;
- }
-@@ -76,7 +72,6 @@ static void cedrus_fill_ref_pic(struct cedrus_ctx *ctx,
- 				struct cedrus_h264_sram_ref_pic *pic)
- {
- 	struct vb2_buffer *vbuf = &buf->m2m_buf.vb.vb2_buf;
--	unsigned int position = buf->codec.h264.position;
- 
- 	pic->top_field_order_cnt = cpu_to_le32(top_field_order_cnt);
- 	pic->bottom_field_order_cnt = cpu_to_le32(bottom_field_order_cnt);
-@@ -84,14 +79,12 @@ static void cedrus_fill_ref_pic(struct cedrus_ctx *ctx,
- 
- 	pic->luma_ptr = cpu_to_le32(cedrus_buf_addr(vbuf, &ctx->dst_fmt, 0));
- 	pic->chroma_ptr = cpu_to_le32(cedrus_buf_addr(vbuf, &ctx->dst_fmt, 1));
--	pic->mv_col_top_ptr =
--		cpu_to_le32(cedrus_h264_mv_col_buf_addr(ctx, position, 0));
--	pic->mv_col_bot_ptr =
--		cpu_to_le32(cedrus_h264_mv_col_buf_addr(ctx, position, 1));
-+	pic->mv_col_top_ptr = cpu_to_le32(cedrus_h264_mv_col_buf_addr(buf, 0));
-+	pic->mv_col_bot_ptr = cpu_to_le32(cedrus_h264_mv_col_buf_addr(buf, 1));
- }
- 
--static void cedrus_write_frame_list(struct cedrus_ctx *ctx,
--				    struct cedrus_run *run)
-+static int cedrus_write_frame_list(struct cedrus_ctx *ctx,
-+				   struct cedrus_run *run)
- {
- 	struct cedrus_h264_sram_ref_pic pic_list[CEDRUS_H264_FRAME_NUM];
- 	const struct v4l2_ctrl_h264_decode_params *decode = run->h264.decode_params;
-@@ -146,6 +139,31 @@ static void cedrus_write_frame_list(struct cedrus_ctx *ctx,
- 	output_buf = vb2_to_cedrus_buffer(&run->dst->vb2_buf);
- 	output_buf->codec.h264.position = position;
- 
-+	if (!output_buf->codec.h264.mv_col_buf_size) {
-+		const struct v4l2_ctrl_h264_sps *sps = run->h264.sps;
-+		unsigned int field_size;
-+
-+		field_size = DIV_ROUND_UP(ctx->src_fmt.width, 16) *
-+			DIV_ROUND_UP(ctx->src_fmt.height, 16) * 16;
-+		if (!(sps->flags & V4L2_H264_SPS_FLAG_DIRECT_8X8_INFERENCE))
-+			field_size = field_size * 2;
-+		if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
-+			field_size = field_size * 2;
-+
-+		output_buf->codec.h264.mv_col_buf_size = field_size * 2;
-+		/* Buffer is never accessed by CPU, so we can skip kernel mapping. */
-+		output_buf->codec.h264.mv_col_buf =
-+			dma_alloc_attrs(dev->dev,
-+					output_buf->codec.h264.mv_col_buf_size,
-+					&output_buf->codec.h264.mv_col_buf_dma,
-+					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
-+
-+		if (!output_buf->codec.h264.mv_col_buf) {
-+			output_buf->codec.h264.mv_col_buf_size = 0;
-+			return -ENOMEM;
-+		}
-+	}
-+
- 	if (decode->flags & V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC)
- 		output_buf->codec.h264.pic_type = CEDRUS_H264_PIC_TYPE_FIELD;
- 	else if (sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD)
-@@ -162,6 +180,8 @@ static void cedrus_write_frame_list(struct cedrus_ctx *ctx,
- 			       pic_list, sizeof(pic_list));
- 
- 	cedrus_write(dev, VE_H264_OUTPUT_FRAME_IDX, position);
-+
-+	return 0;
- }
- 
- #define CEDRUS_MAX_REF_IDX	32
-@@ -496,6 +516,7 @@ static void cedrus_h264_irq_disable(struct cedrus_ctx *ctx)
- static int cedrus_h264_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
- {
- 	struct cedrus_dev *dev = ctx->dev;
-+	int ret;
- 
- 	cedrus_engine_enable(ctx, CEDRUS_CODEC_H264);
- 
-@@ -506,7 +527,9 @@ static int cedrus_h264_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
- 		     ctx->codec.h264.neighbor_info_buf_dma);
- 
- 	cedrus_write_scaling_lists(ctx, run);
--	cedrus_write_frame_list(ctx, run);
-+	ret = cedrus_write_frame_list(ctx, run);
-+	if (ret)
-+		return ret;
- 
- 	cedrus_set_params(ctx, run);
- 
-@@ -517,8 +540,6 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
- {
- 	struct cedrus_dev *dev = ctx->dev;
- 	unsigned int pic_info_size;
--	unsigned int field_size;
--	unsigned int mv_col_size;
- 	int ret;
- 
- 	/*
-@@ -566,38 +587,6 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
- 		goto err_pic_buf;
- 	}
- 
--	field_size = DIV_ROUND_UP(ctx->src_fmt.width, 16) *
--		DIV_ROUND_UP(ctx->src_fmt.height, 16) * 16;
--
--	/*
--	 * FIXME: This is actually conditional to
--	 * V4L2_H264_SPS_FLAG_DIRECT_8X8_INFERENCE not being set, we
--	 * might have to rework this if memory efficiency ever is
--	 * something we need to work on.
--	 */
--	field_size = field_size * 2;
--
--	/*
--	 * FIXME: This is actually conditional to
--	 * V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY not being set, we might
--	 * have to rework this if memory efficiency ever is something
--	 * we need to work on.
--	 */
--	field_size = field_size * 2;
--	ctx->codec.h264.mv_col_buf_field_size = field_size;
--
--	mv_col_size = field_size * 2 * CEDRUS_H264_FRAME_NUM;
--	ctx->codec.h264.mv_col_buf_size = mv_col_size;
--	ctx->codec.h264.mv_col_buf =
--		dma_alloc_attrs(dev->dev,
--				ctx->codec.h264.mv_col_buf_size,
--				&ctx->codec.h264.mv_col_buf_dma,
--				GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
--	if (!ctx->codec.h264.mv_col_buf) {
--		ret = -ENOMEM;
--		goto err_neighbor_buf;
--	}
--
- 	if (ctx->src_fmt.width > 2048) {
- 		/*
- 		 * Formulas for deblock and intra prediction buffer sizes
-@@ -613,7 +602,7 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
- 					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
- 		if (!ctx->codec.h264.deblk_buf) {
- 			ret = -ENOMEM;
--			goto err_mv_col_buf;
-+			goto err_neighbor_buf;
- 		}
- 
- 		/*
-@@ -641,12 +630,6 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
- 		       ctx->codec.h264.deblk_buf_dma,
- 		       DMA_ATTR_NO_KERNEL_MAPPING);
- 
--err_mv_col_buf:
--	dma_free_attrs(dev->dev, ctx->codec.h264.mv_col_buf_size,
--		       ctx->codec.h264.mv_col_buf,
--		       ctx->codec.h264.mv_col_buf_dma,
--		       DMA_ATTR_NO_KERNEL_MAPPING);
--
- err_neighbor_buf:
- 	dma_free_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
- 		       ctx->codec.h264.neighbor_info_buf,
-@@ -664,11 +647,26 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
- static void cedrus_h264_stop(struct cedrus_ctx *ctx)
- {
- 	struct cedrus_dev *dev = ctx->dev;
-+	struct cedrus_buffer *buf;
-+	struct vb2_queue *vq;
-+	unsigned int i;
-+
-+	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
-+
-+	for (i = 0; i < vq->num_buffers; i++) {
-+		buf = vb2_to_cedrus_buffer(vb2_get_buffer(vq, i));
-+
-+		if (buf->codec.h264.mv_col_buf_size > 0) {
-+			dma_free_attrs(dev->dev,
-+				       buf->codec.h264.mv_col_buf_size,
-+				       buf->codec.h264.mv_col_buf,
-+				       buf->codec.h264.mv_col_buf_dma,
-+				       DMA_ATTR_NO_KERNEL_MAPPING);
-+
-+			buf->codec.h264.mv_col_buf_size = 0;
-+		}
-+	}
- 
--	dma_free_attrs(dev->dev, ctx->codec.h264.mv_col_buf_size,
--		       ctx->codec.h264.mv_col_buf,
--		       ctx->codec.h264.mv_col_buf_dma,
--		       DMA_ATTR_NO_KERNEL_MAPPING);
- 	dma_free_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
- 		       ctx->codec.h264.neighbor_info_buf,
- 		       ctx->codec.h264.neighbor_info_buf_dma,
--- 
-2.38.0
+Passed the gitlab CI, plus briefly tested on Pine64-LTS, LicheePi Nano,
+X96 Mate and OrangePi Zero.
 
+Thanks,
+Andre
+
+========================
+The following changes since commit e2ff1d0fa777b11ad6b26432cb7613ab433b15d6:
+
+  Merge tag 'efi-2023-01-rc1-3' of https://source.denx.de/u-boot/custodians/u-boot-efi (2022-10-16 20:23:47 -0400)
+
+are available in the Git repository at:
+
+  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+
+for you to fetch changes up to 843ed983a07ee5d8d4e4ac5baa39fc53f12b5f33:
+
+  suniv: add UART1 support (2022-10-19 14:15:02 +0100)
+
+----------------------------------------------------------------
+Andre Przywara (11):
+      sunxi: dts: arm64: update devicetree files
+      sunxi: dts: arm: update devicetree files
+      sunxi: Kconfig: use SoC-wide values for some symbols
+      sunxi: defconfig: drop redundant definitions
+      sunxi: SPL SPI: Add SPI boot support for the Allwinner H616 SoC
+      sunxi: OrangePi Zero 2: Enable SPI booting
+      sunxi: defconfig: Add X96 Mate TV box
+      sunxi: Kconfig: introduce SUNXI_MINIMUM_DRAM_MB
+      sunxi: fix 32MB load address layout
+      suniv: move SKIP_LOWLEVEL_INIT_ONLY into Kconfig
+      suniv: add UART1 support
+
+Icenowy Zheng (2):
+      sunxi: fix SUNIV build when enabling D-Cache
+      configs: sunxi: licheepi_nano: enable D-Cache
+
+ Kconfig                                         |   6 +-
+ arch/arm/dts/Makefile                           |   3 +-
+ arch/arm/dts/sun4i-a10-inet9f-rev03.dts         |  40 ++--
+ arch/arm/dts/sun4i-a10-pcduino.dts              |   6 +-
+ arch/arm/dts/sun50i-a64-amarula-relic.dts       |   2 +-
+ arch/arm/dts/sun50i-a64-bananapi-m64.dts        |   4 +-
+ arch/arm/dts/sun50i-a64-nanopi-a64.dts          |   2 +-
+ arch/arm/dts/sun50i-a64-olinuxino.dts           |  30 +++
+ arch/arm/dts/sun50i-a64-orangepi-win.dts        |   6 +-
+ arch/arm/dts/sun50i-a64-pinebook.dts            |   4 +-
+ arch/arm/dts/sun50i-a64-pinephone-1.0.dts       |   4 +
+ arch/arm/dts/sun50i-a64-pinephone-1.1.dts       |   4 +
+ arch/arm/dts/sun50i-a64-teres-i.dts             |   8 +
+ arch/arm/dts/sun50i-a64.dtsi                    |  10 +-
+ arch/arm/dts/sun50i-h5-nanopi-r1s-h5.dts        |   4 +-
+ arch/arm/dts/sun50i-h5-orangepi-pc2.dts         |   4 +-
+ arch/arm/dts/sun50i-h5-orangepi-prime.dts       |   4 +-
+ arch/arm/dts/sun50i-h6-orangepi-3.dts           |   4 +-
+ arch/arm/dts/sun50i-h6-orangepi-lite2.dts       |   4 +-
+ arch/arm/dts/sun50i-h6-tanix.dtsi               |   2 +-
+ arch/arm/dts/sun50i-h6.dtsi                     |  12 +-
+ arch/arm/dts/sun50i-h616-orangepi-zero2.dts     |  55 ++---
+ arch/arm/dts/sun50i-h616-x96-mate.dts           | 177 +++++++++++++++
+ arch/arm/dts/sun50i-h616.dtsi                   | 286 ++++++------------------
+ arch/arm/dts/sun5i-a13-licheepi-one.dts         |   6 +-
+ arch/arm/dts/sun6i-a31.dtsi                     |  13 +-
+ arch/arm/dts/sun7i-a20-pcduino3.dts             |   6 +-
+ arch/arm/dts/sun8i-a23-a33.dtsi                 |   9 +-
+ arch/arm/dts/sun8i-a23-ippo-q8h-v1.2.dts        |  74 +-----
+ arch/arm/dts/sun8i-a23-ippo-q8h-v5.dts          |  74 +-----
+ arch/arm/dts/sun8i-a33-et-q8-v1.6.dts           |  58 +----
+ arch/arm/dts/sun8i-a33-ippo-q8h-v1.2.dts        |  58 +----
+ arch/arm/dts/sun8i-h2-plus-bananapi-m2-zero.dts |   8 +-
+ arch/arm/dts/sun8i-h2-plus-orangepi-zero.dts    |   2 +-
+ arch/arm/dts/sun8i-h3-beelink-x2.dts            |   6 +-
+ arch/arm/dts/sun8i-h3-mapleboard-mp130.dts      |   6 +-
+ arch/arm/dts/sun8i-h3-nanopi-duo2.dts           |   8 +-
+ arch/arm/dts/sun8i-h3-nanopi-neo-air.dts        |   2 +-
+ arch/arm/dts/sun8i-h3-nanopi-r1.dts             |   4 +-
+ arch/arm/dts/sun8i-h3-nanopi.dtsi               |   5 +-
+ arch/arm/dts/sun8i-h3-orangepi-2.dts            |   6 +-
+ arch/arm/dts/sun8i-h3-orangepi-lite.dts         |   4 +-
+ arch/arm/dts/sun8i-h3-orangepi-one.dts          |   4 +-
+ arch/arm/dts/sun8i-h3-orangepi-pc.dts           |   4 +-
+ arch/arm/dts/sun8i-r16-bananapi-m2m.dts         |   4 +-
+ arch/arm/dts/sun8i-r40-bananapi-m2-ultra.dts    |   5 +
+ arch/arm/dts/sun8i-r40-cpu-opp.dtsi             |  52 +++++
+ arch/arm/dts/sun8i-r40-feta40i.dtsi             |   5 +
+ arch/arm/dts/sun8i-r40.dtsi                     |  44 +++-
+ arch/arm/dts/sun8i-t3-cqa3t-bv3.dts             |   5 +
+ arch/arm/dts/sun8i-v3s.dtsi                     |   6 +-
+ arch/arm/dts/sun8i-v40-bananapi-m2-berry.dts    |   5 +
+ arch/arm/dts/sun9i-a80.dtsi                     |   1 -
+ arch/arm/dts/sunxi-bananapi-m2-plus.dtsi        |   8 +-
+ arch/arm/dts/sunxi-h3-h5-emlid-neutis.dtsi      |   4 +-
+ arch/arm/dts/sunxi-h3-h5.dtsi                   |  13 +-
+ arch/arm/dts/sunxi-libretech-all-h3-cc.dtsi     |   4 +-
+ arch/arm/mach-sunxi/Kconfig                     |  16 +-
+ arch/arm/mach-sunxi/board.c                     |   6 +-
+ arch/arm/mach-sunxi/spl_spi_sunxi.c             |  27 ++-
+ board/sunxi/MAINTAINERS                         |   5 +
+ boot/Kconfig                                    |   4 +-
+ cmd/Kconfig                                     |   1 +
+ common/spl/Kconfig                              |   6 +
+ configs/A10-OLinuXino-Lime_defconfig            |   2 -
+ configs/A10s-OLinuXino-M_defconfig              |   2 -
+ configs/A13-OLinuXinoM_defconfig                |   2 -
+ configs/A13-OLinuXino_defconfig                 |   2 -
+ configs/A20-OLinuXino-Lime2-eMMC_defconfig      |   2 -
+ configs/A20-OLinuXino-Lime2_defconfig           |   2 -
+ configs/A20-OLinuXino-Lime_defconfig            |   2 -
+ configs/A20-OLinuXino_MICRO-eMMC_defconfig      |   2 -
+ configs/A20-OLinuXino_MICRO_defconfig           |   2 -
+ configs/A20-Olimex-SOM-EVB_defconfig            |   2 -
+ configs/A20-Olimex-SOM204-EVB-eMMC_defconfig    |   2 -
+ configs/A20-Olimex-SOM204-EVB_defconfig         |   2 -
+ configs/A33-OLinuXino_defconfig                 |   2 -
+ configs/Ainol_AW1_defconfig                     |   2 -
+ configs/Ampe_A76_defconfig                      |   2 -
+ configs/Auxtek-T003_defconfig                   |   2 -
+ configs/Auxtek-T004_defconfig                   |   2 -
+ configs/Bananapi_M2_Ultra_defconfig             |   2 -
+ configs/Bananapi_defconfig                      |   2 -
+ configs/Bananapi_m2m_defconfig                  |   2 -
+ configs/Bananapro_defconfig                     |   2 -
+ configs/CHIP_defconfig                          |   2 -
+ configs/CHIP_pro_defconfig                      |   2 -
+ configs/CSQ_CS908_defconfig                     |   2 -
+ configs/Chuwi_V7_CW0825_defconfig               |   2 -
+ configs/Colombus_defconfig                      |   2 -
+ configs/Cubieboard2_defconfig                   |   2 -
+ configs/Cubieboard4_defconfig                   |   2 -
+ configs/Cubieboard_defconfig                    |   2 -
+ configs/Cubietruck_defconfig                    |   2 -
+ configs/Cubietruck_plus_defconfig               |   2 -
+ configs/Empire_electronix_d709_defconfig        |   2 -
+ configs/Empire_electronix_m712_defconfig        |   2 -
+ configs/Hummingbird_A31_defconfig               |   2 -
+ configs/Hyundai_A7HD_defconfig                  |   2 -
+ configs/Itead_Ibox_A20_defconfig                |   2 -
+ configs/Lamobo_R1_defconfig                     |   2 -
+ configs/LicheePi_Zero_defconfig                 |   2 -
+ configs/Linksprite_pcDuino3_Nano_defconfig      |   2 -
+ configs/Linksprite_pcDuino3_defconfig           |   2 -
+ configs/Linksprite_pcDuino_defconfig            |   2 -
+ configs/MK808C_defconfig                        |   2 -
+ configs/MSI_Primo73_defconfig                   |   2 -
+ configs/MSI_Primo81_defconfig                   |   2 -
+ configs/Marsboard_A10_defconfig                 |   2 -
+ configs/Mele_A1000G_quad_defconfig              |   2 -
+ configs/Mele_A1000_defconfig                    |   2 -
+ configs/Mele_I7_defconfig                       |   2 -
+ configs/Mele_M3_defconfig                       |   2 -
+ configs/Mele_M5_defconfig                       |   2 -
+ configs/Mele_M9_defconfig                       |   2 -
+ configs/Merrii_A80_Optimus_defconfig            |   2 -
+ configs/Mini-X_defconfig                        |   2 -
+ configs/Nintendo_NES_Classic_Edition_defconfig  |   2 -
+ configs/Orangepi_defconfig                      |   2 -
+ configs/Orangepi_mini_defconfig                 |   2 -
+ configs/Sinlinx_SinA31s_defconfig               |   2 -
+ configs/Sinlinx_SinA33_defconfig                |   2 -
+ configs/Sinovoip_BPI_M2_defconfig               |   2 -
+ configs/Sinovoip_BPI_M3_defconfig               |   2 -
+ configs/Sunchip_CX-A99_defconfig                |   2 -
+ configs/UTOO_P66_defconfig                      |   2 -
+ configs/Wexler_TAB7200_defconfig                |   2 -
+ configs/Wits_Pro_A20_DKT_defconfig              |   2 -
+ configs/Wobo_i5_defconfig                       |   2 -
+ configs/Yones_Toptech_BD1078_defconfig          |   2 -
+ configs/Yones_Toptech_BS1078_V2_defconfig       |   2 -
+ configs/a64-olinuxino-emmc_defconfig            |   3 -
+ configs/a64-olinuxino_defconfig                 |   3 -
+ configs/amarula_a64_relic_defconfig             |   3 -
+ configs/ba10_tv_box_defconfig                   |   2 -
+ configs/bananapi_m1_plus_defconfig              |   2 -
+ configs/bananapi_m2_berry_defconfig             |   2 -
+ configs/bananapi_m2_plus_h3_defconfig           |   2 -
+ configs/bananapi_m2_plus_h5_defconfig           |   3 -
+ configs/bananapi_m2_zero_defconfig              |   2 -
+ configs/bananapi_m64_defconfig                  |   3 -
+ configs/beelink_gs1_defconfig                   |   3 -
+ configs/beelink_x2_defconfig                    |   2 -
+ configs/colorfly_e708_q1_defconfig              |   2 -
+ configs/difrnce_dit4350_defconfig               |   2 -
+ configs/dserve_dsrv9703c_defconfig              |   2 -
+ configs/emlid_neutis_n5_devboard_defconfig      |   3 -
+ configs/ga10h_v1_1_defconfig                    |   2 -
+ configs/gt90h_v4_defconfig                      |   2 -
+ configs/h8_homlet_v2_defconfig                  |   2 -
+ configs/i12-tvbox_defconfig                     |   2 -
+ configs/iNet_3F_defconfig                       |   2 -
+ configs/iNet_3W_defconfig                       |   2 -
+ configs/iNet_86VS_defconfig                     |   2 -
+ configs/iNet_D978_rev2_defconfig                |   2 -
+ configs/icnova-a20-swac_defconfig               |   2 -
+ configs/inet1_defconfig                         |   2 -
+ configs/inet86dz_defconfig                      |   2 -
+ configs/inet97fv2_defconfig                     |   2 -
+ configs/inet98v_rev2_defconfig                  |   2 -
+ configs/inet9f_rev03_defconfig                  |   2 -
+ configs/inet_q972_defconfig                     |   2 -
+ configs/jesurun_q5_defconfig                    |   2 -
+ configs/libretech_all_h3_cc_h2_plus_defconfig   |   2 -
+ configs/libretech_all_h3_cc_h3_defconfig        |   2 -
+ configs/libretech_all_h3_cc_h5_defconfig        |   3 -
+ configs/libretech_all_h3_it_h5_defconfig        |   3 -
+ configs/libretech_all_h5_cc_h5_defconfig        |   3 -
+ configs/licheepi_nano_defconfig                 |   5 -
+ configs/mixtile_loftq_defconfig                 |   2 -
+ configs/mk802_a10s_defconfig                    |   2 -
+ configs/mk802_defconfig                         |   2 -
+ configs/mk802ii_defconfig                       |   2 -
+ configs/nanopi_a64_defconfig                    |   3 -
+ configs/nanopi_m1_defconfig                     |   2 -
+ configs/nanopi_m1_plus_defconfig                |   2 -
+ configs/nanopi_neo2_defconfig                   |   3 -
+ configs/nanopi_neo_air_defconfig                |   2 -
+ configs/nanopi_neo_defconfig                    |   2 -
+ configs/nanopi_neo_plus2_defconfig              |   3 -
+ configs/nanopi_r1s_h5_defconfig                 |   3 -
+ configs/oceanic_5205_5inmfd_defconfig           |   3 -
+ configs/orangepi_2_defconfig                    |   2 -
+ configs/orangepi_3_defconfig                    |   3 -
+ configs/orangepi_lite2_defconfig                |   3 -
+ configs/orangepi_lite_defconfig                 |   2 -
+ configs/orangepi_one_defconfig                  |   2 -
+ configs/orangepi_one_plus_defconfig             |   3 -
+ configs/orangepi_pc2_defconfig                  |   3 -
+ configs/orangepi_pc_defconfig                   |   2 -
+ configs/orangepi_pc_plus_defconfig              |   2 -
+ configs/orangepi_plus2e_defconfig               |   2 -
+ configs/orangepi_plus_defconfig                 |   2 -
+ configs/orangepi_prime_defconfig                |   3 -
+ configs/orangepi_r1_defconfig                   |   2 -
+ configs/orangepi_win_defconfig                  |   3 -
+ configs/orangepi_zero2_defconfig                |   5 +-
+ configs/orangepi_zero_defconfig                 |   2 -
+ configs/orangepi_zero_plus2_defconfig           |   3 -
+ configs/orangepi_zero_plus2_h3_defconfig        |   2 -
+ configs/orangepi_zero_plus_defconfig            |   3 -
+ configs/parrot_r16_defconfig                    |   2 -
+ configs/pine64-lts_defconfig                    |   3 -
+ configs/pine64_plus_defconfig                   |   3 -
+ configs/pine_h64_defconfig                      |   3 -
+ configs/pinebook_defconfig                      |   3 -
+ configs/pinecube_defconfig                      |   2 -
+ configs/pinephone_defconfig                     |   3 -
+ configs/pinetab_defconfig                       |   3 -
+ configs/polaroid_mid2407pxe03_defconfig         |   2 -
+ configs/polaroid_mid2809pxe04_defconfig         |   2 -
+ configs/pov_protab2_ips9_defconfig              |   2 -
+ configs/q8_a13_tablet_defconfig                 |   2 -
+ configs/q8_a23_tablet_800x480_defconfig         |   2 -
+ configs/q8_a33_tablet_1024x600_defconfig        |   2 -
+ configs/q8_a33_tablet_800x480_defconfig         |   2 -
+ configs/r7-tv-dongle_defconfig                  |   2 -
+ configs/sopine_baseboard_defconfig              |   3 -
+ configs/sun8i_a23_evb_defconfig                 |   2 -
+ configs/sunxi_Gemei_G9_defconfig                |   2 -
+ configs/tanix_tx6_defconfig                     |   3 -
+ configs/tbs_a711_defconfig                      |   2 -
+ configs/teres_i_defconfig                       |   3 -
+ configs/x96_mate_defconfig                      |  15 ++
+ configs/zeropi_defconfig                        |   2 -
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c           |   1 +
+ include/configs/sunxi-common.h                  |  49 ++--
+ include/dt-bindings/clock/sun50i-h6-r-ccu.h     |   1 +
+ include/dt-bindings/clock/sun50i-h616-ccu.h     |   1 +
+ include/dt-bindings/clock/sun6i-rtc.h           |  10 +
+ 230 files changed, 657 insertions(+), 1037 deletions(-)
+ create mode 100644 arch/arm/dts/sun50i-h616-x96-mate.dts
+ mode change 100644 => 120000 arch/arm/dts/sun8i-a23-ippo-q8h-v1.2.dts
+ mode change 100644 => 120000 arch/arm/dts/sun8i-a23-ippo-q8h-v5.dts
+ mode change 100644 => 120000 arch/arm/dts/sun8i-a33-et-q8-v1.6.dts
+ mode change 100644 => 120000 arch/arm/dts/sun8i-a33-ippo-q8h-v1.2.dts
+ create mode 100644 arch/arm/dts/sun8i-r40-cpu-opp.dtsi
+ create mode 100644 configs/x96_mate_defconfig
+ create mode 100644 include/dt-bindings/clock/sun6i-rtc.h
