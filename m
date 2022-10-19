@@ -1,72 +1,171 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDE3E1FC9
-	for <linux-sunxi@lists.linux.dev>; Wed, 19 Oct 2022 03:56:24 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id w18so36979994ejq.11
-        for <linux-sunxi@lists.linux.dev>; Tue, 18 Oct 2022 20:56:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IXizNkH/R+e1pcdGI2c2lbV1I/baxKR1Zsps8qTE1LY=;
-        b=gXpUibeLCHIQqA7BBqDECEJr8yqLLBsXJElo/a+slr6k/AMsbCRKQMhm7FfIH5j38w
-         48apUQLuteTAq5izn6kTO71ajX8BhYTGN3VpkcmsAzJmZ1uErbISfqnzE58JV1ZAf+WC
-         dYg+9FG90XSdNeqMFzVd7KWKhqdpxkV0mMFB7YxjSUTquUbTsanyv+LVShas5ynG6kQB
-         /zxMMZEsZsSgJ4mvgMED8J5oGM9OlV/VC7f32uBY/l8s4hzcUH46x/wWYhyz4WLvyxzs
-         0SIARvrOAYitMxbi0/Vy20cbQ5+AWDTlukvjj8ziCYC+PAboF13HOq6kiDEoKHNrOjVb
-         Yayg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IXizNkH/R+e1pcdGI2c2lbV1I/baxKR1Zsps8qTE1LY=;
-        b=Qus6JfY5P5nmxSwuBMKNroKEXMAh0vGNvtpRZ7Vn1S+VWnvh8/XDNg85qv/vEs+W24
-         NbCgs5u5cEBtDvRRlutvrBEdE1y5LuIRmto3sgW/KraAM1REMjeU24But5wSfemnLyj2
-         sbuuvmC7WFyAwX6ZTj0Zk4oxf/70GnnAL4EaW8CTrbss7Q8L3cKMU6eL0txVtKz3mcG9
-         6PVfEpwgv48OVG+W6PKbqXchUQr1biar4HqpYkP2WxnifHtEt8NDeWQmfAYlY0anBRx7
-         G4kjehUbCeZPAIc1dN9n+H7nxr5E3C+HWuqf6ATyben7w7hRHP4BX5yxL6P18Ulqyr7t
-         QAzw==
-X-Gm-Message-State: ACrzQf1SfOH2rlGCJppDEX/TJT60qLoyZtlfZIO7YlGztLd81Ob5UfYP
-	pLtpAo4Jtd9n1i6I4O5hynk=
-X-Google-Smtp-Source: AMsMyM5OM4R2vvUMIxygwEZlzJovtBMpE3TkEgi5My/X78KaifFnKstqebCkO6xhWoH4vnkCmxEudw==
-X-Received: by 2002:a17:906:d54d:b0:78e:f130:7099 with SMTP id cr13-20020a170906d54d00b0078ef1307099mr5143652ejc.142.1666151783174;
-        Tue, 18 Oct 2022 20:56:23 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id ti5-20020a170907c20500b00782e9943c99sm8041009ejc.219.2022.10.18.20.56.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Oct 2022 20:56:22 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: fengzheng923@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, wens@csie.org, samuel@sholland.org, Ban Tao <fengzheng923@gmail.com>
-Cc: alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: sun50i-dmic: avoid unused variable warning for sun50i_dmic_of_match
-Date: Wed, 19 Oct 2022 05:56:21 +0200
-Message-ID: <4775101.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <1665895524-122458-1-git-send-email-fengzheng923@gmail.com>
-References: <1665895524-122458-1-git-send-email-fengzheng923@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49F312577
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 Oct 2022 08:48:37 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.west.internal (Postfix) with ESMTP id 6B4202B066A9;
+	Wed, 19 Oct 2022 04:48:32 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Wed, 19 Oct 2022 04:48:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1666169312; x=1666176512; bh=Ym8zZTCcZM
+	zDkoxIUNvTcvnh7J9PJfm+nGlRN8I2SxQ=; b=KdU04RhNsUNkm2Ekd02vnAdG07
+	tgQJvehh/pQMoaC2BYJaJhqOndgA0RVVs60zjvklb5ud//6MAh+5cEf/3N1ZCTms
+	w70cg+INzGALjJjKpj8Q3N+eWAHkdxAQDwTKePnpNWVwDc9fMrq2Kwyept6NgNYi
+	LMZAzdvRAsr4EC4UEIDxxUC5def1KJzPo8LDRRdC7nGkysExG0s+2vMVd94rdjtH
+	ntzi+f0ogMuhMJ4bAsaTiTa74vGZPiIV7enMqt8VvAcX0l+wAUJ7xbHW7ehELAVW
+	FpD/Rqyi+keHr5MKIkKcP/8rZ6tFlnadvyjTwX2lPxpemWdw7UUCBYHt3G0w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1666169312; x=1666176512; bh=Ym8zZTCcZMzDkoxIUNvTcvnh7J9P
+	Jfm+nGlRN8I2SxQ=; b=oMiOuzOTzEKTCBLSUX9G9jAuJ0oL9iSUbS0lBpkLluDO
+	G25DWW7P+vlVfWITSXdNkEtBSEnhkOpnaNoUFtpi/zZz+xIotzCh3TVrqT2FpXZM
+	n5Mlbj7qJFM14/mzcVR/8aZkVO60RRhZLIs2fmkaWe+bzxZjacEtcl2trlxT/91Z
+	yOF5QuG9hZ485rh/IixlOViOF7eiTRwA93qRKMoxLPlb8VXxt62uFGKrLwBpjsT5
+	DtDW96WCgcE4pUVgCFaUgFBMc8jNMlCIjPSovYoNKQp61X71CpvNnTljSfWYeCoX
+	1xiPn5gsYzNLl0twj72w+AvbFkPh7ZLwTxhd6mvBIA==
+X-ME-Sender: <xms:37lPY10L48qsNQf8cigEXMCh63T-4Qrauz6OrSAwbMkDgJsotu0oQw>
+    <xme:37lPY8GAk8Yrn9nhkbcJ0fuH5dvV7lMQxS0XIfF6IqxWqHAAY5NNXE0k22YiesOOe
+    3Qw5-oLoV6fr1TbBSA>
+X-ME-Received: <xmr:37lPY16Qxxm2kamca44NGJWysw8YaFUYrXRunOl1iLmbqx0K7sdSzvIEEbKO>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeelgedgtdekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
+    ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:37lPYy1YOCVMKTWiKtOyaLSIl6-tuTDy6T01UTzY8sXuJv2DDezlig>
+    <xmx:37lPY4G99QMwBes8dy5IOJq0uoHoxPvnEURw3tdELseUPQQDOIv5iQ>
+    <xmx:37lPYz8ytonyL8GI2KznAKP92qjUaGiEBsAUYid98vJDAQ4KrXlPdw>
+    <xmx:4LlPYzmGtI1pqyp6Nsfm5F54pl7efHZUWVsLW-ZfN3r7vgZ88GeH6cYD9uc>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 19 Oct 2022 04:48:30 -0400 (EDT)
+Date: Wed, 19 Oct 2022 10:48:28 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc: Karol Herbst <kherbst@redhat.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	David Airlie <airlied@linux.ie>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Lyude Paul <lyude@redhat.com>, Emma Anholt <emma@anholt.net>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	Ben Skeggs <bskeggs@redhat.com>,	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Dom Cobley <dom@raspberrypi.com>, linux-sunxi@lists.linux.dev,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	nouveau@lists.freedesktop.org,	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+	dri-devel@lists.freedesktop.org,	Hans de Goede <hdegoede@redhat.com>,
+	Phil Elwell <phil@raspberrypi.com>
+Subject: Re: [PATCH v5 12/22] drm/connector: Add a function to lookup a TV
+ mode by its name
+Message-ID: <20221019084828.muy46td63bkyewxk@houat>
+References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v5-12-d841cc64fe4b@cerno.tech>
+ <7dcf479c-8ac7-ed47-8587-30268684373c@tronnes.org>
+ <20221018093353.pt4vset6o2ldxrbs@houat>
+ <e3b98674-5a9e-16f3-4741-ffea43e05cc8@tronnes.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-
-Dne nedelja, 16. oktober 2022 ob 06:45:24 CEST je Ban Tao napisal(a):
-> In configurations with CONFIG_OF=n, we get a harmless build warning:
-> 
-> sound/soc/sunxi/sun50i-dmic.c:268:34: warning: unused variable
-> 'sun50i_dmic_of_match' [-Wunused-const-variable]
-> 
-> Signed-off-by: Ban Tao <fengzheng923@gmail.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Best regards,
-Jernej
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="g2rjpzd2ixg3ehrv"
+Content-Disposition: inline
+In-Reply-To: <e3b98674-5a9e-16f3-4741-ffea43e05cc8@tronnes.org>
 
 
+--g2rjpzd2ixg3ehrv
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Oct 18, 2022 at 02:29:00PM +0200, Noralf Tr=F8nnes wrote:
+>=20
+>=20
+> Den 18.10.2022 11.33, skrev Maxime Ripard:
+> > On Mon, Oct 17, 2022 at 12:44:45PM +0200, Noralf Tr=F8nnes wrote:
+> >> Den 13.10.2022 15.18, skrev Maxime Ripard:
+> >>> As part of the command line parsing rework coming in the next patches,
+> >>> we'll need to lookup drm_connector_tv_mode values by their name, alre=
+ady
+> >>> defined in drm_tv_mode_enum_list.
+> >>>
+> >>> In order to avoid any code duplication, let's do a function that will
+> >>> perform a lookup of a TV mode name and return its value.
+> >>>
+> >>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >>> ---
+> >>>  drivers/gpu/drm/drm_connector.c | 24 ++++++++++++++++++++++++
+> >>>  include/drm/drm_connector.h     |  2 ++
+> >>>  2 files changed, 26 insertions(+)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_co=
+nnector.c
+> >>> index 820f4c730b38..30611c616435 100644
+> >>> --- a/drivers/gpu/drm/drm_connector.c
+> >>> +++ b/drivers/gpu/drm/drm_connector.c
+> >>> @@ -991,6 +991,30 @@ static const struct drm_prop_enum_list drm_tv_mo=
+de_enum_list[] =3D {
+> >>>  };
+> >>>  DRM_ENUM_NAME_FN(drm_get_tv_mode_name, drm_tv_mode_enum_list)
+> >>> =20
+> >>> +/**
+> >>> + * drm_get_tv_mode_from_name - Translates a TV mode name into its en=
+um value
+> >>> + * @name: TV Mode name we want to convert
+> >>> + * @len: Length of @name
+> >>> + *
+> >>> + * Translates @name into an enum drm_connector_tv_mode.
+> >>> + *
+> >>> + * Returns: the enum value on success, a negative errno otherwise.
+> >>> + */
+> >>> +int drm_get_tv_mode_from_name(const char *name, size_t len)
+> >>
+> >> Do we really need to pass in length here? item->name has to always be
+> >> NUL terminated otherwise things would break elsewhere, so it shouldn't
+> >> be necessary AFAICS.
+> >=20
+> > The only user so far is the command-line parsing code, and we might very
+> > well have an option after the tv_mode, something like
+> > 720x480i,tv_mode=3DNTSC,rotate=3D180
+> >=20
+> > In this case, we won't get a NULL-terminated name.
+>
+> My point is that item->name will always be NUL terminated so strcmp()
+> will never look past that.
+
+Right, but we don't have the guarantee that strlen(item->name) <
+strlen(name), and we could thus just access after the end of our name
+
+Maxime
+
+--g2rjpzd2ixg3ehrv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY0+53AAKCRDj7w1vZxhR
+xUn4AQD1YdJVV8PGLA4yBe9MrG2aLgZBCDneKyxSLZYf8GnuFgD9Ge0Zu9QrzbOB
+RiI/MSBbWywUR77Xoz/dlZ4jRTTDKAc=
+=L35j
+-----END PGP SIGNATURE-----
+
+--g2rjpzd2ixg3ehrv--
