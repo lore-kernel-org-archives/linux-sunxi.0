@@ -1,139 +1,72 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4731FC9
-	for <linux-sunxi@lists.linux.dev>; Wed, 19 Oct 2022 03:55:23 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id u21so23346938edi.9
-        for <linux-sunxi@lists.linux.dev>; Tue, 18 Oct 2022 20:55:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDE3E1FC9
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 Oct 2022 03:56:24 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id w18so36979994ejq.11
+        for <linux-sunxi@lists.linux.dev>; Tue, 18 Oct 2022 20:56:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=D/T+TwhfMQhoSEBu79ylX6dCd3SfnghsFRtQGbHzLJI=;
-        b=kbxCuD6YkrTCW1xmxlRwl58fWiEcrJl8R+Efv35cjkb31YYkIy+fUFw9nd86GcdyBq
-         8TkyrUMnTWl1uXeRFRtv1e6rFRLACGkDGS7K36UrW37mmc9nR44Htrcz+QnyUbeZaJvd
-         iKbBbA+mlBAH2TTzllJ8FhpK97mXTZT6lXfENTpbILGC3MCfH+10NVwAi/5QQ4RJV2o6
-         OXudRirpW4fRrQhfF3j5rdCAWb2IQHC66nzOkwAJO60T9dHc+O95aDAyzC3WflFuOTVT
-         KkV1/fIHmtBywnq0jPQwqvIE6c4BbzlM/1Azo/PC3BjAoWPu4oCXG5hGfMUgPWMxEG35
-         jf7g==
+        bh=IXizNkH/R+e1pcdGI2c2lbV1I/baxKR1Zsps8qTE1LY=;
+        b=gXpUibeLCHIQqA7BBqDECEJr8yqLLBsXJElo/a+slr6k/AMsbCRKQMhm7FfIH5j38w
+         48apUQLuteTAq5izn6kTO71ajX8BhYTGN3VpkcmsAzJmZ1uErbISfqnzE58JV1ZAf+WC
+         dYg+9FG90XSdNeqMFzVd7KWKhqdpxkV0mMFB7YxjSUTquUbTsanyv+LVShas5ynG6kQB
+         /zxMMZEsZsSgJ4mvgMED8J5oGM9OlV/VC7f32uBY/l8s4hzcUH46x/wWYhyz4WLvyxzs
+         0SIARvrOAYitMxbi0/Vy20cbQ5+AWDTlukvjj8ziCYC+PAboF13HOq6kiDEoKHNrOjVb
+         Yayg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=D/T+TwhfMQhoSEBu79ylX6dCd3SfnghsFRtQGbHzLJI=;
-        b=zQGACumH/G5Evyg4HpE/Tq7v8tP8JDvJXbSTtzpoLbUP7/qpmSoHgQWd3SQNxQpHeq
-         uiPpF9C8geZzKnFUq+h2Rg9rCwxMMupWEovbk+MP3x1TJ5CZujYNWsg5xz88Njjy2j0n
-         hzemMpxWavm6YLYP7E9BgjlTdOd8/58EWQQPUfB0HB/ajabDxhdAoqxMKUpY/2LQ1/bm
-         8Y/4z9V74K9bYsmEmwGxjLSCe/ZTbWGUlIg4+k1XL0EfDBBD9X4OeHoNZU71C5qkQLck
-         s5jzVnzroqVeKDsFW423zpP1mUgjFjVeEqTsceQIjdr5S5UkYCnFwNMOTsgHhPuh9BwD
-         Mw4Q==
-X-Gm-Message-State: ACrzQf3ltFgjKKm+im67oZN4gL4IgdqQTH1jDBdq5m74L0OmYSWL4sSZ
-	ZvD9TPjOSSXeN/JjukENLfA=
-X-Google-Smtp-Source: AMsMyM6mGJLBKBNzE2ClHqyRkPiOa5u4+5VU68fmk3SJwM74BseUTRTZiqJYs6rqBYehl+OweYhJ3Q==
-X-Received: by 2002:a05:6402:370c:b0:453:9fab:1b53 with SMTP id ek12-20020a056402370c00b004539fab1b53mr5576083edb.28.1666151722059;
-        Tue, 18 Oct 2022 20:55:22 -0700 (PDT)
+        bh=IXizNkH/R+e1pcdGI2c2lbV1I/baxKR1Zsps8qTE1LY=;
+        b=Qus6JfY5P5nmxSwuBMKNroKEXMAh0vGNvtpRZ7Vn1S+VWnvh8/XDNg85qv/vEs+W24
+         NbCgs5u5cEBtDvRRlutvrBEdE1y5LuIRmto3sgW/KraAM1REMjeU24But5wSfemnLyj2
+         sbuuvmC7WFyAwX6ZTj0Zk4oxf/70GnnAL4EaW8CTrbss7Q8L3cKMU6eL0txVtKz3mcG9
+         6PVfEpwgv48OVG+W6PKbqXchUQr1biar4HqpYkP2WxnifHtEt8NDeWQmfAYlY0anBRx7
+         G4kjehUbCeZPAIc1dN9n+H7nxr5E3C+HWuqf6ATyben7w7hRHP4BX5yxL6P18Ulqyr7t
+         QAzw==
+X-Gm-Message-State: ACrzQf1SfOH2rlGCJppDEX/TJT60qLoyZtlfZIO7YlGztLd81Ob5UfYP
+	pLtpAo4Jtd9n1i6I4O5hynk=
+X-Google-Smtp-Source: AMsMyM5OM4R2vvUMIxygwEZlzJovtBMpE3TkEgi5My/X78KaifFnKstqebCkO6xhWoH4vnkCmxEudw==
+X-Received: by 2002:a17:906:d54d:b0:78e:f130:7099 with SMTP id cr13-20020a170906d54d00b0078ef1307099mr5143652ejc.142.1666151783174;
+        Tue, 18 Oct 2022 20:56:23 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id h20-20020a0564020e9400b00456d2721d93sm9593339eda.64.2022.10.18.20.55.20
+        by smtp.gmail.com with ESMTPSA id ti5-20020a170907c20500b00782e9943c99sm8041009ejc.219.2022.10.18.20.56.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Oct 2022 20:55:21 -0700 (PDT)
+        Tue, 18 Oct 2022 20:56:22 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Jagan Teki <jagan@amarulasolutions.com>, Andre Przywara <andre.przywara@arm.com>
-Cc: Icenowy Zheng <uwu@icenowy.me>, Jesse Taube <mr.bossman075@gmail.com>, Yifan Gu <me@yifangu.com>, Giulio Benetti <giulio.benetti@benettiengineering.com>, George Hilliard <thirtythreeforty@gmail.com>, Samuel Holland <samuel@sholland.org>, u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 4/6] sunxi: f1c100: add UART1 support
-Date: Wed, 19 Oct 2022 05:55:19 +0200
-Message-ID: <5610966.DvuYhMxLoT@jernej-laptop>
-In-Reply-To: <905be4d0-74c3-c563-00e8-fcd039694cb7@arm.com>
-References: <20221012163458.1968900-1-andre.przywara@arm.com> <1917971.yKVeVyVuyW@kista> <905be4d0-74c3-c563-00e8-fcd039694cb7@arm.com>
+To: fengzheng923@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, wens@csie.org, samuel@sholland.org, Ban Tao <fengzheng923@gmail.com>
+Cc: alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: sun50i-dmic: avoid unused variable warning for sun50i_dmic_of_match
+Date: Wed, 19 Oct 2022 05:56:21 +0200
+Message-ID: <4775101.31r3eYUQgx@jernej-laptop>
+In-Reply-To: <1665895524-122458-1-git-send-email-fengzheng923@gmail.com>
+References: <1665895524-122458-1-git-send-email-fengzheng923@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Dne torek, 18. oktober 2022 ob 11:23:41 CEST je Andre Przywara napisal(a):
-> On 12/10/2022 22:42, Jernej =C5=A0krabec wrote:
->=20
-> Hi Jernej,
->=20
-> many thanks for the review of this series, that's much appreciated!
->=20
-> > Dne sreda, 12. oktober 2022 ob 18:34:56 CEST je Andre Przywara napisal(=
-a):
-> >> Some boards use UART1 for its debug UART, so define the pins for the S=
-PL
-> >> and the pinmux name and mux value for U-Boot proper.
-> >>=20
-> >> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> >> ---
-> >>=20
-> >>   arch/arm/mach-sunxi/board.c           | 4 ++++
-> >>   drivers/pinctrl/sunxi/pinctrl-sunxi.c | 1 +
-> >>   2 files changed, 5 insertions(+)
-> >>=20
-> >> diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
-> >> index 62bb40b8c89..77216157908 100644
-> >> --- a/arch/arm/mach-sunxi/board.c
-> >> +++ b/arch/arm/mach-sunxi/board.c
-> >> @@ -147,6 +147,10 @@ static int gpio_init(void)
-> >>=20
-> >>   	sunxi_gpio_set_cfgpin(SUNXI_GPH(12), SUN9I_GPH_UART0);
-> >>   	sunxi_gpio_set_cfgpin(SUNXI_GPH(13), SUN9I_GPH_UART0);
-> >>   	sunxi_gpio_set_pull(SUNXI_GPH(13), SUNXI_GPIO_PULL_UP);
-> >>=20
-> >> +#elif CONFIG_CONS_INDEX =3D=3D 2 && defined(CONFIG_MACH_SUNIV)
-> >> +	sunxi_gpio_set_cfgpin(SUNXI_GPA(2), SUNIV_GPE_UART0);
-> >> +	sunxi_gpio_set_cfgpin(SUNXI_GPA(3), SUNIV_GPE_UART0);
-> >> +	sunxi_gpio_set_pull(SUNXI_GPA(3), SUNXI_GPIO_PULL_UP);
-> >>=20
-> >>   #elif CONFIG_CONS_INDEX =3D=3D 2 && defined(CONFIG_MACH_SUN5I)
-> >>  =20
-> >>   	sunxi_gpio_set_cfgpin(SUNXI_GPG(3), SUN5I_GPG_UART1);
-> >>   	sunxi_gpio_set_cfgpin(SUNXI_GPG(4), SUN5I_GPG_UART1);
-> >>=20
-> >> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> >> b/drivers/pinctrl/sunxi/pinctrl-sunxi.c index 9ce2bc1b3af..061104be056
-> >> 100644
-> >> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> >> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> >> @@ -245,6 +245,7 @@ static const struct sunxi_pinctrl_function
-> >> suniv_f1c100s_pinctrl_functions[] =3D { #else
-> >>=20
-> >>   	{ "uart0",	5 },	/* PE0-PE1 */
-> >>  =20
-> >>   #endif
-> >>=20
-> >> +	{ "uart1",	5 },	/* PA0-PA3 */
-> >=20
-> > Comment should be PA2-PA3. With that fixed:
-> Well, PA0 and PA1 are RTS and CTS for UART1, so if you don't mind, I
-> will keep it like this. Not that the comment really matters anyway ;-)
+Dne nedelja, 16. oktober 2022 ob 06:45:24 CEST je Ban Tao napisal(a):
+> In configurations with CONFIG_OF=n, we get a harmless build warning:
+> 
+> sound/soc/sunxi/sun50i-dmic.c:268:34: warning: unused variable
+> 'sun50i_dmic_of_match' [-Wunused-const-variable]
+> 
+> Signed-off-by: Ban Tao <fengzheng923@gmail.com>
+> Reported-by: kernel test robot <lkp@intel.com>
 
-Ok.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
->=20
-> Cheers,
-> Andre
->=20
-> > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> >=20
-> > Best regards,
-> > Jernej
-> >=20
-> >>   };
-> >>  =20
-> >>   static const struct sunxi_pinctrl_desc __maybe_unused
-> >>=20
-> >> suniv_f1c100s_pinctrl_desc =3D { --
-> >> 2.25.1
-
-
 
 
