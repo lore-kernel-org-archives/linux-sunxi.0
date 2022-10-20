@@ -1,42 +1,42 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E6E33E3
-	for <linux-sunxi@lists.linux.dev>; Thu, 20 Oct 2022 10:38:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0CF3C17
+	for <linux-sunxi@lists.linux.dev>; Thu, 20 Oct 2022 10:38:10 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D2CAA22B47;
-	Thu, 20 Oct 2022 10:38:00 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6BF8322B4A;
+	Thu, 20 Oct 2022 10:38:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1666262280; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1666262285; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jWFK76GZFYsgYwc+6vxSArga9uMmZ2Tc8oMprbqiqw0=;
-	b=Ejd78jRSYmwnBxX2aipwC3Ox8skiLUbjtMay59sDp649DdHDOhbUxuiSAsJXDe59jzY039
-	7m8t3LalhptMXwLVTrzVkCxp54leuuDcxIxewQ+X5Z1wJw/nYtKJ6C9nQ6NwMv8FXkTkGO
-	3RqSYtiMQc/Rly3XWIlnJ+uGnR6kSNM=
+	bh=W2hXo1ZXw+fT7jNTQpjjai6MaQuUlFJ3x4yHM5t/NT8=;
+	b=mXMxC8OO+HZ8qhzaLE8AfebgTyxZZ9tZZWp4b7x0BMlwJ5x9pus13/9bOEqPMw/ehUZ5Gm
+	NMWe1CLs7URfQKXJhFUMtaH9TNDwSCHSAXQngN6KK8AbjJnlteXfw2iY4Wy+qxQ++vc+C3
+	i2Xl+bGq47RvpsltfuDrJ24ofhw8TZw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1666262280;
+	s=susede2_ed25519; t=1666262285;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jWFK76GZFYsgYwc+6vxSArga9uMmZ2Tc8oMprbqiqw0=;
-	b=9Bhly1S29cGBzEZtlHvw8BUo8sDLPZ+WqFVhjceEyB7ynwh+OKfDst1qZxL/12nJNg8l+J
-	LjNHGoN0NcLl8OAw==
+	bh=W2hXo1ZXw+fT7jNTQpjjai6MaQuUlFJ3x4yHM5t/NT8=;
+	b=qUQDcrgRCPnFyYcZ51L8SJ9jf3CSuZOp6Fc/Q31scIHuqQyNIFoSnsX5swYKn3WKiqCoB1
+	s+8FMBlX9/Tru7AQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 598D613AF5;
-	Thu, 20 Oct 2022 10:38:00 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EDB6013B72;
+	Thu, 20 Oct 2022 10:38:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id UMn+FAglUWPPYwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Thu, 20 Oct 2022 10:38:00 +0000
+	id kIkbOQwlUWPPYwAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Thu, 20 Oct 2022 10:38:04 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	airlied@gmail.com,
@@ -67,9 +67,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-tegra@vger.kernel.org,
 	xen-devel@lists.xenproject.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 07/21] drm/rockchip: Don't set struct drm_driver.lastclose
-Date: Thu, 20 Oct 2022 12:37:41 +0200
-Message-Id: <20221020103755.24058-8-tzimmermann@suse.de>
+Subject: [PATCH 16/21] drm/fb-helper: Call fb_sync in I/O functions
+Date: Thu, 20 Oct 2022 12:37:50 +0200
+Message-Id: <20221020103755.24058-17-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20221020103755.24058-1-tzimmermann@suse.de>
 References: <20221020103755.24058-1-tzimmermann@suse.de>
@@ -81,36 +81,41 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Don't set struct drm_driver.lastclose. It's used to restore the
-fbdev console. But as rockchip uses generic fbdev emulation, the
-console is being restored by the DRM client helpers already. See
-the call to drm_client_dev_restore() in drm_lastclose().
+Call struct fb_ops.fb_sync in drm_fbdev_{read,write}() to mimic the
+behavior of fbdev. Fbdev implementations of fb_read and fb_write in
+struct fb_ops invoke fb_sync to synchronize with outstanding operations
+before I/O. Doing the same in DRM implementations will allow us to use
+them throughout DRM drivers.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_fb.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/drm_fb_helper.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-index 092bf863110b7..7de64b0ad047f 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-@@ -9,7 +9,6 @@
- #include <drm/drm.h>
- #include <drm/drm_atomic.h>
- #include <drm/drm_damage_helper.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_framebuffer_helper.h>
-@@ -101,7 +100,6 @@ rockchip_fb_create(struct drm_device *dev, struct drm_file *file,
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index f6d22cc4cd876..379e0d2f67198 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -2246,6 +2246,9 @@ static ssize_t drm_fbdev_fb_read(struct fb_info *info, char __user *buf,
+ 	if (total_size - count < pos)
+ 		count = total_size - pos;
  
- static const struct drm_mode_config_funcs rockchip_drm_mode_config_funcs = {
- 	.fb_create = rockchip_fb_create,
--	.output_poll_changed = drm_fb_helper_output_poll_changed,
- 	.atomic_check = drm_atomic_helper_check,
- 	.atomic_commit = drm_atomic_helper_commit,
- };
++	if (info->fbops->fb_sync)
++		info->fbops->fb_sync(info);
++
+ 	if (drm_fbdev_use_iomem(info))
+ 		ret = fb_read_screen_base(info, buf, count, pos);
+ 	else
+@@ -2327,6 +2330,9 @@ static ssize_t drm_fbdev_fb_write(struct fb_info *info, const char __user *buf,
+ 		count = total_size - pos;
+ 	}
+ 
++	if (info->fbops->fb_sync)
++		info->fbops->fb_sync(info);
++
+ 	/*
+ 	 * Copy to framebuffer even if we already logged an error. Emulates
+ 	 * the behavior of the original fbdev implementation.
 -- 
 2.38.0
 
