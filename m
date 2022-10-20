@@ -1,97 +1,201 @@
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2537B
-	for <linux-sunxi@lists.linux.dev>; Thu, 20 Oct 2022 11:11:02 +0000 (UTC)
-Received: from [192.168.1.103] (31.173.87.29) by msexch01.omp.ru (10.188.4.12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Thu, 20 Oct
- 2022 13:55:44 +0300
-Subject: Re: [PATCH 03/21] drm/ingenic: Don't set struct drm_driver.lastclose
-To: Thomas Zimmermann <tzimmermann@suse.de>, <daniel@ffwll.ch>,
-	<airlied@gmail.com>, <sam@ravnborg.org>, <javierm@redhat.com>,
-	<mripard@kernel.org>, <maarten.lankhorst@linux.intel.com>
-CC: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
-	<linux-aspeed@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
-	<etnaviv@lists.freedesktop.org>, <linux-samsung-soc@vger.kernel.org>,
-	<linux-hyperv@vger.kernel.org>, <intel-gfx@lists.freedesktop.org>,
-	<linux-mips@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-amlogic@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
-	<freedreno@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>,
-	<virtualization@lists.linux-foundation.org>,
-	<spice-devel@lists.freedesktop.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-rockchip@lists.infradead.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>,
-	<linux-tegra@vger.kernel.org>, <xen-devel@lists.xenproject.org>
-References: <20221020103755.24058-1-tzimmermann@suse.de>
- <20221020103755.24058-4-tzimmermann@suse.de>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <013ea55b-3d51-c89c-eff8-b8d355ded352@omp.ru>
-Date: Thu, 20 Oct 2022 13:55:44 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D397B
+	for <linux-sunxi@lists.linux.dev>; Thu, 20 Oct 2022 11:29:09 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailnew.west.internal (Postfix) with ESMTP id 56D682B066CD;
+	Thu, 20 Oct 2022 07:29:04 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Thu, 20 Oct 2022 07:29:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1666265343; x=1666272543; bh=mdSqh/jM6E
+	5ZN6DIJNykgL+eED2DQJpEotJl8P+3p8Y=; b=Ox8ZAEZApN4HynE8SjcUtqfjEm
+	sEhezjAJ4BVRlsnxOh2ipZmbBmtVKZurVTzyr0oD304ytmxqGLBFeczJf3uK/fDM
+	xyN4ZY3YGzL31LcxGhm8QpF0YzIhDDzc38m5GzYH/ajRe03bbeMFX/vr9EJJd1Sk
+	/zYPtXkDjE+8ChQbta/PpM2V/ijnr/JFriFPfhwK/MFkdlBfKDEedpQhjwNZnywj
+	j9i3JbTiuO0ND2mX1396ajlhExAVGjeiMCnf5d7W/vyQAQsZUVjtL1csp+uK6ETP
+	OKcJglEKV6DdrJvfbey01a+PJtOE1Hw6nlNHgA0+DHOhinXcjUvfyFAty7IQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1666265343; x=1666272543; bh=mdSqh/jM6E5ZN6DIJNykgL+eED2D
+	QJpEotJl8P+3p8Y=; b=AcVfWBS4hegsRfUao6g1lIQfrzDSeor9U4oFalJ+Bs6Z
+	XDVLvLPGVUoottaXUBBjxWIzSeTdl7UqP8csZ3phUGOXG/HJ8ThvkgAGlHfq8TQW
+	SidUsKVJYLL4Kk3iPYcvXm252fznSGAOSD+HYm13zCbAk3AGp7abpVMYF/xfuChG
+	Z4XdVDSgEga6H0R+Gx0SjpB2NeOzSqkl8nk5R0v0x060A3SHTNGTZ04Vvruwar7C
+	0hvMZ/VyPkZhPFcSO5IsdKpLyXgume7hIv8DJLLjxFf/1rF55AwZ/CxVZPPKWC7q
+	vW17SLe+k0JpyfH1Opu042gyv3CJK7Gy43cU+MzKqQ==
+X-ME-Sender: <xms:_jBRYyBH_FfmuOpsaIRsHTlIvMK4HRjs_x4a-pw75k9tnUv7MEfK4A>
+    <xme:_jBRY8gkx7cPDfxs2mX8RFUxtD2B_nFNjUqs6reqWbcpQbv9r3PFy2iN_jAO3pd_2
+    5BZ-HzjQ3JsHtyG0Qg>
+X-ME-Received: <xmr:_jBRY1mxlnrNMrpL_jc1lfhapovyapPyKzEe8p2zwveRgHVS99rg8KaRO1P8Fvxs9cHRP-Sg9-BrjDr_cLMLMCxBU06pj-VDvFXgBQsOHHz8xQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeliedggeduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephfffvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepmhgrgihi
+    mhgvsegtvghrnhhordhtvggthhenucggtffrrghtthgvrhhnpeeijeeifffgfedvieeihf
+    duffdvleelffejkedufedvffelkeefieektdfhteelhfenucevlhhushhtvghrufhiiigv
+    pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtg
+    hh
+X-ME-Proxy: <xmx:_jBRYwzlboYrZF7MlEpdOmoREm59h5d5HCmf6lGxFPt5vWvcmSI58w>
+    <xmx:_jBRY3QSVKpltD_y6fDj4po4FJeTpDUvCSxdcktRHOs2Z0F_Bub-Fw>
+    <xmx:_jBRY7avNirHWNwHP6X9OuzLrT0InOwaqjrYE8Sw1t5Vcs0EW_dPlQ>
+    <xmx:_zBRY_y8SoJT5iMsvyZdgUVB3i4bjFpnwBAu8sEjFylJeo6DG4hmWS-3hRY>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 20 Oct 2022 07:29:02 -0400 (EDT)
+From: maxime@cerno.tech
+Date: Thu, 20 Oct 2022 13:29:00 +0200
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc: Karol Herbst <kherbst@redhat.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	David Airlie <airlied@linux.ie>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Lyude Paul <lyude@redhat.com>, Emma Anholt <emma@anholt.net>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	Ben Skeggs <bskeggs@redhat.com>,	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Dom Cobley <dom@raspberrypi.com>, linux-sunxi@lists.linux.dev,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	nouveau@lists.freedesktop.org,	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+	dri-devel@lists.freedesktop.org,	Hans de Goede <hdegoede@redhat.com>,
+	Phil Elwell <phil@raspberrypi.com>
+Subject: Re: [PATCH v5 12/22] drm/connector: Add a function to lookup a TV
+ mode by its name
+Message-ID: <20221020112900.dps2zyn4ftefgi3x@houat>
+References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v5-12-d841cc64fe4b@cerno.tech>
+ <7dcf479c-8ac7-ed47-8587-30268684373c@tronnes.org>
+ <20221018093353.pt4vset6o2ldxrbs@houat>
+ <e3b98674-5a9e-16f3-4741-ffea43e05cc8@tronnes.org>
+ <20221019084828.muy46td63bkyewxk@houat>
+ <694facef-00bc-6b59-7c44-d68c7ca0c40f@tronnes.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20221020103755.24058-4-tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [31.173.87.29]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 10/20/2022 10:25:24
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 173210 [Oct 20 2022]
-X-KSE-AntiSpam-Info: Version: 5.9.20.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 502 502 69dee8ef46717dd3cb3eeb129cb7cc8dab9e30f6
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.87.29 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info:
-	omp.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.87.29
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 10/20/2022 10:32:00
-X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 10/20/2022 7:12:00 AM
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="u7iy4fry6poy23d7"
+Content-Disposition: inline
+In-Reply-To: <694facef-00bc-6b59-7c44-d68c7ca0c40f@tronnes.org>
 
-Hello!
 
-On 10/20/22 1:37 PM, Thomas Zimmermann wrote:
+--u7iy4fry6poy23d7
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Don't set struct drm_mode_config.output_poll_changed. It's used to
-> inform the fbdev console about conncetor changes. But as ingenic
+Hi Noralf,
 
-   Connector. :-)
+On Wed, Oct 19, 2022 at 12:43:19PM +0200, Noralf Tr=F8nnes wrote:
+>=20
+>=20
+> Den 19.10.2022 10.48, skrev Maxime Ripard:
+> > On Tue, Oct 18, 2022 at 02:29:00PM +0200, Noralf Tr=F8nnes wrote:
+> >>
+> >>
+> >> Den 18.10.2022 11.33, skrev Maxime Ripard:
+> >>> On Mon, Oct 17, 2022 at 12:44:45PM +0200, Noralf Tr=F8nnes wrote:
+> >>>> Den 13.10.2022 15.18, skrev Maxime Ripard:
+> >>>>> As part of the command line parsing rework coming in the next patch=
+es,
+> >>>>> we'll need to lookup drm_connector_tv_mode values by their name, al=
+ready
+> >>>>> defined in drm_tv_mode_enum_list.
+> >>>>>
+> >>>>> In order to avoid any code duplication, let's do a function that wi=
+ll
+> >>>>> perform a lookup of a TV mode name and return its value.
+> >>>>>
+> >>>>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >>>>> ---
+> >>>>>  drivers/gpu/drm/drm_connector.c | 24 ++++++++++++++++++++++++
+> >>>>>  include/drm/drm_connector.h     |  2 ++
+> >>>>>  2 files changed, 26 insertions(+)
+> >>>>>
+> >>>>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_=
+connector.c
+> >>>>> index 820f4c730b38..30611c616435 100644
+> >>>>> --- a/drivers/gpu/drm/drm_connector.c
+> >>>>> +++ b/drivers/gpu/drm/drm_connector.c
+> >>>>> @@ -991,6 +991,30 @@ static const struct drm_prop_enum_list drm_tv_=
+mode_enum_list[] =3D {
+> >>>>>  };
+> >>>>>  DRM_ENUM_NAME_FN(drm_get_tv_mode_name, drm_tv_mode_enum_list)
+> >>>>> =20
+> >>>>> +/**
+> >>>>> + * drm_get_tv_mode_from_name - Translates a TV mode name into its =
+enum value
+> >>>>> + * @name: TV Mode name we want to convert
+> >>>>> + * @len: Length of @name
+> >>>>> + *
+> >>>>> + * Translates @name into an enum drm_connector_tv_mode.
+> >>>>> + *
+> >>>>> + * Returns: the enum value on success, a negative errno otherwise.
+> >>>>> + */
+> >>>>> +int drm_get_tv_mode_from_name(const char *name, size_t len)
+> >>>>
+> >>>> Do we really need to pass in length here? item->name has to always be
+> >>>> NUL terminated otherwise things would break elsewhere, so it shouldn=
+'t
+> >>>> be necessary AFAICS.
+> >>>
+> >>> The only user so far is the command-line parsing code, and we might v=
+ery
+> >>> well have an option after the tv_mode, something like
+> >>> 720x480i,tv_mode=3DNTSC,rotate=3D180
+> >>>
+> >>> In this case, we won't get a NULL-terminated name.
+> >>
+> >> My point is that item->name will always be NUL terminated so strcmp()
+> >> will never look past that.
+> >=20
+> > Right, but we don't have the guarantee that strlen(item->name) <
+> > strlen(name), and we could thus just access after the end of our name
+> >=20
+>=20
+> Ok, using the length limiting str funtions is the safe thing to do, so
+> len needs to stay. But I don't get the 'strlen(item->name) =3D=3D len'
+> check. strncmp() will stop when it reaches a NUL in either string so no
+> need for the length check?
 
-> uses generic fbdev emulation, the console is being informed by the
-> DRM client helpers already. See the calls to drm_client_dev_hotplug()
-> in drm_probe_helper.c.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-[...]
+Yeah, but if the cmdline is truncated, we'll pass a shorter len than
+strlen(item->name), and it will consider the string as equal.
 
-MBR, Sergey
+For example strncmp("NTS", "NTSC", strlen("NTS"))) =3D=3D 0, while it obvio=
+usly
+isn't for us.
+
+> Anyways:
+>=20
+> Reviewed-by: Noralf Tr=F8nnes <noralf@tronnes.org>
+
+Thanks!
+Maxime
+
+--u7iy4fry6poy23d7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY1Ew/AAKCRDj7w1vZxhR
+xRcOAQD4kMUrFpaggVUGDdw8lFZHCgfZHGc0linsJEA++8ypNAD/Z2SqzMPMeFZX
+12rXh06m+wXI2OX4uZ0EETbo3eIKRww=
+=pf41
+-----END PGP SIGNATURE-----
+
+--u7iy4fry6poy23d7--
