@@ -1,185 +1,252 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A5BB28E2
-	for <linux-sunxi@lists.linux.dev>; Thu, 20 Oct 2022 07:55:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666252544; x=1697788544;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=BE/Qodisz9x//T0Cy4wFNy/JAPpYdu6Fv/md6vTsAVw=;
-  b=V1m3BE9g7spWYPRgAOz/dQbXmKPTIx4jAcMkb2HQS/Dpsp/5gBYkxY3g
-   L139VvYZkpbFZBv4XR+o2b1zLTpQvF/OkIdi6DtqLpkKLGI/5q6EGcAbU
-   tAxTYGXMWw//Nm4wnjoqpnhQh9yv1PJRmVxjTaH5T7Cmm5fulHmUZfrvQ
-   Dl1m9WgtbuCpxATMn/WatWX9hLvhpFXvp0+/LSkJK9tvQs7NwDIG7xFMN
-   tGaJQNOjRJsxt/EfKAbuG8hYZXUhvTum8tvpd/YmmPc7Q69CHcsZpiQIu
-   snwL99ihn+//krQJFdfAN9dmEqFFJOPl1jVZc/PSH/09BLFfkGMMdbYZY
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="305377157"
-X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; 
-   d="scan'208";a="305377157"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2022 00:55:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="874849324"
-X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; 
-   d="scan'208";a="874849324"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmsmga006.fm.intel.com with ESMTP; 20 Oct 2022 00:55:34 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 20 Oct 2022 00:55:33 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 20 Oct 2022 00:55:33 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Thu, 20 Oct 2022 00:55:33 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.43) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Thu, 20 Oct 2022 00:55:33 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eFONS77QcoRAfLYxDxp8o0Wi7V+BIHin4hfOhZ9gj/+Dh+HzugwvzmCyR479oz7PRLhGpSIywVkkRqW3NfP2aRsdC2TmcB8p79Fuf1TbIb7YH6jbWauaDgnP98x6rk5hbFRLdfu5hYCh3GlRf1qGjxln8z4r3tVFzZZEI66QGJ6K4wYWgcCtiFfdjCFzsz5Y5GpBQNBc5GMC4NvPVjfpla9JIMOP9ecg7ggMOI3fcvHzhsEfm9+FBLPFksjRXOJD5uKDXJMfnsasNYgXkilmbM9GmydulT5eBUTh3783/5RDm3CJt/HoJKByXpP8eS1ePm9Xipc74XxSiW8KBB3Khg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mEAlF50AplRfRx5dU/knZHtuhCSsPscjHqo8ulBq8ug=;
- b=luthvj/wOZYpuRYbFp9HJ1/XdxDVSFKXGFHCVEi9oBR3O/n0nAX4G95aSwtjab5ZjXMDEgYBoT+Js/ANBGWrjCK/Q+kQFvZ9fLALgvwhPVjXEnCTe3qGEqNO/UKZwZhLPtQUC8/rPq/Yvtq0xxz2FfDKwa6eGMbg0HQHytz986JVX5DP/FNQRlu01L9r6lo/HENIbABCDJI55sG5jtlPJnXwG8eHXcsu8OcX9zus3Kni349XneWYmynKa6Xfm1jQaJYwNugxKD118ZEemKDU2XUaE/bRdUGZrb+TuHfffwXi9awqxvLZqCRopF7x6twpcAZj9hw3iO50PP21yZjSpA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
- DM4PR11MB7303.namprd11.prod.outlook.com (2603:10b6:8:108::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5723.32; Thu, 20 Oct 2022 07:55:27 +0000
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::f131:2364:3638:6505]) by DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::f131:2364:3638:6505%6]) with mapi id 15.20.5723.033; Thu, 20 Oct 2022
- 07:55:26 +0000
-Date: Thu, 20 Oct 2022 09:55:23 +0200
-From: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
-To: Maxime Ripard <maxime@cerno.tech>
-CC: Karol Herbst <kherbst@redhat.com>, Jani Nikula
-	<jani.nikula@linux.intel.com>, Tvrtko Ursulin
-	<tvrtko.ursulin@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, David Airlie
-	<airlied@linux.ie>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, "Lyude
- Paul" <lyude@redhat.com>, Maxime Ripard <mripard@kernel.org>, Emma Anholt
-	<emma@anholt.net>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland
-	<samuel@sholland.org>, Ben Skeggs <bskeggs@redhat.com>, Thomas Zimmermann
-	<tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, Dom Cobley <dom@raspberrypi.com>,
-	<linux-sunxi@lists.linux.dev>, Dave Stevenson
-	<dave.stevenson@raspberrypi.com>, Noralf =?utf-8?Q?Tr=C3=B8nnes?=
-	<noralf@tronnes.org>, <intel-gfx@lists.freedesktop.org>,
-	<linux-kernel@vger.kernel.org>, <nouveau@lists.freedesktop.org>, "Geert
- Uytterhoeven" <geert@linux-m68k.org>, <linux-arm-kernel@lists.infradead.org>,
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
-	<dri-devel@lists.freedesktop.org>, Hans de Goede <hdegoede@redhat.com>, "Phil
- Elwell" <phil@raspberrypi.com>
-Subject: Re: [PATCH v5 07/22] drm/client: Add some tests for
- drm_connector_pick_cmdline_mode()
-Message-ID: <20221020075523.7wo6lcqwxes7x5e2@nostramo>
-References: <20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech>
- <20220728-rpi-analog-tv-properties-v5-7-d841cc64fe4b@cerno.tech>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220728-rpi-analog-tv-properties-v5-7-d841cc64fe4b@cerno.tech>
-X-ClientProxiedBy: FR3P281CA0114.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a3::6) To DM4PR11MB5373.namprd11.prod.outlook.com
- (2603:10b6:5:394::7)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC917B
+	for <linux-sunxi@lists.linux.dev>; Thu, 20 Oct 2022 10:38:04 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 428851F93A;
+	Thu, 20 Oct 2022 10:37:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1666262277; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Y7BdOtp6TFqwXPX3o6UHDb+9HmQzCsygQB8jvOJl5oY=;
+	b=pexEAXjK3+YaGpJd+JADtO15n0ydGTiAR9QdozIjQlWTGCJGvjDk3GLtnTjahBibfxqKn8
+	e0ZCiKKRAhP4pa+DGq9AHeQHkye84awc19SWK5FgvFa4p4jHOOLv6Ie/+7K77qgyduKGGP
+	7xA6whgamY9hl61unJ7iRpO/wohJ91Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1666262277;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Y7BdOtp6TFqwXPX3o6UHDb+9HmQzCsygQB8jvOJl5oY=;
+	b=CVcd7TwC6JyEu5wf89r3Wdsik/2sML9uk++MZ6TfBQTpvFyIWJxR+TOmqJlzmQsVkjVxBs
+	WhUhW1hA4SnyrHBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BE6B013AF5;
+	Thu, 20 Oct 2022 10:37:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 8BWlLQQlUWPPYwAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Thu, 20 Oct 2022 10:37:56 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch,
+	airlied@gmail.com,
+	sam@ravnborg.org,
+	javierm@redhat.com,
+	mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org,
+	etnaviv@lists.freedesktop.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-mips@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org,
+	virtualization@lists.linux-foundation.org,
+	spice-devel@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	xen-devel@lists.xenproject.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 00/21] drm/fb-helper: Untangle fbdev emulation and helpers
+Date: Thu, 20 Oct 2022 12:37:34 +0200
+Message-Id: <20221020103755.24058-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.38.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5373:EE_|DM4PR11MB7303:EE_
-X-MS-Office365-Filtering-Correlation-Id: 979b0c22-7c40-49bc-aaaa-08dab27072fd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iK3mHhyhnZ11OxGNISLjQK2yShUC39/FiEKFyQczT8Pctkt9ttuD/3pzSDrENos85E8r1lX/7BVc7AyDQWbBg1k09xFOCcBuHpYINLtFiNAEl6QT0V2tcukhw0lukoaUzm4Kl7E3M59e9FVkBS/20nwIZNzyH71XuLvL/Y+BpujOuuJg1iYMcxUbqU/ApTToFilCL8qCAbH6M3otvPJA2xExIXhKh1rJTaaGnwlAhXdIFemCleaY5xaNDlLTbURFXMpdgBNPGRruMeWqtJ6QT/78vZ60qBiK7WTIoyDtsT0IKP1W2m+RFw/2ICD+VrT1nDA9J/43bwHsMErkeA/PT+z5kf26GR4r1RQSSpx6upRtT+qflwEKKA744ft1FaQmyhF/BQMRKDsUKftX2NgjCJMjq+MWbMoXDNBUXSJnEZbyrPxHp+ghtNgFRD4R8n3ggckP1ilLgWXstap8Xnn/7UVzMiUEcKjLutbfCmHdZwhKqgdr/vxbeGl1Evbb0W9fzOLKeWzgpfyaUR+3PeRetWH0Mz0kqPwF3IRoV0n+4ZsYfmJLRQX5cbOppKZH6ftHLt4phmz2mZG85IZ/Giq8mXsxrlQ22shQTEBV2RqiBTZp4q+Iw8V3mtJ39Qjo3fZNVsCZAogvjgNJN+J3hsPae6NsqSVAaLRRnuchZTys9NBeP9BlphlBhoMF+5MsZAqSOBAMmYV6YQH8nBpgsfOQRw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5373.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(136003)(366004)(39860400002)(376002)(346002)(396003)(451199015)(7416002)(4744005)(5660300002)(66476007)(4326008)(6916009)(54906003)(8676002)(66946007)(316002)(41300700001)(6486002)(478600001)(6666004)(33716001)(8936002)(6512007)(6506007)(9686003)(66556008)(2906002)(1076003)(38100700002)(82960400001)(186003)(86362001)(26005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RDVMV3FzVkV3M0h5ZWlpdXh6VkZ4ZkhpNkVabUVhWS9ySzZtVERaaTdqRlRn?=
- =?utf-8?B?NHQraVAwUjZsQzJXL0xtWmFFWG4wU2NMTXNpZEh1R2IzQzY4aEx5UGt6YTdi?=
- =?utf-8?B?bk53NjIxbHBLa29DUnI0TnlYbzVNdHgzVWxMa0dJejRhTCsva0pTZGoxMmZk?=
- =?utf-8?B?dGk4RUdUOHdDRVM5QXplOW5TS2kyRDI1VG80WjdUdzZsbncvdVd5Z1dZZ2Mx?=
- =?utf-8?B?M0toMFBMSGM3WXRPdTVaZWU2YWhSazhVeHU5bEJyY1VqWVZ4OUF0M2hmVHB2?=
- =?utf-8?B?dW1ZK0g0S2laa0V6VHJoRzg1SW5pVWRsS3h6SDFSQWg4OU83TlQ1b2lsdCtx?=
- =?utf-8?B?dE1VWWM2QkI3SUxLN2x4aUFqcGtMOHBtS3FHTVlrTWEzZlVaRzdnSEV5YzJS?=
- =?utf-8?B?QWNYdzVaejJLYkNTNkZQVi9SMEN0a2RocUFnYk5XV2wzbExMTkNnUmFrT0Ru?=
- =?utf-8?B?OXNhR2JzVDFGWWFOUjhyU1FQbkorTVpSczRFa0NvSnhISitmOW9jRE44V2x0?=
- =?utf-8?B?MDljWEluTXhmbExWblRkeVFkVnFPU2lrUTNneDdVR2ZnaGFscW5leTN6SmhM?=
- =?utf-8?B?UFE1bTZEcWQrWmpMaVhla1EzSjAvSlhqVlNQMGZ5c0Y2Ym5OVjJFL2FJaVY3?=
- =?utf-8?B?U3BEZ1AyMk1yMGRRY3MxcXEwVUZFYTczTFhJOFQ1TFg2SGdoOEVXRHZ3Z2Zv?=
- =?utf-8?B?M2NsRFRtUE1YQlR5Vjd2aXhqb21IQXlSc0hYNUdwQmZ3Wk9WWEVWaXJSelhz?=
- =?utf-8?B?dWpyeXYvYUt2dEcvcnRHVUVjWUdOSlhZQTNCQlpFeVdpL0dTRFRXZ004c0xI?=
- =?utf-8?B?NUZJekNyYnVzb3UwZDZ3Z29HTlNJdFVLZXdFQnBWU1djbGVYeTN3SkgvVHNl?=
- =?utf-8?B?b1lpak5yd1FDY1hLcTNXWE9uM0lKTFNDemRKSkZzSkNGWE9RV2N3NTFKYzJq?=
- =?utf-8?B?b2dpV004Wmd0MFVXUTdMWFJLYXpsaUtpWHhQanJQY1hLay8rYlBVK3E0WXZD?=
- =?utf-8?B?WWd1djVNa2EzQmVoSzlMRUZSRUhUYnRjbU9iY3dPNFV6NWd1T0xUT0wzbmRZ?=
- =?utf-8?B?aTBxZ0U4RzFET285cVpZY3lNY3VXWDc0MEw2ZTJwOVAvanI4aDhCWjEweXlo?=
- =?utf-8?B?WnFhMXFzREhJNG9RZnJVaDBqQ2lEdzhyOVBGZmV6eHgyR3pLTHJRNmlSSk1R?=
- =?utf-8?B?V1h4bE9LZ3hLSnlsc0FyYk45U042WWNWUWdDNm94Zm5VcWQzeVlNbk5wa3Rn?=
- =?utf-8?B?YXEwcVdmc2VRc2xJVU1Fb1JhZXZkVTRpUTNKNGd4Rm1yTHUwYzhtMUxLcktW?=
- =?utf-8?B?dW44YlVscFBxWHhHZmJwMUVWL2VCN050VEhORXIvR3dGM3J2YVYwak9PNFBj?=
- =?utf-8?B?NWlldkFTNWFpU1RxYjh6aURHY1JzSU1VRmpKam1GUWk0L0ZtbjdtcTBtNFNF?=
- =?utf-8?B?NWdINkNHaXdzVjhCcWxwc2R4dGtSdktJaTBhR0MyUzZRdTllS3c1SWtpM2w1?=
- =?utf-8?B?djZpalhRRndhY3JCM3B5NGJkZ25iWVNZUlhDYkdZTUJaNlQ1a0Y4elgwQ0Rj?=
- =?utf-8?B?bE1UN0szRDVpNGI4ZTRaa1FzcC84b3lmMzVoZ2h1THoySGRnR1diZU53eENq?=
- =?utf-8?B?YTRqM0MweWh2SHE1aFl0YWgyWXNRWFY5aUp1aFdNNDd1dmRseWIwNWpLeVM4?=
- =?utf-8?B?d3dxS1QxU2h3NWdrdlNhUlRwSndBVnY3aEhLZFZNdHFJTDBBRnhQUHBYSklN?=
- =?utf-8?B?MVU4ZFBpaFphcWo4U2RwdGowWlpXTTJ3Zzl6R3o2dUgzaGVCR3VNRjlFeHpx?=
- =?utf-8?B?YTZEQ1JUamoxK3BXMkMrTFR2MURvWGNFd29NenREWklldjlZa0VmdW1YaTRi?=
- =?utf-8?B?RkdtM2Q1T2kweVJyYjNsMDR3RVViMDB1TERVRTdGcnlHTUZBUnlCQndrM1d2?=
- =?utf-8?B?Y0VhYUhiZGRPVDFucCs2Sk56d1ZNMi90bis2RFc1a3ljYnlQSTIrWUVYamF3?=
- =?utf-8?B?U0p0WGhybFJYZ05HTUVnU1JLN3NnQ1VhNk9GTkdHaVVIc254cVdoMGtMSmY1?=
- =?utf-8?B?VUNaSEgySzFYZjhOS1ZuenJpOW5nK0dDZXB3d0pDOE4ySHpsYXVMSEtaVDdL?=
- =?utf-8?B?S0hleW9LdHFhcEpGUExhSWxrWml0SE12OEhHWGtDMDR4RkRNTGw1djZZbCtm?=
- =?utf-8?B?amc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 979b0c22-7c40-49bc-aaaa-08dab27072fd
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2022 07:55:26.7747
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oQ6HZ6v/qcStFukauMt3F16vljv/QjV3WhFoqB/oMIU1DAsbvePX9sXqM5U20TBP+Rf+VH/himn719q1vYlEkdMy2ZQdLIaeA6bitx52JDw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7303
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 13, 2022 at 03:18:51PM +0200, Maxime Ripard wrote:
-> +static struct kunit_case drm_pick_cmdline_tests[] = {
-> +	KUNIT_CASE(drm_pick_cmdline_res_1920_1080_60),
-> +	{}
-> +};
+Separate generic fbdev emulation from the helper code that is shared
+among the various fbdev implementations within DRM. Affects many drivers.
 
-drm_test_pick_cmdline_res_1920_1080_60, since we adopted a consistent naming
-convention for test cases in DRM.
+The goal of this patchset is to improve readability and streamline the
+fbdev helper code within DRM. In the long term, we want to get to a point
+where drivers or memory managers can pick and combine the various helpers
+for optimal fbdev support.
 
--Michał
+Patches 1 to 8 start by preparing drivers. Setting lastclose is not
+required by generic fbdev emulation.
 
-> +
-> +static struct kunit_suite drm_pick_cmdline_test_suite = {
-> +	.name = "drm_pick_cmdline",
-> +	.init = drm_client_modeset_test_init,
-> +	.test_cases = drm_pick_cmdline_tests
-> +};
-> +
-> +kunit_test_suite(drm_pick_cmdline_test_suite);
-> 
-> -- 
-> b4 0.11.0-dev-7da52
-> 
+Two drivers depend on fb helpers implicitly including other Linux header
+files. Fixing this in patches 9 and 10 allows to remove unnecesary include
+statements from the fb-helper header in patch 11.
+
+Do some renaming in patches 12 to 14.
+
+There are currently various implementation of the fbdev I/O helpers
+with varying feature sets. The fb helpers for fbdev I/O should all call
+fb_sync, which is what fbdev's internal implementation does. For DRM,
+damage handling needs to be performed after updating a framebuffer. The
+damage worker is part of the fb helpers, but the actual update logic only
+works with generic fbdev emulation. Separate the two, which also gives
+other drivers an option so set their own damage handling if neccessary.
+The full-featured I/O helpers can be moved under a shared implementation
+and called by all drivers. Patches 15 to 18 resolve these issues.
+
+Patch 19 changes fbdev disablement to work at the level of display
+detection. If disabled, generic fbdev emulation will be initialized,
+but no display will be detected. It can later be enabled by changing
+the parameter in sysfs and plugging in a connector.
+
+Patches 20 and 21 move the generic fbdev emulation into their own source
+and header files and clean up the include statements throughout DRM.
+Many drivers only call drm_fbdev_generic_setup() and can avoid including
+other Linux header files.
+
+Built on x86-64, aarch64, arm, ppc64le. Tested with various combinations
+of bochs, radeon, simpledrm.
+
+Thomas Zimmermann (21):
+  drm/amdgpu: Don't set struct drm_driver.lastclose
+  drm/imx: Don't set struct drm_driver.lastclose
+  drm/ingenic: Don't set struct drm_driver.lastclose
+  drm/komeda: Don't set struct drm_driver.lastclose
+  drm/logicvc: Don't set struct drm_driver.lastclose
+  drm/mcde: Don't set struct drm_driver.lastclose
+  drm/rockchip: Don't set struct drm_driver.lastclose
+  drm/vboxvideo: Don't set struct drm_driver.lastclose
+  drm/panel-ili9341: Include <linux/backlight.h>
+  drm/tve200: Include <linux/of.h>
+  drm/fb-helper: Cleanup include statements in header file
+  drm/fb_helper: Rename field fbdev to info in struct drm_fb_helper
+  drm/fb-helper: Rename drm_fb_helper_alloc_fbi() to use _info postfix
+  drm/fb-helper: Rename drm_fb_helper_unregister_fbi() to use _info
+    postfix
+  drm/fb-helper: Disconnect damage worker from update logic
+  drm/fb-helper: Call fb_sync in I/O functions
+  drm/fb-helper: Perform all fbdev I/O with the same implementation
+  drm/fb_helper: Minimize damage-helper overhead
+  drm/fb-helper: Always initialize generic fbdev emulation
+  drm/fb-helper: Move generic fbdev emulation into separate source file
+  drm/fb-helper: Remove unnecessary include statements
+
+ drivers/gpu/drm/Makefile                      |    2 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    |    1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |    2 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |    1 -
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |    2 -
+ .../gpu/drm/arm/display/komeda/komeda_drv.c   |    2 +-
+ .../gpu/drm/arm/display/komeda/komeda_kms.c   |    2 -
+ drivers/gpu/drm/arm/hdlcd_crtc.c              |    1 -
+ drivers/gpu/drm/arm/hdlcd_drv.c               |    2 +-
+ drivers/gpu/drm/arm/malidp_drv.c              |    2 +-
+ drivers/gpu/drm/armada/armada_fbdev.c         |    6 +-
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |    2 +-
+ drivers/gpu/drm/ast/ast_drv.c                 |    1 +
+ drivers/gpu/drm/ast/ast_drv.h                 |    1 -
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |    2 +-
+ drivers/gpu/drm/bridge/tc358762.c             |    2 +-
+ drivers/gpu/drm/drm_crtc_helper.c             |    1 -
+ drivers/gpu/drm/drm_fb_helper.c               | 1081 ++++++-----------
+ drivers/gpu/drm/drm_fbdev.c                   |  512 ++++++++
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c  |    1 -
+ drivers/gpu/drm/drm_probe_helper.c            |    1 -
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h         |    3 +-
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c     |    6 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |    2 +-
+ drivers/gpu/drm/gma500/framebuffer.c          |    6 +-
+ drivers/gpu/drm/gud/gud_drv.c                 |    2 +-
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |    1 +
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |    1 -
+ .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |    2 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c       |    2 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_modeset.c   |    1 -
+ drivers/gpu/drm/i915/display/intel_fbdev.c    |    8 +-
+ drivers/gpu/drm/imx/dcss/dcss-kms.c           |    3 +-
+ drivers/gpu/drm/imx/imx-drm-core.c            |    2 +-
+ drivers/gpu/drm/imx/imx-ldb.c                 |    2 +-
+ drivers/gpu/drm/imx/imx-tve.c                 |    1 -
+ drivers/gpu/drm/imx/parallel-display.c        |    2 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |    3 +-
+ drivers/gpu/drm/kmb/kmb_drv.c                 |    2 +-
+ drivers/gpu/drm/kmb/kmb_plane.c               |    1 -
+ drivers/gpu/drm/logicvc/logicvc_drm.c         |    2 +-
+ drivers/gpu/drm/logicvc/logicvc_mode.c        |    2 -
+ drivers/gpu/drm/mcde/mcde_drv.c               |    3 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |    2 +-
+ drivers/gpu/drm/meson/meson_drv.c             |    2 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.c         |    1 +
+ drivers/gpu/drm/mgag200/mgag200_drv.h         |    1 -
+ drivers/gpu/drm/msm/msm_fbdev.c               |    4 +-
+ drivers/gpu/drm/mxsfb/lcdif_drv.c             |    2 +-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c             |    2 +-
+ drivers/gpu/drm/nouveau/nouveau_fbcon.c       |   27 +-
+ drivers/gpu/drm/omapdrm/omap_fbdev.c          |    6 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9341.c  |    3 +-
+ drivers/gpu/drm/pl111/pl111_drv.c             |    2 +-
+ drivers/gpu/drm/qxl/qxl_drv.c                 |    1 +
+ drivers/gpu/drm/qxl/qxl_drv.h                 |    1 -
+ drivers/gpu/drm/radeon/radeon_fb.c            |    6 +-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c         |    2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |    2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |    2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_fb.c    |    2 -
+ drivers/gpu/drm/solomon/ssd130x.c             |    2 +-
+ drivers/gpu/drm/sti/sti_drv.c                 |    2 +-
+ drivers/gpu/drm/stm/drv.c                     |    2 +-
+ drivers/gpu/drm/sun4i/sun4i_drv.c             |    2 +-
+ drivers/gpu/drm/tegra/fb.c                    |    8 +-
+ drivers/gpu/drm/tidss/tidss_drv.c             |    2 +-
+ drivers/gpu/drm/tidss/tidss_kms.c             |    1 -
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c           |    2 +-
+ drivers/gpu/drm/tiny/arcpgu.c                 |    2 +-
+ drivers/gpu/drm/tiny/bochs.c                  |    2 +-
+ drivers/gpu/drm/tiny/cirrus.c                 |    2 +-
+ drivers/gpu/drm/tiny/gm12u320.c               |    2 +-
+ drivers/gpu/drm/tiny/hx8357d.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9163.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9225.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9341.c                |    2 +-
+ drivers/gpu/drm/tiny/ili9486.c                |    2 +-
+ drivers/gpu/drm/tiny/mi0283qt.c               |    2 +-
+ drivers/gpu/drm/tiny/ofdrm.c                  |    2 +-
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c         |    2 +-
+ drivers/gpu/drm/tiny/repaper.c                |    2 +-
+ drivers/gpu/drm/tiny/simpledrm.c              |    2 +-
+ drivers/gpu/drm/tiny/st7586.c                 |    2 +-
+ drivers/gpu/drm/tiny/st7735r.c                |    2 +-
+ drivers/gpu/drm/tve200/tve200_drv.c           |    3 +-
+ drivers/gpu/drm/udl/udl_drv.c                 |    2 +-
+ drivers/gpu/drm/v3d/v3d_drv.c                 |    1 -
+ drivers/gpu/drm/vboxvideo/vbox_drv.c          |    4 +-
+ drivers/gpu/drm/vboxvideo/vbox_main.c         |    1 -
+ drivers/gpu/drm/vc4/vc4_drv.c                 |    2 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.c          |    1 +
+ drivers/gpu/drm/virtio/virtgpu_drv.h          |    1 -
+ drivers/gpu/drm/vkms/vkms_drv.c               |    2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fb.c            |    3 +
+ drivers/gpu/drm/xen/xen_drm_front_gem.c       |    1 -
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c           |    2 +-
+ include/drm/drm_fb_helper.h                   |   59 +-
+ include/drm/drm_fbdev.h                       |   15 +
+ 99 files changed, 1019 insertions(+), 883 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_fbdev.c
+ create mode 100644 include/drm/drm_fbdev.h
+
+
+base-commit: 8c797a984264f04708d2099e83c85978a0fede89
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: 3f204510fcbf9530d6540bd8e6128cce598988b6
+-- 
+2.38.0
+
