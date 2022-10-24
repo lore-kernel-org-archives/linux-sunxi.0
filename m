@@ -1,42 +1,42 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055532582
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1DF2583
 	for <linux-sunxi@lists.linux.dev>; Mon, 24 Oct 2022 11:20:10 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3C2C71FD8E;
-	Mon, 24 Oct 2022 11:20:05 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F1B821FD8F;
+	Mon, 24 Oct 2022 11:20:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1666610405; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1666610408; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OWGxAFccZF9j9qpUVGpVYG5/1nEWr1vS56GJ1OWtS3A=;
-	b=QtevyFsUxvza1u9FmSTUfV39yKw5WCPVOb23eAv8FTesXCNTk3Yc+fEKQnB3ejI7FemGJf
-	TH9fKaU2QfL4jTxBLwEuTHBY1GehR1wE9ExkDuUvDxNKNAgi09L9lthU2HIUt5dEmMJYgU
-	Gf+VC18FOJanvCTepvhTTvygrQ6YcCk=
+	bh=mIcpJgbeqPNRftPv7Q4iDJZ6HW36+TLeNbJLj/Rhtmc=;
+	b=J5V9t/9FM/VDgPyc0yq6tO0GmQq6Qv25guz1Q1fY5WqdBAinoQHFhztpNq5LcTRRfUvvcT
+	/NuVcNEdfBJX7fusjs7hFRkyxgbHxcWN1kfohXIkpRJAi1ty3GFGrpl4rAh+odteORdTGx
+	FKkgD3un0IG2lJnoPAZi1HhvrYE46Xs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1666610405;
+	s=susede2_ed25519; t=1666610408;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OWGxAFccZF9j9qpUVGpVYG5/1nEWr1vS56GJ1OWtS3A=;
-	b=ebBTYQc5JdSGAqbjKd18f+GOkkQXptBn/zkI44LJUKBmFtbTzospDgP5iYSjh7RvBf07II
-	R4huU2UL9xG4oBBw==
+	bh=mIcpJgbeqPNRftPv7Q4iDJZ6HW36+TLeNbJLj/Rhtmc=;
+	b=CNYWcX45+/WAYm9dPFnFWlK6swVE3qJRR6m+/F0MjgXTEr5bOtQ33tW8HoXd70hS0Hn34P
+	VykmHgLg4gOIWDBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B512613357;
-	Mon, 24 Oct 2022 11:20:04 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 50C2013A98;
+	Mon, 24 Oct 2022 11:20:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id SPteK+R0VmOYMgAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 24 Oct 2022 11:20:04 +0000
+	id SNLmEud0VmOYMgAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 24 Oct 2022 11:20:07 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	airlied@gmail.com,
@@ -67,9 +67,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-tegra@vger.kernel.org,
 	xen-devel@lists.xenproject.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 13/21] drm/fb-helper: Rename drm_fb_helper_alloc_fbi() to use _info postfix
-Date: Mon, 24 Oct 2022 13:19:45 +0200
-Message-Id: <20221024111953.24307-14-tzimmermann@suse.de>
+Subject: [PATCH v2 18/21] drm/fb_helper: Minimize damage-helper overhead
+Date: Mon, 24 Oct 2022 13:19:50 +0200
+Message-Id: <20221024111953.24307-19-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20221024111953.24307-1-tzimmermann@suse.de>
 References: <20221024111953.24307-1-tzimmermann@suse.de>
@@ -81,204 +81,225 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename drm_fb_helper_alloc_fbi() to drm_fb_helper_alloc_info() as
-part of unifying the naming within fbdev helpers. Adapt drivers. No
-functional changes.
+Pull the test for fb_dirty into the caller to avoid extra work
+if no callback has been set. In this case no damage handling is
+required and no damage area needs to be computed. Print a warning
+if the damage worker runs without getting an fb_dirty callback.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/armada/armada_fbdev.c      | 2 +-
- drivers/gpu/drm/drm_fb_helper.c            | 8 ++++----
- drivers/gpu/drm/exynos/exynos_drm_fbdev.c  | 2 +-
- drivers/gpu/drm/gma500/framebuffer.c       | 2 +-
- drivers/gpu/drm/i915/display/intel_fbdev.c | 2 +-
- drivers/gpu/drm/msm/msm_fbdev.c            | 2 +-
- drivers/gpu/drm/nouveau/nouveau_fbcon.c    | 2 +-
- drivers/gpu/drm/omapdrm/omap_fbdev.c       | 2 +-
- drivers/gpu/drm/radeon/radeon_fb.c         | 2 +-
- drivers/gpu/drm/tegra/fb.c                 | 2 +-
- include/drm/drm_fb_helper.h                | 4 ++--
- 11 files changed, 15 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/drm_fb_helper.c | 90 ++++++++++++++++++++++-----------
+ 1 file changed, 60 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/gpu/drm/armada/armada_fbdev.c b/drivers/gpu/drm/armada/armada_fbdev.c
-index 38f5170c0fea6..eaae98d9377ae 100644
---- a/drivers/gpu/drm/armada/armada_fbdev.c
-+++ b/drivers/gpu/drm/armada/armada_fbdev.c
-@@ -72,7 +72,7 @@ static int armada_fbdev_create(struct drm_fb_helper *fbh,
- 	if (IS_ERR(dfb))
- 		return PTR_ERR(dfb);
- 
--	info = drm_fb_helper_alloc_fbi(fbh);
-+	info = drm_fb_helper_alloc_info(fbh);
- 	if (IS_ERR(info)) {
- 		ret = PTR_ERR(info);
- 		goto err_fballoc;
 diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 480bf4f568b7b..881e6a04fa706 100644
+index 836523aef6a27..fbc5c5445fdb0 100644
 --- a/drivers/gpu/drm/drm_fb_helper.c
 +++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -558,7 +558,7 @@ int drm_fb_helper_init(struct drm_device *dev,
- EXPORT_SYMBOL(drm_fb_helper_init);
+@@ -449,12 +449,13 @@ static int drm_fb_helper_damage_blit(struct drm_fb_helper *fb_helper,
+ static void drm_fb_helper_damage_work(struct work_struct *work)
+ {
+ 	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper, damage_work);
++	struct drm_device *dev = helper->dev;
+ 	struct drm_clip_rect *clip = &helper->damage_clip;
+ 	struct drm_clip_rect clip_copy;
+ 	unsigned long flags;
+ 	int ret;
  
- /**
-- * drm_fb_helper_alloc_fbi - allocate fb_info and some of its members
-+ * drm_fb_helper_alloc_info - allocate fb_info and some of its members
-  * @fb_helper: driver-allocated fbdev helper
-  *
-  * A helper to alloc fb_info and the members cmap and apertures. Called
-@@ -570,7 +570,7 @@ EXPORT_SYMBOL(drm_fb_helper_init);
-  * fb_info pointer if things went okay, pointer containing error code
-  * otherwise
+-	if (!helper->funcs->fb_dirty)
++	if (drm_WARN_ON_ONCE(dev, !helper->funcs->fb_dirty))
+ 		return;
+ 
+ 	spin_lock_irqsave(&helper->damage_lock, flags);
+@@ -659,16 +660,12 @@ void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
+ }
+ EXPORT_SYMBOL(drm_fb_helper_fini);
+ 
+-static void drm_fb_helper_damage(struct fb_info *info, u32 x, u32 y,
++static void drm_fb_helper_damage(struct drm_fb_helper *helper, u32 x, u32 y,
+ 				 u32 width, u32 height)
+ {
+-	struct drm_fb_helper *helper = info->par;
+ 	struct drm_clip_rect *clip = &helper->damage_clip;
+ 	unsigned long flags;
+ 
+-	if (!helper->funcs->fb_dirty)
+-		return;
+-
+ 	spin_lock_irqsave(&helper->damage_lock, flags);
+ 	clip->x1 = min_t(u32, clip->x1, x);
+ 	clip->y1 = min_t(u32, clip->y1, y);
+@@ -718,6 +715,7 @@ static void drm_fb_helper_memory_range_to_clip(struct fb_info *info, off_t off,
   */
--struct fb_info *drm_fb_helper_alloc_fbi(struct drm_fb_helper *fb_helper)
-+struct fb_info *drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper)
+ void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagereflist)
  {
- 	struct device *dev = fb_helper->dev->dev;
- 	struct fb_info *info;
-@@ -609,7 +609,7 @@ struct fb_info *drm_fb_helper_alloc_fbi(struct drm_fb_helper *fb_helper)
- 	framebuffer_release(info);
- 	return ERR_PTR(ret);
++	struct drm_fb_helper *helper = info->par;
+ 	unsigned long start, end, min_off, max_off;
+ 	struct fb_deferred_io_pageref *pageref;
+ 	struct drm_rect damage_area;
+@@ -733,17 +731,19 @@ void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagerefli
+ 	if (min_off >= max_off)
+ 		return;
+ 
+-	/*
+-	 * As we can only track pages, we might reach beyond the end
+-	 * of the screen and account for non-existing scanlines. Hence,
+-	 * keep the covered memory area within the screen buffer.
+-	 */
+-	max_off = min(max_off, info->screen_size);
++	if (helper->funcs->fb_dirty) {
++		/*
++		 * As we can only track pages, we might reach beyond the end
++		 * of the screen and account for non-existing scanlines. Hence,
++		 * keep the covered memory area within the screen buffer.
++		 */
++		max_off = min(max_off, info->screen_size);
+ 
+-	drm_fb_helper_memory_range_to_clip(info, min_off, max_off - min_off, &damage_area);
+-	drm_fb_helper_damage(info, damage_area.x1, damage_area.y1,
+-			     drm_rect_width(&damage_area),
+-			     drm_rect_height(&damage_area));
++		drm_fb_helper_memory_range_to_clip(info, min_off, max_off - min_off, &damage_area);
++		drm_fb_helper_damage(helper, damage_area.x1, damage_area.y1,
++				     drm_rect_width(&damage_area),
++				     drm_rect_height(&damage_area));
++	}
  }
--EXPORT_SYMBOL(drm_fb_helper_alloc_fbi);
-+EXPORT_SYMBOL(drm_fb_helper_alloc_info);
+ EXPORT_SYMBOL(drm_fb_helper_deferred_io);
  
- /**
-  * drm_fb_helper_unregister_fbi - unregister fb_info framebuffer device
-@@ -2440,7 +2440,7 @@ static int drm_fb_helper_generic_probe(struct drm_fb_helper *fb_helper,
- 	fb_helper->fb = buffer->fb;
- 	fb = buffer->fb;
- 
--	fbi = drm_fb_helper_alloc_fbi(fb_helper);
-+	fbi = drm_fb_helper_alloc_info(fb_helper);
- 	if (IS_ERR(fbi))
- 		return PTR_ERR(fbi);
- 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-index 767afd2bfa822..8741eb0b1b604 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-@@ -63,7 +63,7 @@ static int exynos_drm_fbdev_update(struct drm_fb_helper *helper,
- 	unsigned int size = fb->width * fb->height * fb->format->cpp[0];
- 	unsigned long offset;
- 
--	fbi = drm_fb_helper_alloc_fbi(helper);
-+	fbi = drm_fb_helper_alloc_info(helper);
- 	if (IS_ERR(fbi)) {
- 		DRM_DEV_ERROR(to_dma_dev(helper->dev),
- 			      "failed to allocate fb info.\n");
-diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
-index 5f502a0048ab8..6d0e3bf6435ee 100644
---- a/drivers/gpu/drm/gma500/framebuffer.c
-+++ b/drivers/gpu/drm/gma500/framebuffer.c
-@@ -268,7 +268,7 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
- 
- 	memset(dev_priv->vram_addr + backing->offset, 0, size);
- 
--	info = drm_fb_helper_alloc_fbi(fb_helper);
-+	info = drm_fb_helper_alloc_info(fb_helper);
- 	if (IS_ERR(info)) {
- 		ret = PTR_ERR(info);
- 		goto err_drm_gem_object_put;
-diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-index d533ecd451025..05b841343ea3e 100644
---- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-@@ -254,7 +254,7 @@ static int intelfb_create(struct drm_fb_helper *helper,
- 		goto out_unlock;
- 	}
- 
--	info = drm_fb_helper_alloc_fbi(helper);
-+	info = drm_fb_helper_alloc_info(helper);
- 	if (IS_ERR(info)) {
- 		drm_err(&dev_priv->drm, "Failed to allocate fb_info (%pe)\n", info);
- 		ret = PTR_ERR(info);
-diff --git a/drivers/gpu/drm/msm/msm_fbdev.c b/drivers/gpu/drm/msm/msm_fbdev.c
-index b373e30003203..4d9a0fcbf95b6 100644
---- a/drivers/gpu/drm/msm/msm_fbdev.c
-+++ b/drivers/gpu/drm/msm/msm_fbdev.c
-@@ -93,7 +93,7 @@ static int msm_fbdev_create(struct drm_fb_helper *helper,
- 		goto fail;
- 	}
- 
--	fbi = drm_fb_helper_alloc_fbi(helper);
-+	fbi = drm_fb_helper_alloc_info(helper);
- 	if (IS_ERR(fbi)) {
- 		DRM_DEV_ERROR(dev->dev, "failed to allocate fb info\n");
- 		ret = PTR_ERR(fbi);
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fbcon.c b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-index ac4bd529ae2e8..fca40124fc17c 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-@@ -362,7 +362,7 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
- 		}
- 	}
- 
--	info = drm_fb_helper_alloc_fbi(helper);
-+	info = drm_fb_helper_alloc_info(helper);
- 	if (IS_ERR(info)) {
- 		ret = PTR_ERR(info);
- 		goto out_unlock;
-diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-index 92d505be53e06..ab30c64e97043 100644
---- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
-+++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-@@ -161,7 +161,7 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
- 		goto fail;
- 	}
- 
--	fbi = drm_fb_helper_alloc_fbi(helper);
-+	fbi = drm_fb_helper_alloc_info(helper);
- 	if (IS_ERR(fbi)) {
- 		dev_err(dev->dev, "failed to allocate fb info\n");
- 		ret = PTR_ERR(fbi);
-diff --git a/drivers/gpu/drm/radeon/radeon_fb.c b/drivers/gpu/drm/radeon/radeon_fb.c
-index cc6754d88b819..0c6a227929db2 100644
---- a/drivers/gpu/drm/radeon/radeon_fb.c
-+++ b/drivers/gpu/drm/radeon/radeon_fb.c
-@@ -243,7 +243,7 @@ static int radeonfb_create(struct drm_fb_helper *helper,
- 	rbo = gem_to_radeon_bo(gobj);
- 
- 	/* okay we have an object now allocate the framebuffer */
--	info = drm_fb_helper_alloc_fbi(helper);
-+	info = drm_fb_helper_alloc_info(helper);
- 	if (IS_ERR(info)) {
- 		ret = PTR_ERR(info);
- 		goto out;
-diff --git a/drivers/gpu/drm/tegra/fb.c b/drivers/gpu/drm/tegra/fb.c
-index 6fe24535d0e43..a09c071f35120 100644
---- a/drivers/gpu/drm/tegra/fb.c
-+++ b/drivers/gpu/drm/tegra/fb.c
-@@ -243,7 +243,7 @@ static int tegra_fbdev_probe(struct drm_fb_helper *helper,
- 	if (IS_ERR(bo))
- 		return PTR_ERR(bo);
- 
--	info = drm_fb_helper_alloc_fbi(helper);
-+	info = drm_fb_helper_alloc_info(helper);
- 	if (IS_ERR(info)) {
- 		dev_err(drm->dev, "failed to allocate framebuffer info\n");
- 		drm_gem_object_put(&bo->gem);
-diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-index d83e2d8e92eb9..5ec9d9c68d144 100644
---- a/include/drm/drm_fb_helper.h
-+++ b/include/drm/drm_fb_helper.h
-@@ -222,7 +222,7 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
- 
- int drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *fb_helper);
- 
--struct fb_info *drm_fb_helper_alloc_fbi(struct drm_fb_helper *fb_helper);
-+struct fb_info *drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper);
- void drm_fb_helper_unregister_fbi(struct drm_fb_helper *fb_helper);
- void drm_fb_helper_fill_info(struct fb_info *info,
- 			     struct drm_fb_helper *fb_helper,
-@@ -320,7 +320,7 @@ drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *fb_helper)
- }
- 
- static inline struct fb_info *
--drm_fb_helper_alloc_fbi(struct drm_fb_helper *fb_helper)
-+drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper)
+@@ -877,6 +877,7 @@ static ssize_t drm_fb_helper_write_screen_buffer(struct fb_info *info, const cha
+ ssize_t drm_fb_helper_sys_write(struct fb_info *info, const char __user *buf,
+ 				size_t count, loff_t *ppos)
  {
- 	return NULL;
++	struct drm_fb_helper *helper = info->par;
+ 	loff_t pos = *ppos;
+ 	ssize_t ret;
+ 	struct drm_rect damage_area;
+@@ -885,10 +886,12 @@ ssize_t drm_fb_helper_sys_write(struct fb_info *info, const char __user *buf,
+ 	if (ret <= 0)
+ 		return ret;
+ 
+-	drm_fb_helper_memory_range_to_clip(info, pos, ret, &damage_area);
+-	drm_fb_helper_damage(info, damage_area.x1, damage_area.y1,
+-			     drm_rect_width(&damage_area),
+-			     drm_rect_height(&damage_area));
++	if (helper->funcs->fb_dirty) {
++		drm_fb_helper_memory_range_to_clip(info, pos, ret, &damage_area);
++		drm_fb_helper_damage(helper, damage_area.x1, damage_area.y1,
++				     drm_rect_width(&damage_area),
++				     drm_rect_height(&damage_area));
++	}
+ 
+ 	return ret;
  }
+@@ -904,8 +907,12 @@ EXPORT_SYMBOL(drm_fb_helper_sys_write);
+ void drm_fb_helper_sys_fillrect(struct fb_info *info,
+ 				const struct fb_fillrect *rect)
+ {
++	struct drm_fb_helper *helper = info->par;
++
+ 	sys_fillrect(info, rect);
+-	drm_fb_helper_damage(info, rect->dx, rect->dy, rect->width, rect->height);
++
++	if (helper->funcs->fb_dirty)
++		drm_fb_helper_damage(helper, rect->dx, rect->dy, rect->width, rect->height);
+ }
+ EXPORT_SYMBOL(drm_fb_helper_sys_fillrect);
+ 
+@@ -919,8 +926,12 @@ EXPORT_SYMBOL(drm_fb_helper_sys_fillrect);
+ void drm_fb_helper_sys_copyarea(struct fb_info *info,
+ 				const struct fb_copyarea *area)
+ {
++	struct drm_fb_helper *helper = info->par;
++
+ 	sys_copyarea(info, area);
+-	drm_fb_helper_damage(info, area->dx, area->dy, area->width, area->height);
++
++	if (helper->funcs->fb_dirty)
++		drm_fb_helper_damage(helper, area->dx, area->dy, area->width, area->height);
+ }
+ EXPORT_SYMBOL(drm_fb_helper_sys_copyarea);
+ 
+@@ -934,8 +945,12 @@ EXPORT_SYMBOL(drm_fb_helper_sys_copyarea);
+ void drm_fb_helper_sys_imageblit(struct fb_info *info,
+ 				 const struct fb_image *image)
+ {
++	struct drm_fb_helper *helper = info->par;
++
+ 	sys_imageblit(info, image);
+-	drm_fb_helper_damage(info, image->dx, image->dy, image->width, image->height);
++
++	if (helper->funcs->fb_dirty)
++		drm_fb_helper_damage(helper, image->dx, image->dy, image->width, image->height);
+ }
+ EXPORT_SYMBOL(drm_fb_helper_sys_imageblit);
+ 
+@@ -1035,6 +1050,7 @@ static ssize_t fb_write_screen_base(struct fb_info *info, const char __user *buf
+ ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
+ 				size_t count, loff_t *ppos)
+ {
++	struct drm_fb_helper *helper = info->par;
+ 	loff_t pos = *ppos;
+ 	ssize_t ret;
+ 	struct drm_rect damage_area;
+@@ -1043,10 +1059,12 @@ ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
+ 	if (ret <= 0)
+ 		return ret;
+ 
+-	drm_fb_helper_memory_range_to_clip(info, pos, ret, &damage_area);
+-	drm_fb_helper_damage(info, damage_area.x1, damage_area.y1,
+-			     drm_rect_width(&damage_area),
+-			     drm_rect_height(&damage_area));
++	if (helper->funcs->fb_dirty) {
++		drm_fb_helper_memory_range_to_clip(info, pos, ret, &damage_area);
++		drm_fb_helper_damage(helper, damage_area.x1, damage_area.y1,
++				     drm_rect_width(&damage_area),
++				     drm_rect_height(&damage_area));
++	}
+ 
+ 	return ret;
+ }
+@@ -1062,8 +1080,12 @@ EXPORT_SYMBOL(drm_fb_helper_cfb_write);
+ void drm_fb_helper_cfb_fillrect(struct fb_info *info,
+ 				const struct fb_fillrect *rect)
+ {
++	struct drm_fb_helper *helper = info->par;
++
+ 	cfb_fillrect(info, rect);
+-	drm_fb_helper_damage(info, rect->dx, rect->dy, rect->width, rect->height);
++
++	if (helper->funcs->fb_dirty)
++		drm_fb_helper_damage(helper, rect->dx, rect->dy, rect->width, rect->height);
+ }
+ EXPORT_SYMBOL(drm_fb_helper_cfb_fillrect);
+ 
+@@ -1077,8 +1099,12 @@ EXPORT_SYMBOL(drm_fb_helper_cfb_fillrect);
+ void drm_fb_helper_cfb_copyarea(struct fb_info *info,
+ 				const struct fb_copyarea *area)
+ {
++	struct drm_fb_helper *helper = info->par;
++
+ 	cfb_copyarea(info, area);
+-	drm_fb_helper_damage(info, area->dx, area->dy, area->width, area->height);
++
++	if (helper->funcs->fb_dirty)
++		drm_fb_helper_damage(helper, area->dx, area->dy, area->width, area->height);
+ }
+ EXPORT_SYMBOL(drm_fb_helper_cfb_copyarea);
+ 
+@@ -1092,8 +1118,12 @@ EXPORT_SYMBOL(drm_fb_helper_cfb_copyarea);
+ void drm_fb_helper_cfb_imageblit(struct fb_info *info,
+ 				 const struct fb_image *image)
+ {
++	struct drm_fb_helper *helper = info->par;
++
+ 	cfb_imageblit(info, image);
+-	drm_fb_helper_damage(info, image->dx, image->dy, image->width, image->height);
++
++	if (helper->funcs->fb_dirty)
++		drm_fb_helper_damage(helper, image->dx, image->dy, image->width, image->height);
+ }
+ EXPORT_SYMBOL(drm_fb_helper_cfb_imageblit);
+ 
 -- 
 2.38.0
 
