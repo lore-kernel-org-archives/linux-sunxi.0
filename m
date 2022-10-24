@@ -1,83 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465BF7B
-	for <linux-sunxi@lists.linux.dev>; Sun, 23 Oct 2022 12:30:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06C9BC433C1;
-	Sun, 23 Oct 2022 12:30:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1666528258;
-	bh=txv/VZ48QlWYPj1rI5kTtpkFJ8N9XQyDv6UNywfYTkA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=NprI60awG2EyXK9yiOlKxlIocNuiy1sN0IMh2pIh4awEKdmo38tkVY5v1AEIspB4U
-	 CvzUsiseIGOqiGG+G1H5RNTySX9J2KewjAcutAyO7WCBd3sYXgtSHBn7H0pAfnO+/8
-	 3cKScTyaKryi9dDe4hdZ86dBjnI1J+11cXCxjOPzbs02gIHq3uQXJasaBNDXNTk1Oa
-	 UcncOcWrCXz964muXizy9RaV0dN7uZCWoaHpvNqkuTQ7wXl2QJG0vSQjX+a2skG4Fj
-	 VT89pmHMJBMaxdrxsHyycM2cnUxgIjHZWL1Vio6d0/o33X5svcnH4VTHafKQEk46tu
-	 dFAQKvga5HIVg==
-Date: Sun, 23 Oct 2022 13:31:34 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Zhang Qilong <zhangqilong3@huawei.com>
-Cc: <lars@metafoo.de>, <wens@csie.org>, <jernej.skrabec@gmail.com>,
- <samuel@sholland.org>, <linux-iio@vger.kernel.org>,
- <linux-sunxi@lists.linux.dev>
-Subject: Re: [PATCH v2 1/2] iio: adc: sun4i-gpadc-iio: Fix PM disable depth
- imbalance in sun4i_gpadc_probe()
-Message-ID: <20221023133134.3af0415c@jic23-huawei>
-In-Reply-To: <20221020124045.77678-2-zhangqilong3@huawei.com>
-References: <20221020124045.77678-1-zhangqilong3@huawei.com>
-	<20221020124045.77678-2-zhangqilong3@huawei.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67BDB809
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 Oct 2022 11:20:02 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BBF0821E2C;
+	Mon, 24 Oct 2022 11:20:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1666610400; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EW5TY2zOig0VQgLGZt6zu4ywOY5c8c72AcSCo9faV+M=;
+	b=sRgtI48QF7bf+VIYrcVz0Tw2w1Cf8T/YWUiNtrjtyHZUpvRuMN53cEj5mPfHgvdecNrUsM
+	XQJoc72PMyO1t5Ia3kDiDm6v98mDXtwRhGNaOBH5KLVHVN9EeHFvLMqP2ay5IW6B2p/0Dh
+	+o+yXXiXkBougCJ6OpNC/5SS59yRycc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1666610400;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EW5TY2zOig0VQgLGZt6zu4ywOY5c8c72AcSCo9faV+M=;
+	b=1eeELNAaTvtHN8xWSr5qUVKL25eVbFE3UWSwQnH4k+xW0211/wycpGLvV95zp8WdPO22+D
+	qw7fQN+V4hnY6/CA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4F7B213357;
+	Mon, 24 Oct 2022 11:20:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id CCeqEuB0VmOYMgAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 24 Oct 2022 11:20:00 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch,
+	airlied@gmail.com,
+	sam@ravnborg.org,
+	javierm@redhat.com,
+	mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org,
+	etnaviv@lists.freedesktop.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-mips@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org,
+	virtualization@lists.linux-foundation.org,
+	spice-devel@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	xen-devel@lists.xenproject.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 04/21] drm/amdgpu: Don't set struct drm_driver.output_poll_changed
+Date: Mon, 24 Oct 2022 13:19:36 +0200
+Message-Id: <20221024111953.24307-5-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.38.0
+In-Reply-To: <20221024111953.24307-1-tzimmermann@suse.de>
+References: <20221024111953.24307-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 20 Oct 2022 20:40:44 +0800
-Zhang Qilong <zhangqilong3@huawei.com> wrote:
+Don't set struct drm_driver.output_poll_changed. It's used to restore
+the fbdev console. But as amdgpu uses generic fbdev emulation, the
+console is being restored by the DRM client helpers already. See the
+functions drm_kms_helper_hotplug_event() and
+drm_kms_helper_connector_hotplug_event() in drm_probe_helper.c.
 
-> The pm_runtime_enable will increase power disable depth.
-> Thus a pairing decrement is needed on the error handling
-> path to keep it balanced according to context. In addtion,
-> the iio_map_array path has potentially been called.
-> 
-> We fix it by gotoing err_map when thermal_zone register
-> failed.
-> 
-> Fixes: b0a242894f11 ("iio: adc: sun4i-gpadc-iio: register in the thermal after registering in pm")
-> Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
-As mentioned in review of patch 2 there are other problems in here that
-will probably be better cleaned up by taking the whole lot over
-to devm
+v2:
+	* fix commit description (Christian)
 
-Thanks,
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c       | 1 -
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 --
+ 2 files changed, 3 deletions(-)
 
-Jonathan
-
-> ---
-> v2:
-> - revert iio_map_array if it's necessary when thermal_zone
->   register failed.
-> ---
->  drivers/iio/adc/sun4i-gpadc-iio.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iio/adc/sun4i-gpadc-iio.c b/drivers/iio/adc/sun4i-gpadc-iio.c
-> index a6ade70dedf8..d2535dd28af8 100644
-> --- a/drivers/iio/adc/sun4i-gpadc-iio.c
-> +++ b/drivers/iio/adc/sun4i-gpadc-iio.c
-> @@ -648,7 +648,8 @@ static int sun4i_gpadc_probe(struct platform_device *pdev)
->  			dev_err(&pdev->dev,
->  				"could not register thermal sensor: %ld\n",
->  				PTR_ERR(info->tzd));
-> -			return PTR_ERR(info->tzd);
-> +			ret = PTR_ERR(info->tzd);
-> +			goto err_map;
->  		}
->  	}
->  
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+index 1a06b8d724f39..dd6f9ae6fbe9f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+@@ -1214,7 +1214,6 @@ amdgpu_display_user_framebuffer_create(struct drm_device *dev,
+ 
+ const struct drm_mode_config_funcs amdgpu_mode_funcs = {
+ 	.fb_create = amdgpu_display_user_framebuffer_create,
+-	.output_poll_changed = drm_fb_helper_output_poll_changed,
+ };
+ 
+ static const struct drm_prop_enum_list amdgpu_underscan_enum_list[] =
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 0db2a88cd4d7b..528b8be516ff6 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -82,7 +82,6 @@
+ #include <drm/drm_atomic_uapi.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_blend.h>
+-#include <drm/drm_fb_helper.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_vblank.h>
+@@ -2810,7 +2809,6 @@ const struct amdgpu_ip_block_version dm_ip_block =
+ static const struct drm_mode_config_funcs amdgpu_dm_mode_funcs = {
+ 	.fb_create = amdgpu_display_user_framebuffer_create,
+ 	.get_format_info = amd_get_format_info,
+-	.output_poll_changed = drm_fb_helper_output_poll_changed,
+ 	.atomic_check = amdgpu_dm_atomic_check,
+ 	.atomic_commit = drm_atomic_helper_commit,
+ };
+-- 
+2.38.0
 
