@@ -1,13 +1,13 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 643267B
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 Oct 2022 14:17:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B2707B
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 Oct 2022 14:17:18 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 401551477;
-	Mon, 24 Oct 2022 07:17:12 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7FCA61515;
+	Mon, 24 Oct 2022 07:17:24 -0700 (PDT)
 Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 243153F792;
-	Mon, 24 Oct 2022 07:17:04 -0700 (PDT)
-Date: Mon, 24 Oct 2022 15:17:01 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7D63D3F792;
+	Mon, 24 Oct 2022 07:17:16 -0700 (PDT)
+Date: Mon, 24 Oct 2022 15:17:14 +0100
 From: Andre Przywara <andre.przywara@arm.com>
 To: Icenowy Zheng <uwu@icenowy.me>
 Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
@@ -16,14 +16,13 @@ Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, soc@kernel.org,
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-phy@lists.infradead.org, linux-usb@vger.kernel.org, Rob Herring
- <robh@kernel.org>
-Subject: Re: [PATCH v2 02/10] dt-bindings: phy: add binding document for
- Allwinner F1C100s USB PHY
-Message-ID: <20221024151701.3dff5794@donnerap.cambridge.arm.com>
-In-Reply-To: <20221012055602.1544944-3-uwu@icenowy.me>
+ linux-phy@lists.infradead.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 09/10] dt-binding: arm: sunxi: add compatible strings
+ for PopStick v1.1
+Message-ID: <20221024151714.59968916@donnerap.cambridge.arm.com>
+In-Reply-To: <20221012055602.1544944-10-uwu@icenowy.me>
 References: <20221012055602.1544944-1-uwu@icenowy.me>
-	<20221012055602.1544944-3-uwu@icenowy.me>
+	<20221012055602.1544944-10-uwu@icenowy.me>
 Organization: ARM
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
@@ -35,132 +34,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 12 Oct 2022 13:55:54 +0800
+On Wed, 12 Oct 2022 13:56:01 +0800
 Icenowy Zheng <uwu@icenowy.me> wrote:
 
-> Allwinner F1C100s has the most simple USB PHY among all Allwinner SoCs,
-> because it has only one OTG USB controller, no host-only OHCI/EHCI
-> controllers.
-> 
-> Add a binding document for it. Following the current situation of one
-> YAML file per SoC, this one is based on
-> allwinner,sun8i-v3s-usb-phy.yaml, but with OHCI/EHCI-related bits
-> removed. (The same driver in Linux, phy-sun4i-usb, covers all these
-> binding files now.)
-> 
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
-> Changes in v2:
-> - Clarify the relation with other phy-sun4i-usb bindings.
-> - Added Rob's ACK.
-> 
->  .../phy/allwinner,suniv-f1c100s-usb-phy.yaml  | 83 +++++++++++++++++++
->  1 file changed, 83 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/phy/allwinner,suniv-f1c100s-usb-phy.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/phy/allwinner,suniv-f1c100s-usb-phy.yaml b/Documentation/devicetree/bindings/phy/allwinner,suniv-f1c100s-usb-phy.yaml
-> new file mode 100644
-> index 000000000000..22ff8e0f2331
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/phy/allwinner,suniv-f1c100s-usb-phy.yaml
-> @@ -0,0 +1,83 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/phy/allwinner,suniv-f1c100s-usb-phy.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner F1C100s USB PHY Device Tree Bindings
+Hi Icenowy,
 
-I see that commit dd3cb467ebb56 [1] discourages the redundant "Device Tree
-Bindings" suffix in the title name, so I think you should remove that.
+> SourceParts PopStick is a F1C200s-based stick-shaped SBC.
+> 
+> Add a compatible string list for its v1.1 version (the first public
+> one).
 
-The rest looks alright to me, compared against the manual and what the
-driver expects, so with that fixed:
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+If v1.0 (or anything prior) never made it to the outside world, I don't
+think we need to mention that in the public bindings.
+In general Linux seems to discourage support for unreleased hardware, so I
+think you can just drop the "sourceparts,popstick-v1.1" name.
 
 Cheers,
 Andre
 
-[1]
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=dd3cb467ebb56
-
+> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> ---
+> New patch introduced in v2.
+> 
+>  Documentation/devicetree/bindings/arm/sunxi.yaml | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> index 3ad1cd50e3fe..c6e0ad7f461d 100644
+> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
+> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> @@ -807,6 +807,13 @@ properties:
+>            - const: sinlinx,sina33
+>            - const: allwinner,sun8i-a33
+>  
+> +      - description: SourceParts PopStick v1.1
+> +        items:
+> +          - const: sourceparts,popstick-v1.1
+> +          - const: sourceparts,popstick
+> +          - const: allwinner,suniv-f1c200s
+> +          - const: allwinner,suniv-f1c100s
 > +
-> +maintainers:
-> +  - Chen-Yu Tsai <wens@csie.org>
-> +  - Maxime Ripard <mripard@kernel.org>
-> +
-> +properties:
-> +  "#phy-cells":
-> +    const: 1
-> +
-> +  compatible:
-> +    const: allwinner,suniv-f1c100s-usb-phy
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: PHY Control registers
-> +
-> +  reg-names:
-> +    const: phy_ctrl
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description: USB OTG PHY bus clock
-> +
-> +  clock-names:
-> +    const: usb0_phy
-> +
-> +  resets:
-> +    maxItems: 1
-> +    description: USB OTG reset
-> +
-> +  reset-names:
-> +    const: usb0_reset
-> +
-> +  usb0_id_det-gpios:
-> +    maxItems: 1
-> +    description: GPIO to the USB OTG ID pin
-> +
-> +  usb0_vbus_det-gpios:
-> +    maxItems: 1
-> +    description: GPIO to the USB OTG VBUS detect pin
-> +
-> +  usb0_vbus_power-supply:
-> +    description: Power supply to detect the USB OTG VBUS
-> +
-> +  usb0_vbus-supply:
-> +    description: Regulator controlling USB OTG VBUS
-> +
-> +required:
-> +  - "#phy-cells"
-> +  - compatible
-> +  - clocks
-> +  - clock-names
-> +  - reg
-> +  - reg-names
-> +  - resets
-> +  - reset-names
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/clock/suniv-ccu-f1c100s.h>
-> +    #include <dt-bindings/reset/suniv-ccu-f1c100s.h>
-> +
-> +    phy@1c13400 {
-> +        compatible = "allwinner,suniv-f1c100s-usb-phy";
-> +        reg = <0x01c13400 0x10>;
-> +        reg-names = "phy_ctrl";
-> +        clocks = <&ccu CLK_USB_PHY0>;
-> +        clock-names = "usb0_phy";
-> +        resets = <&ccu RST_USB_PHY0>;
-> +        reset-names = "usb0_reset";
-> +        #phy-cells = <1>;
-> +        usb0_id_det-gpios = <&pio 4 2 GPIO_ACTIVE_HIGH>;
-> +    };
+>        - description: SL631 Action Camera with IMX179
+>          items:
+>            - const: allwinner,sl631-imx179
 
