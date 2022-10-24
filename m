@@ -1,166 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 254F4809;
-	Mon, 24 Oct 2022 11:38:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 869C1C43143;
-	Mon, 24 Oct 2022 11:38:38 +0000 (UTC)
-Message-ID: <d75c0597-2323-27f2-a7e2-b319667bdcf6@xs4all.nl>
-Date: Mon, 24 Oct 2022 13:38:36 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9769D7B
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 Oct 2022 14:02:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C74DC433D6;
+	Mon, 24 Oct 2022 14:01:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1666620120;
+	bh=pNwuaU1Ukcpu+2WY7FOqGXayA5lGqbb30IfbM7hnsHo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=EmVx/iDvv3b0A31uPTIJbXEwiPmYCrMxxgvtk0/N6LcykmG/6kiO3KW7rJjoITGDX
+	 jEJbUqjCWOr87OiQeqv+TORr/zhDoRuCo3tXQ1w5fUmIgEKSqG9QqWDzgSFoqAHLNR
+	 p0WP+MxEfpoO33CA8XLZ62Lpn41EoS6XiTtQh6LC+xR5wvv2ravMbo3WnVvd4vn3ho
+	 uB4B5JsjrjRShNYreRERf9V2MLlBxhZsZZLWgy8sBjepfb+5o/DtI0IB+Xty6z7Qh2
+	 T3xIH/jDfvoIKsldCuYQ21KEg4HBW69CAU3tcezG80QP8xDDgThmz+qiCiJLoPZBOz
+	 Sya0su8WFyROA==
+From: Mark Brown <broonie@kernel.org>
+To: samuel@sholland.org, lgirdwood@gmail.com, Ban Tao <fengzheng923@gmail.com>, perex@perex.cz, jernej.skrabec@gmail.com,
+ tiwai@suse.com, wens@csie.org
+Cc: alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+In-Reply-To: <1666511085-2748-1-git-send-email-fengzheng923@gmail.com>
+References: <1666511085-2748-1-git-send-email-fengzheng923@gmail.com>
+Subject: Re: [PATCH v2] ASoC: sun50i-dmic: avoid unused variable warning for sun50i_dmic_of_match
+Message-Id: <166662011789.251784.4030037448307420483.b4-ty@kernel.org>
+Date: Mon, 24 Oct 2022 15:01:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH v1] media: cedrus: Propagate error code from
- cedrus_h265_skip_bits()
-Content-Language: en-US
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Maxime Ripard <mripard@kernel.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- kernel@collabora.com
-References: <20220914150105.209484-1-dmitry.osipenko@collabora.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220914150105.209484-1-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.10.0-dev-fc921
 
-Hi Dmitry,
+On Sun, 23 Oct 2022 00:44:45 -0700, Ban Tao wrote:
+> In configurations with CONFIG_OF=n, we get a harmless build warning:
+> 
+> sound/soc/sunxi/sun50i-dmic.c:268:34: warning: unused variable
+> 'sun50i_dmic_of_match' [-Wunused-const-variable]
+> 
+> 
 
-This patch has a conflict with this patch from Jernej:
+Applied to
 
-https://patchwork.linuxtv.org/project/linux-media/patch/20221017194413.1198301-1-jernej.skrabec@gmail.com/
-
-I decided to take Jernej's patch first. Can you make a v2 that sits on top of
-that patch?
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
 Thanks!
 
-	Hans
+[1/1] ASoC: sun50i-dmic: avoid unused variable warning for sun50i_dmic_of_match
+      commit: 2cfcc1085d3b7b7c893be41034853d4c63a41092
 
-On 9/14/22 17:01, Dmitry Osipenko wrote:
-> The cedrus_h265_skip_bits() may get into infinite loop if decoding
-> parameters are incorrect. In this case we detect the loop and print
-> a error message, continuing the decoding that is fated to fail.
-> 
-> Will be cleaner to abort the decoding early. Propagate the error code
-> to cedrus_device_run() and reset hardware on the cedrus_h265_skip_bits()
-> failure.
-> 
-> Suggested-by: Jernej Škrabec <jernej.skrabec@gmail.com>
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus_dec.c  |  2 ++
->  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 15 ++++++++++++---
->  drivers/staging/media/sunxi/cedrus/cedrus_hw.c   |  7 ++++++-
->  drivers/staging/media/sunxi/cedrus/cedrus_hw.h   |  2 ++
->  4 files changed, 22 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> index e7f7602a5ab4..ae5df3dc01c0 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> @@ -112,6 +112,8 @@ void cedrus_device_run(void *priv)
->  
->  		dev->dec_ops[ctx->current_codec]->trigger(ctx);
->  	} else {
-> +		cedrus_hw_reset(dev);
-> +
->  		v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev,
->  						 ctx->fh.m2m_ctx,
->  						 VB2_BUF_STATE_ERROR);
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> index 4952fc17f3e6..f409f59452d8 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> @@ -224,9 +224,10 @@ static void cedrus_h265_pred_weight_write(struct cedrus_dev *dev,
->  	}
->  }
->  
-> -static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
-> +static int cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
->  {
->  	int count = 0;
-> +	int err;
->  
->  	while (count < num) {
->  		int tmp = min(num - count, 32);
-> @@ -235,11 +236,16 @@ static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
->  			     VE_DEC_H265_TRIGGER_FLUSH_BITS |
->  			     VE_DEC_H265_TRIGGER_TYPE_N_BITS(tmp));
->  
-> -		if (cedrus_wait_for(dev, VE_DEC_H265_STATUS, VE_DEC_H265_STATUS_VLD_BUSY))
-> +		err = cedrus_wait_for(dev, VE_DEC_H265_STATUS, VE_DEC_H265_STATUS_VLD_BUSY);
-> +		if (err) {
->  			dev_err_ratelimited(dev->dev, "timed out waiting to skip bits\n");
-> +			return err;
-> +		}
->  
->  		count += tmp;
->  	}
-> +
-> +	return 0;
->  }
->  
->  static void cedrus_h265_write_scaling_list(struct cedrus_ctx *ctx,
-> @@ -408,6 +414,7 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
->  	u32 pic_order_cnt[2];
->  	u8 *padding;
->  	int count;
-> +	int err;
->  	u32 reg;
->  
->  	sps = run->h265.sps;
-> @@ -534,7 +541,9 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
->  	/* Include the one bit. */
->  	count++;
->  
-> -	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8 - count);
-> +	err = cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8 - count);
-> +	if (err)
-> +		return err;
->  
->  	/* Bitstream parameters. */
->  
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> index a6470a89851e..e9ceca332062 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> @@ -168,11 +168,16 @@ void cedrus_watchdog(struct work_struct *work)
->  					 VB2_BUF_STATE_ERROR);
->  }
->  
-> +void cedrus_hw_reset(struct cedrus_dev *dev)
-> +{
-> +	reset_control_reset(dev->rstc);
-> +}
-> +
->  int cedrus_hw_suspend(struct device *device)
->  {
->  	struct cedrus_dev *dev = dev_get_drvdata(device);
->  
-> -	reset_control_assert(dev->rstc);
-> +	cedrus_hw_reset(dev);
->  
->  	clk_disable_unprepare(dev->ram_clk);
->  	clk_disable_unprepare(dev->mod_clk);
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-> index 7c92f00e36da..919c4475f0d7 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-> @@ -30,4 +30,6 @@ void cedrus_hw_remove(struct cedrus_dev *dev);
->  
->  void cedrus_watchdog(struct work_struct *work);
->  
-> +void cedrus_hw_reset(struct cedrus_dev *dev);
-> +
->  #endif
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
