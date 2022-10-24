@@ -1,195 +1,118 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D0D633D3
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 Oct 2022 14:56:43 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BBAC4D6E;
-	Mon, 24 Oct 2022 07:56:49 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B75B83F792;
-	Mon, 24 Oct 2022 07:56:41 -0700 (PDT)
-Date: Mon, 24 Oct 2022 15:56:39 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Icenowy Zheng <uwu@icenowy.me>
+Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31DA33D3
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 Oct 2022 14:57:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1666623425; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=UM5dIx/4JCtgw2pFhQX2FBPell4w0p3prcLhJ9Xl8sjeSXdWck/11kv1VO2BUVt+aCtGYRRciHNJIrgTrlby8I9vLnAaLfSS/d6zh4XmNOIE7GHYUZAOTnZtYjxUngHy5AzMLimaY2xyQHrG02P5e56cPCmmRpa3BZc+CrI0Q08=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1666623425; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=QQUAzeD8aKn6vfQ4194+hXQmHVFhvbqRGZcAWeeulV0=; 
+	b=dny98F8sv/tEnWGIyk1FvKy5TgekX+a2+On5B8f1l6cpzMJbxa9AhmykRY7WiE2n3i/Q2CmgbwfV8eV5v3USQ28IwpWzRYgoyhw/eQkGw2fvvE5/pB2S8kWHcmq9Hf15xvSWb2/mvH08fTlNQGK/zCYumcVb0+uTUFunxNlHtTU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1666623425;
+	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=QQUAzeD8aKn6vfQ4194+hXQmHVFhvbqRGZcAWeeulV0=;
+	b=KxJWw+/g6vGuWJ4PSVZbgXj526uXN3Ma0OsdySm9orcLSgPdqC0eRBgIbBq9J/Cz
+	gyDQY3k5WVd0lRTv7bGajO6tXeWRK63IeNRzMrLvTOEn2cdWWkkLwytO+hYWnobC0FQ
+	jFEds1m9444cO7ioPsn2D+ZC3gm6xlqUs98QfMTo=
+Received: from edelgard.fodlan.icenowy.me (112.94.102.105 [112.94.102.105]) by mx.zohomail.com
+	with SMTPS id 1666623423433294.70361609256247; Mon, 24 Oct 2022 07:57:03 -0700 (PDT)
+Message-ID: <0612c54fd441585141d37ecbc8508d412b3c3a14.camel@icenowy.me>
+Subject: Re: [PATCH v2 06/10] ARM: suniv: add USB-related device nodes
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Andre Przywara <andre.przywara@arm.com>
 Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
  <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
  Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, soc@kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-phy@lists.infradead.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 10/10] ARM: dts: suniv: add device tree for PopStick
- v1.1
-Message-ID: <20221024155639.5e97d205@donnerap.cambridge.arm.com>
-In-Reply-To: <20221012055602.1544944-11-uwu@icenowy.me>
+ linux-kernel@vger.kernel.org,  devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,  linux-sunxi@lists.linux.dev,
+ linux-phy@lists.infradead.org,  linux-usb@vger.kernel.org
+Date: Mon, 24 Oct 2022 22:56:58 +0800
+In-Reply-To: <20221024151643.23217a25@donnerap.cambridge.arm.com>
 References: <20221012055602.1544944-1-uwu@icenowy.me>
-	<20221012055602.1544944-11-uwu@icenowy.me>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	 <20221012055602.1544944-7-uwu@icenowy.me>
+	 <20221024151643.23217a25@donnerap.cambridge.arm.com>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-On Wed, 12 Oct 2022 13:56:02 +0800
-Icenowy Zheng <uwu@icenowy.me> wrote:
-
-Hi,
-
-> PopStick is a minimal Allwinner F1C200s dongle, with its USB controller
-> wired to a USB Type-A port, a SD slot and a SPI NAND flash on board, and
-> an on-board CH340 USB-UART converted connected to F1C200s's UART0.
-> 
-> Add a device tree for it. As F1C200s is just F1C100s with a different
-> DRAM chip co-packaged, directly use F1C100s DTSI here.
-> 
-> This commit covers the v1.1 version of this board, which is now shipped.
-> v1.0 is some internal sample that have not been shipped at all.
-
-As mentioned in the other patch, if that is the case, I don't think we
-need to bother about the version number in the filename and compatible
-strings, especially if a v1.0 will never be upstreamed. If there are users
-of the internal version still, they can use an explicit "v1.0" in their
-downstream versions.
-
-So apart from what Krzysztof and Clement already mentioned, the DT itself
-looks fine to me otherwise. I also ran dt-validate on it, and used it as a
-base for another F1C200s board.
-
-Cheers,
-Andre
-
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> ---
-> New patch introduced in v2.
-> 
->  arch/arm/boot/dts/Makefile                    |   3 +-
->  .../boot/dts/suniv-f1c200s-popstick-v1.1.dts  | 101 ++++++++++++++++++
->  2 files changed, 103 insertions(+), 1 deletion(-)
->  create mode 100644 arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
-> 
-> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-> index 6aa7dc4db2fc..0249c07bd8a6 100644
-> --- a/arch/arm/boot/dts/Makefile
-> +++ b/arch/arm/boot/dts/Makefile
-> @@ -1391,7 +1391,8 @@ dtb-$(CONFIG_MACH_SUN9I) += \
->  	sun9i-a80-optimus.dtb \
->  	sun9i-a80-cubieboard4.dtb
->  dtb-$(CONFIG_MACH_SUNIV) += \
-> -	suniv-f1c100s-licheepi-nano.dtb
-> +	suniv-f1c100s-licheepi-nano.dtb \
-> +	suniv-f1c200s-popstick-v1.1.dtb
->  dtb-$(CONFIG_ARCH_TEGRA_2x_SOC) += \
->  	tegra20-acer-a500-picasso.dtb \
->  	tegra20-asus-tf101.dtb \
-> diff --git a/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts b/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
-> new file mode 100644
-> index 000000000000..121dfc6f609d
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
-> @@ -0,0 +1,101 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Copyright 2022 Icenowy Zheng <uwu@icenowy.me>
-> + */
-> +
-> +/dts-v1/;
-> +#include "suniv-f1c100s.dtsi"
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/leds/common.h>
-> +
-> +/ {
-> +	model = "Popcorn Computer PopStick v1.1";
-> +	compatible = "sourceparts,popstick-v1.1", "sourceparts,popstick",
-> +		     "allwinner,suniv-f1c200s", "allwinner,suniv-f1c100s";
-> +
-> +	aliases {
-> +		mmc0 = &mmc0;
-> +		serial0 = &uart0;
-> +		spi0 = &spi0;
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = "serial0:115200n8";
-> +	};
-> +
-> +	leds {
-> +		compatible = "gpio-leds";
-> +
-> +		led {
-> +			function = LED_FUNCTION_STATUS;
-> +			color = <LED_COLOR_ID_GREEN>;
-> +			gpios = <&pio 4 6 GPIO_ACTIVE_HIGH>; /* PE6 */
-> +			linux,default-trigger = "heartbeat";
-> +		};
-> +	};
-> +
-> +	reg_vcc3v3: vcc3v3 {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc3v3";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +	};
-> +};
-> +
-> +&mmc0 {
-> +	cd-gpios = <&pio 4 3 GPIO_ACTIVE_LOW>; /* PE3 */
-> +	bus-width = <4>;
-> +	disable-wp;
-> +	status = "okay";
-> +	vmmc-supply = <&reg_vcc3v3>;
-> +};
-> +
-> +&spi0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&spi0_pc_pins>;
-> +	status = "okay";
-> +
-> +	flash@0 {
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		compatible = "spi-nand";
-> +		reg = <0>;
-> +		spi-max-frequency = <40000000>;
-> +
-> +		partitions {
-> +			compatible = "fixed-partitions";
-> +			#address-cells = <1>;
-> +			#size-cells = <1>;
-> +
-> +			partition@0 {
-> +				label = "u-boot-with-spl";
-> +				reg = <0x0 0x100000>;
-> +			};
-> +
-> +			ubi@100000 {
-> +				label = "ubi";
-> +				reg = <0x100000 0x7f00000>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&otg_sram {
-> +	status = "okay";
-> +};
-> +
-> +&uart0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&uart0_pe_pins>;
-> +	status = "okay";
-> +};
-> +
-> +&usb_otg {
-> +	dr_mode = "peripheral";
-> +	status = "okay";
-> +};
-> +
-> +&usbphy {
-> +	status = "okay";
-> +};
+5ZyoIDIwMjItMTAtMjTmmJ/mnJ/kuIDnmoQgMTU6MTYgKzAxMDDvvIxBbmRyZSBQcnp5d2FyYeWG
+memBk++8mgo+IE9uIFdlZCwgMTIgT2N0IDIwMjIgMTM6NTU6NTggKzA4MDAKPiBJY2Vub3d5IFpo
+ZW5nIDx1d3VAaWNlbm93eS5tZT4gd3JvdGU6Cj4gCj4gSGksCj4gCj4gPiBUaGUgc3VuaXYgU29D
+IGhhcyBhIFVTQiBPVEcgY29udHJvbGxlciBhbmQgYSBVU0IgUEhZIGxpa2Ugb3RoZXIKPiA+IEFs
+bHdpbm5lciBTb0NzLgo+ID4gCj4gPiBBZGQgdGhlaXIgZGV2aWNlIHRyZWUgbm9kZS4KPiAKPiBM
+b29rcyBhbHJpZ2h0IHRvIG1lLCBjaGVja2VkIGFnYWluc3QgdGhlIG1hbnVhbCwgYWxzbyBjb21w
+YXJlZAo+IGFnYWluc3QKPiBzb21lIG90aGVyIEFsbHdpbm5lciBVU0IgRFQgbm9kZXMuIEFsc28g
+cGFzc2VzIHRoZSBiaW5kaW5nIGFuZCBEVEIKPiBjaGVja3MuCj4gCj4gSnVzdCBvbmUgc21hbGwg
+cXVlc3Rpb24gYmVsb3csIGJ1dCBuZXZlcnRoZWxlc3M6Cj4gCj4gUmV2aWV3ZWQtYnk6IEFuZHJl
+IFByenl3YXJhIDxhbmRyZS5wcnp5d2FyYUBhcm0uY29tPgo+IAo+ID4gU2lnbmVkLW9mZi1ieTog
+SWNlbm93eSBaaGVuZyA8dXd1QGljZW5vd3kubWU+Cj4gPiAtLS0KPiA+IE5vIGNoYW5nZXMgc2lu
+Y2UgdjEuCj4gPiAKPiA+IMKgYXJjaC9hcm0vYm9vdC9kdHMvc3VuaXYtZjFjMTAwcy5kdHNpIHwg
+MjYKPiA+ICsrKysrKysrKysrKysrKysrKysrKysrKysrCj4gPiDCoDEgZmlsZSBjaGFuZ2VkLCAy
+NiBpbnNlcnRpb25zKCspCj4gPiAKPiA+IGRpZmYgLS1naXQgYS9hcmNoL2FybS9ib290L2R0cy9z
+dW5pdi1mMWMxMDBzLmR0c2kKPiA+IGIvYXJjaC9hcm0vYm9vdC9kdHMvc3VuaXYtZjFjMTAwcy5k
+dHNpCj4gPiBpbmRleCAwZWRjMTcyNDQwN2IuLmEwMTU0MWJhNDJjNSAxMDA2NDQKPiA+IC0tLSBh
+L2FyY2gvYXJtL2Jvb3QvZHRzL3N1bml2LWYxYzEwMHMuZHRzaQo+ID4gKysrIGIvYXJjaC9hcm0v
+Ym9vdC9kdHMvc3VuaXYtZjFjMTAwcy5kdHNpCj4gPiBAQCAtMTMzLDYgKzEzMywzMiBAQCBtbWMx
+OiBtbWNAMWMxMDAwMCB7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAjc2l6ZS1jZWxscyA9IDwwPjsKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgfTsKPiA+IMKgCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdXNi
+X290ZzogdXNiQDFjMTMwMDAgewo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqBjb21wYXRpYmxlID0gImFsbHdpbm5lcixzdW5pdi1mMWMxMDBzLQo+ID4g
+bXVzYiI7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oHJlZyA9IDwweDAxYzEzMDAwIDB4MDQwMD47Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoGNsb2NrcyA9IDwmY2N1IENMS19CVVNfT1RHPjsKPiA+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmVzZXRzID0gPCZj
+Y3UgUlNUX0JVU19PVEc+Owo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqBpbnRlcnJ1cHRzID0gPDI2PjsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaW50ZXJydXB0LW5hbWVzID0gIm1jIjsKPiA+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcGh5cyA9IDwmdXNicGh5
+IDA+Owo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBw
+aHktbmFtZXMgPSAidXNiIjsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgZXh0Y29uID0gPCZ1c2JwaHkgMD47Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGFsbHdpbm5lcixzcmFtID0gPCZvdGdfc3JhbSAx
+PjsKPiAKPiBXaGF0IGlzIHRoaXMgIjEiIGZvcj8gSSBzZWUgaXQgYWxsIG92ZXIgdGhlIG90aGVy
+IEFsbHdpbm5lciBTUkFNCj4gcHJvcGVydGllcywgYnV0IGNhbid0IGZpbmQgYW55IGRvY3VtZW50
+YXRpb24gYWJvdXQgdGhhdCBudW1iZXIsIG5vcgo+IGNhbiBJCj4gc2VlIHRoYXQgaXQgd291bGQg
+YmUgdXNlZCBpbiB0aGUgY29kZS4KCkl0IG1lYW5zIG1hcHBpbmcgdGhlIFNSQU0gdG8gZGVkaWNh
+dGVkIGRldmljZSBpbnN0ZWFkIG9mIENQVS4KClRoaXMgaW5mb3JtYXRpb24gaXMgYXZhaWxhYmxl
+IGluIHByZXZpb3VzIHN1bnhpLXNyYW0udHh0IGJpbmRpbmcsIGJ1dApsb3N0IHdoZW4gY29udmVy
+dGluZyB0byBqc29uIHNjaGVtYSwgbWF5YmUgYmVjYXVzZSBpdCBkb2VzIG5vdCBmaXQgd2VsbApp
+biBqc29uIHNjaGVtYS4KCj4gCj4gRG9lcyBhbnlvbmUga25vdz8KPiAKPiBDaGVlcnMsCj4gQW5k
+cmUKPiAKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+c3RhdHVzID0gImRpc2FibGVkIjsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9
+Owo+ID4gKwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHVzYnBoeTogcGh5QDFj
+MTM0MDAgewo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqBjb21wYXRpYmxlID0gImFsbHdpbm5lcixzdW5pdi1mMWMxMDBzLXVzYi0KPiA+IHBoeSI7Cj4g
+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlZyA9IDww
+eDAxYzEzNDAwIDB4MTA+Owo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqByZWctbmFtZXMgPSAicGh5X2N0cmwiOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjbG9ja3MgPSA8JmNjdSBDTEtfVVNCX1BIWTA+
+Owo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjbG9j
+ay1uYW1lcyA9ICJ1c2IwX3BoeSI7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoHJlc2V0cyA9IDwmY2N1IFJTVF9VU0JfUEhZMD47Cj4gPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlc2V0LW5hbWVzID0gInVz
+YjBfcmVzZXQiOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAjcGh5LWNlbGxzID0gPDE+Owo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqBzdGF0dXMgPSAiZGlzYWJsZWQiOwo+ID4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoH07Cj4gPiArCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoGNjdTogY2xvY2tAMWMyMDAwMCB7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqBjb21wYXRpYmxlID0gImFsbHdpbm5lcixzdW5pdi1mMWMxMDBz
+LWNjdSI7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqByZWcgPSA8MHgwMWMyMDAwMCAweDQwMD47Cj4gCgo=
 
