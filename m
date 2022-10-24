@@ -1,118 +1,112 @@
-Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31DA33D3
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 Oct 2022 14:57:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1666623425; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=UM5dIx/4JCtgw2pFhQX2FBPell4w0p3prcLhJ9Xl8sjeSXdWck/11kv1VO2BUVt+aCtGYRRciHNJIrgTrlby8I9vLnAaLfSS/d6zh4XmNOIE7GHYUZAOTnZtYjxUngHy5AzMLimaY2xyQHrG02P5e56cPCmmRpa3BZc+CrI0Q08=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1666623425; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=QQUAzeD8aKn6vfQ4194+hXQmHVFhvbqRGZcAWeeulV0=; 
-	b=dny98F8sv/tEnWGIyk1FvKy5TgekX+a2+On5B8f1l6cpzMJbxa9AhmykRY7WiE2n3i/Q2CmgbwfV8eV5v3USQ28IwpWzRYgoyhw/eQkGw2fvvE5/pB2S8kWHcmq9Hf15xvSWb2/mvH08fTlNQGK/zCYumcVb0+uTUFunxNlHtTU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1666623425;
-	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=QQUAzeD8aKn6vfQ4194+hXQmHVFhvbqRGZcAWeeulV0=;
-	b=KxJWw+/g6vGuWJ4PSVZbgXj526uXN3Ma0OsdySm9orcLSgPdqC0eRBgIbBq9J/Cz
-	gyDQY3k5WVd0lRTv7bGajO6tXeWRK63IeNRzMrLvTOEn2cdWWkkLwytO+hYWnobC0FQ
-	jFEds1m9444cO7ioPsn2D+ZC3gm6xlqUs98QfMTo=
-Received: from edelgard.fodlan.icenowy.me (112.94.102.105 [112.94.102.105]) by mx.zohomail.com
-	with SMTPS id 1666623423433294.70361609256247; Mon, 24 Oct 2022 07:57:03 -0700 (PDT)
-Message-ID: <0612c54fd441585141d37ecbc8508d412b3c3a14.camel@icenowy.me>
-Subject: Re: [PATCH v2 06/10] ARM: suniv: add USB-related device nodes
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, soc@kernel.org,
- linux-kernel@vger.kernel.org,  devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,  linux-sunxi@lists.linux.dev,
- linux-phy@lists.infradead.org,  linux-usb@vger.kernel.org
-Date: Mon, 24 Oct 2022 22:56:58 +0800
-In-Reply-To: <20221024151643.23217a25@donnerap.cambridge.arm.com>
-References: <20221012055602.1544944-1-uwu@icenowy.me>
-	 <20221012055602.1544944-7-uwu@icenowy.me>
-	 <20221024151643.23217a25@donnerap.cambridge.arm.com>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.44.4 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F4A6130;
+	Mon, 24 Oct 2022 20:15:31 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id t25so2107385ejb.8;
+        Mon, 24 Oct 2022 13:15:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1fBlLJXdA6H7C7X3qALVt9OFqOQbonL8kspTcSbYe8A=;
+        b=YPJ3jwQsNmm9WLt/GBkLWWRa6lFn8eahlu81M8lp72RvYGLMe/rQjA2qPa5v1u4tT6
+         90ivSVYqP66OxTklswMOTjjr9ecvUkAP0NUIauygidG6sWAb1j1q05ALUBQxKfn0aTu5
+         2S3QwjiaKOaIMvBqG9wc3wTVwidG1wG8FEuhFE+iEE2VUjwRX7c+FY1I7Xdn55PK08z9
+         i2ufSZEQzWz2r7uSmuMUBEkFRjVqHQY1evrOLHZ5Fk2qSSqIk/Jn+sTiLw0wQLqe4tal
+         36VZBHwYk13cnxp/sU7GMLV7E/HHAvlWE1h6zbYbhyPiwxfyyLicgnWx9g4h+13XZg8z
+         xLMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1fBlLJXdA6H7C7X3qALVt9OFqOQbonL8kspTcSbYe8A=;
+        b=T9pfy/TxfoLhQ93rHnCFiSOLDQXLHErmV0mPoEMek3/hmXvmUOi/guadTztBh375K8
+         M7kskJ81oPdnW6TNhlNDORGPnu5UOteuiupJbb1skDi26DB3BP+5HbkS0b521DPcN4tQ
+         7VgD+6+dDGrbxNPJeApBSs9orYmM7XWYGl3TovELRIyPy6ajDYdFLr6aGv7Vk6sq1Zms
+         ZNBTIjvuhUZQfy+7xl5aRu84y+bG/1GuLUxJ4vJganllCzIKT1re7dmr8driptxC7f7m
+         k+gfIaKfkk+5/wNSQa2BWL4eDebuV2keBan/9afjqI3aYILsIeC9N3nXEE0BFe3ihgr/
+         kPeg==
+X-Gm-Message-State: ACrzQf0pATbTzslAF9w68aXWqAbmG2YTACTIiMTq0b0HFdWtx76Z92tt
+	2jr5m2EuG/HYgsTGxMT5SZ4=
+X-Google-Smtp-Source: AMsMyM6Tfi2MudIbF6SuC3N6qkh7fPJgYp0ed+IaKSyzxHBs7xvcwSqolHobZJoh1xVju7+sSEmzxA==
+X-Received: by 2002:a17:907:7e87:b0:78e:2dc3:945 with SMTP id qb7-20020a1709077e8700b0078e2dc30945mr29430002ejc.326.1666642529414;
+        Mon, 24 Oct 2022 13:15:29 -0700 (PDT)
+Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id op7-20020a170906bce700b0073d638a7a89sm332023ejb.99.2022.10.24.13.15.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Oct 2022 13:15:28 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	paul.kocialkowski@bootlin.com
+Cc: mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	wens@csie.org,
+	samuel@sholland.org,
+	hverkuil-cisco@xs4all.nl,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH 00/11] media: cedrus: Format handling improvements and 10-bit HEVC support
+Date: Mon, 24 Oct 2022 22:15:04 +0200
+Message-Id: <20221024201515.34129-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 
-5ZyoIDIwMjItMTAtMjTmmJ/mnJ/kuIDnmoQgMTU6MTYgKzAxMDDvvIxBbmRyZSBQcnp5d2FyYeWG
-memBk++8mgo+IE9uIFdlZCwgMTIgT2N0IDIwMjIgMTM6NTU6NTggKzA4MDAKPiBJY2Vub3d5IFpo
-ZW5nIDx1d3VAaWNlbm93eS5tZT4gd3JvdGU6Cj4gCj4gSGksCj4gCj4gPiBUaGUgc3VuaXYgU29D
-IGhhcyBhIFVTQiBPVEcgY29udHJvbGxlciBhbmQgYSBVU0IgUEhZIGxpa2Ugb3RoZXIKPiA+IEFs
-bHdpbm5lciBTb0NzLgo+ID4gCj4gPiBBZGQgdGhlaXIgZGV2aWNlIHRyZWUgbm9kZS4KPiAKPiBM
-b29rcyBhbHJpZ2h0IHRvIG1lLCBjaGVja2VkIGFnYWluc3QgdGhlIG1hbnVhbCwgYWxzbyBjb21w
-YXJlZAo+IGFnYWluc3QKPiBzb21lIG90aGVyIEFsbHdpbm5lciBVU0IgRFQgbm9kZXMuIEFsc28g
-cGFzc2VzIHRoZSBiaW5kaW5nIGFuZCBEVEIKPiBjaGVja3MuCj4gCj4gSnVzdCBvbmUgc21hbGwg
-cXVlc3Rpb24gYmVsb3csIGJ1dCBuZXZlcnRoZWxlc3M6Cj4gCj4gUmV2aWV3ZWQtYnk6IEFuZHJl
-IFByenl3YXJhIDxhbmRyZS5wcnp5d2FyYUBhcm0uY29tPgo+IAo+ID4gU2lnbmVkLW9mZi1ieTog
-SWNlbm93eSBaaGVuZyA8dXd1QGljZW5vd3kubWU+Cj4gPiAtLS0KPiA+IE5vIGNoYW5nZXMgc2lu
-Y2UgdjEuCj4gPiAKPiA+IMKgYXJjaC9hcm0vYm9vdC9kdHMvc3VuaXYtZjFjMTAwcy5kdHNpIHwg
-MjYKPiA+ICsrKysrKysrKysrKysrKysrKysrKysrKysrCj4gPiDCoDEgZmlsZSBjaGFuZ2VkLCAy
-NiBpbnNlcnRpb25zKCspCj4gPiAKPiA+IGRpZmYgLS1naXQgYS9hcmNoL2FybS9ib290L2R0cy9z
-dW5pdi1mMWMxMDBzLmR0c2kKPiA+IGIvYXJjaC9hcm0vYm9vdC9kdHMvc3VuaXYtZjFjMTAwcy5k
-dHNpCj4gPiBpbmRleCAwZWRjMTcyNDQwN2IuLmEwMTU0MWJhNDJjNSAxMDA2NDQKPiA+IC0tLSBh
-L2FyY2gvYXJtL2Jvb3QvZHRzL3N1bml2LWYxYzEwMHMuZHRzaQo+ID4gKysrIGIvYXJjaC9hcm0v
-Ym9vdC9kdHMvc3VuaXYtZjFjMTAwcy5kdHNpCj4gPiBAQCAtMTMzLDYgKzEzMywzMiBAQCBtbWMx
-OiBtbWNAMWMxMDAwMCB7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAjc2l6ZS1jZWxscyA9IDwwPjsKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgfTsKPiA+IMKgCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdXNi
-X290ZzogdXNiQDFjMTMwMDAgewo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqBjb21wYXRpYmxlID0gImFsbHdpbm5lcixzdW5pdi1mMWMxMDBzLQo+ID4g
-bXVzYiI7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oHJlZyA9IDwweDAxYzEzMDAwIDB4MDQwMD47Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoGNsb2NrcyA9IDwmY2N1IENMS19CVVNfT1RHPjsKPiA+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmVzZXRzID0gPCZj
-Y3UgUlNUX0JVU19PVEc+Owo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqBpbnRlcnJ1cHRzID0gPDI2PjsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaW50ZXJydXB0LW5hbWVzID0gIm1jIjsKPiA+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcGh5cyA9IDwmdXNicGh5
-IDA+Owo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBw
-aHktbmFtZXMgPSAidXNiIjsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgZXh0Y29uID0gPCZ1c2JwaHkgMD47Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGFsbHdpbm5lcixzcmFtID0gPCZvdGdfc3JhbSAx
-PjsKPiAKPiBXaGF0IGlzIHRoaXMgIjEiIGZvcj8gSSBzZWUgaXQgYWxsIG92ZXIgdGhlIG90aGVy
-IEFsbHdpbm5lciBTUkFNCj4gcHJvcGVydGllcywgYnV0IGNhbid0IGZpbmQgYW55IGRvY3VtZW50
-YXRpb24gYWJvdXQgdGhhdCBudW1iZXIsIG5vcgo+IGNhbiBJCj4gc2VlIHRoYXQgaXQgd291bGQg
-YmUgdXNlZCBpbiB0aGUgY29kZS4KCkl0IG1lYW5zIG1hcHBpbmcgdGhlIFNSQU0gdG8gZGVkaWNh
-dGVkIGRldmljZSBpbnN0ZWFkIG9mIENQVS4KClRoaXMgaW5mb3JtYXRpb24gaXMgYXZhaWxhYmxl
-IGluIHByZXZpb3VzIHN1bnhpLXNyYW0udHh0IGJpbmRpbmcsIGJ1dApsb3N0IHdoZW4gY29udmVy
-dGluZyB0byBqc29uIHNjaGVtYSwgbWF5YmUgYmVjYXVzZSBpdCBkb2VzIG5vdCBmaXQgd2VsbApp
-biBqc29uIHNjaGVtYS4KCj4gCj4gRG9lcyBhbnlvbmUga25vdz8KPiAKPiBDaGVlcnMsCj4gQW5k
-cmUKPiAKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-c3RhdHVzID0gImRpc2FibGVkIjsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9
-Owo+ID4gKwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHVzYnBoeTogcGh5QDFj
-MTM0MDAgewo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqBjb21wYXRpYmxlID0gImFsbHdpbm5lcixzdW5pdi1mMWMxMDBzLXVzYi0KPiA+IHBoeSI7Cj4g
-PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlZyA9IDww
-eDAxYzEzNDAwIDB4MTA+Owo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqByZWctbmFtZXMgPSAicGh5X2N0cmwiOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjbG9ja3MgPSA8JmNjdSBDTEtfVVNCX1BIWTA+
-Owo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjbG9j
-ay1uYW1lcyA9ICJ1c2IwX3BoeSI7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoHJlc2V0cyA9IDwmY2N1IFJTVF9VU0JfUEhZMD47Cj4gPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlc2V0LW5hbWVzID0gInVz
-YjBfcmVzZXQiOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAjcGh5LWNlbGxzID0gPDE+Owo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqBzdGF0dXMgPSAiZGlzYWJsZWQiOwo+ID4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoH07Cj4gPiArCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoGNjdTogY2xvY2tAMWMyMDAwMCB7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqBjb21wYXRpYmxlID0gImFsbHdpbm5lcixzdW5pdi1mMWMxMDBz
-LWNjdSI7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqByZWcgPSA8MHgwMWMyMDAwMCAweDQwMD47Cj4gCgo=
+While my first intention was to just add 10-bit HEVC handling, I noticed
+a few format handling issues and a bit of redundancy in some cases. Final
+result is that driver now sticks to stateless decoder rules better.
+
+Format handling improvements:
+1. Default format selection is now based on HW capabilities. Before, MPEG2
+   was hardcoded but some Cedrus variants don't actually support it.
+2. Controls are registered only if related codec is supported by HW.
+3. Untiled output format is preferred, if supported, over tiled one. All
+   display engine cores support untiled format, but only first generation
+   supports tiled one.
+
+I hope this makes Cedrus eligible for destaging.
+
+Best regards,
+Jernej
+
+Jernej Skrabec (11):
+  media: cedrus: remove superfluous call
+  media: cedrus: Add format reset helpers
+  media: cedrus: use helper to set default formats
+  media: cedrus: Add helper for checking capabilities
+  media: cedrus: Filter controls based on capability
+  media: cedrus: set codec ops immediately
+  media: cedrus: Remove cedrus_codec enum
+  media: cedrus: prefer untiled capture format
+  media: cedrus: initialize controls a bit later
+  media: cedrus: Adjust buffer size based on control values
+  media: cedrus: h265: Support decoding 10-bit frames
+
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  97 +++++-----
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |  22 +--
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |   4 +-
+ .../staging/media/sunxi/cedrus/cedrus_h264.c  |   2 +-
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |  37 +++-
+ .../staging/media/sunxi/cedrus/cedrus_hw.c    |  18 +-
+ .../staging/media/sunxi/cedrus/cedrus_hw.h    |   2 +-
+ .../staging/media/sunxi/cedrus/cedrus_mpeg2.c |   2 +-
+ .../staging/media/sunxi/cedrus/cedrus_regs.h  |  16 ++
+ .../staging/media/sunxi/cedrus/cedrus_video.c | 166 ++++++++++--------
+ .../staging/media/sunxi/cedrus/cedrus_video.h |   2 +
+ .../staging/media/sunxi/cedrus/cedrus_vp8.c   |   2 +-
+ 12 files changed, 225 insertions(+), 145 deletions(-)
+
+--
+2.38.1
 
