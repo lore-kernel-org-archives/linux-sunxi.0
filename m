@@ -1,137 +1,249 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228586AD6;
-	Mon, 24 Oct 2022 20:15:42 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id y14so7596359ejd.9;
-        Mon, 24 Oct 2022 13:15:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386C77E6;
+	Tue, 25 Oct 2022 04:59:05 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id fy4so9706788ejc.5;
+        Mon, 24 Oct 2022 21:59:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aG8/ur0Br/iI3XrRIjCBua/JFahdxthZWhXGPmYrCVY=;
-        b=b1VtBkfnMQzd5t4IFtX29bRFR2tFeeqSiyK+DgVMGnDMFkwI6Fdv3tQXaLqUfYRmBX
-         LABuRSOpX3tq1jb12FjHU6AONUrmAIm6UtCJVjMth3JbjWKSa8lEGJFMsqhoLucJRxJ7
-         1EQRVkRLurSwogDmO+oiR+aT3lFzKn3a4DnRIwKUet1oBYG6Fz4SbxU9i3VHYcZ06Uv1
-         mJuSDGEYeBY+obEFffp+jSUTOioH8ymB9/SYto+FH+LiZl2eYtJHI9+gtE1oFz6Gg+Hc
-         VX48riOkEnLyY1xyp2P1a+OZnxDJ+wZq8e6B6a3SiUZkzPuG8LBMUtruHPzNciDAdX1P
-         Lt3w==
+        bh=oLEojOTx4aCHHmvecOfOHhfWOkFg1/CUYSoEkScMIjE=;
+        b=YFKwJLKrm4K1Eavnaf/cFwJnw+eKNPwrrbduQh9Q1u3d6dh1g4oTxz/nWXCADNtZRs
+         dyQZ3JRlmUwrZDVxua4O8u2qgFzUxgXn+RD8SPqYDhFxRF0z9hYcTIOzyPrlm3BLjMx5
+         G0qJ7cISAlMjxJ5w0b6KfhopOdscbufzAxSoZ57xX+l5JT/ZnJOQLjCIxhtF6TymeejL
+         CO3RPADAXVCxSyP7JNGyvsLbp2+l17wHUKoi4YYSWZibmAQm6sr74RU6aKqZozwpwNA4
+         MOwrt6CNwrmDJRYsg0M4XVxP3v/Gx5iCFKe1GFB5KjcNnXssapjx6BnGdz4tegmpD8zW
+         HbNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aG8/ur0Br/iI3XrRIjCBua/JFahdxthZWhXGPmYrCVY=;
-        b=sjA/ZIWn4bc/QwBIfM3O7QD36vi2gWglRzqFG97G8sXDgkW1OEXMPVyz9SE8IO2Fng
-         sciOB7sDll41DIFDinesNr22KbaZaiQ+GZM36vzNPedmlFj2FGvW+xf5hvk2pBnsN18s
-         NdMnaLBUaq8TEI/fsWXSeaHUdIlhNfntLlIsBPMqDQalzaz4+nqhpRDiH1nx0FO0frNb
-         vY3IS/tJ8Ehv4J184dF7SPJ1izWeUN4qt7ZykAap7jv3FHEPHmXJEFaCURzXT5Fs7L8S
-         DeHXejCm99HFVvwzR4qoL7s+3NNKJBBfH5a7CNU17k8YeW2cMkLYc/dz2pwy2QMekQNy
-         hkXQ==
-X-Gm-Message-State: ACrzQf37F7zKMQjkZ5s0R1kbhHRKRvWy2XRFanrI13RUkQA7AA3G4Dpw
-	np1ifLQFhfwcVjYMFp7HDec=
-X-Google-Smtp-Source: AMsMyM65bNrzmT64/XilaVG1H03z+PxYZa+GqmEWO472GD+ya7NEER3wo36+wnZrO7ByhQJFAsbxyQ==
-X-Received: by 2002:a17:907:7244:b0:78d:cedc:7a9e with SMTP id ds4-20020a170907724400b0078dcedc7a9emr28646077ejc.600.1666642540370;
-        Mon, 24 Oct 2022 13:15:40 -0700 (PDT)
-Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id op7-20020a170906bce700b0073d638a7a89sm332023ejb.99.2022.10.24.13.15.39
+        bh=oLEojOTx4aCHHmvecOfOHhfWOkFg1/CUYSoEkScMIjE=;
+        b=p0F3eCPYP3uTmDH7HMFNmVTocrDAimH+1B+OjI1kgLlqvAsQjndp2xe0TtpaVXgf3k
+         TuL5oHhfEUOzw3u4+u7ggB1OTPdSu6IyzpyEDWGkOTFyzLh0AxFjnGpZ3jT4sbIwrVni
+         ZiDTor4KxiUEYnKWfnuHHXeHyMakvTaX8UYlwBdavHd0CwMRZqoPqreUTvUbgr5emt08
+         p9Qzi/N9VQWiXSv8QiHKM65pJ7brBrfl3F0nWazJ+aqvUZE0SmZuLCSG064bO+qmkDv7
+         wMDtLlbJK6V4on+tmge+OwGrfRd9xvjQBmJRGAEdjK2x+Pc1qpLtAyJbd04unxEzLJQR
+         AUAg==
+X-Gm-Message-State: ACrzQf2oRfLpUSa3qI2IHXXj4rkaZXyNY384xBjuDEA9Gl7NRDIXwZ/p
+	q/2CqUG3jaVqO8Ck8HOSHkA=
+X-Google-Smtp-Source: AMsMyM5X/LNSIFW6rNz3HjHRFRCKyv5p2VVlxs+ZmoFUh4niWWPOeEJ1e+Amw6kckueNC0XW9LBO8Q==
+X-Received: by 2002:a17:906:844f:b0:78d:8bd1:ee8c with SMTP id e15-20020a170906844f00b0078d8bd1ee8cmr32012478ejy.262.1666673943304;
+        Mon, 24 Oct 2022 21:59:03 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id s14-20020a170906960e00b00780ab5a9116sm746067ejx.211.2022.10.24.21.59.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 13:15:40 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	paul.kocialkowski@bootlin.com
-Cc: mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	wens@csie.org,
-	samuel@sholland.org,
-	hverkuil-cisco@xs4all.nl,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 10/11] media: cedrus: Adjust buffer size based on control values
-Date: Mon, 24 Oct 2022 22:15:14 +0200
-Message-Id: <20221024201515.34129-11-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221024201515.34129-1-jernej.skrabec@gmail.com>
-References: <20221024201515.34129-1-jernej.skrabec@gmail.com>
+        Mon, 24 Oct 2022 21:59:02 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>, Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH v1] media: cedrus: Propagate error code from cedrus_h265_skip_bits()
+Date: Tue, 25 Oct 2022 06:59:01 +0200
+Message-ID: <12078224.O9o76ZdvQC@jernej-laptop>
+In-Reply-To: <d75c0597-2323-27f2-a7e2-b319667bdcf6@xs4all.nl>
+References: <20220914150105.209484-1-dmitry.osipenko@collabora.com> <d75c0597-2323-27f2-a7e2-b319667bdcf6@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-In some cases decoding engine needs extra space in capture buffers. This
-is the case for decoding 10-bit HEVC frames into 8-bit capture format.
-This commit only adds infrastructure for such cases.
+Hi Hans,
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/staging/media/sunxi/cedrus/cedrus.c       | 14 ++++++++++++++
- drivers/staging/media/sunxi/cedrus/cedrus.h       |  2 ++
- drivers/staging/media/sunxi/cedrus/cedrus_video.c |  4 ++++
- 3 files changed, 20 insertions(+)
+Dne ponedeljek, 24. oktober 2022 ob 13:38:36 CEST je Hans Verkuil napisal(a=
+):
+> Hi Dmitry,
+>=20
+> This patch has a conflict with this patch from Jernej:
+>=20
+> https://patchwork.linuxtv.org/project/linux-media/patch/20221017194413.11=
+983
+> 01-1-jernej.skrabec@gmail.com/
+>=20
+> I decided to take Jernej's patch first. Can you make a v2 that sits on top
+> of that patch?
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index 70b07d8bad2b..fbe3b2e7c1d4 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -68,8 +68,22 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
- 	return 0;
- }
- 
-+static int cedrus_s_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct cedrus_ctx *ctx = container_of(ctrl->handler,
-+					      struct cedrus_ctx, hdl);
-+	struct vb2_queue *vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-+					       V4L2_BUF_TYPE_VIDEO_CAPTURE);
-+
-+	if (!vb2_is_busy(vq) && !vb2_is_streaming(vq))
-+		cedrus_reset_cap_format(ctx);
-+
-+	return 0;
-+}
-+
- static const struct v4l2_ctrl_ops cedrus_ctrl_ops = {
- 	.try_ctrl = cedrus_try_ctrl,
-+	.s_ctrl = cedrus_s_ctrl,
- };
- 
- static const struct cedrus_control cedrus_controls[] = {
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
-index 5904294f3108..774fe8048ce3 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-@@ -162,6 +162,8 @@ struct cedrus_dec_ops {
- 	int (*start)(struct cedrus_ctx *ctx);
- 	void (*stop)(struct cedrus_ctx *ctx);
- 	void (*trigger)(struct cedrus_ctx *ctx);
-+	unsigned int (*extra_cap_size)(struct cedrus_ctx *ctx,
-+				       struct v4l2_pix_format *pix_fmt);
- };
- 
- struct cedrus_variant {
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-index f9f723ea3f79..53e65f74046b 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -251,6 +251,10 @@ static int cedrus_try_fmt_vid_cap_p(struct cedrus_ctx *ctx,
- 	pix_fmt->height = ctx->src_fmt.height;
- 	cedrus_prepare_format(pix_fmt);
- 
-+	if (ctx->current_codec->extra_cap_size)
-+		pix_fmt->sizeimage +=
-+			ctx->current_codec->extra_cap_size(ctx, pix_fmt);
-+
- 	return 0;
- }
- 
--- 
-2.38.1
+I believe you already merged first version of the patch for 6.1. No need fo=
+r=20
+this version though, first version already solves main issue.
+
+Best regards,
+Jernej
+
+>=20
+> Thanks!
+>=20
+> 	Hans
+>=20
+> On 9/14/22 17:01, Dmitry Osipenko wrote:
+> > The cedrus_h265_skip_bits() may get into infinite loop if decoding
+> > parameters are incorrect. In this case we detect the loop and print
+> > a error message, continuing the decoding that is fated to fail.
+> >=20
+> > Will be cleaner to abort the decoding early. Propagate the error code
+> > to cedrus_device_run() and reset hardware on the cedrus_h265_skip_bits()
+> > failure.
+> >=20
+> > Suggested-by: Jernej =C5=A0krabec <jernej.skrabec@gmail.com>
+> > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> > ---
+> >=20
+> >  drivers/staging/media/sunxi/cedrus/cedrus_dec.c  |  2 ++
+> >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 15 ++++++++++++---
+> >  drivers/staging/media/sunxi/cedrus/cedrus_hw.c   |  7 ++++++-
+> >  drivers/staging/media/sunxi/cedrus/cedrus_hw.h   |  2 ++
+> >  4 files changed, 22 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c index
+> > e7f7602a5ab4..ae5df3dc01c0 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > @@ -112,6 +112,8 @@ void cedrus_device_run(void *priv)
+> >=20
+> >  		dev->dec_ops[ctx->current_codec]->trigger(ctx);
+> >  =09
+> >  	} else {
+> >=20
+> > +		cedrus_hw_reset(dev);
+> > +
+> >=20
+> >  		v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev,
+> >  	=09
+> >  						 ctx-
+>fh.m2m_ctx,
+> >  						=20
+VB2_BUF_STATE_ERROR);
+> >=20
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
+> > 4952fc17f3e6..f409f59452d8 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > @@ -224,9 +224,10 @@ static void cedrus_h265_pred_weight_write(struct
+> > cedrus_dev *dev,>=20
+> >  	}
+> > =20
+> >  }
+> >=20
+> > -static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
+> > +static int cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
+> >=20
+> >  {
+> > =20
+> >  	int count =3D 0;
+> >=20
+> > +	int err;
+> >=20
+> >  	while (count < num) {
+> >  =09
+> >  		int tmp =3D min(num - count, 32);
+> >=20
+> > @@ -235,11 +236,16 @@ static void cedrus_h265_skip_bits(struct cedrus_d=
+ev
+> > *dev, int num)>=20
+> >  			     VE_DEC_H265_TRIGGER_FLUSH_BITS |
+> >  			     VE_DEC_H265_TRIGGER_TYPE_N_BITS(tmp));
+> >=20
+> > -		if (cedrus_wait_for(dev, VE_DEC_H265_STATUS,
+> > VE_DEC_H265_STATUS_VLD_BUSY)) +		err =3D cedrus_wait_for(dev,
+> > VE_DEC_H265_STATUS, VE_DEC_H265_STATUS_VLD_BUSY); +		if=20
+(err) {
+> >=20
+> >  			dev_err_ratelimited(dev->dev, "timed out=20
+waiting to skip bits\n");
+> >=20
+> > +			return err;
+> > +		}
+> >=20
+> >  		count +=3D tmp;
+> >  =09
+> >  	}
+> >=20
+> > +
+> > +	return 0;
+> >=20
+> >  }
+> > =20
+> >  static void cedrus_h265_write_scaling_list(struct cedrus_ctx *ctx,
+> >=20
+> > @@ -408,6 +414,7 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx,
+> > struct cedrus_run *run)>=20
+> >  	u32 pic_order_cnt[2];
+> >  	u8 *padding;
+> >  	int count;
+> >=20
+> > +	int err;
+> >=20
+> >  	u32 reg;
+> >  =09
+> >  	sps =3D run->h265.sps;
+> >=20
+> > @@ -534,7 +541,9 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx,
+> > struct cedrus_run *run)>=20
+> >  	/* Include the one bit. */
+> >  	count++;
+> >=20
+> > -	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8 -=20
+count);
+> > +	err =3D cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8=
+=20
+=2D
+> > count); +	if (err)
+> > +		return err;
+> >=20
+> >  	/* Bitstream parameters. */
+> >=20
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c index
+> > a6470a89851e..e9ceca332062 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> > @@ -168,11 +168,16 @@ void cedrus_watchdog(struct work_struct *work)
+> >=20
+> >  					=20
+VB2_BUF_STATE_ERROR);
+> > =20
+> >  }
+> >=20
+> > +void cedrus_hw_reset(struct cedrus_dev *dev)
+> > +{
+> > +	reset_control_reset(dev->rstc);
+> > +}
+> > +
+> >=20
+> >  int cedrus_hw_suspend(struct device *device)
+> >  {
+> > =20
+> >  	struct cedrus_dev *dev =3D dev_get_drvdata(device);
+> >=20
+> > -	reset_control_assert(dev->rstc);
+> > +	cedrus_hw_reset(dev);
+> >=20
+> >  	clk_disable_unprepare(dev->ram_clk);
+> >  	clk_disable_unprepare(dev->mod_clk);
+> >=20
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h index
+> > 7c92f00e36da..919c4475f0d7 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> > @@ -30,4 +30,6 @@ void cedrus_hw_remove(struct cedrus_dev *dev);
+> >=20
+> >  void cedrus_watchdog(struct work_struct *work);
+> >=20
+> > +void cedrus_hw_reset(struct cedrus_dev *dev);
+> > +
+> >=20
+> >  #endif
+
+
+
 
