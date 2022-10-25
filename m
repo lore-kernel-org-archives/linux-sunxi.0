@@ -1,248 +1,193 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386C77E6;
-	Tue, 25 Oct 2022 04:59:05 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id fy4so9706788ejc.5;
-        Mon, 24 Oct 2022 21:59:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3747E6;
+	Tue, 25 Oct 2022 05:02:03 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id n12so4342025eja.11;
+        Mon, 24 Oct 2022 22:02:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oLEojOTx4aCHHmvecOfOHhfWOkFg1/CUYSoEkScMIjE=;
-        b=YFKwJLKrm4K1Eavnaf/cFwJnw+eKNPwrrbduQh9Q1u3d6dh1g4oTxz/nWXCADNtZRs
-         dyQZ3JRlmUwrZDVxua4O8u2qgFzUxgXn+RD8SPqYDhFxRF0z9hYcTIOzyPrlm3BLjMx5
-         G0qJ7cISAlMjxJ5w0b6KfhopOdscbufzAxSoZ57xX+l5JT/ZnJOQLjCIxhtF6TymeejL
-         CO3RPADAXVCxSyP7JNGyvsLbp2+l17wHUKoi4YYSWZibmAQm6sr74RU6aKqZozwpwNA4
-         MOwrt6CNwrmDJRYsg0M4XVxP3v/Gx5iCFKe1GFB5KjcNnXssapjx6BnGdz4tegmpD8zW
-         HbNw==
+        bh=PdxBLNzeJXsLg4JPPQOp9WmP0XzX3jm+VBFzQsBEwu8=;
+        b=ZH1Av+781KKvjoXRQNesJgXbfiJS3TrOv3jGtMkFEom3W58VHecGcVB82utVr409/K
+         3jN78yr6nFMc7gCvPflM89MvTG03mCJPQvy38XW6ry1t1fjxX8QFqWRCxgFD6/KdvCvA
+         gIdHl9u8m+Ja6iZs5xFhDq1UOynBX9P9TwfZzqHZpbit/sRiBHTrpLqntfsWF3QC3Cnz
+         p9JPbB///VEgS7w0JmXWhdpx23fBgx5IPNSVvG3kadBIO7+FOCJ+9Gr1O2k/xd4qvj0d
+         y2Zjqx2EXBm2uIFk9vQ12kDs8PH/Up0X5ljKYqsACb/huPMz6N1ByKKemdqJGtvooo3J
+         X7vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oLEojOTx4aCHHmvecOfOHhfWOkFg1/CUYSoEkScMIjE=;
-        b=p0F3eCPYP3uTmDH7HMFNmVTocrDAimH+1B+OjI1kgLlqvAsQjndp2xe0TtpaVXgf3k
-         TuL5oHhfEUOzw3u4+u7ggB1OTPdSu6IyzpyEDWGkOTFyzLh0AxFjnGpZ3jT4sbIwrVni
-         ZiDTor4KxiUEYnKWfnuHHXeHyMakvTaX8UYlwBdavHd0CwMRZqoPqreUTvUbgr5emt08
-         p9Qzi/N9VQWiXSv8QiHKM65pJ7brBrfl3F0nWazJ+aqvUZE0SmZuLCSG064bO+qmkDv7
-         wMDtLlbJK6V4on+tmge+OwGrfRd9xvjQBmJRGAEdjK2x+Pc1qpLtAyJbd04unxEzLJQR
-         AUAg==
-X-Gm-Message-State: ACrzQf2oRfLpUSa3qI2IHXXj4rkaZXyNY384xBjuDEA9Gl7NRDIXwZ/p
-	q/2CqUG3jaVqO8Ck8HOSHkA=
-X-Google-Smtp-Source: AMsMyM5X/LNSIFW6rNz3HjHRFRCKyv5p2VVlxs+ZmoFUh4niWWPOeEJ1e+Amw6kckueNC0XW9LBO8Q==
-X-Received: by 2002:a17:906:844f:b0:78d:8bd1:ee8c with SMTP id e15-20020a170906844f00b0078d8bd1ee8cmr32012478ejy.262.1666673943304;
-        Mon, 24 Oct 2022 21:59:03 -0700 (PDT)
+        bh=PdxBLNzeJXsLg4JPPQOp9WmP0XzX3jm+VBFzQsBEwu8=;
+        b=dqLK9DTrlVPDeJsEd9Pb8JSXIplyXyXwVVraTppkfoVJolEgi+9noAFEHvhdeBkxOQ
+         I6vnYXwVS0WU0B1FcSJP71FFhp5McTR3PUuOc8EY0jOdNDFazfOvYLNc5NBDMF8vp3XM
+         0jpdNYSqexIQmZ1V3hZxoN5LFCp9N9sfIZ5dhVumBJhCbT3rJCJ9MWLG4ralRKkpJ2PP
+         ipkzrV7osc8nuRG7xGCdhySj+y6N9qWbvbbo/O6PipPKph/5VkEwAZCsrGaC6yLthPYG
+         A432StumVk+rbj+THrzdupbmCLP6n+AGFXhJVxgY3B+gQhLX1tIvpdOdLkKnDN8607bI
+         gzew==
+X-Gm-Message-State: ACrzQf2wDHlMxoPbVieK42ZuA9hnBeOvwA7PwaEOnMUhFJ/yu+Sjpw0l
+	jUGZ2+eHULWhDyWFvLHYsGo=
+X-Google-Smtp-Source: AMsMyM6f6O6P2agNUV8uPOTJvBphd3OgsKm+lyd13PR+wFtgsQ4fr6n5UbtP65RuOg0fjWCZI3PLsA==
+X-Received: by 2002:a17:907:ea7:b0:78f:4ae:965c with SMTP id ho39-20020a1709070ea700b0078f04ae965cmr30535593ejc.127.1666674121468;
+        Mon, 24 Oct 2022 22:02:01 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id s14-20020a170906960e00b00780ab5a9116sm746067ejx.211.2022.10.24.21.59.01
+        by smtp.gmail.com with ESMTPSA id l19-20020a056402345300b00458898fe90asm919332edc.5.2022.10.24.22.02.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 21:59:02 -0700 (PDT)
+        Mon, 24 Oct 2022 22:02:00 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>, Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v1] media: cedrus: Propagate error code from cedrus_h265_skip_bits()
-Date: Tue, 25 Oct 2022 06:59:01 +0200
-Message-ID: <12078224.O9o76ZdvQC@jernej-laptop>
-In-Reply-To: <d75c0597-2323-27f2-a7e2-b319667bdcf6@xs4all.nl>
-References: <20220914150105.209484-1-dmitry.osipenko@collabora.com> <d75c0597-2323-27f2-a7e2-b319667bdcf6@xs4all.nl>
+To: linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hans.verkuil@cisco.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maxime Ripard <mripard@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v7 0/6] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / ISP Driver
+Date: Tue, 25 Oct 2022 07:01:59 +0200
+Message-ID: <4776447.31r3eYUQgx@jernej-laptop>
+In-Reply-To: <Y1KpQl5Nlhd0kKId@aptenodytes>
+References: <20220924153304.77598-1-paul.kocialkowski@bootlin.com> <Y1KpQl5Nlhd0kKId@aptenodytes>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Hans,
+Hi Paul,
 
-Dne ponedeljek, 24. oktober 2022 ob 13:38:36 CEST je Hans Verkuil napisal(a=
-):
-> Hi Dmitry,
->=20
-> This patch has a conflict with this patch from Jernej:
->=20
-> https://patchwork.linuxtv.org/project/linux-media/patch/20221017194413.11=
-983
-> 01-1-jernej.skrabec@gmail.com/
->=20
-> I decided to take Jernej's patch first. Can you make a v2 that sits on top
-> of that patch?
+Dne petek, 21. oktober 2022 ob 16:14:26 CEST je Paul Kocialkowski napisal(a):
+> Hi,
+> 
+> On Sat 24 Sep 22, 17:32, Paul Kocialkowski wrote:
+> > This part only concerns the introduction of the new ISP driver and related
+> > adaptation of the CSI driver.
+> 
+> I don't think there is any significant issue preventing this series from
+> being merged in Linux 6.2 at this point.
+> 
+> Could we move forward on it? It's been around for quite some time now.
 
-I believe you already merged first version of the patch for 6.1. No need fo=
-r=20
-this version though, first version already solves main issue.
+While I'm no expert in ISP drivers, I can take a look (for other series too) 
+this week.
+
+Could you attach output of v4l2-complience output (for both)?
 
 Best regards,
 Jernej
 
->=20
+> 
 > Thanks!
->=20
-> 	Hans
->=20
-> On 9/14/22 17:01, Dmitry Osipenko wrote:
-> > The cedrus_h265_skip_bits() may get into infinite loop if decoding
-> > parameters are incorrect. In this case we detect the loop and print
-> > a error message, continuing the decoding that is fated to fail.
-> >=20
-> > Will be cleaner to abort the decoding early. Propagate the error code
-> > to cedrus_device_run() and reset hardware on the cedrus_h265_skip_bits()
-> > failure.
-> >=20
-> > Suggested-by: Jernej =C5=A0krabec <jernej.skrabec@gmail.com>
-> > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> > ---
-> >=20
-> >  drivers/staging/media/sunxi/cedrus/cedrus_dec.c  |  2 ++
-> >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 15 ++++++++++++---
-> >  drivers/staging/media/sunxi/cedrus/cedrus_hw.c   |  7 ++++++-
-> >  drivers/staging/media/sunxi/cedrus/cedrus_hw.h   |  2 ++
-> >  4 files changed, 22 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> > b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c index
-> > e7f7602a5ab4..ae5df3dc01c0 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> > @@ -112,6 +112,8 @@ void cedrus_device_run(void *priv)
-> >=20
-> >  		dev->dec_ops[ctx->current_codec]->trigger(ctx);
-> >  =09
-> >  	} else {
-> >=20
-> > +		cedrus_hw_reset(dev);
-> > +
-> >=20
-> >  		v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev,
-> >  	=09
-> >  						 ctx-
->fh.m2m_ctx,
-> >  						=20
-VB2_BUF_STATE_ERROR);
-> >=20
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
-> > 4952fc17f3e6..f409f59452d8 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > @@ -224,9 +224,10 @@ static void cedrus_h265_pred_weight_write(struct
-> > cedrus_dev *dev,>=20
-> >  	}
-> > =20
-> >  }
-> >=20
-> > -static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
-> > +static int cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
-> >=20
-> >  {
-> > =20
-> >  	int count =3D 0;
-> >=20
-> > +	int err;
-> >=20
-> >  	while (count < num) {
-> >  =09
-> >  		int tmp =3D min(num - count, 32);
-> >=20
-> > @@ -235,11 +236,16 @@ static void cedrus_h265_skip_bits(struct cedrus_d=
-ev
-> > *dev, int num)>=20
-> >  			     VE_DEC_H265_TRIGGER_FLUSH_BITS |
-> >  			     VE_DEC_H265_TRIGGER_TYPE_N_BITS(tmp));
-> >=20
-> > -		if (cedrus_wait_for(dev, VE_DEC_H265_STATUS,
-> > VE_DEC_H265_STATUS_VLD_BUSY)) +		err =3D cedrus_wait_for(dev,
-> > VE_DEC_H265_STATUS, VE_DEC_H265_STATUS_VLD_BUSY); +		if=20
-(err) {
-> >=20
-> >  			dev_err_ratelimited(dev->dev, "timed out=20
-waiting to skip bits\n");
-> >=20
-> > +			return err;
-> > +		}
-> >=20
-> >  		count +=3D tmp;
-> >  =09
-> >  	}
-> >=20
-> > +
-> > +	return 0;
-> >=20
-> >  }
-> > =20
-> >  static void cedrus_h265_write_scaling_list(struct cedrus_ctx *ctx,
-> >=20
-> > @@ -408,6 +414,7 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx,
-> > struct cedrus_run *run)>=20
-> >  	u32 pic_order_cnt[2];
-> >  	u8 *padding;
-> >  	int count;
-> >=20
-> > +	int err;
-> >=20
-> >  	u32 reg;
-> >  =09
-> >  	sps =3D run->h265.sps;
-> >=20
-> > @@ -534,7 +541,9 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx,
-> > struct cedrus_run *run)>=20
-> >  	/* Include the one bit. */
-> >  	count++;
-> >=20
-> > -	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8 -=20
-count);
-> > +	err =3D cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8=
-=20
-=2D
-> > count); +	if (err)
-> > +		return err;
-> >=20
-> >  	/* Bitstream parameters. */
-> >=20
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> > b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c index
-> > a6470a89851e..e9ceca332062 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> > @@ -168,11 +168,16 @@ void cedrus_watchdog(struct work_struct *work)
-> >=20
-> >  					=20
-VB2_BUF_STATE_ERROR);
-> > =20
-> >  }
-> >=20
-> > +void cedrus_hw_reset(struct cedrus_dev *dev)
-> > +{
-> > +	reset_control_reset(dev->rstc);
-> > +}
-> > +
-> >=20
-> >  int cedrus_hw_suspend(struct device *device)
-> >  {
-> > =20
-> >  	struct cedrus_dev *dev =3D dev_get_drvdata(device);
-> >=20
-> > -	reset_control_assert(dev->rstc);
-> > +	cedrus_hw_reset(dev);
-> >=20
-> >  	clk_disable_unprepare(dev->ram_clk);
-> >  	clk_disable_unprepare(dev->mod_clk);
-> >=20
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-> > b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h index
-> > 7c92f00e36da..919c4475f0d7 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-> > @@ -30,4 +30,6 @@ void cedrus_hw_remove(struct cedrus_dev *dev);
-> >=20
-> >  void cedrus_watchdog(struct work_struct *work);
-> >=20
-> > +void cedrus_hw_reset(struct cedrus_dev *dev);
-> > +
-> >=20
-> >  #endif
+> 
+> Paul
+> 
+> > Most non-dt patches still need reviewing but should be pretty
+> > straightforward. Since this multi-part series has been going on for a
+> > while, it would be great to see it merged soon!
+> > 
+> > Changes since v6:
+> > - Added a per-compatible check for the required port in dt binding;
+> > - Reworded ISP output port description in dt binding;
+> > - Reversed ISP detection order to have fwnode first;
+> > - Removed info print when ISP link is detected;
+> > - Added warn print when ISP is linked but not enabled in config;
+> > - Fixed sun6i_csi_isp_detect return type;
+> > - Removed useless initialization in sun6i_csi_isp_detect;
+> > - Fixed typo in sun6i_csi_isp_detect;
+> > - Added collected tags;
+> > 
+> > Changes since v5:
+> > - Rebased on latest media tree;
+> > - Added collected tag;
+> > - Switched to using media_pad_remote_pad_first;
+> > - Switched to using media_pad_remote_pad_unique.
+> > 
+> > Changes since v4:
+> > - Fixed device-tree binding indent-align;
+> > - Added collected tag;
+> > - Rebased on latest media tree;
+> > 
+> > Changes since v3:
+> > - Removed the v4l2 controls handler from the driver;
+> > - Added variant structure for table sizes;
+> > - Removed the info message about video device registration;
+> > - Removed comments in uAPI header;
+> > - Used '/schemas/graph.yaml#/properties/port' whenever possible in
+> > bindings; - Added CSI patches dependent on the ISP driver;
+> > - Rebased on the latest media tree;
+> > 
+> > Changes since all-in-one v2:
+> > - Updated Kconfig to follow the latest media-wide changes;
+> > - Reworked async subdev handling with a dedicated structure holding the
+> > 
+> >   corresponding source to avoid matching in the driver;
+> > 
+> > - Switched to clock-managed regmap mmio;
+> > - Used helper to get a single enabled link for an entity's pad, to replace
+> > 
+> >   source selection at link_validate time and select the remote source at
+> >   stream on time instead;
+> > 
+> > - Added mutex for mbus format serialization;
+> > - Used endpoint-base instead of video-interface for "internal" endpoints
+> > 
+> >   in device-tree schema;
+> > 
+> > - Added TODO with unstaging requirements;
+> > - Various cosmetic cleanups;
+> > - Updated copyright years;
+> > 
+> > Paul Kocialkowski (6):
+> >   dt-bindings: media: Add Allwinner A31 ISP bindings documentation
+> >   dt-bindings: media: sun6i-a31-csi: Add internal output port to the ISP
+> >   staging: media: Add support for the Allwinner A31 ISP
+> >   MAINTAINERS: Add entry for the Allwinner A31 ISP driver
+> >   media: sun6i-csi: Detect the availability of the ISP
+> >   media: sun6i-csi: Add support for hooking to the isp devices
+> >  
+> >  .../media/allwinner,sun6i-a31-csi.yaml        |   4 +
+> >  .../media/allwinner,sun6i-a31-isp.yaml        | 101 +++
+> >  MAINTAINERS                                   |   9 +
+> >  .../platform/sunxi/sun6i-csi/sun6i_csi.c      |  75 +-
+> >  .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  10 +
+> >  .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |  32 +-
+> >  .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  19 +-
+> >  .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   1 +
+> >  drivers/staging/media/sunxi/Kconfig           |   1 +
+> >  drivers/staging/media/sunxi/Makefile          |   1 +
+> >  drivers/staging/media/sunxi/sun6i-isp/Kconfig |  15 +
+> >  .../staging/media/sunxi/sun6i-isp/Makefile    |   4 +
+> >  .../staging/media/sunxi/sun6i-isp/TODO.txt    |   6 +
+> >  .../staging/media/sunxi/sun6i-isp/sun6i_isp.c | 555 +++++++++++++
+> >  .../staging/media/sunxi/sun6i-isp/sun6i_isp.h |  90 +++
+> >  .../media/sunxi/sun6i-isp/sun6i_isp_capture.c | 742 ++++++++++++++++++
+> >  .../media/sunxi/sun6i-isp/sun6i_isp_capture.h |  78 ++
+> >  .../media/sunxi/sun6i-isp/sun6i_isp_params.c  | 566 +++++++++++++
+> >  .../media/sunxi/sun6i-isp/sun6i_isp_params.h  |  52 ++
+> >  .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 577 ++++++++++++++
+> >  .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |  66 ++
+> >  .../media/sunxi/sun6i-isp/sun6i_isp_reg.h     | 275 +++++++
+> >  .../sunxi/sun6i-isp/uapi/sun6i-isp-config.h   |  43 +
+> >  23 files changed, 3309 insertions(+), 13 deletions(-)
+> >  create mode 100644
+> >  Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Kconfig
+> >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Makefile
+> >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/TODO.txt
+> >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+> >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.h
+> >  create mode 100644
+> >  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c create mode
+> >  100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.h create
+> >  mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+> >  create mode 100644
+> >  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.h create mode
+> >  100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c create
+> >  mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h
+> >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_reg.h
+> >  create mode 100644
+> >  drivers/staging/media/sunxi/sun6i-isp/uapi/sun6i-isp-config.h
 
 
 
