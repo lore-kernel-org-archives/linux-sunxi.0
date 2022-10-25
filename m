@@ -1,259 +1,183 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6CE77B
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Oct 2022 15:44:50 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 851CAD6E;
-	Tue, 25 Oct 2022 08:44:56 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CED2D3F71A;
-	Tue, 25 Oct 2022 08:44:48 -0700 (PDT)
-Date: Tue, 25 Oct 2022 16:44:45 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Icenowy Zheng <uwu@icenowy.me>
+Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D827B
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Oct 2022 15:47:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1666712868; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=XpElBdmhG95pvkRZTtu7NrokXpygpK3nj3LHpOqR18J9NJ17F3L6mo93OD8XnwdXeMuCzxmA5ejd2R2hTwDNsWdUC57ejEsIejBz483G+B/B9bBS2E1l4KxYbP3RhHmX9sSjET9gITmvMHnpYfjjBfy5HxbRYEnW3WLV9LDBTD4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1666712868; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=SFN3MHYwqgQ4syMrfHMBznZwgx3+83HJRzWEajE+UQA=; 
+	b=ON5T1N1al+QI9olfJNdmML8gv21j+x/+oRVlHoNHhcqB+bZFA05noNwD2Zl4C4Wyxqli75h7KH2XVGqV+6anHbW6nBvuuYTgzV58U/q0mw3zzWg6miSvKlPXmuznHOneAiojRqwzi4ug0ObgzciaxeIDA8b7wtHFjEi5IVUzoTU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1666712868;
+	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=SFN3MHYwqgQ4syMrfHMBznZwgx3+83HJRzWEajE+UQA=;
+	b=NUoeZAOGlwDppeGcRp4tRtXsH8vYqgXJEpj42ncgD4TclAD1+h/TjrV2AtBSwCh9
+	4dXPH2D91wbw2ZQ+WYTVIEYHUGi53/F5DYKAI2+5bJ5eqi76UQUSH8nrihJmDgNVXPE
+	+k4khj8AR3lQsIFp65i7Fy1/BFsBDCVCCPmkCClw=
+Received: from edelgard.fodlan.icenowy.me (112.94.102.105 [112.94.102.105]) by mx.zohomail.com
+	with SMTPS id 1666712866134332.719886075305; Tue, 25 Oct 2022 08:47:46 -0700 (PDT)
+Message-ID: <6ba37039524563be81a807df2f623a296e74c372.camel@icenowy.me>
+Subject: Re: [PATCH 3/3] ARM: dts: suniv: Add Lctech Pi F1C200s devicetree
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Andre Przywara <andre.przywara@arm.com>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
  <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Rob Herring
  <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- soc@kernel.org, =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Subject: Re: [PATCH 3/3] ARM: dts: suniv: Add Lctech Pi F1C200s devicetree
-Message-ID: <20221025164445.12f5f89c@donnerap.cambridge.arm.com>
-In-Reply-To: <73ea157f7e0c75f8bda16b3ac464be58fe7fb3ab.camel@icenowy.me>
+ <krzysztof.kozlowski+dt@linaro.org>,  devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,  linux-sunxi@lists.linux.dev,
+ soc@kernel.org, =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>
+Date: Tue, 25 Oct 2022 23:47:42 +0800
+In-Reply-To: <20221025164445.12f5f89c@donnerap.cambridge.arm.com>
 References: <20221025145909.2837939-1-andre.przywara@arm.com>
-	<20221025145909.2837939-4-andre.przywara@arm.com>
-	<73ea157f7e0c75f8bda16b3ac464be58fe7fb3ab.camel@icenowy.me>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	 <20221025145909.2837939-4-andre.przywara@arm.com>
+	 <73ea157f7e0c75f8bda16b3ac464be58fe7fb3ab.camel@icenowy.me>
+	 <20221025164445.12f5f89c@donnerap.cambridge.arm.com>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
 
-On Tue, 25 Oct 2022 23:30:26 +0800
-Icenowy Zheng <uwu@icenowy.me> wrote:
-
-Hi Icenowy,
-
-thanks for having a look!
-And btw, forgot to mention in the cover letter: this relies on the USB bits
-in your series. Which works nicely, even in host mode.
-
-> =E5=9C=A8 2022-10-25=E6=98=9F=E6=9C=9F=E4=BA=8C=E7=9A=84 15:59 +0100=EF=
-=BC=8CAndre Przywara=E5=86=99=E9=81=93=EF=BC=9A
-> > The Lctech Pi F1C200s (also previously known under the Cherry Pi
-> > brand) =20
->=20
-> Oh? Are they the same hardware?
-
-My board looks identical to this one:
-https://www.cnx-software.com/2022/02/03/more-allwinner-f1c200s-arm9-boards-=
-mangopi-r3-and-cherrypi-f1c200s/#cherrypi-f1c200s
-
-The only difference is the silkscreen, there is no cherry logo on mine,
-but the (no longer working) URL is the same, so it's the same board from
-the same company. I guess legal troubles?
-
-> > is a small development board with the Allwinner F1C200s SoC. This is
-> > the
-> > same as the F1C100s, but with 64MB instead of 32MB co-packaged DRAM.
-> >=20
-> > Alongside the obligatory micro-SD card slot, the board features a
-> > SPI-NAND flash chip, LCD and touch connectors, and unpopulated
-> > expansion header pins.
-> > There are two USB Type-C ports on the board: One supplies the power,
-> > also
-> > connects to the USB MUSB OTG controller port. The other one is
-> > connected
-> > to an CH340 USB serial chip, which in turn is connected to UART1.
-> >=20
-> > Add a devicetree file, so that the board can be used easily.
-> >=20
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> > =C2=A0arch/arm/boot/dts/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0 1 +
-> > =C2=A0arch/arm/boot/dts/suniv-f1c100s.dtsi=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 ++
-> > =C2=A0arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts | 80
-> > +++++++++++++++++++
-> > =C2=A03 files changed, 86 insertions(+)
-> > =C2=A0create mode 100644 arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts
-> >=20
-> > diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-> > index 6abf6434eb372..f99c5c20bf7ef 100644
-> > --- a/arch/arm/boot/dts/Makefile
-> > +++ b/arch/arm/boot/dts/Makefile
-> > @@ -1394,6 +1394,7 @@ dtb-$(CONFIG_MACH_SUN9I) +=3D \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun9i-a80-cubieboard4.d=
-tb
-> > =C2=A0dtb-$(CONFIG_MACH_SUNIV) +=3D \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0suniv-f1c100s-licheepi-=
-nano.dtb \
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0suniv-f1c200s-lctech-pi.dtb \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0suniv-f1c200s-popstick-=
-v1.1.dtb
-> > =C2=A0dtb-$(CONFIG_ARCH_TEGRA_2x_SOC) +=3D \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0tegra20-acer-a500-picas=
-so.dtb \
-> > diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi
-> > b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-> > index 0f24c766c9fc5..2ec022e92eea8 100644
-> > --- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
-> > +++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-> > @@ -201,6 +201,11 @@ uart0_pe_pins: uart0-pe-pins {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pins =3D "PE0", "PE1";
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0function =3D "uart0";
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-};
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0uart1_=
-pa_pins: uart1-pa-pins {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pins =3D "PA2", "PA3";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0function =3D "uart1";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}; =20
->=20
-> Should this be in a splitted commit?
-
-I don't know if this is really necessary, but am of course happy to spin
-this one out, if needed.
-
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0};
-> > =C2=A0
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0timer@1c20c00 {
-> > diff --git a/arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts
-> > b/arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts
-> > new file mode 100644
-> > index 0000000000000..a9d1778395438
-> > --- /dev/null
-> > +++ b/arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts
-> > @@ -0,0 +1,80 @@
-> > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> > +/*
-> > + * Copyright 2022 Arm Ltd,
-> > + * based on work:
-> > + *=C2=A0=C2=A0 Copyright 2022 Icenowy Zheng <uwu@icenowy.me>
-> > + */
-> > +
-> > +/dts-v1/;
-> > +#include "suniv-f1c100s.dtsi"
-> > +
-> > +#include <dt-bindings/gpio/gpio.h>
-> > +
-> > +/ {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0model =3D "Lctech Pi F1C200s=
-";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0compatible =3D "lctech,pi-f1=
-c200s", "allwinner,suniv-f1c200s",
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "allwinner,suniv-f1c100s";
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aliases {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0mmc0 =3D &mmc0;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0serial0 =3D &uart1;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0spi0 =3D &spi0;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0};
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0chosen {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0stdout-path =3D "serial0:115200n8";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0};
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0reg_vcc3v3: regulator-3v3 {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0compatible =3D "regulator-fixed";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0regulator-name =3D "vcc3v3";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0regulator-min-microvolt =3D <3300000>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0regulator-max-microvolt =3D <3300000>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0};
-> > +};
-> > +
-> > +&mmc0 {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0broken-cd;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0bus-width =3D <4>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0disable-wp;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vmmc-supply =3D <&reg_vcc3v3=
->;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
-> > +};
-> > +
-> > +&otg_sram {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
-> > +};
-> > +
-> > +&spi0 {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pinctrl-names =3D "default";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pinctrl-0 =3D <&spi0_pc_pins=
->;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0flash@0 {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0compatible =3D "spi-nand";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0reg =3D <0>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0#address-cells =3D <1>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0#size-cells =3D <1>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0spi-max-frequency =3D <40000000>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0};
-> > +};
-> > +
-> > +&uart1 {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pinctrl-names =3D "default";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pinctrl-0 =3D <&uart1_pa_pin=
-s>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
-> > +};
-> > +
-> > +/*
-> > + * This is a Type-C socket, but CC1/2 are not connected, and VBUS is
-> > connected
-> > + * to Vin, which supplies the board. Host mode works (if the board
-> > is powered
-> > + * otherwise), but peripheral is probably the intention.
-> > + */
-> > +&usb_otg {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dr_mode =3D "peripheral";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
-> > +}; =20
->=20
-> Finally we should get able to override dr_mode just by HW.
-
-Do you mean by software? Yeah, that would be useful. Otherwise one could
-dedicate a GPIO to a fake ID_DET pin, I guess. Or use a DT overlay.
-
-Cheers,
-Andre
-
-> > +
-> > +&usbphy {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
-> > +}; =20
->=20
+5ZyoIDIwMjItMTAtMjXmmJ/mnJ/kuoznmoQgMTY6NDQgKzAxMDDvvIxBbmRyZSBQcnp5d2FyYeWG
+memBk++8mgo+IE9uIFR1ZSwgMjUgT2N0IDIwMjIgMjM6MzA6MjYgKzA4MDAKPiBJY2Vub3d5IFpo
+ZW5nIDx1d3VAaWNlbm93eS5tZT4gd3JvdGU6Cj4gCj4gSGkgSWNlbm93eSwKPiAKPiB0aGFua3Mg
+Zm9yIGhhdmluZyBhIGxvb2shCj4gQW5kIGJ0dywgZm9yZ290IHRvIG1lbnRpb24gaW4gdGhlIGNv
+dmVyIGxldHRlcjogdGhpcyByZWxpZXMgb24gdGhlCj4gVVNCIGJpdHMKPiBpbiB5b3VyIHNlcmll
+cy4gV2hpY2ggd29ya3MgbmljZWx5LCBldmVuIGluIGhvc3QgbW9kZS4KPiAKPiA+IOWcqCAyMDIy
+LTEwLTI15pif5pyf5LqM55qEIDE1OjU5ICswMTAw77yMQW5kcmUgUHJ6eXdhcmHlhpnpgZPvvJoK
+PiA+ID4gVGhlIExjdGVjaCBQaSBGMUMyMDBzIChhbHNvIHByZXZpb3VzbHkga25vd24gdW5kZXIg
+dGhlIENoZXJyeSBQaQo+ID4gPiBicmFuZCnCoCAKPiA+IAo+ID4gT2g/IEFyZSB0aGV5IHRoZSBz
+YW1lIGhhcmR3YXJlPwo+IAo+IE15IGJvYXJkIGxvb2tzIGlkZW50aWNhbCB0byB0aGlzIG9uZToK
+PiBodHRwczovL3d3dy5jbngtc29mdHdhcmUuY29tLzIwMjIvMDIvMDMvbW9yZS1hbGx3aW5uZXIt
+ZjFjMjAwcy1hcm05LWJvYXJkcy1tYW5nb3BpLXIzLWFuZC1jaGVycnlwaS1mMWMyMDBzLyNjaGVy
+cnlwaS1mMWMyMDBzCj4gCj4gVGhlIG9ubHkgZGlmZmVyZW5jZSBpcyB0aGUgc2lsa3NjcmVlbiwg
+dGhlcmUgaXMgbm8gY2hlcnJ5IGxvZ28gb24KPiBtaW5lLAo+IGJ1dCB0aGUgKG5vIGxvbmdlciB3
+b3JraW5nKSBVUkwgaXMgdGhlIHNhbWUsIHNvIGl0J3MgdGhlIHNhbWUgYm9hcmQKPiBmcm9tCj4g
+dGhlIHNhbWUgY29tcGFueS4gSSBndWVzcyBsZWdhbCB0cm91Ymxlcz8KPiAKPiA+ID4gaXMgYSBz
+bWFsbCBkZXZlbG9wbWVudCBib2FyZCB3aXRoIHRoZSBBbGx3aW5uZXIgRjFDMjAwcyBTb0MuIFRo
+aXMKPiA+ID4gaXMKPiA+ID4gdGhlCj4gPiA+IHNhbWUgYXMgdGhlIEYxQzEwMHMsIGJ1dCB3aXRo
+IDY0TUIgaW5zdGVhZCBvZiAzMk1CIGNvLXBhY2thZ2VkCj4gPiA+IERSQU0uCj4gPiA+IAo+ID4g
+PiBBbG9uZ3NpZGUgdGhlIG9ibGlnYXRvcnkgbWljcm8tU0QgY2FyZCBzbG90LCB0aGUgYm9hcmQg
+ZmVhdHVyZXMgYQo+ID4gPiBTUEktTkFORCBmbGFzaCBjaGlwLCBMQ0QgYW5kIHRvdWNoIGNvbm5l
+Y3RvcnMsIGFuZCB1bnBvcHVsYXRlZAo+ID4gPiBleHBhbnNpb24gaGVhZGVyIHBpbnMuCj4gPiA+
+IFRoZXJlIGFyZSB0d28gVVNCIFR5cGUtQyBwb3J0cyBvbiB0aGUgYm9hcmQ6IE9uZSBzdXBwbGll
+cyB0aGUKPiA+ID4gcG93ZXIsCj4gPiA+IGFsc28KPiA+ID4gY29ubmVjdHMgdG8gdGhlIFVTQiBN
+VVNCIE9URyBjb250cm9sbGVyIHBvcnQuIFRoZSBvdGhlciBvbmUgaXMKPiA+ID4gY29ubmVjdGVk
+Cj4gPiA+IHRvIGFuIENIMzQwIFVTQiBzZXJpYWwgY2hpcCwgd2hpY2ggaW4gdHVybiBpcyBjb25u
+ZWN0ZWQgdG8gVUFSVDEuCj4gPiA+IAo+ID4gPiBBZGQgYSBkZXZpY2V0cmVlIGZpbGUsIHNvIHRo
+YXQgdGhlIGJvYXJkIGNhbiBiZSB1c2VkIGVhc2lseS4KPiA+ID4gCj4gPiA+IFNpZ25lZC1vZmYt
+Ynk6IEFuZHJlIFByenl3YXJhIDxhbmRyZS5wcnp5d2FyYUBhcm0uY29tPgo+ID4gPiAtLS0KPiA+
+ID4gwqBhcmNoL2FybS9ib290L2R0cy9NYWtlZmlsZcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIHzCoCAxICsKPiA+ID4gwqBhcmNoL2FybS9ib290L2R0cy9zdW5pdi1mMWMx
+MDBzLmR0c2nCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDUgKysKPiA+ID4gwqBhcmNoL2FybS9ib290
+L2R0cy9zdW5pdi1mMWMyMDBzLWxjdGVjaC1waS5kdHMgfCA4MAo+ID4gPiArKysrKysrKysrKysr
+KysrKysrCj4gPiA+IMKgMyBmaWxlcyBjaGFuZ2VkLCA4NiBpbnNlcnRpb25zKCspCj4gPiA+IMKg
+Y3JlYXRlIG1vZGUgMTAwNjQ0IGFyY2gvYXJtL2Jvb3QvZHRzL3N1bml2LWYxYzIwMHMtbGN0ZWNo
+LXBpLmR0cwo+ID4gPiAKPiA+ID4gZGlmZiAtLWdpdCBhL2FyY2gvYXJtL2Jvb3QvZHRzL01ha2Vm
+aWxlCj4gPiA+IGIvYXJjaC9hcm0vYm9vdC9kdHMvTWFrZWZpbGUKPiA+ID4gaW5kZXggNmFiZjY0
+MzRlYjM3Mi4uZjk5YzVjMjBiZjdlZiAxMDA2NDQKPiA+ID4gLS0tIGEvYXJjaC9hcm0vYm9vdC9k
+dHMvTWFrZWZpbGUKPiA+ID4gKysrIGIvYXJjaC9hcm0vYm9vdC9kdHMvTWFrZWZpbGUKPiA+ID4g
+QEAgLTEzOTQsNiArMTM5NCw3IEBAIGR0Yi0kKENPTkZJR19NQUNIX1NVTjlJKSArPSBcCj4gPiA+
+IMKgwqDCoMKgwqDCoMKgwqBzdW45aS1hODAtY3ViaWVib2FyZDQuZHRiCj4gPiA+IMKgZHRiLSQo
+Q09ORklHX01BQ0hfU1VOSVYpICs9IFwKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoHN1bml2LWYxYzEw
+MHMtbGljaGVlcGktbmFuby5kdGIgXAo+ID4gPiArwqDCoMKgwqDCoMKgwqBzdW5pdi1mMWMyMDBz
+LWxjdGVjaC1waS5kdGIgXAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgc3VuaXYtZjFjMjAwcy1wb3Bz
+dGljay12MS4xLmR0Ygo+ID4gPiDCoGR0Yi0kKENPTkZJR19BUkNIX1RFR1JBXzJ4X1NPQykgKz0g
+XAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgdGVncmEyMC1hY2VyLWE1MDAtcGljYXNzby5kdGIgXAo+
+ID4gPiBkaWZmIC0tZ2l0IGEvYXJjaC9hcm0vYm9vdC9kdHMvc3VuaXYtZjFjMTAwcy5kdHNpCj4g
+PiA+IGIvYXJjaC9hcm0vYm9vdC9kdHMvc3VuaXYtZjFjMTAwcy5kdHNpCj4gPiA+IGluZGV4IDBm
+MjRjNzY2YzlmYzUuLjJlYzAyMmU5MmVlYTggMTAwNjQ0Cj4gPiA+IC0tLSBhL2FyY2gvYXJtL2Jv
+b3QvZHRzL3N1bml2LWYxYzEwMHMuZHRzaQo+ID4gPiArKysgYi9hcmNoL2FybS9ib290L2R0cy9z
+dW5pdi1mMWMxMDBzLmR0c2kKPiA+ID4gQEAgLTIwMSw2ICsyMDEsMTEgQEAgdWFydDBfcGVfcGlu
+czogdWFydDAtcGUtcGlucyB7Cj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBwaW5zID0gIlBFMCIsICJQRTEiOwo+ID4g
+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgZnVuY3Rpb24gPSAidWFydDAiOwo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9Owo+ID4gPiArCj4gPiA+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdWFydDFfcGFfcGluczogdWFydDEtcGEt
+cGlucyB7Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoHBpbnMgPSAiUEEyIiwgIlBBMyI7Cj4gPiA+ICvCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGZ1bmN0
+aW9uID0gInVhcnQxIjsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqB9O8KgIAo+ID4gCj4gPiBTaG91bGQgdGhpcyBiZSBpbiBhIHNwbGl0dGVkIGNv
+bW1pdD8KPiAKPiBJIGRvbid0IGtub3cgaWYgdGhpcyBpcyByZWFsbHkgbmVjZXNzYXJ5LCBidXQg
+YW0gb2YgY291cnNlIGhhcHB5IHRvCj4gc3Bpbgo+IHRoaXMgb25lIG91dCwgaWYgbmVlZGVkLgo+
+IAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoH07Cj4gPiA+IMKgCj4gPiA+
+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdGltZXJAMWMyMGMwMCB7Cj4gPiA+IGRp
+ZmYgLS1naXQgYS9hcmNoL2FybS9ib290L2R0cy9zdW5pdi1mMWMyMDBzLWxjdGVjaC1waS5kdHMK
+PiA+ID4gYi9hcmNoL2FybS9ib290L2R0cy9zdW5pdi1mMWMyMDBzLWxjdGVjaC1waS5kdHMKPiA+
+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPiA+ID4gaW5kZXggMDAwMDAwMDAwMDAwMC4uYTlkMTc3
+ODM5NTQzOAo+ID4gPiAtLS0gL2Rldi9udWxsCj4gPiA+ICsrKyBiL2FyY2gvYXJtL2Jvb3QvZHRz
+L3N1bml2LWYxYzIwMHMtbGN0ZWNoLXBpLmR0cwo+ID4gPiBAQCAtMCwwICsxLDgwIEBACj4gPiA+
+ICsvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogKEdQTC0yLjArIE9SIE1JVCkKPiA+ID4gKy8q
+Cj4gPiA+ICsgKiBDb3B5cmlnaHQgMjAyMiBBcm0gTHRkLAo+ID4gPiArICogYmFzZWQgb24gd29y
+azoKPiA+ID4gKyAqwqDCoCBDb3B5cmlnaHQgMjAyMiBJY2Vub3d5IFpoZW5nIDx1d3VAaWNlbm93
+eS5tZT4KPiA+ID4gKyAqLwo+ID4gPiArCj4gPiA+ICsvZHRzLXYxLzsKPiA+ID4gKyNpbmNsdWRl
+ICJzdW5pdi1mMWMxMDBzLmR0c2kiCj4gPiA+ICsKPiA+ID4gKyNpbmNsdWRlIDxkdC1iaW5kaW5n
+cy9ncGlvL2dwaW8uaD4KPiA+ID4gKwo+ID4gPiArLyB7Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoG1v
+ZGVsID0gIkxjdGVjaCBQaSBGMUMyMDBzIjsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgY29tcGF0aWJs
+ZSA9ICJsY3RlY2gscGktZjFjMjAwcyIsICJhbGx3aW5uZXIsc3VuaXYtCj4gPiA+IGYxYzIwMHMi
+LAo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgImFsbHdpbm5l
+cixzdW5pdi1mMWMxMDBzIjsKPiA+ID4gKwo+ID4gPiArwqDCoMKgwqDCoMKgwqBhbGlhc2VzIHsK
+PiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoG1tYzAgPSAmbW1jMDsKPiA+ID4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHNlcmlhbDAgPSAmdWFydDE7Cj4gPiA+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBzcGkwID0gJnNwaTA7Cj4gPiA+ICvCoMKgwqDC
+oMKgwqDCoH07Cj4gPiA+ICsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgY2hvc2VuIHsKPiA+ID4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0ZG91dC1wYXRoID0gInNlcmlhbDA6MTE1MjAw
+bjgiOwo+ID4gPiArwqDCoMKgwqDCoMKgwqB9Owo+ID4gPiArCj4gPiA+ICvCoMKgwqDCoMKgwqDC
+oHJlZ192Y2MzdjM6IHJlZ3VsYXRvci0zdjMgewo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgY29tcGF0aWJsZSA9ICJyZWd1bGF0b3ItZml4ZWQiOwo+ID4gPiArwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgcmVndWxhdG9yLW5hbWUgPSAidmNjM3YzIjsKPiA+ID4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlZ3VsYXRvci1taW4tbWljcm92b2x0ID0gPDMz
+MDAwMDA+Owo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmVndWxhdG9yLW1h
+eC1taWNyb3ZvbHQgPSA8MzMwMDAwMD47Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoH07Cj4gPiA+ICt9
+Owo+ID4gPiArCj4gPiA+ICsmbW1jMCB7Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoGJyb2tlbi1jZDsK
+PiA+ID4gK8KgwqDCoMKgwqDCoMKgYnVzLXdpZHRoID0gPDQ+Owo+ID4gPiArwqDCoMKgwqDCoMKg
+wqBkaXNhYmxlLXdwOwo+ID4gPiArwqDCoMKgwqDCoMKgwqB2bW1jLXN1cHBseSA9IDwmcmVnX3Zj
+YzN2Mz47Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoHN0YXR1cyA9ICJva2F5IjsKPiA+ID4gK307Cj4g
+PiA+ICsKPiA+ID4gKyZvdGdfc3JhbSB7Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoHN0YXR1cyA9ICJv
+a2F5IjsKPiA+ID4gK307Cj4gPiA+ICsKPiA+ID4gKyZzcGkwIHsKPiA+ID4gK8KgwqDCoMKgwqDC
+oMKgcGluY3RybC1uYW1lcyA9ICJkZWZhdWx0IjsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgcGluY3Ry
+bC0wID0gPCZzcGkwX3BjX3BpbnM+Owo+ID4gPiArwqDCoMKgwqDCoMKgwqBzdGF0dXMgPSAib2th
+eSI7Cj4gPiA+ICsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgZmxhc2hAMCB7Cj4gPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjb21wYXRpYmxlID0gInNwaS1uYW5kIjsKPiA+ID4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlZyA9IDwwPjsKPiA+ID4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCNhZGRyZXNzLWNlbGxzID0gPDE+Owo+ID4gPiArwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgI3NpemUtY2VsbHMgPSA8MT47Cj4gPiA+ICvCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqBzcGktbWF4LWZyZXF1ZW5jeSA9IDw0MDAwMDAwMD47Cj4gPiA+
+ICvCoMKgwqDCoMKgwqDCoH07Cj4gPiA+ICt9Owo+ID4gPiArCj4gPiA+ICsmdWFydDEgewo+ID4g
+PiArwqDCoMKgwqDCoMKgwqBwaW5jdHJsLW5hbWVzID0gImRlZmF1bHQiOwo+ID4gPiArwqDCoMKg
+wqDCoMKgwqBwaW5jdHJsLTAgPSA8JnVhcnQxX3BhX3BpbnM+Owo+ID4gPiArwqDCoMKgwqDCoMKg
+wqBzdGF0dXMgPSAib2theSI7Cj4gPiA+ICt9Owo+ID4gPiArCj4gPiA+ICsvKgo+ID4gPiArICog
+VGhpcyBpcyBhIFR5cGUtQyBzb2NrZXQsIGJ1dCBDQzEvMiBhcmUgbm90IGNvbm5lY3RlZCwgYW5k
+Cj4gPiA+IFZCVVMgaXMKPiA+ID4gY29ubmVjdGVkCj4gPiA+ICsgKiB0byBWaW4sIHdoaWNoIHN1
+cHBsaWVzIHRoZSBib2FyZC4gSG9zdCBtb2RlIHdvcmtzIChpZiB0aGUKPiA+ID4gYm9hcmQKPiA+
+ID4gaXMgcG93ZXJlZAo+ID4gPiArICogb3RoZXJ3aXNlKSwgYnV0IHBlcmlwaGVyYWwgaXMgcHJv
+YmFibHkgdGhlIGludGVudGlvbi4KPiA+ID4gKyAqLwo+ID4gPiArJnVzYl9vdGcgewo+ID4gPiAr
+wqDCoMKgwqDCoMKgwqBkcl9tb2RlID0gInBlcmlwaGVyYWwiOwo+ID4gPiArwqDCoMKgwqDCoMKg
+wqBzdGF0dXMgPSAib2theSI7Cj4gPiA+ICt9O8KgIAo+ID4gCj4gPiBGaW5hbGx5IHdlIHNob3Vs
+ZCBnZXQgYWJsZSB0byBvdmVycmlkZSBkcl9tb2RlIGp1c3QgYnkgSFcuCj4gCj4gRG8geW91IG1l
+YW4gYnkgc29mdHdhcmU/IFllYWgsIHRoYXQgd291bGQgYmUgdXNlZnVsLiBPdGhlcndpc2Ugb25l
+Cj4gY291bGQKClllcywgYnkgU1cuIEl0J3MgYSB0eXBvIChJIHRoaW5rIGl0J3Mgc29tZSBraW5k
+IG9mIG5lcnZlIGxpbmsgYml0LWZsaXAKd2hlbiBJIHdhcyB0eXBpbmcgdGhpcykuCgpCVFcgSSB0
+aGluayB0aGUgZnVydGhlciB1dGlsaXphdGlvbiBvZiBzb21ldGhpbmcgbGlrZSBhIHByb3BlciBU
+eXBlLUMKY29udHJvbGxlciAoZS5nLiBGVVNCMzAyKSBuZWVkcyB0aGUgZHJpdmVyIHRvIGltcGxl
+bWVudCBhIG5ldyBpbnRlcmZhY2UKaW4ga2VybmVsLCB1c2Igcm9sZSBzd2l0Y2guCgo+IGRlZGlj
+YXRlIGEgR1BJTyB0byBhIGZha2UgSURfREVUIHBpbiwgSSBndWVzcy4gT3IgdXNlIGEgRFQgb3Zl
+cmxheS4KPiAKPiBDaGVlcnMsCj4gQW5kcmUKPiAKPiA+ID4gKwo+ID4gPiArJnVzYnBoeSB7Cj4g
+PiA+ICvCoMKgwqDCoMKgwqDCoHN0YXR1cyA9ICJva2F5IjsKPiA+ID4gK307wqAgCj4gPiAKPiAK
+Cg==
 
