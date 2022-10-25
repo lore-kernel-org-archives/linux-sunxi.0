@@ -1,173 +1,118 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A51937B
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Oct 2022 14:59:29 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B9C86113E;
-	Tue, 25 Oct 2022 07:59:29 -0700 (PDT)
-Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EEB453F71A;
-	Tue, 25 Oct 2022 07:59:21 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	soc@kernel.org,
-	Icenowy Zheng <uwu@icenowy.me>,
-	=?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
-Subject: [PATCH 3/3] ARM: dts: suniv: Add Lctech Pi F1C200s devicetree
-Date: Tue, 25 Oct 2022 15:59:09 +0100
-Message-Id: <20221025145909.2837939-4-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221025145909.2837939-1-andre.przywara@arm.com>
-References: <20221025145909.2837939-1-andre.przywara@arm.com>
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B027B;
+	Tue, 25 Oct 2022 15:05:28 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 60DB16000C;
+	Tue, 25 Oct 2022 15:05:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1666710319;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pJw8Rlc47CepdpF/VUPGYP+SOmVKJurWX4ajQaE7REY=;
+	b=grWlZpU8307qXCEDcJutgnVQSJwJRRphWXN8Z3ZsFVhHmFy3DpnBYnAP+xqX9NHXFjPxmX
+	9e3XIOA4t6xPQPwJuPxYvrHZIkL70Dv71yk9Fe1FD6tcaWFAQV7DP6itcLLuMPZdofaAs9
+	S3lTb2r91dhdbTVb0UkiRTazglsOuvcx0eQGbpGzijWjmqyQ2C4EY0pyGXEUTGonEQfO25
+	gLU2QvnHtKbaXKzAS3quf1isDVI30jZOoDXKLMiTSk8N5Kwq2vjRufAMocf9TSWI5qsDm5
+	o/wtEjz80htAYOBEYgfeiry6C4zQ2QufMr/fSc1FjaYdwL9wu/zJ9GaM+s+iFg==
+Date: Tue, 25 Oct 2022 17:05:16 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: mripard@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
+	wens@csie.org, samuel@sholland.org, hverkuil-cisco@xs4all.nl,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 08/11] media: cedrus: prefer untiled capture format
+Message-ID: <Y1f7LCVwRgT9FHDe@aptenodytes>
+References: <20221024201515.34129-1-jernej.skrabec@gmail.com>
+ <20221024201515.34129-9-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="w+BAvZwxLTv8gd/o"
+Content-Disposition: inline
+In-Reply-To: <20221024201515.34129-9-jernej.skrabec@gmail.com>
 
-The Lctech Pi F1C200s (also previously known under the Cherry Pi brand)
-is a small development board with the Allwinner F1C200s SoC. This is the
-same as the F1C100s, but with 64MB instead of 32MB co-packaged DRAM.
 
-Alongside the obligatory micro-SD card slot, the board features a
-SPI-NAND flash chip, LCD and touch connectors, and unpopulated
-expansion header pins.
-There are two USB Type-C ports on the board: One supplies the power, also
-connects to the USB MUSB OTG controller port. The other one is connected
-to an CH340 USB serial chip, which in turn is connected to UART1.
+--w+BAvZwxLTv8gd/o
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Add a devicetree file, so that the board can be used easily.
+Hi Jernej,
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- arch/arm/boot/dts/Makefile                    |  1 +
- arch/arm/boot/dts/suniv-f1c100s.dtsi          |  5 ++
- arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts | 80 +++++++++++++++++++
- 3 files changed, 86 insertions(+)
- create mode 100644 arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts
+On Mon 24 Oct 22, 22:15, Jernej Skrabec wrote:
+> While all generations of display engine on Allwinner SoCs support
+> untiled format, only first generation supports tiled format.  Let's
+> move untiled format up, so it can be picked before tiled one. If
+> Cedrus variant doesn't support untiled format, tiled will still be
+> picked as default format.
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 6abf6434eb372..f99c5c20bf7ef 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1394,6 +1394,7 @@ dtb-$(CONFIG_MACH_SUN9I) += \
- 	sun9i-a80-cubieboard4.dtb
- dtb-$(CONFIG_MACH_SUNIV) += \
- 	suniv-f1c100s-licheepi-nano.dtb \
-+	suniv-f1c200s-lctech-pi.dtb \
- 	suniv-f1c200s-popstick-v1.1.dtb
- dtb-$(CONFIG_ARCH_TEGRA_2x_SOC) += \
- 	tegra20-acer-a500-picasso.dtb \
-diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-index 0f24c766c9fc5..2ec022e92eea8 100644
---- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
-+++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-@@ -201,6 +201,11 @@ uart0_pe_pins: uart0-pe-pins {
- 				pins = "PE0", "PE1";
- 				function = "uart0";
- 			};
-+
-+			uart1_pa_pins: uart1-pa-pins {
-+				pins = "PA2", "PA3";
-+				function = "uart1";
-+			};
- 		};
- 
- 		timer@1c20c00 {
-diff --git a/arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts b/arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts
-new file mode 100644
-index 0000000000000..a9d1778395438
---- /dev/null
-+++ b/arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts
-@@ -0,0 +1,80 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright 2022 Arm Ltd,
-+ * based on work:
-+ *   Copyright 2022 Icenowy Zheng <uwu@icenowy.me>
-+ */
-+
-+/dts-v1/;
-+#include "suniv-f1c100s.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+
-+/ {
-+	model = "Lctech Pi F1C200s";
-+	compatible = "lctech,pi-f1c200s", "allwinner,suniv-f1c200s",
-+		     "allwinner,suniv-f1c100s";
-+
-+	aliases {
-+		mmc0 = &mmc0;
-+		serial0 = &uart1;
-+		spi0 = &spi0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	reg_vcc3v3: regulator-3v3 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+	};
-+};
-+
-+&mmc0 {
-+	broken-cd;
-+	bus-width = <4>;
-+	disable-wp;
-+	vmmc-supply = <&reg_vcc3v3>;
-+	status = "okay";
-+};
-+
-+&otg_sram {
-+	status = "okay";
-+};
-+
-+&spi0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&spi0_pc_pins>;
-+	status = "okay";
-+
-+	flash@0 {
-+		compatible = "spi-nand";
-+		reg = <0>;
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		spi-max-frequency = <40000000>;
-+	};
-+};
-+
-+&uart1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart1_pa_pins>;
-+	status = "okay";
-+};
-+
-+/*
-+ * This is a Type-C socket, but CC1/2 are not connected, and VBUS is connected
-+ * to Vin, which supplies the board. Host mode works (if the board is powered
-+ * otherwise), but peripheral is probably the intention.
-+ */
-+&usb_otg {
-+	dr_mode = "peripheral";
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	status = "okay";
-+};
--- 
-2.25.1
+Makes sense to me. Of course the order shouldn't matter to smart-enough
+userspace but it doesn't hurt to serve the most generic case first.
 
+Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Cheers,
+
+Paul
+
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus_video.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/=
+staging/media/sunxi/cedrus/cedrus_video.c
+> index 3591bf9d7d9c..f9f723ea3f79 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> @@ -56,13 +56,13 @@ static struct cedrus_format cedrus_formats[] =3D {
+>  		.capabilities	=3D CEDRUS_CAPABILITY_VP8_DEC,
+>  	},
+>  	{
+> -		.pixelformat	=3D V4L2_PIX_FMT_NV12_32L32,
+> +		.pixelformat	=3D V4L2_PIX_FMT_NV12,
+>  		.directions	=3D CEDRUS_DECODE_DST,
+> +		.capabilities	=3D CEDRUS_CAPABILITY_UNTILED,
+>  	},
+>  	{
+> -		.pixelformat	=3D V4L2_PIX_FMT_NV12,
+> +		.pixelformat	=3D V4L2_PIX_FMT_NV12_32L32,
+>  		.directions	=3D CEDRUS_DECODE_DST,
+> -		.capabilities	=3D CEDRUS_CAPABILITY_UNTILED,
+>  	},
+>  };
+> =20
+> --=20
+> 2.38.1
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--w+BAvZwxLTv8gd/o
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmNX+ywACgkQ3cLmz3+f
+v9FCUwf/V3Ng/xfoDLZGeEjzDHQU3ZtEXX1RMo0WULubg8BMamTlPR4tbDQTBW56
+ipFZ0EtzlcdwnQHAhA+3HAu6CTfp+MwxLeeWEr4luVFSX+LuMU22Mclz9Ji7/vwh
+OMcQ5fcCJDrYZE0Lc6Y6EzQozjt9q/m7dNG2joUKQzm9Futr6RTUOjUvZ5RgrR3q
+8HMZKxxnVxgirPAIMl1h0y57hKWx+C/0L/TGrDeEzjcNxoZYcBuXCUNhdl9lXMFY
+MNQq430Jsb4LYuu3bTjtDXYRBGGHOwyjrNsyhWtM8/djejO+FiP48NLQtbL72cIK
+CT9U2hRl24cMNSB5oe2ZTZ4pmnGoqw==
+=UyBL
+-----END PGP SIGNATURE-----
+
+--w+BAvZwxLTv8gd/o--
