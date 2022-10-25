@@ -1,98 +1,147 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A857B;
-	Tue, 25 Oct 2022 15:28:25 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id bp11so21157743wrb.9;
-        Tue, 25 Oct 2022 08:28:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7r/lxb9syFi5fszVxey13EVYUFPTHODfMEEaPAN/V+Y=;
-        b=V381NSJCc2t+KGfhMm8mz4zvLvUd1ECWt2Vg5y1ifx5E4L3IBAiDSRqQGj3Af6/log
-         dvzcHCrt8eR0BcP3QJLig4KAwW+Qx9duhgXdGEClye3/s8l6nOkhL95NQo3hNzmlo1CF
-         ggdhZTBfabsD4bUcZdOCI2yIp3nVwMdndztOLdI4fAxy0yO2c3Ww4zMT/QDpPLd7Q33R
-         5HG3fP2syiJpc1A/ikzob+C3y9qDmtsngf4hSh3k/BB9kwBXCRX4GarXRgAGpGXHkRAY
-         7Yhd6Haq2Mcr8Eshwk+u8bTf+FqR3mfsSokRK4pbZuZtGluGnEtq0ACluHE7de+QB13k
-         Tk6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7r/lxb9syFi5fszVxey13EVYUFPTHODfMEEaPAN/V+Y=;
-        b=Wa82pdpplndB4NY0bWvkUjk/yCyyiqHuC7cfEI9fgGuDhj3oSPqf6nKJRKCmemHSTF
-         FzCBTLvxdIyojxogs+/VJig0E+v+dwn0wo7NJzro+wZ6zU4OL4xsJqZKyOO2MzvGBH1l
-         OjqNNGaI5LzY1JNEYT8SylvSqJfrgbjL0n0ucUc9U8zxTSJRntD9P+BD13fHzFV+UBDe
-         5/E163A1Kmayicy1anfxaO5/9QxeoxsuBGWvvrN6KDdoU3DLDe98w8xNlOldVAfWZqyb
-         Kxb4PNRuNA/o8HoYRQ/QTF3Aw9gWsfX+jAyE3jrkcim93ColV5ZYHU+ljtfTRK/HVrDk
-         vk9A==
-X-Gm-Message-State: ACrzQf2TaShQggV5raatiP3fmpHVPUX7mm+5aCsD37U9tbJ8+RakPDmN
-	TL8sVIcF6wUfXMpGkCaesas=
-X-Google-Smtp-Source: AMsMyM5K0ZKfrU9AcZgM/WGkAuYCPoBp+s8EysvSeUPepfjiMjsmTSvUp3+EbonMe8RJZrf0AZOixg==
-X-Received: by 2002:a5d:52d0:0:b0:21e:4923:fa09 with SMTP id r16-20020a5d52d0000000b0021e4923fa09mr26317288wrv.244.1666711704051;
-        Tue, 25 Oct 2022 08:28:24 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id a2-20020a056000050200b0023662245d3csm2848766wrf.95.2022.10.25.08.28.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Oct 2022 08:28:23 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>, mripard@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org, hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 04/11] media: cedrus: Add helper for checking capabilities
-Date: Tue, 25 Oct 2022 17:28:22 +0200
-Message-ID: <8131177.T7Z3S40VBb@jernej-laptop>
-In-Reply-To: <Y1f/U8NxyJo/pMAH@aptenodytes>
-References: <20221024201515.34129-1-jernej.skrabec@gmail.com> <13124586.uLZWGnKmhe@jernej-laptop> <Y1f/U8NxyJo/pMAH@aptenodytes>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965047B
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Oct 2022 15:30:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1666711832; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=f++XCS2yQOaouOYv2nraEvfUHA5ttXcYcljYsWLPl5e6wNNseYqvP/Dcp338fedLQ5PP+WI25fV7Itgo2yj5V5IXJY2DQ+qrC+sl0wVgnI8wMFfhhgsKnlujPnIADjB0MK4ZXT2fzwW6k9vJEpml3vE6qR3oW6RzS+NDBO3RqDI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1666711832; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=yNEm7PHLEkxpAt9TW3zyxDH3NNYV88uY7wqbd0lVXYA=; 
+	b=c2N0+ah2q/LZiil6sxKJ+RR5SNeccnqrKgsGuHY0L5u8lykYpysYr4/BEZnfEv6mYQdJIU/zA5qSCVfI8ofFgdu3yIBNPO8TmSmIN/pccXg7FWKwJwk5iM3hRm62HmDdOEEGYaEav7I8zyywpTuthj3FkZc1tR3cWQPd3WWSh64=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1666711832;
+	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=yNEm7PHLEkxpAt9TW3zyxDH3NNYV88uY7wqbd0lVXYA=;
+	b=cfog/Mr0oTqdx69yVCc9MDrWhOTW3zIkpMK1+nQdeDi5LhUdigyALmUbH1NspfIP
+	8qVVH7+j6nrg6muZ6Dg2uXuRb0rrdN4m3EEgKA65+5MATgjdbHAubO8/xyPVDahOavs
+	qSEZnxNC4rWjU5iwIbV7+E7i/Msnbnpew/cRGIuU=
+Received: from edelgard.fodlan.icenowy.me (112.94.102.105 [112.94.102.105]) by mx.zohomail.com
+	with SMTPS id 166671183055468.1056212485745; Tue, 25 Oct 2022 08:30:30 -0700 (PDT)
+Message-ID: <73ea157f7e0c75f8bda16b3ac464be58fe7fb3ab.camel@icenowy.me>
+Subject: Re: [PATCH 3/3] ARM: dts: suniv: Add Lctech Pi F1C200s devicetree
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Andre Przywara <andre.przywara@arm.com>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Chen-Yu
+ Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, soc@kernel.org,
+ =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>
+Date: Tue, 25 Oct 2022 23:30:26 +0800
+In-Reply-To: <20221025145909.2837939-4-andre.przywara@arm.com>
+References: <20221025145909.2837939-1-andre.przywara@arm.com>
+	 <20221025145909.2837939-4-andre.przywara@arm.com>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+X-ZohoMailClient: External
 
-Dne torek, 25. oktober 2022 ob 17:22:59 CEST je Paul Kocialkowski napisal(a=
-):
-> Hi Jernej,
->=20
-> On Tue 25 Oct 22, 17:17, Jernej =C5=A0krabec wrote:
-> > Dne torek, 25. oktober 2022 ob 08:30:28 CEST je Dan Carpenter napisal(a=
-):
-> > > On Mon, Oct 24, 2022 at 10:15:08PM +0200, Jernej Skrabec wrote:
-> > > > There is several different Cedrus cores with varying capabilities, =
-so
-> > > > some operations like listing formats depends on checks if feature is
-> > > > supported or not.
-> > > >=20
-> > > > Currently check for capabilities is only in format enumeration help=
-er,
-> > > > but it will be used also elsewhere later. Let's convert this check =
-to
-> > > > helper and while at it, also simplify it. There is no need to check=
- if
-> > > > capability mask is zero, condition will still work properly.
-> > >=20
-> > > Sure.  That's true.  Out of curiousity, can
-> > > cedrus_formats[i].capabilities
-> > > be zero?  Because it feels like that's what should be checked.
-> >=20
-> > Yes, it can be. It's the case for V4L2_PIX_FMT_NV12_32L32. All variants
-> > supports it, so there is no special capability needed in order to be
-> > listed. What would you check in such case? Condition still works for th=
-is
-> > case.
-> I think the problem is that (bits & 0) =3D=3D 0 is always true.
-> So if the input caps are 0, we need to make sure to return false.
-
-No. If format (or any other) capabilities are 0, means they are supported b=
-y=20
-all variants and it's expected from cedrus_is_capable() to return true.
-
-Regards,
-Jernej
-
+5ZyoIDIwMjItMTAtMjXmmJ/mnJ/kuoznmoQgMTU6NTkgKzAxMDDvvIxBbmRyZSBQcnp5d2FyYeWG
+memBk++8mgo+IFRoZSBMY3RlY2ggUGkgRjFDMjAwcyAoYWxzbyBwcmV2aW91c2x5IGtub3duIHVu
+ZGVyIHRoZSBDaGVycnkgUGkKPiBicmFuZCkKCk9oPyBBcmUgdGhleSB0aGUgc2FtZSBoYXJkd2Fy
+ZT8KCj4gaXMgYSBzbWFsbCBkZXZlbG9wbWVudCBib2FyZCB3aXRoIHRoZSBBbGx3aW5uZXIgRjFD
+MjAwcyBTb0MuIFRoaXMgaXMKPiB0aGUKPiBzYW1lIGFzIHRoZSBGMUMxMDBzLCBidXQgd2l0aCA2
+NE1CIGluc3RlYWQgb2YgMzJNQiBjby1wYWNrYWdlZCBEUkFNLgo+IAo+IEFsb25nc2lkZSB0aGUg
+b2JsaWdhdG9yeSBtaWNyby1TRCBjYXJkIHNsb3QsIHRoZSBib2FyZCBmZWF0dXJlcyBhCj4gU1BJ
+LU5BTkQgZmxhc2ggY2hpcCwgTENEIGFuZCB0b3VjaCBjb25uZWN0b3JzLCBhbmQgdW5wb3B1bGF0
+ZWQKPiBleHBhbnNpb24gaGVhZGVyIHBpbnMuCj4gVGhlcmUgYXJlIHR3byBVU0IgVHlwZS1DIHBv
+cnRzIG9uIHRoZSBib2FyZDogT25lIHN1cHBsaWVzIHRoZSBwb3dlciwKPiBhbHNvCj4gY29ubmVj
+dHMgdG8gdGhlIFVTQiBNVVNCIE9URyBjb250cm9sbGVyIHBvcnQuIFRoZSBvdGhlciBvbmUgaXMK
+PiBjb25uZWN0ZWQKPiB0byBhbiBDSDM0MCBVU0Igc2VyaWFsIGNoaXAsIHdoaWNoIGluIHR1cm4g
+aXMgY29ubmVjdGVkIHRvIFVBUlQxLgo+IAo+IEFkZCBhIGRldmljZXRyZWUgZmlsZSwgc28gdGhh
+dCB0aGUgYm9hcmQgY2FuIGJlIHVzZWQgZWFzaWx5Lgo+IAo+IFNpZ25lZC1vZmYtYnk6IEFuZHJl
+IFByenl3YXJhIDxhbmRyZS5wcnp5d2FyYUBhcm0uY29tPgo+IC0tLQo+IMKgYXJjaC9hcm0vYm9v
+dC9kdHMvTWFrZWZpbGXCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAg
+MSArCj4gwqBhcmNoL2FybS9ib290L2R0cy9zdW5pdi1mMWMxMDBzLmR0c2nCoMKgwqDCoMKgwqDC
+oMKgwqAgfMKgIDUgKysKPiDCoGFyY2gvYXJtL2Jvb3QvZHRzL3N1bml2LWYxYzIwMHMtbGN0ZWNo
+LXBpLmR0cyB8IDgwCj4gKysrKysrKysrKysrKysrKysrKwo+IMKgMyBmaWxlcyBjaGFuZ2VkLCA4
+NiBpbnNlcnRpb25zKCspCj4gwqBjcmVhdGUgbW9kZSAxMDA2NDQgYXJjaC9hcm0vYm9vdC9kdHMv
+c3VuaXYtZjFjMjAwcy1sY3RlY2gtcGkuZHRzCj4gCj4gZGlmZiAtLWdpdCBhL2FyY2gvYXJtL2Jv
+b3QvZHRzL01ha2VmaWxlIGIvYXJjaC9hcm0vYm9vdC9kdHMvTWFrZWZpbGUKPiBpbmRleCA2YWJm
+NjQzNGViMzcyLi5mOTljNWMyMGJmN2VmIDEwMDY0NAo+IC0tLSBhL2FyY2gvYXJtL2Jvb3QvZHRz
+L01ha2VmaWxlCj4gKysrIGIvYXJjaC9hcm0vYm9vdC9kdHMvTWFrZWZpbGUKPiBAQCAtMTM5NCw2
+ICsxMzk0LDcgQEAgZHRiLSQoQ09ORklHX01BQ0hfU1VOOUkpICs9IFwKPiDCoMKgwqDCoMKgwqDC
+oMKgc3VuOWktYTgwLWN1YmllYm9hcmQ0LmR0Ygo+IMKgZHRiLSQoQ09ORklHX01BQ0hfU1VOSVYp
+ICs9IFwKPiDCoMKgwqDCoMKgwqDCoMKgc3VuaXYtZjFjMTAwcy1saWNoZWVwaS1uYW5vLmR0YiBc
+Cj4gK8KgwqDCoMKgwqDCoMKgc3VuaXYtZjFjMjAwcy1sY3RlY2gtcGkuZHRiIFwKPiDCoMKgwqDC
+oMKgwqDCoMKgc3VuaXYtZjFjMjAwcy1wb3BzdGljay12MS4xLmR0Ygo+IMKgZHRiLSQoQ09ORklH
+X0FSQ0hfVEVHUkFfMnhfU09DKSArPSBcCj4gwqDCoMKgwqDCoMKgwqDCoHRlZ3JhMjAtYWNlci1h
+NTAwLXBpY2Fzc28uZHRiIFwKPiBkaWZmIC0tZ2l0IGEvYXJjaC9hcm0vYm9vdC9kdHMvc3VuaXYt
+ZjFjMTAwcy5kdHNpCj4gYi9hcmNoL2FybS9ib290L2R0cy9zdW5pdi1mMWMxMDBzLmR0c2kKPiBp
+bmRleCAwZjI0Yzc2NmM5ZmM1Li4yZWMwMjJlOTJlZWE4IDEwMDY0NAo+IC0tLSBhL2FyY2gvYXJt
+L2Jvb3QvZHRzL3N1bml2LWYxYzEwMHMuZHRzaQo+ICsrKyBiL2FyY2gvYXJtL2Jvb3QvZHRzL3N1
+bml2LWYxYzEwMHMuZHRzaQo+IEBAIC0yMDEsNiArMjAxLDExIEBAIHVhcnQwX3BlX3BpbnM6IHVh
+cnQwLXBlLXBpbnMgewo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBwaW5zID0gIlBFMCIsICJQRTEiOwo+IMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBmdW5j
+dGlvbiA9ICJ1YXJ0MCI7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgfTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqB1YXJ0MV9wYV9waW5zOiB1YXJ0MS1wYS1waW5zIHsKPiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBwaW5zID0gIlBB
+MiIsICJQQTMiOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoGZ1bmN0aW9uID0gInVhcnQxIjsKPiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoH07CgpTaG91bGQgdGhpcyBiZSBpbiBhIHNw
+bGl0dGVkIGNvbW1pdD8KCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9Owo+IMKg
+Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB0aW1lckAxYzIwYzAwIHsKPiBkaWZm
+IC0tZ2l0IGEvYXJjaC9hcm0vYm9vdC9kdHMvc3VuaXYtZjFjMjAwcy1sY3RlY2gtcGkuZHRzCj4g
+Yi9hcmNoL2FybS9ib290L2R0cy9zdW5pdi1mMWMyMDBzLWxjdGVjaC1waS5kdHMKPiBuZXcgZmls
+ZSBtb2RlIDEwMDY0NAo+IGluZGV4IDAwMDAwMDAwMDAwMDAuLmE5ZDE3NzgzOTU0MzgKPiAtLS0g
+L2Rldi9udWxsCj4gKysrIGIvYXJjaC9hcm0vYm9vdC9kdHMvc3VuaXYtZjFjMjAwcy1sY3RlY2gt
+cGkuZHRzCj4gQEAgLTAsMCArMSw4MCBAQAo+ICsvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjog
+KEdQTC0yLjArIE9SIE1JVCkKPiArLyoKPiArICogQ29weXJpZ2h0IDIwMjIgQXJtIEx0ZCwKPiAr
+ICogYmFzZWQgb24gd29yazoKPiArICrCoMKgIENvcHlyaWdodCAyMDIyIEljZW5vd3kgWmhlbmcg
+PHV3dUBpY2Vub3d5Lm1lPgo+ICsgKi8KPiArCj4gKy9kdHMtdjEvOwo+ICsjaW5jbHVkZSAic3Vu
+aXYtZjFjMTAwcy5kdHNpIgo+ICsKPiArI2luY2x1ZGUgPGR0LWJpbmRpbmdzL2dwaW8vZ3Bpby5o
+Pgo+ICsKPiArLyB7Cj4gK8KgwqDCoMKgwqDCoMKgbW9kZWwgPSAiTGN0ZWNoIFBpIEYxQzIwMHMi
+Owo+ICvCoMKgwqDCoMKgwqDCoGNvbXBhdGlibGUgPSAibGN0ZWNoLHBpLWYxYzIwMHMiLCAiYWxs
+d2lubmVyLHN1bml2LWYxYzIwMHMiLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCAiYWxsd2lubmVyLHN1bml2LWYxYzEwMHMiOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBh
+bGlhc2VzIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgbW1jMCA9ICZtbWMwOwo+
+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBzZXJpYWwwID0gJnVhcnQxOwo+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBzcGkwID0gJnNwaTA7Cj4gK8KgwqDCoMKgwqDCoMKg
+fTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgY2hvc2VuIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgc3Rkb3V0LXBhdGggPSAic2VyaWFsMDoxMTUyMDBuOCI7Cj4gK8KgwqDCoMKgwqDC
+oMKgfTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgcmVnX3ZjYzN2MzogcmVndWxhdG9yLTN2MyB7Cj4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGNvbXBhdGlibGUgPSAicmVndWxhdG9yLWZp
+eGVkIjsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmVndWxhdG9yLW5hbWUgPSAi
+dmNjM3YzIjsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmVndWxhdG9yLW1pbi1t
+aWNyb3ZvbHQgPSA8MzMwMDAwMD47Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJl
+Z3VsYXRvci1tYXgtbWljcm92b2x0ID0gPDMzMDAwMDA+Owo+ICvCoMKgwqDCoMKgwqDCoH07Cj4g
+K307Cj4gKwo+ICsmbW1jMCB7Cj4gK8KgwqDCoMKgwqDCoMKgYnJva2VuLWNkOwo+ICvCoMKgwqDC
+oMKgwqDCoGJ1cy13aWR0aCA9IDw0PjsKPiArwqDCoMKgwqDCoMKgwqBkaXNhYmxlLXdwOwo+ICvC
+oMKgwqDCoMKgwqDCoHZtbWMtc3VwcGx5ID0gPCZyZWdfdmNjM3YzPjsKPiArwqDCoMKgwqDCoMKg
+wqBzdGF0dXMgPSAib2theSI7Cj4gK307Cj4gKwo+ICsmb3RnX3NyYW0gewo+ICvCoMKgwqDCoMKg
+wqDCoHN0YXR1cyA9ICJva2F5IjsKPiArfTsKPiArCj4gKyZzcGkwIHsKPiArwqDCoMKgwqDCoMKg
+wqBwaW5jdHJsLW5hbWVzID0gImRlZmF1bHQiOwo+ICvCoMKgwqDCoMKgwqDCoHBpbmN0cmwtMCA9
+IDwmc3BpMF9wY19waW5zPjsKPiArwqDCoMKgwqDCoMKgwqBzdGF0dXMgPSAib2theSI7Cj4gKwo+
+ICvCoMKgwqDCoMKgwqDCoGZsYXNoQDAgewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqBjb21wYXRpYmxlID0gInNwaS1uYW5kIjsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgcmVnID0gPDA+Owo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAjYWRkcmVzcy1j
+ZWxscyA9IDwxPjsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgI3NpemUtY2VsbHMg
+PSA8MT47Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHNwaS1tYXgtZnJlcXVlbmN5
+ID0gPDQwMDAwMDAwPjsKPiArwqDCoMKgwqDCoMKgwqB9Owo+ICt9Owo+ICsKPiArJnVhcnQxIHsK
+PiArwqDCoMKgwqDCoMKgwqBwaW5jdHJsLW5hbWVzID0gImRlZmF1bHQiOwo+ICvCoMKgwqDCoMKg
+wqDCoHBpbmN0cmwtMCA9IDwmdWFydDFfcGFfcGlucz47Cj4gK8KgwqDCoMKgwqDCoMKgc3RhdHVz
+ID0gIm9rYXkiOwo+ICt9Owo+ICsKPiArLyoKPiArICogVGhpcyBpcyBhIFR5cGUtQyBzb2NrZXQs
+IGJ1dCBDQzEvMiBhcmUgbm90IGNvbm5lY3RlZCwgYW5kIFZCVVMgaXMKPiBjb25uZWN0ZWQKPiAr
+ICogdG8gVmluLCB3aGljaCBzdXBwbGllcyB0aGUgYm9hcmQuIEhvc3QgbW9kZSB3b3JrcyAoaWYg
+dGhlIGJvYXJkCj4gaXMgcG93ZXJlZAo+ICsgKiBvdGhlcndpc2UpLCBidXQgcGVyaXBoZXJhbCBp
+cyBwcm9iYWJseSB0aGUgaW50ZW50aW9uLgo+ICsgKi8KPiArJnVzYl9vdGcgewo+ICvCoMKgwqDC
+oMKgwqDCoGRyX21vZGUgPSAicGVyaXBoZXJhbCI7Cj4gK8KgwqDCoMKgwqDCoMKgc3RhdHVzID0g
+Im9rYXkiOwo+ICt9OwoKRmluYWxseSB3ZSBzaG91bGQgZ2V0IGFibGUgdG8gb3ZlcnJpZGUgZHJf
+bW9kZSBqdXN0IGJ5IEhXLgoKPiArCj4gKyZ1c2JwaHkgewo+ICvCoMKgwqDCoMKgwqDCoHN0YXR1
+cyA9ICJva2F5IjsKPiArfTsKCg==
 
