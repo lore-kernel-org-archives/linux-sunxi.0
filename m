@@ -1,246 +1,142 @@
-Received: from out198-8.us.a.mail.aliyun.com (out198-8.us.a.mail.aliyun.com [47.90.198.8])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FFB7B
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Oct 2022 06:39:03 +0000 (UTC)
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.074365|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.397529-0.0566872-0.545783;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047202;MF=victor@allwinnertech.com;NM=1;PH=DS;RN=10;RT=10;SR=0;TI=SMTPD_---.PpQIk81_1666678989;
-Received: from 192.168.220.144(mailfrom:victor@allwinnertech.com fp:SMTPD_---.PpQIk81_1666678989)
-          by smtp.aliyun-inc.com;
-          Tue, 25 Oct 2022 14:23:16 +0800
-Message-ID: <83fa8869-5cc2-2306-0a82-d05c9e390316@allwinnertech.com>
-Date: Tue, 25 Oct 2022 14:23:09 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA9357B;
+	Tue, 25 Oct 2022 06:56:39 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29P6KJ6E021673;
+	Tue, 25 Oct 2022 06:56:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2022-7-12;
+ bh=Q7/zkoADCekB1PVNjOZ2nfjJAGq/vAVuLuu2uNvgwZk=;
+ b=Yc2XJqBxVw688Tsj4l7Q/qEO9oi8s6fEZjLoAvIjPvMM4h8ZvYE/nSaLoUi1mNVHLc3O
+ H9dLwPhERv66pO92rOTrcPX9oasMPS7HxDuYlo34WOT5BXW8qjtPY2I/d/mY/Wk0t4YY
+ MBL4YXR6nljTcM8twCdQ3PpY6eB92RcfE/saa9cg1gDXw5v/U81VoZwFTD3t851wFcro
+ oXjYQi5LDP6FcKgnd7O9mQwae67tFE8ILqO4uGsyQ/dJnmATAT43nBVI1OHw5SGflAkt
+ suFp80I3jJf0rX7YMqqUo+puVv/LKnxGvqzYVLiBXJGiefwWkaRGOZ0LI2kckyDqZVSQ 9Q== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3kc9399j35-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 25 Oct 2022 06:56:14 +0000
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 29P4VD5g017332;
+	Tue, 25 Oct 2022 06:56:12 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2106.outbound.protection.outlook.com [104.47.55.106])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3kc6y4kdr1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 25 Oct 2022 06:56:12 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lsXFjf5rorWD9QQ5oyTlpioVqdQCD++qd/IjUjvYHd8CymZHyEJPZ0eqH9E1os3i7Ng3L7Q3gVmXmDBgWSIR5e6C5izT/oJces8Zb1HKsLpRvkTkXFJ4b+lzTUjqDFDfosVHzT2WHJ/w09yQZ/XOYsW6xMavRgLNTucSVXP3xsOTBkK4F1VnKSgcLNQXKr/C4zdnFEx9FDYAoAI6egmEjg7B9NT3n0aDK/MB0AtsdXYgPNIyy32yhyzOOBqb6FBQvkBqjpoQwm9LZxVVuL3GTVdgml7TKmbcl25dxLqagdGb8bbAM5Plb8kz4ofuNt7j7h12o4RGFgJogyNgmuPZRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Q7/zkoADCekB1PVNjOZ2nfjJAGq/vAVuLuu2uNvgwZk=;
+ b=EhSW+t01Xn33SSOVqe1USwzYXe0CetTaZhThmsNHn2U4+0p/6df/IFahhga/2Ibm/IdfrbFS8CoNGPUvi099qgCwizDWhlICT7zkmYzcWvjp9z/o7RaPhTfjhw56gsWJRWlW2TlVACPHklsd+1Zi76VPHHHOmY6sP0FGA+uL+o+Zgb09j0cjONh8FIXc0cBrKxziM00pLJZe/IIXeyPcWsWYgzSxsxZ99BBFZnA20zsL3GBGtgX0rIENnIZWR3KzOAntqdcHu415UWDoiIkITzW5uOrKdUSuYlFRJeybVAimzOYZ5JLcA6KYjzOgmFeRk3HKXjMFmTDkd1WJhsD6PQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q7/zkoADCekB1PVNjOZ2nfjJAGq/vAVuLuu2uNvgwZk=;
+ b=MmleG+23mXlYEEAB/E3AvqiQFO8MNrGCWEq+NpTXQhTvlJXZkTIs/h+2pRoJgCiJeIFsVOV+qJVsKPednLMzfBvp9KQuuJcxgs/Z6RNicOGdshfW8DbbKULV48fKqcvdo407sEGkCN1zO6YcMK3QHu+j73+ocWpZ3S1d0Tgf4RE=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by PH8PR10MB6289.namprd10.prod.outlook.com
+ (2603:10b6:510:1c0::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.21; Tue, 25 Oct
+ 2022 06:56:10 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::1b8e:540e:10f0:9aec]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::1b8e:540e:10f0:9aec%4]) with mapi id 15.20.5676.031; Tue, 25 Oct 2022
+ 06:56:10 +0000
+Date: Tue, 25 Oct 2022 09:55:57 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: mripard@kernel.org, paul.kocialkowski@bootlin.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org,
+        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/11] media: cedrus: Format handling improvements and
+ 10-bit HEVC support
+Message-ID: <Y1eIfbfSyONyM1zO@kadam>
+References: <20221024201515.34129-1-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221024201515.34129-1-jernej.skrabec@gmail.com>
+X-ClientProxiedBy: JNXP275CA0001.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::13)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [RESEND] clocksource: sun4i: Fix the bug that tick_resume stucks
-Content-Language: en-US
-From: Victor Hassan <victor@allwinnertech.com>
-To: daniel.lezcano@linaro.org, tglx@linutronix.de, wens@csie.org,
- jernej.skrabec@gmail.com, samuel@sholland.org, maxime@cerno.tech,
- mripard@kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20221009032507.39145-1-victor@allwinnertech.com>
-In-Reply-To: <20221009032507.39145-1-victor@allwinnertech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWHPR1001MB2365:EE_|PH8PR10MB6289:EE_
+X-MS-Office365-Filtering-Correlation-Id: d30070e0-0962-4c54-9de2-08dab655ff39
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	wSRCSuacHpfZRxlJWWYDwu7agSPqbH4kBug0FCk+bIaJ8+trQGw9tIARqsOWJuOwP6KdRfKuv1oXRnvWEWbfTZORUabeMd7KIcGiEu1B4L2Kx57/r/FH6Z/IyFqO2a4ezB13gRbFQhgXMfEy/Y7K/blvysBg8MqLX/ND8ZoOBcsEFIBw7sFSdDdau397vkH0w30pwu1FAYQHiltxR3O7yFWkurvHCZ+f3MPim6oFZxf7RL+V24Vkd4K1QC/XpLAzWeNp3BpN64oPr4xxZbdXO/uF0od4QWThcjzlzXn79nLHwahynigiOWFPTGxkY0mHLjS25c3F3WLb1+7GGrEBlQYNzv+/xobDhYETS/BGJ2iT2fZvSJfs5KJYGtvFtC3NjTNSUGn8rGsrnzjeS3sq7vZp7brVTNv7k/yASyfLEQZ8rbzwakU3lCAgDdCB5krQhuO1V5rITRU4ltIAgDuauXdzkKwLMZ55pNghWNrZgq+ev8aYMYZKfxXaRJqn22RnioXumKvRCAG8JTLrJzPrc0lbBk3/4l4MZWxOfktQcvmqs9v7oll4YXjQfU/yo0iLD5b5Vba2lChODBttBxk64zy63bvSTfgNUeWVNy+q2P5V1E/ruJiF58Ysls173OA4v5TnaQrjPWLzTGO/V6xTiHeiPnNyQkIF8x4Mh2t2mGW4nD7X744o/snsz5Aejq0K5izICsQZYbJvfCD8h5pQgw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(39860400002)(396003)(376002)(346002)(136003)(366004)(451199015)(186003)(2906002)(83380400001)(558084003)(41300700001)(86362001)(26005)(9686003)(6512007)(6506007)(4326008)(8676002)(33716001)(6916009)(66946007)(316002)(38100700002)(7416002)(66556008)(5660300002)(66476007)(6486002)(44832011)(6666004)(478600001)(8936002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?fq3UwRHir7JfRzZvynjbVELkhnB8V/hp+lwBnEmdyIpJxqa24Lsc+anTuxwT?=
+ =?us-ascii?Q?ok5urQfkgjpCCC6oHGt5oLUMdjI38hcaOQ/wWmZAva/hhUIDe5vNeJCZ5RmS?=
+ =?us-ascii?Q?HN3PzrHMgFN7BFdeb1rO2Kzl8pK2AeiFadTnC4g+/bDNGhXX7YOsqMLpS/ZN?=
+ =?us-ascii?Q?yB5hxOFuAhHEWtd2R0evSwzCEPeDxjmlEpbW/BZrbxaMm+XtrIFV3FbjO3wS?=
+ =?us-ascii?Q?YnukdTrjOERiRaoWyHgFjbTJCy7i80XpWWjcuesn/iUSXS6tCpRXNbc7qPJ4?=
+ =?us-ascii?Q?e8ZOuLforBozpUC4hDthZJUHwV7YHfPWj2yKdRgIvStyCYfyBrNP4v3hG5Q5?=
+ =?us-ascii?Q?hxjof5C/8FzkI0cRrjFJvyDevYTMy/1GKK1uh1KH+RRemCIGAd5KN0IJYaHi?=
+ =?us-ascii?Q?NTTfm484sYKJYyvFopUu8c7PJQb9nsXq9+FBK5nHTohfpyOGDgR1hv0iihxC?=
+ =?us-ascii?Q?YPGf/GhzrKVZpBYzWX8E784ZXCx8RzCUFVj9VF1C4w2AHue3da+PJ+ZCRVFn?=
+ =?us-ascii?Q?j9rtd2WSlxgnPdKmpy2DVkrjgz3DdPcMi6ho1IHbgHMcOP6Ik/cQIQMme6mi?=
+ =?us-ascii?Q?A+8srhHIexL15vcD1wkvIzZJb/GHCh00RQG1rd5z2AUsxlgLtktAIQDKzKg1?=
+ =?us-ascii?Q?mLwi1hE3mAeMFfkxkaT6r0Tkujle5mWWoJEXYWoKu3JqAtr0GSC31j5q2XbY?=
+ =?us-ascii?Q?I//xrlUI3HeL+7nCpxGApE7n3rwUIK0WONfV78ym1OOhBFAMm0mlndiVME/h?=
+ =?us-ascii?Q?pE8npevDKIDzK2Etx8/IvCrGNQfblf34KOwPWqfJNv63Uj1CMtcAYFvQJI6u?=
+ =?us-ascii?Q?in6nzQZTapIwJ4Wopxs7q4KKv43Tw/8IqgT1ImGrcnrC+nbdBjSzv2qEKAoN?=
+ =?us-ascii?Q?RIVsufIaSUHfy0RyvDy0IMVAL+rjKv+QMlp3Rj29ZK5uCx5sFd4vLD70AguT?=
+ =?us-ascii?Q?PTTEHdo3Dh9YDLyYmPFqMZ1QWwlE+ciPsDVNa9yyanG4jaPbQVJOxoy/dmKf?=
+ =?us-ascii?Q?+6iOHOtoifVVyVdYiSanIv8rlYBL8Sd1XXxlklPP2OEnq6RSDOke2HbHCAAQ?=
+ =?us-ascii?Q?aGCjIJ1n9z/LuwBjvWvdd19S6m8/8b4AVyzz1Sp8A2sEpVktthwt+STTxRVd?=
+ =?us-ascii?Q?9cWhwhhwMdhMMzAmJc4ur7JAEOVOPDvh+ajFgh8Gw2ya7AV598tpyfuNp4Vr?=
+ =?us-ascii?Q?clJg4ttjiMVThsW2QdWsvEG78JvPzuGv/RAa9ijHNRYMX0zQThtEoSTCRG1g?=
+ =?us-ascii?Q?POGc9O7RJl+j76S632McJX8bSFd3q79LReyAgNAYgZDou+lNnGOZA66vuJcI?=
+ =?us-ascii?Q?cy8ZBSrqu2IH2TJt9xpISkjPIUm/krSFu3qDyT1mftlhkCI2wnHEFQRrcmUF?=
+ =?us-ascii?Q?2OlnQbAT6sXGT/siQ9VSzWFEqloXsDwI1/DY0fb47HHAg4Cm0GtAO3Z4Zswz?=
+ =?us-ascii?Q?V5TiZaivDGJWq790tzPZ34DMf6IELLgcbkGyfRC8v5JC+6IT/01IEcqmU1k8?=
+ =?us-ascii?Q?pcLPuXXIUUK1ssLaRGAogKGnafobAAl9GuVY8fGZqrmwqvBXMyC4TUTzyCrh?=
+ =?us-ascii?Q?raSLJKb/pPJyko3KhGwZyOxrzUE/9bGVmXsmfUzanQ7QVRFnboDUGmdzc9po?=
+ =?us-ascii?Q?YQ=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d30070e0-0962-4c54-9de2-08dab655ff39
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2022 06:56:09.8819
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: efz1asuDjv/VF/hiUqPgX8QtCaJzuB4sB0M2PCA2my7L2kigfnirwJenZ6HsjDlnqglnGXI1a1fdS0nuG+XLc9Re3F5Bb1VUjAOnWGCMDF4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR10MB6289
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-25_01,2022-10-21_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 phishscore=0
+ mlxlogscore=999 adultscore=0 malwarescore=0 spamscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
+ definitions=main-2210250039
+X-Proofpoint-GUID: BrjhuwQBZ8-oJRh63bQsB_8HFAsyLB5h
+X-Proofpoint-ORIG-GUID: BrjhuwQBZ8-oJRh63bQsB_8HFAsyLB5h
 
-On 2022/10/9 11:25, Victor Hassan wrote:
-> Currently syscore_resume() will stuck on tick_resume().
-> Fix this by changing  `.tick_resume` from
-> sun4i_clkevt_shutdown() to a new function sun4i_tick_resume().
-> 
-> Signed-off-by: Victor Hassan <victor@allwinnertech.com>
-> ---
->   drivers/clocksource/timer-sun4i.c | 131 ++++++++++++++++++++++--------
->   1 file changed, 96 insertions(+), 35 deletions(-)
-> 
-> diff --git a/drivers/clocksource/timer-sun4i.c b/drivers/clocksource/timer-sun4i.c
-> index 94dc6e42e983..574398c35a22 100644
-> --- a/drivers/clocksource/timer-sun4i.c
-> +++ b/drivers/clocksource/timer-sun4i.c
-> @@ -38,6 +38,19 @@
->   
->   #define TIMER_SYNC_TICKS	3
->   
-> +/* Registers which needs to be saved and restored before and after sleeping */
-> +static u32 sun4i_timer_regs_offset[] = {
-> +	TIMER_IRQ_EN_REG,
-> +	TIMER_CTL_REG(0),
-> +	TIMER_INTVAL_REG(0),
-> +	TIMER_CNTVAL_REG(0),
-> +	TIMER_CTL_REG(1),
-> +	TIMER_INTVAL_REG(1),
-> +	TIMER_CNTVAL_REG(1),
-> +};
-> +
-> +static void __iomem *sun4i_timer_sched_base __read_mostly;
-> +
->   /*
->    * When we disable a timer, we need to wait at least for 2 cycles of
->    * the timer source clock. We will use for that the clocksource timer
-> @@ -79,10 +92,41 @@ static void sun4i_clkevt_time_start(void __iomem *base, u8 timer,
->   	       base + TIMER_CTL_REG(timer));
->   }
->   
-> +static inline void sun4i_timer_save_regs(struct timer_of *to)
-> +{
-> +	void __iomem *base = timer_of_base(to);
-> +	int i;
-> +	u32 *regs_backup = (u32 *)to->private_data;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(sun4i_timer_regs_offset); i++)
-> +		regs_backup[i] = readl(base + sun4i_timer_regs_offset[i]);
-> +}
-> +
-> +static inline void sun4i_timer_restore_regs(struct timer_of *to)
-> +{
-> +	void __iomem *base = timer_of_base(to);
-> +	int i;
-> +	u32 *regs_backup = (u32 *)to->private_data;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(sun4i_timer_regs_offset); i++)
-> +		writel(regs_backup[i], base + sun4i_timer_regs_offset[i]);
-> +}
-> +
->   static int sun4i_clkevt_shutdown(struct clock_event_device *evt)
->   {
->   	struct timer_of *to = to_timer_of(evt);
->   
-> +	sun4i_timer_save_regs(to);
-> +	sun4i_clkevt_time_stop(timer_of_base(to), 0);
-> +
-> +	return 0;
-> +}
-> +
-> +static int sun4i_tick_resume(struct clock_event_device *evt)
-> +{
-> +	struct timer_of *to = to_timer_of(evt);
-> +
-> +	sun4i_timer_restore_regs(to);
->   	sun4i_clkevt_time_stop(timer_of_base(to), 0);
->   
->   	return 0;
-> @@ -137,45 +181,54 @@ static irqreturn_t sun4i_timer_interrupt(int irq, void *dev_id)
->   	return IRQ_HANDLED;
->   }
->   
-> -static struct timer_of to = {
-> -	.flags = TIMER_OF_IRQ | TIMER_OF_CLOCK | TIMER_OF_BASE,
-> -
-> -	.clkevt = {
-> -		.name = "sun4i_tick",
-> -		.rating = 350,
-> -		.features = CLOCK_EVT_FEAT_PERIODIC | CLOCK_EVT_FEAT_ONESHOT,
-> -		.set_state_shutdown = sun4i_clkevt_shutdown,
-> -		.set_state_periodic = sun4i_clkevt_set_periodic,
-> -		.set_state_oneshot = sun4i_clkevt_set_oneshot,
-> -		.tick_resume = sun4i_clkevt_shutdown,
-> -		.set_next_event = sun4i_clkevt_next_event,
-> -		.cpumask = cpu_possible_mask,
-> -	},
-> -
-> -	.of_irq = {
-> -		.handler = sun4i_timer_interrupt,
-> -		.flags = IRQF_TIMER | IRQF_IRQPOLL,
-> -	},
-> -};
-> +static void __init sun4i_clockevent_init(struct timer_of *to)
-> +{
-> +	to->clkevt.name = "sun4i_tick";
-> +	to->clkevt.features = CLOCK_EVT_FEAT_PERIODIC | CLOCK_EVT_FEAT_ONESHOT;
-> +	to->clkevt.set_state_shutdown = sun4i_clkevt_shutdown;
-> +	to->clkevt.set_state_periodic = sun4i_clkevt_set_periodic;
-> +	to->clkevt.set_state_oneshot = sun4i_clkevt_set_oneshot;
-> +	to->clkevt.tick_resume = sun4i_tick_resume;
-> +	to->clkevt.set_next_event = sun4i_clkevt_next_event;
-> +	to->clkevt.cpumask = cpu_possible_mask;
-> +	to->of_irq.flags = IRQF_TIMER | IRQF_IRQPOLL;
-> +
-> +	sun4i_timer_sched_base = timer_of_base(to) + TIMER_CNTVAL_REG(1);
-> +}
->   
->   static u64 notrace sun4i_timer_sched_read(void)
->   {
-> -	return ~readl(timer_of_base(&to) + TIMER_CNTVAL_REG(1));
-> +	return (u64)~readl(sun4i_timer_sched_base);
->   }
->   
->   static int __init sun4i_timer_init(struct device_node *node)
->   {
-> +	struct timer_of *to;
->   	int ret;
->   	u32 val;
->   
-> -	ret = timer_of_init(node, &to);
-> +	to = kzalloc(sizeof(*to), GFP_KERNEL);
-> +	if (!to)
-> +		return -ENOMEM;
-> +
-> +	to->flags = TIMER_OF_IRQ | TIMER_OF_CLOCK | TIMER_OF_BASE;
-> +	to->of_irq.handler = sun4i_timer_interrupt;
-> +	ret = timer_of_init(node, to);
->   	if (ret)
-> -		return ret;
-> +		goto err;
->   
-> -	writel(~0, timer_of_base(&to) + TIMER_INTVAL_REG(1));
-> +	sun4i_clockevent_init(to);
-> +
-> +	to->private_data = kcalloc(ARRAY_SIZE(sun4i_timer_regs_offset), sizeof(u32), GFP_KERNEL);
-> +	if (!to->private_data) {
-> +		ret = -ENOMEM;
-> +		goto err1;
-> +	}
-> +
-> +	writel(~0, timer_of_base(to) + TIMER_INTVAL_REG(1));
->   	writel(TIMER_CTL_ENABLE | TIMER_CTL_RELOAD |
->   	       TIMER_CTL_CLK_SRC(TIMER_CTL_CLK_SRC_OSC24M),
-> -	       timer_of_base(&to) + TIMER_CTL_REG(1));
-> +	       timer_of_base(to) + TIMER_CTL_REG(1));
->   
->   	/*
->   	 * sched_clock_register does not have priorities, and on sun6i and
-> @@ -186,32 +239,40 @@ static int __init sun4i_timer_init(struct device_node *node)
->   	    of_machine_is_compatible("allwinner,sun5i-a10s") ||
->   	    of_machine_is_compatible("allwinner,suniv-f1c100s"))
->   		sched_clock_register(sun4i_timer_sched_read, 32,
-> -				     timer_of_rate(&to));
-> +				     timer_of_rate(to));
->   
-> -	ret = clocksource_mmio_init(timer_of_base(&to) + TIMER_CNTVAL_REG(1),
-> -				    node->name, timer_of_rate(&to), 350, 32,
-> +	ret = clocksource_mmio_init(timer_of_base(to) + TIMER_CNTVAL_REG(1),
-> +				    node->name, timer_of_rate(to), 350, 32,
->   				    clocksource_mmio_readl_down);
->   	if (ret) {
->   		pr_err("Failed to register clocksource\n");
-> -		return ret;
-> +		goto err2;
->   	}
->   
->   	writel(TIMER_CTL_CLK_SRC(TIMER_CTL_CLK_SRC_OSC24M),
-> -	       timer_of_base(&to) + TIMER_CTL_REG(0));
-> +	       timer_of_base(to) + TIMER_CTL_REG(0));
->   
->   	/* Make sure timer is stopped before playing with interrupts */
-> -	sun4i_clkevt_time_stop(timer_of_base(&to), 0);
-> +	sun4i_clkevt_time_stop(timer_of_base(to), 0);
->   
->   	/* clear timer0 interrupt */
-> -	sun4i_timer_clear_interrupt(timer_of_base(&to));
-> +	sun4i_timer_clear_interrupt(timer_of_base(to));
->   
-> -	clockevents_config_and_register(&to.clkevt, timer_of_rate(&to),
-> +	clockevents_config_and_register(&to->clkevt, timer_of_rate(to),
->   					TIMER_SYNC_TICKS, 0xffffffff);
->   
->   	/* Enable timer0 interrupt */
-> -	val = readl(timer_of_base(&to) + TIMER_IRQ_EN_REG);
-> -	writel(val | TIMER_IRQ_EN(0), timer_of_base(&to) + TIMER_IRQ_EN_REG);
-> +	val = readl(timer_of_base(to) + TIMER_IRQ_EN_REG);
-> +	writel(val | TIMER_IRQ_EN(0), timer_of_base(to) + TIMER_IRQ_EN_REG);
-> +
-> +	return ret;
->   
-> +err2:
-> +	kfree(to->private_data);
-> +err1:
-> +	timer_of_cleanup(to);
-> +err:
-> +	kfree(to);
->   	return ret;
->   }
->   TIMER_OF_DECLARE(sun4i, "allwinner,sun4i-a10-timer",
+This patchset has some nice changes and I like how the commit messages
+really answered the review questions I had.
 
-Hi Maxime,
-Sorry to disturb. Just want to say that I'm looking forward to your
-advice on this patch. Thank you : )
+regards,
+dan carpenter
 
-Regards,
-Victor
