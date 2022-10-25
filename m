@@ -1,86 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394ADEBE;
-	Tue, 25 Oct 2022 10:41:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C550C433D6;
-	Tue, 25 Oct 2022 10:41:38 +0000 (UTC)
-Message-ID: <293e27b5-b7b0-c637-fd3a-2f6dfa507c81@xs4all.nl>
-Date: Tue, 25 Oct 2022 12:41:36 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA5CB7B
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Oct 2022 14:59:24 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 810F2D6E;
+	Tue, 25 Oct 2022 07:59:24 -0700 (PDT)
+Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B312B3F71A;
+	Tue, 25 Oct 2022 07:59:16 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	soc@kernel.org,
+	Icenowy Zheng <uwu@icenowy.me>,
+	=?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
+Subject: [PATCH 0/3] ARM: dts: Add Lctech Pi F1C200s board support
+Date: Tue, 25 Oct 2022 15:59:06 +0100
+Message-Id: <20221025145909.2837939-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v1] media: cedrus: Propagate error code from
- cedrus_h265_skip_bits()
-Content-Language: en-US
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- Maxime Ripard <mripard@kernel.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- kernel@collabora.com
-References: <20220914150105.209484-1-dmitry.osipenko@collabora.com>
- <d75c0597-2323-27f2-a7e2-b319667bdcf6@xs4all.nl>
- <12078224.O9o76ZdvQC@jernej-laptop>
- <3a26e105-9c50-8cdd-b4be-ba97b3306261@collabora.com>
- <1103d833-6c29-6ccb-05dd-a2883eaa2281@xs4all.nl>
- <fcf78a88-ab27-3a6a-db06-66504fc18e10@collabora.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <fcf78a88-ab27-3a6a-db06-66504fc18e10@collabora.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 10/25/22 12:36, Dmitry Osipenko wrote:
-> On 10/25/22 13:23, Hans Verkuil wrote:
->> On 10/25/22 11:34, Dmitry Osipenko wrote:
->>> On 10/25/22 07:59, Jernej Škrabec wrote:
->>>> Dne ponedeljek, 24. oktober 2022 ob 13:38:36 CEST je Hans Verkuil napisal(a):
->>>>> Hi Dmitry,
->>>>>
->>>>> This patch has a conflict with this patch from Jernej:
->>>>>
->>>>> https://patchwork.linuxtv.org/project/linux-media/patch/20221017194413.11983
->>>>> 01-1-jernej.skrabec@gmail.com/
->>>>>
->>>>> I decided to take Jernej's patch first. Can you make a v2 that sits on top
->>>>> of that patch?
->>>> I believe you already merged first version of the patch for 6.1. No need for 
->>>> this version though, first version already solves main issue.
->>>
->>> That was a followup to the first version.
->>>
->>
->> I have no idea what you are both talking about :-)
->>
->> "I believe you already merged first version of the patch for 6.1" Which patch
->> are you referring to?
-> 
-> This is about [1] that was already merged. This patch implements the
-> error propagation that Jernej asked [2] when he reviewed [1].
-> 
-> [1]
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=91db7a3fc7fe670cf1770a398a43bb4a1f776bf1
-> 
-> [2] https://lore.kernel.org/lkml/1733932.VLH7GnMWUR@kista/
-> 
-> I'll prepare the v2 if this change is still desired by Jernej.
-> 
+Hi,
 
-Ah, OK. That was not obvious to me :-)
+The Lctech Pi F1C200s is a small development board with the eponymous
+Allwinner SoC.
+It ships with SPI NAND flash, but I couldn't get that to work:
+============
+spi-nand spi0.0: unknown raw ID 00000000
+spi-nand: probe of spi0.0 failed with error -524
+============
+I leave in the DT node anyway (minus partitions), matching the schematic.
 
-I'll mark this v1 patch as 'Changes Requested' in patchwork.
+The boards has two USB-C ports, one of which is connected to a USB
+serial adapter chip. Since the other one (connected to the MUSB
+controller) lacks any CC pin connections, I need to fix the OTG role
+here, and went with peripheral. Forcing host mode worked as well, but
+requires a separate power supply (although the other USB port works for
+that as well).
 
-Thank you for the explanation!
+The board was apparently also sold under the "Cherry Pi" brand before.
 
-Regards,
+Patches 1 and 2 add the required DT bindings for the vendor and board
+name strings, patch 3 adds the .dts file.
 
-	Hans
+Please have a look!
+
+Cheers,
+Andre
+
+Andre Przywara (3):
+  dt-bindings: vendor-prefixes: add Lctech name
+  dt-bindings: arm: sunxi: add compatible strings for Lctech Pi
+  ARM: dts: suniv: Add Lctech Pi F1C200s devicetree
+
+ .../devicetree/bindings/arm/sunxi.yaml        |  6 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+ arch/arm/boot/dts/Makefile                    |  1 +
+ arch/arm/boot/dts/suniv-f1c100s.dtsi          |  5 ++
+ arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts | 80 +++++++++++++++++++
+ 5 files changed, 94 insertions(+)
+ create mode 100644 arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts
+
+-- 
+2.25.1
+
