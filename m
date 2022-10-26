@@ -1,200 +1,285 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B03C7479;
-	Tue, 25 Oct 2022 16:54:51 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id v1so22134891wrt.11;
-        Tue, 25 Oct 2022 09:54:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wj7FhB58uMn4h8H3wgZfmSRd9vXTbsp8lRGrOrs+X1o=;
-        b=KoO/IFDIdAddmPIJ1BG+QvpjyIUIS+dN795VoEhPKi5wfaQcbf+E+GBzzCH6fbXB/f
-         d9ezM6PZerO2XMyIMxsSkwcP20hElLy6CA53mi4Ad70JlUoEJZ4K5wCBfivlaTzslW/j
-         YMhNodNgw0XA0BPiiU+0Hcacb+yulPiCGfNKmvPAuKajNPunn14TvN1/MPH986ZC67w0
-         zkf6rSBJMR4omsaTAkmgZQtJcYGtOFewv3K43i1E5CtMwARAPVfK5Tq/KrxUNFrk7sYb
-         2mv3NfngdOVyfsvD7dk7CUw6njAMR0Vg70i5toRbU7IqeLnCDaRSm4G0ppSF5+EIz4O0
-         73lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Wj7FhB58uMn4h8H3wgZfmSRd9vXTbsp8lRGrOrs+X1o=;
-        b=W7sTc2F5efYP/CeqF0PXAikqbIw7vBnPwiSpn0n+8wFQcbXpvE8kUyDeSRDdHIrzBY
-         kvNGV2OyPcy+unOpKVahYJpVz8KLO0qEKz/OqawKyU7MvXVjHO7JjeR+OgQnPgCS9k06
-         ZkskHHAqfPTiBXAKqjCZ8HYyRwnMYwVbM7NVwRdWw/5glhS1aS21nLD7rHpnQzJj6FCZ
-         0sKTHPu78qdychahhAMOxAvs10QZuzTH4AUi/nJB8GV191iLYAutjV6WwL1oJNLlv+88
-         LROdQ/n9JKTaDv8l5HHqNkfp2Dc6foCb391ZeN8boDPE+unnPjYNjTy8dUDJbTZpNhCP
-         419A==
-X-Gm-Message-State: ACrzQf1XxbivY4ZQUZXBbSgNSS6Md9lAfhddL5boRRjqhHSSSNyAYbLh
-	SHMp19QBC1AGFRY8kCYP0KLq1FeJnqSZmQ==
-X-Google-Smtp-Source: AMsMyM4QbdbhgbDyi34T6qfyQKp7IPL827BhF9NwQyMqQzPbUOVWRISJYasElMB6P/tEeZYiLkd+dQ==
-X-Received: by 2002:a5d:64c2:0:b0:22e:41b1:faf7 with SMTP id f2-20020a5d64c2000000b0022e41b1faf7mr24834767wri.428.1666716879104;
-        Tue, 25 Oct 2022 09:54:39 -0700 (PDT)
-Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id a20-20020a05600c349400b003a6a3595edasm3023989wmq.27.2022.10.25.09.54.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Oct 2022 09:54:38 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: maxime@cerno.tech,
-	joro@8bytes.org,
-	will@kernel.org,
-	robin.murphy@arm.com
-Cc: wens@csie.org,
-	samuel@sholland.org,
-	iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 5/5] iommu/sun50i: Implement .iotlb_sync_map
-Date: Tue, 25 Oct 2022 18:54:15 +0200
-Message-Id: <20221025165415.307591-6-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221025165415.307591-1-jernej.skrabec@gmail.com>
-References: <20221025165415.307591-1-jernej.skrabec@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71177B
+	for <linux-sunxi@lists.linux.dev>; Wed, 26 Oct 2022 08:21:16 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id AD6B73200413;
+	Wed, 26 Oct 2022 04:21:13 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Wed, 26 Oct 2022 04:21:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1666772473; x=
+	1666858873; bh=72610K1J3wmTniq/6jI50qZaUJG9FcbeHM8xWZxsyGY=; b=A
+	jeEXUDcjbgaTqMXcsPh4ofJjFLbzuFZ+sfUJUSaTHXCAU7eJwEwQcGGP3jGb15IA
+	rRvRmdOL89NDVEG9cRe5IFfuiyZwR8Zjq+HqewJyWloN33IHZ/JJsdUbD0bObKNH
+	PRIuEhQ199DRFlkbLStSqhMqkELNuF7AJrbyBwgnzWRGNysUJLnTfbhDgkmEGjhz
+	yr9Q/Wl6MeTmiKGyUtvU5vaWIFroZ6xRhtz30FGvMbLDjlfaQ8PxsmaZMJAdC12Y
+	gqcXtYQib4F+MaBcflJ3Ih/wskWW9uJtoFokwaLAyYxAldQ5KAhra0Oeh8LWHoOg
+	tpLD2YYW6t5IA163elUDg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1666772473; x=
+	1666858873; bh=72610K1J3wmTniq/6jI50qZaUJG9FcbeHM8xWZxsyGY=; b=R
+	cRvaRjhdUmc6RRNzQVpIynk3vQTv9zbZhHmakJnySijg8T40OLtsmMgK9ZJ8HDxY
+	tNrWxxcGYdPCkXSat8l+ovPk3dQoFQUPYQKTrgOW0R3K83OoX0kNcZJFttWI269d
+	VM21UNkzh3Em4BAsGWqkWdt4C/X7x0ChthsqGPy9gctEYe4CKbgn5Q7YE2Fb/V3h
+	oyvqOR+YxAYJMikNcYBITDmfnRsPI4NcV4CI7FA9eN21bHnNYRQUfCO5r/4jOy6/
+	O1a3EaC9Y0KLQxxivknGJYtKQTQg75iz/sm3eR+EDaS6ails2M/lpbLmQkqrWRKa
+	9aMqVvkzJcPjioTR43Hqg==
+X-ME-Sender: <xms:-O1YY50PO8roe4Y9aKN0Sr0a1CAEkrD1HJLcR5bf5_tCJgOhHnBQlA>
+    <xme:-O1YYwHQ3v0wHDWoosjSLhGmyVLk3UTqtza-yBdbCazVox6UaFjHb-QrM9VGnnTbt
+    nXunyoohHR0G4RqaHE>
+X-ME-Received: <xmr:-O1YY57OC915PlPGrvqEahSDf7dxMd1V7HpRT2QjBKSVfs99NJ1wm2S0xvy5JnwP5SWTYcQopaeQN8lyDQRV760apNjcWZ6TR75zaQH6P_jRiw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrtddvgddtfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhfffvvefukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepmhgrgihi
+    mhgvsegtvghrnhhordhtvggthhenucggtffrrghtthgvrhhnpedvtefggeffuefhkedufe
+    ffgffhgfehheetheeghfffkeduhfegffeukeelvdejgfenucevlhhushhtvghrufhiiigv
+    pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtg
+    hh
+X-ME-Proxy: <xmx:-O1YY21ZNHx5tClKEydFY0yT9oT9sMGeVbaVtlziZ3Yd_teT26xBmg>
+    <xmx:-O1YY8HFYR1enaQBQtDFvrtrpX45LHIj8_YDhzZEZRE-mD_MI4yozA>
+    <xmx:-O1YY381H4dmXj8lW4apM31l1N4B3Neolo8gguaYWLlAcQ-TufPrSg>
+    <xmx:-e1YY6VzCF4ev5J6ariJtm5xMMRCQ_Wq3-wGa6OU2orQFas8MWzX2Q>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 26 Oct 2022 04:21:11 -0400 (EDT)
+From: maxime@cerno.tech
+Date: Wed, 26 Oct 2022 10:21:10 +0200
+To: Victor Hassan <victor@allwinnertech.com>
+Cc: daniel.lezcano@linaro.org, tglx@linutronix.de, wens@csie.org,
+	jernej.skrabec@gmail.com, samuel@sholland.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [RESEND] clocksource: sun4i: Fix the bug that tick_resume stucks
+Message-ID: <20221026082110.b7pguv7tkltn74k4@houat>
+11;rgb: ffff/ffff/ffffFrom: Maxime Ripard <maxime@cerno.tech>
+References: <20221009032507.39145-1-victor@allwinnertech.com>
+ <83fa8869-5cc2-2306-0a82-d05c9e390316@allwinnertech.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <83fa8869-5cc2-2306-0a82-d05c9e390316@allwinnertech.com>
 
-Allocated iova ranges need to be invalidated immediately or otherwise
-they might or might not work when used by master or CPU. This was
-discovered when running video decoder conformity test with Cedrus. Some
-videos were now and then decoded incorrectly and generated page faults.
+Hi,
 
-According to vendor driver, it's enough to invalidate just start and end
-TLB and PTW cache lines. Documentation says that neighbouring lines must
-be invalidated too. Finally, when page fault occurs, that iova must be
-invalidated the same way, according to documentation.
+On Tue, Oct 25, 2022 at 02:23:09PM +0800, Victor Hassan wrote:
+> On 2022/10/9 11:25, Victor Hassan wrote:
+> > Currently syscore_resume() will stuck on tick_resume().
+> > Fix this by changing  `.tick_resume` from
+> > sun4i_clkevt_shutdown() to a new function sun4i_tick_resume().
+> >=20
+> > Signed-off-by: Victor Hassan <victor@allwinnertech.com>
+> > ---
+> >   drivers/clocksource/timer-sun4i.c | 131 ++++++++++++++++++++++--------
+> >   1 file changed, 96 insertions(+), 35 deletions(-)
+> >=20
+> > diff --git a/drivers/clocksource/timer-sun4i.c b/drivers/clocksource/ti=
+mer-sun4i.c
+> > index 94dc6e42e983..574398c35a22 100644
+> > --- a/drivers/clocksource/timer-sun4i.c
+> > +++ b/drivers/clocksource/timer-sun4i.c
+> > @@ -38,6 +38,19 @@
+> >   #define TIMER_SYNC_TICKS	3
+> > +/* Registers which needs to be saved and restored before and after sle=
+eping */
+> > +static u32 sun4i_timer_regs_offset[] =3D {
+> > +	TIMER_IRQ_EN_REG,
+> > +	TIMER_CTL_REG(0),
+> > +	TIMER_INTVAL_REG(0),
+> > +	TIMER_CNTVAL_REG(0),
+> > +	TIMER_CTL_REG(1),
+> > +	TIMER_INTVAL_REG(1),
+> > +	TIMER_CNTVAL_REG(1),
+> > +};
+> > +
+> > +static void __iomem *sun4i_timer_sched_base __read_mostly;
+> > +
+> >   /*
+> >    * When we disable a timer, we need to wait at least for 2 cycles of
+> >    * the timer source clock. We will use for that the clocksource timer
+> > @@ -79,10 +92,41 @@ static void sun4i_clkevt_time_start(void __iomem *b=
+ase, u8 timer,
+> >   	       base + TIMER_CTL_REG(timer));
+> >   }
+> > +static inline void sun4i_timer_save_regs(struct timer_of *to)
+> > +{
+> > +	void __iomem *base =3D timer_of_base(to);
+> > +	int i;
+> > +	u32 *regs_backup =3D (u32 *)to->private_data;
+> > +
+> > +	for (i =3D 0; i < ARRAY_SIZE(sun4i_timer_regs_offset); i++)
+> > +		regs_backup[i] =3D readl(base + sun4i_timer_regs_offset[i]);
+> > +}
+> > +
+> > +static inline void sun4i_timer_restore_regs(struct timer_of *to)
+> > +{
+> > +	void __iomem *base =3D timer_of_base(to);
+> > +	int i;
+> > +	u32 *regs_backup =3D (u32 *)to->private_data;
+> > +
+> > +	for (i =3D 0; i < ARRAY_SIZE(sun4i_timer_regs_offset); i++)
+> > +		writel(regs_backup[i], base + sun4i_timer_regs_offset[i]);
+> > +}
+> > +
+> >   static int sun4i_clkevt_shutdown(struct clock_event_device *evt)
+> >   {
+> >   	struct timer_of *to =3D to_timer_of(evt);
+> > +	sun4i_timer_save_regs(to);
+> > +	sun4i_clkevt_time_stop(timer_of_base(to), 0);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int sun4i_tick_resume(struct clock_event_device *evt)
+> > +{
+> > +	struct timer_of *to =3D to_timer_of(evt);
+> > +
+> > +	sun4i_timer_restore_regs(to);
+> >   	sun4i_clkevt_time_stop(timer_of_base(to), 0);
+> >   	return 0;
+> > @@ -137,45 +181,54 @@ static irqreturn_t sun4i_timer_interrupt(int irq,=
+ void *dev_id)
+> >   	return IRQ_HANDLED;
+> >   }
+> > -static struct timer_of to =3D {
+> > -	.flags =3D TIMER_OF_IRQ | TIMER_OF_CLOCK | TIMER_OF_BASE,
+> > -
+> > -	.clkevt =3D {
+> > -		.name =3D "sun4i_tick",
+> > -		.rating =3D 350,
+> > -		.features =3D CLOCK_EVT_FEAT_PERIODIC | CLOCK_EVT_FEAT_ONESHOT,
+> > -		.set_state_shutdown =3D sun4i_clkevt_shutdown,
+> > -		.set_state_periodic =3D sun4i_clkevt_set_periodic,
+> > -		.set_state_oneshot =3D sun4i_clkevt_set_oneshot,
+> > -		.tick_resume =3D sun4i_clkevt_shutdown,
+> > -		.set_next_event =3D sun4i_clkevt_next_event,
+> > -		.cpumask =3D cpu_possible_mask,
+> > -	},
+> > -
+> > -	.of_irq =3D {
+> > -		.handler =3D sun4i_timer_interrupt,
+> > -		.flags =3D IRQF_TIMER | IRQF_IRQPOLL,
+> > -	},
+> > -};
+> > +static void __init sun4i_clockevent_init(struct timer_of *to)
+> > +{
+> > +	to->clkevt.name =3D "sun4i_tick";
+> > +	to->clkevt.features =3D CLOCK_EVT_FEAT_PERIODIC | CLOCK_EVT_FEAT_ONES=
+HOT;
+> > +	to->clkevt.set_state_shutdown =3D sun4i_clkevt_shutdown;
+> > +	to->clkevt.set_state_periodic =3D sun4i_clkevt_set_periodic;
+> > +	to->clkevt.set_state_oneshot =3D sun4i_clkevt_set_oneshot;
+> > +	to->clkevt.tick_resume =3D sun4i_tick_resume;
+> > +	to->clkevt.set_next_event =3D sun4i_clkevt_next_event;
+> > +	to->clkevt.cpumask =3D cpu_possible_mask;
+> > +	to->of_irq.flags =3D IRQF_TIMER | IRQF_IRQPOLL;
+> > +
+> > +	sun4i_timer_sched_base =3D timer_of_base(to) + TIMER_CNTVAL_REG(1);
+> > +}
+> >   static u64 notrace sun4i_timer_sched_read(void)
+> >   {
+> > -	return ~readl(timer_of_base(&to) + TIMER_CNTVAL_REG(1));
+> > +	return (u64)~readl(sun4i_timer_sched_base);
+> >   }
+> >   static int __init sun4i_timer_init(struct device_node *node)
+> >   {
+> > +	struct timer_of *to;
+> >   	int ret;
+> >   	u32 val;
+> > -	ret =3D timer_of_init(node, &to);
+> > +	to =3D kzalloc(sizeof(*to), GFP_KERNEL);
+> > +	if (!to)
+> > +		return -ENOMEM;
+> > +
+> > +	to->flags =3D TIMER_OF_IRQ | TIMER_OF_CLOCK | TIMER_OF_BASE;
+> > +	to->of_irq.handler =3D sun4i_timer_interrupt;
+> > +	ret =3D timer_of_init(node, to);
+> >   	if (ret)
+> > -		return ret;
+> > +		goto err;
+> > -	writel(~0, timer_of_base(&to) + TIMER_INTVAL_REG(1));
+> > +	sun4i_clockevent_init(to);
+> > +
+> > +	to->private_data =3D kcalloc(ARRAY_SIZE(sun4i_timer_regs_offset), siz=
+eof(u32), GFP_KERNEL);
+> > +	if (!to->private_data) {
+> > +		ret =3D -ENOMEM;
+> > +		goto err1;
+> > +	}
+> > +
+> > +	writel(~0, timer_of_base(to) + TIMER_INTVAL_REG(1));
+> >   	writel(TIMER_CTL_ENABLE | TIMER_CTL_RELOAD |
+> >   	       TIMER_CTL_CLK_SRC(TIMER_CTL_CLK_SRC_OSC24M),
+> > -	       timer_of_base(&to) + TIMER_CTL_REG(1));
+> > +	       timer_of_base(to) + TIMER_CTL_REG(1));
+> >   	/*
+> >   	 * sched_clock_register does not have priorities, and on sun6i and
+> > @@ -186,32 +239,40 @@ static int __init sun4i_timer_init(struct device_=
+node *node)
+> >   	    of_machine_is_compatible("allwinner,sun5i-a10s") ||
+> >   	    of_machine_is_compatible("allwinner,suniv-f1c100s"))
+> >   		sched_clock_register(sun4i_timer_sched_read, 32,
+> > -				     timer_of_rate(&to));
+> > +				     timer_of_rate(to));
+> > -	ret =3D clocksource_mmio_init(timer_of_base(&to) + TIMER_CNTVAL_REG(1=
+),
+> > -				    node->name, timer_of_rate(&to), 350, 32,
+> > +	ret =3D clocksource_mmio_init(timer_of_base(to) + TIMER_CNTVAL_REG(1),
+> > +				    node->name, timer_of_rate(to), 350, 32,
+> >   				    clocksource_mmio_readl_down);
+> >   	if (ret) {
+> >   		pr_err("Failed to register clocksource\n");
+> > -		return ret;
+> > +		goto err2;
+> >   	}
+> >   	writel(TIMER_CTL_CLK_SRC(TIMER_CTL_CLK_SRC_OSC24M),
+> > -	       timer_of_base(&to) + TIMER_CTL_REG(0));
+> > +	       timer_of_base(to) + TIMER_CTL_REG(0));
+> >   	/* Make sure timer is stopped before playing with interrupts */
+> > -	sun4i_clkevt_time_stop(timer_of_base(&to), 0);
+> > +	sun4i_clkevt_time_stop(timer_of_base(to), 0);
+> >   	/* clear timer0 interrupt */
+> > -	sun4i_timer_clear_interrupt(timer_of_base(&to));
+> > +	sun4i_timer_clear_interrupt(timer_of_base(to));
+> > -	clockevents_config_and_register(&to.clkevt, timer_of_rate(&to),
+> > +	clockevents_config_and_register(&to->clkevt, timer_of_rate(to),
+> >   					TIMER_SYNC_TICKS, 0xffffffff);
+> >   	/* Enable timer0 interrupt */
+> > -	val =3D readl(timer_of_base(&to) + TIMER_IRQ_EN_REG);
+> > -	writel(val | TIMER_IRQ_EN(0), timer_of_base(&to) + TIMER_IRQ_EN_REG);
+> > +	val =3D readl(timer_of_base(to) + TIMER_IRQ_EN_REG);
+> > +	writel(val | TIMER_IRQ_EN(0), timer_of_base(to) + TIMER_IRQ_EN_REG);
+> > +
+> > +	return ret;
+> > +err2:
+> > +	kfree(to->private_data);
+> > +err1:
+> > +	timer_of_cleanup(to);
+> > +err:
+> > +	kfree(to);
+> >   	return ret;
+> >   }
+> >   TIMER_OF_DECLARE(sun4i, "allwinner,sun4i-a10-timer",
+>=20
+> Hi Maxime,
+> Sorry to disturb. Just want to say that I'm looking forward to your
+> advice on this patch. Thank you : )
 
-Fixes: 4100b8c229b3 ("iommu: Add Allwinner H6 IOMMU driver")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
-Changes from v1:
- - new patch
+I'm not the maintainer anymore. Jernej, Samuel and Daniel are the ones
+you should seek review from :)
 
- drivers/iommu/sun50i-iommu.c | 73 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 73 insertions(+)
-
-diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
-index e62e245060ac..5cb2d44dfb92 100644
---- a/drivers/iommu/sun50i-iommu.c
-+++ b/drivers/iommu/sun50i-iommu.c
-@@ -93,6 +93,8 @@
- #define NUM_PT_ENTRIES			256
- #define PT_SIZE				(NUM_PT_ENTRIES * PT_ENTRY_SIZE)
-
-+#define SPAGE_SIZE			4096
-+
- struct sun50i_iommu {
- 	struct iommu_device iommu;
-
-@@ -295,6 +297,62 @@ static void sun50i_table_flush(struct sun50i_iommu_domain *sun50i_domain,
- 	dma_sync_single_for_device(iommu->dev, dma, size, DMA_TO_DEVICE);
- }
-
-+static void sun50i_iommu_zap_iova(struct sun50i_iommu *iommu,
-+				  unsigned long iova)
-+{
-+	u32 reg;
-+	int ret;
-+
-+	iommu_write(iommu, IOMMU_TLB_IVLD_ADDR_REG, iova);
-+	iommu_write(iommu, IOMMU_TLB_IVLD_ADDR_MASK_REG, GENMASK(31, 12));
-+	iommu_write(iommu, IOMMU_TLB_IVLD_ENABLE_REG,
-+		    IOMMU_TLB_IVLD_ENABLE_ENABLE);
-+
-+	ret = readl_poll_timeout_atomic(iommu->base + IOMMU_TLB_IVLD_ENABLE_REG,
-+					reg, !reg, 1, 2000);
-+	if (ret)
-+		dev_warn(iommu->dev, "TLB invalidation timed out!\n");
-+}
-+
-+static void sun50i_iommu_zap_ptw_cache(struct sun50i_iommu *iommu,
-+				       unsigned long iova)
-+{
-+	u32 reg;
-+	int ret;
-+
-+	iommu_write(iommu, IOMMU_PC_IVLD_ADDR_REG, iova);
-+	iommu_write(iommu, IOMMU_PC_IVLD_ENABLE_REG,
-+		    IOMMU_PC_IVLD_ENABLE_ENABLE);
-+
-+	ret = readl_poll_timeout_atomic(iommu->base + IOMMU_PC_IVLD_ENABLE_REG,
-+					reg, !reg, 1, 2000);
-+	if (ret)
-+		dev_warn(iommu->dev, "PTW cache invalidation timed out!\n");
-+}
-+
-+static void sun50i_iommu_zap_range(struct sun50i_iommu *iommu,
-+				   unsigned long iova, size_t size)
-+{
-+	assert_spin_locked(&iommu->iommu_lock);
-+
-+	iommu_write(iommu, IOMMU_AUTO_GATING_REG, 0);
-+
-+	sun50i_iommu_zap_iova(iommu, iova);
-+	sun50i_iommu_zap_iova(iommu, iova + SPAGE_SIZE);
-+	if (size > SPAGE_SIZE) {
-+		sun50i_iommu_zap_iova(iommu, iova + size);
-+		sun50i_iommu_zap_iova(iommu, iova + size + SPAGE_SIZE);
-+	}
-+	sun50i_iommu_zap_ptw_cache(iommu, iova);
-+	sun50i_iommu_zap_ptw_cache(iommu, iova + SZ_1M);
-+	if (size > SZ_1M) {
-+		sun50i_iommu_zap_ptw_cache(iommu, iova + size);
-+		sun50i_iommu_zap_ptw_cache(iommu, iova + size + SZ_1M);
-+	}
-+
-+	iommu_write(iommu, IOMMU_AUTO_GATING_REG, IOMMU_AUTO_GATING_ENABLE);
-+}
-+
- static int sun50i_iommu_flush_all_tlb(struct sun50i_iommu *iommu)
- {
- 	u32 reg;
-@@ -344,6 +402,18 @@ static void sun50i_iommu_flush_iotlb_all(struct iommu_domain *domain)
- 	spin_unlock_irqrestore(&iommu->iommu_lock, flags);
- }
-
-+static void sun50i_iommu_iotlb_sync_map(struct iommu_domain *domain,
-+					unsigned long iova, size_t size)
-+{
-+	struct sun50i_iommu_domain *sun50i_domain = to_sun50i_domain(domain);
-+	struct sun50i_iommu *iommu = sun50i_domain->iommu;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&iommu->iommu_lock, flags);
-+	sun50i_iommu_zap_range(iommu, iova, size);
-+	spin_unlock_irqrestore(&iommu->iommu_lock, flags);
-+}
-+
- static void sun50i_iommu_iotlb_sync(struct iommu_domain *domain,
- 				    struct iommu_iotlb_gather *gather)
- {
-@@ -767,6 +837,7 @@ static const struct iommu_ops sun50i_iommu_ops = {
- 		.attach_dev	= sun50i_iommu_attach_device,
- 		.detach_dev	= sun50i_iommu_detach_device,
- 		.flush_iotlb_all = sun50i_iommu_flush_iotlb_all,
-+		.iotlb_sync_map = sun50i_iommu_iotlb_sync_map,
- 		.iotlb_sync	= sun50i_iommu_iotlb_sync,
- 		.iova_to_phys	= sun50i_iommu_iova_to_phys,
- 		.map		= sun50i_iommu_map,
-@@ -786,6 +857,8 @@ static void sun50i_iommu_report_fault(struct sun50i_iommu *iommu,
- 		report_iommu_fault(iommu->domain, iommu->dev, iova, prot);
- 	else
- 		dev_err(iommu->dev, "Page fault while iommu not attached to any domain?\n");
-+
-+	sun50i_iommu_zap_range(iommu, iova, SPAGE_SIZE);
- }
-
- static phys_addr_t sun50i_iommu_handle_pt_irq(struct sun50i_iommu *iommu,
---
-2.38.1
-
+Maxime
