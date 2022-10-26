@@ -1,45 +1,45 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44BDA7B
-	for <linux-sunxi@lists.linux.dev>; Wed, 26 Oct 2022 14:50:16 +0000 (UTC)
-Received: by mail-qv1-f45.google.com with SMTP id x15so11644415qvp.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 26 Oct 2022 07:50:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF207B
+	for <linux-sunxi@lists.linux.dev>; Wed, 26 Oct 2022 14:51:12 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id f22so10036094qto.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 26 Oct 2022 07:51:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=i+Z+gNNMU3McZjMUVCV+bq5PaQ/StJP31GeGMFY00yQ=;
-        b=iIPefOFcajYIabwygnBa2cr7q2N+oLtPVvhqegJSA0Ufhe7KdZ3TGqotABFnYJ0C1D
-         W/NlNprE6YWePgE7Nc63LJF3EPTdaWqlceh9ze/sa8prd8ksNY1jja6yqU6JEyH95Z5L
-         rQZ3+qAkbUkke5RYamqTFblSuClAZkDL+XhUYDy6vuEsXLh3WmlgcnY0ZIJNEA5VYoVx
-         z0wLXQJ7vBkkOHMYgJysMz7AKiWUmVWF7OFi8IIC83dc+gOHzblo9KjbjJlSJTQ1JiUp
-         L2Y3x7HRjvNzQYvoXHs65umOrL/GcvVwnHGCfM17MjXJEEIRmI/oTo4K0qlFFKNqIQAN
-         tzow==
+        bh=0hva1foFrg4UuynYENfZjPsHhhI5SWAEl5ulETHYurM=;
+        b=XC32+REtK7XMnBGAJOz6my8KQnH8XwzZIpBz/EF3R7R72XY4kBiCositUwuY/4E2ru
+         Z7M9yzD/fH4hiuIsFt5HvvYVcJioKOIrmukOEk82s9bF2L4Yb1VZVaQsXRqAtb7yLzXW
+         EL7G7vCRsjrxOWJvURY5BecGL7eO2y8m+rHmnlJjBgsbtdX4EjtrMHCCVtRQTU+3YkwH
+         +3YTzOvvbDVzhCWvBACYAqz2pqf9bHkZ1vtyh/jEiCbMmF+ogWJerCVeMzxYKTtq8FFE
+         AQZ8u9V+99aJ2N9/xEvO9aNofzjb/OKW1/KVrSP5iPvBpQ1DHk1S3K0MDYk/akZZ8LEI
+         DrZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=i+Z+gNNMU3McZjMUVCV+bq5PaQ/StJP31GeGMFY00yQ=;
-        b=npRLSh4+q0T/Op14urOCye7PaTy7UZPEt3QXCg63I/Ro05pdqu7FS2cg3NKkSWAqNM
-         fSUfbzIftY7LDRAj6ZSC9OzUmSvW65zL8L3l/rmRaegJDZ51pA6/HFFf8/s3c2OutSUV
-         PJg/hc18BJShm8aBMzzoTwmF/C20tyZk6Vxe2E6N142HWHEtZeTPMXyNJu0giQYwsTpV
-         h/yvJCWs5BsoDUp8xkY+uqs0tqSMO/obVoLVfJ1P/rrB8IRpp2pioaS7HwCV/WGFR/x7
-         R0hC7sEzXPHwE7VQMkq+rr6B96a0NO8vphK8oaIDr0RYjZC4Y3J+yjb72Kf9hIJkjwuP
-         2pAQ==
-X-Gm-Message-State: ACrzQf1UAg35GzFH6nv1N5JJFkfnstlo0zW0jNNE+9vkmQQNjcZIAKTE
-	GeMVAA/EMLGtdZA6k3NcRR+N7w==
-X-Google-Smtp-Source: AMsMyM6lqOGZD8a58+vf/bzIrwSNh5y/+CDdt5z9ZFq8Nfee+R0BXi3KqPEj+WUUXgJioniaHeafkA==
-X-Received: by 2002:a0c:aa96:0:b0:4bb:5ed3:49b6 with SMTP id f22-20020a0caa96000000b004bb5ed349b6mr18945896qvb.80.1666795815276;
-        Wed, 26 Oct 2022 07:50:15 -0700 (PDT)
+        bh=0hva1foFrg4UuynYENfZjPsHhhI5SWAEl5ulETHYurM=;
+        b=iXGuTKklPZxm6enHHXv0vLWx7ooZHrfNl5HQyHIJdUCDqoc+6gk9CtDV2FzWfVfFKm
+         daYOPEm8pPbpA9nrRUT37384Ja+DjxfM/ez5v8/QDoFGUL15zIf08iYYRih4+Ss5X5XD
+         Z3qD4My4jhehyDHzUijlz0KbcdKqJ7g+UNIA6p6KPKJKMcyx9tOjnf/SI2bgOi/SOAYz
+         w8sWea0EKk32efKVus+Bam9riEUKQJ2/6VnoeJKlwJEtny1VGXyxOBIn43ALziWHXjFH
+         9siPfHEPnt9OOLxdZxpoG+XquIgQJgHy5a5jB2dnayQ/CgUtGUEi7Br9cpNorVGMFFw6
+         swEQ==
+X-Gm-Message-State: ACrzQf2+iAUDlkCVdUySY7xuL7tNxxTunmo2UP5rUrxIHxWwlu1z5nzj
+	uBOO6XzO6iAs8BP5g1k6seXoSw==
+X-Google-Smtp-Source: AMsMyM606Yymwn1vyo/THsRRiBvagUrAx2MJFtn8L38IpAMBivLhYEk6qt+oDIkMU7nS88/imN/evg==
+X-Received: by 2002:ac8:588b:0:b0:39d:13b5:1b63 with SMTP id t11-20020ac8588b000000b0039d13b51b63mr26811583qta.670.1666795871291;
+        Wed, 26 Oct 2022 07:51:11 -0700 (PDT)
 Received: from [192.168.1.11] ([64.57.193.93])
-        by smtp.gmail.com with ESMTPSA id m17-20020a05622a055100b003994bbe91bdsm3306333qtx.60.2022.10.26.07.50.13
+        by smtp.gmail.com with ESMTPSA id dt47-20020a05620a47af00b006b953a7929csm796294qkb.73.2022.10.26.07.51.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Oct 2022 07:50:14 -0700 (PDT)
-Message-ID: <df14e401-4ee3-920b-aeb4-6bcf52ba85cf@linaro.org>
-Date: Wed, 26 Oct 2022 10:50:12 -0400
+        Wed, 26 Oct 2022 07:51:10 -0700 (PDT)
+Message-ID: <0482a4bd-e159-abc6-a641-46e1853506c4@linaro.org>
+Date: Wed, 26 Oct 2022 10:51:09 -0400
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -48,7 +48,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.0
-Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: add Lctech name
+Subject: Re: [PATCH 2/3] dt-bindings: arm: sunxi: add compatible strings for
+ Lctech Pi
 Content-Language: en-US
 To: Andre Przywara <andre.przywara@arm.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -59,38 +60,22 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, soc@kernel.org, Icenowy Zheng <uwu@icenowy.me>,
  =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
 References: <20221025145909.2837939-1-andre.przywara@arm.com>
- <20221025145909.2837939-2-andre.przywara@arm.com>
+ <20221025145909.2837939-3-andre.przywara@arm.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221025145909.2837939-2-andre.przywara@arm.com>
+In-Reply-To: <20221025145909.2837939-3-andre.przywara@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 25/10/2022 10:59, Andre Przywara wrote:
-> Shenzen LC Technology [1] is a company making various boards and related
-> products around IoT and AI technology.
-> They used to use the "Cherry Pi" brand before.
+> The Lctech Pi F1C200s is a small development board using the Allwinner
+> F1C200s SoC.
 > 
-> Add it to the vendor prefixes list.
-> 
-> [1] http://www.chinalctech.com
+> Add the compatible string list to the bindings documentation.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index 035ef859fbc58..e273bf9235946 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -695,6 +695,8 @@ patternProperties:
->      description: Lantiq Semiconductor
->    "^lattice,.*":
->      description: Lattice Semiconductor
-> +  "^lctech,.*":
-> +    description: Shenzen LC Technology Co,, Ltd.
 
-Drop one comma.
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
