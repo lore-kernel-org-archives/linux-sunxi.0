@@ -1,55 +1,55 @@
 Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22DE8186A
-	for <linux-sunxi@lists.linux.dev>; Thu, 27 Oct 2022 09:37:39 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.west.internal (Postfix) with ESMTP id E0A312B066EB;
-	Thu, 27 Oct 2022 05:37:34 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9401C186A
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 Oct 2022 11:58:32 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailnew.west.internal (Postfix) with ESMTP id 9AD912B066FE;
+	Thu, 27 Oct 2022 07:58:27 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Thu, 27 Oct 2022 05:37:39 -0400
+  by compute4.internal (MEProxy); Thu, 27 Oct 2022 07:58:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
 	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1666863454; x=1666870654; bh=5ItCVshj6J
-	yZau2J5cjH0M8JHw139GrYlnIerAQcZWs=; b=IVFSYrra2yRKDBScb6i+EPPsnR
-	H7iUD7VkPJAKE695dyeIFHVvDzTnEOFd/PuRkXJYQDLL3GqO5VDnC18zyG53l/7I
-	pvgnmLqeiBPBWXQjApcUVHOrKRHilbj5+ASZsv6ndq61A0vf5cAG6GPGNStKiCRy
-	wer2bctGBN1o9JRLtzfw8j3SxBth2GhmC1AF3SbqCoOAk5ikvGienxjeMuTVnd3b
-	CIYEdhLoJTnMe4apOVtrct3AJygLwtX9QefTOEjFMks85VRv9W7SGo+EMXE4ei+c
-	/vSdG+pF0qpFn1D0F3ffTOrvCiLzPaO3Iv99pS2pxcK/5ssmEIuPwA72joMw==
+	:subject:to:to; s=fm3; t=1666871907; x=1666879107; bh=QyApW52GGW
+	OGnMQtvgaWWVm3IOEOZXDwE9lLItGdiLY=; b=uF//YRP5AA3BkLmQtb+sTcWpgH
+	hk2HTy6BCO6QZu5obOUiI2weB0GqkqU7EYohbQTg1XdfrOGCYkVJi+p3vOUopU6I
+	JTXI5dP21OTXqJRlGU/wvVC5PBPw4hYaL2AFhxYgnFTDv36LLn4rA7ytqFXb3zAk
+	bt+FmImAVzuTI2sHRcVQRCv/XjSppxGquUVmshtTICQWRRE3m9az2fp8SqKScgPK
+	TUaI0dfU29NYrX6H/9nIbVVx2ljADhJWJ5B6VvyFLDHVXCDe2q5n3d2htKFfJmAI
+	ItI5qfAu65peUdI4fxjyHl+8YesnAPhZ0KQiGuVQ6WsmAbm8bItIXBigIHYA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
 	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
 	:mime-version:references:reply-to:sender:subject:subject:to:to
 	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1666863454; x=1666870654; bh=5ItCVshj6JyZau2J5cjH0M8JHw13
-	9GrYlnIerAQcZWs=; b=aMBp3hE4BgyODOr6WOBsdolHjS2Onrihiev6Ff/sAjQh
-	Cama2t5zFVnEKp63jv9ugJbpKhvl71qc+L5qSL1TZPihHUka8luZ1042BOHS5Sxh
-	aMKHX7Ay1bGb29oD5v8DX8oZBPKSAoX9G4RJblIy3UNVtu3bbfNqg1CYVaEHxNJc
-	pHr9LW/SlL0Xhx1KndHWOx5hpeWVSz48zu40JY3Je6zDtTTEvFuI+nyPVFLcWWtY
-	eqbDGYXUYbYyBSfExtphfrsas5tR+XzSbiwxPrJVDiXhOZHeBFTCAEXgpwFpx+Y+
-	pod1LrzbN+UsFQjTvFLBJJEhMjbUc60CIEflbK3G1Q==
-X-ME-Sender: <xms:XVFaY2V3HXvfhP1sHBM2RqKgaN_XBF1qyOB-16Icc85JB7HqiOyGyQ>
-    <xme:XVFaYymw4tPdxY-cElvQVHHZLmvXXXhqeFlJcjgr306-I0KGXWDk9VMwSgLcrhFrI
-    6vBlnwtvAVwP-Gv9dE>
-X-ME-Received: <xmr:XVFaY6Yv9syrc2eNVMwBSReD-NF-yontoCDOlMFptjpietVbD3UxWNp9XeGYc57se2BDpokpHl05GwQ2hi7OCyXnbvZ2cF1h8PCaUIeVB1DPtg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrtdeggdduiecutefuodetggdotefrodftvf
+	fm3; t=1666871907; x=1666879107; bh=QyApW52GGWOGnMQtvgaWWVm3IOEO
+	ZXDwE9lLItGdiLY=; b=X5KOnyeXpFpd9UUPBhTooylt8Bn5VnVl9lyj1OWBqdOT
+	3eMOeTk76m/uJpIUSNpx/gKUJuCsu4oMVW+2w5uu53DfcAi2dyotu5NiSwMA7zF2
+	kDpC9DrK+wT9QK/xPGF7J879cPUWSeP+ovy4NIXMMqQrF0uuI+vuw03DlVAz7TQS
+	pt3dbB5A7FyhUe6nG3yGWQ9spnihyotU/dXSS9/Fo8475Urre+4o7TjnCZnzYvrs
+	r73sucWl8RuMrSovYvdUOJfNWjeLek2qCEnfjkR9btgZ9nKZXlS5g5npQPNqoM5K
+	h/RVHWs+mq0A+Pr7hQTRzfRHGu5MGs5r3H83s45SOQ==
+X-ME-Sender: <xms:YXJaY5aeFRYAWvn_4boyMSlPUMtPRCncsfebLkPn-Q6m5CfNW_PJ0g>
+    <xme:YXJaYwZm7WHUZ4VCxlOov8hTtv0A79G-cWt5Dgj26gKfHMnZOFkle9XMXBTCpmV6o
+    -apSjI4Tjvh0SFXhos>
+X-ME-Received: <xmr:YXJaY78spjTKUkqs_2fU1bkX399-R_60g_EZ6HLN9UCDvHmIwN8L37fqeEg548BrgWVS4NSVYcLiMFanpKixKS1DHe8BG4VTiYPaVutHF9KOyw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrtdeggdeggecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
     vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
-    vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:XVFaY9XZjJldLB8TfWAvQMGF4_ZIwB3BAmJ9FrbIS74qAyEc9gHcKw>
-    <xmx:XVFaYwniTa_gv5wa6Swk-Bkdalxuyr-d6ooN7h3oJMCVZXoae2kxxg>
-    <xmx:XVFaYyfwb0zZapv__NMakGUW6Ff2JSZL3y8FQRnm40OE9l_KC--TOQ>
-    <xmx:XlFaY0E6LsDzaiDnQgO6ixyU_rtUbrrppb7Nh4KTrTCg4VBJmZ0lFuKlYcg>
+    htvghrnheptdelkeejiedufedvhfeiffetlefhiedvleeigfeiuefghfdvleeiffejieeg
+    teejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:YXJaY3oT7N2gwDsAC1XZ1-G64qxNS5TDU0IhUOr3L6R5DA9tlNkU0Q>
+    <xmx:YXJaY0qrv5MIkv2IOYl7VbFqVH1wOBiT10oOQPp3y8ziLhtfYLWm-w>
+    <xmx:YXJaY9QGn7FLTnwi69GrZCaqdXa_U_jeDlCBaFaWM1_9ltDBvk0OFw>
+    <xmx:Y3JaY3J6VznhmYf_WAgBsElkAILibCXMtkm06H7V9vua4BwAYxwq7gGAKZo>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 27 Oct 2022 05:37:32 -0400 (EDT)
-Date: Thu, 27 Oct 2022 11:37:30 +0200
+ 27 Oct 2022 07:58:24 -0400 (EDT)
+Date: Thu, 27 Oct 2022 13:58:22 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Mateusz Kwiatkowski <kfyatek@gmail.com>
 Cc: Karol Herbst <kherbst@redhat.com>, Emma Anholt <emma@anholt.net>,
@@ -72,11 +72,12 @@ Cc: Karol Herbst <kherbst@redhat.com>, Emma Anholt <emma@anholt.net>,
 	linux-kernel@vger.kernel.org,
 	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
 	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v6 16/23] drm/probe-helper: Provide a TV get_modes helper
-Message-ID: <20221027093730.tb4oaissdapf6ifr@houat>
+Subject: Re: [PATCH v6 22/23] drm/vc4: vec: Add support for more analog TV
+ standards
+Message-ID: <20221027115822.5vd3fqlcpy4gfq5v@houat>
 References: <20220728-rpi-analog-tv-properties-v6-0-e7792734108f@cerno.tech>
- <20220728-rpi-analog-tv-properties-v6-16-e7792734108f@cerno.tech>
- <8d0eee22-50f5-5b0a-c1e6-c5f61dd5bbcd@gmail.com>
+ <20220728-rpi-analog-tv-properties-v6-22-e7792734108f@cerno.tech>
+ <e9b8ebf6-8781-0c55-5dd5-9f5077bd6b93@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -84,108 +85,126 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xamrv4lbhqfdsxuo"
+	protocol="application/pgp-signature"; boundary="ysfbxxbxsmqctfb3"
 Content-Disposition: inline
-In-Reply-To: <8d0eee22-50f5-5b0a-c1e6-c5f61dd5bbcd@gmail.com>
+In-Reply-To: <e9b8ebf6-8781-0c55-5dd5-9f5077bd6b93@gmail.com>
 
 
---xamrv4lbhqfdsxuo
+--ysfbxxbxsmqctfb3
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Mateusz,
+Hi,
 
-On Thu, Oct 27, 2022 at 12:02:24AM +0200, Mateusz Kwiatkowski wrote:
-> First of all, nice idea with the helper function that can be reused by
-> different drivers. This is neat!
-
-Yeah, it looked to me that given how complex it is, we don't want to
-duplicate it in each and every driver.
-
-> But looking at this function, it feels a bit overcomplicated. You're
-> creating the two modes,
-
-If reported as supported by the connector, yes.
-
-> then checking which one is the default, then set the preferred one and
-> possibly reorder them. Maybe it can be simplified somehow?
-
-Possibly, but I couldn't find something simpler. We should only expose
-the modes that the driver reports as supported, so we can have 0-2
-modes. Then the preferred flag needs to be set on the default one like
-you suggested.
-
-But also, EDIDs define the preferred mode as either the mode with the
-flag set or the first mode listed. So a lot of program just use the
-heuristic to just pick the first mode listed.
-
-So it might be that I'm too careful, but it still seems useful to me.
-
-> Although when I tried to refactor it myself, I ended up with something th=
-at's
-> not better at all. Maybe it needs to be complicated, after all :(
-
-Yeah, that was my conclusion too :/
-
-> Anyway, the current version seems to have a couple of bugs:
+On Thu, Oct 27, 2022 at 12:32:50AM +0200, Mateusz Kwiatkowski wrote:
+> I've seen that you've incorporated my PAL60 patch. Thanks!
 >=20
-> > +	if (tv_mode_supported(connector, DRM_MODE_TV_MODE_PAL) ||
-> > +	    tv_mode_supported(connector, DRM_MODE_TV_MODE_PAL_N) ||
-> > +	    tv_mode_supported(connector, DRM_MODE_TV_MODE_SECAM)) {
-> > +		mode =3D drm_mode_analog_pal_576i(connector->dev);
-> > +		if (!mode)
-> > +			return 0;
-> > +
-> > +		tv_modes[count++] =3D mode;
-> > +	}
+> I still yet need to test your v6 changes, but looking at this code with j=
+ust my
+> mental static analysis, it seems to me that the vc4_vec_encoder_atomic_ch=
+eck()
+> should have the tv_mode validation. I should've added it to the PAL60 pat=
+ch,
+> but it somehow slipped my mind then.
 >=20
-> If the 480i mode has been created properly, but there's an error creating=
+> Anyway, I mentioned it previously here:
+> https://lore.kernel.org/dri-devel/0f2beec2-ae8e-5579-f0b6-a73d9dae1af4@gm=
+ail.com/
+>=20
+> It would look something like this, inside vc4_vec_encoder_atomic_check():
+>=20
+> +	const struct vc4_vec_tv_mode *tv_mode =3D
+> +		vc4_vec_tv_mode_lookup(conn_state->tv.mode);
+> +
+> +	if (!tv_mode)
+> +		return -EINVAL;
+>=20
+> Without this, it's possible to set e.g. 480i mode and SECAM, which will f=
+ail -
+> but with the current version it will only fail in vc4_vec_encoder_enable(=
+),
+> which cannot return an error, and in my experience that causes a rather l=
+engthy
+> lockup.
+
+ACK, I'll add it.
+
+> But, like I said, I still need to actually test that with this version.
+>
+> Anyway, I was also thinking about adding support for the more "exotic"
+> non-standard modes. NTSC-50 is, unfortunately, impossible with VEC, but
+> PAL-N-60 and PAL-M-50 should work. The necessary vc4_vec_tv_modes entries=
+ would
+> look something like:
+>=20
+> @@ -325,12 +325,28 @@ static const struct vc4_vec_tv_mode vc4_vec_tv_mode=
+s[] =3D {
+>  		.config0 =3D VEC_CONFIG0_PAL_M_STD,
+>  		.config1 =3D VEC_CONFIG1_C_CVBS_CVBS,
+>  	},
+> +	{
+> +		/* PAL-M-50 */
+> +		.mode =3D DRM_MODE_TV_MODE_PAL,
+> +		.expected_htotal =3D 864,
+> +		.config0 =3D VEC_CONFIG0_PAL_BDGHI_STD,
+> +		.config1 =3D VEC_CONFIG1_C_CVBS_CVBS | VEC_CONFIG1_CUSTOM_FREQ,
+> +		.custom_freq =3D 0x21e6efe3,
+> +	},
+>  	{
+>  		.mode =3D DRM_MODE_TV_MODE_PAL_N,
+>  		.expected_htotal =3D 864,
+>  		.config0 =3D VEC_CONFIG0_PAL_N_STD,
+>  		.config1 =3D VEC_CONFIG1_C_CVBS_CVBS,
+>  	},
+> +	{
+> +		/* PAL-N-60 */
+> +		.mode =3D DRM_MODE_TV_MODE_PAL_N,
+> +		.expected_htotal =3D 858,
+> +		.config0 =3D VEC_CONFIG0_PAL_M_STD,
+> +		.config1 =3D VEC_CONFIG1_C_CVBS_CVBS | VEC_CONFIG1_CUSTOM_FREQ,
+> +		.custom_freq =3D 0x21f69446,
+> +	},
+>  	{
+>  		.mode =3D DRM_MODE_TV_MODE_SECAM,
+>  		.expected_htotal =3D 864,
+>=20
+> I'm not sure if we actually want to add that. The two arguments for doing=
+ so
+> I can think of is 1. it should work, so "why not", 2. it means that more =
+modes
+> will result in _some_ kind of a valid signal, rather than erroring out, w=
+hich
+> is always a plus in my book. I can also think of a hypothetical use case,=
+ like
+> someone in South America with an old PAL-N-only set that would neverthele=
+ss
+> still sync at 60 Hz (perhaps with the help of messing with vertical hold =
+knob),
+> who would like to play retro games at 60 Hz in color.
+>=20
+> But on the other hand, I admit that this scenario is likely a stretch and=
  the
-> 576i one (we enter the if (!mode) clause), the 480i mode will leak.
->=20
-> > +	if (count =3D=3D 1) {
->=20
-> You're handling the count =3D=3D 1 case specially, but if count =3D=3D 0,=
- the rest of
-> the code will assume that two modes exist and probably segfault in the pr=
-ocess.
->=20
-> > +	ret =3D drm_object_property_get_default_value(&connector->base,
-> > +						    dev->mode_config.tv_mode_property,
-> > +						    &default_mode);
-> > +	if (ret)
-> > +		return 0;
-> > +
-> > +	if (cmdline->tv_mode_specified)
-> > +		default_mode =3D cmdline->tv_mode;
->=20
-> In case of an error (ret !=3D 0), the modes created so far in the tv_mode=
-s array
-> will leak.
+> number of people who would actually use it is probably close to the prove=
+rbial
+> two ;) So it's your call, I'm just leaving those settings here just in ca=
+se.
 
-Thanks for the review, I'll fix these bugs
-
-> Also, I wonder if maybe the if (cmdline->tv_mode_specified) clause should=
- go
-> first? If we're going to use the default from cmdline, there's no point i=
-n even
-> querying the property default value.
-
-Maybe, I don't know. I find the flow of the code more readable that way,
-but if you disagree I'll change it.
+This series is already pretty massive and is difficult to merge, so I'd
+rather avoid to add new stuff in at every version. The changes look easy
+enough to be a follow-up patch, so I'd prefer to do it that way.
 
 Maxime
 
---xamrv4lbhqfdsxuo
+--ysfbxxbxsmqctfb3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY1pRWgAKCRDj7w1vZxhR
-xTVQAQCdqQ7+vEr0O0pC7P93kHAYwFz0oBZn90Ip4EjyExKRPgD/cMwjjUZ6daWo
-/idlovksY5X1UdblxYiDcBffKZ9k8gM=
-=nRSG
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY1pyXgAKCRDj7w1vZxhR
+xUhMAP0XpvpKwMyQUT0qv5zm8wU1Oj1FqnHhCXeuVVO8jcNQEQEA3oyfkhXsxwGB
+0XwSRrhGDf0kHcwS9XXqBCQFEgMYgww=
+=04yJ
 -----END PGP SIGNATURE-----
 
---xamrv4lbhqfdsxuo--
+--ysfbxxbxsmqctfb3--
