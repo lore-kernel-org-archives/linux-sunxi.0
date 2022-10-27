@@ -1,441 +1,191 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 267B77B
-	for <linux-sunxi@lists.linux.dev>; Wed, 26 Oct 2022 22:32:55 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id f37so31781338lfv.8
-        for <linux-sunxi@lists.linux.dev>; Wed, 26 Oct 2022 15:32:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=avrg0p0zcjNQXnwku7LjBEc26ITlI2L8ZDmV7YUxLHk=;
-        b=hNP1eWcSKtSWB1d/Pitcegm6aBvNbn9ZZwOPfvyAHeLfSpWgKviYSn4HdfxqpmVxLx
-         3hqUT8rGLCtA1WbTsRwnPe5u3UcMos9xSnD5TZv+rOmijKDGBBCh8NVOtzeenY0qOWJW
-         oh4drqCKFAmxuzjfWyqczkgGVY4e/XY9DK8cne6pWop/CZJOjY5RUV1N/4OKtEk0nxJO
-         UC4dx27z4ITheuTf5vkslf5rQZRUk0qCvLfi1+DCcHCbS9nB8ML9tKunPxRfZ0ivAOEf
-         qxDLwB203CFgLYKKW5ACXrIXmtd/8O6FmrNt5N5n34ARyUZHAOHdwbczBPdcJL3R4Gsa
-         ONMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=avrg0p0zcjNQXnwku7LjBEc26ITlI2L8ZDmV7YUxLHk=;
-        b=L7sa+lc4oaxnOekjyhzhMgwBy5BId44yuvvWDFAI8vxduxzJZfN4ODT4A2j0mHRCY+
-         GId+hCKMLb/Sk8e592zjoE1uKTrnbQlduHtzV1/uhc7j3uasyGglidIFE5J9HFj02uc6
-         l/Zqjj55tisZpM2aolF3WaQp38zom0hbQnSm8V86exk5/yzAf3SjW6n4auQuBHFCSEKj
-         9x5/HVD+UNXB/GAM3Ln+Sq/nRw4w3JC3CMLIsRo5pW1Xs6YkY7Mv0zvJ9FD0CBZ2qiW7
-         33jTGs5GIcxirlMDIMWcxuQFeo6dFbd9vzK9DZQ9iH/jSXyDgWdP0tnD1y73R4xftMpy
-         MVkA==
-X-Gm-Message-State: ACrzQf3zd1Z5xbFVdY6paxGRqzmuRHhhcnvxk33GVK8Ucxp1z7Rc40bX
-	YbhP+u/Zv9nJoZ6vk7//u3M=
-X-Google-Smtp-Source: AMsMyM52ijLmTwWqEjQAFcbPkrpP0UqjyCZnJDRwDtXnieH2RtRbTOsPad5/gfZTaDZK85qSTqo5mQ==
-X-Received: by 2002:ac2:4c47:0:b0:4a2:c07b:4b62 with SMTP id o7-20020ac24c47000000b004a2c07b4b62mr15855128lfk.426.1666823572924;
-        Wed, 26 Oct 2022 15:32:52 -0700 (PDT)
-Received: from ?IPV6:2a02:a31a:a240:1700:c898:de98:30b3:a07? ([2a02:a31a:a240:1700:c898:de98:30b3:a07])
-        by smtp.googlemail.com with ESMTPSA id n11-20020ac2490b000000b004979df1c1fasm994280lfi.61.2022.10.26.15.32.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Oct 2022 15:32:52 -0700 (PDT)
-From: Mateusz Kwiatkowski <kfyatek@gmail.com>
-X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Message-ID: <e9b8ebf6-8781-0c55-5dd5-9f5077bd6b93@gmail.com>
-Date: Thu, 27 Oct 2022 00:32:50 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22DE8186A
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 Oct 2022 09:37:39 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.west.internal (Postfix) with ESMTP id E0A312B066EB;
+	Thu, 27 Oct 2022 05:37:34 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Thu, 27 Oct 2022 05:37:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1666863454; x=1666870654; bh=5ItCVshj6J
+	yZau2J5cjH0M8JHw139GrYlnIerAQcZWs=; b=IVFSYrra2yRKDBScb6i+EPPsnR
+	H7iUD7VkPJAKE695dyeIFHVvDzTnEOFd/PuRkXJYQDLL3GqO5VDnC18zyG53l/7I
+	pvgnmLqeiBPBWXQjApcUVHOrKRHilbj5+ASZsv6ndq61A0vf5cAG6GPGNStKiCRy
+	wer2bctGBN1o9JRLtzfw8j3SxBth2GhmC1AF3SbqCoOAk5ikvGienxjeMuTVnd3b
+	CIYEdhLoJTnMe4apOVtrct3AJygLwtX9QefTOEjFMks85VRv9W7SGo+EMXE4ei+c
+	/vSdG+pF0qpFn1D0F3ffTOrvCiLzPaO3Iv99pS2pxcK/5ssmEIuPwA72joMw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1666863454; x=1666870654; bh=5ItCVshj6JyZau2J5cjH0M8JHw13
+	9GrYlnIerAQcZWs=; b=aMBp3hE4BgyODOr6WOBsdolHjS2Onrihiev6Ff/sAjQh
+	Cama2t5zFVnEKp63jv9ugJbpKhvl71qc+L5qSL1TZPihHUka8luZ1042BOHS5Sxh
+	aMKHX7Ay1bGb29oD5v8DX8oZBPKSAoX9G4RJblIy3UNVtu3bbfNqg1CYVaEHxNJc
+	pHr9LW/SlL0Xhx1KndHWOx5hpeWVSz48zu40JY3Je6zDtTTEvFuI+nyPVFLcWWtY
+	eqbDGYXUYbYyBSfExtphfrsas5tR+XzSbiwxPrJVDiXhOZHeBFTCAEXgpwFpx+Y+
+	pod1LrzbN+UsFQjTvFLBJJEhMjbUc60CIEflbK3G1Q==
+X-ME-Sender: <xms:XVFaY2V3HXvfhP1sHBM2RqKgaN_XBF1qyOB-16Icc85JB7HqiOyGyQ>
+    <xme:XVFaYymw4tPdxY-cElvQVHHZLmvXXXhqeFlJcjgr306-I0KGXWDk9VMwSgLcrhFrI
+    6vBlnwtvAVwP-Gv9dE>
+X-ME-Received: <xmr:XVFaY6Yv9syrc2eNVMwBSReD-NF-yontoCDOlMFptjpietVbD3UxWNp9XeGYc57se2BDpokpHl05GwQ2hi7OCyXnbvZ2cF1h8PCaUIeVB1DPtg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrtdeggdduiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
+    vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:XVFaY9XZjJldLB8TfWAvQMGF4_ZIwB3BAmJ9FrbIS74qAyEc9gHcKw>
+    <xmx:XVFaYwniTa_gv5wa6Swk-Bkdalxuyr-d6ooN7h3oJMCVZXoae2kxxg>
+    <xmx:XVFaYyfwb0zZapv__NMakGUW6Ff2JSZL3y8FQRnm40OE9l_KC--TOQ>
+    <xmx:XlFaY0E6LsDzaiDnQgO6ixyU_rtUbrrppb7Nh4KTrTCg4VBJmZ0lFuKlYcg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 27 Oct 2022 05:37:32 -0400 (EDT)
+Date: Thu, 27 Oct 2022 11:37:30 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Mateusz Kwiatkowski <kfyatek@gmail.com>
+Cc: Karol Herbst <kherbst@redhat.com>, Emma Anholt <emma@anholt.net>,
+	Ben Skeggs <bskeggs@redhat.com>, Chen-Yu Tsai <wens@csie.org>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Daniel Vetter <daniel@ffwll.ch>,	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	David Airlie <airlied@linux.ie>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Lyude Paul <lyude@redhat.com>, linux-sunxi@lists.linux.dev,
+	intel-gfx@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>,
+	linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org,
+	Hans de Goede <hdegoede@redhat.com>,	Dom Cobley <dom@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	linux-kernel@vger.kernel.org,
+	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v6 16/23] drm/probe-helper: Provide a TV get_modes helper
+Message-ID: <20221027093730.tb4oaissdapf6ifr@houat>
+References: <20220728-rpi-analog-tv-properties-v6-0-e7792734108f@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v6-16-e7792734108f@cerno.tech>
+ <8d0eee22-50f5-5b0a-c1e6-c5f61dd5bbcd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH v6 22/23] drm/vc4: vec: Add support for more analog TV
- standards
-Content-Language: pl
-To: maxime@cerno.tech, Karol Herbst <kherbst@redhat.com>,
- Emma Anholt <emma@anholt.net>, Ben Skeggs <bskeggs@redhat.com>,
- Chen-Yu Tsai <wens@csie.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>,
- Maxime Ripard <mripard@kernel.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Lyude Paul <lyude@redhat.com>
-Cc: linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- nouveau@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Dom Cobley <dom@raspberrypi.com>, dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-kernel@vger.kernel.org, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>, Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20220728-rpi-analog-tv-properties-v6-0-e7792734108f@cerno.tech>
- <20220728-rpi-analog-tv-properties-v6-22-e7792734108f@cerno.tech>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v6-22-e7792734108f@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xamrv4lbhqfdsxuo"
+Content-Disposition: inline
+In-Reply-To: <8d0eee22-50f5-5b0a-c1e6-c5f61dd5bbcd@gmail.com>
 
-Hi Maxime,
 
-I've seen that you've incorporated my PAL60 patch. Thanks!
+--xamrv4lbhqfdsxuo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I still yet need to test your v6 changes, but looking at this code with just my
-mental static analysis, it seems to me that the vc4_vec_encoder_atomic_check()
-should have the tv_mode validation. I should've added it to the PAL60 patch,
-but it somehow slipped my mind then.
+Hi Mateusz,
 
-Anyway, I mentioned it previously here:
-https://lore.kernel.org/dri-devel/0f2beec2-ae8e-5579-f0b6-a73d9dae1af4@gmail.com/
+On Thu, Oct 27, 2022 at 12:02:24AM +0200, Mateusz Kwiatkowski wrote:
+> First of all, nice idea with the helper function that can be reused by
+> different drivers. This is neat!
 
-It would look something like this, inside vc4_vec_encoder_atomic_check():
+Yeah, it looked to me that given how complex it is, we don't want to
+duplicate it in each and every driver.
 
-+	const struct vc4_vec_tv_mode *tv_mode =
-+		vc4_vec_tv_mode_lookup(conn_state->tv.mode);
-+
-+	if (!tv_mode)
-+		return -EINVAL;
+> But looking at this function, it feels a bit overcomplicated. You're
+> creating the two modes,
 
-Without this, it's possible to set e.g. 480i mode and SECAM, which will fail -
-but with the current version it will only fail in vc4_vec_encoder_enable(),
-which cannot return an error, and in my experience that causes a rather lengthy
-lockup.
+If reported as supported by the connector, yes.
 
-But, like I said, I still need to actually test that with this version.
+> then checking which one is the default, then set the preferred one and
+> possibly reorder them. Maybe it can be simplified somehow?
 
-Anyway, I was also thinking about adding support for the more "exotic"
-non-standard modes. NTSC-50 is, unfortunately, impossible with VEC, but
-PAL-N-60 and PAL-M-50 should work. The necessary vc4_vec_tv_modes entries would
-look something like:
+Possibly, but I couldn't find something simpler. We should only expose
+the modes that the driver reports as supported, so we can have 0-2
+modes. Then the preferred flag needs to be set on the default one like
+you suggested.
 
-@@ -325,12 +325,28 @@ static const struct vc4_vec_tv_mode vc4_vec_tv_modes[] = {
- 		.config0 = VEC_CONFIG0_PAL_M_STD,
- 		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
- 	},
-+	{
-+		/* PAL-M-50 */
-+		.mode = DRM_MODE_TV_MODE_PAL,
-+		.expected_htotal = 864,
-+		.config0 = VEC_CONFIG0_PAL_BDGHI_STD,
-+		.config1 = VEC_CONFIG1_C_CVBS_CVBS | VEC_CONFIG1_CUSTOM_FREQ,
-+		.custom_freq = 0x21e6efe3,
-+	},
- 	{
- 		.mode = DRM_MODE_TV_MODE_PAL_N,
- 		.expected_htotal = 864,
- 		.config0 = VEC_CONFIG0_PAL_N_STD,
- 		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
- 	},
-+	{
-+		/* PAL-N-60 */
-+		.mode = DRM_MODE_TV_MODE_PAL_N,
-+		.expected_htotal = 858,
-+		.config0 = VEC_CONFIG0_PAL_M_STD,
-+		.config1 = VEC_CONFIG1_C_CVBS_CVBS | VEC_CONFIG1_CUSTOM_FREQ,
-+		.custom_freq = 0x21f69446,
-+	},
- 	{
- 		.mode = DRM_MODE_TV_MODE_SECAM,
- 		.expected_htotal = 864,
+But also, EDIDs define the preferred mode as either the mode with the
+flag set or the first mode listed. So a lot of program just use the
+heuristic to just pick the first mode listed.
 
-I'm not sure if we actually want to add that. The two arguments for doing so
-I can think of is 1. it should work, so "why not", 2. it means that more modes
-will result in _some_ kind of a valid signal, rather than erroring out, which
-is always a plus in my book. I can also think of a hypothetical use case, like
-someone in South America with an old PAL-N-only set that would nevertheless
-still sync at 60 Hz (perhaps with the help of messing with vertical hold knob),
-who would like to play retro games at 60 Hz in color.
+So it might be that I'm too careful, but it still seems useful to me.
 
-But on the other hand, I admit that this scenario is likely a stretch and the
-number of people who would actually use it is probably close to the proverbial
-two ;) So it's your call, I'm just leaving those settings here just in case.
+> Although when I tried to refactor it myself, I ended up with something th=
+at's
+> not better at all. Maybe it needs to be complicated, after all :(
 
-I'll get back in a couple of days when I do some testing of this v6 patchset.
+Yeah, that was my conclusion too :/
 
-Best regards,
-Mateusz Kwiatkowski
+> Anyway, the current version seems to have a couple of bugs:
+>=20
+> > +	if (tv_mode_supported(connector, DRM_MODE_TV_MODE_PAL) ||
+> > +	    tv_mode_supported(connector, DRM_MODE_TV_MODE_PAL_N) ||
+> > +	    tv_mode_supported(connector, DRM_MODE_TV_MODE_SECAM)) {
+> > +		mode =3D drm_mode_analog_pal_576i(connector->dev);
+> > +		if (!mode)
+> > +			return 0;
+> > +
+> > +		tv_modes[count++] =3D mode;
+> > +	}
+>=20
+> If the 480i mode has been created properly, but there's an error creating=
+ the
+> 576i one (we enter the if (!mode) clause), the 480i mode will leak.
+>=20
+> > +	if (count =3D=3D 1) {
+>=20
+> You're handling the count =3D=3D 1 case specially, but if count =3D=3D 0,=
+ the rest of
+> the code will assume that two modes exist and probably segfault in the pr=
+ocess.
+>=20
+> > +	ret =3D drm_object_property_get_default_value(&connector->base,
+> > +						    dev->mode_config.tv_mode_property,
+> > +						    &default_mode);
+> > +	if (ret)
+> > +		return 0;
+> > +
+> > +	if (cmdline->tv_mode_specified)
+> > +		default_mode =3D cmdline->tv_mode;
+>=20
+> In case of an error (ret !=3D 0), the modes created so far in the tv_mode=
+s array
+> will leak.
 
-W dniu 26.10.2022 o 17:33, maxime@cerno.tech pisze:
-> From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
->
-> Add support for the following composite output modes (all of them are
-> somewhat more obscure than the previously defined ones):
->
-> - NTSC_443 - NTSC-style signal with the chroma subcarrier shifted to
->   4.43361875 MHz (the PAL subcarrier frequency). Never used for
->   broadcasting, but sometimes used as a hack to play NTSC content in PAL
->   regions (e.g. on VCRs).
-> - PAL_N - PAL with alternative chroma subcarrier frequency,
->   3.58205625 MHz. Used as a broadcast standard in Argentina, Paraguay
->   and Uruguay to fit 576i50 with colour in 6 MHz channel raster.
-> - PAL60 - 480i60 signal with PAL-style color at normal European PAL
->   frequency. Another non-standard, non-broadcast mode, used in similar
->   contexts as NTSC_443. Some displays support one but not the other.
-> - SECAM - French frequency-modulated analog color standard; also have
->   been broadcast in Eastern Europe and various parts of Africa and Asia.
->   Uses the same 576i50 timings as PAL.
->
-> Also added some comments explaining color subcarrier frequency
-> registers.
->
-> Acked-by: Noralf Trønnes <noralf@tronnes.org>
-> Signed-off-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->
-> ---
-> Changes in v6:
-> - Support PAL60 again
-> ---
->  drivers/gpu/drm/vc4/vc4_vec.c | 111 ++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 107 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
-> index 1dda451c8def..d82aef168075 100644
-> --- a/drivers/gpu/drm/vc4/vc4_vec.c
-> +++ b/drivers/gpu/drm/vc4/vc4_vec.c
-> @@ -46,6 +46,7 @@
->  #define VEC_CONFIG0_YDEL(x)		((x) << 26)
->  #define VEC_CONFIG0_CDEL_MASK		GENMASK(25, 24)
->  #define VEC_CONFIG0_CDEL(x)		((x) << 24)
-> +#define VEC_CONFIG0_SECAM_STD		BIT(21)
->  #define VEC_CONFIG0_PBPR_FIL		BIT(18)
->  #define VEC_CONFIG0_CHROMA_GAIN_MASK	GENMASK(17, 16)
->  #define VEC_CONFIG0_CHROMA_GAIN_UNITY	(0 << 16)
-> @@ -76,6 +77,27 @@
->  #define VEC_SOFT_RESET			0x10c
->  #define VEC_CLMP0_START			0x144
->  #define VEC_CLMP0_END			0x148
-> +
-> +/*
-> + * These set the color subcarrier frequency
-> + * if VEC_CONFIG1_CUSTOM_FREQ is enabled.
-> + *
-> + * VEC_FREQ1_0 contains the most significant 16-bit half-word,
-> + * VEC_FREQ3_2 contains the least significant 16-bit half-word.
-> + * 0x80000000 seems to be equivalent to the pixel clock
-> + * (which itself is the VEC clock divided by 8).
-> + *
-> + * Reference values (with the default pixel clock of 13.5 MHz):
-> + *
-> + * NTSC  (3579545.[45] Hz)     - 0x21F07C1F
-> + * PAL   (4433618.75 Hz)       - 0x2A098ACB
-> + * PAL-M (3575611.[888111] Hz) - 0x21E6EFE3
-> + * PAL-N (3582056.25 Hz)       - 0x21F69446
-> + *
-> + * NOTE: For SECAM, it is used as the Dr center frequency,
-> + * regardless of whether VEC_CONFIG1_CUSTOM_FREQ is enabled or not;
-> + * that is specified as 4406250 Hz, which corresponds to 0x29C71C72.
-> + */
->  #define VEC_FREQ3_2			0x180
->  #define VEC_FREQ1_0			0x184
->  
-> @@ -118,6 +140,14 @@
->  
->  #define VEC_INTERRUPT_CONTROL		0x190
->  #define VEC_INTERRUPT_STATUS		0x194
-> +
-> +/*
-> + * Db center frequency for SECAM; the clock for this is the same as for
-> + * VEC_FREQ3_2/VEC_FREQ1_0, which is used for Dr center frequency.
-> + *
-> + * This is specified as 4250000 Hz, which corresponds to 0x284BDA13.
-> + * That is also the default value, so no need to set it explicitly.
-> + */
->  #define VEC_FCW_SECAM_B			0x198
->  #define VEC_SECAM_GAIN_VAL		0x19c
->  
-> @@ -197,10 +227,15 @@ enum vc4_vec_tv_mode_id {
->  	VC4_VEC_TV_MODE_NTSC_J,
->  	VC4_VEC_TV_MODE_PAL,
->  	VC4_VEC_TV_MODE_PAL_M,
-> +	VC4_VEC_TV_MODE_NTSC_443,
-> +	VC4_VEC_TV_MODE_PAL_60,
-> +	VC4_VEC_TV_MODE_PAL_N,
-> +	VC4_VEC_TV_MODE_SECAM,
->  };
->  
->  struct vc4_vec_tv_mode {
->  	unsigned int mode;
-> +	u16 expected_htotal;
->  	u32 config0;
->  	u32 config1;
->  	u32 custom_freq;
-> @@ -236,35 +271,68 @@ static const struct debugfs_reg32 vec_regs[] = {
->  static const struct vc4_vec_tv_mode vc4_vec_tv_modes[] = {
->  	{
->  		.mode = DRM_MODE_TV_MODE_NTSC,
-> +		.expected_htotal = 858,
->  		.config0 = VEC_CONFIG0_NTSC_STD | VEC_CONFIG0_PDEN,
->  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
->  	},
-> +	{
-> +		.mode = DRM_MODE_TV_MODE_NTSC_443,
-> +		.expected_htotal = 858,
-> +		.config0 = VEC_CONFIG0_NTSC_STD,
-> +		.config1 = VEC_CONFIG1_C_CVBS_CVBS | VEC_CONFIG1_CUSTOM_FREQ,
-> +		.custom_freq = 0x2a098acb,
-> +	},
->  	{
->  		.mode = DRM_MODE_TV_MODE_NTSC_J,
-> +		.expected_htotal = 858,
->  		.config0 = VEC_CONFIG0_NTSC_STD,
->  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
->  	},
->  	{
->  		.mode = DRM_MODE_TV_MODE_PAL,
-> +		.expected_htotal = 864,
->  		.config0 = VEC_CONFIG0_PAL_BDGHI_STD,
->  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
->  	},
-> +	{
-> +		/* PAL-60 */
-> +		.mode = DRM_MODE_TV_MODE_PAL,
-> +		.expected_htotal = 858,
-> +		.config0 = VEC_CONFIG0_PAL_M_STD,
-> +		.config1 = VEC_CONFIG1_C_CVBS_CVBS | VEC_CONFIG1_CUSTOM_FREQ,
-> +		.custom_freq = 0x2a098acb,
-> +	},
->  	{
->  		.mode = DRM_MODE_TV_MODE_PAL_M,
-> +		.expected_htotal = 858,
->  		.config0 = VEC_CONFIG0_PAL_M_STD,
->  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
->  	},
-> +	{
-> +		.mode = DRM_MODE_TV_MODE_PAL_N,
-> +		.expected_htotal = 864,
-> +		.config0 = VEC_CONFIG0_PAL_N_STD,
-> +		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
-> +	},
-> +	{
-> +		.mode = DRM_MODE_TV_MODE_SECAM,
-> +		.expected_htotal = 864,
-> +		.config0 = VEC_CONFIG0_SECAM_STD,
-> +		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
-> +		.custom_freq = 0x29c71c72,
-> +	},
->  };
->  
->  static inline const struct vc4_vec_tv_mode *
-> -vc4_vec_tv_mode_lookup(unsigned int mode)
-> +vc4_vec_tv_mode_lookup(unsigned int mode, u16 htotal)
->  {
->  	unsigned int i;
->  
->  	for (i = 0; i < ARRAY_SIZE(vc4_vec_tv_modes); i++) {
->  		const struct vc4_vec_tv_mode *tv_mode = &vc4_vec_tv_modes[i];
->  
-> -		if (tv_mode->mode == mode)
-> +		if (tv_mode->mode == mode &&
-> +		    tv_mode->expected_htotal == htotal)
->  			return tv_mode;
->  	}
->  
-> @@ -273,9 +341,13 @@ vc4_vec_tv_mode_lookup(unsigned int mode)
->  
->  static const struct drm_prop_enum_list legacy_tv_mode_names[] = {
->  	{ VC4_VEC_TV_MODE_NTSC, "NTSC", },
-> +	{ VC4_VEC_TV_MODE_NTSC_443, "NTSC-443", },
->  	{ VC4_VEC_TV_MODE_NTSC_J, "NTSC-J", },
->  	{ VC4_VEC_TV_MODE_PAL, "PAL", },
-> +	{ VC4_VEC_TV_MODE_PAL_60, "PAL-60", },
->  	{ VC4_VEC_TV_MODE_PAL_M, "PAL-M", },
-> +	{ VC4_VEC_TV_MODE_PAL_N, "PAL-N", },
-> +	{ VC4_VEC_TV_MODE_SECAM, "SECAM", },
->  };
->  
->  static enum drm_connector_status
-> @@ -306,11 +378,16 @@ vc4_vec_connector_set_property(struct drm_connector *connector,
->  		state->tv.mode = DRM_MODE_TV_MODE_NTSC;
->  		break;
->  
-> +	case VC4_VEC_TV_MODE_NTSC_443:
-> +		state->tv.mode = DRM_MODE_TV_MODE_NTSC_443;
-> +		break;
-> +
->  	case VC4_VEC_TV_MODE_NTSC_J:
->  		state->tv.mode = DRM_MODE_TV_MODE_NTSC_J;
->  		break;
->  
->  	case VC4_VEC_TV_MODE_PAL:
-> +	case VC4_VEC_TV_MODE_PAL_60:
->  		state->tv.mode = DRM_MODE_TV_MODE_PAL;
->  		break;
->  
-> @@ -318,6 +395,14 @@ vc4_vec_connector_set_property(struct drm_connector *connector,
->  		state->tv.mode = DRM_MODE_TV_MODE_PAL_M;
->  		break;
->  
-> +	case VC4_VEC_TV_MODE_PAL_N:
-> +		state->tv.mode = DRM_MODE_TV_MODE_PAL_N;
-> +		break;
-> +
-> +	case VC4_VEC_TV_MODE_SECAM:
-> +		state->tv.mode = DRM_MODE_TV_MODE_SECAM;
-> +		break;
-> +
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -341,6 +426,10 @@ vc4_vec_connector_get_property(struct drm_connector *connector,
->  		*val = VC4_VEC_TV_MODE_NTSC;
->  		break;
->  
-> +	case DRM_MODE_TV_MODE_NTSC_443:
-> +		*val = VC4_VEC_TV_MODE_NTSC_443;
-> +		break;
-> +
->  	case DRM_MODE_TV_MODE_NTSC_J:
->  		*val = VC4_VEC_TV_MODE_NTSC_J;
->  		break;
-> @@ -353,6 +442,14 @@ vc4_vec_connector_get_property(struct drm_connector *connector,
->  		*val = VC4_VEC_TV_MODE_PAL_M;
->  		break;
->  
-> +	case DRM_MODE_TV_MODE_PAL_N:
-> +		*val = VC4_VEC_TV_MODE_PAL_N;
-> +		break;
-> +
-> +	case DRM_MODE_TV_MODE_SECAM:
-> +		*val = VC4_VEC_TV_MODE_SECAM;
-> +		break;
-> +
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -448,13 +545,16 @@ static void vc4_vec_encoder_enable(struct drm_encoder *encoder,
->  	struct drm_connector *connector = &vec->connector;
->  	struct drm_connector_state *conn_state =
->  		drm_atomic_get_new_connector_state(state, connector);
-> +	struct drm_display_mode *adjusted_mode =
-> +		&encoder->crtc->state->adjusted_mode;
->  	const struct vc4_vec_tv_mode *tv_mode;
->  	int idx, ret;
->  
->  	if (!drm_dev_enter(drm, &idx))
->  		return;
->  
-> -	tv_mode = vc4_vec_tv_mode_lookup(conn_state->tv.mode);
-> +	tv_mode = vc4_vec_tv_mode_lookup(conn_state->tv.mode,
-> +					 adjusted_mode->htotal);
->  	if (!tv_mode)
->  		goto err_dev_exit;
->  
-> @@ -643,9 +743,12 @@ static int vc4_vec_bind(struct device *dev, struct device *master, void *data)
->  
->  	ret = drm_mode_create_tv_properties(drm,
->  					    BIT(DRM_MODE_TV_MODE_NTSC) |
-> +					    BIT(DRM_MODE_TV_MODE_NTSC_443) |
->  					    BIT(DRM_MODE_TV_MODE_NTSC_J) |
->  					    BIT(DRM_MODE_TV_MODE_PAL) |
-> -					    BIT(DRM_MODE_TV_MODE_PAL_M));
-> +					    BIT(DRM_MODE_TV_MODE_PAL_M) |
-> +					    BIT(DRM_MODE_TV_MODE_PAL_N) |
-> +					    BIT(DRM_MODE_TV_MODE_SECAM));
->  	if (ret)
->  		return ret;
->  
->
+Thanks for the review, I'll fix these bugs
 
+> Also, I wonder if maybe the if (cmdline->tv_mode_specified) clause should=
+ go
+> first? If we're going to use the default from cmdline, there's no point i=
+n even
+> querying the property default value.
+
+Maybe, I don't know. I find the flow of the code more readable that way,
+but if you disagree I'll change it.
+
+Maxime
+
+--xamrv4lbhqfdsxuo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY1pRWgAKCRDj7w1vZxhR
+xTVQAQCdqQ7+vEr0O0pC7P93kHAYwFz0oBZn90Ip4EjyExKRPgD/cMwjjUZ6daWo
+/idlovksY5X1UdblxYiDcBffKZ9k8gM=
+=nRSG
+-----END PGP SIGNATURE-----
+
+--xamrv4lbhqfdsxuo--
