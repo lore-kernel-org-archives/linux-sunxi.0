@@ -1,210 +1,118 @@
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9401C186A
-	for <linux-sunxi@lists.linux.dev>; Thu, 27 Oct 2022 11:58:32 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.west.internal (Postfix) with ESMTP id 9AD912B066FE;
-	Thu, 27 Oct 2022 07:58:27 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Thu, 27 Oct 2022 07:58:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1666871907; x=1666879107; bh=QyApW52GGW
-	OGnMQtvgaWWVm3IOEOZXDwE9lLItGdiLY=; b=uF//YRP5AA3BkLmQtb+sTcWpgH
-	hk2HTy6BCO6QZu5obOUiI2weB0GqkqU7EYohbQTg1XdfrOGCYkVJi+p3vOUopU6I
-	JTXI5dP21OTXqJRlGU/wvVC5PBPw4hYaL2AFhxYgnFTDv36LLn4rA7ytqFXb3zAk
-	bt+FmImAVzuTI2sHRcVQRCv/XjSppxGquUVmshtTICQWRRE3m9az2fp8SqKScgPK
-	TUaI0dfU29NYrX6H/9nIbVVx2ljADhJWJ5B6VvyFLDHVXCDe2q5n3d2htKFfJmAI
-	ItI5qfAu65peUdI4fxjyHl+8YesnAPhZ0KQiGuVQ6WsmAbm8bItIXBigIHYA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1666871907; x=1666879107; bh=QyApW52GGWOGnMQtvgaWWVm3IOEO
-	ZXDwE9lLItGdiLY=; b=X5KOnyeXpFpd9UUPBhTooylt8Bn5VnVl9lyj1OWBqdOT
-	3eMOeTk76m/uJpIUSNpx/gKUJuCsu4oMVW+2w5uu53DfcAi2dyotu5NiSwMA7zF2
-	kDpC9DrK+wT9QK/xPGF7J879cPUWSeP+ovy4NIXMMqQrF0uuI+vuw03DlVAz7TQS
-	pt3dbB5A7FyhUe6nG3yGWQ9spnihyotU/dXSS9/Fo8475Urre+4o7TjnCZnzYvrs
-	r73sucWl8RuMrSovYvdUOJfNWjeLek2qCEnfjkR9btgZ9nKZXlS5g5npQPNqoM5K
-	h/RVHWs+mq0A+Pr7hQTRzfRHGu5MGs5r3H83s45SOQ==
-X-ME-Sender: <xms:YXJaY5aeFRYAWvn_4boyMSlPUMtPRCncsfebLkPn-Q6m5CfNW_PJ0g>
-    <xme:YXJaYwZm7WHUZ4VCxlOov8hTtv0A79G-cWt5Dgj26gKfHMnZOFkle9XMXBTCpmV6o
-    -apSjI4Tjvh0SFXhos>
-X-ME-Received: <xmr:YXJaY78spjTKUkqs_2fU1bkX399-R_60g_EZ6HLN9UCDvHmIwN8L37fqeEg548BrgWVS4NSVYcLiMFanpKixKS1DHe8BG4VTiYPaVutHF9KOyw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrtdeggdeggecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnheptdelkeejiedufedvhfeiffetlefhiedvleeigfeiuefghfdvleeiffejieeg
-    teejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:YXJaY3oT7N2gwDsAC1XZ1-G64qxNS5TDU0IhUOr3L6R5DA9tlNkU0Q>
-    <xmx:YXJaY0qrv5MIkv2IOYl7VbFqVH1wOBiT10oOQPp3y8ziLhtfYLWm-w>
-    <xmx:YXJaY9QGn7FLTnwi69GrZCaqdXa_U_jeDlCBaFaWM1_9ltDBvk0OFw>
-    <xmx:Y3JaY3J6VznhmYf_WAgBsElkAILibCXMtkm06H7V9vua4BwAYxwq7gGAKZo>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 27 Oct 2022 07:58:24 -0400 (EDT)
-Date: Thu, 27 Oct 2022 13:58:22 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Mateusz Kwiatkowski <kfyatek@gmail.com>
-Cc: Karol Herbst <kherbst@redhat.com>, Emma Anholt <emma@anholt.net>,
-	Ben Skeggs <bskeggs@redhat.com>, Chen-Yu Tsai <wens@csie.org>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Daniel Vetter <daniel@ffwll.ch>,	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@linux.ie>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Lyude Paul <lyude@redhat.com>, linux-sunxi@lists.linux.dev,
-	intel-gfx@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>,
-	linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org,
-	Hans de Goede <hdegoede@redhat.com>,	Dom Cobley <dom@raspberrypi.com>,
- dri-devel@lists.freedesktop.org,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	linux-kernel@vger.kernel.org,
-	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v6 22/23] drm/vc4: vec: Add support for more analog TV
- standards
-Message-ID: <20221027115822.5vd3fqlcpy4gfq5v@houat>
-References: <20220728-rpi-analog-tv-properties-v6-0-e7792734108f@cerno.tech>
- <20220728-rpi-analog-tv-properties-v6-22-e7792734108f@cerno.tech>
- <e9b8ebf6-8781-0c55-5dd5-9f5077bd6b93@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6353D15C81
+	for <linux-sunxi@lists.linux.dev>; Fri, 28 Oct 2022 23:59:45 +0000 (UTC)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id BBAFCFF802;
+	Fri, 28 Oct 2022 23:59:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1667001576;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=zC82iFrlIYbSsP6fbExDAPio+9uwFvsxm72+V19fmUQ=;
+	b=R2AMi4l+N69yWcGSR7WvtK5yF4dZv9jT7XFuGPsfTZl22MAuEiTIBoq5ZcYVpqLHufCBMH
+	e2IofCj9i7rtK3BGWV0yZZnqn//kfOwsYzyqgqd16lV9dEZ6ypbVyJN4B0a5iSxt0JzUcq
+	A+5tFYsb4c7LVz1GM1LHFyesQiWAevQh+zUhv8AVIKcg2EcqtU6zjGlgf0w9pR0/7fjwyk
+	kO8qv+n9lGxo6+o9nGZMcXBaptnZf7N86lEOR3mxhGGloq7BsVnScVuWWo2G69SdHBrMXY
+	Eyrb+XiexTTSaOXf7XXa2/8X7p+t1hEdyrhcGWSMacC4LFRokRqXEpXPOEVnNg==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Tudor Ambarus <Tudor.Ambarus@microchip.com>,
+	Pratyush Yadav <p.yadav@ti.com>,
+	Michael Walle <michael@walle.cc>,
+	<linux-mtd@lists.infradead.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	Naga Sureshkumar Relli <nagasure@xilinx.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH 00/12] Improve MTD bindings
+Date: Sat, 29 Oct 2022 01:59:21 +0200
+Message-Id: <20221028235933.934850-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ysfbxxbxsmqctfb3"
-Content-Disposition: inline
-In-Reply-To: <e9b8ebf6-8781-0c55-5dd5-9f5077bd6b93@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
+Hello,
 
---ysfbxxbxsmqctfb3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+During a yaml conversion review, Krzysztof opened the discussion about
+the links and references made between the different files in the mtd
+bindings. I figured out some minimal changes might be needed to properly
+reference everything correctly and ensure we constrain as much as
+possible the existing bindings. That is what I tried to do here.
 
-Hi,
+The idea is:
+* partition.yaml defines one MTD partition
+* parsers/*.yaml define partition parsers (mainly compatibles)
+* mtd.yaml contains the generic definition of any mtd device (nand,
+  spi-nand, spi-nor, nor, sram, etc), in particular, it defines the
+  various partition formats (legacy and current) and references
+  partition.yaml as well as a list of all the possible parsers within a
+  "partitions" node.
+* nand-chip.yaml, jedec,spi-nor, mtd-physmap.yaml all describe real
+  instances of mtd device, each of them with a different underlying
+  technology, they reference mtd.yaml 
+* nand-controller.yaml has subnodes which reference nand-chip.yaml.
+* Specific NAND controller bindings reference nand-controller.yaml.
 
-On Thu, Oct 27, 2022 at 12:32:50AM +0200, Mateusz Kwiatkowski wrote:
-> I've seen that you've incorporated my PAL60 patch. Thanks!
->=20
-> I still yet need to test your v6 changes, but looking at this code with j=
-ust my
-> mental static analysis, it seems to me that the vc4_vec_encoder_atomic_ch=
-eck()
-> should have the tv_mode validation. I should've added it to the PAL60 pat=
-ch,
-> but it somehow slipped my mind then.
->=20
-> Anyway, I mentioned it previously here:
-> https://lore.kernel.org/dri-devel/0f2beec2-ae8e-5579-f0b6-a73d9dae1af4@gm=
-ail.com/
->=20
-> It would look something like this, inside vc4_vec_encoder_atomic_check():
->=20
-> +	const struct vc4_vec_tv_mode *tv_mode =3D
-> +		vc4_vec_tv_mode_lookup(conn_state->tv.mode);
-> +
-> +	if (!tv_mode)
-> +		return -EINVAL;
->=20
-> Without this, it's possible to set e.g. 480i mode and SECAM, which will f=
-ail -
-> but with the current version it will only fail in vc4_vec_encoder_enable(=
-),
-> which cannot return an error, and in my experience that causes a rather l=
-engthy
-> lockup.
+I've tested with the following command and it worked okay:
+$ make dt_binding_check -j10 DT_CHECKER_FLAG=-m DT_SCHEMA_FILES=mtd/
 
-ACK, I'll add it.
+Comments welcome of course :-)
 
-> But, like I said, I still need to actually test that with this version.
->
-> Anyway, I was also thinking about adding support for the more "exotic"
-> non-standard modes. NTSC-50 is, unfortunately, impossible with VEC, but
-> PAL-N-60 and PAL-M-50 should work. The necessary vc4_vec_tv_modes entries=
- would
-> look something like:
->=20
-> @@ -325,12 +325,28 @@ static const struct vc4_vec_tv_mode vc4_vec_tv_mode=
-s[] =3D {
->  		.config0 =3D VEC_CONFIG0_PAL_M_STD,
->  		.config1 =3D VEC_CONFIG1_C_CVBS_CVBS,
->  	},
-> +	{
-> +		/* PAL-M-50 */
-> +		.mode =3D DRM_MODE_TV_MODE_PAL,
-> +		.expected_htotal =3D 864,
-> +		.config0 =3D VEC_CONFIG0_PAL_BDGHI_STD,
-> +		.config1 =3D VEC_CONFIG1_C_CVBS_CVBS | VEC_CONFIG1_CUSTOM_FREQ,
-> +		.custom_freq =3D 0x21e6efe3,
-> +	},
->  	{
->  		.mode =3D DRM_MODE_TV_MODE_PAL_N,
->  		.expected_htotal =3D 864,
->  		.config0 =3D VEC_CONFIG0_PAL_N_STD,
->  		.config1 =3D VEC_CONFIG1_C_CVBS_CVBS,
->  	},
-> +	{
-> +		/* PAL-N-60 */
-> +		.mode =3D DRM_MODE_TV_MODE_PAL_N,
-> +		.expected_htotal =3D 858,
-> +		.config0 =3D VEC_CONFIG0_PAL_M_STD,
-> +		.config1 =3D VEC_CONFIG1_C_CVBS_CVBS | VEC_CONFIG1_CUSTOM_FREQ,
-> +		.custom_freq =3D 0x21f69446,
-> +	},
->  	{
->  		.mode =3D DRM_MODE_TV_MODE_SECAM,
->  		.expected_htotal =3D 864,
->=20
-> I'm not sure if we actually want to add that. The two arguments for doing=
- so
-> I can think of is 1. it should work, so "why not", 2. it means that more =
-modes
-> will result in _some_ kind of a valid signal, rather than erroring out, w=
-hich
-> is always a plus in my book. I can also think of a hypothetical use case,=
- like
-> someone in South America with an old PAL-N-only set that would neverthele=
-ss
-> still sync at 60 Hz (perhaps with the help of messing with vertical hold =
-knob),
-> who would like to play retro games at 60 Hz in color.
->=20
-> But on the other hand, I admit that this scenario is likely a stretch and=
- the
-> number of people who would actually use it is probably close to the prove=
-rbial
-> two ;) So it's your call, I'm just leaving those settings here just in ca=
-se.
+Cheers,
+Miquèl
 
-This series is already pretty massive and is difficult to merge, so I'd
-rather avoid to add new stuff in at every version. The changes look easy
-enough to be a follow-up patch, so I'd prefer to do it that way.
+Miquel Raynal (12):
+  dt-bindings: mtd: Clarify all partition subnodes
+  dt-bindings: mtd: Mention basic properties
+  dt-bindings: mtd: Remove useless file about partitions
+  dt-bindings: mtd: ingenic: Mark partitions in the controller node as
+    deprecated
+  dt-bindings: mtd: onenand: Mention the expected node name
+  dt-bindings: mtd: nand-chip: Reference mtd.yaml
+  dt-bindings: mtd: Drop common properties from NAND controllers
+  dt-bindings: mtd: spi-nor: Drop common properties
+  dt-bindings: mtd: phymap: Reuse the generic definitions
+  dt-bindings: mtd: Drop object types when referencing other files
+  dt-bindings: mtd: Argue in favor of keeping additionalProperties set
+    to true
+  dt-bindings: mtd: Constrain the list of parsers
 
-Maxime
+ .../mtd/allwinner,sun4i-a10-nand.yaml         |  3 --
+ .../bindings/mtd/arasan,nand-controller.yaml  |  3 --
+ .../devicetree/bindings/mtd/ingenic,nand.yaml | 13 +-----
+ .../bindings/mtd/intel,lgm-ebunand.yaml       | 10 +----
+ .../bindings/mtd/jedec,spi-nor.yaml           | 14 -------
+ .../devicetree/bindings/mtd/mtd-physmap.yaml  |  7 ++--
+ .../devicetree/bindings/mtd/mtd.yaml          | 41 ++++++++++++++++++-
+ .../devicetree/bindings/mtd/nand-chip.yaml    |  4 ++
+ .../bindings/mtd/nand-controller.yaml         |  1 -
+ .../devicetree/bindings/mtd/partition.txt     | 33 ---------------
+ .../bindings/mtd/partitions/partition.yaml    |  1 +
+ .../devicetree/bindings/mtd/qcom,nandc.yaml   |  3 --
+ .../bindings/mtd/ti,gpmc-onenand.yaml         |  3 ++
+ 13 files changed, 52 insertions(+), 84 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/mtd/partition.txt
 
---ysfbxxbxsmqctfb3
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.34.1
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY1pyXgAKCRDj7w1vZxhR
-xUhMAP0XpvpKwMyQUT0qv5zm8wU1Oj1FqnHhCXeuVVO8jcNQEQEA3oyfkhXsxwGB
-0XwSRrhGDf0kHcwS9XXqBCQFEgMYgww=
-=04yJ
------END PGP SIGNATURE-----
-
---ysfbxxbxsmqctfb3--
