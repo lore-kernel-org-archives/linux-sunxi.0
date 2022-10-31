@@ -1,107 +1,115 @@
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1095017F4
-	for <linux-sunxi@lists.linux.dev>; Mon, 31 Oct 2022 09:30:43 +0000 (UTC)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 8F74B1B0015E;
-	Mon, 31 Oct 2022 11:21:04 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1667208064;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Xi2LqfmPyqAuYmKOi0uMJR0fV3RpMiXwbUnj7X50foM=;
-	b=CzM0I37uH8aBIdp1du82IVsQlaFFKrX6mtL8U71a8qxilBGEl6818/BqvqOCtw/sD6vpAM
-	uSl1EiJmdN8Ja07NKmw4QtbNTQBL38s3bbvkxSMT34rDuRMP0dp3vWZcPMVfe+oKEfSvPM
-	krXi2QDwJBzLwNq0yNMjgufQmDWzGNkZUqAkf9o8L38c9k9aOmG4hi9UiVHv/dTaWwM+NN
-	83FgBeF3sLF4XxTxi0F00ieiNTbxjgpy/Thf0kmOngvy/cza1ilbC5Ivvq1q9Fg/5JVViI
-	nryV1W32WRuQDKyxC7cvCxhtyXft03d24yr20ZVLx9JnB5ajjVTJs1AIk9sPMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1667208064;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Xi2LqfmPyqAuYmKOi0uMJR0fV3RpMiXwbUnj7X50foM=;
-	b=XX+/sig8tcfGjuKohEFV7sq/UoTMAQx5UfIN9WM8PNOfWi26J+MUWViIFRbbLy+LQwcmyo
-	qvR+hoDga9ItyHmSObHqPV3hRNppaYPyDPnEpkpJpenvOFH/LyHI2KHWB08pn87Bb4bN5n
-	mFE4HVNyEUorZHW+Cyv0aYOz7fl9G6fCCLjy9sLOnnePa7H3FxDcG8DC1qt4KWxiYt3jkj
-	fyNt7MkBrL4l+hinOlUd/c0Se2LGdQN47s9rn388T9fLVMOOkjiJSNgR5yq+KTrxhqCGYO
-	mi0Oyp4Zebgj1hkoOmEnFlvages1tpEYkbRLzuKg/8/IjvyjMqLqi96OI1PgQQ==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1667208064; a=rsa-sha256;
-	cv=none;
-	b=j9H6gaD1i4wUV+/NnvBIEnLISmT47vTfIIj8YsnIRPSSzyWVI2axa90KgAd3FuhWBez8s4
-	aaGpnZHZcxXKvf+bbvAuQpfqNs/eD+YTJ8wrmYk0IRDSuERnnRV8CG5dTUHfSUg4WnI3P/
-	S8wyxmQ7Hf9TCKUaoHBX9JGM+cQt8yLgKWlnay1SlgfVR7yFW/5N7vACRHg+woJynSeFpl
-	HuVlXaQsDv/8jC1Bpz9tKEeZEXlX5OGiH4HwCQRHC1nKki8bp4ozGEPGEyQXRaGsSTicCG
-	RJ/R9XMBhFA/t8nTikZZluH/HWqeBsmxln9k7wPCLsEy2xQUVkoIY2ODiDsS4w==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id DDCB9634CBD;
-	Mon, 31 Oct 2022 11:21:03 +0200 (EET)
-Date: Mon, 31 Oct 2022 11:21:03 +0200
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C74F20F2
+	for <linux-sunxi@lists.linux.dev>; Mon, 31 Oct 2022 11:14:26 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 49AC112FC;
+	Mon, 31 Oct 2022 04:14:32 -0700 (PDT)
+Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6FC263F703;
+	Mon, 31 Oct 2022 04:14:23 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v6 00/43] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / CSI
- Rework
-Message-ID: <Y1+Tf3xfV+T4q91Q@valkosipuli.retiisi.eu>
-References: <20220826183240.604834-1-paul.kocialkowski@bootlin.com>
- <Y1Ko+rNREvM2QClC@aptenodytes>
+	Chen-Yu Tsai <wens@csie.org>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Vinod Koul <vkoul@kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-phy@lists.infradead.org,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	Karl Kurbjun <karl.os@veroson.com>,
+	Icenowy Zheng <uwu@icenowy.me>
+Subject: [PATCH v2 2/7] dt-bindings: phy: Add special clock for Allwinner H616 PHY
+Date: Mon, 31 Oct 2022 11:13:53 +0000
+Message-Id: <20221031111358.3387297-3-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221031111358.3387297-1-andre.przywara@arm.com>
+References: <20221031111358.3387297-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y1Ko+rNREvM2QClC@aptenodytes>
+Content-Transfer-Encoding: 8bit
 
-Hi Paul,
+The USB PHY IP in the Allwinner H616 SoC requires a quirk that involves
+some resources from port 2's PHY and HCI IP. In particular the PMU clock
+for port 2 must be surely ungated before accessing the REG_HCI_PHY_CTL
+register of port 2. To allow each USB port to be controlled
+independently of port 2, we need a handle to that particular PMU clock
+in the *PHY* node, as the HCI and PHY part might be handled by separate
+drivers.
 
-On Fri, Oct 21, 2022 at 04:13:14PM +0200, Paul Kocialkowski wrote:
-> Hi everyone,
-> 
-> On Fri 26 Aug 22, 20:31, Paul Kocialkowski wrote:
-> > This part only concerns the rework of the CSI driver to support the MIPI CSI-2
-> > and ISP workflows.
-> > 
-> > Very few patches have not received any review at this point and the whole
-> > thing looks good to go. Since this multi-part series has been going on for a
-> > while, it would be great to see it merged soon!
-> 
-> Could this series be considered for merging soon? It would be great to see it
-> in Linux 6.2.
-> 
-> A few patches are still in need of review but I don't think anything
-> stands in the way at this point.
+Add that clock to the requirements of the H616 PHY binding, so that a
+PHY driver can apply the quirk in isolation, without requiring help from
+port 2's HCI driver.
 
-The current set doesn't apply cleanly to media master anymore --- after the
-15 merged patches, patch 17 is the first to conflict. I suppose it's Tomi's
-patches changing how drivers work with media pipelines.
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ .../phy/allwinner,sun8i-h3-usb-phy.yaml       | 26 +++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-Could you rebase this and cc me, please?
-
+diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml
+index 77539b4601c24..2df012d13655e 100644
+--- a/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml
+@@ -36,18 +36,22 @@ properties:
+       - const: pmu3
+ 
+   clocks:
++    minItems: 4
+     items:
+       - description: USB OTG PHY bus clock
+       - description: USB Host 0 PHY bus clock
+       - description: USB Host 1 PHY bus clock
+       - description: USB Host 2 PHY bus clock
++      - description: PMU clock for host port 2
+ 
+   clock-names:
++    minItems: 4
+     items:
+       - const: usb0_phy
+       - const: usb1_phy
+       - const: usb2_phy
+       - const: usb3_phy
++      - const: pmu2_clk
+ 
+   resets:
+     items:
+@@ -96,6 +100,28 @@ required:
+   - resets
+   - reset-names
+ 
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - allwinner,sun50i-h616-usb-phy
++    then:
++      properties:
++        clocks:
++          minItems: 5
++
++        clock-names:
++          minItems: 5
++    else:
++      properties:
++        clocks:
++          maxItems: 4
++
++        clock-names:
++          maxItems: 4
++
+ additionalProperties: false
+ 
+ examples:
 -- 
-Kind regards,
+2.25.1
 
-Sakari Ailus
