@@ -1,51 +1,51 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2341020F2
-	for <linux-sunxi@lists.linux.dev>; Mon, 31 Oct 2022 12:26:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A50210D
+	for <linux-sunxi@lists.linux.dev>; Mon, 31 Oct 2022 13:27:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1667219213;
+	s=mimecast20190719; t=1667222840;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/x9mAjb8LNYXXK+HVNHKFir+j3ZwIeSko/dKjp9YLmY=;
-	b=ix4UqSivrS+3TmrqJngh9Wuy634vIPxWfegr8De06urmRh+KC3BLz1wWEK/BkB3iCqc8vu
-	gtJJslchTxUYX/NdMMgXTJY5Dra78y9v0nXWDc6qPST27b5qmQw7h4hhHH0//sMLSO55mx
-	Th9w6Zml9uDn8PlgN6zFTXW/0St4z44=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=GwqNSS0OJIleR6uoXEXg4AgYpmJqcWP2KGT201SIVMg=;
+	b=MQie/SZdYO152vyIsivc6tTFpwjGq5ITtAWqzBYdqLqKsZSQy8bQ3irC6SlN9kkrhiGQxF
+	6v4aagz5ncJiD0DeIHRNUgCwB1bg38WTNj5r1dQCiF659KWg9aex5v7pgHYfhP1crBpabc
+	2Yt9Cwcbey7E30TlY8jeZoztnbTNz4s=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-218--_Aa7NM_N-auNiRRubJ6aA-1; Mon, 31 Oct 2022 08:26:50 -0400
-X-MC-Unique: -_Aa7NM_N-auNiRRubJ6aA-1
-Received: by mail-wm1-f70.google.com with SMTP id r187-20020a1c44c4000000b003c41e9ae97dso4766635wma.6
-        for <linux-sunxi@lists.linux.dev>; Mon, 31 Oct 2022 05:26:49 -0700 (PDT)
+ us-mta-629-yHPfGi_aNe65TcHJsVgu8g-1; Mon, 31 Oct 2022 09:27:17 -0400
+X-MC-Unique: yHPfGi_aNe65TcHJsVgu8g-1
+Received: by mail-wm1-f72.google.com with SMTP id r6-20020a1c4406000000b003cf4d3b6644so1126472wma.6
+        for <linux-sunxi@lists.linux.dev>; Mon, 31 Oct 2022 06:27:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/x9mAjb8LNYXXK+HVNHKFir+j3ZwIeSko/dKjp9YLmY=;
-        b=MmZi/oWcY7aoB3u1YtPhyhachs9xT5k/ra9hJnOdYYFsaLqYdfm0X7Ab9EEQPYZBzM
-         hk3Rv6daWrIivZusgsgMHdbUu6N6djtPBBdSOCdzGcXawKYub6+9gwJ+xbRFY0RbWiVg
-         aIwLZLdwuLslIRdrTblRXTSkxmlRlVJLiKiy70Pd2GIcIO2PSLhIDDk54xguzHXN0JcO
-         pOXGy2CQ0MPITfTsIWnubGz6kN+V9CDIUF7nZZy4m8jrrgrJx6WuJwYZhboRDpBSzrQj
-         ioaADbu9OsR2vW6tm3QavfFXkbn8t8CypFJohCcTFP7coRW+wtg0jSO6OurNiCOiGk9+
-         HFfw==
-X-Gm-Message-State: ACrzQf0D792h/5aA4Eks1q3+qj97wvfBZ07oHRx3gZSuf2tApgvT3t2e
-	+kOAMt8VvY8swpdVNJbux1sWKpPgY4vCj09YRIgCDHD9Ft+VJ4ZijqRutfG0XMoA14oao/MYiRO
-	TyiRWYpBxhqTj5HDHjat2uig=
-X-Received: by 2002:a05:600c:4f10:b0:3c6:dcc6:51d7 with SMTP id l16-20020a05600c4f1000b003c6dcc651d7mr7887419wmq.91.1667219208978;
-        Mon, 31 Oct 2022 05:26:48 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4eCY6FaPESRi0FBsuwSJAU0ypknopcItEy1BimghpIISJ8Db9xrgTY3spCPjOXKZ6zCgaGzA==
-X-Received: by 2002:a05:600c:4f10:b0:3c6:dcc6:51d7 with SMTP id l16-20020a05600c4f1000b003c6dcc651d7mr7887399wmq.91.1667219208796;
-        Mon, 31 Oct 2022 05:26:48 -0700 (PDT)
+        bh=GwqNSS0OJIleR6uoXEXg4AgYpmJqcWP2KGT201SIVMg=;
+        b=eRQW9QcC6p4DXmTtldfaXBR8cnRzBWDyV9u5s1k1G85jylPb9pzy8IUWFKa+saLxRp
+         EjwliX6kOkVyGUdaPwMoxx0qTb768LBE8j+9K0KxBQjN3M/URd1oI1BMOyPKhZY7/YNi
+         867h7wkDyy1MC67hsBXMcPlbKv/IomEoL17S6JZ/5oTTXVpIbm5d0RRp4To5Rq10q+YL
+         kk9cvBn0y5LeDiY9aDak3Uue2l0mqwGUmxIt47JXAR24gAtow5OfNoZME6dDADEbRl9Q
+         9gYe9pReEtr0RomCDqiriN4xcWO0ngNVtLU46MgeUS++marUfB/QPGtyug2KNEF6xYY/
+         sEmQ==
+X-Gm-Message-State: ACrzQf0MkKwpUETex31MFG3W+4hB1VEWMi3iS2scAxrLstIDZiXclX6r
+	H1yFm2ow6ZSmciADpDiq7vu1qleCqOgOAESTYweR1fl103UCxowHnpGxSbsZVIOuBhoRIITNAK5
+	XdYv+8I/RBgM9/smrHfU1orc=
+X-Received: by 2002:adf:ec8a:0:b0:236:5b80:da83 with SMTP id z10-20020adfec8a000000b002365b80da83mr7858618wrn.509.1667222835964;
+        Mon, 31 Oct 2022 06:27:15 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4XoYVkE5jE7vlhuKQ/BuqMv6qQj/pE66jVA36/qVXv1WZdIDiMFN0/ixJs2zjwBzGxtBPgyA==
+X-Received: by 2002:adf:ec8a:0:b0:236:5b80:da83 with SMTP id z10-20020adfec8a000000b002365b80da83mr7858599wrn.509.1667222835772;
+        Mon, 31 Oct 2022 06:27:15 -0700 (PDT)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id q1-20020a1ce901000000b003b476cabf1csm4889352wmc.26.2022.10.31.05.26.47
+        by smtp.gmail.com with ESMTPSA id bg37-20020a05600c3ca500b003b477532e66sm25116881wmb.2.2022.10.31.06.27.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Oct 2022 05:26:48 -0700 (PDT)
-Message-ID: <0d2250e4-dc26-2fc9-e429-0d43ef280e5b@redhat.com>
-Date: Mon, 31 Oct 2022 13:26:46 +0100
+        Mon, 31 Oct 2022 06:27:15 -0700 (PDT)
+Message-ID: <0fe3974c-de66-9eaa-b56a-ed1d07644e4c@redhat.com>
+Date: Mon, 31 Oct 2022 14:27:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -54,8 +54,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v2 13/21] drm/fb-helper: Rename drm_fb_helper_alloc_fbi()
- to use _info postfix
+Subject: Re: [PATCH v2 14/21] drm/fb-helper: Rename
+ drm_fb_helper_unregister_fbi() to use _info postfix
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
@@ -72,9 +72,9 @@ Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
  linux-tegra@vger.kernel.org, xen-devel@lists.xenproject.org
 References: <20221024111953.24307-1-tzimmermann@suse.de>
- <20221024111953.24307-14-tzimmermann@suse.de>
+ <20221024111953.24307-15-tzimmermann@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221024111953.24307-14-tzimmermann@suse.de>
+In-Reply-To: <20221024111953.24307-15-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -82,8 +82,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 10/24/22 13:19, Thomas Zimmermann wrote:
-> Rename drm_fb_helper_alloc_fbi() to drm_fb_helper_alloc_info() as
-> part of unifying the naming within fbdev helpers. Adapt drivers. No
+> Rename drm_fb_helper_unregister_fbi() to drm_fb_helper_unregister_info()
+> as part of unifying the naming within fbdev helpers. Adapt drivers. No
 > functional changes.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
