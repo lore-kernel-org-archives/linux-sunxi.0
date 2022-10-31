@@ -1,51 +1,51 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96BBE17F4
-	for <linux-sunxi@lists.linux.dev>; Mon, 31 Oct 2022 09:10:44 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id a13so16535942edj.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 31 Oct 2022 02:10:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E44C17CDB
+	for <linux-sunxi@lists.linux.dev>; Mon, 31 Oct 2022 09:15:24 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id f5so6224733ejc.5
+        for <linux-sunxi@lists.linux.dev>; Mon, 31 Oct 2022 02:15:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=o48W/QGPdWIlzJ0mxNkgDcBycjNxJi2Vko9v4xoh1fM=;
-        b=SRBSzrqxXwelI816T9OPBTFhYZwzByI38DmZmROHZ5gQYy7ow69i1Nuiniy32wVZ2M
-         TGVSSNJBjCPtE0wgELBM6J+1La29BEW6lW87cfwqdCGiUzSGYRqqIBUfMIbpY9jtYVgq
-         er8OSMUJxwNGK+hOpLZnVNnhQvK8rpTOweyq4zKmnZiEh5Ko3GCAqdWVWyVIQEILNzMi
-         8ofjMA3mA0CQUa7hhiQnpGiGn8p3OkEIceZgJFDsknSX1Diws3SzeuYFQqjtdw8+sfah
-         7ImNLCa42Wk5rUzv9IPm2u/CxayaB4tLZQqunp1MOC8NCLMkIZ1Hst5464rPI/IJ5qC/
-         Gm+g==
+        bh=y7TwjvYNuBTQx7bSJpCvwsU7T5xZI7GJ6V6t+msfW3s=;
+        b=YtoDP2wWwbUmxTRehDOaGIGN1GnNV3a0NFQs7iFRYgfhjfaihmwLGTLxzQnbzQGXU5
+         EGaVEfJdwOPHRFbCjyT0wTdi9NbmUSrq3AbPOak0QFhG+KA/S7sG/tBbM1Q7tGoBFNBN
+         V2YYvqTfLDIWoMx8r6oGP2Tb9cZ2F5AiF/ra9Fkb9AAU6Nu3OfTjkmSlp20L0PFHSVqf
+         VaaINVD9CLuqnVeb1ov8fZ8nPWh5NQf8baw2TxRobi68SeSfb8oY1Ot30YxLR3j1uBUz
+         s5mT+ca9et0ZA6v1W3u/TUqDjebHMnbZTraWZzrzIfIeQ/jmZtNHUveRBQN+SoDak3Nb
+         +DoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=o48W/QGPdWIlzJ0mxNkgDcBycjNxJi2Vko9v4xoh1fM=;
-        b=zyt2Z0SqnSouZbj2b2nsSq6XFZXNhG3vcj4h9cPvlXu5PkWLGDgmbFh8Yqwk/UpTbs
-         1ZHnwsvwnJEbJ3fI/pCFNzV2Q/ev8r69ORwitSDxZVtnoM+qVw6oiMoa3+D/vBGGdVA7
-         EDraYWWiCmMB5sCFZXrxfSbuw9u/9bheqTuz9Peo6pcoS4jh4SSpI0jWxBVSwms+OpWa
-         JUZfLKI5eEqnZO63JE4bCtY5qEBwvzDGTWOfxWPydLH/9oLQgka+RjQdhvTs4M6lTQ7J
-         7xi3vg++L8Zxzsr6xkrHOhAcVvgNPECBb4tRhDwlK4KUx9DjKVtO0OYKLkpGyqLYVhvR
-         iOiQ==
-X-Gm-Message-State: ACrzQf1UpZdlEWzU+7bTAS8Y87lopnC7oFiA9gV9TsRnbSY82nc+L+Gn
-	Z0VjijMkDxqbykW6/kLerqU=
-X-Google-Smtp-Source: AMsMyM7W1MiAWrqsxt403h66Nae6oWchB8b5Le1iuYzwKU9F019jrzSr4RrlDt/Gk7cud1b/vOv8WA==
-X-Received: by 2002:aa7:cf0b:0:b0:461:2271:8559 with SMTP id a11-20020aa7cf0b000000b0046122718559mr12708767edy.92.1667207442723;
-        Mon, 31 Oct 2022 02:10:42 -0700 (PDT)
+        bh=y7TwjvYNuBTQx7bSJpCvwsU7T5xZI7GJ6V6t+msfW3s=;
+        b=KB6zK4q25nGEWqP0Gsu8MUQ0l5PkCV4Yh+CIJWGfyQ45BiUeU9FMxAfLf+3AZoI9HL
+         l2FQBkQnwtGTIe8qvAuO70qj/k8YXlKsJvaMElTH0uQlLkrtjpBkisAPmJSPHHnfeXCV
+         Ft6smUzkEiR9ICRfajqEdtTBFyjjkQt5eIyM0Wj64mBiGyhPdgmeakEIYZIbS0wmE6/b
+         B/dk09yCJDQ5klApuavh2xxFXP/LJJDz02qZgLI7fR7p3ihtR9Q0q9NT7yZKFMJmWuD3
+         W01kXdgONXEydC3yqCqIpAHnMG7IN3kLnT8ztUlq9K/YdkvuphRZtFGaHOC9NBM0Upzj
+         sB6A==
+X-Gm-Message-State: ACrzQf1Ktj1CLwrdL2sKWtS6gbG+Xl+o9JSY89Ue/3q20DL7Apbu9yQO
+	l1KHjs806DjmnTcAqizPzTg=
+X-Google-Smtp-Source: AMsMyM4ojgBpWutM2rjCIsSZc3d6j1JKupNDLVQUYOV2wnNM6eKqbV1rt+t2ysp1MYsBQrg1TZjcEg==
+X-Received: by 2002:a17:907:2e01:b0:78d:f24b:7330 with SMTP id ig1-20020a1709072e0100b0078df24b7330mr11763582ejc.604.1667207722748;
+        Mon, 31 Oct 2022 02:15:22 -0700 (PDT)
 Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id y26-20020a1709063a9a00b0078246b1360fsm2725893ejd.131.2022.10.31.02.10.41
+        by smtp.gmail.com with ESMTPSA id gy8-20020a170906f24800b007317f017e64sm2741662ejb.134.2022.10.31.02.15.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Oct 2022 02:10:42 -0700 (PDT)
+        Mon, 31 Oct 2022 02:15:22 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc: Yong Deng <yong.deng@magewell.com>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maxime Ripard <mripard@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v6 16/43] media: sun6i-csi: Add bridge v4l2 subdev with port management
-Date: Mon, 31 Oct 2022 10:10:41 +0100
-Message-ID: <5614788.DvuYhMxLoT@kista>
-In-Reply-To: <20220826183240.604834-17-paul.kocialkowski@bootlin.com>
-References: <20220826183240.604834-1-paul.kocialkowski@bootlin.com> <20220826183240.604834-17-paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v6 18/43] media: sun6i-csi: Add capture state using vsync for page flip
+Date: Mon, 31 Oct 2022 10:15:21 +0100
+Message-ID: <4778394.31r3eYUQgx@kista>
+In-Reply-To: <20220826183240.604834-19-paul.kocialkowski@bootlin.com>
+References: <20220826183240.604834-1-paul.kocialkowski@bootlin.com> <20220826183240.604834-19-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -55,18 +55,29 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne petek, 26. avgust 2022 ob 20:32:13 CET je Paul Kocialkowski napisal(a):
-> Introduce a bridge v4l2 subdev to prepare for separation between the
-> processing part (bridge) and the dma engine, which is required to
-> properly support ths isp workflow later on.
+Dne petek, 26. avgust 2022 ob 20:32:15 CET je Paul Kocialkowski napisal(a):
+> The current implementation requires up to 3 buffers to properly
+> implement page flipping without losing frames: one is configured
+> before the video stream is started, one just after that and page
+> flipping is synchronized to the frame done interrupt. The comment in
+> the code mentions that "CSI will lookup the next dma buffer for next
+> frame before the current frame done IRQ triggered".
 > 
-> Currently the bridge just manages fwnode mapping to media pads,
-> using an async notifier (which was previously in the main code).
-> The s_stream video op just forwards to the connected v4l2 subdev
-> (sensor or MIPI CSI-2 bridge).
+> Based on observations of the CSI unit behavior, it seems that the
+> buffer DMA address is sampled when the frame scan begins (in addition
+> to starting the stream), which corresponds to the vblank interrupt
+> that hits just before the frame-done interrupt of the previous frame.
 > 
-> The video capture device is now registered after the bridge and
-> attaches to it with a media link.
+> As a result, the address configured at the frame done interrupt is not
+> actually used for the next frame but for the one after that.
+> 
+> This proposal changes the page flipping sync point to the vsync
+> interrupt, which allows the DMA address to be sampled for the next
+> frame instead and allows operating with only two buffers.
+> 
+> In addition to the change in the sync point, the code is refactored
+> to introduce a notion of state that clarifies tracking of the buffers
+> with tidy functions.
 > 
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
