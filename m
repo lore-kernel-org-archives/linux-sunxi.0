@@ -1,295 +1,121 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0C921D75;
-	Tue,  1 Nov 2022 22:56:53 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id r14so23909210edc.7;
-        Tue, 01 Nov 2022 15:56:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Sd8jKs4tdxesO+PR444FHbSJvw1vCZI71YqUB5zSy+4=;
-        b=noZZW365vyPqp3/6l2w0rgrza+Jf6SMdGGiPeaq6IEEN7MqNKRvnmpTk9Zveysb8zB
-         jJinoewyBEvOaD09hH0w/rVPIhztdHfmiWaOkI8A6mBiOv/Uzn9UhFxTu2cvnCaHhfzG
-         Mt5oPSO+Wj3L5g1Ad3Z7/XZtsvXHICy0jXW4XzlYaa95ruiBFHokOSbLhbC9LV7MBsqp
-         OI2ULAZ44X73SHOsNGrhRAJQ5v607QIQCkF9oo49R4Jw63SzNeaYKwgyXTWRbHfz0TLp
-         vxDQvHqWUwy1a4uUJ76tCkLH5YtaIHpnE/eJDC/tCC5Zl/OUvFGrxM4U8W3SslGR5FSc
-         vfgA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103F67ED
+	for <linux-sunxi@lists.linux.dev>; Wed,  2 Nov 2022 09:04:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1667379844;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XBlp2DOijU5hXQ9AriUwp9vEVLgfxcCQxHX+sSZSvOs=;
+	b=foE1tqMnN1euVXsjwdlyPW1Y4BTMlfQxIBqnZz2eDUgMOJ3r8Zu+tBZQX0GkNtDL2D+9Aj
+	flWcioqcZUsIaIG4L65T3zBd/pzbd1EQRgPn+MZdj0iMkyKMJis4wJ5Qwuj07kEsp7CYEk
+	jHcVQV9OGuPi3hRfiynfov54IpOv5aE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-364-rPZJX2oMPMWiH-HUnM4ObQ-1; Wed, 02 Nov 2022 05:04:01 -0400
+X-MC-Unique: rPZJX2oMPMWiH-HUnM4ObQ-1
+Received: by mail-wr1-f70.google.com with SMTP id o13-20020adfa10d000000b00232c00377a0so4621101wro.13
+        for <linux-sunxi@lists.linux.dev>; Wed, 02 Nov 2022 02:04:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Sd8jKs4tdxesO+PR444FHbSJvw1vCZI71YqUB5zSy+4=;
-        b=a85vlGdZSjgsRczmS7QQuTI4Ooiq/4UMlTYnoUJ+LZwouJdJQso/hEeVpQHgXaRBa/
-         4dtddPo1MvsF533zKD9PNWMzgQrGAklkmVaukx6EumUSKdy1cVTPzrTfOxkHfTwRYzO8
-         y3ICiZdlmVLX03Gcbhqps3CDPIFa6gfapY9YVHh1oNWfSksjcNIIsO/10FGGdxBf5ORO
-         +gsB4YwDkxeoOnGzLcocR/h4cKyPi9fhSdX3WsgjkLKYay08lo8D6PRqd2MxtXLrl8ng
-         Y6+FP1oCJW2gzglOuECQ4lz8cr1lVACqhIIIPqU+sBv1N9TgmaQa26WdosA2aWvle21A
-         B0Yw==
-X-Gm-Message-State: ACrzQf0d83mi05/nTt/Nh2bjx6ju8H/8CCOWVCBi/MCeQGtMOE1XVcpt
-	Cn6BUQbwPbu5perK68CtP74=
-X-Google-Smtp-Source: AMsMyM7Gxfvvt5MNrTj+Wb0osWhHMipmKhBlCHZudlpAsGu/WDGgLWZlqNMFKFid6V9BPYw1VcvL+w==
-X-Received: by 2002:aa7:d996:0:b0:461:88b8:c581 with SMTP id u22-20020aa7d996000000b0046188b8c581mr21435355eds.111.1667343411529;
-        Tue, 01 Nov 2022 15:56:51 -0700 (PDT)
-Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id b7-20020a0564021f0700b00458a03203b1sm4992951edb.31.2022.11.01.15.56.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Nov 2022 15:56:50 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mripard@kernel.org, paul.kocialkowski@bootlin.com
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org, hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 05/11] media: cedrus: Filter controls based on capability
-Date: Tue, 01 Nov 2022 23:56:49 +0100
-Message-ID: <5872247.lOV4Wx5bFT@kista>
-In-Reply-To: <20221024201515.34129-6-jernej.skrabec@gmail.com>
-References: <20221024201515.34129-1-jernej.skrabec@gmail.com> <20221024201515.34129-6-jernej.skrabec@gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XBlp2DOijU5hXQ9AriUwp9vEVLgfxcCQxHX+sSZSvOs=;
+        b=LU5jp50xYT+LWVOerNMlTdJIP82LW0CN6iyP76LO25b3eNbSA20xTNHKo8Z6nIMRKo
+         cliznDA+dcozlJacdBQHXEwS6bfljUT2gfwSbxtpTiCy/nyj5DYiJgqBYL0zr5LSa05v
+         nztZzRfu0B4B3BbxOPSSkJH9fIkBqf7e0+aHhgT6N/8Z4UpbaBFEIfXxwLLmcByqRomL
+         kauhdVJapP2XuwtXYvn+fcDFZ7WONO/0/eiTIp2LAU9LJuictnJ1RteZDUTMqN7Mwvds
+         bws9tstvqT8tQfB0/WXNjvavpdv42dThVD7E2tD1shDYQXmBWz+GcmoBEy9qaTy48M4l
+         UEKA==
+X-Gm-Message-State: ACrzQf0jCyPh59s3qS53XOVHDE2Aj2yvmCni3ls2fJYWTu7fTB1+FBzD
+	yl+pqviPgbaq23AopQOCt1nfiEdoT2BQb1oLHAz5NEJwDYR1u8lUV1SR2EuEubriBMEyLVY7g7Y
+	BbyTZ9pqkBBttHablJyJ36KM=
+X-Received: by 2002:a7b:c409:0:b0:3cf:4c81:8936 with SMTP id k9-20020a7bc409000000b003cf4c818936mr24380813wmi.38.1667379840253;
+        Wed, 02 Nov 2022 02:04:00 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM72ckpdUoZR+NwXtu1sv2+7NmgS+YMIWWHB7QdeKnWTKduGDRl7tg4bkpenTZv0mX1kFf34kw==
+X-Received: by 2002:a7b:c409:0:b0:3cf:4c81:8936 with SMTP id k9-20020a7bc409000000b003cf4c818936mr24380784wmi.38.1667379840046;
+        Wed, 02 Nov 2022 02:04:00 -0700 (PDT)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id b13-20020a5d550d000000b002366b17ca8bsm14083933wrv.108.2022.11.02.02.03.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Nov 2022 02:03:59 -0700 (PDT)
+Message-ID: <87284e5e-859e-3b1c-7142-28d4fa7a7939@redhat.com>
+Date: Wed, 2 Nov 2022 10:03:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v2 15/21] drm/fb-helper: Disconnect damage worker from
+ update logic
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ etnaviv@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org,
+ spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, xen-devel@lists.xenproject.org
+References: <20221024111953.24307-1-tzimmermann@suse.de>
+ <20221024111953.24307-16-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20221024111953.24307-16-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Dne ponedeljek, 24. oktober 2022 ob 22:15:09 CET je Jernej Skrabec napisal(a):
-> Because not all Cedrus variants supports all codecs, controls should be
-> registered only if codec related to individual control is supported by
-> Cedrus.
+On 10/24/22 13:19, Thomas Zimmermann wrote:
+> The fbdev helpers implement a damage worker that forwards fbdev
+> updates to the DRM driver. The worker's update logic depends on
+> the generic fbdev emulation. Separate the two via function pointer.
 > 
-> Replace codec enum, which is not used at all, with capabilities flags
-> and register control only if capabilities are met.
+> The generic fbdev emulation sets struct drm_fb_helper_funcs.fb_dirty,
+> a new callback that hides the update logic from the damage worker.
+> It's not possible to use the generic logic with other fbdev emulation,
+> because it contains additional code for the shadow buffering that
+> the generic emulation employs.
 > 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> DRM drivers with internal fbdev emulation can set fb_dirty to their
+> own implementation if they require damage handling; although no such
+> drivers currently exist.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/staging/media/sunxi/cedrus/cedrus.c | 45 +++++++++++----------
->  drivers/staging/media/sunxi/cedrus/cedrus.h |  2 +-
->  2 files changed, 25 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> b/drivers/staging/media/sunxi/cedrus/cedrus.c index
-> 2f284a58d787..023566b02dc5 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -77,56 +77,56 @@ static const struct cedrus_control cedrus_controls[] = {
-> .cfg = {
->  			.id	= 
-V4L2_CID_STATELESS_MPEG2_SEQUENCE,
->  		},
-> -		.codec		= CEDRUS_CODEC_MPEG2,
-> +		.capabilities	= CEDRUS_CAPABILITY_MPEG2_DEC,
->  	},
->  	{
->  		.cfg = {
->  			.id	= 
-V4L2_CID_STATELESS_MPEG2_PICTURE,
->  		},
-> -		.codec		= CEDRUS_CODEC_MPEG2,
-> +		.capabilities	= CEDRUS_CAPABILITY_MPEG2_DEC,
->  	},
->  	{
->  		.cfg = {
->  			.id	= 
-V4L2_CID_STATELESS_MPEG2_QUANTISATION,
->  		},
-> -		.codec		= CEDRUS_CODEC_MPEG2,
-> +		.capabilities	= CEDRUS_CAPABILITY_MPEG2_DEC,
->  	},
->  	{
->  		.cfg = {
->  			.id	= 
-V4L2_CID_STATELESS_H264_DECODE_PARAMS,
->  		},
-> -		.codec		= CEDRUS_CODEC_H264,
-> +		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
->  	},
->  	{
->  		.cfg = {
->  			.id	= 
-V4L2_CID_STATELESS_H264_SLICE_PARAMS,
->  		},
-> -		.codec		= CEDRUS_CODEC_H264,
-> +		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
->  	},
->  	{
->  		.cfg = {
->  			.id	= V4L2_CID_STATELESS_H264_SPS,
->  			.ops	= &cedrus_ctrl_ops,
->  		},
-> -		.codec		= CEDRUS_CODEC_H264,
-> +		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
->  	},
->  	{
->  		.cfg = {
->  			.id	= V4L2_CID_STATELESS_H264_PPS,
->  		},
-> -		.codec		= CEDRUS_CODEC_H264,
-> +		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
->  	},
->  	{
->  		.cfg = {
->  			.id	= 
-V4L2_CID_STATELESS_H264_SCALING_MATRIX,
->  		},
-> -		.codec		= CEDRUS_CODEC_H264,
-> +		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
->  	},
->  	{
->  		.cfg = {
->  			.id	= 
-V4L2_CID_STATELESS_H264_PRED_WEIGHTS,
->  		},
-> -		.codec		= CEDRUS_CODEC_H264,
-> +		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
->  	},
->  	{
->  		.cfg = {
-> @@ -134,7 +134,7 @@ static const struct cedrus_control cedrus_controls[] = {
-> .max	= V4L2_STATELESS_H264_DECODE_MODE_SLICE_BASED,
->  			.def	= 
-V4L2_STATELESS_H264_DECODE_MODE_SLICE_BASED,
->  		},
-> -		.codec		= CEDRUS_CODEC_H264,
-> +		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
->  	},
->  	{
->  		.cfg = {
-> @@ -142,7 +142,7 @@ static const struct cedrus_control cedrus_controls[] = {
-> .max	= V4L2_STATELESS_H264_START_CODE_NONE,
->  			.def	= 
-V4L2_STATELESS_H264_START_CODE_NONE,
->  		},
-> -		.codec		= CEDRUS_CODEC_H264,
-> +		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
->  	},
->  	/*
->  	 * We only expose supported profiles information,
-> @@ -160,20 +160,20 @@ static const struct cedrus_control cedrus_controls[] =
-> { .menu_skip_mask =
->  				
-BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
->  		},
-> -		.codec		= CEDRUS_CODEC_H264,
-> +		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
->  	},
->  	{
->  		.cfg = {
->  			.id	= V4L2_CID_STATELESS_HEVC_SPS,
->  			.ops	= &cedrus_ctrl_ops,
->  		},
-> -		.codec		= CEDRUS_CODEC_H265,
-> +		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
->  	},
->  	{
->  		.cfg = {
->  			.id	= V4L2_CID_STATELESS_HEVC_PPS,
->  		},
-> -		.codec		= CEDRUS_CODEC_H265,
-> +		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
->  	},
->  	{
->  		.cfg = {
-> @@ -181,13 +181,13 @@ static const struct cedrus_control cedrus_controls[] =
-> { /* The driver can only handle 1 entry per slice for now */
->  			.dims   = { 1 },
->  		},
-> -		.codec		= CEDRUS_CODEC_H265,
-> +		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
->  	},
->  	{
->  		.cfg = {
->  			.id	= 
-V4L2_CID_STATELESS_HEVC_SCALING_MATRIX,
->  		},
-> -		.codec		= CEDRUS_CODEC_H265,
-> +		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
->  	},
->  	{
->  		.cfg = {
-> @@ -197,7 +197,7 @@ static const struct cedrus_control cedrus_controls[] = {
-> .max = 0xffffffff,
->  			.step = 1,
->  		},
-> -		.codec		= CEDRUS_CODEC_H265,
-> +		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
->  	},
->  	{
->  		.cfg = {
-> @@ -205,7 +205,7 @@ static const struct cedrus_control cedrus_controls[] = {
-> .max	= V4L2_STATELESS_HEVC_DECODE_MODE_SLICE_BASED,
->  			.def	= 
-V4L2_STATELESS_HEVC_DECODE_MODE_SLICE_BASED,
->  		},
-> -		.codec		= CEDRUS_CODEC_H265,
-> +		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
->  	},
->  	{
->  		.cfg = {
-> @@ -213,19 +213,19 @@ static const struct cedrus_control cedrus_controls[] =
-> { .max	= V4L2_STATELESS_HEVC_START_CODE_NONE,
->  			.def	= 
-V4L2_STATELESS_HEVC_START_CODE_NONE,
->  		},
-> -		.codec		= CEDRUS_CODEC_H265,
-> +		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
->  	},
->  	{
->  		.cfg = {
->  			.id	= V4L2_CID_STATELESS_VP8_FRAME,
->  		},
-> -		.codec		= CEDRUS_CODEC_VP8,
-> +		.capabilities	= CEDRUS_CAPABILITY_VP8_DEC,
->  	},
->  	{
->  		.cfg = {
->  			.id = V4L2_CID_STATELESS_HEVC_DECODE_PARAMS,
->  		},
-> -		.codec		= CEDRUS_CODEC_H265,
-> +		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
->  	},
->  };
-> 
-> @@ -275,6 +275,9 @@ static int cedrus_init_ctrls(struct cedrus_dev *dev,
-> struct cedrus_ctx *ctx) return -ENOMEM;
-> 
->  	for (i = 0; i < CEDRUS_CONTROLS_COUNT; i++) {
-> +		if (!cedrus_is_capable(ctx, 
-cedrus_controls[i].capabilities))
-> +			continue;
 
-While it's not visible from this commit, above filtering causes issues when 
-searching for controls in ctx->ctrls[]. Now are not packed together and search 
-functions (cedrus_find_control_data, cedrus_get_num_of_controls) rely on 
-controls not being null. null control marks end of the array.
+[...]
 
-I'll fix that in next revision.
+>  static void drm_fb_helper_damage_work(struct work_struct *work)
+>  {
+> -	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper,
+> -						    damage_work);
+> -	struct drm_device *dev = helper->dev;
+> +	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper, damage_work);
 
+This line is an unrelated code style change. But I guess it's OK.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
 Best regards,
-Jernej
 
-> +
->  		ctrl = v4l2_ctrl_new_custom(hdl, 
-&cedrus_controls[i].cfg,
->  					    NULL);
->  		if (hdl->error) {
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h
-> b/drivers/staging/media/sunxi/cedrus/cedrus.h index
-> 1a98790a99af..7a1619967513 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-> @@ -57,7 +57,7 @@ enum cedrus_h264_pic_type {
-> 
->  struct cedrus_control {
->  	struct v4l2_ctrl_config cfg;
-> -	enum cedrus_codec	codec;
-> +	unsigned int		capabilities;
->  };
-> 
->  struct cedrus_h264_run {
-> --
-> 2.38.1
-
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
