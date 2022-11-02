@@ -1,51 +1,51 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9317ED
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Nov 2022 10:01:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237A77ED
+	for <linux-sunxi@lists.linux.dev>; Wed,  2 Nov 2022 10:02:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1667383286;
+	s=mimecast20190719; t=1667383352;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QoVTRIE06q1gLaA+FiGPh2NoY5TNtlfidxMdk3t+aTM=;
-	b=fuSs/eA4/7vZhV+X35FsnJlEhJ/20+W2k2LZenlQ7FIAvrb5mWjQpHZEEE3G7/vkuBezcY
-	ci/Smj7q/Z7hIgWVlQx1F2hNiJZQuFSvdEElWEudDf6CzncUGzYGNXoMcPmOQDpm4N2pDn
-	leC3TPAoQgZGNS5Qf5k3LtPYa4n+dVI=
+	bh=lYDm2f88uo7N+T5CuGh2kGVIDaWbYMjQLaRZ3nU/m+Y=;
+	b=Q7leAYZqc3S236QbrWd5JH7lcPBXB8R+bp7eqqQlt+z6eCMQ8px+gxzxnMworn2TL77lNM
+	FVdbbhiCE0IYf1RdcQkjXSdr6asP0r/zf+/CmUI6+px2J5NuNgKaDePz9WpBYZwpK3UrJG
+	5pkA39pvy2xfMh8gPmXyv9Xp1UlJIms=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-510-_-HLYH8bNlOwqSDcpvlqNg-1; Wed, 02 Nov 2022 06:01:25 -0400
-X-MC-Unique: _-HLYH8bNlOwqSDcpvlqNg-1
-Received: by mail-wm1-f72.google.com with SMTP id h204-20020a1c21d5000000b003cf4e055442so7752647wmh.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 02 Nov 2022 03:01:25 -0700 (PDT)
+ us-mta-534-oSupsBVoNdmYGw-yCIjkDg-1; Wed, 02 Nov 2022 06:02:31 -0400
+X-MC-Unique: oSupsBVoNdmYGw-yCIjkDg-1
+Received: by mail-wm1-f72.google.com with SMTP id f62-20020a1c3841000000b003cf6d9aacbbso3545629wma.8
+        for <linux-sunxi@lists.linux.dev>; Wed, 02 Nov 2022 03:02:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QoVTRIE06q1gLaA+FiGPh2NoY5TNtlfidxMdk3t+aTM=;
-        b=a1U3SvOm4oe+2g6jkkr9ii3PdiblWE5iLIbmuXexAkBNDj23h76CDUtUeb3cCUPdmL
-         X9pyhxzcNLgyOmNbvXnQtS8K9TjHUohGDKO31arcaTbKF8c0Nt1+pv6WlAxN7owV2Z1Q
-         LbFqHMaFlhGdFM+TMb0yCOOBGRPO+taMDIFdlnJCxxrRjpOENzBnk7U+NY4/0JORnfAJ
-         AD3ypBP5I9EUyBGNII+Ndx+qUTLaNk8cfYNYUFqY4SRcm2wswmEQjSXaqro/AYgqaAaZ
-         5mI//6vCpVXFw20uuZ8xK2Rjj7/T+dFlrHNhNieAFG7jk03Lwnct5R/bxHPC46ZCHUdu
-         D7AA==
-X-Gm-Message-State: ACrzQf2dH8KTAHYQcOl2TbwB1+CXEgzpFLTyeG/c2PzC6Bq9KBcdWLYW
-	0HJuCGHSMH+qTcWNDlRQ2tb9wouKqtZBeKptQJzx5AVeS2yA1ktFM5YWglW1ZQ+1Fogdn+AH6In
-	OxRNwq0Wey3jpUFBqjuX6akA=
-X-Received: by 2002:a5d:5505:0:b0:236:582b:7eb0 with SMTP id b5-20020a5d5505000000b00236582b7eb0mr14405753wrv.68.1667383284403;
-        Wed, 02 Nov 2022 03:01:24 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5ieiweFPtXW5w3c0VZoUXMoQohTPuy1WtQBfT29g+UzlDhvHMzFOjUUUPFpm0LZwMa5DV8ag==
-X-Received: by 2002:a5d:5505:0:b0:236:582b:7eb0 with SMTP id b5-20020a5d5505000000b00236582b7eb0mr14405736wrv.68.1667383284200;
-        Wed, 02 Nov 2022 03:01:24 -0700 (PDT)
+        bh=lYDm2f88uo7N+T5CuGh2kGVIDaWbYMjQLaRZ3nU/m+Y=;
+        b=MbiH8R9qPvtLGNKp95ukDxLNz4nrbeTgXyVCjcyQ1vz+2kmY//fntUGG23pfBpoPPv
+         Okn06Q9WG919NiI51FB26B+0RxF7wpmqHGyuV9nNec0SjovvAZ3whSK40hxSQeEm4PK7
+         J4+Xt1eLjeqykBc7FHE8F8TM2DZN4Gt8uqcDiY14tt8viRK9UcOp2ceJP690LQ257mM8
+         OqoHKYRyFcsmLdrVasawPtn2ZV0tEMfXJyRvWpRnBvnjmH7odKlOjWFcrtg0Z45itVvB
+         zjuvmkNro007fgxvoaXYtGeXaCJLN/1s6Iy/+36off0v8lFkopMckbXLU1gC/54SWp9P
+         HUJg==
+X-Gm-Message-State: ACrzQf2bl2OEKfYJu3lU/XcBXViouVYzCApmZStWInTMzGMBYHq/zhef
+	gjCz1fHP3UaF9AAmClE+GgS3aUWuzokolrsmsMnTZ+DGQT3rMLX3/TvoD42IgUgEbk8Q3TNV+x1
+	cYCOuxMueiS6rujbsiQp5Jz8=
+X-Received: by 2002:adf:f9cf:0:b0:236:6a26:c055 with SMTP id w15-20020adff9cf000000b002366a26c055mr14584863wrr.195.1667383350613;
+        Wed, 02 Nov 2022 03:02:30 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6OHHkFmpcUlQhLx4VZSF/FNGP0hsrmpEExWtKIxFg2Jf6dmbAckk/gQVQTytU8dXpfU2B04w==
+X-Received: by 2002:adf:f9cf:0:b0:236:6a26:c055 with SMTP id w15-20020adff9cf000000b002366a26c055mr14584846wrr.195.1667383350420;
+        Wed, 02 Nov 2022 03:02:30 -0700 (PDT)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id b13-20020a5d550d000000b002366b17ca8bsm14230263wrv.108.2022.11.02.03.01.22
+        by smtp.gmail.com with ESMTPSA id fn13-20020a05600c688d00b003a3170a7af9sm1564836wmb.4.2022.11.02.03.02.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Nov 2022 03:01:23 -0700 (PDT)
-Message-ID: <1d2b9809-857f-48cc-1177-72e6fc67b8e5@redhat.com>
-Date: Wed, 2 Nov 2022 11:01:22 +0100
+        Wed, 02 Nov 2022 03:02:30 -0700 (PDT)
+Message-ID: <68309442-ad39-36da-b1ec-680dd4129a7f@redhat.com>
+Date: Wed, 2 Nov 2022 11:02:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -54,8 +54,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v2 20/21] drm/fb-helper: Move generic fbdev emulation into
- separate source file
+Subject: Re: [PATCH v2 21/21] drm/fb-helper: Remove unnecessary include
+ statements
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
@@ -72,9 +72,9 @@ Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
  linux-tegra@vger.kernel.org, xen-devel@lists.xenproject.org
 References: <20221024111953.24307-1-tzimmermann@suse.de>
- <20221024111953.24307-21-tzimmermann@suse.de>
+ <20221024111953.24307-22-tzimmermann@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221024111953.24307-21-tzimmermann@suse.de>
+In-Reply-To: <20221024111953.24307-22-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -82,12 +82,13 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 10/24/22 13:19, Thomas Zimmermann wrote:
-> Move the generic fbdev implementation into its own source and header
-> file. Adapt drivers. No functonal changes, but some of the internal
-> helpers have been renamed to fit into the drm_fbdev_ naming scheme.
+> Remove include statements for <drm/drm_fb_helper.h> where it is not
+> required (i.e., most of them). In a few places include other header
+> files that are required by the source code.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
+
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
