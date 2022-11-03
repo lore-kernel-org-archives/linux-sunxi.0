@@ -1,42 +1,42 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5037497
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Nov 2022 15:14:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 856C27493
+	for <linux-sunxi@lists.linux.dev>; Thu,  3 Nov 2022 15:15:00 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0FB361F8ED;
-	Thu,  3 Nov 2022 15:14:58 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AEA7821DE0;
+	Thu,  3 Nov 2022 15:14:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1667488498; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1667488492; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5Rdbs1K7PrH8FqVsteDFsz2Pg6HAnz17D2gSGEJwptg=;
-	b=1QzEPzAu/XO9DJ7+I1Ls8u6iVJBqVfE0RfLcCGHCvzFb6nbQG7y/8DBvVDIcFJv1lnC+hZ
-	VFTTseMsIGFGbvg8BElx17Rw50wWqUakn6xd0cxmAnfTlDeZZ0lw1h6Wt06aRSUVnZwveH
-	he9C374VbO9S3fUtNy62s5HXA9q9xCo=
+	bh=D7A0BT0Vh8AgLJUbTrGZC771i4laNkvN7+YXn/oSiXM=;
+	b=teaI80VNLtAMlz1n/ply3x2TwZGNebhz0A+J6/5WgOT2AF8S0bKZz1Vl5kBK8EMOKDCZ5X
+	48i1H/SQPsjDvzmwDmW/ZVQquMM4yYzsv3tYQDBndqq02yfm2e/rRgJb1X0+Fz80M03tZZ
+	ojfKdm26W/HeGJGMgxIi4rID1/OZTtc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1667488498;
+	s=susede2_ed25519; t=1667488492;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5Rdbs1K7PrH8FqVsteDFsz2Pg6HAnz17D2gSGEJwptg=;
-	b=f8pZPqG9V3vdxDoWdtzuNcpX0gB4bZkuJ5Drjrd7WuBVLUdk/140+GTeZY398tPnBeuus7
-	WLY+csOh/CkEJuAA==
+	bh=D7A0BT0Vh8AgLJUbTrGZC771i4laNkvN7+YXn/oSiXM=;
+	b=jkXjgKm0Clu9GzzE9jAeZXIa5UvldCgq+ZLL8ukN/N/+Wb1G9RP4PPzj4gslAzEIUY+OVX
+	Cz9WQAA5z+R1alDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6614913AAF;
-	Thu,  3 Nov 2022 15:14:57 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3EAE213AAF;
+	Thu,  3 Nov 2022 15:14:52 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id GBP+F/HaY2PBGgAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Thu, 03 Nov 2022 15:14:57 +0000
+	id OHhLDuzaY2PBGgAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Thu, 03 Nov 2022 15:14:52 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	airlied@gmail.com,
@@ -59,9 +59,9 @@ Cc: "linux-hyperv@vger.kernel.orglinux-hyperv"@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org, freedreno@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 16/23] drm/fb-helper: Call fb_sync in I/O functions
-Date: Thu,  3 Nov 2022 16:14:39 +0100
-Message-Id: <20221103151446.2638-17-tzimmermann@suse.de>
+Subject: [PATCH v3 06/23] drm/ingenic: Don't set struct drm_driver.output_poll_changed
+Date: Thu,  3 Nov 2022 16:14:29 +0100
+Message-Id: <20221103151446.2638-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20221103151446.2638-1-tzimmermann@suse.de>
 References: <20221103151446.2638-1-tzimmermann@suse.de>
@@ -73,42 +73,33 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Call struct fb_ops.fb_sync in drm_fbdev_{read,write}() to mimic the
-behavior of fbdev. Fbdev implementations of fb_read and fb_write in
-struct fb_ops invoke fb_sync to synchronize with outstanding operations
-before I/O. Doing the same in DRM implementations will allow us to use
-them throughout DRM drivers.
+Don't set struct drm_driver.output_poll_changed. It's used to restore
+the fbdev console. But as ingenic uses generic fbdev emulation, the
+console is being restored by the DRM client helpers already. See the
+functions drm_kms_helper_hotplug_event() and
+drm_kms_helper_connector_hotplug_event() in drm_probe_helper.c.
+
+v2:
+	* fix commit description (Christian, Sergey)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/gpu/drm/drm_fb_helper.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index f6d22cc4cd876..379e0d2f67198 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -2246,6 +2246,9 @@ static ssize_t drm_fbdev_fb_read(struct fb_info *info, char __user *buf,
- 	if (total_size - count < pos)
- 		count = total_size - pos;
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+index ab0515d2c420a..99f86f1ba8bee 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+@@ -1018,7 +1018,6 @@ static const struct drm_bridge_funcs ingenic_drm_bridge_funcs = {
  
-+	if (info->fbops->fb_sync)
-+		info->fbops->fb_sync(info);
-+
- 	if (drm_fbdev_use_iomem(info))
- 		ret = fb_read_screen_base(info, buf, count, pos);
- 	else
-@@ -2327,6 +2330,9 @@ static ssize_t drm_fbdev_fb_write(struct fb_info *info, const char __user *buf,
- 		count = total_size - pos;
- 	}
- 
-+	if (info->fbops->fb_sync)
-+		info->fbops->fb_sync(info);
-+
- 	/*
- 	 * Copy to framebuffer even if we already logged an error. Emulates
- 	 * the behavior of the original fbdev implementation.
+ static const struct drm_mode_config_funcs ingenic_drm_mode_config_funcs = {
+ 	.fb_create		= ingenic_drm_gem_fb_create,
+-	.output_poll_changed	= drm_fb_helper_output_poll_changed,
+ 	.atomic_check		= drm_atomic_helper_check,
+ 	.atomic_commit		= drm_atomic_helper_commit,
+ };
 -- 
 2.38.0
 
