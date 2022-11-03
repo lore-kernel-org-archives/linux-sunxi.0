@@ -1,86 +1,66 @@
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03on2049.outbound.protection.outlook.com [40.107.105.49])
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2075.outbound.protection.outlook.com [40.107.21.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B98663A0
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Nov 2022 18:22:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23DF63C6
+	for <linux-sunxi@lists.linux.dev>; Thu,  3 Nov 2022 18:41:19 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NKtm0ahJRkrD+1qlAlBzs1XYoIepzTyV+upmqR48Iyh5EcIW3cjRvjq4pbjYy/qBVfTcMUKK8Cbq4DDLSEyoYPiVYU03Fa0lAotWK6Jn6bYe6xZiLVu4l2d6u2uBQG7WS3cifePM5JtLvdewjepASbKG1/fvIfv0NMief38FId358+wyvlS4TJTxePuVnl/PL0zGn0Mxkcl1RDW/0xIPuVOwKTu2nK1NXTSFWvdwPTcUj9PlBdR4vPehZxijl/TNIvWQgMs/+8yFESTBOYDrVxQnKJ32VvEokOAcHR76UYkdmUr4Gj2X/Ie0rtrZtrj/w3G6PttB/UjC94Dlpm9ONA==
+ b=jSAwM0NW1VjCbUVd0mohu0FKO9mhCQwytSmweIpR//pM+DwNLND48QibPgMLa2mEAqvKG53RVUxkzhs+9sdko7b9Y3BxHFaMW5lK1v+u+q+OvINdvFfxVzBiTz+cFWdliZshf8KcP2vwrXRjHCigKV91U1zzjqWKrZM8OIGHjfY/k077tjO/vTaTLrhif8gLbLymAxw1N4NGWx+z4Ds/ocF1mtcxcHGWArLJ0GYOwsQeVuzG1vAfbGm9Ub9rEeHec+bIfTf0+nvnAOn1ECs7CBwxYEEeiQLDlZtae90GW3KN/RLufylxOYJ6iOgH9O0NE18984oxzJmrrcx5YdO/eQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xEypwbDE72PNOSHsQ4KOrIxfmlBzUI43Xxc+/tlLyGE=;
- b=K4k8B4JlyFuxNSCYOZA49L50oeehgo0alCLZkr5T2613xfPpk3YSJXBE1YQ5mg6dpsvLt5Ji25EQ1cr9tEZAv2TCr5xZ2QFKO6CR3usKQMuBir9l3+a20JeWHOyCCiahJU69NrBH9kHoZ+Wx0bcLCU9YaxQS1OszPE3piXPhOhHtvzhJ3pAwaFBgNeCoQSYsw4L3jY4mKYmGCIwZ7YbidGv4qqrNvsQTkW8TaKBOUmmEfpnrZoVS+cg6loU8JuA8XhXJLPoVzLv4kg0ILvgcM/LJ5iheIXH2hu0PDZ7YVTDuWTg4Mq86qA0SNkYgEu/jn/bkpT2aLw++Bo/1dVrqOQ==
+ bh=i+WjX3WCd7rPK1e6XkvxBrA7iAfWJe8JkPjikmIL01Y=;
+ b=XJrE3RkDEybOiUf7HwGDIvii/S3LvZ9Xal4onIZXPzakjRuifYT4VHCwSvDdq01H62lKUXcWnpxs7YdIZGwylI4aqtu2Jkc0x16bflGH5XIQaNeOls0lVk08t1YrEwTIQ8Sq+VNTqZNBEBIJPkKYLLIhqrEmtppUKKmq9Dugi8p/gPcDedxAzAGFcRtHOthxRw4kW8OHXYDGRVB0/ZTq3sDvKAVayNfkdbixpkUd2QDQmTWb4KlAktBqHQTJoht9vJQQZNvTYI4P0LuRJEGGNsRaSoOChKnQZ6xCDrAIURU3dRFf8AtCUm1VVbXBi/0A1bVoUsDuA/+jTQza6VYcZg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
- dkim=pass header.d=seco.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
+ smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
+ header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
+ arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=theobroma-systems.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xEypwbDE72PNOSHsQ4KOrIxfmlBzUI43Xxc+/tlLyGE=;
- b=zINUvUtTaKwFtxGvHUvnSMkoQQwbQGaAhKAvVo9ATVN+gm2aeX24/R37EM5QKvA72yjMToSK89U2ckmjJqv//CBDs3ft87b9aTicytDJCrl6eHga1c1l6FnEFRXA83AZEb19iwyTZYb4UAznpFIm2/5p0SY3iHeHxlKwKWMdEVUsB2ukzV6hJcL2GBPig8wW1k7/we/uCTwSKP8j8vsGHVMZgKSEEmQqafthOuv+BuoLOaVG69ob+zngH7CMywCRKt0oRebvmA45w61vOSrQgmQptj/3Cojbav0ulqAzXc4jDZTjwWeFBCy32KeKInkIPI3rs6arvsPXp+Ab9638IA==
+ bh=i+WjX3WCd7rPK1e6XkvxBrA7iAfWJe8JkPjikmIL01Y=;
+ b=P32Am70NPX/NxSq8XMzFZQ9AXWMknesvH8eB5Rqn7SrR55LpqiqHPpTFI3FnfsIme/TilS6vi1FU1KlIdzrIDiLm4+NqGsmJKsXrXdllAIvQtLlJbsFJb1Lk2ua4elT0l5lU9peUzhlixWY9y1kXPBKuDzmSrmS94GS7x4SdUuzElchrLgnu5JS7v88ED+ti2sLDr19wtsdHTgWlnKwfE4Y1VZyg/QK3oXYTVUDFEtRtsBvRh+QZ3PEFob+EE9Jq/apN6sDUacpUZQrna368zS+mk3EjLigSwz7MX8kJ+vQNipSrYeOS+oLMeiHeB0WbRkNeJUApKmZOlB+k3U85eQ==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=seco.com;
-Received: from DB7PR03MB4972.eurprd03.prod.outlook.com (2603:10a6:10:7d::22)
- by AM0PR03MB6195.eurprd03.prod.outlook.com (2603:10a6:20b:159::14) with
+ header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
+Received: from DU2PR04MB8536.eurprd04.prod.outlook.com (2603:10a6:10:2d7::10)
+ by PA4PR04MB9343.eurprd04.prod.outlook.com (2603:10a6:102:2a7::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.19; Thu, 3 Nov
- 2022 18:22:49 +0000
-Received: from DB7PR03MB4972.eurprd03.prod.outlook.com
- ([fe80::e9d6:22e1:489a:c23d]) by DB7PR03MB4972.eurprd03.prod.outlook.com
- ([fe80::e9d6:22e1:489a:c23d%4]) with mapi id 15.20.5791.022; Thu, 3 Nov 2022
- 18:22:49 +0000
-From: Sean Anderson <sean.anderson@seco.com>
-To: David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org,
-	Sean Anderson <sean.anderson@seco.com>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Brian Starkey <brian.starkey@arm.com>,
-	Chen Feng <puck.chen@hisilicon.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Christian Gmeiner <christian.gmeiner@gmail.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	John Stultz <jstultz@google.com>,
-	Jyri Sarha <jyri.sarha@iki.fi>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Mali DP Maintainers <malidp@foss.arm.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Mihail Atanassov <mihail.atanassov@arm.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Rob Clark <robdclark@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Samuel Holland <samuel@sholland.org>,
-	Sean Paul <sean@poorly.run>,
-	Tian Tao <tiantao6@hisilicon.com>,
-	Tomi Valkeinen <tomba@kernel.org>,
-	Xinliang Liu <xinliang.liu@linaro.org>,
-	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-	etnaviv@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 2/2] drm: Convert users of drm_of_component_match_add to component_match_add_of
-Date: Thu,  3 Nov 2022 14:22:22 -0400
-Message-Id: <20221103182222.2247724-3-sean.anderson@seco.com>
-X-Mailer: git-send-email 2.35.1.1320.gc452695387.dirty
-In-Reply-To: <20221103182222.2247724-1-sean.anderson@seco.com>
-References: <20221103182222.2247724-1-sean.anderson@seco.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BL0PR0102CA0027.prod.exchangelabs.com
- (2603:10b6:207:18::40) To DB7PR03MB4972.eurprd03.prod.outlook.com
- (2603:10a6:10:7d::22)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.22; Thu, 3 Nov
+ 2022 18:41:16 +0000
+Received: from DU2PR04MB8536.eurprd04.prod.outlook.com
+ ([fe80::5e5e:1989:e5ec:c833]) by DU2PR04MB8536.eurprd04.prod.outlook.com
+ ([fe80::5e5e:1989:e5ec:c833%3]) with mapi id 15.20.5791.022; Thu, 3 Nov 2022
+ 18:41:16 +0000
+Message-ID: <267de96a-0129-a97d-9bf6-e1001b422a1a@theobroma-systems.com>
+Date: Thu, 3 Nov 2022 19:41:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [RFC PATCH 1/7] Input: goodix - fix reset polarity
+Content-Language: en-US
+To: Hans de Goede <hdegoede@redhat.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Quentin Schulz <foss+kernel@0leil.net>, hadess@hadess.net,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ linux-imx@nxp.com, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, agross@kernel.org, andersson@kernel.org,
+ konrad.dybcio@somainline.org, heiko@sntech.de, linux-input@vger.kernel.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ devicetree <devicetree@vger.kernel.org>,
+ arm-mail-list <linux-arm-kernel@lists.infradead.org>,
+ linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>
+References: <20221103-upstream-goodix-reset-v1-0-87b49ae589f1@theobroma-systems.com>
+ <20221103-upstream-goodix-reset-v1-1-87b49ae589f1@theobroma-systems.com>
+ <1fa371bd-78a6-bb7c-4692-1d8132ec2ab1@redhat.com>
+ <Y2P7SsPa04975Rkm@google.com>
+ <692fd16e-4183-d58d-802e-2b83563aee4b@redhat.com>
+From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+In-Reply-To: <692fd16e-4183-d58d-802e-2b83563aee4b@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0139.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:96::14) To DU2PR04MB8536.eurprd04.prod.outlook.com
+ (2603:10a6:10:2d7::10)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -88,411 +68,182 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB7PR03MB4972:EE_|AM0PR03MB6195:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2c5c91ea-a2b7-43f7-db18-08dabdc86995
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8536:EE_|PA4PR04MB9343:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8fcef8fc-fae5-436b-a1f0-08dabdcafd6c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	amDTUUEjnKENVBi/YXX+yw61yWN/UWqjQTYltOHhK2bTkUHlYynL8FhsPXNKupuQfdMtA4Q2I6h5YPoyxbaBt2QeN6pqb8wcMhv47M6skqtoZs20EbQSphAGN6DGGpAucx/Cm9jANZzXUN+uBEURpvbZtFb/msR5FGH/Mg3Esz0C0WHWi3cMrIIMHMSwwPyL5eYMVN+UXO5EuD4qT6A8ecHcKE8ed1Tat6a5vYIfKgVxZXE3BQziFs/ERF2tyBbzDJbTcDm7BbQ8IQbXtps08Ulk15nunOzQI+kFvXYK8L/RQKPdtakarFpdmNMEKjdu+C7sxCawe1YuRdPsIaqcjEWDaEu1AAlCHv9xTzfwIgW4HM8lo2YlTUC288nx6bWCHOwFzdBUhSgtsonShv519eMRisfmzdWxH6cTbXf/8SnhQTl+4TUp6H8E0mHZCtevXI0Fz1rc+2uwFb8yCjt7GqwLves//5hirMmeB9yBaOeQe/IKTFi19z2kV066yUF97UUFLuiO2hpA6gPAiCXM9UH6uG+/8uvyZ5vdKS+jwYPT+c3oIeTqpaMHI0FZ9cQgOmO2Zp/2XgLCyL2oQ144ZWL5hVUzjhBjewDfTOMbbjoPPpRmOwyhuQst6bMlsJo/InGj73a0oU2HjozCgkTLblEawuLc786dGyW1NNkkgJjhjT4df2g6ofngPOFJ274iOcYm+Sq7P+FS/+DsVXCG8pvYOg/Kr0ihsPd+aDm3x1Beh8chUK8q1pQRurRetdzG
+	HTkux9J55AvebI+9XPzadU7lYFMiL2mJWDMfcwmP3wphBja/Zg0kP2n1alTE67vTLcBJTykyBPbmo6ytdegHeXhgTc1D/Yb0LLcICpnckjGshJh3bKWA40MEBmHbRj/5IF2cDKR08v8J0KVgMjXZioJQhk1Xm4h4kEg5r6TpKgJI2jpCGOeB5XHm1xTEh8ZcwPYvsNGyjBxx70RNllc3Z121Cf7g/kSi4caB12yxQiihnPqDiajXxAZ7vsuOAUWIEFZf719EqXi60QHG4UaRawW9WY8Cof/NkZrB9UnlZ3TfpaOkOr8zHTFwp4B6iBsrA8kUGAsEx//J+g1zXLWScXZtiF6Z+LY7yCdf2lTYRYII1sGTxhyOp6LEMR51sOARiFoL+bmfBUkbFzqLP4o15ZChJ4+IYKoX6cJWeMdQW3KXi7i6l1yhK7cEzNjDqXbpQTCL/3ivOZuJEuGKtUJKEI5fAOn4gnczV9Je++veVkwIoG/pIQpK8P4qqpzilWGexSHkFTqfnn6L8U8SQzSOZvcujGY93S/DntSLLZWnA83tPQ6Hib1GztNSdH1m/ydKfDoCo/2b8LRCM3YMPiTc+QjXif/VONKnJln6M5niXUDMQjYA2ljxcHn5BPFe0SznkCW8T4h+0Roy3+K7csi34G50OJ0Ux+37k3xeEXRwVNszSTRXf7mKYEKm2/CeF3Jn5I7cJtIEKqY/lzeZA8jfWEwrR2sCd55XbttncjVS41LjT/1lbMSZqqv7y7HkjQL2oYD8TnjjO2AsssjZv3EoAZHn/Yw+llws+PDTR08UDbg=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR03MB4972.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(346002)(366004)(136003)(396003)(39850400004)(376002)(451199015)(2906002)(8676002)(66556008)(66476007)(66946007)(4326008)(316002)(26005)(6506007)(6512007)(8936002)(36756003)(30864003)(110136005)(44832011)(54906003)(41300700001)(86362001)(5660300002)(7416002)(7406005)(478600001)(6666004)(6486002)(38100700002)(83380400001)(38350700002)(52116002)(186003)(2616005)(1076003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8536.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(376002)(366004)(346002)(136003)(39850400004)(396003)(451199015)(66899015)(53546011)(6506007)(31686004)(6512007)(26005)(31696002)(8936002)(86362001)(2616005)(7416002)(186003)(5660300002)(8676002)(4326008)(66476007)(6666004)(44832011)(6486002)(478600001)(66556008)(66946007)(110136005)(83380400001)(54906003)(36756003)(38100700002)(316002)(41300700001)(2906002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?DxCnKaejCp/3Y/AOexMoAwSH9u9isLnVxMwzpqxTdPtoUGsHFIftqMmL1hhK?=
- =?us-ascii?Q?9SEt1SMd1J9IfGxRB0ALbjETM4vja3g2DGsFVXu4lo749oZ06kN+ViUQ7s1n?=
- =?us-ascii?Q?25yxbBuRHHaloRi4o0UF7mDPwXE+44o3nx/Si/glWQOLmoahy1SFXsyTbH4v?=
- =?us-ascii?Q?oSTdq6e9uDc8za1llH3yz6xNnMTgZgm8dZ0fTj1U47n05WV9RZHIIstM3ocw?=
- =?us-ascii?Q?6cpxv0/v8eozCEqVgi6t74YyIh03WbGSQ3kIEHXikuUpVtOX6njGtUYYAPyj?=
- =?us-ascii?Q?gcObb2Kk4Hl4Z8gVtRoQqb3a5pPfoCk3wMCSY1q4GKqsu+YuN8n7Dbz6LCno?=
- =?us-ascii?Q?IqEIuV38wuswQG9eDbBpD3f41sxFrePHjZRwvgQbpO2SV7Oxj7LYMmkeivSe?=
- =?us-ascii?Q?RvP/dmfPC6fdOAU1JV8dcqNQfJBwuOg/Frn1ULV//Hn0/c6GRb4do1yFvu+I?=
- =?us-ascii?Q?vuL73mPawPGWSJV08iMcr3a0z7GD0cWYZJ1beKrVxNmradtX9+GU2rA8XfWB?=
- =?us-ascii?Q?v4DU93idpFovKVwQzxjsj9vFHnYeSjLa1r/jviqwYZf/WbiFCu16HO5y7ZxC?=
- =?us-ascii?Q?CAccjKM8vNUkMsl+HO+k3VVRYcpfw1/ltJw3ycNUMySthJACgwamoBIKKdPr?=
- =?us-ascii?Q?SfBBMbzT2SJim2ES2/DRHqQYjysH4ugjHnpzEQ0RwzuaX3A4cYnWWlDigpEe?=
- =?us-ascii?Q?JxjaTgk/dtLEh034jzrlN1Z6b/t6hR1nZ/eov1UlPMapPKiN5Z0aMXafESEM?=
- =?us-ascii?Q?Y2fTCY7L/iFJC4epHK/fR8TuG6McZdXwaveFItK11dmtwUE2WHKqcJ0tm5Ur?=
- =?us-ascii?Q?bgMEVroYMypoinbyBZ86y0ExGCk6HzUUcGSPOZIpwcmypxf+v/f/mjeXBrZ0?=
- =?us-ascii?Q?zt8qAn60TfdUFqzcE3sRgEGf40mFxkUbHf0FNRkxlJbX35kqRzqsXkIz4+9B?=
- =?us-ascii?Q?uaMiiJSe3NQbZTNpXsuv7v2MjMHxHydzz8jHa8MkJgTgnRbn2+CkSCvtvjnt?=
- =?us-ascii?Q?YHWRBgi688uv0zFJs7Q7ITl2PVR2G6v5xi00h9mA59oMI1veDb2GlsBQcia4?=
- =?us-ascii?Q?lLFisan4iK+MvZ7KxvejRmWocitq8GCPzDR/lTcSHsFhjty6zxnd9LUDlMQ4?=
- =?us-ascii?Q?jW50l4NC8jA+duR7TI5QiXSvYSifSdUIrTvEXsBuWF7DB6nLozElbbpWzStA?=
- =?us-ascii?Q?iiEd+JDZW/kZixwVCoRKl636iEji+wIt0RF1SkcA+BlE2LEqRmdaJPtA6Qrn?=
- =?us-ascii?Q?ca1lJ74Hre6XSR01GsWzDxVP8T1Me2BTjnswRCoHrHBIujvU+z2+heTOfhkm?=
- =?us-ascii?Q?U+kHrdKi6D4pCPFOCIKpr4jfdd5eEaU9LnK+Wt1IegpI7QvwdPzGa/7U9frX?=
- =?us-ascii?Q?o8zJO2Ge5HehSNt/wJcOQxo5r+xB6CA4IQ2i0XjecHrfUN4yuB8VmWID39yv?=
- =?us-ascii?Q?03h4L8NOwpqyAnWMtaSD5aY+if9DZHJAQ0ZfBCkySWi4QlELOugnWaX4UYAS?=
- =?us-ascii?Q?tUlp0mWnwS+pvCsqiuvRF1F0EnxiIxzgAZAZO75gH+EXdXViqcpNvp22MRJi?=
- =?us-ascii?Q?YPhhIROHAliR25RVEc00UkXt+jvmbMP7N+MKEqHLdkW/kjLFfkyxxT77sX31?=
- =?us-ascii?Q?gg=3D=3D?=
-X-OriginatorOrg: seco.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c5c91ea-a2b7-43f7-db18-08dabdc86995
-X-MS-Exchange-CrossTenant-AuthSource: DB7PR03MB4972.eurprd03.prod.outlook.com
+	=?utf-8?B?aGJjSXhEcEM0OGdHR3YvNHNhUENCVS82QmVJWWhhSXVXZzFsNmlqWjlMbTdp?=
+ =?utf-8?B?VXdWTDN0VGJmc0lvMHZCdHlnbTZEVldKY0lNck14SEZrL1V3cGM0dyszUlBN?=
+ =?utf-8?B?QlhVUE81VkVwOUFWclY1MHh0dEZPc0Z3Y2cwNXBwR3daSjVTVkIvRGw0NFN6?=
+ =?utf-8?B?dGtwcVI0WndPT1F3M3VDUnEyM0FDMW1CT1RXSzU1QWc4TFhkaE14Qi9KN2p5?=
+ =?utf-8?B?REt4bUNpOWNXb0JtUTFDU2hGU1JORTJCRUY3TnZITis3emdIMExnL1dFWjU5?=
+ =?utf-8?B?c05uWWN6TTlwM1l4Z3RGMy9iVnJxd1Z0QW9GYkFMSk5DOTU0QjJ4eVBud2lQ?=
+ =?utf-8?B?ODhBMENWNGJ1UDlLVmJWWjcwc2t2d01HUGRjSW9sSW9lSWhXUU9OYVMwenlE?=
+ =?utf-8?B?bnpuYVRack9hZXg1aFJNSlFRWldmUWVZNlU1VzFFNElzZjVXMVhNb0ZpSHdk?=
+ =?utf-8?B?b0RzM3U2cmdlYzdlOGY3cTZlRzVGNDZwZ0tvVXMvaW1EMm9nMXdmTmltZmFS?=
+ =?utf-8?B?UnRrbGhLSHN6YWtieHZROS9OSk81ZW5YYXN3NXZNdC9sM3NLaGdWSlNJOXdV?=
+ =?utf-8?B?dWNKWG92V2kxVmdYMXlTRjRGMlNoeGZQT0d3Zk5VRDNhR3JUVDZOMWJDb05i?=
+ =?utf-8?B?SnFnMWx2R0gxdjJSb1huT1JHMHRIZEh0MWtpWHEwUVRVNnFrWk5vYVpJYys4?=
+ =?utf-8?B?TjdSc1dXc0JxSiszTlV3MThEeHloNzNuZ243empidU44WGF2Q0dSdS9qUGQ0?=
+ =?utf-8?B?YkRoWE1YY3ViMDBhb3ZUbm9LQ3UxZFZoRmVBRk1mSExqTGt6dWU2bHd6bHdB?=
+ =?utf-8?B?cS9VR1oyM1dsRmIxK1NNYlpXUWdJT1BWdlNOM1MwWWpuNStaZDA5SlZXUnRE?=
+ =?utf-8?B?d2tYS0doZU9ZU1NGNkg3ZGVEcEQ2Mm5KVjVLVTV0OXZvWXV6SkRHbzhxWjhz?=
+ =?utf-8?B?UnoraEE2Sm9kVmRaSy9aK1E0U2MzeDltbUZMYkxMRG93ZndjcGhYYW1JTnlP?=
+ =?utf-8?B?UDNNMXN2K2JZL1hnVXQwSStOZVp0UXptQTJmTEFmWm5namViVjJ3U2lQYjFP?=
+ =?utf-8?B?WTJZQmR1MThGSmFBenAyTi9iWElkUmpEYWRrQU5wb3FkaWpIYVVFU2F3QklL?=
+ =?utf-8?B?NUdaZzl0YXMzTk05YVJRRG5ndnBQdXhVek9RYkk2R1k3Z2RsS2FNQWV0d2ZS?=
+ =?utf-8?B?T0JVMy8zK1BpMmJNNnhuSWJJUXRnN2xMajlpSGRibWVGbk4zUEhHV1RsNmVQ?=
+ =?utf-8?B?V1BkU3drbzlEOTlXK2ZTaDE2YXhJL241bUNJRmtXVGFaKzduOHZDVTlYU05C?=
+ =?utf-8?B?N2N5RnNBUk5uZmVQYzdVbDUzRks5UXlsay9Fd3VhTDJuRzlGeUFJVTFUL1Nw?=
+ =?utf-8?B?QlpISzlra1piUWg5WXJXaTNmZ21aeVpmSU9LZkNick5JK2RyYWY1WWY1ZUE1?=
+ =?utf-8?B?VjFIRXBWWHFSTlp4S1R1b2hIaGcyaVd5c0s5RW9xb3Rib3lUOFBjM08xNXFM?=
+ =?utf-8?B?OVRDSGZ3ZjI3YlIwcFJiRXlYeVJyeUlmT1B1TlhsK0tpcHJoNWVHODcxRXBu?=
+ =?utf-8?B?L3ZsanRsNjk3SWFXQWVRWGx5QjBmWnlXUWF6OGRLL0o2VUhwakYzMk9JcnFk?=
+ =?utf-8?B?NURQVkZySUZmS1pkNFdycWF3MWNoV0wzNGpmYklpNTlRZGtJbnprT2NWV1Zp?=
+ =?utf-8?B?NWtRanN5cXhNczEzd3NwbWFYVlFSUU9pU0paK241WEsvdG5IM3plQWNoUGpk?=
+ =?utf-8?B?WFgxT09laWZvUlpsZzRGakI1eFJETTB5MXdsVHhqNzl3Ti9KWlVPdUI3UDRK?=
+ =?utf-8?B?b2Rsa20wUVhhRDFQMG9ORnhBTkNPeFdaalE3eC9HT1JGYjd1bUdla3lqWUNS?=
+ =?utf-8?B?ZEJSeWxram9hYm5idWdIdmpCR29UMWNGNVREWE1nZEU1S2ROMlV0RlZDRDAx?=
+ =?utf-8?B?eElJM1V1WDVKWXZ6L2JLNU9vbnRKUHVncTE1S3M5OWhHZ0s5QjkrLzQrd1RL?=
+ =?utf-8?B?dEtzUW56TW9tUU9jVGxnQy9mWHVHc0Z4eUhxNG41LzFBNVo1TmZDSG5OL1Yy?=
+ =?utf-8?B?NVFSZkxUTlNYcjFRUmQxSTVFcWlLa2xuWjBFdmNuL3Q2NlFqNGFHZU9LSFMx?=
+ =?utf-8?B?dXB4Vy9TYnR2U1FpUU53R3ZXY3dtd1dWQjhrMnp4VER6SDFNV0tzM29HaEo0?=
+ =?utf-8?Q?hTnopTCxWkfZbYbID3I1LRQ=3D?=
+X-OriginatorOrg: theobroma-systems.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8fcef8fc-fae5-436b-a1f0-08dabdcafd6c
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8536.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2022 18:22:49.0446
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2022 18:41:16.2424
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j0dMgfXQ7kAoHa7NHfZwmxl9quhp5U6+2XkguCWVQjY4uWcpM/de2RBtbkjVEF6mlExF/DV50w8+Ltf/l8TWhQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR03MB6195
+X-MS-Exchange-CrossTenant-UserPrincipalName: vf40sDkE9nIfNTQqlP+05PmDRpMx82P/o+Gi7Rk+Vxob5CRLeqlKw+NP34xOYh/wv73VZe1GKqnPJSsCjAA6fE4v3ucTFBdMJCHQZ/KRsjB3vQPw8jGIDMQeN46cGqdE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9343
 
-Every user of this function either uses component_compare_of or
-something equivalent. Most of them immediately put the device node as
-well. Convert these users to component_match_add_of and remove
-drm_of_component_match_add.
+Hi all,
 
-Signed-off-by: Sean Anderson <sean.anderson@seco.com>
----
+On 11/3/22 18:45, Hans de Goede wrote:
+> Hi,
+> 
+> On 11/3/22 18:32, Dmitry Torokhov wrote:
+>> Hi Hans,
+>>
+>> On Thu, Nov 03, 2022 at 03:58:47PM +0100, Hans de Goede wrote:
+>>> Hi Quentin,
+>>>
+>>> On 11/3/22 15:43, Quentin Schulz wrote:
+>>>> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+>>>>
+>>>> The reset line is asserted for selecting the I2C target address and then
+>>>> deasserted.
+>>>
+>>> It is not asserted/deasserted, asserted/deasserted is reset-controller/
+>>> reset-framework (drivers/reset/*) terminology.
+>>>
+>>> We are driving GPIOs here and those are driven low/high.
+>>
+>> Not quite. GPIOD API operates on a logival level (think of them as
+>> active/inactive) and allows platform/firmware to specify polarity from
+>> the AP point of view (as opposed to device). This important if the
+>> peripheral is not attached directly, but potentially through an inverter
+>> or something similar).
+> 
+> Right and if a line runs through an inverting buffer then marking
+> the pin as active-low in the DT makes a lot of sense here.
+> 
 
- .../gpu/drm/arm/display/komeda/komeda_drv.c   |  6 ++--
- drivers/gpu/drm/arm/hdlcd_drv.c               |  9 +-----
- drivers/gpu/drm/arm/malidp_drv.c              | 11 +------
- drivers/gpu/drm/armada/armada_drv.c           | 10 ++++---
- drivers/gpu/drm/drm_of.c                      | 29 +++----------------
- drivers/gpu/drm/etnaviv/etnaviv_drv.c         |  4 +--
- .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  3 +-
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  3 +-
- drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  4 +--
- drivers/gpu/drm/msm/msm_drv.c                 | 14 ++++-----
- drivers/gpu/drm/sti/sti_drv.c                 |  3 +-
- drivers/gpu/drm/sun4i/sun4i_drv.c             |  3 +-
- drivers/gpu/drm/tilcdc/tilcdc_external.c      | 10 ++-----
- include/drm/drm_of.h                          | 12 --------
- 14 files changed, 33 insertions(+), 88 deletions(-)
+It doesn't to me. /me shrugs
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-index 9fce4239d4ad..e5bf439b799f 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-@@ -103,10 +103,8 @@ static void komeda_add_slave(struct device *master,
- 	struct device_node *remote;
- 
- 	remote = of_graph_get_remote_node(np, port, endpoint);
--	if (remote) {
--		drm_of_component_match_add(master, match, component_compare_of, remote);
--		of_node_put(remote);
--	}
-+	if (remote)
-+		component_match_add_of(master, match, remote);
- }
- 
- static int komeda_platform_probe(struct platform_device *pdev)
-diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
-index a032003c340c..18e58863a2f1 100644
---- a/drivers/gpu/drm/arm/hdlcd_drv.c
-+++ b/drivers/gpu/drm/arm/hdlcd_drv.c
-@@ -352,11 +352,6 @@ static const struct component_master_ops hdlcd_master_ops = {
- 	.unbind		= hdlcd_drm_unbind,
- };
- 
--static int compare_dev(struct device *dev, void *data)
--{
--	return dev->of_node == data;
--}
--
- static int hdlcd_probe(struct platform_device *pdev)
- {
- 	struct device_node *port;
-@@ -367,9 +362,7 @@ static int hdlcd_probe(struct platform_device *pdev)
- 	if (!port)
- 		return -ENODEV;
- 
--	drm_of_component_match_add(&pdev->dev, &match, compare_dev, port);
--	of_node_put(port);
--
-+	component_match_add_of(&pdev->dev, &match, port);
- 	return component_master_add_with_match(&pdev->dev, &hdlcd_master_ops,
- 					       match);
- }
-diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-index 1d0b0c54ccc7..aace8b87c6d3 100644
---- a/drivers/gpu/drm/arm/malidp_drv.c
-+++ b/drivers/gpu/drm/arm/malidp_drv.c
-@@ -926,13 +926,6 @@ static const struct component_master_ops malidp_master_ops = {
- 	.unbind = malidp_unbind,
- };
- 
--static int malidp_compare_dev(struct device *dev, void *data)
--{
--	struct device_node *np = data;
--
--	return dev->of_node == np;
--}
--
- static int malidp_platform_probe(struct platform_device *pdev)
- {
- 	struct device_node *port;
-@@ -946,9 +939,7 @@ static int malidp_platform_probe(struct platform_device *pdev)
- 	if (!port)
- 		return -ENODEV;
- 
--	drm_of_component_match_add(&pdev->dev, &match, malidp_compare_dev,
--				   port);
--	of_node_put(port);
-+	component_match_add_of(&pdev->dev, &match, port);
- 	return component_master_add_with_match(&pdev->dev, &malidp_master_ops,
- 					       match);
- }
-diff --git a/drivers/gpu/drm/armada/armada_drv.c b/drivers/gpu/drm/armada/armada_drv.c
-index 0643887800b4..c0211ad7a45d 100644
---- a/drivers/gpu/drm/armada/armada_drv.c
-+++ b/drivers/gpu/drm/armada/armada_drv.c
-@@ -184,10 +184,12 @@ static void armada_add_endpoints(struct device *dev,
- 
- 	for_each_endpoint_of_node(dev_node, ep) {
- 		remote = of_graph_get_remote_port_parent(ep);
--		if (remote && of_device_is_available(remote))
--			drm_of_component_match_add(dev, match, component_compare_of,
--						   remote);
--		of_node_put(remote);
-+		if (remote) {
-+			if (of_device_is_available(remote))
-+				component_match_add_of(dev, match, remote);
-+			else
-+				of_node_put(remote);
-+		}
- 	}
- }
- 
-diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-index 7bbcb999bb75..0a474729ddf6 100644
---- a/drivers/gpu/drm/drm_of.c
-+++ b/drivers/gpu/drm/drm_of.c
-@@ -78,24 +78,6 @@ uint32_t drm_of_find_possible_crtcs(struct drm_device *dev,
- }
- EXPORT_SYMBOL(drm_of_find_possible_crtcs);
- 
--/**
-- * drm_of_component_match_add - Add a component helper OF node match rule
-- * @master: master device
-- * @matchptr: component match pointer
-- * @compare: compare function used for matching component
-- * @node: of_node
-- */
--void drm_of_component_match_add(struct device *master,
--				struct component_match **matchptr,
--				int (*compare)(struct device *, void *),
--				struct device_node *node)
--{
--	of_node_get(node);
--	component_match_add_release(master, matchptr, component_release_of,
--				    compare, node);
--}
--EXPORT_SYMBOL_GPL(drm_of_component_match_add);
--
- /**
-  * drm_of_component_probe - Generic probe function for a component based master
-  * @dev: master device containing the OF node
-@@ -130,10 +112,9 @@ int drm_of_component_probe(struct device *dev,
- 			break;
- 
- 		if (of_device_is_available(port->parent))
--			drm_of_component_match_add(dev, &match, compare_of,
--						   port);
--
--		of_node_put(port);
-+			component_match_add_of(dev, &match, port);
-+		else
-+			of_node_put(port);
- 	}
- 
- 	if (i == 0) {
-@@ -171,9 +152,7 @@ int drm_of_component_probe(struct device *dev,
- 				continue;
- 			}
- 
--			drm_of_component_match_add(dev, &match, compare_of,
--						   remote);
--			of_node_put(remote);
-+			component_match_add_of(dev, &match, remote);
- 		}
- 		of_node_put(port);
- 	}
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index 1d2b4fb4bcf8..4a0dba34a6e7 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -590,8 +590,8 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
- 			if (!first_node)
- 				first_node = core_node;
- 
--			drm_of_component_match_add(&pdev->dev, &match,
--						   component_compare_of, core_node);
-+			of_node_get(core_node);
-+			component_match_add_of(&pdev->dev, &match, core_node);
- 		}
- 	} else {
- 		char **names = dev->platform_data;
-diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-index 73ee7f25f734..fc736759274f 100644
---- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-@@ -273,8 +273,7 @@ static int kirin_drm_platform_probe(struct platform_device *pdev)
- 	if (!remote)
- 		return -ENODEV;
- 
--	drm_of_component_match_add(dev, &match, component_compare_of, remote);
--	of_node_put(remote);
-+	component_match_add_of(dev, &match, remote);
- 
- 	return component_master_add_with_match(dev, &kirin_drm_ops, match);
- }
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index ab0515d2c420..75a19e6b85c0 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -1445,8 +1445,7 @@ static int ingenic_drm_probe(struct platform_device *pdev)
- 	if (!np)
- 		return ingenic_drm_bind(dev, false);
- 
--	drm_of_component_match_add(dev, &match, component_compare_of, np);
--	of_node_put(np);
-+	component_match_add_of(dev, &match, np);
- 
- 	return component_master_add_with_match(dev, &ingenic_master_ops, match);
- }
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 91f58db5915f..9ca265129659 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -779,8 +779,8 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 		    comp_type == MTK_DSI) {
- 			dev_info(dev, "Adding component match for %pOF\n",
- 				 node);
--			drm_of_component_match_add(dev, &match, component_compare_of,
--						   node);
-+			of_node_get(node);
-+			component_match_add_of(dev, &match, node);
- 		}
- 
- 		ret = mtk_ddp_comp_init(node, &private->ddp_comp[comp_id], comp_id);
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 28034c21f6bc..1152da3d58dc 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -5,6 +5,7 @@
-  * Author: Rob Clark <robdclark@gmail.com>
-  */
- 
-+#include <linux/component.h>
- #include <linux/dma-mapping.h>
- #include <linux/fault-inject.h>
- #include <linux/kthread.h>
-@@ -1148,10 +1149,9 @@ static int add_components_mdp(struct device *master_dev,
- 			continue;
- 
- 		if (of_device_is_available(intf))
--			drm_of_component_match_add(master_dev, matchptr,
--						   component_compare_of, intf);
--
--		of_node_put(intf);
-+			component_match_add_of(master_dev, matchptr, intf);
-+		else
-+			of_node_put(intf);
- 	}
- 
- 	return 0;
-@@ -1180,9 +1180,9 @@ static int add_gpu_components(struct device *dev,
- 		return 0;
- 
- 	if (of_device_is_available(np))
--		drm_of_component_match_add(dev, matchptr, component_compare_of, np);
--
--	of_node_put(np);
-+		component_match_add_of(dev, matchptr, np);
-+	else
-+		of_node_put(np);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
-index 7abf010a3293..3ae4b73dfa92 100644
---- a/drivers/gpu/drm/sti/sti_drv.c
-+++ b/drivers/gpu/drm/sti/sti_drv.c
-@@ -238,8 +238,7 @@ static int sti_platform_probe(struct platform_device *pdev)
- 	child_np = of_get_next_available_child(node, NULL);
- 
- 	while (child_np) {
--		drm_of_component_match_add(dev, &match, component_compare_of,
--					   child_np);
-+		component_match_add_of(dev, &match, child_np);
- 		child_np = of_get_next_available_child(node, child_np);
- 	}
- 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-index d06ffd99d86e..a67c2010c7a2 100644
---- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-@@ -323,7 +323,8 @@ static int sun4i_drv_add_endpoints(struct device *dev,
- 	     of_device_is_available(node))) {
- 		/* Add current component */
- 		DRM_DEBUG_DRIVER("Adding component %pOF\n", node);
--		drm_of_component_match_add(dev, match, component_compare_of, node);
-+		of_node_get(node);
-+		component_match_add_of(dev, match, node);
- 		count++;
- 	}
- 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_external.c b/drivers/gpu/drm/tilcdc/tilcdc_external.c
-index 3b86d002ef62..0138ce02a64f 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_external.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_external.c
-@@ -155,11 +155,6 @@ int tilcdc_attach_external_device(struct drm_device *ddev)
- 	return ret;
- }
- 
--static int dev_match_of(struct device *dev, void *data)
--{
--	return dev->of_node == data;
--}
--
- int tilcdc_get_external_components(struct device *dev,
- 				   struct component_match **match)
- {
-@@ -173,7 +168,8 @@ int tilcdc_get_external_components(struct device *dev,
- 	}
- 
- 	if (match)
--		drm_of_component_match_add(dev, match, dev_match_of, node);
--	of_node_put(node);
-+		component_match_add_of(dev, match, node);
-+	else
-+		of_node_put(node);
- 	return 1;
- }
-diff --git a/include/drm/drm_of.h b/include/drm/drm_of.h
-index 10ab58c40746..685c44dc1dae 100644
---- a/include/drm/drm_of.h
-+++ b/include/drm/drm_of.h
-@@ -33,10 +33,6 @@ uint32_t drm_of_crtc_port_mask(struct drm_device *dev,
- 			    struct device_node *port);
- uint32_t drm_of_find_possible_crtcs(struct drm_device *dev,
- 				    struct device_node *port);
--void drm_of_component_match_add(struct device *master,
--				struct component_match **matchptr,
--				int (*compare)(struct device *, void *),
--				struct device_node *node);
- int drm_of_component_probe(struct device *dev,
- 			   int (*compare_of)(struct device *, void *),
- 			   const struct component_master_ops *m_ops);
-@@ -69,14 +65,6 @@ static inline uint32_t drm_of_find_possible_crtcs(struct drm_device *dev,
- 	return 0;
- }
- 
--static inline void
--drm_of_component_match_add(struct device *master,
--			   struct component_match **matchptr,
--			   int (*compare)(struct device *, void *),
--			   struct device_node *node)
--{
--}
--
- static inline int
- drm_of_component_probe(struct device *dev,
- 		       int (*compare_of)(struct device *, void *),
--- 
-2.35.1.1320.gc452695387.dirty
+> But as I mentioned before the datasheet spells out a very specific
+> init-sequence.
+> 
 
+As Dmitry pointed out, we're talking about logical vs physical level. 
+The driver tries to enforce physical level (on the touchscreen 
+controller side) by expecting the logical level (of the gpio controller) 
+to match.
+
+> By default marking all the direct-attached RST pin connections as
+> active-low (1) to then invert the value again in the driver
+> (from the datasheet init sequence specified values pov) IMHO
+> just makes the driver code harder to read when putting it side
+> to side by the init-sequence specified in the datasheet.
+> 
+
+When I want to put a device into reset mode, I activate/assert the line 
+so that its logical state is "active". For Goodix, its reset line is 
+active low. I do a "positive" action, so I activate something. If it was 
+called nreset, that would be a different story. If it was named 
+enable-gpios, I would understand. I just don't get the current 
+implementation with reset-gpios in DT.
+
+Reading:
+reset-gpios = <&gpio0 1 GPIO_ACTIVE_HIGH>;
+means that I need to set the logical output to HIGH to have a HW reset, 
+which is not what happens for this driver.
+
+> I don't see how playing this double-invert game is going to help
+> us / gives us any added value, in any way.
+> 
+
+The current implementation is playing the double-invert game for me.
+
+So clearly, we do not agree on what, at least in the DT, the level of a 
+reset gpio should mean.
+
+> And in all the ACPI tables the GPIOs are marked as active-high
+> so changing this to have the driver now all of a sudden expect
+> the reset-gpio to be marked as active-low at the gpio-subsys
+> level will be quite cumbersome since normally the active-low vs
+> -high info comes from the firmware-tables and now all of a sudden
+> we need to override this.
+> 
+
+We have the information from which standard we got the GPIO, so we could 
+always invert the flag we get from DT to match whatever is in ACPI.
+
+Blindly ignoring the DT flag is not an option since the HW design could 
+actually require an inversion (GPIO connected to a transistor for 
+example). I'm not sure what exactly could be done on the gpio-subsys 
+level to deal with this. I think we just disagree on what the reset 
+"active state" should mean and no amount of code would fix that?
+
+> During all my work on the goodix driver I have always been very
+> careful to not introduce any behavior changes for the DT users
+> of the drivers. It would be nice if this courtesy could also
+> be extended in the other direction.
+> 
+
+This RFC is clearly breaking ACPI support. I have zero knowledge about 
+ACPI and didn't know that devm_gpiod_get_optional fetches from OF or 
+ACPI. It was not my intention to break ACPI, sorry if it came this way.
+
+I frankly didn't expect this to be an easy discussion, since changing 
+the DT is usually a no-go, but as is making the DT binding 
+implementation-specific (which is the current state of affairs), e.g. 
+we'll need U-Boot/BSD/whatever driver to also use the same logic. I want 
+to be noted that I like none of the options I offered so far.
+
+As I was surprised by the (for me) inverted logic of the GPIO state, I 
+preferred fixing the driver and DT to match what my expectations were.
+
+I'm looking for guidance on how we can deal with this, I do not claim 
+what I suggest is what we should absolutely go for.
+
+Maybe my expectations were misguided and I should just tell my brain to 
+invert whatever my intuition tells me, it wouldn't be the first time.
+
+Cheers,
+Quentin
+
+P.S.: I've been notified only the cover letter made it to the mailing 
+lists, so adding the mailing lists in Cc right now. Hopefully enough 
+context is left in the mail. Apologies.
