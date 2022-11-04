@@ -1,51 +1,51 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7BB7C
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Nov 2022 10:37:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D2DF7C
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Nov 2022 10:38:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1667558241;
+	s=mimecast20190719; t=1667558291;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FvcSXdbTIY6j0RtoeMW2Oyvbsf0knEKyh2vmjeJsi+Y=;
-	b=R2yQImMcAfIj5GEELIWTBsuK8hgSQmFxwHONeKVvbLNsoPnUuIooQaMHVa/KhRLCIH7r5a
-	SCaPWvfexiteqzwdGc6NcedILUoKqMLUZ0NXk2nAw9stXpgMK2U85P+Z3QKQx3TEQy8gHF
-	8m7WD5rw4DsgVTBWqQrCcuIJkg3C6Eo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=M88yz4GfmbUNq4mWECugnsnJkV6z34uCwDqL3DFZ74U=;
+	b=MrQOvOT4UxP3Qtv+fB8Cl9dUzB13vT4MHUxpeRqO0M7dcIyiaU4vcp0tqFUwRxc4Zx0M6i
+	k9OUEBmsW29X30aW4lcmdjH20oEtmDRuouU+eN3LVO6xlLHVgWaX6tKgAgwghsiX6W0bxS
+	Zi9nCwZOieaNB5Pyewd7sZ5c+c0b+pk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-457-3-xqdcN4P4ipEOW8koW7XA-1; Fri, 04 Nov 2022 06:37:20 -0400
-X-MC-Unique: 3-xqdcN4P4ipEOW8koW7XA-1
-Received: by mail-wm1-f72.google.com with SMTP id ay19-20020a05600c1e1300b003cf758f1617so3285902wmb.5
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Nov 2022 03:37:20 -0700 (PDT)
+ us-mta-586-eG02x4cQM56Oig8zCS-B5Q-1; Fri, 04 Nov 2022 06:38:10 -0400
+X-MC-Unique: eG02x4cQM56Oig8zCS-B5Q-1
+Received: by mail-wr1-f70.google.com with SMTP id u20-20020adfc654000000b0022cc05e9119so1088022wrg.16
+        for <linux-sunxi@lists.linux.dev>; Fri, 04 Nov 2022 03:38:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FvcSXdbTIY6j0RtoeMW2Oyvbsf0knEKyh2vmjeJsi+Y=;
-        b=E8/WgVsBV1IllaV8Vpk4dsOwFBnnFEw0l07bfWstxVog9iYQB2NL3b21whq/ikQTcn
-         Cic2ooO9wKJAHnFdbI1fTynC1IBUtTOFwsgM4iQyPn2w1T6Z3PMHwdRzXvcLfMjTHDCi
-         /QZOjqVUt1QEh+Bcu9D+vFWfmWuOOqq0oIEJsF2lLhr/xgQW++wH3jf+8xKBW64rir9l
-         rNIY0MZLr6km3nLGk+BY/T0CFP41ifV64ZHutWkB+lU2lObVYoeu8UZw+Kb/3CUQZwic
-         1Lx0iBASlsXIJHPDgA92oEjI/MfRYqLaHrCLcdCKaBN8UOsJve94nG+gReWYE58C2WlY
-         h5Cg==
-X-Gm-Message-State: ACrzQf35bPbEnMm/aluHR7tJ43mHnuO7e1krbTkEdZpjsWNaYsuhNp4H
-	muJOJ0T9N1zKSroYuSyybEre7eL1IyAgCjLJwgId3k6kt9LGdxtcHn6pWxtRIrAAVN+at58APx5
-	mE8C2eNVUgMuugM8rmBqwtsg=
-X-Received: by 2002:a05:600c:1e2a:b0:3c3:d770:1756 with SMTP id ay42-20020a05600c1e2a00b003c3d7701756mr23539581wmb.134.1667558239641;
-        Fri, 04 Nov 2022 03:37:19 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4LKXhwK5qh8ieFEkCSZgi7mblk9sJOfnr0awtpFbS+pIQGNE9IUSRaCOrs9CG3VpGFJY/xjQ==
-X-Received: by 2002:a05:600c:1e2a:b0:3c3:d770:1756 with SMTP id ay42-20020a05600c1e2a00b003c3d7701756mr23539569wmb.134.1667558239379;
-        Fri, 04 Nov 2022 03:37:19 -0700 (PDT)
+        bh=M88yz4GfmbUNq4mWECugnsnJkV6z34uCwDqL3DFZ74U=;
+        b=6zlkIUfA12Iy2BDSzG9G4svskid7OblmT6UCmiyXlhI28HJmgtYyfVTHAvvgcI4fXN
+         KkaQlXqY07VdAx0I523DCwK1yuLAkAtupzJ52XHvCyExrAmxQZXni/xBtFtLxC25Yv0L
+         5Q0U0S67J0JrhPaEC/uWnubUpbbJ6bxSDeLQ8y/o6jMBDlILTsR5SnMslMhir0W5egUa
+         6t4HwwOCQ2dlgyAfvMnnUymsnkvIDh3mhBoAdMfg1ELENipfs55hpjfvt+YnQpP5h9w0
+         43s/askRHSb7jMdc35KuOKQpQ6jNmfqDM5Xc8/8y+rk5McngiQf3YHrdAT2O8pV9akWl
+         O18w==
+X-Gm-Message-State: ACrzQf0BmgU/aFq7QwgGZ59bzLLY6+8b80CS1Z/e5DhKljKEIu7pUzhv
+	gNwPy7pCCnL2sxyu75MybdeUvuQnUp+2cio03dP0PPGQvHboQ3Cm7EmNUQdNlQPhsi19KGuQHzp
+	pyOgqgOBpVi14si8BCr4rV4g=
+X-Received: by 2002:adf:bc51:0:b0:236:8fa1:47ea with SMTP id a17-20020adfbc51000000b002368fa147eamr218078wrh.77.1667558289570;
+        Fri, 04 Nov 2022 03:38:09 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6s9MOXnwXonR8VOapq6d4n3ZU7IGA+EIjACuJbvHHOLIXD7EQUkeJV/V+5P7qnQBQKVLAVkQ==
+X-Received: by 2002:adf:bc51:0:b0:236:8fa1:47ea with SMTP id a17-20020adfbc51000000b002368fa147eamr218064wrh.77.1667558289372;
+        Fri, 04 Nov 2022 03:38:09 -0700 (PDT)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id f15-20020a5d50cf000000b0022e36c1113fsm3031008wrt.13.2022.11.04.03.37.17
+        by smtp.gmail.com with ESMTPSA id k4-20020a05600c1c8400b003b4cba4ef71sm2534442wms.41.2022.11.04.03.38.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Nov 2022 03:37:18 -0700 (PDT)
-Message-ID: <ab8358a9-8450-0d49-627f-26afe7ba4f9d@redhat.com>
-Date: Fri, 4 Nov 2022 11:37:17 +0100
+        Fri, 04 Nov 2022 03:38:09 -0700 (PDT)
+Message-ID: <1f5e6de4-3fe2-7933-f8c0-5f13564595cc@redhat.com>
+Date: Fri, 4 Nov 2022 11:38:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -54,8 +54,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v3 20/23] drm/fb-helper: Set flag in struct drm_fb_helper
- for leaking physical addresses
+Subject: Re: [PATCH v3 23/23] drm/fb-helper: Clarify use of last_close and
+ output_poll_changed
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
@@ -71,9 +71,9 @@ Cc: linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org,
  linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  freedreno@lists.freedesktop.org
 References: <20221103151446.2638-1-tzimmermann@suse.de>
- <20221103151446.2638-21-tzimmermann@suse.de>
+ <20221103151446.2638-24-tzimmermann@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221103151446.2638-21-tzimmermann@suse.de>
+In-Reply-To: <20221103151446.2638-24-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -81,10 +81,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/3/22 16:14, Thomas Zimmermann wrote:
-> Uncouple the parameter drm_leak_fbdev_smem from the implementation by
-> setting a flag in struct drm_fb_helper. This will help to move the
-> generic fbdev emulation into its own source file, while keeping the
-> parameter in drm_fb_helper.c. No functional changes.
+> Clarify documentation in the use of struct drm_driver.last_close and
+> struct drm_mode_config_funcs.output_poll_changed. Those callbacks should
+> not be said for fbdev implementations on top of struct drm_client_funcs.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
