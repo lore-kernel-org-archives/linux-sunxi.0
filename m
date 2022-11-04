@@ -1,158 +1,207 @@
-Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0E38471
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Nov 2022 17:00:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=4AvnEeQeniDWkQBvG292xKcyqRcJZJN4ObwNBkkj5tk=; b=WdhahLUmGJpQ95hVL+3u1VjMxb
-	tUf7myaQndCk0qHzeKh1A+E2O/JcVf+aJ+IiQD/qFkAbTU535DJ2WAUD6UP1/EvQ/y4beijc5YALa
-	Q3fcMmim22RAxWP0Rh4RhjXR+GqdPYPNBO9KnnRYGmufKc5r2oNWcdiYm05562NzkHszBUsTfAWO7
-	JgFdZNqyyoguqSiEpMW173KJx1qkCjb5qv/86gVYx+OCVFDAJzuXuMvEgrqYPPENnQENv9FFS7mH/
-	qsMwcba1c5ad5x6Y1xKSIlEvINxjtsa56wEJ+F6ehiPRzOvf9PnvY6QcDHcSY53EeaOn9zO5Boa6z
-	wQg4vJPQ==;
-Received: from ip98-183-112-30.ok.ok.cox.net ([98.183.112.30]:58206 helo=[192.168.0.134])
-	by vern.gendns.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.95)
-	(envelope-from <david@lechnology.com>)
-	id 1oqzog-00Chgx-Is;
-	Fri, 04 Nov 2022 12:45:28 -0400
-Message-ID: <187e61cd-7d02-2453-acf1-30180559d42f@lechnology.com>
-Date: Fri, 4 Nov 2022 11:45:17 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB778480
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Nov 2022 17:36:31 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id x2so8679242edd.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 04 Nov 2022 10:36:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AN/gGtQTeZ/7kTZo5cIa72NMTTjOeEbVteteRCoz+cM=;
+        b=V1Pzi0jU2ax4MAjMptvIHNXO3GQ95l9hxpQH44/NEszUE8GLXB5GTO0BLBlD7bzFY7
+         BetGKzvUarvxGW+t5Xm5YeKSZ1on4z2JOJFGMnGwUFvWaI4taTuHRLq0EVr2AkzXgrTh
+         JVB3lTA/54A0hpxKXkKARqHJbw8GAyIR7SJjdJnd5QLZJ57yWe2KONsFqOUVJsGBnoLM
+         mk2aGOBdeCyzPVsFOFK7iy1eYGrrtoBeFZft4RWTox7XQrkB/ba0ILbNvQOmEiT2k/sF
+         I/SOrPpDasue0LgFQHqBVFpEWXcSNNM4U+Ipk2t0wUc7f91egqb7I+8iu0UsTHZhalmm
+         uKQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AN/gGtQTeZ/7kTZo5cIa72NMTTjOeEbVteteRCoz+cM=;
+        b=nF/PiRw23zn66NEYOWMNDpGppeKn1kqdRI/QYHD21+kvMqxiURwOFcKPYFjc0DyxlX
+         JIgOmT2JokVXtJ3Ve8GcNnWEcvvOJKUMtC5UuegsMrSADelXZksGXieWkXkMapTChObZ
+         wkxjHF5axFlIxb8ivTXumBfGWya27ZSXuVDevR8cNFm2aM0TprJWIrcvWxC8/XdpRWcZ
+         iofUgLhUC+wrC+udgjmH8tACU2CrUEqYfiMgCTnlyp/rq7t/vSl2DPqZg42VpuyifPuW
+         xtZV9hvZ3s5Vsj5SPCjBp308kNWqaH2E5zA/Xw17hqiChTCwWkhvnYBKf50dJ1gmlQVX
+         lfkQ==
+X-Gm-Message-State: ACrzQf2xCkeTetEnowcefq1jPlL9UpXV8Plt+Jwkt/Ueo3XXnx31QtLR
+	wEhzpTfPajAgfQB0FOtJI8A=
+X-Google-Smtp-Source: AMsMyM65eK7YFk6AdQ5ckrN8NvW+dW110QgbSJmLUh82AZb1p4psMsdQ3DsJxeISZBGVruAXetIM8g==
+X-Received: by 2002:aa7:d3d3:0:b0:462:7435:8b14 with SMTP id o19-20020aa7d3d3000000b0046274358b14mr36125236edr.370.1667583389564;
+        Fri, 04 Nov 2022 10:36:29 -0700 (PDT)
+Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
+        by smtp.gmail.com with ESMTPSA id b7-20020a17090636c700b0078de26f66b9sm2058922ejc.114.2022.11.04.10.36.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Nov 2022 10:36:29 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mchehab@kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, wens@csie.org, samuel@sholland.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] media: sunxi: Add H6 deinterlace driver
+Date: Fri, 04 Nov 2022 18:36:27 +0100
+Message-ID: <2652146.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <71e8ea95-8c3a-cc85-1638-5ce421a60e99@xs4all.nl>
+References: <20221101123201.3021129-1-jernej.skrabec@gmail.com> <71e8ea95-8c3a-cc85-1638-5ce421a60e99@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 21/65] clk: davinci: da8xx-cfgchip: Add a
- determine_rate hook
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>, Stephen Boyd <sboyd@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Daniel Vetter <daniel@ffwll.ch>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Thierry Reding <thierry.reding@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Shawn Guo <shawnguo@kernel.org>,
- Fabio Estevam <festevam@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Dinh Nguyen <dinguyen@kernel.org>, Paul Cercueil <paul@crapouillou.net>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Manivannan Sadhasivam
- <mani@kernel.org>, =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
- Jonathan Hunter <jonathanh@nvidia.com>, Abel Vesa <abelvesa@kernel.org>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Orson Zhai <orsonzhai@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Prashant Gaikwad <pgaikwad@nvidia.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Samuel Holland <samuel@sholland.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>, Vinod Koul
- <vkoul@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
- Sekhar Nori <nsekhar@ti.com>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, Takashi Iwai <tiwai@suse.com>,
- David Airlie <airlied@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Mark Brown <broonie@kernel.org>,
- Max Filippov <jcmvbkbc@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-stm32@st-md-mailman.stormreply.com, alsa-devel@alsa-project.org,
- linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
- <20221018-clk-range-checks-fixes-v2-21-f6736dec138e@cerno.tech>
-From: David Lechner <david@lechnology.com>
-In-Reply-To: <20221018-clk-range-checks-fixes-v2-21-f6736dec138e@cerno.tech>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - vern.gendns.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lechnology.com
-X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id: davidmain+lechnology.com/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 11/4/22 8:17 AM, Maxime Ripard wrote:
-> The Davinci DA8xxx cfgchip mux clock implements a mux with a set_parent
-> hook, but doesn't provide a determine_rate implementation.
-> 
-> This is a bit odd, since set_parent() is there to, as its name implies,
-> change the parent of a clock. However, the most likely candidate to
-> trigger that parent change is a call to clk_set_rate(), with
-> determine_rate() figuring out which parent is the best suited for a
-> given rate.
-> 
-> The other trigger would be a call to clk_set_parent(), but it's far less
-> used, and it doesn't look like there's any obvious user for that clock.
-> 
-> So, the set_parent hook is effectively unused, possibly because of an
-> oversight. However, it could also be an explicit decision by the
-> original author to avoid any reparenting but through an explicit call to
-> clk_set_parent().
+Hi Hans,
 
+Dne petek, 04. november 2022 ob 12:33:50 CET je Hans Verkuil napisal(a):
+> Hi Jernej,
+> 
+> Can you add a patch updating the MAINTAINERS file? Just post a 4/3 patch :-)
 
-The parent is defined in the device tree and is not expected to change
-at runtime, so if I am understanding the patch correctly, setting the
-CLK_SET_RATE_NO_REPARENT flag seems correct.
+It's already part of patch 2. I didn't see the reason to split it to separate 
+patch.
+
+Best regards,
+Jernej
 
 > 
-> The latter case would be equivalent to setting the flag
-> CLK_SET_RATE_NO_REPARENT, together with setting our determine_rate hook
-> to __clk_mux_determine_rate(). Indeed, if no determine_rate
-> implementation is provided, clk_round_rate() (through
-> clk_core_round_rate_nolock()) will call itself on the parent if
-> CLK_SET_RATE_PARENT is set, and will not change the clock rate
-> otherwise. __clk_mux_determine_rate() has the exact same behavior when
-> CLK_SET_RATE_NO_REPARENT is set.
+> Regards,
 > 
-> And if it was an oversight, then we are at least explicit about our
-> behavior now and it can be further refined down the line.
+> 	Hans
 > 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->   drivers/clk/davinci/da8xx-cfgchip.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/clk/davinci/da8xx-cfgchip.c b/drivers/clk/davinci/da8xx-cfgchip.c
-> index 4103d605e804..c04276bc4051 100644
-> --- a/drivers/clk/davinci/da8xx-cfgchip.c
-> +++ b/drivers/clk/davinci/da8xx-cfgchip.c
-> @@ -229,6 +229,7 @@ static u8 da8xx_cfgchip_mux_clk_get_parent(struct clk_hw *hw)
->   }
->   
->   static const struct clk_ops da8xx_cfgchip_mux_clk_ops = {
-> +	.determine_rate	= __clk_mux_determine_rate,
->   	.set_parent	= da8xx_cfgchip_mux_clk_set_parent,
->   	.get_parent	= da8xx_cfgchip_mux_clk_get_parent,
->   };
-> @@ -251,7 +252,7 @@ da8xx_cfgchip_mux_clk_register(struct device *dev,
->   	init.ops = &da8xx_cfgchip_mux_clk_ops;
->   	init.parent_names = parent_names;
->   	init.num_parents = 2;
-> -	init.flags = 0;
-> +	init.flags = CLK_SET_RATE_NO_REPARENT;
->   
->   	mux->hw.init = &init;
->   	mux->regmap = regmap;
-> 
+> On 01/11/2022 13:31, Jernej Skrabec wrote:
+> > This series implements driver for H6 deinterlace core, which is
+> > newer version of core, covered by sun8i-di (v2.3). Contrary to
+> > older one, it doesn't support scaling, but it supports iommu,
+> > has additional motion compensated deinterlacing algorithm and
+> > supports different pixel formats.
+> > 
+> > v4l2-compliance 1.23.0-4961, 64 bits, 64-bit time_t
+> > v4l2-compliance SHA: f86484524f32 2022-10-21 10:08:58
+> > 
+> > Compliance test for sun50i-di device /dev/video0:
+> > 
+> > Driver Info:
+> >         Driver name      : sun50i-di
+> >         Card type        : sun50i-di
+> >         Bus info         : platform:sun50i-di
+> >         Driver version   : 6.1.0
+> >         Capabilities     : 0x84208000
+> >         
+> >                 Video Memory-to-Memory
+> >                 Streaming
+> >                 Extended Pix Format
+> >                 Device Capabilities
+> >         
+> >         Device Caps      : 0x04208000
+> >         
+> >                 Video Memory-to-Memory
+> >                 Streaming
+> >                 Extended Pix Format
+> > 
+> > Required ioctls:
+> >         test VIDIOC_QUERYCAP: OK
+> >         test invalid ioctls: OK
+> > 
+> > Allow for multiple opens:
+> >         test second /dev/video0 open: OK
+> >         test VIDIOC_QUERYCAP: OK
+> >         test VIDIOC_G/S_PRIORITY: OK
+> >         test for unlimited opens: OK
+> > 
+> > Debug ioctls:
+> >         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+> >         test VIDIOC_LOG_STATUS: OK (Not Supported)
+> > 
+> > Input ioctls:
+> >         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+> >         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> >         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+> >         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+> >         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+> >         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+> >         Inputs: 0 Audio Inputs: 0 Tuners: 0
+> > 
+> > Output ioctls:
+> >         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+> >         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> >         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+> >         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+> >         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+> >         Outputs: 0 Audio Outputs: 0 Modulators: 0
+> > 
+> > Input/Output configuration ioctls:
+> >         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+> >         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+> >         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+> >         test VIDIOC_G/S_EDID: OK (Not Supported)
+> > 
+> > Control ioctls:
+> >         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+> >         test VIDIOC_QUERYCTRL: OK (Not Supported)
+> >         test VIDIOC_G/S_CTRL: OK (Not Supported)
+> >         test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+> >         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+> >         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+> >         Standard Controls: 0 Private Controls: 0
+> > 
+> > Format ioctls:
+> >         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+> >         test VIDIOC_G/S_PARM: OK (Not Supported)
+> >         test VIDIOC_G_FBUF: OK (Not Supported)
+> >         test VIDIOC_G_FMT: OK
+> >         test VIDIOC_TRY_FMT: OK
+> >         test VIDIOC_S_FMT: OK
+> >         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+> >         test Cropping: OK (Not Supported)
+> >         test Composing: OK (Not Supported)
+> >         test Scaling: OK (Not Supported)
+> > 
+> > Codec ioctls:
+> >         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+> >         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+> >         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> > 
+> > Buffer ioctls:
+> >         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+> >         test VIDIOC_EXPBUF: OK
+> >         test Requests: OK (Not Supported)
+> > 
+> > Total for sun50i-di device /dev/video0: 45, Succeeded: 45, Failed: 0,
+> > Warnings: 0
+> > 
+> > Best regards,
+> > Jernej
+> > 
+> > Jernej Skrabec (3):
+> >   media: dt-bindings: media: Add Allwinner H6 Deinterlace binding
+> >   media: sunxi: Add H6 deinterlace driver
+> >   arm64: dts: allwinner: h6: Add deinterlace node
+> >  
+> >  .../allwinner,sun50i-h6-deinterlace.yaml      |   74 ++
+> >  MAINTAINERS                                   |    4 +-
+> >  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  |   12 +
+> >  drivers/media/platform/sunxi/Kconfig          |    1 +
+> >  drivers/media/platform/sunxi/Makefile         |    1 +
+> >  .../media/platform/sunxi/sun50i-di/Kconfig    |   15 +
+> >  .../media/platform/sunxi/sun50i-di/Makefile   |    2 +
+> >  .../platform/sunxi/sun50i-di/sun50i-di.c      | 1142 +++++++++++++++++
+> >  .../platform/sunxi/sun50i-di/sun50i-di.h      |  175 +++
+> >  9 files changed, 1425 insertions(+), 1 deletion(-)
+> >  create mode 100644
+> >  Documentation/devicetree/bindings/media/allwinner,sun50i-h6-deinterlace.
+> >  yaml create mode 100644 drivers/media/platform/sunxi/sun50i-di/Kconfig
+> >  create mode 100644 drivers/media/platform/sunxi/sun50i-di/Makefile
+> >  create mode 100644 drivers/media/platform/sunxi/sun50i-di/sun50i-di.c
+> >  create mode 100644 drivers/media/platform/sunxi/sun50i-di/sun50i-di.h
+> > 
+> > --
+> > 2.38.1
+
+
+
 
