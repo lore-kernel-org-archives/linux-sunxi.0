@@ -1,194 +1,220 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB798493;
-	Fri,  4 Nov 2022 18:10:55 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id d26so15296614eje.10;
-        Fri, 04 Nov 2022 11:10:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABEC8490
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Nov 2022 18:11:26 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id v7so3493753wmn.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 04 Nov 2022 11:11:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zI5Rfzsxc8rNV7iJcfSyH9aK8iAlVJHWFV6jyxPEIok=;
-        b=hso72QBPITUbbmDTleVSZzhKAzH1N/pTXymcIBO8s2I23+psuEJGPHJfZwz4jtvXhV
-         iwYCaHDYdJe7kYiqgKRRga4szZW9IfpF9avjaBsJzHIyASoMf7l+zl3FpjWtpf9Flr+Y
-         0gMNBn/Jp4thIlhAt3qoSsgv0o0a5fUJSgUUwXMDaLih8ESneA6S784vbCEGsa4hcU1V
-         FsXmcwZnXQVymAWTHDNppgdrNGcZQtfKjy3C0jn5wnLb7MIU2qDC8zIkh4bDkSP4E4IJ
-         wIbR0PqzUGD+iEC6CvUKfuJ0Uvun6UAYkcUQ/bjE0BVbgIOZzsOlKRG/B1JT0Xplpfkn
-         g+Rw==
+        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+         :subject:cc:to:from:references:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CgAHyV5MssUU8DmgqTLqByPHjrUlZTpRzsXy7QZTV1w=;
+        b=m1k1aGhFcGwAzy8+jR8i8dgnxBKgmbv+HEcBN9clOnBC8JDxQ1WLH/jaC98+SUuhn1
+         ojpUIvzLvAjOEtONQNG3fEjMYr6YmyE21HCNBu13dHQQCKT1MZYzip/HLcRMuJacgFsk
+         D55A4srqhE9k1graGmYJvC73InZQsK8+3y7hORWhx8V9sPZvLSdaAKZue8yFET0sqAK6
+         QCfmTlWLBXdiCGceVK43T3rcfW1aWRAA7EsaVybuem8YgF0fY+TkmF3j/WgfSTXHeBZr
+         9yfwVW6BUgHERrFBi1RgnqxfwanJH3Intmfl0rdZ0bNVoL/stqFGyIUMqw38czj+U/IY
+         +ZRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zI5Rfzsxc8rNV7iJcfSyH9aK8iAlVJHWFV6jyxPEIok=;
-        b=0F8vrLF0+z1H3A6Yr4WW1SB1K1E1szrEfggsGMwCtmGM7BIMoeSRxfJZmQTTho20YL
-         iFoJP2aTPPmxfkhR8fE+pPUQjMhSePBjnc3okBXKRCgCcn/OfSa4+KVSkm1c2RbMOKMk
-         DnnZb8er5/YfOZ5kiJ3ztjNorofJVACgwi7PuVexsWpkRWdG0XHv4zHBwNLfuiEeEofi
-         YqcI5pMtM4dydbf3FfKczu7VlNemTn5ysPLLiaRPoMFRCZmmDqSuhk5S4z+Wdb4WErfK
-         cNk9ZctQpBOS+ldPQjmWeSd7CZLuwh2NOlAjQ0kveIEAtHFS9L2FeF2sjv+8FqKYgWmO
-         PCnw==
-X-Gm-Message-State: ACrzQf3nhZTF9w+TUBWOiQ73xnAQRNLDwWIG7xDXlsLdCGSLfsNu0PU9
-	fyDVP9JSuF49DoTYu1DuisY=
-X-Google-Smtp-Source: AMsMyM7thWyBYHE/ivRxLw9DZwILGgEJyeA4LgCqmhP078HXispIbQGy34uZRIqCeIXpq/OAQAQxrA==
-X-Received: by 2002:a17:906:fe44:b0:77c:e313:a8e8 with SMTP id wz4-20020a170906fe4400b0077ce313a8e8mr36352481ejb.700.1667585454095;
-        Fri, 04 Nov 2022 11:10:54 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id gh30-20020a1709073c1e00b007919ba4295esm2086563ejc.216.2022.11.04.11.10.52
+        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+         :subject:cc:to:from:references:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=CgAHyV5MssUU8DmgqTLqByPHjrUlZTpRzsXy7QZTV1w=;
+        b=DR9q8plhzZJpBNUVl1pZG+4aHqoy0CJ9LSBZul40RlirLXtO3syCrmAlQ+XXSmZeg0
+         md42azOmpLycyFLRxXWqwK9fRFH46D4jiGxIR0RUpcAkj1qvG+ANMDCWoBwFTibFX8eE
+         JWHq5IMCW+e82uALGmeuT0QFjQCJU0rd3J5oWVqZro4iYRcqnzJeL+sYDAj5qmZ+lPp5
+         icSglojN+/3wzOXUq+zCBg23bOrWw50dlkJZmpDbFAyH91hAdk9bwMokXs/z3W5dQSZE
+         rjTVG1gadFnxfyhgoA48CazuSOJfzL8ucs3MvqORh5bdoGjcQYBZP78uBkv3KJTXD5mj
+         5CUg==
+X-Gm-Message-State: ACrzQf2ukkf/H0nMENShEud2wb6bP1MBOtgN04n0frIJ6VrEJprko/GC
+	FgzHpnRAyZqnK/OYG3shEDo=
+X-Google-Smtp-Source: AMsMyM5+00Cvx4Zit5cSiVEHfTNn4dr0i6mIADmjwE6QFA7y0/yyBqq7C4ech+m2YPARidv5n/8G+w==
+X-Received: by 2002:a05:600c:21c9:b0:3cf:68f8:7901 with SMTP id x9-20020a05600c21c900b003cf68f87901mr283147wmj.69.1667585484372;
+        Fri, 04 Nov 2022 11:11:24 -0700 (PDT)
+Received: from localhost (94.197.10.32.threembb.co.uk. [94.197.10.32])
+        by smtp.gmail.com with ESMTPSA id az2-20020adfe182000000b00226dba960b4sm36409wrb.3.2022.11.04.11.11.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Nov 2022 11:10:53 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mripard@kernel.org, paul.kocialkowski@bootlin.com, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 10/11] media: cedrus: Adjust buffer size based on control values
-Date: Fri, 04 Nov 2022 19:10:52 +0100
-Message-ID: <1908973.PYKUYFuaPT@jernej-laptop>
-In-Reply-To: <76c3fc1b-e90f-748c-39ee-74be93fd6811@xs4all.nl>
-References: <20221102180810.267252-1-jernej.skrabec@gmail.com> <20221102180810.267252-11-jernej.skrabec@gmail.com> <76c3fc1b-e90f-748c-39ee-74be93fd6811@xs4all.nl>
+        Fri, 04 Nov 2022 11:11:23 -0700 (PDT)
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+ <20221018-clk-range-checks-fixes-v2-56-f6736dec138e@cerno.tech>
+ <80VTKR.CE8RVN8M3ZYK3@crapouillou.net>
+ <20221104145946.orsyrhiqvypisl5j@houat>
+From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Paul Cercueil <paul@crapouillou.net>, Stephen Boyd <sboyd@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Shawn Guo <shawnguo@kernel.org>, Fabio
+ Estevam <festevam@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>, Michael Turquette
+ <mturquette@baylibre.com>, Dinh Nguyen <dinguyen@kernel.org>, Chunyan
+ Zhang <zhang.lyra@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>,
+ Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>, Jonathan Hunter
+ <jonathanh@nvidia.com>,
+ Abel Vesa <abelvesa@kernel.org>, Charles Keepax
+ <ckeepax@opensource.cirrus.com>, Alessandro Zummo <a.zummo@towertech.it>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>, Orson Zhai
+ <orsonzhai@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Samuel Holland <samuel@sholland.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Vinod Koul <vkoul@kernel.org>, NXP Linux Team <linux-imx@nxp.com>, Sekhar
+ Nori <nsekhar@ti.com>, Kishon Vijay Abraham I <kishon@kernel.org>, Linus
+ Walleij <linus.walleij@linaro.org>, Takashi Iwai <tiwai@suse.com>, David
+ Airlie <airlied@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ David Lechner <david@lechnology.com>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Mark Brown <broonie@kernel.org>, Max Filippov
+ <jcmvbkbc@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ linux-stm32@st-md-mailman.stormreply.com, alsa-devel@alsa-project.org,
+ linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
+ linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 56/65] clk: ingenic: cgu: Switch to determine_rate
+Date: Fri, 04 Nov 2022 17:35:29 +0000
+In-reply-to: <20221104145946.orsyrhiqvypisl5j@houat>
+Message-ID: <cp7Yh29ndlOOi1yW8KwCcpzoLPLxm1vR@localhost>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-
-Dne petek, 04. november 2022 ob 16:27:29 CET je Hans Verkuil napisal(a):
-> Hi Jernej,
-> 
-> On 02/11/2022 19:08, Jernej Skrabec wrote:
-> > In some cases decoding engine needs extra space in capture buffers. This
-> > is the case for decoding 10-bit HEVC frames into 8-bit capture format.
-> > This commit only adds infrastructure for such cases.
-> > 
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > ---
-> > 
-> >  drivers/staging/media/sunxi/cedrus/cedrus.c       | 14 ++++++++++++++
-> >  drivers/staging/media/sunxi/cedrus/cedrus.h       |  2 ++
-> >  drivers/staging/media/sunxi/cedrus/cedrus_video.c |  4 ++++
-> >  3 files changed, 20 insertions(+)
-> > 
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> > b/drivers/staging/media/sunxi/cedrus/cedrus.c index
-> > 6a2c08928613..c36999e47591 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> > @@ -68,8 +68,22 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
-> > 
-> >  	return 0;
-> >  
-> >  }
-> > 
-> > +static int cedrus_s_ctrl(struct v4l2_ctrl *ctrl)
-> > +{
-> > +	struct cedrus_ctx *ctx = container_of(ctrl->handler,
-> > +					      struct 
-cedrus_ctx, hdl);
-> > +	struct vb2_queue *vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-> > +					       
-V4L2_BUF_TYPE_VIDEO_CAPTURE);
-> > +
-> > +	if (!vb2_is_busy(vq) && !vb2_is_streaming(vq))
-> 
-> You can drop the !vb2_is_streaming part. If you are streaming, then
-> it will also be 'busy'.
-> 
-> > +		cedrus_reset_cap_format(ctx);
-> 
-> This is weird. I would expect that this is only called for specific
-> controls, since presumably not all will change the sizeimage value. It
-> looks like it applies only to V4L2_CID_STATELESS_HEVC_SPS, so I see no
-> reason why you would call cedrus_reset_cap_format() for other controls as
-> well.
-
-It's more general approach. It's harmless for other cases, still within specs. 
-Anyway, I can make it more specific.
-
-> 
-> And what happens if someone makes such a change *while streaming*?
-> Shouldn't cedrus_try_ctrl detect that and fail with -EBUSY in that case?
-
-SPS can also be changed during streaming, so we can't outright deny setting it 
-during streaming. Also, if it changes from 10 to 8, that also works, since 
-capture buffers are still big enough. Only change from 8 to 10 during streaming 
-won't work and that check can be added.
-
-> 
-> Regardless, this is unexpected behavior, so some explanatory comments
-> would be useful.
-> 
-> I'm also not sure whether it isn't better to add cedrus_s_ctrl in the next
-> patch, I think it would be more understandable when seen with an actual
-> control.
-
-I guess I can move logic to cedrus_try_ctrl(), where some of this logic 
-already exists and it would be just a little bit expanded and more selective.
-
-Best regards,
-Jernej
-
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > 
-> >  static const struct v4l2_ctrl_ops cedrus_ctrl_ops = {
-> >  
-> >  	.try_ctrl = cedrus_try_ctrl,
-> > 
-> > +	.s_ctrl = cedrus_s_ctrl,
-> > 
-> >  };
-> >  
-> >  static const struct cedrus_control cedrus_controls[] = {
-> > 
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h
-> > b/drivers/staging/media/sunxi/cedrus/cedrus.h index
-> > 5904294f3108..774fe8048ce3 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-> > @@ -162,6 +162,8 @@ struct cedrus_dec_ops {
-> > 
-> >  	int (*start)(struct cedrus_ctx *ctx);
-> >  	void (*stop)(struct cedrus_ctx *ctx);
-> >  	void (*trigger)(struct cedrus_ctx *ctx);
-> > 
-> > +	unsigned int (*extra_cap_size)(struct cedrus_ctx *ctx,
-> > +				       struct v4l2_pix_format 
-*pix_fmt);
-> > 
-> >  };
-> >  
-> >  struct cedrus_variant {
-> > 
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> > b/drivers/staging/media/sunxi/cedrus/cedrus_video.c index
-> > dec5d3ae4871..dc67940f1ade 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> > @@ -250,6 +250,10 @@ static int cedrus_try_fmt_vid_cap_p(struct cedrus_ctx
-> > *ctx,> 
-> >  	pix_fmt->height = ctx->src_fmt.height;
-> >  	cedrus_prepare_format(pix_fmt);
-> > 
-> > +	if (ctx->current_codec->extra_cap_size)
-> > +		pix_fmt->sizeimage +=
-> > +			ctx->current_codec->extra_cap_size(ctx, 
-pix_fmt);
-> > +
-> > 
-> >  	return 0;
-> >  
-> >  }
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 
+Maxime Ripard <maxime@cerno.tech> writes:
 
+> Hi Paul,
+>
+> On Fri, Nov 04, 2022 at 02:31:20PM +0000, Paul Cercueil wrote:
+>> Le ven. 4 nov. 2022 =C3=A0 14:18:13 +0100, Maxime Ripard <maxime@cerno.t=
+ech> a
+>> =C3=A9crit :
+>> > The Ingenic CGU clocks implements a mux with a set_parent hook, but
+>> > doesn't provide a determine_rate implementation.
+>> >
+>> > This is a bit odd, since set_parent() is there to, as its name implies,
+>> > change the parent of a clock. However, the most likely candidate to
+>> > trigger that parent change is a call to clk_set_rate(), with
+>> > determine_rate() figuring out which parent is the best suited for a
+>> > given rate.
+>> >
+>> > The other trigger would be a call to clk_set_parent(), but it's far le=
+ss
+>> > used, and it doesn't look like there's any obvious user for that clock.
+>> >
+>> > So, the set_parent hook is effectively unused, possibly because of an
+>> > oversight. However, it could also be an explicit decision by the
+>> > original author to avoid any reparenting but through an explicit call =
+to
+>> > clk_set_parent().
+>> >
+>> > The driver does implement round_rate() though, which means that we can
+>> > change the rate of the clock, but we will never get to change the
+>> > parent.
+>> >
+>> > However, It's hard to tell whether it's been done on purpose or not.
+>> >
+>> > Since we'll start mandating a determine_rate() implementation, let's
+>> > convert the round_rate() implementation to a determine_rate(), which
+>> > will also make the current behavior explicit. And if it was an
+>> > oversight, the clock behaviour can be adjusted later on.
+>>
+>> So it's partly on purpose, partly because I didn't know about
+>> .determine_rate.
+>>
+>> There's nothing odd about having a lonely .set_parent callback; in my ca=
+se
+>> the clocks are parented from the device tree.
+>>
+>> Having the clocks driver trigger a parent change when requesting a rate
+>> change sounds very dangerous, IMHO. My MMC controller can be parented to=
+ the
+>> external 48 MHz oscillator, and if the card requests 50 MHz, it could sw=
+itch
+>> to one of the PLLs. That works as long as the PLLs don't change rate, bu=
+t if
+>> one is configured as driving the CPU clock, it becomes messy.
+>> The thing is, the clocks driver has no way to know whether or not it is
+>> "safe" to use a designated parent.
+>>
+>> For that reason, in practice, I never actually want to have a clock
+>> re-parented - it's almost always a bad idea vs. sticking to the parent c=
+lock
+>> configured in the DTS.
+>
+> Yeah, and this is totally fine. But we need to be explicit about it. The
+> determine_rate implementation I did in all the patches is an exact
+> equivalent to the round_rate one if there was one. We will never ask to
+> change the parent.
+>
+> Given what you just said, I would suggest to set the
+> CLK_SET_RATE_NO_REPARENT flag as well.
+>
 
+Ideally there should be a way for drivers and the device tree to
+say, "clock X must be driven by clock Y", but the clock framework
+would be allowed to re-parent clocks freely as long as it doesn't
+violate any DT or driver constraints.
+
+That way allowing reparenting doesn't need to be an all-or-nothing
+thing, and it doesn't need to be decided at the clock driver level
+with special flags.
+
+Regards,
+Aidan
+
+>> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>> > ---
+>> >  drivers/clk/ingenic/cgu.c | 15 ++++++++-------
+>> >  1 file changed, 8 insertions(+), 7 deletions(-)
+>> >
+>> > diff --git a/drivers/clk/ingenic/cgu.c b/drivers/clk/ingenic/cgu.c
+>> > index 1f7ba30f5a1b..0c9c8344ad11 100644
+>> > --- a/drivers/clk/ingenic/cgu.c
+>> > +++ b/drivers/clk/ingenic/cgu.c
+>> > @@ -491,22 +491,23 @@ ingenic_clk_calc_div(struct clk_hw *hw,
+>> >  	return div;
+>> >  }
+>> >
+>> > -static long
+>> > -ingenic_clk_round_rate(struct clk_hw *hw, unsigned long req_rate,
+>> > -		       unsigned long *parent_rate)
+>> > +static int ingenic_clk_determine_rate(struct clk_hw *hw,
+>> > +				      struct clk_rate_request *req)
+>> >  {
+>> >  	struct ingenic_clk *ingenic_clk =3D to_ingenic_clk(hw);
+>> >  	const struct ingenic_cgu_clk_info *clk_info =3D
+>> > to_clk_info(ingenic_clk);
+>> >  	unsigned int div =3D 1;
+>> >
+>> >  	if (clk_info->type & CGU_CLK_DIV)
+>> > -		div =3D ingenic_clk_calc_div(hw, clk_info, *parent_rate, req_rate);
+>> > +		div =3D ingenic_clk_calc_div(hw, clk_info, req->best_parent_rate,
+>> > +					   req->rate);
+>>
+>> Sorry but I'm not sure that this works.
+>>
+>> You replace the "parent_rate" with the "best_parent_rate", and that means
+>> you only check the requested rate vs. the parent with the highest freque=
+ncy,
+>> and not vs. the actual parent that will be used.
+>
+> best_parent_rate is initialized to the current parent rate, not the
+> parent with the highest frequency:
+> https://elixir.bootlin.com/linux/v6.1-rc3/source/drivers/clk/clk.c#L1471
+>
+> Maxime
