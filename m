@@ -1,97 +1,134 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A101C3F;
-	Fri,  4 Nov 2022 15:31:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8C8BC433D7;
-	Fri,  4 Nov 2022 15:31:10 +0000 (UTC)
-Message-ID: <74f2c9cc-4856-4985-5b37-13ee20411b32@xs4all.nl>
-Date: Fri, 4 Nov 2022 16:31:09 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA65E1C3F
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Nov 2022 15:45:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D8DEC433D6;
+	Fri,  4 Nov 2022 15:44:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1667576710;
+	bh=E7bcdLSHvaAKIPE4ct56X1unFntQqaD0pUdA4q8WBPw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iW2uzuyJnRpdzdYsOnj4Dp2jfgwg/wmolQBPj30EcOuf2VsVt3t2KGn1L2da6vygL
+	 dgk5H4xlPxNq7WJE0fBxhwwvtqV21rDvvnmzLfxGQBPtJoKomuEvU1KudXZgKZ8wWW
+	 ZyxZO03YbaXh9LiyJ5Q4bfCvW1rwPZBk+tFh4ZHJfT60Uz3U5Lx1kVzYWIMttyDcmD
+	 1TCxAOUJvc5dGmcoXZCI6AMCi4ilnI9/qlyIWWcoQ7fbhky8dXIQBZ3lKFJwFgma47
+	 E5YyYFEuly9dIIRudPC0lqTN3GuIIXhBvPqf35m07Cag87dJ8kurm8ACuWPQ12Y02s
+	 DtcPhURUzZJKg==
+Date: Fri, 4 Nov 2022 15:44:53 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Stephen Boyd <sboyd@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Shawn Guo <shawnguo@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Abel Vesa <abelvesa@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Peter De Schrijver <pdeschrijver@nvidia.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Prashant Gaikwad <pgaikwad@nvidia.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Vinod Koul <vkoul@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
+	Sekhar Nori <nsekhar@ti.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Takashi Iwai <tiwai@suse.com>, David Airlie <airlied@gmail.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	David Lechner <david@lechnology.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
+	linux-phy@lists.infradead.org, linux-mips@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 43/65] ASoC: tlv320aic32x4: Add a determine_rate hook
+Message-ID: <Y2UzdYyjgahJsbHg@sirena.org.uk>
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+ <20221018-clk-range-checks-fixes-v2-43-f6736dec138e@cerno.tech>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v2 00/11] media: cedrus: Format handling improvements and
- 10-bit HEVC support
-Content-Language: en-US
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org,
- paul.kocialkowski@bootlin.com
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
- samuel@sholland.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20221102180810.267252-1-jernej.skrabec@gmail.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20221102180810.267252-1-jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fVhQhryKijuhlxQZ"
+Content-Disposition: inline
+In-Reply-To: <20221018-clk-range-checks-fixes-v2-43-f6736dec138e@cerno.tech>
+X-Cookie: Quack!
 
-Hi Jernej,
 
-On 02/11/2022 19:07, Jernej Skrabec wrote:
-> While my first intention was to just add 10-bit HEVC handling, I noticed
-> a few format handling issues and a bit of redundancy in some cases. Final
-> result is that driver now sticks to stateless decoder rules better.
-> 
-> Format handling improvements:
-> 1. Default format selection is now based on HW capabilities. Before, MPEG2
->    was hardcoded but some Cedrus variants don't actually support it.
-> 2. Controls are registered only if related codec is supported by HW.
-> 3. Untiled output format is preferred, if supported, over tiled one. All
->    display engine cores support untiled format, but only first generation
->    supports tiled one.
-> 
-> I hope this makes Cedrus eligible for destaging.
-> 
-> Best regards,
-> Jernej
-> 
-> Changes from v1:
-> - collected acks, except for patch 5, which was changed
-> - use cedrus_is_capable() for cedrus_find_format() too (patch 4)
-> - tightly pack control pointers in ctx->ctrls[] (patch 5)
-> 
-> Jernej Skrabec (11):
->   media: cedrus: remove superfluous call
->   media: cedrus: Add format reset helpers
->   media: cedrus: use helper to set default formats
->   media: cedrus: Add helper for checking capabilities
->   media: cedrus: Filter controls based on capability
->   media: cedrus: set codec ops immediately
->   media: cedrus: Remove cedrus_codec enum
->   media: cedrus: prefer untiled capture format
->   media: cedrus: initialize controls a bit later
+--fVhQhryKijuhlxQZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I'm going to merge the first 9 patches, but leave out the last
-two. It's weird what happens there, and I think those two need a
-bit more work.
+On Fri, Nov 04, 2022 at 02:18:00PM +0100, Maxime Ripard wrote:
 
-Regards,
+> So, the set_parent hook is effectively unused, possibly because of an
+> oversight. However, it could also be an explicit decision by the
+> original author to avoid any reparenting but through an explicit call to
+> clk_set_parent().
 
-	Hans
+> The latter case would be equivalent to setting the flag
+> CLK_SET_RATE_NO_REPARENT, together with setting our determine_rate hook
+> to __clk_mux_determine_rate(). Indeed, if no determine_rate
+> implementation is provided, clk_round_rate() (through
+> clk_core_round_rate_nolock()) will call itself on the parent if
+> CLK_SET_RATE_PARENT is set, and will not change the clock rate
+> otherwise. __clk_mux_determine_rate() has the exact same behavior when
+> CLK_SET_RATE_NO_REPARENT is set.
 
->   media: cedrus: Adjust buffer size based on control values
->   media: cedrus: h265: Support decoding 10-bit frames
-> 
->  drivers/staging/media/sunxi/cedrus/cedrus.c   | 102 +++++----
->  drivers/staging/media/sunxi/cedrus/cedrus.h   |  22 +-
->  .../staging/media/sunxi/cedrus/cedrus_dec.c   |   4 +-
->  .../staging/media/sunxi/cedrus/cedrus_h264.c  |   2 +-
->  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  37 +++-
->  .../staging/media/sunxi/cedrus/cedrus_hw.c    |  18 +-
->  .../staging/media/sunxi/cedrus/cedrus_hw.h    |   2 +-
->  .../staging/media/sunxi/cedrus/cedrus_mpeg2.c |   2 +-
->  .../staging/media/sunxi/cedrus/cedrus_regs.h  |  16 ++
->  .../staging/media/sunxi/cedrus/cedrus_video.c | 200 ++++++++++--------
->  .../staging/media/sunxi/cedrus/cedrus_video.h |   2 +
->  .../staging/media/sunxi/cedrus/cedrus_vp8.c   |   2 +-
->  12 files changed, 244 insertions(+), 165 deletions(-)
-> 
-> --
-> 2.38.1
-> 
+> And if it was an oversight, then we are at least explicit about our
+> behavior now and it can be further refined down the line.
 
+Given that the current approach involves patching every single user to
+set a default implementation it feels like it might be more
+straightforward to just have the clock API use that implementation if
+none is defined - as you say there's already a flag to indicate the
+unusual case where there's a solid reason to prevent reparenting.  It
+feels like the resulting API is more straightforward.
+
+--fVhQhryKijuhlxQZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNlM3UACgkQJNaLcl1U
+h9C5/gf/ZAWh5zvkI1qjXrZhZu2SWgV5WGeNOTbNz15+lAF9tH5C8ilg87uyeZMu
+FqNtaI2yJVBQ3uV+LbG0gypsDTeJ+LtfC+/saRJdP8mYUIu8fO9g6xzs31D73Vd0
+9DOeN92+hX3GUcy6kFSTwgF5zVmvHnwOewIOly65XCHvibSgBRyAgV1AyNmH9uiy
+zgVO88CdCE4NwAuMynXAR8mi+U4b0vDuk6EQ5UZjLJWWNRjxvFFJrcMCHISRJGsT
+yqZJd8iCFTk91ovn3IKGno5MZ5tA8qWSJ52cBxs9VRKqQhQuWQl4UD4qwWdgwN6Y
+liuJLyjGo/OfBHnsuDkzhj30nFiIUA==
+=scaI
+-----END PGP SIGNATURE-----
+
+--fVhQhryKijuhlxQZ--
