@@ -1,220 +1,192 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABEC8490
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Nov 2022 18:11:26 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id v7so3493753wmn.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Nov 2022 11:11:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:references:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CgAHyV5MssUU8DmgqTLqByPHjrUlZTpRzsXy7QZTV1w=;
-        b=m1k1aGhFcGwAzy8+jR8i8dgnxBKgmbv+HEcBN9clOnBC8JDxQ1WLH/jaC98+SUuhn1
-         ojpUIvzLvAjOEtONQNG3fEjMYr6YmyE21HCNBu13dHQQCKT1MZYzip/HLcRMuJacgFsk
-         D55A4srqhE9k1graGmYJvC73InZQsK8+3y7hORWhx8V9sPZvLSdaAKZue8yFET0sqAK6
-         QCfmTlWLBXdiCGceVK43T3rcfW1aWRAA7EsaVybuem8YgF0fY+TkmF3j/WgfSTXHeBZr
-         9yfwVW6BUgHERrFBi1RgnqxfwanJH3Intmfl0rdZ0bNVoL/stqFGyIUMqw38czj+U/IY
-         +ZRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:references:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=CgAHyV5MssUU8DmgqTLqByPHjrUlZTpRzsXy7QZTV1w=;
-        b=DR9q8plhzZJpBNUVl1pZG+4aHqoy0CJ9LSBZul40RlirLXtO3syCrmAlQ+XXSmZeg0
-         md42azOmpLycyFLRxXWqwK9fRFH46D4jiGxIR0RUpcAkj1qvG+ANMDCWoBwFTibFX8eE
-         JWHq5IMCW+e82uALGmeuT0QFjQCJU0rd3J5oWVqZro4iYRcqnzJeL+sYDAj5qmZ+lPp5
-         icSglojN+/3wzOXUq+zCBg23bOrWw50dlkJZmpDbFAyH91hAdk9bwMokXs/z3W5dQSZE
-         rjTVG1gadFnxfyhgoA48CazuSOJfzL8ucs3MvqORh5bdoGjcQYBZP78uBkv3KJTXD5mj
-         5CUg==
-X-Gm-Message-State: ACrzQf2ukkf/H0nMENShEud2wb6bP1MBOtgN04n0frIJ6VrEJprko/GC
-	FgzHpnRAyZqnK/OYG3shEDo=
-X-Google-Smtp-Source: AMsMyM5+00Cvx4Zit5cSiVEHfTNn4dr0i6mIADmjwE6QFA7y0/yyBqq7C4ech+m2YPARidv5n/8G+w==
-X-Received: by 2002:a05:600c:21c9:b0:3cf:68f8:7901 with SMTP id x9-20020a05600c21c900b003cf68f87901mr283147wmj.69.1667585484372;
-        Fri, 04 Nov 2022 11:11:24 -0700 (PDT)
-Received: from localhost (94.197.10.32.threembb.co.uk. [94.197.10.32])
-        by smtp.gmail.com with ESMTPSA id az2-20020adfe182000000b00226dba960b4sm36409wrb.3.2022.11.04.11.11.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Nov 2022 11:11:23 -0700 (PDT)
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
- <20221018-clk-range-checks-fixes-v2-56-f6736dec138e@cerno.tech>
- <80VTKR.CE8RVN8M3ZYK3@crapouillou.net>
- <20221104145946.orsyrhiqvypisl5j@houat>
-From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Paul Cercueil <paul@crapouillou.net>, Stephen Boyd <sboyd@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Daniel Vetter <daniel@ffwll.ch>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Thierry Reding <thierry.reding@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Shawn Guo <shawnguo@kernel.org>, Fabio
- Estevam <festevam@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>, Michael Turquette
- <mturquette@baylibre.com>, Dinh Nguyen <dinguyen@kernel.org>, Chunyan
- Zhang <zhang.lyra@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>,
- Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>, Jonathan Hunter
- <jonathanh@nvidia.com>,
- Abel Vesa <abelvesa@kernel.org>, Charles Keepax
- <ckeepax@opensource.cirrus.com>, Alessandro Zummo <a.zummo@towertech.it>,
- Peter De Schrijver <pdeschrijver@nvidia.com>, Orson Zhai
- <orsonzhai@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Prashant Gaikwad <pgaikwad@nvidia.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Samuel Holland <samuel@sholland.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Richard Fitzgerald <rf@opensource.cirrus.com>,
- Vinod Koul <vkoul@kernel.org>, NXP Linux Team <linux-imx@nxp.com>, Sekhar
- Nori <nsekhar@ti.com>, Kishon Vijay Abraham I <kishon@kernel.org>, Linus
- Walleij <linus.walleij@linaro.org>, Takashi Iwai <tiwai@suse.com>, David
- Airlie <airlied@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- David Lechner <david@lechnology.com>, Sascha Hauer
- <s.hauer@pengutronix.de>, Mark Brown <broonie@kernel.org>, Max Filippov
- <jcmvbkbc@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
- linux-stm32@st-md-mailman.stormreply.com, alsa-devel@alsa-project.org,
- linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 56/65] clk: ingenic: cgu: Switch to determine_rate
-Date: Fri, 04 Nov 2022 17:35:29 +0000
-In-reply-to: <20221104145946.orsyrhiqvypisl5j@houat>
-Message-ID: <cp7Yh29ndlOOi1yW8KwCcpzoLPLxm1vR@localhost>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DAA12F3C
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Nov 2022 22:48:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DC92C433C1;
+	Fri,  4 Nov 2022 22:47:58 +0000 (UTC)
+Message-ID: <3ce335f6-7ba1-a139-86da-b0d68bfeb744@xs4all.nl>
+Date: Fri, 4 Nov 2022 23:47:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH 0/3] media: sunxi: Add H6 deinterlace driver
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ mchehab@kernel.org
+Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, wens@csie.org,
+ samuel@sholland.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20221101123201.3021129-1-jernej.skrabec@gmail.com>
+ <71e8ea95-8c3a-cc85-1638-5ce421a60e99@xs4all.nl>
+ <2652146.mvXUDI8C0e@jernej-laptop>
+Content-Language: en-US
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <2652146.mvXUDI8C0e@jernej-laptop>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-
-Maxime Ripard <maxime@cerno.tech> writes:
-
-> Hi Paul,
->
-> On Fri, Nov 04, 2022 at 02:31:20PM +0000, Paul Cercueil wrote:
->> Le ven. 4 nov. 2022 =C3=A0 14:18:13 +0100, Maxime Ripard <maxime@cerno.t=
-ech> a
->> =C3=A9crit :
->> > The Ingenic CGU clocks implements a mux with a set_parent hook, but
->> > doesn't provide a determine_rate implementation.
->> >
->> > This is a bit odd, since set_parent() is there to, as its name implies,
->> > change the parent of a clock. However, the most likely candidate to
->> > trigger that parent change is a call to clk_set_rate(), with
->> > determine_rate() figuring out which parent is the best suited for a
->> > given rate.
->> >
->> > The other trigger would be a call to clk_set_parent(), but it's far le=
-ss
->> > used, and it doesn't look like there's any obvious user for that clock.
->> >
->> > So, the set_parent hook is effectively unused, possibly because of an
->> > oversight. However, it could also be an explicit decision by the
->> > original author to avoid any reparenting but through an explicit call =
-to
->> > clk_set_parent().
->> >
->> > The driver does implement round_rate() though, which means that we can
->> > change the rate of the clock, but we will never get to change the
->> > parent.
->> >
->> > However, It's hard to tell whether it's been done on purpose or not.
->> >
->> > Since we'll start mandating a determine_rate() implementation, let's
->> > convert the round_rate() implementation to a determine_rate(), which
->> > will also make the current behavior explicit. And if it was an
->> > oversight, the clock behaviour can be adjusted later on.
+On 04/11/2022 18:36, Jernej Škrabec wrote:
+> Hi Hans,
+> 
+> Dne petek, 04. november 2022 ob 12:33:50 CET je Hans Verkuil napisal(a):
+>> Hi Jernej,
 >>
->> So it's partly on purpose, partly because I didn't know about
->> .determine_rate.
->>
->> There's nothing odd about having a lonely .set_parent callback; in my ca=
-se
->> the clocks are parented from the device tree.
->>
->> Having the clocks driver trigger a parent change when requesting a rate
->> change sounds very dangerous, IMHO. My MMC controller can be parented to=
- the
->> external 48 MHz oscillator, and if the card requests 50 MHz, it could sw=
-itch
->> to one of the PLLs. That works as long as the PLLs don't change rate, bu=
-t if
->> one is configured as driving the CPU clock, it becomes messy.
->> The thing is, the clocks driver has no way to know whether or not it is
->> "safe" to use a designated parent.
->>
->> For that reason, in practice, I never actually want to have a clock
->> re-parented - it's almost always a bad idea vs. sticking to the parent c=
-lock
->> configured in the DTS.
->
-> Yeah, and this is totally fine. But we need to be explicit about it. The
-> determine_rate implementation I did in all the patches is an exact
-> equivalent to the round_rate one if there was one. We will never ask to
-> change the parent.
->
-> Given what you just said, I would suggest to set the
-> CLK_SET_RATE_NO_REPARENT flag as well.
->
+>> Can you add a patch updating the MAINTAINERS file? Just post a 4/3 patch :-)
+> 
+> It's already part of patch 2. I didn't see the reason to split it to separate 
+> patch.
 
-Ideally there should be a way for drivers and the device tree to
-say, "clock X must be driven by clock Y", but the clock framework
-would be allowed to re-parent clocks freely as long as it doesn't
-violate any DT or driver constraints.
-
-That way allowing reparenting doesn't need to be an all-or-nothing
-thing, and it doesn't need to be decided at the clock driver level
-with special flags.
+I totally missed that. Apologies for the noise!
 
 Regards,
-Aidan
 
->> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->> > ---
->> >  drivers/clk/ingenic/cgu.c | 15 ++++++++-------
->> >  1 file changed, 8 insertions(+), 7 deletions(-)
->> >
->> > diff --git a/drivers/clk/ingenic/cgu.c b/drivers/clk/ingenic/cgu.c
->> > index 1f7ba30f5a1b..0c9c8344ad11 100644
->> > --- a/drivers/clk/ingenic/cgu.c
->> > +++ b/drivers/clk/ingenic/cgu.c
->> > @@ -491,22 +491,23 @@ ingenic_clk_calc_div(struct clk_hw *hw,
->> >  	return div;
->> >  }
->> >
->> > -static long
->> > -ingenic_clk_round_rate(struct clk_hw *hw, unsigned long req_rate,
->> > -		       unsigned long *parent_rate)
->> > +static int ingenic_clk_determine_rate(struct clk_hw *hw,
->> > +				      struct clk_rate_request *req)
->> >  {
->> >  	struct ingenic_clk *ingenic_clk =3D to_ingenic_clk(hw);
->> >  	const struct ingenic_cgu_clk_info *clk_info =3D
->> > to_clk_info(ingenic_clk);
->> >  	unsigned int div =3D 1;
->> >
->> >  	if (clk_info->type & CGU_CLK_DIV)
->> > -		div =3D ingenic_clk_calc_div(hw, clk_info, *parent_rate, req_rate);
->> > +		div =3D ingenic_clk_calc_div(hw, clk_info, req->best_parent_rate,
->> > +					   req->rate);
+	Hans
+
+> 
+> Best regards,
+> Jernej
+> 
 >>
->> Sorry but I'm not sure that this works.
+>> Regards,
 >>
->> You replace the "parent_rate" with the "best_parent_rate", and that means
->> you only check the requested rate vs. the parent with the highest freque=
-ncy,
->> and not vs. the actual parent that will be used.
->
-> best_parent_rate is initialized to the current parent rate, not the
-> parent with the highest frequency:
-> https://elixir.bootlin.com/linux/v6.1-rc3/source/drivers/clk/clk.c#L1471
->
-> Maxime
+>> 	Hans
+>>
+>> On 01/11/2022 13:31, Jernej Skrabec wrote:
+>>> This series implements driver for H6 deinterlace core, which is
+>>> newer version of core, covered by sun8i-di (v2.3). Contrary to
+>>> older one, it doesn't support scaling, but it supports iommu,
+>>> has additional motion compensated deinterlacing algorithm and
+>>> supports different pixel formats.
+>>>
+>>> v4l2-compliance 1.23.0-4961, 64 bits, 64-bit time_t
+>>> v4l2-compliance SHA: f86484524f32 2022-10-21 10:08:58
+>>>
+>>> Compliance test for sun50i-di device /dev/video0:
+>>>
+>>> Driver Info:
+>>>         Driver name      : sun50i-di
+>>>         Card type        : sun50i-di
+>>>         Bus info         : platform:sun50i-di
+>>>         Driver version   : 6.1.0
+>>>         Capabilities     : 0x84208000
+>>>         
+>>>                 Video Memory-to-Memory
+>>>                 Streaming
+>>>                 Extended Pix Format
+>>>                 Device Capabilities
+>>>         
+>>>         Device Caps      : 0x04208000
+>>>         
+>>>                 Video Memory-to-Memory
+>>>                 Streaming
+>>>                 Extended Pix Format
+>>>
+>>> Required ioctls:
+>>>         test VIDIOC_QUERYCAP: OK
+>>>         test invalid ioctls: OK
+>>>
+>>> Allow for multiple opens:
+>>>         test second /dev/video0 open: OK
+>>>         test VIDIOC_QUERYCAP: OK
+>>>         test VIDIOC_G/S_PRIORITY: OK
+>>>         test for unlimited opens: OK
+>>>
+>>> Debug ioctls:
+>>>         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>>>         test VIDIOC_LOG_STATUS: OK (Not Supported)
+>>>
+>>> Input ioctls:
+>>>         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>>>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>>>         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>>>         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>>>         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>>>         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>>>         Inputs: 0 Audio Inputs: 0 Tuners: 0
+>>>
+>>> Output ioctls:
+>>>         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>>>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>>>         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>>>         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>>>         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>>>         Outputs: 0 Audio Outputs: 0 Modulators: 0
+>>>
+>>> Input/Output configuration ioctls:
+>>>         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>>>         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>>>         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>>>         test VIDIOC_G/S_EDID: OK (Not Supported)
+>>>
+>>> Control ioctls:
+>>>         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+>>>         test VIDIOC_QUERYCTRL: OK (Not Supported)
+>>>         test VIDIOC_G/S_CTRL: OK (Not Supported)
+>>>         test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+>>>         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+>>>         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>>>         Standard Controls: 0 Private Controls: 0
+>>>
+>>> Format ioctls:
+>>>         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>>>         test VIDIOC_G/S_PARM: OK (Not Supported)
+>>>         test VIDIOC_G_FBUF: OK (Not Supported)
+>>>         test VIDIOC_G_FMT: OK
+>>>         test VIDIOC_TRY_FMT: OK
+>>>         test VIDIOC_S_FMT: OK
+>>>         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>>>         test Cropping: OK (Not Supported)
+>>>         test Composing: OK (Not Supported)
+>>>         test Scaling: OK (Not Supported)
+>>>
+>>> Codec ioctls:
+>>>         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>>>         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>>>         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+>>>
+>>> Buffer ioctls:
+>>>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>>>         test VIDIOC_EXPBUF: OK
+>>>         test Requests: OK (Not Supported)
+>>>
+>>> Total for sun50i-di device /dev/video0: 45, Succeeded: 45, Failed: 0,
+>>> Warnings: 0
+>>>
+>>> Best regards,
+>>> Jernej
+>>>
+>>> Jernej Skrabec (3):
+>>>   media: dt-bindings: media: Add Allwinner H6 Deinterlace binding
+>>>   media: sunxi: Add H6 deinterlace driver
+>>>   arm64: dts: allwinner: h6: Add deinterlace node
+>>>  
+>>>  .../allwinner,sun50i-h6-deinterlace.yaml      |   74 ++
+>>>  MAINTAINERS                                   |    4 +-
+>>>  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  |   12 +
+>>>  drivers/media/platform/sunxi/Kconfig          |    1 +
+>>>  drivers/media/platform/sunxi/Makefile         |    1 +
+>>>  .../media/platform/sunxi/sun50i-di/Kconfig    |   15 +
+>>>  .../media/platform/sunxi/sun50i-di/Makefile   |    2 +
+>>>  .../platform/sunxi/sun50i-di/sun50i-di.c      | 1142 +++++++++++++++++
+>>>  .../platform/sunxi/sun50i-di/sun50i-di.h      |  175 +++
+>>>  9 files changed, 1425 insertions(+), 1 deletion(-)
+>>>  create mode 100644
+>>>  Documentation/devicetree/bindings/media/allwinner,sun50i-h6-deinterlace.
+>>>  yaml create mode 100644 drivers/media/platform/sunxi/sun50i-di/Kconfig
+>>>  create mode 100644 drivers/media/platform/sunxi/sun50i-di/Makefile
+>>>  create mode 100644 drivers/media/platform/sunxi/sun50i-di/sun50i-di.c
+>>>  create mode 100644 drivers/media/platform/sunxi/sun50i-di/sun50i-di.h
+>>>
+>>> --
+>>> 2.38.1
+> 
+> 
+> 
+> 
+
