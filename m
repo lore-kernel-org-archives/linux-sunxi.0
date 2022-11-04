@@ -1,51 +1,12 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D2DF7C
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Nov 2022 10:38:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1667558291;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=M88yz4GfmbUNq4mWECugnsnJkV6z34uCwDqL3DFZ74U=;
-	b=MrQOvOT4UxP3Qtv+fB8Cl9dUzB13vT4MHUxpeRqO0M7dcIyiaU4vcp0tqFUwRxc4Zx0M6i
-	k9OUEBmsW29X30aW4lcmdjH20oEtmDRuouU+eN3LVO6xlLHVgWaX6tKgAgwghsiX6W0bxS
-	Zi9nCwZOieaNB5Pyewd7sZ5c+c0b+pk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-586-eG02x4cQM56Oig8zCS-B5Q-1; Fri, 04 Nov 2022 06:38:10 -0400
-X-MC-Unique: eG02x4cQM56Oig8zCS-B5Q-1
-Received: by mail-wr1-f70.google.com with SMTP id u20-20020adfc654000000b0022cc05e9119so1088022wrg.16
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Nov 2022 03:38:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M88yz4GfmbUNq4mWECugnsnJkV6z34uCwDqL3DFZ74U=;
-        b=6zlkIUfA12Iy2BDSzG9G4svskid7OblmT6UCmiyXlhI28HJmgtYyfVTHAvvgcI4fXN
-         KkaQlXqY07VdAx0I523DCwK1yuLAkAtupzJ52XHvCyExrAmxQZXni/xBtFtLxC25Yv0L
-         5Q0U0S67J0JrhPaEC/uWnubUpbbJ6bxSDeLQ8y/o6jMBDlILTsR5SnMslMhir0W5egUa
-         6t4HwwOCQ2dlgyAfvMnnUymsnkvIDh3mhBoAdMfg1ELENipfs55hpjfvt+YnQpP5h9w0
-         43s/askRHSb7jMdc35KuOKQpQ6jNmfqDM5Xc8/8y+rk5McngiQf3YHrdAT2O8pV9akWl
-         O18w==
-X-Gm-Message-State: ACrzQf0BmgU/aFq7QwgGZ59bzLLY6+8b80CS1Z/e5DhKljKEIu7pUzhv
-	gNwPy7pCCnL2sxyu75MybdeUvuQnUp+2cio03dP0PPGQvHboQ3Cm7EmNUQdNlQPhsi19KGuQHzp
-	pyOgqgOBpVi14si8BCr4rV4g=
-X-Received: by 2002:adf:bc51:0:b0:236:8fa1:47ea with SMTP id a17-20020adfbc51000000b002368fa147eamr218078wrh.77.1667558289570;
-        Fri, 04 Nov 2022 03:38:09 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6s9MOXnwXonR8VOapq6d4n3ZU7IGA+EIjACuJbvHHOLIXD7EQUkeJV/V+5P7qnQBQKVLAVkQ==
-X-Received: by 2002:adf:bc51:0:b0:236:8fa1:47ea with SMTP id a17-20020adfbc51000000b002368fa147eamr218064wrh.77.1667558289372;
-        Fri, 04 Nov 2022 03:38:09 -0700 (PDT)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id k4-20020a05600c1c8400b003b4cba4ef71sm2534442wms.41.2022.11.04.03.38.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Nov 2022 03:38:09 -0700 (PDT)
-Message-ID: <1f5e6de4-3fe2-7933-f8c0-5f13564595cc@redhat.com>
-Date: Fri, 4 Nov 2022 11:38:07 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F34F7C
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Nov 2022 11:33:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4550FC433D6;
+	Fri,  4 Nov 2022 11:33:53 +0000 (UTC)
+Message-ID: <71e8ea95-8c3a-cc85-1638-5ce421a60e99@xs4all.nl>
+Date: Fri, 4 Nov 2022 12:33:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,47 +14,150 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v3 23/23] drm/fb-helper: Clarify use of last_close and
- output_poll_changed
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com
-Cc: linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- xen-devel@lists.xenproject.org, linux-sunxi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- spice-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- freedreno@lists.freedesktop.org
-References: <20221103151446.2638-1-tzimmermann@suse.de>
- <20221103151446.2638-24-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221103151446.2638-24-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/102.4.0
+Subject: Re: [PATCH 0/3] media: sunxi: Add H6 deinterlace driver
 Content-Language: en-US
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, mchehab@kernel.org
+Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, wens@csie.org,
+ samuel@sholland.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20221101123201.3021129-1-jernej.skrabec@gmail.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20221101123201.3021129-1-jernej.skrabec@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/3/22 16:14, Thomas Zimmermann wrote:
-> Clarify documentation in the use of struct drm_driver.last_close and
-> struct drm_mode_config_funcs.output_poll_changed. Those callbacks should
-> not be said for fbdev implementations on top of struct drm_client_funcs.
+Hi Jernej,
+
+Can you add a patch updating the MAINTAINERS file? Just post a 4/3 patch :-)
+
+Regards,
+
+	Hans
+
+On 01/11/2022 13:31, Jernej Skrabec wrote:
+> This series implements driver for H6 deinterlace core, which is
+> newer version of core, covered by sun8i-di (v2.3). Contrary to
+> older one, it doesn't support scaling, but it supports iommu,
+> has additional motion compensated deinterlacing algorithm and
+> supports different pixel formats.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+> v4l2-compliance 1.23.0-4961, 64 bits, 64-bit time_t
+> v4l2-compliance SHA: f86484524f32 2022-10-21 10:08:58
+> 
+> Compliance test for sun50i-di device /dev/video0:
+> 
+> Driver Info:
+>         Driver name      : sun50i-di
+>         Card type        : sun50i-di
+>         Bus info         : platform:sun50i-di
+>         Driver version   : 6.1.0
+>         Capabilities     : 0x84208000
+>                 Video Memory-to-Memory
+>                 Streaming
+>                 Extended Pix Format
+>                 Device Capabilities
+>         Device Caps      : 0x04208000
+>                 Video Memory-to-Memory
+>                 Streaming
+>                 Extended Pix Format
+> 
+> Required ioctls:
+>         test VIDIOC_QUERYCAP: OK
+>         test invalid ioctls: OK
+> 
+> Allow for multiple opens:
+>         test second /dev/video0 open: OK
+>         test VIDIOC_QUERYCAP: OK
+>         test VIDIOC_G/S_PRIORITY: OK
+>         test for unlimited opens: OK
+> 
+> Debug ioctls:
+>         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>         test VIDIOC_LOG_STATUS: OK (Not Supported)
+> 
+> Input ioctls:
+>         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>         Inputs: 0 Audio Inputs: 0 Tuners: 0
+> 
+> Output ioctls:
+>         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>         Outputs: 0 Audio Outputs: 0 Modulators: 0
+> 
+> Input/Output configuration ioctls:
+>         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>         test VIDIOC_G/S_EDID: OK (Not Supported)
+> 
+> Control ioctls:
+>         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+>         test VIDIOC_QUERYCTRL: OK (Not Supported)
+>         test VIDIOC_G/S_CTRL: OK (Not Supported)
+>         test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+>         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+>         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>         Standard Controls: 0 Private Controls: 0
+> 
+> Format ioctls:
+>         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>         test VIDIOC_G/S_PARM: OK (Not Supported)
+>         test VIDIOC_G_FBUF: OK (Not Supported)
+>         test VIDIOC_G_FMT: OK
+>         test VIDIOC_TRY_FMT: OK
+>         test VIDIOC_S_FMT: OK
+>         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>         test Cropping: OK (Not Supported)
+>         test Composing: OK (Not Supported)
+>         test Scaling: OK (Not Supported)
+> 
+> Codec ioctls:
+>         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> 
+> Buffer ioctls:
+>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>         test VIDIOC_EXPBUF: OK
+>         test Requests: OK (Not Supported)
+> 
+> Total for sun50i-di device /dev/video0: 45, Succeeded: 45, Failed: 0, Warnings: 0
+> 
+> Best regards,
+> Jernej
+> 
+> Jernej Skrabec (3):
+>   media: dt-bindings: media: Add Allwinner H6 Deinterlace binding
+>   media: sunxi: Add H6 deinterlace driver
+>   arm64: dts: allwinner: h6: Add deinterlace node
+> 
+>  .../allwinner,sun50i-h6-deinterlace.yaml      |   74 ++
+>  MAINTAINERS                                   |    4 +-
+>  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  |   12 +
+>  drivers/media/platform/sunxi/Kconfig          |    1 +
+>  drivers/media/platform/sunxi/Makefile         |    1 +
+>  .../media/platform/sunxi/sun50i-di/Kconfig    |   15 +
+>  .../media/platform/sunxi/sun50i-di/Makefile   |    2 +
+>  .../platform/sunxi/sun50i-di/sun50i-di.c      | 1142 +++++++++++++++++
+>  .../platform/sunxi/sun50i-di/sun50i-di.h      |  175 +++
+>  9 files changed, 1425 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun50i-h6-deinterlace.yaml
+>  create mode 100644 drivers/media/platform/sunxi/sun50i-di/Kconfig
+>  create mode 100644 drivers/media/platform/sunxi/sun50i-di/Makefile
+>  create mode 100644 drivers/media/platform/sunxi/sun50i-di/sun50i-di.c
+>  create mode 100644 drivers/media/platform/sunxi/sun50i-di/sun50i-di.h
+> 
+> --
+> 2.38.1
+> 
 
