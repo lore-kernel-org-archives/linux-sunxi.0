@@ -1,95 +1,88 @@
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4FAA2591
-	for <linux-sunxi@lists.linux.dev>; Sat,  5 Nov 2022 15:47:33 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id A86EE5C00CE;
-	Sat,  5 Nov 2022 11:47:32 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Sat, 05 Nov 2022 11:47:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1667663252; x=
-	1667749652; bh=YL3S4NenSE4TP/W7I52bjSz//ihpV/zOu8M8yMIxby8=; b=K
-	CxZLqEnCUL6d6FVeTSTNiWXbKRDHliIGrffvTK1TFYZ9aIwYtF+X7FJGdmNCu3T8
-	Qn4oAAVGBicwQNUxnfRd3QsyBgQLMZVYi1K1B4jiQMVsLt+h0B8jSCiKszOzb6oT
-	YV0J5DaKFrrM8Y84h756sN946Nh+BMpQExakfbM/PptrNgX5TyfuunSfOeLcGJGe
-	SkDQTmAGizlhRuQmzHHr2K2uYF+dpYoHtE7Soe9aAcjRe1RrQduE3KCTgrap72IE
-	KZdZUTnQI4UVvG7PtErDk1IljLaDbwJt6xFIt6slBHa9+EScw4sbCqMn6kS9yubx
-	k6uplZecOGxpBpJY/Sxig==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1667663252; x=
-	1667749652; bh=YL3S4NenSE4TP/W7I52bjSz//ihpV/zOu8M8yMIxby8=; b=X
-	FYljsa//xW4pYNZi8si9BEe6iJifS04iuBY0I0NJVmuznM+xSuCMLEXrCd5Sy21N
-	yjgwWeJAvxUApbYFV8WcSucgekxQL4KQ1IQfUYaFstDixZBnLDqHtmbms3foYjmX
-	407GHn4gZNeoYTG9PSwjokr765b0Wg8nGN5JIlr6q/9kJan2C1hIdDWjO0BWIgjm
-	R/xjdQZjcsN+q7TZHvHHlQEvSlaOkQ8s6zUQmVjywnigrvoftqEwe7M2W351iEBw
-	W6XL6tV6dy/Jky3hXQPgr/Wo+jbJzjS1adE9hBJeAw/rZ8jRBnfqAaUiB+siEffN
-	snTCUVbnYjL8RMRARy9Jw==
-X-ME-Sender: <xms:lIVmY022xeGih54dszIt0gDhfWZ9-1mqv-3YX9F7IEiSgj8IPNjY5Q>
-    <xme:lIVmY_Ho6d-pE0DuLoATE7pRYZ0xnsBxnQZljpYlQY3iwbv8qXVpIPjeqlefVjXpt
-    EaN6rjttzMltvzxUA>
-X-ME-Received: <xmr:lIVmY84MbTEOZN6stCVmLyGuoWSup01TmiZ0rdwVWakJLGKxuiHL5bEMW5KCUOTQkhSeZGjUZinckHtgx47_GiDFds5eCq_ATrJaBoykPI_LtMHMPBZghhEBUA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdefgdektdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepkeejleelfeeitdfhtdfgkeeghedufeduueegffdvhfdukeelleef
-    tdetjeehuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:lIVmY93zurtB9kwaf0ek95V1nR36FAmtnkXf7e0KgAbiJcvokUh_4w>
-    <xmx:lIVmY3Enspe_EodxmeDEi8W7oCK9yvLvk3fFDksLkbUEXb9B1l8WrA>
-    <xmx:lIVmY2_tXIGNcj5WtICOOqiNUyMDMk41jt1d0rzGVm7gZGRuojdvfA>
-    <xmx:lIVmY9bE0KsvuVY9LJqtHXh6Fq_OMoo9e8T9m1WAplIr5Zes5BnaPw>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 5 Nov 2022 11:47:31 -0400 (EDT)
-Message-ID: <b0d317ad-9198-94d5-ecaa-78b8066b5168@sholland.org>
-Date: Sat, 5 Nov 2022 10:47:31 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633B62591
+	for <linux-sunxi@lists.linux.dev>; Sat,  5 Nov 2022 15:53:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Content-Transfer-Encoding:MIME-Version
+	:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=XqHpqs8kOpAGqjTe6Cxdek+b0q7L48oS3swMyp4A1Kg=; b=TWjb1YEmfOpNLBpw6cgQaAq34G
+	LIBBrziYiG1Xpv7XNw4i866DsRfc5iFQ+azH8216/o0adKnnxz8HX0Oxsxul6GI3lPm91rMM3Kwky
+	ZZaNeyCIWKtIm/zSpCGG7gKhFuz4stZcaHDaQE0GR1JfmfZoUnlJZ+1M0BrijmtbQTbpIh/Cdggww
+	7FS24JSOfJUa3xjJ2Vc7yd5xpAlX4Sv3AtbbJSZ82dJgdxDlHIqUCRH6bAuu5fLE5PzOzDwP686OL
+	IU+3D6iy2Dc1kL+4jVt2MsmY8hnjCJtCa44J5vEmkdNRbepglDpU83KxI2whrB0IbZyLNT/hcP5vU
+	SU/L3v+g==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <bage@debian.org>)
+	id 1orLAp-004CNe-Po; Sat, 05 Nov 2022 15:33:30 +0000
+From: Bastian Germann <bage@debian.org>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Bastian Germann <bage@debian.org>
+Subject: [PATCH v2 1/1] arm64: dts: allwinner: a64: enable Bluetooth on Pinebook
+Date: Sat,  5 Nov 2022 16:33:19 +0100
+Message-Id: <20221105153319.19345-2-bage@debian.org>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221105153319.19345-1-bage@debian.org>
+References: <20221105153319.19345-1-bage@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v2 1/1] arm64: dts: allwinner: a64: enable Bluetooth on
- Pinebook
-Content-Language: en-US
-To: Bastian Germann <bage@debian.org>
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20221105153319.19345-1-bage@debian.org>
- <20221105153319.19345-2-bage@debian.org>
-From: Samuel Holland <samuel@sholland.org>
-In-Reply-To: <20221105153319.19345-2-bage@debian.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Debian-User: bage
 
-On 11/5/22 10:33, Bastian Germann wrote:
-> From: Vasily Khoruzhick <anarsoul@gmail.com>
-> 
-> Pinebook has an RTL8723CS WiFi + BT chip. BT is connected to UART1
-> and uses PL5 as device wake GPIO and PL6 as host wake GPIO.
-> 
-> Enable it in the device tree.
-> 
-> Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
-> Signed-off-by: Bastian Germann <bage@debian.org>
-> ---
->  .../boot/dts/allwinner/sun50i-a64-pinebook.dts     | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+From: Vasily Khoruzhick <anarsoul@gmail.com>
 
-Reviewed-by: Samuel Holland <samuel@sholland.org>
+Pinebook has an RTL8723CS WiFi + BT chip. BT is connected to UART1
+and uses PL5 as device wake GPIO and PL6 as host wake GPIO.
+
+Enable it in the device tree.
+
+Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
+Signed-off-by: Bastian Germann <bage@debian.org>
+---
+ .../boot/dts/allwinner/sun50i-a64-pinebook.dts     | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
+index 620cb3ef5f6c..50ed2e9f10ed 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
+@@ -406,6 +406,20 @@ &uart0 {
+ 	status = "okay";
+ };
+ 
++&uart1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
++	uart-has-rtscts;
++	status = "okay";
++
++	bluetooth {
++		compatible = "realtek,rtl8723cs-bt";
++		device-wake-gpios = <&r_pio 0 5 GPIO_ACTIVE_LOW>; /* PL5 */
++		enable-gpios = <&r_pio 0 4 GPIO_ACTIVE_HIGH>; /* PL4 */
++		host-wake-gpios = <&r_pio 0 6 GPIO_ACTIVE_HIGH>; /* PL6 */
++	};
++};
++
+ &usb_otg {
+ 	dr_mode = "host";
+ };
+-- 
+2.38.1
 
