@@ -1,172 +1,151 @@
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2972F2C
-	for <linux-sunxi@lists.linux.dev>; Sat,  5 Nov 2022 17:50:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=RWDifwBbG878DIYtQ6aTZneSyeLBzoR7LRcwuOd+5Ww=; b=FWsFtfq9WvhTbfg5xv6opUGWJP
-	TpdfVFbgQbUnOuhkMxKu02lanIGkkuJHwejkyfTvZ9vXmef6GD29nMl00Z5kjteh6g5YHxYR0wJXV
-	RhBcOWn0fsq+qfZB5+SM5gxMXlFWBiAbeHEa9khBdsibTyvX7JDI1lDMJcFIsnQpAYE/IRs2CDWhF
-	Wpuh0IpixW85CIELAnJMKjZ4oe6j72x533EAtzjkeuYRKT74/CKmcO6dU2VI7EBdPFlFgjs+S6nqA
-	ibTXHuv1WPrsHerD7XSZyKfCT/K3Y0rjY7WhCGdsdbJLjTxvSOkzuH9FPE9BNVEhz7NF06MYP3f9F
-	jmmHuJ3Q==;
-Received: from [2a01:799:95a:cb00:a93e:4a2b:2c13:303] (port=57583)
-	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <noralf@tronnes.org>)
-	id 1orNJW-0004KI-U5; Sat, 05 Nov 2022 18:50:38 +0100
-Message-ID: <0a748a39-a387-5bdb-ffc8-6cc6593b56e7@tronnes.org>
-Date: Sat, 5 Nov 2022 18:50:30 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC281FBE
+	for <linux-sunxi@lists.linux.dev>; Sat,  5 Nov 2022 19:18:51 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 5BD993200312;
+	Sat,  5 Nov 2022 15:18:50 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Sat, 05 Nov 2022 15:18:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1667675929; x=
+	1667762329; bh=aegMO/1phxJ2SPeZarRdvuQSVoXGUAPnoXb9Rr6WjT4=; b=L
+	iv7Khrc2PJfU5HQ2CVJrP/7YZO0QrB7LTDsjqS3oR9e8gyR0YHe4GMB78/sV6h8K
+	mk2HfyqTe6qnockZPsZt+2tC7bnFTTpPf87jl0+NsH2yMV3pNFg6c4Z3O+yvGez/
+	/g0JLDKdrFr1TITyEcRkmUax79XWPhYrmx1qbDcVdgo+MuBitvf70WaT0giyzf3z
+	XihXANFCQy+AqKLLmdY5b3+dLXyElii0F+R+EJPectgHKaf1Nx1FwtSOLeoZeSTb
+	gKZSrY0NmSYEl+55lPOY0f36J/n8RtklE46wZY19eHyekMATgLqg3rTsmTE4HiOD
+	RbtO9MEocNf5YyLbkgHUA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1667675929; x=
+	1667762329; bh=aegMO/1phxJ2SPeZarRdvuQSVoXGUAPnoXb9Rr6WjT4=; b=n
+	ZUMRZcA2HV3fekLs6D6za35uWTHHI2iRQGXCHYgvzJ2EZH18f7AYfKt1I+llXs43
+	3Xam6vQQNBeYGAUb98He16M3U6gG+1beU+RltdumknzZdCtZSNLzxECKFLtLaMcV
+	h/tndsgEIluj+T91QJvbrJdwRuWteby425dChyvG/dLNCJEExzqdIhs7Alnjttex
+	ZWengxrkI0Z6hu3lEDlU4zmsaE17Kx9qQr/d5cI/VqrdznPfOaproKoTfjq9VdKw
+	TwpNRUuDm1/0fr6UoJZeAkNW8H7NwOXYuqYd2BpiZpeS7bSLnCUBE+rCyhdQBwSu
+	NgHVSE506a7eqZX0dZ0Lg==
+X-ME-Sender: <xms:GbdmY_Z2LQmbXEb4hxMkDAlYat99Bz28sVJSpNuwcmjeJURmLsrfkA>
+    <xme:GbdmY-bG-gf7yYyPpm77gr2K3_v4OtbYoNoqyUnXtP8NH77AGW3oVC8SVWUuFvkf2
+    7V-toYnaW52Yor-aw>
+X-ME-Received: <xmr:GbdmYx-s4XsVtxYiUXsR5l2YfhFPG5qkCsbvLsONMuJnO4OpBgYvVEmIUCnwKJDYD4iW6BZmUmJGWTLYriw6ed-YsGYjYN5bvXddq0WuyWCikLvOubI_YjLj1Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdeggddtkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkffggfgfvvehfhffujggtgfesthekredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepgeeikeeufedvvdeuteeivdeiffdtgfdtfeejgfetfeefgeffgfdv
+    ffehjedvueeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:GbdmY1qPMVNXfUz6VuiuRC69XchSd2TiOAGwYysjJYgjfKGlSXbyGw>
+    <xmx:GbdmY6qpIGIVLyV9_Yt8toLiV4YDSctQGuCY4e35WNlq5fbZssc8ZA>
+    <xmx:GbdmY7SV9XV9jr7ytxESdgMhEou4hNfIAF15azbQDGv2z1dz1cPEJQ>
+    <xmx:GbdmYzmR1Vgt7pWCRvUQtWbhRFoNfCGQ4_B2ov41s0gex3YsZLGopw>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 5 Nov 2022 15:18:48 -0400 (EDT)
+Message-ID: <c1e8a25e-3fd0-ba28-67a5-6775c6ce2d6d@sholland.org>
+Date: Sat, 5 Nov 2022 14:18:48 -0500
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v6 14/23] drm/modes: Properly generate a drm_display_mode
- from a named mode
-To: maxime@cerno.tech, Karol Herbst <kherbst@redhat.com>,
- Emma Anholt <emma@anholt.net>, Ben Skeggs <bskeggs@redhat.com>,
- Chen-Yu Tsai <wens@csie.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>,
- Maxime Ripard <mripard@kernel.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Lyude Paul <lyude@redhat.com>
-Cc: linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- nouveau@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-References: <20220728-rpi-analog-tv-properties-v6-0-e7792734108f@cerno.tech>
- <20220728-rpi-analog-tv-properties-v6-14-e7792734108f@cerno.tech>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v6-14-e7792734108f@cerno.tech>
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Content-Language: en-US
+To: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Cc: mripard@kernel.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Merlijn Wajer <merlijn@wizzup.org>,
+ wens@csie.org
+References: <9f8a0fc3-1d9a-b271-3c26-4f7373b8a3e9@gmail.com>
+ <214ed3e0-5959-8fa7-8d66-196e33112cb0@sholland.org>
+ <a68b44f5-fd04-4dbe-0782-1d761c42ce3f@gmail.com>
+From: Samuel Holland <samuel@sholland.org>
+Subject: Re: [BISECTED] Allwinner A33 tablet does not fully power off
+In-Reply-To: <a68b44f5-fd04-4dbe-0782-1d761c42ce3f@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-
-
-Den 26.10.2022 17.33, skrev maxime@cerno.tech:
-> The framework will get the drm_display_mode from the drm_cmdline_mode it
-> got by parsing the video command line argument by calling
-> drm_connector_pick_cmdline_mode().
+On 11/5/22 03:23, Ivaylo Dimitrov wrote:
+> Hi Samuel,
 > 
-> The heavy lifting will then be done by the drm_mode_create_from_cmdline_mode()
-> function.
+> On 5.11.22 г. 4:21 ч., Samuel Holland wrote:
+>> Hi Ivo,
+>>
+>> On 10/29/22 10:23, Ivaylo Dimitrov wrote:
+>>> After commit 843107498f91e57d1d4b22cd8787112726fdaeb4 (bus: sunxi-rsb:
+>>> Implement suspend/resume/shutdown callbacks) Q8 A33 tablet I have here
+>>> cannot be powered-on after power-off, it needs press-and-hold of the
+>>> power button for 10 seconds (I guess some HW assisted power down
+>>> happens) before it can be powered-on again.
+>>>
+>>> The following patch makes it behave correctly:
+>>>
+>>> diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
+>>> index 60b082fe2ed0..30016d62044c 100644
+>>> --- a/drivers/bus/sunxi-rsb.c
+>>> +++ b/drivers/bus/sunxi-rsb.c
+>>> @@ -818,10 +818,7 @@ static int sunxi_rsb_remove(struct platform_device
+>>> *pdev)
+>>>
+>>>   static void sunxi_rsb_shutdown(struct platform_device *pdev)
+>>>   {
+>>> -       struct sunxi_rsb *rsb = platform_get_drvdata(pdev);
+>>> -
+>>>          pm_runtime_disable(&pdev->dev);
+>>> -       sunxi_rsb_hw_exit(rsb);
+>>>   }
+>>>
+>>>   static const struct dev_pm_ops sunxi_rsb_dev_pm_ops = {
+>>>
+>>>
+>>> I guess the issue comes from the fact that by the time 'power off'
+>>> command to the power management IC has to be send, the bus it lives on
+>>> is already down, so the device is left in semi-powered down state. Ofc
+>>> this is a wild guess, however, preventing the bus being turned off on
+>>> shutdown fixes the issue.
+>>
+>> Your guess is correct. The controller gets shut down in
+>>
+>>    kernel_power_off()
+>>      kernel_shutdown_prepare()
+>>        device_shutdown()
+>>
+>> but the PMIC communication needs to happen later in
+>>
+>>    kernel_power_off()
+>>      machine_power_off()
+>>        pm_power_off()
+>>
+>>> Please LMK if the above is the correct approach so I will send a proper
+>>> patch or something else shall be fixed.
+>>
+>> Yes, this is exactly the right approach. The whole sunxi_rsb_shutdown()
 > 
-> In the case of the named modes though, there's no real code to make that
-> translation and we rely on the drivers to guess which actual display mode
-> we meant.
-> 
-> Let's modify drm_mode_create_from_cmdline_mode() to properly generate the
-> drm_display_mode we mean when passing a named mode.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
-> ---
-> Changes in v6:
-> - Fix get_modes to return 0 instead of an error code
-> - Rename the tests to follow the DRM test naming convention
-> 
-> Changes in v5:
-> - Switched to KUNIT_ASSERT_NOT_NULL
-> ---
->  drivers/gpu/drm/drm_modes.c                     | 34 ++++++++++-
->  drivers/gpu/drm/tests/drm_client_modeset_test.c | 77 ++++++++++++++++++++++++-
->  2 files changed, 109 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> index dc037f7ceb37..85aa9898c229 100644
-> --- a/drivers/gpu/drm/drm_modes.c
-> +++ b/drivers/gpu/drm/drm_modes.c
-> @@ -2497,6 +2497,36 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
->  }
->  EXPORT_SYMBOL(drm_mode_parse_command_line_for_connector);
->  
-> +static struct drm_display_mode *drm_named_mode(struct drm_device *dev,
-> +					       struct drm_cmdline_mode *cmd)
-> +{
-> +	struct drm_display_mode *mode;
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(drm_named_modes); i++) {
-> +		const struct drm_named_mode *named_mode = &drm_named_modes[i];
-> +
-> +		if (strcmp(cmd->name, named_mode->name))
-> +			continue;
-> +
-> +		if (!named_mode->tv_mode)
-> +			continue;
-> +
-> +		mode = drm_analog_tv_mode(dev,
-> +					  named_mode->tv_mode,
-> +					  named_mode->pixel_clock_khz * 1000,
-> +					  named_mode->xres,
-> +					  named_mode->yres,
-> +					  named_mode->flags & DRM_MODE_FLAG_INTERLACE);
-> +		if (!mode)
-> +			return NULL;
-> +
-> +		return mode;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
->  /**
->   * drm_mode_create_from_cmdline_mode - convert a command line modeline into a DRM display mode
->   * @dev: DRM device to create the new mode for
-> @@ -2514,7 +2544,9 @@ drm_mode_create_from_cmdline_mode(struct drm_device *dev,
->  	if (cmd->xres == 0 || cmd->yres == 0)
->  		return NULL;
->  
-> -	if (cmd->cvt)
-> +	if (strlen(cmd->name))
-> +		mode = drm_named_mode(dev, cmd);
+> Don't we need pm_runtime_disable() on shutdown? As IIUC, the controller
+> might be suspended and we have to resume it to put it in state to accept
+> commands later on(in pm_power_off()).
 
-I'm trying to track how this generated mode fits into to it all and
-AFAICS if the connector already supports a mode with the same xres/yres
-as the named mode, the named mode will never be created because of the
-check at the beginning of drm_helper_probe_add_cmdline_mode(). It will
-just mark the existing mode with USERDEF and return.
+sunxi_rsb_write() takes care of resuming the controller, so the
+controller being suspended prior to pm_power_off() is fine.
+pm_runtime_disable() would actually prevent resuming the controller
+later in sunxi_rsb_write().
 
-If the connector doesn't already support a mode with such a resolution
-it will be created, but should we do that? If the driver supported such
-a mode it would certainly already have added it to the mode list,
-wouldn't it? After all it's just 2 variants NTSC and PAL.
+>> function should be removed. When you send a patch, please add a Fixes:
+>> tag referencing the commit that you bisected to.
 
-We have this in drm_client_modeset.c:drm_connector_pick_cmdline_mode():
+I found a couple of other issues as well, so I'll send out some fixes
+with you CC'd.
 
-	list_for_each_entry(mode, &connector->modes, head) {
-		/* Check (optional) mode name first */
-		if (!strcmp(mode->name, cmdline_mode->name))
-			return mode;
+Regards,
+Samuel
 
-Here it looks like the named mode thing is a way to choose a mode, not
-to add one.
-
-I couldn't find any documentation on how named modes is supposed to
-work, have you seen any?
-
-Noralf.
-
-> +	else if (cmd->cvt)
->  		mode = drm_cvt_mode(dev,
->  				    cmd->xres, cmd->yres,
->  				    cmd->refresh_specified ? cmd->refresh : 60,
