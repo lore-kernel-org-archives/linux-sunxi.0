@@ -1,107 +1,62 @@
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF06879CF
-	for <linux-sunxi@lists.linux.dev>; Sat,  5 Nov 2022 03:45:08 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id 668953200900;
-	Fri,  4 Nov 2022 23:45:07 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Fri, 04 Nov 2022 23:45:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1667619907; x=
-	1667706307; bh=8NEuN8SPTeYqFJdZJ2flEYsKN0L1d2Z1DQJbyjEXnEY=; b=A
-	OA6rgjrjPP9W3Srf0PtHE2dAUyEhtdlIImR4vIQfupbWhTLUhMOANhXkc4YA+BKj
-	Goxqk2tgT0yqU0g3buzpFFbvx4XJpt0dNz0Hm+lhXy8kuMi77csy4KoyFvE9ZqGO
-	MH6pGLEy8MUtDp0ApmElnyc1wEnKuZtgjAYgJDiOwRVcXbSG07dsJhXgoERgF7xE
-	SU/GrckTodI8I3qGxoBcOMzkqmNI3sZfHyk1IL2Jb2VuuUDiOxXqqIb626vsMwgn
-	n+nMB+8NjHN9hVv+DZxw3CpWyGSpG5qDYFHAvmBGD8FV3HublluvNyuKcYEv8JCV
-	ajbL5nrCo72dej9gqcKcA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1667619907; x=
-	1667706307; bh=8NEuN8SPTeYqFJdZJ2flEYsKN0L1d2Z1DQJbyjEXnEY=; b=e
-	kiwLR3and6N+kb/NtgrykahcNGI+Iy1EM6jY1rCtLLqVAX06bi5xOBNtbgscNS2l
-	jqWCo7NIX4U2ThE4ZIRBtgsfVoI6JCahNh/z7TjHA8jN7cGW9TrjKxSr3nu8NPgl
-	F1ZxoymrzftlK2ZLWfCEomInH3C+EyC5gv174kfGe66kEaqjHdgeLqTOYshMg7wu
-	6qoPegFxGPaZC8rYT/GhK85iuwMfAEOafqMmbpjxfJM/NAH/+HTSbDoPQ91GrUJ4
-	6/oxbQL+HMAi3HxA9geBU0UHGTwR6sDwdJXiSIGuleHIX8G/8XNTwhUmd8FOtrrs
-	COEgKfrzFaa8f82Vho8VQ==
-X-ME-Sender: <xms:QtxlY875TzvBb17geuCnJwF0-7GUxoBtqFAkicr6i9-0dFptkQBtTg>
-    <xme:QtxlY96MWlGSWHyUyIiJ5TR0BpvW-9jS9sBZkRcI0p93Qn0kUIGtAPRuoUWcIVvXL
-    kVN3St9ANtis78-Vg>
-X-ME-Received: <xmr:QtxlY7fGJVYTNGHmR1moyXcS6PonxLz28U7-RI-dREsXXLdfdjhthHUhMv8iVm_Uhz1CHeJpsSc57WIeTuXyyPbRt00eoJo-_kT1IxDlo7V_ac4oSpdn8lC4CQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvddvgdeivdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfvvehfhffujggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepjefgfffhudejfedtuedugeeutdetgfeiteffffehjeeugfeuvdeh
-    jeetfedtffdtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:QtxlYxJyNcZSaM5yaqJhSBSwuVdgb1xcpTkupGQFCqLGxXwBqwi2ZA>
-    <xmx:QtxlYwKCGWpDQ9F9cDQQKGp8vU7fwSmGpj-2r8e2d-UDHQ93hcZ0qA>
-    <xmx:QtxlYyzDaC5WyEmDIk-3U1BV2AtAXXUF2RaxUvjBCWI3QX9K_EnVsw>
-    <xmx:Q9xlY9CYzFxbVXRq45wJrCKjc_cWPvk5lY5NrzxIQn2-XqIorJkczA>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Nov 2022 23:45:05 -0400 (EDT)
-Message-ID: <81491c02-6c07-bf17-0a00-5c396f7878d6@sholland.org>
-Date: Fri, 4 Nov 2022 22:45:05 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28791C04
+	for <linux-sunxi@lists.linux.dev>; Sat,  5 Nov 2022 07:45:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95302C433D6;
+	Sat,  5 Nov 2022 07:45:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1667634351;
+	bh=oR4nin9GL/nLMFNCIKIq01MhwItWEG8E93FtnI2llfM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=e/mNHZ+RpReyyDqxhUaRYAgyXHdz37fOA57eOSMjuAoNIVU/78Q/gJSbnWirNhPzk
+	 nwINsKMyhyq5PGTaIj3pLqa5MXkdC1Q5C3FbzXKDgjAaT4I33HENPmf6gq2L21YMd4
+	 HI6MKxv9eN84lFPb+CTGBT/sHtuvcvMmWuj0RNhEof6KwpPyc5EtImLES8HIcGAZtt
+	 zEdo4RLupRlBOGnC4nyzjsL2XtN4UDkG9bBuCaTybVUj1oKrHilr1GztdrYCOJEAU0
+	 tYqRSS/Y31LGF6w8JqQz9hKvIpcHgmvJnUbyADXuGQPEqscqy+H/JGkJoUog1HHSM3
+	 gRkaxZaxQmXkA==
+Date: Sat, 5 Nov 2022 13:15:47 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, Karl Kurbjun <karl.os@veroson.com>,
+	Icenowy Zheng <uwu@icenowy.me>
+Subject: Re: [PATCH v2 2/7] dt-bindings: phy: Add special clock for Allwinner
+ H616 PHY
+Message-ID: <Y2YUq1IWzjlkVOuz@matsya>
+References: <20221031111358.3387297-1-andre.przywara@arm.com>
+ <20221031111358.3387297-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>, Stephen Boyd <sboyd@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Michael Turquette <mturquette@baylibre.com>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: linux-clk@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
- <20221018-clk-range-checks-fixes-v2-42-f6736dec138e@cerno.tech>
-From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH v2 42/65] rtc: sun6i: Add a determine_rate hook
-In-Reply-To: <20221018-clk-range-checks-fixes-v2-42-f6736dec138e@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221031111358.3387297-3-andre.przywara@arm.com>
 
-Hi Maxime,
-
-On 11/4/22 08:17, Maxime Ripard wrote:
-> The Allwinner sun6i RTC clock implements a mux with a set_parent hook,
-> but doesn't provide a determine_rate implementation.
+On 31-10-22, 11:13, Andre Przywara wrote:
+> The USB PHY IP in the Allwinner H616 SoC requires a quirk that involves
+> some resources from port 2's PHY and HCI IP. In particular the PMU clock
+> for port 2 must be surely ungated before accessing the REG_HCI_PHY_CTL
+> register of port 2. To allow each USB port to be controlled
+> independently of port 2, we need a handle to that particular PMU clock
+> in the *PHY* node, as the HCI and PHY part might be handled by separate
+> drivers.
 > 
-> This is a bit odd, since set_parent() is there to, as its name implies,
-> change the parent of a clock. However, the most likely candidate to
-> trigger that parent change is a call to clk_set_rate(), with
-> determine_rate() figuring out which parent is the best suited for a
-> given rate.
-> 
-> The other trigger would be a call to clk_set_parent(), but it's far less
-> used, and it doesn't look like there's any obvious user for that clock.
-> 
-> So, the set_parent hook is effectively unused, possibly because of an
-> oversight. However, it could also be an explicit decision by the
-> original author to avoid any reparenting but through an explicit call to
-> clk_set_parent().
+> Add that clock to the requirements of the H616 PHY binding, so that a
+> PHY driver can apply the quirk in isolation, without requiring help from
+> port 2's HCI driver.
 
-For this driver, we always want to use the more accurate parent if it is
-available. The driver enforces this in the probe function already, so I
-think it would be better to just remove the .set_parent implementation.
+Applied, thanks
 
-Regards,
-Samuel
-
+-- 
+~Vinod
