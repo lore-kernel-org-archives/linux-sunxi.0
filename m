@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139321C04
-	for <linux-sunxi@lists.linux.dev>; Sat,  5 Nov 2022 07:46:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 638E5C433C1;
-	Sat,  5 Nov 2022 07:46:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01CAD1C04
+	for <linux-sunxi@lists.linux.dev>; Sat,  5 Nov 2022 07:46:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32FC6C433C1;
+	Sat,  5 Nov 2022 07:46:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667634363;
-	bh=ZMfmPuWolJn8ktVOTHMoYyWkBeMkqiNVrOl5KM0JWvA=;
+	s=k20201202; t=1667634376;
+	bh=wgFcLvc3zqe3w819SqLtTNrlQTT04YKIOY22045Euso=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SneXIkaebf8BXOSLqFYRmCDoknqfoJREJxf+eTq2xaA8uaL95vcMaZBGHF30FJQz6
-	 SXMat3Rj1CPsNwlRMCYsb6CaYxnLmf48BdYmcJOIM8Rn59PC4zlNVFT5Et3qQojgSg
-	 EacO5/+e1dZNV3SnnVi9K+mc1fSvbocYu0FY/TEaqO5Iu78kf2Tdtj6vl9btoJVkUQ
-	 FNHiRMSwcWTwwfQVhZi3l6ndL33xOplmAM9TO0IpYp/a1Kl8OB8GK0C+BtTlBht800
-	 +6MeGSPt/oKlTLUUG2Kz/MmT9iNRinuwfiAqkg4X/tPdczhPjxmWyT2s5+hJxtBMsq
-	 TISVDqFpvQaZg==
-Date: Sat, 5 Nov 2022 13:16:00 +0530
+	b=uP9Ca6Mw3C8panymsWSY/f/60Ejzi/O5W0D7lwxIrSGD5hCODpG9sZ0D+WyBZY9f6
+	 a1lBvoLFY9ezPA5GvinGrJduF4+JGbt5P2DP+I6ac0QGOX6Kx87lMdYwa90MCdpecv
+	 WEHNjySWbW/vJjvBHv83v0tOdrXMvgz7d5MlF3Rq+0XZoE3H9fOBLoCOrlmZIuLgjA
+	 PEKR+mvwVGooV+mByLo2MBpj/hi3Vaphxt3WhRPqhm00aACXDv0tqCwWZ5V6J9j9cg
+	 pqx/5TD4rqX5OKAg6OMO1h0jH/e2gCni4dL/4ymqJFHBTYWQGpXJ+7/9hQtzZLToye
+	 XbTnxsxxU8mTw==
+Date: Sat, 5 Nov 2022 13:16:12 +0530
 From: Vinod Koul <vkoul@kernel.org>
 To: Andre Przywara <andre.przywara@arm.com>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -28,10 +28,10 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev, Karl Kurbjun <karl.os@veroson.com>,
 	Icenowy Zheng <uwu@icenowy.me>
-Subject: Re: [PATCH v2 3/7] phy: sun4i-usb: Introduce port2 SIDDQ quirk
-Message-ID: <Y2YUuMljH0/3Ggm3@matsya>
+Subject: Re: [PATCH v2 4/7] phy: sun4i-usb: Add support for the H616 USB PHY
+Message-ID: <Y2YUxIYa2QAGxX3K@matsya>
 References: <20221031111358.3387297-1-andre.przywara@arm.com>
- <20221031111358.3387297-4-andre.przywara@arm.com>
+ <20221031111358.3387297-5-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -40,21 +40,16 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221031111358.3387297-4-andre.przywara@arm.com>
+In-Reply-To: <20221031111358.3387297-5-andre.przywara@arm.com>
 
 On 31-10-22, 11:13, Andre Przywara wrote:
-> At least the Allwinner H616 SoC requires a weird quirk to make most
-> USB PHYs work: Only port2 works out of the box, but all other ports
-> need some help from this port2 to work correctly: The CLK_BUS_PHY2 and
-> RST_USB_PHY2 clock and reset need to be enabled, and the SIDDQ bit in
-> the PMU PHY control register needs to be cleared. For this register to
-> be accessible, CLK_BUS_ECHI2 needs to be ungated. Don't ask ....
+> The USB PHY used in the Allwinner H616 SoC inherits some traits from its
+> various predecessors: it has four full PHYs like the H3, needs some
+> extra bits to be set like the H6, and puts SIDDQ on a different bit like
+> the A100. Plus it needs this weird PHY2 quirk.
 > 
-> Instead of disguising this as some generic feature, treat it more like
-> a quirk (what it really is):
-> If the quirk bit is set, and we initialise a PHY other than PHY2, ungate
-> this one special clock, and clear the SIDDQ bit. We also pick the clock
-> and reset from PHY2 and enable them as well.
+> Name all those properties in a new config struct and assign a new
+> compatible name to it.
 
 Applied, thanks
 
