@@ -1,192 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DAA12F3C
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Nov 2022 22:48:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DC92C433C1;
-	Fri,  4 Nov 2022 22:47:58 +0000 (UTC)
-Message-ID: <3ce335f6-7ba1-a139-86da-b0d68bfeb744@xs4all.nl>
-Date: Fri, 4 Nov 2022 23:47:57 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDB41101
+	for <linux-sunxi@lists.linux.dev>; Sat,  5 Nov 2022 02:21:26 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.west.internal (Postfix) with ESMTP id 02D523200900;
+	Fri,  4 Nov 2022 22:21:25 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Fri, 04 Nov 2022 22:21:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1667614885; x=
+	1667701285; bh=pkuzyg87KP4rXE017m3xZDHEqWMZVyvOipGLjav84k8=; b=g
+	+a1XIb5ASbBT4WOZpReXoq+MxgD2G9T9q4N+mXNxyP8v3qvLwTn06bhqd0YVIPb+
+	R3HodEBzFJZyNp4Lp5UMw0y1DvmT0K6df/15/nXIT1GU+f77SpXPLNLucjcfDcSu
+	WE8C7HzKQMhgXacU3zkJJM/49W+gYGsTz/CXqe6ntFTr5Smh8Fwfzirt05z1SyFH
+	mhSlImNGKOn+JZQBQMFeEi/Ywd9LvsxYZJWVZm0YjbniBdng2Y8cvWYa/slV2lt1
+	/bTfMgh2i9dOSo5R6TVqUOsINbzDJ5dRHjckkZSSbcS91CoeCEUVvwnT3iwFRtLC
+	JLTa5WdfsVFPghkrbRU0Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1667614885; x=
+	1667701285; bh=pkuzyg87KP4rXE017m3xZDHEqWMZVyvOipGLjav84k8=; b=m
+	JZZVdhdYBY88gYVMFETYHw8pMSgyPNkwN3EQoRyJ7FmAVq4zBY+pBSp+gUH7Q86a
+	05MlusRleiruNgB+1+6iYcKDl9BurMNh0a/a6oyCB7Icts8JdnOk0ddwLIpv855v
+	o0YJadTYRBZp+/fPjoYVQIYhalaNszAMcQmZQ7QrwZZMheFIYhX0aXIwD66r8iKk
+	84pMKVco3TETkrf2aqVM1li36PW0xv0iaVAXGJs6RupRnQdxiHEF5QSM+fyEp3bU
+	pRnY971ScS9pfa+ADu6zleqFyWsIa6Uv5j00lTrcanAbyaMBfrBSyvsNYQnqx2gh
+	o17SmqHzDi4hHEP/d7sFA==
+X-ME-Sender: <xms:pchlY7KLT6pXUhf9QxikNI7eTc32poLrKzXxhDCVuYS1THMYPUzE5Q>
+    <xme:pchlY_KCbmeP-Ct6hNQhTpCVkdV16niwa83VI7kFzLy5IbwEbxb94NmUPKe3VCXad
+    lDVk3RZwOguKG2eQg>
+X-ME-Received: <xmr:pchlYzuFK96dhimQpsklpzPN8Xjg3RQIS9EcgNTvjGzbyG5DETrjGy0VwZiSYaqtERFgu99hpkHwv-0ha64jhK7OKl60PJ0MA58qr1frMq41TLw9SkqF2uDNmA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvddvgdeghecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkffggfgfvvehfhffujggtgfesthekredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepgeeikeeufedvvdeuteeivdeiffdtgfdtfeejgfetfeefgeffgfdv
+    ffehjedvueeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:pchlY0YogvP04MM-Hq1cGfTkPRAYJLW-TiupnmaZQc8T0EZ1GD2QRQ>
+    <xmx:pchlYybOZa8CzETV-RjzmWZhcFVvtows4nzbc0Txrd_q5icDgk9bbg>
+    <xmx:pchlY4CGfaXCIoi7s31EN2wbQ8iIpQXvpGhauThEmzaNUng6zFrVug>
+    <xmx:pchlY5XffscEUqbAnKQDhCwsWJSkW7jwD1YJ4MpTA7KZx33ZOKM6Lw>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 4 Nov 2022 22:21:24 -0400 (EDT)
+Message-ID: <214ed3e0-5959-8fa7-8d66-196e33112cb0@sholland.org>
+Date: Fri, 4 Nov 2022 21:21:23 -0500
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH 0/3] media: sunxi: Add H6 deinterlace driver
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- mchehab@kernel.org
-Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, wens@csie.org,
- samuel@sholland.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20221101123201.3021129-1-jernej.skrabec@gmail.com>
- <71e8ea95-8c3a-cc85-1638-5ce421a60e99@xs4all.nl>
- <2652146.mvXUDI8C0e@jernej-laptop>
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
 Content-Language: en-US
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <2652146.mvXUDI8C0e@jernej-laptop>
+To: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, wens@csie.org
+Cc: mripard@kernel.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Merlijn Wajer <merlijn@wizzup.org>
+References: <9f8a0fc3-1d9a-b271-3c26-4f7373b8a3e9@gmail.com>
+From: Samuel Holland <samuel@sholland.org>
+Subject: Re: [BISECTED] Allwinner A33 tablet does not fully power off
+In-Reply-To: <9f8a0fc3-1d9a-b271-3c26-4f7373b8a3e9@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 04/11/2022 18:36, Jernej Škrabec wrote:
-> Hi Hans,
-> 
-> Dne petek, 04. november 2022 ob 12:33:50 CET je Hans Verkuil napisal(a):
->> Hi Jernej,
->>
->> Can you add a patch updating the MAINTAINERS file? Just post a 4/3 patch :-)
-> 
-> It's already part of patch 2. I didn't see the reason to split it to separate 
-> patch.
+Hi Ivo,
 
-I totally missed that. Apologies for the noise!
+On 10/29/22 10:23, Ivaylo Dimitrov wrote:
+> After commit 843107498f91e57d1d4b22cd8787112726fdaeb4 (bus: sunxi-rsb:
+> Implement suspend/resume/shutdown callbacks) Q8 A33 tablet I have here
+> cannot be powered-on after power-off, it needs press-and-hold of the
+> power button for 10 seconds (I guess some HW assisted power down
+> happens) before it can be powered-on again.
+> 
+> The following patch makes it behave correctly:
+> 
+> diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
+> index 60b082fe2ed0..30016d62044c 100644
+> --- a/drivers/bus/sunxi-rsb.c
+> +++ b/drivers/bus/sunxi-rsb.c
+> @@ -818,10 +818,7 @@ static int sunxi_rsb_remove(struct platform_device
+> *pdev)
+> 
+>  static void sunxi_rsb_shutdown(struct platform_device *pdev)
+>  {
+> -       struct sunxi_rsb *rsb = platform_get_drvdata(pdev);
+> -
+>         pm_runtime_disable(&pdev->dev);
+> -       sunxi_rsb_hw_exit(rsb);
+>  }
+> 
+>  static const struct dev_pm_ops sunxi_rsb_dev_pm_ops = {
+> 
+> 
+> I guess the issue comes from the fact that by the time 'power off'
+> command to the power management IC has to be send, the bus it lives on
+> is already down, so the device is left in semi-powered down state. Ofc
+> this is a wild guess, however, preventing the bus being turned off on
+> shutdown fixes the issue.
+
+Your guess is correct. The controller gets shut down in
+
+  kernel_power_off()
+    kernel_shutdown_prepare()
+      device_shutdown()
+
+but the PMIC communication needs to happen later in
+
+  kernel_power_off()
+    machine_power_off()
+      pm_power_off()
+
+> Please LMK if the above is the correct approach so I will send a proper
+> patch or something else shall be fixed.
+
+Yes, this is exactly the right approach. The whole sunxi_rsb_shutdown()
+function should be removed. When you send a patch, please add a Fixes:
+tag referencing the commit that you bisected to.
 
 Regards,
-
-	Hans
-
-> 
-> Best regards,
-> Jernej
-> 
->>
->> Regards,
->>
->> 	Hans
->>
->> On 01/11/2022 13:31, Jernej Skrabec wrote:
->>> This series implements driver for H6 deinterlace core, which is
->>> newer version of core, covered by sun8i-di (v2.3). Contrary to
->>> older one, it doesn't support scaling, but it supports iommu,
->>> has additional motion compensated deinterlacing algorithm and
->>> supports different pixel formats.
->>>
->>> v4l2-compliance 1.23.0-4961, 64 bits, 64-bit time_t
->>> v4l2-compliance SHA: f86484524f32 2022-10-21 10:08:58
->>>
->>> Compliance test for sun50i-di device /dev/video0:
->>>
->>> Driver Info:
->>>         Driver name      : sun50i-di
->>>         Card type        : sun50i-di
->>>         Bus info         : platform:sun50i-di
->>>         Driver version   : 6.1.0
->>>         Capabilities     : 0x84208000
->>>         
->>>                 Video Memory-to-Memory
->>>                 Streaming
->>>                 Extended Pix Format
->>>                 Device Capabilities
->>>         
->>>         Device Caps      : 0x04208000
->>>         
->>>                 Video Memory-to-Memory
->>>                 Streaming
->>>                 Extended Pix Format
->>>
->>> Required ioctls:
->>>         test VIDIOC_QUERYCAP: OK
->>>         test invalid ioctls: OK
->>>
->>> Allow for multiple opens:
->>>         test second /dev/video0 open: OK
->>>         test VIDIOC_QUERYCAP: OK
->>>         test VIDIOC_G/S_PRIORITY: OK
->>>         test for unlimited opens: OK
->>>
->>> Debug ioctls:
->>>         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->>>         test VIDIOC_LOG_STATUS: OK (Not Supported)
->>>
->>> Input ioctls:
->>>         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->>>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->>>         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->>>         test VIDIOC_ENUMAUDIO: OK (Not Supported)
->>>         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->>>         test VIDIOC_G/S_AUDIO: OK (Not Supported)
->>>         Inputs: 0 Audio Inputs: 0 Tuners: 0
->>>
->>> Output ioctls:
->>>         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->>>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->>>         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->>>         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->>>         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->>>         Outputs: 0 Audio Outputs: 0 Modulators: 0
->>>
->>> Input/Output configuration ioctls:
->>>         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->>>         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->>>         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->>>         test VIDIOC_G/S_EDID: OK (Not Supported)
->>>
->>> Control ioctls:
->>>         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
->>>         test VIDIOC_QUERYCTRL: OK (Not Supported)
->>>         test VIDIOC_G/S_CTRL: OK (Not Supported)
->>>         test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
->>>         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
->>>         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->>>         Standard Controls: 0 Private Controls: 0
->>>
->>> Format ioctls:
->>>         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->>>         test VIDIOC_G/S_PARM: OK (Not Supported)
->>>         test VIDIOC_G_FBUF: OK (Not Supported)
->>>         test VIDIOC_G_FMT: OK
->>>         test VIDIOC_TRY_FMT: OK
->>>         test VIDIOC_S_FMT: OK
->>>         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->>>         test Cropping: OK (Not Supported)
->>>         test Composing: OK (Not Supported)
->>>         test Scaling: OK (Not Supported)
->>>
->>> Codec ioctls:
->>>         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->>>         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->>>         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
->>>
->>> Buffer ioctls:
->>>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->>>         test VIDIOC_EXPBUF: OK
->>>         test Requests: OK (Not Supported)
->>>
->>> Total for sun50i-di device /dev/video0: 45, Succeeded: 45, Failed: 0,
->>> Warnings: 0
->>>
->>> Best regards,
->>> Jernej
->>>
->>> Jernej Skrabec (3):
->>>   media: dt-bindings: media: Add Allwinner H6 Deinterlace binding
->>>   media: sunxi: Add H6 deinterlace driver
->>>   arm64: dts: allwinner: h6: Add deinterlace node
->>>  
->>>  .../allwinner,sun50i-h6-deinterlace.yaml      |   74 ++
->>>  MAINTAINERS                                   |    4 +-
->>>  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  |   12 +
->>>  drivers/media/platform/sunxi/Kconfig          |    1 +
->>>  drivers/media/platform/sunxi/Makefile         |    1 +
->>>  .../media/platform/sunxi/sun50i-di/Kconfig    |   15 +
->>>  .../media/platform/sunxi/sun50i-di/Makefile   |    2 +
->>>  .../platform/sunxi/sun50i-di/sun50i-di.c      | 1142 +++++++++++++++++
->>>  .../platform/sunxi/sun50i-di/sun50i-di.h      |  175 +++
->>>  9 files changed, 1425 insertions(+), 1 deletion(-)
->>>  create mode 100644
->>>  Documentation/devicetree/bindings/media/allwinner,sun50i-h6-deinterlace.
->>>  yaml create mode 100644 drivers/media/platform/sunxi/sun50i-di/Kconfig
->>>  create mode 100644 drivers/media/platform/sunxi/sun50i-di/Makefile
->>>  create mode 100644 drivers/media/platform/sunxi/sun50i-di/sun50i-di.c
->>>  create mode 100644 drivers/media/platform/sunxi/sun50i-di/sun50i-di.h
->>>
->>> --
->>> 2.38.1
-> 
-> 
-> 
-> 
+Samuel
 
