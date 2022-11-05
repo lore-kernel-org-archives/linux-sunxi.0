@@ -1,77 +1,95 @@
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1877C
-	for <linux-sunxi@lists.linux.dev>; Sat,  5 Nov 2022 14:08:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=vkJyUHspYVBI8d4xmQXiYhBB25JJbBz5SwbIECTzjwk=; b=PQ/38iArWF2TvY7aq2dDwtCXIE
-	Sy5HUSeJOc4udUGP7IHPwWf2c96y3qM2hMuPgAmPAnXCjpeNIrsSYwH8lfyfN/Nl6oWl+RmLdDtBO
-	+AitpLQIVu0i1L+4o4RQ03RKHmFDtmzeL6RR8o+12jBVNHpmceCtSdAGqkB4QkL5eFcDD85mZGab0
-	VTTyhaaXVk0GJ18x6ZRfFvoqsCFp4W4QnxKjrLhoVSx9BsBiAnLBiWAdw1CZXPH/OaWlztf8qbP+B
-	mbrAEog9/m7vNN6mz72yqDcI54A4GI8k96PH/iZOi7WqRN7wz+xj0wn7O13VXrG2DlzucfAF++FGO
-	Liwq47ZA==;
-Received: from [2a01:799:95a:cb00:a93e:4a2b:2c13:303] (port=51787)
-	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <noralf@tronnes.org>)
-	id 1orJlH-0002wy-7A; Sat, 05 Nov 2022 15:03:03 +0100
-Message-ID: <98526e41-a96f-c0b0-1531-ed7c401e094d@tronnes.org>
-Date: Sat, 5 Nov 2022 15:02:54 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4FAA2591
+	for <linux-sunxi@lists.linux.dev>; Sat,  5 Nov 2022 15:47:33 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id A86EE5C00CE;
+	Sat,  5 Nov 2022 11:47:32 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Sat, 05 Nov 2022 11:47:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1667663252; x=
+	1667749652; bh=YL3S4NenSE4TP/W7I52bjSz//ihpV/zOu8M8yMIxby8=; b=K
+	CxZLqEnCUL6d6FVeTSTNiWXbKRDHliIGrffvTK1TFYZ9aIwYtF+X7FJGdmNCu3T8
+	Qn4oAAVGBicwQNUxnfRd3QsyBgQLMZVYi1K1B4jiQMVsLt+h0B8jSCiKszOzb6oT
+	YV0J5DaKFrrM8Y84h756sN946Nh+BMpQExakfbM/PptrNgX5TyfuunSfOeLcGJGe
+	SkDQTmAGizlhRuQmzHHr2K2uYF+dpYoHtE7Soe9aAcjRe1RrQduE3KCTgrap72IE
+	KZdZUTnQI4UVvG7PtErDk1IljLaDbwJt6xFIt6slBHa9+EScw4sbCqMn6kS9yubx
+	k6uplZecOGxpBpJY/Sxig==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1667663252; x=
+	1667749652; bh=YL3S4NenSE4TP/W7I52bjSz//ihpV/zOu8M8yMIxby8=; b=X
+	FYljsa//xW4pYNZi8si9BEe6iJifS04iuBY0I0NJVmuznM+xSuCMLEXrCd5Sy21N
+	yjgwWeJAvxUApbYFV8WcSucgekxQL4KQ1IQfUYaFstDixZBnLDqHtmbms3foYjmX
+	407GHn4gZNeoYTG9PSwjokr765b0Wg8nGN5JIlr6q/9kJan2C1hIdDWjO0BWIgjm
+	R/xjdQZjcsN+q7TZHvHHlQEvSlaOkQ8s6zUQmVjywnigrvoftqEwe7M2W351iEBw
+	W6XL6tV6dy/Jky3hXQPgr/Wo+jbJzjS1adE9hBJeAw/rZ8jRBnfqAaUiB+siEffN
+	snTCUVbnYjL8RMRARy9Jw==
+X-ME-Sender: <xms:lIVmY022xeGih54dszIt0gDhfWZ9-1mqv-3YX9F7IEiSgj8IPNjY5Q>
+    <xme:lIVmY_Ho6d-pE0DuLoATE7pRYZ0xnsBxnQZljpYlQY3iwbv8qXVpIPjeqlefVjXpt
+    EaN6rjttzMltvzxUA>
+X-ME-Received: <xmr:lIVmY84MbTEOZN6stCVmLyGuoWSup01TmiZ0rdwVWakJLGKxuiHL5bEMW5KCUOTQkhSeZGjUZinckHtgx47_GiDFds5eCq_ATrJaBoykPI_LtMHMPBZghhEBUA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdefgdektdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepkeejleelfeeitdfhtdfgkeeghedufeduueegffdvhfdukeelleef
+    tdetjeehuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:lIVmY93zurtB9kwaf0ek95V1nR36FAmtnkXf7e0KgAbiJcvokUh_4w>
+    <xmx:lIVmY3Enspe_EodxmeDEi8W7oCK9yvLvk3fFDksLkbUEXb9B1l8WrA>
+    <xmx:lIVmY2_tXIGNcj5WtICOOqiNUyMDMk41jt1d0rzGVm7gZGRuojdvfA>
+    <xmx:lIVmY9bE0KsvuVY9LJqtHXh6Fq_OMoo9e8T9m1WAplIr5Zes5BnaPw>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 5 Nov 2022 11:47:31 -0400 (EDT)
+Message-ID: <b0d317ad-9198-94d5-ecaa-78b8066b5168@sholland.org>
+Date: Sat, 5 Nov 2022 10:47:31 -0500
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v6 08/23] drm/modes: Move named modes parsing to a
- separate function
-To: maxime@cerno.tech, Karol Herbst <kherbst@redhat.com>,
- Emma Anholt <emma@anholt.net>, Ben Skeggs <bskeggs@redhat.com>,
- Chen-Yu Tsai <wens@csie.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>,
- Maxime Ripard <mripard@kernel.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Lyude Paul <lyude@redhat.com>
-Cc: linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- nouveau@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-References: <20220728-rpi-analog-tv-properties-v6-0-e7792734108f@cerno.tech>
- <20220728-rpi-analog-tv-properties-v6-8-e7792734108f@cerno.tech>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v6-8-e7792734108f@cerno.tech>
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v2 1/1] arm64: dts: allwinner: a64: enable Bluetooth on
+ Pinebook
+Content-Language: en-US
+To: Bastian Germann <bage@debian.org>
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20221105153319.19345-1-bage@debian.org>
+ <20221105153319.19345-2-bage@debian.org>
+From: Samuel Holland <samuel@sholland.org>
+In-Reply-To: <20221105153319.19345-2-bage@debian.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-
-
-Den 26.10.2022 17.33, skrev maxime@cerno.tech:
-> The current construction of the named mode parsing doesn't allow to extend
-> it easily. Let's move it to a separate function so we can add more
-> parameters and modes.
+On 11/5/22 10:33, Bastian Germann wrote:
+> From: Vasily Khoruzhick <anarsoul@gmail.com>
 > 
-> In order for the tests to still pass, some extra checks are needed, so
-> it's not a 1:1 move.
+> Pinebook has an RTL8723CS WiFi + BT chip. BT is connected to UART1
+> and uses PL5 as device wake GPIO and PL6 as host wake GPIO.
 > 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> Enable it in the device tree.
 > 
+> Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
+> Signed-off-by: Bastian Germann <bage@debian.org>
 > ---
+>  .../boot/dts/allwinner/sun50i-a64-pinebook.dts     | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 
-Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
+Reviewed-by: Samuel Holland <samuel@sholland.org>
+
