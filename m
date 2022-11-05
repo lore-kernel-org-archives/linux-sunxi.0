@@ -1,57 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01CAD1C04
-	for <linux-sunxi@lists.linux.dev>; Sat,  5 Nov 2022 07:46:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32FC6C433C1;
-	Sat,  5 Nov 2022 07:46:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667634376;
-	bh=wgFcLvc3zqe3w819SqLtTNrlQTT04YKIOY22045Euso=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uP9Ca6Mw3C8panymsWSY/f/60Ejzi/O5W0D7lwxIrSGD5hCODpG9sZ0D+WyBZY9f6
-	 a1lBvoLFY9ezPA5GvinGrJduF4+JGbt5P2DP+I6ac0QGOX6Kx87lMdYwa90MCdpecv
-	 WEHNjySWbW/vJjvBHv83v0tOdrXMvgz7d5MlF3Rq+0XZoE3H9fOBLoCOrlmZIuLgjA
-	 PEKR+mvwVGooV+mByLo2MBpj/hi3Vaphxt3WhRPqhm00aACXDv0tqCwWZ5V6J9j9cg
-	 pqx/5TD4rqX5OKAg6OMO1h0jH/e2gCni4dL/4ymqJFHBTYWQGpXJ+7/9hQtzZLToye
-	 XbTnxsxxU8mTw==
-Date: Sat, 5 Nov 2022 13:16:12 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
-	Kishon Vijay Abraham I <kishon@ti.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, Karl Kurbjun <karl.os@veroson.com>,
-	Icenowy Zheng <uwu@icenowy.me>
-Subject: Re: [PATCH v2 4/7] phy: sun4i-usb: Add support for the H616 USB PHY
-Message-ID: <Y2YUxIYa2QAGxX3K@matsya>
-References: <20221031111358.3387297-1-andre.przywara@arm.com>
- <20221031111358.3387297-5-andre.przywara@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DAF11C04
+	for <linux-sunxi@lists.linux.dev>; Sat,  5 Nov 2022 08:23:44 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id f27so18684407eje.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 05 Nov 2022 01:23:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YJEsrI2RcYKv+AHnZIZ0qxK2Wi99cECJ6/sDY1O3rSM=;
+        b=CDg4uTzKh/zb0eg0iBTPFMVxAgC4UYRUzm6ncJTbOFx5UsNVaPv4a0N4a8DJGEk8uV
+         oeyZDc8E3VT5u6SClHcYlHSgTtDVXl54rTOL9m0z99k8AwXG6qwAfAYzyMHviwZ6GfRY
+         6ei0ftn45PoVrbbl+h2Sbiz5ntW1fJ17oMkDxf+c++Vj0EunVs1bwubH7hL2LuyKdu53
+         bxIGUlezZgVOSeAcMoAgp0nBrmY6AMiKnNOpVaOjrHgJQBkcayHerylmFQZ9aSc3xZjx
+         +4f01iDeZmqmrTWtYs+3esW13VkwxvaNUgfCcrZx6QN/XCUGHxTfl4Ddjf6skzU92rTN
+         8xxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YJEsrI2RcYKv+AHnZIZ0qxK2Wi99cECJ6/sDY1O3rSM=;
+        b=1qBOR2qdih9JQp9PPcP3sITuS1xKAZdmWnp5eMGf40xaO+T7y6ODn1EpQPI+xWJWXt
+         0zzpsT05elOS4YrVaB7AHNwzWVaUPuRQbiwm9kSnBsLXs682lDw7Dk55KOz2FfmnFeAD
+         AfgwM3EbgBPrHurhsU86+Xpd0pavTpDiFqBbLk1c0BwZTuZqqcu1Ji1vBUReU91LQsrW
+         eb3LSa8J870SsSDkigi/YnEVHBrcRaEDOkmG1EfqibWpv6uFtOaruPvVmUgGDAK1bQ+n
+         nxWxg7/L3MZZQQAUFvsUqDPFb1i1VjYrHbo9JzN+pr7pqsgENPx5vrk3wiTZsq7kFJ1V
+         I+HQ==
+X-Gm-Message-State: ACrzQf3GImdNMXROfHOlPACv8lSFq9CguqSEdmrSJ/Bo3yfOibCqQYMa
+	ScSUf7w6vCVwPyq6oVJxEX2mTimqGcnWfA==
+X-Google-Smtp-Source: AMsMyM4CI/JJU0ucbmjgTp4wgEtYqB0ru9ngS8PUY0eJbUCY49pdyt9HEuMnTRxfqoFipxJ/exgsAQ==
+X-Received: by 2002:a17:906:5a49:b0:7ad:d063:901a with SMTP id my9-20020a1709065a4900b007add063901amr30754399ejc.323.1667636622411;
+        Sat, 05 Nov 2022 01:23:42 -0700 (PDT)
+Received: from [192.168.1.10] ([46.249.74.23])
+        by smtp.googlemail.com with ESMTPSA id k8-20020a1709062a4800b007ad9c826d75sm617311eje.61.2022.11.05.01.23.41
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 05 Nov 2022 01:23:41 -0700 (PDT)
+Subject: Re: [BISECTED] Allwinner A33 tablet does not fully power off
+To: Samuel Holland <samuel@sholland.org>, wens@csie.org
+Cc: mripard@kernel.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Merlijn Wajer <merlijn@wizzup.org>
+References: <9f8a0fc3-1d9a-b271-3c26-4f7373b8a3e9@gmail.com>
+ <214ed3e0-5959-8fa7-8d66-196e33112cb0@sholland.org>
+From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Message-ID: <a68b44f5-fd04-4dbe-0782-1d761c42ce3f@gmail.com>
+Date: Sat, 5 Nov 2022 10:23:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Firefox/60.0 Thunderbird/60.6.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221031111358.3387297-5-andre.przywara@arm.com>
+In-Reply-To: <214ed3e0-5959-8fa7-8d66-196e33112cb0@sholland.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 
-On 31-10-22, 11:13, Andre Przywara wrote:
-> The USB PHY used in the Allwinner H616 SoC inherits some traits from its
-> various predecessors: it has four full PHYs like the H3, needs some
-> extra bits to be set like the H6, and puts SIDDQ on a different bit like
-> the A100. Plus it needs this weird PHY2 quirk.
+Hi Samuel,
+
+On 5.11.22 г. 4:21 ч., Samuel Holland wrote:
+> Hi Ivo,
 > 
-> Name all those properties in a new config struct and assign a new
-> compatible name to it.
+> On 10/29/22 10:23, Ivaylo Dimitrov wrote:
+>> After commit 843107498f91e57d1d4b22cd8787112726fdaeb4 (bus: sunxi-rsb:
+>> Implement suspend/resume/shutdown callbacks) Q8 A33 tablet I have here
+>> cannot be powered-on after power-off, it needs press-and-hold of the
+>> power button for 10 seconds (I guess some HW assisted power down
+>> happens) before it can be powered-on again.
+>>
+>> The following patch makes it behave correctly:
+>>
+>> diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
+>> index 60b082fe2ed0..30016d62044c 100644
+>> --- a/drivers/bus/sunxi-rsb.c
+>> +++ b/drivers/bus/sunxi-rsb.c
+>> @@ -818,10 +818,7 @@ static int sunxi_rsb_remove(struct platform_device
+>> *pdev)
+>>
+>>   static void sunxi_rsb_shutdown(struct platform_device *pdev)
+>>   {
+>> -       struct sunxi_rsb *rsb = platform_get_drvdata(pdev);
+>> -
+>>          pm_runtime_disable(&pdev->dev);
+>> -       sunxi_rsb_hw_exit(rsb);
+>>   }
+>>
+>>   static const struct dev_pm_ops sunxi_rsb_dev_pm_ops = {
+>>
+>>
+>> I guess the issue comes from the fact that by the time 'power off'
+>> command to the power management IC has to be send, the bus it lives on
+>> is already down, so the device is left in semi-powered down state. Ofc
+>> this is a wild guess, however, preventing the bus being turned off on
+>> shutdown fixes the issue.
+> 
+> Your guess is correct. The controller gets shut down in
+> 
+>    kernel_power_off()
+>      kernel_shutdown_prepare()
+>        device_shutdown()
+> 
+> but the PMIC communication needs to happen later in
+> 
+>    kernel_power_off()
+>      machine_power_off()
+>        pm_power_off()
+> 
+>> Please LMK if the above is the correct approach so I will send a proper
+>> patch or something else shall be fixed.
+> 
+> Yes, this is exactly the right approach. The whole sunxi_rsb_shutdown()
 
-Applied, thanks
+Don't we need pm_runtime_disable() on shutdown? As IIUC, the controller 
+might be suspended and we have to resume it to put it in state to accept 
+commands later on(in pm_power_off()).
 
--- 
-~Vinod
+Regards,
+Ivo
+
+> function should be removed. When you send a patch, please add a Fixes:
+> tag referencing the commit that you bisected to.
+> 
+> Regards,
+> Samuel
+> 
