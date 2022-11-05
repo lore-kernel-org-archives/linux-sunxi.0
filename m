@@ -1,207 +1,77 @@
-Received: from aposti.net (aposti.net [89.234.176.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4104410F2
-	for <linux-sunxi@lists.linux.dev>; Sat,  5 Nov 2022 10:34:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1667644455; h=from:from:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TDaskHbQLkzLxZhbc0A77T82ys2sKHjzGtgSbl/eTqE=;
-	b=3fY3IZ0hJPiRN8vNazn9bcQMqR2JrjTIi9AXqwxwIe42aFOkSxs8/LodJeR17HX6gwP6nU
-	mZNm0vTVRbGLApx4Wl/flL8cOh+VgCBw+PxQes5goKWi15jShjtTx3YJEDgMNwV2KlXCJe
-	TCPPbMNaz+6Yvnpx7NfiTwQwJoNtT18=
-Date: Sat, 05 Nov 2022 10:33:54 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 56/65] clk: ingenic: cgu: Switch to determine_rate
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Stephen Boyd <sboyd@kernel.org>, Maxime Coquelin
-	<mcoquelin.stm32@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Daniel Vetter
-	<daniel@ffwll.ch>, Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Thierry Reding <thierry.reding@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Claudiu Beznea
-	<claudiu.beznea@microchip.com>, Michael Turquette <mturquette@baylibre.com>,
-	Dinh Nguyen <dinguyen@kernel.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>, Andreas =?iso-8859-1?q?F=E4rber?=
-	<afaerber@suse.de>, Jonathan Hunter <jonathanh@nvidia.com>, Abel Vesa
-	<abelvesa@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Alessandro Zummo <a.zummo@towertech.it>, Peter De Schrijver
-	<pdeschrijver@nvidia.com>, Orson Zhai <orsonzhai@gmail.com>, Alexandre Torgue
-	<alexandre.torgue@foss.st.com>, Prashant Gaikwad <pgaikwad@nvidia.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Alexandre Belloni
-	<alexandre.belloni@bootlin.com>, Samuel Holland <samuel@sholland.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>, Richard Fitzgerald
-	<rf@opensource.cirrus.com>, Vinod Koul <vkoul@kernel.org>, NXP Linux Team
-	<linux-imx@nxp.com>, Sekhar Nori <nsekhar@ti.com>, Kishon Vijay Abraham I
-	<kishon@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, Takashi Iwai
-	<tiwai@suse.com>, David Airlie <airlied@gmail.com>, Luca Ceresoli
-	<luca.ceresoli@bootlin.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Baolin Wang
-	<baolin.wang@linux.alibaba.com>, David Lechner <david@lechnology.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>, Mark Brown <broonie@kernel.org>,
-	Max Filippov <jcmvbkbc@gmail.com>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, linux-stm32@st-md-mailman.stormreply.com,
-	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
-	linux-phy@lists.infradead.org, linux-mips@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-actions@lists.infradead.org,
-	linux-clk@vger.kernel.org, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, patches@opensource.cirrus.com,
-	linux-tegra@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-Id: <IOEVKR.TWFKJND2FJ473@crapouillou.net>
-In-Reply-To: <20221104145946.orsyrhiqvypisl5j@houat>
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
-	<20221018-clk-range-checks-fixes-v2-56-f6736dec138e@cerno.tech>
-	<80VTKR.CE8RVN8M3ZYK3@crapouillou.net>
-	<20221104145946.orsyrhiqvypisl5j@houat>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00BC7C
+	for <linux-sunxi@lists.linux.dev>; Sat,  5 Nov 2022 14:06:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=SgVbqsGWQMafK0LVDGEHH3CM2p+1II+1VUtKulxdtl8=; b=kyLI/V8qkDoyqrVNJkIykEeCkK
+	fdLAAIX8ylRKYcarUzgvVCiI1ngOS2TAc0IJ2W/aX5Xm7EsUinW9TyQq3G9gBM254DQkqWZRYYAab
+	f0Ihr62/4R73qcp1Raz0gBy4mdIHQtCQy2Ao5pK8SnWXOd6FUDIn7v/i0Mm9IMifEsEWAEzL+w6N8
+	yLmvKTqUMMQB1WW/qEkN0rKkZdiZeyQwPH4xl8eOkCN16yXEF16o5IJ8wF2g21akAwWSIsGyIvgUC
+	rIokNcssbf/DIbiUOI7bfYGFO2uX0jB2vX7BFPsp2OrMBU1qJQ3cpNhXGUjW7Lu3LjDDCCTHT142Q
+	CTULboqA==;
+Received: from [2a01:799:95a:cb00:a93e:4a2b:2c13:303] (port=51870)
+	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <noralf@tronnes.org>)
+	id 1orJoC-00050z-Pq; Sat, 05 Nov 2022 15:06:04 +0100
+Message-ID: <7694ab01-b85a-4c2d-ec71-2a5ed9ddddf8@tronnes.org>
+Date: Sat, 5 Nov 2022 15:06:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
-
-Hi Maxime,
-
-Le ven. 4 nov. 2022 =E0 15:59:46 +0100, Maxime Ripard=20
-<maxime@cerno.tech> a =E9crit :
-> Hi Paul,
->=20
-> On Fri, Nov 04, 2022 at 02:31:20PM +0000, Paul Cercueil wrote:
->>  Le ven. 4 nov. 2022 =E0 14:18:13 +0100, Maxime Ripard=20
->> <maxime@cerno.tech> a
->>  =E9crit :
->>  > The Ingenic CGU clocks implements a mux with a set_parent hook,=20
->> but
->>  > doesn't provide a determine_rate implementation.
->>  >
->>  > This is a bit odd, since set_parent() is there to, as its name=20
->> implies,
->>  > change the parent of a clock. However, the most likely candidate=20
->> to
->>  > trigger that parent change is a call to clk_set_rate(), with
->>  > determine_rate() figuring out which parent is the best suited for=20
->> a
->>  > given rate.
->>  >
->>  > The other trigger would be a call to clk_set_parent(), but it's=20
->> far less
->>  > used, and it doesn't look like there's any obvious user for that=20
->> clock.
->>  >
->>  > So, the set_parent hook is effectively unused, possibly because=20
->> of an
->>  > oversight. However, it could also be an explicit decision by the
->>  > original author to avoid any reparenting but through an explicit=20
->> call to
->>  > clk_set_parent().
->>  >
->>  > The driver does implement round_rate() though, which means that=20
->> we can
->>  > change the rate of the clock, but we will never get to change the
->>  > parent.
->>  >
->>  > However, It's hard to tell whether it's been done on purpose or=20
->> not.
->>  >
->>  > Since we'll start mandating a determine_rate() implementation,=20
->> let's
->>  > convert the round_rate() implementation to a determine_rate(),=20
->> which
->>  > will also make the current behavior explicit. And if it was an
->>  > oversight, the clock behaviour can be adjusted later on.
->>=20
->>  So it's partly on purpose, partly because I didn't know about
->>  .determine_rate.
->>=20
->>  There's nothing odd about having a lonely .set_parent callback; in=20
->> my case
->>  the clocks are parented from the device tree.
->>=20
->>  Having the clocks driver trigger a parent change when requesting a=20
->> rate
->>  change sounds very dangerous, IMHO. My MMC controller can be=20
->> parented to the
->>  external 48 MHz oscillator, and if the card requests 50 MHz, it=20
->> could switch
->>  to one of the PLLs. That works as long as the PLLs don't change=20
->> rate, but if
->>  one is configured as driving the CPU clock, it becomes messy.
->>  The thing is, the clocks driver has no way to know whether or not=20
->> it is
->>  "safe" to use a designated parent.
->>=20
->>  For that reason, in practice, I never actually want to have a clock
->>  re-parented - it's almost always a bad idea vs. sticking to the=20
->> parent clock
->>  configured in the DTS.
->=20
-> Yeah, and this is totally fine. But we need to be explicit about it.=20
-> The
-> determine_rate implementation I did in all the patches is an exact
-> equivalent to the round_rate one if there was one. We will never ask=20
-> to
-> change the parent.
->=20
-> Given what you just said, I would suggest to set the
-> CLK_SET_RATE_NO_REPARENT flag as well.
-
-But that would introduce policy into the driver... The fact that I=20
-don't want the MMC parented to the PLLs, doesn't mean that it's an=20
-invalid configuration per se.
-
-Cheers,
--Paul
-
->>=20
->>  > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->>  > ---
->>  >  drivers/clk/ingenic/cgu.c | 15 ++++++++-------
->>  >  1 file changed, 8 insertions(+), 7 deletions(-)
->>  >
->>  > diff --git a/drivers/clk/ingenic/cgu.c b/drivers/clk/ingenic/cgu.c
->>  > index 1f7ba30f5a1b..0c9c8344ad11 100644
->>  > --- a/drivers/clk/ingenic/cgu.c
->>  > +++ b/drivers/clk/ingenic/cgu.c
->>  > @@ -491,22 +491,23 @@ ingenic_clk_calc_div(struct clk_hw *hw,
->>  >  	return div;
->>  >  }
->>  >
->>  > -static long
->>  > -ingenic_clk_round_rate(struct clk_hw *hw, unsigned long req_rate,
->>  > -		       unsigned long *parent_rate)
->>  > +static int ingenic_clk_determine_rate(struct clk_hw *hw,
->>  > +				      struct clk_rate_request *req)
->>  >  {
->>  >  	struct ingenic_clk *ingenic_clk =3D to_ingenic_clk(hw);
->>  >  	const struct ingenic_cgu_clk_info *clk_info =3D
->>  > to_clk_info(ingenic_clk);
->>  >  	unsigned int div =3D 1;
->>  >
->>  >  	if (clk_info->type & CGU_CLK_DIV)
->>  > -		div =3D ingenic_clk_calc_div(hw, clk_info, *parent_rate,=20
->> req_rate);
->>  > +		div =3D ingenic_clk_calc_div(hw, clk_info, req->best_parent_rate,
->>  > +					   req->rate);
->>=20
->>  Sorry but I'm not sure that this works.
->>=20
->>  You replace the "parent_rate" with the "best_parent_rate", and that=20
->> means
->>  you only check the requested rate vs. the parent with the highest=20
->> frequency,
->>  and not vs. the actual parent that will be used.
->=20
-> best_parent_rate is initialized to the current parent rate, not the
-> parent with the highest frequency:
-> https://elixir.bootlin.com/linux/v6.1-rc3/source/drivers/clk/clk.c#L1471
->=20
-> Maxime
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v6 09/23] drm/modes: Switch to named mode descriptors
+To: maxime@cerno.tech, Karol Herbst <kherbst@redhat.com>,
+ Emma Anholt <emma@anholt.net>, Ben Skeggs <bskeggs@redhat.com>,
+ Chen-Yu Tsai <wens@csie.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>,
+ Maxime Ripard <mripard@kernel.org>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>
+Cc: linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
+ nouveau@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+References: <20220728-rpi-analog-tv-properties-v6-0-e7792734108f@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v6-9-e7792734108f@cerno.tech>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v6-9-e7792734108f@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
+
+Den 26.10.2022 17.33, skrev maxime@cerno.tech:
+> The current named mode parsing relies only the mode name, and doesn't allow
+
+only the -> only on the
+
+> to specify any other parameter.
+> 
+> Let's convert that string list to an array of a custom structure that will
+> hold the name and some additional parameters in the future.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+
+Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
