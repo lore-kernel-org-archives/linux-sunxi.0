@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB938291E
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Nov 2022 15:50:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F45D29A9
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Nov 2022 15:50:11 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7149213D5;
-	Sun,  6 Nov 2022 07:50:16 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 75786ED1;
+	Sun,  6 Nov 2022 07:50:11 -0800 (PST)
 Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B09CC3F534;
-	Sun,  6 Nov 2022 07:50:07 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 515233F534;
+	Sun,  6 Nov 2022 07:50:03 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Chen-Yu Tsai <wens@csie.org>,
 	Samuel Holland <samuel@sholland.org>,
@@ -20,10 +20,11 @@ Cc: soc@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-phy@lists.infradead.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH v3 04/11] musb: sunxi: add support for the F1C100s MUSB controller
-Date: Sun,  6 Nov 2022 15:48:19 +0000
-Message-Id: <20221106154826.6687-5-andre.przywara@arm.com>
+	linux-usb@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v3 02/11] dt-bindings: usb: sunxi-musb: add F1C100s MUSB compatible string
+Date: Sun,  6 Nov 2022 15:48:17 +0000
+Message-Id: <20221106154826.6687-3-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.5
 In-Reply-To: <20221106154826.6687-1-andre.przywara@arm.com>
 References: <20221106154826.6687-1-andre.przywara@arm.com>
@@ -37,50 +38,30 @@ Content-Transfer-Encoding: 8bit
 
 From: Icenowy Zheng <uwu@icenowy.me>
 
-The suniv SoC has a MUSB controller like the one in A33, but with a SRAM
-region to be claimed.
+Allwinner F1C100s has a hybrid MUSB controller between the A10 one and
+the A33 one.
 
-Add support for it.
+Add a compatible string for it.
 
 Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- drivers/usb/musb/sunxi.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ .../devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml        | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
-index 7f9a999cd5ff..4b368d16a73a 100644
---- a/drivers/usb/musb/sunxi.c
-+++ b/drivers/usb/musb/sunxi.c
-@@ -722,14 +722,17 @@ static int sunxi_musb_probe(struct platform_device *pdev)
- 	INIT_WORK(&glue->work, sunxi_musb_work);
- 	glue->host_nb.notifier_call = sunxi_musb_host_notifier;
- 
--	if (of_device_is_compatible(np, "allwinner,sun4i-a10-musb"))
-+	if (of_device_is_compatible(np, "allwinner,sun4i-a10-musb") ||
-+	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
- 		set_bit(SUNXI_MUSB_FL_HAS_SRAM, &glue->flags);
-+	}
- 
- 	if (of_device_is_compatible(np, "allwinner,sun6i-a31-musb"))
- 		set_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags);
- 
- 	if (of_device_is_compatible(np, "allwinner,sun8i-a33-musb") ||
--	    of_device_is_compatible(np, "allwinner,sun8i-h3-musb")) {
-+	    of_device_is_compatible(np, "allwinner,sun8i-h3-musb") ||
-+	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
- 		set_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags);
- 		set_bit(SUNXI_MUSB_FL_NO_CONFIGDATA, &glue->flags);
- 	}
-@@ -815,6 +818,7 @@ static const struct of_device_id sunxi_musb_match[] = {
- 	{ .compatible = "allwinner,sun6i-a31-musb", },
- 	{ .compatible = "allwinner,sun8i-a33-musb", },
- 	{ .compatible = "allwinner,sun8i-h3-musb", },
-+	{ .compatible = "allwinner,suniv-f1c100s-musb", },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, sunxi_musb_match);
+diff --git a/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml b/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
+index 8992eff6ce38..9ae634280bf4 100644
+--- a/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
++++ b/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
+@@ -17,6 +17,7 @@ properties:
+       - const: allwinner,sun6i-a31-musb
+       - const: allwinner,sun8i-a33-musb
+       - const: allwinner,sun8i-h3-musb
++      - const: allwinner,suniv-f1c100s-musb
+       - items:
+           - enum:
+               - allwinner,sun8i-a83t-musb
 -- 
 2.35.5
 
