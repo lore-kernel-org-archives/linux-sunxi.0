@@ -1,99 +1,120 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F223E7F
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Nov 2022 07:56:32 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id 21so13233667edv.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 06 Nov 2022 00:56:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354E07F
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Nov 2022 07:59:44 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id n12so22869730eja.11
+        for <linux-sunxi@lists.linux.dev>; Sun, 06 Nov 2022 00:59:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Gkzrt0tLXNTRfLm2uFzAkX1Avhsv5RXjjNb/2WJUlik=;
-        b=DzrsiMeD6vgcQ6q/Fpth37UDork/jbuMdZxdFqi/9C+/66NmeFCXM19niKP92lHRck
-         LhiBjSj8zFFV0sGQk7oVq1MTzhbRaZYJACRyTF0EfQxVZvfjndJYAF/FtkCAUC3X4ols
-         DGI0+Z/BCOp1q0K00/Ps75MnolbSCs2QBYY9MDOLQcoUWyY7mavUCtVQP2BXMIh+9fIJ
-         E+F4nx2VwRRNvqCsUySYmsikfkkRK1//HhaFLtIP411hu2CsI9q180fm7/Uq2qfW+TSQ
-         K4mmflomiQTLnwrbO2uDDevf24nxsftByKhnmLFbzGwVsDXYNFgoye4vxXNYJ26aHdwo
-         NZCQ==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vEl0YoVvN1GJsGvoYdE/zZMGJkQaLgmsjIXP9qXuCAI=;
+        b=LJzK8R9MUBPh/lnWgwkcDa8XwTsRsmarGIFD4QbFRjb7bL6Oec4dgApvBOiv9zBe8K
+         xt6NRbv0M48x0P5ckgtoYUPuQFfO7/k9Aa9IVjoy8aZMudQuCrzW3Erz/cLbqjrBlS4p
+         7tumT/IdYLBktwlzgbfk2O9mq6zsEfjeBt8VNRnqtqhJXdzCd3nmh05n1/3YZNLEAJGe
+         TjNSfEU8qpuWEKtEL3838hnhxYIYQ8i7mPSNEpow+E5jVLLGp8Kc+9WZsJR8HOY/3iB6
+         cSIaGGTgESMdLUga3mQZ+FNBvEzX2UQr2banbAi1poNGRDyTrlLwGNl0yS3uPC9MK4N/
+         FhbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Gkzrt0tLXNTRfLm2uFzAkX1Avhsv5RXjjNb/2WJUlik=;
-        b=azY9HeONaFzAWGiYCLiiTSJcjompGWYrEV7W8snbKoVKbP3tI+3dO81N9ttzqtv+hn
-         bxqEooUafuOgx19bcEyjUpAHxLBsPALsQOCLjYpfyoTGsSjWBOfrj5VsHtt09H1c9uLc
-         sGldC5owXZ6bdCaBeHzFrYAUwNA/zlGsSemQy5VkDGSY/3sRAVEde83G88e73HRytQM7
-         pRDcAdVUvwRLkP/t3bfrjKb4Ikv/yltykJLY84lUycCjnXE2dgMLrD+Fe2W0M/haIPtp
-         Y5lSv1JT1PwVzdhfNu0ZwRFo6Lu6SI2dJIUkPFAaNh143ssSAxaG0erfBh1rWmQzv/Ox
-         iG8A==
-X-Gm-Message-State: ACrzQf2cob3P7VGptVTtcKf1ibFHWmjEWNz042UA7PauxvQMmauzoh2d
-	r1gITMPBv5Qatq/dgI3s3tM=
-X-Google-Smtp-Source: AMsMyM7ak3tVRHLrcWvyw7Y3Cy7kh+ed4+8e2QUjoi4nw9UBbYSQ8Whe88vZGzla2/4KcXfkgTYFVQ==
-X-Received: by 2002:aa7:dcd5:0:b0:461:5fad:4215 with SMTP id w21-20020aa7dcd5000000b004615fad4215mr45981851edu.332.1667721391260;
-        Sun, 06 Nov 2022 00:56:31 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id s8-20020a056402164800b004642b35f89esm2301685edx.9.2022.11.06.00.56.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Nov 2022 00:56:30 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Icenowy Zheng <uwu@icenowy.me>, Thierry Reding <thierry.reding@gmail.com>, Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH 2/9] ARM: dts: suniv: f1c100s: add PWM node
-Date: Sun, 06 Nov 2022 08:56:29 +0100
-Message-ID: <8176089.NyiUUSuA9g@jernej-laptop>
-In-Reply-To: <20221101141658.3631342-3-andre.przywara@arm.com>
-References: <20221101141658.3631342-1-andre.przywara@arm.com> <20221101141658.3631342-3-andre.przywara@arm.com>
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vEl0YoVvN1GJsGvoYdE/zZMGJkQaLgmsjIXP9qXuCAI=;
+        b=vEvscY1ACSr2mLUhwkFzbTYw2Ns1bd70M+8EBYOMjPzFDgds0igb3CxNwk2til2ksj
+         NmaLy17RaAhwHpd+HlX2MeMtQQb4D5IhMNFbzg9Errfg4nSzf1W0SA8sQ9lXNU/R0ZMQ
+         zlrQ5iGY1zOWOewk018cOE8ja8estuObj14JkgVP0oxQDKCTFQsyC3EqNGC79xkVyCmA
+         D4eXBLIbLpq0/L7tBd8ahJFZ5keibQ9n6TxUfDc9dJ1sBlM6qXqNfjCHHVYmYW8WluHk
+         VtpAs6sgJM1cXXbaeQhJENwx7BkqytAjxQskT5VWZ+EERSbinw3LP+gC40YCEzdOeaEB
+         o6/g==
+X-Gm-Message-State: ACrzQf1aaKX1jn3aV5DzdrLazvTdQxXWNabFDaF1kH2m+/u+BhuxoGx3
+	ggAbVUV/u8ft3XxWwMe3LBstpqsr5Ts=
+X-Google-Smtp-Source: AMsMyM6O8l3UwemZ6wmmPkcNymeefDRnN36hQtQGDJEp6CVOsyOnHCh4Mv6ioFI0PF5X1nuZ2loqBg==
+X-Received: by 2002:a17:907:708:b0:77e:ff47:34b1 with SMTP id xb8-20020a170907070800b0077eff4734b1mr39640765ejb.493.1667721582364;
+        Sun, 06 Nov 2022 00:59:42 -0700 (PDT)
+Received: from [192.168.1.10] ([46.249.74.23])
+        by smtp.googlemail.com with ESMTPSA id en6-20020a056402528600b0044e937ddcabsm2280859edb.77.2022.11.06.00.59.41
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 06 Nov 2022 00:59:41 -0700 (PDT)
+Subject: Re: [PATCH 1/2] bus: sunxi-rsb: Remove shutdown callback
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20221105191954.14360-1-samuel@sholland.org>
+ <20221105191954.14360-2-samuel@sholland.org>
+ <2652299.mvXUDI8C0e@jernej-laptop>
+From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Message-ID: <7a1bd36c-87c1-16ab-65a6-8d104489d84b@gmail.com>
+Date: Sun, 6 Nov 2022 09:59:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Firefox/60.0 Thunderbird/60.6.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <2652299.mvXUDI8C0e@jernej-laptop>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 
-Dne torek, 01. november 2022 ob 15:16:51 CET je Andre Przywara napisal(a):
-> The Allwinner F1C100s family of SoCs contain a PWM controller compatible
-> to the one used in the A20 chip.
-> Add the DT node so that any users can simply enable it in their board
-> DT.
+On 5.11.22 г. 21:29 ч., Jernej Škrabec wrote:
+> Dne sobota, 05. november 2022 ob 20:19:52 CET je Samuel Holland napisal(a):
+>> Shutting down the RSB controller prevents communicating with a PMIC
+>> inside pm_power_off(), so it breaks system poweroff on some boards.
+>>
+>> Reported-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+>> Fixes: 843107498f91 ("bus: sunxi-rsb: Implement suspend/resume/shutdown
+>> callbacks") Signed-off-by: Samuel Holland <samuel@sholland.org>
 > 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  arch/arm/boot/dts/suniv-f1c100s.dtsi | 9 +++++++++
->  1 file changed, 9 insertions(+)
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > 
-> diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi
-> b/arch/arm/boot/dts/suniv-f1c100s.dtsi index 0edc1724407b3..d5a6324e76465
-> 100644
-> --- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
-> +++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-> @@ -192,6 +192,15 @@ wdt: watchdog@1c20ca0 {
->  			clocks = <&osc32k>;
->  		};
+
+Tested-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+
+Thanks,
+Ivo
+
+> Best regards,
+> Jernej
 > 
-> +		pwm: pwm@1c21000 {
-> +			compatible = "allwinner,suniv-f1c100s-pwm",
-> +				     "allwinner,sun7i-a20-pwm";
-> +			reg = <0x01c21000 0xc>;
-
-According to documentation, size is 0x400.
-
-Best regards,
-Jernej
-
-> +			clocks = <&osc24M>;
-> +			#pwm-cells = <3>;
-> +			status = "disabled";
-> +		};
-> +
->  		uart0: serial@1c25000 {
->  			compatible = "snps,dw-apb-uart";
->  			reg = <0x01c25000 0x400>;
-
-
-
-
+>> ---
+>>
+>>   drivers/bus/sunxi-rsb.c | 9 ---------
+>>   1 file changed, 9 deletions(-)
+>>
+>> diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
+>> index 4cd2e127946e..17343cd75338 100644
+>> --- a/drivers/bus/sunxi-rsb.c
+>> +++ b/drivers/bus/sunxi-rsb.c
+>> @@ -812,14 +812,6 @@ static int sunxi_rsb_remove(struct platform_device
+>> *pdev) return 0;
+>>   }
+>>
+>> -static void sunxi_rsb_shutdown(struct platform_device *pdev)
+>> -{
+>> -	struct sunxi_rsb *rsb = platform_get_drvdata(pdev);
+>> -
+>> -	pm_runtime_disable(&pdev->dev);
+>> -	sunxi_rsb_hw_exit(rsb);
+>> -}
+>> -
+>>   static const struct dev_pm_ops sunxi_rsb_dev_pm_ops = {
+>>   	SET_RUNTIME_PM_OPS(sunxi_rsb_runtime_suspend,
+>>   			   sunxi_rsb_runtime_resume, NULL)
+>> @@ -835,7 +827,6 @@ MODULE_DEVICE_TABLE(of, sunxi_rsb_of_match_table);
+>>   static struct platform_driver sunxi_rsb_driver = {
+>>   	.probe = sunxi_rsb_probe,
+>>   	.remove	= sunxi_rsb_remove,
+>> -	.shutdown = sunxi_rsb_shutdown,
+>>   	.driver	= {
+>>   		.name = RSB_CTRL_NAME,
+>>   		.of_match_table = sunxi_rsb_of_match_table,
+> 
+> 
+> 
+> 
