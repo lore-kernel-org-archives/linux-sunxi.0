@@ -1,286 +1,250 @@
-Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626FC2CA4
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Nov 2022 15:55:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1667750097; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=XNiv+CF7+Vs1rdY6a6EuF+1eJnqZQK/qGbQelTOrSa0EUkFwCTkmRX0D10G83loms2xu0CdspPkwCWlxDDZ38KQwGOv55kvu3znSn8merlJwJnqxULgGQqhIJWRHvwerjwa1W12XdXMsNgCeHvtWuVtnU6Ii5ShAHn7RHMYv/N4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1667750097; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=y6fXoKKrDJIOduh8b2eg9tngV6yDXgIm+yDwzoQwtGg=; 
-	b=BHQGPW3Xay8ZQLy2KJEFTVjcRtXabnSO4cPlHkdTUwsv0Vt2k8piEq2HO2YFP3K050MAoBNvovYsJeImoDN3tMJW8F9pgQuIoGn5XIOde0Y1kgT4ttw7vZ5YmcG3RdJexCxtpiHNqJgqPwZiczHeD4DBe85A8oHDQIaXq8T7kng=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1667750097;
-	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
-	h=Date:Date:From:From:To:To:CC:Subject:Subject:In-Reply-To:References:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
-	bh=y6fXoKKrDJIOduh8b2eg9tngV6yDXgIm+yDwzoQwtGg=;
-	b=UXoiLHPi/gNN/lNsmmC93LqgNGqppYri8Y/CN4nyVcc3bWSaSyHRtuzPQI1xSa3q
-	EE8KlC5ulke76X2rqIgoHat01cbMXpy2CAUmpT9eNq2hhGQmuvIVc2c5NF6yE3pwIiE
-	e58n3VXcGhvh8OlZ0rwq84G9yRUel8jUKCxiqFMY=
-Received: from [127.0.0.1] (112.94.102.138 [112.94.102.138]) by mx.zohomail.com
-	with SMTPS id 1667750094773943.5610305071772; Sun, 6 Nov 2022 07:54:54 -0800 (PST)
-Date: Sun, 06 Nov 2022 23:54:46 +0800
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: soc@kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
- Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_10/11=5D_phy=3A_sun4i-usb=3A_R?= =?US-ASCII?Q?eplace_types_with_explicit_quirk_flags?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20221106154826.6687-11-andre.przywara@arm.com>
-References: <20221106154826.6687-1-andre.przywara@arm.com> <20221106154826.6687-11-andre.przywara@arm.com>
-Message-ID: <D8382138-8943-46F7-B6A6-F83DF98E26AE@icenowy.me>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E3A1FA7
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Nov 2022 16:34:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=QvIoHrgTbnCEFp2E+kqwZys718brKkUvKx2E8FVdXAU=; b=R0x9zXTEOsbViJfXz+FCNC4vM3
+	uFqtwGLxzOd05dS01ItMXMP1PPK45WYw0O3lAe0JvWH4jhQd5w7yknQd5EMIzdRq4pWLf0sLQXd3n
+	JfW+NRF49EsvmwA1jx8HJELNOcqT2nm9zpgUEpsEaro8rbYSf1gY+OqXYUpLms78UlIC6lFvBuMgh
+	9Vxf31BusF+P5+REG7+8UaSW79q1f9bhf8pGPyT3npoch3IMrFxnuBTyN0BDmNSjdIRhJCbuUOA6q
+	/qpAcBNRJyyNF7XLQFEQ/iE8RbIs5xs094+4T8TWzq+HX/IXWpVBiVlAZ2oiQOaMQNRubMHGbVgdN
+	ZHDbPCNA==;
+Received: from [2a01:799:95a:cb00:fd97:29ff:d72a:349e] (port=50711)
+	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <noralf@tronnes.org>)
+	id 1oriap-0005uQ-6b; Sun, 06 Nov 2022 17:33:55 +0100
+Message-ID: <842076aa-8d7c-96d6-ba46-d0e66dacd2df@tronnes.org>
+Date: Sun, 6 Nov 2022 17:33:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-ZohoMailClient: External
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v6 16/23] drm/probe-helper: Provide a TV get_modes helper
+To: maxime@cerno.tech, Karol Herbst <kherbst@redhat.com>,
+ Emma Anholt <emma@anholt.net>, Ben Skeggs <bskeggs@redhat.com>,
+ Chen-Yu Tsai <wens@csie.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>,
+ Maxime Ripard <mripard@kernel.org>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>
+Cc: linux-sunxi@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
+ nouveau@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+References: <20220728-rpi-analog-tv-properties-v6-0-e7792734108f@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v6-16-e7792734108f@cerno.tech>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v6-16-e7792734108f@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
 
-=E4=BA=8E 2022=E5=B9=B411=E6=9C=886=E6=97=A5 GMT+08:00 =E4=B8=8B=E5=8D=881=
-1:48:25, Andre Przywara <andre=2Eprzywara@arm=2Ecom> =E5=86=99=E5=88=B0:
->So far we were assigning some crude "type" (SoC name, really) to each
->Allwinner USB PHY model, then guarding certain quirks based on this=2E
->This does not only look weird, but gets more or more cumbersome to
->maintain=2E
->
->Remove the bogus type names altogether, instead introduce flags for each
->quirk, and explicitly check for them=2E
->This improves readability, and simplifies future extensions=2E
->
->Signed-off-by: Andre Przywara <andre=2Eprzywara@arm=2Ecom>
->---
-> drivers/phy/allwinner/phy-sun4i-usb=2Ec | 50 ++++++++-------------------
-> 1 file changed, 15 insertions(+), 35 deletions(-)
->
->diff --git a/drivers/phy/allwinner/phy-sun4i-usb=2Ec b/drivers/phy/allwin=
-ner/phy-sun4i-usb=2Ec
->index 51fb24c6dcb3=2E=2E422129c66282 100644
->--- a/drivers/phy/allwinner/phy-sun4i-usb=2Ec
->+++ b/drivers/phy/allwinner/phy-sun4i-usb=2Ec
->@@ -99,27 +99,17 @@
-> #define DEBOUNCE_TIME			msecs_to_jiffies(50)
-> #define POLL_TIME			msecs_to_jiffies(250)
->=20
->-enum sun4i_usb_phy_type {
->-	sun4i_a10_phy,
->-	sun6i_a31_phy,
->-	sun8i_a33_phy,
->-	sun8i_a83t_phy,
->-	sun8i_h3_phy,
->-	sun8i_r40_phy,
->-	sun8i_v3s_phy,
->-	sun50i_a64_phy,
->-	sun50i_h6_phy,
->-};
->-
-> struct sun4i_usb_phy_cfg {
-> 	int num_phys;
-> 	int hsic_index;
->-	enum sun4i_usb_phy_type type;
-> 	u32 disc_thresh;
-> 	u32 hci_phy_ctl_clear;
-> 	u8 phyctl_offset;
-> 	bool dedicated_clocks;
-> 	bool phy0_dual_route;
->+	bool phy2_is_hsic;
+Den 26.10.2022 17.33, skrev maxime@cerno.tech:
+> Most of the TV connectors will need a similar get_modes implementation
+> that will, depending on the drivers' capabilities, register the 480i and
+> 576i modes.
+> 
+> That implementation will also need to set the preferred flag and order
+> the modes based on the driver and users preferrence.
+> 
+> This is especially important to guarantee that a userspace stack such as
+> Xorg can start and pick up the preferred mode while maintaining a
+> working output.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> 
+> ---
+> Changes in v6:
+> - New patch
+> ---
+>  drivers/gpu/drm/drm_probe_helper.c | 97 ++++++++++++++++++++++++++++++++++++++
+>  include/drm/drm_probe_helper.h     |  1 +
+>  2 files changed, 98 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+> index 69b0b2b9cc1c..4a60575f5c66 100644
+> --- a/drivers/gpu/drm/drm_probe_helper.c
+> +++ b/drivers/gpu/drm/drm_probe_helper.c
+> @@ -1147,3 +1147,100 @@ int drm_connector_helper_get_modes(struct drm_connector *connector)
+>  	return count;
+>  }
+>  EXPORT_SYMBOL(drm_connector_helper_get_modes);
+> +
+> +static bool tv_mode_supported(struct drm_connector *connector,
+> +			      enum drm_connector_tv_mode mode)
+> +{
+> +	struct drm_device *dev = connector->dev;
+> +	struct drm_property *property = dev->mode_config.tv_mode_property;
+> +
 
-Maybe use a `int hsic_phy` instead? But the problem is this practice is
-assuming USB0 could not be HSIC -- although USB0 is usually OTG=2E
+Superfluous linebreak
 
->+	bool siddq_in_base;
->+	bool poll_vbusen;
-> 	int missing_phys;
-> };
->=20
->@@ -251,7 +241,7 @@ static void sun4i_usb_phy_passby(struct sun4i_usb_phy=
- *phy, int enable)
-> 		SUNXI_AHB_INCRX_ALIGN_EN | SUNXI_ULPI_BYPASS_EN;
->=20
-> 	/* A83T USB2 is HSIC */
->-	if (phy_data->cfg->type =3D=3D sun8i_a83t_phy && phy->index =3D=3D 2)
->+	if (phy_data->cfg->phy2_is_hsic && phy->index =3D=3D 2)
-> 		bits |=3D SUNXI_EHCI_HS_FORCE | SUNXI_HSIC_CONNECT_INT |
-> 			SUNXI_HSIC;
->=20
->@@ -295,8 +285,7 @@ static int sun4i_usb_phy_init(struct phy *_phy)
-> 		writel(val, phy->pmu + REG_HCI_PHY_CTL);
-> 	}
->=20
->-	if (data->cfg->type =3D=3D sun8i_a83t_phy ||
->-	    data->cfg->type =3D=3D sun50i_h6_phy) {
->+	if (data->cfg->siddq_in_base) {
-> 		if (phy->index =3D=3D 0) {
-> 			val =3D readl(data->base + data->cfg->phyctl_offset);
-> 			val |=3D PHY_CTL_VBUSVLDEXT;
->@@ -340,8 +329,7 @@ static int sun4i_usb_phy_exit(struct phy *_phy)
-> 	struct sun4i_usb_phy_data *data =3D to_sun4i_usb_phy_data(phy);
->=20
-> 	if (phy->index =3D=3D 0) {
->-		if (data->cfg->type =3D=3D sun8i_a83t_phy ||
->-		    data->cfg->type =3D=3D sun50i_h6_phy) {
->+		if (data->cfg->siddq_in_base) {
-> 			void __iomem *phyctl =3D data->base +
-> 				data->cfg->phyctl_offset;
->=20
->@@ -414,9 +402,8 @@ static bool sun4i_usb_phy0_poll(struct sun4i_usb_phy_=
-data *data)
-> 	 * vbus using the N_VBUSEN pin on the pmic, so we must poll
-> 	 * when using the pmic for vbus-det _and_ we're driving vbus=2E
-> 	 */
->-	if ((data->cfg->type =3D=3D sun6i_a31_phy ||
->-	     data->cfg->type =3D=3D sun8i_a33_phy) &&
->-	    data->vbus_power_supply && data->phys[0]=2Eregulator_on)
->+	if (data->cfg->poll_vbusen && data->vbus_power_supply &&
->+	    data->phys[0]=2Eregulator_on)
-> 		return true;
->=20
-> 	return false;
->@@ -861,7 +848,6 @@ static int sun4i_usb_phy_probe(struct platform_device=
- *pdev)
->=20
-> static const struct sun4i_usb_phy_cfg suniv_f1c100s_cfg =3D {
-> 	=2Enum_phys =3D 1,
->-	=2Etype =3D sun4i_a10_phy,
-> 	=2Edisc_thresh =3D 3,
-> 	=2Ephyctl_offset =3D REG_PHYCTL_A10,
-> 	=2Ededicated_clocks =3D true,
->@@ -869,7 +855,6 @@ static const struct sun4i_usb_phy_cfg suniv_f1c100s_c=
-fg =3D {
->=20
-> static const struct sun4i_usb_phy_cfg sun4i_a10_cfg =3D {
-> 	=2Enum_phys =3D 3,
->-	=2Etype =3D sun4i_a10_phy,
-> 	=2Edisc_thresh =3D 3,
-> 	=2Ephyctl_offset =3D REG_PHYCTL_A10,
-> 	=2Ededicated_clocks =3D false,
->@@ -877,7 +862,6 @@ static const struct sun4i_usb_phy_cfg sun4i_a10_cfg =
-=3D {
->=20
-> static const struct sun4i_usb_phy_cfg sun5i_a13_cfg =3D {
-> 	=2Enum_phys =3D 2,
->-	=2Etype =3D sun4i_a10_phy,
-> 	=2Edisc_thresh =3D 2,
-> 	=2Ephyctl_offset =3D REG_PHYCTL_A10,
-> 	=2Ededicated_clocks =3D false,
->@@ -885,15 +869,14 @@ static const struct sun4i_usb_phy_cfg sun5i_a13_cfg=
- =3D {
->=20
-> static const struct sun4i_usb_phy_cfg sun6i_a31_cfg =3D {
-> 	=2Enum_phys =3D 3,
->-	=2Etype =3D sun6i_a31_phy,
-> 	=2Edisc_thresh =3D 3,
-> 	=2Ephyctl_offset =3D REG_PHYCTL_A10,
-> 	=2Ededicated_clocks =3D true,
->+	=2Epoll_vbusen =3D true,
-> };
->=20
-> static const struct sun4i_usb_phy_cfg sun7i_a20_cfg =3D {
-> 	=2Enum_phys =3D 3,
->-	=2Etype =3D sun4i_a10_phy,
-> 	=2Edisc_thresh =3D 2,
-> 	=2Ephyctl_offset =3D REG_PHYCTL_A10,
-> 	=2Ededicated_clocks =3D false,
->@@ -901,31 +884,31 @@ static const struct sun4i_usb_phy_cfg sun7i_a20_cfg=
- =3D {
->=20
-> static const struct sun4i_usb_phy_cfg sun8i_a23_cfg =3D {
-> 	=2Enum_phys =3D 2,
->-	=2Etype =3D sun6i_a31_phy,
-> 	=2Edisc_thresh =3D 3,
-> 	=2Ephyctl_offset =3D REG_PHYCTL_A10,
-> 	=2Ededicated_clocks =3D true,
->+	=2Epoll_vbusen =3D true,
-> };
->=20
-> static const struct sun4i_usb_phy_cfg sun8i_a33_cfg =3D {
-> 	=2Enum_phys =3D 2,
->-	=2Etype =3D sun8i_a33_phy,
-> 	=2Edisc_thresh =3D 3,
-> 	=2Ephyctl_offset =3D REG_PHYCTL_A33,
-> 	=2Ededicated_clocks =3D true,
->+	=2Epoll_vbusen =3D true,
-> };
->=20
-> static const struct sun4i_usb_phy_cfg sun8i_a83t_cfg =3D {
-> 	=2Enum_phys =3D 3,
-> 	=2Ehsic_index =3D 2,
->-	=2Etype =3D sun8i_a83t_phy,
-> 	=2Ephyctl_offset =3D REG_PHYCTL_A33,
-> 	=2Ededicated_clocks =3D true,
->+	=2Esiddq_in_base =3D true,
->+	=2Ephy2_is_hsic =3D true,
-> };
->=20
-> static const struct sun4i_usb_phy_cfg sun8i_h3_cfg =3D {
-> 	=2Enum_phys =3D 4,
->-	=2Etype =3D sun8i_h3_phy,
-> 	=2Edisc_thresh =3D 3,
-> 	=2Ephyctl_offset =3D REG_PHYCTL_A33,
-> 	=2Ededicated_clocks =3D true,
->@@ -935,7 +918,6 @@ static const struct sun4i_usb_phy_cfg sun8i_h3_cfg =
-=3D {
->=20
-> static const struct sun4i_usb_phy_cfg sun8i_r40_cfg =3D {
-> 	=2Enum_phys =3D 3,
->-	=2Etype =3D sun8i_r40_phy,
-> 	=2Edisc_thresh =3D 3,
-> 	=2Ephyctl_offset =3D REG_PHYCTL_A33,
-> 	=2Ededicated_clocks =3D true,
->@@ -945,7 +927,6 @@ static const struct sun4i_usb_phy_cfg sun8i_r40_cfg =
-=3D {
->=20
-> static const struct sun4i_usb_phy_cfg sun8i_v3s_cfg =3D {
-> 	=2Enum_phys =3D 1,
->-	=2Etype =3D sun8i_v3s_phy,
-> 	=2Edisc_thresh =3D 3,
-> 	=2Ephyctl_offset =3D REG_PHYCTL_A33,
-> 	=2Ededicated_clocks =3D true,
->@@ -955,16 +936,15 @@ static const struct sun4i_usb_phy_cfg sun8i_v3s_cfg=
- =3D {
->=20
-> static const struct sun4i_usb_phy_cfg sun20i_d1_cfg =3D {
-> 	=2Enum_phys =3D 2,
->-	=2Etype =3D sun50i_h6_phy,
-> 	=2Ephyctl_offset =3D REG_PHYCTL_A33,
-> 	=2Ededicated_clocks =3D true,
-> 	=2Ehci_phy_ctl_clear =3D PHY_CTL_SIDDQ,
-> 	=2Ephy0_dual_route =3D true,
->+	=2Esiddq_in_base =3D true,
-> };
->=20
-> static const struct sun4i_usb_phy_cfg sun50i_a64_cfg =3D {
-> 	=2Enum_phys =3D 2,
->-	=2Etype =3D sun50i_a64_phy,
-> 	=2Edisc_thresh =3D 3,
-> 	=2Ephyctl_offset =3D REG_PHYCTL_A33,
-> 	=2Ededicated_clocks =3D true,
->@@ -974,11 +954,11 @@ static const struct sun4i_usb_phy_cfg sun50i_a64_cf=
-g =3D {
->=20
-> static const struct sun4i_usb_phy_cfg sun50i_h6_cfg =3D {
-> 	=2Enum_phys =3D 4,
->-	=2Etype =3D sun50i_h6_phy,
-> 	=2Ephyctl_offset =3D REG_PHYCTL_A33,
-> 	=2Ededicated_clocks =3D true,
-> 	=2Ephy0_dual_route =3D true,
-> 	=2Emissing_phys =3D BIT(1) | BIT(2),
->+	=2Esiddq_in_base =3D true,
-> };
->=20
-> static const struct of_device_id sun4i_usb_phy_of_match[] =3D {
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < property->num_values; i++)
+> +		if (property->values[i] == mode)
+> +			return true;
+> +
+> +	return false;
+> +}
+> +
+> +/**
+> + * drm_connector_helper_tv_get_modes - Fills the modes availables to a TV connector
+
+availables -> available
+
+> + * @connector: The connector
+> + *
+> + * Fills the available modes for a TV connector based on the supported
+> + * TV modes, and the default mode expressed by the kernel command line.
+> + *
+> + * This can be used as the default TV connector helper .get_modes() hook
+> + * if the driver does not need any special processing.
+> + *
+> + * Returns:
+> + * The number of modes added to the connector.
+> + */
+> +int drm_connector_helper_tv_get_modes(struct drm_connector *connector)
+> +{
+> +	struct drm_device *dev = connector->dev;
+> +	struct drm_cmdline_mode *cmdline = &connector->cmdline_mode;
+> +	struct drm_display_mode *tv_modes[2] = {};
+> +	struct drm_display_mode *mode;
+> +	unsigned int first_mode_idx;
+> +	unsigned int count = 0;
+> +	uint64_t default_mode;
+> +	int ret;
+> +
+> +	if (!dev->mode_config.tv_mode_property)
+> +		return 0;
+> +
+> +	if (tv_mode_supported(connector, DRM_MODE_TV_MODE_NTSC) ||
+> +	    tv_mode_supported(connector, DRM_MODE_TV_MODE_NTSC_443) ||
+> +	    tv_mode_supported(connector, DRM_MODE_TV_MODE_NTSC_J) ||
+> +	    tv_mode_supported(connector, DRM_MODE_TV_MODE_PAL_M)) {
+> +		mode = drm_mode_analog_ntsc_480i(connector->dev);
+
+Nit: You can use the dev variable here and below.
+
+> +		if (!mode)
+> +			return 0;
+> +
+> +		tv_modes[count++] = mode;
+> +	}
+> +
+> +	if (tv_mode_supported(connector, DRM_MODE_TV_MODE_PAL) ||
+> +	    tv_mode_supported(connector, DRM_MODE_TV_MODE_PAL_N) ||
+> +	    tv_mode_supported(connector, DRM_MODE_TV_MODE_SECAM)) {
+> +		mode = drm_mode_analog_pal_576i(connector->dev);
+> +		if (!mode)
+> +			return 0;
+
+You leak the ntsc mode when returning (possibly).
+
+> +
+> +		tv_modes[count++] = mode;
+> +	}
+> +
+
+Maybe check for count being zero here?
+
+> +	if (count == 1) {
+> +		mode->type |= DRM_MODE_TYPE_PREFERRED;
+> +		drm_mode_probed_add(connector, mode);
+> +		return count;
+> +	}
+> +
+> +	ret = drm_object_property_get_default_value(&connector->base,
+> +						    dev->mode_config.tv_mode_property,
+> +						    &default_mode);
+> +	if (ret)
+> +		return 0;
+
+You leak both modes when returning here. Maybe move this up before
+allocation to simplify error handling.
+
+> +
+> +	if (cmdline->tv_mode_specified)
+> +		default_mode = cmdline->tv_mode;
+
+I realised that we don't verify tv_mode coming from the command line,
+not here and not in the reset helper. Should we do that? A driver should
+be programmed defensively to handle an illegal/unsupported value, but it
+doesn't feel right to allow an illegal enum value coming through the
+core/helpers.
+
+> +
+> +	if ((default_mode == DRM_MODE_TV_MODE_NTSC) ||
+> +	    (default_mode == DRM_MODE_TV_MODE_NTSC_443) ||
+> +	    (default_mode == DRM_MODE_TV_MODE_NTSC_J) ||
+> +	    (default_mode == DRM_MODE_TV_MODE_PAL_M))
+> +		first_mode_idx = 0;
+> +	else
+> +		first_mode_idx = 1;
+> +
+> +	mode = tv_modes[first_mode_idx];
+> +	mode->type |= DRM_MODE_TYPE_PREFERRED;
+> +	drm_mode_probed_add(connector, mode);
+> +
+> +	mode = first_mode_idx ? tv_modes[0] : tv_modes[1];
+> +	drm_mode_probed_add(connector, mode);
+> +
+> +	return count;
+> +}
+> +EXPORT_SYMBOL(drm_connector_helper_tv_get_modes);
+
+I know this is not expensive, but you're looping over the property
+values 7 times. An alternative solution is to rebuild the supported bitmask:
+
+int drm_connector_helper_tv_get_modes(struct drm_connector *connector)
+{
+...
+	unsigned int ntsc_modes = BIT(DRM_MODE_TV_MODE_NTSC) |
+				  BIT(DRM_MODE_TV_MODE_NTSC_443) |
+				  BIT(DRM_MODE_TV_MODE_NTSC_J) |
+				  BIT(DRM_MODE_TV_MODE_PAL_M);
+	unsigned int pal_modes = BIT(DRM_MODE_TV_MODE_PAL) |
+				 BIT(DRM_MODE_TV_MODE_PAL_N) |
+				 BIT(DRM_MODE_TV_MODE_SECAM);
+	unsigned int supported_tv_modes = 0;
+
+...
+	for (i = 0; i < property->num_values; i++)
+		supported_tv_modes |= BIT(property->values[i]);
+
+	if (supported_tv_modes & ntsc_modes)
+...
+	if (supported_tv_modes & pal_modes)
+...
+
+	if (BIT(default_mode) & ntsc_modes)
+		first_mode_idx = 0;
+	else
+		first_mode_idx = 1;
+
+
+Up to you if you want to do this.
+
+Noralf.
