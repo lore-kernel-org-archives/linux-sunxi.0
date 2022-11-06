@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB185291E
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Nov 2022 15:50:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E220F291E
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Nov 2022 15:50:14 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8BEAD1FB;
-	Sun,  6 Nov 2022 07:50:18 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A9E9B23A;
+	Sun,  6 Nov 2022 07:50:20 -0800 (PST)
 Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8AA873F534;
-	Sun,  6 Nov 2022 07:50:10 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A84F23F534;
+	Sun,  6 Nov 2022 07:50:12 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Chen-Yu Tsai <wens@csie.org>,
 	Samuel Holland <samuel@sholland.org>,
@@ -21,9 +21,9 @@ Cc: soc@kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-phy@lists.infradead.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH v3 05/11] ARM: dts: suniv: add USB-related device nodes
-Date: Sun,  6 Nov 2022 15:48:20 +0000
-Message-Id: <20221106154826.6687-6-andre.przywara@arm.com>
+Subject: [PATCH v3 06/11] ARM: dts: suniv: licheepi-nano: enable USB
+Date: Sun,  6 Nov 2022 15:48:21 +0000
+Message-Id: <20221106154826.6687-7-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.5
 In-Reply-To: <20221106154826.6687-1-andre.przywara@arm.com>
 References: <20221106154826.6687-1-andre.przywara@arm.com>
@@ -37,55 +37,53 @@ Content-Transfer-Encoding: 8bit
 
 From: Icenowy Zheng <uwu@icenowy.me>
 
-The suniv SoC has a USB OTG controller and a USB PHY like other
-Allwinner SoCs.
+Lichee Pi Nano has a Micro-USB connector, with its D+, D- pins connected
+to the USB pins of the SoC and ID pin connected to PE2 GPIO.
 
-Add their device tree node.
+Enable the USB functionality.
 
 Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- arch/arm/boot/dts/suniv-f1c100s.dtsi | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ .../arm/boot/dts/suniv-f1c100s-licheepi-nano.dts | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-index 0edc1724407b..a01541ba42c5 100644
---- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
-+++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-@@ -133,6 +133,32 @@ mmc1: mmc@1c10000 {
- 			#size-cells = <0>;
- 		};
+diff --git a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts b/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
+index 04e59b8381cb..43896723a994 100644
+--- a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
++++ b/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
+@@ -6,6 +6,8 @@
+ /dts-v1/;
+ #include "suniv-f1c100s.dtsi"
  
-+		usb_otg: usb@1c13000 {
-+			compatible = "allwinner,suniv-f1c100s-musb";
-+			reg = <0x01c13000 0x0400>;
-+			clocks = <&ccu CLK_BUS_OTG>;
-+			resets = <&ccu RST_BUS_OTG>;
-+			interrupts = <26>;
-+			interrupt-names = "mc";
-+			phys = <&usbphy 0>;
-+			phy-names = "usb";
-+			extcon = <&usbphy 0>;
-+			allwinner,sram = <&otg_sram 1>;
-+			status = "disabled";
-+		};
++#include <dt-bindings/gpio/gpio.h>
 +
-+		usbphy: phy@1c13400 {
-+			compatible = "allwinner,suniv-f1c100s-usb-phy";
-+			reg = <0x01c13400 0x10>;
-+			reg-names = "phy_ctrl";
-+			clocks = <&ccu CLK_USB_PHY0>;
-+			clock-names = "usb0_phy";
-+			resets = <&ccu RST_USB_PHY0>;
-+			reset-names = "usb0_reset";
-+			#phy-cells = <1>;
-+			status = "disabled";
-+		};
+ / {
+ 	model = "Lichee Pi Nano";
+ 	compatible = "licheepi,licheepi-nano", "allwinner,suniv-f1c100s";
+@@ -50,8 +52,22 @@ flash@0 {
+ 	};
+ };
+ 
++&otg_sram {
++	status = "okay";
++};
 +
- 		ccu: clock@1c20000 {
- 			compatible = "allwinner,suniv-f1c100s-ccu";
- 			reg = <0x01c20000 0x400>;
+ &uart0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&uart0_pe_pins>;
+ 	status = "okay";
+ };
++
++&usb_otg {
++	dr_mode = "otg";
++	status = "okay";
++};
++
++&usbphy {
++	usb0_id_det-gpios = <&pio 4 2 GPIO_ACTIVE_HIGH>; /* PE2 */
++	status = "okay";
++};
 -- 
 2.35.5
 
