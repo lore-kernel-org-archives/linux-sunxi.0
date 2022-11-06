@@ -1,120 +1,155 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354E07F
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Nov 2022 07:59:44 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id n12so22869730eja.11
-        for <linux-sunxi@lists.linux.dev>; Sun, 06 Nov 2022 00:59:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0007F
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Nov 2022 08:09:20 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id y14so22936096ejd.9
+        for <linux-sunxi@lists.linux.dev>; Sun, 06 Nov 2022 01:09:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vEl0YoVvN1GJsGvoYdE/zZMGJkQaLgmsjIXP9qXuCAI=;
-        b=LJzK8R9MUBPh/lnWgwkcDa8XwTsRsmarGIFD4QbFRjb7bL6Oec4dgApvBOiv9zBe8K
-         xt6NRbv0M48x0P5ckgtoYUPuQFfO7/k9Aa9IVjoy8aZMudQuCrzW3Erz/cLbqjrBlS4p
-         7tumT/IdYLBktwlzgbfk2O9mq6zsEfjeBt8VNRnqtqhJXdzCd3nmh05n1/3YZNLEAJGe
-         TjNSfEU8qpuWEKtEL3838hnhxYIYQ8i7mPSNEpow+E5jVLLGp8Kc+9WZsJR8HOY/3iB6
-         cSIaGGTgESMdLUga3mQZ+FNBvEzX2UQr2banbAi1poNGRDyTrlLwGNl0yS3uPC9MK4N/
-         FhbQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+pdd8CAL88lzkh5Qvct0XVSbDsIQmPY/9Ujmmsx7WLw=;
+        b=jJ2vI+D6GzRUbKO1+A9EdmeWmj+VTvXG0zWtj5oMtDZjAuHDmet2IUdwRY49GduZhn
+         wgfMg6TOOIdKEnVgv95roCXPG/JVkKvGBIoaogqJhQ+jyatDOCeqJEGifuiOmWY8wdNS
+         xu4HP1Ze42PRAV3ZOJv10o4l3VWBBeygTzVnLfqRW3gOkZN0SLf4QE6ggjCCvmVSPehH
+         B5h5CJyP6KRbCuy9a6piRwMl+4iH315V1v3vTHaVLbpH7yYysSnGRhxltxdDjAsYKeyj
+         9Y2uCmn5kcs3N8us3DjmDrHw0eEEJV2leb3X69VobygyEqm2oXLwjDtxjW+zwa28wBZG
+         nCNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vEl0YoVvN1GJsGvoYdE/zZMGJkQaLgmsjIXP9qXuCAI=;
-        b=vEvscY1ACSr2mLUhwkFzbTYw2Ns1bd70M+8EBYOMjPzFDgds0igb3CxNwk2til2ksj
-         NmaLy17RaAhwHpd+HlX2MeMtQQb4D5IhMNFbzg9Errfg4nSzf1W0SA8sQ9lXNU/R0ZMQ
-         zlrQ5iGY1zOWOewk018cOE8ja8estuObj14JkgVP0oxQDKCTFQsyC3EqNGC79xkVyCmA
-         D4eXBLIbLpq0/L7tBd8ahJFZ5keibQ9n6TxUfDc9dJ1sBlM6qXqNfjCHHVYmYW8WluHk
-         VtpAs6sgJM1cXXbaeQhJENwx7BkqytAjxQskT5VWZ+EERSbinw3LP+gC40YCEzdOeaEB
-         o6/g==
-X-Gm-Message-State: ACrzQf1aaKX1jn3aV5DzdrLazvTdQxXWNabFDaF1kH2m+/u+BhuxoGx3
-	ggAbVUV/u8ft3XxWwMe3LBstpqsr5Ts=
-X-Google-Smtp-Source: AMsMyM6O8l3UwemZ6wmmPkcNymeefDRnN36hQtQGDJEp6CVOsyOnHCh4Mv6ioFI0PF5X1nuZ2loqBg==
-X-Received: by 2002:a17:907:708:b0:77e:ff47:34b1 with SMTP id xb8-20020a170907070800b0077eff4734b1mr39640765ejb.493.1667721582364;
-        Sun, 06 Nov 2022 00:59:42 -0700 (PDT)
-Received: from [192.168.1.10] ([46.249.74.23])
-        by smtp.googlemail.com with ESMTPSA id en6-20020a056402528600b0044e937ddcabsm2280859edb.77.2022.11.06.00.59.41
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 06 Nov 2022 00:59:41 -0700 (PDT)
-Subject: Re: [PATCH 1/2] bus: sunxi-rsb: Remove shutdown callback
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20221105191954.14360-1-samuel@sholland.org>
- <20221105191954.14360-2-samuel@sholland.org>
- <2652299.mvXUDI8C0e@jernej-laptop>
-From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Message-ID: <7a1bd36c-87c1-16ab-65a6-8d104489d84b@gmail.com>
-Date: Sun, 6 Nov 2022 09:59:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Firefox/60.0 Thunderbird/60.6.1
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+pdd8CAL88lzkh5Qvct0XVSbDsIQmPY/9Ujmmsx7WLw=;
+        b=HxzGk30CkuOsjrqHNNxQufhIWuJXHeQ3681odvhInQfNvj8v3TJ+4W5N/X3FBMpuQi
+         TMjxZNi+1jtf03QG5ngLwTjj0vhT2PWHzlpX0tlMXxx0n5V9iX0lJBQa8dTKQTyX9f29
+         V88LQyQPPZ0h3tr4iph8zTZMNrWfpE+bVwiPBb2S+lgSLZJlXcVr7orCpT2LU9XYzWdV
+         dUD0IZx6gaG75mAmhmY/w55KWS//YnCIetq7oxxKnWYKBPaUKwqzOz7p1DBY3nSUppc2
+         RI0tEDaL4CyVQhOCtAb3aLWaYXQmB8w8kDJJ+rpkZe4mVvWyV0Tw2qYA5puDHrUQlUUP
+         FUWA==
+X-Gm-Message-State: ACrzQf1twaDEMU6o7A23KkCm7Ibg9hYwTa9iY3OvTO58CoLiT9c3oDjE
+	11V1+lLzI81/Tu3TLLcr0sc=
+X-Google-Smtp-Source: AMsMyM4aMMJKBTGnjmQIfN3CXpAz5TIsD3tKoMlu9whaRzwl2Mca2l/tdFrbf27c9RaTRmxAXMka/A==
+X-Received: by 2002:a17:907:7e95:b0:78d:e9cf:82c7 with SMTP id qb21-20020a1709077e9500b0078de9cf82c7mr43818369ejc.724.1667722158677;
+        Sun, 06 Nov 2022 01:09:18 -0700 (PDT)
+Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
+        by smtp.gmail.com with ESMTPSA id gv57-20020a1709072bf900b007acd04fcedcsm1835308ejc.46.2022.11.06.01.09.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Nov 2022 01:09:18 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andre Przywara <andre.przywara@arm.com>
+Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Icenowy Zheng <uwu@icenowy.me>, Gregory CLEMENT <gregory.clement@bootlin.com>, linux-i2c@vger.kernel.org
+Subject: Re: [PATCH 4/9] ARM: dts: suniv: f1c100s: add I2C DT nodes
+Date: Sun, 06 Nov 2022 09:09:17 +0100
+Message-ID: <4223066.ejJDZkT8p0@jernej-laptop>
+In-Reply-To: <20221101141658.3631342-5-andre.przywara@arm.com>
+References: <20221101141658.3631342-1-andre.przywara@arm.com> <20221101141658.3631342-5-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <2652299.mvXUDI8C0e@jernej-laptop>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 5.11.22 г. 21:29 ч., Jernej Škrabec wrote:
-> Dne sobota, 05. november 2022 ob 20:19:52 CET je Samuel Holland napisal(a):
->> Shutting down the RSB controller prevents communicating with a PMIC
->> inside pm_power_off(), so it breaks system poweroff on some boards.
->>
->> Reported-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
->> Fixes: 843107498f91 ("bus: sunxi-rsb: Implement suspend/resume/shutdown
->> callbacks") Signed-off-by: Samuel Holland <samuel@sholland.org>
+Dne torek, 01. november 2022 ob 15:16:53 CET je Andre Przywara napisal(a):
+> The Allwinner F1C100s series of SoCs contain three I2C controllers
+> compatible to the ones used in other Allwinner SoCs.
 > 
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Add the DT nodes describing the resources of the controllers.
+> I2C1 has only one possible pinmux, so add the pinctrl properties for
+> that already.
+> At least one board connects an on-board I2C chip to PD0/PD12 (I2C0), so
+> include those pins already, to simplify referencing them later.
 > 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  arch/arm/boot/dts/suniv-f1c100s.dtsi | 50 ++++++++++++++++++++++++++++
+>  1 file changed, 50 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi
+> b/arch/arm/boot/dts/suniv-f1c100s.dtsi index d5a6324e76465..2901c586971b4
+> 100644
+> --- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
+> +++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+> @@ -166,6 +166,18 @@ mmc0_pins: mmc0-pins {
+>  				drive-strength = <30>;
+>  			};
+> 
+> +			/omit-if-no-ref/
+> +			i2c0_pd_pins: i2c0-pd-pins {
+> +				pins = "PD0", "PD12";
+> +				function = "i2c0";
+> +			};
+> +
+> +			/omit-if-no-ref/
 
-Tested-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Above flag is meaningless if i2c1_pins is always referenced by i2c1. Anyway, I 
+see in pinctrl driver that there are actually two possible pin assignments for 
+i2c1. One on port D and another on port B.
 
-Thanks,
-Ivo
+Best regards,
+Jernej
 
-> Best regards,
-> Jernej
+> +			i2c1_pins: i2c1-pins {
+> +				pins = "PD5", "PD6";
+> +				function = "i2c1";
+> +			};
+> +
+>  			spi0_pc_pins: spi0-pc-pins {
+>  				pins = "PC0", "PC1", "PC2", 
+"PC3";
+>  				function = "spi0";
+> @@ -177,6 +189,44 @@ uart0_pe_pins: uart0-pe-pins {
+>  			};
+>  		};
 > 
->> ---
->>
->>   drivers/bus/sunxi-rsb.c | 9 ---------
->>   1 file changed, 9 deletions(-)
->>
->> diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
->> index 4cd2e127946e..17343cd75338 100644
->> --- a/drivers/bus/sunxi-rsb.c
->> +++ b/drivers/bus/sunxi-rsb.c
->> @@ -812,14 +812,6 @@ static int sunxi_rsb_remove(struct platform_device
->> *pdev) return 0;
->>   }
->>
->> -static void sunxi_rsb_shutdown(struct platform_device *pdev)
->> -{
->> -	struct sunxi_rsb *rsb = platform_get_drvdata(pdev);
->> -
->> -	pm_runtime_disable(&pdev->dev);
->> -	sunxi_rsb_hw_exit(rsb);
->> -}
->> -
->>   static const struct dev_pm_ops sunxi_rsb_dev_pm_ops = {
->>   	SET_RUNTIME_PM_OPS(sunxi_rsb_runtime_suspend,
->>   			   sunxi_rsb_runtime_resume, NULL)
->> @@ -835,7 +827,6 @@ MODULE_DEVICE_TABLE(of, sunxi_rsb_of_match_table);
->>   static struct platform_driver sunxi_rsb_driver = {
->>   	.probe = sunxi_rsb_probe,
->>   	.remove	= sunxi_rsb_remove,
->> -	.shutdown = sunxi_rsb_shutdown,
->>   	.driver	= {
->>   		.name = RSB_CTRL_NAME,
->>   		.of_match_table = sunxi_rsb_of_match_table,
-> 
-> 
-> 
-> 
+> +		i2c0: i2c@1c27000 {
+> +			compatible = "allwinner,suniv-f1c100s-i2c",
+> +				     "allwinner,sun6i-a31-i2c";
+> +			reg = <0x01c27000 0x400>;
+> +			interrupts = <7>;
+> +			clocks = <&ccu CLK_BUS_I2C0>;
+> +			resets = <&ccu RST_BUS_I2C0>;
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +			status = "disabled";
+> +		};
+> +
+> +		i2c1: i2c@1c27400 {
+> +			compatible = "allwinner,suniv-f1c100s-i2c",
+> +				     "allwinner,sun6i-a31-i2c";
+> +			reg = <0x01c27400 0x400>;
+> +			interrupts = <8>;
+> +			clocks = <&ccu CLK_BUS_I2C1>;
+> +			resets = <&ccu RST_BUS_I2C1>;
+> +			pinctrl-names = "default";
+> +			pinctrl-0 = <&i2c1_pins>;
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +			status = "disabled";
+> +		};
+> +
+> +		i2c2: i2c@1c27800 {
+> +			compatible = "allwinner,suniv-f1c100s-i2c",
+> +				     "allwinner,sun6i-a31-i2c";
+> +			reg = <0x01c27800 0x400>;
+> +			interrupts = <9>;
+> +			clocks = <&ccu CLK_BUS_I2C2>;
+> +			resets = <&ccu RST_BUS_I2C2>;
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +			status = "disabled";
+> +		};
+> +
+>  		timer@1c20c00 {
+>  			compatible = "allwinner,suniv-f1c100s-
+timer";
+>  			reg = <0x01c20c00 0x90>;
+
+
+
+
