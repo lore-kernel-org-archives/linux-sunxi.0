@@ -1,161 +1,91 @@
 Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DE83209
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 12:46:05 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailnew.west.internal (Postfix) with ESMTP id 0478A2B05E55;
-	Mon,  7 Nov 2022 07:45:59 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Mon, 07 Nov 2022 07:46:05 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6748F41
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 13:13:48 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.west.internal (Postfix) with ESMTP id 77F852B066D2;
+	Mon,  7 Nov 2022 08:13:45 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Mon, 07 Nov 2022 08:13:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1667825159; x=1667832359; bh=aCBuDDCTfo
-	ZSnelYeWWd5jAjRGm3SKR/gWkf1WzFlvA=; b=fe7Qh9ENKhkuZt9/GPDNxJ2scx
-	spfqCPnmow5kVNVn7V2ZlyYoKqvXQnb5h25X/K6mxkPeTobwsbGdqUauJBjeXsEx
-	rTjZZoxdBoWYC9oG0wnuFbBRgAoo/Y7C243KlPg481Cy+LlCwB78WfBjm6eNFjgg
-	U+Ir/pdrUbm/OxyzaI22gfdkbc4ctncUR5FXTsqDvTZchDF5l5NNGgOjdEZ16YnN
-	tTZao2/Zw8vYM+j3omW0ZUQfaZtI+aoc6CPEFUQFSHdXmSKHAaZrfh4ZhDaU9Poz
-	/Qr4QCnghkjW7G3qtuR9dJwX2RmrQLmW7ntQBQJJThHI5Bmmo5NSrVtxoS4g==
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1667826825; x=
+	1667834025; bh=gzFmsKb28RRV6aTHwSd32zSKbP4ruxh8B+/J4PqCwTo=; b=S
+	ggAXxM9D+SbpZ9rMhVLLaSfq7m1uc2XpDznokcUUlsO+4Pb8qCBn+xRhhfN8jUgq
+	FpF6AXLT1LhGrcfuqVl43MsGGn6vldVkgxjAc4YIIVWW2XLHpXYVq+7X7IX/auE+
+	e0PGMe0CpQJzQsfkv9lqyt6TU5XFOGDatcHk2HpQ9RKMbMQLnkUw03BIXvnAmpf2
+	xGDU+58haUwQU28zadYuwnNyDbmRx2WlaIv1LntuqKmQ66zxwQVizEC+SXsqbmTt
+	yq7rviFdc9BMgtG0xrFi3rzKjzWMoGBapcHWvbT64szDrJUTADd4LM6Y93oiXllz
+	JQ2S5LNmFm1GNRorb0T6g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1667825159; x=1667832359; bh=aCBuDDCTfoZSnelYeWWd5jAjRGm3
-	SKR/gWkf1WzFlvA=; b=WDiQgo7382zLJ7uJNNFLZLHgcRrYTi04F+A1Z1aIm60d
-	IBxa39Lm0Y3HwsMbX45LSO5jr+II3UEjxpEqShWShLZgzAvnixfeJZVq07ZKkJWQ
-	Y23yt/ZUeLIhSdNYJd9d0nlj5yza1LGU6svN6VqOMaJvpGBrLVDXco/u3pmJi7at
-	m6WNMu+lUl6ovua3FyeL45ByNoue/i5/f9BBc9pa4BWxd5VsKhFj4cy80ssvIxin
-	WTnk4Uc6wxGcVcQ4CKnBxc+r/XlgYR2Si8S5xTvAKnwFuHpAtdovqdT/h5fA1U9D
-	66yluk5/ZPl0/0nNbbAVHJOH8vMAm57K/3cSyCk19A==
-X-ME-Sender: <xms:B_5oYxkTIy0mUMSyflhpl-mdCCNyibVd3eazm0pZBLRP_rPNPov2Vw>
-    <xme:B_5oY82zGUwsWi7FzVvIMVn48Y1y3YBjkNcuzAo2t-nJTH-MdmZFEjn4etMl1wuw4
-    JV0ObuyEa0xCadNnb0>
-X-ME-Received: <xmr:B_5oY3oU2PyTUy9263HAMn28QauzhYHEhwEZOYdG2hkB3_T4762eKBGZFASoTCi0cYMfqOtiSO3l6_IXQnkbbd4u12T_i5uhX14-u3_3al9iug>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdekgdegfecutefuodetggdotefrodftvf
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1667826825; x=
+	1667834025; bh=gzFmsKb28RRV6aTHwSd32zSKbP4ruxh8B+/J4PqCwTo=; b=f
+	OLaRc1MIcBUnZInXZHy7Qd8hVVUBFfwwre4WcjM6KmXZp0UrzawMSP2EzM9v2bMX
+	tcLM9PKlu0y4X4+8AIC+JGFfQxU+Wd93vEfkv+/mbIBrDpKQPFDk8bgefiNu5cvG
+	KpUmeqW4Az3JOK7LlZa8hxDRyRGiKrV2jzrQwcHvA/M+JVqo1d7JoHe24c7WxWQb
+	1c6AeoUAmqqwy4q5PuVYhV/FaaZ7smqqUW93H+80RJQdUwJDg4Rwh3xytmWH/Woi
+	tDynAfXCWwfByP2TMIg53vBds47UKVCV2vBqJpirsm5jG2JqebqlY2gnrhD2dHvw
+	3q6Wa89noKriOmHFJ3eUA==
+X-ME-Sender: <xms:iARpY5OY25HDymg5DH-ie89NFFuTQ_tpNB0zwPJ8RbtsIzZoIJnFdg>
+    <xme:iARpY78kDs8Gr883aCcVhvgfUK6xpgBfbAOKwsQqUAF2xtSCHi-2f9Xtx0eTZc41F
+    _7g0LMx9l886JLkdK0>
+X-ME-Received: <xmr:iARpY4SXfVcoanuZ5ibDJKtkYKfQ49V2uumXyxiHcwJ21amOnrngvmIK7Iv8nm8nbgQfsKdLc-uwXY_hfF5RQAso8yV_eXwhClHps3t1eh1KrQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdekgdegkecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepjeevfeehfeekieffgeevleevtefgffefkedtfeeuhfettdegjeehgfegudff
-    ffdunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:B_5oYxnAwbs-rpo9JxYvy04EEIaYKD_7caxej8M_yUIO41NUaNyywg>
-    <xmx:B_5oY_0EZQVwlGHQNt4aZsSAPHDFLo9A_TY5aX1zYiwMKX0QEvt5kA>
-    <xmx:B_5oYwsKoY7uH4jol05JvJcq3VW9Jm8-yuMzJEbFUYWimjlAWdp2sA>
-    <xmx:B_5oY_WpqNFwAF1Lpco9OJA9gAHe8906jiN45KaADSPPMNpCq-06s6BhuSc>
+    fjughrpefhvfevjghfuffkffggtgfgofesthekredtredtjeenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeeifeeigeelhfehkeeltdetjeetueelteeuveekueevffduhefffefhhfeh
+    gfehieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:iARpY1uHLYE89zuPgzQmd72chgY8kQ3GD1WqVJD1cJL7Hotut9yW7g>
+    <xmx:iARpYxcoJtYs6UFU90XrAM_A5pfR1NGKF8D2-rFcCY6eVlrWIezPiQ>
+    <xmx:iARpYx1YXt67AV9nPn7Xl3rmQ5jQ5yQP_blhenTPP60saug38B0a3Q>
+    <xmx:iQRpY0xjFrmpNgU4q9TdEM4obv-T2YBGFbrXMDqajko2HLPRF1EUUOC0kvQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Nov 2022 07:45:58 -0500 (EST)
-Date: Mon, 7 Nov 2022 13:45:56 +0100
+ 7 Nov 2022 08:13:44 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Cc: Karol Herbst <kherbst@redhat.com>, Emma Anholt <emma@anholt.net>,
-	Ben Skeggs <bskeggs@redhat.com>, Chen-Yu Tsai <wens@csie.org>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Daniel Vetter <daniel@ffwll.ch>,	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@linux.ie>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Lyude Paul <lyude@redhat.com>, linux-sunxi@lists.linux.dev,
-	intel-gfx@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>,
-	linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org,
-	Hans de Goede <hdegoede@redhat.com>,	Dom Cobley <dom@raspberrypi.com>,
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
-	dri-devel@lists.freedesktop.org,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	linux-kernel@vger.kernel.org,	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v6 16/23] drm/probe-helper: Provide a TV get_modes helper
-Message-ID: <20221107124556.nu6brodxdolh36w2@houat>
-References: <20220728-rpi-analog-tv-properties-v6-0-e7792734108f@cerno.tech>
- <20220728-rpi-analog-tv-properties-v6-16-e7792734108f@cerno.tech>
- <842076aa-8d7c-96d6-ba46-d0e66dacd2df@tronnes.org>
- <20221107102126.klxrvfe34e6uriyx@houat>
- <813ebf68-a7f4-441f-d0d6-f63fd923a479@tronnes.org>
+To: Samuel Holland <samuel@sholland.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+In-Reply-To: <20221107053552.2330-1-samuel@sholland.org>
+References: <20221107053552.2330-1-samuel@sholland.org>
+Subject: Re: [PATCH v2 0/4] drm/sun4i: dsi: Support the A100/D1 controller variant
+Message-Id: <166782681040.2738607.11879377629762805271.b4-ty@cerno.tech>
+Date: Mon, 07 Nov 2022 14:13:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ottaxywmq5yqznvz"
-Content-Disposition: inline
-In-Reply-To: <813ebf68-a7f4-441f-d0d6-f63fd923a479@tronnes.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.10.1
 
+On Sun, 6 Nov 2022 23:35:48 -0600, Samuel Holland wrote:
+> This series adds support for the digital part of the DSI controller
+> found in the A100 and D1 SoCs (plus T7, which is not supported by
+> mainline Linux). There are two changes to the hardware integration:
+>   1) the module clock routes through the TCON TOP, and
+>   2) the separate I/O domain is removed.
+> 
+> The actual register interface appears to be the same as before. The
+> register definitions in the D1 BSP exactly match the A64 BSP.
+> 
+> [...]
 
---ottaxywmq5yqznvz
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to drm/drm-misc (drm-misc-next).
 
-On Mon, Nov 07, 2022 at 12:29:28PM +0100, Noralf Tr=F8nnes wrote:
->=20
->=20
-> Den 07.11.2022 11.21, skrev Maxime Ripard:
-> > Hi Noralf,
-> >=20
-> > I'll leave aside your comments on the code, since we'll use your implem=
-entation.
-> >=20
-> > On Sun, Nov 06, 2022 at 05:33:48PM +0100, Noralf Tr=F8nnes wrote:
-> >> Den 26.10.2022 17.33, skrev maxime@cerno.tech:
-> >>> +
-> >>> +	if (cmdline->tv_mode_specified)
-> >>> +		default_mode =3D cmdline->tv_mode;
-> >>
-> >> I realised that we don't verify tv_mode coming from the command line,
-> >> not here and not in the reset helper. Should we do that? A driver shou=
-ld
-> >> be programmed defensively to handle an illegal/unsupported value, but =
-it
-> >> doesn't feel right to allow an illegal enum value coming through the
-> >> core/helpers.
-> >=20
-> > I don't think we can end up with an invalid value here if it's been
-> > specified.
-> >=20
-> > We parse the command line through drm_mode_parse_tv_mode() (introduced
-> > in patch 13 "drm/modes: Introduce the tv_mode property as a command-line
-> > option") that will pick the tv mode part of the command line, and call
-> > drm_get_tv_mode_from_name() using it.
-> >=20
-> > drm_get_tv_mode_from_name() will return a EINVAL if it's not a value we
-> > expect, and mode->tv_mode is only set on success. And AFAIK, there's no
-> > other path that will set tv_mode.
-> >=20
->=20
-> I see now that illegal was the wrong word, but if the driver only
-> supports ntsc, the user can still set tv_mode=3DPAL right? And that's an
-> unsupported value that the driver can't fulfill, so it errors out. But
-> then again maybe that's just how it is, we can also set a display mode
-> that the driver can't handle, so this is no different in that respect.
-> Yeah, my argument lost some of its strength here :)
-
-I don't think we can handle this better, really. Falling back to NTSC in
-that case would really be a stretch: it's a different mode, with a
-different TV mode, etc.
-
-It's an even bigger stretch than picking another mode I guess, and like
-you said we're not doing that if the mode isn't supported
-
+Thanks!
 Maxime
-
---ottaxywmq5yqznvz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY2j+BAAKCRDj7w1vZxhR
-xb/7AQCG07KDDgc9kKjA6n8S2OhuHBoykKN7GTSWoyw+kpRAagEAnEdqeUL2OIq4
-HN0taVCbFlrBNSZhsZTGM0XTfAsy6Qo=
-=S84X
------END PGP SIGNATURE-----
-
---ottaxywmq5yqznvz--
