@@ -1,137 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B7CD531
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 16:02:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54F88C433D6;
-	Mon,  7 Nov 2022 16:02:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667836963;
-	bh=Q/9M3qSa1bFKeX3VjOKXXNeZQ8B6sH7ewCOsQSJl+z0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XOmgvny4UUp7BZnQahaV6KsWUNhmwIhMxpmcOq3tw9+9teYm6GP3wrPKa3hZGoLnw
-	 E8JjujtcqktG/KkrpbyyurTKPktTQdPK912YFUTtXWMPkM5Mc8ahGVOnmMw4Uhs9uI
-	 cTBlpsSY6QMvq4ve9Z36ouACRIQs64gqbTRuCpXHF7tFc/7x4f8H/Qv0fo1LJXDNr9
-	 JzeHD9nkKpifY1CmMZpd4sb8KMqk3fuEl3XqfTd7Ru1lKOsEk7X40/JP1ugM9/6yCX
-	 WursSOfQ18hBTkSv25XwIi5vVUTkBzpxlLxQrxg8iYZ3853WT5wCALjP37Nihp0/J3
-	 NEZKY1McJ+eyw==
-Date: Mon, 7 Nov 2022 16:02:28 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Stephen Boyd <sboyd@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Shawn Guo <shawnguo@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Abel Vesa <abelvesa@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Peter De Schrijver <pdeschrijver@nvidia.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Prashant Gaikwad <pgaikwad@nvidia.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Vinod Koul <vkoul@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
-	Sekhar Nori <nsekhar@ti.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Takashi Iwai <tiwai@suse.com>, David Airlie <airlied@gmail.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	David Lechner <david@lechnology.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-stm32@st-md-mailman.stormreply.com,
-	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
-	linux-phy@lists.infradead.org, linux-mips@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
-	linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 43/65] ASoC: tlv320aic32x4: Add a determine_rate hook
-Message-ID: <Y2ksFHGNIEVm1ldF@sirena.org.uk>
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
- <20221018-clk-range-checks-fixes-v2-43-f6736dec138e@cerno.tech>
- <Y2UzdYyjgahJsbHg@sirena.org.uk>
- <20221104155123.qomguvthehnogkdd@houat>
- <Y2U2+ePwRieYkNjv@sirena.org.uk>
- <20221107084322.gk4j75r52zo5k7xk@houat>
- <Y2j0r0wX1XtQBvqO@sirena.org.uk>
- <20221107152603.57qimyzkinhifx5p@houat>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40CE7F
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 17:18:30 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id d26so31927557eje.10
+        for <linux-sunxi@lists.linux.dev>; Mon, 07 Nov 2022 09:18:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m+FL3EYtmTevx+/qcGveIJl0H5e1m/91jGuQ0ro55J0=;
+        b=DUznBw1PxsVpisi4ux5m0ygNTpMneN6HgLhaY0gCqNr4zYyifoCpVqSKvsnwyJjnC2
+         i5Rhq2cJARubP2+64WPHBO9zDgjXOhXQkStEgAvSQ5hOYRhHA0wzA0jCNfBsFAdDoCb+
+         91Fg4uAoTzylUw59WfohWOi4vdAf67w5uROfVrPa6dseoQNYSZ1w071aLrDPRIMTtgtr
+         imE2N1dWD3HY9T227a0AIALk9499TodWKdOcKGqj/vOr0q3J+YFgzGPvR1ni6i8drW+c
+         17Sdtb6a5LyC++DUSUoGzYZLBujb5VtR65SCcDki4NZLNQme/ZnT1GrUKIA0+DOQeuoe
+         LVfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=m+FL3EYtmTevx+/qcGveIJl0H5e1m/91jGuQ0ro55J0=;
+        b=XWaJGlLQmvTeLAuu0vrIRsA6ApiDtMyOiqobLhf33cS08lfHV6kERjlDnan/IbSke3
+         FkNqwPMhPBkE8dFBALJNAS/GZkyxn3iYILzhnNjtPXRpJWWwfMiInRWWtnkz24favJy1
+         PaI+JbQchUli0RSCh/7cq96c2Pa+ECJyIIQ2AmvhELwMUAU0/NpncFs9CoX1AF1NvcNz
+         nWMUuN4Gr6duTI4w7bdon+qZyMg4+qCFGTqoBOw7Q2ACNkWngra683sP/0aRX+cpElYD
+         1SfAqJbOZ6aiGeL1v6RdZTMijNkBdcfnkmWHZ8x0qHfIinrMP42LRannW4tC57i61T6r
+         0z6A==
+X-Gm-Message-State: ACrzQf3o7ASPEU6J+ToIdij5va6V+aJ1yy4CC0gyPKSODCEMWq6ZpD8l
+	2Rm9QUpX5mx9/fErY1abxKs=
+X-Google-Smtp-Source: AMsMyM6mV3aLso4CUT6uTdUiMHuu3LgcREAPDJpTwtCVBhcwZHXn3+qSLcJ2foQdm1a08lQY1XzMNQ==
+X-Received: by 2002:a17:907:720d:b0:7a9:b7e6:8612 with SMTP id dr13-20020a170907720d00b007a9b7e68612mr48312406ejc.435.1667841508935;
+        Mon, 07 Nov 2022 09:18:28 -0800 (PST)
+Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id b18-20020a1709062b5200b00731582babcasm3698252ejg.71.2022.11.07.09.18.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Nov 2022 09:18:27 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Icenowy Zheng <uwu@icenowy.me>, Andre Przywara <andre.przywara@arm.com>
+Cc: soc@kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v3 03/11] phy: sun4i-usb: add support for the USB PHY on F1C100s SoC
+Date: Mon, 07 Nov 2022 18:18:26 +0100
+Message-ID: <2652859.mvXUDI8C0e@kista>
+In-Reply-To: <20221106154826.6687-4-andre.przywara@arm.com>
+References: <20221106154826.6687-1-andre.przywara@arm.com> <20221106154826.6687-4-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hTyRvcr/YAY3aApU"
-Content-Disposition: inline
-In-Reply-To: <20221107152603.57qimyzkinhifx5p@houat>
-X-Cookie: Minimum charge for booths.
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+
+Dne nedelja, 06. november 2022 ob 16:48:18 CET je Andre Przywara napisal(a):
+> From: Icenowy Zheng <uwu@icenowy.me>
+> 
+> The F1C100s SoC has one USB OTG port connected to a MUSB controller.
+> 
+> Add support for its USB PHY.
+> 
+> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Best regards,
+Jernej
 
 
---hTyRvcr/YAY3aApU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Mon, Nov 07, 2022 at 04:26:03PM +0100, Maxime Ripard wrote:
-> On Mon, Nov 07, 2022 at 12:06:07PM +0000, Mark Brown wrote:
-> > On Mon, Nov 07, 2022 at 09:43:22AM +0100, Maxime Ripard wrote:
-
-> > The series does fill in __clk_mux_determine_rate for everything though -
-> > if it was just assumed by default the only thing that'd be needed would
-> > be adding the flag.
-
-> The behavior assumed by default was equivalent to
-> __clk_mux_determine_rate + CLK_SET_RATE_NO_REPARENT. We could indeed set
-> both if determine_rate is missing in the core, but that's unprecedented
-> in the clock framework so I think we'll want Stephen to comment here :)
-
-> It's also replacing one implicit behavior by another. The point of this
-> series was to raise awareness on that particular point, so I'm not sure
-> it actually fixes things. We'll see what Stephen thinks about it.
-
-We could also just set the operation and still require the flag to be
-specified.  I'm a little surprised to learn that it's something you
-might want to override, never mind that the API didn't have a default -
-it feels like a bit of a landmine that this is the case and is probably
-why there's so many cases to fix up.
-
---hTyRvcr/YAY3aApU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNpLBMACgkQJNaLcl1U
-h9BS0gf/chIMp6chtu1p8LwUn+lniQOfOjVm2GoGAQ06qSr9+3KsWgvPO3J4pFNa
-l036gwiNNFPM5gXlEj19YU0NgiAQIt2hoh9q92PY1kN8vmSQutr8U6QVxq27pphZ
-5T2AVdZG2/L1Za5fy+qtwzx6ji1EENFmdLOF/NRrtc1zJPm/bT9E14uqwH7vmK0f
-Jh1uBONY+x2wM44EMNgt3p4HTS/37ARwT9njBao9UUdt1uFWnUx05o0lerkyk4Xg
-QlkvyC2hU+mXML3s6FVEbx0TQImsJItRx7Fk4E0Pij30qxWDtd0uybSJOzuWo16R
-emQv+2HsLgl0L3qkctPVJREpPwCQuQ==
-=mfv5
------END PGP SIGNATURE-----
-
---hTyRvcr/YAY3aApU--
