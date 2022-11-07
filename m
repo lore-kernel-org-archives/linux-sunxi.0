@@ -1,193 +1,215 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D9E12294
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 18:05:36 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id v27so18901572eda.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 07 Nov 2022 10:05:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VCTpqEx+nj1n6HjmRbfujsCzReaOepaCfo3WlWBlSOs=;
-        b=kkw8H1QERm0GF5D+iS4KT6fZ4SYYp6uvTjhGEoGPgwq4dVWvWQjaCel2y3WVJlaOaE
-         e5RStAF8t1Pu63/2phYMxZ3eMnlV8avzvgW8eaZg0kjlNhuonZsrQ+N3F29oFWWrbQJa
-         0XVweEG5LvZrQIkVPfXx6PQxtjzmogkRZ8eqbG/jSCdy2MHJMkMLcPkpBEt1otOhJYmn
-         /5Sc1TtwiGnxrxCE2p+iu+jd3zCXnPCD0XO8jVbQI6zSVlLPWgVWZ53XA5kXJlQFadqg
-         et0hOf+R8C8fwCn5J8LpjKtYNuZiFG6vjBLWY1Oo5dx42Q4PDYm3/bFeE+WuqhN6s16z
-         avfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VCTpqEx+nj1n6HjmRbfujsCzReaOepaCfo3WlWBlSOs=;
-        b=X/g/cEferRf1AbNKWWSX2D9pEx6gBKnlSQbTVuZu3s+tnyJudH8vO5CSjjkv5RT4MN
-         kkxpE11r+091ojWu2hLuDaOYlz6q+2VhF28pcnxh524PoOvgWuB/bNN0SOhWj4w74MWF
-         u3/gEGd2ABne2l27naUghgd+KTdMpRm68924N4wUAby6sxYq5n4GvpYnBZVJeV8eYzQO
-         QQmV4NtU2thVV6dIisAn1aSCeNObXI09npSeUTnaTY+V3rBoRBDdOKISKMBA1xslCOlI
-         ffApMlmR6YoIIDBJMcB+U4zOyUZAfI+BVYU1TonAY/i5MnIWFXAcxGt5bp/Brwae8m8g
-         jszw==
-X-Gm-Message-State: ACrzQf08+r1R54zmAWSUtdb5uUB7d7jPCHagIxX2PuDfMTO+NNdsF7iM
-	5Qa/VMDe0aGa3mhBnSAFx7M=
-X-Google-Smtp-Source: AMsMyM6Goj84logVrQ5XP20UoYPJnj8X72vsGoAAviPjLBcIzvX+wqD4eLNfV4AQDTIEyo+FSyuFaQ==
-X-Received: by 2002:a05:6402:1d4f:b0:461:d2ed:788c with SMTP id dz15-20020a0564021d4f00b00461d2ed788cmr51595245edb.418.1667844335245;
-        Mon, 07 Nov 2022 10:05:35 -0800 (PST)
-Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id p20-20020a17090653d400b007adf2e4c6f7sm3694732ejo.195.2022.11.07.10.05.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Nov 2022 10:05:34 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, linux-arm-kernel@lists.infradead.org, Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: Re: [PATCH v2 2/2] bus: sunxi-rsb: Support atomic transfers
-Date: Mon, 07 Nov 2022 19:05:33 +0100
-Message-ID: <1929426.usQuhbGJ8B@kista>
-In-Reply-To: <20221107112949.21f52e50@donnerap.cambridge.arm.com>
-References: <20221107052201.65477-1-samuel@sholland.org> <20221107052201.65477-3-samuel@sholland.org> <20221107112949.21f52e50@donnerap.cambridge.arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DA5612294
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 18:11:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=lL1tEZY5rfBShjfX6pL9OQv5DSS6YhPKdPmOr0dqeM0=; b=gfzZC605hL0pZnTv/R8X8B+fLM
+	RdcVEVZ7GMsHWTrsYoi3BtBkZwY9B4Kkza9mrjlFGhfZxGBJxLLmqKaXfjxStznD1fNviFTP8nJDk
+	tyNx/Bi+wJ9JEuakyocIKrBhNlzAHiuAFqRtxT9TtGOUG8LcMK23KNQytyBU0CiSVTl3BIymWe/Sm
+	gt4rzZ9o8TI1tc1p7R/H2yJOKmZRfRO4uYXQevf0Pztms+3wZM3MutI3YAtWPbbzNNo6/pmhxm8Tj
+	HwHPmFesDVSsWZi+F0zzjZ+wye1BXzaKeCnJ4huLOtDFZTIVl0I/qCOhfv0185YqcCOsrqDH1pjfX
+	YXhTrfuQ==;
+Received: from [2a01:799:95a:cb00:cca0:57ac:c55d:a485] (port=64221)
+	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <noralf@tronnes.org>)
+	id 1os6ar-0004ho-9w; Mon, 07 Nov 2022 19:11:33 +0100
+Message-ID: <a9c0380a-f538-1a19-fd27-983eea42b1b2@tronnes.org>
+Date: Mon, 7 Nov 2022 19:11:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-
-Dne ponedeljek, 07. november 2022 ob 12:30:29 CET je Andre Przywara 
-napisal(a):
-> On Sun,  6 Nov 2022 23:22:00 -0600
-> Samuel Holland <samuel@sholland.org> wrote:
-> 
-> Hi,
-> 
-> > When communicating with a PMIC during system poweroff (pm_power_off()),
-> > IRQs are disabled and we are in a RCU read-side critical section, so we
-> > cannot use wait_for_completion_io_timeout(). Instead, poll the status
-> > register for transfer completion.
-> > 
-> > Fixes: d787dcdb9c8f ("bus: sunxi-rsb: Add driver for Allwinner Reduced
-> > Serial Bus") Signed-off-by: Samuel Holland <samuel@sholland.org>
-> > ---
-> > 
-> > Changes in v2:
-> >  - Add Fixes tag to patch 2
-> >  - Only check for specific status bits when polling
-> >  
-> >  drivers/bus/sunxi-rsb.c | 27 ++++++++++++++++++++-------
-> >  1 file changed, 20 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
-> > index 17343cd75338..012e82f9b7b0 100644
-> > --- a/drivers/bus/sunxi-rsb.c
-> > +++ b/drivers/bus/sunxi-rsb.c
-> > @@ -267,6 +267,9 @@ EXPORT_SYMBOL_GPL(sunxi_rsb_driver_register);
-> > 
-> >  /* common code that starts a transfer */
-> >  static int _sunxi_rsb_run_xfer(struct sunxi_rsb *rsb)
-> >  {
-> > 
-> > +	u32 int_mask, status;
-> > +	bool timeout;
-> > +
-> > 
-> >  	if (readl(rsb->regs + RSB_CTRL) & RSB_CTRL_START_TRANS) {
-> >  	
-> >  		dev_dbg(rsb->dev, "RSB transfer still in progress\n");
-> >  		return -EBUSY;
-> > 
-> > @@ -274,13 +277,23 @@ static int _sunxi_rsb_run_xfer(struct sunxi_rsb
-> > *rsb)
-> > 
-> >  	reinit_completion(&rsb->complete);
-> > 
-> > -	writel(RSB_INTS_LOAD_BSY | RSB_INTS_TRANS_ERR | 
-RSB_INTS_TRANS_OVER,
-> > +	int_mask = RSB_INTS_LOAD_BSY | RSB_INTS_TRANS_ERR | 
-RSB_INTS_TRANS_OVER;
-> > +	writel(int_mask,
-> > 
-> >  	       rsb->regs + RSB_INTE);
-> >  	
-> >  	writel(RSB_CTRL_START_TRANS | RSB_CTRL_GLOBAL_INT_ENB,
-> >  	
-> >  	       rsb->regs + RSB_CTRL);
-> > 
-> > -	if (!wait_for_completion_io_timeout(&rsb->complete,
-> > -					    
-msecs_to_jiffies(100))) {
-> > +	if (irqs_disabled()) {
-> > +		timeout = readl_poll_timeout_atomic(rsb->regs + 
-RSB_INTS,
-> > +						    status, 
-(status & int_mask),
-> > +						    10, 
-100000);
-> 
-> So if I understand correctly, this mimics the operation of
-> sunxi_rsb_irq(), just replacing rsb->status with status.
-> But wouldn't that also mean that we need to clear the interrupt bits in
-> INTS, since we are about to handle them below?
-
-Yes, I pointed out that in review of v1.
-
-Best regards,
-Jernej
-
-> 
-> It probably doesn't matter in practise, since we call this during power
-> down only, but looks like more robust to do, from a driver's perspective.
-> 
-> Cheers,
-> Andre
-> 
-> > +	} else {
-> > +		timeout = !wait_for_completion_io_timeout(&rsb-
->complete,
-> > +							  
-msecs_to_jiffies(100));
-> > +		status = rsb->status;
-> > +	}
-> > +
-> > +	if (timeout) {
-> > 
-> >  		dev_dbg(rsb->dev, "RSB timeout\n");
-> >  		
-> >  		/* abort the transfer */
-> > 
-> > @@ -292,18 +305,18 @@ static int _sunxi_rsb_run_xfer(struct sunxi_rsb
-> > *rsb)
-> > 
-> >  		return -ETIMEDOUT;
-> >  	
-> >  	}
-> > 
-> > -	if (rsb->status & RSB_INTS_LOAD_BSY) {
-> > +	if (status & RSB_INTS_LOAD_BSY) {
-> > 
-> >  		dev_dbg(rsb->dev, "RSB busy\n");
-> >  		return -EBUSY;
-> >  	
-> >  	}
-> > 
-> > -	if (rsb->status & RSB_INTS_TRANS_ERR) {
-> > -		if (rsb->status & RSB_INTS_TRANS_ERR_ACK) {
-> > +	if (status & RSB_INTS_TRANS_ERR) {
-> > +		if (status & RSB_INTS_TRANS_ERR_ACK) {
-> > 
-> >  			dev_dbg(rsb->dev, "RSB slave nack\n");
-> >  			return -EINVAL;
-> >  		
-> >  		}
-> > 
-> > -		if (rsb->status & RSB_INTS_TRANS_ERR_DATA) {
-> > +		if (status & RSB_INTS_TRANS_ERR_DATA) {
-> > 
-> >  			dev_dbg(rsb->dev, "RSB transfer data 
-error\n");
-> >  			return -EIO;
-> >  		
-> >  		}
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v7 16/23] drm/probe-helper: Provide a TV get_modes helper
+To: Maxime Ripard <maxime@cerno.tech>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
+ Lyude Paul <lyude@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>
+Cc: Phil Elwell <phil@raspberrypi.com>, Hans de Goede <hdegoede@redhat.com>,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org, Dom Cobley <dom@raspberrypi.com>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
+References: <20220728-rpi-analog-tv-properties-v7-0-7072a478c6b3@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v7-16-7072a478c6b3@cerno.tech>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v7-16-7072a478c6b3@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
+
+Den 07.11.2022 15.16, skrev Maxime Ripard:
+> From: Noralf Trønnes <noralf@tronnes.org>
+> 
+> Most of the TV connectors will need a similar get_modes implementation
+> that will, depending on the drivers' capabilities, register the 480i and
+> 576i modes.
+> 
+> That implementation will also need to set the preferred flag and order
+> the modes based on the driver and users preferrence.
+> 
+> This is especially important to guarantee that a userspace stack such as
+> Xorg can start and pick up the preferred mode while maintaining a
+> working output.
+> 
+> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> 
+> ---
+> Changes in v7:
+> - Used Noralf's implementation
+> 
+> Changes in v6:
+> - New patch
+> ---
+>  drivers/gpu/drm/drm_probe_helper.c | 97 ++++++++++++++++++++++++++++++++++++++
+>  include/drm/drm_probe_helper.h     |  1 +
+>  2 files changed, 98 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+> index 2fc21df709bc..edb2e4c4530a 100644
+> --- a/drivers/gpu/drm/drm_probe_helper.c
+> +++ b/drivers/gpu/drm/drm_probe_helper.c
+> @@ -1147,3 +1147,100 @@ int drm_connector_helper_get_modes(struct drm_connector *connector)
+>  	return count;
+>  }
+>  EXPORT_SYMBOL(drm_connector_helper_get_modes);
+> +
+> +static bool tv_mode_supported(struct drm_connector *connector,
+> +			      enum drm_connector_tv_mode mode)
+> +{
+> +	struct drm_device *dev = connector->dev;
+> +	struct drm_property *property = dev->mode_config.tv_mode_property;
+> +
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < property->num_values; i++)
+> +		if (property->values[i] == mode)
+> +			return true;
+> +
+> +	return false;
+> +}
+
+This function is not used in the new implementation.
+
+I hope you have tested this patch since I didn't even compile test my
+implementation (probably should have said so...)
+
+Noralf.
+
+> +
+> +/**
+> + * drm_connector_helper_tv_get_modes - Fills the modes availables to a TV connector
+> + * @connector: The connector
+> + *
+> + * Fills the available modes for a TV connector based on the supported
+> + * TV modes, and the default mode expressed by the kernel command line.
+> + *
+> + * This can be used as the default TV connector helper .get_modes() hook
+> + * if the driver does not need any special processing.
+> + *
+> + * Returns:
+> + * The number of modes added to the connector.
+> + */
+> +int drm_connector_helper_tv_get_modes(struct drm_connector *connector)
+> +{
+> +	struct drm_device *dev = connector->dev;
+> +	struct drm_property *tv_mode_property =
+> +		dev->mode_config.tv_mode_property;
+> +	struct drm_cmdline_mode *cmdline = &connector->cmdline_mode;
+> +	unsigned int ntsc_modes = BIT(DRM_MODE_TV_MODE_NTSC) |
+> +		BIT(DRM_MODE_TV_MODE_NTSC_443) |
+> +		BIT(DRM_MODE_TV_MODE_NTSC_J) |
+> +		BIT(DRM_MODE_TV_MODE_PAL_M);
+> +	unsigned int pal_modes = BIT(DRM_MODE_TV_MODE_PAL) |
+> +		BIT(DRM_MODE_TV_MODE_PAL_N) |
+> +		BIT(DRM_MODE_TV_MODE_SECAM);
+> +	unsigned int tv_modes[2] = { UINT_MAX, UINT_MAX };
+> +	unsigned int i, supported_tv_modes = 0;
+> +
+> +	if (!tv_mode_property)
+> +		return 0;
+> +
+> +	for (i = 0; i < tv_mode_property->num_values; i++)
+> +		supported_tv_modes |= BIT(tv_mode_property->values[i]);
+> +
+> +	if ((supported_tv_modes & ntsc_modes) &&
+> +	    (supported_tv_modes & pal_modes)) {
+> +		uint64_t default_mode;
+> +
+> +		if (drm_object_property_get_default_value(&connector->base,
+> +							  tv_mode_property,
+> +							  &default_mode))
+> +			return 0;
+> +
+> +		if (cmdline->tv_mode_specified)
+> +			default_mode = cmdline->tv_mode;
+> +
+> +		if (BIT(default_mode) & ntsc_modes) {
+> +			tv_modes[0] = DRM_MODE_TV_MODE_NTSC;
+> +			tv_modes[1] = DRM_MODE_TV_MODE_PAL;
+> +		} else {
+> +			tv_modes[0] = DRM_MODE_TV_MODE_PAL;
+> +			tv_modes[1] = DRM_MODE_TV_MODE_NTSC;
+> +		}
+> +	} else if (supported_tv_modes & ntsc_modes) {
+> +		tv_modes[0] = DRM_MODE_TV_MODE_NTSC;
+> +	} else if (supported_tv_modes & pal_modes) {
+> +		tv_modes[0] = DRM_MODE_TV_MODE_PAL;
+> +	} else {
+> +		return 0;
+> +	}
+> +
+> +	for (i = 0; i < ARRAY_SIZE(tv_modes); i++) {
+> +		struct drm_display_mode *mode;
+> +
+> +		if (tv_modes[i] == DRM_MODE_TV_MODE_NTSC)
+> +			mode = drm_mode_analog_ntsc_480i(dev);
+> +		else if (tv_modes[i] == DRM_MODE_TV_MODE_PAL)
+> +			mode = drm_mode_analog_pal_576i(dev);
+> +		else
+> +			break;
+> +		if (!mode)
+> +			return i;
+> +		if (!i)
+> +			mode->type |= DRM_MODE_TYPE_PREFERRED;
+> +		drm_mode_probed_add(connector, mode);
+> +	}
+> +
+> +	return i;
+> +}
+> +EXPORT_SYMBOL(drm_connector_helper_tv_get_modes);
+> diff --git a/include/drm/drm_probe_helper.h b/include/drm/drm_probe_helper.h
+> index 5880daa14624..4977e0ab72db 100644
+> --- a/include/drm/drm_probe_helper.h
+> +++ b/include/drm/drm_probe_helper.h
+> @@ -35,5 +35,6 @@ int drm_connector_helper_get_modes_from_ddc(struct drm_connector *connector);
+>  int drm_connector_helper_get_modes_fixed(struct drm_connector *connector,
+>  					 const struct drm_display_mode *fixed_mode);
+>  int drm_connector_helper_get_modes(struct drm_connector *connector);
+> +int drm_connector_helper_tv_get_modes(struct drm_connector *connector);
+>  
+>  #endif
+> 
