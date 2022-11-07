@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E5F115AC
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 00:56:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E0A815AC
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 00:56:19 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2165E1FB;
-	Sun,  6 Nov 2022 16:56:22 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CE43323A;
+	Sun,  6 Nov 2022 16:56:24 -0800 (PST)
 Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 124003F703;
-	Sun,  6 Nov 2022 16:56:13 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3D1503F703;
+	Sun,  6 Nov 2022 16:56:16 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Chen-Yu Tsai <wens@csie.org>,
 	Samuel Holland <samuel@sholland.org>,
@@ -18,11 +18,12 @@ Cc: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: [PATCH v2 06/10] ARM: dts: suniv: f1c100s: add CIR DT node
-Date: Mon,  7 Nov 2022 00:54:29 +0000
-Message-Id: <20221107005433.11079-7-andre.przywara@arm.com>
+	Hans de Goede <hdegoede@redhat.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org
+Subject: [PATCH v2 07/10] ARM: dts: suniv: f1c100s: add LRADC node
+Date: Mon,  7 Nov 2022 00:54:30 +0000
+Message-Id: <20221107005433.11079-8-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.5
 In-Reply-To: <20221107005433.11079-1-andre.przywara@arm.com>
 References: <20221107005433.11079-1-andre.przywara@arm.com>
@@ -34,36 +35,35 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The CIR (infrared receiver) controller in the Allwinner F1C100s series
-of SoCs is compatible to the ones used in other Allwinner SoCs.
+The Allwinner F1C100s series of SoCs contain a LRADC (aka. KEYADC)
+compatible to the version in other SoCs.
+The manual doesn't mention the ratio of the input voltage that is used,
+but comparing actual measurements with the values in the register
+suggests that it is 3/4 of Vref.
 
-Add the DT node describing the resources of the controller.
-There are multiple possible pinmuxes, but none as them seem to be an
-obvious choice, so refrain from adding any pincontroller subnodes for
-now.
+Add the DT node describing the base address and interrupt. As in the
+older SoCs, there is no explicit reset or clock gate, also there is a
+dedicated, non-multiplexed pin, so need for more properties.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- arch/arm/boot/dts/suniv-f1c100s.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ arch/arm/boot/dts/suniv-f1c100s.dtsi | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-index 4f45168cea42..c04cd175f743 100644
+index c04cd175f743..111f8bbc2a80 100644
 --- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
 +++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-@@ -269,6 +269,17 @@ pwm: pwm@1c21000 {
+@@ -280,6 +280,14 @@ ir: ir@1c22c00 {
  			status = "disabled";
  		};
  
-+		ir: ir@1c22c00 {
-+			compatible = "allwinner,suniv-f1c100s-ir",
-+				     "allwinner,sun6i-a31-ir";
-+			reg = <0x01c22c00 0x400>;
-+			clocks = <&ccu CLK_BUS_IR>, <&ccu CLK_IR>;
-+			clock-names = "apb", "ir";
-+			resets = <&ccu RST_BUS_IR>;
-+			interrupts = <6>;
++		lradc: lradc@1c23400 {
++			compatible = "allwinner,suniv-f1c100s-lradc",
++				     "allwinner,sun8i-a83t-r-lradc";
++			reg = <0x01c23400 0x400>;
++			interrupts = <22>;
 +			status = "disabled";
 +		};
 +
