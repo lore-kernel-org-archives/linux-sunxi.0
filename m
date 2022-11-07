@@ -1,151 +1,123 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3552A2CA4
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Nov 2022 23:14:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A81E315AC
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 00:56:03 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5B0091FB;
-	Sun,  6 Nov 2022 15:14:28 -0800 (PST)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8C5103F534;
-	Sun,  6 Nov 2022 15:14:20 -0800 (PST)
-Date: Sun, 6 Nov 2022 23:12:50 +0000
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AF6BD1FB;
+	Sun,  6 Nov 2022 16:56:08 -0800 (PST)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E1CFF3F703;
+	Sun,  6 Nov 2022 16:56:00 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
-To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Rob
- Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, devicetree@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Icenowy
- Zheng <uwu@icenowy.me>, Gregory CLEMENT <gregory.clement@bootlin.com>,
- linux-i2c@vger.kernel.org
-Subject: Re: [PATCH 4/9] ARM: dts: suniv: f1c100s: add I2C DT nodes
-Message-ID: <20221106231214.7d2d8505@slackpad.lan>
-In-Reply-To: <4223066.ejJDZkT8p0@jernej-laptop>
-References: <20221101141658.3631342-1-andre.przywara@arm.com>
-	<20221101141658.3631342-5-andre.przywara@arm.com>
-	<4223066.ejJDZkT8p0@jernej-laptop>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+To: Chen-Yu Tsai <wens@csie.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
+	Icenowy Zheng <uwu@icenowy.me>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 00/10] ARM: dts: suniv: F1C100s: add more peripherals
+Date: Mon,  7 Nov 2022 00:54:23 +0000
+Message-Id: <20221107005433.11079-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, 06 Nov 2022 09:09:17 +0100
-Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+This is a fixed version of the initial post. I dropped the two patches
+that were already applied by the respective maintainers, and fixed the
+smaller issues mentioned in the review.
+This adds v2 of the series enabling the "Lctech Pi F1C200s" board on top,
+also with the comments addressed.
+The whole series goes on top of v3 of Icenowy's F1C100s USB support
+series [1]. There is no real conflict, but the lctech-pi.dts file
+references the new USB DT nodes from the .dtsi.
 
-> Dne torek, 01. november 2022 ob 15:16:53 CET je Andre Przywara napisal(a):
-> > The Allwinner F1C100s series of SoCs contain three I2C controllers
-> > compatible to the ones used in other Allwinner SoCs.
-> >=20
-> > Add the DT nodes describing the resources of the controllers.
-> > I2C1 has only one possible pinmux, so add the pinctrl properties for
-> > that already.
-> > At least one board connects an on-board I2C chip to PD0/PD12 (I2C0), so
-> > include those pins already, to simplify referencing them later.
-> >=20
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  arch/arm/boot/dts/suniv-f1c100s.dtsi | 50 ++++++++++++++++++++++++++++
-> >  1 file changed, 50 insertions(+)
-> >=20
-> > diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi
-> > b/arch/arm/boot/dts/suniv-f1c100s.dtsi index d5a6324e76465..2901c586971=
-b4
-> > 100644
-> > --- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
-> > +++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-> > @@ -166,6 +166,18 @@ mmc0_pins: mmc0-pins {
-> >  				drive-strength =3D <30>;
-> >  			};
-> >=20
-> > +			/omit-if-no-ref/
-> > +			i2c0_pd_pins: i2c0-pd-pins {
-> > +				pins =3D "PD0", "PD12";
-> > +				function =3D "i2c0";
-> > +			};
-> > +
-> > +			/omit-if-no-ref/ =20
->=20
-> Above flag is meaningless if i2c1_pins is always referenced by i2c1.
+I put a git repo with all those patches up here:
+https://github.com/apritzel/linux/commits/f1c100s-devices-v2
 
-Indeed, good point.
+For a changelog see below.
 
-> Anyway, I=20
-> see in pinctrl driver that there are actually two possible pin assignment=
-s for=20
-> i2c1. One on port D and another on port B.
+[1] https://lore.kernel.org/linux-arm-kernel/20221106154826.6687-1-andre.przywara@arm.com/T/#t
 
-Ah, those are the pins that are not documented in the manual (which is
-where I looked at). I will drop that node.
+=================
+The Allwinner F1C100s series of SoCs shares many peripherals with other
+Allwinner SoCs. Since they are compatible, we can use the existing
+drivers, and just need to enable the devices in the DT.
+
+This series adds the I2C controllers, the PWM device, the CIR (infrared)
+device and the LRADC (aka. KEYADC, low res ADC) to the F1C100s .dtsi, so
+boards can just use them by setting 'status = "okay";'.
+
+The only thing missing driver-wise is the IR mod clock, which was not
+modeled in our CCU driver. Patch 4/10 fixes that.
+
+For every device there is one patch that adds the new compatible string
+to the DT binding, and another patch to add the DT node.
+
+This has been tested on the Lctech Pi F1C200s board, by:
+- Connecting an LED to PE6, and configuring this as the PWM pin in the DT.
+  Doing a sweep on /sys/class/pwm/pwm1/duty_cycle made the LED fade out.
+- Configuring PD0/PD12 as I2C0, and letting i2c-detect find the on-board
+  NS2009 I2C chip.
+- Connecting two resistors to the "ADC" pin, and configuring them as two
+  buttons in the DT. /dev/input/event0 properly reported button presses.
+- Connecting an infrared receiver to PE11, configured as CIR.
+  ir-keytable reported key presses on a remote control.
+
+All those (basic) tests were successful, and prove that the peripherals
+do work and are compatible.
+
+The final three patches add the binding docs and the .dts file for the
+Lctech Pi F1C200s development board.
+
+Please have a look and test on your hardware, if possible.
 
 Cheers,
 Andre
 
->=20
-> Best regards,
-> Jernej
->=20
-> > +			i2c1_pins: i2c1-pins {
-> > +				pins =3D "PD5", "PD6";
-> > +				function =3D "i2c1";
-> > +			};
-> > +
-> >  			spi0_pc_pins: spi0-pc-pins {
-> >  				pins =3D "PC0", "PC1", "PC2",  =20
-> "PC3";
-> >  				function =3D "spi0";
-> > @@ -177,6 +189,44 @@ uart0_pe_pins: uart0-pe-pins {
-> >  			};
-> >  		};
-> >=20
-> > +		i2c0: i2c@1c27000 {
-> > +			compatible =3D "allwinner,suniv-f1c100s-i2c",
-> > +				     "allwinner,sun6i-a31-i2c";
-> > +			reg =3D <0x01c27000 0x400>;
-> > +			interrupts =3D <7>;
-> > +			clocks =3D <&ccu CLK_BUS_I2C0>;
-> > +			resets =3D <&ccu RST_BUS_I2C0>;
-> > +			#address-cells =3D <1>;
-> > +			#size-cells =3D <0>;
-> > +			status =3D "disabled";
-> > +		};
-> > +
-> > +		i2c1: i2c@1c27400 {
-> > +			compatible =3D "allwinner,suniv-f1c100s-i2c",
-> > +				     "allwinner,sun6i-a31-i2c";
-> > +			reg =3D <0x01c27400 0x400>;
-> > +			interrupts =3D <8>;
-> > +			clocks =3D <&ccu CLK_BUS_I2C1>;
-> > +			resets =3D <&ccu RST_BUS_I2C1>;
-> > +			pinctrl-names =3D "default";
-> > +			pinctrl-0 =3D <&i2c1_pins>;
-> > +			#address-cells =3D <1>;
-> > +			#size-cells =3D <0>;
-> > +			status =3D "disabled";
-> > +		};
-> > +
-> > +		i2c2: i2c@1c27800 {
-> > +			compatible =3D "allwinner,suniv-f1c100s-i2c",
-> > +				     "allwinner,sun6i-a31-i2c";
-> > +			reg =3D <0x01c27800 0x400>;
-> > +			interrupts =3D <9>;
-> > +			clocks =3D <&ccu CLK_BUS_I2C2>;
-> > +			resets =3D <&ccu RST_BUS_I2C2>;
-> > +			#address-cells =3D <1>;
-> > +			#size-cells =3D <0>;
-> > +			status =3D "disabled";
-> > +		};
-> > +
-> >  		timer@1c20c00 {
-> >  			compatible =3D "allwinner,suniv-f1c100s- =20
-> timer";
-> >  			reg =3D <0x01c20c00 0x90>; =20
->=20
->=20
->=20
->=20
->=20
+Changelog v1 ... v2:
+- dropped former patch 3/9 and 8/9: already applied
+- increase register frame size in DT for PWM and LRADC
+- drop I2C1 pins from pinctroller DT node
+- increase IR mod clock mux to 2 bits
+- fix mistyped comma in vendor prefix name
+- drop unneeded mmc0 and spi0 aliases from Lctech Pi DT
+- add /omit-if-no-ref/ tag to UART1 pins
+- add ACKs and Reviewed-by tags
+
+
+Andre Przywara (10):
+  dt-bindings: pwm: allwinner,sun4i-a10: Add F1C100s compatible
+  ARM: dts: suniv: f1c100s: add PWM node
+  ARM: dts: suniv: f1c100s: add I2C DT nodes
+  clk: sunxi-ng: f1c100s: Add IR mod clock
+  dt-bindings: media: IR: Add F1C100s IR compatible string
+  ARM: dts: suniv: f1c100s: add CIR DT node
+  ARM: dts: suniv: f1c100s: add LRADC node
+  dt-bindings: vendor-prefixes: add Lctech name
+  dt-bindings: arm: sunxi: add compatible strings for Lctech Pi
+  ARM: dts: suniv: Add Lctech Pi F1C200s devicetree
+
+ .../devicetree/bindings/arm/sunxi.yaml        |  6 ++
+ .../media/allwinner,sun4i-a10-ir.yaml         |  1 +
+ .../bindings/pwm/allwinner,sun4i-a10-pwm.yaml |  4 +-
+ .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+ arch/arm/boot/dts/Makefile                    |  1 +
+ arch/arm/boot/dts/suniv-f1c100s.dtsi          | 76 ++++++++++++++++++
+ arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts | 78 +++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c      | 11 ++-
+ drivers/clk/sunxi-ng/ccu-suniv-f1c100s.h      |  2 +-
+ include/dt-bindings/clock/suniv-ccu-f1c100s.h |  2 +
+ 10 files changed, 180 insertions(+), 3 deletions(-)
+ create mode 100644 arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts
+
+-- 
+2.35.5
 
