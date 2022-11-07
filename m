@@ -1,347 +1,176 @@
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA3ABA55
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 14:18:30 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.west.internal (Postfix) with ESMTP id BC6992B0670E;
-	Mon,  7 Nov 2022 09:18:27 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Mon, 07 Nov 2022 09:18:29 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6B3D51D
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 14:52:16 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailnew.west.internal (Postfix) with ESMTP id 10FC32B05D99;
+	Mon,  7 Nov 2022 09:52:06 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Mon, 07 Nov 2022 09:52:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1667830707; x=
-	1667837907; bh=s0oohZSryHTvS6AqnbyD508bkpJln3+0v4TZJ9DnLl4=; b=d
-	rA4vHm3+qbvGDJmAberp0UFPNCtiTgJNdkFoRmdahE3uTfEyuf1LGIQJCTofmAJn
-	U1x9WKsEgDaJTZs4lApXEbDeQ2m1mixIsIXSFSd1C9+rXCEIw/uFySqdt89gzxSv
-	C7A8eaTrCojSgkaEGM28sJbSwCtdrSUVoBChFC+ZnmsRb8dvNShJnGKmPYXVfeM3
-	m7CmrRuodDGUfykcvi1BZO+haTjLJmtuoW4TxwPDh9nx/C69YupLUd4pkPkwl6D7
-	UdXmE3UeIqlHYcJu3hQf4YmUq6z0+s4sond90/QcynYXlkaBvl3UTlb2zMMpKVXD
-	HnbFSEQ/wNCqXQKRUw4sw==
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1667832726; x=1667839926; bh=pH9EnTs5L3
+	AE9yRrf/TOfLTE3vMWtMQ5hIBy7+jkfxo=; b=F7wDDyPbg4B6cj4BQiM8vMTPkt
+	tkEJFLYEYVOXIksN+jqz4ftMcxZZXnzOddYWfqs9q6bd1iOFwyhB5pE4Fvz/05uZ
+	RF10RSC0RzcIedJ1G2E1LSQq4Zg42bEfK0TSyO7m7id0Yy1xeUuD5zWJX3us817V
+	rjIfPInA1Vwm/QlX4DnPJzUv40Z0ii9fRJxzgHqkydlEG9GHtOtzfSoBBYVuklOY
+	znHltzYI/nV8aA3pqWRO9oD9yS5dvx0Tnbouc9wI5DeGckOnRznPX94uGeI63tXw
+	4a6YpykXCScaYQzL11169W/UCCuCj+CqGjGcj2LOgIC8IwvROeIK920PT8Og==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1667830707; x=
-	1667837907; bh=s0oohZSryHTvS6AqnbyD508bkpJln3+0v4TZJ9DnLl4=; b=i
-	g8F8FlFZEnTzmOaK/3ln927B/sbfZUyYEDZtvz7Hw/M8jKpVJ0wivegTCwhYKJQO
-	FO3/WEZ9lY/ts/HPO355QiDRU1vhGWhjgUs6N+gSGEL+NqlaM5Kbk92oAGC11rhc
-	2XDtAOnIll1xWOnGNHIcb0UorzS+1iZ8aapsSVJv4abOcZXXTaBtjrqqFQAe4137
-	hGQWk2Ik3Umx/KxxyQFxEoUY4Q2xIqc/HCkZ4/wRsFKDjlHE0FfBAaBX4qzNbXuh
-	m9qFNcUcfunxWI2SchBd+ly1RpQ9zC8LStIovdxUNIZV0mGZ6AM+r3pE+ZXOi+K4
-	+uvO0bWqhMMuRNed1OhuQ==
-X-ME-Sender: <xms:sxNpY8i9HdsL0R4snEKR0xEKWkSaTBeChxVmksp9EprVG8m_h7Tg3A>
-    <xme:sxNpY1CagbA2ILjrSdgGqdX42bvwxmZBuQ50fN3e4wpMcSZw_6KMNVZP0U1wkjUjZ
-    tK6Bxq2iVf20EOQPYE>
-X-ME-Received: <xmr:sxNpY0Hs8jDyQzWj_bS1JWGI6XF4zKNu9zD3Ya0jfGTPzO0Ef5uDH9Uo-KBMlcTHdhoyx4_rMUmcbb1DZOyj_PyveusEkKxy69FCLIWciWPbRA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdekgdeivdcutefuodetggdotefrodftvf
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1667832726; x=1667839926; bh=pH9EnTs5L3AE9yRrf/TOfLTE3vMW
+	tMQ5hIBy7+jkfxo=; b=tm2CjukNyGky7m61cEbNeNPEwlXow6RPoGg2KjXghbKg
+	ra/lLyp2zKjbGDhKlZm+A1NYUYItu9u5SMkA9pJHis1as3Cuaw086EXYoGiWAwEc
+	kwmgNzmeS59QVCIvcfLkrQ+Ebrrzyvxm0bLZzUJt64WJNOdWIwV+A1Lm0sxt1PlG
+	pqQrTshYGPUOlH25VHE+1Lo/JkFnLumTSx7pnL0tNbn51t3OP92FWPXw0EfQztVG
+	wtJ4RnEpesPcGbqI0l7+PnoJguGMz6X3T6Oc+iWlaBg8/BNZZbD/jeW+bRR9Y7Mm
+	aeVy4dRLsyWLoksEM3gODq0m5OD2atrQxRTwoulo5w==
+X-ME-Sender: <xms:lBtpY-40Eo4JzBjQaFjHtoUz7QeBdEwcwbk96GIlHmmJELkNOdiNuw>
+    <xme:lBtpY355rFDdDU_5_Zhsu6BuYYJ8FsknqxkvYPdHiPLl5stDZ4ymxPAwZCGrhq1q0
+    rYmNowEFVM52RrtcrQ>
+X-ME-Received: <xmr:lBtpY9dGH4qlk66IJxrnFOeAg7gL0Dzov_oSAqI9d3jUn16Bj4wfUEZhAxYh6xwVb1pD_70A4Fj78DNZ9hmuXeqDZ6FtyKnnZ6v_m9fVoJ9KEg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdekgdeijecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhfffuggfgtgfkfhgjvfevofesthekredtredtjeenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpedvgfevjefhtdetveevhfelieeuueetgfdvgeevkeegudejffegfffgtedt
-    leelhfenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:sxNpY9RpgIZqLyVRw17Tt1DtSdYwNM9luydkzal12Xfo83VRDf8fsw>
-    <xmx:sxNpY5xLdUfP67ajJQ0shXek9Y5UlnBkknU7l74Q1bosz-pG1XgYFA>
-    <xmx:sxNpY771lUuNTS4PNG9zOSG_KArn0sLN1VnSNyI97qt4D_d1B1_25w>
-    <xmx:sxNpY5d2eZFpJzYS1yCCnNL-DDjDx5a7B0468dwlct21WaAR4Bx8ZfXjA5Q>
+    fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
+    vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:lBtpY7K_De75Z1Qb3KnMLSjsRajiL-H-Ua3gdzprEa6elskIEslNHg>
+    <xmx:lBtpYyJPcAZLuZCZ9YrgeNVP2SDE0zyvQMv9GMV_qnwg12P9XLOYhg>
+    <xmx:lBtpY8zZKJW8BWrb3kvSxaP7pHRcbh-yGdZ8oBvUaVqZHP2VBvAXdw>
+    <xmx:lhtpY2R7H97-NMegP3mWI1QxFbMYDvDajfqDlJ0guaZiDLR4Zxs1FRw326M>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Nov 2022 09:18:26 -0500 (EST)
+ 7 Nov 2022 09:52:03 -0500 (EST)
+Date: Mon, 7 Nov 2022 15:52:02 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Mon, 07 Nov 2022 15:16:49 +0100
-Subject: [PATCH v7 23/23] drm/sun4i: tv: Convert to the new TV mode property
+To: David Lechner <david@lechnology.com>
+Cc: Stephen Boyd <sboyd@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Shawn Guo <shawnguo@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,	Ulf Hansson <ulf.hansson@linaro.org>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,	Paul Cercueil <paul@crapouillou.net>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+	Jonathan Hunter <jonathanh@nvidia.com>,	Abel Vesa <abelvesa@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Peter De Schrijver <pdeschrijver@nvidia.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Prashant Gaikwad <pgaikwad@nvidia.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Vinod Koul <vkoul@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
+	Sekhar Nori <nsekhar@ti.com>,	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,	Takashi Iwai <tiwai@suse.com>,
+ David Airlie <airlied@gmail.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,	Mark Brown <broonie@kernel.org>,
+ Max Filippov <jcmvbkbc@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-stm32@st-md-mailman.stormreply.com,	alsa-devel@alsa-project.org,
+ linux-mediatek@lists.infradead.org,	linux-phy@lists.infradead.org,
+ linux-mips@vger.kernel.org,	linux-renesas-soc@vger.kernel.org,
+	linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 54/65] clk: da8xx: clk48: Switch to determine_rate
+Message-ID: <20221107145202.2mne5p2sa4l2dm6g@houat>
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+ <20221018-clk-range-checks-fixes-v2-54-f6736dec138e@cerno.tech>
+ <6296d944-e03d-6f2b-48b1-3dad78e3c89d@lechnology.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20220728-rpi-analog-tv-properties-v7-23-7072a478c6b3@cerno.tech>
-References: <20220728-rpi-analog-tv-properties-v7-0-7072a478c6b3@cerno.tech>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v7-0-7072a478c6b3@cerno.tech>
-To: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Ben Skeggs <bskeggs@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, Lyude Paul <lyude@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>
-Cc: Phil Elwell <phil@raspberrypi.com>, Maxime Ripard <maxime@cerno.tech>, Hans de Goede <hdegoede@redhat.com>,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-arm-kernel@lists.infradead.org, Dom Cobley <dom@raspberrypi.com>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, Noralf Trønnes <noralf@tronnes.org>
-X-Mailer: b4 0.11.0-dev-99e3a
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7620; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=hsNs2n7C7f9hehl8S1tfoiQIMRx0LRBYDZVow6+rmgA=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmZwg4elkHfb1q/MMs+kmCituaL6oPrwscbOi7XOKf5aBb/
- OCHYUcrCIMbFICumyBIjbL4k7tSs151sfPNg5rAygQxh4OIUgInscWH4X2lbELBupu6sA45xrgev7z
- ri1uBTOP/CP/fXeRkq/Pwm+xkZzip/OCXgUJos/lzY9PzGA/nSqdOeCl0309R2knf1L0riBQA=
-X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="kwjqag62r4ghubsj"
+Content-Disposition: inline
+In-Reply-To: <6296d944-e03d-6f2b-48b1-3dad78e3c89d@lechnology.com>
 
-Now that the core can deal fine with analog TV modes, let's convert the
-sun4i TV driver to leverage those new features.
 
-Acked-by: Noralf Trønnes <noralf@tronnes.org>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+--kwjqag62r4ghubsj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
----
-Changes in v6:
-- Convert to new get_modes helper
+Hi David,
 
-Changes in v5:
-- Removed the count variable in get_modes
-- Removed spurious vc4 change
----
- drivers/gpu/drm/sun4i/sun4i_tv.c | 141 ++++++++++-----------------------------
- 1 file changed, 34 insertions(+), 107 deletions(-)
+On Fri, Nov 04, 2022 at 11:49:34AM -0500, David Lechner wrote:
+> On 11/4/22 8:18 AM, Maxime Ripard wrote:
+> > The TI DA8xx USB0 clk48 clocks implements a mux with a set_parent
+> > hook, but doesn't provide a determine_rate implementation.
+> >=20
+> > This is a bit odd, since set_parent() is there to, as its name implies,
+> > change the parent of a clock. However, the most likely candidate to
+> > trigger that parent change is a call to clk_set_rate(), with
+> > determine_rate() figuring out which parent is the best suited for a
+> > given rate.
+> >=20
+> > The other trigger would be a call to clk_set_parent(), but it's far less
+> > used, and it doesn't look like there's any obvious user for that clock.
+> >=20
+> > So, the set_parent hook is effectively unused, possibly because of an
+> > oversight. However, it could also be an explicit decision by the
+> > original author to avoid any reparenting but through an explicit call to
+> > clk_set_parent().
+> >=20
+> > The driver does implement round_rate() though, which means that we can
+> > change the rate of the clock, but we will never get to change the
+> > parent.
+> >=20
+> > However, It's hard to tell whether it's been done on purpose or not.
+> >=20
+> > Since we'll start mandating a determine_rate() implementation, let's
+> > convert the round_rate() implementation to a determine_rate(), which
+> > will also make the current behavior explicit. And if it was an
+> > oversight, the clock behaviour can be adjusted later on.
+>=20
+> I think this one should be the same as the clk:davinci changes and
+> not allow re-parenting. Since this is a USB 48MHz PHY clock, a rate
+> change will never be requested.
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tv.c b/drivers/gpu/drm/sun4i/sun4i_tv.c
-index c65f0a89b6b0..9625a00a48ba 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tv.c
-@@ -141,23 +141,14 @@ struct resync_parameters {
- struct tv_mode {
- 	char		*name;
- 
-+	unsigned int	tv_mode;
-+
- 	u32		mode;
- 	u32		chroma_freq;
- 	u16		back_porch;
- 	u16		front_porch;
--	u16		line_number;
- 	u16		vblank_level;
- 
--	u32		hdisplay;
--	u16		hfront_porch;
--	u16		hsync_len;
--	u16		hback_porch;
--
--	u32		vdisplay;
--	u16		vfront_porch;
--	u16		vsync_len;
--	u16		vback_porch;
--
- 	bool		yc_en;
- 	bool		dac3_en;
- 	bool		dac_bit25_en;
-@@ -213,7 +204,7 @@ static const struct resync_parameters pal_resync_parameters = {
- 
- static const struct tv_mode tv_modes[] = {
- 	{
--		.name		= "NTSC",
-+		.tv_mode	= DRM_MODE_TV_MODE_NTSC,
- 		.mode		= SUN4I_TVE_CFG0_RES_480i,
- 		.chroma_freq	= 0x21f07c1f,
- 		.yc_en		= true,
-@@ -222,17 +213,6 @@ static const struct tv_mode tv_modes[] = {
- 
- 		.back_porch	= 118,
- 		.front_porch	= 32,
--		.line_number	= 525,
--
--		.hdisplay	= 720,
--		.hfront_porch	= 18,
--		.hsync_len	= 2,
--		.hback_porch	= 118,
--
--		.vdisplay	= 480,
--		.vfront_porch	= 26,
--		.vsync_len	= 2,
--		.vback_porch	= 17,
- 
- 		.vblank_level	= 240,
- 
-@@ -242,23 +222,12 @@ static const struct tv_mode tv_modes[] = {
- 		.resync_params	= &ntsc_resync_parameters,
- 	},
- 	{
--		.name		= "PAL",
-+		.tv_mode	= DRM_MODE_TV_MODE_PAL,
- 		.mode		= SUN4I_TVE_CFG0_RES_576i,
- 		.chroma_freq	= 0x2a098acb,
- 
- 		.back_porch	= 138,
- 		.front_porch	= 24,
--		.line_number	= 625,
--
--		.hdisplay	= 720,
--		.hfront_porch	= 3,
--		.hsync_len	= 2,
--		.hback_porch	= 139,
--
--		.vdisplay	= 576,
--		.vfront_porch	= 28,
--		.vsync_len	= 2,
--		.vback_porch	= 19,
- 
- 		.vblank_level	= 252,
- 
-@@ -276,63 +245,21 @@ drm_encoder_to_sun4i_tv(struct drm_encoder *encoder)
- 			    encoder);
- }
- 
--/*
-- * FIXME: If only the drm_display_mode private field was usable, this
-- * could go away...
-- *
-- * So far, it doesn't seem to be preserved when the mode is passed by
-- * to mode_set for some reason.
-- */
--static const struct tv_mode *sun4i_tv_find_tv_by_mode(const struct drm_display_mode *mode)
-+static const struct tv_mode *
-+sun4i_tv_find_tv_by_mode(unsigned int mode)
- {
- 	int i;
- 
--	/* First try to identify the mode by name */
- 	for (i = 0; i < ARRAY_SIZE(tv_modes); i++) {
- 		const struct tv_mode *tv_mode = &tv_modes[i];
- 
--		DRM_DEBUG_DRIVER("Comparing mode %s vs %s",
--				 mode->name, tv_mode->name);
--
--		if (!strcmp(mode->name, tv_mode->name))
--			return tv_mode;
--	}
--
--	/* Then by number of lines */
--	for (i = 0; i < ARRAY_SIZE(tv_modes); i++) {
--		const struct tv_mode *tv_mode = &tv_modes[i];
--
--		DRM_DEBUG_DRIVER("Comparing mode %s vs %s (X: %d vs %d)",
--				 mode->name, tv_mode->name,
--				 mode->vdisplay, tv_mode->vdisplay);
--
--		if (mode->vdisplay == tv_mode->vdisplay)
-+		if (tv_mode->tv_mode == mode)
- 			return tv_mode;
- 	}
- 
- 	return NULL;
- }
- 
--static void sun4i_tv_mode_to_drm_mode(const struct tv_mode *tv_mode,
--				      struct drm_display_mode *mode)
--{
--	DRM_DEBUG_DRIVER("Creating mode %s\n", mode->name);
--
--	mode->type = DRM_MODE_TYPE_DRIVER;
--	mode->clock = 13500;
--	mode->flags = DRM_MODE_FLAG_INTERLACE;
--
--	mode->hdisplay = tv_mode->hdisplay;
--	mode->hsync_start = mode->hdisplay + tv_mode->hfront_porch;
--	mode->hsync_end = mode->hsync_start + tv_mode->hsync_len;
--	mode->htotal = mode->hsync_end  + tv_mode->hback_porch;
--
--	mode->vdisplay = tv_mode->vdisplay;
--	mode->vsync_start = mode->vdisplay + tv_mode->vfront_porch;
--	mode->vsync_end = mode->vsync_start + tv_mode->vsync_len;
--	mode->vtotal = mode->vsync_end  + tv_mode->vback_porch;
--}
--
- static void sun4i_tv_disable(struct drm_encoder *encoder,
- 			    struct drm_atomic_state *state)
- {
-@@ -356,7 +283,11 @@ static void sun4i_tv_enable(struct drm_encoder *encoder,
- 	struct drm_crtc_state *crtc_state =
- 		drm_atomic_get_new_crtc_state(state, encoder->crtc);
- 	struct drm_display_mode *mode = &crtc_state->mode;
--	const struct tv_mode *tv_mode = sun4i_tv_find_tv_by_mode(mode);
-+	struct drm_connector *connector = &tv->connector;
-+	struct drm_connector_state *conn_state =
-+		drm_atomic_get_new_connector_state(state, connector);
-+	const struct tv_mode *tv_mode =
-+		sun4i_tv_find_tv_by_mode(conn_state->tv.mode);
- 
- 	DRM_DEBUG_DRIVER("Enabling the TV Output\n");
- 
-@@ -404,7 +335,7 @@ static void sun4i_tv_enable(struct drm_encoder *encoder,
- 	/* Set the lines setup */
- 	regmap_write(tv->regs, SUN4I_TVE_LINE_REG,
- 		     SUN4I_TVE_LINE_FIRST(22) |
--		     SUN4I_TVE_LINE_NUMBER(tv_mode->line_number));
-+		     SUN4I_TVE_LINE_NUMBER(mode->vtotal));
- 
- 	regmap_write(tv->regs, SUN4I_TVE_LEVEL_REG,
- 		     SUN4I_TVE_LEVEL_BLANK(tv_mode->video_levels->blank) |
-@@ -465,37 +396,21 @@ static const struct drm_encoder_helper_funcs sun4i_tv_helper_funcs = {
- 	.atomic_enable	= sun4i_tv_enable,
- };
- 
--static int sun4i_tv_comp_get_modes(struct drm_connector *connector)
--{
--	int i;
--
--	for (i = 0; i < ARRAY_SIZE(tv_modes); i++) {
--		struct drm_display_mode *mode;
--		const struct tv_mode *tv_mode = &tv_modes[i];
--
--		mode = drm_mode_create(connector->dev);
--		if (!mode) {
--			DRM_ERROR("Failed to create a new display mode\n");
--			return 0;
--		}
--
--		strcpy(mode->name, tv_mode->name);
--
--		sun4i_tv_mode_to_drm_mode(tv_mode, mode);
--		drm_mode_probed_add(connector, mode);
--	}
--
--	return i;
--}
--
- static const struct drm_connector_helper_funcs sun4i_tv_comp_connector_helper_funcs = {
--	.get_modes	= sun4i_tv_comp_get_modes,
-+	.atomic_check	= drm_atomic_helper_connector_tv_check,
-+	.get_modes	= drm_connector_helper_tv_get_modes,
- };
- 
-+static void sun4i_tv_connector_reset(struct drm_connector *connector)
-+{
-+	drm_atomic_helper_connector_reset(connector);
-+	drm_atomic_helper_connector_tv_reset(connector);
-+}
-+
- static const struct drm_connector_funcs sun4i_tv_comp_connector_funcs = {
- 	.fill_modes		= drm_helper_probe_single_connector_modes,
- 	.destroy		= drm_connector_cleanup,
--	.reset			= drm_atomic_helper_connector_reset,
-+	.reset			= sun4i_tv_connector_reset,
- 	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
- };
-@@ -587,8 +502,20 @@ static int sun4i_tv_bind(struct device *dev, struct device *master,
- 
- 	drm_connector_attach_encoder(&tv->connector, &tv->encoder);
- 
-+	ret = drm_mode_create_tv_properties(drm,
-+					    BIT(DRM_MODE_TV_MODE_NTSC) |
-+					    BIT(DRM_MODE_TV_MODE_PAL));
-+	if (ret)
-+		goto err_cleanup_connector;
-+
-+	drm_object_attach_property(&tv->connector.base,
-+				   drm->mode_config.tv_mode_property,
-+				   DRM_MODE_TV_MODE_NTSC);
-+
- 	return 0;
- 
-+err_cleanup_connector:
-+	drm_connector_cleanup(&tv->connector);
- err_cleanup_encoder:
- 	drm_encoder_cleanup(&tv->encoder);
- err_disable_clk:
+I'm not sure, it doesn't seem to be the same clock, it's not doing the
+same thing (this one will always force the same rate, the others let the
+rate change), and we're not doing the same refactoring (this one had a
+round_rate implementation, the other one doesn't)
 
--- 
-b4 0.11.0-dev-99e3a
+Maxime
+
+--kwjqag62r4ghubsj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY2kbkgAKCRDj7w1vZxhR
+xdnyAPoDUCObUrCr2C1a0eiJzKGIcW+Cl1z7L7QadhXWYBxPJAD+K5Cnal04FAYQ
+nw7UCY5eZErrD6YvLzwUrAeczrFXVQw=
+=GExv
+-----END PGP SIGNATURE-----
+
+--kwjqag62r4ghubsj--
