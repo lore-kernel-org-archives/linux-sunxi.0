@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B78E15AC
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 00:56:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9B1115AC
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 00:56:11 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 674FC1FB;
-	Sun,  6 Nov 2022 16:56:15 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A8BF723A;
+	Sun,  6 Nov 2022 16:56:17 -0800 (PST)
 Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7DF323F703;
-	Sun,  6 Nov 2022 16:56:07 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 83CE03F703;
+	Sun,  6 Nov 2022 16:56:09 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Chen-Yu Tsai <wens@csie.org>,
 	Samuel Holland <samuel@sholland.org>,
@@ -18,10 +18,12 @@ Cc: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-i2c@vger.kernel.org
-Subject: [PATCH v2 03/10] ARM: dts: suniv: f1c100s: add I2C DT nodes
-Date: Mon,  7 Nov 2022 00:54:26 +0000
-Message-Id: <20221107005433.11079-4-andre.przywara@arm.com>
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	linux-clk@vger.kernel.org
+Subject: [PATCH v2 04/10] clk: sunxi-ng: f1c100s: Add IR mod clock
+Date: Mon,  7 Nov 2022 00:54:27 +0000
+Message-Id: <20221107005433.11079-5-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.5
 In-Reply-To: <20221107005433.11079-1-andre.przywara@arm.com>
 References: <20221107005433.11079-1-andre.przywara@arm.com>
@@ -33,80 +35,80 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Allwinner F1C100s series of SoCs contain three I2C controllers
-compatible to the ones used in other Allwinner SoCs.
+For some reason the mod clock for the Allwinner F1C100s CIR (infrared
+receiver) peripheral was not modeled in the CCU driver.
 
-Add the DT nodes describing the resources of the controllers.
-I2C1 has only one possible pinmux, so add the pinctrl properties for
-that already.
-At least one board connects an on-board I2C chip to PD0/PD12 (I2C0), so
-include those pins already, to simplify referencing them later.
+Add the clock description to the list, and wire it up in the clock list.
+By assigning a new clock ID at the end, it extends the number of clocks.
+
+This allows to use the CIR peripheral on any F1C100s series board.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- arch/arm/boot/dts/suniv-f1c100s.dtsi | 42 ++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+ drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c      | 11 ++++++++++-
+ drivers/clk/sunxi-ng/ccu-suniv-f1c100s.h      |  2 +-
+ include/dt-bindings/clock/suniv-ccu-f1c100s.h |  2 ++
+ 3 files changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-index 81749d5da12f..4f45168cea42 100644
---- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
-+++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-@@ -192,6 +192,12 @@ mmc0_pins: mmc0-pins {
- 				drive-strength = <30>;
- 			};
+diff --git a/drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c b/drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c
+index ed097c4f780f..0d5b60b123b7 100644
+--- a/drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c
++++ b/drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c
+@@ -239,7 +239,14 @@ static SUNXI_CCU_MUX_WITH_GATE(i2s_clk, "i2s", i2s_spdif_parents,
+ static SUNXI_CCU_MUX_WITH_GATE(spdif_clk, "spdif", i2s_spdif_parents,
+ 			       0x0b4, 16, 2, BIT(31), 0);
  
-+			/omit-if-no-ref/
-+			i2c0_pd_pins: i2c0-pd-pins {
-+				pins = "PD0", "PD12";
-+				function = "i2c0";
-+			};
-+
- 			spi0_pc_pins: spi0-pc-pins {
- 				pins = "PC0", "PC1", "PC2", "PC3";
- 				function = "spi0";
-@@ -203,6 +209,42 @@ uart0_pe_pins: uart0-pe-pins {
- 			};
- 		};
+-/* The BSP header file has a CIR_CFG, but no mod clock uses this definition */
++static const char * const ir_parents[] = { "osc32k", "osc24M" };
++static SUNXI_CCU_MP_WITH_MUX_GATE(ir_clk, "ir",
++				  ir_parents, 0x0b8,
++				  0, 4,		/* M */
++				  16, 2,	/* P */
++				  24, 2,        /* mux */
++				  BIT(31),      /* gate */
++				  0);
  
-+		i2c0: i2c@1c27000 {
-+			compatible = "allwinner,suniv-f1c100s-i2c",
-+				     "allwinner,sun6i-a31-i2c";
-+			reg = <0x01c27000 0x400>;
-+			interrupts = <7>;
-+			clocks = <&ccu CLK_BUS_I2C0>;
-+			resets = <&ccu RST_BUS_I2C0>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
+ static SUNXI_CCU_GATE(usb_phy0_clk,	"usb-phy0",	"osc24M",
+ 		      0x0cc, BIT(1), 0);
+@@ -355,6 +362,7 @@ static struct ccu_common *suniv_ccu_clks[] = {
+ 	&mmc1_output_clk.common,
+ 	&i2s_clk.common,
+ 	&spdif_clk.common,
++	&ir_clk.common,
+ 	&usb_phy0_clk.common,
+ 	&dram_ve_clk.common,
+ 	&dram_csi_clk.common,
+@@ -446,6 +454,7 @@ static struct clk_hw_onecell_data suniv_hw_clks = {
+ 		[CLK_MMC1_OUTPUT]	= &mmc1_output_clk.common.hw,
+ 		[CLK_I2S]		= &i2s_clk.common.hw,
+ 		[CLK_SPDIF]		= &spdif_clk.common.hw,
++		[CLK_IR]		= &ir_clk.common.hw,
+ 		[CLK_USB_PHY0]		= &usb_phy0_clk.common.hw,
+ 		[CLK_DRAM_VE]		= &dram_ve_clk.common.hw,
+ 		[CLK_DRAM_CSI]		= &dram_csi_clk.common.hw,
+diff --git a/drivers/clk/sunxi-ng/ccu-suniv-f1c100s.h b/drivers/clk/sunxi-ng/ccu-suniv-f1c100s.h
+index b22484f1bb9a..d56a4316289d 100644
+--- a/drivers/clk/sunxi-ng/ccu-suniv-f1c100s.h
++++ b/drivers/clk/sunxi-ng/ccu-suniv-f1c100s.h
+@@ -29,6 +29,6 @@
+ 
+ /* All bus gates, DRAM gates and mod clocks are exported */
+ 
+-#define CLK_NUMBER		(CLK_AVS + 1)
++#define CLK_NUMBER		(CLK_IR + 1)
+ 
+ #endif /* _CCU_SUNIV_F1C100S_H_ */
+diff --git a/include/dt-bindings/clock/suniv-ccu-f1c100s.h b/include/dt-bindings/clock/suniv-ccu-f1c100s.h
+index f5ac155c9c70..d7570765f424 100644
+--- a/include/dt-bindings/clock/suniv-ccu-f1c100s.h
++++ b/include/dt-bindings/clock/suniv-ccu-f1c100s.h
+@@ -67,4 +67,6 @@
+ #define CLK_CODEC		65
+ #define CLK_AVS			66
+ 
++#define CLK_IR			67
 +
-+		i2c1: i2c@1c27400 {
-+			compatible = "allwinner,suniv-f1c100s-i2c",
-+				     "allwinner,sun6i-a31-i2c";
-+			reg = <0x01c27400 0x400>;
-+			interrupts = <8>;
-+			clocks = <&ccu CLK_BUS_I2C1>;
-+			resets = <&ccu RST_BUS_I2C1>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		i2c2: i2c@1c27800 {
-+			compatible = "allwinner,suniv-f1c100s-i2c",
-+				     "allwinner,sun6i-a31-i2c";
-+			reg = <0x01c27800 0x400>;
-+			interrupts = <9>;
-+			clocks = <&ccu CLK_BUS_I2C2>;
-+			resets = <&ccu RST_BUS_I2C2>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
- 		timer@1c20c00 {
- 			compatible = "allwinner,suniv-f1c100s-timer";
- 			reg = <0x01c20c00 0x90>;
+ #endif
 -- 
 2.35.5
 
