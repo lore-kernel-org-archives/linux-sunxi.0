@@ -1,80 +1,181 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283BC12294
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 18:03:49 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id v27so18894171eda.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 07 Nov 2022 10:03:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fZR5zfjSiAmXCO6kzpyVLCVBd540rTqhTnPKKui0SCQ=;
-        b=TDmmI0uPUe+Vb4w7gQrvJGTlfd9HoHWgnSupc4eYc2lS0G92gqIlJJrL0RRSQy5RUz
-         AP+ndcgQMLPQGjxxQ42h01tRkViSBgM0/klbeMxuEsFP6xhelxHnFmkP5g90XGv1aZdC
-         fxUH+jSBjJwyWulH7WaKNssF36R7pV/tOfKCfhEzLEoaAFGv2mJHIydWOIvSF4B7JrS1
-         cO6H3nR07BEViqWLBoGiwmzi0TxW+RvtlKpYmpnvZj6QKqcvfuhAgHPCDVrTPM9NDhgC
-         ZiZBLXicXmSwdZeIskPbZw8sDhhOIobUlWtajgLzmMYQkvaFaECz10wz0F8d3sXo2H+O
-         BHbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fZR5zfjSiAmXCO6kzpyVLCVBd540rTqhTnPKKui0SCQ=;
-        b=XkoSNN6jNP/FtV/7l+9vmhqLeEORhLyD1Tfx8lGJtB8V1ksaDu224DO0Q5fWqjAF1M
-         xiW6wcUaZ/QgM8zmEO6zIF50Y/iUm8vx9zTLJBm5qglxJ0wwzjED9m+eGIrVzaQOlbgn
-         HFvY2DrnsLK6KI3ZR4Gzv0fqwD5PfQsceEndhtITIUElFN4f28jPry7Z+HKUCU8Pgh7D
-         NBd2v4aGJ4AX0i4I/9ZP4clGvXE6u2tGJYdPooonOfC1RcEQ5zv9vWUJnE9l05eYppPN
-         XJQBGKAaXRBpF/V93DNs+yAu0VtGkPWOh8xINtOFXFNa6I75d/5bzbFUDx9+QP48kMOi
-         J5cg==
-X-Gm-Message-State: ACrzQf3pWXJWNA5rRvrE6t1DiJVxKw1LQoTokBI4Y9RH/2KMSb7I33/T
-	x7J+fqfQNW/TGYAOePoasxk=
-X-Google-Smtp-Source: AMsMyM4ZdFtKiADHcMDRjo9ryfcRpyCpU3hx2nNzMJ9tRG9PPFT6XvEWgIiclIkQvANSy9IQVzjiwg==
-X-Received: by 2002:a05:6402:606:b0:463:bef9:b64a with SMTP id n6-20020a056402060600b00463bef9b64amr774172edv.422.1667844227353;
-        Mon, 07 Nov 2022 10:03:47 -0800 (PST)
-Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id i15-20020a17090671cf00b0078d76ee7543sm3660432ejk.222.2022.11.07.10.03.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Nov 2022 10:03:47 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>, Icenowy Zheng <uwu@icenowy.me>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 10/10] ARM: dts: suniv: Add Lctech Pi F1C200s devicetree
-Date: Mon, 07 Nov 2022 19:03:45 +0100
-Message-ID: <1740432.VLH7GnMWUR@kista>
-In-Reply-To: <20221107005433.11079-11-andre.przywara@arm.com>
-References: <20221107005433.11079-1-andre.przywara@arm.com> <20221107005433.11079-11-andre.przywara@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3430212294
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 18:03:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=3Bf+KcHaW9GVk8+e0qwYG7pDVa7qGqnwKbjfeHC+JJg=; b=J/2pe6qYb5J7p2zVDvNn2y2J2z
+	nOUYFLV3uh28gG/8jdajK+ENWZXy4cnCy5f8yIZZisUtv8a6oX6QYsy6dTBPVZsawqeDDyWnLC5LZ
+	Lj71hcQnXQcJRwdxn2RTEdxJB7vHLhBzj1s97uAqUGTKNH5ch8GbJlqF7VaVAu5245EbIPRx6HQk2
+	KKaLpA1YjAAaRnHSFn3F0iCK/29HrLGAYo17Yxytus4J5ulx5hRzLSEj1SVWyRe7kMnmhOqWFlLQf
+	A/UNuLiiTnbVG+/ePVNcCCZ3GhyHPJ36YAT63jSmGknUWy3cwAIIq0WuJ2NESE+CSNhVwzSAfbtqp
+	Un8MhtCA==;
+Received: from [2a01:799:95a:cb00:cca0:57ac:c55d:a485] (port=63947)
+	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <noralf@tronnes.org>)
+	id 1os6TP-0001Dd-AZ; Mon, 07 Nov 2022 19:03:51 +0100
+Message-ID: <262f0953-1e05-e68e-3e96-2ac2132a1e57@tronnes.org>
+Date: Mon, 7 Nov 2022 19:03:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v7 15/23] drm/modes: Introduce more named modes
+To: Maxime Ripard <maxime@cerno.tech>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
+ Lyude Paul <lyude@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>
+Cc: Phil Elwell <phil@raspberrypi.com>, Hans de Goede <hdegoede@redhat.com>,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org, Dom Cobley <dom@raspberrypi.com>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
+ <noralf@tronnes.org>
+References: <20220728-rpi-analog-tv-properties-v7-0-7072a478c6b3@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v7-15-7072a478c6b3@cerno.tech>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v7-15-7072a478c6b3@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Dne ponedeljek, 07. november 2022 ob 01:54:33 CET je Andre Przywara 
-napisal(a):
-> The Lctech Pi F1C200s (also previously known under the Cherry Pi brand)
-> is a small development board with the Allwinner F1C200s SoC. This is the
-> same as the F1C100s, but with 64MB instead of 32MB co-packaged DRAM.
+
+
+Den 07.11.2022 15.16, skrev Maxime Ripard:
+> Now that we can easily extend the named modes list, let's add a few more
+> analog TV modes that were used in the wild, and some unit tests to make
+> sure it works as intended.
 > 
-> Alongside the obligatory micro-SD card slot, the board features a
-> SPI-NAND flash chip, LCD and touch connectors, and unpopulated
-> expansion header pins.
-> There are two USB Type-C ports on the board: One supplies the power, also
-> connects to the USB MUSB OTG controller port. The other one is connected
-> to an CH340 USB serial chip, which in turn is connected to UART1.
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > 
-> Add a devicetree file, so that the board can be used easily.
+> ---
+> Changes in v6:
+> - Renamed the tests to follow DRM test naming convention
 > 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Changes in v5:
+> - Switched to KUNIT_ASSERT_NOT_NULL
+> ---
+>  drivers/gpu/drm/drm_modes.c                     |  2 +
+>  drivers/gpu/drm/tests/drm_client_modeset_test.c | 54 +++++++++++++++++++++++++
+>  2 files changed, 56 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> index 49441cabdd9d..17c5b6108103 100644
+> --- a/drivers/gpu/drm/drm_modes.c
+> +++ b/drivers/gpu/drm/drm_modes.c
+> @@ -2272,7 +2272,9 @@ struct drm_named_mode {
+>  
+>  static const struct drm_named_mode drm_named_modes[] = {
+>  	NAMED_MODE("NTSC", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE, DRM_MODE_TV_MODE_NTSC),
+> +	NAMED_MODE("NTSC-J", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE, DRM_MODE_TV_MODE_NTSC_J),
+>  	NAMED_MODE("PAL", 13500, 720, 576, DRM_MODE_FLAG_INTERLACE, DRM_MODE_TV_MODE_PAL),
+> +	NAMED_MODE("PAL-M", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE, DRM_MODE_TV_MODE_PAL_M),
+>  };
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+I'm now having second thoughts about the tv_mode commandline option. Can
+we just add all the variants to this table and drop the tv_mode option?
+IMO this will be more user friendly and less confusing.
 
-Best regards,
-Jernej
+The named modes needs to be documented in modedb.rst.
 
+Noralf.
 
+>  
+>  static int drm_mode_parse_cmdline_named_mode(const char *name,
+> diff --git a/drivers/gpu/drm/tests/drm_client_modeset_test.c b/drivers/gpu/drm/tests/drm_client_modeset_test.c
+> index fdfe9e20702e..b3820d25beca 100644
+> --- a/drivers/gpu/drm/tests/drm_client_modeset_test.c
+> +++ b/drivers/gpu/drm/tests/drm_client_modeset_test.c
+> @@ -133,6 +133,32 @@ static void drm_test_pick_cmdline_named_ntsc(struct kunit *test)
+>  	KUNIT_EXPECT_TRUE(test, drm_mode_equal(drm_mode_analog_ntsc_480i(drm), mode));
+>  }
+>  
+> +static void drm_test_pick_cmdline_named_ntsc_j(struct kunit *test)
+> +{
+> +	struct drm_client_modeset_test_priv *priv = test->priv;
+> +	struct drm_device *drm = priv->drm;
+> +	struct drm_connector *connector = &priv->connector;
+> +	struct drm_cmdline_mode *cmdline_mode = &connector->cmdline_mode;
+> +	struct drm_display_mode *mode;
+> +	const char *cmdline = "NTSC-J";
+> +	int ret;
+> +
+> +	KUNIT_ASSERT_TRUE(test,
+> +			  drm_mode_parse_command_line_for_connector(cmdline,
+> +								    connector,
+> +								    cmdline_mode));
+> +
+> +	mutex_lock(&drm->mode_config.mutex);
+> +	ret = drm_helper_probe_single_connector_modes(connector, 1920, 1080);
+> +	mutex_unlock(&drm->mode_config.mutex);
+> +	KUNIT_ASSERT_GT(test, ret, 0);
+> +
+> +	mode = drm_connector_pick_cmdline_mode(connector);
+> +	KUNIT_ASSERT_NOT_NULL(test, mode);
+> +
+> +	KUNIT_EXPECT_TRUE(test, drm_mode_equal(drm_mode_analog_ntsc_480i(drm), mode));
+> +}
+> +
+>  static void drm_test_pick_cmdline_named_pal(struct kunit *test)
+>  {
+>  	struct drm_client_modeset_test_priv *priv = test->priv;
+> @@ -159,10 +185,38 @@ static void drm_test_pick_cmdline_named_pal(struct kunit *test)
+>  	KUNIT_EXPECT_TRUE(test, drm_mode_equal(drm_mode_analog_pal_576i(drm), mode));
+>  }
+>  
+> +static void drm_test_pick_cmdline_named_pal_m(struct kunit *test)
+> +{
+> +	struct drm_client_modeset_test_priv *priv = test->priv;
+> +	struct drm_device *drm = priv->drm;
+> +	struct drm_connector *connector = &priv->connector;
+> +	struct drm_cmdline_mode *cmdline_mode = &connector->cmdline_mode;
+> +	struct drm_display_mode *mode;
+> +	const char *cmdline = "PAL-M";
+> +	int ret;
+> +
+> +	KUNIT_ASSERT_TRUE(test,
+> +			  drm_mode_parse_command_line_for_connector(cmdline,
+> +								    connector,
+> +								    cmdline_mode));
+> +
+> +	mutex_lock(&drm->mode_config.mutex);
+> +	ret = drm_helper_probe_single_connector_modes(connector, 1920, 1080);
+> +	mutex_unlock(&drm->mode_config.mutex);
+> +	KUNIT_ASSERT_GT(test, ret, 0);
+> +
+> +	mode = drm_connector_pick_cmdline_mode(connector);
+> +	KUNIT_ASSERT_NOT_NULL(test, mode);
+> +
+> +	KUNIT_EXPECT_TRUE(test, drm_mode_equal(drm_mode_analog_ntsc_480i(drm), mode));
+> +}
+> +
+>  static struct kunit_case drm_test_pick_cmdline_tests[] = {
+>  	KUNIT_CASE(drm_test_pick_cmdline_res_1920_1080_60),
+>  	KUNIT_CASE(drm_test_pick_cmdline_named_ntsc),
+> +	KUNIT_CASE(drm_test_pick_cmdline_named_ntsc_j),
+>  	KUNIT_CASE(drm_test_pick_cmdline_named_pal),
+> +	KUNIT_CASE(drm_test_pick_cmdline_named_pal_m),
+>  	{}
+>  };
+>  
+> 
