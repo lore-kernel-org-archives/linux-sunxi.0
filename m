@@ -1,51 +1,51 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E907F
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 17:19:31 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id y14so31977268ejd.9
-        for <linux-sunxi@lists.linux.dev>; Mon, 07 Nov 2022 09:19:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BF17F
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 17:35:13 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id y14so32093517ejd.9
+        for <linux-sunxi@lists.linux.dev>; Mon, 07 Nov 2022 09:35:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qu2FEOZRSY9IYT6eXjzTtKMMNTggAYYqVs1ygedKPq8=;
-        b=eP5ltGXdVJCTEnfFtucRNeoiDO5ISElM4ZgzkK3SF43MMp6aAHv4/ErdPHVGtlA/k+
-         fVY5bwSwb2xnDbU7WgI0MzBFD2e0CfvwXjQvJ8PF0YAxl3187R+6KDI6cfhDgP0ORfVY
-         3R6PFcO2XHWhAXPMASTCWpAKIcOHU885WW0tkCW5Ru9//iZw1EohBjJJlCeb2X0Bk+OI
-         eKJkTRWaQd9GPAybx3k9MUln2IJG9A63ws42uE3087CsVN4nu+MzvbQcnN/TSLVMIQjy
-         rDzJIgswPG4pItlOEbw6HXDD6jeBUrK4WWx+T+1Qdozru/hxX769+VXqQ4nWwlqWWN/h
-         /kGg==
+        bh=mPY+3cT3MZaKayKCb1FnP/BDZRsXWWCrLi1A/PBZkJc=;
+        b=gmp7n4AoRy3cYZT6zYqguGPSEXf54UDIRxDVrk7KacRAVpQSciWv4vX2n16NHeW7fI
+         /yh/Pu9AsUzVJ1930MI+8BANU34wRvoDVqT1MxDZFmisrLQdD2MxF+lrD/yBlamxXFig
+         oh/q7iDj6CtmQzCUcz6ny14uhAI3rmqZ890aZwTJRA2yiQUowjN3Ow4KU76KAWgUg6C8
+         mbOVLEosM2L5vu1pPIiXh1UKI94tXTHkKpPFOkemG9to2J4dNcmcFMjEyqKukzJAcA9I
+         /64MkRbRXn+yMTwwP/vLPR9sPAv/OFgkDeSjGK0pNra4g5NxCHiue/AXqT1QXyI7Pr0y
+         4ywQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qu2FEOZRSY9IYT6eXjzTtKMMNTggAYYqVs1ygedKPq8=;
-        b=XF9tvnXot9/TRN6VoghCgFKL+Z587DaHpypyb6PTPd4gaa2LLb4fIE/mMnC2j4cn/G
-         rubUBjhkYZ+yyOAqb64UuK0pl5OORCgNRdEtPrLNtuYBjdcGB0D1YCMYkn5YRZXtpyuI
-         E1FgGk45i/R4QbueX2btRYEK6T+tc+yyAY8ZbLlaAYTNBY3ErmQ7eW09dJ4KnuQqo9p9
-         OlsrGsRSQb1VjMOcft8Qlpje0FXCAgw8YzYM0Ri8dpF3NIQ9HeQgBkpKvpwLChxMaQrP
-         QMepO233OTzuBcgaWeVuz5fRxmXZWPZYA6CoxJZZA8wqkRRcW9Kla3Ur73ngEQYv9eo0
-         0rmg==
-X-Gm-Message-State: ACrzQf2+9dYcwx9pxlu3lDOHbt01PG+7LHQc5rDc5oKdROSA3DVz9Zsl
-	UmMV74SyGRuQMrYte34N1zXBep9OJ/s=
-X-Google-Smtp-Source: AMsMyM6LCBPpdH5Hhccy3tvFaUxUzv+rtYf8WatcRANMUVqlYQrqC2RObFbO+iRqfgVOlcqQlUZMnQ==
-X-Received: by 2002:a17:907:1c01:b0:79d:637c:7848 with SMTP id nc1-20020a1709071c0100b0079d637c7848mr49606542ejc.513.1667841569716;
-        Mon, 07 Nov 2022 09:19:29 -0800 (PST)
+        bh=mPY+3cT3MZaKayKCb1FnP/BDZRsXWWCrLi1A/PBZkJc=;
+        b=MslJoE2MvtMjsFUtzexReW/XrGOaIgiZ3DtFA2P15MbSIIILPR++hvG4Al7S38zBiZ
+         BXu8Ja6ABVg/N7FFrrjm47EAoJw7WF+24MzfZg7RItM3K5/gJhoeJnzE56tiDLu5rwz4
+         F8zgB350qXL7yYh8n6HL9+cyPeyv2UmKNXDDecUnQ2VLthd5dpE2qxEQf9yJdKnd3PIl
+         ah+UoT2N0GTvQO1sSBVDrNwm6IZAQxDgJcTlwLWclqJY9zTQcUjGkhL2BspINKXiGex+
+         NfYeblLrF0BbRQ3wdcKseE2Ng9iRWHcYGk60rjoUFmUHbcrrqux5/KJHLaB5853kl+s1
+         3Ttg==
+X-Gm-Message-State: ACrzQf3Gy5mjqvmLdGL1crjHHi3yH+/8GSQbivFESmAuF9AVG4Ynllw3
+	QoN7NTeGLHJak+N8sQjKvqQ=
+X-Google-Smtp-Source: AMsMyM4GcHsnTIH5YBhdUytB+oAMNR2U/e2ewjfJB+qlvXYSUfhl7+StHVKEuK/0Cqj/qga6kaXANA==
+X-Received: by 2002:a17:907:f9c:b0:7ae:1990:5487 with SMTP id kb28-20020a1709070f9c00b007ae19905487mr22513790ejc.293.1667842511319;
+        Mon, 07 Nov 2022 09:35:11 -0800 (PST)
 Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id r24-20020aa7da18000000b004643f1524f3sm4485651eds.44.2022.11.07.09.19.28
+        by smtp.gmail.com with ESMTPSA id es11-20020a056402380b00b0045bd257b307sm4463039edb.22.2022.11.07.09.35.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Nov 2022 09:19:29 -0800 (PST)
+        Mon, 07 Nov 2022 09:35:10 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Icenowy Zheng <uwu@icenowy.me>, Andre Przywara <andre.przywara@arm.com>
 Cc: soc@kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 06/11] ARM: dts: suniv: licheepi-nano: enable USB
-Date: Mon, 07 Nov 2022 18:19:27 +0100
-Message-ID: <4780198.31r3eYUQgx@kista>
-In-Reply-To: <20221106154826.6687-7-andre.przywara@arm.com>
-References: <20221106154826.6687-1-andre.przywara@arm.com> <20221106154826.6687-7-andre.przywara@arm.com>
+Subject: Re: [PATCH v3 09/11] ARM: dts: suniv: add device tree for PopStick v1.1
+Date: Mon, 07 Nov 2022 18:35:09 +0100
+Message-ID: <4752971.GXAFRqVoOG@kista>
+In-Reply-To: <20221106154826.6687-10-andre.przywara@arm.com>
+References: <20221106154826.6687-1-andre.przywara@arm.com> <20221106154826.6687-10-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -55,20 +55,156 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne nedelja, 06. november 2022 ob 16:48:21 CET je Andre Przywara napisal(a):
+Dne nedelja, 06. november 2022 ob 16:48:24 CET je Andre Przywara napisal(a):
 > From: Icenowy Zheng <uwu@icenowy.me>
 > 
-> Lichee Pi Nano has a Micro-USB connector, with its D+, D- pins connected
-> to the USB pins of the SoC and ID pin connected to PE2 GPIO.
+> PopStick is a minimal Allwinner F1C200s dongle, with its USB controller
+> wired to a USB Type-A port, a SD slot and a SPI NAND flash on board, and
+> an on-board CH340 USB-UART converted connected to F1C200s's UART0.
 > 
-> Enable the USB functionality.
+> Add a device tree for it. As F1C200s is just F1C100s with a different
+> DRAM chip co-packaged, directly use F1C100s DTSI here.
+> 
+> This commit covers the v1.1 version of this board, which is now shipped.
+> v1.0 is some internal sample that have not been shipped at all.
 > 
 > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  arch/arm/boot/dts/Makefile                    |  3 +-
+>  .../boot/dts/suniv-f1c200s-popstick-v1.1.dts  | 99 +++++++++++++++++++
+>  2 files changed, 101 insertions(+), 1 deletion(-)
+>  create mode 100644 arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
+> 
+> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+> index 6aa7dc4db2fc..0249c07bd8a6 100644
+> --- a/arch/arm/boot/dts/Makefile
+> +++ b/arch/arm/boot/dts/Makefile
+> @@ -1391,7 +1391,8 @@ dtb-$(CONFIG_MACH_SUN9I) += \
+>  	sun9i-a80-optimus.dtb \
+>  	sun9i-a80-cubieboard4.dtb
+>  dtb-$(CONFIG_MACH_SUNIV) += \
+> -	suniv-f1c100s-licheepi-nano.dtb
+> +	suniv-f1c100s-licheepi-nano.dtb \
+> +	suniv-f1c200s-popstick-v1.1.dtb
+>  dtb-$(CONFIG_ARCH_TEGRA_2x_SOC) += \
+>  	tegra20-acer-a500-picasso.dtb \
+>  	tegra20-asus-tf101.dtb \
+> diff --git a/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
+> b/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts new file mode 100644
+> index 000000000000..7d69b5fcb905
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
+> @@ -0,0 +1,99 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +/*
+> + * Copyright 2022 Icenowy Zheng <uwu@icenowy.me>
+> + */
+> +
+> +/dts-v1/;
+> +#include "suniv-f1c100s.dtsi"
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/leds/common.h>
+> +
+> +/ {
+> +	model = "Popcorn Computer PopStick v1.1";
+> +	compatible = "sourceparts,popstick-v1.1", "sourceparts,popstick",
+> +		     "allwinner,suniv-f1c200s", "allwinner,suniv-
+f1c100s";
+> +
+> +	aliases {
+> +		serial0 = &uart0;
+> +	};
+> +
+> +	chosen {
+> +		stdout-path = "serial0:115200n8";
+> +	};
+> +
+> +	leds {
+> +		compatible = "gpio-leds";
+> +
+> +		led {
+> +			function = LED_FUNCTION_STATUS;
+> +			color = <LED_COLOR_ID_GREEN>;
+> +			gpios = <&pio 4 6 GPIO_ACTIVE_HIGH>; /* PE6 
+*/
+> +			linux,default-trigger = "heartbeat";
+> +		};
+> +	};
+> +
+> +	reg_vcc3v3: regulator-3v3 {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vcc3v3";
+> +		regulator-min-microvolt = <3300000>;
+> +		regulator-max-microvolt = <3300000>;
+> +	};
+> +};
+> +
+> +&mmc0 {
+> +	cd-gpios = <&pio 4 3 GPIO_ACTIVE_LOW>; /* PE3 */
+> +	bus-width = <4>;
+> +	disable-wp;
+> +	vmmc-supply = <&reg_vcc3v3>;
+> +	status = "okay";
+> +};
+> +
+> +&otg_sram {
+> +	status = "okay";
+> +};
+> +
+> +&spi0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&spi0_pc_pins>;
+> +	status = "okay";
+> +
+> +	flash@0 {
+> +		compatible = "spi-nand";
+> +		reg = <0>;
+> +		spi-max-frequency = <40000000>;
+> +		#address-cells = <1>;
+> +		#size-cells = <1>;
+> +
+> +		partitions {
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+"make dtbs_check" is not happy with cells and partitions. Do we really need 
+them? If yes, then binding needs to be updated beforehand.
 
 Best regards,
 Jernej
+
+> +			compatible = "fixed-partitions";
+> +			#address-cells = <1>;
+> +			#size-cells = <1>;
+> +
+> +			partition@0 {
+> +				label = "u-boot-with-spl";
+> +				reg = <0x0 0x100000>;
+> +			};
+> +
+> +			ubi@100000 {
+> +				label = "ubi";
+> +				reg = <0x100000 0x7f00000>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&uart0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&uart0_pe_pins>;
+> +	status = "okay";
+> +};
+> +
+> +&usb_otg {
+> +	dr_mode = "peripheral";
+> +	status = "okay";
+> +};
+> +
+> +&usbphy {
+> +	status = "okay";
+> +};
+> --
+> 2.35.5
 
 
