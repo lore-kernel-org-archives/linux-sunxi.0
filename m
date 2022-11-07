@@ -1,138 +1,154 @@
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C142F7F
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 10:21:34 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailnew.west.internal (Postfix) with ESMTP id 837442B066A3;
-	Mon,  7 Nov 2022 05:21:29 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Mon, 07 Nov 2022 05:21:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1667816489; x=1667823689; bh=FPdyzqNkno
-	LZUhP2W9zx3qRXwxsEZhxJnbsWmIM7q9s=; b=QVI4ViUBH4YxPOA9lWnWL9ptlQ
-	GzRJxm3akv7pRgn4Lgu2Namq5G2UgGuhr9akyfG1ibYTg/mOYCBey2O27HwtXzvU
-	orXMBjgj/epbf44fS+bnCzEzoezNxNm237lfNVF2mrHPo3p5iZxCeWGZpu6CISNw
-	0hM/f8jZGGBqq+z2C7wTsjzg6m+9zcOEDVjrZkBiRoExNrEonn4BM5UboOUBDITN
-	3t2QGTLrLJlhadHKF71aXvYVPLpw6Yc7snW6P0bTuwZ/IfMigaB0GbCD1iVAC2nt
-	9f3OJS0DpyCeKNxTdQtNTFBhj5x0VG63oNUSiZ+bVNajNeyh4wvO1KJElE9Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1667816489; x=1667823689; bh=FPdyzqNknoLZUhP2W9zx3qRXwxsE
-	ZhxJnbsWmIM7q9s=; b=Ycq6u79xpleK9NLFkmSSE+vWJdz187ocPqXnvzaL4lVc
-	hVjDHXA1VlnPmkCp2KrG1j7LWaA+zdKj/0IF6L11OEPNw3ikKa3Z4BOsroFgu/To
-	s2hePi98JUu3mTp6S1DaLIOPStmWZwu/vzIQz1O+UB3WBkFq2PtbKlTjdZUZ6rBh
-	rbnf4vyKD7O26USrGkwlN3aDb60xYab0yha0JWtiXJE8LdoaHqCWJrWDy/D1reM+
-	rRbv0ZLLFbN6l351CyzLIyuNYb/0zwInMSEu+fyxhMUYW+9PEulNyPJVmYiYX5Nf
-	RDcV4Ut9dVpzbC7Nec4nxUHeRG0MXCI77r3AGPRysw==
-X-ME-Sender: <xms:KNxoY-LOL3K8mIhCu1PvK_DUqG3Ox93ebaLYUBL_xhwGxxUwlDVC8g>
-    <xme:KNxoY2I-iI5tTmWS4pywux6iVjFkwgFcLcjyqcHED2pPkD4b3IbYfzBaGalx7WHgC
-    3V0_QBTkUTFJaG-egs>
-X-ME-Received: <xmr:KNxoY-vzxo3ZS7ES3vZ5uAQkdqLgXnqsysG43KBuNd6WEJEKkeWimf1n9s4Qk4IjP-Y3PU_V-IlqhPHk7Fl-cUARYIJnLTssWYjKDEuSkK5TzQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdekgddugecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepjeevfeehfeekieffgeevleevtefgffefkedtfeeuhfettdegjeehgfegudff
-    ffdunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:KNxoYzZpYghNfsHMr75aKnd1oHUp-emFPZXtErk1JfBJe3AtS_2zqw>
-    <xmx:KNxoY1YUeQqJ3jmeSCjWEiddeq-ZtB-gW-A-9ZqNX3TcF_-KR8Wlxg>
-    <xmx:KNxoY_CIARJZUE2TpmxcTEUNn7HoZzBYZCx7G5wJf0t79CZH6ZXLqw>
-    <xmx:KdxoY77WqKgMcr1Xk39cnQVxWIXUiu3X_6QVZjhd-1gl9P5w6Z0KF1uUmcg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Nov 2022 05:21:27 -0500 (EST)
-Date: Mon, 7 Nov 2022 11:21:26 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Cc: Karol Herbst <kherbst@redhat.com>, Emma Anholt <emma@anholt.net>,
-	Ben Skeggs <bskeggs@redhat.com>, Chen-Yu Tsai <wens@csie.org>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Daniel Vetter <daniel@ffwll.ch>,	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@linux.ie>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Lyude Paul <lyude@redhat.com>, linux-sunxi@lists.linux.dev,
-	intel-gfx@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>,
-	linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org,
-	Hans de Goede <hdegoede@redhat.com>,	Dom Cobley <dom@raspberrypi.com>,
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
-	dri-devel@lists.freedesktop.org,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	linux-kernel@vger.kernel.org,	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v6 16/23] drm/probe-helper: Provide a TV get_modes helper
-Message-ID: <20221107102126.klxrvfe34e6uriyx@houat>
-References: <20220728-rpi-analog-tv-properties-v6-0-e7792734108f@cerno.tech>
- <20220728-rpi-analog-tv-properties-v6-16-e7792734108f@cerno.tech>
- <842076aa-8d7c-96d6-ba46-d0e66dacd2df@tronnes.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E2473229
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 10:58:21 +0000 (UTC)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A75n7uC030088;
+	Mon, 7 Nov 2022 04:56:55 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=PODMain02222019;
+ bh=MTDWpx1hsSGPKEDqYGlpVHQIbEswPJLgPoSW4FILuto=;
+ b=i917JrNjkH3z3a2XXOdwc3doHM6OAxz7LbDVUIm7C+E3Cwrb58ZxQpsKKdqXGk5Z9z+/
+ hzIdNQ85JqsCyNGRwGzs83o+jomuHbPhAuHnJILygojPwEG6jpejkauG5tvHq+6Mjx1T
+ 10Yn1n9hWdF7kaZM8JMcssci6VZmHmvumMtu+EtvU3lJyidhtFDMwmr56awM5w5p+0ch
+ stqQ4q3mYnrkiSj6po7T4la5GvjwlpX4RBmjPsI7iQ7y3uUL/hIt6CTV9TTf6ttWh4IS
+ JztSITFuL9+F5l7b8BFUGCyo8869zZsKrryWoIr9+DG4ZaxCTT2UTGw8JJDMLIjOfV8b vg== 
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3knm8pa27f-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 07 Nov 2022 04:56:54 -0600
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.15; Mon, 7 Nov
+ 2022 04:56:53 -0600
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.15 via Frontend
+ Transport; Mon, 7 Nov 2022 04:56:53 -0600
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 0BFD7468;
+	Mon,  7 Nov 2022 10:56:53 +0000 (UTC)
+Date: Mon, 7 Nov 2022 10:56:53 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Maxime Ripard <maxime@cerno.tech>
+CC: Stephen Boyd <sboyd@kernel.org>,
+        Maxime Coquelin
+	<mcoquelin.stm32@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>, Daniel Vetter
+	<daniel@ffwll.ch>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Thierry
+ Reding <thierry.reding@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>, Shawn
+ Guo <shawnguo@kernel.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        Ulf Hansson
+	<ulf.hansson@linaro.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Dinh Nguyen
+	<dinguyen@kernel.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Chunyan Zhang
+	<zhang.lyra@gmail.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Andreas
+ =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+        Jonathan Hunter
+	<jonathanh@nvidia.com>,
+        Abel Vesa <abelvesa@kernel.org>,
+        Alessandro Zummo
+	<a.zummo@towertech.it>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Orson
+ Zhai <orsonzhai@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Samuel Holland
+	<samuel@sholland.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Richard
+ Fitzgerald <rf@opensource.cirrus.com>,
+        Vinod Koul <vkoul@kernel.org>, NXP
+ Linux Team <linux-imx@nxp.com>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Kishon Vijay
+ Abraham I <kishon@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Takashi Iwai <tiwai@suse.com>, David Airlie <airlied@gmail.com>,
+        Luca
+ Ceresoli <luca.ceresoli@bootlin.com>,
+        Jernej Skrabec
+	<jernej.skrabec@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        David Lechner
+	<david@lechnology.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Mark Brown
+	<broonie@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>,
+        Geert Uytterhoeven
+	<geert+renesas@glider.be>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <alsa-devel@alsa-project.org>, <linux-mediatek@lists.infradead.org>,
+        <linux-phy@lists.infradead.org>, <linux-mips@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-actions@lists.infradead.org>, <linux-clk@vger.kernel.org>,
+        AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>,
+        <patches@opensource.cirrus.com>, <linux-tegra@vger.kernel.org>,
+        <linux-rtc@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v2 65/65] clk: Warn if we register a mux without
+ determine_rate
+Message-ID: <20221107105653.GE10437@ediswmail.ad.cirrus.com>
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+ <20221018-clk-range-checks-fixes-v2-65-f6736dec138e@cerno.tech>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="t7sshpbvkpms7fjp"
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <842076aa-8d7c-96d6-ba46-d0e66dacd2df@tronnes.org>
+In-Reply-To: <20221018-clk-range-checks-fixes-v2-65-f6736dec138e@cerno.tech>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-ORIG-GUID: LEBapgZqMTQa_vVOLP8DsF0yYR6qduTv
+X-Proofpoint-GUID: LEBapgZqMTQa_vVOLP8DsF0yYR6qduTv
+X-Proofpoint-Spam-Reason: safe
 
+On Fri, Nov 04, 2022 at 02:18:22PM +0100, Maxime Ripard wrote:
+> The determine_rate hook allows to select the proper parent and its rate
+> for a given clock configuration. On another hand, set_parent is there to
+> change the parent of a mux.
+> 
+> Some clocks provide a set_parent hook but don't implement
+> determine_rate. In such a case, set_parent is pretty much useless since
+> the clock framework will always assume the current parent is to be used,
+> and we will thus never change it.
+> 
+> This situation can be solved in two ways:
+>   - either we don't need to change the parent, and we thus shouldn't
+>     implement set_parent;
+>   - or we don't want to change the parent, in this case we should set
+>     CLK_SET_RATE_NO_REPARENT;
+>   - or we're missing a determine_rate implementation.
+> 
+> The latter is probably just an oversight from the driver's author, and
+> we should thus raise their awareness about the fact that the current
+> state of the driver is confusing.
+> 
+> It's not clear at this point how many drivers are affected though, so
+> let's make it a warning instead of an error for now.
+> 
 
---t7sshpbvkpms7fjp
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Commit message could probably use updated to make the new state
+of the chain.
 
-Hi Noralf,
-
-I'll leave aside your comments on the code, since we'll use your implementa=
-tion.
-
-On Sun, Nov 06, 2022 at 05:33:48PM +0100, Noralf Tr=F8nnes wrote:
-> Den 26.10.2022 17.33, skrev maxime@cerno.tech:
-> > +
-> > +	if (cmdline->tv_mode_specified)
-> > +		default_mode =3D cmdline->tv_mode;
->=20
-> I realised that we don't verify tv_mode coming from the command line,
-> not here and not in the reset helper. Should we do that? A driver should
-> be programmed defensively to handle an illegal/unsupported value, but it
-> doesn't feel right to allow an illegal enum value coming through the
-> core/helpers.
-
-I don't think we can end up with an invalid value here if it's been
-specified.
-
-We parse the command line through drm_mode_parse_tv_mode() (introduced
-in patch 13 "drm/modes: Introduce the tv_mode property as a command-line
-option") that will pick the tv mode part of the command line, and call
-drm_get_tv_mode_from_name() using it.
-
-drm_get_tv_mode_from_name() will return a EINVAL if it's not a value we
-expect, and mode->tv_mode is only set on success. And AFAIK, there's no
-other path that will set tv_mode.
-
-Maxime
-
---t7sshpbvkpms7fjp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY2jcJgAKCRDj7w1vZxhR
-xTwHAQC3meOlTapYDR/63QvLmjaN9u6WScoxy8cWAwXD3hmNkgEAnvQ95bgKGP7Z
-6DzZToq4NJzBkDndagj4GbAu2CUSwAk=
-=3B0s
------END PGP SIGNATURE-----
-
---t7sshpbvkpms7fjp--
+Thanks,
+Charles
