@@ -1,143 +1,124 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711822565
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 07:52:22 +0000 (UTC)
-Received: by mail-qk1-f177.google.com with SMTP id p18so2163385qkg.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 06 Nov 2022 23:52:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DBE32565
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 08:29:28 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id l12so4603752lfp.6
+        for <linux-sunxi@lists.linux.dev>; Mon, 07 Nov 2022 00:29:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+G+Z3fRjw+YmVPah8QnDEbPwrQNevzGVNtku2Zteqko=;
+        b=p/Ivu84VjaM2s6AOOjS2hGlpuazO2Ifv/qX1ZLT5UgyP37/xADglycLuhgfyqSjppS
+         a85YRL3hjoYVYNjpEANZEBQw4A3ra2/S7Lx6eI6Jxqdk0+oqUWkAK5LDMKqRGsEMPASK
+         9X+itdiBrXDbpxpEPygy9iOHvWAk9xvIVOpGy2sVlc1/Un5ZBNaOP5Xuej51L9khne6P
+         jz8jfGaPMEzTRoSyt7ACKf3kXdxiFGoj3PnGkfjAY3/uVsdBpoB7DevdXZDv9Z+m9dxa
+         RBnjjk27Yt3Mbme5DRNBNyc+yAG6pQaAJrXQIx4t7K9kfoYc2emH1pPLWY+fPCjEb9JP
+         TpVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hLKOOl0yo7YI7pAdrLyTR/NQWG7rhWdAq87I8wp+XOk=;
-        b=3nBwr66D3TJ6ZidhOmAoPghWe5EuFG5a4XtltdagqnArT6SUeDo5SvxmdWGVxlhrkJ
-         /GUq8SYuSIsj4CArlL1dCEHuiArR0r6UxuOgw0X2qJwtdxuhOgLdEDpOCqilM4lPiIuC
-         OKnpVP/jZy4OHNIhJwHSPFZiDbBM/H9Jlri7eps0J33/yGLgG0J4TBnc/Q40CMbzsxh6
-         YfBJL6WKCvk3d4sPM3jWo9KQDFfdteeC00kOAZd0FHiBwj5JybGI8m92pgJDLKzWnUl5
-         r7vtaMG85INm2cU4qLcnESczc3xReO+wKztOKBQYO+jeexlmqUFrpiBBl8dCiV1UpQMo
-         ZHrQ==
-X-Gm-Message-State: ACrzQf0i0b1aoBlZlOymTkYW7RpwGqxV5ZGmoqm62GzwBXTfDrujAbmx
-	5IM4RJR/I3srQb7OKiFWDC8EnwEErndz6d0w
-X-Google-Smtp-Source: AMsMyM7JMmyjNiYvjhrfEIPRABVoadAA8iyvIv34UEVN8VgJIoq5j2NFdT6sAeRGmjc1P9GCDGuyoA==
-X-Received: by 2002:a05:620a:b90:b0:6fa:2ffd:ddad with SMTP id k16-20020a05620a0b9000b006fa2ffdddadmr28591368qkh.542.1667807541138;
-        Sun, 06 Nov 2022 23:52:21 -0800 (PST)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id w13-20020a05620a444d00b006cbc00db595sm6396697qkp.23.2022.11.06.23.52.20
-        for <linux-sunxi@lists.linux.dev>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+G+Z3fRjw+YmVPah8QnDEbPwrQNevzGVNtku2Zteqko=;
+        b=chpzg9Hy0hxAAOfU2lPp//5fXerc3SsHfQzlNS3mM0rwiEHBkH+KYB8oI8NyKyTI9x
+         kwi3hkzjGqbiPlMs4L6ITMJzO0+2JidH+s91Z7kCMIcf0kbHZRmwZvRqLpnl6+sfC8WE
+         3DwON+CUCc5VimfZ2Gs9g6TLLsIxsgF64ADJvNt6lzwzk11ZdO1BDm/V0XB0F7JINJnJ
+         2ezzvzZJt34pyw7yL/97CpjqBaiLTgPtwGzc37pB5BpGcZG9rl9TpkXlyRXa6C39PqCf
+         VamEu4DXJ2poc4EHFmyXBg+uLLeM6V5r9XyBxScL/qRnl1c9AxREFizIeQy3Ei/y4z0S
+         XhXg==
+X-Gm-Message-State: ACrzQf1pXm/NUPrLRWt0RYvn0RvcCEobjAu6PW1yojnMzbV7BUZI2iI8
+	NitxuJ4oQi8AXaquEew+X2Fffg==
+X-Google-Smtp-Source: AMsMyM4itr+2Ipxo0hSi6ESJOXGaPvYia4F+z40sfL+6uusvTHsZiF9bFWl1BTOgHUrh5IA2WU92fQ==
+X-Received: by 2002:ac2:5dd5:0:b0:4a2:2960:a855 with SMTP id x21-20020ac25dd5000000b004a22960a855mr18201090lfq.399.1667809766713;
+        Mon, 07 Nov 2022 00:29:26 -0800 (PST)
+Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
+        by smtp.gmail.com with ESMTPSA id a17-20020a056512201100b004a26b9cea32sm1114789lfb.271.2022.11.07.00.29.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Nov 2022 23:52:20 -0800 (PST)
-Received: by mail-yb1-f174.google.com with SMTP id 131so8232289ybl.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 06 Nov 2022 23:52:20 -0800 (PST)
-X-Received: by 2002:a81:9c49:0:b0:34a:de:97b8 with SMTP id n9-20020a819c49000000b0034a00de97b8mr45959924ywa.384.1667807529144;
- Sun, 06 Nov 2022 23:52:09 -0800 (PST)
+        Mon, 07 Nov 2022 00:29:26 -0800 (PST)
+Message-ID: <334c5f69-2f25-aeb1-b87f-500cf2a6c205@linaro.org>
+Date: Mon, 7 Nov 2022 09:29:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech> <20221018-clk-range-checks-fixes-v2-28-f6736dec138e@cerno.tech>
-In-Reply-To: <20221018-clk-range-checks-fixes-v2-28-f6736dec138e@cerno.tech>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 7 Nov 2022 08:51:56 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXee3Xf8G53anCq-4qfenHhgnMiyC1KhKo8Uv6-UV_jrw@mail.gmail.com>
-Message-ID: <CAMuHMdXee3Xf8G53anCq-4qfenHhgnMiyC1KhKo8Uv6-UV_jrw@mail.gmail.com>
-Subject: Re: [PATCH v2 28/65] clk: renesas: r9a06g032: Add a determine_rate hook
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Stephen Boyd <sboyd@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Claudiu Beznea <claudiu.beznea@microchip.com>, 
-	Michael Turquette <mturquette@baylibre.com>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Paul Cercueil <paul@crapouillou.net>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Manivannan Sadhasivam <mani@kernel.org>, =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Abel Vesa <abelvesa@kernel.org>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, Alessandro Zummo <a.zummo@towertech.it>, 
-	Peter De Schrijver <pdeschrijver@nvidia.com>, Orson Zhai <orsonzhai@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Samuel Holland <samuel@sholland.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Vinod Koul <vkoul@kernel.org>, 
-	NXP Linux Team <linux-imx@nxp.com>, Sekhar Nori <nsekhar@ti.com>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Takashi Iwai <tiwai@suse.com>, David Airlie <airlied@gmail.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	David Lechner <david@lechnology.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Mark Brown <broonie@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, linux-stm32@st-md-mailman.stormreply.com, 
-	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org, 
-	linux-phy@lists.infradead.org, linux-mips@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-actions@lists.infradead.org, 
-	linux-clk@vger.kernel.org, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, patches@opensource.cirrus.com, 
-	linux-tegra@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Gareth Williams <gareth.williams.jx@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] arm64: allwinner: a64: add device tree for SoPine with
+ clusterboard
+Content-Language: en-US
+To: renze@rnplus.nl, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org
+Cc: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+References: <b3b8320f0d2b54a0557331977582d05c@rnplus.nl>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <b3b8320f0d2b54a0557331977582d05c@rnplus.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-CC Gareth
-
-On Fri, Nov 4, 2022 at 2:18 PM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> The Renesas r9a06g032 bitselect clock implements a mux with a set_parent
-> hook, but doesn't provide a determine_rate implementation.
->
-> This is a bit odd, since set_parent() is there to, as its name implies,
-> change the parent of a clock. However, the most likely candidate to
-> trigger that parent change is a call to clk_set_rate(), with
-> determine_rate() figuring out which parent is the best suited for a
-> given rate.
->
-> The other trigger would be a call to clk_set_parent(), but it's far less
-> used, and it doesn't look like there's any obvious user for that clock.
->
-> So, the set_parent hook is effectively unused, possibly because of an
-> oversight. However, it could also be an explicit decision by the
-> original author to avoid any reparenting but through an explicit call to
-> clk_set_parent().
->
-> The latter case would be equivalent to setting the flag
-> CLK_SET_RATE_NO_REPARENT, together with setting our determine_rate hook
-> to __clk_mux_determine_rate(). Indeed, if no determine_rate
-> implementation is provided, clk_round_rate() (through
-> clk_core_round_rate_nolock()) will call itself on the parent if
-> CLK_SET_RATE_PARENT is set, and will not change the clock rate
-> otherwise. __clk_mux_determine_rate() has the exact same behavior when
-> CLK_SET_RATE_NO_REPARENT is set.
->
-> And if it was an oversight, then we are at least explicit about our
-> behavior now and it can be further refined down the line.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+On 06/11/2022 22:40, renze@rnplus.nl wrote:
+> The Pine64 clusterboard needs a to have the tx delay changed to
+> 500ps for ethernet to work. This solution was described by multiple
+> people on the Pine64 forum years ago and nobody has submitted it.
+> 
+> Add a device tree for SoPine with the clusterboard.
+> 
+> Signed-off-by: Renze Nicolai <renze@rnplus.nl>
 > ---
->  drivers/clk/renesas/r9a06g032-clocks.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
-> index 983faa5707b9..70c37097ca6e 100644
-> --- a/drivers/clk/renesas/r9a06g032-clocks.c
-> +++ b/drivers/clk/renesas/r9a06g032-clocks.c
-> @@ -773,6 +773,7 @@ static int r9a06g032_clk_mux_set_parent(struct clk_hw *hw, u8 index)
->  }
->
->  static const struct clk_ops clk_bitselect_ops = {
-> +       .determine_rate = __clk_mux_determine_rate,
->         .get_parent = r9a06g032_clk_mux_get_parent,
->         .set_parent = r9a06g032_clk_mux_set_parent,
->  };
-> @@ -797,7 +798,7 @@ r9a06g032_register_bitsel(struct r9a06g032_priv *clocks,
->
->         init.name = desc->name;
->         init.ops = &clk_bitselect_ops;
-> -       init.flags = CLK_SET_RATE_PARENT;
-> +       init.flags = CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT;
->         init.parent_names = names;
->         init.num_parents = 2;
->
->
-> --
-> b4 0.11.0-dev-99e3a
+>   arch/arm64/boot/dts/allwinner/Makefile                 |  1 +
+>   .../dts/allwinner/sun50i-a64-sopine-clusterboard.dts   | 10 ++++++++++
+>   2 files changed, 11 insertions(+)
+>   create mode 100644 
+> arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-clusterboard.dts
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/Makefile 
+> b/arch/arm64/boot/dts/allwinner/Makefile
+> index 6a96494a2e0a..15b011d1aaea 100644
+> --- a/arch/arm64/boot/dts/allwinner/Makefile
+> +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> @@ -15,6 +15,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += 
+> sun50i-a64-pinephone-1.2.dtb
+>   dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-pinetab.dtb
+>   dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-pinetab-early-adopter.dtb
+>   dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-sopine-baseboard.dtb
+> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-sopine-clusterboard.dtb
+
+This does not look like matching indentation of other entries...
+
+>   dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-teres-i.dtb
+>   dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a100-allwinner-perf1.dtb
+>   dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-bananapi-m2-plus.dtb
+> diff --git 
+> a/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-clusterboard.dts 
+> b/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-clusterboard.dts
+> new file mode 100644
+> index 000000000000..6f8020a22670
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-clusterboard.dts
+> @@ -0,0 +1,10 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +// Copyright (c) 2022 Renze Nicolai <renze@rnplus.nl>
+> +
+> +/dts-v1/;
+> +
+> +#include "sun50i-a64-sopine-baseboard.dts"
+
+You miss compatible and model. You need to document the compatible in
+bindings (just like other top-level).
+
+> +
+> +&emac {
+> +       allwinner,tx-delay-ps = <500>;
+> +};
+
+Best regards,
+Krzysztof
+
