@@ -1,51 +1,51 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A4312294
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 17:56:19 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id t25so32233349ejb.8
-        for <linux-sunxi@lists.linux.dev>; Mon, 07 Nov 2022 09:56:19 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4BCF12294
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 17:57:46 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id 13so32336103ejn.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 07 Nov 2022 09:57:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=J5M84yR8KNE7J//HkmOfrU2wJfnp3oxXpkFv2HPRJ1U=;
-        b=VzR9NOF7ibds6GvNg4Oy9x9HMK67mAuNUmqRtlTryLB1r8/IBq2VvzQCSlh/yUuLIO
-         OIE/VdoZcyKManiV+u7N9cn0WiG0OR7CWkUM72C5E0FR2DQYqCKPMbq+mrigEkrqMCE4
-         3B8ypglfllMhz5a88p6Y9vNxgD3nzzvd+NcajZ/2mwRPuPdLFLRV8buCHi40d7/tLbQ6
-         ivjiLLaCDPO/pzXnQs5kqJRB2wdPeq5K2yK5jj+LpidjQdJy9kdf83miDY2csU5y4OG/
-         zJqND2qonYyDXaWy9LaKkmOQZDeIBtot684WOkLQqZQGjt0F3NyfkiFIredeSVHv3uuI
-         okPA==
+        bh=vxMGJzI9yczq35UtPAYAALllIJzZbRyIRY5qsOAYDYM=;
+        b=cp8fQ/lr2pACh25o4SFAe29CEOBwkgD5CiYwkbnVPImCgnC7svPfyzyrbNN7CI4c5y
+         Sq+x/D7OV1wgNJprVeXLtksMAe8//y1t78qEMuuE+duZgYjKtw2yU9PAHKoz2LvisRXn
+         o5YKvxaG0kG6POCXMM38s0UKyCxA1TAV9mkqAkp8xjmLsSe6wIdDlwhZyww57aPKaDW3
+         d3TpSAGZtMgJVO3WNJIA1GsUzC+O2s5F7FzlFF7EmH0k77NAFzRuEi19WXMJ7Dfo1zzN
+         42URxYQCjhED0S8sErvQfqQsLZsPmtoieNSiZt/1JkOMA4QMQo/IpX2vaBtIBNdn/BOH
+         NSLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=J5M84yR8KNE7J//HkmOfrU2wJfnp3oxXpkFv2HPRJ1U=;
-        b=sAX+cBE1vImLt2YyxP8WFe2agQSUyTo0OojmC01AsQBkczEdLLPB9DX9TWRogISk18
-         rYOOd9Vkzd24H/05i0nMrAC5K8Z0XTyu9vjluAkaRqgaNNag/Mvnm7G45fLOfqgpYdtK
-         3ViUjdhPhg/g01EAn5Ck6FNDFRuLfEFmtb+UMlBYlDHfNJcH45UleyGiZv7EqRUbbALa
-         9Xzebb417sQ7xHp8kWMs3TiSR0GlA5Mc+B0/K2UOjBrobDzoceWkdXAWDPSDZJaL5wED
-         YAMPNl/HR2iPlC1RJgx990EW6JC2QbHswQvyH6bbFACI6bDcs3wR8MFfsWtN1PCh6+oz
-         Edpg==
-X-Gm-Message-State: ACrzQf1zMeriaB95rffOwTZv04bC0Lb/dN0elFul+GoYj/NoawJKH655
-	1uNT4a182BljhaFMTE3wA8Y=
-X-Google-Smtp-Source: AMsMyM73NaXR5bS3Tds0v+JWeAryVlqO+sjHd7Q3UjZyhgcmfE25ZUhpkCzu1RdXg83KzF6K6uyS3Q==
-X-Received: by 2002:a17:907:c24:b0:7ae:41b3:6a67 with SMTP id ga36-20020a1709070c2400b007ae41b36a67mr15286323ejc.254.1667843777564;
-        Mon, 07 Nov 2022 09:56:17 -0800 (PST)
+        bh=vxMGJzI9yczq35UtPAYAALllIJzZbRyIRY5qsOAYDYM=;
+        b=a8Koobpl+1cJAPlMDjAjZe5D6709Tfdkc098nu/qXzbGH3k2hFUMNGQYrRi0txkxMA
+         Drsad9qyXiEzJUb/Y5MakGB94DyDh4lYmasbhUHsjDXsE2RaGgv1Y8gTZ/4r6Ku+aAl/
+         8CMmdwTSZAdJHbgWQr8xfI6bMVBKXW8zawqUtNmr4I9TVdFNh8V584RrjBAHdBaY9Pcj
+         t4V1yZQl3kpBxCq87QzKeAty3ANZWx2LD6DhTMs2iE/r2YjDup/dShUYsoRvKz4Nv+2n
+         e9o//6yPogVljV9qDeBuf6ROolrhrcT/Vs4nuF2Zj82N+6W9w09N6Mcg1Wli5LrFZpkt
+         5gmA==
+X-Gm-Message-State: ACrzQf0zdlc5wgrVZT7VDg9+QnJoBxsFxxrC79L/3TLntgCu2JNz1x+6
+	u8xBvAghxaSuLpFnySYuCKs=
+X-Google-Smtp-Source: AMsMyM60zRpbHPqPHVqmb2QTP+YCYUc0O09jY92wMfgdidMGGiCojPWPfJezpn4zPnFACI1XXhcE7Q==
+X-Received: by 2002:a17:906:cc0f:b0:7ad:2da5:4711 with SMTP id ml15-20020a170906cc0f00b007ad2da54711mr48408500ejb.628.1667843864825;
+        Mon, 07 Nov 2022 09:57:44 -0800 (PST)
 Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id kx23-20020a170907775700b00773f3cb67ffsm3655524ejc.28.2022.11.07.09.56.14
+        by smtp.gmail.com with ESMTPSA id r18-20020aa7cb92000000b00458947539desm4563899edt.78.2022.11.07.09.57.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Nov 2022 09:56:17 -0800 (PST)
+        Mon, 07 Nov 2022 09:57:44 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Icenowy Zheng <uwu@icenowy.me>, Andre Przywara <andre.przywara@arm.com>
-Cc: soc@kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org, linux-usb@vger.kernel.org, Bin Liu <b-liu@ti.com>
-Subject: Re: [PATCH v3 11/11] usb: musb: sunxi: Introduce config struct
-Date: Mon, 07 Nov 2022 18:56:13 +0100
-Message-ID: <8137106.T7Z3S40VBb@kista>
-In-Reply-To: <20221106154826.6687-12-andre.przywara@arm.com>
-References: <20221106154826.6687-1-andre.przywara@arm.com> <20221106154826.6687-12-andre.przywara@arm.com>
+To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andre Przywara <andre.przywara@arm.com>
+Cc: =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>, Icenowy Zheng <uwu@icenowy.me>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Thierry Reding <thierry.reding@gmail.com>, Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v2 02/10] ARM: dts: suniv: f1c100s: add PWM node
+Date: Mon, 07 Nov 2022 18:57:43 +0100
+Message-ID: <2201604.iZASKD2KPV@kista>
+In-Reply-To: <20221107005433.11079-3-andre.przywara@arm.com>
+References: <20221107005433.11079-1-andre.przywara@arm.com> <20221107005433.11079-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -55,216 +55,18 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi Andre!
-
-Dne nedelja, 06. november 2022 ob 16:48:26 CET je Andre Przywara napisal(a):
-> Currently the probe routine explicitly compares the compatible string of
-> the device node to figure out which features and quirks a certain
-> Allwinner MUSB model requires. This gets harder to maintain for new
-> SoCs.
-> 
-> Add a struct sunxi_musb_cfg that names the features and quirks
-> explicitly, and create instances of this struct for every type of MUSB
-> device we support. Then bind this to the compatible strings via the OF
-> data feature.
+Dne ponedeljek, 07. november 2022 ob 01:54:25 CET je Andre Przywara 
+napisal(a):
+> The Allwinner F1C100s family of SoCs contain a PWM controller compatible
+> to the one used in the A20 chip.
+> Add the DT node so that any users can simply enable it in their board
+> DT.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  drivers/usb/musb/sunxi.c | 101 +++++++++++++++++++++++++++++----------
->  1 file changed, 75 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
-> index 4b368d16a73a..266f8baf5af0 100644
-> --- a/drivers/usb/musb/sunxi.c
-> +++ b/drivers/usb/musb/sunxi.c
-> @@ -15,6 +15,7 @@
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> +#include <linux/of_device.h>
->  #include <linux/phy/phy-sun4i-usb.h>
->  #include <linux/platform_device.h>
->  #include <linux/reset.h>
-> @@ -67,6 +68,13 @@
->  #define SUNXI_MUSB_FL_NO_CONFIGDATA		7
->  #define SUNXI_MUSB_FL_PHY_MODE_PEND		8
-> 
-> +struct sunxi_musb_cfg {
-> +	int nr_endpoints;
-> +	bool has_sram;
-> +	bool has_reset;
-> +	bool no_configdata;
-> +};
-> +
->  /* Our read/write methods need access and do not get passed in a musb ref
-> :| */ static struct musb *sunxi_musb;
-> 
-> @@ -625,7 +633,7 @@ static const struct musb_platform_ops sunxi_musb_ops = {
-> #define SUNXI_MUSB_MAX_EP_NUM	6
->  #define SUNXI_MUSB_RAM_BITS	11
-> 
-> -static struct musb_fifo_cfg sunxi_musb_mode_cfg[] = {
-> +static struct musb_fifo_cfg sunxi_musb_mode_cfg_5eps[] = {
->  	MUSB_EP_FIFO_SINGLE(1, FIFO_TX, 512),
->  	MUSB_EP_FIFO_SINGLE(1, FIFO_RX, 512),
->  	MUSB_EP_FIFO_SINGLE(2, FIFO_TX, 512),
-> @@ -641,7 +649,7 @@ static struct musb_fifo_cfg sunxi_musb_mode_cfg[] = {
->  /* H3/V3s OTG supports only 4 endpoints */
->  #define SUNXI_MUSB_MAX_EP_NUM_H3	5
-> 
-> -static struct musb_fifo_cfg sunxi_musb_mode_cfg_h3[] = {
-> +static struct musb_fifo_cfg sunxi_musb_mode_cfg_4eps[] = {
->  	MUSB_EP_FIFO_SINGLE(1, FIFO_TX, 512),
->  	MUSB_EP_FIFO_SINGLE(1, FIFO_RX, 512),
->  	MUSB_EP_FIFO_SINGLE(2, FIFO_TX, 512),
-> @@ -652,18 +660,18 @@ static struct musb_fifo_cfg sunxi_musb_mode_cfg_h3[] =
-> { MUSB_EP_FIFO_SINGLE(4, FIFO_RX, 512),
->  };
-> 
-> -static const struct musb_hdrc_config sunxi_musb_hdrc_config = {
-> -	.fifo_cfg       = sunxi_musb_mode_cfg,
-> -	.fifo_cfg_size  = ARRAY_SIZE(sunxi_musb_mode_cfg),
-> +static const struct musb_hdrc_config sunxi_musb_hdrc_config_5eps = {
-> +	.fifo_cfg       = sunxi_musb_mode_cfg_5eps,
-> +	.fifo_cfg_size  = ARRAY_SIZE(sunxi_musb_mode_cfg_5eps),
->  	.multipoint	= true,
->  	.dyn_fifo	= true,
->  	.num_eps	= SUNXI_MUSB_MAX_EP_NUM,
->  	.ram_bits	= SUNXI_MUSB_RAM_BITS,
->  };
-> 
-> -static struct musb_hdrc_config sunxi_musb_hdrc_config_h3 = {
-> -	.fifo_cfg       = sunxi_musb_mode_cfg_h3,
-> -	.fifo_cfg_size  = ARRAY_SIZE(sunxi_musb_mode_cfg_h3),
-> +static struct musb_hdrc_config sunxi_musb_hdrc_config_4eps = {
 
-While at it, you can mark above struct as const. 5eps struct is already marked 
-as const.
-
-> +	.fifo_cfg       = sunxi_musb_mode_cfg_4eps,
-> +	.fifo_cfg_size  = ARRAY_SIZE(sunxi_musb_mode_cfg_4eps),
->  	.multipoint	= true,
->  	.dyn_fifo	= true,
->  	.num_eps	= SUNXI_MUSB_MAX_EP_NUM_H3,
-> @@ -677,6 +685,7 @@ static int sunxi_musb_probe(struct platform_device
-> *pdev) struct platform_device_info	pinfo;
->  	struct sunxi_glue		*glue;
->  	struct device_node		*np = pdev->dev.of_node;
-> +	const struct sunxi_musb_cfg	*cfg;
->  	int ret;
-> 
->  	if (!np) {
-> @@ -713,29 +722,35 @@ static int sunxi_musb_probe(struct platform_device
-> *pdev) return -EINVAL;
->  	}
->  	pdata.platform_ops	= &sunxi_musb_ops;
-> -	if (!of_device_is_compatible(np, "allwinner,sun8i-h3-musb"))
-> -		pdata.config = &sunxi_musb_hdrc_config;
-> -	else
-> -		pdata.config = &sunxi_musb_hdrc_config_h3;
-> +
-> +	cfg = of_device_get_match_data(&pdev->dev);
-> +	if (!cfg)
-> +		return -EINVAL;
-> +
-> +	switch (cfg->nr_endpoints) {
-> +	case 4:
-> +		pdata.config = &sunxi_musb_hdrc_config_4eps;
-> +		break;
-> +	case 5:
-> +		pdata.config = &sunxi_musb_hdrc_config_5eps;
-> +		break;
-> +	default:
-> +		dev_err(&pdev->dev, "Only 4 or 5 endpoints 
-supported\n");
-> +		return -EINVAL;
-> +	}
-
-Overall nice cleanup! Only thing I would rather see different is to use pointer 
-to struct musb_fifo_cfg directly in config struct. That way you avoid above 
-switch case.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
-> 
->  	glue->dev = &pdev->dev;
->  	INIT_WORK(&glue->work, sunxi_musb_work);
->  	glue->host_nb.notifier_call = sunxi_musb_host_notifier;
-> 
-> -	if (of_device_is_compatible(np, "allwinner,sun4i-a10-musb") ||
-> -	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
-> +	if (cfg->has_sram)
->  		set_bit(SUNXI_MUSB_FL_HAS_SRAM, &glue->flags);
-> -	}
-> 
-> -	if (of_device_is_compatible(np, "allwinner,sun6i-a31-musb"))
-> +	if (cfg->has_reset)
->  		set_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags);
-> 
-> -	if (of_device_is_compatible(np, "allwinner,sun8i-a33-musb") ||
-> -	    of_device_is_compatible(np, "allwinner,sun8i-h3-musb") ||
-> -	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
-> -		set_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags);
-> +	if (cfg->no_configdata)
->  		set_bit(SUNXI_MUSB_FL_NO_CONFIGDATA, &glue->flags);
-> -	}
-> 
->  	glue->clk = devm_clk_get(&pdev->dev, NULL);
->  	if (IS_ERR(glue->clk)) {
-> @@ -813,12 +828,46 @@ static int sunxi_musb_remove(struct platform_device
-> *pdev) return 0;
->  }
-> 
-> +static const struct sunxi_musb_cfg sun4i_a10_musb_cfg = {
-> +	.nr_endpoints = 5,
-> +	.has_sram = true,
-> +};
-> +
-> +static const struct sunxi_musb_cfg sun6i_a31_musb_cfg = {
-> +	.nr_endpoints = 5,
-> +	.has_reset = true,
-> +};
-> +
-> +static const struct sunxi_musb_cfg sun8i_a33_musb_cfg = {
-> +	.nr_endpoints = 5,
-> +	.has_reset = true,
-> +	.no_configdata = true,
-> +};
-> +
-> +static const struct sunxi_musb_cfg sun8i_h3_musb_cfg = {
-> +	.nr_endpoints = 4,
-> +	.has_reset = true,
-> +	.no_configdata = true,
-> +};
-> +
-> +static const struct sunxi_musb_cfg suniv_f1c100s_musb_cfg = {
-> +	.nr_endpoints = 5,
-> +	.has_sram = true,
-> +	.has_reset = true,
-> +	.no_configdata = true,
-> +};
-> +
->  static const struct of_device_id sunxi_musb_match[] = {
-> -	{ .compatible = "allwinner,sun4i-a10-musb", },
-> -	{ .compatible = "allwinner,sun6i-a31-musb", },
-> -	{ .compatible = "allwinner,sun8i-a33-musb", },
-> -	{ .compatible = "allwinner,sun8i-h3-musb", },
-> -	{ .compatible = "allwinner,suniv-f1c100s-musb", },
-> +	{ .compatible = "allwinner,sun4i-a10-musb",
-> +	  .data = &sun4i_a10_musb_cfg, },
-> +	{ .compatible = "allwinner,sun6i-a31-musb",
-> +	  .data = &sun6i_a31_musb_cfg, },
-> +	{ .compatible = "allwinner,sun8i-a33-musb",
-> +	  .data = &sun8i_a33_musb_cfg, },
-> +	{ .compatible = "allwinner,sun8i-h3-musb",
-> +	  .data = &sun8i_h3_musb_cfg, },
-> +	{ .compatible = "allwinner,suniv-f1c100s-musb",
-> +	  .data = &suniv_f1c100s_musb_cfg, },
->  	{}
->  };
->  MODULE_DEVICE_TABLE(of, sunxi_musb_match);
-> --
-> 2.35.5
 
 
