@@ -1,69 +1,69 @@
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA7523BF
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 05:22:06 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 2BDB75C00F1;
-	Mon,  7 Nov 2022 00:22:05 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Mon, 07 Nov 2022 00:22:05 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E28023AA
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 05:32:49 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id A7F3A5C00A3;
+	Mon,  7 Nov 2022 00:32:48 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Mon, 07 Nov 2022 00:32:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1667798525; x=1667884925; bh=gy
-	BTq0Ma+GLkWBSiLTWQDQZqxoZ0z5X/rfo9ICAimTw=; b=XyxbUEkpXnskgkAOAR
-	behrCDtU7Ew7aMxM2Kp2Mglueji47RiwJrlzAGNi5w9qeIRRl7qMpYrF7n2SiZmx
-	9FF1/37mgac7NXvl3ytu409Z9+m0xTi4tAZ9M0bjNZMZRvMxaMscffBLP+7K0nu/
-	quw0b/Q33zHzOG2h7PYg+OidbtF8Igy1gWpXuXTdxWkREgXOClxNK0MZHix4kk5i
-	Vz45S1KZjeWXdVpQnx9Y8ACymyT6FFldCkIZunlR21zahuQDhpRKM0YODD6tUBjy
-	5oUE1i24Jrn5/F+TGhr5EfXB0KzwREA1hrLFcbjjq0yjUnPOekHVgUIPeTbBPFSx
-	De2w==
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm1; t=1667799168; x=1667885568; bh=6V6QlHLGLw2oRr9jPgc9OjO2T
+	eOPpJbgq8qGN4VXflk=; b=ZZ6P/iPDkK/QMpgmXyx6+tiw+rt6GaIUHB5krFnNI
+	hal0ibWG8E8BBTcV+BOt8Xmuu86JiaH5e2Lfl0LzKtgR6e6yuR1Kipf6P8uU23Oe
+	uBkT/EgyDwlAc4Q5aZ38aYMZ3ZjSjssDc6UUsXlJwYdoOCaI+54zg20Wxhe3dsDP
+	1xVSUG0saM8rQNT0vutOeH2E9kO4xFviTZxgGNqlNquLRkgNoIU67WcKeHXzOqiJ
+	Wg7I3aEW1PLyQj+fvNlfODPcaAMPQqh4LIJN0ykZRxNZ8QOiYJrkI64thJquX2ht
+	97rtdnbtVeuMYM+/HCQg6iaItFQcYLctqJ1rqyfupAG+w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1667798525; x=1667884925; bh=gyBTq0Ma+GLkW
-	BSiLTWQDQZqxoZ0z5X/rfo9ICAimTw=; b=D5VXd4bh7p2i046046Vm1vikWqeDc
-	ZG/RyLXHdQLAz0Zex1DPoIkbuHmh+MMznDKd1fg4pI950jEzH6U6I6z60xnvaR+V
-	lWxhL0HTwZcyHBY26iS6fgU4kj3OxwzOrajcJZaB9U0rxKyf6IL87xIb1dj5bQrX
-	iyRtV9D4BFNWlStOuRsLYMVuGyZ3+Du60aEXjublB5P37TeJ08IvzgoDqoW6kX2M
-	US/js3eal7uZPyKdS+pgOYd7rRHp7r2iWOog01e1dikFp6g2lb99lbDEjvCsae0F
-	p/2eidHX3YrDsZXJAVBZ3JoFiMVwlplu3nOieSmc5UgvJcbL4dDQF5JKQ==
-X-ME-Sender: <xms:_ZVoY5gsYOTusT8NuH8VQioRrvPAkYa5sApnhDNSF0ya66cM-kVngA>
-    <xme:_ZVoY-CoGdnkWH8a8ObqemK60FwoVYHqLihym4hqwBhTR6UTi_cwJiejG32rAcN94
-    N1Qtlg5iQ-sjixJ7w>
-X-ME-Received: <xmr:_ZVoY5F_hmOLeQtIPkXQ_xM0xG9DgF-aUTqFuHAd9c5EG3Sxzs8aDtoyEzBpS74XleJGQSrQJ73qQXBpx2PoN7e9WDekKxubvBwVKGNgUxeZWTZl0o0O3GfCFVtspreuOU-Osw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdejgdekvdcutefuodetggdotefrodftvf
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1667799168; x=1667885568; bh=6V6QlHLGLw2oRr9jPgc9OjO2TeOPpJbgq8q
+	GN4VXflk=; b=G3H1WImmm0vDfT8lVkcqqNKqa+nE+NeBwRxKLrMoWNnQXOkviGW
+	MmmjECmS4bsT/Mm791hrBxdMgUQVfgdhdajdt00FjniEjhBWdPQ6Q+0RoCdRQfZB
+	rRXgUX8xAibyvywhbUSjrApPepaybd4AO59mQg4y7ZOVjTF3/bNB84evstXKxzXv
+	6aVnGUvPvYI+hYPnLu7zUOZkG1n786Fg6uyQ2HmIWO5u3L0zqd4obztKbiFY0Lxq
+	9dak7xi00q+2dEnCDC/JDK/ZYcKoWpd7Y8r2SEVQ5rdc0W4IXx/zD3k/6i8VuDk/
+	xRN5M0cQJf0hEo/YfhOyjyzjIDYMTbgfH5Q==
+X-ME-Sender: <xms:gJhoY4n7AehjkRmfxvr-stc8onj90fzux4Ob1NsQF0K9hK16WMgdbQ>
+    <xme:gJhoY31LF4lknYUgq_nzkRNVncJsZuxKSL9eX8FvHNOBfWb8BFG68spyQROiiJ4kL
+    93ik1OzKopX_f-hvw>
+X-ME-Received: <xmr:gJhoY2rKWUGlpwM5iJC87SjwFod9i1_kNos-446sb4y1iM3NzLtUgRNgKUZin-lHKjkxx_VI8gaP2LkDAtDKZ_y5rXDqXDmLWgyA9xQEpKkdv5CNZsOAduloloYp5Kg-P64iTg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdejgdekgecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpedukeetueduhedtleetvefguddvvdejhfefudelgfduveeggeehgfdu
-    feeitdevteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:_ZVoY-QCcNMH9-u6gJibDQDPl519dktO4AjCK1KHlBf1t9LzU6LhPw>
-    <xmx:_ZVoY2zXvUfRjBGT0qI07B7wkkLQlt5b4rBtO5MJ6cO0iXX1DMs3EQ>
-    <xmx:_ZVoY05d1tvwBR7CdIJsQgoAc34WC4llzkjPq1ZUdyNlXp4x-UyeLw>
-    <xmx:_ZVoY9o-QfZWcx5bkE9KtlE4m5a7R6hNMkIm89ItQCQFNbvMh91N_A>
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeekheffteehtdetfffgfeetteejvdefleeuvedufffguedtjedvheelvddv
+    fffhveenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdr
+    ohhrgh
+X-ME-Proxy: <xmx:gJhoY0nXsUnC5akjjWLv_vH8m0NXb3yVruKN23N_2vTZiCuasv1NVw>
+    <xmx:gJhoY20EtCmS0c6XMKUMYnNDBkQ4lKZzif1R5IxOBXkbC8hLEdl0XQ>
+    <xmx:gJhoY7tsAplFnUySLb5UnMtq8zWpUVJjvIhLDVA5UI7ZDYWnhY7QKQ>
+    <xmx:gJhoY_mujgSloETcokPqzX0js1xF-pvOdqDPGVL21z4ivQASBYh_PA>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Nov 2022 00:22:04 -0500 (EST)
+ 7 Nov 2022 00:32:47 -0500 (EST)
 From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
+To: Pavel Machek <pavel@ucw.cz>,
+	linux-leds@vger.kernel.org,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: linux-arm-kernel@lists.infradead.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	linux-kernel@vger.kernel.org,
+Cc: devicetree@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
 	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v2 2/2] bus: sunxi-rsb: Support atomic transfers
-Date: Sun,  6 Nov 2022 23:22:00 -0600
-Message-Id: <20221107052201.65477-3-samuel@sholland.org>
+Subject: [PATCH v6 0/5] leds: Allwinner A100 LED controller support
+Date: Sun,  6 Nov 2022 23:32:41 -0600
+Message-Id: <20221107053247.1180-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221107052201.65477-1-samuel@sholland.org>
-References: <20221107052201.65477-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -72,86 +72,70 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When communicating with a PMIC during system poweroff (pm_power_off()),
-IRQs are disabled and we are in a RCU read-side critical section, so we
-cannot use wait_for_completion_io_timeout(). Instead, poll the status
-register for transfer completion.
+This series adds bindings and a driver for the RGB LED controller found
+in some Allwinner SoCs, starting with A100. The hardware in the R329 and
+D1 SoCs appears to be identical.
 
-Fixes: d787dcdb9c8f ("bus: sunxi-rsb: Add driver for Allwinner Reduced Serial Bus")
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+This v6 is effectively a resend. v5 received no feedback since August.
+
+Patches 4-5 depend on the D1 devicetree series[1], but the rest of this
+series can be merged without them.
+
+This driver was tested on the D1 Nezha board.
+
+[1]: https://lore.kernel.org/linux-riscv/20220815050815.22340-1-samuel@sholland.org/
+
+Changes in v6:
+ - Drop the A100 DMA controller DT node patch, which was merged via a
+   different series
+
+Changes in v5:
+ - A100 contains the original implementation, so use that as the base
+   compatible string, and rename the binding to match
+ - Add "unevaluatedProperties: false" to the child multi-led binding
+ - Rename the driver R329 -> A100, since that is the actual original
+   implementation
+
+Changes in v4:
+ - Use "default" instead of "maxItems" for timing properties
+ - Depend on LEDS_CLASS_MULTICOLOR
+
+Changes in v3:
+ - Removed quotes from enumeration values
+ - Added vendor prefix to timing/format properties
+ - Renamed "format" property to "pixel-format" for clarity
+ - Dropped "vled-supply" as it is unrelated to the controller hardware
+ - Added vendor prefix to timing/format properties
+ - Renamed "format" property to "pixel-format" for clarity
+ - Dropped "vled-supply" as it is unrelated to the controller hardware
+ - Changed "writesl" to "iowrite32_rep" so the driver builds on hppa
 
 Changes in v2:
- - Add Fixes tag to patch 2
- - Only check for specific status bits when polling
+ - Fixed typo leading to duplicate t1h-ns property
+ - Removed "items" layer in definition of dmas/dma-names
+ - Replaced uint32 type reference with maxItems in timing properties
+ - Renamed from sunxi-ledc to sun50i-r329-ledc
+ - Added missing "static" to functions/globals as reported by 0day bot
 
- drivers/bus/sunxi-rsb.c | 27 ++++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 7 deletions(-)
+Samuel Holland (5):
+  dt-bindings: leds: Add Allwinner A100 LED controller
+  leds: sun50i-a100: New driver for the A100 LED controller
+  arm64: dts: allwinner: a100: Add LED controller node
+  riscv: dts: allwinner: d1: Add LED controller node
+  riscv: dts: allwinner: d1: Add RGB LEDs to boards
 
-diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
-index 17343cd75338..012e82f9b7b0 100644
---- a/drivers/bus/sunxi-rsb.c
-+++ b/drivers/bus/sunxi-rsb.c
-@@ -267,6 +267,9 @@ EXPORT_SYMBOL_GPL(sunxi_rsb_driver_register);
- /* common code that starts a transfer */
- static int _sunxi_rsb_run_xfer(struct sunxi_rsb *rsb)
- {
-+	u32 int_mask, status;
-+	bool timeout;
-+
- 	if (readl(rsb->regs + RSB_CTRL) & RSB_CTRL_START_TRANS) {
- 		dev_dbg(rsb->dev, "RSB transfer still in progress\n");
- 		return -EBUSY;
-@@ -274,13 +277,23 @@ static int _sunxi_rsb_run_xfer(struct sunxi_rsb *rsb)
- 
- 	reinit_completion(&rsb->complete);
- 
--	writel(RSB_INTS_LOAD_BSY | RSB_INTS_TRANS_ERR | RSB_INTS_TRANS_OVER,
-+	int_mask = RSB_INTS_LOAD_BSY | RSB_INTS_TRANS_ERR | RSB_INTS_TRANS_OVER;
-+	writel(int_mask,
- 	       rsb->regs + RSB_INTE);
- 	writel(RSB_CTRL_START_TRANS | RSB_CTRL_GLOBAL_INT_ENB,
- 	       rsb->regs + RSB_CTRL);
- 
--	if (!wait_for_completion_io_timeout(&rsb->complete,
--					    msecs_to_jiffies(100))) {
-+	if (irqs_disabled()) {
-+		timeout = readl_poll_timeout_atomic(rsb->regs + RSB_INTS,
-+						    status, (status & int_mask),
-+						    10, 100000);
-+	} else {
-+		timeout = !wait_for_completion_io_timeout(&rsb->complete,
-+							  msecs_to_jiffies(100));
-+		status = rsb->status;
-+	}
-+
-+	if (timeout) {
- 		dev_dbg(rsb->dev, "RSB timeout\n");
- 
- 		/* abort the transfer */
-@@ -292,18 +305,18 @@ static int _sunxi_rsb_run_xfer(struct sunxi_rsb *rsb)
- 		return -ETIMEDOUT;
- 	}
- 
--	if (rsb->status & RSB_INTS_LOAD_BSY) {
-+	if (status & RSB_INTS_LOAD_BSY) {
- 		dev_dbg(rsb->dev, "RSB busy\n");
- 		return -EBUSY;
- 	}
- 
--	if (rsb->status & RSB_INTS_TRANS_ERR) {
--		if (rsb->status & RSB_INTS_TRANS_ERR_ACK) {
-+	if (status & RSB_INTS_TRANS_ERR) {
-+		if (status & RSB_INTS_TRANS_ERR_ACK) {
- 			dev_dbg(rsb->dev, "RSB slave nack\n");
- 			return -EINVAL;
- 		}
- 
--		if (rsb->status & RSB_INTS_TRANS_ERR_DATA) {
-+		if (status & RSB_INTS_TRANS_ERR_DATA) {
- 			dev_dbg(rsb->dev, "RSB transfer data error\n");
- 			return -EIO;
- 		}
+ .../leds/allwinner,sun50i-a100-ledc.yaml      | 139 +++++
+ .../arm64/boot/dts/allwinner/sun50i-a100.dtsi |  14 +
+ .../allwinner/sun20i-d1-lichee-rv-dock.dts    |  12 +
+ .../boot/dts/allwinner/sun20i-d1-nezha.dts    |  13 +
+ arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi  |  21 +
+ drivers/leds/Kconfig                          |   9 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-sun50i-a100.c               | 554 ++++++++++++++++++
+ 8 files changed, 763 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/allwinner,sun50i-a100-ledc.yaml
+ create mode 100644 drivers/leds/leds-sun50i-a100.c
+
 -- 
 2.37.3
 
