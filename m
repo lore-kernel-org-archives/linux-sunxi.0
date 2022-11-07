@@ -1,130 +1,142 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 253E633EE
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 11:30:40 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7858B1FB;
-	Mon,  7 Nov 2022 03:30:44 -0800 (PST)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4D99C3F73D;
-	Mon,  7 Nov 2022 03:30:37 -0800 (PST)
-Date: Mon, 7 Nov 2022 11:30:29 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Ivaylo Dimitrov
- <ivo.g.dimitrov.75@gmail.com>, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 2/2] bus: sunxi-rsb: Support atomic transfers
-Message-ID: <20221107112949.21f52e50@donnerap.cambridge.arm.com>
-In-Reply-To: <20221107052201.65477-3-samuel@sholland.org>
-References: <20221107052201.65477-1-samuel@sholland.org>
-	<20221107052201.65477-3-samuel@sholland.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C285CB4
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Nov 2022 12:06:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46DD2C433D6;
+	Mon,  7 Nov 2022 12:06:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1667822783;
+	bh=TjwC/oCNbbUzKPDP67kFN1hAvayD11aeO+3EJVwBAHE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uVU4PMxo1R8a3xp/WKHs1dq/6doMgdlOpIsmcirQbv3czoZbcxWJpPwnRrBpNnLaM
+	 RIaI2ploJwL3I8PSy07X4klDoFGje/zAjmQm0GMafEh6v9eSVzb3H6UHbMJeGYIK/0
+	 3HkQjVeGkkfj4w3q16A9Jpu8h/eTG5MQNUyBXtMwVQBVCZBvcrvN6PBx8wq4Un2SsG
+	 waxoneKGslH7u6FU8MFJJQeOVg92oqhsWrP6aKBcVt7eUdvfzyvh8bep0OHaNEym9f
+	 kwo9TcnG/5EsDXRnkiFTaef9nelMlw97dI2zZnD+Bud8Et09b4EPGmFQOKomMmC6mm
+	 cuDEys2QhiEog==
+Date: Mon, 7 Nov 2022 12:06:07 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Stephen Boyd <sboyd@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Shawn Guo <shawnguo@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Abel Vesa <abelvesa@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Peter De Schrijver <pdeschrijver@nvidia.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Prashant Gaikwad <pgaikwad@nvidia.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Vinod Koul <vkoul@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
+	Sekhar Nori <nsekhar@ti.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Takashi Iwai <tiwai@suse.com>, David Airlie <airlied@gmail.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	David Lechner <david@lechnology.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
+	linux-phy@lists.infradead.org, linux-mips@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 43/65] ASoC: tlv320aic32x4: Add a determine_rate hook
+Message-ID: <Y2j0r0wX1XtQBvqO@sirena.org.uk>
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+ <20221018-clk-range-checks-fixes-v2-43-f6736dec138e@cerno.tech>
+ <Y2UzdYyjgahJsbHg@sirena.org.uk>
+ <20221104155123.qomguvthehnogkdd@houat>
+ <Y2U2+ePwRieYkNjv@sirena.org.uk>
+ <20221107084322.gk4j75r52zo5k7xk@houat>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fjklijebr6IM77Hd"
+Content-Disposition: inline
+In-Reply-To: <20221107084322.gk4j75r52zo5k7xk@houat>
+X-Cookie: Minimum charge for booths.
 
-On Sun,  6 Nov 2022 23:22:00 -0600
-Samuel Holland <samuel@sholland.org> wrote:
 
-Hi,
+--fjklijebr6IM77Hd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> When communicating with a PMIC during system poweroff (pm_power_off()),
-> IRQs are disabled and we are in a RCU read-side critical section, so we
-> cannot use wait_for_completion_io_timeout(). Instead, poll the status
-> register for transfer completion.
-> 
-> Fixes: d787dcdb9c8f ("bus: sunxi-rsb: Add driver for Allwinner Reduced Serial Bus")
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
-> 
-> Changes in v2:
->  - Add Fixes tag to patch 2
->  - Only check for specific status bits when polling
-> 
->  drivers/bus/sunxi-rsb.c | 27 ++++++++++++++++++++-------
->  1 file changed, 20 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
-> index 17343cd75338..012e82f9b7b0 100644
-> --- a/drivers/bus/sunxi-rsb.c
-> +++ b/drivers/bus/sunxi-rsb.c
-> @@ -267,6 +267,9 @@ EXPORT_SYMBOL_GPL(sunxi_rsb_driver_register);
->  /* common code that starts a transfer */
->  static int _sunxi_rsb_run_xfer(struct sunxi_rsb *rsb)
->  {
-> +	u32 int_mask, status;
-> +	bool timeout;
-> +
->  	if (readl(rsb->regs + RSB_CTRL) & RSB_CTRL_START_TRANS) {
->  		dev_dbg(rsb->dev, "RSB transfer still in progress\n");
->  		return -EBUSY;
-> @@ -274,13 +277,23 @@ static int _sunxi_rsb_run_xfer(struct sunxi_rsb *rsb)
->  
->  	reinit_completion(&rsb->complete);
->  
-> -	writel(RSB_INTS_LOAD_BSY | RSB_INTS_TRANS_ERR | RSB_INTS_TRANS_OVER,
-> +	int_mask = RSB_INTS_LOAD_BSY | RSB_INTS_TRANS_ERR | RSB_INTS_TRANS_OVER;
-> +	writel(int_mask,
->  	       rsb->regs + RSB_INTE);
->  	writel(RSB_CTRL_START_TRANS | RSB_CTRL_GLOBAL_INT_ENB,
->  	       rsb->regs + RSB_CTRL);
->  
-> -	if (!wait_for_completion_io_timeout(&rsb->complete,
-> -					    msecs_to_jiffies(100))) {
-> +	if (irqs_disabled()) {
-> +		timeout = readl_poll_timeout_atomic(rsb->regs + RSB_INTS,
-> +						    status, (status & int_mask),
-> +						    10, 100000);
+On Mon, Nov 07, 2022 at 09:43:22AM +0100, Maxime Ripard wrote:
+> On Fri, Nov 04, 2022 at 03:59:53PM +0000, Mark Brown wrote:
 
-So if I understand correctly, this mimics the operation of
-sunxi_rsb_irq(), just replacing rsb->status with status.
-But wouldn't that also mean that we need to clear the interrupt bits in
-INTS, since we are about to handle them below?
+> > Well, hopefully everyone for whom it's an issue currently will be
+> > objecting to this version of the change anyway so we'll either know
+> > where to set the flag or we'll get the whack-a-mole with the series
+> > being merged?
 
-It probably doesn't matter in practise, since we call this during power
-down only, but looks like more robust to do, from a driver's perspective.
+> I'm sorry, I'm not sure what you mean here. The only issue to fix at the
+> moment is that determine_rate and set_parent aren't coupled, and it led
+> to issues due to oversight.
 
-Cheers,
-Andre
+> I initially added a warning but Stephen wanted to fix all users in that
+> case and make that an error instead.
 
-> +	} else {
-> +		timeout = !wait_for_completion_io_timeout(&rsb->complete,
-> +							  msecs_to_jiffies(100));
-> +		status = rsb->status;
-> +	}
-> +
-> +	if (timeout) {
->  		dev_dbg(rsb->dev, "RSB timeout\n");
->  
->  		/* abort the transfer */
-> @@ -292,18 +305,18 @@ static int _sunxi_rsb_run_xfer(struct sunxi_rsb *rsb)
->  		return -ETIMEDOUT;
->  	}
->  
-> -	if (rsb->status & RSB_INTS_LOAD_BSY) {
-> +	if (status & RSB_INTS_LOAD_BSY) {
->  		dev_dbg(rsb->dev, "RSB busy\n");
->  		return -EBUSY;
->  	}
->  
-> -	if (rsb->status & RSB_INTS_TRANS_ERR) {
-> -		if (rsb->status & RSB_INTS_TRANS_ERR_ACK) {
-> +	if (status & RSB_INTS_TRANS_ERR) {
-> +		if (status & RSB_INTS_TRANS_ERR_ACK) {
->  			dev_dbg(rsb->dev, "RSB slave nack\n");
->  			return -EINVAL;
->  		}
->  
-> -		if (rsb->status & RSB_INTS_TRANS_ERR_DATA) {
-> +		if (status & RSB_INTS_TRANS_ERR_DATA) {
->  			dev_dbg(rsb->dev, "RSB transfer data error\n");
->  			return -EIO;
->  		}
+My suggestion is that instead of doing either of these things it'd be
+quicker and less error prone to just fix the core to provide the default
+implementation if nothing more specific is provided.  Any issues that
+causes would already be present with your current series.
 
+> If I filled __clk_mux_determine_rate into clocks that weren't using it
+> before, I would change their behavior. With that flag set, on all users
+> I add __clk_mux_determine_rate to, the behavior is the same than what we
+> previously had, so the risk of regressions is minimal, and everything
+> should keep going like it was?
+
+The series does fill in __clk_mux_determine_rate for everything though -
+if it was just assumed by default the only thing that'd be needed would
+be adding the flag.
+
+--fjklijebr6IM77Hd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNo9K4ACgkQJNaLcl1U
+h9CrmQf/bbIS1m2oXUj6n0mwM7QBssq/2mPiYM5zHCkJ5nf48MDZPWSwMuq37myq
+q8lR7tDeZBdU/MtjTTpvWo8j/TLyZRrhWhX5rItRjfhZdXtePpp0tci4nHKyvWuD
+Lc6+WJkeyUQsy93Y0qyvKl9DZ8o4Dyqs/lM7kkCEy+9eJNaT7QFAFZYhdUN2FJAR
+2YiQG2mvchxdE7SyVxMsOfXX/J6haXQKAcKej6M1HpuJukPGEKH2N9WqfKKNUuWY
+rMJ0QnheSBUxkPHRzdDOMo2k+xDK6cOSg8RxRtKQ2djWWWXII5JWs6VyVHLeK6Cx
+9KTsnJ+fIbHK0GK9Pq3vm90Uk4W3Ng==
+=y36Q
+-----END PGP SIGNATURE-----
+
+--fjklijebr6IM77Hd--
