@@ -1,131 +1,165 @@
-Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFFDF20E6
-	for <linux-sunxi@lists.linux.dev>; Tue,  8 Nov 2022 01:34:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1667871240; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=hYnDcG3IUi2Ki1Z9MH7oJY6XcT3e6Ni25zdj7tgu1X6Ingy9wqrJEWctWM1RPgcLEm38BJ1CchDqGLGMApBSGG5AF44pqM1D//aO7+FfGXHMufKCPumvxwyXpEcRyzSDXvelP3qqIwzFQe7ur6F7sS1iPsXA+G/q669ty/7+NY4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1667871240; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=bWSow0ANRbgZL+RpPiwpQoWZxSeKC1ZJf+WW9du0GoQ=; 
-	b=GnCZUIn6vVdh/hyI22q1ZfSx2UxHv+el5LQ2Mc2z0NvJj7/GQE/Ci3EPSwdE/Fo2KIj+K+czVRCcruydY06m/J5iN503a/fDxeoO2AeXWTS5NbYrEfSBqIX/SvVb5wiFLzQyDJqZQ4cFtp0h76sgfSf/U4zArjasbd7qS8dY0vo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1667871240;
-	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=bWSow0ANRbgZL+RpPiwpQoWZxSeKC1ZJf+WW9du0GoQ=;
-	b=DsPm34O2/9q5MaN31669a52IxxaOMzZwIPBZEL8oS0nzuCvw3mLfXOJO4zfvZb/P
-	/7razN4vVgVy8aL0kSm60zYb7yVqOMuWNyDib6i9hduTFXl0O4rzmRhzl8N+xK7TcSz
-	QImmjbxKlcmzAq+r0stL5AEDG/1wpaTgoDZxa7eQ=
-Received: from edelgard.fodlan.icenowy.me (112.94.103.200 [112.94.103.200]) by mx.zohomail.com
-	with SMTPS id 1667871237476152.56577536025281; Mon, 7 Nov 2022 17:33:57 -0800 (PST)
-Message-ID: <6b11ee97ebf53dd30bab14c9c40ef8f073a616aa.camel@icenowy.me>
-Subject: Re: [PATCH v2] arm64: allwinner: a64: add device tree for SoPine
- with clusterboard
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Renze Nicolai <renze@rnplus.nl>, Krzysztof Kozlowski
-	 <krzysztof.kozlowski@linaro.org>
-Cc: linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Rob
- Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,  Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
-Date: Tue, 08 Nov 2022 09:33:51 +0800
-In-Reply-To: <c2523181268451aa04a2474a2cf5bedb@rnplus.nl>
-References: <b3b8320f0d2b54a0557331977582d05c@rnplus.nl>
-	 <334c5f69-2f25-aeb1-b87f-500cf2a6c205@linaro.org>
-	 <c2523181268451aa04a2474a2cf5bedb@rnplus.nl>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0F32F39
+	for <linux-sunxi@lists.linux.dev>; Tue,  8 Nov 2022 05:17:31 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 94A605C012D;
+	Tue,  8 Nov 2022 00:17:30 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Tue, 08 Nov 2022 00:17:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1667884650; x=
+	1667971050; bh=SJuSQ+jl4Uygd+zShoyysZlrDAWOx7DmYFHRE5FGIXo=; b=S
+	kdhmMKzarfOb9xVud6mQlPboh4TpWsge6cXiy8JsE/M8hh9r/7KW2qkOpV136HKj
+	aNXOGnrLMS35PbnaY5A7LG2qwbtJcRcf9r7zC6EslEJ9PMJvyOZ3F6eBWCUBiqB1
+	qDyPol0ubpbmcBZ2A+OdtkQ0ZVK3bLYfBCH2gFzcgIB0Yx4lwH6CphFYZmYzjYr4
+	5cI5/+P29fop02nxsNzybXw7MiPkBpG2XZ4v6+dKloOjDHjFCKvSku6+eHyX+eZo
+	BggPYvDKBHaGfzILP4Kj1MKY5fdGntS5LHKrCgKFBLtFKr95OUYh1TXEWeYo3vMF
+	a8eeY+ihMWmi9daERIV1g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1667884650; x=
+	1667971050; bh=SJuSQ+jl4Uygd+zShoyysZlrDAWOx7DmYFHRE5FGIXo=; b=p
+	q00CHf9Fh3THRGWklQr99bPgKGDfkY6/btKw8o670yYtZfrWoRR0DU9yJSBWmFB0
+	+0SL3pAHUMbzEq7/+CQdEsSKbqtzG1wVVu2FTPCdBHhCoU6YSsKnRWOh+nF3CzMC
+	w0RnKdE+kuKx55R/ioHNFEKxs+fOIXMN5dpRw8BYdSMoVt1ZR/YLWy2bFfdm9c9c
+	HT7D4TbITewQVq4OTX7NvLgAFJpFBOoWwy/aim2ujlIP2xeoFvi0oVon1GG2EpDL
+	TaU5wqual0+kgR92I/pxbz5gapfV4Oiq3RZY78nQaEb2xTRcAOE3/zUztfOk/kqQ
+	KZ9Ff4V4aD+SpeYGMTSoQ==
+X-ME-Sender: <xms:aeZpYz3Rr6_glmAIYaIUgfS4A2k9UhEtGfTln3ue10Hy-VyxZRGpEA>
+    <xme:aeZpYyEBC9bawdXwSdhMkAYKHU5P2liriSJguUolkqxGsP6rWQiLK2iI5Z3Vuvo6g
+    w-6G5mSm07O13LRVA>
+X-ME-Received: <xmr:aeZpYz55f6XAaMxTJ-fb7oooC1_w5taPdfuhhQNQIYYt9cAQ-vjWJJGc2CHGRxJPYDNb-oZD4uL5JLvHsCobV0pVz38f4kyH8tOmk-fGwp46CavJqoXNOXZMLQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdelgdekfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkffggfgfhvfevfhfujggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhephffhgeegudehieehtdekuddtgeeluddulefhkeehkedvteduveei
+    jeduhfevjeffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:aeZpY42_P8wExozIe8TimLAG0Gif9UIs7Ul3aChmned4lySrh3sD-Q>
+    <xmx:aeZpY2EBfVVBM4CGZW_8dfvxIw5UH5l9xPjSIZ6j6bjdJKR7ehn8Rg>
+    <xmx:aeZpY59YyZlSgentAbJ8QTynuAPTjyZW7ly2CIoJxBDZyyf6BiMyfw>
+    <xmx:auZpYyHc8533pLlRx72z0WPK_N1w9fzkG8vmHQ-VhEP8BAQstvydSg>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 8 Nov 2022 00:17:28 -0500 (EST)
+Message-ID: <41bad30b-b33c-0b68-bdb0-d93ae469ca7b@sholland.org>
+Date: Mon, 7 Nov 2022 23:17:27 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Content-Language: en-US
+From: Samuel Holland <samuel@sholland.org>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Maxime Ripard <maxime@cerno.tech>, Rob Herring <robh+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20220812075603.59375-1-samuel@sholland.org>
+ <20220812075603.59375-2-samuel@sholland.org> <YvZGAEM4B8SdDjwJ@aptenodytes>
+ <0c82fb9e-60cd-70d5-96d6-ee06c56eeb85@sholland.org>
+Subject: Re: [PATCH 1/8] dt-bindings: sun6i-a31-mipi-dphy: Add the interrupts
+ property
+In-Reply-To: <0c82fb9e-60cd-70d5-96d6-ee06c56eeb85@sholland.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-=E5=9C=A8 2022-11-07=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 21:55 +0100=EF=BC=
-=8CRenze Nicolai=E5=86=99=E9=81=93=EF=BC=9A
-> Hello Krzysztof,
->=20
-> Thank you for your feedback! I've fixed the indentation and I've
-> added=20
-> the compatible and model elements.
+Hi Paul,
 
-One small issue, I think the clusterboard has one node that comes with
-eMMC, which is different from other nodes.
+On 8/12/22 17:44, Samuel Holland wrote:
+> On 8/12/22 7:22 AM, Paul Kocialkowski wrote:
+>> On Fri 12 Aug 22, 02:55, Samuel Holland wrote:
+>>> The sun6i DPHY can generate several interrupts, mostly for reporting
+>>> error conditions, but also for detecting BTA and UPLS sequences.
+>>> Document this capability in order to accurately describe the hardware.
+>>>
+>>> The DPHY has no interrupt number provided in the vendor documentation
+>>> because its interrupt line is shared with the DSI controller.
+>>
+>> Interesting! I do see DPHY_INT_EN*/PD* in the Allwinner BSP's
+>> drivers/media/video/sunxi-vfe/mipi_csi/dphy/dphy_reg_i.h
+> 
+> You can also find some bit of documentation in the T7 User Manual.
+> 
+>> Maybe it would be useful to import the fields in the driver so that the
+>> next person who'll try to debug DSI can use them directly?
+>>
+>> You might also want to submit a patch as [PATCH NOT FOR MERGE] that
+>> adds an interrupt routine and some useful debugging.
+> 
+> I think this would be more interesting to someone who knew more about MIPI
+> CSI/DSI and understood what those errors meant. :)
+> 
+> I'm mostly concerned with bringing up the D1 SoC at the moment.
 
-Should these have different DT's ?
+I added a trivial IRQ handler that dumps the status registers, just to
+verify the interrupt number, and I got several interrupts during DSI
+panel setup (so during DCS commands), mostly with DPHY_INT_PD0_REG =
+0x03000000, signaling some sort of contention detection.
 
->=20
-> Greetings,
-> Renze Nicolai
->=20
->=20
-> The Pine64 clusterboard needs a to have the tx delay changed to
-> 500ps for ethernet to work. This solution was described by multiple
-> people on the Pine64 forum years ago and nobody has submitted it.
->=20
-> Add a device tree for SoPine with the clusterboard.
->=20
-> Signed-off-by: Renze Nicolai <renze@rnplus.nl>
-> ---
-> =C2=A0 arch/arm64/boot/dts/allwinner/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
-> =C2=A0 .../allwinner/sun50i-a64-sopine-clusterboard.dts | 16
-> ++++++++++++++++
-> =C2=A0 2 files changed, 17 insertions(+)
-> =C2=A0 create mode 100644=20
-> arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-clusterboard.dts
->=20
-> diff --git a/arch/arm64/boot/dts/allwinner/Makefile=20
-> b/arch/arm64/boot/dts/allwinner/Makefile
-> index 6a96494a2e0a..15b011d1aaea 100644
-> --- a/arch/arm64/boot/dts/allwinner/Makefile
-> +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> @@ -15,6 +15,7 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D=20
-> sun50i-a64-pinephone-1.2.dtb
-> =C2=A0 dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a64-pinetab.dtb
-> =C2=A0 dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a64-pinetab-early-adopter.dtb
-> =C2=A0 dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a64-sopine-baseboard.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a64-sopine-clusterboard.dtb
-> =C2=A0 dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a64-teres-i.dtb
-> =C2=A0 dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-a100-allwinner-perf1.dtb
-> =C2=A0 dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h5-bananapi-m2-plus.dtb
-> diff --git=20
-> a/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-clusterboard.dts=20
-> b/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-clusterboard.dts
-> new file mode 100644
-> index 000000000000..f75325d43d76
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-
-> clusterboard.dts
-> @@ -0,0 +1,16 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +// Copyright (c) 2022 Renze Nicolai <renze@rnplus.nl>
-> +
-> +/dts-v1/;
-> +
-> +#include "sun50i-a64-sopine-baseboard.dts"
-> +
-> +/ {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0model =3D "SoPine with cluster=
-board";
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0compatible =3D "pine64,sopine-=
-clusterboard", "pine64,sopine",
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "allwinner,sun50i-a64";
-> +};
-> +
-> +&emac {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0allwinner,tx-delay-ps =3D <500=
->;
-> +};
+>> Do you think this is also available without a DSI controller?
+>> I could just give it a try on V3/A83t here and find out :)
+> 
+> I would assume so. It could possibly be shared with the MIPI CSI interrupt (SPI
+> 90) or keep its position at SPI 89.
+
+Did you get a chance to try this? I am about to send v2 of this series.
+I wonder if I should keep the interrupts property as required, since I
+don't know if the interrupt is actually hooked up on SoCs with CSI only.
+
+Regards,
+Samuel
+
+>>> Fixes: c25b84c00826 ("dt-bindings: display: Convert Allwinner DSI to a schema")
+>>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>>> ---
+>>>
+>>>  .../bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml           | 4 ++++
+>>>  1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
+>>> index 22636c9fdab8..cf49bd99b3e2 100644
+>>> --- a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
+>>> +++ b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
+>>> @@ -24,6 +24,9 @@ properties:
+>>>    reg:
+>>>      maxItems: 1
+>>>  
+>>> +  interrupts:
+>>> +    maxItems: 1
+>>> +
+>>>    clocks:
+>>>      items:
+>>>        - description: Bus Clock
+>>> @@ -53,6 +56,7 @@ required:
+>>>    - "#phy-cells"
+>>>    - compatible
+>>>    - reg
+>>> +  - interrupts
+>>>    - clocks
+>>>    - clock-names
+>>>    - resets
+>>> -- 
+>>> 2.35.1
+>>>
+>>
+> 
+> 
 
