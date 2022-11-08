@@ -1,118 +1,89 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709C215CA4
-	for <linux-sunxi@lists.linux.dev>; Tue,  8 Nov 2022 13:27:19 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id q9so38708315ejd.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 08 Nov 2022 05:27:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=N/2yj1vtV3WtEYwU3cNvgg/PVgtVCmwn3eJn8jo49wk=;
-        b=VMnat+U1KSonabFKRPuR13L5JqFFcM/AvvqPUwa+9VtqcDpyz6Op4uI9k8fhWWUfgj
-         OQMGyd7nBSVagfiyDveayuziCLNEcnxn2ErDoMUoLlpt3yo8/JHVhiTmfW1xUoXEQ8ch
-         5jJZRKNOXfrIQxouT0FZtywu8oBKzwLv6/7PIprEyWb5tHAmIqyiFvsPphy4dzO+D1O/
-         ByJEsT3p8EBbAPP+gKvFSCFRhufjqGSeVaHTdjl/xTUCo6crbpyBuirSVOUQflk15qBf
-         1q39gU7+oVdTRiJwpV9lCujVgxFVrOBGfRo6fbxcreewXR1hDWvKWjF1rSAwPNJVX2jh
-         IlsQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B6515CAB
+	for <linux-sunxi@lists.linux.dev>; Tue,  8 Nov 2022 13:42:16 +0000 (UTC)
+Received: by mail-qk1-f179.google.com with SMTP id z17so2740495qki.11
+        for <linux-sunxi@lists.linux.dev>; Tue, 08 Nov 2022 05:42:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=N/2yj1vtV3WtEYwU3cNvgg/PVgtVCmwn3eJn8jo49wk=;
-        b=6/LjUK1KVTpcxunLoXr/44EInL4CClFIpBODL25XoGyn9Py6kJbetqFvjD5y79c995
-         bVr28U649L6XF6PgO19gwRbVFPtSAErZ3g4aEWVAzE3VvkGnnXvyj4SxvmI4zC0J8Vxw
-         Tb4JzZXPL6PviGV/LnPzUBpSquxlaaW9ilkSo7CNMfOEUAE1dZIrOTSK9oKocXK9kExL
-         76yeJnmyO0quvf48nyjG1R31uXMvBhMNgtCLI5nrRAaACyMMDRuqJeVwGkdVhxk8L7Ue
-         Gfsp4n9VmAlVRBAYKWLOj8SF6lCw/iwhWhru/Ayhw2OsMr19Kw0XIMm2sqbMQ7/kCLH1
-         YhvQ==
-X-Gm-Message-State: ACrzQf2kqsxe7ird4yCpJbFJr5Na/bT8cBY/urX/hgjROeK3EVMnPY9j
-	cdv6t3SdyLO+UpJKYtYrKHPjSxd0elN91XclrowTfA==
-X-Google-Smtp-Source: AMsMyM4SQlliAGfUpQoe5HVHzBogl+LIrkzKv8wyDOakcTA7xnKfY84HO6wUWBApVXLz+WmeEpt0AVEmstNop5fvJLQ=
-X-Received: by 2002:a17:906:4c4b:b0:7ad:a197:b58e with SMTP id
- d11-20020a1709064c4b00b007ada197b58emr54058070ejw.203.1667914037645; Tue, 08
- Nov 2022 05:27:17 -0800 (PST)
+        bh=rbRh/ro3AF7kveHByL39OkW+4w9BfWleF28OTQj/Mw0=;
+        b=WNZGc8huBeKW9ZgvaP8wRsI8T+3HgbHz/kRzYXZ4Xq8+UMFs/H7xxwCRC4jcV/LtnE
+         5h2D42UatPtsMbQSdj7o/EH0SA1Eju/nv4faWOHDx9KVqU7hC+1+X/flAhtFDPUHBzSW
+         U6vQMq3Bd6uz4b22iXNAJOHxuWTBGDkdvOSOPYnLPLirCbCeYsuWvXuajHZuZXOfYmIb
+         iM1nYmMXuvw4j11MbJ6YJaP0PKbscn4npQ4/uDuJ+B0PkCrYoyS4fWx27Lv4xBu8qR4I
+         47Cv8Mx5LXIe548d2uDjjyGPkwHX6QVc+3+ZtO5HROu4TBdV05y2EW0n/+qyrN+SYgtD
+         RqfA==
+X-Gm-Message-State: ACrzQf2sxgmiHS6Rjk7PR9XcqgjXjMQW1lyWY+6MhgVR4SKoqGnyjpKO
+	PdCyUSFW+NKs5FI4g5mP+G2dQzkV/jGGzVy7
+X-Google-Smtp-Source: AMsMyM7K8IJeZh8xjd38J5QilcONVNknKOWMVx2SQHM/tJ7Geg/7WyAvXOajN2jUekD79tEKyzJDrg==
+X-Received: by 2002:a05:620a:f03:b0:6cf:c0a1:20bc with SMTP id v3-20020a05620a0f0300b006cfc0a120bcmr39149292qkl.663.1667914934787;
+        Tue, 08 Nov 2022 05:42:14 -0800 (PST)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
+        by smtp.gmail.com with ESMTPSA id w40-20020a05622a192800b0039953dcc480sm8174070qtc.88.2022.11.08.05.42.12
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Nov 2022 05:42:13 -0800 (PST)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-3701a0681daso134051367b3.4
+        for <linux-sunxi@lists.linux.dev>; Tue, 08 Nov 2022 05:42:12 -0800 (PST)
+X-Received: by 2002:a0d:e301:0:b0:374:a8ba:99b0 with SMTP id
+ m1-20020a0de301000000b00374a8ba99b0mr7181781ywe.358.1667914932477; Tue, 08
+ Nov 2022 05:42:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech> <20221018-clk-range-checks-fixes-v2-35-f6736dec138e@cerno.tech>
-In-Reply-To: <20221018-clk-range-checks-fixes-v2-35-f6736dec138e@cerno.tech>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 8 Nov 2022 14:27:06 +0100
-Message-ID: <CACRpkdaOM=T1pRJNK6hdc76m5tQfrjvF9nVBp7ZDf3wOMNSwyg@mail.gmail.com>
-Subject: Re: [PATCH v2 35/65] clk: ux500: sysctrl: Add a determine_rate hook
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Stephen Boyd <sboyd@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Claudiu Beznea <claudiu.beznea@microchip.com>, 
-	Michael Turquette <mturquette@baylibre.com>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Paul Cercueil <paul@crapouillou.net>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Manivannan Sadhasivam <mani@kernel.org>, =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Abel Vesa <abelvesa@kernel.org>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, Alessandro Zummo <a.zummo@towertech.it>, 
-	Peter De Schrijver <pdeschrijver@nvidia.com>, Orson Zhai <orsonzhai@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Samuel Holland <samuel@sholland.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Vinod Koul <vkoul@kernel.org>, 
-	NXP Linux Team <linux-imx@nxp.com>, Sekhar Nori <nsekhar@ti.com>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Takashi Iwai <tiwai@suse.com>, David Airlie <airlied@gmail.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	David Lechner <david@lechnology.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Mark Brown <broonie@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, linux-stm32@st-md-mailman.stormreply.com, 
-	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org, 
-	linux-phy@lists.infradead.org, linux-mips@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-actions@lists.infradead.org, 
-	linux-clk@vger.kernel.org, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, patches@opensource.cirrus.com, 
-	linux-tegra@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20220728-rpi-analog-tv-properties-v7-0-7072a478c6b3@cerno.tech> <CAEFVmOKCTc_ZrFyCxiSwCmhtjJj_fzr6n99cWtb9aECFzzYVXg@mail.gmail.com>
+In-Reply-To: <CAEFVmOKCTc_ZrFyCxiSwCmhtjJj_fzr6n99cWtb9aECFzzYVXg@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 8 Nov 2022 14:42:00 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXDK6-wDjpx27KJd4_gwoXQWcP6qctN-zvG6OrUgYtGAA@mail.gmail.com>
+Message-ID: <CAMuHMdXDK6-wDjpx27KJd4_gwoXQWcP6qctN-zvG6OrUgYtGAA@mail.gmail.com>
+Subject: Re: [Nouveau] [PATCH v7 00/23] drm: Analog TV Improvements
+To: Lukas Satin <luke.satin@gmail.com>
+Cc: Maxime Ripard <maxime@cerno.tech>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Ben Skeggs <bskeggs@redhat.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Emma Anholt <emma@anholt.net>, 
+	Karol Herbst <kherbst@redhat.com>, Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, 
+	Lyude Paul <lyude@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>, 
+	Dom Cobley <dom@raspberrypi.com>, nouveau@lists.freedesktop.org, 
+	intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>, 
+	Hans de Goede <hdegoede@redhat.com>, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, linux-sunxi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Nov 4, 2022 at 2:32 PM Maxime Ripard <maxime@cerno.tech> wrote:
+Hi Lukas,
 
-> The UX500 sysctrl "set_parent" clocks implement a mux with a set_parent
-> hook, but doesn't provide a determine_rate implementation.
+On Tue, Nov 8, 2022 at 2:20 PM Lukas Satin <luke.satin@gmail.com> wrote:
+> One can switch from NTSC to PAL now using (on vc4)
 >
-> This is a bit odd, since set_parent() is there to, as its name implies,
-> change the parent of a clock. However, the most likely candidate to
-> trigger that parent change is a call to clk_set_rate(), with
-> determine_rate() figuring out which parent is the best suited for a
-> given rate.
+> modetest -M vc4  -s 53:720x480i -w 53:'TV mode':1 # NTSC
+> modetest -M vc4  -s 53:720x576i -w 53:'TV mode':4 # PAL
 >
-> The other trigger would be a call to clk_set_parent(), but it's far less
-> used, and it doesn't look like there's any obvious user for that clock.
->
-> So, the set_parent hook is effectively unused, possibly because of an
-> oversight. However, it could also be an explicit decision by the
-> original author to avoid any reparenting but through an explicit call to
-> clk_set_parent().
->
-> The latter case would be equivalent to setting the flag
-> CLK_SET_RATE_NO_REPARENT, together with setting our determine_rate hook
-> to __clk_mux_determine_rate(). Indeed, if no determine_rate
-> implementation is provided, clk_round_rate() (through
-> clk_core_round_rate_nolock()) will call itself on the parent if
-> CLK_SET_RATE_PARENT is set, and will not change the clock rate
-> otherwise. __clk_mux_determine_rate() has the exact same behavior when
-> CLK_SET_RATE_NO_REPARENT is set.
->
-> And if it was an oversight, then we are at least explicit about our
-> behavior now and it can be further refined down the line.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> NTSC should be 640x480i, not 720. It will probably work on most TV's, but NTSC by the spec is 640x480i.
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+The above are actually the digital ("DVD Video") variants, which have 720
+horizontal pixels (incl. overscan).
+The analog variants do not have a fixed horizontal resolution, except
+for bandwidth limitations.
 
-Yours,
-Linus Walleij
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
