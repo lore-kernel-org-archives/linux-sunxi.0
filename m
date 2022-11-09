@@ -1,163 +1,70 @@
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A32EBE2
-	for <linux-sunxi@lists.linux.dev>; Wed,  9 Nov 2022 15:41:42 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailnew.west.internal (Postfix) with ESMTP id D93F02B05EA7;
-	Wed,  9 Nov 2022 10:41:37 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Wed, 09 Nov 2022 10:41:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1668008497; x=
-	1668015697; bh=RCyshHC41nd39fvXLSqmZArQb870AHZw66GwFRxnroM=; b=m
-	6M99+0EF+2lM4FWiKahRXCTJ/2TRlz60OSCpfjLh0dwLmJt8UZlGysvW6zVlL2pp
-	Lr+WltoyoR+IUFtxULmpx9V4PwWXUoTK4lT0XrTSj5OvW/EuKUSq5OP7fCPSv/hS
-	wMLhIZFZK8xtnKAD9HRpKE6bFT9+wsAEN69ffr7dSfS1rpaxm7Hu+1woa3Z/o8NN
-	3pMECxBqnO7uCjXhTY1CIEOjl5zs2PPTo+UtduJ3Rp8RuU/G2ycnUdEQw76dETW2
-	RAZTS2OHN2xECUNb6NdkAEGXy0l0HrmS51YjeCqALxmBWtJmoeNmXqsRuIUWSADN
-	tB1lVQ/av/uRi0fIEh3kw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668008497; x=
-	1668015697; bh=RCyshHC41nd39fvXLSqmZArQb870AHZw66GwFRxnroM=; b=Q
-	1/HqsQB3psOc+96b6isRXoX5C5ybTom2C7vyqoPLqp6JQbF0UAVFZTxbWo+gL3Z7
-	y51qQFpEdFsWqcGqsfn/LvJJEjy0xXvTlIm+jkDjJL7W2PUy0KZtNHaHgAbKSzIo
-	EXABW/A3a68xWi6D9zvPbEuQNITYea4uEAs14se9B4WgqQk7704vEkRSEj1hITqn
-	SuwL1/x4lWuzJktnqdj0yaghQoItbO/N1nJd5FeM4RK1VJ6E2U1ERYVRZjBPJq/o
-	oZgqdBUCMtxCDJJqCd3vUbP8Pj6gYNwNSIoi5BMIwLk53Qg+nZqzgdElZRJPx9/p
-	hSuGxkmOWcv95FeDiejzA==
-X-ME-Sender: <xms:MMprY44s5uzkOROU2zHEfWl9aJUVwCgeTFwkoIaoC8uvSdgvD-Thag>
-    <xme:MMprY56o5iiiBf61_8abJX__s-HAqE4YCR2hlccU8ReACbG0thX7mIhfHRBpDIZSh
-    RKfSUNIqO9Y0bI2vBM>
-X-ME-Received: <xmr:MMprY3cXvBJulNae7ipti96x_ZJvMRoIGjmME7i6lUuPDYyopQlU92K8WrUb829ARuUXjBRc5ketZAEhaS_3g2VgVlsgQnHfFiBzPvuwyPr6bQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfedvgdejlecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtudenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeelleefieelleetteefvdeikeeffeffvefhtdevgfehveduveehjedvvdei
-    ledtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:MMprY9JTwg_wzFj8EWHTdbjBtWZJHYPCN4V_xLC-bRoRQgnaKQCqIw>
-    <xmx:MMprY8Ig6OqyUH6VsywLi3cQuOIsSc94EBfT82yvHaUlhJfnpliaBA>
-    <xmx:MMprY-zaAoIdjYBBMBRxQowmsI7JmMk3IojZrK3a217hu4nC8Pxobg>
-    <xmx:McprY2rAchrF3eCgdTb_46WNWdcdn_DFIex5hkcfFEYhCf4ui436F9V3VWs>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 9 Nov 2022 10:41:35 -0500 (EST)
-Date: Wed, 9 Nov 2022 16:41:33 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Ben Skeggs <bskeggs@redhat.com>,	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
-	Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
-	Lyude Paul <lyude@redhat.com>,	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@linux.ie>, Phil Elwell <phil@raspberrypi.com>,
-	Hans de Goede <hdegoede@redhat.com>, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	linux-arm-kernel@lists.infradead.org,	Dom Cobley <dom@raspberrypi.com>,
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org
-Subject: Re: [PATCH v7 16/23] drm/probe-helper: Provide a TV get_modes helper
-Message-ID: <20221109154133.koqhn6upwz6jd2oe@houat>
-References: <20220728-rpi-analog-tv-properties-v7-0-7072a478c6b3@cerno.tech>
- <20220728-rpi-analog-tv-properties-v7-16-7072a478c6b3@cerno.tech>
- <a9c0380a-f538-1a19-fd27-983eea42b1b2@tronnes.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDEBEC0E
+	for <linux-sunxi@lists.linux.dev>; Wed,  9 Nov 2022 17:12:16 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id f7so28103360edc.6
+        for <linux-sunxi@lists.linux.dev>; Wed, 09 Nov 2022 09:12:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SdpCW3bc/jcdSgpgyyMyHoNFC6KThem8jvb+gK7E5/o=;
+        b=pK9msVoQf50NdtWtpIXXlkZrHnEWpyZYXzAWvx61omamtFI3Hu9csIWT7JT3lPtr6E
+         QGSVrULPRqSRkC5295UNjb4Gj8EQfoiyRJWy4+k1lbfY3c+22OIoEXc8g5nfZkTV4heP
+         CXGhOI/q36uLYf2xENguFOUu/oWcA5n9klh5vf3ixcoi7oqg8fWj1iuiHvZUESD8GI72
+         bVYpLNx6PFAsGOn1FOnCG2r7EG9htj4Y6vpzkNvjTv+gp6Fp0BmTBPh/RGvEOKhUe/5q
+         8gzhh6JPDz2Vu7+kUIww4/c0yjxxR6qdfrdHw/AMiZhMOZkBBCYzloy6WHOX63huRt4j
+         gyCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SdpCW3bc/jcdSgpgyyMyHoNFC6KThem8jvb+gK7E5/o=;
+        b=AEaHOJnVq1g3PMBqp/5bPXvH5g+W6ZG3NHszaP2tFZMZ/CTN6Cnb4CH2vJwjD+tyXa
+         PVJLxuas5VAlSEdqVyz1aATywiMxeK9sCBCrjOckjt1Yj0YwFcM8k8xSkAUNltZ69RdN
+         0cnbL50/vhyKPdmt8dCb/jOQBrBwDBVgysCuuRqMjw4088CyNw5KCe8XogL8P67M5k6O
+         QJkxboAPALvCKR5rgXuxj/6iKgGB5EkllMG3NABPU0jg51dqrmpyYVYvcBgv2EcfvVi2
+         FXS55ooiKw85dL2SXNgCicspj8Dm3isSYth+tZm/6EfV6gVNzYs0mGg5ncGkPm81lqHz
+         NpSg==
+X-Gm-Message-State: ACrzQf26y9oDFrn74q1MxDwMKU9fZGv6VpiXLfo6mHP+TLFfInsm7/Mu
+	RJvf8jN/PDLWOTaEYtTPC6I=
+X-Google-Smtp-Source: AMsMyM6EJMzUY7rLwPusiIvQLOBzAMFWUGe22HwzXfwYL4gg165ptAUE1ivXgSZer5IhdM6K1ztEtg==
+X-Received: by 2002:a05:6402:344:b0:461:7d4:9c9 with SMTP id r4-20020a056402034400b0046107d409c9mr62045783edw.141.1668013934364;
+        Wed, 09 Nov 2022 09:12:14 -0800 (PST)
+Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id k10-20020a17090632ca00b007adaca75bd0sm6154098ejk.179.2022.11.09.09.12.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Nov 2022 09:12:13 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Wei Li <liwei391@huawei.com>
+Cc: linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, huawei.libin@huawei.com
+Subject: Re: [PATCH] clk: sunxi-ng: v3s: Correct the header guard of ccu-sun8i-v3s.h
+Date: Wed, 09 Nov 2022 18:12:12 +0100
+Message-ID: <6441491.G0QQBjFxQf@kista>
+In-Reply-To: <20221108094335.3597008-1-liwei391@huawei.com>
+References: <20221108094335.3597008-1-liwei391@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <a9c0380a-f538-1a19-fd27-983eea42b1b2@tronnes.org>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Noralf,
+Dne torek, 08. november 2022 ob 10:43:35 CET je Wei Li napisal(a):
+> Rename the header guard of ccu-sun8i-v3s.h from _CCU_SUN8I_H3_H_ to
+> _CCU_SUN8I_V3S_H_ what corresponding with the file name.
+> 
+> Fixes: d0f11d14b0bc ("clk: sunxi-ng: add support for V3s CCU")
+> Signed-off-by: Wei Li <liwei391@huawei.com>
 
-On Mon, Nov 07, 2022 at 07:11:27PM +0100, Noralf Tr=F8nnes wrote:
->=20
->=20
-> Den 07.11.2022 15.16, skrev Maxime Ripard:
-> > From: Noralf Tr=F8nnes <noralf@tronnes.org>
-> >=20
-> > Most of the TV connectors will need a similar get_modes implementation
-> > that will, depending on the drivers' capabilities, register the 480i and
-> > 576i modes.
-> >=20
-> > That implementation will also need to set the preferred flag and order
-> > the modes based on the driver and users preferrence.
-> >=20
-> > This is especially important to guarantee that a userspace stack such as
-> > Xorg can start and pick up the preferred mode while maintaining a
-> > working output.
-> >=20
-> > Signed-off-by: Noralf Tr=F8nnes <noralf@tronnes.org>
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> >=20
-> > ---
-> > Changes in v7:
-> > - Used Noralf's implementation
-> >=20
-> > Changes in v6:
-> > - New patch
-> > ---
-> >  drivers/gpu/drm/drm_probe_helper.c | 97 ++++++++++++++++++++++++++++++=
-++++++++
-> >  include/drm/drm_probe_helper.h     |  1 +
-> >  2 files changed, 98 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_p=
-robe_helper.c
-> > index 2fc21df709bc..edb2e4c4530a 100644
-> > --- a/drivers/gpu/drm/drm_probe_helper.c
-> > +++ b/drivers/gpu/drm/drm_probe_helper.c
-> > @@ -1147,3 +1147,100 @@ int drm_connector_helper_get_modes(struct drm_c=
-onnector *connector)
-> >  	return count;
-> >  }
-> >  EXPORT_SYMBOL(drm_connector_helper_get_modes);
-> > +
-> > +static bool tv_mode_supported(struct drm_connector *connector,
-> > +			      enum drm_connector_tv_mode mode)
-> > +{
-> > +	struct drm_device *dev =3D connector->dev;
-> > +	struct drm_property *property =3D dev->mode_config.tv_mode_property;
-> > +
-> > +	unsigned int i;
-> > +
-> > +	for (i =3D 0; i < property->num_values; i++)
-> > +		if (property->values[i] =3D=3D mode)
-> > +			return true;
-> > +
-> > +	return false;
-> > +}
->=20
-> This function is not used in the new implementation.
->
-> I hope you have tested this patch since I didn't even compile test my
-> implementation (probably should have said so...)
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-You nailed it ;)
+Best regards,
+Jernej
 
-I had tested it (but missed the warning), and added unit tests to make
-sure it was behaving properly, and it did. I'll send the unit tests in
-my next version.
 
-Thanks
-Maxime
