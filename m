@@ -1,389 +1,163 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EECC617C2
-	for <linux-sunxi@lists.linux.dev>; Wed,  9 Nov 2022 01:15:35 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id bp15so23523735lfb.13
-        for <linux-sunxi@lists.linux.dev>; Tue, 08 Nov 2022 17:15:35 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57FDD15DA
+	for <linux-sunxi@lists.linux.dev>; Wed,  9 Nov 2022 02:44:06 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id r14so25282944edc.7
+        for <linux-sunxi@lists.linux.dev>; Tue, 08 Nov 2022 18:44:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to
-         :content-language:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OMVBfmBNvFKVHAfPkhy9AnS3r5KARraBGspiM7WR3cY=;
-        b=XUBBpQozEdBuQ0zsHuSXWF4TWAx9W3OnUGYJokkDuYV4lach0WM4PGXb0EwyT5L7sB
-         0IvMbPi77mhWWIEMVMiQl3DOUVOD3SI0qeeO7FZX04JLnjfQBgE8/ebyQG6P6/SK4Iuj
-         hqoZH49CUDSsX2aiE1J9AkKkRwUn5rcFBkq1S9daRTnJRyuYfVo9G375nxycJMwyfSqT
-         tn7BTK/gY/QAK/+3DTvGm1EpbzUWD8RUImqYHaUAGX0ftqRPEic3jQeuDVYScZR1fUhw
-         goSlzucdm1su49Pb5kfpmjzBjtmoAXJ9pIPEmBXRkcQcXACOFyApyqOzHlklwDOntQeu
-         0WgA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZSs9bG/LbFf1fIR0eapTeL6P50DjYrAFt1f1UPagmkc=;
+        b=fm3R7eHwEY7icgp5E36AR1x+G3iJ/B+gTC6qXXcb2VuX8T7PYbpIOMaEAEk+z5gP5C
+         C30KcgR4lm806IYQfNeeuFx0cfGof3DpzdH786/cCDzuWrdeUNc7jFOrL5vMwTo9Vbtm
+         dVxBVDI57pb7BVYvuH3eLaJ4JjrtQb9xL2MZ41TI7RBi2z65S87p9zWDePR0yCVz6VHw
+         JOVSi+JRNqY3PBDz9qa44qLlWzFaPdXGRa4GRcfXuEi5nSYmnCJ6Zyk7dG4zjutSYT5H
+         vN2MmXbmOeI+y4HkZpv6Bi0bN99D9Nar9mmN1KGg/88Sfc9R8fV6gzM/jPxbXATFIa/1
+         F+hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to
-         :content-language:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OMVBfmBNvFKVHAfPkhy9AnS3r5KARraBGspiM7WR3cY=;
-        b=cUD6iEMPCTlopCcj50KaFtz+Z9vUCgFdiA8IRg43lJ/7S/mudFf6rrjHbr959VYEz0
-         VxArnQAlVau6z/hOPelGFzFooTL873hDyypDFKjiA0ZOb8u4PLBqvzq+niij6jNSQvWd
-         HvKHYiDuixdjzn0b7RqpKHkCU/pG79MJYFFZ5XmllWrulouzhFYPPYCndDSr4Nv8Bz2P
-         xF5zcJSDNWH6yslZr2TQKamgeSLDu7jGIElznBzZkVNT29BYa25R56EjWbIgVeO1ESWO
-         E4ZaPwlFXkSkuZGdOHNpwVs9e0ZfvxIpISfRWs4y4LrCMf861FS6kZv2kLcSBAg1KHWR
-         T+kQ==
-X-Gm-Message-State: ACrzQf2IeEjfdkx3PXOju89WT6RK/MYTuIeWkPPgSzX78MKzbDhKTYHU
-	q7tBKapeBPEfSPOaQJeXkCw=
-X-Google-Smtp-Source: AMsMyM5gsa/vdAgzO/kkpckLTcNSoVeI+I/Xoy+6rY87PedyNNi/6R72haNMVjP0+QEniBIM+iDWJg==
-X-Received: by 2002:a05:6512:6d0:b0:4a4:45c3:8d8a with SMTP id u16-20020a05651206d000b004a445c38d8amr21884475lff.329.1667956533757;
-        Tue, 08 Nov 2022 17:15:33 -0800 (PST)
-Received: from ?IPV6:2a02:a31a:a240:1700:c55e:6e7d:cf12:d8b7? ([2a02:a31a:a240:1700:c55e:6e7d:cf12:d8b7])
-        by smtp.googlemail.com with ESMTPSA id z1-20020a2e8841000000b0027709abbc5csm1932062ljj.98.2022.11.08.17.15.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Nov 2022 17:15:33 -0800 (PST)
-From: Mateusz Kwiatkowski <kfyatek@gmail.com>
-X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Message-ID: <e0779ff5-3227-4a6f-1c0b-de2fbff99425@gmail.com>
-Date: Wed, 9 Nov 2022 02:15:29 +0100
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZSs9bG/LbFf1fIR0eapTeL6P50DjYrAFt1f1UPagmkc=;
+        b=xmxT4HiWxa3Ima2/KLbCTGTrwbGZkMp1MXNas4eqUFIAi5wKslMNZkRYtRjwF/ae75
+         JuNsGeDXTiox0XUJiTgHHo4LPClqXdHvmG7M3xSz5G/1xeYiLR4TXviWvtT/DEA54PCl
+         Ms/NiHl8O+fRaCwbyne0H2Lpn3qCZTK4X8FblilJS5Yv6MS+l6PbE8UMT/1Zppd5tyBD
+         D64MBtu0tjDHESg2+mc0YsveijBVMZmWI+gAKKdYnyZIgbr3X3UGZrynM9NMibcINXE/
+         ZPCP4fegdYdU3kuN1F9uxWLCNVFtbxOh2BA1PGN5pJS+GkLWBn4vJJ12LFWIJ9GRg5XC
+         NCKA==
+X-Gm-Message-State: ACrzQf1HJpoSoUqN1IaqVutc6QnSM8UBEAYTdIG2fMuhhRuGvHqxnhAK
+	RAKqlKq6msTc7bucuNoTD4sdUamr7NTv+i33IvE=
+X-Google-Smtp-Source: AMsMyM4o96Fp/fgGe8bWp9qyaCLc1d6jcauj7urZdaiQjIItG7q8RJuK4x04Dncd47Xu2Mogx93A97DsfgYY/BWPass=
+X-Received: by 2002:a05:6402:3806:b0:450:bad8:8cd5 with SMTP id
+ es6-20020a056402380600b00450bad88cd5mr59725933edb.305.1667961844484; Tue, 08
+ Nov 2022 18:44:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.1
-Reply-To: kfyatek+publicgit@gmail.com
-Subject: Re: [PATCH v7 22/23] drm/vc4: vec: Add support for more analog TV
- standards
-Content-Language: pl
-To: Maxime Ripard <maxime@cerno.tech>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Ben Skeggs <bskeggs@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
- Lyude Paul <lyude@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>
-Cc: Phil Elwell <phil@raspberrypi.com>, Hans de Goede <hdegoede@redhat.com>,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org, Dom Cobley <dom@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>
-References: <20220728-rpi-analog-tv-properties-v7-0-7072a478c6b3@cerno.tech>
- <20220728-rpi-analog-tv-properties-v7-22-7072a478c6b3@cerno.tech>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v7-22-7072a478c6b3@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech> <20221018-clk-range-checks-fixes-v2-58-f6736dec138e@cerno.tech>
+In-Reply-To: <20221018-clk-range-checks-fixes-v2-58-f6736dec138e@cerno.tech>
+From: Chunyan Zhang <zhang.lyra@gmail.com>
+Date: Wed, 9 Nov 2022 10:43:26 +0800
+Message-ID: <CAAfSe-t96pttpdLjLYntof5JCNcVHg0fMckk6zC7YHRRceDw+A@mail.gmail.com>
+Subject: Re: [PATCH v2 58/65] clk: sprd: composite: Switch to determine_rate
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Stephen Boyd <sboyd@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Claudiu Beznea <claudiu.beznea@microchip.com>, 
+	Michael Turquette <mturquette@baylibre.com>, Dinh Nguyen <dinguyen@kernel.org>, 
+	Paul Cercueil <paul@crapouillou.net>, Manivannan Sadhasivam <mani@kernel.org>, 
+	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Abel Vesa <abelvesa@kernel.org>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, Alessandro Zummo <a.zummo@towertech.it>, 
+	Peter De Schrijver <pdeschrijver@nvidia.com>, Orson Zhai <orsonzhai@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Samuel Holland <samuel@sholland.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Vinod Koul <vkoul@kernel.org>, 
+	NXP Linux Team <linux-imx@nxp.com>, Sekhar Nori <nsekhar@ti.com>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	Takashi Iwai <tiwai@suse.com>, David Airlie <airlied@gmail.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	David Lechner <david@lechnology.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Mark Brown <broonie@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, linux-stm32@st-md-mailman.stormreply.com, 
+	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org, 
+	linux-phy@lists.infradead.org, linux-mips@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-actions@lists.infradead.org, 
+	linux-clk@vger.kernel.org, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, patches@opensource.cirrus.com, 
+	linux-tegra@vger.kernel.org, linux-rtc@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Maxime,
-
-I ran your v7 patchset on my Pi with Xorg, and the mode switching, as well as
-the preferred mode handling, all work really well now!
-
-I just noted that the downstream version of the vc4 driver still has inaccurate
-field delays in vc4_crtc.c, which causes vertical lines to appear jagged (like
-here: https://user-images.githubusercontent.com/4499762/112738569-385c3280-8f64-11eb-83c4-d671537af209.png).
-This has been fixed downstream in
-https://github.com/raspberrypi/linux/pull/4241/commits/bc093f27bf2613ec93524fdc19e922dd7dd3d800,
-but I guess that should be upstreamed separately...?
-
-Anyway, it's unrelated to the changes made in this patchset, so... I'm not sure
-if I'm qualified or allowed to do these, but just in case:
-
-Tested-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-
-(that pretty much applies to parts 19-22 in general, I can respond to those
-messages as well if you wish)
-
-Best regards,
-Mateusz Kwiatkowski
-
-W dniu 7.11.2022 o 15:16, Maxime Ripard pisze:
-> From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+On Fri, 4 Nov 2022 at 21:33, Maxime Ripard <maxime@cerno.tech> wrote:
 >
-> Add support for the following composite output modes (all of them are
-> somewhat more obscure than the previously defined ones):
+> The Spreadtrum composite clocks implements a mux with a set_parent
+> hook, but doesn't provide a determine_rate implementation.
 >
-> - NTSC_443 - NTSC-style signal with the chroma subcarrier shifted to
->   4.43361875 MHz (the PAL subcarrier frequency). Never used for
->   broadcasting, but sometimes used as a hack to play NTSC content in PAL
->   regions (e.g. on VCRs).
-> - PAL_N - PAL with alternative chroma subcarrier frequency,
->   3.58205625 MHz. Used as a broadcast standard in Argentina, Paraguay
->   and Uruguay to fit 576i50 with colour in 6 MHz channel raster.
-> - PAL60 - 480i60 signal with PAL-style color at normal European PAL
->   frequency. Another non-standard, non-broadcast mode, used in similar
->   contexts as NTSC_443. Some displays support one but not the other.
-> - SECAM - French frequency-modulated analog color standard; also have
->   been broadcast in Eastern Europe and various parts of Africa and Asia.
->   Uses the same 576i50 timings as PAL.
+> This is a bit odd, since set_parent() is there to, as its name implies,
+> change the parent of a clock. However, the most likely candidate to
+> trigger that parent change is a call to clk_set_rate(), with
+> determine_rate() figuring out which parent is the best suited for a
+> given rate.
 >
-> Also added some comments explaining color subcarrier frequency
-> registers.
+> The other trigger would be a call to clk_set_parent(), but it's far less
+> used, and it doesn't look like there's any obvious user for that clock.
 >
-> Acked-by: Noralf Trønnes <noralf@tronnes.org>
-> Signed-off-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+> So, the set_parent hook is effectively unused, possibly because of an
+> oversight. However, it could also be an explicit decision by the
+> original author to avoid any reparenting but through an explicit call to
+> clk_set_parent().
+>
+> The driver does implement round_rate() though, which means that we can
+> change the rate of the clock, but we will never get to change the
+> parent.
+>
+> However, It's hard to tell whether it's been done on purpose or not.
+>
+> Since we'll start mandating a determine_rate() implementation, let's
+> convert the round_rate() implementation to a determine_rate(), which
+> will also make the current behavior explicit. And if it was an
+> oversight, the clock behaviour can be adjusted later on.
+>
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->
-> ---
-> Changes in v6:
-> - Support PAL60 again
-> ---
->  drivers/gpu/drm/vc4/vc4_vec.c | 111 ++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 107 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
-> index a828fc6fb776..d23dbad3cbf6 100644
-> --- a/drivers/gpu/drm/vc4/vc4_vec.c
-> +++ b/drivers/gpu/drm/vc4/vc4_vec.c
-> @@ -46,6 +46,7 @@
->  #define VEC_CONFIG0_YDEL(x)		((x) << 26)
->  #define VEC_CONFIG0_CDEL_MASK		GENMASK(25, 24)
->  #define VEC_CONFIG0_CDEL(x)		((x) << 24)
-> +#define VEC_CONFIG0_SECAM_STD		BIT(21)
->  #define VEC_CONFIG0_PBPR_FIL		BIT(18)
->  #define VEC_CONFIG0_CHROMA_GAIN_MASK	GENMASK(17, 16)
->  #define VEC_CONFIG0_CHROMA_GAIN_UNITY	(0 << 16)
-> @@ -76,6 +77,27 @@
->  #define VEC_SOFT_RESET			0x10c
->  #define VEC_CLMP0_START			0x144
->  #define VEC_CLMP0_END			0x148
-> +
-> +/*
-> + * These set the color subcarrier frequency
-> + * if VEC_CONFIG1_CUSTOM_FREQ is enabled.
-> + *
-> + * VEC_FREQ1_0 contains the most significant 16-bit half-word,
-> + * VEC_FREQ3_2 contains the least significant 16-bit half-word.
-> + * 0x80000000 seems to be equivalent to the pixel clock
-> + * (which itself is the VEC clock divided by 8).
-> + *
-> + * Reference values (with the default pixel clock of 13.5 MHz):
-> + *
-> + * NTSC  (3579545.[45] Hz)     - 0x21F07C1F
-> + * PAL   (4433618.75 Hz)       - 0x2A098ACB
-> + * PAL-M (3575611.[888111] Hz) - 0x21E6EFE3
-> + * PAL-N (3582056.25 Hz)       - 0x21F69446
-> + *
-> + * NOTE: For SECAM, it is used as the Dr center frequency,
-> + * regardless of whether VEC_CONFIG1_CUSTOM_FREQ is enabled or not;
-> + * that is specified as 4406250 Hz, which corresponds to 0x29C71C72.
-> + */
->  #define VEC_FREQ3_2			0x180
->  #define VEC_FREQ1_0			0x184
->  
-> @@ -118,6 +140,14 @@
->  
->  #define VEC_INTERRUPT_CONTROL		0x190
->  #define VEC_INTERRUPT_STATUS		0x194
-> +
-> +/*
-> + * Db center frequency for SECAM; the clock for this is the same as for
-> + * VEC_FREQ3_2/VEC_FREQ1_0, which is used for Dr center frequency.
-> + *
-> + * This is specified as 4250000 Hz, which corresponds to 0x284BDA13.
-> + * That is also the default value, so no need to set it explicitly.
-> + */
->  #define VEC_FCW_SECAM_B			0x198
->  #define VEC_SECAM_GAIN_VAL		0x19c
->  
-> @@ -197,10 +227,15 @@ enum vc4_vec_tv_mode_id {
->  	VC4_VEC_TV_MODE_NTSC_J,
->  	VC4_VEC_TV_MODE_PAL,
->  	VC4_VEC_TV_MODE_PAL_M,
-> +	VC4_VEC_TV_MODE_NTSC_443,
-> +	VC4_VEC_TV_MODE_PAL_60,
-> +	VC4_VEC_TV_MODE_PAL_N,
-> +	VC4_VEC_TV_MODE_SECAM,
->  };
->  
->  struct vc4_vec_tv_mode {
->  	unsigned int mode;
-> +	u16 expected_htotal;
->  	u32 config0;
->  	u32 config1;
->  	u32 custom_freq;
-> @@ -236,35 +271,68 @@ static const struct debugfs_reg32 vec_regs[] = {
->  static const struct vc4_vec_tv_mode vc4_vec_tv_modes[] = {
->  	{
->  		.mode = DRM_MODE_TV_MODE_NTSC,
-> +		.expected_htotal = 858,
->  		.config0 = VEC_CONFIG0_NTSC_STD | VEC_CONFIG0_PDEN,
->  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
->  	},
-> +	{
-> +		.mode = DRM_MODE_TV_MODE_NTSC_443,
-> +		.expected_htotal = 858,
-> +		.config0 = VEC_CONFIG0_NTSC_STD,
-> +		.config1 = VEC_CONFIG1_C_CVBS_CVBS | VEC_CONFIG1_CUSTOM_FREQ,
-> +		.custom_freq = 0x2a098acb,
-> +	},
->  	{
->  		.mode = DRM_MODE_TV_MODE_NTSC_J,
-> +		.expected_htotal = 858,
->  		.config0 = VEC_CONFIG0_NTSC_STD,
->  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
->  	},
->  	{
->  		.mode = DRM_MODE_TV_MODE_PAL,
-> +		.expected_htotal = 864,
->  		.config0 = VEC_CONFIG0_PAL_BDGHI_STD,
->  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
->  	},
-> +	{
-> +		/* PAL-60 */
-> +		.mode = DRM_MODE_TV_MODE_PAL,
-> +		.expected_htotal = 858,
-> +		.config0 = VEC_CONFIG0_PAL_M_STD,
-> +		.config1 = VEC_CONFIG1_C_CVBS_CVBS | VEC_CONFIG1_CUSTOM_FREQ,
-> +		.custom_freq = 0x2a098acb,
-> +	},
->  	{
->  		.mode = DRM_MODE_TV_MODE_PAL_M,
-> +		.expected_htotal = 858,
->  		.config0 = VEC_CONFIG0_PAL_M_STD,
->  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
->  	},
-> +	{
-> +		.mode = DRM_MODE_TV_MODE_PAL_N,
-> +		.expected_htotal = 864,
-> +		.config0 = VEC_CONFIG0_PAL_N_STD,
-> +		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
-> +	},
-> +	{
-> +		.mode = DRM_MODE_TV_MODE_SECAM,
-> +		.expected_htotal = 864,
-> +		.config0 = VEC_CONFIG0_SECAM_STD,
-> +		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
-> +		.custom_freq = 0x29c71c72,
-> +	},
->  };
->  
->  static inline const struct vc4_vec_tv_mode *
-> -vc4_vec_tv_mode_lookup(unsigned int mode)
-> +vc4_vec_tv_mode_lookup(unsigned int mode, u16 htotal)
->  {
->  	unsigned int i;
->  
->  	for (i = 0; i < ARRAY_SIZE(vc4_vec_tv_modes); i++) {
->  		const struct vc4_vec_tv_mode *tv_mode = &vc4_vec_tv_modes[i];
->  
-> -		if (tv_mode->mode == mode)
-> +		if (tv_mode->mode == mode &&
-> +		    tv_mode->expected_htotal == htotal)
->  			return tv_mode;
->  	}
->  
-> @@ -273,9 +341,13 @@ vc4_vec_tv_mode_lookup(unsigned int mode)
->  
->  static const struct drm_prop_enum_list legacy_tv_mode_names[] = {
->  	{ VC4_VEC_TV_MODE_NTSC, "NTSC", },
-> +	{ VC4_VEC_TV_MODE_NTSC_443, "NTSC-443", },
->  	{ VC4_VEC_TV_MODE_NTSC_J, "NTSC-J", },
->  	{ VC4_VEC_TV_MODE_PAL, "PAL", },
-> +	{ VC4_VEC_TV_MODE_PAL_60, "PAL-60", },
->  	{ VC4_VEC_TV_MODE_PAL_M, "PAL-M", },
-> +	{ VC4_VEC_TV_MODE_PAL_N, "PAL-N", },
-> +	{ VC4_VEC_TV_MODE_SECAM, "SECAM", },
->  };
->  
->  static enum drm_connector_status
-> @@ -306,11 +378,16 @@ vc4_vec_connector_set_property(struct drm_connector *connector,
->  		state->tv.mode = DRM_MODE_TV_MODE_NTSC;
->  		break;
->  
-> +	case VC4_VEC_TV_MODE_NTSC_443:
-> +		state->tv.mode = DRM_MODE_TV_MODE_NTSC_443;
-> +		break;
-> +
->  	case VC4_VEC_TV_MODE_NTSC_J:
->  		state->tv.mode = DRM_MODE_TV_MODE_NTSC_J;
->  		break;
->  
->  	case VC4_VEC_TV_MODE_PAL:
-> +	case VC4_VEC_TV_MODE_PAL_60:
->  		state->tv.mode = DRM_MODE_TV_MODE_PAL;
->  		break;
->  
-> @@ -318,6 +395,14 @@ vc4_vec_connector_set_property(struct drm_connector *connector,
->  		state->tv.mode = DRM_MODE_TV_MODE_PAL_M;
->  		break;
->  
-> +	case VC4_VEC_TV_MODE_PAL_N:
-> +		state->tv.mode = DRM_MODE_TV_MODE_PAL_N;
-> +		break;
-> +
-> +	case VC4_VEC_TV_MODE_SECAM:
-> +		state->tv.mode = DRM_MODE_TV_MODE_SECAM;
-> +		break;
-> +
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -341,6 +426,10 @@ vc4_vec_connector_get_property(struct drm_connector *connector,
->  		*val = VC4_VEC_TV_MODE_NTSC;
->  		break;
->  
-> +	case DRM_MODE_TV_MODE_NTSC_443:
-> +		*val = VC4_VEC_TV_MODE_NTSC_443;
-> +		break;
-> +
->  	case DRM_MODE_TV_MODE_NTSC_J:
->  		*val = VC4_VEC_TV_MODE_NTSC_J;
->  		break;
-> @@ -353,6 +442,14 @@ vc4_vec_connector_get_property(struct drm_connector *connector,
->  		*val = VC4_VEC_TV_MODE_PAL_M;
->  		break;
->  
-> +	case DRM_MODE_TV_MODE_PAL_N:
-> +		*val = VC4_VEC_TV_MODE_PAL_N;
-> +		break;
-> +
-> +	case DRM_MODE_TV_MODE_SECAM:
-> +		*val = VC4_VEC_TV_MODE_SECAM;
-> +		break;
-> +
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -448,13 +545,16 @@ static void vc4_vec_encoder_enable(struct drm_encoder *encoder,
->  	struct drm_connector *connector = &vec->connector;
->  	struct drm_connector_state *conn_state =
->  		drm_atomic_get_new_connector_state(state, connector);
-> +	struct drm_display_mode *adjusted_mode =
-> +		&encoder->crtc->state->adjusted_mode;
->  	const struct vc4_vec_tv_mode *tv_mode;
->  	int idx, ret;
->  
->  	if (!drm_dev_enter(drm, &idx))
->  		return;
->  
-> -	tv_mode = vc4_vec_tv_mode_lookup(conn_state->tv.mode);
-> +	tv_mode = vc4_vec_tv_mode_lookup(conn_state->tv.mode,
-> +					 adjusted_mode->htotal);
->  	if (!tv_mode)
->  		goto err_dev_exit;
->  
-> @@ -648,9 +748,12 @@ static int vc4_vec_bind(struct device *dev, struct device *master, void *data)
->  
->  	ret = drm_mode_create_tv_properties(drm,
->  					    BIT(DRM_MODE_TV_MODE_NTSC) |
-> +					    BIT(DRM_MODE_TV_MODE_NTSC_443) |
->  					    BIT(DRM_MODE_TV_MODE_NTSC_J) |
->  					    BIT(DRM_MODE_TV_MODE_PAL) |
-> -					    BIT(DRM_MODE_TV_MODE_PAL_M));
-> +					    BIT(DRM_MODE_TV_MODE_PAL_M) |
-> +					    BIT(DRM_MODE_TV_MODE_PAL_N) |
-> +					    BIT(DRM_MODE_TV_MODE_SECAM));
->  	if (ret)
->  		return ret;
->  
->
-*/pre>
 
+Acked-by: Chunyan Zhang <zhang.lyra@gmail.com>
+
+Thanks,
+Chunyan
+
+> ---
+>  drivers/clk/sprd/composite.c | 16 +++++++++++-----
+>  1 file changed, 11 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/clk/sprd/composite.c b/drivers/clk/sprd/composite.c
+> index ebb644820b1e..d3a852720c07 100644
+> --- a/drivers/clk/sprd/composite.c
+> +++ b/drivers/clk/sprd/composite.c
+> @@ -9,13 +9,19 @@
+>
+>  #include "composite.h"
+>
+> -static long sprd_comp_round_rate(struct clk_hw *hw, unsigned long rate,
+> -                               unsigned long *parent_rate)
+> +static int sprd_comp_determine_rate(struct clk_hw *hw,
+> +                                   struct clk_rate_request *req)
+>  {
+>         struct sprd_comp *cc = hw_to_sprd_comp(hw);
+> +       unsigned long rate;
+>
+> -       return sprd_div_helper_round_rate(&cc->common, &cc->div,
+> -                                        rate, parent_rate);
+> +       rate = sprd_div_helper_round_rate(&cc->common, &cc->div,
+> +                                         req->rate, &req->best_parent_rate);
+> +       if (rate < 0)
+> +               return rate;
+> +
+> +       req->rate = rate;
+> +       return 0;
+>  }
+>
+>  static unsigned long sprd_comp_recalc_rate(struct clk_hw *hw,
+> @@ -53,7 +59,7 @@ const struct clk_ops sprd_comp_ops = {
+>         .get_parent     = sprd_comp_get_parent,
+>         .set_parent     = sprd_comp_set_parent,
+>
+> -       .round_rate     = sprd_comp_round_rate,
+> +       .determine_rate = sprd_comp_determine_rate,
+>         .recalc_rate    = sprd_comp_recalc_rate,
+>         .set_rate       = sprd_comp_set_rate,
+>  };
+>
+> --
+> b4 0.11.0-dev-99e3a
