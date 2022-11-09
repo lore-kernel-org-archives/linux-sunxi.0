@@ -1,173 +1,229 @@
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D66122A3
-	for <linux-sunxi@lists.linux.dev>; Wed,  9 Nov 2022 11:18:48 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 49C755803FC;
-	Wed,  9 Nov 2022 06:18:47 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Wed, 09 Nov 2022 06:18:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1667992727; x=
-	1667999927; bh=cpSERR+FK9P7ebGFjATnLVrDN6DOeEdblTQYZr4G17o=; b=T
-	Fl+QG10PPJjyqbLv7utqEfzNtwLor8oEF2yTMFmRZHKm4urXSwwwtVVoJls3ijLN
-	TZGwJSryG3lX2kfJo1LkfWBvNtXl25oDLriO6JyPMx/Zsocv8wuDzRVJB+jqy07g
-	QUOSBrMSfrge6LynWHCWE1/lV1yjZbK4yTuD1oMGOnBBq+3FWpOwfmhA2BvIWQpG
-	RAos1g98wq13r4iAbQU5ThqHpZt4x8tDRQXVhs20koBVF6zKRbK3XruwKa6T445f
-	UPJdRxk9PEJ1mjmw8VS4TxBh1ILLkI+NXFpGCoD5j1H5KRDBJ3PCaJ/0yprraXIE
-	ilDIlX626Xe9eToZoG2gA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1667992727; x=
-	1667999927; bh=cpSERR+FK9P7ebGFjATnLVrDN6DOeEdblTQYZr4G17o=; b=d
-	uMtVZ+5DS4SQSD5wEMQmNSkiNMJP4Co4dFNFStkseeS8p6I8UchUdcqGmSsvgGxC
-	4RZ6bcMdPuRLTA0BWbDhBAIt51NSpFXgMJ0eanp/yx4/cXLpRy45fJbbaEZ3G/4M
-	iyqTG3rDfQMqN7xTZBwZggU2VIS0IBURZBB1lbrHL5jFf6ZZEYfn3gt2dVU3Yeol
-	lcGQZL/uLfEmt35zmb9Tderps113BIXOMqQVwSxyL3x8oBdo8StWUaW3xV1L2m4n
-	hBePcSN+Xldp9A/ERXwotiMGuXGFHEzOg6uM3w/4xD0dZGkID2FivMHmtWBOPdAk
-	Rn/JJK1MJS1fA5u29rNGQ==
-X-ME-Sender: <xms:loxrY9oZHofVYB-XITEGN540BXn7pdvAyb5HkRRVKuV3-_D4Xzj-Hw>
-    <xme:loxrY_r5-Lu6Z4t1A-I9XxNLKGKm-cT-eCy5G1dpRG_dPbAjGCTszNZDtepV6wR2y
-    SY6pnM7gNlJcvOyxd0>
-X-ME-Received: <xmr:loxrY6Njce8GL4jAYU64mlkMvvlyt7WLUOgcDNj2a1d3upVMYv2KDd3GcN-h64BD9s_pgj3yUaqd_isIGMG4RtWhA7NNcsKwiYBA-tvWILfBmg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfedvgddvhecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtudenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeelleefieelleetteefvdeikeeffeffvefhtdevgfehveduveehjedvvdei
-    ledtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:loxrY45K80tENQh_C6tjaEJy5Ie2cIxYtI6F2TIPDgsBNFBXs67_Bg>
-    <xmx:loxrY84Wvga5rc9l7qft3Ey8wYUNXaoQBGxcLU3HE_MljYGRvmVPEw>
-    <xmx:loxrYwhmO9Kg4ZdVH8zb01YUd34dgerunTXO7GxTtjsiArzFIAMChQ>
-    <xmx:l4xrY7bZZgCF33vaGgYE9or8bPnfheqAYCo2-vxIFb7wkj-JYmjgsg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 9 Nov 2022 06:18:45 -0500 (EST)
-Date: Wed, 9 Nov 2022 12:18:43 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: kfyatek+publicgit@gmail.com
-Cc: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Ben Skeggs <bskeggs@redhat.com>,	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
-	Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
-	Lyude Paul <lyude@redhat.com>,	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@linux.ie>, Phil Elwell <phil@raspberrypi.com>,
-	Hans de Goede <hdegoede@redhat.com>, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	linux-arm-kernel@lists.infradead.org,	Dom Cobley <dom@raspberrypi.com>,
- dri-devel@lists.freedesktop.org,	intel-gfx@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
-Subject: Re: [PATCH v7 15/23] drm/modes: Introduce more named modes
-Message-ID: <20221109111843.jkufdneexakofa4p@houat>
-References: <20220728-rpi-analog-tv-properties-v7-0-7072a478c6b3@cerno.tech>
- <20220728-rpi-analog-tv-properties-v7-15-7072a478c6b3@cerno.tech>
- <262f0953-1e05-e68e-3e96-2ac2132a1e57@tronnes.org>
- <ba532387-6329-c57a-1fa2-627b2cf40281@tronnes.org>
- <b6b7c689-a50f-cd63-7e48-8739b0d91e61@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814872F45
+	for <linux-sunxi@lists.linux.dev>; Wed,  9 Nov 2022 11:37:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1667993821; h=from:from:sender:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3HeCzuAd5DrGQl3yX0PoEWG+18EHx/4Mkssb32++3BI=;
+	b=WwCPTNJPOIDWtdzd5piGmEgZU4J4b1t9NVy+qRbY3+ISBvVQ6apE6t+8jx2p/zEgIxnja5
+	9nWJEIf1duGHYh5JmCtFyh2CbFVaBUveP5Si2RGhwuWsnzKNfsXmdpkN0q+yUABhtgFuRh
+	Y+C1HQZU871ihv7USL4Dk3I6J/l65gU=
+Date: Wed, 09 Nov 2022 11:36:35 +0000
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v2 56/65] clk: ingenic: cgu: Switch to determine_rate
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Stephen Boyd <sboyd@kernel.org>, Maxime Coquelin
+	<mcoquelin.stm32@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Daniel Vetter
+	<daniel@ffwll.ch>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Thierry Reding <thierry.reding@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>, Claudiu Beznea
+	<claudiu.beznea@microchip.com>, Michael Turquette <mturquette@baylibre.com>,
+	Dinh Nguyen <dinguyen@kernel.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
+	Manivannan Sadhasivam <mani@kernel.org>, Andreas =?iso-8859-1?q?F=E4rber?=
+	<afaerber@suse.de>, Jonathan Hunter <jonathanh@nvidia.com>, Abel Vesa
+	<abelvesa@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Alessandro Zummo <a.zummo@towertech.it>, Peter De Schrijver
+	<pdeschrijver@nvidia.com>, Orson Zhai <orsonzhai@gmail.com>, Alexandre Torgue
+	<alexandre.torgue@foss.st.com>, Prashant Gaikwad <pgaikwad@nvidia.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Alexandre Belloni
+	<alexandre.belloni@bootlin.com>, Samuel Holland <samuel@sholland.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>, Richard Fitzgerald
+	<rf@opensource.cirrus.com>, Vinod Koul <vkoul@kernel.org>, NXP Linux Team
+	<linux-imx@nxp.com>, Sekhar Nori <nsekhar@ti.com>, Kishon Vijay Abraham I
+	<kishon@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, Takashi Iwai
+	<tiwai@suse.com>, David Airlie <airlied@gmail.com>, Luca Ceresoli
+	<luca.ceresoli@bootlin.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Baolin Wang
+	<baolin.wang@linux.alibaba.com>, David Lechner <david@lechnology.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>, Mark Brown <broonie@kernel.org>,
+	Max Filippov <jcmvbkbc@gmail.com>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, linux-stm32@st-md-mailman.stormreply.com,
+	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
+	linux-phy@lists.infradead.org, linux-mips@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-actions@lists.infradead.org,
+	linux-clk@vger.kernel.org, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, patches@opensource.cirrus.com,
+	linux-tegra@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-Id: <Z8W2LR.DTD355V5EAE02@crapouillou.net>
+In-Reply-To: <20221109105301.ueus7o3b75j5yeff@houat>
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+	<20221018-clk-range-checks-fixes-v2-56-f6736dec138e@cerno.tech>
+	<80VTKR.CE8RVN8M3ZYK3@crapouillou.net>
+	<20221104145946.orsyrhiqvypisl5j@houat>
+	<IOEVKR.TWFKJND2FJ473@crapouillou.net>
+	<20221109105301.ueus7o3b75j5yeff@houat>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <b6b7c689-a50f-cd63-7e48-8739b0d91e61@gmail.com>
 
-On Tue, Nov 08, 2022 at 10:27:17PM +0100, Mateusz Kwiatkowski wrote:
-> Hi Noralf,
+Hi Maxime,
+
+Le mer. 9 nov. 2022 =E0 11:53:01 +0100, Maxime Ripard=20
+<maxime@cerno.tech> a =E9crit :
+> Hi Paul,
 >=20
-> W dniu 8.11.2022 o 10:38, Noralf Tr=F8nnes pisze:
-> >
-> > Den 07.11.2022 19.03, skrev Noralf Tr=F8nnes:
-> >>
-> >> Den 07.11.2022 15.16, skrev Maxime Ripard:
-> >>> Now that we can easily extend the named modes list, let's add a few m=
-ore
-> >>> analog TV modes that were used in the wild, and some unit tests to ma=
-ke
-> >>> sure it works as intended.
-> >>>
-> >>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> >>>
-> >>> ---
-> >>> Changes in v6:
-> >>> - Renamed the tests to follow DRM test naming convention
-> >>>
-> >>> Changes in v5:
-> >>> - Switched to KUNIT_ASSERT_NOT_NULL
-> >>> ---
-> >>>  drivers/gpu/drm/drm_modes.c                     |  2 +
-> >>>  drivers/gpu/drm/tests/drm_client_modeset_test.c | 54 +++++++++++++++=
-++++++++++
-> >>>  2 files changed, 56 insertions(+)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> >>> index 49441cabdd9d..17c5b6108103 100644
-> >>> --- a/drivers/gpu/drm/drm_modes.c
-> >>> +++ b/drivers/gpu/drm/drm_modes.c
-> >>> @@ -2272,7 +2272,9 @@ struct drm_named_mode {
-> >>> =20
-> >>>  static const struct drm_named_mode drm_named_modes[] =3D {
-> >>>  	NAMED_MODE("NTSC", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE, DRM_MO=
-DE_TV_MODE_NTSC),
-> >>> +	NAMED_MODE("NTSC-J", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE, DRM_=
-MODE_TV_MODE_NTSC_J),
-> >>>  	NAMED_MODE("PAL", 13500, 720, 576, DRM_MODE_FLAG_INTERLACE, DRM_MOD=
-E_TV_MODE_PAL),
-> >>> +	NAMED_MODE("PAL-M", 13500, 720, 480, DRM_MODE_FLAG_INTERLACE, DRM_M=
-ODE_TV_MODE_PAL_M),
-> >>>  };
-> >> I'm now having second thoughts about the tv_mode commandline option. C=
-an
-> >> we just add all the variants to this table and drop the tv_mode option?
-> >> IMO this will be more user friendly and less confusing.
-> >>
-> > One downside of this is that it's not possible to force connector status
-> > when using named modes, but I think it would be better to have a force
-> > option than a tv_mode option. A lot of userspace treats unknown status
-> > as disconnected.
-> >
-> > Anyone know if it's possible to set the connector status sysfs file
-> > using a udev rule?
-> >
-> > Noralf.
+> On Sat, Nov 05, 2022 at 10:33:54AM +0000, Paul Cercueil wrote:
+>>  Hi Maxime,
+>>=20
+>>  Le ven. 4 nov. 2022 =E0 15:59:46 +0100, Maxime Ripard=20
+>> <maxime@cerno.tech> a
+>>  =E9crit :
+>>  > Hi Paul,
+>>  >
+>>  > On Fri, Nov 04, 2022 at 02:31:20PM +0000, Paul Cercueil wrote:
+>>  > >  Le ven. 4 nov. 2022 =E0 14:18:13 +0100, Maxime Ripard
+>>  > > <maxime@cerno.tech> a
+>>  > >  =E9crit :
+>>  > >  > The Ingenic CGU clocks implements a mux with a set_parent=20
+>> hook,
+>>  > > but
+>>  > >  > doesn't provide a determine_rate implementation.
+>>  > >  >
+>>  > >  > This is a bit odd, since set_parent() is there to, as its=20
+>> name
+>>  > > implies,
+>>  > >  > change the parent of a clock. However, the most likely=20
+>> candidate
+>>  > > to
+>>  > >  > trigger that parent change is a call to clk_set_rate(), with
+>>  > >  > determine_rate() figuring out which parent is the best=20
+>> suited for
+>>  > > a
+>>  > >  > given rate.
+>>  > >  >
+>>  > >  > The other trigger would be a call to clk_set_parent(), but=20
+>> it's
+>>  > > far less
+>>  > >  > used, and it doesn't look like there's any obvious user for=20
+>> that
+>>  > > clock.
+>>  > >  >
+>>  > >  > So, the set_parent hook is effectively unused, possibly=20
+>> because
+>>  > > of an
+>>  > >  > oversight. However, it could also be an explicit decision by=20
+>> the
+>>  > >  > original author to avoid any reparenting but through an=20
+>> explicit
+>>  > > call to
+>>  > >  > clk_set_parent().
+>>  > >  >
+>>  > >  > The driver does implement round_rate() though, which means=20
+>> that
+>>  > > we can
+>>  > >  > change the rate of the clock, but we will never get to=20
+>> change the
+>>  > >  > parent.
+>>  > >  >
+>>  > >  > However, It's hard to tell whether it's been done on purpose=20
+>> or
+>>  > > not.
+>>  > >  >
+>>  > >  > Since we'll start mandating a determine_rate()=20
+>> implementation,
+>>  > > let's
+>>  > >  > convert the round_rate() implementation to a=20
+>> determine_rate(),
+>>  > > which
+>>  > >  > will also make the current behavior explicit. And if it was=20
+>> an
+>>  > >  > oversight, the clock behaviour can be adjusted later on.
+>>  > >
+>>  > >  So it's partly on purpose, partly because I didn't know about
+>>  > >  .determine_rate.
+>>  > >
+>>  > >  There's nothing odd about having a lonely .set_parent=20
+>> callback; in
+>>  > > my case
+>>  > >  the clocks are parented from the device tree.
+>>  > >
+>>  > >  Having the clocks driver trigger a parent change when=20
+>> requesting a
+>>  > > rate
+>>  > >  change sounds very dangerous, IMHO. My MMC controller can be
+>>  > > parented to the
+>>  > >  external 48 MHz oscillator, and if the card requests 50 MHz, it
+>>  > > could switch
+>>  > >  to one of the PLLs. That works as long as the PLLs don't change
+>>  > > rate, but if
+>>  > >  one is configured as driving the CPU clock, it becomes messy.
+>>  > >  The thing is, the clocks driver has no way to know whether or=20
+>> not
+>>  > > it is
+>>  > >  "safe" to use a designated parent.
+>>  > >
+>>  > >  For that reason, in practice, I never actually want to have a=20
+>> clock
+>>  > >  re-parented - it's almost always a bad idea vs. sticking to the
+>>  > > parent clock
+>>  > >  configured in the DTS.
+>>  >
+>>  > Yeah, and this is totally fine. But we need to be explicit about=20
+>> it. The
+>>  > determine_rate implementation I did in all the patches is an exact
+>>  > equivalent to the round_rate one if there was one. We will never=20
+>> ask to
+>>  > change the parent.
+>>  >
+>>  > Given what you just said, I would suggest to set the
+>>  > CLK_SET_RATE_NO_REPARENT flag as well.
+>>=20
+>>  But that would introduce policy into the driver...
 >=20
-> I think that leaving named modes only would be a bit limiting. There are =
-use
-> cases for custom modes, e.g. we might want progressive 240p "NTSC" (like =
-80s/90s
-> home computers and video game consoles) or the modes with non-13.5MHz pix=
-el
-> clock that Geert requested with Amiga in mind.
+> I'm not sure why you're bringing policies into that discussion.=20
+> There's
+> plenty of policy in the driver already, and the current code doesn't=20
+> do
+> something that the old wasn't doing (implicitly).
 
-Yeah, it was one of the early requirements that we would be allowed to
-fill in any analog mode on the command line, so just having the named
-modes with the 480i and 576i modes won't really work for that.
+Yes, I was just talking about the CLK_SET_RATE_NO_REPARENT flag adding=20
+policy. The fact that there's plenty of policy in the driver already is=20
+not an argument for adding some more.
 
-> I'm not sure if the current cmdline-to-drm_mode conversion is flexible en=
-ough
-> to meaningfully facilitate those, but we're at least getting the syntax d=
-own.
+> And there's plenty of policies in drivers in general. Whether you=20
+> limit
+> the rate or not, whether you allow reparenting or not, even the
+> CLK_SET_RATE_NO_REPARENT flag mentioned above is a policy decision set
+> by drivers.
 
-It might require a bit of plumbing to get
-drm_mode_create_from_cmdline_mode() to add the mode if tv_mode_specified
-is set, but it's probably it.
+Allowing reparenting and not limiting the rates is not a policy, it's=20
+just following what the hardware allows you to do. The absence of=20
+policy means that the driver allows you to configure the hardware in=20
+any way you might want to.
 
-Maxime
+Limiting rates, forbidding reparenting, that's policy, and it doesn't=20
+belong in a driver.
+
+You can argue that choosing not to reparent on rate change is a policy,=20
+and it is. That's why we need a way to enforce these policies outside=20
+the driver.
+
+>>  The fact that I don't want the MMC parented to the PLLs, doesn't=20
+>> mean
+>>  that it's an invalid configuration per se.
+>=20
+> Sure, and that's another policy :)
+
+A policy that is not enforced by the driver.
+
+Going back to the patch itself... I am fine with the change, although=20
+the patch description should probably be updated. We have .set_parent=20
+callbacks to configure clocks from DT, there's nothing more to it.
+
+Cheers,
+-Paul
+
+
