@@ -1,134 +1,175 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28775364
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Nov 2022 01:44:26 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9A0CFD6E;
-	Wed,  9 Nov 2022 17:44:31 -0800 (PST)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E2A0D3F703;
-	Wed,  9 Nov 2022 17:44:23 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Linus Walleij <linus.walleij@linaro.org>,
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 135BD39D;
+	Thu, 10 Nov 2022 06:57:10 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id l14so901972wrw.2;
+        Wed, 09 Nov 2022 22:57:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=L1O9vx/w0pSScJPYJU2hSXOoClhMo14F1MGXdWp+Ufg=;
+        b=ih2hj2AwLw6uHnoVWJIxZvKqdEAjHM0jD7xTrnsEAwACZBNaBmpfcMk5js1HYZby6j
+         lZ14H3xql7RMtd4Y631wpUfgRpewaFbcFGzKPVwWfKNW2ligyRCLwPQ0coycdb/HPLK5
+         Aa1eGy6Pbd1viF+NxdMGsQyEO5mqdq94QY682+gg46t1yKKXWpO4OF40rayUs3SIG9KG
+         BN6bsWIsNMEzq0E+OtfV1rOk0IizI2F1Dpa0xipPGxX4ZJeUp16zdkHN+WshRusac+TJ
+         S4RoDuaavXzvW1osuQLAGkp00ifZsf31CoNtZIuefwBTNOVgXZexiRyt3fbOd97uwWYv
+         bdhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=L1O9vx/w0pSScJPYJU2hSXOoClhMo14F1MGXdWp+Ufg=;
+        b=0uGBdVBBfOvL2xGBATTBjuwrmpjH9iwKGGWWZ12NV1QEl6OmiIg7amZhBVGyqQlzxf
+         eHBaYAspOAsQaOdwBp81uJohB/k5OH4riRy7Cy9SDRUvLXmxGeKOMbm86FyBqLQZG5BQ
+         2v3x3sSQfVUVT+dY/t6/2Ss3rxmjjrR+RYCgCOzcRvrUBqLc3gP84WtR4BRzNTMNOyEY
+         vTCttoTAZQeFNuybtX2YU/kD0w+JqBRZWYe5onxMv7nhOSwKPlGP6g8JFuqL4fHJCnmk
+         MVUxL+8osnDsvW90XCceekanHXCMCOPZJixWI59A5VsTYfxpTHwQnz7ijqoum8tshtOL
+         oskw==
+X-Gm-Message-State: ACrzQf38eRUynT+bC2iL5LE61hVdvXHMIhN1c0Kqa8SofbWbOYkhe/WX
+	22i4QZvuzMK74LDX2INJUB1As+AI8mRyoQ==
+X-Google-Smtp-Source: AMsMyM6YvildaZhGa/d4MYEc0dWoFhApR6w0TXgYEOeTCBEzNq0RU0eJrIdKmvqEDf29jjNFtqRVCQ==
+X-Received: by 2002:a5d:618e:0:b0:22a:f546:3f68 with SMTP id j14-20020a5d618e000000b0022af5463f68mr995725wru.651.1668063428798;
+        Wed, 09 Nov 2022 22:57:08 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id h4-20020a05600c350400b003c6f426467fsm4357994wmq.40.2022.11.09.22.57.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Nov 2022 22:57:08 -0800 (PST)
+Date: Thu, 10 Nov 2022 09:57:04 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Yong Deng <yong.deng@magewell.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Icenowy Zheng <uwu@icenowy.me>,
-	linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [RFC PATCH 2/2] pinctrl: sunxi: Add support for the Allwinner V5 pin controller
-Date: Thu, 10 Nov 2022 01:42:55 +0000
-Message-Id: <20221110014255.20711-3-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.5
-In-Reply-To: <20221110014255.20711-1-andre.przywara@arm.com>
-References: <20221110014255.20711-1-andre.przywara@arm.com>
+	Samuel Holland <samuel@sholland.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v7 01/28] media: sun6i-csi: Add bridge v4l2 subdev with
+ port management
+Message-ID: <202211100529.cG57XaEQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221103163113.245462-2-paul.kocialkowski@bootlin.com>
 
-The Allwinner V5 contains pins in all 10 possible pin banks.
-Use the newly introduced DT based pinctrl driver to describe just the
-generic pinctrl properties, so advertise the number of pins per bank
-and the interrupt capabilities. The actual function/mux assignment is
-taken from the devicetree.
+Hi Paul,
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- drivers/pinctrl/sunxi/Kconfig            |  5 +++
- drivers/pinctrl/sunxi/Makefile           |  1 +
- drivers/pinctrl/sunxi/pinctrl-sun8i-v5.c | 52 ++++++++++++++++++++++++
- 3 files changed, 58 insertions(+)
- create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun8i-v5.c
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/pinctrl/sunxi/Kconfig b/drivers/pinctrl/sunxi/Kconfig
-index a78fdbbdfc0c..6b8ea56c08fd 100644
---- a/drivers/pinctrl/sunxi/Kconfig
-+++ b/drivers/pinctrl/sunxi/Kconfig
-@@ -131,4 +131,9 @@ config PINCTRL_SUN50I_H616_R
- 	default ARM64 && ARCH_SUNXI
- 	select PINCTRL_SUNXI
- 
-+config PINCTRL_SUN8I_V5
-+	bool "Support for the Allwinner V5 PIO"
-+	default MACH_SUN8I
-+	select PINCTRL_SUNXI
-+
- endif
-diff --git a/drivers/pinctrl/sunxi/Makefile b/drivers/pinctrl/sunxi/Makefile
-index f5bad7a52951..5b289e18bd5a 100644
---- a/drivers/pinctrl/sunxi/Makefile
-+++ b/drivers/pinctrl/sunxi/Makefile
-@@ -21,6 +21,7 @@ obj-$(CONFIG_PINCTRL_SUN8I_A83T_R)	+= pinctrl-sun8i-a83t-r.o
- obj-$(CONFIG_PINCTRL_SUN8I_H3)		+= pinctrl-sun8i-h3.o
- obj-$(CONFIG_PINCTRL_SUN8I_H3_R)	+= pinctrl-sun8i-h3-r.o
- obj-$(CONFIG_PINCTRL_SUN8I_V3S)		+= pinctrl-sun8i-v3s.o
-+obj-$(CONFIG_PINCTRL_SUN8I_V5)		+= pinctrl-sun8i-v5.o
- obj-$(CONFIG_PINCTRL_SUN20I_D1)		+= pinctrl-sun20i-d1.o
- obj-$(CONFIG_PINCTRL_SUN50I_H5)		+= pinctrl-sun50i-h5.o
- obj-$(CONFIG_PINCTRL_SUN50I_H6)		+= pinctrl-sun50i-h6.o
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sun8i-v5.c b/drivers/pinctrl/sunxi/pinctrl-sun8i-v5.c
-new file mode 100644
-index 000000000000..402b1c915e04
---- /dev/null
-+++ b/drivers/pinctrl/sunxi/pinctrl-sun8i-v5.c
-@@ -0,0 +1,52 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Allwinner V5 SoC pinctrl driver.
-+ *
-+ * Copyright (C) 2022 Arm Ltd.
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/of.h>
-+#include <linux/of_device.h>
-+#include <linux/pinctrl/pinctrl.h>
-+
-+#include "pinctrl-sunxi.h"
-+
-+static const unsigned int v5_irq_bank_map[] = { 0, 1, 5, 6, 7 };
-+
-+static const u8 v5_irq_bank_muxes[SUNXI_PINCTRL_MAX_BANKS] =
-+/*       PA PB PC PD PE PF PG PH */
-+        { 6, 6, 0, 0, 0, 6, 6, 6 };
-+
-+static const u8 v5_nr_bank_pins[SUNXI_PINCTRL_MAX_BANKS] =
-+/*        PA  PB  PC  PD  PE  PF  PG  PH  PI  PJ */
-+        { 16, 11, 17, 23, 18,  7, 14, 16, 17, 18 };
-+
-+static struct sunxi_pinctrl_desc v5_pinctrl_data = {
-+	.irq_banks = ARRAY_SIZE(v5_irq_bank_map),
-+	.irq_bank_map = v5_irq_bank_map,
-+	.irq_read_needs_mux = true,
-+	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL,
-+};
-+
-+static int v5_pinctrl_probe(struct platform_device *pdev)
-+{
-+	return sunxi_pinctrl_dt_table_init(pdev, v5_nr_bank_pins,
-+					   v5_irq_bank_muxes,
-+					   &v5_pinctrl_data);
-+}
-+
-+static const struct of_device_id v5_pinctrl_match[] = {
-+	{ .compatible = "allwinner,sun8i-v5-pinctrl", },
-+	{}
-+};
-+
-+static struct platform_driver v5_pinctrl_driver = {
-+	.probe	= v5_pinctrl_probe,
-+	.driver	= {
-+		.name		= "sun8i-v5-pinctrl",
-+		.of_match_table	= v5_pinctrl_match,
-+	},
-+};
-+builtin_platform_driver(v5_pinctrl_driver);
+url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Kocialkowski/Allwinner-A31-A83T-MIPI-CSI-2-and-A31-ISP-CSI-Rework/20221104-003518
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20221103163113.245462-2-paul.kocialkowski%40bootlin.com
+patch subject: [PATCH v7 01/28] media: sun6i-csi: Add bridge v4l2 subdev with port management
+config: arc-randconfig-m041-20221107
+compiler: arc-elf-gcc (GCC) 12.1.0
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+
+smatch warnings:
+drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c:86 sun6i_csi_bridge_s_stream() warn: missing error code 'ret'
+drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c:279 sun6i_csi_bridge_notifier_bound() error: uninitialized symbol 'enabled'.
+
+vim +/ret +86 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
+
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   62  static int sun6i_csi_bridge_s_stream(struct v4l2_subdev *subdev, int on)
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   63  {
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   64  	struct sun6i_csi_device *csi_dev = v4l2_get_subdevdata(subdev);
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   65  	struct sun6i_csi_bridge *bridge = &csi_dev->bridge;
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   66  	struct media_pad *local_pad = &bridge->pads[SUN6I_CSI_BRIDGE_PAD_SINK];
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   67  	struct device *dev = csi_dev->dev;
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   68  	struct v4l2_subdev *source_subdev;
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   69  	struct media_pad *remote_pad;
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   70  	/* Initialize to 0 to use both in disable label (ret != 0) and off. */
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   71  	int ret = 0;
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   72  
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   73  	/* Source */
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   74  
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   75  	remote_pad = media_pad_remote_pad_unique(local_pad);
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   76  	if (IS_ERR(remote_pad)) {
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   77  		dev_err(dev,
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   78  			"zero or more than a single source connected to the bridge\n");
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   79  		return PTR_ERR(remote_pad);
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   80  	}
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   81  
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   82  	source_subdev = media_entity_to_v4l2_subdev(remote_pad->entity);
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   83  
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   84  	if (!on) {
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   85  		v4l2_subdev_call(source_subdev, video, s_stream, 0);
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  @86  		goto disable;
+
+This is intentional, but it should just return 0;
+
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   87  	}
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   88  
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   89  	ret = v4l2_subdev_call(source_subdev, video, s_stream, 1);
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   90  	if (ret && ret != -ENOIOCTLCMD)
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   91  		goto disable;
+
+Do we really need to clean anything up?  Why not just:
+
+	source_subdev = media_entity_to_v4l2_subdev(remote_pad->entity);
+
+	return v4l2_subdev_call(source_subdev, video, s_stream, !!on);
+
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   92  
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   93  	return 0;
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   94  
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   95  disable:
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   96  
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   97  	return ret;
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   98  }
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   99  
+
+[ snip ]
+
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  254  static int
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  255  sun6i_csi_bridge_notifier_bound(struct v4l2_async_notifier *notifier,
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  256  				struct v4l2_subdev *remote_subdev,
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  257  				struct v4l2_async_subdev *async_subdev)
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  258  {
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  259  	struct sun6i_csi_device *csi_dev =
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  260  		container_of(notifier, struct sun6i_csi_device,
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  261  			     bridge.notifier);
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  262  	struct sun6i_csi_bridge_async_subdev *bridge_async_subdev =
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  263  		container_of(async_subdev, struct sun6i_csi_bridge_async_subdev,
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  264  			     async_subdev);
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  265  	struct sun6i_csi_bridge_source *source = bridge_async_subdev->source;
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  266  	bool enabled;
+
+This neesds to be "bool enabled = false;"
+
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  267  
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  268  	switch (source->endpoint.base.port) {
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  269  	case SUN6I_CSI_PORT_PARALLEL:
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  270  		enabled = true;
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  271  		break;
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  272  	default:
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  273  		break;
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  274  	}
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  275  
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  276  	source->subdev = remote_subdev;
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  277  
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  278  	return sun6i_csi_bridge_link(csi_dev, SUN6I_CSI_BRIDGE_PAD_SINK,
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03 @279  				     remote_subdev, enabled);
+d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  280  }
+
 -- 
-2.35.5
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 
