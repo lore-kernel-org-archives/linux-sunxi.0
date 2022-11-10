@@ -1,101 +1,168 @@
-Received: from smtp-4.b-tu.de (smtp-4.b-tu.de [141.43.208.14])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66ED620E3
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Nov 2022 11:10:13 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by smtp-4.b-tu.de (Postfix) with ESMTP id 4N7Jyl60L2zGsZXD;
-	Thu, 10 Nov 2022 12:10:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=b-tu.de; h=
-	content-transfer-encoding:content-type:content-type:mime-version
-	:x-mailer:references:in-reply-to:message-id:subject:subject:from
-	:from:date:date:received:received; s=smtp; t=1668078605; x=
-	1668942606; bh=UufqRW4v9C+qLifPhmKaQ8o1r+SUf2k3/0OoPxuP/s4=; b=B
-	gCCWbYoK35n0842by6R7mwW3E5lsToewAv74Tl3fzWcvTh4UWLswGlAtvfbg32zI
-	ORvqiCR687u4i3j5K0fw0bs3rvAN7kp/4Gzzt/AxDoREupHKIC/f6RvwJSnX9M2S
-	2E0sSVvx9vZZ3E9rdjkiL/YAVKWTOIjk1+/0srOsnc=
-X-Virus-Scanned: by AMaViS (at smtp-4.b-tu.de)
-Received: from smtp-4.b-tu.de ([127.0.0.1])
-	by localhost (smtp-4.b-tu.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 5KJjA6YZ_O95; Thu, 10 Nov 2022 12:10:05 +0100 (CET)
-Received: from rosh (rosh.math.tu-cottbus.de [141.43.65.40])
-	(Authenticated sender: dikarill@b-tu.de)
-	by smtp-4.b-tu.de (Postfix) with ESMTPSA id 4N7Jyf1ZJRzGsZXF;
-	Thu, 10 Nov 2022 12:10:01 +0100 (CET)
-Date: Thu, 10 Nov 2022 12:10:01 +0100
-From: Ilya Dikariev <dikarill@b-tu.de>
-To: Marc Zyngier <maz@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>, Daniel Lezcano
- <daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, Samuel
- Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drivers/clocksource/arm_arch_timer: Tighten Allwinner
- arch timer workaround
-Message-ID: <20221110121001.214a851d@rosh>
-In-Reply-To: <87k043us6e.wl-maz@kernel.org>
-References: <20221109221049.4bf3c5bb@rosh>
-	<87k043us6e.wl-maz@kernel.org>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A71185E
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Nov 2022 11:29:19 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id m6so1797603pfb.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 10 Nov 2022 03:29:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=dZWp2kHBH7BxTK24vYMYaWuh8ES61v4HZQKkOxWH97c=;
+        b=nm5AzPUP/c5SxnOWRF0E8OOs8vIUdOgDjB6wYkEQYpfYDRuGKSxS+CBIeuds7UEokj
+         CAc3O4M3Lzp0CmH9uvJ+chSuCz2e7UtgkMxDMXFmH0EFBdC81NQcL56cIa/e5fTzyvWS
+         kSegvkcOyKB6FEauX3mSzkzzDIAUq5r5SATzN3WmVSBqg1jyg/gg0kYs06KdBSG3zxV/
+         fvTxGa1dt18Ruz+5BEtQasGBTHQrEp0wpReAHWWGdK+pWMVHzmdtTwn3mkonTWk309ZV
+         x5RN6EKVnoWzvPKijsEeJPqRTGi+5rLHTCBxYP1D5lgzLbOuhL8arV0ezTVKJRNayIhr
+         L9Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dZWp2kHBH7BxTK24vYMYaWuh8ES61v4HZQKkOxWH97c=;
+        b=R0rYctutDK4blXgC/TOOtem0bWh7Bi+zL/z7UAU0n0p7PJYe9SF9plUdSt5SLwlwmj
+         CI66mQzXyQ1BXw4XxKdIrf3RTvP/oRbCrWomdVCwruGDMVX5ZA1J8pJrjEtVBE6HmvLd
+         aDtx3kuAbTwCtunm6DneIb1V+/J2RYIigMZFB0HGg2RmlZbzif7LYhEfuizlYB4w5v2R
+         vzJWfUyO/cRcyF/ERilc09XefSn+L06qKhiKWzOLriSGvcmAntAONvqUvzE5zajUSBxx
+         az2vhrP6OtUZj5mI2nVMLemLMlPefA/ku4eSN7i6L9KOFAoin6iYN6FuwgYTPcl4qdmH
+         qPXw==
+X-Gm-Message-State: ACrzQf2OSIiEY4AetR8lyCvbEpOcEXidBSeM1CmAdRVIW5/feQqOq2og
+	MtQ889urUmCneOeIITofCI6cbqd+z75j4I4dfpixMw==
+X-Google-Smtp-Source: AMsMyM4cuzpOD/TX9hqFyYyupcC8P3vPeFAFlSRm0wZ2MgnRUbZnV+cRg9A/mVHt7wBrkUdmfz48YahbcXukazUMnzc=
+X-Received: by 2002:a63:4204:0:b0:442:ee11:4894 with SMTP id
+ p4-20020a634204000000b00442ee114894mr2372631pga.595.1668079758533; Thu, 10
+ Nov 2022 03:29:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech> <20221018-clk-range-checks-fixes-v2-35-f6736dec138e@cerno.tech>
+In-Reply-To: <20221018-clk-range-checks-fixes-v2-35-f6736dec138e@cerno.tech>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Thu, 10 Nov 2022 12:28:41 +0100
+Message-ID: <CAPDyKFoycVedCJMy0=UK+q5SiPQHqje_8bSN-gdkpBa6KhFfkg@mail.gmail.com>
+Subject: Re: [PATCH v2 35/65] clk: ux500: sysctrl: Add a determine_rate hook
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Stephen Boyd <sboyd@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
+	Claudiu Beznea <claudiu.beznea@microchip.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Dinh Nguyen <dinguyen@kernel.org>, Paul Cercueil <paul@crapouillou.net>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>, 
+	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Abel Vesa <abelvesa@kernel.org>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, Alessandro Zummo <a.zummo@towertech.it>, 
+	Peter De Schrijver <pdeschrijver@nvidia.com>, Orson Zhai <orsonzhai@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Samuel Holland <samuel@sholland.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Vinod Koul <vkoul@kernel.org>, 
+	NXP Linux Team <linux-imx@nxp.com>, Sekhar Nori <nsekhar@ti.com>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	Takashi Iwai <tiwai@suse.com>, David Airlie <airlied@gmail.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	David Lechner <david@lechnology.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Mark Brown <broonie@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, linux-stm32@st-md-mailman.stormreply.com, 
+	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org, 
+	linux-phy@lists.infradead.org, linux-mips@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-actions@lists.infradead.org, 
+	linux-clk@vger.kernel.org, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, patches@opensource.cirrus.com, 
+	linux-tegra@vger.kernel.org, linux-rtc@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 
-El Thu, 10 Nov 2022 08:31:21 +0000
-Marc Zyngier <maz@kernel.org> escribi=C3=B3:
+On Fri, 4 Nov 2022 at 14:32, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> The UX500 sysctrl "set_parent" clocks implement a mux with a set_parent
+> hook, but doesn't provide a determine_rate implementation.
+>
+> This is a bit odd, since set_parent() is there to, as its name implies,
+> change the parent of a clock. However, the most likely candidate to
+> trigger that parent change is a call to clk_set_rate(), with
+> determine_rate() figuring out which parent is the best suited for a
+> given rate.
+>
+> The other trigger would be a call to clk_set_parent(), but it's far less
+> used, and it doesn't look like there's any obvious user for that clock.
 
-MZ> >=20
-MZ> > As we know, the Allwinner A64 SoC has a buggy RCU time unit. The =20
-MZ>=20
-MZ> What is RCU?
+If I recall correctly, that is the use case we did target for these
+types of clocks. See sound/soc/ux500/ux500_ab85xx.c, for example.
 
-I think I called it wrong. Anyway I mean the HR timer of A64.
+Maybe there are some additional pieces missing from the old down
+stream kernel, I don't have full picture, sorry.
 
-MZ>=20
-MZ> > workaround named UNKNOWN1 was not sufficient to cover some more buggy
-MZ> > bunches of this SoC. This workaround diminish the mask to 8 bits inst=
-ead
-MZ> > of 9.
-MZ> >=20
-MZ> > An example run of timer test tool https://github.com/smaeul/timer-too=
-ls
-MZ> > on PinePhone device (owns the A64 SoC) gives following result on a non
-MZ> > patched kernel (cut off):
-MZ> >=20
-MZ> > Running parallel counter test...
-MZ> > 0: Failed after 5507 reads (0.003578 s)
-MZ> > 0: 0x0000000c8272cbf1 -> 0x0000000c8272ccff -> 0x0000000c8272cc0e (  =
-   0.011 ms)
+Anyway, if I am not wrong, this was about supporting a low-power audio
+use case, which requires us to switch the parent clock (to avoid
+wasting energy).
 
-[......]
+>
+> So, the set_parent hook is effectively unused, possibly because of an
+> oversight. However, it could also be an explicit decision by the
+> original author to avoid any reparenting but through an explicit call to
+> clk_set_parent().
 
-MZ> > After the proposed patch applied the test runs
-MZ> > correctly (~2 hours of testing with a tool above without fails) =20
-MZ>=20
-MZ> 2 hours seems like an incredibly small amount of time given that the
-MZ> existing workaround was believed to be correct. Run it continuously
-MZ> for a couple of weeks on several different machines with varying
-MZ> workloads and less us know the outcome.
+Yes, this was the reason.
 
-The only A64 machine I own is the Pinephone. First time I did this patch
-~9 month ago (on behalf os Samuel). Before it the system suffered hangs
-every 15-20 minutes and backward time jumps ~1 time a day.
-Since applying of this patch none of above occurred.
-To be honest, I never did long tests (weeks). I will put the device
-on a probe for some weeks and let you know then.
+As a matter of fact, I don't even recall that re-parenting was
+possible through clk_set_rate() when this clock driver was introduced.
+But, I might be wrong, it's quite a while ago.
 
+>
+> The latter case would be equivalent to setting the flag
+> CLK_SET_RATE_NO_REPARENT, together with setting our determine_rate hook
+> to __clk_mux_determine_rate(). Indeed, if no determine_rate
+> implementation is provided, clk_round_rate() (through
+> clk_core_round_rate_nolock()) will call itself on the parent if
+> CLK_SET_RATE_PARENT is set, and will not change the clock rate
+> otherwise. __clk_mux_determine_rate() has the exact same behavior when
+> CLK_SET_RATE_NO_REPARENT is set.
+>
+> And if it was an oversight, then we are at least explicit about our
+> behavior now and it can be further refined down the line.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-Best regards,
-Ilya
+Seems reasonable to me!
 
+Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
 
---=20
-=D0=B7=D0=B0=D0=BF=D1=80=D1=8F=D0=B3=D0=B0=D0=B9 =D0=BC=D0=B5=D0=B4=D0=BB=
-=D0=B5=D0=BD=D0=BD=D0=BE,
-=D0=B5=D0=B4=D1=8C =D0=B1=D1=8B=D1=81=D1=82=D1=80=D0=BE!
+Kind regards
+Uffe
+
+> ---
+>  drivers/clk/ux500/clk-sysctrl.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/clk/ux500/clk-sysctrl.c b/drivers/clk/ux500/clk-sysctrl.c
+> index 702f2f8b43fa..d36336665b6d 100644
+> --- a/drivers/clk/ux500/clk-sysctrl.c
+> +++ b/drivers/clk/ux500/clk-sysctrl.c
+> @@ -110,6 +110,7 @@ static const struct clk_ops clk_sysctrl_gate_fixed_rate_ops = {
+>  };
+>
+>  static const struct clk_ops clk_sysctrl_set_parent_ops = {
+> +       .determine_rate = __clk_mux_determine_rate,
+>         .set_parent = clk_sysctrl_set_parent,
+>         .get_parent = clk_sysctrl_get_parent,
+>  };
+> @@ -220,6 +221,7 @@ struct clk *clk_reg_sysctrl_set_parent(struct device *dev,
+>                                 unsigned long flags)
+>  {
+>         return clk_reg_sysctrl(dev, name, parent_names, num_parents,
+> -                       reg_sel, reg_mask, reg_bits, 0, 0, flags,
+> +                       reg_sel, reg_mask, reg_bits, 0, 0,
+> +                       flags | CLK_SET_RATE_NO_REPARENT,
+>                         &clk_sysctrl_set_parent_ops);
+>  }
+>
+> --
+> b4 0.11.0-dev-99e3a
