@@ -1,168 +1,96 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A71185E
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Nov 2022 11:29:19 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id m6so1797603pfb.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 10 Nov 2022 03:29:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dZWp2kHBH7BxTK24vYMYaWuh8ES61v4HZQKkOxWH97c=;
-        b=nm5AzPUP/c5SxnOWRF0E8OOs8vIUdOgDjB6wYkEQYpfYDRuGKSxS+CBIeuds7UEokj
-         CAc3O4M3Lzp0CmH9uvJ+chSuCz2e7UtgkMxDMXFmH0EFBdC81NQcL56cIa/e5fTzyvWS
-         kSegvkcOyKB6FEauX3mSzkzzDIAUq5r5SATzN3WmVSBqg1jyg/gg0kYs06KdBSG3zxV/
-         fvTxGa1dt18Ruz+5BEtQasGBTHQrEp0wpReAHWWGdK+pWMVHzmdtTwn3mkonTWk309ZV
-         x5RN6EKVnoWzvPKijsEeJPqRTGi+5rLHTCBxYP1D5lgzLbOuhL8arV0ezTVKJRNayIhr
-         L9Iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dZWp2kHBH7BxTK24vYMYaWuh8ES61v4HZQKkOxWH97c=;
-        b=R0rYctutDK4blXgC/TOOtem0bWh7Bi+zL/z7UAU0n0p7PJYe9SF9plUdSt5SLwlwmj
-         CI66mQzXyQ1BXw4XxKdIrf3RTvP/oRbCrWomdVCwruGDMVX5ZA1J8pJrjEtVBE6HmvLd
-         aDtx3kuAbTwCtunm6DneIb1V+/J2RYIigMZFB0HGg2RmlZbzif7LYhEfuizlYB4w5v2R
-         vzJWfUyO/cRcyF/ERilc09XefSn+L06qKhiKWzOLriSGvcmAntAONvqUvzE5zajUSBxx
-         az2vhrP6OtUZj5mI2nVMLemLMlPefA/ku4eSN7i6L9KOFAoin6iYN6FuwgYTPcl4qdmH
-         qPXw==
-X-Gm-Message-State: ACrzQf2OSIiEY4AetR8lyCvbEpOcEXidBSeM1CmAdRVIW5/feQqOq2og
-	MtQ889urUmCneOeIITofCI6cbqd+z75j4I4dfpixMw==
-X-Google-Smtp-Source: AMsMyM4cuzpOD/TX9hqFyYyupcC8P3vPeFAFlSRm0wZ2MgnRUbZnV+cRg9A/mVHt7wBrkUdmfz48YahbcXukazUMnzc=
-X-Received: by 2002:a63:4204:0:b0:442:ee11:4894 with SMTP id
- p4-20020a634204000000b00442ee114894mr2372631pga.595.1668079758533; Thu, 10
- Nov 2022 03:29:18 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E557412DAD
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Nov 2022 11:33:58 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 18A031FB;
+	Thu, 10 Nov 2022 03:34:04 -0800 (PST)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 87C283F534;
+	Thu, 10 Nov 2022 03:33:56 -0800 (PST)
+Date: Thu, 10 Nov 2022 11:33:52 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Icenowy
+ Zheng <uwu@icenowy.me>, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [RFC PATCH 0/2] pinctrl: sunxi: Introduce DT-based pinctrl
+ builder
+Message-ID: <20221110113352.32daa5c6@donnerap.cambridge.arm.com>
+In-Reply-To: <CACRpkdb=5mobcWBJYtXd=nC7A+Uo__itk0F9oZBeTjWHBkBU1w@mail.gmail.com>
+References: <20221110014255.20711-1-andre.przywara@arm.com>
+	<CACRpkdb=5mobcWBJYtXd=nC7A+Uo__itk0F9oZBeTjWHBkBU1w@mail.gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech> <20221018-clk-range-checks-fixes-v2-35-f6736dec138e@cerno.tech>
-In-Reply-To: <20221018-clk-range-checks-fixes-v2-35-f6736dec138e@cerno.tech>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Thu, 10 Nov 2022 12:28:41 +0100
-Message-ID: <CAPDyKFoycVedCJMy0=UK+q5SiPQHqje_8bSN-gdkpBa6KhFfkg@mail.gmail.com>
-Subject: Re: [PATCH v2 35/65] clk: ux500: sysctrl: Add a determine_rate hook
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Stephen Boyd <sboyd@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
-	Claudiu Beznea <claudiu.beznea@microchip.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Dinh Nguyen <dinguyen@kernel.org>, Paul Cercueil <paul@crapouillou.net>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>, 
-	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Abel Vesa <abelvesa@kernel.org>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, Alessandro Zummo <a.zummo@towertech.it>, 
-	Peter De Schrijver <pdeschrijver@nvidia.com>, Orson Zhai <orsonzhai@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Samuel Holland <samuel@sholland.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Vinod Koul <vkoul@kernel.org>, 
-	NXP Linux Team <linux-imx@nxp.com>, Sekhar Nori <nsekhar@ti.com>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Takashi Iwai <tiwai@suse.com>, David Airlie <airlied@gmail.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	David Lechner <david@lechnology.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Mark Brown <broonie@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, linux-stm32@st-md-mailman.stormreply.com, 
-	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org, 
-	linux-phy@lists.infradead.org, linux-mips@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-actions@lists.infradead.org, 
-	linux-clk@vger.kernel.org, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, patches@opensource.cirrus.com, 
-	linux-tegra@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, 4 Nov 2022 at 14:32, Maxime Ripard <maxime@cerno.tech> wrote:
->
-> The UX500 sysctrl "set_parent" clocks implement a mux with a set_parent
-> hook, but doesn't provide a determine_rate implementation.
->
-> This is a bit odd, since set_parent() is there to, as its name implies,
-> change the parent of a clock. However, the most likely candidate to
-> trigger that parent change is a call to clk_set_rate(), with
-> determine_rate() figuring out which parent is the best suited for a
-> given rate.
->
-> The other trigger would be a call to clk_set_parent(), but it's far less
-> used, and it doesn't look like there's any obvious user for that clock.
+On Thu, 10 Nov 2022 11:21:02 +0100
+Linus Walleij <linus.walleij@linaro.org> wrote:
 
-If I recall correctly, that is the use case we did target for these
-types of clocks. See sound/soc/ux500/ux500_ab85xx.c, for example.
+Hi Linus,
 
-Maybe there are some additional pieces missing from the old down
-stream kernel, I don't have full picture, sorry.
+thanks for having a look!
 
-Anyway, if I am not wrong, this was about supporting a low-power audio
-use case, which requires us to switch the parent clock (to avoid
-wasting energy).
+> On Thu, Nov 10, 2022 at 2:44 AM Andre Przywara <andre.przywara@arm.com> wrote:
+> 
+> > Compared to my previous effort almost exactly five years ago [1], this
+> > new version drops the idea of describing the pinctrl data entirely in
+> > the DT, instead it still relies on driver provided information for that.  
+> (...)
+> > On the DT side all that would be needed is *one* extra property per
+> > pin group to announce the mux value:
+> >
+> >         uart0_pb_pins: uart0-pb-pins {
+> >                 pins = "PB9", "PB10";
+> >                 function = "uart0";
+> >                 pinmux = <2>;
+> >         };  
+> 
+> So what you need to do is to convince the device tree people that this
+> is a good idea.
+> 
+> For me as linux maintainer it's no big deal, it's fine either way. The new
+> code looks elegant.
+> 
+> But from a DT point of view this needs to make sense also for Windows
+> and BSD, so that is who you have to convince. If it is possible to derive
+> the same information from the compatible string (like today) that will
+> need an extended argument why all operating systems will benefit from
+> this.
 
->
-> So, the set_parent hook is effectively unused, possibly because of an
-> oversight. However, it could also be an explicit decision by the
-> original author to avoid any reparenting but through an explicit call to
-> clk_set_parent().
+This is actually an argument in favour of it: at the moment *every* OS
+(or DT user) has to carry some form of this table[1]. For U-Boot this is a
+major pain, for instance, and we came up with some minimal and
+simplified version of that (assuming one pinmux per function name,
+ignoring different mappings in different ports: [2]), but we are already
+touching its limits.
+And I don't think this DT argument counts anyway: we already store a much
+bigger chunk of "information" in the DT, namely the function name. This has
+no technical meaning, really, other than to map this to a 4-bit value
+internally. I don't know why we have an information like "UART0 is using
+the 'uart0' pin group" in the DT, but refuse to put the actual
+hardware information in there. We could possibly even get rid of the
+string, and derive this from the node name, if we need some human readable
+identifier.
 
-Yes, this was the reason.
+And just to make sure: I don't propose to change this for existing DTs,
+it's just for new SoCs going forward. Allwinner at the moment spins out
+many SoCs with only little differences, but all require this largish
+table, since the pin assignments are the ones that differ.
 
-As a matter of fact, I don't even recall that re-parenting was
-possible through clk_set_rate() when this clock driver was introduced.
-But, I might be wrong, it's quite a while ago.
+Cheers,
+Andre
 
->
-> The latter case would be equivalent to setting the flag
-> CLK_SET_RATE_NO_REPARENT, together with setting our determine_rate hook
-> to __clk_mux_determine_rate(). Indeed, if no determine_rate
-> implementation is provided, clk_round_rate() (through
-> clk_core_round_rate_nolock()) will call itself on the parent if
-> CLK_SET_RATE_PARENT is set, and will not change the clock rate
-> otherwise. __clk_mux_determine_rate() has the exact same behavior when
-> CLK_SET_RATE_NO_REPARENT is set.
->
-> And if it was an oversight, then we are at least explicit about our
-> behavior now and it can be further refined down the line.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
-Seems reasonable to me!
-
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-
-Kind regards
-Uffe
-
-> ---
->  drivers/clk/ux500/clk-sysctrl.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/clk/ux500/clk-sysctrl.c b/drivers/clk/ux500/clk-sysctrl.c
-> index 702f2f8b43fa..d36336665b6d 100644
-> --- a/drivers/clk/ux500/clk-sysctrl.c
-> +++ b/drivers/clk/ux500/clk-sysctrl.c
-> @@ -110,6 +110,7 @@ static const struct clk_ops clk_sysctrl_gate_fixed_rate_ops = {
->  };
->
->  static const struct clk_ops clk_sysctrl_set_parent_ops = {
-> +       .determine_rate = __clk_mux_determine_rate,
->         .set_parent = clk_sysctrl_set_parent,
->         .get_parent = clk_sysctrl_get_parent,
->  };
-> @@ -220,6 +221,7 @@ struct clk *clk_reg_sysctrl_set_parent(struct device *dev,
->                                 unsigned long flags)
->  {
->         return clk_reg_sysctrl(dev, name, parent_names, num_parents,
-> -                       reg_sel, reg_mask, reg_bits, 0, 0, flags,
-> +                       reg_sel, reg_mask, reg_bits, 0, 0,
-> +                       flags | CLK_SET_RATE_NO_REPARENT,
->                         &clk_sysctrl_set_parent_ops);
->  }
->
-> --
-> b4 0.11.0-dev-99e3a
+[1]
+https://github.com/freebsd/freebsd-src/blob/main/sys/arm/allwinner/a64/a64_padconf.c
+[2]
+https://source.denx.de/u-boot/u-boot/-/blob/master/drivers/pinctrl/sunxi/pinctrl-sunxi.c#L587-605
