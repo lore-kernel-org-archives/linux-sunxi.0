@@ -1,175 +1,276 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 135BD39D;
-	Thu, 10 Nov 2022 06:57:10 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id l14so901972wrw.2;
-        Wed, 09 Nov 2022 22:57:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=L1O9vx/w0pSScJPYJU2hSXOoClhMo14F1MGXdWp+Ufg=;
-        b=ih2hj2AwLw6uHnoVWJIxZvKqdEAjHM0jD7xTrnsEAwACZBNaBmpfcMk5js1HYZby6j
-         lZ14H3xql7RMtd4Y631wpUfgRpewaFbcFGzKPVwWfKNW2ligyRCLwPQ0coycdb/HPLK5
-         Aa1eGy6Pbd1viF+NxdMGsQyEO5mqdq94QY682+gg46t1yKKXWpO4OF40rayUs3SIG9KG
-         BN6bsWIsNMEzq0E+OtfV1rOk0IizI2F1Dpa0xipPGxX4ZJeUp16zdkHN+WshRusac+TJ
-         S4RoDuaavXzvW1osuQLAGkp00ifZsf31CoNtZIuefwBTNOVgXZexiRyt3fbOd97uwWYv
-         bdhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=L1O9vx/w0pSScJPYJU2hSXOoClhMo14F1MGXdWp+Ufg=;
-        b=0uGBdVBBfOvL2xGBATTBjuwrmpjH9iwKGGWWZ12NV1QEl6OmiIg7amZhBVGyqQlzxf
-         eHBaYAspOAsQaOdwBp81uJohB/k5OH4riRy7Cy9SDRUvLXmxGeKOMbm86FyBqLQZG5BQ
-         2v3x3sSQfVUVT+dY/t6/2Ss3rxmjjrR+RYCgCOzcRvrUBqLc3gP84WtR4BRzNTMNOyEY
-         vTCttoTAZQeFNuybtX2YU/kD0w+JqBRZWYe5onxMv7nhOSwKPlGP6g8JFuqL4fHJCnmk
-         MVUxL+8osnDsvW90XCceekanHXCMCOPZJixWI59A5VsTYfxpTHwQnz7ijqoum8tshtOL
-         oskw==
-X-Gm-Message-State: ACrzQf38eRUynT+bC2iL5LE61hVdvXHMIhN1c0Kqa8SofbWbOYkhe/WX
-	22i4QZvuzMK74LDX2INJUB1As+AI8mRyoQ==
-X-Google-Smtp-Source: AMsMyM6YvildaZhGa/d4MYEc0dWoFhApR6w0TXgYEOeTCBEzNq0RU0eJrIdKmvqEDf29jjNFtqRVCQ==
-X-Received: by 2002:a5d:618e:0:b0:22a:f546:3f68 with SMTP id j14-20020a5d618e000000b0022af5463f68mr995725wru.651.1668063428798;
-        Wed, 09 Nov 2022 22:57:08 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id h4-20020a05600c350400b003c6f426467fsm4357994wmq.40.2022.11.09.22.57.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Nov 2022 22:57:08 -0800 (PST)
-Date: Thu, 10 Nov 2022 09:57:04 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D98D626
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Nov 2022 07:34:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC439C433C1;
+	Thu, 10 Nov 2022 07:34:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1668065664;
+	bh=ORU0qrBQLiwD80y04yoBx3tqJygBCTo9ElPeDBafR2w=;
+	h=Date:From:To:List-Id:Cc:Subject:References:In-Reply-To:From;
+	b=pMd6+hNmjeMyihzzNVABLyxoqDIfjicphHu4Bi7/SwZ/vMy3Vp9SSecMu63AYtEJs
+	 QI9tf1ERFsmKqYFhqaaebFdKuhNlOA3oqPvTkNVDXgfj0PGVY2vL8XlIfQ+oLmgSMk
+	 7Tp9g+QHmas3nwcWc/AKtcpGGdN/ntwCew9i2xttNyqDgUSwCh4TC6H5y8RcUsKN0I
+	 VfAgExLmImTBSt/w80tk513Lb/oYmrzrtwbDUjQEVFGQi3YPDWEfT4sEpT5Y1xFTjx
+	 UeD0fYY8azgZfr7IAQpoLS34dVzbGGGtN/gdrukbgbE0QJaK6RegveKEPZyXhhmbXP
+	 Y/BdIkAcJop2w==
+Date: Thu, 10 Nov 2022 13:04:19 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Icenowy Zheng <uwu@icenowy.me>
+List-Id: <soc.lore.kernel.org>
+Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
 	Samuel Holland <samuel@sholland.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v7 01/28] media: sun6i-csi: Add bridge v4l2 subdev with
- port management
-Message-ID: <202211100529.cG57XaEQ-lkp@intel.com>
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, soc@kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org,
+	linux-usb@vger.kernel.org, Kishon Vijay Abraham I <kishon@ti.com>
+Subject: Re: [PATCH v3 10/11] phy: sun4i-usb: Replace types with explicit
+ quirk flags
+Message-ID: <Y2ype6fU6nKyIH1w@matsya>
+References: <20221106154826.6687-1-andre.przywara@arm.com>
+ <20221106154826.6687-11-andre.przywara@arm.com>
+ <D8382138-8943-46F7-B6A6-F83DF98E26AE@icenowy.me>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221103163113.245462-2-paul.kocialkowski@bootlin.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <D8382138-8943-46F7-B6A6-F83DF98E26AE@icenowy.me>
 
-Hi Paul,
+On 06-11-22, 23:54, Icenowy Zheng wrote:
+> 
+> 
+> 于 2022年11月6日 GMT+08:00 下午11:48:25, Andre Przywara <andre.przywara@arm.com> 写到:
+> >So far we were assigning some crude "type" (SoC name, really) to each
+> >Allwinner USB PHY model, then guarding certain quirks based on this.
+> >This does not only look weird, but gets more or more cumbersome to
+> >maintain.
+> >
+> >Remove the bogus type names altogether, instead introduce flags for each
+> >quirk, and explicitly check for them.
+> >This improves readability, and simplifies future extensions.
+> >
+> >Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> >---
+> > drivers/phy/allwinner/phy-sun4i-usb.c | 50 ++++++++-------------------
+> > 1 file changed, 15 insertions(+), 35 deletions(-)
+> >
+> >diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
+> >index 51fb24c6dcb3..422129c66282 100644
+> >--- a/drivers/phy/allwinner/phy-sun4i-usb.c
+> >+++ b/drivers/phy/allwinner/phy-sun4i-usb.c
+> >@@ -99,27 +99,17 @@
+> > #define DEBOUNCE_TIME			msecs_to_jiffies(50)
+> > #define POLL_TIME			msecs_to_jiffies(250)
+> > 
+> >-enum sun4i_usb_phy_type {
+> >-	sun4i_a10_phy,
+> >-	sun6i_a31_phy,
+> >-	sun8i_a33_phy,
+> >-	sun8i_a83t_phy,
+> >-	sun8i_h3_phy,
+> >-	sun8i_r40_phy,
+> >-	sun8i_v3s_phy,
+> >-	sun50i_a64_phy,
+> >-	sun50i_h6_phy,
+> >-};
+> >-
+> > struct sun4i_usb_phy_cfg {
+> > 	int num_phys;
+> > 	int hsic_index;
+> >-	enum sun4i_usb_phy_type type;
+> > 	u32 disc_thresh;
+> > 	u32 hci_phy_ctl_clear;
+> > 	u8 phyctl_offset;
+> > 	bool dedicated_clocks;
+> > 	bool phy0_dual_route;
+> >+	bool phy2_is_hsic;
+> 
+> Maybe use a `int hsic_phy` instead? But the problem is this practice is
+> assuming USB0 could not be HSIC -- although USB0 is usually OTG.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+why should it be int.. dont think hsic_phy is improvement over
+phy2_is_hsic?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Kocialkowski/Allwinner-A31-A83T-MIPI-CSI-2-and-A31-ISP-CSI-Rework/20221104-003518
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20221103163113.245462-2-paul.kocialkowski%40bootlin.com
-patch subject: [PATCH v7 01/28] media: sun6i-csi: Add bridge v4l2 subdev with port management
-config: arc-randconfig-m041-20221107
-compiler: arc-elf-gcc (GCC) 12.1.0
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-
-smatch warnings:
-drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c:86 sun6i_csi_bridge_s_stream() warn: missing error code 'ret'
-drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c:279 sun6i_csi_bridge_notifier_bound() error: uninitialized symbol 'enabled'.
-
-vim +/ret +86 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
-
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   62  static int sun6i_csi_bridge_s_stream(struct v4l2_subdev *subdev, int on)
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   63  {
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   64  	struct sun6i_csi_device *csi_dev = v4l2_get_subdevdata(subdev);
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   65  	struct sun6i_csi_bridge *bridge = &csi_dev->bridge;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   66  	struct media_pad *local_pad = &bridge->pads[SUN6I_CSI_BRIDGE_PAD_SINK];
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   67  	struct device *dev = csi_dev->dev;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   68  	struct v4l2_subdev *source_subdev;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   69  	struct media_pad *remote_pad;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   70  	/* Initialize to 0 to use both in disable label (ret != 0) and off. */
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   71  	int ret = 0;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   72  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   73  	/* Source */
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   74  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   75  	remote_pad = media_pad_remote_pad_unique(local_pad);
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   76  	if (IS_ERR(remote_pad)) {
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   77  		dev_err(dev,
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   78  			"zero or more than a single source connected to the bridge\n");
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   79  		return PTR_ERR(remote_pad);
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   80  	}
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   81  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   82  	source_subdev = media_entity_to_v4l2_subdev(remote_pad->entity);
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   83  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   84  	if (!on) {
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   85  		v4l2_subdev_call(source_subdev, video, s_stream, 0);
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  @86  		goto disable;
-
-This is intentional, but it should just return 0;
-
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   87  	}
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   88  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   89  	ret = v4l2_subdev_call(source_subdev, video, s_stream, 1);
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   90  	if (ret && ret != -ENOIOCTLCMD)
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   91  		goto disable;
-
-Do we really need to clean anything up?  Why not just:
-
-	source_subdev = media_entity_to_v4l2_subdev(remote_pad->entity);
-
-	return v4l2_subdev_call(source_subdev, video, s_stream, !!on);
-
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   92  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   93  	return 0;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   94  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   95  disable:
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   96  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   97  	return ret;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   98  }
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03   99  
-
-[ snip ]
-
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  254  static int
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  255  sun6i_csi_bridge_notifier_bound(struct v4l2_async_notifier *notifier,
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  256  				struct v4l2_subdev *remote_subdev,
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  257  				struct v4l2_async_subdev *async_subdev)
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  258  {
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  259  	struct sun6i_csi_device *csi_dev =
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  260  		container_of(notifier, struct sun6i_csi_device,
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  261  			     bridge.notifier);
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  262  	struct sun6i_csi_bridge_async_subdev *bridge_async_subdev =
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  263  		container_of(async_subdev, struct sun6i_csi_bridge_async_subdev,
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  264  			     async_subdev);
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  265  	struct sun6i_csi_bridge_source *source = bridge_async_subdev->source;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  266  	bool enabled;
-
-This neesds to be "bool enabled = false;"
-
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  267  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  268  	switch (source->endpoint.base.port) {
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  269  	case SUN6I_CSI_PORT_PARALLEL:
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  270  		enabled = true;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  271  		break;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  272  	default:
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  273  		break;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  274  	}
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  275  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  276  	source->subdev = remote_subdev;
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  277  
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  278  	return sun6i_csi_bridge_link(csi_dev, SUN6I_CSI_BRIDGE_PAD_SINK,
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03 @279  				     remote_subdev, enabled);
-d26de0b15ad9da7 Paul Kocialkowski 2022-11-03  280  }
+> 
+> >+	bool siddq_in_base;
+> >+	bool poll_vbusen;
+> > 	int missing_phys;
+> > };
+> > 
+> >@@ -251,7 +241,7 @@ static void sun4i_usb_phy_passby(struct sun4i_usb_phy *phy, int enable)
+> > 		SUNXI_AHB_INCRX_ALIGN_EN | SUNXI_ULPI_BYPASS_EN;
+> > 
+> > 	/* A83T USB2 is HSIC */
+> >-	if (phy_data->cfg->type == sun8i_a83t_phy && phy->index == 2)
+> >+	if (phy_data->cfg->phy2_is_hsic && phy->index == 2)
+> > 		bits |= SUNXI_EHCI_HS_FORCE | SUNXI_HSIC_CONNECT_INT |
+> > 			SUNXI_HSIC;
+> > 
+> >@@ -295,8 +285,7 @@ static int sun4i_usb_phy_init(struct phy *_phy)
+> > 		writel(val, phy->pmu + REG_HCI_PHY_CTL);
+> > 	}
+> > 
+> >-	if (data->cfg->type == sun8i_a83t_phy ||
+> >-	    data->cfg->type == sun50i_h6_phy) {
+> >+	if (data->cfg->siddq_in_base) {
+> > 		if (phy->index == 0) {
+> > 			val = readl(data->base + data->cfg->phyctl_offset);
+> > 			val |= PHY_CTL_VBUSVLDEXT;
+> >@@ -340,8 +329,7 @@ static int sun4i_usb_phy_exit(struct phy *_phy)
+> > 	struct sun4i_usb_phy_data *data = to_sun4i_usb_phy_data(phy);
+> > 
+> > 	if (phy->index == 0) {
+> >-		if (data->cfg->type == sun8i_a83t_phy ||
+> >-		    data->cfg->type == sun50i_h6_phy) {
+> >+		if (data->cfg->siddq_in_base) {
+> > 			void __iomem *phyctl = data->base +
+> > 				data->cfg->phyctl_offset;
+> > 
+> >@@ -414,9 +402,8 @@ static bool sun4i_usb_phy0_poll(struct sun4i_usb_phy_data *data)
+> > 	 * vbus using the N_VBUSEN pin on the pmic, so we must poll
+> > 	 * when using the pmic for vbus-det _and_ we're driving vbus.
+> > 	 */
+> >-	if ((data->cfg->type == sun6i_a31_phy ||
+> >-	     data->cfg->type == sun8i_a33_phy) &&
+> >-	    data->vbus_power_supply && data->phys[0].regulator_on)
+> >+	if (data->cfg->poll_vbusen && data->vbus_power_supply &&
+> >+	    data->phys[0].regulator_on)
+> > 		return true;
+> > 
+> > 	return false;
+> >@@ -861,7 +848,6 @@ static int sun4i_usb_phy_probe(struct platform_device *pdev)
+> > 
+> > static const struct sun4i_usb_phy_cfg suniv_f1c100s_cfg = {
+> > 	.num_phys = 1,
+> >-	.type = sun4i_a10_phy,
+> > 	.disc_thresh = 3,
+> > 	.phyctl_offset = REG_PHYCTL_A10,
+> > 	.dedicated_clocks = true,
+> >@@ -869,7 +855,6 @@ static const struct sun4i_usb_phy_cfg suniv_f1c100s_cfg = {
+> > 
+> > static const struct sun4i_usb_phy_cfg sun4i_a10_cfg = {
+> > 	.num_phys = 3,
+> >-	.type = sun4i_a10_phy,
+> > 	.disc_thresh = 3,
+> > 	.phyctl_offset = REG_PHYCTL_A10,
+> > 	.dedicated_clocks = false,
+> >@@ -877,7 +862,6 @@ static const struct sun4i_usb_phy_cfg sun4i_a10_cfg = {
+> > 
+> > static const struct sun4i_usb_phy_cfg sun5i_a13_cfg = {
+> > 	.num_phys = 2,
+> >-	.type = sun4i_a10_phy,
+> > 	.disc_thresh = 2,
+> > 	.phyctl_offset = REG_PHYCTL_A10,
+> > 	.dedicated_clocks = false,
+> >@@ -885,15 +869,14 @@ static const struct sun4i_usb_phy_cfg sun5i_a13_cfg = {
+> > 
+> > static const struct sun4i_usb_phy_cfg sun6i_a31_cfg = {
+> > 	.num_phys = 3,
+> >-	.type = sun6i_a31_phy,
+> > 	.disc_thresh = 3,
+> > 	.phyctl_offset = REG_PHYCTL_A10,
+> > 	.dedicated_clocks = true,
+> >+	.poll_vbusen = true,
+> > };
+> > 
+> > static const struct sun4i_usb_phy_cfg sun7i_a20_cfg = {
+> > 	.num_phys = 3,
+> >-	.type = sun4i_a10_phy,
+> > 	.disc_thresh = 2,
+> > 	.phyctl_offset = REG_PHYCTL_A10,
+> > 	.dedicated_clocks = false,
+> >@@ -901,31 +884,31 @@ static const struct sun4i_usb_phy_cfg sun7i_a20_cfg = {
+> > 
+> > static const struct sun4i_usb_phy_cfg sun8i_a23_cfg = {
+> > 	.num_phys = 2,
+> >-	.type = sun6i_a31_phy,
+> > 	.disc_thresh = 3,
+> > 	.phyctl_offset = REG_PHYCTL_A10,
+> > 	.dedicated_clocks = true,
+> >+	.poll_vbusen = true,
+> > };
+> > 
+> > static const struct sun4i_usb_phy_cfg sun8i_a33_cfg = {
+> > 	.num_phys = 2,
+> >-	.type = sun8i_a33_phy,
+> > 	.disc_thresh = 3,
+> > 	.phyctl_offset = REG_PHYCTL_A33,
+> > 	.dedicated_clocks = true,
+> >+	.poll_vbusen = true,
+> > };
+> > 
+> > static const struct sun4i_usb_phy_cfg sun8i_a83t_cfg = {
+> > 	.num_phys = 3,
+> > 	.hsic_index = 2,
+> >-	.type = sun8i_a83t_phy,
+> > 	.phyctl_offset = REG_PHYCTL_A33,
+> > 	.dedicated_clocks = true,
+> >+	.siddq_in_base = true,
+> >+	.phy2_is_hsic = true,
+> > };
+> > 
+> > static const struct sun4i_usb_phy_cfg sun8i_h3_cfg = {
+> > 	.num_phys = 4,
+> >-	.type = sun8i_h3_phy,
+> > 	.disc_thresh = 3,
+> > 	.phyctl_offset = REG_PHYCTL_A33,
+> > 	.dedicated_clocks = true,
+> >@@ -935,7 +918,6 @@ static const struct sun4i_usb_phy_cfg sun8i_h3_cfg = {
+> > 
+> > static const struct sun4i_usb_phy_cfg sun8i_r40_cfg = {
+> > 	.num_phys = 3,
+> >-	.type = sun8i_r40_phy,
+> > 	.disc_thresh = 3,
+> > 	.phyctl_offset = REG_PHYCTL_A33,
+> > 	.dedicated_clocks = true,
+> >@@ -945,7 +927,6 @@ static const struct sun4i_usb_phy_cfg sun8i_r40_cfg = {
+> > 
+> > static const struct sun4i_usb_phy_cfg sun8i_v3s_cfg = {
+> > 	.num_phys = 1,
+> >-	.type = sun8i_v3s_phy,
+> > 	.disc_thresh = 3,
+> > 	.phyctl_offset = REG_PHYCTL_A33,
+> > 	.dedicated_clocks = true,
+> >@@ -955,16 +936,15 @@ static const struct sun4i_usb_phy_cfg sun8i_v3s_cfg = {
+> > 
+> > static const struct sun4i_usb_phy_cfg sun20i_d1_cfg = {
+> > 	.num_phys = 2,
+> >-	.type = sun50i_h6_phy,
+> > 	.phyctl_offset = REG_PHYCTL_A33,
+> > 	.dedicated_clocks = true,
+> > 	.hci_phy_ctl_clear = PHY_CTL_SIDDQ,
+> > 	.phy0_dual_route = true,
+> >+	.siddq_in_base = true,
+> > };
+> > 
+> > static const struct sun4i_usb_phy_cfg sun50i_a64_cfg = {
+> > 	.num_phys = 2,
+> >-	.type = sun50i_a64_phy,
+> > 	.disc_thresh = 3,
+> > 	.phyctl_offset = REG_PHYCTL_A33,
+> > 	.dedicated_clocks = true,
+> >@@ -974,11 +954,11 @@ static const struct sun4i_usb_phy_cfg sun50i_a64_cfg = {
+> > 
+> > static const struct sun4i_usb_phy_cfg sun50i_h6_cfg = {
+> > 	.num_phys = 4,
+> >-	.type = sun50i_h6_phy,
+> > 	.phyctl_offset = REG_PHYCTL_A33,
+> > 	.dedicated_clocks = true,
+> > 	.phy0_dual_route = true,
+> > 	.missing_phys = BIT(1) | BIT(2),
+> >+	.siddq_in_base = true,
+> > };
+> > 
+> > static const struct of_device_id sun4i_usb_phy_of_match[] = {
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
-
+~Vinod
