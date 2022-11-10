@@ -1,792 +1,258 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201E32F5A
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Nov 2022 15:26:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1668093973; x=1699629973;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=uVEELB1YyqMKjeqG9V1FnQgrVQfJATKXTJhI7/gvIHc=;
-  b=w9WMFiz2a0GL/sphXz3oCjj8/cE+9dSk2f4lqwiGZzuYV8UEglsr9Ux+
-   lBGLLDSSXvFuiUo3aHuu4TK7XJGk0CyKVvQZyUq4mSaWtKJon/NABtGpA
-   LSX+3qaraF1M2EXZAK4SLl5OA8jGpza36I62rIpRTWSC1y2WxFKIBWuR7
-   UvkXrAc7ELoQecFGPBnFcukE2cP6pRBAzXmZArNeSKqTSuN7OSnoxB6kP
-   bhES1g9kMgUsVUKfoZvnyPlrBCUu6iDkKPywgbmfgL4biak0YeLgyBp0l
-   eKoqQypNtsD1ud46w2ZR1/p+RWjwswTiJt9QxAmjuQOIxT5Ec0yOFPaVX
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.96,154,1665471600"; 
-   d="scan'208";a="182897552"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 10 Nov 2022 08:25:47 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Thu, 10 Nov 2022 08:25:40 -0700
-Received: from ROB-ULT-M18064N.mchp-main.com (10.10.115.15) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.12 via Frontend Transport; Thu, 10 Nov 2022 08:25:30 -0700
-From: Tudor Ambarus <tudor.ambarus@microchip.com>
-To: <vkoul@kernel.org>
-CC: <f.fainelli@gmail.com>, <rjui@broadcom.com>, <sbranden@broadcom.com>,
-	<bcm-kernel-feedback-list@broadcom.com>, <lars@metafoo.de>,
-	<shawnguo@kernel.org>, <s.hauer@pengutronix.de>, <kernel@pengutronix.de>,
-	<festevam@gmail.com>, <linux-imx@nxp.com>, <sean.wang@mediatek.com>,
-	<matthias.bgg@gmail.com>, <daniel@zonque.org>, <haojian.zhuang@gmail.com>,
-	<robert.jarzmik@free.fr>, <agross@kernel.org>, <andersson@kernel.org>,
-	<konrad.dybcio@somainline.org>, <green.wan@sifive.com>,
-	<mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>, <wens@csie.org>,
-	<jernej.skrabec@gmail.com>, <samuel@sholland.org>, <ldewangan@nvidia.com>,
-	<jonathanh@nvidia.com>, <thierry.reding@gmail.com>,
-	<peter.ujfalusi@gmail.com>, <michal.simek@xilinx.com>, <tony@atomide.com>,
-	<krzysztof.kozlowski@linaro.org>, <trix@redhat.com>,
-	<radhey.shyam.pandey@xilinx.com>, <shravya.kumbham@xilinx.com>,
-	<harini.katakam@xilinx.com>, <swati.agarwal@amd.com>,
-	<dmaengine@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-arm-msm@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
-	<linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
-	<ye.xingchen@zte.com.cn>, <quic_mojha@quicinc.com>, Tudor Ambarus
-	<tudor.ambarus@microchip.com>
-Subject: [PATCH v3] dmaengine: drivers: Use devm_platform_ioremap_resource()
-Date: Thu, 10 Nov 2022 17:25:28 +0200
-Message-ID: <20221110152528.7821-1-tudor.ambarus@microchip.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8FD41E9F8
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Nov 2022 23:08:24 +0000 (UTC)
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
+	(Client CN "mail.riseup.net", Issuer "R3" (not verified))
+	by mx1.riseup.net (Postfix) with ESMTPS id 4N7cm32bpSzDqPP;
+	Thu, 10 Nov 2022 23:01:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+	t=1668121316; bh=ii9US/7BKMJSswViF5HF5Uy5RI+c/CUVF4WZu52VlbA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=cPHdzSv4GOsGXIr9Eb/R795dEV6YP+Wcvkl6eGsKWdtRgGwoVyMK/BV00Y1wmpt+x
+	 VT5C3PbwkiIXp1CbE3h8tiXgWjaLkL2sz5jPGwP6N5FVDgP14RsM71DWbpx3QKM3DZ
+	 fIOHgYLoOehEqRAfXsjVCDqO/bPzcTrfbpxvOqTI=
+X-Riseup-User-ID: 659E986C72ED052D274028EE1034DB3275D9FA4A0450B3B0042660F6D26D59E1
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	 by fews2.riseup.net (Postfix) with ESMTPSA id 4N7cls13Q1z1xx2;
+	Thu, 10 Nov 2022 23:01:44 +0000 (UTC)
+Message-ID: <28d35094-ac32-e589-274e-76f4b2408aec@riseup.net>
+Date: Thu, 10 Nov 2022 20:01:42 -0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Subject: Re: [PATCH v8 06/24] drm/modes: Add a function to generate analog
+ display modes
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Karol Herbst
+ <kherbst@redhat.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Lyude Paul <lyude@redhat.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Ben Skeggs <bskeggs@redhat.com>
+Cc: Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20220728-rpi-analog-tv-properties-v8-0-09ce1466967c@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v8-6-09ce1466967c@cerno.tech>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v8-6-09ce1466967c@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-platform_get_resource() and devm_ioremap_resource() are wrapped up in the
-devm_platform_ioremap_resource() helper. Use the helper and get rid of the
-local variable for struct resource *. We now have a function call less.
+Hi Maxime,
 
-Signed-off-by: Tudor Ambarus <tudor.ambarus@microchip.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
-v3:
-- fix errors reported-by lkp@intel.com
-- lkp@intel.com built successfully few configs, all should be good now.
+On 11/10/22 08:07, Maxime Ripard wrote:
+> Multiple drivers (meson, vc4, sun4i) define analog TV 525-lines and
+> 625-lines modes in their drivers.
+> 
+> Since those modes are fairly standard, and that we'll need to use them
+> in more places in the future, it makes sense to move their definition
+> into the core framework.
+> 
+> However, analog display usually have fairly loose timings requirements,
+> the only discrete parameters being the total number of lines and pixel
+> clock frequency. Thus, we created a function that will create a display
+> mode from the standard, the pixel frequency and the active area.
+> 
+> Tested-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> 
+> ---
+> Changes in v6:
+> - Fix typo
+> 
+> Changes in v4:
+> - Reworded the line length check comment
+> - Switch to HZ_PER_KHZ in tests
+> - Use previous timing to fill our mode
+> - Move the number of lines check earlier
+> ---
+>  drivers/gpu/drm/drm_modes.c            | 474 +++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/tests/Makefile         |   1 +
+>  drivers/gpu/drm/tests/drm_modes_test.c | 145 ++++++++++
+>  include/drm/drm_modes.h                |  17 ++
+>  4 files changed, 637 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/tests/drm_modes_test.c b/drivers/gpu/drm/tests/drm_modes_test.c
+> new file mode 100644
+> index 000000000000..afeda9f07859
+> --- /dev/null
+> +++ b/drivers/gpu/drm/tests/drm_modes_test.c
+> @@ -0,0 +1,145 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Kunit test for drm_modes functions
+> + */
+> +
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_modes.h>
+> +
+> +#include <kunit/test.h>
+> +
+> +#include <linux/units.h>
+> +
+> +#include "drm_kunit_helpers.h"
+> +
+> +struct drm_modes_test_priv {
+> +	struct drm_device *drm;
+> +};
+> +
+> +static int drm_modes_test_init(struct kunit *test)
+> +{
+> +	struct drm_modes_test_priv *priv;
+> +
+> +	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_NULL(test, priv);
+> +
+> +	priv->drm = drm_kunit_device_init(test, DRIVER_MODESET, "drm-modes-test");
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->drm);
+> +
+> +	test->priv = priv;
+> +
+> +	return 0;
+> +}
+> +
 
-v2:
-- rebase on dma/next. s3c24xx was removed, thus drop the changes for it.
-- collect Acked-by
+As you did on the other tests, it would be nice to use the same naming
+convention as the other DRM tests. So, maybe change the "drm_modes"
+prefix to "drm_test_modes".
 
- drivers/dma/bcm2835-dma.c                      |  4 +---
- drivers/dma/dma-axi-dmac.c                     |  4 +---
- drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c |  4 +---
- drivers/dma/fsl-edma.c                         |  8 +++-----
- drivers/dma/fsl-qdma.c                         | 10 +++-------
- drivers/dma/idma64.c                           |  4 +---
- drivers/dma/img-mdc-dma.c                      |  4 +---
- drivers/dma/imx-dma.c                          |  4 +---
- drivers/dma/imx-sdma.c                         |  4 +---
- drivers/dma/mcf-edma.c                         |  5 +----
- drivers/dma/mediatek/mtk-hsdma.c               |  4 +---
- drivers/dma/mmp_pdma.c                         |  4 +---
- drivers/dma/mmp_tdma.c                         |  4 +---
- drivers/dma/moxart-dma.c                       |  4 +---
- drivers/dma/mv_xor_v2.c                        |  7 ++-----
- drivers/dma/mxs-dma.c                          |  4 +---
- drivers/dma/nbpfaxi.c                          |  4 +---
- drivers/dma/pxa_dma.c                          |  4 +---
- drivers/dma/qcom/bam_dma.c                     |  4 +---
- drivers/dma/sf-pdma/sf-pdma.c                  |  4 +---
- drivers/dma/sh/usb-dmac.c                      |  4 +---
- drivers/dma/stm32-dmamux.c                     |  4 +---
- drivers/dma/stm32-mdma.c                       |  4 +---
- drivers/dma/sun4i-dma.c                        |  4 +---
- drivers/dma/sun6i-dma.c                        |  4 +---
- drivers/dma/tegra210-adma.c                    |  4 +---
- drivers/dma/ti/cppi41.c                        | 10 +++-------
- drivers/dma/ti/omap-dma.c                      |  4 +---
- drivers/dma/xilinx/zynqmp_dma.c                |  4 +---
- 29 files changed, 36 insertions(+), 100 deletions(-)
+> +static void drm_modes_analog_tv_ntsc_480i(struct kunit *test)
+> +{
+> +	struct drm_modes_test_priv *priv = test->priv;
+> +	struct drm_display_mode *mode;
+> +
+> +	mode = drm_analog_tv_mode(priv->drm,
+> +				  DRM_MODE_TV_MODE_NTSC,
+> +				  13500 * HZ_PER_KHZ, 720, 480,
+> +				  true);
+> +	KUNIT_ASSERT_NOT_NULL(test, mode);
+> +
+> +	KUNIT_EXPECT_EQ(test, drm_mode_vrefresh(mode), 60);
+> +	KUNIT_EXPECT_EQ(test, mode->hdisplay, 720);
+> +
+> +	/* BT.601 defines hsync_start at 736 for 480i */
+> +	KUNIT_EXPECT_EQ(test, mode->hsync_start, 736);
+> +
+> +	/*
+> +	 * The NTSC standard expects a line to take 63.556us. With a
+> +	 * pixel clock of 13.5 MHz, a pixel takes around 74ns, so we
+> +	 * need to have 63556ns / 74ns = 858.
+> +	 *
+> +	 * This is also mandated by BT.601.
+> +	 */
+> +	KUNIT_EXPECT_EQ(test, mode->htotal, 858);
+> +
+> +	KUNIT_EXPECT_EQ(test, mode->vdisplay, 480);
+> +	KUNIT_EXPECT_EQ(test, mode->vtotal, 525);
+> +}
+> +
+> +static void drm_modes_analog_tv_ntsc_480i_inlined(struct kunit *test)
+> +{
+> +	struct drm_modes_test_priv *priv = test->priv;
+> +	struct drm_display_mode *expected, *mode;
+> +
+> +	expected = drm_analog_tv_mode(priv->drm,
+> +				      DRM_MODE_TV_MODE_NTSC,
+> +				      13500 * HZ_PER_KHZ, 720, 480,
+> +				      true);
+> +	KUNIT_ASSERT_NOT_NULL(test, expected);
+> +
+> +	mode = drm_mode_analog_ntsc_480i(priv->drm);
+> +	KUNIT_ASSERT_NOT_NULL(test, mode);
+> +
+> +	KUNIT_EXPECT_TRUE(test, drm_mode_equal(expected, mode));
+> +}
+> +
+> +static void drm_modes_analog_tv_pal_576i(struct kunit *test)
+> +{
+> +	struct drm_modes_test_priv *priv = test->priv;
+> +	struct drm_display_mode *mode;
+> +
+> +	mode = drm_analog_tv_mode(priv->drm,
+> +				  DRM_MODE_TV_MODE_PAL,
+> +				  13500 * HZ_PER_KHZ, 720, 576,
+> +				  true);
+> +	KUNIT_ASSERT_NOT_NULL(test, mode);
+> +
+> +	KUNIT_EXPECT_EQ(test, drm_mode_vrefresh(mode), 50);
+> +	KUNIT_EXPECT_EQ(test, mode->hdisplay, 720);
+> +
+> +	/* BT.601 defines hsync_start at 732 for 576i */
+> +	KUNIT_EXPECT_EQ(test, mode->hsync_start, 732);
+> +
+> +	/*
+> +	 * The PAL standard expects a line to take 64us. With a pixel
+> +	 * clock of 13.5 MHz, a pixel takes around 74ns, so we need to
+> +	 * have 64000ns / 74ns = 864.
+> +	 *
+> +	 * This is also mandated by BT.601.
+> +	 */
+> +	KUNIT_EXPECT_EQ(test, mode->htotal, 864);
+> +
+> +	KUNIT_EXPECT_EQ(test, mode->vdisplay, 576);
+> +	KUNIT_EXPECT_EQ(test, mode->vtotal, 625);
+> +}
+> +
+> +static void drm_modes_analog_tv_pal_576i_inlined(struct kunit *test)
+> +{
+> +	struct drm_modes_test_priv *priv = test->priv;
+> +	struct drm_display_mode *expected, *mode;
+> +
+> +	expected = drm_analog_tv_mode(priv->drm,
+> +				      DRM_MODE_TV_MODE_PAL,
+> +				      13500 * HZ_PER_KHZ, 720, 576,
+> +				      true);
+> +	KUNIT_ASSERT_NOT_NULL(test, expected);
+> +
+> +	mode = drm_mode_analog_pal_576i(priv->drm);
+> +	KUNIT_ASSERT_NOT_NULL(test, mode);
+> +
+> +	KUNIT_EXPECT_TRUE(test, drm_mode_equal(expected, mode));
+> +}
+> +
+> +static struct kunit_case drm_modes_analog_tv_tests[] = {
+> +	KUNIT_CASE(drm_modes_analog_tv_ntsc_480i),
+> +	KUNIT_CASE(drm_modes_analog_tv_ntsc_480i_inlined),
+> +	KUNIT_CASE(drm_modes_analog_tv_pal_576i),
+> +	KUNIT_CASE(drm_modes_analog_tv_pal_576i_inlined),
+> +	{ }
+> +};
+> +
+> +static struct kunit_suite drm_modes_analog_tv_test_suite = {
+> +	.name = "drm_modes_analog_tv",
+> +	.init = drm_modes_test_init,
+> +	.test_cases = drm_modes_analog_tv_tests,
+> +};
+> +
+> +kunit_test_suites(
+> +	&drm_modes_analog_tv_test_suite
+> +);
 
-diff --git a/drivers/dma/bcm2835-dma.c b/drivers/dma/bcm2835-dma.c
-index 630dfbb01a40..0807fb9eb262 100644
---- a/drivers/dma/bcm2835-dma.c
-+++ b/drivers/dma/bcm2835-dma.c
-@@ -878,7 +878,6 @@ static struct dma_chan *bcm2835_dma_xlate(struct of_phandle_args *spec,
- static int bcm2835_dma_probe(struct platform_device *pdev)
- {
- 	struct bcm2835_dmadev *od;
--	struct resource *res;
- 	void __iomem *base;
- 	int rc;
- 	int i, j;
-@@ -902,8 +901,7 @@ static int bcm2835_dma_probe(struct platform_device *pdev)
- 
- 	dma_set_max_seg_size(&pdev->dev, 0x3FFFFFFF);
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	base = devm_ioremap_resource(&pdev->dev, res);
-+	base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(base))
- 		return PTR_ERR(base);
- 
-diff --git a/drivers/dma/dma-axi-dmac.c b/drivers/dma/dma-axi-dmac.c
-index f30dabc99795..a812b9b00e6b 100644
---- a/drivers/dma/dma-axi-dmac.c
-+++ b/drivers/dma/dma-axi-dmac.c
-@@ -910,7 +910,6 @@ static int axi_dmac_probe(struct platform_device *pdev)
- {
- 	struct dma_device *dma_dev;
- 	struct axi_dmac *dmac;
--	struct resource *res;
- 	struct regmap *regmap;
- 	unsigned int version;
- 	int ret;
-@@ -925,8 +924,7 @@ static int axi_dmac_probe(struct platform_device *pdev)
- 	if (dmac->irq == 0)
- 		return -EINVAL;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	dmac->base = devm_ioremap_resource(&pdev->dev, res);
-+	dmac->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(dmac->base))
- 		return PTR_ERR(dmac->base);
- 
-diff --git a/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c b/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
-index a183d93bd7e2..3dec8adfc4ea 100644
---- a/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
-+++ b/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
-@@ -1365,7 +1365,6 @@ static int dw_probe(struct platform_device *pdev)
- {
- 	struct device_node *node = pdev->dev.of_node;
- 	struct axi_dma_chip *chip;
--	struct resource *mem;
- 	struct dw_axi_dma *dw;
- 	struct dw_axi_dma_hcfg *hdata;
- 	u32 i;
-@@ -1391,8 +1390,7 @@ static int dw_probe(struct platform_device *pdev)
- 	if (chip->irq < 0)
- 		return chip->irq;
- 
--	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	chip->regs = devm_ioremap_resource(chip->dev, mem);
-+	chip->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(chip->regs))
- 		return PTR_ERR(chip->regs);
- 
-diff --git a/drivers/dma/fsl-edma.c b/drivers/dma/fsl-edma.c
-index 76cbf54aec58..e40769666e39 100644
---- a/drivers/dma/fsl-edma.c
-+++ b/drivers/dma/fsl-edma.c
-@@ -272,7 +272,6 @@ static int fsl_edma_probe(struct platform_device *pdev)
- 	const struct fsl_edma_drvdata *drvdata = NULL;
- 	struct fsl_edma_chan *fsl_chan;
- 	struct edma_regs *regs;
--	struct resource *res;
- 	int len, chans;
- 	int ret, i;
- 
-@@ -298,8 +297,7 @@ static int fsl_edma_probe(struct platform_device *pdev)
- 	fsl_edma->n_chans = chans;
- 	mutex_init(&fsl_edma->fsl_edma_mutex);
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	fsl_edma->membase = devm_ioremap_resource(&pdev->dev, res);
-+	fsl_edma->membase = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(fsl_edma->membase))
- 		return PTR_ERR(fsl_edma->membase);
- 
-@@ -323,8 +321,8 @@ static int fsl_edma_probe(struct platform_device *pdev)
- 	for (i = 0; i < fsl_edma->drvdata->dmamuxs; i++) {
- 		char clkname[32];
- 
--		res = platform_get_resource(pdev, IORESOURCE_MEM, 1 + i);
--		fsl_edma->muxbase[i] = devm_ioremap_resource(&pdev->dev, res);
-+		fsl_edma->muxbase[i] = devm_platform_ioremap_resource(pdev,
-+								      1 + i);
- 		if (IS_ERR(fsl_edma->muxbase[i])) {
- 			/* on error: disable all previously enabled clks */
- 			fsl_disable_clocks(fsl_edma, i);
-diff --git a/drivers/dma/fsl-qdma.c b/drivers/dma/fsl-qdma.c
-index 045ead46ec8f..eddb2688f234 100644
---- a/drivers/dma/fsl-qdma.c
-+++ b/drivers/dma/fsl-qdma.c
-@@ -1119,7 +1119,6 @@ static int fsl_qdma_probe(struct platform_device *pdev)
- 	int ret, i;
- 	int blk_num, blk_off;
- 	u32 len, chans, queues;
--	struct resource *res;
- 	struct fsl_qdma_chan *fsl_chan;
- 	struct fsl_qdma_engine *fsl_qdma;
- 	struct device_node *np = pdev->dev.of_node;
-@@ -1183,18 +1182,15 @@ static int fsl_qdma_probe(struct platform_device *pdev)
- 		if (!fsl_qdma->status[i])
- 			return -ENOMEM;
- 	}
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	fsl_qdma->ctrl_base = devm_ioremap_resource(&pdev->dev, res);
-+	fsl_qdma->ctrl_base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(fsl_qdma->ctrl_base))
- 		return PTR_ERR(fsl_qdma->ctrl_base);
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
--	fsl_qdma->status_base = devm_ioremap_resource(&pdev->dev, res);
-+	fsl_qdma->status_base = devm_platform_ioremap_resource(pdev, 1);
- 	if (IS_ERR(fsl_qdma->status_base))
- 		return PTR_ERR(fsl_qdma->status_base);
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 2);
--	fsl_qdma->block_base = devm_ioremap_resource(&pdev->dev, res);
-+	fsl_qdma->block_base = devm_platform_ioremap_resource(pdev, 2);
- 	if (IS_ERR(fsl_qdma->block_base))
- 		return PTR_ERR(fsl_qdma->block_base);
- 	fsl_qdma->queue = fsl_qdma_alloc_queue_resources(pdev, fsl_qdma);
-diff --git a/drivers/dma/idma64.c b/drivers/dma/idma64.c
-index c33087c5cd02..cd9622f6e59c 100644
---- a/drivers/dma/idma64.c
-+++ b/drivers/dma/idma64.c
-@@ -627,7 +627,6 @@ static int idma64_platform_probe(struct platform_device *pdev)
- 	struct idma64_chip *chip;
- 	struct device *dev = &pdev->dev;
- 	struct device *sysdev = dev->parent;
--	struct resource *mem;
- 	int ret;
- 
- 	chip = devm_kzalloc(dev, sizeof(*chip), GFP_KERNEL);
-@@ -638,8 +637,7 @@ static int idma64_platform_probe(struct platform_device *pdev)
- 	if (chip->irq < 0)
- 		return chip->irq;
- 
--	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	chip->regs = devm_ioremap_resource(dev, mem);
-+	chip->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(chip->regs))
- 		return PTR_ERR(chip->regs);
- 
-diff --git a/drivers/dma/img-mdc-dma.c b/drivers/dma/img-mdc-dma.c
-index e4ea107ce78c..ad084552640f 100644
---- a/drivers/dma/img-mdc-dma.c
-+++ b/drivers/dma/img-mdc-dma.c
-@@ -886,7 +886,6 @@ static int img_mdc_runtime_resume(struct device *dev)
- static int mdc_dma_probe(struct platform_device *pdev)
- {
- 	struct mdc_dma *mdma;
--	struct resource *res;
- 	unsigned int i;
- 	u32 val;
- 	int ret;
-@@ -898,8 +897,7 @@ static int mdc_dma_probe(struct platform_device *pdev)
- 
- 	mdma->soc = of_device_get_match_data(&pdev->dev);
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	mdma->regs = devm_ioremap_resource(&pdev->dev, res);
-+	mdma->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(mdma->regs))
- 		return PTR_ERR(mdma->regs);
- 
-diff --git a/drivers/dma/imx-dma.c b/drivers/dma/imx-dma.c
-index 65c6094ce063..80086977973f 100644
---- a/drivers/dma/imx-dma.c
-+++ b/drivers/dma/imx-dma.c
-@@ -1038,7 +1038,6 @@ static struct dma_chan *imxdma_xlate(struct of_phandle_args *dma_spec,
- static int __init imxdma_probe(struct platform_device *pdev)
- {
- 	struct imxdma_engine *imxdma;
--	struct resource *res;
- 	int ret, i;
- 	int irq, irq_err;
- 
-@@ -1049,8 +1048,7 @@ static int __init imxdma_probe(struct platform_device *pdev)
- 	imxdma->dev = &pdev->dev;
- 	imxdma->devtype = (uintptr_t)of_device_get_match_data(&pdev->dev);
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	imxdma->base = devm_ioremap_resource(&pdev->dev, res);
-+	imxdma->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(imxdma->base))
- 		return PTR_ERR(imxdma->base);
- 
-diff --git a/drivers/dma/imx-sdma.c b/drivers/dma/imx-sdma.c
-index fbea5f62dd98..3565066a54f5 100644
---- a/drivers/dma/imx-sdma.c
-+++ b/drivers/dma/imx-sdma.c
-@@ -2167,7 +2167,6 @@ static int sdma_probe(struct platform_device *pdev)
- 	const char *fw_name;
- 	int ret;
- 	int irq;
--	struct resource *iores;
- 	struct resource spba_res;
- 	int i;
- 	struct sdma_engine *sdma;
-@@ -2190,8 +2189,7 @@ static int sdma_probe(struct platform_device *pdev)
- 	if (irq < 0)
- 		return irq;
- 
--	iores = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	sdma->regs = devm_ioremap_resource(&pdev->dev, iores);
-+	sdma->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(sdma->regs))
- 		return PTR_ERR(sdma->regs);
- 
-diff --git a/drivers/dma/mcf-edma.c b/drivers/dma/mcf-edma.c
-index e12b754e6398..ebd8733f72ad 100644
---- a/drivers/dma/mcf-edma.c
-+++ b/drivers/dma/mcf-edma.c
-@@ -182,7 +182,6 @@ static int mcf_edma_probe(struct platform_device *pdev)
- 	struct fsl_edma_engine *mcf_edma;
- 	struct fsl_edma_chan *mcf_chan;
- 	struct edma_regs *regs;
--	struct resource *res;
- 	int ret, i, len, chans;
- 
- 	pdata = dev_get_platdata(&pdev->dev);
-@@ -210,9 +209,7 @@ static int mcf_edma_probe(struct platform_device *pdev)
- 
- 	mutex_init(&mcf_edma->fsl_edma_mutex);
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--
--	mcf_edma->membase = devm_ioremap_resource(&pdev->dev, res);
-+	mcf_edma->membase = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(mcf_edma->membase))
- 		return PTR_ERR(mcf_edma->membase);
- 
-diff --git a/drivers/dma/mediatek/mtk-hsdma.c b/drivers/dma/mediatek/mtk-hsdma.c
-index f7717c44b887..69cc61c0b262 100644
---- a/drivers/dma/mediatek/mtk-hsdma.c
-+++ b/drivers/dma/mediatek/mtk-hsdma.c
-@@ -896,7 +896,6 @@ static int mtk_hsdma_probe(struct platform_device *pdev)
- 	struct mtk_hsdma_device *hsdma;
- 	struct mtk_hsdma_vchan *vc;
- 	struct dma_device *dd;
--	struct resource *res;
- 	int i, err;
- 
- 	hsdma = devm_kzalloc(&pdev->dev, sizeof(*hsdma), GFP_KERNEL);
-@@ -905,8 +904,7 @@ static int mtk_hsdma_probe(struct platform_device *pdev)
- 
- 	dd = &hsdma->ddev;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	hsdma->base = devm_ioremap_resource(&pdev->dev, res);
-+	hsdma->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(hsdma->base))
- 		return PTR_ERR(hsdma->base);
- 
-diff --git a/drivers/dma/mmp_pdma.c b/drivers/dma/mmp_pdma.c
-index e8d71b35593e..ebdfdcbb4f7a 100644
---- a/drivers/dma/mmp_pdma.c
-+++ b/drivers/dma/mmp_pdma.c
-@@ -1022,7 +1022,6 @@ static int mmp_pdma_probe(struct platform_device *op)
- 	struct mmp_pdma_device *pdev;
- 	const struct of_device_id *of_id;
- 	struct mmp_dma_platdata *pdata = dev_get_platdata(&op->dev);
--	struct resource *iores;
- 	int i, ret, irq = 0;
- 	int dma_channels = 0, irq_num = 0;
- 	const enum dma_slave_buswidth widths =
-@@ -1037,8 +1036,7 @@ static int mmp_pdma_probe(struct platform_device *op)
- 
- 	spin_lock_init(&pdev->phy_lock);
- 
--	iores = platform_get_resource(op, IORESOURCE_MEM, 0);
--	pdev->base = devm_ioremap_resource(pdev->dev, iores);
-+	pdev->base = devm_platform_ioremap_resource(op, 0);
- 	if (IS_ERR(pdev->base))
- 		return PTR_ERR(pdev->base);
- 
-diff --git a/drivers/dma/mmp_tdma.c b/drivers/dma/mmp_tdma.c
-index a262e0eb4cc9..e956702932aa 100644
---- a/drivers/dma/mmp_tdma.c
-+++ b/drivers/dma/mmp_tdma.c
-@@ -639,7 +639,6 @@ static int mmp_tdma_probe(struct platform_device *pdev)
- 	enum mmp_tdma_type type;
- 	const struct of_device_id *of_id;
- 	struct mmp_tdma_device *tdev;
--	struct resource *iores;
- 	int i, ret;
- 	int irq = 0, irq_num = 0;
- 	int chan_num = TDMA_CHANNEL_NUM;
-@@ -663,8 +662,7 @@ static int mmp_tdma_probe(struct platform_device *pdev)
- 			irq_num++;
- 	}
- 
--	iores = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	tdev->base = devm_ioremap_resource(&pdev->dev, iores);
-+	tdev->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(tdev->base))
- 		return PTR_ERR(tdev->base);
- 
-diff --git a/drivers/dma/moxart-dma.c b/drivers/dma/moxart-dma.c
-index 7459382a8353..7565ad98ba66 100644
---- a/drivers/dma/moxart-dma.c
-+++ b/drivers/dma/moxart-dma.c
-@@ -563,7 +563,6 @@ static int moxart_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct device_node *node = dev->of_node;
--	struct resource *res;
- 	void __iomem *dma_base_addr;
- 	int ret, i;
- 	unsigned int irq;
-@@ -580,8 +579,7 @@ static int moxart_probe(struct platform_device *pdev)
- 		return -EINVAL;
- 	}
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	dma_base_addr = devm_ioremap_resource(dev, res);
-+	dma_base_addr = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(dma_base_addr))
- 		return PTR_ERR(dma_base_addr);
- 
-diff --git a/drivers/dma/mv_xor_v2.c b/drivers/dma/mv_xor_v2.c
-index 113834e1167b..89790beba305 100644
---- a/drivers/dma/mv_xor_v2.c
-+++ b/drivers/dma/mv_xor_v2.c
-@@ -714,7 +714,6 @@ static int mv_xor_v2_resume(struct platform_device *dev)
- static int mv_xor_v2_probe(struct platform_device *pdev)
- {
- 	struct mv_xor_v2_device *xor_dev;
--	struct resource *res;
- 	int i, ret = 0;
- 	struct dma_device *dma_dev;
- 	struct mv_xor_v2_sw_desc *sw_desc;
-@@ -726,13 +725,11 @@ static int mv_xor_v2_probe(struct platform_device *pdev)
- 	if (!xor_dev)
- 		return -ENOMEM;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	xor_dev->dma_base = devm_ioremap_resource(&pdev->dev, res);
-+	xor_dev->dma_base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(xor_dev->dma_base))
- 		return PTR_ERR(xor_dev->dma_base);
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
--	xor_dev->glob_base = devm_ioremap_resource(&pdev->dev, res);
-+	xor_dev->glob_base = devm_platform_ioremap_resource(pdev, 1);
- 	if (IS_ERR(xor_dev->glob_base))
- 		return PTR_ERR(xor_dev->glob_base);
- 
-diff --git a/drivers/dma/mxs-dma.c b/drivers/dma/mxs-dma.c
-index dc147cc2436e..acc4d53e4630 100644
---- a/drivers/dma/mxs-dma.c
-+++ b/drivers/dma/mxs-dma.c
-@@ -746,7 +746,6 @@ static int mxs_dma_probe(struct platform_device *pdev)
- 	struct device_node *np = pdev->dev.of_node;
- 	const struct mxs_dma_type *dma_type;
- 	struct mxs_dma_engine *mxs_dma;
--	struct resource *iores;
- 	int ret, i;
- 
- 	mxs_dma = devm_kzalloc(&pdev->dev, sizeof(*mxs_dma), GFP_KERNEL);
-@@ -763,8 +762,7 @@ static int mxs_dma_probe(struct platform_device *pdev)
- 	mxs_dma->type = dma_type->type;
- 	mxs_dma->dev_id = dma_type->id;
- 
--	iores = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	mxs_dma->base = devm_ioremap_resource(&pdev->dev, iores);
-+	mxs_dma->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(mxs_dma->base))
- 		return PTR_ERR(mxs_dma->base);
- 
-diff --git a/drivers/dma/nbpfaxi.c b/drivers/dma/nbpfaxi.c
-index a7063e9cd551..e72e8c10355e 100644
---- a/drivers/dma/nbpfaxi.c
-+++ b/drivers/dma/nbpfaxi.c
-@@ -1294,7 +1294,6 @@ static int nbpf_probe(struct platform_device *pdev)
- 	struct device_node *np = dev->of_node;
- 	struct nbpf_device *nbpf;
- 	struct dma_device *dma_dev;
--	struct resource *iomem;
- 	const struct nbpf_config *cfg;
- 	int num_channels;
- 	int ret, irq, eirq, i;
-@@ -1318,8 +1317,7 @@ static int nbpf_probe(struct platform_device *pdev)
- 	dma_dev = &nbpf->dma_dev;
- 	dma_dev->dev = dev;
- 
--	iomem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	nbpf->base = devm_ioremap_resource(dev, iomem);
-+	nbpf->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(nbpf->base))
- 		return PTR_ERR(nbpf->base);
- 
-diff --git a/drivers/dma/pxa_dma.c b/drivers/dma/pxa_dma.c
-index 22a392fe6d32..1b046d9a3a26 100644
---- a/drivers/dma/pxa_dma.c
-+++ b/drivers/dma/pxa_dma.c
-@@ -1346,7 +1346,6 @@ static int pxad_probe(struct platform_device *op)
- 	const struct of_device_id *of_id;
- 	const struct dma_slave_map *slave_map = NULL;
- 	struct mmp_dma_platdata *pdata = dev_get_platdata(&op->dev);
--	struct resource *iores;
- 	int ret, dma_channels = 0, nb_requestors = 0, slave_map_cnt = 0;
- 	const enum dma_slave_buswidth widths =
- 		DMA_SLAVE_BUSWIDTH_1_BYTE   | DMA_SLAVE_BUSWIDTH_2_BYTES |
-@@ -1358,8 +1357,7 @@ static int pxad_probe(struct platform_device *op)
- 
- 	spin_lock_init(&pdev->phy_lock);
- 
--	iores = platform_get_resource(op, IORESOURCE_MEM, 0);
--	pdev->base = devm_ioremap_resource(&op->dev, iores);
-+	pdev->base = devm_platform_ioremap_resource(op, 0);
- 	if (IS_ERR(pdev->base))
- 		return PTR_ERR(pdev->base);
- 
-diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
-index 2ff787df513e..1e47d27e1f81 100644
---- a/drivers/dma/qcom/bam_dma.c
-+++ b/drivers/dma/qcom/bam_dma.c
-@@ -1237,7 +1237,6 @@ static int bam_dma_probe(struct platform_device *pdev)
- {
- 	struct bam_device *bdev;
- 	const struct of_device_id *match;
--	struct resource *iores;
- 	int ret, i;
- 
- 	bdev = devm_kzalloc(&pdev->dev, sizeof(*bdev), GFP_KERNEL);
-@@ -1254,8 +1253,7 @@ static int bam_dma_probe(struct platform_device *pdev)
- 
- 	bdev->layout = match->data;
- 
--	iores = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	bdev->regs = devm_ioremap_resource(&pdev->dev, iores);
-+	bdev->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(bdev->regs))
- 		return PTR_ERR(bdev->regs);
- 
-diff --git a/drivers/dma/sf-pdma/sf-pdma.c b/drivers/dma/sf-pdma/sf-pdma.c
-index 6b524eb6bcf3..d7d2dacac830 100644
---- a/drivers/dma/sf-pdma/sf-pdma.c
-+++ b/drivers/dma/sf-pdma/sf-pdma.c
-@@ -494,7 +494,6 @@ static void sf_pdma_setup_chans(struct sf_pdma *pdma)
- static int sf_pdma_probe(struct platform_device *pdev)
- {
- 	struct sf_pdma *pdma;
--	struct resource *res;
- 	int ret, n_chans;
- 	const enum dma_slave_buswidth widths =
- 		DMA_SLAVE_BUSWIDTH_1_BYTE | DMA_SLAVE_BUSWIDTH_2_BYTES |
-@@ -519,8 +518,7 @@ static int sf_pdma_probe(struct platform_device *pdev)
- 
- 	pdma->n_chans = n_chans;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	pdma->membase = devm_ioremap_resource(&pdev->dev, res);
-+	pdma->membase = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(pdma->membase))
- 		return PTR_ERR(pdma->membase);
- 
-diff --git a/drivers/dma/sh/usb-dmac.c b/drivers/dma/sh/usb-dmac.c
-index 5edaeb89d1e6..b14cf350b669 100644
---- a/drivers/dma/sh/usb-dmac.c
-+++ b/drivers/dma/sh/usb-dmac.c
-@@ -768,7 +768,6 @@ static int usb_dmac_probe(struct platform_device *pdev)
- 	const enum dma_slave_buswidth widths = USB_DMAC_SLAVE_BUSWIDTH;
- 	struct dma_device *engine;
- 	struct usb_dmac *dmac;
--	struct resource *mem;
- 	unsigned int i;
- 	int ret;
- 
-@@ -789,8 +788,7 @@ static int usb_dmac_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	/* Request resources. */
--	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	dmac->iomem = devm_ioremap_resource(&pdev->dev, mem);
-+	dmac->iomem = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(dmac->iomem))
- 		return PTR_ERR(dmac->iomem);
- 
-diff --git a/drivers/dma/stm32-dmamux.c b/drivers/dma/stm32-dmamux.c
-index ee3cbbf51006..46b884d46188 100644
---- a/drivers/dma/stm32-dmamux.c
-+++ b/drivers/dma/stm32-dmamux.c
-@@ -179,7 +179,6 @@ static int stm32_dmamux_probe(struct platform_device *pdev)
- 	const struct of_device_id *match;
- 	struct device_node *dma_node;
- 	struct stm32_dmamux_data *stm32_dmamux;
--	struct resource *res;
- 	void __iomem *iomem;
- 	struct reset_control *rst;
- 	int i, count, ret;
-@@ -238,8 +237,7 @@ static int stm32_dmamux_probe(struct platform_device *pdev)
- 	}
- 	pm_runtime_get_noresume(&pdev->dev);
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	iomem = devm_ioremap_resource(&pdev->dev, res);
-+	iomem = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(iomem))
- 		return PTR_ERR(iomem);
- 
-diff --git a/drivers/dma/stm32-mdma.c b/drivers/dma/stm32-mdma.c
-index b9d4c843635f..84e7f4f4a800 100644
---- a/drivers/dma/stm32-mdma.c
-+++ b/drivers/dma/stm32-mdma.c
-@@ -1580,7 +1580,6 @@ static int stm32_mdma_probe(struct platform_device *pdev)
- 	struct stm32_mdma_device *dmadev;
- 	struct dma_device *dd;
- 	struct device_node *of_node;
--	struct resource *res;
- 	struct reset_control *rst;
- 	u32 nr_channels, nr_requests;
- 	int i, count, ret;
-@@ -1622,8 +1621,7 @@ static int stm32_mdma_probe(struct platform_device *pdev)
- 				       count);
- 	dmadev->nr_ahb_addr_masks = count;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	dmadev->base = devm_ioremap_resource(&pdev->dev, res);
-+	dmadev->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(dmadev->base))
- 		return PTR_ERR(dmadev->base);
- 
-diff --git a/drivers/dma/sun4i-dma.c b/drivers/dma/sun4i-dma.c
-index f291b1b4db32..e86c8829513a 100644
---- a/drivers/dma/sun4i-dma.c
-+++ b/drivers/dma/sun4i-dma.c
-@@ -1144,15 +1144,13 @@ static irqreturn_t sun4i_dma_interrupt(int irq, void *dev_id)
- static int sun4i_dma_probe(struct platform_device *pdev)
- {
- 	struct sun4i_dma_dev *priv;
--	struct resource *res;
- 	int i, j, ret;
- 
- 	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
- 	if (!priv)
- 		return -ENOMEM;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	priv->base = devm_ioremap_resource(&pdev->dev, res);
-+	priv->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(priv->base))
- 		return PTR_ERR(priv->base);
- 
-diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-index b7557f437936..2f4bf72e7769 100644
---- a/drivers/dma/sun6i-dma.c
-+++ b/drivers/dma/sun6i-dma.c
-@@ -1283,7 +1283,6 @@ static int sun6i_dma_probe(struct platform_device *pdev)
- {
- 	struct device_node *np = pdev->dev.of_node;
- 	struct sun6i_dma_dev *sdc;
--	struct resource *res;
- 	int ret, i;
- 
- 	sdc = devm_kzalloc(&pdev->dev, sizeof(*sdc), GFP_KERNEL);
-@@ -1294,8 +1293,7 @@ static int sun6i_dma_probe(struct platform_device *pdev)
- 	if (!sdc->cfg)
- 		return -ENODEV;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	sdc->base = devm_ioremap_resource(&pdev->dev, res);
-+	sdc->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(sdc->base))
- 		return PTR_ERR(sdc->base);
- 
-diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
-index ae39b52012b2..d1a84483f627 100644
---- a/drivers/dma/tegra210-adma.c
-+++ b/drivers/dma/tegra210-adma.c
-@@ -837,7 +837,6 @@ static int tegra_adma_probe(struct platform_device *pdev)
- {
- 	const struct tegra_adma_chip_data *cdata;
- 	struct tegra_adma *tdma;
--	struct resource	*res;
- 	int ret, i;
- 
- 	cdata = of_device_get_match_data(&pdev->dev);
-@@ -857,8 +856,7 @@ static int tegra_adma_probe(struct platform_device *pdev)
- 	tdma->nr_channels = cdata->nr_channels;
- 	platform_set_drvdata(pdev, tdma);
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	tdma->base_addr = devm_ioremap_resource(&pdev->dev, res);
-+	tdma->base_addr = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(tdma->base_addr))
- 		return PTR_ERR(tdma->base_addr);
- 
-diff --git a/drivers/dma/ti/cppi41.c b/drivers/dma/ti/cppi41.c
-index 695915dba707..c3555cfb0681 100644
---- a/drivers/dma/ti/cppi41.c
-+++ b/drivers/dma/ti/cppi41.c
-@@ -1039,7 +1039,6 @@ static int cppi41_dma_probe(struct platform_device *pdev)
- 	struct cppi41_dd *cdd;
- 	struct device *dev = &pdev->dev;
- 	const struct cppi_glue_infos *glue_info;
--	struct resource *mem;
- 	int index;
- 	int irq;
- 	int ret;
-@@ -1072,18 +1071,15 @@ static int cppi41_dma_probe(struct platform_device *pdev)
- 	if (index < 0)
- 		return index;
- 
--	mem = platform_get_resource(pdev, IORESOURCE_MEM, index);
--	cdd->ctrl_mem = devm_ioremap_resource(dev, mem);
-+	cdd->ctrl_mem = devm_platform_ioremap_resource(pdev, index);
- 	if (IS_ERR(cdd->ctrl_mem))
- 		return PTR_ERR(cdd->ctrl_mem);
- 
--	mem = platform_get_resource(pdev, IORESOURCE_MEM, index + 1);
--	cdd->sched_mem = devm_ioremap_resource(dev, mem);
-+	cdd->sched_mem = devm_platform_ioremap_resource(pdev, index + 1);
- 	if (IS_ERR(cdd->sched_mem))
- 		return PTR_ERR(cdd->sched_mem);
- 
--	mem = platform_get_resource(pdev, IORESOURCE_MEM, index + 2);
--	cdd->qmgr_mem = devm_ioremap_resource(dev, mem);
-+	cdd->qmgr_mem = devm_platform_ioremap_resource(pdev, index + 2);
- 	if (IS_ERR(cdd->qmgr_mem))
- 		return PTR_ERR(cdd->qmgr_mem);
- 
-diff --git a/drivers/dma/ti/omap-dma.c b/drivers/dma/ti/omap-dma.c
-index 27f5019bdc1e..02e1c08c596d 100644
---- a/drivers/dma/ti/omap-dma.c
-+++ b/drivers/dma/ti/omap-dma.c
-@@ -1658,7 +1658,6 @@ static int omap_dma_probe(struct platform_device *pdev)
- {
- 	const struct omap_dma_config *conf;
- 	struct omap_dmadev *od;
--	struct resource *res;
- 	int rc, i, irq;
- 	u32 val;
- 
-@@ -1666,8 +1665,7 @@ static int omap_dma_probe(struct platform_device *pdev)
- 	if (!od)
- 		return -ENOMEM;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	od->base = devm_ioremap_resource(&pdev->dev, res);
-+	od->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(od->base))
- 		return PTR_ERR(od->base);
- 
-diff --git a/drivers/dma/xilinx/zynqmp_dma.c b/drivers/dma/xilinx/zynqmp_dma.c
-index 21472a5d7636..ce359058c638 100644
---- a/drivers/dma/xilinx/zynqmp_dma.c
-+++ b/drivers/dma/xilinx/zynqmp_dma.c
-@@ -890,7 +890,6 @@ static int zynqmp_dma_chan_probe(struct zynqmp_dma_device *zdev,
- 			   struct platform_device *pdev)
- {
- 	struct zynqmp_dma_chan *chan;
--	struct resource *res;
- 	struct device_node *node = pdev->dev.of_node;
- 	int err;
- 
-@@ -900,8 +899,7 @@ static int zynqmp_dma_chan_probe(struct zynqmp_dma_device *zdev,
- 	chan->dev = zdev->dev;
- 	chan->zdev = zdev;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	chan->regs = devm_ioremap_resource(&pdev->dev, res);
-+	chan->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(chan->regs))
- 		return PTR_ERR(chan->regs);
- 
--- 
-2.25.1
+Considering that there is only one suite, you could use the
+kunit_test_suite macro instead.
 
+Best Regards,
+- Maíra Canal
+
+> +MODULE_LICENSE("GPL v2");
