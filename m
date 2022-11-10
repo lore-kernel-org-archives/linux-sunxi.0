@@ -1,179 +1,85 @@
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B96138C
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Nov 2022 09:31:25 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 619335808B1;
-	Thu, 10 Nov 2022 04:31:24 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Thu, 10 Nov 2022 04:31:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1668072684; x=1668079884; bh=zo574ahzKe
-	u9Q28ZxFGvxFgTU3pvWe1Hlis4aMVeXeM=; b=KQ+fTudgcZW84HJJx3pYZjH6tt
-	uUQyF2KdNGYGmzcVKLjgNT1FFbuCUeXNgNV7nH4suH3fHjhIiDa8HgZud7+Amwrr
-	tPBR8eIF89Nra1y0g8nb6DVDuNr/ymTg1UJPG8rwKa1toduJYYJZy77KwZFcd4AC
-	eYH2Plh0zTNErDTBuAZ/oWRi94L9OOh5Wz0iB20ebBlWXXbTAbUw3a85ZQiXPwAp
-	42Ni4ltiv2qrPLlgC52lMFp+NyqJIYpPqPj08dwR3bPQnepWVOV7wNQqdwfJjqdh
-	mpCpeC50Mie+sGDRqUH/qHzeF7YBJMk/cZ7uP0gWJ7l8lz3EL7atfB5oE0mg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1668072684; x=1668079884; bh=zo574ahzKeu9Q28ZxFGvxFgTU3pv
-	We1Hlis4aMVeXeM=; b=GusWAN9JhPa20ia1ZdZ5HcEY2lXQvjg6xUw3qGQINIZn
-	DkE5/aHfXGSNTXKhC8azwQLlMqAjKj1+dkh6OeJq6oT0CoZFp9SVIFqT2yn/SUPj
-	O14rzuMqfMYxFm8wYzTDQsmAHI2H7iBJ9Vbh6t3wLFnz95c0dSy6eeRTwj7ab7AN
-	mH17j225Q2ynprMxAVxkvwG0WFMWfplx9z2gIbHdThgHKpuvMwA/7JrNa1FkOYxG
-	2YSAgPUuVitdbimMq8B9Eq6MVI2O7quhKnNvk2ulaSZETvOKZNSJheGqErBL0rRF
-	/unRGPariOiO/nz540NT07bvtBqHPeTucJ+AfMfdiQ==
-X-ME-Sender: <xms:68RsYyJcgTRmtWb-WtinAgFLtYlPCFF-Reemycwz_8GM48TX8jU7yQ>
-    <xme:68RsY6LiKEdqzRptOx6mkQFmHVrypfcPuYhkEKPNKV9PhOmiKxcxZBhKMQOh-Sm9f
-    vy9mV4GrbBIiXMAnrg>
-X-ME-Received: <xmr:68RsYytjvmh5AhEk6FzoGAKAvoL4O6D6t_-ij2tliUW06tD0Jlqdzxfcxu4awC0icfOT999HhcprzUYvWZxogWcBWmeam_pUWEevFaGsT88lYg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfeeggddtgecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepjeevfeehfeekieffgeevleevtefgffefkedtfeeuhfettdegjeehgfegudff
-    ffdunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:68RsY3ZHsKBDeMnN6Tq2rfIR2Hkt0nOKAGJdXtmX5BJ49oN6fMHhCg>
-    <xmx:68RsY5Y1Tjxlu6fJVCQ6Kb8zOIisXGb0g_mJyy2LA4iDg4H6C6cbUQ>
-    <xmx:68RsYzAxoOxTLfO4tVvEFis9rgxU91ju_xMaq0fexnQmMMYRZ86tdA>
-    <xmx:7MRsY_6jaWOLDIo0li1lpKavJBZVv1VUqIhq_nB-9bfGOsI4OT8icA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Nov 2022 04:31:22 -0500 (EST)
-Date: Thu, 10 Nov 2022 10:31:20 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Ben Skeggs <bskeggs@redhat.com>,	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
-	Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
-	Lyude Paul <lyude@redhat.com>,	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@linux.ie>, Phil Elwell <phil@raspberrypi.com>,
-	Hans de Goede <hdegoede@redhat.com>, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	linux-arm-kernel@lists.infradead.org,	Dom Cobley <dom@raspberrypi.com>,
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org
-Subject: Re: [PATCH v7 14/23] drm/modes: Properly generate a drm_display_mode
- from a named mode
-Message-ID: <20221110093120.udcpeer5paqbhxzn@houat>
-References: <20220728-rpi-analog-tv-properties-v7-0-7072a478c6b3@cerno.tech>
- <20220728-rpi-analog-tv-properties-v7-14-7072a478c6b3@cerno.tech>
- <9e9a8a48-89f2-35d4-b26f-afa7cc44f2f6@tronnes.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44F312DA5
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Nov 2022 10:21:15 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id b2so3763954eja.6
+        for <linux-sunxi@lists.linux.dev>; Thu, 10 Nov 2022 02:21:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DzVccqK8r10+eJcWFau+z76oVshVdUbajb+fpILwHo4=;
+        b=ZjAWG299WEYD3yhWLaSEkxdPYu/zU0l6XzZeRRxVMF/TbyNqO4VjpXuAtPmN3OE7BL
+         WU2ayYqvlurEI4IIqWefXARXvKodyhMPCIxUPeJu0Wh1rxfXBmsmxAsZ9rwxvpm+n3Hi
+         VgYa3tKEmTetYUmFNPmOiQYDc29IZE9tv0tikOdFijyjoI+j6hQTy9qfLlku3jA1HkLs
+         f6W5V2yQgG0zE/u+0ciDWzq/kYEuk9KoylB+bifB34zPgkF0WRaaUUizmpqThuzbGiJ6
+         llmCosDcSRBA0zcQPfvGKeH2F3JPCtozxm+ClTMVSYwHlZXroAQwhFCO6W2IuHWUSg3X
+         gZHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DzVccqK8r10+eJcWFau+z76oVshVdUbajb+fpILwHo4=;
+        b=i/TRxfKTCqB5N9w5bLRLbkjvOzQbl9hqyls1cmCYkjtO/LTm46fFeU4uATaN2O0bWM
+         IY+OybHjSilAgWHenhR6pw7m/OLbKPWPq9dx8pQqAMSZ8krSIbHiQQmo1WDWfJrP2FYn
+         9+GYTkuLnuzJ0NAqGXFUz2ucmdUGY6U6gHkrxSYOqGNUIylnatNL2+PHlYhXEK7YKVR8
+         hqh9UQFq5uTUlHwQSSaXyIc5Ub93oS7dmlS12GfeCeyaTis8NMsRLIMntF0pEtDRmJsN
+         w0uruPxsOBm7Kxf8fOW796VoM5jCPceNOQ/G2ZIfK2PJRQL216FAPlfhoH+482Jg65fz
+         9x0A==
+X-Gm-Message-State: ACrzQf39skAyFP+n4lmsj0ePxoO7dsaTmqx3cDT7q2HbODGMHCac9xRh
+	DSUs7Sbhc/VEYUBo7TkSK4bobkZxc7oudj/RurHXoQ==
+X-Google-Smtp-Source: AMsMyM7gTYta/+pVULXdP/rsWKEEJRTzX78HLJvZMbTb+bGDejI9yp4s7ufQUVVK7iJ/aB5J8JreNEBML0pwIRci4UA=
+X-Received: by 2002:a17:906:4c4b:b0:7ad:a197:b58e with SMTP id
+ d11-20020a1709064c4b00b007ada197b58emr60349152ejw.203.1668075673995; Thu, 10
+ Nov 2022 02:21:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="oex33cdauyqtfxdp"
-Content-Disposition: inline
-In-Reply-To: <9e9a8a48-89f2-35d4-b26f-afa7cc44f2f6@tronnes.org>
+References: <20221110014255.20711-1-andre.przywara@arm.com>
+In-Reply-To: <20221110014255.20711-1-andre.przywara@arm.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 10 Nov 2022 11:21:02 +0100
+Message-ID: <CACRpkdb=5mobcWBJYtXd=nC7A+Uo__itk0F9oZBeTjWHBkBU1w@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/2] pinctrl: sunxi: Introduce DT-based pinctrl builder
+To: Andre Przywara <andre.przywara@arm.com>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Icenowy Zheng <uwu@icenowy.me>, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
+On Thu, Nov 10, 2022 at 2:44 AM Andre Przywara <andre.przywara@arm.com> wrote:
 
---oex33cdauyqtfxdp
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Compared to my previous effort almost exactly five years ago [1], this
+> new version drops the idea of describing the pinctrl data entirely in
+> the DT, instead it still relies on driver provided information for that.
+(...)
+> On the DT side all that would be needed is *one* extra property per
+> pin group to announce the mux value:
+>
+>         uart0_pb_pins: uart0-pb-pins {
+>                 pins = "PB9", "PB10";
+>                 function = "uart0";
+>                 pinmux = <2>;
+>         };
 
-Hi,
+So what you need to do is to convince the device tree people that this
+is a good idea.
 
-On Mon, Nov 07, 2022 at 06:49:57PM +0100, Noralf Tr=F8nnes wrote:
-> Den 07.11.2022 15.16, skrev Maxime Ripard:
-> > The framework will get the drm_display_mode from the drm_cmdline_mode it
-> > got by parsing the video command line argument by calling
-> > drm_connector_pick_cmdline_mode().
-> >=20
-> > The heavy lifting will then be done by the drm_mode_create_from_cmdline=
-_mode()
-> > function.
-> >=20
-> > In the case of the named modes though, there's no real code to make that
-> > translation and we rely on the drivers to guess which actual display mo=
-de
-> > we meant.
-> >=20
-> > Let's modify drm_mode_create_from_cmdline_mode() to properly generate t=
-he
-> > drm_display_mode we mean when passing a named mode.
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> >=20
-> > ---
-> > Changes in v7:
-> > - Use tv_mode_specified in drm_mode_parse_command_line_for_connector
-> >=20
-> > Changes in v6:
-> > - Fix get_modes to return 0 instead of an error code
-> > - Rename the tests to follow the DRM test naming convention
-> >=20
-> > Changes in v5:
-> > - Switched to KUNIT_ASSERT_NOT_NULL
-> > ---
-> >  drivers/gpu/drm/drm_modes.c                     | 34 ++++++++++-
-> >  drivers/gpu/drm/tests/drm_client_modeset_test.c | 77 +++++++++++++++++=
-+++++++-
-> >  2 files changed, 109 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> > index dc037f7ceb37..49441cabdd9d 100644
-> > --- a/drivers/gpu/drm/drm_modes.c
-> > +++ b/drivers/gpu/drm/drm_modes.c
-> > @@ -2497,6 +2497,36 @@ bool drm_mode_parse_command_line_for_connector(c=
-onst char *mode_option,
-> >  }
-> >  EXPORT_SYMBOL(drm_mode_parse_command_line_for_connector);
-> > =20
-> > +static struct drm_display_mode *drm_named_mode(struct drm_device *dev,
-> > +					       struct drm_cmdline_mode *cmd)
-> > +{
-> > +	struct drm_display_mode *mode;
-> > +	unsigned int i;
-> > +
-> > +	for (i =3D 0; i < ARRAY_SIZE(drm_named_modes); i++) {
-> > +		const struct drm_named_mode *named_mode =3D &drm_named_modes[i];
-> > +
-> > +		if (strcmp(cmd->name, named_mode->name))
-> > +			continue;
-> > +
-> > +		if (!cmd->tv_mode_specified)
-> > +			continue;
->=20
-> Only a named mode will set cmd->name, so is this check necessary?
+For me as linux maintainer it's no big deal, it's fine either way. The new
+code looks elegant.
 
-Yeah, but (and even though it's not the case at the moment) there's no
-implication that a named mode will be about TV. We could use it for
-VGA/XGA/etc just as well, in which case we wouldn't have
-tv_mode_specified.
+But from a DT point of view this needs to make sense also for Windows
+and BSD, so that is who you have to convince. If it is possible to derive
+the same information from the compatible string (like today) that will
+need an extended argument why all operating systems will benefit from
+this.
 
-Maxime
-
---oex33cdauyqtfxdp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY2zE6AAKCRDj7w1vZxhR
-xa+3AQD3Cls+D1gczkUFXyeSrQvhKBS9sNlty/tRYGKYZr7sZwEAoGi/xB5TzWa4
-ZI9NnObyBqJX+FGvepRGg1OcTXOypw0=
-=6eNg
------END PGP SIGNATURE-----
-
---oex33cdauyqtfxdp--
+Yours,
+Linus Walleij
