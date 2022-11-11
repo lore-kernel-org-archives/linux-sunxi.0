@@ -1,139 +1,249 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9564080B
-	for <linux-sunxi@lists.linux.dev>; Fri, 11 Nov 2022 09:20:48 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id i21so6793040edj.10
-        for <linux-sunxi@lists.linux.dev>; Fri, 11 Nov 2022 01:20:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=KQqlnqh61yDEivsgLuzXFgBFvWeIkle9538NvChEgG4=;
-        b=eRHEStFUgdZI+TOEkzLgPNAUqr8je9PakORGJBpBvetm722q6+52mzO4PuK6UP2C9B
-         y5QKHELjwoL/I5ZveEAoHNQYPUFH2gG9BiO6rNE0Zoi1U/NPdjDb6jXihqpiYnUK7uS7
-         SaEgVVAc1rCLsO+PywRf34jY4cKkxjJ5rpb0iLv7Lx6icnPxIKkBSReqSNOAi5AyQqJr
-         wfParI72b+nyrA1C6NNwYpO2mYi/F3sK4RXxqU2kGu5IcDipfl9TyQkhA6GnH0/P0zga
-         4Pzu7HawlgloyguZmgsGbfP6pqVHW5N9NgfDTgsFvjn4zWaBEAPihtz4CQ3ui15zn27r
-         jJSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KQqlnqh61yDEivsgLuzXFgBFvWeIkle9538NvChEgG4=;
-        b=tVOm4pilhNz9Q1FOD/DCo9ivJz5VCewPU+8XOiwwbSIFuThViHsbQlfWGaVmRd6lN3
-         VvxrfHBcAyNc6Sv9iXKYhXYLI+i0vzrGeCamFGIDh3vO6XeM/apcPMTRfHMAMZEWFhcx
-         ZxQs/Hc639j5y3MZFJBTPMXUr5VWCyvpfY+3+Ux5BDyrVNAjPL7nobyXudPB9CMG/0nC
-         +pf/JzQZBalikqjIaWtvbzwGr5ZSNSQU6M6OL4A5SDvFf/0LdCTQgIDDGlWvbyNmvhv7
-         RcvReWq1HLYpKn4z3DU4VgDsDUkENzp5x1UkO5Fb7zMOjuT4KqFWENR3U/aQa4i21+eh
-         AlnA==
-X-Gm-Message-State: ANoB5pkJIoFPZ5ed44l7fGtRBk0JT7RZeA2kZ7wILbD/du2kZyj96zx2
-	KvuMx/lEWYxvH1y/YqWRoxEEf1CiCjXg9hQc9s4BVA==
-X-Google-Smtp-Source: AA0mqf53QBR47pUgYWT2xVhbs/Lj4/kZl7NAGXQCY837HnfVAtbLsG6fA3g+X2q4OOQ/b93b11NyQoioTLD4pHwNxXU=
-X-Received: by 2002:a50:ee13:0:b0:463:a83c:e0af with SMTP id
- g19-20020a50ee13000000b00463a83ce0afmr679526eds.158.1668158446767; Fri, 11
- Nov 2022 01:20:46 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C6E20E7
+	for <linux-sunxi@lists.linux.dev>; Fri, 11 Nov 2022 10:18:23 +0000 (UTC)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 11BFD1B000E5;
+	Fri, 11 Nov 2022 12:18:15 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1668161895;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nViUIP5mZmGtAcBV7snG5srmqkB1zpkdDW7/29no2No=;
+	b=jNt6JfEZ5aGzSsR7mmdsv5dbmu+34iOoULra6wXXpxwvTUgYZxTCEi4RmgxXdceKaExMAR
+	LveyiuEpjX3xULjpvftOr5EeKHRae+xeteUabY81dpevQ/Prn7jjNUffWUN7lGYRkmYVWJ
+	W15h/T+b2eKF6xplIQlKa23TcfCoaSgsoR824q9qVptC7YhUVK6bml992XEdU6+d7tKZ7o
+	VI/veBgmEQUn+jlX7U3eTwBQD44TSsUfd7FKQlBVDTOLv+y4f3IQKbNLmzK6I+JdMKAec/
+	9Bg1x2JsJmU+gVmAs5WF1eWArQMKc8XKwO5H2CLm4gqLlMebmIQfGYGKFPLuYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1668161895;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nViUIP5mZmGtAcBV7snG5srmqkB1zpkdDW7/29no2No=;
+	b=VBkOEh0DSaUX6ByzycgXH+uFHGNLlvIzRON3c501iKDTdcny9QDNC2vbT8ZaB2R04rzkQ+
+	FeTrys/6GMqYM0pu86BCVK+Isfh1KPetVmJbvOBqN9Kbv+BhD6etFo8yt5rpU11Y61UZno
+	KisVCGr7h/4mGznD3bJvNJ/ZRhxqo5pixzBzjc8ZD2WVstwFxnpAuwmXcPsHE+WkIdWHKl
+	sz/9bvNDP0xylhBh2cvYs86IdnMtqpMP3DPlFpaQNhjtCywnQi9Yr+jHrBh6UhklbwO2xJ
+	TpJJ2e7yYtDo94K8dsBDLIXd+1KFwr/eNvAhlft1BqkjEVF1Vc6zndHxMzwqGg==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1668161895; a=rsa-sha256;
+	cv=none;
+	b=WBujtx9mQT5kPGfDvr+V/dHH6kUlxJGdIcrC021JEft8XFiI3wROMPYufZm5nWVcZtTt5p
+	+TAJuYBP594nLyxxaCEoQXsQxhy7rgzBvmYlcCe4XR8us43oYc2NmNRT6pWoHTIN16uvma
+	GUQ5kwD29S9X7m5IJoejXiMqeTn0KSRvlB9T+EpLj3vN6LUKC1hiGFXvN8Zod30moB4/Yt
+	NHdjPgAw+sKqra5M56h4cks7qwQ4cAMZHT4TB/iR1OizmF147vr9CJDIxujmqU0d2xymuI
+	5ObuQ1Kv9sctkYgGXmCigTIgvqjiNtJPhZSO/DCunzy8yN67nzzoTuwHBIFL5g==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id B05A7634C98;
+	Fri, 11 Nov 2022 12:18:14 +0200 (EET)
+Date: Fri, 11 Nov 2022 12:18:14 +0200
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v7 18/28] media: sun6i-csi: Introduce format match
+ structure, list and helper
+Message-ID: <Y24hZjkRp0rBpzTZ@valkosipuli.retiisi.eu>
+References: <20221103163113.245462-1-paul.kocialkowski@bootlin.com>
+ <20221103163113.245462-19-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
- <20221018-clk-range-checks-fixes-v2-35-f6736dec138e@cerno.tech>
- <CAPDyKFoycVedCJMy0=UK+q5SiPQHqje_8bSN-gdkpBa6KhFfkg@mail.gmail.com>
- <CACRpkdYOj8uozJZO4MV-_OAKeOsQHhoEM=PyynVuNY-JkpgTOw@mail.gmail.com> <CAPDyKFr6VeF3s47JfzJ9urtMsEem+GiBtHeU=_S8jNaz-D+qnw@mail.gmail.com>
-In-Reply-To: <CAPDyKFr6VeF3s47JfzJ9urtMsEem+GiBtHeU=_S8jNaz-D+qnw@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 11 Nov 2022 10:20:34 +0100
-Message-ID: <CACRpkdb8uYfs6w99FVjD_t6nZgDhPUx=yB1j=CmpHTHAM2QGQw@mail.gmail.com>
-Subject: Re: [PATCH v2 35/65] clk: ux500: sysctrl: Add a determine_rate hook
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Maxime Ripard <maxime@cerno.tech>, Stephen Boyd <sboyd@kernel.org>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Daniel Vetter <daniel@ffwll.ch>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
-	Claudiu Beznea <claudiu.beznea@microchip.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Dinh Nguyen <dinguyen@kernel.org>, Paul Cercueil <paul@crapouillou.net>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>, 
-	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Abel Vesa <abelvesa@kernel.org>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, Alessandro Zummo <a.zummo@towertech.it>, 
-	Peter De Schrijver <pdeschrijver@nvidia.com>, Orson Zhai <orsonzhai@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Samuel Holland <samuel@sholland.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Vinod Koul <vkoul@kernel.org>, 
-	NXP Linux Team <linux-imx@nxp.com>, Sekhar Nori <nsekhar@ti.com>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Takashi Iwai <tiwai@suse.com>, David Airlie <airlied@gmail.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	David Lechner <david@lechnology.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Mark Brown <broonie@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, linux-stm32@st-md-mailman.stormreply.com, 
-	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org, 
-	linux-phy@lists.infradead.org, linux-mips@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-actions@lists.infradead.org, 
-	linux-clk@vger.kernel.org, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, patches@opensource.cirrus.com, 
-	linux-tegra@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Lee Jones <lee@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221103163113.245462-19-paul.kocialkowski@bootlin.com>
 
-On Thu, Nov 10, 2022 at 2:05 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> On Thu, 10 Nov 2022 at 12:39, Linus Walleij <linus.walleij@linaro.org> wrote:
-> >
-> > On Thu, Nov 10, 2022 at 12:29 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> > > On Fri, 4 Nov 2022 at 14:32, Maxime Ripard <maxime@cerno.tech> wrote:
-> > > >
-> > > > The UX500 sysctrl "set_parent" clocks implement a mux with a set_parent
-> > > > hook, but doesn't provide a determine_rate implementation.
-> > > >
-> > > > This is a bit odd, since set_parent() is there to, as its name implies,
-> > > > change the parent of a clock. However, the most likely candidate to
-> > > > trigger that parent change is a call to clk_set_rate(), with
-> > > > determine_rate() figuring out which parent is the best suited for a
-> > > > given rate.
-> > > >
-> > > > The other trigger would be a call to clk_set_parent(), but it's far less
-> > > > used, and it doesn't look like there's any obvious user for that clock.
-> > >
-> > > If I recall correctly, that is the use case we did target for these
-> > > types of clocks. See sound/soc/ux500/ux500_ab85xx.c, for example.
-> >
-> > Hm I am trying to get that driver to work ... from time to time.
-> > It's just that ALSA SoC DT has changed to much that it turns out
-> > into a complete rewrite :/
-> >
-> > So in sound/soc/ux500/mop500_ab8500.c
-> > I see this:
-> >
-> >         status = clk_set_parent(drvdata->clk_ptr_intclk, clk_ptr);
-> >         if (status)
-> > (...)
-> >
-> > and there is elaborate code to switch between "SYSCLK" and
-> > "ULPCLK" (ulta-low power clock). Just like you say... however
-> > a clock named SYSCLK or ULPCLK does not appear in the
-> > code in drivers/clk/ux500 or any DT bindings so... it seems to
-> > be non-working for the time being.
->
-> It's definitely not working, but the corresponding clocks ("ulpclk",
-> "intclk", "audioclk", etc) are being registered in ab8500_reg_clks().
->
-> What seems to be missing is a DT conversion for these clocks, so they
-> can be consumed properly. Right?
+Hi Paul,
 
-Yeps that and a few more things, I have a scratch rewrite here:
-https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-stericsson.git/log/?h=ux500-audio-rewrite
+On Thu, Nov 03, 2022 at 05:31:03PM +0100, Paul Kocialkowski wrote:
+> Introduce a list of mbus/pixel format combinations that need an exact
+> match between the two sides. This is the case when using raw input
+> configuration. The list will be used to replace the
+> sun6i_csi_is_format_supported combinatory helper.
 
-I remember Lee said he had audio working with the mainline kernel
-on Snowball at one point, unfortunately I think that was before we
-started with the DT conversions and then we probably broke it.
+This patch introduces an unused function which generates a compiler warning
+that is now treated as an error.
 
-Yours,
-Linus Walleij
+I'll squash this to the following patch that uses the function. I think the
+commit message will do as-is.
+
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 117 ++++++++++++++++++
+>  .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   5 +
+>  2 files changed, 122 insertions(+)
+> 
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> index 99b821d79357..7958419d3c6e 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> @@ -227,6 +227,123 @@ struct sun6i_csi_capture_format *sun6i_csi_capture_format_find(u32 pixelformat)
+>  	return NULL;
+>  }
+>  
+> +/* RAW formats need an exact match between pixel and mbus formats. */
+> +static const
+> +struct sun6i_csi_capture_format_match sun6i_csi_capture_format_matches[] = {
+> +	/* YUV420 */
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_YUYV,
+> +		.mbus_code	= MEDIA_BUS_FMT_YUYV8_2X8,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_YUYV,
+> +		.mbus_code	= MEDIA_BUS_FMT_YUYV8_1X16,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_YVYU,
+> +		.mbus_code	= MEDIA_BUS_FMT_YVYU8_2X8,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_YVYU,
+> +		.mbus_code	= MEDIA_BUS_FMT_YVYU8_1X16,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_UYVY,
+> +		.mbus_code	= MEDIA_BUS_FMT_UYVY8_2X8,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_UYVY,
+> +		.mbus_code	= MEDIA_BUS_FMT_UYVY8_1X16,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_VYUY,
+> +		.mbus_code	= MEDIA_BUS_FMT_VYUY8_2X8,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_VYUY,
+> +		.mbus_code	= MEDIA_BUS_FMT_VYUY8_1X16,
+> +	},
+> +	/* RGB */
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_RGB565,
+> +		.mbus_code	= MEDIA_BUS_FMT_RGB565_2X8_LE,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_RGB565X,
+> +		.mbus_code	= MEDIA_BUS_FMT_RGB565_2X8_BE,
+> +	},
+> +	/* Bayer */
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SBGGR8,
+> +		.mbus_code	= MEDIA_BUS_FMT_SBGGR8_1X8,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SGBRG8,
+> +		.mbus_code	= MEDIA_BUS_FMT_SGBRG8_1X8,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SGRBG8,
+> +		.mbus_code	= MEDIA_BUS_FMT_SGRBG8_1X8,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SRGGB8,
+> +		.mbus_code	= MEDIA_BUS_FMT_SRGGB8_1X8,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SBGGR10,
+> +		.mbus_code	= MEDIA_BUS_FMT_SBGGR10_1X10,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SGBRG10,
+> +		.mbus_code	= MEDIA_BUS_FMT_SGBRG10_1X10,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SGRBG10,
+> +		.mbus_code	= MEDIA_BUS_FMT_SGRBG10_1X10,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SRGGB10,
+> +		.mbus_code	= MEDIA_BUS_FMT_SRGGB10_1X10,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SBGGR12,
+> +		.mbus_code	= MEDIA_BUS_FMT_SBGGR12_1X12,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SGBRG12,
+> +		.mbus_code	= MEDIA_BUS_FMT_SGBRG12_1X12,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SGRBG12,
+> +		.mbus_code	= MEDIA_BUS_FMT_SGRBG12_1X12,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SRGGB12,
+> +		.mbus_code	= MEDIA_BUS_FMT_SRGGB12_1X12,
+> +	},
+> +	/* Compressed */
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_JPEG,
+> +		.mbus_code	= MEDIA_BUS_FMT_JPEG_1X8,
+> +	},
+> +};
+> +
+> +static bool sun6i_csi_capture_format_match(u32 pixelformat, u32 mbus_code)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(sun6i_csi_capture_format_matches); i++) {
+> +		const struct sun6i_csi_capture_format_match *match =
+> +			&sun6i_csi_capture_format_matches[i];
+> +
+> +		if (match->pixelformat == pixelformat &&
+> +		    match->mbus_code == mbus_code)
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+>  /* Capture */
+>  
+>  static void sun6i_csi_capture_irq_enable(struct sun6i_csi_device *csi_dev)
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
+> index 4b1ff19edc2f..2605b16f091c 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
+> @@ -27,6 +27,11 @@ struct sun6i_csi_capture_format {
+>  	u32	hsize_len_factor;
+>  };
+>  
+> +struct sun6i_csi_capture_format_match {
+> +	u32	pixelformat;
+> +	u32	mbus_code;
+> +};
+> +
+>  #undef current
+>  struct sun6i_csi_capture_state {
+>  	struct list_head		queue;
+
+-- 
+Kind regards,
+
+Sakari Ailus
