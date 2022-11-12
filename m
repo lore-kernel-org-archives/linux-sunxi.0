@@ -1,43 +1,43 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91481858
-	for <linux-sunxi@lists.linux.dev>; Sat, 12 Nov 2022 15:19:49 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id cl5so10037708wrb.9
-        for <linux-sunxi@lists.linux.dev>; Sat, 12 Nov 2022 07:19:49 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6BDE184E
+	for <linux-sunxi@lists.linux.dev>; Sat, 12 Nov 2022 15:19:50 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id h9so10109305wrt.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 12 Nov 2022 07:19:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rX7cCKuVYb8T0bIdtXYMmu42sGmoqadgzkdHQD0y+QY=;
-        b=eMyqe5Ay3U0wx77cQ/2gz16NxyYV5gWp8dMGPLYd9UsNDB518c0JqQ/QtTZpKnI31X
-         IoAI34NvLVvN0KI1CfpoSXv6729k7RN2VeXlJL13E7LN/6svqM5aclRuyq//KTwFH2CD
-         aS9bLX11utnhq6bBz61ASU9LGuLxhL9cDNEh6l0Yfu/03oaJ6wV6UYXq23xZ3kYBw6va
-         a79VzdA/bVZ0+2iBTrrm9Sb2suzAVwbzMTup7FNFaDNuZTqIBI6mKHUarjKm/zbgJIBQ
-         GxNlxqo0BmWEyZ/VrBOgGGrBVigZ730ESoor8AKfy9uZCGziypR5dRZXXOCS7P6LawR1
-         vTSQ==
+        bh=74Exg7KddVXNG5OACBQCL3D7rKH5H5jEWAAQZrjSUes=;
+        b=MEr0VMdo6LgqF2/UDeLPFeAhgBlaXGqOPj834RwpMRcd4AsPgXmzqVuVXdR0ccUDPl
+         FEyfsOVcNhLCQ94HNdDVIzgPzDR72MpKXekWEDea1c0vAE18hqsjV7Df+U/O5ksph6/q
+         aRVnA8FBfLy/Fb6RMKO0PbNVSINKQjS8lVK9z0nfKGA6T04oQO3XsKS+wu92U0IBMHSh
+         inBINSnDaMEXhk6Zv9qmFq/D5M1hqjavWXbApmGAUH4eIw1HaVONH0venv5/3mSvlwox
+         UTbCtTDgH3uIxUPK29RAsUmColKnkj6TXrSAJbAGZx3tM0riILitMyTNpNruXR2opl+7
+         iBMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rX7cCKuVYb8T0bIdtXYMmu42sGmoqadgzkdHQD0y+QY=;
-        b=JQdf8wZHu46y8ua/yYxiJdCESlkoXbrK8YUXCr53rtq4F+fZdRCOjH00PIarblHTJo
-         pK2FjSYhdsL9k/FxBoJdJZ3KdUwmVo/t3gadhKZ0mNoWBqsqpYBqLBzhEwoJQ2AwKkun
-         mZYDat8T8wLn9ubIRcqLUrwiyrey8X6ft4GIujNLpRMyskpPABKQg1N0n8fMIaeLNZ/Y
-         nGUbm92dYtt8w5AstANKDU7EcFKHwJhwr8ih9uHZFh5aaB2nYHARBazwlyG1wWQxJoNL
-         2jhu1n+fUKWhb9qdHb+7JCFG386lFi8ze9OuAoFTqacHkIQm2tgVWp4tPr5JvGs2+PYW
-         JG+Q==
-X-Gm-Message-State: ANoB5pn/ABniOzR4d7l3zLxXXBmGbO90pqvRUUqTwRsKEtwNf16/kvy8
-	5TDpoYiE0nPX0H36DFcy7qA=
-X-Google-Smtp-Source: AA0mqf6DGdBLmjCdoPNIF+QK2rhnA4Ir3Q2CgoggBEI6nhnn/MHKp3Dwjc6/isBGSN4KhmU5r3eSyg==
-X-Received: by 2002:adf:fd41:0:b0:236:6de4:27b6 with SMTP id h1-20020adffd41000000b002366de427b6mr3453371wrs.601.1668266388127;
-        Sat, 12 Nov 2022 07:19:48 -0800 (PST)
+        bh=74Exg7KddVXNG5OACBQCL3D7rKH5H5jEWAAQZrjSUes=;
+        b=zecUxIn2saS5kifWxmzXSSkG0dz7vY2D0kxWG+86oQOhbpE5Q091ZVRCjVbxviWhSe
+         lQh/H6s9aatRqPKdNrrKxCk51PJqW1Kwb+qys9NhgXVUpjvykrAqSAfBp65xNtJKkpDl
+         CrPFJVATXOczexXR24kfNYReiKV62IA36+0YjmUei5IPreD0BL/SnskYQCcaNlxoQjkv
+         xdxQ09teo65Ey2oAWfZcT7uLAvmIuaxSVcNUc0sFwXeVY9GUiUVCMfacYvITg/DwY9hu
+         Tu/C5bFhmSDzi8lKnUYj3/7jJ0NGpDVWeXzSeeYaB3WbwBpCQb1bj3nm0Vpm/2iEWwW4
+         1SDQ==
+X-Gm-Message-State: ANoB5pnFFA++MNlHILzRpH3+0RuXKIodBkIbFiVo47ToYOXa8iM3+YiF
+	u0mj2IcWOgXZ2zW+w2qB4RA=
+X-Google-Smtp-Source: AA0mqf6+aF9rVvdrd8IQXlI2/qRsDWBeoBpq/BCXn5rEnK5jjDA7wKSd8BWWm1ea08LNgFoMDVM1Iw==
+X-Received: by 2002:adf:f14a:0:b0:22e:3c66:bda1 with SMTP id y10-20020adff14a000000b0022e3c66bda1mr3740739wro.139.1668266389050;
+        Sat, 12 Nov 2022 07:19:49 -0800 (PST)
 Received: from localhost (94.197.38.186.threembb.co.uk. [94.197.38.186])
-        by smtp.gmail.com with ESMTPSA id co19-20020a0560000a1300b0022e66749437sm4675867wrb.93.2022.11.12.07.19.47
+        by smtp.gmail.com with ESMTPSA id h11-20020a05600c314b00b003b4fe03c881sm13404048wmo.48.2022.11.12.07.19.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Nov 2022 07:19:47 -0800 (PST)
+        Sat, 12 Nov 2022 07:19:48 -0800 (PST)
 From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 To: lee@kernel.org
 Cc: mani@kernel.org,
@@ -57,9 +57,9 @@ Cc: mani@kernel.org,
 	linux-actions@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 12/18] mfd: rt5033: Replace irqchip mask_invert with unmask_base
-Date: Sat, 12 Nov 2022 15:18:29 +0000
-Message-Id: <20221112151835.39059-13-aidanmacdonald.0x0@gmail.com>
+Subject: [PATCH 13/18] mfd: rt5120: Replace irqchip mask_invert with unmask_base
+Date: Sat, 12 Nov 2022 15:18:30 +0000
+Message-Id: <20221112151835.39059-14-aidanmacdonald.0x0@gmail.com>
 In-Reply-To: <20221112151835.39059-1-aidanmacdonald.0x0@gmail.com>
 References: <20221112151835.39059-1-aidanmacdonald.0x0@gmail.com>
 Precedence: bulk
@@ -76,23 +76,24 @@ directly as an unmask register.
 
 Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 ---
- drivers/mfd/rt5033.c | 3 +--
+ drivers/mfd/rt5120.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/mfd/rt5033.c b/drivers/mfd/rt5033.c
-index f1236a9acf30..dc9bf4057a09 100644
---- a/drivers/mfd/rt5033.c
-+++ b/drivers/mfd/rt5033.c
-@@ -29,8 +29,7 @@ static const struct regmap_irq rt5033_irqs[] = {
- static const struct regmap_irq_chip rt5033_irq_chip = {
- 	.name		= "rt5033",
- 	.status_base	= RT5033_REG_PMIC_IRQ_STAT,
--	.mask_base	= RT5033_REG_PMIC_IRQ_CTRL,
--	.mask_invert	= true,
-+	.unmask_base	= RT5033_REG_PMIC_IRQ_CTRL,
- 	.num_regs	= 1,
- 	.irqs		= rt5033_irqs,
- 	.num_irqs	= ARRAY_SIZE(rt5033_irqs),
+diff --git a/drivers/mfd/rt5120.c b/drivers/mfd/rt5120.c
+index 8046e383bc92..829b7a0a0781 100644
+--- a/drivers/mfd/rt5120.c
++++ b/drivers/mfd/rt5120.c
+@@ -59,9 +59,8 @@ static const struct regmap_irq rt5120_irqs[] = {
+ static const struct regmap_irq_chip rt5120_irq_chip = {
+ 	.name = "rt5120-pmic",
+ 	.status_base = RT5120_REG_INTSTAT,
+-	.mask_base = RT5120_REG_INTENABLE,
++	.unmask_base = RT5120_REG_INTENABLE,
+ 	.ack_base = RT5120_REG_INTSTAT,
+-	.mask_invert = true,
+ 	.use_ack = true,
+ 	.num_regs = 1,
+ 	.irqs = rt5120_irqs,
 -- 
 2.38.1
 
