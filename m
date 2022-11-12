@@ -1,43 +1,43 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF1661C14
-	for <linux-sunxi@lists.linux.dev>; Sat, 12 Nov 2022 15:19:45 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id v7so4547568wmn.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 12 Nov 2022 07:19:45 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2FEB1858
+	for <linux-sunxi@lists.linux.dev>; Sat, 12 Nov 2022 15:19:47 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id ja4-20020a05600c556400b003cf6e77f89cso6920012wmb.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 12 Nov 2022 07:19:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RUz+SizcgZSFJ75dUNQdXVQMx+0/9PCMdNqr8UxmHwU=;
-        b=PdUigLlaopBa7TLq4xZ6IjRqvdU6RJ04DQIEmZAuJWErRJFEI436ovC/fpZyn7on3j
-         P4Yw0uYEgThh6Kg04Xo/eRvIA+6Y1N5X/tf2mz2K12XQInc6WoOveYQae7TFbicRADm7
-         0N0XWgg75I4ZRxZqGlHGFhPTU/kk+GJEO1zBeGnEmDGMfyWmxW+SKembCAu9nb3QG5Uo
-         maW+Ou0n8RomHH1MZTmIwZBnq+e/iMv75WWrFDLyr436V2qAp13enst4BAQtK3RCW6S9
-         lt/L84huLhe70Vbi/4B8G+13RgnCNavMJ/MHuvITwEbxccp9Vc1DeFmtCHEiFKWCIO3n
-         16XQ==
+        bh=rYG0lELIkcRCGP8jsgHL4HQoIjFGIvh4hrSttLYXXSA=;
+        b=eWLIQMsyzKlZKoLwyJYvo9XYbHuX9uT7yE0YZ+4Z7WOpbke8Up9yi/V2ZrY7P8yH0G
+         t57zawvnFxzUA22VM0ORJC5vwC8SMdRfdJSDVnckgh0RiNPh92Of50bx0cQ25CEqkLtH
+         nCgZ6/Um7+wVRZZ8DJcJaqyG7WMSyUkYqJekvswfC/p4Nnmy/RoHuLcTIKPEiCwrJONt
+         2i53XZjfQND1gJLxyc0gHZ6vg6Wk5Cq1HykLJzLz4bRO+WpDtPxlxL74xNs8nSxdZWv+
+         x3QS4cefmujEW/XmHabAmy79aWC/NYFtZP8adgDqVOzqAjH/7vLXbl0GlcJp+Bk/NhBR
+         WssA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RUz+SizcgZSFJ75dUNQdXVQMx+0/9PCMdNqr8UxmHwU=;
-        b=m3Gju5mV8D9F6kel9+ypumUDT39fHsMaj4K5GgyY1NR9NJSYeSaIEDLOSrIojf/O8H
-         SPGFXAzeRUWfz+mtSbSgFSnlJN/B07YKzNXqMaKvR7jMInNuXOirF66nVKCrs5/YazTL
-         J+qi6fgk2oVGNPnDbVV8bSKx2NhcFeOMqWYdYftEHWeCf6rqrSPafTrFVLGnRbQahCv9
-         2Ep22mHBy/GKNZcN5DRF0O9BOt3sJf11aNnnIwJVdXDPe20hd0Ag0GNLuLsI/ajNKzYl
-         ZyY0FUmTAJ7gohxLoPOfDrSWmT5l7eNHoq3/bSsy+XwkmmuYc+mq2d0N6I8Wh7EZEjaQ
-         Fgdg==
-X-Gm-Message-State: ANoB5pldEYu6bJYx+Pr1tH1j99OoJASAl8DqEH/vZyXk42+exly08cfM
-	E9FBDqDpXISVtKR+1flyhjE=
-X-Google-Smtp-Source: AA0mqf7ZjnquLgnGnL3FmNwJh4HYfkrXS2M3yBUZQx2GFtzieRr8ne/NhZPZZZhMi5nHCAvoAftLeA==
-X-Received: by 2002:a05:600c:6003:b0:3cf:9c1a:2fd0 with SMTP id az3-20020a05600c600300b003cf9c1a2fd0mr4066694wmb.3.1668266385210;
-        Sat, 12 Nov 2022 07:19:45 -0800 (PST)
+        bh=rYG0lELIkcRCGP8jsgHL4HQoIjFGIvh4hrSttLYXXSA=;
+        b=fo0i9PoFiXwjy2Qz7G3ZCSJHKQAUE4U0oHCutU0S233M48TMvZb1zSt3hsf8jSTMMs
+         Xe5biwkkHE9mEaDeKMPaZ//4uFhBKFFTSt74Xrr6HWONp9TItSqPFktqNFy64kxSKres
+         N4vnkBQ9uKFxTxsp4h6fCnMaeVFcdQDPx6szzUje85xUNJGsVA+jL1WAwfGyEwIzaDVa
+         CAhTyLqd7G0cGx69BeHp50XbnM4HpqKl7J0xlKA9OA7wM1nDEi4JHUyXfM/Y2LFOiW62
+         Te9GzOtOKlwR/kgZ9BeTR139GQEHaQQmefD2BMypWq1gD6vTF2/H+TGFrRlbtiSJQGjr
+         UgJA==
+X-Gm-Message-State: ANoB5pl/jW5jYAJcNgyPRXDNmOKXW+2WqTFqI3wEGzc482j/+3BoiFJF
+	twGb2dXNaijrtnA6tT3wwSQ=
+X-Google-Smtp-Source: AA0mqf5pyQhsB6glqLw+Apubat3cd2yf2DirKVwq0lH6RY66Bdje8ktKyuC6RmSzQ35RxxP+TFqu0Q==
+X-Received: by 2002:a05:600c:4fd0:b0:3cf:5bd9:68a1 with SMTP id o16-20020a05600c4fd000b003cf5bd968a1mr4325795wmq.113.1668266386084;
+        Sat, 12 Nov 2022 07:19:46 -0800 (PST)
 Received: from localhost (94.197.38.186.threembb.co.uk. [94.197.38.186])
-        by smtp.gmail.com with ESMTPSA id r2-20020a5d6942000000b0022e47b57735sm4638008wrw.97.2022.11.12.07.19.44
+        by smtp.gmail.com with ESMTPSA id bx32-20020a5d5b20000000b0023bb7e4b8b1sm4658536wrb.82.2022.11.12.07.19.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Nov 2022 07:19:44 -0800 (PST)
+        Sat, 12 Nov 2022 07:19:45 -0800 (PST)
 From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 To: lee@kernel.org
 Cc: mani@kernel.org,
@@ -57,9 +57,9 @@ Cc: mani@kernel.org,
 	linux-actions@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 09/18] mfd: rn5t618: Replace irqchip mask_invert with unmask_base
-Date: Sat, 12 Nov 2022 15:18:26 +0000
-Message-Id: <20221112151835.39059-10-aidanmacdonald.0x0@gmail.com>
+Subject: [PATCH 10/18] mfd: rohm-bd71828: Replace irqchip mask_invert with unmask_base
+Date: Sat, 12 Nov 2022 15:18:27 +0000
+Message-Id: <20221112151835.39059-11-aidanmacdonald.0x0@gmail.com>
 In-Reply-To: <20221112151835.39059-1-aidanmacdonald.0x0@gmail.com>
 References: <20221112151835.39059-1-aidanmacdonald.0x0@gmail.com>
 Precedence: bulk
@@ -76,23 +76,35 @@ directly as an unmask register.
 
 Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 ---
- drivers/mfd/rn5t618.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/mfd/rohm-bd71828.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/mfd/rn5t618.c b/drivers/mfd/rn5t618.c
-index eb8005b4e58d..2f59230749cd 100644
---- a/drivers/mfd/rn5t618.c
-+++ b/drivers/mfd/rn5t618.c
-@@ -80,8 +80,7 @@ static const struct regmap_irq_chip rc5t619_irq_chip = {
- 	.num_irqs = ARRAY_SIZE(rc5t619_irqs),
- 	.num_regs = 1,
- 	.status_base = RN5T618_INTMON,
--	.mask_base = RN5T618_INTEN,
+diff --git a/drivers/mfd/rohm-bd71828.c b/drivers/mfd/rohm-bd71828.c
+index 714d9fcbf07b..3c5c6c393650 100644
+--- a/drivers/mfd/rohm-bd71828.c
++++ b/drivers/mfd/rohm-bd71828.c
+@@ -413,9 +413,8 @@ static struct regmap_irq_chip bd71828_irq_chip = {
+ 	.irqs = &bd71828_irqs[0],
+ 	.num_irqs = ARRAY_SIZE(bd71828_irqs),
+ 	.status_base = BD71828_REG_INT_BUCK,
+-	.mask_base = BD71828_REG_INT_MASK_BUCK,
++	.unmask_base = BD71828_REG_INT_MASK_BUCK,
+ 	.ack_base = BD71828_REG_INT_BUCK,
 -	.mask_invert = true,
-+	.unmask_base = RN5T618_INTEN,
- };
- 
- static struct i2c_client *rn5t618_pm_power_off;
+ 	.init_ack_masked = true,
+ 	.num_regs = 12,
+ 	.num_main_regs = 1,
+@@ -430,9 +429,8 @@ static struct regmap_irq_chip bd71815_irq_chip = {
+ 	.irqs = &bd71815_irqs[0],
+ 	.num_irqs = ARRAY_SIZE(bd71815_irqs),
+ 	.status_base = BD71815_REG_INT_STAT_01,
+-	.mask_base = BD71815_REG_INT_EN_01,
++	.unmask_base = BD71815_REG_INT_EN_01,
+ 	.ack_base = BD71815_REG_INT_STAT_01,
+-	.mask_invert = true,
+ 	.init_ack_masked = true,
+ 	.num_regs = 12,
+ 	.num_main_regs = 1,
 -- 
 2.38.1
 
