@@ -1,58 +1,58 @@
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CDED6FC5
-	for <linux-sunxi@lists.linux.dev>; Sun, 13 Nov 2022 18:47:57 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 38F285C00A4;
-	Sun, 13 Nov 2022 13:47:56 -0500 (EST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD9F6FDD
+	for <linux-sunxi@lists.linux.dev>; Sun, 13 Nov 2022 21:28:50 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 06A6F5C0049;
+	Sun, 13 Nov 2022 16:28:50 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Sun, 13 Nov 2022 13:47:56 -0500
+  by compute5.internal (MEProxy); Sun, 13 Nov 2022 16:28:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1668365276; x=
-	1668451676; bh=jLwAX+ovDwzN5nN9OoV5+TSR0IIzP+kXMF9LXVhDf98=; b=d
-	miGapuVqByPWnOswij8ehlKMyYVBmF8G6OtLeCG0h6EFm1oC7/nB1gU65m7cyEVf
-	qiFMeKNH/fk4BOykT0ZYgeWTXP39vfYJsiXa6fIvsK+oFssni6THWyZU6AXCBn/M
-	BkguG0H7qYKEDB7EYF3T8NDlvi3eOocipiUzOeNzgQlPWNb3Y/iDJ0GLiYaLBbiC
-	+bf/aDuhBClIkGhyMW8sFWxehEKNE6E0OXf0atCL9H4ju3QbBDfLeRa5noBfyXYJ
-	J7uk3H3PcORMjR3PV3stD4Boe8MHubZq2seo299JN8ffj1GjGJE6l/U17q/BAzuA
-	Y8bZpVYeY66BRvAt+BTNw==
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1668374930; x=
+	1668461330; bh=DKRADKismR+EALDLxnUsDhSyAvnnS4TZCWXbLtxP85E=; b=P
+	vZonr4P5dZQMqyzopHHAON92z8PXU8ODFraRxBVGhJjVAMScqayapfuk2fExcyaL
+	iNUfWfWkWOqSJY6o2IU6ZxCURZetu8PALgJi6AhP6l4Mnv/p40e0r6asE78QJUct
+	zDGJrqz+iFTHvqZ6fThcCLaxpAuJUwX4PXgAWpE17/hABwWlrKL3CLfi9XHGH+x3
+	h4RrLF2Sf4Uyy9K0qos1N/qq7L17WxSWLLigiww+RopdqBv/kXjUnrjZCqKhMckY
+	AnURrE9lK2Wr4WHw6BOUDIZgZWBhUGlyN3XOrid4G5a6zP/IfVxIzg2kr7a91umd
+	onHTIVRnrDiL568OcL6hw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668365276; x=
-	1668451676; bh=jLwAX+ovDwzN5nN9OoV5+TSR0IIzP+kXMF9LXVhDf98=; b=w
-	mrA9NT/2kXHEXkqd/IkOIVzZIw9IxoFQwOVPzIeLBF5H2iAnzW+zHGfXURRAK2OF
-	dXnf7EIrNYymVM/nPBxoAk1PELqiRe9ZRVyBXy8L3KGgJhMBVLkiW6SWjJ+I0833
-	gt8pB2c7c4BqBAMjDym4ZXf2ndqvgeOvQPz9Om7aLMyuPRu4DaeBdIubEjWPzfpE
-	8PbTUZ2SUBN3Du9djyBuYdk1wjAl0gEiwGuvuw8QQy83qu/MPB5v+ToVUSTw5V42
-	SXRMiLGqB26qHYBbcYxk9N8BvYxmlKLFf1MQGV1NWGGPjb5vMVV9SHU1PP8QRlwi
-	U97TSbX0ePDL+mm8mJeuw==
-X-ME-Sender: <xms:2ztxYyRkHkq2TCkZawmVNjhRrG4dlT20uO7TPMjYf9bpoH1omDre9A>
-    <xme:2ztxY3wXD64Wxf7NEHjrXB68Ms3EQJnmE7Nl-j1mnjR6qXzxtzYY8MI6kUMWwiaaW
-    kqqRQpPMy4LcmICZw>
-X-ME-Received: <xmr:2ztxY_2_NtGu2OOtK_lRisn2Mmv5Gz6TWMH_tvEzg1fNgqK4jplo2i8XObsPqvt_tSl85X_Lf2selCNpK8kWHpnwoYDVdki4wYlfXrosbnd95JsqTiO7GsKBBA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedtgdduudekucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668374930; x=
+	1668461330; bh=DKRADKismR+EALDLxnUsDhSyAvnnS4TZCWXbLtxP85E=; b=p
+	2zn5sA4iwx6UablgjPYSbLC9AS5h/h+iXMTUIlmLylK2iDDfKlelWnZEdQP8knl2
+	QN7NZCSXDP7jywZOQ0JxxuV2gbIf9hVTC51LMxhbGbpbIIkTSRVyWVs5+Mbv+pVJ
+	MQPRcukD1kTbkgp6FDH5NRnOTqVqCGWMJvPogQwq/giz6fQVpY6XedWbY0D4ng1Q
+	yklicX5P83ded+A3n+t9cik8a1HJ634JrHUHzSlpCHxO0T0HVscOFY4elLAoyThY
+	oO4aR1kZHH3TUxEX3wf4qcAaUI7I2GYiXKVNeu9sdkxPVJwEwNU8Ax+uNXxfXLyG
+	rt0o1kJIO7hr+T4tDl6JQ==
+X-ME-Sender: <xms:kWFxY66RcxmWIpRMZVgv0NbJKVBzryU-AXT2j9TDJ-L_dzvbGeJLoA>
+    <xme:kWFxYz53dSNPJVHaPuki399rJrXPLz58VbXftQ7snkTDDxSuux1jdkb6j4qI1XqX-
+    tkt8-reHYFwqwSAMQ>
+X-ME-Received: <xmr:kWFxY5fRrUpPHInFDURD68NVCNwDVlCMtVDpf3gsasAHEP0kaFdMZ5bTMqyRYbuTgepnSVrH0q4dFkXpEp-uyGw8-nzy9eQoS2kmgPGf5rJwnr0Pb-ogWd7xYw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedtgdduhedvucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefkffggfgfuvfevfhfhjggtgfesth
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefkffggfgfvvehfhffujggtgfesth
     ejredttdefjeenucfhrhhomhepufgrmhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghl
-    sehshhholhhlrghnugdrohhrgheqnecuggftrfgrthhtvghrnhepkeejleelfeeitdfhtd
-    fgkeeghedufeduueegffdvhfdukeelleeftdetjeehuddtnecuvehluhhsthgvrhfuihii
+    sehshhholhhlrghnugdrohhrgheqnecuggftrfgrthhtvghrnhepjefgfffhudejfedtue
+    dugeeutdetgfeiteffffehjeeugfeuvdehjeetfedtffdtnecuvehluhhsthgvrhfuihii
     vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnug
     drohhrgh
-X-ME-Proxy: <xmx:2ztxY-B47Oz3xWWppG3LKjj_SGN8ZYrr8bhO7JjUPjz3RGlcgq5TFQ>
-    <xmx:2ztxY7h7DEBGbeDr15fkznPUNkWCCFLBJsykS-C5f2m1R9VuV9r7EA>
-    <xmx:2ztxY6qZ_pqZZSGQZTJB55qGWevY3aqbmcinPHlWXMfni5xZ41ZXYw>
-    <xmx:3DtxY6SfhmOOQ-ApZFNsFw0HTrdK17FHH1xQjZD7GNWEEg2lrvtD0Q>
+X-ME-Proxy: <xmx:kWFxY3JTZ2SUjEeZfHnCGar4j25PiW-rzBla_3HIOB8E1UjHUOH9PA>
+    <xmx:kWFxY-K3UpoyNy4j4gDzUwxp2iIUaH-V4mEZcaLttrIr4Q0608SCPw>
+    <xmx:kWFxY4zzqwdKXm_idDnksR4Mwejk9MmZJD9RHmVMdGGHfiaTUxtyxg>
+    <xmx:kmFxY_pMQyZEiMlp_UlR8jR0iaS8O1ibmN6ezktYrFv4EM5BJq9psQ>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 13 Nov 2022 13:47:53 -0500 (EST)
-Message-ID: <8bb6e2e2-267d-203a-f915-3e2c44f6d8ba@sholland.org>
-Date: Sun, 13 Nov 2022 12:47:53 -0600
+ 13 Nov 2022 16:28:48 -0500 (EST)
+Message-ID: <c1564dfb-b092-d8ae-8600-0cab7f99b2ae@sholland.org>
+Date: Sun, 13 Nov 2022 15:28:48 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,30 +61,30 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
-Subject: Re: [PATCH 16/18] mfd: sun4i-gpadc: Replace irqchip mask_invert with
- unmask_base
 Content-Language: en-US
-To: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>, lee@kernel.org
-Cc: mani@kernel.org, cristian.ciocaltea@gmail.com, wens@csie.org,
- tharvey@gateworks.com, cw00.choi@samsung.com,
- krzysztof.kozlowski@linaro.org, brgl@bgdev.pl, mazziesaccount@gmail.com,
- orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
- jernej.skrabec@gmail.com, linux-kernel@vger.kernel.org,
- linux-actions@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20221112151835.39059-1-aidanmacdonald.0x0@gmail.com>
- <20221112151835.39059-17-aidanmacdonald.0x0@gmail.com>
+To: ye.xingchen@zte.com.cn, fengzheng923@gmail.com
+Cc: lgirdwood@gmail.com, broonie@kernel.org, alsa-devel@alsa-project.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, chi.minghao@zte.com.cn
+References: <202211111641514826535@zte.com.cn>
 From: Samuel Holland <samuel@sholland.org>
-In-Reply-To: <20221112151835.39059-17-aidanmacdonald.0x0@gmail.com>
+Subject: Re: [PATCH] ASoC: sunxi: use devm_platform_get_and_ioremap_resource()
+In-Reply-To: <202211111641514826535@zte.com.cn>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/12/22 09:18, Aidan MacDonald wrote:
-> Remove use of the deprecated mask_invert flag. Inverted mask
-> registers (where a '1' bit enables an IRQ) can be described more
-> directly as an unmask register.
+On 11/11/22 02:41, ye.xingchen@zte.com.cn wrote:
+> From: Minghao Chi <chi.minghao@zte.com.cn>
 > 
-> Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
+> Convert platform_get_resource(), devm_ioremap_resource() to a single
+> call to devm_platform_get_and_ioremap_resource(), as this is exactly
+> what this function does.
+> 
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
+> ---
+>  sound/soc/sunxi/sun50i-dmic.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 
-Reviewed-by: Samuel Holland <samuel@sholland.org>
+Acked-by: Samuel Holland <samuel@sholland.org>
 
