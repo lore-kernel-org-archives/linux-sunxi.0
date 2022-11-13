@@ -1,178 +1,229 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE587E5
-	for <linux-sunxi@lists.linux.dev>; Sun, 13 Nov 2022 22:35:52 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id cg5so5901579qtb.12
-        for <linux-sunxi@lists.linux.dev>; Sun, 13 Nov 2022 14:35:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2UWIwxNMt9Li5DI9V3Ue/+A2ETbpfwK4uJjlNth28Ps=;
-        b=cxos6M6SEMWjz70hcYfwJn7Qy9x3ScQZdWjcWHcTUuPDd6QIkxHfs4TdC7er0cgTfw
-         Zecl1ammtXTh3CRumNopuCdrO/B9HdufOATVFx7LmHWfcuepu8nGRPAXZimVwU33NdJY
-         fSpdh/6V9x/8s+acnZlcPXnCq3SzIgJYAOJ+MdHag7DONXMIur05Qu2T29C+PPj+G5FS
-         51vaHNJTqtvQKEh0MKIsH8wIeeMtk/77Zn6zHSFYDKwwTYJrTvxOcJz1pI56sykta8ez
-         ucf+QXApfLU7u3dxQYz1YwJFVAwCWBLrNvZsrMdMSVYHA3yVHW95iD4uAWPO1ebw8AQZ
-         l5aQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2UWIwxNMt9Li5DI9V3Ue/+A2ETbpfwK4uJjlNth28Ps=;
-        b=00T1cln9+tpw5ajDoE4Z2pt4QHMrg6UlRBfmJ/idlsyzExxlXIDT63DH86uMNo35qD
-         UQFgFfwH2g14/uE7t3Gd3GAPJwg0vOWiqAHVqIjnZIaLTcvBbcZIt41xpamjDbc5DjRQ
-         ljBIfNkk4P9bGI4IOZ2c39hLaczM5EZnnI5ZszbSbAUcqNWaO2TrCbWFl90ZevZ9xdp8
-         N6NSXp1/qQVDOujEvcMwne/LxIo3OozInyTO9d9J8pvJH9jzzyciFFA9AcR8RSg8KbAL
-         uenihrzjrMsQEipFQpBvdaJS6d2vxqlEbA2o1t7vMoF4as+DRYNHiq8n0a2RYJldNCzb
-         0gsw==
-X-Gm-Message-State: ANoB5pmQz86me/D/XdBXTM9tmH1M1RcCgHRM4+6/dorel/wqzvqDiDJl
-	D+hDwbdZnOELOXlvrCyBXi4=
-X-Google-Smtp-Source: AA0mqf6n/LTjELlMgOPAUHKCZj998ajlsJmr6FJtHheLBD4DRKv0w+DZx/+jLTxZzLzeUXXjccj7Rg==
-X-Received: by 2002:a05:622a:4806:b0:3a4:f140:f707 with SMTP id fb6-20020a05622a480600b003a4f140f707mr10057169qtb.317.1668378951056;
-        Sun, 13 Nov 2022 14:35:51 -0800 (PST)
-Received: from shaak (modemcable055.92-163-184.mc.videotron.ca. [184.163.92.55])
-        by smtp.gmail.com with ESMTPSA id bk8-20020a05620a1a0800b006f9f3c0c63csm5482646qkb.32.2022.11.13.14.35.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Nov 2022 14:35:50 -0800 (PST)
-Date: Sun, 13 Nov 2022 17:35:46 -0500
-From: Liam Beguin <liambeguin@gmail.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Stephen Boyd <sboyd@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Shawn Guo <shawnguo@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Abel Vesa <abelvesa@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Peter De Schrijver <pdeschrijver@nvidia.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Prashant Gaikwad <pgaikwad@nvidia.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Vinod Koul <vkoul@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
-	Sekhar Nori <nsekhar@ti.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Takashi Iwai <tiwai@suse.com>, David Airlie <airlied@gmail.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	David Lechner <david@lechnology.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Mark Brown <broonie@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-stm32@st-md-mailman.stormreply.com,
-	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
-	linux-phy@lists.infradead.org, linux-mips@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
-	linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 13/65] clk: lmk04832: clkout: Add a determine_rate hook
-Message-ID: <Y3FxQsT240Wm0G6g@shaak>
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
- <20221018-clk-range-checks-fixes-v2-13-f6736dec138e@cerno.tech>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B44A7E5
+	for <linux-sunxi@lists.linux.dev>; Sun, 13 Nov 2022 22:41:06 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 094EE5C009F;
+	Sun, 13 Nov 2022 17:41:06 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Sun, 13 Nov 2022 17:41:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1668379266; x=
+	1668465666; bh=Zro3JnOVSvXjXtDx/e2Z/r/RhYG0V57L3bmv0eP/xkM=; b=K
+	Pkzc21ryJ8mWRn0lw4mxKhqwB+WqcPVNLVHOa/+Kv7SR4Uo6/CI5JG4HY/E2NHHo
+	5R5ou5lPsmhi9pw82wsXyDnXfFv6JU7OOdLVV0p1NuB62cNf1OGjyhJJEuoQYzBn
+	P0mITeWfQPmnseBuG0pi4B7ALfEYfi1kd8J8SFu1AsTg39Rey1FZgSGnHXh0Lo2z
+	VxbIEcQ8zMsv7j6eMsud+6dsvtVrZ7udtnt6z/DsmusQGuWn9/TQglFCNeSvNoB4
+	SV2MhCdvABXq1+E9ywbxswzJ6n71bW8VeQgr9yd3B3113EhGn9qTc1p6+S4EfigW
+	1jD3o7QR3LeZswQbXtv9A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668379266; x=
+	1668465666; bh=Zro3JnOVSvXjXtDx/e2Z/r/RhYG0V57L3bmv0eP/xkM=; b=a
+	0NV50iwtoTUMewCHG3SmmrxeIISEhg8qxXVbLcBc3AqOatzcJhwsdA46iM9TOf9p
+	4k9rWMfuDTCYobU64tlmMjnrBMC1ONGVpPHMqK9B4816k8eZwvSc0lJji0XlDG0y
+	HkbFPENjpt/zGLW57WKhaLjbAFhFp1ui5Zzd5dpUqOhbflrYL+bXGe/UZYAtY+YP
+	TWUqjXr0f6jWodg54SRAWK3W5QJ65M6SJIN4Oo5RGfqqW+pdVrqr0XDrFlynjAyM
+	MPbqKWBJ0kTcj4URkaN15xIOhRRHP8XP9ayiGSHhlTWrxFPDenhSrIavYx3PE62o
+	Ine2RVe1mY5zzuXZ71T4A==
+X-ME-Sender: <xms:gXJxY77Emsp6b2AffTwsN3UOEV4ELDYrt2AoYrpWun4ks-SjczZURg>
+    <xme:gXJxYw6VxrvS7Tq1_yBimqCxXnyardEgMPk1UGHL8ybfFk1Q03SiVB4z7bbGDc8My
+    uYNL0u8yWEYwXiw6A>
+X-ME-Received: <xmr:gXJxYydjwOFth0JF1j8OQII2cMpURMoOLaMvdCrX3dz8ho5_8jempdDYGZDj2laGGzVWIrA63ErtCNmlRG62c9uZbb9ldFxaKK0cK2dOcyPi-YOQ4kxJlQ1aWA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedugddtudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepkeejleelfeeitdfhtdfgkeeghedufeduueegffdvhfdukeelleef
+    tdetjeehuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:gXJxY8Kt1navcaV5rqsZgXUV_vx_WPjU5jOeIHPpujigSENaZiY0LA>
+    <xmx:gXJxY_ILoCDvim-xQyGWtLT6kkWCApVI7KJupA8VWtLEuIykLIe2AQ>
+    <xmx:gXJxY1we3w4pjwtxnKYolnDQIT0T8q-nWxfSjQe5eeV0NgVzX0C3dw>
+    <xmx:gnJxYxyAKQWDHmzV8vDEW6wm1BQCGdR75h8nnn4opfFXpSti8Kon2w>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 13 Nov 2022 17:41:05 -0500 (EST)
+Message-ID: <7d7a84bd-78e2-868b-6659-9dcc596c718c@sholland.org>
+Date: Sun, 13 Nov 2022 16:41:04 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221018-clk-range-checks-fixes-v2-13-f6736dec138e@cerno.tech>
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v3 09/11] ARM: dts: suniv: add device tree for PopStick
+ v1.1
+Content-Language: en-US
+To: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Icenowy Zheng <uwu@icenowy.me>
+Cc: soc@kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-phy@lists.infradead.org, linux-usb@vger.kernel.org
+References: <20221106154826.6687-1-andre.przywara@arm.com>
+ <20221106154826.6687-10-andre.przywara@arm.com>
+From: Samuel Holland <samuel@sholland.org>
+In-Reply-To: <20221106154826.6687-10-andre.przywara@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Maxime,
-
-On Fri, Nov 04, 2022 at 02:17:30PM +0100, Maxime Ripard wrote:
-> The LKM04832 "CLKOUT" clock implements a mux with a set_parent hook, but
-> doesn't provide a determine_rate implementation.
+On 11/6/22 09:48, Andre Przywara wrote:
+> From: Icenowy Zheng <uwu@icenowy.me>
 > 
-> This is a bit odd, since set_parent() is there to, as its name implies,
-> change the parent of a clock. However, the most likely candidate to
-> trigger that parent change is a call to clk_set_rate(), with
-> determine_rate() figuring out which parent is the best suited for a
-> given rate.
+> PopStick is a minimal Allwinner F1C200s dongle, with its USB controller
+> wired to a USB Type-A port, a SD slot and a SPI NAND flash on board, and
+> an on-board CH340 USB-UART converted connected to F1C200s's UART0.
 > 
-> The other trigger would be a call to clk_set_parent(), but it's far less
-> used, and it doesn't look like there's any obvious user for that clock.
+> Add a device tree for it. As F1C200s is just F1C100s with a different
+> DRAM chip co-packaged, directly use F1C100s DTSI here.
 > 
-> So, the set_parent hook is effectively unused, possibly because of an
-> oversight. However, it could also be an explicit decision by the
-> original author to avoid any reparenting but through an explicit call to
-> clk_set_parent().
-
-This is correct, the set_parent hook is effectively unused at the
-moment. It was implemented as a way for consumers to select the parent
-themselves.
-
-The LMK04832 is used in JESD204 applications where devices need a device
-clock as well as a sysref clock. Since this is determined by the
-hardware layout, a devicetree option is used to select the inital state
-of the clkout mux. This is set at the end of lmk04832_register_clkout().
-
-> The latter case would be equivalent to setting the flag
-> CLK_SET_RATE_NO_REPARENT, together with setting our determine_rate hook
-> to __clk_mux_determine_rate(). Indeed, if no determine_rate
-> implementation is provided, clk_round_rate() (through
-> clk_core_round_rate_nolock()) will call itself on the parent if
-> CLK_SET_RATE_PARENT is set, and will not change the clock rate
-> otherwise. __clk_mux_determine_rate() has the exact same behavior when
-> CLK_SET_RATE_NO_REPARENT is set.
+> This commit covers the v1.1 version of this board, which is now shipped.
+> v1.0 is some internal sample that have not been shipped at all.
 > 
-> And if it was an oversight, then we are at least explicit about our
-> behavior now and it can be further refined down the line.
-> 
-> Since the CLK_SET_RATE_NO_REPARENT flag was already set though, it seems
-> unlikely.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
-Reviewed-by: Liam Beguin <liambeguin@gmail.com>
-
-Cheers,
-Liam
-
+> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
->  drivers/clk/clk-lmk04832.c | 1 +
->  1 file changed, 1 insertion(+)
+>  arch/arm/boot/dts/Makefile                    |  3 +-
+>  .../boot/dts/suniv-f1c200s-popstick-v1.1.dts  | 99 +++++++++++++++++++
+>  2 files changed, 101 insertions(+), 1 deletion(-)
+>  create mode 100644 arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
 > 
-> diff --git a/drivers/clk/clk-lmk04832.c b/drivers/clk/clk-lmk04832.c
-> index f416f8bc2898..f68bb0affdad 100644
-> --- a/drivers/clk/clk-lmk04832.c
-> +++ b/drivers/clk/clk-lmk04832.c
-> @@ -1281,6 +1281,7 @@ static const struct clk_ops lmk04832_clkout_ops = {
->  	.is_enabled = lmk04832_clkout_is_enabled,
->  	.prepare = lmk04832_clkout_prepare,
->  	.unprepare = lmk04832_clkout_unprepare,
-> +	.determine_rate = __clk_mux_determine_rate,
->  	.set_parent = lmk04832_clkout_set_parent,
->  	.get_parent = lmk04832_clkout_get_parent,
->  };
-> 
-> -- 
-> b4 0.11.0-dev-99e3a
-> 
+> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+> index 6aa7dc4db2fc..0249c07bd8a6 100644
+> --- a/arch/arm/boot/dts/Makefile
+> +++ b/arch/arm/boot/dts/Makefile
+> @@ -1391,7 +1391,8 @@ dtb-$(CONFIG_MACH_SUN9I) += \
+>  	sun9i-a80-optimus.dtb \
+>  	sun9i-a80-cubieboard4.dtb
+>  dtb-$(CONFIG_MACH_SUNIV) += \
+> -	suniv-f1c100s-licheepi-nano.dtb
+> +	suniv-f1c100s-licheepi-nano.dtb \
+> +	suniv-f1c200s-popstick-v1.1.dtb
+>  dtb-$(CONFIG_ARCH_TEGRA_2x_SOC) += \
+>  	tegra20-acer-a500-picasso.dtb \
+>  	tegra20-asus-tf101.dtb \
+> diff --git a/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts b/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
+> new file mode 100644
+> index 000000000000..7d69b5fcb905
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
+> @@ -0,0 +1,99 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +/*
+> + * Copyright 2022 Icenowy Zheng <uwu@icenowy.me>
+> + */
+> +
+> +/dts-v1/;
+> +#include "suniv-f1c100s.dtsi"
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/leds/common.h>
+> +
+> +/ {
+> +	model = "Popcorn Computer PopStick v1.1";
+> +	compatible = "sourceparts,popstick-v1.1", "sourceparts,popstick",
+> +		     "allwinner,suniv-f1c200s", "allwinner,suniv-f1c100s";
+> +
+> +	aliases {
+> +		serial0 = &uart0;
+> +	};
+> +
+> +	chosen {
+> +		stdout-path = "serial0:115200n8";
+> +	};
+> +
+> +	leds {
+> +		compatible = "gpio-leds";
+> +
+> +		led {
+> +			function = LED_FUNCTION_STATUS;
+> +			color = <LED_COLOR_ID_GREEN>;
+> +			gpios = <&pio 4 6 GPIO_ACTIVE_HIGH>; /* PE6 */
+> +			linux,default-trigger = "heartbeat";
+> +		};
+> +	};
+> +
+> +	reg_vcc3v3: regulator-3v3 {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vcc3v3";
+> +		regulator-min-microvolt = <3300000>;
+> +		regulator-max-microvolt = <3300000>;
+> +	};
+> +};
+> +
+> +&mmc0 {
+> +	cd-gpios = <&pio 4 3 GPIO_ACTIVE_LOW>; /* PE3 */
+> +	bus-width = <4>;
+> +	disable-wp;
+> +	vmmc-supply = <&reg_vcc3v3>;
+> +	status = "okay";
+> +};
+> +
+> +&otg_sram {
+> +	status = "okay";
+> +};
+> +
+> +&spi0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&spi0_pc_pins>;
+> +	status = "okay";
+> +
+> +	flash@0 {
+> +		compatible = "spi-nand";
+> +		reg = <0>;
+> +		spi-max-frequency = <40000000>;
+> +		#address-cells = <1>;
+> +		#size-cells = <1>;
+> +
+> +		partitions {
+> +			compatible = "fixed-partitions";
+> +			#address-cells = <1>;
+> +			#size-cells = <1>;
+> +
+> +			partition@0 {
+> +				label = "u-boot-with-spl";
+> +				reg = <0x0 0x100000>;
+> +			};
+> +
+> +			ubi@100000 {
+> +				label = "ubi";
+> +				reg = <0x100000 0x7f00000>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&uart0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&uart0_pe_pins>;
+> +	status = "okay";
+> +};
+> +
+> +&usb_otg {
+> +	dr_mode = "peripheral";
+
+The patch description says the board has a USB Type-A port. Why is the
+USB controller set to peripheral mode?
+
+Regards,
+Samuel
+
+> +	status = "okay";
+> +};
+> +
+> +&usbphy {
+> +	status = "okay";
+> +};
+
