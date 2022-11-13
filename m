@@ -1,114 +1,91 @@
-Received: from antelope.elm.relay.mailchannels.net (antelope.elm.relay.mailchannels.net [23.83.212.4])
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E88ED1;
-	Sun, 13 Nov 2022 05:12:50 +0000 (UTC)
-X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id AA5ED5413B7;
-	Sun, 13 Nov 2022 01:47:28 +0000 (UTC)
-Received: from pdx1-sub0-mail-a294.dreamhost.com (unknown [127.0.0.6])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id B368E54158A;
-	Sun, 13 Nov 2022 01:47:27 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1668304047; a=rsa-sha256;
-	cv=none;
-	b=C/a36Lue2+xlU0Gx9n1S0GpQ0v4+aZ8BpvKLAlsf3ggjP5DhZCIsN422eKbk7vnBTx3XXy
-	y6TwInxnqI8W4SzxEFz0+p/93VNcjcGyN4jdGr+WmgmvNVlvkChgDtHmpsBpMIfCJAVT+c
-	LQ11wMeRqv57migfpoj3mFP/vx6wenrrXwSl0noWmQkacn8ZVWt8WfEeIjwcQVb4AEF3z4
-	CZjB4Z4OESe0sWncIhCCMKfm/YDTePZR2EkwPzw+1pq0/4Y1CnY9notLiAIuHKDwlifzBM
-	91eTtydt5bI+/D0fNM+v2Bok2y1EVdR3phM0353k0UnG/TgX0loYOQjQwPVfTQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1668304047;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
-	bh=8MXI6eMFhlcVW6d8iIhtDQvZaOjaIpdiHvOtU2ZUZ2k=;
-	b=8gNzcAmAMRLYd9WAdv0nnXm39tWnCpVxkrT106iK/w+JV0k/5H15k+Nr3k1SYHyPF7nYWj
-	asp57fNAU/ttWiZBfvvzFuMBWuyAjbaS6ht12ivF2ac4y6IuT5yAgyn92l2gpWkI72YKm5
-	9TTQmbIql+JUCVHvzgwKOPCIAzxadM82tHrUi07I0p9KRNQiS8YvwUdNSgvvzRAFXUAX92
-	vIgufc2EK40X5gQZOq303CeuEjuCHpHAflmicZ8W1PRn/I83XHxImgMRMsQHr7aUr4T7dF
-	5jaohrsnVv7O/1XPffvSE+xBXH6fiyvKbI0WUtB2Y/iIDK0eS/myAQwooB1wUg==
-ARC-Authentication-Results: i=1;
-	rspamd-5cb65d95c4-2vfk6;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
-X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
-X-MailChannels-Auth-Id: dreamhost
-X-Stop-Belong: 35b1dff75189b88b_1668304048091_1075577376
-X-MC-Loop-Signature: 1668304048091:1382251446
-X-MC-Ingress-Time: 1668304048091
-Received: from pdx1-sub0-mail-a294.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.103.24.13 (trex/6.7.1);
-	Sun, 13 Nov 2022 01:47:28 +0000
-Received: from rhino.lan (dsl-50-5-144-34.fuse.net [50.5.144.34])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: ian@linux.cowan.aero)
-	by pdx1-sub0-mail-a294.dreamhost.com (Postfix) with ESMTPSA id 4N8wL61ZxCz6K;
-	Sat, 12 Nov 2022 17:47:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
-	s=dreamhost; t=1668304047;
-	bh=8MXI6eMFhlcVW6d8iIhtDQvZaOjaIpdiHvOtU2ZUZ2k=;
-	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
-	b=T0kmReoQTSo7nU70DDaPYP0Wxyngq1XNDels0E30wwdp9eZGCN80MxxoQ4UePHVnx
-	 SEGQnotwSFaURglPuBQyrWplp5YSHRwVRFKd5UtDhb/omQNEKvoIwV4ZD4DSF6PiWJ
-	 fYIvGDI6+CO0NbDgtxrE7OGsziycHjMNuvIeKuxQwe4dIEYISMgPb8EpEXVo0qWImL
-	 vLxNP/r3nYJCP3THqwG/acvLmpSbA0Zz3GHObTRIcfF3/LzBypzBqMLbSBjemuXXhP
-	 mYaJg1EaWNY5bH64PMGWyQp8m/k7Y6yvfbhda3V6yzE8wiWk3zitAhRMqYUeLGwlJr
-	 LjbtzR+T1tvfQ==
-From: Ian Cowan <ian@linux.cowan.aero>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ian Cowan <ian@linux.cowan.aero>
-Subject: [PATCH] staging: media: sunxi: cedrus: make vb2_ops struct definition const
-Date: Sat, 12 Nov 2022 20:47:03 -0500
-Message-Id: <20221113014703.138717-1-ian@linux.cowan.aero>
-X-Mailer: git-send-email 2.38.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8EC46BB;
+	Sun, 13 Nov 2022 17:52:43 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id CE34C32000D7;
+	Sun, 13 Nov 2022 12:52:41 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Sun, 13 Nov 2022 12:52:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1668361961; x=
+	1668448361; bh=to/nS/YHMoZGbUTDuWf2VM+aexKdoy83Yy01COB+YwM=; b=a
+	t2EimwiO/ysCMb22zBUjRkyV0jxhCFdV+AVDxGEcP7/Hk1nZ5W708+NRAzNxxqdz
+	p688weQVZDjjVt2Xk+z/E8mv+/XGIp/wesIKyDqhP4pOTe67pf/lDcoUUtZe8/h/
+	DKuubPgbtJUrTDhU0vWTzM77oJWJxg541UPcUJvxkL+jwC+jwq/MIqmSywGxH1V7
+	vl4oigCbtcVgNhVQ2A7LExVdOlYYPUs7WzJ2WAZn+JZgwgP8LekOSWcCWLRRum3q
+	zwfotOoIwEdYdiJg5ks1KSGPLReeBFayHo6tCMg2QoADsGTSN4SwSIZtCyTrBXdR
+	P2wHkzjuOvPCo+CveBpbQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668361961; x=
+	1668448361; bh=to/nS/YHMoZGbUTDuWf2VM+aexKdoy83Yy01COB+YwM=; b=d
+	lhvUDCOq4JE6ZuE1umxApYq0nFICgA7M0vtK36b5pzVP3IvLjhBsKBkG37Ip8Sb7
+	ZhQC+APr7SIel6RXVDXp9Haw0vVYS1M9AbdKLy4tqrmMHbbGEUJK1FXwRhWFqjsn
+	KmGMl0hTuUej0R+DNnDy13R+/nDCSoBd9cW0CJJUR3DVFzyzzKOg+iLw7PX9/EJF
+	4cu6yvgH6mexNDnInxiehM2Xjn5lA48q3tdzTXnl3Mb7WViF6a2hFTDfAFvkFiiI
+	9XyzPg4ONuNnKd64z/jX+xny7KpIPfvU2gpijcOb24yk0ofp+n7kMdIHDB9+7AVu
+	3QQka0F+paRMfVqrIBK8A==
+X-ME-Sender: <xms:6S5xY_HqUtD0dfLAbIP08fB9tnBvXBj_LpKCcFbMPy6JrWYobP4n1g>
+    <xme:6S5xY8WqhA57rpdlmcxyYFki5pXu4dSP5LdLzAVaAg2Y0izAQg-1V11ZEGN__nOg7
+    z3yIS_If20hKianuA>
+X-ME-Received: <xmr:6S5xYxIM5pq1IFTW1w911ar0_T1xcuJr_d6x6bBnCtR2WXsMwlOmN2-b_64FEIYMl-b5sUSYAjo-vw708UH-5R_Syb6dJ9EChDZ8o2199nZiZdhFeEwBv0XqEA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedtgddutdejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpeekjeelleefiedthfdtgfekgeehudefudeugeffvdfhudekleel
+    fedtteejhedutdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:6S5xY9G7RqRmRJ6LTMe0CZ0VI3vhN0Hs28A20Nz0jsfhQihDbByceQ>
+    <xmx:6S5xY1WCyx2wETriDeKho8DBGI3kOp4fmQKl4iYFDo93v6Egb3l73w>
+    <xmx:6S5xY4N4AeQBnDn6JHcQux1907-Ial8snGe50GP2jDEzVhKUMaMhPg>
+    <xmx:6S5xY-NTm6YwlLmY1ubB8jn_Axs4zeDaXM7mGaTENvnZmfpKQ9C9hQ>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 13 Nov 2022 12:52:39 -0500 (EST)
+Message-ID: <658c5d48-e84c-9c92-84e7-b31dc8861fec@sholland.org>
+Date: Sun, 13 Nov 2022 11:52:38 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH] staging: media: sunxi: cedrus: make vb2_ops struct
+ definition const
+Content-Language: en-US
+To: Ian Cowan <ian@linux.cowan.aero>
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>
+References: <20221113014703.138717-1-ian@linux.cowan.aero>
+From: Samuel Holland <samuel@sholland.org>
+In-Reply-To: <20221113014703.138717-1-ian@linux.cowan.aero>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-This cleans up a checkstyle warning where the vb2_ops struct definitions
-should be const.
+On 11/12/22 19:47, Ian Cowan wrote:
+> This cleans up a checkstyle warning where the vb2_ops struct definitions
+> should be const.
+> 
+> Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus_video.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
----
- drivers/staging/media/sunxi/cedrus/cedrus_video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-index 66714609b577..0664b4a4fdac 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -548,7 +548,7 @@ static void cedrus_buf_request_complete(struct vb2_buffer *vb)
- 	v4l2_ctrl_request_complete(vb->req_obj.req, &ctx->hdl);
- }
- 
--static struct vb2_ops cedrus_qops = {
-+static const struct vb2_ops cedrus_qops = {
- 	.queue_setup		= cedrus_queue_setup,
- 	.buf_prepare		= cedrus_buf_prepare,
- 	.buf_queue		= cedrus_buf_queue,
--- 
-2.38.1
+Reviewed-by: Samuel Holland <samuel@sholland.org>
 
