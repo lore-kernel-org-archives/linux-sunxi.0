@@ -1,58 +1,58 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD9F6FDD
-	for <linux-sunxi@lists.linux.dev>; Sun, 13 Nov 2022 21:28:50 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 06A6F5C0049;
-	Sun, 13 Nov 2022 16:28:50 -0500 (EST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21897E5
+	for <linux-sunxi@lists.linux.dev>; Sun, 13 Nov 2022 22:32:08 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id B93555C00A9;
+	Sun, 13 Nov 2022 17:32:07 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Sun, 13 Nov 2022 16:28:50 -0500
+  by compute1.internal (MEProxy); Sun, 13 Nov 2022 17:32:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1668374930; x=
-	1668461330; bh=DKRADKismR+EALDLxnUsDhSyAvnnS4TZCWXbLtxP85E=; b=P
-	vZonr4P5dZQMqyzopHHAON92z8PXU8ODFraRxBVGhJjVAMScqayapfuk2fExcyaL
-	iNUfWfWkWOqSJY6o2IU6ZxCURZetu8PALgJi6AhP6l4Mnv/p40e0r6asE78QJUct
-	zDGJrqz+iFTHvqZ6fThcCLaxpAuJUwX4PXgAWpE17/hABwWlrKL3CLfi9XHGH+x3
-	h4RrLF2Sf4Uyy9K0qos1N/qq7L17WxSWLLigiww+RopdqBv/kXjUnrjZCqKhMckY
-	AnURrE9lK2Wr4WHw6BOUDIZgZWBhUGlyN3XOrid4G5a6zP/IfVxIzg2kr7a91umd
-	onHTIVRnrDiL568OcL6hw==
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1668378727; x=
+	1668465127; bh=D0UDPOcJzT1RD0W0b6Z42Zcs34D8+nlMSqsxaHZ8s4c=; b=G
+	bue/7XmTaxL+fotI1cBfc0OkeDdpw4W8BtHH6JVQ4XCT1wiwX+957v3rQQRvb3fP
+	P4cWNpmf4XNxD46NBbdzUgO6WjOvB90Q62JIPnCv72M/87PBYgLfpANQiDhbMcEt
+	65lmqINiagjIsRmJy9p9I9JMDhgxX45NX7PvIu+bUdetJ3+YWCqT1w1BTL3lqNhA
+	75fy6vrVGTC1P3SnXLIVv4mnlmtyMcqW4zew8PCZssy52LwIpuADafu2feSj8zLq
+	VJfdZjtyqcH3pCSngZrCx7inMh48doGUcjEdJr/mZpbCNPbEeA7UbAw0DwSeChBY
+	4aNGTOppRgvW7v0YdZZGQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668374930; x=
-	1668461330; bh=DKRADKismR+EALDLxnUsDhSyAvnnS4TZCWXbLtxP85E=; b=p
-	2zn5sA4iwx6UablgjPYSbLC9AS5h/h+iXMTUIlmLylK2iDDfKlelWnZEdQP8knl2
-	QN7NZCSXDP7jywZOQ0JxxuV2gbIf9hVTC51LMxhbGbpbIIkTSRVyWVs5+Mbv+pVJ
-	MQPRcukD1kTbkgp6FDH5NRnOTqVqCGWMJvPogQwq/giz6fQVpY6XedWbY0D4ng1Q
-	yklicX5P83ded+A3n+t9cik8a1HJ634JrHUHzSlpCHxO0T0HVscOFY4elLAoyThY
-	oO4aR1kZHH3TUxEX3wf4qcAaUI7I2GYiXKVNeu9sdkxPVJwEwNU8Ax+uNXxfXLyG
-	rt0o1kJIO7hr+T4tDl6JQ==
-X-ME-Sender: <xms:kWFxY66RcxmWIpRMZVgv0NbJKVBzryU-AXT2j9TDJ-L_dzvbGeJLoA>
-    <xme:kWFxYz53dSNPJVHaPuki399rJrXPLz58VbXftQ7snkTDDxSuux1jdkb6j4qI1XqX-
-    tkt8-reHYFwqwSAMQ>
-X-ME-Received: <xmr:kWFxY5fRrUpPHInFDURD68NVCNwDVlCMtVDpf3gsasAHEP0kaFdMZ5bTMqyRYbuTgepnSVrH0q4dFkXpEp-uyGw8-nzy9eQoS2kmgPGf5rJwnr0Pb-ogWd7xYw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedtgdduhedvucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668378727; x=
+	1668465127; bh=D0UDPOcJzT1RD0W0b6Z42Zcs34D8+nlMSqsxaHZ8s4c=; b=a
+	nb+ypKQbTHUP1Nibk45YU4XBzrt6WwCBU9uEiKxaaDze7rmGH4SCw1MIAp4wnfQA
+	TG3WzsD7TGMTLT0YRlzmEZFLdgO4CGiU50R9zPrffvzeuBNGnc6sjkXPAP32arcn
+	DR/G4cwvNb/CKiJTLyM9K/vo6NEz2fiLAju5mxcnxBy72HS3oi9sZdA0bQ68Xi6x
+	S19JGhNa7hfuiLheEO07FFgfUL5dtLpaugiNCrv5MqxwzmdpiRsB8JPx/EK4iCKx
+	oiSkr4SWZOErm6Ex7cbJURRUjlF+9Hzmr9mtIbgml98mOaZMPqpf6Quk96z57hJA
+	viumyG0xPJiz+fdsECZVA==
+X-ME-Sender: <xms:Z3BxY6sNlWRNXoJ0Uk_EsOMxRDO5QjiTyx7gp7TmVkOTsYl9V50rKQ>
+    <xme:Z3BxY_ePWOm4O-fz6PRTTJvJH6mFYa2wufmtIwpWLbtn3fWUhl6bikG6Fezi4WoZC
+    MF-8z_Fxt-jqQUCcg>
+X-ME-Received: <xmr:Z3BxY1yOIc2cRUWSykAQHsoED1lPSPRiiAxiawUEnxriafk2DnKSuCvOKR49Va2zFWOnmfOq1OBV5pnSkSbFsglMLcM0cnV33VKztR7Qj2KC_CM1E53Lfx4RrQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedtgdduieegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefkffggfgfvvehfhffujggtgfesth
-    ejredttdefjeenucfhrhhomhepufgrmhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghl
-    sehshhholhhlrghnugdrohhrgheqnecuggftrfgrthhtvghrnhepjefgfffhudejfedtue
-    dugeeutdetgfeiteffffehjeeugfeuvdehjeetfedtffdtnecuvehluhhsthgvrhfuihii
-    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnug
-    drohhrgh
-X-ME-Proxy: <xmx:kWFxY3JTZ2SUjEeZfHnCGar4j25PiW-rzBla_3HIOB8E1UjHUOH9PA>
-    <xmx:kWFxY-K3UpoyNy4j4gDzUwxp2iIUaH-V4mEZcaLttrIr4Q0608SCPw>
-    <xmx:kWFxY4zzqwdKXm_idDnksR4Mwejk9MmZJD9RHmVMdGGHfiaTUxtyxg>
-    <xmx:kmFxY_pMQyZEiMlp_UlR8jR0iaS8O1ibmN6ezktYrFv4EM5BJq9psQ>
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpeekjeelleefiedthfdtgfekgeehudefudeugeffvdfhudekleel
+    fedtteejhedutdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:Z3BxY1Ox48ZDy-gRZWa2cXiBYSqqBG-hduR7JOCw58BMJzqf5K9aeg>
+    <xmx:Z3BxY6_WCu_QxiKm8f_NX9NWb2oEaOgzr33bpZZhbdyoCNEY0BV8uQ>
+    <xmx:Z3BxY9U-ubDYE8EEYjXnJePxrgsW2A2VSEzuDTHOvAiKDN2PTkJBUQ>
+    <xmx:Z3BxY1UscQ742TzqufOkY6b8RkpYRN5fe4n-zZjw2Fa8F345IC2org>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 13 Nov 2022 16:28:48 -0500 (EST)
-Message-ID: <c1564dfb-b092-d8ae-8600-0cab7f99b2ae@sholland.org>
-Date: Sun, 13 Nov 2022 15:28:48 -0600
+ 13 Nov 2022 17:32:06 -0500 (EST)
+Message-ID: <5c909a91-ced8-8a86-1385-f7d3bca00fc4@sholland.org>
+Date: Sun, 13 Nov 2022 16:32:04 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,30 +61,46 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
+Subject: Re: [PATCH v3 01/11] dt-bindings: phy: add binding document for
+ Allwinner F1C100s USB PHY
 Content-Language: en-US
-To: ye.xingchen@zte.com.cn, fengzheng923@gmail.com
-Cc: lgirdwood@gmail.com, broonie@kernel.org, alsa-devel@alsa-project.org,
+To: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Icenowy Zheng <uwu@icenowy.me>
+Cc: soc@kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, chi.minghao@zte.com.cn
-References: <202211111641514826535@zte.com.cn>
+ linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
+ Rob Herring <robh@kernel.org>
+References: <20221106154826.6687-1-andre.przywara@arm.com>
+ <20221106154826.6687-2-andre.przywara@arm.com>
 From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH] ASoC: sunxi: use devm_platform_get_and_ioremap_resource()
-In-Reply-To: <202211111641514826535@zte.com.cn>
+In-Reply-To: <20221106154826.6687-2-andre.przywara@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/11/22 02:41, ye.xingchen@zte.com.cn wrote:
-> From: Minghao Chi <chi.minghao@zte.com.cn>
+On 11/6/22 09:48, Andre Przywara wrote:
+> From: Icenowy Zheng <uwu@icenowy.me>
 > 
-> Convert platform_get_resource(), devm_ioremap_resource() to a single
-> call to devm_platform_get_and_ioremap_resource(), as this is exactly
-> what this function does.
+> Allwinner F1C100s has the most simple USB PHY among all Allwinner SoCs,
+> because it has only one OTG USB controller, no host-only OHCI/EHCI
+> controllers.
 > 
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
+> Add a binding document for it. Following the current situation of one
+> YAML file per SoC, this one is based on
+> allwinner,sun8i-v3s-usb-phy.yaml, but with OHCI/EHCI-related bits
+> removed. (The same driver in Linux, phy-sun4i-usb, covers all these
+> binding files now.)
+> 
+> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
->  sound/soc/sunxi/sun50i-dmic.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  .../phy/allwinner,suniv-f1c100s-usb-phy.yaml  | 83 +++++++++++++++++++
+>  1 file changed, 83 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/phy/allwinner,suniv-f1c100s-usb-phy.yaml
 
-Acked-by: Samuel Holland <samuel@sholland.org>
+Reviewed-by: Samuel Holland <samuel@sholland.org>
 
