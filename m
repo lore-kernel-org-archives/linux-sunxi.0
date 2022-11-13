@@ -1,58 +1,58 @@
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8EC46BB;
-	Sun, 13 Nov 2022 17:52:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFB346B1
+	for <linux-sunxi@lists.linux.dev>; Sun, 13 Nov 2022 18:42:38 +0000 (UTC)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id CE34C32000D7;
-	Sun, 13 Nov 2022 12:52:41 -0500 (EST)
+	by mailout.nyi.internal (Postfix) with ESMTP id 052DA5C004E;
+	Sun, 13 Nov 2022 13:42:38 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Sun, 13 Nov 2022 12:52:42 -0500
+  by compute3.internal (MEProxy); Sun, 13 Nov 2022 13:42:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1668361961; x=
-	1668448361; bh=to/nS/YHMoZGbUTDuWf2VM+aexKdoy83Yy01COB+YwM=; b=a
-	t2EimwiO/ysCMb22zBUjRkyV0jxhCFdV+AVDxGEcP7/Hk1nZ5W708+NRAzNxxqdz
-	p688weQVZDjjVt2Xk+z/E8mv+/XGIp/wesIKyDqhP4pOTe67pf/lDcoUUtZe8/h/
-	DKuubPgbtJUrTDhU0vWTzM77oJWJxg541UPcUJvxkL+jwC+jwq/MIqmSywGxH1V7
-	vl4oigCbtcVgNhVQ2A7LExVdOlYYPUs7WzJ2WAZn+JZgwgP8LekOSWcCWLRRum3q
-	zwfotOoIwEdYdiJg5ks1KSGPLReeBFayHo6tCMg2QoADsGTSN4SwSIZtCyTrBXdR
-	P2wHkzjuOvPCo+CveBpbQ==
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1668364958; x=
+	1668451358; bh=ybooOqqk/Ihrtuboknoyno4ISJ9N4IMWZ9ys6fexnjs=; b=u
+	mCnuAzhm9wOAuiVAC9F9NLpkibdhyXnDrHFB5cOWKfOx4KVnsTjd6TY7WrrpAmwb
+	/Ogtku1ueLbyLdg4IoB3Mcv89eOGWH5D96CCPDHqmxjVkQqxWTKppQ0bd9oLGso1
+	GVaHsLIKrmKSQ/6QD3xkCxpyrtG7zB3vzhQg0m31+nD7u4gHcJAMxlZpdlLXnixm
+	gpd55loEerPyih2cc5qAxBuC8SThZ10RgEw3/CvS3Kz+YCYuiusjouA0QKO7sNfy
+	wpBnKmwjNAzXZIg27Z5poyG4UBhV5NVIdPbOUP7VgKSd8d7MEpoHgBv4Kv38JYk5
+	t5eeyRWeSEonSCWagwWyA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668361961; x=
-	1668448361; bh=to/nS/YHMoZGbUTDuWf2VM+aexKdoy83Yy01COB+YwM=; b=d
-	lhvUDCOq4JE6ZuE1umxApYq0nFICgA7M0vtK36b5pzVP3IvLjhBsKBkG37Ip8Sb7
-	ZhQC+APr7SIel6RXVDXp9Haw0vVYS1M9AbdKLy4tqrmMHbbGEUJK1FXwRhWFqjsn
-	KmGMl0hTuUej0R+DNnDy13R+/nDCSoBd9cW0CJJUR3DVFzyzzKOg+iLw7PX9/EJF
-	4cu6yvgH6mexNDnInxiehM2Xjn5lA48q3tdzTXnl3Mb7WViF6a2hFTDfAFvkFiiI
-	9XyzPg4ONuNnKd64z/jX+xny7KpIPfvU2gpijcOb24yk0ofp+n7kMdIHDB9+7AVu
-	3QQka0F+paRMfVqrIBK8A==
-X-ME-Sender: <xms:6S5xY_HqUtD0dfLAbIP08fB9tnBvXBj_LpKCcFbMPy6JrWYobP4n1g>
-    <xme:6S5xY8WqhA57rpdlmcxyYFki5pXu4dSP5LdLzAVaAg2Y0izAQg-1V11ZEGN__nOg7
-    z3yIS_If20hKianuA>
-X-ME-Received: <xmr:6S5xYxIM5pq1IFTW1w911ar0_T1xcuJr_d6x6bBnCtR2WXsMwlOmN2-b_64FEIYMl-b5sUSYAjo-vw708UH-5R_Syb6dJ9EChDZ8o2199nZiZdhFeEwBv0XqEA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedtgddutdejucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668364958; x=
+	1668451358; bh=ybooOqqk/Ihrtuboknoyno4ISJ9N4IMWZ9ys6fexnjs=; b=g
+	PB3tD85wCijD2sYGfAm5m9JLGfITQ3NoiWQodB8OK+0i5re78e9ciZhme9pNDn+I
+	MpVG02iqltrlZ/GbqaE/iG9t+Hs37d6CSWCkcgWcoabtUtRgEw/JXnv7pP0QF2xe
+	8PTtKzsJDvVD587639RcFf7Qu2VlCnpR7tDb03bzSDtkS8FkhPXekVF3VNP2yGHK
+	5oYu/eOu6d9t0YqHldiS+cfGiF6jVtS4AFKhNN1JNLNRbUuU33xjj5VtzkpYQQ/5
+	L9i75U5dY6QNbgJ/0QTUSnuq+04p4+Zh/MoJlrxPW3wZyYHCNlmySvwu7/PaUm7d
+	+kEtgI4rK+038R7HP/t7g==
+X-ME-Sender: <xms:nDpxY28iYEHVbyq-atsSn0M2HZVLYAyY0rj5MFKAPO2ZLsYlwk7Iww>
+    <xme:nDpxY2t_KH2IuHq4DpwzKlmI7apULYd3LmBsjNo-X7fSzDDQkfL16Gw7QIWiJnnHf
+    tmVpIT1t2CSNWChFw>
+X-ME-Received: <xmr:nDpxY8C6vOSmMExtpQrdhOXurBqyAePaYi6ncfQxmFC1gUsGrLzDQfcFLS0k98TjHI1SaoOVVPJynZBvzDMwreVH62s5lO0cVZlVaVkHeVtzEFv7mNp4I2kU0w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedtgdduudejucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpeekjeelleefiedthfdtgfekgeehudefudeugeffvdfhudekleel
-    fedtteejhedutdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:6S5xY9G7RqRmRJ6LTMe0CZ0VI3vhN0Hs28A20Nz0jsfhQihDbByceQ>
-    <xmx:6S5xY1WCyx2wETriDeKho8DBGI3kOp4fmQKl4iYFDo93v6Egb3l73w>
-    <xmx:6S5xY4N4AeQBnDn6JHcQux1907-Ial8snGe50GP2jDEzVhKUMaMhPg>
-    <xmx:6S5xY-NTm6YwlLmY1ubB8jn_Axs4zeDaXM7mGaTENvnZmfpKQ9C9hQ>
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefkffggfgfuvfevfhfhjggtgfesth
+    ejredttdefjeenucfhrhhomhepufgrmhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghl
+    sehshhholhhlrghnugdrohhrgheqnecuggftrfgrthhtvghrnhepkeejleelfeeitdfhtd
+    fgkeeghedufeduueegffdvhfdukeelleeftdetjeehuddtnecuvehluhhsthgvrhfuihii
+    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnug
+    drohhrgh
+X-ME-Proxy: <xmx:nDpxY-dvB-KBdRYcrkkiLUN7-p4CkAVfYaoZF0YfV3BGYwoNuUf-Pw>
+    <xmx:nDpxY7Pz66KLVt6a2UNXQPuckKv12ND7KuXYHeayrnZKOTOCQ7Td9w>
+    <xmx:nDpxY4kxVL-4280k04rPvGHG65aa3lhKF0IJpzzEk6UyAxmL7XY6CQ>
+    <xmx:njpxY4deUl2zWAp6AQSHNt23P0963j4Bo0JxZJ6N3fLn2A1tfB0SEA>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 13 Nov 2022 12:52:39 -0500 (EST)
-Message-ID: <658c5d48-e84c-9c92-84e7-b31dc8861fec@sholland.org>
-Date: Sun, 13 Nov 2022 11:52:38 -0600
+ 13 Nov 2022 13:42:35 -0500 (EST)
+Message-ID: <f11d70cd-6d64-9023-f2f9-9697ada5e115@sholland.org>
+Date: Sun, 13 Nov 2022 12:42:35 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,31 +61,34 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
-Subject: Re: [PATCH] staging: media: sunxi: cedrus: make vb2_ops struct
- definition const
+Subject: Re: [PATCH 03/18] mfd: axp20x: Replace irqchip mask_invert with
+ unmask_base
 Content-Language: en-US
-To: Ian Cowan <ian@linux.cowan.aero>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>
-References: <20221113014703.138717-1-ian@linux.cowan.aero>
+To: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>, lee@kernel.org
+Cc: mani@kernel.org, cristian.ciocaltea@gmail.com, wens@csie.org,
+ tharvey@gateworks.com, cw00.choi@samsung.com,
+ krzysztof.kozlowski@linaro.org, brgl@bgdev.pl, mazziesaccount@gmail.com,
+ orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
+ jernej.skrabec@gmail.com, linux-kernel@vger.kernel.org,
+ linux-actions@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20221112151835.39059-1-aidanmacdonald.0x0@gmail.com>
+ <20221112151835.39059-4-aidanmacdonald.0x0@gmail.com>
 From: Samuel Holland <samuel@sholland.org>
-In-Reply-To: <20221113014703.138717-1-ian@linux.cowan.aero>
+In-Reply-To: <20221112151835.39059-4-aidanmacdonald.0x0@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/12/22 19:47, Ian Cowan wrote:
-> This cleans up a checkstyle warning where the vb2_ops struct definitions
-> should be const.
+On 11/12/22 09:18, Aidan MacDonald wrote:
+> Remove use of the deprecated mask_invert flag. Inverted mask
+> registers (where a '1' bit enables an IRQ) can be described more
+> directly as an unmask register.
 > 
-> Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
+> Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 > ---
->  drivers/staging/media/sunxi/cedrus/cedrus_video.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/mfd/axp20x.c | 21 +++++++--------------
+>  1 file changed, 7 insertions(+), 14 deletions(-)
 
 Reviewed-by: Samuel Holland <samuel@sholland.org>
+Tested-by: Samuel Holland <samuel@sholland.org>
 
