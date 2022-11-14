@@ -1,233 +1,142 @@
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0690810F2
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Nov 2022 00:41:29 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id 7B53532002E2;
-	Sun, 13 Nov 2022 19:41:28 -0500 (EST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6DC710F2
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Nov 2022 01:06:39 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.west.internal (Postfix) with ESMTP id 876D0320090E;
+	Sun, 13 Nov 2022 20:06:38 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Sun, 13 Nov 2022 19:41:29 -0500
+  by compute1.internal (MEProxy); Sun, 13 Nov 2022 20:06:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1668386488; x=
-	1668472888; bh=853Q6QTGI1l6Ew34C/zHsFg9+iR6cwS96OTnFTcARoU=; b=s
-	SuyPVan6+AaD5faJYeN3v9hb5EEhKagQ6ENUqDYTkZ3lNtBcQtwIiwxWBef+QkPr
-	6Bce2Scm55FAEROHIoAarWHgGIArg/aOdJWfZeBIowqimKKYwOYU/1iWN0r86UO9
-	5M1pj6Brka2/CNKLXms8VedYtJygc9zB/C5e7BjYx3oQUWgeMCCFalGj69GwF5CW
-	b7oVm+LA5tR/5F0fHF/LVbm3FOkHc0ZW/rKPGszzKySmC5RmQBHWQ0KsrD32Ofjd
-	DpL3l7qFhQq854b5Ns73DRb49GLeSWSUowpEeWu4RFiJjX3TC7IqP+KbeWciboAt
-	fSsD8eOtFsBrrRL0GOuOw==
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1668387998; x=1668474398; bh=uEBG0noFadV6gn6AN44lg+OVZ
+	GcqsyZ2FQ0rSLtDMQA=; b=JCMAXkW2gbLYQvtMdC2mcNuS+FizriDr+vMzCsWAQ
+	H2SIFySqy0UI6h3Lho3kOmc8n+9YPGqfdDa1N14W8AJYIUdWsz3IpSszWdipPzHV
+	/tf/V/yYmCyRqFCJyOWhKnMQntdnddmuLWvJ8BagYcULeeeuaOYwBIFHyQO6KeVo
+	9Eaq9mJjJj3Q2PKMtTNK23/qJYFsrZt/BMIQZUeXOgLEOIHcEwTlMwD2WD4sEvCp
+	q2ckBhwaF/PGRt58QtwdJkrAro90ho03h84/oJzMTCfT2CTFswBoqo2euXXAG1uI
+	r5L+vzGavWtJOMI2e/BS77NjEIOG1vwqxzGWT+/xp5Q6Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668386488; x=
-	1668472888; bh=853Q6QTGI1l6Ew34C/zHsFg9+iR6cwS96OTnFTcARoU=; b=D
-	VXsBuXktnlMPD3MEtIktJqFX4bxMNx7aVEPeLjw2r9EHyhY9J9FxilrLXt2sxX6L
-	E+v9pQhDmmqzNCao/ZzF9A5OQbg/VZ9jeoBwQLDrk8WRJWkXwyyZqCyusmIE+mKl
-	PZBNoeKqAGqI0w31LQw/esBvNUS8e0dW96Z7VBE90pjr+xELxAr1NSexQ43+UOuI
-	kzM/qjYrAd92qgcEqtThK6UavDkMMzmwEmrxrUoG+AVJwq125B6UpWA7ze+Y+3QU
-	C/YAsvFCwLcvc7/Gvo+6KWBlAh5ZbZoj69n5VcJBoQYo1Ms6uDX8E6UXNvuwvSqk
-	af2nOS9lCoSAbIda9TWKA==
-X-ME-Sender: <xms:t45xY-KawIhKRxJ9n__ESocnH9PGcZGql6PKqmW5E9_l6p0_VEE_Kw>
-    <xme:t45xY2Iad1Fq3vyaWmFnezb4aGf922Kb1dFFdt8HOAcKD2yKwJQarzYIp7IV7xebs
-    T-4Brw2iH-SnrgPRg>
-X-ME-Received: <xmr:t45xY-ufIvcEfusp15dg7_wPCZwsQo8d1HKL33uy9UxVinbBpEOEaJU5QCBQeNpOL0Ih2NCnU_91E8G7wB2jVupRlgBV2bnpOEwFMHcIu54J2vdbO_MnqBUxzw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedugddvhecutefuodetggdotefrodftvf
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1668387998; x=1668474398; bh=uEBG0noFadV6gn6AN44lg+OVZGcqsyZ2FQ0
+	rSLtDMQA=; b=TGcn+eT7StW/coexTw6OBKS0kCHiH2sWry37jNpljYPN+Btaq3J
+	SqJ+ItX1HnvK2bCpyrOVnPGLSGSGh83DM/D8YxC44Dz/Nzg6muHjMN6Kv2Ztvf3Q
+	I6cBGKg0aZICkKy+BZLo0jlOBhtDxt7fGx2ss+6f9xqh0i0MkgjVCWGCFQyoeuUa
+	RvCZ95klg7eb9fD1FHKMj2vOyKoUqx+kM7HD620JkN6BdbM5f+zBJfsGYmBCWehu
+	nV0+yTUbfn118XoTnQq+42C8gdMzmpHpWm9xQuukmhJtMbjtXEnxRxseWtb/wT7O
+	zGWO4ZJBOGv0QBZIq1Ek331PxIdGNSiciXg==
+X-ME-Sender: <xms:nZRxY2Lbv2UaWvpur6JhBMG8V3LQG2h_AAZfMO0YlbTZJN2Yz0cpuw>
+    <xme:nZRxY-KQGDQTJnOyQCvRMmMuKPDfgeRLaxkY6PFjzDsprIqE_ULOWafT6dTAqTLFz
+    9kI_6ssJ9xQtFy56w>
+X-ME-Received: <xmr:nZRxY2sUWcTme3U92sdp1mOMYvC-n17lOgTEZBsZ5wDft9a63YVqoBb19Fp7KX8c-Krz2XNj_JOYkkvai04u_eEUEKbDJht9ktWplVM3yDr4SuYQjwt9XjehRoBi1-DlTbNYNA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedugdeftdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepkeejleelfeeitdfhtdfgkeeghedufeduueegffdvhfdukeelleef
-    tdetjeehuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:t45xYzal8tCPFq0BYWdkRI8IF-k7DZtS53AVhPZg1rzhXIDYGqCfiw>
-    <xmx:t45xY1agylV04XVjN8WiSc6jU8hxTP_MwlHZ6bwG41dHOTiWSlMwGQ>
-    <xmx:t45xY_AkgndULWIIscYO-OnroRmm9c6vMJCEg6GO_wgUvMSmPe2ZkQ>
-    <xmx:uI5xY7BTq1cjM2hSRSC7TznLx4LKk_B_FYW-ZeCpslhKE3hTK1PdNg>
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeekheffteehtdetfffgfeetteejvdefleeuvedufffguedtjedvheelvddv
+    fffhveenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdr
+    ohhrgh
+X-ME-Proxy: <xmx:nZRxY7Y_zYNd7x18mxTLtCG2E4ERUdO-Ji0bAC_IZeuBjGhgt2Me7A>
+    <xmx:nZRxY9ZorVEixV_MVxa44brzwk8S1paTzT7cQb-9VFiU3vgikUQS1g>
+    <xmx:nZRxY3CDNE3md7poOmnENome1FaTGtREXU9zR3qOeYqy5hprPJN0_w>
+    <xmx:npRxY54XMMR-9pom5CoeecSm9krmPGWnjmyjM9jKF4M10uaGYD6rrg>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 13 Nov 2022 19:41:27 -0500 (EST)
-Message-ID: <f4309a22-83a6-1d65-d9b4-7ecb1d3e251b@sholland.org>
-Date: Sun, 13 Nov 2022 18:41:26 -0600
+ 13 Nov 2022 20:06:37 -0500 (EST)
+From: Samuel Holland <samuel@sholland.org>
+To: Pavel Machek <pavel@ucw.cz>,
+	linux-leds@vger.kernel.org,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v7 0/5] leds: Allwinner A100 LED controller support
+Date: Sun, 13 Nov 2022 19:06:31 -0600
+Message-Id: <20221114010636.33052-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v3 09/11] ARM: dts: suniv: add device tree for PopStick
- v1.1
-Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Icenowy Zheng <uwu@icenowy.me>, soc@kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-phy@lists.infradead.org, linux-usb@vger.kernel.org
-References: <20221106154826.6687-1-andre.przywara@arm.com>
- <20221106154826.6687-10-andre.przywara@arm.com>
- <7d7a84bd-78e2-868b-6659-9dcc596c718c@sholland.org>
- <20221114001733.02c94151@slackpad.lan>
-From: Samuel Holland <samuel@sholland.org>
-In-Reply-To: <20221114001733.02c94151@slackpad.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/13/22 18:17, Andre Przywara wrote:
-> On Sun, 13 Nov 2022 16:41:04 -0600
-> Samuel Holland <samuel@sholland.org> wrote:
-> 
->> On 11/6/22 09:48, Andre Przywara wrote:
->>> From: Icenowy Zheng <uwu@icenowy.me>
->>>
->>> PopStick is a minimal Allwinner F1C200s dongle, with its USB controller
->>> wired to a USB Type-A port, a SD slot and a SPI NAND flash on board, and
->>> an on-board CH340 USB-UART converted connected to F1C200s's UART0.
->>>
->>> Add a device tree for it. As F1C200s is just F1C100s with a different
->>> DRAM chip co-packaged, directly use F1C100s DTSI here.
->>>
->>> This commit covers the v1.1 version of this board, which is now shipped.
->>> v1.0 is some internal sample that have not been shipped at all.
->>>
->>> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
->>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
->>> ---
->>>  arch/arm/boot/dts/Makefile                    |  3 +-
->>>  .../boot/dts/suniv-f1c200s-popstick-v1.1.dts  | 99 +++++++++++++++++++
->>>  2 files changed, 101 insertions(+), 1 deletion(-)
->>>  create mode 100644 arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
->>>
->>> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
->>> index 6aa7dc4db2fc..0249c07bd8a6 100644
->>> --- a/arch/arm/boot/dts/Makefile
->>> +++ b/arch/arm/boot/dts/Makefile
->>> @@ -1391,7 +1391,8 @@ dtb-$(CONFIG_MACH_SUN9I) += \
->>>  	sun9i-a80-optimus.dtb \
->>>  	sun9i-a80-cubieboard4.dtb
->>>  dtb-$(CONFIG_MACH_SUNIV) += \
->>> -	suniv-f1c100s-licheepi-nano.dtb
->>> +	suniv-f1c100s-licheepi-nano.dtb \
->>> +	suniv-f1c200s-popstick-v1.1.dtb
->>>  dtb-$(CONFIG_ARCH_TEGRA_2x_SOC) += \
->>>  	tegra20-acer-a500-picasso.dtb \
->>>  	tegra20-asus-tf101.dtb \
->>> diff --git a/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts b/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
->>> new file mode 100644
->>> index 000000000000..7d69b5fcb905
->>> --- /dev/null
->>> +++ b/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
->>> @@ -0,0 +1,99 @@
->>> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
->>> +/*
->>> + * Copyright 2022 Icenowy Zheng <uwu@icenowy.me>
->>> + */
->>> +
->>> +/dts-v1/;
->>> +#include "suniv-f1c100s.dtsi"
->>> +
->>> +#include <dt-bindings/gpio/gpio.h>
->>> +#include <dt-bindings/leds/common.h>
->>> +
->>> +/ {
->>> +	model = "Popcorn Computer PopStick v1.1";
->>> +	compatible = "sourceparts,popstick-v1.1", "sourceparts,popstick",
->>> +		     "allwinner,suniv-f1c200s", "allwinner,suniv-f1c100s";
->>> +
->>> +	aliases {
->>> +		serial0 = &uart0;
->>> +	};
->>> +
->>> +	chosen {
->>> +		stdout-path = "serial0:115200n8";
->>> +	};
->>> +
->>> +	leds {
->>> +		compatible = "gpio-leds";
->>> +
->>> +		led {
->>> +			function = LED_FUNCTION_STATUS;
->>> +			color = <LED_COLOR_ID_GREEN>;
->>> +			gpios = <&pio 4 6 GPIO_ACTIVE_HIGH>; /* PE6 */
->>> +			linux,default-trigger = "heartbeat";
->>> +		};
->>> +	};
->>> +
->>> +	reg_vcc3v3: regulator-3v3 {
->>> +		compatible = "regulator-fixed";
->>> +		regulator-name = "vcc3v3";
->>> +		regulator-min-microvolt = <3300000>;
->>> +		regulator-max-microvolt = <3300000>;
->>> +	};
->>> +};
->>> +
->>> +&mmc0 {
->>> +	cd-gpios = <&pio 4 3 GPIO_ACTIVE_LOW>; /* PE3 */
->>> +	bus-width = <4>;
->>> +	disable-wp;
->>> +	vmmc-supply = <&reg_vcc3v3>;
->>> +	status = "okay";
->>> +};
->>> +
->>> +&otg_sram {
->>> +	status = "okay";
->>> +};
->>> +
->>> +&spi0 {
->>> +	pinctrl-names = "default";
->>> +	pinctrl-0 = <&spi0_pc_pins>;
->>> +	status = "okay";
->>> +
->>> +	flash@0 {
->>> +		compatible = "spi-nand";
->>> +		reg = <0>;
->>> +		spi-max-frequency = <40000000>;
->>> +		#address-cells = <1>;
->>> +		#size-cells = <1>;
->>> +
->>> +		partitions {
->>> +			compatible = "fixed-partitions";
->>> +			#address-cells = <1>;
->>> +			#size-cells = <1>;
->>> +
->>> +			partition@0 {
->>> +				label = "u-boot-with-spl";
->>> +				reg = <0x0 0x100000>;
->>> +			};
->>> +
->>> +			ubi@100000 {
->>> +				label = "ubi";
->>> +				reg = <0x100000 0x7f00000>;
->>> +			};
->>> +		};
->>> +	};
->>> +};
->>> +
->>> +&uart0 {
->>> +	pinctrl-names = "default";
->>> +	pinctrl-0 = <&uart0_pe_pins>;
->>> +	status = "okay";
->>> +};
->>> +
->>> +&usb_otg {
->>> +	dr_mode = "peripheral";  
->>
->> The patch description says the board has a USB Type-A port. Why is the
->> USB controller set to peripheral mode?
-> 
-> It's a USB type-A *plug*, not a socket, because it's some TV stick
-> style of device, just with a USB instead of an HDMI plug.
+This series adds bindings and a driver for the RGB LED controller found
+in some Allwinner SoCs, starting with A100. The hardware in the R329 and
+D1 SoCs appears to be identical.
 
-Ah, that makes sense. Please clarify this in the commit message.
+Patches 4-5 depend on the D1 devicetree series[1], but the rest of this
+series can be merged without them.
 
-Regards,
-Samuel
+This driver was tested on the D1 Nezha board.
+
+[1]: https://lore.kernel.org/linux-riscv/20220815050815.22340-1-samuel@sholland.org/
+
+Changes in v7:
+ - Use DEFINE_SIMPLE_DEV_PM_OPS
+
+Changes in v6:
+ - Drop the A100 DMA controller DT node patch, which was merged via a
+   different series
+
+Changes in v5:
+ - A100 contains the original implementation, so use that as the base
+   compatible string, and rename the binding to match
+ - Add "unevaluatedProperties: false" to the child multi-led binding
+ - Rename the driver R329 -> A100, since that is the actual original
+   implementation
+
+Changes in v4:
+ - Use "default" instead of "maxItems" for timing properties
+ - Depend on LEDS_CLASS_MULTICOLOR
+
+Changes in v3:
+ - Removed quotes from enumeration values
+ - Added vendor prefix to timing/format properties
+ - Renamed "format" property to "pixel-format" for clarity
+ - Dropped "vled-supply" as it is unrelated to the controller hardware
+ - Added vendor prefix to timing/format properties
+ - Renamed "format" property to "pixel-format" for clarity
+ - Dropped "vled-supply" as it is unrelated to the controller hardware
+ - Changed "writesl" to "iowrite32_rep" so the driver builds on hppa
+
+Changes in v2:
+ - Fixed typo leading to duplicate t1h-ns property
+ - Removed "items" layer in definition of dmas/dma-names
+ - Replaced uint32 type reference with maxItems in timing properties
+ - Renamed from sunxi-ledc to sun50i-r329-ledc
+ - Added missing "static" to functions/globals as reported by 0day bot
+
+Samuel Holland (5):
+  dt-bindings: leds: Add Allwinner A100 LED controller
+  leds: sun50i-a100: New driver for the A100 LED controller
+  arm64: dts: allwinner: a100: Add LED controller node
+  riscv: dts: allwinner: d1: Add LED controller node
+  riscv: dts: allwinner: d1: Add RGB LEDs to boards
+
+ .../leds/allwinner,sun50i-a100-ledc.yaml      | 139 +++++
+ .../arm64/boot/dts/allwinner/sun50i-a100.dtsi |  14 +
+ .../allwinner/sun20i-d1-lichee-rv-dock.dts    |  12 +
+ .../boot/dts/allwinner/sun20i-d1-nezha.dts    |  13 +
+ arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi  |  21 +
+ drivers/leds/Kconfig                          |   9 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-sun50i-a100.c               | 555 ++++++++++++++++++
+ 8 files changed, 764 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/allwinner,sun50i-a100-ledc.yaml
+ create mode 100644 drivers/leds/leds-sun50i-a100.c
+
+-- 
+2.37.3
 
