@@ -1,70 +1,73 @@
 Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9145B10F2
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Nov 2022 01:57:58 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id ACDC8320091A;
-	Sun, 13 Nov 2022 20:57:57 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Sun, 13 Nov 2022 20:57:58 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A981D10F2
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Nov 2022 02:21:16 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 581573200313;
+	Sun, 13 Nov 2022 21:21:15 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Sun, 13 Nov 2022 21:21:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1668391077; x=1668477477; bh=zX
-	+HYuy4GvidniLAd+lpqew4/s4ii686Qj3H9Jd2qG0=; b=rXsRbMYFTaUdR2U+Mk
-	VNvxUrkjZXlEk44QuPfO3v95apqzkYDbTcuAIKi3cFSmP1R5I36syDaXMzUiRXV5
-	ZUG23SwDwoYqTOgIQt7vg0VHxW/GFVMDFVeoQSX5WU3iAAln+nsR8Q5Bni10xOaX
-	B9M+OAK5vMjbNdi7pRHiBVwVvw7y1j0WyajuPvNXe7Zz4PPjTQEaLOnmvpLChWLW
-	5Qk/M3W2QI0t99TuVFL04WYT5ysYIs4q5r/B1QuF3lVUzgOjhm3yJoFDmy1aepYi
-	jVupkZ6508nbFlesKkfDqFbbhzMzUE3O6HnCuo3dGPf7m1foGPbVFgxwxm4j0ana
-	TIqw==
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1668392474; x=1668478874; bh=aYiCWONLZBFtYySFfLlgu9fEI
+	+6ZzF2ACekapN/b5p0=; b=VdmRmhbqMNkU5ZwEs8K4R9v+KRqdjbYmRrG+fc4JG
+	a2tN8MOoBesN+BaZ1btNO/zZwUEFgQ5ycRgKq+RBSBuBb3jGsGsO1NElyKtCbMQ0
+	h2TzT3CuI4mB7kHwCivKShYT3jIOziwlLLOzpJdzcDhPtjaXsS1VpNvEDkU2GtCk
+	yRonKC4rsvdufOiRyNySmtV+LVG2uGrw8mSMwv+Tm5smG0ifVtPNt0ol7tIZm6Mf
+	vl78Ur6IDsZamQ9ruO57Te7W3PJ/LJnikUMfDVQ2W6Y9oaT1TFip7RoHNAZXhbqS
+	eHSuUIrTg4BWqX0WZ2py2yFv0CkktVpH+Qox3LZSXPbVA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1668391077; x=1668477477; bh=zX+HYuy4Gvidn
-	iLAd+lpqew4/s4ii686Qj3H9Jd2qG0=; b=MH1Dg8+TQL2ERs5dtT00JLdXcQfB6
-	c2fJd7iyyNYKiV/keuHUtO6s2q1mAAs6HS9VQfpUKkBh/fzKgWvN3c3XMfGqpLoX
-	IQqwXXVRlCKH08XEQswZG0lmo8pkgPjSYIa6qxzlanDSmxgWxSE1bVCDRvj0Ya/j
-	NCtIEjGEjLozLrclr0QJIcrAPF9XoQjw+Z3YTnPiOmjimezhLNMWUalzf7c1jF/o
-	G6jTQOKLHpk2TEMvbpSxskt+xPzUJbh5Ri0sfmfdMOmUSGyTQlbqSloJo1lL7MQ/
-	l6OFLXUZTm1jtwlWJwRzZFyvTgu19aeGBsM+ciohTPYAFEQrIpP6ClF1w==
-X-ME-Sender: <xms:paBxYwzFzBpsmYA5G3d8_mdiQ5Rp9N1A74OMDdOLtxX2cusov1IEVg>
-    <xme:paBxY0TKPrle0i3DLAcjyf1VGiLiHt35tyo2Um1x6kqNg_9GMxe9xBVnf_JurIhif
-    7kPPvORqZA3yDjkTw>
-X-ME-Received: <xmr:paBxYyWPha9XnSmkJHXJgmw8GvDXF4tA3lpT_I5y-SEppvRyT7eYInOX2cZMbcUc9DLpECB1gvTLoqm_9vwwTtkU62ndZoffwBNkZNItBoWvlc9vfIwACuyL1_zDBb99ynqm1Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedugdegtdcutefuodetggdotefrodftvf
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1668392474; x=1668478874; bh=aYiCWONLZBFtYySFfLlgu9fEI+6ZzF2ACek
+	apN/b5p0=; b=JIBbtpjvZhRdOAbvnSmz0agoJzjRDEh8732u04Rtgx+cv6BucUw
+	kYr65g7iCgssFPx9P9JZVzlXspHatlNSSdQBE62LGLirQDXM5JThcmMe/bZqjS9w
+	MNDIrbFtIefShJ/xqEgUNPLq1rlrOod4u/uZGKvN8vGdU9wPwXMMm7eMXSA2mjon
+	Z1Oy8QQvweNiCdg+MgKmhI3oe/4hDmJZdQw6EZddufVA2VFBkOHIeO5bzYMlH0xr
+	vlxYJI5CROSdroDiWImYTG3hK8ExITWC1WdNnTOtkVqKM/M66lUTYDPuQthXFS4Q
+	ZRXFEwPh+JNcU1xZ4gUZqeJssgmnP/dHDXQ==
+X-ME-Sender: <xms:GqZxY1BAxcS0hhqRosBXYuCbB3L16WQej6wIbJGDMAOlEQg2Ue6GAg>
+    <xme:GqZxYzheevG5R67k9kgJwHBbthTYVeHgXw73Ielw3Ig2i2gy6BkyZovd7lJyMAv4H
+    xzKkVo-puyQ4aEiJA>
+X-ME-Received: <xmr:GqZxYwnGwCRlD18sJhqyZiVDVUKMh1k_d2r1dRd3r21fugFQC0UL8Drfewh_wTyyQvLpCeBnrYSZAGI0SasUQLLyYOH5TjaJ9u-zERTRYhuXUw_wecYPsaRWQ4-hGaS4Fef1cA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedugdeghecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpedukeetueduhedtleetvefguddvvdejhfefudelgfduveeggeehgfdu
-    feeitdevteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:paBxY-iceAsZOzFz5ixstXpEwbG4H_4jWxADGwbtl8vDPr-SVoN3Uw>
-    <xmx:paBxYyADd1F0DtuiYWLGr2rwjJGyNPRYnuh22E9bD4PjxR-wULLfcg>
-    <xmx:paBxY_Kw4b4jj1WmI9RqoFrFSJo-ShX6XSAnMUIC-H5VWiDohh1dNQ>
-    <xmx:paBxY02FZdzNDgWMItFs0hdh2CaUWFJYHKbI7YmymrC5UaWFapnLFA>
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeehhffh
+    keekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:GqZxY_zTL3vqvyRgYZC_kSGrofLTG3OaGu3sp5x6FLY2m-OG8V05TA>
+    <xmx:GqZxY6RuZZwvEUjIVE-FwDUnlKbx-YhchIil56LXtCZsoWC_Y86JOw>
+    <xmx:GqZxYyYQrnAJCJCd5RG6pDafDAkmN336MZqKHz0JbtqMKbSXxneysQ>
+    <xmx:GqZxYxJr0by9ZqBo1mWj6RPElDbmaqB2vXy7V2IL9LNoaxI1SKAQlA>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 13 Nov 2022 20:57:56 -0500 (EST)
+ 13 Nov 2022 21:21:13 -0500 (EST)
 From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+To: Kishon Vijay Abraham I <kishon@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	Andre Przywara <andre.przywara@arm.com>,
-	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v3 3/3] bus: sunxi-rsb: Clear interrupt status before each transfer
-Date: Sun, 13 Nov 2022 19:57:49 -0600
-Message-Id: <20221114015749.28490-4-samuel@sholland.org>
+	linux-phy@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 0/8] phy: allwinner: phy-sun6i-mipi-dphy: Add the A100 DPHY
+Date: Sun, 13 Nov 2022 20:21:05 -0600
+Message-Id: <20221114022113.31694-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221114015749.28490-1-samuel@sholland.org>
-References: <20221114015749.28490-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -73,87 +76,32 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently, the driver clears the interrupt status bits after anything
-could have set them. However, this requires duplicating the same logic
-in several places.
+This series adds support for the updated DPHY found in a couple of
+recent Allwinner SoCs. The first three patches fix an omission in the
+existing binding. The remaining patches add the new hardware variant.
 
-Instead of clearing the status flags in the interrupt handler, disable
-all further interrupts by clearing the RSB_CTRL_GLOBAL_INT_ENB bit.
-Then we can delay the status register write until the start of the next
-transfer, so it only has to be done in one place.
+Changes in v2:
+ - Add the interrupts property to the binding example
+ - Drop the inappropriate Fixes tags
+ - Rename "supports_rx" to "rx_supported"
+ - Add a blank line for readability
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+Samuel Holland (8):
+  dt-bindings: sun6i-a31-mipi-dphy: Add the interrupts property
+  ARM: dts: sun8i: a33: Add DPHY interrupt
+  arm64: dts: allwinner: a64: Add DPHY interrupt
+  dt-bindings: sun6i-a31-mipi-dphy: Add the A100 DPHY variant
+  phy: allwinner: phy-sun6i-mipi-dphy: Make RX support optional
+  phy: allwinner: phy-sun6i-mipi-dphy: Set the enable bit last
+  phy: allwinner: phy-sun6i-mipi-dphy: Add a variant power-on hook
+  phy: allwinner: phy-sun6i-mipi-dphy: Add the A100 DPHY variant
 
-Changes in v3:
- - Add a patch refactoring how the status bits are cleared
+ .../phy/allwinner,sun6i-a31-mipi-dphy.yaml    |  11 +
+ arch/arm/boot/dts/sun8i-a33.dtsi              |   1 +
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |   1 +
+ drivers/phy/allwinner/phy-sun6i-mipi-dphy.c   | 236 +++++++++++++++---
+ 4 files changed, 218 insertions(+), 31 deletions(-)
 
- drivers/bus/sunxi-rsb.c | 20 +++++---------------
- 1 file changed, 5 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
-index 3aa91aed3bf7..cb622e60897b 100644
---- a/drivers/bus/sunxi-rsb.c
-+++ b/drivers/bus/sunxi-rsb.c
-@@ -279,6 +279,7 @@ static int _sunxi_rsb_run_xfer(struct sunxi_rsb *rsb)
- 
- 	int_mask = RSB_INTS_LOAD_BSY | RSB_INTS_TRANS_ERR | RSB_INTS_TRANS_OVER;
- 	writel(int_mask, rsb->regs + RSB_INTE);
-+	writel(int_mask, rsb->regs + RSB_INTS);
- 	writel(RSB_CTRL_START_TRANS | RSB_CTRL_GLOBAL_INT_ENB,
- 	       rsb->regs + RSB_CTRL);
- 
-@@ -286,7 +287,6 @@ static int _sunxi_rsb_run_xfer(struct sunxi_rsb *rsb)
- 		timeout = readl_poll_timeout_atomic(rsb->regs + RSB_INTS,
- 						    status, (status & int_mask),
- 						    10, 100000);
--		writel(status, rsb->regs + RSB_INTS);
- 	} else {
- 		timeout = !wait_for_completion_io_timeout(&rsb->complete,
- 							  msecs_to_jiffies(100));
-@@ -296,12 +296,9 @@ static int _sunxi_rsb_run_xfer(struct sunxi_rsb *rsb)
- 	if (timeout) {
- 		dev_dbg(rsb->dev, "RSB timeout\n");
- 
--		/* abort the transfer */
-+		/* abort the transfer and disable interrupts */
- 		writel(RSB_CTRL_ABORT_TRANS, rsb->regs + RSB_CTRL);
- 
--		/* clear any interrupt flags */
--		writel(readl(rsb->regs + RSB_INTS), rsb->regs + RSB_INTS);
--
- 		return -ETIMEDOUT;
- 	}
- 
-@@ -503,15 +500,11 @@ EXPORT_SYMBOL_GPL(__devm_regmap_init_sunxi_rsb);
- static irqreturn_t sunxi_rsb_irq(int irq, void *dev_id)
- {
- 	struct sunxi_rsb *rsb = dev_id;
--	u32 status;
- 
--	status = readl(rsb->regs + RSB_INTS);
--	rsb->status = status;
-+	/* disable interrupts */
-+	writel(0, rsb->regs + RSB_CTRL);
- 
--	/* Clear interrupts */
--	status &= (RSB_INTS_LOAD_BSY | RSB_INTS_TRANS_ERR |
--		   RSB_INTS_TRANS_OVER);
--	writel(status, rsb->regs + RSB_INTS);
-+	rsb->status = readl(rsb->regs + RSB_INTS);
- 
- 	complete(&rsb->complete);
- 
-@@ -532,9 +525,6 @@ static int sunxi_rsb_init_device_mode(struct sunxi_rsb *rsb)
- 	if (reg & RSB_DMCR_DEVICE_START)
- 		ret = -ETIMEDOUT;
- 
--	/* clear interrupt status bits */
--	writel(readl(rsb->regs + RSB_INTS), rsb->regs + RSB_INTS);
--
- 	return ret;
- }
- 
 -- 
 2.37.3
 
