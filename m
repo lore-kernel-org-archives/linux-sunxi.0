@@ -1,70 +1,280 @@
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1DB749D
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Nov 2022 17:39:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=t8qh4oUGT/30GoOcmL2v+OUkSFJCDzN2hc5A8Ni9aGI=; b=Fy6WVKVTT/BBOCITGJzqSozrOF
-	PB3IrU+voTRHoPhWZH9k8MrFMMJ+oIAtE9Y1vCbPXhvq6AQnirI7LqNXAMq1Og6u8V7w4eA/5qbEI
-	EY7DFxE9q1pppCf8BMiMiHE5vEPBSe5ZHKgGCDXTQACPUkG7CgTrJJqREHsOBsgF0cygFwUu7kqrJ
-	lvlNTmQwXh1kkAySEguXUsFDelzOwLVblCSq0zAHmAcsBpgDxXWyn+5iVTFpyfeyQMAnSoap/Pkf4
-	PZdDUT+cnpvqwNc1e73pKFjouJ9hjl35rPilHjaokvKePufHHxbp2yUWkSQ/AuMHeDalYmYFcvtCS
-	q2UJ7/BA==;
-Received: from [2a01:799:95e:1700:c981:e728:c113:ea41] (port=57803)
-	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <noralf@tronnes.org>)
-	id 1oudQw-0001hO-0M; Mon, 14 Nov 2022 18:39:46 +0100
-Message-ID: <6c9aec32-f260-9df1-7fb7-1240bfff7f6f@tronnes.org>
-Date: Mon, 14 Nov 2022 18:39:38 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837CF8469
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Nov 2022 18:51:35 +0000 (UTC)
+Received: from TimeMachine.lan (bband-dyn193.178-41-216.t-com.sk [178.41.216.193])
+	by m-r1.th.seeweb.it (Postfix) with ESMTPA id 6DE2F1F539;
+	Mon, 14 Nov 2022 17:25:54 +0100 (CET)
+From: Martin Botka <martin.botka@somainline.org>
+To: martin.botka1@gmail.com
+Cc: ~postmarketos/upstreaming@lists.sr.ht,
+	Konrad Dybcio <konrad.dybcio@somainline.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Jami Kettunen <jamipkettunen@somainline.org>,
+	Paul Bouchara <paul.bouchara@somainline.org>,
+	Yenda <jtrmal@gmail.com>,
+	Martin Botka <martin.botka@somainline.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] arm64: dts: Add basic support for BIQU CB1
+Date: Mon, 14 Nov 2022 17:25:46 +0100
+Message-Id: <20221114162547.1802689-1-martin.botka@somainline.org>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v9 01/25] docs/fb: Document current named modes
-To: Maxime Ripard <maxime@cerno.tech>, Maxime Ripard <mripard@kernel.org>,
- Karol Herbst <kherbst@redhat.com>, Samuel Holland <samuel@sholland.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Lyude Paul <lyude@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>, Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Ben Skeggs <bskeggs@redhat.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Dom Cobley <dom@raspberrypi.com>, Phil Elwell <phil@raspberrypi.com>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- nouveau@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Hans de Goede <hdegoede@redhat.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-References: <20220728-rpi-analog-tv-properties-v9-0-24b168e5bcd5@cerno.tech>
- <20220728-rpi-analog-tv-properties-v9-1-24b168e5bcd5@cerno.tech>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v9-1-24b168e5bcd5@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+CB1 is Compute Module style board that plugs into Rpi board style adapter or
+Manta 3D printer boards (M4P/M8P).
 
+The board has:
+	H616 SoC
+	1GB of RAM
+	AXP313A PMIC
 
-Den 14.11.2022 14.00, skrev Maxime Ripard:
-> KMS supports a number of named modes already, but it's never been
-> documented anywhere, let's fix that.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
-> ---
+And the actual boards that CB1 plugs in are just extension to it with ports and
+thus are not split in DT.
 
-Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
+Boards have:
+	4x (3x for Manta boards) USB and 1 USB OTG.
+	SDcard slot for loading images.
+	Ethernet port wired to the internal PHY.
+	2x HDMI 2.0.
+	Power and Status LEDs.
+
+Currently working:
+	Booting
+	USB
+	UART
+
+Signed-off-by: Martin Botka <martin.botka@somainline.org>
+---
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../dts/allwinner/sun50i-h616-biqu-cb1.dts    | 191 ++++++++++++++++++
+ 2 files changed, 192 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts
+
+diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+index 6a96494a2e0a..223f1be73541 100644
+--- a/arch/arm64/boot/dts/allwinner/Makefile
++++ b/arch/arm64/boot/dts/allwinner/Makefile
+@@ -38,5 +38,6 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64-model-b.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
++dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-biqu-cb1.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts
+new file mode 100644
+index 000000000000..2225a965dddc
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts
+@@ -0,0 +1,191 @@
++// SPDX-License-Identifier: (GPL-2.0+ or MIT)
++/*
++ * Copyright (C) 2022 Arm Ltd.
++ */
++
++/dts-v1/;
++
++#include "sun50i-h616.dtsi"
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/interrupt-controller/arm-gic.h>
++#include <dt-bindings/leds/common.h>
++
++/ {
++	model = "BIQU CB1";
++	compatible = "allwinner,sun50i-h616";
++
++	aliases {
++		serial0 = &uart0;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		led-0 {
++			function = LED_FUNCTION_POWER;
++			color = <LED_COLOR_ID_RED>;
++			gpios = <&pio 2 12 GPIO_ACTIVE_HIGH>; /* PC12 */
++			default-state = "on";
++		};
++
++		led-1 {
++			function = LED_FUNCTION_STATUS;
++			color = <LED_COLOR_ID_GREEN>;
++			gpios = <&pio 2 13 GPIO_ACTIVE_HIGH>; /* PC13 */
++		};
++	};
++
++	reg_vcc5v: vcc5v {
++		/* board wide 5V supply directly from the USB-C socket */
++		compatible = "regulator-fixed";
++		regulator-name = "vcc-5v";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		regulator-always-on;
++	};
++
++	reg_usb1_vbus: regulator-usb1-vbus {
++		compatible = "regulator-fixed";
++		regulator-name = "usb1-vbus";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		vin-supply = <&reg_vcc5v>;
++		enable-active-high;
++		gpio = <&pio 2 16 GPIO_ACTIVE_HIGH>; /* PC16 */
++	};
++};
++
++&ehci0 {
++	status = "okay";
++};
++
++&ehci1 {
++	status = "okay";
++};
++
++&ehci2 {
++	status = "okay";
++};
++
++&ehci3 {
++	status = "okay";
++};
++
++&mmc0 {
++	vmmc-supply = <&reg_dldo1>;
++	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
++	no-1-8-v;
++	bus-width = <4>;
++	status = "disabled";
++};
++
++&ohci0 {
++	status = "okay";
++};
++
++&ohci1 {
++	status = "okay";
++};
++
++&ohci2 {
++	status = "okay";
++};
++
++&ohci3 {
++	status = "okay";
++};
++
++&r_i2c {
++	status = "okay";
++
++	axp1530: pmic@36 {
++		compatible = "x-powers,axp1530";
++		status = "okay";
++		reg = <0x36>;
++		wakeup-source;
++
++		standby_param: standby_param {
++			vcc-dram = <0x4>;
++		};
++
++		regulators{
++			reg_dcdc1: dcdc1 {
++				regulator-name = "axp1530-dcdc1";
++				regulator-min-microvolt = <500000>;
++				regulator-max-microvolt = <3400000>;
++				regulator-step-delay-us = <25>;
++				regulator-final-delay-us = <50>;
++				regulator-always-on;
++			};
++
++			reg_dcdc2: dcdc2 {
++				regulator-name = "axp1530-dcdc2";
++				regulator-min-microvolt = <500000>;
++				regulator-max-microvolt = <1540000>;
++				regulator-step-delay-us = <25>;
++				regulator-final-delay-us = <50>;
++				regulator-ramp-delay = <200>;
++				regulator-always-on;
++			};
++
++			reg_dcdc3: dcdc3 {
++				regulator-name = "axp1530-dcdc3";
++				regulator-min-microvolt = <500000>;
++				regulator-max-microvolt = <1840000>;
++				regulator-step-delay-us = <25>;
++				regulator-final-delay-us = <50>;
++				regulator-always-on;
++			};
++
++			reg_aldo1: ldo1 {
++				regulator-name = "axp1530-aldo1";
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++				regulator-step-delay-us = <25>;
++				regulator-final-delay-us = <50>;
++				regulator-always-on;
++			};
++
++			reg_dldo1: ldo2 {
++				regulator-name = "axp1530-dldo1";
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-step-delay-us = <25>;
++				regulator-final-delay-us = <50>;
++				regulator-always-on;
++			};
++		};
++	};
++};
++
++&uart0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart0_ph_pins>;
++	status = "okay";
++};
++
++&usbotg {
++	/*
++	 * PHY0 pins are connected to a USB-C socket, but a role switch
++	 * is not implemented: both CC pins are pulled to GND.
++	 * The VBUS pins power the device, so a fixed peripheral mode
++	 * is the best choice.
++	 * The board can be powered via GPIOs, in this case port0 *can*
++	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
++	 * then provided by the GPIOs. Any user of this setup would
++	 * need to adjust the DT accordingly: dr_mode set to "host",
++	 * enabling OHCI0 and EHCI0.
++	 */
++	dr_mode = "peripheral";
++	status = "okay";
++};
++
++&usbphy {
++	usb1_vbus-supply = <&reg_usb1_vbus>;
++	status = "okay";
++};
+-- 
+2.38.1
+
