@@ -1,92 +1,148 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C1B91FBE
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Nov 2022 08:24:28 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id j4so18121527lfk.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 14 Nov 2022 00:24:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mX7K+g1+HW/CWwyDEKxY//PTFx3zv2qtto+vRJUIuOI=;
-        b=dXI7heLthe0Tjl8jMmcyg784Yytf6YYvtMaeIbuzD82wNx4ULfsqv5nRAbLJ4aE2nn
-         wxqeiiG1gd74M5Jb1FEa2Esbtm2Q0FKG8RtRozlhHReZfK3gldgF+jC9cNHrWqQIXeE/
-         5ZpnmSXG3VH1uMdjAtmHQx5jvFS/MUSZ57D2j9ysBSFJUVDI9ODVux78D/TlxsHCxD0E
-         PG8XEwuBEP3p0oF4BagAoyqAKYAcK2bHEj47mVA0FaZ3Yf9U3GpxqZZDG4V9ejyxYMLS
-         xp9PAAO1w/2jB0VDOn5gZEQjqEWkeFgx4YKUGR5xIt66aLKmVAMq8lspuuwuN7PLeMNJ
-         zomw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mX7K+g1+HW/CWwyDEKxY//PTFx3zv2qtto+vRJUIuOI=;
-        b=QvbMzB8cbMMuNSdjuooav0wRkcmo/C98GeSHLrZBbJ0a91igz6N+Fj0pI1yBys7Jfh
-         grhnawu8V2BPmziOaHQxxYvLLjc/uYZ5Pmu4vGIoAcebAusfoMflanopPJpsx4YjtpCp
-         WOnom/c8/kFozJEbgdcNflfQ7D+mg+ggNuo0MCnxpJqZvlaGIHZZ3E4nPA1f/6piAefJ
-         HMnWcFksO1XLWVjhYk2ESVvMXzovyvA8c+3ApgapyHOqB/Y/PNwZy7KFEVFJDdaG5TeQ
-         rNeMqV0WnRCXeMIDDmm2CYFHbtv3nIcYSKCSvBCz2NOb8NCI4umisyifiz+xjxzsFBd0
-         jeLg==
-X-Gm-Message-State: ANoB5pkgR2eGyeMsvo88dZwKPq2dMZmL2+gVDwYONyfhER/9EGuuoWwA
-	BbS3oELOYfKCCF//7F1e6RNaRw==
-X-Google-Smtp-Source: AA0mqf7iLNCZJ2eZU6SC3h0KAiScdNro51pki8wDvgKdcvb5ClGjeyXxYBJj4rX0NXA/q962vvLqMg==
-X-Received: by 2002:a19:915a:0:b0:4a9:e691:9232 with SMTP id y26-20020a19915a000000b004a9e6919232mr3506273lfj.182.1668414266192;
-        Mon, 14 Nov 2022 00:24:26 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id i17-20020a2e6d11000000b0027709706194sm1886628ljc.49.2022.11.14.00.24.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Nov 2022 00:24:25 -0800 (PST)
-Message-ID: <040e00e1-00ea-32ca-09ff-ba3a35631a31@linaro.org>
-Date: Mon, 14 Nov 2022 09:24:24 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C909C23A8
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Nov 2022 09:05:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AA65C433C1;
+	Mon, 14 Nov 2022 09:05:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1668416750;
+	bh=D7WS1/Iq9HsSGiJfZeeNpWeUbfN2wCTKHRwR1waF5b8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gu23KWX+hkd2VrW8L8cgRL+RvzQoNmHr4ZHYqyx7b9ggw62j+4gl+srj7mMWbYEWO
+	 eMq9AeoWeTXuHN/JCWdPJOC4s9/SfymP7ivydCT3Rc5lzvj0XxUfCGvOXg+FUovve3
+	 mBjFDbEU8fbv5pZjeBcZG4yoTG+UTWC2w0hMhrdGaf5jiuivlIjmg6M0icdu4BayDd
+	 QORZ6I5Y6XZL3p7KDrZaQgns3WiyBQD5S5uJ7AJ3isJBuf/JmKGDVf410NdJ4z5Krb
+	 lm/rhmS+2/v3szQ2Sg6geE8bZDNcFgYVQt+IzZj3PeuYYzaH8viYNnTeheDKRc95zq
+	 VsYSZrpR3L72Q==
+Date: Mon, 14 Nov 2022 09:05:34 +0000
+From: Lee Jones <lee@kernel.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Maxime Ripard <maxime@cerno.tech>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Shawn Guo <shawnguo@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Abel Vesa <abelvesa@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Peter De Schrijver <pdeschrijver@nvidia.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Prashant Gaikwad <pgaikwad@nvidia.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Vinod Koul <vkoul@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
+	Sekhar Nori <nsekhar@ti.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>, David Airlie <airlied@gmail.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	David Lechner <david@lechnology.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Mark Brown <broonie@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org,
+	linux-phy@lists.infradead.org, linux-mips@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 35/65] clk: ux500: sysctrl: Add a determine_rate hook
+Message-ID: <Y3IE3ta8hLLUcu7H@google.com>
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+ <20221018-clk-range-checks-fixes-v2-35-f6736dec138e@cerno.tech>
+ <CAPDyKFoycVedCJMy0=UK+q5SiPQHqje_8bSN-gdkpBa6KhFfkg@mail.gmail.com>
+ <CACRpkdYOj8uozJZO4MV-_OAKeOsQHhoEM=PyynVuNY-JkpgTOw@mail.gmail.com>
+ <CAPDyKFr6VeF3s47JfzJ9urtMsEem+GiBtHeU=_S8jNaz-D+qnw@mail.gmail.com>
+ <CACRpkdb8uYfs6w99FVjD_t6nZgDhPUx=yB1j=CmpHTHAM2QGQw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 1/8] dt-bindings: sun6i-a31-mipi-dphy: Add the
- interrupts property
-Content-Language: en-US
-To: Samuel Holland <samuel@sholland.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20221114022113.31694-1-samuel@sholland.org>
- <20221114022113.31694-2-samuel@sholland.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221114022113.31694-2-samuel@sholland.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACRpkdb8uYfs6w99FVjD_t6nZgDhPUx=yB1j=CmpHTHAM2QGQw@mail.gmail.com>
 
-On 14/11/2022 03:21, Samuel Holland wrote:
-> The sun6i DPHY can generate several interrupts, mostly for reporting
-> error conditions, but also for detecting BTA and UPLS sequences.
-> Document this capability in order to accurately describe the hardware.
+On Fri, 11 Nov 2022, Linus Walleij wrote:
+
+> On Thu, Nov 10, 2022 at 2:05 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> > On Thu, 10 Nov 2022 at 12:39, Linus Walleij <linus.walleij@linaro.org> wrote:
+> > >
+> > > On Thu, Nov 10, 2022 at 12:29 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> > > > On Fri, 4 Nov 2022 at 14:32, Maxime Ripard <maxime@cerno.tech> wrote:
+> > > > >
+> > > > > The UX500 sysctrl "set_parent" clocks implement a mux with a set_parent
+> > > > > hook, but doesn't provide a determine_rate implementation.
+> > > > >
+> > > > > This is a bit odd, since set_parent() is there to, as its name implies,
+> > > > > change the parent of a clock. However, the most likely candidate to
+> > > > > trigger that parent change is a call to clk_set_rate(), with
+> > > > > determine_rate() figuring out which parent is the best suited for a
+> > > > > given rate.
+> > > > >
+> > > > > The other trigger would be a call to clk_set_parent(), but it's far less
+> > > > > used, and it doesn't look like there's any obvious user for that clock.
+> > > >
+> > > > If I recall correctly, that is the use case we did target for these
+> > > > types of clocks. See sound/soc/ux500/ux500_ab85xx.c, for example.
+> > >
+> > > Hm I am trying to get that driver to work ... from time to time.
+> > > It's just that ALSA SoC DT has changed to much that it turns out
+> > > into a complete rewrite :/
+> > >
+> > > So in sound/soc/ux500/mop500_ab8500.c
+> > > I see this:
+> > >
+> > >         status = clk_set_parent(drvdata->clk_ptr_intclk, clk_ptr);
+> > >         if (status)
+> > > (...)
+> > >
+> > > and there is elaborate code to switch between "SYSCLK" and
+> > > "ULPCLK" (ulta-low power clock). Just like you say... however
+> > > a clock named SYSCLK or ULPCLK does not appear in the
+> > > code in drivers/clk/ux500 or any DT bindings so... it seems to
+> > > be non-working for the time being.
+> >
+> > It's definitely not working, but the corresponding clocks ("ulpclk",
+> > "intclk", "audioclk", etc) are being registered in ab8500_reg_clks().
+> >
+> > What seems to be missing is a DT conversion for these clocks, so they
+> > can be consumed properly. Right?
 > 
-> The DPHY has no interrupt number provided in the vendor documentation
-> because its interrupt line is shared with the DSI controller.
+> Yeps that and a few more things, I have a scratch rewrite here:
+> https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-stericsson.git/log/?h=ux500-audio-rewrite
 > 
-> A trivial interrupt handler was used to verify that interrupts were in
-> fact generated by the DPHY and not the DSI controller.
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
-> 
-> Changes in v2:
->  - Add the interrupts property to the binding example
+> I remember Lee said he had audio working with the mainline kernel
+> on Snowball at one point, unfortunately I think that was before we
+> started with the DT conversions and then we probably broke it.
 
+That was also 100 years ago. :)
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+But yes, it used to work at one point.
 
-Best regards,
-Krzysztof
-
+-- 
+Lee Jones [李琼斯]
