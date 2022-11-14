@@ -1,413 +1,292 @@
-Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3D22C9D
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Nov 2022 22:54:56 +0000 (UTC)
-Received: from [192.168.2.144] (bband-dyn193.178-41-216.t-com.sk [178.41.216.193])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 471231F881;
-	Mon, 14 Nov 2022 23:54:52 +0100 (CET)
-Date: Mon, 14 Nov 2022 23:54:46 +0100
-From: Martin Botka <martin.botka@somainline.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A503D8498
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Nov 2022 23:32:29 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0D5B711FB;
+	Mon, 14 Nov 2022 15:32:35 -0800 (PST)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CA0193F663;
+	Mon, 14 Nov 2022 15:32:25 -0800 (PST)
+Date: Mon, 14 Nov 2022 23:31:02 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Martin Botka <martin.botka@somainline.org>
+Cc: martin.botka1@gmail.com, ~postmarketos/upstreaming@lists.sr.ht, Konrad
+ Dybcio <konrad.dybcio@somainline.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@somainline.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Jami Kettunen
+ <jamipkettunen@somainline.org>, Paul Bouchara
+ <paul.bouchara@somainline.org>, Jan Trmal <jtrmal@gmail.com>, Tom
+ <takuya@takuya.tech>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Maxime Ripard <maxime@cerno.tech>, Conley Lee <conleylee@foxmail.com>,
+ Andrew Lunn <andrew@lunn.ch>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3 2/2] arm64: dts: Add basic support for BIQU CB1
-To: Jernej =?iso-8859-2?q?=A9krabec?= <jernej.skrabec@gmail.com>
-Cc: martin.botka1@gmail.com, ~postmarketos/upstreaming@lists.sr.ht,
-	Konrad Dybcio <konrad.dybcio@somainline.org>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@somainline.org>, Marijn Suijten
-	<marijn.suijten@somainline.org>, Jami Kettunen
-	<jamipkettunen@somainline.org>, Paul Bouchara <paul.bouchara@somainline.org>,
-	Jan Trmal <jtrmal@gmail.com>, Tom <takuya@takuya.tech>, Rob Herring
-	<robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
-	Samuel Holland <samuel@sholland.org>, Maxime Ripard <maxime@cerno.tech>,
-	Andre Przywara <andre.przywara@arm.com>, Conley Lee <conleylee@foxmail.com>,
-	Andrew Lunn <andrew@lunn.ch>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Message-Id: <AZ0DLR.RINPITJM904E2@somainline.org>
-In-Reply-To: <4534857.CvnuH1ECHv@jernej-laptop>
+Message-ID: <20221114233102.3b1f96cc@slackpad.lan>
+In-Reply-To: <20221114214452.1993744-2-martin.botka@somainline.org>
 References: <20221114214452.1993744-1-martin.botka@somainline.org>
 	<20221114214452.1993744-2-martin.botka@somainline.org>
-	<4534857.CvnuH1ECHv@jernej-laptop>
-X-Mailer: geary/40.0
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Mon, 14 Nov 2022 22:44:49 +0100
+Martin Botka <martin.botka@somainline.org> wrote:
 
+> CB1 is Compute Module style board that plugs into Rpi board style adapter or
+> Manta 3D printer boards (M4P/M8P).
+> 
+> The board has:
+> 	H616 SoC
+> 	1GB of RAM
+> 	AXP313A PMIC
+> 
+> And the actual boards that CB1 plugs in are just extension to it with ports and
+> thus are not split in DT.
 
-On Mon, Nov 14 2022 at 11:30:17 PM +01:00:00, Jernej =A9krabec=20
-<jernej.skrabec@gmail.com> wrote:
-> Hi Martin,
->=20
-> I was just writing new e-mail as response to v2. You should wait at=20
-> least a
-> day or two, usually more, before sending new version. Others will=20
-> likely have
-> some more comments. And there is also no rush. Until PMIC series is=20
-> merged,
-> this will not go anywhere. Since there is only this week until cut=20
-> off date for
-> DT updates for kernel 6.2, it's most likely that this will land in=20
-> 6.3. And
-> that gives as a few weeks (month) more.
-Yep. Was hoping for 5.2 thus the frequent updates. Will take it slow=20
-then since 5.3 :)
->=20
-> See comments below.
->=20
-> Dne ponedeljek, 14. november 2022 ob 22:44:49 CET je Martin Botka=20
-> napisal(a):
->>  CB1 is Compute Module style board that plugs into Rpi board style=20
->> adapter or
->>  Manta 3D printer boards (M4P/M8P).
->>=20
->>  The board has:
->>  	H616 SoC
->>  	1GB of RAM
->>  	AXP313A PMIC
->>=20
->>  And the actual boards that CB1 plugs in are just extension to it=20
->> with ports
->>  and thus are not split in DT.
->>=20
->>  Boards have:
->>  	4x (3x for Manta boards) USB and 1 USB OTG.
->>  	SDcard slot for loading images.
->>  	Ethernet port wired to the internal PHY.
->>  	2x HDMI 2.0.
->=20
-> H616 has only one HDMI output. Unless there is some additional chip=20
-> for some
-> conversion, only one HDMI port can work.
-Yes correct. But the Rpi adapter and Manta boards also support
-Rpi Compute Module 4 which has 2 HDMI outputs.
-The chip itself ofc doesnt support this on CB1. Same goes for DSI/CSI=20
-ports
-on the boards and the 4x USB on Rpi adapter.
+I don't really understand that sentence. There is some precedent for a
+SoM/board split, look at the sun50i-a64-sopine or
+sun50i-h5-emlid-neutis-n5 files. And if I see this correctly, then
+there are *two* boards available for the same CB1 SoM, the PI4B and the
+Manta board? Which would a strong case for a SoM .dtsi, plus the one
+or two board .dts files.
+I am just not sure whether that relation to the Pi4-CM is helpful or
+just complicates things...
 
-It is indeed a bit of a mess.
->=20
->>  	Power and Status LEDs.
->>=20
->>  Currently working:
->>  	Booting
->>  	USB
->>  	UART
->>=20
->>  Signed-off-by: Martin Botka <martin.botka@somainline.org>
->>  ---
->>  Changes in V2:
->>  Add proper board compatible
->>  Add regulator prefix for vcc5v
->>  Drop okay status from PMIC
->>  Drop standby_param
->>  Changes in V3:
->>  Change copyright to me
->>  regulator_vcc5v to regulator-vcc5v
->>  Drop ehci0 and ohci0
->>   arch/arm64/boot/dts/allwinner/Makefile        |   1 +
->>   .../dts/allwinner/sun50i-h616-biqu-cb1.dts    | 178=20
->> ++++++++++++++++++
->>   2 files changed, 179 insertions(+)
->>   create mode 100644=20
->> arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts
->>=20
->>  diff --git a/arch/arm64/boot/dts/allwinner/Makefile
->>  b/arch/arm64/boot/dts/allwinner/Makefile index=20
->> 6a96494a2e0a..223f1be73541
->>  100644
->>  --- a/arch/arm64/boot/dts/allwinner/Makefile
->>  +++ b/arch/arm64/boot/dts/allwinner/Makefile
->>  @@ -38,5 +38,6 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-pine-h64.dtb
->>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-pine-h64-model-b.dtb
->>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-tanix-tx6.dtb
->>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-tanix-tx6-mini.dtb
->>  +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-biqu-cb1.dtb
->>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-orangepi-zero2.dtb
->>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-x96-mate.dtb
->>  diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts
->>  b/arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts new file=20
->> mode
->>  100644
->>  index 000000000000..86b5aca9b53e
->>  --- /dev/null
->>  +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts
->>  @@ -0,0 +1,178 @@
->>  +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
->>  +/*
->>  + * Copyright (C) 2022 Martin Botka <martin.botka@somainline.org>.
->>  + */
->>  +
->>  +/dts-v1/;
->>  +
->>  +#include "sun50i-h616.dtsi"
->>  +
->>  +#include <dt-bindings/gpio/gpio.h>
->>  +#include <dt-bindings/interrupt-controller/arm-gic.h>
->>  +#include <dt-bindings/leds/common.h>
->>  +
->>  +/ {
->>  +	model =3D "BIQU CB1";
->>  +	compatible =3D "biqu,cb1", "allwinner,sun50i-h616";
->>  +
->>  +	aliases {
->>  +		serial0 =3D &uart0;
->>  +	};
->>  +
->>  +	chosen {
->>  +		stdout-path =3D "serial0:115200n8";
->>  +	};
->>  +
->>  +	leds {
->>  +		compatible =3D "gpio-leds";
->>  +
->>  +		led-0 {
->>  +			function =3D LED_FUNCTION_POWER;
->>  +			color =3D <LED_COLOR_ID_RED>;
->>  +			gpios =3D <&pio 2 12 GPIO_ACTIVE_HIGH>; /*
-> PC12 */
->>  +			default-state =3D "on";
->>  +		};
->>  +
->>  +		led-1 {
->>  +			function =3D LED_FUNCTION_STATUS;
->>  +			color =3D <LED_COLOR_ID_GREEN>;
->>  +			gpios =3D <&pio 2 13 GPIO_ACTIVE_HIGH>; /*
-> PC13 */
->>  +		};
->>  +	};
->>  +
->>  +	reg_vcc5v: regulator-vcc5v {
->>  +		/* board wide 5V supply directly from the USB-C socket
-> */
->>  +		compatible =3D "regulator-fixed";
->>  +		regulator-name =3D "vcc-5v";
->>  +		regulator-min-microvolt =3D <5000000>;
->>  +		regulator-max-microvolt =3D <5000000>;
->>  +		regulator-always-on;
->>  +	};
->>  +
->>  +	reg_usb1_vbus: regulator-usb1-vbus {
->>  +		compatible =3D "regulator-fixed";
->>  +		regulator-name =3D "usb1-vbus";
->>  +		regulator-min-microvolt =3D <5000000>;
->>  +		regulator-max-microvolt =3D <5000000>;
->>  +		vin-supply =3D <&reg_vcc5v>;
->>  +		enable-active-high;
->>  +		gpio =3D <&pio 2 16 GPIO_ACTIVE_HIGH>; /* PC16 */
->>  +	};
->>  +};
->>  +
->>  +&ehci1 {
->>  +	status =3D "okay";
->>  +};
->>  +
->>  +&ehci2 {
->>  +	status =3D "okay";
->>  +};
->>  +
->>  +&ehci3 {
->>  +	status =3D "okay";
->>  +};
->>  +
->>  +&mmc0 {
->>  +	vmmc-supply =3D <&reg_dldo1>;
->>  +	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
->>  +	no-1-8-v;
->=20
-> Above property is not needed. If you don't provide vqmmc-supply with=20
-> 1.8 V
-> regulator, it won't be used.
->=20
->>  +	bus-width =3D <4>;
->>  +	status =3D "disabled";
->=20
-> Why is set to disabled? If it's not a typo, remove whole node. It=20
-> could be
-> added later when it works.
-Would not removing it also make PMIC node useless as the regulators=20
-wont be used and thus
-should be technically removed ?
->=20
->>  +};
->>  +
->>  +&ohci1 {
->>  +	status =3D "okay";
->>  +};
->>  +
->>  +&ohci2 {
->>  +	status =3D "okay";
->>  +};
->>  +
->>  +&ohci3 {
->>  +	status =3D "okay";
->>  +};
->>  +
->>  +&r_i2c {
->>  +	status =3D "okay";
->>  +
->>  +	axp1530: pmic@36 {
->>  +		compatible =3D "x-powers,axp1530";
->=20
-> I just checked datasheet and it really seems that it supports only=20
-> I2C.
-> Anyway, rather than using axp1530 compatible, introduce axp313a=20
-> compatible
-> instead.
-Will do in V2 for drivers later.
->=20
->>  +		reg =3D <0x36>;
->>  +		wakeup-source;
->>  +
->>  +		regulators{
->>  +			reg_dcdc1: dcdc1 {
->>  +				regulator-name =3D "axp1530-dcdc1";
->>  +				regulator-min-microvolt =3D
-> <500000>;
->>  +				regulator-max-microvolt =3D
-> <3400000>;
->=20
-> This one is most likely used by CPU. If so, you should set=20
-> appropriate range
-> according to CPU needs, which are 810 - 1100 mV.
->=20
->>  +				regulator-step-delay-us =3D <25>;
->>  +				regulator-final-delay-us =3D <50>;
->>  +				regulator-always-on;
->>  +			};
->>  +
->>  +			reg_dcdc2: dcdc2 {
->>  +				regulator-name =3D "axp1530-dcdc2";
->>  +				regulator-min-microvolt =3D
-> <500000>;
->>  +				regulator-max-microvolt =3D
-> <1540000>;
->=20
-> This one is most likely used by GPU. Its range must also be adjusted=20
-> to GPU
-> needs.
->=20
->>  +				regulator-step-delay-us =3D <25>;
->>  +				regulator-final-delay-us =3D <50>;
->>  +				regulator-ramp-delay =3D <200>;
->>  +				regulator-always-on;
->>  +			};
->>  +
->>  +			reg_dcdc3: dcdc3 {
->>  +				regulator-name =3D "axp1530-dcdc3";
->>  +				regulator-min-microvolt =3D
-> <500000>;
->>  +				regulator-max-microvolt =3D
-> <1840000>;
->=20
-> This one looks like it supplies DRAM. You should set both min and max=20
-> to
-> actual DRAM needs.
->=20
->>  +				regulator-step-delay-us =3D <25>;
->>  +				regulator-final-delay-us =3D <50>;
->>  +				regulator-always-on;
->>  +			};
->>  +
->>  +			reg_aldo1: ldo1 {
->=20
-> ldo1 -> aldo1
->=20
->>  +				regulator-name =3D "axp1530-aldo1";
->>  +				regulator-min-microvolt =3D
-> <1800000>;
->>  +				regulator-max-microvolt =3D
-> <1800000>;
->>  +				regulator-step-delay-us =3D <25>;
->>  +				regulator-final-delay-us =3D <50>;
->>  +				regulator-always-on;
->>  +			};
->>  +
->>  +			reg_dldo1: ldo2 {
->=20
-> ldo2 -> dldo1
->=20
-> Another issue I see is that you marked all regulators with=20
-> regulator-always-
-> on; While this works, I don't think this faithfully represent HW. For=20
-> example,
-> GPU regulator will be enabled by GPU driver when needed, so it=20
-> shouldn't be
-> marked with always on.
->=20
-> There is also RTCLDO, but without schematic it's impossible to say if=20
-> it is
-> used or not.
->=20
-> There are at least a few clues in AXP313A datasheet about which=20
-> regulator is
-> used for what. See chapter 7.5 in=20
-> https://github.com/bigtreetech/CB1-Kernel/
-> blob/kernel-5.16/docs/AXP313A%20datasheet%20V0.1%20-
-> %2020201105_draft%20version.pdf
-As for regulators themselves. I have kept them as what downstream=20
-kernel specifies.
-But until I have schematic in hand and can confirm that they actually=20
-used the correct regulators in
-the correct place i will stick to stock values. If they in the end=20
-decide to not supply schematic or etc
-to the public i can test with adjusted values.
->=20
-> Best regards,
-> Jernej
->=20
->>  +				regulator-name =3D "axp1530-dldo1";
->>  +				regulator-min-microvolt =3D
-> <3300000>;
->>  +				regulator-max-microvolt =3D
-> <3300000>;
->>  +				regulator-step-delay-us =3D <25>;
->>  +				regulator-final-delay-us =3D <50>;
->>  +				regulator-always-on;
->>  +			};
->>  +		};
->>  +	};
->>  +};
->>  +
->>  +&uart0 {
->>  +	pinctrl-names =3D "default";
->>  +	pinctrl-0 =3D <&uart0_ph_pins>;
->>  +	status =3D "okay";
->>  +};
->>  +
->>  +&usbotg {
->>  +	/*
->>  +	 * PHY0 pins are connected to a USB-C socket, but a role switch
->>  +	 * is not implemented: both CC pins are pulled to GND.
->>  +	 * The VBUS pins power the device, so a fixed peripheral mode
->>  +	 * is the best choice.
->>  +	 * The board can be powered via GPIOs, in this case port0 *can*
->>  +	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
->>  +	 * then provided by the GPIOs. Any user of this setup would
->>  +	 * need to adjust the DT accordingly: dr_mode set to "host",
->>  +	 * enabling OHCI0 and EHCI0.
->>  +	 */
->>  +	dr_mode =3D "peripheral";
->>  +	status =3D "okay";
->>  +};
->>  +
->>  +&usbphy {
->>  +	usb1_vbus-supply =3D <&reg_usb1_vbus>;
->>  +	status =3D "okay";
->>  +};
->=20
->=20
->=20
->=20
-Best Regards,
-Martin
+Cheers,
+Andre
 
+> 
+> Boards have:
+> 	4x (3x for Manta boards) USB and 1 USB OTG.
+> 	SDcard slot for loading images.
+> 	Ethernet port wired to the internal PHY.
+> 	2x HDMI 2.0.
+> 	Power and Status LEDs.
+> 
+> Currently working:
+> 	Booting
+> 	USB
+> 	UART
+> 
+> Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> ---
+> Changes in V2:
+> Add proper board compatible
+> Add regulator prefix for vcc5v
+> Drop okay status from PMIC
+> Drop standby_param
+> Changes in V3:
+> Change copyright to me
+> regulator_vcc5v to regulator-vcc5v
+> Drop ehci0 and ohci0
+>  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+>  .../dts/allwinner/sun50i-h616-biqu-cb1.dts    | 178 ++++++++++++++++++
+>  2 files changed, 179 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+> index 6a96494a2e0a..223f1be73541 100644
+> --- a/arch/arm64/boot/dts/allwinner/Makefile
+> +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> @@ -38,5 +38,6 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64-model-b.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
+> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-biqu-cb1.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts
+> new file mode 100644
+> index 000000000000..86b5aca9b53e
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts
+> @@ -0,0 +1,178 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +/*
+> + * Copyright (C) 2022 Martin Botka <martin.botka@somainline.org>.
+> + */
+> +
+> +/dts-v1/;
+> +
+> +#include "sun50i-h616.dtsi"
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> +#include <dt-bindings/leds/common.h>
+> +
+> +/ {
+> +	model = "BIQU CB1";
+> +	compatible = "biqu,cb1", "allwinner,sun50i-h616";
+> +
+> +	aliases {
+> +		serial0 = &uart0;
+> +	};
+> +
+> +	chosen {
+> +		stdout-path = "serial0:115200n8";
+> +	};
+> +
+> +	leds {
+> +		compatible = "gpio-leds";
+> +
+> +		led-0 {
+> +			function = LED_FUNCTION_POWER;
+> +			color = <LED_COLOR_ID_RED>;
+> +			gpios = <&pio 2 12 GPIO_ACTIVE_HIGH>; /* PC12 */
+> +			default-state = "on";
+> +		};
+> +
+> +		led-1 {
+> +			function = LED_FUNCTION_STATUS;
+> +			color = <LED_COLOR_ID_GREEN>;
+> +			gpios = <&pio 2 13 GPIO_ACTIVE_HIGH>; /* PC13 */
+> +		};
+> +	};
+> +
+> +	reg_vcc5v: regulator-vcc5v {
+> +		/* board wide 5V supply directly from the USB-C socket */
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vcc-5v";
+> +		regulator-min-microvolt = <5000000>;
+> +		regulator-max-microvolt = <5000000>;
+> +		regulator-always-on;
+> +	};
+> +
+> +	reg_usb1_vbus: regulator-usb1-vbus {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "usb1-vbus";
+> +		regulator-min-microvolt = <5000000>;
+> +		regulator-max-microvolt = <5000000>;
+> +		vin-supply = <&reg_vcc5v>;
+> +		enable-active-high;
+> +		gpio = <&pio 2 16 GPIO_ACTIVE_HIGH>; /* PC16 */
+> +	};
+> +};
+> +
+> +&ehci1 {
+> +	status = "okay";
+> +};
+> +
+> +&ehci2 {
+> +	status = "okay";
+> +};
+> +
+> +&ehci3 {
+> +	status = "okay";
+> +};
+> +
+> +&mmc0 {
+> +	vmmc-supply = <&reg_dldo1>;
+> +	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
+> +	no-1-8-v;
+> +	bus-width = <4>;
+> +	status = "disabled";
+> +};
+> +
+> +&ohci1 {
+> +	status = "okay";
+> +};
+> +
+> +&ohci2 {
+> +	status = "okay";
+> +};
+> +
+> +&ohci3 {
+> +	status = "okay";
+> +};
+> +
+> +&r_i2c {
+> +	status = "okay";
+> +
+> +	axp1530: pmic@36 {
+> +		compatible = "x-powers,axp1530";
+> +		reg = <0x36>;
+> +		wakeup-source;
+> +
+> +		regulators{
+> +			reg_dcdc1: dcdc1 {
+> +				regulator-name = "axp1530-dcdc1";
+> +				regulator-min-microvolt = <500000>;
+> +				regulator-max-microvolt = <3400000>;
+> +				regulator-step-delay-us = <25>;
+> +				regulator-final-delay-us = <50>;
+> +				regulator-always-on;
+> +			};
+> +
+> +			reg_dcdc2: dcdc2 {
+> +				regulator-name = "axp1530-dcdc2";
+> +				regulator-min-microvolt = <500000>;
+> +				regulator-max-microvolt = <1540000>;
+> +				regulator-step-delay-us = <25>;
+> +				regulator-final-delay-us = <50>;
+> +				regulator-ramp-delay = <200>;
+> +				regulator-always-on;
+> +			};
+> +
+> +			reg_dcdc3: dcdc3 {
+> +				regulator-name = "axp1530-dcdc3";
+> +				regulator-min-microvolt = <500000>;
+> +				regulator-max-microvolt = <1840000>;
+> +				regulator-step-delay-us = <25>;
+> +				regulator-final-delay-us = <50>;
+> +				regulator-always-on;
+> +			};
+> +
+> +			reg_aldo1: ldo1 {
+> +				regulator-name = "axp1530-aldo1";
+> +				regulator-min-microvolt = <1800000>;
+> +				regulator-max-microvolt = <1800000>;
+> +				regulator-step-delay-us = <25>;
+> +				regulator-final-delay-us = <50>;
+> +				regulator-always-on;
+> +			};
+> +
+> +			reg_dldo1: ldo2 {
+> +				regulator-name = "axp1530-dldo1";
+> +				regulator-min-microvolt = <3300000>;
+> +				regulator-max-microvolt = <3300000>;
+> +				regulator-step-delay-us = <25>;
+> +				regulator-final-delay-us = <50>;
+> +				regulator-always-on;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&uart0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&uart0_ph_pins>;
+> +	status = "okay";
+> +};
+> +
+> +&usbotg {
+> +	/*
+> +	 * PHY0 pins are connected to a USB-C socket, but a role switch
+> +	 * is not implemented: both CC pins are pulled to GND.
+> +	 * The VBUS pins power the device, so a fixed peripheral mode
+> +	 * is the best choice.
+> +	 * The board can be powered via GPIOs, in this case port0 *can*
+> +	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
+> +	 * then provided by the GPIOs. Any user of this setup would
+> +	 * need to adjust the DT accordingly: dr_mode set to "host",
+> +	 * enabling OHCI0 and EHCI0.
+> +	 */
+> +	dr_mode = "peripheral";
+> +	status = "okay";
+> +};
+> +
+> +&usbphy {
+> +	usb1_vbus-supply = <&reg_usb1_vbus>;
+> +	status = "okay";
+> +};
 
