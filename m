@@ -1,69 +1,92 @@
-Received: from out199-16.us.a.mail.aliyun.com (out199-16.us.a.mail.aliyun.com [47.90.199.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92A61879
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Nov 2022 06:50:12 +0000 (UTC)
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R281e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046050;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0VUiKOlR_1668407663;
-Received: from 30.97.48.62(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0VUiKOlR_1668407663)
-          by smtp.aliyun-inc.com;
-          Mon, 14 Nov 2022 14:34:25 +0800
-Message-ID: <5699ed28-bdad-f9ab-44b6-e957c00745f9@linux.alibaba.com>
-Date: Mon, 14 Nov 2022 14:34:27 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C1B91FBE
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Nov 2022 08:24:28 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id j4so18121527lfk.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 14 Nov 2022 00:24:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mX7K+g1+HW/CWwyDEKxY//PTFx3zv2qtto+vRJUIuOI=;
+        b=dXI7heLthe0Tjl8jMmcyg784Yytf6YYvtMaeIbuzD82wNx4ULfsqv5nRAbLJ4aE2nn
+         wxqeiiG1gd74M5Jb1FEa2Esbtm2Q0FKG8RtRozlhHReZfK3gldgF+jC9cNHrWqQIXeE/
+         5ZpnmSXG3VH1uMdjAtmHQx5jvFS/MUSZ57D2j9ysBSFJUVDI9ODVux78D/TlxsHCxD0E
+         PG8XEwuBEP3p0oF4BagAoyqAKYAcK2bHEj47mVA0FaZ3Yf9U3GpxqZZDG4V9ejyxYMLS
+         xp9PAAO1w/2jB0VDOn5gZEQjqEWkeFgx4YKUGR5xIt66aLKmVAMq8lspuuwuN7PLeMNJ
+         zomw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mX7K+g1+HW/CWwyDEKxY//PTFx3zv2qtto+vRJUIuOI=;
+        b=QvbMzB8cbMMuNSdjuooav0wRkcmo/C98GeSHLrZBbJ0a91igz6N+Fj0pI1yBys7Jfh
+         grhnawu8V2BPmziOaHQxxYvLLjc/uYZ5Pmu4vGIoAcebAusfoMflanopPJpsx4YjtpCp
+         WOnom/c8/kFozJEbgdcNflfQ7D+mg+ggNuo0MCnxpJqZvlaGIHZZ3E4nPA1f/6piAefJ
+         HMnWcFksO1XLWVjhYk2ESVvMXzovyvA8c+3ApgapyHOqB/Y/PNwZy7KFEVFJDdaG5TeQ
+         rNeMqV0WnRCXeMIDDmm2CYFHbtv3nIcYSKCSvBCz2NOb8NCI4umisyifiz+xjxzsFBd0
+         jeLg==
+X-Gm-Message-State: ANoB5pkgR2eGyeMsvo88dZwKPq2dMZmL2+gVDwYONyfhER/9EGuuoWwA
+	BbS3oELOYfKCCF//7F1e6RNaRw==
+X-Google-Smtp-Source: AA0mqf7iLNCZJ2eZU6SC3h0KAiScdNro51pki8wDvgKdcvb5ClGjeyXxYBJj4rX0NXA/q962vvLqMg==
+X-Received: by 2002:a19:915a:0:b0:4a9:e691:9232 with SMTP id y26-20020a19915a000000b004a9e6919232mr3506273lfj.182.1668414266192;
+        Mon, 14 Nov 2022 00:24:26 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id i17-20020a2e6d11000000b0027709706194sm1886628ljc.49.2022.11.14.00.24.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Nov 2022 00:24:25 -0800 (PST)
+Message-ID: <040e00e1-00ea-32ca-09ff-ba3a35631a31@linaro.org>
+Date: Mon, 14 Nov 2022 09:24:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH 14/18] mfd: sprd-sc27xx-spi: Replace irqchip mask_invert
- with unmask_base
-To: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>, lee@kernel.org
-Cc: mani@kernel.org, cristian.ciocaltea@gmail.com, wens@csie.org,
- tharvey@gateworks.com, cw00.choi@samsung.com,
- krzysztof.kozlowski@linaro.org, brgl@bgdev.pl, mazziesaccount@gmail.com,
- orsonzhai@gmail.com, zhang.lyra@gmail.com, jernej.skrabec@gmail.com,
- samuel@sholland.org, linux-kernel@vger.kernel.org,
- linux-actions@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20221112151835.39059-1-aidanmacdonald.0x0@gmail.com>
- <20221112151835.39059-15-aidanmacdonald.0x0@gmail.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20221112151835.39059-15-aidanmacdonald.0x0@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 1/8] dt-bindings: sun6i-a31-mipi-dphy: Add the
+ interrupts property
+Content-Language: en-US
+To: Samuel Holland <samuel@sholland.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20221114022113.31694-1-samuel@sholland.org>
+ <20221114022113.31694-2-samuel@sholland.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221114022113.31694-2-samuel@sholland.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-
-
-On 11/12/2022 11:18 PM, Aidan MacDonald wrote:
-> Remove use of the deprecated mask_invert flag. Inverted mask
-> registers (where a '1' bit enables an IRQ) can be described more
-> directly as an unmask register.
+On 14/11/2022 03:21, Samuel Holland wrote:
+> The sun6i DPHY can generate several interrupts, mostly for reporting
+> error conditions, but also for detecting BTA and UPLS sequences.
+> Document this capability in order to accurately describe the hardware.
 > 
-> Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
-
-LGTM. Thanks.
-Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-
+> The DPHY has no interrupt number provided in the vendor documentation
+> because its interrupt line is shared with the DSI controller.
+> 
+> A trivial interrupt handler was used to verify that interrupts were in
+> fact generated by the DPHY and not the DSI controller.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
->   drivers/mfd/sprd-sc27xx-spi.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> diff --git a/drivers/mfd/sprd-sc27xx-spi.c b/drivers/mfd/sprd-sc27xx-spi.c
-> index d05a47c5187f..a4a9b81a952b 100644
-> --- a/drivers/mfd/sprd-sc27xx-spi.c
-> +++ b/drivers/mfd/sprd-sc27xx-spi.c
-> @@ -181,11 +181,10 @@ static int sprd_pmic_probe(struct spi_device *spi)
->   	ddata->irq_chip.name = dev_name(&spi->dev);
->   	ddata->irq_chip.status_base =
->   		pdata->irq_base + SPRD_PMIC_INT_MASK_STATUS;
-> -	ddata->irq_chip.mask_base = pdata->irq_base + SPRD_PMIC_INT_EN;
-> +	ddata->irq_chip.unmask_base = pdata->irq_base + SPRD_PMIC_INT_EN;
->   	ddata->irq_chip.ack_base = 0;
->   	ddata->irq_chip.num_regs = 1;
->   	ddata->irq_chip.num_irqs = pdata->num_irqs;
-> -	ddata->irq_chip.mask_invert = true;
->   
->   	ddata->irqs = devm_kcalloc(&spi->dev,
->   				   pdata->num_irqs, sizeof(struct regmap_irq),
+> Changes in v2:
+>  - Add the interrupts property to the binding example
+
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
+
