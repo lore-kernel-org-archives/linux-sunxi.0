@@ -1,115 +1,85 @@
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31444256D
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Nov 2022 10:06:51 +0000 (UTC)
-Received: from hillosipuli.retiisi.eu (dkxjnptf9d2bpn7gcmbty-3.rev.dnainternet.fi [IPv6:2001:14ba:44ce:b640:9d1d:82c5:eca2:5060])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id E40E31B00120;
-	Mon, 14 Nov 2022 12:06:42 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1668420403;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n0E8YgTPeMlZaTVJH+p1nlFsfAcKuXhV2rFQ22qn48c=;
-	b=MuhPojJumg96qXDDlbrabUiYNYg8DcQZv1EJSsFMyIF6MyW0Vh+8sEnczpe+aD3M62my47
-	aIFsa8W8vIIWUFPOMph2ODZyvcz3wi4rEfazTeXTOc2gp5bHj/NBnAel+JHLpGJpRgy5mp
-	Kna6eH8mRIg4fMu98Lbx/y23F97XEoqNym1cR/3+EV4bXTjujS24MGECr21SbrhQMglJve
-	N5zTfaNew1/qt182IHViBRdU2ygu2SzXNBeB/G+C7rdG2fwxmwAuTomnuIxcOsq5ufMxaO
-	gIFl/MKK4NF7eoOUDhNaiQ54xMnbQIJf8FzsKHwnbFt1oQ573iglWIPj9ieNcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1668420403;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n0E8YgTPeMlZaTVJH+p1nlFsfAcKuXhV2rFQ22qn48c=;
-	b=Y7aT1VsbOGmSSq0I11cX04+ntBpkgrH+238otZdCyVwtdq0kmDNgAwbqnw2uJHmAwlXOhp
-	4OWi9/qmTpRIH9nEODPdN+JHljny2C2A/oLd67LairhSX9OLgw151jmgyRpv/YWYwTJNqr
-	xw0N7qRGnsAlfCk1sGcZdxETsGw4neW9z3V3rH3s9PwiEw5Tbvebsx+vDcpUVOWeAxju+n
-	UJn5YyibKo7fJjWDj6p1ybGaWQgn8WngXgLkKhE8gEULUzMJjY+0B5Kr1g8lWCoD8aiglc
-	XaMpEbYeBnjnKxFGjVhMXU8dY4wM5ye7w2Zr5gLLSlctguS2A+zZDtLfAs2VcA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1668420403; a=rsa-sha256;
-	cv=none;
-	b=IMUzKT1HHR3XdI0gIP1tP9McRHkNwkZxTDbqyBNTHnGJoEl7a09jiaSwNs1dIwaGQ4J4z7
-	meXNjGkXeywM6mYFzXmtOF4EU05jXt+t0AG/kqMRuQ/RUQxEKqNIzPZQgTGZ1uZdXlxM0a
-	2CC+UWWvxv3yIKTGWfBH2xsghWpY83FY6YmXRxerN4JD0LbqHyXH/tkjm/3+oD6HcoBSWu
-	3EtJkg0KUty7702ZQvNseszepNz1SXgn5UZhyTjY7XmDpJe31YYSNDCqvquD4t++pHY4N8
-	lMWHl24CWAcoKOYPnpdXUPEo0GOaS7qbj8wolwFQ78JqD0Aw0v8Z/sW7TO6sAQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 7D31F634C97;
-	Mon, 14 Nov 2022 12:06:42 +0200 (EET)
-Date: Mon, 14 Nov 2022 12:06:42 +0200
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v7 02/28] media: sun6i-csi: Rename sun6i_video to
- sun6i_csi_capture
-Message-ID: <Y3ITMguJsMQH96dt@valkosipuli.retiisi.eu>
-References: <20221103163113.245462-1-paul.kocialkowski@bootlin.com>
- <20221103163113.245462-3-paul.kocialkowski@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E465256D
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Nov 2022 10:21:45 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id u2so12514575ljl.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 14 Nov 2022 02:21:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EECihYF9c88LJIQKWGKZKOyFDgZGNXgYE2EMHMrpgGc=;
+        b=l2iLI+xhGaJ79qTwJr2KzxikJ+QQbCqGuLf2cII2hL51fYEH7kB+GYspHgN4hrIQIC
+         gAwMVJ+Dt8tSuNWevmPoST3KvaECqePkwCvKBrQR/G37K/ViMRe2l0ynHt/u1Ysf9Hxv
+         Ea16PX28n/gOC6SU9YAxcHsyRfCR1HE2OmY/URcsWa9Ll5tEKjg4WWUS1z+eRKf/USt1
+         /YFnCSJySjL/pcOlD6WFTVnhfnfZenv7lJCMI//OjJoycqE2dnaWNTMvyyy/gYUDS9wD
+         ImOGDi+LIYLs+dTIGqdzHbes2ydl5GAoQzcj/9bpsCjnl55bmj4qDFq7hUILnhLda8GP
+         AHbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EECihYF9c88LJIQKWGKZKOyFDgZGNXgYE2EMHMrpgGc=;
+        b=sJTQzYVRm+xJqsfmhGLGKKYEVDKTDmECZFD4sLFikFrT2EF8osvNsiYM4ysEbeBbW1
+         V/OYYFylljIyAaCiK4Vi61BiGC+ZWXezCmCkETfwUQeKSb85zqAeDt/YmmhcSUw7tFL5
+         /Fn/45TJbrW7yHfuZOESiCZ+Xrnp94cyq6OYlaDxMBq2oPquv5z4sA6L0eQWxZZvDEL2
+         cqj/DJdqpWQowBrSzDBsvh8PyGC21aD2VnNrueR1aMh/yniloawEWwahPdveEFZqHRI2
+         O6lJicf2o6erndEyZVeZxkI0cFh+WHBZCoND9a557JbGypHWlLdU6b/iLyZhDqge2UG5
+         OOSg==
+X-Gm-Message-State: ANoB5pnJ2gxKCPVpdPwdL3vtsaF0krKztIjMEpRA5FwywwrfEklLHv6o
+	I3o8tJY0pTvfbR90uGNKfdJbmg==
+X-Google-Smtp-Source: AA0mqf5EjdvDCOi7qOUPGfn3HlohNe9gT78Bfzd2K+VM/Wk3LnYToHrPsC+o+wcmAPZ4cnYfqPZIeQ==
+X-Received: by 2002:a2e:9a85:0:b0:277:64ad:383d with SMTP id p5-20020a2e9a85000000b0027764ad383dmr3632499lji.67.1668421303305;
+        Mon, 14 Nov 2022 02:21:43 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id d19-20020a194f13000000b004a044928923sm1767610lfb.293.2022.11.14.02.21.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Nov 2022 02:21:42 -0800 (PST)
+Message-ID: <03b94d20-05a6-71fb-61e4-00889f5aa64d@linaro.org>
+Date: Mon, 14 Nov 2022 11:21:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221103163113.245462-3-paul.kocialkowski@bootlin.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 05/18] mfd: max14577: Replace irqchip mask_invert with
+ unmask_base
+Content-Language: en-US
+To: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>, lee@kernel.org
+Cc: mani@kernel.org, cristian.ciocaltea@gmail.com, wens@csie.org,
+ tharvey@gateworks.com, cw00.choi@samsung.com, brgl@bgdev.pl,
+ mazziesaccount@gmail.com, orsonzhai@gmail.com,
+ baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
+ jernej.skrabec@gmail.com, samuel@sholland.org, linux-kernel@vger.kernel.org,
+ linux-actions@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20221112151835.39059-1-aidanmacdonald.0x0@gmail.com>
+ <20221112151835.39059-6-aidanmacdonald.0x0@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221112151835.39059-6-aidanmacdonald.0x0@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Paul,
+On 12/11/2022 16:18, Aidan MacDonald wrote:
+> Remove use of the deprecated mask_invert flag. Inverted mask
+> registers (where a '1' bit enables an IRQ) can be described more
+> directly as an unmask register.
+> 
+> Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
+> ---
+>  drivers/mfd/max14577.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
 
-On Thu, Nov 03, 2022 at 05:30:47PM +0100, Paul Kocialkowski wrote:
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> similarity index 58%
-> rename from drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
-> rename to drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> index fa83211a2c5a..9838a5a43c2d 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> @@ -15,7 +15,7 @@
->  #include <media/videobuf2-v4l2.h>
->  
->  #include "sun6i_csi.h"
-> -#include "sun6i_video.h"
-> +#include "sun6i_csi_capture.h"
->  
->  /* This is got from BSP sources. */
->  #define MIN_WIDTH	(32)
-> @@ -26,7 +26,7 @@
->  /* Helpers */
->  
->  static struct v4l2_subdev *
-> -sun6i_video_remote_subdev(struct sun6i_video *video, u32 *pad)
-> +sun6i_csi_capture_remote_subdev(struct sun6i_csi_capture *capture, u32 *pad)
->  {
->  	struct media_pad *remote;
->  
+Mention this is a resend or provide a changelog for v2.
 
-"video" was still being used a few lines below this, fixed that while
-applying. The PR has been sent already. Just FYI.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
--- 
-Kind regards,
+Best regards,
+Krzysztof
 
-Sakari Ailus
