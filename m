@@ -1,84 +1,94 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43BC52F31
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 10:18:57 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id t4so9327535wmj.5
-        for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 02:18:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=y0jhQ5wWDkw9YieqTPmmqrGIOhq9gcBh4/aIkZ5lXzM=;
-        b=57noagd9/+GLWjNU9l6zkY9huepwbD69VwGHB+sQGnTHr1xZHyfKABbg4l4A4KRW5k
-         ruJ0W7plLAqEVfC09oNuWRQrNTDypUejVAyHQIkLAnJCp74Khfg64VJUWos7+NcX6iLa
-         gnpsgeEnzLVmexr7TFZoqkPbevxOTsmvfyDZNkQcpy4hgkvg6yV4FixJKueRVN9ew+RH
-         k3JhIE9cHIfqpGyzVApsoLHiZyKF1/AROnnTIWkNvB+JDtHB2g6fC+7RSqNn6EbGLU0t
-         E+q80oRh3vJmfeGrdASC8eTGBIOumDLS/VfT5BhurOOvdpPDzwq/M/wQqZKiRX2G3SeS
-         M+OQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=y0jhQ5wWDkw9YieqTPmmqrGIOhq9gcBh4/aIkZ5lXzM=;
-        b=evj3YzsMRfpWCU7eC2+7Cdq1ggtXO8oGX/VCWIqUwPkYAHRovc9ImVgmsZYleMdIjS
-         KScgScn/wh12ZW0YRz//iixHgpQV/8B3fEHzvpSGQc2vl+gEdN1awbSfhKVfxXGx4qoJ
-         CpvQZVmlvDG8VnMUZQMOzn8GEZfXuRvzRJt0+8h0dP81clnsjIVAMCGVnsmjadhPsXrk
-         AqBuKCrSeD0fKyzQGzBzi2BGSW7CZUVHYvc+ZqZkMQEvQ4vGkrx6pGQJh+Jc1m/UIUTz
-         Z8XqPik4pcnHK/klbHUlHsFIilUGWiDbgEEJXA1ESiX8FcXgNWcyU07zcRbKIkEXHwQe
-         v57g==
-X-Gm-Message-State: ANoB5pkgixbmkNRGzsb5O7SlBOcJWb0OSZuJUweVjR0tQ2Z7eeo1ZUqD
-	QyuDKRFTij+AmIDnAArOYYhJpg==
-X-Google-Smtp-Source: AA0mqf4ITJ/zq/QXos6q8t7wiTwkyykTspLsX8kURJcVbV6wRrgRL+pLuPL1gqJw44YPrazacqtxSw==
-X-Received: by 2002:a05:600c:314a:b0:3cf:7dc1:f432 with SMTP id h10-20020a05600c314a00b003cf7dc1f432mr791063wmo.148.1668507536327;
-        Tue, 15 Nov 2022 02:18:56 -0800 (PST)
-Received: from Red ([2a01:cb1d:3d5:a100:4a02:2aff:fe07:1efc])
-        by smtp.googlemail.com with ESMTPSA id f7-20020adfe907000000b0023677081f3asm11717345wrm.42.2022.11.15.02.18.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Nov 2022 02:18:55 -0800 (PST)
-Date: Tue, 15 Nov 2022 11:18:50 +0100
-From: Corentin LABBE <clabbe@baylibre.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: andrew@lunn.ch, calvin.johnson@oss.nxp.com, davem@davemloft.net,
-	edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com,
-	krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org,
-	lgirdwood@gmail.com, linux@armlinux.org.uk, pabeni@redhat.com,
-	robh+dt@kernel.org, samuel@sholland.org, wens@csie.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	netdev@vger.kernel.org, linux-sunxi@googlegroups.com
-Subject: Re: [PATCH v4 1/3] regulator: Add of_regulator_bulk_get_all
-Message-ID: <Y3NnirK0bN71IgCo@Red>
-References: <20221115073603.3425396-1-clabbe@baylibre.com>
- <20221115073603.3425396-2-clabbe@baylibre.com>
- <Y3Nj4pA2+WRFvSNd@sirena.org.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A342F31
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 10:19:50 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1out2S-0004Zs-0S; Tue, 15 Nov 2022 11:19:32 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1out2M-004QA1-Lx; Tue, 15 Nov 2022 11:19:27 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1out2M-00GlgE-O7; Tue, 15 Nov 2022 11:19:26 +0100
+Date: Tue, 15 Nov 2022 11:19:26 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	=?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+	Icenowy Zheng <uwu@icenowy.me>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	Thierry Reding <thierry.reding@gmail.com>,
+	linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v2 02/10] ARM: dts: suniv: f1c100s: add PWM node
+Message-ID: <20221115101926.dldj6ralahdzhj7k@pengutronix.de>
+References: <20221107005433.11079-1-andre.przywara@arm.com>
+ <20221107005433.11079-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lxwt463hioqp4pnu"
+Content-Disposition: inline
+In-Reply-To: <20221107005433.11079-3-andre.przywara@arm.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+
+
+--lxwt463hioqp4pnu
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y3Nj4pA2+WRFvSNd@sirena.org.uk>
+Content-Transfer-Encoding: quoted-printable
 
-Le Tue, Nov 15, 2022 at 10:03:14AM +0000, Mark Brown a écrit :
-> On Tue, Nov 15, 2022 at 07:36:01AM +0000, Corentin Labbe wrote:
-> 
-> > It work exactly like regulator_bulk_get() but instead of working on a
-> > provided list of names, it seek all consumers properties matching
-> > xxx-supply.
-> 
-> What's the use case - why would a device not know which supplies
-> it requires?  This just looks like an invitation to badly written
-> consumers TBH.
+On Mon, Nov 07, 2022 at 12:54:25AM +0000, Andre Przywara wrote:
+> The Allwinner F1C100s family of SoCs contain a PWM controller compatible
+> to the one used in the A20 chip.
+> Add the DT node so that any users can simply enable it in their board
+> DT.
+>=20
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Hello
+I checked "by hand" that this matches the modified binding in patch
+01/10.=20
 
-The device know which supply it have, but I found only this way to made all maintainers happy.
-See https://lore.kernel.org/netdev/0518eef1-75a6-fbfe-96d8-bb1fc4e5178a@linaro.org/t/#m7a2e012f4c7c7058478811929774ab2af9bfcbf6
+Reviewed-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 
-Regards
+I assume the whole series will go in via a tree different from the PWM
+tree? While this is Thierry's area of maintenance, I'd be surprised if
+he had concerns about that.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--lxwt463hioqp4pnu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmNzZ6sACgkQwfwUeK3K
+7AkfMQgAnGZLbY2KDdJo+eSPu2lbPN2t+rPkFSrwzxYE8QAqxSxSdYk03ufzCM+M
+0mkVEhyDwd72Ly17nYewlEtpuPYBr3zd8n+u3YeHxEL8JMz4+Ae25H2+t2hvWx6X
+l5m/xHBnBo+4/u2QKJfuoduPeER1N92JBJEL1oy0ulAZ3iTRMuxmQn/FqtO7Tce7
+zQTKNb8/LMfbfQZM4YgasWAu0vnRjmvjyEip0WP5AGHEyzAHxcCROu2Dea+4kaEP
+Ngh2KzKWu8MwdxTe9ewcLlvhmsD4OlVM5MVtIU3p82kHn6mfzzerYsidTuMBDWfj
+ayxajd3hkG96nTnz9WhF9aRXuxUwhw==
+=mcM9
+-----END PGP SIGNATURE-----
+
+--lxwt463hioqp4pnu--
