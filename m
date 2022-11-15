@@ -1,93 +1,92 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96BD92597
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 09:07:14 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id gw22so12760476pjb.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 01:07:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R5ZFQEoKVRbIfSfItdmWycqTzq7emVGHn7tQvs1HyFc=;
-        b=kaTCXy9NTn9ky20nP7T+gz/kzP4EXtscARvVKey6KLpM1X5mvpxHLvxGZRgm3HiGKy
-         Ku4VVEhfcdvwqWQRZkpEaw87Z5WtiIBKtibuSyCqkLo4tHTDDSwVORjGzVXHUW3mfet4
-         AFamSQ83xPANX9ssr7d+CfeU6vpusLtDTxABE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R5ZFQEoKVRbIfSfItdmWycqTzq7emVGHn7tQvs1HyFc=;
-        b=RBakVoT80ZCWjR3AcKJ7Hnnm98uqD/QrGjEBtw+p8hbTI3FhkGNlt8SlJArR2OWXp+
-         pWQtS+fUjdfExNs6nZEiU/HYpKceAXb38FZ6ykebPtLnFbWUC75UAI6JKK9NksZRPSIq
-         OwXboUStUcPilXtbY18pANhaaMtDAoA9FGqg8SAmM8I0T+I94LYwCWhZBCdiCCYstdne
-         bClT50QTHbVBEfP5DzFdxK1IsSJBS6rViUR3Qww7kdvPp90MgVQR1UFZMzfxji895LBt
-         n4JAAEwQ6KwLO4uUNAVpwNWTngHjjbWAvwBTLpFE4B2pQwNTwm3vFoeXU9tlxzn+DMfn
-         iJpA==
-X-Gm-Message-State: ANoB5pm7qwlKDiQMhldSLOHH1Slg6pkzFS3k5wSee16FWwd4TbGeN/9Q
-	X/B13eXvN+2vMV8X03+bBXiFwQ==
-X-Google-Smtp-Source: AA0mqf6xPgmp/9dWQoBk4GaDGwS6v+A/TwdAX5vB3zmEdHUZjJxWqfB0WDZ/WyQ5o/+ZIS9vw8C7cQ==
-X-Received: by 2002:a17:903:28d:b0:186:9cce:c59 with SMTP id j13-20020a170903028d00b001869cce0c59mr3133032plr.120.1668503234175;
-        Tue, 15 Nov 2022 01:07:14 -0800 (PST)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:4d49:6d15:b250:5977])
-        by smtp.gmail.com with ESMTPSA id q16-20020a17090311d000b00182a9c27acfsm3378830plh.227.2022.11.15.01.07.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Nov 2022 01:07:13 -0800 (PST)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] arm64: dts: allwinner: h6: Add IOMMU reference to Hantro G2
-Date: Tue, 15 Nov 2022 17:06:44 +0800
-Message-Id: <20221115090644.3602573-3-wenst@chromium.org>
-X-Mailer: git-send-email 2.38.1.493.g58b659f92b-goog
-In-Reply-To: <20221115090644.3602573-1-wenst@chromium.org>
-References: <20221115090644.3602573-1-wenst@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988752592
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 09:14:15 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.west.internal (Postfix) with ESMTP id 934522B067B9;
+	Tue, 15 Nov 2022 04:14:10 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Tue, 15 Nov 2022 04:14:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1668503650; x=
+	1668510850; bh=L2lkXvh9lHqusgw47iG7m2rTmi/a22pY/qGXvnqsso8=; b=V
+	NxJQnW5l8pBiQZdyDzqvX0Aept8yEYzK5izoyOEPsVefJ757gC3AcSf3yQZcbklL
+	LZeXwOkoX95DhhAMa7btrHsqVv3qjsyCwxgv5zqMWnVjL6j3qLqH8MpYtWOBT9Vl
+	MwX6sDhZ4baQ0e1SeSPshEW+XjIuN7kCsrbP9dsIt/azr6UhXWbmF4kfJwUyGYev
+	9ZTo8dS6SjnG0hdX9ZTDvc8QnuT+lD9NK8UT4Br1fRMhXhKu3ac7UcwObSPOfBUL
+	PbQcDQZG0RCklnmq6ekO6v/XxqcZx/kC4KTp6RGgOsmxoCoLojN2USOZtsnhZxv3
+	RXv1BN4zObD+eV5L9QRwA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668503650; x=
+	1668510850; bh=L2lkXvh9lHqusgw47iG7m2rTmi/a22pY/qGXvnqsso8=; b=N
+	4A7/XOAFfP5Z1YBiU5i4FPwcGt4jOzGsHxtbbKNLyx5Fgi78TBMbzV73axmA3RUn
+	PnzkQuzBxqnC2v7wAPEYgVMvQME/1hS06eai0ga51su5nb1b5Hl1e825DTiYgtdG
+	lwjYPuHgTHF/Uab7cjk5fAnQHB42VyOkawelWgwhJ/xEuIrSc1dD4uTYdETA5bLW
+	KtUblTCQcOvcbXn+6OxaGstbu4c2PsHQxxpo/eme/Q2TsfyHyoorezeCeSpDSvo+
+	9h57HEirw1nD9kPjzeLKkaIbFFimGwwEv5Iie7KRLclKqD+kJRpNY9xXu4cVHvH1
+	OSi4T/8jqZ+Hre3ZZDGcA==
+X-ME-Sender: <xms:YFhzY80sKBaYru5SniQVG24mje2LrrtljqDWPvaXw1uP7M0XAKsgaw>
+    <xme:YFhzY3FdTeLs3W7AlYlR8qpL8qJqx2IhCuex5BvoMyKO2tWLbpccTT-zUlyBNNQHt
+    8PBRRjU2ApdzZlDE_4>
+X-ME-Received: <xmr:YFhzY06ncPad7SneNYcM-rneufVNp3GPub4jfJUXGoDck-ZFeSAGv_nsy7-lxLLtDERm_7VaB6NWgTrg2h0uqV94br2aaomPQsTNyD3nrBEiaQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeeggddtudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvfevjghfuffkffggtgfgofesthekredtredtjeenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeeifeeigeelhfehkeeltdetjeetueelteeuveekueevffduhefffefhhfeh
+    gfehieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:YFhzY128EkmJafzfcvlr1zpi0iifvP8VCAfLHHts4XS0CrbWBeH7tA>
+    <xmx:YFhzY_GFNXqzNYUHhe_inWhgZbcBOerBwrDAsjqRRc8bde8CmxS9Zw>
+    <xmx:YFhzY-8pMxiqK_YnlMLXJwH13l-xT5VJ8sU5UaW5fHD6SJDhaZj2eg>
+    <xmx:YlhzY2hHG5TBRfuardZKwGIc6-wiucZtoe0-iPUQjb6g0VogjUOrg-qfTv0>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 15 Nov 2022 04:14:08 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Maxime Ripard <maxime@cerno.tech>, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>, Karol Herbst <kherbst@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>, Emma Anholt <emma@anholt.net>, Lyude Paul <lyude@redhat.com>
+Cc: Dom Cobley <dom@raspberrypi.com>, Phil Elwell <phil@raspberrypi.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
+ linux-arm-kernel@lists.infradead.org, Noralf Tr��nnes <noralf@tronnes.org>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v9-1-24b168e5bcd5@cerno.tech>
+References: <20220728-rpi-analog-tv-properties-v9-0-24b168e5bcd5@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v9-1-24b168e5bcd5@cerno.tech>
+Subject: Re: (subset) [PATCH v9 01/25] docs/fb: Document current named modes
+Message-Id: <166850356807.1237314.1594865740292225715.b4-ty@cerno.tech>
+Date: Tue, 15 Nov 2022 10:12:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.10.1
 
-The Hantro G2 video decoder block sits behind the IOMMU. Without a
-reference for the system to properly configure the IOMMU, it will fault
-and cause the video decoder to fail.
+On Mon, 14 Nov 2022 14:00:20 +0100, Maxime Ripard wrote:
+> KMS supports a number of named modes already, but it's never been
+> documented anywhere, let's fix that.
+> 
+> 
 
-Add a proper reference to the IOMMU port. The master ID is taken from
-the IOMMU fault error message on Linux, and the number seems to match
-the order in the user manual's IOMMU diagram.
+Applied to drm/drm-misc (drm-misc-next).
 
-Fixes: 0baddea60e8d ("arm64: dts: allwinner: h6: Add Hantro G2 node")
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
- arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-index 53f6660656ac..ca1d287a0a01 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-@@ -161,6 +161,7 @@ video-codec-g2@1c00000 {
- 			clocks = <&ccu CLK_BUS_VP9>, <&ccu CLK_VP9>;
- 			clock-names = "bus", "mod";
- 			resets = <&ccu RST_BUS_VP9>;
-+			iommus = <&iommu 5>;
- 		};
- 
- 		video-codec@1c0e000 {
--- 
-2.38.1.493.g58b659f92b-goog
-
+Thanks!
+Maxime
