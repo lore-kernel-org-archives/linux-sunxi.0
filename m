@@ -1,102 +1,75 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DAE28ED
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 09:59:54 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id a15so16809474ljb.7
-        for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 01:59:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=we5icLF5qMbtdyi+O3fAzjYqkzl4E8jlaLkt16W+v8Y=;
-        b=UIzFfmDJK39st7JSIT5v2XYzdCLguFhqQa4GDHWXZgztsgu4AnwMAMhxqvyiTZCKJA
-         9Pddz+uMl5M3gmWWvkAQmHgbGk4v6fzwlMvb1HhuVnJWLRWi3ePD8RtR4hMHXNs0x/Q/
-         g936CDTJp/vP0E4a/DXDiHvGDC52Ji6EY7CirgMQ61VDvrgWTSIXM9BS8KLPMe7ZFYnX
-         AhZVmGK13uu2ppQzD9HJEodFV6Ve8+rbPRBSqr/8vtpfQTdiDvBuFQvJpB3slutHGL8+
-         OYo3dF3L/EIvpNHyKii1kP7RH423eHgJhz+EVBygoO+5bfHkMiGgV7FPwRASQeWB5gN2
-         c3qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=we5icLF5qMbtdyi+O3fAzjYqkzl4E8jlaLkt16W+v8Y=;
-        b=I/+Bpbfh1hH5Q9XlKfF68lbXpy9bI1/fsfHexXFfN3Sb8xbke6WRkO8ID/6/OzS7zP
-         KG0Dj5Qm2frBSfAQZhKTK0R9TLWlQq4cg84218iABT2WGq1xAynwA7zfF5RtuBZtVRqu
-         /bLT5+FMifSwX9A9ESJxU/TjHNdbcs3dZdHTuM0gNOjXC34tlW4HYaBjnwJvREqJI0t6
-         K7wO5kPCW74nTbNrPznz3AXEZZTsZTPTbES5jrxDY/9GHHGM9OieHgM11iTwBi5D/Kzc
-         arSKXIZltx8yymcw7BXOJt+3wyST0sE3Rk4K4eSQlKlW1HGp8+VxGzcCTucg/VucgHPG
-         47ZA==
-X-Gm-Message-State: ANoB5pk0+DHnmrWGXxohrtCCAbjHQLfMd0ClNUlW3l8/7YQCvQ4dZg7n
-	u9lDZgNlxpjXhQsx/vNzhv4Gyw==
-X-Google-Smtp-Source: AA0mqf5kKzTZwy3o3Cf4h9p/7Ric73X3MaF+6pxIjfDZhcnddYTepNSi9exl7I5gdGM8r5bEH3I+iA==
-X-Received: by 2002:a2e:7217:0:b0:26d:fe34:6dc0 with SMTP id n23-20020a2e7217000000b0026dfe346dc0mr6088126ljc.477.1668506392241;
-        Tue, 15 Nov 2022 01:59:52 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id v4-20020a2ea604000000b0027713ef5360sm2434920ljp.71.2022.11.15.01.59.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Nov 2022 01:59:51 -0800 (PST)
-Message-ID: <d88f85af-0de3-ab2a-b507-58ac3f8c5518@linaro.org>
-Date: Tue, 15 Nov 2022 10:59:50 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9CD28ED
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 10:03:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A8C1C433B5;
+	Tue, 15 Nov 2022 10:03:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1668506597;
+	bh=WyPRetAl/Vae/HPH9Ll9K6wRyR4YuEk9GYqHudIFD7E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZSH5w6UHCZJqfjXX1TAxdENWVSC0VrMs5cyNszWmX0cyKpH128gdzkuzDnuP0jyLt
+	 f46acOtrQR1hrU4556xcm4l0/fyCgveXlXkmQKNY/KfZcBOpyssgoRdPMeVF9W3Yaj
+	 xtziwgM7NoZRsGD3aWwB97+KKD3G5bQyhMpyRQly6hFgvvkHoGC5R9Y80/GHbUKwYr
+	 g9kpkt8c4dKx7Ro2C94QqUIkpaB7TFzKM9HKsI412ie5tQDf9gzpqHNouCPye9W6F0
+	 iFg/oLOVRxJfn3W9PwbMdw3p/ilaS/K6AuFQNILMCGXsLovc7xYZqBhW2n9Ei6MX8Q
+	 ATwVH06dv1iOg==
+Date: Tue, 15 Nov 2022 10:03:14 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Corentin Labbe <clabbe@baylibre.com>
+Cc: andrew@lunn.ch, calvin.johnson@oss.nxp.com, davem@davemloft.net,
+	edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com,
+	krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org,
+	lgirdwood@gmail.com, linux@armlinux.org.uk, pabeni@redhat.com,
+	robh+dt@kernel.org, samuel@sholland.org, wens@csie.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	netdev@vger.kernel.org, linux-sunxi@googlegroups.com
+Subject: Re: [PATCH v4 1/3] regulator: Add of_regulator_bulk_get_all
+Message-ID: <Y3Nj4pA2+WRFvSNd@sirena.org.uk>
+References: <20221115073603.3425396-1-clabbe@baylibre.com>
+ <20221115073603.3425396-2-clabbe@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 1/2] dt-bindings: arm: sunxi: Add BIQU CB1
-Content-Language: en-US
-To: Martin Botka <martin.botka@somainline.org>, martin.botka1@gmail.com
-Cc: ~postmarketos/upstreaming@lists.sr.ht,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Jami Kettunen <jamipkettunen@somainline.org>,
- Paul Bouchara <paul.bouchara@somainline.org>, Jan Trmal <jtrmal@gmail.com>,
- Tom <takuya@takuya.tech>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Andre Przywara
- <andre.przywara@arm.com>, Maxime Ripard <maxime@cerno.tech>,
- Andrew Lunn <andrew@lunn.ch>, Conley Lee <conleylee@foxmail.com>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20221114214452.1993744-1-martin.botka@somainline.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221114214452.1993744-1-martin.botka@somainline.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="E5+2TnzAyurkPAg9"
+Content-Disposition: inline
+In-Reply-To: <20221115073603.3425396-2-clabbe@baylibre.com>
+X-Cookie: Ego sum ens omnipotens.
 
-On 14/11/2022 22:44, Martin Botka wrote:
-> Add a name & compatible for BIQU CB1
-> 
-> Signed-off-by: Martin Botka <martin.botka@somainline.org>
-> ---
-> Changes in V2:
-> Add compatible and name to dt-bindings
-> Changes in V3:
-> None
->  Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> index 3ad1cd50e3fe..d886924023f5 100644
-> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> @@ -151,6 +151,11 @@ properties:
->            - const: roofull,beelink-x2
->            - const: allwinner,sun8i-h3
->  
-> +      - description: Biqu CB1
-> +        items:
-> +          - const: biqu,cb1
 
-Undocumented vendor prefix. Did you run checkpatch?
+--E5+2TnzAyurkPAg9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Best regards,
-Krzysztof
+On Tue, Nov 15, 2022 at 07:36:01AM +0000, Corentin Labbe wrote:
 
+> It work exactly like regulator_bulk_get() but instead of working on a
+> provided list of names, it seek all consumers properties matching
+> xxx-supply.
+
+What's the use case - why would a device not know which supplies
+it requires?  This just looks like an invitation to badly written
+consumers TBH.
+
+--E5+2TnzAyurkPAg9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNzY+EACgkQJNaLcl1U
+h9DJ5wf/YCSejgcjszC0Ec4QlSsXfOv1ET9BGiUz8TuNUGAQThsYlKX5Bbk5nfki
+PP3uLpGppXYtVoAprGXivsFMtoMGjaC124+Ixo2dxAQNsvx0w6EeFcIVQByrADs6
+tE3s1jKNq4UPco+DzYAEbQEvIv00aabm1PdbOp3RrrlDwSWgD5Sb8TllN3ulJ2+s
+R9//sUxhyaFM894wpnU2zyUL05Dp+maPYrdt81nz0l5+vAORk8P3L2X69wWlvkrB
+5moncC/AwzJ0mmIIvY5E78cv2vK40BbBJyv61OllcNjErCpxFKO2V64n2Ij5H4Ov
+oCL2X1HnI7kLEXeOWxJ95Wo2gGPGtg==
+=Ax15
+-----END PGP SIGNATURE-----
+
+--E5+2TnzAyurkPAg9--
