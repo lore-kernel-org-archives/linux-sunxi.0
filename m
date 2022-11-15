@@ -1,103 +1,84 @@
 Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC2952F31
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 10:17:13 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id j5-20020a05600c410500b003cfa9c0ea76so9907572wmi.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 02:17:13 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43BC52F31
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 10:18:57 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id t4so9327535wmj.5
+        for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 02:18:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=pdA+gwN2rGjIMgTg0+noXMRaLEEwMRfBfXbs4I6k2H0=;
-        b=Zt4y1g4rmSHuLcI5wrSBoJC1/bJZw2N1T33WD2n9Qb8IBlR1eLqi6P9A0BhbWejE62
-         E34CT+hKgpOjDAwiNPfoTzHeDL2jDkSAV9+G4er8c03aCKCQ9uyAI2EJwWCzgAyYs50X
-         Bz5oSywEK7R0Y+mEHhxMRaPoUuJf4UbbmCc9rxN7DIioOVIilQJrLa/W6W77ujR6lrGn
-         19QYhndgs/u+nkIEFGtrmgVO6Ld9gv16LH3tSvXuAEarZtspl3KkesRmOwCtuQtjudpJ
-         U3j1VNQNkqIlRhWxc6u9jiM5cnQSeJ7rS3MA7kKZENYebyzNZlq++yTkGwNJ6BK/DWMk
-         pBSA==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=y0jhQ5wWDkw9YieqTPmmqrGIOhq9gcBh4/aIkZ5lXzM=;
+        b=57noagd9/+GLWjNU9l6zkY9huepwbD69VwGHB+sQGnTHr1xZHyfKABbg4l4A4KRW5k
+         ruJ0W7plLAqEVfC09oNuWRQrNTDypUejVAyHQIkLAnJCp74Khfg64VJUWos7+NcX6iLa
+         gnpsgeEnzLVmexr7TFZoqkPbevxOTsmvfyDZNkQcpy4hgkvg6yV4FixJKueRVN9ew+RH
+         k3JhIE9cHIfqpGyzVApsoLHiZyKF1/AROnnTIWkNvB+JDtHB2g6fC+7RSqNn6EbGLU0t
+         E+q80oRh3vJmfeGrdASC8eTGBIOumDLS/VfT5BhurOOvdpPDzwq/M/wQqZKiRX2G3SeS
+         M+OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pdA+gwN2rGjIMgTg0+noXMRaLEEwMRfBfXbs4I6k2H0=;
-        b=VNCZQwZ+w0cIlpH46i1pxFim6asIjv8LBflGWE7uAwiJrxYB3KVUWraOL5hz84uArV
-         zsW2FDqW7+A3Ex/q8QXlmN1fV3I99DVOwRe+q/6zcBu2R2cqY92HVbkYHoUVUPnE1154
-         wTnzD9ZwG2my79re7PiLOZFa4GQ2mW3RFT6GdXRZeWN02zzPy6EVl/HTg3Mj/V+cCFZx
-         fipJbSPvy71JK6/e4n/iDYua35yZ9BwDFMoUEVVLa1US7i0eNv4J1gtfnSZNf1uvSGhf
-         RNx0LAjA8l8Z8bn3reerYTCTfYL1WkML20qul92o8ctMCvOsP0D7xvEwOOvmRmF1T/KC
-         +Nfg==
-X-Gm-Message-State: ANoB5pk4COIT29Ji9RCRaWhW/KZO0N5w4SYevEbGz9gg/hXMkRxH+uh/
-	YH1yaC+21oF0NedTRkYstisajjjpTYMl7+SvSHI=
-X-Google-Smtp-Source: AA0mqf45yhGOLNnomZV1m1B41PUv6FMTJnYvnvkOMdD2PbN7256eD/TfR3VwkF4MpPtEbO3KdP0b3cslKtqJAlmMk9s=
-X-Received: by 2002:a05:600c:31a2:b0:3cf:6e9b:21f1 with SMTP id
- s34-20020a05600c31a200b003cf6e9b21f1mr273842wmp.90.1668507431832; Tue, 15 Nov
- 2022 02:17:11 -0800 (PST)
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=y0jhQ5wWDkw9YieqTPmmqrGIOhq9gcBh4/aIkZ5lXzM=;
+        b=evj3YzsMRfpWCU7eC2+7Cdq1ggtXO8oGX/VCWIqUwPkYAHRovc9ImVgmsZYleMdIjS
+         KScgScn/wh12ZW0YRz//iixHgpQV/8B3fEHzvpSGQc2vl+gEdN1awbSfhKVfxXGx4qoJ
+         CpvQZVmlvDG8VnMUZQMOzn8GEZfXuRvzRJt0+8h0dP81clnsjIVAMCGVnsmjadhPsXrk
+         AqBuKCrSeD0fKyzQGzBzi2BGSW7CZUVHYvc+ZqZkMQEvQ4vGkrx6pGQJh+Jc1m/UIUTz
+         Z8XqPik4pcnHK/klbHUlHsFIilUGWiDbgEEJXA1ESiX8FcXgNWcyU07zcRbKIkEXHwQe
+         v57g==
+X-Gm-Message-State: ANoB5pkgixbmkNRGzsb5O7SlBOcJWb0OSZuJUweVjR0tQ2Z7eeo1ZUqD
+	QyuDKRFTij+AmIDnAArOYYhJpg==
+X-Google-Smtp-Source: AA0mqf4ITJ/zq/QXos6q8t7wiTwkyykTspLsX8kURJcVbV6wRrgRL+pLuPL1gqJw44YPrazacqtxSw==
+X-Received: by 2002:a05:600c:314a:b0:3cf:7dc1:f432 with SMTP id h10-20020a05600c314a00b003cf7dc1f432mr791063wmo.148.1668507536327;
+        Tue, 15 Nov 2022 02:18:56 -0800 (PST)
+Received: from Red ([2a01:cb1d:3d5:a100:4a02:2aff:fe07:1efc])
+        by smtp.googlemail.com with ESMTPSA id f7-20020adfe907000000b0023677081f3asm11717345wrm.42.2022.11.15.02.18.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Nov 2022 02:18:55 -0800 (PST)
+Date: Tue, 15 Nov 2022 11:18:50 +0100
+From: Corentin LABBE <clabbe@baylibre.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: andrew@lunn.ch, calvin.johnson@oss.nxp.com, davem@davemloft.net,
+	edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com,
+	krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org,
+	lgirdwood@gmail.com, linux@armlinux.org.uk, pabeni@redhat.com,
+	robh+dt@kernel.org, samuel@sholland.org, wens@csie.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	netdev@vger.kernel.org, linux-sunxi@googlegroups.com
+Subject: Re: [PATCH v4 1/3] regulator: Add of_regulator_bulk_get_all
+Message-ID: <Y3NnirK0bN71IgCo@Red>
+References: <20221115073603.3425396-1-clabbe@baylibre.com>
+ <20221115073603.3425396-2-clabbe@baylibre.com>
+ <Y3Nj4pA2+WRFvSNd@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221112151835.39059-1-aidanmacdonald.0x0@gmail.com>
-In-Reply-To: <20221112151835.39059-1-aidanmacdonald.0x0@gmail.com>
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-Date: Tue, 15 Nov 2022 12:17:00 +0200
-Message-ID: <CANhJrGNPUA6f9Ea5qwdKx-4t6285+xE8CxxDTF2X13ZCSeVPTQ@mail.gmail.com>
-Subject: Re: [PATCH 00/18] mfd: Clean up deprecated regmap-irq functionality
-To: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
-Cc: lee@kernel.org, mani@kernel.org, cristian.ciocaltea@gmail.com, 
-	wens@csie.org, tharvey@gateworks.com, cw00.choi@samsung.com, 
-	krzysztof.kozlowski@linaro.org, brgl@bgdev.pl, orsonzhai@gmail.com, 
-	baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com, jernej.skrabec@gmail.com, 
-	samuel@sholland.org, linux-kernel@vger.kernel.org, 
-	linux-actions@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y3Nj4pA2+WRFvSNd@sirena.org.uk>
 
-Hi Aidan,
+Le Tue, Nov 15, 2022 at 10:03:14AM +0000, Mark Brown a écrit :
+> On Tue, Nov 15, 2022 at 07:36:01AM +0000, Corentin Labbe wrote:
+> 
+> > It work exactly like regulator_bulk_get() but instead of working on a
+> > provided list of names, it seek all consumers properties matching
+> > xxx-supply.
+> 
+> What's the use case - why would a device not know which supplies
+> it requires?  This just looks like an invitation to badly written
+> consumers TBH.
 
-la 12. marrask. 2022 klo 17.19 Aidan MacDonald
-(aidanmacdonald.0x0@gmail.com) kirjoitti:
+Hello
 
-> Here are some trivial updates to replace old, deprecated regmap-irq APIs
-> with the new equivalents. There should be no functional changes, but none
-> of the patches have been tested (besides compile testing).
+The device know which supply it have, but I found only this way to made all maintainers happy.
+See https://lore.kernel.org/netdev/0518eef1-75a6-fbfe-96d8-bb1fc4e5178a@linaro.org/t/#m7a2e012f4c7c7058478811929774ab2af9bfcbf6
 
-> Link: https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git/commit/?id=84498d1fb35de6ab71bdfdb6270a464fb4a0951b
->
-> Aidan MacDonald (18):
-
-Just a small suggestion. Would it work if the CC-list was generated
-separately for each of the patches for a large series targeted to
-various individual drivers like this one? I think that many of the
-recipients are not interested in more than one or two of the patches +
-cover-letter in this 19-mail series...
-
-I know it can be a pain to hassle with the recipient lists and
-message-IDs - so I am glad if anyone can find some help from my
-personal playground - or even better, share their versions with us :)
-So, to open the window for any work-flow improvement suggestions...
-...I've personally started generating patches using the following
-shell-script (which is inefficient and lazily written but seems to
-mostly work for me):
-https://github.com/M-Vaittinen/linux/commit/9045670f8d3d4638b9032d96cff955704a6d438e
-
-It can be freely used as a source of inspiration (or perspiration - no
-guarantees it works as intended or is feasible for anything) when
-generating the next series ;)
-
-Yours
-    -- Matti
-
--- 
-
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
-
-~~ When things go utterly wrong vim users can always type :help! ~~
-
-Discuss - Estimate - Plan - Report and finally accomplish this:
-void do_work(int time) __attribute__ ((const));
+Regards
