@@ -1,75 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9CD28ED
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 10:03:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A8C1C433B5;
-	Tue, 15 Nov 2022 10:03:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1668506597;
-	bh=WyPRetAl/Vae/HPH9Ll9K6wRyR4YuEk9GYqHudIFD7E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZSH5w6UHCZJqfjXX1TAxdENWVSC0VrMs5cyNszWmX0cyKpH128gdzkuzDnuP0jyLt
-	 f46acOtrQR1hrU4556xcm4l0/fyCgveXlXkmQKNY/KfZcBOpyssgoRdPMeVF9W3Yaj
-	 xtziwgM7NoZRsGD3aWwB97+KKD3G5bQyhMpyRQly6hFgvvkHoGC5R9Y80/GHbUKwYr
-	 g9kpkt8c4dKx7Ro2C94QqUIkpaB7TFzKM9HKsI412ie5tQDf9gzpqHNouCPye9W6F0
-	 iFg/oLOVRxJfn3W9PwbMdw3p/ilaS/K6AuFQNILMCGXsLovc7xYZqBhW2n9Ei6MX8Q
-	 ATwVH06dv1iOg==
-Date: Tue, 15 Nov 2022 10:03:14 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Corentin Labbe <clabbe@baylibre.com>
-Cc: andrew@lunn.ch, calvin.johnson@oss.nxp.com, davem@davemloft.net,
-	edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com,
-	krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org,
-	lgirdwood@gmail.com, linux@armlinux.org.uk, pabeni@redhat.com,
-	robh+dt@kernel.org, samuel@sholland.org, wens@csie.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	netdev@vger.kernel.org, linux-sunxi@googlegroups.com
-Subject: Re: [PATCH v4 1/3] regulator: Add of_regulator_bulk_get_all
-Message-ID: <Y3Nj4pA2+WRFvSNd@sirena.org.uk>
-References: <20221115073603.3425396-1-clabbe@baylibre.com>
- <20221115073603.3425396-2-clabbe@baylibre.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E256328ED
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 10:03:27 +0000 (UTC)
+Received: by mail-lj1-f173.google.com with SMTP id b9so16854095ljr.5
+        for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 02:03:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jVHAqVOFOIO3tvRqDcBAu+xC9tXo1pnoVyzEBNhSiIc=;
+        b=jUkX3LGnWXLFPccugErlLKf68JDx/jZoWcVO6kWP1HwVvtz1fOTZp4SZBX59SPNvWY
+         MsKc08pZYciDJ36dBdwLpTQ4P2q2590OJgQmv7luTOOv9NZKUVFzE6QUclW1Yey2upSN
+         BsK/DZlasP5usE3/L/gIVHHAv5OrcWstZr1LRkiSUZe9CRWLU/aXfzylvTbH9pqyXeeH
+         yLTmgDoU+4Wnp+bd0Wmw1Xb2sUn0EUel4SNk2Ut0vw5d8AUtyC/G9W/8SWWtv2Kl0BN2
+         2UlOYTLAH3Hp2grtskfOej31t9iZ929WwRZ5QFkmiqrvu8MYSBp/1p5jZ8Iprd93Ld5t
+         8p4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jVHAqVOFOIO3tvRqDcBAu+xC9tXo1pnoVyzEBNhSiIc=;
+        b=u/6789r0xdCvwGCUNvZT8s5N0sOFgNhwRFI31ZjMLG1XXfugEVsxx1clCh8RgsR9a4
+         lBmAmhRq7S+f5Ms/cxeho4MKxW4ayLikPElZipXnTKX48cHjNMCwe7CP9aQCkJXgjds1
+         y1Ag3fxKGbgh/lu0nfdeYZbC1WJLTf1xzS5PYGnjRDB2loJSgGvTBAixoJdYNetsXI9d
+         u8iJdd/BAKFTz0T+kDVOB3Yn0WaHdupDovpkzkke86X/+GIWzg0WKz00PFVTNsfx3PQc
+         rFs5OPCsPDgsNL8WByXJv+uL4osXWe4dl1F8OVXpP0oNoOc7USMmQBBlv8DonGKd86kD
+         vo0A==
+X-Gm-Message-State: ANoB5pkej3jHKTnNsUZSSJgZzWAJJDTHCf83G/EuAEsjfCsiefW6tEyX
+	2CxU0FcCDWxJwPly9T3rk6+T/A==
+X-Google-Smtp-Source: AA0mqf4ZBOY+NbRidImWf6BOalvJHq++fwVTExCvgKtrjTOUuDgujwmoiIXE80tURsxs7CC5ZKhoJw==
+X-Received: by 2002:a2e:a815:0:b0:277:1d7e:9f6b with SMTP id l21-20020a2ea815000000b002771d7e9f6bmr5078984ljq.421.1668506605985;
+        Tue, 15 Nov 2022 02:03:25 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id b10-20020a056512070a00b004948378080csm2151660lfs.290.2022.11.15.02.03.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Nov 2022 02:03:25 -0800 (PST)
+Message-ID: <52920a00-8e29-f7f4-0cbd-ceb638ded970@linaro.org>
+Date: Tue, 15 Nov 2022 11:03:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="E5+2TnzAyurkPAg9"
-Content-Disposition: inline
-In-Reply-To: <20221115073603.3425396-2-clabbe@baylibre.com>
-X-Cookie: Ego sum ens omnipotens.
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 03/11] phy: sun4i-usb: add support for the USB PHY on
+ F1C100s SoC
+Content-Language: en-US
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ Andre Przywara <andre.przywara@arm.com>, Vinod Koul <vkoul@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Icenowy Zheng <uwu@icenowy.me>, soc@kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-phy@lists.infradead.org, linux-usb@vger.kernel.org
+References: <20221106154826.6687-1-andre.przywara@arm.com>
+ <20221106154826.6687-4-andre.przywara@arm.com> <Y2ypy0CM8rJGu2g4@matsya>
+ <4438485.LvFx2qVVIh@jernej-laptop>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <4438485.LvFx2qVVIh@jernej-laptop>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+On 15/11/2022 07:01, Jernej Škrabec wrote:
+> Dne četrtek, 10. november 2022 ob 08:35:39 CET je Vinod Koul napisal(a):
+>> On 06-11-22, 15:48, Andre Przywara wrote:
+>>> From: Icenowy Zheng <uwu@icenowy.me>
+>>>
+>>> The F1C100s SoC has one USB OTG port connected to a MUSB controller.
+>>>
+>>> Add support for its USB PHY.
+>>
+>> This does not apply for me, please rebase and resend
+>>
+>> Also, consider splitting phy patches from this. I dont think there is
+>> any dependency
+> 
+> DT patches in this series depend on functionality added here.
+> 
 
---E5+2TnzAyurkPAg9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+DTS always goes separately from driver changes because it is a hardware
+description. Depending on driver means you have potential ABI break, so
+it is already a warning sign.
 
-On Tue, Nov 15, 2022 at 07:36:01AM +0000, Corentin Labbe wrote:
+Best regards,
+Krzysztof
 
-> It work exactly like regulator_bulk_get() but instead of working on a
-> provided list of names, it seek all consumers properties matching
-> xxx-supply.
-
-What's the use case - why would a device not know which supplies
-it requires?  This just looks like an invitation to badly written
-consumers TBH.
-
---E5+2TnzAyurkPAg9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNzY+EACgkQJNaLcl1U
-h9DJ5wf/YCSejgcjszC0Ec4QlSsXfOv1ET9BGiUz8TuNUGAQThsYlKX5Bbk5nfki
-PP3uLpGppXYtVoAprGXivsFMtoMGjaC124+Ixo2dxAQNsvx0w6EeFcIVQByrADs6
-tE3s1jKNq4UPco+DzYAEbQEvIv00aabm1PdbOp3RrrlDwSWgD5Sb8TllN3ulJ2+s
-R9//sUxhyaFM894wpnU2zyUL05Dp+maPYrdt81nz0l5+vAORk8P3L2X69wWlvkrB
-5moncC/AwzJ0mmIIvY5E78cv2vK40BbBJyv61OllcNjErCpxFKO2V64n2Ij5H4Ov
-oCL2X1HnI7kLEXeOWxJ95Wo2gGPGtg==
-=Ax15
------END PGP SIGNATURE-----
-
---E5+2TnzAyurkPAg9--
