@@ -1,26 +1,36 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6F761841
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 00:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C9D27C
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 00:56:07 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 15620ED1;
-	Mon, 14 Nov 2022 16:29:41 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0E928ED1;
+	Mon, 14 Nov 2022 16:56:13 -0800 (PST)
 Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 820973F663;
-	Mon, 14 Nov 2022 16:29:32 -0800 (PST)
-Date: Tue, 15 Nov 2022 00:28:08 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E673B3F663;
+	Mon, 14 Nov 2022 16:55:58 -0800 (PST)
+Date: Tue, 15 Nov 2022 00:54:29 +0000
 From: Andre Przywara <andre.przywara@arm.com>
-To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Rob
- Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?=
- <peron.clem@gmail.com>, Icenowy Zheng <uwu@icenowy.me>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 00/10] ARM: dts: suniv: F1C100s: add more peripherals
-Message-ID: <20221115002808.5456008b@slackpad.lan>
-In-Reply-To: <1920557.yKVeVyVuyW@kista>
-References: <20221107005433.11079-1-andre.przywara@arm.com>
-	<1920557.yKVeVyVuyW@kista>
+To: Martin Botka <martin.botka1@gmail.com>
+Cc: Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, Konrad Dybcio
+ <konrad.dybcio@somainline.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@somainline.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Jami Kettunen
+ <jamipkettunen@somainline.org>, Paul Bouchara
+ <paul.bouchara@somainline.org>, Jan Trmal <jtrmal@gmail.com>, Tom
+ <takuya@takuya.tech>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Maxime Ripard <maxime@cerno.tech>, Conley Lee <conleylee@foxmail.com>,
+ Andrew Lunn <andrew@lunn.ch>, devicetree <devicetree@vger.kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Linux
+ Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 2/2] arm64: dts: Add basic support for BIQU CB1
+Message-ID: <20221115005429.57d72f64@slackpad.lan>
+In-Reply-To: <CADQ2G_HXx59YYjNvhcNRonahgT3AcE_2BiU43vDJ3CRUGKwAKA@mail.gmail.com>
+References: <20221114214452.1993744-1-martin.botka@somainline.org>
+	<20221114214452.1993744-2-martin.botka@somainline.org>
+	<20221114233102.3b1f96cc@slackpad.lan>
+	<CADQ2G_HXx59YYjNvhcNRonahgT3AcE_2BiU43vDJ3CRUGKwAKA@mail.gmail.com>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -29,132 +39,320 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, 07 Nov 2022 20:33:47 +0100
-Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+On Tue, 15 Nov 2022 00:44:46 +0100
+Martin Botka <martin.botka1@gmail.com> wrote:
 
-Hi Jernej,
+Hi Martin,
 
-thanks for the reviews!
+> I can totally understand how this can get confusing.
+> 
+> Basically because of the Rpi shortage biqu decided to make an Rpi
+> alternative.
+> 
+> So they made CB1 which is compute module style board.
+> 
+> And they made 3 other boards where CB1 or Rpi CM4 can be plugged in. The 3
+> boards are:
+> 
+> Rpi adapter which takes the Compute module style boards and turns them into
+> SBC style with basically identical size and etc to Rpi 4.
+> 
+> Then we have Manta M8P and M4P. These boards are MCUs for a 3D printer. But
+> they were made for Klipper use case which requires a computer or SBC
+> (Usually Rpi4). They combined it into 1 board.
+> Where you get the MCU and you can plug in CM4 or CB1
 
-> Dne ponedeljek, 07. november 2022 ob 01:54:23 CET je Andre Przywara=20
-> napisal(a):
-> > This is a fixed version of the initial post. I dropped the two patches
-> > that were already applied by the respective maintainers, and fixed the
-> > smaller issues mentioned in the review.
-> > This adds v2 of the series enabling the "Lctech Pi F1C200s" board on to=
-p,
-> > also with the comments addressed. =20
->=20
-> Please don't combine series if not agreed upon before. Now whole series w=
-ill=20
-> be delayed until USB is sorted out.
+Thanks for the explanations! I was guessing along those shortage lines,
+since the H616 is quite a step down from the RPi4CM, though probably
+still enough for driving a 3D printer.
 
-Apologies for that. Indeed I should have added the board DT to the USB
-series instead, as there is no dependency to anything in here.
+> All these boards are basically taking the pins and routing them to ports.
 
-If you don't mind, I will send a v3 with the last three patches
-dropped, and the ACKs and R-b's added (and that one line in the commit
-message fixed).
+Yes, this is what those SoM carrier boards do ;-)
+
+> There is nearly 0 chips for conversion or processing of the pins from CB1
+> or CM4 thus i do not see a reason for having parent dtsi and dts for the
+> adapter and Manta boards.
+
+And the DT does not need to describe "chips" only, a lot of DT nodes
+are about connectors, and which ports and which exact pins (out of the
+possible pinmuxes) are actually used. The SoM itself mostly exposes
+just pins, and the board DT describes how these pins are used (GPIO or
+special function, for instance).
+
+So did you try to split this up? How would that look?
 
 Cheers,
 Andre
 
->=20
+> The only exception to conversion are the LEDs on the boards but since both
+> adapter and manta boards have them this yet again eliminates need for
+> parent style DT.
+> 
 > Best regards,
-> Jernej
->=20
-> > The whole series goes on top of v3 of Icenowy's F1C100s USB support
-> > series [1]. There is no real conflict, but the lctech-pi.dts file
-> > references the new USB DT nodes from the .dtsi.
-> >=20
-> > I put a git repo with all those patches up here:
-> > https://github.com/apritzel/linux/commits/f1c100s-devices-v2
-> >=20
-> > For a changelog see below.
-> >=20
-> > [1]
-> > https://lore.kernel.org/linux-arm-kernel/20221106154826.6687-1-andre.pr=
-zywa
-> > ra@arm.com/T/#t
-> >=20
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > The Allwinner F1C100s series of SoCs shares many peripherals with other
-> > Allwinner SoCs. Since they are compatible, we can use the existing
-> > drivers, and just need to enable the devices in the DT.
-> >=20
-> > This series adds the I2C controllers, the PWM device, the CIR (infrared)
-> > device and the LRADC (aka. KEYADC, low res ADC) to the F1C100s .dtsi, so
-> > boards can just use them by setting 'status =3D "okay";'.
-> >=20
-> > The only thing missing driver-wise is the IR mod clock, which was not
-> > modeled in our CCU driver. Patch 4/10 fixes that.
-> >=20
-> > For every device there is one patch that adds the new compatible string
-> > to the DT binding, and another patch to add the DT node.
-> >=20
-> > This has been tested on the Lctech Pi F1C200s board, by:
-> > - Connecting an LED to PE6, and configuring this as the PWM pin in the =
-DT.
-> >   Doing a sweep on /sys/class/pwm/pwm1/duty_cycle made the LED fade out.
-> > - Configuring PD0/PD12 as I2C0, and letting i2c-detect find the on-board
-> >   NS2009 I2C chip.
-> > - Connecting two resistors to the "ADC" pin, and configuring them as two
-> >   buttons in the DT. /dev/input/event0 properly reported button presses.
-> > - Connecting an infrared receiver to PE11, configured as CIR.
-> >   ir-keytable reported key presses on a remote control.
-> >=20
-> > All those (basic) tests were successful, and prove that the peripherals
-> > do work and are compatible.
-> >=20
-> > The final three patches add the binding docs and the .dts file for the
-> > Lctech Pi F1C200s development board.
-> >=20
-> > Please have a look and test on your hardware, if possible.
-> >=20
+> Martin
+> 
+> On Tue, Nov 15, 2022, 12:32 AM Andre Przywara <andre.przywara@arm.com>
+> wrote:
+> 
+> > On Mon, 14 Nov 2022 22:44:49 +0100
+> > Martin Botka <martin.botka@somainline.org> wrote:
+> >  
+> > > CB1 is Compute Module style board that plugs into Rpi board style  
+> > adapter or  
+> > > Manta 3D printer boards (M4P/M8P).
+> > >
+> > > The board has:
+> > >       H616 SoC
+> > >       1GB of RAM
+> > >       AXP313A PMIC
+> > >
+> > > And the actual boards that CB1 plugs in are just extension to it with  
+> > ports and  
+> > > thus are not split in DT.  
+> >
+> > I don't really understand that sentence. There is some precedent for a
+> > SoM/board split, look at the sun50i-a64-sopine or
+> > sun50i-h5-emlid-neutis-n5 files. And if I see this correctly, then
+> > there are *two* boards available for the same CB1 SoM, the PI4B and the
+> > Manta board? Which would a strong case for a SoM .dtsi, plus the one
+> > or two board .dts files.
+> > I am just not sure whether that relation to the Pi4-CM is helpful or
+> > just complicates things...
+> >
 > > Cheers,
 > > Andre
-> >=20
-> > Changelog v1 ... v2:
-> > - dropped former patch 3/9 and 8/9: already applied
-> > - increase register frame size in DT for PWM and LRADC
-> > - drop I2C1 pins from pinctroller DT node
-> > - increase IR mod clock mux to 2 bits
-> > - fix mistyped comma in vendor prefix name
-> > - drop unneeded mmc0 and spi0 aliases from Lctech Pi DT
-> > - add /omit-if-no-ref/ tag to UART1 pins
-> > - add ACKs and Reviewed-by tags
-> >=20
-> >=20
-> > Andre Przywara (10):
-> >   dt-bindings: pwm: allwinner,sun4i-a10: Add F1C100s compatible
-> >   ARM: dts: suniv: f1c100s: add PWM node
-> >   ARM: dts: suniv: f1c100s: add I2C DT nodes
-> >   clk: sunxi-ng: f1c100s: Add IR mod clock
-> >   dt-bindings: media: IR: Add F1C100s IR compatible string
-> >   ARM: dts: suniv: f1c100s: add CIR DT node
-> >   ARM: dts: suniv: f1c100s: add LRADC node
-> >   dt-bindings: vendor-prefixes: add Lctech name
-> >   dt-bindings: arm: sunxi: add compatible strings for Lctech Pi
-> >   ARM: dts: suniv: Add Lctech Pi F1C200s devicetree
-> >=20
-> >  .../devicetree/bindings/arm/sunxi.yaml        |  6 ++
-> >  .../media/allwinner,sun4i-a10-ir.yaml         |  1 +
-> >  .../bindings/pwm/allwinner,sun4i-a10-pwm.yaml |  4 +-
-> >  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
-> >  arch/arm/boot/dts/Makefile                    |  1 +
-> >  arch/arm/boot/dts/suniv-f1c100s.dtsi          | 76 ++++++++++++++++++
-> >  arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts | 78 +++++++++++++++++++
-> >  drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c      | 11 ++-
-> >  drivers/clk/sunxi-ng/ccu-suniv-f1c100s.h      |  2 +-
-> >  include/dt-bindings/clock/suniv-ccu-f1c100s.h |  2 +
-> >  10 files changed, 180 insertions(+), 3 deletions(-)
-> >  create mode 100644 arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts
-> >=20
-> > --
-> > 2.35.5 =20
->=20
->=20
+> >  
+> > >
+> > > Boards have:
+> > >       4x (3x for Manta boards) USB and 1 USB OTG.
+> > >       SDcard slot for loading images.
+> > >       Ethernet port wired to the internal PHY.
+> > >       2x HDMI 2.0.
+> > >       Power and Status LEDs.
+> > >
+> > > Currently working:
+> > >       Booting
+> > >       USB
+> > >       UART
+> > >
+> > > Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> > > ---
+> > > Changes in V2:
+> > > Add proper board compatible
+> > > Add regulator prefix for vcc5v
+> > > Drop okay status from PMIC
+> > > Drop standby_param
+> > > Changes in V3:
+> > > Change copyright to me
+> > > regulator_vcc5v to regulator-vcc5v
+> > > Drop ehci0 and ohci0
+> > >  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+> > >  .../dts/allwinner/sun50i-h616-biqu-cb1.dts    | 178 ++++++++++++++++++
+> > >  2 files changed, 179 insertions(+)
+> > >  create mode 100644  
+> > arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts  
+> > >
+> > > diff --git a/arch/arm64/boot/dts/allwinner/Makefile  
+> > b/arch/arm64/boot/dts/allwinner/Makefile  
+> > > index 6a96494a2e0a..223f1be73541 100644
+> > > --- a/arch/arm64/boot/dts/allwinner/Makefile
+> > > +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> > > @@ -38,5 +38,6 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64.dtb
+> > >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64-model-b.dtb
+> > >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
+> > >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
+> > > +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-biqu-cb1.dtb
+> > >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
+> > >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
+> > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts  
+> > b/arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts  
+> > > new file mode 100644
+> > > index 000000000000..86b5aca9b53e
+> > > --- /dev/null
+> > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts
+> > > @@ -0,0 +1,178 @@
+> > > +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> > > +/*
+> > > + * Copyright (C) 2022 Martin Botka <martin.botka@somainline.org>.
+> > > + */
+> > > +
+> > > +/dts-v1/;
+> > > +
+> > > +#include "sun50i-h616.dtsi"
+> > > +
+> > > +#include <dt-bindings/gpio/gpio.h>
+> > > +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> > > +#include <dt-bindings/leds/common.h>
+> > > +
+> > > +/ {
+> > > +     model = "BIQU CB1";
+> > > +     compatible = "biqu,cb1", "allwinner,sun50i-h616";
+> > > +
+> > > +     aliases {
+> > > +             serial0 = &uart0;
+> > > +     };
+> > > +
+> > > +     chosen {
+> > > +             stdout-path = "serial0:115200n8";
+> > > +     };
+> > > +
+> > > +     leds {
+> > > +             compatible = "gpio-leds";
+> > > +
+> > > +             led-0 {
+> > > +                     function = LED_FUNCTION_POWER;
+> > > +                     color = <LED_COLOR_ID_RED>;
+> > > +                     gpios = <&pio 2 12 GPIO_ACTIVE_HIGH>; /* PC12 */
+> > > +                     default-state = "on";
+> > > +             };
+> > > +
+> > > +             led-1 {
+> > > +                     function = LED_FUNCTION_STATUS;
+> > > +                     color = <LED_COLOR_ID_GREEN>;
+> > > +                     gpios = <&pio 2 13 GPIO_ACTIVE_HIGH>; /* PC13 */
+> > > +             };
+> > > +     };
+> > > +
+> > > +     reg_vcc5v: regulator-vcc5v {
+> > > +             /* board wide 5V supply directly from the USB-C socket */
+> > > +             compatible = "regulator-fixed";
+> > > +             regulator-name = "vcc-5v";
+> > > +             regulator-min-microvolt = <5000000>;
+> > > +             regulator-max-microvolt = <5000000>;
+> > > +             regulator-always-on;
+> > > +     };
+> > > +
+> > > +     reg_usb1_vbus: regulator-usb1-vbus {
+> > > +             compatible = "regulator-fixed";
+> > > +             regulator-name = "usb1-vbus";
+> > > +             regulator-min-microvolt = <5000000>;
+> > > +             regulator-max-microvolt = <5000000>;
+> > > +             vin-supply = <&reg_vcc5v>;
+> > > +             enable-active-high;
+> > > +             gpio = <&pio 2 16 GPIO_ACTIVE_HIGH>; /* PC16 */
+> > > +     };
+> > > +};
+> > > +
+> > > +&ehci1 {
+> > > +     status = "okay";
+> > > +};
+> > > +
+> > > +&ehci2 {
+> > > +     status = "okay";
+> > > +};
+> > > +
+> > > +&ehci3 {
+> > > +     status = "okay";
+> > > +};
+> > > +
+> > > +&mmc0 {
+> > > +     vmmc-supply = <&reg_dldo1>;
+> > > +     cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;  /* PF6 */
+> > > +     no-1-8-v;
+> > > +     bus-width = <4>;
+> > > +     status = "disabled";
+> > > +};
+> > > +
+> > > +&ohci1 {
+> > > +     status = "okay";
+> > > +};
+> > > +
+> > > +&ohci2 {
+> > > +     status = "okay";
+> > > +};
+> > > +
+> > > +&ohci3 {
+> > > +     status = "okay";
+> > > +};
+> > > +
+> > > +&r_i2c {
+> > > +     status = "okay";
+> > > +
+> > > +     axp1530: pmic@36 {
+> > > +             compatible = "x-powers,axp1530";
+> > > +             reg = <0x36>;
+> > > +             wakeup-source;
+> > > +
+> > > +             regulators{
+> > > +                     reg_dcdc1: dcdc1 {
+> > > +                             regulator-name = "axp1530-dcdc1";
+> > > +                             regulator-min-microvolt = <500000>;
+> > > +                             regulator-max-microvolt = <3400000>;
+> > > +                             regulator-step-delay-us = <25>;
+> > > +                             regulator-final-delay-us = <50>;
+> > > +                             regulator-always-on;
+> > > +                     };
+> > > +
+> > > +                     reg_dcdc2: dcdc2 {
+> > > +                             regulator-name = "axp1530-dcdc2";
+> > > +                             regulator-min-microvolt = <500000>;
+> > > +                             regulator-max-microvolt = <1540000>;
+> > > +                             regulator-step-delay-us = <25>;
+> > > +                             regulator-final-delay-us = <50>;
+> > > +                             regulator-ramp-delay = <200>;
+> > > +                             regulator-always-on;
+> > > +                     };
+> > > +
+> > > +                     reg_dcdc3: dcdc3 {
+> > > +                             regulator-name = "axp1530-dcdc3";
+> > > +                             regulator-min-microvolt = <500000>;
+> > > +                             regulator-max-microvolt = <1840000>;
+> > > +                             regulator-step-delay-us = <25>;
+> > > +                             regulator-final-delay-us = <50>;
+> > > +                             regulator-always-on;
+> > > +                     };
+> > > +
+> > > +                     reg_aldo1: ldo1 {
+> > > +                             regulator-name = "axp1530-aldo1";
+> > > +                             regulator-min-microvolt = <1800000>;
+> > > +                             regulator-max-microvolt = <1800000>;
+> > > +                             regulator-step-delay-us = <25>;
+> > > +                             regulator-final-delay-us = <50>;
+> > > +                             regulator-always-on;
+> > > +                     };
+> > > +
+> > > +                     reg_dldo1: ldo2 {
+> > > +                             regulator-name = "axp1530-dldo1";
+> > > +                             regulator-min-microvolt = <3300000>;
+> > > +                             regulator-max-microvolt = <3300000>;
+> > > +                             regulator-step-delay-us = <25>;
+> > > +                             regulator-final-delay-us = <50>;
+> > > +                             regulator-always-on;
+> > > +                     };
+> > > +             };
+> > > +     };
+> > > +};
+> > > +
+> > > +&uart0 {
+> > > +     pinctrl-names = "default";
+> > > +     pinctrl-0 = <&uart0_ph_pins>;
+> > > +     status = "okay";
+> > > +};
+> > > +
+> > > +&usbotg {
+> > > +     /*
+> > > +      * PHY0 pins are connected to a USB-C socket, but a role switch
+> > > +      * is not implemented: both CC pins are pulled to GND.
+> > > +      * The VBUS pins power the device, so a fixed peripheral mode
+> > > +      * is the best choice.
+> > > +      * The board can be powered via GPIOs, in this case port0 *can*
+> > > +      * act as a host (with a cable/adapter ignoring CC), as VBUS is
+> > > +      * then provided by the GPIOs. Any user of this setup would
+> > > +      * need to adjust the DT accordingly: dr_mode set to "host",
+> > > +      * enabling OHCI0 and EHCI0.
+> > > +      */
+> > > +     dr_mode = "peripheral";
+> > > +     status = "okay";
+> > > +};
+> > > +
+> > > +&usbphy {
+> > > +     usb1_vbus-supply = <&reg_usb1_vbus>;
+> > > +     status = "okay";
+> > > +};  
+> >
+> >  
 
