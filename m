@@ -1,51 +1,51 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98BA08AD0
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 21:34:53 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id m22so39375779eji.10
-        for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 13:34:53 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001438AD0
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 21:38:32 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id i21so23842473edj.10
+        for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 13:38:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O3Pc4/CGHXBcfmuh5FACk8LjqEpCsIp7QK20YDRp6Ig=;
-        b=pwPBFAJ/G+NdDy9a3omf/kBM+Par445yEoUwOtNAjeMFD5VS8ujz9yAIPWN2/I2+9b
-         Q89MbE1+lVNzyMDgsndLDDCxmJnKH4g2LQfbdI+LerBjLUh4az8OE9mm0JhJWY7VFkF/
-         thekg59Rmvzy2/nro1jujpWL2zIp0HKZcVGbd3Uwnh3Vj6uchs7gLNrNaYajtKnfeAUl
-         MXLnrAcd9zy5GJ70gKARubAEnQW+LvmaWAXrfxkh7P26x8rmW9QrShn1DKijmPfeheDR
-         mP11FiOL1/rWt2BlpVV1FhyP5cdh/JVeUdv8iW4MMPizW5Vq92c2lOA9MewF5f4GvIRC
-         E06w==
+        bh=q0qqcluEnKDWuRRDz3pvE3cXQ8iH9uHWt3hqRxoLeo8=;
+        b=gJP6ZkyFtTpF18nmTzBe/C15w/ppBZ0izikt5RYF188kCgQHvCZ5gINPbDmtvBJ1k9
+         eaDAB3H4huNHELIlrinYLLWWvNTiNJBjjD9ssyMeD0zizbWoprs51Wgw3iGNcjKDvgP7
+         AxLGnxMxoSIaNzQc+JELR3+hYcODZQ/eKMpDUZfxLCaaPMy9X363aFAhFTBEGS1v31Ce
+         KiLDTWfZTjmlq1hLURSWnykEmfbe374SyJt9XXNI4oXpQQ1H2ZTQMvg4ThYH0i3xQ4km
+         bxFSJjPrrm2ps89EKqD6MyIM8ihjXwM0A8//PwC3lOISKjWi6qMiEAN4vYythSaNaeFh
+         iiBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=O3Pc4/CGHXBcfmuh5FACk8LjqEpCsIp7QK20YDRp6Ig=;
-        b=i/NRy29qth4N1hGuD4uXs9umUHUcYlO3f2izzMmibNRymNwETm/GDhoomkdoxf8s24
-         KQxKjvtWH+fxCWsTwFaE95EXPsGcWkf3FS/dY3ZSl6StxQXp6mKDZ31DgtpG+aKVAjkn
-         nYNYR42jlkzEpbuYf9VJJ34RJwMGy8FgPFp/hKf+lTX50UU1lJ0cQ3/Xb5EiuvdKLLq/
-         Qi6uTEq90JiKsE8Ngja0H8AJzNyeJvJTt9ibkIbPLR4960h8JR78pJeWN01B4TWkljks
-         UBAw7h1eguHUKSTXJLXdwZ15zSycppfWaw4VZB24P+3wD+lS2zwf0T7RB1GXpU3zTTxs
-         YukQ==
-X-Gm-Message-State: ANoB5pnPoejXeQ62GPC3qb+aTSf+zmSir36FJ0USatV0x1yuyaXuSVCW
-	XJQrs3VKoANhUpERXs081r8=
-X-Google-Smtp-Source: AA0mqf706j4etLneKjArZoBC50zKKSkCqofGi54tofA6K+QwQStFBfyr4cZ7LKDk8cgdPgxZsOyE3g==
-X-Received: by 2002:a17:906:1186:b0:7ae:5dd6:e62d with SMTP id n6-20020a170906118600b007ae5dd6e62dmr14928967eja.518.1668548091822;
-        Tue, 15 Nov 2022 13:34:51 -0800 (PST)
+        bh=q0qqcluEnKDWuRRDz3pvE3cXQ8iH9uHWt3hqRxoLeo8=;
+        b=M90++JcvdMpoCvfl/k+2SW4vPgFUr22IXa6b9ckwx2+s20BuAByykBYtcdeL2ockhP
+         NNdHk1NOuc3fx4ec2pwb7nctIXGOKWWZgdTmVvPHdBmPZeO/GTPyw3j0zMpgPvUqDvO0
+         kEnGM6TfzDP2wIpuLBViJGMP9srRGLEE4iFixscBCTl5YgQNy5HJAxlSoZ75D2HFJBE1
+         r4SEmqNni+yxDlaTzHbBpAGZunPYA+winEyqyyyLHw+dIH7dav3OQ2LbLuY/+bejpaDI
+         T/jHzYgLACBP9j0GA833ATIxSbGGla54i1RZTB/R0J1yC7Y7A35s+Ub51JUprqorCQBG
+         8vXA==
+X-Gm-Message-State: ANoB5plYS3inQhlxoQJ+QwK4ndJm1YmPjPWepjt70lp8+zE3wlUk+ziV
+	RV1XcZWdX0EXngRlmV4NLwk=
+X-Google-Smtp-Source: AA0mqf7+GgVYuxL5xasn4VNMBRz2Sy90Pg6Fu+lL4brjmrxjY5GbT2MB3TR585xiHGp5XW6K6Q+wWw==
+X-Received: by 2002:a05:6402:360d:b0:461:b033:90ac with SMTP id el13-20020a056402360d00b00461b03390acmr16819244edb.257.1668548311172;
+        Tue, 15 Nov 2022 13:38:31 -0800 (PST)
 Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id e1-20020aa7d7c1000000b00463c367024bsm6582301eds.63.2022.11.15.13.34.50
+        by smtp.gmail.com with ESMTPSA id 7-20020a170906310700b007389c5a45f0sm6082972ejx.148.2022.11.15.13.38.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Nov 2022 13:34:51 -0800 (PST)
+        Tue, 15 Nov 2022 13:38:30 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Martin Botka <martin.botka@somainline.org>
-Cc: martin.botka1@gmail.com, ~postmarketos/upstreaming@lists.sr.ht, Konrad Dybcio <konrad.dybcio@somainline.org>, AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>, Marijn Suijten <marijn.suijten@somainline.org>, Jami Kettunen <jamipkettunen@somainline.org>, Paul Bouchara <paul.bouchara@somainline.org>, Jan Trmal <jtrmal@gmail.com>, Tom <takuya@takuya.tech>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Maxime Ripard <maxime@cerno.tech>, Andre Przywara <andre.przywara@arm.com>, Conley Lee <conleylee@foxmail.com>, Andrew Lunn <andrew@lunn.ch>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] arm64: dts: Add basic support for BIQU CB1
-Date: Tue, 15 Nov 2022 22:34:49 +0100
-Message-ID: <8140265.T7Z3S40VBb@jernej-laptop>
-In-Reply-To: <AZ0DLR.RINPITJM904E2@somainline.org>
-References: <20221114214452.1993744-1-martin.botka@somainline.org> <4534857.CvnuH1ECHv@jernej-laptop> <AZ0DLR.RINPITJM904E2@somainline.org>
+To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
+Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>
+Subject: Re: [PATCH v3 3/3] bus: sunxi-rsb: Clear interrupt status before each transfer
+Date: Tue, 15 Nov 2022 22:38:29 +0100
+Message-ID: <1910101.PYKUYFuaPT@jernej-laptop>
+In-Reply-To: <735349b0-6738-8ace-a7d3-aafae2a62501@sholland.org>
+References: <20221114015749.28490-1-samuel@sholland.org> <2170633.72vocr9iq0@jernej-laptop> <735349b0-6738-8ace-a7d3-aafae2a62501@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -55,433 +55,157 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-Dne ponedeljek, 14. november 2022 ob 23:54:46 CET je Martin Botka napisal(a=
-):
-> On Mon, Nov 14 2022 at 11:30:17 PM +01:00:00, Jernej =C5=A0krabec
->=20
-> <jernej.skrabec@gmail.com> wrote:
-> > Hi Martin,
+Dne torek, 15. november 2022 ob 07:08:12 CET je Samuel Holland napisal(a):
+> On 11/14/22 15:00, Jernej =C5=A0krabec wrote:
+> > Hi Samuel,
 > >=20
-> > I was just writing new e-mail as response to v2. You should wait at
-> > least a
-> > day or two, usually more, before sending new version. Others will
-> > likely have
-> > some more comments. And there is also no rush. Until PMIC series is
-> > merged,
-> > this will not go anywhere. Since there is only this week until cut
-> > off date for
-> > DT updates for kernel 6.2, it's most likely that this will land in
-> > 6.3. And
-> > that gives as a few weeks (month) more.
+> > Dne ponedeljek, 14. november 2022 ob 02:57:49 CET je Samuel Holland
+> >=20
+> > napisal(a):
+> >> Currently, the driver clears the interrupt status bits after anything
+> >> could have set them. However, this requires duplicating the same logic
+> >> in several places.
+> >>=20
+> >> Instead of clearing the status flags in the interrupt handler, disable
+> >> all further interrupts by clearing the RSB_CTRL_GLOBAL_INT_ENB bit.
+> >=20
+> > where is this bit cleared?
 >=20
-> Yep. Was hoping for 5.2 thus the frequent updates. Will take it slow
-> then since 5.3 :)
+> It is cleared by any write to RSB_CTRL that does not include it. I noted
+> it below with the "disable interrupts" comments.
 
-You're way too late for 5.x series :) Anyway, 6.2 would be possible if you=
-=20
-would have almost flawless patch with no additional dependencies, but that =
-is=20
-not the case here. I'll send DT pull requests for 6.2 at the end of this we=
-ek.
+Right.
+
+>=20
+> >> Then we can delay the status register write until the start of the next
+> >> transfer, so it only has to be done in one place.
+> >>=20
+> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> >> ---
+> >>=20
+> >> Changes in v3:
+> >>  - Add a patch refactoring how the status bits are cleared
+> >> =20
+> >>  drivers/bus/sunxi-rsb.c | 20 +++++---------------
+> >>  1 file changed, 5 insertions(+), 15 deletions(-)
+> >>=20
+> >> diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
+> >> index 3aa91aed3bf7..cb622e60897b 100644
+> >> --- a/drivers/bus/sunxi-rsb.c
+> >> +++ b/drivers/bus/sunxi-rsb.c
+> >> @@ -279,6 +279,7 @@ static int _sunxi_rsb_run_xfer(struct sunxi_rsb *r=
+sb)
+> >>=20
+> >>  	int_mask =3D RSB_INTS_LOAD_BSY | RSB_INTS_TRANS_ERR |
+> >>  	RSB_INTS_TRANS_OVER;
+> >>  	writel(int_mask, rsb->regs + RSB_INTE);
+> >>=20
+> >> +	writel(int_mask, rsb->regs + RSB_INTS);
+> >=20
+> > Wouldn't be better to clear status before enabling interrupts? Unless
+> > global interrupt flag is cleared beforehand, but I don't see that
+> > anywhere.
+> Indeed the intention was that the global interrupt flag is cleared
+> beforehand, and only enabled on the next line below. However, I realize
+> I missed disabling it for the new atomic case.
+>=20
+> I'm not so sure anymore that this patch is an improvement. What do you
+> think? I can send a v4 with a fix, or I am fine with skipping this
+> patch. I would at least like the other two to be merged for -fixes.
+
+Sure, first two patches will go in regardless. I'm not convinced of value o=
+f=20
+this patch either. I guess we can skip it.
 
 Best regards,
 Jernej
 
 >=20
-> > See comments below.
-> >=20
-> > Dne ponedeljek, 14. november 2022 ob 22:44:49 CET je Martin Botka
-> >=20
-> > napisal(a):
-> >>  CB1 is Compute Module style board that plugs into Rpi board style
-> >>=20
-> >> adapter or
-> >>=20
-> >>  Manta 3D printer boards (M4P/M8P).
-> >> =20
-> >>  The board has:
-> >>  	H616 SoC
-> >>  	1GB of RAM
-> >>  	AXP313A PMIC
-> >> =20
-> >>  And the actual boards that CB1 plugs in are just extension to it
-> >>=20
-> >> with ports
-> >>=20
-> >>  and thus are not split in DT.
-> >> =20
-> >>  Boards have:
-> >>  	4x (3x for Manta boards) USB and 1 USB OTG.
-> >>  	SDcard slot for loading images.
-> >>  	Ethernet port wired to the internal PHY.
-> >>  	2x HDMI 2.0.
-> >=20
-> > H616 has only one HDMI output. Unless there is some additional chip
-> > for some
-> > conversion, only one HDMI port can work.
+> Regards,
+> Samuel
 >=20
-> Yes correct. But the Rpi adapter and Manta boards also support
-> Rpi Compute Module 4 which has 2 HDMI outputs.
-> The chip itself ofc doesnt support this on CB1. Same goes for DSI/CSI
-> ports
-> on the boards and the 4x USB on Rpi adapter.
->=20
-> It is indeed a bit of a mess.
->=20
-> >>  	Power and Status LEDs.
+> >>  	writel(RSB_CTRL_START_TRANS | RSB_CTRL_GLOBAL_INT_ENB,
+> >>  =09
+> >>  	       rsb->regs + RSB_CTRL);
+> >>=20
+> >> @@ -286,7 +287,6 @@ static int _sunxi_rsb_run_xfer(struct sunxi_rsb *r=
+sb)
+> >>=20
+> >>  		timeout =3D readl_poll_timeout_atomic(rsb->regs +=20
+RSB_INTS,
+> >>  	=09
+> >>  						   =20
+status, (status & int_mask),
+> >>  						    10,=20
+100000);
+> >>=20
+> >> -		writel(status, rsb->regs + RSB_INTS);
+> >>=20
+> >>  	} else {
+> >>  =09
+> >>  		timeout =3D !wait_for_completion_io_timeout(&rsb-
+> >>=20
+> >> complete,
+> >>=20
+> >>  						=09
+  msecs_to_jiffies(100));
+> >>=20
+> >> @@ -296,12 +296,9 @@ static int _sunxi_rsb_run_xfer(struct sunxi_rsb
+> >> *rsb)
+> >>=20
+> >>  	if (timeout) {
+> >>  =09
+> >>  		dev_dbg(rsb->dev, "RSB timeout\n");
+> >>=20
+> >> -		/* abort the transfer */
+> >> +		/* abort the transfer and disable interrupts */
+> >>=20
+> >>  		writel(RSB_CTRL_ABORT_TRANS, rsb->regs + RSB_CTRL);
+> >>=20
+> >> -		/* clear any interrupt flags */
+> >> -		writel(readl(rsb->regs + RSB_INTS), rsb->regs +=20
+RSB_INTS);
+> >> -
+> >>=20
+> >>  		return -ETIMEDOUT;
+> >>  =09
+> >>  	}
+> >>=20
+> >> @@ -503,15 +500,11 @@ EXPORT_SYMBOL_GPL(__devm_regmap_init_sunxi_rsb);
+> >>=20
+> >>  static irqreturn_t sunxi_rsb_irq(int irq, void *dev_id)
+> >>  {
 > >> =20
-> >>  Currently working:
-> >>  	Booting
-> >>  	USB
-> >>  	UART
+> >>  	struct sunxi_rsb *rsb =3D dev_id;
+> >>=20
+> >> -	u32 status;
+> >>=20
+> >> -	status =3D readl(rsb->regs + RSB_INTS);
+> >> -	rsb->status =3D status;
+> >> +	/* disable interrupts */
+> >> +	writel(0, rsb->regs + RSB_CTRL);
+> >>=20
+> >> -	/* Clear interrupts */
+> >> -	status &=3D (RSB_INTS_LOAD_BSY | RSB_INTS_TRANS_ERR |
+> >> -		   RSB_INTS_TRANS_OVER);
+> >> -	writel(status, rsb->regs + RSB_INTS);
+> >> +	rsb->status =3D readl(rsb->regs + RSB_INTS);
+> >>=20
+> >>  	complete(&rsb->complete);
+> >>=20
+> >> @@ -532,9 +525,6 @@ static int sunxi_rsb_init_device_mode(struct
+> >> sunxi_rsb
+> >> *rsb) if (reg & RSB_DMCR_DEVICE_START)
+> >>=20
+> >>  		ret =3D -ETIMEDOUT;
+> >>=20
+> >> -	/* clear interrupt status bits */
+> >> -	writel(readl(rsb->regs + RSB_INTS), rsb->regs + RSB_INTS);
+> >> -
+> >>=20
+> >>  	return ret;
 > >> =20
-> >>  Signed-off-by: Martin Botka <martin.botka@somainline.org>
-> >>  ---
-> >>  Changes in V2:
-> >>  Add proper board compatible
-> >>  Add regulator prefix for vcc5v
-> >>  Drop okay status from PMIC
-> >>  Drop standby_param
-> >>  Changes in V3:
-> >>  Change copyright to me
-> >>  regulator_vcc5v to regulator-vcc5v
-> >>  Drop ehci0 and ohci0
-> >> =20
-> >>   arch/arm64/boot/dts/allwinner/Makefile        |   1 +
-> >>   .../dts/allwinner/sun50i-h616-biqu-cb1.dts    | 178
-> >>=20
-> >> ++++++++++++++++++
-> >>=20
-> >>   2 files changed, 179 insertions(+)
-> >>   create mode 100644
-> >>=20
-> >> arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts
-> >>=20
-> >>  diff --git a/arch/arm64/boot/dts/allwinner/Makefile
-> >>  b/arch/arm64/boot/dts/allwinner/Makefile index
-> >>=20
-> >> 6a96494a2e0a..223f1be73541
-> >>=20
-> >>  100644
-> >>  --- a/arch/arm64/boot/dts/allwinner/Makefile
-> >>  +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> >>  @@ -38,5 +38,6 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-pine-h64.dtb
-> >> =20
-> >>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-pine-h64-model-b.dtb
-> >>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-tanix-tx6.dtb
-> >>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-tanix-tx6-mini.dtb
-> >> =20
-> >>  +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-biqu-cb1.dtb
-> >> =20
-> >>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-orangepi-zero2.dtb
-> >>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-x96-mate.dtb
-> >> =20
-> >>  diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts
-> >>  b/arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts new file
-> >>=20
-> >> mode
-> >>=20
-> >>  100644
-> >>  index 000000000000..86b5aca9b53e
-> >>  --- /dev/null
-> >>  +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-biqu-cb1.dts
-> >>  @@ -0,0 +1,178 @@
-> >>  +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-> >>  +/*
-> >>  + * Copyright (C) 2022 Martin Botka <martin.botka@somainline.org>.
-> >>  + */
-> >>  +
-> >>  +/dts-v1/;
-> >>  +
-> >>  +#include "sun50i-h616.dtsi"
-> >>  +
-> >>  +#include <dt-bindings/gpio/gpio.h>
-> >>  +#include <dt-bindings/interrupt-controller/arm-gic.h>
-> >>  +#include <dt-bindings/leds/common.h>
-> >>  +
-> >>  +/ {
-> >>  +	model =3D "BIQU CB1";
-> >>  +	compatible =3D "biqu,cb1", "allwinner,sun50i-h616";
-> >>  +
-> >>  +	aliases {
-> >>  +		serial0 =3D &uart0;
-> >>  +	};
-> >>  +
-> >>  +	chosen {
-> >>  +		stdout-path =3D "serial0:115200n8";
-> >>  +	};
-> >>  +
-> >>  +	leds {
-> >>  +		compatible =3D "gpio-leds";
-> >>  +
-> >>  +		led-0 {
-> >>  +			function =3D LED_FUNCTION_POWER;
-> >>  +			color =3D <LED_COLOR_ID_RED>;
-> >>  +			gpios =3D <&pio 2 12 GPIO_ACTIVE_HIGH>; /*
-> >=20
-> > PC12 */
-> >=20
-> >>  +			default-state =3D "on";
-> >>  +		};
-> >>  +
-> >>  +		led-1 {
-> >>  +			function =3D LED_FUNCTION_STATUS;
-> >>  +			color =3D <LED_COLOR_ID_GREEN>;
-> >>  +			gpios =3D <&pio 2 13 GPIO_ACTIVE_HIGH>; /*
-> >=20
-> > PC13 */
-> >=20
-> >>  +		};
-> >>  +	};
-> >>  +
-> >>  +	reg_vcc5v: regulator-vcc5v {
-> >>  +		/* board wide 5V supply directly from the USB-C socket
-> >=20
-> > */
-> >=20
-> >>  +		compatible =3D "regulator-fixed";
-> >>  +		regulator-name =3D "vcc-5v";
-> >>  +		regulator-min-microvolt =3D <5000000>;
-> >>  +		regulator-max-microvolt =3D <5000000>;
-> >>  +		regulator-always-on;
-> >>  +	};
-> >>  +
-> >>  +	reg_usb1_vbus: regulator-usb1-vbus {
-> >>  +		compatible =3D "regulator-fixed";
-> >>  +		regulator-name =3D "usb1-vbus";
-> >>  +		regulator-min-microvolt =3D <5000000>;
-> >>  +		regulator-max-microvolt =3D <5000000>;
-> >>  +		vin-supply =3D <&reg_vcc5v>;
-> >>  +		enable-active-high;
-> >>  +		gpio =3D <&pio 2 16 GPIO_ACTIVE_HIGH>; /* PC16 */
-> >>  +	};
-> >>  +};
-> >>  +
-> >>  +&ehci1 {
-> >>  +	status =3D "okay";
-> >>  +};
-> >>  +
-> >>  +&ehci2 {
-> >>  +	status =3D "okay";
-> >>  +};
-> >>  +
-> >>  +&ehci3 {
-> >>  +	status =3D "okay";
-> >>  +};
-> >>  +
-> >>  +&mmc0 {
-> >>  +	vmmc-supply =3D <&reg_dldo1>;
-> >>  +	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
-> >>  +	no-1-8-v;
-> >=20
-> > Above property is not needed. If you don't provide vqmmc-supply with
-> > 1.8 V
-> > regulator, it won't be used.
-> >=20
-> >>  +	bus-width =3D <4>;
-> >>  +	status =3D "disabled";
-> >=20
-> > Why is set to disabled? If it's not a typo, remove whole node. It
-> > could be
-> > added later when it works.
->=20
-> Would not removing it also make PMIC node useless as the regulators
-> wont be used and thus
-> should be technically removed ?
->=20
-> >>  +};
-> >>  +
-> >>  +&ohci1 {
-> >>  +	status =3D "okay";
-> >>  +};
-> >>  +
-> >>  +&ohci2 {
-> >>  +	status =3D "okay";
-> >>  +};
-> >>  +
-> >>  +&ohci3 {
-> >>  +	status =3D "okay";
-> >>  +};
-> >>  +
-> >>  +&r_i2c {
-> >>  +	status =3D "okay";
-> >>  +
-> >>  +	axp1530: pmic@36 {
-> >>  +		compatible =3D "x-powers,axp1530";
-> >=20
-> > I just checked datasheet and it really seems that it supports only
-> > I2C.
-> > Anyway, rather than using axp1530 compatible, introduce axp313a
-> > compatible
-> > instead.
->=20
-> Will do in V2 for drivers later.
->=20
-> >>  +		reg =3D <0x36>;
-> >>  +		wakeup-source;
-> >>  +
-> >>  +		regulators{
-> >>  +			reg_dcdc1: dcdc1 {
-> >>  +				regulator-name =3D "axp1530-
-dcdc1";
-> >>  +				regulator-min-microvolt =3D
-> >=20
-> > <500000>;
-> >=20
-> >>  +				regulator-max-microvolt =3D
-> >=20
-> > <3400000>;
-> >=20
-> > This one is most likely used by CPU. If so, you should set
-> > appropriate range
-> > according to CPU needs, which are 810 - 1100 mV.
-> >=20
-> >>  +				regulator-step-delay-us =3D <25>;
-> >>  +				regulator-final-delay-us =3D <50>;
-> >>  +				regulator-always-on;
-> >>  +			};
-> >>  +
-> >>  +			reg_dcdc2: dcdc2 {
-> >>  +				regulator-name =3D "axp1530-
-dcdc2";
-> >>  +				regulator-min-microvolt =3D
-> >=20
-> > <500000>;
-> >=20
-> >>  +				regulator-max-microvolt =3D
-> >=20
-> > <1540000>;
-> >=20
-> > This one is most likely used by GPU. Its range must also be adjusted
-> > to GPU
-> > needs.
-> >=20
-> >>  +				regulator-step-delay-us =3D <25>;
-> >>  +				regulator-final-delay-us =3D <50>;
-> >>  +				regulator-ramp-delay =3D <200>;
-> >>  +				regulator-always-on;
-> >>  +			};
-> >>  +
-> >>  +			reg_dcdc3: dcdc3 {
-> >>  +				regulator-name =3D "axp1530-
-dcdc3";
-> >>  +				regulator-min-microvolt =3D
-> >=20
-> > <500000>;
-> >=20
-> >>  +				regulator-max-microvolt =3D
-> >=20
-> > <1840000>;
-> >=20
-> > This one looks like it supplies DRAM. You should set both min and max
-> > to
-> > actual DRAM needs.
-> >=20
-> >>  +				regulator-step-delay-us =3D <25>;
-> >>  +				regulator-final-delay-us =3D <50>;
-> >>  +				regulator-always-on;
-> >>  +			};
-> >>  +
-> >>  +			reg_aldo1: ldo1 {
-> >=20
-> > ldo1 -> aldo1
-> >=20
-> >>  +				regulator-name =3D "axp1530-
-aldo1";
-> >>  +				regulator-min-microvolt =3D
-> >=20
-> > <1800000>;
-> >=20
-> >>  +				regulator-max-microvolt =3D
-> >=20
-> > <1800000>;
-> >=20
-> >>  +				regulator-step-delay-us =3D <25>;
-> >>  +				regulator-final-delay-us =3D <50>;
-> >>  +				regulator-always-on;
-> >>  +			};
-> >>  +
-> >>  +			reg_dldo1: ldo2 {
-> >=20
-> > ldo2 -> dldo1
-> >=20
-> > Another issue I see is that you marked all regulators with
-> > regulator-always-
-> > on; While this works, I don't think this faithfully represent HW. For
-> > example,
-> > GPU regulator will be enabled by GPU driver when needed, so it
-> > shouldn't be
-> > marked with always on.
-> >=20
-> > There is also RTCLDO, but without schematic it's impossible to say if
-> > it is
-> > used or not.
-> >=20
-> > There are at least a few clues in AXP313A datasheet about which
-> > regulator is
-> > used for what. See chapter 7.5 in
-> > https://github.com/bigtreetech/CB1-Kernel/
-> > blob/kernel-5.16/docs/AXP313A%20datasheet%20V0.1%20-
-> > %2020201105_draft%20version.pdf
->=20
-> As for regulators themselves. I have kept them as what downstream
-> kernel specifies.
-> But until I have schematic in hand and can confirm that they actually
-> used the correct regulators in
-> the correct place i will stick to stock values. If they in the end
-> decide to not supply schematic or etc
-> to the public i can test with adjusted values.
->=20
-> > Best regards,
-> > Jernej
-> >=20
-> >>  +				regulator-name =3D "axp1530-
-dldo1";
-> >>  +				regulator-min-microvolt =3D
-> >=20
-> > <3300000>;
-> >=20
-> >>  +				regulator-max-microvolt =3D
-> >=20
-> > <3300000>;
-> >=20
-> >>  +				regulator-step-delay-us =3D <25>;
-> >>  +				regulator-final-delay-us =3D <50>;
-> >>  +				regulator-always-on;
-> >>  +			};
-> >>  +		};
-> >>  +	};
-> >>  +};
-> >>  +
-> >>  +&uart0 {
-> >>  +	pinctrl-names =3D "default";
-> >>  +	pinctrl-0 =3D <&uart0_ph_pins>;
-> >>  +	status =3D "okay";
-> >>  +};
-> >>  +
-> >>  +&usbotg {
-> >>  +	/*
-> >>  +	 * PHY0 pins are connected to a USB-C socket, but a role switch
-> >>  +	 * is not implemented: both CC pins are pulled to GND.
-> >>  +	 * The VBUS pins power the device, so a fixed peripheral mode
-> >>  +	 * is the best choice.
-> >>  +	 * The board can be powered via GPIOs, in this case port0 *can*
-> >>  +	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
-> >>  +	 * then provided by the GPIOs. Any user of this setup would
-> >>  +	 * need to adjust the DT accordingly: dr_mode set to "host",
-> >>  +	 * enabling OHCI0 and EHCI0.
-> >>  +	 */
-> >>  +	dr_mode =3D "peripheral";
-> >>  +	status =3D "okay";
-> >>  +};
-> >>  +
-> >>  +&usbphy {
-> >>  +	usb1_vbus-supply =3D <&reg_usb1_vbus>;
-> >>  +	status =3D "okay";
-> >>  +};
->=20
-> Best Regards,
-> Martin
+> >>  }
 
 
 
