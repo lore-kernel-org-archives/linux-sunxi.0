@@ -1,82 +1,88 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DC1F185F
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 10:44:31 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1232B13D5;
-	Tue, 15 Nov 2022 02:44:37 -0800 (PST)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 061473F73B;
-	Tue, 15 Nov 2022 02:44:28 -0800 (PST)
-Date: Tue, 15 Nov 2022 10:44:26 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Vinod Koul
- <vkoul@kernel.org>
-Cc: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>, Chen-Yu Tsai
- <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Icenowy Zheng <uwu@icenowy.me>,
- soc@kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-phy@lists.infradead.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 03/11] phy: sun4i-usb: add support for the USB PHY on
- F1C100s SoC
-Message-ID: <20221115104426.20728ba5@donnerap.cambridge.arm.com>
-In-Reply-To: <52920a00-8e29-f7f4-0cbd-ceb638ded970@linaro.org>
-References: <20221106154826.6687-1-andre.przywara@arm.com>
-	<20221106154826.6687-4-andre.przywara@arm.com>
-	<Y2ypy0CM8rJGu2g4@matsya>
-	<4438485.LvFx2qVVIh@jernej-laptop>
-	<52920a00-8e29-f7f4-0cbd-ceb638ded970@linaro.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9726533C7
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 11:17:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11215C433C1;
+	Tue, 15 Nov 2022 11:17:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1668511025;
+	bh=WtfglS+fHBP2n3DCncZu5y610bEqJwb4B2bqp0aQtXA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kbZXyEsRQ7AbwmFyU7jSi25sJSMtMZHaEgRllS9A0n5qUULkADCOlqHupxcUhcLTx
+	 NxZSBOYUCNBXcVvvAu1CiKEhyTMROCVv+Q4OxRHkyKELaEBa6KKWajbP9Ei+eq2bYD
+	 4gwjbMiLp2Hdrn9Wk1y02JQciwUV4QltulHZSvBBo0cVUrlEsKaxro3XSsFc7wwWZS
+	 OFnsFHV7oM+7/eKt152cSyC17XYhfMNSocVvK0sAGO2SOLAmiTeXakViAFD18M5QGp
+	 vUxeLaIjziEZfbyK+i7fn23zz7Mq8sb8HAAWTJywrvIa1ajuLapUl8gTxazKsPGSEs
+	 ADZSqF3caLEeQ==
+Date: Tue, 15 Nov 2022 11:16:53 +0000
+From: Mark Brown <broonie@kernel.org>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Corentin LABBE <clabbe@baylibre.com>, andrew@lunn.ch,
+	calvin.johnson@oss.nxp.com, davem@davemloft.net,
+	edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com,
+	krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org,
+	lgirdwood@gmail.com, pabeni@redhat.com, robh+dt@kernel.org,
+	samuel@sholland.org, wens@csie.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, netdev@vger.kernel.org,
+	linux-sunxi@googlegroups.com
+Subject: Re: [PATCH v4 1/3] regulator: Add of_regulator_bulk_get_all
+Message-ID: <Y3N1JYVx9tB9pisR@sirena.org.uk>
+References: <20221115073603.3425396-1-clabbe@baylibre.com>
+ <20221115073603.3425396-2-clabbe@baylibre.com>
+ <Y3Nj4pA2+WRFvSNd@sirena.org.uk>
+ <Y3NnirK0bN71IgCo@Red>
+ <Y3NrQffcdGIjS64a@sirena.org.uk>
+ <Y3NtKgb0LpWs0RkB@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="khsmKj4b0178bR6g"
+Content-Disposition: inline
+In-Reply-To: <Y3NtKgb0LpWs0RkB@shell.armlinux.org.uk>
+X-Cookie: Ego sum ens omnipotens.
 
-On Tue, 15 Nov 2022 11:03:24 +0100
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-Hi,
+--khsmKj4b0178bR6g
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> On 15/11/2022 07:01, Jernej =C5=A0krabec wrote:
-> > Dne =C4=8Detrtek, 10. november 2022 ob 08:35:39 CET je Vinod Koul napis=
-al(a): =20
-> >> On 06-11-22, 15:48, Andre Przywara wrote: =20
-> >>> From: Icenowy Zheng <uwu@icenowy.me>
-> >>>
-> >>> The F1C100s SoC has one USB OTG port connected to a MUSB controller.
-> >>>
-> >>> Add support for its USB PHY. =20
-> >>
-> >> This does not apply for me, please rebase and resend
-> >>
-> >> Also, consider splitting phy patches from this. I dont think there is
-> >> any dependency =20
-> >=20
-> > DT patches in this series depend on functionality added here.
-> >  =20
->=20
-> DTS always goes separately from driver changes because it is a hardware
-> description. Depending on driver means you have potential ABI break, so
-> it is already a warning sign.
+On Tue, Nov 15, 2022 at 10:42:50AM +0000, Russell King (Oracle) wrote:
+> On Tue, Nov 15, 2022 at 10:34:41AM +0000, Mark Brown wrote:
 
-We understand that ;-)
-What Jernej meant was that the DTS patches at the end depend on patch
-01/10, which adds to the PHY binding doc. I am not sure if Vinod's
-suggestion was about splitting off 01/10, 03/10, and 10/10, or just the
-two latter which touch the driver.
+> > Well, it's not making this maintainer happy :/  If we know what
+> > PHY is there why not just look up the set of supplies based on
+> > the compatible of the PHY?
 
-I can split off 03/10 and 10/10, rebased on top of linux-phy.git/next, and
-send that to Vinod.
-Then I would keep 01/10 in a respin of this series here, to satisfy the
-dependency of the later DTS patches, and Vinod can pick that one patch from
-there?
+> It looks to me like this series fetches the regulators before the PHY
+> is bound to the driver, so what you're proposing would mean that the
+> core PHY code would need a table of all compatibles (which is pretty
+> hard to do, they encode the vendor/device ID, not some descriptive
+> name) and then a list of the regulator names. IMHO that doesn't scale.
 
-Cheers,
-Andre
+Oh, PHYs have interesting enough drivers to dynamically load
+here? The last time I was looking at MDIO stuff it was all
+running from generic class devices but that was quite a while
+ago.
+
+--khsmKj4b0178bR6g
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNzdSUACgkQJNaLcl1U
+h9Dunwf/UIC8Fi+irHTQ/olw2gqDv6691gO5hJTGM3xepy7LuVjmp0NUgHJR3q8G
+NPWdNrz0GP3bdx61XL1FlajcfnM/JU5RoMiFAyQmnceuK7P2hmLboHcW85BFGjtc
+FP8wgwBiWyrAfZnEePrZcPwxKFpdyUxtX3pkhTWy5+MYsc8H+fBiEpmpOhPu+FYb
+gZwx/FeE0fxZQKnViJddT5naB61EZ7OR5EsGjuZP2+AVG8D5c9seFd81V1ulkQKe
+IPwRZGjre5377b3iy3gVbtrJ6ol4nN0YmaEkW2eL0BVcDwCCVSkf7nP5rK8QIiAM
+8HFyYYD6WtCEjnUU1tyFcRLYPLKJwA==
+=KltA
+-----END PGP SIGNATURE-----
+
+--khsmKj4b0178bR6g--
