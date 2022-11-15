@@ -1,153 +1,123 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5CB127722
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 17:57:13 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3662F13D5;
-	Tue, 15 Nov 2022 09:57:19 -0800 (PST)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 023943F587;
-	Tue, 15 Nov 2022 09:57:10 -0800 (PST)
-Date: Tue, 15 Nov 2022 17:57:08 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Jernej =?UTF-8?B?xaBrcmFiZWM=?=
- <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland
- <samuel@sholland.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Icenowy Zheng <uwu@icenowy.me>,
- soc@kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-phy@lists.infradead.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 03/11] phy: sun4i-usb: add support for the USB PHY on
- F1C100s SoC
-Message-ID: <20221115175708.3e69dcd8@donnerap.cambridge.arm.com>
-In-Reply-To: <e861e62f-4148-b867-0155-e71b1cee0b81@linaro.org>
-References: <20221106154826.6687-1-andre.przywara@arm.com>
-	<20221106154826.6687-4-andre.przywara@arm.com>
-	<Y2ypy0CM8rJGu2g4@matsya>
-	<4438485.LvFx2qVVIh@jernej-laptop>
-	<52920a00-8e29-f7f4-0cbd-ceb638ded970@linaro.org>
-	<20221115104426.20728ba5@donnerap.cambridge.arm.com>
-	<4516dcfb-b928-d454-18a6-bd725f39cc24@linaro.org>
-	<20221115161917.328ec91a@donnerap.cambridge.arm.com>
-	<e861e62f-4148-b867-0155-e71b1cee0b81@linaro.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ACCD2CA4
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 21:30:30 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id ud5so39461063ejc.4
+        for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 13:30:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3YMB5wqa41Qx7Nhpc1b1K/YGC00PDJRyqPvnVv8h9bw=;
+        b=H94SosSAInfkcwKBQIK27bslSv2Xdm3jxgjp2d0WXHIgaKTzQ9TBMGGEa7GtKyCQ2l
+         DGVvIvHWBlOMW6FH0t/HLwSfByqktPEwJqsL3IWDUyYKdj5fGOEOWwVtBF7jK9aPrijX
+         dB3RtYXmZzjxTkp/qw09Se8fHdUGBVsBLKyb63g5nBBn985rwqs9UqKOc0XZePKm21JZ
+         yW2kFLoD5UuixPn8zx1i4wkxkOnkHqkzl7OJtkMYImQWsIGNBUwRX3mg7Qcz6crVQ3wQ
+         WHNas3JTSMVD0bYDCEOpHwDtwkGfwe2hsNXlJWAD6i/i/NjD8DSxwR1+Pb6NRDfAOXPg
+         vlEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3YMB5wqa41Qx7Nhpc1b1K/YGC00PDJRyqPvnVv8h9bw=;
+        b=snElTFrBnRMZIcw9dD38rUPMzrclwKtm0xjOTQsZiqAZBTw+CIKA3xG8mMqT7u3ieM
+         by4fMgYhgrvwpF6oVoDLnt0ZNKBcfK1I1X6lE+Mg84yiBjaP/gbYItOVGF0UQPIMqvYw
+         DOFwlZWwWtTyRTc1ijfWlA+RC1155kLnJD0+VEloeju1mD8zNRkABSdsenRDmznnndi5
+         rzMudZc1oT+b1J6unYgtOPeCl/x1K++g3gcGAWybq4eQXiVul+28O+cBffCuCN18fOlA
+         8UoMgvYpko1y4hJXTD+uXV6gVQu7/Uz68Q8RyIGc4f7ZlYJ5wOiUztv6cTqt3dupyEjF
+         p1Kg==
+X-Gm-Message-State: ANoB5pn9Acc8qndIJ6bUaRq1kZAq6n3hpQpTboV5geJARngtrQvxKsAZ
+	vmiq1y3nU0VmlsPUimHFNHs=
+X-Google-Smtp-Source: AA0mqf5NuFVrNYRrXLO9HcnMljXOMrLrHDjFWROyEYkpFGTdhpCcqTY3MCd3RNI/6kfbaaZPOzEplQ==
+X-Received: by 2002:a17:906:3a55:b0:78d:f2d8:4623 with SMTP id a21-20020a1709063a5500b0078df2d84623mr15863994ejf.274.1668547828479;
+        Tue, 15 Nov 2022 13:30:28 -0800 (PST)
+Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id a2-20020aa7d742000000b004623028c594sm6639814eds.49.2022.11.15.13.30.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Nov 2022 13:30:27 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Chen-Yu Tsai <wenst@chromium.org>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: dt-bindings: allwinner: h6-vpu-g2: Add IOMMU reference property
+Date: Tue, 15 Nov 2022 22:30:26 +0100
+Message-ID: <2121144.irdbgypaU6@jernej-laptop>
+In-Reply-To: <20221115090644.3602573-2-wenst@chromium.org>
+References: <20221115090644.3602573-1-wenst@chromium.org> <20221115090644.3602573-2-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, 15 Nov 2022 17:29:09 +0100
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+Dne torek, 15. november 2022 ob 10:06:43 CET je Chen-Yu Tsai napisal(a):
+> The Hantro G2 video decoder block sits behind an IOMMU. The device tree
+> binding needs a property to reference it. Without a reference for the
+> implementation to properly configure the IOMMU, it will fault and cause
+> the video decoder to fail.
 
-Hi,
+Note, Hantro G2 can happily work without IOMMU, if it is disabled for whole 
+system, like disabling driver in kernel config. In such cases, it uses CMA.
 
-> On 15/11/2022 17:19, Andre Przywara wrote:
-> > On Tue, 15 Nov 2022 16:00:54 +0100
-> > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> >=20
-> > Hi,
-> >  =20
-> >> On 15/11/2022 11:44, Andre Przywara wrote: =20
-> >>> On Tue, 15 Nov 2022 11:03:24 +0100
-> >>> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> >>>
-> >>> Hi,
-> >>>    =20
-> >>>> On 15/11/2022 07:01, Jernej =C5=A0krabec wrote:   =20
-> >>>>> Dne =C4=8Detrtek, 10. november 2022 ob 08:35:39 CET je Vinod Koul n=
-apisal(a):     =20
-> >>>>>> On 06-11-22, 15:48, Andre Przywara wrote:     =20
-> >>>>>>> From: Icenowy Zheng <uwu@icenowy.me>
-> >>>>>>>
-> >>>>>>> The F1C100s SoC has one USB OTG port connected to a MUSB controll=
-er.
-> >>>>>>>
-> >>>>>>> Add support for its USB PHY.     =20
-> >>>>>>
-> >>>>>> This does not apply for me, please rebase and resend
-> >>>>>>
-> >>>>>> Also, consider splitting phy patches from this. I dont think there=
- is
-> >>>>>> any dependency     =20
-> >>>>>
-> >>>>> DT patches in this series depend on functionality added here.
-> >>>>>      =20
-> >>>>
-> >>>> DTS always goes separately from driver changes because it is a hardw=
-are
-> >>>> description. Depending on driver means you have potential ABI break,=
- so
-> >>>> it is already a warning sign.   =20
-> >>>
-> >>> We understand that ;-)
-> >>> What Jernej meant was that the DTS patches at the end depend on patch
-> >>> 01/10, which adds to the PHY binding doc. I am not sure if Vinod's
-> >>> suggestion was about splitting off 01/10, 03/10, and 10/10, or just t=
-he
-> >>> two latter which touch the driver.
-> >>>
-> >>> I can split off 03/10 and 10/10, rebased on top of linux-phy.git/next=
-, and
-> >>> send that to Vinod.
-> >>> Then I would keep 01/10 in a respin of this series here, to satisfy t=
-he
-> >>> dependency of the later DTS patches, and Vinod can pick that one patc=
-h from
-> >>> there?   =20
-> >>
-> >> There is no hard dependency of DTS on bindings. You can split these (a=
-nd
-> >> some maintainers prefer that way) and in DTS patches just provide the
-> >> link to the bindings, saying it is in progress. =20
-> >=20
-> > But that breaks "make dtbs_check", doesn't it? =20
->=20
-> The check will be broken anyway because binding goes via driver
-> subsystem and DTS goes via arm-soc.
->=20
-> If both make to the linux-next and next release, then it's not a problem.
->=20
-> >=20
-> > I would think that the DT bits - bindings first, then DTS files using i=
-t -
-> > should be bundled. This is how I imagine the future(TM), where DTs and
-> > bindings live outside the kernel repo. =20
->=20
-> Yes, that's preferred. Therefore in DTS patch you say the binding is not
-> merged and it is here - lore link.
->=20
-> >  =20
-> >> The bindings should be however kept with driver changes as it goes the
-> >> same way. =20
-> >=20
-> > I understand that the bindings describe the contract the driver acts on,
-> > but going forward I think driver changes would need to come later, then
-> > (since they will live in a separate repo at some day)?
-> > Maybe pointing to the binding changes in progress? =20
->=20
-> Later as one commit later - yes. Later as other option - not really, why?
->=20
-> > So with a separate repo we would actually need to upstream just the
-> > bindings first, then could push driver changes and .dts files
-> > independently? =20
->=20
-> There is no separate repo, so we talk about Linux case now.
->=20
-> > And for now it looks like we are stuck with putting everything in one
-> > series, to make both checkpatch and dtbs_check happy. =20
->=20
-> You should rather make maintainers happy :) and here one asked to split.
+Anyway, it's true that there should be proper reference in DT and bindings, 
+so:
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Well, he asked to split off the USB PHY patches from the rest of the
-series, since there is some conflict with the recently merged H616 USB PHY
-patches. It is still unclear to me whether this split includes the binding
-patch, or just the two patches touching the actual code.
+Best regards,
+Jernej
 
-Cheers,
-Andre.
+> 
+> Add an "iommus" property for referring to the IOMMU port. The master ID
+> in the example is taken from the IOMMU fault error message on Linux,
+> and the number seems to match the order in the user manual's IOMMU
+> diagram.
+> 
+> Fixes: fd6be12716c4 ("media: dt-bindings: allwinner: document H6 Hantro G2
+> binding") Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
+>  .../bindings/media/allwinner,sun50i-h6-vpu-g2.yaml           | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git
+> a/Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
+> b/Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
+> index 24d7bf21499e..9d44236f2deb 100644
+> ---
+> a/Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
+> +++
+> b/Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
+> @@ -36,6 +36,9 @@ properties:
+>    resets:
+>      maxItems: 1
+> 
+> +  iommus:
+> +    maxItems: 1
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -43,6 +46,7 @@ required:
+>    - clocks
+>    - clock-names
+>    - resets
+> +  - iommus
+> 
+>  additionalProperties: false
+> 
+> @@ -59,6 +63,7 @@ examples:
+>          clocks = <&ccu CLK_BUS_VP9>, <&ccu CLK_VP9>;
+>          clock-names = "bus", "mod";
+>          resets = <&ccu RST_BUS_VP9>;
+> +        iommus = <&iommu 5>;
+>      };
+> 
+>  ...
+
+
+
+
