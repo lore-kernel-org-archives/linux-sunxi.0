@@ -1,187 +1,146 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1FB323A6
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 06:08:15 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id 91894320097F;
-	Tue, 15 Nov 2022 01:08:14 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Tue, 15 Nov 2022 01:08:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1668492494; x=
-	1668578894; bh=Tz11Z6ia+x7otJutyj0Fpgmjg+xKNAD2uW5mwHgcofc=; b=w
-	TM4QT5DSa6ere0AJXFkETu6m14FuqQm2BXlm1VfEymQ09Ez40eXYyue5LHUQYHYe
-	OggqvWcmXbxWNvwz3TbJRWUuwHNZbwijDP1wfnMRuURl3EACHRSozVR8vD7h+ajz
-	qk8XSZWVuRJkqSZFbjVlDdK2pxcwl24BJ+mlyFkammkUOm92oVG6idwz/eIHxInK
-	5IvW6xKw8HmYEjpFCTjeJwXOfXzDmd4gyT/DCj53XZIc28QtMa505NAlQswMV0Hs
-	miOq2/b3wEqIno/hrObfbjFyYC/J3e9MbF3KwHtTGHYj22fV8j0pvf6g8WQkSvfe
-	gVmjghiw7Hqprq1P+WBfg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668492494; x=
-	1668578894; bh=Tz11Z6ia+x7otJutyj0Fpgmjg+xKNAD2uW5mwHgcofc=; b=D
-	JRI/bY8OD9bqbjme4ttMemHL8q3cIwAxz0oC8837OnXyDt8EBotsDYA8hrLze5tL
-	hd2NOjHuxtrRQsNjTrU2q9rZ9Gozlvrp2QXh/GdRtKm403frR70//BLQO3SFv1Vj
-	CLsuPJOCzUzVQKbLglGMzWSOqtpZB8WBH/fW7satGp2CjUi6xwSxymlr+IhPXIvC
-	BCopKi+wlRccGkL66nkdf5rqRpZxOFUieBnUoWZbiQ8nmtENp/9sHMxEsH+sjj9h
-	P/Y6KNC3OcILO9OsKtbKnmVsgmJCXK7txU6x2+/08rQ+hGsqL3az0dgEkzDZ5keb
-	0TiqLIjykjanWJrBdtuIg==
-X-ME-Sender: <xms:zSxzY6AlJuEp-HQk-T6h-gsgWnc2NYBV-4l90KObPQ43Xd8sTKz6Kg>
-    <xme:zSxzY0jhgdqLt54mZZDRd0kmI6Vj_u5rhxPXR3w25N9I1Ua6YT9ka-zl_fxug2aue
-    8ceQ4p7vTZJ407dmA>
-X-ME-Received: <xmr:zSxzY9nzc8_W0YD1cneNKSVYTAZHbMGCqqwnuMd_IeqXuR2dnKgcGtk5jVL5LNVisy-qoVIFuECM5n1BfyRtg6Vt_9URiwPLRd1Yq_fyAMFtXKeNkbToZ_dynA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeefgdeludcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfvvehfhffujggtgfesthekredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepgeeikeeufedvvdeuteeivdeiffdtgfdtfeejgfetfeefgeffgfdv
-    ffehjedvueeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:zSxzY4w1Y8Bu6la8yKMvy2NmQNNsDM8Oe_JGJ_aBYytcsORa4o5EFw>
-    <xmx:zSxzY_RYrQ3Y_jtX-5ZaFgiMuMWufa13Bd1QgBoKHFYInXuwovZLhw>
-    <xmx:zSxzYza0kKovqTJQZlsuSjOUX0IsfDw8r-jVLD8VxEpzcUGprmAZ8w>
-    <xmx:zixzYwJxtr436QxNdJu2gMOQneQnBj8GINNC_QrURKQLqel7ZwLxOA>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 15 Nov 2022 01:08:13 -0500 (EST)
-Message-ID: <735349b0-6738-8ace-a7d3-aafae2a62501@sholland.org>
-Date: Tue, 15 Nov 2022 00:08:12 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E1223C9
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Nov 2022 07:36:13 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id p16so9059373wmc.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 14 Nov 2022 23:36:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=behpqgNTXreSZukfyARZq1T8Bw0AtPtkMcPJmTi9xoI=;
+        b=FuYvOmmzTyXyt+6y7IakaZ7B5oewGa4eSDsx0PQNoyZ652p85IY2AmgRcnKDzeL3hQ
+         TE1xgJRBwg5lnn/uEZ/nQfAxywv47e1X4ZTAR+qZlrmP9a46M673+9HHny5YS+rLGEBZ
+         Wjr+exnPowaX0+gx1X8ukUDWlGf3eHYJzbwd+DKWnVud45pyT8DMD/NQNs56KQaj9KeI
+         UFpmKQmODMRXTbje5I+2z0oJnnL3lydwURT/iar3nJwt2GXZsfxgp0z/lV7bpQun6ZaJ
+         J/NxDx3DzDqtUyvZ0T6UeiaiYEr4shR1xWIt3f+/EJ5qPPvFgYQez8K+wNZ4KnOEgwVX
+         +Peg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=behpqgNTXreSZukfyARZq1T8Bw0AtPtkMcPJmTi9xoI=;
+        b=bxLxefFb+Ptv9jwoCtkGTAI6T5Om27V0fXWeZO+BF0kAtZltHjf8dlnp1X8vFpn3GR
+         lTKBOtE7+Um6RzruvWIRtaB1r+Q7+CCt6gWghoi8yYLqzy6fD0YWyjtXEyDJCpuIpoGr
+         1qfG4zQCFF+thv3+gETsXCMRk20Eaxa0Qhvr0PHhEKqD0XCtV9l3EseI/21g+mdmae1v
+         9Vq3gRNjnJOF8wvZzNb7is+krS8+ezTNcTMGQ2aMPXw/mu7H0GDAk3b8k5L1yVJ8Mz6s
+         t1Krwbp397kzRWlt304f2WgZFfjvaHZOHV2dQRTTkqyDYs56LEpxYKdaFD8XRHipNs+O
+         hRzg==
+X-Gm-Message-State: ANoB5pkwch0wQ32AnBZs2n+xTpSrY9UVfJwZoIOUYozFJyre3l2Ng8tW
+	JuRopkBig4TyLh4+v3nYsOEbzQ==
+X-Google-Smtp-Source: AA0mqf514eXOs8uyBoURxGkasNRtcd7mDPPW/TXifbyM66DF+128CCiNBap+QgSvaeiXW0fT3u91aA==
+X-Received: by 2002:a05:600c:4e04:b0:3cf:a4a6:a048 with SMTP id b4-20020a05600c4e0400b003cfa4a6a048mr59983wmq.202.1668497771567;
+        Mon, 14 Nov 2022 23:36:11 -0800 (PST)
+Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.googlemail.com with ESMTPSA id j13-20020a5d452d000000b0022cbf4cda62sm13836811wra.27.2022.11.14.23.36.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Nov 2022 23:36:10 -0800 (PST)
+From: Corentin Labbe <clabbe@baylibre.com>
+To: andrew@lunn.ch,
+	broonie@kernel.org,
+	calvin.johnson@oss.nxp.com,
+	davem@davemloft.net,
+	edumazet@google.com,
+	hkallweit1@gmail.com,
+	jernej.skrabec@gmail.com,
+	krzysztof.kozlowski+dt@linaro.org,
+	kuba@kernel.org,
+	lgirdwood@gmail.com,
+	linux@armlinux.org.uk,
+	pabeni@redhat.com,
+	robh+dt@kernel.org,
+	samuel@sholland.org,
+	wens@csie.org
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	netdev@vger.kernel.org,
+	linux-sunxi@googlegroups.com,
+	Corentin Labbe <clabbe@baylibre.com>
+Subject: [PATCH v4 0/3] arm64: add ethernet to orange pi 3
+Date: Tue, 15 Nov 2022 07:36:00 +0000
+Message-Id: <20221115073603.3425396-1-clabbe@baylibre.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Content-Language: en-US
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>
-Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>
-References: <20221114015749.28490-1-samuel@sholland.org>
- <20221114015749.28490-4-samuel@sholland.org>
- <2170633.72vocr9iq0@jernej-laptop>
-From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH v3 3/3] bus: sunxi-rsb: Clear interrupt status before each
- transfer
-In-Reply-To: <2170633.72vocr9iq0@jernej-laptop>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 11/14/22 15:00, Jernej Škrabec wrote:
-> Hi Samuel,
-> 
-> Dne ponedeljek, 14. november 2022 ob 02:57:49 CET je Samuel Holland 
-> napisal(a):
->> Currently, the driver clears the interrupt status bits after anything
->> could have set them. However, this requires duplicating the same logic
->> in several places.
->>
->> Instead of clearing the status flags in the interrupt handler, disable
->> all further interrupts by clearing the RSB_CTRL_GLOBAL_INT_ENB bit.
-> 
-> where is this bit cleared?
+Hello
 
-It is cleared by any write to RSB_CTRL that does not include it. I noted
-it below with the "disable interrupts" comments.
+2 sunxi board still does not have ethernet working, orangepi 1+ and
+orangepi 3.
+This is due to the fact thoses boards have a PHY which need 2 regulators.
 
->> Then we can delay the status register write until the start of the next
->> transfer, so it only has to be done in one place.
->>
->> Signed-off-by: Samuel Holland <samuel@sholland.org>
->> ---
->>
->> Changes in v3:
->>  - Add a patch refactoring how the status bits are cleared
->>
->>  drivers/bus/sunxi-rsb.c | 20 +++++---------------
->>  1 file changed, 5 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
->> index 3aa91aed3bf7..cb622e60897b 100644
->> --- a/drivers/bus/sunxi-rsb.c
->> +++ b/drivers/bus/sunxi-rsb.c
->> @@ -279,6 +279,7 @@ static int _sunxi_rsb_run_xfer(struct sunxi_rsb *rsb)
->>
->>  	int_mask = RSB_INTS_LOAD_BSY | RSB_INTS_TRANS_ERR | RSB_INTS_TRANS_OVER;
->>  	writel(int_mask, rsb->regs + RSB_INTE);
->> +	writel(int_mask, rsb->regs + RSB_INTS);
-> 
-> Wouldn't be better to clear status before enabling interrupts? Unless global 
-> interrupt flag is cleared beforehand, but I don't see that anywhere.
+A first attempt by Ondřej Jirman was made to support them was made by adding support in
+stmmac driver:
+https://lore.kernel.org/lkml/20190820145343.29108-6-megous@megous.com/
+Proposal rejected, since regulators need to be handled by the PHY core.
 
-Indeed the intention was that the global interrupt flag is cleared
-beforehand, and only enabled on the next line below. However, I realize
-I missed disabling it for the new atomic case.
+My first tentative was to just add handling of phy and phy-io in
+phy-core:
+https://lore.kernel.org/netdev/20220509074857.195302-7-clabbe@baylibre.com/T/
+But having hard-coded phy names was rejected.
 
-I'm not so sure anymore that this patch is an improvement. What do you
-think? I can send a v4 with a fix, or I am fine with skipping this
-patch. I would at least like the other two to be merged for -fixes.
+Second tentative tryed the same path than clocks and clock-names for
+regulators.
+https://lore.kernel.org/netdev/0518eef1-75a6-fbfe-96d8-bb1fc4e5178a@linaro.org/t/
+But using this was rejected by DT maintainers.
 
-Regards,
-Samuel
+So v3 use a new regulator_bulk_get_all() which grab all supplies
+properties in a DT node.
+But this way could have some problem, a netdev driver could handle
+already its PHY (like dwmac-sun8i already do) and so both phy-core and
+the netdev will use both.
+It is why phy-supply was renamed in ephy-supply in patch #3.
 
->>  	writel(RSB_CTRL_START_TRANS | RSB_CTRL_GLOBAL_INT_ENB,
->>  	       rsb->regs + RSB_CTRL);
->>
->> @@ -286,7 +287,6 @@ static int _sunxi_rsb_run_xfer(struct sunxi_rsb *rsb)
->>  		timeout = readl_poll_timeout_atomic(rsb->regs + RSB_INTS,
->>  						    status, (status & int_mask),
->>  						    10, 100000);
->> -		writel(status, rsb->regs + RSB_INTS);
->>  	} else {
->>  		timeout = !wait_for_completion_io_timeout(&rsb-
->> complete,
->>  							  msecs_to_jiffies(100));
->> @@ -296,12 +296,9 @@ static int _sunxi_rsb_run_xfer(struct sunxi_rsb *rsb)
->>  	if (timeout) {
->>  		dev_dbg(rsb->dev, "RSB timeout\n");
->>
->> -		/* abort the transfer */
->> +		/* abort the transfer and disable interrupts */
->>  		writel(RSB_CTRL_ABORT_TRANS, rsb->regs + RSB_CTRL);
->>
->> -		/* clear any interrupt flags */
->> -		writel(readl(rsb->regs + RSB_INTS), rsb->regs + RSB_INTS);
->> -
->>  		return -ETIMEDOUT;
->>  	}
->>
->> @@ -503,15 +500,11 @@ EXPORT_SYMBOL_GPL(__devm_regmap_init_sunxi_rsb);
->>  static irqreturn_t sunxi_rsb_irq(int irq, void *dev_id)
->>  {
->>  	struct sunxi_rsb *rsb = dev_id;
->> -	u32 status;
->>
->> -	status = readl(rsb->regs + RSB_INTS);
->> -	rsb->status = status;
->> +	/* disable interrupts */
->> +	writel(0, rsb->regs + RSB_CTRL);
->>
->> -	/* Clear interrupts */
->> -	status &= (RSB_INTS_LOAD_BSY | RSB_INTS_TRANS_ERR |
->> -		   RSB_INTS_TRANS_OVER);
->> -	writel(status, rsb->regs + RSB_INTS);
->> +	rsb->status = readl(rsb->regs + RSB_INTS);
->>
->>  	complete(&rsb->complete);
->>
->> @@ -532,9 +525,6 @@ static int sunxi_rsb_init_device_mode(struct sunxi_rsb
->> *rsb) if (reg & RSB_DMCR_DEVICE_START)
->>  		ret = -ETIMEDOUT;
->>
->> -	/* clear interrupt status bits */
->> -	writel(readl(rsb->regs + RSB_INTS), rsb->regs + RSB_INTS);
->> -
->>  	return ret;
->>  }
+This serie was tested on whole range of board and PHY architecture:
+- internal PHY
+  * sun8i-h3-orangepi-pc
+- external PHY
+  * sun50i-h6-pine-h64
+  * sun8i-r40-bananapi-m2-ultra
+  * sun8i-a83t-bananapi-m3
+  * sun50i-a64-bananapi-m64
+  * sun50i-h6-orangepi-3
+  * sun50i-h5-nanopi-neo-plus2
+
+The resume/suspend of PHY was tested.
+
+Regards
+
+changes since v1:
+- Add regulator_bulk_get_all for ease handling of PHY regulators
+- Removed all convertion patchs to keep DT compatibility.
+
+Changes since v2:
+- removed use of regulator-names and regulators list.
+
+Changes since v3:
+- fixes kbuild robot report
+
+Corentin Labbe (2):
+  regulator: Add of_regulator_bulk_get_all
+  phy: handle optional regulator for PHY
+
+Ondřej Jirman (1):
+  arm64: dts: allwinner: orange-pi-3: Enable ethernet
+
+ .../dts/allwinner/sun50i-h6-orangepi-3.dts    | 38 ++++++++
+ drivers/net/mdio/fwnode_mdio.c                | 31 ++++++-
+ drivers/net/phy/phy_device.c                  | 10 ++
+ drivers/regulator/of_regulator.c              | 92 +++++++++++++++++++
+ include/linux/phy.h                           |  3 +
+ include/linux/regulator/consumer.h            |  8 ++
+ 6 files changed, 181 insertions(+), 1 deletion(-)
+
+-- 
+2.37.4
 
