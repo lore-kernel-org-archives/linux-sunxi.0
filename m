@@ -1,49 +1,108 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377757C
-	for <linux-sunxi@lists.linux.dev>; Wed, 16 Nov 2022 01:58:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=gDPOfgCfsDpi156C3e6FefCsf6pqUQQ8FpNTQBrsuqU=; b=1pWmLNiV2HEPMd/seMrvyU9Oyy
-	rX/HE2DM+RqCT73cBUybTRcZnPaHO4j1QXB1yPd+IPFy7/fW5Qv3aStSr6ugUTqSIqSC5ZES42jNw
-	ynjhN/u4twv7TpTZzjyPC2EhzLfcC9DUTdRTaG0shKEp0xqbhDxjmJulcHThQpcsSPWE=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1ov7gw-002WDH-FG; Wed, 16 Nov 2022 02:58:18 +0100
-Date: Wed, 16 Nov 2022 02:58:18 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Corentin Labbe <clabbe@baylibre.com>
-Cc: broonie@kernel.org, calvin.johnson@oss.nxp.com, davem@davemloft.net,
-	edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com,
-	krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org,
-	lgirdwood@gmail.com, linux@armlinux.org.uk, pabeni@redhat.com,
-	robh+dt@kernel.org, samuel@sholland.org, wens@csie.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	netdev@vger.kernel.org, linux-sunxi@googlegroups.com
-Subject: Re: [PATCH v4 2/3] phy: handle optional regulator for PHY
-Message-ID: <Y3RDumClNkEW6L4F@lunn.ch>
-References: <20221115073603.3425396-1-clabbe@baylibre.com>
- <20221115073603.3425396-3-clabbe@baylibre.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCC07C
+	for <linux-sunxi@lists.linux.dev>; Wed, 16 Nov 2022 03:46:24 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id CA9B85C018C;
+	Tue, 15 Nov 2022 22:46:23 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Tue, 15 Nov 2022 22:46:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1668570383; x=1668656783; bh=98Wqu6kwTkpQx0diKFaT1wM6I
+	4WeLKlWxy3HOKKiaiw=; b=f2dnLkFhJVUrqrjGX0/qdstmEFGgn+VxQmigbZZPB
+	FnayAaZGHGOaoBv0ZxdmsdA92zKkBOreIe8TiuK2FK7J54QwcfbAPu/BBWmOukSi
+	am6T93Vwl7m/EU3NwezMVyDyeO28vd0kSP1E5sXAAUPMnTmfJRQ+ZAOPbZY0eDWo
+	uW6pbAeXdhmJYFMcoXH30Q47AR3eeMkCKcMNxwEPVCS/1tDETXHQyGCY+JXA/+Pt
+	UumYQA4d6NEchsbfd7xmVlDadh/N9vV75IPbi5UsH8iIqBw/Rb3OuEjuPwDqHV3P
+	spros1h6uO6TFd6AmRkuiojXaTJ696ywRZAFx3DFoiM7Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1668570383; x=1668656783; bh=98Wqu6kwTkpQx0diKFaT1wM6I4WeLKlWxy3
+	HOKKiaiw=; b=kC8zSkhNKfuHZORd/Hu+Qa/racxzvBAmNX+Oz9VyIT0CoJUExfR
+	cwOHzGgz/0OZgJQRjzRBJiM1D46IQ+n6eeD8nxOt8Xv0IeQQR02Vga1/WDCsNEs5
+	v3l3hpyh3D5rxwZ6h16SJJs7vKE07iXVgw0G/1cVekRQLqzoYyLnI/qmtkLnWjzx
+	wPb0y/XNs4A6ILifWLiZY7jK3pjQzM/QavGOj5zkfmB/r33Q1NYzQPxzTfU5dHaY
+	uTHkeIdiHzorKhXTJbCGdwVS7C8aeuEvevwlIhJoV52A7r9NtjCcdiowPEVKvLOp
+	hFOKbcC8BBwIyckGqlQFckZ5h4t9WLqLHhA==
+X-ME-Sender: <xms:D110Yzp5saybWSvKd9XP3Ui_OCEOEZuEhtp6qYbDVIJ6te_XNC0piQ>
+    <xme:D110Y9rV6E9Uhl-57QnRq2ALFkXWIZ_3Cl8aojjPTwht-NI2GpzMPRQD2-zeX5La2
+    7TmJ69felIhi10-Hw>
+X-ME-Received: <xmr:D110YwNCnV7hUClUYsSCSF2HDy-IZ8aOq1DqaqxHL1gaxhJyGfy27vajiysW0_A7J0MytOhoUkk4CpWxR73IN2Qd_sndY3swFxZ0R3wBTFoe1gLqnwODYtl4QVeImx7-oZWjPA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeehgdeivdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeehhffh
+    keekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:D110Y24560usaTLVIht-_dnsK5ZG8aLHjMX01d8JwBK8AE4eV4-fig>
+    <xmx:D110Yy4MbDqv2BpA1rkX80wWEBtYkmOwEYYzVGhZz55Wj9q-iIeD_A>
+    <xmx:D110Y-gfQZKz3-TJaMNZeSXJ4YijeyefH-K7u7Oep7MqGSp7SDfgCw>
+    <xmx:D110Y6j8flhLVh8U5IinzOVINi9l5vaeA32U7GAjamV5-zhAHssuTg>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 15 Nov 2022 22:46:22 -0500 (EST)
+From: Samuel Holland <samuel@sholland.org>
+To: Ban Tao <fengzheng923@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	alsa-devel@alsa-project.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] ASoC: dt-bindings: sun50i-dmic: Add D1 compatible string
+Date: Tue, 15 Nov 2022 21:46:21 -0600
+Message-Id: <20221116034621.37762-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221115073603.3425396-3-clabbe@baylibre.com>
+Content-Transfer-Encoding: 8bit
 
-> +		reg_cnt = of_regulator_bulk_get_all(&bus->dev, nchild, &consumers);
+The Allwinner D1 SoC has a DMIC codec like the one in the H6. It appears
+to be register-compatible with the H6 variant, and the existing Linux
+driver has been tested on a D1-based board, the Lichee RV 86 Panel.
 
-This allocates memory for consumers?
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
 
-I don't see it being freed. I think you need to add to
-phy_remove. Plus the error patch should also free it.
+ .../bindings/sound/allwinner,sun50i-h6-dmic.yaml           | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-	    Andrew
+diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml
+index 2f12cabe4c71..0920f2f81a1c 100644
+--- a/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml
++++ b/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml
+@@ -11,7 +11,12 @@ maintainers:
+ 
+ properties:
+   compatible:
+-    const: allwinner,sun50i-h6-dmic
++    oneOf:
++      - items:
++          - enum:
++              - allwinner,sun20i-d1-dmic
++          - const: allwinner,sun50i-h6-dmic
++      - const: allwinner,sun50i-h6-dmic
+ 
+   "#sound-dai-cells":
+     const: 0
+-- 
+2.37.3
+
