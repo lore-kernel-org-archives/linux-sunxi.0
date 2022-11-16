@@ -1,88 +1,68 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E57D532
-	for <linux-sunxi@lists.linux.dev>; Wed, 16 Nov 2022 18:43:06 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id l14so31395434wrw.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 16 Nov 2022 10:43:06 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4CFD532
+	for <linux-sunxi@lists.linux.dev>; Wed, 16 Nov 2022 18:46:22 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id z14so31243855wrn.7
+        for <linux-sunxi@lists.linux.dev>; Wed, 16 Nov 2022 10:46:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LBaY/WJzVWLKKpmx/+z8bD3CIwXoF9pDegWY/faLe6Y=;
-        b=HbTr+ZXEhEtQWkZTJ0mRjOoV4Xux9aiWlecBD6Z2x2HzL6nBaUlB7TowUoq/hFQohc
-         Pb+57O2/D1s7mN6RjZxE50ruzL+9dAastX4Lmub6itxhBEwgfPb/ckKUxnmOUns/fgVq
-         KAb8jMQsHPmGOxAb5PUCwvh907hk4Be8GipvRKFbuhEyhuRL0Oaoc8FsGOvi0fP1tMAG
-         RKfMfNHVSSVkAymvUe270FkFgR7XtXRNYdVN5rKm42c7224sOmBRyCKDPNhwU39SBMdv
-         xr/585rT9b8HmTilDqyOW9MA/gpLh6Afur/TLvvwrTVp2c4sqfjD3zVYPIXbmnZ9A3wb
-         d/hg==
+        bh=TwJWWDBntVeku1uedvJVLfXfsM4W2+ZHodqQlFwIwe4=;
+        b=OibLO0sDtzDXMimFfooed4Mm/dgLbyq2mjRVnOCEfks0t5txdFiJxkccrWJg+aTekg
+         cqkVzTwGUJd9LIZKW/dOjzSgdt3CBPQzoEf3ud1bClR3NCT7/Si6Xs1T6FBIY8u1z0gt
+         EDh6NZvFsWXMQnNRtP13l40LtyCIpikqDBDTB2M9qboqOQnKoA5XGTizcEAPqgxwmxwy
+         hNMqXThGe/Cx1I7nnW5+3bf2laRThvjIPtus3c0JOPGcrWqLBjg0rkYAZ4nSVIKkR6Wb
+         32uPcg/u5KoO6pdoKmx4iyPR8Dpls+VRwd9z5a0x3oIxglYWChXDk4JghpMdCuObz/lJ
+         srsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LBaY/WJzVWLKKpmx/+z8bD3CIwXoF9pDegWY/faLe6Y=;
-        b=sz9j1YosUcLAYt9qA13XhRGOYnAUTBmNTgB7JTm1vG/Ce7jjNqRQJuRYhz3A6jszr/
-         fG+nvE/fEFbfWTPlc18VMwiBEg9ATz7yscZRy8ZC4dhaU7y33xl5+2+URINUOvWyP/VF
-         YvtqDTkBN/xoHEuXnO/ew+AM5IX45xkgZ1acIB7djVuxyw8XQhjs4UAkHaXq0LN8DVcE
-         kzZLMOviYp8Lke/V2+xqg4z+50mtpZYQ+n/YOtevH/IxuEwTLaCfHlqxwaYQJw54XQtF
-         zaCFO2k2Hz/T6Moe/4GNJMottiocd0IcpDEm3/BEtvy4O3G92aHH1ufXcOFnktSlXK9J
-         AqeA==
-X-Gm-Message-State: ANoB5pnt1enVvh69AFwBa+WIPvOOuF373K1etOzulAMedc/4UOjryH/7
-	tvJdYnMZeOLBUCoW+iJ0Qts=
-X-Google-Smtp-Source: AA0mqf4KxTiBnxlDFEOhZzRB+kB1sRhxWzJb3nz3Qqe5bT8HaglG/kSj7W8zuIaZXDMf+4zStInFAA==
-X-Received: by 2002:adf:cd11:0:b0:236:aacc:ea07 with SMTP id w17-20020adfcd11000000b00236aaccea07mr15176391wrm.36.1668624185131;
-        Wed, 16 Nov 2022 10:43:05 -0800 (PST)
+        bh=TwJWWDBntVeku1uedvJVLfXfsM4W2+ZHodqQlFwIwe4=;
+        b=gS+3Tg9mTLxBu9sAfldqft+O/aKmdIV8mg5L5sJsVfpCESUU0RV4IE3l3VSJLxd6BK
+         7omhLCKnHuFeraAWSYF7Zku/uvLlgnrT/tv1dlj+tTst3B3OBRLbqE1dnjpjPEehtzBy
+         K85Jt83vmgbE2pQdK1RjJmPo/UEyuqNFnSybo23QvvUFJId8xTTv96tL/Pc8ZBljJgVT
+         6UY4kIMMMf0zc9RNqRyupRNqAC0RTtcycJFpqFGeKOPNLZAJHv0ldPP3koB8ZULjiLpb
+         I0PrH6+n85byPhjxyi5fZQsCnSotsTbDEgoac0w9iHBRN2GREmGCyG9bjV08WMDPJzkd
+         NJ+w==
+X-Gm-Message-State: ANoB5pn7CiiZ8a/6ID6zz/Urz4UZHhTA/tzbPyAxUSz7dSBOe4ghSf6j
+	2LOiXuYvbTyYbGcj59gEccKRfYfKjV2x7A==
+X-Google-Smtp-Source: AA0mqf4JvHTxi8KK+MvHKwXoWZs8vKCo+lLf+kIDv9+vjextNU3TcfsfMIZRw+SXCq7BnCmhY9Z9SQ==
+X-Received: by 2002:a5d:4589:0:b0:236:698d:9c44 with SMTP id p9-20020a5d4589000000b00236698d9c44mr14667418wrq.571.1668624380454;
+        Wed, 16 Nov 2022 10:46:20 -0800 (PST)
 Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id j6-20020a05600c1c0600b003a3170a7af9sm3306725wms.4.2022.11.16.10.43.04
+        by smtp.gmail.com with ESMTPSA id e21-20020a05600c4b9500b003c5571c27a1sm3165422wmp.32.2022.11.16.10.46.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 10:43:04 -0800 (PST)
+        Wed, 16 Nov 2022 10:46:20 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: Icenowy Zheng <uwu@icenowy.me>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] ARM: dts: sunxi: H3/H5: Add phys property to USB HCI0
-Date: Wed, 16 Nov 2022 19:43:03 +0100
-Message-ID: <4782467.31r3eYUQgx@kista>
-In-Reply-To: <20221110005507.19464-1-andre.przywara@arm.com>
-References: <20221110005507.19464-1-andre.przywara@arm.com>
+To: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Wei Li <liwei391@huawei.com>
+Cc: linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, huawei.libin@huawei.com
+Subject: Re: [PATCH] clk: sunxi-ng: v3s: Correct the header guard of ccu-sun8i-v3s.h
+Date: Wed, 16 Nov 2022 19:46:19 +0100
+Message-ID: <2259258.ElGaqSPkdT@kista>
+In-Reply-To: <20221108094335.3597008-1-liwei391@huawei.com>
+References: <20221108094335.3597008-1-liwei391@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Dne =C4=8Detrtek, 10. november 2022 ob 01:55:07 CET je Andre Przywara napis=
-al(a):
-> As many other Allwinner SoCs from the last years, the first USB host
-> controller pair in the Allwinner H3 and H5 chips share a USB PHY with
-> the MUSB OTG controller. This is probably the reason why we didn't have
-> a "phys" property in those host controller nodes.
-> This works fine as long as the MUSB controller driver is loaded, as this
-> takes care of the proper PHY setup, including the muxing between MUSB
-> and the HCI.
->=20
-> However this requires the MUSB driver to be enabled and loaded, and also
-> upsets U-Boot, which cannot use a HCI port without a "phys" property.
->=20
-> Similar to what we did in commit cc72570747e4 ("arm64: dts: allwinner:
-> A64: properly connect USB PHY to port 0"), add the "phys" property to
-> the OHCI0 and EHCI0 DT nodes in the shared H3/H5 .dtsi file.
->=20
-> This is not only the proper description of the hardware, but also avoids
-> a nasty error message in U-Boot triggered by a recent patch. (The port
-> never worked in host mode, but the error was suppressed due to a bug.)
->=20
-> When using the MUSB port in OTG mode, this also fixes host mode
-> switching, so people can use OTG adapters to connect a USB device to
-> port 0.
->=20
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Dne torek, 08. november 2022 ob 10:43:35 CET je Wei Li napisal(a):
+> Rename the header guard of ccu-sun8i-v3s.h from _CCU_SUN8I_H3_H_ to
+> _CCU_SUN8I_V3S_H_ what corresponding with the file name.
+> 
+> Fixes: d0f11d14b0bc ("clk: sunxi-ng: add support for V3s CCU")
+> Signed-off-by: Wei Li <liwei391@huawei.com>
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Applied, thanks!
 
 Best regards,
 Jernej
