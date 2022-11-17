@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67C90257E
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8194228EA
 	for <linux-sunxi@lists.linux.dev>; Thu, 17 Nov 2022 10:37:12 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 98C38150C;
-	Thu, 17 Nov 2022 02:37:12 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7E0B31570;
+	Thu, 17 Nov 2022 02:37:18 -0800 (PST)
 Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 84DF13F73B;
-	Thu, 17 Nov 2022 02:37:04 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6A7D43F73B;
+	Thu, 17 Nov 2022 02:37:10 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Chen-Yu Tsai <wens@csie.org>,
 	Samuel Holland <samuel@sholland.org>,
@@ -21,9 +21,9 @@ Cc: Icenowy Zheng <uwu@icenowy.me>,
 	linux-usb@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v4 02/11] usb: musb: sunxi: add support for the F1C100s MUSB controller
-Date: Thu, 17 Nov 2022 10:36:47 +0000
-Message-Id: <20221117103656.1085840-3-andre.przywara@arm.com>
+Subject: [PATCH v4 05/11] ARM: dts: suniv: licheepi-nano: enable USB
+Date: Thu, 17 Nov 2022 10:36:50 +0000
+Message-Id: <20221117103656.1085840-6-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221117103656.1085840-1-andre.przywara@arm.com>
 References: <20221117103656.1085840-1-andre.przywara@arm.com>
@@ -37,50 +37,54 @@ Content-Transfer-Encoding: 8bit
 
 From: Icenowy Zheng <uwu@icenowy.me>
 
-The suniv SoC has a MUSB controller like the one in A33, but with a SRAM
-region to be claimed.
+Lichee Pi Nano has a Micro-USB connector, with its D+, D- pins connected
+to the USB pins of the SoC and ID pin connected to PE2 GPIO.
 
-Add support for it.
+Enable the USB functionality.
 
 Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- drivers/usb/musb/sunxi.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ .../arm/boot/dts/suniv-f1c100s-licheepi-nano.dts | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
-index 7f9a999cd5ff1..4b368d16a73ad 100644
---- a/drivers/usb/musb/sunxi.c
-+++ b/drivers/usb/musb/sunxi.c
-@@ -722,14 +722,17 @@ static int sunxi_musb_probe(struct platform_device *pdev)
- 	INIT_WORK(&glue->work, sunxi_musb_work);
- 	glue->host_nb.notifier_call = sunxi_musb_host_notifier;
+diff --git a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts b/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
+index 04e59b8381cb8..43896723a994c 100644
+--- a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
++++ b/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
+@@ -6,6 +6,8 @@
+ /dts-v1/;
+ #include "suniv-f1c100s.dtsi"
  
--	if (of_device_is_compatible(np, "allwinner,sun4i-a10-musb"))
-+	if (of_device_is_compatible(np, "allwinner,sun4i-a10-musb") ||
-+	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
- 		set_bit(SUNXI_MUSB_FL_HAS_SRAM, &glue->flags);
-+	}
- 
- 	if (of_device_is_compatible(np, "allwinner,sun6i-a31-musb"))
- 		set_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags);
- 
- 	if (of_device_is_compatible(np, "allwinner,sun8i-a33-musb") ||
--	    of_device_is_compatible(np, "allwinner,sun8i-h3-musb")) {
-+	    of_device_is_compatible(np, "allwinner,sun8i-h3-musb") ||
-+	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
- 		set_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags);
- 		set_bit(SUNXI_MUSB_FL_NO_CONFIGDATA, &glue->flags);
- 	}
-@@ -815,6 +818,7 @@ static const struct of_device_id sunxi_musb_match[] = {
- 	{ .compatible = "allwinner,sun6i-a31-musb", },
- 	{ .compatible = "allwinner,sun8i-a33-musb", },
- 	{ .compatible = "allwinner,sun8i-h3-musb", },
-+	{ .compatible = "allwinner,suniv-f1c100s-musb", },
- 	{}
++#include <dt-bindings/gpio/gpio.h>
++
+ / {
+ 	model = "Lichee Pi Nano";
+ 	compatible = "licheepi,licheepi-nano", "allwinner,suniv-f1c100s";
+@@ -50,8 +52,22 @@ flash@0 {
+ 	};
  };
- MODULE_DEVICE_TABLE(of, sunxi_musb_match);
+ 
++&otg_sram {
++	status = "okay";
++};
++
+ &uart0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&uart0_pe_pins>;
+ 	status = "okay";
+ };
++
++&usb_otg {
++	dr_mode = "otg";
++	status = "okay";
++};
++
++&usbphy {
++	usb0_id_det-gpios = <&pio 4 2 GPIO_ACTIVE_HIGH>; /* PE2 */
++	status = "okay";
++};
 -- 
 2.25.1
 
