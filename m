@@ -1,85 +1,91 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B2115C9A
-	for <linux-sunxi@lists.linux.dev>; Wed, 16 Nov 2022 23:42:22 +0000 (UTC)
-Received: by mail-oi1-f176.google.com with SMTP id b124so143409oia.4
-        for <linux-sunxi@lists.linux.dev>; Wed, 16 Nov 2022 15:42:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9366517E0
+	for <linux-sunxi@lists.linux.dev>; Thu, 17 Nov 2022 06:07:11 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id v1so1802833wrt.11
+        for <linux-sunxi@lists.linux.dev>; Wed, 16 Nov 2022 22:07:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UiXSAQsSjwWqOGc9spTfADfVAnOu8H9dxOp6ONZY5HI=;
+        b=BqXgBQ7H19xsIldwSJ3XEtEaIyFB1pdOaoIIBGAvsLqPWuYbRoHDUN2CEBw0y3fxO3
+         uwXsNGip+B4h9O1rmk+YMJmusJHfaeq7vO88bENdgIc6d4g/Q5ERZP8h+CMGECBu+X6k
+         DHr3Vgr6V2tKU6lJj4Je8jANmXUTuaIp0l0++ThbeldD1m97ufIyMdpurrQHTy95XFcz
+         dONdw2asOsd8CV8KJJwzAEFz5StzdHnVE0EM+gDQ28o/PqGKMes0ezBU3AmSxPHq4QcM
+         SR1e7NutED2dxq9rz3GeAL70s9b4ihla6W7mGew7S/MZI2pr/0jy20LEPAyRCBdyzW3z
+         xR9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=5LdKOGlH65lOSoImyTv5F76TVsoyOjJ93aGKFHERCSs=;
-        b=vOTBX32mxEfKHp9qM6iCbVhqjP80A5pj0IFetJujlGZ9yLuh2S9EazcJP/N7ExO/mg
-         6FOk+XH6R7IGvFMdkM8mn058yjxRjkjd9xSzpPbVd5f+niVb3gWoTxbfuPtgURhroyct
-         khJzDLUDTqJzaLW1DkWBRhCRDE/yGtTEBan2HdCfJWFAsC/9tc00jA0mt3h7Vb1OmYAf
-         6N6BnH/O+z3FXD7rYsn1D5T5CVo4HBiC/viyzcAx9B2PGIJlV0leAmqNmW8f3RKk2I6k
-         k1+/SFlx1ZuC9sh4k7IhW0Bcffb17SRx5qjTb9sK7gF9oTI5CgAENFlKAVFlksF3vSkg
-         n/Zg==
-X-Gm-Message-State: ANoB5pkLSNt9UNxwSKjDNDskXfRjYY9eMbbS7TYZXJi8/VGPtc+USldv
-	xres8UvBPnhuz0n9xBPfUw==
-X-Google-Smtp-Source: AA0mqf6FgriVlXfvMJ9LHdjfinowMEqzwwe+lERbtwJvX0bDChLkPIPUTIL+nJTeLRlM0Zj9da+qXg==
-X-Received: by 2002:a05:6808:ec9:b0:34d:d3a5:b2d with SMTP id q9-20020a0568080ec900b0034dd3a50b2dmr2771547oiv.224.1668642141339;
-        Wed, 16 Nov 2022 15:42:21 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id w13-20020a9d450d000000b00661948e6119sm7300245ote.47.2022.11.16.15.42.20
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UiXSAQsSjwWqOGc9spTfADfVAnOu8H9dxOp6ONZY5HI=;
+        b=YmDJ+oztOl/tz+e4WpULrKyeq6MxWiRHPx9UgPcshIVq7P/CmdCHovTZYkoTVOmKvb
+         fXTizCe825EP0vLlubzoP4uSlBHz/685bBrAkt2CXu9pZys54KHYAm/foxRLDuYW1D1K
+         c4gp38cncv/0LzLcK9DxZwxxwaty8TJkEYA2sgh7pu4XZBy5TdRCMJBalyyVbI7eFtwZ
+         hd5da3Ql+MUf6f/qRwuy0Yz1NDgOvi7lSpaeydX7hKUG1V3wng9oQoNE+ZveLXfbHHpk
+         p3Og6CnMeNQrxIr9ES8V2cOS4N03MH3auUeoJCIOln5RahIFGNjEWM3bpvPoAUhtehLA
+         szCA==
+X-Gm-Message-State: ANoB5pkieQvZDkjRUSTbtFAGRJ1DzivnkEU9VQAf9YPs4E7+Ys0VBOCb
+	BLn9VWOH80F4DZx4JfTe+JM=
+X-Google-Smtp-Source: AA0mqf5SwUTUY/lj91u2/nwQu6g7fE2GFbJh2pd3jLHyIsRrmrwZ+DiGtLaGJyqtt7bLuhpDmkLHAg==
+X-Received: by 2002:a5d:6b8d:0:b0:236:4c14:4e4c with SMTP id n13-20020a5d6b8d000000b002364c144e4cmr431753wrx.634.1668665229774;
+        Wed, 16 Nov 2022 22:07:09 -0800 (PST)
+Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id r11-20020a5d694b000000b0023691d62cffsm16542568wrw.70.2022.11.16.22.07.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 15:42:20 -0800 (PST)
-Received: (nullmailer pid 1236701 invoked by uid 1000);
-	Wed, 16 Nov 2022 23:42:22 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Wed, 16 Nov 2022 22:07:09 -0800 (PST)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mchehab@kernel.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	wens@csie.org,
+	samuel@sholland.org
+Cc: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH v2 0/2] arm64: allwinner: h6: Add second IOMMU reference to Cedrus
+Date: Thu, 17 Nov 2022 07:07:02 +0100
+Message-Id: <20221117060704.367945-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, samuel@sholland.org, linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev, mchehab@kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, wens@csie.org
-In-Reply-To: <20221116193105.363297-2-jernej.skrabec@gmail.com>
-References: <20221116193105.363297-1-jernej.skrabec@gmail.com>
- <20221116193105.363297-2-jernej.skrabec@gmail.com>
-Message-Id: <166864203895.1233471.6009951127753236678.robh@kernel.org>
-Subject: Re: [PATCH 1/2] media: dt-bindings: allwinner: video-engine: Fix
- number of IOMMU channels
-Date: Wed, 16 Nov 2022 17:42:22 -0600
+Content-Transfer-Encoding: 8bit
 
+It turns out that Cedrus on H6 actually uses two IOMMU channels. Manual
+mentiones two IOMMU channels, but it doesn't specify which is used when.
+Page faults were also observed from both.
 
-On Wed, 16 Nov 2022 20:31:04 +0100, Jernej Skrabec wrote:
-> Cedrus (video engine) on Allwinner H6 actually uses two IOMMU channel,
-> not just one. However, Cedrus on SoCs like D1 only uses one channel.
-> 
-> Allow up to 2 IOMMU channels.
-> 
-> Fixes: 62a8ccf3a248 ("arm64: dts: allwinner: h6: Fix Cedrus IOMMU usage")
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->  .../bindings/media/allwinner,sun4i-a10-video-engine.yaml        | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+This series updates binding to allow up to two IOMMU channels and fixes
+H6 DTSI.
 
-Running 'make dtbs_check' with the schema in this patch gives the
-following warnings. Consider if they are expected or the schema is
-incorrect. These may not be new warnings.
+Please take a look.
 
-Note that it is not yet a requirement to have 0 warnings for dtbs_check.
-This will change in the future.
+Best regards,
+Jernej
 
-Full log is available here: https://patchwork.ozlabs.org/patch/
+Changes from v1:
+- add minItems to binding
+- add reviewed-by to DT patch
 
+Jernej Skrabec (2):
+  media: dt-bindings: allwinner: video-engine: Fix number of IOMMU
+    channels
+  arm64: dts: allwinner: h6: Fix Cedrus IOMMU channels
 
-video-codec@1c0e000: iommus: [[10, 3]] is too short
-	arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-lite2.dtb
-	arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-one-plus.dtb
+ .../bindings/media/allwinner,sun4i-a10-video-engine.yaml       | 3 ++-
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi                   | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-video-codec@1c0e000: iommus: [[12, 3]] is too short
-	arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dtb
-	arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dtb
-	arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dtb
-	arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64-model-b.dtb
-	arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dtb
-	arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6-mini.dtb
+--
+2.38.1
 
