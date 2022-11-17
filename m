@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DF2923CD
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 903C523D6
 	for <linux-sunxi@lists.linux.dev>; Thu, 17 Nov 2022 10:37:10 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A17AA1477;
-	Thu, 17 Nov 2022 02:37:10 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8730D153B;
+	Thu, 17 Nov 2022 02:37:16 -0800 (PST)
 Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8DCB73F73B;
-	Thu, 17 Nov 2022 02:37:02 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 73A143F73B;
+	Thu, 17 Nov 2022 02:37:08 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Chen-Yu Tsai <wens@csie.org>,
 	Samuel Holland <samuel@sholland.org>,
@@ -21,9 +21,9 @@ Cc: Icenowy Zheng <uwu@icenowy.me>,
 	linux-usb@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v4 01/11] dt-bindings: usb: sunxi-musb: add F1C100s MUSB compatible string
-Date: Thu, 17 Nov 2022 10:36:46 +0000
-Message-Id: <20221117103656.1085840-2-andre.przywara@arm.com>
+Subject: [PATCH v4 04/11] ARM: dts: suniv: add USB-related device nodes
+Date: Thu, 17 Nov 2022 10:36:49 +0000
+Message-Id: <20221117103656.1085840-5-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221117103656.1085840-1-andre.przywara@arm.com>
 References: <20221117103656.1085840-1-andre.przywara@arm.com>
@@ -37,40 +37,56 @@ Content-Transfer-Encoding: 8bit
 
 From: Icenowy Zheng <uwu@icenowy.me>
 
-Allwinner F1C100s has a hybrid MUSB controller between the A10 one and
-the A33 one.
+The suniv SoC has a USB OTG controller and a USB PHY like other
+Allwinner SoCs.
 
-Add a compatible string for it.
+Add their device tree node.
 
 Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: Samuel Holland <samuel@sholland.org>
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- .../bindings/usb/allwinner,sun4i-a10-musb.yaml         | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ arch/arm/boot/dts/suniv-f1c100s.dtsi | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml b/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
-index 8992eff6ce387..f972ce976e860 100644
---- a/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
-+++ b/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
-@@ -13,10 +13,12 @@ maintainers:
- properties:
-   compatible:
-     oneOf:
--      - const: allwinner,sun4i-a10-musb
--      - const: allwinner,sun6i-a31-musb
--      - const: allwinner,sun8i-a33-musb
--      - const: allwinner,sun8i-h3-musb
-+      - enum:
-+          - allwinner,sun4i-a10-musb
-+          - allwinner,sun6i-a31-musb
-+          - allwinner,sun8i-a33-musb
-+          - allwinner,sun8i-h3-musb
-+          - allwinner,suniv-f1c100s-musb
-       - items:
-           - enum:
-               - allwinner,sun8i-a83t-musb
+diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+index 9455d27e516ee..111f8bbc2a805 100644
+--- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
++++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+@@ -133,6 +133,32 @@ mmc1: mmc@1c10000 {
+ 			#size-cells = <0>;
+ 		};
+ 
++		usb_otg: usb@1c13000 {
++			compatible = "allwinner,suniv-f1c100s-musb";
++			reg = <0x01c13000 0x0400>;
++			clocks = <&ccu CLK_BUS_OTG>;
++			resets = <&ccu RST_BUS_OTG>;
++			interrupts = <26>;
++			interrupt-names = "mc";
++			phys = <&usbphy 0>;
++			phy-names = "usb";
++			extcon = <&usbphy 0>;
++			allwinner,sram = <&otg_sram 1>;
++			status = "disabled";
++		};
++
++		usbphy: phy@1c13400 {
++			compatible = "allwinner,suniv-f1c100s-usb-phy";
++			reg = <0x01c13400 0x10>;
++			reg-names = "phy_ctrl";
++			clocks = <&ccu CLK_USB_PHY0>;
++			clock-names = "usb0_phy";
++			resets = <&ccu RST_USB_PHY0>;
++			reset-names = "usb0_reset";
++			#phy-cells = <1>;
++			status = "disabled";
++		};
++
+ 		ccu: clock@1c20000 {
+ 			compatible = "allwinner,suniv-f1c100s-ccu";
+ 			reg = <0x01c20000 0x400>;
 -- 
 2.25.1
 
