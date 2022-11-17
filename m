@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6082123A2
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F314B23CC
 	for <linux-sunxi@lists.linux.dev>; Thu, 17 Nov 2022 10:37:08 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AB436D6E;
-	Thu, 17 Nov 2022 02:37:08 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9051B152B;
+	Thu, 17 Nov 2022 02:37:14 -0800 (PST)
 Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 94EB63F73B;
-	Thu, 17 Nov 2022 02:37:00 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7C5563F73B;
+	Thu, 17 Nov 2022 02:37:06 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Chen-Yu Tsai <wens@csie.org>,
 	Samuel Holland <samuel@sholland.org>,
@@ -21,10 +21,12 @@ Cc: Icenowy Zheng <uwu@icenowy.me>,
 	linux-usb@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v4 00/11] ARM: suniv: USB and two new boards support
-Date: Thu, 17 Nov 2022 10:36:45 +0000
-Message-Id: <20221117103656.1085840-1-andre.przywara@arm.com>
+Subject: [PATCH v4 03/11] usb: musb: sunxi: Introduce config struct
+Date: Thu, 17 Nov 2022 10:36:48 +0000
+Message-Id: <20221117103656.1085840-4-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221117103656.1085840-1-andre.przywara@arm.com>
+References: <20221117103656.1085840-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -33,90 +35,206 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is an update and rebase of the former v3 series.
-It now cleanly applies and builds on top of linux-sunxi/sunxi/for-next,
-this is also the tree those patches should go through.
-To make dtbs_check pass, we need three more binding patches, the LRADC
-and I2C ones are in linux-next, the PHY binding [1] should end up there
-hopefully soon.
-To get a working image, one needs linux-next, plus the PHY support patch
-[2]. Sorry for the mess, this is due to the PHY patches going through a
-different tree, and they depend on the H616 changes only available there.
-If there are any questions or advice how to solve this better, please
-approach me via email or IRC.
-I put a tree with all the requirements on top here:
-https://github.com/apritzel/linux/commits/f1c100s-usb-v4
+Currently the probe routine explicitly compares the compatible string of
+the device node to figure out which features and quirks a certain
+Allwinner MUSB model requires. This gets harder to maintain for new
+SoCs.
 
-Code-wise there were only smaller changes, see the changelog below.
-I put my Lctech Pi DT series on top, since it has the same USB
-dependencies as the Popstick DT.
+Add a struct sunxi_musb_cfg that names the features and quirks
+explicitly, and create instances of this struct for every type of MUSB
+device we support. Then bind this to the compatible strings via the OF
+data feature.
 
-[1] https://lore.kernel.org/linux-arm-kernel/20221116151603.819533-2-andre.przywara@arm.com/
-[2] https://lore.kernel.org/linux-arm-kernel/20221116151603.819533-3-andre.przywara@arm.com/
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ drivers/usb/musb/sunxi.c | 103 ++++++++++++++++++++++++++-------------
+ 1 file changed, 70 insertions(+), 33 deletions(-)
 
-================
-This patchset introduces support for F1C100s' USB, and the SourceParts
-PopStick and Lctech Pi boards.
-
-The DT binding and driver support for SUNIV USB MUSB device are added, in
-addition to DT changes to the DTSI and Lichee Nano DT. New DTs are added
-for the SourceParts PopStick v1.1 and Lctech Pi boards.
-
-Changelog v3 ... v4:
-- Dropped the PHY patches, they go via a different tree and need a
-  different base
-- rebased on top of linux-sunxi/sunxi/for-next (provides H616 USB)
-- musb DT binding: use enum
-- musb cleanup: use musb_hdrc_config config pointer directly
-- musb cleanup: use const where possible
-- drop partitions from Popstick DTS file
-- clarify Popstick has a USB type-A *plug*
-- add tags
-
-Changelog v2 ... v3:
-- remove redundant "Device Tree Bindings" suffix in DT binding doc title
-- add BSD license to binding doc file (as per checkpatch)
-- fix some commit message title prefixes
-- use proper plural spelling for usb0_id_det-gpios
-- popstick.dts: Reorder otg_sram node reference alphabetically
-- popstick.dts: Add regulator- prefix to 3.3V regulator node name
-- popstick.dts: Fix status, compatible and reg property order
-- popstick.dts: Drop unneeded mmc0 and spi0 aliases
-- add patch to clean up sunxi MUSB driver
-- add Acks and Reviewed-by's
-
-Changelog v1 ... v2:
-- USB PHY binding: clarify the relation with other phy-sun4i-usb bindings
-- Add Popstick binding and .dts patches
-
-Andre Przywara (4):
-  usb: musb: sunxi: Introduce config struct
-  dt-bindings: vendor-prefixes: add Lctech name
-  dt-bindings: arm: sunxi: add compatible strings for Lctech Pi
-  ARM: dts: suniv: Add Lctech Pi F1C200s devicetree
-
-Icenowy Zheng (7):
-  dt-bindings: usb: sunxi-musb: add F1C100s MUSB compatible string
-  usb: musb: sunxi: add support for the F1C100s MUSB controller
-  ARM: dts: suniv: add USB-related device nodes
-  ARM: dts: suniv: licheepi-nano: enable USB
-  dt-bindings: vendor-prefixes: add Source Parts
-  dt-binding: arm: sunxi: add compatible strings for PopStick v1.1
-  ARM: dts: suniv: add device tree for PopStick v1.1
-
- .../devicetree/bindings/arm/sunxi.yaml        | 13 +++
- .../usb/allwinner,sun4i-a10-musb.yaml         | 10 +-
- .../devicetree/bindings/vendor-prefixes.yaml  |  4 +
- arch/arm/boot/dts/Makefile                    |  4 +-
- .../boot/dts/suniv-f1c100s-licheepi-nano.dts  | 16 +++
- arch/arm/boot/dts/suniv-f1c100s.dtsi          | 32 ++++++
- arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts | 76 ++++++++++++++
- .../boot/dts/suniv-f1c200s-popstick-v1.1.dts  | 81 +++++++++++++++
- drivers/usb/musb/sunxi.c                      | 99 +++++++++++++------
- 9 files changed, 301 insertions(+), 34 deletions(-)
- create mode 100644 arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts
- create mode 100644 arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
-
+diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
+index 4b368d16a73ad..9b622cd9b2bd5 100644
+--- a/drivers/usb/musb/sunxi.c
++++ b/drivers/usb/musb/sunxi.c
+@@ -15,6 +15,7 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
++#include <linux/of_device.h>
+ #include <linux/phy/phy-sun4i-usb.h>
+ #include <linux/platform_device.h>
+ #include <linux/reset.h>
+@@ -67,6 +68,13 @@
+ #define SUNXI_MUSB_FL_NO_CONFIGDATA		7
+ #define SUNXI_MUSB_FL_PHY_MODE_PEND		8
+ 
++struct sunxi_musb_cfg {
++	const struct musb_hdrc_config *hdrc_config;
++	bool has_sram;
++	bool has_reset;
++	bool no_configdata;
++};
++
+ /* Our read/write methods need access and do not get passed in a musb ref :| */
+ static struct musb *sunxi_musb;
+ 
+@@ -621,11 +629,10 @@ static const struct musb_platform_ops sunxi_musb_ops = {
+ 	.post_root_reset_end = sunxi_musb_post_root_reset_end,
+ };
+ 
+-/* Allwinner OTG supports up to 5 endpoints */
+-#define SUNXI_MUSB_MAX_EP_NUM	6
+ #define SUNXI_MUSB_RAM_BITS	11
+ 
+-static struct musb_fifo_cfg sunxi_musb_mode_cfg[] = {
++/* Allwinner OTG supports up to 5 endpoints */
++static struct musb_fifo_cfg sunxi_musb_mode_cfg_5eps[] = {
+ 	MUSB_EP_FIFO_SINGLE(1, FIFO_TX, 512),
+ 	MUSB_EP_FIFO_SINGLE(1, FIFO_RX, 512),
+ 	MUSB_EP_FIFO_SINGLE(2, FIFO_TX, 512),
+@@ -639,9 +646,7 @@ static struct musb_fifo_cfg sunxi_musb_mode_cfg[] = {
+ };
+ 
+ /* H3/V3s OTG supports only 4 endpoints */
+-#define SUNXI_MUSB_MAX_EP_NUM_H3	5
+-
+-static struct musb_fifo_cfg sunxi_musb_mode_cfg_h3[] = {
++static struct musb_fifo_cfg sunxi_musb_mode_cfg_4eps[] = {
+ 	MUSB_EP_FIFO_SINGLE(1, FIFO_TX, 512),
+ 	MUSB_EP_FIFO_SINGLE(1, FIFO_RX, 512),
+ 	MUSB_EP_FIFO_SINGLE(2, FIFO_TX, 512),
+@@ -652,31 +657,33 @@ static struct musb_fifo_cfg sunxi_musb_mode_cfg_h3[] = {
+ 	MUSB_EP_FIFO_SINGLE(4, FIFO_RX, 512),
+ };
+ 
+-static const struct musb_hdrc_config sunxi_musb_hdrc_config = {
+-	.fifo_cfg       = sunxi_musb_mode_cfg,
+-	.fifo_cfg_size  = ARRAY_SIZE(sunxi_musb_mode_cfg),
++static const struct musb_hdrc_config sunxi_musb_hdrc_config_5eps = {
++	.fifo_cfg       = sunxi_musb_mode_cfg_5eps,
++	.fifo_cfg_size  = ARRAY_SIZE(sunxi_musb_mode_cfg_5eps),
+ 	.multipoint	= true,
+ 	.dyn_fifo	= true,
+-	.num_eps	= SUNXI_MUSB_MAX_EP_NUM,
++	/* Two FIFOs per endpoint, plus ep_0. */
++	.num_eps	= (ARRAY_SIZE(sunxi_musb_mode_cfg_5eps) / 2) + 1,
+ 	.ram_bits	= SUNXI_MUSB_RAM_BITS,
+ };
+ 
+-static struct musb_hdrc_config sunxi_musb_hdrc_config_h3 = {
+-	.fifo_cfg       = sunxi_musb_mode_cfg_h3,
+-	.fifo_cfg_size  = ARRAY_SIZE(sunxi_musb_mode_cfg_h3),
++static const struct musb_hdrc_config sunxi_musb_hdrc_config_4eps = {
++	.fifo_cfg       = sunxi_musb_mode_cfg_4eps,
++	.fifo_cfg_size  = ARRAY_SIZE(sunxi_musb_mode_cfg_4eps),
+ 	.multipoint	= true,
+ 	.dyn_fifo	= true,
+-	.num_eps	= SUNXI_MUSB_MAX_EP_NUM_H3,
++	/* Two FIFOs per endpoint, plus ep_0. */
++	.num_eps	= (ARRAY_SIZE(sunxi_musb_mode_cfg_4eps) / 2) + 1,
+ 	.ram_bits	= SUNXI_MUSB_RAM_BITS,
+ };
+ 
+-
+ static int sunxi_musb_probe(struct platform_device *pdev)
+ {
+ 	struct musb_hdrc_platform_data	pdata;
+ 	struct platform_device_info	pinfo;
+ 	struct sunxi_glue		*glue;
+ 	struct device_node		*np = pdev->dev.of_node;
++	const struct sunxi_musb_cfg	*cfg;
+ 	int ret;
+ 
+ 	if (!np) {
+@@ -713,29 +720,25 @@ static int sunxi_musb_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+ 	}
+ 	pdata.platform_ops	= &sunxi_musb_ops;
+-	if (!of_device_is_compatible(np, "allwinner,sun8i-h3-musb"))
+-		pdata.config = &sunxi_musb_hdrc_config;
+-	else
+-		pdata.config = &sunxi_musb_hdrc_config_h3;
++
++	cfg = of_device_get_match_data(&pdev->dev);
++	if (!cfg)
++		return -EINVAL;
++
++	pdata.config = cfg->hdrc_config;
+ 
+ 	glue->dev = &pdev->dev;
+ 	INIT_WORK(&glue->work, sunxi_musb_work);
+ 	glue->host_nb.notifier_call = sunxi_musb_host_notifier;
+ 
+-	if (of_device_is_compatible(np, "allwinner,sun4i-a10-musb") ||
+-	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
++	if (cfg->has_sram)
+ 		set_bit(SUNXI_MUSB_FL_HAS_SRAM, &glue->flags);
+-	}
+ 
+-	if (of_device_is_compatible(np, "allwinner,sun6i-a31-musb"))
++	if (cfg->has_reset)
+ 		set_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags);
+ 
+-	if (of_device_is_compatible(np, "allwinner,sun8i-a33-musb") ||
+-	    of_device_is_compatible(np, "allwinner,sun8i-h3-musb") ||
+-	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
+-		set_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags);
++	if (cfg->no_configdata)
+ 		set_bit(SUNXI_MUSB_FL_NO_CONFIGDATA, &glue->flags);
+-	}
+ 
+ 	glue->clk = devm_clk_get(&pdev->dev, NULL);
+ 	if (IS_ERR(glue->clk)) {
+@@ -813,12 +816,46 @@ static int sunxi_musb_remove(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++static const struct sunxi_musb_cfg sun4i_a10_musb_cfg = {
++	.hdrc_config = &sunxi_musb_hdrc_config_5eps,
++	.has_sram = true,
++};
++
++static const struct sunxi_musb_cfg sun6i_a31_musb_cfg = {
++	.hdrc_config = &sunxi_musb_hdrc_config_5eps,
++	.has_reset = true,
++};
++
++static const struct sunxi_musb_cfg sun8i_a33_musb_cfg = {
++	.hdrc_config = &sunxi_musb_hdrc_config_5eps,
++	.has_reset = true,
++	.no_configdata = true,
++};
++
++static const struct sunxi_musb_cfg sun8i_h3_musb_cfg = {
++	.hdrc_config = &sunxi_musb_hdrc_config_4eps,
++	.has_reset = true,
++	.no_configdata = true,
++};
++
++static const struct sunxi_musb_cfg suniv_f1c100s_musb_cfg = {
++	.hdrc_config = &sunxi_musb_hdrc_config_5eps,
++	.has_sram = true,
++	.has_reset = true,
++	.no_configdata = true,
++};
++
+ static const struct of_device_id sunxi_musb_match[] = {
+-	{ .compatible = "allwinner,sun4i-a10-musb", },
+-	{ .compatible = "allwinner,sun6i-a31-musb", },
+-	{ .compatible = "allwinner,sun8i-a33-musb", },
+-	{ .compatible = "allwinner,sun8i-h3-musb", },
+-	{ .compatible = "allwinner,suniv-f1c100s-musb", },
++	{ .compatible = "allwinner,sun4i-a10-musb",
++	  .data = &sun4i_a10_musb_cfg, },
++	{ .compatible = "allwinner,sun6i-a31-musb",
++	  .data = &sun6i_a31_musb_cfg, },
++	{ .compatible = "allwinner,sun8i-a33-musb",
++	  .data = &sun8i_a33_musb_cfg, },
++	{ .compatible = "allwinner,sun8i-h3-musb",
++	  .data = &sun8i_h3_musb_cfg, },
++	{ .compatible = "allwinner,suniv-f1c100s-musb",
++	  .data = &suniv_f1c100s_musb_cfg, },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(of, sunxi_musb_match);
 -- 
 2.25.1
 
