@@ -1,71 +1,89 @@
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D26423CD
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Nov 2022 11:55:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Yd7mdC1LPQekUFWJKkE454RqYpqT+F4Lkf7XxnWlk9c=; b=kQTC/S+6FwkGTvxV6OS46JT1Xc
-	Qvmke6Q7yeIzz7dtSpMLRD8zQkHbc2d57J2K3kn0ktbRUd1lHTFrWY4Zp+ou5UAyLp4750rU8++8N
-	suZRqhMqq8t/9ghE+kfFy3iLYkIck4vxcrirs/9rGrrNRPD6eAU7FBQSipdL0+7paKHPS1iAtcumR
-	yac4pRDZjdV4Tykf/3GZ/Tb7n6plyP0D8Mm87P+bQKnek9RGMW/rCe4CZY8aP+01xpy2+22XiUg35
-	ERjtm2fs/47jtfRiMAjQQqvglxPNChlKz7ioiPiFS4CIbfIqJZQK6oaKPBY5xfJB2cL2rT4hv75pc
-	q9Yj8k5g==;
-Received: from [2a01:799:95e:1700:6395:ccbd:d000:d42b] (port=54193)
-	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E689257E
+	for <linux-sunxi@lists.linux.dev>; Thu, 17 Nov 2022 12:04:08 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
-	(envelope-from <noralf@tronnes.org>)
-	id 1ovdTz-0003nI-Gy; Thu, 17 Nov 2022 12:55:03 +0100
-Message-ID: <92529a83-1c04-27b5-7d3d-35fb4fcd0824@tronnes.org>
-Date: Thu, 17 Nov 2022 12:54:54 +0100
+	(envelope-from <ukl@pengutronix.de>)
+	id 1ovdcY-0008LW-Qn; Thu, 17 Nov 2022 13:03:54 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1ovdcU-004qCu-Qu; Thu, 17 Nov 2022 13:03:51 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1ovdcU-00HGer-Ov; Thu, 17 Nov 2022 13:03:50 +0100
+Date: Thu, 17 Nov 2022 13:03:50 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Icenowy Zheng <uwu@icenowy.me>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 2/9] ARM: dts: suniv: f1c100s: add PWM node
+Message-ID: <20221117120350.kreyg7an5dtuaudr@pengutronix.de>
+References: <20221101141658.3631342-1-andre.przywara@arm.com>
+ <20221101141658.3631342-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v10 01/19] drm/tests: client: Mention that we can't use
- MODULE_ macros
-To: Maxime Ripard <maxime@cerno.tech>, Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
- Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@linux.ie>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Hans de Goede <hdegoede@redhat.com>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Dom Cobley <dom@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, Geert Uytterhoeven
- <geert@linux-m68k.org>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-References: <20220728-rpi-analog-tv-properties-v10-0-256dad125326@cerno.tech>
- <20220728-rpi-analog-tv-properties-v10-1-256dad125326@cerno.tech>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v10-1-256dad125326@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nykzmius3wydfoj4"
+Content-Disposition: inline
+In-Reply-To: <20221101141658.3631342-3-andre.przywara@arm.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
 
+--nykzmius3wydfoj4
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Den 17.11.2022 10.28, skrev Maxime Ripard:
-> That file is included directly, so we can't use any MODULE macro. Let's
-> leave a comment to avoid any future mistake.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
+On Tue, Nov 01, 2022 at 02:16:51PM +0000, Andre Przywara wrote:
+> The Allwinner F1C100s family of SoCs contain a PWM controller compatible
+> to the one used in the A20 chip.
+> Add the DT node so that any users can simply enable it in their board
+> DT.
+>=20
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
+Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+
+I assume this patch will go via an architecture tree (i.e. not PWM).
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--nykzmius3wydfoj4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmN2IyMACgkQwfwUeK3K
+7Akl7AgAlCaC0HMsIKb2oLOmds8MmfyJ0SP9xMHZsX3upV7JTeQdunQ3Al1ZukgU
+xSZKXXXmuiORfqLKKge5k6dTKovJHOu3Oyj9rAFR75rGR3TZnRBXsrOkXSSJeCEy
+2P4GkTUw6rxyxWqq8pfAtuZsFzWjQ86/YRkvEbwDOxoOebZnRMLKLDxeYxD0wFg1
+fPd3zRzj6sF+hgEx85zeDEgsb1j26v5f0XhH44J98JMdBpUAzyvjuhvV/RLoiU8O
+/ESLt7LIyvz1m0F6bInxyHWOpqDd76z0HCgHrK1FPj6bAEl9siDkXDcVPJAtKaag
+TzKdGk7pBXaH5s2Wx4kvd79I59+M5g==
+=iuOn
+-----END PGP SIGNATURE-----
+
+--nykzmius3wydfoj4--
