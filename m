@@ -1,31 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DE4443B
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Nov 2022 14:04:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12590C433C1;
-	Fri, 18 Nov 2022 14:04:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645933D78
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Nov 2022 16:12:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64E71C433D6;
+	Fri, 18 Nov 2022 16:11:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1668780266;
-	bh=2Etd7TTDGGQdc+eZ6ZY5zWcGDhXbE1E4P6nTodPzyHM=;
+	s=k20201202; t=1668787924;
+	bh=1GQqeEHD0YLC4JQ4FJH13FF+QYcVbrQm05cErcgbJnk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=LRI94Akwvj+M1u5ha7m2UTmQseNSMmZGrna/rH7PvgMy8dtRQjFvQDA0s0WS+6zA/
-	 xnyKsxczpvoukVdGYFFB6gPQMvmZ775/Ou2z9q1Ps39mgH2scRVlufQcyziWsPVmf1
-	 QuaHzmC13ig/Z4hNHDe1Z3uVcKaAlr58rB+giU71yHQtGEfTXIGLhAa9XC/WH8a2Wn
-	 tilnZAKph7ZPV8u+B2bJnyEbAS5XYun9zaySnnnlKMPf9YPJqve83vLjXyfsXuJjas
-	 0vBBmm1WefiNyE3qCSUTvaAGgSdv3WZanZrGfOmgrX6UbofbfKojgmUpyKlfirqKjH
-	 GXkSsVxQmHwkg==
+	b=o5ILzd3YUo3qEJRVWh3xdktoDglWM/HW8q2l6PCwqzbHdZ528YTz4v2p9XpT+1+jq
+	 SRYC54KH9iqxISohUZn8cDpnxr9vtm9lFdY2xC31HtFK/BXneAP2s57xnoKpJn9xnm
+	 jlXP8/kVlFEEryFjhhz0/x0c2JEbLubGeMt33ziiw23etT7MZ5f52l3u/BUAAZidBx
+	 fZkvj5MzZ2Z4mNK9hb9aHZT3H/++7a2gU6UbZ5Lx2P+lw4vFtrrkcL2lP5dppk1ISg
+	 vQbdUVyDPhvGwY6oHBD49ShZgM/y6DOzhdwzkr6YQQ+kL2hNbU+nZzJSNg3MwpY27r
+	 JeOOI+kGqCeRA==
 From: Mark Brown <broonie@kernel.org>
-To: Ban Tao <fengzheng923@gmail.com>, Samuel Holland <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
- Rob Herring <robh+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-In-Reply-To: <20221116034621.37762-1-samuel@sholland.org>
-References: <20221116034621.37762-1-samuel@sholland.org>
-Subject: Re: [PATCH] ASoC: dt-bindings: sun50i-dmic: Add D1 compatible string
-Message-Id: <166878026369.872655.5958604584244669942.b4-ty@kernel.org>
-Date: Fri, 18 Nov 2022 14:04:23 +0000
+To: krzysztof.kozlowski+dt@linaro.org, davem@davemloft.net, samuel@sholland.org, lgirdwood@gmail.com,
+ hkallweit1@gmail.com, linux@armlinux.org.uk, calvin.johnson@oss.nxp.com, kuba@kernel.org,
+ Corentin Labbe <clabbe@baylibre.com>, pabeni@redhat.com, andrew@lunn.ch, jernej.skrabec@gmail.com, wens@csie.org,
+ robh+dt@kernel.org, edumazet@google.com
+Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-sunxi@googlegroups.com, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20221115073603.3425396-1-clabbe@baylibre.com>
+References: <20221115073603.3425396-1-clabbe@baylibre.com>
+Subject: Re: (subset) [PATCH v4 0/3] arm64: add ethernet to orange pi 3
+Message-Id: <166878791907.1056942.1081365322638542611.b4-ty@kernel.org>
+Date: Fri, 18 Nov 2022 16:11:59 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -36,21 +37,26 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.11.0-dev-8af31
 
-On Tue, 15 Nov 2022 21:46:21 -0600, Samuel Holland wrote:
-> The Allwinner D1 SoC has a DMIC codec like the one in the H6. It appears
-> to be register-compatible with the H6 variant, and the existing Linux
-> driver has been tested on a D1-based board, the Lichee RV 86 Panel.
+On Tue, 15 Nov 2022 07:36:00 +0000, Corentin Labbe wrote:
+> 2 sunxi board still does not have ethernet working, orangepi 1+ and
+> orangepi 3.
+> This is due to the fact thoses boards have a PHY which need 2 regulators.
 > 
+> A first attempt by Ondřej Jirman was made to support them was made by adding support in
+> stmmac driver:
+> https://lore.kernel.org/lkml/20190820145343.29108-6-megous@megous.com/
+> Proposal rejected, since regulators need to be handled by the PHY core.
 > 
+> [...]
 
 Applied to
 
-   broonie/sound.git for-next
+   broonie/regulator.git for-next
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: sun50i-dmic: Add D1 compatible string
-      commit: b1af5b34d6b315ed34abb0fa9049bcf1babbd537
+[1/3] regulator: Add of_regulator_bulk_get_all
+      commit: 27b9ecc7a9ba1d0014779bfe5a6dbf630899c6e7
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
