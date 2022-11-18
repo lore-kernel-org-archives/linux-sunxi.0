@@ -1,95 +1,243 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A77018F
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Nov 2022 20:41:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A191FC433D6;
-	Fri, 18 Nov 2022 20:41:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1668804103;
-	bh=oDIk1XPIAo1ClWrYsDlxn22Dfb0h/UvIV8tTcQig9Bo=;
-	h=Date:From:List-Id:To:Cc:Subject:From;
-	b=FzFVV673qokTgQZ/M/EoCR1fT7PgHJO3aDd8H+ioNatDVSBXxExIfIetpjTewE2cp
-	 yN7QmsBTBex6pSQeBC/dtYd8+K2RFiQYTozoDxtXO6TCrxj4pb6Hh/3AFzYNuMd34g
-	 YSZ3xY5mgfjS56i4pRhhnzp/WWUQ6euFsEOUcDPg+ub9IMXmRCUYcZYfV49ZwTMNBD
-	 FQAhUcdEb7LNn4XjdPzYPhk3X+XU8zKKoyhoKqbA0PgSMOcxiBhFpZqZQOcG+RR7zh
-	 FQ6x0JxZPWJPGCnF1iOT6DaRfbx8ayXWkhN6X58a+9EbSu6+VWVJYFDbWkhLdNysKy
-	 Gr5G+DC8igWIQ==
-Date: Fri, 18 Nov 2022 21:41:38 +0100
-From: Jernej Skrabec <jernej@kernel.org>
-List-Id: <soc.lore.kernel.org>
-To: arm@kernel.org, soc@kernel.org
-Cc: wens@csie.org, samuel@sholland.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: [GIT PULL] Allwinner device tree changes for 6.2
-Message-ID: <Y3fuAosinWbrj+Dy@jernej-laptop>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8613D61
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Nov 2022 22:38:02 +0000 (UTC)
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-1322d768ba7so7622427fac.5
+        for <linux-sunxi@lists.linux.dev>; Fri, 18 Nov 2022 14:38:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m0raBjAqYekKQWPt8CeBL05C5sEHyP1ZPYbyFvxhkC0=;
+        b=GQjG8hZEwnQOKqOWUQoklRuk0Bee60u6lgUWRGRMChz4BTroOKAP+fC4TZ4AsesGgr
+         5GFL2YpfOIteg9cowpMkCLrZJAcIgZy9aFH98+ZTfK6meCWKtv12fpXijCBgcccrlq49
+         Hset8ogR2Fu7vCYpdAo888Osw1KRRGOOAON7qwcxoqgiUYuU/cApBpWbbqf3ucAs6ZO7
+         /2cgTC7WkzInS4v04yK9qjI/n68QiybroBdanI0WWG+Am2ezs4y418oTM4MTX2rcL05c
+         Qh+j+YM6aDDNHpdXmKofE54SpiRkzEjuVzdzEipQlX9LMINaJRIyboqakqgoHROry1NE
+         s8iw==
+X-Gm-Message-State: ANoB5pmCuMXtMls1A8C2JNlJjB/GrxOIUB93LYYLjdZtRd+Gn0Mw4ES2
+	bQDo1EEMuL1nRVr4laoNpQ==
+X-Google-Smtp-Source: AA0mqf4uC828wW0XMFRcw+1h9kzuiTCYIXYE5a9yh+nlTeD+x6xGbslmOI8E3ZIqUy+Kwbf6RoH4Ow==
+X-Received: by 2002:a05:6870:ac0b:b0:13a:e051:7c68 with SMTP id kw11-20020a056870ac0b00b0013ae0517c68mr5202453oab.150.1668811081476;
+        Fri, 18 Nov 2022 14:38:01 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id t19-20020a9d7753000000b0066cf6a14d1asm2061199otl.23.2022.11.18.14.37.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Nov 2022 14:38:00 -0800 (PST)
+Received: (nullmailer pid 1722360 invoked by uid 1000);
+	Fri, 18 Nov 2022 22:38:02 -0000
+From: Rob Herring <robh@kernel.org>
+To: Ilia Lin <ilia.lin@kernel.org>, Andy Gross <agross@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@somainline.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Jean Delvare <jdelvare@suse.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Yangtao Li <tiny.windzz@gmail.com>, Nishanth Menon <nm@ti.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>, Ryder Lee <ryder.lee@mediatek.com>, 
+	Jianjun Wang <jianjun.wang@mediatek.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Javier Martinez Canillas <javier@dowhile0.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Maxime Ripard <mripard@kernel.org>, Daniel Mack <zonque@gmail.com>, 
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-pci@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, alsa-devel@alsa-project.org, linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH] dt-bindings: Add missing start and/or end of line regex anchors
+Date: Fri, 18 Nov 2022 16:37:27 -0600
+Message-Id: <20221118223728.1721589-1-robh@kernel.org>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi!
+json-schema patterns by default will match anywhere in a string, so
+typically we want at least the start or end anchored. Fix the obvious
+cases where the anchors were forgotten.
 
-Please pull following device tree changes for 6.2.
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ .../devicetree/bindings/cpufreq/qcom-cpufreq-nvmem.yaml       | 2 +-
+ Documentation/devicetree/bindings/hwmon/adt7475.yaml          | 4 ++--
+ .../bindings/opp/allwinner,sun50i-h6-operating-points.yaml    | 4 ++--
+ .../devicetree/bindings/pci/mediatek,mt7621-pcie.yaml         | 2 +-
+ .../devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml        | 2 +-
+ Documentation/devicetree/bindings/regulator/max8660.yaml      | 2 +-
+ .../devicetree/bindings/regulator/maxim,max77802.yaml         | 2 +-
+ Documentation/devicetree/bindings/regulator/regulator.yaml    | 2 +-
+ .../devicetree/bindings/regulator/rohm,bd9576-regulator.yaml  | 2 +-
+ Documentation/devicetree/bindings/sound/renesas,rsnd.yaml     | 2 +-
+ .../devicetree/bindings/spi/nvidia,tegra210-quad.yaml         | 2 +-
+ 11 files changed, 13 insertions(+), 13 deletions(-)
 
-Best regards,
-Jernej
+diff --git a/Documentation/devicetree/bindings/cpufreq/qcom-cpufreq-nvmem.yaml b/Documentation/devicetree/bindings/cpufreq/qcom-cpufreq-nvmem.yaml
+index a11e1b867379..3c00ad09eeaa 100644
+--- a/Documentation/devicetree/bindings/cpufreq/qcom-cpufreq-nvmem.yaml
++++ b/Documentation/devicetree/bindings/cpufreq/qcom-cpufreq-nvmem.yaml
+@@ -38,7 +38,7 @@ properties:
+     type: object
+ 
+     patternProperties:
+-      'cpu@[0-9a-f]+':
++      '^cpu@[0-9a-f]+$':
+         type: object
+ 
+         properties:
+diff --git a/Documentation/devicetree/bindings/hwmon/adt7475.yaml b/Documentation/devicetree/bindings/hwmon/adt7475.yaml
+index ea595102a86e..051c976ab711 100644
+--- a/Documentation/devicetree/bindings/hwmon/adt7475.yaml
++++ b/Documentation/devicetree/bindings/hwmon/adt7475.yaml
+@@ -61,7 +61,7 @@ patternProperties:
+     $ref: /schemas/types.yaml#/definitions/uint32
+     enum: [0, 1]
+ 
+-  "adi,pin(5|10)-function":
++  "^adi,pin(5|10)-function$":
+     description: |
+       Configures the function for pin 5 on the adi,adt7473 and adi,adt7475. Or
+       pin 10 on the adi,adt7476 and adi,adt7490.
+@@ -70,7 +70,7 @@ patternProperties:
+       - pwm2
+       - smbalert#
+ 
+-  "adi,pin(9|14)-function":
++  "^adi,pin(9|14)-function$":
+     description: |
+       Configures the function for pin 9 on the adi,adt7473 and adi,adt7475. Or
+       pin 14 on the adi,adt7476 and adi,adt7490
+diff --git a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+index 385b0692261c..51f62c3ae194 100644
+--- a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
++++ b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+@@ -41,7 +41,7 @@ required:
+   - nvmem-cells
+ 
+ patternProperties:
+-  "opp-[0-9]+":
++  "^opp-[0-9]+$":
+     type: object
+ 
+     properties:
+@@ -49,7 +49,7 @@ patternProperties:
+       clock-latency-ns: true
+ 
+     patternProperties:
+-      "opp-microvolt-.*": true
++      "^opp-microvolt-speed[0-9]$": true
+ 
+     required:
+       - opp-hz
+diff --git a/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml b/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml
+index d60f43fd9c5a..e63e6458cea8 100644
+--- a/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml
++++ b/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml
+@@ -31,7 +31,7 @@ properties:
+     maxItems: 2
+ 
+ patternProperties:
+-  'pcie@[0-2],0':
++  '^pcie@[0-2],0$':
+     type: object
+     $ref: /schemas/pci/pci-bus.yaml#
+ 
+diff --git a/Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml b/Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml
+index 0f18cceba3d5..5a0d64d3ae6b 100644
+--- a/Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml
++++ b/Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml
+@@ -65,7 +65,7 @@ properties:
+     maxItems: 1
+ 
+ patternProperties:
+-  'usb@[0-1],0':
++  '^usb@[0-1],0$':
+     type: object
+ 
+     description:
+diff --git a/Documentation/devicetree/bindings/regulator/max8660.yaml b/Documentation/devicetree/bindings/regulator/max8660.yaml
+index 9c038698f880..4d550ca396eb 100644
+--- a/Documentation/devicetree/bindings/regulator/max8660.yaml
++++ b/Documentation/devicetree/bindings/regulator/max8660.yaml
+@@ -24,7 +24,7 @@ properties:
+     type: object
+ 
+     patternProperties:
+-      "regulator-.+":
++      "^regulator-.+$":
+         $ref: "regulator.yaml#"
+ 
+     additionalProperties: false
+diff --git a/Documentation/devicetree/bindings/regulator/maxim,max77802.yaml b/Documentation/devicetree/bindings/regulator/maxim,max77802.yaml
+index 71138c611b6c..b704f05ea454 100644
+--- a/Documentation/devicetree/bindings/regulator/maxim,max77802.yaml
++++ b/Documentation/devicetree/bindings/regulator/maxim,max77802.yaml
+@@ -77,7 +77,7 @@ patternProperties:
+       regulator-initial-mode: false
+ 
+     patternProperties:
+-      regulator-state-(standby|mem|disk):
++      "^regulator-state-(standby|mem|disk)$":
+         type: object
+         additionalProperties: true
+         properties:
+diff --git a/Documentation/devicetree/bindings/regulator/regulator.yaml b/Documentation/devicetree/bindings/regulator/regulator.yaml
+index 6e8aa9eed3aa..53b81d8a2d41 100644
+--- a/Documentation/devicetree/bindings/regulator/regulator.yaml
++++ b/Documentation/devicetree/bindings/regulator/regulator.yaml
+@@ -231,7 +231,7 @@ patternProperties:
+   ".*-supply$":
+     description: Input supply phandle(s) for this node
+ 
+-  regulator-state-(standby|mem|disk):
++  "^regulator-state-(standby|mem|disk)$":
+     type: object
+     description:
+       sub-nodes for regulator state in Standby, Suspend-to-RAM, and
+diff --git a/Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml b/Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml
+index 7cb74cc8c5d9..54be194bb244 100644
+--- a/Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml
++++ b/Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml
+@@ -21,7 +21,7 @@ description: |
+   regulator-voutl1, regulator-vouts1
+ 
+ patternProperties:
+-  "regulator-.+":
++  "^regulator-.+$":
+     type: object
+     description:
+       Properties for single regulator.
+diff --git a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
+index 679a246dd666..7df40c38e865 100644
+--- a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
++++ b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
+@@ -115,7 +115,7 @@ properties:
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+     patternProperties:
+-      port(@[0-9a-f]+)?:
++      '^port(@[0-9a-f]+)?$':
+         $ref: audio-graph-port.yaml#
+         unevaluatedProperties: false
+ 
+diff --git a/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml b/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
+index 6b733e5c1163..899100e783c9 100644
+--- a/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
++++ b/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
+@@ -48,7 +48,7 @@ properties:
+       - const: tx
+ 
+ patternProperties:
+-  "@[0-9a-f]+":
++  "@[0-9a-f]+$":
+     type: object
+ 
+     properties:
+-- 
+2.35.1
 
-The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc780:
-
-  Linux 6.1-rc1 (2022-10-16 15:36:24 -0700)
-
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-dt-for-6.2-1
-
-for you to fetch changes up to b13d48408e9f0aa80f3d9f93960aa49bd0da7af8:
-
-  ARM: dts: sunxi: H3/H5: Add phys property to USB HCI0 (2022-11-16 19:53:56 +0100)
-
-----------------------------------------------------------------
-- Added H616 USB node
-- Enabled bluetooth on Pinebook A64
-- Added f1c100s PWM, I2C, CIR and LRADC nodes
-- Added USB HCI0 PHYs property to H3/H5
-
-----------------------------------------------------------------
-Andre Przywara (11):
-      dt-bindings: usb: Add H616 compatible string
-      arm64: dts: allwinner: h616: Add USB nodes
-      arm64: dts: allwinner: h616: OrangePi Zero 2: Add USB nodes
-      arm64: dts: allwinner: h616: X96 Mate: Add USB nodes
-      dt-bindings: pwm: allwinner,sun4i-a10: Add F1C100s compatible
-      ARM: dts: suniv: f1c100s: add PWM node
-      ARM: dts: suniv: f1c100s: add I2C DT nodes
-      dt-bindings: media: IR: Add F1C100s IR compatible string
-      ARM: dts: suniv: f1c100s: add CIR DT node
-      ARM: dts: suniv: f1c100s: add LRADC node
-      ARM: dts: sunxi: H3/H5: Add phys property to USB HCI0
-
-Samuel Holland (2):
-      ARM: dts: axp803/axp81x: Drop GPIO LDO pinctrl nodes
-      ARM: dts: axp22x/axp809: Add GPIO controller nodes
-
-Vasily Khoruzhick (1):
-      arm64: dts: allwinner: a64: enable Bluetooth on Pinebook
-
- .../bindings/media/allwinner,sun4i-a10-ir.yaml     |   1 +
- .../bindings/pwm/allwinner,sun4i-a10-pwm.yaml      |   4 +-
- .../devicetree/bindings/usb/generic-ehci.yaml      |   1 +
- .../devicetree/bindings/usb/generic-ohci.yaml      |   1 +
- arch/arm/boot/dts/axp22x.dtsi                      |   6 +
- arch/arm/boot/dts/axp809.dtsi                      |   7 +
- arch/arm/boot/dts/axp81x.dtsi                      |  14 --
- arch/arm/boot/dts/suniv-f1c100s.dtsi               |  70 +++++++++
- arch/arm/boot/dts/sunxi-h3-h5.dtsi                 |   4 +
- arch/arm64/boot/dts/allwinner/axp803.dtsi          |  10 --
- .../boot/dts/allwinner/sun50i-a64-pinebook.dts     |  14 ++
- .../dts/allwinner/sun50i-h616-orangepi-zero2.dts   |  41 ++++++
- .../boot/dts/allwinner/sun50i-h616-x96-mate.dts    |  25 ++++
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi     | 160 +++++++++++++++++++++
- 14 files changed, 333 insertions(+), 25 deletions(-)
