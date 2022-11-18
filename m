@@ -1,56 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B4263D78
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Nov 2022 16:14:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69566C433C1;
-	Fri, 18 Nov 2022 16:14:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4F518F
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Nov 2022 20:33:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41F96C433D6;
+	Fri, 18 Nov 2022 20:33:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1668788080;
-	bh=kpKu/c9BWXRel1V/AWJLvQR+q/X8pLWSB+6SkGCg9f0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eUYwVCxrLpTFAFmyfiVKEVLalU/mClbJ2liZ/IzpK/QF45IPJnQEWgfkjwfWST9/y
-	 cXQUijC+2qhBZjnVql346XaLv6vulxsl4BL0hTrJcK5l6b3x0lFIxAa6xG2eV9EwIK
-	 tjhxSmHm2z0SYEpi5F93w9E0MAYqlM9FWvgoBp7Qo4UH2imxR+7fgvdYtfYyjmLCk8
-	 uVmoeb9B6/O2yxwHGrMO+mt92bSh9C3do3+2sxsYAL6xGodLPV5Aw/WtWOjh1uukpa
-	 STD8JCi4FjG/dqnEWB7Kc+zAtuVWXfPx6T5xnUfzaHp86x5AswlLstVE7LjX/iR+Ed
-	 ayII11ONy8JEg==
-Date: Fri, 18 Nov 2022 16:14:37 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Corentin Labbe <clabbe@baylibre.com>
-Cc: andrew@lunn.ch, calvin.johnson@oss.nxp.com, davem@davemloft.net,
-	edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com,
-	krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org,
-	lgirdwood@gmail.com, linux@armlinux.org.uk, pabeni@redhat.com,
-	robh+dt@kernel.org, samuel@sholland.org, wens@csie.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	netdev@vger.kernel.org, linux-sunxi@googlegroups.com
-Subject: Re: [PATCH v4 1/3] regulator: Add of_regulator_bulk_get_all
-Message-ID: <Y3evbTL4P72xwYWS@sirena.org.uk>
-References: <20221115073603.3425396-1-clabbe@baylibre.com>
- <20221115073603.3425396-2-clabbe@baylibre.com>
+	s=k20201202; t=1668803593;
+	bh=4wpG25blYuf/1i+hcui3E9cRtljegpIzpQDHpKaW4vc=;
+	h=Date:From:To:Cc:Subject:From;
+	b=DTIdu2T/CgFMe0rDR4QTyKxoEwoNr9lmHiIWohdrzCCuSreJPqDQwnCXf5Qz26HXp
+	 W/Vb0ZtuBVtep3TYaCcZARweR29cZj0Egr4zPdIwkb1t8TyXAmFxx5rjiCp1QsRH6o
+	 XumESiJ6GlA0LkwWBx9KkQhv9PMt7hD8SYj/fXpERw35H8ro8D4JI4GqFNuXq8MYYZ
+	 WYSmEEhEeFwn/TbIdXl+m4J44+BVKsvd9AMnRh0H7sIxbXIQdj3tG6MpqO1+6KrWkp
+	 EaO91xhPH3GObvlmraXUqSRi/U28AF4MX5XTc7yephBiz81xMqwdG0FW5zzLIVmU7W
+	 R6OfmvTZu3lDA==
+Date: Fri, 18 Nov 2022 21:33:09 +0100
+From: Jernej Skrabec <jernej@kernel.org>
+To: mturquette@baylibre.com, sboyd@kernel.org
+Cc: wens@csie.org, samuel@sholland.org, linux-clk@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [GIT PULL] Allwinner clock changes for 6.2
+Message-ID: <Y3fsBYLMnxcvGKBQ@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="DJFv/5IyQrUvDztj"
-Content-Disposition: inline
-In-Reply-To: <20221115073603.3425396-2-clabbe@baylibre.com>
-X-Cookie: Ego sum ens omnipotens.
-
-
---DJFv/5IyQrUvDztj
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, Nov 15, 2022 at 07:36:01AM +0000, Corentin Labbe wrote:
-> It work exactly like regulator_bulk_get() but instead of working on a
-> provided list of names, it seek all consumers properties matching
-> xxx-supply.
+Hi!
+
+Please pull following clock changes for 6.2.
+
+Best regards,
+Jernej
 
 The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc780:
 
@@ -58,41 +44,25 @@ The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc780:
 
 are available in the Git repository at:
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git tags/of_regulator_bulk_get_all
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git sunxi-clk-for-6.2-1
 
-for you to fetch changes up to 27b9ecc7a9ba1d0014779bfe5a6dbf630899c6e7:
+for you to fetch changes up to f64603c9729af406167cb9beb66687b1abc4196e:
 
-  regulator: Add of_regulator_bulk_get_all (2022-11-18 15:13:34 +0000)
-
-----------------------------------------------------------------
-regulator: Add of_regulator_bulk_get_all()
-
-This adds a new of_regulator_bulk_get_all() which grab all supplies
-properties in a DT node, for use in implementing generic handling
-for things like MDIO PHYs where the physical standardisation of
-the bus does not extend to power supplies.
+  clk: sunxi-ng: f1c100s: Add IR mod clock (2022-11-16 19:49:18 +0100)
 
 ----------------------------------------------------------------
-Corentin Labbe (1):
-      regulator: Add of_regulator_bulk_get_all
+- fixed header guard for V3S clocks
+- add IR module clock for f1c100s
 
- drivers/regulator/of_regulator.c   | 92 ++++++++++++++++++++++++++++++++++++++
- include/linux/regulator/consumer.h |  8 ++++
- 2 files changed, 100 insertions(+)
+----------------------------------------------------------------
+Andre Przywara (1):
+      clk: sunxi-ng: f1c100s: Add IR mod clock
 
---DJFv/5IyQrUvDztj
-Content-Type: application/pgp-signature; name="signature.asc"
+Wei Li (1):
+      clk: sunxi-ng: v3s: Correct the header guard of ccu-sun8i-v3s.h
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmN3r2wACgkQJNaLcl1U
-h9CEOQf/U2ff5jdqmcVQLYGSojvvtxIkUDdM8+kofOodWraaYzvkggTTav+lly2R
-bzFgqC0N49PIzS0I+jHP7KUD5tdKi8Mg6bdjEIEOjB7rx6QHuHHeeg6KA93iTH5m
-rFIL2nbGA/x0awGN6VJUmz+ov1Ve6rixWwx6DOpteeiegTKPWsYi6S/IFIeZTVdn
-1KnO+9XmdKzpwNXzInBFExi4H+y++MjfwYhv/m/GmGZllyBDh9P/qp5kFTkUS0nY
-mgzg/okKLtcCNtgDBH0rZG3YNJjPRiR+6GTGD7phfwhQbl9WM7m+mZ8rAeb4ms/e
-RdvpZsg88t548AY76WBGDUXngBwgLQ==
-=M0l3
------END PGP SIGNATURE-----
-
---DJFv/5IyQrUvDztj--
+ drivers/clk/sunxi-ng/ccu-sun8i-v3s.h          |  6 +++---
+ drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c      | 11 ++++++++++-
+ drivers/clk/sunxi-ng/ccu-suniv-f1c100s.h      |  2 +-
+ include/dt-bindings/clock/suniv-ccu-f1c100s.h |  2 ++
+ 4 files changed, 16 insertions(+), 5 deletions(-)
