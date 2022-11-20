@@ -1,71 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B807EC
-	for <linux-sunxi@lists.linux.dev>; Sun, 20 Nov 2022 11:25:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4EAAC433D6;
-	Sun, 20 Nov 2022 11:25:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31097EC
+	for <linux-sunxi@lists.linux.dev>; Sun, 20 Nov 2022 11:57:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16A86C433C1;
+	Sun, 20 Nov 2022 11:57:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1668943541;
-	bh=CvicEi2gnrYnqmDZV/HRfQ9d4uUEUscbiNOKOA4VLvk=;
+	s=k20201202; t=1668945451;
+	bh=5ggy0qQWOQikRZXdP6PhBP9SY1KAh6GYvEPfkQOJ5x0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QzE4ScY+yQPVnxdhIEUv4V6wLLfcH9KnnEj76Lr1WZDQPOZCG8iS93MIobfuFKQb7
-	 fQUWURPlbf/3KdCy5Icwss66BJi/cLZW1sc1083W5YLh+oPCb67nbiIUbEwO/Yqy+B
-	 sovnZbz3bzq48JA6/MfP3h2bQ7DqEMNCOHs8EbBCtpA8QS+R5Xe+d5Rr6bnI+MaflD
-	 CSJeSHmCaOjorE47TOOwR6bhcB/m7lxmanPAJ6w+c/f140HMAeEB5A4lUMcYdcffVe
-	 51RFDouHOMCLSK7uYVeL/qf3md3PvgJJC0xkXUxeV/7RMDGc8Zv0+52rt6HGwwLEoJ
-	 LtvuJnINTgr5A==
-Date: Sun, 20 Nov 2022 11:25:36 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+	b=CoQOfYMy1c33U6h/6Si4Kkdk/nYqh1lkdFXZ7pJNL5n9vK4HQ3DUmgzTQOLTi3J/+
+	 4L3CB5IjyqYzX7X6zG+dkWGYwvA0hdGuc7N8jgmhdeJrVuTqN/xj+dhNjZlfZ7J+m8
+	 NQ3W2f0KvfT6p0noOZ/qXVAUIyJBbjFLwkXHWLqq4vnB57jfFy83AYkdplnSgmAaxg
+	 zCmdzQLQ0WFjr9mXKc4j8OxmQ84ISEza82CabM3W7gyfz8kIdxOd4eSw2xfIjVG+7w
+	 QNO+he23TglDYzyGgKk5ZjXVMQ7a3tWEdMTEYRmF8wOpAKAo7Hnk/oHDUutDwNLNGQ
+	 zJucDyu29NEnA==
+Date: Sun, 20 Nov 2022 11:57:25 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Ilia Lin <ilia.lin@kernel.org>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@somainline.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Yangtao Li <tiny.windzz@gmail.com>, Nishanth Menon <nm@ti.com>,
+	Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-sunxi@lists.linux.dev, Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: Re: [PATCH 02/12] dt-bindings: riscv: Add T-HEAD C906 and C910
- compatibles
-Message-ID: <Y3oOsBxqUxeGMRJK@spud>
-References: <20220815050815.22340-1-samuel@sholland.org>
- <20220815050815.22340-3-samuel@sholland.org>
- <76d9c4fb368dca87c64494b927706d0b18d712d2.camel@icenowy.me>
- <Y3oOOOdG4e24ByEc@spud>
+	Samuel Holland <samuel@sholland.org>,
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+	Ryder Lee <ryder.lee@mediatek.com>,
+	Jianjun Wang <jianjun.wang@mediatek.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Javier Martinez Canillas <javier@dowhile0.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Maxime Ripard <mripard@kernel.org>, Daniel Mack <zonque@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>, linux-pm@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-pci@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org, alsa-devel@alsa-project.org,
+	linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Add missing start and/or end of line regex
+ anchors
+Message-ID: <Y3oWJQRtgbHbqz0I@sirena.org.uk>
+References: <20221118223728.1721589-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Q3GCr2oBFfh1LNvT"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y3oOOOdG4e24ByEc@spud>
+In-Reply-To: <20221118223728.1721589-1-robh@kernel.org>
+X-Cookie: Ego sum ens omnipotens.
 
-On Sun, Nov 20, 2022 at 11:23:42AM +0000, Conor Dooley wrote:
-> On Fri, Nov 04, 2022 at 10:57:58AM +0800, Icenowy Zheng wrote:
-> > 在 2022-08-15星期一的 00:08 -0500，Samuel Holland写道：
-> > > The C906 and C910 are RISC-V CPU cores from T-HEAD Semiconductor.
-> > > Notably, the C906 core is used in the Allwinner D1 SoC.
-> > 
-> > Could this get applied first?
-> > 
-> > C906 and C910 now have a fixed-configuration open-source version, which
-> > means these cores could be played by anyone, and having them in the DT
-> > binding really helps people. In addition I am aware of some C906-
-> > equipped SoC out of Allwinner.
-> 
-> I've applied this one patch as v6.2 material since I doubt this series is
-> gonna make it & the Bouffalolabs dt is going to need this compatible too.
-> I applied it on top of v6.1-rc1 just in case:
-> 
-> https://git.kernel.org/conor/c/0d814000ad3589bf4f69c9cb25a3b77bbd55ffec
 
-Woops, totally the wrong hash. Fixed:
-https://git.kernel.org/conor/c/41adc2fbad8bc42ed5fdf480e5318133a4941bbb
+--Q3GCr2oBFfh1LNvT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks,
-Conor.
+On Fri, Nov 18, 2022 at 04:37:27PM -0600, Rob Herring wrote:
+> json-schema patterns by default will match anywhere in a string, so
+> typically we want at least the start or end anchored. Fix the obvious
+> cases where the anchors were forgotten.
 
+Acked-by: Mark Brown <broonie@kernel.org>
+
+--Q3GCr2oBFfh1LNvT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmN6FiQACgkQJNaLcl1U
+h9AA2wf/bx63PKQM05br3AtOVY9zdnicSS3gPjXP1RhIZFx5DzHwpwd0ubzHQeEN
+Kk6JXxiJGRd6UUsifgfE3wHiKuDzN/eqx3PrQeCPxvUM70Uz2XifdEqmnhRhR/ow
+HSxPCKrdL/VnVCE4OGskhnQnuNKdomuoEv5pKw5+0Ue8/O2O24vxh+Ckm/qdedgr
+oN+ptQEN4r+FDCGwsc98OKacDLoBwXp0NKSqoflhG0+AzYS3Pv4CWoSJyW7PPzYR
+Na7vdI9pcZxlPhOQilQUYKQWmFt0yl7+uUldCPsQXO/0XTBa1KTcI9H2bRK1MsOw
+EN4xxqC1SJ9Q0J7wg7TTl77qIj7PPA==
+=lgNY
+-----END PGP SIGNATURE-----
+
+--Q3GCr2oBFfh1LNvT--
