@@ -1,109 +1,178 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E82B63D6
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Nov 2022 18:18:51 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id f3so11904494pgc.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 21 Nov 2022 10:18:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+on0BIC3CWKsQ/zQgT7Zq7kaAAA97DJzG1xxvLCYCd0=;
-        b=Y2s0QwXYrb3JZrFrFOem8gxmiYnaXcD53JwjtTM5LgVmhPSgCom9h6ZoSMmFC8EWVX
-         ydMHZcweTpXZyt2CHQhQ40CDwQNLJs70jFsGZlp9wzZ17FSg0DZtTdWCvNXTJQ43Xc6Z
-         qHp6p6sn1SOzrTC1s+ktxqpx28mB7O3KrQ5t7/2JEMdXCQw/ucP5sYtbUxudMJtvR/2x
-         xvDIz3Y9dTEPRVM2McBBEfPfpnvb2rGw2w0pc2p8DRQwML8/0yk9rvpR6QGB+IOq7plS
-         2krvaNLFAOfEsiW8MP1iLUyRS+OgM4z2RhvigUKReEn3dHZ9JJ4kQHRUsrFeyBp8cD7F
-         NEjw==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D4179C5
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Nov 2022 19:25:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1669058699;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eoLZmv4iwg/w4gE4QH+SCVnULAbBmRBckpkebszPHC0=;
+	b=dERSuzHHbziKFzaK/KbeF63yVaxK9CqgaheEBXF+hF+FkmyJoisWdFKWVees03RmPxWfWt
+	V5mfPxF/1v8QvqgOmBuHW8gY86kybaD1Aju501NNsknuYNEfyczQbNAvcWKbIdy6hD4IC7
+	2WOxSpTZLOi5CGQacZKSoFAxW4eIQyo=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-132-Lt5lUtD3MCC_7iqfLgUSrA-1; Mon, 21 Nov 2022 14:24:58 -0500
+X-MC-Unique: Lt5lUtD3MCC_7iqfLgUSrA-1
+Received: by mail-ed1-f71.google.com with SMTP id l18-20020a056402255200b004633509768bso7347757edb.12
+        for <linux-sunxi@lists.linux.dev>; Mon, 21 Nov 2022 11:24:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+on0BIC3CWKsQ/zQgT7Zq7kaAAA97DJzG1xxvLCYCd0=;
-        b=H04gOQCygIcxlFskuOp7P7T7iB5jwZ1FZ/B4rohDuAzJ2Y/9HAnqjHYXVc9K6ygpST
-         Y6qmVpef4EYc7k1EA1Pl/OKSgfSUUWpjfsE3PFpqeDA4LUVbeWu0Mn2BWJSmkWm4tHNA
-         MwMloFFc++gZVPs/dWieODsaqG2896Xq2Ghs+H5PsQUPVvQzANsryta8LSNDozFMQjdk
-         a0sLV1pQ9SME16+8TxXRY0TXcSuOhX+hQRfdMA4lqR469Z56PIpG6djIX9Dw63CnDj8s
-         Jir8yH5Kk11V20FICYkisD6gNZ0ozyhfIxK4wou7AmfF26AUKgCEF9bsrJbEsZYsRhNA
-         2Xfg==
-X-Gm-Message-State: ANoB5pk7Z34Dl/2XJ45HX9aG/20MA1Icell+euq9lkH67/sBhxpdciAX
-	d6FangzN58LPGAYC+oLFzslk6kfHuLzDECc9qIQ=
-X-Google-Smtp-Source: AA0mqf7LqN1T/OFto2jVhaNxZ2yGDqc/xRjAOptQIyQmYXhv8nQeAlkd38TMX7ofEDomjM8uh4mAaGxiaYXcFihRecU=
-X-Received: by 2002:a63:2f46:0:b0:477:4a13:f38e with SMTP id
- v67-20020a632f46000000b004774a13f38emr2304423pgv.131.1669054730967; Mon, 21
- Nov 2022 10:18:50 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eoLZmv4iwg/w4gE4QH+SCVnULAbBmRBckpkebszPHC0=;
+        b=e3QQouQcotkGdoauQFa8BU+0LUrXL78EMDKf3UZ6iy80xEzt1Z6fdSvJsH3IF+VJ5O
+         1z+LhADR6bpWFGQ3vmCxTQnJNYgRGrk8vOBZV2B/cncKwtONXFsRdMVLHaJX5TGLaChV
+         CwIx44thOu6OENkXAmsHP1pfap4EHpGfjGu3aliizuAxcKaJX6pDnAA6KldorOP1Mm4K
+         7eURTDDM6QZOLITJSNcLwlqEwi8mN+yzw38I/2edGPwZ+arGp7Qp9uP2YprNItohIItT
+         UyhPSd8W0FdphhLCK1npdpVzyvjzI3MBWfnnj7nHVKgAhnMb4wYXsr/rn0hHS2a/WHxl
+         ACIQ==
+X-Gm-Message-State: ANoB5plPLKDr1SnWc8zZFDQdv03i4vjp2SfSxcDzFdfxdgfBlyQp9h54
+	EcFR6JRbTYGm0WyPWEl/s37WUzHwCUfV6HP59DRozI4nTJMh+AdUmJXiWoxjRhWMjbBBtatP41S
+	sOusgpBD2jcpiyya0oTtauxU=
+X-Received: by 2002:aa7:c6da:0:b0:469:172:1f38 with SMTP id b26-20020aa7c6da000000b0046901721f38mr15457197eds.195.1669058697326;
+        Mon, 21 Nov 2022 11:24:57 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4mcm+9l0MN74vmnCzLHArZvfNvXRoa2WAFysBeHkAtV8iX0vlC/zf5jCAN0bfmt/Xb/ffkbA==
+X-Received: by 2002:aa7:c6da:0:b0:469:172:1f38 with SMTP id b26-20020aa7c6da000000b0046901721f38mr15457186eds.195.1669058697111;
+        Mon, 21 Nov 2022 11:24:57 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id ez1-20020a056402450100b004617e880f52sm5437350edb.29.2022.11.21.11.24.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Nov 2022 11:24:56 -0800 (PST)
+Message-ID: <89e0955c-2878-6e3f-a947-e208340a9db3@redhat.com>
+Date: Mon, 21 Nov 2022 20:24:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221103-upstream-goodix-reset-v2-0-2c38fb03a300@theobroma-systems.com>
- <20221103-upstream-goodix-reset-v2-5-2c38fb03a300@theobroma-systems.com>
-In-Reply-To: <20221103-upstream-goodix-reset-v2-5-2c38fb03a300@theobroma-systems.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Mon, 21 Nov 2022 15:18:32 -0300
-Message-ID: <CAOMZO5BzWsHAy7KjZe+KEiXVq-Mfpggqjk0vswuzx7nkups3gA@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 5/7] arm64: dts: imx: fix touchscreen reset GPIO polarity
-To: Quentin Schulz <foss+kernel@0leil.net>, "Angus Ainslie (Purism)" <angus@akkea.ca>, 
-	David Jander <david@protonic.nl>
-Cc: Shawn Guo <shawnguo@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
-	Samuel Holland <samuel@sholland.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@somainline.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Bastien Nocera <hadess@hadess.net>, Chen-Yu Tsai <wens@csie.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Hans de Goede <hdegoede@redhat.com>, 
-	Andy Gross <agross@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	NXP Linux Team <linux-imx@nxp.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Quentin Schulz <quentin.schulz@theobroma-systems.com>, linux-kernel@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [RFC PATCH 1/7] Input: goodix - fix reset polarity
+To: Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Quentin Schulz <foss+kernel@0leil.net>, hadess@hadess.net,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ linux-imx@nxp.com, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, agross@kernel.org, andersson@kernel.org,
+ konrad.dybcio@somainline.org, heiko@sntech.de, linux-input@vger.kernel.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ devicetree <devicetree@vger.kernel.org>,
+ arm-mail-list <linux-arm-kernel@lists.infradead.org>,
+ linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>
+References: <20221103-upstream-goodix-reset-v1-0-87b49ae589f1@theobroma-systems.com>
+ <20221103-upstream-goodix-reset-v1-1-87b49ae589f1@theobroma-systems.com>
+ <1fa371bd-78a6-bb7c-4692-1d8132ec2ab1@redhat.com>
+ <Y2P7SsPa04975Rkm@google.com>
+ <692fd16e-4183-d58d-802e-2b83563aee4b@redhat.com>
+ <267de96a-0129-a97d-9bf6-e1001b422a1a@theobroma-systems.com>
+ <16c7f876-102c-60e1-4a81-3378b6c726fb@redhat.com>
+ <554ebf0a-2304-6fd0-555a-0ce1b4615bf0@theobroma-systems.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <554ebf0a-2304-6fd0-555a-0ce1b4615bf0@theobroma-systems.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-[Adding Angus and David]
+Hi,
 
-On Mon, Nov 21, 2022 at 3:12 PM Quentin Schulz <foss+kernel@0leil.net> wrote:
->
-> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
->
-> The reset line is active low for the Goodix touchscreen controller so
-> let's fix the polarity in the Device Tree node.
->
-> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-> ---
->  arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts         | 2 +-
->  arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dts | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts b/arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts
-> index 9fbbbb556c0b3..df7e5ae9698e1 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts
-> +++ b/arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts
-> @@ -107,7 +107,7 @@ touchscreeen@5d {
->                 interrupt-parent = <&gpio1>;
->                 interrupts = <8 IRQ_TYPE_NONE>;
->                 irq-gpios = <&gpio1 8 GPIO_ACTIVE_HIGH>;
-> -               reset-gpios = <&gpio1 9 GPIO_ACTIVE_HIGH>;
-> +               reset-gpios = <&gpio1 9 GPIO_ACTIVE_LOW>;
->         };
->
->         temp-sense@70 {
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dts b/arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dts
-> index 6445c6b90b5bb..b038300812b1e 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dts
-> +++ b/arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dts
-> @@ -542,7 +542,7 @@ touchscreen@5d {
->                 pinctrl-0 = <&pinctrl_ts>;
->                 interrupt-parent = <&gpio3>;
->                 interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
-> -               reset-gpios = <&gpio1 5 GPIO_ACTIVE_HIGH>;
-> +               reset-gpios = <&gpio1 5 GPIO_ACTIVE_LOW>;
->                 irq-gpios = <&gpio3 0 GPIO_ACTIVE_HIGH>;
->                 touchscreen-size-x = <720>;
->                 touchscreen-size-y = <1440>;
->
-> --
-> b4 0.10.1
+On 11/21/22 16:06, Quentin Schulz wrote:
+> Hi Hans,
+> 
+> Sorry for the delay.
+> 
+> On 11/3/22 20:28, Hans de Goede wrote:
+> [...]
+>> Ok, so I've been taking a look at how we can invert the 'x' passed
+>> to the gpiod_direction_output(ts->gpiod_rst, x) calls and not break
+>> things with ACPI.
+>>
+>> The rst pin is looked up through a acpi_gpio_mapping which
+>> contains acpi_gpio_params as one of the per pin parameters
+>> and that does have an active_low flag.
+>>
+> 
+> I just read the kernel docs about GPIO and ACPI and I'm not entirely sure this is always 100% safe to do:
+> 
+> https://docs.kernel.org/firmware-guide/acpi/gpio-properties.html
+> 
+> Specifically:
+> """
+> The GpioIo() resource unfortunately doesn't explicitly provide an initial state of the output pin which driver should use during its initialization.
+> 
+> Linux tries to use common sense here and derives the state from the bias and polarity settings. The table below shows the expectations:
+> 
+> =========  =============  ==============
+> Pull Bias     Polarity     Requested...
+> =========  =============  ==============
+> Implicit     x            AS IS (assumed firmware configured for us)
+> Explicit     x (no _DSD)  as Pull Bias (Up == High, Down == Low),
+>                           assuming non-active (Polarity = !Pull Bias)
+> Down         Low          as low, assuming active
+> Down         High         as low, assuming non-active
+> Up           Low          as high, assuming non-active
+> Up           High         as high, assuming active
+> =========  =============  ==============
+> """
+> 
+> But since we actually override this during our devm_gpiod_get_optional by passing forcing the flag to be either GPIOD_IN or GPIOD_ASIS, we should be good for this driver IIUC?
+
+Not entirely I just checked and for some reason the ACPI GPIO
+lookup code will override the gpiod_flags passed to gpiod_get()
+if it can determine a set of flags from the ACPI GpioIo entry.
+
+For output pins like the reset pin, this requores a pull bias
+to be set, which often is not the case, so then the GPIOD_ASIS
+which we pass in is used.
+
+But if a pull bias is specified in the ACPI GpioIo entry for
+the reset pin then thats get translated to GPIOD_OUT_LOW or
+GPIOD_OUT_HIGH and setting acpi_gpio_params.active_low as
+your patch do will flip those.
+
+So this may cause unintended side-effects.
+
+This is something which we can fix though, we can force
+the ACPI GPIO code to honor the GPIOD_ASIS we pass in
+by changing:
+
+static const struct acpi_gpio_params first_gpio = { 0, 0, false };
+static const struct acpi_gpio_params second_gpio = { 1, 0, false };
+
+to:
+
+static const struct acpi_gpio_params first_gpio = { 0, 0, false, ACPI_GPIO_QUIRK_NO_IO_RESTRICTION };
+static const struct acpi_gpio_params second_gpio = { 1, 0, false, ACPI_GPIO_QUIRK_NO_IO_RESTRICTION };
+
+Which will make gpiod_get honor the GPIOD_ASIS for the reset pin
+and the GPIOD_IN for the IRQ pin.
+
+It would be good to do this as a preparation patch, because
+this will be good to have regardless of the rest of your series
+because the gpiolib-acpi behavior without the
+ACPI_GPIO_QUIRK_NO_IO_RESTRICTION flag may already cause the
+reset GPIO to get its value changed at probe time which we
+do not want to happen in the Goodix driver.
+
+If you can send me such a preparation patch + a new 1/7
+on top, then I can give this a test on a x86/ACPI device
+with a goodix touchscreen.
+
+(Maybe send them offlist if you don't want to send out another
+version this quickly.
+
+Regards,
+
+Hans
+
+
