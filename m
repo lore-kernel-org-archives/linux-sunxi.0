@@ -1,11 +1,11 @@
 Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 267D16FA6
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Nov 2022 17:18:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844716FA6
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Nov 2022 17:18:16 +0000 (UTC)
 Received: (Authenticated sender: foss@0leil.net)
-	by mail.gandi.net (Postfix) with ESMTPSA id 849AF6000B;
-	Mon, 21 Nov 2022 17:18:02 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id CF6E460013;
+	Mon, 21 Nov 2022 17:18:08 +0000 (UTC)
 From: Quentin Schulz <foss+kernel@0leil.net>
 To: Shawn Guo <shawnguo@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -32,9 +32,9 @@ Cc: Quentin Schulz <quentin.schulz@theobroma-systems.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	devicetree@vger.kernel.org
-Subject: [PATCH RFC v2 4/7] arm64: dts: allwinner: fix touchscreen reset GPIO polarity
-Date: Mon, 21 Nov 2022 18:17:21 +0100
-Message-Id: <20221103-upstream-goodix-reset-v2-4-2c38fb03a300@theobroma-systems.com>
+Subject: [PATCH RFC v2 5/7] arm64: dts: imx: fix touchscreen reset GPIO polarity
+Date: Mon, 21 Nov 2022 18:17:22 +0100
+Message-Id: <20221103-upstream-goodix-reset-v2-5-2c38fb03a300@theobroma-systems.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221103-upstream-goodix-reset-v2-0-2c38fb03a300@theobroma-systems.com>
 References: <20221103-upstream-goodix-reset-v2-0-2c38fb03a300@theobroma-systems.com>
@@ -55,64 +55,36 @@ let's fix the polarity in the Device Tree node.
 
 Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts       | 2 +-
- arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts | 2 +-
- arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi          | 2 +-
- arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts             | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts         | 2 +-
+ arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dts | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts
-index 8233582f62881..5fd581037d987 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts
-@@ -122,7 +122,7 @@ touchscreen@5d {
- 		interrupt-parent = <&pio>;
- 		interrupts = <7 4 IRQ_TYPE_EDGE_FALLING>;
- 		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>;	/* CTP-INT: PH4 */
--		reset-gpios = <&pio 7 8 GPIO_ACTIVE_HIGH>;	/* CTP-RST: PH8 */
-+		reset-gpios = <&pio 7 8 GPIO_ACTIVE_LOW>;	/* CTP-RST: PH8 */
- 		touchscreen-inverted-x;
- 		touchscreen-inverted-y;
+diff --git a/arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts b/arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts
+index 9fbbbb556c0b3..df7e5ae9698e1 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts
++++ b/arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts
+@@ -107,7 +107,7 @@ touchscreeen@5d {
+ 		interrupt-parent = <&gpio1>;
+ 		interrupts = <8 IRQ_TYPE_NONE>;
+ 		irq-gpios = <&gpio1 8 GPIO_ACTIVE_HIGH>;
+-		reset-gpios = <&gpio1 9 GPIO_ACTIVE_HIGH>;
++		reset-gpios = <&gpio1 9 GPIO_ACTIVE_LOW>;
  	};
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts
-index 577f9e1d08a14..990f042f5a5b1 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts
-@@ -45,7 +45,7 @@ touchscreen@5d {
- 		interrupt-parent = <&pio>;
- 		interrupts = <7 4 IRQ_TYPE_EDGE_FALLING>;
- 		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>;	/* CTP-INT: PH4 */
--		reset-gpios = <&pio 7 11 GPIO_ACTIVE_HIGH>;	/* CTP-RST: PH11 */
-+		reset-gpios = <&pio 7 11 GPIO_ACTIVE_LOW>;	/* CTP-RST: PH11 */
- 		touchscreen-inverted-x;
- 		touchscreen-inverted-y;
- 	};
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-index 87847116ab6d9..97359cc7f13e2 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-@@ -167,7 +167,7 @@ touchscreen@5d {
- 		interrupt-parent = <&pio>;
- 		interrupts = <7 4 IRQ_TYPE_LEVEL_HIGH>; /* PH4 */
- 		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
--		reset-gpios = <&pio 7 11 GPIO_ACTIVE_HIGH>; /* PH11 */
-+		reset-gpios = <&pio 7 11 GPIO_ACTIVE_LOW>; /* PH11 */
- 		AVDD28-supply = <&reg_ldo_io0>;
- 		VDDIO-supply = <&reg_ldo_io0>;
+ 
+ 	temp-sense@70 {
+diff --git a/arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dts b/arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dts
+index 6445c6b90b5bb..b038300812b1e 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dts
++++ b/arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dts
+@@ -542,7 +542,7 @@ touchscreen@5d {
+ 		pinctrl-0 = <&pinctrl_ts>;
+ 		interrupt-parent = <&gpio3>;
+ 		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+-		reset-gpios = <&gpio1 5 GPIO_ACTIVE_HIGH>;
++		reset-gpios = <&gpio1 5 GPIO_ACTIVE_LOW>;
+ 		irq-gpios = <&gpio3 0 GPIO_ACTIVE_HIGH>;
  		touchscreen-size-x = <720>;
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
-index 0a5607f73049e..c0eccc753e3f5 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
-@@ -189,7 +189,7 @@ touchscreen@5d {
- 		interrupt-parent = <&pio>;
- 		interrupts = <7 4 IRQ_TYPE_LEVEL_HIGH>; /* PH4 */
- 		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
--		reset-gpios = <&pio 7 8 GPIO_ACTIVE_HIGH>; /* PH8 */
-+		reset-gpios = <&pio 7 8 GPIO_ACTIVE_LOW>; /* PH8 */
- 		AVDD28-supply = <&reg_ldo_io1>;
- 	};
- };
+ 		touchscreen-size-y = <1440>;
 
 -- 
 b4 0.10.1
