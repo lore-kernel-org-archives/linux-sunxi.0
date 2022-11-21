@@ -1,178 +1,446 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D4179C5
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Nov 2022 19:25:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1669058699;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eoLZmv4iwg/w4gE4QH+SCVnULAbBmRBckpkebszPHC0=;
-	b=dERSuzHHbziKFzaK/KbeF63yVaxK9CqgaheEBXF+hF+FkmyJoisWdFKWVees03RmPxWfWt
-	V5mfPxF/1v8QvqgOmBuHW8gY86kybaD1Aju501NNsknuYNEfyczQbNAvcWKbIdy6hD4IC7
-	2WOxSpTZLOi5CGQacZKSoFAxW4eIQyo=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-132-Lt5lUtD3MCC_7iqfLgUSrA-1; Mon, 21 Nov 2022 14:24:58 -0500
-X-MC-Unique: Lt5lUtD3MCC_7iqfLgUSrA-1
-Received: by mail-ed1-f71.google.com with SMTP id l18-20020a056402255200b004633509768bso7347757edb.12
-        for <linux-sunxi@lists.linux.dev>; Mon, 21 Nov 2022 11:24:58 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01DF4EA5
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Nov 2022 20:30:49 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id d3so15790341ljl.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 21 Nov 2022 12:30:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:references:cc:to
+         :content-language:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yfpG9eV9KNVg6+qRSV5QIiQhtEjfHqp5OQWIwTqY8sA=;
+        b=Ze5g2f/gPvQ3Tp9Cc8ktS01XE453EfrnyYaf+/a3VDrFFSP4CJO3aUfyiY+dOwYhRf
+         19y5fnAixQ0LpEiHwAfYBKxS6oixdLF89sVOfNWSGjkqQCIteMAo7nhKr7HwBJX++HYw
+         Y7Ax6q0yOQyRIVBnUrcSnGFj7Wx/KzucaNwjMkgcgFxZByJ5QEPbtQzQSFUVzUl4wkcG
+         Sm8W77Bo1bisA2AXtJ0Bu1wlMNp5TyyOW0nkHK0QCCm92Kclg9rh1IN5SgNX1tApr/F0
+         2g8ILU8TvDQOyJiywHaHtOIQi2yh6zfiAikOQeQ1u6d9uJBG4peZ7KOrGfpJCU/kBHZJ
+         7m/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eoLZmv4iwg/w4gE4QH+SCVnULAbBmRBckpkebszPHC0=;
-        b=e3QQouQcotkGdoauQFa8BU+0LUrXL78EMDKf3UZ6iy80xEzt1Z6fdSvJsH3IF+VJ5O
-         1z+LhADR6bpWFGQ3vmCxTQnJNYgRGrk8vOBZV2B/cncKwtONXFsRdMVLHaJX5TGLaChV
-         CwIx44thOu6OENkXAmsHP1pfap4EHpGfjGu3aliizuAxcKaJX6pDnAA6KldorOP1Mm4K
-         7eURTDDM6QZOLITJSNcLwlqEwi8mN+yzw38I/2edGPwZ+arGp7Qp9uP2YprNItohIItT
-         UyhPSd8W0FdphhLCK1npdpVzyvjzI3MBWfnnj7nHVKgAhnMb4wYXsr/rn0hHS2a/WHxl
-         ACIQ==
-X-Gm-Message-State: ANoB5plPLKDr1SnWc8zZFDQdv03i4vjp2SfSxcDzFdfxdgfBlyQp9h54
-	EcFR6JRbTYGm0WyPWEl/s37WUzHwCUfV6HP59DRozI4nTJMh+AdUmJXiWoxjRhWMjbBBtatP41S
-	sOusgpBD2jcpiyya0oTtauxU=
-X-Received: by 2002:aa7:c6da:0:b0:469:172:1f38 with SMTP id b26-20020aa7c6da000000b0046901721f38mr15457197eds.195.1669058697326;
-        Mon, 21 Nov 2022 11:24:57 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4mcm+9l0MN74vmnCzLHArZvfNvXRoa2WAFysBeHkAtV8iX0vlC/zf5jCAN0bfmt/Xb/ffkbA==
-X-Received: by 2002:aa7:c6da:0:b0:469:172:1f38 with SMTP id b26-20020aa7c6da000000b0046901721f38mr15457186eds.195.1669058697111;
-        Mon, 21 Nov 2022 11:24:57 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id ez1-20020a056402450100b004617e880f52sm5437350edb.29.2022.11.21.11.24.55
+        h=content-transfer-encoding:in-reply-to:references:cc:to
+         :content-language:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yfpG9eV9KNVg6+qRSV5QIiQhtEjfHqp5OQWIwTqY8sA=;
+        b=7hq7Ytr/iztPhEcv2mlCHBYMhcVy8Tz/EZpTvsIX11Z0KY3Y7p3F6duU6zDeB9YC4R
+         P926JniN/dzISjvBGSDRMmz9WHF27T1TA2AUSyjjcFJb6CvSWlHfiSmpvQe4ZLuSfer5
+         S4GysC2e8FVMlDx/p7+l0zMIc3a6L+ThQfkydvDBLzSzGvfFaINA1Rsur6FeUcmtVgCv
+         +It3R0dSgpVeJGSQtyqb1JZ3zpb7xi29z/qt7metzAnxt3JdxJBGP9E4w6yRYgUrQ3tI
+         eiQzDIBgKUfmVqPDdjSM0EXfY05OTahZPKjl4gsYQjviUfJ6/10KlP+MIkwkjJGEpOPE
+         VyDA==
+X-Gm-Message-State: ANoB5plMNezx+KZP3Y5n2QHk79EwRXp7Wl6iTPspmmJAI7drNwrOJ47Y
+	ncmv/BQjrDZ5hZZnBUjXHVo=
+X-Google-Smtp-Source: AA0mqf4jNu8dHA6JfWXDhB4DyXYt8qsKIcM6lNMaXNk/PE24lBhpjgzvIjCR5uxjAMvvwmnDlhywFQ==
+X-Received: by 2002:a2e:2d01:0:b0:278:ebb5:ddd2 with SMTP id t1-20020a2e2d01000000b00278ebb5ddd2mr6025246ljt.494.1669062647681;
+        Mon, 21 Nov 2022 12:30:47 -0800 (PST)
+Received: from ?IPV6:2a02:a31a:a240:1700:cd97:47f7:90db:67bf? ([2a02:a31a:a240:1700:cd97:47f7:90db:67bf])
+        by smtp.googlemail.com with ESMTPSA id r17-20020a2e9951000000b00261ccf566e3sm1555644ljj.65.2022.11.21.12.30.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Nov 2022 11:24:56 -0800 (PST)
-Message-ID: <89e0955c-2878-6e3f-a947-e208340a9db3@redhat.com>
-Date: Mon, 21 Nov 2022 20:24:55 +0100
+        Mon, 21 Nov 2022 12:30:46 -0800 (PST)
+From: Mateusz Kwiatkowski <kfyatek@gmail.com>
+X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+Message-ID: <069ff6bb-c49e-e7c9-ce45-35999ff725c5@gmail.com>
+Date: Mon, 21 Nov 2022 21:30:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [RFC PATCH 1/7] Input: goodix - fix reset polarity
-To: Quentin Schulz <quentin.schulz@theobroma-systems.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Quentin Schulz <foss+kernel@0leil.net>, hadess@hadess.net,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- linux-imx@nxp.com, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, agross@kernel.org, andersson@kernel.org,
- konrad.dybcio@somainline.org, heiko@sntech.de, linux-input@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- devicetree <devicetree@vger.kernel.org>,
- arm-mail-list <linux-arm-kernel@lists.infradead.org>,
- linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>
-References: <20221103-upstream-goodix-reset-v1-0-87b49ae589f1@theobroma-systems.com>
- <20221103-upstream-goodix-reset-v1-1-87b49ae589f1@theobroma-systems.com>
- <1fa371bd-78a6-bb7c-4692-1d8132ec2ab1@redhat.com>
- <Y2P7SsPa04975Rkm@google.com>
- <692fd16e-4183-d58d-802e-2b83563aee4b@redhat.com>
- <267de96a-0129-a97d-9bf6-e1001b422a1a@theobroma-systems.com>
- <16c7f876-102c-60e1-4a81-3378b6c726fb@redhat.com>
- <554ebf0a-2304-6fd0-555a-0ce1b4615bf0@theobroma-systems.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <554ebf0a-2304-6fd0-555a-0ce1b4615bf0@theobroma-systems.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.0
+Reply-To: kfyatek+publicgit@gmail.com
+Subject: Re: [PATCH v10 18/19] drm/vc4: vec: Add support for more analog TV
+ standards
+Content-Language: pl
+To: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>,
+ Maxime Ripard <maxime@cerno.tech>
+Cc: Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
+ Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@linux.ie>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel@ffwll.ch>, Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+References: <20220728-rpi-analog-tv-properties-v10-0-256dad125326@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v10-18-256dad125326@cerno.tech>
+ <20221117164928.200b3a1a@maurocar-mobl2>
+In-Reply-To: <20221117164928.200b3a1a@maurocar-mobl2>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi,
+Hi Mauro,
 
-On 11/21/22 16:06, Quentin Schulz wrote:
-> Hi Hans,
-> 
-> Sorry for the delay.
-> 
-> On 11/3/22 20:28, Hans de Goede wrote:
-> [...]
->> Ok, so I've been taking a look at how we can invert the 'x' passed
->> to the gpiod_direction_output(ts->gpiod_rst, x) calls and not break
->> things with ACPI.
+As the author of the original version of this commit, and also a person who
+argued quite a bit on these descriptions and decisions, let me chip in a bit.
+
+W dniu 17.11.2022 o 16:49, Mauro Carvalho Chehab pisze:
+> On Thu, 17 Nov 2022 10:29:01 +0100
+> Maxime Ripard <maxime@cerno.tech> wrote:
+>
+>> From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
 >>
->> The rst pin is looked up through a acpi_gpio_mapping which
->> contains acpi_gpio_params as one of the per pin parameters
->> and that does have an active_low flag.
+>> Add support for the following composite output modes (all of them are
+>> somewhat more obscure than the previously defined ones):
 >>
-> 
-> I just read the kernel docs about GPIO and ACPI and I'm not entirely sure this is always 100% safe to do:
-> 
-> https://docs.kernel.org/firmware-guide/acpi/gpio-properties.html
-> 
-> Specifically:
-> """
-> The GpioIo() resource unfortunately doesn't explicitly provide an initial state of the output pin which driver should use during its initialization.
-> 
-> Linux tries to use common sense here and derives the state from the bias and polarity settings. The table below shows the expectations:
-> 
-> =========  =============  ==============
-> Pull Bias     Polarity     Requested...
-> =========  =============  ==============
-> Implicit     x            AS IS (assumed firmware configured for us)
-> Explicit     x (no _DSD)  as Pull Bias (Up == High, Down == Low),
->                           assuming non-active (Polarity = !Pull Bias)
-> Down         Low          as low, assuming active
-> Down         High         as low, assuming non-active
-> Up           Low          as high, assuming non-active
-> Up           High         as high, assuming active
-> =========  =============  ==============
-> """
-> 
-> But since we actually override this during our devm_gpiod_get_optional by passing forcing the flag to be either GPIOD_IN or GPIOD_ASIS, we should be good for this driver IIUC?
+>> - NTSC_443 - NTSC-style signal with the chroma subcarrier shifted to
+>>   4.43361875 MHz (the PAL subcarrier frequency). Never used for
+>>   broadcasting, but sometimes used as a hack to play NTSC content in PAL
+>>   regions (e.g. on VCRs).
+>
+>> - PAL_N - PAL with alternative chroma subcarrier frequency,
+>>   3.58205625 MHz. Used as a broadcast standard in Argentina, Paraguay
+>>   and Uruguay to fit 576i50 with colour in 6 MHz channel raster.
+>
+> That's not right. Argentina uses a different standard than Paraguay and
+> Uruguai.
+>
+> See, there are two variants of PAL/N. The original one and PAL/N' - also
+> called PAL/NC or PAL/CN (Combination N). Some of the timings are 
+> different on /NC variant.
+>
+> As far as I'm aware, PAL/Nc is used in Argentina, while
+> PAL/N is used in Paraguai and Uruguai, but I may be wrong on that,
+> as it has been a long time since had to touch on this.
 
-Not entirely I just checked and for some reason the ACPI GPIO
-lookup code will override the gpiod_flags passed to gpiod_get()
-if it can determine a set of flags from the ACPI GpioIo entry.
+If you say so - maybe that's true. But I tried to find any differences between
+PAL-N and PAL-Nc many times and haven't found anything concrete. The only
+authoritative source where System N and "Combination N/PAL" seem to be mentioned
+as separate entities is BT.1701
+<https://www.itu.int/rec/R-REC-BT.1701-1-200508-I/en>. However:
 
-For output pins like the reset pin, this requores a pull bias
-to be set, which often is not the case, so then the GPIOD_ASIS
-which we pass in is used.
+a) the differences are very subtle (with "combination N/PAL" being just a tad
+   stricter than what's mentioned for System N)
+b) "Combination N/PAL" can be understood as just "System N combined with PAL
+   color", as opposed to "raw", black&white System N. This intepretation is also
+   what the user calling themselves "Alcahemist" suggests here:
+   https://en.wikipedia.org/wiki/Talk:PAL#PAL-N_versus_PAL-Nc
 
-But if a pull bias is specified in the ACPI GpioIo entry for
-the reset pin then thats get translated to GPIOD_OUT_LOW or
-GPIOD_OUT_HIGH and setting acpi_gpio_params.active_low as
-your patch do will flip those.
+This is of course far from an authoritative source. If you have a definitive
+source for PAL-N and PAL-Nc being different, or concrete information on what is
+different between them specifically, then so be it. But I tried and haven't
+found anything conclusive.
 
-So this may cause unintended side-effects.
+>> - PAL60 - 480i60 signal with PAL-style color at normal European PAL
+>>   frequency. Another non-standard, non-broadcast mode, used in similar
+>>   contexts as NTSC_443. Some displays support one but not the other.
+>
+>> - SECAM - French frequency-modulated analog color standard; also have
+>>   been broadcast in Eastern Europe and various parts of Africa and Asia.
+>>   Uses the same 576i50 timings as PAL.
+>
+> This is also wrong. just like PAL, there are several variants of SECAM,
+> one used in France, and a different one in France overseas and on
+> previous France colonies in Africa and Asia. Eastern Europe also used
+> different variants of SECAM.
 
-This is something which we can fix though, we can force
-the ACPI GPIO code to honor the GPIOD_ASIS we pass in
-by changing:
+This is true. However, those differed only in RF modulation. For example,
+French SECAM-L used positive video modulation and AM sound, while Eastern
+European SECAM-D/K used negative video modulation and FM sound. But the
+baseband composite signals were identical.
 
-static const struct acpi_gpio_params first_gpio = { 0, 0, false };
-static const struct acpi_gpio_params second_gpio = { 1, 0, false };
+There were several other variants of SECAM, like early SECAM/V vs. SECAM/H
+("Field identification" vs. "Line identification") which moved the color
+identification signals from VBI to HBI. But that's a change that all SECAM
+regions, including both France and Eastern Europe did in the 1980s to
+acommodate for teletext. Again, authoritative sources are scarce, but see e.g.
+https://web.archive.org/web/20160303232903/http://www.pembers.freeserve.co.uk/World-TV-Standards/Colour-Standards.html
+(search for "Synchronisation of SECAM colour transmissions" on the page).
 
-to:
+There's also MESECAM, but that only applies to encoding on VHS and Betamax
+tapes, not the signals themselves. There was also SECAM-M for 525-line (480i)
+signals, but I haven't found any conclusive evidence that it was ever used for
+broadcast anywhere
 
-static const struct acpi_gpio_params first_gpio = { 0, 0, false, ACPI_GPIO_QUIRK_NO_IO_RESTRICTION };
-static const struct acpi_gpio_params second_gpio = { 1, 0, false, ACPI_GPIO_QUIRK_NO_IO_RESTRICTION };
+So yeah, SECAM can be a bit confusing, but AFAIK there's only one standard if
+we're talking about the composite video layer.
 
-Which will make gpiod_get honor the GPIOD_ASIS for the reset pin
-and the GPIOD_IN for the IRQ pin.
+--
 
-It would be good to do this as a preparation patch, because
-this will be good to have regardless of the rest of your series
-because the gpiolib-acpi behavior without the
-ACPI_GPIO_QUIRK_NO_IO_RESTRICTION flag may already cause the
-reset GPIO to get its value changed at probe time which we
-do not want to happen in the Goodix driver.
+Some *really* old (like, 1960s old) versions of CCIR documents also listed more
+substantial differences between various 625-line systems, including the number
+of active lines varying from 571 to 589. But all revisions from 1974 onward list
+the modern value of 575 active lines for all the variants, making them differ
+only in RF modulation details. Which is beyond the scope of what the "TV mode"
+property is supposed to do.
 
-If you can send me such a preparation patch + a new 1/7
-on top, then I can give this a test on a x86/ACPI device
-with a goodix touchscreen.
+>> Also added some comments explaining color subcarrier frequency
+>> registers.
+>>
+>> Acked-by: Noralf Trønnes <noralf@tronnes.org>
+>> Signed-off-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+>> Tested-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>>
+>> ---
+>> Changes in v6:
+>> - Support PAL60 again
+>> ---
+>>  drivers/gpu/drm/vc4/vc4_vec.c | 111 ++++++++++++++++++++++++++++++++++++++++--
+>>  1 file changed, 107 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
+>> index a828fc6fb776..d23dbad3cbf6 100644
+>> --- a/drivers/gpu/drm/vc4/vc4_vec.c
+>> +++ b/drivers/gpu/drm/vc4/vc4_vec.c
+>> @@ -46,6 +46,7 @@
+>>  #define VEC_CONFIG0_YDEL(x)		((x) << 26)
+>>  #define VEC_CONFIG0_CDEL_MASK		GENMASK(25, 24)
+>>  #define VEC_CONFIG0_CDEL(x)		((x) << 24)
+>> +#define VEC_CONFIG0_SECAM_STD		BIT(21)
+>>  #define VEC_CONFIG0_PBPR_FIL		BIT(18)
+>>  #define VEC_CONFIG0_CHROMA_GAIN_MASK	GENMASK(17, 16)
+>>  #define VEC_CONFIG0_CHROMA_GAIN_UNITY	(0 << 16)
+>> @@ -76,6 +77,27 @@
+>>  #define VEC_SOFT_RESET			0x10c
+>>  #define VEC_CLMP0_START			0x144
+>>  #define VEC_CLMP0_END			0x148
+>> +
+>> +/*
+>> + * These set the color subcarrier frequency
+>> + * if VEC_CONFIG1_CUSTOM_FREQ is enabled.
+>> + *
+>> + * VEC_FREQ1_0 contains the most significant 16-bit half-word,
+>> + * VEC_FREQ3_2 contains the least significant 16-bit half-word.
+>> + * 0x80000000 seems to be equivalent to the pixel clock
+>> + * (which itself is the VEC clock divided by 8).
+>> + *
+>> + * Reference values (with the default pixel clock of 13.5 MHz):
+>> + *
+>> + * NTSC  (3579545.[45] Hz)     - 0x21F07C1F
+>> + * PAL   (4433618.75 Hz)       - 0x2A098ACB
+>> + * PAL-M (3575611.[888111] Hz) - 0x21E6EFE3
+>> + * PAL-N (3582056.25 Hz)       - 0x21F69446
+>> + *
+>> + * NOTE: For SECAM, it is used as the Dr center frequency,
+>> + * regardless of whether VEC_CONFIG1_CUSTOM_FREQ is enabled or not;
+>> + * that is specified as 4406250 Hz, which corresponds to 0x29C71C72.
+>> + */
+>>  #define VEC_FREQ3_2			0x180
+>>  #define VEC_FREQ1_0			0x184
+>>  
+>> @@ -118,6 +140,14 @@
+>>  
+>>  #define VEC_INTERRUPT_CONTROL		0x190
+>>  #define VEC_INTERRUPT_STATUS		0x194
+>> +
+>> +/*
+>> + * Db center frequency for SECAM; the clock for this is the same as for
+>> + * VEC_FREQ3_2/VEC_FREQ1_0, which is used for Dr center frequency.
+>> + *
+>> + * This is specified as 4250000 Hz, which corresponds to 0x284BDA13.
+>> + * That is also the default value, so no need to set it explicitly.
+>> + */
+>>  #define VEC_FCW_SECAM_B			0x198
+>>  #define VEC_SECAM_GAIN_VAL		0x19c
+>>  
+>> @@ -197,10 +227,15 @@ enum vc4_vec_tv_mode_id {
+>>  	VC4_VEC_TV_MODE_NTSC_J,
+>>  	VC4_VEC_TV_MODE_PAL,
+>>  	VC4_VEC_TV_MODE_PAL_M,
+>> +	VC4_VEC_TV_MODE_NTSC_443,
+>> +	VC4_VEC_TV_MODE_PAL_60,
+>> +	VC4_VEC_TV_MODE_PAL_N,
+>> +	VC4_VEC_TV_MODE_SECAM,
+>>  };
+>>  
+>>  struct vc4_vec_tv_mode {
+>>  	unsigned int mode;
+>> +	u16 expected_htotal;
+>>  	u32 config0;
+>>  	u32 config1;
+>>  	u32 custom_freq;
+>> @@ -236,35 +271,68 @@ static const struct debugfs_reg32 vec_regs[] = {
+>>  static const struct vc4_vec_tv_mode vc4_vec_tv_modes[] = {
+>>  	{
+>>  		.mode = DRM_MODE_TV_MODE_NTSC,
+>> +		.expected_htotal = 858,
+>>  		.config0 = VEC_CONFIG0_NTSC_STD | VEC_CONFIG0_PDEN,
+>>  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
+>>  	},
+>> +	{
+>> +		.mode = DRM_MODE_TV_MODE_NTSC_443,
+>> +		.expected_htotal = 858,
+>> +		.config0 = VEC_CONFIG0_NTSC_STD,
+>> +		.config1 = VEC_CONFIG1_C_CVBS_CVBS | VEC_CONFIG1_CUSTOM_FREQ,
+>> +		.custom_freq = 0x2a098acb,
+>> +	},
+>>  	{
+>>  		.mode = DRM_MODE_TV_MODE_NTSC_J,
+>> +		.expected_htotal = 858,
+>>  		.config0 = VEC_CONFIG0_NTSC_STD,
+>>  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
+>>  	},
+>>  	{
+>>  		.mode = DRM_MODE_TV_MODE_PAL,
+>> +		.expected_htotal = 864,
+>>  		.config0 = VEC_CONFIG0_PAL_BDGHI_STD,
+>>  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
+>>  	},
+>> +	{
+>> +		/* PAL-60 */
+>> +		.mode = DRM_MODE_TV_MODE_PAL,
+>> +		.expected_htotal = 858,
+>> +		.config0 = VEC_CONFIG0_PAL_M_STD,
+>> +		.config1 = VEC_CONFIG1_C_CVBS_CVBS | VEC_CONFIG1_CUSTOM_FREQ,
+>> +		.custom_freq = 0x2a098acb,
+>> +	},
+>>  	{
+>>  		.mode = DRM_MODE_TV_MODE_PAL_M,
+>> +		.expected_htotal = 858,
+>>  		.config0 = VEC_CONFIG0_PAL_M_STD,
+>>  		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
+>>  	},
+>> +	{
+>> +		.mode = DRM_MODE_TV_MODE_PAL_N,
+>> +		.expected_htotal = 864,
+>> +		.config0 = VEC_CONFIG0_PAL_N_STD,
+>> +		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
+>> +	},
+>> +	{
+>> +		.mode = DRM_MODE_TV_MODE_SECAM,
+>> +		.expected_htotal = 864,
+>> +		.config0 = VEC_CONFIG0_SECAM_STD,
+>> +		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
+>> +		.custom_freq = 0x29c71c72,
+>> +	},
+>>  };
+>>  
+>>  static inline const struct vc4_vec_tv_mode *
+>> -vc4_vec_tv_mode_lookup(unsigned int mode)
+>> +vc4_vec_tv_mode_lookup(unsigned int mode, u16 htotal)
+>>  {
+>>  	unsigned int i;
+>>  
+>>  	for (i = 0; i < ARRAY_SIZE(vc4_vec_tv_modes); i++) {
+>>  		const struct vc4_vec_tv_mode *tv_mode = &vc4_vec_tv_modes[i];
+>>  
+>> -		if (tv_mode->mode == mode)
+>> +		if (tv_mode->mode == mode &&
+>> +		    tv_mode->expected_htotal == htotal)
+>>  			return tv_mode;
+>>  	}
+>>  
+>> @@ -273,9 +341,13 @@ vc4_vec_tv_mode_lookup(unsigned int mode)
+>>  
+>>  static const struct drm_prop_enum_list legacy_tv_mode_names[] = {
+>>  	{ VC4_VEC_TV_MODE_NTSC, "NTSC", },
+>> +	{ VC4_VEC_TV_MODE_NTSC_443, "NTSC-443", },
+>>  	{ VC4_VEC_TV_MODE_NTSC_J, "NTSC-J", },
+>>  	{ VC4_VEC_TV_MODE_PAL, "PAL", },
+>> +	{ VC4_VEC_TV_MODE_PAL_60, "PAL-60", },
+>>  	{ VC4_VEC_TV_MODE_PAL_M, "PAL-M", },
+>> +	{ VC4_VEC_TV_MODE_PAL_N, "PAL-N", },
+>> +	{ VC4_VEC_TV_MODE_SECAM, "SECAM", },
+>>  };
+>>  
+>>  static enum drm_connector_status
+>> @@ -306,11 +378,16 @@ vc4_vec_connector_set_property(struct drm_connector *connector,
+>>  		state->tv.mode = DRM_MODE_TV_MODE_NTSC;
+>>  		break;
+>>  
+>> +	case VC4_VEC_TV_MODE_NTSC_443:
+>> +		state->tv.mode = DRM_MODE_TV_MODE_NTSC_443;
+>> +		break;
+>> +
+>>  	case VC4_VEC_TV_MODE_NTSC_J:
+>>  		state->tv.mode = DRM_MODE_TV_MODE_NTSC_J;
+>>  		break;
+>>  
+>>  	case VC4_VEC_TV_MODE_PAL:
+>> +	case VC4_VEC_TV_MODE_PAL_60:
+>>  		state->tv.mode = DRM_MODE_TV_MODE_PAL;
+>>  		break;
+>>  
+>> @@ -318,6 +395,14 @@ vc4_vec_connector_set_property(struct drm_connector *connector,
+>>  		state->tv.mode = DRM_MODE_TV_MODE_PAL_M;
+>>  		break;
+>>  
+>> +	case VC4_VEC_TV_MODE_PAL_N:
+>> +		state->tv.mode = DRM_MODE_TV_MODE_PAL_N;
+>> +		break;
+>> +
+>> +	case VC4_VEC_TV_MODE_SECAM:
+>> +		state->tv.mode = DRM_MODE_TV_MODE_SECAM;
+>> +		break;
+>> +
+>>  	default:
+>>  		return -EINVAL;
+>>  	}
+>> @@ -341,6 +426,10 @@ vc4_vec_connector_get_property(struct drm_connector *connector,
+>>  		*val = VC4_VEC_TV_MODE_NTSC;
+>>  		break;
+>>  
+>> +	case DRM_MODE_TV_MODE_NTSC_443:
+>> +		*val = VC4_VEC_TV_MODE_NTSC_443;
+>> +		break;
+>> +
+>>  	case DRM_MODE_TV_MODE_NTSC_J:
+>>  		*val = VC4_VEC_TV_MODE_NTSC_J;
+>>  		break;
+>> @@ -353,6 +442,14 @@ vc4_vec_connector_get_property(struct drm_connector *connector,
+>>  		*val = VC4_VEC_TV_MODE_PAL_M;
+>>  		break;
+>>  
+>> +	case DRM_MODE_TV_MODE_PAL_N:
+>> +		*val = VC4_VEC_TV_MODE_PAL_N;
+>> +		break;
+>> +
+>> +	case DRM_MODE_TV_MODE_SECAM:
+>> +		*val = VC4_VEC_TV_MODE_SECAM;
+>> +		break;
+>> +
+>>  	default:
+>>  		return -EINVAL;
+>>  	}
+>> @@ -448,13 +545,16 @@ static void vc4_vec_encoder_enable(struct drm_encoder *encoder,
+>>  	struct drm_connector *connector = &vec->connector;
+>>  	struct drm_connector_state *conn_state =
+>>  		drm_atomic_get_new_connector_state(state, connector);
+>> +	struct drm_display_mode *adjusted_mode =
+>> +		&encoder->crtc->state->adjusted_mode;
+>>  	const struct vc4_vec_tv_mode *tv_mode;
+>>  	int idx, ret;
+>>  
+>>  	if (!drm_dev_enter(drm, &idx))
+>>  		return;
+>>  
+>> -	tv_mode = vc4_vec_tv_mode_lookup(conn_state->tv.mode);
+>> +	tv_mode = vc4_vec_tv_mode_lookup(conn_state->tv.mode,
+>> +					 adjusted_mode->htotal);
+>>  	if (!tv_mode)
+>>  		goto err_dev_exit;
+>>  
+>> @@ -648,9 +748,12 @@ static int vc4_vec_bind(struct device *dev, struct device *master, void *data)
+>>  
+>>  	ret = drm_mode_create_tv_properties(drm,
+>>  					    BIT(DRM_MODE_TV_MODE_NTSC) |
+>> +					    BIT(DRM_MODE_TV_MODE_NTSC_443) |
+>>  					    BIT(DRM_MODE_TV_MODE_NTSC_J) |
+>>  					    BIT(DRM_MODE_TV_MODE_PAL) |
+>> -					    BIT(DRM_MODE_TV_MODE_PAL_M));
+>> +					    BIT(DRM_MODE_TV_MODE_PAL_M) |
+>> +					    BIT(DRM_MODE_TV_MODE_PAL_N) |
+>> +					    BIT(DRM_MODE_TV_MODE_SECAM));
+>>  	if (ret)
+>>  		return ret;
+>>  
+>>
 
-(Maybe send them offlist if you don't want to send out another
-version this quickly.
-
-Regards,
-
-Hans
-
+Best regards,
+Mateusz Kwiatkowski
 
