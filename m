@@ -1,14 +1,14 @@
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18C0D6FA6
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Nov 2022 17:34:22 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::223])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 09230C202C
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Nov 2022 17:17:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E77F6FAD
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Nov 2022 17:34:23 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (unknown [217.70.183.195])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 98845C3DDE
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Nov 2022 17:17:58 +0000 (UTC)
 Received: (Authenticated sender: foss@0leil.net)
-	by mail.gandi.net (Postfix) with ESMTPSA id AE28E6000D;
-	Mon, 21 Nov 2022 17:17:34 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 655B060006;
+	Mon, 21 Nov 2022 17:17:43 +0000 (UTC)
 From: Quentin Schulz <foss+kernel@0leil.net>
 To: Shawn Guo <shawnguo@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -35,10 +35,12 @@ Cc: Quentin Schulz <quentin.schulz@theobroma-systems.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	devicetree@vger.kernel.org
-Subject: [PATCH RFC v2 0/7] fix reset line polarity for Goodix touchscreen controllers
-Date: Mon, 21 Nov 2022 18:17:17 +0100
-Message-Id: <20221103-upstream-goodix-reset-v2-0-2c38fb03a300@theobroma-systems.com>
+Subject: [PATCH RFC v2 1/7] Input: goodix - fix reset polarity
+Date: Mon, 21 Nov 2022 18:17:18 +0100
+Message-Id: <20221103-upstream-goodix-reset-v2-1-2c38fb03a300@theobroma-systems.com>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221103-upstream-goodix-reset-v2-0-2c38fb03a300@theobroma-systems.com>
+References: <20221103-upstream-goodix-reset-v2-0-2c38fb03a300@theobroma-systems.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -47,95 +49,118 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.10.1
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+From: Quentin Schulz <quentin.schulz@theobroma-systems.com>=0D
 
-The Goodix touchscreen controller has a reset line active low. It happens to
-also be used to configure its i2c address at runtime. If the reset line is
-incorrectly asserted, the address will be wrongly configured. This cost me a few
-hours, trying to figure out why the touchscreen wouldn't work.
-
-The driver is "asserting" this reset GPIO by setting its output to 0, probably
-to reflect the physical state of the line. However, this relies on the fact that
-the Device Tree node setting the reset line polarity to active high, which is
-incorrect since the reset is active low in hardware.
-
-To fix this inconsistency, the polarity is inverted to not confuse the user
-about the reset line polarity.
-
-This is marked as RFC because it breaks DT compatibility and I cannot test ACPI
-support. Do we also make this patch series only one patchset since the DT
-patches depend on the driver patch and vice-versa? In which tree would this go?
-
-I'm all ears if there's a better way to handle this. We could document this in
-the DT binding but this kinda breaks the promise we make that the DT is not
-bound to the driver implementation.
-
-Thanks,
-Quentin
-
-To: Bastien Nocera <hadess@hadess.net>
-To: Hans de Goede <hdegoede@redhat.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-To: Shawn Guo <shawnguo@kernel.org>
-To: Sascha Hauer <s.hauer@pengutronix.de>
-To: Pengutronix Kernel Team <kernel@pengutronix.de>
-To: Fabio Estevam <festevam@gmail.com>
-To: NXP Linux Team <linux-imx@nxp.com>
-To: Chen-Yu Tsai <wens@csie.org>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Samuel Holland <samuel@sholland.org>
-To: Andy Gross <agross@kernel.org>
-To: Bjorn Andersson <andersson@kernel.org>
-To: Konrad Dybcio <konrad.dybcio@somainline.org>
-To: Heiko Stuebner <heiko@sntech.de>
-Cc: linux-input@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-sunxi@lists.linux.dev
-Cc: linux-arm-msm@vger.kernel.org
-Cc: linux-rockchip@lists.infradead.org
-Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
----
-Changes in v2:
-- implemented ACPI support as suggested by Hans,
-- removed Qcom SC7180 Trogdor-based devices changes as they are not using this Goodix driver,
-- added comment on how to read gpiod_request_output and the GPIO DT polarity,
-- Link to v1: https://lore.kernel.org/r/20221103-upstream-goodix-reset-v1-0-87b49ae589f1@theobroma-systems.com
-
----
-Quentin Schulz (7):
-      Input: goodix - fix reset polarity
-      ARM: dts: imx: fix touchscreen reset GPIO polarity
-      ARM: dts: sunxi: fix touchscreen reset GPIO polarity
-      arm64: dts: allwinner: fix touchscreen reset GPIO polarity
-      arm64: dts: imx: fix touchscreen reset GPIO polarity
-      arm64: dts: qcom: fix touchscreen reset GPIO polarity
-      arm64: dts: rockchip: fix touchscreen reset GPIO polarity
-
- arch/arm/boot/dts/imx6q-kp.dtsi                    |  2 +-
- arch/arm/boot/dts/imx6ul-kontron-bl-43.dts         |  2 +-
- arch/arm/boot/dts/sun7i-a20-wexler-tab7200.dts     |  2 +-
- .../dts/allwinner/sun50i-a64-amarula-relic.dts     |  2 +-
- .../allwinner/sun50i-a64-oceanic-5205-5inmfd.dts   |  2 +-
- .../boot/dts/allwinner/sun50i-a64-pinephone.dtsi   |  2 +-
- .../boot/dts/allwinner/sun50i-a64-pinetab.dts      |  2 +-
- arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dts    |  2 +-
- .../boot/dts/freescale/imx8mq-librem5-devkit.dts   |  2 +-
- arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts    |  2 +-
- arch/arm64/boot/dts/rockchip/px30-evb.dts          |  2 +-
- arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi |  2 +-
- arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts   |  2 +-
- drivers/input/touchscreen/goodix.c                 | 45 +++++++++++++++++-----
- 14 files changed, 48 insertions(+), 23 deletions(-)
----
-base-commit: 84368d882b9688bfac77ce48d33b1e20a4e4a787
-change-id: 20221103-upstream-goodix-reset-aa1c65994f57
-
-Best regards,
--- 
-Quentin Schulz <quentin.schulz@theobroma-systems.com>
+The reset line is asserted for selecting the I2C target address and then=0D
+deasserted.=0D
+=0D
+This inverted logic works because the boards using this touchscreen=0D
+controller also invert the polarity of their reset GPIO.=0D
+=0D
+Instead of depending on this double-inversion of meaning, let's *assert*=0D
+the line.=0D
+=0D
+Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>=0D
+---=0D
+Changes in v2:=0D
+- implemented ACPI support as suggested by Hans,=0D
+- added comment on how to read gpiod_request_output and the GPIO DT polarit=
+y,=0D
+=0D
+ drivers/input/touchscreen/goodix.c | 45 +++++++++++++++++++++++++++++-----=
+----=0D
+ 1 file changed, 35 insertions(+), 10 deletions(-)=0D
+=0D
+diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen=
+/goodix.c=0D
+index a33cc7950cf5b..da10cbb6f8264 100644=0D
+--- a/drivers/input/touchscreen/goodix.c=0D
++++ b/drivers/input/touchscreen/goodix.c=0D
+@@ -742,8 +742,25 @@ int goodix_reset_no_int_sync(struct goodix_ts_data *ts=
+)=0D
+ {=0D
+ 	int error;=0D
+ =0D
+-	/* begin select I2C slave addr */=0D
+-	error =3D gpiod_direction_output(ts->gpiod_rst, 0);=0D
++	/*=0D
++	 * begin select I2C slave addr by activating/asserting RESET.=0D
++	 *=0D
++	 * The value passed to gpiod_direction_output is decorrelated from the=0D
++	 * actual physical state of the line. The 1 value here is just to=0D
++	 * specify the *assertion* of the line, its meaning being dependent on=0D
++	 * the HW design of the system.=0D
++	 *=0D
++	 * DT-based systems need to specify the GPIO level in which the reset is=
+=0D
++	 * active. Since the touchscreen controller is in reset when its RESET=0D
++	 * line is low, it is the level of the GPIO that results in the RESET=0D
++	 * pin on the touchscreen controller side being low. In a HW design in=0D
++	 * which the GPIO is directly connected to the touchscreen controller=0D
++	 * RESET pin, this would be GPIO_ACTIVE_LOW.=0D
++	 *=0D
++	 * ACPI systems do not have the ability to specify the level of the GPIO=
+=0D
++	 * and they are therefore all assumed active low.=0D
++	 */=0D
++	error =3D gpiod_direction_output(ts->gpiod_rst, 1);=0D
+ 	if (error)=0D
+ 		goto error;=0D
+ =0D
+@@ -756,7 +773,8 @@ int goodix_reset_no_int_sync(struct goodix_ts_data *ts)=
+=0D
+ =0D
+ 	usleep_range(100, 2000);		/* T3: > 100us */=0D
+ =0D
+-	error =3D gpiod_direction_output(ts->gpiod_rst, 1);=0D
++	/* Disable/de-assert RESET */=0D
++	error =3D gpiod_direction_output(ts->gpiod_rst, 0);=0D
+ 	if (error)=0D
+ 		goto error;=0D
+ =0D
+@@ -797,23 +815,30 @@ static int goodix_reset(struct goodix_ts_data *ts)=0D
+ }=0D
+ =0D
+ #ifdef ACPI_GPIO_SUPPORT=0D
+-static const struct acpi_gpio_params first_gpio =3D { 0, 0, false };=0D
+-static const struct acpi_gpio_params second_gpio =3D { 1, 0, false };=0D
++static const struct acpi_gpio_params int_first_gpio =3D { 0, 0, false };=0D
++static const struct acpi_gpio_params int_second_gpio =3D { 1, 0, false };=
+=0D
++=0D
++/*=0D
++ * The controller is in reset when the RESET GPIO is output low, so=0D
++ * set acpi_gpio_params.active_low appropriately.=0D
++ */=0D
++static const struct acpi_gpio_params rst_first_gpio =3D { 0, 0, true };=0D
++static const struct acpi_gpio_params rst_second_gpio =3D { 1, 0, true };=0D
+ =0D
+ static const struct acpi_gpio_mapping acpi_goodix_int_first_gpios[] =3D {=
+=0D
+-	{ GOODIX_GPIO_INT_NAME "-gpios", &first_gpio, 1 },=0D
+-	{ GOODIX_GPIO_RST_NAME "-gpios", &second_gpio, 1 },=0D
++	{ GOODIX_GPIO_INT_NAME "-gpios", &int_first_gpio, 1 },=0D
++	{ GOODIX_GPIO_RST_NAME "-gpios", &rst_second_gpio, 1 },=0D
+ 	{ },=0D
+ };=0D
+ =0D
+ static const struct acpi_gpio_mapping acpi_goodix_int_last_gpios[] =3D {=0D
+-	{ GOODIX_GPIO_RST_NAME "-gpios", &first_gpio, 1 },=0D
+-	{ GOODIX_GPIO_INT_NAME "-gpios", &second_gpio, 1 },=0D
++	{ GOODIX_GPIO_RST_NAME "-gpios", &rst_first_gpio, 1 },=0D
++	{ GOODIX_GPIO_INT_NAME "-gpios", &int_second_gpio, 1 },=0D
+ 	{ },=0D
+ };=0D
+ =0D
+ static const struct acpi_gpio_mapping acpi_goodix_reset_only_gpios[] =3D {=
+=0D
+-	{ GOODIX_GPIO_RST_NAME "-gpios", &first_gpio, 1 },=0D
++	{ GOODIX_GPIO_RST_NAME "-gpios", &rst_first_gpio, 1 },=0D
+ 	{ },=0D
+ };=0D
+ =0D
+=0D
+-- =0D
+b4 0.10.1=0D
