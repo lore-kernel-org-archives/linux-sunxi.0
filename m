@@ -1,110 +1,360 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D0DEA6
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Nov 2022 10:16:39 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id b3so18120143lfv.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 21 Nov 2022 02:16:39 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD5F63CB
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Nov 2022 14:51:31 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id o7-20020a05600c510700b003cffc0b3374so9014994wms.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 21 Nov 2022 06:51:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=phJFVLoc9/POc6nbD0liFwrgYsKAiaNUs+VrsQZny0U=;
-        b=HMQtLNQC6JHUcpQnXKaMPeLJYNEXESjWqW9Jm9fxHdDsyxq3fD2y+gUbum8cazGLlS
-         0Nzot0o7wlI3aHmX0JtEp59ASN04zoUP5cBLwhJUS8UWXS1vrDPK5s0nm6MtNyPRkAXr
-         i9HRjhzMXJwfcX+oinAm/OP6xU5bC2NyVL00djub62igijCsqVS/+Gs3g8Ob67GV62e5
-         lbpACEGBVz+P7gegvEedJPLtYc/UAuXuZCP3D6YMe70yXUQfK1oo2OuCbl17wDJsWOWJ
-         juioZPmih2Q2tDZ+3ZlWsJUEwqpG6mEfuUGwVkFA5iKPxQNEPbzHK7gtA/8R8W2wDMdd
-         a+Uw==
+        d=ffwll.ch; s=google;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NPydWrNdfqIGDmJS35ofH3oOUFMXcgrP2822hY23e4Q=;
+        b=b7rA/fYhZMoYD4Ha+nNtQgfE5+5JwqQhN1Vi8ciVD9ticy56QfhkdO7rRLckhUfnWH
+         wUZ++ROqe21Z9tqm1YoCr1/EZN0pOFQeRFqL7tNfBXeIn9MX9ITNvpRu1X8ho6eH9ci3
+         UabKwK9zsMkJrI+i1wFXsy2D8tDPjdgny8SIw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=phJFVLoc9/POc6nbD0liFwrgYsKAiaNUs+VrsQZny0U=;
-        b=S/rVIsypCG4MOL5JE5rXVvIGNdR+5Vil9K3xSIoEcz88gc/yTkZPmbwKEUFrWdyO7/
-         iVoI/aEim2ZcjYr9bh8Y1h7qs80Ohqe6qVtlmcupTGyYTsFNtLaSYa8dEFv2x7ah1+Zb
-         fhwV6/vrEs7CfZJq5E4KrUaOamhS6CgUDc62/MSK/aMzCEryEOdtVHCkBKpCwyw3kMQM
-         FFQuDrCgru3tZSoI+vXenftlUB9rAhQeFVnZpVkN2jhGj2d1znaruU6Nu4uCJWxSHARc
-         2Nlz1bd7U5aoL8tt0YUIcTgjxmQREY4ZLC933vxp6xYK4PxWlf1VrHALg1o9jDWoxspw
-         jt5w==
-X-Gm-Message-State: ANoB5pmGanZZxC6LfcHoMw+VNA9jCVgASQR+hUYhmtNemu61yB4KXAdf
-	ylcIX2Aqo8xt1cVnSk8Nw6s=
-X-Google-Smtp-Source: AA0mqf4ot1dRfz4XcQJOzbIEVDNmvoy9FxZf/F3Gx+j1WTmSwhOpMtvOjIltFzq0/t2LrM51x6qHTA==
-X-Received: by 2002:a05:6512:2521:b0:4a4:5e83:e07d with SMTP id be33-20020a056512252100b004a45e83e07dmr1937785lfb.409.1669025797870;
-        Mon, 21 Nov 2022 02:16:37 -0800 (PST)
-Received: from [172.16.196.95] ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id e8-20020a05651236c800b004a03d5c2140sm1957388lfs.136.2022.11.21.02.16.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Nov 2022 02:16:36 -0800 (PST)
-Message-ID: <20825b50-c2ef-7efb-efbf-ac00cc4ab9f4@gmail.com>
-Date: Mon, 21 Nov 2022 12:16:24 +0200
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NPydWrNdfqIGDmJS35ofH3oOUFMXcgrP2822hY23e4Q=;
+        b=eqJTkyRqCUmMac2QIkUHd8HK6UQOT6w4Huq2mCdHq5lcwz6gHSTWdqN7DOf3H0szjf
+         Gr8CoWXlC7jT4Ol7d8v5eOq/1548lUbpm97s3lxeJvT2CVB1sM5YwYrVOoWbco3wL+q/
+         AbUldsxwKv3LAyNTpejyh7I1eVMlL+bs2GZ65p5TwTxNYFGGfqa25esXJ2T9lGecNRsL
+         ggRjjMeW7kHSWM/c/pYi1s9Zuf9DJQA4/VX78ajX/rmtg0zvIuQdvXRcLPUE8z6ZO50c
+         2VefA3Pqh937So+lxeeeRXvMevGOUP6M/COOZIpK3CItIfqi84ksJekpBozue+6T1xLv
+         vPuw==
+X-Gm-Message-State: ANoB5pla8irHQ6nO1xvWfmjSMAy0wXSo6KBSmjfz3cumKbXtRyvxNNIk
+	TcCPp/XRcfPCbp/gXQBpeU+31w==
+X-Google-Smtp-Source: AA0mqf6qLatuwUKGxJQ8235zzwr6t2QAx8gSWiqWJcy9iIeUjKbaWRqJ36As06k4guyP0zP7dkYfUw==
+X-Received: by 2002:a7b:cbc6:0:b0:3c6:b650:34dd with SMTP id n6-20020a7bcbc6000000b003c6b65034ddmr6437308wmi.45.1669042289540;
+        Mon, 21 Nov 2022 06:51:29 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
+        by smtp.gmail.com with ESMTPSA id e21-20020a05600c219500b003cf894dbc4fsm13847724wme.25.2022.11.21.06.51.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Nov 2022 06:51:29 -0800 (PST)
+Date: Mon, 21 Nov 2022 15:51:26 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
+	Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@linux.ie>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
+	Lyude Paul <lyude@redhat.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Hans de Goede <hdegoede@redhat.com>, nouveau@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+	dri-devel@lists.freedesktop.org,
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, Dom Cobley <dom@raspberrypi.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v10 00/19] drm: Analog TV Improvements
+Message-ID: <Y3uQbuQotGxh+XPS@phenom.ffwll.local>
+Mail-Followup-To: Maxime Ripard <maxime@cerno.tech>,
+	Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
+	Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@linux.ie>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
+	Lyude Paul <lyude@redhat.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Hans de Goede <hdegoede@redhat.com>, nouveau@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+	dri-devel@lists.freedesktop.org,
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, Dom Cobley <dom@raspberrypi.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20220728-rpi-analog-tv-properties-v10-0-256dad125326@cerno.tech>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-Subject: Re: [PATCH] dt-bindings: Add missing start and/or end of line regex
- anchors
-To: Rob Herring <robh@kernel.org>, Ilia Lin <ilia.lin@kernel.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Yangtao Li <tiny.windzz@gmail.com>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Sergio Paracuellos <sergio.paracuellos@gmail.com>,
- Ryder Lee <ryder.lee@mediatek.com>, Jianjun Wang
- <jianjun.wang@mediatek.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Marek Vasut <marek.vasut+renesas@gmail.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Javier Martinez Canillas <javier@dowhile0.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Maxime Ripard <mripard@kernel.org>,
- Daniel Mack <zonque@gmail.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-pm@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-pci@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20221118223728.1721589-1-robh@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20221118223728.1721589-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220728-rpi-analog-tv-properties-v10-0-256dad125326@cerno.tech>
+X-Operating-System: Linux phenom 5.19.0-2-amd64 
 
-On 11/19/22 00:37, Rob Herring wrote:
-> json-schema patterns by default will match anywhere in a string, so
-> typically we want at least the start or end anchored. Fix the obvious
-> cases where the anchors were forgotten.
+On Thu, Nov 17, 2022 at 10:28:43AM +0100, Maxime Ripard wrote:
+> Hi,
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> Here's a series aiming at improving the command line named modes support,
+> and more importantly how we deal with all the analog TV variants.
+> 
+> The named modes support were initially introduced to allow to specify the
+> analog TV mode to be used.
+> 
+> However, this was causing multiple issues:
+> 
+>   * The mode name parsed on the command line was passed directly to the
+>     driver, which had to figure out which mode it was suppose to match;
+> 
+>   * Figuring that out wasn't really easy, since the video= argument or what
+>     the userspace might not even have a name in the first place, but
+>     instead could have passed a mode with the same timings;
+> 
+>   * The fallback to matching on the timings was mostly working as long as
+>     we were supporting one 525 lines (most likely NSTC) and one 625 lines
+>     (PAL), but couldn't differentiate between two modes with the same
+>     timings (NTSC vs PAL-M vs NSTC-J for example);
+> 
+>   * There was also some overlap with the tv mode property registered by
+>     drm_mode_create_tv_properties(), but named modes weren't interacting
+>     with that property at all.
+> 
+>   * Even though that property was generic, its possible values were
+>     specific to each drivers, which made some generic support difficult.
+> 
+> Thus, I chose to tackle in multiple steps:
+> 
+>   * A new TV mode property was introduced, with generic values, each driver
+>     reporting through a bitmask what standard it supports to the userspace;
+> 
+>   * This option was added to the command line parsing code to be able to
+>     specify it on the kernel command line, and new atomic_check and reset
+>     helpers were created to integrate properly into atomic KMS;
+> 
+>   * The named mode parsing code is now creating a proper display mode for
+>     the given named mode, and the TV standard will thus be part of the
+>     connector state;
+> 
+>   * Two drivers were converted and tested for now (vc4 and sun4i), with
+>     some backward compatibility code to translate the old TV mode to the
+>     new TV mode;
+> 
+> Unit tests were created along the way.
+> 
+> One can switch from NTSC to PAL now using (on vc4)
+> 
+> modetest -M vc4  -s 53:720x480i -w 53:'TV mode':1 # NTSC
+> modetest -M vc4  -s 53:720x576i -w 53:'TV mode':4 # PAL
+> 
+> Let me know what you think,
+> Maxime
+
+Maxime asked me to drop an Ack-in-principle on this, and I'm not sure I
+have any useful input here with my utter lack of understanding for TV
+things (I never even had one in my entire life, that's how much I don't
+care). But it seems to check all the design boxes around solving annoying
+uapi/kms-config issues properly, so
+
+Acked-in-principle-or-something-like-that-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+Cheers, Daniel
+
+> 
+> To: David Airlie <airlied@linux.ie>
+> To: Daniel Vetter <daniel@ffwll.ch>
+> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> To: Maxime Ripard <mripard@kernel.org>
+> To: Thomas Zimmermann <tzimmermann@suse.de>
+> To: Emma Anholt <emma@anholt.net>
+> To: Jani Nikula <jani.nikula@linux.intel.com>
+> To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> To: Ben Skeggs <bskeggs@redhat.com>
+> To: Karol Herbst <kherbst@redhat.com>
+> To: Lyude Paul <lyude@redhat.com>
+> To: Chen-Yu Tsai <wens@csie.org>
+> To: Jernej Skrabec <jernej.skrabec@gmail.com>
+> To: Samuel Holland <samuel@sholland.org>
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+> Cc: "Noralf Trønnes" <noralf@tronnes.org>
+> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Cc: Dom Cobley <dom@raspberrypi.com>
+> Cc: Phil Elwell <phil@raspberrypi.com>
+> Cc: <dri-devel@lists.freedesktop.org>
+> Cc: linux-kernel@vger.kernel.org
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: nouveau@lists.freedesktop.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-sunxi@lists.linux.dev
+> Cc: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> 
 > ---
-
->   .../devicetree/bindings/regulator/rohm,bd9576-regulator.yaml  | 2 +-
-
-Acked-by: Matti Vaittinen <mazziesaccount@gmail.com>
-
+> Changes in v10:
+> - Rebase on top of drm-misc-next-2022-11-17
+> - Fix checkpatch issues
+> - Add missing MODULE_* macros
+> - Link to v9: https://lore.kernel.org/r/20220728-rpi-analog-tv-properties-v9-0-24b168e5bcd5@cerno.tech
+> 
+> Changes in v9:
+> - Rename some tests, switch to kunit_test_suite and parameterized tests where
+>   relevant
+> - Document the valid named modes
+> - Link to v8: https://lore.kernel.org/r/20220728-rpi-analog-tv-properties-v8-0-09ce1466967c@cerno.tech
+> 
+> Changes in v8:
+> - Changed slightly the helper API to pass in the features
+> - Removed unused tv_mode_support function
+> - Removed mode name match in _pick_cmdline_mode
+> - Added unit tests to the get_modes helper
+> - Collected Noralf and Mateusz tags
+> - Rebased on drm-misc-next-2022-11-10
+> - Link to v7: https://lore.kernel.org/r/20220728-rpi-analog-tv-properties-v7-0-7072a478c6b3@cerno.tech
+> 
+> Changes in v7:
+> - Switch to another implementation of get_modes from Noralf
+> - Made more checks in VEC's atomic_check
+> - Fixed typo in a commit log
+> - Checked for tv_mode_specified in drm_mode_parse_command_line_for_connector
+> - Rebased on drm-misc-next-2022-11-03
+> - Link to v6: https://lore.kernel.org/r/20220728-rpi-analog-tv-properties-v6-0-e7792734108f@cerno.tech
+> 
+> Changes in v6:
+> - Add and convert to a new get_modes helper to create the PAL and NTSC modes in
+>   the proper order, with the right preferred mode flag, depending on the driver
+>   capabilities and defaults.
+> - Support PAL60
+> - Renamed tests to be consistent with DRM tests naming convention
+> - Simplified a bit the named mode parsing code
+> - Add a tv_mode_specified field
+> - Return 0 in get_modes implementations instead of error codes
+> - Link to v5: https://lore.kernel.org/r/20220728-rpi-analog-tv-properties-v5-0-d841cc64fe4b@cerno.tech
+> 
+> Changes in v5:
+> - Dropped TV Standard documentation removal
+> - Switched the TV Mode documentation from CSV to actual documentation
+> - Switched to kunit assertions where possible
+> - Switched to KUNIT_ASSERT_NOT_NULL instead of KUNIT_ASSERT_PTR_NE(..., NULL)
+> - Shuffled a bit the introduction of drm_client_modeset_connector_get_modes between patches
+> - Renamed tv_mode_names to legacy_tv_mode_names
+> - Removed the count variable in sun4i_tv_comp_get_modes
+> - Rebased on top of current drm-misc-next
+> - Link to v4: https://lore.kernel.org/r/20220728-rpi-analog-tv-properties-v4-0-60d38873f782@cerno.tech
+> 
+> Changes in v4:
+> - Removed the unused TV Standard property documentation
+> - Added the TV Mode property documentation to kms-properties.csv
+> - Fixed the documentation of drm_mode_create_tv_properties()
+> - Removed DRM_MODE_TV_MODE_NONE
+> - Reworded the line length check comment in drm_mode_analog_tv tests
+> - Switched to HZ_PER_KHZ in drm_mode_analog_tv tests
+> - Reworked drm_mode_analog_tv to fill our mode using the previously computed
+>   timings
+> - Added the command-line option documentation to modedb.rst
+> - Improved the Kunit helpers cleanup
+> - Moved the subconnector documentation renaming to the proper patch
+> - Added the various review tags
+> - Removed the count variable in vc4_vec_connector_get_modes
+> - Rebased on drm-misc-next-2022-09-23 and fixed a merge conflict
+> - Folded all the named mode parsing improvements in a single patch
+> - Link to v3: https://lore.kernel.org/r/20220728-rpi-analog-tv-properties-v2-0-f733a0ed9f90@cerno.tech
+> 
+> Changes in v3:
+> - Applied some of the fixes to vc4 and sun4i
+> - Renamed the old TV mode property to legacy_mode
+> - Fixed a bunch of bisection errors
+> - Removed most of the redundant TV modes
+> - Added a new None TV mode to not fall back on NTSC by mistake
+> - Fixed the mode generation function to match better what is expected
+> - Added some logging to the mode generation function
+> - Split the improvements to the named mode parsing logic into separate patches
+> - Added more checks to the TV atomic_check helper
+> - Link to v2: https://lore.kernel.org/dri-devel/20220728-rpi-analog-tv-properties-v2-0-459522d653a7@cerno.tech/
+> 
+> Changes in v2:
+> - Kept the older TV mode property as legacy so we can keep the old drivers functional
+> - Renamed the tv_norm property to tv_mode
+> - Added a function to create PAL and NTSC compatible display modes
+> - Added some helpers to instantiate a mock DRM device in Kunit
+> - More Kunit tests
+> - Removed the HD analog TV modes
+> - Renamed some of the tests
+> - Renamed some of the named modes
+> - Fixed typos in commit logs
+> - Added the various tags
+> - Link to v1: https://lore.kernel.org/dri-devel/20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech/
+> 
+> ---
+> Mateusz Kwiatkowski (2):
+>       drm/vc4: vec: Check for VEC output constraints
+>       drm/vc4: vec: Add support for more analog TV standards
+> 
+> Maxime Ripard (16):
+>       drm/tests: client: Mention that we can't use MODULE_ macros
+>       drm/connector: Rename legacy TV property
+>       drm/connector: Only register TV mode property if present
+>       drm/connector: Rename drm_mode_create_tv_properties
+>       drm/connector: Add TV standard property
+>       drm/modes: Add a function to generate analog display modes
+>       drm/connector: Add a function to lookup a TV mode by its name
+>       drm/modes: Introduce the tv_mode property as a command-line option
+>       drm/modes: Properly generate a drm_display_mode from a named mode
+>       drm/client: Remove match on mode name
+>       drm/modes: Introduce more named modes
+>       drm/atomic-helper: Add a TV properties reset helper
+>       drm/atomic-helper: Add an analog TV atomic_check implementation
+>       drm/vc4: vec: Use TV Reset implementation
+>       drm/vc4: vec: Convert to the new TV mode property
+>       drm/sun4i: tv: Convert to the new TV mode property
+> 
+> Noralf Trønnes (1):
+>       drm/probe-helper: Provide a TV get_modes helper
+> 
+>  Documentation/fb/modedb.rst                     |   5 +
+>  Documentation/gpu/drm-kms.rst                   |   6 +
+>  drivers/gpu/drm/drm_atomic_state_helper.c       | 124 ++++++
+>  drivers/gpu/drm/drm_atomic_uapi.c               |   4 +
+>  drivers/gpu/drm/drm_client_modeset.c            |   4 -
+>  drivers/gpu/drm/drm_connector.c                 | 173 +++++++-
+>  drivers/gpu/drm/drm_modes.c                     | 544 +++++++++++++++++++++++-
+>  drivers/gpu/drm/drm_probe_helper.c              |  82 ++++
+>  drivers/gpu/drm/gud/gud_connector.c             |  10 +-
+>  drivers/gpu/drm/i2c/ch7006_drv.c                |   8 +-
+>  drivers/gpu/drm/i915/display/intel_tv.c         |   4 +-
+>  drivers/gpu/drm/nouveau/dispnv04/tvnv17.c       |   6 +-
+>  drivers/gpu/drm/sun4i/sun4i_tv.c                | 141 ++----
+>  drivers/gpu/drm/tests/Makefile                  |   3 +
+>  drivers/gpu/drm/tests/drm_client_modeset_test.c |  91 +++-
+>  drivers/gpu/drm/tests/drm_cmdline_parser_test.c |  68 +++
+>  drivers/gpu/drm/tests/drm_connector_test.c      |  76 ++++
+>  drivers/gpu/drm/tests/drm_modes_test.c          | 145 +++++++
+>  drivers/gpu/drm/tests/drm_probe_helper_test.c   | 205 +++++++++
+>  drivers/gpu/drm/vc4/vc4_vec.c                   | 342 ++++++++++++---
+>  include/drm/drm_atomic_state_helper.h           |   4 +
+>  include/drm/drm_connector.h                     |  82 +++-
+>  include/drm/drm_mode_config.h                   |  12 +-
+>  include/drm/drm_modes.h                         |  17 +
+>  include/drm/drm_probe_helper.h                  |   1 +
+>  25 files changed, 1959 insertions(+), 198 deletions(-)
+> ---
+> base-commit: 9a47d2357cc30d13054bb0598f74fd61f2c9fc51
+> change-id: 20220728-rpi-analog-tv-properties-0914dfcee460
+> 
+> Best regards,
+> -- 
+> Maxime Ripard <maxime@cerno.tech>
 
 -- 
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
-
-~~ When things go utterly wrong vim users can always type :help! ~~
-
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
