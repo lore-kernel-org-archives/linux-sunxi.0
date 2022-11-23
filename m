@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666417B
-	for <linux-sunxi@lists.linux.dev>; Wed, 23 Nov 2022 00:54:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC912C433C1;
-	Wed, 23 Nov 2022 00:54:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678F07B
+	for <linux-sunxi@lists.linux.dev>; Wed, 23 Nov 2022 01:44:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10129C433D6;
+	Wed, 23 Nov 2022 01:44:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1669164885;
-	bh=H42ZrAGgQp/aCjsbJiVaMdE+eoEzsGgFCxgylcY/DCY=;
+	s=k20201202; t=1669167860;
+	bh=yYdMEzHLIt5eIeu2zhVvzwrCKj/xjohYDRGrsbFXcIo=;
 	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=kt8NmAcS2dXi/9s6Llk3GZaxVjNCX9Y7kyrZq0+CSo77l8Axkc/Lop2MuMjpaawkW
-	 5ZSigxDeCM7+NZAbBz9yAUxLNocJr83RLr0/TYDNKScSSnB77lM7j0ryc5hEb6ISvf
-	 GXv0YmoZtIIrOZZa7HlHGj1suNPtpiCcKOZ+D3pxxpSrLRt2bEdyHzL1C+s5Fin0Do
-	 PiI2jU8gdk5ZnstKUCrBaa75Hj4GwNFp2e/QnesIZ6fgk4bgWiqbY41YsCNOthL+G2
-	 LDEvdS9+uXasAagL07m1wpbQrgyicZpZwfMfDNwvy0I8HhEt1FOKPLeihrnvr0i5bG
-	 nfpZPIox9A9JA==
+	b=ZJOiG8mKNApmQWUik10mWa1ENXwoj/RSUumKB8Pyjqi/0J30haeXQGbt31oqh2dVa
+	 Q9jgxNIJE83Tqbusi6ijWCITeBv1E4KdvXR939nbqND9mIT/c5IBKPVQ3krxTyDa2z
+	 lRHZn/jqagdH4h1GS/0YKod5cKmVuzhnlCkGq6UqQtr62Gkr1WmbTcP6gLL/sIqs0H
+	 vCEvnYNKx47QYYMQWpi2brxZnBAziNqDFPBQue17AcviITWHygeueLYhnS5FObdvcM
+	 nSm083cMVCXkl6M+ICDxqPOu82SowqgZBa/kLj4D88//xdJSs2MEPRcei9jLOVEd7C
+	 9bbHvRD0H6ukA==
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -23,38 +23,35 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <Y3ftFp9FoTmGCi9+@jernej-laptop>
-References: <Y3ftFp9FoTmGCi9+@jernej-laptop>
-Subject: Re: [GIT PULL] Allwinner clock changes for 6.2, try 2
+In-Reply-To: <20221122184844.6794-1-rdunlap@infradead.org>
+References: <20221122184844.6794-1-rdunlap@infradead.org>
+Subject: Re: [PATCH] clk: sunxi-ng: fix ccu_mmc_timing.c kernel-doc issues
 From: Stephen Boyd <sboyd@kernel.org>
-Cc: wens@csie.org, samuel@sholland.org, linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev
-To: Jernej Skrabec <jernej@kernel.org>, mturquette@baylibre.com
-Date: Tue, 22 Nov 2022 16:54:43 -0800
+Cc: Randy Dunlap <rdunlap@infradead.org>, Yang Li <yang.lee@linux.alibaba.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Michael Turquette <mturquette@baylibre.com>, linux-clk@vger.kernel.org
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Date: Tue, 22 Nov 2022 17:44:17 -0800
 User-Agent: alot/0.10
-Message-Id: <20221123005445.CC912C433C1@smtp.kernel.org>
+Message-Id: <20221123014420.10129C433D6@smtp.kernel.org>
 
-Quoting Jernej Skrabec (2022-11-18 12:37:42)
-> Hi!
+Quoting Randy Dunlap (2022-11-22 10:48:44)
+> Use '-' to separate the function name and its description.
+> Use '%' on constants in kernel-doc notation.
+> Use the kernel-doc Return: format for function return values.
 >=20
-> Please pull following clock changes for 6.2.
+> Fixes this warning:
+> ccu_mmc_timing.c:21: warning: No description found for return value of 's=
+unxi_ccu_set_mmc_timing_mode'
 >=20
-> Best regards,
-> Jernej
->=20
-> The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc7=
-80:
->=20
->   Linux 6.1-rc1 (2022-10-16 15:36:24 -0700)
->=20
-> are available in the Git repository at:
->=20
->   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/su=
-nxi-clk-for-6.2-1
->=20
-> for you to fetch changes up to f64603c9729af406167cb9beb66687b1abc4196e:
->=20
->   clk: sunxi-ng: f1c100s: Add IR mod clock (2022-11-16 19:49:18 +0100)
->=20
-> ----------------------------------------------------------------
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Yang Li <yang.lee@linux.alibaba.com>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Samuel Holland <samuel@sholland.org>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-sunxi@lists.linux.dev
+> Cc: Michael Turquette <mturquette@baylibre.com>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: linux-clk@vger.kernel.org
+> ---
 
-Thanks. Pulled into clk-next
+Reviewed-by: Stephen Boyd <sboyd@kernel.org>
