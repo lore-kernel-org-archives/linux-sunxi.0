@@ -1,131 +1,193 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C472D23A0
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Nov 2022 08:14:03 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id r8so1135010ljn.8
-        for <linux-sunxi@lists.linux.dev>; Thu, 24 Nov 2022 00:14:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DeUefraTLOsYVw9xLhjc2jCiF4qkVOolmQaF127DKVk=;
-        b=PAL/4lgO3qwcAfVMsmymoQQ9m3TeqyOkDETk9KBNX6z/o9HLwn8RaXvTDlHWiBBDvg
-         atY0ccAGfcCtVElHLwQsrm0QhHkHvKqJqM7RMLGPIFIPWuhF0QyVvPm9wRCzT9iCxASw
-         LN5V+FcWg/SEJM7UxqmH+AYRIOqBhulcXZfzgGab0XACfOxuhyQKNDmHdtNHKaj/8Zfl
-         FplfjNLMeze2dGtr55IUGmbCnmpZu5oViaQ4LvbS85ZhO261UmBzZe6bsie2P1qRpMeU
-         ZCqIYWK6+QBAocMAgO6/neFsIvtKZ8dEs27C22xWp0mQ/KCBXyWacaXLkPM597S1fqZP
-         NN0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DeUefraTLOsYVw9xLhjc2jCiF4qkVOolmQaF127DKVk=;
-        b=WRmm1CIKmSFxVHSXQMKnf7R7UyNDVWDchoEPSpZ7VAZXMQPHJcZ4m4wMzsBaDS1O2U
-         dfiIUhCmy+3JGId6pgaIcBSeER6i/sV1wfA237whuaGACqj/h9JYt5bBxlh0yob2ddDK
-         HiqzkZK+kpDNB7vMXZ0dXyNDC99CuvwQqRH82DPCBAQeu6Cfe1vY9MNDJhmTV2qEWE4D
-         3Rk5WIuDi2Hw729I6rYOxIQBCBzyh4MelL+0R3PSlPzOZ5yITmKvOsNaAiLLIyTr300l
-         6zmooHLKGPD3tOr1Y9hX/zToPf7U7ESNR6Hl5v2eLo7xIB3Syg1cIlLllkG7Rx3l8Rxw
-         17tA==
-X-Gm-Message-State: ANoB5pkg3tzZ0+t7aBOIzkVCH9U9qDC8EpTlR3iwDaJ9KdIRzFf7WIdP
-	pnz+Ya++HeomOUZBYroPkDw=
-X-Google-Smtp-Source: AA0mqf6hK0Yfc6U0TtdSmI9ZQLi93h7zpR/we4ftZe8kBmfGIWxQNqL4Gq2HZFwudP2QWyuNPdZNhg==
-X-Received: by 2002:a2e:c52:0:b0:277:9bf:9411 with SMTP id o18-20020a2e0c52000000b0027709bf9411mr4006863ljd.504.1669277641653;
-        Thu, 24 Nov 2022 00:14:01 -0800 (PST)
-Received: from ?IPV6:2001:999:485:946b:e412:ce24:16c6:ba10? ([2001:999:485:946b:e412:ce24:16c6:ba10])
-        by smtp.gmail.com with ESMTPSA id p12-20020ac24ecc000000b0049a5a59aa68sm52803lfr.10.2022.11.24.00.13.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Nov 2022 00:14:01 -0800 (PST)
-Message-ID: <b2a00199-fccf-5887-1029-99f9e7e55e7f@gmail.com>
-Date: Thu, 24 Nov 2022 10:15:11 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AF72569
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Nov 2022 11:49:50 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailnew.nyi.internal (Postfix) with ESMTP id C2B395802A8;
+	Thu, 24 Nov 2022 06:49:49 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Thu, 24 Nov 2022 06:49:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1669290589; x=1669297789; bh=OHFx68nmnn
+	/ceAUAI4qgZcV6iBa2E8isOTaxL9ONytc=; b=HJiPVgLyhrcSJIoI5oHBuPCtif
+	7TkeOKloNPGFr9G7HpxETWIMqUwKFx7SL0JFIN+tCq7qTefMU73nDb1kgWY9jEvg
+	jju8MAnU/W05uYdGIOo0suZbsbnlpf6AARruwbjhh7i0zHTNROi8w9fsLR+/J+uI
+	f2k5Yn79Z5tPdt/6/Tx5DUQUAY3F5CNLACZt2EWIfOpA2BxKKAkED9sTiNGG8t9j
+	Ox5M/iBawaCECjHYxKQvyUSfQyE/k6FerKXCxUwZkCogrOqHhSOaKWZH4RLP+9tU
+	K9c2QGBt55ntYGJaWExIy1fpWtiPMjl7R3S+X29r22VUVBPgRlMssonXNFcQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1669290589; x=1669297789; bh=OHFx68nmnn/ceAUAI4qgZcV6iBa2
+	E8isOTaxL9ONytc=; b=J0uwUwXhLVqUyKTozkwlimGquvlzDQkdPFAmgu6P/Gva
+	zBEet87p11qgTrBX3XIePgLUa6o0iKWmbAijtdFm3m6jX3sFI2A+XANbsS1ziNUc
+	lB1dYIjGgsVTV4IIPiOiEDdo72Kist/8YrNKcpBaW+cALs27xmBxozD8SL6UYZNs
+	+PSczmcvdsS5ZGV6QwesmFhMwp3QdWmxb1SNwavWw6LKO74i71QmKgTebKxG2UrZ
+	bivRxY+dD9UYez5vVu3mFzjEzKc3lHRmhR9f9T8XucrUoG0/WclxpqyBYZIRslpn
+	HvOE5Y2B8QvhuF7QywZXFyxGQuKjkQUdc6NGRTprMg==
+X-ME-Sender: <xms:XFp_YxcMrWb8n-7P5fAeiUYAsgh26CSiWBsgCf3KrLVVASwV4u0iUw>
+    <xme:XFp_Y_PrtI9LCp8UWiNwOa49Qea0CFSD10inJjTBFPprJ2vvNM_wRZmpq4SL8m5tt
+    sM5WCZDIZ5sSWH-AKA>
+X-ME-Received: <xmr:XFp_Y6ggafGBm88t5XNCsk2-eoh9GC_OwW-s8w-5lBh1bq9dDqWfplLg7ibOTVoI0H_65Q4nKRdDkUOEjJ_-lxEvRwZlMZzfzdKhur7M7v13fg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieefgdefgecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+    gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+    igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:XFp_Y69D3UxIMiHcjBhcNgGcI_vtmaXUBKR1J3I1LFHX9YAowc5Z3w>
+    <xmx:XFp_Y9vPnOgjw_XUJ0TgWbXcJMELQ1lNGpIcQBbNvNcSq2anOAWENg>
+    <xmx:XFp_Y5HeTfb_pHMpSfPaCgvSzqwRBDN3n-KJSdN2d39Ch-L8LltJ2Q>
+    <xmx:XVp_Y_vwd2w_-Jrg_wGS8bAYZv791C3i0PIK5SIB19VZ2BGQc-TwGQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 24 Nov 2022 06:49:47 -0500 (EST)
+Date: Thu, 24 Nov 2022 12:49:45 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Ben Skeggs <bskeggs@redhat.com>, Chen-Yu Tsai <wens@csie.org>,
+	David Airlie <airlied@linux.ie>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	Emma Anholt <emma@anholt.net>, Karol Herbst <kherbst@redhat.com>,
+	Lyude Paul <lyude@redhat.com>,	Thomas Zimmermann <tzimmermann@suse.de>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Hans de Goede <hdegoede@redhat.com>, nouveau@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+	dri-devel@lists.freedesktop.org,
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, Dom Cobley <dom@raspberrypi.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v10 00/19] drm: Analog TV Improvements
+Message-ID: <20221124114945.oqilsc7zjth4jwso@houat>
+References: <20220728-rpi-analog-tv-properties-v10-0-256dad125326@cerno.tech>
+ <Y3uQbuQotGxh+XPS@phenom.ffwll.local>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v3] dmaengine: drivers: Use
- devm_platform_ioremap_resource()
-Content-Language: en-US
-To: Tudor Ambarus <tudor.ambarus@microchip.com>, vkoul@kernel.org
-Cc: f.fainelli@gmail.com, rjui@broadcom.com, sbranden@broadcom.com,
- bcm-kernel-feedback-list@broadcom.com, lars@metafoo.de, shawnguo@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- linux-imx@nxp.com, sean.wang@mediatek.com, matthias.bgg@gmail.com,
- daniel@zonque.org, haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
- agross@kernel.org, andersson@kernel.org, konrad.dybcio@somainline.org,
- green.wan@sifive.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, ldewangan@nvidia.com, jonathanh@nvidia.com,
- thierry.reding@gmail.com, michal.simek@xilinx.com, tony@atomide.com,
- krzysztof.kozlowski@linaro.org, trix@redhat.com,
- radhey.shyam.pandey@xilinx.com, shravya.kumbham@xilinx.com,
- harini.katakam@xilinx.com, swati.agarwal@amd.com, dmaengine@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, ye.xingchen@zte.com.cn, quic_mojha@quicinc.com
-References: <20221110152528.7821-1-tudor.ambarus@microchip.com>
-From: =?UTF-8?Q?P=c3=a9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-In-Reply-To: <20221110152528.7821-1-tudor.ambarus@microchip.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="apvrjccnplb3u7fu"
+Content-Disposition: inline
+In-Reply-To: <Y3uQbuQotGxh+XPS@phenom.ffwll.local>
 
 
+--apvrjccnplb3u7fu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 10/11/2022 17:25, Tudor Ambarus wrote:
-> platform_get_resource() and devm_ioremap_resource() are wrapped up in the
-> devm_platform_ioremap_resource() helper. Use the helper and get rid of the
-> local variable for struct resource *. We now have a function call less.
-> 
-> Signed-off-by: Tudor Ambarus <tudor.ambarus@microchip.com>
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
-> v3:
-> - fix errors reported-by lkp@intel.com
-> - lkp@intel.com built successfully few configs, all should be good now.
-> 
-> v2:
-> - rebase on dma/next. s3c24xx was removed, thus drop the changes for it.
-> - collect Acked-by
-> 
->   drivers/dma/bcm2835-dma.c                      |  4 +---
->   drivers/dma/dma-axi-dmac.c                     |  4 +---
->   drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c |  4 +---
->   drivers/dma/fsl-edma.c                         |  8 +++-----
->   drivers/dma/fsl-qdma.c                         | 10 +++-------
->   drivers/dma/idma64.c                           |  4 +---
->   drivers/dma/img-mdc-dma.c                      |  4 +---
->   drivers/dma/imx-dma.c                          |  4 +---
->   drivers/dma/imx-sdma.c                         |  4 +---
->   drivers/dma/mcf-edma.c                         |  5 +----
->   drivers/dma/mediatek/mtk-hsdma.c               |  4 +---
->   drivers/dma/mmp_pdma.c                         |  4 +---
->   drivers/dma/mmp_tdma.c                         |  4 +---
->   drivers/dma/moxart-dma.c                       |  4 +---
->   drivers/dma/mv_xor_v2.c                        |  7 ++-----
->   drivers/dma/mxs-dma.c                          |  4 +---
->   drivers/dma/nbpfaxi.c                          |  4 +---
->   drivers/dma/pxa_dma.c                          |  4 +---
->   drivers/dma/qcom/bam_dma.c                     |  4 +---
->   drivers/dma/sf-pdma/sf-pdma.c                  |  4 +---
->   drivers/dma/sh/usb-dmac.c                      |  4 +---
->   drivers/dma/stm32-dmamux.c                     |  4 +---
->   drivers/dma/stm32-mdma.c                       |  4 +---
->   drivers/dma/sun4i-dma.c                        |  4 +---
->   drivers/dma/sun6i-dma.c                        |  4 +---
->   drivers/dma/tegra210-adma.c                    |  4 +---
->   drivers/dma/ti/cppi41.c                        | 10 +++-------
->   drivers/dma/ti/omap-dma.c                      |  4 +---
+On Mon, Nov 21, 2022 at 03:51:26PM +0100, Daniel Vetter wrote:
+> On Thu, Nov 17, 2022 at 10:28:43AM +0100, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > Here's a series aiming at improving the command line named modes suppor=
+t,
+> > and more importantly how we deal with all the analog TV variants.
+> >=20
+> > The named modes support were initially introduced to allow to specify t=
+he
+> > analog TV mode to be used.
+> >=20
+> > However, this was causing multiple issues:
+> >=20
+> >   * The mode name parsed on the command line was passed directly to the
+> >     driver, which had to figure out which mode it was suppose to match;
+> >=20
+> >   * Figuring that out wasn't really easy, since the video=3D argument o=
+r what
+> >     the userspace might not even have a name in the first place, but
+> >     instead could have passed a mode with the same timings;
+> >=20
+> >   * The fallback to matching on the timings was mostly working as long =
+as
+> >     we were supporting one 525 lines (most likely NSTC) and one 625 lin=
+es
+> >     (PAL), but couldn't differentiate between two modes with the same
+> >     timings (NTSC vs PAL-M vs NSTC-J for example);
+> >=20
+> >   * There was also some overlap with the tv mode property registered by
+> >     drm_mode_create_tv_properties(), but named modes weren't interacting
+> >     with that property at all.
+> >=20
+> >   * Even though that property was generic, its possible values were
+> >     specific to each drivers, which made some generic support difficult.
+> >=20
+> > Thus, I chose to tackle in multiple steps:
+> >=20
+> >   * A new TV mode property was introduced, with generic values, each dr=
+iver
+> >     reporting through a bitmask what standard it supports to the usersp=
+ace;
+> >=20
+> >   * This option was added to the command line parsing code to be able to
+> >     specify it on the kernel command line, and new atomic_check and res=
+et
+> >     helpers were created to integrate properly into atomic KMS;
+> >=20
+> >   * The named mode parsing code is now creating a proper display mode f=
+or
+> >     the given named mode, and the TV standard will thus be part of the
+> >     connector state;
+> >=20
+> >   * Two drivers were converted and tested for now (vc4 and sun4i), with
+> >     some backward compatibility code to translate the old TV mode to the
+> >     new TV mode;
+> >=20
+> > Unit tests were created along the way.
+> >=20
+> > One can switch from NTSC to PAL now using (on vc4)
+> >=20
+> > modetest -M vc4  -s 53:720x480i -w 53:'TV mode':1 # NTSC
+> > modetest -M vc4  -s 53:720x576i -w 53:'TV mode':4 # PAL
+> >=20
+> > Let me know what you think,
+> > Maxime
+>=20
+> Maxime asked me to drop an Ack-in-principle on this, and I'm not sure I
+> have any useful input here with my utter lack of understanding for TV
+> things (I never even had one in my entire life, that's how much I don't
+> care). But it seems to check all the design boxes around solving annoying
+> uapi/kms-config issues properly, so
+>=20
+> Acked-in-principle-or-something-like-that-by: Daniel Vetter <daniel.vette=
+r@ffwll.ch>
 
-For omap-dma:
-Acked-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
+Thanks!
 
->   drivers/dma/xilinx/zynqmp_dma.c                |  4 +---
->   29 files changed, 36 insertions(+), 100 deletions(-)
-> -- 
-Péter
+I jumped the gun a bit too fast and forgot to amend the TV property
+commit message before pushing it out.
+
+For the record though, that property is usable through xrandr, xorg.conf
+or any equivalent compositor mechanism
+
+Maxime
+
+--apvrjccnplb3u7fu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY39aWQAKCRDj7w1vZxhR
+xacgAP9NPkwQFyz0CvvFS5SzvELVnj6t9GBuTq/qrHpTLaRyaAD9GJpLyjLeg7Jy
+Z0pnBngL2vXGtvYVUCMQy5VhVkMtuAg=
+=fhxt
+-----END PGP SIGNATURE-----
+
+--apvrjccnplb3u7fu--
