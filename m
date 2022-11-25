@@ -1,54 +1,56 @@
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F71846B
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 20:20:11 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 946A15C0065;
-	Fri, 25 Nov 2022 15:20:10 -0500 (EST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4B78470
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 20:20:12 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 011825C0082;
+	Fri, 25 Nov 2022 15:20:12 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Fri, 25 Nov 2022 15:20:10 -0500
+  by compute5.internal (MEProxy); Fri, 25 Nov 2022 15:20:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm2; t=1669407610; x=1669494010; bh=SH21Yn2SJRMLTVtT3dx346JtA
-	Jb7CcIUzlp8Ja9h9EI=; b=BKah3F8Ovr6QQ1SkfSXVuvdvdhkeWDbcfgUH9Fn1i
-	k7hk+AzbiuXhP+v88R8+RlXewbQXt5Pat4qwTLaddY2SRQVlsPbcr4tVdjSQNuKw
-	FU7EFnweQNL3uqqPRO9QaCLYSFf+cjRKdL0gsDV8ij0K+ukeXSRnx2MLwlDIF5y9
-	9w+HtziE7LHCRBwCjtDl0xS6jRjo+druGmknOa1xY8A3w8lOA/63j76T4joJyIRd
-	KAQR78srjPqpXtrkPDHtm+9ScvwTSxfFoIk16Yl47zauuErWTDIQOW3RJ8jBwABd
-	spz9q51kjFS/wHyCIoy3BUn2SJGZfHrOZTqaFK5JxWLGA==
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1669407611; x=1669494011; bh=Xv
+	Yd3O3PElFieIucJx8p0pjVLEo0Fa7C1MYYL6bHqkA=; b=Y7VZu00xSWWOgOpwTX
+	EMdOQPnr2noQl2MWEaqECbZH0F60MGPpkfGKsytkL8VTMgJxgS3bZi+vU43TaZMj
+	X1hvF8JHVc1Om2A+RvQD5UtRDxRx6pFC0Chmz0Q2m5ceVZbC14fCgcDfVTw8Eu9l
+	CUqDtv1iBJke8m67Ic5L9pitjdolo11+KOvYi+caGNZvF4yIkyuLOcuM0OhUw5Uj
+	p1wtd9c+AGpejoK23IzQCQBDvLcCH9OvAdr5z7mlrrs5uLbyJ5oa/ydQMBNNiq4l
+	9Gmt5FDfaFIwo6dAxv6pKdhHW9b0xLh/u5lGNK7JDhDkPvO+Xib9Ho/Sb5hqG++I
+	S0aw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1669407610; x=1669494010; bh=SH21Yn2SJRMLTVtT3dx346JtAJb7CcIUzlp
-	8Ja9h9EI=; b=FYaOC6iMmsjxKF9AbljnfYZzMXlJi6U4AOqZ+l0UIxM1esAWW1O
-	KdCUUdx0Rsa7j5lNzrNssycUqRC2k/7DwONdshSZgZRPrt4bGw2ukV8hx1lUgGaM
-	msiixEr1mCaQAXVjTx/x/rReKr62O7Yoev+5xwyWJXIRxq6bGMsNVlpYudAZglTy
-	AnPZw3R8CCOic9hi9pSbnkDvdBnsk3YUyE09X//LOJ0BtH2WnX1fKzgs8hao2lkY
-	1DPtsO3uujmmHHrSG0WBIUsqfNDa5lpEgN4N+HREc0S95PNfBwGgkEDLROYnpYRt
-	f/YJLgfVZmwUFGKleDYcdwiSV9d94gCEbOQ==
-X-ME-Sender: <xms:eiOBY5OWCMAQMqq2Uv1FsPXJTf59jgpfzn3y7DkqTF6tPIBData1MQ>
-    <xme:eiOBY79KagxL3BfN9VqRnmyFFvwm6A1SvDXLwLSqEJy8RrC1qcT0J6O8J6sz41Vr3
-    IC5c0n_ez0-mITePQ>
-X-ME-Received: <xmr:eiOBY4TF3Ukg8Sb-4pKzJxR0DDViARokjvH3lGARFhjMb9Z5Hw_rBPzC2SXLZjUiozntl26FGY8bbeH3NounZg7MYNWlYVdY2O2NBayjQqi8AmingIOWZd86-jCOn_WYSKixtA>
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1669407611; x=1669494011; bh=XvYd3O3PElFie
+	IucJx8p0pjVLEo0Fa7C1MYYL6bHqkA=; b=UolxMNLaLjzNN/7vY1jUCODVUOXSO
+	FniIPtmZllgypn4vrvtJTHiqwRhyA0rYRdELdUY2XD0U5YzkC8oxhw5vG+RJ6IE1
+	giZN+L2UqXcADphQfvTAYI8kSqle03nRRW/ncv2m+hdO2vtLrZ+5wy8/I9RRWUID
+	Uqw31kWXqqws6+afOT2mvbuVqNY04cTSSDiC36OAFW40SEljRvrZc2Z/Ay+FvtyN
+	zSbVwiRL9fJWArfkUBRNG9/MwYFZj8vBLDKMe2M7gzG0D+RMBvbBFAn03Q23dU4v
+	QL02VnKizjo+YuQlEC51s2wtyuEXZDxepmI2fgxldLd73K0PGAnWKtb7Q==
+X-ME-Sender: <xms:eyOBYzGi-8Kd2Brlafv19aSilH5sJi7VrOW3_xV-kNe-L-kvOe2Djw>
+    <xme:eyOBYwUx_mNvBMHgA-bskr5T_HnqYsG9OAst1P4gT1hu-0AUaguy4jIyamYUNI1H0
+    VjN8IasvL-l01afaw>
+X-ME-Received: <xmr:eyOBY1K1QXFHeWyM8wwQcuyL9NYa58_0tQPFtrwotpliEAN6NyrQW3siftj7QiQtiqWIo7ZSJI3eOFIjO5cgE-06MQXM_V2_38qo11SuGMecHfWG9XBcTcmz_P55ewLZ1D7DHA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieehgddufeeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
-    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
-    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
-    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:eiOBY1sddYWZMcnazNwtwGC0u3rmGRp2BPIwKHOrS4FVxugEPLqFKw>
-    <xmx:eiOBYxcGZUEMu7WVyaRkiab0IgRj6d7p_inedIOqhKCjsYkPLX3Www>
-    <xmx:eiOBYx3elquxkRuxAB2cPnjuMhl0rbF4gg3bANw0rZH9kdIUYQzs6A>
-    <xmx:eiOBY81sqmpkOHHch0KCyEqVLp9Yv7yR4qrdQbg1KKN0PyC3UVo_fg>
+    cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepgffhvefhgfehjeehgfekheeuffegheffjeegheeuudeufeffhffh
+    ueeihfeufffhnecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhh
+    ohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:eyOBYxFMXcp5wVXIPDmB7JDB0EuKezR_i2jbrkPLQc5r0K2LCVHj3A>
+    <xmx:eyOBY5VtABadoJ-EXNuzVsHuHX6kNWMcva6PGXcepwZP6XgYILvRyQ>
+    <xmx:eyOBY8Mi5XxjLQ0TI4eSnQONSiRDwwRSo_cZvR9AA8_31wxNJVN5RA>
+    <xmx:eyOBY6shTwokLcW8Gpj5mfC4xNFs_y7iNQhSAkrOvFJYljnAcTFJbw>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Nov 2022 15:20:09 -0500 (EST)
+ 25 Nov 2022 15:20:10 -0500 (EST)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -66,10 +68,12 @@ Cc: Samuel Holland <samuel@sholland.org>,
 	linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	netdev@vger.kernel.org
-Subject: [PATCH 0/3] dt-bindings: net: sunxi: Fix binding validation issues
-Date: Fri, 25 Nov 2022 14:20:05 -0600
-Message-Id: <20221125202008.64595-1-samuel@sholland.org>
+Subject: [PATCH 1/3] dt-bindings: net: sun7i-gmac: Fix snps,dwmac.yaml inheritance
+Date: Fri, 25 Nov 2022 14:20:06 -0600
+Message-Id: <20221125202008.64595-2-samuel@sholland.org>
 X-Mailer: git-send-email 2.37.4
+In-Reply-To: <20221125202008.64595-1-samuel@sholland.org>
+References: <20221125202008.64595-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -78,30 +82,39 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These patches fix issues found when running `make dtbs_check` on sunxi
-boards. I am not 100% sure about the change in the first two patches,
-but I think I understand what is happening, and the change has the
-desired effect. It fixes errors of the form:
+The sun7i-gmac binding extends snps,dwmac.yaml, and should accept all
+properties defined there, including "mdio", "resets", and "reset-names".
+However, validation currently fails for these properties because the
+local binding sets "unevaluatedProperties: false", and snps,dwmac.yaml
+is only included inside an allOf block. Fix this by referencing
+snps,dwmac.yaml at the top level.
 
-  arch/arm/boot/dts/sun6i-a31s-colorfly-e708-q1.dtb: ethernet@1c30000:
-  Unevaluated properties are not allowed ('mdio', 'reset-names',
-  'resets', 'snps,fixed-burst', 'snps,force_sf_dma_mode', 'snps,pbl'
-  were unexpected)
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
 
-where all of the listed properties are defined in snps,dwmac.yaml.
+ .../devicetree/bindings/net/allwinner,sun7i-a20-gmac.yaml    | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-The third patch fixes an unrelated omission in the sun8i-emac binding.
-
-
-Samuel Holland (3):
-  dt-bindings: net: sun7i-gmac: Fix snps,dwmac.yaml inheritance
-  dt-bindings: net: sun8i-emac: Fix snps,dwmac.yaml inheritance
-  dt-bindings: net: sun8i-emac: Add phy-supply property
-
- .../devicetree/bindings/net/allwinner,sun7i-a20-gmac.yaml   | 5 ++---
- .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml  | 6 +++++-
- 2 files changed, 7 insertions(+), 4 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/net/allwinner,sun7i-a20-gmac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun7i-a20-gmac.yaml
+index 3bd912ed7c7e..7d2c62b4ccad 100644
+--- a/Documentation/devicetree/bindings/net/allwinner,sun7i-a20-gmac.yaml
++++ b/Documentation/devicetree/bindings/net/allwinner,sun7i-a20-gmac.yaml
+@@ -6,13 +6,12 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Allwinner A20 GMAC
+ 
+-allOf:
+-  - $ref: "snps,dwmac.yaml#"
+-
+ maintainers:
+   - Chen-Yu Tsai <wens@csie.org>
+   - Maxime Ripard <mripard@kernel.org>
+ 
++$ref: "snps,dwmac.yaml#"
++
+ properties:
+   compatible:
+     const: allwinner,sun7i-a20-gmac
 -- 
 2.37.4
 
