@@ -1,113 +1,83 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 140797E
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 04:01:21 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 4067F5C0152;
-	Thu, 24 Nov 2022 23:01:20 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Thu, 24 Nov 2022 23:01:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1669348880; x=1669435280; bh=yx
-	oCW18sGnAleTXERaxCCwFBmN8B1EyztOvLbqS0bd8=; b=BjnxwE6TKebpPzT2U8
-	ROz+fz0anYyp9MpM1hl0SiD+aM1rKcvoBV+SzkrngMqiJuq0FwxjgqzFvKAGJo2K
-	oqwEufzs2OKZ9MeeBZsJbDDdFGiTjfFVBqhzGxdouEWkrSjrwEMHkLMbgkkAQppu
-	Pu/WQpsa7ytc2K0mL7vhPMK5WQTFQIAdnRcnSRZqXBi/Uf3gplaAiklmtfwYjVDj
-	gcOdEdFghPTER+/T2TiOK4Rvi4IIviMzEM/R+kWGHbJKBIA7C77S9+LeglFvIGKR
-	eWO1k+JZp5mfOPhtaH8YL0mFyYaHSNNGmRc9memSpuCmdwYIvd/MwrDYt/Y2gmH0
-	A6jw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1669348880; x=1669435280; bh=yxoCW18sGnAle
-	TXERaxCCwFBmN8B1EyztOvLbqS0bd8=; b=ZvZ2j6XNr8ko82Io47/lvF38cYZYk
-	o/LbBIP5K+GSONo1f0/hdPoFDsm1ttQsyPBx1iQ04xwFgranF0GabO38jcCH2LCp
-	Iys4jSVhIPlUB3iucSiKKZZfeBMkWiI/CiOO71D9Cvlo7RnOSDfPHKwLGjAKJIBp
-	N8gbTw//Eg5V+UDFUbmn/XcHzJDTHbLRcmSKk/7BDqbvZiT8vQwep4dMlctuMUXM
-	f0IgaYohVWKBdmPh6sDq3VuhP+siFScaxk3rKSNdd5yUn17/oUr5mVS2yGREkixB
-	CggwHf67+jwWUZ7ZgIq9/uzKWN7EpalGcECihw8kqtmC/7Q1Wa7dg2+mQ==
-X-ME-Sender: <xms:ED6AYyxtEafVGMthGK-TwRo75LSndQ36GGZMbFMF1VtO2ql2I2Xtsw>
-    <xme:ED6AY-QfB9-8Wt19LIMIGhXu3DqWYXcbmS70WLqWh6ln0yb_-CRwSBS9mnpesEBhh
-    R8LNXQUT7vCzg6V7w>
-X-ME-Received: <xmr:ED6AY0XEP3JBaWWZpBlwsowFpW-UcGJSyKDvxTgIo0y4IAOUxElV6RRM_YfFcPf2xf8V2ZJPlIaclrmrwOnzpHZg_JqilPe3mUfLR5ziWHIW-vuBti1Z_QGkTP6g1s3zmUTaEQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieeggdeigecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpedukeetueduhedtleetvefguddvvdejhfefudelgfduveeggeehgfdu
-    feeitdevteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:ED6AY4j7-_lm939vsqCM8Ibho9znQdnKUs_A1NgX9_iDMeXHv2OB5Q>
-    <xmx:ED6AY0AN6uEBeGDmMrmMCKFZ-8gMkE2OQBGewYIGPIwMsWHGC6vmYA>
-    <xmx:ED6AY5LAdbApB_ZW2PDKTr8bLFlAELAgC0Ha-99clVN6Eyi5r_2MdQ>
-    <xmx:ED6AYw4ILoP810vYbfmePT44Z1Y_HKYFCqyRE3M2h1o9l41kJx2r_w>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 24 Nov 2022 23:01:19 -0500 (EST)
-From: Samuel Holland <samuel@sholland.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Maxime Ripard <mripard@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v4 4/4] soc: sunxi: sram: Only iterate over SRAM children
-Date: Thu, 24 Nov 2022 22:01:12 -0600
-Message-Id: <20221125040112.18160-5-samuel@sholland.org>
-X-Mailer: git-send-email 2.37.4
-In-Reply-To: <20221125040112.18160-1-samuel@sholland.org>
-References: <20221125040112.18160-1-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E573923A6
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 08:08:41 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id z4so4313777ljq.6
+        for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 00:08:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wVlCLe2tXgcxDZw2iHBi8mQJtJf06p17wSgoJwP9yCI=;
+        b=b0rqCCntnPYmzh4xiAK5+t7TvqatYDlK5GGfyrAhtm5MWWxo65kZljLnnCwsSoK2zE
+         5rth6sky+e/nuyd74pNSPHoBDmMcAw+LDxcZeGdfyRRXI6Tez/Yr7ydIRYe3V4wu2SxX
+         RrsITuetuI0PUktGT+b+kdfUYR7RBpEV9USLBoXDkG8s/Ce3tFLsK3LMooiVIwqZbhnr
+         y2mcmc1KkPxi4uJ1KQ2B3eFc1hAIDqw5uk1/POC7ZLTN6P7ONIfjJvV6ehV12B1823hU
+         y8rEgHBzLUuZPc7gFwDtwAKcFjkQBBp+G+0hV3bD1c0CSdTDo93KOK2uT3XGAy1+f2wl
+         tTdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wVlCLe2tXgcxDZw2iHBi8mQJtJf06p17wSgoJwP9yCI=;
+        b=XxzJ8v6o0bLkrqb1zOjFEqXSZTCPp/YOPK15QQ4IlET//nvLntmPQ9IKFc3m6t60N0
+         anBJpHQ10gnBOdJZo4GF4bBIOgx5XZOtZjxLBc7BZz2ANvt9sIZkxF1I68DLehzD48W2
+         bdqE3Uy15FuAwWsrhOKM0ek6ioAC24fD/Ftg+HQXBKE3UGgaMlreK3kNNKpae0zO46Ku
+         /2z/yF568IoAI+ty0T8zJOHEYd6hdak7j2ZKevcTKVYGRdGgPGbJNrquhwy0wh9aM7Fu
+         CHCB6KWORctyWrovr+WBrjxPf2U+ZJ6U8xR247PXXlgdO2g1Mg1OUzkODKd54M4e1/zo
+         8wKQ==
+X-Gm-Message-State: ANoB5pn0Og/yhTDhlI1TRjAzhMXfDmKqfpW9p2uOOpOkofrX7IW6RKKp
+	UyDBg9ojVVQvMtyd+TAIajZ8ug==
+X-Google-Smtp-Source: AA0mqf4y8TOeAe22Hly1N/5VF497j2qebbP5U6K9IzUV3wi6yhM4Y5Q/UDCICzJx1Gc2dtU+2Velwg==
+X-Received: by 2002:a2e:824d:0:b0:276:9855:fe8d with SMTP id j13-20020a2e824d000000b002769855fe8dmr11305912ljh.506.1669363719936;
+        Fri, 25 Nov 2022 00:08:39 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id o13-20020a056512052d00b004b48cc444ccsm430343lfc.100.2022.11.25.00.08.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Nov 2022 00:08:39 -0800 (PST)
+Message-ID: <a8fe2f63-ca99-9aea-e4cc-325208b021e8@linaro.org>
+Date: Fri, 25 Nov 2022 09:08:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v4 1/4] regulator: dt-bindings: Add Allwinner D1 system
+ LDOs
+Content-Language: en-US
+To: Samuel Holland <samuel@sholland.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>
+Cc: Andrew Lunn <andrew@lunn.ch>, Heiko Stuebner <heiko@sntech.de>,
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+References: <20221125040112.18160-1-samuel@sholland.org>
+ <20221125040112.18160-2-samuel@sholland.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221125040112.18160-2-samuel@sholland.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Now that a regulators child is accepted by the controller binding, the
-debugfs show routine must be explicitly limited to mmio-sram children.
+On 25/11/2022 05:01, Samuel Holland wrote:
+> The Allwinner D1 SoC contains two pairs of in-package LDOs. The pair of
+> "system" LDOs is for general purpose use. LDOA generally powers the
+> board's 1.8 V rail. LDOB powers the in-package DRAM, where applicable.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
 
-Changes in v4:
- - Check the compatible string instead of the node name
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Changes in v2:
- - New patch for v2
-
- drivers/soc/sunxi/sunxi_sram.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
-index 92f9186c1c42..f09918c59042 100644
---- a/drivers/soc/sunxi/sunxi_sram.c
-+++ b/drivers/soc/sunxi/sunxi_sram.c
-@@ -120,6 +120,9 @@ static int sunxi_sram_show(struct seq_file *s, void *data)
- 	seq_puts(s, "--------------------\n\n");
- 
- 	for_each_child_of_node(sram_dev->of_node, sram_node) {
-+		if (!of_device_is_compatible(sram_node, "mmio-sram"))
-+			continue;
-+
- 		sram_addr_p = of_get_address(sram_node, 0, NULL, NULL);
- 
- 		seq_printf(s, "sram@%08x\n",
--- 
-2.37.4
+Best regards,
+Krzysztof
 
