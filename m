@@ -1,188 +1,132 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6913379EE
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Nov 2022 22:14:48 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 00D4F23A;
-	Thu, 24 Nov 2022 14:14:53 -0800 (PST)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 54B603F73B;
-	Thu, 24 Nov 2022 14:14:45 -0800 (PST)
-Date: Thu, 24 Nov 2022 22:13:13 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Jernej
- =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>, Chen-Yu Tsai
- <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Icenowy Zheng <uwu@icenowy.me>,
- soc@kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-phy@lists.infradead.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 03/11] phy: sun4i-usb: add support for the USB PHY on
- F1C100s SoC
-Message-ID: <20221124221313.14b36324@slackpad.lan>
-In-Reply-To: <Y3+uqtNe/tafRwp2@matsya>
-References: <20221106154826.6687-1-andre.przywara@arm.com>
-	<20221106154826.6687-4-andre.przywara@arm.com>
-	<Y2ypy0CM8rJGu2g4@matsya>
-	<4438485.LvFx2qVVIh@jernej-laptop>
-	<52920a00-8e29-f7f4-0cbd-ceb638ded970@linaro.org>
-	<20221115104426.20728ba5@donnerap.cambridge.arm.com>
-	<4516dcfb-b928-d454-18a6-bd725f39cc24@linaro.org>
-	<20221115161917.328ec91a@donnerap.cambridge.arm.com>
-	<e861e62f-4148-b867-0155-e71b1cee0b81@linaro.org>
-	<20221115175708.3e69dcd8@donnerap.cambridge.arm.com>
-	<Y3+uqtNe/tafRwp2@matsya>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABD57E
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 04:01:16 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 681D45C009B;
+	Thu, 24 Nov 2022 23:01:15 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Thu, 24 Nov 2022 23:01:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1669348875; x=1669435275; bh=ABZhlJD5S/ZKX7Bf8fIlM84g5
+	HAFuIAnCW2oNys0fZk=; b=E/xlqJyRjXELgidPjDVX3pkVBthvO9UTTBJmoGZ6/
+	v4VGLZmEtYIkEmtrdptKGpRNk7LpSFG7pG7ZgXJtppBnatVrzos/T7Wz3P5yHFMH
+	39n7CrAYOK87X7377cG0K3iD/Z2/e0Nc1PHOVpPWXhviQWP4GPYH7fSWmT+RwXdV
+	b9RHEhWFrY1drViap8B/WePKFXJVoRYtim3c5IMb9x3GVRDgLWxBMDekIAqDbppd
+	+xH+qi1ZdRGpyfH51leOmTVaYTwX0y9iLSwOiBpX4DWfNAVfwHmD1BAaPJvbZAS6
+	P6+VFIq9PdAbn0GibCCj9lMLhaRqkW6oGVtLi2t8QIxKQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1669348875; x=1669435275; bh=ABZhlJD5S/ZKX7Bf8fIlM84g5HAFuIAnCW2
+	oNys0fZk=; b=ucHH4tyW5BMnD0GQOXFrwSYuVyZbmNkC+8oU7CA14OSXCDUHb8Y
+	SsKiudJbN7r0ntju67eSWj2vEmYARg8edW7cfGtIpKUd+KXsEEnJvVCfKT5EnN35
+	Kl/7XKXNKG0Tfo8arm8wljS57yJEkp1T0kFif+QkJ+wz+cFc2z1ONxQmFKPvldxb
+	iJfW2c2NAP+REW/6roJpedafTinWbrOoyPRmhwbpwtoQr/I5e4N6u4zWcfEpVlmR
+	7cbYLm2KkcEls+ywN5pLGeEFMAD4CH/ZMhLs9HtJgRRPGDE8LyOUdRAgBHRf1dA5
+	qa4kzBf3HnMFm5IUQcC+aV+OTpk+PGBh9lQ==
+X-ME-Sender: <xms:Cj6AY4WqKQVxki08UUYjXbA_YVxOQP3UdJOIdV3ox_wAWqcfU4jyow>
+    <xme:Cj6AY8k0g3JX9-ZQIcia63ouJezgsQOefCzd2mfBMlz7J1Ix_JESPgKqK5Qu40S_v
+    PNIW6-ybIGvJh4MRg>
+X-ME-Received: <xmr:Cj6AY8Zn9pHSIt6efqdR4iv-BrZdhABj11tYcE45-m2m9NBVIF_8ti66uPRKaNHBnNC4CuR5D-PKy81Uzh75bGprglJwpSOPJGEO7Jb_cXJa67Sw2ipHVeo7t48_Zuz5hezZug>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieeggdeigecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeehhffh
+    keekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:Cj6AY3V_kSp5i8Ngzo0w3JEhsF7fr4B7bgU_IGfrrsYIhbI5ZHAcgw>
+    <xmx:Cj6AYyknlgoP9cEFHzAstcgM9Xopss4LRwRkC1xrcPMybS6HWFeBBw>
+    <xmx:Cj6AY8ce0JHyKeuSoekw5DbTFjQC5l4cKLUMezOrNHsHnayfe16Ymw>
+    <xmx:Cz6AY9-IvxEoRjs-7OhPs63nX_mESO2Fw3reBDMDUVMRl21IbqN5kQ>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 24 Nov 2022 23:01:13 -0500 (EST)
+From: Samuel Holland <samuel@sholland.org>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Maxime Ripard <mripard@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v4 0/4] regulator: Add support for Allwinner D1 system LDOs
+Date: Thu, 24 Nov 2022 22:01:08 -0600
+Message-Id: <20221125040112.18160-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.37.4
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, 24 Nov 2022 23:19:30 +0530
-Vinod Koul <vkoul@kernel.org> wrote:
+This series adds the binding and driver for one of the two pairs of LDOs
+inside the Allwinner D1 SoC. I am splitting up the series to unblock
+merging the SoC devicetree; the analog LDOs are not required to boot.
 
-> On 15-11-22, 17:57, Andre Przywara wrote:
-> > On Tue, 15 Nov 2022 17:29:09 +0100
-> > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> >=20
-> > Hi,
-> >  =20
-> > > On 15/11/2022 17:19, Andre Przywara wrote: =20
-> > > > On Tue, 15 Nov 2022 16:00:54 +0100
-> > > > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> > > >=20
-> > > > Hi,
-> > > >    =20
-> > > >> On 15/11/2022 11:44, Andre Przywara wrote:   =20
-> > > >>> On Tue, 15 Nov 2022 11:03:24 +0100
-> > > >>> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> > > >>>
-> > > >>> Hi,
-> > > >>>      =20
-> > > >>>> On 15/11/2022 07:01, Jernej =C5=A0krabec wrote:     =20
-> > > >>>>> Dne =C4=8Detrtek, 10. november 2022 ob 08:35:39 CET je Vinod Ko=
-ul napisal(a):       =20
-> > > >>>>>> On 06-11-22, 15:48, Andre Przywara wrote:       =20
-> > > >>>>>>> From: Icenowy Zheng <uwu@icenowy.me>
-> > > >>>>>>>
-> > > >>>>>>> The F1C100s SoC has one USB OTG port connected to a MUSB cont=
-roller.
-> > > >>>>>>>
-> > > >>>>>>> Add support for its USB PHY.       =20
-> > > >>>>>>
-> > > >>>>>> This does not apply for me, please rebase and resend
-> > > >>>>>>
-> > > >>>>>> Also, consider splitting phy patches from this. I dont think t=
-here is
-> > > >>>>>> any dependency       =20
-> > > >>>>>
-> > > >>>>> DT patches in this series depend on functionality added here.
-> > > >>>>>        =20
-> > > >>>>
-> > > >>>> DTS always goes separately from driver changes because it is a h=
-ardware
-> > > >>>> description. Depending on driver means you have potential ABI br=
-eak, so
-> > > >>>> it is already a warning sign.     =20
-> > > >>>
-> > > >>> We understand that ;-)
-> > > >>> What Jernej meant was that the DTS patches at the end depend on p=
-atch
-> > > >>> 01/10, which adds to the PHY binding doc. I am not sure if Vinod's
-> > > >>> suggestion was about splitting off 01/10, 03/10, and 10/10, or ju=
-st the
-> > > >>> two latter which touch the driver.
-> > > >>>
-> > > >>> I can split off 03/10 and 10/10, rebased on top of linux-phy.git/=
-next, and
-> > > >>> send that to Vinod.
-> > > >>> Then I would keep 01/10 in a respin of this series here, to satis=
-fy the
-> > > >>> dependency of the later DTS patches, and Vinod can pick that one =
-patch from
-> > > >>> there?     =20
-> > > >>
-> > > >> There is no hard dependency of DTS on bindings. You can split thes=
-e (and
-> > > >> some maintainers prefer that way) and in DTS patches just provide =
-the
-> > > >> link to the bindings, saying it is in progress.   =20
-> > > >=20
-> > > > But that breaks "make dtbs_check", doesn't it?   =20
-> > >=20
-> > > The check will be broken anyway because binding goes via driver
-> > > subsystem and DTS goes via arm-soc.
-> > >=20
-> > > If both make to the linux-next and next release, then it's not a prob=
-lem.
-> > >  =20
-> > > >=20
-> > > > I would think that the DT bits - bindings first, then DTS files usi=
-ng it -
-> > > > should be bundled. This is how I imagine the future(TM), where DTs =
-and
-> > > > bindings live outside the kernel repo.   =20
-> > >=20
-> > > Yes, that's preferred. Therefore in DTS patch you say the binding is =
-not
-> > > merged and it is here - lore link.
-> > >  =20
-> > > >    =20
-> > > >> The bindings should be however kept with driver changes as it goes=
- the
-> > > >> same way.   =20
-> > > >=20
-> > > > I understand that the bindings describe the contract the driver act=
-s on,
-> > > > but going forward I think driver changes would need to come later, =
-then
-> > > > (since they will live in a separate repo at some day)?
-> > > > Maybe pointing to the binding changes in progress?   =20
-> > >=20
-> > > Later as one commit later - yes. Later as other option - not really, =
-why?
-> > >  =20
-> > > > So with a separate repo we would actually need to upstream just the
-> > > > bindings first, then could push driver changes and .dts files
-> > > > independently?   =20
-> > >=20
-> > > There is no separate repo, so we talk about Linux case now.
-> > >  =20
-> > > > And for now it looks like we are stuck with putting everything in o=
-ne
-> > > > series, to make both checkpatch and dtbs_check happy.   =20
-> > >=20
-> > > You should rather make maintainers happy :) and here one asked to spl=
-it. =20
-> >=20
-> > Well, he asked to split off the USB PHY patches from the rest of the
-> > series, since there is some conflict with the recently merged H616 USB =
-PHY
-> > patches. It is still unclear to me whether this split includes the bind=
-ing
-> > patch, or just the two patches touching the actual code. =20
->=20
-> That mean split off USB phy and binding patches from rest and send for
-> review
+A binding and driver change is required for the SRAM controller, to
+accept the regulators device as its child node.
 
-Thanks, I figured, and that's what I did:
+The example for the regulator device binding is in SRAM controller
+binding document, per Rob's request to keep MFD examples in one place.
 
-https://lore.kernel.org/linux-arm-kernel/20221116151603.819533-1-andre.przy=
-wara@arm.com/
+Changes in v4:
+ - Fix the order of the maintainer/description sections
+ - Replace unevaluatedProperties with "additionalProperties: false"
+ - Drop the analog LDOs until the codec binding is ready
+ - Drop the analog LDOs until the codec binding is ready
+ - Remove unevaluatedProperties from regulators schema reference
+ - Check the compatible string instead of the node name
 
-Hope that fits!
+Changes in v3:
+ - Add "reg" property to bindings
+ - Add "unevaluatedProperties: true" to regulator nodes
+ - Minor changes to regulator node name patterns
+ - Remove system-ldos example (now added in the parent binding)
+ - Adjust control flow in sun20i_regulator_get_regmap() for clarity
+ - Require the regulators node to have a unit address
+ - Reference the regulator schema from the SRAM controller schema
+ - Move the system LDOs example to the SRAM controller schema
+ - Reorder the patches so the example passes validation
 
-Cheers,
-Andre
+Changes in v2:
+ - Remove syscon property from bindings
+ - Update binding examples to fix warnings and provide context
+ - Use decimal numbers for .n_voltages instead of field widths
+ - Get the regmap from the parent device instead of a property/phandle
 
->=20
-> DTS or anything else should not be part of that
->=20
+Samuel Holland (4):
+  regulator: dt-bindings: Add Allwinner D1 system LDOs
+  regulator: sun20i: Add Allwinner D1 LDOs driver
+  dt-bindings: sram: sunxi-sram: Add regulators child
+  soc: sunxi: sram: Only iterate over SRAM children
+
+ .../allwinner,sun20i-d1-system-ldos.yaml      |  37 +++++
+ .../allwinner,sun4i-a10-system-control.yaml   |  28 ++++
+ drivers/regulator/Kconfig                     |   8 +
+ drivers/regulator/Makefile                    |   1 +
+ drivers/regulator/sun20i-regulator.c          | 150 ++++++++++++++++++
+ drivers/soc/sunxi/sunxi_sram.c                |   3 +
+ 6 files changed, 227 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
+ create mode 100644 drivers/regulator/sun20i-regulator.c
+
+-- 
+2.37.4
 
