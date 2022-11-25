@@ -1,117 +1,126 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 543D023C2
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 08:10:55 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id j4so5775418lfk.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 00:10:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sL1NUAu6lSv+jlMLYFhjd/8Pjp4yH4Gi/+vBxDoZ+ks=;
-        b=g3+PUwY4xc1OsQmrGhCpvVD+xktnoc9Q+9u9ZqE5ygYSKXtbkKc7gSdri4jQDsAhE3
-         TDBzrmi0Lr38VfXcPtrPK77gCo/Bt6uzdnQftL5A6rgpSiP/C8+zMyhCHB9nVHg8iKZK
-         +F6ItGNB20GLolup29DA+M+kgJojEQ8Pv09lUdMwbzfe9Czs9tjflxTouy9zKvnf5k14
-         XQUIZutT+Snv52pnteTN7AqffK7zKfk4W2gdY473UEJ9QSKf4BXjsrlH8qSfHi1dEthw
-         vL6E+F9OWHpv0STEwfrsokr51+gGm5iHmpMvpdF6FroJYOdLlmCEH8r/hCTcQsPa609J
-         TUKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sL1NUAu6lSv+jlMLYFhjd/8Pjp4yH4Gi/+vBxDoZ+ks=;
-        b=iGALlBNWW6jNofR6XuAhH+6kxnVzK1bKy9pakrxIxuyuzfYeJhX8KRSAFD4ptOSwsh
-         qc0igJlonyO+J8sm3p/CMXonvyzS+8E/tKKo2hPEIuyQggrrdBnpudr8zqzG93uruqpO
-         +rhUgwtOojRtZDIw1/76RELsoua7940M6NOzFzTdnzEnwqA517AY1zdCGYNUR7Pb+bjg
-         iHP/MM/wc/Z4sftqIMTZV+U0HX+WqaYyddykJy6iN3/eBqisnn/N5n+Dv/qxQKifxuKI
-         P7bDNx99O/gcKZeWZVMxiw5ar19QJYu/sJE3OJwfRm6uSiBUESBePTp169sz76xqnCpM
-         ALTg==
-X-Gm-Message-State: ANoB5pmbD74JRruuK15Cchd6YQpNnuY8do5uzSM1OAMV/c6yJtDe45nV
-	WAOsxyaCb58M4Iw75hROfMKQug==
-X-Google-Smtp-Source: AA0mqf6hra2shSkxsPNtb/2b1IHlfQhtErf0xh49kwt893xjrDT83WbRMB9jez0ppNQJlVyiYecu5Q==
-X-Received: by 2002:a05:6512:c29:b0:4b1:b061:4815 with SMTP id z41-20020a0565120c2900b004b1b0614815mr11672276lfu.18.1669363853422;
-        Fri, 25 Nov 2022 00:10:53 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id s6-20020a056512214600b004afac783b5esm425357lfr.238.2022.11.25.00.10.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Nov 2022 00:10:52 -0800 (PST)
-Message-ID: <8fe3c2a6-845a-06ab-1164-9ddd4f5e5ac9@linaro.org>
-Date: Fri, 25 Nov 2022 09:10:51 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0688846B
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 19:54:04 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 7815E5C00FE;
+	Fri, 25 Nov 2022 14:54:03 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Fri, 25 Nov 2022 14:54:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1669406043; x=1669492443; bh=d9RBks0wci/gqhrse9JNMyVYs
+	NZ48qNxrEdP2snbsqM=; b=Hn+5UCD3sX3nLig53Boj7q7be0IKtRb81i+HdWPjf
+	rLirhsk8s1UqYth+7Da7AZzZCJc8S7fk7JcBl/khD+I87cBwDBhIPdyWHIwwH2lD
+	xg5JhL6VSJ36PscblL+BsjFZSm40sg6+5c4hzO+3LVvK7z3kBENgDeE9a/6n7VEN
+	hMvj45st4Ih2+3/KzlfynueHuxy+rY9bWdFpL7jaBctu9kPRkhfNKvZSnnmbpdDF
+	xy7/UWi8WH6BDVzKOhs2+mALJFaqn/Ah1+JnOJI9ynM1anIElxIeCCmTGitbpJS8
+	TKWgQ714D7Z9uC4MaCG8p4ouU2j2TD6pQV4QcVU0Uvpmw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1669406043; x=1669492443; bh=d9RBks0wci/gqhrse9JNMyVYsNZ48qNxrEd
+	P2snbsqM=; b=Vj98wfjkod8dwgVMVhCA8jN2QVFEy/vfeIIThmghKYE4jXpapAH
+	JpF8kK1H/AXQIBbgAsselSvMXM4NE7cYtUTpPmpGqTybgpks4+1jFbmJnRSg4dDv
+	8uzGs+dLky+3KG6Ng2gWGpYz6MwW4jgFAcB5zFASzUjI7OxdIOu76MApxBVlcB84
+	bcLwtM5HH9hUu+nuX2DUe7mc8/Zf06taQDFjl2IprAZXV46kFF3JusuWQiCJ1xbR
+	bDlTsypFynPqzKQeK9zWMJ9WgNQW9ZHbKS9FH8pQPMfYFl2sGZ2cd3pSfsLvT6R2
+	EUsjm/r0i6tATHZPOsmAzen/+lWJ4Tyn6tg==
+X-ME-Sender: <xms:Wh2BY4HMdcSKcD34xwQXAfOZbAheeppI-CqlyW4tSm0rGrcjLY70_g>
+    <xme:Wh2BYxUVxihc5u7m8Xb3_-7OoqyVxQJuppHtUW54DgkkluCh519zGnVSEpgOVmWDX
+    6y8_QLhS45RRIkiww>
+X-ME-Received: <xmr:Wh2BYyIwBPCdsW9mPBeekA9kRX7U8CHBixGAz7Y00nHDpBZdbCVHGQVrW-rdM6fm9Pg6kwYT8zm_XrPHj20730J2VxzchDAfRUeJL2zB3_vYwMZ06JRDionnzqI_aHHzConyhQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieehgddufeduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
+    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:Wh2BY6F2QhVgsjGSdQpxRTdxSIQ8H-3Kj2tl7EkGG1_WOylAIKdYyQ>
+    <xmx:Wh2BY-XskPoejYMY5PyzPGBtZONKEeIIICy7Msr4vx_hKtV_GRBjxA>
+    <xmx:Wh2BY9M3jV7GIExvL59HCS3UV72M7lgZMyOTQKbdkCB3SOfMyaO3XA>
+    <xmx:Wx2BY5EOY0ajl5laR7lNDeEpgPE5_GjxDqBOkpVmZfwYtX8OO2CIEA>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 25 Nov 2022 14:54:02 -0500 (EST)
+From: Samuel Holland <samuel@sholland.org>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 1/2] ARM: dts: sunxi: Fix GPIO LED node names
+Date: Fri, 25 Nov 2022 13:54:00 -0600
+Message-Id: <20221125195401.61642-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.37.4
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v4 3/4] dt-bindings: sram: sunxi-sram: Add regulators
- child
-Content-Language: en-US
-To: Samuel Holland <samuel@sholland.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, Heiko Stuebner <heiko@sntech.de>,
- Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev
-References: <20221125040112.18160-1-samuel@sholland.org>
- <20221125040112.18160-4-samuel@sholland.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221125040112.18160-4-samuel@sholland.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 25/11/2022 05:01, Samuel Holland wrote:
-> Some sunxi SoCs have in-package regulators controlled by a register in
-> the system control MMIO block. Allow a child node for this regulator
-> device in addition to SRAM child nodes.
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
-> 
-> Changes in v4:
->  - Remove unevaluatedProperties from regulators schema reference
-> 
-> Changes in v3:
->  - Require the regulators node to have a unit address
->  - Reference the regulator schema from the SRAM controller schema
->  - Move the system LDOs example to the SRAM controller schema
->  - Reorder the patches so the example passes validation
-> 
-> Changes in v2:
->  - New patch for v2
-> 
->  .../allwinner,sun4i-a10-system-control.yaml   | 28 +++++++++++++++++++
->  1 file changed, 28 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
-> index 98a7dc7f467d..c487ac9521e9 100644
-> --- a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
-> +++ b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
-> @@ -56,6 +56,9 @@ properties:
->    ranges: true
->  
->  patternProperties:
-> +  "^regulators@[0-9a-f]+$":
-> +    $ref: /schemas/regulator/allwinner,sun20i-d1-system-ldos.yaml#
-> +
->    "^sram@[a-z0-9]+":
->      type: object
+These board devicetrees fail to validate because the gpio-leds schema
+requires its child nodes to have "led" in the node name.
 
-You could add allOf:if:not:...then: clause making regulators as false
-for all variants which do not support it. This would make it more specific.
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
 
-Anyway:
+ arch/arm/boot/dts/sun5i-gr8-chip-pro.dts | 2 +-
+ arch/arm/boot/dts/sun5i-r8-chip.dts      | 2 +-
+ arch/arm/boot/dts/sun6i-a31s-sina31s.dts | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-
-Best regards,
-Krzysztof
+diff --git a/arch/arm/boot/dts/sun5i-gr8-chip-pro.dts b/arch/arm/boot/dts/sun5i-gr8-chip-pro.dts
+index a32cde3e32eb..3222f1490716 100644
+--- a/arch/arm/boot/dts/sun5i-gr8-chip-pro.dts
++++ b/arch/arm/boot/dts/sun5i-gr8-chip-pro.dts
+@@ -70,7 +70,7 @@ chosen {
+ 	leds {
+ 		compatible = "gpio-leds";
+ 
+-		status {
++		led-status {
+ 			label = "chip-pro:white:status";
+ 			gpios = <&axp_gpio 2 GPIO_ACTIVE_HIGH>;
+ 			default-state = "on";
+diff --git a/arch/arm/boot/dts/sun5i-r8-chip.dts b/arch/arm/boot/dts/sun5i-r8-chip.dts
+index 4bf4943d4eb7..303191c926c2 100644
+--- a/arch/arm/boot/dts/sun5i-r8-chip.dts
++++ b/arch/arm/boot/dts/sun5i-r8-chip.dts
+@@ -70,7 +70,7 @@ chosen {
+ 	leds {
+ 		compatible = "gpio-leds";
+ 
+-		status {
++		led-status {
+ 			label = "chip:white:status";
+ 			gpios = <&axp_gpio 2 GPIO_ACTIVE_HIGH>;
+ 			default-state = "on";
+diff --git a/arch/arm/boot/dts/sun6i-a31s-sina31s.dts b/arch/arm/boot/dts/sun6i-a31s-sina31s.dts
+index 0af48e143b66..b84822453381 100644
+--- a/arch/arm/boot/dts/sun6i-a31s-sina31s.dts
++++ b/arch/arm/boot/dts/sun6i-a31s-sina31s.dts
+@@ -67,7 +67,7 @@ hdmi_con_in: endpoint {
+ 	leds {
+ 		compatible = "gpio-leds";
+ 
+-		status {
++		led-status {
+ 			label = "sina31s:status:usr";
+ 			gpios = <&pio 7 13 GPIO_ACTIVE_HIGH>; /* PH13 */
+ 		};
+-- 
+2.37.4
 
