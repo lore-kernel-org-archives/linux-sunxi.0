@@ -1,73 +1,75 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C9E846D
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 19:54:06 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id A6B915C0102;
-	Fri, 25 Nov 2022 14:54:05 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Fri, 25 Nov 2022 14:54:05 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F71846B
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 20:20:11 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 946A15C0065;
+	Fri, 25 Nov 2022 15:20:10 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Fri, 25 Nov 2022 15:20:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1669406045; x=1669492445; bh=s+
-	PpxXX1k5QU3HQeh+iSdhp6bhrGbLgb0SFaWijnFOs=; b=kE+cO2LMI6NerflRZX
-	JOuoiJrPOSpB+KOImtGNq9liQovmNHSMcC5mjRBX/yolECy8nGvBW6xy+r3Cgsw5
-	EBZa6Vt8h/WBCUUMr0F9CqJgmJ2ytTOS/5385UTBKkJX/AYC6WuAc7U8B3/p1E5D
-	jESF2b9lRaSV/2Y2088K1pjWXVjPVObQ7/latGSVKZ598BUs0WcT7TboQXnPhuip
-	9G1CWZfhUV6Xgzvk3UC/wgJ2lUgbE9/SHNg2pV+/Rk4qIVqghe07KTuUIKDKOogn
-	LGW/bH8juBt03obxmvZcrvA/hE8cbicCp1OJ4LM5kHaN3fPeJdN0XMFYWMDCvRRi
-	yIcw==
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1669407610; x=1669494010; bh=SH21Yn2SJRMLTVtT3dx346JtA
+	Jb7CcIUzlp8Ja9h9EI=; b=BKah3F8Ovr6QQ1SkfSXVuvdvdhkeWDbcfgUH9Fn1i
+	k7hk+AzbiuXhP+v88R8+RlXewbQXt5Pat4qwTLaddY2SRQVlsPbcr4tVdjSQNuKw
+	FU7EFnweQNL3uqqPRO9QaCLYSFf+cjRKdL0gsDV8ij0K+ukeXSRnx2MLwlDIF5y9
+	9w+HtziE7LHCRBwCjtDl0xS6jRjo+druGmknOa1xY8A3w8lOA/63j76T4joJyIRd
+	KAQR78srjPqpXtrkPDHtm+9ScvwTSxfFoIk16Yl47zauuErWTDIQOW3RJ8jBwABd
+	spz9q51kjFS/wHyCIoy3BUn2SJGZfHrOZTqaFK5JxWLGA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1669406045; x=1669492445; bh=s+PpxXX1k5QU3
-	HQeh+iSdhp6bhrGbLgb0SFaWijnFOs=; b=XNwTI8yx7ZMHTp5Qci5vb/1Lui0CX
-	oJNRhGq2G5j9p8ctaMSloxqdSq8oCJKl+Rb8HhXXff+smSCDMhdBOTBvCWX4pK78
-	jzwxlqnZWzNjLWhw+ikonNAlLcVPD45dH1KLM/RK0s+G0DeL0thUqKmKSyu/C7ar
-	pc7eHESSIbBQ+yzZw8TzXEJqhVGql5+f+QotYnOE0oH4kx9IT4qVq5rBffiTdHsI
-	oWACokr69x+feuUE/wtaXA6k4nFi2l2iP5Un+ouCr19t3ibqWQj+mABocrqald2I
-	HBQbAruW6rebk5wwmjbhBzxGeELIGxQsNzR2FuXdbKt/hnJp/b9nLpCeA==
-X-ME-Sender: <xms:XB2BY68r0j_4iYia-TuHC-JqZzE4tXo1YUtKjfjXDxUHONkoEWFQxw>
-    <xme:XB2BY6vvBU8VGGevlSB5FFFo0GaFA6q1EbRxD9Xit338BU7PDJ1u6seUEVutLLqRB
-    sEMTOgQkj_2y_1cQw>
-X-ME-Received: <xmr:XB2BYwAG3y0i3mOjslyMFBjxrJ5nShm-DO5Asc_tWMxKDdXs515zhhpKWW0DIZ09ClrBJFCzcXW7KrAGCwcoNV2AbGwS4OY9jVzeq7hbXzSNpgAUXOTHAzc561748IEa209XTg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieehgddufeduucetufdoteggodetrfdotf
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1669407610; x=1669494010; bh=SH21Yn2SJRMLTVtT3dx346JtAJb7CcIUzlp
+	8Ja9h9EI=; b=FYaOC6iMmsjxKF9AbljnfYZzMXlJi6U4AOqZ+l0UIxM1esAWW1O
+	KdCUUdx0Rsa7j5lNzrNssycUqRC2k/7DwONdshSZgZRPrt4bGw2ukV8hx1lUgGaM
+	msiixEr1mCaQAXVjTx/x/rReKr62O7Yoev+5xwyWJXIRxq6bGMsNVlpYudAZglTy
+	AnPZw3R8CCOic9hi9pSbnkDvdBnsk3YUyE09X//LOJ0BtH2WnX1fKzgs8hao2lkY
+	1DPtsO3uujmmHHrSG0WBIUsqfNDa5lpEgN4N+HREc0S95PNfBwGgkEDLROYnpYRt
+	f/YJLgfVZmwUFGKleDYcdwiSV9d94gCEbOQ==
+X-ME-Sender: <xms:eiOBY5OWCMAQMqq2Uv1FsPXJTf59jgpfzn3y7DkqTF6tPIBData1MQ>
+    <xme:eiOBY79KagxL3BfN9VqRnmyFFvwm6A1SvDXLwLSqEJy8RrC1qcT0J6O8J6sz41Vr3
+    IC5c0n_ez0-mITePQ>
+X-ME-Received: <xmr:eiOBY4TF3Ukg8Sb-4pKzJxR0DDViARokjvH3lGARFhjMb9Z5Hw_rBPzC2SXLZjUiozntl26FGY8bbeH3NounZg7MYNWlYVdY2O2NBayjQqi8AmingIOWZd86-jCOn_WYSKixtA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieehgddufeeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepudekteeuudehtdelteevgfduvddvjefhfedulefgudevgeeghefg
-    udefiedtveetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:XB2BYyf6PLTdDO7TfphLzk7vBfuS0XEZcxC7JUbfie_ZNd_Ttz4pTA>
-    <xmx:XB2BY_NQ7TBZphav5_3ftrrHDMDOzWjbrhFoDT_5s4vj8ZwJhMugQw>
-    <xmx:XB2BY8llsOadMuAVsPlxmMB9nsHt_oIWaAs3HTIxv3vHBDHtwiZUww>
-    <xmx:XR2BY6ryMFTSiBMBTNUg-EELKUX2gBJNAsbTFMAZwCwrI_Fiu8IdKg>
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
+    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:eiOBY1sddYWZMcnazNwtwGC0u3rmGRp2BPIwKHOrS4FVxugEPLqFKw>
+    <xmx:eiOBYxcGZUEMu7WVyaRkiab0IgRj6d7p_inedIOqhKCjsYkPLX3Www>
+    <xmx:eiOBYx3elquxkRuxAB2cPnjuMhl0rbF4gg3bANw0rZH9kdIUYQzs6A>
+    <xmx:eiOBY81sqmpkOHHch0KCyEqVLp9Yv7yR4qrdQbg1KKN0PyC3UVo_fg>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Nov 2022 14:54:03 -0500 (EST)
+ 25 Nov 2022 15:20:09 -0500 (EST)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
 	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Samuel Holland <samuel@sholland.org>,
+	LABBE Corentin <clabbe.montjoie@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
-	Karl Palsson <karlp@tweak.net.au>,
-	Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 2/2] ARM: dts: sun8i: nanopi-duo2: Fix regulator GPIO reference
-Date: Fri, 25 Nov 2022 13:54:01 -0600
-Message-Id: <20221125195401.61642-2-samuel@sholland.org>
+	netdev@vger.kernel.org
+Subject: [PATCH 0/3] dt-bindings: net: sunxi: Fix binding validation issues
+Date: Fri, 25 Nov 2022 14:20:05 -0600
+Message-Id: <20221125202008.64595-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.37.4
-In-Reply-To: <20221125195401.61642-1-samuel@sholland.org>
-References: <20221125195401.61642-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -76,30 +78,30 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The property named in the schema is 'enable-gpios', not 'enable-gpio'.
-This makes no difference at runtime, because the regulator is marked as
-always-on, but it breaks validation.
+These patches fix issues found when running `make dtbs_check` on sunxi
+boards. I am not 100% sure about the change in the first two patches,
+but I think I understand what is happening, and the change has the
+desired effect. It fixes errors of the form:
 
-Fixes: 4701fc6e5dd9 ("ARM: dts: sun8i: add FriendlyARM NanoPi Duo2")
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+  arch/arm/boot/dts/sun6i-a31s-colorfly-e708-q1.dtb: ethernet@1c30000:
+  Unevaluated properties are not allowed ('mdio', 'reset-names',
+  'resets', 'snps,fixed-burst', 'snps,force_sf_dma_mode', 'snps,pbl'
+  were unexpected)
 
- arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+where all of the listed properties are defined in snps,dwmac.yaml.
 
-diff --git a/arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dts b/arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dts
-index 43641cb82398..343b02b97155 100644
---- a/arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dts
-+++ b/arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dts
-@@ -57,7 +57,7 @@ reg_vdd_cpux: vdd-cpux-regulator {
- 		regulator-ramp-delay = <50>; /* 4ms */
- 
- 		enable-active-high;
--		enable-gpio = <&r_pio 0 8 GPIO_ACTIVE_HIGH>; /* PL8 */
-+		enable-gpios = <&r_pio 0 8 GPIO_ACTIVE_HIGH>; /* PL8 */
- 		gpios = <&r_pio 0 6 GPIO_ACTIVE_HIGH>; /* PL6 */
- 		gpios-states = <0x1>;
- 		states = <1100000 0>, <1300000 1>;
+The third patch fixes an unrelated omission in the sun8i-emac binding.
+
+
+Samuel Holland (3):
+  dt-bindings: net: sun7i-gmac: Fix snps,dwmac.yaml inheritance
+  dt-bindings: net: sun8i-emac: Fix snps,dwmac.yaml inheritance
+  dt-bindings: net: sun8i-emac: Add phy-supply property
+
+ .../devicetree/bindings/net/allwinner,sun7i-a20-gmac.yaml   | 5 ++---
+ .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml  | 6 +++++-
+ 2 files changed, 7 insertions(+), 4 deletions(-)
+
 -- 
 2.37.4
 
