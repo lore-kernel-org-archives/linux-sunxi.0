@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B136184
-	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 00:21:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2200C433C1
-	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 00:21:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C48184
+	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 00:24:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 046C9C43148
+	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 00:24:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1669422119;
-	bh=EvnPbzsbEw7zAyBO+z4cuktpDw5KqBq4/XvJ8AzDkIA=;
+	s=k20201202; t=1669422242;
+	bh=5toZeTHuclM1Oqu4FwGv8OsMLJIOueWsu96ihEcja7Q=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=N233vt2R0fGUYWTUsF5BcxdXFNpWCZFTJVfJrX6MJeFBM4YlwwIBZDoLj2QsJ1XYX
-	 +I/KaXRb9TW9NS5ICBefBP5TM9XFffcCyKD3gAHy/g2vc7NkNRIUcD8u8B49ypVJ+g
-	 tYEqfoG+HdNCIS+Sd3DOyYSfzdZhylg84yra+VhRN6bBxoo0s2Q01FsFJr0FeScGDv
-	 lCybSTB5hLgalXNHKV4KZt2sdGoVFFbAJvW4YTEdy3wSPJqcFaj3DVa82tUjc3M1f8
-	 GN/7vUpo2Xq/Tyde1XA/9hQKPRhlgLwg8lq5uLNtX0RZfRW+WprkBh7G2/NBXPgGc3
-	 NdpapzbYwHnwQ==
-Received: by mail-ed1-f52.google.com with SMTP id z18so8243261edb.9
-        for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 16:21:58 -0800 (PST)
-X-Gm-Message-State: ANoB5pmgavW8IwdrJBi3U8+jkf5XI2pjBm7RN1u0PBcmC+BLizpH2BCl
-	php5xRicnXp2JTh7rxloSK+7+opbnGLWZrt9yZQ=
-X-Google-Smtp-Source: AA0mqf4rpPgIDYF954AE+7uEMaTsXRORj4s3HeCwXHNWfBJPsc6JyRWc1pt5YAUkgdoX4Fdg95xFWPPmoz72uc9rb/o=
-X-Received: by 2002:a05:6402:399a:b0:468:fdf2:477f with SMTP id
- fk26-20020a056402399a00b00468fdf2477fmr10389831edb.329.1669422117198; Fri, 25
- Nov 2022 16:21:57 -0800 (PST)
+	b=s2TYdjTszuownAOhegyo/pU6TQOAJCrRDzZYjdYBb+Y4QmuaPc0NJk4r9pIiKNw3k
+	 6C8wv/Je/Sh+ZYVIa0Mnfn5c4f7OtgOFNCPwhP+yeaFsg28xB84lp6wXkGU/pvn/Vj
+	 M3CNu6DssogyBrW1f9L6uO+ILtKQSXr1gQt/0qvSrlKfSpXIOsqeSiEOV3K3IDRRIf
+	 +vVrb5acH6IF8hmStcADAe3Wb/fEPfSDJnjaek4Wn0AKE5+HExVxYb1odz6lwCFGpI
+	 +X9rRpJld6AJ41I0KoGYPn+9QRetV7QT/MzzpSaLglOCMX67PVdTH9AhZvs/d5YGPx
+	 YG970q1j7aLRQ==
+Received: by mail-ej1-f48.google.com with SMTP id n20so13535360ejh.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 16:24:01 -0800 (PST)
+X-Gm-Message-State: ANoB5pk7in0wfPWmW0AaJ1ZN1MU+RSwVgdGoVGtf0W9TfU931MBNxW1+
+	r848tDi1DoaJFRH9YWRJwG9LOQ1P5Xpur7uW8xU=
+X-Google-Smtp-Source: AA0mqf7nv6JvQ1A4iW6CP2Z7MJJBm62EJXKH9WZSwSn3QhacjGtAnhbnoBdcey9BL56bbf/Z6HFmN8R3m+bM1y13L00=
+X-Received: by 2002:a17:907:9856:b0:780:8144:a41f with SMTP id
+ jj22-20020a170907985600b007808144a41fmr35405801ejc.189.1669422240081; Fri, 25
+ Nov 2022 16:24:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221125234656.47306-1-samuel@sholland.org> <20221125234656.47306-7-samuel@sholland.org>
-In-Reply-To: <20221125234656.47306-7-samuel@sholland.org>
+References: <20221125234656.47306-1-samuel@sholland.org> <20221125234656.47306-12-samuel@sholland.org>
+In-Reply-To: <20221125234656.47306-12-samuel@sholland.org>
 From: Guo Ren <guoren@kernel.org>
-Date: Sat, 26 Nov 2022 08:21:45 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTS0h8BG-q3VJNUxwziMh823HX8mn9XU72OCJ76ZHXvmLg@mail.gmail.com>
-Message-ID: <CAJF2gTS0h8BG-q3VJNUxwziMh823HX8mn9XU72OCJ76ZHXvmLg@mail.gmail.com>
-Subject: Re: [PATCH v2 06/12] riscv: dts: allwinner: Add Allwinner D1 Nezha devicetree
+Date: Sat, 26 Nov 2022 08:23:48 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTRbBcTOxMa2+WA2tkKYjxQ7iqNa+_xK_SNdjdN6Fu4V-g@mail.gmail.com>
+Message-ID: <CAJF2gTRbBcTOxMa2+WA2tkKYjxQ7iqNa+_xK_SNdjdN6Fu4V-g@mail.gmail.com>
+Subject: Re: [PATCH v2 11/12] riscv: Add the Allwinner SoC family Kconfig option
 To: Samuel Holland <samuel@sholland.org>
 Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev, 
 	Palmer Dabbelt <palmer@dabbelt.com>, Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org, 
@@ -55,208 +55,52 @@ Reviewed-by: Guo Ren <guoren@kernel.org>
 
 On Sat, Nov 26, 2022 at 7:47 AM Samuel Holland <samuel@sholland.org> wrote:
 >
-> "D1 Nezha" is Allwinner's first-party development board for the D1 SoC.
-> It was shipped with 512M, 1G, or 2G of DDR3. It supports onboard audio,
-> HDMI, gigabit Ethernet, WiFi and Bluetooth, USB 2.0 host and OTG ports,
-> plus low-speed I/O from the SoC and a GPIO expander chip.
+> Allwinner manufactures the sunxi family of application processors. This
+> includes the "sun8i" series of ARMv7 SoCs, the "sun50i" series of ARMv8
+> SoCs, and now the "sun20i" series of 64-bit RISC-V SoCs.
+>
+> The first SoC in the sun20i series is D1, containing a single T-HEAD
+> C906 core. D1s is a low-pin-count variant of D1 with co-packaged DRAM.
+>
+> Most peripherals are shared across the entire chip family. In fact, the
+> ARMv7 T113 SoC is pin-compatible and almost entirely register-compatible
+> with the D1s.
+>
+> This means many existing device drivers can be reused. To facilitate
+> this reuse, name the symbol ARCH_SUNXI, since that is what the existing
+> drivers have as their dependency.
 >
 > Reviewed-by: Heiko Stuebner <heiko@sntech.de>
-> Tested-by: Conor Dooley <conor.dooley@microchip.com>
 > Tested-by: Heiko Stuebner <heiko@sntech.de>
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
 >
 > Changes in v2:
->  - Common regulators moved to MangoPi MQ patch, removed analog LDOs
->  - Removed LRADC (depends on analog LDOs)
->  - Added XR829 host-wake interrupt
+>  - Sort Kconfig as if we had done s/SOC_/ARCH_/ for future-proofing
 >
->  arch/riscv/boot/dts/allwinner/Makefile        |   1 +
->  .../boot/dts/allwinner/sun20i-d1-nezha.dts    | 167 ++++++++++++++++++
->  2 files changed, 168 insertions(+)
->  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
+>  arch/riscv/Kconfig.socs | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 >
-> diff --git a/arch/riscv/boot/dts/allwinner/Makefile b/arch/riscv/boot/dts/allwinner/Makefile
-> index 2f2792594f7d..277e59d1c907 100644
-> --- a/arch/riscv/boot/dts/allwinner/Makefile
-> +++ b/arch/riscv/boot/dts/allwinner/Makefile
-> @@ -1,2 +1,3 @@
->  # SPDX-License-Identifier: GPL-2.0
-> +dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-nezha.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1s-mangopi-mq.dtb
-> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
-> new file mode 100644
-> index 000000000000..9ea3648e64ea
-> --- /dev/null
-> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
-> @@ -0,0 +1,167 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-> +// Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
+> diff --git a/arch/riscv/Kconfig.socs b/arch/riscv/Kconfig.socs
+> index 69774bb362d6..4c1dc2ca11f9 100644
+> --- a/arch/riscv/Kconfig.socs
+> +++ b/arch/riscv/Kconfig.socs
+> @@ -26,6 +26,15 @@ config SOC_STARFIVE
+>         help
+>           This enables support for StarFive SoC platform hardware.
+>
+> +config ARCH_SUNXI
+> +       bool "Allwinner sun20i SoCs"
+> +       select ERRATA_THEAD if MMU && !XIP_KERNEL
+> +       select SIFIVE_PLIC
+> +       select SUN4I_TIMER
+> +       help
+> +         This enables support for Allwinner sun20i platform hardware,
+> +         including boards based on the D1 and D1s SoCs.
 > +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/input/input.h>
-> +
-> +/dts-v1/;
-> +
-> +#include "sun20i-d1.dtsi"
-> +#include "sun20i-common-regulators.dtsi"
-> +
-> +/ {
-> +       model = "Allwinner D1 Nezha";
-> +       compatible = "allwinner,d1-nezha", "allwinner,sun20i-d1";
-> +
-> +       aliases {
-> +               ethernet0 = &emac;
-> +               ethernet1 = &xr829;
-> +               mmc0 = &mmc0;
-> +               serial0 = &uart0;
-> +       };
-> +
-> +       chosen {
-> +               stdout-path = "serial0:115200n8";
-> +       };
-> +
-> +       reg_usbvbus: usbvbus {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "usbvbus";
-> +               regulator-min-microvolt = <5000000>;
-> +               regulator-max-microvolt = <5000000>;
-> +               gpio = <&pio 3 19 GPIO_ACTIVE_HIGH>; /* PD19 */
-> +               enable-active-high;
-> +               vin-supply = <&reg_vcc>;
-> +       };
-> +
-> +       /*
-> +        * This regulator is PWM-controlled, but the PWM controller is not
-> +        * yet supported, so fix the regulator to its default voltage.
-> +        */
-> +       reg_vdd_cpu: vdd-cpu {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "vdd-cpu";
-> +               regulator-min-microvolt = <1100000>;
-> +               regulator-max-microvolt = <1100000>;
-> +               vin-supply = <&reg_vcc>;
-> +       };
-> +
-> +       wifi_pwrseq: wifi-pwrseq {
-> +               compatible = "mmc-pwrseq-simple";
-> +               reset-gpios = <&pio 6 12 GPIO_ACTIVE_LOW>; /* PG12 */
-> +       };
-> +};
-> +
-> +&cpu0 {
-> +       cpu-supply = <&reg_vdd_cpu>;
-> +};
-> +
-> +&dcxo {
-> +       clock-frequency = <24000000>;
-> +};
-> +
-> +&ehci0 {
-> +       status = "okay";
-> +};
-> +
-> +&ehci1 {
-> +       status = "okay";
-> +};
-> +
-> +&emac {
-> +       pinctrl-0 = <&rgmii_pe_pins>;
-> +       pinctrl-names = "default";
-> +       phy-handle = <&ext_rgmii_phy>;
-> +       phy-mode = "rgmii-id";
-> +       phy-supply = <&reg_vcc_3v3>;
-> +       status = "okay";
-> +};
-> +
-> +&i2c2 {
-> +       pinctrl-0 = <&i2c2_pb0_pins>;
-> +       pinctrl-names = "default";
-> +       status = "okay";
-> +
-> +       pcf8574a: gpio@38 {
-> +               compatible = "nxp,pcf8574a";
-> +               reg = <0x38>;
-> +               interrupt-parent = <&pio>;
-> +               interrupts = <1 2 IRQ_TYPE_LEVEL_LOW>; /* PB2 */
-> +               interrupt-controller;
-> +               gpio-controller;
-> +               #gpio-cells = <2>;
-> +               #interrupt-cells = <2>;
-> +       };
-> +};
-> +
-> +&mdio {
-> +       ext_rgmii_phy: ethernet-phy@1 {
-> +               compatible = "ethernet-phy-ieee802.3-c22";
-> +               reg = <1>;
-> +       };
-> +};
-> +
-> +&mmc0 {
-> +       bus-width = <4>;
-> +       cd-gpios = <&pio 5 6 GPIO_ACTIVE_HIGH>; /* PF6 */
-> +       disable-wp;
-> +       vmmc-supply = <&reg_vcc_3v3>;
-> +       vqmmc-supply = <&reg_vcc_3v3>;
-> +       pinctrl-0 = <&mmc0_pins>;
-> +       pinctrl-names = "default";
-> +       status = "okay";
-> +};
-> +
-> +&mmc1 {
-> +       bus-width = <4>;
-> +       mmc-pwrseq = <&wifi_pwrseq>;
-> +       non-removable;
-> +       vmmc-supply = <&reg_vcc_3v3>;
-> +       vqmmc-supply = <&reg_vcc_3v3>;
-> +       pinctrl-0 = <&mmc1_pins>;
-> +       pinctrl-names = "default";
-> +       status = "okay";
-> +
-> +       xr829: wifi@1 {
-> +               reg = <1>;
-> +               interrupt-parent = <&pio>;
-> +               interrupts = <6 10 IRQ_TYPE_LEVEL_LOW>; /* PG10 */
-> +               interrupt-names = "host-wake";
-> +       };
-> +};
-> +
-> +&ohci0 {
-> +       status = "okay";
-> +};
-> +
-> +&ohci1 {
-> +       status = "okay";
-> +};
-> +
-> +&uart0 {
-> +       pinctrl-0 = <&uart0_pb8_pins>;
-> +       pinctrl-names = "default";
-> +       status = "okay";
-> +};
-> +
-> +&uart1 {
-> +       uart-has-rtscts;
-> +       pinctrl-0 = <&uart1_pg6_pins>, <&uart1_pg8_rts_cts_pins>;
-> +       pinctrl-names = "default";
-> +       status = "okay";
-> +
-> +       /* XR829 bluetooth is connected here */
-> +};
-> +
-> +&usb_otg {
-> +       dr_mode = "otg";
-> +       status = "okay";
-> +};
-> +
-> +&usbphy {
-> +       usb0_id_det-gpios = <&pio 3 21 GPIO_ACTIVE_HIGH>; /* PD21 */
-> +       usb0_vbus_det-gpios = <&pio 3 20 GPIO_ACTIVE_HIGH>; /* PD20 */
-> +       usb0_vbus-supply = <&reg_usbvbus>;
-> +       usb1_vbus-supply = <&reg_vcc>;
-> +       status = "okay";
-> +};
+>  config SOC_VIRT
+>         bool "QEMU Virt Machine"
+>         select CLINT_TIMER if RISCV_M_MODE
 > --
 > 2.37.4
 >
