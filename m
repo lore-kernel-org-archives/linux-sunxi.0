@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CABF0184
-	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 00:15:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83149C433D7
-	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 00:15:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DD8184
+	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 00:20:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 870B9C4314D
+	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 00:20:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1669421742;
-	bh=lFtP2LOwrV6bxmrfqxfzotbmkP1fGcdCPgwDp5svyKs=;
+	s=k20201202; t=1669422023;
+	bh=OOEUFuq/lGcx5pNyP6gYHvWUv+2ek5XQSDRdwhndMDc=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=JoiDy5jc/zdc57sYw8om4FYvl3U/pjPO9lypX/pFb0ALNkBPMDZhCK9uDdP89HDxJ
-	 m3LRLrkh57auX8HzSnAHZbjgCA68selNUwvv29fCh1y8bR8povVwUA6whtWNOoSX7j
-	 5aFm0fERfpP9Xn3vQuyzPjyaQYFKiqhTRllB0sCaJxBDvG50Q9zelq7f+h5mxQNZPr
-	 trQUVXtrtLwmHf1hiZ1AesI62dPJGcCAjlVka6PqLvSuC6Q5xsZ7BKwFG8LJLx3eq1
-	 OwJv9F8YmBSMS/VxDqT/1549LRvmM/KYFvOYN9WpRzT9T3fPEmvLCucc8vqtv0Wpr+
-	 jpU8BRNC3Lyhw==
-Received: by mail-ed1-f49.google.com with SMTP id b8so8237858edf.11
-        for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 16:15:42 -0800 (PST)
-X-Gm-Message-State: ANoB5pmkztdIVys3wWG6w+Eoy4tBPRQZ6xNADecks8TME73FvfU+JQ+b
-	VjqIg6NeF/hi14QpxMMboi48TNg8fLJa1hD0qvM=
-X-Google-Smtp-Source: AA0mqf7YYjk0V23n7BvrpBbERlxbL8dgX1iEs1NxHrZwahi2xFz9J0jdWgOmtESE0wc8/Qq6tEttn1t3d+SV0Iy02s0=
-X-Received: by 2002:a05:6402:3808:b0:468:c911:d843 with SMTP id
- es8-20020a056402380800b00468c911d843mr37766266edb.422.1669421740753; Fri, 25
- Nov 2022 16:15:40 -0800 (PST)
+	b=KG0FrXcAUyDqd82nTxtbRlSrHuHsuZhP2G/zuYt9nElsGIKZh9Hdywe5IvZxFX5Sr
+	 6a7zLOWR8XZ0kKa8MR1WyXipr7obL0uGGqgQvb5qoGRHI8qZ7ac+rsfONNYSt+WGhy
+	 IL9vTWiODOA3PC8FbB/kk19JgAtpO+7y+iKcl7CI33lhqWW9dajfV2wkzNbUTW3Z1/
+	 VYDNPwxmhK3ZVDs9c92obijGNThmWyVaxBaxpxHdWQNxPNSyVx7b//FbHlKkurwlMb
+	 CG0jerfMdCKw+IUBj77flp4ICxex11NkQbClmq7l4Dmt7qKy9f4eBHO51aRl10Io9t
+	 VSDvsVcLFNhcg==
+Received: by mail-ed1-f43.google.com with SMTP id v8so8286672edi.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 16:20:23 -0800 (PST)
+X-Gm-Message-State: ANoB5pnvLWkMSrAC3bNLReUvlHWZhw91dmN0BdeG9mQLGLX0oOIR6HVl
+	55auxGl7vFkdPAZXFaFNa6BKrogA79yDIsXFeX0=
+X-Google-Smtp-Source: AA0mqf6Vj7a+Tx/1dVxvI87lrsPNpNuUcoRMijQPgV0dbhxgQKTuEs/kJ1cBMX6/bw1sdQz5i9vV1PND/hxI5qGAAzk=
+X-Received: by 2002:aa7:db91:0:b0:458:bd09:1b20 with SMTP id
+ u17-20020aa7db91000000b00458bd091b20mr38282559edt.176.1669422021688; Fri, 25
+ Nov 2022 16:20:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221125234656.47306-1-samuel@sholland.org> <20221125234656.47306-4-samuel@sholland.org>
-In-Reply-To: <20221125234656.47306-4-samuel@sholland.org>
+References: <20221125234656.47306-1-samuel@sholland.org> <20221125234656.47306-6-samuel@sholland.org>
+In-Reply-To: <20221125234656.47306-6-samuel@sholland.org>
 From: Guo Ren <guoren@kernel.org>
-Date: Sat, 26 Nov 2022 08:15:29 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTQqPYw61QrfMmWtgAYQSXXABtwftNbruVxxEDUxF=t3=w@mail.gmail.com>
-Message-ID: <CAJF2gTQqPYw61QrfMmWtgAYQSXXABtwftNbruVxxEDUxF=t3=w@mail.gmail.com>
-Subject: Re: [PATCH v2 03/12] dt-bindings: riscv: Add Allwinner D1/D1s board compatibles
+Date: Sat, 26 Nov 2022 08:20:10 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTTyw-ysoi-30hXUqQd45Vv95j-qVz68QEK3P5CS_P+LJQ@mail.gmail.com>
+Message-ID: <CAJF2gTTyw-ysoi-30hXUqQd45Vv95j-qVz68QEK3P5CS_P+LJQ@mail.gmail.com>
+Subject: Re: [PATCH v2 05/12] riscv: dts: allwinner: Add MangoPi MQ devicetree
 To: Samuel Holland <samuel@sholland.org>
 Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev, 
 	Palmer Dabbelt <palmer@dabbelt.com>, Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org, 
@@ -48,102 +48,245 @@ Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, lin
 	Christian Hewitt <christianshewitt@gmail.com>, Conor Dooley <conor.dooley@microchip.com>, 
 	Heinrich Schuchardt <heinrich.schuchardt@canonical.com>, 
 	Linus Walleij <linus.walleij@linaro.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Stanislav Jakubek <stano.jakubek@gmail.com>, Rob Herring <robh@kernel.org>
+	Stanislav Jakubek <stano.jakubek@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 
 Reviewed-by: Guo Ren <guoren@kernel.org>
 
 On Sat, Nov 26, 2022 at 7:47 AM Samuel Holland <samuel@sholland.org> wrote:
 >
-> Several SoMs and boards are available that feature the Allwinner D1 or
-> D1s SoC. Document their compatible strings.
+> The MangoPi MQ is a tiny SBC built around the Allwinner D1s. Its
+> onboard peripherals include two USB Type-C ports (1 device, 1 host)
+> and RTL8189FTV WLAN.
 >
-> Acked-by: Rob Herring <robh@kernel.org>
+> A MangoPi MQ-R variant of the board also exists. The MQ-R has a
+> different form factor, but the onboard peripherals are the same.
+>
+> Most D1 and D1s boards use a similar power tree, with the 1.8V rail
+> powered by the SoC's internal LDOA, analog domains powered by ALDO,
+> and the rest of the board powered by always-on fixed regulators. To
+> avoid duplication, factor out the regulator information that is
+> common across boards.
+>
+> The board also exposes GPIO Port E via a FPC connector, which can
+> support either a camera or an RMII Ethernet PHY. The additional
+> regulators supply that connector.
+>
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
 >
 > Changes in v2:
->  - Add MangoPi MQ (non-Pro) board
+>  - New patch for v2
 >
->  .../devicetree/bindings/riscv/sunxi.yaml      | 69 +++++++++++++++++++
->  1 file changed, 69 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/riscv/sunxi.yaml
+>  arch/riscv/boot/dts/Makefile                  |   1 +
+>  arch/riscv/boot/dts/allwinner/Makefile        |   2 +
+>  .../allwinner/sun20i-common-regulators.dtsi   |  35 +++++
+>  .../dts/allwinner/sun20i-d1s-mangopi-mq.dts   | 135 ++++++++++++++++++
+>  4 files changed, 173 insertions(+)
+>  create mode 100644 arch/riscv/boot/dts/allwinner/Makefile
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts
 >
-> diff --git a/Documentation/devicetree/bindings/riscv/sunxi.yaml b/Documentation/devicetree/bindings/riscv/sunxi.yaml
+> diff --git a/arch/riscv/boot/dts/Makefile b/arch/riscv/boot/dts/Makefile
+> index ff174996cdfd..f292e31bdb2c 100644
+> --- a/arch/riscv/boot/dts/Makefile
+> +++ b/arch/riscv/boot/dts/Makefile
+> @@ -1,4 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> +subdir-y += allwinner
+>  subdir-y += sifive
+>  subdir-y += starfive
+>  subdir-$(CONFIG_SOC_CANAAN_K210_DTB_BUILTIN) += canaan
+> diff --git a/arch/riscv/boot/dts/allwinner/Makefile b/arch/riscv/boot/dts/allwinner/Makefile
 > new file mode 100644
-> index 000000000000..9edb5e5992b1
+> index 000000000000..2f2792594f7d
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/riscv/sunxi.yaml
-> @@ -0,0 +1,69 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/riscv/sunxi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/arch/riscv/boot/dts/allwinner/Makefile
+> @@ -0,0 +1,2 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1s-mangopi-mq.dtb
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi
+> new file mode 100644
+> index 000000000000..de1adf2a2759
+> --- /dev/null
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi
+> @@ -0,0 +1,35 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +// Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
 > +
-> +title: Allwinner RISC-V SoC-based boards
+> +/ {
+> +       reg_vcc: vcc {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "vcc";
+> +               regulator-min-microvolt = <5000000>;
+> +               regulator-max-microvolt = <5000000>;
+> +       };
 > +
-> +maintainers:
-> +  - Chen-Yu Tsai <wens@csie.org>
-> +  - Jernej Skrabec <jernej.skrabec@gmail.com>
-> +  - Samuel Holland <samuel@sholland.org>
+> +       reg_vcc_3v3: vcc-3v3 {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "vcc-3v3";
+> +               regulator-min-microvolt = <3300000>;
+> +               regulator-max-microvolt = <3300000>;
+> +               vin-supply = <&reg_vcc>;
+> +       };
+> +};
 > +
-> +description:
-> +  Allwinner RISC-V SoC-based boards
+> +&pio {
+> +       vcc-pb-supply = <&reg_vcc_3v3>;
+> +       vcc-pc-supply = <&reg_vcc_3v3>;
+> +       vcc-pd-supply = <&reg_vcc_3v3>;
+> +       vcc-pe-supply = <&reg_vcc_3v3>;
+> +       vcc-pf-supply = <&reg_vcc_3v3>;
+> +       vcc-pg-supply = <&reg_vcc_3v3>;
+> +};
 > +
-> +properties:
-> +  $nodename:
-> +    const: '/'
-> +  compatible:
-> +    oneOf:
-> +      - description: Dongshan Nezha STU SoM
-> +        items:
-> +          - const: 100ask,dongshan-nezha-stu
-> +          - const: allwinner,sun20i-d1
+> +&reg_ldoa {
+> +       regulator-always-on;
+> +       regulator-min-microvolt = <1800000>;
+> +       regulator-max-microvolt = <1800000>;
+> +       ldo-in-supply = <&reg_vcc_3v3>;
+> +};
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts
+> new file mode 100644
+> index 000000000000..11b150182490
+> --- /dev/null
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts
+> @@ -0,0 +1,135 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +// Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
 > +
-> +      - description: D1 Nezha board
-> +        items:
-> +          - const: allwinner,d1-nezha
-> +          - const: allwinner,sun20i-d1
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/leds/common.h>
 > +
-> +      - description: ClockworkPi R-01 SoM and v3.14 board
-> +        items:
-> +          - const: clockwork,r-01-clockworkpi-v3.14
-> +          - const: allwinner,sun20i-d1
+> +/dts-v1/;
 > +
-> +      - description: ClockworkPi R-01 SoM, v3.14 board, and DevTerm expansion
-> +        items:
-> +          - const: clockwork,r-01-devterm-v3.14
-> +          - const: clockwork,r-01-clockworkpi-v3.14
-> +          - const: allwinner,sun20i-d1
+> +#include "sun20i-d1s.dtsi"
+> +#include "sun20i-common-regulators.dtsi"
 > +
-> +      - description: Lichee RV SoM
-> +        items:
-> +          - const: sipeed,lichee-rv
-> +          - const: allwinner,sun20i-d1
+> +/ {
+> +       model = "MangoPi MQ";
+> +       compatible = "widora,mangopi-mq", "allwinner,sun20i-d1s";
 > +
-> +      - description: Carrier boards for the Lichee RV SoM
-> +        items:
-> +          - enum:
-> +              - sipeed,lichee-rv-86-panel-480p
-> +              - sipeed,lichee-rv-86-panel-720p
-> +              - sipeed,lichee-rv-dock
-> +          - const: sipeed,lichee-rv
-> +          - const: allwinner,sun20i-d1
+> +       aliases {
+> +               ethernet0 = &rtl8189ftv;
+> +               mmc0 = &mmc0;
+> +               serial3 = &uart3;
+> +       };
 > +
-> +      - description: MangoPi MQ board
-> +        items:
-> +          - const: widora,mangopi-mq
-> +          - const: allwinner,sun20i-d1s
+> +       chosen {
+> +               stdout-path = "serial3:115200n8";
+> +       };
 > +
-> +      - description: MangoPi MQ Pro board
-> +        items:
-> +          - const: widora,mangopi-mq-pro
-> +          - const: allwinner,sun20i-d1
+> +       leds {
+> +               compatible = "gpio-leds";
 > +
-> +additionalProperties: true
+> +               led-0 {
+> +                       color = <LED_COLOR_ID_BLUE>;
+> +                       function = LED_FUNCTION_BACKLIGHT;
+> +                       gpios = <&pio 3 22 GPIO_ACTIVE_LOW>; /* PD22 */
+> +               };
+> +       };
 > +
-> +...
+> +       reg_avdd2v8: avdd2v8 {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "avdd2v8";
+> +               regulator-min-microvolt = <2800000>;
+> +               regulator-max-microvolt = <2800000>;
+> +               vin-supply = <&reg_vcc_3v3>;
+> +       };
+> +
+> +       reg_dvdd: dvdd {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "dvdd";
+> +               regulator-min-microvolt = <1200000>;
+> +               regulator-max-microvolt = <1200000>;
+> +               vin-supply = <&reg_vcc_3v3>;
+> +       };
+> +
+> +       reg_vcc_core: vcc-core {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "vcc-core";
+> +               regulator-min-microvolt = <900000>;
+> +               regulator-max-microvolt = <900000>;
+> +               vin-supply = <&reg_vcc>;
+> +       };
+> +
+> +       wifi_pwrseq: wifi-pwrseq {
+> +               compatible = "mmc-pwrseq-simple";
+> +               reset-gpios = <&pio 6 12 GPIO_ACTIVE_LOW>; /* PG12 */
+> +       };
+> +};
+> +
+> +&cpu0 {
+> +       cpu-supply = <&reg_vcc_core>;
+> +};
+> +
+> +&dcxo {
+> +       clock-frequency = <24000000>;
+> +};
+> +
+> +&ehci1 {
+> +       status = "okay";
+> +};
+> +
+> +&mmc0 {
+> +       bus-width = <4>;
+> +       cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
+> +       disable-wp;
+> +       vmmc-supply = <&reg_vcc_3v3>;
+> +       vqmmc-supply = <&reg_vcc_3v3>;
+> +       pinctrl-0 = <&mmc0_pins>;
+> +       pinctrl-names = "default";
+> +       status = "okay";
+> +};
+> +
+> +&mmc1 {
+> +       bus-width = <4>;
+> +       mmc-pwrseq = <&wifi_pwrseq>;
+> +       non-removable;
+> +       vmmc-supply = <&reg_vcc_3v3>;
+> +       vqmmc-supply = <&reg_vcc_3v3>;
+> +       pinctrl-0 = <&mmc1_pins>;
+> +       pinctrl-names = "default";
+> +       status = "okay";
+> +
+> +       rtl8189ftv: wifi@1 {
+> +               reg = <1>;
+> +               interrupt-parent = <&pio>;
+> +               interrupts = <6 10 IRQ_TYPE_LEVEL_LOW>; /* PG10 */
+> +               interrupt-names = "host-wake";
+> +       };
+> +};
+> +
+> +&ohci1 {
+> +       status = "okay";
+> +};
+> +
+> +&pio {
+> +       vcc-pe-supply = <&reg_avdd2v8>;
+> +};
+> +
+> +&reg_ldob {
+> +       regulator-name = "vcc-dram";
+> +       regulator-always-on;
+> +       ldo-in-supply = <&reg_vcc_3v3>;
+> +};
+> +
+> +&uart3 {
+> +       pinctrl-0 = <&uart3_pb_pins>;
+> +       pinctrl-names = "default";
+> +       status = "okay";
+> +};
+> +
+> +&usb_otg {
+> +       dr_mode = "peripheral";
+> +       status = "okay";
+> +};
+> +
+> +&usbphy {
+> +       usb1_vbus-supply = <&reg_vcc>;
+> +       status = "okay";
+> +};
 > --
 > 2.37.4
 >
