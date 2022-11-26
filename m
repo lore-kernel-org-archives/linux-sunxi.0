@@ -1,287 +1,159 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 054B8184
-	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 00:24:20 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B2EF92B;
-	Fri, 25 Nov 2022 16:24:26 -0800 (PST)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2D9403F587;
-	Fri, 25 Nov 2022 16:24:18 -0800 (PST)
-Date: Sat, 26 Nov 2022 00:22:43 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring
- <robh+dt@kernel.org>, Andrew Lunn <andrew@lunn.ch>, Heiko Stuebner
- <heiko@sntech.de>, Maxime Ripard <mripard@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v4 2/4] regulator: sun20i: Add Allwinner D1 LDOs driver
-Message-ID: <20221126002243.37b1034d@slackpad.lan>
-In-Reply-To: <20221125040112.18160-3-samuel@sholland.org>
-References: <20221125040112.18160-1-samuel@sholland.org>
-	<20221125040112.18160-3-samuel@sholland.org>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75F1184
+	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 00:25:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2E80C433B5
+	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 00:25:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1669422310;
+	bh=P5pT3TtFLH0lDt6mzdr2m03eUnUbkfGX7u+bZdEIkdM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=S/No/sq5g5U21rTRd9VZ+crXsXb0uu6Tp6FXHsGYz+Vnm1+UBwZYrtJAVtm0osHXV
+	 iPihUhGngftFHNELQe2zEy/4boF7NI18Sj7BswSZd00nyC6RZUYhZsGwMSjrTdur7a
+	 2AksUVSBlHGTWmAc8q1cQh2vMl6P2IfR4HEmgmjFIAjsRhg+rQURoQ2HdXHK2pcWm7
+	 LJdlxCoZXGiii9Q6YUGErnT2/frBmaNX5V57Tw0Pjt1iilyV1EZcekHNnGv2QbG+5E
+	 vRH8MU00g7V/f39Xu9REoKUcuHCK6/iMqdZGLjRJJ+kDoNeOMkzmDwpAzSrYAKzQcX
+	 X8attMNitmJXw==
+Received: by mail-ej1-f42.google.com with SMTP id n21so13409925ejb.9
+        for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 16:25:10 -0800 (PST)
+X-Gm-Message-State: ANoB5pk2a6JC9EFI3NPEiyn4psMZFlfpWt4z9Bf/JM3IovGlyBqfW0Zo
+	RIKY07NVLb8I3KkhYKFpH8jp/fQR5K5Ju+lwsRQ=
+X-Google-Smtp-Source: AA0mqf57ZVICUuSakfqABFsOHVzvU/nlG5DScTstPOnlNDdtDFBxRhLSv2KYSrkTOKMxU3+7lS1CFsJeyL6q7Tw01UU=
+X-Received: by 2002:a17:906:2342:b0:78d:9e77:1f8c with SMTP id
+ m2-20020a170906234200b0078d9e771f8cmr26108661eja.236.1669422308914; Fri, 25
+ Nov 2022 16:25:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20221125234656.47306-1-samuel@sholland.org> <20221125234656.47306-13-samuel@sholland.org>
+In-Reply-To: <20221125234656.47306-13-samuel@sholland.org>
+From: Guo Ren <guoren@kernel.org>
+Date: Sat, 26 Nov 2022 08:24:57 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTTOKPAqazF5w03NBzxMW7MGpoCn7vvdj=RabGrzp5WVZQ@mail.gmail.com>
+Message-ID: <CAJF2gTTOKPAqazF5w03NBzxMW7MGpoCn7vvdj=RabGrzp5WVZQ@mail.gmail.com>
+Subject: Re: [PATCH v2 12/12] riscv: defconfig: Enable the Allwinner D1
+ platform and drivers
+To: Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org, 
+	devicetree@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Jisheng Zhang <jszhang@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Andre Przywara <andre.przywara@arm.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Anup Patel <apatel@ventanamicro.com>, Atish Patra <atishp@rivosinc.com>, 
+	Christian Hewitt <christianshewitt@gmail.com>, Conor Dooley <conor.dooley@microchip.com>, 
+	Heinrich Schuchardt <heinrich.schuchardt@canonical.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Stanislav Jakubek <stano.jakubek@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 24 Nov 2022 22:01:10 -0600
-Samuel Holland <samuel@sholland.org> wrote:
-
-Hi Samuel,
-
-> D1 contains two pairs of LDOs, "analog" LDOs and "system" LDOs. They are
-> similar and can share a driver, but only the system LDOs have a DT
-> binding defined so far.
-> 
-> The system LDOs have a single linear range. The voltage step is not an
-> integer, so a custom .list_voltage is needed to get the rounding right.
-> 
+On Sat, Nov 26, 2022 at 7:47 AM Samuel Holland <samuel@sholland.org> wrote:
+>
+> Now that several D1-based boards are supported, enable the platform in
+> our defconfig. Build in the drivers which are necessary to boot, such as
+> the pinctrl, MMC, RTC (which provides critical clocks), SPI (for flash),
+> and watchdog (which may be left enabled by the bootloader). Other common
+> onboard peripherals are enabled as modules.
+>
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
-> 
-> Changes in v4:
->  - Drop the analog LDOs until the codec binding is ready
-> 
-> Changes in v3:
->  - Adjust control flow in sun20i_regulator_get_regmap() for clarity
-> 
-> Changes in v2:
->  - Use decimal numbers for .n_voltages instead of field widths
->  - Get the regmap from the parent device instead of a property/phandle
-> 
->  drivers/regulator/Kconfig            |   8 ++
->  drivers/regulator/Makefile           |   1 +
->  drivers/regulator/sun20i-regulator.c | 150 +++++++++++++++++++++++++++
->  3 files changed, 159 insertions(+)
->  create mode 100644 drivers/regulator/sun20i-regulator.c
-> 
-> diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
-> index 070e4403c6c2..8480532114c1 100644
-> --- a/drivers/regulator/Kconfig
-> +++ b/drivers/regulator/Kconfig
-> @@ -1280,6 +1280,14 @@ config REGULATOR_STW481X_VMMC
->  	  This driver supports the internal VMMC regulator in the STw481x
->  	  PMIC chips.
->  
-> +config REGULATOR_SUN20I
-> +	tristate "Allwinner D1 internal LDOs"
-> +	depends on ARCH_SUNXI || COMPILE_TEST
-> +	select MFD_SYSCON
-> +	default ARCH_SUNXI
-> +	help
-> +	  This driver supports the internal LDOs in the Allwinner D1 SoC.
-> +
->  config REGULATOR_SY7636A
->  	tristate "Silergy SY7636A voltage regulator"
->  	depends on MFD_SY7636A
-> diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
-> index 5962307e1130..8e9b5a21123d 100644
-> --- a/drivers/regulator/Makefile
-> +++ b/drivers/regulator/Makefile
-> @@ -150,6 +150,7 @@ obj-$(CONFIG_REGULATOR_STM32_VREFBUF) += stm32-vrefbuf.o
->  obj-$(CONFIG_REGULATOR_STM32_PWR) += stm32-pwr.o
->  obj-$(CONFIG_REGULATOR_STPMIC1) += stpmic1_regulator.o
->  obj-$(CONFIG_REGULATOR_STW481X_VMMC) += stw481x-vmmc.o
-> +obj-$(CONFIG_REGULATOR_SUN20I) += sun20i-regulator.o
->  obj-$(CONFIG_REGULATOR_SY7636A) += sy7636a-regulator.o
->  obj-$(CONFIG_REGULATOR_SY8106A) += sy8106a-regulator.o
->  obj-$(CONFIG_REGULATOR_SY8824X) += sy8824x.o
-> diff --git a/drivers/regulator/sun20i-regulator.c b/drivers/regulator/sun20i-regulator.c
-> new file mode 100644
-> index 000000000000..031bcc3dee50
-> --- /dev/null
-> +++ b/drivers/regulator/sun20i-regulator.c
-> @@ -0,0 +1,150 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +//
-> +// Copyright (c) 2021-2022 Samuel Holland <samuel@sholland.org>
-> +//
-> +
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/module.h>
-> +#include <linux/of_device.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +#include <linux/regulator/driver.h>
-> +
-> +#define SUN20I_SYS_LDO_CTRL_REG		0x150
-> +
-> +struct sun20i_regulator_data {
-> +	const struct regulator_desc	*descs;
-> +	unsigned int			ndescs;
-> +};
-> +
-> +/* regulator_list_voltage_linear() modified for the non-integral uV_step. */
-> +static int sun20i_d1_system_ldo_list_voltage(struct regulator_dev *rdev,
-> +					     unsigned int selector)
-> +{
-> +	const struct regulator_desc *desc = rdev->desc;
-> +	unsigned int uV;
-> +
-> +	if (selector >= desc->n_voltages)
-> +		return -EINVAL;
-> +
-> +	uV = desc->min_uV + (desc->uV_step * selector);
-> +
-> +	/* Produce correctly-rounded absolute voltages. */
-> +	return uV + ((selector + 1 + (desc->min_uV % 4)) / 3);
-> +}
-> +
-> +static const struct regulator_ops sun20i_d1_system_ldo_ops = {
-> +	.list_voltage		= sun20i_d1_system_ldo_list_voltage,
-> +	.map_voltage		= regulator_map_voltage_ascend,
-> +	.set_voltage_sel	= regulator_set_voltage_sel_regmap,
-> +	.get_voltage_sel	= regulator_get_voltage_sel_regmap,
-> +};
-> +
-> +static const struct regulator_desc sun20i_d1_system_ldo_descs[] = {
-> +	{
-> +		.name		= "ldoa",
-> +		.supply_name	= "ldo-in",
-> +		.of_match	= "ldoa",
-> +		.ops		= &sun20i_d1_system_ldo_ops,
-> +		.type		= REGULATOR_VOLTAGE,
-> +		.owner		= THIS_MODULE,
-> +		.n_voltages	= 32,
-> +		.min_uV		= 1600000,
-> +		.uV_step	= 13333, /* repeating */
+>
+> (no changes since v1)
+>
+>  arch/riscv/configs/defconfig | 23 ++++++++++++++++++++++-
+>  1 file changed, 22 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
+> index 05fd5fcf24f9..8dfe0550c0e6 100644
+> --- a/arch/riscv/configs/defconfig
+> +++ b/arch/riscv/configs/defconfig
+> @@ -25,6 +25,7 @@ CONFIG_BLK_DEV_INITRD=y
+>  CONFIG_EXPERT=y
+>  # CONFIG_SYSFS_SYSCALL is not set
+>  CONFIG_PROFILING=y
+> +CONFIG_ARCH_SUNXI=y
+>  CONFIG_SOC_MICROCHIP_POLARFIRE=y
+>  CONFIG_SOC_SIFIVE=y
+>  CONFIG_SOC_STARFIVE=y
+> @@ -118,22 +119,31 @@ CONFIG_VIRTIO_NET=y
+>  CONFIG_MACB=y
+>  CONFIG_E1000E=y
+>  CONFIG_R8169=y
+> +CONFIG_STMMAC_ETH=m
+>  CONFIG_MICROSEMI_PHY=y
+>  CONFIG_INPUT_MOUSEDEV=y
+> +CONFIG_KEYBOARD_SUN4I_LRADC=m
+>  CONFIG_SERIAL_8250=y
+>  CONFIG_SERIAL_8250_CONSOLE=y
+> +CONFIG_SERIAL_8250_DW=y
+>  CONFIG_SERIAL_OF_PLATFORM=y
+>  CONFIG_VIRTIO_CONSOLE=y
+>  CONFIG_HW_RANDOM=y
+>  CONFIG_HW_RANDOM_VIRTIO=y
+> +CONFIG_I2C_MV64XXX=m
+>  CONFIG_SPI=y
+>  CONFIG_SPI_SIFIVE=y
+> +CONFIG_SPI_SUN6I=y
+>  # CONFIG_PTP_1588_CLOCK is not set
+> -CONFIG_GPIOLIB=y
+>  CONFIG_GPIO_SIFIVE=y
+> +CONFIG_WATCHDOG=y
+> +CONFIG_SUNXI_WATCHDOG=y
+> +CONFIG_REGULATOR=y
+> +CONFIG_REGULATOR_FIXED_VOLTAGE=y
+>  CONFIG_DRM=m
+>  CONFIG_DRM_RADEON=m
+>  CONFIG_DRM_NOUVEAU=m
+> +CONFIG_DRM_SUN4I=m
+>  CONFIG_DRM_VIRTIO_GPU=m
+>  CONFIG_FB=y
+>  CONFIG_FRAMEBUFFER_CONSOLE=y
+> @@ -146,19 +156,30 @@ CONFIG_USB_OHCI_HCD=y
+>  CONFIG_USB_OHCI_HCD_PLATFORM=y
+>  CONFIG_USB_STORAGE=y
+>  CONFIG_USB_UAS=y
+> +CONFIG_USB_MUSB_HDRC=m
+> +CONFIG_USB_MUSB_SUNXI=m
+> +CONFIG_NOP_USB_XCEIV=m
+>  CONFIG_MMC=y
+>  CONFIG_MMC_SDHCI=y
+>  CONFIG_MMC_SDHCI_PLTFM=y
+>  CONFIG_MMC_SDHCI_CADENCE=y
+>  CONFIG_MMC_SPI=y
+> +CONFIG_MMC_SUNXI=y
+>  CONFIG_RTC_CLASS=y
+> +CONFIG_RTC_DRV_SUN6I=y
+> +CONFIG_DMADEVICES=y
+> +CONFIG_DMA_SUN6I=m
+>  CONFIG_VIRTIO_PCI=y
+>  CONFIG_VIRTIO_BALLOON=y
+>  CONFIG_VIRTIO_INPUT=y
+>  CONFIG_VIRTIO_MMIO=y
+> +CONFIG_SUN8I_DE2_CCU=m
+> +CONFIG_SUN50I_IOMMU=y
+Do we need IOMMU?
 
-So while I see that those values are probably the closest we can with a
-simple linear algorithm, they first two values seem to be slightly off
-from those values in the manual:
-sel diff algor  manual
- 0:   7 (1.600 - 1.593)
- 1:   6 (1.613 - 1.607)
-Oddly enough the rest of the values are spot on.
-I don't know if this really matters, or if the LDOs are actually
-accurate enough to that level of precision, or if it's a manual bug, or
-if we really care at all, but it might warrant some comment, I guess?
-I just got triggered by the min value not being the first value in the
-list.
+Others:
+Reviewed-by: Guo Ren <guoren@kernel.org>
 
-> +		.vsel_reg	= SUN20I_SYS_LDO_CTRL_REG,
-> +		.vsel_mask	= GENMASK(7, 0),
-> +	},
-> +	{
-> +		.name		= "ldob",
-> +		.supply_name	= "ldo-in",
-> +		.of_match	= "ldob",
-> +		.ops		= &sun20i_d1_system_ldo_ops,
-> +		.type		= REGULATOR_VOLTAGE,
-> +		.owner		= THIS_MODULE,
-> +		.n_voltages	= 64,
-> +		.min_uV		= 1166666,
-> +		.uV_step	= 13333, /* repeating */
+>  CONFIG_RPMSG_CHAR=y
+>  CONFIG_RPMSG_CTRL=y
+>  CONFIG_RPMSG_VIRTIO=y
+> +CONFIG_PHY_SUN4I_USB=m
+> +CONFIG_NVMEM_SUNXI_SID=y
+>  CONFIG_EXT4_FS=y
+>  CONFIG_EXT4_FS_POSIX_ACL=y
+>  CONFIG_EXT4_FS_SECURITY=y
+> --
+> 2.37.4
+>
 
-For LDOB it seems to be worse, as the second half is constantly off by
-what looks like 6.666mV:
-sel diff algor  manual
-...
-32:   0 (1.593 - 1.593)
-33:   0 (1.607 - 1.607)
-34:  -7 (1.620 - 1.627)
-35:  -7 (1.633 - 1.64)
-36:  -6 (1.647 - 1.653)
-...
-63:  -6 (2.007 - 2.013)
-The first half is correct, though. Closer inspection reveals that
-everything with bit 5 set is exactly the same as LDOA. Maybe we can use
-that to our advantage?
 
-Cheers,
-Andre
-
-> +		.vsel_reg	= SUN20I_SYS_LDO_CTRL_REG,
-> +		.vsel_mask	= GENMASK(15, 8),
-> +	},
-> +};
-> +
-> +static const struct sun20i_regulator_data sun20i_d1_system_ldos = {
-> +	.descs	= sun20i_d1_system_ldo_descs,
-> +	.ndescs	= ARRAY_SIZE(sun20i_d1_system_ldo_descs),
-> +};
-> +
-> +static struct regmap *sun20i_regulator_get_regmap(struct device *dev)
-> +{
-> +	struct regmap *regmap;
-> +
-> +	/*
-> +	 * First try the syscon interface. The system control device is not
-> +	 * compatible with "syscon", so fall back to getting the regmap from
-> +	 * its platform device. This is ugly, but required for devicetree
-> +	 * backward compatibility.
-> +	 */
-> +	regmap = syscon_node_to_regmap(dev->parent->of_node);
-> +	if (!IS_ERR(regmap))
-> +		return regmap;
-> +
-> +	regmap = dev_get_regmap(dev->parent, NULL);
-> +	if (regmap)
-> +		return regmap;
-> +
-> +	return ERR_PTR(-EPROBE_DEFER);
-> +}
-> +
-> +static int sun20i_regulator_probe(struct platform_device *pdev)
-> +{
-> +	const struct sun20i_regulator_data *data;
-> +	struct device *dev = &pdev->dev;
-> +	struct regulator_config config;
-> +	struct regmap *regmap;
-> +
-> +	data = of_device_get_match_data(dev);
-> +	if (!data)
-> +		return -EINVAL;
-> +
-> +	regmap = sun20i_regulator_get_regmap(dev);
-> +	if (IS_ERR(regmap))
-> +		return dev_err_probe(dev, PTR_ERR(regmap), "Failed to get regmap\n");
-> +
-> +	config = (struct regulator_config) {
-> +		.dev	= dev,
-> +		.regmap	= regmap,
-> +	};
-> +
-> +	for (unsigned int i = 0; i < data->ndescs; ++i) {
-> +		const struct regulator_desc *desc = &data->descs[i];
-> +		struct regulator_dev *rdev;
-> +
-> +		rdev = devm_regulator_register(dev, desc, &config);
-> +		if (IS_ERR(rdev))
-> +			return PTR_ERR(rdev);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id sun20i_regulator_of_match[] = {
-> +	{
-> +		.compatible = "allwinner,sun20i-d1-system-ldos",
-> +		.data = &sun20i_d1_system_ldos,
-> +	},
-> +	{ },
-> +};
-> +MODULE_DEVICE_TABLE(of, sun20i_regulator_of_match);
-> +
-> +static struct platform_driver sun20i_regulator_driver = {
-> +	.probe	= sun20i_regulator_probe,
-> +	.driver	= {
-> +		.name		= "sun20i-regulator",
-> +		.of_match_table	= sun20i_regulator_of_match,
-> +	},
-> +};
-> +module_platform_driver(sun20i_regulator_driver);
-> +
-> +MODULE_AUTHOR("Samuel Holland <samuel@sholland.org>");
-> +MODULE_DESCRIPTION("Allwinner D1 internal LDO driver");
-> +MODULE_LICENSE("GPL");
-
+-- 
+Best Regards
+ Guo Ren
