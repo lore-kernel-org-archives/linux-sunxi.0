@@ -1,185 +1,91 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D081C848E
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 23:47:19 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 2D83A5C00FB;
-	Fri, 25 Nov 2022 18:47:19 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Fri, 25 Nov 2022 18:47:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1669420039; x=1669506439; bh=V6
-	MbhYfVD6c6BFLlGZgGaEzDFxsQdBBvIonrpxOU5Qg=; b=koo8/vrroIQVqYzhBI
-	rUrRwJV9sFPs6v4eSOvU7lLJ4GLK0O2cub1nIJz8BWubb9G6bhAIKWvI+lwKBSa7
-	DNBDiyi8t63u6QMFaWf1YDHxJvuXeEC++LkhmPlMwXzexaH1zILo7KTL5raTtefg
-	3rfH+xGjK/qdv1QyPA4amXQZeKvStOlO59VmMlHEX/a6UuEdbJz2oC1wwCbXpzXx
-	kb0xioVke0MyJGHA3kxIz3LjI4hF4FSkbQIVOZejUqxg67TqbW+2Vjd/YWDYHCgd
-	tkU4WB3ss86B421pfRrP7STIlf1oRuwqFNdLiHK5b2q5ygpS4Q1QMVCDYhZU/I21
-	UeRQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1669420039; x=1669506439; bh=V6MbhYfVD6c6B
-	FLlGZgGaEzDFxsQdBBvIonrpxOU5Qg=; b=idB09pC3M92di/zk5tX9bwUx2Q2qh
-	EsHoyCcbfr3JzpEAsny/ORy5vn8+JlhytVQvkfrUocOAOE1RFSqsoTx/JRi6zxWO
-	4bRQaPKBtky9MIMGVvtS7Nt/98eA/fsxAHQvOBUzkBui6eurZTRUjdvocYERrlPZ
-	Y4WvKTmRCRbPV4kqwjc8uxgYQTK9e3YuCiD+t3Y1Unxc5q1F29z8XMJP+5oqJJeR
-	/VBK4JWYsj/1riQUmJxrc7gMtHoV7AHzk/oyUjdloN6UZPZHN7HmDtBshScDLqDy
-	l0uuyRwpj4LWmFYNYvd5jYBWoYDgud53QanT/o6b+vsdfkrs+rtJ65RrQ==
-X-ME-Sender: <xms:B1SBY6C8KqXA0dE9hUvfpPDH5oyCI68qZZU7BFfF8NG-eYNgYaEX_g>
-    <xme:B1SBY0gsIKSc9dtSE4Zel9-ekjQnwtboWp6CG6rAEw7K8GxODvUjAVJyrkOPX2FBo
-    gCyxW0oRuBS-lqC5A>
-X-ME-Received: <xmr:B1SBY9niOwOisXgxkTBGDXdBFKcb6lGsfXar9Ss84RiCV3PHnpWYLime3Xut7j2a30p92qSCULLg8029NSnzHAf2xr6OUVHXnG4wvBwdtglFdC7JfS1lEeUt2oXE2yo2MSJ1nA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieeigdduudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpedukeetueduhedtleetvefguddvvdejhfefudelgfduveeggeehgfdu
-    feeitdevteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:B1SBY4z4PcHDCQrP_3iT4XxzxrK_CZyAVr6OAmF_kW1NpCGj6GMxnw>
-    <xmx:B1SBY_RfBLpY3zoVhUB-qKrsdglu1LUE6JPN-wW6lbKjPSB4zltAbQ>
-    <xmx:B1SBYzav6K8W1tcOclM2kWBm7itcpd1eG1MC7OzfJ8vhH3rpOx1jWg>
-    <xmx:B1SBY0DgGAvA9S2pyZ0ti9TH0O_dk9qTqZmTV2w1phcOh0nrIv_pYw>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Nov 2022 18:47:17 -0500 (EST)
-From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-sunxi@lists.linux.dev,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Conor Dooley <conor@kernel.org>,
-	linux-riscv@lists.infradead.org
-Cc: devicetree@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Jisheng Zhang <jszhang@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Andre Przywara <andre.przywara@arm.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Anup Patel <apatel@ventanamicro.com>,
-	Atish Patra <atishp@rivosinc.com>,
-	Christian Hewitt <christianshewitt@gmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Guo Ren <guoren@kernel.org>,
-	Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Stanislav Jakubek <stano.jakubek@gmail.com>
-Subject: [PATCH v2 12/12] riscv: defconfig: Enable the Allwinner D1 platform and drivers
-Date: Fri, 25 Nov 2022 17:46:56 -0600
-Message-Id: <20221125234656.47306-13-samuel@sholland.org>
-X-Mailer: git-send-email 2.37.4
-In-Reply-To: <20221125234656.47306-1-samuel@sholland.org>
-References: <20221125234656.47306-1-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE6C184
+	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 00:12:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9155C4314D
+	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 00:12:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1669421572;
+	bh=NX59x0btHEExShFPzdq1i8eWPgH9Un3tDf6A+TNeddY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=JdJ4JFwtw18V1l3Vb4h9RfzMQJEXRUkuMjq9uHDYAnD8AnAi8eWQYW9XahnrTyzLr
+	 toCX4Y+LryDqiPKxdHKbRay1eg4SNVfy3pZClV/PpTjckkPgZl27M1XHeNjaFphgYn
+	 V9V532LftfgaAZio/SL4RGMPVt1MI602g7yV/jbIB3KUSCn/aWxkUtZrzFAE5tZ7Hq
+	 10g3w1lDa8CiorrStWSip/P4mPhAQ39BQ1zaqMx5ktYKDE/yxEzQv92T/qjzMyUGrU
+	 00bdWfOkajK8RMj2xvIsXfYszZQ+xFTvBCYBBI2T+xaC4RYxjPw2eO8UTb0CIP5ZQW
+	 oY/0PRYPwN3Xg==
+Received: by mail-ej1-f44.google.com with SMTP id n21so13372605ejb.9
+        for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 16:12:52 -0800 (PST)
+X-Gm-Message-State: ANoB5pmijxeRHkfUqX6VKhoXKBIThGaN+v8epVQAT92n0OOUJl0Ytmpx
+	9PLYAowvWDfSdAO2VF8F8IDcWZDwTJ2hL/3iaY8=
+X-Google-Smtp-Source: AA0mqf6y+AsjP1DN+grrm7BVX4iyUMma6U7nH1KxSUQlTyP3Wy9fs9Wn9OeTwkAUAjFcpm5B6srXAl5cvlbkFB7x8hM=
+X-Received: by 2002:a17:906:4e8c:b0:7ba:9c18:1204 with SMTP id
+ v12-20020a1709064e8c00b007ba9c181204mr11627014eju.262.1669421570883; Fri, 25
+ Nov 2022 16:12:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221125234656.47306-1-samuel@sholland.org> <20221125234656.47306-2-samuel@sholland.org>
+In-Reply-To: <20221125234656.47306-2-samuel@sholland.org>
+From: Guo Ren <guoren@kernel.org>
+Date: Sat, 26 Nov 2022 08:12:39 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTQp54e9toE6aU3zNzmXf2gZwhcx+1A_HLR2ZSKDhnGO9w@mail.gmail.com>
+Message-ID: <CAJF2gTQp54e9toE6aU3zNzmXf2gZwhcx+1A_HLR2ZSKDhnGO9w@mail.gmail.com>
+Subject: Re: [PATCH v2 01/12] MAINTAINERS: Match the sun20i family of
+ Allwinner SoCs
+To: Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org, 
+	devicetree@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Jisheng Zhang <jszhang@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Andre Przywara <andre.przywara@arm.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Anup Patel <apatel@ventanamicro.com>, Atish Patra <atishp@rivosinc.com>, 
+	Christian Hewitt <christianshewitt@gmail.com>, Conor Dooley <conor.dooley@microchip.com>, 
+	Heinrich Schuchardt <heinrich.schuchardt@canonical.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Stanislav Jakubek <stano.jakubek@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Now that several D1-based boards are supported, enable the platform in
-our defconfig. Build in the drivers which are necessary to boot, such as
-the pinctrl, MMC, RTC (which provides critical clocks), SPI (for flash),
-and watchdog (which may be left enabled by the bootloader). Other common
-onboard peripherals are enabled as modules.
+On Sat, Nov 26, 2022 at 7:47 AM Samuel Holland <samuel@sholland.org> wrote:
+>
+> Allwinner sunxi SoCs with a RISC-V CPU use the sun20i designator. Match
+> that pattern in addition to the designators for 32 and 64-bit ARM SoCs.
+Reviewed-by: Guo Ren <guoren@kernel.org>
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+>
+> Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+>
+> (no changes since v1)
+>
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index cd2cbb940f11..6a79f736fe35 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1828,7 +1828,7 @@ F:        drivers/pinctrl/sunxi/
+>  F:     drivers/soc/sunxi/
+>  N:     allwinner
+>  N:     sun[x456789]i
+> -N:     sun50i
+> +N:     sun[25]0i
+>
+>  ARM/Amlogic Meson SoC CLOCK FRAMEWORK
+>  M:     Neil Armstrong <neil.armstrong@linaro.org>
+> --
+> 2.37.4
+>
 
-(no changes since v1)
 
- arch/riscv/configs/defconfig | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
-
-diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
-index 05fd5fcf24f9..8dfe0550c0e6 100644
---- a/arch/riscv/configs/defconfig
-+++ b/arch/riscv/configs/defconfig
-@@ -25,6 +25,7 @@ CONFIG_BLK_DEV_INITRD=y
- CONFIG_EXPERT=y
- # CONFIG_SYSFS_SYSCALL is not set
- CONFIG_PROFILING=y
-+CONFIG_ARCH_SUNXI=y
- CONFIG_SOC_MICROCHIP_POLARFIRE=y
- CONFIG_SOC_SIFIVE=y
- CONFIG_SOC_STARFIVE=y
-@@ -118,22 +119,31 @@ CONFIG_VIRTIO_NET=y
- CONFIG_MACB=y
- CONFIG_E1000E=y
- CONFIG_R8169=y
-+CONFIG_STMMAC_ETH=m
- CONFIG_MICROSEMI_PHY=y
- CONFIG_INPUT_MOUSEDEV=y
-+CONFIG_KEYBOARD_SUN4I_LRADC=m
- CONFIG_SERIAL_8250=y
- CONFIG_SERIAL_8250_CONSOLE=y
-+CONFIG_SERIAL_8250_DW=y
- CONFIG_SERIAL_OF_PLATFORM=y
- CONFIG_VIRTIO_CONSOLE=y
- CONFIG_HW_RANDOM=y
- CONFIG_HW_RANDOM_VIRTIO=y
-+CONFIG_I2C_MV64XXX=m
- CONFIG_SPI=y
- CONFIG_SPI_SIFIVE=y
-+CONFIG_SPI_SUN6I=y
- # CONFIG_PTP_1588_CLOCK is not set
--CONFIG_GPIOLIB=y
- CONFIG_GPIO_SIFIVE=y
-+CONFIG_WATCHDOG=y
-+CONFIG_SUNXI_WATCHDOG=y
-+CONFIG_REGULATOR=y
-+CONFIG_REGULATOR_FIXED_VOLTAGE=y
- CONFIG_DRM=m
- CONFIG_DRM_RADEON=m
- CONFIG_DRM_NOUVEAU=m
-+CONFIG_DRM_SUN4I=m
- CONFIG_DRM_VIRTIO_GPU=m
- CONFIG_FB=y
- CONFIG_FRAMEBUFFER_CONSOLE=y
-@@ -146,19 +156,30 @@ CONFIG_USB_OHCI_HCD=y
- CONFIG_USB_OHCI_HCD_PLATFORM=y
- CONFIG_USB_STORAGE=y
- CONFIG_USB_UAS=y
-+CONFIG_USB_MUSB_HDRC=m
-+CONFIG_USB_MUSB_SUNXI=m
-+CONFIG_NOP_USB_XCEIV=m
- CONFIG_MMC=y
- CONFIG_MMC_SDHCI=y
- CONFIG_MMC_SDHCI_PLTFM=y
- CONFIG_MMC_SDHCI_CADENCE=y
- CONFIG_MMC_SPI=y
-+CONFIG_MMC_SUNXI=y
- CONFIG_RTC_CLASS=y
-+CONFIG_RTC_DRV_SUN6I=y
-+CONFIG_DMADEVICES=y
-+CONFIG_DMA_SUN6I=m
- CONFIG_VIRTIO_PCI=y
- CONFIG_VIRTIO_BALLOON=y
- CONFIG_VIRTIO_INPUT=y
- CONFIG_VIRTIO_MMIO=y
-+CONFIG_SUN8I_DE2_CCU=m
-+CONFIG_SUN50I_IOMMU=y
- CONFIG_RPMSG_CHAR=y
- CONFIG_RPMSG_CTRL=y
- CONFIG_RPMSG_VIRTIO=y
-+CONFIG_PHY_SUN4I_USB=m
-+CONFIG_NVMEM_SUNXI_SID=y
- CONFIG_EXT4_FS=y
- CONFIG_EXT4_FS_POSIX_ACL=y
- CONFIG_EXT4_FS_SECURITY=y
 -- 
-2.37.4
-
+Best Regards
+ Guo Ren
