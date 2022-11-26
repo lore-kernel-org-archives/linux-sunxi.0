@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75F1184
-	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 00:25:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2E80C433B5
-	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 00:25:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D151C184
+	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 00:25:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EA75C43470
+	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 00:25:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1669422310;
-	bh=P5pT3TtFLH0lDt6mzdr2m03eUnUbkfGX7u+bZdEIkdM=;
+	s=k20201202; t=1669422337;
+	bh=v1EAEdq/9XMPq4VdR6VbfxT4QOV2UU4TS9MCVch7vtg=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=S/No/sq5g5U21rTRd9VZ+crXsXb0uu6Tp6FXHsGYz+Vnm1+UBwZYrtJAVtm0osHXV
-	 iPihUhGngftFHNELQe2zEy/4boF7NI18Sj7BswSZd00nyC6RZUYhZsGwMSjrTdur7a
-	 2AksUVSBlHGTWmAc8q1cQh2vMl6P2IfR4HEmgmjFIAjsRhg+rQURoQ2HdXHK2pcWm7
-	 LJdlxCoZXGiii9Q6YUGErnT2/frBmaNX5V57Tw0Pjt1iilyV1EZcekHNnGv2QbG+5E
-	 vRH8MU00g7V/f39Xu9REoKUcuHCK6/iMqdZGLjRJJ+kDoNeOMkzmDwpAzSrYAKzQcX
-	 X8attMNitmJXw==
-Received: by mail-ej1-f42.google.com with SMTP id n21so13409925ejb.9
-        for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 16:25:10 -0800 (PST)
-X-Gm-Message-State: ANoB5pk2a6JC9EFI3NPEiyn4psMZFlfpWt4z9Bf/JM3IovGlyBqfW0Zo
-	RIKY07NVLb8I3KkhYKFpH8jp/fQR5K5Ju+lwsRQ=
-X-Google-Smtp-Source: AA0mqf57ZVICUuSakfqABFsOHVzvU/nlG5DScTstPOnlNDdtDFBxRhLSv2KYSrkTOKMxU3+7lS1CFsJeyL6q7Tw01UU=
-X-Received: by 2002:a17:906:2342:b0:78d:9e77:1f8c with SMTP id
- m2-20020a170906234200b0078d9e771f8cmr26108661eja.236.1669422308914; Fri, 25
- Nov 2022 16:25:08 -0800 (PST)
+	b=Lfbfzuj2/Myn5D5nFNHvzorwfWA+auD8gXXE/558BrcgffXs2ZFVxJGedPJ96UUFT
+	 JgZ3F6d6BU7nhp+h3MXml9ovKBRGqIrj7NH/tQ5PSRbQl/9CSXuhdltCG/Ux01doU2
+	 KnIR0pfVoGvizULCu8yD3q64vikWPZZwt/DpN18KJBGbqFhUx/EV/3tUJvvq0v5y1U
+	 2gEJU/CYreqSEiS9JZ4GhPU9IIC23IUl7txY7OODc15h7I/3xT5u0wGVW+R1Css9L4
+	 bpzfQXbCmZ1CcCz6jBn/dW9DudlT6JjXwNtrlNA1QexTUOZTJlrGYWcRjAxlWGEwxW
+	 QnzuxGlOaK5bg==
+Received: by mail-ej1-f49.google.com with SMTP id cw8so3319318ejb.10
+        for <linux-sunxi@lists.linux.dev>; Fri, 25 Nov 2022 16:25:37 -0800 (PST)
+X-Gm-Message-State: ANoB5pmhVNcPNmTbTUY4a2enpfxaHjC0ECL1UifFrEXj16Q27zqCRmYz
+	M3Y2Y6rBUz+He6WO1md3+lBSQLTulfYdUdG2Srw=
+X-Google-Smtp-Source: AA0mqf5JKbQbdr4hooc6+KcGn5VrwQ+vQvRTuLKNt6Huqb0VVWdHuGzaN/EzMhexeWJy8Z8l10XpUPmceHZK5YzoKbg=
+X-Received: by 2002:a17:906:19d7:b0:7b2:b782:e1df with SMTP id
+ h23-20020a17090619d700b007b2b782e1dfmr30032927ejd.308.1669422335764; Fri, 25
+ Nov 2022 16:25:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221125234656.47306-1-samuel@sholland.org> <20221125234656.47306-13-samuel@sholland.org>
-In-Reply-To: <20221125234656.47306-13-samuel@sholland.org>
+References: <20221125234656.47306-1-samuel@sholland.org> <20221125234656.47306-10-samuel@sholland.org>
+In-Reply-To: <20221125234656.47306-10-samuel@sholland.org>
 From: Guo Ren <guoren@kernel.org>
-Date: Sat, 26 Nov 2022 08:24:57 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTTOKPAqazF5w03NBzxMW7MGpoCn7vvdj=RabGrzp5WVZQ@mail.gmail.com>
-Message-ID: <CAJF2gTTOKPAqazF5w03NBzxMW7MGpoCn7vvdj=RabGrzp5WVZQ@mail.gmail.com>
-Subject: Re: [PATCH v2 12/12] riscv: defconfig: Enable the Allwinner D1
- platform and drivers
+Date: Sat, 26 Nov 2022 08:25:24 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTRZg6uPXKQMdx6f1cj-SojwTkJ1X7X7y-HeGP2yy9taxA@mail.gmail.com>
+Message-ID: <CAJF2gTRZg6uPXKQMdx6f1cj-SojwTkJ1X7X7y-HeGP2yy9taxA@mail.gmail.com>
+Subject: Re: [PATCH v2 09/12] riscv: dts: allwinner: Add Dongshan Nezha STU devicetree
 To: Samuel Holland <samuel@sholland.org>
 Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev, 
 	Palmer Dabbelt <palmer@dabbelt.com>, Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org, 
@@ -52,103 +51,162 @@ Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, lin
 	Stanislav Jakubek <stano.jakubek@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 
+Reviewed-by: Guo Ren <guoren@kernel.org>
+
 On Sat, Nov 26, 2022 at 7:47 AM Samuel Holland <samuel@sholland.org> wrote:
 >
-> Now that several D1-based boards are supported, enable the platform in
-> our defconfig. Build in the drivers which are necessary to boot, such as
-> the pinctrl, MMC, RTC (which provides critical clocks), SPI (for flash),
-> and watchdog (which may be left enabled by the bootloader). Other common
-> onboard peripherals are enabled as modules.
+> The 100ask Dongshan Nezha STU is a system-on-module that can be used
+> standalone or with a carrier board. The SoM provides gigabit Ethernet,
+> HDMI, a USB peripheral port, and WiFi/Bluetooth via an RTL8723DS chip.
+>
+> The "DIY" carrier board exposes almost every pin from the D1 SoC to 0.1"
+> headers, but contains no digital circuitry, so it does not have its own
+> devicetree.
 >
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
 >
 > (no changes since v1)
 >
->  arch/riscv/configs/defconfig | 23 ++++++++++++++++++++++-
->  1 file changed, 22 insertions(+), 1 deletion(-)
+>  arch/riscv/boot/dts/allwinner/Makefile        |   1 +
+>  .../sun20i-d1-dongshan-nezha-stu.dts          | 118 ++++++++++++++++++
+>  2 files changed, 119 insertions(+)
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts
 >
-> diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
-> index 05fd5fcf24f9..8dfe0550c0e6 100644
-> --- a/arch/riscv/configs/defconfig
-> +++ b/arch/riscv/configs/defconfig
-> @@ -25,6 +25,7 @@ CONFIG_BLK_DEV_INITRD=y
->  CONFIG_EXPERT=y
->  # CONFIG_SYSFS_SYSCALL is not set
->  CONFIG_PROFILING=y
-> +CONFIG_ARCH_SUNXI=y
->  CONFIG_SOC_MICROCHIP_POLARFIRE=y
->  CONFIG_SOC_SIFIVE=y
->  CONFIG_SOC_STARFIVE=y
-> @@ -118,22 +119,31 @@ CONFIG_VIRTIO_NET=y
->  CONFIG_MACB=y
->  CONFIG_E1000E=y
->  CONFIG_R8169=y
-> +CONFIG_STMMAC_ETH=m
->  CONFIG_MICROSEMI_PHY=y
->  CONFIG_INPUT_MOUSEDEV=y
-> +CONFIG_KEYBOARD_SUN4I_LRADC=m
->  CONFIG_SERIAL_8250=y
->  CONFIG_SERIAL_8250_CONSOLE=y
-> +CONFIG_SERIAL_8250_DW=y
->  CONFIG_SERIAL_OF_PLATFORM=y
->  CONFIG_VIRTIO_CONSOLE=y
->  CONFIG_HW_RANDOM=y
->  CONFIG_HW_RANDOM_VIRTIO=y
-> +CONFIG_I2C_MV64XXX=m
->  CONFIG_SPI=y
->  CONFIG_SPI_SIFIVE=y
-> +CONFIG_SPI_SUN6I=y
->  # CONFIG_PTP_1588_CLOCK is not set
-> -CONFIG_GPIOLIB=y
->  CONFIG_GPIO_SIFIVE=y
-> +CONFIG_WATCHDOG=y
-> +CONFIG_SUNXI_WATCHDOG=y
-> +CONFIG_REGULATOR=y
-> +CONFIG_REGULATOR_FIXED_VOLTAGE=y
->  CONFIG_DRM=m
->  CONFIG_DRM_RADEON=m
->  CONFIG_DRM_NOUVEAU=m
-> +CONFIG_DRM_SUN4I=m
->  CONFIG_DRM_VIRTIO_GPU=m
->  CONFIG_FB=y
->  CONFIG_FRAMEBUFFER_CONSOLE=y
-> @@ -146,19 +156,30 @@ CONFIG_USB_OHCI_HCD=y
->  CONFIG_USB_OHCI_HCD_PLATFORM=y
->  CONFIG_USB_STORAGE=y
->  CONFIG_USB_UAS=y
-> +CONFIG_USB_MUSB_HDRC=m
-> +CONFIG_USB_MUSB_SUNXI=m
-> +CONFIG_NOP_USB_XCEIV=m
->  CONFIG_MMC=y
->  CONFIG_MMC_SDHCI=y
->  CONFIG_MMC_SDHCI_PLTFM=y
->  CONFIG_MMC_SDHCI_CADENCE=y
->  CONFIG_MMC_SPI=y
-> +CONFIG_MMC_SUNXI=y
->  CONFIG_RTC_CLASS=y
-> +CONFIG_RTC_DRV_SUN6I=y
-> +CONFIG_DMADEVICES=y
-> +CONFIG_DMA_SUN6I=m
->  CONFIG_VIRTIO_PCI=y
->  CONFIG_VIRTIO_BALLOON=y
->  CONFIG_VIRTIO_INPUT=y
->  CONFIG_VIRTIO_MMIO=y
-> +CONFIG_SUN8I_DE2_CCU=m
-> +CONFIG_SUN50I_IOMMU=y
-Do we need IOMMU?
-
-Others:
-Reviewed-by: Guo Ren <guoren@kernel.org>
-
->  CONFIG_RPMSG_CHAR=y
->  CONFIG_RPMSG_CTRL=y
->  CONFIG_RPMSG_VIRTIO=y
-> +CONFIG_PHY_SUN4I_USB=m
-> +CONFIG_NVMEM_SUNXI_SID=y
->  CONFIG_EXT4_FS=y
->  CONFIG_EXT4_FS_POSIX_ACL=y
->  CONFIG_EXT4_FS_SECURITY=y
+> diff --git a/arch/riscv/boot/dts/allwinner/Makefile b/arch/riscv/boot/dts/allwinner/Makefile
+> index 2ed586fafaea..87f70b1af6b4 100644
+> --- a/arch/riscv/boot/dts/allwinner/Makefile
+> +++ b/arch/riscv/boot/dts/allwinner/Makefile
+> @@ -1,4 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> +dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-dongshan-nezha-stu.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-lichee-rv-86-panel-480p.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-lichee-rv-86-panel-720p.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-lichee-rv-dock.dtb
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts b/arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts
+> new file mode 100644
+> index 000000000000..c549a1c5fbf0
+> --- /dev/null
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts
+> @@ -0,0 +1,118 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +// Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/leds/common.h>
+> +
+> +/dts-v1/;
+> +
+> +#include "sun20i-d1.dtsi"
+> +#include "sun20i-common-regulators.dtsi"
+> +
+> +/ {
+> +       model = "Dongshan Nezha STU";
+> +       compatible = "100ask,dongshan-nezha-stu", "allwinner,sun20i-d1";
+> +
+> +       aliases {
+> +               ethernet0 = &emac;
+> +               mmc0 = &mmc0;
+> +               serial0 = &uart0;
+> +       };
+> +
+> +       chosen {
+> +               stdout-path = "serial0:115200n8";
+> +       };
+> +
+> +       leds {
+> +               compatible = "gpio-leds";
+> +
+> +               led-0 {
+> +                       color = <LED_COLOR_ID_GREEN>;
+> +                       function = LED_FUNCTION_STATUS;
+> +                       gpios = <&pio 2 1 GPIO_ACTIVE_HIGH>; /* PC1 */
+> +               };
+> +       };
+> +
+> +       reg_usbvbus: usbvbus {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "usbvbus";
+> +               regulator-min-microvolt = <5000000>;
+> +               regulator-max-microvolt = <5000000>;
+> +               gpio = <&pio 3 19 GPIO_ACTIVE_HIGH>; /* PD19 */
+> +               enable-active-high;
+> +               vin-supply = <&reg_vcc>;
+> +       };
+> +
+> +       /*
+> +        * This regulator is PWM-controlled, but the PWM controller is not
+> +        * yet supported, so fix the regulator to its default voltage.
+> +        */
+> +       reg_vdd_cpu: vdd-cpu {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "vdd-cpu";
+> +               regulator-min-microvolt = <1100000>;
+> +               regulator-max-microvolt = <1100000>;
+> +               vin-supply = <&reg_vcc>;
+> +       };
+> +};
+> +
+> +&cpu0 {
+> +       cpu-supply = <&reg_vdd_cpu>;
+> +};
+> +
+> +&dcxo {
+> +       clock-frequency = <24000000>;
+> +};
+> +
+> +&ehci0 {
+> +       status = "okay";
+> +};
+> +
+> +&emac {
+> +       pinctrl-0 = <&rgmii_pe_pins>;
+> +       pinctrl-names = "default";
+> +       phy-handle = <&ext_rgmii_phy>;
+> +       phy-mode = "rgmii-id";
+> +       phy-supply = <&reg_vcc_3v3>;
+> +       status = "okay";
+> +};
+> +
+> +&mdio {
+> +       ext_rgmii_phy: ethernet-phy@1 {
+> +               compatible = "ethernet-phy-ieee802.3-c22";
+> +               reg = <1>;
+> +       };
+> +};
+> +
+> +&mmc0 {
+> +       broken-cd;
+> +       bus-width = <4>;
+> +       disable-wp;
+> +       vmmc-supply = <&reg_vcc_3v3>;
+> +       vqmmc-supply = <&reg_vcc_3v3>;
+> +       pinctrl-0 = <&mmc0_pins>;
+> +       pinctrl-names = "default";
+> +       status = "okay";
+> +};
+> +
+> +&ohci0 {
+> +       status = "okay";
+> +};
+> +
+> +&uart0 {
+> +       pinctrl-0 = <&uart0_pb8_pins>;
+> +       pinctrl-names = "default";
+> +       status = "okay";
+> +};
+> +
+> +&usb_otg {
+> +       dr_mode = "otg";
+> +       status = "okay";
+> +};
+> +
+> +&usbphy {
+> +       usb0_id_det-gpios = <&pio 3 21 GPIO_ACTIVE_HIGH>; /* PD21 */
+> +       usb0_vbus_det-gpios = <&pio 3 20 GPIO_ACTIVE_HIGH>; /* PD20 */
+> +       usb0_vbus-supply = <&reg_usbvbus>;
+> +       status = "okay";
+> +};
 > --
 > 2.37.4
 >
