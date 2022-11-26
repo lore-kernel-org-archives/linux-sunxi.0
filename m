@@ -1,158 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69FCB20E6
-	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 16:40:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A760C433C1;
-	Sat, 26 Nov 2022 16:40:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1669480819;
-	bh=Pa3Y5KRHXDuBV0XzpglGLK+WqEjfFv1FPSHeySc4JiI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Rkef6pO16iSuVP19EeHnXTPDm7+zULE+myvXv7MwSkETBggxOvm7WCj7u9Omb/cWO
-	 OXxF2N1WNjgLtGdR1SKu0NXGNICULv6CxyBe7KXaZTWz/DMA+62FQ9Az3z++GVXkzM
-	 htieYmG+gOoVJfGeJEUPJE3yq3iE5fuT2y5eXsCom1+JPxZ9p5F1mgWIHvQi8SjMAH
-	 XTXqH1E/To7fAE7/CnjUmeFeLyFHYagUg13dZf9gECycYryGUTFughOswsal9gpkxt
-	 iww1dFJWB5jqC5FrAHu1KpjFlwukTUyqPbZxrpjW4FT0WXhYvheD9HgoQlsL4mRtvb
-	 4WZZPUOD0KBIg==
-Date: Sat, 26 Nov 2022 16:40:11 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Samuel Holland <samuel@sholland.org>, palmer@dabbelt.com
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-sunxi@lists.linux.dev, Palmer Dabbelt <palmer@dabbelt.com>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6D129AB
+	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 19:13:22 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id C4CFE5C0086;
+	Sat, 26 Nov 2022 14:13:21 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Sat, 26 Nov 2022 14:13:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1669490001; x=1669576401; bh=/Swga9/f3c
+	a8n+exMSarTlOwmNA57DG0SPyW0U3UXv0=; b=x+KIdqiZjXSa79G21mU1hnRUT+
+	YrrG2lbZ4GHT9ELvWGldRUw//oGWMKDE4NLJrLYiUucTVvo5/+IfCgMIwKW9j652
+	4cRlAJk0ANbamiDqMoNQsUWiNEWFguO8oVpqFriFjpBxphg4+tdH4yCsQv8UeBdr
+	m9+F7o2pwPM7i1mFgo3WYqJuzcSTBmD1o0yQ2gOEJRT7LdcPLVIPfwqYLkJMipmG
+	BXU8RB9sx1VQIdnDfmPKZrC4X+HtSSe7Ycdk+kqimMZM5f99TNkXrenfLSXZX/gh
+	jKUoP8Y0Cx5IvmQj/9opewFF7mtP8jp+rbf41tx7a3vzyAo/BRj3EcONFPUA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1669490001; x=1669576401; bh=/Swga9/f3ca8n
+	+exMSarTlOwmNA57DG0SPyW0U3UXv0=; b=BreZv9tq4FtRXs5oxq0RCabkeWdFf
+	Hqd6ISPB8GiX4UQMy3OJs1pWjgSTtX2FT8v6ZdRdXrAiK/icwhxF9xHE8lZI3O1s
+	mhfpmtlfslUOIachTSgG+Ab/JsOMrRM/SgVp3+GDm55jGeqqxvugN2zstl9s31FO
+	i9Se3vsA0EkxGadY8k/+2yfwDgko3ez+42Yv/jASKB15fgHwxZOpRkZj39Ccuxwl
+	joHIHlgFI9Vt7HJmgPiVgOzwkFLMYUwsTsezvfx7HNkFkta3wVGz5Y6NvNWv2PvE
+	vAP3AO7sdeyn8m5zSRUQv1BwtJpyJZECiYoFAbT5VRpiQmE4vfZ0qMG/Q==
+X-ME-Sender: <xms:UWWCYzWv5F9Lj0L4ksV5YKF3J65xYGIwLvRsedvuU9MaSyeWAZMa3g>
+    <xme:UWWCY7lTmgxy4LtLSc5JmhbzxX44zInrohjpf7yxqLL9vgCb7i-egzr1mBpM38HmE
+    9EPZfGmigsnyKEWUA>
+X-ME-Received: <xmr:UWWCY_Yz2piKahY94zqFOPAQ9eR571VQPTyta84xFkF_oXatfBhSKrIV4APze2bokVhmXZPng81hHnbGW5YR-nl-ypcVWA07baTskPdVW9souy5tkcuksrnIRWTj0oXJ2tN1lw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieejgdduvdegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefurghmuhgv
+    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+    frrghtthgvrhhnpeeuvefhveekieffveeileehtdduleffveehgfdugfdtkeehteffffel
+    hfeftedvvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:UWWCY-WPQp-i_EvNzWEpTtgRyJrmhdTmrm1MKXFoOfITd0ub5sRTMw>
+    <xmx:UWWCY9nG_hWRZCLiaXtAWWZdZPg2JhgwEk2gpf7Qi-McluVJ3almXA>
+    <xmx:UWWCY7c8FEOkh_RgTTFcgNLDJLEp3K1ja-A5OCuDU3fe9cNMzV_R6w>
+    <xmx:UWWCYzfrHpJ4TCmLU_hm3NnBi5O5oO5ZX6X01G2umAzCLbOFlaBhOA>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 26 Nov 2022 14:13:20 -0500 (EST)
+From: Samuel Holland <samuel@sholland.org>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: Samuel Holland <samuel@sholland.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
-	Jisheng Zhang <jszhang@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Andre Przywara <andre.przywara@arm.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Anup Patel <apatel@ventanamicro.com>,
-	Atish Patra <atishp@rivosinc.com>,
-	Christian Hewitt <christianshewitt@gmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Guo Ren <guoren@kernel.org>,
-	Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Stanislav Jakubek <stano.jakubek@gmail.com>
-Subject: Re: [PATCH v2 12/12] riscv: defconfig: Enable the Allwinner D1
- platform and drivers
-Message-ID: <Y4JBa52o4Yemv/uj@spud>
-References: <20221125234656.47306-1-samuel@sholland.org>
- <20221125234656.47306-13-samuel@sholland.org>
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 0/5] clk: sunxi-ng: Allwinner R528/T113 clock support
+Date: Sat, 26 Nov 2022 13:13:14 -0600
+Message-Id: <20221126191319.6404-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.37.4
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221125234656.47306-13-samuel@sholland.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 25, 2022 at 05:46:56PM -0600, Samuel Holland wrote:
-> Now that several D1-based boards are supported, enable the platform in
-> our defconfig. Build in the drivers which are necessary to boot, such as
-> the pinctrl, MMC, RTC (which provides critical clocks), SPI (for flash),
-> and watchdog (which may be left enabled by the bootloader).
+R528 and T113 are SoCs based on the same design as D1/D1s, but with ARM
+CPUs instead of RISC-V. They use the same CCU implementation, meaning
+the CCU has gates/resets for all peripherals present on any SoC in this
+family. I verified the CAN bus bits are also present on D1/D1s.
 
-All of that looks good.
+Patches 1-2 clean up the Kconfig in preparation for patch 3, which
+allows building the driver. Patches 4-5 add the missing driver bits.
 
-> Other common
-> onboard peripherals are enabled as modules.
 
-This I am not sure about though. I'll leave that to Palmer since I'm
-pretty sure it was him that said it, but I thought the plan was only
-turning on stuff required to boot to a console & things that are
-generally useful rather than enabling modules for everyone's "random"
-drivers. Palmer?
+András Szemző (1):
+  clk: sunxi-ng: d1: Mark cpux clock as critical
 
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
-> 
-> (no changes since v1)
-> 
->  arch/riscv/configs/defconfig | 23 ++++++++++++++++++++++-
->  1 file changed, 22 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
-> index 05fd5fcf24f9..8dfe0550c0e6 100644
-> --- a/arch/riscv/configs/defconfig
-> +++ b/arch/riscv/configs/defconfig
-> @@ -25,6 +25,7 @@ CONFIG_BLK_DEV_INITRD=y
->  CONFIG_EXPERT=y
->  # CONFIG_SYSFS_SYSCALL is not set
->  CONFIG_PROFILING=y
-> +CONFIG_ARCH_SUNXI=y
->  CONFIG_SOC_MICROCHIP_POLARFIRE=y
->  CONFIG_SOC_SIFIVE=y
->  CONFIG_SOC_STARFIVE=y
-> @@ -118,22 +119,31 @@ CONFIG_VIRTIO_NET=y
->  CONFIG_MACB=y
->  CONFIG_E1000E=y
->  CONFIG_R8169=y
-> +CONFIG_STMMAC_ETH=m
->  CONFIG_MICROSEMI_PHY=y
->  CONFIG_INPUT_MOUSEDEV=y
-> +CONFIG_KEYBOARD_SUN4I_LRADC=m
->  CONFIG_SERIAL_8250=y
->  CONFIG_SERIAL_8250_CONSOLE=y
-> +CONFIG_SERIAL_8250_DW=y
->  CONFIG_SERIAL_OF_PLATFORM=y
->  CONFIG_VIRTIO_CONSOLE=y
->  CONFIG_HW_RANDOM=y
->  CONFIG_HW_RANDOM_VIRTIO=y
-> +CONFIG_I2C_MV64XXX=m
->  CONFIG_SPI=y
->  CONFIG_SPI_SIFIVE=y
-> +CONFIG_SPI_SUN6I=y
->  # CONFIG_PTP_1588_CLOCK is not set
-> -CONFIG_GPIOLIB=y
->  CONFIG_GPIO_SIFIVE=y
-> +CONFIG_WATCHDOG=y
-> +CONFIG_SUNXI_WATCHDOG=y
-> +CONFIG_REGULATOR=y
-> +CONFIG_REGULATOR_FIXED_VOLTAGE=y
->  CONFIG_DRM=m
->  CONFIG_DRM_RADEON=m
->  CONFIG_DRM_NOUVEAU=m
-> +CONFIG_DRM_SUN4I=m
->  CONFIG_DRM_VIRTIO_GPU=m
->  CONFIG_FB=y
->  CONFIG_FRAMEBUFFER_CONSOLE=y
-> @@ -146,19 +156,30 @@ CONFIG_USB_OHCI_HCD=y
->  CONFIG_USB_OHCI_HCD_PLATFORM=y
->  CONFIG_USB_STORAGE=y
->  CONFIG_USB_UAS=y
-> +CONFIG_USB_MUSB_HDRC=m
-> +CONFIG_USB_MUSB_SUNXI=m
-> +CONFIG_NOP_USB_XCEIV=m
->  CONFIG_MMC=y
->  CONFIG_MMC_SDHCI=y
->  CONFIG_MMC_SDHCI_PLTFM=y
->  CONFIG_MMC_SDHCI_CADENCE=y
->  CONFIG_MMC_SPI=y
-> +CONFIG_MMC_SUNXI=y
->  CONFIG_RTC_CLASS=y
-> +CONFIG_RTC_DRV_SUN6I=y
-> +CONFIG_DMADEVICES=y
-> +CONFIG_DMA_SUN6I=m
->  CONFIG_VIRTIO_PCI=y
->  CONFIG_VIRTIO_BALLOON=y
->  CONFIG_VIRTIO_INPUT=y
->  CONFIG_VIRTIO_MMIO=y
-> +CONFIG_SUN8I_DE2_CCU=m
-> +CONFIG_SUN50I_IOMMU=y
->  CONFIG_RPMSG_CHAR=y
->  CONFIG_RPMSG_CTRL=y
->  CONFIG_RPMSG_VIRTIO=y
-> +CONFIG_PHY_SUN4I_USB=m
-> +CONFIG_NVMEM_SUNXI_SID=y
->  CONFIG_EXT4_FS=y
->  CONFIG_EXT4_FS_POSIX_ACL=y
->  CONFIG_EXT4_FS_SECURITY=y
-> -- 
-> 2.37.4
-> 
+Fabien Poussin (1):
+  clk: sunxi-ng: d1: Add CAN bus gates and resets
+
+Samuel Holland (3):
+  clk: sunxi-ng: Remove duplicate ARCH_SUNXI dependencies
+  clk: sunxi-ng: Move SoC driver conditions to dependencies
+  clk: sunxi-ng: d1: Allow building for R528/T113
+
+ drivers/clk/sunxi-ng/Kconfig              | 71 ++++++++++++-----------
+ drivers/clk/sunxi-ng/ccu-sun20i-d1.c      | 13 ++++-
+ drivers/clk/sunxi-ng/ccu-sun20i-d1.h      |  2 +-
+ include/dt-bindings/clock/sun20i-d1-ccu.h |  2 +
+ include/dt-bindings/reset/sun20i-d1-ccu.h |  2 +
+ 5 files changed, 53 insertions(+), 37 deletions(-)
+
+-- 
+2.37.4
+
