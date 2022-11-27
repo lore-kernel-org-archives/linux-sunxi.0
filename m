@@ -1,71 +1,133 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293127E
-	for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 21:59:41 +0000 (UTC)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-3691e040abaso71720117b3.9
-        for <linux-sunxi@lists.linux.dev>; Sat, 26 Nov 2022 13:59:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=I/dQ/AL3GhIvg/IGU1TmUg1kijFekoVJBnMdB4tHzc8=;
-        b=mhl2jGiXqfl83oDCA1CRqw9XstvZ97xKDcIOgo9OGhG4fQKKOFjpjMuwWDZc8rK3C5
-         MXgbOLTKSe8QxRD393Wa5LCSXlQJsEh7PbT7CMBGglk2Jla88ZS7OmdVvfrg6YQGaC1A
-         s+W04vPdDbSZ8j+jSuryPs460b21SaDpe7ShcrnH8NKx1VEvB6VmXCwb1lJEnBr72G3A
-         FTuOoypuJDAPCnSg/omVtOG7yeErceBMn9tQ/tS2LoSksbxOdwBQ6rSnKVPk0VAk78Nr
-         2R+rP4X7Ru/ciVuysvqG9QaVFIdgxDI9jcvIIzKg29C1GzaY9rj+yKQ9YdAupJE0PAjY
-         X5Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I/dQ/AL3GhIvg/IGU1TmUg1kijFekoVJBnMdB4tHzc8=;
-        b=tSEOo0PaxSLUiOGjrySqWR/JdyzgIgS+JrCwfIHcqt7EetFTOpjDB3+Bpl65tDZ4dE
-         Q555jxdLGqVA1sR0UG29Qalcp7RievdtYgi9wGT/r+C3zHEFdo2puYkYESO6xeU0Z1/t
-         1c4srQST8R8HNd52x07goTkOlmXIuh7lx1fhRX21mrJLXaOk3lUtk/jIZMHFdtANl/jw
-         zxFdLEiPVcFIQ8A7onxka/WCQjmYlNQoBTdAT2aye4wHy/DFQfiPVM6q3nHQtWyuC6Nr
-         vveExdRCyKDAH0zVGnwrvZ6t9t/zZPCa983LtgQAtLKRMJ69utO/HjeNRfxs4crqMcWQ
-         vIFg==
-X-Gm-Message-State: ANoB5pkb+zukp8YiY9jg5DuSSETvjmSdwgeT4ewURqG5i2Qv99os+vit
-	v1uzIM9XFkn1GqjyV5yJV4NknQLoF9mnYtMpglsh7w==
-X-Google-Smtp-Source: AA0mqf5HWHKZ58JKLQNVM9mMIEcgOofezD/C1oF5+FTMAsQmkLOrgsEE1hY2f/X4s9cuBF7m4EpmjOKXYlNfuwZYZQs=
-X-Received: by 2002:a81:3855:0:b0:38b:17c4:4297 with SMTP id
- f82-20020a813855000000b0038b17c44297mr24953109ywa.446.1669499980172; Sat, 26
- Nov 2022 13:59:40 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0168A20F5
+	for <linux-sunxi@lists.linux.dev>; Sun, 27 Nov 2022 07:23:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1669533801; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=iEFzdWNViSURgz8Y4NovvijJYpK+p23njdwUvyPq2DkyayBrlzuwDNFzJDA2/UzX5xaqQ0iEJXfCGfwJFV/HPe4frb8xfR00LyA4gEh0uPNFaVUGXbKm5Th/A+9/ZHY5LN6szDC8ln0RT4/87Acjkord9bzZVQe266U194I0PL4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1669533801; h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+	bh=T1cysyrGoq304rLsu0xWkq0J6KZT872CrMJW3x4MX4k=; 
+	b=atAX36osMkq2VAzYe16vHnA3jYKY45UDUy+0lYYbwqfsYCzAb177ebkyGRPQoMSis43Nz/X+3VYneGc7/WNs83Gx8v5IHQozFnpexCxbrPucgP7OpxzNDCl743XVtdvLhHVfnDsH3Nkn7gAqw2nhC59Kq6AjLrIJC1d4am+n9IM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1669533801;
+	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
+	bh=T1cysyrGoq304rLsu0xWkq0J6KZT872CrMJW3x4MX4k=;
+	b=C9rhh60xiqKoCg5vtTfDF/bCdiiy5eu/Bawo1l3x4LMvgIG6VSDRBnOZaizbA1Wz
+	38TEY30qkoRP06/E6vW7e9zQl+Fb5vc/0T5nDe/jy/IihFD0B1g/AiEsBQVgDQG+4Ji
+	sj3fpjBvRkNcv1VDLYTFzOQR/R40RVIQnPidlZuo=
+Received: from edelgard.fodlan.icenowy.me (112.94.100.108 [112.94.100.108]) by mx.zohomail.com
+	with SMTPS id 1669533799204919.048958253238; Sat, 26 Nov 2022 23:23:19 -0800 (PST)
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Lee Jones <lee@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	linux-kernel@vger.kernel.org
+Cc: linux-sunxi@lists.linux.dev,
+	Icenowy Zheng <uwu@icenowy.me>
+Subject: [PATCH] mfd: axp20x: adapt to newly refactored unmask_base in regmap-irq
+Date: Sun, 27 Nov 2022 15:23:07 +0800
+Message-Id: <20221127072307.2092327-1-uwu@icenowy.me>
+X-Mailer: git-send-email 2.37.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221126191636.6673-1-samuel@sholland.org>
-In-Reply-To: <20221126191636.6673-1-samuel@sholland.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sat, 26 Nov 2022 22:59:29 +0100
-Message-ID: <CACRpkda4rmNgM9BsTph9_f_2uX6OOEjC5NZPhBL9S9zvQBLrqw@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: sunxi: d1: Add CAN bus pinmuxes
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Fabien Poussin <fabien.poussin@gmail.com>, linux-arm-kernel@lists.infradead.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On Sat, Nov 26, 2022 at 8:16 PM Samuel Holland <samuel@sholland.org> wrote:
+The mask_base and unmask_base fields in a regmap-irq description is
+recently refactored to be orthogonal and mask_inverted property is
+deprecated. The new semantics of unmask_base just fits AXP PMICs.
 
-> From: Fabien Poussin <fabien.poussin@gmail.com>
->
-> The D1 pin controller contains muxes for two CAN buses. While the CAN
-> bus controllers are only documented for the T113 SoC, the pin controller
-> is the same across all SoC variants.
->
-> Signed-off-by: Fabien Poussin <fabien.poussin@gmail.com>
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+Specify enabling registers as unmask_base and drop mask_inverted
+property to adapt to the new interface.
 
-Patch applied so we get some linux-next rotation on this before
-the merge window. If someone protests, I can always pull it out.
+Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+---
+ drivers/mfd/axp20x.c | 21 +++++++--------------
+ 1 file changed, 7 insertions(+), 14 deletions(-)
 
-Yours,
-Linus Walleij
+diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
+index 88a212a8168c..6e6b5dbab098 100644
+--- a/drivers/mfd/axp20x.c
++++ b/drivers/mfd/axp20x.c
+@@ -506,8 +506,7 @@ static const struct regmap_irq_chip axp152_regmap_irq_chip = {
+ 	.name			= "axp152_irq_chip",
+ 	.status_base		= AXP152_IRQ1_STATE,
+ 	.ack_base		= AXP152_IRQ1_STATE,
+-	.mask_base		= AXP152_IRQ1_EN,
+-	.mask_invert		= true,
++	.unmask_base		= AXP152_IRQ1_EN,
+ 	.init_ack_masked	= true,
+ 	.irqs			= axp152_regmap_irqs,
+ 	.num_irqs		= ARRAY_SIZE(axp152_regmap_irqs),
+@@ -518,8 +517,7 @@ static const struct regmap_irq_chip axp20x_regmap_irq_chip = {
+ 	.name			= "axp20x_irq_chip",
+ 	.status_base		= AXP20X_IRQ1_STATE,
+ 	.ack_base		= AXP20X_IRQ1_STATE,
+-	.mask_base		= AXP20X_IRQ1_EN,
+-	.mask_invert		= true,
++	.unmask_base		= AXP20X_IRQ1_EN,
+ 	.init_ack_masked	= true,
+ 	.irqs			= axp20x_regmap_irqs,
+ 	.num_irqs		= ARRAY_SIZE(axp20x_regmap_irqs),
+@@ -531,8 +529,7 @@ static const struct regmap_irq_chip axp22x_regmap_irq_chip = {
+ 	.name			= "axp22x_irq_chip",
+ 	.status_base		= AXP20X_IRQ1_STATE,
+ 	.ack_base		= AXP20X_IRQ1_STATE,
+-	.mask_base		= AXP20X_IRQ1_EN,
+-	.mask_invert		= true,
++	.unmask_base		= AXP20X_IRQ1_EN,
+ 	.init_ack_masked	= true,
+ 	.irqs			= axp22x_regmap_irqs,
+ 	.num_irqs		= ARRAY_SIZE(axp22x_regmap_irqs),
+@@ -543,8 +540,7 @@ static const struct regmap_irq_chip axp288_regmap_irq_chip = {
+ 	.name			= "axp288_irq_chip",
+ 	.status_base		= AXP20X_IRQ1_STATE,
+ 	.ack_base		= AXP20X_IRQ1_STATE,
+-	.mask_base		= AXP20X_IRQ1_EN,
+-	.mask_invert		= true,
++	.unmask_base		= AXP20X_IRQ1_EN,
+ 	.init_ack_masked	= true,
+ 	.irqs			= axp288_regmap_irqs,
+ 	.num_irqs		= ARRAY_SIZE(axp288_regmap_irqs),
+@@ -556,8 +552,7 @@ static const struct regmap_irq_chip axp803_regmap_irq_chip = {
+ 	.name			= "axp803",
+ 	.status_base		= AXP20X_IRQ1_STATE,
+ 	.ack_base		= AXP20X_IRQ1_STATE,
+-	.mask_base		= AXP20X_IRQ1_EN,
+-	.mask_invert		= true,
++	.unmask_base		= AXP20X_IRQ1_EN,
+ 	.init_ack_masked	= true,
+ 	.irqs			= axp803_regmap_irqs,
+ 	.num_irqs		= ARRAY_SIZE(axp803_regmap_irqs),
+@@ -568,8 +563,7 @@ static const struct regmap_irq_chip axp806_regmap_irq_chip = {
+ 	.name			= "axp806",
+ 	.status_base		= AXP20X_IRQ1_STATE,
+ 	.ack_base		= AXP20X_IRQ1_STATE,
+-	.mask_base		= AXP20X_IRQ1_EN,
+-	.mask_invert		= true,
++	.unmask_base		= AXP20X_IRQ1_EN,
+ 	.init_ack_masked	= true,
+ 	.irqs			= axp806_regmap_irqs,
+ 	.num_irqs		= ARRAY_SIZE(axp806_regmap_irqs),
+@@ -580,8 +574,7 @@ static const struct regmap_irq_chip axp809_regmap_irq_chip = {
+ 	.name			= "axp809",
+ 	.status_base		= AXP20X_IRQ1_STATE,
+ 	.ack_base		= AXP20X_IRQ1_STATE,
+-	.mask_base		= AXP20X_IRQ1_EN,
+-	.mask_invert		= true,
++	.unmask_base		= AXP20X_IRQ1_EN,
+ 	.init_ack_masked	= true,
+ 	.irqs			= axp809_regmap_irqs,
+ 	.num_irqs		= ARRAY_SIZE(axp809_regmap_irqs),
+-- 
+2.37.1
+
