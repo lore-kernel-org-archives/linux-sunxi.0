@@ -1,37 +1,46 @@
 Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0168A20F5
-	for <linux-sunxi@lists.linux.dev>; Sun, 27 Nov 2022 07:23:23 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1669533801; cv=none; 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283AA17F1
+	for <linux-sunxi@lists.linux.dev>; Sun, 27 Nov 2022 07:32:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1669534318; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=iEFzdWNViSURgz8Y4NovvijJYpK+p23njdwUvyPq2DkyayBrlzuwDNFzJDA2/UzX5xaqQ0iEJXfCGfwJFV/HPe4frb8xfR00LyA4gEh0uPNFaVUGXbKm5Th/A+9/ZHY5LN6szDC8ln0RT4/87Acjkord9bzZVQe266U194I0PL4=
+	b=AzJcgUosMCw8t54UOBDm/wmUHvVceZrl0dPnsFrwU5nOHbZsKfVS2zcf4mPQJZV2P9e+UybA4UyvMvxtnZOsCsB2f1Sqro44jxST5d2sEbq3daabRFCgWTqERsf/5g2P5tVmothEM3rUF4dtH8Xnq7JFWx+QwWWK5SruFMLA3z8=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1669533801; h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
-	bh=T1cysyrGoq304rLsu0xWkq0J6KZT872CrMJW3x4MX4k=; 
-	b=atAX36osMkq2VAzYe16vHnA3jYKY45UDUy+0lYYbwqfsYCzAb177ebkyGRPQoMSis43Nz/X+3VYneGc7/WNs83Gx8v5IHQozFnpexCxbrPucgP7OpxzNDCl743XVtdvLhHVfnDsH3Nkn7gAqw2nhC59Kq6AjLrIJC1d4am+n9IM=
+	t=1669534318; h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+	bh=10CBDSSMY+O5kxCW3DRK9JuPL0vp25NduovcNFvUa4c=; 
+	b=igfj7JiLBO80BMoVMSFCD1sxlAKhc4gpxo7vFY8LVv1Dyb4qkE2fNM1oxQ9rmO3mFu1Zl4Bgk6NiDga6K1HWkvzDsfR49aWt3Wa3HH0eGJLYUhZG2P1lzWXswxb83ZoPcURQPO9f+94EtS6pFpDWc3dGZGjIXEdIrm/4utjivo0=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=icenowy.me;
 	spf=pass  smtp.mailfrom=uwu@icenowy.me;
 	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1669533801;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1669534318;
 	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
-	bh=T1cysyrGoq304rLsu0xWkq0J6KZT872CrMJW3x4MX4k=;
-	b=C9rhh60xiqKoCg5vtTfDF/bCdiiy5eu/Bawo1l3x4LMvgIG6VSDRBnOZaizbA1Wz
-	38TEY30qkoRP06/E6vW7e9zQl+Fb5vc/0T5nDe/jy/IihFD0B1g/AiEsBQVgDQG+4Ji
-	sj3fpjBvRkNcv1VDLYTFzOQR/R40RVIQnPidlZuo=
+	bh=10CBDSSMY+O5kxCW3DRK9JuPL0vp25NduovcNFvUa4c=;
+	b=SwWfg9NayXpIsvXtxJ1XU1ELPGY2PSbPRCAFF834Mmk/zvF7R5sd7GWAYPYMm0iW
+	q3xyoKiqgfdcrKtMFc/bIqle6e9EaBJPPgd8vTKtTvSALAw4786ycdNpPij3nVDhu6K
+	AUwH3jUvCy+mCpJ7OrbdaJVTAoQg6Lxjw2eV5GZI=
 Received: from edelgard.fodlan.icenowy.me (112.94.100.108 [112.94.100.108]) by mx.zohomail.com
-	with SMTPS id 1669533799204919.048958253238; Sat, 26 Nov 2022 23:23:19 -0800 (PST)
+	with SMTPS id 1669534316404229.14536648713965; Sat, 26 Nov 2022 23:31:56 -0800 (PST)
 From: Icenowy Zheng <uwu@icenowy.me>
-To: Lee Jones <lee@kernel.org>,
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Chen-Yu Tsai <wens@csie.org>,
-	linux-kernel@vger.kernel.org
-Cc: linux-sunxi@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Matthias Kaehlcke <mka@chromium.org>,
+	Andre Przywara <andre.przywara@arm.com>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
 	Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH] mfd: axp20x: adapt to newly refactored unmask_base in regmap-irq
-Date: Sun, 27 Nov 2022 15:23:07 +0800
-Message-Id: <20221127072307.2092327-1-uwu@icenowy.me>
+Subject: [PATCH 0/6] Rongpin RP-H6B support (and support for GL850G)
+Date: Sun, 27 Nov 2022 15:31:34 +0800
+Message-Id: <20221127073140.2093897-1-uwu@icenowy.me>
 X-Mailer: git-send-email 2.37.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -42,92 +51,36 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-The mask_base and unmask_base fields in a regmap-irq description is
-recently refactored to be orthogonal and mask_inverted property is
-deprecated. The new semantics of unmask_base just fits AXP PMICs.
+This patchset adds support for Rongpin RP-H6B, and as a dependency,
+power sequence support for its onboard USB hub, GL850G.
 
-Specify enabling registers as unmask_base and drop mask_inverted
-property to adapt to the new interface.
+The first 3 patches are for GL850G, adding a binding for it and adding
+its support to onboard_usb_hub driver.
 
-Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
----
- drivers/mfd/axp20x.c | 21 +++++++--------------
- 1 file changed, 7 insertions(+), 14 deletions(-)
+The last 3 patches are for RP-H6B, also 2 for adding a binding and 1 for
+the real DT.
 
-diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
-index 88a212a8168c..6e6b5dbab098 100644
---- a/drivers/mfd/axp20x.c
-+++ b/drivers/mfd/axp20x.c
-@@ -506,8 +506,7 @@ static const struct regmap_irq_chip axp152_regmap_irq_chip = {
- 	.name			= "axp152_irq_chip",
- 	.status_base		= AXP152_IRQ1_STATE,
- 	.ack_base		= AXP152_IRQ1_STATE,
--	.mask_base		= AXP152_IRQ1_EN,
--	.mask_invert		= true,
-+	.unmask_base		= AXP152_IRQ1_EN,
- 	.init_ack_masked	= true,
- 	.irqs			= axp152_regmap_irqs,
- 	.num_irqs		= ARRAY_SIZE(axp152_regmap_irqs),
-@@ -518,8 +517,7 @@ static const struct regmap_irq_chip axp20x_regmap_irq_chip = {
- 	.name			= "axp20x_irq_chip",
- 	.status_base		= AXP20X_IRQ1_STATE,
- 	.ack_base		= AXP20X_IRQ1_STATE,
--	.mask_base		= AXP20X_IRQ1_EN,
--	.mask_invert		= true,
-+	.unmask_base		= AXP20X_IRQ1_EN,
- 	.init_ack_masked	= true,
- 	.irqs			= axp20x_regmap_irqs,
- 	.num_irqs		= ARRAY_SIZE(axp20x_regmap_irqs),
-@@ -531,8 +529,7 @@ static const struct regmap_irq_chip axp22x_regmap_irq_chip = {
- 	.name			= "axp22x_irq_chip",
- 	.status_base		= AXP20X_IRQ1_STATE,
- 	.ack_base		= AXP20X_IRQ1_STATE,
--	.mask_base		= AXP20X_IRQ1_EN,
--	.mask_invert		= true,
-+	.unmask_base		= AXP20X_IRQ1_EN,
- 	.init_ack_masked	= true,
- 	.irqs			= axp22x_regmap_irqs,
- 	.num_irqs		= ARRAY_SIZE(axp22x_regmap_irqs),
-@@ -543,8 +540,7 @@ static const struct regmap_irq_chip axp288_regmap_irq_chip = {
- 	.name			= "axp288_irq_chip",
- 	.status_base		= AXP20X_IRQ1_STATE,
- 	.ack_base		= AXP20X_IRQ1_STATE,
--	.mask_base		= AXP20X_IRQ1_EN,
--	.mask_invert		= true,
-+	.unmask_base		= AXP20X_IRQ1_EN,
- 	.init_ack_masked	= true,
- 	.irqs			= axp288_regmap_irqs,
- 	.num_irqs		= ARRAY_SIZE(axp288_regmap_irqs),
-@@ -556,8 +552,7 @@ static const struct regmap_irq_chip axp803_regmap_irq_chip = {
- 	.name			= "axp803",
- 	.status_base		= AXP20X_IRQ1_STATE,
- 	.ack_base		= AXP20X_IRQ1_STATE,
--	.mask_base		= AXP20X_IRQ1_EN,
--	.mask_invert		= true,
-+	.unmask_base		= AXP20X_IRQ1_EN,
- 	.init_ack_masked	= true,
- 	.irqs			= axp803_regmap_irqs,
- 	.num_irqs		= ARRAY_SIZE(axp803_regmap_irqs),
-@@ -568,8 +563,7 @@ static const struct regmap_irq_chip axp806_regmap_irq_chip = {
- 	.name			= "axp806",
- 	.status_base		= AXP20X_IRQ1_STATE,
- 	.ack_base		= AXP20X_IRQ1_STATE,
--	.mask_base		= AXP20X_IRQ1_EN,
--	.mask_invert		= true,
-+	.unmask_base		= AXP20X_IRQ1_EN,
- 	.init_ack_masked	= true,
- 	.irqs			= axp806_regmap_irqs,
- 	.num_irqs		= ARRAY_SIZE(axp806_regmap_irqs),
-@@ -580,8 +574,7 @@ static const struct regmap_irq_chip axp809_regmap_irq_chip = {
- 	.name			= "axp809",
- 	.status_base		= AXP20X_IRQ1_STATE,
- 	.ack_base		= AXP20X_IRQ1_STATE,
--	.mask_base		= AXP20X_IRQ1_EN,
--	.mask_invert		= true,
-+	.unmask_base		= AXP20X_IRQ1_EN,
- 	.init_ack_masked	= true,
- 	.irqs			= axp809_regmap_irqs,
- 	.num_irqs		= ARRAY_SIZE(axp809_regmap_irqs),
+Icenowy Zheng (6):
+  dt-bindings: vendor-prefixes: add Genesys Logic
+  dt-bindings: usb: Add binding for Genesys Logic GL850G hub controller
+  usb: misc: onboard_usb_hub: add Genesys Logic GL850G hub support
+  vendor-prefixes: Add Shenzhen Rongpin Electronics Co., Ltd
+  dt-bindings: arm: sunxi: add Rongpin RP-H6B board
+  arm64: dts: allwinner: h6: add Rongpin RP-H6C SoM and RP-H6B board
+
+ .../devicetree/bindings/arm/sunxi.yaml        |   6 +
+ .../bindings/usb/genesys,gl850g.yaml          |  48 ++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   4 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../boot/dts/allwinner/sun50i-h6-rp-h6b.dts   | 239 ++++++++++++++++++
+ .../boot/dts/allwinner/sun50i-h6-rp-h6c.dtsi  | 180 +++++++++++++
+ drivers/usb/misc/onboard_usb_hub.c            |   2 +
+ drivers/usb/misc/onboard_usb_hub.h            |   5 +
+ 8 files changed, 485 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-rp-h6b.dts
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-rp-h6c.dtsi
+
 -- 
 2.37.1
 
