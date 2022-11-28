@@ -1,125 +1,62 @@
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD2C0A461
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Nov 2022 18:01:54 +0000 (UTC)
-Received: by mail-il1-f182.google.com with SMTP id f6so5394204ilu.13
-        for <linux-sunxi@lists.linux.dev>; Mon, 28 Nov 2022 10:01:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xmy4KXaQFNlqj17WY1ADV6bqsA77u7z6qE1PaxwlJXo=;
-        b=utt0iIQLBL7LruwXcZgWUHwQQ/CS5IS8uuGThkqakpKnUV4507QnK/j72vIlSkRmhr
-         HoWMHCfAdNB0iNB2i6cYCc7ptfGKVSJNyRVnImKEZd0HS8WJVO9M9insVKdA2Pi49tc1
-         MVa2ii0fPJ15FeLxUzIZJfYn0r7jJTgx4rTiljD9jrp5iv9XjWNRrSPKB7Qimofnmvi/
-         1G7+xEaGqpRXjMaAwVIoRFJd/3fRdlPQhR0o9ie09jH3BAq89f52FN0OROht8Ls/Hya2
-         2zyz0TodYdTX1N4tzFEqDESYAHTLUm0NJiZFgPlODrKvVG2VLe9SkC25Z9gKh4k5Njri
-         CgqQ==
-X-Gm-Message-State: ANoB5pm2wUXPP5uYZRlXP9xG/O/9mH8qmh5Snvvl3JPv7tElg2bujFH6
-	OTpyQHW5D4rIRKE+z1ga3HDleg==
-X-Google-Smtp-Source: AA0mqf70pG2zhhWmQ9tBm9b/zMsiZnG4JD+s+a0G/ChoykXinRgJm8GCPsBwkj7EV/Ro3wduiUVaCA==
-X-Received: by 2002:a05:6e02:c65:b0:302:f4f5:8691 with SMTP id f5-20020a056e020c6500b00302f4f58691mr9364754ilj.206.1669658513537;
-        Mon, 28 Nov 2022 10:01:53 -0800 (PST)
-Received: from google.com (30.23.70.34.bc.googleusercontent.com. [34.70.23.30])
-        by smtp.gmail.com with ESMTPSA id o3-20020a02a1c3000000b0037477c3d04asm4326772jah.130.2022.11.28.10.01.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Nov 2022 10:01:52 -0800 (PST)
-Date: Mon, 28 Nov 2022 18:01:50 +0000
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 3/6] usb: misc: onboard_usb_hub: add Genesys Logic GL850G
- hub support
-Message-ID: <Y4T3ju7FTb6994HT@google.com>
-References: <20221127073140.2093897-1-uwu@icenowy.me>
- <20221127073140.2093897-4-uwu@icenowy.me>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE46DA492
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Nov 2022 20:59:59 +0000 (UTC)
+Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1ozlEL-000833-O6; Mon, 28 Nov 2022 21:59:57 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev, Palmer Dabbelt <palmer@dabbelt.com>, Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org, Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, Jisheng Zhang <jszhang@kernel.org>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>, Samuel Holland <samuel@sholland.org>, Albert Ou <aou@eecs.berkeley.edu>, Anup Patel <apatel@ventanamicro.com>, Atish Patra <atishp@rivosinc.com>, Christian Hewitt <christianshewitt@gmail.com>, Conor Dooley <conor.dooley@microchip.com>, Guo Ren <guoren@kernel.org>, Heinrich Schuchardt <heinrich.schuchardt@canonical.com>, Linus Walleij <linus.walleij@linaro.org>, Paul Walmsley <paul.walmsley@sifive.com>, Stanislav Jakubek <stano.jakubek@gmail.com>
+Subject: Re: [PATCH v2 04/12] riscv: dts: allwinner: Add the D1/D1s SoC devicetree
+Date: Mon, 28 Nov 2022 21:59:56 +0100
+Message-ID: <3819214.ElGaqSPkdT@diego>
+In-Reply-To: <20221125234656.47306-5-samuel@sholland.org>
+References: <20221125234656.47306-1-samuel@sholland.org> <20221125234656.47306-5-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221127073140.2093897-4-uwu@icenowy.me>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Sun, Nov 27, 2022 at 03:31:37PM +0800, Icenowy Zheng wrote:
-> This is a 4-port USB 2.0 STT hub.
-
-The commit message is supposed the describe the change, which
-is almost certainly not a 4-port USB 2.0 STT hub :)
-
-It could be something like "Add support for the Genesys Logic
-GL850G, which is a 4-port USB 2.0 STT hub."
-
+Am Samstag, 26. November 2022, 00:46:48 CET schrieb Samuel Holland:
+> D1 (aka D1-H), D1s (aka F133), R528, and T113 are a family of SoCs based
+> on a single die, or at a pair of dies derived from the same design.
 > 
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> ---
->  drivers/usb/misc/onboard_usb_hub.c | 2 ++
->  drivers/usb/misc/onboard_usb_hub.h | 5 +++++
->  2 files changed, 7 insertions(+)
+> D1 and D1s contain a single T-HEAD Xuantie C906 CPU, whereas R528 and
+> T113 contain a pair of Cortex-A7's. D1 and R528 are the full version of
+> the chip with a BGA package, whereas D1s and T113 are low-pin-count QFP
+> variants.
 > 
-> diff --git a/drivers/usb/misc/onboard_usb_hub.c b/drivers/usb/misc/onboard_usb_hub.c
-> index d63c63942af1..f5c71d724be6 100644
-> --- a/drivers/usb/misc/onboard_usb_hub.c
-> +++ b/drivers/usb/misc/onboard_usb_hub.c
-> @@ -334,6 +334,7 @@ static struct platform_driver onboard_hub_driver = {
->  #define VENDOR_ID_MICROCHIP	0x0424
->  #define VENDOR_ID_REALTEK	0x0bda
->  #define VENDOR_ID_TI		0x0451
-> +#define VENDOR_ID_GENESYS	0x05e3
+> Because the original design supported both ARM and RISC-V CPUs, some
+> peripherals are duplicated. In addition, all variants except D1s contain
+> a HiFi 4 DSP with its own set of peripherals.
+> 
+> The devicetrees are organized to minimize duplication:
+>  - Common perhiperals are described in sunxi-d1s-t113.dtsi
+>  - DSP-related peripherals are described in sunxi-d1-t113.dtsi
+>  - RISC-V specific hardware is described in sun20i-d1s.dtsi
+>  - Functionality unique to the D1 variant is described in sun20i-d1.dtsi
+> 
+> The SOC_PERIPHERAL_IRQ macro handles the different #interrupt-cells
+> values between the ARM (GIC) and RISC-V (PLIC) versions of the SoC.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-Please insert the new entry in alphabetical order, i.e. before
-VENDOR_ID_MICROCHIP.
+While the overall dt looks good to me, it seems others did find
+some minor issues. But I can at least provide a
 
->  
->  /*
->   * Returns the onboard_hub platform device that is associated with the USB
-> @@ -414,6 +415,7 @@ static const struct usb_device_id onboard_hub_id_table[] = {
->  	{ USB_DEVICE(VENDOR_ID_REALTEK, 0x5414) }, /* RTS5414 USB 2.1 */
->  	{ USB_DEVICE(VENDOR_ID_TI, 0x8140) }, /* TI USB8041 3.0 */
->  	{ USB_DEVICE(VENDOR_ID_TI, 0x8142) }, /* TI USB8041 2.0 */
-> +	{ USB_DEVICE(VENDOR_ID_GENESYS, 0x0608) }, /* Genesys Logic GL850G USB 2.0 */
+Tested-by: Heiko Stuebner <heiko.stuebner@vrull.eu>
 
-Same here, the table is ordered alphabetically
+as it could sucessfully boot the Nezha variant of boards for me.
 
->  	{}
->  };
->  MODULE_DEVICE_TABLE(usb, onboard_hub_id_table);
-> diff --git a/drivers/usb/misc/onboard_usb_hub.h b/drivers/usb/misc/onboard_usb_hub.h
-> index 34beab8bce3d..1ca188713b1f 100644
-> --- a/drivers/usb/misc/onboard_usb_hub.h
-> +++ b/drivers/usb/misc/onboard_usb_hub.h
-> @@ -22,6 +22,10 @@ static const struct onboard_hub_pdata ti_tusb8041_data = {
->  	.reset_us = 3000,
->  };
->  
-> +static const struct onboard_hub_pdata genesys_gl850g_data = {
-> +	.reset_us = 3,
-> +};
-> +
->  static const struct of_device_id onboard_hub_match[] = {
->  	{ .compatible = "usb424,2514", .data = &microchip_usb424_data, },
->  	{ .compatible = "usb451,8140", .data = &ti_tusb8041_data, },
-> @@ -30,6 +34,7 @@ static const struct of_device_id onboard_hub_match[] = {
->  	{ .compatible = "usbbda,5411", .data = &realtek_rts5411_data, },
->  	{ .compatible = "usbbda,414", .data = &realtek_rts5411_data, },
->  	{ .compatible = "usbbda,5414", .data = &realtek_rts5411_data, },
-> +	{ .compatible = "usb5e3,608", .data = &genesys_gl850g_data, },
 
-These table is ordered by compatible string, the new entry should be
-inserted after "usb451,8142".
+Heiko
 
-Thanks
 
-m.
