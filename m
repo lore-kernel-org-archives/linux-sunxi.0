@@ -1,122 +1,104 @@
-Received: from aposti.net (aposti.net [89.234.176.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22EFAAD5D
-	for <linux-sunxi@lists.linux.dev>; Tue, 29 Nov 2022 19:25:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1669749479; h=from:from:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BEjxKDNm3i4FDiWmBekbtVQ5t/EpC9nOnul1c9i1i1M=;
-	b=Taryu9xn7LuS8c0dGYEZkB9nNj0a7nz0bW0TjxOfTRSglh8anKk2e3H8RCb0mxFe8jiqET
-	h9AlKR8lJOljzO1Dly2Ye7OAmnAkZoamwKHHwPKR0XQ3eHAw2F6kGRNsVQc/7fqXBe7P+b
-	BOJYFPUGDN8RVcomPQ2KFZyZPc9daao=
-From: Paul Cercueil <paul@crapouillou.net>
-To: David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	Paul Cercueil <paul@crapouillou.net>,
-	Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 06/26] drm: sun4i: Define and use generic PM ops
-Date: Tue, 29 Nov 2022 19:17:13 +0000
-Message-Id: <20221129191733.137897-7-paul@crapouillou.net>
-In-Reply-To: <20221129191733.137897-1-paul@crapouillou.net>
-References: <20221129191733.137897-1-paul@crapouillou.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273A77C
+	for <linux-sunxi@lists.linux.dev>; Wed, 30 Nov 2022 04:08:27 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 3DD063200958;
+	Tue, 29 Nov 2022 23:08:26 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Tue, 29 Nov 2022 23:08:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1669781305; x=
+	1669867705; bh=Lmsmf4sJSUA0QJZ9UMg8yw1qEc3/5iR1aDuujhJHzeU=; b=Z
+	mF3iPYugU6qKj/U0XOfqj7kTjWE//yP8mj2uuhgmN53KZS+CmHPjd/UnHIZgdPM6
+	pCPXJF51r2Cm/r+hX+2vQL3VayLd7G31Pna7v+tH5eXYXror4FWzSJM1qmNkjz3B
+	UTFPpPIAC+fgscdJsM1SI9SFiXnCfkmeKPOIE5LzwTeyUnWghBjf4i9eIRcnnaGD
+	zGFk8L3rdIsQtLnz1qo8R4D4YZPMlrjGu/u3g4wiuPo1utm5xRSCBwHhx24b7Tk2
+	Wqnn4G5YrprRDHpvCaz/uuYZQd7yQ984Raa7gBEcrilFHT9w5aPko32Vr0neprIe
+	snUDOvzQrzs3OL08Wefjg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669781305; x=
+	1669867705; bh=Lmsmf4sJSUA0QJZ9UMg8yw1qEc3/5iR1aDuujhJHzeU=; b=l
+	1HiEqJ5rq0Q7FruTDzWCbA4cYO/o+iQnCw0QxCWGasxIHL5Kwh+zmc6dAsifeSDr
+	zlerQAgtvUBQ7p3xpWOWU1xkEEEs3PqZLEJHkornjr3k28fBeFIma3/SVGVOM5Et
+	jZNOgv0Ue4SYlOF+qizHfXyz0KPixIfPLzqA105qSH6YdJ9Tl5qOb1cIqCILUT+k
+	tLcLG8vATax3568bnorxDcyUf4ndmALY/QkbYuM51VZqS16fSCThzJ6I9n+dRH5N
+	RyeFyVfUiW8vShMeSvmPNXQu9hvuCkU+OzrEe2IfizUhio7afmkheluZwu14vch6
+	IEczGUMLBOfoJqgpM/2DA==
+X-ME-Sender: <xms:OdeGY7LdPGCX4FZwIL4BZdl3mrgrDv0KnydrrhXA8oQDCA4MAEPg2Q>
+    <xme:OdeGY_JsJq2ILucI9K7O9gKAthMBe5F7z_L6O73k2NwSYv4iX8GmUPzzCuySsId41
+    W7fhfe-Yo8pcEPqCw>
+X-ME-Received: <xmr:OdeGYzsntoFxxpGQwsNsXHxwTudAHx76cirSDqYpvRf5jAXOohaKTLmEUVHTa0gxdsrGlyHW4jLb2T0QUSXqu6H5zUoD6HtuM_vdYLQWWgUeMvHCIBj7eDQRjg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtddvgdeijecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepkeejleelfeeitdfhtdfgkeeghedufeduueegffdvhfdukeelleef
+    tdetjeehuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:OdeGY0YiFXspL2KvJIvRJFZKaSAXfNnKpZfYHKgaFxcZGVwd2p7gjQ>
+    <xmx:OdeGYyZAlu1Oh_LUC52p31kg7a0znjbUG5jM8DsJtFVh_A7bdZCwOg>
+    <xmx:OdeGY4AQir6JVVLn54k_qlsSIblpb0hxAzx5i8xKHfGz0UHuz3PyCA>
+    <xmx:OdeGY4NU-Xn33XbikNEUFOdFRfEcyl-CfMEelfqKDiKIE-M419jobg>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 29 Nov 2022 23:08:24 -0500 (EST)
+Message-ID: <37362a34-0e97-9c31-08fc-6815790c26a8@sholland.org>
+Date: Tue, 29 Nov 2022 22:08:23 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v2 06/26] drm: sun4i: Define and use generic PM ops
+Content-Language: en-US
+To: Paul Cercueil <paul@crapouillou.net>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20221129191733.137897-1-paul@crapouillou.net>
+ <20221129191733.137897-7-paul@crapouillou.net>
+From: Samuel Holland <samuel@sholland.org>
+In-Reply-To: <20221129191733.137897-7-paul@crapouillou.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Use the new DEFINE_DRM_MODE_CONFIG_HELPER_PM_OPS() macro to create a
-"struct dev_pm_ops" that can be used by this driver, instead of using
-custom PM callbacks with the same behaviour.
+On 11/29/22 13:17, Paul Cercueil wrote:
+> Use the new DEFINE_DRM_MODE_CONFIG_HELPER_PM_OPS() macro to create a
+> "struct dev_pm_ops" that can be used by this driver, instead of using
+> custom PM callbacks with the same behaviour.
+> 
+> v2: Use the DEFINE_DRM_MODE_CONFIG_HELPER_PM_OPS() macro instead of an
+>     exported dev_pm_ops.
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+> 
+> Samuel: since the code changed I had to remove your reviewed-by, sorry
+>         about that.
+> 
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Samuel Holland <samuel@sholland.org>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-sunxi@lists.linux.dev
+> ---
+>  drivers/gpu/drm/sun4i/sun4i_drv.c | 26 ++++----------------------
+>  1 file changed, 4 insertions(+), 22 deletions(-)
 
-v2: Use the DEFINE_DRM_MODE_CONFIG_HELPER_PM_OPS() macro instead of an
-    exported dev_pm_ops.
-
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
-
-Samuel: since the code changed I had to remove your reviewed-by, sorry
-        about that.
-
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-sunxi@lists.linux.dev
----
- drivers/gpu/drm/sun4i/sun4i_drv.c | 26 ++++----------------------
- 1 file changed, 4 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-index cc94efbbf2d4..178ada09b467 100644
---- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-@@ -13,6 +13,7 @@
- #include <linux/of_graph.h>
- #include <linux/of_reserved_mem.h>
- #include <linux/platform_device.h>
-+#include <linux/pm.h>
- 
- #include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
-@@ -339,27 +340,6 @@ static int sun4i_drv_add_endpoints(struct device *dev,
- 	return count;
- }
- 
--#ifdef CONFIG_PM_SLEEP
--static int sun4i_drv_drm_sys_suspend(struct device *dev)
--{
--	struct drm_device *drm = dev_get_drvdata(dev);
--
--	return drm_mode_config_helper_suspend(drm);
--}
--
--static int sun4i_drv_drm_sys_resume(struct device *dev)
--{
--	struct drm_device *drm = dev_get_drvdata(dev);
--
--	return drm_mode_config_helper_resume(drm);
--}
--#endif
--
--static const struct dev_pm_ops sun4i_drv_drm_pm_ops = {
--	SET_SYSTEM_SLEEP_PM_OPS(sun4i_drv_drm_sys_suspend,
--				sun4i_drv_drm_sys_resume)
--};
--
- static int sun4i_drv_probe(struct platform_device *pdev)
- {
- 	struct component_match *match = NULL;
-@@ -434,13 +414,15 @@ static const struct of_device_id sun4i_drv_of_table[] = {
- };
- MODULE_DEVICE_TABLE(of, sun4i_drv_of_table);
- 
-+DEFINE_DRM_MODE_CONFIG_HELPER_PM_OPS(sun4i_pm_ops);
-+
- static struct platform_driver sun4i_drv_platform_driver = {
- 	.probe		= sun4i_drv_probe,
- 	.remove		= sun4i_drv_remove,
- 	.driver		= {
- 		.name		= "sun4i-drm",
- 		.of_match_table	= sun4i_drv_of_table,
--		.pm = &sun4i_drv_drm_pm_ops,
-+		.pm = pm_sleep_ptr(&sun4i_pm_ops),
- 	},
- };
- drm_module_platform_driver(sun4i_drv_platform_driver);
--- 
-2.35.1
+Reviewed-by: Samuel Holland <samuel@sholland.org>
 
