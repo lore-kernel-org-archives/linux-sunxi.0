@@ -1,125 +1,185 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8465863B3
-	for <linux-sunxi@lists.linux.dev>; Wed, 30 Nov 2022 14:51:27 +0000 (UTC)
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-14279410bf4so21240028fac.8
-        for <linux-sunxi@lists.linux.dev>; Wed, 30 Nov 2022 06:51:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rbewHNiIDPrh2vDJAS18QQyUgoqR1U2XFbW+RCOiyVY=;
-        b=ITYQjc4mA5VEcVjbGvf16e+bSJO7fYTlFn/1wtyTtY8BDebfm9yu/E5FvJE1NGyCoA
-         78L6WgRrVCvqmsMRkm8h2C/dJT/efZxVk52st2a1rZSO2EVCJFQAT8b7I7hTQ7kfRo8B
-         SZjSgtYT0DWIjgsQ3ZxFZSSdON3hIYkolHupkvePwQxgATkM7IixSmIKMcr5VGeExVEv
-         BssqlZpfXZJWha3jaQkOGAfR+zkPLBML+P/EDFRfdvxizdHUK+r4IxztQv+EiqZhGbaH
-         2Jwxvr2JZf4zOGKZ0oDzyqMhqnNwB61IA30em53jxbMb8SZjJ5EHAt3Gat5dqYEJDY8D
-         TqYg==
-X-Gm-Message-State: ANoB5pn9WE07hnZ2aQpb/58DlFihS+M98Y8OPaQfhpbJwRLB+Si75FPc
-	8WQaZznDqD/CXYkJumjHsK06dEMD31Hhhw==
-X-Google-Smtp-Source: AA0mqf4rsRGLejgx8/9Hmxcdv4gw58WTDPgnkr/0cR3sM7jWRkQ56IHoB04tKrJ/7mKxLlJJD1XPHg==
-X-Received: by 2002:a05:6870:8882:b0:132:6f79:9ffb with SMTP id m2-20020a056870888200b001326f799ffbmr25972837oam.61.1669819886333;
-        Wed, 30 Nov 2022 06:51:26 -0800 (PST)
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com. [209.85.161.52])
-        by smtp.gmail.com with ESMTPSA id b38-20020a056870472600b00143ae7d4ccesm1244268oaq.45.2022.11.30.06.51.23
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Nov 2022 06:51:24 -0800 (PST)
-Received: by mail-oo1-f52.google.com with SMTP id n42-20020a4a956d000000b004a047b3964fso1790162ooi.12
-        for <linux-sunxi@lists.linux.dev>; Wed, 30 Nov 2022 06:51:23 -0800 (PST)
-X-Received: by 2002:a81:f80f:0:b0:38e:e541:d8ca with SMTP id
- z15-20020a81f80f000000b0038ee541d8camr55824371ywm.283.1669819872327; Wed, 30
- Nov 2022 06:51:12 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0D263C3
+	for <linux-sunxi@lists.linux.dev>; Wed, 30 Nov 2022 15:23:06 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1p0OuS-00009r-WF; Wed, 30 Nov 2022 16:22:05 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1p0OuI-001LdM-Fl; Wed, 30 Nov 2022 16:21:55 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1p0OuI-001VqY-Bk; Wed, 30 Nov 2022 16:21:54 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Conor Dooley <conor.dooley@microchip.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Douglas Anderson <dianders@chromium.org>,
+	Pavel Machek <pavel@ucw.cz>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Michael Walle <michael@walle.cc>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Hammer Hsieh <hammerh0314@gmail.com>,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Sean Anderson <sean.anderson@seco.com>,
+	Michal Simek <michal.simek@xilinx.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Stephen Boyd <swboyd@chromium.org>,
+	Matthias Kaehlcke <mka@chromium.org>,
+	Satya Priya <quic_c_skakit@quicinc.com>,
+	linux-pwm@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-leds@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	chrome-platform@lists.linux.dev,
+	linux-amlogic@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH v2 00/11] pwm: Allow .get_state to fail
+Date: Wed, 30 Nov 2022 16:21:37 +0100
+Message-Id: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221130141040.32447-1-arinc.unal@arinc9.com> <20221130141040.32447-3-arinc.unal@arinc9.com>
-In-Reply-To: <20221130141040.32447-3-arinc.unal@arinc9.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 30 Nov 2022 15:51:00 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVBZiWxORfb2hd0hn_En6yFEwm8uJXr553YfB8gv1sOFw@mail.gmail.com>
-Message-ID: <CAMuHMdVBZiWxORfb2hd0hn_En6yFEwm8uJXr553YfB8gv1sOFw@mail.gmail.com>
-Subject: Re: [PATCH 2/5] arm: dts: remove label = "cpu" from DSA dt-binding
-To: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-Cc: Vladimir Oltean <vladimir.oltean@nxp.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, soc@kernel.org, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andrew Lunn <andrew@lunn.ch>, 
-	Gregory Clement <gregory.clement@bootlin.com>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Claudiu Beznea <claudiu.beznea@microchip.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Florian Fainelli <f.fainelli@gmail.com>, Hauke Mehrtens <hauke@hauke-m.de>, 
-	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, 
-	Hans Ulli Kroll <ulli.kroll@googlemail.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	NXP Linux Team <linux-imx@nxp.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@somainline.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Stefan Agner <stefan@agner.ch>, Heiko Stuebner <heiko@sntech.de>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	Tim Harvey <tharvey@gateworks.com>, Peng Fan <peng.fan@nxp.com>, 
-	Rasmus Villemoes <rasmus.villemoes@prevas.dk>, Frank Wunderlich <frank-w@public-files.de>, 
-	Michael Riesch <michael.riesch@wolfvision.net>, Oleksij Rempel <linux@rempel-privat.de>, 
-	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
-	linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	=?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4201; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=OJndCEVt3aO3P0WDGIcSb4svVqFYr4L7BRkc05e7KK8=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjh3TeeKE42zO/dADA8GIRueUo9ayiBLrzlu5BRvEE w4nESiyJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY4d03gAKCRDB/BR4rcrsCSMiB/ 9P92eEh5i/ykm3IhBfm7shzbMkb/wG7nDkc+vvv70Z73UbyxFvKLzsJ+xK5VXqTCLlo8DUkfo9BJPh gr8T1RvP6HUtOELqCuQE6ruqv9wlN28AYIytMCoO+QvOqLdbM84LW89W1fK1B6ImECmggYrGw60CXE f7Rv+b9z4cETy+dLsOSVyQ0zsix7/7HyoqlinRbwr3R1SJewjSjU++PJ6H8LCe6DcYMwdJkpBaC2Ol hVLwWlo1eF82Cow8M5bd0+XSEZXpG5oFaf6CebgL+JYlfUHRWLzOpJpq6RAXCmfilUqisk0cROhhop q2OYuXh1amqkiMJYz8hRni9/YulIOt
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-CC cleger
+Hello,
 
-On Wed, Nov 30, 2022 at 3:33 PM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc=
-9.com> wrote:
-> This is not used by the DSA dt-binding, so remove it from all devicetrees=
-.
->
-> Signed-off-by: Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc9.com>
+I forgot about this series and was remembered when I talked to Conor
+Dooley about how .get_state() should behave in an error case.
 
->  arch/arm/boot/dts/r9a06g032.dtsi                          | 1 -
+Compared to (implicit) v1, sent with Message-Id: 20220916151506.298488-1-u.kleine-koenig@pengutronix.de
+I changed:
 
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+ - Patch #1 which does the prototype change now just adds "return 0" to
+   all implementations and so gets simpler and doesn't change behaviour.
+   The adaptions to the different .get_state() implementations are split
+   out into individual patches to ease review.
+ - One minor inconsistency fixed in "pwm: Handle .get_state() failures"
+   that I noticed while looking into this patch.
+ - I skipped changing sun4i.c as I don't know how to handle the error
+   there. Someone might want to have a look. (That's not ideal, but it's
+   not worse than the same issue before this series.)
 
-> --- a/arch/arm/boot/dts/r9a06g032.dtsi
-> +++ b/arch/arm/boot/dts/r9a06g032.dtsi
-> @@ -401,7 +401,6 @@ switch_port3: port@3 {
->                                 switch_port4: port@4 {
->                                         reg =3D <4>;
->                                         ethernet =3D <&gmac2>;
-> -                                       label =3D "cpu";
->                                         phy-mode =3D "internal";
->                                         status =3D "disabled";
->                                         fixed-link {
+In v1 Thierry had the concern:
 
-Gr{oetje,eeting}s,
+| That raises the question about what to do in these cases. If we return
+| an error, that could potentially throw off consumers. So perhaps the
+| closest would be to return a disabled PWM? Or perhaps it'd be up to the
+| consumer to provide some fallback configuration for invalidly configured
+| or unconfigured PWMs.
 
-                        Geert
+.get_state() is only called in pwm_device_request on a pwm_state that a
+consumer might see. Before my series a consumer might have seen a
+partial modified pwm_state (because .get_state() might have modified
+.period, then stumbled and returned silently). The last patch ensures
+that this partial modification isn't given out to the consumer. Instead
+they now see the same as if .get_state wasn't implemented at all.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Best regards
+Uwe
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Uwe Kleine-König (11):
+  pwm: Make .get_state() callback return an error code
+  pwm/tracing: Also record trace events for failed API calls
+  drm/bridge: ti-sn65dsi86: Propagate errors in .get_state() to the
+    caller
+  leds: qcom-lpg: Propagate errors in .get_state() to the caller
+  pwm: crc: Propagate errors in .get_state() to the caller
+  pwm: cros-ec: Propagate errors in .get_state() to the caller
+  pwm: imx27: Propagate errors in .get_state() to the caller
+  pwm: mtk-disp: Propagate errors in .get_state() to the caller
+  pwm: rockchip: Propagate errors in .get_state() to the caller
+  pwm: sprd: Propagate errors in .get_state() to the caller
+  pwm: Handle .get_state() failures
+
+ drivers/gpio/gpio-mvebu.c             |  9 ++++++---
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 14 ++++++++------
+ drivers/leds/rgb/leds-qcom-lpg.c      | 14 ++++++++------
+ drivers/pwm/core.c                    | 28 +++++++++++++++++----------
+ drivers/pwm/pwm-atmel.c               |  6 ++++--
+ drivers/pwm/pwm-bcm-iproc.c           |  8 +++++---
+ drivers/pwm/pwm-crc.c                 | 10 ++++++----
+ drivers/pwm/pwm-cros-ec.c             |  8 +++++---
+ drivers/pwm/pwm-dwc.c                 |  6 ++++--
+ drivers/pwm/pwm-hibvt.c               |  6 ++++--
+ drivers/pwm/pwm-imx-tpm.c             |  8 +++++---
+ drivers/pwm/pwm-imx27.c               |  8 +++++---
+ drivers/pwm/pwm-intel-lgm.c           |  6 ++++--
+ drivers/pwm/pwm-iqs620a.c             |  6 ++++--
+ drivers/pwm/pwm-keembay.c             |  6 ++++--
+ drivers/pwm/pwm-lpss.c                |  6 ++++--
+ drivers/pwm/pwm-meson.c               |  8 +++++---
+ drivers/pwm/pwm-mtk-disp.c            | 12 +++++++-----
+ drivers/pwm/pwm-pca9685.c             |  8 +++++---
+ drivers/pwm/pwm-raspberrypi-poe.c     |  8 +++++---
+ drivers/pwm/pwm-rockchip.c            | 12 +++++++-----
+ drivers/pwm/pwm-sifive.c              |  6 ++++--
+ drivers/pwm/pwm-sl28cpld.c            |  8 +++++---
+ drivers/pwm/pwm-sprd.c                |  8 +++++---
+ drivers/pwm/pwm-stm32-lp.c            |  8 +++++---
+ drivers/pwm/pwm-sun4i.c               | 12 +++++++-----
+ drivers/pwm/pwm-sunplus.c             |  6 ++++--
+ drivers/pwm/pwm-visconti.c            |  6 ++++--
+ drivers/pwm/pwm-xilinx.c              |  8 +++++---
+ include/linux/pwm.h                   |  4 ++--
+ include/trace/events/pwm.h            | 20 +++++++++----------
+ 31 files changed, 174 insertions(+), 109 deletions(-)
+
+
+base-commit: 50315945d178eebec4e8e2c50c265767ddb926eb
+-- 
+2.38.1
+
