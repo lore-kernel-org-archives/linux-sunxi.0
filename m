@@ -1,128 +1,70 @@
-Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F0376FA1
-	for <linux-sunxi@lists.linux.dev>; Wed, 30 Nov 2022 17:24:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1669828953; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=S/tfmU/bGGwQvtztH48Ct75lrbtqrXhXhFaZ/qxNerqJ91kUiHyxbc1jZgMG+4D0FKKkKH/4VQ3BLtqRTavpPoP0qk/GhDBztMZabk/SDYZC/2nEdVUnHFj4lt4oCEoZYdqNVJlYpWtQohH7Xk7iafENArs6IvnxKDn4lbCO+NY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1669828953; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=NbXEpZ0aVb9mBV+yGpUjXQNqRrz9CwkBfjyCJADEE7w=; 
-	b=C23QGjP6pvzkPw8IT2Uuj+OI28I1OxDdVDda3ZHxJKaLJwmEtBXvApFXi3zZ/mEx84iI22v9FKFVcEQyP1mwTeNAA8c8CIyncscoEw3nyF5RjPbZJoaHJj5B5pIq3hX61yGE+U4Eyaav9m6qghMn5BR1/svu5KRcXCc4bCqS2NY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=arinc9.com;
-	spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
-	dmarc=pass header.from=<arinc.unal@arinc9.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1669828952;
-	s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=NbXEpZ0aVb9mBV+yGpUjXQNqRrz9CwkBfjyCJADEE7w=;
-	b=fgVncX7MMGMyEBfpkO8jiLauPmhaMoiVDaHCHtIu1b+XSbYbH5rq3QxvQ66+UjGq
-	V03JuP9AIYknMLnVMBa8W3NqAG1KZGS1eLpr23f5DQnweBY5641jnmU3F92tMwbCwcF
-	9EJMyICQRP12neK7zmEutFcDRBKbw0f9SP1sI86M=
-Received: from [10.10.10.3] (37.120.152.236 [37.120.152.236]) by mx.zohomail.com
-	with SMTPS id 1669828951728942.0277054948851; Wed, 30 Nov 2022 09:22:31 -0800 (PST)
-Message-ID: <32638470-b074-3b14-bfb2-10b49307b9e3@arinc9.com>
-Date: Wed, 30 Nov 2022 20:22:15 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CC179C0;
+	Wed, 30 Nov 2022 18:37:32 +0000 (UTC)
+Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1p0Rwv-0003tW-CD; Wed, 30 Nov 2022 19:36:49 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Thierry Reding <thierry.reding@gmail.com>, Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Conor Dooley <conor.dooley@microchip.com>, Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Douglas Anderson <dianders@chromium.org>, Pavel Machek <pavel@ucw.cz>, Claudiu Beznea <claudiu.beznea@microchip.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Matthias Brugger <matthias.bgg@gmail.com>, Florian Fainelli <f.fainelli@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, Michael Walle <michael@walle.cc>, Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Hammer Hsieh <hammerh0314@gmail.com>, Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, Sean Anderson <sean.anderson@seco.com>, Michal Simek <michal.simek@xilinx.com>, Bjorn Andersson <andersson@kernel.org>, Stephen Boyd <swboyd@chromium.org>, Matthias Kaehlcke <mka@chromium.org>, Satya Priya <quic_c_skakit@quicinc.com>, linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-riscv@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 01/11] pwm: Make .get_state() callback return an error code
+Date: Wed, 30 Nov 2022 19:36:47 +0100
+Message-ID: <3943768.iZASKD2KPV@diego>
+In-Reply-To: <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
+References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de> <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 0/5] remove label = "cpu" from DSA dt-binding
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Vladimir Oltean <vladimir.oltean@nxp.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, soc@kernel.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Russell King <linux@armlinux.org.uk>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Florian Fainelli <f.fainelli@gmail.com>, Hauke Mehrtens <hauke@hauke-m.de>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
- Hans Ulli Kroll <ulli.kroll@googlemail.com>,
- Linus Walleij <linus.walleij@linaro.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Stefan Agner <stefan@agner.ch>,
- Heiko Stuebner <heiko@sntech.de>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Sergio Paracuellos <sergio.paracuellos@gmail.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Tim Harvey <tharvey@gateworks.com>, Peng Fan <peng.fan@nxp.com>,
- Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
- Frank Wunderlich <frank-w@public-files.de>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Oleksij Rempel <linux@rempel-privat.de>, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-rockchip@lists.infradead.org, linux-mips@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org
-References: <20221130141040.32447-1-arinc.unal@arinc9.com>
- <Y4d9B7VSHvqJn0iS@lunn.ch>
-Content-Language: en-US
-From: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-In-Reply-To: <Y4d9B7VSHvqJn0iS@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 30.11.2022 18:55, Andrew Lunn wrote:
-> On Wed, Nov 30, 2022 at 05:10:35PM +0300, Arınç ÜNAL wrote:
->> Hello folks,
->>
->> With this patch series, we're completely getting rid of 'label = "cpu";'
->> which is not used by the DSA dt-binding at all.
->>
->> Information for taking the patches for maintainers:
->> Patch 1: netdev maintainers (based off netdev/net-next.git main)
->> Patch 2-3: SoC maintainers (based off soc/soc.git soc/dt)
->> Patch 4: MIPS maintainers (based off mips/linux.git mips-next)
->> Patch 5: PowerPC maintainers (based off powerpc/linux.git next-test)
-> 
-> Hi Arınç
-> 
-> So your plan is that each architecture maintainer merges one patch?
+> diff --git a/drivers/pwm/pwm-rockchip.c b/drivers/pwm/pwm-rockchip.c
+> index a5af859217c1..3ec7d1756903 100644
+> --- a/drivers/pwm/pwm-rockchip.c
+> +++ b/drivers/pwm/pwm-rockchip.c
+> @@ -57,9 +57,9 @@ static inline struct rockchip_pwm_chip *to_rockchip_pwm_chip(struct pwm_chip *c)
+>  	return container_of(c, struct rockchip_pwm_chip, chip);
+>  }
+>  
+> -static void rockchip_pwm_get_state(struct pwm_chip *chip,
+> -				   struct pwm_device *pwm,
+> -				   struct pwm_state *state)
+> +static int rockchip_pwm_get_state(struct pwm_chip *chip,
+> +				  struct pwm_device *pwm,
+> +				  struct pwm_state *state)
+>  {
+>  	struct rockchip_pwm_chip *pc = to_rockchip_pwm_chip(chip);
+>  	u32 enable_conf = pc->data->enable_conf;
+> @@ -70,11 +70,11 @@ static void rockchip_pwm_get_state(struct pwm_chip *chip,
+>  
+>  	ret = clk_enable(pc->pclk);
+>  	if (ret)
+> -		return;
+> +		return 0;
+>  
+>  	ret = clk_enable(pc->clk);
+>  	if (ret)
+> -		return;
+> +		return 0;
+>  
+>  	clk_rate = clk_get_rate(pc->clk);
+>  
+> @@ -96,6 +96,8 @@ static void rockchip_pwm_get_state(struct pwm_chip *chip,
+>  
+>  	clk_disable(pc->clk);
+>  	clk_disable(pc->pclk);
+> +
+> +	return 0;
+>  }
 
-Initially, I sent this series to soc@kernel.org to take it all but Rob 
-said it must be this way instead.
+for the Rockchip-part:
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
-> 
-> That is fine, but it is good to be explicit, otherwise patches will
-> fall through the cracks because nobody picks them up. I generally use
-> To: to indicate who i expect to merge a patch, and everybody else in
-> the Cc:
 
-Thanks for this, I'll follow suit if I don't see any activity for a few 
-weeks.
-
-> 
-> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-> 
->      Andrew
-
-Arınç
