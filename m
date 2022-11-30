@@ -1,58 +1,58 @@
 Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273A77C
-	for <linux-sunxi@lists.linux.dev>; Wed, 30 Nov 2022 04:08:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619B562A
+	for <linux-sunxi@lists.linux.dev>; Wed, 30 Nov 2022 06:33:37 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 3DD063200958;
-	Tue, 29 Nov 2022 23:08:26 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Tue, 29 Nov 2022 23:08:27 -0500
+	by mailout.west.internal (Postfix) with ESMTP id 14DC032007D7;
+	Wed, 30 Nov 2022 01:33:36 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Wed, 30 Nov 2022 01:33:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1669781305; x=
-	1669867705; bh=Lmsmf4sJSUA0QJZ9UMg8yw1qEc3/5iR1aDuujhJHzeU=; b=Z
-	mF3iPYugU6qKj/U0XOfqj7kTjWE//yP8mj2uuhgmN53KZS+CmHPjd/UnHIZgdPM6
-	pCPXJF51r2Cm/r+hX+2vQL3VayLd7G31Pna7v+tH5eXYXror4FWzSJM1qmNkjz3B
-	UTFPpPIAC+fgscdJsM1SI9SFiXnCfkmeKPOIE5LzwTeyUnWghBjf4i9eIRcnnaGD
-	zGFk8L3rdIsQtLnz1qo8R4D4YZPMlrjGu/u3g4wiuPo1utm5xRSCBwHhx24b7Tk2
-	Wqnn4G5YrprRDHpvCaz/uuYZQd7yQ984Raa7gBEcrilFHT9w5aPko32Vr0neprIe
-	snUDOvzQrzs3OL08Wefjg==
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1669790015; x=
+	1669876415; bh=VW9z6eh5MzCdps/w72rAtJ1o+Cq+BDu6YqFNPuN/Giw=; b=Q
+	17t3D8DfFNssoKUiUtkMrJCYV4Qu5Lns4Ns/3WMMC/3Utb/z7DIhjx6kTaVByRUk
+	cSfAwtocDMBF8U37kjf9T6Ia/HAKxVLYda2oskkr726sxnoyYXw83CycFxwqlII/
+	9vNUdmISxvpnRjMcwRFU8YcygfWGxX1fAKvT+8alTjNw7ahKoL2AgB20rniGYcc3
+	tn8G5pmOkik7+Lv4O4LRfsfDQnoDy+exaTUPm419wbxWr2mZibV1JJwL2hoBY6ak
+	bZs6DM9fT1u0waFX9lSReULz3EyJB2aMGa8iBfnzGESCorzOyUFBzW2G/F0T+afB
+	9C0MU57g27OLawVLmeoAA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669781305; x=
-	1669867705; bh=Lmsmf4sJSUA0QJZ9UMg8yw1qEc3/5iR1aDuujhJHzeU=; b=l
-	1HiEqJ5rq0Q7FruTDzWCbA4cYO/o+iQnCw0QxCWGasxIHL5Kwh+zmc6dAsifeSDr
-	zlerQAgtvUBQ7p3xpWOWU1xkEEEs3PqZLEJHkornjr3k28fBeFIma3/SVGVOM5Et
-	jZNOgv0Ue4SYlOF+qizHfXyz0KPixIfPLzqA105qSH6YdJ9Tl5qOb1cIqCILUT+k
-	tLcLG8vATax3568bnorxDcyUf4ndmALY/QkbYuM51VZqS16fSCThzJ6I9n+dRH5N
-	RyeFyVfUiW8vShMeSvmPNXQu9hvuCkU+OzrEe2IfizUhio7afmkheluZwu14vch6
-	IEczGUMLBOfoJqgpM/2DA==
-X-ME-Sender: <xms:OdeGY7LdPGCX4FZwIL4BZdl3mrgrDv0KnydrrhXA8oQDCA4MAEPg2Q>
-    <xme:OdeGY_JsJq2ILucI9K7O9gKAthMBe5F7z_L6O73k2NwSYv4iX8GmUPzzCuySsId41
-    W7fhfe-Yo8pcEPqCw>
-X-ME-Received: <xmr:OdeGYzsntoFxxpGQwsNsXHxwTudAHx76cirSDqYpvRf5jAXOohaKTLmEUVHTa0gxdsrGlyHW4jLb2T0QUSXqu6H5zUoD6HtuM_vdYLQWWgUeMvHCIBj7eDQRjg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtddvgdeijecutefuodetggdotefrodftvf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1669790015; x=
+	1669876415; bh=VW9z6eh5MzCdps/w72rAtJ1o+Cq+BDu6YqFNPuN/Giw=; b=Y
+	dMkbn5sHGu0P+WhBWOx05swSv7qRd4+gkiZnlQ/7jciBFEaxBXZfVn+PI3om70W6
+	iFIL4n7/ZoM9L0dd6DIx04DPTG+M1e3uVF5A/7BqGiY741OZ7vGtVIyfyinO+15V
+	iMV4S0o1V4iT6nkstPUzA5oNRpHxcE83UO0wMoB1ChZCtlJqzYa0f4S/HPp8wnYe
+	zHpe/zyqqe27Qg5IZs26OLRUVcQ/QdNu5GACnp1kbqhnaD0kW4TSL/MaBGFO0IM9
+	BEThPHFh2xnXY2UNQq7JCbQpNpUlQSEbsi2PLdhZSMeOIeeE4Dismzqq5hbXabyc
+	bTsB+YPBFlDY94pS7buGQ==
+X-ME-Sender: <xms:P_mGY8nu5kNED_x-vSseXxdbLOE9zCGkznOYzoglcJVlA1AqE_Dadg>
+    <xme:P_mGY71dHhvyjUV80jrw7PjMHGUsMNLRLFtvHg3hOnn45eR21E7e0M5_-6YTVSDCu
+    FAWF6TWHzBGlUlrig>
+X-ME-Received: <xmr:P_mGY6oPwhsQugykJheaDLT2FLTXEOYrZp0BbA-GAop8HtdiRjS5O_VxdBq69PxWAOK_vyApAKfo0nR_P9lQgqX9T-p54onyRccPpacz2zHwfYopIWN3YjIa1w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtddvgdeljecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepkeejleelfeeitdfhtdfgkeeghedufeduueegffdvhfdukeelleef
-    tdetjeehuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    uegrihhlohhuthemuceftddtnecunecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtje
+    ertddtfeejnecuhfhrohhmpefurghmuhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhes
+    shhhohhllhgrnhgurdhorhhgqeenucggtffrrghtthgvrhhnpeduhffffefhffduudetvd
+    ffkeetveeiueegfeelleffiedtuddtffduhefgtdefgfenucffohhmrghinhepkhgvrhhn
+    vghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
     homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:OdeGY0YiFXspL2KvJIvRJFZKaSAXfNnKpZfYHKgaFxcZGVwd2p7gjQ>
-    <xmx:OdeGYyZAlu1Oh_LUC52p31kg7a0znjbUG5jM8DsJtFVh_A7bdZCwOg>
-    <xmx:OdeGY4AQir6JVVLn54k_qlsSIblpb0hxAzx5i8xKHfGz0UHuz3PyCA>
-    <xmx:OdeGY4NU-Xn33XbikNEUFOdFRfEcyl-CfMEelfqKDiKIE-M419jobg>
+X-ME-Proxy: <xmx:P_mGY4nTTk0ILD1f1KrMZyEtvrW_i2nFvK2F0TJJtFcAiv9XWAY9nA>
+    <xmx:P_mGY63rLMkxnfY_lvz6BoN37wx40Orql4rjoO1OhW3DcBxsjN7VvQ>
+    <xmx:P_mGY_tiQM47b1abrtwhv1PN3FnHtiqikMHTuUEI_MIDqFeCRcvqCw>
+    <xmx:P_mGY_wMtqx9GB33QqalSLdN-gAyxQmVywqQ7QpqJtwU3-A9s1S_lw>
 Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 29 Nov 2022 23:08:24 -0500 (EST)
-Message-ID: <37362a34-0e97-9c31-08fc-6815790c26a8@sholland.org>
-Date: Tue, 29 Nov 2022 22:08:23 -0600
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 30 Nov 2022 01:33:34 -0500 (EST)
+Message-ID: <ac1efa75-97d8-de8d-1e80-adc61a53269a@sholland.org>
+Date: Wed, 30 Nov 2022 00:33:33 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,44 +61,110 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
-Subject: Re: [PATCH v2 06/26] drm: sun4i: Define and use generic PM ops
+Subject: Re: [PATCH] mfd: axp20x: adapt to newly refactored unmask_base in
+ regmap-irq
+To: Icenowy Zheng <uwu@icenowy.me>
+Cc: linux-sunxi@lists.linux.dev, Lee Jones <lee@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, linux-kernel@vger.kernel.org
+References: <20221127072307.2092327-1-uwu@icenowy.me>
 Content-Language: en-US
-To: Paul Cercueil <paul@crapouillou.net>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20221129191733.137897-1-paul@crapouillou.net>
- <20221129191733.137897-7-paul@crapouillou.net>
 From: Samuel Holland <samuel@sholland.org>
-In-Reply-To: <20221129191733.137897-7-paul@crapouillou.net>
+In-Reply-To: <20221127072307.2092327-1-uwu@icenowy.me>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/29/22 13:17, Paul Cercueil wrote:
-> Use the new DEFINE_DRM_MODE_CONFIG_HELPER_PM_OPS() macro to create a
-> "struct dev_pm_ops" that can be used by this driver, instead of using
-> custom PM callbacks with the same behaviour.
-> 
-> v2: Use the DEFINE_DRM_MODE_CONFIG_HELPER_PM_OPS() macro instead of an
->     exported dev_pm_ops.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
-> 
-> Samuel: since the code changed I had to remove your reviewed-by, sorry
->         about that.
-> 
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Samuel Holland <samuel@sholland.org>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-sunxi@lists.linux.dev
-> ---
->  drivers/gpu/drm/sun4i/sun4i_drv.c | 26 ++++----------------------
->  1 file changed, 4 insertions(+), 22 deletions(-)
+Hi Icenowy,
 
-Reviewed-by: Samuel Holland <samuel@sholland.org>
+On 11/27/22 01:23, Icenowy Zheng wrote:
+> The mask_base and unmask_base fields in a regmap-irq description is
+> recently refactored to be orthogonal and mask_inverted property is
+> deprecated. The new semantics of unmask_base just fits AXP PMICs.
+> 
+> Specify enabling registers as unmask_base and drop mask_inverted
+> property to adapt to the new interface.
+> 
+> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+
+An equivalent patch was already merged:
+
+https://lore.kernel.org/lkml/20221112151835.39059-4-aidanmacdonald.0x0@gmail.com/
+
+> ---
+>  drivers/mfd/axp20x.c | 21 +++++++--------------
+>  1 file changed, 7 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
+> index 88a212a8168c..6e6b5dbab098 100644
+> --- a/drivers/mfd/axp20x.c
+> +++ b/drivers/mfd/axp20x.c
+> @@ -506,8 +506,7 @@ static const struct regmap_irq_chip axp152_regmap_irq_chip = {
+>  	.name			= "axp152_irq_chip",
+>  	.status_base		= AXP152_IRQ1_STATE,
+>  	.ack_base		= AXP152_IRQ1_STATE,
+> -	.mask_base		= AXP152_IRQ1_EN,
+> -	.mask_invert		= true,
+> +	.unmask_base		= AXP152_IRQ1_EN,
+>  	.init_ack_masked	= true,
+>  	.irqs			= axp152_regmap_irqs,
+>  	.num_irqs		= ARRAY_SIZE(axp152_regmap_irqs),
+> @@ -518,8 +517,7 @@ static const struct regmap_irq_chip axp20x_regmap_irq_chip = {
+>  	.name			= "axp20x_irq_chip",
+>  	.status_base		= AXP20X_IRQ1_STATE,
+>  	.ack_base		= AXP20X_IRQ1_STATE,
+> -	.mask_base		= AXP20X_IRQ1_EN,
+> -	.mask_invert		= true,
+> +	.unmask_base		= AXP20X_IRQ1_EN,
+>  	.init_ack_masked	= true,
+>  	.irqs			= axp20x_regmap_irqs,
+>  	.num_irqs		= ARRAY_SIZE(axp20x_regmap_irqs),
+> @@ -531,8 +529,7 @@ static const struct regmap_irq_chip axp22x_regmap_irq_chip = {
+>  	.name			= "axp22x_irq_chip",
+>  	.status_base		= AXP20X_IRQ1_STATE,
+>  	.ack_base		= AXP20X_IRQ1_STATE,
+> -	.mask_base		= AXP20X_IRQ1_EN,
+> -	.mask_invert		= true,
+> +	.unmask_base		= AXP20X_IRQ1_EN,
+>  	.init_ack_masked	= true,
+>  	.irqs			= axp22x_regmap_irqs,
+>  	.num_irqs		= ARRAY_SIZE(axp22x_regmap_irqs),
+> @@ -543,8 +540,7 @@ static const struct regmap_irq_chip axp288_regmap_irq_chip = {
+>  	.name			= "axp288_irq_chip",
+>  	.status_base		= AXP20X_IRQ1_STATE,
+>  	.ack_base		= AXP20X_IRQ1_STATE,
+> -	.mask_base		= AXP20X_IRQ1_EN,
+> -	.mask_invert		= true,
+> +	.unmask_base		= AXP20X_IRQ1_EN,
+>  	.init_ack_masked	= true,
+>  	.irqs			= axp288_regmap_irqs,
+>  	.num_irqs		= ARRAY_SIZE(axp288_regmap_irqs),
+> @@ -556,8 +552,7 @@ static const struct regmap_irq_chip axp803_regmap_irq_chip = {
+>  	.name			= "axp803",
+>  	.status_base		= AXP20X_IRQ1_STATE,
+>  	.ack_base		= AXP20X_IRQ1_STATE,
+> -	.mask_base		= AXP20X_IRQ1_EN,
+> -	.mask_invert		= true,
+> +	.unmask_base		= AXP20X_IRQ1_EN,
+>  	.init_ack_masked	= true,
+>  	.irqs			= axp803_regmap_irqs,
+>  	.num_irqs		= ARRAY_SIZE(axp803_regmap_irqs),
+> @@ -568,8 +563,7 @@ static const struct regmap_irq_chip axp806_regmap_irq_chip = {
+>  	.name			= "axp806",
+>  	.status_base		= AXP20X_IRQ1_STATE,
+>  	.ack_base		= AXP20X_IRQ1_STATE,
+> -	.mask_base		= AXP20X_IRQ1_EN,
+> -	.mask_invert		= true,
+> +	.unmask_base		= AXP20X_IRQ1_EN,
+>  	.init_ack_masked	= true,
+>  	.irqs			= axp806_regmap_irqs,
+>  	.num_irqs		= ARRAY_SIZE(axp806_regmap_irqs),
+> @@ -580,8 +574,7 @@ static const struct regmap_irq_chip axp809_regmap_irq_chip = {
+>  	.name			= "axp809",
+>  	.status_base		= AXP20X_IRQ1_STATE,
+>  	.ack_base		= AXP20X_IRQ1_STATE,
+> -	.mask_base		= AXP20X_IRQ1_EN,
+> -	.mask_invert		= true,
+> +	.unmask_base		= AXP20X_IRQ1_EN,
+>  	.init_ack_masked	= true,
+>  	.irqs			= axp809_regmap_irqs,
+>  	.num_irqs		= ARRAY_SIZE(axp809_regmap_irqs),
 
