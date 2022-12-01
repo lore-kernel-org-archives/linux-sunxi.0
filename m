@@ -1,17 +1,17 @@
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54982EC4
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 Dec 2022 06:14:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2ED9EC4
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Dec 2022 06:14:32 +0000 (UTC)
 Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ore@pengutronix.de>)
-	id 1p0cot-0005vD-4h; Thu, 01 Dec 2022 07:13:15 +0100
+	id 1p0cpU-0005yr-J8; Thu, 01 Dec 2022 07:13:52 +0100
 Received: from ore by ptx.hi.pengutronix.de with local (Exim 4.92)
 	(envelope-from <ore@pengutronix.de>)
-	id 1p0coe-0002BZ-Us; Thu, 01 Dec 2022 07:13:00 +0100
-Date: Thu, 1 Dec 2022 07:13:00 +0100
+	id 1p0cpS-0002De-7V; Thu, 01 Dec 2022 07:13:50 +0100
+Date: Thu, 1 Dec 2022 07:13:50 +0100
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: =?utf-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
 Cc: Vladimir Oltean <vladimir.oltean@nxp.com>,
@@ -61,19 +61,18 @@ Cc: Vladimir Oltean <vladimir.oltean@nxp.com>,
 	Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
 	Frank Wunderlich <frank-w@public-files.de>,
 	Michael Riesch <michael.riesch@wolfvision.net>,
-	Oleksij Rempel <linux@rempel-privat.de>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	Oleksij Rempel <linux@rempel-privat.de>, devicetree@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
 	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
+	linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
 	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
-	linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 1/5] dt-bindings: net: qca,ar71xx: remove label = "cpu"
- from examples
-Message-ID: <20221201061300.GD19642@pengutronix.de>
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 4/5] mips: dts: remove label = "cpu" from DSA dt-binding
+Message-ID: <20221201061350.GE19642@pengutronix.de>
 References: <20221130141040.32447-1-arinc.unal@arinc9.com>
- <20221130141040.32447-2-arinc.unal@arinc9.com>
+ <20221130141040.32447-5-arinc.unal@arinc9.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -83,7 +82,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221130141040.32447-2-arinc.unal@arinc9.com>
+In-Reply-To: <20221130141040.32447-5-arinc.unal@arinc9.com>
 X-Sent-From: Pengutronix Hildesheim
 X-URL: http://www.pengutronix.de/
 X-Accept-Language: de,en
@@ -94,35 +93,31 @@ X-SA-Exim-Mail-From: ore@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On Wed, Nov 30, 2022 at 05:10:36PM +0300, Arınç ÜNAL wrote:
-> This is not used by the DSA dt-binding, so remove it from the examples.
+On Wed, Nov 30, 2022 at 05:10:39PM +0300, Arınç ÜNAL wrote:
+> This is not used by the DSA dt-binding, so remove it from all devicetrees.
 > 
 > Signed-off-by: Arınç ÜNAL <arinc.unal@arinc9.com>
+> ---
+>  arch/mips/boot/dts/qca/ar9331.dtsi    | 1 -
+>  arch/mips/boot/dts/ralink/mt7621.dtsi | 1 -
+>  2 files changed, 2 deletions(-)
+> 
+> diff --git a/arch/mips/boot/dts/qca/ar9331.dtsi b/arch/mips/boot/dts/qca/ar9331.dtsi
+> index c4102b280b47..768ac0f869b1 100644
+> --- a/arch/mips/boot/dts/qca/ar9331.dtsi
+> +++ b/arch/mips/boot/dts/qca/ar9331.dtsi
+> @@ -176,7 +176,6 @@ ports {
+>  
+>  						switch_port0: port@0 {
+>  							reg = <0x0>;
+> -							label = "cpu";
+>  							ethernet = <&eth1>;
+>  
+>  							phy-mode = "gmii";
 
 Reviewed-by: Oleksij Rempel <o.rempel@pengutronix.de>
 
-Thx!
-
-> ---
->  Documentation/devicetree/bindings/net/qca,ar71xx.yaml | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/net/qca,ar71xx.yaml b/Documentation/devicetree/bindings/net/qca,ar71xx.yaml
-> index 1ebf9e8c8a1d..89f94b31b546 100644
-> --- a/Documentation/devicetree/bindings/net/qca,ar71xx.yaml
-> +++ b/Documentation/devicetree/bindings/net/qca,ar71xx.yaml
-> @@ -123,7 +123,6 @@ examples:
->  
->                      switch_port0: port@0 {
->                          reg = <0x0>;
-> -                        label = "cpu";
->                          ethernet = <&eth1>;
->  
->                          phy-mode = "gmii";
-> -- 
-> 2.34.1
-> 
-> 
+Thx! 
 
 -- 
 Pengutronix e.K.                           |                             |
