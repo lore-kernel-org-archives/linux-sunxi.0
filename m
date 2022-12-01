@@ -1,130 +1,167 @@
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F062D505
-	for <linux-sunxi@lists.linux.dev>; Wed, 30 Nov 2022 21:49:56 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.west.internal (Postfix) with ESMTP id 0F467320094F;
-	Wed, 30 Nov 2022 16:49:52 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Wed, 30 Nov 2022 16:49:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm1; t=1669844992; x=1669931392; bh=wX9irGcUbl
-	Xc4RqeTgp4fnnU07GYdQWcxMiKg/SvwkU=; b=fYP7D2uDlDvE8/Ds6VeE/7Js1t
-	bQFViWjZyp6L1w5ntvcYnOcilhM10S3q+BNI1JWhdoIwvpWjZlWAOworhoWcVC2+
-	8evG3Ri+9YaIU5U9QPfzxxLZv9wL1auCHYE9/jJWKEEm6JcDVYM9dpVXV47DXJb3
-	sNe+s8hoXA7EwOX+vH6kgRgJAsMP3YNc0+OzJnCHwNNew7Ck3FSHU+BEbmmAXqsp
-	UufeNGRBPTOyxyQcufueB/l3uuigsAy0KC4FyJwg7DzMKElSkXUQ2K6c7qSvbnrn
-	ngWxB5GElmPps4W52sfKfcG/b58vwh54QnZ42F8I9CO6rncEFs2Q2XWj4b8g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1669844992; x=1669931392; bh=wX9irGcUblXc4RqeTgp4fnnU07GY
-	dQWcxMiKg/SvwkU=; b=LAaMgeKHxDISnihMHN5JzfsPU/S073/o2JnSspeGe+5c
-	gvEoMGdMjeDlUm//JERDpnVz3KrA32Pf04rq+wVo2H/NL7GCHRF9Axf672OvY/zg
-	CqxBqSCadZ5oZnRryunTZf+VZYN50zsuKHr7w2+0aBP19Kqpt5zImOq2qCV5DLRB
-	RZiVt43z4EFtj5A7UP7t1sFiI2cXyvoaqofTrRE0UOUzgnS3rNCSplrRlCQUtzCx
-	JmpMPbaTaksHqTNArpFMHArbo1LQoXjnU5ijTrq9Wjd925hE4IpfKndQGbMHCUJy
-	dOznD9JmmTcbsYrAnMcqUnfVj5zL+7ThHqHwp+ejtA==
-X-ME-Sender: <xms:_8-HYxmp-_ZaWfU5EVYBM0XPygw6gQuSYzh3odRSxPjKPwe8lSLG_g>
-    <xme:_8-HY82RFRwOo7I1sXZjOpFP8uVh_qY3FBNPbwEt58oL_FZKl5tKfYLvMD8R8X4Sf
-    86f1wqnLGKfyohi-p0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtdefgdduhedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:_8-HY3qaiXy8wIy2OuRAjh--jtlSPfQqTADfp7VrLDcA0Cp9Y2VzdQ>
-    <xmx:_8-HYxnOuyA-4BOEGwKLSRJK06g9oqFSPuKvVKZdBzdd_nYeRmdsHg>
-    <xmx:_8-HY_36cJSstcsQ1L2lDJ9tqJVuaaTT9WDPjSLiRP_HA2mj0gALzQ>
-    <xmx:ANCHY4dUQeAv_Y2f9f1ZgRo7GBQRvD6LpXfyzmE_bPQCFCm1TMCm1w>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 5EF4DB60086; Wed, 30 Nov 2022 16:49:51 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1115-g8b801eadce-fm-20221102.001-g8b801ead
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95A607E0
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Dec 2022 00:33:01 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 67E7AD6E;
+	Wed, 30 Nov 2022 16:33:01 -0800 (PST)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1D8763F67D;
+	Wed, 30 Nov 2022 16:32:50 -0800 (PST)
+Date: Thu, 1 Dec 2022 00:31:02 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Conor Dooley <conor@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Will
+ Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+ ajones@ventanamicro.com, heiko@sntech.de, samuel@sholland.org,
+ wens@csie.org, jernej.skrabec@gmail.com, linux-sunxi@lists.linux.dev,
+ linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, jszhang@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ aou@eecs.berkeley.edu, apatel@ventanamicro.com, Atish Patra
+ <atishp@rivosinc.com>, christianshewitt@gmail.com, Conor Dooley
+ <conor.dooley@microchip.com>, guoren@kernel.org,
+ heinrich.schuchardt@canonical.com, linus.walleij@linaro.org, Paul Walmsley
+ <paul.walmsley@sifive.com>, stano.jakubek@gmail.com
+Subject: Re: [PATCH v2 12/12] riscv: defconfig: Enable the Allwinner D1
+ platform and drivers
+Message-ID: <20221201003102.1b131a2d@slackpad.lan>
+In-Reply-To: <mhng-f034544d-5b0a-47c5-8e45-3dbcefc0aaaa@palmer-ri-x1c9a>
+References: <BBF52D3D-B8D3-4895-B316-33555E22C56B@kernel.org>
+	<mhng-f034544d-5b0a-47c5-8e45-3dbcefc0aaaa@palmer-ri-x1c9a>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <7fcafe92-35d9-4a83-b00d-7816fdb43139@app.fastmail.com>
-In-Reply-To: <mhng-f034544d-5b0a-47c5-8e45-3dbcefc0aaaa@palmer-ri-x1c9a>
-References: <mhng-f034544d-5b0a-47c5-8e45-3dbcefc0aaaa@palmer-ri-x1c9a>
-Date: Wed, 30 Nov 2022 22:49:31 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Palmer Dabbelt" <palmer@dabbelt.com>, "Conor Dooley" <conor@kernel.org>,
- "Will Deacon" <will@kernel.org>, "Marc Zyngier" <maz@kernel.org>
-Cc: ajones@ventanamicro.com, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- "Samuel Holland" <samuel@sholland.org>, "Chen-Yu Tsai" <wens@csie.org>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
- linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
- krzysztof.kozlowski+dt@linaro.org, "Rob Herring" <robh+dt@kernel.org>,
- "Jisheng Zhang" <jszhang@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, "Andre Przywara" <andre.przywara@arm.com>,
- "Albert Ou" <aou@eecs.berkeley.edu>, "Anup Patel" <apatel@ventanamicro.com>,
- "Atish Patra" <atishp@rivosinc.com>, christianshewitt@gmail.com,
- "Conor.Dooley" <conor.dooley@microchip.com>, guoren <guoren@kernel.org>,
- heinrich.schuchardt@canonical.com,
- "Linus Walleij" <linus.walleij@linaro.org>,
- "Paul Walmsley" <paul.walmsley@sifive.com>, stano.jakubek@gmail.com
-Subject: Re: [PATCH v2 12/12] riscv: defconfig: Enable the Allwinner D1 platform and
- drivers
-Content-Type: text/plain
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 30, 2022, at 21:24, Palmer Dabbelt wrote:
+On Wed, 30 Nov 2022 12:24:08 -0800 (PST)
+Palmer Dabbelt <palmer@dabbelt.com> wrote:
+
+Hi,
+
 > On Mon, 28 Nov 2022 22:54:18 PST (-0800), Conor Dooley wrote:
->>
->> idk, defconfig to me is not about you or I, it's about A Developer that gets an SBC or a devkit and their experience.
->> Or alternatively, someone's CI ;)
->> I'd like to put everything in, but I recall that being shot down, that's all.
->
-> The whole "who is defconfig for" discussion always ends up kind of 
-> vague, but IIUC it's generally aimed at kernel hackers as opposed to end 
-> users -- so it's not meant to be a disto config, that's why we have 
-> things like the debug options turned on.  I tend to think of it as a "if 
-> a patch submitter is going to test only one config, then what do I want 
+> >
+> >
+> > On 29 November 2022 06:49:25 GMT, Andrew Jones <ajones@ventanamicro.com=
+> wrote: =20
+> >>On Mon, Nov 28, 2022 at 09:17:38PM +0000, Conor Dooley wrote: =20
+> >>> On 28/11/2022 21:11, Heiko St=C3=BCbner wrote: =20
+> >>> > Am Samstag, 26. November 2022, 17:40:11 CET schrieb Conor Dooley: =
+=20
+> >>> >> On Fri, Nov 25, 2022 at 05:46:56PM -0600, Samuel Holland wrote: =20
+> >>> >>> Now that several D1-based boards are supported, enable the platfo=
+rm in
+> >>> >>> our defconfig. Build in the drivers which are necessary to boot, =
+such as
+> >>> >>> the pinctrl, MMC, RTC (which provides critical clocks), SPI (for =
+flash),
+> >>> >>> and watchdog (which may be left enabled by the bootloader). =20
+> >>> >>
+> >>> >> All of that looks good.
+> >>> >> =20
+> >>> >>> Other common
+> >>> >>> onboard peripherals are enabled as modules. =20
+> >>> >>
+> >>> >> This I am not sure about though. I'll leave that to Palmer since I=
+'m
+> >>> >> pretty sure it was him that said it, but I thought the plan was on=
+ly
+> >>> >> turning on stuff required to boot to a console & things that are
+> >>> >> generally useful rather than enabling modules for everyone's "rand=
+om"
+> >>> >> drivers. Palmer? =20
+> >>> >=20
+> >>> > Isn't the defconfig meant as a starting point to get working systems
+> >>> > with minimal config effort? At least that was always the way to go =
+on arm
+> >>> > so far :-) .
+> >>> >=20
+> >>> > So having boot-required drivers built-in with the rest enabled as m=
+odules
+> >>> > for supported boards will allow people to boot theirs without heada=
+ches.
+> >>> >=20
+> >>> > Disabling unneeded drivers if you're starved for storage space in a=
+ special
+> >>> > project is always easier than hunting down all the drivers to enabl=
+e for a
+> >>> > specific board.  =20
+> >>>=20
+> >>> I wouldn't mind being able to turn on all the PolarFire SoC stuff and
+> >>> yeah, that would be the way that arm64 does it. But I do recall heari=
+ng
+> >>> that I should not turn stuff on this way, when I initially tried to
+> >>> turn stuff on via selects, got a nack and asked if I could do this in=
+stead.
+> >>>=20
+> >>> But it may be that I misremember, which is why I appealed to the High=
+er
+> >>> Powers for clarification :) =20
+> >>
+> >>FWIW, I don't worry too much about modules in defconfig because I always
+> >>immediately apply a 'LSMOD=3D$PWD/L localmodconfig' to it, where the L
+> >>file is an lsmod output which only includes modules I need. =20
+> >
+> > idk, defconfig to me is not about you or I, it's about A Developer that=
+ gets an SBC or a devkit and their experience.
+> > Or alternatively, someone's CI ;)
+> > I'd like to put everything in, but I recall that being shot down, that'=
+s all. =20
+>=20
+> The whole "who is defconfig for" discussion always ends up kind of=20
+> vague, but IIUC it's generally aimed at kernel hackers as opposed to end=
+=20
+> users -- so it's not meant to be a disto config, that's why we have=20
+> things like the debug options turned on.  I tend to think of it as a "if=
+=20
+> a patch submitter is going to test only one config, then what do I want=20
 > in it?" and let that determine what goes in defconfig.
->
-> IMO having defconfig contain the drivers necessary to boot every common 
-> dev board as =y, and having =m for anything else on those boards also 
-> seem reasonable.  That will make the transition from vendor/distro 
-> kernels to upstream a bit smoother, which is always good.  I guess 
-> there's some slight build time and image size issues, but aside from 
-> some very small systems that shouldn't be too bad for kernel developers 
-> -- and if we really end up with another popular system with 6MiB of RAM 
+
+Yes, this is also the guideline for arm64. On top of that it's supposed
+to be a sane common config to be used to reproduce bugs. A common
+question from maintainers is "Does it happen with defconfig?". If not,
+what does it take on top of defconfig to get there?
+The idea is that people can run the same config and thus the same image
+on *their* boards, regardless of the particular platform.
+
+> IMO having defconfig contain the drivers necessary to boot every common=20
+> dev board as =3Dy, and having =3Dm for anything else on those boards also=
+=20
+> seem reasonable.  That will make the transition from vendor/distro=20
+> kernels to upstream a bit smoother, which is always good.  I guess=20
+> there's some slight build time and image size issues, but aside from=20
+> some very small systems that shouldn't be too bad for kernel developers=20
+> -- and if we really end up with another popular system with 6MiB of RAM=20
 > we can just stick another tiny defconfig in there for it.
->
-> I actually don't use modules when doing kernel development because I 
-> find it easier to track things when they're packed into a single binary, 
+>=20
+> I actually don't use modules when doing kernel development because I=20
+> find it easier to track things when they're packed into a single binary,=
+=20
+
+Originally arm64 included most drivers as [=3Dy], but this grew too big
+quickly, so it was scaled back to be able to boot from the board's mass
+storage (SD card, SATA, NVMe), with non-essential drivers included as
+modules. And yes, most people just build and use the Image, which keeps
+the build effort reasonable.
+Also required features to make systemd happy, and to enable other core
+distro features, were included, so that such kernels can boot distro
+userland without losing significant functionality.
+
 > but I don't think it's necessary to steer everyone that way.
->
-> Adding some of the Arm folks here, in case they have thoughts.  The best 
-> bet is probably to try and do something similar, though my worry is that 
-> the answer is something like "target standard platforms" and we don't 
+>=20
+> Adding some of the Arm folks here, in case they have thoughts.  The best=
+=20
+> bet is probably to try and do something similar, though my worry is that=
+=20
+> the answer is something like "target standard platforms" and we don't=20
 > have any.
 
-I think this is handled very inconsistently across architectures. On
-32-bit arm, we used to have a board specific defconfig for each machine,
-but of course that never scaled to the number of supported machines.
+No such thing on arm64 either :-(
 
-The important defconfig files we have these days are the arm64
-one, and on arm32 we have the ones that are mutually incompatible,
-in particular one for armv7 and one for armv5, each enabling as
-many machines as possible, plus usually one per SoC vendor that
-is more specialized.
-
-If you want to formalize it a bit more than this,  I would recommend
-having more fragments, e.g. one for typical debugging options,
-one for things that are needed to boot both Fedora and Debian
-userland, etc.
-
-      Arnd
+Cheers,
+Andre
