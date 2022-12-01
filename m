@@ -1,167 +1,101 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5146FD7
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 Dec 2022 15:37:37 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id x2so2930654edd.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 01 Dec 2022 07:37:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=14XZ2O4FVzL1QGTsdtTUFr9T59k2FsnxsuG+9VtNi+I=;
-        b=YOSKLNbCT/4q5PjmWEt1oRxSc0fAHVkR9aCRojDmy6dX3JIfmuh09oI2+RqgLe5/jd
-         rhksY1dFQr1NIf0y+S4W3Srw2WU7sHKiYYle1iNRxPBiBIzFXL82IukHMHMtY9muYje3
-         xmUTZGxkap/l3tbGPVsjXSxV7D/2u9/HaWZ6g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=14XZ2O4FVzL1QGTsdtTUFr9T59k2FsnxsuG+9VtNi+I=;
-        b=rXJl4DEOVq6Ygez+WP8+CGTrFpngimx/p7VqVL50bMaaFv4rkSq7k9C9IlB+e7XQwM
-         C9P8XCdAadnBCFfZtGLFqm2SDRSIy+CcJu2M+yZEYXzfcEx07b2CbfF5yN0OFFS4tf2Y
-         XSFXjaxfTgonWA1LICflBN39WiijQdAlkQrsG0hdmlxGnPN2/D38Pipb1RnQvFGfXqnT
-         pFU8Gq/HiDU0Dn4mtOizUsIV0fhfe/TwCQEowLc+nhqxiFo8wVHtVVxuoFCZlioPtBeI
-         mVv+joiCGbTPrlkL3V0QcdAhs8FzI5Rxnh5SB7EqyLYD6i2w3TNLaKVjdpVGxGGvitnD
-         KvBQ==
-X-Gm-Message-State: ANoB5pn4L/f0g3Cjiq8KfNc88w10u+UzCCFy5zSkziZ1JOpby5YfTJtN
-	pU9vImjNtuI6euLm0bDCSv3Xxl8rlaRLgZII
-X-Google-Smtp-Source: AA0mqf7rVItqy+guPs2659eAM/G7xVyo3dfU5FQSgAtfJZcFtncpd+DOYze6C+qaM4EpdawiSIBByA==
-X-Received: by 2002:a05:6402:4147:b0:461:b2b1:9702 with SMTP id x7-20020a056402414700b00461b2b19702mr870350eda.274.1669909055257;
-        Thu, 01 Dec 2022 07:37:35 -0800 (PST)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com. [209.85.221.44])
-        by smtp.gmail.com with ESMTPSA id ee30-20020a056402291e00b0046b531fcf9fsm1857962edb.59.2022.12.01.07.37.32
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Dec 2022 07:37:33 -0800 (PST)
-Received: by mail-wr1-f44.google.com with SMTP id x17so3290969wrn.6
-        for <linux-sunxi@lists.linux.dev>; Thu, 01 Dec 2022 07:37:32 -0800 (PST)
-X-Received: by 2002:a5d:4950:0:b0:242:1f80:6cd9 with SMTP id
- r16-20020a5d4950000000b002421f806cd9mr9556520wrs.405.1669909041754; Thu, 01
- Dec 2022 07:37:21 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4916E6FD7
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Dec 2022 15:48:40 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1p0lnW-0003Yb-1w; Thu, 01 Dec 2022 16:48:26 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1p0lnT-001c1s-6G; Thu, 01 Dec 2022 16:48:23 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1p0lnS-001pRK-QQ; Thu, 01 Dec 2022 16:48:22 +0100
+Date: Thu, 1 Dec 2022 16:48:22 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-pwm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] pwm: sun4i: Propagate errors in .get_state() to the
+ caller
+Message-ID: <20221201154822.mx7jafj3tyxes5ab@pengutronix.de>
+References: <20221201152223.3133-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de> <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 1 Dec 2022 07:37:08 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=VJ-YygjS9ukN8+hYxebUneFd-8=UEX3ZvSVQso7CGgng@mail.gmail.com>
-Message-ID: <CAD=FV=VJ-YygjS9ukN8+hYxebUneFd-8=UEX3ZvSVQso7CGgng@mail.gmail.com>
-Subject: Re: [PATCH v2 01/11] pwm: Make .get_state() callback return an error code
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Conor Dooley <conor.dooley@microchip.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Pavel Machek <pavel@ucw.cz>, 
-	Claudiu Beznea <claudiu.beznea@microchip.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Florian Fainelli <f.fainelli@gmail.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Michael Walle <michael@walle.cc>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, 
-	Hammer Hsieh <hammerh0314@gmail.com>, 
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, Sean Anderson <sean.anderson@seco.com>, 
-	Michal Simek <michal.simek@xilinx.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Stephen Boyd <swboyd@chromium.org>, Matthias Kaehlcke <mka@chromium.org>, 
-	Satya Priya <quic_c_skakit@quicinc.com>, linux-pwm@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	chrome-platform@lists.linux.dev, linux-amlogic@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="pvzzkh5g6gs7wysj"
+Content-Disposition: inline
+In-Reply-To: <20221201152223.3133-1-andre.przywara@arm.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+
+
+--pvzzkh5g6gs7wysj
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Wed, Nov 30, 2022 at 7:22 AM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
->
-> .get_state() might fail in some cases. To make it possible that a driver
-> signals such a failure change the prototype of .get_state() to return an
-> error code.
->
-> This patch was created using coccinelle and the following semantic patch:
->
-> @p1@
-> identifier getstatefunc;
-> identifier driver;
-> @@
->  struct pwm_ops driver =3D {
->         ...,
->         .get_state =3D getstatefunc
->         ,...
->  };
->
-> @p2@
-> identifier p1.getstatefunc;
-> identifier chip, pwm, state;
-> @@
-> -void
-> +int
->  getstatefunc(struct pwm_chip *chip, struct pwm_device *pwm, struct pwm_s=
-tate *state)
->  {
->    ...
-> -  return;
-> +  return 0;
->    ...
->  }
->
-> plus the actual change of the prototype in include/linux/pwm.h (plus some
-> manual fixing of indentions and empty lines).
->
-> So for now all drivers return success unconditionally. They are adapted
-> in the following patches to make the changes easier reviewable.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+On Thu, Dec 01, 2022 at 03:22:23PM +0000, Andre Przywara wrote:
+> .get_state() can return an error indication now. Make use of it to
+> propagate an impossible prescaler encoding, should that have sneaked in
+> somehow.
+> Also check the return value of clk_get_rate(). That's unlikely to fail,
+> but we use that in two divide operations down in the code, so let's
+> avoid a divide-by-zero condition on the way.
+>=20
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
->  drivers/gpio/gpio-mvebu.c             |  9 ++++++---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 14 ++++++++------
->  drivers/leds/rgb/leds-qcom-lpg.c      | 14 ++++++++------
->  drivers/pwm/pwm-atmel.c               |  6 ++++--
->  drivers/pwm/pwm-bcm-iproc.c           |  8 +++++---
->  drivers/pwm/pwm-crc.c                 | 10 ++++++----
->  drivers/pwm/pwm-cros-ec.c             |  8 +++++---
->  drivers/pwm/pwm-dwc.c                 |  6 ++++--
->  drivers/pwm/pwm-hibvt.c               |  6 ++++--
->  drivers/pwm/pwm-imx-tpm.c             |  8 +++++---
->  drivers/pwm/pwm-imx27.c               |  8 +++++---
->  drivers/pwm/pwm-intel-lgm.c           |  6 ++++--
->  drivers/pwm/pwm-iqs620a.c             |  6 ++++--
->  drivers/pwm/pwm-keembay.c             |  6 ++++--
->  drivers/pwm/pwm-lpss.c                |  6 ++++--
->  drivers/pwm/pwm-meson.c               |  8 +++++---
->  drivers/pwm/pwm-mtk-disp.c            | 12 +++++++-----
->  drivers/pwm/pwm-pca9685.c             |  8 +++++---
->  drivers/pwm/pwm-raspberrypi-poe.c     |  8 +++++---
->  drivers/pwm/pwm-rockchip.c            | 12 +++++++-----
->  drivers/pwm/pwm-sifive.c              |  6 ++++--
->  drivers/pwm/pwm-sl28cpld.c            |  8 +++++---
->  drivers/pwm/pwm-sprd.c                |  8 +++++---
->  drivers/pwm/pwm-stm32-lp.c            |  8 +++++---
->  drivers/pwm/pwm-sun4i.c               | 12 +++++++-----
->  drivers/pwm/pwm-sunplus.c             |  6 ++++--
->  drivers/pwm/pwm-visconti.c            |  6 ++++--
->  drivers/pwm/pwm-xilinx.c              |  8 +++++---
->  include/linux/pwm.h                   |  4 ++--
->  29 files changed, 146 insertions(+), 89 deletions(-)
+> Hi,
+>=20
+> this goes on top of Uwe's series to introduce and observe .get_state
+> failures: https://lore.kernel.org/linux-pwm/20221130152148.2769768-12-u.k=
+leine-koenig@pengutronix.de/T/#m9af39aa03bbd9bb7b31b3600f110c65ee0e8e70b
+> Actually it only relies on patch 01/11 from that.
 
-For ti-sn65dsi86.c:
+I recommend to put this info in machine-readable form into your patch.
+If you applied my patch #1 on v6.1-rc1 and this on top, you'd do
 
-Acked-by: Douglas Anderson <dianders@chromium.org>
+	git format-patch -1 --base v6.1-rc1
+
+This results in two additional lines that the build bots can evaluate,
+to find the right setup to test your patch.
+
+Apart from that:
+
+Reviewed-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+
+and thanks to pick up on this topic,
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--pvzzkh5g6gs7wysj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOIzMMACgkQwfwUeK3K
+7AmPYQf/VRLlVm87HsOU2kfflZl+lqtTUd7MlJ7BwKXnoZsV/+jaa0fyh5Qpj7uR
+ajDzWrjYS22y5ec6BtJLSaVRSqrwXaW95RIJa4TUL9SH2vbSMNxqjFvhhRY85Ej3
+kwXqmAPojkmpjIjgEsu7MMQLla1idHqZu1ltfLS5WMPZ6fLgtXWq1S4Ba27ebiZo
+ymH89B/4P+3wEjUYnZggZmWW4H6jtoE3FfJUzKpeUt7+Ol8gFFSRj55bDmf490uS
+UcHRYaLkK+dNfGRhhr+A2QGNDOaE131UOVutxbUAnR7xvD2I+eYgUo/22f+pvwHR
+fe3ytW37idP6SAae/HZsPz3yfE8Jlw==
+=ZiZt
+-----END PGP SIGNATURE-----
+
+--pvzzkh5g6gs7wysj--
