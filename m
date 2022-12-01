@@ -1,46 +1,30 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A95910F1
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 Dec 2022 08:03:50 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id f18so1371441wrj.5
-        for <linux-sunxi@lists.linux.dev>; Thu, 01 Dec 2022 00:03:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:reply-to:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=RAIQbbxtK2nJ1NbUghrZ93yJMEm2LyReQuktQwQ+yXw=;
-        b=Lo8p+aDFlKlZfG6pP0n7RZNEjwZK+wrouNetRK3rZv63MbeCUctT1ieDjkKZxl3LvQ
-         1IUxcYuylIWjoy7vKgfrNL5bEmzdei5+43ayKtzqRIyOjWYlsoDieQD7IgspPDeYN4Rg
-         g0Tg2r6urLUhUddkFA8F1g+Y6MZ6LYzNVPQKNUdc62bCqGXALe+tEuJdy6U6nHFQ1VTs
-         pd9A/smgMPI5kbQN+yqEnGZNPKCbNRwE4VhlqdS4p01McAPr9GKRJDIzQjVNyphai7am
-         M+pt/qh8ja70rWDWaq5xcHGdzPkZEr0JVoVeIN0FLdIf+5vnAZEi/TDzF6dIxj4puvKU
-         V1rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:reply-to:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RAIQbbxtK2nJ1NbUghrZ93yJMEm2LyReQuktQwQ+yXw=;
-        b=6OsODjGc8RXTE4IKIpixzVap8sj1sHr1p75/YE0Gg+qcL+BTbr8IG3mD0zHnRm9dNx
-         Z1Fe9IJj32dJrOxssu42q0kzoORcurgn7ME/AdUYjvZHwBmd4WWG48WXwXDN4pCeMfY5
-         GuF263WVqD9capONJJOnB+44dzVmw7vUoC9/hVTBIbrdDMdfN3/aBfOKNDT5QVsvhTzG
-         4YQl5CnkjuML1dKGKHTKk4rW1cZPHwWkLQ1uAsjqr7XkLnvFL2uWQRYQd1S5iDIDbYUa
-         KjKRR2zFrNdk6V+L9vkIVrzxKdtOUn+emWwrwigPXYvWd7dCGmAknmG8wECkWPQcZUFG
-         hltA==
-X-Gm-Message-State: ANoB5pm9nobBk0H4GB0l6dXc37VqVKMfW05KMKhwGik44GMCLpn2v7pt
-	nixOI2DD9rmFvVbNRUK5fMUxVw==
-X-Google-Smtp-Source: AA0mqf54lvafHdVKKM2CGBzb3Ly91fbeS37TZTU/o75hgaix+kcG2rGxchFiaWC/vEjl7eP4KzxYJQ==
-X-Received: by 2002:a05:6000:1d92:b0:241:6e0a:bfe6 with SMTP id bk18-20020a0560001d9200b002416e0abfe6mr31726074wrb.34.1669881828568;
-        Thu, 01 Dec 2022 00:03:48 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:bec0:73a:70e1:228f? ([2a01:e0a:982:cbb0:bec0:73a:70e1:228f])
-        by smtp.gmail.com with ESMTPSA id az39-20020a05600c602700b003cf78aafdd7sm4517313wmb.39.2022.12.01.00.03.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Dec 2022 00:03:48 -0800 (PST)
-Message-ID: <b19c4956-3f92-f6be-7d61-9b826e5d6fe1@linaro.org>
-Date: Thu, 1 Dec 2022 09:03:45 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970E510F6
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Dec 2022 09:14:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1669886069; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=PuFREHxuJ3FoD3zI0cgmwgxXBACrFbsNXtmB1ZUDMZF0Vw7u5go+yLfWIyRlKmsI4dy/C4JBEgDliSKn1GHoNmOpzBqaWl6iXr8io/eTVI3oCPsCmOMRaRxdzRXptLt4DP3hnV53GkO6NAhhWer+prEaTAbxrLXw/JqtvaQrzWo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1669886069; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=rmnGX0as+j0mWZhRBwCINR7c9wsJ33DTrPhAflpkh7k=; 
+	b=fw/MEtbCpCH9VgI82wo0vE16g6dZ8NV1Le4xk0BjWdTYK38rt7XBr8kXPBBPo3YRUN6Qe0dqE8w6e3UHXsxU9mNhstxy2c3zRoUP/VEPwky/wlzovr2sCQ7tztCh20i22nk9oPAoF3GnSvN5RPlNAcT6sNLjUOovaigMSm1VuKI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=arinc9.com;
+	spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
+	dmarc=pass header.from=<arinc.unal@arinc9.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1669886069;
+	s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=rmnGX0as+j0mWZhRBwCINR7c9wsJ33DTrPhAflpkh7k=;
+	b=kC5OJuaedGtqPWAXavS8QBOXmOzGAN9KVKeFTZblN5hQvtgIY+bZgMHEmvSv5xeL
+	m50GcHUsZyBhq0mNsX+aCeIwwvLqFeeWwtPZKWwBHrfnYXDUeClaEjUb82O6yrKKDVx
+	OifNFxxqXQi0y0KKnh1zyARvxBzbuGAfmR/P71Bk=
+Received: from [10.10.10.3] (37.120.152.236 [37.120.152.236]) by mx.zohomail.com
+	with SMTPS id 1669886067241836.827775278157; Thu, 1 Dec 2022 01:14:27 -0800 (PST)
+Message-ID: <b5ed90cf-1b5d-9306-7b06-ded7c331ca2a@arinc9.com>
+Date: Thu, 1 Dec 2022 12:14:21 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -49,168 +33,75 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH v2 01/11] pwm: Make .get_state() callback return an error
- code
+Subject: Re: [PATCH 0/5] remove label = "cpu" from DSA dt-binding
 Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>
-Cc: Conor Dooley <conor.dooley@microchip.com>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Douglas Anderson <dianders@chromium.org>,
- Pavel Machek <pavel@ucw.cz>, Claudiu Beznea <claudiu.beznea@microchip.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Florian Fainelli <f.fainelli@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Michael Walle <michael@walle.cc>,
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
- <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Hammer Hsieh <hammerh0314@gmail.com>,
- Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
- Sean Anderson <sean.anderson@seco.com>,
- Michal Simek <michal.simek@xilinx.com>,
- Bjorn Andersson <andersson@kernel.org>, Stephen Boyd <swboyd@chromium.org>,
- Matthias Kaehlcke <mka@chromium.org>, Satya Priya
- <quic_c_skakit@quicinc.com>, linux-pwm@vger.kernel.org,
- linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- chrome-platform@lists.linux.dev, linux-amlogic@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
-References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
- <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Organization: Linaro Developer Services
-In-Reply-To: <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
+To: Jakub Kicinski <kuba@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ soc@kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Michael Ellerman <mpe@ellerman.id.au>
+Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
+ linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <vladimir.oltean@nxp.com>
+References: <20221130141040.32447-1-arinc.unal@arinc9.com>
+From: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+In-Reply-To: <20221130141040.32447-1-arinc.unal@arinc9.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On 30/11/2022 16:21, Uwe Kleine-König wrote:
-> .get_state() might fail in some cases. To make it possible that a driver
-> signals such a failure change the prototype of .get_state() to return an
-> error code.
-> 
-> This patch was created using coccinelle and the following semantic patch:
-> 
-> @p1@
-> identifier getstatefunc;
-> identifier driver;
-> @@
->   struct pwm_ops driver = {
->          ...,
->          .get_state = getstatefunc
->          ,...
->   };
-> 
-> @p2@
-> identifier p1.getstatefunc;
-> identifier chip, pwm, state;
-> @@
-> -void
-> +int
->   getstatefunc(struct pwm_chip *chip, struct pwm_device *pwm, struct pwm_state *state)
->   {
->     ...
-> -  return;
-> +  return 0;
->     ...
->   }
-> 
-> plus the actual change of the prototype in include/linux/pwm.h (plus some
-> manual fixing of indentions and empty lines).
-> 
-> So for now all drivers return success unconditionally. They are adapted
-> in the following patches to make the changes easier reviewable.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->   drivers/gpio/gpio-mvebu.c             |  9 ++++++---
->   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 14 ++++++++------
->   drivers/leds/rgb/leds-qcom-lpg.c      | 14 ++++++++------
->   drivers/pwm/pwm-atmel.c               |  6 ++++--
->   drivers/pwm/pwm-bcm-iproc.c           |  8 +++++---
->   drivers/pwm/pwm-crc.c                 | 10 ++++++----
->   drivers/pwm/pwm-cros-ec.c             |  8 +++++---
->   drivers/pwm/pwm-dwc.c                 |  6 ++++--
->   drivers/pwm/pwm-hibvt.c               |  6 ++++--
->   drivers/pwm/pwm-imx-tpm.c             |  8 +++++---
->   drivers/pwm/pwm-imx27.c               |  8 +++++---
->   drivers/pwm/pwm-intel-lgm.c           |  6 ++++--
->   drivers/pwm/pwm-iqs620a.c             |  6 ++++--
->   drivers/pwm/pwm-keembay.c             |  6 ++++--
->   drivers/pwm/pwm-lpss.c                |  6 ++++--
->   drivers/pwm/pwm-meson.c               |  8 +++++---
->   drivers/pwm/pwm-mtk-disp.c            | 12 +++++++-----
->   drivers/pwm/pwm-pca9685.c             |  8 +++++---
->   drivers/pwm/pwm-raspberrypi-poe.c     |  8 +++++---
->   drivers/pwm/pwm-rockchip.c            | 12 +++++++-----
->   drivers/pwm/pwm-sifive.c              |  6 ++++--
->   drivers/pwm/pwm-sl28cpld.c            |  8 +++++---
->   drivers/pwm/pwm-sprd.c                |  8 +++++---
->   drivers/pwm/pwm-stm32-lp.c            |  8 +++++---
->   drivers/pwm/pwm-sun4i.c               | 12 +++++++-----
->   drivers/pwm/pwm-sunplus.c             |  6 ++++--
->   drivers/pwm/pwm-visconti.c            |  6 ++++--
->   drivers/pwm/pwm-xilinx.c              |  8 +++++---
->   include/linux/pwm.h                   |  4 ++--
->   29 files changed, 146 insertions(+), 89 deletions(-)
-> 
+I'm sending a more specific mail to make sure this series doesn't fall 
+through the cracks like Andrew said. I'd like this merged this week 
+before the merge window closes.
 
-<snip>
+Jakub, please take patch 1.
+Arnd, please take patch 2 and 3.
+Thomas, please take patch 4.
+Michael, please take patch 5.
 
-> diff --git a/drivers/pwm/pwm-meson.c b/drivers/pwm/pwm-meson.c
-> index 57112f438c6d..16d79ca5d8f5 100644
-> --- a/drivers/pwm/pwm-meson.c
-> +++ b/drivers/pwm/pwm-meson.c
-> @@ -318,8 +318,8 @@ static unsigned int meson_pwm_cnt_to_ns(struct pwm_chip *chip,
->   	return cnt * fin_ns * (channel->pre_div + 1);
->   }
->   
-> -static void meson_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-> -				struct pwm_state *state)
-> +static int meson_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-> +			       struct pwm_state *state)
->   {
->   	struct meson_pwm *meson = to_meson_pwm(chip);
->   	struct meson_pwm_channel_data *channel_data;
-> @@ -327,7 +327,7 @@ static void meson_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
->   	u32 value, tmp;
->   
->   	if (!state)
-> -		return;
-> +		return 0;
->   
->   	channel = &meson->channels[pwm->hwpwm];
->   	channel_data = &meson_pwm_per_channel_data[pwm->hwpwm];
-> @@ -357,6 +357,8 @@ static void meson_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
->   		state->period = 0;
->   		state->duty_cycle = 0;
->   	}
-> +
-> +	return 0;
->   }
->   
->   static const struct pwm_ops meson_pwm_ops = {
+Arınç
 
-<snip>
-
-For pwm-meson:
-
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-
+On 30.11.2022 17:10, Arınç ÜNAL wrote:
+> Hello folks,
+> 
+> With this patch series, we're completely getting rid of 'label = "cpu";'
+> which is not used by the DSA dt-binding at all.
+> 
+> Information for taking the patches for maintainers:
+> Patch 1: netdev maintainers (based off netdev/net-next.git main)
+> Patch 2-3: SoC maintainers (based off soc/soc.git soc/dt)
+> Patch 4: MIPS maintainers (based off mips/linux.git mips-next)
+> Patch 5: PowerPC maintainers (based off powerpc/linux.git next-test)
+> 
+> I've been meaning to submit this for a few months. Find the relevant
+> conversation here:
+> https://lore.kernel.org/netdev/20220913155408.GA3802998-robh@kernel.org/
+> 
+> Here's how I did it, for the interested (or suggestions):
+> 
+> Find the platforms which have got 'label = "cpu";' defined.
+> grep -rnw . -e 'label = "cpu";'
+> 
+> Remove the line where 'label = "cpu";' is included.
+> sed -i /'label = "cpu";'/,+d arch/arm/boot/dts/*
+> sed -i /'label = "cpu";'/,+d arch/arm64/boot/dts/freescale/*
+> sed -i /'label = "cpu";'/,+d arch/arm64/boot/dts/marvell/*
+> sed -i /'label = "cpu";'/,+d arch/arm64/boot/dts/mediatek/*
+> sed -i /'label = "cpu";'/,+d arch/arm64/boot/dts/rockchip/*
+> sed -i /'label = "cpu";'/,+d arch/mips/boot/dts/qca/*
+> sed -i /'label = "cpu";'/,+d arch/mips/boot/dts/ralink/*
+> sed -i /'label = "cpu";'/,+d arch/powerpc/boot/dts/turris1x.dts
+> sed -i /'label = "cpu";'/,+d Documentation/devicetree/bindings/net/qca,ar71xx.yaml
+> 
+> Restore the symlink files which typechange after running sed.
+> 
+> Arınç ÜNAL (5):
+>    dt-bindings: net: qca,ar71xx: remove label = "cpu" from examples
+>    arm: dts: remove label = "cpu" from DSA dt-binding
+>    arm64: dts: remove label = "cpu" from DSA dt-binding
+>    mips: dts: remove label = "cpu" from DSA dt-binding
+>    powerpc: dts: remove label = "cpu" from DSA dt-binding
+> 
+> 
