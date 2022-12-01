@@ -1,120 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5004B7C;
-	Thu,  1 Dec 2022 02:41:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40610C433B5;
-	Thu,  1 Dec 2022 02:41:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1669862478;
-	bh=oEKpzlNT5/2REuZbJ9nJL8V6rmg/O7EETT/KejHSD8k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TH8159Vsmt/10ITe/zhNEMAr0DJShK7lsDLNDN2pIZAVofrn3gusqAdnBs2Qu1cSN
-	 XCcRLrdtEkYyNEI8SEx6SJRIKDIfDVpLhJHBOP8HqdCgkPwJb3zObY5B7KiqXqV5dU
-	 YfnDxebKZS69mB2aEBYlCb+U3U7FjKzExxd/CI1VOI09SsnQ0ZvEFiiDbtdXex5IWG
-	 DBHET0gvgxZrW9389IzXKRfWjYTgc2EntD3p+73FzHGNoSLfnluPj2RUUWlbsAOWtR
-	 7osJ2K8rd4L8EqCVdL03V/id7vZ6u9INSzhje+ZXfzQM9dAVuQaVr5VyJGNqZHVtHm
-	 ohZr0MuVoVdZQ==
-Date: Thu, 1 Dec 2022 10:41:06 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Douglas Anderson <dianders@chromium.org>,
-	Pavel Machek <pavel@ucw.cz>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Michael Walle <michael@walle.cc>, Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	Hammer Hsieh <hammerh0314@gmail.com>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Sean Anderson <sean.anderson@seco.com>,
-	Michal Simek <michal.simek@xilinx.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Stephen Boyd <swboyd@chromium.org>,
-	Matthias Kaehlcke <mka@chromium.org>,
-	Satya Priya <quic_c_skakit@quicinc.com>, linux-pwm@vger.kernel.org,
-	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	chrome-platform@lists.linux.dev, linux-amlogic@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 01/11] pwm: Make .get_state() callback return an error
- code
-Message-ID: <Y4gUQhdeZGm67Js2@google.com>
-References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
- <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 911047C
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Dec 2022 03:45:59 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id n205so805421oib.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 30 Nov 2022 19:45:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ykrUdgnpt//KI390EfyviTWw7fKUM7t8IqT8KivZw44=;
+        b=2kRxShHQvu3UmhUmM7yLqeIf1ZQl9MkGVhXBQheSm08Tg2dX6r4j0zImpAcyic2el+
+         58pFpgfLCEp9m49QT8vy+zNZpl14WIQSZe7r8O90VmP1/Bsn05pU0ui7t68UvbI746sE
+         icoW2EZFAYbEmQQTYaqX08PFombcGd5IxTnIiYW+LmHEzbfxfE2uEKBhLpgB53oWtdqt
+         OwQLY+VtWQzbiMFI6sp3tlp4jB6AnIofjwYP+lWD3yCqSW2oAozmZbbq+COYqFlX7sGB
+         oP0AZofeY4xh82FMUiAMwbsgCCQzJ6x+m5Cd/tt2Go05jDjXkqyOz8DpzDua90S4Pxrf
+         ZDFA==
+X-Gm-Message-State: ANoB5plGgZygWfURVY/EkUuEtNnV/Hh03TFVVd5RXrUxZcc9Pa0PaKWK
+	FIeAvDAEP3QJC1uWekQXhA==
+X-Google-Smtp-Source: AA0mqf5WCmFLREdSlYC9qzJRKrm7hw0V931v+JMD58V5b6VI64AQhK6aDD8+l29/3c1aTaLsQwxYJg==
+X-Received: by 2002:aca:2201:0:b0:354:fe21:a47c with SMTP id b1-20020aca2201000000b00354fe21a47cmr32279869oic.10.1669866358423;
+        Wed, 30 Nov 2022 19:45:58 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id 17-20020a9d0611000000b006605883eae6sm1630945otn.63.2022.11.30.19.45.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Nov 2022 19:45:58 -0800 (PST)
+Received: (nullmailer pid 3605657 invoked by uid 1000);
+	Thu, 01 Dec 2022 03:45:57 -0000
+Date: Wed, 30 Nov 2022 21:45:57 -0600
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Andre Przywara <andre.przywara@arm.com>, Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, "David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, LABBE Corentin <clabbe.montjoie@gmail.com>, Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [PATCH 2/3] dt-bindings: net: sun8i-emac: Fix snps,dwmac.yaml
+ inheritance
+Message-ID: <20221201034557.GA2998157-robh@kernel.org>
+References: <20221125202008.64595-1-samuel@sholland.org>
+ <20221125202008.64595-3-samuel@sholland.org>
+ <5b05317d-28cc-bfc8-f415-e6acf453dc7c@linaro.org>
+ <20221126142735.47dcca6d@slackpad.lan>
+ <99c3e666-ec26-07a0-be40-0177dd449d84@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <99c3e666-ec26-07a0-be40-0177dd449d84@linaro.org>
 
-On Wed, Nov 30, 2022 at 04:21:38PM +0100, Uwe Kleine-König wrote:
-> diff --git a/drivers/pwm/pwm-cros-ec.c b/drivers/pwm/pwm-cros-ec.c
-> index 7f10f56c3eb6..11684edc0620 100644
-> --- a/drivers/pwm/pwm-cros-ec.c
-> +++ b/drivers/pwm/pwm-cros-ec.c
-> @@ -183,8 +183,8 @@ static int cros_ec_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
->  	return 0;
->  }
->  
-> -static void cros_ec_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-> -				  struct pwm_state *state)
-> +static int cros_ec_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-> +				 struct pwm_state *state)
->  {
->  	struct cros_ec_pwm_device *ec_pwm = pwm_to_cros_ec_pwm(chip);
->  	struct cros_ec_pwm *channel = pwm_get_chip_data(pwm);
-> @@ -193,7 +193,7 @@ static void cros_ec_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
->  	ret = cros_ec_pwm_get_duty(ec_pwm, pwm->hwpwm);
->  	if (ret < 0) {
->  		dev_err(chip->dev, "error getting initial duty: %d\n", ret);
-> -		return;
-> +		return 0;
->  	}
->  
->  	state->enabled = (ret > 0);
-> @@ -212,6 +212,8 @@ static void cros_ec_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
->  		state->duty_cycle = channel->duty_cycle;
->  	else
->  		state->duty_cycle = ret;
-> +
-> +	return 0;
->  }
+On Sat, Nov 26, 2022 at 03:48:33PM +0100, Krzysztof Kozlowski wrote:
+> On 26/11/2022 15:28, Andre Przywara wrote:
+> > On Sat, 26 Nov 2022 14:26:25 +0100
+> > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+> > 
+> > Hi,
+> > 
+> >> On 25/11/2022 21:20, Samuel Holland wrote:
+> >>> The sun8i-emac binding extends snps,dwmac.yaml, and should accept all
+> >>> properties defined there, including "mdio", "resets", and "reset-names".
+> >>> However, validation currently fails for these properties because the  
+> >>
+> >> validation does not fail:
+> >> make dt_binding_check -> no problems
+> >>
+> >> Maybe you meant that DTS do not pass dtbs_check?
+> > 
+> > Yes, that's what he meant: If a board actually doesn't have Ethernet
+> > configured, dt-validate complains. I saw this before, but didn't find
+> > any solution.
+> > An example is: $ dt-validate ... sun50i-a64-pinephone-1.2.dtb
+> > arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.2.dtb:
+> >   ethernet@1c30000: Unevaluated properties are not allowed ('resets', 'reset-names', 'mdio' were unexpected)
+> >   From schema: Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
+> > 
+> > Why exactly is beyond me, but this patch removes this message.
+> 
+> I don't think this should be fixed like this. That's the problem of
+> dtschema (not ignoring fully disabled nodes) and such patch only moves
+> from one correct syntax to another correct syntax, which fixes dtschema
+> problem, but changes nothing here.
 
-For the cros-ec part:
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Humm, it looks to me like the 'phy-mode' required in snps,dwmac.yaml 
+causes the problem, but I can't get a minimized example to fail. 
+Something in 'required' shouldn't matter. Definitely seems like an issue 
+in the jsonschema package. I'll keep looking at it.
+
+Rob
