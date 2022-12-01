@@ -1,102 +1,94 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C8B1C36;
-	Thu,  1 Dec 2022 13:29:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1669901370; x=1701437370;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=uzYyfpe5ovcmHtziruShrAihFDRO3ojyXNM6UnYgYzM=;
-  b=iUpH7ehJxKBw+C0mn8E/TY8cIR2T+gknuBqbUfD9ABYvupb80gGapdf9
-   o8oRtiKloSR3Ns+Vp8U12KwSLPWghEb2WJG73KOBHtGRJ60E71PqSyvBf
-   GRbKAwgcsCSYLdlaMOL4OEBezMXIYsvrMlV1renGiMB2sotdfd5/R9b7u
-   NuGMvARe6+VWqHw4TInxFQq/b5c7wJE8S3Pg09QM6r3N9AnOEu6I5V9/Z
-   RDen2VdYJyhtCdThUmrDbhFezpAwd3XqmR+dH3VrKo55vVhq1KiXPuJUF
-   6ygoIA21ykDjjeJFzt0gno4+Mg5iCpWCBoqgQkXHF/mHux0OfTprCAwec
-   g==;
-X-IronPort-AV: E=Sophos;i="5.96,209,1665471600"; 
-   d="scan'208";a="125998122"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 01 Dec 2022 06:29:21 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Thu, 1 Dec 2022 06:29:09 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex01.mchp-main.com
- (10.10.85.143) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12 via Frontend
- Transport; Thu, 1 Dec 2022 06:29:01 -0700
-Date: Thu, 1 Dec 2022 13:28:42 +0000
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-CC: Alexandre Belloni <alexandre.belloni@bootlin.com>, Alexandre Torgue
-	<alexandre.torgue@foss.st.com>, <dri-devel@lists.freedesktop.org>, "Douglas
- Anderson" <dianders@chromium.org>, Thierry Reding <thierry.reding@gmail.com>,
-	Satya Priya <quic_c_skakit@quicinc.com>, Pavel Machek <pavel@ucw.cz>,
-	"Guenter Roeck" <groeck@chromium.org>, Marijn Suijten
-	<marijn.suijten@somainline.org>, Nobuhiro Iwamatsu
-	<nobuhiro1.iwamatsu@toshiba.co.jp>, <linux-riscv@lists.infradead.org>,
-	<linux-leds@vger.kernel.org>, "Jerome Brunet" <jbrunet@baylibre.com>,
-	<chrome-platform@lists.linux.dev>, "Florian Fainelli" <f.fainelli@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, "Sean Anderson"
-	<sean.anderson@seco.com>, Kevin Hilman <khilman@baylibre.com>, Bartosz
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68AA82F5F;
+	Thu,  1 Dec 2022 14:17:17 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1BED1D6E;
+	Thu,  1 Dec 2022 06:17:23 -0800 (PST)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D0F8B3F73D;
+	Thu,  1 Dec 2022 06:17:09 -0800 (PST)
+Date: Thu, 1 Dec 2022 14:17:07 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Heiko Stuebner
+ <heiko@sntech.de>, Linus Walleij <linus.walleij@linaro.org>, Alexandre
+ Torgue <alexandre.torgue@foss.st.com>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>, Conor Dooley
+ <conor.dooley@microchip.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Satya Priya <quic_c_skakit@quicinc.com>, Pavel Machek <pavel@ucw.cz>,
+ Guenter Roeck <groeck@chromium.org>, Nobuhiro Iwamatsu
+ <nobuhiro1.iwamatsu@toshiba.co.jp>, Fabio Estevam <festevam@gmail.com>,
+ linux-riscv@lists.infradead.org, linux-leds@vger.kernel.org, Jerome Brunet
+ <jbrunet@baylibre.com>, chrome-platform@lists.linux.dev, Florian Fainelli
+ <f.fainelli@gmail.com>, Samuel Holland <samuel@sholland.org>, Sean Anderson
+ <sean.anderson@seco.com>, Kevin Hilman <khilman@baylibre.com>, Bartosz
  Golaszewski <brgl@bgdev.pl>, Michal Simek <michal.simek@xilinx.com>,
-	<linux-stm32@st-md-mailman.stormreply.com>, Hammer Hsieh
-	<hammerh0314@gmail.com>, <linux-rockchip@lists.infradead.org>, Chen-Yu Tsai
-	<wens@csie.org>, Matthias Kaehlcke <mka@chromium.org>, "Broadcom internal
- kernel review list" <bcm-kernel-feedback-list@broadcom.com>, NXP Linux Team
-	<linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
-	<linux-sunxi@lists.linux.dev>, <linux-pwm@vger.kernel.org>, "Pengutronix
- Kernel Team" <kernel@pengutronix.de>, Martin Blumenstingl
-	<martin.blumenstingl@googlemail.com>, Ray Jui <rjui@broadcom.com>, "Sascha
- Hauer" <s.hauer@pengutronix.de>, Steven Rostedt <rostedt@goodmis.org>,
-	"Stephen Boyd" <swboyd@chromium.org>, <linux-gpio@vger.kernel.org>, Fabrice
- Gasnier <fabrice.gasnier@foss.st.com>, <linux-mediatek@lists.infradead.org>,
-	<linux-rpi-kernel@lists.infradead.org>, Baolin Wang
-	<baolin.wang@linux.alibaba.com>, Paul Walmsley <paul.walmsley@sifive.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	<linux-amlogic@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>,
-	Scott Branden <sbranden@broadcom.com>, Bjorn Andersson
-	<andersson@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, "Michael
- Walle" <michael@walle.cc>, Palmer Dabbelt <palmer@dabbelt.com>, "Masami
- Hiramatsu" <mhiramat@kernel.org>, Maxime Coquelin
-	<mcoquelin.stm32@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>, Shawn Guo
-	<shawnguo@kernel.org>, Claudiu Beznea <claudiu.beznea@microchip.com>
-Subject: Re: [PATCH v2 00/11] pwm: Allow .get_state to fail
-Message-ID: <Y4isCnKP9pTacksl@wendy>
+ linux-stm32@st-md-mailman.stormreply.com, Hammer Hsieh
+ <hammerh0314@gmail.com>, linux-rockchip@lists.infradead.org, Chen-Yu Tsai
+ <wens@csie.org>, Matthias Kaehlcke <mka@chromium.org>, Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>, NXP Linux Team
+ <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
+ linux-sunxi@lists.linux.dev, linux-pwm@vger.kernel.org, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Ray Jui <rjui@broadcom.com>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Stephen Boyd <swboyd@chromium.org>,
+ linux-gpio@vger.kernel.org, Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-amlogic@lists.infradead.org, Benson Leung <bleung@chromium.org>,
+ linux-arm-kernel@lists.infradead.org, Scott Branden
+ <sbranden@broadcom.com>, Bjorn Andersson <andersson@kernel.org>, Nicolas
+ Ferre <nicolas.ferre@microchip.com>, Michael Walle <michael@walle.cc>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Chunyan Zhang <zhang.lyra@gmail.com>, Shawn Guo
+ <shawnguo@kernel.org>, Claudiu Beznea <claudiu.beznea@microchip.com>
+Subject: Re: [PATCH v2 01/11] pwm: Make .get_state() callback return an
+ error code
+Message-ID: <20221201141707.28af0d1d@donnerap.cambridge.arm.com>
+In-Reply-To: <20221201131604.beq4l22d42tjy6dm@pengutronix.de>
 References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
- <Y4iL9xf5bJM5pyeR@wendy>
- <20221201131907.bmrenldnua7uaeab@pengutronix.de>
+	<20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
+	<20221201102252.52ace284@donnerap.cambridge.arm.com>
+	<20221201131604.beq4l22d42tjy6dm@pengutronix.de>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221201131907.bmrenldnua7uaeab@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 01, 2022 at 02:19:07PM +0100, Uwe Kleine-König wrote:
-> Hello Conor,
-> 
-> On Thu, Dec 01, 2022 at 11:11:51AM +0000, Conor Dooley wrote:
-> > TL;DR, I quite like the ability to return an error and not mislead the
-> > caller.
-> 
-> Is this an Ack?
+On Thu, 1 Dec 2022 14:16:04 +0100
+Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> wrote:
 
-It is if you want it to be! I didn't really feel qualified to do so
-which is why I gave some context etc.
+Hi Uwe,
 
-I did check out the callsites for the non-void returning op, and it
-looked good to me, so sure, why not:
+> Hello Andre,
+>=20
+> On Thu, Dec 01, 2022 at 10:22:52AM +0000, Andre Przywara wrote:
+> > Just one comment: I don't see a sunxi specific patch later in the serie=
+s,
+> > though it seems we have at least one error error exit (see prescaler =
+=3D=3D 0
+> > above). Plus potentially another exit if clk_get_rate() (at the very
+> > beginning) fails.
+> > Shall I send a patch for that? =20
+>=20
+> That would we very welcome. I mentioned that shortly in the cover
+> letter, I wasn't entirely sure how to handle that prescaler =3D 0 case.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Ah right, sorry, I missed that.
+So the Allwinner manual somehow marks those prescaler encodings as reserved
+or invalid (it's just a "/" in there), and we never set those values in the
+driver (there is an explicit check). So it could only be a leftover from
+firmware/bootloader, or someone poking at this register behind our back.
+I am tempted to just return some -EINVAL. As the current code stands, we
+don't manipulate any state flags before that check, so it doesn't
+really matter, but would be best practise, at least.
 
-Thanks,
-Conor.
-
+Cheers,
+Andre
