@@ -1,136 +1,133 @@
-Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B1731116
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 Dec 2022 11:39:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1669894669; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=QTQmm9pOeLgmKb8bWo/bk1tmntAG21CY8mqL5Y7GzMv84vMVC3VrVna9NzX1hngi7eK1jcFyuiSXXvVA9bOp7v2JNs+2P/yWem+qMtXkZfdIeULvLO4Rfg8yQmTObIt1kyNHO2k94mTkgHZvRKbMyIMAcRvOxm9qMfK6qb3t88g=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1669894669; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=dfOEXnlaPDTQyh5hwojKntKZbR0Ct6BYQNOU/3518PU=; 
-	b=OYF7SwvD1mv3O+HAFCbq9CfMSGf7fvV73aJ926EunEgVq/bUTdRUCCmRrZD9+8rTw9wNG3PDjimgO76TJJ6VPC/P/vttun+Obu5Dzyp0sS31x9L5iYLvG+rdO6kZvZ2wtK6Gn86PgqwwiOO9sfMtbOWsOMExVMcejf44MYA+nAo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=arinc9.com;
-	spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
-	dmarc=pass header.from=<arinc.unal@arinc9.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1669894669;
-	s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=dfOEXnlaPDTQyh5hwojKntKZbR0Ct6BYQNOU/3518PU=;
-	b=Sxoe6pf0viFvg95RBI3wMeoXYd0syHO9a0cEcwxKEbUeNP5X1PyRVz24a8qLfztM
-	cNOs3+XlOAmEYW4Cspyrx9xPr6rdVmINXwU/r6bTSOpPefuylQ7S/DIWSUhazWPCj3l
-	ohbSEg1Td2+qDT3JhrnQZaDjIZ9aCibjEQyIlKI4=
-Received: from [10.10.10.3] (37.120.152.236 [37.120.152.236]) by mx.zohomail.com
-	with SMTPS id 1669894667415837.5294444284028; Thu, 1 Dec 2022 03:37:47 -0800 (PST)
-Message-ID: <83ed1490-4d87-98c5-2616-54b5f1ab64b7@arinc9.com>
-Date: Thu, 1 Dec 2022 14:37:31 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11451C11
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Dec 2022 13:16:33 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1p0jQF-0005k0-SY; Thu, 01 Dec 2022 14:16:15 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1p0jQ4-001aku-EN; Thu, 01 Dec 2022 14:16:05 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1p0jQ4-001nfp-Ga; Thu, 01 Dec 2022 14:16:04 +0100
+Date: Thu, 1 Dec 2022 14:16:04 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	dri-devel@lists.freedesktop.org,
+	Douglas Anderson <dianders@chromium.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Satya Priya <quic_c_skakit@quicinc.com>,
+	Pavel Machek <pavel@ucw.cz>, Guenter Roeck <groeck@chromium.org>,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Fabio Estevam <festevam@gmail.com>, linux-riscv@lists.infradead.org,
+	linux-leds@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>,
+	chrome-platform@lists.linux.dev,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sean Anderson <sean.anderson@seco.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Michal Simek <michal.simek@xilinx.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Hammer Hsieh <hammerh0314@gmail.com>,
+	linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+	Matthias Kaehlcke <mka@chromium.org>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Orson Zhai <orsonzhai@gmail.com>, linux-sunxi@lists.linux.dev,
+	linux-pwm@vger.kernel.org,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Ray Jui <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Stephen Boyd <swboyd@chromium.org>, linux-gpio@vger.kernel.org,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	linux-mediatek@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	linux-amlogic@lists.infradead.org,
+	Benson Leung <bleung@chromium.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Scott Branden <sbranden@broadcom.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Michael Walle <michael@walle.cc>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>
+Subject: Re: [PATCH v2 01/11] pwm: Make .get_state() callback return an error
+ code
+Message-ID: <20221201131604.beq4l22d42tjy6dm@pengutronix.de>
+References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+ <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
+ <20221201102252.52ace284@donnerap.cambridge.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 0/5] remove label = "cpu" from DSA dt-binding
-To: Michael Ellerman <mpe@ellerman.id.au>, Andrew Lunn <andrew@lunn.ch>
-Cc: Vladimir Oltean <vladimir.oltean@nxp.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, soc@kernel.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Russell King <linux@armlinux.org.uk>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Florian Fainelli <f.fainelli@gmail.com>, Hauke Mehrtens <hauke@hauke-m.de>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
- Hans Ulli Kroll <ulli.kroll@googlemail.com>,
- Linus Walleij <linus.walleij@linaro.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Stefan Agner <stefan@agner.ch>,
- Heiko Stuebner <heiko@sntech.de>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Sergio Paracuellos <sergio.paracuellos@gmail.com>,
- Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Tim Harvey <tharvey@gateworks.com>, Peng Fan <peng.fan@nxp.com>,
- Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
- Frank Wunderlich <frank-w@public-files.de>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Oleksij Rempel <linux@rempel-privat.de>, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-rockchip@lists.infradead.org, linux-mips@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org
-References: <20221130141040.32447-1-arinc.unal@arinc9.com>
- <Y4d9B7VSHvqJn0iS@lunn.ch> <32638470-b074-3b14-bfb2-10b49307b9e3@arinc9.com>
- <877czbs8w7.fsf@mpe.ellerman.id.au>
-Content-Language: en-US
-From: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-In-Reply-To: <877czbs8w7.fsf@mpe.ellerman.id.au>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ohce74rjo6dhumlo"
+Content-Disposition: inline
+In-Reply-To: <20221201102252.52ace284@donnerap.cambridge.arm.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On 1.12.2022 13:42, Michael Ellerman wrote:
-> Arınç ÜNAL <arinc.unal@arinc9.com> writes:
->> On 30.11.2022 18:55, Andrew Lunn wrote:
->>> On Wed, Nov 30, 2022 at 05:10:35PM +0300, Arınç ÜNAL wrote:
->>>> Hello folks,
->>>>
->>>> With this patch series, we're completely getting rid of 'label = "cpu";'
->>>> which is not used by the DSA dt-binding at all.
->>>>
->>>> Information for taking the patches for maintainers:
->>>> Patch 1: netdev maintainers (based off netdev/net-next.git main)
->>>> Patch 2-3: SoC maintainers (based off soc/soc.git soc/dt)
->>>> Patch 4: MIPS maintainers (based off mips/linux.git mips-next)
->>>> Patch 5: PowerPC maintainers (based off powerpc/linux.git next-test)
->>>
->>> Hi Arınç
->>>
->>> So your plan is that each architecture maintainer merges one patch?
->>
->> Initially, I sent this series to soc@kernel.org to take it all but Rob
->> said it must be this way instead.
->>
->>>
->>> That is fine, but it is good to be explicit, otherwise patches will
->>> fall through the cracks because nobody picks them up. I generally use
->>> To: to indicate who i expect to merge a patch, and everybody else in
->>> the Cc:
->>
->> Thanks for this, I'll follow suit if I don't see any activity for a few
->> weeks.
-> 
-> IMHO the best solution if the patches are truly independent is to send
-> them independantly to each maintainer. That way there's no confusion
-> about whether someone else will take the series.
-> 
-> It's also simpler for maintainers to apply a single standalone patch vs
-> pick a single patch from a larger series.
 
-I agree. I'll do that next time.
+--ohce74rjo6dhumlo
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Cheers.
-Arınç
+Hello Andre,
+
+On Thu, Dec 01, 2022 at 10:22:52AM +0000, Andre Przywara wrote:
+> Just one comment: I don't see a sunxi specific patch later in the series,
+> though it seems we have at least one error error exit (see prescaler =3D=
+=3D 0
+> above). Plus potentially another exit if clk_get_rate() (at the very
+> beginning) fails.
+> Shall I send a patch for that?
+
+That would we very welcome. I mentioned that shortly in the cover
+letter, I wasn't entirely sure how to handle that prescaler =3D 0 case.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--ohce74rjo6dhumlo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOIqREACgkQwfwUeK3K
+7Anj8wf/RTNhxYSv59Ka1mlJPxXTgymtejOcjGY7Mbrq9aaYBt0Hmzz6T20Siom0
+QSRZvBBJxLeC6sMsbo0Fz9qdDLt4Y9eWczlHASjdcke40fNWNcUpjo7GqJ8hMfD9
+/aBk/LIrTHuSJDWkLiUxCXgg/mPhVdSfgltE3xCWRU/+rQxWvEnKjFCDDnQvwGlJ
+XDzUeAMWwhWAOAeq69ypA0qbVXlCnpA7rRbuNpgviLuXPg8B8sCx+fEPtsGCAwh1
+W/lWgOdahAH40o8lldqWf0S/1Bb95qmDKjx/yI1gsCQpycDwDEgQeueUPRTMz912
+rL27K8cypWE75vkt7PMvSDMIkNan0w==
+=aHcT
+-----END PGP SIGNATURE-----
+
+--ohce74rjo6dhumlo--
