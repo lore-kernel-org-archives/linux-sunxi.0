@@ -1,90 +1,102 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 911047C
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 Dec 2022 03:45:59 +0000 (UTC)
-Received: by mail-oi1-f170.google.com with SMTP id n205so805421oib.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 30 Nov 2022 19:45:59 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655C3EC4
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Dec 2022 06:04:59 +0000 (UTC)
+Received: by mail-oi1-f171.google.com with SMTP id c129so1075983oia.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 30 Nov 2022 22:04:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SQ6eCCvP2RIqVFnGOfA4yG/2BtjQTMpdxc/JWs/IikY=;
+        b=PvHY6dBEyebJE6QNI6Wjq2MneXIl4rTpGS7fBC7Qv6R/Yiga7OIh4/Pj4BgHnrpndG
+         GrmgooNZOVFverQjG/PwQwa+jNTTeu5eaofi0fQ6sUgKspL/GgqiAAoT7DsAPA/bcNeL
+         CuuBxemNVt9HiH103qegQcLdL8byYtx9q2Sy8nfwvxBZulJQ2g5EAZZ4I/KTXdccwea1
+         xayFiXCzBGxNpmCBPyhigLfeSVQaNBWPI/KTZtc4+CqnxGM8xxSJGEpvpTJVaXAoUIMI
+         LhDFRKO2nzxUjEipEZonE2WghJNoafzVk4PIFC+1xTm7vj4OLlTNuK0dUH2dye1MdJio
+         EOHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ykrUdgnpt//KI390EfyviTWw7fKUM7t8IqT8KivZw44=;
-        b=2kRxShHQvu3UmhUmM7yLqeIf1ZQl9MkGVhXBQheSm08Tg2dX6r4j0zImpAcyic2el+
-         58pFpgfLCEp9m49QT8vy+zNZpl14WIQSZe7r8O90VmP1/Bsn05pU0ui7t68UvbI746sE
-         icoW2EZFAYbEmQQTYaqX08PFombcGd5IxTnIiYW+LmHEzbfxfE2uEKBhLpgB53oWtdqt
-         OwQLY+VtWQzbiMFI6sp3tlp4jB6AnIofjwYP+lWD3yCqSW2oAozmZbbq+COYqFlX7sGB
-         oP0AZofeY4xh82FMUiAMwbsgCCQzJ6x+m5Cd/tt2Go05jDjXkqyOz8DpzDua90S4Pxrf
-         ZDFA==
-X-Gm-Message-State: ANoB5plGgZygWfURVY/EkUuEtNnV/Hh03TFVVd5RXrUxZcc9Pa0PaKWK
-	FIeAvDAEP3QJC1uWekQXhA==
-X-Google-Smtp-Source: AA0mqf5WCmFLREdSlYC9qzJRKrm7hw0V931v+JMD58V5b6VI64AQhK6aDD8+l29/3c1aTaLsQwxYJg==
-X-Received: by 2002:aca:2201:0:b0:354:fe21:a47c with SMTP id b1-20020aca2201000000b00354fe21a47cmr32279869oic.10.1669866358423;
-        Wed, 30 Nov 2022 19:45:58 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id 17-20020a9d0611000000b006605883eae6sm1630945otn.63.2022.11.30.19.45.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Nov 2022 19:45:58 -0800 (PST)
-Received: (nullmailer pid 3605657 invoked by uid 1000);
-	Thu, 01 Dec 2022 03:45:57 -0000
-Date: Wed, 30 Nov 2022 21:45:57 -0600
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Andre Przywara <andre.przywara@arm.com>, Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, "David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, LABBE Corentin <clabbe.montjoie@gmail.com>, Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: [PATCH 2/3] dt-bindings: net: sun8i-emac: Fix snps,dwmac.yaml
- inheritance
-Message-ID: <20221201034557.GA2998157-robh@kernel.org>
-References: <20221125202008.64595-1-samuel@sholland.org>
- <20221125202008.64595-3-samuel@sholland.org>
- <5b05317d-28cc-bfc8-f415-e6acf453dc7c@linaro.org>
- <20221126142735.47dcca6d@slackpad.lan>
- <99c3e666-ec26-07a0-be40-0177dd449d84@linaro.org>
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SQ6eCCvP2RIqVFnGOfA4yG/2BtjQTMpdxc/JWs/IikY=;
+        b=LUNk8aekUf/rloM2GwyaxAPP3R2zyh4JTFQALV7nLS+mb0KF3Tb0g8L4WHoMNW2SGq
+         0yKJB43JVQN2TbyuAW3sVtKt7P6eqtFF3kmLzgIYKYI99EoxuSVKLyumi5VoKt8qCymV
+         +yh7EYnkQIzOXc5tGPPsJ1uEU6NmO8HiE5AKeye84zdlVvnAdY0CsTd6uACWM7rfni+c
+         Rbrd5jrQihT+FmGCrwZjyAuf3EX+3mo29XuVjTvzXT/qVu6T8X8SaEzqZGltaUdWIgeQ
+         tjh4pRcp5kX+FQuH/X3ZB8CZ5ZS5DPbO0tNQzYsLyJEuGbqaXoyf0qi+KwrOx8HZVeTO
+         kKcQ==
+X-Gm-Message-State: ANoB5pmQGyKE9ksdJGaE69WT+r4Y/b9cd+VvDHZCixGTHa6iBY0Pv+80
+	afBoOed6Lwwk5WLFqqi5iqHgez1gRWsVTPrxB3s=
+X-Google-Smtp-Source: AA0mqf5l2e4XTILLZHTH7QTRBPvz28RAyHNavvCrAHgTBlylFcIYKmUFvkgoGR7uLixlsP/mcB3a5GSDsiHvA3KSd08=
+X-Received: by 2002:aca:60c6:0:b0:35a:51fc:2134 with SMTP id
+ u189-20020aca60c6000000b0035a51fc2134mr22358640oib.144.1669874698405; Wed, 30
+ Nov 2022 22:04:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <99c3e666-ec26-07a0-be40-0177dd449d84@linaro.org>
+References: <20221130141040.32447-1-arinc.unal@arinc9.com> <20221130141040.32447-5-arinc.unal@arinc9.com>
+In-Reply-To: <20221130141040.32447-5-arinc.unal@arinc9.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Thu, 1 Dec 2022 07:04:47 +0100
+Message-ID: <CAMhs-H_yk4_ieChz9ZaMgZiQNSO7RxhAXPN0nHWWxbox=qY_mw@mail.gmail.com>
+Subject: Re: [PATCH 4/5] mips: dts: remove label = "cpu" from DSA dt-binding
+To: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+Cc: Vladimir Oltean <vladimir.oltean@nxp.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, soc@kernel.org, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andrew Lunn <andrew@lunn.ch>, 
+	Gregory Clement <gregory.clement@bootlin.com>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@microchip.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Florian Fainelli <f.fainelli@gmail.com>, Hauke Mehrtens <hauke@hauke-m.de>, 
+	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, 
+	Hans Ulli Kroll <ulli.kroll@googlemail.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	NXP Linux Team <linux-imx@nxp.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@somainline.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Stefan Agner <stefan@agner.ch>, Heiko Stuebner <heiko@sntech.de>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Tim Harvey <tharvey@gateworks.com>, Peng Fan <peng.fan@nxp.com>, 
+	Rasmus Villemoes <rasmus.villemoes@prevas.dk>, Frank Wunderlich <frank-w@public-files.de>, 
+	Michael Riesch <michael.riesch@wolfvision.net>, Oleksij Rempel <linux@rempel-privat.de>, 
+	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
+	linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 26, 2022 at 03:48:33PM +0100, Krzysztof Kozlowski wrote:
-> On 26/11/2022 15:28, Andre Przywara wrote:
-> > On Sat, 26 Nov 2022 14:26:25 +0100
-> > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> > 
-> > Hi,
-> > 
-> >> On 25/11/2022 21:20, Samuel Holland wrote:
-> >>> The sun8i-emac binding extends snps,dwmac.yaml, and should accept all
-> >>> properties defined there, including "mdio", "resets", and "reset-names".
-> >>> However, validation currently fails for these properties because the  
-> >>
-> >> validation does not fail:
-> >> make dt_binding_check -> no problems
-> >>
-> >> Maybe you meant that DTS do not pass dtbs_check?
-> > 
-> > Yes, that's what he meant: If a board actually doesn't have Ethernet
-> > configured, dt-validate complains. I saw this before, but didn't find
-> > any solution.
-> > An example is: $ dt-validate ... sun50i-a64-pinephone-1.2.dtb
-> > arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.2.dtb:
-> >   ethernet@1c30000: Unevaluated properties are not allowed ('resets', 'reset-names', 'mdio' were unexpected)
-> >   From schema: Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-> > 
-> > Why exactly is beyond me, but this patch removes this message.
-> 
-> I don't think this should be fixed like this. That's the problem of
-> dtschema (not ignoring fully disabled nodes) and such patch only moves
-> from one correct syntax to another correct syntax, which fixes dtschema
-> problem, but changes nothing here.
+On Wed, Nov 30, 2022 at 3:14 PM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc=
+9.com> wrote:
+>
+> This is not used by the DSA dt-binding, so remove it from all devicetrees=
+.
+>
+> Signed-off-by: Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc9.com>
+> ---
+>  arch/mips/boot/dts/ralink/mt7621.dtsi | 1 -
 
-Humm, it looks to me like the 'phy-mode' required in snps,dwmac.yaml 
-causes the problem, but I can't get a minimized example to fail. 
-Something in 'required' shouldn't matter. Definitely seems like an issue 
-in the jsonschema package. I'll keep looking at it.
+Acked-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 
-Rob
+Thanks,
+    Sergio Paracuellos
