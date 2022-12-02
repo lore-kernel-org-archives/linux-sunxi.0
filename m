@@ -1,186 +1,85 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 032E54C9E
-	for <linux-sunxi@lists.linux.dev>; Fri,  2 Dec 2022 17:55:54 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id h33so4952364pgm.9
-        for <linux-sunxi@lists.linux.dev>; Fri, 02 Dec 2022 09:55:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NIVCJI4jD1lIjbiWMRsp91OMq2mxFp6avInoFAKoGjM=;
-        b=cSgWXMsX1RoL+5udQvWDt9Mzvb/GUkxb7lr4QjFRjq0oQ59uO6vge7FL7/XlwOvtm1
-         KugaNQO3/UuThGRpVOYcUYoIXI6Q7h8VmvxxPyMsbJBwnMn8czIub5EC28QJ8sEzTnKy
-         dpAHLr6UKIm6MPlD26SKrgxRG8F3IPA0RrQ032XDPKYEOVleaIwxrWV5LxEF1QpbaHZV
-         HJyFvVF7u+x8Xd26T2lpr8S5EICPJbooGXlNggHXyBxCQVQbBSSrCfOLFlbsm71EJ/SV
-         j5L39oEFJlvJ238eIdswWataHaHR+WZcY25yeumHaQTMj/G4FoMUIXnRkZ6W5nIy7VKn
-         mhmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NIVCJI4jD1lIjbiWMRsp91OMq2mxFp6avInoFAKoGjM=;
-        b=0IXwSsKInhYi8uYwKOboSDk+XfgRJHudWzz4kS5IJts00zPn9oTE8tvxeA/lFMDa6r
-         vkqkWlcAMDv7qKbfIY7aTRxREA9NlxOdXYU/UftzIDWWtPSxcbODeJyTN4WbO3gNxH31
-         V6LeRPf5o9kiVqNE810IKvBggpkXnYMHMH959n3JJJKVrZdlHzEXWFw8+dC7lo11nVwM
-         JyB/hgmJ6MjpIkckoR6D7aIiPq5eD6PmrMwRIm3ozBXTUzSLx/W8vd68/KgdPYXmF1rF
-         0GK7yTWZq5CkdJwkCmT/d/D8OS2oxW/yJM2Md9142s+oEQv5XoiYCc1wA1th+K0nDMCS
-         V7RQ==
-X-Gm-Message-State: ANoB5pkCYp+k6bN1ctrrTPDcNB2/nLQR0E+7J1xPKNh0iQCBmkHp71qx
-	mYOIUnWDZw8dB6GyuZagj7EKMw==
-X-Google-Smtp-Source: AA0mqf6AN+4E7ElGbSgBrSB9mToe2z3WVKE97IxqU5sJzaCssDYU0m+RqxwGgAjeYvlEoEAlPHgq6A==
-X-Received: by 2002:aa7:8685:0:b0:574:b4a2:bc5d with SMTP id d5-20020aa78685000000b00574b4a2bc5dmr39035823pfo.2.1670003754271;
-        Fri, 02 Dec 2022 09:55:54 -0800 (PST)
-Received: from localhost ([50.221.140.188])
-        by smtp.gmail.com with ESMTPSA id z186-20020a6265c3000000b0056bc5ad4862sm5361617pfb.28.2022.12.02.09.55.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Dec 2022 09:55:53 -0800 (PST)
-Date: Fri, 02 Dec 2022 09:55:53 -0800 (PST)
-X-Google-Original-Date: Fri, 02 Dec 2022 09:55:35 PST (-0800)
-Subject:     Re: [PATCH v2 00/12] riscv: Allwinner D1/D1s platform support
-In-Reply-To: <20221125234656.47306-1-samuel@sholland.org>
-CC: wens@csie.org, jernej.skrabec@gmail.com, linux-sunxi@lists.linux.dev,
-  Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-  krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, heiko@sntech.de, jszhang@kernel.org,
-  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, andre.przywara@arm.com, samuel@sholland.org,
-  aou@eecs.berkeley.edu, apatel@ventanamicro.com, Atish Patra <atishp@rivosinc.com>,
-  christianshewitt@gmail.com, Conor Dooley <conor.dooley@microchip.com>, guoren@kernel.org,
-  heinrich.schuchardt@canonical.com, linus.walleij@linaro.org, Paul Walmsley <paul.walmsley@sifive.com>,
-  stano.jakubek@gmail.com
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: samuel@sholland.org
-Message-ID: <mhng-1d8384a6-0b34-45e5-aef6-00865a2b840b@palmer-ri-x1c9a>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FA5F1C26
+	for <linux-sunxi@lists.linux.dev>; Fri,  2 Dec 2022 23:39:28 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0958523A;
+	Fri,  2 Dec 2022 15:39:29 -0800 (PST)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 36A143F73B;
+	Fri,  2 Dec 2022 15:39:21 -0800 (PST)
+Date: Fri, 2 Dec 2022 23:37:38 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, linux-pwm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] pwm: sun4i: Propagate errors in .get_state() to the
+ caller
+Message-ID: <20221202233738.281329b1@slackpad.lan>
+In-Reply-To: <20221201154822.mx7jafj3tyxes5ab@pengutronix.de>
+References: <20221201152223.3133-1-andre.przywara@arm.com>
+	<20221201154822.mx7jafj3tyxes5ab@pengutronix.de>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 25 Nov 2022 15:46:44 PST (-0800), samuel@sholland.org wrote:
-> This series adds the Kconfig/defconfig plumbing and devicetrees for a
-> range of Allwinner D1 and D1s-based boards. Many features are already
-> enabled, including USB, Ethernet, and WiFi.
->
-> The devicetrees use bindings from the following series which have not
-> yet been merged:
->  - In-package LDO regulators:
->    https://lore.kernel.org/lkml/20221125040112.18160-1-samuel@sholland.org/
->  - Ethernet MAC binding fixes (not a new issue with D1):
->    https://lore.kernel.org/lkml/20221125202008.64595-1-samuel@sholland.org/
->  - RTL8723DS Bluetooth (has driver support, missing documentation):
->    https://lore.kernel.org/lkml/20221125040956.18648-1-samuel@sholland.org/
->  - TI ADC101C ADC (has driver support, missing documentation):
->    https://lore.kernel.org/lkml/20221125220903.8632-1-samuel@sholland.org/
->
-> The only remaining DT validation issue is that gpio-fan is missing a
-> YAML conversion, although one is on the list here:
-> https://lore.kernel.org/lkml/20220126200350.3633576-1-clabbe@baylibre.com/
->
-> $ make ARCH=riscv CROSS_COMPILE=riscv64-linux-musl- dtbs_check
->   SYNC    include/config/auto.conf.cmd
->   LINT    Documentation/devicetree/bindings
->   CHKDT   Documentation/devicetree/bindings/processed-schema.json
->   SCHEMA  Documentation/devicetree/bindings/processed-schema.json
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-clockworkpi-v3.14.dtb
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dtb
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dtb
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dtb
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dtb
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dtb
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dtb
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dtb
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dtb
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dtb
-> arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dtb:0:0: /fan: failed to match any schema with compatible: ['gpio-fan']
->
-> I tested this series (DMIC, Ethernet, LEDs, MMC, PMIC, touch, and USB,
-> all where available) on the following boards:
->  - sun20i-d1-devterm-v3.14
->  - sun20i-d1-dongshan-nezha-stu
->  - sun20i-d1-lichee-rv-86-panel-480p
->  - sun20i-d1-mangopi-mq-pro
->  - sun20i-d1-nezha
->  - sun20i-d1s-mangopi-mq
->
-> Changes in v2:
->  - Add MangoPi MQ (non-Pro) board
->  - Split into separate files for sharing with D1s/R528/T113
->  - Use SOC_PERIPHERAL_IRQ macro for interrupts
->  - Rename osc24M to dcxo and move the frequency to the board DTs
->  - Drop analog LDOs due to the missing binding
->  - Correct tcon_top DSI clock reference
->  - Add DMIC, DSI controller, and DPHY (bindings are in linux-next)
->  - Add CPU OPP table
->  - Common regulators moved to MangoPi MQ patch, removed analog LDOs
->  - Removed LRADC (depends on analog LDOs)
->  - Added XR829 host-wake interrupt
->  - Added DMIC sound card to Lichee RV dock and Lichee RV 86 Panel
->  - Removed LRADC (depends on analog LDOs)
->  - Added LED (GPIO shared between onboard LED and backlight regulator)
->  - Added PMIC GPIO controller node (binding merged for 6.2)
->  - Sort Kconfig as if we had done s/SOC_/ARCH_/ for future-proofing
->
-> Samuel Holland (12):
->   MAINTAINERS: Match the sun20i family of Allwinner SoCs
->   dt-bindings: vendor-prefixes: Add Allwinner D1/D1s board vendors
->   dt-bindings: riscv: Add Allwinner D1/D1s board compatibles
->   riscv: dts: allwinner: Add the D1/D1s SoC devicetree
->   riscv: dts: allwinner: Add MangoPi MQ devicetree
->   riscv: dts: allwinner: Add Allwinner D1 Nezha devicetree
->   riscv: dts: allwinner: Add Sipeed Lichee RV devicetrees
->   riscv: dts: allwinner: Add MangoPi MQ Pro devicetree
->   riscv: dts: allwinner: Add Dongshan Nezha STU devicetree
->   riscv: dts: allwinner: Add ClockworkPi and DevTerm devicetrees
->   riscv: Add the Allwinner SoC family Kconfig option
->   riscv: defconfig: Enable the Allwinner D1 platform and drivers
->
->  .../devicetree/bindings/riscv/sunxi.yaml      |  69 ++
->  .../devicetree/bindings/vendor-prefixes.yaml  |   4 +
->  MAINTAINERS                                   |   2 +-
->  arch/riscv/Kconfig.socs                       |   9 +
->  arch/riscv/boot/dts/Makefile                  |   1 +
->  arch/riscv/boot/dts/allwinner/Makefile        |  11 +
->  .../allwinner/sun20i-common-regulators.dtsi   |  35 +
->  .../allwinner/sun20i-d1-clockworkpi-v3.14.dts | 253 ++++++
->  .../dts/allwinner/sun20i-d1-devterm-v3.14.dts |  36 +
->  .../sun20i-d1-dongshan-nezha-stu.dts          | 118 +++
->  .../sun20i-d1-lichee-rv-86-panel-480p.dts     |  29 +
->  .../sun20i-d1-lichee-rv-86-panel-720p.dts     |  10 +
->  .../sun20i-d1-lichee-rv-86-panel.dtsi         | 118 +++
->  .../allwinner/sun20i-d1-lichee-rv-dock.dts    |  96 ++
->  .../dts/allwinner/sun20i-d1-lichee-rv.dts     |  88 ++
->  .../allwinner/sun20i-d1-mangopi-mq-pro.dts    | 143 +++
->  .../boot/dts/allwinner/sun20i-d1-nezha.dts    | 167 ++++
->  arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi  |  66 ++
->  .../dts/allwinner/sun20i-d1s-mangopi-mq.dts   | 135 +++
->  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi |  76 ++
->  .../boot/dts/allwinner/sunxi-d1-t113.dtsi     |  15 +
->  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 844 ++++++++++++++++++
->  arch/riscv/configs/defconfig                  |  23 +-
->  23 files changed, 2346 insertions(+), 2 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/riscv/sunxi.yaml
->  create mode 100644 arch/riscv/boot/dts/allwinner/Makefile
->  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi
->  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-clockworkpi-v3.14.dts
->  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dts
->  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts
->  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dts
->  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dts
->  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel.dtsi
->  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts
->  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dts
->  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dts
->  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
->  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi
->  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts
->  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
->  create mode 100644 arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi
->  create mode 100644 arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+On Thu, 1 Dec 2022 16:48:22 +0100
+Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> wrote:
 
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+> On Thu, Dec 01, 2022 at 03:22:23PM +0000, Andre Przywara wrote:
+> > .get_state() can return an error indication now. Make use of it to
+> > propagate an impossible prescaler encoding, should that have sneaked in
+> > somehow.
+> > Also check the return value of clk_get_rate(). That's unlikely to fail,
+> > but we use that in two divide operations down in the code, so let's
+> > avoid a divide-by-zero condition on the way.
+> >=20
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> > Hi,
+> >=20
+> > this goes on top of Uwe's series to introduce and observe .get_state
+> > failures: https://lore.kernel.org/linux-pwm/20221130152148.2769768-12-u=
+.kleine-koenig@pengutronix.de/T/#m9af39aa03bbd9bb7b31b3600f110c65ee0e8e70b
+> > Actually it only relies on patch 01/11 from that. =20
+>=20
+> I recommend to put this info in machine-readable form into your patch.
+> If you applied my patch #1 on v6.1-rc1 and this on top, you'd do
+>=20
+> 	git format-patch -1 --base v6.1-rc1
+>=20
+> This results in two additional lines that the build bots can evaluate,
+> to find the right setup to test your patch.
+
+Ah, nice one, didn't know about that. And just went I wanted to
+complain that this relies on public branches and committed patches, I
+learned that it doesn't.
+
+So I got:
+base-commit: eb7081409f94a9a8608593d0fb63a1aa3d6f95d8
+prerequisite-patch-id: 3022328f2919301d79d852ef148c3f9dc4d723d6
+
+Do you want me to resend the patch with this information?
+
+> Apart from that:
+>=20
+> Reviewed-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+
+Thanks for that!
+
+Cheers,
+Andre
+
+>=20
+> and thanks to pick up on this topic,
+> Uwe
+>=20
+
