@@ -1,126 +1,186 @@
-Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517894C89
-	for <linux-sunxi@lists.linux.dev>; Fri,  2 Dec 2022 17:00:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1670000447; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=LyXsdr5/7uFU3xSgpe8myGtTWV1Hn7zKf4EKiOnKIexKn+w1T7TJ8P5F8qaIDjzvKcyE7jhm4ns9ivF09JsvxMC2gq0iUc9diAIdrbAPARcUH0zlXRCbr0cux4QmrA1rfh2/2h1dQu8brWI7B/KJLZPDQDO8DTHbDY/nN6qzsZY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1670000447; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=+EqTfPk74WLERR+Smv2InmkoLsWm4hNXze0JOAsz9gg=; 
-	b=Wi7X4AZ5VMK3ALYDzqnTHK3GZ/+Lhd4Zhw3wEdqSU2NWzKBeT3XgjYH/WEh1hDNlt+UEL+Cfm5g8lDSDpVZWomwdMWGV47gvUjpz9qLXDIA7qX1PbeS+WsEbn8LLAC15jKAmBGVB23VtbopmctZPQjR4vKv9+jsM2Ld34W1iqWQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1670000447;
-	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=+EqTfPk74WLERR+Smv2InmkoLsWm4hNXze0JOAsz9gg=;
-	b=fKM4uQ8YtjVg9zspKIaEJlQ0oJ8XtleovMU/MCXnjW0aCpXyPNhv2czfH47nVDHG
-	r4y5NCN8c2D/37yOPQgmsD4D/A6jTtqBMHqTIwWDP4o4IVZLrujOPfzPVXartKAmfdx
-	77TYG6c42kpbHbkqrSl+SRkWakdgImp518IM3l2A=
-Received: from edelgard.fodlan.icenowy.me (120.85.99.143 [120.85.99.143]) by mx.zohomail.com
-	with SMTPS id 1670000444876905.0700530460737; Fri, 2 Dec 2022 09:00:44 -0800 (PST)
-Message-ID: <6970fef2a3826a8f060db2091db87b135a06da57.camel@icenowy.me>
-Subject: Re: [PATCH v2 2/6] dt-bindings: usb: Add binding for Genesys Logic
- GL850G hub controller
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,  Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,  Matthias Kaehlcke
- <mka@chromium.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org
-Date: Sat, 03 Dec 2022 01:00:39 +0800
-In-Reply-To: <feb6d0d3-706f-b726-dd13-9ed665a52f9d@linaro.org>
-References: <20221202081647.3183870-1-uwu@icenowy.me>
-	 <20221202081647.3183870-3-uwu@icenowy.me>
-	 <b4ddf139-5604-bd04-e309-d7bc15e9d23b@linaro.org>
-	 <2f0f31551d361cf23abdd2c4117f2feb84e2b1a8.camel@icenowy.me>
-	 <feb6d0d3-706f-b726-dd13-9ed665a52f9d@linaro.org>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 032E54C9E
+	for <linux-sunxi@lists.linux.dev>; Fri,  2 Dec 2022 17:55:54 +0000 (UTC)
+Received: by mail-pg1-f174.google.com with SMTP id h33so4952364pgm.9
+        for <linux-sunxi@lists.linux.dev>; Fri, 02 Dec 2022 09:55:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NIVCJI4jD1lIjbiWMRsp91OMq2mxFp6avInoFAKoGjM=;
+        b=cSgWXMsX1RoL+5udQvWDt9Mzvb/GUkxb7lr4QjFRjq0oQ59uO6vge7FL7/XlwOvtm1
+         KugaNQO3/UuThGRpVOYcUYoIXI6Q7h8VmvxxPyMsbJBwnMn8czIub5EC28QJ8sEzTnKy
+         dpAHLr6UKIm6MPlD26SKrgxRG8F3IPA0RrQ032XDPKYEOVleaIwxrWV5LxEF1QpbaHZV
+         HJyFvVF7u+x8Xd26T2lpr8S5EICPJbooGXlNggHXyBxCQVQbBSSrCfOLFlbsm71EJ/SV
+         j5L39oEFJlvJ238eIdswWataHaHR+WZcY25yeumHaQTMj/G4FoMUIXnRkZ6W5nIy7VKn
+         mhmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NIVCJI4jD1lIjbiWMRsp91OMq2mxFp6avInoFAKoGjM=;
+        b=0IXwSsKInhYi8uYwKOboSDk+XfgRJHudWzz4kS5IJts00zPn9oTE8tvxeA/lFMDa6r
+         vkqkWlcAMDv7qKbfIY7aTRxREA9NlxOdXYU/UftzIDWWtPSxcbODeJyTN4WbO3gNxH31
+         V6LeRPf5o9kiVqNE810IKvBggpkXnYMHMH959n3JJJKVrZdlHzEXWFw8+dC7lo11nVwM
+         JyB/hgmJ6MjpIkckoR6D7aIiPq5eD6PmrMwRIm3ozBXTUzSLx/W8vd68/KgdPYXmF1rF
+         0GK7yTWZq5CkdJwkCmT/d/D8OS2oxW/yJM2Md9142s+oEQv5XoiYCc1wA1th+K0nDMCS
+         V7RQ==
+X-Gm-Message-State: ANoB5pkCYp+k6bN1ctrrTPDcNB2/nLQR0E+7J1xPKNh0iQCBmkHp71qx
+	mYOIUnWDZw8dB6GyuZagj7EKMw==
+X-Google-Smtp-Source: AA0mqf6AN+4E7ElGbSgBrSB9mToe2z3WVKE97IxqU5sJzaCssDYU0m+RqxwGgAjeYvlEoEAlPHgq6A==
+X-Received: by 2002:aa7:8685:0:b0:574:b4a2:bc5d with SMTP id d5-20020aa78685000000b00574b4a2bc5dmr39035823pfo.2.1670003754271;
+        Fri, 02 Dec 2022 09:55:54 -0800 (PST)
+Received: from localhost ([50.221.140.188])
+        by smtp.gmail.com with ESMTPSA id z186-20020a6265c3000000b0056bc5ad4862sm5361617pfb.28.2022.12.02.09.55.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Dec 2022 09:55:53 -0800 (PST)
+Date: Fri, 02 Dec 2022 09:55:53 -0800 (PST)
+X-Google-Original-Date: Fri, 02 Dec 2022 09:55:35 PST (-0800)
+Subject:     Re: [PATCH v2 00/12] riscv: Allwinner D1/D1s platform support
+In-Reply-To: <20221125234656.47306-1-samuel@sholland.org>
+CC: wens@csie.org, jernej.skrabec@gmail.com, linux-sunxi@lists.linux.dev,
+  Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+  krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, heiko@sntech.de, jszhang@kernel.org,
+  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, andre.przywara@arm.com, samuel@sholland.org,
+  aou@eecs.berkeley.edu, apatel@ventanamicro.com, Atish Patra <atishp@rivosinc.com>,
+  christianshewitt@gmail.com, Conor Dooley <conor.dooley@microchip.com>, guoren@kernel.org,
+  heinrich.schuchardt@canonical.com, linus.walleij@linaro.org, Paul Walmsley <paul.walmsley@sifive.com>,
+  stano.jakubek@gmail.com
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: samuel@sholland.org
+Message-ID: <mhng-1d8384a6-0b34-45e5-aef6-00865a2b840b@palmer-ri-x1c9a>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-ZohoMailClient: External
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-=E5=9C=A8 2022-12-02=E6=98=9F=E6=9C=9F=E4=BA=94=E7=9A=84 17:59 +0100=EF=BC=
-=8CKrzysztof Kozlowski=E5=86=99=E9=81=93=EF=BC=9A
-> On 02/12/2022 17:54, Icenowy Zheng wrote:
-> > =E5=9C=A8 2022-12-02=E6=98=9F=E6=9C=9F=E4=BA=94=E7=9A=84 10:02 +0100=EF=
-=BC=8CKrzysztof Kozlowski=E5=86=99=E9=81=93=EF=BC=9A
-> > > On 02/12/2022 09:16, Icenowy Zheng wrote:
-> > > > The Genesys Logic GL850G is a USB 2.0 Single TT hub controller
-> > > > that
-> > > > features 4 downstream ports, an internal 5V-to-3.3V LDO
-> > > > regulator
-> > > > (can
-> > > > be bypassed) and an external reset pin.
-> > > >=20
-> > > > Add a device tree binding for its USB protocol part. The
-> > > > internal
-> > > > LDO is
-> > > > not covered by this and can just be modelled as a fixed
-> > > > regulator.
-> > > >=20
-> > > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> > > > ---
-> > > > Changes in v2:
-> > > > - Misc fixes suggested by Krzysztof, including property
-> > > > descriptions,
-> > > > =C2=A0 single-item "items" and fixing the example's gpio property.
-> > > > - Fixed $id.
-> > > >=20
-> > > (...)
-> > >=20
-> > > > +
-> > > > +examples:
-> > > > +=C2=A0 - |
-> > > > +=C2=A0=C2=A0=C2=A0 usb {
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dr_mode =3D "host";
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #address-cells =3D <1>;
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #size-cells =3D <0>;
-> > > > +
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hub: hub@1 {
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- compatible =3D "usb5e3,608";
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- reg =3D <1>;
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- reset-gpios =3D <&pio 7 2>;
-> > >=20
-> > > Use GPIO flags. What did you fix in the example?
-> >=20
-> > It used to be here, but using it needs another include, which I
-> > don't
-> > think it necessary here.
->=20
-> The header is necessary for the flags...
->=20
-> >=20
-> > Maybe I should just drop this line in the example?
->=20
-> It's useful. The example should be rather complete, not just
-> compatible
-> and reg.
->=20
-> Different problem - you miss maxItems for the GPIOs.
+On Fri, 25 Nov 2022 15:46:44 PST (-0800), samuel@sholland.org wrote:
+> This series adds the Kconfig/defconfig plumbing and devicetrees for a
+> range of Allwinner D1 and D1s-based boards. Many features are already
+> enabled, including USB, Ethernet, and WiFi.
+>
+> The devicetrees use bindings from the following series which have not
+> yet been merged:
+>  - In-package LDO regulators:
+>    https://lore.kernel.org/lkml/20221125040112.18160-1-samuel@sholland.org/
+>  - Ethernet MAC binding fixes (not a new issue with D1):
+>    https://lore.kernel.org/lkml/20221125202008.64595-1-samuel@sholland.org/
+>  - RTL8723DS Bluetooth (has driver support, missing documentation):
+>    https://lore.kernel.org/lkml/20221125040956.18648-1-samuel@sholland.org/
+>  - TI ADC101C ADC (has driver support, missing documentation):
+>    https://lore.kernel.org/lkml/20221125220903.8632-1-samuel@sholland.org/
+>
+> The only remaining DT validation issue is that gpio-fan is missing a
+> YAML conversion, although one is on the list here:
+> https://lore.kernel.org/lkml/20220126200350.3633576-1-clabbe@baylibre.com/
+>
+> $ make ARCH=riscv CROSS_COMPILE=riscv64-linux-musl- dtbs_check
+>   SYNC    include/config/auto.conf.cmd
+>   LINT    Documentation/devicetree/bindings
+>   CHKDT   Documentation/devicetree/bindings/processed-schema.json
+>   SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-clockworkpi-v3.14.dtb
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dtb
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dtb
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dtb
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dtb
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dtb
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dtb
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dtb
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dtb
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dtb
+> arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dtb:0:0: /fan: failed to match any schema with compatible: ['gpio-fan']
+>
+> I tested this series (DMIC, Ethernet, LEDs, MMC, PMIC, touch, and USB,
+> all where available) on the following boards:
+>  - sun20i-d1-devterm-v3.14
+>  - sun20i-d1-dongshan-nezha-stu
+>  - sun20i-d1-lichee-rv-86-panel-480p
+>  - sun20i-d1-mangopi-mq-pro
+>  - sun20i-d1-nezha
+>  - sun20i-d1s-mangopi-mq
+>
+> Changes in v2:
+>  - Add MangoPi MQ (non-Pro) board
+>  - Split into separate files for sharing with D1s/R528/T113
+>  - Use SOC_PERIPHERAL_IRQ macro for interrupts
+>  - Rename osc24M to dcxo and move the frequency to the board DTs
+>  - Drop analog LDOs due to the missing binding
+>  - Correct tcon_top DSI clock reference
+>  - Add DMIC, DSI controller, and DPHY (bindings are in linux-next)
+>  - Add CPU OPP table
+>  - Common regulators moved to MangoPi MQ patch, removed analog LDOs
+>  - Removed LRADC (depends on analog LDOs)
+>  - Added XR829 host-wake interrupt
+>  - Added DMIC sound card to Lichee RV dock and Lichee RV 86 Panel
+>  - Removed LRADC (depends on analog LDOs)
+>  - Added LED (GPIO shared between onboard LED and backlight regulator)
+>  - Added PMIC GPIO controller node (binding merged for 6.2)
+>  - Sort Kconfig as if we had done s/SOC_/ARCH_/ for future-proofing
+>
+> Samuel Holland (12):
+>   MAINTAINERS: Match the sun20i family of Allwinner SoCs
+>   dt-bindings: vendor-prefixes: Add Allwinner D1/D1s board vendors
+>   dt-bindings: riscv: Add Allwinner D1/D1s board compatibles
+>   riscv: dts: allwinner: Add the D1/D1s SoC devicetree
+>   riscv: dts: allwinner: Add MangoPi MQ devicetree
+>   riscv: dts: allwinner: Add Allwinner D1 Nezha devicetree
+>   riscv: dts: allwinner: Add Sipeed Lichee RV devicetrees
+>   riscv: dts: allwinner: Add MangoPi MQ Pro devicetree
+>   riscv: dts: allwinner: Add Dongshan Nezha STU devicetree
+>   riscv: dts: allwinner: Add ClockworkPi and DevTerm devicetrees
+>   riscv: Add the Allwinner SoC family Kconfig option
+>   riscv: defconfig: Enable the Allwinner D1 platform and drivers
+>
+>  .../devicetree/bindings/riscv/sunxi.yaml      |  69 ++
+>  .../devicetree/bindings/vendor-prefixes.yaml  |   4 +
+>  MAINTAINERS                                   |   2 +-
+>  arch/riscv/Kconfig.socs                       |   9 +
+>  arch/riscv/boot/dts/Makefile                  |   1 +
+>  arch/riscv/boot/dts/allwinner/Makefile        |  11 +
+>  .../allwinner/sun20i-common-regulators.dtsi   |  35 +
+>  .../allwinner/sun20i-d1-clockworkpi-v3.14.dts | 253 ++++++
+>  .../dts/allwinner/sun20i-d1-devterm-v3.14.dts |  36 +
+>  .../sun20i-d1-dongshan-nezha-stu.dts          | 118 +++
+>  .../sun20i-d1-lichee-rv-86-panel-480p.dts     |  29 +
+>  .../sun20i-d1-lichee-rv-86-panel-720p.dts     |  10 +
+>  .../sun20i-d1-lichee-rv-86-panel.dtsi         | 118 +++
+>  .../allwinner/sun20i-d1-lichee-rv-dock.dts    |  96 ++
+>  .../dts/allwinner/sun20i-d1-lichee-rv.dts     |  88 ++
+>  .../allwinner/sun20i-d1-mangopi-mq-pro.dts    | 143 +++
+>  .../boot/dts/allwinner/sun20i-d1-nezha.dts    | 167 ++++
+>  arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi  |  66 ++
+>  .../dts/allwinner/sun20i-d1s-mangopi-mq.dts   | 135 +++
+>  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi |  76 ++
+>  .../boot/dts/allwinner/sunxi-d1-t113.dtsi     |  15 +
+>  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 844 ++++++++++++++++++
+>  arch/riscv/configs/defconfig                  |  23 +-
+>  23 files changed, 2346 insertions(+), 2 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/riscv/sunxi.yaml
+>  create mode 100644 arch/riscv/boot/dts/allwinner/Makefile
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-common-regulators.dtsi
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-clockworkpi-v3.14.dts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel.dtsi
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
 
-Okay thanks.
-
->=20
-> Best regards,
-> Krzysztof
->=20
-
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
