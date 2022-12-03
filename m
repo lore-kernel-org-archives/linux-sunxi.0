@@ -1,74 +1,145 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 871B323B9
-	for <linux-sunxi@lists.linux.dev>; Sat,  3 Dec 2022 09:50:13 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id d14so4481551edj.11
-        for <linux-sunxi@lists.linux.dev>; Sat, 03 Dec 2022 01:50:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pKoltGC5ckQWo5BiboUaLB5iAME4tB65clkoM0oEHcg=;
-        b=h6dUD67vquHbmPgmHoNF3BOb+l8o5ggMnEOVhLjx1fn+5TL+D7YI6EIz+cJ8TyADBC
-         QMFicDeDKirXMuYXDVisaijeLIK+QkKXdoD5bl83VGWDxAILefl2+EmDjB0DU1DwYEiC
-         fJInYweXJ29/BR09WIL4Okv63iRAwCD2DyV3s3fFS83/4eHFZKswkJKmybe+cMIR8IjK
-         4j9NGUL4lqQThbP4UPLaw83IPR9uzExrwlSICvd1mqCwiopgoSSljYq9qtIoST8ZFPfu
-         kWCFMn6JaVEs2g4Usq6m/oab4yz4Iu1kIW1SyqyXocE71wlVKsJJIkyR1aHFbW18kUyM
-         a28w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pKoltGC5ckQWo5BiboUaLB5iAME4tB65clkoM0oEHcg=;
-        b=I8smKgw7favfz+TBJNKaDqeh7AJOh2t8pnsgVEKSm+8aGt4buaI3B1w215tFwPgjXL
-         9x0smazHni0lKWbgA54Fx9JXvrNTIatZdnLJMcwB6ewYvGfOJtzwG8/dS9XWy3sSdLiE
-         ZFrfl8gucN7lT0vTXUdWSngj8kGTkefieN+pFI4r8ASbZtTfautO+6o67zqbtprD1o+9
-         lahMS6FRslkiuJDumDbqcdJsq9vSFqXtCu529zmPfJHn0HAu9LriFPuhBHUz2Ex5Mrcj
-         riBrEoNGTbfdHbH9DSjxTXXkOlX3OQT2iC2UP1ZwO69jvDEWGo/fvdw5Rxg+fjBtJtAi
-         b2lA==
-X-Gm-Message-State: ANoB5plQDZw13SFZUio/sYCjkqoNUpf+B71O9cjCsi7oFL4wRGbAH+fP
-	OddrqDyK3nXRsVmNPEEO8v8=
-X-Google-Smtp-Source: AA0mqf6J+m150CNoI5DgQbApXyAZL3nNTnv0RzKOkbOv7RUuirKufT3KcLNr3BaaEs2QCVel1ifT/A==
-X-Received: by 2002:a05:6402:5406:b0:467:4b3d:f2ed with SMTP id ev6-20020a056402540600b004674b3df2edmr50133008edb.101.1670061011692;
-        Sat, 03 Dec 2022 01:50:11 -0800 (PST)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id by15-20020a0564021b0f00b0046ae912ff36sm3861099edb.84.2022.12.03.01.50.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Dec 2022 01:50:11 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>, Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, linux-pwm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] pwm: sun4i: Propagate errors in .get_state() to the caller
-Date: Sat, 03 Dec 2022 10:50:10 +0100
-Message-ID: <5623993.DvuYhMxLoT@jernej-laptop>
-In-Reply-To: <20221201152223.3133-1-andre.przywara@arm.com>
-References: <20221201152223.3133-1-andre.przywara@arm.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87F847B
+	for <linux-sunxi@lists.linux.dev>; Sat,  3 Dec 2022 14:06:47 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4658123A;
+	Sat,  3 Dec 2022 05:58:58 -0800 (PST)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AD4A23F73D;
+	Sat,  3 Dec 2022 05:58:49 -0800 (PST)
+Date: Sat, 3 Dec 2022 13:57:13 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/5] clk: sunxi-ng: Remove duplicate ARCH_SUNXI
+ dependencies
+Message-ID: <20221203135713.0591b0b7@slackpad.lan>
+In-Reply-To: <b7774c58-ccf8-4204-2e7e-6841fd13002d@sholland.org>
+References: <20221126191319.6404-1-samuel@sholland.org>
+	<20221126191319.6404-2-samuel@sholland.org>
+	<20221203001439.64284671@slackpad.lan>
+	<b7774c58-ccf8-4204-2e7e-6841fd13002d@sholland.org>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Dne =C4=8Detrtek, 01. december 2022 ob 16:22:23 CET je Andre Przywara napis=
-al(a):
-> .get_state() can return an error indication now. Make use of it to
-> propagate an impossible prescaler encoding, should that have sneaked in
-> somehow.
-> Also check the return value of clk_get_rate(). That's unlikely to fail,
-> but we use that in two divide operations down in the code, so let's
-> avoid a divide-by-zero condition on the way.
->=20
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+On Fri, 2 Dec 2022 19:52:41 -0600
+Samuel Holland <samuel@sholland.org> wrote:
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Hi Samuel,
 
-Best regards,
-Jernej
+> On 12/2/22 18:14, Andre Przywara wrote:
+> > On Sat, 26 Nov 2022 13:13:15 -0600
+> > Samuel Holland <samuel@sholland.org> wrote:
+> > 
+> > Hi,
+> > 
+> > thanks for addressing this!
+> >   
+> >> SUNXI_CCU already depends on ARCH_SUNXI, so adding the dependency to
+> >> individual SoC drivers is redundant.
+> >>
+> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> >> ---
+> >>
+> >>  drivers/clk/sunxi-ng/Kconfig | 43 ++++++++++++++++++------------------
+> >>  1 file changed, 21 insertions(+), 22 deletions(-)
+> >>
+> >> diff --git a/drivers/clk/sunxi-ng/Kconfig b/drivers/clk/sunxi-ng/Kconfig
+> >> index 461537679c04..64cfa022e320 100644
+> >> --- a/drivers/clk/sunxi-ng/Kconfig
+> >> +++ b/drivers/clk/sunxi-ng/Kconfig
+> >> @@ -14,43 +14,43 @@ config SUNIV_F1C100S_CCU
+> >>  
+> >>  config SUN20I_D1_CCU
+> >>  	tristate "Support for the Allwinner D1 CCU"
+> >> -	default RISCV && ARCH_SUNXI
+> >> -	depends on (RISCV && ARCH_SUNXI) || COMPILE_TEST
+> >> +	default RISCV
+> >> +	depends on RISCV || COMPILE_TEST  
+> > 
+> > I agree on the "depends" part: Indeed the guard symbol already covers
+> > that, so it's redundant.
+> > However I am not so sure about the "default" part: When ARCH_SUNXI is
+> > deselected, but COMPILE_TEST in enabled, we default to every CCU driver
+> > being built-in. I am not sure this is the intention, or at least
+> > expected when doing compile testing?  
+> 
+> SUNXI_CCU, which these depend on, is still "default ARCH_SUNXI", so if
+> you have ARCH_SUNXI disabled, you only get any drivers if you manually
+> enable SUNXI_CCU. I mentioned this in the patch 2 description, but maybe
+> I should move that comment here.
 
+Yeah, I read this later on, I guess it's fine then.
+
+> 
+> >>  
+> >>  config SUN20I_D1_R_CCU
+> >>  	tristate "Support for the Allwinner D1 PRCM CCU"
+> >> -	default RISCV && ARCH_SUNXI
+> >> -	depends on (RISCV && ARCH_SUNXI) || COMPILE_TEST
+> >> +	default RISCV
+> >> +	depends on RISCV || COMPILE_TEST
+> >>  
+> >>  config SUN50I_A64_CCU
+> >>  	tristate "Support for the Allwinner A64 CCU"
+> >> -	default ARM64 && ARCH_SUNXI
+> >> -	depends on (ARM64 && ARCH_SUNXI) || COMPILE_TEST
+> >> +	default ARM64
+> >> +	depends on ARM64 || COMPILE_TEST  
+> > 
+> > I wonder if this "depends" line was always wrong and should be fixed:
+> > We can compile a 32-bit ARM kernel and run it on an A64. Granted this
+> > requires a special bootloader or a hacked U-Boot (tried that), and
+> > reveals some other issues with the decompressor, but technically there
+> > is no 64-bit dependency in here.
+> > The same goes for all the other ARM64 CCUs: Cortex-A53s can run AArch32
+> > in all exception levels.  
+> 
+> I was trying to simplify things by hiding irrelevant options, and you
+> bring up an edge case of an edge case. :) I am okay with relaxing the
+> dependency, though I would want to leave them disabled by default for
+> 32-bit kernels (excluding them from the change in patch 2).
+
+Yes, definitely, that was the idea.
+
+And sorry for being a nuisance, but I think this "depends on ARCH_SUNXI"
+here is and was always misplaced. In contrast to things like "depends
+on PCI" or "depends on GPIOLIB", there is no real dependency on
+ARCH_SUNXI or even ARM/RISCV here, it's more a "only useful on
+ARCH_SUNXI".
+And this ARM vs ARM64 was just another rationale for not being
+overzealous with the dependency.
+
+But I see that this is an orthogonal discussion to this patch, so this
+should not block it. I will meditate over both patches again, since I
+have the gut feeling that the end result is fine.
+
+Cheers,
+Andre
+
+> 
+> > So shall we just completely remove the "depends" line for those, and
+> > let SUNXI_CCU do that job? Or use use !RISCV || COMPILE_TEST?  
+> 
+> That, or we could add MACH_SUN8I to the condition. I don't have a strong
+> opinion.
+> 
+> Regards,
+> Samuel
+> 
 
