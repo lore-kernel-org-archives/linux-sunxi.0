@@ -1,59 +1,58 @@
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DBE37C
-	for <linux-sunxi@lists.linux.dev>; Sat,  3 Dec 2022 01:56:30 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 463515C0045;
-	Fri,  2 Dec 2022 20:56:29 -0500 (EST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B027C
+	for <linux-sunxi@lists.linux.dev>; Sat,  3 Dec 2022 02:02:05 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 1414F5C0086;
+	Fri,  2 Dec 2022 21:02:05 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Fri, 02 Dec 2022 20:56:29 -0500
+  by compute2.internal (MEProxy); Fri, 02 Dec 2022 21:02:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1670032589; x=
-	1670118989; bh=gH97yBNlSVx+eynbDATUVjIx5Mx6MG4tobGZMPAZGrA=; b=q
-	K/lJjpMHw82Ngty+mLEXBHThZ8aiuFbk0vN1pJUbFfy08lTIv7dJEIcpNX05aNMH
-	ivXsYiCow/AiXN4zL/Kar5zQo5g58J8AecrDPXHt0xsQGrGOJlewPBGssuopb7pE
-	E9ik7MdoQGEHGDVPiGjUPLyM1eznhn4DetVnD7G1dRvdw4AXJqeYBYma6je3s8SB
-	uHYAmvUghVh8gbHYQJgTnDSupybOBrbXHbYpRgKK17G5t7EwSQNI+/bqgO9xLNp8
-	DJGxcWOb1B/0kKWR0fPwTCQ0kInmEa5v5fe/dmwGLVPK4lu2tb46xPRUnaNuysIy
-	xXIx9NyXud8rcQGrkCrmw==
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1670032925; x=
+	1670119325; bh=S0NzbHNIAiwIskxOXPjYN0odudyl1Jgaifx5SiPE8rU=; b=O
+	fD41iGhaxp1TMU39xNDN0hiws8ith/AkDhK0UXzuGCBATOxVhJPKMKXWYCAy3nf9
+	UMKD8D8NNCqVy1BN5h7in/cQTaN+BO5aRUGOd9zc73FTxHL9EItPSSrwD3m7+Wfg
+	HrbosXwh588WQJcft6CAm7pe4VG4yun8QHMoJZ1SI6jPOidERNuCsry3yaVSgUmm
+	Y+WT+yDEZRpsIVbk23TNJzuYaSYSFTKoAhZ5hyDO3Jd4NgP/GoWzAshSZDH2g5ES
+	Fn2JKT9/R0oWpj9vBGtKQmL7K0u3K8X/aTka+pHI6VioPYf2fck8MGLxmXxAKy+m
+	Tuc+nUmrD7aOgSx7lRggA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670032589; x=
-	1670118989; bh=gH97yBNlSVx+eynbDATUVjIx5Mx6MG4tobGZMPAZGrA=; b=c
-	tOO9e3acUElz7inujkR07LYwugsG4zkLp7VeIPDbggexPmvMwpivI3O23FF8To5E
-	+PNxetajsEzF61giaidqDikSxieT24rabRnWxHTky6ajDwqEaRHpbaKjAzt9U95v
-	d99z+E1AL5/lj5Jmn8iWxe1DSOIgcQPnokGqOmWazENK8T7VfBpQ/yjjrMjBsBMm
-	Hl38ZpSmk1Pk1tW3R22UXnL4sHGOH4kYCWQBnBHKSn/87AhfyEQD7U6DJEqeGR5q
-	9tyaz5Q6yD3kUNjWMGkPyeN6z4IAQKi4hcVdPDMQa0cMktzP7T0NbdmtDBfDhfTs
-	hoqH9kqUTOTdUFsC8f6cg==
-X-ME-Sender: <xms:zayKY6H1krVmftxHwC6Pom78_ARc1WbCVE9zc1wjfNabD4IIxJnofA>
-    <xme:zayKY7VXo67ALcnyEm3266ilfSNI56Lt0mt1x2VRV5kxw1-CMi71f6JdwWnYSJhGO
-    UesC0rBxbRzwK8sYw>
-X-ME-Received: <xmr:zayKY0JOleQxmMO80Hg4PrMVXcfiGmn3X4OVDe2_UKHyrR2qcm62jhCWflxKAzgzgLMFz4JjFnnSOBESKObIFApIFGhdi3GoW72WHVF5snLotq6zBoLKrzXVMw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtdelgdegtdcutefuodetggdotefrodftvf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670032925; x=
+	1670119325; bh=S0NzbHNIAiwIskxOXPjYN0odudyl1Jgaifx5SiPE8rU=; b=C
+	4e31EijofWm+tmlo+sd7gMaDMWfYK0/F1RFudCAkFgFuc3gZBqThm5Zj2h0uUZgJ
+	vsG+kLo2qCcUCkCcNlolivEM3/rhjgoPY02LTbvl0QJjVxQJpNja8hNj5QDDiZTQ
+	TX13dmZ5EB3mD1jhiJ8JhD4VDRtltIrtQdHdyWHHh3BtUOpzfwavC2qTyE9GeiuZ
+	7eTpA597IduJ7iJKpxD01jI4S0vt1pQxPg1YMDIaBuGLwa4EDFTHl3lbZ1jSKqOD
+	/eaOgIxNIz0MGvcYQD2TZm0f3tSRDff7/pLAMoHGFjD/L5My8mixd9lw1uHBcsC0
+	6FEJuFaGNPJIsKiI3G0Ng==
+X-ME-Sender: <xms:HK6KY4pSz1DYBVLjPwswS6-9fkAjPXQ5hahTxdXJa0DOSayNX9cWlA>
+    <xme:HK6KY-o8nLcOpbbvcqtAyoOfsdvucRQkgu63KF3GbYfJaJI3gg1sRTbNyFfjwUQR1
+    0DMULmWYGLsT9gyfQ>
+X-ME-Received: <xmr:HK6KY9ODWJfH5Zfyk-_iuQ6tS1LKdIMuMlFAsdlJ-q5b74cyahyxZit_0Cm86axXbx3HlnOG3-99dbpA_0P8g_xz29ucarlcYWDw3manWENg5vnInaepbpohaw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtdelgdegudcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    fjughrpefkffggfgfvvehfhffujggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
     vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepudfhffefhfffuddutedvffekteevieeugeefleelffeitddutdff
-    udehgfdtfefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgr
-    nhgurdhorhhg
-X-ME-Proxy: <xmx:zayKY0EKnR2iWQuFfR7mqef0Y4Jmj81f3NEw0oR3CSoqM44ys5RAuA>
-    <xmx:zayKYwWIQ8EzGZ0AkwQWzgICc0CDFEtsoGxOguh8NFWZ36No7CmImg>
-    <xmx:zayKY3MEeDEtGrdS4pXbrJ5Eb1aLM0tQWBrszZdeRNPrdQTf7h7bWQ>
-    <xmx:zayKYyIFnZh-jQtJP_84pPzccRXDpmKgutwasJs0gDDaRKx41basVw>
+    ftrfgrthhtvghrnhepjefgfffhudejfedtuedugeeutdetgfeiteffffehjeeugfeuvdeh
+    jeetfedtffdtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:HK6KY_4eh7xxfsn07JzTdrNdhy9sghN40aL7HFeM8MAwlHidQxTYgw>
+    <xmx:HK6KY34qzL2NwZC0SVM8UjAHgskkHl0xYt0N_sth4fLkVuE_pJiJfw>
+    <xmx:HK6KY_jnKS9CLM9W-tcisWceuaHZTQlWsCs-s2R3GziZkC8UTRkZQA>
+    <xmx:Ha6KY_zpl94MFL4JJcla-uWp5ZhLz8ABLAauiXRtsL00WIOgSTPfVg>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 2 Dec 2022 20:56:28 -0500 (EST)
-Message-ID: <8f177f68-3e3b-97e8-0f3e-607810623f27@sholland.org>
-Date: Fri, 2 Dec 2022 19:56:28 -0600
+ 2 Dec 2022 21:02:04 -0500 (EST)
+Message-ID: <291a9677-47b9-69e6-0a21-8e7269cfb230@sholland.org>
+Date: Fri, 2 Dec 2022 20:02:03 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -62,42 +61,39 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
-Subject: Re: [PATCH] pwm: sun4i: Propagate errors in .get_state() to the
- caller
 Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-pwm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20221201152223.3133-1-andre.przywara@arm.com>
+To: Icenowy Zheng <uwu@icenowy.me>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Matthias Kaehlcke <mka@chromium.org>, Andre Przywara <andre.przywara@arm.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20221202081647.3183870-1-uwu@icenowy.me>
+ <20221202081647.3183870-6-uwu@icenowy.me>
 From: Samuel Holland <samuel@sholland.org>
-In-Reply-To: <20221201152223.3133-1-andre.przywara@arm.com>
+Subject: Re: [PATCH v2 5/6] dt-bindings: arm: sunxi: add Rongpin RP-H6B board
+In-Reply-To: <20221202081647.3183870-6-uwu@icenowy.me>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 12/1/22 09:22, Andre Przywara wrote:
-> .get_state() can return an error indication now. Make use of it to
-> propagate an impossible prescaler encoding, should that have sneaked in
-> somehow.
-> Also check the return value of clk_get_rate(). That's unlikely to fail,
-> but we use that in two divide operations down in the code, so let's
-> avoid a divide-by-zero condition on the way.
+On 12/2/22 02:16, Icenowy Zheng wrote:
+> Rongpin RP-H6B is a development board with RP-H6C SoM, which uses an
+> Allwinner H6 SoC.
 > 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Add compatible strings for it, including the board-specific compatible
+> and the SoM compatible.
+> 
+> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
-> Hi,
+> Changes in v2:
+> - Add Krzysztof's ACK.
 > 
-> this goes on top of Uwe's series to introduce and observe .get_state
-> failures: https://lore.kernel.org/linux-pwm/20221130152148.2769768-12-u.kleine-koenig@pengutronix.de/T/#m9af39aa03bbd9bb7b31b3600f110c65ee0e8e70b
-> Actually it only relies on patch 01/11 from that.
-> 
-> Cheers,
-> Andre
-> 
->  drivers/pwm/pwm-sun4i.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
 
 Reviewed-by: Samuel Holland <samuel@sholland.org>
 
