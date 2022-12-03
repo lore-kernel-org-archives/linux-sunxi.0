@@ -1,58 +1,59 @@
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7667C
-	for <linux-sunxi@lists.linux.dev>; Sat,  3 Dec 2022 01:52:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DBE37C
+	for <linux-sunxi@lists.linux.dev>; Sat,  3 Dec 2022 01:56:30 +0000 (UTC)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id C186D5C00C2;
-	Fri,  2 Dec 2022 20:52:44 -0500 (EST)
+	by mailout.nyi.internal (Postfix) with ESMTP id 463515C0045;
+	Fri,  2 Dec 2022 20:56:29 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Fri, 02 Dec 2022 20:52:44 -0500
+  by compute3.internal (MEProxy); Fri, 02 Dec 2022 20:56:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1670032364; x=
-	1670118764; bh=qCFdQNJyL5Qi9scJku+NmJywt0J5lgF/iOTG+QsY94g=; b=i
-	vYLCqdVtr8DPyj6NdN0/Y84CnCuPO8LxmvuHIGUHazadhfwpV5MKxl4GH2rTfKgi
-	LknmZ67+mCkDVa7CH8O04Fdrb4EaWkEXY2XJmvsS37kXD7iFoT45tG11sJrprgXr
-	LcXF4qC2gJjb95B+bmAXBC4JT49jAO13fW7hpjo5MGOYLRXxqhVtu75vhTRDnSBX
-	CI4NhaKPqHVqeQUkEgIatk2BRkFdoHM1DWP1CuAgSwP2E/eXPwOJMBNbYkqrLFdq
-	1N+haPpxilqj9awxUdm9SnAIUtfteJmd3G7RXHLJ8Tv1WTIaJZzugyDt98GP19H6
-	I0kJc4s+eQN2CA8NK4eTg==
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1670032589; x=
+	1670118989; bh=gH97yBNlSVx+eynbDATUVjIx5Mx6MG4tobGZMPAZGrA=; b=q
+	K/lJjpMHw82Ngty+mLEXBHThZ8aiuFbk0vN1pJUbFfy08lTIv7dJEIcpNX05aNMH
+	ivXsYiCow/AiXN4zL/Kar5zQo5g58J8AecrDPXHt0xsQGrGOJlewPBGssuopb7pE
+	E9ik7MdoQGEHGDVPiGjUPLyM1eznhn4DetVnD7G1dRvdw4AXJqeYBYma6je3s8SB
+	uHYAmvUghVh8gbHYQJgTnDSupybOBrbXHbYpRgKK17G5t7EwSQNI+/bqgO9xLNp8
+	DJGxcWOb1B/0kKWR0fPwTCQ0kInmEa5v5fe/dmwGLVPK4lu2tb46xPRUnaNuysIy
+	xXIx9NyXud8rcQGrkCrmw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670032364; x=
-	1670118764; bh=qCFdQNJyL5Qi9scJku+NmJywt0J5lgF/iOTG+QsY94g=; b=D
-	lHkpOYDxiC1wCVtKKi5YMDF0b/EKrJaTwUrkn31v9epUy9z+1NgGGW5puIUWMbYB
-	U/0c+pKz96WzOrSY+Kdlr59Tv26wX/lATGlNchwBh1OXhSwFfy77nROahKyyJNJQ
-	of44jMCkd1GvSR7NlIGEbQYvyxxKPHUQmfSqboP1FtDS7sczAfjP8U0VHv+zmj1Y
-	mq+V/ErnUyU6wzT+WYn1riw2glmsaF8eTjpKC/pY/yYFnDqdWO+ZCvpzMhXdLc/z
-	Ot/qBabML4dLtn6SmTfhNY76Mf9nFyefGoSrnsPiO9O4Hb50EqriHm47+V+1lFvp
-	VwQ5Mm0TIfKogx4QLSAoQ==
-X-ME-Sender: <xms:66uKY7GB6fI_mJm_rPpWdeai4QQGlKnRly1BF7oZC9WIaWaOI351qg>
-    <xme:66uKY4VaE40ZtgUr-H3uiedM9K9VRw_-1MK1Cy7Tbw_GmSWxg8GJqTULw8bRydIZ3
-    8rTUgaj33Cn23TYQg>
-X-ME-Received: <xmr:66uKY9JgjTRZ2AwsxPguwwP4Bm9sjDLNmNHP1ROSBmJjBNhL5JbLL726_vxbNT2rhPRmkpaMrHadw_xoa6p3TTlpctJ8PP0A9o3StaMkLa6PmaEJeEn8hfu1Bg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtdelgdeflecutefuodetggdotefrodftvf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670032589; x=
+	1670118989; bh=gH97yBNlSVx+eynbDATUVjIx5Mx6MG4tobGZMPAZGrA=; b=c
+	tOO9e3acUElz7inujkR07LYwugsG4zkLp7VeIPDbggexPmvMwpivI3O23FF8To5E
+	+PNxetajsEzF61giaidqDikSxieT24rabRnWxHTky6ajDwqEaRHpbaKjAzt9U95v
+	d99z+E1AL5/lj5Jmn8iWxe1DSOIgcQPnokGqOmWazENK8T7VfBpQ/yjjrMjBsBMm
+	Hl38ZpSmk1Pk1tW3R22UXnL4sHGOH4kYCWQBnBHKSn/87AhfyEQD7U6DJEqeGR5q
+	9tyaz5Q6yD3kUNjWMGkPyeN6z4IAQKi4hcVdPDMQa0cMktzP7T0NbdmtDBfDhfTs
+	hoqH9kqUTOTdUFsC8f6cg==
+X-ME-Sender: <xms:zayKY6H1krVmftxHwC6Pom78_ARc1WbCVE9zc1wjfNabD4IIxJnofA>
+    <xme:zayKY7VXo67ALcnyEm3266ilfSNI56Lt0mt1x2VRV5kxw1-CMi71f6JdwWnYSJhGO
+    UesC0rBxbRzwK8sYw>
+X-ME-Received: <xmr:zayKY0JOleQxmMO80Hg4PrMVXcfiGmn3X4OVDe2_UKHyrR2qcm62jhCWflxKAzgzgLMFz4JjFnnSOBESKObIFApIFGhdi3GoW72WHVF5snLotq6zBoLKrzXVMw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtdelgdegtdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfvvehfhffujggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
     vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepjefgfffhudejfedtuedugeeutdetgfeiteffffehjeeugfeuvdeh
-    jeetfedtffdtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:66uKY5FRqgfZgwKo988t8REdQu7HUxb7_-iAq2qbgv1NyF3Wk9Agxw>
-    <xmx:66uKYxXFvHTMkFletaQrcdKSLTQQtP3rI4gKBGaY3NmFrCnhsnbaEA>
-    <xmx:66uKY0Nks7PoT7NA7Toc3fZLf4SoRWOV7-49zHnFytxDGrn7Ttrd8w>
-    <xmx:7KuKY8MNR9QDNkxdTyVkSMbTZ7yuLzIPsRebrvU_OkQeDgSZjj9OJA>
+    ftrfgrthhtvghrnhepudfhffefhfffuddutedvffekteevieeugeefleelffeitddutdff
+    udehgfdtfefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgr
+    nhgurdhorhhg
+X-ME-Proxy: <xmx:zayKY0EKnR2iWQuFfR7mqef0Y4Jmj81f3NEw0oR3CSoqM44ys5RAuA>
+    <xmx:zayKYwWIQ8EzGZ0AkwQWzgICc0CDFEtsoGxOguh8NFWZ36No7CmImg>
+    <xmx:zayKY3MEeDEtGrdS4pXbrJ5Eb1aLM0tQWBrszZdeRNPrdQTf7h7bWQ>
+    <xmx:zayKYyIFnZh-jQtJP_84pPzccRXDpmKgutwasJs0gDDaRKx41basVw>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 2 Dec 2022 20:52:42 -0500 (EST)
-Message-ID: <b7774c58-ccf8-4204-2e7e-6841fd13002d@sholland.org>
-Date: Fri, 2 Dec 2022 19:52:41 -0600
+ 2 Dec 2022 20:56:28 -0500 (EST)
+Message-ID: <8f177f68-3e3b-97e8-0f3e-607810623f27@sholland.org>
+Date: Fri, 2 Dec 2022 19:56:28 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,101 +62,42 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
+Subject: Re: [PATCH] pwm: sun4i: Propagate errors in .get_state() to the
+ caller
 Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>
+To: Andre Przywara <andre.przywara@arm.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
 Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev
-References: <20221126191319.6404-1-samuel@sholland.org>
- <20221126191319.6404-2-samuel@sholland.org>
- <20221203001439.64284671@slackpad.lan>
+References: <20221201152223.3133-1-andre.przywara@arm.com>
 From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 1/5] clk: sunxi-ng: Remove duplicate ARCH_SUNXI
- dependencies
-In-Reply-To: <20221203001439.64284671@slackpad.lan>
+In-Reply-To: <20221201152223.3133-1-andre.przywara@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 12/2/22 18:14, Andre Przywara wrote:
-> On Sat, 26 Nov 2022 13:13:15 -0600
-> Samuel Holland <samuel@sholland.org> wrote:
+On 12/1/22 09:22, Andre Przywara wrote:
+> .get_state() can return an error indication now. Make use of it to
+> propagate an impossible prescaler encoding, should that have sneaked in
+> somehow.
+> Also check the return value of clk_get_rate(). That's unlikely to fail,
+> but we use that in two divide operations down in the code, so let's
+> avoid a divide-by-zero condition on the way.
 > 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
 > Hi,
 > 
-> thanks for addressing this!
+> this goes on top of Uwe's series to introduce and observe .get_state
+> failures: https://lore.kernel.org/linux-pwm/20221130152148.2769768-12-u.kleine-koenig@pengutronix.de/T/#m9af39aa03bbd9bb7b31b3600f110c65ee0e8e70b
+> Actually it only relies on patch 01/11 from that.
 > 
->> SUNXI_CCU already depends on ARCH_SUNXI, so adding the dependency to
->> individual SoC drivers is redundant.
->>
->> Signed-off-by: Samuel Holland <samuel@sholland.org>
->> ---
->>
->>  drivers/clk/sunxi-ng/Kconfig | 43 ++++++++++++++++++------------------
->>  1 file changed, 21 insertions(+), 22 deletions(-)
->>
->> diff --git a/drivers/clk/sunxi-ng/Kconfig b/drivers/clk/sunxi-ng/Kconfig
->> index 461537679c04..64cfa022e320 100644
->> --- a/drivers/clk/sunxi-ng/Kconfig
->> +++ b/drivers/clk/sunxi-ng/Kconfig
->> @@ -14,43 +14,43 @@ config SUNIV_F1C100S_CCU
->>  
->>  config SUN20I_D1_CCU
->>  	tristate "Support for the Allwinner D1 CCU"
->> -	default RISCV && ARCH_SUNXI
->> -	depends on (RISCV && ARCH_SUNXI) || COMPILE_TEST
->> +	default RISCV
->> +	depends on RISCV || COMPILE_TEST
+> Cheers,
+> Andre
 > 
-> I agree on the "depends" part: Indeed the guard symbol already covers
-> that, so it's redundant.
-> However I am not so sure about the "default" part: When ARCH_SUNXI is
-> deselected, but COMPILE_TEST in enabled, we default to every CCU driver
-> being built-in. I am not sure this is the intention, or at least
-> expected when doing compile testing?
+>  drivers/pwm/pwm-sun4i.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 
-SUNXI_CCU, which these depend on, is still "default ARCH_SUNXI", so if
-you have ARCH_SUNXI disabled, you only get any drivers if you manually
-enable SUNXI_CCU. I mentioned this in the patch 2 description, but maybe
-I should move that comment here.
-
->>  
->>  config SUN20I_D1_R_CCU
->>  	tristate "Support for the Allwinner D1 PRCM CCU"
->> -	default RISCV && ARCH_SUNXI
->> -	depends on (RISCV && ARCH_SUNXI) || COMPILE_TEST
->> +	default RISCV
->> +	depends on RISCV || COMPILE_TEST
->>  
->>  config SUN50I_A64_CCU
->>  	tristate "Support for the Allwinner A64 CCU"
->> -	default ARM64 && ARCH_SUNXI
->> -	depends on (ARM64 && ARCH_SUNXI) || COMPILE_TEST
->> +	default ARM64
->> +	depends on ARM64 || COMPILE_TEST
-> 
-> I wonder if this "depends" line was always wrong and should be fixed:
-> We can compile a 32-bit ARM kernel and run it on an A64. Granted this
-> requires a special bootloader or a hacked U-Boot (tried that), and
-> reveals some other issues with the decompressor, but technically there
-> is no 64-bit dependency in here.
-> The same goes for all the other ARM64 CCUs: Cortex-A53s can run AArch32
-> in all exception levels.
-
-I was trying to simplify things by hiding irrelevant options, and you
-bring up an edge case of an edge case. :) I am okay with relaxing the
-dependency, though I would want to leave them disabled by default for
-32-bit kernels (excluding them from the change in patch 2).
-
-> So shall we just completely remove the "depends" line for those, and
-> let SUNXI_CCU do that job? Or use use !RISCV || COMPILE_TEST?
-
-That, or we could add MACH_SUN8I to the condition. I don't have a strong
-opinion.
-
-Regards,
-Samuel
+Reviewed-by: Samuel Holland <samuel@sholland.org>
 
