@@ -1,147 +1,90 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808452CA5;
-	Sun,  4 Dec 2022 18:32:31 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id ja4-20020a05600c556400b003cf6e77f89cso7477121wmb.0;
-        Sun, 04 Dec 2022 10:32:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A5C5CB8
+	for <linux-sunxi@lists.linux.dev>; Sun,  4 Dec 2022 18:33:47 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id b3so15361947lfv.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 04 Dec 2022 10:33:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cT6XsFeikKqtH1/hCcOrW6pF6YKm2yjZrCCnG8JeZLE=;
-        b=YY31dTp15ts/Sd2mG4d4Znp5cd0G0qqvDj3IRWl0XuNT9Yto3NXrjJS5gszXn7RWHn
-         RpjCotoEVSlLlonPHNwJP1TCiJRRkkKAcGEZ8EfBRcsG6yvbfZB1inHPervKq6osS7xm
-         NJIx2owTgSqNCsFpFYl9tQejPnYMEDG2FBAY3KJnV+ZLsPiVQ4zahlOuWLRbRj4EcxRl
-         6U9NUiY070rRU3dQeHmHym3VcILeTFk1q21u8fCl630Atust2KqldbbvqZwRlvHqft27
-         J5n1jMlZ2Cmg94qlkwYAUJ5lo/Thj627DGaQuxdxtNNouDyvDo4QcPZbYLhaGDYxMLAh
-         btNw==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xhyv5obJO05pgLR8K6bKL4W/XWvPLVM9OMLPNej/i4s=;
+        b=D6DItwIylWFUvf6qAi7r7s7S2xPsf3J5mgFJFrSeGyMxiEFCyxJ/w9inu5R1slLLDN
+         2agPAZ3zb5tkvMqGA73PEJT0Yo6DhE3fO+MRvcPmrw77yeKkP6du414lnRktouE4QwHk
+         v3EJ7+8gfm3q2Ijvf6rPL0ULxJSz6cPxShFKcR2B//+rpQ6t+/qnNvKKSme61ZXrDV3+
+         exKLFL3Axiw/5evjgRooib4DOKGvGkEJcYo3oQ5R2XbQL21VpjxZbAtOYPGaUN2U0O7B
+         WVklTL404hwDf/HCqTKQMMXxHkp/b1LKN/wiKWbLKpvHlDA4Bc8hASFTGfjAB/YACroT
+         c4OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cT6XsFeikKqtH1/hCcOrW6pF6YKm2yjZrCCnG8JeZLE=;
-        b=0vXdrnw0nt0LSyPbt8E/R53DUxUEZwDq0EglvXI1s3kvrBkYkVUPbyhI7WqZkKTbfN
-         VuIJ7lSghTr7cAujdDCGcFbvHmbpiIYdg+kc//s6TI0+EZpL3DbvgNSkDinJgm+aetKT
-         p+g6zc4Hv/5RzcVYrk9KD2eCF6BTc//BRYjdicOhxSZYFG2eSQoM/LTPrO4b1sOYBw+o
-         j9T1ERqVhu9qLNdMG2bgDv+RmE9aj6alQ90VDW2oEDXt/aUql1du0b5CT5551ZamDqTH
-         YIfCGkmgldQJxIXSMBvqW1FfEtoNM+oFhpIkGvQfzEQeCk0VKUF18eFq84BONrypSlre
-         AFEA==
-X-Gm-Message-State: ANoB5pnpDzlM3VfqAnsocNNlZ/C4RguzBXMMWxZegGmDnZPylZ3I3Pky
-	VD+X97H5yGmtpgofde7QCtM=
-X-Google-Smtp-Source: AA0mqf5w9S5gt2nyROsIJ/KepCdghxD2S5KWJ22n53ipvP7a98YVBzA2u2fA7xIwo0AsFvdt9OTByA==
-X-Received: by 2002:a05:600c:3590:b0:3d0:1489:78c4 with SMTP id p16-20020a05600c359000b003d0148978c4mr47437513wmq.167.1670178749708;
-        Sun, 04 Dec 2022 10:32:29 -0800 (PST)
-Received: from archbook.localnet (84-72-105-84.dclient.hispeed.ch. [84.72.105.84])
-        by smtp.gmail.com with ESMTPSA id i2-20020adff302000000b002421a8f4fa6sm12120806wro.92.2022.12.04.10.32.26
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Xhyv5obJO05pgLR8K6bKL4W/XWvPLVM9OMLPNej/i4s=;
+        b=A0qPSxtkfzGXk21ymT86LSV+cQNjfFBPt9PaUhYwWq7T2lEQQWqHxYYaue/LCMpK8C
+         dW8p0ZhfqH8p07LYXjER+ubRGQjxvTDGnLSq5o4RcuG7XyA4GK8WRV9N6PwpC5ygYTrx
+         4Ka6Dm42wOj+M+prGYDdMr4u2VYRhL0I2/7wQH+5VGq7z9yJ/TJrd8DLVXpvZNY2PkaC
+         THY6JPEyrH2dfIbgMwzoZAUHh9ffWU4JVI7MCtFrfPaOp34H9pJMtELMvAFC3VdVXuE7
+         d1jY8O2hTl+z5Kd2HzCroYPv+lTYC7S1RAEpgjSJMx7Hno0FYnnKBf7BEL+bp9uefoNc
+         yLIg==
+X-Gm-Message-State: ANoB5pkRSrfwzXDO69i+/yI0alEGt3dJo9hfWmkmrED0K7O9XO4iy9Oe
+	Gco+/EsPqekrDXtSitolotohVg==
+X-Google-Smtp-Source: AA0mqf5OecpLenAlLa+W0DN996G16//de1xxTcSQAySGFZ/MZwJBK376I/ToiMFM/z60GTYZPXRoVQ==
+X-Received: by 2002:a05:6512:3090:b0:4b4:f33e:8628 with SMTP id z16-20020a056512309000b004b4f33e8628mr15585253lfd.189.1670178825178;
+        Sun, 04 Dec 2022 10:33:45 -0800 (PST)
+Received: from krzk-bin.NAT.warszawa.vectranet.pl (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id w15-20020a056512098f00b004947984b385sm1835878lft.87.2022.12.04.10.33.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Dec 2022 10:32:29 -0800 (PST)
-From: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Ban Tao <fengzheng923@gmail.com>, =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
-	James Schulman <james.schulman@cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
-	Lucas Tanure <tanureal@opensource.cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>, Cheng-Yi Chiang <cychiang@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
-	Benson Leung <bleung@chromium.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Stephan Gerhold <stephan@gerhold.net>, 
-	Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
-	Fabio Estevam <festevam@gmail.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Olivier Moysan <olivier.moysan@foss.st.com>, 
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.om>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Bogdan Togorean <bogdan.togorean@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Vincent Knecht <vincent.knecht@mailoo.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Maxime Ripard <mripard@kernel.org>, 
-	Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>, - <patches@opensource.cirrus.com>, 
-	Jayesh Choudhary <j-choudhary@ti.com>, Daniel Drake <drake@endlessm.com>, 
-	Katsuhiro Suzuki <katsuhiro@katsuster.net>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
-	Paul Cercueil <paul@crapouillou.net>, Jee Heng <jee.heng.sia@intel.com>, 
-	Lubomir Rintel <lkundrak@v3.sk>, Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, 
-	Mohan Kumar <mkumard@nvidia.com>, Sameer Pujar <spujar@nvidia.com>, 
-	Rohit kumar <rohitkr@codeaurora.org>, Derek Fang <derek.fang@realtek.com>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, ChiYuan Huang <cy_huang@richtek.com>, 
-	Jose Abreu <joabreu@synopsys.com>, Andrew Davis <afd@ti.com>, Shi Fu <shifu0704@thundersoft.com>, 
-	Shenghao Ding <shenghao-ding@ti.com>, Matt Flax <flatmax@flatmax.com>, 
-	Ricard Wanderlof <ricardw@axis.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, 
-	linux-sunxi@lists.linux.dev, asahi@lists.linux.dev, 
-	chrome-platform@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 2/3] ASoC: dt-bindings: Reference common DAI properties
-Date: Sun, 04 Dec 2022 19:32:26 +0100
-Message-ID: <13951589.OODuZ4BQiV@archbook>
-In-Reply-To: <7c258f71-23d0-36bd-8abf-b227d2522267@linaro.org>
-References: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org> <2251607.XGVbBG2WQu@archbook> <7c258f71-23d0-36bd-8abf-b227d2522267@linaro.org>
+        Sun, 04 Dec 2022 10:33:44 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] ARM: dts: sun8i: h3-beelink-x2: align HDMI CEC node names with dtschema
+Date: Sun,  4 Dec 2022 19:33:41 +0100
+Message-Id: <20221204183341.139946-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-On Sonntag, 4. Dezember 2022 17:47:05 CET Krzysztof Kozlowski wrote:
-> On 04/12/2022 17:09, Nicolas Frattaroli wrote:
-> > On Samstag, 3. Dezember 2022 17:04:41 CET Krzysztof Kozlowski wrote:
-> >> Reference in all sound components which have '#sound-dai-cells' the
-> >> dai-common.yaml schema, which allows to use 'sound-name-prefix'
-> >> property.
-> >>
-> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >>
-> >> ---
-> >>
-> >> This is an output of discussion here:
-> >> https://lore.kernel.org/all/Y255C+TGNVJ9fs8A@sirena.org.uk/
-> >>
-> >> This patch supersedes previous WSA883x one.
-> >> ---
-> > 
-> > Hello,
-> > 
-> > for rockchip,i2s-tdm, we get some (new?) warnings with W=1:
-> > 
-> >     /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.1.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
-> >             From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
-> 
-> I did not touch reset names, so are you sure these are not old warnings?
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
-> 
+The bindings expect "cec" for HDMI CEC node.
 
-You are correct, these aren't new, I thought they were due to it now
-actually checking reset-names or something. However, checking with
-linux-next/master shows that these were already there. Apologies for
-the noise.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-For rockchip,i2s-tdm:
+---
 
-Tested-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-Acked-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+See also:
+https://lore.kernel.org/all/20221204182908.138910-3-krzysztof.kozlowski@linaro.org/
+---
+ arch/arm/boot/dts/sun8i-h3-beelink-x2.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Kind regards,
-Nicolas Frattaroli
-
+diff --git a/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts b/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts
+index 27a0d51289dd..a6d38ecee141 100644
+--- a/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts
++++ b/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts
+@@ -57,7 +57,7 @@ aliases {
+ 		ethernet1 = &sdiowifi;
+ 	};
+ 
+-	cec-gpio {
++	cec {
+ 		compatible = "cec-gpio";
+ 		cec-gpios = <&pio 0 14 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>; /* PA14 */
+ 		hdmi-phandle = <&hdmi>;
+-- 
+2.34.1
 
