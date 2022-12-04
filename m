@@ -1,255 +1,151 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA5833E9
-	for <linux-sunxi@lists.linux.dev>; Sat,  3 Dec 2022 16:05:12 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id b13so1013342lfo.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 03 Dec 2022 08:05:12 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E483C28;
+	Sun,  4 Dec 2022 16:09:46 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id bs21so15257082wrb.4;
+        Sun, 04 Dec 2022 08:09:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xQQgA2B6JuQCl9Sn47gIOr5BLct1XCSVPgZ5wpqRd04=;
-        b=Kj4DNPgsIyL3BIhG4CqIcBbcV1s+qCWiZr8CGSJQs9OvpzKtotQ465N2CNEnsvvZ1A
-         3QpfbS43IgnSlXlDAYeRa7K+Olx/mZUocnOqdyDFZreb57z32+RvduL2PrG9zQHtbDcu
-         73pdpp0PHB80Rl1+seCpOf9SYbLR7mNG159IaxkTLXTzFv0jxrgyezAxeLnjtcx5F1dn
-         Hjf1PA4M8aFbQaCLterflhYSLXdvYo0sjQcKB4h4jgHBH+FrTaO+QAaCw4JQ96x0JYNW
-         Wc28txwTUMBoRrciXidG353d4zSfbOpNnvzJODZQMCT+ey5IySIBHDdnwMUbIHqSVzBS
-         Kq5A==
+        bh=mSY/soRdbw3l7VfX1MPIQXbuFJkETcDbjbzdvzg9U1E=;
+        b=nmnnLHjQQPJyJNBEfVfdOPXpOYw99+Ew34YDKQSA7EUqQ1wRE7HB99k+5HnDEsFXs6
+         s/Wti8lfe/gDF0GC8HfFWK6SarmOEHUEk9+mOcTopjhIelQOQdkwrwTaJ2Nuha5VsgW2
+         2H6F26qSiuyp8Kq/ZSHMfpgdbHvQFcFP1JzgfnxoezYYiNxdqBEBTLKe4Lp5bAtojZvR
+         8CRQD22BJyoRVHfXHYamci85e1A3cN4zPEaRD05DJf6yKSFDZhxfON8l9cCNMXaL7xNB
+         p3PM7GEe2pPEVM3wrIgGfBatgwqg3XW8DZRAw5uxGi7GSWYN8djxxtisjrQ0JrQ2Emxp
+         xjmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xQQgA2B6JuQCl9Sn47gIOr5BLct1XCSVPgZ5wpqRd04=;
-        b=oErcfcXAkAQcggS3yFaeQHQDCnOxHDf4Kht8wXGUiUcKc0ZRjsXY+FyTYf3+S/bzJf
-         Rb1sX2aQ5jQ+I5Kj8jWAb1rR1F1POt2S2opQ5FvQhChewvf5v9HPrQM68xl6OX167SH+
-         Hsax0/xe8+D4Qi8xs2D/TFyX/WanwQV4/bRHB67Cl8ha5MXbx5fjb8Tq1Y1wc3nz89LV
-         LfCgIfCOYI/xxKdcd3CVhb8NMa3waYvSd8ehT3WjkekL3WFy5qnB4HQMjd8xlMTuCMLQ
-         yZ02f3RyHc0HodfVsynv6taKdREp5mp1N95R6HKnmivxqRzMoK7epVer7zJBMYYIrO59
-         0JeA==
-X-Gm-Message-State: ANoB5pkqgTofrfb9gSwyFl77foT55Z9R7lLUP87Fga6SclS1l3moplgQ
-	AwC7j3l0kewssp5hxD7IrfYBcg==
-X-Google-Smtp-Source: AA0mqf72BVKnpn+MA5xJGVYlL5SnIsGDKLeZoYK756z5Q92VunWvwd331oN9TV1SKnOL4zeD/GFMxg==
-X-Received: by 2002:ac2:4310:0:b0:4a2:3e6c:a32b with SMTP id l16-20020ac24310000000b004a23e6ca32bmr24364674lfh.54.1670083510167;
-        Sat, 03 Dec 2022 08:05:10 -0800 (PST)
-Received: from krzk-bin.NAT.warszawa.vectranet.pl (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id d11-20020ac2544b000000b004946bb30469sm1441320lfn.82.2022.12.03.08.05.02
+        bh=mSY/soRdbw3l7VfX1MPIQXbuFJkETcDbjbzdvzg9U1E=;
+        b=lF0bcCp8NwAWYuTTFyeqD4zPEClgqXUtM8/Jm0mhC+/5/NNFBeQWpqMNG3PGalxgOM
+         1m+e55EKCwU271wvZcOEu9RjHtNXezBMOd0fbi8EvJiWUp3+pFRJbCzv3xcs7PrxyDdf
+         eTk4p6hFYsMyUPYIjb6Ss6m6hjsFLheimMTpoSJEgOdd16hEoJZzoUaTjavpfQ/1bL+G
+         0I9Xwnul/6WHgRMtRkgGX9VBRcPv5XxdVSNIFuBKX94AkYtSr+l+ChH+Em5S+00olVeR
+         7OMQ2zd7yqwXEkYxyGoCJvTxn5wpDo8uajwcb2SU5pZ0rbFCIu+LF4twtFwFfehAmTBf
+         YXBA==
+X-Gm-Message-State: ANoB5plLgcatxOWXencYT3ELa92rde2B3Reoc8K13V+UQZ36hYRcTQZp
+	ZBl668UwJh/+r3tQVanB0yU=
+X-Google-Smtp-Source: AA0mqf5OXVS1lM5QoKtCTGOYBnrpmscrGHlaSSO7Jq8/Dc8cy0PB5VfXUZBhR9OrsdWfWopJ4DW8pw==
+X-Received: by 2002:a5d:6dd1:0:b0:236:75a8:58d with SMTP id d17-20020a5d6dd1000000b0023675a8058dmr49641323wrz.295.1670170184810;
+        Sun, 04 Dec 2022 08:09:44 -0800 (PST)
+Received: from archbook.localnet (84-72-105-84.dclient.hispeed.ch. [84.72.105.84])
+        by smtp.gmail.com with ESMTPSA id j13-20020a056000124d00b002421db5f279sm11847154wrx.78.2022.12.04.08.09.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Dec 2022 08:05:05 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Ban Tao <fengzheng923@gmail.com>,
-	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	James Schulman <james.schulman@cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Lucas Tanure <tanureal@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Cheng-Yi Chiang <cychiang@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Stephan Gerhold <stephan@gerhold.net>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.om>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Bogdan Togorean <bogdan.togorean@analog.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Vincent Knecht <vincent.knecht@mailoo.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>,
-	- <patches@opensource.cirrus.com>,
-	Jayesh Choudhary <j-choudhary@ti.com>,
-	Daniel Drake <drake@endlessm.com>,
-	Katsuhiro Suzuki <katsuhiro@katsuster.net>,
-	Shengjiu Wang <shengjiu.wang@nxp.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Jee Heng <jee.heng.sia@intel.com>,
-	Lubomir Rintel <lkundrak@v3.sk>,
-	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
-	Mohan Kumar <mkumard@nvidia.com>,
-	Sameer Pujar <spujar@nvidia.com>,
-	Rohit kumar <rohitkr@codeaurora.org>,
-	Derek Fang <derek.fang@realtek.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	ChiYuan Huang <cy_huang@richtek.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	Andrew Davis <afd@ti.com>,
-	Shi Fu <shifu0704@thundersoft.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Matt Flax <flatmax@flatmax.com>,
-	Ricard Wanderlof <ricardw@axis.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-amlogic@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-sunxi@lists.linux.dev,
-	asahi@lists.linux.dev,
-	chrome-platform@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com
+        Sun, 04 Dec 2022 08:09:44 -0800 (PST)
+From: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Ban Tao <fengzheng923@gmail.com>, =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	James Schulman <james.schulman@cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Lucas Tanure <tanureal@opensource.cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>, Cheng-Yi Chiang <cychiang@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
+	Benson Leung <bleung@chromium.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Stephan Gerhold <stephan@gerhold.net>, 
+	Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+	Fabio Estevam <festevam@gmail.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Olivier Moysan <olivier.moysan@foss.st.com>, 
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.om>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Bogdan Togorean <bogdan.togorean@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Vincent Knecht <vincent.knecht@mailoo.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Maxime Ripard <mripard@kernel.org>, 
+	Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>, - <patches@opensource.cirrus.com>, 
+	Jayesh Choudhary <j-choudhary@ti.com>, Daniel Drake <drake@endlessm.com>, 
+	Katsuhiro Suzuki <katsuhiro@katsuster.net>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
+	Paul Cercueil <paul@crapouillou.net>, Jee Heng <jee.heng.sia@intel.com>, 
+	Lubomir Rintel <lkundrak@v3.sk>, Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, 
+	Mohan Kumar <mkumard@nvidia.com>, Sameer Pujar <spujar@nvidia.com>, 
+	Rohit kumar <rohitkr@codeaurora.org>, Derek Fang <derek.fang@realtek.com>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, ChiYuan Huang <cy_huang@richtek.com>, 
+	Jose Abreu <joabreu@synopsys.com>, Andrew Davis <afd@ti.com>, Shi Fu <shifu0704@thundersoft.com>, 
+	Shenghao Ding <shenghao-ding@ti.com>, Matt Flax <flatmax@flatmax.com>, 
+	Ricard Wanderlof <ricardw@axis.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, 
+	linux-sunxi@lists.linux.dev, asahi@lists.linux.dev, 
+	chrome-platform@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 3/3] ASoC: dt-bindings: maxim,max98357a: Convert to DT schema
-Date: Sat,  3 Dec 2022 17:04:42 +0100
-Message-Id: <20221203160442.69594-3-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org>
-References: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 2/3] ASoC: dt-bindings: Reference common DAI properties
+Date: Sun, 04 Dec 2022 17:09:41 +0100
+Message-ID: <2251607.XGVbBG2WQu@archbook>
+In-Reply-To: <20221203160442.69594-2-krzysztof.kozlowski@linaro.org>
+References: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org> <20221203160442.69594-2-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Convert the Maxim Integrated MAX98357A/MAX98360A amplifier bindings to
-DT schema.  Add missing properties ('#sound-dai-cells' and
-'sound-name-prefix' from common DAI properties).
+On Samstag, 3. Dezember 2022 17:04:41 CET Krzysztof Kozlowski wrote:
+> Reference in all sound components which have '#sound-dai-cells' the
+> dai-common.yaml schema, which allows to use 'sound-name-prefix'
+> property.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> This is an output of discussion here:
+> https://lore.kernel.org/all/Y255C+TGNVJ9fs8A@sirena.org.uk/
+> 
+> This patch supersedes previous WSA883x one.
+> ---
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Hello,
 
----
+for rockchip,i2s-tdm, we get some (new?) warnings with W=1:
 
-As a maintainer I added recent contributor to this driver/bindings:
-Tzung-Bi Shih.  Please ack if you agree to keep an eye on the bindings.
----
- .../devicetree/bindings/sound/max98357a.txt   | 28 ----------
- .../bindings/sound/maxim,max98357a.yaml       | 52 +++++++++++++++++++
- 2 files changed, 52 insertions(+), 28 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/max98357a.txt
- create mode 100644 Documentation/devicetree/bindings/sound/maxim,max98357a.yaml
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.1.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    DTC_CHK arch/arm64/boot/dts/rockchip/rk3566-soquartz-cm4.dtb
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.2.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    DTC_CHK arch/arm64/boot/dts/rockchip/rk3566-soquartz-model-a.dtb
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-quartz64-b.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-roc-pc.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    DTC_CHK arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-soquartz-blade.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    DTC_CHK arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dtb
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-soquartz-cm4.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-soquartz-model-a.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
 
-diff --git a/Documentation/devicetree/bindings/sound/max98357a.txt b/Documentation/devicetree/bindings/sound/max98357a.txt
-deleted file mode 100644
-index 75db84d06240..000000000000
---- a/Documentation/devicetree/bindings/sound/max98357a.txt
-+++ /dev/null
-@@ -1,28 +0,0 @@
--Maxim MAX98357A/MAX98360A audio DAC
--
--This node models the Maxim MAX98357A/MAX98360A DAC.
--
--Required properties:
--- compatible   : "maxim,max98357a" for MAX98357A.
--                 "maxim,max98360a" for MAX98360A.
--
--Optional properties:
--- sdmode-gpios : GPIO specifier for the chip's SD_MODE pin.
--        If this option is not specified then driver does not manage
--        the pin state (e.g. chip is always on).
--- sdmode-delay : specify delay time for SD_MODE pin.
--        If this option is specified, which means it's required i2s clocks
--        ready before SD_MODE is unmuted in order to avoid the speaker pop noise.
--        It's observed that 5ms is sufficient.
--
--Example:
--
--max98357a {
--	compatible = "maxim,max98357a";
--	sdmode-gpios = <&qcom_pinmux 25 0>;
--};
--
--max98360a {
--	compatible = "maxim,max98360a";
--	sdmode-gpios = <&qcom_pinmux 25 0>;
--};
-diff --git a/Documentation/devicetree/bindings/sound/maxim,max98357a.yaml b/Documentation/devicetree/bindings/sound/maxim,max98357a.yaml
-new file mode 100644
-index 000000000000..83ba8666fbb4
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/maxim,max98357a.yaml
-@@ -0,0 +1,52 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/maxim,max98357a.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Maxim Integrated MAX98357A/MAX98360A amplifier
-+
-+maintainers:
-+  - Tzung-Bi Shih <tzungbi@kernel.org>
-+
-+description:
-+  Maxim Integrated MAX98357A/MAX98360A is a digital pulse-code modulation (PCM)
-+  input Class D amplifier.
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - maxim,max98357a
-+      - maxim,max98360a
-+
-+  '#sound-dai-cells':
-+    const: 0
-+
-+  sdmode-gpios:
-+    maxItems: 1
-+    description:
-+      Chip's SD_MODE pin.  If missing the chip is always on.
-+
-+  sdmode-delay:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      Delay time for SD_MODE pin changes intended to make I2S clocks ready
-+      before SD_MODE is unmuted in order to avoid the speaker pop noise.
-+
-+required:
-+  - compatible
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    amplifier {
-+        compatible = "maxim,max98360a";
-+        #sound-dai-cells = <0>;
-+        sdmode-gpios = <&qcom_pinmux 25 GPIO_ACTIVE_HIGH>;
-+    };
--- 
-2.34.1
+Apparently we don't have separate resets for tx/rx on i2s2 on this
+hardware. Should we add 'm' to the allowed reset-names for this
+case?
+
+Cheers,
+Nicolas Frattaroli
+
+
 
