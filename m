@@ -1,51 +1,51 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFADA7C
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 Dec 2022 21:09:01 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id n20so1649648ejh.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 05 Dec 2022 13:09:01 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B314F7C
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Dec 2022 21:13:13 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id d14so12655122edj.11
+        for <linux-sunxi@lists.linux.dev>; Mon, 05 Dec 2022 13:13:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IkV3X9GXNISVr95RvsMOWpzh7PTcA0hs92Aa8ymIN4k=;
-        b=ITvI9ThwKivsIAMr1L2qSHaXSgSCtlwDqeDUQ98UQBIC4g/VjxXtwRMeolP8dRLXKy
-         CXQ+HAfxZ2glMsF80+Xpki2Q3L0tCRVmICUaEGkPrlD7S6AYPVDMrv4sY+tfd6GTE+a+
-         tb/T+y4c1htLNFPNNWKxe7eFTxv9m9K9ym9HA+tNiAW0X3XMVK8RvsOaLkun5RBX28e2
-         8WPlyh/8kjUUSCn1Ct9sus4q020VbTHce3mEXHAsm1Q2tJgolLePeuEtGzQ+HiZyW8dc
-         j8Spge156r9Sv/BQDt1lt3oPDc2okdVrjXWuVIRJWy1axnnPwmxhJU3CQrJn+yD0P4C0
-         XVGA==
+        bh=E5DqHIDmrHfhCQggW33H8nWQX3fqTCf2oAlK8O9rUWA=;
+        b=pGuvXBzT5oJu3sgp2Rp2+o8C4e3hA0OKqJhW2nHdPl7nL6ad5zB/8nPi2OIghIQ0V6
+         t9U74brd6/Bu2koBu6ejSAinlP/u2GpXUEzKCjp60qYE6fq/THL3p2RjCXTbAas7t0LR
+         IZKDllHwD2HKvmQ7v+A/pFlZ2uJNgzJLvnlZuh5DnQfXYJQH3JzLtp29TcEmVibO7+Wk
+         lY+L2gg2jNCT9EPveS3bxNluLdcwuhllpsKY9UGFcFTMTI2AwhDwFqiUCM4xdGsjRF2q
+         rTVwL7g4iLnEzNMqza5d2KlqzJkulhBSZjTaimpnpqpJSFvX3/148P1A3yoGpQCHHXj7
+         fy8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IkV3X9GXNISVr95RvsMOWpzh7PTcA0hs92Aa8ymIN4k=;
-        b=h16EwUfsra1AaS/rsI5mG14MC5tWyWr2ih9qXktatiLr49Kc4+z+dQUCmBD1vWcZn6
-         EYMVAQUVxoB9TNmQi9qJKwX3WjcKcV0f38IGpcbi8SX103q+8pxrsoiD4zzqkoOjbnHS
-         iOhqzobkVVcNaUP8oO2hX3Z0gn4z0VFMJyPc+bDPaeReXKnkskKmU8mbPv/ZqCXwr4Bu
-         C5bHMB8cMxjphbJwRpXFifjaoxaKI9F/znBFsUtm9BLTbgCxk6uECu/I2hYx441tbsDQ
-         cLyL6V6YLSaEJ9CAfqomQLjGwt79mjM1JT6rY4bYUuk5lEiv0I5RRmk7BvsPSsp4DUYr
-         XOHw==
-X-Gm-Message-State: ANoB5pkFiIQWqukJReo1EwqIBwymQLLM3x7mLotLYXeiHgG5FxO0YvOV
-	h42EQu2t6WNU1ak+248504A=
-X-Google-Smtp-Source: AA0mqf5gvNpaIA94R363TaM2g/vZqD4VVMf9j6vXRWlST5Jrr0yvJ219+yx2Zi6eIrt20nsmEL7BrQ==
-X-Received: by 2002:a17:907:a50a:b0:7c0:7902:885f with SMTP id vr10-20020a170907a50a00b007c07902885fmr12154855ejc.233.1670274540167;
-        Mon, 05 Dec 2022 13:09:00 -0800 (PST)
+        bh=E5DqHIDmrHfhCQggW33H8nWQX3fqTCf2oAlK8O9rUWA=;
+        b=zbp9fmMYxLOAbHR+eSdqjpkKOuCzoWExAiLdB6dA6T7b+6ZENJl7IbGmVKNgTExtOL
+         x92pQLf+6/PnqMu9z3rtLGCelIul50tmWlDCpnAN/mDQAUDzeSYpi18Emo/6ej4woqYW
+         E5gp/lgUAr8Q4HGPN6ukArm/kdxr28mrpkIE+n2k/03+GTPRB2dToHEs80xHz1iR0Exy
+         IZGetti3Z+XbDKn3zVthNnWlVMVwiFpoElnCBbDodgdB9Kvtb6q2nG24cayx6bYB/AZE
+         AYIGYxb1aRy0kPYFCAd+VU3HuFAKcMGXoZcwVaDsFYbUU0YCBTuoisfbUeRDWvIeyWqk
+         sqKw==
+X-Gm-Message-State: ANoB5pktWVgE4VItFstlET5Ew55x6DgyXmy5ah+rR9I9xSnyef4hiyKD
+	72tv4GvhbUqvBzchKqg28uc=
+X-Google-Smtp-Source: AA0mqf6no0prdcHyRJGFht9oQsfv+s7cNBk3Kj9JIG4r90NDPfjf+QecJv67gXMCRmhrPLeJtQyQaw==
+X-Received: by 2002:aa7:c9d0:0:b0:458:ed79:ed5 with SMTP id i16-20020aa7c9d0000000b00458ed790ed5mr59952386edt.374.1670274792060;
+        Mon, 05 Dec 2022 13:13:12 -0800 (PST)
 Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id m14-20020a170906848e00b007c0a7286ac8sm6218533ejx.69.2022.12.05.13.08.59
+        by smtp.gmail.com with ESMTPSA id r11-20020a056402034b00b0045bd14e241csm218876edw.76.2022.12.05.13.13.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Dec 2022 13:08:59 -0800 (PST)
+        Mon, 05 Dec 2022 13:13:11 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Tom Rini <trini@konsulko.com>, Jagan Teki <jagan@amarulasolutions.com>, Andre Przywara <andre.przywara@arm.com>
-Cc: Simon Glass <sjg@chromium.org>, linux-sunxi@lists.linux.dev, u-boot@lists.denx.de
-Subject: Re: [PATCH] sunxi: define SYS_MONITOR_LEN in Kconfig, not _defconfig
-Date: Mon, 05 Dec 2022 22:08:59 +0100
-Message-ID: <2089155.OBFZWjSADL@kista>
-In-Reply-To: <20221123225117.18760-1-andre.przywara@arm.com>
-References: <20221123225117.18760-1-andre.przywara@arm.com>
+To: wens@csie.org, samuel@sholland.org, gregkh@linuxfoundation.org, christophe.jaillet@wanadoo.fr, tglx@linutronix.de, arnd@arndb.de, mripard@kernel.org, broonie@kernel.org, olof@lixom.net, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Yuan Can <yuancan@huawei.com>
+Cc: yuancan@huawei.com
+Subject: Re: [PATCH] bus: sunxi-rsb: Fix error handling in sunxi_rsb_init()
+Date: Mon, 05 Dec 2022 22:13:10 +0100
+Message-ID: <2730519.BEx9A2HvPv@kista>
+In-Reply-To: <20221123094200.12036-1-yuancan@huawei.com>
+References: <20221123094200.12036-1-yuancan@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -55,17 +55,16 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne sreda, 23. november 2022 ob 23:51:17 CET je Andre Przywara napisal(a):
-> Commit 08574ed339fb ("Convert CONFIG_SYS_MONITOR_LEN to Kconfig") moved
-> the definition of said config variable from the common sunxi header to
-> *every board's* defconfig.
-> This is a platform choice, not board specific, so remove the variable
-> from there, instead set the one value for all Allwinner boards in
-> Kconfig.
+Dne sreda, 23. november 2022 ob 10:42:00 CET je Yuan Can napisal(a):
+> The sunxi_rsb_init() returns the platform_driver_register() directly
+> without checking its return value, if platform_driver_register() failed,
+> the sunxi_rsb_bus is not unregistered.
+> Fix by unregister sunxi_rsb_bus when platform_driver_register() failed.
 > 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Fixes: d787dcdb9c8f ("bus: sunxi-rsb: Add driver for Allwinner Reduced
+> Serial Bus") Signed-off-by: Yuan Can <yuancan@huawei.com>
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
