@@ -1,51 +1,51 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0021015C8B
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 Dec 2022 20:14:19 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id td2so1221758ejc.5
-        for <linux-sunxi@lists.linux.dev>; Mon, 05 Dec 2022 12:14:19 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE8815C8B
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Dec 2022 20:16:49 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id qk9so1254965ejc.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 05 Dec 2022 12:16:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=A7iqaD9NQm0VyRYiAKdqd9SMWPMi9ylBYy253DQgNSw=;
-        b=oCD0W0IaSoHbayzt9V8/oDsDC53nzKKZ2Mo+oqka/f8QqAYYtwy3EBqNbZfu1mX51c
-         UfN/tURajh7slXey/xU2cZvzi/n4R+WZboo+Zcce0F27jnC84wt8lWG300qk8Au3OVID
-         Tb7NoZcxH1cKX0sXJqdKs9wLf6FMTFzkBe8zOEC4zjViKEn2zJZ6v+goOWAdeJUW+Zr/
-         LSQR1H6vL9vKdw+sEb306UPCf4/kf3zgrjytWukowI6XV5Bdbu10EDZbSQ775W3eLDV4
-         WIq4CNhOCK5a3RAGjgGcf9J3ImVs7WXCUV7yhxZ5od7N48wsBr8C6kaHEYtgSA2aJ2DU
-         QzuQ==
+        bh=Z/8PD+0FCsCI5+iBj2b9lGbdoNFHsSi0yThSh9yKErQ=;
+        b=fUbiS0O5RNRd/6YLOHExF2EWqK3wCnZYEzYQ4vhl8yHzO9NXLOjsX5fBHsMsG/YpO5
+         0EuncsVTRMxs4LWoQgA/NRhKu14AudrbM/hnQQb9DQC4LB9c+qntnAXbRNQApfSWxs6V
+         j4xx3bRA+KLz+Celw7jK8swAP29jnoPHm74MD/uhy42TMmO0zTzfEumgpztQz96OaGvK
+         E/N/JbvJrOhBiqz3bXE4j0RryuTnVT4kxSbGltjKjd391OvIgsl9i5u67jLFFJ61tI/J
+         X5nRNnN/n87a4iR+vgfECNf8cvmKsCgWpUBB1GlJUknuMkThb5hDhceDlLS2kZNKPhFw
+         OxFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=A7iqaD9NQm0VyRYiAKdqd9SMWPMi9ylBYy253DQgNSw=;
-        b=6xQv/Zim5XlIdD1Sv4Ry5mjrvzp2LSfoHBCLXeT8lA3x+258qhTSxFd/ZS3myJ2VFj
-         dLyLg/isQZRs4oVetZDKaXwuIpBVCofpmfYn3EuUeCT4WSKFlZMxB1pA/Yw1EiGeEjRo
-         QDPAh86F2MNlyKO9zUOTFWldvxUw2SLr0t9iGf4ItdnTkWyjzNCqR6kfaZNr99fd5K9i
-         Fi4iNssjcrheDFZBQi5YlQ2YVOO/mlAZqcZIHFbpPXaLPd6kzGPRU+JI0Zyn3lt+fCVG
-         6X5qsdWtNc3WCVU6eerxroNKLQeHjtTHswdnyNr/D7EiCyuu6woUTw7BP1pX9R5f7JX7
-         pYnQ==
-X-Gm-Message-State: ANoB5pmnftAKEQpfhtar8H7tk7uEL4Knp1NARFFVsdd4tKvR4/tl5Zy8
-	duBNv0/FtSZK0xGcZjxjbGU=
-X-Google-Smtp-Source: AA0mqf5q1oILM2xX1UEbTreI2l/RpJd/mjGJV0cxlhtwsxgQ5R9AS3T4LmZh6w6dtXyv9cjBfn1InQ==
-X-Received: by 2002:a17:906:1310:b0:7c0:c5e9:634d with SMTP id w16-20020a170906131000b007c0c5e9634dmr13260599ejb.220.1670271258235;
-        Mon, 05 Dec 2022 12:14:18 -0800 (PST)
+        bh=Z/8PD+0FCsCI5+iBj2b9lGbdoNFHsSi0yThSh9yKErQ=;
+        b=czffYSkPVkA6uKF4qeGTrFnvy2fe3Qrkb/r5VL7DQ2w+KwEq8uzpOV7RNQcKf5RQDk
+         ieGfaqvmXYp8PFzqfVCNXcnfU936YRAQd0yuIRZlcTLe1ESg8h0+SbI3YodbBGKEKlPG
+         ZjwhyWDN/nITb/fcQF5fuFrMqVoenYeGmSIJEay2Y2uSa2oqSFxvwso1fdXA+HcdgrWt
+         VTBhtd/fpQngyE+QpDWML2RifVHqYujeR/2z4aXIlZMxBQ+vQLwDUJoyyp5ulr42/LZi
+         gSddmQzN4pqDGi8SLK6/hDv9IaMdXZfXnqPkgrVpXyNoZM7Xdvm86WUSXhjNJ1IhbGy7
+         FXDA==
+X-Gm-Message-State: ANoB5pmLv5zHzGDjUy5tNF3sMfLotuWNhOK6g2o7R9cRs9xqCiuz18Lk
+	7nWQ5srGiNqsy7MSdfk598lhQBBGvbxE7w==
+X-Google-Smtp-Source: AA0mqf74Gku64+ob6YAE4dV316Y74LBb5vnlKktLNPxs0a6p3f6Hx/aBnfk8Np3/5dcuHpYly/Z3Ww==
+X-Received: by 2002:a17:906:830f:b0:7c0:a3c6:e788 with SMTP id j15-20020a170906830f00b007c0a3c6e788mr8193345ejx.476.1670271407686;
+        Mon, 05 Dec 2022 12:16:47 -0800 (PST)
 Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id gg9-20020a170906e28900b007c0d41736c0sm3426117ejb.39.2022.12.05.12.14.17
+        by smtp.gmail.com with ESMTPSA id og40-20020a1709071de800b007c0d6b34d54sm3218302ejc.129.2022.12.05.12.16.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Dec 2022 12:14:17 -0800 (PST)
+        Mon, 05 Dec 2022 12:16:47 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Chen-Yu Tsai <wens@csie.org>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Samuel Holland <samuel@sholland.org>
 Cc: Samuel Holland <samuel@sholland.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 3/5] clk: sunxi-ng: d1: Allow building for R528/T113
-Date: Mon, 05 Dec 2022 21:14:16 +0100
-Message-ID: <2261489.ElGaqSPkdT@kista>
-In-Reply-To: <20221126191319.6404-4-samuel@sholland.org>
-References: <20221126191319.6404-1-samuel@sholland.org> <20221126191319.6404-4-samuel@sholland.org>
+Subject: Re: [PATCH 2/5] clk: sunxi-ng: Move SoC driver conditions to dependencies
+Date: Mon, 05 Dec 2022 21:16:46 +0100
+Message-ID: <1834760.tdWV9SEqCh@kista>
+In-Reply-To: <20221126191319.6404-3-samuel@sholland.org>
+References: <20221126191319.6404-1-samuel@sholland.org> <20221126191319.6404-3-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -55,9 +55,15 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne sobota, 26. november 2022 ob 20:13:17 CET je Samuel Holland napisal(a):
-> Allwinner released some 32-bit ARM (sun8i) SoCs which use the same CCU
-> as D1. Allow them to reuse the driver.
+Dne sobota, 26. november 2022 ob 20:13:16 CET je Samuel Holland napisal(a):
+> Do not duplicate the same expression on the `default` line, so the two
+> lines do not need to be kept in sync. Drivers stay disabled under
+> COMPILE_TEST because of the `default ARCH_SUNXI` applied to SUNXI_CCU.
+> 
+> Three drivers had no conditions.
+>  - SUN6I_RTC_CCU and SUN8I_DE2_CCU are used on current hardware
+>    regardless of CPU architecture.
+>  - SUN8I_R_CCU is only used on pre-H6 SoCs, which means no RISCV SoCs.
 > 
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 
