@@ -1,68 +1,64 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF88F15C8B
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 Dec 2022 20:13:39 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id z92so17452878ede.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 05 Dec 2022 12:13:39 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0021015C8B
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Dec 2022 20:14:19 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id td2so1221758ejc.5
+        for <linux-sunxi@lists.linux.dev>; Mon, 05 Dec 2022 12:14:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8cWtDONIsCwTgfk8sAybr8IvLiR4HP8gBPcVUNlysGg=;
-        b=iglSNUijG2rKTe2lz9E2sf3v7dbj8huBMfl2nT9sDlAq8ieIr/fqh60MuPioWhktMC
-         TUfHhi9/K9nz7eSIbOQ9+cDZEA01LwpOA5pYeUkY0I9XfodYJowNmAFM0QzOG3JfA9zj
-         ZlmeDbpfVgwkF2bDoruKE5tdNxfUlPYJ9Szpr1csQzB2VOOHxBUHlJNIU6mnKBwxhogu
-         cc+NRNjvBz9bdEAxc+IJTyXPxTSGJA3ri5jxAqLHPtEP4O64Nc84OF2yTLglhvFeKvJz
-         d4Vi6WRGbK2uCyTVbJesGIndB3AIWuOnXq6d+G7Q7cy2baE6m5+DMuMMjjtSvvwsreOo
-         PMuQ==
+        bh=A7iqaD9NQm0VyRYiAKdqd9SMWPMi9ylBYy253DQgNSw=;
+        b=oCD0W0IaSoHbayzt9V8/oDsDC53nzKKZ2Mo+oqka/f8QqAYYtwy3EBqNbZfu1mX51c
+         UfN/tURajh7slXey/xU2cZvzi/n4R+WZboo+Zcce0F27jnC84wt8lWG300qk8Au3OVID
+         Tb7NoZcxH1cKX0sXJqdKs9wLf6FMTFzkBe8zOEC4zjViKEn2zJZ6v+goOWAdeJUW+Zr/
+         LSQR1H6vL9vKdw+sEb306UPCf4/kf3zgrjytWukowI6XV5Bdbu10EDZbSQ775W3eLDV4
+         WIq4CNhOCK5a3RAGjgGcf9J3ImVs7WXCUV7yhxZ5od7N48wsBr8C6kaHEYtgSA2aJ2DU
+         QzuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8cWtDONIsCwTgfk8sAybr8IvLiR4HP8gBPcVUNlysGg=;
-        b=45qNF2xdVi8MdIdQf4aL+myLTgxrK530512T6mGuWDXuWyRfsDrtLBKt24GwI+dZtK
-         ecqzh2+cyst2Mx6HCAI/lnMVuFTTi8/Jmyg+G2oTTkLFw5MBNXSnuG2+2x/cuk1Lbq0w
-         L9k+xEsOmwOUB22q70m3/NUWLDERlH12tf59CcRzcWOP1g/yPhw6junr6V3n5xv9q/Vm
-         3tg/HVVCMDpvC4lax6XFWInLIo8ZO74SzFtV6VnYrCW+OGTGM+6UHCmsYyUaRq2tIF+z
-         3g9ZhCTK7brBlXTHNRjQBZh8ZDwHS2nm2fAIniptMKrULPYmTmoi+9rXmZoT+J2NwLLy
-         muQg==
-X-Gm-Message-State: ANoB5pkOW9ANYGkkeyfcKJ2XMh4bJ00xC0yuMDdLnR8qIzlS8RX0e1zE
-	PQfK/ibWbgegI59RaLBRGMg=
-X-Google-Smtp-Source: AA0mqf6foAvuv64vb+zdQVhIad9BChvylagP1dX5NL09miVDfVqvJUjgy1j4HCpuD07CEIIMwp8vDg==
-X-Received: by 2002:aa7:c754:0:b0:46b:6096:a884 with SMTP id c20-20020aa7c754000000b0046b6096a884mr28674921eds.152.1670271218282;
-        Mon, 05 Dec 2022 12:13:38 -0800 (PST)
+        bh=A7iqaD9NQm0VyRYiAKdqd9SMWPMi9ylBYy253DQgNSw=;
+        b=6xQv/Zim5XlIdD1Sv4Ry5mjrvzp2LSfoHBCLXeT8lA3x+258qhTSxFd/ZS3myJ2VFj
+         dLyLg/isQZRs4oVetZDKaXwuIpBVCofpmfYn3EuUeCT4WSKFlZMxB1pA/Yw1EiGeEjRo
+         QDPAh86F2MNlyKO9zUOTFWldvxUw2SLr0t9iGf4ItdnTkWyjzNCqR6kfaZNr99fd5K9i
+         Fi4iNssjcrheDFZBQi5YlQ2YVOO/mlAZqcZIHFbpPXaLPd6kzGPRU+JI0Zyn3lt+fCVG
+         6X5qsdWtNc3WCVU6eerxroNKLQeHjtTHswdnyNr/D7EiCyuu6woUTw7BP1pX9R5f7JX7
+         pYnQ==
+X-Gm-Message-State: ANoB5pmnftAKEQpfhtar8H7tk7uEL4Knp1NARFFVsdd4tKvR4/tl5Zy8
+	duBNv0/FtSZK0xGcZjxjbGU=
+X-Google-Smtp-Source: AA0mqf5q1oILM2xX1UEbTreI2l/RpJd/mjGJV0cxlhtwsxgQ5R9AS3T4LmZh6w6dtXyv9cjBfn1InQ==
+X-Received: by 2002:a17:906:1310:b0:7c0:c5e9:634d with SMTP id w16-20020a170906131000b007c0c5e9634dmr13260599ejb.220.1670271258235;
+        Mon, 05 Dec 2022 12:14:18 -0800 (PST)
 Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id 10-20020a170906200a00b007ae243c3f05sm6448466ejo.189.2022.12.05.12.13.37
+        by smtp.gmail.com with ESMTPSA id gg9-20020a170906e28900b007c0d41736c0sm3426117ejb.39.2022.12.05.12.14.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Dec 2022 12:13:37 -0800 (PST)
+        Mon, 05 Dec 2022 12:14:17 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Chen-Yu Tsai <wens@csie.org>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Samuel Holland <samuel@sholland.org>
-Cc: Samuel Holland <samuel@sholland.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, =?utf-8?B?QW5kcsOhcyBTemVtesWR?= <szemzo.andras@gmail.com>
-Subject: Re: [PATCH 4/5] clk: sunxi-ng: d1: Mark cpux clock as critical
-Date: Mon, 05 Dec 2022 21:13:36 +0100
-Message-ID: <4787189.31r3eYUQgx@kista>
-In-Reply-To: <20221126191319.6404-5-samuel@sholland.org>
-References: <20221126191319.6404-1-samuel@sholland.org> <20221126191319.6404-5-samuel@sholland.org>
+Cc: Samuel Holland <samuel@sholland.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 3/5] clk: sunxi-ng: d1: Allow building for R528/T113
+Date: Mon, 05 Dec 2022 21:14:16 +0100
+Message-ID: <2261489.ElGaqSPkdT@kista>
+In-Reply-To: <20221126191319.6404-4-samuel@sholland.org>
+References: <20221126191319.6404-1-samuel@sholland.org> <20221126191319.6404-4-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Dne sobota, 26. november 2022 ob 20:13:18 CET je Samuel Holland napisal(a):
-> From: Andr=C3=A1s Szemz=C5=91 <szemzo.andras@gmail.com>
->=20
-> Some SoCs in the D1 family feature ARM CPUs instead of a RISC-V CPU.
-> In that case, the CPUs are driven from the 'cpux' clock, so it needs
-> to be marked as critical.
->=20
-> Signed-off-by: Andr=C3=A1s Szemz=C5=91 <szemzo.andras@gmail.com>
+Dne sobota, 26. november 2022 ob 20:13:17 CET je Samuel Holland napisal(a):
+> Allwinner released some 32-bit ARM (sun8i) SoCs which use the same CCU
+> as D1. Allow them to reuse the driver.
+> 
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
