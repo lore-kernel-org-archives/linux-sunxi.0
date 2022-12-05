@@ -1,55 +1,60 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2927C
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 Dec 2022 13:43:06 +0000 (UTC)
-Received: (Authenticated sender: foss@0leil.net)
-	by mail.gandi.net (Postfix) with ESMTPSA id 94B6DFF80A;
-	Mon,  5 Dec 2022 13:42:52 +0000 (UTC)
-From: Quentin Schulz <foss+kernel@0leil.net>
-To: Samuel Holland <samuel@sholland.org>,
-	Bastien Nocera <hadess@hadess.net>,
-	=?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Angus Ainslie <angus@akkea.ca>,
-	Ondrej Jirman <megous@megous.com>,
-	Icenowy Zheng <icenowy@aosc.io>,
-	Andy Gross <agross@kernel.org>,
-	Aleksei Mamlin <mamlinav@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	David Jander <david@protonic.nl>,
-	Frieder Schrempf <frieder.schrempf@kontron.de>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@somainline.org>,
-	Peter Geis <pgwipeout@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Lukasz Majewski <lukma@denx.de>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Michael Riesch <michael.riesch@wolfvision.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: Quentin Schulz <quentin.schulz@theobroma-systems.com>,
-	linux-input@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-rockchip@lists.infradead.org
-Subject: [PATCH v3 9/9] arm64: dts: rockchip: fix touchscreen reset GPIO polarity
-Date: Mon,  5 Dec 2022 14:40:38 +0100
-Message-Id: <20221103-upstream-goodix-reset-v3-9-0975809eb183@theobroma-systems.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221103-upstream-goodix-reset-v3-0-0975809eb183@theobroma-systems.com>
-References: <20221103-upstream-goodix-reset-v3-0-0975809eb183@theobroma-systems.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DAE6125;
+	Mon,  5 Dec 2022 17:29:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3D01C433D6;
+	Mon,  5 Dec 2022 17:29:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1670261360;
+	bh=9d2J8LPcLpZa1jj5Cgn2rDMLtkYnsdFIg2tKpX86qeY=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=B0LXS8/gyek+8hlLKsm9IjaIYf/0pFfbI2pNsXBHzqjnPIM8h3ww4pOYnuM14nXKw
+	 UBWu1MJkJwIaGe3JL+twjWh8I56KLFz2GLThRH0BJPynb7Gk58dSvTeTDvDJJGB3iv
+	 NoDs7UPlskIPQ1kxd3LCMypuJU5e3wbgPjNbY0HABqughPGJ8cQCWovZkYkccfUG7y
+	 zMIFHFMg+6etqtkmant212Sds7h6lpBMsTN4wkQjJ0AWOtid5n0v6fyqdfZ5Dyv6Ln
+	 +HaH8yaYOkpYvVkzdvV3hRmidQ8X/qrD8rbWHqzaES4XRJGdFv8b+ImSVysA7u4Rik
+	 LzPrPqjBGL7ow==
+From: Mark Brown <broonie@kernel.org>
+To: Derek Fang <derek.fang@realtek.com>, Sameer Pujar <spujar@nvidia.com>, Heiko Stuebner <heiko@sntech.de>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Bjorn Andersson <andersson@kernel.org>, asahi@lists.linux.dev,
+ Daniel Drake <drake@endlessm.com>, Martin Povišer <povik+lin@cutebit.org>, linux-kernel@vger.kernel.org,
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Jayesh Choudhary <j-choudhary@ti.com>,
+ Banajit Goswami <bgoswami@quicinc.com>, Daniel Vetter <daniel@ffwll.ch>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Andrew Davis <afd@ti.com>, Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, - <patches@opensource.cirrus.com>, Matt Flax <flatmax@flatmax.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>, Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Mohan Kumar <mkumard@nvidia.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Bogdan Togorean <bogdan.togorean@analog.com>, Takashi Iwai <tiwai@suse.com>, Katsuhiro Suzuki <katsuhiro@katsuster.net>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ David Airlie <airlied@gmail.com>, chrome-platform@lists.linux.dev, linux-sunxi@lists.linux.dev,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-rockchip@lists.infradead.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Ban Tao <fengzheng923@gmail.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.om>, Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>,
+ Lubomir Rintel <lkundrak@v3.sk>, Lars-Peter Clausen <lars@metafoo.de>, Liam Girdwood <lgirdwood@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Jee Heng <jee.heng.sia@intel.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Olivier Moysan <olivier.moysan@foss.st.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ James Schulman <james.schulman@cirrus.com>, alsa-devel@alsa-project.org, Paul Cercueil <paul@crapouillou.net>,
+ Lucas Tanure <tanureal@opensource.cirrus.com>, linux-tegra@vger.kernel.org, Fabio Estevam <festevam@gmail.com>,
+ Stephan Gerhold <stephan@gerhold.net>, Shengjiu Wang <shengjiu.wang@nxp.com>,
+ Vincent Knecht <vincent.knecht@mailoo.org>, Jerome Brunet <jbrunet@baylibre.com>, ChiYuan Huang <cy_huang@richtek.com>,
+ linux-arm-msm@vger.kernel.org, Nuno Sá <nuno.sa@analog.com>, Chen-Yu Tsai <wens@csie.org>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Andy Gross <agross@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, Ricard Wanderlof <ricardw@axis.com>,
+ Maxime Ripard <mripard@kernel.org>, Shenghao Ding <shenghao-ding@ti.com>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Cheng-Yi Chiang <cychiang@chromium.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ David Rhodes <david.rhodes@cirrus.com>, Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Kevin Hilman <khilman@baylibre.com>, Shi Fu <shifu0704@thundersoft.com>, Jaroslav Kysela <perex@perex.cz>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Jose Abreu <joabreu@synopsys.com>, devicetree@vger.kernel.org,
+ Samuel Holland <samuel@sholland.org>
+In-Reply-To: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org>
+References: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 1/3] ASoC: dt-bindings: Extend name-prefix.yaml into common DAI properties
+Message-Id: <167026134462.536379.12661875208007412738.b4-ty@kernel.org>
+Date: Mon, 05 Dec 2022 17:29:04 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -57,60 +62,45 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.10.1
 Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.10.0-dev-fc921
 
-From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+On Sat, 3 Dec 2022 17:04:40 +0100, Krzysztof Kozlowski wrote:
+> Rename name-prefix.yaml into common DAI schema and document
+> '#sound-dai-cells' for completeness.  The '#sound-dai-cells' cannot be
+> really constrained, as there are users with value of 0, 1 and 2, but at
+> least it brings definition to one common place.
+> 
+> 
 
-The reset line is active low for the Goodix touchscreen controller so
-let's fix the polarity in the Device Tree node.
+Applied to
 
-Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
----
- arch/arm64/boot/dts/rockchip/px30-evb.dts          | 2 +-
- arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi | 2 +-
- arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts   | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-diff --git a/arch/arm64/boot/dts/rockchip/px30-evb.dts b/arch/arm64/boot/dts/rockchip/px30-evb.dts
-index c1bbd555f5f5b..2087dc7299446 100644
---- a/arch/arm64/boot/dts/rockchip/px30-evb.dts
-+++ b/arch/arm64/boot/dts/rockchip/px30-evb.dts
-@@ -420,7 +420,7 @@ touchscreen@14 {
- 		interrupt-parent = <&gpio0>;
- 		interrupts = <RK_PA5 IRQ_TYPE_LEVEL_LOW>;
- 		irq-gpios = <&gpio0 RK_PA5 GPIO_ACTIVE_LOW>;
--		reset-gpios = <&gpio0 RK_PB4 GPIO_ACTIVE_HIGH>;
-+		reset-gpios = <&gpio0 RK_PB4 GPIO_ACTIVE_LOW>;
- 		VDDIO-supply = <&vcc3v3_lcd>;
- 	};
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
-index 78157521e9449..e63491fb443be 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
-@@ -588,7 +588,7 @@ touch: touchscreen@5d {
- 		AVDD28-supply = <&vcc3v0_touch>;
- 		VDDIO-supply = <&vcc3v0_touch>;
- 		irq-gpios = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>;
--		reset-gpios = <&gpio4 RK_PD6 GPIO_ACTIVE_HIGH>;
-+		reset-gpios = <&gpio4 RK_PD6 GPIO_ACTIVE_LOW>;
- 		status = "disabled";
- 	};
- };
-diff --git a/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts b/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts
-index 674792567fa6e..234531aaa430a 100644
---- a/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts
-@@ -495,7 +495,7 @@ touchscreen0: goodix@14 {
- 		irq-gpios = <&gpio0 RK_PB5 GPIO_ACTIVE_HIGH>;
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&touch_int &touch_rst>;
--		reset-gpios = <&gpio0 RK_PB6 GPIO_ACTIVE_HIGH>;
-+		reset-gpios = <&gpio0 RK_PB6 GPIO_ACTIVE_LOW>;
- 		VDDIO-supply = <&vcc3v3_lcd0_n>;
- 	};
- };
+Thanks!
 
--- 
-b4 0.10.1
+[1/3] ASoC: dt-bindings: Extend name-prefix.yaml into common DAI properties
+      commit: 3fda85324b8d7aa01ccfa1bb82c46befc6af518f
+[2/3] ASoC: dt-bindings: Reference common DAI properties
+      commit: 58ae9a2aca6f883dd6fd7b8bfc2e1b1b21a2f03e
+[3/3] ASoC: dt-bindings: maxim,max98357a: Convert to DT schema
+      commit: 8a5a05583a04fcfa094072147eb8f6c9bb2af852
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
