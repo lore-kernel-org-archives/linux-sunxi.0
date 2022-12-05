@@ -1,227 +1,211 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329507C
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 Dec 2022 20:45:52 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id vp12so1370701ejc.8
-        for <linux-sunxi@lists.linux.dev>; Mon, 05 Dec 2022 12:45:52 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790ED7C;
+	Mon,  5 Dec 2022 20:50:29 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id n21so1383991ejb.9;
+        Mon, 05 Dec 2022 12:50:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JdCzDmfj+PMHQDUvK9ErBKQf22vLpZFbnSwddzqkBTo=;
-        b=p9fSY8XETv3RHePrGV3MDO2XyCRE1jd6mL34JSRpdOKhWD3WlJGQjGptXoF8VZuPEq
-         dnbk9/32BH2Dj4nx6d2NcxQQKcggqztzcWAAsAx0ACYdji4tYQC3ZnU4Zvp6sKhenrNA
-         bwZcYvqCt/8i3efoRfdKJVzPoks24Z/07I215moJvpGMJunrovVScmaLw9wke1o1im04
-         4TldQ1LayCkorK/pKXE19/UrLm7N2kuCdy/R+iLLHbgiM1UrdASQBpAYAeLDS2/3i5vK
-         K+ewL+hxFzSnTssJpYRCtjr3srglWfDi8Hnas4gLfFO883RXW5LX60VGGKMRxKcDiQaX
-         1v0g==
+        bh=GVCjiKCCl/VeQNWt8PtvAxtZLBRlpY2z5UZuNcs/Lew=;
+        b=XvJr+2rJm7JOHlq9x+fOv7NDm86bbibMxBpK63VeMD2EMqGdhu2XuWkgvVLdDR0z70
+         rNjTyDDxW9o5ErSENlsUnIfCC0WhZuejJ2yih0mLoHswCM2M58xZp+WRXrhKHNzoDC98
+         eywNrn9703v1hEHCC19pIxnm9UAOmv/ciCyk8aNqL1llwB1pwKlrAN3g0vWuCDVwec3u
+         b2oe64W6gGqXEP/w77AW1mJZUnpIQaflKXXD7S2AxRLNn+kpk5aBgHioUah3AXqYRLz0
+         Ni6YsVblS514+p5ZnwbjXWkaD6uhuoaqZS6tGC11waKPWHF6EekaoetSMeNIEbDaBvy2
+         bqLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JdCzDmfj+PMHQDUvK9ErBKQf22vLpZFbnSwddzqkBTo=;
-        b=4aOrynqAn+AbFZ7pTtRC/arZlgxQAXo56TZs76y+tDm1ZFlSpU8VM4BdkTqOuBvSgP
-         ZDMMwszpzu5nVQ2eLrKYyZtLbT6yf1iJXQX5l6/NlLAggMpe1PU0Hj5rXdbZ2G1FCXeY
-         0aOiBsUPMvZMKiNfeYgbxmq3q9AnczPe8GCnV4GN9tgRYykJ2A9R19Mg4sXlP4flCdQm
-         uwGHz+X0G34tc0xmBvgXQtW1U6DweSJapmt3SOW06k/4jOifoEx8aCzRZJdrddmm7auL
-         tBBNiM5556YrhL88KvpdMRePaCFSPKIfPZm6ma1GjR7MSviqGHWXighTBjjbrLAi6sL8
-         IoPQ==
-X-Gm-Message-State: ANoB5pnuzAKi86vkBSq+ibDw4kg9xEzcDMzltRsNESm7d+OGgBkONUo6
-	Q959yMqL8lgPQV78F8MsZMSZEPRHXicdOQ==
-X-Google-Smtp-Source: AA0mqf7nxYjWF996Pj53wpbOQnisfsFuRhfTWZwFDtA1zE5lRwBI0zRJz72CdbUiwigSZSlh9Gwbhg==
-X-Received: by 2002:a17:907:b014:b0:7b4:86be:f3e3 with SMTP id fu20-20020a170907b01400b007b486bef3e3mr64798905ejc.741.1670273150394;
-        Mon, 05 Dec 2022 12:45:50 -0800 (PST)
+        bh=GVCjiKCCl/VeQNWt8PtvAxtZLBRlpY2z5UZuNcs/Lew=;
+        b=rt6x57TkC7+DyM2COTiywZo1Gz/urANjCnW2Gfy/bOiN+ElW4xa4cKoyV8eFT/Eyki
+         nlDax9Ol+KKEo5Dsa+SLATnJZ9+stX4HCpgkgpYlHSag2iyG+wJwlTDClYSyTGeCsnlg
+         FilsesGCPjItD4OjxyRRFrTbQS7KClDZG6PlsPVFHhNFvNmEfa7BYNF52iZhwiWtSOKj
+         S2J649ViyjQiVAb+YErrb9F+9jJztDIjiCr/K37Utch+H5VulAAhpNaYiHCK00NmjDpg
+         wJGWuFrYLr6CRj9yEVpj/0npwcBNxMLyjcQADn5ITKqJf7EBJAn01fPLEHeY06fhvIDN
+         6ukQ==
+X-Gm-Message-State: ANoB5pl40qoqlf7SQNYGTrMPWJOpHe4xnrbBBABFEU+o+82nx1n1H00f
+	H8kcICr51f/LCrtvGa0kskE=
+X-Google-Smtp-Source: AA0mqf5OSt768BV9vzFy9k66tV39xf6Wmy4SS9KX61nTQHi4Fa5yPtn/xJX8Qo/SjgdCekjDSrIRXw==
+X-Received: by 2002:a17:906:4b4a:b0:7c0:e5cb:aad8 with SMTP id j10-20020a1709064b4a00b007c0e5cbaad8mr7371981ejv.407.1670273427580;
+        Mon, 05 Dec 2022 12:50:27 -0800 (PST)
 Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id e10-20020a170906314a00b007bfc5cbaee8sm6678374eje.17.2022.12.05.12.45.49
+        by smtp.gmail.com with ESMTPSA id g9-20020a17090670c900b0077f324979absm6580859ejk.67.2022.12.05.12.50.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Dec 2022 12:45:50 -0800 (PST)
+        Mon, 05 Dec 2022 12:50:27 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, Palmer Dabbelt <palmer@dabbelt.com>, Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org, Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Jisheng Zhang <jszhang@kernel.org>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>, Samuel Holland <samuel@sholland.org>, Albert Ou <aou@eecs.berkeley.edu>, Anup Patel <apatel@ventanamicro.com>, Atish Patra <atishp@rivosinc.com>, Christian Hewitt <christianshewitt@gmail.com>, Conor Dooley <conor.dooley@microchip.com>, Guo Ren <guoren@kernel.org>, Heinrich Schuchardt <heinrich.schuchardt@canonical.com>, Linus Walleij <linus.walleij@linaro.org>, Paul Walmsley <paul.walmsley@sifive.com>, Stanislav Jakubek <stano.jakubek@gmail.com>
-Subject: Re: [PATCH v2 09/12] riscv: dts: allwinner: Add Dongshan Nezha STU devicetree
-Date: Mon, 05 Dec 2022 21:45:48 +0100
-Message-ID: <3389289.QJadu78ljV@kista>
-In-Reply-To: <20221125234656.47306-10-samuel@sholland.org>
-References: <20221125234656.47306-1-samuel@sholland.org> <20221125234656.47306-10-samuel@sholland.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Conor Dooley <conor.dooley@microchip.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Douglas Anderson <dianders@chromium.org>, Pavel Machek <pavel@ucw.cz>, 
+	Claudiu Beznea <claudiu.beznea@microchip.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Florian Fainelli <f.fainelli@gmail.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Michael Walle <michael@walle.cc>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, 
+	Hammer Hsieh <hammerh0314@gmail.com>, 
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, Sean Anderson <sean.anderson@seco.com>, 
+	Michal Simek <michal.simek@xilinx.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Stephen Boyd <swboyd@chromium.org>, Matthias Kaehlcke <mka@chromium.org>, 
+	Satya Priya <quic_c_skakit@quicinc.com>, linux-pwm@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	chrome-platform@lists.linux.dev, linux-amlogic@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 01/11] pwm: Make .get_state() callback return an error code
+Date: Mon, 05 Dec 2022 21:50:24 +0100
+Message-ID: <22881769.6Emhk5qWAg@kista>
+In-Reply-To: <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
+References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de> <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-Hi Samuel,
-
-Dne sobota, 26. november 2022 ob 00:46:53 CET je Samuel Holland napisal(a):
-> The 100ask Dongshan Nezha STU is a system-on-module that can be used
-> standalone or with a carrier board. The SoM provides gigabit Ethernet,
-> HDMI, a USB peripheral port, and WiFi/Bluetooth via an RTL8723DS chip.
-> 
-> The "DIY" carrier board exposes almost every pin from the D1 SoC to 0.1"
-> headers, but contains no digital circuitry, so it does not have its own
-> devicetree.
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+Dne sreda, 30. november 2022 ob 16:21:38 CET je Uwe Kleine-K=F6nig napisal(=
+a):
+> .get_state() might fail in some cases. To make it possible that a driver
+> signals such a failure change the prototype of .get_state() to return an
+> error code.
+>=20
+> This patch was created using coccinelle and the following semantic patch:
+>=20
+> @p1@
+> identifier getstatefunc;
+> identifier driver;
+> @@
+>  struct pwm_ops driver =3D {
+>         ...,
+>         .get_state =3D getstatefunc
+>         ,...
+>  };
+>=20
+> @p2@
+> identifier p1.getstatefunc;
+> identifier chip, pwm, state;
+> @@
+> -void
+> +int
+>  getstatefunc(struct pwm_chip *chip, struct pwm_device *pwm, struct
+> pwm_state *state) {
+>    ...
+> -  return;
+> +  return 0;
+>    ...
+>  }
+>=20
+> plus the actual change of the prototype in include/linux/pwm.h (plus some
+> manual fixing of indentions and empty lines).
+>=20
+> So for now all drivers return success unconditionally. They are adapted
+> in the following patches to make the changes easier reviewable.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 > ---
-> 
-> (no changes since v1)
-> 
->  arch/riscv/boot/dts/allwinner/Makefile        |   1 +
->  .../sun20i-d1-dongshan-nezha-stu.dts          | 118 ++++++++++++++++++
->  2 files changed, 119 insertions(+)
->  create mode 100644
-> arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts
-> 
-> diff --git a/arch/riscv/boot/dts/allwinner/Makefile
-> b/arch/riscv/boot/dts/allwinner/Makefile index 2ed586fafaea..87f70b1af6b4
-> 100644
-> --- a/arch/riscv/boot/dts/allwinner/Makefile
-> +++ b/arch/riscv/boot/dts/allwinner/Makefile
-> @@ -1,4 +1,5 @@
->  # SPDX-License-Identifier: GPL-2.0
-> +dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-dongshan-nezha-stu.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-lichee-rv-86-panel-480p.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-lichee-rv-86-panel-720p.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-lichee-rv-dock.dtb
-> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts
-> b/arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts new file
-> mode 100644
-> index 000000000000..c549a1c5fbf0
-> --- /dev/null
-> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dts
-> @@ -0,0 +1,118 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-> +// Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
+>  drivers/gpio/gpio-mvebu.c             |  9 ++++++---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 14 ++++++++------
+>  drivers/leds/rgb/leds-qcom-lpg.c      | 14 ++++++++------
+>  drivers/pwm/pwm-atmel.c               |  6 ++++--
+>  drivers/pwm/pwm-bcm-iproc.c           |  8 +++++---
+>  drivers/pwm/pwm-crc.c                 | 10 ++++++----
+>  drivers/pwm/pwm-cros-ec.c             |  8 +++++---
+>  drivers/pwm/pwm-dwc.c                 |  6 ++++--
+>  drivers/pwm/pwm-hibvt.c               |  6 ++++--
+>  drivers/pwm/pwm-imx-tpm.c             |  8 +++++---
+>  drivers/pwm/pwm-imx27.c               |  8 +++++---
+>  drivers/pwm/pwm-intel-lgm.c           |  6 ++++--
+>  drivers/pwm/pwm-iqs620a.c             |  6 ++++--
+>  drivers/pwm/pwm-keembay.c             |  6 ++++--
+>  drivers/pwm/pwm-lpss.c                |  6 ++++--
+>  drivers/pwm/pwm-meson.c               |  8 +++++---
+>  drivers/pwm/pwm-mtk-disp.c            | 12 +++++++-----
+>  drivers/pwm/pwm-pca9685.c             |  8 +++++---
+>  drivers/pwm/pwm-raspberrypi-poe.c     |  8 +++++---
+>  drivers/pwm/pwm-rockchip.c            | 12 +++++++-----
+>  drivers/pwm/pwm-sifive.c              |  6 ++++--
+>  drivers/pwm/pwm-sl28cpld.c            |  8 +++++---
+>  drivers/pwm/pwm-sprd.c                |  8 +++++---
+>  drivers/pwm/pwm-stm32-lp.c            |  8 +++++---
+>  drivers/pwm/pwm-sun4i.c               | 12 +++++++-----
+>  drivers/pwm/pwm-sunplus.c             |  6 ++++--
+>  drivers/pwm/pwm-visconti.c            |  6 ++++--
+>  drivers/pwm/pwm-xilinx.c              |  8 +++++---
+>  include/linux/pwm.h                   |  4 ++--
+>  29 files changed, 146 insertions(+), 89 deletions(-)
+>=20
+<snip>
+> diff --git a/drivers/pwm/pwm-sun4i.c b/drivers/pwm/pwm-sun4i.c
+> index c8445b0a3339..37d75e252d4e 100644
+> --- a/drivers/pwm/pwm-sun4i.c
+> +++ b/drivers/pwm/pwm-sun4i.c
+> @@ -108,9 +108,9 @@ static inline void sun4i_pwm_writel(struct
+> sun4i_pwm_chip *chip, writel(val, chip->base + offset);
+>  }
+>=20
+> -static void sun4i_pwm_get_state(struct pwm_chip *chip,
+> -				struct pwm_device *pwm,
+> -				struct pwm_state *state)
+> +static int sun4i_pwm_get_state(struct pwm_chip *chip,
+> +			       struct pwm_device *pwm,
+> +			       struct pwm_state *state)
+>  {
+>  	struct sun4i_pwm_chip *sun4i_pwm =3D to_sun4i_pwm_chip(chip);
+>  	u64 clk_rate, tmp;
+> @@ -132,7 +132,7 @@ static void sun4i_pwm_get_state(struct pwm_chip *chip,
+>  		state->duty_cycle =3D DIV_ROUND_UP_ULL(state->period, 2);
+>  		state->polarity =3D PWM_POLARITY_NORMAL;
+>  		state->enabled =3D true;
+> -		return;
+> +		return 0;
+>  	}
+>=20
+>  	if ((PWM_REG_PRESCAL(val, pwm->hwpwm) =3D=3D PWM_PRESCAL_MASK) &&
+> @@ -142,7 +142,7 @@ static void sun4i_pwm_get_state(struct pwm_chip *chip,
+>  		prescaler =3D prescaler_table[PWM_REG_PRESCAL(val, pwm-
+>hwpwm)];
+>=20
+>  	if (prescaler =3D=3D 0)
+> -		return;
+> +		return 0;
+>=20
+>  	if (val & BIT_CH(PWM_ACT_STATE, pwm->hwpwm))
+>  		state->polarity =3D PWM_POLARITY_NORMAL;
+> @@ -162,6 +162,8 @@ static void sun4i_pwm_get_state(struct pwm_chip *chip,
+>=20
+>  	tmp =3D (u64)prescaler * NSEC_PER_SEC * PWM_REG_PRD(val);
+>  	state->period =3D DIV_ROUND_CLOSEST_ULL(tmp, clk_rate);
 > +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/leds/common.h>
-> +
-> +/dts-v1/;
-> +
-> +#include "sun20i-d1.dtsi"
-> +#include "sun20i-common-regulators.dtsi"
-> +
-> +/ {
-> +	model = "Dongshan Nezha STU";
-> +	compatible = "100ask,dongshan-nezha-stu", "allwinner,sun20i-d1";
-> +
-> +	aliases {
-> +		ethernet0 = &emac;
-> +		mmc0 = &mmc0;
+> +	return 0;
+>  }
+>=20
+>  static int sun4i_pwm_calculate(struct sun4i_pwm_chip *sun4i_pwm,
 
-Sorry, I just noticed now, but why is there above alias? It's not sunxi 
-practice to add mmc aliases.
+=46or sun4i:
+
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
-> +		serial0 = &uart0;
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = "serial0:115200n8";
-> +	};
-> +
-> +	leds {
-> +		compatible = "gpio-leds";
-> +
-> +		led-0 {
-> +			color = <LED_COLOR_ID_GREEN>;
-> +			function = LED_FUNCTION_STATUS;
-> +			gpios = <&pio 2 1 GPIO_ACTIVE_HIGH>; /* PC1 
-*/
-> +		};
-> +	};
-> +
-> +	reg_usbvbus: usbvbus {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "usbvbus";
-> +		regulator-min-microvolt = <5000000>;
-> +		regulator-max-microvolt = <5000000>;
-> +		gpio = <&pio 3 19 GPIO_ACTIVE_HIGH>; /* PD19 */
-> +		enable-active-high;
-> +		vin-supply = <&reg_vcc>;
-> +	};
-> +
-> +	/*
-> +	 * This regulator is PWM-controlled, but the PWM controller is not
-> +	 * yet supported, so fix the regulator to its default voltage.
-> +	 */
-> +	reg_vdd_cpu: vdd-cpu {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vdd-cpu";
-> +		regulator-min-microvolt = <1100000>;
-> +		regulator-max-microvolt = <1100000>;
-> +		vin-supply = <&reg_vcc>;
-> +	};
-> +};
-> +
-> +&cpu0 {
-> +	cpu-supply = <&reg_vdd_cpu>;
-> +};
-> +
-> +&dcxo {
-> +	clock-frequency = <24000000>;
-> +};
-> +
-> +&ehci0 {
-> +	status = "okay";
-> +};
-> +
-> +&emac {
-> +	pinctrl-0 = <&rgmii_pe_pins>;
-> +	pinctrl-names = "default";
-> +	phy-handle = <&ext_rgmii_phy>;
-> +	phy-mode = "rgmii-id";
-> +	phy-supply = <&reg_vcc_3v3>;
-> +	status = "okay";
-> +};
-> +
-> +&mdio {
-> +	ext_rgmii_phy: ethernet-phy@1 {
-> +		compatible = "ethernet-phy-ieee802.3-c22";
-> +		reg = <1>;
-> +	};
-> +};
-> +
-> +&mmc0 {
-> +	broken-cd;
-> +	bus-width = <4>;
-> +	disable-wp;
-> +	vmmc-supply = <&reg_vcc_3v3>;
-> +	vqmmc-supply = <&reg_vcc_3v3>;
-> +	pinctrl-0 = <&mmc0_pins>;
-> +	pinctrl-names = "default";
-> +	status = "okay";
-> +};
-> +
-> +&ohci0 {
-> +	status = "okay";
-> +};
-> +
-> +&uart0 {
-> +	pinctrl-0 = <&uart0_pb8_pins>;
-> +	pinctrl-names = "default";
-> +	status = "okay";
-> +};
-> +
-> +&usb_otg {
-> +	dr_mode = "otg";
-> +	status = "okay";
-> +};
-> +
-> +&usbphy {
-> +	usb0_id_det-gpios = <&pio 3 21 GPIO_ACTIVE_HIGH>; /* PD21 */
-> +	usb0_vbus_det-gpios = <&pio 3 20 GPIO_ACTIVE_HIGH>; /* PD20 */
-> +	usb0_vbus-supply = <&reg_usbvbus>;
-> +	status = "okay";
-> +};
-> --
-> 2.37.4
 
 
