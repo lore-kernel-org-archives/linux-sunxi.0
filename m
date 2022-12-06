@@ -1,185 +1,162 @@
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2119.outbound.protection.outlook.com [40.107.6.119])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FCAA2F2E
-	for <linux-sunxi@lists.linux.dev>; Tue,  6 Dec 2022 11:25:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NpMlpsVaCQfUdCCWauHhrR7IK+D4wYv6ekEFR6bYXdDhSI8uui5IyIseBFxs0fkPPQdNDJVOI4DL9pCZ3Y2QpXkfhl36XAYQvToeBqvVQJ/a3xLoh5ifTxGgCQXY8nW+PYubV5fQrfPdOHDTlh8lwT6QGMpES+hKOJURBu/Ml2ihhZfdquVQicL/rimZVtSdphpBwqSVWY4yhk3abvir37SHQC4iw763bakjlZHCUb5KQDGM4mLpT2zT7sm+0vrve363HSL+1s2Jt3TxYt32PKumNgX+BsLGKF8x8FjwpTc7bafOjgzX6hruEU3H3Q/gssTU30S1qCiPnqguwxC1pA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FE2ZyYjd2tO+FxYg8/3Ezo4quS+dXd6Jb387hhZAQTQ=;
- b=nv0hzG7yCwZBY8JVzzhBvEtklALEqhLvVuXx5WXUukE6eFi/vxO3dOTQsbEkShU8nkvx1ldfdutBHKKm3FSakOHpUPWObTFgCNyX0OHizvK5ukyFO3NzGbt39fWxvS7rsYXaINwvSKJhZAd88ZR/8TNiGSV+pAbPB5/84wSVDixwvbMWSu8rSaDqqp+Fu1yylBHcXLBW0bh67UJxTGJZ4/Fy9VxJ/cHpQ7mRJ9EP4OnRPSffxFsHY3A59TpCl05FVuZbLe/rytTvjpOrI9wyJXgZ7ONPI3it82biP2BOvcU7vYFiP4l8CVgyC0m4OrPC2W5jCFykkWCkHsA4813eOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
- dkim=pass header.d=kontron.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com;
- s=selector2-mysnt-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FE2ZyYjd2tO+FxYg8/3Ezo4quS+dXd6Jb387hhZAQTQ=;
- b=egf4LrOHMbEHSxMFDVfsnNGTascd9K1U4Egv8di1PRJ9+LKRM41M12BCa2bbToYl5vzPqboUIr21tXIoa2MhQuiPttDmE2LzXCk/TREac6ZO9teQb+raoxpAHdJyj9zUupRjlQaG8g9d5enxaYAQqi1afn/KPTzdYz05W5ZX7EU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kontron.de;
-Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
- by DBAPR10MB4027.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:1b4::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Tue, 6 Dec
- 2022 11:25:34 +0000
-Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::f209:bc86:3574:2ae6]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::f209:bc86:3574:2ae6%6]) with mapi id 15.20.5880.013; Tue, 6 Dec 2022
- 11:25:34 +0000
-Message-ID: <b37272ae-a939-1dce-de47-e237c6363a0f@kontron.de>
-Date: Tue, 6 Dec 2022 12:25:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v3 4/9] ARM: dts: imx: fix touchscreen reset GPIO polarity
-Content-Language: en-US
-To: Quentin Schulz <foss+kernel@0leil.net>,
- Samuel Holland <samuel@sholland.org>, Bastien Nocera <hadess@hadess.net>,
- =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Angus Ainslie <angus@akkea.ca>, Ondrej Jirman <megous@megous.com>,
- Icenowy Zheng <icenowy@aosc.io>, Andy Gross <agross@kernel.org>,
- Aleksei Mamlin <mamlinav@gmail.com>, Fabio Estevam <festevam@gmail.com>,
- David Jander <david@protonic.nl>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Peter Geis <pgwipeout@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
- Shawn Guo <shawnguo@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Lukasz Majewski <lukma@denx.de>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Chen-Yu Tsai <wens@csie.org>, Michael Riesch
- <michael.riesch@wolfvision.net>, Rob Herring <robh+dt@kernel.org>,
- NXP Linux Team <linux-imx@nxp.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>, Jagan Teki
- <jagan@amarulasolutions.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: Quentin Schulz <quentin.schulz@theobroma-systems.com>,
- linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-rockchip@lists.infradead.org
-References: <20221103-upstream-goodix-reset-v3-0-0975809eb183@theobroma-systems.com>
- <20221103-upstream-goodix-reset-v3-4-0975809eb183@theobroma-systems.com>
-From: Frieder Schrempf <frieder.schrempf@kontron.de>
-In-Reply-To: <20221103-upstream-goodix-reset-v3-4-0975809eb183@theobroma-systems.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0117.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9d::7) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:263::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20408613D
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 Dec 2022 12:23:34 +0000 (UTC)
+Received: by mail-vs1-f47.google.com with SMTP id t5so13976892vsh.8
+        for <linux-sunxi@lists.linux.dev>; Tue, 06 Dec 2022 04:23:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FS41pdVPPftlkxjfAeNNX5m/JobiqQJnQqPs/qKrQKU=;
+        b=j70OfvcxJivYV3jV9dIlvoC9BNn2MYMRSVLucnWH895vZoCq980rebl6a9/UqWIBdM
+         3P0EvrkWWODPFvC78By6kuYcw+EMeJnHxb1NP5nq1lXfbLX+8mE2VTXby5bCBclYSdHO
+         iEBZSqPMhcinbId1+ejPOAfhXxXBBEPP4zhL4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FS41pdVPPftlkxjfAeNNX5m/JobiqQJnQqPs/qKrQKU=;
+        b=tWCAQBOuwlHToTXWlLnxZIz2VsBh0Enq1X7JLhaR+hdrPLqBYj04mZYzsmWpJttKhA
+         e3tUqZtNlYJayAxSjPzFf5Bx+xXGs4sppYvFl0zQXLG9dqCGVC1I/ndQO6eYcHZRGez8
+         /8tvWr90S+UDmmgi4kQfmTEPBYgP8E3S5PZMOk0zRQRTF9ICzKOF1Z06bQB/8wQcrtH6
+         UAWdP97CJZ/Il8dYujxo+GlleJm3X70maGKMtMqPCq/aMTIbahAm91I9JF2ZAUz5ORt7
+         6iZzEBFP2dhdhjICi6aRX6Z4kh57ouqhtlqeKs71HUYBbqztMJTSGWrYO67G5Qks0o9r
+         /WuA==
+X-Gm-Message-State: ANoB5pkLcWhIWGsfKfO1T1FHtsz0uPYzhu76kixaxHm9kOxOgAX7ti8n
+	S12hBTiBO1FNUdG+U2zeTE63zVySsd8D8DmJeaPirw==
+X-Google-Smtp-Source: AA0mqf5jTjF11GvxCW7tLTboZIRLdroQaxX3DPq9TVWWQgiUfLFKRlMYFfIyx2FQJo5yv2rOIFkfQv1vYohWq1/7PT8=
+X-Received: by 2002:a05:6102:e0c:b0:3b0:6da7:39ba with SMTP id
+ o12-20020a0561020e0c00b003b06da739bamr35260338vst.26.1670329412933; Tue, 06
+ Dec 2022 04:23:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|DBAPR10MB4027:EE_
-X-MS-Office365-Filtering-Correlation-Id: 760605ec-c539-4cbb-1011-08dad77c972a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	wWZmjOT8RRHUlJsT1m5MGrQYSU1nwlGUWJm10HFnqEj0UUhdd+BmIOZQBpQp+hdQOG/UCrTVhLtMsM27mZgsGg5qKGuVaEc5vPCfjNpanZ/oqseeliYOjlUnRhWxPwqYRh5PH5inx/S/7i2Vtd8yGquekNFZpZqK53He1j4XmzOrBWwre6YQmCh57iiPw4QY8i1wApGZaucgtuSjh9bbwCfrqxN0AIYi6NQGfbov2cYcy8ecKZitdL/e4/C5Glwz6PAnql/GDB5yLPCK1ctQ2Je4LYX9o8UJqpMifC0fQKU7A65giu+2pUiW7Ck/1isshdmPNOwfz/uEd3mUqHc6DYmwc8OTgCOkdVR+LxMHmczBbxQGM5aFN3ALbqfNQzctBmTDnyugY4vc++H3NwKFUTBp25MYx5FxWiG0coXa6SyJM8UldxpAK98rZAwy29ubBuCQ42wgtUuiz0R6Od7KClO+rqt6hFJeIpwKXrq4bZbHisxjwX+cbeaJgygYuiThhx41wQMIwBwxf6+Qnfp1DIOXKOb2IG03LpVssESpDO+Plp4MWXt/8MKU6YYLAhC7e5oQ4wFdnwzC++/6Nk6dR3NZT1R8GXegDjH4OIyXLOf4iqfRVUGP+d3ONUt5C0PiiqUB//0FI8rhN2bTdkv04Q6YzMep18K8bbmsWruhA5VwBsTPAoG24EohYhEvOE/HP6VoRbb0WhPVQmls3rouwwgqfLNYOuSeKPX8qOrvexyBqB0zQi7e3+rqJQGtFxkV
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(346002)(136003)(39860400002)(366004)(396003)(451199015)(316002)(4326008)(26005)(6512007)(110136005)(8936002)(2906002)(7416002)(44832011)(83380400001)(5660300002)(7406005)(66946007)(41300700001)(186003)(36756003)(8676002)(66476007)(2616005)(66556008)(6666004)(31686004)(478600001)(6486002)(38100700002)(53546011)(921005)(6506007)(86362001)(31696002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TXQyd1JBaUNReUFsNGNyMlJRTXNEZG5ieVhlZTBNRWl6Z0NZUGhqc0wxU09r?=
- =?utf-8?B?dFhrWkNRalY5bDczMTZZV3VJV1MvQ1dDa3ZRSW9BZ0JRSkNQUy9qdENNMnd1?=
- =?utf-8?B?TTdKUDdIUzFVeEdGZm9Fd0hqa2t2ZWhwZG55RVB5ZDhCeFlObWlaUDd4K3NW?=
- =?utf-8?B?Rk5ucVU1SDVrTTJSeklhTDFaZ0RNb3JxNmlpd0l0blljUzlmU2lldnhRWHZP?=
- =?utf-8?B?RnJOWEc3bjVZVjdkUHViZXVOemswb2Zma1F2amJsVWJ2dlFFYjducmw1QUQr?=
- =?utf-8?B?L29GSU5ENmxzVXRwWFZxQlBsN2haWTRXWVd3OUNmM3pBQXhHT3hOYk1wdTFI?=
- =?utf-8?B?WTVWOG5CTFk3WEtBRTFJTWRuaVdCdWxWaGt3c2sxS2pEazhNcFJCK1Nsc0RQ?=
- =?utf-8?B?ZnFRZkxGOEpWY2VmRXI4NFdzRGw3N2xnRGNhb3l6emw3N21pbUppMU5WU1dZ?=
- =?utf-8?B?cXVCbU1jS0JRVGx5UzdFRkNlNTVWTzBBRFhGcE9oWHRhMzRJWXowcEd5OHF1?=
- =?utf-8?B?c1Ivam0rdG12OUd0MVh1MURoZVZPSVhDZ1VYZVpSYnFVNHJ5TVgwcG11Y0hW?=
- =?utf-8?B?MVN4bUxQTmR4aWl5UnBLWHBuRElUTnZIYkc0Q3JJSm1ibWFTdE5uMWVpaGZF?=
- =?utf-8?B?YnRENzJuNUFMWHNySEhYaDA4L29GdDV3aUpMRW9xM2dIdU1Hcmc2VXRiMU5W?=
- =?utf-8?B?K0czZEJjS2I5R24rWEtrZVZWQmdKOXdKbnZYNnBPU0RyUVljczlESXBYdDVQ?=
- =?utf-8?B?eWQvVVpRR214THhoYVMveXhEVUNUaGNEK1NhUXltQVRjTTFuRmhzTUNiT2ND?=
- =?utf-8?B?TmdSL2dwYkFERlVmbjM5NjZzN0dGYWR6cU5iR2hidWhjZUJtQkU5U0hoOXRx?=
- =?utf-8?B?NWpkV2xQUWVMMkdQS3BiZ1BCZStsb2VEZFRmMHoxNGg3Z0wvVXkvVGFEeXBV?=
- =?utf-8?B?SGxLQThxL0s4L1BPVytvSjd2V2FjMzBTbklFZ2xKTDFlMkt2UEkzTytub2N3?=
- =?utf-8?B?RnBHdndHTlpRY2JhNnoxdmVEMktQTTRNaFpuRHFUSDdpN0prMVIxWXNkMitE?=
- =?utf-8?B?Q21HdXpuay9wMElsczJsejVKNmpBL1dkOTBXMnd0V3ZncGg2LzBNZ2xPMEJR?=
- =?utf-8?B?TWlmNnFNWDZLZFRrV2hoaVRhZG9PQzg2UlZ3OWp6d1JrR0dUSnFMeXljUTFh?=
- =?utf-8?B?VDZESWFmbnNkMnUvdFYydnVvN2lPQ25kc3ZDNnJCWkZDZktRVVI0aVZhWTBL?=
- =?utf-8?B?Yk5QT2JGYngrZU90eEd3ZlN4ZDRHSGFsalhYeDZSSFd0SEZFZEpSTExhOXd0?=
- =?utf-8?B?VnNtSHkvUEx0ZzVLNlMzTUF6WFpjYWZwQkxpTGlTdnZXQlBzSUFEMFF6M1Zq?=
- =?utf-8?B?ekpqRHdyM0xTdXpvZWsvU1p4MnBDRWIyYmR3b3Q3NTh6RU9iVUJDYnp6aVpM?=
- =?utf-8?B?VEtpV00rM0Izc1Z3cm1QM1MyamlNV0pSSE5teHk1Y1JuRWJxUGtpNU53M0dt?=
- =?utf-8?B?TTVnZ255MjJVWjBwWGhZdWpFaGZnVU1naGFxSi93WHVIL1o4TkppUXgvdWs1?=
- =?utf-8?B?dHJLS3M1dDR3SUNucVpuS2E3UWNrKzdIZTl0NDN4MzZwc05IV1FySzF4MWhO?=
- =?utf-8?B?YzlIOUJDRHp6SW83TXRlMUZOZmoxUVNlNXNiVlM2VWtsLzNVWU5OVkhqYjJz?=
- =?utf-8?B?RS9Cd3UrSUx6NGw1WlF5cEp6RGgxZVNyNFNHRWU1VW5KZU5tTnhKa3lvdHd6?=
- =?utf-8?B?UVBRNG5CUTJEZVVZdWp2dGttNzNtcHN2dkxJWEhLTnIxaFNKQzBGTUN4ejJO?=
- =?utf-8?B?REZpLzEyWC95UzdKTGplaVRIYlBIY1IyVkxYeS9VZlNZMGtXbnZxZXBXVnZS?=
- =?utf-8?B?dENkblRuOHVsUVEyaGxMWmtpWUI4eC9CcEZuaEorYjVvYlJSTndkakc1NEtU?=
- =?utf-8?B?MWh1M3E0RnZOcndpRmRnWHM0N2o2emtldmpUU2N6bU5zazR1QllET1VhNmJr?=
- =?utf-8?B?QVdaK244clU3WUs1SkE2RDBadzNvT2FoTnBtUWtDTkJ6dGQvNFk3a2pzRUFO?=
- =?utf-8?B?SFF3b2dlYzNuZDJZOW5mTk5MRVAza1R3YlpiL1p2d0ZkMUhKNnZLUCtFYlkw?=
- =?utf-8?B?UC81aVJVTW9SWUhJK1BGVHNkTUQ5M24xSk83R2dBNTNzRXhaRVlwWVRBQ0d4?=
- =?utf-8?B?bWc9PQ==?=
-X-OriginatorOrg: kontron.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 760605ec-c539-4cbb-1011-08dad77c972a
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2022 11:25:33.9785
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: I1UfdtVZ4rD5MuFzpdkVY/VVoK5CC0St3HB79xaYsS8d35p+KuLTn+VnZ5jaG5IlOgEFrmH7R8WyNBKwlil1cP02dp4WYbxdbyR5U7mJaHw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR10MB4027
+References: <20221129074530.640251-1-wenst@chromium.org> <45143854.fMDQidcC6G@kista>
+ <5d79ed06-15c0-3564-97b6-5fd4433acabf@xs4all.nl>
+In-Reply-To: <5d79ed06-15c0-3564-97b6-5fd4433acabf@xs4all.nl>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Tue, 6 Dec 2022 20:23:21 +0800
+Message-ID: <CAGXv+5GH==gm533P_sNiFTyaFwQXp-QLXRLWyABdsn+0p_83UQ@mail.gmail.com>
+Subject: Re: [PATCH] media: cedrus: Convert to MPLANE uAPI
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Samuel Holland <samuel@sholland.org>, linux-media@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, 
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 05.12.22 14:40, Quentin Schulz wrote:
-> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-> 
-> The reset line is active low for the Goodix touchscreen controller so
-> let's fix the polarity in the Device Tree node.
-> 
-> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-> ---
->  arch/arm/boot/dts/imx6q-kp.dtsi            | 2 +-
->  arch/arm/boot/dts/imx6ul-kontron-bl-43.dts | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm/boot/dts/imx6q-kp.dtsi b/arch/arm/boot/dts/imx6q-kp.dtsi
-> index 1ade0bff681d6..dae14aaf803a8 100644
-> --- a/arch/arm/boot/dts/imx6q-kp.dtsi
-> +++ b/arch/arm/boot/dts/imx6q-kp.dtsi
-> @@ -188,7 +188,7 @@ touchscreen@5d {
->  		interrupt-parent = <&gpio1>;
->  		interrupts = <9 IRQ_TYPE_EDGE_FALLING>;
->  		irq-gpios = <&gpio1 9 GPIO_ACTIVE_HIGH>;
-> -		reset-gpios = <&gpio5 2 GPIO_ACTIVE_HIGH>;
-> +		reset-gpios = <&gpio5 2 GPIO_ACTIVE_LOW>;
->  	};
->  
->  	ds1307: rtc@32 {
-> diff --git a/arch/arm/boot/dts/imx6ul-kontron-bl-43.dts b/arch/arm/boot/dts/imx6ul-kontron-bl-43.dts
-> index 0c643706a158b..767ef5da76136 100644
-> --- a/arch/arm/boot/dts/imx6ul-kontron-bl-43.dts
-> +++ b/arch/arm/boot/dts/imx6ul-kontron-bl-43.dts
-> @@ -29,7 +29,7 @@ touchscreen@5d {
->  		pinctrl-0 = <&pinctrl_cap_touch>;
->  		interrupt-parent = <&gpio5>;
->  		interrupts = <6 IRQ_TYPE_LEVEL_LOW>;
-> -		reset-gpios = <&gpio5 8 GPIO_ACTIVE_HIGH>;
-> +		reset-gpios = <&gpio5 8 GPIO_ACTIVE_LOW>;
->  		irq-gpios = <&gpio5 6 GPIO_ACTIVE_HIGH>;
->  	};
->  };
+On Tue, Dec 6, 2022 at 4:35 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrot=
+e:
+>
+> On 05/12/2022 22:01, Jernej =C5=A0krabec wrote:
+> > Hi Chen-Yu!
+> >
+> > Dne torek, 29. november 2022 ob 08:45:30 CET je Chen-Yu Tsai napisal(a)=
+:
+> >> The majority of the V4L2 stateless video decoder drivers use the MPLAN=
+E
+> >> interface.
+> >>
+> >> On the userspace side, Gstreamer supports non-MPLANE and MPLANE
+> >> interfaces. Chromium only supports the MPLANE interface, and is not ye=
+t
+> >> usable with standard desktop Linux. FFmpeg support for either has not
+> >> landed.
+> >
+> > I don't like fixing userspace issues in kernel, if kernel side works fi=
+ne.
+> > Implementing missing non-MPLANE support in Chromium will also allow it =
+to work
+> > with older kernels.
+> >
+> > Hans, what's linux-media politics about such changes?
+>
+> Not keen on this. Does the cedrus HW even have support for multiple plane=
+s?
+> I suspect not, in which case the driver shouldn't suggest that it can do =
+that.
+>
+> Now, if the hardware *can* support this, then there is an argument to be =
+made
+> for the cedrus driver to move to the multiplanar API before moving it out
+> of staging to allow such future enhancements.
 
-The imx6ul-kontron-bl-43.dts misses a working panel node, so I'm pretty
-sure it is not used and nobody will bother about change breaking
-compatibility. I don't have the hardware at hand at the moment to
-perform a test, so for now:
+AFAIK it can, but has some limitations on how far apart the buffers for
+the separate planes can be. Nicolas mentioned that I could support the
+multiplanar API, but only allow the contiguous single planar formats,
+so NV12 instead of NV12M.
 
-Acked-by: Frieder Schrempf <frieder.schrempf@kontron.de> #
-imx6ul-kontron-bl-43.dts
+And I suspect that reference frames have to be contiguous as well.
+So I guess the overall answer is that it can't. But the same goes for
+Hantro or rkvdec, which both use the multiplanar API.
+
+This conversion was done so that I could use Cedrus as a testbed for
+developing new codec support, as I already own an H6 device. Added
+bonus is trying to get V4L2 decoder support to work for desktop Linux,
+without the libraries that ChromeOS ships.
+
+> Note that you have to choose whether to support single or multiplanar, yo=
+u
+> can't support both at the same time.
+>
+> So the decision to move to multiplanar should be led by the HW capabiliti=
+es.
+>
+> And Chromium really needs to support non-multiplanar formats as well. I'm
+> really surprised to hear that it doesn't, to be honest.
+
+Chromium does support non-multiplanar formats, such as NV12. In fact
+this is the preferred format, unless it's on MediaTek, in which it
+switches to MM21 as the capture format, and does untiling in software.
+This support for formats is separate from using the multiplanar API.
+
+Support for video decoders is mostly driven by ChromeOS. Currently all the
+hardware ChromeOS supports, be it stateful or stateless, use the multiplana=
+r
+API, so there hasn't been a real need to support it yet.
+
+
+Regards
+ChenYu
+
+> Regards,
+>
+>         Hans
+>
+> >
+> > Best regards,
+> > Jernej
+> >
+> >>
+> >> A fallback route using libv4l is also available. The library translate=
+s
+> >> MPLANE interface ioctl calls to non-MPLANE ones, provided that the pix=
+el
+> >> format used is single plane.
+> >>
+> >> Convert the Cedrus driver to the MPLANE interface, while keeping the
+> >> supported formats single plane. Besides backward compatibility through
+> >> the plugin, the hardware requires that different planes not be located
+> >> too far apart in memory. Keeping the single plane pixel format makes
+> >> this easy to enforce.
+> >>
+> >> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> >> ---
+> >>
+> >> This has been tested with Fluster. The score remained the same with or
+> >> without the patch. This also helps with getting VP8 decoding working
+> >> with Chromium's in-tree test program "video_decode_accelerator_tests",
+> >> though Chromium requires other changes regarding buffer allocation and
+> >> management.
+> >
+> >
+>
