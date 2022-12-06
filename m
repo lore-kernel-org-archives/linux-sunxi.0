@@ -1,178 +1,86 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+Received: from sender4-op-o16.zoho.com (sender4-op-o16.zoho.com [136.143.188.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40AB9180
-	for <linux-sunxi@lists.linux.dev>; Tue,  6 Dec 2022 00:26:12 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id 164663200949;
-	Mon,  5 Dec 2022 19:26:08 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Mon, 05 Dec 2022 19:26:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1670286367; x=
-	1670372767; bh=3CGH9HhcetAdOgZSRwrfM5MD0lJuEd9B/GIe9kj/hzo=; b=n
-	697w9xePqnt2Zr3AVOYOpv1h7X1AQmkS04kXCqeNZHLbJXdt9PnmsJPqluA6y6ie
-	DXdn9kuXkvIyy1DTDYK1+bG6fUqVs/Lr9bb4KkFlliQiBOOZmfoSC9Z5nVO6dJPR
-	vUs+s2ilSQr++aq6Ke+AgwmTaXhj3EkmoPG+6SFh0QqB2CeV/zlJBq/FAlyapcqx
-	5wxc4b8fF4NSiWqehCSuFGdN/h6eNKqwc50j4EsfKRhapoAPZMCq3kinMNW+E9Fj
-	MMiJFCGzGJnCgQskmbFvaEQfvWK55jC5hKIwwPz+UwO6oLb8UZ8eU/HmKZJKwgpH
-	D0bK4WEnxrHtYYqsvOfDg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1670286367; x=
-	1670372767; bh=3CGH9HhcetAdOgZSRwrfM5MD0lJuEd9B/GIe9kj/hzo=; b=O
-	em+0VDYY/AXEgAj7nY65hj0uJYXOL785k8+91di15IoD1U2+jVdHzau7G1xGoi8z
-	qBqFfxFereUCg0wfonbB/+SIgz4+cl3qvCK3y7H6mYS5R/Weki1S8XtxhvPwceYl
-	ZPNL11seHwZpKVxqu+gRCw1Sf04CaYx0yYwpxelk6PtUZm3QJsMTE8Hrhr0fVZsN
-	IWcVomtJ1qhhUYjor787JHQQHOTdmsvSyTuZQqDTI8oQ+Enzyjt83PAXBDOWy8iv
-	BwWXnxc7ewwgVi3oJKrR8Rm0fwCdvo3dUKmE8s/BGPxCjzdzMFAPb1yh01lrL1Uy
-	X49CGSCATWlSeIbVtaNEw==
-X-ME-Sender: <xms:HYyOYwsO7GWFkR7v6vKER5mxp7Ziy4rt6W0xVjT7AoQUCSPzJOVsqQ>
-    <xme:HYyOY9f4OT4eUTy3q3uz3x0Lw8ZLWJH86oiBAsHVefsGSGkaUavM9Gh0MY9Y8Vx2Z
-    iznm9OZXVmwzlUuvw>
-X-ME-Received: <xmr:HYyOY7x11GOALng9029pCIVpTVajcn-IK5ua9-TXXHnZ45Cr7f_jYtIwCF_kmTaUah6dbW1iZcI3sY1bGM1joYBLTtVc7ZWeGCgiQBm6_wCQ5viH_5XFIa1X5w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudehgddvvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepkeejleelfeeitdfhtdfgkeeghedufeduueegffdvhfdukeelleef
-    tdetjeehuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:HYyOYzN1cDkTRtlUiCITJiIuL6oNrli1quZxUCK-r53n-GMpSr2I1g>
-    <xmx:HYyOYw99df9U5mgzoIWdzSMyiUloHMH1unQh-DoY_7VhDA_2r6-zTA>
-    <xmx:HYyOY7VVHCBDiKt_1-5_42hClQ65j-GuZJ4azHghgi525HtyZBgqjw>
-    <xmx:H4yOYyye-CmZk9os8yvj-jdcmxMzJKm3FZwbx5VaSf-i7gUK0IXNrg>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 5 Dec 2022 19:26:03 -0500 (EST)
-Message-ID: <a0c767d5-eb55-3479-c4bc-1029809027f5@sholland.org>
-Date: Mon, 5 Dec 2022 18:26:02 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441A220EC
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 Dec 2022 05:52:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1670305961; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=eHUppgzpTBO7P6Lj0flr8iHol2Iqh9Me9093vkjxkY7bYpE4dYj6W2hhEh6Qs7Olr4LaPC4UpbhFzvoGmRpZSiAS7VbzXTE6Htd43EC/8DcE7A16aIwdd5d8DSkZ+gS724befRKx5giFe75il62MSksZeZNoQTgZR2viyNO3z8A=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1670305961; h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+	bh=8OQhkFZBuQ+Ya1Ot1lELUxMRAjlXTh0qx4g/rKP2seQ=; 
+	b=jASkVWIbn4+tmFLqv1K6zWfEojjyZfEToxajyAyMXXN4d7rGLb/Dl5TuoyO+Fjhso/QNaDbHDr7TR6fX+FYMeHThWUHdSfSyClAdmdjlg9KdqqsVR1TFAQexIxZrriBNEBEinFjT1YARnW8kR7tSlR10JnNZZ5TXwBWvgoznynM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1670305961;
+	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
+	bh=8OQhkFZBuQ+Ya1Ot1lELUxMRAjlXTh0qx4g/rKP2seQ=;
+	b=hNNjZcXFn4B4I5MWpTIt2KTE5gPT+OZWRvKLpeL812ku817GSwZoSdmEefZ8DGBH
+	JAQK1bC9D+dgQOR5Gcz5qcLWZgo2lesxeew/DL1Wu7JTwa9FqdNrdwYuP4yebqnzC/4
+	oJMj+UzakYc3vyGAeejAAkjX3iZ8TJA58TgnSZF4=
+Received: from edelgard.fodlan.icenowy.me (120.85.99.143 [120.85.99.143]) by mx.zohomail.com
+	with SMTPS id 1670305959289556.1373358007419; Mon, 5 Dec 2022 21:52:39 -0800 (PST)
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Matthias Kaehlcke <mka@chromium.org>,
+	Andre Przywara <andre.przywara@arm.com>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Icenowy Zheng <uwu@icenowy.me>
+Subject: [PATCH v3 0/6] Rongpin RP-H6B support (and support for GL850G)
+Date: Tue,  6 Dec 2022 13:52:22 +0800
+Message-Id: <20221206055228.306074-1-uwu@icenowy.me>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v3 6/9] arm64: dts: allwinner: fix touchscreen reset GPIO
- polarity
-Content-Language: en-US
-To: Quentin Schulz <foss+kernel@0leil.net>
-Cc: Quentin Schulz <quentin.schulz@theobroma-systems.com>,
- linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-rockchip@lists.infradead.org, Bastien Nocera <hadess@hadess.net>,
- =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Angus Ainslie <angus@akkea.ca>, Ondrej Jirman <megous@megous.com>,
- Icenowy Zheng <icenowy@aosc.io>, Andy Gross <agross@kernel.org>,
- Aleksei Mamlin <mamlinav@gmail.com>, Fabio Estevam <festevam@gmail.com>,
- David Jander <david@protonic.nl>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Peter Geis <pgwipeout@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
- Shawn Guo <shawnguo@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Lukasz Majewski <lukma@denx.de>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Chen-Yu Tsai <wens@csie.org>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Rob Herring <robh+dt@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20221103-upstream-goodix-reset-v3-0-0975809eb183@theobroma-systems.com>
- <20221103-upstream-goodix-reset-v3-6-0975809eb183@theobroma-systems.com>
-From: Samuel Holland <samuel@sholland.org>
-In-Reply-To: <20221103-upstream-goodix-reset-v3-6-0975809eb183@theobroma-systems.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-Hi Quentin,
+This patchset adds support for Rongpin RP-H6B, and as a dependency,
+power sequence support for its onboard USB hub, GL850G.
 
-On 12/5/22 07:40, Quentin Schulz wrote:
-> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-> 
-> The reset line is active low for the Goodix touchscreen controller so
-> let's fix the polarity in the Device Tree node.
-> 
-> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts       | 2 +-
->  arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts | 2 +-
->  arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi          | 2 +-
->  arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts             | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts
-> index 8233582f62881..5fd581037d987 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts
-> @@ -122,7 +122,7 @@ touchscreen@5d {
->  		interrupt-parent = <&pio>;
->  		interrupts = <7 4 IRQ_TYPE_EDGE_FALLING>;
->  		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>;	/* CTP-INT: PH4 */
-> -		reset-gpios = <&pio 7 8 GPIO_ACTIVE_HIGH>;	/* CTP-RST: PH8 */
-> +		reset-gpios = <&pio 7 8 GPIO_ACTIVE_LOW>;	/* CTP-RST: PH8 */
+The first 3 patches are for GL850G, adding a binding for it and adding
+its support to onboard_usb_hub driver.
 
-You are changing the DT binding here, in a way that breaks backward
-compatibility with existing devicetrees. NACK.
+The last 3 patches are for RP-H6B, also 2 for adding a binding and 1 for
+the real DT.
 
-Regards,
-Samuel
+Icenowy Zheng (6):
+  dt-bindings: vendor-prefixes: add Genesys Logic
+  dt-bindings: usb: Add binding for Genesys Logic GL850G hub controller
+  usb: misc: onboard_usb_hub: add Genesys Logic GL850G hub support
+  vendor-prefixes: Add Shenzhen Rongpin Electronics Co., Ltd
+  dt-bindings: arm: sunxi: add Rongpin RP-H6B board
+  arm64: dts: allwinner: h6: add Rongpin RP-H6C SoM and RP-H6B board
 
->  		touchscreen-inverted-x;
->  		touchscreen-inverted-y;
->  	};
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts
-> index 577f9e1d08a14..990f042f5a5b1 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts
-> @@ -45,7 +45,7 @@ touchscreen@5d {
->  		interrupt-parent = <&pio>;
->  		interrupts = <7 4 IRQ_TYPE_EDGE_FALLING>;
->  		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>;	/* CTP-INT: PH4 */
-> -		reset-gpios = <&pio 7 11 GPIO_ACTIVE_HIGH>;	/* CTP-RST: PH11 */
-> +		reset-gpios = <&pio 7 11 GPIO_ACTIVE_LOW>;	/* CTP-RST: PH11 */
->  		touchscreen-inverted-x;
->  		touchscreen-inverted-y;
->  	};
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> index 87847116ab6d9..97359cc7f13e2 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> @@ -167,7 +167,7 @@ touchscreen@5d {
->  		interrupt-parent = <&pio>;
->  		interrupts = <7 4 IRQ_TYPE_LEVEL_HIGH>; /* PH4 */
->  		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
-> -		reset-gpios = <&pio 7 11 GPIO_ACTIVE_HIGH>; /* PH11 */
-> +		reset-gpios = <&pio 7 11 GPIO_ACTIVE_LOW>; /* PH11 */
->  		AVDD28-supply = <&reg_ldo_io0>;
->  		VDDIO-supply = <&reg_ldo_io0>;
->  		touchscreen-size-x = <720>;
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
-> index 0a5607f73049e..c0eccc753e3f5 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
-> @@ -189,7 +189,7 @@ touchscreen@5d {
->  		interrupt-parent = <&pio>;
->  		interrupts = <7 4 IRQ_TYPE_LEVEL_HIGH>; /* PH4 */
->  		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
-> -		reset-gpios = <&pio 7 8 GPIO_ACTIVE_HIGH>; /* PH8 */
-> +		reset-gpios = <&pio 7 8 GPIO_ACTIVE_LOW>; /* PH8 */
->  		AVDD28-supply = <&reg_ldo_io1>;
->  	};
->  };
-> 
+ .../devicetree/bindings/arm/sunxi.yaml        |   6 +
+ .../bindings/usb/genesys,gl850g.yaml          |  48 ++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   4 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../boot/dts/allwinner/sun50i-h6-rp-h6b.dts   | 241 ++++++++++++++++++
+ .../boot/dts/allwinner/sun50i-h6-rp-h6c.dtsi  | 179 +++++++++++++
+ drivers/usb/misc/onboard_usb_hub.c            |   2 +
+ drivers/usb/misc/onboard_usb_hub.h            |   5 +
+ 8 files changed, 486 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/genesys,gl850g.yaml
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-rp-h6b.dts
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-rp-h6c.dtsi
+
+-- 
+2.38.1
 
