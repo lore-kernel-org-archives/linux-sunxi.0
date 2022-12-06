@@ -1,45 +1,45 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4321F2100
-	for <linux-sunxi@lists.linux.dev>; Tue,  6 Dec 2022 08:22:40 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id x6so16355833lji.10
-        for <linux-sunxi@lists.linux.dev>; Tue, 06 Dec 2022 00:22:39 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B758C256E
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 Dec 2022 08:23:24 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id cf42so16720738lfb.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 06 Dec 2022 00:23:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=yJbdOZupl580ZQnipM7/rZhVrLHidmlJrwN3qpwkXsU=;
-        b=Fezlkgz9ZmwoUdx5wNirGzZ1G7y+H71PivmUr1qQfYcfMGRsv/67Z6J8RUzL7Akcsy
-         3DGVkL3CG3SnNHLLkwdoIa3GiQRAXiNSBs08h9V4OvrxNhYGNOX3TFBh8qrx8Owtbhmp
-         lCtwy9pZsuvv0PDQClV+ybfMud3BlVJ8T/SH9xqkEdtm1kLixVxj47wmWzvdbDYGoQqz
-         eA1UTFRn7ZeI0ndBgJ7p7gM+mALHxoASw8jL/rpKwKyOCUO2To4WBXhTCS7csThodn0y
-         JyHLoq0u9A6r3Hjh/vu0d5R/rEaa9q4Jah3nW7T8EonNkX3bWlGSX3hegLSEVB58wR3D
-         es0g==
+        bh=95bE7p5WUY0ReK4sxIpN1wl6NEoUe1D+WDUlHeSwWZ8=;
+        b=Ehs2D9v8wmDWCxqFsfUL9Hy2Rf8HXEyftG06ZLjH95zNFFnKj+taRAjt/k+TcUGi4/
+         wNt2PrC10BlUeR7fx38zwpsxel9YXnGVZeqiaA9BqcEi/otnZmULsjkzqXqKDfyZOGu6
+         YE/Yxp3nWui+/CSUISFyroiS299v+o0Ik3uFOm4HizsM0mkVGgm3CXAwy4pViBmWXPVG
+         TwRJdo4oHvpIw7Wn6TQ+eR0T6BpM3YIKC4k5GORIDgYxzOcREL5XMi8Y1gwgHztcVJbD
+         L20va2K8zVQxPcwNupKq5EE61QaV+MQKe0WC6iyojOR3B0Ie84sPRGEpVaNX5nK6A2Ne
+         bzKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yJbdOZupl580ZQnipM7/rZhVrLHidmlJrwN3qpwkXsU=;
-        b=rF8inopiadfWWClcU9HP1S5wICYyYe72wFRMZPGC0cPui/Xzm/wi8amRhcI48vNLb8
-         pxp91w7x1FP3Y01fel0AQjKQRekNGPRRC7WAroPROyUpJy2VdDulgLoBw3N8Y054qvAh
-         l520SKO4z9KrwOx1q0EIiqy3OZXA6QdmgKSPMpNRxnAq26122JhnOAXarfEzVhDWf3Wr
-         giirhFhDdzZszP+hra1zuVda2e5y/XTCKNCvJSu1gXbKOXKX06C4mIg5B0AZXAurEM7G
-         +D6dxcbmVnA1sKUDX2HCckur2VKeUSeDuz05p+3Ge4D37uyXUYZiosGxqirtHp+IyI9q
-         195Q==
-X-Gm-Message-State: ANoB5pnz1FIwHvzPNnceCd8YN3T5S7yLXK+zeQv73OWycXjtW2eqL8or
-	4fge4cpArLF2xv17/a6T5+tAOw==
-X-Google-Smtp-Source: AA0mqf4OymOixUgOb7slcZLoIcSq5wa584Qglf9rt4lj/l7R8uYGMZB8PgUCEvxrirRV38777UTeYw==
-X-Received: by 2002:a2e:9884:0:b0:279:fe8e:2848 with SMTP id b4-20020a2e9884000000b00279fe8e2848mr2332223ljj.188.1670314958177;
-        Tue, 06 Dec 2022 00:22:38 -0800 (PST)
+        bh=95bE7p5WUY0ReK4sxIpN1wl6NEoUe1D+WDUlHeSwWZ8=;
+        b=ELgv1zNhmyREFUyMrDpMUpQkDxo70y6v2qKjkjoTwvZekYTWUsZkofS4uLQuFVWxpO
+         8PCEzk5N7y0TYdBQgT9wtQdosMUE24IaVV5QOqlphEZ4462uEbtnDmyRBdtBAzDLYkht
+         zzCGdgwlvJoBY2WpixxD3FugYNbpHHy38y/Khbt6saUaXbrp/s7GAL3MS73layV3n5jm
+         Ypw8oxBNKX8lDxJxomb3BuKKtA0ry0QH5/LmqcBbtwoasWinWA26nuYkhJ0ZktCF/kr3
+         m681Lt4pMPUIH4lHgwmFZS8uGO9DpK/voXIHqP7/Yyn0Ik/13ejOtt4LFHq3MEHbd93K
+         lM3A==
+X-Gm-Message-State: ANoB5pnio59hqn3nC1O09DXrgDUyX0DsN1AkJfMHCm9SAdhFCD/SEVlT
+	9LnCu26lbkCEsmotpnFzGLIvcA==
+X-Google-Smtp-Source: AA0mqf7/Edef7H+wj1o2DgC4/r+KooEY9i1FLS7SOT10dAjuSsDQC5taTN90dU+DpU962BvjcBXzKA==
+X-Received: by 2002:a05:6512:3ca0:b0:4a2:2c4b:8138 with SMTP id h32-20020a0565123ca000b004a22c4b8138mr22685051lfv.14.1670315002789;
+        Tue, 06 Dec 2022 00:23:22 -0800 (PST)
 Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id c9-20020ac25f69000000b0049944ab6895sm2407853lfc.260.2022.12.06.00.22.36
+        by smtp.gmail.com with ESMTPSA id g8-20020a19ee08000000b004aa0870b5e5sm2396208lfb.147.2022.12.06.00.23.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Dec 2022 00:22:37 -0800 (PST)
-Message-ID: <9d32cf45-c506-8990-a14b-004de520a931@linaro.org>
-Date: Tue, 6 Dec 2022 09:22:36 +0100
+        Tue, 06 Dec 2022 00:23:22 -0800 (PST)
+Message-ID: <82bd3be3-3f0b-deef-718b-0780716f2ff4@linaro.org>
+Date: Tue, 6 Dec 2022 09:23:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -71,6 +71,10 @@ On 06/12/2022 06:52, Icenowy Zheng wrote:
 > The Genesys Logic GL850G is a USB 2.0 Single TT hub controller that
 > features 4 downstream ports, an internal 5V-to-3.3V LDO regulator (can
 > be bypassed) and an external reset pin.
+
+If there is going to be resend:
+Subject: drop second, redundant "binding for" (so: "Add Genesys Logic....")
+
 > 
 > Add a device tree binding for its USB protocol part. The internal LDO is
 > not covered by this and can just be modelled as a fixed regulator.
