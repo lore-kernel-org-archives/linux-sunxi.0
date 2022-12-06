@@ -1,162 +1,150 @@
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20408613D
-	for <linux-sunxi@lists.linux.dev>; Tue,  6 Dec 2022 12:23:34 +0000 (UTC)
-Received: by mail-vs1-f47.google.com with SMTP id t5so13976892vsh.8
-        for <linux-sunxi@lists.linux.dev>; Tue, 06 Dec 2022 04:23:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FS41pdVPPftlkxjfAeNNX5m/JobiqQJnQqPs/qKrQKU=;
-        b=j70OfvcxJivYV3jV9dIlvoC9BNn2MYMRSVLucnWH895vZoCq980rebl6a9/UqWIBdM
-         3P0EvrkWWODPFvC78By6kuYcw+EMeJnHxb1NP5nq1lXfbLX+8mE2VTXby5bCBclYSdHO
-         iEBZSqPMhcinbId1+ejPOAfhXxXBBEPP4zhL4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FS41pdVPPftlkxjfAeNNX5m/JobiqQJnQqPs/qKrQKU=;
-        b=tWCAQBOuwlHToTXWlLnxZIz2VsBh0Enq1X7JLhaR+hdrPLqBYj04mZYzsmWpJttKhA
-         e3tUqZtNlYJayAxSjPzFf5Bx+xXGs4sppYvFl0zQXLG9dqCGVC1I/ndQO6eYcHZRGez8
-         /8tvWr90S+UDmmgi4kQfmTEPBYgP8E3S5PZMOk0zRQRTF9ICzKOF1Z06bQB/8wQcrtH6
-         UAWdP97CJZ/Il8dYujxo+GlleJm3X70maGKMtMqPCq/aMTIbahAm91I9JF2ZAUz5ORt7
-         6iZzEBFP2dhdhjICi6aRX6Z4kh57ouqhtlqeKs71HUYBbqztMJTSGWrYO67G5Qks0o9r
-         /WuA==
-X-Gm-Message-State: ANoB5pkLcWhIWGsfKfO1T1FHtsz0uPYzhu76kixaxHm9kOxOgAX7ti8n
-	S12hBTiBO1FNUdG+U2zeTE63zVySsd8D8DmJeaPirw==
-X-Google-Smtp-Source: AA0mqf5jTjF11GvxCW7tLTboZIRLdroQaxX3DPq9TVWWQgiUfLFKRlMYFfIyx2FQJo5yv2rOIFkfQv1vYohWq1/7PT8=
-X-Received: by 2002:a05:6102:e0c:b0:3b0:6da7:39ba with SMTP id
- o12-20020a0561020e0c00b003b06da739bamr35260338vst.26.1670329412933; Tue, 06
- Dec 2022 04:23:32 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C136AB3
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 Dec 2022 12:42:18 +0000 (UTC)
+Received: from wsk (85-222-111-42.dynamic.chello.pl [85.222.111.42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: lukma@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 5052E85453;
+	Tue,  6 Dec 2022 13:42:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1670330531;
+	bh=iI5SeUL51UC7eISdgdq26IjAocTkIL/OIraEMeV0ztw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=kohTwBtNeMzWD5rKFY2zLgtxNV3zwHgzPawC0atjqRcJLpxirfFpg13Hq82Zwlamu
+	 sfG576AIyFhd/Y/MTkXpXEnLyuM+Zk9sC/hSq1SPR8vCaVL4EnDUdWyaApDZb5s27p
+	 YAnrTzcZdILPc37J49JVyzpBuiShP8+xmX55o7rEVlH7cxE7PZXcOvonhLMUeedo3q
+	 CtiVJdkmWSLBAQJN6rYBO7RdsT1BbqwBzYB1uws42EYmwaGMvKpPFxZn7atebPiuUP
+	 /CYp2V0pE+b7s1z+DnntkIPisnI5a62ezTyrL82FZCx252xmaDV0+TWNdHMtXwVwqF
+	 USZMAjXhOD3VQ==
+Date: Tue, 6 Dec 2022 13:42:01 +0100
+From: Lukasz Majewski <lukma@denx.de>
+To: Frieder Schrempf <frieder.schrempf@kontron.de>
+Cc: Quentin Schulz <foss+kernel@0leil.net>, Samuel Holland
+ <samuel@sholland.org>, Bastien Nocera <hadess@hadess.net>, Guido
+ =?UTF-8?B?R8O8bnRoZXI=?= <agx@sigxcpu.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Angus Ainslie <angus@akkea.ca>, Ondrej Jirman <megous@megous.com>, Icenowy
+ Zheng <icenowy@aosc.io>, Andy Gross <agross@kernel.org>, Aleksei Mamlin
+ <mamlinav@gmail.com>, Fabio Estevam <festevam@gmail.com>, David Jander
+ <david@protonic.nl>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
+ <konrad.dybcio@somainline.org>, Peter Geis <pgwipeout@gmail.com>, Heiko
+ Stuebner <heiko@sntech.de>, Shawn Guo <shawnguo@kernel.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@somainline.org>, Chen-Yu Tsai <wens@csie.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>, Rob Herring
+ <robh+dt@kernel.org>, NXP Linux Team <linux-imx@nxp.com>, Dmitry Torokhov
+ <dmitry.torokhov@gmail.com>, Hans de Goede <hdegoede@redhat.com>, Jagan
+ Teki <jagan@amarulasolutions.com>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Quentin Schulz
+ <quentin.schulz@theobroma-systems.com>, linux-input@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v3 4/9] ARM: dts: imx: fix touchscreen reset GPIO
+ polarity
+Message-ID: <20221206134201.703ad352@wsk>
+In-Reply-To: <b37272ae-a939-1dce-de47-e237c6363a0f@kontron.de>
+References: <20221103-upstream-goodix-reset-v3-0-0975809eb183@theobroma-systems.com>
+	<20221103-upstream-goodix-reset-v3-4-0975809eb183@theobroma-systems.com>
+	<b37272ae-a939-1dce-de47-e237c6363a0f@kontron.de>
+Organization: denx.de
+X-Mailer: Claws Mail 3.19.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221129074530.640251-1-wenst@chromium.org> <45143854.fMDQidcC6G@kista>
- <5d79ed06-15c0-3564-97b6-5fd4433acabf@xs4all.nl>
-In-Reply-To: <5d79ed06-15c0-3564-97b6-5fd4433acabf@xs4all.nl>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Tue, 6 Dec 2022 20:23:21 +0800
-Message-ID: <CAGXv+5GH==gm533P_sNiFTyaFwQXp-QLXRLWyABdsn+0p_83UQ@mail.gmail.com>
-Subject: Re: [PATCH] media: cedrus: Convert to MPLANE uAPI
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Samuel Holland <samuel@sholland.org>, linux-media@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/wSkO.yKQ_Y+Ill11MbjpZ3n";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
+
+--Sig_/wSkO.yKQ_Y+Ill11MbjpZ3n
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 6, 2022 at 4:35 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrot=
-e:
->
-> On 05/12/2022 22:01, Jernej =C5=A0krabec wrote:
-> > Hi Chen-Yu!
-> >
-> > Dne torek, 29. november 2022 ob 08:45:30 CET je Chen-Yu Tsai napisal(a)=
-:
-> >> The majority of the V4L2 stateless video decoder drivers use the MPLAN=
-E
-> >> interface.
-> >>
-> >> On the userspace side, Gstreamer supports non-MPLANE and MPLANE
-> >> interfaces. Chromium only supports the MPLANE interface, and is not ye=
-t
-> >> usable with standard desktop Linux. FFmpeg support for either has not
-> >> landed.
-> >
-> > I don't like fixing userspace issues in kernel, if kernel side works fi=
-ne.
-> > Implementing missing non-MPLANE support in Chromium will also allow it =
-to work
-> > with older kernels.
-> >
-> > Hans, what's linux-media politics about such changes?
->
-> Not keen on this. Does the cedrus HW even have support for multiple plane=
-s?
-> I suspect not, in which case the driver shouldn't suggest that it can do =
-that.
->
-> Now, if the hardware *can* support this, then there is an argument to be =
-made
-> for the cedrus driver to move to the multiplanar API before moving it out
-> of staging to allow such future enhancements.
+On Tue, 6 Dec 2022 12:25:29 +0100
+Frieder Schrempf <frieder.schrempf@kontron.de> wrote:
 
-AFAIK it can, but has some limitations on how far apart the buffers for
-the separate planes can be. Nicolas mentioned that I could support the
-multiplanar API, but only allow the contiguous single planar formats,
-so NV12 instead of NV12M.
+> On 05.12.22 14:40, Quentin Schulz wrote:
+> > From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> >=20
+> > The reset line is active low for the Goodix touchscreen controller
+> > so let's fix the polarity in the Device Tree node.
+> >=20
+> > Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> > ---
+> >  arch/arm/boot/dts/imx6q-kp.dtsi            | 2 +-
+> >  arch/arm/boot/dts/imx6ul-kontron-bl-43.dts | 2 +-
+> >  2 files changed, 2 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/arch/arm/boot/dts/imx6q-kp.dtsi
+> > b/arch/arm/boot/dts/imx6q-kp.dtsi index
+> > 1ade0bff681d6..dae14aaf803a8 100644 ---
+> > a/arch/arm/boot/dts/imx6q-kp.dtsi +++
+> > b/arch/arm/boot/dts/imx6q-kp.dtsi @@ -188,7 +188,7 @@
+> > touchscreen@5d { interrupt-parent =3D <&gpio1>;
+> >  		interrupts =3D <9 IRQ_TYPE_EDGE_FALLING>;
+> >  		irq-gpios =3D <&gpio1 9 GPIO_ACTIVE_HIGH>;
+> > -		reset-gpios =3D <&gpio5 2 GPIO_ACTIVE_HIGH>;
+> > +		reset-gpios =3D <&gpio5 2 GPIO_ACTIVE_LOW>;
+> >  	};
+> > =20
+> >  	ds1307: rtc@32 {
+> > diff --git a/arch/arm/boot/dts/imx6ul-kontron-bl-43.dts
+> > b/arch/arm/boot/dts/imx6ul-kontron-bl-43.dts index
+> > 0c643706a158b..767ef5da76136 100644 ---
+> > a/arch/arm/boot/dts/imx6ul-kontron-bl-43.dts +++
+> > b/arch/arm/boot/dts/imx6ul-kontron-bl-43.dts @@ -29,7 +29,7 @@
+> > touchscreen@5d { pinctrl-0 =3D <&pinctrl_cap_touch>;
+> >  		interrupt-parent =3D <&gpio5>;
+> >  		interrupts =3D <6 IRQ_TYPE_LEVEL_LOW>;
+> > -		reset-gpios =3D <&gpio5 8 GPIO_ACTIVE_HIGH>;
+> > +		reset-gpios =3D <&gpio5 8 GPIO_ACTIVE_LOW>;
+> >  		irq-gpios =3D <&gpio5 6 GPIO_ACTIVE_HIGH>;
+> >  	};
+> >  }; =20
+>=20
+> The imx6ul-kontron-bl-43.dts misses a working panel node, so I'm
+> pretty sure it is not used and nobody will bother about change
+> breaking compatibility. I don't have the hardware at hand at the
+> moment to perform a test, so for now:
+>=20
+> Acked-by: Frieder Schrempf <frieder.schrempf@kontron.de> #
+> imx6ul-kontron-bl-43.dts
 
-And I suspect that reference frames have to be contiguous as well.
-So I guess the overall answer is that it can't. But the same goes for
-Hantro or rkvdec, which both use the multiplanar API.
+Reviewed-by: Lukasz Majewski <lukma@denx.de>
 
-This conversion was done so that I could use Cedrus as a testbed for
-developing new codec support, as I already own an H6 device. Added
-bonus is trying to get V4L2 decoder support to work for desktop Linux,
-without the libraries that ChromeOS ships.
+For imx6 TPC70 device.
 
-> Note that you have to choose whether to support single or multiplanar, yo=
-u
-> can't support both at the same time.
->
-> So the decision to move to multiplanar should be led by the HW capabiliti=
-es.
->
-> And Chromium really needs to support non-multiplanar formats as well. I'm
-> really surprised to hear that it doesn't, to be honest.
+Best regards,
 
-Chromium does support non-multiplanar formats, such as NV12. In fact
-this is the preferred format, unless it's on MediaTek, in which it
-switches to MM21 as the capture format, and does untiling in software.
-This support for formats is separate from using the multiplanar API.
+Lukasz Majewski
 
-Support for video decoders is mostly driven by ChromeOS. Currently all the
-hardware ChromeOS supports, be it stateful or stateless, use the multiplana=
-r
-API, so there hasn't been a real need to support it yet.
+--
 
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
 
-Regards
-ChenYu
+--Sig_/wSkO.yKQ_Y+Ill11MbjpZ3n
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-> Regards,
->
->         Hans
->
-> >
-> > Best regards,
-> > Jernej
-> >
-> >>
-> >> A fallback route using libv4l is also available. The library translate=
-s
-> >> MPLANE interface ioctl calls to non-MPLANE ones, provided that the pix=
-el
-> >> format used is single plane.
-> >>
-> >> Convert the Cedrus driver to the MPLANE interface, while keeping the
-> >> supported formats single plane. Besides backward compatibility through
-> >> the plugin, the hardware requires that different planes not be located
-> >> too far apart in memory. Keeping the single plane pixel format makes
-> >> this easy to enforce.
-> >>
-> >> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> >> ---
-> >>
-> >> This has been tested with Fluster. The score remained the same with or
-> >> without the patch. This also helps with getting VP8 decoding working
-> >> with Chromium's in-tree test program "video_decode_accelerator_tests",
-> >> though Chromium requires other changes regarding buffer allocation and
-> >> management.
-> >
-> >
->
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAmOPOJkACgkQAR8vZIA0
+zr3LxAf/cTdBTk+iiToN5yxnqM4qT8HJEan6BzkjWYMZcb6PMMKqHZW+Zsr/SP8o
+O+3ChkrLogmz7NjwQqaA09s4IIqYJA5+Wfqd/AqYxjoed5hnRK7tsItBPzJtBmtc
+wHxhAkrz/cMcALf8pTfzM3SL1dTB4y+8rPr7O1vhMGS7GPTZMdfXa0WU/QGi6TtZ
+GgBZjk8Qutd0SjxaHiqH0FuciHrBNXGX3cLKytigm+WFgtqSFYw9+cU41SyN1Kdx
+TodH+8TTz1tURnTAd5vBcq8INdx9N0C2xyeq228bGO2xfnGxjsuOmA00EUzsOmbU
+pp/MnwgcQS0r4qXma8E7t1o19CU7Dg==
+=buG3
+-----END PGP SIGNATURE-----
+
+--Sig_/wSkO.yKQ_Y+Ill11MbjpZ3n--
