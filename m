@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E797F3
-	for <linux-sunxi@lists.linux.dev>; Thu,  8 Dec 2022 09:11:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AFDDC433C1;
-	Thu,  8 Dec 2022 09:11:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6CD47F3
+	for <linux-sunxi@lists.linux.dev>; Thu,  8 Dec 2022 09:11:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6AA6C433D6;
+	Thu,  8 Dec 2022 09:11:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1670490691;
-	bh=eB4ZBzqRKY2P+/+kH7tim6V7TrIqU7mlpztlV40cPFU=;
+	s=k20201202; t=1670490695;
+	bh=iHuw0OUgQEvUcS8yre/beDpGKlTFd86E0mXrCaCurC0=;
 	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=PHwu2bk4WOCZYFh8XO3jtWg/Pqk7EEQQjg33qH6C+4xAIGzOCLb9mTyZPJNKenFKo
-	 22Tz49fpit01wAbYhQoch29pUGvrdFyc56IqREzb/3ZFkO6Ew1hUfM7eljfGv/VKr3
-	 BPmKjO/WI8WMSz7locQd3+fD8Xq6Vov/4VvXJGhgjJdEjC/3QZXno3fpgw10qpapE0
-	 B+KWpPk2e9BtlSulZzHDCwkokUFo24XuJji5J0V3o9ExtUjINHnyL6X8+PsogYCzZO
-	 gHndsRDdhhWB8CMm7/VHXWcENBVU4I36xOXK1Ssifwc1kiHf+B6IOw4jZnJRSk/aCA
-	 ua3TxYplb88XA==
-Date: Thu, 08 Dec 2022 10:10:49 +0100
+	b=fQXRN6ze54K7P1CzZ+rbMoKLJnC+MBmPo7bbo7IjavpNWUA5Y70dhXR+tZFdf0qcK
+	 PdsqBFtrkNnGraXcXJLTw0E1MRR/5OkXnuNk6hkJQMNukeVFoo9yVelsIlTF6Mn3yP
+	 FvA3U3xJKjjhNUHGCTJKbOd3N98zBI38M4CJA1LWdHHNmBGKSWk1Zf5Q+YjiRz74fi
+	 TYP3ltF1BwEDbttJh3K1Ke7XLDMQFC8Cr5IuWa/5zC/aZhO94XqNlK2h9poWyhrE63
+	 8DeDsvL0n4xdxYUVoulW5WtTOrPp7GyYByC1ojzzMxu+Raa+cShbRMCsT4Su9JWcbF
+	 0OInr/pHAZlGg==
+Date: Thu, 08 Dec 2022 10:09:18 +0100
 From: Conor Dooley <conor@kernel.org>
 To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
@@ -27,11 +27,11 @@ CC: Jisheng Zhang <jszhang@kernel.org>, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org,
  Andre Przywara <andre.przywara@arm.com>,
  Palmer Dabbelt <palmer@rivosinc.com>, Guo Ren <guoren@kernel.org>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_11/12=5D_riscv=3A_Add_the?= =?US-ASCII?Q?_Allwinner_SoC_family_Kconfig_option?=
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_12/12=5D_riscv=3A_defconfig=3A_En?= =?US-ASCII?Q?able_the_Allwinner_D1_platform_and_drivers?=
 User-Agent: K-9 Mail for Android
-In-Reply-To: <20221208090237.20572-12-samuel@sholland.org>
-References: <20221208090237.20572-1-samuel@sholland.org> <20221208090237.20572-12-samuel@sholland.org>
-Message-ID: <3480FA50-B88E-4BD9-8E9F-27F231C2BAC6@kernel.org>
+In-Reply-To: <20221208090237.20572-13-samuel@sholland.org>
+References: <20221208090237.20572-1-samuel@sholland.org> <20221208090237.20572-13-samuel@sholland.org>
+Message-ID: <6D22D85D-EAD2-4778-89EF-86540EDCBD2D@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -42,60 +42,106 @@ Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Conor Dooley <conor=2Edooley@microchip=2Ecom>
 
-On 8 December 2022 10:02:36 GMT+01:00, Samuel Holland <samuel@sholland=2Eo=
+
+On 8 December 2022 10:02:37 GMT+01:00, Samuel Holland <samuel@sholland=2Eo=
 rg> wrote:
->Allwinner manufactures the sunxi family of application processors=2E This
->includes the "sun8i" series of ARMv7 SoCs, the "sun50i" series of ARMv8
->SoCs, and now the "sun20i" series of 64-bit RISC-V SoCs=2E
->
->The first SoC in the sun20i series is D1, containing a single T-HEAD
->C906 core=2E D1s is a low-pin-count variant of D1 with co-packaged DRAM=
-=2E
->
->Most peripherals are shared across the entire chip family=2E In fact, the
->ARMv7 T113 SoC is pin-compatible and almost entirely register-compatible
->with the D1s=2E
->
->This means many existing device drivers can be reused=2E To facilitate
->this reuse, name the symbol ARCH_SUNXI, since that is what the existing
->drivers have as their dependency=2E
+>Now that several D1-based boards are supported, enable the platform in
+>our defconfig=2E Build in the drivers which are necessary to boot, such a=
+s
+>the pinctrl, MMC, RTC (which provides critical clocks), SPI (for flash),
+>and watchdog (which may be left enabled by the bootloader)=2E Other commo=
+n
+>onboard peripherals are enabled as modules=2E
 >
 >Acked-by: Palmer Dabbelt <palmer@rivosinc=2Ecom>
+
+I'm more than happy if he's happy ;)
+
+Acked-by: Conor Dooley <conor=2Edooley@microchip=2Ecom>
+
 >Reviewed-by: Guo Ren <guoren@kernel=2Eorg>
->Reviewed-by: Heiko Stuebner <heiko@sntech=2Ede>
->Tested-by: Heiko Stuebner <heiko@sntech=2Ede>
 >Signed-off-by: Samuel Holland <samuel@sholland=2Eorg>
 >---
 >
->Changes in v3:
-> - ARCH_SUNXI depends on MMU && !XIP_KERNEL
+>(no changes since v1)
 >
->Changes in v2:
-> - Sort Kconfig as if we had done s/SOC_/ARCH_/ for future-proofing
+> arch/riscv/configs/defconfig | 22 +++++++++++++++++++++-
+> 1 file changed, 21 insertions(+), 1 deletion(-)
 >
-> arch/riscv/Kconfig=2Esocs | 10 ++++++++++
-> 1 file changed, 10 insertions(+)
->
->diff --git a/arch/riscv/Kconfig=2Esocs b/arch/riscv/Kconfig=2Esocs
->index 69774bb362d6=2E=2Ef655dea86d69 100644
->--- a/arch/riscv/Kconfig=2Esocs
->+++ b/arch/riscv/Kconfig=2Esocs
->@@ -26,6 +26,16 @@ config SOC_STARFIVE
-> 	help
-> 	  This enables support for StarFive SoC platform hardware=2E
->=20
->+config ARCH_SUNXI
->+	bool "Allwinner sun20i SoCs"
->+	depends on MMU && !XIP_KERNEL
->+	select ERRATA_THEAD
->+	select SIFIVE_PLIC
->+	select SUN4I_TIMER
->+	help
->+	  This enables support for Allwinner sun20i platform hardware,
->+	  including boards based on the D1 and D1s SoCs=2E
->+
-> config SOC_VIRT
-> 	bool "QEMU Virt Machine"
-> 	select CLINT_TIMER if RISCV_M_MODE
+>diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
+>index 74ed7037314f=2E=2E368175560da9 100644
+>--- a/arch/riscv/configs/defconfig
+>+++ b/arch/riscv/configs/defconfig
+>@@ -25,6 +25,7 @@ CONFIG_BLK_DEV_INITRD=3Dy
+> CONFIG_EXPERT=3Dy
+> # CONFIG_SYSFS_SYSCALL is not set
+> CONFIG_PROFILING=3Dy
+>+CONFIG_ARCH_SUNXI=3Dy
+> CONFIG_SOC_MICROCHIP_POLARFIRE=3Dy
+> CONFIG_SOC_SIFIVE=3Dy
+> CONFIG_SOC_STARFIVE=3Dy
+>@@ -119,8 +120,10 @@ CONFIG_VIRTIO_NET=3Dy
+> CONFIG_MACB=3Dy
+> CONFIG_E1000E=3Dy
+> CONFIG_R8169=3Dy
+>+CONFIG_STMMAC_ETH=3Dm
+> CONFIG_MICROSEMI_PHY=3Dy
+> CONFIG_INPUT_MOUSEDEV=3Dy
+>+CONFIG_KEYBOARD_SUN4I_LRADC=3Dm
+> CONFIG_SERIAL_8250=3Dy
+> CONFIG_SERIAL_8250_CONSOLE=3Dy
+> CONFIG_SERIAL_8250_DW=3Dy
+>@@ -128,14 +131,20 @@ CONFIG_SERIAL_OF_PLATFORM=3Dy
+> CONFIG_VIRTIO_CONSOLE=3Dy
+> CONFIG_HW_RANDOM=3Dy
+> CONFIG_HW_RANDOM_VIRTIO=3Dy
+>+CONFIG_I2C_MV64XXX=3Dm
+> CONFIG_SPI=3Dy
+> CONFIG_SPI_SIFIVE=3Dy
+>+CONFIG_SPI_SUN6I=3Dy
+> # CONFIG_PTP_1588_CLOCK is not set
+>-CONFIG_GPIOLIB=3Dy
+> CONFIG_GPIO_SIFIVE=3Dy
+>+CONFIG_WATCHDOG=3Dy
+>+CONFIG_SUNXI_WATCHDOG=3Dy
+>+CONFIG_REGULATOR=3Dy
+>+CONFIG_REGULATOR_FIXED_VOLTAGE=3Dy
+> CONFIG_DRM=3Dm
+> CONFIG_DRM_RADEON=3Dm
+> CONFIG_DRM_NOUVEAU=3Dm
+>+CONFIG_DRM_SUN4I=3Dm
+> CONFIG_DRM_VIRTIO_GPU=3Dm
+> CONFIG_FB=3Dy
+> CONFIG_FRAMEBUFFER_CONSOLE=3Dy
+>@@ -148,19 +157,30 @@ CONFIG_USB_OHCI_HCD=3Dy
+> CONFIG_USB_OHCI_HCD_PLATFORM=3Dy
+> CONFIG_USB_STORAGE=3Dy
+> CONFIG_USB_UAS=3Dy
+>+CONFIG_USB_MUSB_HDRC=3Dm
+>+CONFIG_USB_MUSB_SUNXI=3Dm
+>+CONFIG_NOP_USB_XCEIV=3Dm
+> CONFIG_MMC=3Dy
+> CONFIG_MMC_SDHCI=3Dy
+> CONFIG_MMC_SDHCI_PLTFM=3Dy
+> CONFIG_MMC_SDHCI_CADENCE=3Dy
+> CONFIG_MMC_SPI=3Dy
+>+CONFIG_MMC_SUNXI=3Dy
+> CONFIG_RTC_CLASS=3Dy
+>+CONFIG_RTC_DRV_SUN6I=3Dy
+>+CONFIG_DMADEVICES=3Dy
+>+CONFIG_DMA_SUN6I=3Dm
+> CONFIG_VIRTIO_PCI=3Dy
+> CONFIG_VIRTIO_BALLOON=3Dy
+> CONFIG_VIRTIO_INPUT=3Dy
+> CONFIG_VIRTIO_MMIO=3Dy
+>+CONFIG_SUN8I_DE2_CCU=3Dm
+>+CONFIG_SUN50I_IOMMU=3Dy
+> CONFIG_RPMSG_CHAR=3Dy
+> CONFIG_RPMSG_CTRL=3Dy
+> CONFIG_RPMSG_VIRTIO=3Dy
+>+CONFIG_PHY_SUN4I_USB=3Dm
+>+CONFIG_NVMEM_SUNXI_SID=3Dy
+> CONFIG_EXT4_FS=3Dy
+> CONFIG_EXT4_FS_POSIX_ACL=3Dy
+> CONFIG_EXT4_FS_SECURITY=3Dy
