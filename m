@@ -1,76 +1,73 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A85629
-	for <linux-sunxi@lists.linux.dev>; Thu,  8 Dec 2022 06:16:22 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 73ECA320029B;
-	Thu,  8 Dec 2022 01:16:19 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Thu, 08 Dec 2022 01:16:21 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7C436B
+	for <linux-sunxi@lists.linux.dev>; Thu,  8 Dec 2022 08:41:32 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id A844F3200488;
+	Thu,  8 Dec 2022 03:41:30 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Thu, 08 Dec 2022 03:41:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
 	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm2; t=1670480178; x=1670566578; bh=x0me3RKZeq0yeb9T+A/Cz7qCe
-	2YIzalCfRlQG3BTeKE=; b=K2oJX4eFTEWB9WOxAJUc23gDWQ8FAWBMusXLae2tW
-	P6Zh0RT3DqkvyIQQE02DxwlutY2ZNjMz2h7+VHeDCfKE9fxGeJeEgub+nLhJQRND
-	KPuI2r+NIskj/JylWfrTBntujKb0TFA2w2qETg8+wOVpQQoc/8QOgykkg3BGMtHI
-	BhRa2PDrMILL1kWFVSo8fz5VGuDoushbvd5w04yOxB2R9ZCFi4z8jJA4RFXmtugW
-	bCfDeL9ynrhOTH/lV7NPJvw3jUe/UsK+6L7VQZNRZ44E9uql8DAo7gIpD2Gsh8tl
-	M0xSG+92z08PmJWQnDgfUZ/kXNpSL5n44b3qhrZ9p3hhA==
+	 s=fm3; t=1670488890; x=1670575290; bh=ofGKFfIQd2m7ie86s3B7/ao4k
+	1jGkO2oySg1tYsGzrU=; b=sfPkxjStcjTieZ6d29X5LqINXORCQAvoGOG3hdpU7
+	vbHignV9KHUlHGepP/a+byTBQCU4t7/ywAnAngxM+oEJUPeghOTvbzk8AsZBp74m
+	UihL6lo3/OgwHdDyQquQaQRoZZtLf7Mkd8waXCgIYfYajh4giQkyyexOwEApEbbE
+	YBK4rcigJXsRE7CEtjYmVhsF23mEw7yYO8m3nMfhqMY/CY/9ETeNO0TinhrcmF3N
+	rsYQPqUP+vEHeqKMtuPJmr9Un7rXifLNmTEhVTIvZbuji/0F9WIxOcj/4HOWl26r
+	EvNPSUffqj10xYGLCyxbL/uw8dcnOAKxJc6OONE+zwnnQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:message-id
 	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1670480178; x=1670566578; bh=x0me3RKZeq0yeb9T+A/Cz7qCe2YIzalCfRl
-	QG3BTeKE=; b=NZRvslDJ35NLwJfLfOKpottBlDkIoqAcMjQiNRJBy6piuqEOqfJ
-	icyHbG4Mtb+YirsBhlKo1e2NiHobJXllhAlWrA93RCdxV3oUF3KY7o/9xeW6PG/p
-	xabCCfQI/xzgrRj55CdfI6loXvBRcrFlzjLmUut/IlIoGOCzRDzlMILBLynzpDJW
-	iWvV5CIuBlUJPf3EAmf9b5cU5lHobXVHJU1L8lwjR68N2lfLeMnIjSSGH+3zG9Pn
-	sETQOpl05IWu6wmhg8eDV4jGOcEnmbCWpszx0qI9YPflKhCmKS3Ufz0ADVzjsWT7
-	ftaG5sYsjYt2a8Rki0cNF7HYsgrF8/t+fQw==
-X-ME-Sender: <xms:MoGRY8U5eOBbbzsGsJjDycaXhpuajJdHZXBapPc1yj6I9lIpfbq7RQ>
-    <xme:MoGRYwmzqfaKt3IZB7FSM-CNISNNJH34HObu1JRBvvHj3r5I_DHSr9YGvMGCN1nfx
-    aVuff55MfQLw5LiSg>
-X-ME-Received: <xmr:MoGRYwapx06IkOpboMsipny0lGLTw2-DEgp1I8BLWwy8gc7plN8-5ArwAjUfB-RQ41LXaoMBCUy7Hxckzl4gRtCXKK1quiyocSjlh1sp7hDTLm6lAafYVwlMPCkZazxltFYPmA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudelgdelhecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
-    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
-    htthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeehhffh
-    keekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:MoGRY7XHSTdwRUN0PBCA6yc6vG6477iQCZyOoT7diDvetfv5wNo5pQ>
-    <xmx:MoGRY2lq9iAJmJkoAsQ1QWPRUcPEGmOfy9WP9mWX2uV0oFQbT0EarA>
-    <xmx:MoGRYwdBOBQVqQklUK2inER0ny6GM1GmpBI-j78MrqKDPbyarfTL6A>
-    <xmx:MoGRYw3d_BzNbdPXeim_HbCYEiJwxbpQmYcx1mGJOhvPSyBop9BC4Q>
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1670488890; x=1670575290; bh=ofGKFfIQd2m7ie86s3B7/ao4k1jGkO2oySg
+	1tYsGzrU=; b=EtyEGp1xj8J0r6bJXsjPrQAdJt74UZqAcAkohqM7xPM4p0FmEM+
+	ckMFw7Mk/G+rPYM6GPI8yk3sMqPxaKnn/GOT2ksjkLss/CPf00ogoLT9N+yAK46t
+	oO0Mm38AuPhD3yHBDYTd4+x5t/3tFzkFp8ln5hBWHfw9qN7IPGfgNftPEBNhV0Hb
+	E854WwObGYXGxncBYSplipbAsRzwFRcu9IiyWavhz9H8PTGWBqJgSi76PdmyMXlg
+	ZzhZZNSBJ3Wj0BZGbYYEG2o4vqxHy53os0WUACmngp8JzVjDXH4aJ4ubE/yjsGZ6
+	XOmAYYIH8FPKp0ecj0YasAmEmf0N90YeyHg==
+X-ME-Sender: <xms:OaORY8s3vjLkNzAzi1uNhT5oim0hjsBLyY8yiFYFBNTU3cBCfworSg>
+    <xme:OaORY5c_OELpoa1zQz1Vd5tvtFPE0lLiZIoVtKgFlrLvaG-qpKZciZwcXcpStax04
+    C4dCh56iHAl5fM7Eg>
+X-ME-Received: <xmr:OaORY3wVqUNnQ0g_8SwMYYnc1j397mS-AgKMKULN4bOzKLripokxeGoIJIyY2lIheN7d3EkVHX4ZV8q4C7uHKobpP65SyDMWvVkVzkNlGayCo4XLc5GEApVXXWIWkCMYQSpNlw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudelgdduvdehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
+    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:OaORY_P5flMhRbXtN9r5E2Y3bwjYphMhHHFNp9T-s5EDoNLcP64n6g>
+    <xmx:OaORY8-C6AOjyPwXP8dbNPmn7ohZzwXaXm8kkSek2LWX37fMNFMGKQ>
+    <xmx:OaORY3VIQCkCWCmRdlj4ciR5Dh-ZVvslfumW-VNimGZXRArR6a2SUA>
+    <xmx:OqORY2fUNoxh42T9FejvkMFjPVoUBSdGznsIUjw4yvX0SlRMhLj4wQ>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 8 Dec 2022 01:16:17 -0500 (EST)
+ 8 Dec 2022 03:41:28 -0500 (EST)
 From: Samuel Holland <samuel@sholland.org>
-To: "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Rob Herring <robh@kernel.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	LABBE Corentin <clabbe.montjoie@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	Andre Przywara <andre.przywara@arm.com>,
 	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
 	linux-sunxi@lists.linux.dev,
-	netdev@vger.kernel.org
-Subject: [PATCH v2] dt-bindings: net: sun8i-emac: Add phy-supply property
-Date: Thu,  8 Dec 2022 00:16:16 -0600
-Message-Id: <20221208061616.7806-1-samuel@sholland.org>
+	linux-arm-kernel@lists.infradead.org,
+	Samuel Holland <samuel@sholland.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v5 0/4] regulator: Add support for Allwinner D1 system LDOs
+Date: Thu,  8 Dec 2022 02:41:23 -0600
+Message-Id: <20221208084127.17443-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.37.4
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -80,43 +77,65 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This property has always been supported by the Linux driver; see
-commit 9f93ac8d4085 ("net-next: stmmac: Add dwmac-sun8i"). In fact, the
-original driver submission includes the phy-supply code but no mention
-of it in the binding, so the omission appears to be accidental. In
-addition, the property is documented in the binding for the previous
-hardware generation, allwinner,sun7i-a20-gmac.
+This series adds the binding and driver for one of the two pairs of LDOs
+inside the Allwinner D1 SoC. I am splitting up the two pairs of LDOs to
+unblock merging the SoC devicetree; the analog LDOs depend on the audio
+codec binding, but they are not required to boot.
 
-Document phy-supply in the binding to fix devicetree validation for the
-25+ boards that already use this property.
+A binding and driver change is required for the SRAM controller, to
+accept the regulators device as its child node.
 
-Fixes: 0441bde003be ("dt-bindings: net-next: Add DT bindings documentation for Allwinner dwmac-sun8i")
-Acked-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+The example for the regulator device binding is in SRAM controller
+binding document, per Rob's request to keep MFD examples in one place.
+
+Because of this, at least the first 3 patches need to be taken together
+through the regulator tree, though it should be fine to merge the whole
+series that way.
+
+Changes in v5:
+ - Correct the voltage calculation for the non-linearity around 1.6 V.
+
+Changes in v4:
+ - Fix the order of the maintainer/description sections
+ - Replace unevaluatedProperties with "additionalProperties: false"
+ - Drop the analog LDOs until the codec binding is ready
+ - Drop the analog LDOs until the codec binding is ready
+ - Remove unevaluatedProperties from regulators schema reference
+ - Check the compatible string instead of the node name
+
+Changes in v3:
+ - Add "reg" property to bindings
+ - Add "unevaluatedProperties: true" to regulator nodes
+ - Minor changes to regulator node name patterns
+ - Remove system-ldos example (now added in the parent binding)
+ - Adjust control flow in sun20i_regulator_get_regmap() for clarity
+ - Require the regulators node to have a unit address
+ - Reference the regulator schema from the SRAM controller schema
+ - Move the system LDOs example to the SRAM controller schema
+ - Reorder the patches so the example passes validation
 
 Changes in v2:
- - Drop the rest of the series, which was obsoleted by the dt-schema fix
- - Add Acked-by/Reviewed-by tags
+ - Remove syscon property from bindings
+ - Update binding examples to fix warnings and provide context
+ - Use decimal numbers for .n_voltages instead of field widths
+ - Get the regmap from the parent device instead of a property/phandle
 
- .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml     | 3 +++
- 1 file changed, 3 insertions(+)
+Samuel Holland (4):
+  regulator: dt-bindings: Add Allwinner D1 system LDOs
+  regulator: sun20i: Add Allwinner D1 LDOs driver
+  dt-bindings: sram: sunxi-sram: Add regulators child
+  soc: sunxi: sram: Only iterate over SRAM children
 
-diff --git a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-index 1432fda3b603..47bc2057e629 100644
---- a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-+++ b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-@@ -40,6 +40,9 @@ properties:
-   clock-names:
-     const: stmmaceth
- 
-+  phy-supply:
-+    description: PHY regulator
-+
-   syscon:
-     $ref: /schemas/types.yaml#/definitions/phandle
-     description:
+ .../allwinner,sun20i-d1-system-ldos.yaml      |  37 +++++
+ .../allwinner,sun4i-a10-system-control.yaml   |  28 ++++
+ drivers/regulator/Kconfig                     |   8 +
+ drivers/regulator/Makefile                    |   1 +
+ drivers/regulator/sun20i-regulator.c          | 156 ++++++++++++++++++
+ drivers/soc/sunxi/sunxi_sram.c                |   3 +
+ 6 files changed, 233 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
+ create mode 100644 drivers/regulator/sun20i-regulator.c
+
 -- 
 2.37.4
 
