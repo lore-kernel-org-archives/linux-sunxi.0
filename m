@@ -1,147 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6CD47F3
-	for <linux-sunxi@lists.linux.dev>; Thu,  8 Dec 2022 09:11:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6AA6C433D6;
-	Thu,  8 Dec 2022 09:11:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1670490695;
-	bh=iHuw0OUgQEvUcS8yre/beDpGKlTFd86E0mXrCaCurC0=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=fQXRN6ze54K7P1CzZ+rbMoKLJnC+MBmPo7bbo7IjavpNWUA5Y70dhXR+tZFdf0qcK
-	 PdsqBFtrkNnGraXcXJLTw0E1MRR/5OkXnuNk6hkJQMNukeVFoo9yVelsIlTF6Mn3yP
-	 FvA3U3xJKjjhNUHGCTJKbOd3N98zBI38M4CJA1LWdHHNmBGKSWk1Zf5Q+YjiRz74fi
-	 TYP3ltF1BwEDbttJh3K1Ke7XLDMQFC8Cr5IuWa/5zC/aZhO94XqNlK2h9poWyhrE63
-	 8DeDsvL0n4xdxYUVoulW5WtTOrPp7GyYByC1ojzzMxu+Raa+cShbRMCsT4Su9JWcbF
-	 0OInr/pHAZlGg==
-Date: Thu, 08 Dec 2022 10:09:18 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
- Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org
-CC: Jisheng Zhang <jszhang@kernel.org>, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- linux-arm-kernel@lists.infradead.org,
- Andre Przywara <andre.przywara@arm.com>,
- Palmer Dabbelt <palmer@rivosinc.com>, Guo Ren <guoren@kernel.org>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_12/12=5D_riscv=3A_defconfig=3A_En?= =?US-ASCII?Q?able_the_Allwinner_D1_platform_and_drivers?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20221208090237.20572-13-samuel@sholland.org>
-References: <20221208090237.20572-1-samuel@sholland.org> <20221208090237.20572-13-samuel@sholland.org>
-Message-ID: <6D22D85D-EAD2-4778-89EF-86540EDCBD2D@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9291FA21;
+	Thu,  8 Dec 2022 11:48:03 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id C5A41240002;
+	Thu,  8 Dec 2022 11:47:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1670500081;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=EmSSWfmAQotsz56jadZuCs8HLkx1/zaw7zypFRHxTzA=;
+	b=JLwMm0zCVgvV2F7IT+WF6yPqCD5i5Q4ZRDawrLicalqRo8RcSI6PVjkD8shzhnHVJgo/+h
+	AHgoDlJFKU5+BiaDWVWyA+8cKAVxUTSnW4vas492QTYn9clMdpyIphIpSDImQAntlBvy/+
+	LG/lMHaEgSXohpxQwIPnW7ITScOWZfmbWE3YXnoOSWHMlJ/kvVTqqbMcUaWrK/YwPUTMJn
+	ltT8Gl3WswWOw+8F0yBr4BaXOLWY4ScBskJpLbw72bfFpcuoVXzRaJl+94TICWExn+ydoP
+	4iSAucvreDOidYTIud1saqEI7Qky0Ad6PlsE8D6JeQNqWNR15XEMOQ6Z0/E5Ig==
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Yong Deng <yong.deng@magewell.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@iki.fi>
+Subject: [PATCH 0/9] Allwinner A31/A83T CSI/ISP/MIPI CSI-2 media fixes
+Date: Thu,  8 Dec 2022 12:47:33 +0100
+Message-Id: <20221208114742.399461-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
+This series resolves reported smatch warnings against the recently-introduced
+Allwinner A31/A83T CSI, ISP and MIPI CSI-2 drivers.
 
+Smatch was ran again on the updated tree and no longer shows any error or
+warning.
 
-On 8 December 2022 10:02:37 GMT+01:00, Samuel Holland <samuel@sholland=2Eo=
-rg> wrote:
->Now that several D1-based boards are supported, enable the platform in
->our defconfig=2E Build in the drivers which are necessary to boot, such a=
-s
->the pinctrl, MMC, RTC (which provides critical clocks), SPI (for flash),
->and watchdog (which may be left enabled by the bootloader)=2E Other commo=
-n
->onboard peripherals are enabled as modules=2E
->
->Acked-by: Palmer Dabbelt <palmer@rivosinc=2Ecom>
+Paul
 
-I'm more than happy if he's happy ;)
+Paul Kocialkowski (9):
+  media: sun6i-csi: bridge: Fix return code handling in stream off path
+  media: sun6i-csi: capture: Remove useless ret initialization
+  media: sun6i-csi: bridge: Error out on invalid port to fix warning
+  media: sun6i-mipi-csi2: Fix return code handling in stream off path
+  media: sun8i-a83t-mipi-csi2: Fix return code handling in stream off
+    path
+  media: sun6i-isp: bridge: Fix return code handling in stream off path
+  media: sun6i-isp: bridge: Error out on invalid port to fix warning
+  media: sun6i-isp: capture: Fix uninitialized variable use
+  media: sun6i-isp: params: Fix incorrect indentation
 
-Acked-by: Conor Dooley <conor=2Edooley@microchip=2Ecom>
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c   | 6 +++---
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c  | 2 +-
+ .../media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c  | 5 ++---
+ .../sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c       | 5 ++---
+ drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c   | 4 ++--
+ drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c    | 4 ++--
+ drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c      | 6 +++---
+ 7 files changed, 15 insertions(+), 17 deletions(-)
 
->Reviewed-by: Guo Ren <guoren@kernel=2Eorg>
->Signed-off-by: Samuel Holland <samuel@sholland=2Eorg>
->---
->
->(no changes since v1)
->
-> arch/riscv/configs/defconfig | 22 +++++++++++++++++++++-
-> 1 file changed, 21 insertions(+), 1 deletion(-)
->
->diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
->index 74ed7037314f=2E=2E368175560da9 100644
->--- a/arch/riscv/configs/defconfig
->+++ b/arch/riscv/configs/defconfig
->@@ -25,6 +25,7 @@ CONFIG_BLK_DEV_INITRD=3Dy
-> CONFIG_EXPERT=3Dy
-> # CONFIG_SYSFS_SYSCALL is not set
-> CONFIG_PROFILING=3Dy
->+CONFIG_ARCH_SUNXI=3Dy
-> CONFIG_SOC_MICROCHIP_POLARFIRE=3Dy
-> CONFIG_SOC_SIFIVE=3Dy
-> CONFIG_SOC_STARFIVE=3Dy
->@@ -119,8 +120,10 @@ CONFIG_VIRTIO_NET=3Dy
-> CONFIG_MACB=3Dy
-> CONFIG_E1000E=3Dy
-> CONFIG_R8169=3Dy
->+CONFIG_STMMAC_ETH=3Dm
-> CONFIG_MICROSEMI_PHY=3Dy
-> CONFIG_INPUT_MOUSEDEV=3Dy
->+CONFIG_KEYBOARD_SUN4I_LRADC=3Dm
-> CONFIG_SERIAL_8250=3Dy
-> CONFIG_SERIAL_8250_CONSOLE=3Dy
-> CONFIG_SERIAL_8250_DW=3Dy
->@@ -128,14 +131,20 @@ CONFIG_SERIAL_OF_PLATFORM=3Dy
-> CONFIG_VIRTIO_CONSOLE=3Dy
-> CONFIG_HW_RANDOM=3Dy
-> CONFIG_HW_RANDOM_VIRTIO=3Dy
->+CONFIG_I2C_MV64XXX=3Dm
-> CONFIG_SPI=3Dy
-> CONFIG_SPI_SIFIVE=3Dy
->+CONFIG_SPI_SUN6I=3Dy
-> # CONFIG_PTP_1588_CLOCK is not set
->-CONFIG_GPIOLIB=3Dy
-> CONFIG_GPIO_SIFIVE=3Dy
->+CONFIG_WATCHDOG=3Dy
->+CONFIG_SUNXI_WATCHDOG=3Dy
->+CONFIG_REGULATOR=3Dy
->+CONFIG_REGULATOR_FIXED_VOLTAGE=3Dy
-> CONFIG_DRM=3Dm
-> CONFIG_DRM_RADEON=3Dm
-> CONFIG_DRM_NOUVEAU=3Dm
->+CONFIG_DRM_SUN4I=3Dm
-> CONFIG_DRM_VIRTIO_GPU=3Dm
-> CONFIG_FB=3Dy
-> CONFIG_FRAMEBUFFER_CONSOLE=3Dy
->@@ -148,19 +157,30 @@ CONFIG_USB_OHCI_HCD=3Dy
-> CONFIG_USB_OHCI_HCD_PLATFORM=3Dy
-> CONFIG_USB_STORAGE=3Dy
-> CONFIG_USB_UAS=3Dy
->+CONFIG_USB_MUSB_HDRC=3Dm
->+CONFIG_USB_MUSB_SUNXI=3Dm
->+CONFIG_NOP_USB_XCEIV=3Dm
-> CONFIG_MMC=3Dy
-> CONFIG_MMC_SDHCI=3Dy
-> CONFIG_MMC_SDHCI_PLTFM=3Dy
-> CONFIG_MMC_SDHCI_CADENCE=3Dy
-> CONFIG_MMC_SPI=3Dy
->+CONFIG_MMC_SUNXI=3Dy
-> CONFIG_RTC_CLASS=3Dy
->+CONFIG_RTC_DRV_SUN6I=3Dy
->+CONFIG_DMADEVICES=3Dy
->+CONFIG_DMA_SUN6I=3Dm
-> CONFIG_VIRTIO_PCI=3Dy
-> CONFIG_VIRTIO_BALLOON=3Dy
-> CONFIG_VIRTIO_INPUT=3Dy
-> CONFIG_VIRTIO_MMIO=3Dy
->+CONFIG_SUN8I_DE2_CCU=3Dm
->+CONFIG_SUN50I_IOMMU=3Dy
-> CONFIG_RPMSG_CHAR=3Dy
-> CONFIG_RPMSG_CTRL=3Dy
-> CONFIG_RPMSG_VIRTIO=3Dy
->+CONFIG_PHY_SUN4I_USB=3Dm
->+CONFIG_NVMEM_SUNXI_SID=3Dy
-> CONFIG_EXT4_FS=3Dy
-> CONFIG_EXT4_FS_POSIX_ACL=3Dy
-> CONFIG_EXT4_FS_SECURITY=3Dy
+-- 
+2.38.1
+
