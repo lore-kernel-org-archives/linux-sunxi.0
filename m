@@ -1,74 +1,112 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA50DA59;
-	Thu,  8 Dec 2022 11:48:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E99B7258E;
+	Thu,  8 Dec 2022 13:23:58 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 5ABB2240003;
-	Thu,  8 Dec 2022 11:48:17 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 54AD940009;
+	Thu,  8 Dec 2022 13:23:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1670500099;
+	t=1670505830;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=o81YP8iaZF1sop9pwY0IwP4XTu0ePsqSN3S/jSq8oYA=;
-	b=Gyumw+GixaiC3XEvP2m0jiuXtKSMmOoPQYdBHwKffcmJvOD0547GyaPAKmImac3mfSwIgT
-	rew5O9Bu+fpPpLMCElY2ncv9sv0/4g0WIn/FWfnTxvDy5YboXrLrv7D2AXL3tIqBmRK1fl
-	N2nOo+BfLthi2Y5BMhBh7lFwtNcUbtzZLF6zoEj6AoVhCgBwj36p75O/3+rWgKxP2YZJhx
-	8n6PZU0xNSRIvqIH1pBHw+IQgRBW7dLuLDLGnu75DYRyb9emhaznkyirz2pTyahAaV0KiN
-	Ni0Ej24+fgpmFVQPUTvh3FV6H7SJCM4XSyvPVcLTTjxCdYKIsSpu0t6YTFLQuw==
+	bh=MwHKoO8RqRbDHdIh2HtTogVbNLJEMKgbOzQRa4vVfEs=;
+	b=nNUc44NhtNWbajrgohS0Wr1SuTlTglT8HMVq3BzGid2zwj0CvsgeOQumPg5mg5p3vIjCnA
+	1VGsB8MCBP92oOkR5g+zmn9SDbrQTmqdy3Om5V+F+lwHOmwbQt579wQ+2BmwUTWSXknOOi
+	DMziAb4f+TNmhq8sl6oQKC8qDfNsipyfFWHrUQJ2Xp560rltCw0K9O09bI5Bi5ckRIuiw1
+	3oey8x8CcXC13BLVarWiObxmSGycKv6FjHGWT7y+BzaAJRnAbdDmAFgeAAtIAq3EQ8+Pbz
+	SZjTaF5BHYOcJPXqvSpyjZzqyrNjaAlgX7VSps9Wcf8t8vqKqPFy4JfEDGPWfQ==
+Date: Thu, 8 Dec 2022 14:23:47 +0100
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: Yong Deng <yong.deng@magewell.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@iki.fi>
-Subject: [PATCH 9/9] media: sun6i-isp: params: Fix incorrect indentation
-Date: Thu,  8 Dec 2022 12:47:42 +0100
-Message-Id: <20221208114742.399461-10-paul.kocialkowski@bootlin.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221208114742.399461-1-paul.kocialkowski@bootlin.com>
-References: <20221208114742.399461-1-paul.kocialkowski@bootlin.com>
+To: Yang Li <yang.lee@linux.alibaba.com>
+Cc: mchehab@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
+	samuel@sholland.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Abaci Robot <abaci@linux.alibaba.com>
+Subject: Re: [PATCH -next] staging: media: Remove surplus dev_err() when
+ using platform_get_irq()
+Message-ID: <Y5HlY1tuqLBJqFHE@aptenodytes>
+References: <20221129012923.111691-1-yang.lee@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="w5lRKAfW1cxqulwg"
+Content-Disposition: inline
+In-Reply-To: <20221129012923.111691-1-yang.lee@linux.alibaba.com>
 
-Remove a heading whitespace that results in a smatch warning.
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
----
- drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+--w5lRKAfW1cxqulwg
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-index 8039e311cb1c..7b41a13162b9 100644
---- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-+++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-@@ -183,8 +183,8 @@ void sun6i_isp_params_configure(struct sun6i_isp_device *isp_dev)
- 	if (state->configured)
- 		goto complete;
- 
--	 sun6i_isp_params_configure_modules(isp_dev,
--					    &sun6i_isp_params_config_default);
-+	sun6i_isp_params_configure_modules(isp_dev,
-+					   &sun6i_isp_params_config_default);
- 
- 	state->configured = true;
- 
--- 
-2.38.1
+Hi,
 
+On Tue 29 Nov 22, 09:29, Yang Li wrote:
+> There is no need to call the dev_err() function directly to print a
+> custom message when handling an error from either the platform_get_irq()
+> or platform_get_irq_byname() functions as both are going to display an
+> appropriate error message in case of a failure.
+>=20
+> ./drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c:390:2-9: line 390 is =
+redundant because platform_get_irq() already prints an error
+>=20
+> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D3274
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+
+Thanks for the fix!
+
+Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Paul
+
+> ---
+>  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c b/drivers/=
+staging/media/sunxi/sun6i-isp/sun6i_isp.c
+> index 7b7947509b69..a6e813ff413a 100644
+> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+> @@ -387,7 +387,6 @@ static int sun6i_isp_resources_setup(struct sun6i_isp=
+_device *isp_dev,
+> =20
+>  	irq =3D platform_get_irq(platform_dev, 0);
+>  	if (irq < 0) {
+> -		dev_err(dev, "failed to get interrupt\n");
+>  		ret =3D -ENXIO;
+>  		goto error_clock_rate_exclusive;
+>  	}
+> --=20
+> 2.20.1.7.g153144c
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--w5lRKAfW1cxqulwg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmOR5WMACgkQ3cLmz3+f
+v9F+ggf7BckTVRt4YCzD1uAr6kDTr02r2Kh/3bjNcb6r3rS445PTOHRAS+kkwfmM
+YYQE1dl/B+2Un8M2P0n4SAsKQ5CEZz0PDgFgEJxZ4D3J1aFatXu09Kest58JaBHF
+MbsyHyLZwOtTUlfSH2/Kx28BGGOXigPG1YuKfGI75ClBKqWtpVzF7cBKEyH1T/vL
+ISVKdqs/HWjXwTB2pJgsB5NjqThMiZqI90YB0Vhjlz+RUWSDVdJIpGxCo2vKTs9Y
+9kYWyoIKnUqFcx3A3d4Iid4kRNlBw3Qy69Rt3GKgUVKrTW2yj5nnsww7AcFl4USR
+Qg6BoOQiFC8QLQh08ntAUf5AAet9Sg==
+=rMsZ
+-----END PGP SIGNATURE-----
+
+--w5lRKAfW1cxqulwg--
