@@ -1,80 +1,104 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E272F3D;
-	Thu,  8 Dec 2022 14:20:54 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 1E190C0010;
-	Thu,  8 Dec 2022 14:20:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1670509253;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l1d1C6XOR5CdMp7rtfdwwMdKTU/wg8Y6oozqFuEEadY=;
-	b=ivdJdSy9X76V6OrTItBkoQRR+c4AdoISFooXkR8IGRL2MT3HVUScvIivkpWj1AdlsnPkc/
-	UKHvMn44v8XAb4kZHG2uEvuC9S3D42mj7i6jp4YYcmmJ7Q5qaGg7OkcDKBkrrqCd7pfULv
-	il6rbTPxXVDP1VJKyBYbb3ouJQaIiJrK2dpqi2pk4EdR+GHrIWcbSQOXuRmzOIbZNKxmDB
-	P+BIzv2n2K+mIIns3UvNnTbY5fMAhoaes9bxgZzzNOsP02Z8OsHlckCVTNca/AUMMzJ76f
-	3CO8V2NbEMBCDmo86DMYWnhoHJAqB6LAqRusyrYfnTcrS2fEXrc9gaXeAV+8HA==
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: Yong Deng <yong.deng@magewell.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Conor Dooley <conor@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: [PATCH v3 12/12] media: sun6i-isp: params: Unregister pending buffer on cleanup
-Date: Thu,  8 Dec 2022 15:20:06 +0100
-Message-Id: <20221208142006.425809-13-paul.kocialkowski@bootlin.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221208142006.425809-1-paul.kocialkowski@bootlin.com>
-References: <20221208142006.425809-1-paul.kocialkowski@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50FC3214;
+	Fri,  9 Dec 2022 21:48:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670622481; x=1702158481;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=VyW/tMWJvyoCTirAlG73DmAZL480LWhJqZ6Zbp5E2tY=;
+  b=LcZPK7567S9GLSQgbaAz2YpWqOE2KUKCIGZq4zvg0fcwVXX1GPQ0QNlJ
+   lC5lXdo6syO2jR2moI+RkJMVPLg5byCczeHSV6cLU2VRFB0MZ5ZovraNQ
+   AzNT/Ty56pKMiQkW+enUcL3L2/ZkFBX/1x8CUIR8UsWzheMnSfRz72Kcw
+   dJMFLthDkbi/c++m87o0IUVETJPGXPkNgFkUb+acYB4Z/XsPxcoGLBZht
+   ye/kE6LAFVcCAA2PUaTJDHpJhj6r7siYRVp45vKI+rkWlmx837xPjRyha
+   eqtWaJKyEjDpCPQvzGq2qvyizkeU6oCRELMLgT3K6JsPrCV1FdLPANwYK
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="319415093"
+X-IronPort-AV: E=Sophos;i="5.96,232,1665471600"; 
+   d="scan'208";a="319415093"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2022 13:48:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="821856456"
+X-IronPort-AV: E=Sophos;i="5.96,232,1665471600"; 
+   d="scan'208";a="821856456"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga005.jf.intel.com with ESMTP; 09 Dec 2022 13:47:57 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1p3lDn-007CW5-0p;
+	Fri, 09 Dec 2022 23:47:55 +0200
+Date: Fri, 9 Dec 2022 23:47:54 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Thierry Reding <thierry.reding@gmail.com>, linux-pwm@vger.kernel.org,
+	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	chrome-platform@lists.linux.dev, linux-amlogic@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-riscv@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 00/11] pwm: Allow .get_state to fail
+Message-ID: <Y5OtCjQOQjjltGPa@smile.fi.intel.com>
+References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-The state cleanup helper should unregister the pending buffer from
-the state after returning it to v4l2, like it is done for other
-buffers in the wait queue.
+On Wed, Nov 30, 2022 at 04:21:37PM +0100, Uwe Kleine-König wrote:
+> Hello,
+> 
+> I forgot about this series and was remembered when I talked to Conor
+> Dooley about how .get_state() should behave in an error case.
+> 
+> Compared to (implicit) v1, sent with Message-Id: 20220916151506.298488-1-u.kleine-koenig@pengutronix.de
+> I changed:
+> 
+>  - Patch #1 which does the prototype change now just adds "return 0" to
+>    all implementations and so gets simpler and doesn't change behaviour.
+>    The adaptions to the different .get_state() implementations are split
+>    out into individual patches to ease review.
+>  - One minor inconsistency fixed in "pwm: Handle .get_state() failures"
+>    that I noticed while looking into this patch.
+>  - I skipped changing sun4i.c as I don't know how to handle the error
+>    there. Someone might want to have a look. (That's not ideal, but it's
+>    not worse than the same issue before this series.)
+> 
+> In v1 Thierry had the concern:
+> 
+> | That raises the question about what to do in these cases. If we return
+> | an error, that could potentially throw off consumers. So perhaps the
+> | closest would be to return a disabled PWM? Or perhaps it'd be up to the
+> | consumer to provide some fallback configuration for invalidly configured
+> | or unconfigured PWMs.
+> 
+> .get_state() is only called in pwm_device_request on a pwm_state that a
+> consumer might see. Before my series a consumer might have seen a
+> partial modified pwm_state (because .get_state() might have modified
+> .period, then stumbled and returned silently). The last patch ensures
+> that this partial modification isn't given out to the consumer. Instead
+> they now see the same as if .get_state wasn't implemented at all.
 
-Before this change, the pending buffer from a previous run might have
-been returned at the beginning of the next run, causing an error.
+I'm wondering why we didn't see a compiler warning about mistyped function
+prototypes in some drivers.
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Fixes: e3185e1d7c14 ("media: staging: media: Add support for the Allwinner A31 ISP")
----
- drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c | 2 ++
- 1 file changed, 2 insertions(+)
+P.S. The series is good thing to do, thank you.
 
-diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-index 7b41a13162b9..e28be895b486 100644
---- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-+++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-@@ -208,6 +208,8 @@ static void sun6i_isp_params_state_cleanup(struct sun6i_isp_device *isp_dev,
- 		vb2_buffer = &state->pending->v4l2_buffer.vb2_buf;
- 		vb2_buffer_done(vb2_buffer, error ? VB2_BUF_STATE_ERROR :
- 				VB2_BUF_STATE_QUEUED);
-+
-+		state->pending = NULL;
- 	}
- 
- 	list_for_each_entry(isp_buffer, &state->queue, list) {
 -- 
-2.38.1
+With Best Regards,
+Andy Shevchenko
+
 
