@@ -1,98 +1,112 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DAAA1C16;
-	Sun, 11 Dec 2022 13:31:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670765493; x=1702301493;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=mzHG/pVGmg236g4ocCottXwf/Vck+AOplcQMPTkzoug=;
-  b=LFRuBEdhdHhddmTY9KdMavYFbOK4EmjwhccQC5PxLgLjjwLXiC62Z4Yv
-   +Y0mXzfPRqIYX+lxZzSMbxKxTY8NbJcaiKTHJPKEXR6YXznIyDUrfnfpr
-   nMqT025Aet/Fy8TAZD7UbhC5nnyeMIJ5iaSB1ZqTccZ5Wy08pc5XtZNGG
-   HZw/gg6VA65Yh2u+PF6lNzx50VkKAgUK0mhba1CuBehktJ/+qgEuC1DQK
-   7dnUN+T7C1I7UhjBm/yZSfrC3Fncei9s0ZkCMvF/Iw+RMjGAin2B4LFln
-   rxxU9oNBF5rJ0qPkvU6sXSEZ7uvhADQy1wo1B496Qy419Ossn53F3M8fM
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10558"; a="318847052"
-X-IronPort-AV: E=Sophos;i="5.96,236,1665471600"; 
-   d="scan'208";a="318847052"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2022 05:31:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10558"; a="678628772"
-X-IronPort-AV: E=Sophos;i="5.96,236,1665471600"; 
-   d="scan'208";a="678628772"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga008.jf.intel.com with ESMTP; 11 Dec 2022 05:31:28 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1p4MQQ-0080Nz-0b;
-	Sun, 11 Dec 2022 15:31:26 +0200
-Date: Sun, 11 Dec 2022 15:31:25 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Thierry Reding <thierry.reding@gmail.com>, linux-pwm@vger.kernel.org,
-	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	chrome-platform@lists.linux.dev, linux-amlogic@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 00/11] pwm: Allow .get_state to fail
-Message-ID: <Y5XbrWTicuTxPLwN@smile.fi.intel.com>
-References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
- <Y5OtCjQOQjjltGPa@smile.fi.intel.com>
- <20221210091833.vdfir63nq4kpj5cm@pengutronix.de>
- <Y5TyrO5maz5VYic3@smile.fi.intel.com>
- <20221210224154.733cd5qnrkpexq22@pengutronix.de>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA8EE1854
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Dec 2022 01:06:45 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9734B1FB;
+	Sun, 11 Dec 2022 17:07:19 -0800 (PST)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5228D3F5A1;
+	Sun, 11 Dec 2022 17:06:38 -0800 (PST)
+Date: Mon, 12 Dec 2022 01:04:51 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: jagan@amarulasolutions.com, u-boot@lists.denx.de, linux-sunxi
+ <linux-sunxi@lists.linux.dev>
+Subject: Re: [PATCH 0/8] sunxi: Update H616 DRAM driver
+Message-ID: <20221212010451.6fc99b11@slackpad.lan>
+In-Reply-To: <20221211163213.98540-1-jernej.skrabec@gmail.com>
+References: <20221211163213.98540-1-jernej.skrabec@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221210224154.733cd5qnrkpexq22@pengutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Dec 10, 2022 at 11:41:54PM +0100, Uwe Kleine-König wrote:
-> On Sat, Dec 10, 2022 at 10:57:16PM +0200, Andy Shevchenko wrote:
-> > On Sat, Dec 10, 2022 at 10:18:33AM +0100, Uwe Kleine-König wrote:
-> > > On Fri, Dec 09, 2022 at 11:47:54PM +0200, Andy Shevchenko wrote:
-> > > > On Wed, Nov 30, 2022 at 04:21:37PM +0100, Uwe Kleine-König wrote:
+On Sun, 11 Dec 2022 17:32:05 +0100
+Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
 
-...
+Hi Jernej,
 
-> > > > I'm wondering why we didn't see a compiler warning about mistyped function
-> > > > prototypes in some drivers.
-> > > 
-> > > I don't understand where you expected a warning. Care to elaborate?
-> > 
-> > intel-lpss.c has the prototype that returns an int. IIRC it was like this
+many thanks for putting this together!
+I will have a more elaborate look at each patch later.
+
+> Current H616 DRAM driver is completely customized to Orange Pi Zero2
+> board, which is currently the only H616 board supported by U-Boot.
+
+Not anymore, I merged the X96 Mate support lately, after the DT got
+merged into the Linux tree.
+
+Those are the values for the box I came up with:
+CONFIG_DRAM_SUN50I_H616_DX_ODT=0x03030303
+CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
+CONFIG_DRAM_SUN50I_H616_CA_DRI=0x1c12
+CONFIG_DRAM_SUN50I_H616_TPR0=0xc0000c05
+CONFIG_DRAM_SUN50I_H616_TPR10=0x2f0007
+CONFIG_DRAM_SUN50I_H616_TPR11=0xffffdddd
+CONFIG_DRAM_SUN50I_H616_TPR12=0xfedf7557
+
+based on this boot0 found in some firmware update image:
+00045400  be 02 00 ea 65 47 4f 4e  2e 42 54 30 cc ba f3 80  |....eGON.BT0....|
+00045410  00 c0 00 00 30 00 00 00  00 00 00 00 00 00 02 00  |....0...........|
+00045420  00 00 02 00 00 00 00 00  00 00 00 00 34 2e 30 00  |............4.0.|
+00045430  00 00 00 00 03 00 00 00  88 02 00 00 03 00 00 00  |................|
+00045440  03 03 03 03 0e 0e 0e 0e  12 1c 00 00 01 00 00 00  |................|
+00045450  fb 30 00 00 00 00 00 00  40 08 00 00 04 00 00 00  |.0......@.......|
+00045460  08 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+00045470  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+00045480  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+00045490  05 0c 00 c0 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+000454a0  80 80 80 33 07 00 2f 00  dd dd ff ff 57 75 df fe  |...3../.....Wu..|
+000454b0  40 00 00 00 00 00 00 00  00 00 00 00 08 00 02 01  |@...............|
+
+I would be grateful if you could verify this.
+
+I built it, and it reported the 4GB correctly, also managed to boot into
+Linux just fine. No extensive testing, nor didn't I compare register
+dumps or disassembly (yet).
+
+Cheers,
+Andre
+
+P.S. Any plans on upstreaming support for your T95 <whatever> H616 TV
+box? That would probably help the case here.
+
+
+> Needless to say, this is not ideal for adding new boards. With changes
+> in this series, all DDR3 boards are supported and all that is needed is
+> just vendor DRAM values extracted from Android image. New DRAM types
+> should also be easier to support, since a lot of constants used before
+> are not really DRAM type dependent.
 > 
-> Do you mean drivers/mfd/intel-lpss.c? That one doesn't implement a PWM?!
-
-Nope, I meant pwm-lpss.c.
-
-> And drivers/pwm/pwm-lpss.c is adapted by this series.
-
-That's what I didn't see how.
-
-> One of us is confused ...
-
-Yes, because when I have checked the branch based on Linux Next I already saw
-that get_state() returns a code and I wasn't aware that the series is already
-there.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+> Changes were verified by decompiling driver and generated values were
+> compared to previous, hard coded ones. This was done without dram_para
+> structures, so compiler was able to heavily optimize code and produce
+> constants.
+> 
+> Please take a look.
+> 
+> Best regards,
+> Jernej
+> 
+> Jernej Skrabec (8):
+>   sunxi: Fix write to H616 DRAM CR register
+>   sunxi: cosmetic: Fix H616 DRAM driver code style
+>   sunxi: parameterize H616 DRAM ODT values
+>   sunxi: Convert H616 DRAM options to single setting
+>   sunxi: Always configure ODT on H616 DRAM
+>   sunxi: Make bit delay function in H616 DRAM code void
+>   sunxi: Parameterize bit delay code in H616 DRAM driver
+>   sunxi: Parameterize H616 DRAM code some more
+> 
+>  .../include/asm/arch-sunxi/dram_sun50i_h616.h |  18 +
+>  arch/arm/mach-sunxi/Kconfig                   |  67 +--
+>  arch/arm/mach-sunxi/dram_sun50i_h616.c        | 445 +++++++++++-------
+>  configs/orangepi_zero2_defconfig              |   8 +-
+>  4 files changed, 348 insertions(+), 190 deletions(-)
+> 
 
