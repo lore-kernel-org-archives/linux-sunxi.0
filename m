@@ -1,112 +1,253 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA8EE1854
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Dec 2022 01:06:45 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9734B1FB;
-	Sun, 11 Dec 2022 17:07:19 -0800 (PST)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5228D3F5A1;
-	Sun, 11 Dec 2022 17:06:38 -0800 (PST)
-Date: Mon, 12 Dec 2022 01:04:51 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: jagan@amarulasolutions.com, u-boot@lists.denx.de, linux-sunxi
- <linux-sunxi@lists.linux.dev>
-Subject: Re: [PATCH 0/8] sunxi: Update H616 DRAM driver
-Message-ID: <20221212010451.6fc99b11@slackpad.lan>
-In-Reply-To: <20221211163213.98540-1-jernej.skrabec@gmail.com>
-References: <20221211163213.98540-1-jernej.skrabec@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF747B
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Dec 2022 06:32:42 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 7553E320077A;
+	Mon, 12 Dec 2022 01:32:38 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Mon, 12 Dec 2022 01:32:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1670826757; x=
+	1670913157; bh=Enl4ta4QMhU7nuukiZ1MRpoIAb2RdvDJEmhGxOJuA3M=; b=K
+	0WFYUnX+7h4+lt+re56XKM8LEn6HJm8S1F5Ybpgn/i/TCDF8SniT2qdkJ+nZpdVq
+	hlfPCPpnZCkiqOdav5gHhSmNVhlhQIyNABLBCqXDlLD24oilhZdqKw7CeYsD8z0G
+	yriajJyEzJCRm6Fw0BD7+Ac0sPNymKo1rmqPoyU57UHtHcET4QPz7rQcOV1d26HW
+	IbFa/7/plt2SOO/0+QPumrfbCdPWPTzKrGsNFQWS+IkQN0XKbCHuqSeheEFF29WY
+	ojD4PRGZhAVCxkGEq4+ICGGz1oL39jbXwbNi21gs3a9wAf82aJ09KVi5y5dEHVpJ
+	llkYlchdIFzAm9zktY7jw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1670826757; x=
+	1670913157; bh=Enl4ta4QMhU7nuukiZ1MRpoIAb2RdvDJEmhGxOJuA3M=; b=o
+	t9ktCqVM1aXeOGcSM+0umcFKo4OigBkEe66ULHqllyj0Wpdo8IjU4xDEXG6r4pPv
+	VzPczlLWx79s9DmYjP5WaK+6F93Q6oC8+4isl6zIUNNZYLoQfhihFHgWdyL78Nah
+	iL1Tn0SESFkQB/d0XcesF5mJB5y0Q7yrGGUpslI1Cf8K5umShA+C1b/2FoEl6WZW
+	pWujbvYlwGU51BBqEJTVQ4Ngcu5n/BWnXOX8viQNSRs0IIUKvsiDCEk5u13czWbb
+	IrZsQkm64SCPeSV9NWstfZd4td+r5e7fCFqVN72y2h7xrK75IcJUy+ZBE7K5nuCW
+	/IT1Ho5o9FJAmZfZM1Bew==
+X-ME-Sender: <xms:A8uWY7HGy3f7CvRSNCcbI-c53HZ5k_da-gmFD-55K-3hm8fKKqgZEg>
+    <xme:A8uWY4W7aAcenEWlAOzgcoKxCjpb5KQZ1bcOl3B-cMVFSJXoZ_6OR8rbgXwpI190D
+    XZRyuh2yYdJkscZbg>
+X-ME-Received: <xmr:A8uWY9KtDWyvkSH5GC39cnLHU3xRIYp2XZYlwPBT1ka4CsPZPZKVBnsmJPh9WZX8ZJzDdoh7EX1dAWvGD6sR2fkCKbyAsG51xhDulHOqfgu3KKVy4jXTnFy2dg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdejgdeljecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkffggfgfvvehfhffujggtgfesthekredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepjeeftddtvdegvdevkedvvdejledvieeuffekvedtiefggfekudeh
+    vedukeeluddvnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgr
+    nhgurdhorhhg
+X-ME-Proxy: <xmx:A8uWY5Eaeeox-0bUJxq6HPFW4yaMaLCaPL90LK7aJYJyto3T7rZAFQ>
+    <xmx:A8uWYxVaXhuHY_ls-Lrv7Uiol6vlhga0--IM7RRYK3YT6wcMshK-tw>
+    <xmx:A8uWY0PVXS4lLlpmI1OP2VwXpFpvC0pYpnfSgz8XahdH4jSyRsd48Q>
+    <xmx:BcuWY3oAc_Dg7AzNFmVFUldWNKbHOBtRyKeTmTDRUztSly6dVeLJhw>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 12 Dec 2022 01:32:32 -0500 (EST)
+Message-ID: <48329048-880d-02d6-0384-abdfa4c61c46@sholland.org>
+Date: Mon, 12 Dec 2022 00:32:32 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Content-Language: en-US
+To: Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+ Quentin Schulz <foss+kernel@0leil.net>
+Cc: linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, Bastien Nocera <hadess@hadess.net>,
+ =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Angus Ainslie <angus@akkea.ca>, Ondrej Jirman <megous@megous.com>,
+ Icenowy Zheng <icenowy@aosc.io>, Andy Gross <agross@kernel.org>,
+ Aleksei Mamlin <mamlinav@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+ David Jander <david@protonic.nl>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Peter Geis <pgwipeout@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
+ Shawn Guo <shawnguo@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Lukasz Majewski <lukma@denx.de>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Chen-Yu Tsai <wens@csie.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Rob Herring <robh+dt@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20221103-upstream-goodix-reset-v3-0-0975809eb183@theobroma-systems.com>
+ <20221103-upstream-goodix-reset-v3-6-0975809eb183@theobroma-systems.com>
+ <a0c767d5-eb55-3479-c4bc-1029809027f5@sholland.org>
+ <cdfb3f44-4400-1386-42cb-0fb7b30e45db@theobroma-systems.com>
+From: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v3 6/9] arm64: dts: allwinner: fix touchscreen reset GPIO
+ polarity
+In-Reply-To: <cdfb3f44-4400-1386-42cb-0fb7b30e45db@theobroma-systems.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, 11 Dec 2022 17:32:05 +0100
-Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
+Hi Quentin,
 
-Hi Jernej,
-
-many thanks for putting this together!
-I will have a more elaborate look at each patch later.
-
-> Current H616 DRAM driver is completely customized to Orange Pi Zero2
-> board, which is currently the only H616 board supported by U-Boot.
-
-Not anymore, I merged the X96 Mate support lately, after the DT got
-merged into the Linux tree.
-
-Those are the values for the box I came up with:
-CONFIG_DRAM_SUN50I_H616_DX_ODT=0x03030303
-CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
-CONFIG_DRAM_SUN50I_H616_CA_DRI=0x1c12
-CONFIG_DRAM_SUN50I_H616_TPR0=0xc0000c05
-CONFIG_DRAM_SUN50I_H616_TPR10=0x2f0007
-CONFIG_DRAM_SUN50I_H616_TPR11=0xffffdddd
-CONFIG_DRAM_SUN50I_H616_TPR12=0xfedf7557
-
-based on this boot0 found in some firmware update image:
-00045400  be 02 00 ea 65 47 4f 4e  2e 42 54 30 cc ba f3 80  |....eGON.BT0....|
-00045410  00 c0 00 00 30 00 00 00  00 00 00 00 00 00 02 00  |....0...........|
-00045420  00 00 02 00 00 00 00 00  00 00 00 00 34 2e 30 00  |............4.0.|
-00045430  00 00 00 00 03 00 00 00  88 02 00 00 03 00 00 00  |................|
-00045440  03 03 03 03 0e 0e 0e 0e  12 1c 00 00 01 00 00 00  |................|
-00045450  fb 30 00 00 00 00 00 00  40 08 00 00 04 00 00 00  |.0......@.......|
-00045460  08 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
-00045470  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
-00045480  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
-00045490  05 0c 00 c0 00 00 00 00  00 00 00 00 00 00 00 00  |................|
-000454a0  80 80 80 33 07 00 2f 00  dd dd ff ff 57 75 df fe  |...3../.....Wu..|
-000454b0  40 00 00 00 00 00 00 00  00 00 00 00 08 00 02 01  |@...............|
-
-I would be grateful if you could verify this.
-
-I built it, and it reported the 4GB correctly, also managed to boot into
-Linux just fine. No extensive testing, nor didn't I compare register
-dumps or disassembly (yet).
-
-Cheers,
-Andre
-
-P.S. Any plans on upstreaming support for your T95 <whatever> H616 TV
-box? That would probably help the case here.
-
-
-> Needless to say, this is not ideal for adding new boards. With changes
-> in this series, all DDR3 boards are supported and all that is needed is
-> just vendor DRAM values extracted from Android image. New DRAM types
-> should also be easier to support, since a lot of constants used before
-> are not really DRAM type dependent.
+On 12/6/22 05:11, Quentin Schulz wrote:
+> On 12/6/22 01:26, Samuel Holland wrote:
+>> On 12/5/22 07:40, Quentin Schulz wrote:
+>>> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+>>>
+>>> The reset line is active low for the Goodix touchscreen controller so
+>>> let's fix the polarity in the Device Tree node.
+>>>
+>>> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+>>> ---
+>>>   arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts       |
+>>> 2 +-
+>>>   arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dts |
+>>> 2 +-
+>>>   arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi          |
+>>> 2 +-
+>>>   arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts             |
+>>> 2 +-
+>>>   4 files changed, 4 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git
+>>> a/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts
+>>> b/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts
+>>> index 8233582f62881..5fd581037d987 100644
+>>> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts
+>>> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts
+>>> @@ -122,7 +122,7 @@ touchscreen@5d {
+>>>           interrupt-parent = <&pio>;
+>>>           interrupts = <7 4 IRQ_TYPE_EDGE_FALLING>;
+>>>           irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>;    /* CTP-INT: PH4 */
+>>> -        reset-gpios = <&pio 7 8 GPIO_ACTIVE_HIGH>;    /* CTP-RST:
+>>> PH8 */
+>>> +        reset-gpios = <&pio 7 8 GPIO_ACTIVE_LOW>;    /* CTP-RST: PH8 */
+>>
+>> You are changing the DT binding here, in a way that breaks backward
+>> compatibility with existing devicetrees. NACK.
+>>
 > 
-> Changes were verified by decompiling driver and generated values were
-> compared to previous, hard coded ones. This was done without dram_para
-> structures, so compiler was able to heavily optimize code and produce
-> constants.
+> Yes.
 > 
-> Please take a look.
+> Some boards will get their DT binding broken, there's no way around it
+> sadly.
 > 
-> Best regards,
-> Jernej
+> We know already that the PRT8MM DT binding was written with a different
+> understanding than for other boards. There are some board schematics I
+> don't have access to so maybe the same applies to those.
 > 
-> Jernej Skrabec (8):
->   sunxi: Fix write to H616 DRAM CR register
->   sunxi: cosmetic: Fix H616 DRAM driver code style
->   sunxi: parameterize H616 DRAM ODT values
->   sunxi: Convert H616 DRAM options to single setting
->   sunxi: Always configure ODT on H616 DRAM
->   sunxi: Make bit delay function in H616 DRAM code void
->   sunxi: Parameterize bit delay code in H616 DRAM driver
->   sunxi: Parameterize H616 DRAM code some more
+> A reminder that even if you got your polarity wrong, it could still work
+> in some cases (timings right today but nothing guaranteed it'll stay
+> this way forever).
 > 
->  .../include/asm/arch-sunxi/dram_sun50i_h616.h |  18 +
->  arch/arm/mach-sunxi/Kconfig                   |  67 +--
->  arch/arm/mach-sunxi/dram_sun50i_h616.c        | 445 +++++++++++-------
->  configs/orangepi_zero2_defconfig              |   8 +-
->  4 files changed, 348 insertions(+), 190 deletions(-)
+> with the current driver, what I assume we should get for an "incorrect"
+> polarity (with GPIO_ACTIVE_LOW) is:
+>             ___________________
+> INT _______|                   |___________
 > 
+>     ____________           __________________
+> RST             |_________|
+> 
+>    ^
+>    L__ pull-up on RST so high by default
+>         ^
+>         L___ gpiod_direction_output(0) (deassert GPIO active-low, so high)
+>            ^
+>            L____ goodix_irq_direction_output
+>                 ^
+>                 L___ gpiod_direction_output(1) (assert GPIO active-low,
+> so low)
+>                           ^
+>                           L____ gpiod_direction_input() (floating,
+> pull-up on RST so high)
+> 
+> This works because of the pull-up on RST and that what matters is that
+> the INT lane is configured 100µs before a rising edge on RST line (for
+> at least 5ms). However, the init sequence is not properly followed and
+> might get broken in the future since it is not something that we
+> explicitly support.
+
+We as platform DT/binding maintainers explicitly support compatibility
+with existing devicetrees, whether those devicetrees are "correct" or
+not. If a new version of Linux does not work with an old DT, that is a
+regression in Linux.
+
+> With the proposed patch:
+>             ___________________
+> INT _______|                   |___________
+> 
+>     ____         __________________
+> RST     |_______|
+> 
+>    ^
+>    L__ pull-up on RST so high by default
+>         ^
+>         L___ gpiod_direction_output(1) (assert GPIO active-low, so low)
+>            ^
+>            L____ goodix_irq_direction_output
+>                 ^
+>                 L___ gpiod_direction_output(1) (deassert GPIO
+> active-low, so high)
+>                           ^
+>                           L____ gpiod_direction_input() (floating,
+> pull-up on RST so high)
+> 
+> This should work too and does not rely on some side effects/timings and
+> should be future-proof.
+
+Thanks for the explanation. So the reset sequence happens to work with
+either GPIO polarity because the pin is set to high impedance before and
+afterward. I tested this patch (no driver changes) on a PinePhone, and
+indeed Linux's touchscreen driver still loads and works fine.
+
+> The other option would be to only fix known "broken" boards (e.g.
+> PRT8MM, maybe others) and specify in the DT binding documentation that
+> the reset-gpios polarity is "inverted" (that is, the reset is asserted
+> when the reset-gpios as specified in the DT is deasserted). This makes
+> the DT binding documentation **implementation specific** which is
+> everything the DT binding is trying to avoid.
+
+Not really, the binding just encodes existing practice. New boards must
+invert the polarity relative to the datasheet because existing boards
+did the same thing previously. The board devicetrees drive the binding;
+Linux is only a consumer of it. So the binding is still not Linux-specific.
+
+In fact, here you rely on the "implementation specific" behavior of the
+Linux driver to claim that this a non-breaking change. If some other DT
+consumer has a driver which leaves the reset line as an output, this
+patch would be a breaking change for them. And it turns out that such a
+driver exists:
+
+https://github.com/zephyrproject-rtos/zephyr/commit/17089a2e14acb0428502
+https://github.com/zephyrproject-rtos/zephyr/pull/48927
+
+> Something needs to be done, and no solution will make everyone happy.
+
+I am happy as long as the change does not create any DT compatibility
+issues, either between OSes or between OS versions. You demonstrated
+that Linux was fine, and the BSDs don't have appear to have a driver for
+this hardware. So from an Allwinner platform perspective, I am fine with
+this patch.
+
+But you should ensure the Zephyr folks are okay with making the same
+change to their driver and devicetrees, since it is a breaking change
+for them.
+
+Regards,
+Samuel
 
