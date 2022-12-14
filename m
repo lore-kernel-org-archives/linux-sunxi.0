@@ -1,204 +1,98 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A1607C
-	for <linux-sunxi@lists.linux.dev>; Wed, 14 Dec 2022 00:24:51 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E62101692;
-	Tue, 13 Dec 2022 16:25:25 -0800 (PST)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 58B4F3F71E;
-	Tue, 13 Dec 2022 16:24:44 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Tom Rini <trini@konsulko.com>,
-	u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 4/4] sunxi: move arch timer setup out of board/ directory
-Date: Wed, 14 Dec 2022 00:22:44 +0000
-Message-Id: <20221214002244.31479-5-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.5
-In-Reply-To: <20221214002244.31479-1-andre.przywara@arm.com>
-References: <20221214002244.31479-1-andre.przywara@arm.com>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8744417CB
+	for <linux-sunxi@lists.linux.dev>; Wed, 14 Dec 2022 05:45:50 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 505D75C00C1;
+	Wed, 14 Dec 2022 00:45:49 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Wed, 14 Dec 2022 00:45:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1670996749; x=
+	1671083149; bh=boCyv5UbR6oafG63P4ow1JnVEwL0CAf1jlVXP6CazSY=; b=n
+	NBIOLZbPYXFXcqi2UglGbV6fgsf9285mOFofhGWdqTsCIfNXv7a+xBg8butvrazF
+	PKjAA7XLmeesg4wZCqws6nkyGmhl+WPVz3Isgnr2Od+acqqUmNSimOzISXucpnPL
+	Mrm1eqcW5uHU8rXKKHxnHkz4Kq6qSw4OGPBORfIF55hOpOoFTBc6YFbXAJMybk1t
+	L4DKJDs/gHora3/YVgs7GDkekx91oNebDzoeqAt67ScOj2F5+/pNFyiNipbLsLrU
+	W+I5ijOLW7ZCr6P8TkPUcvyIq6itL1+UMkrySKCvdZvS2fD52XFLrB+8JZn+33uo
+	IlVwh6lQRAjeoOvy7R2nw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1670996749; x=
+	1671083149; bh=boCyv5UbR6oafG63P4ow1JnVEwL0CAf1jlVXP6CazSY=; b=c
+	hwykIOychoXUrL3G0m/wHZ9x5pNabwzZD29HVzsvOdHxsXlGfp38GA2Ohb3dsj5x
+	/yAcvFBO3xqvazMiTkuSJ2j4N+YpgjbpHqFUBS82O58ZUQlho5eIbgNmweMaNEBm
+	digIsEx+nilf6obXYrNVS0LNl96Kol4sjrn+X0ALXh7Yut81uvCXNoobux7cpH3R
+	5o86Ryys7PpDgMwTV/f+cMrwLAoDYc2jRJhYwBv+WCMAUWdwYPG2tbqgq/wMQjAq
+	u6bKr7/LGeqAt19lx+cwYx1+bfmop4TVkNOSP55j4x6tQZx9O3GFgWOaODWff5Dl
+	akXWIae7BRFn315V/HGcQ==
+X-ME-Sender: <xms:DWOZY6WFFrxuqLhPtIHCMtLapcLLlrn-itrX_-s_DF7VZBeBv3rBHg>
+    <xme:DWOZY2lBu-NFNBJnbSVBDTJKVfAFuEybViSSXTiU4tEkqPnZ7LG8sLZttIbH6LhpT
+    0h1LjRgSY9haQPv4g>
+X-ME-Received: <xmr:DWOZY-aHq4XaZTlX3h1e9WCbY42sb2ob0QwjboxYw6Ff3asif4-tvWGfGRBFMF8asnNoQfpQ_oymbbqIhD0nCNZNZyGXX9kNa0CvV72dtpl8KwrGs6Q8SvQOTA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedvgdekhecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepkeejleelfeeitdfhtdfgkeeghedufeduueegffdvhfdukeelleef
+    tdetjeehuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:DWOZYxXtDAd4Y7YFQFHaXtz7vHxWpRIjDGcSXX2G_q1BlBYvr9ww7A>
+    <xmx:DWOZY0mUIZ--qW9Zg8L9j3GXn4wYjR7rr6YCOhYXsqWa1I1SgM_vrQ>
+    <xmx:DWOZY2dVuG7b_kwHMdnRZU8jyhMVJoFOmO_pR-4llHOmGiT-jTW42w>
+    <xmx:DWOZY-hgWfkCmdBt58Y_yPusFbyO32qHA0kzIR8WTfSgVKEkIi-zEA>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 14 Dec 2022 00:45:48 -0500 (EST)
+Message-ID: <2a9d41ca-361d-2cdd-96d3-8dd1793dda9a@sholland.org>
+Date: Tue, 13 Dec 2022 23:45:48 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH 1/4] sunxi: remove unused CONFIG_MMC_SUNXI_SLOT
+Content-Language: en-US
+To: Andre Przywara <andre.przywara@arm.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
+Cc: Tom Rini <trini@konsulko.com>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev
+References: <20221214002244.31479-1-andre.przywara@arm.com>
+ <20221214002244.31479-2-andre.przywara@arm.com>
+From: Samuel Holland <samuel@sholland.org>
+In-Reply-To: <20221214002244.31479-2-andre.przywara@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-At the moment we have an #ifdef-protected routine in
-board/sunxi/board.c, which sets up the arch timer CNTFRQ register, if
-that hasn't been done already.
-This only applies to ARMv7 SoCs running in secure state, and so is
-much better located in the arch/arm/mach-sunxi directory.
+On 12/13/22 18:22, Andre Przywara wrote:
+> There is a CONFIG_MMC_SUNXI_SLOT definition in our sunxi_common.h config
+> header, which was used to note the first MMC controller to initialise.
+> The definition in that header was always set to 0, with no easy way of
+> overriding this, and certainly none of the existing boards made any use
+> of that (non-)feature.
+> Remove that definition and replace it with a constant 0 in the only
+> user, in board.c. It turns out that this is safe, as this is only used
+> in the SPL, and the BROM also unconditionally initialises MMC0.
+> This also removes the last legacy config symbol with SUN*I in it from
+> the whitelist.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  board/sunxi/board.c            | 9 +++++++--
+>  include/configs/sunxi-common.h | 3 ---
+>  scripts/config_whitelist.txt   | 1 -
+>  3 files changed, 7 insertions(+), 6 deletions(-)
 
-Move that routine into a separate function and file in said directory,
-which also allows to trigger the compilation for ARMv7 in the Makefile.
-Also move the call to it into the arch/arm version of board.c.
-
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- arch/arm/mach-sunxi/Makefile     |  4 ++++
- arch/arm/mach-sunxi/arch_timer.c | 39 ++++++++++++++++++++++++++++++++
- arch/arm/mach-sunxi/board.c      | 14 ++++++++----
- board/sunxi/board.c              | 34 +---------------------------
- 4 files changed, 54 insertions(+), 37 deletions(-)
- create mode 100644 arch/arm/mach-sunxi/arch_timer.c
-
-diff --git a/arch/arm/mach-sunxi/Makefile b/arch/arm/mach-sunxi/Makefile
-index 58f807cb82d..335c44476e9 100644
---- a/arch/arm/mach-sunxi/Makefile
-+++ b/arch/arm/mach-sunxi/Makefile
-@@ -26,8 +26,12 @@ obj-$(CONFIG_MACH_SUN8I)	+= clock_sun6i.o
- endif
- obj-$(CONFIG_MACH_SUN9I)	+= clock_sun9i.o gtbus_sun9i.o
- obj-$(CONFIG_SUN50I_GEN_H6)	+= clock_sun50i_h6.o
-+
- ifndef CONFIG_ARM64
- obj-y	+= timer.o
-+ifndef CONFIG_MACH_SUNIV
-+obj-y	+= arch_timer.o
-+endif
- endif
- 
- ifdef CONFIG_SPL_BUILD
-diff --git a/arch/arm/mach-sunxi/arch_timer.c b/arch/arm/mach-sunxi/arch_timer.c
-new file mode 100644
-index 00000000000..c0e4310741f
---- /dev/null
-+++ b/arch/arm/mach-sunxi/arch_timer.c
-@@ -0,0 +1,39 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * ARM Generic Timer CNTFRQ setup
-+ *
-+ * (C) Copyright 2013 Oliver Schinagl <oliver@schinagl.nl>
-+ */
-+
-+#include <stdint.h>
-+#include <log.h>
-+#include <asm/armv7.h>
-+
-+void setup_arch_timer(void)
-+{
-+	uint32_t id_pfr1, freq;
-+
-+	asm volatile("mrc p15, 0, %0, c0, c1, 1" : "=r"(id_pfr1));
-+	debug("id_pfr1: 0x%08x\n", id_pfr1);
-+	/* Generic Timer Extension available? */
-+	if (((id_pfr1 >> CPUID_ARM_GENTIMER_SHIFT) & 0xf) == 0)
-+		return;
-+
-+	/*
-+	 * CNTFRQ is a secure register, so we will crash if we try to
-+	 * write this from the non-secure world (read is OK, though).
-+	 * In case some bootcode has already set the correct value,
-+	 * we avoid the risk of writing to it.
-+	 */
-+	asm volatile("mrc p15, 0, %0, c14, c0, 0" : "=r"(freq));
-+	if (freq == CONFIG_COUNTER_FREQUENCY)
-+		return;
-+
-+	debug("arch timer frequency is %d Hz, should be %d, fixing ...\n",
-+	      freq, CONFIG_COUNTER_FREQUENCY);
-+	if (IS_ENABLED(CONFIG_NON_SECURE))
-+		printf("arch timer frequency is wrong, but cannot adjust it\n");
-+	else
-+		asm volatile("mcr p15, 0, %0, c14, c0, 0"
-+			     : : "r"(CONFIG_COUNTER_FREQUENCY));
-+}
-diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
-index 0c4b6dd1ca3..943f89eaa78 100644
---- a/arch/arm/mach-sunxi/board.c
-+++ b/arch/arm/mach-sunxi/board.c
-@@ -347,10 +347,6 @@ u32 spl_boot_device(void)
- 	return sunxi_get_boot_device();
- }
- 
--__weak void sunxi_sram_init(void)
--{
--}
--
- /*
-  * When booting from an eMMC boot partition, the SPL puts the same boot
-  * source code into SRAM A1 as when loading the SPL from the normal
-@@ -434,10 +430,20 @@ u32 spl_mmc_boot_mode(struct mmc *mmc, const u32 boot_device)
- 	return result;
- }
- 
-+__weak void sunxi_sram_init(void)
-+{
-+}
-+
-+__weak void setup_arch_timer(void)
-+{
-+}
-+
- void board_init_f(ulong dummy)
- {
- 	sunxi_sram_init();
- 
-+	setup_arch_timer();
-+
- #if defined CONFIG_MACH_SUN6I || defined CONFIG_MACH_SUN8I_H3
- 	/* Enable non-secure access to some peripherals */
- 	tzpc_init();
-diff --git a/board/sunxi/board.c b/board/sunxi/board.c
-index 827e545032e..55501fafc38 100644
---- a/board/sunxi/board.c
-+++ b/board/sunxi/board.c
-@@ -34,9 +34,6 @@
- #include <asm/global_data.h>
- #include <linux/delay.h>
- #include <u-boot/crc.h>
--#ifndef CONFIG_ARM64
--#include <asm/armv7.h>
--#endif
- #include <asm/gpio.h>
- #include <asm/io.h>
- #include <u-boot/crc.h>
-@@ -187,39 +184,10 @@ enum env_location env_get_location(enum env_operation op, int prio)
- /* add board specific code here */
- int board_init(void)
- {
--	__maybe_unused int id_pfr1, ret, satapwr_pin, macpwr_pin;
-+	int ret, satapwr_pin, macpwr_pin;
- 
- 	gd->bd->bi_boot_params = (PHYS_SDRAM_0 + 0x100);
- 
--#if !defined(CONFIG_ARM64) && !defined(CONFIG_MACH_SUNIV)
--	asm volatile("mrc p15, 0, %0, c0, c1, 1" : "=r"(id_pfr1));
--	debug("id_pfr1: 0x%08x\n", id_pfr1);
--	/* Generic Timer Extension available? */
--	if ((id_pfr1 >> CPUID_ARM_GENTIMER_SHIFT) & 0xf) {
--		uint32_t freq;
--
--		debug("Setting CNTFRQ\n");
--
--		/*
--		 * CNTFRQ is a secure register, so we will crash if we try to
--		 * write this from the non-secure world (read is OK, though).
--		 * In case some bootcode has already set the correct value,
--		 * we avoid the risk of writing to it.
--		 */
--		asm volatile("mrc p15, 0, %0, c14, c0, 0" : "=r"(freq));
--		if (freq != CONFIG_COUNTER_FREQUENCY) {
--			debug("arch timer frequency is %d Hz, should be %d, fixing ...\n",
--			      freq, CONFIG_COUNTER_FREQUENCY);
--#ifdef CONFIG_NON_SECURE
--			printf("arch timer frequency is wrong, but cannot adjust it\n");
--#else
--			asm volatile("mcr p15, 0, %0, c14, c0, 0"
--				     : : "r"(CONFIG_COUNTER_FREQUENCY));
--#endif
--		}
--	}
--#endif /* !CONFIG_ARM64 && !CONFIG_MACH_SUNIV */
--
- 	ret = axp_gpio_init();
- 	if (ret)
- 		return ret;
--- 
-2.35.5
+Reviewed-by: Samuel Holland <samuel@sholland.org>
+Tested-by: Samuel Holland <samuel@sholland.org>
 
