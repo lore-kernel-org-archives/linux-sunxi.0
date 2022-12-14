@@ -1,278 +1,432 @@
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3A317CB
-	for <linux-sunxi@lists.linux.dev>; Wed, 14 Dec 2022 06:14:52 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id 14EDC320090F;
-	Wed, 14 Dec 2022 01:14:51 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 14 Dec 2022 01:14:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1670998490; x=
-	1671084890; bh=vxHRTwQMb+lmRvH80wCWIda9Hhkc4DHo5s+GS8naeCo=; b=y
-	j/ll/MDwUAa49sr/4ASujFR0ZvJbADaq5cvg+42ZbVycNyGoULRxBBlOK9DTMZkw
-	emaZ5N0MHHHMni33QmWnROmCQjl3Swk+WhPO06PExcellbedlE2NKgaZRrBhJT6t
-	W3LcIvAWm1srEUDk7vJWCRjqpXHzkfMbLuz9Uxbm2PJH0L9FSKlxibh2cN6PN6a0
-	UJyHVntM5BgUe7UIrF+Bj34t2sXYKXhloukS/LPNC/VAJuelHz4FPJX2CT/Sc+6v
-	sorYTzeUQ0irLC/lLupgvVkeqdUP9t+llAqwyekOeR1g3F9eWnq7Piw+k6LsCTIQ
-	rSfGHaAzju9a+Dnz6BxrA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1670998490; x=
-	1671084890; bh=vxHRTwQMb+lmRvH80wCWIda9Hhkc4DHo5s+GS8naeCo=; b=F
-	Uz01JpZd4mmWB2IJYSk9U6gO16b7CRsz4QRihzdKua8tVz1psz0RUwDxaiCFS0vf
-	7TL9uxTsJKOec70SBn2QtxlzJTrp7ydvf0iU2yvTxiwkZbaZmYVQBElsmdbIodIJ
-	VrloDzqt6higvcpIam6jGSwytyiMpBegDzKbaORJ/8onpxCs/5hb2G6DMmeNNBAe
-	T73DlE2M18SbW+SlRfnXbla5do1Zj0krtYZqyHnrw8kcPJ2QnBdpOnCEBBgqoGGW
-	y53bJ498UTABpQSnzgmDvKbC2PxQwh+Vx+n9bJB0eyWaTt25KZkdITEFBXfOUX29
-	YnZRVEr6Kseo3aHlP+j4g==
-X-ME-Sender: <xms:2mmZY-beKMtQeDuZE_Txv-J7fDSlBdIZsJKId8Fe9kBNYjeMEzLkHg>
-    <xme:2mmZYxaop3A-WfKKrjPS8xN-I7vUNffi0ZSpVCto07NOurasMETYxC9ue2BHLaqJq
-    eDopNQd9l7skT0fdg>
-X-ME-Received: <xmr:2mmZY4-tDpic2Sj5wG4WSd3IzH97p7vfIeU7RjM-JP04_wGBpjzD3XVD3Vy8VKp4kcnCsfSttkegDbCMRdadWPze1rF8YlcFbi5nAULj-0xySmdHQuR0dTvErg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedvgdeltdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfvvehfhffujggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepjefgfffhudejfedtuedugeeutdetgfeiteffffehjeeugfeuvdeh
-    jeetfedtffdtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:2mmZYwrM5TTpGou0fQZVK_Zw-TNiBwAwKvGwY6UvvtlLI3l9mO1YMw>
-    <xmx:2mmZY5qgpPx5kPQwQ64594RR9BcltL8XjDdylDvAnPlWFO8UocdtCA>
-    <xmx:2mmZY-RZQZXDVDUv2mbEderxNMxb7qxAYcf5fQ_CSvommoAR9k70ng>
-    <xmx:2mmZYwWY3VPUgIpnQTwSmR0kCagOSUqDJeiPx6awCJJoDqKTUB6YPg>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 14 Dec 2022 01:14:50 -0500 (EST)
-Message-ID: <a479d1eb-5652-b8b1-f449-fff4fb1a2448@sholland.org>
-Date: Wed, 14 Dec 2022 00:14:49 -0600
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FBB68470
+	for <linux-sunxi@lists.linux.dev>; Wed, 14 Dec 2022 14:25:21 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7C182FEC;
+	Wed, 14 Dec 2022 06:26:01 -0800 (PST)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 027BF3F73B;
+	Wed, 14 Dec 2022 06:25:19 -0800 (PST)
+Date: Wed, 14 Dec 2022 14:25:17 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de, Icenowy
+ Zheng <uwu@icenowy.me>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>
+Subject: Re: [RFC PATCH 01/17] sunxi: remove CONFIG_SATAPWR
+Message-ID: <20221214142517.66b69b02@donnerap.cambridge.arm.com>
+In-Reply-To: <bb2ef69f-23e1-9936-e824-6b86924b9c8a@sholland.org>
+References: <20221206004549.29015-1-andre.przywara@arm.com>
+	<20221206004549.29015-2-andre.przywara@arm.com>
+	<bb2ef69f-23e1-9936-e824-6b86924b9c8a@sholland.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>,
- Jagan Teki <jagan@amarulasolutions.com>
-Cc: Tom Rini <trini@konsulko.com>, u-boot@lists.denx.de,
- linux-sunxi@lists.linux.dev
-References: <20221214002244.31479-1-andre.przywara@arm.com>
- <20221214002244.31479-5-andre.przywara@arm.com>
-From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 4/4] sunxi: move arch timer setup out of board/ directory
-In-Reply-To: <20221214002244.31479-5-andre.przywara@arm.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi Andre,
+On Wed, 14 Dec 2022 02:37:12 -0600
+Samuel Holland <samuel@sholland.org> wrote:
 
-On 12/13/22 18:22, Andre Przywara wrote:
-> At the moment we have an #ifdef-protected routine in
-> board/sunxi/board.c, which sets up the arch timer CNTFRQ register, if
-> that hasn't been done already.
-> This only applies to ARMv7 SoCs running in secure state, and so is
-> much better located in the arch/arm/mach-sunxi directory.
+Hi Samuel,
+
+many thanks for having a look!
+
+> On 12/5/22 18:45, Andre Przywara wrote:
+> > The CONFIG_SATAPWR Kconfig symbol was used to point to a GPIO that
+> > enables the power for a SATA harddisk.
+> > In the DT this is described with the target-supply property in the AHCI
+> > DT node, pointing to a (GPIO controlled) regulator. Since we need SATA
+> > only in U-Boot proper, and use a DM driver for AHCI there, we should use
+> > the DT instead of hardcoding this.
+> > 
+> > Add code to the sunxi AHCI driver to check the DT for that regulator and
+> > enable it, at probe time. Then drop the current code from board.c, which
+> > was doing that job before.
+> > This allows us to remove the SATAPWR Kconfig definition and the
+> > respective values from the defconfigs.
+> > We also select the generic fixed regulator driver, which handles those
+> > GPIO controlled regulators.
+> > 
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >  arch/arm/Kconfig                             |  2 ++
+> >  arch/arm/mach-sunxi/Kconfig                  |  8 --------
+> >  board/sunxi/board.c                          | 14 --------------
+> >  configs/A10-OLinuXino-Lime_defconfig         |  1 -
+> >  configs/A20-OLinuXino-Lime2-eMMC_defconfig   |  1 -
+> >  configs/A20-OLinuXino-Lime2_defconfig        |  1 -
+> >  configs/A20-OLinuXino-Lime_defconfig         |  1 -
+> >  configs/A20-OLinuXino_MICRO-eMMC_defconfig   |  1 -
+> >  configs/A20-OLinuXino_MICRO_defconfig        |  1 -
+> >  configs/A20-Olimex-SOM-EVB_defconfig         |  1 -
+> >  configs/A20-Olimex-SOM204-EVB-eMMC_defconfig |  1 -
+> >  configs/A20-Olimex-SOM204-EVB_defconfig      |  1 -
+> >  configs/Cubieboard2_defconfig                |  1 -
+> >  configs/Cubieboard_defconfig                 |  1 -
+> >  configs/Cubietruck_defconfig                 |  1 -
+> >  configs/Itead_Ibox_A20_defconfig             |  1 -
+> >  configs/Lamobo_R1_defconfig                  |  1 -
+> >  configs/Linksprite_pcDuino3_Nano_defconfig   |  1 -
+> >  configs/Linksprite_pcDuino3_defconfig        |  1 -
+> >  configs/Sinovoip_BPI_M3_defconfig            |  1 -
+> >  configs/orangepi_plus_defconfig              |  1 -
+> >  drivers/ata/ahci_sunxi.c                     |  9 +++++++++
+> >  22 files changed, 11 insertions(+), 40 deletions(-)
+> > 
+> > diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+> > index f95ed71b246..3623520b353 100644
+> > --- a/arch/arm/Kconfig
+> > +++ b/arch/arm/Kconfig
+> > @@ -1148,6 +1148,8 @@ config ARCH_SUNXI
+> >  	select DM_SPI_FLASH if SPI
+> >  	select DM_KEYBOARD
+> >  	select DM_MMC if MMC
+> > +	select DM_REGULATOR
+> > +	select DM_REGULATOR_FIXED  
 > 
-> Move that routine into a separate function and file in said directory,
-> which also allows to trigger the compilation for ARMv7 in the Makefile.
-> Also move the call to it into the arch/arm version of board.c.
+> While not all boards have fixed regulators, so many do that I am happy
+> to have this driver enabled by default. However, I recommend "imply"
+> over "select" so the regulator uclass can be disabled if
+> USB/SATA/Ethernet/whatever are not being used. You also need to
+> select/imply POWER, as it is a dependency.
+
+Yes, that's indeed better.
+
+> >  	select DM_SCSI if SCSI
+> >  	select DM_SERIAL
+> >  	select GPIO_EXTRA_HEADER
+> > diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+> > index dbe6005daab..5f95fe72d08 100644
+> > --- a/arch/arm/mach-sunxi/Kconfig
+> > +++ b/arch/arm/mach-sunxi/Kconfig
+> > @@ -985,14 +985,6 @@ config VIDEO_LCD_TL059WV5C0
+> >  
+> >  endchoice
+> >  
+> > -config SATAPWR
+> > -	string "SATA power pin"
+> > -	default ""
+> > -	help
+> > -	  Set the pins used to power the SATA. This takes a string in the
+> > -	  format understood by sunxi_name_to_gpio, e.g. PH1 for pin 1 of
+> > -	  port H.
+> > -
+> >  config GMAC_TX_DELAY
+> >  	int "GMAC Transmit Clock Delay Chain"
+> >  	default 0
+> > diff --git a/board/sunxi/board.c b/board/sunxi/board.c
+> > index 21a2407e062..ec35a7f06bd 100644
+> > --- a/board/sunxi/board.c
+> > +++ b/board/sunxi/board.c
+> > @@ -229,20 +229,6 @@ int board_init(void)
+> >  		return ret;
+> >  
+> >  	/* strcmp() would look better, but doesn't get optimised away. */
+> > -	if (CONFIG_SATAPWR[0]) {
+> > -		satapwr_pin = sunxi_name_to_gpio(CONFIG_SATAPWR);
+> > -		if (satapwr_pin >= 0) {
+> > -			gpio_request(satapwr_pin, "satapwr");
+> > -			gpio_direction_output(satapwr_pin, 1);
+> > -
+> > -			/*
+> > -			 * Give the attached SATA device time to power-up
+> > -			 * to avoid link timeouts
+> > -			 */
+> > -			mdelay(500);
+> > -		}
+> > -	}
+> > -
+> >  	if (CONFIG_MACPWR[0]) {
+> >  		macpwr_pin = sunxi_name_to_gpio(CONFIG_MACPWR);
+> >  		if (macpwr_pin >= 0) {
+> > diff --git a/configs/A10-OLinuXino-Lime_defconfig b/configs/A10-OLinuXino-Lime_defconfig
+> > index ee92ac45fbc..f5d98607003 100644
+> > --- a/configs/A10-OLinuXino-Lime_defconfig
+> > +++ b/configs/A10-OLinuXino-Lime_defconfig
+> > @@ -8,7 +8,6 @@ CONFIG_DRAM_EMR1=4
+> >  CONFIG_SYS_CLK_FREQ=912000000
+> >  CONFIG_MMC0_CD_PIN="PH1"
+> >  CONFIG_I2C1_ENABLE=y
+> > -CONFIG_SATAPWR="PC3"
+> >  CONFIG_AHCI=y
+> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> >  CONFIG_SYS_MONITOR_LEN=786432
+> > diff --git a/configs/A20-OLinuXino-Lime2-eMMC_defconfig b/configs/A20-OLinuXino-Lime2-eMMC_defconfig
+> > index 8ce10d6f75b..a8e949a3971 100644
+> > --- a/configs/A20-OLinuXino-Lime2-eMMC_defconfig
+> > +++ b/configs/A20-OLinuXino-Lime2-eMMC_defconfig
+> > @@ -9,7 +9,6 @@ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+> >  CONFIG_USB0_VBUS_PIN="PC17"
+> >  CONFIG_USB0_VBUS_DET="PH5"
+> >  CONFIG_I2C1_ENABLE=y
+> > -CONFIG_SATAPWR="PC3"
+> >  CONFIG_SPL_SPI_SUNXI=y
+> >  CONFIG_AHCI=y
+> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> > diff --git a/configs/A20-OLinuXino-Lime2_defconfig b/configs/A20-OLinuXino-Lime2_defconfig
+> > index e38110b030b..c143cc17314 100644
+> > --- a/configs/A20-OLinuXino-Lime2_defconfig
+> > +++ b/configs/A20-OLinuXino-Lime2_defconfig
+> > @@ -8,7 +8,6 @@ CONFIG_MMC0_CD_PIN="PH1"
+> >  CONFIG_USB0_VBUS_PIN="PC17"
+> >  CONFIG_USB0_VBUS_DET="PH5"
+> >  CONFIG_I2C1_ENABLE=y
+> > -CONFIG_SATAPWR="PC3"
+> >  CONFIG_AHCI=y
+> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> >  CONFIG_SYS_MONITOR_LEN=786432
+> > diff --git a/configs/A20-OLinuXino-Lime_defconfig b/configs/A20-OLinuXino-Lime_defconfig
+> > index 4e4804748ef..b6546c26d04 100644
+> > --- a/configs/A20-OLinuXino-Lime_defconfig
+> > +++ b/configs/A20-OLinuXino-Lime_defconfig
+> > @@ -6,7 +6,6 @@ CONFIG_MACH_SUN7I=y
+> >  CONFIG_DRAM_CLK=384
+> >  CONFIG_MMC0_CD_PIN="PH1"
+> >  CONFIG_I2C1_ENABLE=y
+> > -CONFIG_SATAPWR="PC3"
+> >  CONFIG_AHCI=y
+> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> >  CONFIG_SYS_MONITOR_LEN=786432
+> > diff --git a/configs/A20-OLinuXino_MICRO-eMMC_defconfig b/configs/A20-OLinuXino_MICRO-eMMC_defconfig
+> > index 113d54dc0b9..95860ef8fa1 100644
+> > --- a/configs/A20-OLinuXino_MICRO-eMMC_defconfig
+> > +++ b/configs/A20-OLinuXino_MICRO-eMMC_defconfig
+> > @@ -8,7 +8,6 @@ CONFIG_MMC0_CD_PIN="PH1"
+> >  CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+> >  CONFIG_I2C1_ENABLE=y
+> >  CONFIG_VIDEO_VGA=y
+> > -CONFIG_SATAPWR="PB8"
+> >  CONFIG_AHCI=y
+> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> >  CONFIG_SYS_MONITOR_LEN=786432
+> > diff --git a/configs/A20-OLinuXino_MICRO_defconfig b/configs/A20-OLinuXino_MICRO_defconfig
+> > index 1e1c30ef303..32ca51554b1 100644
+> > --- a/configs/A20-OLinuXino_MICRO_defconfig
+> > +++ b/configs/A20-OLinuXino_MICRO_defconfig
+> > @@ -9,7 +9,6 @@ CONFIG_MMC3_CD_PIN="PH11"
+> >  CONFIG_MMC_SUNXI_SLOT_EXTRA=3
+> >  CONFIG_I2C1_ENABLE=y
+> >  CONFIG_VIDEO_VGA=y
+> > -CONFIG_SATAPWR="PB8"
+> >  CONFIG_AHCI=y
+> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> >  CONFIG_SYS_MONITOR_LEN=786432
+> > diff --git a/configs/A20-Olimex-SOM-EVB_defconfig b/configs/A20-Olimex-SOM-EVB_defconfig
+> > index e76e6dd0932..1364c42d865 100644
+> > --- a/configs/A20-Olimex-SOM-EVB_defconfig
+> > +++ b/configs/A20-Olimex-SOM-EVB_defconfig
+> > @@ -9,7 +9,6 @@ CONFIG_MMC3_CD_PIN="PH0"
+> >  CONFIG_MMC_SUNXI_SLOT_EXTRA=3
+> >  CONFIG_USB0_VBUS_PIN="PB9"
+> >  CONFIG_USB0_VBUS_DET="PH5"
+> > -CONFIG_SATAPWR="PC3"
+> >  CONFIG_AHCI=y
+> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> >  CONFIG_SYS_MONITOR_LEN=786432
+> > diff --git a/configs/A20-Olimex-SOM204-EVB-eMMC_defconfig b/configs/A20-Olimex-SOM204-EVB-eMMC_defconfig
+> > index 1d3cf311952..77abe5c27ea 100644
+> > --- a/configs/A20-Olimex-SOM204-EVB-eMMC_defconfig
+> > +++ b/configs/A20-Olimex-SOM204-EVB-eMMC_defconfig
+> > @@ -9,7 +9,6 @@ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+> >  CONFIG_USB0_VBUS_PIN="PC17"
+> >  CONFIG_USB0_VBUS_DET="PH5"
+> >  CONFIG_I2C1_ENABLE=y
+> > -CONFIG_SATAPWR="PC3"
+> >  CONFIG_GMAC_TX_DELAY=4
+> >  CONFIG_AHCI=y
+> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> > diff --git a/configs/A20-Olimex-SOM204-EVB_defconfig b/configs/A20-Olimex-SOM204-EVB_defconfig
+> > index 97d0b9cee75..19065fb18d0 100644
+> > --- a/configs/A20-Olimex-SOM204-EVB_defconfig
+> > +++ b/configs/A20-Olimex-SOM204-EVB_defconfig
+> > @@ -8,7 +8,6 @@ CONFIG_MMC0_CD_PIN="PH1"
+> >  CONFIG_USB0_VBUS_PIN="PC17"
+> >  CONFIG_USB0_VBUS_DET="PH5"
+> >  CONFIG_I2C1_ENABLE=y
+> > -CONFIG_SATAPWR="PC3"
+> >  CONFIG_GMAC_TX_DELAY=4
+> >  CONFIG_AHCI=y
+> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> > diff --git a/configs/Cubieboard2_defconfig b/configs/Cubieboard2_defconfig
+> > index 2c1b3d27aa0..40608498f38 100644
+> > --- a/configs/Cubieboard2_defconfig
+> > +++ b/configs/Cubieboard2_defconfig
+> > @@ -5,7 +5,6 @@ CONFIG_SPL=y
+> >  CONFIG_MACH_SUN7I=y
+> >  CONFIG_DRAM_CLK=480
+> >  CONFIG_MMC0_CD_PIN="PH1"
+> > -CONFIG_SATAPWR="PB8"
+> >  CONFIG_AHCI=y
+> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> >  CONFIG_SYS_MONITOR_LEN=786432
+> > diff --git a/configs/Cubieboard_defconfig b/configs/Cubieboard_defconfig
+> > index 008167509d3..9de9ee07568 100644
+> > --- a/configs/Cubieboard_defconfig
+> > +++ b/configs/Cubieboard_defconfig
+> > @@ -5,7 +5,6 @@ CONFIG_SPL=y
+> >  CONFIG_MACH_SUN4I=y
+> >  CONFIG_DRAM_CLK=480
+> >  CONFIG_MMC0_CD_PIN="PH1"
+> > -CONFIG_SATAPWR="PB8"
+> >  CONFIG_AHCI=y
+> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> >  CONFIG_SYS_MONITOR_LEN=786432
+> > diff --git a/configs/Cubietruck_defconfig b/configs/Cubietruck_defconfig
+> > index a4246343706..86588cdd5e2 100644
+> > --- a/configs/Cubietruck_defconfig
+> > +++ b/configs/Cubietruck_defconfig
+> > @@ -9,7 +9,6 @@ CONFIG_USB0_VBUS_PIN="PH17"
+> >  CONFIG_USB0_VBUS_DET="PH22"
+> >  CONFIG_USB0_ID_DET="PH19"
+> >  CONFIG_VIDEO_VGA=y
+> > -CONFIG_SATAPWR="PH12"
+> >  CONFIG_GMAC_TX_DELAY=1
+> >  CONFIG_AHCI=y
+> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> > diff --git a/configs/Itead_Ibox_A20_defconfig b/configs/Itead_Ibox_A20_defconfig
+> > index 6474c9e90a7..b52ce776251 100644
+> > --- a/configs/Itead_Ibox_A20_defconfig
+> > +++ b/configs/Itead_Ibox_A20_defconfig
+> > @@ -5,7 +5,6 @@ CONFIG_SPL=y
+> >  CONFIG_MACH_SUN7I=y
+> >  CONFIG_DRAM_CLK=480
+> >  CONFIG_MMC0_CD_PIN="PH1"
+> > -CONFIG_SATAPWR="PB8"
+> >  CONFIG_AHCI=y
+> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> >  CONFIG_SYS_MONITOR_LEN=786432
+> > diff --git a/configs/Lamobo_R1_defconfig b/configs/Lamobo_R1_defconfig
+> > index c943fd3c06e..d51601ff10f 100644
+> > --- a/configs/Lamobo_R1_defconfig
+> > +++ b/configs/Lamobo_R1_defconfig
+> > @@ -6,7 +6,6 @@ CONFIG_MACH_SUN7I=y
+> >  CONFIG_DRAM_CLK=432
+> >  CONFIG_MACPWR="PH23"
+> >  CONFIG_MMC0_CD_PIN="PH10"
+> > -CONFIG_SATAPWR="PB3"
+> >  CONFIG_GMAC_TX_DELAY=4
+> >  CONFIG_AHCI=y
+> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> > diff --git a/configs/Linksprite_pcDuino3_Nano_defconfig b/configs/Linksprite_pcDuino3_Nano_defconfig
+> > index 469dcc11f12..773f4a9e318 100644
+> > --- a/configs/Linksprite_pcDuino3_Nano_defconfig
+> > +++ b/configs/Linksprite_pcDuino3_Nano_defconfig
+> > @@ -6,7 +6,6 @@ CONFIG_MACH_SUN7I=y
+> >  CONFIG_DRAM_CLK=408
+> >  CONFIG_DRAM_ZQ=122
+> >  CONFIG_USB1_VBUS_PIN="PH11"
+> > -CONFIG_SATAPWR="PH2"
+> >  CONFIG_GMAC_TX_DELAY=3
+> >  CONFIG_AHCI=y
+> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> > diff --git a/configs/Linksprite_pcDuino3_defconfig b/configs/Linksprite_pcDuino3_defconfig
+> > index c4a3f2db963..5b454b23864 100644
+> > --- a/configs/Linksprite_pcDuino3_defconfig
+> > +++ b/configs/Linksprite_pcDuino3_defconfig
+> > @@ -5,7 +5,6 @@ CONFIG_SPL=y
+> >  CONFIG_MACH_SUN7I=y
+> >  CONFIG_DRAM_CLK=480
+> >  CONFIG_DRAM_ZQ=122
+> > -CONFIG_SATAPWR="PH2"
+> >  CONFIG_AHCI=y
+> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> >  CONFIG_SYS_MONITOR_LEN=786432
+> > diff --git a/configs/Sinovoip_BPI_M3_defconfig b/configs/Sinovoip_BPI_M3_defconfig
+> > index ab70eff68eb..bcc8b1fba98 100644
+> > --- a/configs/Sinovoip_BPI_M3_defconfig
+> > +++ b/configs/Sinovoip_BPI_M3_defconfig
+> > @@ -13,7 +13,6 @@ CONFIG_USB0_VBUS_DET="AXP0-VBUS-DETECT"
+> >  CONFIG_USB0_ID_DET="PH11"
+> >  CONFIG_USB1_VBUS_PIN="PD24"
+> >  CONFIG_AXP_GPIO=y
+> > -CONFIG_SATAPWR="PD25"
+> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> >  CONFIG_SYS_MONITOR_LEN=786432
+> >  CONFIG_CONSOLE_MUX=y
+> > diff --git a/configs/orangepi_plus_defconfig b/configs/orangepi_plus_defconfig
+> > index 5c7f0731d90..f4ce4851d7c 100644
+> > --- a/configs/orangepi_plus_defconfig
+> > +++ b/configs/orangepi_plus_defconfig
+> > @@ -7,7 +7,6 @@ CONFIG_DRAM_CLK=672
+> >  CONFIG_MACPWR="PD6"
+> >  CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+> >  CONFIG_USB1_VBUS_PIN="PG13"
+> > -CONFIG_SATAPWR="PG11"  
 > 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  arch/arm/mach-sunxi/Makefile     |  4 ++++
->  arch/arm/mach-sunxi/arch_timer.c | 39 ++++++++++++++++++++++++++++++++
->  arch/arm/mach-sunxi/board.c      | 14 ++++++++----
->  board/sunxi/board.c              | 34 +---------------------------
->  4 files changed, 54 insertions(+), 37 deletions(-)
->  create mode 100644 arch/arm/mach-sunxi/arch_timer.c
+> BananaPi M3 and OrangePi Plus have USB-SATA adapters, not onboard AHCI,
+> so they would lose the ability to use SATA with this change.
+
+Many thanks for having a thorough look, I much appreciate that.
+Of course you are right. I actually found this myself, and thought I
+mentioned it somewhere, but apparently this got lost in between cover
+letter versions and commit messages on different branches. Apologies for
+that.
+So yeah, my research figured that this isn't described properly in the DT,
+so SATA disks just work in Linux because U-Boot flipped the bit here.
+I heard about USB child DT nodes, which IIUC are possible to describe
+errata and such, but I don't think it's a good solution here. Would
+probably need driver changes, so wouldn't be backwards compatible.
+
+> OrangePi Plus has the SATA controller regulator as usb3_vbus-supply in
+> its devicetree. So we could replace this with CONFIG_USB3_VBUS_PIN for
+> now, and it will continue to work once we switch the PHY driver to use
+> the regulator uclass.
 > 
-> diff --git a/arch/arm/mach-sunxi/Makefile b/arch/arm/mach-sunxi/Makefile
-> index 58f807cb82d..335c44476e9 100644
-> --- a/arch/arm/mach-sunxi/Makefile
-> +++ b/arch/arm/mach-sunxi/Makefile
-> @@ -26,8 +26,12 @@ obj-$(CONFIG_MACH_SUN8I)	+= clock_sun6i.o
->  endif
->  obj-$(CONFIG_MACH_SUN9I)	+= clock_sun9i.o gtbus_sun9i.o
->  obj-$(CONFIG_SUN50I_GEN_H6)	+= clock_sun50i_h6.o
-> +
->  ifndef CONFIG_ARM64
->  obj-y	+= timer.o
-> +ifndef CONFIG_MACH_SUNIV
+> But the BananaPi M3 has its USB-SATA downstream from an external hub.
+> CONFIG_USB1_VBUS_PIN is used for the regulator powering the hub, so I do
+> not see an obvious solution here.
 
-Probably Allwinner will not release any new ARMv5 SoC, but would it be
-more future-proof (and a bit more meaningful) to condition this on
-CONFIG_CPU_V7A?
+Yeah, I didn't find a neat automatic solution for that either.
+Can we add a regulator-fixed, and make this regulator-boot-on? Without
+actually referencing this regulator anywhere? I need to check this
+actually works in U-Boot, but what do you say with your Linux/DT maintainer
+hat on?
 
-Alternatively, would it make sense to put this code inside
-arch/arm/cpu/armv7/arch_timer.c? I don't know why we wouldn't want to
-enable CONFIG_SYS_ARCH_TIMER on sunxi SoCs where it is available. And
-making this generic could eventually remove the need for the version in
-arch/arm/cpu/armv7/nonsec_virt.S. But this patch is still an improvement
-as-is.
+Cheers,
+Andre
 
-Tested-by: Samuel Holland <samuel@sholland.org>
-
-> +obj-y	+= arch_timer.o
-> +endif
->  endif
->  
->  ifdef CONFIG_SPL_BUILD
-> diff --git a/arch/arm/mach-sunxi/arch_timer.c b/arch/arm/mach-sunxi/arch_timer.c
-> new file mode 100644
-> index 00000000000..c0e4310741f
-> --- /dev/null
-> +++ b/arch/arm/mach-sunxi/arch_timer.c
-> @@ -0,0 +1,39 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * ARM Generic Timer CNTFRQ setup
-> + *
-> + * (C) Copyright 2013 Oliver Schinagl <oliver@schinagl.nl>
-
-`git blame` points to cba69eeeaa67d3fb93ec6f3abab1f653abf895a9 and
-d96ebc468d0dff6eb6f069bba03b3f0e33aa22de as the source for this code, so
-this authorship is incorrect.
-
-> + */
-> +
-> +#include <stdint.h>
-
-This does not do what you expect, or really anything at all. The comment
-there suggests using linux/types.h.
-
-Regards,
-Samuel
-
-> +#include <log.h>
-> +#include <asm/armv7.h>
-> +
-> +void setup_arch_timer(void)
-> +{
-> +	uint32_t id_pfr1, freq;
-> +
-> +	asm volatile("mrc p15, 0, %0, c0, c1, 1" : "=r"(id_pfr1));
-> +	debug("id_pfr1: 0x%08x\n", id_pfr1);
-> +	/* Generic Timer Extension available? */
-> +	if (((id_pfr1 >> CPUID_ARM_GENTIMER_SHIFT) & 0xf) == 0)
-> +		return;
-> +
-> +	/*
-> +	 * CNTFRQ is a secure register, so we will crash if we try to
-> +	 * write this from the non-secure world (read is OK, though).
-> +	 * In case some bootcode has already set the correct value,
-> +	 * we avoid the risk of writing to it.
-> +	 */
-> +	asm volatile("mrc p15, 0, %0, c14, c0, 0" : "=r"(freq));
-> +	if (freq == CONFIG_COUNTER_FREQUENCY)
-> +		return;
-> +
-> +	debug("arch timer frequency is %d Hz, should be %d, fixing ...\n",
-> +	      freq, CONFIG_COUNTER_FREQUENCY);
-> +	if (IS_ENABLED(CONFIG_NON_SECURE))
-> +		printf("arch timer frequency is wrong, but cannot adjust it\n");
-> +	else
-> +		asm volatile("mcr p15, 0, %0, c14, c0, 0"
-> +			     : : "r"(CONFIG_COUNTER_FREQUENCY));
-> +}
-> diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
-> index 0c4b6dd1ca3..943f89eaa78 100644
-> --- a/arch/arm/mach-sunxi/board.c
-> +++ b/arch/arm/mach-sunxi/board.c
-> @@ -347,10 +347,6 @@ u32 spl_boot_device(void)
->  	return sunxi_get_boot_device();
->  }
->  
-> -__weak void sunxi_sram_init(void)
-> -{
-> -}
-> -
->  /*
->   * When booting from an eMMC boot partition, the SPL puts the same boot
->   * source code into SRAM A1 as when loading the SPL from the normal
-> @@ -434,10 +430,20 @@ u32 spl_mmc_boot_mode(struct mmc *mmc, const u32 boot_device)
->  	return result;
->  }
->  
-> +__weak void sunxi_sram_init(void)
-> +{
-> +}
-> +
-> +__weak void setup_arch_timer(void)
-> +{
-> +}
-> +
->  void board_init_f(ulong dummy)
->  {
->  	sunxi_sram_init();
->  
-> +	setup_arch_timer();
-> +
->  #if defined CONFIG_MACH_SUN6I || defined CONFIG_MACH_SUN8I_H3
->  	/* Enable non-secure access to some peripherals */
->  	tzpc_init();
-> diff --git a/board/sunxi/board.c b/board/sunxi/board.c
-> index 827e545032e..55501fafc38 100644
-> --- a/board/sunxi/board.c
-> +++ b/board/sunxi/board.c
-> @@ -34,9 +34,6 @@
->  #include <asm/global_data.h>
->  #include <linux/delay.h>
->  #include <u-boot/crc.h>
-> -#ifndef CONFIG_ARM64
-> -#include <asm/armv7.h>
-> -#endif
->  #include <asm/gpio.h>
->  #include <asm/io.h>
->  #include <u-boot/crc.h>
-> @@ -187,39 +184,10 @@ enum env_location env_get_location(enum env_operation op, int prio)
->  /* add board specific code here */
->  int board_init(void)
->  {
-> -	__maybe_unused int id_pfr1, ret, satapwr_pin, macpwr_pin;
-> +	int ret, satapwr_pin, macpwr_pin;
->  
->  	gd->bd->bi_boot_params = (PHYS_SDRAM_0 + 0x100);
->  
-> -#if !defined(CONFIG_ARM64) && !defined(CONFIG_MACH_SUNIV)
-> -	asm volatile("mrc p15, 0, %0, c0, c1, 1" : "=r"(id_pfr1));
-> -	debug("id_pfr1: 0x%08x\n", id_pfr1);
-> -	/* Generic Timer Extension available? */
-> -	if ((id_pfr1 >> CPUID_ARM_GENTIMER_SHIFT) & 0xf) {
-> -		uint32_t freq;
-> -
-> -		debug("Setting CNTFRQ\n");
-> -
-> -		/*
-> -		 * CNTFRQ is a secure register, so we will crash if we try to
-> -		 * write this from the non-secure world (read is OK, though).
-> -		 * In case some bootcode has already set the correct value,
-> -		 * we avoid the risk of writing to it.
-> -		 */
-> -		asm volatile("mrc p15, 0, %0, c14, c0, 0" : "=r"(freq));
-> -		if (freq != CONFIG_COUNTER_FREQUENCY) {
-> -			debug("arch timer frequency is %d Hz, should be %d, fixing ...\n",
-> -			      freq, CONFIG_COUNTER_FREQUENCY);
-> -#ifdef CONFIG_NON_SECURE
-> -			printf("arch timer frequency is wrong, but cannot adjust it\n");
-> -#else
-> -			asm volatile("mcr p15, 0, %0, c14, c0, 0"
-> -				     : : "r"(CONFIG_COUNTER_FREQUENCY));
-> -#endif
-> -		}
-> -	}
-> -#endif /* !CONFIG_ARM64 && !CONFIG_MACH_SUNIV */
-> -
->  	ret = axp_gpio_init();
->  	if (ret)
->  		return ret;
+> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> >  CONFIG_SYS_MONITOR_LEN=786432
+> >  CONFIG_SPL_I2C=y
+> > diff --git a/drivers/ata/ahci_sunxi.c b/drivers/ata/ahci_sunxi.c
+> > index 94a3379c532..9064774e661 100644
+> > --- a/drivers/ata/ahci_sunxi.c
+> > +++ b/drivers/ata/ahci_sunxi.c
+> > @@ -7,6 +7,7 @@
+> >  #include <asm/io.h>
+> >  #include <asm/gpio.h>
+> >  #include <linux/delay.h>
+> > +#include <power/regulator.h>
+> >  
+> >  #define AHCI_PHYCS0R 0x00c0
+> >  #define AHCI_PHYCS1R 0x00c4
+> > @@ -74,6 +75,7 @@ static int sunxi_ahci_phy_init(u8 *reg_base)
+> >  
+> >  static int sunxi_sata_probe(struct udevice *dev)
+> >  {
+> > +	struct udevice *reg_dev;
+> >  	ulong base;
+> >  	u8 *reg;
+> >  	int ret;
+> > @@ -89,6 +91,13 @@ static int sunxi_sata_probe(struct udevice *dev)
+> >  		debug("%s: Failed to init phy (err=%d)\n", __func__, ret);
+> >  		return ret;
+> >  	}
+> > +
+> > +	ret = device_get_supply_regulator(dev, "target-supply", &reg_dev);
+> > +	if (ret == 0) {
+> > +		regulator_set_enable(reg_dev, true);
+> > +		mdelay(500);
+> > +	}
+> > +
+> >  	ret = ahci_probe_scsi(dev, base);
+> >  	if (ret) {
+> >  		debug("%s: Failed to probe (err=%d)\n", __func__, ret);  
+> 
 
