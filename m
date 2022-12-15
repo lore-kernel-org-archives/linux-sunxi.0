@@ -1,154 +1,178 @@
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F10192
-	for <linux-sunxi@lists.linux.dev>; Wed, 14 Dec 2022 23:40:52 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 2A31232000F9;
-	Wed, 14 Dec 2022 18:40:51 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Wed, 14 Dec 2022 18:40:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1671061250; x=
-	1671147650; bh=3KxGC4m0SO7soOVEDEsWDJFAvYuVstY2xQBrf1aA5bI=; b=u
-	g/hmwqk4D7EadpAr188NXxTIXwpDM5Fqi0TMLtIkEGexZyQz2MDHa31kqKGKM5RR
-	v09FQt2e4JNI92aRN3ui3JccTdz/rh5T4oTkzRf6OGb6Q1R9S5g65Z6AhFu7my/s
-	YxT+FMHGKQJHuYAyojz+Vqsz7urxDVIkdhPg8JWoCoQ8AJ3bfK3xa0NmEznoIB39
-	i3PnWdwgjb5eZh2N9Ua09fc7Rwv+bIB3VMatiWIxIfRdHI4TAfdxdqyFRn7JTGFK
-	T1m4ewXV4Bh1WnLoTQVRomrmq81zQNolGidxrqr6n99msphl2zQ0Vi99WxYlewOG
-	UtJnz4GA1D9OoqHDIsKcw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1671061250; x=
-	1671147650; bh=3KxGC4m0SO7soOVEDEsWDJFAvYuVstY2xQBrf1aA5bI=; b=N
-	Di8Vyyd6uAW3ze1RcHsUiuSzh1agnznZ4X+UMl7BEHJLdRj83MiLp+mFoz/5npEI
-	dr6Mkq+JTacXDTFrjL3CdbIMEQenW6i+noaDrIMAzK6kdQDzQXKB39zaxlcdMSuI
-	O+8uEGM100TNC3Q58YQpERLqm5gpZTTj3y6KVUaeJKZBeNmTvYWh+6iey6HYCIEW
-	gfrZ/kWmRSx0jP1bqjrXJxKujk9k9OpMXUWuNjxD9vOgJyGRLnejZiox0nwzflXW
-	ivvBHVRUrdfriAJrt0AqGxh1OvaXuZkjUTyBYzT3YwF4tW6pvzu7LKY2KhMkDLAc
-	N5ut3CvBBcPljAN1Vljbw==
-X-ME-Sender: <xms:Al-aYwwzidbPJl0qHDcUz-0JyonpbogVTZd3v5Q3wVIOVyzwIKu4Zg>
-    <xme:Al-aY0SgTVswUlrpVMiDNIF-uvCCAPfIgx1jMoMQd3_L_8IGApv073ME7ugvOy1TU
-    QOXravRDIAn76b-uQ>
-X-ME-Received: <xmr:Al-aYyWtGkwQ6foV4xRfFDpRzazDYb7ax39fKHsh8nbXchsH5BifWehn2qh7lQsbzC5g9bTkrja-a9vFNwIx3ViUobXLKhCesFH1QxIzJUwam4dcnwJOgGKUyw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeeggddutdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfvvehfhffujggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepjefgfffhudejfedtuedugeeutdetgfeiteffffehjeeugfeuvdeh
-    jeetfedtffdtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:Al-aY-hi6ldsQQ0eJoll34OFa6cQRo6RkYiKxkR8a-21yKzUMHYueg>
-    <xmx:Al-aYyBRzJ2-6L6ps4iV_d_3n1lMdik-059FAsemAdjZXRKpWRgP0w>
-    <xmx:Al-aY_LmR8vnZZIbIgtykWHoLzE7wpjwFHKnGBJS_3B9en9Y0TV6XA>
-    <xmx:Al-aY1-j4w0MWHm8YUkEOV-OIgJqI3CCuaUQKiuKISdVSjZkdFpEwQ>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 14 Dec 2022 18:40:49 -0500 (EST)
-Message-ID: <1202d90b-f433-10be-fb2a-b5bf4ef605f7@sholland.org>
-Date: Wed, 14 Dec 2022 17:40:49 -0600
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7262C6ABC
+	for <linux-sunxi@lists.linux.dev>; Thu, 15 Dec 2022 23:17:54 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 261D01063;
+	Thu, 15 Dec 2022 15:18:34 -0800 (PST)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C14B93F73B;
+	Thu, 15 Dec 2022 15:17:50 -0800 (PST)
+Date: Thu, 15 Dec 2022 23:16:15 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Martin Botka <martin.botka@somainline.org>
+Cc: martin.botka1@gmail.com, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ AngeloGioacchino Del Regno        
+ <angelogioacchino.delregno@somainline.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Jami Kettunen
+ <jamipkettunen@somainline.org>, Paul Bouchara
+ <paul.bouchara@somainline.org>, Jan Trmal <jtrmal@gmail.com>, Lee Jones
+ <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Liam
+ Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Samuel Holland
+ <samuel@sholland.org>, Jernej =?UTF-8?B?xaBrcmFiZWM=?=
+ <jernej.skrabec@gmail.com>, linux-sunxi <linux-sunxi@lists.linux.dev>
+Subject: Re: [PATCH v5 3/3] regulator: axp20x: Add support for AXP1530
+ variant
+Message-ID: <20221215231615.6a4fa710@slackpad.lan>
+In-Reply-To: <20221214190305.3354669-4-martin.botka@somainline.org>
+References: <20221214190305.3354669-1-martin.botka@somainline.org>
+	<20221214190305.3354669-4-martin.botka@somainline.org>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de,
- Icenowy Zheng <uwu@icenowy.me>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>
-References: <20221206004549.29015-1-andre.przywara@arm.com>
- <20221206004549.29015-2-andre.przywara@arm.com>
- <bb2ef69f-23e1-9936-e824-6b86924b9c8a@sholland.org>
- <20221214142517.66b69b02@donnerap.cambridge.arm.com>
-From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [RFC PATCH 01/17] sunxi: remove CONFIG_SATAPWR
-In-Reply-To: <20221214142517.66b69b02@donnerap.cambridge.arm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-Andre,
+On Wed, 14 Dec 2022 20:03:05 +0100
+Martin Botka <martin.botka@somainline.org> wrote:
 
-On 12/14/22 08:25, Andre Przywara wrote:
-> On Wed, 14 Dec 2022 02:37:12 -0600 Samuel Holland <samuel@sholland.org> wrote:
->> On 12/5/22 18:45, Andre Przywara wrote:
->>> diff --git a/configs/Sinovoip_BPI_M3_defconfig b/configs/Sinovoip_BPI_M3_defconfig
->>> index ab70eff68eb..bcc8b1fba98 100644
->>> --- a/configs/Sinovoip_BPI_M3_defconfig
->>> +++ b/configs/Sinovoip_BPI_M3_defconfig
->>> @@ -13,7 +13,6 @@ CONFIG_USB0_VBUS_DET="AXP0-VBUS-DETECT"
->>>  CONFIG_USB0_ID_DET="PH11"
->>>  CONFIG_USB1_VBUS_PIN="PD24"
->>>  CONFIG_AXP_GPIO=y
->>> -CONFIG_SATAPWR="PD25"
->>>  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
->>>  CONFIG_SYS_MONITOR_LEN=786432
->>>  CONFIG_CONSOLE_MUX=y
->>> diff --git a/configs/orangepi_plus_defconfig b/configs/orangepi_plus_defconfig
->>> index 5c7f0731d90..f4ce4851d7c 100644
->>> --- a/configs/orangepi_plus_defconfig
->>> +++ b/configs/orangepi_plus_defconfig
->>> @@ -7,7 +7,6 @@ CONFIG_DRAM_CLK=672
->>>  CONFIG_MACPWR="PD6"
->>>  CONFIG_MMC_SUNXI_SLOT_EXTRA=2
->>>  CONFIG_USB1_VBUS_PIN="PG13"
->>> -CONFIG_SATAPWR="PG11"  
->>
->> BananaPi M3 and OrangePi Plus have USB-SATA adapters, not onboard AHCI,
->> so they would lose the ability to use SATA with this change.
-> 
-> Many thanks for having a thorough look, I much appreciate that.
-> Of course you are right. I actually found this myself, and thought I
-> mentioned it somewhere, but apparently this got lost in between cover
-> letter versions and commit messages on different branches. Apologies for
-> that.
-> So yeah, my research figured that this isn't described properly in the DT,
-> so SATA disks just work in Linux because U-Boot flipped the bit here.
-> I heard about USB child DT nodes, which IIUC are possible to describe
-> errata and such, but I don't think it's a good solution here. Would
-> probably need driver changes, so wouldn't be backwards compatible.
-> 
->> OrangePi Plus has the SATA controller regulator as usb3_vbus-supply in
->> its devicetree. So we could replace this with CONFIG_USB3_VBUS_PIN for
->> now, and it will continue to work once we switch the PHY driver to use
->> the regulator uclass.
->>
->> But the BananaPi M3 has its USB-SATA downstream from an external hub.
->> CONFIG_USB1_VBUS_PIN is used for the regulator powering the hub, so I do
->> not see an obvious solution here.
-> 
-> Yeah, I didn't find a neat automatic solution for that either.
-> Can we add a regulator-fixed, and make this regulator-boot-on? Without
-> actually referencing this regulator anywhere? I need to check this
-> actually works in U-Boot, but what do you say with your Linux/DT maintainer
-> hat on?
+Hi Martin,
 
-I can think of a few solutions, though none is perfect:
+> AXP1530 has a few regulators that are controlled via I2C Bus.
+>=20
+> Add support for them.
 
-1) As you suggest, add a new fixed regulator with regulator-boot-on. It
-also needs regulator-always-on to keep the OS from disabling it later,
-since it would have no consumer. We would also need to call
-regulators_enable_boot_on() from our board code to enable in in U-Boot.
+thanks for putting this together!
+After coming up with a very similar patch based on the AXP313A313
+datasheet, I realised that those two must indeed be *somewhat*
+compatible, so I am going to compare my patch with yours ;-)
 
-2) Add a new fixed regulator, and point usb1_vbus-supply to it. Then
-have the new regulator reference the hub regulator as its vin-supply.
-This would require updating the U-Boot fixed regulator driver to control
-its vin-supply. And it is also a misleading use of usb1_vbus-supply.
+>=20
+> Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> ---
+>  drivers/regulator/axp20x-regulator.c | 44 ++++++++++++++++++++++++++++
+>  1 file changed, 44 insertions(+)
+>=20
+> diff --git a/drivers/regulator/axp20x-regulator.c b/drivers/regulator/axp=
+20x-regulator.c
+> index d260c442b788..9420839ff4f9 100644
+> --- a/drivers/regulator/axp20x-regulator.c
+> +++ b/drivers/regulator/axp20x-regulator.c
+> @@ -1001,6 +1001,40 @@ static const struct regulator_desc axp813_regulato=
+rs[] =3D {
+>  		    AXP22X_PWR_OUT_CTRL2, AXP22X_PWR_OUT_DC1SW_MASK),
+>  };
+> =20
+> +static const struct linear_range axp1530_dcdc1_ranges[] =3D {
+> +	REGULATOR_LINEAR_RANGE(500000, 0x0, 0x46, 10000),
 
-3) Add a gpio-hog to the devicetree, to unconditionally enable the
-regulator. This would be the closest equivalent to what we are doing
-now, and the quickest path to getting the legacy board code removed. We
-could do this entirely within U-Boot, so I lean toward this solution.
+The AXP313A manual mentions "steps", in decimal
+(0.5~1.2V=EF=BC=8C10mV/step=EF=BC=8C71steps), so I wonder if we should foll=
+ow suit
+here and describe the min_sel and max_sel members in decimal?
 
-Regards,
-Samuel
+> +	REGULATOR_LINEAR_RANGE(1220000, 0x47, 0x57, 20000),
+> +	REGULATOR_LINEAR_RANGE(1600000, 0x58, 0x6A, 100000),
+> +};
+> +
+> +static const struct linear_range axp1530_dcdc2_ranges[] =3D {
+> +	REGULATOR_LINEAR_RANGE(500000, 0x0, 0x46, 10000),
+> +	REGULATOR_LINEAR_RANGE(1220000, 0x47, 0x57, 20000),
+> +};
+
+The values up till here match exactly what I extracted from the AXP313A
+manual.
+
+> +
+> +static const struct linear_range axp1530_dcdc3_ranges[] =3D {
+> +	REGULATOR_LINEAR_RANGE(500000, 0x0, 0x46, 10000),
+> +	REGULATOR_LINEAR_RANGE(1220000, 0x47, 0x66, 20000),
+> +};
+
+Can you double check that those are the values for DCDC3?
+The AXP313A manual uses different ranges, essentially:
+    REGULATOR_LINEAR_RANGE(800000, 0, 32, 10000),
+    REGULATOR_LINEAR_RANGE(1140000, 33, 68, 20000),
+So starting from 800mV, and using a slightly different split point.
+
+I would just hope that's this doesn't turn out to be an incompatible regist=
+er.
+
+> +
+> +static const struct regulator_desc axp1530_regulators[] =3D {
+> +	AXP_DESC_RANGES(AXP1530, DCDC1, "dcdc1", "vin1", axp1530_dcdc1_ranges,
+> +					0x6B, AXP1530_DCDC1_CONRTOL, 0x7f, AXP1530_OUTPUT_CONTROL,
+
+Again I would code the steps in decimal. The other regulators use a
+preprocessor constant, which helps the reader to get its meaning.
+And please use at least GENMASK(6, 0) instead of 0x7f, or #define this
+(can be shared for all DCDCs and the LDOs).
+
+> +					BIT(0)),
+> +	AXP_DESC_RANGES(AXP1530, DCDC2, "dcdc2", "vin2", axp1530_dcdc2_ranges,
+> +					0x58, AXP1530_DCDC2_CONRTOL, 0x7f, AXP1530_OUTPUT_CONTROL,
+> +					BIT(1)),
+> +	AXP_DESC_RANGES(AXP1530, DCDC3, "dcdc3", "vin3", axp1530_dcdc3_ranges,
+> +					0x58, AXP1530_DCDC3_CONRTOL, 0x7f, AXP1530_OUTPUT_CONTROL,
+> +					BIT(2)),
+> +	AXP_DESC(AXP1530, LDO1, "ldo1", "ldo1in", 500, 3500, 100,
+> +					AXP1530_ALDO1_CONRTOL, 0x1f, AXP1530_OUTPUT_CONTROL,
+> +					BIT(3)),
+> +	AXP_DESC(AXP1530, LDO2, "ldo2", "ldo2in", 500, 3500, 100,
+> +					AXP1530_DLDO1_CONRTOL, 0x1f, AXP1530_OUTPUT_CONTROL,
+> +					BIT(4)),
+
+Does this miss the fixed RTC-LDO? Or does the AXP1530 not have that?
+        AXP_DESC_FIXED(AXP313, RTC_LDO, "rtc-ldo", "ips", 1800),
+The AXP313A manual mentions that the voltage is customisable, either
+1.8V or 3.3V. I don't know how to model that, exactly. Should this be a
+DT property, then? Or do we fix it to one voltage, covering the value
+that's used out there?
+
+> +};
+> +
+>  static int axp20x_set_dcdc_freq(struct platform_device *pdev, u32 dcdcfr=
+eq)
+>  {
+>  	struct axp20x_dev *axp20x =3D dev_get_drvdata(pdev->dev.parent);
+> @@ -1040,6 +1074,12 @@ static int axp20x_set_dcdc_freq(struct platform_de=
+vice *pdev, u32 dcdcfreq)
+>  		def =3D 3000;
+>  		step =3D 150;
+>  		break;
+> +	case AXP1530_ID:
+> +		/*
+> +		 * Do not set the DCDC frequency on AXP1530
+
+This should say that the frequency is fixed and cannot be programmed.
+I also added a warning if the frequency is not 3 MHz.
+Either this, or we make the "x-powers,dcdc-freq" DT property optional.
+
+Cheers,
+Andre
+
+> +		 */
+> +		return 0;
+> +		break;
+>  	default:
+>  		dev_err(&pdev->dev,
+>  			"Setting DCDC frequency for unsupported AXP variant\n");
+> @@ -1220,6 +1260,10 @@ static int axp20x_regulator_probe(struct platform_=
+device *pdev)
+>  	bool drivevbus =3D false;
+> =20
+>  	switch (axp20x->variant) {
+> +	case AXP1530_ID:
+> +		regulators =3D axp1530_regulators;
+> +		nregulators =3D AXP1530_REG_ID_MAX;
+> +		break;
+>  	case AXP202_ID:
+>  	case AXP209_ID:
+>  		regulators =3D axp20x_regulators;
 
