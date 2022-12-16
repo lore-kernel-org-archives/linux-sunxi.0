@@ -1,269 +1,184 @@
-Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2055.outbound.protection.outlook.com [40.107.21.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C15220E3
-	for <linux-sunxi@lists.linux.dev>; Fri, 16 Dec 2022 12:20:53 +0000 (UTC)
-Received: from [127.0.0.1] (85-237-234-60.dynamic.orange.sk [85.237.234.60])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 1004B200FE;
-	Fri, 16 Dec 2022 13:20:51 +0100 (CET)
-Date: Fri, 16 Dec 2022 13:20:50 +0100
-From: Martin Botka <martin.botka@somainline.org>
-To: Andre Przywara <andre.przywara@arm.com>
-CC: martin.botka1@gmail.com, Konrad Dybcio <konrad.dybcio@somainline.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Jami Kettunen <jamipkettunen@somainline.org>,
- Paul Bouchara <paul.bouchara@somainline.org>, Jan Trmal <jtrmal@gmail.com>,
- Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
- =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
- linux-sunxi <linux-sunxi@lists.linux.dev>
-Subject: Re: [PATCH v5 3/3] regulator: axp20x: Add support for AXP1530 variant
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20221216115214.1be53742@donnerap.cambridge.arm.com>
-References: <20221214190305.3354669-1-martin.botka@somainline.org> <20221214190305.3354669-4-martin.botka@somainline.org> <20221215231615.6a4fa710@slackpad.lan> <F47BD077-BB4B-4866-B5E7-445D6CCE4FCE@somainline.org> <20221216115214.1be53742@donnerap.cambridge.arm.com>
-Message-ID: <3397B9D4-253B-4A1B-B321-84FCD8460FBA@somainline.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26F7320F7;
+	Fri, 16 Dec 2022 17:09:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Su/tLwTwHlabFmapw2PIBqUfJAVP4ss2qieCOMyPEwieTBKlq3jSQcJo4OVMSOFRa0AIF9FiyGZ11Xc+HI0R+G2Do00efNqpg8kviBL8ocwB+eFYy+q07+3Z+VjcU02hBSlQFPaTppwfPO+m7+u7UNb4/h8bLbg8U9am1S0hXWPMpROUVInOUxmbnT+tCYrSSWJgzVv9tE9dpFi8CRHBF4SC7fsvN2/iWKCSk3I+HKAU+Fswd1i2uZT/aZZfQuSckeQy5Jge2YFn8r7XxyDwppmP/XUb+ewlvgKML+h1KZn1IHXyLPGCWWy1VBHCjalQN7PIYyJ1BSCh8K0ZvH+WoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p+4Tr51MfxPSwWc2teNk1r5oEANOv47DQ//9Fr5IypA=;
+ b=ML8MRp0Y5tPr721ZAfWA6pV1gRiTIjRDldqbMR7SAfu/kF9G23rmD2UrJaYKbOXJMDbkkoGrPxWxl4Sbw3hqDSPnsZU0MGpoMwTyqTxRg+1Ya3/Qiyq3bkM4vNXDFqeIdFQnEtSo8JpugGmhoTuz8JQ+gYwUQtkQWRF1nG1smYczWVsa+HOe7Xd3apEJ4d27gxX18awIdN2Iy73e1gEXIEb/7JbrZILIDuK1NRZUt7t6tycIbXDjramBcZ5PssEZk+syZDFUee0cwd2NaAVu4CXMEEyi4t/xMsLBO29XJf+pw95Ney3dQyafBQ+QmMyagxoicEOc/vrChSABhFvHRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
+ dkim=pass header.d=seco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p+4Tr51MfxPSwWc2teNk1r5oEANOv47DQ//9Fr5IypA=;
+ b=zwO1Pbhny2gUuD/7QEOUMtyBuhhv+ZwCxzazCCKtsdXWEjY3+ccfGWL6JMFlXZ+tO5ibqd0hCDDiVVUITRxJm98IbtQqElGUb7hyEr/OioKaXVg05zbCnke4Xn+zQDXS4g7AjIK9ixRmSH1jn0xSEoxs4iRX5shtWqEntLEoYWnV/3Ih+qY66DKepko2s/hUlHoM7jeTziW4yvC5H2qyFzbFhbUHyh/zopx+uUN3wrL+p5P0H6SzgR3fhF/4Eav7Uac0Z8YDHRaImomOHmf5PCCnZS0pC/p2tKtKz9TaZcDlY2/ml6VVhEnkWeXbNuLyvUWZK58D2Hh/fYkexvq8cQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=seco.com;
+Received: from DB9PR03MB8847.eurprd03.prod.outlook.com (2603:10a6:10:3dd::13)
+ by PA4PR03MB6910.eurprd03.prod.outlook.com (2603:10a6:102:e9::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.12; Fri, 16 Dec
+ 2022 17:09:09 +0000
+Received: from DB9PR03MB8847.eurprd03.prod.outlook.com
+ ([fe80::2b95:1fe4:5d8f:22fb]) by DB9PR03MB8847.eurprd03.prod.outlook.com
+ ([fe80::2b95:1fe4:5d8f:22fb%6]) with mapi id 15.20.5880.019; Fri, 16 Dec 2022
+ 17:09:09 +0000
+Message-ID: <68562aca-5256-9e4b-bcd5-983e43408a7d@seco.com>
+Date: Fri, 16 Dec 2022 12:08:51 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH 0/2] drm: Add component_match_add_of and convert users of
+ drm_of_component_match_add
+Content-Language: en-US
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Brian Starkey <brian.starkey@arm.com>, Chen Feng <puck.chen@hisilicon.com>,
+ Chen-Yu Tsai <wens@csie.org>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jaroslav Kysela <perex@perex.cz>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Joerg Roedel <joro@8bytes.org>, John Stultz <jstultz@google.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>, Liam Girdwood <lgirdwood@gmail.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Mali DP Maintainers <malidp@foss.arm.com>, Mark Brown <broonie@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>,
+ Paul Cercueil <paul@crapouillou.net>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Rob Clark <robdclark@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>, Russell King <linux@armlinux.org.uk>,
+ Samuel Holland <samuel@sholland.org>, Sean Paul <sean@poorly.run>,
+ Takashi Iwai <tiwai@suse.com>, Tian Tao <tiantao6@hisilicon.com>,
+ Tomi Valkeinen <tomba@kernel.org>, Will Deacon <will@kernel.org>,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, Yong Wu <yong.wu@mediatek.com>,
+ alsa-devel@alsa-project.org, etnaviv@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, iommu@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+References: <20221103182222.2247724-1-sean.anderson@seco.com>
+From: Sean Anderson <sean.anderson@seco.com>
+In-Reply-To: <20221103182222.2247724-1-sean.anderson@seco.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR05CA0085.namprd05.prod.outlook.com
+ (2603:10b6:a03:e0::26) To DB9PR03MB8847.eurprd03.prod.outlook.com
+ (2603:10a6:10:3dd::13)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR03MB8847:EE_|PA4PR03MB6910:EE_
+X-MS-Office365-Filtering-Correlation-Id: af732301-cfc7-4bd6-4a64-08dadf883ed3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	dXVxBvj4ZaJElwLzCN8kHn2ebxRzHh3Gf63CAtngtlPvjwfc2UwnxYIu8RSAA9UwqyGOFvXys/Kh1HL8kUFOW9007tLpJdMK0ZWlbFigIZxbI6noBiIixOIZX7bPif2JRXOw5s0jTYF5e/+Ig1diIpJmyzB1FyuGRcBzO1hoCd5N4O+tsvHvAMBQEJ08MMWkdMMwfu266sBpe746IU+or+qjQiSmKwk7VkA3e5JgIPr77OFyYVmZTQhcTc+KoLXdw2DnBtUPdYhW+1Zp/iVS5fRmf/+6PPx2+h3WNGxBzF6BWHX3SgkeAaqWdbIa/V6jSPLkdxWYkmtYCSJObifs1mWKfGhArWozUFYOpjDMx2jQGwzkGoeJJoD/qfAun5iqwtWHNwpKmkLbvhqbI64ndOpRIvh8KATYLCpqhjWXJUV0N/NbI2XUvazt1rrnCefbrf1qEqhv7kLBH/LdeG0D69Q32t8Ef4GGOwe28a+cxWRDRXos3azu1CfJiK5nby5ObG56zMTY3FZiXsGsDckB6DLPv1oiKjurlsMBEhIsrlMOYQignIiOd4PCiegLHybRhWnyHIp5XhRF5cGJvvrKlf/Ws2b6AZbqAy4qBPPdHtuABbP5jIPOLJ5wrR2WN8TfZjTlGgFoLoIkt3soqk/R5XBR3APL9r6axqft/Mk6sAEtZVOny5DCIXVu4QQ4Tcrk8Ig8DzsC273xTFekQKcoYT3cR6CQCEGESHU23rXAnHq0Xh3/BqAm1r55CGEWgoPAQ645qEhg5NA843/ES/icVw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB8847.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(39850400004)(346002)(376002)(366004)(136003)(396003)(451199015)(52116002)(6512007)(2616005)(38100700002)(53546011)(38350700002)(6506007)(36756003)(83380400001)(6666004)(6486002)(186003)(478600001)(8936002)(26005)(31686004)(41300700001)(316002)(54906003)(110136005)(2906002)(86362001)(66946007)(66556008)(8676002)(66476007)(4326008)(7366002)(7416002)(31696002)(7406005)(5660300002)(44832011)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SEJNRitKck1jeWxnU2crVFIyTEozVExjZ1krVnhBSktuY1N4ZVJZWXg1V2Vs?=
+ =?utf-8?B?WGlXc3FOOGUrNS9DY0ZJZW9rYmFhWlBPWjVOMm1DeVlhNkVDZEdsVzhTcFJU?=
+ =?utf-8?B?K0lnZHg1d0dYMGdseDNiWFJpZHFJOVpVSE9mYWdRbis4cGpWdWNza3dhNXdQ?=
+ =?utf-8?B?S3RsUkdhVnU3Q1N0c25pV3psSFp3YWM4NDJpd0NlSmxzVy9QU1J0U3RZK0hz?=
+ =?utf-8?B?ckpTQXd6VmUrNGI2Rlo4WnlaNUFGNThpeUpUUHB6UUFvbDhVdG0rNVBDdG84?=
+ =?utf-8?B?aklESEJZT2FlbXd0MmwwZlBzdW5GTTVNWVdIaHUweWdPa2Foa3ZHWUYxL0g4?=
+ =?utf-8?B?RlNpMWdubmVlcG9yYmZtS3ZFZGpLTkNidVc5ejNBdnBLNzRJdlltQkVQWGZV?=
+ =?utf-8?B?UitGRzRKUmdIMlZUZm9VZlIydFlDNkNoZ1MzbVI4MWNwRGlmQW9MbnR5enl2?=
+ =?utf-8?B?V0tydnZKL0JmM25GaGh3WWgvdDRITGQ5RzU3NWU4dVZ2NFZaejM5clZmQ3JI?=
+ =?utf-8?B?WXJTRkxXMk9VdUdCR2VwKy9qQzJNS1dOWldPK2FxOERlVC9HT3Ntd3FiTGZV?=
+ =?utf-8?B?bWFtNzJ5Tk5pcDAzVWU1eElObHdmdlE2c2ZHNjRmak9BeEd6aFlpckgxa2VX?=
+ =?utf-8?B?Tk9CelVlYWxKMFBZMjIyem9qN21XRUZQbzFsUXFwNFQvRXJjRllUSmI3UEhG?=
+ =?utf-8?B?T21vYXNkSDA1ZldUQkZZdnZwSEtJODFyZUh4NzkzK2UvMm5SYThFcWhpTmNu?=
+ =?utf-8?B?OUwzRlY1a3h4V1BZdkF5RnQ1YzgzS21qSnFkNmVRY1lsNU5NSi9Uc3NMTWZE?=
+ =?utf-8?B?SW9abWlFbklSZkF2VjF2b0xrdno2MWRiUzJJVFdsa1VsVUJzUm1OT2FwVjhS?=
+ =?utf-8?B?cC82cE1MbFR3UXZFL1RpSEZhRUNQTWhLa0ZQaG9CQU43SWw4VDRFZ1Rta2lk?=
+ =?utf-8?B?TXovOGZITWE2VVhuOUFodFJBOWFMa2ttMERjTG91SDlsRk90aGNuc053QkFl?=
+ =?utf-8?B?MlZ2ZHpIbzNBZ2ZJd0lid3d4N1pncjRHbDlpN3ZVbnJzc0tOVlZ0M1N1eWdq?=
+ =?utf-8?B?WS9qQTlOMWpzcXJmZDMvamVqNkVpenpHS2x0NkRMeEdYNjh0Q0ZHdDFsRXdi?=
+ =?utf-8?B?c3VSSEJUZERlT09BZitZbFI1eE4vcE1OcVh5U2poS2lhdHYwYzlBU1RwYVR3?=
+ =?utf-8?B?TXFIc2dDUGN1U01hSkkxNkNHYWRKZ2VtdklaeEhUVk1LVVh6SnE2eHRiVVRL?=
+ =?utf-8?B?Q1o0TENOWE9NK29RSFhwWVpDNnNPM1NicVRjZTR4Z01SR1RhTXN4TTJtZjBP?=
+ =?utf-8?B?UE9TVEpOZnMwc1huME5TaUlIbVV5OXE0cUhMRDl3eVFyVFlVeDVoVzI5Unk5?=
+ =?utf-8?B?QmJkS3JpZmhWcUhNSDFMOGo1Qk9tdy9lYXluMlZpaThKQkZDc25xMWtJNlZz?=
+ =?utf-8?B?Qm9NaXJXL3c4WVNWOC9FK0NWZHpISi9LVWZkUjZnU0EzV0M1bGpiMTVCc0hB?=
+ =?utf-8?B?cWFPNjVidGtzUFRQeEl5TkptRnhrNFdyRFgrTWpRWUVwRThtbElNMXJzY2xW?=
+ =?utf-8?B?YlRNT0lEeU9veHNKOU5IM1RYTU9SajFhbEZwaEQvUkx5TUFDdDR5ZGtHbE1j?=
+ =?utf-8?B?NzBJcTkrVEp5REZ4WUlKc1VSUitRZzZEL1JHUWgyendmaEN0NDRLWUY5aWNw?=
+ =?utf-8?B?TzhkU2QyY3AxQjFaWGwrWTkycy9YV05xd1dDbng1Y3VMamFCYXJoM3hEQThq?=
+ =?utf-8?B?SDBRdDltR2NhRC9haEpiZjZOMmhBRDNkbmkzMjRyT2d0aFI0ZHkyTUlsMFZu?=
+ =?utf-8?B?d0h4TnlLWHZ0ZHVvcFBMdGpZOEsxdHNsK2lhTmFYditQZk5UUkNMWitvcGdZ?=
+ =?utf-8?B?aVIwdnM4dHIxV3NxcThIc2N2U0puTi9sWjlla0FTaFl3UmcvcVcycS9XTjl3?=
+ =?utf-8?B?S0ZzNlRTcTFEVXQxTnRxd0lMbmp5a3RQYUwzSG9Nd3Y4U1RYeGl2Y0RlMHpa?=
+ =?utf-8?B?U1NkaFZDbjFQVTNyQ2xRSE5VeXFvL1dkNXJLRndVM0orUVlSNE9nMHFaSmhL?=
+ =?utf-8?B?VUluSjY3ZURLaFhUM3hUYUdDd0ZUVHc0cnN6YXAvck41R0cxT0hteGQ4dm56?=
+ =?utf-8?B?ckRJTzJPRHpJTWZ4ZXQ4VzdrbHk3RUNEcnRLRnV1ZExSMHloamZJYkpWckEr?=
+ =?utf-8?B?bHc9PQ==?=
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: af732301-cfc7-4bd6-4a64-08dadf883ed3
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR03MB8847.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2022 17:09:09.2363
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XyLPJ+VUHXumX7wRoSdZtsZYS2a5W53pTd0sK15a2TVN29ad0Wrny9rpJBVKwRUz1Bz7e+GRhc0SaihjuyVXKg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR03MB6910
 
+On 11/3/22 14:22, Sean Anderson wrote:
+> This series adds a new function component_match_add_of to simplify the
+> common case of calling component_match_add_release with
+> component_release_of and component_compare_of. There is already
+> drm_of_component_match_add, which allows for a custom compare function.
+> However, all existing users just use component_compare_of (or an
+> equivalent).
+> 
+> I can split the second commit up if that is easier to review.
+> 
+> 
+> Sean Anderson (2):
+>   component: Add helper for device nodes
+>   drm: Convert users of drm_of_component_match_add to
+>     component_match_add_of
+> 
+>  .../gpu/drm/arm/display/komeda/komeda_drv.c   |  6 ++--
+>  drivers/gpu/drm/arm/hdlcd_drv.c               |  9 +-----
+>  drivers/gpu/drm/arm/malidp_drv.c              | 11 +------
+>  drivers/gpu/drm/armada/armada_drv.c           | 10 ++++---
+>  drivers/gpu/drm/drm_of.c                      | 29 +++----------------
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c         |  4 +--
+>  .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  3 +-
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  3 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  4 +--
+>  drivers/gpu/drm/msm/msm_drv.c                 | 14 ++++-----
+>  drivers/gpu/drm/sti/sti_drv.c                 |  3 +-
+>  drivers/gpu/drm/sun4i/sun4i_drv.c             |  3 +-
+>  drivers/gpu/drm/tilcdc/tilcdc_external.c      | 10 ++-----
+>  drivers/iommu/mtk_iommu.c                     |  3 +-
+>  drivers/iommu/mtk_iommu_v1.c                  |  3 +-
+>  include/drm/drm_of.h                          | 12 --------
+>  include/linux/component.h                     |  9 ++++++
+>  sound/soc/codecs/wcd938x.c                    |  6 ++--
+>  18 files changed, 46 insertions(+), 96 deletions(-)
+> 
 
+ping?
 
-On December 16, 2022 12:52:14 PM GMT+01:00, Andre Przywara <andre=2Eprzywa=
-ra@arm=2Ecom> wrote:
->On Fri, 16 Dec 2022 06:26:38 +0100
->Martin Botka <martin=2Ebotka@somainline=2Eorg> wrote:
->
->Hi Martin,
->
->> On December 16, 2022 12:16:15 AM GMT+01:00, Andre Przywara <andre=2Eprz=
-ywara@arm=2Ecom> wrote:
->> >On Wed, 14 Dec 2022 20:03:05 +0100
->> >Martin Botka <martin=2Ebotka@somainline=2Eorg> wrote:
->> >
->> >Hi Martin,
->> > =20
->> >> AXP1530 has a few regulators that are controlled via I2C Bus=2E
->> >>=20
->> >> Add support for them=2E =20
->> >
->> >thanks for putting this together!
->> >After coming up with a very similar patch based on the AXP313A313
->> >datasheet, I realised that those two must indeed be *somewhat*
->> >compatible, so I am going to compare my patch with yours ;-)
->> > =20
->> Hello Andre,
->> Thanks so much for looking at this=2E
->> >>=20
->> >> Signed-off-by: Martin Botka <martin=2Ebotka@somainline=2Eorg>
->> >> ---
->> >>  drivers/regulator/axp20x-regulator=2Ec | 44 +++++++++++++++++++++++=
-+++++
->> >>  1 file changed, 44 insertions(+)
->> >>=20
->> >> diff --git a/drivers/regulator/axp20x-regulator=2Ec b/drivers/regula=
-tor/axp20x-regulator=2Ec
->> >> index d260c442b788=2E=2E9420839ff4f9 100644
->> >> --- a/drivers/regulator/axp20x-regulator=2Ec
->> >> +++ b/drivers/regulator/axp20x-regulator=2Ec
->> >> @@ -1001,6 +1001,40 @@ static const struct regulator_desc axp813_reg=
-ulators[] =3D {
->> >>  		    AXP22X_PWR_OUT_CTRL2, AXP22X_PWR_OUT_DC1SW_MASK),
->> >>  };
->> >> =20
->> >> +static const struct linear_range axp1530_dcdc1_ranges[] =3D {
->> >> +	REGULATOR_LINEAR_RANGE(500000, 0x0, 0x46, 10000), =20
->> >
->> >The AXP313A manual mentions "steps", in decimal
->> >(0=2E5~1=2E2V=EF=BC=8C10mV/step=EF=BC=8C71steps), so I wonder if we sh=
-ould follow suit
->> >here and describe the min_sel and max_sel members in decimal?
->> > =20
->> Ack=2E We definitely can :)
->> >> +	REGULATOR_LINEAR_RANGE(1220000, 0x47, 0x57, 20000),
->> >> +	REGULATOR_LINEAR_RANGE(1600000, 0x58, 0x6A, 100000),
->> >> +};
->> >> +
->> >> +static const struct linear_range axp1530_dcdc2_ranges[] =3D {
->> >> +	REGULATOR_LINEAR_RANGE(500000, 0x0, 0x46, 10000),
->> >> +	REGULATOR_LINEAR_RANGE(1220000, 0x47, 0x57, 20000),
->> >> +}; =20
->> >
->> >The values up till here match exactly what I extracted from the AXP313=
-A
->> >manual=2E
->> > =20
->> >> +
->> >> +static const struct linear_range axp1530_dcdc3_ranges[] =3D {
->> >> +	REGULATOR_LINEAR_RANGE(500000, 0x0, 0x46, 10000),
->> >> +	REGULATOR_LINEAR_RANGE(1220000, 0x47, 0x66, 20000),
->> >> +}; =20
->> >
->> >Can you double check that those are the values for DCDC3?
->> >The AXP313A manual uses different ranges, essentially:
->> >    REGULATOR_LINEAR_RANGE(800000, 0, 32, 10000),
->> >    REGULATOR_LINEAR_RANGE(1140000, 33, 68, 20000),
->> >So starting from 800mV, and using a slightly different split point=2E
->> >
->> >I would just hope that's this doesn't turn out to be an incompatible r=
-egister=2E
->> > =20
->> Interesting=2E The unfortunate thing with 1530 is that i could not find=
- any datasheet referencing it=2E The actual PMIC that is on the device i ha=
-ve here is 313A=2E Do i think it would be best if i rename this driver to 3=
-13A and follow the 313A datasheet which is public=2E
->
->So where does the 1530 name and the other bits come from? Was there some
->statement somewhere that AXP1530 is the canonical chip, and the 313A is
->just a variant? Or are there devices using this chip, and you just happen
->to not have them, but a "compatible enough" 313A instead?
->
-I have yet to see actual device using this chip=2E If they have the driver=
- its AXP313A=2E I have Biqu CB1 which uses the AXP313A but in code and in s=
-ome places in datasheet for this device (not yet public=2E Hopefully that w=
-ill change) its referenced as AXP1530=2E The driver was also named like thi=
-s=2E So this is where the name comes from=2E
+Should I send a v2 broken up like Mark suggested?
 
-I do have contact to the developers so what i will do is contact them and =
-ask why this is done=2E
->> This was already proposed in one of my device tree series=2E
->> What do you think of this idea Andre ?
->
->In general, I think it's too dangerous to develop against something you
->cannot test against=2E So I would always call this driver after the chip =
-I
->have access to, especially if there is also a datasheet for it=2E
->If someone later finds the AXP1530 to be compatible, they can always use:
->	compatible =3D "x-powers,axp1530", "x-powers,axp313a";
->Or later on add explicit support for that chip if it turns out to be not
->fully compatible=2E
->
->The only reason to not do it this way around would be if one was a strict
->subset of the other=2E So if the 313A is the 1530 plus RTCLDO, for instan=
-ce,
->it would make sense to reflect that in the compatible strings (by swappin=
-g
->them in the above example)=2E
->But then again there is really no legacy here, so we could just upstream
->support for both variants in one go, using separate compatible strings,
->and let them just share some data structures internally=2E That is probab=
-ly
->cleaner, and if both are going it at the same time, there is no downside,
->really=2E
->
-Yea sounds good=2E So rename to 313A change bits and bobs
-And if someone has 1530 they can add it later=2E
->> >> +static const struct regulator_desc axp1530_regulators[] =3D {
->> >> +	AXP_DESC_RANGES(AXP1530, DCDC1, "dcdc1", "vin1", axp1530_dcdc1_ran=
-ges,
->> >> +					0x6B, AXP1530_DCDC1_CONRTOL, 0x7f, AXP1530_OUTPUT_CONTROL, =20
->> >
->> >Again I would code the steps in decimal=2E The other regulators use a
->> >preprocessor constant, which helps the reader to get its meaning=2E
->> >And please use at least GENMASK(6, 0) instead of 0x7f, or #define this
->> >(can be shared for all DCDCs and the LDOs)=2E
->> > =20
->> Ack=2E Will use GENMASK=2E
->> >> +					BIT(0)),
->> >> +	AXP_DESC_RANGES(AXP1530, DCDC2, "dcdc2", "vin2", axp1530_dcdc2_ran=
-ges,
->> >> +					0x58, AXP1530_DCDC2_CONRTOL, 0x7f, AXP1530_OUTPUT_CONTROL,
->> >> +					BIT(1)),
->> >> +	AXP_DESC_RANGES(AXP1530, DCDC3, "dcdc3", "vin3", axp1530_dcdc3_ran=
-ges,
->> >> +					0x58, AXP1530_DCDC3_CONRTOL, 0x7f, AXP1530_OUTPUT_CONTROL,
->> >> +					BIT(2)),
->> >> +	AXP_DESC(AXP1530, LDO1, "ldo1", "ldo1in", 500, 3500, 100,
->> >> +					AXP1530_ALDO1_CONRTOL, 0x1f, AXP1530_OUTPUT_CONTROL,
->> >> +					BIT(3)),
->> >> +	AXP_DESC(AXP1530, LDO2, "ldo2", "ldo2in", 500, 3500, 100,
->> >> +					AXP1530_DLDO1_CONRTOL, 0x1f, AXP1530_OUTPUT_CONTROL,
->> >> +					BIT(4)), =20
->> >
->> >Does this miss the fixed RTC-LDO? Or does the AXP1530 not have that?
->> >        AXP_DESC_FIXED(AXP313, RTC_LDO, "rtc-ldo", "ips", 1800),
->> >The AXP313A manual mentions that the voltage is customisable, either
->> >1=2E8V or 3=2E3V=2E I don't know how to model that, exactly=2E Should =
-this be a
->> >DT property, then? Or do we fix it to one voltage, covering the value
->> >that's used out there?
->> > =20
->> This is what always struck me as weird=2E This driver is based upon dow=
-nstream version it indeed does miss the rtc-ldo=2E
->
->Well, in my experience downstream (BSP) drivers cannot be really trusted
->in this regard=2E
->So they could just papered over it by modelling this as a separate
->"regulator-fixed"? Or maybe this was their solution for the "customise"
->problem? So instead of having this as part of the AXP, they just put a
->per-board fixed regulator in and set the voltage there?
->
-Very fair point=2E
-I will add it in the 313A :)
-
-Cheers,
-Martin
->Cheers,
->Andre
->
->> Afaik this may be the only difference between 1530 and 313 (other then =
-what you pointed out the dcdc3 registers)
->> >> +};
->> >> +
->> >>  static int axp20x_set_dcdc_freq(struct platform_device *pdev, u32 d=
-cdcfreq)
->> >>  {
->> >>  	struct axp20x_dev *axp20x =3D dev_get_drvdata(pdev->dev=2Eparent);
->> >> @@ -1040,6 +1074,12 @@ static int axp20x_set_dcdc_freq(struct platfo=
-rm_device *pdev, u32 dcdcfreq)
->> >>  		def =3D 3000;
->> >>  		step =3D 150;
->> >>  		break;
->> >> +	case AXP1530_ID:
->> >> +		/*
->> >> +		 * Do not set the DCDC frequency on AXP1530 =20
->> >
->> >This should say that the frequency is fixed and cannot be programmed=
-=2E
->> >I also added a warning if the frequency is not 3 MHz=2E
->> >Either this, or we make the "x-powers,dcdc-freq" DT property optional=
-=2E
->> > =20
->> Ack=2E Will reword and add warning=2E
->> >Cheers,
->> >Andre
->> > =20
->> Cheers,
->> Martin
->> >> +		 */
->> >> +		return 0;
->> >> +		break;
->> >>  	default:
->> >>  		dev_err(&pdev->dev,
->> >>  			"Setting DCDC frequency for unsupported AXP variant\n");
->> >> @@ -1220,6 +1260,10 @@ static int axp20x_regulator_probe(struct plat=
-form_device *pdev)
->> >>  	bool drivevbus =3D false;
->> >> =20
->> >>  	switch (axp20x->variant) {
->> >> +	case AXP1530_ID:
->> >> +		regulators =3D axp1530_regulators;
->> >> +		nregulators =3D AXP1530_REG_ID_MAX;
->> >> +		break;
->> >>  	case AXP202_ID:
->> >>  	case AXP209_ID:
->> >>  		regulators =3D axp20x_regulators; =20
->> > =20
->
+--Sean
