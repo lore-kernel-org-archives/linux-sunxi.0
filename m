@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFDEC364
-	for <linux-sunxi@lists.linux.dev>; Sat, 17 Dec 2022 00:10:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78F49C433D2;
-	Sat, 17 Dec 2022 00:10:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83AE7364
+	for <linux-sunxi@lists.linux.dev>; Sat, 17 Dec 2022 00:10:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC63FC433F1;
+	Sat, 17 Dec 2022 00:10:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1671235809;
+	s=k20201202; t=1671235835;
 	bh=Q8LhydwN/2Cmac9zYzpeFES5p/hI/13oVgIuWXBb/wI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kMUHsjMoJRkn3sY54QPyjzq9sesrTZJoiV0mXbTuJrr0y1AINOVr5VG5q1XMQc10S
-	 dd+uFNJZBPhKccZNbMv5ssSBHoPU9lkmiS+b71vz0vozrJ6CtAqKM4y3TKh7/ajyk1
-	 X24uow9WBhmwq5c3kiZGnXBUAizzWWy4sTCYKNFyEBV+0o+kUpt3unzuL/PXQzI8U9
-	 N5Bh44ayYNeEyvqbrd7K1M0TYV0GFeQYZz9uFWNvJHp5swv/DepYwEMtT+uiHPRUpY
-	 /+lqV4td8F3gPy9AGdKDdbcfy0VdfC1zTLekQc5yasIC31tx0qF+OTmL0709elVIM6
-	 XDtT9dIWnhChg==
+	b=J9R/dx3DqVmFrJxqYxfkdwd0eVr569wZd/c7Ej5/wMpcpPpAXpotwWQA2g/pLkOvf
+	 vuuzJs1Fg/6XSI4HlrfmnLyf+yET1m3ekbPgxmXVtn2mAoRr9pm9VHtjug5FOcDP1R
+	 LBBmvxyqL/G5Y7a0ED+IT+rz+l9W9FbMxFujTH7Una55mUhv4XqKiaBmi86ky0PP+D
+	 1F4GEpMs2RoBi6Jh0EZr3unPna4fe30Ct0AVGxjoIN3RRHJVMtDZX4yVwRIqwUj6fZ
+	 jcimWp5UpXFMdIoFqS7vqzNYe9iRCyoCxkUsS2XUDIVTvKLwelzKkCt9mYj3NNEZbp
+	 Ihx2PfPM/dm1w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -28,12 +28,12 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.1 8/9] arm64: dts: allwinner: h616: Add USB nodes
-Date: Fri, 16 Dec 2022 19:09:35 -0500
-Message-Id: <20221217000937.41115-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 7/8] arm64: dts: allwinner: h616: Add USB nodes
+Date: Fri, 16 Dec 2022 19:10:11 -0500
+Message-Id: <20221217001013.41239-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221217000937.41115-1-sashal@kernel.org>
-References: <20221217000937.41115-1-sashal@kernel.org>
+In-Reply-To: <20221217001013.41239-1-sashal@kernel.org>
+References: <20221217001013.41239-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
