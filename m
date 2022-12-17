@@ -1,109 +1,217 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7AD62B
-	for <linux-sunxi@lists.linux.dev>; Sat, 17 Dec 2022 04:12:38 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id t2so4178713ply.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 16 Dec 2022 20:12:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GH65Lzu8yLs0gJVkepUjZHRstDYH/hcDoJoKZUFbNI0=;
-        b=VZZXRW4I9PQi2pbj5Y12OzivoOtSdKGKXyCQxQ5m8NjibG+fHEtUA2GpOjdmFdZa64
-         9D61uvDRarEr0gMPekNM40CsY+NrmD7+B17uPqk/8GZSIX1Y2RmlVAoZvYdzkoNVtmel
-         WmYMFCrlJ/c2Qtd5viIPTqjrXsTJydcvKWbqI3Y3HUpiZsW4dwLAzdWRuzNryaUkSgqM
-         YxxXX6VvD6PAeUuuXFdKuN5wPsuRNmtEpyqaiXskTWr9Jvj5wsvZYaIzDcxnnJf6w7T1
-         yuZsRB9wsDNH1/1sttcJAkuO1RoTImQx6aznupM1NL9+lcffPNaM75Q/pmY2sIHsHPvU
-         RTaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GH65Lzu8yLs0gJVkepUjZHRstDYH/hcDoJoKZUFbNI0=;
-        b=iRYYtPVW8/cikYYFFcWvPFljC8sDNTT3i0/ZB6qP8+ikH1uUjk6eV/r74dkKpmsEhn
-         Z56frDD99d5QtyAM6VsHN3/gNeZlinJEgJGRJRhUsbi91DDEKgG5m85qoFj3U9iZ7NYe
-         XSE7DVVeXhYUwNBbBvz/aYDQ0dMBOfJkROkT7DaLmJcUB0cZvMEP+v4HsuglvrddNFd2
-         X7WOKwL4f442qriRJkgOsjGBpjFEDoXScx4AHSEgdg5d2oqNZ9pjXRnwIEeAKszx5MT0
-         NhM18zqsm9f1eXHyIazpKO1YtglOz6dPTMCcMuLdx1S8dIlwS6Ml0bI3HdX6U7zACZA3
-         Mrhg==
-X-Gm-Message-State: AFqh2kqJkYZtKClysE3TiAqOtccI7PCmwZqqYCynUw18hkdQiXp8NWKM
-	NRBjSnBmc9efmXS3Xn3IM+TxDA==
-X-Google-Smtp-Source: AMrXdXtScOu3J4nT9043wO0QBOelq5bzdWwUG+cutNdvKhhdIobOxSwAaEVxgtNIm61fBcfABSBw6g==
-X-Received: by 2002:a17:902:a612:b0:18c:cde:fdda with SMTP id u18-20020a170902a61200b0018c0cdefddamr801217plq.37.1671250358215;
-        Fri, 16 Dec 2022 20:12:38 -0800 (PST)
-Received: from localhost ([135.180.226.51])
-        by smtp.gmail.com with ESMTPSA id y2-20020a17090264c200b00189adf6770fsm2383636pli.233.2022.12.16.20.12.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Dec 2022 20:12:37 -0800 (PST)
-Date: Fri, 16 Dec 2022 20:12:37 -0800 (PST)
-X-Google-Original-Date: Fri, 16 Dec 2022 20:12:29 PST (-0800)
-Subject:     Re: [PATCH v3 00/12] Allwinner A31/A83T CSI/ISP/MIPI CSI-2 media fixes
-In-Reply-To: <20221208142006.425809-1-paul.kocialkowski@bootlin.com>
-CC: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-  yong.deng@magewell.com, paul.kocialkowski@bootlin.com, mchehab@kernel.org, wens@csie.org,
-  jernej.skrabec@gmail.com, samuel@sholland.org, thomas.petazzoni@bootlin.com, hverkuil@xs4all.nl,
-  sakari.ailus@iki.fi, Conor Dooley <conor@kernel.org>, nathan@kernel.org
-From: Palmer Dabbelt <palmer@rivosinc.com>
-To: paul.kocialkowski@bootlin.com
-Message-ID: <mhng-31391bb7-1a92-42f1-a1bb-8a41a9431ccb@palmer-ri-x1c9>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA95A5D
+	for <linux-sunxi@lists.linux.dev>; Sat, 17 Dec 2022 17:43:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18ED4C433D2;
+	Sat, 17 Dec 2022 17:43:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1671298995;
+	bh=3dvtU5hDggdzKmnVB1aFnHkevchFFQETM7wW4bi+xIk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=q3ouT1S5WMJeX+6redHw5SqeOkbJBo3pQx4X4iiDvnHEn0VJKHo83x/qXM4njiMIT
+	 S3ki2paLukIlpd+DbEYbFN4bJTkwXPbcM6LZPBCSBb4qqDuBJDYl+pZMr0t2XgVEL1
+	 CZDNcQ4bMm2ZXbFe2aEQIhlzCP8gSDdgylAy8hXZCwJIUyWi3LkRdnBbX8PBo2y3Mx
+	 uItRSEb51WvQ3jBHZ106eywU5GZo75Sp635GsYRBdrZ4mc4EXMHpb9P77xw7xK1lEc
+	 ucLscm+zUWh/WA+HND61TvYNrCY1Cp8kTrDmjz6ij+lYFM69qnC9AITJnNvQcGQBpl
+	 6ZA6yPD56uGGQ==
+Date: Sat, 17 Dec 2022 17:43:10 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-sunxi@lists.linux.dev, Palmer Dabbelt <palmer@dabbelt.com>,
+	linux-riscv@lists.infradead.org, Jisheng Zhang <jszhang@kernel.org>,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+	linux-arm-kernel@lists.infradead.org,
+	Andre Przywara <andre.przywara@arm.com>
+Subject: Re: [PATCH v3 00/12] riscv: Allwinner D1/D1s platform support
+Message-ID: <Y53/ruLoggBDXozF@spud>
+References: <20221208090237.20572-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="0qcFoswq9ICCBoIQ"
+Content-Disposition: inline
+In-Reply-To: <20221208090237.20572-1-samuel@sholland.org>
 
-On Thu, 08 Dec 2022 06:19:54 PST (-0800), paul.kocialkowski@bootlin.com wrote:
-> This series resolves reported smatch warnings against the recently-introduced
-> Allwinner A31/A83T CSI, ISP and MIPI CSI-2 drivers.
->
-> Smatch was ran again on the updated tree and no longer shows any error or
-> warning.
 
-Thanks.  These also fix a handful of warnings I'm seeing when building 
-with clang.
+--0qcFoswq9ICCBoIQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
+On Thu, Dec 08, 2022 at 03:02:25AM -0600, Samuel Holland wrote:
+> This series adds the Kconfig/defconfig plumbing and devicetrees for a
+> range of Allwinner D1 and D1s-based boards. Many features are already
+> enabled, including USB, Ethernet, and WiFi.
+>=20
+> The devicetrees use bindings from the following series which have not
+> yet been merged to linux-next:
+>  - In-package LDO regulators:
+>    https://lore.kernel.org/lkml/20221208084127.17443-1-samuel@sholland.or=
+g/
+>  - Ethernet MAC binding fix (not a new issue with D1):
+>    https://lore.kernel.org/lkml/20221208061616.7806-1-samuel@sholland.org/
+>  - TI ADC101C ADC (accepted, not yet in linux-next):
+>    https://lore.kernel.org/lkml/20221125220903.8632-1-samuel@sholland.org/
+>=20
+> The only remaining DT validation issue is that gpio-fan is missing a
+> YAML conversion, although one is on the list here:
+> https://lore.kernel.org/lkml/20220126200350.3633576-1-clabbe@baylibre.com/
 
-> Changes since v2:
-> - Added isp params pending buffer fix;
-> - Added fixes tags where needed;
-> - Reworded cosmetic commits;
-> - Changed sunxi-isp to the proper sun6i-isp.
->
-> Changes since v1:
-> - Added fixes for static struct declarations;
-> - Fixed ISP commit titles by replacing bridge with proc.
->
-> Paul
->
-> Paul Kocialkowski (12):
->   media: sun6i-csi: bridge: Fix return code handling in stream off path
->   media: sun6i-csi: bridge: Error out on invalid port to fix warning
->   media: sunxi-csi: bridge: Declare subdev ops as static
->   media: sun6i-csi: capture: Remove useless ret initialization
->   media: sun6i-mipi-csi2: Clarify return code handling in stream off
->     path
->   media: sun8i-a83t-mipi-csi2: Clarify return code handling in stream
->     off path
->   media: sun6i-isp: proc: Fix return code handling in stream off path
->   media: sun6i-isp: proc: Error out on invalid port to fix warning
->   media: sun6i-isp: proc: Declare subdev ops as static
->   media: sun6i-isp: capture: Fix uninitialized variable use
->   media: sun6i-isp: params: Fix incorrect indentation
->   media: sun6i-isp: params: Unregister pending buffer on cleanup
->
->  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c | 8 ++++----
->  .../media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c    | 2 +-
->  .../platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c      | 5 ++---
->  .../sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c     | 5 ++---
->  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c | 4 ++--
->  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c  | 6 ++++--
->  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 8 ++++----
->  7 files changed, 19 insertions(+), 19 deletions(-)
+With the above 4 in next:
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+
+Corentin's patch looked like it needed only minor changes. I shall go
+ping it :)
+
+>=20
+> $ make ARCH=3Driscv CROSS_COMPILE=3Driscv64-linux-musl- dtbs_check
+>   SYNC    include/config/auto.conf.cmd
+>   LINT    Documentation/devicetree/bindings
+>   CHKDT   Documentation/devicetree/bindings/processed-schema.json
+>   SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-clockworkpi-v3.14.dtb
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dtb
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dtb
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p=
+=2Edtb
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p=
+=2Edtb
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dtb
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dtb
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dtb
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dtb
+>   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dtb
+> arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dtb:0:0: /fan: fail=
+ed to match any schema with compatible: ['gpio-fan']
+>=20
+> Note that validation requires dt-schema v2022.12 or newer.
+>=20
+> I tested this series (DMIC, Ethernet, LEDs, MMC, PMIC, touch, and USB,
+> all where available) on the following boards:
+>  - sun20i-d1-devterm-v3.14
+>  - sun20i-d1-dongshan-nezha-stu
+>  - sun20i-d1-lichee-rv-86-panel-480p
+>  - sun20i-d1-mangopi-mq-pro
+>  - sun20i-d1-nezha
+>  - sun20i-d1s-mangopi-mq
+>=20
+> Changes in v3:
+>  - Drop dummy DCXO clock-frequency property
+>  - Decrease the PLIC's riscv,ndev property to 175
+>  - Fix `make W=3D1 dtbs` warnings (unnecessary #address/#size-cells)
+>  - Drop mmc aliases
+>  - Change LED_FUNCTION_BACKLIGHT to LED_FUNCTION_STATUS (the backlight
+>    regulator is disconnected by default, so this is a standalone LED)
+>  - Fix `make W=3D1 dtbs` warnings (missing reg properties)
+>  - ARCH_SUNXI depends on MMU && !XIP_KERNEL
+>=20
+> Changes in v2:
+>  - Add MangoPi MQ (non-Pro) board
+>  - Split into separate files for sharing with D1s/R528/T113
+>  - Use SOC_PERIPHERAL_IRQ macro for interrupts
+>  - Rename osc24M to dcxo and move the frequency to the board DTs
+>  - Drop analog LDOs due to the missing binding
+>  - Correct tcon_top DSI clock reference
+>  - Add DMIC, DSI controller, and DPHY (bindings are in linux-next)
+>  - Add CPU OPP table
+>  - Common regulators moved to MangoPi MQ patch, removed analog LDOs
+>  - Removed LRADC (depends on analog LDOs)
+>  - Added XR829 host-wake interrupt
+>  - Added DMIC sound card to Lichee RV dock and Lichee RV 86 Panel
+>  - Removed LRADC (depends on analog LDOs)
+>  - Added LED (GPIO shared between onboard LED and backlight regulator)
+>  - Added PMIC GPIO controller node (binding merged for 6.2)
+>  - Sort Kconfig as if we had done s/SOC_/ARCH_/ for future-proofing
+>=20
+> Samuel Holland (12):
+>   MAINTAINERS: Match the sun20i family of Allwinner SoCs
+>   dt-bindings: vendor-prefixes: Add Allwinner D1/D1s board vendors
+>   dt-bindings: riscv: Add Allwinner D1/D1s board compatibles
+>   riscv: dts: allwinner: Add the D1/D1s SoC devicetree
+>   riscv: dts: allwinner: Add MangoPi MQ devicetree
+>   riscv: dts: allwinner: Add Allwinner D1 Nezha devicetree
+>   riscv: dts: allwinner: Add Sipeed Lichee RV devicetrees
+>   riscv: dts: allwinner: Add MangoPi MQ Pro devicetree
+>   riscv: dts: allwinner: Add Dongshan Nezha STU devicetree
+>   riscv: dts: allwinner: Add ClockworkPi and DevTerm devicetrees
+>   riscv: Add the Allwinner SoC family Kconfig option
+>   riscv: defconfig: Enable the Allwinner D1 platform and drivers
+>=20
+>  .../devicetree/bindings/riscv/sunxi.yaml      |  69 ++
+>  .../devicetree/bindings/vendor-prefixes.yaml  |   4 +
+>  MAINTAINERS                                   |   2 +-
+>  arch/riscv/Kconfig.socs                       |  10 +
+>  arch/riscv/boot/dts/Makefile                  |   1 +
+>  arch/riscv/boot/dts/allwinner/Makefile        |  11 +
+>  .../allwinner/sun20i-common-regulators.dtsi   |  35 +
+>  .../allwinner/sun20i-d1-clockworkpi-v3.14.dts | 252 ++++++
+>  .../dts/allwinner/sun20i-d1-devterm-v3.14.dts |  36 +
+>  .../sun20i-d1-dongshan-nezha-stu.dts          | 117 +++
+>  .../sun20i-d1-lichee-rv-86-panel-480p.dts     |  29 +
+>  .../sun20i-d1-lichee-rv-86-panel-720p.dts     |  10 +
+>  .../sun20i-d1-lichee-rv-86-panel.dtsi         | 119 +++
+>  .../allwinner/sun20i-d1-lichee-rv-dock.dts    |  97 ++
+>  .../dts/allwinner/sun20i-d1-lichee-rv.dts     |  87 ++
+>  .../allwinner/sun20i-d1-mangopi-mq-pro.dts    | 142 +++
+>  .../boot/dts/allwinner/sun20i-d1-nezha.dts    | 166 ++++
+>  arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi  |  66 ++
+>  .../dts/allwinner/sun20i-d1s-mangopi-mq.dts   | 134 +++
+>  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi |  76 ++
+>  .../boot/dts/allwinner/sunxi-d1-t113.dtsi     |  15 +
+>  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 837 ++++++++++++++++++
+>  arch/riscv/configs/defconfig                  |  22 +-
+>  23 files changed, 2335 insertions(+), 2 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/riscv/sunxi.yaml
+>  create mode 100644 arch/riscv/boot/dts/allwinner/Makefile
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-common-regulator=
+s.dtsi
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-clockworkpi-v=
+3.14.dts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14=
+=2Edts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezh=
+a-stu.dts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-=
+panel-480p.dts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-=
+panel-720p.dts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-=
+panel.dtsi
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-doc=
+k.dts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pr=
+o.dts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.d=
+ts
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sunxi-d1-t113.dtsi
+>  create mode 100644 arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+>=20
+> --=20
+> 2.37.4
+>=20
+>=20
+
+--0qcFoswq9ICCBoIQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY53/qAAKCRB4tDGHoIJi
+0rVAAQCPdM7dV5zPoOPBEKW39F8dp1eq2DwP/UuJPAVYL/00XgD+OwoVc8w7dKdn
+z8qICUZckN76/7Kxl5jMDRCtM+wYbQ4=
+=W/99
+-----END PGP SIGNATURE-----
+
+--0qcFoswq9ICCBoIQ--
