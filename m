@@ -1,106 +1,239 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 083852119;
-	Fri, 16 Dec 2022 17:41:59 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A7FD41042;
-	Fri, 16 Dec 2022 09:42:33 -0800 (PST)
-Received: from [10.57.88.234] (unknown [10.57.88.234])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DA5E33F5A1;
-	Fri, 16 Dec 2022 09:41:45 -0800 (PST)
-Message-ID: <2db73405-464f-6980-a7c1-7fe232611331@arm.com>
-Date: Fri, 16 Dec 2022 17:41:40 +0000
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFDEC364
+	for <linux-sunxi@lists.linux.dev>; Sat, 17 Dec 2022 00:10:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78F49C433D2;
+	Sat, 17 Dec 2022 00:10:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1671235809;
+	bh=Q8LhydwN/2Cmac9zYzpeFES5p/hI/13oVgIuWXBb/wI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=kMUHsjMoJRkn3sY54QPyjzq9sesrTZJoiV0mXbTuJrr0y1AINOVr5VG5q1XMQc10S
+	 dd+uFNJZBPhKccZNbMv5ssSBHoPU9lkmiS+b71vz0vozrJ6CtAqKM4y3TKh7/ajyk1
+	 X24uow9WBhmwq5c3kiZGnXBUAizzWWy4sTCYKNFyEBV+0o+kUpt3unzuL/PXQzI8U9
+	 N5Bh44ayYNeEyvqbrd7K1M0TYV0GFeQYZz9uFWNvJHp5swv/DepYwEMtT+uiHPRUpY
+	 /+lqV4td8F3gPy9AGdKDdbcfy0VdfC1zTLekQc5yasIC31tx0qF+OTmL0709elVIM6
+	 XDtT9dIWnhChg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Andre Przywara <andre.przywara@arm.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Sasha Levin <sashal@kernel.org>,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	wens@csie.org,
+	samuel@sholland.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.1 8/9] arm64: dts: allwinner: h616: Add USB nodes
+Date: Fri, 16 Dec 2022 19:09:35 -0500
+Message-Id: <20221217000937.41115-8-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221217000937.41115-1-sashal@kernel.org>
+References: <20221217000937.41115-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH 0/2] drm: Add component_match_add_of and convert users of
- drm_of_component_match_add
-Content-Language: en-GB
-To: Sean Anderson <sean.anderson@seco.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Brian Starkey <brian.starkey@arm.com>, Chen Feng <puck.chen@hisilicon.com>,
- Chen-Yu Tsai <wens@csie.org>, Christian Gmeiner
- <christian.gmeiner@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jaroslav Kysela <perex@perex.cz>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Joerg Roedel <joro@8bytes.org>, John Stultz <jstultz@google.com>,
- Jyri Sarha <jyri.sarha@iki.fi>, Liam Girdwood <lgirdwood@gmail.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Lucas Stach <l.stach@pengutronix.de>,
- Mali DP Maintainers <malidp@foss.arm.com>, Mark Brown <broonie@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>,
- Paul Cercueil <paul@crapouillou.net>, Philipp Zabel
- <p.zabel@pengutronix.de>, Rob Clark <robdclark@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Samuel Holland <samuel@sholland.org>,
- Sean Paul <sean@poorly.run>, Takashi Iwai <tiwai@suse.com>,
- Tian Tao <tiantao6@hisilicon.com>, Tomi Valkeinen <tomba@kernel.org>,
- Will Deacon <will@kernel.org>, Xinliang Liu <xinliang.liu@linaro.org>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, Yong Wu <yong.wu@mediatek.com>,
- alsa-devel@alsa-project.org, etnaviv@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, iommu@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org,
- linux-sunxi@lists.linux.dev
-References: <20221103182222.2247724-1-sean.anderson@seco.com>
- <68562aca-5256-9e4b-bcd5-983e43408a7d@seco.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <68562aca-5256-9e4b-bcd5-983e43408a7d@seco.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 
-On 2022-12-16 17:08, Sean Anderson wrote:
-> On 11/3/22 14:22, Sean Anderson wrote:
->> This series adds a new function component_match_add_of to simplify the
->> common case of calling component_match_add_release with
->> component_release_of and component_compare_of. There is already
->> drm_of_component_match_add, which allows for a custom compare function.
->> However, all existing users just use component_compare_of (or an
->> equivalent).
->>
->> I can split the second commit up if that is easier to review.
->>
->>
->> Sean Anderson (2):
->>    component: Add helper for device nodes
->>    drm: Convert users of drm_of_component_match_add to
->>      component_match_add_of
->>
->>   .../gpu/drm/arm/display/komeda/komeda_drv.c   |  6 ++--
->>   drivers/gpu/drm/arm/hdlcd_drv.c               |  9 +-----
->>   drivers/gpu/drm/arm/malidp_drv.c              | 11 +------
->>   drivers/gpu/drm/armada/armada_drv.c           | 10 ++++---
->>   drivers/gpu/drm/drm_of.c                      | 29 +++----------------
->>   drivers/gpu/drm/etnaviv/etnaviv_drv.c         |  4 +--
->>   .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  3 +-
->>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  3 +-
->>   drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  4 +--
->>   drivers/gpu/drm/msm/msm_drv.c                 | 14 ++++-----
->>   drivers/gpu/drm/sti/sti_drv.c                 |  3 +-
->>   drivers/gpu/drm/sun4i/sun4i_drv.c             |  3 +-
->>   drivers/gpu/drm/tilcdc/tilcdc_external.c      | 10 ++-----
->>   drivers/iommu/mtk_iommu.c                     |  3 +-
->>   drivers/iommu/mtk_iommu_v1.c                  |  3 +-
->>   include/drm/drm_of.h                          | 12 --------
->>   include/linux/component.h                     |  9 ++++++
->>   sound/soc/codecs/wcd938x.c                    |  6 ++--
->>   18 files changed, 46 insertions(+), 96 deletions(-)
->>
-> 
-> ping?
-> 
-> Should I send a v2 broken up like Mark suggested?
+From: Andre Przywara <andre.przywara@arm.com>
 
-FWIW you'll need to rebase the IOMMU changes on 6.2-rc1 anyway - 
-mtk_iommu stops using component_match_add_release() at all.
+[ Upstream commit f40cf244c3feb4e1a442f8029b691add2c65b3ab ]
 
-Thanks,
-Robin.
+Add the nodes for the MUSB and the four USB host controllers to the SoC
+.dtsi, along with the PHY node needed to bind all of them together.
+
+EHCI/OHCI and MUSB are compatible to previous SoCs, but the PHY requires
+some quirks (handled in the driver).
+
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Link: https://lore.kernel.org/r/20221031111358.3387297-6-andre.przywara@arm.com
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 160 ++++++++++++++++++
+ 1 file changed, 160 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+index 622a1f7d1641..74aed0d232a9 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+@@ -504,6 +504,166 @@ mdio0: mdio {
+ 			};
+ 		};
+ 
++		usbotg: usb@5100000 {
++			compatible = "allwinner,sun50i-h616-musb",
++				     "allwinner,sun8i-h3-musb";
++			reg = <0x05100000 0x0400>;
++			clocks = <&ccu CLK_BUS_OTG>;
++			resets = <&ccu RST_BUS_OTG>;
++			interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "mc";
++			phys = <&usbphy 0>;
++			phy-names = "usb";
++			extcon = <&usbphy 0>;
++			status = "disabled";
++		};
++
++		usbphy: phy@5100400 {
++			compatible = "allwinner,sun50i-h616-usb-phy";
++			reg = <0x05100400 0x24>,
++			      <0x05101800 0x14>,
++			      <0x05200800 0x14>,
++			      <0x05310800 0x14>,
++			      <0x05311800 0x14>;
++			reg-names = "phy_ctrl",
++				    "pmu0",
++				    "pmu1",
++				    "pmu2",
++				    "pmu3";
++			clocks = <&ccu CLK_USB_PHY0>,
++				 <&ccu CLK_USB_PHY1>,
++				 <&ccu CLK_USB_PHY2>,
++				 <&ccu CLK_USB_PHY3>,
++				 <&ccu CLK_BUS_EHCI2>;
++			clock-names = "usb0_phy",
++				      "usb1_phy",
++				      "usb2_phy",
++				      "usb3_phy",
++				      "pmu2_clk";
++			resets = <&ccu RST_USB_PHY0>,
++				 <&ccu RST_USB_PHY1>,
++				 <&ccu RST_USB_PHY2>,
++				 <&ccu RST_USB_PHY3>;
++			reset-names = "usb0_reset",
++				      "usb1_reset",
++				      "usb2_reset",
++				      "usb3_reset";
++			status = "disabled";
++			#phy-cells = <1>;
++		};
++
++		ehci0: usb@5101000 {
++			compatible = "allwinner,sun50i-h616-ehci",
++				     "generic-ehci";
++			reg = <0x05101000 0x100>;
++			interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI0>,
++				 <&ccu CLK_BUS_EHCI0>,
++				 <&ccu CLK_USB_OHCI0>;
++			resets = <&ccu RST_BUS_OHCI0>,
++				 <&ccu RST_BUS_EHCI0>;
++			phys = <&usbphy 0>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
++		ohci0: usb@5101400 {
++			compatible = "allwinner,sun50i-h616-ohci",
++				     "generic-ohci";
++			reg = <0x05101400 0x100>;
++			interrupts = <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI0>,
++				 <&ccu CLK_USB_OHCI0>;
++			resets = <&ccu RST_BUS_OHCI0>;
++			phys = <&usbphy 0>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
++		ehci1: usb@5200000 {
++			compatible = "allwinner,sun50i-h616-ehci",
++				     "generic-ehci";
++			reg = <0x05200000 0x100>;
++			interrupts = <GIC_SPI 28 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI1>,
++				 <&ccu CLK_BUS_EHCI1>,
++				 <&ccu CLK_USB_OHCI1>;
++			resets = <&ccu RST_BUS_OHCI1>,
++				 <&ccu RST_BUS_EHCI1>;
++			phys = <&usbphy 1>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
++		ohci1: usb@5200400 {
++			compatible = "allwinner,sun50i-h616-ohci",
++				     "generic-ohci";
++			reg = <0x05200400 0x100>;
++			interrupts = <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI1>,
++				 <&ccu CLK_USB_OHCI1>;
++			resets = <&ccu RST_BUS_OHCI1>;
++			phys = <&usbphy 1>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
++		ehci2: usb@5310000 {
++			compatible = "allwinner,sun50i-h616-ehci",
++				     "generic-ehci";
++			reg = <0x05310000 0x100>;
++			interrupts = <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI2>,
++				 <&ccu CLK_BUS_EHCI2>,
++				 <&ccu CLK_USB_OHCI2>;
++			resets = <&ccu RST_BUS_OHCI2>,
++				 <&ccu RST_BUS_EHCI2>;
++			phys = <&usbphy 2>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
++		ohci2: usb@5310400 {
++			compatible = "allwinner,sun50i-h616-ohci",
++				     "generic-ohci";
++			reg = <0x05310400 0x100>;
++			interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI2>,
++				 <&ccu CLK_USB_OHCI2>;
++			resets = <&ccu RST_BUS_OHCI2>;
++			phys = <&usbphy 2>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
++		ehci3: usb@5311000 {
++			compatible = "allwinner,sun50i-h616-ehci",
++				     "generic-ehci";
++			reg = <0x05311000 0x100>;
++			interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI3>,
++				 <&ccu CLK_BUS_EHCI3>,
++				 <&ccu CLK_USB_OHCI3>;
++			resets = <&ccu RST_BUS_OHCI3>,
++				 <&ccu RST_BUS_EHCI3>;
++			phys = <&usbphy 3>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
++		ohci3: usb@5311400 {
++			compatible = "allwinner,sun50i-h616-ohci",
++				     "generic-ohci";
++			reg = <0x05311400 0x100>;
++			interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI3>,
++				 <&ccu CLK_USB_OHCI3>;
++			resets = <&ccu RST_BUS_OHCI3>;
++			phys = <&usbphy 3>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
+ 		rtc: rtc@7000000 {
+ 			compatible = "allwinner,sun50i-h616-rtc";
+ 			reg = <0x07000000 0x400>;
+-- 
+2.35.1
+
