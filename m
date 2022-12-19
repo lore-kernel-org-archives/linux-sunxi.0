@@ -1,85 +1,110 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA2D7E
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Dec 2022 11:13:16 +0000 (UTC)
-Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1p7E53-0004q6-7Z; Mon, 19 Dec 2022 12:13:13 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev, Palmer Dabbelt <palmer@dabbelt.com>, Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org, Samuel Holland <samuel@sholland.org>
-Cc: Jisheng Zhang <jszhang@kernel.org>, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org, Andre Przywara <andre.przywara@arm.com>, Samuel Holland <samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B9363D4
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 Dec 2022 17:00:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6ED3C433D2;
+	Mon, 19 Dec 2022 17:00:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1671469234;
+	bh=k0vP8vhlTYUEUENAWD2qoXo6BWQdHZVBcBn/j/1G/UY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SpIxsUctCG+ggHNypNGWg+9ZKP1xB1X3d6338HaxLzLoBGYMLoShGsAahMpVuX1xd
+	 xr0udtMZ5DWFPVMgD5lFU5X+5jfNUh5PdmlyyZVTIp9bPZwrQ6jbh0HU5eOdbjMR9M
+	 fcFKSg00/u4zb7jDL+fh9bsJt7RSCfLd29hjSSw3/yHSz2u1Btg8WGSKkFvpDNTaeg
+	 5Dp9rxZyOXA5LNovbUpw+IGevsKGX6HiVleb30fNYx8gnkasQs3IRhT9bXeTKa15pS
+	 5sxKMWzy5q4moFqYR/WNnBRw9IOsF+9DsG+yRO1BsqV0nPQgZ+/qUiVyxoskZ5E+MJ
+	 OBYDT+mbweh4A==
+Date: Mon, 19 Dec 2022 17:00:29 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Icenowy Zheng <uwu@icenowy.me>
+Cc: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-sunxi@lists.linux.dev, Palmer Dabbelt <palmer@dabbelt.com>,
+	linux-riscv@lists.infradead.org, Jisheng Zhang <jszhang@kernel.org>,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+	linux-arm-kernel@lists.infradead.org,
+	Andre Przywara <andre.przywara@arm.com>
 Subject: Re: [PATCH v3 00/12] riscv: Allwinner D1/D1s platform support
-Date: Mon, 19 Dec 2022 12:13:12 +0100
-Message-ID: <7683309.EvYhyI6sBW@diego>
-In-Reply-To: <20221208090237.20572-1-samuel@sholland.org>
+Message-ID: <Y6CYrVukEW1VMf8R@spud>
 References: <20221208090237.20572-1-samuel@sholland.org>
+ <Y53/ruLoggBDXozF@spud>
+ <e9428f30cf0c6a239af01c0c2db9c511f3561a8c.camel@icenowy.me>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-
-Am Donnerstag, 8. Dezember 2022, 10:02:25 CET schrieb Samuel Holland:
-> This series adds the Kconfig/defconfig plumbing and devicetrees for a
-> range of Allwinner D1 and D1s-based boards. Many features are already
-> enabled, including USB, Ethernet, and WiFi.
-> 
-> The devicetrees use bindings from the following series which have not
-> yet been merged to linux-next:
->  - In-package LDO regulators:
->    https://lore.kernel.org/lkml/20221208084127.17443-1-samuel@sholland.org/
->  - Ethernet MAC binding fix (not a new issue with D1):
->    https://lore.kernel.org/lkml/20221208061616.7806-1-samuel@sholland.org/
->  - TI ADC101C ADC (accepted, not yet in linux-next):
->    https://lore.kernel.org/lkml/20221125220903.8632-1-samuel@sholland.org/
-> 
-> The only remaining DT validation issue is that gpio-fan is missing a
-> YAML conversion, although one is on the list here:
-> https://lore.kernel.org/lkml/20220126200350.3633576-1-clabbe@baylibre.com/
-> 
-> $ make ARCH=riscv CROSS_COMPILE=riscv64-linux-musl- dtbs_check
->   SYNC    include/config/auto.conf.cmd
->   LINT    Documentation/devicetree/bindings
->   CHKDT   Documentation/devicetree/bindings/processed-schema.json
->   SCHEMA  Documentation/devicetree/bindings/processed-schema.json
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-clockworkpi-v3.14.dtb
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dtb
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dtb
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dtb
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dtb
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dtb
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dtb
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dtb
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dtb
->   DTC_CHK arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dtb
-> arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dtb:0:0: /fan: failed to match any schema with compatible: ['gpio-fan']
-> 
-> Note that validation requires dt-schema v2022.12 or newer.
-> 
-> I tested this series (DMIC, Ethernet, LEDs, MMC, PMIC, touch, and USB,
-> all where available) on the following boards:
->  - sun20i-d1-devterm-v3.14
->  - sun20i-d1-dongshan-nezha-stu
->  - sun20i-d1-lichee-rv-86-panel-480p
->  - sun20i-d1-mangopi-mq-pro
->  - sun20i-d1-nezha
->  - sun20i-d1s-mangopi-mq
-
-I've re-tested this series again with the current merge-window state
-(riscv pull already in) and everything still works nicely.
-
-So all tags still hold :-)
-
-Thanks
-Heiko
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="1Myp6idsTSAhtZvC"
+Content-Disposition: inline
+In-Reply-To: <e9428f30cf0c6a239af01c0c2db9c511f3561a8c.camel@icenowy.me>
 
 
+--1Myp6idsTSAhtZvC
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Dec 19, 2022 at 05:43:17PM +0800, Icenowy Zheng wrote:
+> =E5=9C=A8 2022-12-17=E6=98=9F=E6=9C=9F=E5=85=AD=E7=9A=84 17:43 +0000=EF=
+=BC=8CConor Dooley=E5=86=99=E9=81=93=EF=BC=9A
+> > On Thu, Dec 08, 2022 at 03:02:25AM -0600, Samuel Holland wrote:
+> > > This series adds the Kconfig/defconfig plumbing and devicetrees for
+> > > a
+> > > range of Allwinner D1 and D1s-based boards. Many features are
+> > > already
+> > > enabled, including USB, Ethernet, and WiFi.
+> > >=20
+> > > The devicetrees use bindings from the following series which have
+> > > not
+> > > yet been merged to linux-next:
+> > > =C2=A0- In-package LDO regulators:
+> > > =C2=A0=C2=A0
+> > > https://lore.kernel.org/lkml/20221208084127.17443-1-samuel@sholland.o=
+rg/
+> > > =C2=A0- Ethernet MAC binding fix (not a new issue with D1):
+> > > =C2=A0=C2=A0
+> > > https://lore.kernel.org/lkml/20221208061616.7806-1-samuel@sholland.or=
+g/
+> > > =C2=A0- TI ADC101C ADC (accepted, not yet in linux-next):
+> > > =C2=A0=C2=A0
+> > > https://lore.kernel.org/lkml/20221125220903.8632-1-samuel@sholland.or=
+g/
+> > >=20
+> > > The only remaining DT validation issue is that gpio-fan is missing
+> > > a
+> > > YAML conversion, although one is on the list here:
+> > > https://lore.kernel.org/lkml/20220126200350.3633576-1-clabbe@baylibre=
+=2Ecom/
+> >=20
+> > With the above 4 in next:
+> > Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> >=20
+> > Corentin's patch looked like it needed only minor changes. I shall go
+> > ping it :)
+>=20
+> In addition I think Corentin's patch shouldn't be a blocking issue.
+> This patchset does not depend on DT binding being converted to YAML,
+> TXT binding is enough as dependency.
+
+I rid RISC-V of warnings and I would like it to stay that way please.
+There's other stuff outstanding anyway and Corentin has already sent a
+v2 :)
 
 
+--1Myp6idsTSAhtZvC
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY6CYrQAKCRB4tDGHoIJi
+0jm1AQCxFAoy0OVLOEwILVBPezoKFbbLuL52TrriLLuZyhtvxAD+P99BF/pHCiDs
+qImJEY24BG8loa7iDlE9m0SUWZl8qA0=
+=r6VJ
+-----END PGP SIGNATURE-----
+
+--1Myp6idsTSAhtZvC--
