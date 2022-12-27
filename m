@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1974063DE
-	for <linux-sunxi@lists.linux.dev>; Tue, 27 Dec 2022 20:34:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86147C43392;
-	Tue, 27 Dec 2022 20:34:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 601408494
+	for <linux-sunxi@lists.linux.dev>; Tue, 27 Dec 2022 20:35:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D67FFC433D2;
+	Tue, 27 Dec 2022 20:35:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672173243;
-	bh=W2OZh1cjB+KeqJYL7Y5y8ubMvj4vgTKkh4rZbUd8Yfk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=A9R404D/ZzRkptlvHmGKMpkxry/eQZSc1XY79BHSW1Y7vORnb3ILF/kRDIsWxBWy/
-	 nv/nyRJurHlMAXyM3LqS8fwkS7iw7meV1Q5a2siLw8bYMU4IsKcCvJPb2PqVKfl9hx
-	 uzXMhBWk1l/G4GPV0rsq2c/MpRRYfhHN6j0jpz8IKG9Ov8irGf00LSYL/W3jVgihM3
-	 QR/Chlj3TvAwJ6+8NnJIf67HF61jEBToYS18WMMGaocK67sduZTr6i19rsu+txrHYK
-	 W8A/yR+YhRJvAoGVP7l+EQS3ZyrzrpGlwWzTZ+qaTaR9LaqkIcyy+e5Wn0QKkdrK4I
-	 TqMvRrM7Jcp6g==
+	s=k20201202; t=1672173315;
+	bh=17q78AWH7ZS36A1H5pgoO7SU1wwmo9sZqO+Q1V9JmNc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=pQWElqlF3knnZFTo07jtgss8Ml7LZy45UAsMGdgrcazfa0pO8D18PDrrJwahtaYwc
+	 D71ENkHTOdai5PfiyT0FX3tRS44OYLQWH0bgYwTMBy2GrtWpocH+AmgJpkWqemoWqA
+	 gxPntyK4+0Z7l3kIwTRwMksZ+J3hSkvbkXT7tiup8RfkNqDJDRtSVYgQcDUk+TY5Y2
+	 zKDLER/3m6abEKmy8fTPyJYb59xX/E+fctveswCOlXkBCzDaH5zjS8xXCkiWF2tW/N
+	 C9mbubEg/aj0EuYfZym6ZsvQ4MTm+YvycKxgmdj8Lcpa0TB4cZsXUKLUV8UO8YqXSz
+	 /98e8hcwA7Iyw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -29,12 +29,10 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
 	linux-phy@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.0 13/27] phy: sun4i-usb: Add support for the H616 USB PHY
-Date: Tue, 27 Dec 2022 15:33:28 -0500
-Message-Id: <20221227203342.1213918-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 1/7] phy: sun4i-usb: Add support for the H616 USB PHY
+Date: Tue, 27 Dec 2022 15:35:04 -0500
+Message-Id: <20221227203512.1214527-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221227203342.1213918-1-sashal@kernel.org>
-References: <20221227203342.1213918-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -67,10 +65,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 12 insertions(+)
 
 diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
-index f094a4cd7cbc..77b058ed42e3 100644
+index 651d5e2a25ce..230987e55ece 100644
 --- a/drivers/phy/allwinner/phy-sun4i-usb.c
 +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-@@ -1032,6 +1032,17 @@ static const struct sun4i_usb_phy_cfg sun50i_h6_cfg = {
+@@ -974,6 +974,17 @@ static const struct sun4i_usb_phy_cfg sun50i_h6_cfg = {
  	.missing_phys = BIT(1) | BIT(2),
  };
  
@@ -88,7 +86,7 @@ index f094a4cd7cbc..77b058ed42e3 100644
  static const struct of_device_id sun4i_usb_phy_of_match[] = {
  	{ .compatible = "allwinner,sun4i-a10-usb-phy", .data = &sun4i_a10_cfg },
  	{ .compatible = "allwinner,sun5i-a13-usb-phy", .data = &sun5i_a13_cfg },
-@@ -1047,6 +1058,7 @@ static const struct of_device_id sun4i_usb_phy_of_match[] = {
+@@ -988,6 +999,7 @@ static const struct of_device_id sun4i_usb_phy_of_match[] = {
  	{ .compatible = "allwinner,sun50i-a64-usb-phy",
  	  .data = &sun50i_a64_cfg},
  	{ .compatible = "allwinner,sun50i-h6-usb-phy", .data = &sun50i_h6_cfg },
