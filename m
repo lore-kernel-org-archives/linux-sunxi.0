@@ -1,101 +1,167 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB90F634;
-	Mon, 26 Dec 2022 03:41:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 72628C433F1;
-	Mon, 26 Dec 2022 03:41:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E295C8494
+	for <linux-sunxi@lists.linux.dev>; Tue, 27 Dec 2022 20:33:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5714CC433EF;
+	Tue, 27 Dec 2022 20:33:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672026091;
-	bh=zmtqhXQv7hiPZDJGmROKlujPmTGm2oRNxnDcUz2K1XA=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=aFP63n6aR/0rsvyekq2AImCT+Ltsl9Jl7dPzbNYHhoyZYHDH6lK2bZrhlcgunmhld
-	 RgMVPID00zacoRWh6/2WcYeqqfuXii7bfwtJk5lxNcH9sYhs6uYZ65sHxjCjvHVJGC
-	 jU2sooTMKGRe+SFmEQSyRrM2Z5Ebr4Jv8ipoN7FtPVN5x7rUbCF4ahlzEUcQHuzwgS
-	 dPZnfjIrxijvQKXa4OnPsL5xX8faKU1LhwAeeoNrFyIvTCF3+ednhZDVur/h1/X3jD
-	 E41cCnOUXtPEk1kFVfqyh2f9D9ufm9IlqPIid1pjLmSc0vc0NcK4CEzAwGC3ktCoTG
-	 JD3TuvTuDV3ew==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4CBF2E50D66;
-	Mon, 26 Dec 2022 03:41:31 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1672173188;
+	bh=Cw70npNCrYgOUOKEX+03N24pA9AGSIUhXwgU3cP1C4U=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=fJ8F4FdVunMKg4G1RPWhQG0LR1FqsNcu1UKFQ5bShzFW9ff1g8YYxTvwi2ecm9LHU
+	 iZXwqCLlDXi7h8+OcX5qbTnLynJoBATUvjvAC3G6CjmFdTTaJ8P7r7dHeRjGrDsnE4
+	 kbrzn54KXvmACXMQDSyJQZ095uicWTz2NXBdbPcJQyvQKiLX2iVa1EcUa9F4eWr+7h
+	 AnjQIeaCC35KmaHsfhHQkpWNYi3qtPJHAQCZz0fp1HzXm/olqMQXGQv3VG97tvhJH+
+	 nDWjtk//4Q605eznX3402j9Uetsb4AOmwCUVPsZ/1aNo3H4fYx2rCSDESqxD8CK77B
+	 nvSTAHvjt6g6w==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Andre Przywara <andre.przywara@arm.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	kishon@kernel.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	p.zabel@pengutronix.de,
+	wsa+renesas@sang-engineering.com,
+	linux-phy@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.1 12/28] phy: sun4i-usb: Introduce port2 SIDDQ quirk
+Date: Tue, 27 Dec 2022 15:32:33 -0500
+Message-Id: <20221227203249.1213526-12-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221227203249.1213526-1-sashal@kernel.org>
+References: <20221227203249.1213526-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 1/3] ASoC: dt-bindings: Extend name-prefix.yaml into common
- DAI properties
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <167202609130.9518.10337988666912704066.git-patchwork-notify@kernel.org>
-Date: Mon, 26 Dec 2022 03:41:31 +0000
-References: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: neil.armstrong@linaro.org, airlied@gmail.com, daniel@ffwll.ch,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, khilman@baylibre.com,
- jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
- lgirdwood@gmail.com, broonie@kernel.org, wens@csie.org,
- jernej.skrabec@gmail.com, samuel@sholland.org, fengzheng923@gmail.com,
- povik+lin@cutebit.org, james.schulman@cirrus.com, david.rhodes@cirrus.com,
- tanureal@opensource.cirrus.com, rf@opensource.cirrus.com,
- ckeepax@opensource.cirrus.com, peter.ujfalusi@gmail.com,
- cychiang@chromium.org, tzungbi@kernel.org, groeck@chromium.org,
- bleung@chromium.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
- stephan@gerhold.net, agross@kernel.org, andersson@kernel.org,
- konrad.dybcio@linaro.org, srinivas.kandagatla@linaro.org,
- bgoswami@quicinc.com, frattaroli.nicolas@gmail.com, heiko@sntech.de,
- s.nawrocki@samsung.com, festevam@gmail.com, hayashi.kunihiko@socionext.com,
- mhiramat@kernel.org, olivier.moysan@foss.st.com,
- arnaud.pouliquen@foss.st.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, alexandre.belloni@bootlin.om, lars@metafoo.de,
- bogdan.togorean@analog.com, nuno.sa@analog.com, vincent.knecht@mailoo.org,
- kuninori.morimoto.gx@renesas.com, mripard@kernel.org,
- rriveram@opensource.cirrus.com, patches@opensource.cirrus.com,
- j-choudhary@ti.com, drake@endlessm.com, katsuhiro@katsuster.net,
- shengjiu.wang@nxp.com, paul@crapouillou.net, jee.heng.sia@intel.com,
- lkundrak@v3.sk, codrin.ciubotariu@microchip.com, mkumard@nvidia.com,
- spujar@nvidia.com, rohitkr@codeaurora.org, derek.fang@realtek.com,
- biju.das.jz@bp.renesas.com, cy_huang@richtek.com, joabreu@synopsys.com,
- afd@ti.com, shifu0704@thundersoft.com, shenghao-ding@ti.com,
- flatmax@flatmax.com, ricardw@axis.com, perex@perex.cz, tiwai@suse.com,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sunxi@lists.linux.dev, asahi@lists.linux.dev,
- chrome-platform@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com
 
-Hello:
+From: Andre Przywara <andre.przywara@arm.com>
 
-This series was applied to chrome-platform/linux.git (for-next)
-by Mark Brown <broonie@kernel.org>:
+[ Upstream commit b45c6d80325bec2b78c716629a518b6442d8bdc6 ]
 
-On Sat,  3 Dec 2022 17:04:40 +0100 you wrote:
-> Rename name-prefix.yaml into common DAI schema and document
-> '#sound-dai-cells' for completeness.  The '#sound-dai-cells' cannot be
-> really constrained, as there are users with value of 0, 1 and 2, but at
-> least it brings definition to one common place.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> [...]
+At least the Allwinner H616 SoC requires a weird quirk to make most
+USB PHYs work: Only port2 works out of the box, but all other ports
+need some help from this port2 to work correctly: The CLK_BUS_PHY2 and
+RST_USB_PHY2 clock and reset need to be enabled, and the SIDDQ bit in
+the PMU PHY control register needs to be cleared. For this register to
+be accessible, CLK_BUS_ECHI2 needs to be ungated. Don't ask ....
 
-Here is the summary with links:
-  - [1/3] ASoC: dt-bindings: Extend name-prefix.yaml into common DAI properties
-    https://git.kernel.org/chrome-platform/c/3fda85324b8d
-  - [2/3] ASoC: dt-bindings: Reference common DAI properties
-    https://git.kernel.org/chrome-platform/c/58ae9a2aca6f
-  - [3/3] ASoC: dt-bindings: maxim,max98357a: Convert to DT schema
-    https://git.kernel.org/chrome-platform/c/8a5a05583a04
+Instead of disguising this as some generic feature, treat it more like
+a quirk (what it really is):
+If the quirk bit is set, and we initialise a PHY other than PHY2, ungate
+this one special clock, and clear the SIDDQ bit. We also pick the clock
+and reset from PHY2 and enable them as well.
 
-You are awesome, thank you!
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Link: https://lore.kernel.org/r/20221031111358.3387297-4-andre.przywara@arm.com
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/phy/allwinner/phy-sun4i-usb.c | 59 +++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
+
+diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
+index 3a3831f6059a..e39f5ad62cc1 100644
+--- a/drivers/phy/allwinner/phy-sun4i-usb.c
++++ b/drivers/phy/allwinner/phy-sun4i-usb.c
+@@ -120,6 +120,7 @@ struct sun4i_usb_phy_cfg {
+ 	u8 phyctl_offset;
+ 	bool dedicated_clocks;
+ 	bool phy0_dual_route;
++	bool needs_phy2_siddq;
+ 	int missing_phys;
+ };
+ 
+@@ -289,6 +290,50 @@ static int sun4i_usb_phy_init(struct phy *_phy)
+ 		return ret;
+ 	}
+ 
++	/* Some PHYs on some SoCs need the help of PHY2 to work. */
++	if (data->cfg->needs_phy2_siddq && phy->index != 2) {
++		struct sun4i_usb_phy *phy2 = &data->phys[2];
++
++		ret = clk_prepare_enable(phy2->clk);
++		if (ret) {
++			reset_control_assert(phy->reset);
++			clk_disable_unprepare(phy->clk2);
++			clk_disable_unprepare(phy->clk);
++			return ret;
++		}
++
++		ret = reset_control_deassert(phy2->reset);
++		if (ret) {
++			clk_disable_unprepare(phy2->clk);
++			reset_control_assert(phy->reset);
++			clk_disable_unprepare(phy->clk2);
++			clk_disable_unprepare(phy->clk);
++			return ret;
++		}
++
++		/*
++		 * This extra clock is just needed to access the
++		 * REG_HCI_PHY_CTL PMU register for PHY2.
++		 */
++		ret = clk_prepare_enable(phy2->clk2);
++		if (ret) {
++			reset_control_assert(phy2->reset);
++			clk_disable_unprepare(phy2->clk);
++			reset_control_assert(phy->reset);
++			clk_disable_unprepare(phy->clk2);
++			clk_disable_unprepare(phy->clk);
++			return ret;
++		}
++
++		if (phy2->pmu && data->cfg->hci_phy_ctl_clear) {
++			val = readl(phy2->pmu + REG_HCI_PHY_CTL);
++			val &= ~data->cfg->hci_phy_ctl_clear;
++			writel(val, phy2->pmu + REG_HCI_PHY_CTL);
++		}
++
++		clk_disable_unprepare(phy->clk2);
++	}
++
+ 	if (phy->pmu && data->cfg->hci_phy_ctl_clear) {
+ 		val = readl(phy->pmu + REG_HCI_PHY_CTL);
+ 		val &= ~data->cfg->hci_phy_ctl_clear;
+@@ -354,6 +399,13 @@ static int sun4i_usb_phy_exit(struct phy *_phy)
+ 		data->phy0_init = false;
+ 	}
+ 
++	if (data->cfg->needs_phy2_siddq && phy->index != 2) {
++		struct sun4i_usb_phy *phy2 = &data->phys[2];
++
++		clk_disable_unprepare(phy2->clk);
++		reset_control_assert(phy2->reset);
++	}
++
+ 	sun4i_usb_phy_passby(phy, 0);
+ 	reset_control_assert(phy->reset);
+ 	clk_disable_unprepare(phy->clk2);
+@@ -785,6 +837,13 @@ static int sun4i_usb_phy_probe(struct platform_device *pdev)
+ 				dev_err(dev, "failed to get clock %s\n", name);
+ 				return PTR_ERR(phy->clk2);
+ 			}
++		} else {
++			snprintf(name, sizeof(name), "pmu%d_clk", i);
++			phy->clk2 = devm_clk_get_optional(dev, name);
++			if (IS_ERR(phy->clk2)) {
++				dev_err(dev, "failed to get clock %s\n", name);
++				return PTR_ERR(phy->clk2);
++			}
+ 		}
+ 
+ 		snprintf(name, sizeof(name), "usb%d_reset", i);
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.35.1
 
