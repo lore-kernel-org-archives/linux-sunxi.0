@@ -1,74 +1,68 @@
 Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045F71FAF
-	for <linux-sunxi@lists.linux.dev>; Thu, 29 Dec 2022 18:15:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6D11110
+	for <linux-sunxi@lists.linux.dev>; Thu, 29 Dec 2022 18:40:15 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 5352A32005C1;
-	Thu, 29 Dec 2022 13:15:48 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Thu, 29 Dec 2022 13:15:49 -0500
+	by mailout.west.internal (Postfix) with ESMTP id B239432007F1;
+	Thu, 29 Dec 2022 13:40:13 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Thu, 29 Dec 2022 13:40:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1672337747; x=1672424147; bh=cc
-	VLhMcmGv5G5PBWQJoQHqPqbnjedt1DR07CNYuDpwA=; b=pimmPEMA0ZTHlPQkRY
-	Sv9T3GMud0xar6KGf7/ExMGEvsE+gkLoPoe+4sOT5HAwQiOtWz+/+71stIsLbidu
-	T2UnPPSI48XL7HI2wP78E4aMCVTT1E0oMRZdEXOU6hQhT/xusKadHyMtHoq3loaV
-	wbC65/uq6HB1jVr9jNabrxHJCvAOzAt6UOobwwTyidvW1C6DNPtKoqoxdCi2uQNU
-	FqbZKGEpO55oWcQzpajYQ5uMBX4o1oHJxdhnXci8eM+/j8IndhN9Za74blRDk99V
-	4oPeYjF3vrkXrtXcrdhwUQVhMxVTVyU/CbGMpjy+RJNmHxhNf8XHN5bM8odYUj0o
-	zDlA==
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm3; t=1672339213; x=1672425613; bh=Ub6/Sg6MtwK7zSZLvDEMExGoi
+	kMh9KjbbFTpe8DKeuA=; b=gw+eCMVAO9wS/xum4K/FmCm8RLK+HPddgKot9F+6C
+	aXmo+a4J5GbZ/4SQIPdakBOJYRFUnQhvcCA+XVB3SsHzW7NAbSKmotc1ujaD8Y8O
+	vODRxqEvuCsmehC/Kuw9s3h+FY5gHJw4Yv7M1xcQvrhv0JgzDaTBQ/n8yOdkv9ih
+	snRcMti+ltyPcsj+T1ccNfpLLo9W9MEPcGfts8/Uwt7rK4IKydVggD/NcJ4MRpyw
+	hrg9P8FNnY6UQuTZikUJctqGNE+CoVjT+qg2qpg7IVSZ6teE6iotZcmOmwO56qIB
+	o7fhNWNkESC72HMpJ/UQPuUiNBu1yaKj2eX60W9W35MNQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1672337747; x=1672424147; bh=ccVLhMcmGv5G5
-	PBWQJoQHqPqbnjedt1DR07CNYuDpwA=; b=ZV3DQMhC1MDoTmBTQY+7NpGmuviZ3
-	c5+UXM65FJQmUpmCiQUzGlnk6s0Rspk0pI6/HaBhslmUPi44NCalVr0ER/ghgMpB
-	LdMD79+mVdP1V/z6PFAcEfgLjLrWqvk2QaN0SHIwHT9nzIAk+oQgPsAmldugppma
-	nE8P0L9+IsvCN/UslNnD0IvLwH+gJdLrOH9DGqviA0sOXahmGa4/ljVoJ++9HUsh
-	PfYgBGr/Zvh7JBHTTQL0j+77Kp2SLTQjo3EXfjCM06mhu+OAwko/QzH25Qt6pvLP
-	p1MXecAnMr36wY8NGMFh2f/8VB3JjBUyqxIWHeh8bWHSKNiHbZ2j/BMHA==
-X-ME-Sender: <xms:U9mtY_mtAj2fwwS0EcUn9McDELUGkChlnJnEKzTGTxlE_pyASuu0-g>
-    <xme:U9mtYy3l8_nsZ-2BYUJ-wjYiwQlUw0FkB9PXm_Ez96PBXjponQMiE6V7m4rdo37BC
-    9gu-JamoqOM21WI5w>
-X-ME-Received: <xmr:U9mtY1pam89qWLw3u1VRjR7EL_ANFHqtoKD1_5opK7ayB51697i13SW0TSsPwMwnjeY5cpehsz7F3iw0SVDgUCzB9M1Z6BrgsfeC9mXKDDPTrqS2PTqOxXTkVvsdcGcQzSlbRA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieeggdduuddtucetufdoteggodetrfdotf
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1672339213; x=1672425613; bh=Ub6/Sg6MtwK7zSZLvDEMExGoikMh9KjbbFT
+	pe8DKeuA=; b=d0Ax4PSWdXTAOophmW8FbmoPkGdXa0JFRPff+iWnGGT7jU9VIfw
+	h8SOWIcNDDSZJU2hvODYDoyQXuCvff9dL3p+Nbi2FKaXqqDFTmcZlkPBJZ2HcSqB
+	VejGcWgf7H3NgVKWEDhSA4hnna7Ql7SCrAF1rKyykrC7z55lsegk3KZZ+1EPdRnY
+	4e1RCKjRR4ulSAMhOmvBlawaDFBHayMO7BcmhKqo0eqIgzNT4Q22Hzd+E0eUfe1i
+	yOh/UuZu7xBn9CoESjRPiboWUdUgF96SZjHM4Uybo+HqxjL4VfUIwqxJBQAAcK6Q
+	oQNF34KNhHa8kjFqHBojTrORJbg7NwAKi0A==
+X-ME-Sender: <xms:Dd-tY1c6jzUb0hyju4GwDZH1oft3CCyXVijpSqpDl8cv9-oeZaLONA>
+    <xme:Dd-tYzMdkP4pG3FMiD8k0KyIYSz4Cunbh8dTw5pJ6NDPWp730s8rAgRDuSeEORT6T
+    7hE0zH2Iq6or7o4uQ>
+X-ME-Received: <xmr:Dd-tY-iY_PkIGgF9HXiucJrEOXJIwGOTiXLJvE6hoUFdTR_npT4Tu7eX48PQZ1mtF6WL8IwAIQmAsBYQUvP4-S8x39NunvRzLQTRQFdtQfkHc0EHPVviKKWJdq-b0NbC13ugGQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieeggdduudehucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepudekteeuudehtdelteevgfduvddvjefhfedulefgudevgeeghefg
-    udefiedtveetnecuvehluhhsthgvrhfuihiivgepfeenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:U9mtY3nALZS1qIcn2J0I7xtDVwwLkUVbBhIjlSqvY4MrJosiyY0LPQ>
-    <xmx:U9mtY91tN8zO5TCiMGFi8sQAhE6BQFUleOp8MPmIdarpGFVT7ckp6w>
-    <xmx:U9mtY2vx8C6hep4_oK8du6AfeqfZsiPCjD36CByi_T2Kvj4ucRqUww>
-    <xmx:U9mtY2sxeYFdn8pnRYQislGo7sZiWDcyEalHvZIf5WuaKNtnBPshcg>
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
+    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:Dd-tY-_2sMylYYXdONF5dVioDiH-G7zAxEGZbB-xlJY6MtoNNh9lrw>
+    <xmx:Dd-tYxuiy0caaCttUucdX2r-jxGouwl5xMJuVdAysE6NLSz-rYtILA>
+    <xmx:Dd-tY9HjIuGchgcq7GWs9miG1a7fPwA8s6O30AdaGVZA5nNiYxosDg>
+    <xmx:Dd-tYy9aVxAJWBiIe_B5URbRY-pyuR4RBWvGvJzZY8nMmvk50fNIwA>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 29 Dec 2022 13:15:47 -0500 (EST)
+ 29 Dec 2022 13:40:12 -0500 (EST)
 From: Samuel Holland <samuel@sholland.org>
-To: Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
+To: Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Boris Brezillon <bbrezillon@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Brian Norris <computersforpeace@gmail.com>,
-	linux-arm-kernel@lists.infradead.org,
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-rtc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-mtd@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 7/7] mtd: rawnand: sunxi: Precompute the ECC_CTL register value
-Date: Thu, 29 Dec 2022 12:15:26 -0600
-Message-Id: <20221229181526.53766-8-samuel@sholland.org>
+	linux-sunxi@lists.linux.dev,
+	Samuel Holland <samuel@sholland.org>
+Subject: [PATCH 1/2] rtc: sun6i: Prevent an out-of-bounds read
+Date: Thu, 29 Dec 2022 12:40:10 -0600
+Message-Id: <20221229184011.62925-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.37.4
-In-Reply-To: <20221229181526.53766-1-samuel@sholland.org>
-References: <20221229181526.53766-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -77,180 +71,33 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This removes an unnecessary memory allocation, and avoids recomputing
-the same register value every time ECC is enabled.
+If there is more than one parent clock in the devicetree, the
+driver sets .num_parents to a larger value than the number of array
+elements, which causes an out-of-bounds read in the clock framework.
 
+Fix this by coercing the parent count to a Boolean value, like the
+driver expects.
+
+Fixes: 3855c2c3e546 ("rtc: sun6i: Expose the 32kHz oscillator")
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
- drivers/mtd/nand/raw/sunxi_nand.c | 75 ++++++-------------------------
- 1 file changed, 13 insertions(+), 62 deletions(-)
+ drivers/rtc/rtc-sun6i.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
-index a3bc9f7f9e5a..5c5a567d8870 100644
---- a/drivers/mtd/nand/raw/sunxi_nand.c
-+++ b/drivers/mtd/nand/raw/sunxi_nand.c
-@@ -169,22 +169,13 @@ struct sunxi_nand_chip_sel {
- 	s8 rb;
- };
+diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+index ed5516089e9a..a22358a44e32 100644
+--- a/drivers/rtc/rtc-sun6i.c
++++ b/drivers/rtc/rtc-sun6i.c
+@@ -294,7 +294,7 @@ static void __init sun6i_rtc_clk_init(struct device_node *node,
  
--/**
-- * struct sunxi_nand_hw_ecc - stores information related to HW ECC support
-- *
-- * @mode: the sunxi ECC mode field deduced from ECC requirements
-- */
--struct sunxi_nand_hw_ecc {
--	int mode;
--};
--
- /**
-  * struct sunxi_nand_chip - stores NAND chip device related information
-  *
-  * @node: used to store NAND chips into a list
-  * @nand: base NAND chip structure
-- * @ecc: ECC controller structure
-  * @clk_rate: clk_rate required for this NAND chip
-+ * @ecc_ctl: ECC_CTL register value for this NAND chip
-  * @timing_cfg: TIMING_CFG register value for this NAND chip
-  * @timing_ctl: TIMING_CTL register value for this NAND chip
-  * @nsels: number of CS lines required by the NAND chip
-@@ -193,8 +184,8 @@ struct sunxi_nand_hw_ecc {
- struct sunxi_nand_chip {
- 	struct list_head node;
- 	struct nand_chip nand;
--	struct sunxi_nand_hw_ecc *ecc;
- 	unsigned long clk_rate;
-+	u32 ecc_ctl;
- 	u32 timing_cfg;
- 	u32 timing_ctl;
- 	int nsels;
-@@ -689,26 +680,15 @@ static void sunxi_nfc_hw_ecc_enable(struct nand_chip *nand)
- {
- 	struct sunxi_nand_chip *sunxi_nand = to_sunxi_nand(nand);
- 	struct sunxi_nfc *nfc = to_sunxi_nfc(nand->controller);
--	u32 ecc_ctl;
--
--	ecc_ctl = readl(nfc->regs + NFC_REG_ECC_CTL);
--	ecc_ctl &= ~(NFC_ECC_MODE_MSK | NFC_ECC_PIPELINE |
--		     NFC_ECC_BLOCK_SIZE_MSK);
--	ecc_ctl |= NFC_ECC_EN | NFC_ECC_MODE(sunxi_nand->ecc->mode) |
--		   NFC_ECC_EXCEPTION | NFC_ECC_PIPELINE;
--
--	if (nand->ecc.size == 512)
--		ecc_ctl |= NFC_ECC_BLOCK_512;
+ 	init.parent_names = parents;
+ 	/* ... number of clock parents will be 1. */
+-	init.num_parents = of_clk_get_parent_count(node) + 1;
++	init.num_parents = !!of_clk_get_parent_count(node) + 1;
+ 	of_property_read_string_index(node, "clock-output-names", 0,
+ 				      &init.name);
  
--	writel(ecc_ctl, nfc->regs + NFC_REG_ECC_CTL);
-+	writel(sunxi_nand->ecc_ctl, nfc->regs + NFC_REG_ECC_CTL);
- }
- 
- static void sunxi_nfc_hw_ecc_disable(struct nand_chip *nand)
- {
- 	struct sunxi_nfc *nfc = to_sunxi_nfc(nand->controller);
- 
--	writel(readl(nfc->regs + NFC_REG_ECC_CTL) & ~NFC_ECC_EN,
--	       nfc->regs + NFC_REG_ECC_CTL);
-+	writel(0, nfc->regs + NFC_REG_ECC_CTL);
- }
- 
- static inline void sunxi_nfc_user_data_to_buf(u32 user_data, u8 *buf)
-@@ -1626,11 +1606,6 @@ static const struct mtd_ooblayout_ops sunxi_nand_ooblayout_ops = {
- 	.free = sunxi_nand_ooblayout_free,
- };
- 
--static void sunxi_nand_hw_ecc_ctrl_cleanup(struct sunxi_nand_chip *sunxi_nand)
--{
--	kfree(sunxi_nand->ecc);
--}
--
- static int sunxi_nand_hw_ecc_ctrl_init(struct nand_chip *nand,
- 				       struct nand_ecc_ctrl *ecc,
- 				       struct device_node *np)
-@@ -1641,7 +1616,6 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand_chip *nand,
- 	struct mtd_info *mtd = nand_to_mtd(nand);
- 	struct nand_device *nanddev = mtd_to_nanddev(mtd);
- 	int nsectors;
--	int ret;
- 	int i;
- 
- 	if (nanddev->ecc.user_conf.flags & NAND_ECC_MAXIMIZE_STRENGTH) {
-@@ -1675,10 +1649,6 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand_chip *nand,
- 	if (ecc->size != 512 && ecc->size != 1024)
- 		return -EINVAL;
- 
--	sunxi_nand->ecc = kzalloc(sizeof(*sunxi_nand->ecc), GFP_KERNEL);
--	if (!sunxi_nand->ecc)
--		return -ENOMEM;
--
- 	/* Prefer 1k ECC chunk over 512 ones */
- 	if (ecc->size == 512 && mtd->writesize > 512) {
- 		ecc->size = 1024;
-@@ -1699,12 +1669,9 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand_chip *nand,
- 
- 	if (i >= ARRAY_SIZE(strengths)) {
- 		dev_err(nfc->dev, "unsupported strength\n");
--		ret = -ENOTSUPP;
--		goto err;
-+		return -ENOTSUPP;
- 	}
- 
--	sunxi_nand->ecc->mode = i;
--
- 	/* HW ECC always request ECC bytes for 1024 bytes blocks */
- 	ecc->bytes = DIV_ROUND_UP(ecc->strength * fls(8 * 1024), 8);
- 
-@@ -1713,10 +1680,14 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand_chip *nand,
- 
- 	nsectors = mtd->writesize / ecc->size;
- 
--	if (mtd->oobsize < ((ecc->bytes + 4) * nsectors)) {
--		ret = -EINVAL;
--		goto err;
--	}
-+	if (mtd->oobsize < ((ecc->bytes + 4) * nsectors))
-+		return -EINVAL;
-+
-+	sunxi_nand->ecc_ctl = NFC_ECC_MODE(i) | NFC_ECC_EXCEPTION |
-+			      NFC_ECC_PIPELINE | NFC_ECC_EN;
-+
-+	if (ecc->size == 512)
-+		sunxi_nand->ecc_ctl |= NFC_ECC_BLOCK_512;
- 
- 	ecc->read_oob = sunxi_nfc_hw_ecc_read_oob;
- 	ecc->write_oob = sunxi_nfc_hw_ecc_write_oob;
-@@ -1739,25 +1710,6 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand_chip *nand,
- 	ecc->write_oob_raw = nand_write_oob_std;
- 
- 	return 0;
--
--err:
--	kfree(sunxi_nand->ecc);
--
--	return ret;
--}
--
--static void sunxi_nand_ecc_cleanup(struct sunxi_nand_chip *sunxi_nand)
--{
--	struct nand_ecc_ctrl *ecc = &sunxi_nand->nand.ecc;
--
--	switch (ecc->engine_type) {
--	case NAND_ECC_ENGINE_TYPE_ON_HOST:
--		sunxi_nand_hw_ecc_ctrl_cleanup(sunxi_nand);
--		break;
--	case NAND_ECC_ENGINE_TYPE_NONE:
--	default:
--		break;
--	}
- }
- 
- static int sunxi_nand_attach_chip(struct nand_chip *nand)
-@@ -1970,7 +1922,6 @@ static void sunxi_nand_chips_cleanup(struct sunxi_nfc *nfc)
- 		ret = mtd_device_unregister(nand_to_mtd(chip));
- 		WARN_ON(ret);
- 		nand_cleanup(chip);
--		sunxi_nand_ecc_cleanup(sunxi_nand);
- 		list_del(&sunxi_nand->node);
- 	}
- }
 -- 
 2.37.4
 
