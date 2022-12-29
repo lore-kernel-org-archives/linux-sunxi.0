@@ -1,281 +1,117 @@
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB7F98C14
-	for <linux-sunxi@lists.linux.dev>; Thu, 29 Dec 2022 22:45:56 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.west.internal (Postfix) with ESMTP id 963BD320039A;
-	Thu, 29 Dec 2022 17:45:54 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Thu, 29 Dec 2022 17:45:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1672353954; x=1672440354; bh=PX
-	x4B1NSIilOzh33vZmfVaL9m9brucnpq6fUhPzxVlc=; b=LpOu1RQWbjSpJ/1W5M
-	KB6ZfKNg6gkp93mmJhl4WBuBi9CxcWfprEK6pHDSXiL7jR5mpCFeoBhEkhMqGF+j
-	LAeUn2gfMXOB8vn1ypefQvm2/iWenC31hGYiRgKwIQYA4aX2pJhLIyo30rzxynhx
-	vhEFKm2L2KY0reDi0KPFsxpUr74Bm+whJ29GthMWOor5IrWBLx+ss+g/9XpCTCRW
-	iFgh97tsLy2iqyxpQkJJR6GShuTfFD/UrVRc2IqKiwHvawaWgLOMhLy1xStmt7Q/
-	988DPg9sF3SyMfQ4+4GBoLdyVNiOEHdI8Gh+pJmD9G8nKGMkGHdGUAuqa0YVsfIQ
-	S0yw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1672353954; x=1672440354; bh=PXx4B1NSIilOz
-	h33vZmfVaL9m9brucnpq6fUhPzxVlc=; b=p5lYUwZGRwu81OEKlZoYLzUnLQrhC
-	aqw8oUuOZkxpveTOiceM8A+ayeF9JWpS/WR4AUeubEhiM24amFJveQVw7MkdqFhl
-	43N0pIHJay4Ll3iXymUzibkTPdegfUQHPoD++FLLMeRfl5HyvHItGZ81+H/NNoEP
-	cGJKzLBDxpGrs/SVnh8Jq/WDCHSlt1VqrWB8V8DjDgoeTKwBIWqBq8NSFoWeGkmH
-	lWGZ0CIR0z8d/Rbh3XUCcEqHj617rvmy+PGDpYNwXwqh1NHdWRT5Uw+R9HTfws7Z
-	CNvRBTIgj27ORo7ILiyUtDCRYB6U72y2NuG/aYfewWXteOpmw2j5U4DAQ==
-X-ME-Sender: <xms:ohiuYxMw6-GZQnEVIVHB37bIqrZftthNGL956jcPn35Zd8Cwvs3iwA>
-    <xme:ohiuYz-mzpE6WhVKSvfrMpTziRyt8mCrjbjyYB7N_32Z03TwX3Woiv7f7CTwUvZ1z
-    lXxfo4CyEsK22ZSqA>
-X-ME-Received: <xmr:ohiuYwS7zZmTgh6HrkzuCPk9qf0uT6SB493u8gBIP1Hs8Qri_l79hkVG710xcCsXJ7pabgzUy1SS902ML8bToM7DPce580qLBZBtQqGUcns-8w1DV2InBYnbPfqHRFiUXBCEIw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieehgddtvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpedukeetueduhedtleetvefguddvvdejhfefudelgfduveeggeehgfdu
-    feeitdevteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:ohiuY9ukMXdORqeEiJ20AV6mExsrqomQEZHVM_Vx0mqBV6iZl2hL0w>
-    <xmx:ohiuY5e3Z3oxLsKPEOfCMNyjphfNt36sHfukndBZNY40IWMcAAqMHQ>
-    <xmx:ohiuY51xNf-x5iHpIzfWZRCVah3vmDub-m6dAdUnl-yFtdCGA6BoRg>
-    <xmx:ohiuYzs-uolwmg3PuAuArwxqyB56HIUOZ93CmNpOyKWCu9_r-ACeYg>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 29 Dec 2022 17:45:53 -0500 (EST)
-From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>
-Cc: linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH 2/2] ARM: dts: sun8i: A33: Add iNet U70B Rev 01
-Date: Thu, 29 Dec 2022 16:45:47 -0600
-Message-Id: <20221229224547.25225-3-samuel@sholland.org>
-X-Mailer: git-send-email 2.37.4
-In-Reply-To: <20221229224547.25225-1-samuel@sholland.org>
-References: <20221229224547.25225-1-samuel@sholland.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B0EB8C14
+	for <linux-sunxi@lists.linux.dev>; Thu, 29 Dec 2022 23:18:48 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9C1032F4;
+	Thu, 29 Dec 2022 15:19:23 -0800 (PST)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B21A43F663;
+	Thu, 29 Dec 2022 15:18:40 -0800 (PST)
+Date: Thu, 29 Dec 2022 23:17:03 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard
+ <mripard@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] rtc: sun6i: Always export the internal oscillator
+Message-ID: <20221229231703.19f5eda7@slackpad.lan>
+In-Reply-To: <20221229215319.14145-1-samuel@sholland.org>
+References: <20221229215319.14145-1-samuel@sholland.org>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-This is a white-label 7" tablet board based on the A33 SoC. It features
-a generic 1024x600 DPI panel, raw NAND for storage, and a Realtek 8723CS
-Wi-Fi/Bluetooth chip.
+On Thu, 29 Dec 2022 15:53:19 -0600
+Samuel Holland <samuel@sholland.org> wrote:
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+Hi Samuel,
 
- arch/arm/boot/dts/Makefile                    |   1 +
- .../boot/dts/sun8i-a33-inet-u70b-rev01.dts    | 172 ++++++++++++++++++
- 2 files changed, 173 insertions(+)
- create mode 100644 arch/arm/boot/dts/sun8i-a33-inet-u70b-rev01.dts
+> On all variants of the hardware, the internal oscillator is one possible
+> parent for the AR100 clock. It needs to be exported so we can model that
+> relationship correctly in the devicetree.
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index c014f4fc53c0..e4e985d5a66c 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1349,6 +1349,7 @@ dtb-$(CONFIG_MACH_SUN8I) += \
- 	sun8i-a33-et-q8-v1.6.dtb \
- 	sun8i-a33-ga10h-v1.1.dtb \
- 	sun8i-a33-inet-d978-rev2.dtb \
-+	sun8i-a33-inet-u70b-rev01.dtb \
- 	sun8i-a33-ippo-q8h-v1.2.dtb \
- 	sun8i-a33-olinuxino.dtb \
- 	sun8i-a33-q8-tablet.dtb \
-diff --git a/arch/arm/boot/dts/sun8i-a33-inet-u70b-rev01.dts b/arch/arm/boot/dts/sun8i-a33-inet-u70b-rev01.dts
-new file mode 100644
-index 000000000000..ac108a632659
---- /dev/null
-+++ b/arch/arm/boot/dts/sun8i-a33-inet-u70b-rev01.dts
-@@ -0,0 +1,172 @@
-+// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+
-+/dts-v1/;
-+
-+#include "sun8i-a33.dtsi"
-+#include "sun8i-reference-design-tablet.dtsi"
-+
-+/ {
-+	model = "iNet U70B Rev 01";
-+	compatible = "inet-tek,inet-u70b-rev01", "allwinner,sun8i-a33";
-+
-+	aliases {
-+		ethernet0 = &rtl8723cs;
-+	};
-+
-+	panel: panel {
-+		compatible = "panel-dpi";
-+		backlight = <&backlight>;
-+		enable-gpios = <&pio 7 7 GPIO_ACTIVE_HIGH>; /* PH7 */
-+		power-supply = <&reg_dc1sw>;
-+
-+		panel-timing {
-+			clock-frequency = <51000000>;
-+			hactive = <1024>;
-+			vactive = <600>;
-+			hfront-porch = <162>;
-+			hback-porch = <158>;
-+			hsync-len = <20>;
-+			vback-porch = <25>;
-+			vfront-porch = <10>;
-+			vsync-len = <3>;
-+			hsync-active = <1>;
-+			vsync-active = <1>;
-+		};
-+
-+		port {
-+			panel_in_tcon0: endpoint {
-+				remote-endpoint = <&tcon0_out_panel>;
-+			};
-+		};
-+	};
-+
-+	speaker_amp: audio-amplifier {
-+		compatible = "simple-audio-amplifier";
-+		enable-gpios = <&pio 7 9 GPIO_ACTIVE_HIGH>; /* PH9 */
-+		sound-name-prefix = "Speaker Amp";
-+	};
-+
-+	wifi_pwrseq: wifi-pwrseq {
-+		compatible = "mmc-pwrseq-simple";
-+		reset-gpios = <&r_pio 0 6 GPIO_ACTIVE_LOW>; /* PL6 */
-+		post-power-on-delay-ms = <200>;
-+	};
-+};
-+
-+&codec {
-+	status = "okay";
-+};
-+
-+&dai {
-+	status = "okay";
-+};
-+
-+&de {
-+	status = "okay";
-+};
-+
-+&i2c1 {
-+	clock-frequency = <400000>;
-+
-+	accelerometer@18 {
-+		compatible = "bosch,bma250";
-+		reg = <0x18>;
-+		interrupt-parent = <&pio>;
-+		interrupts = <7 10 IRQ_TYPE_EDGE_RISING>; /* PH10 / EINT10 */
-+	};
-+};
-+
-+&mmc1 {
-+	pinctrl-0 = <&mmc1_pg_pins>;
-+	pinctrl-names = "default";
-+	bus-width = <4>;
-+	non-removable;
-+	vmmc-supply = <&reg_dldo1>;
-+	vqmmc-supply = <&reg_dldo2>;
-+	status = "okay";
-+
-+	rtl8723cs: wifi@1 {
-+		reg = <1>;
-+		interrupt-parent = <&r_pio>;
-+		interrupts = <0 7 IRQ_TYPE_LEVEL_LOW>; /* PL7 */
-+	};
-+};
-+
-+&nfc {
-+	status = "okay";
-+
-+	nand@0 {
-+		reg = <0>;
-+		allwinner,rb = <0>;
-+	};
-+};
-+
-+&r_uart {
-+	status = "disabled";
-+};
-+
-+&reg_dldo2 {
-+	regulator-min-microvolt = <3300000>;
-+	regulator-max-microvolt = <3300000>;
-+	regulator-name = "vcc-wifi-io";
-+};
-+
-+&simplefb_lcd {
-+	status = "okay";
-+};
-+
-+&sound {
-+	simple-audio-card,aux-devs = <&codec_analog>, <&speaker_amp>;
-+	simple-audio-card,widgets = "Headphone", "Headphone Jack",
-+				    "Microphone", "Internal Microphone",
-+				    "Speaker", "Internal Speaker";
-+	simple-audio-card,routing = "Headphone Jack", "HP",
-+				    "Internal Speaker", "Speaker Amp OUTL",
-+				    "Internal Speaker", "Speaker Amp OUTR",
-+				    "Speaker Amp INL", "HP", /* PHONEOUT ??? */
-+				    "Speaker Amp INR", "HP", /* PHONEOUT ??? */
-+				    "Left DAC", "DACL",
-+				    "Right DAC", "DACR",
-+				    "ADCL", "Left ADC",
-+				    "ADCR", "Right ADC",
-+				    "MIC1", "Internal Microphone",
-+				    "MIC2", "Headset Microphone",
-+				    "Headset Microphone", "HBIAS",
-+				    "Internal Microphone", "MBIAS";
-+	status = "okay";
-+};
-+
-+&tcon0 {
-+	pinctrl-0 = <&lcd_rgb666_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&tcon0_out {
-+	tcon0_out_panel: endpoint {
-+		remote-endpoint = <&panel_in_tcon0>;
-+	};
-+};
-+
-+&touchscreen {
-+	reg = <0x40>;
-+	compatible = "silead,gsl1680";
-+	avdd-supply = <&reg_ldo_io1>;
-+	touchscreen-size-x = <1024>;
-+	touchscreen-size-y = <600>;
-+	status = "okay";
-+};
-+
-+&uart1 {
-+	pinctrl-0 = <&uart1_pg_pins>, <&uart1_cts_rts_pg_pins>;
-+	pinctrl-names = "default";
-+	uart-has-rtscts;
-+	status = "okay";
-+
-+	bluetooth {
-+		compatible = "realtek,rtl8723cs-bt";
-+		device-wake-gpios = <&r_pio 0 10 GPIO_ACTIVE_LOW>; /* PL10 */
-+		enable-gpios = <&r_pio 0 8 GPIO_ACTIVE_HIGH>; /* PL8 */
-+		host-wake-gpios = <&r_pio 0 9 GPIO_ACTIVE_HIGH>; /* PL9 */
-+	};
-+};
--- 
-2.37.4
+So do you plan to use this third clock on any SoCs that don't export it
+yet, like the R40 or V3s, or the older SoCs? This would then create a
+non-compatible DT change, wouldn't it? Since existing/older kernels
+cannot resolve clock index 2?
+Or would that not be used by kernels, or would not be fatal?
+
+Cheers,
+Andre
+
+> Fixes: c56afc1844d6 ("rtc: sun6i: Expose internal oscillator through device tree")
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> This patch should be applied before [1] so this patch can be backported.
+> [1]: https://lore.kernel.org/linux-rtc/20221229184011.62925-2-samuel@sholland.org/
+> 
+>  drivers/rtc/rtc-sun6i.c | 16 ++++------------
+>  1 file changed, 4 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+> index ed5516089e9a..7038f47d77ff 100644
+> --- a/drivers/rtc/rtc-sun6i.c
+> +++ b/drivers/rtc/rtc-sun6i.c
+> @@ -136,7 +136,6 @@ struct sun6i_rtc_clk_data {
+>  	unsigned int fixed_prescaler : 16;
+>  	unsigned int has_prescaler : 1;
+>  	unsigned int has_out_clk : 1;
+> -	unsigned int export_iosc : 1;
+>  	unsigned int has_losc_en : 1;
+>  	unsigned int has_auto_swt : 1;
+>  };
+> @@ -271,10 +270,8 @@ static void __init sun6i_rtc_clk_init(struct device_node *node,
+>  	/* Yes, I know, this is ugly. */
+>  	sun6i_rtc = rtc;
+>  
+> -	/* Only read IOSC name from device tree if it is exported */
+> -	if (rtc->data->export_iosc)
+> -		of_property_read_string_index(node, "clock-output-names", 2,
+> -					      &iosc_name);
+> +	of_property_read_string_index(node, "clock-output-names", 2,
+> +				      &iosc_name);
+>  
+>  	rtc->int_osc = clk_hw_register_fixed_rate_with_accuracy(NULL,
+>  								iosc_name,
+> @@ -315,13 +312,10 @@ static void __init sun6i_rtc_clk_init(struct device_node *node,
+>  		goto err_register;
+>  	}
+>  
+> -	clk_data->num = 2;
+> +	clk_data->num = 3;
+>  	clk_data->hws[0] = &rtc->hw;
+>  	clk_data->hws[1] = __clk_get_hw(rtc->ext_losc);
+> -	if (rtc->data->export_iosc) {
+> -		clk_data->hws[2] = rtc->int_osc;
+> -		clk_data->num = 3;
+> -	}
+> +	clk_data->hws[2] = rtc->int_osc;
+>  	of_clk_add_hw_provider(node, of_clk_hw_onecell_get, clk_data);
+>  	return;
+>  
+> @@ -361,7 +355,6 @@ static const struct sun6i_rtc_clk_data sun8i_h3_rtc_data = {
+>  	.fixed_prescaler = 32,
+>  	.has_prescaler = 1,
+>  	.has_out_clk = 1,
+> -	.export_iosc = 1,
+>  };
+>  
+>  static void __init sun8i_h3_rtc_clk_init(struct device_node *node)
+> @@ -379,7 +372,6 @@ static const struct sun6i_rtc_clk_data sun50i_h6_rtc_data = {
+>  	.fixed_prescaler = 32,
+>  	.has_prescaler = 1,
+>  	.has_out_clk = 1,
+> -	.export_iosc = 1,
+>  	.has_losc_en = 1,
+>  	.has_auto_swt = 1,
+>  };
 
