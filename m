@@ -1,68 +1,68 @@
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61843201
-	for <linux-sunxi@lists.linux.dev>; Thu, 29 Dec 2022 21:53:23 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.west.internal (Postfix) with ESMTP id 26EAE32005B5;
-	Thu, 29 Dec 2022 16:53:22 -0500 (EST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9268B8C14
+	for <linux-sunxi@lists.linux.dev>; Thu, 29 Dec 2022 22:45:51 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id 2AE7C3200583;
+	Thu, 29 Dec 2022 17:45:50 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Thu, 29 Dec 2022 16:53:22 -0500
+  by compute3.internal (MEProxy); Thu, 29 Dec 2022 17:45:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
 	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm3; t=1672350801; x=1672437201; bh=GmZbFK5G8r3n4tr/8fciPGSNC
-	kBT0fjFOydO/VsJtnM=; b=1IFGGQlnjZZHd4CGC3hCJ/2dUcS0HJG0PDg1NIZG3
-	UpZNmfRv32+SeQ+hbVeZmNPh1fc0dITzfjsVIQlE6ScS8vdThM+s75geDG2dJvGe
-	LDRAlVfFfGOAZCp5i89RqF0XP4nXTkzklJ1h/IgEWnUZe5ZFomK5hTu799nWHpph
-	2gzlepUSfOORM439h5lCWz8Mc2SipRF0le86uxx2elSSuGCoNkx+MjU0MOXYmnbL
-	tK1qMMXu2Cjt/tUPAMj0eC/lJJvIF9oUEYrc1ucfK4ylBJULuv3fOTVdDIkEEZ4S
-	dP2C+pBI0T3HTg3TOmS66i7h5OS8c8W6G90ep8nMG04LQ==
+	 s=fm3; t=1672353949; x=1672440349; bh=/PKHe3zt/KewFuduOYX4v7Y/1
+	VdJEV6pvckvKTHr4GM=; b=VLmOJmaJJIiJP0vuks/1uFzKAYjgTkV1mkNosSZW6
+	/5LD4FBO6nQG51Kn/vUSSU4nnWA7LuL8LeZFsaoQQ56P1HLtXCsqNfb8Xi1x0iWY
+	gANdB/rto338hbLcWgpcZ9i5U6TuDqqowo3irBacO8Nc0+wKdkwbHsNb7mL7RvF6
+	VRmol8Qs8Gu26oBshyYkm8wVrq0mvodO45dLKA0pYxlK4hndatqMJ9okKxqJ2YOg
+	s9HCSswhTaW0Km2+WM38ueEbFfA9+8UmPWbxn7bUj6vEfH+++ug13tC+d9l5BtQI
+	ufckLyVUgjt8dVkxsZm5dOJQVVXUG7pOnLPHzmanXJ2ng==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:message-id
 	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
 	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1672350801; x=1672437201; bh=GmZbFK5G8r3n4tr/8fciPGSNCkBT0fjFOyd
-	O/VsJtnM=; b=R4wlBjyS0eWG+v3T4OhIn4vIlyaoUbEWwqlbOG33EBFN+Q4+YQv
-	+BDS6KbSPelxjKCdteUT8WQD8a6fhWY4BeZB2zbH8YZkZMwJoTz61jMC3wfNbGC6
-	WFxDotjrZTYPZCf0bJ/aAA0/RjlDjWKLZsDSpq5LQoYiW6l8yoAf67lfTZjkRuA/
-	9GkQc9JhIV8CndXrP6HFynx+nfum6VLyPhZ60RUwjRzphAlMqo0BcpfoAmvY6Bxr
-	7Cb47dInTzKci0Z1JvWTqtHXWYdFDJ0YpIG7/Ik9t4JI3lQt2mpPNeTCUG9tgX5o
-	8zfe0F4fm+LvjvJtOVdcwpJDCFnjFxSbAJw==
-X-ME-Sender: <xms:UAyuYwkSDzvjMoZmemhcUzxxEdW4nYvOtjGHz_GBURF3JYLeKaWBMA>
-    <xme:UAyuY_3f4GULYIw1le2TsFp8uXavGn2Dt8D6m9S6DkwHEHAnS7T2jhZQHIqyIq5mE
-    2HLLyeGACJa7wOF6A>
-X-ME-Received: <xmr:UAyuY-oEmUR3p4MNEZTd7lajrXQZH2zi3byGKZNEbjZEXLdLu8WO8ykWNKaATTMHNlWjDlfheVk4MdDHzfqJPkerO08nwGZBTVD3-XNj6iKgStGFVIK37eLduXnpFKZ5HF44eg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieeggdduheehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
-    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
-    grthhtvghrnhepkeehffethedtteffgfefteetjedvfeelueevudffgfeutdejvdehledv
-    vdffhfevnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgrnhgu
-    rdhorhhg
-X-ME-Proxy: <xmx:UAyuY8m_LGg3ws12hCkqHzVTtf-bgQySISiOAUNoflsOMmkZ8Aij_A>
-    <xmx:UAyuY-0C7OZ8kVxhFYd_lHPBZ7IiE12h1lK7SLmhfc8Eqoq1DKwR8w>
-    <xmx:UAyuYzvJgBaC7pVUVwSRiprpPcGfev2cGF8pL8orO_AAlYsEfHhuEg>
-    <xmx:UQyuY3lj5vDw6tTSDkhmGwJUMVELCLAe_a9tMdI5op1QXVAbQ3LA3Q>
+	1672353949; x=1672440349; bh=/PKHe3zt/KewFuduOYX4v7Y/1VdJEV6pvck
+	vKTHr4GM=; b=uC9ST3Dr6I/PU9Y2BLqYCTdiCkq6vh5PdeG0nLoHEzk0lLXaqY2
+	dDgXFqhbF/fXmHDOQWfltcCosbg67EcYehzlNxcHy2sn4rkRCqBydL/hCB1tMr27
+	W6mWnFYjDv/GZYjyveH8f4qJOyUFVAgC+CUXbY0JO1YjV+AZxt0p7jszG7t5squx
+	Jlzu3x/ApuW0lpFlxVYvG9eO3EEsIw4H0EuP1r9jNNZRiJHHK+pt8bhsBurIjyzl
+	gcBfDXWRKjvn43hseROI1H31VgtuJ+YtJ8duPHuBPJcQlMQi363FrvaOQ1/wvACI
+	/z7aHaXcTzDg9MSnYx6cWbKPT4REdBtrMNA==
+X-ME-Sender: <xms:nRiuY4c4cmwqVNmh-LL2LlBDzOEsPHZE1s59pLeB_ZXqPpg8odJEYA>
+    <xme:nRiuY6N31UHoFKEmDgi5niFT8GjQlFzEImG0d1WA0VlpagLQ7LPXS1Q3p84ubO4Lx
+    OLm5vH55DUtJdCOqA>
+X-ME-Received: <xmr:nRiuY5i6BG0Von58tbOAFwggT-5r1vzwePa5K9lkY0PAVGhhpoWRhpXv0M_5F-jvLjbvm66X4c6U-7Lg-AuE4GiYdzerKutDDu8dEMrhX-ss1IFXU8kUQhhO9kQuXsZrpgphgg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieehgddtvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpedthfefheegleelfeduhffgvdevhfejkeevhfevuefghfefhffgffeihedt
+    lefgieenucffohhmrghinheplhhinhhugidqshhunhigihdrohhrghenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhl
+    lhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:nRiuY99uq8MWuuLcFxwIdoocdNsGufWywe1T9nuAVIZjyWfcoNMFRQ>
+    <xmx:nRiuY0tTcilbxn2ORleGJ2Be8AL7xXDMdfDqXosz7Lja_rxWIv1VnA>
+    <xmx:nRiuY0F1jbCLIxo5pcp848ebJJBL2OPd7UA9ltiFp0eRgUZrPurExg>
+    <xmx:nRiuY58waKqFImkTNdPVGBSVAdexbacYCqio1aFuv93IxbXbi8PZ9g>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 29 Dec 2022 16:53:20 -0500 (EST)
+ 29 Dec 2022 17:45:48 -0500 (EST)
 From: Samuel Holland <samuel@sholland.org>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>
+Cc: linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-rtc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] rtc: sun6i: Always export the internal oscillator
-Date: Thu, 29 Dec 2022 15:53:19 -0600
-Message-Id: <20221229215319.14145-1-samuel@sholland.org>
+	linux-arm-kernel@lists.infradead.org,
+	Samuel Holland <samuel@sholland.org>
+Subject: [PATCH 0/2] iNet U70B Rev 01 Tablet Support
+Date: Thu, 29 Dec 2022 16:45:45 -0600
+Message-Id: <20221229224547.25225-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.37.4
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -72,76 +72,25 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On all variants of the hardware, the internal oscillator is one possible
-parent for the AR100 clock. It needs to be exported so we can model that
-relationship correctly in the devicetree.
+This series adds a binding and devicetree for yet another A33-based
+tablet board. The devicetree currently fails validation because I have
+no idea what compatible string to use for the DPI panel. Neither the
+hardware nor the software provide any clues about a manufacturer or
+model -- the driver used by the vendor Android is called "default_lcd".
 
-Fixes: c56afc1844d6 ("rtc: sun6i: Expose internal oscillator through device tree")
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
-This patch should be applied before [1] so this patch can be backported.
-[1]: https://lore.kernel.org/linux-rtc/20221229184011.62925-2-samuel@sholland.org/
+Link: https://linux-sunxi.org/Inet_U70B
 
- drivers/rtc/rtc-sun6i.c | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
-index ed5516089e9a..7038f47d77ff 100644
---- a/drivers/rtc/rtc-sun6i.c
-+++ b/drivers/rtc/rtc-sun6i.c
-@@ -136,7 +136,6 @@ struct sun6i_rtc_clk_data {
- 	unsigned int fixed_prescaler : 16;
- 	unsigned int has_prescaler : 1;
- 	unsigned int has_out_clk : 1;
--	unsigned int export_iosc : 1;
- 	unsigned int has_losc_en : 1;
- 	unsigned int has_auto_swt : 1;
- };
-@@ -271,10 +270,8 @@ static void __init sun6i_rtc_clk_init(struct device_node *node,
- 	/* Yes, I know, this is ugly. */
- 	sun6i_rtc = rtc;
- 
--	/* Only read IOSC name from device tree if it is exported */
--	if (rtc->data->export_iosc)
--		of_property_read_string_index(node, "clock-output-names", 2,
--					      &iosc_name);
-+	of_property_read_string_index(node, "clock-output-names", 2,
-+				      &iosc_name);
- 
- 	rtc->int_osc = clk_hw_register_fixed_rate_with_accuracy(NULL,
- 								iosc_name,
-@@ -315,13 +312,10 @@ static void __init sun6i_rtc_clk_init(struct device_node *node,
- 		goto err_register;
- 	}
- 
--	clk_data->num = 2;
-+	clk_data->num = 3;
- 	clk_data->hws[0] = &rtc->hw;
- 	clk_data->hws[1] = __clk_get_hw(rtc->ext_losc);
--	if (rtc->data->export_iosc) {
--		clk_data->hws[2] = rtc->int_osc;
--		clk_data->num = 3;
--	}
-+	clk_data->hws[2] = rtc->int_osc;
- 	of_clk_add_hw_provider(node, of_clk_hw_onecell_get, clk_data);
- 	return;
- 
-@@ -361,7 +355,6 @@ static const struct sun6i_rtc_clk_data sun8i_h3_rtc_data = {
- 	.fixed_prescaler = 32,
- 	.has_prescaler = 1,
- 	.has_out_clk = 1,
--	.export_iosc = 1,
- };
- 
- static void __init sun8i_h3_rtc_clk_init(struct device_node *node)
-@@ -379,7 +372,6 @@ static const struct sun6i_rtc_clk_data sun50i_h6_rtc_data = {
- 	.fixed_prescaler = 32,
- 	.has_prescaler = 1,
- 	.has_out_clk = 1,
--	.export_iosc = 1,
- 	.has_losc_en = 1,
- 	.has_auto_swt = 1,
- };
+Samuel Holland (2):
+  dt-bindings: arm: sunxi: Add iNet U70B Rev 01 Tablet
+  ARM: dts: sun8i: A33: Add iNet U70B Rev 01
+
+ .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+ arch/arm/boot/dts/Makefile                    |   1 +
+ .../boot/dts/sun8i-a33-inet-u70b-rev01.dts    | 172 ++++++++++++++++++
+ 3 files changed, 178 insertions(+)
+ create mode 100644 arch/arm/boot/dts/sun8i-a33-inet-u70b-rev01.dts
+
 -- 
 2.37.4
 
