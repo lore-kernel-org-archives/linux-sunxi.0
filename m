@@ -1,76 +1,67 @@
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80EE65CA7
-	for <linux-sunxi@lists.linux.dev>; Sat, 31 Dec 2022 22:05:49 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 9BEDF5C00AB;
-	Sat, 31 Dec 2022 17:05:48 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Sat, 31 Dec 2022 17:05:48 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49B03C30
+	for <linux-sunxi@lists.linux.dev>; Sat, 31 Dec 2022 22:58:57 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id A4C655C0036;
+	Sat, 31 Dec 2022 17:58:56 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Sat, 31 Dec 2022 17:58:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
 	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm3; t=1672524348; x=1672610748; bh=LoY9Qc1RJY42iNhRIwKRgBqok
-	CfDwWxod+ozHmfkbdU=; b=yRMbEphJ7Rd2u5M98NWIk9FsQSYx8O593jxWmzSnc
-	nTTa+w1X2GYGLW52SrBX9rPlJgJN5JE2upOZ6/HRueX6oBsyHQPpf5vtOqXx0vZO
-	UMiuwVVq3H5lg/JiBNizhO76V+hlSDZAwKoaTxjn1uz4qtAoqfC4Es5FVm3SoCvx
-	8zmVt8ZJ71RBult4GEWknqrmgHRLxlBWJOJ35ytqpjfH2EXuZ0+u8S6JGiIkHIk2
-	qOAg4awjdHD315s7dAlm5u2PFdHtoD6MIgWmbodeScS2x0+v7lJ4mSibFKh/oAyQ
-	5muEkyKgiC2PLdXYGuxt9oJ2Rp+Db7bWfUxCZsle6/deQ==
+	 s=fm3; t=1672527536; x=1672613936; bh=MsmEn8s+7GEEz/bpKizUys54S
+	mNuX2zHCFpdIiuCNSg=; b=ZxNXfoYgDAf4uGALmU8gChdwLRd22dOu9aR11GHlE
+	xHRA5z7LD8NuykAkrHX63+x8mRi4IG8Pyx1OY9DDteZsMnAACneN2u5OezKCHV0I
+	hO09+hEcCjisR/ZrQJeSBHz1Bn46etgrPq6v2XQjDW0BE/o7JmiskzFE/u/rAG7t
+	wjpBErlNgas1Y4bMWtBbzZko0CRF308/OOa/osALhqaimBKNLsAVKGesmm1FFsat
+	mJUjniSCZoYuhddpXk+gUxvVL1r3vvOxpwK95XiZn1MRsF9w48BF3yEGa5v/WdZJ
+	MoF1I9xP+BzCtr2JJJIdOtoKj11w6HnZD3g5VVdPA5FNQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:message-id
 	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
 	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1672524348; x=1672610748; bh=LoY9Qc1RJY42iNhRIwKRgBqokCfDwWxod+o
-	zHmfkbdU=; b=q9gtJ7S41rjwqMuxT5sLT0D72JXB1h5O04VLea6mKOrkom746D2
-	9uNqdqwto5wqH0aB9rHP648utOacDVJTLVm2Ou7PXR39n8fjCS13Zrq+2xgveyL/
-	xlP8Qnp1sZCHVVrtx2/zVX4j7o+6slVd1aGXmsjAiiCs0WWzrAuukkkIiA9YqWiq
-	ARjQ7HLe16jeJSDt5Wzb8YTxOtbgThMa2k6UbLmfQkiBuvMWi0oWBcyyjRFCtIAX
-	mS1VpJPO8/oNIY/IL6KSNiBkSM2sTnH1DxlYrmcmZnpkCSRCv72MbR5v6fB6zgJf
-	P3RrpCgvKhn5ODFk49qeEGl6UQu1EHY95zg==
-X-ME-Sender: <xms:PLKwY_sBG_hIWF9XdXQDvr6zdlJ_aW8ImqWFRYXufc-ZH8mxyUCyLQ>
-    <xme:PLKwYwd2oaw9GiE-Ka5Of8Nd1asepuz_Ul2SFp6EJmnyEJ3Wx0-RMu7vf8ULHI1Jw
-    A8KgIgv7xhpghfRbg>
-X-ME-Received: <xmr:PLKwYyzjnWi_9cAoql0sb4LlgR0-cMNmuc2cQBE2h5mh8rMgqbDEOSvaC5QnJgNPVMVbtRgC7A9oO37DzKyhXAFkcMzz2l0l6cgtFbO7cw4BY7mUD2CcVvOed-Hi_BAk3cAmiQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieekgdduheejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
-    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
-    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
-    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:PLKwY-Otxj5ndpVF5B0IQIZmjzRJryT3JbNLr5HTlT7rSkLWoJ8D_A>
-    <xmx:PLKwY_-_WZ5lZlrFH6gFuJ9bqfTu_1MPvCCi7nQrJyEgo5vfIESIfA>
-    <xmx:PLKwY-V1sLC-vPS1TuV7ZhA54rfPDnUikxT-lDOP0aeNAowPq03gdg>
-    <xmx:PLKwY3P75Yl3lkpznuJAt2vouDuMAr7pBhfOIqzhIju9WqjxuiHs5A>
+	1672527536; x=1672613936; bh=MsmEn8s+7GEEz/bpKizUys54SmNuX2zHCFp
+	dIiuCNSg=; b=G2W255MqjBm7XSy5iNYu9jLaSnBWQGot1pHGFybQihRPB89O2ED
+	yZtG42sM7MEASaxQSKl3vNevgAm9/BHFokT9Lt8SIKXAc4lalAGGSNz44rwuPK3X
+	6qRVwKI9JfdGNrSzyRYEu2FVQsgA0W8qrMFrO/fpxeu91clOVqXVP6UQg4cOeTIQ
+	BBS2ZZrDeQl1RXI7JdQALMrlq2FFVe8AoVdUu3ZD1k3K17bHbpafRdCLDVUgmnWh
+	sdjS6BNLC/1FDvk3InDtc0I+B+lP3KZJYJFHXOzeULBX5Rp2pCUEothxZ/g15tnb
+	R6bkoFYjzR+QVCj1dmklVnh2LlkKqpLlsNg==
+X-ME-Sender: <xms:sL6wYyYVH_DSuav3sRIwplEmKzTEHSx1HaX4ThHLBJSKy59TCmrX_Q>
+    <xme:sL6wY1ZBOuXTrJ-e7wIT9JopUMSticEd8MDsSJMAeg5NBLtfhutndAgkDm1nnMj7y
+    VQpDtB9FiUbKWP3Ig>
+X-ME-Received: <xmr:sL6wY89tKbdD37SMVK8MYf-_TTbAGfop3u6SphBzIrfTjImo8ayAi7m5hJv1ot7dArONmi9e_x_koCkVUXEeoB1qW5QDwP09CNeQT2nd4i8zMPEA4OxW-ewaBFvJNNYgwy8xQg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieelgddthecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeehhffh
+    keekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:sL6wY0onAzcWGuBG1YnCVJSoj1VA8s3rd0oN-cv6VATGIduLmW-MRQ>
+    <xmx:sL6wY9r6H-KML7dqMpAPdZhiPY53K6K6yCpAGSOmIYzC53F4oLj-NQ>
+    <xmx:sL6wYyRH3NAr852nXjmibHfM3Zz3AnrR1XITyt0ZKxng-aMmZuy_yA>
+    <xmx:sL6wYxLNrnUfLZwLwE_69wDEihPbc9KW4XmYnUj5fUeDuEyJ8own2Q>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 31 Dec 2022 17:05:47 -0500 (EST)
+ 31 Dec 2022 17:58:55 -0500 (EST)
 From: Samuel Holland <samuel@sholland.org>
-To: "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: Samuel Holland <samuel@sholland.org>,
-	Rob Herring <robh@kernel.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	LABBE Corentin <clabbe.montjoie@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
 	Rob Herring <robh+dt@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	netdev@vger.kernel.org
-Subject: [RESEND PATCH net v2] dt-bindings: net: sun8i-emac: Add phy-supply property
-Date: Sat, 31 Dec 2022 16:05:46 -0600
-Message-Id: <20221231220546.1188-1-samuel@sholland.org>
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 1/2] ARM: dts: sunxi: Fix GPIO LED node names
+Date: Sat, 31 Dec 2022 16:58:53 -0600
+Message-Id: <20221231225854.16320-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.37.4
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -80,44 +71,59 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This property has always been supported by the Linux driver; see
-commit 9f93ac8d4085 ("net-next: stmmac: Add dwmac-sun8i"). In fact, the
-original driver submission includes the phy-supply code but no mention
-of it in the binding, so the omission appears to be accidental. In
-addition, the property is documented in the binding for the previous
-hardware generation, allwinner,sun7i-a20-gmac.
+These board devicetrees fail to validate because the gpio-leds schema
+requires its child nodes to have "led" in the node name.
 
-Document phy-supply in the binding to fix devicetree validation for the
-25+ boards that already use this property.
-
-Fixes: 0441bde003be ("dt-bindings: net-next: Add DT bindings documentation for Allwinner dwmac-sun8i")
-Acked-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
-Resending with "net" explicitly in the subject.
 
 Changes in v2:
- - Drop the rest of the series, which was obsoleted by the dt-schema fix
- - Add Acked-by/Reviewed-by tags
+ - Use the recommended enumerator pattern for LED node names
 
- .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml     | 3 +++
- 1 file changed, 3 insertions(+)
+ arch/arm/boot/dts/sun5i-gr8-chip-pro.dts | 2 +-
+ arch/arm/boot/dts/sun5i-r8-chip.dts      | 2 +-
+ arch/arm/boot/dts/sun6i-a31s-sina31s.dts | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-index 1432fda3b603..47bc2057e629 100644
---- a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-+++ b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-@@ -40,6 +40,9 @@ properties:
-   clock-names:
-     const: stmmaceth
+diff --git a/arch/arm/boot/dts/sun5i-gr8-chip-pro.dts b/arch/arm/boot/dts/sun5i-gr8-chip-pro.dts
+index a32cde3e32eb..5c3562b85a5b 100644
+--- a/arch/arm/boot/dts/sun5i-gr8-chip-pro.dts
++++ b/arch/arm/boot/dts/sun5i-gr8-chip-pro.dts
+@@ -70,7 +70,7 @@ chosen {
+ 	leds {
+ 		compatible = "gpio-leds";
  
-+  phy-supply:
-+    description: PHY regulator
-+
-   syscon:
-     $ref: /schemas/types.yaml#/definitions/phandle
-     description:
+-		status {
++		led-0 {
+ 			label = "chip-pro:white:status";
+ 			gpios = <&axp_gpio 2 GPIO_ACTIVE_HIGH>;
+ 			default-state = "on";
+diff --git a/arch/arm/boot/dts/sun5i-r8-chip.dts b/arch/arm/boot/dts/sun5i-r8-chip.dts
+index 4bf4943d4eb7..fd37bd1f3920 100644
+--- a/arch/arm/boot/dts/sun5i-r8-chip.dts
++++ b/arch/arm/boot/dts/sun5i-r8-chip.dts
+@@ -70,7 +70,7 @@ chosen {
+ 	leds {
+ 		compatible = "gpio-leds";
+ 
+-		status {
++		led-0 {
+ 			label = "chip:white:status";
+ 			gpios = <&axp_gpio 2 GPIO_ACTIVE_HIGH>;
+ 			default-state = "on";
+diff --git a/arch/arm/boot/dts/sun6i-a31s-sina31s.dts b/arch/arm/boot/dts/sun6i-a31s-sina31s.dts
+index 0af48e143b66..56956352914d 100644
+--- a/arch/arm/boot/dts/sun6i-a31s-sina31s.dts
++++ b/arch/arm/boot/dts/sun6i-a31s-sina31s.dts
+@@ -67,7 +67,7 @@ hdmi_con_in: endpoint {
+ 	leds {
+ 		compatible = "gpio-leds";
+ 
+-		status {
++		led-0 {
+ 			label = "sina31s:status:usr";
+ 			gpios = <&pio 7 13 GPIO_ACTIVE_HIGH>; /* PH13 */
+ 		};
 -- 
 2.37.4
 
