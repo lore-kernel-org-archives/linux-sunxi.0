@@ -1,269 +1,151 @@
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BF383209
-	for <linux-sunxi@lists.linux.dev>; Sat, 31 Dec 2022 17:30:58 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 41C305C0086;
-	Sat, 31 Dec 2022 12:30:57 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Sat, 31 Dec 2022 12:30:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm3; t=1672507857; x=1672594257; bh=rAkPHCX9plm+ABZSDox55LMS1
-	3uIo7UeVXFHjSskAHQ=; b=Qo+VuWcep4oeUtwyEADa6CHvTwfGVZbGjif7a2tDY
-	yaOJuMB+uFmLP4vDP1IpzFGe5v/SldOQBHCj6nuU2Klv87MY890lJnZ+VC6h3a6Q
-	qfGYvYMCIMyWKL/tRJQS/dmbUhBA3lJ/1qDgRp7QD0DHGm1eCI7PlgbEZPi4uiLY
-	kbfMrcsG7KMKC+MvAS9hUBLaR8bG8J0SmsYCaimRbn6hUZEGukaraUTpY/CzqASV
-	OMFOA4Ew9nR0oCTpk5EkRBUqs6BRAXTizGzB7tBZi8mhRm6ssqlPmQpPzPvj0Rac
-	CTsoTi6YSqYWK8jkM0YslUxGElEleE3fxJ1ZPkYcXnbXg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1672507857; x=1672594257; bh=rAkPHCX9plm+ABZSDox55LMS13uIo7UeVXF
-	HjSskAHQ=; b=jwAQQAoEnZQwzdJNOZ2c0YFbC8dROsSnDKxlPJ4ufuQuGuggjth
-	tF9zy3jo9BSw+GH97lJiGWbOudhd3Vis0H6wHpyL2y1Y48S8KFgF42QqbY321v81
-	/Q555sswcdpg2UuhpSxEDTdvsnbj2Uy5JcrjqX4MvaQpdCNKxS6+kPvakAEEZEP3
-	9k2zq2HQIzzz3Ks0kGndN2AVHWuhsLA8xFSaTjkhHV6kDc/KG5+lqWYhvkK+EzAI
-	eYBt4reUQlqScDr1N4D67Qplg+lXsOsPfAX78LieG2PJh00DYyrqNkWsJnOui0UW
-	y94odSVxCV56yKLP0RFoXDRkTpndYb8/++w==
-X-ME-Sender: <xms:0XGwY_ZKARe42eaPoYyQrjdvGJvaOsQe4KdjBr6FbJO_ehg00aWu3A>
-    <xme:0XGwY-YKpKselZ21u1O7gAOeCzSFkhXilr_XYFCqhxqyVzKiinEmSIweNs7o4q-FC
-    hIYpQdVS824rElLlA>
-X-ME-Received: <xmr:0XGwYx-gC-62ZyIB2s0zfYhSOJ-SmNxQ6Nn_OtDi8x0bXHoV-phi8D8nzo5EzmjBFSxE0oNDl_aqkTCbfBt2010jhLj51Re1KygY68e50BZyl9uBBn6nUlPyi2_su8swxyal1Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieekgddutddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
-    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
-    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
-    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:0XGwY1pzRpCQ9s53x8iqcIjQi_K2Z6lClej9oUXsQT4f6C2q3pJsDw>
-    <xmx:0XGwY6q93VhxHwswr2B5Fa-QFuJj16NeYiUy-cb4qYXd5RseQCt89A>
-    <xmx:0XGwY7QZb9SBPYQVPbxvVzTp-mHOHoy2DnWoaHUzheR8LsCz775CNQ>
-    <xmx:0XGwY6IaXv_YN69rcA21xtJcpMGecoJRpadLPWVVrRrzYV-rUWjp7w>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 31 Dec 2022 12:30:56 -0500 (EST)
-From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2] clk: sunxi-ng: Avoid computing the rate twice
-Date: Sat, 31 Dec 2022 11:30:55 -0600
-Message-Id: <20221231173055.42384-1-samuel@sholland.org>
-X-Mailer: git-send-email 2.37.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970852C9C
+	for <linux-sunxi@lists.linux.dev>; Sat, 31 Dec 2022 18:58:43 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id f34so36171960lfv.10
+        for <linux-sunxi@lists.linux.dev>; Sat, 31 Dec 2022 10:58:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+f6MEHPvraJbIhg/Qh3EFX2QlA+pVzk6PS1RzpejfpU=;
+        b=mm3rbNvErKbm878y6ZLKO1BRezWJCBTu40Aw7nN6SC3nL6oJPiv5NeSsIlrJzNCIbp
+         ZRDOe0BQ1Ch84+IMryAV9ZLzjpNG/UAaaXQFnv0oTvj9CJBq+UueBnEXN1N85nBnud4L
+         5q9pflE6Cz7vI7A2XGBRgpVVGCPOhb39Sdcxgi1WpSlaeZS9cuMSnEzgkG244Ny6x+/7
+         KLIA1Jw11GUCtITafrih993ehavRbxdQ50Ya4g7ei/mE2gBmWJpuEJqs/vApnsY1HeGR
+         Uwt4c1ihY6b3SERs5S64i21VDRMGTIUZ3UeC9pRcfUj93ZA5WWHbglMljiKP0BRVnRtE
+         MZBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+f6MEHPvraJbIhg/Qh3EFX2QlA+pVzk6PS1RzpejfpU=;
+        b=iTVMp2m1rlU4j7lNIFSxFQRLvnBzbRw3Opj4Q/PaFQFjXFZnQ26n56oV6tHEXxK1ZY
+         qFemCOkc/BWxEQx6ZcJsrVu7Y1kAxjuQ9qoYxHSbV6WFfgvdaYYfdO6MWs2P+a5XwvzF
+         FDjLF5tZhotWucmTJ8afP5ju1Fgt5wD32DpwnACsEs6740alzY9Oe2OIbdDAMj2ox/Ww
+         tC6EZPvIkp8RDY3ZECrZL6nDQJT2swvIrNlybR8PnFmaTdNxGWJ6KL7lTY4aV39lZzef
+         9Pt+vSbNaybYusn9taEcbFSFq8XCgT+Rs/yOnDc9rnLX0xw85BwZZKEp0M7eY6368taL
+         4BoA==
+X-Gm-Message-State: AFqh2kqXIswqIal2viWHMq23xxBeqejTi+zw1iB6bz/AzlHMRCGACijB
+	fYP5qYVaxuKuCPa5FJgPG3WsWA==
+X-Google-Smtp-Source: AMrXdXu3hVDP0pdMCRE0xDMOyOhqgWtFfHo8ZaBoTE2AP8DSG03gyX4aawLsVQD04bpROMi9ee4vzw==
+X-Received: by 2002:a05:6512:3d9e:b0:4b5:5efe:966e with SMTP id k30-20020a0565123d9e00b004b55efe966emr13561654lfv.15.1672513121712;
+        Sat, 31 Dec 2022 10:58:41 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id q14-20020a056512210e00b004a2c447598fsm3910225lfr.159.2022.12.31.10.58.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 31 Dec 2022 10:58:41 -0800 (PST)
+Message-ID: <92dbd096-b02f-b5e5-6275-a37a3d582685@linaro.org>
+Date: Sat, 31 Dec 2022 19:58:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 1/2] dt-bindings: power: Add Allwinner D1 PPU
+Content-Language: en-US
+To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+References: <20221231160402.16157-1-samuel@sholland.org>
+ <20221231160402.16157-2-samuel@sholland.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221231160402.16157-2-samuel@sholland.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The ccu_*_find_best() functions already compute a best_rate at the same
-time as the other factors. Return this value so the caller does not need
-to duplicate the computation.
+On 31/12/2022 17:04, Samuel Holland wrote:
+> The Allwinner D1 family of SoCs contain a "PPU" power domain controller
+> separate from the PRCM. It can power down the video engine and DSP, and
+> it contains special logic for hardware-assisted CPU idle. Other recent
+> Allwinner SoCs (e.g. TV303) have a PPU with a different set of domains.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> 
+>  .../power/allwinner,sun20i-d1-ppu.yaml        | 54 +++++++++++++++++++
+>  .../power/allwinner,sun20i-d1-ppu.h           | 10 ++++
+>  2 files changed, 64 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/power/allwinner,sun20i-d1-ppu.yaml
+>  create mode 100644 include/dt-bindings/power/allwinner,sun20i-d1-ppu.h
+> 
+> diff --git a/Documentation/devicetree/bindings/power/allwinner,sun20i-d1-ppu.yaml b/Documentation/devicetree/bindings/power/allwinner,sun20i-d1-ppu.yaml
+> new file mode 100644
+> index 000000000000..64c9a9f398a2
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/power/allwinner,sun20i-d1-ppu.yaml
+> @@ -0,0 +1,54 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/power/allwinner,sun20i-d1-ppu.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner SoCs "PPU" power domain controller
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+Drop quotes over "PPU" - it's not some nickname, alias, but acronym.
+Explain the acronym in description.
 
-Changes in v2:
- - Apply the same change also to nk, nkm, nkmp, and nm
- - Update the commit message
 
- drivers/clk/sunxi-ng/ccu_mp.c   | 11 ++++++-----
- drivers/clk/sunxi-ng/ccu_nk.c   |  9 +++++----
- drivers/clk/sunxi-ng/ccu_nkm.c  | 10 +++++-----
- drivers/clk/sunxi-ng/ccu_nkmp.c | 10 +++++-----
- drivers/clk/sunxi-ng/ccu_nm.c   |  9 +++++----
- 5 files changed, 26 insertions(+), 23 deletions(-)
+> +
+> +maintainers:
+> +  - Samuel Holland <samuel@sholland.org>
+> +
+> +description:
+> +  D1 and related SoCs contain a power domain controller for the CPUs, GPU, and
+> +  video-related hardware.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - allwinner,sun20i-d1-ppu
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    description: Bus Clock
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  '#power-domain-cells':
+> +    const: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - resets
+> +  - '#power-domain-cells'
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/sun20i-d1-r-ccu.h>
+> +    #include <dt-bindings/reset/sun20i-d1-r-ccu.h>
+> +
+> +    ppu: power-controller@7001000 {
+> +            compatible = "allwinner,sun20i-d1-ppu";
 
-diff --git a/drivers/clk/sunxi-ng/ccu_mp.c b/drivers/clk/sunxi-ng/ccu_mp.c
-index 57cf2d615148..cc94a694cb67 100644
---- a/drivers/clk/sunxi-ng/ccu_mp.c
-+++ b/drivers/clk/sunxi-ng/ccu_mp.c
-@@ -10,9 +10,9 @@
- #include "ccu_gate.h"
- #include "ccu_mp.h"
- 
--static void ccu_mp_find_best(unsigned long parent, unsigned long rate,
--			     unsigned int max_m, unsigned int max_p,
--			     unsigned int *m, unsigned int *p)
-+static unsigned long ccu_mp_find_best(unsigned long parent, unsigned long rate,
-+				      unsigned int max_m, unsigned int max_p,
-+				      unsigned int *m, unsigned int *p)
- {
- 	unsigned long best_rate = 0;
- 	unsigned int best_m = 0, best_p = 0;
-@@ -35,6 +35,8 @@ static void ccu_mp_find_best(unsigned long parent, unsigned long rate,
- 
- 	*m = best_m;
- 	*p = best_p;
-+
-+	return best_rate;
- }
- 
- static unsigned long ccu_mp_find_best_with_parent_adj(struct clk_hw *hw,
-@@ -109,8 +111,7 @@ static unsigned long ccu_mp_round_rate(struct ccu_mux_internal *mux,
- 	max_p = cmp->p.max ?: 1 << ((1 << cmp->p.width) - 1);
- 
- 	if (!clk_hw_can_set_rate_parent(&cmp->common.hw)) {
--		ccu_mp_find_best(*parent_rate, rate, max_m, max_p, &m, &p);
--		rate = *parent_rate / p / m;
-+		rate = ccu_mp_find_best(*parent_rate, rate, max_m, max_p, &m, &p);
- 	} else {
- 		rate = ccu_mp_find_best_with_parent_adj(hw, parent_rate, rate,
- 							max_m, max_p);
-diff --git a/drivers/clk/sunxi-ng/ccu_nk.c b/drivers/clk/sunxi-ng/ccu_nk.c
-index c4fb82af97e8..8aa35d5804f3 100644
---- a/drivers/clk/sunxi-ng/ccu_nk.c
-+++ b/drivers/clk/sunxi-ng/ccu_nk.c
-@@ -15,8 +15,8 @@ struct _ccu_nk {
- 	unsigned long	k, min_k, max_k;
- };
- 
--static void ccu_nk_find_best(unsigned long parent, unsigned long rate,
--			     struct _ccu_nk *nk)
-+static unsigned long ccu_nk_find_best(unsigned long parent, unsigned long rate,
-+				      struct _ccu_nk *nk)
- {
- 	unsigned long best_rate = 0;
- 	unsigned int best_k = 0, best_n = 0;
-@@ -39,6 +39,8 @@ static void ccu_nk_find_best(unsigned long parent, unsigned long rate,
- 
- 	nk->k = best_k;
- 	nk->n = best_n;
-+
-+	return best_rate;
- }
- 
- static void ccu_nk_disable(struct clk_hw *hw)
-@@ -104,8 +106,7 @@ static long ccu_nk_round_rate(struct clk_hw *hw, unsigned long rate,
- 	_nk.min_k = nk->k.min ?: 1;
- 	_nk.max_k = nk->k.max ?: 1 << nk->k.width;
- 
--	ccu_nk_find_best(*parent_rate, rate, &_nk);
--	rate = *parent_rate * _nk.n * _nk.k;
-+	rate = ccu_nk_find_best(*parent_rate, rate, &_nk);
- 
- 	if (nk->common.features & CCU_FEATURE_FIXED_POSTDIV)
- 		rate = rate / nk->fixed_post_div;
-diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
-index 67da2c189b53..a0978a50edae 100644
---- a/drivers/clk/sunxi-ng/ccu_nkm.c
-+++ b/drivers/clk/sunxi-ng/ccu_nkm.c
-@@ -16,8 +16,8 @@ struct _ccu_nkm {
- 	unsigned long	m, min_m, max_m;
- };
- 
--static void ccu_nkm_find_best(unsigned long parent, unsigned long rate,
--			      struct _ccu_nkm *nkm)
-+static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned long rate,
-+				       struct _ccu_nkm *nkm)
- {
- 	unsigned long best_rate = 0;
- 	unsigned long best_n = 0, best_k = 0, best_m = 0;
-@@ -45,6 +45,8 @@ static void ccu_nkm_find_best(unsigned long parent, unsigned long rate,
- 	nkm->n = best_n;
- 	nkm->k = best_k;
- 	nkm->m = best_m;
-+
-+	return best_rate;
- }
- 
- static void ccu_nkm_disable(struct clk_hw *hw)
-@@ -122,9 +124,7 @@ static unsigned long ccu_nkm_round_rate(struct ccu_mux_internal *mux,
- 	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
- 		rate *= nkm->fixed_post_div;
- 
--	ccu_nkm_find_best(*parent_rate, rate, &_nkm);
--
--	rate = *parent_rate * _nkm.n * _nkm.k / _nkm.m;
-+	rate = ccu_nkm_find_best(*parent_rate, rate, &_nkm);
- 
- 	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
- 		rate /= nkm->fixed_post_div;
-diff --git a/drivers/clk/sunxi-ng/ccu_nkmp.c b/drivers/clk/sunxi-ng/ccu_nkmp.c
-index 39413cb0985c..99359a06892d 100644
---- a/drivers/clk/sunxi-ng/ccu_nkmp.c
-+++ b/drivers/clk/sunxi-ng/ccu_nkmp.c
-@@ -29,8 +29,8 @@ static unsigned long ccu_nkmp_calc_rate(unsigned long parent,
- 	return rate;
- }
- 
--static void ccu_nkmp_find_best(unsigned long parent, unsigned long rate,
--			       struct _ccu_nkmp *nkmp)
-+static unsigned long ccu_nkmp_find_best(unsigned long parent, unsigned long rate,
-+					struct _ccu_nkmp *nkmp)
- {
- 	unsigned long best_rate = 0;
- 	unsigned long best_n = 0, best_k = 0, best_m = 0, best_p = 0;
-@@ -65,6 +65,8 @@ static void ccu_nkmp_find_best(unsigned long parent, unsigned long rate,
- 	nkmp->k = best_k;
- 	nkmp->m = best_m;
- 	nkmp->p = best_p;
-+
-+	return best_rate;
- }
- 
- static void ccu_nkmp_disable(struct clk_hw *hw)
-@@ -150,10 +152,8 @@ static long ccu_nkmp_round_rate(struct clk_hw *hw, unsigned long rate,
- 	_nkmp.min_p = 1;
- 	_nkmp.max_p = nkmp->p.max ?: 1 << ((1 << nkmp->p.width) - 1);
- 
--	ccu_nkmp_find_best(*parent_rate, rate, &_nkmp);
-+	rate = ccu_nkmp_find_best(*parent_rate, rate, &_nkmp);
- 
--	rate = ccu_nkmp_calc_rate(*parent_rate, _nkmp.n, _nkmp.k,
--				  _nkmp.m, _nkmp.p);
- 	if (nkmp->common.features & CCU_FEATURE_FIXED_POSTDIV)
- 		rate = rate / nkmp->fixed_post_div;
- 
-diff --git a/drivers/clk/sunxi-ng/ccu_nm.c b/drivers/clk/sunxi-ng/ccu_nm.c
-index 9ca9257f4426..c1fd11542c45 100644
---- a/drivers/clk/sunxi-ng/ccu_nm.c
-+++ b/drivers/clk/sunxi-ng/ccu_nm.c
-@@ -27,8 +27,8 @@ static unsigned long ccu_nm_calc_rate(unsigned long parent,
- 	return rate;
- }
- 
--static void ccu_nm_find_best(unsigned long parent, unsigned long rate,
--			     struct _ccu_nm *nm)
-+static unsigned long ccu_nm_find_best(unsigned long parent, unsigned long rate,
-+				      struct _ccu_nm *nm)
- {
- 	unsigned long best_rate = 0;
- 	unsigned long best_n = 0, best_m = 0;
-@@ -52,6 +52,8 @@ static void ccu_nm_find_best(unsigned long parent, unsigned long rate,
- 
- 	nm->n = best_n;
- 	nm->m = best_m;
-+
-+	return best_rate;
- }
- 
- static void ccu_nm_disable(struct clk_hw *hw)
-@@ -157,8 +159,7 @@ static long ccu_nm_round_rate(struct clk_hw *hw, unsigned long rate,
- 	_nm.min_m = 1;
- 	_nm.max_m = nm->m.max ?: 1 << nm->m.width;
- 
--	ccu_nm_find_best(*parent_rate, rate, &_nm);
--	rate = ccu_nm_calc_rate(*parent_rate, _nm.n, _nm.m);
-+	rate = ccu_nm_find_best(*parent_rate, rate, &_nm);
- 
- 	if (nm->common.features & CCU_FEATURE_FIXED_POSTDIV)
- 		rate /= nm->fixed_post_div;
--- 
-2.37.4
+Use 4 spaces for example indentation.
+
+With above:
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
 
