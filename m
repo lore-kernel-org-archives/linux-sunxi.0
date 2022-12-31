@@ -1,110 +1,117 @@
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E9473C30
-	for <linux-sunxi@lists.linux.dev>; Sat, 31 Dec 2022 22:59:00 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 5861F5C006D;
-	Sat, 31 Dec 2022 17:58:58 -0500 (EST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F753C30
+	for <linux-sunxi@lists.linux.dev>; Sat, 31 Dec 2022 23:14:31 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 16F435C00B4;
+	Sat, 31 Dec 2022 18:14:31 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Sat, 31 Dec 2022 17:58:58 -0500
+  by compute5.internal (MEProxy); Sat, 31 Dec 2022 18:14:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1672527538; x=1672613938; bh=UI
-	j208ZckqwwJnZo7QJM+OQgUAuj8zTVh+bX7armmjQ=; b=gXANbPZRG6uAzcVeNK
-	li+SFPDzkM1vxp9C51jByxCghGN1kekf/DTHLRpErnP+5uFz4IRNMzP/B+EVKs5p
-	xWrJ8bmpDxz6TolMmyQFAjSmUmhb0K4DUhXg5D4WOs8IyX0sNc6R2EQLArO+7yRL
-	KzKpVMHia+7bnlrRVYYB9Jb/Qj2EP6N4OlaL7KaiJXa7+1a9QfaYFtFwwx8Ryuty
-	BbN06sIwsQ33E+Ggcv/3DiAbsu/MP+8p7S52Fu5pQEh0KFk9ywLQ8Rxyul7DHuw2
-	hihqRzVR/9n2KTnYvmmYt5D7hhPXdRg96QzL6MBVmboEgCVk0d3Qe4tpmLq6cXtp
-	SGWg==
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1672528471; x=1672614871; bh=CLyRJuU5Gp
+	42q8xKUuOHFJyhAzWE0gbLmmfwQ+yR6RM=; b=sND/yvJN90kEWak4oJKkGgYl+6
+	1M8k31rA6aBsLQzt+QO+WBqpol4njSNBAbgwX+Bbnk9vmIQLz1WC4iKBuPWfbukO
+	rBI6YqV2OHJkUuxn8RL1AeG2RAAr3dnN/uuPK5GBMIDk18Ke95LjYx/lsCacDeGN
+	PBvy0VmNoxw9jXzKiLCc7DkY4v/HScgTKtmRvyBm/TUZ8W7ioVPxHrxtuuQp450k
+	xdcPIaBlILMioDmy2Y1mvRVO0LCZzlsLxYTcTeTkzYK1rhH872JLfgwaRh4H1JDk
+	uthbRI2BUJAkAdAB8zrbqepaQSkfiD7b4SI8YNiFzO8aJ1Rp16UKy37HXmkA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1672527538; x=1672613938; bh=UIj208ZckqwwJ
-	nZo7QJM+OQgUAuj8zTVh+bX7armmjQ=; b=mX8tVk2VmGkMCLfoacXMqYNalrSsb
-	kTchPlKzk6ObhZQ4ZuAwQZiuqIXXsSVqqg3QVRoT8TvgwhvP7qMyWMWQVWHap2N2
-	5OQHvQ/qHyA4NBSdjp39X7fGXo5EBI8b4ECymDfwwb0etJP2RSxjEhYSV7apt7tQ
-	soIkO66BhuzdNPvGyEc1Sx05Y5zSRhrEr8AG3FAIgy5GCfJM6aNnNZ78GQh3YL+Q
-	WlsFbk9zOd/lP/qrzJ0TwRksU0JY2VhhIASYXk9LT7Eivp19fD/1AQuC5VL7XECd
-	qBzOI8YuBUh/LYNYVHI+1WYehKsUweSoPkDmJh7j/D/sip96vulCRJopQ==
-X-ME-Sender: <xms:sb6wY4PFiucqcSFhtsTkjrOqTHEIvNtjl-9g0M2dyzhLm9kyWHQHkA>
-    <xme:sb6wY-_mQzqTkmDfA68YxxZrDr8YuJ7LrFPTVJ7pnnrIk2EPMLYicMs3seXNuPuWd
-    bqI9efeyDkxKzoNMQ>
-X-ME-Received: <xmr:sb6wY_RlGO5IyOQx35Ng-1Ss-Y_8cY5eQ9B12bqd-2c2Vxr27ihg45--s5x9O9y0zjLPHSbO7UoObOmAio0O8oq77IzIddftnx9WNwHwFmAj9AcQX-pip4u9tuPtLLMu1SVvXA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieelgddtiecutefuodetggdotefrodftvf
+	:x-sasl-enc; s=fm2; t=1672528471; x=1672614871; bh=CLyRJuU5Gp42q
+	8xKUuOHFJyhAzWE0gbLmmfwQ+yR6RM=; b=CwmaOVuDAxje46IPRtmGqnCNeVpij
+	1V2xBgx6sadZZciNP5AZbCnCzjMutysvahJXOz7V2UKZG9m3g+U8hbVltJGBEofE
+	e7Nj8omH2hVnwSL+YkN955ZusXxBu/LGoilUaJ4Rs0FPUra7T9+ko/KApoAkFsv4
+	t9mi6wHBE92NsEa/8iR1oMgDp02x389nxcB02H+uwhyb/i1ok9uIZ2YW6ZYCWUHs
+	p34b7b8awAOakqVW4cI6dRpykICCL4eC+77bmEvSmUMC5XXb9qGHxz9GJc1i9Hpp
+	DyahcES8r8O7CyJcgM0ZWrGzfjFWxFPDZHWXIuNPFXxbS3a/PqllzolDg==
+X-ME-Sender: <xms:VsKwY2CEebTacyCxkyiApgYo9TiwS0lkrTBl1wQ_ockyy56ACbqaaw>
+    <xme:VsKwYwi5IZVw04wRjfrVRlZWhr_ADxfUlBWtz4uq26AXCXvOdLUh7W2iyVsRTGoNC
+    fZQkHeX6XjSYh2TdA>
+X-ME-Received: <xmr:VsKwY5lQWUYrXzDFIqWpNvs8cWkITLtrD24msoUFPHUFr8b8REHtPF_3VpPTa0vmCpkWCaOjkbdvivP6ElJ5oAmqi8FZrHR-MLIoC-pKFhfn_fSmJWcyIOPav6mJmuhLhRaY4A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieelgddtlecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpedukeetueduhedtleetvefguddvvdejhfefudelgfduveeggeehgfdu
-    feeitdevteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:sb6wYwsN0CWeA0a8Tw8yVRmMful9koxQmMx8xqPxlR4tOteM5fxXxA>
-    <xmx:sb6wYwc0tdE2ZjkXXbLvW_EEMhw7fPSh5j_SMAup14OD4IQY81HrwA>
-    <xmx:sb6wY00NQKDB22VHNe9S_1TtJCSfJhXhzImZUZb-KMp1hJ1npjzU4A>
-    <xmx:sr6wYxXW_GyrRCXghzrs_3FoAayZ570t9PSvEtVFQP5Ti5J-ti4f0Q>
+    fjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepueevhfevkeeiffevieelhedtudelffevhefgudfgtdekheetfffflefh
+    feetvddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:VsKwY0wzYHJA_6CiHYEjdXdmc0JvA62iuwIygHOmRMhvRZwUVQ_Rcw>
+    <xmx:VsKwY7TjX4_KrQ4PDQC_nMuBOas97R27aCH6qjZ_C88otSXULnZyFA>
+    <xmx:VsKwY_ZHPrV2EGTgsJv6bKIaKZOqs70rViHY50ALDG6BZLBAOaVsmg>
+    <xmx:V8KwY8iF5VSXS85weF33WvOoQMtovtaG02aPEMa7zuyJUNJy05_PPA>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 31 Dec 2022 17:58:56 -0500 (EST)
+ 31 Dec 2022 18:14:29 -0500 (EST)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
 Cc: Samuel Holland <samuel@sholland.org>,
+	Albert Ou <aou@eecs.berkeley.edu>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
 	Rob Herring <robh+dt@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
+	linux-clk@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	Andre Przywara <andre.przywara@arm.com>,
-	Karl Palsson <karlp@tweak.net.au>,
-	Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v2 2/2] ARM: dts: sun8i: nanopi-duo2: Fix regulator GPIO reference
-Date: Sat, 31 Dec 2022 16:58:54 -0600
-Message-Id: <20221231225854.16320-2-samuel@sholland.org>
+	linux-riscv@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 0/6] clk: sunxi-ng: Allwinner R528/T113 clock support
+Date: Sat, 31 Dec 2022 17:14:23 -0600
+Message-Id: <20221231231429.18357-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.37.4
-In-Reply-To: <20221231225854.16320-1-samuel@sholland.org>
-References: <20221231225854.16320-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The property named in the schema is 'enable-gpios', not 'enable-gpio'.
-This makes no difference at runtime, because the regulator is marked as
-always-on, but it breaks validation.
+R528 and T113 are SoCs based on the same design as D1/D1s, but with ARM
+CPUs instead of RISC-V. They use the same CCU implementation, meaning
+the CCU has gates/resets for all peripherals present on any SoC in this
+family. I verified the CAN bus bits are also present on D1/D1s.
 
-Fixes: 4701fc6e5dd9 ("ARM: dts: sun8i: add FriendlyARM NanoPi Duo2")
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+Patches 1-2 clean up the Kconfig in preparation for patch 3, which
+allows building the driver. Patches 4-6 add the missing binding header
+and driver bits.
 
-(no changes since v1)
+Changes in v2:
+ - Expand commit message
+ - Move dt-bindings header changes to a separate patch
 
- arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+András Szemző (1):
+  clk: sunxi-ng: d1: Mark cpux clock as critical
 
-diff --git a/arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dts b/arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dts
-index 43641cb82398..343b02b97155 100644
---- a/arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dts
-+++ b/arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dts
-@@ -57,7 +57,7 @@ reg_vdd_cpux: vdd-cpux-regulator {
- 		regulator-ramp-delay = <50>; /* 4ms */
- 
- 		enable-active-high;
--		enable-gpio = <&r_pio 0 8 GPIO_ACTIVE_HIGH>; /* PL8 */
-+		enable-gpios = <&r_pio 0 8 GPIO_ACTIVE_HIGH>; /* PL8 */
- 		gpios = <&r_pio 0 6 GPIO_ACTIVE_HIGH>; /* PL6 */
- 		gpios-states = <0x1>;
- 		states = <1100000 0>, <1300000 1>;
+Fabien Poussin (1):
+  clk: sunxi-ng: d1: Add CAN bus gates and resets
+
+Samuel Holland (4):
+  clk: sunxi-ng: Remove duplicate ARCH_SUNXI dependencies
+  clk: sunxi-ng: Move SoC driver conditions to dependencies
+  clk: sunxi-ng: d1: Allow building for R528/T113
+  dt-bindings: clock: Add D1 CAN bus gates and resets
+
+ drivers/clk/sunxi-ng/Kconfig              | 71 ++++++++++++-----------
+ drivers/clk/sunxi-ng/ccu-sun20i-d1.c      | 13 ++++-
+ drivers/clk/sunxi-ng/ccu-sun20i-d1.h      |  2 +-
+ include/dt-bindings/clock/sun20i-d1-ccu.h |  2 +
+ include/dt-bindings/reset/sun20i-d1-ccu.h |  2 +
+ 5 files changed, 53 insertions(+), 37 deletions(-)
+
 -- 
 2.37.4
 
