@@ -1,120 +1,103 @@
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9AA2F22;
-	Sat, 31 Dec 2022 16:46:37 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id D038F5C009F;
-	Sat, 31 Dec 2022 11:46:36 -0500 (EST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7863209
+	for <linux-sunxi@lists.linux.dev>; Sat, 31 Dec 2022 17:21:45 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.nyi.internal (Postfix) with ESMTP id 506DA5C008F;
+	Sat, 31 Dec 2022 12:21:44 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Sat, 31 Dec 2022 11:46:36 -0500
+  by compute6.internal (MEProxy); Sat, 31 Dec 2022 12:21:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1672505196; x=1672591596; bh=7u
-	QYAURCHALofBgFqai+eJUuH83j/8j81wXB1dd11us=; b=Z1Lc/KcetaEibwX0dY
-	JySItRjpdvUAyueivr0diViUBCr7DukMgltIDO350pBO8e2zlGGPBi1ZM5K6g8RI
-	ijpH54flxMKeCD+p9jAfaJ0FAmyxb53KCENakMz5YEBliQNhlEMIkDhuoeu8S9Kx
-	0ZU71TiJ9ihY5p3RqTU5E1eGPmsbGRQIlPSmy5UfBDioxvFyWAcw+ymVNPuhdUg7
-	PlhhqSmJXojzy2B9WJQhvC4fp0yiCVFGchz+ncWlPl8EUYzI4b2wx83efps03v1q
-	/ebkfvz+wTjFkm6Th29cL1rBogtMpAm/l97JaaA9UCqyrd+y46LkuxUpOVdqEarR
-	grCg==
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1672507304; x=
+	1672593704; bh=MwNzCwU4y8oThA8LV/hj9QJkdII91FpQFynEsjgAkEs=; b=u
+	wd8/4THVCiCZ6yOyZOn3iXMMSxbkDpU9Wp7C2rtX3lqNkbWiBmU65vxHibpimtqB
+	FDIGsvSPXwv9KADS4yI/eDIDD86qI6xUOOAMb0L8FaAUcZ4quFIXVHergOPZtKMJ
+	kWawKPRGGdwDob4TCmYe7lKGKaxLbNwT+qJTuqRzqyL6N3sQCRn+xBgmSX5+oLX8
+	s/nK3Yr6qF3/R8U102D61tMXDRWwwvElUeePjCCBVuUqxS0yLhohEb+1iTsY1apV
+	EApGYAWweeOfGOFHr3oFf2VgHBtsdb57nhe7HZI4t/OSezyici3xKyc4NfwsW4mv
+	jhidEBGvIrz+WbnDURkwg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1672505196; x=1672591596; bh=7uQYAURCHALof
-	BgFqai+eJUuH83j/8j81wXB1dd11us=; b=uEtyUlqWQIP6KQnLbF7xCXwWgQnnI
-	Q+68oZS1Q2BfaaSRj05sI6nC5Gb98mtUISzPKUuxFMVcN17GMeOmU8Qd1avNLwXE
-	REPaCDhAB8os+3Zt19Ni0I+jAO3e4xjy5AStkBwIPX/DmINi5N9eDEw5jXvcp9R9
-	lEofGkOsxzCviMJZVT7Tl5PXJMx0wiBedsC2ME82wRjhU6iTbs/AncZErANh/bj/
-	olZlQlAyZmcBe19ZbWsPh4FRGOjndpg0dlmHmFR29vttM6Tnfumyyi93OIuFdcsp
-	9/5Vs+lk2WeZrkPAv/GTX5DlC3Vh56lMiOBCblzOfkcm1jf+WrZq6ShuQ==
-X-ME-Sender: <xms:bGewY2YyJsoB9GYtcd0Y7RbeHn6f28O36fil5Bk07AXHPEc4tVYFPQ>
-    <xme:bGewY5Y1iZVeifPFRNJqGQbS80D47FmmWiyWe_osuVhTIcbTeXCMOlLIegRGwuQN5
-    SlrDz-VkV3i3kJ2gw>
-X-ME-Received: <xmr:bGewYw_tOGNGkqnPQfb69c_rE2IQtIqo0DZAH4GgJtnlcw5BupJRS1bI5t6IFkpGd1HRlFKtTt8L8aMgT-qMaeR53ovVSK0Rlor8EoRQ1mquSpfLdd3BZkjE3I6f4j5rqi_d7Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieekgdelfecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpedukeetueduhedtleetvefguddvvdejhfefudelgfduveeggeehgfdu
-    feeitdevteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:bGewY4rV7zQaxG2__glQcVtFLQp82ebxc280fvp_8943ZTBp1AxmZw>
-    <xmx:bGewYxqsc8d2IjOpXGlF5GEy2pJwTFaUISDLQeg3uPNPOTj7y7QEQA>
-    <xmx:bGewY2Q_vo2xQr8FYEHn3nEa79tQoZzMt4Qrus7v3zUGF5dpgZ4loQ>
-    <xmx:bGewY2if-Uz-np-3MUQ1eFvqDpKhjalu6n3Z6JZ2ftPjoU-txNTSHA>
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672507304; x=
+	1672593704; bh=MwNzCwU4y8oThA8LV/hj9QJkdII91FpQFynEsjgAkEs=; b=B
+	gE5QA+b/pAmKjQguidTWRC9uBV1l4TMzpXmujhet+PWepsARa7E6ruY2DMuXslBF
+	3pmBD36JHLIVLJws70LfVYM6CHAk+GdfaWJVF9+b1CVKBLZIpFHw5Q1lDNx/JLVF
+	lwLeOPsDPTdI0UpB4YO29sV0tVoxZCj1Nizot8DT2rkB4tuwFgwijI3DUV6gGA4J
+	Z4F1uACXhKEalZJcLybrbt+07awvDb/irYwAWcXS4yG8z0vogrOLq2LNjLqtNsHk
+	W6YsB4eC3bz6qHkeNDyq1q0ihrHSIzHbtuT16WTu2NdCHugjhdHbvraeSLI7SiKV
+	h8Qh/tExDj8XH++gdyDSA==
+X-ME-Sender: <xms:qG-wY7IbT_mbKLffc_Ju0N9wBXQfmqPZh18jde16jSPVDaEm_XDY6g>
+    <xme:qG-wY_LSnmX4xZOIoY107V4Mt0bSK1zOG1mQalsWq9N-rfnI5cBxJlQuIptTyrTt-
+    y0bAZrU96osaPipqw>
+X-ME-Received: <xmr:qG-wYzuVnUCIzrhHPqEDyLmpcFJ6fU6h64rZsjcEXIqg7ZaVfDje_KEn3BF9jnFg2pKkANAqm9j-RByQI2JftbC_W15m5H6kHcJbU1e9Hka1TMkU27NQJqH5bw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieekgddutddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepkfffgggfvfevfhfhufgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpeejgfffhfdujeeftdeuudeguedttefgieetffffheejuefguedv
+    heejteeftdfftdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:qG-wY0b4chipnTOVdIIS5QxMreekr0uDBgf3a1PqrHtSnPeE4aOtRw>
+    <xmx:qG-wYyZezoSnuelG5C4nWmQSTb6uJzdcD4TmaQ_81o6-kvBioDzhUQ>
+    <xmx:qG-wY4DWYjS_6v7885Gs3pTj7OF5X-URBeWMHx9j6jrg1Lj73qVAqg>
+    <xmx:qG-wY3PRYuPFLlZSgRnNVkmAq1WeV89QTlav3lQJXSmmJqJ0C5mtXg>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 31 Dec 2022 11:46:35 -0500 (EST)
-From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 4/4] riscv: dts: allwinner: d1: Add video engine node
-Date: Sat, 31 Dec 2022 10:46:27 -0600
-Message-Id: <20221231164628.19688-5-samuel@sholland.org>
-X-Mailer: git-send-email 2.37.4
-In-Reply-To: <20221231164628.19688-1-samuel@sholland.org>
-References: <20221231164628.19688-1-samuel@sholland.org>
+ 31 Dec 2022 12:21:43 -0500 (EST)
+Message-ID: <ed4a1b6d-3979-652e-0181-c34bb5a40d5d@sholland.org>
+Date: Sat, 31 Dec 2022 11:21:43 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Content-Language: en-US
+To: Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+References: <20220810014024.27568-1-samuel@sholland.org>
+ <20220815172653.51C41C433D7@smtp.kernel.org>
+From: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH] clk: sunxi-ng: mp: Avoid computing the rate twice
+In-Reply-To: <20220815172653.51C41C433D7@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-D1 contains a video engine which is supported by the Cedrus driver.
+Hi Stephen,
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+On 8/15/22 12:26, Stephen Boyd wrote:
+> Quoting Samuel Holland (2022-08-09 18:40:24)
+>> ccu_mp_find_best() already computes a best_rate at the same time as the
+>> best m and p factors. Return it so the caller does not need to duplicate
+>> the division.
+> 
+> Did the compiler figure this out and thus this patch makes no difference
+> to the final object code?
 
- arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+It makes a difference at least on my gcc version 11.1.0.
 
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-index dff363a3c934..4bd374279155 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-@@ -34,6 +34,17 @@ soc {
- 		#address-cells = <1>;
- 		#size-cells = <1>;
- 
-+		ve: video-codec@1c0e000 {
-+			compatible = "allwinner,sun20i-d1-video-engine";
-+			reg = <0x1c0e000 0x2000>;
-+			interrupts = <SOC_PERIPHERAL_IRQ(66) IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_VE>,
-+				 <&ccu CLK_VE>,
-+				 <&ccu CLK_MBUS_VE>;
-+			clock-names = "ahb", "mod", "ram";
-+			resets = <&ccu RST_BUS_VE>;
-+		};
-+
- 		pio: pinctrl@2000000 {
- 			compatible = "allwinner,sun20i-d1-pinctrl";
- 			reg = <0x2000000 0x800>;
--- 
-2.37.4
+Before:
+   text    data     bss     dec     hex filename
+  18257      12       0   18269    475d drivers/clk/sunxi-ng/sunxi-ccu.o
+
+After:
+   text    data     bss     dec     hex filename
+  18083      12       0   18095    46af drivers/clk/sunxi-ng/sunxi-ccu.o
+
+I will send a v2 covering all of the CCU clock types.
+
+Regards,
+Samuel
 
