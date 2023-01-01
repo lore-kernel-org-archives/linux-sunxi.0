@@ -1,58 +1,58 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4F423AA
-	for <linux-sunxi@lists.linux.dev>; Sun,  1 Jan 2023 18:59:27 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.west.internal (Postfix) with ESMTP id 4CD3E32005C1;
-	Sun,  1 Jan 2023 13:59:26 -0500 (EST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFABD23AA
+	for <linux-sunxi@lists.linux.dev>; Sun,  1 Jan 2023 19:25:08 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id CE7A65C00BB;
+	Sun,  1 Jan 2023 14:25:07 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Sun, 01 Jan 2023 13:59:27 -0500
+  by compute3.internal (MEProxy); Sun, 01 Jan 2023 14:25:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1672599565; x=
-	1672685965; bh=6xps2dz/8EfJzpJII3Hvk8cATnfAwucww7KtEbTc8vw=; b=N
-	ykvKjPfmMFAk0fIhCWLOJXFEVizdp8Sh7XaFVQKrPIP9hCGMd9lbykXg2jz6S5zJ
-	iGAnZY2jxo2f67M8PoDnFUSw92Q3D/8/XbfIp1AgdKqWhGoSEyp4eOAuVR+qpWfo
-	mMKjZdXKf2PnTAc4Qyn9K12Yutf8AtzotuLkNXXO+BEWJU8f5aQt0a96YrvQmBAu
-	vTVQnoqTgVEsr3FEEIzcNzKMxjaONoGtCIU2zFtRSCYxFu3C9jxoKixt0JQSwSZQ
-	7uYr/62cDAOt7pjdtHIEvNU29F44zF/VEnnXPSweIjNjVZTz/ZcV0XjabqsmLoi9
-	P8op2Sj7+VefEstbvUW+A==
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1672601107; x=
+	1672687507; bh=VpktkYQ2pX/lu78EKe1ReoxXZHT7qf8KAco8uky/13U=; b=B
+	Rs/Y9AbvltE9KgZGZbW7mbfPr7BJVRShdbhDFQTqeUuac9nir9LC9zA9ryGx97wq
+	zpJ3eQKLBxMKjTvKDEU7EDAFPyWmHt8H0NnwcjuGdSuPYoEwp3pCP9qj4BLRtmvC
+	/Ee27QCvOBzmTTQqu3maRzWp5/GVvwfhMSkrbhEhmKUAwuJR5UlJmzgNcTURtTq2
+	GavaDkG1SYCCwfZlzBlWwkxntNidyJ66iRz+6XnHf6WavLDn70FABiuZUv2SPI4L
+	RU21lDD3Hp/jeBOUq9Kq5CBXVAZx14prxrIAlIgQAm7y0eh492VZ1qMujHMghGXp
+	QIENirTySm9yFgIvRb/tw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672599565; x=
-	1672685965; bh=6xps2dz/8EfJzpJII3Hvk8cATnfAwucww7KtEbTc8vw=; b=h
-	D50QNLjWRQorQLn+KTWrLMexPU0oKhD34gfZSOXLt1IUjd8VqXvhqSTe7rh87338
-	ZOIszlwWOGNxmWayv4ODvBotxGZSrg3wxyvKUEGwKhvBXobA9nGQN6L3x2oicCsY
-	wEA6M8xtQ9KN/+3YmAGGeL8zUbyDv7q3hth50CQqA6exDPJsgpdx3FdF3OzUbi3V
-	WR8w62KwNkNdl3izKjRjcWb6bLoeioAnat+pK0f4tdtyR0m8//kuCSwtaMftsTVH
-	mEh/yK+0iEbzszDzwJKiXL3U473/izIMhWwNVbqv0FSI7W/ON+64sVdP+bDC3G5x
-	tGxgaJkUnROMU823ZOvbw==
-X-ME-Sender: <xms:DdixY4QO8U90nMDEtjNe8fCKM4UB-I4Ft3MWqLQcsAsOR7JAOk69xA>
-    <xme:DdixY1ziU76yM7GiMNoKyto7ndztsH2FxJydfthqMK7BFeICw577_2clFtS-jah_7
-    e90pR7QTXgGmX0-UA>
-X-ME-Received: <xmr:DdixY11hRtNMne-rxo0xCl9yZ1BZtGHYfKYW0DdOKWgHqdC1TCPj8WNty11vALBAZoCNnkxftl8LzVqx7Lgu3qqIfwGRycqddkl-jgc9y2pL3lfSTukKWe7ONQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjedtgdduudejucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672601107; x=
+	1672687507; bh=VpktkYQ2pX/lu78EKe1ReoxXZHT7qf8KAco8uky/13U=; b=d
+	IsatgG3kLOfNy6cUS6o4wLTGqIZnt1/cQqV3UsQ0ISWcxOFbjjHn6l7aR2CWzkgi
+	HgZGugHsIPY+wRYzEzP7lhAwf9urrDhaQK/Vzwfb8RuWQqtYg231dvoukSYJGIBf
+	KMiZ3hj6+3/rPeGifKd/7mpI1f4Gi6tPE42imo/l7W0Aevqk8DHnuKSyNImYXCHV
+	Erns9KxADd+1nfUgVUYtHY9eHZKrWXY43sowVLXvhFmpwKB6YSJUVLS/j5WA6xv7
+	Lz/nFgWn1wmfYkPKxym8nyGj5OyadJRH6DvZdqSsIkBQHGLUpDBtrQgCCMurxxNr
+	rTZ2qeqCXccII9Mk4yjFg==
+X-ME-Sender: <xms:E96xY-kTYB-9oRazmIN5TOi6DCeVSt7INpYto6VhoDqvU-v5QodSKQ>
+    <xme:E96xY13sjV5iRWgUdwOvIrkmsV8y9E5hMGvJQBOSUTuBB6uBpaG0zcZN3lTP3Nj6D
+    51rw28eQJjZPG5XwA>
+X-ME-Received: <xmr:E96xY8qJ5UeCwPMGjiMgiQnNPHlLOofoCYpUjppKbu7fzyY4T5WjftIhywykEX7SKj7nyF5fJeJjQ64mSCNvugZjgSK85DwtKHOdt6PAFqxpril9WT18bRSWMA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjedtgdduvdduucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepkfffgggfhffvvehfufgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    cujfgurhepkfffgggfvfevfhfhufgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
     uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpefhhfeggeduheeihedtkedutdegleduudelhfekheekvdetudev
-    ieejudfhveejffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    ggtffrrghtthgvrhhnpeejgfffhfdujeeftdeuudeguedttefgieetffffheejuefguedv
+    heejteeftdfftdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
     hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:DdixY8BuEN1LsGmv3Yf2x8nEWKTbP45x7W-Zw4ajQx0S13PpqBOgdA>
-    <xmx:DdixYxhsw7imkMVR9FfSwGcTJnY-rBeUD7k3Suqo4iGwpixuG3hcYA>
-    <xmx:DdixY4oyWTUpnbkr44Pr27tJtowaywcfL2v8JfZQpEvQQH4cljl8TA>
-    <xmx:DdixYyVbdGcIWXgBKrIaZoldH39EPeErr4ugNFt0iUoLed95oVc7UA>
+X-ME-Proxy: <xmx:E96xYymTok3k6kFNuknX0gnE2fYf6-seD-DwIgVIeLN1ke3catKs2w>
+    <xmx:E96xY81Cf5KNnJwmzB62M3uB_gucVa-x-41kbbLsjwdtvrMzRvgDnw>
+    <xmx:E96xY5s7FpITiLHT66NpEjg_LkTosKwa3ltFCgt1legAsY-rF5e8Pg>
+    <xmx:E96xY9J4knNs_eCIinK9_u3Bg6PfYYgF0IsGHRg8tDjhAJ6QXHfpzA>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 1 Jan 2023 13:59:24 -0500 (EST)
-Message-ID: <30171937-dfb5-4bba-23c1-607271c9a791@sholland.org>
-Date: Sun, 1 Jan 2023 12:59:24 -0600
+ 1 Jan 2023 14:25:06 -0500 (EST)
+Message-ID: <5a6a65c6-6df3-0d24-b28a-324b28fd4756@sholland.org>
+Date: Sun, 1 Jan 2023 13:25:06 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -62,114 +62,66 @@ MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
 Content-Language: en-US
-From: Samuel Holland <samuel@sholland.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Rob Herring <robh@kernel.org>
+To: Ulf Hansson <ulf.hansson@linaro.org>
 Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-References: <20220814173656.11856-1-samuel@sholland.org>
- <20220814173656.11856-4-samuel@sholland.org>
- <20220825210252.GA1671168-robh@kernel.org>
- <68274f65-48f0-fe37-cefc-876d18e327e6@sholland.org>
-Subject: Re: [PATCH 3/4] dt-bindings: nvmem: Allow bit offsets greater than a
- byte
-In-Reply-To: <68274f65-48f0-fe37-cefc-876d18e327e6@sholland.org>
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Andre Przywara <andre.przywara@arm.com>, Maxime Ripard <maxime@cerno.tech>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-sunxi@lists.linux.dev
+References: <20220810022509.43743-1-samuel@sholland.org>
+ <CAPDyKFqg0BUbpQwKvZxuMrqoiwBKzZxbgP-e=50yLpKRhQ+zPw@mail.gmail.com>
+From: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH] mmc: sunxi-mmc: Fix clock refcount imbalance during
+ unbind
+In-Reply-To: <CAPDyKFqg0BUbpQwKvZxuMrqoiwBKzZxbgP-e=50yLpKRhQ+zPw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 9/8/22 22:29, Samuel Holland wrote:
-> On 8/25/22 4:02 PM, Rob Herring wrote:
->> On Sun, Aug 14, 2022 at 12:36:54PM -0500, Samuel Holland wrote:
->>> Some NVMEM devices contain cells which do not start at a multiple of the
->>> device's stride. However, the "reg" property of a cell must be aligned
->>> to its provider device's stride.
+On 8/15/22 05:11, Ulf Hansson wrote:
+> On Wed, 10 Aug 2022 at 04:25, Samuel Holland <samuel@sholland.org> wrote:
 >>
->> How is a DT author supposed to know this? 
+>> If the controller is suspended by runtime PM, the clock is already
+>> disabled, so do not try to disable it again during removal. Use
+>> pm_runtime_disable() to flush any pending runtime PM transitions.
+>>
+>> Fixes: 9a8e1e8cc2c0 ("mmc: sunxi: Add runtime_pm support")
+>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>> ---
+>>
+>>  drivers/mmc/host/sunxi-mmc.c | 8 +++++---
+>>  1 file changed, 5 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
+>> index b16e12e62e72..3db9f32d6a7b 100644
+>> --- a/drivers/mmc/host/sunxi-mmc.c
+>> +++ b/drivers/mmc/host/sunxi-mmc.c
+>> @@ -1492,9 +1492,11 @@ static int sunxi_mmc_remove(struct platform_device *pdev)
+>>         struct sunxi_mmc_host *host = mmc_priv(mmc);
+>>
+>>         mmc_remove_host(mmc);
+>> -       pm_runtime_force_suspend(&pdev->dev);
+>> -       disable_irq(host->irq);
+>> -       sunxi_mmc_disable(host);
 > 
-> To know the stride? They know the compatible string of the NVMEM provider
-> device, and the stride is a property of the hardware.
-> 
-> To know that alignment to the stride is required? That's not documented in the
-> binding. I can add that to the "reg" description in this file.
-> 
->> I would lean toward it's the OS's problem to deal with (your option 1 I 
->> guess). I worry that one client could expect it one way and another 
->> client the other. Or folks making DT changes to 'fix' things.
-> 
-> After this binding change, the meaning of
-> 
-> 	reg = <0x2a 1>;
-> 	bits = <0 8>; // optional
-> 
-> and
-> 
-> 	reg = <0x28 4>;
-> 	bits = <16 8>;
-> 
-> would be identical.
-> 
-> With option 1, only the first representation would be valid in the DT.
-> 
-> With this series (option 2), either representation would validate in the DT, but
-> only the second representation would be accepted by Linux for the driver in
-> question (sunxi-sid).
-> 
-> With option 3, either representation would work in the DT and Linux.
-> 
-> Note that there is no restriction on the bit length, so the following are
-> already equivalent today:
-> 
-> 	reg = <0x28 1>;
-> 	bits = <0 8>; // optional
-> 
-> and
-> 
-> 	reg = <0x28 2>;
-> 	bits = <0 8>;
-> 
-> So there are already multiple possible representations. I don't really think
-> that is a problem, since the meaning is still unambiguous.
+> Perhaps a better option than the below, would just be to drop the
+> above calls to disable_irq() and sunxi_mmc_disable(), as that is
+> already managed through the call to pm_runtime_force_suspend().
 
-Does anyone have further thoughts on this?
-
-From Rob's comment on the alignment being "the OS's problem", it sounds
-like I should implement option 3 -- have the NVMEM core transform the
-cell to match the driver's alignment/size requirements. Before I start
-implementing it, does that sound workable?
+I like the idea, but it will not work for !CONFIG_PM builds, which this
+driver currently supports.
 
 Regards,
 Samuel
 
->>> These cells can be represented in the DT using the "bits" property if
->>> that property allows offsets up to the full stride. 63 is chosen
->>> assuming that NVMEM devices will not have strides larger than 8 bytes.
->>>
->>> Signed-off-by: Samuel Holland <samuel@sholland.org>
->>> ---
->>>
->>>  Documentation/devicetree/bindings/nvmem/nvmem.yaml | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/nvmem/nvmem.yaml b/Documentation/devicetree/bindings/nvmem/nvmem.yaml
->>> index 3bb349c634cb..4f440ab6a13c 100644
->>> --- a/Documentation/devicetree/bindings/nvmem/nvmem.yaml
->>> +++ b/Documentation/devicetree/bindings/nvmem/nvmem.yaml
->>> @@ -53,7 +53,7 @@ patternProperties:
->>>          $ref: /schemas/types.yaml#/definitions/uint32-array
->>>          items:
->>>            - minimum: 0
->>> -            maximum: 7
->>> +            maximum: 63
->>>              description:
->>>                Offset in bit within the address range specified by reg.
->>>            - minimum: 1
->>> -- 
->>> 2.35.1
->>>
->>>
+>> +       pm_runtime_disable(&pdev->dev);
+>> +       if (!pm_runtime_status_suspended(&pdev->dev)) {
+>> +               disable_irq(host->irq);
+>> +               sunxi_mmc_disable(host);
+>> +       }
+>>         dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg_dma);
+>>         mmc_free_host(mmc);
+>>
 > 
-> 
+> Kind regards
+> Uffe
 
