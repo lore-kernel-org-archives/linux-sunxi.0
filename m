@@ -1,121 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9989E15B5
-	for <linux-sunxi@lists.linux.dev>; Sun,  1 Jan 2023 17:34:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D138C433EF;
-	Sun,  1 Jan 2023 17:34:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672594496;
-	bh=0/el2/T4xzlbCGvHgu+q4C1W53UanMaCbjlDHFu8n6U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V00Iw1yW7RG+TP19hINITpmArgkSsJkF3hIkQaSADgYnbGt2VhBz7oZEOk+lzDgZE
-	 MlUz0G1ZWH/yZTpi+ysh6eD/ynvq7QViTHKxc9+rSX/4qekX1nvK4Bpof6zK80KC3z
-	 OEY0mjAT3zkuluJXCnCY/08bL+KsCkIicZsbjj/IigbYO749qH/zUb0SwNMplMKXGT
-	 IUuy72OqnZlhggOYrxbMVW/xIoAR3yy0fpepzGDcYFf4mv/Wd5ZfzmgFLrEcLJgrnw
-	 ehaHgbhx152A3HqAzXEZf4ivT5eCeAjnzbTCJWP7PhGCmu7WNrEACuWJ1a+ToXIE2H
-	 puNOtQy41RFuw==
-Date: Sun, 1 Jan 2023 12:34:54 -0500
-From: Sasha Levin <sashal@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Samuel Holland <samuel@sholland.org>, stable@vger.kernel.org,
-	Vinod Koul <vkoul@kernel.org>, kishon@kernel.org, wens@csie.org,
-	jernej.skrabec@gmail.com, wsa+renesas@sang-engineering.com,
-	linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 5.10 1/7] phy: sun4i-usb: Add support for the
- H616 USB PHY
-Message-ID: <Y7HEPphR2cZePsBz@sashalap>
-References: <20221227203512.1214527-1-sashal@kernel.org>
- <530561e9-9ef8-7c8c-8e73-838c86a92266@sholland.org>
- <20221227222330.5ebdf780@slackpad.lan>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47112C80
+	for <linux-sunxi@lists.linux.dev>; Sun,  1 Jan 2023 18:33:19 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id 7D1163200063;
+	Sun,  1 Jan 2023 13:33:18 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Sun, 01 Jan 2023 13:33:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm3; t=1672597998; x=1672684398; bh=pPNQpVYlTQwtH0yI7fJJtR/ei
+	bnG2GO2Hpnu03U2DyM=; b=hdkXIt0xOz1sN6hcmzvTTXltEtOX/MMA5wiTlDKXK
+	Fb32J6qxOJnkbd77qlS2hRH1RS2u2viUtf0+vJcDPF6e2qIYsNKgTuB6Un8jYTLI
+	+5f75QvMSzXulfcHx7mWZJPFolP7IHnQ/p/22ZrvSkhWPJeay5Np7no7M2Paj3+C
+	CF17SZfh63F9U9XV/f4KOk56LxDpJgd8/+TwnJxZXr0trBcwfF9M57TRJuVOOoz9
+	Gq0YZuAtEVQuUH+/E1iCJljiE4lKYWkqpBea5AnfG4h/8T9ND2WAy3EW2o1bOer9
+	yDUsH5fglVH0yLlQap1i9RqPnF79JCcZOJR/cbx4EHM4g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1672597998; x=1672684398; bh=pPNQpVYlTQwtH0yI7fJJtR/eibnG2GO2Hpn
+	u03U2DyM=; b=mjbqwFpik4dHPjLxAK/ac+hMDG4JjQWVd1CPfQDLOuaAvkBJcVC
+	9yySN6v2Xv6wuA7XeUK62tdYyXoUy4EEPRW2mw5Xjpj+sQa86ZRKa4fPZHrwvgB4
+	uH6ph1W1P9IoAPltRiHnC4CVwR+e+HN4H4jplpUwv4Nz6pjxZuR2Jd+BBtaHoCsg
+	bTDW04O8unntozPEF05mfHqbhq/uTf9fPX7ASS13e+rth/7fpJnJPNeFYkHX74VA
+	HdvPcD7zqVLcdcysdDUJlJpWZVXehzb+kFPycnhT1yVkemo3NUb0r80c07vemGt1
+	FSPqQnDtNOVlJGFKPcic5S365AvsfswGY4w==
+X-ME-Sender: <xms:7dGxY-kmRyQ8cwLYoS-s9WqmTNiM2_pG0qwAkMX_WZnjyMXQdw-mpA>
+    <xme:7dGxY10DA5QxxlhVlF-ZrMpwgsWDAnwnW4EBdFeXv4RsjGW9UZikesXo8ASjrwkW2
+    9gmeWfle6Wv6LjUDQ>
+X-ME-Received: <xmr:7dGxY8pUanGBqIjWu17m853MESZgYPpun1f8hSB9blrLPQic-z1XGU5gdI4hPztH2HO4Yng3Ji80jjWzN7X72JT1yiOCMBOJ5OYmhjGwWvE56omJCSsnjqRaRGGn5hGr7LYkIw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjedtgdduudduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepkeehffethedtteffgfefteetjedvfeelueevudffgfeutdejvdehledv
+    vdffhfevnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgrnhgu
+    rdhorhhg
+X-ME-Proxy: <xmx:7dGxYykCj20wWLpQ0FQxF055FSG5RqEAD4kruLLvD206F_qeQGPITg>
+    <xmx:7dGxY82F5OmAQOIIbDT3C4IOi6HBBe_llvUZzsq-iVd3fE-MeFvObA>
+    <xmx:7dGxY5vCZYab2J1c1C3BwqdnfLOYEhQhyDcbn_Hr5-y2TpZqz8mwxQ>
+    <xmx:7tGxY2oYYHHkJchwXt9AJoukf2FP8f4jZ5GUM7zh77zA9Fx9DPRf9Q>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 1 Jan 2023 13:33:17 -0500 (EST)
+From: Samuel Holland <samuel@sholland.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 0/2] nvmem: sunxi_sid: Fix for D1 variant
+Date: Sun,  1 Jan 2023 12:33:14 -0600
+Message-Id: <20230101183316.43642-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.37.4
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20221227222330.5ebdf780@slackpad.lan>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Dec 27, 2022 at 10:23:30PM +0000, Andre Przywara wrote:
->On Tue, 27 Dec 2022 15:58:16 -0600
->Samuel Holland <samuel@sholland.org> wrote:
->
->> Hi Sasha,
->>
->> On 12/27/22 14:35, Sasha Levin wrote:
->> > From: Andre Przywara <andre.przywara@arm.com>
->> >
->> > [ Upstream commit 0f607406525d25019dd9c498bcc0b42734fc59d5 ]
->> >
->> > The USB PHY used in the Allwinner H616 SoC inherits some traits from its
->> > various predecessors: it has four full PHYs like the H3, needs some
->> > extra bits to be set like the H6, and puts SIDDQ on a different bit like
->> > the A100. Plus it needs this weird PHY2 quirk.
->> >
->> > Name all those properties in a new config struct and assign a new
->> > compatible name to it.
->> >
->> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
->> > Reviewed-by: Samuel Holland <samuel@sholland.org>
->> > Link: https://lore.kernel.org/r/20221031111358.3387297-5-andre.przywara@arm.com
->> > Signed-off-by: Vinod Koul <vkoul@kernel.org>
->> > Signed-off-by: Sasha Levin <sashal@kernel.org>
->> > ---
->> >  drivers/phy/allwinner/phy-sun4i-usb.c | 12 ++++++++++++
->> >  1 file changed, 12 insertions(+)
->> >
->> > diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
->> > index 651d5e2a25ce..230987e55ece 100644
->> > --- a/drivers/phy/allwinner/phy-sun4i-usb.c
->> > +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
->> > @@ -974,6 +974,17 @@ static const struct sun4i_usb_phy_cfg sun50i_h6_cfg = {
->> >  	.missing_phys = BIT(1) | BIT(2),
->> >  };
->> >
->> > +static const struct sun4i_usb_phy_cfg sun50i_h616_cfg = {
->> > +	.num_phys = 4,
->> > +	.type = sun50i_h6_phy,
->> > +	.disc_thresh = 3,
->> > +	.phyctl_offset = REG_PHYCTL_A33,
->> > +	.dedicated_clocks = true,
->> > +	.phy0_dual_route = true,
->> > +	.hci_phy_ctl_clear = PHY_CTL_SIDDQ,
->> > +	.needs_phy2_siddq = true,
->>
->> This will fail to compile without b45c6d80325b ("phy: sun4i-usb:
->> Introduce port2 SIDDQ quirk"). However, like Andre mentioned in
->> reference to the devicetree updates[1], we were not expecting any of
->> these patches to be backported. Since you already dropped the DT
->> portion, there is no need to bother with these two patches either.
->
->Well, definitely not for 5.4 and 5.10, since the essential pinctrl and
->clock patches for the H616 were only added in 5.12, so there is no
->point in having USB support.
->
->I don't know how useful it is for 6.0, but having both patches in 6.1
->would make some sense, since it's an LTS kernel. The H616 SoC became
->usable in 6.0, with the USB patches being delayed back then. And it's
->only those two that are missing from enabling USB support, IIRC.
->The DT part is not really relevant, since you can always use U-Boot's
->DT (recommended) or the DT from any newer kernel.
->
->So from an user's perspective, it would be very helpful to just have:
->- [PATCH AUTOSEL 6.1 12/28]
->- [PATCH AUTOSEL 6.1 13/28]
->Personally I would support this, since it makes all H616 based devices
->much more usable with next year's distribution kernels.
->
->I don't know if this fulfils the stable kernel rules, though, since
->strictly speaking they don't fix anything, but add (USB) support to a
->new SoC. Then again they are little risk, since most of the code is
->guarded by H616 filters, so wouldn't be used by other SoCs.
+This is the first two patches from [1], with the stable CC added.
+The first patch fixes a bug causing incorrect values to be read; the
+second is a cleanup. I split the series since this bug needs to be
+fixed regardless of the DT binding discussion.
 
-Quirks and new device ids are accepted in the stable trees. I'll leave
-those two patches on 6.1. Thanks!
+[1]: https://lore.kernel.org/lkml/20220814173656.11856-1-samuel@sholland.org/
+
+Changes in v2:
+ - Split out the driver fix from the other changes
+
+Samuel Holland (2):
+  nvmem: sunxi_sid: Always use 32-bit MMIO reads
+  nvmem: sunxi_sid: Drop the workaround on A64
+
+ drivers/nvmem/sunxi_sid.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
 -- 
-Thanks,
-Sasha
+2.37.4
+
