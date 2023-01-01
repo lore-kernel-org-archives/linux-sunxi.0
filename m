@@ -1,127 +1,116 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFABD23AA
-	for <linux-sunxi@lists.linux.dev>; Sun,  1 Jan 2023 19:25:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF4123AA
+	for <linux-sunxi@lists.linux.dev>; Sun,  1 Jan 2023 19:36:09 +0000 (UTC)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id CE7A65C00BB;
-	Sun,  1 Jan 2023 14:25:07 -0500 (EST)
+	by mailout.west.internal (Postfix) with ESMTP id E85083200564;
+	Sun,  1 Jan 2023 14:36:06 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Sun, 01 Jan 2023 14:25:07 -0500
+  by compute3.internal (MEProxy); Sun, 01 Jan 2023 14:36:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1672601107; x=
-	1672687507; bh=VpktkYQ2pX/lu78EKe1ReoxXZHT7qf8KAco8uky/13U=; b=B
-	Rs/Y9AbvltE9KgZGZbW7mbfPr7BJVRShdbhDFQTqeUuac9nir9LC9zA9ryGx97wq
-	zpJ3eQKLBxMKjTvKDEU7EDAFPyWmHt8H0NnwcjuGdSuPYoEwp3pCP9qj4BLRtmvC
-	/Ee27QCvOBzmTTQqu3maRzWp5/GVvwfhMSkrbhEhmKUAwuJR5UlJmzgNcTURtTq2
-	GavaDkG1SYCCwfZlzBlWwkxntNidyJ66iRz+6XnHf6WavLDn70FABiuZUv2SPI4L
-	RU21lDD3Hp/jeBOUq9Kq5CBXVAZx14prxrIAlIgQAm7y0eh492VZ1qMujHMghGXp
-	QIENirTySm9yFgIvRb/tw==
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm3; t=1672601766; x=1672688166; bh=9W/vOLrywVvKMEM2uXRK7f90y
+	c2YFYC7zHPiaMO2kvI=; b=MTgHuoFOyP2Q7o25ivfGtCeyUEUurVIftwEy4KFRx
+	noEyaoZj2SnW6rhnJGCshxZBXYReF/wLx6ZrirDJIOGSOJP9LKgOaStNgydRbIbP
+	1dUjVGjzkSmY/EscHg+IUjLju7T2TA9NgBaK+/qcMQJ5lXCI2UfgQaDbHic38ciw
+	JAZTxtG6jHFU/zvwkHSx9iV+1JNLcn+CkmDl4916cvV/KvINbgel81UdBDPEGImt
+	/He5xtoODZLmFr6iwtqn9hWKxmdvC/Y1nELdNgPfUKOajfHfylc7jn9wr3YpV55t
+	T3T/KFDYJEDkJOdXti3371TfTh6b1GKPUrHVN1VC4+DfQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672601107; x=
-	1672687507; bh=VpktkYQ2pX/lu78EKe1ReoxXZHT7qf8KAco8uky/13U=; b=d
-	IsatgG3kLOfNy6cUS6o4wLTGqIZnt1/cQqV3UsQ0ISWcxOFbjjHn6l7aR2CWzkgi
-	HgZGugHsIPY+wRYzEzP7lhAwf9urrDhaQK/Vzwfb8RuWQqtYg231dvoukSYJGIBf
-	KMiZ3hj6+3/rPeGifKd/7mpI1f4Gi6tPE42imo/l7W0Aevqk8DHnuKSyNImYXCHV
-	Erns9KxADd+1nfUgVUYtHY9eHZKrWXY43sowVLXvhFmpwKB6YSJUVLS/j5WA6xv7
-	Lz/nFgWn1wmfYkPKxym8nyGj5OyadJRH6DvZdqSsIkBQHGLUpDBtrQgCCMurxxNr
-	rTZ2qeqCXccII9Mk4yjFg==
-X-ME-Sender: <xms:E96xY-kTYB-9oRazmIN5TOi6DCeVSt7INpYto6VhoDqvU-v5QodSKQ>
-    <xme:E96xY13sjV5iRWgUdwOvIrkmsV8y9E5hMGvJQBOSUTuBB6uBpaG0zcZN3lTP3Nj6D
-    51rw28eQJjZPG5XwA>
-X-ME-Received: <xmr:E96xY8qJ5UeCwPMGjiMgiQnNPHlLOofoCYpUjppKbu7fzyY4T5WjftIhywykEX7SKj7nyF5fJeJjQ64mSCNvugZjgSK85DwtKHOdt6PAFqxpril9WT18bRSWMA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjedtgdduvdduucetufdoteggodetrfdotf
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1672601766; x=1672688166; bh=9W/vOLrywVvKMEM2uXRK7f90yc2YFYC7zHP
+	iaMO2kvI=; b=UU9AeY6IbGbUKbLkNsnZny/m407i0I3VPsquPDrDm2uATAKhGep
+	i59KtZrzEKIZpKMalqWOvDPeiS+jULOhkT5lG30e7ep/CRrwKjPamrbCahSlNP9i
+	lYgkOv8Ggy20oTRPG6bhej1aZbW/wTPMOwlGa2qn0ugfVnVBOyKCjc1V3SqlXtzc
+	0GfxxYybkikcLlO3+Ids2m3vSPG/fdPtZI8wkHWOy7iDBUkfPsUspa1WwukZkNii
+	UTAaSj6TykvPVIJqplO+O6YNKniiqm4SRbfrGdfBTalo4vgWhTl7/fFdGc1MF8Vm
+	FYQjY4DYWXsOj+kc+dWVGZXINF2AZFyZktA==
+X-ME-Sender: <xms:puCxYwIvA2nnXIPC9gdiLsM22_XYmEl63OyI8UuAsFJSGcjPAAi7fw>
+    <xme:puCxYwLsZOw6yGEjP0Cg3mpMyfpbp7Hvi_sV_Zs8bAg3KdWjO_NO9Uo7jtbjLpc5S
+    I51dQeJiy3ON9nQpQ>
+X-ME-Received: <xmr:puCxYwuhOpiEf9fonovirX0i3wRvNI_7mx4sy6H7ZpQWKI_8xwpCzZbpSpwKmAY4fVvPAruS0JYhNr-3xuszyj0TQR_5MLB4eVIOLuYHAuJgazn-mzR4tEWEO-iJ0ByGW0LF0g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjedtgdduvdegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepkfffgggfvfevfhfhufgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpeejgfffhfdujeeftdeuudeguedttefgieetffffheejuefguedv
-    heejteeftdfftdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:E96xYymTok3k6kFNuknX0gnE2fYf6-seD-DwIgVIeLN1ke3catKs2w>
-    <xmx:E96xY81Cf5KNnJwmzB62M3uB_gucVa-x-41kbbLsjwdtvrMzRvgDnw>
-    <xmx:E96xY5s7FpITiLHT66NpEjg_LkTosKwa3ltFCgt1legAsY-rF5e8Pg>
-    <xmx:E96xY9J4knNs_eCIinK9_u3Bg6PfYYgF0IsGHRg8tDjhAJ6QXHfpzA>
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
+    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:puCxY9bfrcKoyLBNKERtrf6nMoUdv8I9OPsPA_hfjQYSWecJWX3BGA>
+    <xmx:puCxY3ZWrkSGD_XL0AYcUCazhcq_LCkc_jhQ3S16dApFZET4iiZV7w>
+    <xmx:puCxY5Bwl2nPjqLjehc83FmOeDVIsfBirPCVilMgcYzFMFaOB7JDzg>
+    <xmx:puCxY8NYgmjdBWYfo6AhkwkC0KYRj79vuxHyXVgh7XEEHitZLMVI3A>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 1 Jan 2023 14:25:06 -0500 (EST)
-Message-ID: <5a6a65c6-6df3-0d24-b28a-324b28fd4756@sholland.org>
-Date: Sun, 1 Jan 2023 13:25:06 -0600
+ 1 Jan 2023 14:36:05 -0500 (EST)
+From: Samuel Holland <samuel@sholland.org>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	dmaengine@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2] dmaengine: sun6i: Set the maximum segment size
+Date: Sun,  1 Jan 2023 13:36:04 -0600
+Message-Id: <20230101193605.50285-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.37.4
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Content-Language: en-US
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Andre Przywara <andre.przywara@arm.com>, Maxime Ripard <maxime@cerno.tech>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-sunxi@lists.linux.dev
-References: <20220810022509.43743-1-samuel@sholland.org>
- <CAPDyKFqg0BUbpQwKvZxuMrqoiwBKzZxbgP-e=50yLpKRhQ+zPw@mail.gmail.com>
-From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH] mmc: sunxi-mmc: Fix clock refcount imbalance during
- unbind
-In-Reply-To: <CAPDyKFqg0BUbpQwKvZxuMrqoiwBKzZxbgP-e=50yLpKRhQ+zPw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/15/22 05:11, Ulf Hansson wrote:
-> On Wed, 10 Aug 2022 at 04:25, Samuel Holland <samuel@sholland.org> wrote:
->>
->> If the controller is suspended by runtime PM, the clock is already
->> disabled, so do not try to disable it again during removal. Use
->> pm_runtime_disable() to flush any pending runtime PM transitions.
->>
->> Fixes: 9a8e1e8cc2c0 ("mmc: sunxi: Add runtime_pm support")
->> Signed-off-by: Samuel Holland <samuel@sholland.org>
->> ---
->>
->>  drivers/mmc/host/sunxi-mmc.c | 8 +++++---
->>  1 file changed, 5 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
->> index b16e12e62e72..3db9f32d6a7b 100644
->> --- a/drivers/mmc/host/sunxi-mmc.c
->> +++ b/drivers/mmc/host/sunxi-mmc.c
->> @@ -1492,9 +1492,11 @@ static int sunxi_mmc_remove(struct platform_device *pdev)
->>         struct sunxi_mmc_host *host = mmc_priv(mmc);
->>
->>         mmc_remove_host(mmc);
->> -       pm_runtime_force_suspend(&pdev->dev);
->> -       disable_irq(host->irq);
->> -       sunxi_mmc_disable(host);
-> 
-> Perhaps a better option than the below, would just be to drop the
-> above calls to disable_irq() and sunxi_mmc_disable(), as that is
-> already managed through the call to pm_runtime_force_suspend().
+The sun6i DMA engine supports segment sizes up to 2^25-1 bytes. This is
+explicitly stated in newer SoC documentation (H6, D1), and it is implied
+in older documentation by the 25-bit width of the "bytes left in the
+current segment" register field.
 
-I like the idea, but it will not work for !CONFIG_PM builds, which this
-driver currently supports.
+Exposing the real segment size limit (instead of the 64k default)
+reduces the number of SG list segments needed for a transaction.
 
-Regards,
-Samuel
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
+Tested on A64, verified that the maximum ALSA PCM period increased, and
+that audio playback still worked.
 
->> +       pm_runtime_disable(&pdev->dev);
->> +       if (!pm_runtime_status_suspended(&pdev->dev)) {
->> +               disable_irq(host->irq);
->> +               sunxi_mmc_disable(host);
->> +       }
->>         dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg_dma);
->>         mmc_free_host(mmc);
->>
-> 
-> Kind regards
-> Uffe
+Changes in v2:
+ - Use SZ_32M instead of DMA_BIT_MASK to make the limit more obvious
+
+ drivers/dma/sun6i-dma.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+index b7557f437936..30667d251e97 100644
+--- a/drivers/dma/sun6i-dma.c
++++ b/drivers/dma/sun6i-dma.c
+@@ -9,6 +9,7 @@
+ 
+ #include <linux/clk.h>
+ #include <linux/delay.h>
++#include <linux/dma-mapping.h>
+ #include <linux/dmaengine.h>
+ #include <linux/dmapool.h>
+ #include <linux/interrupt.h>
+@@ -1334,6 +1335,8 @@ static int sun6i_dma_probe(struct platform_device *pdev)
+ 	INIT_LIST_HEAD(&sdc->pending);
+ 	spin_lock_init(&sdc->lock);
+ 
++	dma_set_max_seg_size(&pdev->dev, SZ_32M - 1);
++
+ 	dma_cap_set(DMA_PRIVATE, sdc->slave.cap_mask);
+ 	dma_cap_set(DMA_MEMCPY, sdc->slave.cap_mask);
+ 	dma_cap_set(DMA_SLAVE, sdc->slave.cap_mask);
+-- 
+2.37.4
 
