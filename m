@@ -1,249 +1,59 @@
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5FA7C
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Jan 2023 09:30:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E3928EE
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 Jan 2023 11:20:20 +0000 (UTC)
 Received: (Authenticated sender: miquel.raynal@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id AE638240006;
-	Mon,  2 Jan 2023 09:30:10 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 5E606100008;
+	Mon,  2 Jan 2023 11:20:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1672651814;
+	t=1672658412;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TfPe+kgpzqsrNLM0lsYjTizOT0I17cc9ihmNZot7mDo=;
-	b=na67jTXPFjGOJo9yKW1IMOLZCDBRSYhxSkkDdqa5rv+LuIIbGFLvjknm7M7gXNci/HPTx8
-	mgAaeOyv9TIZIigUS5TfUEE8IgaWYxfJBVVZS2Ysj89naOX9bOfLeDYptHTtJ0HZ87yaoP
-	8Zbl1BdNB5wHZOXvPnZUpbycH6/Z9hx8mY8Z7bv3Q+4qKGytQN4toyQjlUsqVjCMTaqFsa
-	APMd0257i8bQZqro16cklz3uFD07+omQUxlHk0WolZbjSvViu51LUQyUxNfSgZFaquFoUM
-	AX8pETa1zv90Sq5mMf1aFNbdrBu22y0Cl3IvEOlXMSF0/CKf6+J+UGQroA+LEQ==
-Date: Mon, 2 Jan 2023 10:30:09 +0100
+	bh=N7TQ4TvrTvrJPMfHspAvP+gisAsh/2xMjTMPVTSfd7U=;
+	b=IdbGqCCJh4+VvT6tHQLRj9e/YC+ZXKojvE2Hei/lKu7Wakc7tNGPzaWamWIyp+Ym2WX5yu
+	7wWAUS+cnZOf4POflsF6JRcBV0t9jAuBbbf5DR5kXKOrq/GtxFe0wVfvoVmlBVSWi833wk
+	A3IAvO+40CR7fpb+qxnC8/YpRNjqKPrahR2wNB2Xnv7BXDDoIAbjkQn53H4GRVt2tT4Rz6
+	MU93kYJbD2xd71FBWM81CpCX/x9qn8YG1sAu2fy+IH4nzReNORyvOHcwG9irWhUcEm2hBR
+	VeGgNAs5a3IGMyZmtNPl6pvjiJBFOpldZVS0p0RNCy54jcODnhJ/W4C9CbsbKQ==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra
- <vigneshr@ti.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Boris Brezillon <bbrezillon@kernel.org>, Brian
- Norris <computersforpeace@gmail.com>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 7/7] mtd: rawnand: sunxi: Precompute the ECC_CTL
- register value
-Message-ID: <20230102103009.00486aa3@xps-13>
-In-Reply-To: <20221229181526.53766-8-samuel@sholland.org>
-References: <20221229181526.53766-1-samuel@sholland.org>
-	<20221229181526.53766-8-samuel@sholland.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+To: Samuel Holland <samuel@sholland.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Boris Brezillon <bbrezillon@kernel.org>,
+	Brian Norris <computersforpeace@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 5/7] mtd: rawnand: sunxi: Fix the size of the last OOB region
+Date: Mon,  2 Jan 2023 12:20:08 +0100
+Message-Id: <20230102112008.250724-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221229181526.53766-6-samuel@sholland.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-linux-mtd-patch-notification: thanks
+X-linux-mtd-patch-commit: b'34569d869532b54d6e360d224a0254dcdd6a1785'
+Content-Transfer-Encoding: 8bit
 
-Hi Samuel,
-
-samuel@sholland.org wrote on Thu, 29 Dec 2022 12:15:26 -0600:
-
-> This removes an unnecessary memory allocation, and avoids recomputing
-> the same register value every time ECC is enabled.
-
-I am fine with the "let's not recompute the register value each time"
-idea, but I like having a dedicated object reserved for the ECC
-engine, that is separated from the main controller structure (both
-are two different things, even though they are usually well
-integrated).
-
-If it's actually useless you can still get rid of the allocation and in
-the structure you can save the ecc_ctrl reg value instead of mode.
-
-The other patches in the series look good to me.
-
-Thanks,
-Miqu=C3=A8l
-
+On Thu, 2022-12-29 at 18:15:24 UTC, Samuel Holland wrote:
+> The previous code assigned to the wrong structure member.
+> 
+> Fixes: c66811e6d350 ("mtd: nand: sunxi: switch to mtd_ooblayout_ops")
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
->=20
->  drivers/mtd/nand/raw/sunxi_nand.c | 75 ++++++-------------------------
->  1 file changed, 13 insertions(+), 62 deletions(-)
->=20
-> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sun=
-xi_nand.c
-> index a3bc9f7f9e5a..5c5a567d8870 100644
-> --- a/drivers/mtd/nand/raw/sunxi_nand.c
-> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
-> @@ -169,22 +169,13 @@ struct sunxi_nand_chip_sel {
->  	s8 rb;
->  };
-> =20
-> -/**
-> - * struct sunxi_nand_hw_ecc - stores information related to HW ECC suppo=
-rt
-> - *
-> - * @mode: the sunxi ECC mode field deduced from ECC requirements
-> - */
-> -struct sunxi_nand_hw_ecc {
-> -	int mode;
-> -};
-> -
->  /**
->   * struct sunxi_nand_chip - stores NAND chip device related information
->   *
->   * @node: used to store NAND chips into a list
->   * @nand: base NAND chip structure
-> - * @ecc: ECC controller structure
->   * @clk_rate: clk_rate required for this NAND chip
-> + * @ecc_ctl: ECC_CTL register value for this NAND chip
->   * @timing_cfg: TIMING_CFG register value for this NAND chip
->   * @timing_ctl: TIMING_CTL register value for this NAND chip
->   * @nsels: number of CS lines required by the NAND chip
-> @@ -193,8 +184,8 @@ struct sunxi_nand_hw_ecc {
->  struct sunxi_nand_chip {
->  	struct list_head node;
->  	struct nand_chip nand;
-> -	struct sunxi_nand_hw_ecc *ecc;
->  	unsigned long clk_rate;
-> +	u32 ecc_ctl;
->  	u32 timing_cfg;
->  	u32 timing_ctl;
->  	int nsels;
-> @@ -689,26 +680,15 @@ static void sunxi_nfc_hw_ecc_enable(struct nand_chi=
-p *nand)
->  {
->  	struct sunxi_nand_chip *sunxi_nand =3D to_sunxi_nand(nand);
->  	struct sunxi_nfc *nfc =3D to_sunxi_nfc(nand->controller);
-> -	u32 ecc_ctl;
-> -
-> -	ecc_ctl =3D readl(nfc->regs + NFC_REG_ECC_CTL);
-> -	ecc_ctl &=3D ~(NFC_ECC_MODE_MSK | NFC_ECC_PIPELINE |
-> -		     NFC_ECC_BLOCK_SIZE_MSK);
-> -	ecc_ctl |=3D NFC_ECC_EN | NFC_ECC_MODE(sunxi_nand->ecc->mode) |
-> -		   NFC_ECC_EXCEPTION | NFC_ECC_PIPELINE;
-> -
-> -	if (nand->ecc.size =3D=3D 512)
-> -		ecc_ctl |=3D NFC_ECC_BLOCK_512;
-> =20
-> -	writel(ecc_ctl, nfc->regs + NFC_REG_ECC_CTL);
-> +	writel(sunxi_nand->ecc_ctl, nfc->regs + NFC_REG_ECC_CTL);
->  }
-> =20
->  static void sunxi_nfc_hw_ecc_disable(struct nand_chip *nand)
->  {
->  	struct sunxi_nfc *nfc =3D to_sunxi_nfc(nand->controller);
-> =20
-> -	writel(readl(nfc->regs + NFC_REG_ECC_CTL) & ~NFC_ECC_EN,
-> -	       nfc->regs + NFC_REG_ECC_CTL);
-> +	writel(0, nfc->regs + NFC_REG_ECC_CTL);
->  }
-> =20
->  static inline void sunxi_nfc_user_data_to_buf(u32 user_data, u8 *buf)
-> @@ -1626,11 +1606,6 @@ static const struct mtd_ooblayout_ops sunxi_nand_o=
-oblayout_ops =3D {
->  	.free =3D sunxi_nand_ooblayout_free,
->  };
-> =20
-> -static void sunxi_nand_hw_ecc_ctrl_cleanup(struct sunxi_nand_chip *sunxi=
-_nand)
-> -{
-> -	kfree(sunxi_nand->ecc);
-> -}
-> -
->  static int sunxi_nand_hw_ecc_ctrl_init(struct nand_chip *nand,
->  				       struct nand_ecc_ctrl *ecc,
->  				       struct device_node *np)
-> @@ -1641,7 +1616,6 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand_=
-chip *nand,
->  	struct mtd_info *mtd =3D nand_to_mtd(nand);
->  	struct nand_device *nanddev =3D mtd_to_nanddev(mtd);
->  	int nsectors;
-> -	int ret;
->  	int i;
-> =20
->  	if (nanddev->ecc.user_conf.flags & NAND_ECC_MAXIMIZE_STRENGTH) {
-> @@ -1675,10 +1649,6 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand=
-_chip *nand,
->  	if (ecc->size !=3D 512 && ecc->size !=3D 1024)
->  		return -EINVAL;
-> =20
-> -	sunxi_nand->ecc =3D kzalloc(sizeof(*sunxi_nand->ecc), GFP_KERNEL);
-> -	if (!sunxi_nand->ecc)
-> -		return -ENOMEM;
-> -
->  	/* Prefer 1k ECC chunk over 512 ones */
->  	if (ecc->size =3D=3D 512 && mtd->writesize > 512) {
->  		ecc->size =3D 1024;
-> @@ -1699,12 +1669,9 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand=
-_chip *nand,
-> =20
->  	if (i >=3D ARRAY_SIZE(strengths)) {
->  		dev_err(nfc->dev, "unsupported strength\n");
-> -		ret =3D -ENOTSUPP;
-> -		goto err;
-> +		return -ENOTSUPP;
->  	}
-> =20
-> -	sunxi_nand->ecc->mode =3D i;
-> -
->  	/* HW ECC always request ECC bytes for 1024 bytes blocks */
->  	ecc->bytes =3D DIV_ROUND_UP(ecc->strength * fls(8 * 1024), 8);
-> =20
-> @@ -1713,10 +1680,14 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nan=
-d_chip *nand,
-> =20
->  	nsectors =3D mtd->writesize / ecc->size;
-> =20
-> -	if (mtd->oobsize < ((ecc->bytes + 4) * nsectors)) {
-> -		ret =3D -EINVAL;
-> -		goto err;
-> -	}
-> +	if (mtd->oobsize < ((ecc->bytes + 4) * nsectors))
-> +		return -EINVAL;
-> +
-> +	sunxi_nand->ecc_ctl =3D NFC_ECC_MODE(i) | NFC_ECC_EXCEPTION |
-> +			      NFC_ECC_PIPELINE | NFC_ECC_EN;
-> +
-> +	if (ecc->size =3D=3D 512)
-> +		sunxi_nand->ecc_ctl |=3D NFC_ECC_BLOCK_512;
-> =20
->  	ecc->read_oob =3D sunxi_nfc_hw_ecc_read_oob;
->  	ecc->write_oob =3D sunxi_nfc_hw_ecc_write_oob;
-> @@ -1739,25 +1710,6 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand=
-_chip *nand,
->  	ecc->write_oob_raw =3D nand_write_oob_std;
-> =20
->  	return 0;
-> -
-> -err:
-> -	kfree(sunxi_nand->ecc);
-> -
-> -	return ret;
-> -}
-> -
-> -static void sunxi_nand_ecc_cleanup(struct sunxi_nand_chip *sunxi_nand)
-> -{
-> -	struct nand_ecc_ctrl *ecc =3D &sunxi_nand->nand.ecc;
-> -
-> -	switch (ecc->engine_type) {
-> -	case NAND_ECC_ENGINE_TYPE_ON_HOST:
-> -		sunxi_nand_hw_ecc_ctrl_cleanup(sunxi_nand);
-> -		break;
-> -	case NAND_ECC_ENGINE_TYPE_NONE:
-> -	default:
-> -		break;
-> -	}
->  }
-> =20
->  static int sunxi_nand_attach_chip(struct nand_chip *nand)
-> @@ -1970,7 +1922,6 @@ static void sunxi_nand_chips_cleanup(struct sunxi_n=
-fc *nfc)
->  		ret =3D mtd_device_unregister(nand_to_mtd(chip));
->  		WARN_ON(ret);
->  		nand_cleanup(chip);
-> -		sunxi_nand_ecc_cleanup(sunxi_nand);
->  		list_del(&sunxi_nand->node);
->  	}
->  }
+> Acked-By: Dhruva Gole <d-gole@ti.com>
+
+Applied to https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next, thanks.
+
+Miquel
