@@ -1,27 +1,24 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56DB7C
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Jan 2023 09:04:36 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::228])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 79F60C3E00
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Jan 2023 08:59:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FC07C
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 Jan 2023 09:11:36 +0000 (UTC)
 Received: (Authenticated sender: miquel.raynal@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id BD1BA1BF204;
-	Mon,  2 Jan 2023 08:59:12 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 0DF451BF20D;
+	Mon,  2 Jan 2023 09:11:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1672649957;
+	t=1672650694;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=onwm0vxTtpJ/7A/xd568TVQxILdHEoQevXcykzJqiG8=;
-	b=Z//qXKKap68bm1zIwDki2VQy7UojW4glXIhi22NRwxF2GBP2wWOlV2q79Ns6y/YOPHaMMZ
-	uEBpt/PV660NvzmLSutFmJpAvdsKvpDcn2Ns2QcdO3p+pPfkIx2s1SCngH2rQ41sa8m4ym
-	w4uJmhemLJE8gJd3zH2Y+v1CHWCg1yNy3bSpqq0o42xcp4a243K7a+oW0F9vFx2ONK2muO
-	CP2fsj+YnJZjXmDPTiQx9vgMUosfZ4B0TGmt8nuJf3t9iOdQv1lX+92zV4T0fSoRToNWks
-	Dv9pJK4ngsM78ToMT+X1fcTPSFD85WV2qTkI8amBQ7SMVm9MacwpWUg5j7pmrA==
-Date: Mon, 2 Jan 2023 09:59:11 +0100
+	bh=NXQ+pbiHmlKkDQiTKOKup65uhul5WhrNqTkDGnhL3Ks=;
+	b=piVyYKp58Y0GOM3O5GKe8o4UOClqfub66InYZ5XpJbqjQ1CFEO2eLu8zEUECeUIELx8HEG
+	Xsxrgsl/3SRu2wFFFiJGKpLlnjQ+V7yUHb51LT4XE+HMbhalqwcE+bWVFxg1IKBxxyuRl8
+	UJpnmlsWyR58uiGSHpGaPIrghiAvfqyqy+YobwHk2ffW4X5us09LxVMe3aP/SBY5DAWxUd
+	8A8BsQUgzQOG5v5aXjXogw7Q7TcwRChdXimH4SLEoGmuokyzwJWP3cis2YT1dw0lUU+cQl
+	uNIK2caufx1Ho6doVbvpJ3zATKCR1tU0fc0ThzYEpr5FMvlx1pNrgGYRj6Q2og==
+Date: Mon, 2 Jan 2023 10:11:32 +0100
 From: Miquel Raynal <miquel.raynal@bootlin.com>
 To: Samuel Holland <samuel@sholland.org>
 Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra
@@ -30,11 +27,11 @@ Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra
  Norris <computersforpeace@gmail.com>, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
  linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 2/7] mtd: rawnand: sunxi: Remove an unnecessary check
-Message-ID: <20230102095911.0243d5b8@xps-13>
-In-Reply-To: <20221229181526.53766-3-samuel@sholland.org>
+Subject: Re: [PATCH 4/7] mtd: rawnand: sunxi: Fix ECC strength maximization
+Message-ID: <20230102101132.66aa1a1d@xps-13>
+In-Reply-To: <20221229181526.53766-5-samuel@sholland.org>
 References: <20221229181526.53766-1-samuel@sholland.org>
-	<20221229181526.53766-3-samuel@sholland.org>
+	<20221229181526.53766-5-samuel@sholland.org>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
@@ -48,34 +45,39 @@ Content-Transfer-Encoding: quoted-printable
 
 Hi Samuel,
 
-samuel@sholland.org wrote on Thu, 29 Dec 2022 12:15:21 -0600:
+samuel@sholland.org wrote on Thu, 29 Dec 2022 12:15:23 -0600:
 
-> sunxi_nand->nsels cannot be zero, so the second check implies the first.
-
-Actually this check comes from a time where we did check against -1 :)
-But, yeah, now it's a duplicate.
-
+> This is already accounted for in the subtraction for OOB, since the BBM
+> overlaps the first OOB dword. With this change, the driver picks the
+> same ECC strength as the vendor driver.
+>=20
+> Fixes: 4796d8655915 ("mtd: nand: sunxi: Support ECC maximization")
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
 >=20
->  drivers/mtd/nand/raw/sunxi_nand.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/mtd/nand/raw/sunxi_nand.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >=20
 > diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sun=
 xi_nand.c
-> index 2ee86f7b0905..8b221f9f10a7 100644
+> index 1bddeb1be66f..1ecf2cee343b 100644
 > --- a/drivers/mtd/nand/raw/sunxi_nand.c
 > +++ b/drivers/mtd/nand/raw/sunxi_nand.c
-> @@ -421,7 +421,7 @@ static void sunxi_nfc_select_chip(struct nand_chip *n=
-and, unsigned int cs)
->  	struct sunxi_nand_chip_sel *sel;
->  	u32 ctl;
+> @@ -1643,8 +1643,7 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand_=
+chip *nand,
+>  		ecc->size =3D 1024;
+>  		nsectors =3D mtd->writesize / ecc->size;
 > =20
-> -	if (cs > 0 && cs >=3D sunxi_nand->nsels)
-> +	if (cs >=3D sunxi_nand->nsels)
->  		return;
+> -		/* Reserve 2 bytes for the BBM */
+> -		bytes =3D (mtd->oobsize - 2) / nsectors;
+> +		bytes =3D mtd->oobsize / nsectors;
+
+I'm sorry but I don't think we can make this work. This change would
+break all existing users...
+
 > =20
->  	ctl =3D readl(nfc->regs + NFC_REG_CTL) &
+>  		/* 4 non-ECC bytes are added before each ECC bytes section */
+>  		bytes -=3D 4;
 
 
 Thanks,
