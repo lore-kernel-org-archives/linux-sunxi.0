@@ -1,74 +1,120 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8044430
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Jan 2023 15:24:05 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <pza@pengutronix.de>)
-	id 1pCMf4-0005r2-4U; Mon, 02 Jan 2023 16:23:38 +0100
-Received: from pza by ptx.hi.pengutronix.de with local (Exim 4.92)
-	(envelope-from <pza@pengutronix.de>)
-	id 1pCMf0-0007z1-VD; Mon, 02 Jan 2023 16:23:34 +0100
-Date: Mon, 2 Jan 2023 16:23:34 +0100
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	Andre Przywara <andre.przywara@arm.com>
-Subject: Re: [PATCH v2 5/6] dt-bindings: clock: Add D1 CAN bus gates and
- resets
-Message-ID: <20230102152334.GB30338@pengutronix.de>
-References: <20221231231429.18357-1-samuel@sholland.org>
- <20221231231429.18357-6-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DAEF5660
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 Jan 2023 15:59:32 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 04F445C00EA;
+	Mon,  2 Jan 2023 10:59:31 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Mon, 02 Jan 2023 10:59:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1672675171; x=
+	1672761571; bh=2+4+wGrW59MyWwPd3wsJUrFMY8syiAgC2hBl1Lb19qY=; b=C
+	ZismstWwRLv9F0oVlb1eOYQ60+wnig+4Qw78XhLVH1rvv1Zs9mm1mEv+iVLx+6id
+	Z0Yf4Sd5UrLNAgwwS0P18BW0uAgFmL99EiubaHoVlVjXrv8xrFDh3xnAYBFAmost
+	RY4exPMUHgc8HOtWkmu6hAHO6HhnE1RWTqBN53EmqAIqPALN9Kr5GcqGOzVyNidf
+	/RJU4t8nQ9BFmNhpOHa/OTAonarpbCFw4JPuxY0c2ut7Ba1BjO05PElc7MaubLum
+	3naQy5RtatAFrQENwy6wA6eCfvVGirePh4L+OODbKORAS+nz+cz9m41QuMBgDBcS
+	9/qrNg23tvjH92JoodejQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672675171; x=
+	1672761571; bh=2+4+wGrW59MyWwPd3wsJUrFMY8syiAgC2hBl1Lb19qY=; b=s
+	zq9xQqCibpSOx5F4kL3RuqG2RNBmOzS0RBkdh1stgqg5O6SetUezK9L9tdXBi2TM
+	Zcp6pFi63a0ajV2V/lFpSqKHpN7qwHB5VmOPjl6Ua0+mrB5nIw5mjIiOSoLG5/1Y
+	6gOpVXNNNjdieeTVvYC40SOBnQlKGrTpxKK9J2dhhmNXDZNwCJhk5I8AyvrOHt9o
+	j3pW9UG02YN5IrfAmpCVl6olVeS5hGOfY3DTDybDvVcrjQ9gBGsDuJ5COQvnb5Xd
+	vmuWyfk+5mTEVCPAc6jBUx9CqmM7Aj1XCGOehMXyx/pOfwSWnZ1Y0dRJ4urXaf1i
+	LhJ09g5TMIJRi9UTl4jPw==
+X-ME-Sender: <xms:Yv-yYxim3elaiYCmMEDu82bkco5R8wSsRJ71uE26qBwSdxCo9n-p_g>
+    <xme:Yv-yY2Bkr-wk-lzHdIOCXobu5stoOpF9zjHkE83n59O_wqRc4ehxVamW-8jhDfjbi
+    T39a2F4HjqCEeWz3g>
+X-ME-Received: <xmr:Yv-yYxFVvBr6pijY8QL5Xys3xyNQrOkfwGR8m57eXtSgumk--nZI4MF8dhtDgjkUrDuq2ABvNrnRCHuj8F6iT3BIZXY8aWcugnZgg4B1hgEhszCFbF5g2sZe8w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjedvgdekfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkffggfgfvvehfhffujggtgfesthekredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepgeeikeeufedvvdeuteeivdeiffdtgfdtfeejgfetfeefgeffgfdv
+    ffehjedvueeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:Yv-yY2TqLAX0ls4f_kvNeKTeriAdL-PwHjxwTLyV4OxUKD-QYuIhjw>
+    <xmx:Yv-yY-xoKZfGe7uNeaGAt8dhGuKC72OfRokq8LAn2JqRVE2bWkk2ww>
+    <xmx:Yv-yY85QXHNwU1m4ZnVlYLQD11IDi2rKhzUkPZ_xOW5rpWO5IzdyWw>
+    <xmx:Y_-yYydsoXweit5-V2XVEMDHNoLlSHDnV9nP4LAd7ggmgcDLxIZRzw>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 2 Jan 2023 10:59:29 -0500 (EST)
+Message-ID: <4207d4eb-31d5-31c0-1a7f-67ec00b63f58@sholland.org>
+Date: Mon, 2 Jan 2023 09:59:29 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221231231429.18357-6-samuel@sholland.org>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: pza@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Content-Language: en-US
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra
+ <vigneshr@ti.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Brian Norris <computersforpeace@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20221229181526.53766-1-samuel@sholland.org>
+ <20221229181526.53766-5-samuel@sholland.org> <20230102101132.66aa1a1d@xps-13>
+From: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH 4/7] mtd: rawnand: sunxi: Fix ECC strength maximization
+In-Reply-To: <20230102101132.66aa1a1d@xps-13>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, Dec 31, 2022 at 05:14:28PM -0600, Samuel Holland wrote:
-> The D1 CCU contains gates and resets for two CAN buses. While the CAN
-> bus controllers are only documented for the T113 SoC, the CCU is the
-> same across all SoC variants.
+Hi Miquèl,
+
+On 1/2/23 03:11, Miquel Raynal wrote:
+> Hi Samuel,
 > 
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-[...]
-> diff --git a/include/dt-bindings/reset/sun20i-d1-ccu.h b/include/dt-bindings/reset/sun20i-d1-ccu.h
-> index de9ff5203239..f8001cf50bf1 100644
-> --- a/include/dt-bindings/reset/sun20i-d1-ccu.h
-> +++ b/include/dt-bindings/reset/sun20i-d1-ccu.h
-> @@ -73,5 +73,7 @@
->  #define RST_BUS_DSP_CFG		63
->  #define RST_BUS_DSP_DBG		64
->  #define RST_BUS_RISCV_CFG	65
-> +#define RST_BUS_CAN0		66
-> +#define RST_BUS_CAN1		67
+> samuel@sholland.org wrote on Thu, 29 Dec 2022 12:15:23 -0600:
+> 
+>> This is already accounted for in the subtraction for OOB, since the BBM
+>> overlaps the first OOB dword. With this change, the driver picks the
+>> same ECC strength as the vendor driver.
+>>
+>> Fixes: 4796d8655915 ("mtd: nand: sunxi: Support ECC maximization")
+>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>> ---
+>>
+>>  drivers/mtd/nand/raw/sunxi_nand.c | 3 +--
+>>  1 file changed, 1 insertion(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
+>> index 1bddeb1be66f..1ecf2cee343b 100644
+>> --- a/drivers/mtd/nand/raw/sunxi_nand.c
+>> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
+>> @@ -1643,8 +1643,7 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand_chip *nand,
+>>  		ecc->size = 1024;
+>>  		nsectors = mtd->writesize / ecc->size;
+>>  
+>> -		/* Reserve 2 bytes for the BBM */
+>> -		bytes = (mtd->oobsize - 2) / nsectors;
+>> +		bytes = mtd->oobsize / nsectors;
+> 
+> I'm sorry but I don't think we can make this work. This change would
+> break all existing users...
 
-Acked-by: Philipp Zabel <p.zabel@pengutronix.de>
+OK, it is not too much of an issue because I can manually specify the
+ECC parameters in the devicetree. Do you think it makes sense to fix
+this when adding new hardware variants/compatible strings?
 
-regards
-Philipp
+Regards,
+Samuel
+
