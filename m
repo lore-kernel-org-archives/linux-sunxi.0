@@ -1,27 +1,24 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52FAA5667
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Jan 2023 16:47:42 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id CD5EEC212B
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Jan 2023 16:45:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67215667
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 Jan 2023 16:53:56 +0000 (UTC)
 Received: (Authenticated sender: miquel.raynal@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 244F7C0009;
-	Mon,  2 Jan 2023 16:45:17 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 80EF8240003;
+	Mon,  2 Jan 2023 16:53:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1672677922;
+	t=1672678435;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5O8OXS7nc8duFjds7VaePab6wVG7wkizTo7pWgR7AjU=;
-	b=OBqHHGO6YyKEC+KEYE13IBtCFpLbiKK7TaqZsET9nQAswKq0CXiBI4tkhPIX67Hp3HBFDU
-	c8h3kNIAuiKq2QHFEgMZXq9HfO7H8QPChWGak6Bbnhe6EIV5NjNPWwerot7QJg3hh8hKc9
-	mhrdkTGlJ1LWSNQNuIA7dxShpjeE6in4YcAbFSM6jK144YqIuHMCKAlJWgHZbsM1rM9fpF
-	KUv0OXAhO5NwaRoQz+91haa6YXB+SFSd0VvCDSCv2gyC5ZthwtRPSEouxslpwkyw7SCcy/
-	2WjXAeHK9z8kzPMbbPTqugOS1Xi7T0InVPvYyGf34PhjA2EWB4HOwa1fhO4Uwg==
-Date: Mon, 2 Jan 2023 17:45:17 +0100
+	bh=l16kCBmaT+/ZiyhWXb1vgoNulB2WuFRSgnM49QIaZko=;
+	b=bVuZLKex0L4H4p9/bMfQIwC8+jwMOvF5KOOqk7RNiVVHrCuWFqYevj9GYCCh0mBUyNNkE3
+	cQsM0W533TGPROxUnQjlsm4U9vyGFi3AVwMAfJ3a/4TsGlhe2ji5m3Xq3n1KuSbvcDmhlL
+	+j9oqyluN5dC7Dkr3g7ZAXUJoil+d9WqW5If7uoos7wuOX9354GyYw9oFnrwiEYYBS+cV7
+	l0o3o9X2kaGF0hPjPL7kb4WVyQQoBhBYsyl8iN5jTHWlLq5fkP//yqkIIjkw3txystbLUg
+	dsggDttEC5ykV5wlsrDkvAQBrVjvjvbGR1ye1rV1RDd5t2iary3gUcA7VcRT+Q==
+Date: Mon, 2 Jan 2023 17:53:51 +0100
 From: Miquel Raynal <miquel.raynal@bootlin.com>
 To: Samuel Holland <samuel@sholland.org>
 Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra
@@ -30,13 +27,14 @@ Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra
  Norris <computersforpeace@gmail.com>, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
  linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 4/7] mtd: rawnand: sunxi: Fix ECC strength maximization
-Message-ID: <20230102174517.1ccb3654@xps-13>
-In-Reply-To: <4207d4eb-31d5-31c0-1a7f-67ec00b63f58@sholland.org>
+Subject: Re: [PATCH 6/7] mtd: rawnand: sunxi: Update OOB layout to match
+ hardware
+Message-ID: <20230102175351.64690aaf@xps-13>
+In-Reply-To: <e21aba9f-1afd-2615-fe00-3ee4176b9080@sholland.org>
 References: <20221229181526.53766-1-samuel@sholland.org>
-	<20221229181526.53766-5-samuel@sholland.org>
-	<20230102101132.66aa1a1d@xps-13>
-	<4207d4eb-31d5-31c0-1a7f-67ec00b63f58@sholland.org>
+	<20221229181526.53766-7-samuel@sholland.org>
+	<20230102102123.511d337d@xps-13>
+	<e21aba9f-1afd-2615-fe00-3ee4176b9080@sholland.org>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
@@ -50,52 +48,66 @@ Content-Transfer-Encoding: quoted-printable
 
 Hi Samuel,
 
-samuel@sholland.org wrote on Mon, 2 Jan 2023 09:59:29 -0600:
+samuel@sholland.org wrote on Mon, 2 Jan 2023 10:26:48 -0600:
 
 > Hi Miqu=C3=A8l,
 >=20
-> On 1/2/23 03:11, Miquel Raynal wrote:
+> On 1/2/23 03:21, Miquel Raynal wrote:
 > > Hi Samuel,
 > >=20
-> > samuel@sholland.org wrote on Thu, 29 Dec 2022 12:15:23 -0600:
+> > samuel@sholland.org wrote on Thu, 29 Dec 2022 12:15:25 -0600:
 > >  =20
-> >> This is already accounted for in the subtraction for OOB, since the BBM
-> >> overlaps the first OOB dword. With this change, the driver picks the
-> >> same ECC strength as the vendor driver.
+> >> When using the hardware ECC engine, the OOB data is made available in
+> >> the NFC_REG_USER_DATA registers, one 32-bit word per ECC step. Any
+> >> additional bytes are only accessible through raw reads and software
+> >> descrambling. For efficiency, and to match the vendor driver, ignore
+> >> these extra bytes.
 > >>
-> >> Fixes: 4796d8655915 ("mtd: nand: sunxi: Support ECC maximization")
 > >> Signed-off-by: Samuel Holland <samuel@sholland.org>
 > >> ---
 > >>
-> >>  drivers/mtd/nand/raw/sunxi_nand.c | 3 +--
-> >>  1 file changed, 1 insertion(+), 2 deletions(-)
+> >>  drivers/mtd/nand/raw/sunxi_nand.c | 7 +++++++
+> >>  1 file changed, 7 insertions(+)
 > >>
 > >> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/=
 sunxi_nand.c
-> >> index 1bddeb1be66f..1ecf2cee343b 100644
+> >> index 8e873f4fec9a..a3bc9f7f9e5a 100644
 > >> --- a/drivers/mtd/nand/raw/sunxi_nand.c
 > >> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
-> >> @@ -1643,8 +1643,7 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct na=
-nd_chip *nand,
-> >>  		ecc->size =3D 1024;
-> >>  		nsectors =3D mtd->writesize / ecc->size;
+> >> @@ -1604,6 +1604,13 @@ static int sunxi_nand_ooblayout_free(struct mtd=
+_info *mtd, int section,
+> >>  		return 0;
+> >>  	}
 > >> =20
-> >> -		/* Reserve 2 bytes for the BBM */
-> >> -		bytes =3D (mtd->oobsize - 2) / nsectors;
-> >> +		bytes =3D mtd->oobsize / nsectors; =20
+> >> +	/*
+> >> +	 * The controller does not provide access to OOB bytes
+> >> +	 * past the end of the ECC data.
+> >> +	 */
+> >> +	if (section =3D=3D ecc->steps && ecc->engine_type =3D=3D NAND_ECC_EN=
+GINE_TYPE_ON_HOST)
+> >> +		return -ERANGE; =20
 > >=20
-> > I'm sorry but I don't think we can make this work. This change would
-> > break all existing users... =20
+> > Again, I am sorry but I cannot take this change, it would typically
+> > break jffs2 users (if any?) :( =20
 >=20
-> OK, it is not too much of an issue because I can manually specify the
-> ECC parameters in the devicetree. Do you think it makes sense to fix
-> this when adding new hardware variants/compatible strings?
+> Considering the bug I fixed in the previous patch, and the fact that
+> mtd_ooblayout_free() zeroes out the structure before calling the .free
+> callback, that region was being reported with a length of zero already.
+> So I don't think anyone could have been using those bytes anyway.
+>=20
+> I am looking for a solution here because the ECC/scrambling engine
+> really provides no way to access these bytes. Reading them requires
+> turning off the ECC engine, performing another read command, and then
+> descrambling in software. So we are sort of lying when we claim those
+> bytes are available with hardware ECC enabled.
+>=20
+> If this change cannot be made as-is, is there any way the user could opt
+> in to the new layout, to get the improved performance?
 
-Actually, looking at the code again, I don't get how the above diff
-could be valid. The "maximize strength" logic (in which this diff is)
-looks for the biggest region to store ECC bytes. These bytes cannot
-be stored on the BBM, which "mtd->oobsize - 2" tries to avoid, so we
-cannot get rid of this.
+Actually that's true, you fixed the reporting of the free area which
+was set to 0 until then, which means there cannot be any upstream user.
+So knowing that, preventing the accesses to the end of the area seems
+acceptable when using HW ECC. Please mention it in the commit log.
 
 Thanks,
 Miqu=C3=A8l
