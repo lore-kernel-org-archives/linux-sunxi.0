@@ -1,150 +1,107 @@
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B4D5667
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Jan 2023 17:06:23 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 207E45C0096;
-	Mon,  2 Jan 2023 12:06:23 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Mon, 02 Jan 2023 12:06:23 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEE837F;
+	Tue,  3 Jan 2023 01:09:08 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id AA81E3200913;
+	Mon,  2 Jan 2023 20:09:06 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Mon, 02 Jan 2023 20:09:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1672679183; x=
-	1672765583; bh=ubVMmek62b2FW/lrihLkt+k98Rt0VqU7QHx3G8jOQhs=; b=T
-	DLBM0ZlpSQ5f13Md/yEmLhdRczLe83CukeKYPEHYQZQrHnwBes+mVchAGa9A6FfD
-	1b7PAxouNYAjvWhwLFIXNIzZpa97wBI/6tYKcL592zM0kSINNNexh7qwNAE5VvEU
-	dKEWL82+abmQFj8ysaXF98kBjCiL0sbM9DyYpQsQd8vShzzyTTIFaE7s0RuXhh+b
-	BPWNwWW5yvqX9u/TmqFzFwfnbM4zMF7an1Y5zwI9UfkcJN5D/bNV6aJemREN8/7U
-	WCQ648+RHHIR3kxmgPHs06AWRu9XKHSkmyRImL+s72wZggvzSpQydFoWVKPKJojv
-	jcoyLieHnBpZbp1n5brFQ==
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm3; t=1672708146; x=1672794546; bh=frVBfqgdXyytW4RDcsNsr65XW
+	bIE8IRHvES+ci0D9gk=; b=TbcNQ6hMRQ0js7MXzWW/XTV0UCtSym6MDqyCGKWSO
+	iE7WvW/paXk/HtvkQrNJ+EZLKY4Hg1kkZWdSxz9B/d5mHOwksUHco4JI9bYrM9gx
+	ZbV3TNjMXQBOBm5fbpgh8yHaEiMf68RUmzzgo5JUZ55WV9QsVQ6h5TqAwM7/8Duu
+	ynMjxXhPrR835PmjojpXfa9J1Llpq5oNpvuiucEziWK+KWeuy0rZgvF3QL6KnHtd
+	DhX7hOnxwmPdxs1q/fFadcXmgswt9Z/QPcTxnp8CzCG1O9NSd9nx3YmYXQuYs789
+	6LQtmv5Dk7+9MRFIZ6F2fZbygb6/hckbWtgXD4jPv2+KQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672679183; x=
-	1672765583; bh=ubVMmek62b2FW/lrihLkt+k98Rt0VqU7QHx3G8jOQhs=; b=S
-	zUpkNhzIQneZi19EAmLimcWQzfkUj8LuN2QZQFec/YH2ig1DXjW7S6X51e+UgAhh
-	XbCRfm4Ia7nb7PgBh95W+tHf1Y5wuIBGU7mcuVNBQjfxIhSLd7NUE6acdYgoYC3O
-	OHk0NXSYPsFYY9SGfe1UVHRz0Wh2gHtIRp9VZcm7/ionYqQHCs9XtguuxAV4Sd8C
-	Z5mM4jwUzuEFN9g/m5X8o8nfKFEFzLk5NbP0Fa6IK/HTVRKrJJLlV7cKBOMhkMMp
-	q+zvYWcaSW2fivGJ9pU4z1uDhENbeQVwczqUE1KgVt+fU3dVASn3PE1gLrShW9j7
-	uVCV/boYenu4dOHhayJlA==
-X-ME-Sender: <xms:Dg-zY8MpW6yCKogrqcM9EEEsh3QWyf3DD1i6PPasguXY7SC9shvteg>
-    <xme:Dg-zYy8WECzYL7C8jRwCYpoyBKVtXPqLFAmgvR9Vw0-xaKk2maJVHh-7CwS4pL6ZB
-    _cLsInSBt-FMDe8Yg>
-X-ME-Received: <xmr:Dg-zYzQEfGMAn7wHWugogLoxtPJa_7OxxgJl9jqw6X9UXpniZNYKd2JI5Dt1jf490olxJ5ozpUygbWylt_ajdTRCTyqv8LEHPWdBs3vshwMEcGkK3KwRNMGEWA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjedvgdelkecutefuodetggdotefrodftvf
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1672708146; x=1672794546; bh=frVBfqgdXyytW4RDcsNsr65XWbIE8IRHvES
+	+ci0D9gk=; b=H3+bytyQighzU75PalWI9Uc+ZVdCAoTS6wDS8ONekmGfvArKteG
+	TMI9UR4hR96V7sfddq3/5F+oVALiAHomElZVGya+iWwwLURlBqedHJA2SVo5CRxp
+	NZA0YUIO83QOs3Vvz4giBtjYEefQhZNMuNFlw195uYPnpLk+nuAsXehVcuXUzQcG
+	ruiETmgIYumrwadvP3H/akBRjGVc7Un+YiIsj4bxY+O7FkhAMbwnjM17eOP2scIO
+	ON3nhv+Rb3DvrifbDrCgwghVgepDEXFaJKd9gtynabHKzyW4vptYUU8hxYg1sCbs
+	+CBb0Bpr0Vf4R1/LUMyGsBvNKyZRDzhcQZw==
+X-ME-Sender: <xms:MYCzY4chcK9aPrGiDc1M6mQiBBdnDtnZXWRKRP2CJaDNSsAcVLSM_Q>
+    <xme:MYCzY6OsR7PQkCisJKesEcpLkRmvSewtJCU1uOp_stMnxIdduJJjp4HfdRmLoqmeF
+    30nZB-uqSTPMIn1nA>
+X-ME-Received: <xmr:MYCzY5hLQzJBIdYZdcCZPHefBzzHwa9CMZkkzD5FtLkkNm8XXjXV6fnaVKgVIi9ivoFCwjy4ZCUXveoe6pOvSmEChuM3hVrB5w0LlTHhxJ_Ad-WBn0K5luLo7z_b4MPH-mVN2g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeefgdeffecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfvvehfhffujggtgfesthekredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepgeeikeeufedvvdeuteeivdeiffdtgfdtfeejgfetfeefgeffgfdv
-    ffehjedvueeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:Dg-zY0vuZwSK3RZNsqLxyt6rnHVL7NF-ZI2lAButE5mG1jxY2i9T9w>
-    <xmx:Dg-zY0ecvzM1g_7fY28XtzbsBJFFyLS9_sUyHjJOppGmqOKkCt8asw>
-    <xmx:Dg-zY43wV1PVXa1Ow8CJf4DtXkQyVBnhl4dTX08m31gewxc7ZAghhw>
-    <xmx:Dw-zY843USXsLuUw53gyd5fle5_8r8DnqnRKEUE1O3obbHO46GDs9w>
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeekheffteehtdetfffgfeetteejvdefleeuvedufffguedtjedvheelvddv
+    fffhveenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdr
+    ohhrgh
+X-ME-Proxy: <xmx:MYCzY98rlaFHqgdsIqR3G8SSgmIiglY_3ViHRAo64It5XsSPmPIMHQ>
+    <xmx:MYCzY0vMxeEKicSGbfapf2P2Ln_w1um7HeZBkD5Du4q5Tq5gIzWfuQ>
+    <xmx:MYCzY0H6zbYfBGIYiSUWZGxFcm79aJheVR7WSSdy9Q9E4KP-0TRW6Q>
+    <xmx:MoCzY1E4x_YztRQAtpqcWYWn0PgyP3tq8L-y7cn0diLfiMZ9bwPVeA>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 2 Jan 2023 12:06:21 -0500 (EST)
-Message-ID: <6940e60e-834d-9cc6-c3b8-657b100ea5db@sholland.org>
-Date: Mon, 2 Jan 2023 11:06:20 -0600
+ 2 Jan 2023 20:09:04 -0500 (EST)
+From: Samuel Holland <samuel@sholland.org>
+To: Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>
+Cc: iommu@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Maxime Ripard <mripard@kernel.org>,
+	Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v2 0/6] iommu/sun50i: Allwinner D1 support
+Date: Mon,  2 Jan 2023 19:08:57 -0600
+Message-Id: <20230103010903.11181-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.37.4
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Content-Language: en-US
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra
- <vigneshr@ti.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Brian Norris <computersforpeace@gmail.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20221229181526.53766-1-samuel@sholland.org>
- <20221229181526.53766-5-samuel@sholland.org> <20230102101132.66aa1a1d@xps-13>
- <4207d4eb-31d5-31c0-1a7f-67ec00b63f58@sholland.org>
- <20230102174517.1ccb3654@xps-13>
-From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 4/7] mtd: rawnand: sunxi: Fix ECC strength maximization
-In-Reply-To: <20230102174517.1ccb3654@xps-13>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Miquèl,
+D1 is a RISC-V SoC from Allwinner's sunxi family. This series adds IOMMU
+binding and driver support. The RISC-V architecture code still needs
+some small updates to use an IOMMU for DMA[1][2]. I will send those
+separately.
 
-On 1/2/23 10:45, Miquel Raynal wrote:
->>>> This is already accounted for in the subtraction for OOB, since the BBM
->>>> overlaps the first OOB dword. With this change, the driver picks the
->>>> same ECC strength as the vendor driver.
->>>>
->>>> Fixes: 4796d8655915 ("mtd: nand: sunxi: Support ECC maximization")
->>>> Signed-off-by: Samuel Holland <samuel@sholland.org>
->>>> ---
->>>>
->>>>  drivers/mtd/nand/raw/sunxi_nand.c | 3 +--
->>>>  1 file changed, 1 insertion(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
->>>> index 1bddeb1be66f..1ecf2cee343b 100644
->>>> --- a/drivers/mtd/nand/raw/sunxi_nand.c
->>>> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
->>>> @@ -1643,8 +1643,7 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand_chip *nand,
->>>>  		ecc->size = 1024;
->>>>  		nsectors = mtd->writesize / ecc->size;
->>>>  
->>>> -		/* Reserve 2 bytes for the BBM */
->>>> -		bytes = (mtd->oobsize - 2) / nsectors;
->>>> +		bytes = mtd->oobsize / nsectors;  
->>>
->>> I'm sorry but I don't think we can make this work. This change would
->>> break all existing users...  
->>
->> OK, it is not too much of an issue because I can manually specify the
->> ECC parameters in the devicetree. Do you think it makes sense to fix
->> this when adding new hardware variants/compatible strings?
-> 
-> Actually, looking at the code again, I don't get how the above diff
-> could be valid. The "maximize strength" logic (in which this diff is)
-> looks for the biggest region to store ECC bytes. These bytes cannot
-> be stored on the BBM, which "mtd->oobsize - 2" tries to avoid, so we
-> cannot get rid of this.
+[1]: https://lore.kernel.org/linux-riscv/20220428010401.11323-1-samuel@sholland.org/
+[2]: https://lore.kernel.org/linux-riscv/7b09e989-0aa1-a557-485e-572f69caf881@arm.com/
 
-Right, we cannot overlap the BBM, but the BBM is accounted for in the
-line below:
+Changes in v2:
+ - Disallow the 'resets' property for the D1 variant
+ - Set bypass based on attached devices instead of using a fixed value
 
-  /* 4 non-ECC bytes are added before each ECC bytes section */
-  bytes -= 4;
+Samuel Holland (6):
+  dt-bindings: iommu: sun50i: Add compatible for Allwinner D1
+  iommu/sun50i: Track masters attached to the domain
+  iommu/sun50i: Keep the bypass register up to date
+  iommu/sun50i: Support variants without an external reset
+  iommu/sun50i: Add support for the D1 variant
+  riscv: dts: allwinner: d1: Add the IOMMU node
 
-Normally those 4 bytes are all free OOB, but for the first ECC step,
-those are split into 2 free bytes and 2 BBM bytes:
+ .../iommu/allwinner,sun50i-h6-iommu.yaml      | 20 +++++-
+ .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 10 +++
+ drivers/iommu/sun50i-iommu.c                  | 68 ++++++++++++++-----
+ 3 files changed, 79 insertions(+), 19 deletions(-)
 
-  /*
-   * The first 2 bytes are used for BB markers, hence we
-   * only have 2 bytes available in the first user data
-   * section.
-   */
-  if (!section && ecc->engine_type == NAND_ECC_ENGINE_TYPE_ON_HOST) {
-          oobregion->offset = 2;
-          oobregion->length = 2;
-
-          return 0;
-  }
-
-So if we subtract 4 bytes for the each free OOB area, including the
-first one, and also subtract 2 bytes for the BBM, we are double-counting
-the BBM. I should have made my commit message clearer. But I am going to
-drop this patch anyway.
-
-Regards,
-Samuel
+-- 
+2.37.4
 
