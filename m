@@ -1,76 +1,25 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5195E7F;
-	Tue,  3 Jan 2023 01:09:25 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 7CE103200900;
-	Mon,  2 Jan 2023 20:09:23 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Mon, 02 Jan 2023 20:09:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1672708163; x=1672794563; bh=kZ
-	sTHUFAGL+nV4DJ8yYJfUo1prfIfeItgnkARi0XucI=; b=I7sS11A2fNj9GnEtLL
-	di2WxTbt2fNqMvmw2JjUkrMMjEGSpUzNj0K6KEkITQSRDIkVAuPjbAPS+s22k7aS
-	tfsAgV+9rhwz0OsKtDzaywoFQ5TzYWohtV7IcdmmfJ9PBxrpvEfzw2dj6Y0RjFQ0
-	xKrmbQXuOfVFjpqqddgqlSYwYv48DCLF3OhNx9Cqrh5HIE0Fu/auiua9PE/6y3ij
-	NjLCren3eo0hKw48PTujzcAXpGXQTe6pCInodtiy9FRNN4bE6LE/fMHgbziM9i8d
-	6AGjT2p29+wbfJoj8BJupdBGZM/XTeq82N9bNT1VH0iEqrJqlich4l1ZcpQl8O5w
-	sn4Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1672708163; x=1672794563; bh=kZsTHUFAGL+nV
-	4DJ8yYJfUo1prfIfeItgnkARi0XucI=; b=eX3XuWrX8cm2ftUAKF2gxfelvft5x
-	+bjA9gM3kX1V3S39zQtE/PSsqVvhgCHtNInNIuAupyq8jd9GND0d6sxcO9oRLsOd
-	GdhKOW9EkeaQFXtKCwYD/eDqIKQpds2sk9gqSH9cjeU5OT4xyyLjM/gYZQtHjCKv
-	yF3RlSodYhmfUzGHzVPp1eMl753ra/d/PzadFj3FoI8BwDQb9WEz6yvxhDOoI3AT
-	fT6cvdtMMTy9IioN9e1FDX33JWlKHwEn8OmARDTeKDprdkQTwLcmnr98k16P7Ucm
-	Y0r/8BUpfPugtHovwcL1DwCsYtF21e58T31Gyj7TRdFjrPvsPSZIIgbTw==
-X-ME-Sender: <xms:QoCzYy9TDq9iWF74Sx08Jj2X5BtMYIMHwLJ1M1B8URilJFRNm4b5BQ>
-    <xme:QoCzYyvBHyEduguIVDOllusGjDcbo7ASoqRWSJbHTvhjKp2BuOI9oGLcqdtrhaTfQ
-    3890VFvM-40RxOqbQ>
-X-ME-Received: <xmr:QoCzY4A5Fve0aixke3s71sd1_EuxU27lvm4JErr237ULCze1afkHGrLHs5WYeMBRilmDedcNCL5c-gPJYAoamyShrscsj6WWNzVs_jXkC4yAIi7d7540CIbLg93qwre6U7o20A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeefgdeffecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpedukeetueduhedtleetvefguddvvdejhfefudelgfduveeggeehgfdu
-    feeitdevteenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:Q4CzY6fnAnPQYSmjSVqj0oY1bDJrW05uOYRKGtJzWq6ND-MRD5oqLA>
-    <xmx:Q4CzY3NwlDA12CGwmQrotGqdECTzqEqAPp1y6_9CVDtCaKCG0zDzyw>
-    <xmx:Q4CzY0nPJfHDUPdYMp8jdKHk0YFpAWOas1q1Bs2YLhkxhollMohmUA>
-    <xmx:Q4CzY7kGlOpZCnM6B36tC02s93AE8msh-NalISTYKpsC4WQoVph1bw>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 2 Jan 2023 20:09:22 -0500 (EST)
-From: Samuel Holland <samuel@sholland.org>
-To: Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Chen-Yu Tsai <wens@csie.org>,
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC5407F
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 Jan 2023 01:19:43 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 35BF44B3;
+	Mon,  2 Jan 2023 17:20:19 -0800 (PST)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CDBBC3F663;
+	Mon,  2 Jan 2023 17:19:35 -0800 (PST)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Samuel Holland <samuel@sholland.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>
-Cc: iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Maxime Ripard <mripard@kernel.org>,
-	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v2 6/6] riscv: dts: allwinner: d1: Add the IOMMU node
-Date: Mon,  2 Jan 2023 19:09:03 -0600
-Message-Id: <20230103010903.11181-7-samuel@sholland.org>
-X-Mailer: git-send-email 2.37.4
-In-Reply-To: <20230103010903.11181-1-samuel@sholland.org>
-References: <20230103010903.11181-1-samuel@sholland.org>
+	Icenowy Zheng <uwu@icenowy.me>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	=?UTF-8?q?Andr=C3=A1s=20Szemz=C3=B6?= <szemzo.andras@gmail.com>,
+	Fabien Poussin <fabien.poussin@gmail.com>,
+	u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: [RFC PATCH 0/2] sunxi: D1/D1s/R528/T113-s DRAM init code
+Date: Tue,  3 Jan 2023 01:17:53 +0000
+Message-Id: <20230103011755.10756-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -79,53 +28,75 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-D1 contains an IOMMU for its video-related hardware. Add the node, and
-hook it up to the masters which are already described in the devicetree.
+Hi,
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+this is the extracted version of the Allwinner D1/D1s/R528/T113-s DRAM
+"driver", to be included into mainline U-Boot at some point. With this
+on top of my previous T113-s3 support series[1], I can boot my MangoPi MQ-R
+without the help of awboot.
+The DRAM init code is based on awboot's version, though has been heavily
+reworked. To show what has been done, I pushed a history branch [2], which
+takes a verbatim copy of awboot's mctl_hal.c, then converts this over the
+course of about 80 patches into the version posted here. The series there
+contains an awboot/U-Boot compat layer, so the file can be used in both
+repositories. This compat layer is dropped here, but can be put back by
+reverting the top patch of [2].
 
-Changes in v2:
- - New patch for v2
+I was wondering if people could have a look at this version here, to give
+early feedback. I will (re-)post this as part of a proper R528/T113-s
+support series, but first need to sort out some minor issues and address
+Samuel's comments on the previous version.
 
- arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+If you wonder, the (working!) Kconfig DRAM variables for the T113-s3 are:
+CONFIG_DRAM_CLK=792
+CONFIG_DRAM_ZQ=8092667
+CONFIG_DRAM_SUNXI_ODT_EN=0
+CONFIG_DRAM_SUNXI_TPR0=0x004a2195
+CONFIG_DRAM_SUNXI_TPR11=0x340000
+CONFIG_DRAM_SUNXI_TPR12=0x46
+CONFIG_DRAM_SUNXI_TPR13=0x34000100
 
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-index dff363a3c934..ade50f1e01a4 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-@@ -138,6 +138,14 @@ ccu: clock-controller@2001000 {
- 			#reset-cells = <1>;
- 		};
- 
-+		iommu: iommu@2010000 {
-+			compatible = "allwinner,sun20i-d1-iommu";
-+			reg = <0x2010000 0x10000>;
-+			interrupts = <SOC_PERIPHERAL_IRQ(64) IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_IOMMU>;
-+			#iommu-cells = <1>;
-+		};
-+
- 		dmic: dmic@2031000 {
- 			compatible = "allwinner,sun20i-d1-dmic",
- 				     "allwinner,sun50i-h6-dmic";
-@@ -574,6 +582,7 @@ mixer0: mixer@5100000 {
- 				 <&display_clocks CLK_MIXER0>;
- 			clock-names = "bus", "mod";
- 			resets = <&display_clocks RST_MIXER0>;
-+			iommus = <&iommu 2>;
- 
- 			ports {
- 				#address-cells = <1>;
-@@ -596,6 +605,7 @@ mixer1: mixer@5200000 {
- 				 <&display_clocks CLK_MIXER1>;
- 			clock-names = "bus", "mod";
- 			resets = <&display_clocks RST_MIXER1>;
-+			iommus = <&iommu 2>;
- 
- 			ports {
- 				#address-cells = <1>;
+For the D1 with DDR3 chips (most boards?), it should be those values:
+CONFIG_DRAM_CLK=792
+CONFIG_DRAM_SUNXI_ODT_EN=1
+CONFIG_DRAM_SUNXI_TPR0=0x004a2195
+CONFIG_DRAM_SUNXI_TPR11=0x870000
+CONFIG_DRAM_SUNXI_TPR12=0x24
+CONFIG_DRAM_SUNXI_TPR13=0x34050100
+
+According to the dump of some MangoPi MQ-1 firmware, the D1s should work with:
+CONFIG_SUNXI_DRAM_DDR2=y
+CONFIG_DRAM_CLK=528
+CONFIG_DRAM_ZQ=8092665
+CONFIG_DRAM_SUNXI_ODT_EN=0
+CONFIG_DRAM_SUNXI_TPR0=0x00471992
+CONFIG_DRAM_SUNXI_TPR11=0x30010
+CONFIG_DRAM_SUNXI_TPR12=0x35
+CONFIG_DRAM_SUNXI_TPR13=0x34000000
+
+Many thanks!
+Andre
+
+[1] https://lore.kernel.org/u-boot/20221206004549.29015-1-andre.przywara@arm.com/
+[2] https://github.com/apritzel/u-boot/commits/d1_dram_history
+
+Andre Przywara (2):
+  Kconfig: sunxi: prepare for using drivers/ram/sunxi
+  sunxi: add R528/T113-s3/D1(s) DRAM initialisation code
+
+ drivers/Makefile                   |    1 +
+ drivers/ram/Kconfig                |    3 +-
+ drivers/ram/Makefile               |    2 +
+ drivers/ram/sunxi/Kconfig          |   68 ++
+ drivers/ram/sunxi/Makefile         |    4 +
+ drivers/ram/sunxi/dram_sun20i_d1.c | 1425 ++++++++++++++++++++++++++++
+ drivers/ram/sunxi/dram_sun20i_d1.h |   70 ++
+ 7 files changed, 1572 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/ram/sunxi/Kconfig
+ create mode 100644 drivers/ram/sunxi/Makefile
+ create mode 100644 drivers/ram/sunxi/dram_sun20i_d1.c
+ create mode 100644 drivers/ram/sunxi/dram_sun20i_d1.h
+
 -- 
-2.37.4
+2.35.5
 
