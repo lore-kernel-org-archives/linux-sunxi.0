@@ -1,240 +1,87 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33E872561
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 Jan 2023 11:20:29 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5395B1516;
-	Tue,  3 Jan 2023 03:21:10 -0800 (PST)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7156F3F663;
-	Tue,  3 Jan 2023 03:20:27 -0800 (PST)
-Date: Tue, 3 Jan 2023 11:20:24 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2] clk: sunxi-ng: Avoid computing the rate twice
-Message-ID: <20230103112024.293c95e2@donnerap.cambridge.arm.com>
-In-Reply-To: <20221231173055.42384-1-samuel@sholland.org>
-References: <20221231173055.42384-1-samuel@sholland.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D7428E1
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 Jan 2023 11:33:17 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id ay40so22457856wmb.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 03 Jan 2023 03:33:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=R/hJPuqHDVBK5C/RLmxWV9DciKyeYJTxrtXybCRPl7o=;
+        b=V8KmJ8p5/FNTyH0pdGuUPF3yht2s8wE0+QMZjC9UcuigmHdDdiGNKYVh4I+f946kfn
+         mc11MMlO6KZiHBuVgY+4uzhlPitnwCuSKJpVvGVFy2wfiCV0XbFKsVQF0I8Nx3SlqV50
+         3hLc6Pxf6wM6pU7dxTKwK5f1EyEnJcj3dOQwVnC210eK014xpDKlih/fYk56okahiMFS
+         22WXW8B5mg3C9UB3RQTJDMj2m2+/kdjretjIFWWcNiCaHpqwVKOP9RqhlYtyW3xfzaRc
+         iTrVKJL4R//qwKyilsQ6sYXMtyT49VqT5FL9ty5MgUxcTMMOEsnAH/xtPifEEHmPv1K9
+         I6YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=R/hJPuqHDVBK5C/RLmxWV9DciKyeYJTxrtXybCRPl7o=;
+        b=z87e2Eh6RcWLnh383jFNUSkZuEe3zWp4C4x4KmUo+uY2u5NXf/0WqCcNzVXTIiqAZ3
+         SEMyDOaZznEMIY8p2B132mIDrogP5Cui6tIn0kTMZFvTMS8sXtyz9tBJBo0o8unjKzHB
+         lblWmUoq5jj0WT2h8wRcw0wAt1gBnoAFLmbZUpwEsEcp0SrWmckyaBg/tpc8OLMhE4su
+         mqEEhPiWzDdobay2kcA0NQnmSWJXmL756D5TTGJdhedfnai1lqwLla/k76sa3b1ZGVLh
+         +Q4B2GmU7HEGBAVXN3srddz8U5HBVWUPuNiSsYkjb9owOytWTCtQnqIviTEbXJtimJ+E
+         1Gag==
+X-Gm-Message-State: AFqh2kqEU7UOuL+6EB2U1F/e5RWqJR7UxS2YpcUNrmzwJJHcwGqkqxyz
+	VgxuW8M9SqMQKP69Rq8YePVIyw==
+X-Google-Smtp-Source: AMrXdXu1/BlJjZPE28WihSovTCFi0Eu8CmzQeOrGtC8qggLMpSvhUuh5xzxlJLPcacaQ11GN2RFbaw==
+X-Received: by 2002:a05:600c:378c:b0:3d2:1f10:3318 with SMTP id o12-20020a05600c378c00b003d21f103318mr34604536wmr.31.1672745595428;
+        Tue, 03 Jan 2023 03:33:15 -0800 (PST)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id t184-20020a1c46c1000000b003b4a699ce8esm46770088wma.6.2023.01.03.03.33.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Jan 2023 03:33:14 -0800 (PST)
+Message-ID: <fc321ad7-0622-5869-d934-97baaf540c07@linaro.org>
+Date: Tue, 3 Jan 2023 11:33:13 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 0/2] nvmem: sunxi_sid: Fix for D1 variant
+Content-Language: en-US
+To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+References: <20230101183316.43642-1-samuel@sholland.org>
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <20230101183316.43642-1-samuel@sholland.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Sat, 31 Dec 2022 11:30:55 -0600
-Samuel Holland <samuel@sholland.org> wrote:
 
-Hi,
 
-> The ccu_*_find_best() functions already compute a best_rate at the same
-> time as the other factors. Return this value so the caller does not need
-> to duplicate the computation.
->
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-
-Checked for all five files that the internal calculation in find_best()
-matches the one it replaces here:
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-Cheers,
-Andre
-
-> ---
+On 01/01/2023 18:33, Samuel Holland wrote:
+> This is the first two patches from [1], with the stable CC added.
+> The first patch fixes a bug causing incorrect values to be read; the
+> second is a cleanup. I split the series since this bug needs to be
+> fixed regardless of the DT binding discussion.
+> 
+> [1]: https://lore.kernel.org/lkml/20220814173656.11856-1-samuel@sholland.org/
 > 
 > Changes in v2:
->  - Apply the same change also to nk, nkm, nkmp, and nm
->  - Update the commit message
+>   - Split out the driver fix from the other changes
 > 
->  drivers/clk/sunxi-ng/ccu_mp.c   | 11 ++++++-----
->  drivers/clk/sunxi-ng/ccu_nk.c   |  9 +++++----
->  drivers/clk/sunxi-ng/ccu_nkm.c  | 10 +++++-----
->  drivers/clk/sunxi-ng/ccu_nkmp.c | 10 +++++-----
->  drivers/clk/sunxi-ng/ccu_nm.c   |  9 +++++----
->  5 files changed, 26 insertions(+), 23 deletions(-)
+> Samuel Holland (2):
+>    nvmem: sunxi_sid: Always use 32-bit MMIO reads
+>    nvmem: sunxi_sid: Drop the workaround on A64
 > 
-> diff --git a/drivers/clk/sunxi-ng/ccu_mp.c b/drivers/clk/sunxi-ng/ccu_mp.c
-> index 57cf2d615148..cc94a694cb67 100644
-> --- a/drivers/clk/sunxi-ng/ccu_mp.c
-> +++ b/drivers/clk/sunxi-ng/ccu_mp.c
-> @@ -10,9 +10,9 @@
->  #include "ccu_gate.h"
->  #include "ccu_mp.h"
->  
-> -static void ccu_mp_find_best(unsigned long parent, unsigned long rate,
-> -			     unsigned int max_m, unsigned int max_p,
-> -			     unsigned int *m, unsigned int *p)
-> +static unsigned long ccu_mp_find_best(unsigned long parent, unsigned long rate,
-> +				      unsigned int max_m, unsigned int max_p,
-> +				      unsigned int *m, unsigned int *p)
->  {
->  	unsigned long best_rate = 0;
->  	unsigned int best_m = 0, best_p = 0;
-> @@ -35,6 +35,8 @@ static void ccu_mp_find_best(unsigned long parent, unsigned long rate,
->  
->  	*m = best_m;
->  	*p = best_p;
-> +
-> +	return best_rate;
->  }
->  
->  static unsigned long ccu_mp_find_best_with_parent_adj(struct clk_hw *hw,
-> @@ -109,8 +111,7 @@ static unsigned long ccu_mp_round_rate(struct ccu_mux_internal *mux,
->  	max_p = cmp->p.max ?: 1 << ((1 << cmp->p.width) - 1);
->  
->  	if (!clk_hw_can_set_rate_parent(&cmp->common.hw)) {
-> -		ccu_mp_find_best(*parent_rate, rate, max_m, max_p, &m, &p);
-> -		rate = *parent_rate / p / m;
-> +		rate = ccu_mp_find_best(*parent_rate, rate, max_m, max_p, &m, &p);
->  	} else {
->  		rate = ccu_mp_find_best_with_parent_adj(hw, parent_rate, rate,
->  							max_m, max_p);
-> diff --git a/drivers/clk/sunxi-ng/ccu_nk.c b/drivers/clk/sunxi-ng/ccu_nk.c
-> index c4fb82af97e8..8aa35d5804f3 100644
-> --- a/drivers/clk/sunxi-ng/ccu_nk.c
-> +++ b/drivers/clk/sunxi-ng/ccu_nk.c
-> @@ -15,8 +15,8 @@ struct _ccu_nk {
->  	unsigned long	k, min_k, max_k;
->  };
->  
-> -static void ccu_nk_find_best(unsigned long parent, unsigned long rate,
-> -			     struct _ccu_nk *nk)
-> +static unsigned long ccu_nk_find_best(unsigned long parent, unsigned long rate,
-> +				      struct _ccu_nk *nk)
->  {
->  	unsigned long best_rate = 0;
->  	unsigned int best_k = 0, best_n = 0;
-> @@ -39,6 +39,8 @@ static void ccu_nk_find_best(unsigned long parent, unsigned long rate,
->  
->  	nk->k = best_k;
->  	nk->n = best_n;
-> +
-> +	return best_rate;
->  }
->  
->  static void ccu_nk_disable(struct clk_hw *hw)
-> @@ -104,8 +106,7 @@ static long ccu_nk_round_rate(struct clk_hw *hw, unsigned long rate,
->  	_nk.min_k = nk->k.min ?: 1;
->  	_nk.max_k = nk->k.max ?: 1 << nk->k.width;
->  
-> -	ccu_nk_find_best(*parent_rate, rate, &_nk);
-> -	rate = *parent_rate * _nk.n * _nk.k;
-> +	rate = ccu_nk_find_best(*parent_rate, rate, &_nk);
->  
->  	if (nk->common.features & CCU_FEATURE_FIXED_POSTDIV)
->  		rate = rate / nk->fixed_post_div;
-> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
-> index 67da2c189b53..a0978a50edae 100644
-> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
-> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
-> @@ -16,8 +16,8 @@ struct _ccu_nkm {
->  	unsigned long	m, min_m, max_m;
->  };
->  
-> -static void ccu_nkm_find_best(unsigned long parent, unsigned long rate,
-> -			      struct _ccu_nkm *nkm)
-> +static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned long rate,
-> +				       struct _ccu_nkm *nkm)
->  {
->  	unsigned long best_rate = 0;
->  	unsigned long best_n = 0, best_k = 0, best_m = 0;
-> @@ -45,6 +45,8 @@ static void ccu_nkm_find_best(unsigned long parent, unsigned long rate,
->  	nkm->n = best_n;
->  	nkm->k = best_k;
->  	nkm->m = best_m;
-> +
-> +	return best_rate;
->  }
->  
->  static void ccu_nkm_disable(struct clk_hw *hw)
-> @@ -122,9 +124,7 @@ static unsigned long ccu_nkm_round_rate(struct ccu_mux_internal *mux,
->  	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
->  		rate *= nkm->fixed_post_div;
->  
-> -	ccu_nkm_find_best(*parent_rate, rate, &_nkm);
-> -
-> -	rate = *parent_rate * _nkm.n * _nkm.k / _nkm.m;
-> +	rate = ccu_nkm_find_best(*parent_rate, rate, &_nkm);
->  
->  	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
->  		rate /= nkm->fixed_post_div;
-> diff --git a/drivers/clk/sunxi-ng/ccu_nkmp.c b/drivers/clk/sunxi-ng/ccu_nkmp.c
-> index 39413cb0985c..99359a06892d 100644
-> --- a/drivers/clk/sunxi-ng/ccu_nkmp.c
-> +++ b/drivers/clk/sunxi-ng/ccu_nkmp.c
-> @@ -29,8 +29,8 @@ static unsigned long ccu_nkmp_calc_rate(unsigned long parent,
->  	return rate;
->  }
->  
-> -static void ccu_nkmp_find_best(unsigned long parent, unsigned long rate,
-> -			       struct _ccu_nkmp *nkmp)
-> +static unsigned long ccu_nkmp_find_best(unsigned long parent, unsigned long rate,
-> +					struct _ccu_nkmp *nkmp)
->  {
->  	unsigned long best_rate = 0;
->  	unsigned long best_n = 0, best_k = 0, best_m = 0, best_p = 0;
-> @@ -65,6 +65,8 @@ static void ccu_nkmp_find_best(unsigned long parent, unsigned long rate,
->  	nkmp->k = best_k;
->  	nkmp->m = best_m;
->  	nkmp->p = best_p;
-> +
-> +	return best_rate;
->  }
->  
->  static void ccu_nkmp_disable(struct clk_hw *hw)
-> @@ -150,10 +152,8 @@ static long ccu_nkmp_round_rate(struct clk_hw *hw, unsigned long rate,
->  	_nkmp.min_p = 1;
->  	_nkmp.max_p = nkmp->p.max ?: 1 << ((1 << nkmp->p.width) - 1);
->  
-> -	ccu_nkmp_find_best(*parent_rate, rate, &_nkmp);
-> +	rate = ccu_nkmp_find_best(*parent_rate, rate, &_nkmp);
->  
-> -	rate = ccu_nkmp_calc_rate(*parent_rate, _nkmp.n, _nkmp.k,
-> -				  _nkmp.m, _nkmp.p);
->  	if (nkmp->common.features & CCU_FEATURE_FIXED_POSTDIV)
->  		rate = rate / nkmp->fixed_post_div;
->  
-> diff --git a/drivers/clk/sunxi-ng/ccu_nm.c b/drivers/clk/sunxi-ng/ccu_nm.c
-> index 9ca9257f4426..c1fd11542c45 100644
-> --- a/drivers/clk/sunxi-ng/ccu_nm.c
-> +++ b/drivers/clk/sunxi-ng/ccu_nm.c
-> @@ -27,8 +27,8 @@ static unsigned long ccu_nm_calc_rate(unsigned long parent,
->  	return rate;
->  }
->  
-> -static void ccu_nm_find_best(unsigned long parent, unsigned long rate,
-> -			     struct _ccu_nm *nm)
-> +static unsigned long ccu_nm_find_best(unsigned long parent, unsigned long rate,
-> +				      struct _ccu_nm *nm)
->  {
->  	unsigned long best_rate = 0;
->  	unsigned long best_n = 0, best_m = 0;
-> @@ -52,6 +52,8 @@ static void ccu_nm_find_best(unsigned long parent, unsigned long rate,
->  
->  	nm->n = best_n;
->  	nm->m = best_m;
-> +
-> +	return best_rate;
->  }
->  
->  static void ccu_nm_disable(struct clk_hw *hw)
-> @@ -157,8 +159,7 @@ static long ccu_nm_round_rate(struct clk_hw *hw, unsigned long rate,
->  	_nm.min_m = 1;
->  	_nm.max_m = nm->m.max ?: 1 << nm->m.width;
->  
-> -	ccu_nm_find_best(*parent_rate, rate, &_nm);
-> -	rate = ccu_nm_calc_rate(*parent_rate, _nm.n, _nm.m);
-> +	rate = ccu_nm_find_best(*parent_rate, rate, &_nm);
->  
->  	if (nm->common.features & CCU_FEATURE_FIXED_POSTDIV)
->  		rate /= nm->fixed_post_div;
 
+Applied thanks,
+
+--srini
+>   drivers/nvmem/sunxi_sid.c | 23 +++++++++++++++--------
+>   1 file changed, 15 insertions(+), 8 deletions(-)
+> 
