@@ -1,55 +1,54 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D5ED536
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Jan 2023 16:23:26 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id m18so91035285eji.5
-        for <linux-sunxi@lists.linux.dev>; Thu, 05 Jan 2023 08:23:26 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A4FAD536
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Jan 2023 16:25:18 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id vm8so84310952ejc.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 05 Jan 2023 08:25:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FgX3Uq5RN2gSxMD0FpAihmi52pqkCtembnImF2lZd1A=;
-        b=XFAeuZZdm8oGXFYrt5K0AoexBXXG2KNww0ztHS62JWbcYMzvrdcqh9P7MNMkmwpSXe
-         e1Yc2oL9WFlKdi5wtL9ykg8RMH4kmfoGMXKu72j8Q+qHM0eegIIGDkHIzP0v7sYrxG8o
-         vjvO6GTte4j/hbWJTqoPwNEF3ozWP7RGVmRiyFDTIDwljpOuzFINcD0Z8vZNWP73NA+P
-         RGdO5qPeChj1sEMPKsFHBksQxZQ1mq/Mdw9rQNN2gFOr2BYhp7u0QgScLQSYxqeenecd
-         96IzbF8onkkIRmBIOyrNkY9caesvf+7yD6U/OLyjkoNEo160doio/yrlxo6aGDkH55K3
-         bp0w==
+        bh=EGcjNWkYyFV7KGtDmAPcnHFpakjpf87o3mWY6B3jNYE=;
+        b=kkvPJ+0gP56qm8Gm9tFVNHPLid+GH4Znb+lcoJ5awmOUBN26bnPtyYc4yVt36VwAHh
+         lU4Rs3J9dvunQghJMYZCjdo57bRhKlksSOfqGM5GMI8Zkv0PUx+5Dj3un9lXQpGx9yEk
+         8udoJGOAwp02/sHn4NXWtnHHwRWArLEdwGpTT61nY3aAEFtG/WrFQPbjWsH4DzeYq1tC
+         oniICgQxBL/X3KszV7NLR7HvuqJZnuEjMlk6GrsuYzxT5NVB6d2OPfIhYv/i+TOXQg1w
+         mWIKs0O858viOkrDkhik5wt1iiEkCxc0vSj+cY8OFpMKWaSOBEewncXLf+mwBpughF8n
+         cTBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FgX3Uq5RN2gSxMD0FpAihmi52pqkCtembnImF2lZd1A=;
-        b=oeeJEnjUpwLfPBoMy18152AULX+YRMP6rJj/4czcbvJYysiFVkk0DvzVaFXWGD367n
-         po/BhQvzlqAhazKTmEFJ7C5jTAc1cKvVhEnl3C8zxgb0qUviaUolw6IjxQJLINgko90X
-         zIrkXo/oeKA9Jx8hd8nVFxBcs3gjIfmmPRoLOFSJOWHZTv8sJZQPlFlbTW4h9PQKd/3u
-         WfXj05OnxuNwv8An0Ll0tB1COc6V34vjVHc+jqc+N6oF2C8E6OEi+jBqBy8T7Ok4zplM
-         Mi+6aIkDdvtt5M4YOhIERj9suZFP3WxJMjK8z2+S6nubLb6GOf4WDXKRiiv+OmEQd4f7
-         TTBg==
-X-Gm-Message-State: AFqh2kpbODSv9gtyAcUOdXvyOfIla0zHuMspDnbxUv9zEhk1zhZTfhck
-	6rG4cI7uHQz+4pq2mhM+Zjg=
-X-Google-Smtp-Source: AMrXdXs6L27C/xjKuud7Vz8JTA95Nlc31IiajcsXqJwmfmirq1LtYT1Mbix+2eKxiqVBCANKMzF8mA==
-X-Received: by 2002:a17:906:1c59:b0:7bb:af66:f38c with SMTP id l25-20020a1709061c5900b007bbaf66f38cmr45192698ejg.10.1672935804845;
-        Thu, 05 Jan 2023 08:23:24 -0800 (PST)
+        bh=EGcjNWkYyFV7KGtDmAPcnHFpakjpf87o3mWY6B3jNYE=;
+        b=ytpU/HpUsqjgExdUQge8Ugo3uxaxrzWBgKa0ywv/lQWdcqbwhAuhQBLa4BNXwBOR08
+         cnno5RG9h87QLTaUvpSokbJfHPl0rRuTc+3GPR5stRzrRy9Z60JN7U6PjoSou2A2I++Z
+         1C7PtXiJKZd8Ba9vCewi9NeuESt+3gaviS7RZmRcYkW1rcgcQwgYO//Jx0lTLpTjNIeC
+         ayYR1A/AyjgtxNVBTiIzqSiPM9uyPoFFd63JcqaBfoZ6+nqDca7c7k1RyV2slwanecW1
+         wJ2RecQUbnswUKrEJR0VfhDQrOI490OjRaNeHjGpzfbD+/U6aZHqdcSdfM81m8KKtZej
+         4VXw==
+X-Gm-Message-State: AFqh2kr0NmghKlbgvOwNcyvgUscCWPseL+BrPFQmbBJXH1ewFy8EojdS
+	NX0bHP8Bry/y41jAMEAHzAQ=
+X-Google-Smtp-Source: AMrXdXud+NA0Suedx7vVT0q3+kaXBXllkZ9GjEa6ydtq6LSRAxonQbvR+e2OR6Avz1mD7lO5OS0w8Q==
+X-Received: by 2002:a17:906:910:b0:7ad:aed7:a5da with SMTP id i16-20020a170906091000b007adaed7a5damr57431170ejd.28.1672935916846;
+        Thu, 05 Jan 2023 08:25:16 -0800 (PST)
 Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id u17-20020a1709061db100b0084c70c27407sm11121630ejh.84.2023.01.05.08.23.23
+        by smtp.gmail.com with ESMTPSA id 17-20020a170906211100b0084cb4d37b8csm6504278ejt.141.2023.01.05.08.25.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jan 2023 08:23:23 -0800 (PST)
+        Thu, 05 Jan 2023 08:25:16 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
 Cc: Samuel Holland <samuel@sholland.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 1/2] ARM: dts: sunxi: Fix GPIO LED node names
-Date: Thu, 05 Jan 2023 17:23:22 +0100
-Message-ID: <2126880.irdbgypaU6@jernej-laptop>
-In-Reply-To: <20221231225854.16320-1-samuel@sholland.org>
-References: <20221231225854.16320-1-samuel@sholland.org>
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2] clk: sunxi-ng: Avoid computing the rate twice
+Date: Thu, 05 Jan 2023 17:25:15 +0100
+Message-ID: <2860887.e9J7NaK4W3@jernej-laptop>
+In-Reply-To: <20221231173055.42384-1-samuel@sholland.org>
+References: <20221231173055.42384-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -59,9 +58,10 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne sobota, 31. december 2022 ob 23:58:53 CET je Samuel Holland napisal(a):
-> These board devicetrees fail to validate because the gpio-leds schema
-> requires its child nodes to have "led" in the node name.
+Dne sobota, 31. december 2022 ob 18:30:55 CET je Samuel Holland napisal(a):
+> The ccu_*_find_best() functions already compute a best_rate at the same
+> time as the other factors. Return this value so the caller does not need
+> to duplicate the computation.
 > 
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 
