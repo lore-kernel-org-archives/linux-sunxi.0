@@ -1,43 +1,43 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E06EB0F
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Jan 2023 17:18:52 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id d4so28820058wrw.6
-        for <linux-sunxi@lists.linux.dev>; Thu, 05 Jan 2023 09:18:52 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3950EB0F
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Jan 2023 17:26:05 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id m3so19641966wmq.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 05 Jan 2023 09:26:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VChtWA5HK5AG2rAtUk+ztjmVxkEmPar/HvsaNCiAzRw=;
-        b=j00VTv2Y9d4T95tjvsiMRYO5bG4sGTI54DKqwcVm6IgjWgfc1erF65qYDJh54nEUPM
-         ohQoo6qK1e0w2B/OnP42WLot8g7OPpSxJGaW7bGVOar4NfJTA1emfs2D9NRl+xWGUlzx
-         LDuVpNedTSX7KVF+WxD5zBeSjx6+PSJTvvT3nJFKkJ+YtAgXYKk8vkHIC2jROM+IFFID
-         +GVJzcnqu7Gmyt66cSeTACxDpoGvdJ65AlKjRpvlnMY8dVc4m0QZx67lL5lBoTSO7eaQ
-         emGIAGL0YFxXG8FK7zLsMZVaQwdtPhg/lmHfS3/hTMJML+B8+MPvV6ARYB/j3cwR86oL
-         FR7Q==
+        bh=Xv1/J8+zyvFNGrZ+RyXIp/dYj2SMtALFrHtwD8fvn5I=;
+        b=mr0SJHApON8ErWUEsLeomS53CPMZKeRZ/isiL8Fa3LIBSyfQZzpLvZKR+gMgSIB6vO
+         1Jog/kL+woXJToJND8xnjVNdHBjoYiKgunDdIjmceN150z6azyXXpi3rGc4tqVYmU6iU
+         4picHVNy8USrpKP8ymXSl+WNeOQahZTjEsHBo5P7WG+yG6qTpU3zkSQOyZa+tszPrAvf
+         7qfL0usDdpKImrBiM0Sb6ncaaCTBTM36BnkT0XMQ4dy02e6EyZ9j9Z7T1LV5JijF2BK+
+         FmeZ93LimVqVM/pfr/IQ36yA5qkSmr5+kXUHgMGxvRZECTXHmrHYzqDxdWO8hI562Nwy
+         /N6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VChtWA5HK5AG2rAtUk+ztjmVxkEmPar/HvsaNCiAzRw=;
-        b=R8PQd7v2NW1IFREdJiZTo9ZIFrOyHtrzi6vZAym8CUzhThCLlyfqVeAiCQW4SNosWd
-         k8M83bkkjFxf3NLbDZEMbIBU+tXhGXy02BdH2PGEQcImppRP8xGGvpjLV20Yyu+qb88d
-         af/fo6DxX68m/azlkLbfceMCFjpceImmLO1zeXfJ6V4795sSQzO+x2yJTId6T/ixiH4G
-         yHLmNt7QCm0t/Uvoc0u9Xo4+cQHIGL205Wl67C02DBoMWWko8+HAoP6+Qw6RZEsVut4c
-         DAxEpxa5GZyIPOGgRpsbF0kNt7x1ae5Sazw60jwvd/JfnxQEVhWqmtgsJMrzrCDSbxni
-         BPUA==
-X-Gm-Message-State: AFqh2kowtQeBODckqHCRjlBaeSBQW/QvxQp8roePy/T7S/vbbZnZ8W6S
-	isDYkWn3YvRdARXllyCoBDe4+8uGN8bZ7i0e
-X-Google-Smtp-Source: AMrXdXt9qSAGc/Dlf6Chtr57J60AD6VkWYwy/2f7x8saezg8sBS79QzWuezFNygWI11cXhMjz/npuA==
-X-Received: by 2002:a5d:6e0a:0:b0:242:10ac:ac42 with SMTP id h10-20020a5d6e0a000000b0024210acac42mr33558999wrz.55.1672939131327;
-        Thu, 05 Jan 2023 09:18:51 -0800 (PST)
+        bh=Xv1/J8+zyvFNGrZ+RyXIp/dYj2SMtALFrHtwD8fvn5I=;
+        b=0/RkKUd0Wnzmb3fvicW/mtndtvd0itcOOl4VPQY23KSmXqxx+sxzBlSDyP3V2RyA5v
+         RL82ZaGmn8SKtdVbxhfhkn4baZVY7rZAQbWwUUlqsbg93c3U6vg6mMfQiBCTLW5DCwsI
+         1BWq24U63Xm5EL5tSUneBw96tKVpkfwPZ4rhMqyRgSrBOerwotk5xA+8VhLXs8wiN5VN
+         PUNgAQe270Nw6lNGmUYiN90u4ieIem+WwrmURv8KMwPPF6H1CSmpkkpMIdQpCjaWtmRX
+         CsoiXYW5uRfnFlfgO1rFg9cpSKSjbeaF5WEm4M1GfPIAuHXClCXnLjs98liSyk0tUMnT
+         TrbQ==
+X-Gm-Message-State: AFqh2kqbZfFvucy/Wi0NOjR8SkXmoHl+7KFIPz5xB5VGoSaRGu1xKrfI
+	YGndHraN48Kjy1I2ZsvacXs=
+X-Google-Smtp-Source: AMrXdXthnyD4BVhaKgGhlEMZZtcIDvQxKdtHMqQniFI1MNlfYh9kPLZbWBFDF/l2e7SoFmey5Gv3tA==
+X-Received: by 2002:a05:600c:3485:b0:3d1:ee6c:f897 with SMTP id a5-20020a05600c348500b003d1ee6cf897mr36885853wmq.3.1672939564055;
+        Thu, 05 Jan 2023 09:26:04 -0800 (PST)
 Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id m15-20020adffa0f000000b0028f9132e9ddsm18227421wrr.39.2023.01.05.09.18.49
+        by smtp.gmail.com with ESMTPSA id c7-20020a05600c0a4700b003c6bbe910fdsm3692581wmq.9.2023.01.05.09.26.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jan 2023 09:18:50 -0800 (PST)
+        Thu, 05 Jan 2023 09:26:03 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Alessandro Zummo <a.zummo@towertech.it>,
  Alexandre Belloni <alexandre.belloni@bootlin.com>,
@@ -45,13 +45,11 @@ To: Alessandro Zummo <a.zummo@towertech.it>,
 Cc: linux-arm-kernel@lists.infradead.org, linux-rtc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
  Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 2/2] rtc: sun6i: Drop the unused has_out_clk flag
-Date: Thu, 05 Jan 2023 18:18:49 +0100
-Message-ID: <3471996.iIbC2pHGDl@jernej-laptop>
-In-Reply-To: <20221229184011.62925-2-samuel@sholland.org>
-References:
- <20221229184011.62925-1-samuel@sholland.org>
- <20221229184011.62925-2-samuel@sholland.org>
+Subject: Re: [PATCH 1/2] rtc: sun6i: Prevent an out-of-bounds read
+Date: Thu, 05 Jan 2023 18:26:02 +0100
+Message-ID: <8201852.NyiUUSuA9g@jernej-laptop>
+In-Reply-To: <20221229184011.62925-1-samuel@sholland.org>
+References: <20221229184011.62925-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,16 +59,45 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-Dne =C4=8Detrtek, 29. december 2022 ob 19:40:11 CET je Samuel Holland napis=
+Dne =C4=8Detrtek, 29. december 2022 ob 19:40:10 CET je Samuel Holland napis=
 al(a):
-> This flag was never used by the driver.
->=20
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> If there is more than one parent clock in the devicetree, the
+> driver sets .num_parents to a larger value than the number of array
+> elements, which causes an out-of-bounds read in the clock framework.
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Is there any DT with more than one parent? I think more fixes are needed if=
+=20
+this is the case.
 
 Best regards,
 Jernej
+
+>=20
+> Fix this by coercing the parent count to a Boolean value, like the
+> driver expects.
+>=20
+> Fixes: 3855c2c3e546 ("rtc: sun6i: Expose the 32kHz oscillator")
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+>=20
+>  drivers/rtc/rtc-sun6i.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+> index ed5516089e9a..a22358a44e32 100644
+> --- a/drivers/rtc/rtc-sun6i.c
+> +++ b/drivers/rtc/rtc-sun6i.c
+> @@ -294,7 +294,7 @@ static void __init sun6i_rtc_clk_init(struct device_n=
+ode
+> *node,
+>=20
+>  	init.parent_names =3D parents;
+>  	/* ... number of clock parents will be 1. */
+> -	init.num_parents =3D of_clk_get_parent_count(node) + 1;
+> +	init.num_parents =3D !!of_clk_get_parent_count(node) + 1;
+>  	of_property_read_string_index(node, "clock-output-names", 0,
+>  				      &init.name);
+
 
 
 
