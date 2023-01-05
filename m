@@ -1,20 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71C397B
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Jan 2023 02:00:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEBB77B
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Jan 2023 02:06:40 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 88F1C1063;
-	Wed,  4 Jan 2023 18:00:42 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CBEF01063;
+	Wed,  4 Jan 2023 18:07:21 -0800 (PST)
 Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DA21D3F663;
-	Wed,  4 Jan 2023 17:59:59 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AD8AB3F663;
+	Wed,  4 Jan 2023 18:06:37 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>
 Cc: u-boot@lists.denx.de,
-	Samuel Holland <samuel@sholland.org>,
+	Tom Rini <trini@konsulko.com>,
+	Icenowy Zheng <uwu@icenowy.me>,
+	Giulio Benetti <giulio.benetti@benettiengineering.com>,
+	Jesse Taube <mr.bossman075@gmail.com>,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH] sunxi: eMMC: support TOC0 on boot partitions
-Date: Thu,  5 Jan 2023 01:58:18 +0000
-Message-Id: <20230105015818.19053-1-andre.przywara@arm.com>
+Subject: [PATCH] sunxi: f1c100s: re-enable SYSRESET
+Date: Thu,  5 Jan 2023 02:04:51 +0000
+Message-Id: <20230105020451.19256-1-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -24,60 +27,42 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-To determine whether we have been booted from an eMMC boot partition, we
-replay some of the checks that the BROM must have done to successfully
-load the SPL. This involves a checksum check, which currently relies on
-the SPL being wrapped in an "eGON" header.
+The SoC .dtsi originally submitted for the Allwinner F1C100s had the
+wrong compatible string for the watchdog, which broke U-Boot's reset
+functionality. To quickly fix this, we disable CONFIG_SYSRESET in
+cfcf1952c11e6ffcbbf88 ("sunxi: f1c100s: Drop SYSRESET to enable reset
+functionality"), so that U-Boot's hardcoded reset driver could take over.
 
-If a board has secure boot enabled, the BROM will only accept the "TOC0"
-format, which is internally very different, but uses the same
-checksumming algorithm. Actually the only difference for calculating the
-checksum is that the size of the SPL is stored at a different offset.
+After this was properly fixed in the devicetree, we reverted that patch
+in 92373de041ea ("Revert "sunxi: f1c100s: Drop SYSRESET to enable reset
+functionality"), however this line sneaked back in with d0ee7f295d74
+("Convert CONFIG_SYS_PBSIZE to Kconfig"), so during a Kconfig update.
 
-Do a header check to determine whether we deal with an eGON or TOC0
-format, then set the SPL size accordingly. The rest of the code is
-unchanged.
+Remove this line (again), to use the proper reset driver.
 
-This fixes booting from an eMMC boot partition on devices with secure
-boot enabled, like the Remix Mini PC.
-
+Fixes: d0ee7f295d74 ("Convert CONFIG_SYS_PBSIZE to Kconfig")
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- arch/arm/mach-sunxi/board.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+Hi,
 
-diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
-index 0c4b6dd1ca3..a90c88210cd 100644
---- a/arch/arm/mach-sunxi/board.c
-+++ b/arch/arm/mach-sunxi/board.c
-@@ -365,6 +365,7 @@ static bool sunxi_valid_emmc_boot(struct mmc *mmc)
- 	struct blk_desc *bd = mmc_get_blk_desc(mmc);
- 	u32 *buffer = (void *)(uintptr_t)CONFIG_TEXT_BASE;
- 	struct boot_file_head *egon_head = (void *)buffer;
-+	struct toc0_main_info *toc0_info = (void *)buffer;
- 	int bootpart = EXT_CSD_EXTRACT_BOOT_PART(mmc->part_config);
- 	uint32_t spl_size, emmc_checksum, chksum = 0;
- 	ulong count;
-@@ -391,11 +392,17 @@ static bool sunxi_valid_emmc_boot(struct mmc *mmc)
- 
- 	/* Read the first block to do some sanity checks on the eGON header. */
- 	count = blk_dread(bd, 0, 1, buffer);
--	if (count != 1 || !sunxi_egon_valid(egon_head))
-+	if (count != 1)
-+		return false;
-+
-+	if (sunxi_egon_valid(egon_head))
-+		spl_size = buffer[4];
-+	else if (sunxi_toc0_valid(toc0_info))
-+		spl_size = buffer[7];
-+	else
- 		return false;
- 
- 	/* Read the rest of the SPL now we know it's halfway sane. */
--	spl_size = buffer[4];
- 	count = blk_dread(bd, 1, DIV_ROUND_UP(spl_size, bd->blksz) - 1,
- 			  buffer + bd->blksz / 4);
- 
+this is not critical (so nothing for 2023.01), reset works either way.
+But we should fix it anyway.
+
+Cheers,
+Andre
+
+ configs/licheepi_nano_defconfig | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/configs/licheepi_nano_defconfig b/configs/licheepi_nano_defconfig
+index 12a43c1ec10..b25c9ba77cc 100644
+--- a/configs/licheepi_nano_defconfig
++++ b/configs/licheepi_nano_defconfig
+@@ -10,4 +10,3 @@ CONFIG_SPL_SPI_SUNXI=y
+ CONFIG_SPI_FLASH_WINBOND=y
+ CONFIG_SPI_FLASH_XTX=y
+ CONFIG_SPI=y
+-# CONFIG_SYSRESET is not set
 -- 
 2.35.5
 
