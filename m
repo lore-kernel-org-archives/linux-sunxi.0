@@ -1,62 +1,56 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B2BA32
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Jan 2023 16:30:14 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id d4so28688064wrw.6
-        for <linux-sunxi@lists.linux.dev>; Thu, 05 Jan 2023 08:30:14 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B7ED53B
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Jan 2023 16:34:49 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id r2so1859330wrv.7
+        for <linux-sunxi@lists.linux.dev>; Thu, 05 Jan 2023 08:34:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=y3EejsfMRPYJ8twdYT45Z3uPua4+S1LNtd+Q+9tbauc=;
-        b=M17tidvmkWkYuFrf1Lwzlgp3oUKnmbk9v/FsptibpHce4ZAqpmIKX+7+UW6AAVTjks
-         wRgopWPda293hciGNXg+8XT/sDP3ZgOuBT/PW5758mCviTDFDzxNKspr6lwpDvotggrJ
-         9M5hg6/2Jgwf/JwvkipKBdIVdeT26Am3kAQSP4W1Q1fAyu8xOsyvWjC0OgLejsjghfI1
-         vHOJdXdJE2vAXeo5CK4lPNmHhtGNU/X+DS6RTLNSke5C/CebnaLmUaRuMAhsIe+rSI5S
-         pENvk5AB6SJAzxX7T8monl32sXTL+JYWbAVRIBc/DEFTpkqdCVmPl+sNV32PXh8DunrE
-         VusQ==
+        bh=0lAIo3spWClLaTdCHxySX0ouHrSXLWypZM77NTYweN4=;
+        b=eBDP8rvyt7dl//bCEO8LrldKofxFCS2KF4Gz8zBBX2kN4AQ2DAyM5YtayeT/dDYKMg
+         X0Qp+gHtvnsVqnvSh9SD/U926xqPOw3bgmfAF0B/I4fUm+eTNalEO6RSdX/2Vc1y6PmY
+         2woD/uit8a55nMlZlxXtbdL9+J9wxo8KzddOkDuHrFBwRc31dZCT3LTIxdf1f3kIoIIi
+         No3OceHFZJWaJc9wj9QuvxRrsQUItTOk3vS6FIMBWL+dBJ8nyNvfXhO+pvMa0m4w3LIF
+         7f2XQhQswdzkH7Z/6s7q4fOaDvzs0pjAz0n4OMOKCGJ3VtxZICs/9YUCTYxjePtFm/tb
+         RSUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=y3EejsfMRPYJ8twdYT45Z3uPua4+S1LNtd+Q+9tbauc=;
-        b=NwQe0Eo1Y6Lo4ztJ0/57eEVjEUWktfTfE1YJ/p0zjPnXwH1QlWLnFpTrldhiFpsAmk
-         2XoAu84lQy/BLP5YnlPa9mDS7S123q4Mxp1DbwJoHdGkmmpad8Uc7HyvCJadFCVVAlsy
-         SnXk10ofkxN6TrUBehALIr3QEy6ljTYh8G7QFgY5Gwjqc74ttzlj7Iil+K4PrE/zd38E
-         JVivV5u+sboSBlEvo4ZRisnGZxDto0vyf0EH8xuXjkPz4vZU1DdomnvVItfNVVzrBruJ
-         jjC5hPsuaQRWDkR5WBRPhah73NzlKVU+ACtKO9YCdKae6eHGffu3ptlMIgu7adiOAqA+
-         F6bA==
-X-Gm-Message-State: AFqh2kpd0QGMn0wa/rnB/bXPO2pwOt1kCvPH/tEdjhyR9xFskuoIc9Pu
-	kql7zadzBzTTll0ue0alp6s=
-X-Google-Smtp-Source: AMrXdXszLZ9BZFqJxfINjbGbG4pDRYZ8kDGOk2JHXjZcf5Xgus/zLO7jwULs6trog6IRkMTs0W2P3w==
-X-Received: by 2002:adf:f183:0:b0:255:96ed:950b with SMTP id h3-20020adff183000000b0025596ed950bmr30694484wro.60.1672936212723;
-        Thu, 05 Jan 2023 08:30:12 -0800 (PST)
+        bh=0lAIo3spWClLaTdCHxySX0ouHrSXLWypZM77NTYweN4=;
+        b=lrXmSPfPcIcI5wrwHcNqEmwfMvDXDBnda850IObQq+Uujjq6XJOnyME+cA5OP+dvuk
+         07SfMv1D8SohEjtSwlHVD5G6YbWgRP+amf/Ir+O3ZDN8WHi3clamLKIwQg0mxpuTwpx5
+         /7YhFNgCTLrJuA/HhRSRc/WOv5yC64sjnFFQhTyn2Hr9IF+t5y2vg/x0VpVX0lfZTqkz
+         C0wjKjcWQdOZBSsmCqMJ1zQ+45gj1pa6y0xGJTK8p+t488QAIY12ZO2nHkRPz3KuTPMS
+         GwpYT+GiC/wC+pBuWroM/awvhYDj7lppksXlY1gXVMckjcf4CE6DdyhfYhDP0EqxY2qa
+         4tqw==
+X-Gm-Message-State: AFqh2kpNYQ21V2ASi1xykogUsk1EXi2/kEE2ve0ERZp7BlZUN/txnRWg
+	SurJ9Iaed2TdN2/gafLB7bqsdFWwm656AHlx
+X-Google-Smtp-Source: AMrXdXu+KA2fB53cJsZQeu9XcWeoxFE9i61XhKCbJ/q9IJZHzllc3rqNHO8IHGwyEIhC6Mu/EMwedQ==
+X-Received: by 2002:a5d:6e8f:0:b0:276:473f:7120 with SMTP id k15-20020a5d6e8f000000b00276473f7120mr32573146wrz.26.1672936487924;
+        Thu, 05 Jan 2023 08:34:47 -0800 (PST)
 Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id w17-20020a5d5451000000b0023662d97130sm37280824wrv.20.2023.01.05.08.30.11
+        by smtp.gmail.com with ESMTPSA id s18-20020adfdb12000000b00241fde8fe04sm37319469wri.7.2023.01.05.08.34.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jan 2023 08:30:12 -0800 (PST)
+        Thu, 05 Jan 2023 08:34:47 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Corentin Labbe <clabbe.montjoie@gmail.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S . Miller" <davem@davemloft.net>, Chen-Yu Tsai <wens@csie.org>,
+To: Chen-Yu Tsai <wens@csie.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Rob Herring <robh+dt@kernel.org>, Samuel Holland <samuel@sholland.org>
-Cc: Samuel Holland <samuel@sholland.org>, Albert Ou <aou@eecs.berkeley.edu>,
- Conor Dooley <conor@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+Cc: Samuel Holland <samuel@sholland.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 3/3] riscv: dts: allwinner: d1: Add crypto engine node
-Date: Thu, 05 Jan 2023 17:30:10 +0100
-Message-ID: <10201998.nUPlyArG6x@jernej-laptop>
-In-Reply-To: <20221231220146.646-4-samuel@sholland.org>
-References:
- <20221231220146.646-1-samuel@sholland.org>
- <20221231220146.646-4-samuel@sholland.org>
+Subject: Re: [PATCH 0/2] Allwinner power domain support
+Date: Thu, 05 Jan 2023 17:34:46 +0100
+Message-ID: <1915282.PYKUYFuaPT@jernej-laptop>
+In-Reply-To: <20221231160402.16157-1-samuel@sholland.org>
+References: <20221231160402.16157-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -66,14 +60,45 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne sobota, 31. december 2022 ob 23:01:45 CET je Samuel Holland napisal(a):
-> D1 contains a crypto engine which is supported by the sun8i-ce driver.
+Dne sobota, 31. december 2022 ob 17:04:00 CET je Samuel Holland napisal(a):
+> This series adds support for the power controller found in D1 and other
+> recent Allwinner SoCs. There is no first-party documentation, but there
+> are a couple of vendor drivers for different hardware revisions[1][2],
+> and the register definitions were easy to verify empirically.
 > 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> I have tested this driver on D1 with the video engine. There is no DT
+> update patch here to avoid dependencies between series. The example in
+> the binding is what will go in the D1 DT.
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+So such driver is needed for H616 for GPU? Or is power domain handling 
+different there?
 
 Best regards,
 Jernej
+
+> 
+> [1]:
+> https://github.com/mangopi-sbc/tina-linux-5.4/blob/main/drivers/soc/sunxi/g
+> pu_domain.c [1]:
+> https://github.com/mangopi-sbc/tina-linux-5.4/blob/main/drivers/soc/sunxi/p
+> m_domains.c
+> 
+> 
+> Samuel Holland (2):
+>   dt-bindings: power: Add Allwinner D1 PPU
+>   soc: sunxi: Add Allwinner D1 PPU driver
+> 
+>  .../power/allwinner,sun20i-d1-ppu.yaml        |  54 +++++
+>  drivers/soc/sunxi/Kconfig                     |   9 +
+>  drivers/soc/sunxi/Makefile                    |   1 +
+>  drivers/soc/sunxi/sun20i-ppu.c                | 207 ++++++++++++++++++
+>  .../power/allwinner,sun20i-d1-ppu.h           |  10 +
+>  5 files changed, 281 insertions(+)
+>  create mode 100644
+> Documentation/devicetree/bindings/power/allwinner,sun20i-d1-ppu.yaml create
+> mode 100644 drivers/soc/sunxi/sun20i-ppu.c
+>  create mode 100644 include/dt-bindings/power/allwinner,sun20i-d1-ppu.h
+
+
 
 
