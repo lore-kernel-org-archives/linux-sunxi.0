@@ -1,238 +1,90 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EED37E3
-	for <linux-sunxi@lists.linux.dev>; Fri,  6 Jan 2023 01:04:00 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D397611FB;
-	Thu,  5 Jan 2023 17:04:41 -0800 (PST)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3EF243F23F;
-	Thu,  5 Jan 2023 17:03:57 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: Icenowy Zheng <uwu@icenowy.me>,
-	=?UTF-8?q?Andr=C3=A1s=20Szemz=C3=B6?= <szemzo.andras@gmail.com>,
-	Fabien Poussin <fabien.poussin@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>,
-	Olof Johansson <olof@lixom.net>,
-	soc@kernel.org
-Subject: [PATCH 4/4] ARM: dts: sunxi: add MangoPi MQ-R board
-Date: Fri,  6 Jan 2023 01:01:55 +0000
-Message-Id: <20230106010155.26868-5-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.5
-In-Reply-To: <20230106010155.26868-1-andre.przywara@arm.com>
-References: <20230106010155.26868-1-andre.przywara@arm.com>
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75CC67E3
+	for <linux-sunxi@lists.linux.dev>; Fri,  6 Jan 2023 01:18:20 +0000 (UTC)
+Received: by mail-pg1-f179.google.com with SMTP id 78so251229pgb.8
+        for <linux-sunxi@lists.linux.dev>; Thu, 05 Jan 2023 17:18:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=uJPSNJQixp4KAOx24VmNpjycyBGpOeUyZOarpZS7S9U=;
+        b=mtGEkTUBd3PkBENBsIIJa2h7HAzUqi1oI0DkMcYz87M6/9lpmWbhXuhVZh6dg6e+Mw
+         NJW1uHEdfulnEGemuKItE4sXphmHopfkzq0dooBurE1hqVBuUJqWLAQCzNi1Rhq5tar9
+         hWQPLctc8WnjNoszIQHQAMd473M+XvmAUDs6XGl8qeOHLPY7Urs+tLWJ2Rb0YjSHLQwM
+         /7f05Pjdamcl01nczdAgA+fzavPlGbKZmQkIXnrT16AcTGr1mFx8V/XbJXQ5OVk0O6ie
+         Xm4os+8KaNyMvy8nTiN6RJc3Gjm5NKkaH1KYKTv9QuXO6ToT1EcYxgJNRpigyhi24HxD
+         hehA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uJPSNJQixp4KAOx24VmNpjycyBGpOeUyZOarpZS7S9U=;
+        b=Q9TrT+FUVnRT2Q+DJBSm+UiLpnViKavx//jcHIb6udCzHUasyrcBiEiMLczZ59goqW
+         WM7bA5VpNUTz31kTxkndycVgZbf+FvfEAfwrVyaKJ+XcrkG3I9rEpEtRh/kq1XcvwcwY
+         GZdVHD1PgRox6pRduAPi7nTmJvi3rYmXWS3HP/2J0fc+ejcxpnDz2A9RSSJIn/zPHCOt
+         nDwWIJQZEU+Ku4cQFyJsPdp/QdlO5dUet89A4RuQq/sia5yIv+cjMsT3lN85KIKjZALG
+         IHi3VNU2xf4y33g4jWERBYT6RWtXKvWGtGPDDNP1elXsQ1hxd9mdPRMtRPQ/D94weVQi
+         118Q==
+X-Gm-Message-State: AFqh2kpg7bXPo3CvyXhuUiJ9g8xaxbIbFujezHhJHzoK2UM8rmr6vybL
+	ZZNU+ICF03wegZQeYmLDhTBwOo3/tFiLQD+J4tHXwC376rtxpQ==
+X-Google-Smtp-Source: AMrXdXuW6Al+2ffUvJEduAUleH/WeANS/2yCTSsoZSyfTTM6iFx5AIjPfIDSlgVVbHw2Wa0pJb/5gRUmOeDWAeHdxT4=
+X-Received: by 2002:a05:6a00:4ac3:b0:581:c268:f31c with SMTP id
+ ds3-20020a056a004ac300b00581c268f31cmr1963983pfb.65.1672967899668; Thu, 05
+ Jan 2023 17:18:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAKAF0m9DqPjB6C39ZbrRHFrJOodm7WQGTL0x1jduQjNU=JpQ2g@mail.gmail.com>
+ <d49cb79d-1405-c2cc-0c33-a768c5bbde91@sholland.org> <CAKAF0m984-tY+r+NXdND5hTHAQ55mk_XLjr2y+OBjKMNhS+e1g@mail.gmail.com>
+ <8e7e9d95-a3c1-059d-1e13-20e69c23da46@sholland.org> <CAKAF0m-DQKBc-mfDsQESAA1NvZ1bAWfo-sp4tWqfWWaGhKUwww@mail.gmail.com>
+ <6cffb621-8ba2-957e-9cbb-3b139448fd12@sholland.org> <CAKAF0m9SnNx=cutfGc7Mw+n6YLtrJQAP+kRe+VwX1WqRHiWbnQ@mail.gmail.com>
+ <CAKAF0m9ym7-fUre3nBF195do_fhp1PGcmiDuyYoTwNO_Lzb0_w@mail.gmail.com>
+ <CAKAF0m-cGuOxhzGKtxu_hiD2XJVPwjt53dF4WFAYuAK6VisgPQ@mail.gmail.com> <CAKAF0m-JVGH7dUGwWdFQQKT2UhTdpB4=h_u6H4Wbdux9_fQc6A@mail.gmail.com>
+In-Reply-To: <CAKAF0m-JVGH7dUGwWdFQQKT2UhTdpB4=h_u6H4Wbdux9_fQc6A@mail.gmail.com>
+From: Kirill <kirill.zhumarin@gmail.com>
+Date: Fri, 6 Jan 2023 03:18:00 +0200
+Message-ID: <CAKAF0m9K=zqx1MOM1pZQY4_FOZxL8Svu0Vwn1+5FLn=whnD7aw@mail.gmail.com>
+Subject: Re: ddr devfreq on H3 - possible?
+To: Samuel Holland <samuel@sholland.org>
+Cc: linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-The MangoPi MQ-R is a small SBC with the Allwinner T113-s3 SoC.
-The SoC features two Arm Cortex-A7 cores and 128 MB of co-packaged DDR3
-DRAM. The board adds mostly connectors and the required regulators, plus
-a Realtek RTL8189FTV WiFi chip.
-Power comes in via a USB-C connector wired as a peripheral, and there is
-a second USB-C connector usable as a host port.
+Additionally to the previous message... I think we must make sure of
+this really SMP-caused bug. I did some experiments with hanging all
+CPU's in the SRAM.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- arch/arm/boot/dts/Makefile                    |   1 +
- .../arm/boot/dts/sun8i-t113s-mangopi-mq-r.dts | 160 ++++++++++++++++++
- 2 files changed, 161 insertions(+)
- create mode 100644 arch/arm/boot/dts/sun8i-t113s-mangopi-mq-r.dts
+I tried this:
+1. Custom SGI. But I got random pagefaults. Don't know what is going
+wrong, but will try to debug it in the future.
+Example of code:
+https://github.com/u-boot/u-boot/compare/master...Azq2:u-boot:new_test
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index d08a3c450ce72..39fd893682924 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1390,6 +1390,7 @@ dtb-$(CONFIG_MACH_SUN8I) += \
- 	sun8i-s3-elimo-initium.dtb \
- 	sun8i-s3-lichee-zero-plus.dtb \
- 	sun8i-s3-pinecube.dtb \
-+	sun8i-t113s-mangopi-mq-r.dtb \
- 	sun8i-t3-cqa3t-bv3.dtb \
- 	sun8i-v3-sl631-imx179.dtb \
- 	sun8i-v3s-licheepi-zero.dtb \
-diff --git a/arch/arm/boot/dts/sun8i-t113s-mangopi-mq-r.dts b/arch/arm/boot/dts/sun8i-t113s-mangopi-mq-r.dts
-new file mode 100644
-index 0000000000000..ed4d5217d7b0d
---- /dev/null
-+++ b/arch/arm/boot/dts/sun8i-t113s-mangopi-mq-r.dts
-@@ -0,0 +1,160 @@
-+// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+// Copyright (C) 2022 Arm Ltd.
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/leds/common.h>
-+
-+/dts-v1/;
-+
-+#include "sun8i-t113s.dtsi"
-+
-+/ {
-+	model = "MangoPi MQ-R";
-+	compatible = "widora,mangopi-mq-r", "allwinner,sun8i-t113s";
-+
-+	aliases {
-+		ethernet0 = &rtl8189ftv;
-+		serial3 = &uart3;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial3:115200n8";
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led-0 {
-+			color = <LED_COLOR_ID_BLUE>;
-+			function = LED_FUNCTION_STATUS;
-+			gpios = <&pio 3 22 GPIO_ACTIVE_LOW>; /* PD22 */
-+		};
-+	};
-+
-+	/* board wide 5V supply directly from the USB-C socket */
-+	reg_vcc5v: vcc5v {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-5v";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-always-on;
-+	};
-+
-+	/* SY8008 DC/DC regulator on the board */
-+	reg_3v3: regulator-3v3 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		vin-supply = <&reg_vcc5v>;
-+	};
-+
-+	/* SY8008 DC/DC regulator on the board, also supplying VDD-SYS */
-+	reg_vcc_core: regulator-core {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-core";
-+		regulator-min-microvolt = <880000>;
-+		regulator-max-microvolt = <880000>;
-+		vin-supply = <&reg_vcc5v>;
-+	};
-+
-+	/* XC6206 LDO on the board */
-+	reg_avdd2v8: regulator-avdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "avdd2v8";
-+		regulator-min-microvolt = <2800000>;
-+		regulator-max-microvolt = <2800000>;
-+		vin-supply = <&reg_3v3>;
-+	};
-+
-+	wifi_pwrseq: wifi-pwrseq {
-+		compatible = "mmc-pwrseq-simple";
-+		reset-gpios = <&pio 6 12 GPIO_ACTIVE_LOW>; /* PG12 */
-+	};
-+};
-+
-+&cpu0 {
-+	cpu-supply = <&reg_vcc_core>;
-+};
-+
-+&cpu1 {
-+	cpu-supply = <&reg_vcc_core>;
-+};
-+
-+&dcxo {
-+	clock-frequency = <24000000>;
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+&mmc0 {
-+	pinctrl-0 = <&mmc0_pins>;
-+	pinctrl-names = "default";
-+	vmmc-supply = <&reg_3v3>;
-+	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;
-+	disable-wp;
-+	bus-width = <4>;
-+	status = "okay";
-+};
-+
-+&mmc1 {
-+	pinctrl-0 = <&mmc1_pins>;
-+	pinctrl-names = "default";
-+	vmmc-supply = <&reg_3v3>;
-+	non-removable;
-+	bus-width = <4>;
-+	mmc-pwrseq = <&wifi_pwrseq>;
-+	status = "okay";
-+
-+	rtl8189ftv: wifi@1 {
-+		reg = <1>;
-+		interrupt-parent = <&pio>;
-+		interrupts = <6 10 IRQ_TYPE_LEVEL_LOW>; /* PG10 = WL_WAKE_AP */
-+		interrupt-names = "host-wake";
-+	};
-+};
-+
-+&ohci1 {
-+	status = "okay";
-+};
-+
-+&pio {
-+	vcc-pb-supply = <&reg_3v3>;
-+	vcc-pd-supply = <&reg_3v3>;
-+	vcc-pe-supply = <&reg_avdd2v8>;
-+	vcc-pf-supply = <&reg_3v3>;
-+	vcc-pg-supply = <&reg_3v3>;
-+};
-+
-+&reg_ldoa {
-+	regulator-always-on;
-+	regulator-name = "vcc-1v8";
-+	regulator-min-microvolt = <1800000>;
-+	regulator-max-microvolt = <1800000>;
-+	ldo-in-supply = <&reg_3v3>;
-+};
-+
-+&reg_ldob {
-+	regulator-name = "vcc-dram";
-+	regulator-always-on;
-+	ldo-in-supply = <&reg_3v3>;
-+};
-+
-+&uart3 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart3_pb_pins>;
-+	status = "okay";
-+};
-+
-+/* The USB-C socket has its CC pins pulled to GND, so is hardwired as a UFP. */
-+&usb_otg {
-+	dr_mode = "peripheral";
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	usb1_vbus-supply = <&reg_vcc5v>;
-+	status = "okay";
-+};
--- 
-2.35.5
+2. Disabling CPUs before and enabling after frequency change.
+I tried kernel API `cpu_remove()` / `cpu_add()` and simple bash script
+with usespace API `/sys/devices/system/cpu/cpuX/online`.
+But I have random pagefaults if too frequently disabling and enabling
+CPU's. Even without any sun8i_a33_mbus.
+It seems the CPU hotplug is broken on both 5.15 and 6.1 kernels. %)
+Perhaps this is related to SGI pagefaults at all.
 
+Of course it offtopic to the main theme of this listing. Just a sad fact. :(
+
+3. Locking using SMC calls and smp_call_function.
+Locking code in the psci.c:
+https://gist.github.com/Azq2/5c2bf3855f9546aeb63b57f5aa042621#file-psci-c-L378
+Changes to sun8i-a33-mbus.c:
+https://gist.github.com/Azq2/54713f2aa68c89bda0c8792f6b760908
+
+Is the main idea - hang all secondary cores in their SMC handler.
+
+Yes, this is a totally bad and strangest implementation, but that is
+only for experiment.
+That is similar to the original allwinner driver.
+I tested this for some time and don't have any hang-ups on PWRCTL.
+Even with memterser.
