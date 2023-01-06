@@ -1,118 +1,80 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F5295C6
-	for <linux-sunxi@lists.linux.dev>; Fri,  6 Jan 2023 19:40:50 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id h16so2206929wrz.12
-        for <linux-sunxi@lists.linux.dev>; Fri, 06 Jan 2023 11:40:50 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA17295F1
+	for <linux-sunxi@lists.linux.dev>; Fri,  6 Jan 2023 23:10:51 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id ud5so6816866ejc.4
+        for <linux-sunxi@lists.linux.dev>; Fri, 06 Jan 2023 15:10:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Latrb+MylXKpijKJpBSX+i5hbxF05MEWVlFc7jwtP/8=;
-        b=YKctH5fjqcumY5lCDtSZvEB+l0daLNKgaN/gGuIAxKyiKTeAFvwYFuomDIaC3l6aad
-         yisgmxL1Grfg0sgROu/hfu+di7RJVSlJLl46D9rvGhzudtXydCDByjlgChGlg3kCuNRy
-         gk6S2LsElk0RQMXHyEEnWIhWWEpqik8i02fsnuiUTzI4Fm7K99hJ5Pskw1cl7/eyiPsz
-         pPjLbCL+piZQdZuVzpmZJqnhwdWKIo+o9Kx7VK9gdCa95lsnDLXabPXrlpodXLK5jxCe
-         R2ncpnaDz8etsBzyEwwM97LTo0x8F8d4a8gDsLN65N0rtR5Qja99zGpyyLriV00ZTDPU
-         Ftbg==
+        h=mime-version:message-id:date:content-transfer-encoding:references
+         :in-reply-to:subject:from:cc:to:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TBJRzSx8sh0EAMS5a3epzhJu7mWg6Dh0mbH3noFr6XM=;
+        b=efGTEbzGgujmNvxtq1ctn7l7vJuMJZANXFPbik6YiIQ2RVRt7bIMeCMDMSewBt/VJ1
+         U4BhNPhy4kQ/WPQf3aKiwjJdjmtmXcrbLMuRLEYzVfCwweKAYAYDWnK/RHeY0JLBgYYG
+         jqcSUCuGJ5pH4jn/P5QsyntNL2Xza93dmXydWhJlqaOYp6YAfCS1DpZ4HxV9fdxiNT/X
+         7PMzL0mPqW93+oL5RgxyXD7DAlL1U//4ULHU3Gtb1LrpTbXe01slWiMv5I5BtLiaHElJ
+         wbkmqKcZvW7q+yqG6IUEIqsy2f5nfiwLIyewHXpSFA77GzpPPmIPnTcZ5tt2NQnZrdfn
+         RABQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Latrb+MylXKpijKJpBSX+i5hbxF05MEWVlFc7jwtP/8=;
-        b=OFhTmKK9nlJLxKhEMdD/oq/OTcNTSuXdtl4dJc6Fy+F5yfP3PlkjvITyjlckZk1vpt
-         D7oB3Oy8hqpEpZkyBR7HArTeEQhPjMpVzQTWuhTbaHuTVMIlr1y5Wn5sw7LZIPSHmT6S
-         ratjIFIYQqTCE7Sw9Gn+5FWGo+6fOkzlaHTks9xS+XZlvqnpFoRlPJYOcCHgxCoQuZqz
-         VR7dks+FGUiSjHJCNamMVybHGKCyd3nhpuOjHswS822h1ohbcNIDNltGNh8aK3D1COWQ
-         epgO7DyQ17nNq1qGjOksMcq8/MCgeTZXDsJNONaCY1hTMCCMwz/yACqYhOMcyZwBusua
-         eOGw==
-X-Gm-Message-State: AFqh2kokW2u346op1HXC4vP0oqOga/8SBsI4tOU5VyB7ewXNBSIO67bV
-	SlmGaLbwzngkLakPi351wII=
-X-Google-Smtp-Source: AMrXdXs19AD5nkwy9gvXfhwBvkwr2YNqDNswO1U8o9FlnL9V9B9zvOCLbPWOLuYPGUIYAaY7sdGYKw==
-X-Received: by 2002:adf:ec0e:0:b0:2bb:3219:9bfc with SMTP id x14-20020adfec0e000000b002bb32199bfcmr1190256wrn.50.1673034049168;
-        Fri, 06 Jan 2023 11:40:49 -0800 (PST)
-Received: from localhost.localdomain ([90.242.19.250])
-        by smtp.gmail.com with ESMTPSA id bx9-20020a5d5b09000000b0023662245d3csm1968650wrb.95.2023.01.06.11.40.48
+        h=mime-version:message-id:date:content-transfer-encoding:references
+         :in-reply-to:subject:from:cc:to:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TBJRzSx8sh0EAMS5a3epzhJu7mWg6Dh0mbH3noFr6XM=;
+        b=sXAY+UCURktZjDD418feDrZFvbOT7x8XDCmwSXxKzO7q81yq0t8dfdOm5pazUz9pWv
+         Iv/U29v6bkLPZM9ywtm2/14xG7AfLC1ljZu7ylHUQAAmLhz7O1+vpneJjONtu6s63hBv
+         j4UGlQQHviSm/Gl+u9GZHeiUy8uOqLsM77nKP7BlyuVipGZNNioMZPe0P1XB/9T48Z4l
+         MuzpEDbuOvGZhccFBc+0R52g5Y0mhFNOuwfMVcGMCuDqP7gDGfjhbfTHjvHLe/njhU/Q
+         kQplDLbGrdKr1U53OXWlieDj+Hy8MYM/95IEuEX9vlR7wAKEN7p7s8FPd99CHMVhURG6
+         kX5w==
+X-Gm-Message-State: AFqh2koGXMjDjDOcZuvNp6IRDhVuCI49iuppvwh8N8LjqiECiZKPpA4j
+	8mLWMgFqfgMeEN7u2LUNfb0=
+X-Google-Smtp-Source: AMrXdXtkaErnolaExZQuqEFSBEkxpvvIH0JeDqbpgPFPuRfXQYg0bccY4jdht1LNoQrnbXhzpoF/uA==
+X-Received: by 2002:a17:907:a789:b0:7c0:bbab:22e5 with SMTP id vx9-20020a170907a78900b007c0bbab22e5mr51930077ejc.16.1673046650153;
+        Fri, 06 Jan 2023 15:10:50 -0800 (PST)
+Received: from [100.68.188.119] (92.40.193.218.threembb.co.uk. [92.40.193.218])
+        by smtp.gmail.com with ESMTPSA id y16-20020a1709063a9000b0084ce5d5d21bsm832466ejd.22.2023.01.06.15.10.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Jan 2023 11:40:48 -0800 (PST)
-Sender: Adam Pigg <piggz1@gmail.com>
-From: adam@piggz.co.uk
-To: linux-media@vger.kernel.org
-Cc: yong.deng@magewell.com,
-	mchehab@kernel.org,
-	linux-sunxi@lists.linux.dev,
-	paul.kocialkowski@bootlin.com,
-	laurent.pinchart@ideasonboard.com,
-	Adam Pigg <adam@piggz.co.uk>
-Subject: [PATCH 3/3] media: sun6i-csi: implement vidioc_enum_framesizes
-Date: Fri,  6 Jan 2023 19:40:38 +0000
-Message-Id: <20230106194038.16018-4-adam@piggz.co.uk>
-X-Mailer: git-send-email 2.39.0
+        Fri, 06 Jan 2023 15:10:49 -0800 (PST)
+X-Priority: 3
+To: adam@piggz.co.uk,linux-media@vger.kernel.org
+Cc:
+ mchehab@kernel.org,linux-sunxi@lists.linux.dev,paul.kocialkowski@bootlin.com,laurent.pinchart@ideasonboard.com,adam@piggz.co.uk,
+  yong.deng@magewell.com
+From: piggz1@gmail.com
+Subject: Re: [PATCH 0/3] suns6-csi changes to support libcamera
 In-Reply-To: <20230106194038.16018-1-adam@piggz.co.uk>
 References: <20230106194038.16018-1-adam@piggz.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
+Date: Fri, 6 Jan 2023 23:10:46 +0000
+Message-ID: <ig7fmi.ro3721.rtjy47-qmf@smtp.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Adam Pigg <adam@piggz.co.uk>
-
-Create sun6i_csi_capture_enum_framesizes which defines the min
-and max frame sizes
-
-Signed-off-by: Adam Pigg <adam@piggz.co.uk>
----
- .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 24 +++++++++++++++++++
- 1 file changed, 24 insertions(+)
-
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-index 54beba4d2b2f..2be761e6b650 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-@@ -739,6 +739,29 @@ static int sun6i_csi_capture_try_fmt(struct file *file, void *private,
- 	return 0;
- }
- 
-+static int sun6i_csi_capture_enum_framesizes(struct file *file, void *fh,
-+					  struct v4l2_frmsizeenum *fsize)
-+{
-+	const struct sun6i_csi_capture_format *format;
-+
-+	if (fsize->index > 0)
-+		return -EINVAL;
-+
-+	format = sun6i_csi_capture_format_find(fsize->pixel_format);
-+	if (!format)
-+		return -EINVAL;
-+
-+	fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
-+	fsize->stepwise.min_width = SUN6I_CSI_CAPTURE_WIDTH_MIN;
-+	fsize->stepwise.max_width = SUN6I_CSI_CAPTURE_WIDTH_MAX;
-+	fsize->stepwise.min_height = SUN6I_CSI_CAPTURE_HEIGHT_MIN;
-+	fsize->stepwise.max_height = SUN6I_CSI_CAPTURE_HEIGHT_MAX;
-+	fsize->stepwise.step_width = 1;
-+	fsize->stepwise.step_height = 1;
-+
-+	return 0;
-+}
-+
- static int sun6i_csi_capture_enum_input(struct file *file, void *private,
- 					struct v4l2_input *input)
- {
-@@ -775,6 +798,7 @@ static const struct v4l2_ioctl_ops sun6i_csi_capture_ioctl_ops = {
- 	.vidioc_g_fmt_vid_cap		= sun6i_csi_capture_g_fmt,
- 	.vidioc_s_fmt_vid_cap		= sun6i_csi_capture_s_fmt,
- 	.vidioc_try_fmt_vid_cap		= sun6i_csi_capture_try_fmt,
-+	.vidioc_enum_framesizes		= sun6i_csi_capture_enum_framesizes,
- 
- 	.vidioc_enum_input		= sun6i_csi_capture_enum_input,
- 	.vidioc_g_input			= sun6i_csi_capture_g_input,
--- 
-2.39.0
-
+QXBvbG9naWVzLCBhY2NpZGVudGFsbHkgc2VudCB0aGlzIHNldCB0d2ljZS4gIHBsZWFzZSBpZ25v
+cmUgdGhpcyBzZXQuDQoNCkFkYW0NCg0KT24gRnJpZGF5LCA2IEphbnVhcnkgMjAyMywgYWRhbUBw
+aWdnei5jby51ayB3cm90ZToNCj4gRnJvbTogQWRhbSBQaWdnIDxhZGFtQHBpZ2d6LmNvLnVrPg0K
+PiANCj4gVGhpcyAzIHBhdGNoIHNldCBhZGRzIFY0TDJfQ0FQX0lPX01DIGFuZCB2aWRpb2NfZW51
+bV9mcmFtZXNpemVzIHN1cHBvcnQNCj4gdG8gdGhlIHN1bjZpLWNzaSBkcml2ZXIsIGFsbG93aW5n
+IHRoZSBQaW5lcGhvbmUgcmVhciBjYW1lcmEgKG92NTY0MCkgdG8NCj4gYmUgc3VwcG9ydGVkLg0K
+PiANCj4gVGhlc2UgaGF2ZSBiZWVuIGRldmVsb3BlZCB3aXRoIHRoZSBndWlkYW5jZSBvZiBMYXVy
+ZW50IFBpbmNoYXJ0LCBhbmQNCj4gYmVlbiB0ZXN0ZWQgYnkgY2FwdHVyaW5nIGZyYW1lcyBmcm9t
+IHRoZSBsaWJjYW1lcmEgY2FtIHV0aWxpdHkuDQo+IA0KPiBJbiBhZGRpdGlvbiB0byB0aGVzZSwg
+YSBwYXRjaCB0byBjaGFuZ2UgdGhlIHY0bCBnYWluIG1vZGUgaW4gdGhlIG92NTY0MA0KPiBkcml2
+ZXIsIGFuZCB0aGUgMiBmb3JtYXQgcHJvcGFnYXRpb24gcGF0Y2hlcyBhbGwgYnkgTGF1cm5ldCBh
+cmUNCj4gcmVxdWlyZWQuDQo+IA0KPiBBZGFtIFBpZ2cgKDMpOg0KPiAgIG1lZGlhOiBzdW42aS1j
+c2k6IG1lcmdlIHN1bjZpX2NzaV9mb3JtYXRzIGFuZCBzdW42aV9jc2lfZm9ybWF0c19tYXRjaA0K
+PiAgIG1lZGlhOiBzdW42aS1jc2k6IGltcGxlbWVudCBWNEwyX0NBUF9JT19NQw0KPiAgIG1lZGlh
+OiBzdW42aS1jc2k6IGltcGxlbWVudCB2aWRpb2NfZW51bV9mcmFtZXNpemVzDQo+IA0KPiAgLi4u
+L3N1bnhpL3N1bjZpLWNzaS9zdW42aV9jc2lfY2FwdHVyZS5jICAgICAgIHwgMjE1ICsrKysrKysr
+Ky0tLS0tLS0tLQ0KPiAgLi4uL3N1bnhpL3N1bjZpLWNzaS9zdW42aV9jc2lfY2FwdHVyZS5oICAg
+ICAgIHwgICA2ICstDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDEwMyBpbnNlcnRpb25zKCspLCAxMTgg
+ZGVsZXRpb25zKC0pDQo+IA0KPiAtLSANCj4gMi4zOS4wDQo+IA0KPg0KDQotLSANClNlbnQgZnJv
+bSBteSBTYWlsZmlzaCBkZXZpY2U=
