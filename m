@@ -1,97 +1,100 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056A37B
-	for <linux-sunxi@lists.linux.dev>; Fri,  6 Jan 2023 08:20:23 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id bs20so614925wrb.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 06 Jan 2023 00:20:23 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFBAF7B
+	for <linux-sunxi@lists.linux.dev>; Fri,  6 Jan 2023 09:21:08 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id z16so737976wrw.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 06 Jan 2023 01:21:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=d7uAPc5lV4BAkd0Lt50ZSuuOGeFfN66YKgz3Zf+2KBM=;
-        b=VHwkfcrVl2FfVTrKkxC0HzjPtyZ9CGNZpbIlOZe6SsFxMv2z/OFxd4MKNvDnKOzFfu
-         ZJ3oDzzoxycdiEGI12BPRrXF4sQFxCCH58MkY8isbgq+azciqbC3m+PsS7ooUHxQWXlZ
-         nMIKuTmjWZ13hH4a/c5AVYp3+zZjTxXpNxuM02i8LSGhj1LAxwlzCaY4cpHaJISi2fS9
-         8z6g/HuFW6ZqqJ6fBIa/IbK/WHWC0l/P8/mK09kXE5AF9P5wHPopv9LoJjKcd+/xUcwB
-         vMP/zcpAN2vRlZgxangN7ND+fsmHpfC9yo37R5sX9Y3BLPZ116fwdzMqBKBZtV+8t08i
-         SkHg==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uAfhATkIYXFpgazLFZ+AK9Lq1o03ZdKMm34LM7SHmEU=;
+        b=f1UmUxyILCnWGJP6qQZ7GcSBmaoU7z3kYlpph2vCbELXC7Xz7KHHFFxp+kUamJ+2t9
+         dm3GhM0EF/kBYDcV4aolDZWukCmIZLXLm0S/7lOnmYDmfWx2bXT8IAoB5M2ySYkW81R6
+         OwqTPM8Mmz+pvtNjtE08dy7FSYk83CiICoZ3T0XbLHiHP2uCmXSJx8dpH5opGReUsrBT
+         +ZdwGnyizkf+X3ghhIckgWqo99alISOiAjxja7b54BzRqLLQC08qLJ3JV75Owq/K5Cnu
+         KEx8+jwyEyu1XmrqlWoxhgk6SsExL+WZ+xYT05K+Yj5/p26r54DSCHzJFSvFUdQ92zBQ
+         dzEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d7uAPc5lV4BAkd0Lt50ZSuuOGeFfN66YKgz3Zf+2KBM=;
-        b=S0ZyPiYAXcWxJs32ksm6ECgowNZQ/pShIsYekh/Fmf3W6lj0HSbLygmod3HZDC+83e
-         3Pu1TUiCzniwrcvq4x0KWsT0rgIZuX6T5O2Xm0G+fwK1jvl59LxUY7hoZWVoUJ5gNozj
-         9/+8aGFRgxbUgfBgTxvJwoJYw+LSLbxGpLVb1aw0GFpe+YGCUhvoA4vLueZHrijh+kUH
-         KDVVm0TayTDpL32bNWkk8a7S7XHTkQjJXz9rJLgs50ipKxSNSCoCumgZsOFBsgG6ifTp
-         vtnQEmiIRJgKcFllM5h2UOAv1Ra7xGxBTmCMRqGRdTVW5wsDiOkkH1+8bZs9bpKi/lAF
-         5KUw==
-X-Gm-Message-State: AFqh2krw9lXfk+y3I1sqAO0xjL+cZG6E1s4O8FO7aD2LTKuPQQsgH8+b
-	x8ir7QAn0FprO1i6MvxHxhw=
-X-Google-Smtp-Source: AMrXdXsSaZlnxU9wTK9Z3PLBDtebM5hY+mqg71s24qvIEUMA2DyDyulvecJ+TT82vQmAzLouQez4aw==
-X-Received: by 2002:a5d:67c3:0:b0:2a4:bd16:2931 with SMTP id n3-20020a5d67c3000000b002a4bd162931mr6152301wrw.62.1672993222223;
-        Fri, 06 Jan 2023 00:20:22 -0800 (PST)
-Received: from Red ([2a01:cb1d:3d5:a100:4a02:2aff:fe07:1efc])
-        by smtp.googlemail.com with ESMTPSA id s10-20020adfea8a000000b002421ed1d8c8sm434978wrm.103.2023.01.06.00.20.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Jan 2023 00:20:21 -0800 (PST)
-Date: Fri, 6 Jan 2023 09:20:20 +0100
-From: Corentin Labbe <clabbe.montjoie@gmail.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S . Miller" <davem@davemloft.net>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 1/3] dt-bindings: crypto: sun8i-ce: Add compatible for
- D1
-Message-ID: <Y7fZxAl8WwVztDj/@Red>
-References: <20221231220146.646-1-samuel@sholland.org>
- <20221231220146.646-2-samuel@sholland.org>
+        bh=uAfhATkIYXFpgazLFZ+AK9Lq1o03ZdKMm34LM7SHmEU=;
+        b=a+INUbOpXWMrCuwRNMytrSySwNzRpboXBjFsZZmd2Dz0oAO+vWqTGIgbKr1nA9XkXi
+         WTvIKAYfIjaPHL0RcoI1Do0/4tJ2sGaFT1g/bPK+j7Oe/e8ogixdPzqo/ufPh9H9U1l8
+         A70SNKMRZvtGN+/w4n5qpXE5+wkNuWKIZJThhDm+rxssJX8hBW3Oie0grJG1UpH84lTS
+         D+FsQ9V8yGu/JmtRUGRn/UVlqExQ7knKrnXDSmknjzb9v+ROMf4hmZd5WnGEKUlRDiHy
+         pol0uqtOwZmuUlLb1UzK3rps4fKL4TPmrcYepapE4QG0W6BrvO/JCGbV7F5xrfj+pKdc
+         ZIZw==
+X-Gm-Message-State: AFqh2kqvHC3gpxa388P8JdJGCNhS+TVZinSBNDrHnJvslq+kShq2f9rh
+	ADjfSrt5WvWQheYrmKN+EU0+5Q==
+X-Google-Smtp-Source: AMrXdXu9fepmPpgEfQ6cshSmsZ+6857dtpUM6/8+Vafn1HbdY34/Rzfs18skEvxTNG6/20H2UhzJ3Q==
+X-Received: by 2002:adf:dec7:0:b0:242:115d:bee4 with SMTP id i7-20020adfdec7000000b00242115dbee4mr32938927wrn.16.1672996867159;
+        Fri, 06 Jan 2023 01:21:07 -0800 (PST)
+Received: from [192.168.1.102] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id z8-20020a5d6548000000b0028df2d57204sm689153wrv.81.2023.01.06.01.21.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Jan 2023 01:21:06 -0800 (PST)
+Message-ID: <4d6aec55-c53e-0aba-1168-8a9a80a3b598@linaro.org>
+Date: Fri, 6 Jan 2023 10:21:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221231220146.646-2-samuel@sholland.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 3/4] dt-bindings: arm: sunxi: document MangoPi MQ-R board
+ name
+Content-Language: en-US
+To: Andre Przywara <andre.przywara@arm.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Icenowy Zheng <uwu@icenowy.me>, =?UTF-8?B?QW5kcsOhcyBTemVtesO2?=
+ <szemzo.andras@gmail.com>, Fabien Poussin <fabien.poussin@gmail.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20230106010155.26868-1-andre.przywara@arm.com>
+ <20230106010155.26868-4-andre.przywara@arm.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230106010155.26868-4-andre.przywara@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Le Sat, Dec 31, 2022 at 04:01:43PM -0600, Samuel Holland a écrit :
-> D1 has a crypto engine similar to the one in other Allwinner SoCs.
-> Like H6, it has a separate MBUS clock gate.
+On 06/01/2023 02:01, Andre Przywara wrote:
+> The MangoPi MQ-R board is a close relative to its Allwinner D1/D1s
+> siblings, but features two Arm Cortex-A7 cores instead of a RISC-V core.
 > 
-> It also requires the internal RC oscillator to be enabled for the TRNG
-> to return data, presumably because noise from the oscillator is used as
-> an entropy source. This is likely the case for earlier variants as well,
-> but it really only matters for H616 and newer SoCs, as H6 provides no
-> way to disable the internal oscillator.
+> Add the board/SoC compatible string pair to the list of known boards.
 > 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
-> I noticed that the vendor driver has code to explicitly enable IOSC when
-> using the TRNG on A83T (search SS_TRNG_OSC_ADDR), but that is covered by
-> a different binding/driver in mainline.
+>  Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> Changes in v2:
->  - Add TRNG clock
-> 
->  .../bindings/crypto/allwinner,sun8i-ce.yaml   | 33 ++++++++++++++-----
->  1 file changed, 25 insertions(+), 8 deletions(-)
-> 
+> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> index 3ad1cd50e3fe0..ce445c5ed81c8 100644
+> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
+> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> @@ -843,6 +843,11 @@ properties:
+>            - const: wexler,tab7200
+>            - const: allwinner,sun7i-a20
+>  
+> +      - description: MangoPi MQ-R board
+> +        items:
+> +          - const: widora,mangopi-mq-r
 
-Acked-by: Corentin Labbe <clabbe.montjoie@gmail.com>
+Not documented vendor prefix.
 
-Thanks
+Best regards,
+Krzysztof
+
