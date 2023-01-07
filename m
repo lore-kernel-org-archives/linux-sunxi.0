@@ -1,100 +1,93 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089D01863
-	for <linux-sunxi@lists.linux.dev>; Fri,  6 Jan 2023 23:35:42 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2AB076CF;
-	Sat,  7 Jan 2023 00:35:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1673048141;
-	bh=z3Q3TlLU+itLnKC5fwIubXLCtL88baWrKeTiD3Lutug=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pvsZuC/AC9rmMaviP2cM7+aDtV1VBopA8ApeyHYhyz92PfPCrSt/fLhwUlSnikiHG
-	 kOCIofycoI9dEFl4yarY8o9E1XmMKxX/EPeln7zPnGc/FC7DjhrSnXyJtaf0aHP469
-	 XkDHVdPwMHZ2vs/U8sYdrDD1n2g0Y21ARnhu6AXQ=
-Date: Sat, 7 Jan 2023 01:35:35 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: adam@piggz.co.uk
-Cc: linux-media@vger.kernel.org, yong.deng@magewell.com, mchehab@kernel.org,
-	linux-sunxi@lists.linux.dev, paul.kocialkowski@bootlin.com
-Subject: Re: [PATCH 3/3] media: sun6i-csi: implement vidioc_enum_framesizes
-Message-ID: <Y7iwR3W5RiQ2K+Ip@pendragon.ideasonboard.com>
-References: <20230106194038.16018-1-adam@piggz.co.uk>
- <20230106194038.16018-4-adam@piggz.co.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEECAEC7
+	for <linux-sunxi@lists.linux.dev>; Sat,  7 Jan 2023 08:38:35 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id fc4so8372102ejc.12
+        for <linux-sunxi@lists.linux.dev>; Sat, 07 Jan 2023 00:38:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xOgzPUkVPsFJ6g/ffT102vjrzD0+OvtINIcm9iZZqT0=;
+        b=p0uMCQyRwUkzuKw8jnTTRgB5Lb24wiA32+JQ4g5JXiTTzWapxZLkmKH/AaoUzsl29b
+         2HH2BLb3ZN5SaZ6FIYCOx8kXkOC3P4DNu7RnjsjBZ64ZgqV16KM4WfENlfCKZRcDFGhx
+         e9+yCGQtYUk6ePhkRuRLeoEGphudoLhd/IfNBhgECWQMmddKTtvTzpmaPnlwMMZ6ZqKm
+         4/QbZJLjoizm6viFpHP+/C92bQXjAI+35+snGZd+4VdDvRrNuwEgbLNqh0UpfFxFnFGy
+         OLfNuZywlX4MDcZQikowzBvlwxWEMGwiGFMvS2ODz3oqTqsh3HmYTNlyfjcBZ3uGee3e
+         0WPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xOgzPUkVPsFJ6g/ffT102vjrzD0+OvtINIcm9iZZqT0=;
+        b=yVYZsNPdrlOqlQ5hntek/tuz999cWxn96+z51yjR8mE+BkgHoTg0Nrt4c6o6AZXZJ6
+         1jidZiZ5hNAgvhe3vcbem4I39kazSV6n89Nr3RSHsPzslH/qB6PyI91rJSZexK8v22tw
+         +L4LLbkPTGSSHaZbqIDxAAy9S8kDwcfac53nl+S/vn0tCpUls+sH2WKhOypL0WKL/CO7
+         OEiWZErQG67i4CS4IxtIWu1O5p7/ljpSk9MGUEfDQyt3iPihDhL7SKT7/fZ+8pYXRjun
+         ZQmExVYPCcqs3SRD60/t5EzwCm1+9oxX36zMY3UY5rG7bIFRbW1VNlvYTVy/mcZXaUMJ
+         8l4g==
+X-Gm-Message-State: AFqh2kp908T21TcxgZ41jhLTtc9JARsrkC/Vr6Rk4OsXWxdyT3tUi2wX
+	QcurLq6yN5L6vlo086qv+UXhIo+WM1HZBw==
+X-Google-Smtp-Source: AMrXdXto/4G2M8RCTk63eS0nYKljP3eOEIHWa4CDLiaoEToyIbOSm80Ct5qBHA3otiYiDy6XgKH98g==
+X-Received: by 2002:a17:907:a091:b0:7c1:23ef:4bb9 with SMTP id hu17-20020a170907a09100b007c123ef4bb9mr47302390ejc.13.1673080713744;
+        Sat, 07 Jan 2023 00:38:33 -0800 (PST)
+Received: from localhost.localdomain (mm-96-64-120-178.brest.dynamic.pppoe.byfly.by. [178.120.64.96])
+        by smtp.gmail.com with ESMTPSA id g22-20020a170906539600b0080b3299ebddsm1226146ejo.13.2023.01.07.00.38.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Jan 2023 00:38:33 -0800 (PST)
+From: Oleg Verych <olecom@gmail.com>
+To: linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
+Cc: Oleg Verych <olecom@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org (open list:ALLWINNER A10 CSI DRIVER)
+Subject: [PATCH] media: sun4i-csi: Fix 'Unbalanced pm_runtime_enable!'
+Date: Sat,  7 Jan 2023 11:37:49 +0300
+Message-Id: <20230107083749.2419-1-olecom@gmail.com>
+X-Mailer: git-send-email 2.35.1.windows.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230106194038.16018-4-adam@piggz.co.uk>
+Content-Transfer-Encoding: 8bit
 
-Hi Adam,
+When removing the module, balance PM runtime enable with
+the corresponding disable call.
 
-Thank you for the patch.
+Signed-off-by: Oleg Verych <olecom@gmail.com>
+---
 
-On Fri, Jan 06, 2023 at 07:40:38PM +0000, adam@piggz.co.uk wrote:
-> From: Adam Pigg <adam@piggz.co.uk>
-> 
-> Create sun6i_csi_capture_enum_framesizes which defines the min
-> and max frame sizes
+dmesg:
+```
+[   32.570802] i2c-core: driver [ov5640] registered
+[   32.585345] sun4i-csi 1c09000.csi: Device registered as video0
+[  396.520467] random: crng init done
+[ 1603.050944] ov5640 2-003c: remove
+[ 1603.051878] i2c-core: driver [ov5640] unregistered
+...
+[ 1603.108832] i2c-core: driver [ov5640] registered
+[ 1603.119400] sun4i-csi 1c09000.csi: Device registered as video0
+[ 1603.119984] sun4i-csi 1c09000.csi: Unbalanced pm_runtime_enable!
+```
 
-With the commit message updated (see review of 1/3),
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> Signed-off-by: Adam Pigg <adam@piggz.co.uk>
-> ---
->  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 24 +++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> index 54beba4d2b2f..2be761e6b650 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> @@ -739,6 +739,29 @@ static int sun6i_csi_capture_try_fmt(struct file *file, void *private,
->  	return 0;
->  }
->  
-> +static int sun6i_csi_capture_enum_framesizes(struct file *file, void *fh,
-> +					  struct v4l2_frmsizeenum *fsize)
-> +{
-> +	const struct sun6i_csi_capture_format *format;
-> +
-> +	if (fsize->index > 0)
-> +		return -EINVAL;
-> +
-> +	format = sun6i_csi_capture_format_find(fsize->pixel_format);
-> +	if (!format)
-> +		return -EINVAL;
-> +
-> +	fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
-> +	fsize->stepwise.min_width = SUN6I_CSI_CAPTURE_WIDTH_MIN;
-> +	fsize->stepwise.max_width = SUN6I_CSI_CAPTURE_WIDTH_MAX;
-> +	fsize->stepwise.min_height = SUN6I_CSI_CAPTURE_HEIGHT_MIN;
-> +	fsize->stepwise.max_height = SUN6I_CSI_CAPTURE_HEIGHT_MAX;
-> +	fsize->stepwise.step_width = 1;
-> +	fsize->stepwise.step_height = 1;
-> +
-> +	return 0;
-> +}
-> +
->  static int sun6i_csi_capture_enum_input(struct file *file, void *private,
->  					struct v4l2_input *input)
->  {
-> @@ -775,6 +798,7 @@ static const struct v4l2_ioctl_ops sun6i_csi_capture_ioctl_ops = {
->  	.vidioc_g_fmt_vid_cap		= sun6i_csi_capture_g_fmt,
->  	.vidioc_s_fmt_vid_cap		= sun6i_csi_capture_s_fmt,
->  	.vidioc_try_fmt_vid_cap		= sun6i_csi_capture_try_fmt,
-> +	.vidioc_enum_framesizes		= sun6i_csi_capture_enum_framesizes,
->  
->  	.vidioc_enum_input		= sun6i_csi_capture_enum_input,
->  	.vidioc_g_input			= sun6i_csi_capture_g_input,
-
+diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+index 18e6c65f4..86c5235a0 100644
+--- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
++++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+@@ -264,6 +264,7 @@ static int sun4i_csi_remove(struct platform_device *pdev)
+ {
+ 	struct sun4i_csi *csi = platform_get_drvdata(pdev);
+ 
++	pm_runtime_disable(&pdev->dev);
+ 	v4l2_async_nf_unregister(&csi->notifier);
+ 	v4l2_async_nf_cleanup(&csi->notifier);
+ 	vb2_video_unregister_device(&csi->vdev);
 -- 
-Regards,
-
-Laurent Pinchart
+2.20.1
