@@ -1,110 +1,131 @@
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92F828F9
-	for <linux-sunxi@lists.linux.dev>; Sun,  8 Jan 2023 18:42:25 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.west.internal (Postfix) with ESMTP id D6ADE320051E;
-	Sun,  8 Jan 2023 13:42:23 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Sun, 08 Jan 2023 13:42:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1673203343; x=
-	1673289743; bh=4HxaoxSmL2YgQvvfelQ6b5kuPAJv1CjzGJUleFxKIpw=; b=Y
-	o9uxpsF0+1PzZqxaq1zv3Sp3KhJL0k70tP1taomF6bh3Hci5zHRp9C31rJooYu6b
-	qPndPSo4tIq/i8CFO8Q4LYadC/LkqBHUVxhPuih2T4BeB3XaAgf7yk5MKy07S8kX
-	p4mSvjGTIwpBvSqACB4eUHqtnnzz0LDS86nnON6nUubsLkgUP/Gh4fDEl+aM6Lt6
-	x010wN/jLbEe79pyFjkcOmfJ4n68FoADEziBRqHYbSH+9vFfS9EZvTWdzrP+kv17
-	lGHtk42qZO2GTmVyn12+pBWj5bAdXonqou8iN53mGarV2/bChbHqszD1bmFgkRLb
-	i/NU0zxw0lD2U5m92dDuw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673203343; x=
-	1673289743; bh=4HxaoxSmL2YgQvvfelQ6b5kuPAJv1CjzGJUleFxKIpw=; b=Q
-	0bRs+tFJ65qD/ayXF3gBchdZDL5v8ltnehU0+7Ji27PShAOm090RhHeGvKJtI0hB
-	sqRDj7psWKjmBy86jLlnFOuQyatKrqARbKuGg/BjdCpTpx9RzWr6D8dIaKFR2Tr2
-	nOjZ1LaUd38LOuUNRlR+J58Vso7XTFLeKK+KIL2N72xqBlYu59y1f5LOXeNAa8Sr
-	KwTS7PJ6hFwiZgkG9jTvJYyfvJDCI9BRJmhCSzuZmbH26Vu2GoTpqX3Od82bsbd7
-	q/kDP4Y4FsMhPN7ENIoYORbXI7egItIEYayOA1xsOuLaYPa6mSmT+feaARw6g9+M
-	7h5oHrKqnc6hdFPoVPgUg==
-X-ME-Sender: <xms:jg67Y7-N5CD-ZEGT6j6ZDqH0_UgBac0unneKBUSqKyboP-2vGCk4nA>
-    <xme:jg67Y3sQtO6gNjvrNbkaUFjO77GVqD5_6A1gnmLXSGqfUMVfq_IGLGIGVrR1MD9NW
-    l87IOmAwpv_Efq2Fg>
-X-ME-Received: <xmr:jg67Y5DePTyEmcKTC8Rweu5dFblhBqCm2wHwDF-93TmiWzI7v2PHJWXvAoEWI4aMfp0TwTcwrdi4RSAehCC2PZicULHRZIbs1e2fCginm2h52Dh6NLqjZ7oTFw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrkeeggdduudekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepkfffgggfvfevfhfhufgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpeejgfffhfdujeeftdeuudeguedttefgieetffffheejuefguedv
-    heejteeftdfftdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:jg67Y3eP8I1A_p3acOoucyt1y2qqML3199db1xRkDdXAO2SbQWvXmA>
-    <xmx:jg67YwPESUDJzGkkECrouMBx5OAllm8s8vkaqqPZCiYX1uHz6aou7A>
-    <xmx:jg67Y5nDLXMDn-Dn25NXA36oUQIlBQlFRLODkkE8Hru1UuBgnPWYGQ>
-    <xmx:jw67Y3kgA6b40v_-Woj3CmTYPlRaMhdiYeFqIxv_Iz06x9pA27k6zw>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 8 Jan 2023 13:42:21 -0500 (EST)
-Message-ID: <05c1ee07-0750-d40e-8498-55ea07b52ab1@sholland.org>
-Date: Sun, 8 Jan 2023 12:42:20 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 562F628F9
+	for <linux-sunxi@lists.linux.dev>; Sun,  8 Jan 2023 19:39:31 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id ud5so15288826ejc.4
+        for <linux-sunxi@lists.linux.dev>; Sun, 08 Jan 2023 11:39:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XJiTYEPUGswRyYpBjspRiUoP3U43isLne3ofLdoy89s=;
+        b=VU5Hm1Lq0aHvT7J9pdHV4ctyxUeVvUX1lDUngZBuKlhEFhmS3r3pPFEvhgSe9GbAus
+         WVg7Ca10CpTmXYRb4Y8RsHtEpaBYnDHH2z04qSFG5+EZx+2H8yJ9KnTJHq+3txPkBYz2
+         WCjNBQl0B8ML42dzqx1RAdNPka/pfRin4f0P8RQfscvdLFZu4HNbjFQSH5ISn87nNadC
+         n2bMbSf+5TmQK9JamEuqueD2tlyM2Yeh6gL1l7Ckl4/ETZcAeb8U6nvaxZMOWQGAxYcp
+         7SJ9nAogbDjBlV8YDqQjJ+6iIOA7XRnOrzK13gMjBz6MCD5oB/8lIs1t3YvW2kdos4NT
+         MRPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XJiTYEPUGswRyYpBjspRiUoP3U43isLne3ofLdoy89s=;
+        b=aHijEX55bnY61yrD7gAEu3AEioNaFFVdSbrrnIHKdB7dN0uBM40EseLeWRoagVN6JB
+         eoX/JgQGPEIVJ2nVDRssB0KES1d2h4UHeFKUS1oAiq5Op3JedBExjUzSNe+pemQylnLu
+         kUn1G2K5AtmzDV2z+/xofWmg2heVpU5nT4qFSdXnGDcpim1c4xMJaFjcIQ/lQjVQi22t
+         Bzhvzgj7xbk7aPlNNp/q8Pj6U5Q95Qgeirtb7kHhozWbMXIN4yeOCAV1PfU6RRxKqzOa
+         VdpbgMUtS4h3a2Jzm672fodAIr3bX5Ja4/xmvJIt/QJWUwxQmEG64XWgQFlo8Na2WTJc
+         xNiw==
+X-Gm-Message-State: AFqh2kqBA5mBzrcyP9tq2a7x4H9WB/G+B1fuNjRYlXINe0TMML4CZsI4
+	9Izzm04zUJnzVhljAj2r45g=
+X-Google-Smtp-Source: AMrXdXv6Jx2XUMzyPA0I1YklgDSX6ZuJ1xXXUIpDNIv03Ig3MOrYDUA2N+g7yb9WLbpMNKwaSClvMQ==
+X-Received: by 2002:a17:906:57c4:b0:844:436f:8f01 with SMTP id u4-20020a17090657c400b00844436f8f01mr46425105ejr.17.1673206769560;
+        Sun, 08 Jan 2023 11:39:29 -0800 (PST)
+Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id 18-20020a170906329200b007c0c679ca2fsm2817648ejw.26.2023.01.08.11.39.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Jan 2023 11:39:29 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-rtc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/2] rtc: sun6i: Prevent an out-of-bounds read
+Date: Sun, 08 Jan 2023 20:39:27 +0100
+Message-ID: <4834080.31r3eYUQgx@jernej-laptop>
+In-Reply-To: <5c20af59-5fb5-8f7d-f6af-2b3984d79595@sholland.org>
+References:
+ <20221229184011.62925-1-samuel@sholland.org>
+ <8201852.NyiUUSuA9g@jernej-laptop>
+ <5c20af59-5fb5-8f7d-f6af-2b3984d79595@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Content-Language: en-US
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Jisheng Zhang <jszhang@kernel.org>,
- linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Andre Przywara <andre.przywara@arm.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor@kernel.org>,
- linux-kernel@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>,
- Palmer Dabbelt <palmer@rivosinc.com>
-References: <20221231233851.24923-1-samuel@sholland.org>
- <20221231233851.24923-8-samuel@sholland.org> <Y7bW32i3EUmGHqSK@aptenodytes>
-From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH v4 07/12] riscv: dts: allwinner: Add Sipeed Lichee RV
- devicetrees
-In-Reply-To: <Y7bW32i3EUmGHqSK@aptenodytes>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Paul,
+Dne sobota, 07. januar 2023 ob 18:15:47 CET je Samuel Holland napisal(a):
+> Hi Jernej,
+>=20
+> On 1/5/23 11:26, Jernej =C5=A0krabec wrote:
+> > Dne =C4=8Detrtek, 29. december 2022 ob 19:40:10 CET je Samuel Holland=20
+napisal(a):
+> >> If there is more than one parent clock in the devicetree, the
+> >> driver sets .num_parents to a larger value than the number of array
+> >> elements, which causes an out-of-bounds read in the clock framework.
+> >=20
+> > Is there any DT with more than one parent? I think more fixes are needed
+> > if
+> > this is the case.
+>=20
+> H616 and newer expect more than one parent, to accurately represent the
+> RTC clock tree, but they use the CCU driver instead of this code.
 
-On 1/5/23 07:55, Paul Kocialkowski wrote:
-> Hi Samuel,
-> 
-> On Sat 31 Dec 22, 17:38, Samuel Holland wrote:
->> Sipeed manufactures a "Lichee RV" system-on-module, which provides a
->> minimal working system on its own, as well as a few carrier boards. The
->> "Dock" board provides audio, USB, and WiFi. The "86 Panel" additionally
->> provides 100M Ethernet and a built-in display panel.
->>
->> The 86 Panel repurposes the USB ID and VBUS detection GPIOs for its RGB
->> panel interface, since the USB OTG port is inaccessible inside the case.
-> 
-> Looks like the panel-enabled variants would better be described as device-tree
-> overlays as they are not specific devices but are peripheral extensions.
-> 
-> What do you think?
+If I understand that correctly, second clock would be 24 MHz crystal? In an=
+y=20
+case, if multiple parents are possible, check needs to be added to see if=20
+parent clocks include 32 kHz clock or not.
 
-I don't agree. The Lichee RV 86 Panel is sold as a complete unit, with
-the SoM+board and LCD pre-assembled inside a case. It is not possible to
-purchase the board without a panel, so the panel-enabled variants are
-the only variants.
+>=20
+> This bug is preventing us from relaxing `maxItems` in the binding for H6
+> and older SoCs, even if Linux does not use the additional parent clocks.
+> I want to fix this bug now, to give us the option (if beneficial) of
+> relaxing the binding in the long-term future.
 
-Regards,
-Samuel
+I wouldn't call it a bug, since it works just fine for currently defined=20
+binding. Do you have DT binding change in pipeline?
+
+Best regards,
+Jernej
+
+>=20
+> Regards,
+> Samuel
+>=20
+> >> Fix this by coercing the parent count to a Boolean value, like the
+> >> driver expects.
+> >>=20
+> >> Fixes: 3855c2c3e546 ("rtc: sun6i: Expose the 32kHz oscillator")
+> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> >> ---
+> >>=20
+> >>  drivers/rtc/rtc-sun6i.c | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>=20
+> >> diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+> >> index ed5516089e9a..a22358a44e32 100644
+> >> --- a/drivers/rtc/rtc-sun6i.c
+> >> +++ b/drivers/rtc/rtc-sun6i.c
+> >> @@ -294,7 +294,7 @@ static void __init sun6i_rtc_clk_init(struct
+> >> device_node *node,
+> >>=20
+> >>  	init.parent_names =3D parents;
+> >>  	/* ... number of clock parents will be 1. */
+> >>=20
+> >> -	init.num_parents =3D of_clk_get_parent_count(node) + 1;
+> >> +	init.num_parents =3D !!of_clk_get_parent_count(node) + 1;
+> >>=20
+> >>  	of_property_read_string_index(node, "clock-output-names", 0,
+> >>  =09
+> >>  				      &init.name);
+
+
+
 
