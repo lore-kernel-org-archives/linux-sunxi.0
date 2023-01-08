@@ -1,65 +1,87 @@
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9F81859;
-	Sun,  8 Jan 2023 20:54:05 +0000 (UTC)
-Received: by mail-il1-f175.google.com with SMTP id o13so3982882ilc.7;
-        Sun, 08 Jan 2023 12:54:05 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3413222
+	for <linux-sunxi@lists.linux.dev>; Sun,  8 Jan 2023 20:54:41 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id hw16so3671095ejc.10
+        for <linux-sunxi@lists.linux.dev>; Sun, 08 Jan 2023 12:54:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MQj67zpDv0H9yJYRa8oUtp0MLfg/jFk0jkz9ie85Sp4=;
+        b=Q/YQaKFGRMmoIjjrAVitQfWgLD6nUYHd3jPGMrsaIR83LO7EoYrqfRWgRZILFpOz0C
+         oixFPlQ441ZdIwmfQ1pd1HXMceADZynnmSAhqrB2RjdLz0+6yb8hEv56VhAUYIXCIla4
+         pKkxHsKVKwbqe85IdMVZkuj9ELVkhDRwfMeuTcqirpv3vguhXPQY7xXpeDKI6ieWXLZs
+         CZAUv/K9vhkrzFrReSUFXdlNA3F1cU+PvJS7hTlnTq56M7gNz6OUNgUaGjfT6E14BuUq
+         JUdMrADSJM8ZrsotJGSkrtG4/HdD5nBaqUzIp0PUdrbQOGIlJS3cG2sbo8tYnYiRa7+A
+         QjiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PKnNpQNdzdLgMMqd20StxieGNrz33GPSfX+GftpfArA=;
-        b=Oq7cxz7adr+itqKzQt6xpAb9Cv6UQwGHww9aGksKmyZxx+TPnhd+N3X19Vf14r1C3D
-         mjLLjjIuAD5gqsFOR3nNApGnq6EN/BR5Z2f6EEG4gpm4q4xqppKRZUW9m1lWumv5mpIZ
-         IT/R27v+6nyudRLGmgjiq3vXWlgSgm2Me1YjQfK0EAmTSP5rqudg7Pzh9UOdnrxB7Daf
-         V4UlaDzdITLd3xZz+fprLXmKab9JNUTnpIG9+qxx//9ciWTOzXPHCzYDgiPZ98KA9RBm
-         rRj2KeYhlIDnnpsb0kkipDgV6LPm2A9e6em8S/r6WYDF7L8GuwM8oAf3G92t+EvReWmF
-         Sb2A==
-X-Gm-Message-State: AFqh2kpMBv+UBF+wkUIx0lP4ZsKAvZazFtsrIXOzz30ioyrqtkHekboU
-	qyIg96m7muicyVkyvaJ6OA==
-X-Google-Smtp-Source: AMrXdXuD97K0zSgLYBr6hvBS4jKAj99eoH7O0k7hsPy3oE3DQWUsf0GqPtn1v6cmHrUEnMgWWMuQTQ==
-X-Received: by 2002:a92:dd83:0:b0:300:a953:a263 with SMTP id g3-20020a92dd83000000b00300a953a263mr49546522iln.21.1673211244943;
-        Sun, 08 Jan 2023 12:54:04 -0800 (PST)
-Received: from robh_at_kernel.org ([2605:ef80:8069:516a:f2b0:691e:4315:7c0f])
-        by smtp.gmail.com with ESMTPSA id z18-20020a92d6d2000000b003039e7d680fsm2257683ilp.11.2023.01.08.12.53.55
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MQj67zpDv0H9yJYRa8oUtp0MLfg/jFk0jkz9ie85Sp4=;
+        b=GkkudBntARWOxFE8C8QSDJwQop8kMIIUlbTVBRzo+Zuvm2RWP8IzpyykcLmRL8+N7U
+         BHtxAB/h4E8qI7K4gM9dmoN6XwB0OIE4X5ps8z0ONUQvyG0i84VpfReivLczxlXMa33X
+         yaVOmF0+OMHZvVS9RzuLkvGDPWVqwDZ1m/cEq5jOLAysZ0Wio45ZfkMc/EK2ELKGWcWm
+         ZeLDxwgjoEIVI1Slm2yVv5R51PB4MfZj28KN0o67vMmFwyBSyOBgQ5opql5Vm/zoruNS
+         N+QzRrz+kTdlx2qybeFK8dnRTbRiUeq/q5Aib1ySg1090jR+uxbRsQg62GjucOBPd9/q
+         072A==
+X-Gm-Message-State: AFqh2krMDiMagmpHKpnejm1wDhUNMHITUOXMzrTOETTd8J0ou7RCY+fb
+	nvM2dBav6CAslzO17urSZZM=
+X-Google-Smtp-Source: AMrXdXsIsv1gmrDL00g74IjFR9tyZ8Cu7d+50pp2FQqi8lWzNq2P1DpX/WxOEKfep0LHNfahlTGZng==
+X-Received: by 2002:a17:906:68e:b0:7e2:ca68:6715 with SMTP id u14-20020a170906068e00b007e2ca686715mr53242941ejb.63.1673211279702;
+        Sun, 08 Jan 2023 12:54:39 -0800 (PST)
+Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id l18-20020a1709060cd200b0084c723a626csm2871248ejh.209.2023.01.08.12.54.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Jan 2023 12:54:04 -0800 (PST)
-Received: (nullmailer pid 260770 invoked by uid 1000);
-	Sun, 08 Jan 2023 20:53:43 -0000
-Date: Sun, 8 Jan 2023 14:53:43 -0600
-From: Rob Herring <robh@kernel.org>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard <mripard@kernel.org>, Joerg Roedel <joro@8bytes.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Rob Herring <robh+dt@kernel.org>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v2 1/6] dt-bindings: iommu: sun50i: Add compatible for
- Allwinner D1
-Message-ID: <167321122261.260695.4785173456346736432.robh@kernel.org>
-References: <20230103010903.11181-1-samuel@sholland.org>
- <20230103010903.11181-2-samuel@sholland.org>
+        Sun, 08 Jan 2023 12:54:39 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
+Cc: Samuel Holland <samuel@sholland.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] clk: sunxi-ng: h3/h5: Model H3 CLK_DRAM as a fixed clock
+Date: Sun, 08 Jan 2023 21:54:38 +0100
+Message-ID: <8241808.NyiUUSuA9g@jernej-laptop>
+In-Reply-To: <20221229042230.24532-1-samuel@sholland.org>
+References: <20221229042230.24532-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230103010903.11181-2-samuel@sholland.org>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-
-On Mon, 02 Jan 2023 19:08:58 -0600, Samuel Holland wrote:
-> D1 contains an IOMMU similar to the one in the H6 SoC, but the D1
-> variant has no external reset signal.
-> 
+Dne =C4=8Detrtek, 29. december 2022 ob 05:22:30 CET je Samuel Holland napis=
+al(a):
+> The DRAM controller clock is only allowed to change frequency while the
+> DRAM chips are in self-refresh. To support this, changes to the CLK_DRAM
+> mux and divider have no effect until acknowledged by the memory dynamic
+> frequency scaling (MDFS) hardware inside the DRAM controller. (There is
+> a SDRCLK_UPD bit in DRAM_CFG_REG which should serve a similar purpose,
+> but this bit actually does nothing.)
+>=20
+> However, the MDFS hardware in H3 appears to be broken. Triggering a
+> frequency change using the procedure from similar SoCs (A64/H5) hangs
+> the hardware. Additionally, the vendor BSP specifically avoids using the
+> MDFS hardware on H3, instead performing all DRAM PHY parameter updates
+> and resets in software.
+>=20
+> Thus, it is effectively impossible to change the CLK_DRAM mux/divider,
+> so those features should not be modeled. Add CLK_SET_RATE_PARENT so
+> frequency changes apply to PLL_DDR instead.
+>=20
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
-> 
-> Changes in v2:
->  - Disallow the 'resets' property for the D1 variant
-> 
->  .../iommu/allwinner,sun50i-h6-iommu.yaml      | 20 +++++++++++++++++--
->  1 file changed, 18 insertions(+), 2 deletions(-)
-> 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Applied, thanks!
+
+Best regards,
+Jernej
+
+
