@@ -1,76 +1,91 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D441859
-	for <linux-sunxi@lists.linux.dev>; Sun,  8 Jan 2023 20:35:40 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id u19so15409018ejm.8
-        for <linux-sunxi@lists.linux.dev>; Sun, 08 Jan 2023 12:35:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sQJIwqeYmyWkro6un9gi7pSZ4GoLQctoFJAH0R2W/B4=;
-        b=PFTIfRbP9yzLUcrncnQ1AT7fiYxKLYkX7ARLPBFqwPEyqzskqGx6nvcwigjdKkTPl3
-         9f0NjGuhgF64K7/Dqz2G7DEt1nNICZiklTljgD35mBY7Usa4WF5iE+uwaxu4+UDytzWv
-         D8ueyfaElCGkroRpa9GUdwBYK14yUXtRgxzp8mgKUnubyDLArTjautkolPEahDH5uWLK
-         NkdFN3pGNnqpN9Ax49/s+uDKAl8H+5Tfo7H2bntIyfS+pUxKsh2JAaJOpZQeN7QKJhmB
-         3M0jWrYu+IzL/x7uFw6CJ+TT6vFsI8se4VxW9691uP8jXyopvCn/ymKBcXIN5Z9Iq+de
-         WGFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sQJIwqeYmyWkro6un9gi7pSZ4GoLQctoFJAH0R2W/B4=;
-        b=sCqmTfVgiCjeXUltW7FAEHQrMyjKoGaUkaUsA7TOY/QERTRvz4+ZcgUPB6cuktSwJe
-         4ShytJX0lmUJc+56sS6mnPbQaiA5Rps+bZv5moXr+RH731CVmOxGlE+H/0wLtML5W1zS
-         /uA9NOw/Xgndj6Tat+a7gHqy+P0oPBlPwu/wT8JHx5cEpXkJb43sXRuwYFJU8W1yS3Hs
-         vbaKbMnbYq7mx08iJELlO/WOdgzEXrVgarE7W0alY3xorcu6Xz7WFhQfOEoRS9kodoBf
-         SzHpO2S1GrMM49XsW/Z26RKLIHL0AsTwu9j/J3wudla1zLLCJGiYInoBEGCqLyGf9f/t
-         SjUA==
-X-Gm-Message-State: AFqh2koHtBRe8Uunq2ZKDb7m6VuhN2igsdCXAphsDgToY7fcB6WzFPlW
-	4Fe3N0awa1zAxjYylp3/H50=
-X-Google-Smtp-Source: AMrXdXtTNvDJqQ2MA9S+Usovb2BW1fe4bAzc0B83B3Be2a8jcVP2FLs0yFAVbUPqcIWCrObr/eLS7Q==
-X-Received: by 2002:a17:907:6d22:b0:7c1:52c:a960 with SMTP id sa34-20020a1709076d2200b007c1052ca960mr70723250ejc.8.1673210138428;
-        Sun, 08 Jan 2023 12:35:38 -0800 (PST)
-Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id l9-20020a1709063d2900b0084d4a60b3ccsm64190ejf.115.2023.01.08.12.35.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Jan 2023 12:35:38 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: wens@csie.org, samuel@sholland.org, gregkh@linuxfoundation.org,
- christophe.jaillet@wanadoo.fr, tglx@linutronix.de, arnd@arndb.de,
- mripard@kernel.org, broonie@kernel.org, olof@lixom.net,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Yuan Can <yuancan@huawei.com>
-Cc: yuancan@huawei.com
-Subject: Re: [PATCH] bus: sunxi-rsb: Fix error handling in sunxi_rsb_init()
-Date: Sun, 08 Jan 2023 21:35:36 +0100
-Message-ID: <2247193.iZASKD2KPV@jernej-laptop>
-In-Reply-To: <20221123094200.12036-1-yuancan@huawei.com>
-References: <20221123094200.12036-1-yuancan@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6121859
+	for <linux-sunxi@lists.linux.dev>; Sun,  8 Jan 2023 20:39:04 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.west.internal (Postfix) with ESMTP id 9780E32000D9;
+	Sun,  8 Jan 2023 15:39:03 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Sun, 08 Jan 2023 15:39:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1673210343; x=
+	1673296743; bh=MrpaI/j78RW6bqIMECdS4MM0I9za5Sk9lTNUgyX/4gQ=; b=m
+	scClmhGf8oXC3wtbFW++6dhh4Fi25ex2P364r3sXPhGNcvKcMY64gEAxmFxXzknN
+	gZPm/UEngpd4/v0Ut4wosUxrt/fkBVtZMBxPAsi/9fg+Pe/+lABtFxQhQxPHmOiE
+	+xlVgQCxRi1OcoiH7QA/8U9Ecgjekjbt/OoL4JArnBvQznuKyJKETWbV0I95k0LY
+	AAdzF/NpumXbTPzE3UjEHbh+/Cntn434BFgrxipJ3LprpHNyLur77TEnxtrfTMZ8
+	4XkFKpAQsb/lAyEbf1uG1edtDRBQxDsWRh6tXD1vSMNhlnsuf1yblTwA6LLOmIf4
+	uR26yjyw99UWdV9iNP9Cw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673210343; x=
+	1673296743; bh=MrpaI/j78RW6bqIMECdS4MM0I9za5Sk9lTNUgyX/4gQ=; b=M
+	47cQH429Ay/PlZepydKOriRIls1qN/GpbOTp6iMgMIGvLCd6kmHK+I08GCeLZ/bR
+	J0yQ2t6QChD7NFMCPRYc4CmYKamii4ydHVW8hG0CZx33iD2Ja8ImZSxTQFGDEoSR
+	g1Wgb1ivvMoOw5TDA1d+1EUty2p4WKIHN7LusKxtp0HUlrRBi3XJPxlO3j16mO4q
+	aHF68dExH+fiyUnEL4jObLMl2L+VhCq8Zuq4kXmZnb4y0ETwRuu+ERZuys9iVwgO
+	jlrIjI14pbte1OXtnxjeFpbxuZsxdkccTxDswMab1yVOhLXdet2sUfQH823Jia+y
+	MXOw3wjf9TOUrx7BaAgMA==
+X-ME-Sender: <xms:5im7YxxD59JJJ7GZf1Cus9uW4aqrLX6NIXFNMg4nsvsQ4UUP33CaJw>
+    <xme:5im7YxTXiAC3WWwUyS-YxTO7O9Itpf2XcOOT5gOHANhlUWzGG4jrUqjET6-EdwhiD
+    38k0fOsaiN9P5F2oA>
+X-ME-Received: <xmr:5im7Y7XjT8F5LmoACMXT372wF3Qxt2_GvaAR9NEv3Jdxn8uo07y_ly9g6qFCnfujZeKiP0_05cBrf2WnJ86U10VwsGcgLHDJc8TOX-SJr2y89Ay5pk0JEQhTJw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrkeeggddugeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepkfffgggfvfevfhfhufgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpeejgfffhfdujeeftdeuudeguedttefgieetffffheejuefguedv
+    heejteeftdfftdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:5im7Yzj-VzsttrRL0mZdlS7gPPFFt0GBvRNOLoW4vDXxy6FZ0XfWTg>
+    <xmx:5im7YzBSwXoL30GzwBtg1NzljUs5riLmky9bC1oJDea0midaZwFjeQ>
+    <xmx:5im7Y8K6TdlWAoz2o8_3b5nEpytSI2VRj9oaAfm0cJuCvwPE8ViTzA>
+    <xmx:5ym7Y6P2tav2iKggNyqJhQbwy1SCYwj96nR-bTm0ppYxQmaegJYQoA>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 8 Jan 2023 15:39:02 -0500 (EST)
+Message-ID: <ec4156cd-6203-3055-75cb-642eca2eb50e@sholland.org>
+Date: Sun, 8 Jan 2023 14:39:01 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Content-Language: en-US
+To: Andre Przywara <andre.przywara@arm.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
+ u-boot@lists.denx.de
+References: <20220713152758.56929-1-andre.przywara@arm.com>
+ <20220713152758.56929-2-andre.przywara@arm.com>
+From: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH 1/3] sunxi: armv8: fel: load only 32-bit values
+In-Reply-To: <20220713152758.56929-2-andre.przywara@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Dne sreda, 23. november 2022 ob 10:42:00 CET je Yuan Can napisal(a):
-> The sunxi_rsb_init() returns the platform_driver_register() directly
-> without checking its return value, if platform_driver_register() failed,
-> the sunxi_rsb_bus is not unregistered.
-> Fix by unregister sunxi_rsb_bus when platform_driver_register() failed.
+On 7/13/22 10:27, Andre Przywara wrote:
+> Both the values and the MMIO addresses that we need during the 64-bit FEL
+> restore are smaller than 2^32, so we don't need to do any 64-bit loads.
 > 
-> Fixes: d787dcdb9c8f ("bus: sunxi-rsb: Add driver for Allwinner Reduced
-> Serial Bus") Signed-off-by: Yuan Can <yuancan@huawei.com>
+> Change the loads to only load 32 bits worth of data, that saves us some
+> bytes for storing the values.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  arch/arm/cpu/armv8/fel_utils.S | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 
-Applied, thanks!
-
-Best regards,
-Jernej
-
+Reviewed-by: Samuel Holland <samuel@sholland.org>
+Tested-by: Samuel Holland <samuel@sholland.org>
 
