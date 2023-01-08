@@ -1,128 +1,99 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE35257A
-	for <linux-sunxi@lists.linux.dev>; Sat,  7 Jan 2023 17:15:50 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id B14895C00E7;
-	Sat,  7 Jan 2023 12:15:49 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Sat, 07 Jan 2023 12:15:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1673111749; x=
-	1673198149; bh=pVAVln8jiL3s0HnVxaXSDqHWt311rVoxDwijHRxLD+c=; b=V
-	NsHgHX7lAmWWw/ST0jf+ZWstVsi6EIUwqO6T6R80Yrrhtqb7TQbmm4POeCrTqF+I
-	SdKpNu0f6v6scNrXKQeBvm1XS5vcvy0LK8kaAj+q8oyEJjD8rPMJ13PFjuvQrE0H
-	/oWshcIgmKH9LYxzqJo+hKQOp3Gxtby2pvqeQcbk2UIsxSBvU6O299D9aFDvFvzh
-	rV6CDasSh0RJaAKedrWXgBZ6cCChmqJAohAP7N/boOT2jhkBa3cbnJKJK/iMiVgX
-	gNuwYqf5U4nnm0E/JxRMkeDtwkQX1Mm9d5UrLlHW5ok3OpaZ9aOwiLRUKVXPx6q2
-	Qr0HATYGJqeYHUI8K/2Mw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1673111749; x=
-	1673198149; bh=pVAVln8jiL3s0HnVxaXSDqHWt311rVoxDwijHRxLD+c=; b=n
-	1uZ8GPTCRKMlSsbD4Z493R9pXcNFUMbVNFeP1OxQ6WoRcVgtpoJM1edZl9Fx3jR5
-	8Qa0zbpBBRfyMrXhmzOjBNBBLiUprZgtmVhhHDdyv40dqzGh/n3H6zCSDuoqcoXQ
-	O0kpSEbv5uUI51+fnsdwMnItYrqt+mBfrwv1gCqxG4ZIdfmy8UVttm9OR734xAeh
-	FTsIEGkE4T4mRmkN4Prj3sn9CNjQi0P2eOa8pe3ECQhM7Ovu9mt6kafPbI6ah6NC
-	QAHZL7dVydOKvhG+KHAMgMyKjRcdACQW0Z9YaS5F+AygovwAX2LiMJq36edMl9lh
-	q0oBYEwOANeiD0H4Mz2EA==
-X-ME-Sender: <xms:xKi5YyDd05-IPJUEuhbV1RgmXwoucsGE8cccQSk7_l5EW3I1PkS7hg>
-    <xme:xKi5Y8gCVkcTNXEEsIWY_xvdNrNxBV92eaDtctIj7zcRF1B1EhnRhAR_Tfd5ulmD9
-    lpal3EJ_YSosKcmVQ>
-X-ME-Received: <xmr:xKi5Y1k3351369-b5MN3DsFfRRrYjxqQX1m6FQC-co3XVc2zkTq-jzj_QeDjPef3_-yxbNQMIqZDnpVDNa5spXoPhGQYjxoYH3J6JSazOoz5hbYZ9Q9dxJUcKQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrkedvgdelgecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfvvehfhffujggtgfesthekredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepgeeikeeufedvvdeuteeivdeiffdtgfdtfeejgfetfeefgeffgfdv
-    ffehjedvueeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:xai5Ywzzszzkbran3aMMuqeQ_AFD6dkkwkYd5mS0tMWqCAbxLmi44Q>
-    <xmx:xai5Y3QITzhfxpdhMw1ZwveWkLFr2S9gcx_CQle8nfJzoUoPlRNKzA>
-    <xmx:xai5Y7ZtFd9mRx5VsUidyajAZVV9-W3UdfgoO2M8K0gexk6v1c5CBw>
-    <xmx:xai5Y2HKchong3Y_c8retkkTfYqkN_JaJbDyOeubSBlsLSks9fCXjA>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 7 Jan 2023 12:15:48 -0500 (EST)
-Message-ID: <5c20af59-5fb5-8f7d-f6af-2b3984d79595@sholland.org>
-Date: Sat, 7 Jan 2023 11:15:47 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE45256A
+	for <linux-sunxi@lists.linux.dev>; Sun,  8 Jan 2023 17:16:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B7F4C433EF;
+	Sun,  8 Jan 2023 17:15:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1673198162;
+	bh=fzAgiRFGHR3+GZQIA6FSB7Y5pqtCmssmPkzfvI9PDik=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ugSoSfG8YK4MiPNvmgHKQd2u6R4hYWSQLpNXxOlfys/IgPDiESDl9ClGuf7f5HnwX
+	 oKT6HIzSPf2QaYW7AWi6o2YyMSU+Tn+0cndHgC+c2ZUvp569FJkmm8ZJ4v1WVLnN/g
+	 vJc1njobRAXmHxjvEd0uMJqGhBLEx4srmrk0neSSo45BUDzYBNj478/Ct66UhElPee
+	 zDSpsuuwxgDujKFt51c8olpbMG2jhMuq0ziBhA9E0/wm45RZkYlb8XvEguUQlaOP/2
+	 5ZympTpJVqbXSk26pGg0H9KR6fjluZ0CDyYJH6cQsY3bJYgDF+AO06iy4c2KdnS5mn
+	 z4l7KJR12SL+w==
+Date: Sun, 8 Jan 2023 17:15:56 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Icenowy Zheng <uwu@icenowy.me>,
+	=?iso-8859-1?Q?Andr=E1s_Szemz=F6?= <szemzo.andras@gmail.com>,
+	Fabien Poussin <fabien.poussin@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>
+Subject: Re: [PATCH 1/4] dts: add riscv include prefix link
+Message-ID: <Y7r6TLTm1r+IlrYj@spud>
+References: <20230106010155.26868-1-andre.przywara@arm.com>
+ <20230106010155.26868-2-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Content-Language: en-US
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Chen-Yu Tsai <wens@csie.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-rtc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-References: <20221229184011.62925-1-samuel@sholland.org>
- <8201852.NyiUUSuA9g@jernej-laptop>
-From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 1/2] rtc: sun6i: Prevent an out-of-bounds read
-In-Reply-To: <8201852.NyiUUSuA9g@jernej-laptop>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="0sHedhGUJCjd0u9E"
+Content-Disposition: inline
+In-Reply-To: <20230106010155.26868-2-andre.przywara@arm.com>
 
-Hi Jernej,
 
-On 1/5/23 11:26, Jernej Škrabec wrote:
-> Dne četrtek, 29. december 2022 ob 19:40:10 CET je Samuel Holland napisal(a):
->> If there is more than one parent clock in the devicetree, the
->> driver sets .num_parents to a larger value than the number of array
->> elements, which causes an out-of-bounds read in the clock framework.
-> 
-> Is there any DT with more than one parent? I think more fixes are needed if 
-> this is the case.
+--0sHedhGUJCjd0u9E
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-H616 and newer expect more than one parent, to accurately represent the
-RTC clock tree, but they use the CCU driver instead of this code.
+On Fri, Jan 06, 2023 at 01:01:52AM +0000, Andre Przywara wrote:
+> The Allwinner D1/D1s SoCs (with a RISC-V core) use an (almost?) identical
+> die as their R528/T113-s siblings with ARM Cortex-A7 cores.
+>=20
+> To allow sharing the basic SoC .dtsi files across those two
+> architectures as well, introduce a symlink to the RISC-V DT directory.
 
-This bug is preventing us from relaxing `maxItems` in the binding for H6
-and older SoCs, even if Linux does not use the additional parent clocks.
-I want to fix this bug now, to give us the option (if beneficial) of
-relaxing the binding in the long-term future.
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-Regards,
-Samuel
+Thanks,
+Conor.
 
->> Fix this by coercing the parent count to a Boolean value, like the
->> driver expects.
->>
->> Fixes: 3855c2c3e546 ("rtc: sun6i: Expose the 32kHz oscillator")
->> Signed-off-by: Samuel Holland <samuel@sholland.org>
->> ---
->>
->>  drivers/rtc/rtc-sun6i.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
->> index ed5516089e9a..a22358a44e32 100644
->> --- a/drivers/rtc/rtc-sun6i.c
->> +++ b/drivers/rtc/rtc-sun6i.c
->> @@ -294,7 +294,7 @@ static void __init sun6i_rtc_clk_init(struct device_node
->> *node,
->>
->>  	init.parent_names = parents;
->>  	/* ... number of clock parents will be 1. */
->> -	init.num_parents = of_clk_get_parent_count(node) + 1;
->> +	init.num_parents = !!of_clk_get_parent_count(node) + 1;
->>  	of_property_read_string_index(node, "clock-output-names", 0,
->>  				      &init.name);
-> 
-> 
-> 
-> 
+>=20
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  scripts/dtc/include-prefixes/riscv | 1 +
+>  1 file changed, 1 insertion(+)
+>  create mode 120000 scripts/dtc/include-prefixes/riscv
+>=20
+> diff --git a/scripts/dtc/include-prefixes/riscv b/scripts/dtc/include-pre=
+fixes/riscv
+> new file mode 120000
+> index 0000000000000..2025094189380
+> --- /dev/null
+> +++ b/scripts/dtc/include-prefixes/riscv
+> @@ -0,0 +1 @@
+> +../../../arch/riscv/boot/dts
+> \ No newline at end of file
+> --=20
+> 2.35.5
+>=20
+>=20
 
+--0sHedhGUJCjd0u9E
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY7r6TAAKCRB4tDGHoIJi
+0svYAQDfXmAfIvPLwZWb79WQkRX17ndbEOGiAWczgPvcsZVEYQD9Gh9E4PYzuC6e
+4QRB0vH6i/fo3SyEvyVctlyGY+JOpwE=
+=5fRf
+-----END PGP SIGNATURE-----
+
+--0sHedhGUJCjd0u9E--
