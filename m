@@ -1,102 +1,89 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6611859
-	for <linux-sunxi@lists.linux.dev>; Sun,  8 Jan 2023 20:49:21 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id 08EAD32002E2;
-	Sun,  8 Jan 2023 15:49:20 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Sun, 08 Jan 2023 15:49:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1673210960; x=
-	1673297360; bh=4cUs4pLd9NlSt5Lm17M6NfEglS37b5BWxjnXNOzy9OI=; b=L
-	4bNA/Srjm5cdRqeIkoMoVPLaRdUAHLWnonA53xCzy2Lt/vOKgpAIRgH2BYlSN/gV
-	7b//qQ7Dk9bKxjhUcBmp1C5dFXt7y01k+eNgnnAbVnZt9L5aJhZy6Z8rvlI7Rtim
-	3G82ic62ozeUpeOX3lWQCu8b42oT0UMPO+SCSyXGuWr2pOj58JYePERbWATxE0q3
-	1C5oQs1h2sMCa/5Gk4XHxz0TRePgNXio42f2n/D/GNt8QCjKmrBY9GcIyKzR9HOb
-	1/XpNwArtZ+38037BinW+mNyvYpa50n9FAlJyByD6hVrRHqL6ugtkt/yD5JSZEgS
-	AIWtNupHxPJb0AEDevPfQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673210960; x=
-	1673297360; bh=4cUs4pLd9NlSt5Lm17M6NfEglS37b5BWxjnXNOzy9OI=; b=M
-	XV4an6R0MEA8OAhFCMDQRX2qNTP5SrOYGp1XEXG6+KnO/fme3uLgRFCo8di8E475
-	Ocmd5FxjC3hIKiDqzWm0o2/r5iCzbX6LS1St7SLBISpWSSxsf8OIyfWKNXwazzTD
-	HPhQ+ODbPggRZF0maWP5GH6kyiE0o0L5E3BPWJeg74ovKCc60MhShjDu1t68wnga
-	UMdmXDr/uDxULQ7mjYe6+zLaL488j8/mdyKsC9TBK+dDzrUPNgCjpFkQwdZ8F599
-	XYBe1ZraVlg3TNUsHLw0e4oXe/oN7fzParU8/AxgeLX4Du8oMJ9JztKyv711jz/g
-	aQRAMoRLnvm971hKTLkjg==
-X-ME-Sender: <xms:UCy7Y7jVDtzia-qgeszs-Q8ZMn2UcDr7P9G4vnaQZcqPOAi41Cw0vA>
-    <xme:UCy7Y4Br6uOoUxbf95UkEhX4pNRzBrEVY1cM03JHoOibn9eXS6xuD_lg1erxtvgyh
-    0DnJJQWUs-NQgAQLQ>
-X-ME-Received: <xmr:UCy7Y7EdxbhIuhoh8eOEVw_d2bIGuhH78EQRVYYBOE30QrJoJhFnGfabvCsY7xamCMe0WqOhsJo07efyLRaEFwHK4QByuPZq5Pkl6JNKkGVORT6Hmq4U99lGAQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrkeeggddugeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepkfffgggfvfevfhfhufgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpeejgfffhfdujeeftdeuudeguedttefgieetffffheejuefguedv
-    heejteeftdfftdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:UCy7Y4QWquYJW6CDOf87fQ-y82tIOSlJbYAhgI2itnFbyHYVPZD2UQ>
-    <xmx:UCy7Y4zymXyrnW1LFiYe1Ln-waMx7TBu7wzldQTynYHlOlSqsmCy2Q>
-    <xmx:UCy7Y-6pbN9SNyd23pzfW22pplAVhPVzLgpLJa2xQX4q-3hj9A8y-g>
-    <xmx:UCy7Y08fm5GkhNUdpeQN_KrWZQf0r1V8BQZ4JuG929iiQpZakeVPLg>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 8 Jan 2023 15:49:20 -0500 (EST)
-Message-ID: <a69ec7a6-8faf-a473-db40-c441d6bea0fb@sholland.org>
-Date: Sun, 8 Jan 2023 14:49:19 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E38D2F2D
+	for <linux-sunxi@lists.linux.dev>; Sun,  8 Jan 2023 20:50:21 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id s5so9810638edc.12
+        for <linux-sunxi@lists.linux.dev>; Sun, 08 Jan 2023 12:50:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/l7O+u7hpvwx/CEE2kQt2CxxFAlI3yQgMXXhNMZZ5b8=;
+        b=FDlaf6HuGHd/1r8jZ2JcrzSIODO1aqOOU8QPRxTfVdcd28+Sp/p8K1uUm+WJ66t+eP
+         vCE2BDQT9oyeZYP7xXVs6k6R8l1vDzdKzuMRyGEm/UozYAs/UVVw1E0j49Q5VU5mieZS
+         XHhtpYeJ1mj76AbggBVYA76nx5hKOx5Zt42DflN6fMAPaFsLmRFbj140pFyzKpeCRjOe
+         +8L0vej/ie/lW9+H4QRosHp03GMEiiGwi2SQBscrbeTedyAxkbDD+efVBsxLzLRa5IYv
+         btO9dveEcPLEwR/0o6guaAPLnbul8qG8rhcxCYSVmLb14gZaNp7h/nBb3QGUHMTDWMwj
+         JeSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/l7O+u7hpvwx/CEE2kQt2CxxFAlI3yQgMXXhNMZZ5b8=;
+        b=XN46nRJf5Y8Z5elpfo2G59BKO1m28Y5WyoK0nlZJG4Uy0FOdQcZbBVpLc9wGw/pMXM
+         Qg1wQ/u/JQvLTd/YiruSth7gK8sOUM1Q9yQLOh2ZSxiD+ErYrQyARQIj/SCvLt3HqKVJ
+         52HIzU45DbevibAy8CW0IEtf2c8PMBSLRCJ697m9fG4nfp5xS0vhG/AOXzZqw1mZREuD
+         r5KzKEbKRxNVOk9Ick310zNAgpInNMnxc9476y+GKAaJ+3OhnGhb4TUwybPrLpfMfCGs
+         cAC3CNbpH2m2ziDu/tl/AEVvr8CE1reZD6nQaDQMN9B42FrTmvkUCxIn5ZdFeaHzvYlm
+         cAuA==
+X-Gm-Message-State: AFqh2kqXGOtm3Mw9LKk6VGY59xdZvoJiTpbQf3pznFG8mAMENmX+ayRT
+	JRHG0y17qOCfyTtyZ5PVSg4=
+X-Google-Smtp-Source: AMrXdXuI0+C7w/IwZrPvBfTWv8oEhkKKunKLQUym/99Og1HUIuARlIEDjFhaBeEwA8yQ5dkAp4HHLw==
+X-Received: by 2002:aa7:d653:0:b0:47e:15ec:155e with SMTP id v19-20020aa7d653000000b0047e15ec155emr50820952edr.26.1673211019627;
+        Sun, 08 Jan 2023 12:50:19 -0800 (PST)
+Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id n18-20020a056402061200b004950ef2a09asm2871821edv.61.2023.01.08.12.50.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Jan 2023 12:50:19 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
+Cc: Samuel Holland <samuel@sholland.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/4] nvmem: sunxi_sid: Always use 32-bit MMIO reads
+Date: Sun, 08 Jan 2023 21:50:18 +0100
+Message-ID: <3511184.iIbC2pHGDl@jernej-laptop>
+In-Reply-To: <20220814173656.11856-2-samuel@sholland.org>
+References:
+ <20220814173656.11856-1-samuel@sholland.org>
+ <20220814173656.11856-2-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>,
- Jagan Teki <jagan@amarulasolutions.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
- u-boot@lists.denx.de
-References: <20220713152758.56929-1-andre.przywara@arm.com>
- <20220713152758.56929-3-andre.przywara@arm.com>
-From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 2/3] sunxi: h616: lower SPL stack address to avoid BROM
- data
-In-Reply-To: <20220713152758.56929-3-andre.przywara@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 7/13/22 10:27, Andre Przywara wrote:
-> When using the USB OTG FEL mode on the Allwinner H616, the BootROM
-> stores some data at the end of SRAM C. This is also the location where
-> we place the initial SPL stack, so it will overwrite this data.
-> We still need the BROM code after running the SPL, so should leave that
-> area alone.
-> Interestingly this does not seem to have an adverse effect, I guess on
-> the "way out" (when we return to FEL after the SPL has run), this data
-> is not needed by the BROM, for just the trailing end of the USB operation.
-> However this is still wrong, and we should not clobber BROM data.
+Dne nedelja, 14. avgust 2022 ob 19:36:52 CET je Samuel Holland napisal(a):
+> The SID SRAM on at least some SoCs (A64 and D1) returns different values
+> when read with bus cycles narrower than 32 bits. This is not immediately
+> obvious, because memcpy_fromio() uses word-size accesses as long as
+> enough data is being copied.
 > 
-> Lower the SPL stack address to be situated right below the swap buffers
-> we use in sunxi-fel: that should be out of the way of everyone else.
+> The vendor driver always uses 32-bit MMIO reads, so do the same here.
+> This is faster than the register-based method, which is currently used
+> as a workaround on A64. And it fixes the values returned on D1, where
+> the SRAM method was being used.
+> 
+> The special case for the last word is needed to maintain .word_size == 1
+> for sysfs ABI compatibility, as noted previously in commit de2a3eaea552
+> ("nvmem: sunxi_sid: Optimize register read-out method").
+> 
+> Fixes: 07ae4fde9efa ("nvmem: sunxi_sid: Add support for D1 variant")
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-If we are going to limit SPL size based on these buffers, we should
-ensure they are as close to the end of SRAM as possible.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  include/configs/sunxi-common.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Best regards,
+Jernej
 
-Reviewed-by: Samuel Holland <samuel@sholland.org>
-Tested-by: Samuel Holland <samuel@sholland.org>
 
