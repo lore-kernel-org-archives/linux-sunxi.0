@@ -1,58 +1,58 @@
 Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364A83222
-	for <linux-sunxi@lists.linux.dev>; Sun,  8 Jan 2023 21:00:32 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id 3523F3200908;
-	Sun,  8 Jan 2023 16:00:31 -0500 (EST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623731859
+	for <linux-sunxi@lists.linux.dev>; Sun,  8 Jan 2023 21:01:31 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 2D5D132001C6;
+	Sun,  8 Jan 2023 16:01:30 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Sun, 08 Jan 2023 16:00:31 -0500
+  by compute5.internal (MEProxy); Sun, 08 Jan 2023 16:01:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1673211630; x=
-	1673298030; bh=ySOiPdhl0qgV4b2YEVovm0B9e02rcCMg3tw1EVzav+w=; b=n
-	Qj3gdG2smRcguKY5yFn9MEKmqJN3CH3LhESaMd3x3aBOYXwmG6Z9Za4nqbcCrcMs
-	cf4Up6eta7+dU/piFChMUhpuEqi9WxBsa2nFNXCJCIi2z+kfsCN9F8ZpttbM6Sfd
-	H3o9fwMtYjO+9MCxD6gaGnsc7RQ4uMRFCtMxi51rn2zbY/eWKyjUCt4BzcSAQMCv
-	yUV+MoUHyg9KiIjtUFpgqjGfdquQjnYQJfxBuUZwXO39iynM8KIVhOaY1FBU5aHV
-	rpujy4C/r8Z2J0QO4SCHOnc6loBMYOo19ILWs4IldRHsFpJcbVRxFT2tETzOdvUM
-	VBTJ8Xj1o5DvENLvc0T5g==
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1673211689; x=
+	1673298089; bh=UQuQ7xx4Fnh08xmJ6f/MRX3kagDOp8QM/xxCxW1tR5k=; b=a
+	afDTqPD4C+2Oznrd4GCacVJVprJtvSlFv7wXJ9L4rgYpmaaO8nNBdYwhoaJmqNvJ
+	1chXCelQCPFGnmBkoEkXZuN1tzoNgxJEdE6A6IBjIeGYIhPsckyLaH2WYfrBWnSE
+	afTFLZ3Bim8oT22OjMXBsHcgxGja8ZCNCAFoxJsxJbSF6p57YyabZYfn0QqU5qr+
+	YafUjJANzbE67QgO9UXpYngZH2vQTbUO9PGIQX9+agopE9cD0OMe5p6/vlfFaAYE
+	Wnftr03GVg5TGtfZpiypw5f9nSAA9Wbr0DxhVu1CSPWIzec1F0coivsFR+AbVRyZ
+	kOOrSORAOxcI4QvKWx62w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673211630; x=
-	1673298030; bh=ySOiPdhl0qgV4b2YEVovm0B9e02rcCMg3tw1EVzav+w=; b=X
-	RFccNBPKGcSBhxW9LjV/mXqnzJegtGWRP3SDOja7ILA79R1NuOyh/jZwt0R/s6aY
-	4VbNv6KrsSlrUtlcr473p1hPtz30KePaqocvbz2bXbEW1G+yN0LOGWOZpU0XfGaw
-	MFd12KlYKJkhg8O4+swkaQhC9WIoWbqB8XosB8e0/a/H9rU9chatju+vea60YFUL
-	TdFYP5d/sQ534Jev4lmfdGS3p49RfAoHoHes3iDnRLf5DjB5V2k0HXbCsQUjXrrt
-	frRr0BBSx1sVmxNW0qiGEwR1Vkxk86LuaSgWsxUeXq1YidWz9zWTdrYlf19QRXHh
-	Ui2ktnEGGcxpQkgEnmTrw==
-X-ME-Sender: <xms:7i67Y2Hbq-G47MeoEmCsmFMo8pgvhNtRMJ2snEo9zkIGHlffl6j2gA>
-    <xme:7i67Y3WqpyAZxko82oQmrNTa0_RzFasoWXV3DNgNT3u_FNefnr1yPrivPdfKHuTQf
-    L0V0DwY8oyiu1Wc6A>
-X-ME-Received: <xmr:7i67YwIKxRuKqgCNdXkaK3LfuSmgirSHUv4Hz8SMwY_ccfO8ghYezVrMM_SMCtBq9EPJov4tAhUDzjSNABWPnrZQK6lvIbk1sE8dnqELQ2QCDdfgGpfda9SG1A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrkeeggddugeejucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673211689; x=
+	1673298089; bh=UQuQ7xx4Fnh08xmJ6f/MRX3kagDOp8QM/xxCxW1tR5k=; b=r
+	pwpF8OB/fTgT9RZp1VOxaDz2CX6WzJWiRvx438IekDTdcnCGEs0hH0LfUu2n/yXx
+	oU+vc+pOukpcFTAHeZQ6v82anmNa3DZRtbhqOB9XdgG9hF87RnvR7GD2FEHjoRGu
+	kii13hp0KHxSoCmviolUnaRZAx9Ei/+qaCUTUt58OPQNRL32axW4AOnmF1WXXlUB
+	QI6GBhWk89BX7Cf6IGAgKE4WxAwD7jwIwO57jwUeHD36wSwQjJbS1KwWumNnliTw
+	hC1e966C+eHvhGh6FFeE789B+X/wQjKPfBl8+hhY1kdBShvgGA5cpN0z7oKg5I+r
+	oiqxM7WSxIJWzvZ0xfY3A==
+X-ME-Sender: <xms:KS-7YyFLc898dpzJqoGftoYZJD0tOJjMpyeVndfaV9qp7oUNqzDMvA>
+    <xme:KS-7YzW_-BFpuOFxxWsssgdYW9gANziRR-xrMgzNo4dchh6f8n9igQoEAsyn94vNH
+    9qnjmYzbN3dvgQLzA>
+X-ME-Received: <xmr:KS-7Y8Jf71TmsEOYY4RCrzb7yiix5A318TM8dLvjj3w4eMZzzqZq5H7UmMgXF2C07aoyChbZguPaeUsmxSX_5yYbEdJIXJeiC2jgvIGwRCXgpH4bES94khi7rw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrkeeggddugeeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepkfffgggfvfevfhfhufgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    cujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
     uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpeejgfffhfdujeeftdeuudeguedttefgieetffffheejuefguedv
-    heejteeftdfftdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    ggtffrrghtthgvrhhnpeekjeelleefiedthfdtgfekgeehudefudeugeffvdfhudekleel
+    fedtteejhedutdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
     hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:7i67YwF7nhRwC4r1FOa08DFlduMl8GKUPPmnenF4BGD68M9jxh3RZw>
-    <xmx:7i67Y8UJLamB6Gm9op9oDG0B5Khnhy9k5tWlJCaaGokL66e2y3_kgw>
-    <xmx:7i67YzPDdterOcXOlYu2MbSTmzFQW6tXvv5yozwgceglRi6A0k2fsQ>
-    <xmx:7i67YzQ8k1Lqk46rEnw-mHGPVbZZtmzQqv5wp0_C0X72qkoe-R4SoQ>
+X-ME-Proxy: <xmx:KS-7Y8F9rwEgIDlv0PNEwGiQJL1nnWcXUqcY-1tr_WmxOel99487iA>
+    <xmx:KS-7Y4W14-qaQncT8a54oblubuHZSiPDtP_XWyu4c3wvv-7qa8glfA>
+    <xmx:KS-7Y_NjjMVJlqCdc_7FNRCX0scJuWl4m9eX1NehbidrpHuMHmyUMQ>
+    <xmx:KS-7Y_Q09O159ZD05Vt200TJmOo-w_kN8xSQXUPxw8JaMVL4xe_EBQ>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 8 Jan 2023 16:00:30 -0500 (EST)
-Message-ID: <426c7518-04cf-8cd7-597a-bfa2d24863d0@sholland.org>
-Date: Sun, 8 Jan 2023 15:00:29 -0600
+ 8 Jan 2023 16:01:28 -0500 (EST)
+Message-ID: <d8a8f151-a161-a451-2b93-26835fc41692@sholland.org>
+Date: Sun, 8 Jan 2023 15:01:28 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,122 +61,37 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
+Subject: Re: [PATCH 2/3] sunxi: mmc: group non-DM specific functions
 Content-Language: en-US
 To: Andre Przywara <andre.przywara@arm.com>,
  Jagan Teki <jagan@amarulasolutions.com>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, u-boot@lists.denx.de,
  linux-sunxi@lists.linux.dev
 References: <20220713162145.95744-1-andre.przywara@arm.com>
- <20220713162145.95744-2-andre.przywara@arm.com>
+ <20220713162145.95744-3-andre.przywara@arm.com>
 From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 1/3] sunxi: mmc: ignore card detect in SPL
-In-Reply-To: <20220713162145.95744-2-andre.przywara@arm.com>
+In-Reply-To: <20220713162145.95744-3-andre.przywara@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Andre,
-
-Thanks for helping to get rid of sunxi_name_to_gpio().
-
 On 7/13/22 11:21, Andre Przywara wrote:
-> The sunxi MMC code does not use the DM in the SPL, as we don't have a
-> device tree available that early, also no space for it.
-> This also means we cannot access the card-detect GPIO information from
-> there, so we have Kconfig symbols called CONFIG_MMCx_CD_PIN, which each
-> board has to define. This is a burden, also requires extra GPIO code in
-> the SPL.
-> As the SPL is the natural successor of the BootROM (from which we are
-> loaded), we can actually ignore the CD pin completely, as this is what
-> the BootROM does as well: CD GPIOs are board specific, but the BootROM
-> is not, so accesses the MMC devices anyway.
-
-The card detection logic is useless for an even simpler reason: because
-of our spl_boot_device() implementation, SPL only accesses the MMC
-interface where SPL itself was originally read from. Therefore, it must
-have a card inserted.
-
-> Remove the card detect code from the non-DM implementation of the sunxi
-> MMC driver, to get rid of this unneeded code.
+> As the SPL code for sunxi boards does not use the driver model, we have
+> two mmc_ops structures, one for DM, one for non-DM. The actual hardware
+> access code is shared, with the respective callback functions using that
+> common code.
+> 
+> To make this more obvious and easier to read, reorder the functions to
+> group them: we first have the common code, then the non-DM bits, and
+> the proper DM implementation at the end.
+> Also document this structure in the comment at the beginning of the file.
+> 
+> No functional change intended.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
->  drivers/mmc/sunxi_mmc.c | 37 ++-----------------------------------
->  1 file changed, 2 insertions(+), 35 deletions(-)
-> 
-> diff --git a/drivers/mmc/sunxi_mmc.c b/drivers/mmc/sunxi_mmc.c
-> index 1bb7b6d0e9..b2f7e2d142 100644
-> --- a/drivers/mmc/sunxi_mmc.c
-> +++ b/drivers/mmc/sunxi_mmc.c
-> @@ -44,22 +44,10 @@ struct sunxi_mmc_priv {
->  /* support 4 mmc hosts */
->  struct sunxi_mmc_priv mmc_host[4];
->  
-> -static int sunxi_mmc_getcd_gpio(int sdc_no)
-> -{
-> -	switch (sdc_no) {
-> -	case 0: return sunxi_name_to_gpio(CONFIG_MMC0_CD_PIN);
-> -	case 1: return sunxi_name_to_gpio(CONFIG_MMC1_CD_PIN);
-> -	case 2: return sunxi_name_to_gpio(CONFIG_MMC2_CD_PIN);
-> -	case 3: return sunxi_name_to_gpio(CONFIG_MMC3_CD_PIN);
-> -	}
-> -	return -EINVAL;
-> -}
-> -
->  static int mmc_resource_init(int sdc_no)
->  {
->  	struct sunxi_mmc_priv *priv = &mmc_host[sdc_no];
->  	struct sunxi_ccm_reg *ccm = (struct sunxi_ccm_reg *)SUNXI_CCM_BASE;
-> -	int cd_pin, ret = 0;
->  
->  	debug("init mmc %d resource\n", sdc_no);
->  
-> @@ -90,16 +78,7 @@ static int mmc_resource_init(int sdc_no)
->  	}
->  	priv->mmc_no = sdc_no;
->  
-> -	cd_pin = sunxi_mmc_getcd_gpio(sdc_no);
-> -	if (cd_pin >= 0) {
-> -		ret = gpio_request(cd_pin, "mmc_cd");
-> -		if (!ret) {
-> -			sunxi_gpio_set_pull(cd_pin, SUNXI_GPIO_PULL_UP);
-> -			ret = gpio_direction_input(cd_pin);
-> -		}
-> -	}
-> -
-> -	return ret;
-> +	return 0;
->  }
->  #endif
->  
-> @@ -523,23 +502,11 @@ static int sunxi_mmc_send_cmd_legacy(struct mmc *mmc, struct mmc_cmd *cmd,
->  	return sunxi_mmc_send_cmd_common(priv, mmc, cmd, data);
->  }
->  
-> -static int sunxi_mmc_getcd_legacy(struct mmc *mmc)
-> -{
-> -	struct sunxi_mmc_priv *priv = mmc->priv;
-> -	int cd_pin;
-> -
-> -	cd_pin = sunxi_mmc_getcd_gpio(priv->mmc_no);
-> -	if (cd_pin < 0)
-> -		return 1;
-> -
-> -	return !gpio_get_value(cd_pin);
-> -}
-> -
-> +/* .get_cd is not needed by the SPL */
-
-nit: s/get_cd/getcd/
+>  drivers/mmc/sunxi_mmc.c | 117 +++++++++++++++++++++-------------------
+>  1 file changed, 61 insertions(+), 56 deletions(-)
 
 Reviewed-by: Samuel Holland <samuel@sholland.org>
 Tested-by: Samuel Holland <samuel@sholland.org>
-
->  static const struct mmc_ops sunxi_mmc_ops = {
->  	.send_cmd	= sunxi_mmc_send_cmd_legacy,
->  	.set_ios	= sunxi_mmc_set_ios_legacy,
->  	.init		= sunxi_mmc_core_init,
-> -	.getcd		= sunxi_mmc_getcd_legacy,
->  };
->  
->  struct mmc *sunxi_mmc_init(int sdc_no)
 
