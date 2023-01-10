@@ -1,90 +1,116 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274A98C09
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 Jan 2023 20:25:51 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id ud5so23171249ejc.4
-        for <linux-sunxi@lists.linux.dev>; Mon, 09 Jan 2023 12:25:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TvCiZ+00/tLPSdTZ+JyOQWvRzzq3WpioY6XswRsIjcE=;
-        b=YXrkFoOlhlNPJpKZ6GrvRy5UWIdgGZVNgWyjoBmoFw4UofvGA9VbBeyIYltY+TQhc+
-         soA+g2ISh+T2HZm943jxY0lqELtSqvtz7q4O0Br7XNSs9iXPe47QueaMPk8nV4QAJ4bK
-         ++okFJmHFZnXYFRzjiO2RuT5mvZl9QEXCSn2lQyayUvC7qb3flb+5X4H5Cu9opibIgNr
-         cANgH2NMPATRKd46ERj6y0DIKPp1S4JCkFmTK/oqDN5gTR78RoccBxZCo/koWsIdEEPR
-         Kbo5z+A2uUXusP3/rlbz9fRC3uqE/Zx79yb5jLiBSdnvCBmCYYv1KcPajvuVmwKk1DV2
-         tAxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TvCiZ+00/tLPSdTZ+JyOQWvRzzq3WpioY6XswRsIjcE=;
-        b=dAs4NczlKDq/jmhwR27Wf9+9zcpdkmHlyBFFF8ezKGi3RqiiUV8OjNvreCMLOyi3pR
-         GCZLc3wYegmiLDTnskNAs/jinBpRVtVXDAhwXPaR8kcxg3EgPM84JakaOUACR6xAeV/7
-         YBWTf+hBJ6CLZa9ItPsOb80mzqVdWepxDeBhENZIX10XBa4edmpe1aUVhVDp1eZ9Ljzv
-         MNXB2uHd5hW8C6JL57P+GL0itVPzsF//OBv+RJ9pcEVzh+gnkdw26LtgfcQ+8efjDTlD
-         /QdqpSSu3BlCNCd5ByCFkHT7jc9GeGjBGr9NjCIixusf5yhnsqtzuIzALfImnNhNdxlx
-         Gvuw==
-X-Gm-Message-State: AFqh2kow4eRBeLughibvnySiNcq/4x5Ilby7IwkRlh5FYwBrxJrN737D
-	d41es1k5bPpqTdGsZjhBX4ee/bvZWjNoiBu9
-X-Google-Smtp-Source: AMrXdXvxkgpcumhxzKoBkS6caYeFoU/VpPPpaY87c259wywv5CIfVAnpQ4Ew7Eqa5j8Z0/me5v//Zw==
-X-Received: by 2002:a17:907:a2cd:b0:84d:4e03:1644 with SMTP id re13-20020a170907a2cd00b0084d4e031644mr2800578ejc.68.1673295949042;
-        Mon, 09 Jan 2023 12:25:49 -0800 (PST)
-Received: from localhost.localdomain (mm-32-70-120-178.brest.dynamic.pppoe.byfly.by. [178.120.70.32])
-        by smtp.gmail.com with ESMTPSA id z20-20020a1709067e5400b00809e33ba33dsm4141106ejr.19.2023.01.09.12.25.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jan 2023 12:25:48 -0800 (PST)
-From: Oleg Verych <olecom@gmail.com>
-To: linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
-Cc: Oleg Verych <olecom@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org (open list:ALLWINNER A10 CSI DRIVER),
-	linux-sunxi <linux-sunxi@googlegroups.com>
-Subject: [PATCH] media: sun4i-csi: Use CSI_INT_STA_REG name, fix typo in a comment
-Date: Mon,  9 Jan 2023 23:24:56 +0300
-Message-Id: <20230109202457.3067-1-olecom@gmail.com>
-X-Mailer: git-send-email 2.35.1.windows.2
-In-Reply-To: <20230107083749.2419-1-olecom@gmail.com>
-References: <20230107083749.2419-1-olecom@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F236FCF
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Jan 2023 15:58:18 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 9DCC2100007;
+	Tue, 10 Jan 2023 15:58:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1673366291;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ls2ZHhB4etdhWoWPPLqYUa/37vhJl28tR8qb5hvwZ/s=;
+	b=Fm2cxqae7qTWtMWT0LqewzuhPawG7GgGOlqOXEaY6yzG5ygk09t/nSmIMN3jfeCOUA+Ubt
+	/zddmJrMmKoYhcjsi4azTVvtDH1YviODyTOc0szzDibgkXbgp8b2NOgVIuhh1tUg1Zz0D4
+	8cP3FU3Fi/UoxXvfB/oYdiQKYfnBlEUPVuPbLJNby5H+/l+AhxTdmz+ajjLoEuWMaFXExY
+	xTuV4jurbPXEe8o1k0nt0mS/QKPugy73i2WjyPGA31V0yla1yWL+oh3Z4JXk3fok3rlIJM
+	tMG8GMkr1VIoD2/JcH7XIBKkw8dMqnVCMnt5/IUjISFXg448Se0uPrHen3OnoA==
+Date: Tue, 10 Jan 2023 16:58:06 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+	Rob Herring <robh+dt@kernel.org>,
+	Jisheng Zhang <jszhang@kernel.org>, linux-riscv@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Andre Przywara <andre.przywara@arm.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor@kernel.org>, linux-kernel@vger.kernel.org,
+	Heiko Stuebner <heiko@sntech.de>,
+	Palmer Dabbelt <palmer@rivosinc.com>
+Subject: Re: [PATCH v4 07/12] riscv: dts: allwinner: Add Sipeed Lichee RV
+ devicetrees
+Message-ID: <Y72LDlIOYo/I8dii@aptenodytes>
+References: <20221231233851.24923-1-samuel@sholland.org>
+ <20221231233851.24923-8-samuel@sholland.org>
+ <Y7bW32i3EUmGHqSK@aptenodytes>
+ <05c1ee07-0750-d40e-8498-55ea07b52ab1@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ARnt4yApiZMkzLk7"
+Content-Disposition: inline
+In-Reply-To: <05c1ee07-0750-d40e-8498-55ea07b52ab1@sholland.org>
 
----
- drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
-index a3e826a75..95b5633b7 100644
---- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
-+++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
-@@ -245,7 +245,7 @@ static int sun4i_csi_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	 * We need a scratch buffer in case where we'll not have any
- 	 * more buffer queued so that we don't error out. One of those
- 	 * cases is when you end up at the last frame to capture, you
--	 * don't havea any buffer queued any more, and yet it doesn't
-+	 * don't have any buffer queued any more, and yet it doesn't
- 	 * really matter since you'll never reach the next buffer.
- 	 *
- 	 * Since we support the multi-planar API, we need to have a
-@@ -311,7 +311,7 @@ static int sun4i_csi_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	writel(CSI_BUF_CTRL_DBE, csi->regs + CSI_BUF_CTRL_REG);
- 
- 	/* Clear the pending interrupts */
--	writel(CSI_INT_FRM_DONE, csi->regs + 0x34);
-+	writel(CSI_INT_FRM_DONE, csi->regs + CSI_INT_STA_REG);
- 
- 	/* Enable frame done interrupt */
- 	writel(CSI_INT_FRM_DONE, csi->regs + CSI_INT_EN_REG);
--- 
-2.20.1
+--ARnt4yApiZMkzLk7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi Samuel,
+
+On Sun 08 Jan 23, 12:42, Samuel Holland wrote:
+> Hi Paul,
+>=20
+> On 1/5/23 07:55, Paul Kocialkowski wrote:
+> > Hi Samuel,
+> >=20
+> > On Sat 31 Dec 22, 17:38, Samuel Holland wrote:
+> >> Sipeed manufactures a "Lichee RV" system-on-module, which provides a
+> >> minimal working system on its own, as well as a few carrier boards. The
+> >> "Dock" board provides audio, USB, and WiFi. The "86 Panel" additionally
+> >> provides 100M Ethernet and a built-in display panel.
+> >>
+> >> The 86 Panel repurposes the USB ID and VBUS detection GPIOs for its RGB
+> >> panel interface, since the USB OTG port is inaccessible inside the cas=
+e.
+> >=20
+> > Looks like the panel-enabled variants would better be described as devi=
+ce-tree
+> > overlays as they are not specific devices but are peripheral extensions.
+> >=20
+> > What do you think?
+>=20
+> I don't agree. The Lichee RV 86 Panel is sold as a complete unit, with
+> the SoM+board and LCD pre-assembled inside a case. It is not possible to
+> purchase the board without a panel, so the panel-enabled variants are
+> the only variants.
+
+Oh my bad, I didn't go as far as actually checking what it looks like.
+So yeah if it's an individual device on its own I agree it deserves its
+own dedicated device-tree.
+
+Cheers,
+
+Paul
+
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--ARnt4yApiZMkzLk7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmO9iw0ACgkQ3cLmz3+f
+v9Gixwf/bUuAN5mWXtPd6SPwUdDiuGj3HtcGDNKL8Buq00SJTlZQyMbyz3F3TYcm
+bQ0/KlisJFv5fPbJW8aRI2TqOpFDnGtAGSkQ5JgyeJhiQbYjKBtHjvesPiDMsBxV
+ri99hwxNmZuFw+AswqPtGC4mbau4lnRJFC34lvZL02vlzxHYTapOsbPR1CtWb+Ww
+xL6bPOYB1pRzRHpR5i8fxDcxbW0/l36BwJf1UivHjFtxvYZcjI79Lr/1E33ZAbGg
+VJekuVkb7+v78TVIiN7YBYuZdYEydq62ARy8WP/VnExZLpWXvv6vNMSgfCSIPu9u
+Psc6c5fjpitNLgprsqst0bobNwUoWQ==
+=/4VV
+-----END PGP SIGNATURE-----
+
+--ARnt4yApiZMkzLk7--
