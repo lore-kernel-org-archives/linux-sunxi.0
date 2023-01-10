@@ -1,116 +1,88 @@
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F236FCF
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Jan 2023 15:58:18 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 9DCC2100007;
-	Tue, 10 Jan 2023 15:58:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1673366291;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ls2ZHhB4etdhWoWPPLqYUa/37vhJl28tR8qb5hvwZ/s=;
-	b=Fm2cxqae7qTWtMWT0LqewzuhPawG7GgGOlqOXEaY6yzG5ygk09t/nSmIMN3jfeCOUA+Ubt
-	/zddmJrMmKoYhcjsi4azTVvtDH1YviODyTOc0szzDibgkXbgp8b2NOgVIuhh1tUg1Zz0D4
-	8cP3FU3Fi/UoxXvfB/oYdiQKYfnBlEUPVuPbLJNby5H+/l+AhxTdmz+ajjLoEuWMaFXExY
-	xTuV4jurbPXEe8o1k0nt0mS/QKPugy73i2WjyPGA31V0yla1yWL+oh3Z4JXk3fok3rlIJM
-	tMG8GMkr1VIoD2/JcH7XIBKkw8dMqnVCMnt5/IUjISFXg448Se0uPrHen3OnoA==
-Date: Tue, 10 Jan 2023 16:58:06 +0100
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
-	Rob Herring <robh+dt@kernel.org>,
-	Jisheng Zhang <jszhang@kernel.org>, linux-riscv@lists.infradead.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A5016FCF
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Jan 2023 16:17:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A474DC43396;
+	Tue, 10 Jan 2023 16:17:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1673367449;
+	bh=B1wBKo3cDbweRD7XMkug8uJodBE8kcjQKvZBxTx7Ok8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=hJN56HNsaSeSc4ovjlSJA6QcqyPrLqV5l1jDxV2jatRDTB6Kj6RSRJ+pLDWC3kVnu
+	 Bdh82Xfutc3h6yzmv+da8gn0BEHZWwvePdWHvWz8Xmy+MZA5KDr1m6+O83HO5ZLv1Z
+	 JcW8wWvrAU8yq8MECxEOqtVf3AHfXxnQ7vKsd/LGAG13z86kP7djxbDXyHbqXr3IQR
+	 YBxOFk0V1/HKcvSKK9ksmrcM+pH6bVM+Z2OdQxAlvXIeW/4E0vJOMvtxhRJ8Z/LuyV
+	 FdiYehaFml2GcrPHFF0A9GF0AJxIaJlcYFDt5QyhTNmtEHIpZGqPf7imkuPJ2AFtZQ
+	 PtJVUOtNK889w==
+From: Bjorn Andersson <andersson@kernel.org>
+To: samuel@sholland.org,
+	agx@sigxcpu.org,
+	megous@megous.com,
+	heiko@sntech.de,
+	hdegoede@redhat.com,
+	robh+dt@kernel.org,
+	wens@csie.org,
+	michael.riesch@wolfvision.net,
+	lukma@denx.de,
+	icenowy@aosc.io,
+	kernel@pengutronix.de,
+	david@protonic.nl,
+	shawnguo@kernel.org,
+	foss+kernel@0leil.net,
+	linux-imx@nxp.com,
+	festevam@gmail.com,
+	pgwipeout@gmail.com,
+	jagan@amarulasolutions.com,
+	agross@kernel.org,
+	hadess@hadess.net,
+	dmitry.torokhov@gmail.com,
+	jernej.skrabec@gmail.com,
+	angelogioacchino.delregno@somainline.org,
+	mamlinav@gmail.com,
+	frieder.schrempf@kontron.de,
+	angus@akkea.ca,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	konrad.dybcio@somainline.org,
+	krzysztof.kozlowski+dt@linaro.org
+Cc: linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	Andre Przywara <andre.przywara@arm.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor@kernel.org>, linux-kernel@vger.kernel.org,
-	Heiko Stuebner <heiko@sntech.de>,
-	Palmer Dabbelt <palmer@rivosinc.com>
-Subject: Re: [PATCH v4 07/12] riscv: dts: allwinner: Add Sipeed Lichee RV
- devicetrees
-Message-ID: <Y72LDlIOYo/I8dii@aptenodytes>
-References: <20221231233851.24923-1-samuel@sholland.org>
- <20221231233851.24923-8-samuel@sholland.org>
- <Y7bW32i3EUmGHqSK@aptenodytes>
- <05c1ee07-0750-d40e-8498-55ea07b52ab1@sholland.org>
+	linux-sunxi@lists.linux.dev,
+	quentin.schulz@theobroma-systems.com,
+	linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org
+Subject: Re: (subset) [PATCH v3 0/9] fix reset line polarity for Goodix touchscreen controllers
+Date: Tue, 10 Jan 2023 10:17:20 -0600
+Message-Id: <167336743963.2134489.16668389773212954467.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20221103-upstream-goodix-reset-v3-0-0975809eb183@theobroma-systems.com>
+References: <20221103-upstream-goodix-reset-v3-0-0975809eb183@theobroma-systems.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ARnt4yApiZMkzLk7"
-Content-Disposition: inline
-In-Reply-To: <05c1ee07-0750-d40e-8498-55ea07b52ab1@sholland.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
+On Mon, 5 Dec 2022 14:40:29 +0100, Quentin Schulz wrote:
+> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> 
+> The Goodix touchscreen controller has a reset line active low. It happens to
+> also be used to configure its i2c address at runtime. If the reset line is
+> incorrectly asserted, the address will be wrongly configured. This cost me a few
+> hours, trying to figure out why the touchscreen wouldn't work.
+> 
+> [...]
 
---ARnt4yApiZMkzLk7
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied, thanks!
 
-Hi Samuel,
+[8/9] arm64: dts: qcom: msm8998-fxtec: fix touchscreen reset GPIO polarity
+      commit: 8a0721dae68fdb4534e220fc9faae7a0ef2f3785
 
-On Sun 08 Jan 23, 12:42, Samuel Holland wrote:
-> Hi Paul,
->=20
-> On 1/5/23 07:55, Paul Kocialkowski wrote:
-> > Hi Samuel,
-> >=20
-> > On Sat 31 Dec 22, 17:38, Samuel Holland wrote:
-> >> Sipeed manufactures a "Lichee RV" system-on-module, which provides a
-> >> minimal working system on its own, as well as a few carrier boards. The
-> >> "Dock" board provides audio, USB, and WiFi. The "86 Panel" additionally
-> >> provides 100M Ethernet and a built-in display panel.
-> >>
-> >> The 86 Panel repurposes the USB ID and VBUS detection GPIOs for its RGB
-> >> panel interface, since the USB OTG port is inaccessible inside the cas=
-e.
-> >=20
-> > Looks like the panel-enabled variants would better be described as devi=
-ce-tree
-> > overlays as they are not specific devices but are peripheral extensions.
-> >=20
-> > What do you think?
->=20
-> I don't agree. The Lichee RV 86 Panel is sold as a complete unit, with
-> the SoM+board and LCD pre-assembled inside a case. It is not possible to
-> purchase the board without a panel, so the panel-enabled variants are
-> the only variants.
-
-Oh my bad, I didn't go as far as actually checking what it looks like.
-So yeah if it's an individual device on its own I agree it deserves its
-own dedicated device-tree.
-
-Cheers,
-
-Paul
-
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---ARnt4yApiZMkzLk7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmO9iw0ACgkQ3cLmz3+f
-v9Gixwf/bUuAN5mWXtPd6SPwUdDiuGj3HtcGDNKL8Buq00SJTlZQyMbyz3F3TYcm
-bQ0/KlisJFv5fPbJW8aRI2TqOpFDnGtAGSkQ5JgyeJhiQbYjKBtHjvesPiDMsBxV
-ri99hwxNmZuFw+AswqPtGC4mbau4lnRJFC34lvZL02vlzxHYTapOsbPR1CtWb+Ww
-xL6bPOYB1pRzRHpR5i8fxDcxbW0/l36BwJf1UivHjFtxvYZcjI79Lr/1E33ZAbGg
-VJekuVkb7+v78TVIiN7YBYuZdYEydq62ARy8WP/VnExZLpWXvv6vNMSgfCSIPu9u
-Psc6c5fjpitNLgprsqst0bobNwUoWQ==
-=/4VV
------END PGP SIGNATURE-----
-
---ARnt4yApiZMkzLk7--
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
