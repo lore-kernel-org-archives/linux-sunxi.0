@@ -1,173 +1,237 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C028D17C8
-	for <linux-sunxi@lists.linux.dev>; Wed, 11 Jan 2023 01:54:00 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 68DB813D5;
-	Tue, 10 Jan 2023 17:54:42 -0800 (PST)
-Received: from donnerap.cambridge.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9DEE43F67D;
-	Tue, 10 Jan 2023 17:53:58 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Samuel Holland <samuel@sholland.org>,
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4EC920FF
+	for <linux-sunxi@lists.linux.dev>; Wed, 11 Jan 2023 11:30:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C46B9C433F0;
+	Wed, 11 Jan 2023 11:30:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1673436628;
+	bh=NT+9kgxXbcKs00BnDvnD/WUZhhoZwpAjU6ciWTyu3pU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=sxSjyavqoosrBfWnDYfgp0fXOcYU02X4gbmzX1NurCIj20jpUuPtnZ3z0RRPonBAq
+	 GBmn7bvwZgeKI393bFz7L3CAJ1NACxZZJZtAhSdGaKCzBQad/R+h+Joj07opqkPbhf
+	 ic00URaZmYHNBloFrUB3pkwgzqJgThKSPOs9ejd4=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
 	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Bin Liu <b-liu@ti.com>
-Cc: Icenowy Zheng <uwu@icenowy.me>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	devicetree@vger.kernel.org,
-	soc@kernel.org,
-	linux-usb@vger.kernel.org,
+	Frank Rowand <frowand.list@gmail.com>,
+	Liang He <windhl@126.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Lyude Paul <lyude@redhat.com>,
+	Corentin Labbe <clabbe@baylibre.com>,
+	Zou Wei <zou_wei@huawei.com>,
+	linuxppc-dev@lists.ozlabs.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v5 11/11] ARM: dts: suniv: Add Lctech Pi F1C200s devicetree
-Date: Wed, 11 Jan 2023 01:53:32 +0000
-Message-Id: <20230111015332.172021-12-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230111015332.172021-1-andre.przywara@arm.com>
-References: <20230111015332.172021-1-andre.przywara@arm.com>
+	linux-sunxi@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v2 01/16] of: device: make of_device_uevent_modalias() take a const device *
+Date: Wed, 11 Jan 2023 12:30:03 +0100
+Message-Id: <20230111113018.459199-2-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230111113018.459199-1-gregkh@linuxfoundation.org>
+References: <20230111113018.459199-1-gregkh@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6990; i=gregkh@linuxfoundation.org; h=from:subject; bh=NT+9kgxXbcKs00BnDvnD/WUZhhoZwpAjU6ciWTyu3pU=; b=owGbwMvMwCRo6H6F97bub03G02pJDMn75h6f8XZ5Dz+vkPnp+e0LZPNmVd7QN4paeLrFdENO7CIz kY6IjlgWBkEmBlkxRZYv23iO7q84pOhlaHsaZg4rE8gQBi5OAZhIVSzDPF0f/icnJ1hm3l52cqfDvR Mpq9Y4/WeYp3D+0QHd+CuVUyWNX7yY/Sv+0M36UAA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
 
-The Lctech Pi F1C200s (also previously known under the Cherry Pi brand)
-is a small development board with the Allwinner F1C200s SoC. This is the
-same as the F1C100s, but with 64MB instead of 32MB co-packaged DRAM.
+of_device_uevent_modalias() does not modify the device pointer passed to
+it, so mark it constant.  In order to properly do this, a number of
+busses need to have a modalias function added as they were attempting to
+just point to of_device_uevent_modalias instead of their bus-specific
+modalias function.  This is fine except if the prototype for a bus and
+device type modalias function diverges and then problems could happen.  To
+prevent all of that, just wrap the call to of_device_uevent_modalias()
+directly for each bus and device type individually.
 
-Alongside the obligatory micro-SD card slot, the board features a
-SPI-NAND flash chip, LCD and touch connectors, and unpopulated
-expansion header pins.
-There are two USB Type-C ports on the board: One supplies the power, also
-connects to the USB MUSB OTG controller port. The other one is connected
-to an CH340 USB serial chip, which in turn is connected to UART1.
-
-Add a devicetree file, so that the board can be used easily.
-
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Frank Rowand <frowand.list@gmail.com>
+Cc: Liang He <windhl@126.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Corentin Labbe <clabbe@baylibre.com>
+Cc: Zou Wei <zou_wei@huawei.com>
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-sunxi@lists.linux.dev
+Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- arch/arm/boot/dts/Makefile                    |  1 +
- arch/arm/boot/dts/suniv-f1c100s.dtsi          |  6 ++
- arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts | 76 +++++++++++++++++++
- 3 files changed, 83 insertions(+)
- create mode 100644 arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts
+ arch/powerpc/platforms/pseries/ibmebus.c | 7 ++++++-
+ drivers/bus/sunxi-rsb.c                  | 7 ++++++-
+ drivers/gpu/drm/display/drm_dp_aux_bus.c | 7 ++++++-
+ drivers/macintosh/macio_asic.c           | 7 ++++++-
+ drivers/of/device.c                      | 4 ++--
+ include/linux/of_device.h                | 4 ++--
+ 6 files changed, 28 insertions(+), 8 deletions(-)
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index b100053182d35..5973ecf699707 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1400,6 +1400,7 @@ dtb-$(CONFIG_MACH_SUN9I) += \
- 	sun9i-a80-cubieboard4.dtb
- dtb-$(CONFIG_MACH_SUNIV) += \
- 	suniv-f1c100s-licheepi-nano.dtb \
-+	suniv-f1c200s-lctech-pi.dtb \
- 	suniv-f1c200s-popstick-v1.1.dtb
- dtb-$(CONFIG_ARCH_TEGRA_2x_SOC) += \
- 	tegra20-acer-a500-picasso.dtb \
-diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-index 111f8bbc2a805..3c61d59ab5f86 100644
---- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
-+++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-@@ -207,6 +207,12 @@ uart0_pe_pins: uart0-pe-pins {
- 				pins = "PE0", "PE1";
- 				function = "uart0";
- 			};
-+
-+			/omit-if-no-ref/
-+			uart1_pa_pins: uart1-pa-pins {
-+				pins = "PA2", "PA3";
-+				function = "uart1";
-+			};
- 		};
+diff --git a/arch/powerpc/platforms/pseries/ibmebus.c b/arch/powerpc/platforms/pseries/ibmebus.c
+index a870cada7acd..58b798a0e879 100644
+--- a/arch/powerpc/platforms/pseries/ibmebus.c
++++ b/arch/powerpc/platforms/pseries/ibmebus.c
+@@ -426,9 +426,14 @@ static struct attribute *ibmebus_bus_device_attrs[] = {
+ };
+ ATTRIBUTE_GROUPS(ibmebus_bus_device);
  
- 		i2c0: i2c@1c27000 {
-diff --git a/arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts b/arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts
-new file mode 100644
-index 0000000000000..2d2a3f026df33
---- /dev/null
-+++ b/arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts
-@@ -0,0 +1,76 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright 2022 Arm Ltd,
-+ * based on work:
-+ *   Copyright 2022 Icenowy Zheng <uwu@icenowy.me>
-+ */
++static int ibmebus_bus_modalias(struct device *dev, struct kobj_uevent_env *env)
++{
++	return of_device_uevent_modalias(dev, env);
++}
 +
-+/dts-v1/;
-+#include "suniv-f1c100s.dtsi"
+ struct bus_type ibmebus_bus_type = {
+ 	.name      = "ibmebus",
+-	.uevent    = of_device_uevent_modalias,
++	.uevent    = ibmebus_bus_modalias,
+ 	.bus_groups = ibmbus_bus_groups,
+ 	.match     = ibmebus_bus_bus_match,
+ 	.probe     = ibmebus_bus_device_probe,
+diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
+index 3aa91aed3bf7..a180af11e034 100644
+--- a/drivers/bus/sunxi-rsb.c
++++ b/drivers/bus/sunxi-rsb.c
+@@ -172,12 +172,17 @@ static void sunxi_rsb_device_remove(struct device *dev)
+ 	drv->remove(to_sunxi_rsb_device(dev));
+ }
+ 
++static int sunxi_rsb_device_modalias(struct device *dev, struct kobj_uevent_env *env)
++{
++	return of_device_uevent_modalias(dev, env);
++}
 +
-+#include <dt-bindings/gpio/gpio.h>
+ static struct bus_type sunxi_rsb_bus = {
+ 	.name		= RSB_CTRL_NAME,
+ 	.match		= sunxi_rsb_device_match,
+ 	.probe		= sunxi_rsb_device_probe,
+ 	.remove		= sunxi_rsb_device_remove,
+-	.uevent		= of_device_uevent_modalias,
++	.uevent		= sunxi_rsb_device_modalias,
+ };
+ 
+ static void sunxi_rsb_dev_release(struct device *dev)
+diff --git a/drivers/gpu/drm/display/drm_dp_aux_bus.c b/drivers/gpu/drm/display/drm_dp_aux_bus.c
+index f5741b45ca07..e31a0261c53e 100644
+--- a/drivers/gpu/drm/display/drm_dp_aux_bus.c
++++ b/drivers/gpu/drm/display/drm_dp_aux_bus.c
+@@ -161,9 +161,14 @@ static void dp_aux_ep_dev_release(struct device *dev)
+ 	kfree(aux_ep_with_data);
+ }
+ 
++static int dp_aux_ep_dev_modalias(struct device *dev, struct kobj_uevent_env *env)
++{
++	return of_device_uevent_modalias(dev, env);
++}
 +
-+/ {
-+	model = "Lctech Pi F1C200s";
-+	compatible = "lctech,pi-f1c200s", "allwinner,suniv-f1c200s",
-+		     "allwinner,suniv-f1c100s";
+ static struct device_type dp_aux_device_type_type = {
+ 	.groups		= dp_aux_ep_dev_groups,
+-	.uevent		= of_device_uevent_modalias,
++	.uevent		= dp_aux_ep_dev_modalias,
+ 	.release	= dp_aux_ep_dev_release,
+ };
+ 
+diff --git a/drivers/macintosh/macio_asic.c b/drivers/macintosh/macio_asic.c
+index 3bc1f374e657..7f2b0107c733 100644
+--- a/drivers/macintosh/macio_asic.c
++++ b/drivers/macintosh/macio_asic.c
+@@ -128,12 +128,17 @@ static int macio_device_resume(struct device * dev)
+ 	return 0;
+ }
+ 
++static int macio_device_modalias(struct device *dev, struct kobj_uevent_env *env)
++{
++	return of_device_uevent_modalias(dev, env);
++}
 +
-+	aliases {
-+		serial0 = &uart1;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	reg_vcc3v3: regulator-3v3 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+	};
-+};
-+
-+&mmc0 {
-+	broken-cd;
-+	bus-width = <4>;
-+	disable-wp;
-+	vmmc-supply = <&reg_vcc3v3>;
-+	status = "okay";
-+};
-+
-+&otg_sram {
-+	status = "okay";
-+};
-+
-+&spi0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&spi0_pc_pins>;
-+	status = "okay";
-+
-+	flash@0 {
-+		compatible = "spi-nand";
-+		reg = <0>;
-+		spi-max-frequency = <40000000>;
-+	};
-+};
-+
-+&uart1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart1_pa_pins>;
-+	status = "okay";
-+};
-+
-+/*
-+ * This is a Type-C socket, but CC1/2 are not connected, and VBUS is connected
-+ * to Vin, which supplies the board. Host mode works (if the board is powered
-+ * otherwise), but peripheral is probably the intention.
-+ */
-+&usb_otg {
-+	dr_mode = "peripheral";
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	status = "okay";
-+};
+ extern const struct attribute_group *macio_dev_groups[];
+ 
+ struct bus_type macio_bus_type = {
+        .name	= "macio",
+        .match	= macio_bus_match,
+-       .uevent = of_device_uevent_modalias,
++       .uevent	= macio_device_modalias,
+        .probe	= macio_device_probe,
+        .remove	= macio_device_remove,
+        .shutdown = macio_device_shutdown,
+diff --git a/drivers/of/device.c b/drivers/of/device.c
+index c674a13c3055..dda51b7ce597 100644
+--- a/drivers/of/device.c
++++ b/drivers/of/device.c
+@@ -248,7 +248,7 @@ const void *of_device_get_match_data(const struct device *dev)
+ }
+ EXPORT_SYMBOL(of_device_get_match_data);
+ 
+-static ssize_t of_device_get_modalias(struct device *dev, char *str, ssize_t len)
++static ssize_t of_device_get_modalias(const struct device *dev, char *str, ssize_t len)
+ {
+ 	const char *compat;
+ 	char *c;
+@@ -372,7 +372,7 @@ void of_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ 	mutex_unlock(&of_mutex);
+ }
+ 
+-int of_device_uevent_modalias(struct device *dev, struct kobj_uevent_env *env)
++int of_device_uevent_modalias(const struct device *dev, struct kobj_uevent_env *env)
+ {
+ 	int sl;
+ 
+diff --git a/include/linux/of_device.h b/include/linux/of_device.h
+index ab7d557d541d..f4b57614979d 100644
+--- a/include/linux/of_device.h
++++ b/include/linux/of_device.h
+@@ -36,7 +36,7 @@ extern ssize_t of_device_modalias(struct device *dev, char *str, ssize_t len);
+ extern int of_device_request_module(struct device *dev);
+ 
+ extern void of_device_uevent(const struct device *dev, struct kobj_uevent_env *env);
+-extern int of_device_uevent_modalias(struct device *dev, struct kobj_uevent_env *env);
++extern int of_device_uevent_modalias(const struct device *dev, struct kobj_uevent_env *env);
+ 
+ static inline struct device_node *of_cpu_device_node_get(int cpu)
+ {
+@@ -83,7 +83,7 @@ static inline int of_device_request_module(struct device *dev)
+ 	return -ENODEV;
+ }
+ 
+-static inline int of_device_uevent_modalias(struct device *dev,
++static inline int of_device_uevent_modalias(const struct device *dev,
+ 				   struct kobj_uevent_env *env)
+ {
+ 	return -ENODEV;
 -- 
-2.25.1
+2.39.0
 
