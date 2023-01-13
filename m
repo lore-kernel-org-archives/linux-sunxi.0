@@ -1,69 +1,83 @@
-Received: from formenos.hmeau.com (helcar.hmeau.com [216.24.177.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 381FA628
-	for <linux-sunxi@lists.linux.dev>; Fri, 13 Jan 2023 04:08:21 +0000 (UTC)
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
-	id 1pGB6E-00H55C-R8; Fri, 13 Jan 2023 11:51:27 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 13 Jan 2023 11:51:26 +0800
-Date: Fri, 13 Jan 2023 11:51:26 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Corentin Labbe <clabbe.montjoie@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 1/3] dt-bindings: crypto: sun8i-ce: Add compatible for
- D1
-Message-ID: <Y8DVPvnfShdhlVHh@gondor.apana.org.au>
-References: <20221231220146.646-1-samuel@sholland.org>
- <20221231220146.646-2-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504C0640
+	for <linux-sunxi@lists.linux.dev>; Fri, 13 Jan 2023 05:08:12 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id vm8so49703582ejc.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 12 Jan 2023 21:08:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wtw4WHGu+OATpWcU0u4H+R8E0E8xhz+D1fXiT2aRITI=;
+        b=dMQBkDVowPjcnzuTiFHOBWCdCct36UMtona+WrSRnGFGrA1UjMiZnmb4LXbxIskScC
+         k7ehagq9WRleuolKvqfIrm2N0FLPuUeaqmil0cE3RV01+Si74LUV3OC4Sbx2xUW4E3NI
+         1OWO2m2ZhnH9yz885DRuAZJH+gHW506l1PXNVxwA2sr7QJUz04Viis+tpIphUzqmNFzA
+         zq5MT+Cg1tv97F38aQv+ZSULw576vUtxEbzVq1/lZ/EJP4Mj06Gia+fncyYB6zOkBvHZ
+         xpgUhENRnLaUq6QsN+jNdLKSn55TWkSpjHkfemUs3RLm6vxkfAlDtSwS+Tf30pLF3RT8
+         CXqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wtw4WHGu+OATpWcU0u4H+R8E0E8xhz+D1fXiT2aRITI=;
+        b=V/+uxGgmWJ5/THMRmK0CYvKhXTwURlra4T9lp+cB3ag7OjDuGHTWmjmJMuQRmOGXhl
+         1jcRmQEX8N/IIcrpkHkVBAexgmSYdRW0KseSs0VGVJnYq+6I8ECiJ/9ejjOo2ESUME9L
+         GPaOq3hYdhpIMtU8UlAXqU41StfFnrCT2Kilj5MDcS5DQyQEdewNGb657mtJNinK3ctt
+         u3cUTUjZgoQPpgLTjt1VQKJshdE1QMrjY1vj7X8z4H+7meDFX/G7knG0oGImwJfGoRvU
+         D2MZD4eMoPk/elgr4epOtweaOAWs+bDzUO1D71v79llpCNi+rFUw4dUq6DF0DVwpiKc2
+         TnHQ==
+X-Gm-Message-State: AFqh2krw+psj25mPByHTLFrTJqbiYzUwV+8z53xqppFCUqIN65nOmdmq
+	VGkUYsbm50EgwJ+4uCqhr/g=
+X-Google-Smtp-Source: AMrXdXteEP5DXH8667AQDCEZztPHXS5s+cR8cR1LVXg6WWAFS+f9RCRnqMToHs/+vv/OKYDslxBaEg==
+X-Received: by 2002:a17:907:62a9:b0:85d:dd20:60a2 with SMTP id nd41-20020a17090762a900b0085ddd2060a2mr13187213ejc.7.1673586490507;
+        Thu, 12 Jan 2023 21:08:10 -0800 (PST)
+Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id b1-20020a1709063ca100b007af0f0d2249sm8146059ejh.52.2023.01.12.21.08.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Jan 2023 21:08:10 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Andre Przywara <andre.przywara@arm.com>, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ Samuel Holland <samuel@sholland.org>, Andrew Lunn <andrew@lunn.ch>,
+ Heiko Stuebner <heiko@sntech.de>, Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v5 2/4] regulator: sun20i: Add Allwinner D1 LDOs driver
+Date: Fri, 13 Jan 2023 06:08:08 +0100
+Message-ID: <5906718.lOV4Wx5bFT@jernej-laptop>
+In-Reply-To: <20221208084127.17443-3-samuel@sholland.org>
+References:
+ <20221208084127.17443-1-samuel@sholland.org>
+ <20221208084127.17443-3-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221231220146.646-2-samuel@sholland.org>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Dec 31, 2022 at 04:01:43PM -0600, Samuel Holland wrote:
-> D1 has a crypto engine similar to the one in other Allwinner SoCs.
-> Like H6, it has a separate MBUS clock gate.
-> 
-> It also requires the internal RC oscillator to be enabled for the TRNG
-> to return data, presumably because noise from the oscillator is used as
-> an entropy source. This is likely the case for earlier variants as well,
-> but it really only matters for H616 and newer SoCs, as H6 provides no
-> way to disable the internal oscillator.
-> 
+Dne =C4=8Detrtek, 08. december 2022 ob 09:41:25 CET je Samuel Holland napis=
+al(a):
+> D1 contains two pairs of LDOs, "analog" LDOs and "system" LDOs. They are
+> similar and can share a driver, but only the system LDOs have a DT
+> binding defined so far.
+>=20
+> The system LDOs have a single linear range. The voltage step is not an
+> integer, so a custom .list_voltage is needed to get the rounding right.
+>=20
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
-> I noticed that the vendor driver has code to explicitly enable IOSC when
-> using the TRNG on A83T (search SS_TRNG_OSC_ADDR), but that is covered by
-> a different binding/driver in mainline.
-> 
-> Changes in v2:
->  - Add TRNG clock
-> 
->  .../bindings/crypto/allwinner,sun8i-ce.yaml   | 33 ++++++++++++++-----
->  1 file changed, 25 insertions(+), 8 deletions(-)
 
-This doesn't have an ack from Rob Herring.  Would you like me
-to apply just the crypto patch by itself?
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Thanks,
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Best regards,
+Jernej
+
+
