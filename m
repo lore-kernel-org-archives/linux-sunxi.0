@@ -1,59 +1,58 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293507C;
-	Sat, 14 Jan 2023 17:17:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CF7BA41
+	for <linux-sunxi@lists.linux.dev>; Sat, 14 Jan 2023 20:24:43 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.west.internal (Postfix) with ESMTP id 295BC32005BC;
-	Sat, 14 Jan 2023 12:17:08 -0500 (EST)
+	by mailout.nyi.internal (Postfix) with ESMTP id 3C6B75C0084;
+	Sat, 14 Jan 2023 15:24:42 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Sat, 14 Jan 2023 12:17:09 -0500
+  by compute6.internal (MEProxy); Sat, 14 Jan 2023 15:24:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1673716627; x=
-	1673803027; bh=dmv4ZW2RwPvwVF0AI49ZY16g/43x6QFqBEzDKnk951c=; b=X
-	YFU2mVOdpocGPguQe811pw7iJ+MLOCRxXsLtYdfa5bSnS1TTPIFF2OOdvPUx5tZV
-	s69uPNHu/EFMVCnI1dkjXfGlvgOav6Ke46RQ6f1DYRPktB5SFdnTV4leLJnFWgMI
-	mSXQCHkvuPY/HV2BiG8qJ3dOP2VjydqK5NpIDDfI6NH57iXwrbdhXj6Q2j/u11+f
-	W+n+vJHwJsc6UhdCpkRe1O3nnb4O4bkKiO6/x+/rPPwesX5FTg43b/xkl4EP4yEV
-	LUM6ly86fxp7mIoKb31l9/tR2W0MPqXWApFImW9wtL0M3/jN874d4/WWnYejO39y
-	7gPf5HAQVz4NDtDCwiR2A==
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1673727882; x=
+	1673814282; bh=lQp6wvjnDSWgDgWBU9sCba6kbbbR46vdb3st2nVIvl8=; b=F
+	8+1fQ5LwyyBh2ATWkSV1/LmWLG/i4e6uiaK/RNsfotVELdD9oQuh+BH2ABe7TjpA
+	QtvcpISoNvPUz+MdbvQWNEyB9D0JZ77y68PSRIwghdz23AZ/vMlgnMntl3CpD1qE
+	Zktr4jslW0prCf5pk2ZpW3/mjso9mDcw+pV23KrDUvvWHVZl9gWjGKGok0k/K46G
+	25t6Gd2wkkQvm/7D+221snEMFDOQiEg6mgd6lJoVm3Hc69Vs/ldQyxZDt0ZNIg4X
+	SFPwTIr3IniPpuxtsEMQzweqGWWVO3rchItdfALK0N8RGurog3Ch1mfjSfBbIfdb
+	4Bru6IHEjmSF8oNL8uyUA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673716627; x=
-	1673803027; bh=dmv4ZW2RwPvwVF0AI49ZY16g/43x6QFqBEzDKnk951c=; b=C
-	Vw+BLjwDPfydH4Vf7Ga++V/AkGeEIWU27X07vuIroUYe4+sE7xSlJyEl5dbLYHkL
-	ENB32gs2VpjVQCTujETQJAKIJjJSlCkbPUFNWCHns7CvRfCxWc0nVmzzSeytRmxd
-	VyyjBgjSKrLITMfstW4EdVuHEePtlzVYKThfUldXHaNwDsHLudJV87M2ZPGzaWiG
-	zfCq/LKQ9VwtQ6AC1vw+8BODsfaflSYJLjZyT3u/HCdW0yXxZBcR6uj5if52u9yM
-	cujq0kCz6Gx1Ln8WKrVXKewk5jzFnEEhc+0dN277dtg6sa0UyHHe2iCbivtjw1JV
-	YRplmSpZfee2ijfUnfK8A==
-X-ME-Sender: <xms:kuPCYwEntTza7b5Hg7ZqzJGaVzvGQ13yujXUDLA2mWg5gOeLFT11EA>
-    <xme:kuPCY5WdDrX-A46fWH8cuTpuhbpSOZwwqDIcJPWqpB5egNK2vIo1XfFsW-iFYqzXf
-    u09dAC4UKUUbgCVeA>
-X-ME-Received: <xmr:kuPCY6JOiav7X-A64h6dJa8zZWi-cRZoidaLH-wU_rVXDAvwc2qUsrgmSO6vmDm7dLE-uGSeu_vLozBqEvvS3UZNQkQyxnRm45nPBLPa_UGMhqadvMipcIAdzQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddttddgleekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepkfffgggfvfevfhfhufgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpeehtedtfeegueduledvffeljeehjeeuleduudeivdekffegteeu
-    vedvledvteefjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhl
-    rghnugdrohhrgh
-X-ME-Proxy: <xmx:kuPCYyFzV6Q9sO7d8ygrs4K51tZIVcIGA9eSpyR-9DTT7BrsJDS76w>
-    <xmx:kuPCY2VvW4eT-sYf0V4PnAdBoAPY8jGla9gWo_12873x73Bi_mJFyg>
-    <xmx:kuPCY1PIBZBm0XOUEaJWeZZxMtUFUQxAQuH6ugY-H60cJ2_AZjDNgA>
-    <xmx:k-PCY9OVOsEUuHvY9xjDc1MgvMMNko7upbISd6klGiyZSScTr0NBNw>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673727882; x=
+	1673814282; bh=lQp6wvjnDSWgDgWBU9sCba6kbbbR46vdb3st2nVIvl8=; b=n
+	gNEWbfWyDZNAHjWJXK9xO6LmX8G1uUPnmJHPi0RHMGTDFaKnwUbfsI0y/3uJUYoy
+	WIU8QRwsx56AOs8TGjqQEtk10zLjjFmYiw0UJYKrcYa/7dlOS/KhTYGn5HQUseVc
+	Bw2jptYU7BHEZK0O6IPFeYQx3lkinRoT4D8A/+1qepDxr32SJkE1crdvjIBRXfft
+	LFP1bHiidGmdk7mEoh7JzKCLIIjOiHAHWc88xv/wl7XWAIVMjZQ2uMBTaU+//3XK
+	ichNWNSgc7d4O8A9YMjtsyUwc3sVzeHEnyqZrsn68DgGJMPsPMlqioole7CKzrsE
+	EyG4VXzMzeIn44bPsuUfQ==
+X-ME-Sender: <xms:iQ_DY3miCKFslLzjZMszWy_tA7XiXtJpBahsxJmWfczwPxO3xWdJEw>
+    <xme:iQ_DY63_J1DLUblsg01m5dcMK3xAi_laB2w-RyaQGXh97hL5P8QMk_tI8L2fwey7l
+    jPJ9f3qdz-USTbPRg>
+X-ME-Received: <xmr:iQ_DY9qimcGzp3wtIMF0ULwCELebwKZLbKqGoNwIbQle66J_Nt5dKZTkUUcnEVYxsROLitlArjdOAYXc4QIyd63ixLMaUreRR9MQZrrGyENAEn6a9-9rmlr1OA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddttddgudefjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefkffggfgfvvehfhffujggtgfesthejredttdefjeenucfhrhhomhepufgr
+    mhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqne
+    cuggftrfgrthhtvghrnhepjefgfffhudejfedtuedugeeutdetgfeiteffffehjeeugfeu
+    vdehjeetfedtffdtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:iQ_DY_melegBkg6EMBVtLp2FAx8Y_fNyjPIMhrFHyAv-hPONsVX9Jg>
+    <xmx:iQ_DY10qWCzpm7msPBhMKNJazHpN7mAGbyO9RhzH-HkISCkKleZ2WQ>
+    <xmx:iQ_DY-szPEwjRXzEvkj_wRxJhGlCN69s8xy0BkTTsfrRs-7Up2N_VA>
+    <xmx:ig_DYynP9FZekKWcR2qIH_3_cGV5NIJgTNBq2QpGOpT2s512k0yWzg>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 14 Jan 2023 12:17:06 -0500 (EST)
-Message-ID: <9a36551c-225c-137c-9376-ad7306c7f3d0@sholland.org>
-Date: Sat, 14 Jan 2023 11:17:06 -0600
+ 14 Jan 2023 15:24:41 -0500 (EST)
+Message-ID: <4278c3b3-03b0-4b08-b37e-ef70f7453d49@sholland.org>
+Date: Sat, 14 Jan 2023 14:24:42 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -63,40 +62,48 @@ MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
 Content-Language: en-US
-To: Joerg Roedel <joro@8bytes.org>
-Cc: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, iommu@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>
-References: <20230103010903.11181-1-samuel@sholland.org>
- <20230103010903.11181-7-samuel@sholland.org> <Y8F6NxYpJELbvogC@8bytes.org>
+To: Andre Przywara <andre.przywara@arm.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Icenowy Zheng <uwu@icenowy.me>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20221110005507.19464-1-andre.przywara@arm.com>
 From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH v2 6/6] riscv: dts: allwinner: d1: Add the IOMMU node
-In-Reply-To: <Y8F6NxYpJELbvogC@8bytes.org>
+Subject: Re: [PATCH] ARM: dts: sunxi: H3/H5: Add phys property to USB HCI0
+In-Reply-To: <20221110005507.19464-1-andre.przywara@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Joerg,
-
-On 1/13/23 09:35, Joerg Roedel wrote:
-> On Mon, Jan 02, 2023 at 07:09:03PM -0600, Samuel Holland wrote:
->>  arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 10 ++++++++++
+On 11/9/22 18:55, Andre Przywara wrote:
+> As many other Allwinner SoCs from the last years, the first USB host
+> controller pair in the Allwinner H3 and H5 chips share a USB PHY with
+> the MUSB OTG controller. This is probably the reason why we didn't have
+> a "phys" property in those host controller nodes.
+> This works fine as long as the MUSB controller driver is loaded, as this
+> takes care of the proper PHY setup, including the muxing between MUSB
+> and the HCI.
 > 
-> This file does not exist in v6.2-rc3, what tree ist this patch-set based
-> on?
+> However this requires the MUSB driver to be enabled and loaded, and also
+> upsets U-Boot, which cannot use a HCI port without a "phys" property.
+> 
+> Similar to what we did in commit cc72570747e4 ("arm64: dts: allwinner:
+> A64: properly connect USB PHY to port 0"), add the "phys" property to
+> the OHCI0 and EHCI0 DT nodes in the shared H3/H5 .dtsi file.
+> 
+> This is not only the proper description of the hardware, but also avoids
+> a nasty error message in U-Boot triggered by a recent patch. (The port
+> never worked in host mode, but the error was suppressed due to a bug.)
+> 
+> When using the MUSB port in OTG mode, this also fixes host mode
+> switching, so people can use OTG adapters to connect a USB device to
+> port 0.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  arch/arm/boot/dts/sunxi-h3-h5.dtsi | 4 ++++
+>  1 file changed, 4 insertions(+)
 
-The D1/D1s/T113 devicetree is added by this series[1], which will be
-merged through the sunxi -> soc tree. That patch is included to show how
-the new compatible string is used, and that the driver changes have been
-tested. You can ignore it when merging the binding/driver changes. The
-rest of the series should apply cleanly to v6.2-rc3.
-
-Regards,
-Samuel
-
-[1]:
-https://lore.kernel.org/linux-sunxi/20221231233851.24923-1-samuel@sholland.org/
+Reviewed-by: Samuel Holland <samuel@sholland.org>
+Tested-by: Samuel Holland <samuel@sholland.org>
 
