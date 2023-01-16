@@ -1,42 +1,42 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C942F2A
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 13:12:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC3A1FC5
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 13:12:52 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 108BF37517;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D486F3751A;
 	Mon, 16 Jan 2023 13:12:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1673874763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CHJduNjTlBdtfxl8JrayP6NLHP0T+8ZzSLanopuII3s=;
-	b=cTP0/Amq7eept+EgzV+NHtfmjOf92B9XzudnFU/YSuugqMCvmwMkXsRbr6qp7KLnqxXQNB
-	MvopcVNU5LyUbuBdiVC6KCzhmkXbL4yLAvQKFNQLzlEIdNZx+NrcMbsyFMdPEMuUdIRIxb
-	+QCZwiZ89nMyuIe+MQrmacQu0N7DFOs=
+	bh=OO536y1oIIavqxJbggquU+Ve/xMHXk1PsPJeSriBnEc=;
+	b=Udkbksja4U2SmueaT/CBQsB1+CnfK2yVlqG1l9ZE5v78J3trCBUlXz2roVXvwoK8JV+j/5
+	RJBpTXJMbF1eF1IVQTt5IsaogDnmOtmBRNYkOH3qPIyZY2v7XlyXWADk1UpBB17xSI4khU
+	CZJDLkGyF0XQJr3XVOuEWpBhmMoHRt4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1673874763;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CHJduNjTlBdtfxl8JrayP6NLHP0T+8ZzSLanopuII3s=;
-	b=HKTNeajy+YLfmf8rC2RHhY13CZrsNsl8trSX5oZ5oiq8I2qrnlASkppmuZJecr4oNc8QCU
-	IE7z7+mqVPua4BCg==
+	bh=OO536y1oIIavqxJbggquU+Ve/xMHXk1PsPJeSriBnEc=;
+	b=9MzN2mh+4Y19EA2xQcARcGH/wwJ5CLbTFhxyzTEtdsZAzOAJxfT4YnHxkMNDoB0Q8nvGy/
+	kHh7OuLMzJlFZ8AQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C0A05139C3;
-	Mon, 16 Jan 2023 13:12:42 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 94FAB138FA;
+	Mon, 16 Jan 2023 13:12:43 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id yOcwLkpNxWNrNQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 16 Jan 2023 13:12:42 +0000
+	id WB17I0tNxWNrNQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 16 Jan 2023 13:12:43 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: sam@ravnborg.org,
 	daniel@ffwll.ch,
@@ -51,9 +51,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 19/22] drm/tidss: Remove unnecessary include statements for drm_crtc_helper.h
-Date: Mon, 16 Jan 2023 14:12:32 +0100
-Message-Id: <20230116131235.18917-20-tzimmermann@suse.de>
+Subject: [PATCH 22/22] drm/crtc-helper: Remove most include statements from drm_crtc_helper.h
+Date: Mon, 16 Jan 2023 14:12:35 +0100
+Message-Id: <20230116131235.18917-23-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230116131235.18917-1-tzimmermann@suse.de>
 References: <20230116131235.18917-1-tzimmermann@suse.de>
@@ -65,83 +65,43 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Several source files include drm_crtc_helper.h without needing it or
-only to get its transitive include statements; leading to unnecessary
-compile-time dependencies.
+Remove most include statements from crm_crtc_helper.h and forward-
+declare the contained types in drm_crtc_helper.h. Only keep <linux/types.h>
+for the definition of 'bool'.
 
-Directly include required headers and drop drm_crtc_helper.h where
-possible.
-
+Suggested-by: Sam Ravnborg <sam@ravnborg.org>
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tidss/tidss_crtc.c    | 1 -
- drivers/gpu/drm/tidss/tidss_drv.c     | 1 -
- drivers/gpu/drm/tidss/tidss_encoder.c | 2 +-
- drivers/gpu/drm/tidss/tidss_kms.c     | 1 -
- drivers/gpu/drm/tidss/tidss_plane.c   | 1 -
- 5 files changed, 1 insertion(+), 5 deletions(-)
+ include/drm/drm_crtc_helper.h | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
-index cd3c43a6c806..5e5e466f35d1 100644
---- a/drivers/gpu/drm/tidss/tidss_crtc.c
-+++ b/drivers/gpu/drm/tidss/tidss_crtc.c
-@@ -7,7 +7,6 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc.h>
--#include <drm/drm_crtc_helper.h>
- #include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_vblank.h>
+diff --git a/include/drm/drm_crtc_helper.h b/include/drm/drm_crtc_helper.h
+index 072bc4f90349..8c886fc46ef2 100644
+--- a/include/drm/drm_crtc_helper.h
++++ b/include/drm/drm_crtc_helper.h
+@@ -33,13 +33,17 @@
+ #ifndef __DRM_CRTC_HELPER_H__
+ #define __DRM_CRTC_HELPER_H__
  
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-index 07d94b1e8089..2dac8727d2f4 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.c
-+++ b/drivers/gpu/drm/tidss/tidss_drv.c
-@@ -12,7 +12,6 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc.h>
--#include <drm/drm_crtc_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fbdev_generic.h>
- #include <drm/drm_gem_dma_helper.h>
-diff --git a/drivers/gpu/drm/tidss/tidss_encoder.c b/drivers/gpu/drm/tidss/tidss_encoder.c
-index e278a9c89476..0d4865e9c03d 100644
---- a/drivers/gpu/drm/tidss/tidss_encoder.c
-+++ b/drivers/gpu/drm/tidss/tidss_encoder.c
-@@ -7,7 +7,7 @@
- #include <linux/export.h>
+-#include <linux/spinlock.h>
+ #include <linux/types.h>
+-#include <linux/idr.h>
  
- #include <drm/drm_crtc.h>
--#include <drm/drm_crtc_helper.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_of.h>
+-#include <drm/drm_crtc.h>
+-#include <drm/drm_modeset_helper_vtables.h>
+-#include <drm/drm_modeset_helper.h>
++struct drm_atomic_state;
++struct drm_connector;
++struct drm_crtc;
++struct drm_device;
++struct drm_display_mode;
++struct drm_encoder;
++struct drm_framebuffer;
++struct drm_mode_set;
++struct drm_modeset_acquire_ctx;
  
-diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-index 345bcc3011e4..ad2fa3c3d4a7 100644
---- a/drivers/gpu/drm/tidss/tidss_kms.c
-+++ b/drivers/gpu/drm/tidss/tidss_kms.c
-@@ -9,7 +9,6 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
--#include <drm/drm_crtc_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
-diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
-index 42d50ec5526d..fe2c41f0cd4f 100644
---- a/drivers/gpu/drm/tidss/tidss_plane.c
-+++ b/drivers/gpu/drm/tidss/tidss_plane.c
-@@ -8,7 +8,6 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_blend.h>
- #include <drm/drm_crtc.h>
--#include <drm/drm_crtc_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_atomic_helper.h>
+ void drm_helper_disable_unused_functions(struct drm_device *dev);
+ int drm_crtc_helper_set_config(struct drm_mode_set *set,
 -- 
 2.39.0
 
