@@ -1,42 +1,42 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8DF1FB4
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 13:12:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBEA23A8
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 13:12:46 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D4405373E0;
-	Mon, 16 Jan 2023 13:12:39 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E5D263751C;
+	Mon, 16 Jan 2023 13:12:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1673874759; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1673874758; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gcxj11WVBAccv8ZPp8nm7Tpgxuacdx7+i90YDa/rA7o=;
-	b=FDi/Er+CAgJDK4mkst7406IxvQExubvwkvanEro9mJsf2wNVKRv5vaqkhrUuEWZpk6h0Yc
-	zXnvxLdGBIiJcAzwEe3ulMhpNlaPqBktr5hCFXCCQ7nbNMogQ1e6hRZw9R8MqI/OSYdcOC
-	YbJUtu4alYsO/z2UEBYj2WEbxCgcuHM=
+	bh=x/vz2BcD1Z9VIU+zomnn/JSq/Q+Ij2CZcro4KecLVFI=;
+	b=PBTYF+XGwdboXc/yThmRZkzpSJcK4rp8zkfD02CRy3uurj5rqZ8xWjIbbUj0VMbWkhAuP5
+	U+RpigQwhRE2/nFI0jUoo6YpK3lI82eU5vERQGv0h8jffkQ3uVfixqzdiolxfeqMMI6Lda
+	HckJvU2Z9L1MmY5QSRFiweOXopiWC+U=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1673874759;
+	s=susede2_ed25519; t=1673874758;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gcxj11WVBAccv8ZPp8nm7Tpgxuacdx7+i90YDa/rA7o=;
-	b=NHw2yTHEj9G/fxDbwsuYI6lRfOEf0sZrFMS3ZcADtGKUvRZkQulfpZeI0B76ohslwVGfMo
-	rU4UlsBy6I9tQrAw==
+	bh=x/vz2BcD1Z9VIU+zomnn/JSq/Q+Ij2CZcro4KecLVFI=;
+	b=OPcsrRVAEHO6uGy3pfM6rX4A+VvtjacGBGXp5ThQBNIsBBZCEt7u3sX/EHHG9gZu5MDhmQ
+	TF6vTNJ4WM9dSKBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 81A60138FA;
-	Mon, 16 Jan 2023 13:12:39 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9FC71139C3;
+	Mon, 16 Jan 2023 13:12:38 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id oF22HkdNxWNrNQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 16 Jan 2023 13:12:39 +0000
+	id GNkGJkZNxWNrNQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 16 Jan 2023 13:12:38 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: sam@ravnborg.org,
 	daniel@ffwll.ch,
@@ -51,9 +51,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 08/22] drm/gma500: Remove unnecessary include statements for drm_crtc_helper.h
-Date: Mon, 16 Jan 2023 14:12:21 +0100
-Message-Id: <20230116131235.18917-9-tzimmermann@suse.de>
+Subject: [PATCH 05/22] drm/aspeed: Remove unnecessary include statements for drm_crtc_helper.h
+Date: Mon, 16 Jan 2023 14:12:18 +0100
+Message-Id: <20230116131235.18917-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230116131235.18917-1-tzimmermann@suse.de>
 References: <20230116131235.18917-1-tzimmermann@suse.de>
@@ -74,235 +74,47 @@ possible.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/gma500/cdv_device.c        | 1 +
- drivers/gpu/drm/gma500/cdv_intel_crt.c     | 2 ++
- drivers/gpu/drm/gma500/cdv_intel_display.c | 1 +
- drivers/gpu/drm/gma500/cdv_intel_dp.c      | 1 +
- drivers/gpu/drm/gma500/cdv_intel_hdmi.c    | 2 ++
- drivers/gpu/drm/gma500/cdv_intel_lvds.c    | 2 ++
- drivers/gpu/drm/gma500/framebuffer.c       | 2 ++
- drivers/gpu/drm/gma500/gma_display.c       | 2 ++
- drivers/gpu/drm/gma500/oaktrail_crtc.c     | 1 +
- drivers/gpu/drm/gma500/oaktrail_hdmi.c     | 2 ++
- drivers/gpu/drm/gma500/oaktrail_lvds.c     | 1 +
- drivers/gpu/drm/gma500/psb_device.c        | 1 +
- drivers/gpu/drm/gma500/psb_intel_display.c | 3 +++
- drivers/gpu/drm/gma500/psb_intel_drv.h     | 1 -
- drivers/gpu/drm/gma500/psb_intel_lvds.c    | 2 ++
- drivers/gpu/drm/gma500/psb_intel_sdvo.c    | 2 ++
- 16 files changed, 25 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c | 1 -
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c  | 1 -
+ drivers/gpu/drm/aspeed/aspeed_gfx_out.c  | 1 -
+ 3 files changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/gma500/cdv_device.c b/drivers/gpu/drm/gma500/cdv_device.c
-index 3065596257e9..3e83299113e3 100644
---- a/drivers/gpu/drm/gma500/cdv_device.c
-+++ b/drivers/gpu/drm/gma500/cdv_device.c
-@@ -8,6 +8,7 @@
- #include <linux/delay.h>
+diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
+index 55a3444a51d8..7877a57b8e26 100644
+--- a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
++++ b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
+@@ -5,7 +5,6 @@
+ #include <linux/reset.h>
+ #include <linux/regmap.h>
  
- #include <drm/drm.h>
-+#include <drm/drm_crtc_helper.h>
- 
- #include "cdv_device.h"
- #include "gma_device.h"
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_crt.c b/drivers/gpu/drm/gma500/cdv_intel_crt.c
-index 7ff1e5141150..5a0acd914f76 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_crt.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_crt.c
-@@ -28,6 +28,8 @@
- #include <linux/i2c.h>
- #include <linux/pm_runtime.h>
- 
-+#include <drm/drm_crtc_helper.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_simple_kms_helper.h>
- 
- #include "cdv_device.h"
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_display.c b/drivers/gpu/drm/gma500/cdv_intel_display.c
-index 0c3ddcdc29dc..bbd0abdd8382 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_display.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_display.c
-@@ -10,6 +10,7 @@
- #include <linux/i2c.h>
- 
- #include <drm/drm_crtc.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- 
- #include "cdv_device.h"
- #include "framebuffer.h"
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-index 53b967282d6a..8992a95076f2 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-@@ -33,6 +33,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_edid.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_simple_kms_helper.h>
- 
- #include "gma_display.h"
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
-index 29ef45f14169..2d95e0471291 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
-@@ -28,7 +28,9 @@
- 
- #include <drm/drm.h>
- #include <drm/drm_crtc.h>
-+#include <drm/drm_crtc_helper.h>
- #include <drm/drm_edid.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_simple_kms_helper.h>
- 
- #include "cdv_device.h"
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_lvds.c b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-index be6efcaaa3b3..f08a6803dc18 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-@@ -12,6 +12,8 @@
- #include <linux/i2c.h>
- #include <linux/pm_runtime.h>
- 
-+#include <drm/drm_crtc_helper.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_simple_kms_helper.h>
- 
- #include "cdv_device.h"
-diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
-index 9e892a82e109..52ae3ade9a61 100644
---- a/drivers/gpu/drm/gma500/framebuffer.c
-+++ b/drivers/gpu/drm/gma500/framebuffer.c
-@@ -19,10 +19,12 @@
- 
- #include <drm/drm.h>
- #include <drm/drm_crtc.h>
-+#include <drm/drm_crtc_helper.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_modeset_helper.h>
- 
- #include "framebuffer.h"
- #include "gem.h"
-diff --git a/drivers/gpu/drm/gma500/gma_display.c b/drivers/gpu/drm/gma500/gma_display.c
-index fe7b8436f87a..f65e90d890f4 100644
---- a/drivers/gpu/drm/gma500/gma_display.c
-+++ b/drivers/gpu/drm/gma500/gma_display.c
-@@ -11,8 +11,10 @@
- #include <linux/highmem.h>
- 
- #include <drm/drm_crtc.h>
-+#include <drm/drm_crtc_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_vblank.h>
- 
- #include "framebuffer.h"
-diff --git a/drivers/gpu/drm/gma500/oaktrail_crtc.c b/drivers/gpu/drm/gma500/oaktrail_crtc.c
-index 64761f46b434..de8ccfe9890f 100644
---- a/drivers/gpu/drm/gma500/oaktrail_crtc.c
-+++ b/drivers/gpu/drm/gma500/oaktrail_crtc.c
-@@ -9,6 +9,7 @@
- 
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- 
- #include "framebuffer.h"
- #include "gem.h"
-diff --git a/drivers/gpu/drm/gma500/oaktrail_hdmi.c b/drivers/gpu/drm/gma500/oaktrail_hdmi.c
-index 95b7cb099e63..ed8626c73541 100644
---- a/drivers/gpu/drm/gma500/oaktrail_hdmi.c
-+++ b/drivers/gpu/drm/gma500/oaktrail_hdmi.c
-@@ -27,7 +27,9 @@
- #include <linux/delay.h>
- 
- #include <drm/drm.h>
-+#include <drm/drm_crtc_helper.h>
- #include <drm/drm_edid.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_simple_kms_helper.h>
- 
- #include "psb_drv.h"
-diff --git a/drivers/gpu/drm/gma500/oaktrail_lvds.c b/drivers/gpu/drm/gma500/oaktrail_lvds.c
-index 75b4eb1c8884..d974d0c60d2a 100644
---- a/drivers/gpu/drm/gma500/oaktrail_lvds.c
-+++ b/drivers/gpu/drm/gma500/oaktrail_lvds.c
-@@ -14,6 +14,7 @@
- #include <asm/intel-mid.h>
- 
- #include <drm/drm_edid.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_simple_kms_helper.h>
- 
- #include "intel_bios.h"
-diff --git a/drivers/gpu/drm/gma500/psb_device.c b/drivers/gpu/drm/gma500/psb_device.c
-index 3c294c38bdb4..dcfcd7b89d4a 100644
---- a/drivers/gpu/drm/gma500/psb_device.c
-+++ b/drivers/gpu/drm/gma500/psb_device.c
-@@ -6,6 +6,7 @@
-  **************************************************************************/
- 
- #include <drm/drm.h>
-+#include <drm/drm_crtc_helper.h>
- 
- #include "gma_device.h"
- #include "intel_bios.h"
-diff --git a/drivers/gpu/drm/gma500/psb_intel_display.c b/drivers/gpu/drm/gma500/psb_intel_display.c
-index 531c1781a8fb..ff46e88c4768 100644
---- a/drivers/gpu/drm/gma500/psb_intel_display.c
-+++ b/drivers/gpu/drm/gma500/psb_intel_display.c
-@@ -9,6 +9,9 @@
- #include <linux/delay.h>
- #include <linux/i2c.h>
- 
-+#include <drm/drm_modeset_helper.h>
-+#include <drm/drm_modeset_helper_vtables.h>
-+
- #include "framebuffer.h"
- #include "gem.h"
- #include "gma_display.h"
-diff --git a/drivers/gpu/drm/gma500/psb_intel_drv.h b/drivers/gpu/drm/gma500/psb_intel_drv.h
-index 8a1111fe714b..0bb85494e3da 100644
---- a/drivers/gpu/drm/gma500/psb_intel_drv.h
-+++ b/drivers/gpu/drm/gma500/psb_intel_drv.h
-@@ -9,7 +9,6 @@
- #include <linux/i2c.h>
- #include <linux/i2c-algo-bit.h>
- #include <drm/drm_crtc.h>
 -#include <drm/drm_crtc_helper.h>
- #include <drm/drm_encoder.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
-diff --git a/drivers/gpu/drm/gma500/psb_intel_lvds.c b/drivers/gpu/drm/gma500/psb_intel_lvds.c
-index 7ee6c8ce103b..8486de230ec9 100644
---- a/drivers/gpu/drm/gma500/psb_intel_lvds.c
-+++ b/drivers/gpu/drm/gma500/psb_intel_lvds.c
-@@ -11,6 +11,8 @@
- #include <linux/i2c.h>
- #include <linux/pm_runtime.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_fb_dma_helper.h>
+ #include <drm/drm_fourcc.h>
+diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+index 718119e168a6..ecfb060d2557 100644
+--- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
++++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+@@ -14,7 +14,6 @@
+ #include <linux/reset.h>
  
-+#include <drm/drm_crtc_helper.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_simple_kms_helper.h>
+ #include <drm/drm_atomic_helper.h>
+-#include <drm/drm_crtc_helper.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_fbdev_generic.h>
+ #include <drm/drm_gem_dma_helper.h>
+diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_out.c b/drivers/gpu/drm/aspeed/aspeed_gfx_out.c
+index 4f2187025a21..78775e0c853f 100644
+--- a/drivers/gpu/drm/aspeed/aspeed_gfx_out.c
++++ b/drivers/gpu/drm/aspeed/aspeed_gfx_out.c
+@@ -3,7 +3,6 @@
  
- #include "intel_bios.h"
-diff --git a/drivers/gpu/drm/gma500/psb_intel_sdvo.c b/drivers/gpu/drm/gma500/psb_intel_sdvo.c
-index bdced46dd333..d6fd5d726216 100644
---- a/drivers/gpu/drm/gma500/psb_intel_sdvo.c
-+++ b/drivers/gpu/drm/gma500/psb_intel_sdvo.c
-@@ -33,7 +33,9 @@
- #include <linux/slab.h>
- 
- #include <drm/drm_crtc.h>
-+#include <drm/drm_crtc_helper.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_connector.h>
+-#include <drm/drm_crtc_helper.h>
  #include <drm/drm_edid.h>
-+#include <drm/drm_modeset_helper_vtables.h>
+ #include <drm/drm_probe_helper.h>
  
- #include "psb_drv.h"
- #include "psb_intel_drv.h"
 -- 
 2.39.0
 
