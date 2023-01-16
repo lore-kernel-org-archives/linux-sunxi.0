@@ -1,75 +1,86 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0722446B5
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 16:20:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673886003; x=1705422003;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=3kP3+Z/fGb1HUUCGydhyc9dGWiwyXHQhkXAlft+qAzY=;
-  b=O+jGBDv1wkdgNz+iubPM+2zPPetH3eq+JCKtA89kuVZSJuBNoTN/VTAB
-   w0M9Irjn8Qj6fm+rfTSKrzhNxovvcwtRA/rfMDbV3Xqiz8IhoysYavdN1
-   rPG0FYwxRAMwYqFc6hg0QfRzbGHpRmoIlzJGp2ojb8klh4niZZbrAaNh9
-   HwfrbED7WTMnB2zoR8E+ccNx/Zx/fMCittugQ6CzagJWIasd0usmnUkIg
-   Kk8t0DeHjjItBhypIpqA/AWyFAPr9G7sRZT/YMIAEgQGKnl1wisp178t4
-   5WKIuUqQdZwxnQXuqBpMj/YFWPW34Z1dCNnnWCclia1wU9yiT44eUWnQp
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="324558184"
-X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; 
-   d="scan'208";a="324558184"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 08:20:03 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="766952438"
-X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; 
-   d="scan'208";a="766952438"
-Received: from amakarev-mobl2.ger.corp.intel.com (HELO localhost) ([10.252.13.137])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 08:19:59 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, sam@ravnborg.org,
- daniel@ffwll.ch, airlied@gmail.com
-Cc: linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org,
- linux-mips@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 00/22] drm: Remove includes for drm_crtc_helper.h
-In-Reply-To: <20230116131235.18917-1-tzimmermann@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230116131235.18917-1-tzimmermann@suse.de>
-Date: Mon, 16 Jan 2023 18:19:56 +0200
-Message-ID: <87k01me9jn.fsf@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8E56FA0
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 18:06:00 +0000 (UTC)
+Received: by mail-oi1-f169.google.com with SMTP id r9so13227372oie.13
+        for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 10:06:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=jS6lFIJFjFUtY3mw8cyMrgKm76WlKsu232wNoOu9BFI=;
+        b=pJUbclSZ3i6Jdg01liLqHc4w2CrtWVSvaOfhA/DUvmwvBfI9LV/fSr9f0+RsBvfbLx
+         mSuHpfqzVwUOvdgr8BT+nESWO/0QhJY7FYtEC48w4a2xddiPX+BPDav7qXMtorGbTXUq
+         hjQMR/WAaB4ryPMo9lf54fjFLNek6uWrPFOwM6l8Xd/xDdB6xaxgevUnUfNn/0eWYNTc
+         bKMw7E9OC5EgqTES2vcg5jM7PqToB0TgsIByf+obkVK3lyB6P/PcTiK4JkRpIAYBGTyB
+         1Id0dsqzXGVrfVIItHtSGIEkdKnSeVlrgExRRUQaOVdZ/2a73hix4y96Jlu2eI2bS7Za
+         OBIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jS6lFIJFjFUtY3mw8cyMrgKm76WlKsu232wNoOu9BFI=;
+        b=Wpeg8cIpIR7yllq4XiFo55jDvqrxt18dD+sHHsQJlkxnczLMZlAv5ZtaHV2iOkBnZx
+         5vhWxcEkbZCSb1dPnOWOV/qsi6x8321zXupSU+UdRMgg13QUAFx1QAgdI9lmjgRn2EYI
+         OxxqUoy4L8gtJiGGrvFXcNrrYJwRmPb/Rz+N7CSpkqdaRxZSQqPHDiTojUzFmjisj7bV
+         tgiVHv0E/x3H7QzzT8dIIqL4tr//zcWD/lMg50MdYbWLAWeadNDBW1AH3M6LQM0biZs5
+         lWNsP9D/ZMok3Pkqqlm13CMQmrpbnkQe0yxCTnZ0Xb8JjGa84FEjKKXLIIEt+x5zuSIW
+         h1Zg==
+X-Gm-Message-State: AFqh2koLVo67wxwDW/GawBoJSxTGPX3wALsLQM8otlLB5cquYwPG8KRY
+	AVZy1+5HATR2TQb8Kk8kgFs/QXhC9qUimH2ZOgQ=
+X-Google-Smtp-Source: AMrXdXvrZGLO62Oo0eXSOIOLUZCvlkDtQzC8DtTWKD6P/g/Ade7N08+e9NEuxmouzOQHO07H0ArjVT5oqOGIBob8wbI=
+X-Received: by 2002:a05:6808:4387:b0:35b:d93f:cbc4 with SMTP id
+ dz7-20020a056808438700b0035bd93fcbc4mr8161oib.96.1673892358616; Mon, 16 Jan
+ 2023 10:05:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230116131235.18917-1-tzimmermann@suse.de> <20230116131235.18917-2-tzimmermann@suse.de>
+In-Reply-To: <20230116131235.18917-2-tzimmermann@suse.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 16 Jan 2023 13:05:47 -0500
+Message-ID: <CADnq5_P4DgCi_JwXo2fJS=cCBmumsw5Og5ZYt+J4J_Lak74e0Q@mail.gmail.com>
+Subject: Re: [PATCH 01/22] drm/amdgpu: Fix coding style
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: sam@ravnborg.org, daniel@ffwll.ch, airlied@gmail.com, 
+	linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org, 
+	linux-mips@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 16 Jan 2023, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> A lot of source files include drm_crtc_helper.h for its contained
-> include statements. This leads to excessive compile-time dependencies.
+Applied.  Thanks!
+On Mon, Jan 16, 2023 at 8:13 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
 >
-> Where possible, remove the include statements for drm_crtc_helper.h
-> and include the required source files directly. Also remove the
-> include statements from drm_crtc_helper.h itself, which doesn't need
-> most of them.
+> Align a closing brace and remove trailing whitespaces. No functional
+> changes.
 >
-> I built this patchset on x86-64, aarch64 and arm. Hopefully I found
-> all include dependencies.
-
-I think this is the right direction and I support this. Personally I
-think it's enough to build test and fix any fallout afterwards.
-
-To that end, I did build test this myself with my config, and it was
-fine, though that probably doesn't add much coverage.
-
-FWIW,
-
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index e47058c2c294..0993ee91fe18 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -5871,8 +5871,8 @@ void amdgpu_device_invalidate_hdp(struct amdgpu_device *adev,
+>  int amdgpu_in_reset(struct amdgpu_device *adev)
+>  {
+>         return atomic_read(&adev->reset_domain->in_gpu_reset);
+> -       }
+> -
+> +}
+> +
+>  /**
+>   * amdgpu_device_halt() - bring hardware to some kind of halt state
+>   *
+> --
+> 2.39.0
+>
