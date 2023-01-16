@@ -1,233 +1,98 @@
-Received: from mailrelay3-1.pub.mailoutpod2-cph3.one.com (mailrelay3-1.pub.mailoutpod2-cph3.one.com [46.30.211.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AC237B
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 20:47:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 126FF79DC
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 23:04:28 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id m5-20020a05600c4f4500b003db03b2559eso1148622wmq.5
+        for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 15:04:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=rsa2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=hRkGhkGEnmgInCvs3rVTwzKWsHh71Vg6LNBuwBJhnGI=;
-	b=QpnuNWjLm3HBShNHcv1jkSScOozA8nnb9tpP+9W+043hpJ6PGppYJYI84cxZGlrmGe7ujd0PptYxG
-	 UUvbYWLLqfrxsTfUgKV/DOQoSkAJgPOD5o+u6sNhB99ST605WNzltrTnMSpRVz6aEQk41HeRil52vw
-	 DvtpDbVTkouMlsjRLL4/z0jE88xfAHyxmDyfHOEGzmyQyQPuL/r2CYcpx1flwP3+rHOCEdicnuvs/W
-	 jM7Sl2WRxpVKA/mNBJ35JXcIEKPBseR8jqbmHVxwY0qvlMsWz5KI6lrsqzage8xYkyxtnvI445elRs
-	 23dxmjsrEbVTFfR9rEzkEYmhMT9TGuA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=ed2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=hRkGhkGEnmgInCvs3rVTwzKWsHh71Vg6LNBuwBJhnGI=;
-	b=mCI+axuI2AfxFUOLQXYc2VJUv0VtmpAfcrLE6qklmT6q+xl8lgRJLmMDbSswchsPqWUlGnmCIrq0A
-	 k5Y79kqBw==
-X-HalOne-ID: f12f8be1-95de-11ed-b1f5-ede074c87fad
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-	by mailrelay3 (Halon) with ESMTPSA
-	id f12f8be1-95de-11ed-b1f5-ede074c87fad;
-	Mon, 16 Jan 2023 20:47:09 +0000 (UTC)
-Date: Mon, 16 Jan 2023 21:47:07 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: daniel@ffwll.ch, airlied@gmail.com, dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	nouveau@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 00/22] drm: Remove includes for drm_crtc_helper.h
-Message-ID: <Y8W3y32sOpP3D6YX@ravnborg.org>
-References: <20230116131235.18917-1-tzimmermann@suse.de>
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qdVquD9u0NlEIO5cxWzYGboFvm6XlfypUwKZRUXYZtU=;
+        b=Sm9E8gs8hjOMEkBjEH8SiQK6HB1Pg74vnMqjGhwc8mhvKNPIvRqzqQYwt2xSF6VHKC
+         Js6NIpcPf3k+9A9SEvyhRJtmn16QdBUuaek1SZbQUUfLOYkRcKoKYhuK68oRincqS7oy
+         TPfKH6FMpvD61/rdUxN3pE/QsxNWftr/e90/yDvQt5lrNxYPG/NXhYzWGxJVJRY4VVW9
+         uNm43uSJ3UaHSenG3juhn3L5lH3FnG4bS+Qbt2if7Rzg99Yu22MDl72wFpcpoArZJqiR
+         Lw+O7hIpijwqybvKATWNkZFGBm8Iw49HoPaZpOVjMprh0Ij0wiJKL777QBD9FOt4HY1m
+         iapg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qdVquD9u0NlEIO5cxWzYGboFvm6XlfypUwKZRUXYZtU=;
+        b=shAUbs67nUeA4Mh9NSCw8Tri983BwH5UHxVjzn+KIuJCoDmjyL1pg6tDCG0GyB+Rw9
+         j0KW2gi6WIT3DrUqspiAJvHqgKRut+QJWs2qHzovFi2RMfTztlB4qb6atD2O2vfP3VtH
+         IltRh4opkBu+BNy5YcpV88Q/Foxv2LHcnWJl+suYJYAu9OxRCob0Iwwn5S9s94fVLprX
+         CmmAwfKhizMzGVWUF8qcR2XICJxP104Xlbav998ctK7t74ULNR4sAv++TtNTCKnD22mo
+         AYCMqQBfQs0ZIzlneH2wHaIB8ohW4B1aoWzRGBNRDh7LyPqqfAAxrbbC2ZVH35Wo4It2
+         LgjQ==
+X-Gm-Message-State: AFqh2kr/gxGmJrQsPGYEzfu0XP/lmjnNgVjcZ9fpurPr2Ql/fogdtdUu
+	gALBy5ZxWaOxNebn8jToXfFkkszUCi1nWA65
+X-Google-Smtp-Source: AMrXdXvbGJ9u2q+SZPhf5sOM6tVLv6nSoLpDEyC3UaL6ha+NwHD2966GBjROJX23QYHvcuXzivpQCA==
+X-Received: by 2002:a05:600c:a690:b0:3d5:64bf:ccb8 with SMTP id ip16-20020a05600ca69000b003d564bfccb8mr999617wmb.12.1673910267014;
+        Mon, 16 Jan 2023 15:04:27 -0800 (PST)
+Received: from localhost.localdomain (mm-88-61-120-178.brest.dynamic.pppoe.byfly.by. [178.120.61.88])
+        by smtp.gmail.com with ESMTPSA id n7-20020a05600c4f8700b003c6bd12ac27sm39136685wmq.37.2023.01.16.15.04.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jan 2023 15:04:26 -0800 (PST)
+From: Oleg Verych <olecom@gmail.com>
+To: linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
+Cc: Oleg Verych <olecom@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	linux-media@vger.kernel.org (open list:ALLWINNER A10 CSI DRIVER),
+	linux-sunxi <linux-sunxi@googlegroups.com>
+Subject: [PATCH] media: sun4i-csi: Use CSI_INT_STA_REG name, fix typo in a comment
+Date: Tue, 17 Jan 2023 02:03:23 +0300
+Message-Id: <20230116230323.4718-1-olecom@gmail.com>
+X-Mailer: git-send-email 2.35.1.windows.2
+In-Reply-To: <Y8WgY74zWjF3kvln@valkosipuli.retiisi.eu>
+References: <Y8WgY74zWjF3kvln@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230116131235.18917-1-tzimmermann@suse.de>
+Content-Transfer-Encoding: 8bit
 
-Hi Thomas.
+Fix interrupt status register offset usage to be a defined name
+CSI_INT_STA_REG (= 0x34) instead of a plain number.
 
-On Mon, Jan 16, 2023 at 02:12:13PM +0100, Thomas Zimmermann wrote:
-> A lot of source files include drm_crtc_helper.h for its contained
-> include statements. This leads to excessive compile-time dependencies.
-> 
-> Where possible, remove the include statements for drm_crtc_helper.h
-> and include the required source files directly. Also remove the
-> include statements from drm_crtc_helper.h itself, which doesn't need
-> most of them.
-With this patchset drm_crtc_helper usage is reduced from 85 places to 35
-places. And the 35 places is only .c files.
-This is a very nice reduction of bloat! I hope this has a measureable
-effect on building times.
+Additionally fix a typo in a comment of the same file.
 
-I was working on something similar, but that approach only added missing
-includes, and did not kill all the unnessesary includes - which I think
-is the biggest win here.
+Signed-off-by: Oleg Verych <olecom@gmail.com>
 
-All patches are:
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+---
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-For a few of them the r-b is conditional, see the specific comments
-posted.
+diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
+index a3e826a75..95b5633b7 100644
+--- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
++++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
+@@ -245,7 +245,7 @@ static int sun4i_csi_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	 * We need a scratch buffer in case where we'll not have any
+ 	 * more buffer queued so that we don't error out. One of those
+ 	 * cases is when you end up at the last frame to capture, you
+-	 * don't havea any buffer queued any more, and yet it doesn't
++	 * don't have any buffer queued any more, and yet it doesn't
+ 	 * really matter since you'll never reach the next buffer.
+ 	 *
+ 	 * Since we support the multi-planar API, we need to have a
+@@ -311,7 +311,7 @@ static int sun4i_csi_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	writel(CSI_BUF_CTRL_DBE, csi->regs + CSI_BUF_CTRL_REG);
+ 
+ 	/* Clear the pending interrupts */
+-	writel(CSI_INT_FRM_DONE, csi->regs + 0x34);
++	writel(CSI_INT_FRM_DONE, csi->regs + CSI_INT_STA_REG);
+ 
+ 	/* Enable frame done interrupt */
+ 	writel(CSI_INT_FRM_DONE, csi->regs + CSI_INT_EN_REG);
+-- 
+2.20.1
 
-
-I did a build check here with the archs and config I verifies with.
-This covers "alpha arm arm64 sparc64 i386 x86 powerpc s390 riscv sh"
-and everything was fine. I have a few specific configs to pull in
-drivers that need a bit extra to be built.
-So I consider build coverage OK for applying, but it would be nice to
-wait a few days for the bots to verify too.
-
-My own work on slimming drm_atomic_helper.h and drm_print.h will be
-rebased on top of your work before I continue it.
-I need to look into removing unused includes too.
-
-	Sam
-
-> 
-> I built this patchset on x86-64, aarch64 and arm. Hopefully I found
-> all include dependencies.
-> 
-> Thanks to Sam Ravnborg for bringing this to my attention.
-> 
-> Thomas Zimmermann (22):
->   drm/amdgpu: Fix coding style
->   drm: Remove unnecessary include statements for drm_crtc_helper.h
->   drm/amdgpu: Remove unnecessary include statements for
->     drm_crtc_helper.h
->   drm/arm/komeda: Remove unnecessary include statements for
->     drm_crtc_helper.h
->   drm/aspeed: Remove unnecessary include statements for
->     drm_crtc_helper.h
->   drm/ast: Remove unnecessary include statements for drm_crtc_helper.h
->   drm/bridge: Remove unnecessary include statements for
->     drm_crtc_helper.h
->   drm/gma500: Remove unnecessary include statements for
->     drm_crtc_helper.h
->   drm/i2c/ch7006: Remove unnecessary include statements for
->     drm_crtc_helper.h
->   drm/ingenic: Remove unnecessary include statements for
->     drm_crtc_helper.h
->   drm/kmb: Remove unnecessary include statements for drm_crtc_helper.h
->   drm/logicvc: Remove unnecessary include statements for
->     drm_crtc_helper.h
->   drm/nouveau: Remove unnecessary include statements for
->     drm_crtc_helper.h
->   drm/radeon: Remove unnecessary include statements for
->     drm_crtc_helper.h
->   drm/rockchip: Remove unnecessary include statements for
->     drm_crtc_helper.h
->   drm/shmobile: Remove unnecessary include statements for
->     drm_crtc_helper.h
->   drm/sprd: Remove unnecessary include statements for drm_crtc_helper.h
->   drm/sun4i: Remove unnecessary include statements for drm_crtc_helper.h
->   drm/tidss: Remove unnecessary include statements for drm_crtc_helper.h
->   drm/udl: Remove unnecessary include statements for drm_crtc_helper.h
->   drm/vboxvideo: Remove unnecessary include statements for
->     drm_crtc_helper.h
->   drm/crtc-helper: Remove most include statements from drm_crtc_helper.h
-> 
->  drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c     |  2 ++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  5 +++--
->  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |  1 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_encoders.c       |  1 -
->  drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c            |  1 -
->  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h           |  1 -
->  drivers/gpu/drm/amd/amdgpu/atombios_crtc.c         |  1 -
->  drivers/gpu/drm/amd/amdgpu/atombios_encoders.c     |  1 -
->  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c             |  2 ++
->  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c             |  2 ++
->  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c              |  2 ++
->  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c              |  2 ++
->  drivers/gpu/drm/arm/display/komeda/komeda_crtc.c   |  1 -
->  drivers/gpu/drm/arm/display/komeda/komeda_kms.h    |  1 -
->  drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c           |  1 -
->  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c            |  1 -
->  drivers/gpu/drm/aspeed/aspeed_gfx_out.c            |  1 -
->  drivers/gpu/drm/ast/ast_drv.c                      |  1 -
->  drivers/gpu/drm/ast/ast_main.c                     |  1 -
->  drivers/gpu/drm/ast/ast_mode.c                     |  1 -
->  drivers/gpu/drm/bridge/analogix/analogix-anx6345.c |  1 -
->  drivers/gpu/drm/bridge/analogix/anx7625.c          |  1 -
->  .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    |  1 -
->  drivers/gpu/drm/bridge/ite-it6505.c                |  1 -
->  drivers/gpu/drm/bridge/ite-it66121.c               |  1 -
->  drivers/gpu/drm/bridge/tc358768.c                  |  1 -
->  drivers/gpu/drm/bridge/tc358775.c                  |  1 -
->  drivers/gpu/drm/drm_crtc_helper.c                  |  1 -
->  drivers/gpu/drm/drm_lease.c                        |  2 +-
->  drivers/gpu/drm/drm_plane_helper.c                 |  1 -
->  drivers/gpu/drm/gma500/cdv_device.c                |  1 +
->  drivers/gpu/drm/gma500/cdv_intel_crt.c             |  2 ++
->  drivers/gpu/drm/gma500/cdv_intel_display.c         |  1 +
->  drivers/gpu/drm/gma500/cdv_intel_dp.c              |  1 +
->  drivers/gpu/drm/gma500/cdv_intel_hdmi.c            |  2 ++
->  drivers/gpu/drm/gma500/cdv_intel_lvds.c            |  2 ++
->  drivers/gpu/drm/gma500/framebuffer.c               |  2 ++
->  drivers/gpu/drm/gma500/gma_display.c               |  2 ++
->  drivers/gpu/drm/gma500/oaktrail_crtc.c             |  1 +
->  drivers/gpu/drm/gma500/oaktrail_hdmi.c             |  2 ++
->  drivers/gpu/drm/gma500/oaktrail_lvds.c             |  1 +
->  drivers/gpu/drm/gma500/psb_device.c                |  1 +
->  drivers/gpu/drm/gma500/psb_intel_display.c         |  3 +++
->  drivers/gpu/drm/gma500/psb_intel_drv.h             |  1 -
->  drivers/gpu/drm/gma500/psb_intel_lvds.c            |  2 ++
->  drivers/gpu/drm/gma500/psb_intel_sdvo.c            |  2 ++
->  drivers/gpu/drm/i2c/ch7006_drv.c                   |  2 ++
->  drivers/gpu/drm/i2c/ch7006_priv.h                  |  1 -
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |  1 -
->  drivers/gpu/drm/kmb/kmb_crtc.c                     |  1 -
->  drivers/gpu/drm/kmb/kmb_plane.c                    |  1 -
->  drivers/gpu/drm/logicvc/logicvc_interface.c        |  1 -
->  drivers/gpu/drm/logicvc/logicvc_mode.c             |  1 -
->  drivers/gpu/drm/nouveau/dispnv04/crtc.c            |  1 +
->  drivers/gpu/drm/nouveau/dispnv04/dac.c             |  2 +-
->  drivers/gpu/drm/nouveau/dispnv04/dfp.c             |  2 +-
->  drivers/gpu/drm/nouveau/dispnv04/tvmodesnv17.c     |  1 -
->  drivers/gpu/drm/nouveau/dispnv04/tvnv04.c          |  2 +-
->  drivers/gpu/drm/nouveau/dispnv04/tvnv17.c          |  1 +
->  drivers/gpu/drm/nouveau/dispnv50/head.c            |  1 -
->  drivers/gpu/drm/nouveau/nouveau_drm.c              |  1 -
->  drivers/gpu/drm/nouveau/nouveau_vga.c              |  1 -
->  drivers/gpu/drm/radeon/atombios_crtc.c             |  2 +-
->  drivers/gpu/drm/radeon/atombios_encoders.c         |  1 +
->  drivers/gpu/drm/radeon/r300.c                      |  1 -
->  drivers/gpu/drm/radeon/radeon_asic.c               |  1 -
->  drivers/gpu/drm/radeon/radeon_connectors.c         |  1 +
->  drivers/gpu/drm/radeon/radeon_display.c            |  1 +
->  drivers/gpu/drm/radeon/radeon_drv.c                |  1 -
->  drivers/gpu/drm/radeon/radeon_encoders.c           |  1 -
->  drivers/gpu/drm/radeon/radeon_irq_kms.c            |  1 -
->  drivers/gpu/drm/radeon/radeon_legacy_crtc.c        |  2 +-
->  drivers/gpu/drm/radeon/radeon_legacy_encoders.c    |  2 +-
->  drivers/gpu/drm/radeon/radeon_legacy_tv.c          |  1 -
->  drivers/gpu/drm/radeon/radeon_mode.h               |  2 +-
->  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c       |  1 -
->  drivers/gpu/drm/shmobile/shmob_drm_crtc.c          |  2 ++
->  drivers/gpu/drm/shmobile/shmob_drm_drv.c           |  1 -
->  drivers/gpu/drm/shmobile/shmob_drm_plane.c         |  1 -
->  drivers/gpu/drm/sprd/sprd_dpu.c                    |  1 -
->  drivers/gpu/drm/sprd/sprd_drm.c                    |  1 -
->  drivers/gpu/drm/sprd/sprd_dsi.c                    |  1 -
->  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c              |  2 +-
->  drivers/gpu/drm/tidss/tidss_crtc.c                 |  1 -
->  drivers/gpu/drm/tidss/tidss_drv.c                  |  1 -
->  drivers/gpu/drm/tidss/tidss_encoder.c              |  2 +-
->  drivers/gpu/drm/tidss/tidss_kms.c                  |  1 -
->  drivers/gpu/drm/tidss/tidss_plane.c                |  1 -
->  drivers/gpu/drm/udl/udl_drv.c                      |  2 +-
->  drivers/gpu/drm/udl/udl_modeset.c                  |  1 -
->  drivers/gpu/drm/vboxvideo/vbox_drv.c               |  2 +-
->  drivers/gpu/drm/vboxvideo/vbox_main.c              |  1 -
->  include/drm/drm_crtc_helper.h                      | 14 +++++++++-----
->  include/drm/drm_fixed.h                            |  1 +
->  94 files changed, 70 insertions(+), 70 deletions(-)
-> 
-> 
-> base-commit: 68d139b609a97a83e7c231189d4864aba4e1679b
-> prerequisite-patch-id: 0aa359f6144c4015c140c8a6750be19099c676fb
-> prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
-> prerequisite-patch-id: 3f204510fcbf9530d6540bd8e6128cce598988b6
-> -- 
-> 2.39.0
