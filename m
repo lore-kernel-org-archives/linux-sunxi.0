@@ -1,66 +1,43 @@
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com (mailrelay1-1.pub.mailoutpod2-cph3.one.com [46.30.211.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D326FB7
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 19:15:27 +0000 (UTC)
-Received: from hillosipuli.retiisi.eu (dkwpftty8y--hfpj0xqfy-3.rev.dnainternet.fi [IPv6:2001:14ba:4498:4840:1c07:fe62:30fe:9b48])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id D2DFE1B002E4;
-	Mon, 16 Jan 2023 21:07:15 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1673896036;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D2PKKy43KTOp2swvTUauXqJVmunvfs+8JS5xuuJCzVI=;
-	b=Jq1hZIFJmPk9VZexsj5oGuw6iN+EosdRzjg5M7UnA6L+Y7q8gETfCv3glUP9hBgNGonOp9
-	z7WWnjCMMfOzQtAJqDTCfGudvrIpxYRQQseBoDLUWL4bsM2yJrrtzsh0g+Llx/rsjCjrbE
-	CDx7wzC06fa385U/78vetPcaHx5x852s6TUqA90vWgqE1uCw0LTeAATrPDbwZUOgdeX9tQ
-	Jf/HXmKZwpfA010auFXDDtw38IumOpBiXLOzDRV1iWPiJ01zacoReapAFT/Ske3EH31VU3
-	KeHTW8kQ93rmaVrql8AVSfl0CNq9NJCTXgHvXauPmhZ7QyNU5s9kTUQqAaClbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1673896035;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D2PKKy43KTOp2swvTUauXqJVmunvfs+8JS5xuuJCzVI=;
-	b=pzYo5EmaAyADNpYlnBQfFc9jo9kwKfCIvHHDe/LhSwmEuCrmSBW80IqNvWWanstD8vuj2i
-	EfYVfRZPiuYo8HBLguqu5HI63GVfC985WP1uhWqvjSMpWcK4sLGxsYNQUE/+AZE947pF/0
-	VHkz79x+jXHAynZkJs97h55VQih4oQzHWSEYEvwcrPcOmglh4Wh8ar1v1B3Rsj4YFF/ziN
-	tcIcfeSEYglVa2wXYMvfs6UoP4xBb+8Vp24pbv5y+W7QQ1COQHdNVIN4DShth2LVULnjBW
-	f8OXhonSpONPP+GHt+q5d24FUMI5d8ET7ykPgjs0/pG+OtOQgW4QFvc+RTUdeA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1673896035; a=rsa-sha256;
-	cv=none;
-	b=S3CzU+QeJni+1wZdFDqA022nfVRdaDP6yiUhUtNnhX0vUI7wtzHgGgefaGLBS6p8MFUP4O
-	vGxpoTQ8jAEswByDnJgFrlYrOgpL94ogKCFucIyJnlGfZqLHJ4fxBduRU7dCJiGUIbh/at
-	tzBfqQBlG8s4v2RGtamRg4qqaqP9guSikbMrM5NRPVzLwHhowfJvNKy9fWZUifyGxPiBsT
-	N47kkfPRoQtDFRMkYiAevvOuxoyJewwtRU3cT657k6B8qZ9na+afOyZvy12pxPnDBaV2O/
-	4DNXZSejbkR/ASV5qJkqOwaSZCeYIrfSuftnuSynK9krGZYlssCWYxDWFicgpA==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 413C7634C91;
-	Mon, 16 Jan 2023 21:07:15 +0200 (EET)
-Date: Mon, 16 Jan 2023 21:07:15 +0200
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Oleg Verych <olecom@gmail.com>
-Cc: "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
-	Maxime Ripard <mripard@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	"open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
-	linux-sunxi <linux-sunxi@googlegroups.com>
-Subject: Re: [PATCH] media: sun4i-csi: Use CSI_INT_STA_REG name, fix typo in
- a comment
-Message-ID: <Y8WgY74zWjF3kvln@valkosipuli.retiisi.eu>
-References: <20230107083749.2419-1-olecom@gmail.com>
- <20230109202457.3067-1-olecom@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04226FB7
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 20:17:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=rsa2;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=qWZKxlX4KW/JmPpNe4hoOYISYsciP5gHQlpn+CvfXf8=;
+	b=kt2RebpVMaIBssccQkMEgek+nwW85G6J0siMHGZ1qETVQeJlMBKmjG0mlVm3r7ePnu8jfPm81ygq7
+	 Mz8rQydCpwnm7+yWjbjNIN/fzDJe5WsKcBoAUsBadcQc0vOYb6T41tQjEeU/05VcOGjEkJnNNqYFDv
+	 W6Hs6b61sUUwtJAeXWksNEBFK4Y9hM1amCX4haYovx3yLNNcTv+aB4AWsRcwfANqGXT1LV3gcWRrqV
+	 ROUTznYXXwPl8HONFIMoZCbhWD4ezvanZv5cXNNxoJUbsVJ4K/EAnSMi/8BPSb4nuXYYFMXiL4SyAH
+	 nCwGrMJpVzOvZphymhAQroedp3D9X1Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=ed2;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=qWZKxlX4KW/JmPpNe4hoOYISYsciP5gHQlpn+CvfXf8=;
+	b=xE4aoD0tRO5MstpdlKpx4S2jKlZCleYS/37b6LqWjWapIOw44SoqoiaLAWrBeI0WODd2oUSv6O6cJ
+	 cNcxfeJCQ==
+X-HalOne-ID: 90146bb7-95da-11ed-afa2-11abd97b9443
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+	by mailrelay1 (Halon) with ESMTPSA
+	id 90146bb7-95da-11ed-afa2-11abd97b9443;
+	Mon, 16 Jan 2023 20:15:49 +0000 (UTC)
+Date: Mon, 16 Jan 2023 21:15:47 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: daniel@ffwll.ch, airlied@gmail.com, dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	nouveau@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 02/22] drm: Remove unnecessary include statements for
+ drm_crtc_helper.h
+Message-ID: <Y8Wwcy3LuknhDQz1@ravnborg.org>
+References: <20230116131235.18917-1-tzimmermann@suse.de>
+ <20230116131235.18917-3-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -69,43 +46,85 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230109202457.3067-1-olecom@gmail.com>
+In-Reply-To: <20230116131235.18917-3-tzimmermann@suse.de>
 
-Hi Oleg,
+Hi Thomas.
 
-On Mon, Jan 09, 2023 at 11:24:56PM +0300, Oleg Verych wrote:
-
-Please add a more elaborate description of the patch here. Looks good
-otherwise.
-
-> ---
->  drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+On Mon, Jan 16, 2023 at 02:12:15PM +0100, Thomas Zimmermann wrote:
+> Several DRM core and helper source files include drm_crtc_helper.h
+> without needing it or only to get its transitive include statements;
+> leading to unnecessary compile-time dependencies.
 > 
-> diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
-> index a3e826a75..95b5633b7 100644
-> --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
-> +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
-> @@ -245,7 +245,7 @@ static int sun4i_csi_start_streaming(struct vb2_queue *vq, unsigned int count)
->  	 * We need a scratch buffer in case where we'll not have any
->  	 * more buffer queued so that we don't error out. One of those
->  	 * cases is when you end up at the last frame to capture, you
-> -	 * don't havea any buffer queued any more, and yet it doesn't
-> +	 * don't have any buffer queued any more, and yet it doesn't
->  	 * really matter since you'll never reach the next buffer.
->  	 *
->  	 * Since we support the multi-planar API, we need to have a
-> @@ -311,7 +311,7 @@ static int sun4i_csi_start_streaming(struct vb2_queue *vq, unsigned int count)
->  	writel(CSI_BUF_CTRL_DBE, csi->regs + CSI_BUF_CTRL_REG);
->  
->  	/* Clear the pending interrupts */
-> -	writel(CSI_INT_FRM_DONE, csi->regs + 0x34);
-> +	writel(CSI_INT_FRM_DONE, csi->regs + CSI_INT_STA_REG);
->  
->  	/* Enable frame done interrupt */
->  	writel(CSI_INT_FRM_DONE, csi->regs + CSI_INT_EN_REG);
+> Directly include required headers and drop drm_crtc_helper.h where
+> possible. The header file, drm_fixed.h, includes <linux/kernel.h>
+> for lower_32_bits().
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/drm_crtc_helper.c  | 1 -
+>  drivers/gpu/drm/drm_lease.c        | 2 +-
+>  drivers/gpu/drm/drm_plane_helper.c | 1 -
+>  include/drm/drm_fixed.h            | 1 +
+>  4 files changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_crtc_helper.c b/drivers/gpu/drm/drm_crtc_helper.c
+> index a209659a996c..e7a23e18140c 100644
+> --- a/drivers/gpu/drm/drm_crtc_helper.c
+> +++ b/drivers/gpu/drm/drm_crtc_helper.c
+> @@ -39,7 +39,6 @@
+>  #include <drm/drm_atomic_uapi.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_crtc.h>
+> -#include <drm/drm_crtc_helper.h>
 
--- 
-Kind regards,
+drm_crtc_helper.c may not require drm/drm_crtc_helper.h, but it should
+include it so we get a warning in case there is a mismatch between the
+header file and the implementation.
+I think sparse would also complain that the function is not declared
+or something like that.
 
-Sakari Ailus
+With this fixed:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_edid.h>
+>  #include <drm/drm_encoder.h>
+> diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
+> index 08ab75303a00..150fe1555068 100644
+> --- a/drivers/gpu/drm/drm_lease.c
+> +++ b/drivers/gpu/drm/drm_lease.c
+> @@ -6,7 +6,7 @@
+>  #include <linux/uaccess.h>
+>  
+>  #include <drm/drm_auth.h>
+> -#include <drm/drm_crtc_helper.h>
+> +#include <drm/drm_crtc.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_file.h>
+>  #include <drm/drm_lease.h>
+> diff --git a/drivers/gpu/drm/drm_plane_helper.c b/drivers/gpu/drm/drm_plane_helper.c
+> index ba6a9136a065..c91e454eba09 100644
+> --- a/drivers/gpu/drm/drm_plane_helper.c
+> +++ b/drivers/gpu/drm/drm_plane_helper.c
+> @@ -28,7 +28,6 @@
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_atomic_uapi.h>
+> -#include <drm/drm_crtc_helper.h>
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_encoder.h>
+> diff --git a/include/drm/drm_fixed.h b/include/drm/drm_fixed.h
+> index 553210c02ee0..255645c1f9a8 100644
+> --- a/include/drm/drm_fixed.h
+> +++ b/include/drm/drm_fixed.h
+> @@ -25,6 +25,7 @@
+>  #ifndef DRM_FIXED_H
+>  #define DRM_FIXED_H
+>  
+> +#include <linux/kernel.h>
+>  #include <linux/math64.h>
+>  
+>  typedef union dfixed {
+> -- 
+> 2.39.0
