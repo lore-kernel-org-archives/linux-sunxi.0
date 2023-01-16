@@ -1,90 +1,111 @@
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7811546B5
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 18:37:43 +0000 (UTC)
-Received: by mail-oi1-f178.google.com with SMTP id r205so24060189oib.9
-        for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 10:37:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bz6Srssb7KxtWIp2StQowmALBQ/ecYiEATmxxDpLUgE=;
-        b=da/8FrC3su8n4920e9FOvu1j/TWeGMIAZK3QFppvkb8spsp70RYdvbMm2q6kr8fatp
-         5ZhAWveL0+ghlV+yoW55uxO1VApqKx7SI3P9NQE44tN5xuWeO0ji9XuxwTvr/dlc9rsT
-         tVUpF37v44gwmO7bLXKdtbiGDN/w5BQAj3xAbBkq52KC4lJdYL5HB8bnXAJ4+Its3plb
-         v4Jme9uznTgidvg/tGOHCdyd7VszsqLeOpmjJn9xH6h/dQojHZTl8CSLKaqG/edls6PK
-         yQ1U3V9Jp+1Ca32YYe1xYlqr5URZI2+ZvAQNN1kMuPpVWR6dfbhkvE0JUVZPCO257Kdu
-         QMeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bz6Srssb7KxtWIp2StQowmALBQ/ecYiEATmxxDpLUgE=;
-        b=w5i1bfgyAK+vwA1yE+ItUXWTIbLWH0/nlFCZ5DX4GkUyn2JKkffIhjXQzvz0mnGapY
-         ZbxK+7VYqZrdpnzqnsnrqAaoljD5pePYtIjehOKYyClblqvfvalsmBX3IcI+5q6bxCsV
-         +9cV/6VyOxsTSCY9zf0rpbpFhgoJELRRbRoz1lQcGPQRPc33sSMl0FpM2U5VSnHhU3o7
-         T29kdmfCBa8vQ3sguw2sGubR06c0Vc58+iABeaWk7grQyZnFA+y/tqZvkQkKTjoYS0Iq
-         lx50zSjQ1gvTxBgyeazHEYDJxyP7nYw+qEAMR1XKlmrVDWbLwZlrpHMpXeCzCrnrxqiW
-         Lw9w==
-X-Gm-Message-State: AFqh2koaVvq6slEtHwUzuArXDYXcNiz5wRvVns08EPfy5Y7+/aTyP52C
-	+Gx0xlx7SCUwK0HpBu/wROUEB5JdwkIrxCgGqtE=
-X-Google-Smtp-Source: AMrXdXtOKveG9OHXqQHo9xNE/hNA9+TOjgR84/kFoTmzmkWJIw/wZWO6Z17PeC1Jr2qOmQVHIKAxEfu0US9MC60q0b0=
-X-Received: by 2002:aca:2807:0:b0:35b:f5f7:3ed0 with SMTP id
- 7-20020aca2807000000b0035bf5f73ed0mr17751oix.46.1673894262477; Mon, 16 Jan
- 2023 10:37:42 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D326FB7
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 19:15:27 +0000 (UTC)
+Received: from hillosipuli.retiisi.eu (dkwpftty8y--hfpj0xqfy-3.rev.dnainternet.fi [IPv6:2001:14ba:4498:4840:1c07:fe62:30fe:9b48])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id D2DFE1B002E4;
+	Mon, 16 Jan 2023 21:07:15 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1673896036;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=D2PKKy43KTOp2swvTUauXqJVmunvfs+8JS5xuuJCzVI=;
+	b=Jq1hZIFJmPk9VZexsj5oGuw6iN+EosdRzjg5M7UnA6L+Y7q8gETfCv3glUP9hBgNGonOp9
+	z7WWnjCMMfOzQtAJqDTCfGudvrIpxYRQQseBoDLUWL4bsM2yJrrtzsh0g+Llx/rsjCjrbE
+	CDx7wzC06fa385U/78vetPcaHx5x852s6TUqA90vWgqE1uCw0LTeAATrPDbwZUOgdeX9tQ
+	Jf/HXmKZwpfA010auFXDDtw38IumOpBiXLOzDRV1iWPiJ01zacoReapAFT/Ske3EH31VU3
+	KeHTW8kQ93rmaVrql8AVSfl0CNq9NJCTXgHvXauPmhZ7QyNU5s9kTUQqAaClbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1673896035;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=D2PKKy43KTOp2swvTUauXqJVmunvfs+8JS5xuuJCzVI=;
+	b=pzYo5EmaAyADNpYlnBQfFc9jo9kwKfCIvHHDe/LhSwmEuCrmSBW80IqNvWWanstD8vuj2i
+	EfYVfRZPiuYo8HBLguqu5HI63GVfC985WP1uhWqvjSMpWcK4sLGxsYNQUE/+AZE947pF/0
+	VHkz79x+jXHAynZkJs97h55VQih4oQzHWSEYEvwcrPcOmglh4Wh8ar1v1B3Rsj4YFF/ziN
+	tcIcfeSEYglVa2wXYMvfs6UoP4xBb+8Vp24pbv5y+W7QQ1COQHdNVIN4DShth2LVULnjBW
+	f8OXhonSpONPP+GHt+q5d24FUMI5d8ET7ykPgjs0/pG+OtOQgW4QFvc+RTUdeA==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1673896035; a=rsa-sha256;
+	cv=none;
+	b=S3CzU+QeJni+1wZdFDqA022nfVRdaDP6yiUhUtNnhX0vUI7wtzHgGgefaGLBS6p8MFUP4O
+	vGxpoTQ8jAEswByDnJgFrlYrOgpL94ogKCFucIyJnlGfZqLHJ4fxBduRU7dCJiGUIbh/at
+	tzBfqQBlG8s4v2RGtamRg4qqaqP9guSikbMrM5NRPVzLwHhowfJvNKy9fWZUifyGxPiBsT
+	N47kkfPRoQtDFRMkYiAevvOuxoyJewwtRU3cT657k6B8qZ9na+afOyZvy12pxPnDBaV2O/
+	4DNXZSejbkR/ASV5qJkqOwaSZCeYIrfSuftnuSynK9krGZYlssCWYxDWFicgpA==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 413C7634C91;
+	Mon, 16 Jan 2023 21:07:15 +0200 (EET)
+Date: Mon, 16 Jan 2023 21:07:15 +0200
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Oleg Verych <olecom@gmail.com>
+Cc: "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
+	Maxime Ripard <mripard@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	"open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
+	linux-sunxi <linux-sunxi@googlegroups.com>
+Subject: Re: [PATCH] media: sun4i-csi: Use CSI_INT_STA_REG name, fix typo in
+ a comment
+Message-ID: <Y8WgY74zWjF3kvln@valkosipuli.retiisi.eu>
+References: <20230107083749.2419-1-olecom@gmail.com>
+ <20230109202457.3067-1-olecom@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230116131235.18917-1-tzimmermann@suse.de> <87k01me9jn.fsf@intel.com>
-In-Reply-To: <87k01me9jn.fsf@intel.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 16 Jan 2023 13:37:31 -0500
-Message-ID: <CADnq5_PsL8N27_LC_h1m8i_FCg6mJtr7K9Yjv=guw-KGD2wU5w@mail.gmail.com>
-Subject: Re: [PATCH 00/22] drm: Remove includes for drm_crtc_helper.h
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, sam@ravnborg.org, daniel@ffwll.ch, 
-	airlied@gmail.com, linux-aspeed@lists.ozlabs.org, 
-	nouveau@lists.freedesktop.org, linux-mips@vger.kernel.org, 
-	amd-gfx@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org, 
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230109202457.3067-1-olecom@gmail.com>
 
-On Mon, Jan 16, 2023 at 11:20 AM Jani Nikula
-<jani.nikula@linux.intel.com> wrote:
->
-> On Mon, 16 Jan 2023, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > A lot of source files include drm_crtc_helper.h for its contained
-> > include statements. This leads to excessive compile-time dependencies.
-> >
-> > Where possible, remove the include statements for drm_crtc_helper.h
-> > and include the required source files directly. Also remove the
-> > include statements from drm_crtc_helper.h itself, which doesn't need
-> > most of them.
-> >
-> > I built this patchset on x86-64, aarch64 and arm. Hopefully I found
-> > all include dependencies.
->
-> I think this is the right direction and I support this. Personally I
-> think it's enough to build test and fix any fallout afterwards.
->
-> To that end, I did build test this myself with my config, and it was
-> fine, though that probably doesn't add much coverage.
->
-> FWIW,
->
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
+Hi Oleg,
 
-Agreed.  I applied 1/22 since it was an unrelated cleanup, but the
-rest of the series is:
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+On Mon, Jan 09, 2023 at 11:24:56PM +0300, Oleg Verych wrote:
 
->
->
-> --
-> Jani Nikula, Intel Open Source Graphics Center
+Please add a more elaborate description of the patch here. Looks good
+otherwise.
+
+> ---
+>  drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
+> index a3e826a75..95b5633b7 100644
+> --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
+> +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
+> @@ -245,7 +245,7 @@ static int sun4i_csi_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	 * We need a scratch buffer in case where we'll not have any
+>  	 * more buffer queued so that we don't error out. One of those
+>  	 * cases is when you end up at the last frame to capture, you
+> -	 * don't havea any buffer queued any more, and yet it doesn't
+> +	 * don't have any buffer queued any more, and yet it doesn't
+>  	 * really matter since you'll never reach the next buffer.
+>  	 *
+>  	 * Since we support the multi-planar API, we need to have a
+> @@ -311,7 +311,7 @@ static int sun4i_csi_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	writel(CSI_BUF_CTRL_DBE, csi->regs + CSI_BUF_CTRL_REG);
+>  
+>  	/* Clear the pending interrupts */
+> -	writel(CSI_INT_FRM_DONE, csi->regs + 0x34);
+> +	writel(CSI_INT_FRM_DONE, csi->regs + CSI_INT_STA_REG);
+>  
+>  	/* Enable frame done interrupt */
+>  	writel(CSI_INT_FRM_DONE, csi->regs + CSI_INT_EN_REG);
+
+-- 
+Kind regards,
+
+Sakari Ailus
