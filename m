@@ -1,139 +1,172 @@
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-vi1eur04on2074.outbound.protection.outlook.com [40.107.8.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8018A320D
-	for <linux-sunxi@lists.linux.dev>; Sat, 14 Jan 2023 20:34:39 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 7CDBB5C00D2;
-	Sat, 14 Jan 2023 15:34:38 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Sat, 14 Jan 2023 15:34:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1673728478; x=
-	1673814878; bh=/TAb0XYfpnr++FGUez2OWtEKJs8N1wIgIoxQeLVYD1M=; b=D
-	UrGWrPcLxhl8mqfqrBocf92LL/FmbvKRGMM9pfD4t9A93p1wf2/hheCH9pdcwJ4F
-	ok+xIeX83EywTY+Kcsf6DRVJHb7zd5cpJhbgRmKkwQZaZV8+39QvkPc+HMo/ZFVM
-	629pobkR7KGDY+zFzPff84q0KCGybYZbSpFklCFZ6SlNguWufCKc51KPHNC4BFh2
-	BWVIjrx/ZCdYRBD3z2P/LopUL2oW/ZH5OpGOWqFZp8430uz20WzXriDg1jmdy9h8
-	4s7X33YmI2fF2p6RRrfMaCeTFMVECsBhydazOMh6NEGkzBaMKnG3nApRhlOwf7/o
-	Msg9pDwPsFWBxreKPPXqQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673728478; x=
-	1673814878; bh=/TAb0XYfpnr++FGUez2OWtEKJs8N1wIgIoxQeLVYD1M=; b=P
-	tKcysFd3UG3nMuy8NVxwdAWhSeZBSyFG0ZkkvT3OThiV5KJj/H2HPzCGsWnVJzGJ
-	LebFadFtOBVBQWNv8F2y5lI0ay76pRoYt/1yWJ9bQK35dqdy5mTCXog1uiTd5wVC
-	EZQ/x5n6T3GV1DrurIxR/EUcpKH+tUeM4fP+EVdJ5gvjLn5dtEo4NvqupWCqZs1C
-	gDe41R2CY1G0EwkSLVL7wDDjHpxkQmgMYnAClZU0mAq0SAXGI9zWgl9TvExfxqIC
-	ob1j+Yn1oOY7kfI6vaNCXrtLP9fMo2cfhwtH7ByDBa7uU1O0yxleqx2h/JeDc97s
-	hwAGcZ+Hz4sO5reA0fHpw==
-X-ME-Sender: <xms:3hHDY7rp-HVk552wjR-cyyqZeGvF5aGUFM1BWDaXUe2Hnjvp80F54Q>
-    <xme:3hHDY1q8ZujgNAPebISs_GhDsBigWaMMBv_QfJYLzYzHbGSWcI7sYjIVgADh0yaHA
-    v93FXPuc5TO0y2-cg>
-X-ME-Received: <xmr:3hHDY4NmT-flG3hULRedbh5SVEjaFEdt47HvRpo1M30xkd6qPv2KnUuoh_OX11n9CkIHszkb8A7V5Q6WGOSO82qSHTWp5P3XxPsONuqnjSpX3gBJSIiGkjWa5A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddttddgudeflecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgr
-    mhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqne
-    cuggftrfgrthhtvghrnhepkeejleelfeeitdfhtdfgkeeghedufeduueegffdvhfdukeel
-    leeftdetjeehuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:3hHDY-7DjzKOFad8o5BiNKevBXxOwT-t6Lc5Yzm5DaAniFJp_zCqDg>
-    <xmx:3hHDY64E6vA0Sxqk1kGIi0lJXIzfRn-H_Ge1pfh5gBRHRZmBFjcAwA>
-    <xmx:3hHDY2juJonOkNLid19AnZLr2cYdd_0JiIadxSGpA2gpWf-DKccD5g>
-    <xmx:3hHDY6G5A-NxBwd2fo6IO4_kgWE-vtz1d_dW4IjiG6lroj8QmCqHyw>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 14 Jan 2023 15:34:37 -0500 (EST)
-Message-ID: <5402eef2-6e4e-c2d4-2646-0ae3334bf6c3@sholland.org>
-Date: Sat, 14 Jan 2023 14:34:38 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595841FB4
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 12:37:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hSqSuCyFjWaJCqZB4ZrkZq6YRV/EY8IBO63YiEeiAUV/OtuHBIi+EE1NIAQ7m7OGbM8XSD9eigsMuVC+S7jJaZdJ6kSTUPA5CdLJu9hcaPCkXSHn4HUWOE1ZfvxHixzvxGwgbc58o4S7sqzJWnYoOFZwUdPh32BGciSJPP2rst+WxDYzOCBFG71fqQPjiLD7t7CJRBpmboykLuRdjKswNvtikbCyfhH5F1ccIxSKNKFt+L/04PwhF0HIEHPJIDKR+iMN54PFYzg931pG9/89+8LFMtBNXQxXsXSr2JO7ouZB3T9VD3o9mbvBlw6sCuXb7DM7HVwto7yfyi6hixRHrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aF5ONRrDWMhuOdDf9goRLV60SA7+3clSZ1uG4XBdVZU=;
+ b=WYTcdoCVMpKM1sVWiz9fHsHX4IoPXp93e9m9FQotRilwzhuGlvWGXRQhKyKIgmQZIG6nJ7c9622MFAX2LcANzP58mlT3ZYwi50xySRS91PCl9Vbj4UbI4K8YKo0iJt0A8y2KOFtD+xNy4eV9Q3ZmW4QXzzxBwDn0b2ntt0jjz2g74rFPia9m6MzWwTl04L7VDy2fU+eVG9Ng83Y6vcJQ94cbG34WCx6R5K2Em3ZN6tCA9Fk4LiiM2zUoaGDYvt1YlNRM/a9jEj+xDMsZGUBQ6kqenxov4lTPxKwuf35lBlxlcurYTYBk+I1Qt6SZzWwrxF/GxybFMDNnhhDWL5SgYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
+ header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
+ arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=theobroma-systems.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aF5ONRrDWMhuOdDf9goRLV60SA7+3clSZ1uG4XBdVZU=;
+ b=PLoqLsNpfl9d+7xPJe0rLO7tAcdoGcRkYnSnhEusDxmdxJ7BMeq/ORjvIrTl3A+GpIR4QGm6cG3pbvfA0/Lc5IeH0BFlF8F0eqLOZ3kmQEWEt3mpgkZM/jAu3t9EZ5g/y2VCp/dgv/jLcPoWA/qX1wb2Ukny5zqkWANjZyyg0+qBO+YRHN9gtUUbDNcUQiFJ30MwugRhCIz5V6pqAJj9B5i3/IwVplK25Ikvr4L1QDYbnxIdR6nlkP5y6Ovjlu8Uv/OnLyZoFLUdam/mxCWuFiLjKlUDmJmKT1YQHE/GoZV/FQLydmjPXXNadQg/IAOK4CkEWft/fQahl1t6fAsHsw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
+Received: from DU2PR04MB8536.eurprd04.prod.outlook.com (2603:10a6:10:2d7::10)
+ by PAXPR04MB8078.eurprd04.prod.outlook.com (2603:10a6:102:1c1::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13; Mon, 16 Jan
+ 2023 12:37:28 +0000
+Received: from DU2PR04MB8536.eurprd04.prod.outlook.com
+ ([fe80::24d3:14a5:eeda:6cdd]) by DU2PR04MB8536.eurprd04.prod.outlook.com
+ ([fe80::24d3:14a5:eeda:6cdd%4]) with mapi id 15.20.5986.023; Mon, 16 Jan 2023
+ 12:37:28 +0000
+Message-ID: <f6a8a8f1-0eec-2716-d4f1-9115c9d156b6@theobroma-systems.com>
+Date: Mon, 16 Jan 2023 13:37:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: (subset) [PATCH v3 0/9] fix reset line polarity for Goodix
+ touchscreen controllers
+Content-Language: en-US
+To: Bjorn Andersson <andersson@kernel.org>, samuel@sholland.org,
+ agx@sigxcpu.org, megous@megous.com, heiko@sntech.de, hdegoede@redhat.com,
+ robh+dt@kernel.org, wens@csie.org, michael.riesch@wolfvision.net,
+ lukma@denx.de, icenowy@aosc.io, kernel@pengutronix.de, david@protonic.nl,
+ shawnguo@kernel.org, foss+kernel@0leil.net, linux-imx@nxp.com,
+ festevam@gmail.com, pgwipeout@gmail.com, jagan@amarulasolutions.com,
+ agross@kernel.org, hadess@hadess.net, dmitry.torokhov@gmail.com,
+ jernej.skrabec@gmail.com, angelogioacchino.delregno@somainline.org,
+ mamlinav@gmail.com, frieder.schrempf@kontron.de, angus@akkea.ca,
+ Sascha Hauer <s.hauer@pengutronix.de>, konrad.dybcio@somainline.org,
+ krzysztof.kozlowski+dt@linaro.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org
+References: <20221103-upstream-goodix-reset-v3-0-0975809eb183@theobroma-systems.com>
+ <167336743963.2134489.16668389773212954467.b4-ty@kernel.org>
+From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+In-Reply-To: <167336743963.2134489.16668389773212954467.b4-ty@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0067.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:49::21) To DU2PR04MB8536.eurprd04.prod.outlook.com
+ (2603:10a6:10:2d7::10)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH] sunxi: eMMC: support TOC0 on boot partitions
-Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>,
- Jagan Teki <jagan@amarulasolutions.com>
-Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
-References: <20230105015818.19053-1-andre.przywara@arm.com>
-From: Samuel Holland <samuel@sholland.org>
-In-Reply-To: <20230105015818.19053-1-andre.przywara@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8536:EE_|PAXPR04MB8078:EE_
+X-MS-Office365-Filtering-Correlation-Id: c42a43f9-0b9c-4b1b-185c-08daf7be6db4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	O1bDejm1vqfTPou9LBurLw6RQy5bdMpspZCX78yN+ypWjdevkTnxBye2jF87yEtebSIIX+N0QiO7qtgCaf19CM4j3KMh4Hf5hPfT6ywfHjoG0hEIHLtyVD/QJbWsJYwS6Km38aPwS5kKpeWupYX4CeFiomihW5LRXlqHn9VwiTcVP0Drc86Dk5sZdOhr7pusQZmghfmidVm0vdAZeYcfpwN1h72gIEL+XD9nb/XTDKSt9ALa7YZ8j5+HQBTUkoXFGGDuM8A4GKQ/NM4ZENc3FjWF5KkiwysRSNpKyWRoMfDCoSyhCdg7jWV/19f5IGCYgmchmiibGorsJwfImBrei6mL2WiaCam+R8NVpOt0K1qDPCKaEbIUgQ9nwQ1zRWV90mWv95LdF4zoU0zcsqT/pyLx1FpCZVHp/wKdfzyz2BNXQ9VKG5Czh2z5DFDVQzxY8wdJiAJkzVMFbwNkLrVdDSxmFb5VSMRZSHL0qbf7QLiORK8bBhQWr1wRB0ge6Odja9gB5f9ZavY1seTlH7ttvWabrQv8z5zJpUMIVhqWpPXNSvFrTS8TwaEK1BEIK0iaKJFkpYhQVVQWhfWLMynqxeILh6GEkhHnCMSUzTTNpyrMbIDi0PMwG3EZWPB7vGgRzKLSVH07/NNnJ/WzP1HtUCNz3IcpC2a+Fr/k4olwSPEfhyuUOJZEUqTVpi3J96RcTvEqvAqHUhP/EOjfKh1ejpH/WuaNI1X+/cioN/XBhdsxUBEZk9Yc+c5KUjFBwl04
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8536.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39850400004)(376002)(396003)(136003)(346002)(366004)(451199015)(186003)(921005)(2906002)(26005)(6486002)(6512007)(66476007)(66556008)(66946007)(4326008)(478600001)(8676002)(31696002)(83380400001)(41300700001)(86362001)(2616005)(110136005)(316002)(44832011)(36756003)(7416002)(8936002)(7406005)(38100700002)(5660300002)(53546011)(31686004)(6666004)(6506007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QXZ4RXF3VTQzMzV1cTcvbkhmNGt2anpUdlgySitDdjV2dUpGWlg2c2R6YW9M?=
+ =?utf-8?B?U2U0T09MS0dzd0ErSzU3K1NLSlFSa0RRZUl0YjZkeFdSV0J6OVlqQzdsY0tR?=
+ =?utf-8?B?TS9nMTc1MFZWOThleitxVU44L0trYmZESGY4MFE4UjNsZVhXTldrREx3aSt6?=
+ =?utf-8?B?YWZFU1ozaTBtdjI5T29vVVEvclhOZVlpMmNYcXoyNUxrSFVZSUpjbW0wRWps?=
+ =?utf-8?B?SGJXMThwMHhuQmZCNEo0TTVkZkNsK21XNzNEcXRDWkxQbm96cWYvSkpET2Ez?=
+ =?utf-8?B?L0tyUWZaUWVhK280bTRnNXlPWEl5U3Z4Um9tbExWOXdORGp5b3ZvZ05ldG4w?=
+ =?utf-8?B?SjNobFFGaFcyRXlHMjh4Z1Y5bUlhWXJFM0FQSHdXWXpJaVNmVGQ3VVJ1NFkv?=
+ =?utf-8?B?YUJhbHl6aGNEWUlDYXZTS25BYldxTUhLUE5iQjFDUEhKd2hQUGcxSy9iMHRk?=
+ =?utf-8?B?bE1YTHpoTEY3U0R3c0krZkFkYWxseWtUd3VXQ2JFR3ZSSkhMdEtuU2xKczA0?=
+ =?utf-8?B?QWRLU253N1h3VWFQbityZmV4Y1ZnODNKeHMvTDVZMFJZY0w1cm5lZWNQM2kv?=
+ =?utf-8?B?d0VmT3ZuK3NNemV5aThETGJBc3VRZitUSjUzVVpsNktKblR3dm51N1E3SS9q?=
+ =?utf-8?B?QlBGbkR4aE9PQ24xZTE1WG14N0hLdEcycnUvSTEyZnBNUmJZaEszNXVEWFpm?=
+ =?utf-8?B?QUp6bWxEWW1CNzJ3QmdPM1FFV1IzbmxMTWhvU2xCTGNiOVQvSitxZGVTanJo?=
+ =?utf-8?B?bTZuMjZrOFI5dzBqR1EwOHZtWEdSTzBUTWlOcDlxV2l0VTI4Y012cGNySjkz?=
+ =?utf-8?B?cVUxZ3FRUms4YWs0TnB6d2duT05sbUpuMmpZZlJQbGlJb3FVNk14aVd4YVh5?=
+ =?utf-8?B?dmVyYklSRk1VQlRkdWdXWHV0WWtxM3ppcThEMDlwRWZXSExraTlTWUg1YW9O?=
+ =?utf-8?B?aFZEaTE1TVdBbDJCM0dYZnpKS3c4Y3hETkZJV1puazJackZVYkxFVEsyTDB4?=
+ =?utf-8?B?dlBFNVp2WDZBTHpDWTYvb1pMczNjNFNobnVzb0JBb3NJam9BOWVFSVdOWW5s?=
+ =?utf-8?B?cDVpQW9ONmducmtTNTRDRDhyc0w2bUZ0cWxOai9qZXNPTWVwS3BxbEFLdG1N?=
+ =?utf-8?B?TkVmMmZUZ0NWQll4cUNRTjBsKzV4c3pSZmJFdXhXVFFhQTQrQTdaZXpiMUtD?=
+ =?utf-8?B?bGc0ejRRdlRPUWtXTTB0LzVkNnF3UlpYMWo1VUMyNjNwTGdEYjZKNUxoeFBU?=
+ =?utf-8?B?ZUlUZnJPTVpuVUlGSWQrWDhFYnBsRktjN0VwRlN3MUI2eSszZFNTZXNUbnND?=
+ =?utf-8?B?OEM5dTAxb0RwZVlPTGVDV0oxd0dJVEZVWEwzZk9ES25RVFpmK0duL1VFSkRU?=
+ =?utf-8?B?SkQ2V0NOMEVZbkZOdjFNUnZ3N2ErbFRTMVYwT3k4dnFLbFZLdmxHZFNYRk9m?=
+ =?utf-8?B?NG9yLzhjMERYNlhXb2d5a21wTGZSVkQvU1VnMDduZFRpNnhBRGIwL3EwL3RV?=
+ =?utf-8?B?dTJvRWQ5Q0xrbEZIZ2x3eHlwcTJrbXROeGkzU2ZYajhlUFR3L242cnY0dmlT?=
+ =?utf-8?B?VmhzdEFIdGdJYktHLzVSUDk0RjFvTTF6NS9JYmV0Lzh5U0txOUJFMWhZOWdG?=
+ =?utf-8?B?cWJXZ29DQU41b1dETWlJMjI3aCtid2hnMFhqMDNQMkZ4d0ZhMGxRbVNWYVpm?=
+ =?utf-8?B?bVFnRk82S2Y1Z1plaWtHN3NBcUttV1c5Q1JtQkdTWTBjUnVrbVRKNTI2TU5a?=
+ =?utf-8?B?NGRpMHZTbC81WlUwWU5IN0p5WlZDcXkxcXY0Y1RSQ2pIM2kvdk9Ed1NsdE9a?=
+ =?utf-8?B?RE4yMDFEam9QR3NVL056R0xXUmgyOE1RNm1PSlVONHVRNk5WU3FoaGtZcUcz?=
+ =?utf-8?B?NlV4bVNsQnZ6NHVROXJaMmxGekc1Q0RIalkzUkJoVFV4NnlOalZ5MUw1Y2lE?=
+ =?utf-8?B?L0U1OHRYWStEWkxRN0p5L1VoZERHNGpFQStFUm5QQkpTdkZ4b084d1kwSHNE?=
+ =?utf-8?B?S1VCZnNncEhJY05kcWEyUE5SZU5PTDlHQVNFM3UzK3NuRlRnOEw2bGhFTzVp?=
+ =?utf-8?B?OCt5WFZYYUd5djM2b0ZTZzRVWnZwYVU4SHdDcjdnaG42Zk9IbHY2NFIySHo2?=
+ =?utf-8?B?N3ppK0lLY2pzYm95aFo0ZFpWZ0UwUXVYTWw4UnB5ckRCZG5zakQ4LzlGNFZq?=
+ =?utf-8?Q?Q5tJDvuegMaTvUDVf/ErCdw=3D?=
+X-OriginatorOrg: theobroma-systems.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c42a43f9-0b9c-4b1b-185c-08daf7be6db4
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8536.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2023 12:37:28.4587
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uzuJoSa0Kz+aDIXD7G2o7qOGgI5b8HkPQVzUocAJ+16M1E62Uo4lUaJRVppJW4xKlY9YPgFs5+5dQ0AYWF4y9h9WxiRiU7qDGVIExHtir+5R4/JZ7VEpP/aYYTSVwNux
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8078
 
-Hi Andre,
+Hi Bjorn, all,
 
-On 1/4/23 19:58, Andre Przywara wrote:
-> To determine whether we have been booted from an eMMC boot partition, we
-> replay some of the checks that the BROM must have done to successfully
-> load the SPL. This involves a checksum check, which currently relies on
-> the SPL being wrapped in an "eGON" header.
+On 1/10/23 17:17, Bjorn Andersson wrote:
+> On Mon, 5 Dec 2022 14:40:29 +0100, Quentin Schulz wrote:
+>> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+>>
+>> The Goodix touchscreen controller has a reset line active low. It happens to
+>> also be used to configure its i2c address at runtime. If the reset line is
+>> incorrectly asserted, the address will be wrongly configured. This cost me a few
+>> hours, trying to figure out why the touchscreen wouldn't work.
+>>
+>> [...]
 > 
-> If a board has secure boot enabled, the BROM will only accept the "TOC0"
-> format, which is internally very different, but uses the same
-> checksumming algorithm. Actually the only difference for calculating the
-> checksum is that the size of the SPL is stored at a different offset.
+> Applied, thanks!
 > 
-> Do a header check to determine whether we deal with an eGON or TOC0
-> format, then set the SPL size accordingly. The rest of the code is
-> unchanged.
+> [8/9] arm64: dts: qcom: msm8998-fxtec: fix touchscreen reset GPIO polarity
+>        commit: 8a0721dae68fdb4534e220fc9faae7a0ef2f3785
 > 
-> This fixes booting from an eMMC boot partition on devices with secure
-> boot enabled, like the Remix Mini PC.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  arch/arm/mach-sunxi/board.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
-> index 0c4b6dd1ca3..a90c88210cd 100644
-> --- a/arch/arm/mach-sunxi/board.c
-> +++ b/arch/arm/mach-sunxi/board.c
-> @@ -365,6 +365,7 @@ static bool sunxi_valid_emmc_boot(struct mmc *mmc)
->  	struct blk_desc *bd = mmc_get_blk_desc(mmc);
->  	u32 *buffer = (void *)(uintptr_t)CONFIG_TEXT_BASE;
->  	struct boot_file_head *egon_head = (void *)buffer;
-> +	struct toc0_main_info *toc0_info = (void *)buffer;
->  	int bootpart = EXT_CSD_EXTRACT_BOOT_PART(mmc->part_config);
->  	uint32_t spl_size, emmc_checksum, chksum = 0;
->  	ulong count;
-> @@ -391,11 +392,17 @@ static bool sunxi_valid_emmc_boot(struct mmc *mmc)
->  
->  	/* Read the first block to do some sanity checks on the eGON header. */
->  	count = blk_dread(bd, 0, 1, buffer);
-> -	if (count != 1 || !sunxi_egon_valid(egon_head))
-> +	if (count != 1)
-> +		return false;
-> +
-> +	if (sunxi_egon_valid(egon_head))
-> +		spl_size = buffer[4];
-> +	else if (sunxi_toc0_valid(toc0_info))
-> +		spl_size = buffer[7];
 
-Please dereference the appropriate structure member here instead of
-indexing the buffer.
+Thank you for the merge, however I think there could be some issue here.
 
-Regards,
-Samuel
+This requires the patches 1, 2 and 3 all modifying the input driver in 
+order to not introduce a regression.
 
-> +	else
->  		return false;
->  
->  	/* Read the rest of the SPL now we know it's halfway sane. */
-> -	spl_size = buffer[4];
->  	count = blk_dread(bd, 1, DIV_ROUND_UP(spl_size, bd->blksz) - 1,
->  			  buffer + bd->blksz / 4);
->  
+I mistakenly removed the RFC tag and seemingly didn't make it clear 
+enough that I had some question on how to properly merge this patch 
+series, c.f. "Do we also make this patch series only one patchset since 
+the DT patches depend
+on the driver patch and vice-versa? In which tree would this go?" in the 
+cover letter.
 
+So please, how do we go on with the rest of the patch series? Should I 
+submit a v4 which would be only one patch with DT and input changes all 
+at once and Bjorn reverts the patch they had just merged?
+
+@Dmitry, since you would have to merge at least patches 1 to 3 in your 
+tree (I assume), would you be willing to take the DT patches at the same 
+time through your tree too? Are the appropriate device DT maintainers OK 
+with this?
+
+Cheers,
+Quentin
