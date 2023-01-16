@@ -1,42 +1,42 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCB4A1FD7
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 13:12:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCEFF23C4
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 13:12:48 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9AB4967840;
-	Mon, 16 Jan 2023 13:12:38 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E9D0D67777;
+	Mon, 16 Jan 2023 13:12:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1673874758; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1673874761; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ub/S5lUTk4UdOnl+Asnj3p00yoXGxL5j3bEBHrB28Qc=;
-	b=PYrOQkWmr0HtH6SHms1C+IBgmfIkLRkFa1on31+4/yBstOuRQLV0wc7YSuGvgrfZgradB+
-	LB2CtQuscXtaR5jQOfJG5Ix8p/1L7NfF/5GhP1z2U0a+kkG/8Yj+v5PTE3t94MzNIo0BOI
-	YGYcADoU/0xLt2zTJq6bjFRrz7aeKg8=
+	bh=D+84Yocus/rHqFinyKAgXDadevtPY35U+9l3s56/nC4=;
+	b=TAek5Ith12OIB3p1oT2YdarI2Rv8otFm9PfgTdOAT39TtOqKs7u3WEPR3Ti+93zI/IZkzp
+	r3kVYHrDxzcZciGceYLUI/G1hDCNIFUrecJbq28iFhDerOoCAzeJfFMmDQ1/syvlL3991N
+	4e5J2AkgnK7tXdFZhdNoFLIRBthSqKM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1673874758;
+	s=susede2_ed25519; t=1673874761;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ub/S5lUTk4UdOnl+Asnj3p00yoXGxL5j3bEBHrB28Qc=;
-	b=G/FkVCcvAScwBwu42w8kUPDztimBY71Aunb3cwlCHeFjHpV+xEGLlIJWQXQjjtSgCBW4P8
-	mp7goEWSEaOxKACg==
+	bh=D+84Yocus/rHqFinyKAgXDadevtPY35U+9l3s56/nC4=;
+	b=5FTsz845/YgFtmhfN4xH7Znpuy6jxgLrk33mZcDjQOCW3Dac9vRz6bgac196Kq/3sQXlnf
+	VIlsdTC7otIhMzBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5B8EA138FA;
-	Mon, 16 Jan 2023 13:12:38 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AA4B1139C3;
+	Mon, 16 Jan 2023 13:12:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id uGFEFUZNxWNrNQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 16 Jan 2023 13:12:38 +0000
+	id +PSPKElNxWNrNQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 16 Jan 2023 13:12:41 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: sam@ravnborg.org,
 	daniel@ffwll.ch,
@@ -51,9 +51,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 04/22] drm/arm/komeda: Remove unnecessary include statements for drm_crtc_helper.h
-Date: Mon, 16 Jan 2023 14:12:17 +0100
-Message-Id: <20230116131235.18917-5-tzimmermann@suse.de>
+Subject: [PATCH 15/22] drm/rockchip: Remove unnecessary include statements for drm_crtc_helper.h
+Date: Mon, 16 Jan 2023 14:12:28 +0100
+Message-Id: <20230116131235.18917-16-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230116131235.18917-1-tzimmermann@suse.de>
 References: <20230116131235.18917-1-tzimmermann@suse.de>
@@ -74,34 +74,21 @@ possible.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/arm/display/komeda/komeda_crtc.c | 1 -
- drivers/gpu/drm/arm/display/komeda/komeda_kms.h  | 1 -
- 2 files changed, 2 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-index 4cc07d6bb9d8..cea3fd5772b5 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-@@ -10,7 +10,6 @@
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
--#include <drm/drm_crtc_helper.h>
- #include <drm/drm_print.h>
- #include <drm/drm_vblank.h>
- 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
-index 7339339ef6b8..3a872c292091 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
-@@ -11,7 +11,6 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index 8cecf81a5ae0..ba3b81789509 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -25,7 +25,6 @@
+ #include <drm/drm_atomic_uapi.h>
  #include <drm/drm_blend.h>
+ #include <drm/drm_crtc.h>
 -#include <drm/drm_crtc_helper.h>
- #include <drm/drm_device.h>
- #include <drm/drm_writeback.h>
- #include <drm/drm_print.h>
+ #include <drm/drm_debugfs.h>
+ #include <drm/drm_flip_work.h>
+ #include <drm/drm_framebuffer.h>
 -- 
 2.39.0
 
