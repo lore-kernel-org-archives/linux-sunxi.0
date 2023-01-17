@@ -1,98 +1,143 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5001779DC
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 23:26:33 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id h12-20020a05600c314c00b003da50afcb33so4680040wmo.4
-        for <linux-sunxi@lists.linux.dev>; Mon, 16 Jan 2023 15:26:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rxTSnhrRy0EXIKGONwWnaThYVL0KmOYpIgvSIb18frw=;
-        b=mQye/zMRF18PPYCBBFfNtW/A5q1mLqaAcyb+Fq3P5/3eOswfoWbF94JPYE+CUR+cNH
-         CQrH2R10z+vbWJb0o47c3NKSlUwLXpHWC3nSEa2JqvnDp/n5wd7ll5SA3UyWX6oiiZXl
-         quYgjP7hhIOLkiR+rWjOCH1FkYDJzwuWNzUIps3Oe4KzW4V60kfmnqBQUCQa+cEg7Z56
-         ecUI7P4QVevsF41xKAbTniSG4It9dHsFVjgwoEyPJ8d1mWgcd9ePi88yG5kurrqn4jok
-         OnzYyIRFrQE06czbuYnzNzZKEf7TBdEWxiVAk7+eIdL+M3/QUtt8dAKWANvBzEI1HU1Q
-         04tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rxTSnhrRy0EXIKGONwWnaThYVL0KmOYpIgvSIb18frw=;
-        b=I2Cr90/uUY4tFw+y8jk7nlNnRo7Q4TjVxf2cBi34jZhKWh37O4fynDjM2WcQ5byJgv
-         ZrrnqcmGjfWCDPACgPlHe/SqMpiIxKgTBhHQGwdKcKJHg3G/lwcQSmhlqLJNC7UqIXeM
-         pbQwdKcu5+lKfK7QTtWxrtn2DP5SjaaGyN0IZNZI+8qaAD0EJGBQbVfsH4xaYZ/qTmIh
-         I1bo4a4Hy8afZq46gVpOFSjxnxr7jP5SQPwjzX4bjKGI+cK7m01zv0uGxQrl1pDYpm7C
-         LAzxppOhW8Ew+xdC0m2tMctGTmD+tPZQGR2JNlNWDYYiXsUitB/RurEgr0eEJiwrFYhn
-         BA5A==
-X-Gm-Message-State: AFqh2kr45OZ10b2tvAtQTlMGW1MdPvLpRET8JFdEvKLEUQwOslty5atr
-	Qwc7iD2cT9TppEBMO46FdnRU11iVl2xpfm5N
-X-Google-Smtp-Source: AMrXdXueQadTTrugde9kK0zdGlzTnf6Ql6yOas6xOKfLKwhxL2wc3sC1a71ow4kqTj6awHYPvOKDtw==
-X-Received: by 2002:a05:600c:5409:b0:3da:f66a:e866 with SMTP id he9-20020a05600c540900b003daf66ae866mr1088369wmb.10.1673911591337;
-        Mon, 16 Jan 2023 15:26:31 -0800 (PST)
-Received: from localhost.localdomain (mm-88-61-120-178.brest.dynamic.pppoe.byfly.by. [178.120.61.88])
-        by smtp.gmail.com with ESMTPSA id he12-20020a05600c540c00b003d9ddc82450sm34276915wmb.45.2023.01.16.15.26.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Jan 2023 15:26:30 -0800 (PST)
-From: Oleg Verych <olecom@gmail.com>
-To: linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
-Cc: Oleg Verych <olecom@gmail.com>,
-	=?UTF-8?q?Emilio=20L=C3=B3pez?= <emilio@elopez.com.ar>,
-	Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@siol.net>,
-	linux-sunxi <linux-sunxi@googlegroups.com>
-Subject: [PATCH] doc sunxi: update CCU wiki page link in clocks.rst
-Date: Tue, 17 Jan 2023 02:22:09 +0300
-Message-Id: <20230116232209.4744-1-olecom@gmail.com>
-X-Mailer: git-send-email 2.35.1.windows.2
-In-Reply-To: <20230107083749.2419-1-olecom@gmail.com>
-References: <20230107083749.2419-1-olecom@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFAE1FC2
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 Jan 2023 08:41:37 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 389096834E;
+	Tue, 17 Jan 2023 08:41:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1673944896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rg3+qKkwwxy1PyfGEgfsERCs9EspIVLV9IOlw7clUwc=;
+	b=cX3lTal0KQAYsRZMF9DQ+eMErCnOWxeo2gynfs10W9/H4iCoCFR7zgCqFJTZOizWm7VIwZ
+	ZmJGrcUQrPfE5w0M02dM9jLLMXFfoDYA1bxvPWPl7M/maov6xVTeh3O/OhNtv1rYSuvA64
+	t17ZNy0xFk3BW6nhAVMJ56ZYPKI6YXY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1673944896;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rg3+qKkwwxy1PyfGEgfsERCs9EspIVLV9IOlw7clUwc=;
+	b=AxodzgBL94uIf+5wnZzzRB6mLCh0ReLOrIGCeXPVUVxG1UZhYLe+jPXJejK3aaDbhkNwc0
+	jGCKSb7cEzvvV/CQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E85351390C;
+	Tue, 17 Jan 2023 08:41:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id NOR0Nz9fxmNJXQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Tue, 17 Jan 2023 08:41:35 +0000
+Message-ID: <40c778d6-1348-2c6c-2e37-c3602cc66b7b@suse.de>
+Date: Tue, 17 Jan 2023 09:41:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 00/22] drm: Remove includes for drm_crtc_helper.h
+Content-Language: en-US
+To: Alex Deucher <alexdeucher@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Cc: linux-aspeed@lists.ozlabs.org, sam@ravnborg.org,
+ linux-mips@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20230116131235.18917-1-tzimmermann@suse.de>
+ <87k01me9jn.fsf@intel.com>
+ <CADnq5_PsL8N27_LC_h1m8i_FCg6mJtr7K9Yjv=guw-KGD2wU5w@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CADnq5_PsL8N27_LC_h1m8i_FCg6mJtr7K9Yjv=guw-KGD2wU5w@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------HZoXM0yd7tEI0Xb9vAUNJ06z"
 
-Update wiki page link to the Allwinner sunXi SoC Clock Control Module.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------HZoXM0yd7tEI0Xb9vAUNJ06z
+Content-Type: multipart/mixed; boundary="------------M0Q2evvYu05hQ9r0mpgHSfn3";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Alex Deucher <alexdeucher@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Cc: linux-aspeed@lists.ozlabs.org, sam@ravnborg.org,
+ linux-mips@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Message-ID: <40c778d6-1348-2c6c-2e37-c3602cc66b7b@suse.de>
+Subject: Re: [PATCH 00/22] drm: Remove includes for drm_crtc_helper.h
+References: <20230116131235.18917-1-tzimmermann@suse.de>
+ <87k01me9jn.fsf@intel.com>
+ <CADnq5_PsL8N27_LC_h1m8i_FCg6mJtr7K9Yjv=guw-KGD2wU5w@mail.gmail.com>
+In-Reply-To: <CADnq5_PsL8N27_LC_h1m8i_FCg6mJtr7K9Yjv=guw-KGD2wU5w@mail.gmail.com>
 
-Signed-off-by: Oleg Verych <olecom@gmail.com> 
----
-Hi!
+--------------M0Q2evvYu05hQ9r0mpgHSfn3
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Can I ask additional question to those in the file?
+SGkNCg0KQW0gMTYuMDEuMjMgdW0gMTk6Mzcgc2NocmllYiBBbGV4IERldWNoZXI6DQo+IE9u
+IE1vbiwgSmFuIDE2LCAyMDIzIGF0IDExOjIwIEFNIEphbmkgTmlrdWxhDQo+IDxqYW5pLm5p
+a3VsYUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOg0KPj4NCj4+IE9uIE1vbiwgMTYgSmFuIDIw
+MjMsIFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPiB3cm90ZToNCj4+
+PiBBIGxvdCBvZiBzb3VyY2UgZmlsZXMgaW5jbHVkZSBkcm1fY3J0Y19oZWxwZXIuaCBmb3Ig
+aXRzIGNvbnRhaW5lZA0KPj4+IGluY2x1ZGUgc3RhdGVtZW50cy4gVGhpcyBsZWFkcyB0byBl
+eGNlc3NpdmUgY29tcGlsZS10aW1lIGRlcGVuZGVuY2llcy4NCj4+Pg0KPj4+IFdoZXJlIHBv
+c3NpYmxlLCByZW1vdmUgdGhlIGluY2x1ZGUgc3RhdGVtZW50cyBmb3IgZHJtX2NydGNfaGVs
+cGVyLmgNCj4+PiBhbmQgaW5jbHVkZSB0aGUgcmVxdWlyZWQgc291cmNlIGZpbGVzIGRpcmVj
+dGx5LiBBbHNvIHJlbW92ZSB0aGUNCj4+PiBpbmNsdWRlIHN0YXRlbWVudHMgZnJvbSBkcm1f
+Y3J0Y19oZWxwZXIuaCBpdHNlbGYsIHdoaWNoIGRvZXNuJ3QgbmVlZA0KPj4+IG1vc3Qgb2Yg
+dGhlbS4NCj4+Pg0KPj4+IEkgYnVpbHQgdGhpcyBwYXRjaHNldCBvbiB4ODYtNjQsIGFhcmNo
+NjQgYW5kIGFybS4gSG9wZWZ1bGx5IEkgZm91bmQNCj4+PiBhbGwgaW5jbHVkZSBkZXBlbmRl
+bmNpZXMuDQo+Pg0KPj4gSSB0aGluayB0aGlzIGlzIHRoZSByaWdodCBkaXJlY3Rpb24gYW5k
+IEkgc3VwcG9ydCB0aGlzLiBQZXJzb25hbGx5IEkNCj4+IHRoaW5rIGl0J3MgZW5vdWdoIHRv
+IGJ1aWxkIHRlc3QgYW5kIGZpeCBhbnkgZmFsbG91dCBhZnRlcndhcmRzLg0KPj4NCj4+IFRv
+IHRoYXQgZW5kLCBJIGRpZCBidWlsZCB0ZXN0IHRoaXMgbXlzZWxmIHdpdGggbXkgY29uZmln
+LCBhbmQgaXQgd2FzDQo+PiBmaW5lLCB0aG91Z2ggdGhhdCBwcm9iYWJseSBkb2Vzbid0IGFk
+ZCBtdWNoIGNvdmVyYWdlLg0KPj4NCj4+IEZXSVcsDQo+Pg0KPj4gQWNrZWQtYnk6IEphbmkg
+TmlrdWxhIDxqYW5pLm5pa3VsYUBpbnRlbC5jb20+DQo+IA0KPiBBZ3JlZWQuICBJIGFwcGxp
+ZWQgMS8yMiBzaW5jZSBpdCB3YXMgYW4gdW5yZWxhdGVkIGNsZWFudXAsIGJ1dCB0aGUNCj4g
+cmVzdCBvZiB0aGUgc2VyaWVzIGlzOg0KPiBBY2tlZC1ieTogQWxleCBEZXVjaGVyIDxhbGV4
+YW5kZXIuZGV1Y2hlckBhbWQuY29tPg0KDQpUaGFua3MgdG8gYm90aCBvZiB5b3UuIEknbGwg
+bGVhdmUgb3V0IHRoZSBmaXJzdCBwYXRjaCB3aGVuIG1lcmdpbmcgdGhlIA0Kc2VyaWVzLg0K
+DQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPj4NCj4+DQo+PiAtLQ0KPj4gSmFuaSBO
+aWt1bGEsIEludGVsIE9wZW4gU291cmNlIEdyYXBoaWNzIENlbnRlcg0KDQotLSANClRob21h
+cyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJl
+IFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVy
+ZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhy
+ZXI6IEl2byBUb3Rldg0K
 
-How is it possible to setup PLL7 to particular frequency and select
-it as a source to CSI0 via CCM_CSI0_CLK[1]?
+--------------M0Q2evvYu05hQ9r0mpgHSfn3--
 
-Is it possible to put such device tree example in documentation?
+--------------HZoXM0yd7tEI0Xb9vAUNJ06z
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Thanks!
+-----BEGIN PGP SIGNATURE-----
 
-[1] https://linux-sunxi.org/Clock_Control_Module#CCM_CSI0_CLK
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPGXz8FAwAAAAAACgkQlh/E3EQov+CD
+Jw/+MTb+BPZzh8/QUyb31NxfXoxbq8jtzMJYljSz0DCcnbcyJi/VodlwaLvUrUMdrGCbwnbEQi3/
+tbnWP/LyqMUoi/wipxPzIS3kdeJka/6y5ytVh1xIXqGiGr4vrTPGfUvsl/5WKBvUDeLEhXRCjww6
+255YDfk6ypXLcbYIZMBw6JacQG6AjrFY0Nkd0GJjryMNRYigv+T06RauL4BdPshf7YWSz3FLU5QB
+UiueCCbkoGZZItQp0F6NwuNTOaIYcGaih1ZjYoM5sdF7PRWuUj2lgm5CKrYOL5USSWnMtrG+gV4c
+vrJXvdT4VlEcAIqhMcB+XprmbpjUEIkEwMpWgZncSFwJqYSPc3e9WNqVG8L3Yc2o0RXavaR+jgV4
+8TfMO42iMGxzIRRewW7nd4EswNn+4FQycCRIjBxsMR/yVSL29x6HMBDEm2FjpMX5NKMpRBwvrCcJ
+uH7yzcltwZDKq0UFEjNr4jNUedc1KU5My/OqSp4Vo8MTMXM3MwFQlQ+w4TjaHQOB/TxO2jb2bytv
+h7q4OPXnwAEJd3FRKgdgshzpM4oj7K6xuhgyeBZRjM0Js7QOSmXrWIB2W2oLBkOgnxlfTmvrvk/A
+3yb/toR+az7Zvh7nxy+dNvjbc+ivcWFEXirk0i4+3Sxx+VcvwdmF9WlOH7tEfG/EY15VzrC56LpJ
+X3E=
+=5Kpg
+-----END PGP SIGNATURE-----
 
- Documentation/arm/sunxi/clocks.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/arm/sunxi/clocks.rst b/Documentation/arm/sunxi/clocks.rst
-index 23bd03f3e..f435bdd70 100644
---- a/Documentation/arm/sunxi/clocks.rst
-+++ b/Documentation/arm/sunxi/clocks.rst
-@@ -49,7 +49,7 @@ Q: Were can I learn more about the sunxi clocks?
- A: The linux-sunxi wiki contains a page documenting the clock registers,
-    you can find it at
- 
--        http://linux-sunxi.org/A10/CCM
-+        https://linux-sunxi.org/Clock_Control_Module
- 
-    The authoritative source for information at this time is the ccmu driver
-    released by Allwinner, you can find it at
--- 
-2.20.1
-
+--------------HZoXM0yd7tEI0Xb9vAUNJ06z--
