@@ -1,112 +1,145 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9018D4C9A
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 Jan 2023 16:16:12 +0000 (UTC)
-Received: by mail-qt1-f169.google.com with SMTP id z9so4912378qtv.5
-        for <linux-sunxi@lists.linux.dev>; Tue, 17 Jan 2023 08:16:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=32k8zb8SlIXtNBA+355kied36qp9WCAcumqxmiU0DEk=;
-        b=lpwhTDhGaQqc0e723O6ST5N6BNhSrkMWRdJ0nUHjZQExupVmiw1St/5wpyC/CtY0P1
-         pFFR6gDGjeRgtqE66XOvo20qGZM0t1i/UdkF0LvjhhZW/AAgW6sxD+MQkPhbiFB2gBEy
-         qzfQJ/+ig2N2k0f5y76fL4a4aeA2pa/D9PMms=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=32k8zb8SlIXtNBA+355kied36qp9WCAcumqxmiU0DEk=;
-        b=ChpiWtTSr4AJHt+qJsjomGNmbe8mpqo+qzYBqqUKBtrg3JtBCrGgal2S3Ny5NQiOSc
-         xqzc2St0hitu3ppkydsbC7ZB2cmzgki8gjgVvnLYT9fr2LdW9LhjEihltDFocCCku6Yt
-         Aj+aUVT2ku1Gc7+/JKCKi3wBpfSGmobTOVHrf1YVu1jQPMgB88r5TWEN8JMZhwA/jsjp
-         G2hTAhEsGeE+b+2+iDNG5jdsq0FcXpLV2FsS1AMUgh0BbZWJESBuwZSiH5xOhqssMjOM
-         ucxcDljqWivQFAjMXnShmgeCq7SJ/E4nEaqVyH4k03a9Gc6LYDpuD7ppI5DODgg5jTaf
-         798Q==
-X-Gm-Message-State: AFqh2kq4iuJZdjUTT9STWzlnxlTd4lXkyMt/ZZTGGBOyAIO0tBijcYqe
-	dj6XzzpCsgY5vx/DeFnMLYCjhg==
-X-Google-Smtp-Source: AMrXdXvFclcxsUWSN1SUIfYU7fyMzfsKr9SQNT9GZcdT5IbfbKLBabDmq+XDCK826C/n3iJTiYEODg==
-X-Received: by 2002:a05:622a:40c8:b0:3b0:c9a1:d973 with SMTP id ch8-20020a05622a40c800b003b0c9a1d973mr32828436qtb.7.1673972171544;
-        Tue, 17 Jan 2023 08:16:11 -0800 (PST)
-Received: from bill-the-cat (2603-6081-7b00-6400-3487-94a5-6d7e-19f3.res6.spectrum.com. [2603:6081:7b00:6400:3487:94a5:6d7e:19f3])
-        by smtp.gmail.com with ESMTPSA id t39-20020a05622a182700b003b63b20314esm1577961qtc.57.2023.01.17.08.16.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jan 2023 08:16:11 -0800 (PST)
-Date: Tue, 17 Jan 2023 11:16:09 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Sergei Antonov <saproj@gmail.com>
-Cc: Andre Przywara <andre.przywara@arm.com>, Simon Glass <sjg@chromium.org>,
-	u-boot@lists.denx.de, linux-sunxi@lists.linux.dev,
-	Samuel Holland <samuel@sholland.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DB88EB18
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 Jan 2023 22:17:34 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9316E14BF;
+	Tue, 17 Jan 2023 14:18:15 -0800 (PST)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5F8B03F67D;
+	Tue, 17 Jan 2023 14:17:32 -0800 (PST)
+Date: Tue, 17 Jan 2023 22:15:46 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: Simon Glass <sjg@chromium.org>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev, Samuel Holland <samuel@sholland.org>
 Subject: Re: [PATCH] ns16550: Fix DM serial operation with non-DM SPL
-Message-ID: <20230117161609.GG3880571@bill-the-cat>
+Message-ID: <20230117221546.447775bd@slackpad.lan>
+In-Reply-To: <20230117161435.GF3880571@bill-the-cat>
 References: <20230117120938.818180-1-andre.przywara@arm.com>
- <CABikg9w9U28WMY9rS8dQwKpz9qnNu5i2_270U=SOLmHf=ZXw=w@mail.gmail.com>
+	<20230117131518.GW3880571@bill-the-cat>
+	<20230117160914.7c2ba373@donnerap.cambridge.arm.com>
+	<20230117161435.GF3880571@bill-the-cat>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WTO+dqXoBrlfXqg9"
-Content-Disposition: inline
-In-Reply-To: <CABikg9w9U28WMY9rS8dQwKpz9qnNu5i2_270U=SOLmHf=ZXw=w@mail.gmail.com>
-X-Clacks-Overhead: GNU Terry Pratchett
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Tue, 17 Jan 2023 11:14:35 -0500
+Tom Rini <trini@konsulko.com> wrote:
 
---WTO+dqXoBrlfXqg9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Tue, Jan 17, 2023 at 04:09:14PM +0000, Andre Przywara wrote:
+> > On Tue, 17 Jan 2023 08:15:18 -0500
+> > Tom Rini <trini@konsulko.com> wrote:
+> > 
+> > Hi Tom,
+> >   
+> > > On Tue, Jan 17, 2023 at 12:09:38PM +0000, Andre Przywara wrote:
+> > >   
+> > > > Commit 9591b63531fa ("Convert CONFIG_SYS_NS16550_MEM32 et al to Kconfig")
+> > > > moved some NS16550 configuration variables into Kconfig.
+> > > > Among those there is CONFIG_SYS_NS16550_REG_SIZE, which used to be only
+> > > > defined for SPL build runs, but now is always set (thanks for Kconfig).
+> > > > However this breaks the gating logic in ns16550.h, where we *override*
+> > > > this variable for DM build, as we learn this setting from the DT instead.
+> > > > 
+> > > > As a consequence, we did the register shift twice: once when building
+> > > > the register struct (as required for non-DM SPL builds), but then also
+> > > > again in the driver after we parsed the reg-shift DT property.
+> > > > 
+> > > > Change the logic to match what the comment says: only observe
+> > > > CONFIG_SYS_NS16550_REG_SIZE when not using DM, and ignore it otherwise.
+> > > > 
+> > > > This fixes U-Boot proper for all sunxi boards, since they are relying
+> > > > on this driver being build non-DM for the SPL, but DM for U-Boot proper.
+> > > > 
+> > > > Fixes: 9591b63531fa ("Convert CONFIG_SYS_NS16550_MEM32 et al to Kconfig")
+> > > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > > > ---
+> > > > Hi,
+> > > > 
+> > > > this is admittedly a quick fix, to get sunxi booting again. This whole
+> > > > code around the register access looks somewhat bonkers, to be honest,
+> > > > but at the moment I don't have time to rework this.
+> > > > Another possible "quicker fix" would be use a separate variable for the
+> > > > register shift, so that we don't have to redefine a Kconfig variable.
+> > > > Another idea would be to get rid of the struct for the registers
+> > > > altogether, to remove the hacks about when to shift.
+> > > > 
+> > > > Cheers,
+> > > > Andre
+> > > > 
+> > > >  include/ns16550.h | 3 ++-
+> > > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/include/ns16550.h b/include/ns16550.h
+> > > > index 243226fc3d9..e9e2aeedd16 100644
+> > > > --- a/include/ns16550.h
+> > > > +++ b/include/ns16550.h
+> > > > @@ -26,11 +26,12 @@
+> > > >  
+> > > >  #include <linux/types.h>
+> > > >  
+> > > > -#if CONFIG_IS_ENABLED(DM_SERIAL) && !defined(CONFIG_SYS_NS16550_REG_SIZE)
+> > > > +#if CONFIG_IS_ENABLED(DM_SERIAL)
+> > > >  /*
+> > > >   * For driver model we always use one byte per register, and sort out the
+> > > >   * differences in the driver
+> > > >   */
+> > > > +#undef CONFIG_SYS_NS16550_REG_SIZE
+> > > >  #define CONFIG_SYS_NS16550_REG_SIZE (-1)
+> > > >  #endif    
+> > > 
+> > > Does:
+> > > https://patchwork.ozlabs.org/project/uboot/patch/20230110161946.3816866-5-trini@konsulko.com/
+> > > work for you as well?  
+> > 
+> > Unfortunately not. This changed condition there does not trigger for
+> > sunxi. If I hack it that it applies, but only to the proper build, it
+> > works, though. But I don't feel like adding to this #if even more ;-)  
+> 
+> I've got a version that does work, now, on my pine64 plus, and I've
+> asked Quentin to test his Rockchip platform that was also broken, before
+> I post a new version there.
 
-On Tue, Jan 17, 2023 at 04:12:54PM +0300, Sergei Antonov wrote:
-> On Tue, 17 Jan 2023 at 15:10, Andre Przywara <andre.przywara@arm.com> wro=
-te:
->=20
-> > -#if CONFIG_IS_ENABLED(DM_SERIAL) && !defined(CONFIG_SYS_NS16550_REG_SI=
-ZE)
-> > +#if CONFIG_IS_ENABLED(DM_SERIAL)
-> >  /*
-> >   * For driver model we always use one byte per register, and sort out =
+Is it something like this:
+
+diff --git a/include/ns16550.h b/include/ns16550.h
+index 243226fc3d9..74e619e0614 100644
+--- a/include/ns16550.h
++++ b/include/ns16550.h
+@@ -26,15 +26,12 @@
+ 
+ #include <linux/types.h>
+ 
+-#if CONFIG_IS_ENABLED(DM_SERIAL) &&
+!defined(CONFIG_SYS_NS16550_REG_SIZE) /*
+  * For driver model we always use one byte per register, and sort out
 the
-> >   * differences in the driver
-> >   */
-> > +#undef CONFIG_SYS_NS16550_REG_SIZE
-> >  #define CONFIG_SYS_NS16550_REG_SIZE (-1)
-> >  #endif
->=20
-> What if I have DM_SERIAL and a 16550 UART with 32-bit registers?
-> Before 9591b63531fa the register size of 8 was enforced for DM_SERIAL.
+  * differences in the driver
+  */
+-#define CONFIG_SYS_NS16550_REG_SIZE (-1)
+-#endif
+-
+-#if defined(CONFIG_NS16550_DYNAMIC) || defined(CONFIG_DEBUG_UART)
++#if CONFIG_IS_ENABLED(DM_SERIAL) || defined(CONFIG_NS16550_DYNAMIC)
+||	\
++    defined(CONFIG_DEBUG_UART)
+ #define UART_REG(x)	unsigned char x
+ #else
+ #if !defined(CONFIG_SYS_NS16550_REG_SIZE) ||
+(CONFIG_SYS_NS16550_REG_SIZE == 0)
 
-Note that right now, there are some broken cases still, which is why I
-made:
-https://patchwork.ozlabs.org/project/uboot/patch/20230110161946.3816866-5-t=
-rini@konsulko.com/
-but that doesn't fix _this_ case, either. Can you test the above patch
-on your platform however? Thanks!
 
---=20
-Tom
+Cheers,
+Andre
 
---WTO+dqXoBrlfXqg9
-Content-Type: application/pgp-signature; name="signature.asc"
+> A better long term fix would likely start by seeing which non-DM_SERIAL
+> cases we have, and what they need, still.
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmPGyckACgkQFHw5/5Y0
-tywohAv/YFtqeRWNptfyqwXYXD9HLuLZh9ue+tUFcl+IpQILsADW5XCEOJ3UDo83
-BR+k8BKEUSRNg6mItxV1/prY1nwMLHeVhSPUETc+TAWp3QF4A/SSTXIt56L5jqfW
-yIyNiMfvcE+3yJchsRLBM5DnBQXLlEL1eAGJUbGMKwueE6NpOE+OEpUfmzaur+oN
-ilkY4emP2qNjTlC5m2plFRil8J/4O19nQkjyQfJxBYoKekReoP9MDqp+FzoY9Rw/
-TIsVvQlZOMOcKy2Sfbn1EcZz68aEqVnkFDh6Yao95BvcIMdSWKiNPNPzuSNaEoTh
-1E/bAyG9C1gEaim5+UnU7DyQzMrkvEk3jNQoMrh+Lnl80yG+HO2xOWY+I9UezrWA
-IXcfE7iQ0rldgM9ARYIQUqgFIaWmQzh3JcwwbdsSTP59dJpLq1c2eAB/pegakBjW
-j4SE9kJ7zR9Zq1QAJXxGzZGlp0J5lIsGgGpQ77DFgjGZ8ZxMS8Dgr7vgmmVPO2mT
-Hk/7WeL9
-=MdHc
------END PGP SIGNATURE-----
-
---WTO+dqXoBrlfXqg9--
