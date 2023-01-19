@@ -1,240 +1,200 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2061.outbound.protection.outlook.com [40.107.93.61])
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2056.outbound.protection.outlook.com [40.107.21.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D40B425;
-	Thu, 19 Jan 2023 18:59:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870CDB425;
+	Thu, 19 Jan 2023 19:10:58 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TMeyYE+Qb4iuC2Itd3drZ3ffHrIGC/pWSFW/0IGGikkjTkSKbN+WmEXa+yQxjoKb2z+byKJIbBmc9Yjw8nlVV906XRtRZBrNXs6UdSfsI8g7Wz3pI0O4cSRpO1qmmEXLzE2+GK0BhtR5ESB2oFr8CmbVOKYbhv6g6YKKDNQdVncwsieGmEjnPpYezR61pbH6Ze8pKsZCmUYB1OMFW+sPHEQvwT6Fp5Bp+No5rFNoB0HUGMdPnSPT8WFmgCUaaqUnqQQyXDehSFBu86FJv4gAF2oYGi9HTXcmkl87oVHkxc7MbU4+eBQP0xAXywOIEmSOa7iuYDFGcHUEeHOBwxwUDA==
+ b=Q8oNTPs96fwsTN2J1iHzUe8T4NzzRhrKnpWH8FK8qfhxZ/9fpUNozNil65JI0cdrdVV32SZaL8Z0SVhrIJlm2okKCVcXOQvyDbCWuiaponfc2DTn3w9Nz//cnMJ9WEOIuh6rDUFbuIT45UAio1ahBFf0SzjVTnm/rAwdAu0mK/9qw+tCIpq7jk+rm/pDgkcCmZvuMIUSBz2xjaqn+pc7ar1f3y9ITZcRjrhnc0zA6Yq+LarwdorLiH9+bOzDu+eZf6XzoCNddRjDUTHzlEIYL1Y8gShyawl1NauVQbdI5uFEUig2zPxbDTR2dT6MN9elADmbfTLbKGwoCvrmsSMiYg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0ddMvLDT0J0fhvUiIo3eTl/IYAM9NaFqZsLmKBKi4lg=;
- b=bNvvW65zoaq1C/F+ISzwMx8kBpxrk59ktOZ+PHTr2nFSLrmkGgJr8RxGBF2pe6C7e2frUh+pSq2Uiy8Eu6tXXBHPr2blrGbT3/5mycE4bMQu0oT8nrTyZ9hAGXSp2qEHKwUAkehyhAwn5ntlWFftEa8kzVcSQLUb//UBJ+ZCWgThsheRwtyqV1oO0kdR/E2BZDThFMTknpGlFYGwnXY07FZ+pE/bxS1UcKePntDQCv6leoiI9pdmtyokS1gA70ylLKRs7DCJpOd7Ufp6gn5i6PU8Wpf/OTylEKeEZ+mIoaUsjDWNq3FHEnjBw2oZbk1CMKmrykv04YcQ8NCmJGeoXw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=q4yVKGEYAJ1JxUJ3P+i0jWX8PR5LYdfiOQPVsQw9op0=;
+ b=L2c9Z++JOFRThXIXaPxG/JAbUY7T8fsi0Hatc5XRcGfeL1zBqALnPuvpkQEg8I4cK6DiKgo9DMPszTHMOv6MT+5FfxPVq9aqyS04ppGO4yicFWDTAsvyq38DhHFqlIQ7l1cLZWLaF897QKqK07ZdnjcfnwjA7mfzbYhtbxE+YQFGSAzYMKM92qOYe4FsdUWjDUeG8+crjqzqfRo4EQ3CDp1d6s1abppje5/PR3gYMUyPI/rnJTtPlmIeUajTXmzvfxW0F/6/0TyvJcYdyGrXSdGY2RGLaT4fpVlXxiYO+zMlC5sSASoqWXinzlHrzfAIPFEXNQ8FdV8jNCUgH/yMpg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
+ dkim=pass header.d=seco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0ddMvLDT0J0fhvUiIo3eTl/IYAM9NaFqZsLmKBKi4lg=;
- b=jhOxSqjPWBSu1v/vX40Ev0z4wpyq3yTy6AAEogi7fEzLEskH/x2lsMl6HWnPSvWdW6HX7ytgnjL1b6u0+XUQSuf6fjURK8kFLX55DjfsLtYS+SE9KkAHHjvcMUqUnoIY/i3Oc3e5Jd4jvjPQwEyuuQaUc7K5qK/JDzaqyq2uKHY=
-Received: from BN9PR03CA0280.namprd03.prod.outlook.com (2603:10b6:408:f5::15)
- by PH7PR12MB7281.namprd12.prod.outlook.com (2603:10b6:510:208::6) with
+ bh=q4yVKGEYAJ1JxUJ3P+i0jWX8PR5LYdfiOQPVsQw9op0=;
+ b=WG4gSkqWYVxfNPP2lYLVeljWWsY1F37O0gL66e23yfs7efAWHl8Jhhg5kxzvTnNg9oD7H0J8eMYD0eTiqvRRgGWmkZfJ5r5ap65rXNLh79ikbjqWvcVlCip9GhothfXLCuh0MtxM/zzc4gq6tdekPURUn8wC6nWRQ04Rgf9g7Ua26D57wvRitq3BxBQILOm7Das0dGerm8vWwEZ6xBei4+CvLfzaYXsPgSkGpSKgFxhruC46jqcnQUba7sbSFnboymLVaUsQ7k4D7+LDFdXL2PdjQMM7WuEOJqb5/lHAB9SbefgFe5X39fITivAnlQ489hxMxCKox//+9Swo/NXVQw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=seco.com;
+Received: from DB9PR03MB8847.eurprd03.prod.outlook.com (2603:10a6:10:3dd::13)
+ by DB9PR03MB8259.eurprd03.prod.outlook.com (2603:10a6:10:307::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.24; Thu, 19 Jan
- 2023 18:59:47 +0000
-Received: from BL02EPF0000C408.namprd05.prod.outlook.com
- (2603:10b6:408:f5:cafe::20) by BN9PR03CA0280.outlook.office365.com
- (2603:10b6:408:f5::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.25 via Frontend
- Transport; Thu, 19 Jan 2023 18:59:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BL02EPF0000C408.mail.protection.outlook.com (10.167.241.10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6002.11 via Frontend Transport; Thu, 19 Jan 2023 18:59:46 +0000
-Received: from SATLEXMB07.amd.com (10.181.41.45) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 19 Jan
- 2023 12:59:46 -0600
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB07.amd.com
- (10.181.41.45) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 19 Jan
- 2023 10:59:45 -0800
-Received: from xhdsneeli40.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Thu, 19 Jan 2023 12:59:20 -0600
-From: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-To: <broonie@kernel.org>, <miquel.raynal@bootlin.com>, <richard@nod.at>,
-	<vigneshr@ti.com>, <jic23@kernel.org>, <tudor.ambarus@microchip.com>,
-	<pratyush@kernel.org>, <sanju.mehta@amd.com>, <chin-ting_kuo@aspeedtech.com>,
-	<clg@kaod.org>, <kdasu.kdev@gmail.com>, <f.fainelli@gmail.com>,
-	<rjui@broadcom.com>, <sbranden@broadcom.com>, <eajames@linux.ibm.com>,
-	<olteanv@gmail.com>, <han.xu@nxp.com>, <john.garry@huawei.com>,
-	<shawnguo@kernel.org>, <s.hauer@pengutronix.de>, <narmstrong@baylibre.com>,
-	<khilman@baylibre.com>, <matthias.bgg@gmail.com>, <haibo.chen@nxp.com>,
-	<linus.walleij@linaro.org>, <daniel@zonque.org>, <haojian.zhuang@gmail.com>,
-	<robert.jarzmik@free.fr>, <agross@kernel.org>, <bjorn.andersson@linaro.org>,
-	<heiko@sntech.de>, <krzysztof.kozlowski@linaro.org>, <andi@etezian.org>,
-	<mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>, <wens@csie.org>,
-	<jernej.skrabec@gmail.com>, <samuel@sholland.org>,
-	<masahisa.kojima@linaro.org>, <jaswinder.singh@linaro.org>,
-	<rostedt@goodmis.org>, <mingo@redhat.com>, <l.stelmach@samsung.com>,
-	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <alex.aring@gmail.com>, <stefan@datenfreihafen.org>,
-	<kvalo@kernel.org>, <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-	<skomatineni@nvidia.com>, <sumit.semwal@linaro.org>,
-	<christian.koenig@amd.com>, <j.neuschaefer@gmx.net>, <vireshk@kernel.org>,
-	<rmfrfs@gmail.com>, <johan@kernel.org>, <elder@kernel.org>,
-	<gregkh@linuxfoundation.org>
-CC: <git@amd.com>, <linux-spi@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
-	<radu_nicolae.pirea@upb.ro>, <nicolas.ferre@microchip.com>,
-	<alexandre.belloni@bootlin.com>, <claudiu.beznea@microchip.com>,
-	<bcm-kernel-feedback-list@broadcom.com>, <fancer.lancer@gmail.com>,
-	<kernel@pengutronix.de>, <festevam@gmail.com>, <linux-imx@nxp.com>,
-	<jbrunet@baylibre.com>, <martin.blumenstingl@googlemail.com>,
-	<avifishman70@gmail.com>, <tmaimon77@gmail.com>, <tali.perry1@gmail.com>,
-	<venture@google.com>, <yuenn@google.com>, <benjaminfair@google.com>,
-	<yogeshgaur.83@gmail.com>, <konrad.dybcio@somainline.org>,
-	<alim.akhtar@samsung.com>, <ldewangan@nvidia.com>, <michal.simek@amd.com>,
-	<linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
-	<linux-arm-kernel@lists.infradead.org>,
-	<linux-rpi-kernel@lists.infradead.org>, <linux-amlogic@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-rockchip@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>,
-	<linux-tegra@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<linux-wpan@vger.kernel.org>, <libertas-dev@lists.infradead.org>,
-	<linux-wireless@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
-	<lars@metafoo.de>, <Michael.Hennerich@analog.com>,
-	<linux-iio@vger.kernel.org>, <michael@walle.cc>, <palmer@dabbelt.com>,
-	<linux-riscv@lists.infradead.org>, <linux-media@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, <greybus-dev@lists.linaro.org>,
-	<linux-staging@lists.linux.dev>, <amitrkcian2002@gmail.com>
-Subject: [PATCH v2 13/13] spi: spi-zynqmp-gqspi: Add parallel memories support in GQSPI driver
-Date: Fri, 20 Jan 2023 00:23:42 +0530
-Message-ID: <20230119185342.2093323-14-amit.kumar-mahapatra@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
-References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.19; Thu, 19 Jan
+ 2023 19:10:54 +0000
+Received: from DB9PR03MB8847.eurprd03.prod.outlook.com
+ ([fe80::6b03:ac16:24b5:9166]) by DB9PR03MB8847.eurprd03.prod.outlook.com
+ ([fe80::6b03:ac16:24b5:9166%2]) with mapi id 15.20.5986.023; Thu, 19 Jan 2023
+ 19:10:54 +0000
+From: Sean Anderson <sean.anderson@seco.com>
+To: David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org,
+	Sean Anderson <sean.anderson@seco.com>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Brian Starkey <brian.starkey@arm.com>,
+	Chen Feng <puck.chen@hisilicon.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Christian Gmeiner <christian.gmeiner@gmail.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	John Stultz <jstultz@google.com>,
+	Jyri Sarha <jyri.sarha@iki.fi>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Mali DP Maintainers <malidp@foss.arm.com>,
+	Mark Brown <broonie@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Mihail Atanassov <mihail.atanassov@arm.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Rob Clark <robdclark@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Samuel Holland <samuel@sholland.org>,
+	Sean Paul <sean@poorly.run>,
+	Takashi Iwai <tiwai@suse.com>,
+	Tian Tao <tiantao6@hisilicon.com>,
+	Tomi Valkeinen <tomba@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	Xinliang Liu <xinliang.liu@linaro.org>,
+	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+	Yong Wu <yong.wu@mediatek.com>,
+	alsa-devel@alsa-project.org,
+	etnaviv@lists.freedesktop.org,
+	freedreno@lists.freedesktop.org,
+	iommu@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-mips@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v3 0/3] drm: Add component_match_add_of and convert users of drm_of_component_match_add
+Date: Thu, 19 Jan 2023 14:10:36 -0500
+Message-Id: <20230119191040.1637739-1-sean.anderson@seco.com>
+X-Mailer: git-send-email 2.35.1.1320.gc452695387.dirty
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BL0PR02CA0047.namprd02.prod.outlook.com
+ (2603:10b6:207:3d::24) To DB9PR03MB8847.eurprd03.prod.outlook.com
+ (2603:10a6:10:3dd::13)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0000C408:EE_|PH7PR12MB7281:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5e0b6c3f-7684-47a1-0cf7-08dafa4f5561
+X-MS-TrafficTypeDiagnostic: DB9PR03MB8847:EE_|DB9PR03MB8259:EE_
+X-MS-Office365-Filtering-Correlation-Id: acee74f2-4797-4454-9ac2-08dafa50e2fb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	Q+mWrfx8k8KBPJK1OEz8WZeYYNgb2xN5vQcY2Dy7rbPiGFnv+jzi7FgaaJMLl0wS5WqFsu6wCKJNXMahA8ew46sN7qRYS4WLHj7V5/8z2VvLaNhlRtsvlFqp/vW7OKvTo0IkYYpCn5snlf/r71RShSiVc8p7cRAa/zd2CfDDSk7j+4O/nNwdzOZnamcYqXp2ul1/58nY1O1powAxcRqAunpXD7s8fs3kKf8eJUnfxZowOj1C2MC3SXhcx8DdtiB2vnlxgzOd5SAsjR/baHxAjvkD45WX0FtKZ6v4wlIUWCbrr/Vh1/ihh8gTspAXBuUg04D9ps0gObChzpGbbetvLr+NBsDY70nWN2y2me8LHDnSqPSGn1oeYNL3j5JZLMeyRVNHyBMpW0ZNrs7vNtv3OnuMeBVc8NnRys8J+7pcGnYz98+MPfIi/lNbLzI2Ht7c0g+IdlJbOzOzixndyJAun+4fWzpv0Kir3oyj3QgHH5TpKBat79Vjj2AHI1Q8GcYj14G90VNh9zt/GDw/HjPhmvWS0NTnceEBGJ/r4sn0usUXgZzRkwUe1JA+xeiJl9P7dF3PPWf1NRpOiVmvTt2go8raS6y/cvHAErz3pYsYMIpDROb67VXz/GW7jytrRtLyAlkExI1QDhwT+D42FXFYnPG1krTwCCl6k+/NFc1fz63AyDMZXBvAjbBYnVlr5HFlPMRP/ovbYIeQAQCyKxdcjQJKhM6JTyt2EBKQl/41s+o+1/9rHKqpEhh2FLLtpcklKQdv8rM/RX9hKc4nlwkWDOQHoWhkDDk0BEBXcG1jsgID+xU5mvNHW+nqF7v3ORnK+qv4LNRfLFH1PF76feWM0zwJytouTwZ10JRWhhw5Fbw=
+	2OjThEFm+mVkWgaYQIqcDEN9IEMpLSdBEmxordzg5y+hZbEPS2sIbcfgNSCUNmkLHib3/Ke+R/X7FySfz5hy4Td9UfpOGfZsvHfnQ62ZAqtD6PQM92F7a/EyyVB1CE7AR81l9Q9RCR3bil38k8AY2JywUMxW/ypSznUPmO9FCE8o/bIQ0Qw2NeS1rgNWOOrNPLkKwR9Nqn5NvjoZlb1oyKwtCCSybvD8Xfmgm7B9NLm5c8M+PWDL0XDKt9/o9LrFUdwLUb3YjCidMpXWDlEe9aqcl73jDaK3RBL3g0n6Pq7VRSDYqb+w/CXddYR8aB4oXBh/LpzDD5SpYK9L5M6GtJJ7CA3xQvC6usVYJaaVTqijsIxdtWZlvfJQIOixvbv3sYbyz9cB2ZgGoydLhpCxjwuytqXkhfBM1LJ3Ks8iBmQ+kNLoN+iSedI0QHo463FdDwzbczz61QOGAkDq5AQSye2GC1P6zSEnIExZO7ol8cIrD/fuCndPP2sCjWlVjv2RhYIkb/t/ulUnv/Boha+zxuAjO0wAcsq0X5FtvsIayuZqb3lRZv181nWe/sD3+QCg8LcrP/kStnPZ+OZiY0YIgRi3gGvFIl7p+RMrz06uUy77qclT3IA7tmczw/RoNjsiHS0Y4BKx6PYiHylHGzgdSQd7Hl9l1EvayRRXD5LVkc0XJx6RSgCGg0LI1uISObQGdLHCEOH3RbNZusRdYqHtAg==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(346002)(136003)(396003)(376002)(451199015)(46966006)(36840700001)(40470700004)(1191002)(36756003)(110136005)(54906003)(478600001)(186003)(8936002)(1076003)(6666004)(2616005)(921005)(40480700001)(356005)(81166007)(82310400005)(86362001)(8676002)(26005)(83380400001)(426003)(5660300002)(7366002)(336012)(7406005)(7416002)(70206006)(7336002)(70586007)(7276002)(47076005)(40460700003)(41300700001)(316002)(4326008)(82740400003)(2906002)(36860700001)(41080700001)(2101003)(84006005)(83996005)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 18:59:46.6411
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB8847.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(39850400004)(366004)(346002)(136003)(396003)(376002)(451199015)(66556008)(44832011)(5660300002)(8936002)(7416002)(7406005)(7366002)(54906003)(41300700001)(2906002)(316002)(66946007)(4326008)(110136005)(8676002)(66476007)(478600001)(38350700002)(6486002)(52116002)(38100700002)(26005)(6512007)(6506007)(36756003)(6666004)(186003)(1076003)(86362001)(2616005)(83380400001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Z1dEZDVwM2lNSXJuQW85aXJibkZJWXRoT256SFNRM3Qra2NTdEx4SFBMcXRL?=
+ =?utf-8?B?L2hUUlRJU3BSZFRBM2luT1orWUVSc0tpaXZYMlpZMTBFYklCMFhHVG1JYytn?=
+ =?utf-8?B?eVJsTnBHcEpaUmprd2Q5TmlsWnVETEpPU0VPZ0dCNFdYNGpiTFZjU1h5ZitB?=
+ =?utf-8?B?SERNa0U0R2lmQ0lWQTZ5U0llTUxrYU5BRUIzVUtIaTN0YnFFWkl3U1BSdFZS?=
+ =?utf-8?B?SFFCZXRzQ0dSV3l5NHVET2Vhc3ZubDJyekhNYmpTYzlGOTd2T1NoMnZ5czdj?=
+ =?utf-8?B?YkZiYUdUaXpRMXBuNE9EcXdWU1owSnpheWp4TkFmUHZhUHA3aXE2bjRqTWRH?=
+ =?utf-8?B?VTRMcDNiY3pBcmhHTjNocDNJbTVTbTdlMTZYb2N0R2VmMG9yTmY5aUxqWDA4?=
+ =?utf-8?B?dHlqOXdCbi8yZTloR2Y2VE9tSWhrUnNqckpkWHc0NmtQWENTOWVlQ2hITlla?=
+ =?utf-8?B?enFwV0FYOTdwTkpxLytFenpOSEh6OWgxeExIQU54WEhUZnArWnB2eDBhZ3My?=
+ =?utf-8?B?QTU5WmNsSnc1QXp4bmVLYzNreHlKVkVaZmdrdXVBKzhDSzRFclBwcHVOU0Iy?=
+ =?utf-8?B?TFhIWVVuZlJiTDA2SkN1bDZRc1ZhVWo4OTcvUkFUbnQrWXhwZFo0SHRzVXVm?=
+ =?utf-8?B?SGFXeDBKWVlZZEYxUUttYzd3Z0FWd3RSWHBsQmpiMDAxT2ZVQ2tXblh5QVBD?=
+ =?utf-8?B?OVVGZHlkdFZxc2VLMENEeGVsQ21KdmQ3RzA3YTZWOVI1R0tISjhNUm5SZ3E1?=
+ =?utf-8?B?eGZTaEwxUVA2SlJCdGQ4RlQ4ei92TFJxTlVoN2VZVXQ0WUZ3SG5BY2RnU1NB?=
+ =?utf-8?B?SWF1UWx4Zi9pOHQ2M1ZXekdxUWdKQTZnVnhyejhMdWJxNzZFS3RMUDhYdTJu?=
+ =?utf-8?B?eUUyNGYrSVJnaEh5cnhYamFmTVhFRXEwREhYVlJzbmg0MVVEVkRBVUFUWXpR?=
+ =?utf-8?B?UDM4Rk1ZVm5mVGUvRTJjV0tOWHRpYndIOEErMTdqTDB1NVc2S0NwVzFaTm8y?=
+ =?utf-8?B?dENEcC8raThkQUV6Z2taNWh3K1dUMzF6UWIxQlczMzRPZitSWmYzd1VHWXNq?=
+ =?utf-8?B?T3FwYW9MUXN2QkhtY1hhSlA4MVc2NXhJRyt2cGZCR2FjTWpNcmh6TVRCRjVP?=
+ =?utf-8?B?dExGdWVlcG1yOGpsZzFWalhzVGdlQmVMSXRrSmlzNkhDMmZiNzkzTXViQUZu?=
+ =?utf-8?B?L2ppdjlTQ2Q5Si9KVU1xQmlIclBBaWttbGxuNTMwU3hiRTAySGliaWd5dVc1?=
+ =?utf-8?B?T1YwRld0cHBJblVIVnVXZXB4NiszSjFWVTlxcEFmWDBBQjBaMC9pbEdVWm16?=
+ =?utf-8?B?Sk5BNkRoeHBjM1dBMGFyQnVWWnZqZkhtTHE0T3NoblphUFd3NXVJVWRvbWxI?=
+ =?utf-8?B?UWU3RlRuOEJhSlQxZm9UdlNIYkM1VlpTbG5TNDd0eXAvM0hBei9abVBTZ01z?=
+ =?utf-8?B?VDl6a2MrckdBTmZkQWp1VjExZmd5c2ZXQ1A4QU02VGxhYi9CMDZnRmM0QllR?=
+ =?utf-8?B?NEZ5Z2RVY1ZIRGRZb0lJaHd5MERZeVlXWVZ5ZUxTellRNVhFV0gwR1J3bVRD?=
+ =?utf-8?B?NUZZQ05FZEFiUWdsa1o0Zi9WQkJvaE4xbXZXOTNydVgvU2tybnRNZmVsLzNH?=
+ =?utf-8?B?ZitFQkovUDhGKzBhZ2NUVWh0a3FQbWR3cmhFdjZKQ3ZvM09YSkwwVmVWNDM3?=
+ =?utf-8?B?bzcvNXdnRTdvNzliTnBlZHQ0bGNmczRmd3Z0MlREL0ozVnJ6cit6UDltNDda?=
+ =?utf-8?B?amtQYzdxYUtEOEpvS25uLzNlZ2M4dDFKeHZuMWtEUjdveDliSVpXY0ZOSmVR?=
+ =?utf-8?B?YkYxYmlESHRDeERLczRiK05wd3kzNnpRQ2JRV1pYQnkyTHZKcEdITFdhUG5V?=
+ =?utf-8?B?bVFPTFJYRmJIUmJ3eThxRjh4cjlEOGw5Q01JUVpDTWJoQURhNDRvMUwzOWEz?=
+ =?utf-8?B?WFB2Q2J3QURjQmlnTlpPWnFTblhuV2pKMUQ2ZmorNm1WTTNXUXNlMnV1NmpP?=
+ =?utf-8?B?bFdYK0JZQWFtdlBVMnJmMEFhRDM3ZytqS083cmxKamRoUm42UUxsUXFML0Z6?=
+ =?utf-8?B?TVhRSkc1YzRwZVEvaUZXb1UxREQvZnhKMDI3ejBQK2JaQU85M3hSODJhdFZs?=
+ =?utf-8?B?U3Zxd1JoZVRZRUo5SnVIQUNZV0hrZEFGdmk4NEZGUnNtUjk2UlpwY2Q1TUhy?=
+ =?utf-8?B?RWc9PQ==?=
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: acee74f2-4797-4454-9ac2-08dafa50e2fb
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR03MB8847.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 19:10:54.0688
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e0b6c3f-7684-47a1-0cf7-08dafa4f5561
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL02EPF0000C408.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7281
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TExj+ppozAjreSiOV9g4J2ykelKHdKd0NP0WBONLswrnOPWFM+8GVX0rfp3A3TZoY2g0nV9DtTpWGarMmalpFQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR03MB8259
 
-During GQSPI driver probe set ctlr->multi-cs-cap for enabling multi CS
-capability of the controller. In parallel mode the controller can either
-split the data between both the flash or can send the same data to both the
-flashes, this is determined by the STRIPE bit. While sending commands to
-the flashes the GQSPI driver send the same command to both the flashes by
-resetting the STRIPE bit, but while writing/reading data to & from the
-flash the GQSPI driver splits the data evenly between both the flashes by
-setting the STRIPE bit.
+This series adds a new function component_match_add_of to simplify the
+common case of calling component_match_add_release with
+component_release_of and component_compare_of. There is already
+drm_of_component_match_add, which allows for a custom compare function.
+However, all existing users just use component_compare_of (or an
+equivalent).
 
-Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
----
- drivers/spi/spi-zynqmp-gqspi.c | 39 +++++++++++++++++++++++++++++++++-
- 1 file changed, 38 insertions(+), 1 deletion(-)
+Changes in v3:
+- Rebase onto drm/drm-next
 
-diff --git a/drivers/spi/spi-zynqmp-gqspi.c b/drivers/spi/spi-zynqmp-gqspi.c
-index 4759f704bf5c..9e44371bfda2 100644
---- a/drivers/spi/spi-zynqmp-gqspi.c
-+++ b/drivers/spi/spi-zynqmp-gqspi.c
-@@ -23,6 +23,7 @@
- #include <linux/spinlock.h>
- #include <linux/workqueue.h>
- #include <linux/spi/spi-mem.h>
-+#include <linux/mtd/spi-nor.h>
- 
- /* Generic QSPI register offsets */
- #define GQSPI_CONFIG_OFST		0x00000100
-@@ -192,6 +193,7 @@ struct qspi_platform_data {
-  * @op_lock:		Operational lock
-  * @speed_hz:          Current SPI bus clock speed in hz
-  * @has_tapdelay:	Used for tapdelay register available in qspi
-+ * @is_parallel:		Used for multi CS support
-  */
- struct zynqmp_qspi {
- 	struct spi_controller *ctlr;
-@@ -214,8 +216,33 @@ struct zynqmp_qspi {
- 	struct mutex op_lock;
- 	u32 speed_hz;
- 	bool has_tapdelay;
-+	bool is_parallel;
- };
- 
-+/**
-+ * zynqmp_gqspi_update_stripe - For GQSPI controller data stripe capabilities
-+ * @op:	Pointer to mem ops
-+ * Return:      Status of the data stripe
-+ *
-+ * Returns true if data stripe need to be enabled, else returns false
-+ */
-+bool zynqmp_gqspi_update_stripe(const struct spi_mem_op *op)
-+{
-+	if (op->cmd.opcode ==  SPINOR_OP_BE_4K ||
-+	    op->cmd.opcode ==  SPINOR_OP_BE_32K ||
-+	    op->cmd.opcode ==  SPINOR_OP_CHIP_ERASE ||
-+	    op->cmd.opcode ==  SPINOR_OP_SE ||
-+	    op->cmd.opcode ==  SPINOR_OP_BE_32K_4B ||
-+	    op->cmd.opcode ==  SPINOR_OP_SE_4B ||
-+	    op->cmd.opcode == SPINOR_OP_BE_4K_4B ||
-+	    op->cmd.opcode ==  SPINOR_OP_WRSR ||
-+	    op->cmd.opcode ==  SPINOR_OP_BRWR ||
-+	    (op->cmd.opcode ==  SPINOR_OP_WRSR2 && !op->addr.nbytes))
-+		return false;
-+
-+	return true;
-+}
-+
- /**
-  * zynqmp_gqspi_read - For GQSPI controller read operation
-  * @xqspi:	Pointer to the zynqmp_qspi structure
-@@ -470,7 +497,14 @@ static void zynqmp_qspi_chipselect(struct spi_device *qspi, bool is_high)
- 
- 	genfifoentry |= GQSPI_GENFIFO_MODE_SPI;
- 
--	if (qspi->cs_index_mask & GQSPI_SELECT_UPPER_CS) {
-+	if ((qspi->cs_index_mask & GQSPI_SELECT_LOWER_CS) &&
-+	    (qspi->cs_index_mask & GQSPI_SELECT_UPPER_CS)) {
-+		zynqmp_gqspi_selectslave(xqspi,
-+					 GQSPI_SELECT_FLASH_CS_BOTH,
-+					 GQSPI_SELECT_FLASH_BUS_BOTH);
-+		if (!xqspi->is_parallel)
-+			xqspi->is_parallel = true;
-+	} else if (qspi->cs_index_mask & GQSPI_SELECT_UPPER_CS) {
- 		zynqmp_gqspi_selectslave(xqspi,
- 					 GQSPI_SELECT_FLASH_CS_UPPER,
- 					 GQSPI_SELECT_FLASH_BUS_LOWER);
-@@ -1139,6 +1173,8 @@ static int zynqmp_qspi_exec_op(struct spi_mem *mem,
- 	}
- 
- 	if (op->data.nbytes) {
-+		if (xqspi->is_parallel && zynqmp_gqspi_update_stripe(op))
-+			genfifoentry |= GQSPI_GENFIFO_STRIPE;
- 		reinit_completion(&xqspi->data_completion);
- 		if (op->data.dir == SPI_MEM_DATA_OUT) {
- 			xqspi->txbuf = (u8 *)op->data.buf.out;
-@@ -1334,6 +1370,7 @@ static int zynqmp_qspi_probe(struct platform_device *pdev)
- 	ctlr->bits_per_word_mask = SPI_BPW_MASK(8);
- 	ctlr->dev.of_node = np;
- 	ctlr->auto_runtime_pm = true;
-+	ctlr->multi_cs_cap = true;
- 
- 	ret = devm_spi_register_controller(&pdev->dev, ctlr);
- 	if (ret) {
+Changes in v2:
+- Split off conversion from helper addition
+- Rebase onto drm/drm-next
+
+Sean Anderson (3):
+  component: Add helper for device nodes
+  iommu/sound: Use component_match_add_of helper
+  drm: Convert users of drm_of_component_match_add to
+    component_match_add_of
+
+ .../gpu/drm/arm/display/komeda/komeda_drv.c   |  6 ++--
+ drivers/gpu/drm/arm/hdlcd_drv.c               |  9 +-----
+ drivers/gpu/drm/arm/malidp_drv.c              | 11 +------
+ drivers/gpu/drm/armada/armada_drv.c           | 10 ++++---
+ drivers/gpu/drm/drm_of.c                      | 29 +++----------------
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c         |  4 +--
+ .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  3 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  3 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  4 +--
+ drivers/gpu/drm/msm/msm_drv.c                 | 14 ++++-----
+ drivers/gpu/drm/sti/sti_drv.c                 |  3 +-
+ drivers/gpu/drm/sun4i/sun4i_drv.c             |  3 +-
+ drivers/gpu/drm/tilcdc/tilcdc_external.c      | 10 ++-----
+ drivers/iommu/mtk_iommu_v1.c                  |  3 +-
+ include/drm/drm_of.h                          | 12 --------
+ include/linux/component.h                     |  9 ++++++
+ sound/soc/codecs/wcd938x.c                    |  6 ++--
+ 17 files changed, 45 insertions(+), 94 deletions(-)
+
 -- 
-2.17.1
+2.35.1.1320.gc452695387.dirty
 
