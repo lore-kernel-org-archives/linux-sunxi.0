@@ -1,42 +1,42 @@
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18033207
-	for <linux-sunxi@lists.linux.dev>; Sat, 21 Jan 2023 19:39:02 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 8129D32000E5;
-	Sat, 21 Jan 2023 14:39:01 -0500 (EST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1643207
+	for <linux-sunxi@lists.linux.dev>; Sat, 21 Jan 2023 19:54:09 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 6F9AB3200708;
+	Sat, 21 Jan 2023 14:54:08 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Sat, 21 Jan 2023 14:39:01 -0500
+  by compute5.internal (MEProxy); Sat, 21 Jan 2023 14:54:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1674329941; x=
-	1674416341; bh=Y0FXAS+fNZAdvuWj2AlNbu+6c9SFOJKM5yH3EktJpKQ=; b=Y
-	hSmlT4NyEKViwJ2VTwTZdkY2Kp4t1d1ftwBkQK1Pe/2a3ZS4E3Pj+zNM8doy28/s
-	y9JfYQjT029dcDPNcXaBdjT54pxZTP/0pY/WHMBUxIYWuXkxiDtTfmss4YPt2VRt
-	hd0sCmwPfPGBM3FQZa7gDjyYwmN4spW5Nr0wIEMLsddVYMM6iMRO0axmB2n1uHio
-	FQxT/r8hx10DKi+A2lgedUGqKYsFS/bJ+5oWByddK6MIi0kbi6Lkh90GSesyXnBS
-	PdaEreeNgVOjIjXhsUeVDYig3Bws0F5Te+c2MOc0p0Zp0SNS7gmnGxNjHtQ46/gQ
-	GpWA5yIjjNczid1SQQYLw==
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1674330848; x=
+	1674417248; bh=laY8oeCFqcVckQTX05hjbLbF03Ty2mxK/t7iXqoamjU=; b=b
+	DbA9k8bDXUFpiBtCuQ+3GP4q7WqrozZh1LoGyeX5FZI76ZwzXEj8Lsma511HC1Cj
+	XwJIAK4PLRhgOoPLWE6MWcJo48Ut6v0W3v82LhmpG17qwCDKlYSNAWEcTmcfI33p
+	KkLlmvhUMNHTWvQF7zaGzSZQVElk9K6IuWdq9qEcykRT9QuQCEymRpV9h2W/j2W4
+	47Zrz228XA5qU7Q6DRo+9jf3NOl/bJFfm06t9MxSc+rrnNDlRSt0mLlyLfoD3lsu
+	7YwA2lRAiDCdqbHv2mQymx8xmVwMRRYwSPbFRtBU39+MZlUsoujbn0yfLGlMzmmi
+	WnFZdl9SPaSyw2CSL9OXg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674329941; x=
-	1674416341; bh=Y0FXAS+fNZAdvuWj2AlNbu+6c9SFOJKM5yH3EktJpKQ=; b=b
-	7wB4X8mebSDh+0IAGsvjLMxDmu2rO8EVW9r9/B9cb7ctJm8Q4iuybZ4MUu8PyocG
-	MpVpW9Y7qF5b2h9s4gjbi+M83rhAeG7EFAYGi44TViIRwy73f3DhELQSahVrWQ47
-	kgBCFSVKLQ33NaqJTCMUFf/2RoVMV/UudKxH41XSAJox7tJ4r560fkcuL1yrXllj
-	2b7H5jGvyjOFtJQ3oqoJ2V7gemrjZSvmcjxULCWWVCAK73xxyuDrD0SoEmoSi4OV
-	d4UxKNNSUWlqDM9ivetAmOkEc1O3EUCqvlXwh+Kc686aeZ0iUXZESvY6/QUWDLGV
-	kdFmM7AmqjHTOroQV166Q==
-X-ME-Sender: <xms:VD_MY4A3c8X2VVU50RqAK-J7XSPTBScOEaWnxi_-t-hwl8TZMx3Omw>
-    <xme:VD_MY6i94Qcnvw8rhX8D5onZlos2rLvHxVZQ4_ZRwVrrmLtnGQ00hw0a5yn-4P-gR
-    H49FQ4xzz7ntFpAdQ>
-X-ME-Received: <xmr:VD_MY7kIw6lI3MlEzyUz0DrgKkGi-p9w4jjFMX-PfCz_z59ErGynZmpnFPTGBVy0APmAKHec9AzdzzdobRZuBuQmpMJpu8LLIIP_ROOGfVzpJLonlfhqQ-oa3A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddugedguddthecutefuodetggdotefrod
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674330848; x=
+	1674417248; bh=laY8oeCFqcVckQTX05hjbLbF03Ty2mxK/t7iXqoamjU=; b=B
+	N70bvdNmgPtPPc+bJma3IpxAv1EPiRc4i6Zs0XdPNNeqL+3Zu9qd2N3+Yozf9k4S
+	NkaKRNPLpztxrv+6IOxtG7nkO2dgZBANvULJ2XMrsJnrbDtkF+dY7O/ecJ4brX6D
+	xgBMCRnrsa9akw3cDsYVXKJxJtF39KWg4nQmj7TG2LnvAjt2Fclg838HTV3+qiqe
+	mdSmFAe/sFYNRjRFGcE1B8uLbeTb/Gyea06cqXk2Chqx3Y/5RasswC0C4cJ+/szR
+	gEkFVqAwSHZD2tf8vCoTPXI8UpcvblwSsct9Gva/s58IzOK5rp3lKw0rBHHa8egW
+	kGukC2tGQu6r4RhGr6Utg==
+X-ME-Sender: <xms:30LMY2iK5ImEm2TaG3HAZUyvhuOcHlGmEcXjKxgGQSFbKhndvsEygA>
+    <xme:30LMY3B6fhpYe6IkbocJO56Iiq1VsCQ10RaNnGjVAvsESZ3ZYjPsvkTI_FYQyQXHp
+    NN7uxJ0618zAP3WWw>
+X-ME-Received: <xmr:30LMY-EZe-Bkl3nJTiFqBZCrTHZ2s1tCwqa36AT57bbDY0G5v2VmzGjr3eDOSTGdiL4Zn6v0hVlZWjep58627eq5ULgg3b8Wz0Mv2wEjUoi2-3yFH6nUvsXOMw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddugedguddtjecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
     enucfjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgr
@@ -44,15 +44,15 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddugedguddthecutefuodetgg
     cuggftrfgrthhtvghrnhepkeejleelfeeitdfhtdfgkeeghedufeduueegffdvhfdukeel
     leeftdetjeehuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
     hfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:VD_MY-xYUD_O3U2slMr5bk5qCH3tk6zFYIKaRrGfgyy-GANSSMqotg>
-    <xmx:VD_MY9So7QLzQdCN-O4uGiJJyalGYPzJ1GE6ekOv7S48nX15yo0Paw>
-    <xmx:VD_MY5b2NcEKaPtmWjUxFNpv4W_XMvK79UUo2HTBPMxdVPQ3grldTQ>
-    <xmx:VT_MY4d87cuNtS34-CVwv8W1PaMheXixOVYLTTvXUcQK5ahfPV1TdQ>
+X-ME-Proxy: <xmx:30LMY_SW-Wvirp9PGdew7iRtXFEhhIjdCmDIsrRh_4FYU_BFJkqY8Q>
+    <xmx:30LMYzxCGDR4a1vP595uj74JmUiEQuHQ000649Ya7NvM19IMY8XmBA>
+    <xmx:30LMY963DJJ9VePIktuVxryS6Vm_5Yy-OXsWf7eZVj5wxbz1kR_p5g>
+    <xmx:4ELMY6lZqS60llaj2QcG4-UaBok-L6NaWkiLAh9LB2AcHf83m5TkdA>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 21 Jan 2023 14:38:59 -0500 (EST)
-Message-ID: <4cd16d82-3fee-b8fd-07d7-f5afa2a7b48b@sholland.org>
-Date: Sat, 21 Jan 2023 13:39:01 -0600
+ 21 Jan 2023 14:54:06 -0500 (EST)
+Message-ID: <70948ace-1b75-c639-c2d3-3a4b222afd38@sholland.org>
+Date: Sat, 21 Jan 2023 13:54:08 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,42 +61,65 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
-Subject: Re: [PATCH v2] sunxi: eMMC: support TOC0 on boot partitions
+Subject: Re: [PATCH] ARM: dts: sun8i: a83t: bananapi-m3: describe SATA disk
+ regulator
 Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>,
- Jagan Teki <jagan@amarulasolutions.com>
-Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
-References: <20230121015121.20150-1-andre.przywara@arm.com>
+To: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20230120012616.30960-1-andre.przywara@arm.com>
 From: Samuel Holland <samuel@sholland.org>
-In-Reply-To: <20230121015121.20150-1-andre.przywara@arm.com>
+In-Reply-To: <20230120012616.30960-1-andre.przywara@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 1/20/23 19:51, Andre Przywara wrote:
-> To determine whether we have been booted from an eMMC boot partition, we
-> replay some of the checks that the BROM must have done to successfully
-> load the SPL. This involves a checksum check, which currently relies on
-> the SPL being wrapped in an "eGON" header.
+On 1/19/23 19:26, Andre Przywara wrote:
+> The Bananapi-M3 has a SATA connector, driven by a USB-to-SATA bridge
+> soldered on the board. The power for the SATA device is provided by a
+> GPIO controlled regulator. Since the SATA device is behind USB, it has
+> no DT node, so we never described this regulator. Instead U-Boot was
+> turning this on in a rather hackish way, which we now want to get rid of.
+> On top of that it seems fragile to leave this GPIO undescribed, as
+> userland could claim it and turn the disk off.
 > 
-> If a board has secure boot enabled, the BROM will only accept the "TOC0"
-> format, which is internally very different, but uses the same
-> checksumming algorithm. Actually the only difference for calculating the
-> checksum is that the size of the SPL is stored at a different offset.
-> 
-> Do a header check to determine whether we deal with an eGON or TOC0
-> format, then set the SPL size accordingly. The rest of the code is
-> unchanged.
-> 
-> This fixes booting from an eMMC boot partition on devices with secure
-> boot enabled, like the Remix Mini PC.
+> Add a fixed regulator, controlled by the PD25 GPIO, and mark it as
+> always-on. This would mimic the current situation, but in a safer way,
+> and would allow U-Boot to drop the CONFIG_SATAPWR enable hack.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
-> Changelog v2 .. v1:
-> - use struct members instead of indexing buffer array
-> 
->  arch/arm/mach-sunxi/board.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
 
-Reviewed-by: Samuel Holland <samuel@sholland.org>
+Acked-by: Samuel Holland <samuel@sholland.org>
+
+> ---
+>  arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
+> index 5a7e1bd5f8258..8d56b103f0630 100644
+> --- a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
+> +++ b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
+> @@ -105,6 +105,21 @@ wifi_pwrseq: wifi_pwrseq {
+>  		/* enables internal regulator and de-asserts reset */
+>  		reset-gpios = <&r_pio 0 2 GPIO_ACTIVE_LOW>; /* PL2 WL-PMU-EN */
+>  	};
+> +
+> +	/*
+> +	 * Power supply for the SATA disk, behind a USB-SATA bridge.
+> +	 * Since it is a USB device, there is no consumer in the DT, so we
+> +	 * have to keep this always on.
+> +	 */
+> +	regulator-sata-disk-pwr {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "sata-disk-pwr";
+> +		regulator-min-microvolt = <5000000>;
+> +		regulator-max-microvolt = <5000000>;
+> +		regulator-always-on;
+> +		enable-active-high;
+> +		gpio = <&pio 3 25 GPIO_ACTIVE_HIGH>; /* PD25 */
+> +	};
+>  };
+>  
+>  &cpu0 {
 
