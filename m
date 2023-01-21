@@ -1,435 +1,564 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8396728E7
-	for <linux-sunxi@lists.linux.dev>; Fri, 20 Jan 2023 15:37:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D5AB361
+	for <linux-sunxi@lists.linux.dev>; Sat, 21 Jan 2023 01:27:45 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 51A671596
-	for <linux-sunxi@lists.linux.dev>; Fri, 20 Jan 2023 07:37:59 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 671083F67D
-	for <linux-sunxi@lists.linux.dev>; Fri, 20 Jan 2023 07:37:17 -0800 (PST)
-Date: Fri, 20 Jan 2023 15:36:50 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Sean Anderson <sean.anderson@seco.com>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	dri-devel@lists.freedesktop.org,
-	Xinliang Liu <xinliang.liu@linaro.org>, linux-mips@vger.kernel.org,
-	Paul Cercueil <paul@crapouillou.net>,
-	John Stultz <jstultz@google.com>,
-	Mihail Atanassov <mihail.atanassov@arm.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Russell King <linux@armlinux.org.uk>,
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0C1F61042;
+	Fri, 20 Jan 2023 17:28:26 -0800 (PST)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AF76A3F67D;
+	Fri, 20 Jan 2023 17:27:42 -0800 (PST)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Samuel Holland <samuel@sholland.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Mali DP Maintainers <malidp@foss.arm.com>,
-	linux-arm-msm@vger.kernel.org,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-	linux-sunxi@lists.linux.dev,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Chen Feng <puck.chen@hisilicon.com>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	etnaviv@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Sean Paul <sean@poorly.run>, linux-arm-kernel@lists.infradead.org,
-	Tomi Valkeinen <tomba@kernel.org>, freedreno@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Tian Tao <tiantao6@hisilicon.com>, Jyri Sarha <jyri.sarha@iki.fi>
-Subject: Re: [PATCH v3 3/3] drm: Convert users of drm_of_component_match_add
- to component_match_add_of
-Message-ID: <Y8q0tN88QGKcIfw/@e110455-lin.cambridge.arm.com>
-References: <20230119191040.1637739-1-sean.anderson@seco.com>
- <20230119191040.1637739-4-sean.anderson@seco.com>
+	u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] sunxi: dts: arm64: update devicetree files
+Date: Sat, 21 Jan 2023 01:25:46 +0000
+Message-Id: <20230121012546.9963-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.5
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230119191040.1637739-4-sean.anderson@seco.com>
 
-On Thu, Jan 19, 2023 at 02:10:39PM -0500, Sean Anderson wrote:
-> Every user of this function either uses component_compare_of or
-> something equivalent. Most of them immediately put the device node as
-> well. Convert these users to component_match_add_of and remove
-> drm_of_component_match_add.
-> 
-> Signed-off-by: Sean Anderson <sean.anderson@seco.com>
-> Acked-by: Jyri Sarha <jyri.sarhaı@iki.fi>
-> Tested-by: Jyri Sarha <jyri.sarha@iki.fi>
-> ---
-> 
-> (no changes since v1)
-> 
->  .../gpu/drm/arm/display/komeda/komeda_drv.c   |  6 ++--
->  drivers/gpu/drm/arm/hdlcd_drv.c               |  9 +-----
->  drivers/gpu/drm/arm/malidp_drv.c              | 11 +------
->  drivers/gpu/drm/armada/armada_drv.c           | 10 ++++---
->  drivers/gpu/drm/drm_of.c                      | 29 +++----------------
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c         |  4 +--
->  .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  3 +-
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  3 +-
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  4 +--
->  drivers/gpu/drm/msm/msm_drv.c                 | 14 ++++-----
->  drivers/gpu/drm/sti/sti_drv.c                 |  3 +-
->  drivers/gpu/drm/sun4i/sun4i_drv.c             |  3 +-
->  drivers/gpu/drm/tilcdc/tilcdc_external.c      | 10 ++-----
->  include/drm/drm_of.h                          | 12 --------
->  14 files changed, 33 insertions(+), 88 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-> index 3f4e719eebd8..e3bfc72c378f 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-> @@ -103,10 +103,8 @@ static void komeda_add_slave(struct device *master,
->  	struct device_node *remote;
->  
->  	remote = of_graph_get_remote_node(np, port, endpoint);
-> -	if (remote) {
-> -		drm_of_component_match_add(master, match, component_compare_of, remote);
-> -		of_node_put(remote);
-> -	}
-> +	if (remote)
-> +		component_match_add_of(master, match, remote);
->  }
->  
->  static int komeda_platform_probe(struct platform_device *pdev)
-> diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
-> index e3507dd6f82a..5f760bb66af4 100644
-> --- a/drivers/gpu/drm/arm/hdlcd_drv.c
-> +++ b/drivers/gpu/drm/arm/hdlcd_drv.c
-> @@ -347,11 +347,6 @@ static const struct component_master_ops hdlcd_master_ops = {
->  	.unbind		= hdlcd_drm_unbind,
->  };
->  
-> -static int compare_dev(struct device *dev, void *data)
-> -{
-> -	return dev->of_node == data;
-> -}
-> -
->  static int hdlcd_probe(struct platform_device *pdev)
->  {
->  	struct device_node *port;
-> @@ -362,9 +357,7 @@ static int hdlcd_probe(struct platform_device *pdev)
->  	if (!port)
->  		return -ENODEV;
->  
-> -	drm_of_component_match_add(&pdev->dev, &match, compare_dev, port);
-> -	of_node_put(port);
-> -
-> +	component_match_add_of(&pdev->dev, &match, port);
->  	return component_master_add_with_match(&pdev->dev, &hdlcd_master_ops,
->  					       match);
->  }
-> diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-> index 589c1c66a6dc..3a49c29ba5b8 100644
-> --- a/drivers/gpu/drm/arm/malidp_drv.c
-> +++ b/drivers/gpu/drm/arm/malidp_drv.c
-> @@ -909,13 +909,6 @@ static const struct component_master_ops malidp_master_ops = {
->  	.unbind = malidp_unbind,
->  };
->  
-> -static int malidp_compare_dev(struct device *dev, void *data)
-> -{
-> -	struct device_node *np = data;
-> -
-> -	return dev->of_node == np;
-> -}
-> -
->  static int malidp_platform_probe(struct platform_device *pdev)
->  {
->  	struct device_node *port;
-> @@ -929,9 +922,7 @@ static int malidp_platform_probe(struct platform_device *pdev)
->  	if (!port)
->  		return -ENODEV;
->  
-> -	drm_of_component_match_add(&pdev->dev, &match, malidp_compare_dev,
-> -				   port);
-> -	of_node_put(port);
-> +	component_match_add_of(&pdev->dev, &match, port);
->  	return component_master_add_with_match(&pdev->dev, &malidp_master_ops,
->  					       match);
->  }
+Sync the devicetree files from the Linux kernel repo, v6.2-rc2.
+This enables GPU power management in the kernel for the H6, enables
+Bluetooth on the Pinebook, and enables USB on the H616 devices (just
+for newer Linux kernels at the moment, U-Boot support is pending).
 
-For komeda, mali_dp and hdlcd: Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+As before, this omits the non-backwards compatible changes to the R_INTC
+controller, to remain compatible with older kernels.
 
-Best regards,
-Liviu
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ arch/arm/dts/axp803.dtsi                    |  10 --
+ arch/arm/dts/sun50i-a64-pinebook.dts        |  14 ++
+ arch/arm/dts/sun50i-h6-beelink-gs1.dts      |   1 +
+ arch/arm/dts/sun50i-h6-gpu-opp.dtsi         |  87 +++++++++++
+ arch/arm/dts/sun50i-h6.dtsi                 |  52 ++++++-
+ arch/arm/dts/sun50i-h616-orangepi-zero2.dts |  41 +++++
+ arch/arm/dts/sun50i-h616-x96-mate.dts       |  25 +++
+ arch/arm/dts/sun50i-h616.dtsi               | 160 ++++++++++++++++++++
+ 8 files changed, 378 insertions(+), 12 deletions(-)
+ create mode 100644 arch/arm/dts/sun50i-h6-gpu-opp.dtsi
 
-
-> diff --git a/drivers/gpu/drm/armada/armada_drv.c b/drivers/gpu/drm/armada/armada_drv.c
-> index 0643887800b4..c0211ad7a45d 100644
-> --- a/drivers/gpu/drm/armada/armada_drv.c
-> +++ b/drivers/gpu/drm/armada/armada_drv.c
-> @@ -184,10 +184,12 @@ static void armada_add_endpoints(struct device *dev,
->  
->  	for_each_endpoint_of_node(dev_node, ep) {
->  		remote = of_graph_get_remote_port_parent(ep);
-> -		if (remote && of_device_is_available(remote))
-> -			drm_of_component_match_add(dev, match, component_compare_of,
-> -						   remote);
-> -		of_node_put(remote);
-> +		if (remote) {
-> +			if (of_device_is_available(remote))
-> +				component_match_add_of(dev, match, remote);
-> +			else
-> +				of_node_put(remote);
-> +		}
->  	}
->  }
->  
-> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-> index 7bbcb999bb75..0a474729ddf6 100644
-> --- a/drivers/gpu/drm/drm_of.c
-> +++ b/drivers/gpu/drm/drm_of.c
-> @@ -78,24 +78,6 @@ uint32_t drm_of_find_possible_crtcs(struct drm_device *dev,
->  }
->  EXPORT_SYMBOL(drm_of_find_possible_crtcs);
->  
-> -/**
-> - * drm_of_component_match_add - Add a component helper OF node match rule
-> - * @master: master device
-> - * @matchptr: component match pointer
-> - * @compare: compare function used for matching component
-> - * @node: of_node
-> - */
-> -void drm_of_component_match_add(struct device *master,
-> -				struct component_match **matchptr,
-> -				int (*compare)(struct device *, void *),
-> -				struct device_node *node)
-> -{
-> -	of_node_get(node);
-> -	component_match_add_release(master, matchptr, component_release_of,
-> -				    compare, node);
-> -}
-> -EXPORT_SYMBOL_GPL(drm_of_component_match_add);
-> -
->  /**
->   * drm_of_component_probe - Generic probe function for a component based master
->   * @dev: master device containing the OF node
-> @@ -130,10 +112,9 @@ int drm_of_component_probe(struct device *dev,
->  			break;
->  
->  		if (of_device_is_available(port->parent))
-> -			drm_of_component_match_add(dev, &match, compare_of,
-> -						   port);
-> -
-> -		of_node_put(port);
-> +			component_match_add_of(dev, &match, port);
-> +		else
-> +			of_node_put(port);
->  	}
->  
->  	if (i == 0) {
-> @@ -171,9 +152,7 @@ int drm_of_component_probe(struct device *dev,
->  				continue;
->  			}
->  
-> -			drm_of_component_match_add(dev, &match, compare_of,
-> -						   remote);
-> -			of_node_put(remote);
-> +			component_match_add_of(dev, &match, remote);
->  		}
->  		of_node_put(port);
->  	}
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> index 1d2b4fb4bcf8..4a0dba34a6e7 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -590,8 +590,8 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
->  			if (!first_node)
->  				first_node = core_node;
->  
-> -			drm_of_component_match_add(&pdev->dev, &match,
-> -						   component_compare_of, core_node);
-> +			of_node_get(core_node);
-> +			component_match_add_of(&pdev->dev, &match, core_node);
->  		}
->  	} else {
->  		char **names = dev->platform_data;
-> diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-> index 9c5d49bf40c9..3ee277615c39 100644
-> --- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-> +++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-> @@ -273,8 +273,7 @@ static int kirin_drm_platform_probe(struct platform_device *pdev)
->  	if (!remote)
->  		return -ENODEV;
->  
-> -	drm_of_component_match_add(dev, &match, component_compare_of, remote);
-> -	of_node_put(remote);
-> +	component_match_add_of(dev, &match, remote);
->  
->  	return component_master_add_with_match(dev, &kirin_drm_ops, match);
->  }
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> index 3d5af44bf92d..d0c87175dec4 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> @@ -1444,8 +1444,7 @@ static int ingenic_drm_probe(struct platform_device *pdev)
->  	if (!np)
->  		return ingenic_drm_bind(dev, false);
->  
-> -	drm_of_component_match_add(dev, &match, component_compare_of, np);
-> -	of_node_put(np);
-> +	component_match_add_of(dev, &match, np);
->  
->  	return component_master_add_with_match(dev, &ingenic_master_ops, match);
->  }
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> index cd5b18ef7951..abead814bfdc 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -787,8 +787,8 @@ static int mtk_drm_probe(struct platform_device *pdev)
->  		    comp_type == MTK_DSI) {
->  			dev_info(dev, "Adding component match for %pOF\n",
->  				 node);
-> -			drm_of_component_match_add(dev, &match, component_compare_of,
-> -						   node);
-> +			of_node_get(node);
-> +			component_match_add_of(dev, &match, node);
->  		}
->  
->  		ret = mtk_ddp_comp_init(node, &private->ddp_comp[comp_id], comp_id);
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index 8b0b0ac74a6f..8ccf57def955 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -5,6 +5,7 @@
->   * Author: Rob Clark <robdclark@gmail.com>
->   */
->  
-> +#include <linux/component.h>
->  #include <linux/dma-mapping.h>
->  #include <linux/fault-inject.h>
->  #include <linux/kthread.h>
-> @@ -1156,10 +1157,9 @@ static int add_components_mdp(struct device *master_dev,
->  			continue;
->  
->  		if (of_device_is_available(intf))
-> -			drm_of_component_match_add(master_dev, matchptr,
-> -						   component_compare_of, intf);
-> -
-> -		of_node_put(intf);
-> +			component_match_add_of(master_dev, matchptr, intf);
-> +		else
-> +			of_node_put(intf);
->  	}
->  
->  	return 0;
-> @@ -1188,9 +1188,9 @@ static int add_gpu_components(struct device *dev,
->  		return 0;
->  
->  	if (of_device_is_available(np))
-> -		drm_of_component_match_add(dev, matchptr, component_compare_of, np);
-> -
-> -	of_node_put(np);
-> +		component_match_add_of(dev, matchptr, np);
-> +	else
-> +		of_node_put(np);
->  
->  	return 0;
->  }
-> diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
-> index ef6a4e63198f..e3aae4574c75 100644
-> --- a/drivers/gpu/drm/sti/sti_drv.c
-> +++ b/drivers/gpu/drm/sti/sti_drv.c
-> @@ -238,8 +238,7 @@ static int sti_platform_probe(struct platform_device *pdev)
->  	child_np = of_get_next_available_child(node, NULL);
->  
->  	while (child_np) {
-> -		drm_of_component_match_add(dev, &match, component_compare_of,
-> -					   child_np);
-> +		component_match_add_of(dev, &match, child_np);
->  		child_np = of_get_next_available_child(node, child_np);
->  	}
->  
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-> index cc94efbbf2d4..9b3ddd82f1be 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-> @@ -323,7 +323,8 @@ static int sun4i_drv_add_endpoints(struct device *dev,
->  	     of_device_is_available(node))) {
->  		/* Add current component */
->  		DRM_DEBUG_DRIVER("Adding component %pOF\n", node);
-> -		drm_of_component_match_add(dev, match, component_compare_of, node);
-> +		of_node_get(node);
-> +		component_match_add_of(dev, match, node);
->  		count++;
->  	}
->  
-> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_external.c b/drivers/gpu/drm/tilcdc/tilcdc_external.c
-> index 3b86d002ef62..0138ce02a64f 100644
-> --- a/drivers/gpu/drm/tilcdc/tilcdc_external.c
-> +++ b/drivers/gpu/drm/tilcdc/tilcdc_external.c
-> @@ -155,11 +155,6 @@ int tilcdc_attach_external_device(struct drm_device *ddev)
->  	return ret;
->  }
->  
-> -static int dev_match_of(struct device *dev, void *data)
-> -{
-> -	return dev->of_node == data;
-> -}
-> -
->  int tilcdc_get_external_components(struct device *dev,
->  				   struct component_match **match)
->  {
-> @@ -173,7 +168,8 @@ int tilcdc_get_external_components(struct device *dev,
->  	}
->  
->  	if (match)
-> -		drm_of_component_match_add(dev, match, dev_match_of, node);
-> -	of_node_put(node);
-> +		component_match_add_of(dev, match, node);
-> +	else
-> +		of_node_put(node);
->  	return 1;
->  }
-> diff --git a/include/drm/drm_of.h b/include/drm/drm_of.h
-> index 10ab58c40746..685c44dc1dae 100644
-> --- a/include/drm/drm_of.h
-> +++ b/include/drm/drm_of.h
-> @@ -33,10 +33,6 @@ uint32_t drm_of_crtc_port_mask(struct drm_device *dev,
->  			    struct device_node *port);
->  uint32_t drm_of_find_possible_crtcs(struct drm_device *dev,
->  				    struct device_node *port);
-> -void drm_of_component_match_add(struct device *master,
-> -				struct component_match **matchptr,
-> -				int (*compare)(struct device *, void *),
-> -				struct device_node *node);
->  int drm_of_component_probe(struct device *dev,
->  			   int (*compare_of)(struct device *, void *),
->  			   const struct component_master_ops *m_ops);
-> @@ -69,14 +65,6 @@ static inline uint32_t drm_of_find_possible_crtcs(struct drm_device *dev,
->  	return 0;
->  }
->  
-> -static inline void
-> -drm_of_component_match_add(struct device *master,
-> -			   struct component_match **matchptr,
-> -			   int (*compare)(struct device *, void *),
-> -			   struct device_node *node)
-> -{
-> -}
-> -
->  static inline int
->  drm_of_component_probe(struct device *dev,
->  		       int (*compare_of)(struct device *, void *),
-> -- 
-> 2.35.1.1320.gc452695387.dirty
-> 
-
+diff --git a/arch/arm/dts/axp803.dtsi b/arch/arm/dts/axp803.dtsi
+index 578ef368e2b..a6b4b87f185 100644
+--- a/arch/arm/dts/axp803.dtsi
++++ b/arch/arm/dts/axp803.dtsi
+@@ -25,16 +25,6 @@
+ 		compatible = "x-powers,axp803-gpio", "x-powers,axp813-gpio";
+ 		gpio-controller;
+ 		#gpio-cells = <2>;
+-
+-		gpio0_ldo: gpio0-ldo-pin {
+-			pins = "GPIO0";
+-			function = "ldo";
+-		};
+-
+-		gpio1_ldo: gpio1-ldo-pin {
+-			pins = "GPIO1";
+-			function = "ldo";
+-		};
+ 	};
+ 
+ 	battery_power_supply: battery-power {
+diff --git a/arch/arm/dts/sun50i-a64-pinebook.dts b/arch/arm/dts/sun50i-a64-pinebook.dts
+index c00c4c1e9e7..576eae13223 100644
+--- a/arch/arm/dts/sun50i-a64-pinebook.dts
++++ b/arch/arm/dts/sun50i-a64-pinebook.dts
+@@ -406,6 +406,20 @@
+ 	status = "okay";
+ };
+ 
++&uart1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
++	uart-has-rtscts;
++	status = "okay";
++
++	bluetooth {
++		compatible = "realtek,rtl8723cs-bt";
++		device-wake-gpios = <&r_pio 0 5 GPIO_ACTIVE_LOW>; /* PL5 */
++		enable-gpios = <&r_pio 0 4 GPIO_ACTIVE_HIGH>; /* PL4 */
++		host-wake-gpios = <&r_pio 0 6 GPIO_ACTIVE_HIGH>; /* PL6 */
++	};
++};
++
+ &usb_otg {
+ 	dr_mode = "host";
+ };
+diff --git a/arch/arm/dts/sun50i-h6-beelink-gs1.dts b/arch/arm/dts/sun50i-h6-beelink-gs1.dts
+index 649b146dfff..d6897ec9799 100644
+--- a/arch/arm/dts/sun50i-h6-beelink-gs1.dts
++++ b/arch/arm/dts/sun50i-h6-beelink-gs1.dts
+@@ -5,6 +5,7 @@
+ 
+ #include "sun50i-h6.dtsi"
+ #include "sun50i-h6-cpu-opp.dtsi"
++#include "sun50i-h6-gpu-opp.dtsi"
+ 
+ #include <dt-bindings/gpio/gpio.h>
+ 
+diff --git a/arch/arm/dts/sun50i-h6-gpu-opp.dtsi b/arch/arm/dts/sun50i-h6-gpu-opp.dtsi
+new file mode 100644
+index 00000000000..b48049c4fc8
+--- /dev/null
++++ b/arch/arm/dts/sun50i-h6-gpu-opp.dtsi
+@@ -0,0 +1,87 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++// Copyright (C) 2022 Clément Péron <peron.clem@gmail.com>
++
++/ {
++	gpu_opp_table: opp-table-gpu {
++		compatible = "operating-points-v2";
++
++		opp-216000000 {
++			opp-hz = /bits/ 64 <216000000>;
++			opp-microvolt = <810000 810000 1200000>;
++		};
++
++		opp-264000000 {
++			opp-hz = /bits/ 64 <264000000>;
++			opp-microvolt = <810000 810000 1200000>;
++		};
++
++		opp-312000000 {
++			opp-hz = /bits/ 64 <312000000>;
++			opp-microvolt = <810000 810000 1200000>;
++		};
++
++		opp-336000000 {
++			opp-hz = /bits/ 64 <336000000>;
++			opp-microvolt = <810000 810000 1200000>;
++		};
++
++		opp-360000000 {
++			opp-hz = /bits/ 64 <360000000>;
++			opp-microvolt = <820000 820000 1200000>;
++		};
++
++		opp-384000000 {
++			opp-hz = /bits/ 64 <384000000>;
++			opp-microvolt = <830000 830000 1200000>;
++		};
++
++		opp-408000000 {
++			opp-hz = /bits/ 64 <408000000>;
++			opp-microvolt = <840000 840000 1200000>;
++		};
++
++		opp-420000000 {
++			opp-hz = /bits/ 64 <420000000>;
++			opp-microvolt = <850000 850000 1200000>;
++		};
++
++		opp-432000000 {
++			opp-hz = /bits/ 64 <432000000>;
++			opp-microvolt = <860000 860000 1200000>;
++		};
++
++		opp-456000000 {
++			opp-hz = /bits/ 64 <456000000>;
++			opp-microvolt = <870000 870000 1200000>;
++		};
++
++		opp-504000000 {
++			opp-hz = /bits/ 64 <504000000>;
++			opp-microvolt = <890000 890000 1200000>;
++		};
++
++		opp-540000000 {
++			opp-hz = /bits/ 64 <540000000>;
++			opp-microvolt = <910000 910000 1200000>;
++		};
++
++		opp-576000000 {
++			opp-hz = /bits/ 64 <576000000>;
++			opp-microvolt = <930000 930000 1200000>;
++		};
++
++		opp-624000000 {
++			opp-hz = /bits/ 64 <624000000>;
++			opp-microvolt = <950000 950000 1200000>;
++		};
++
++		opp-756000000 {
++			opp-hz = /bits/ 64 <756000000>;
++			opp-microvolt = <1040000 1040000 1200000>;
++		};
++	};
++};
++
++&gpu {
++	operating-points-v2 = <&gpu_opp_table>;
++};
+diff --git a/arch/arm/dts/sun50i-h6.dtsi b/arch/arm/dts/sun50i-h6.dtsi
+index afbbfc25269..3c85c8cc8ea 100644
+--- a/arch/arm/dts/sun50i-h6.dtsi
++++ b/arch/arm/dts/sun50i-h6.dtsi
+@@ -161,6 +161,7 @@
+ 			clocks = <&ccu CLK_BUS_VP9>, <&ccu CLK_VP9>;
+ 			clock-names = "bus", "mod";
+ 			resets = <&ccu RST_BUS_VP9>;
++			iommus = <&iommu 5>;
+ 		};
+ 
+ 		video-codec@1c0e000 {
+@@ -186,6 +187,7 @@
+ 			clocks = <&ccu CLK_GPU>, <&ccu CLK_BUS_GPU>;
+ 			clock-names = "core", "bus";
+ 			resets = <&ccu RST_BUS_GPU>;
++			#cooling-cells = <2>;
+ 			status = "disabled";
+ 		};
+ 
+@@ -1070,9 +1072,55 @@
+ 		};
+ 
+ 		gpu-thermal {
+-			polling-delay-passive = <0>;
+-			polling-delay = <0>;
++			polling-delay-passive = <1000>;
++			polling-delay = <2000>;
+ 			thermal-sensors = <&ths 1>;
++
++			trips {
++				gpu_alert0: gpu-alert-0 {
++					temperature = <95000>;
++					hysteresis = <2000>;
++					type = "passive";
++				};
++
++				gpu_alert1: gpu-alert-1 {
++					temperature = <100000>;
++					hysteresis = <2000>;
++					type = "passive";
++				};
++
++				gpu_alert2: gpu-alert-2 {
++					temperature = <105000>;
++					hysteresis = <2000>;
++					type = "passive";
++				};
++
++				gpu-crit {
++					temperature = <115000>;
++					hysteresis = <0>;
++					type = "critical";
++				};
++			};
++
++			cooling-maps {
++				// Forbid the GPU to go over 756MHz
++				map0 {
++					trip = <&gpu_alert0>;
++					cooling-device = <&gpu 1 THERMAL_NO_LIMIT>;
++				};
++
++				// Forbid the GPU to go over 624MHz
++				map1 {
++					trip = <&gpu_alert1>;
++					cooling-device = <&gpu 2 THERMAL_NO_LIMIT>;
++				};
++
++				// Forbid the GPU to go over 576MHz
++				map2 {
++					trip = <&gpu_alert2>;
++					cooling-device = <&gpu 3 THERMAL_NO_LIMIT>;
++				};
++			};
+ 		};
+ 	};
+ };
+diff --git a/arch/arm/dts/sun50i-h616-orangepi-zero2.dts b/arch/arm/dts/sun50i-h616-orangepi-zero2.dts
+index 02893f3ac99..cb8600d0ea1 100644
+--- a/arch/arm/dts/sun50i-h616-orangepi-zero2.dts
++++ b/arch/arm/dts/sun50i-h616-orangepi-zero2.dts
+@@ -49,8 +49,24 @@
+ 		regulator-max-microvolt = <5000000>;
+ 		regulator-always-on;
+ 	};
++
++	reg_usb1_vbus: regulator-usb1-vbus {
++		compatible = "regulator-fixed";
++		regulator-name = "usb1-vbus";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		vin-supply = <&reg_vcc5v>;
++		enable-active-high;
++		gpio = <&pio 2 16 GPIO_ACTIVE_HIGH>; /* PC16 */
++	};
+ };
+ 
++&ehci1 {
++	status = "okay";
++};
++
++/* USB 2 & 3 are on headers only. */
++
+ &emac0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&ext_rgmii_pins>;
+@@ -76,6 +92,10 @@
+ 	status = "okay";
+ };
+ 
++&ohci1 {
++	status = "okay";
++};
++
+ &r_rsb {
+ 	status = "okay";
+ 
+@@ -211,3 +231,24 @@
+ 	pinctrl-0 = <&uart0_ph_pins>;
+ 	status = "okay";
+ };
++
++&usbotg {
++	/*
++	 * PHY0 pins are connected to a USB-C socket, but a role switch
++	 * is not implemented: both CC pins are pulled to GND.
++	 * The VBUS pins power the device, so a fixed peripheral mode
++	 * is the best choice.
++	 * The board can be powered via GPIOs, in this case port0 *can*
++	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
++	 * then provided by the GPIOs. Any user of this setup would
++	 * need to adjust the DT accordingly: dr_mode set to "host",
++	 * enabling OHCI0 and EHCI0.
++	 */
++	dr_mode = "peripheral";
++	status = "okay";
++};
++
++&usbphy {
++	usb1_vbus-supply = <&reg_usb1_vbus>;
++	status = "okay";
++};
+diff --git a/arch/arm/dts/sun50i-h616-x96-mate.dts b/arch/arm/dts/sun50i-h616-x96-mate.dts
+index 6619db34714..07424c28b69 100644
+--- a/arch/arm/dts/sun50i-h616-x96-mate.dts
++++ b/arch/arm/dts/sun50i-h616-x96-mate.dts
+@@ -32,6 +32,14 @@
+ 	};
+ };
+ 
++&ehci0 {
++	status = "okay";
++};
++
++&ehci2 {
++	status = "okay";
++};
++
+ &ir {
+ 	status = "okay";
+ };
+@@ -54,6 +62,14 @@
+ 	status = "okay";
+ };
+ 
++&ohci0 {
++	status = "okay";
++};
++
++&ohci2 {
++	status = "okay";
++};
++
+ &r_rsb {
+ 	status = "okay";
+ 
+@@ -175,3 +191,12 @@
+ 	pinctrl-0 = <&uart0_ph_pins>;
+ 	status = "okay";
+ };
++
++&usbotg {
++	dr_mode = "host";	/* USB A type receptable */
++	status = "okay";
++};
++
++&usbphy {
++	status = "okay";
++};
+diff --git a/arch/arm/dts/sun50i-h616.dtsi b/arch/arm/dts/sun50i-h616.dtsi
+index 622a1f7d164..74aed0d232a 100644
+--- a/arch/arm/dts/sun50i-h616.dtsi
++++ b/arch/arm/dts/sun50i-h616.dtsi
+@@ -504,6 +504,166 @@
+ 			};
+ 		};
+ 
++		usbotg: usb@5100000 {
++			compatible = "allwinner,sun50i-h616-musb",
++				     "allwinner,sun8i-h3-musb";
++			reg = <0x05100000 0x0400>;
++			clocks = <&ccu CLK_BUS_OTG>;
++			resets = <&ccu RST_BUS_OTG>;
++			interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "mc";
++			phys = <&usbphy 0>;
++			phy-names = "usb";
++			extcon = <&usbphy 0>;
++			status = "disabled";
++		};
++
++		usbphy: phy@5100400 {
++			compatible = "allwinner,sun50i-h616-usb-phy";
++			reg = <0x05100400 0x24>,
++			      <0x05101800 0x14>,
++			      <0x05200800 0x14>,
++			      <0x05310800 0x14>,
++			      <0x05311800 0x14>;
++			reg-names = "phy_ctrl",
++				    "pmu0",
++				    "pmu1",
++				    "pmu2",
++				    "pmu3";
++			clocks = <&ccu CLK_USB_PHY0>,
++				 <&ccu CLK_USB_PHY1>,
++				 <&ccu CLK_USB_PHY2>,
++				 <&ccu CLK_USB_PHY3>,
++				 <&ccu CLK_BUS_EHCI2>;
++			clock-names = "usb0_phy",
++				      "usb1_phy",
++				      "usb2_phy",
++				      "usb3_phy",
++				      "pmu2_clk";
++			resets = <&ccu RST_USB_PHY0>,
++				 <&ccu RST_USB_PHY1>,
++				 <&ccu RST_USB_PHY2>,
++				 <&ccu RST_USB_PHY3>;
++			reset-names = "usb0_reset",
++				      "usb1_reset",
++				      "usb2_reset",
++				      "usb3_reset";
++			status = "disabled";
++			#phy-cells = <1>;
++		};
++
++		ehci0: usb@5101000 {
++			compatible = "allwinner,sun50i-h616-ehci",
++				     "generic-ehci";
++			reg = <0x05101000 0x100>;
++			interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI0>,
++				 <&ccu CLK_BUS_EHCI0>,
++				 <&ccu CLK_USB_OHCI0>;
++			resets = <&ccu RST_BUS_OHCI0>,
++				 <&ccu RST_BUS_EHCI0>;
++			phys = <&usbphy 0>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
++		ohci0: usb@5101400 {
++			compatible = "allwinner,sun50i-h616-ohci",
++				     "generic-ohci";
++			reg = <0x05101400 0x100>;
++			interrupts = <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI0>,
++				 <&ccu CLK_USB_OHCI0>;
++			resets = <&ccu RST_BUS_OHCI0>;
++			phys = <&usbphy 0>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
++		ehci1: usb@5200000 {
++			compatible = "allwinner,sun50i-h616-ehci",
++				     "generic-ehci";
++			reg = <0x05200000 0x100>;
++			interrupts = <GIC_SPI 28 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI1>,
++				 <&ccu CLK_BUS_EHCI1>,
++				 <&ccu CLK_USB_OHCI1>;
++			resets = <&ccu RST_BUS_OHCI1>,
++				 <&ccu RST_BUS_EHCI1>;
++			phys = <&usbphy 1>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
++		ohci1: usb@5200400 {
++			compatible = "allwinner,sun50i-h616-ohci",
++				     "generic-ohci";
++			reg = <0x05200400 0x100>;
++			interrupts = <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI1>,
++				 <&ccu CLK_USB_OHCI1>;
++			resets = <&ccu RST_BUS_OHCI1>;
++			phys = <&usbphy 1>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
++		ehci2: usb@5310000 {
++			compatible = "allwinner,sun50i-h616-ehci",
++				     "generic-ehci";
++			reg = <0x05310000 0x100>;
++			interrupts = <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI2>,
++				 <&ccu CLK_BUS_EHCI2>,
++				 <&ccu CLK_USB_OHCI2>;
++			resets = <&ccu RST_BUS_OHCI2>,
++				 <&ccu RST_BUS_EHCI2>;
++			phys = <&usbphy 2>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
++		ohci2: usb@5310400 {
++			compatible = "allwinner,sun50i-h616-ohci",
++				     "generic-ohci";
++			reg = <0x05310400 0x100>;
++			interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI2>,
++				 <&ccu CLK_USB_OHCI2>;
++			resets = <&ccu RST_BUS_OHCI2>;
++			phys = <&usbphy 2>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
++		ehci3: usb@5311000 {
++			compatible = "allwinner,sun50i-h616-ehci",
++				     "generic-ehci";
++			reg = <0x05311000 0x100>;
++			interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI3>,
++				 <&ccu CLK_BUS_EHCI3>,
++				 <&ccu CLK_USB_OHCI3>;
++			resets = <&ccu RST_BUS_OHCI3>,
++				 <&ccu RST_BUS_EHCI3>;
++			phys = <&usbphy 3>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
++		ohci3: usb@5311400 {
++			compatible = "allwinner,sun50i-h616-ohci",
++				     "generic-ohci";
++			reg = <0x05311400 0x100>;
++			interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_OHCI3>,
++				 <&ccu CLK_USB_OHCI3>;
++			resets = <&ccu RST_BUS_OHCI3>;
++			phys = <&usbphy 3>;
++			phy-names = "usb";
++			status = "disabled";
++		};
++
+ 		rtc: rtc@7000000 {
+ 			compatible = "allwinner,sun50i-h616-rtc";
+ 			reg = <0x07000000 0x400>;
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+2.35.5
+
