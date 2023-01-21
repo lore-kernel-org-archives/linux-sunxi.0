@@ -1,86 +1,120 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B95E0361
-	for <linux-sunxi@lists.linux.dev>; Sat, 21 Jan 2023 01:53:14 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B0D2C1042;
-	Fri, 20 Jan 2023 17:53:55 -0800 (PST)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2020E3F71A;
-	Fri, 20 Jan 2023 17:53:12 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev,
-	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v2] sunxi: eMMC: support TOC0 on boot partitions
-Date: Sat, 21 Jan 2023 01:51:21 +0000
-Message-Id: <20230121015121.20150-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.5
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B545BD37;
+	Sat, 21 Jan 2023 16:39:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FBD0C433D2;
+	Sat, 21 Jan 2023 16:38:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1674319150;
+	bh=gT/5AvVpeDrgKjkh47OXtzrBPwHm9WVXPk88PeHkYdg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=T2T2vnT1Xs4tW5V/oTrCVF/YscJHiNq+7HTjvmQMO07kIVdALzUWUY/Lg7jgN8oeV
+	 wDH/jrinV14zyuMq2EWtvqw0MJqCVYQkQmSM97I02rGKmkJT8mWnP+XySroZ4rplWG
+	 RlAswjzAZLSIUe5xREEi1xk7mpGRJ+el+yXQps4AW3OLVqJhTAobryzkTKQ7IcmeFR
+	 gz9n7eY4kKn03iiqGBkjRAI/u36bgFn5jBskRGSmm4cNBL/uaGM08TtLTQYXpHtqxx
+	 meoZpovFIIHToxzFIsTk068dsFlMtc5YJ3ropDVVqr5LoNdkRAl4Bqac9L/I3U7BVM
+	 lonUWh/lOpEIw==
+Date: Sat, 21 Jan 2023 16:52:35 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+Cc: <broonie@kernel.org>, <miquel.raynal@bootlin.com>, <richard@nod.at>,
+ <vigneshr@ti.com>, <tudor.ambarus@microchip.com>, <pratyush@kernel.org>,
+ <sanju.mehta@amd.com>, <chin-ting_kuo@aspeedtech.com>, <clg@kaod.org>,
+ <kdasu.kdev@gmail.com>, <f.fainelli@gmail.com>, <rjui@broadcom.com>,
+ <sbranden@broadcom.com>, <eajames@linux.ibm.com>, <olteanv@gmail.com>,
+ <han.xu@nxp.com>, <john.garry@huawei.com>, <shawnguo@kernel.org>,
+ <s.hauer@pengutronix.de>, <narmstrong@baylibre.com>,
+ <khilman@baylibre.com>, <matthias.bgg@gmail.com>, <haibo.chen@nxp.com>,
+ <linus.walleij@linaro.org>, <daniel@zonque.org>,
+ <haojian.zhuang@gmail.com>, <robert.jarzmik@free.fr>, <agross@kernel.org>,
+ <bjorn.andersson@linaro.org>, <heiko@sntech.de>,
+ <krzysztof.kozlowski@linaro.org>, <andi@etezian.org>,
+ <mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
+ <wens@csie.org>, <jernej.skrabec@gmail.com>, <samuel@sholland.org>,
+ <masahisa.kojima@linaro.org>, <jaswinder.singh@linaro.org>,
+ <rostedt@goodmis.org>, <mingo@redhat.com>, <l.stelmach@samsung.com>,
+ <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+ <pabeni@redhat.com>, <alex.aring@gmail.com>, <stefan@datenfreihafen.org>,
+ <kvalo@kernel.org>, <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+ <skomatineni@nvidia.com>, <sumit.semwal@linaro.org>,
+ <christian.koenig@amd.com>, <j.neuschaefer@gmx.net>, <vireshk@kernel.org>,
+ <rmfrfs@gmail.com>, <johan@kernel.org>, <elder@kernel.org>,
+ <gregkh@linuxfoundation.org>, <git@amd.com>, <linux-spi@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
+ <radu_nicolae.pirea@upb.ro>, <nicolas.ferre@microchip.com>,
+ <alexandre.belloni@bootlin.com>, <claudiu.beznea@microchip.com>,
+ <bcm-kernel-feedback-list@broadcom.com>, <fancer.lancer@gmail.com>,
+ <kernel@pengutronix.de>, <festevam@gmail.com>, <linux-imx@nxp.com>,
+ <jbrunet@baylibre.com>, <martin.blumenstingl@googlemail.com>,
+ <avifishman70@gmail.com>, <tmaimon77@gmail.com>, <tali.perry1@gmail.com>,
+ <venture@google.com>, <yuenn@google.com>, <benjaminfair@google.com>,
+ <yogeshgaur.83@gmail.com>, <konrad.dybcio@somainline.org>,
+ <alim.akhtar@samsung.com>, <ldewangan@nvidia.com>, <michal.simek@amd.com>,
+ <linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-rpi-kernel@lists.infradead.org>,
+ <linux-amlogic@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
+ <linux-samsung-soc@vger.kernel.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>,
+ <linux-tegra@vger.kernel.org>, <netdev@vger.kernel.org>,
+ <linux-wpan@vger.kernel.org>, <libertas-dev@lists.infradead.org>,
+ <linux-wireless@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
+ <lars@metafoo.de>, <Michael.Hennerich@analog.com>,
+ <linux-iio@vger.kernel.org>, <michael@walle.cc>, <palmer@dabbelt.com>,
+ <linux-riscv@lists.infradead.org>, <linux-media@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <greybus-dev@lists.linaro.org>,
+ <linux-staging@lists.linux.dev>, <amitrkcian2002@gmail.com>
+Subject: Re: [PATCH v2 04/13] iio: imu: Replace all spi->chip_select and
+ spi->cs_gpiod references with function call
+Message-ID: <20230121165235.13da9db2@jic23-huawei>
+In-Reply-To: <20230119185342.2093323-5-amit.kumar-mahapatra@amd.com>
+References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
+	<20230119185342.2093323-5-amit.kumar-mahapatra@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-To determine whether we have been booted from an eMMC boot partition, we
-replay some of the checks that the BROM must have done to successfully
-load the SPL. This involves a checksum check, which currently relies on
-the SPL being wrapped in an "eGON" header.
+On Fri, 20 Jan 2023 00:23:33 +0530
+Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com> wrote:
 
-If a board has secure boot enabled, the BROM will only accept the "TOC0"
-format, which is internally very different, but uses the same
-checksumming algorithm. Actually the only difference for calculating the
-checksum is that the size of the SPL is stored at a different offset.
+> Supporting multi-cs in spi drivers would require the chip_select & cs_gpiod
+> members of struct spi_device to be an array. But changing the type of these
+> members to array would break the spi driver functionality. To make the
+> transition smoother introduced four new APIs to get/set the
+> spi->chip_select & spi->cs_gpiod and replaced all spi->chip_select and
+> spi->cs_gpiod references with get or set API calls.
+> While adding multi-cs support in further patches the chip_select & cs_gpiod
+> members of the spi_device structure would be converted to arrays & the
+> "idx" parameter of the APIs would be used as array index i.e.,
+> spi->chip_select[idx] & spi->cs_gpiod[idx] respectively.
+> 
+> Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
 
-Do a header check to determine whether we deal with an eGON or TOC0
-format, then set the SPL size accordingly. The rest of the code is
-unchanged.
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-This fixes booting from an eMMC boot partition on devices with secure
-boot enabled, like the Remix Mini PC.
-
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
-Changelog v2 .. v1:
-- use struct members instead of indexing buffer array
-
- arch/arm/mach-sunxi/board.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
-index 03f51557fcb..391a65a5495 100644
---- a/arch/arm/mach-sunxi/board.c
-+++ b/arch/arm/mach-sunxi/board.c
-@@ -364,6 +364,7 @@ static bool sunxi_valid_emmc_boot(struct mmc *mmc)
- 	struct blk_desc *bd = mmc_get_blk_desc(mmc);
- 	u32 *buffer = (void *)(uintptr_t)CONFIG_TEXT_BASE;
- 	struct boot_file_head *egon_head = (void *)buffer;
-+	struct toc0_main_info *toc0_info = (void *)buffer;
- 	int bootpart = EXT_CSD_EXTRACT_BOOT_PART(mmc->part_config);
- 	uint32_t spl_size, emmc_checksum, chksum = 0;
- 	ulong count;
-@@ -390,11 +391,17 @@ static bool sunxi_valid_emmc_boot(struct mmc *mmc)
- 
- 	/* Read the first block to do some sanity checks on the eGON header. */
- 	count = blk_dread(bd, 0, 1, buffer);
--	if (count != 1 || !sunxi_egon_valid(egon_head))
-+	if (count != 1)
-+		return false;
-+
-+	if (sunxi_egon_valid(egon_head))
-+		spl_size = egon_head->length;
-+	else if (sunxi_toc0_valid(toc0_info))
-+		spl_size = toc0_info->length;
-+	else
- 		return false;
- 
- 	/* Read the rest of the SPL now we know it's halfway sane. */
--	spl_size = buffer[4];
- 	count = blk_dread(bd, 1, DIV_ROUND_UP(spl_size, bd->blksz) - 1,
- 			  buffer + bd->blksz / 4);
- 
--- 
-2.35.5
+> ---
+>  drivers/iio/imu/adis16400.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iio/imu/adis16400.c b/drivers/iio/imu/adis16400.c
+> index c02fc35dceb4..3eda32e12a53 100644
+> --- a/drivers/iio/imu/adis16400.c
+> +++ b/drivers/iio/imu/adis16400.c
+> @@ -466,7 +466,7 @@ static int adis16400_initial_setup(struct iio_dev *indio_dev)
+>  
+>  		dev_info(&indio_dev->dev, "%s: prod_id 0x%04x at CS%d (irq %d)\n",
+>  			indio_dev->name, prod_id,
+> -			st->adis.spi->chip_select, st->adis.spi->irq);
+> +			spi_get_chipselect(st->adis.spi, 0), st->adis.spi->irq);
+>  	}
+>  	/* use high spi speed if possible */
+>  	if (st->variant->flags & ADIS16400_HAS_SLOW_MODE) {
 
