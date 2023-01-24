@@ -1,105 +1,89 @@
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5188A3C;
-	Tue, 24 Jan 2023 05:11:26 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id 2A836320093F;
-	Tue, 24 Jan 2023 00:11:24 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Tue, 24 Jan 2023 00:11:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1674537083; x=
-	1674623483; bh=FL4EH6QJK+d1XgoAroJrgotEkmtGHshewgrLCi3uekw=; b=r
-	jtn/0FU/v56BlVNeisMMSPzODrC9lG+vIBgyK8yUBQYEnvi+NSW1PhRiWEWejf9y
-	DBMts3ZbhgxCteSsaNrAbsrx3Lxx1vD3+Q+vSVME2JDSjsD+dERvQV14dttsIhE5
-	4I5s9vH/amlpFzbVz03tX1gG2G5xbR5L9HQvKRYvQcxrzMBcTJ7GpKwDD//B5JHO
-	UxJ5bY8pXReNk+13UuaMxtYSW/rYhKkoMSLwiUz7iRz33r/ES8RC+0yN9XygSY2G
-	Baj/nMmnRVz+01qT+5NfcTRwO03mb2MSrC3QWFpuPqvioEM9lZaZ5u7utsp7Tg2W
-	fFFEwBKr0ikIxckS9/m3w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674537083; x=
-	1674623483; bh=FL4EH6QJK+d1XgoAroJrgotEkmtGHshewgrLCi3uekw=; b=i
-	odecc03ocFIbjUEYEowrzdz0krD8bba7o8+vnGpbpBYspcuqu02fQJaKkjIBxFsk
-	GsVLWdT74zXF/d2NvlNGi8BENIkVxR4a/d6FLEBRZhvhihCXPRp8Ky5GB7A4Ysd3
-	St8gM1tL03X1icXX9xEHlLplIubOWGv0+1ouPYmJYR5X64YObQzcDrjK6ZMJEttU
-	7tReJrl+url8zt6QsbTOsAmrMaev/MHJHKQpxejPR7P9oesjIkAycZpzxsfOQaS9
-	MYsD39/531WjGI30fHjyJQL3oNj9aK+hy7Tq1KKGZ/wu7FD/81fCWnK486mDmSQC
-	bp32Kj2BqLkYT3h3t+MXg==
-X-ME-Sender: <xms:e2jPY1iz9LZz-HZ8fMgwNQ1I9lgPn4QkKZ_bdijKT87dl3oSxbBdaQ>
-    <xme:e2jPY6CIZ6wKxGCD0qFydX-9PWjtGI5ROGEOOyf_eLVTFiQmh6RKGELOanG7IXLIf
-    Liz6ZgeAvv0FA0aWA>
-X-ME-Received: <xmr:e2jPY1FEtRewVLA-CseS80ahykYUqa7mNJt84yyMZIixWmKuBOPV3C6PSso7wHMqAlOsZtxWu7TlAp6yUWkGlQ8OC3LxJp-wge2d9Zv9fg_mGPRtoWEHuypYEQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudduledgkeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepkfffgggfvfevfhfhufgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpeejgfffhfdujeeftdeuudeguedttefgieetffffheejuefguedv
-    heejteeftdfftdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:e2jPY6RIHnG1EUqXaC3ACprutbwXrzsJkoSMFBvXOrE7FVFTVWkTcQ>
-    <xmx:e2jPYywKnMpkbb1B4hxUMyrqWP98vX9ORFVTLs90GVRcQbr7vkzpnA>
-    <xmx:e2jPYw55Cn94tS4s1iUFh1Eke49XtFb0udXx6Er5tEjsc0LeR1G5ug>
-    <xmx:e2jPYzomzZAebvz0EzYzrvupHjTo-qOA650_P1omIPpLDP9FJqGp3g>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 24 Jan 2023 00:11:22 -0500 (EST)
-Message-ID: <9d61bda2-17ea-723d-7fee-e911061054bc@sholland.org>
-Date: Mon, 23 Jan 2023 23:11:23 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E4DEA4;
+	Tue, 24 Jan 2023 05:45:50 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id A4A7E42651;
+	Tue, 24 Jan 2023 05:45:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1674539148; bh=HljMxe7jrBTG1Genyu+Pm2rYswosR8p2EtuxuYI1k5k=;
+	h=Date:Subject:To:References:From:In-Reply-To;
+	b=tGJDNdnjFM7diTyJhByzlPW+Qgjt+NJVZE3JfiWvoqqTN22OFEMWJCJu2Ml1pOsAO
+	 r0/W8qLAIOzYaNHY8izHRJlBZMIadNunPGWmPwbEb40y1c6VosRAOpZ3Wcs4aMWegs
+	 XbuvONOwx1zSvJYikQceLhiAJggA2UD6cvlPAdRG3c6kHqxdgYFDuUkADi9HPGh5Iv
+	 0wfqvQC+iXGieASzeODYfH1Ol3XFtpUDplCyJZqQsIPWXhbLyyI6/TLH14CQRMCzGs
+	 /k/FBLs2Gdm6AmXg+b0qJZwx9ZtzOaW60Td3qkL6/m3omSubjkfWbCU4KWlUN6s7C8
+	 0z/OcdYARoLFA==
+Message-ID: <d7575a8e-035e-b729-bd16-7fd10b2c56c5@marcan.st>
+Date: Tue, 24 Jan 2023 14:45:31 +0900
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 1/2] dt-bindings: dma: drop unneeded quotes
 Content-Language: en-US
-To: Hans Verkuil <hverkuil@xs4all.nl>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Maxime Ripard <mripard@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev
-References: <20221231164628.19688-1-samuel@sholland.org>
- <0c411b60-1d12-1c34-0f35-5e38d38e2786@xs4all.nl>
-From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 0/4] Allwinner D1 video engine support
-In-Reply-To: <0c411b60-1d12-1c34-0f35-5e38d38e2786@xs4all.nl>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Olivier Dautricourt <olivierdautricourt@gmail.com>, Stefan Roese
+ <sr@denx.de>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, =?UTF-8?Q?Andreas_F=c3=a4rber?=
+ <afaerber@suse.de>, Manivannan Sadhasivam <mani@kernel.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Green Wan <green.wan@sifive.com>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Maxime Ripard
+ <mripard@kernel.org>, =?UTF-8?B?77+9ZXI=?= <povik+lin@cutebit.org>,
+ Peng Fan <peng.fan@nxp.com>, Paul Cercueil <paul@crapouillou.net>,
+ - <chuanhua.lei@intel.com>, Long Cheng <long.cheng@mediatek.com>,
+ Rajesh Gumasta <rgumasta@nvidia.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Palmer Debbelt
+ <palmer@sifive.com>, Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Amelie Delaunay <amelie.delaunay@foss.st.com>,
+ Linus Walleij <linus.walleij@linaro.org>, dmaengine@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-mediatek@lists.infradead.org
+References: <20230118180144.364756-1-krzysztof.kozlowski@linaro.org>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <20230118180144.364756-1-krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Hans,
-
-On 1/23/23 06:33, Hans Verkuil wrote:
-> Hi Samuel,
+On 19/01/2023 03.01, Krzysztof Kozlowski wrote:
+> Cleanup by removing unneeded quotes from refs and redundant blank lines.
+> No functional impact except adjusting to preferred coding style.
 > 
-> What is the status of this series? It seems to be mostly OK, but I did see
-> a few comments suggesting improvements.
-> 
-> Does this series depend on your PPU work? That was not clear.
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
 
-The first three patches do not, but the actual DT node does, for
-completeness.
+For the Apple stuff,
 
-> I do think there were enough small comments to warrant a v2, unless you disagree?
+Acked-by: Hector Martin <marcan@marcan.st>
 
-I agree, and plan to send a v2 with the binding/driver changes made
-compatible-specific.
-
-Regards,
-Samuel
-
+- Hector
