@@ -1,45 +1,45 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B439F7C
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Jan 2023 08:17:17 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id q5so8391285wrv.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 24 Jan 2023 00:17:17 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB14D7C
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 Jan 2023 08:17:49 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id d4-20020a05600c3ac400b003db1de2aef0so10298591wms.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 24 Jan 2023 00:17:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=kLCH4vzF1S5fETKgbedPA51jeuB1hlnoXHacM1L7F8A=;
-        b=PUCx69XU/ALNSOnNm3wvq0dYsW6xQff+/756CSvgawj5VkarkYeNnvrg5pkIHXeJvC
-         tH6jWQZXJGE7SPgHqrLg7MYzAdvLRGLlYUkq5Ip8xwrNY1UH11hLEN22hByAXNFspFKz
-         aZiO/3UlZaGGnmfbNQVMLEqgOxtE/FItMeLb3VFNY6HFcQIqWYJKC82PhT8+A4lF1xzN
-         ives3T43i1wpt4rZaeNlGoK12ltSem8VVpphw5DSpJkrSdkNYAJAG+SJA/nv4iQKPwSE
-         Hb6ajPifB6TjJitYVTr0H5+W327fGX0kdXDAr8Z8xIvJ51i/+rSc8RaavuRsdyXrWZ/k
-         JXuQ==
+        bh=OiP0gZn/cpqwNmZsHPi77/HmJt+0GSm02rEXJE0mZuc=;
+        b=rz5WOHaNNlWgEXLRbetKeX7R0dRN7zSC9YmNQarI9o4w7Tq5jxfXRqxTsxgHzpx4I9
+         0yCwad4pvGwH35vsywIACFAKq4+tmuXHMABvAo0ziD9anYJtCqDdCdcshYllGX+jL33S
+         V2jUHNwZjihkw5PkuVs6JSLbPqas8jVCHD1eRQgn0qmI9O5z3akmD8e0KxYGOkHPcExc
+         Fs2kH8M96BLXC3Qw6sek5qgvA/pZtumGefcPFbod9+08KQP1qc8bRANz9r4AuZ40tlvZ
+         UWZ75isPIPXvR1YDxyxT4wsID9oqc6K65nm1U6AzoDk60eiCoeQHwjb7C+rjvLNcASJE
+         as0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kLCH4vzF1S5fETKgbedPA51jeuB1hlnoXHacM1L7F8A=;
-        b=DXIBTSpOYOTHfTcIEy4WmFsLHGnvI7gcubhJND/aQavox4fyUbDyOKez7gaUG62F7l
-         CAib/zkjGrFAxYxgVDY8lUjSe4vM2R7fFmTZsXvt9qzxS/HApbPJ05HPWSFQd3DSeDVu
-         Eyix0L4UF6o01OGVdClKD61OOK8IfJ7O5zu3cVlGLK4qUVnaE+6J52FlbDnp5OfKfyJg
-         /QpdJbP71zfsATH0FcmJTNueTH85sjTKKUilUeEon0ygK6ompNjOjwXLJxy2LfGBYweQ
-         hLzmql1ma3hYb8LU9UXfoyh1ksNlpIDjQHt3kaZH+BvUMZviZZLX32nVL81frWzK/TN6
-         xpfQ==
-X-Gm-Message-State: AFqh2kpULS9Jt5dizigQ8m12/+Y90smtuphC003URZX/7CpVpzeIblxG
-	UnFgGZyzwzQ/UfthiP5mi/UYtQ==
-X-Google-Smtp-Source: AMrXdXuKhilEOYXCaWzj5MnYT6+XRh6z0kCNN3okw51LIYDecgd5E8Ez0G9+d3ehflLkb16p29wJdA==
-X-Received: by 2002:a05:6000:608:b0:2bd:db84:d663 with SMTP id bn8-20020a056000060800b002bddb84d663mr21417965wrb.5.1674548235969;
-        Tue, 24 Jan 2023 00:17:15 -0800 (PST)
+        bh=OiP0gZn/cpqwNmZsHPi77/HmJt+0GSm02rEXJE0mZuc=;
+        b=iY7iF50gFqRso8siZkP7KfhDPJ/nemqsZs3uxtOSyuwzmM1uWVzHM0Ezw0Et+OYPcs
+         w8OJEZ5k24mViCxT+vlHh+JXOI05MLqDjRg6Y1rwi9iGIbLsp8gOtDKV2RI4o+ysE5z6
+         dzwaZkWhmiB6RfdGU0l4tkf1O+amht4nVM9rRmytW6E3msCOUtcWbQmad6hn0XDZ67GM
+         1J+HYomAlD4MgQEAKww/dCJ8sKtYqr9MRtvP17VybLd1bCSeLYpcsHh3WsBn6N2Utj9B
+         GhgblAUBWh+AeuyXlKv0bVMn5FlIkMWlkgyrk8t6rVnoanW8dWwtPEna5j+HtSRcpgIF
+         6PLQ==
+X-Gm-Message-State: AFqh2kqQXtLiBfydcEwwwheID/bkImp2I1qjB6z3y/NQ8rr69rPjZI6o
+	qmWR9wrTSarjMDigUt6sEYw3Zw==
+X-Google-Smtp-Source: AMrXdXunRvOxaqJzjCgh5gUlJhksZxNRxnNWUPvYFTObnizcuMzYRwgIcDkar5wVJKqfvWoZ4n/TQw==
+X-Received: by 2002:a1c:6a10:0:b0:3da:f665:5b66 with SMTP id f16-20020a1c6a10000000b003daf6655b66mr27262779wmc.6.1674548268129;
+        Tue, 24 Jan 2023 00:17:48 -0800 (PST)
 Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id x15-20020a5d650f000000b002bdda9856b5sm1263775wru.50.2023.01.24.00.17.13
+        by smtp.gmail.com with ESMTPSA id g16-20020adffc90000000b002882600e8a0sm1298395wrr.12.2023.01.24.00.17.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Jan 2023 00:17:15 -0800 (PST)
-Message-ID: <955f4b2a-a750-11a2-0423-72023935723b@linaro.org>
-Date: Tue, 24 Jan 2023 09:17:12 +0100
+        Tue, 24 Jan 2023 00:17:47 -0800 (PST)
+Message-ID: <934be0a4-3639-5f72-cf54-b796b32df484@linaro.org>
+Date: Tue, 24 Jan 2023 09:17:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -48,78 +48,108 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.0
-Subject: Re: [PATCH 2/2] dt-bindings: mmc: correct pwrseq node names
+Subject: Re: [PATCH 2/2] spi: dt-bindings: cleanup examples - indentation,
+ lowercase hex
 Content-Language: en-US
-To: =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
- Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+To: Rob Herring <robh@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Samuel Holland <samuel@sholland.org>,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goat?=
+ =?UTF-8?Q?er?= <clg@kaod.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, Kamal Dasu <kdasu.kdev@gmail.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Han Xu <han.xu@nxp.com>,
  Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
  Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Lars Povlsen <lars.povlsen@microchip.com>,
- Steen Hegelund <Steen.Hegelund@microchip.com>,
- Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com,
+ Matthias Brugger <matthias.bgg@gmail.com>,
  Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, =?UTF-8?Q?Andreas_F=c3=a4rber?=
- <afaerber@suse.de>, Manivannan Sadhasivam <mani@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Tony Huang <tonyhuang.sunplus@gmail.com>, Li-hao Kuo <lhjeff911@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, Adrian Hunter <adrian.hunter@intel.com>,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
- Markus Pargmann <mpa@pengutronix.de>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Jaehoon Chung <jh80.chung@samsung.com>, linux-mmc@vger.kernel.org,
+ Jonathan Hunter <jonathanh@nvidia.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Serge Semin <fancer.lancer@gmail.com>, Haibo Chen <haibo.chen@nxp.com>,
+ Yogesh Gaur <yogeshgaur.83@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Li-hao Kuo <lhjeff911@gmail.com>,
+ Michal Simek <michal.simek@xilinx.com>, Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Maxime Ripard <mripard@kernel.org>, =?UTF-8?B?77+9ZWNraQ==?=
+ <rafal@milecki.pl>, Vaishnav Achath <vaishnav.a@ti.com>,
+ Parshuram Thombare <pthombar@cadence.com>, Leilk Liu
+ <leilk.liu@mediatek.com>, Gabor Juhos <juhosg@openwrt.org>,
+ Bert Vermeulen <bert@biot.com>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Marek Vasut <marex@denx.de>, Birger Koblitz <mail@birger-koblitz.de>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Anson Huang <Anson.Huang@nxp.com>,
+ Chris Packham <chris.packham@alliedtelesis.co.nz>,
+ Kuldeep Singh <singh.kuldeep87k@gmail.com>,
+ Pragnesh Patel <pragnesh.patel@sifive.com>,
+ Christophe Kerello <christophe.kerello@foss.st.com>,
+ Patrice Chotard <patrice.chotard@foss.st.com>,
+ Erwan Leray <erwan.leray@foss.st.com>,
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>, linux-spi@vger.kernel.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-actions@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org
-References: <20230120085722.171965-1-krzysztof.kozlowski@linaro.org>
- <20230120085722.171965-2-krzysztof.kozlowski@linaro.org>
- <2138388.Mh6RI2rZIc@diego>
+ linux-amlogic@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+ linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <20230118173932.358153-1-krzysztof.kozlowski@linaro.org>
+ <20230118173932.358153-2-krzysztof.kozlowski@linaro.org>
+ <20230123201751.GA2450665-robh@kernel.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <2138388.Mh6RI2rZIc@diego>
+In-Reply-To: <20230123201751.GA2450665-robh@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 20/01/2023 10:38, Heiko Stübner wrote:
-> Am Freitag, 20. Januar 2023, 09:57:22 CET schrieb Krzysztof Kozlowski:
->> Node names should be generic and should not contain underscores.
+On 23/01/2023 21:17, Rob Herring wrote:
+> On Wed, Jan 18, 2023 at 06:39:32PM +0100, Krzysztof Kozlowski wrote:
+>> Cleanup examples:
+>>  - use 4-space indentation (for cases when it is neither 4 not 2 space),
+>>  - drop redundant blank lines,
+>>  - use lowercase hex.
+>>
+>> No functional impact except adjusting to preferred coding style.
 >>
 >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 >> ---
->>  Documentation/devicetree/bindings/mmc/mmc-pwrseq-emmc.yaml   | 2 +-
->>  Documentation/devicetree/bindings/mmc/mmc-pwrseq-sd8787.yaml | 2 +-
->>  Documentation/devicetree/bindings/mmc/mmc-pwrseq-simple.yaml | 2 +-
->>  3 files changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/mmc/mmc-pwrseq-emmc.yaml b/Documentation/devicetree/bindings/mmc/mmc-pwrseq-emmc.yaml
->> index 911a5996e099..588be73168fa 100644
->> --- a/Documentation/devicetree/bindings/mmc/mmc-pwrseq-emmc.yaml
->> +++ b/Documentation/devicetree/bindings/mmc/mmc-pwrseq-emmc.yaml
->> @@ -41,7 +41,7 @@ additionalProperties: false
->>  examples:
->>    - |
->>      #include <dt-bindings/gpio/gpio.h>
->> -    sdhci0_pwrseq {
->> +    pwrseq {
+>>  .../bindings/spi/amlogic,meson-gx-spicc.yaml  |  26 +--
+>>  .../bindings/spi/amlogic,meson6-spifc.yaml    |  22 +--
+>>  .../bindings/spi/aspeed,ast2600-fmc.yaml      |  24 +--
+>>  .../bindings/spi/brcm,spi-bcm-qspi.yaml       | 156 +++++++++---------
+>>  .../bindings/spi/cdns,qspi-nor.yaml           |   4 +-
+>>  .../bindings/spi/nvidia,tegra210-quad.yaml    |  42 ++---
+>>  .../bindings/spi/qcom,spi-qcom-qspi.yaml      |   1 -
+>>  .../devicetree/bindings/spi/renesas,rspi.yaml |  22 +--
+>>  .../bindings/spi/spi-sunplus-sp7021.yaml      |   4 +-
+>>  .../devicetree/bindings/spi/st,stm32-spi.yaml |   1 -
+>>  10 files changed, 150 insertions(+), 152 deletions(-)
 > 
-> [applicable for all 3 examples]
+> [...]
 > 
-> hmm, power-sequences are not necessarily tied to an address and I guess
-> it will be very much a common case to have multiple ones on a system.
+>> diff --git a/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml b/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
+>> index d35c6f7e2dd5..18afdaab946d 100644
+>> --- a/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
+>> +++ b/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
+>> @@ -95,7 +95,6 @@ examples:
+>>               <&dmamux1 1 40 0x400 0x05>;
+>>        dma-names = "rx", "tx";
+>>        cs-gpios = <&gpioa 11 0>;
 > 
-> So might it be better to follow other patterns (like leds) to number them
-> or suggest a "foo-pwrseq" / "pwrseq-foo"?
+> Looks like the indentation needs adjusting here.
+> 
 
-In such cases one can add number or descriptive suffix (pwrseq-0,
-pwrseq-foo), just like we do for regulators. However the examples have
-here only one node and in such case "pwrseq" is enough.
+Ack
 
 Best regards,
 Krzysztof
