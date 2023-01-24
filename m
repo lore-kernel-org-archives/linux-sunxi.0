@@ -1,61 +1,105 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF8D8829
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 Jan 2023 23:51:35 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 4CBA5C3F86
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 Jan 2023 23:47:32 +0000 (UTC)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 7385F40003;
-	Mon, 23 Jan 2023 23:47:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1674517644;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jwmcVqno/YcAQeOYokZ/vj5NmGSag+BGNuxqJkFhlmI=;
-	b=o9k+1bE129WTOlXJLiQquy0CTYzOwComZEGon0prGdvsiAf488iRtFThFaM4UroTt6/LT/
-	G3ELWt95VYwPuntnrvHYWEakost8RHFHFZAW52XcWNoT7z09LFn/w/rwGZZ7+r5KU98o+J
-	nSFE5ljwVM/wnTOoZ+8FqonPaYeCXc6gBt+u8GnzM15MT4NpJEH5EFOzJb6UCOi+2DrmSg
-	zncttuEeq3nhJU/abbCOcc8EyvGveWxnhH0h4rGXhBb2zieEEqhd2UZBZFD3Fy7nD9o3xq
-	o01T+pnHjf6Q6U3C/QezLMCYydBrBtUuFs3/gfM5B01JUn1/QMYmV2T2UBG6jw==
-Date: Tue, 24 Jan 2023 00:47:23 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-rtc@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] rtc: sun6i: Always export the internal oscillator
-Message-ID: <167451762667.1272571.6826220647911763740.b4-ty@bootlin.com>
-References: <20221229215319.14145-1-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5188A3C;
+	Tue, 24 Jan 2023 05:11:26 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id 2A836320093F;
+	Tue, 24 Jan 2023 00:11:24 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Tue, 24 Jan 2023 00:11:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1674537083; x=
+	1674623483; bh=FL4EH6QJK+d1XgoAroJrgotEkmtGHshewgrLCi3uekw=; b=r
+	jtn/0FU/v56BlVNeisMMSPzODrC9lG+vIBgyK8yUBQYEnvi+NSW1PhRiWEWejf9y
+	DBMts3ZbhgxCteSsaNrAbsrx3Lxx1vD3+Q+vSVME2JDSjsD+dERvQV14dttsIhE5
+	4I5s9vH/amlpFzbVz03tX1gG2G5xbR5L9HQvKRYvQcxrzMBcTJ7GpKwDD//B5JHO
+	UxJ5bY8pXReNk+13UuaMxtYSW/rYhKkoMSLwiUz7iRz33r/ES8RC+0yN9XygSY2G
+	Baj/nMmnRVz+01qT+5NfcTRwO03mb2MSrC3QWFpuPqvioEM9lZaZ5u7utsp7Tg2W
+	fFFEwBKr0ikIxckS9/m3w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674537083; x=
+	1674623483; bh=FL4EH6QJK+d1XgoAroJrgotEkmtGHshewgrLCi3uekw=; b=i
+	odecc03ocFIbjUEYEowrzdz0krD8bba7o8+vnGpbpBYspcuqu02fQJaKkjIBxFsk
+	GsVLWdT74zXF/d2NvlNGi8BENIkVxR4a/d6FLEBRZhvhihCXPRp8Ky5GB7A4Ysd3
+	St8gM1tL03X1icXX9xEHlLplIubOWGv0+1ouPYmJYR5X64YObQzcDrjK6ZMJEttU
+	7tReJrl+url8zt6QsbTOsAmrMaev/MHJHKQpxejPR7P9oesjIkAycZpzxsfOQaS9
+	MYsD39/531WjGI30fHjyJQL3oNj9aK+hy7Tq1KKGZ/wu7FD/81fCWnK486mDmSQC
+	bp32Kj2BqLkYT3h3t+MXg==
+X-ME-Sender: <xms:e2jPY1iz9LZz-HZ8fMgwNQ1I9lgPn4QkKZ_bdijKT87dl3oSxbBdaQ>
+    <xme:e2jPY6CIZ6wKxGCD0qFydX-9PWjtGI5ROGEOOyf_eLVTFiQmh6RKGELOanG7IXLIf
+    Liz6ZgeAvv0FA0aWA>
+X-ME-Received: <xmr:e2jPY1FEtRewVLA-CseS80ahykYUqa7mNJt84yyMZIixWmKuBOPV3C6PSso7wHMqAlOsZtxWu7TlAp6yUWkGlQ8OC3LxJp-wge2d9Zv9fg_mGPRtoWEHuypYEQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudduledgkeduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepkfffgggfvfevfhfhufgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpeejgfffhfdujeeftdeuudeguedttefgieetffffheejuefguedv
+    heejteeftdfftdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:e2jPY6RIHnG1EUqXaC3ACprutbwXrzsJkoSMFBvXOrE7FVFTVWkTcQ>
+    <xmx:e2jPYywKnMpkbb1B4hxUMyrqWP98vX9ORFVTLs90GVRcQbr7vkzpnA>
+    <xmx:e2jPYw55Cn94tS4s1iUFh1Eke49XtFb0udXx6Er5tEjsc0LeR1G5ug>
+    <xmx:e2jPYzomzZAebvz0EzYzrvupHjTo-qOA650_P1omIPpLDP9FJqGp3g>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 24 Jan 2023 00:11:22 -0500 (EST)
+Message-ID: <9d61bda2-17ea-723d-7fee-e911061054bc@sholland.org>
+Date: Mon, 23 Jan 2023 23:11:23 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221229215319.14145-1-samuel@sholland.org>
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Content-Language: en-US
+To: Hans Verkuil <hverkuil@xs4all.nl>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Maxime Ripard <mripard@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev
+References: <20221231164628.19688-1-samuel@sholland.org>
+ <0c411b60-1d12-1c34-0f35-5e38d38e2786@xs4all.nl>
+From: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH 0/4] Allwinner D1 video engine support
+In-Reply-To: <0c411b60-1d12-1c34-0f35-5e38d38e2786@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi Hans,
 
-On Thu, 29 Dec 2022 15:53:19 -0600, Samuel Holland wrote:
-> On all variants of the hardware, the internal oscillator is one possible
-> parent for the AR100 clock. It needs to be exported so we can model that
-> relationship correctly in the devicetree.
+On 1/23/23 06:33, Hans Verkuil wrote:
+> Hi Samuel,
 > 
+> What is the status of this series? It seems to be mostly OK, but I did see
+> a few comments suggesting improvements.
 > 
+> Does this series depend on your PPU work? That was not clear.
 
-Applied, thanks!
+The first three patches do not, but the actual DT node does, for
+completeness.
 
-[1/1] rtc: sun6i: Always export the internal oscillator
-      commit: 344f4030f6c50a9db2d03021884c4bf36191b53a
+> I do think there were enough small comments to warrant a v2, unless you disagree?
 
-Best regards,
+I agree, and plan to send a v2 with the binding/driver changes made
+compatible-specific.
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Regards,
+Samuel
+
