@@ -1,147 +1,103 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8517D173
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Jan 2023 04:59:04 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id j9so524939qtv.4
-        for <linux-sunxi@lists.linux.dev>; Wed, 25 Jan 2023 20:59:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E2S3RLfrNyQH49fsnFGoQQ0jF5nvWXPOvFK0VP3Scjo=;
-        b=IWV/X5EtYYc53U1keZc6Iu7v0jyTbAY6l2uYNr2tB7WaZHXvEwhIXcw5VZBulQSL6A
-         6Jvn59mMR6weRaRmLdZ8F/95n+NaBJ9dRVjOjQ19w5aWxL+R6I/zOQkl4hj19hbQKkcg
-         XmaOWJvaFGorOGR6gKFoxWNZ42yq3JI5PBjwnFIMJq9VFbqd+i4rUMftB8vjBgxSsNEW
-         8gniu1Yv79dBtc9rOZbpIC451t5eJqX4pgao5Ha7dYw38DOKNCO4jT0+eG5WUHdqooRu
-         CkQgahq+Ky8sF3BbotZY5uEqwtIQM7xrxtVzCBDUeiEKNovMTvE8/M+lrLSGEv0r5Wgg
-         UqAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=E2S3RLfrNyQH49fsnFGoQQ0jF5nvWXPOvFK0VP3Scjo=;
-        b=VnRxvJ0PGaFRL7Se4Nt1DR//Gn0Uq5mdpfv2dPxrwwh8Doh/aXwsvNBJeKI0jBNF7n
-         VrAEiK+bPK5v7Z7VozenfV8bYQvyNmSQfGnHoh6SuDwDiIzu+eCp+lMrN9/rzFwFKWle
-         HLSrgQ+NSGmUM1TzOlZKFZjMlf8NWJ7PaRjqZoZYdvcS6GGVAHEzc/4IV56QSaDoMU26
-         LdUtrWxXraoAmaY2Ub1EjglIDU1TqrGVMbTJhBr2SA2kGV2kupWi5Q/ORxpeBZ26VzTh
-         CkzNfTEGRy1eTqFp8U6yAWPyoxFvff/KETL7204foi6e3nDUx28h+0K3evPm1XXwwR4p
-         4v2g==
-X-Gm-Message-State: AO0yUKXlJTVPLZsmZ3h3ObnqocDEBHiZepq9/GXHYbOnVT3YSzXeP7Pw
-	iTzlA6Foj7twyP3oiIHNHEk=
-X-Google-Smtp-Source: AK7set9uZfTD1W3z0cbHBVUg5SVE0mxBEXs/DXbPnm5/hifsR8XEBxaOH/w+lDF8YqDyrPMz+u2j0Q==
-X-Received: by 2002:ac8:6794:0:b0:3b7:ec87:8154 with SMTP id b20-20020ac86794000000b003b7ec878154mr6565219qtp.44.1674709143369;
-        Wed, 25 Jan 2023 20:59:03 -0800 (PST)
-Received: from localhost (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id j7-20020ac806c7000000b003b80a69d353sm120720qth.49.2023.01.25.20.59.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jan 2023 20:59:02 -0800 (PST)
-Date: Wed, 25 Jan 2023 23:59:00 -0500
-From: Trevor Woerner <twoerner@gmail.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-	linux-leds@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Guo Ren <guoren@kernel.org>,
-	Heiko Stuebner <heiko.stuebner@vrull.eu>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Jisheng Zhang <jszhang@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [RESEND PATCH v7 0/5] leds: Allwinner A100 LED controller support
-Message-ID: <20230126045900.GA7126@localhost>
-References: <20221231235541.13568-1-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5410E1C06
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Jan 2023 06:23:49 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id AB5773200A52;
+	Thu, 26 Jan 2023 01:23:47 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Thu, 26 Jan 2023 01:23:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1674714227; x=
+	1674800627; bh=bVGid+ER1LNuoL6uEE0efjpWBFLA+eM9Awet6ouzX/s=; b=h
+	+OOw80b9S53ItxzbnOYNhJOAXSOuJiU7F51/n0ORtCDK2vpVGHLVOkoFVRRRRG4y
+	I/zhfBAOHEQG/vRBHAaivJU9x7CKTR4WxH2lIsDAujXDkvl/CnE39A4XVryX54rO
+	ibopr0cs7Rm/tNzLfUe6Sxm0+bpS/wqVhmKvNb+s4fM0VHmWN8wVtf3pgGw25ol+
+	AbBmb5XTjK5IE0bcenYdo0uzuhDslxGaSp2ItJ2cRf93jkwWIaFpIAqrBYSxbFb1
+	aBnSAa4jIO8RYExLN9zdl4B766JRmop1jfK8IV/Y1Qg21LJa9C7IcFI2gwnfhNli
+	TcHF/DlDAia0STEoht4Jw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674714227; x=
+	1674800627; bh=bVGid+ER1LNuoL6uEE0efjpWBFLA+eM9Awet6ouzX/s=; b=P
+	8lvJR8gcHWxerGl+ewvatfjZ9qXNKjrIPI94vzyYTpcgtKTQTIm4dpVxCY42O/vo
+	uRZylX+acRAR167quxCGyjdP0U2doT0d2B14UAUjxAxMKuIrpOCcYyFh/BBiFu8a
+	O/opdqswSEY2YJ6U2Md8D+AMXYO2XaGOHCxYg57BjKTiE3ho+psQn+JZJ8TAt1gS
+	vV8t43rhSYZOhK/d8Zv4seR4jPHczV4yGhDi3ByrSoz6qKTqHq2Z31akvR2pw4Ym
+	ZBJ6SzoO/+mYyunrRsuL4Uq6SZ0DoPiZNjtnR5MpnWwpCM7jUIIYkwctBluWK4P5
+	qfr49vuEjGeo+D6RywSqQ==
+X-ME-Sender: <xms:chzSY0Y1oFJERa6T5XZgGCFVfbZ7yC1cu_SwQlfUl1l7VaDq_ngPvw>
+    <xme:chzSY_aukTazpzKsjJCRHFDWOJT3HFCg0QwZUbN0ahjS6B6C2xieI04Q_zzcwSRFr
+    ow8tCp4aj6DQu7rdQ>
+X-ME-Received: <xmr:chzSY-_aYLVVrUN3Phs3W1m3lMQq30N0wjPWcIsOQFSykbkhFMKPPFHeVns1j0KDVuWc-hq1kTejsVanuNTOgfBoE4SmtWGmj9bY-Iu3RwvuPeGAV0jplNfL-Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvfedgleegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpefgtdfgleffkeevledvueetteefgfellefhjeetieeuhfehteeu
+    feefgfehfeevfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:chzSY-pdJ5qZIkrv-gMsSlyJ9NMoYVQs9I7-00FKJT4BTBLKmWUs1A>
+    <xmx:chzSY_r8Hr3qEre6_avhaKFA4MERswNjT2EI1Ef_B4X1PgYmMMW3PQ>
+    <xmx:chzSY8Tu2OD5VUt3bg30xaSCupCavZzt9a3vTGGQTvXV6GNaex3WOg>
+    <xmx:cxzSY7LiPHjKkY8d9IOWrXDbDEgK8yA9UQ9wG5SyAItyBztcNNXIXg>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 26 Jan 2023 01:23:46 -0500 (EST)
+Message-ID: <c0e6f74c-7255-fdae-66d7-ca38037136e7@sholland.org>
+Date: Thu, 26 Jan 2023 00:23:48 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221231235541.13568-1-samuel@sholland.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH 0/2] Allwinner power domain support
+Content-Language: en-US
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>
+References: <20221231160402.16157-1-samuel@sholland.org>
+ <1915282.PYKUYFuaPT@jernej-laptop>
+From: Samuel Holland <samuel@sholland.org>
+In-Reply-To: <1915282.PYKUYFuaPT@jernej-laptop>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat 2022-12-31 @ 05:55:35 PM, Samuel Holland wrote:
-> [Resending because it has been a couple of months since v7 with no LED
-> maintainer feedback, and LEDs now have an additional maintainer.]
-> 
-> This series adds bindings and a driver for the RGB LED controller found
-> in some Allwinner SoCs, starting with A100. The hardware in the R329 and
-> D1 SoCs appears to be identical.
-> 
-> Patches 4-5 depend on the D1 devicetree series[1], but the rest of this
-> series can/should be merged without them.
-> 
-> This driver was tested on the D1 Nezha board.
-> 
-> [1]: https://lore.kernel.org/lkml/20221231233851.24923-1-samuel@sholland.org/
-> 
-> Changes in v7:
->  - Use DEFINE_SIMPLE_DEV_PM_OPS
-> 
-> Changes in v6:
->  - Drop the A100 DMA controller DT node patch, which was merged via a
->    different series
-> 
-> Changes in v5:
->  - A100 contains the original implementation, so use that as the base
->    compatible string, and rename the binding to match
->  - Add "unevaluatedProperties: false" to the child multi-led binding
->  - Rename the driver R329 -> A100, since that is the actual original
->    implementation
-> 
-> Changes in v4:
->  - Use "default" instead of "maxItems" for timing properties
->  - Depend on LEDS_CLASS_MULTICOLOR
-> 
-> Changes in v3:
->  - Removed quotes from enumeration values
->  - Added vendor prefix to timing/format properties
->  - Renamed "format" property to "pixel-format" for clarity
->  - Dropped "vled-supply" as it is unrelated to the controller hardware
->  - Added vendor prefix to timing/format properties
->  - Renamed "format" property to "pixel-format" for clarity
->  - Dropped "vled-supply" as it is unrelated to the controller hardware
->  - Changed "writesl" to "iowrite32_rep" so the driver builds on hppa
-> 
-> Changes in v2:
->  - Fixed typo leading to duplicate t1h-ns property
->  - Removed "items" layer in definition of dmas/dma-names
->  - Replaced uint32 type reference with maxItems in timing properties
->  - Renamed from sunxi-ledc to sun50i-r329-ledc
->  - Added missing "static" to functions/globals as reported by 0day bot
-> 
-> Samuel Holland (5):
->   dt-bindings: leds: Add Allwinner A100 LED controller
->   leds: sun50i-a100: New driver for the A100 LED controller
->   arm64: dts: allwinner: a100: Add LED controller node
->   riscv: dts: allwinner: d1: Add LED controller node
->   riscv: dts: allwinner: d1: Add RGB LEDs to boards
-> 
->  .../leds/allwinner,sun50i-a100-ledc.yaml      | 139 +++++
->  .../arm64/boot/dts/allwinner/sun50i-a100.dtsi |  14 +
->  .../allwinner/sun20i-d1-lichee-rv-dock.dts    |  12 +
->  .../boot/dts/allwinner/sun20i-d1-nezha.dts    |  13 +
->  arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi  |   6 +
->  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  15 +
->  drivers/leds/Kconfig                          |   9 +
->  drivers/leds/Makefile                         |   1 +
->  drivers/leds/leds-sun50i-a100.c               | 555 ++++++++++++++++++
->  9 files changed, 764 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/allwinner,sun50i-a100-ledc.yaml
->  create mode 100644 drivers/leds/leds-sun50i-a100.c
+Hi Jernej,
 
-this whole series:
-Tested-by: Trevor Woerner <twoerner@gmail.com>
+On 1/5/23 10:34, Jernej Škrabec wrote:
+> Dne sobota, 31. december 2022 ob 17:04:00 CET je Samuel Holland napisal(a):
+>> This series adds support for the power controller found in D1 and other
+>> recent Allwinner SoCs. There is no first-party documentation, but there
+>> are a couple of vendor drivers for different hardware revisions[1][2],
+>> and the register definitions were easy to verify empirically.
+>>
+>> I have tested this driver on D1 with the video engine. There is no DT
+>> update patch here to avoid dependencies between series. The example in
+>> the binding is what will go in the D1 DT.
+> 
+> So such driver is needed for H616 for GPU? Or is power domain handling 
+> different there?
 
-from: https://github.com/smaeul/linux/tree/d1/all
-test script: https://github.com/twoerner/rgb-led-test
+H616 does not appear to have a PPU. The PRCM gates otherwise match A100,
+but there are no settable gate/reset bits at 0x17c, and the registers at
+0x7001000 read as zero, even after being written. I believe H616 uses
+only GPU_PWROFF_GATING_REG in the PRCM.
+
+Regards,
+Samuel
+
