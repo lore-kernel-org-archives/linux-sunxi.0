@@ -1,123 +1,125 @@
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C876FB1
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Jan 2023 20:05:43 +0000 (UTC)
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-15f97c478a8so22696043fac.13
-        for <linux-sunxi@lists.linux.dev>; Wed, 25 Jan 2023 12:05:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8kqCnvG5HfBYMdFzmIrllsGYjZVwDWefqF05Cmky4HA=;
-        b=gQpIEsZ9Gj2a/FFc1ZZp7AT5zd7RMjB6NeqxbDJMvmJXduS3rp4uNeNXrhCAAGuosA
-         z1LWOM+53zWdu9VVNcDtDYmesM+qNX4rEHGvj4jfQjSbrA+GNTggDcLFw/qSkBWtSurq
-         zhpJBqAY9esvXgBPxkYru04HQwbaFtE5Wui9luGlFpGlWXfvO2RVfeirPbduQSTscsa8
-         i/5KDyuNJ4XzOFxT4zie73hxB6hR68mYpNNKksjpfASx+jcLFwKExRFv+wV13i9MPua5
-         DxE2vfPVoQj4FmW/XoOXRWcXmmXDBweeLcmwCNjXaFmQibXajtyyTuihNwhXucnjV38s
-         Y7/A==
-X-Gm-Message-State: AO0yUKU00aHHqUp6qom29vniBtF488yY5tkXlK1I3BTXyG+7SY2SUYPY
-	dRdZ3MSYvyPGtpw0ODMrVqFhxXlXlw==
-X-Google-Smtp-Source: AK7set+KlYA9hOhKxY3yXbw1+jJFui+axb/K8qUGpNYSrXD6fL93Qjufe/ZRHNh9bIxZbHxYbUPr4A==
-X-Received: by 2002:a05:6870:14d5:b0:163:45a2:e276 with SMTP id l21-20020a05687014d500b0016345a2e276mr684576oab.9.1674677142691;
-        Wed, 25 Jan 2023 12:05:42 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id n20-20020a056870559400b0010d7242b623sm2325869oao.21.2023.01.25.12.05.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jan 2023 12:05:42 -0800 (PST)
-Received: (nullmailer pid 2768672 invoked by uid 1000);
-	Wed, 25 Jan 2023 20:05:39 -0000
-Date: Wed, 25 Jan 2023 14:05:39 -0600
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: linux-sunxi@lists.linux.dev, openbmc@lists.ozlabs.org, 
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Michal Simek <michal.simek@xilinx.com>, 
-	Li-hao Kuo <lhjeff911@gmail.com>, Han Xu <han.xu@nxp.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Yogesh Gaur <yogeshgaur.83@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Birger Koblitz <mail@birger-koblitz.de>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	", Bert Vermeulen" <bert@biot.com>, Marek Vasut <marex@denx.de>, linux-mediatek@lists.infradead.org, 
-	linux-tegra@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	Palmer Dabbelt <palmer@dabbelt.com>, 
-	", Christophe Kerello" <christophe.kerello@foss.st.com>, linux-arm-kernel@lists.infradead.org, 
-	Haibo Chen <haibo.chen@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Kamal Dasu <kdasu.kdev@gmail.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Orson Zhai <orsonzhai@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	linux-arm-msm@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>, 
-	Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, Rob Herring <robh+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Vaishnav Achath <vaishnav.a@ti.com>, 
-	=?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	", Broadcom internal kernel review list" <bcm-kernel-feedback-list@broadcom.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Andy Gross <agross@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Andrew Jeffery <andrew@aj.id.au>, linux-spi@vger.kernel.org, 
-	linux-amlogic@lists.infradead.org, Bjorn Andersson <andersson@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, Pragnesh Patel <pragnesh.patel@sifive.com>, 
-	linux-riscv@lists.infradead.org, Leilk Liu <leilk.liu@mediatek.com>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, linux-kernel@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, devicetree@vger.kernel.org, 
-	Joel Stanley <joel@jms.id.au>, Shawn Guo <shawnguo@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, =?UTF-8?B?77+9ZWNraQ==?= <rafal@milecki.pl>, 
-	Serge Semin <fancer.lancer@gmail.com>, linux-aspeed@lists.ozlabs.org, 
-	Gabor Juhos <juhosg@openwrt.org>, Anson Huang <Anson.Huang@nxp.com>, 
-	NXP Linux Team <linux-imx@nxp.com>, Erwan Leray <erwan.leray@foss.st.com>, 
-	Patrice Chotard <patrice.chotard@foss.st.com>, 
-	Chris Packham <chris.packham@alliedtelesis.co.nz>, 
-	Kuldeep Singh <singh.kuldeep87k@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Maxime Ripard <mripard@kernel.org>, Parshuram Thombare <pthombar@cadence.com>, 
-	", Fabio Estevam" <festevam@gmail.com>, Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v2 2/2] spi: dt-bindings: cleanup examples - indentation,
- lowercase hex
-Message-ID: <167467713905.2768614.7865748447151198568.robh@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7F5173
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Jan 2023 00:25:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39A33C433D2;
+	Thu, 26 Jan 2023 00:25:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1674692736;
+	bh=rcUgsNadKKTYCHHFUAWb2M6WYShRxFqUqgbGPO0Ctyo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=USfPHSeVEkf75rA9BZhlvuBgt3C7xXOJz8CoJRO6VnKLCjKvOAvSuVOAAHVjwSZuH
+	 JX2uNAzawrEKpN+IqKJBN8lZGMGtxJCIlcga2OR/Jokxood0zP+0bznprQUUG8DKwD
+	 QQ4K8QcBAABfVqaYdZkX1GDNvLDUpOqo8lT76FcMgCjtCOTzSgIuGkJP+fXUzUf6dD
+	 100h5T1y3ypmPfXHYY5ic0/FD44fBeYBRbgvrs6b+RGsQdN+Y9IGXhlnFK4zWS8fRh
+	 7XQZeHxve4rzsEvNEN1VoemmfZArPIZ/VVHfPgRMbQaX3uomO1YRRPxzlGNr8JKnr3
+	 01bMP8uE6lW7Q==
+From: Mark Brown <broonie@kernel.org>
+To: Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, 
+ =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, 
+ Kamal Dasu <kdasu.kdev@gmail.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Han Xu <han.xu@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Andy Gross <agross@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Serge Semin <fancer.lancer@gmail.com>, Haibo Chen <haibo.chen@nxp.com>, 
+ Yogesh Gaur <yogeshgaur.83@gmail.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, Li-hao Kuo <lhjeff911@gmail.com>, 
+ Michal Simek <michal.simek@xilinx.com>, Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ =?utf-8?q?=EF=BF=BDecki?= <rafal@milecki.pl>, 
+ Vaishnav Achath <vaishnav.a@ti.com>, 
+ Parshuram Thombare <pthombar@cadence.com>, 
+ Leilk Liu <leilk.liu@mediatek.com>, Gabor Juhos <juhosg@openwrt.org>, 
+ Bert Vermeulen <bert@biot.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Marek Vasut <marex@denx.de>, Birger Koblitz <mail@birger-koblitz.de>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Anson Huang <Anson.Huang@nxp.com>, 
+ Chris Packham <chris.packham@alliedtelesis.co.nz>, 
+ Kuldeep Singh <singh.kuldeep87k@gmail.com>, 
+ Pragnesh Patel <pragnesh.patel@sifive.com>, 
+ Christophe Kerello <christophe.kerello@foss.st.com>, 
+ Patrice Chotard <patrice.chotard@foss.st.com>, 
+ Erwan Leray <erwan.leray@foss.st.com>, 
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>, linux-spi@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-amlogic@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+ openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org, 
+ linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-riscv@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh@kernel.org>
+In-Reply-To: <20230124083342.34869-1-krzysztof.kozlowski@linaro.org>
 References: <20230124083342.34869-1-krzysztof.kozlowski@linaro.org>
- <20230124083342.34869-2-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2 1/2] spi: dt-bindings: drop unneeded quotes
+Message-Id: <167469271489.2661317.15374060752399847689.b4-ty@kernel.org>
+Date: Thu, 26 Jan 2023 00:25:14 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230124083342.34869-2-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.0
 
-
-On Tue, 24 Jan 2023 09:33:42 +0100, Krzysztof Kozlowski wrote:
-> Cleanup examples:
->  - use 4-space indentation (for cases when it is neither 4 not 2 space),
->  - drop redundant blank lines,
->  - use lowercase hex.
-> 
+On Tue, 24 Jan 2023 09:33:41 +0100, Krzysztof Kozlowski wrote:
+> Cleanup by removing unneeded quotes from refs and redundant blank lines.
 > No functional impact except adjusting to preferred coding style.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
-> Reviewed-by: Andrew Jeffery <andrew@aj.id.au> # aspeed
-> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org> # meson
-> 
-> ---
-> 
-> Changes since v1:
-> 1. Adjust indentation in two more examples (cdns,qspi-nor, st,stm32-spi)
-> 2. Add tags
-> ---
->  .../bindings/spi/amlogic,meson-gx-spicc.yaml  |  26 +--
->  .../bindings/spi/amlogic,meson6-spifc.yaml    |  22 +--
->  .../bindings/spi/aspeed,ast2600-fmc.yaml      |  24 +--
->  .../bindings/spi/brcm,spi-bcm-qspi.yaml       | 156 +++++++++---------
->  .../bindings/spi/cdns,qspi-nor.yaml           |  34 ++--
->  .../bindings/spi/nvidia,tegra210-quad.yaml    |  42 ++---
->  .../bindings/spi/qcom,spi-qcom-qspi.yaml      |   1 -
->  .../devicetree/bindings/spi/renesas,rspi.yaml |  22 +--
->  .../bindings/spi/spi-sunplus-sp7021.yaml      |   4 +-
->  .../devicetree/bindings/spi/st,stm32-spi.yaml |  23 ++-
->  10 files changed, 176 insertions(+), 178 deletions(-)
 > 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Applied to
+
+   broonie/spi.git for-next
+
+Thanks!
+
+[1/2] spi: dt-bindings: drop unneeded quotes
+      commit: 99a7fa0e75a3a595a577fb5efa4b84a491f664a2
+[2/2] spi: dt-bindings: cleanup examples - indentation, lowercase hex
+      commit: ee8d422c91d87ebe230769b2cb89f087e56b560a
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
