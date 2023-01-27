@@ -1,81 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C687F23A8
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Jan 2023 12:33:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA3CDC433D2;
-	Fri, 27 Jan 2023 12:33:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1674822839;
-	bh=TS2+CpKa2cp61H4L2xyxqqO1Xa+9EPd/tgoYGYbo2PU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AOIO/dmBppqhBtGmbssqspC6gF08zWXRP3blx3PpWb0QrYlXVWOIZA8xnJc3C+eWu
-	 5kyaDq09s3nJoxaQTN1VT1ciyn4JxcwsT9/Jl/kmN/S2+jN0xhoMHwTeCOCpIUG7wd
-	 bvY4O/P0xk2eSogKpMu0lC1ZQFj2jr5pjAoJdOX4=
-Date: Fri, 27 Jan 2023 13:33:56 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Rob Herring <robh+dt@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Frank Rowand <frowand.list@gmail.com>, Liang He <windhl@126.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Lyude Paul <lyude@redhat.com>, Corentin Labbe <clabbe@baylibre.com>,
-	Zou Wei <zou_wei@huawei.com>, linuxppc-dev@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 01/16] of: device: make of_device_uevent_modalias()
- take a const device *
-Message-ID: <Y9PEtP7oLjRJTxFM@kroah.com>
-References: <20230111113018.459199-1-gregkh@linuxfoundation.org>
- <20230111113018.459199-2-gregkh@linuxfoundation.org>
- <CAL_JsqJ4QsLym-bQGGjUpzT14MYuTE1n8BQkGn6Ey9NiFF7u7w@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9613D8C
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Jan 2023 20:22:12 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id n6so3108258edo.9
+        for <linux-sunxi@lists.linux.dev>; Fri, 27 Jan 2023 12:22:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Mqf3tpDJNX5sIiyTeIYmTr7VbjdNQeu0rlBoqz1e+Q0=;
+        b=KjwD47Qr6iZP/O9PFJhqPa4DXwn1l74X3nfx6kTwt+q9S7DkJW1ctaL1SAg+HarvRo
+         E8mVvJB8G0aM4EzQmGTh0uF45yjqn+nDVC0/6eAe57kksR2S6u2qqOIwcSZgWdFW3Ic+
+         ppvwB8u8v0YZuLJ/M88zYnWPZDekyWFImeo5gxaj3lMv1qmVWE33IHZYMQ8JX0vjY640
+         2FRiGOVg4AjznpAz8uS+VyysPYvPVhD9Uo/KGFEpLBFv3PmdhrOKmeNOTasLzM2Qmb4L
+         fqVMz85pS9/47JF/mmoSYodYM0xJpTbVeWczW1yEX5X21Ww0sQpz4eoYcNIdbzTf+3fs
+         QRvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Mqf3tpDJNX5sIiyTeIYmTr7VbjdNQeu0rlBoqz1e+Q0=;
+        b=ZuO2sOY8l6caqa7Uw5DQLT8Q/0hQh1bCGZuEL4bOPt3QVSY/ZqYgS1lu8gDA10IkMS
+         C4P+92iOMXw6mlhLT2FCWPUP1J7pPmKno2Dw9QQh8sENwfnIyzVwHJxitapiEl4lLQdl
+         +kUjv3zPCRcOFAJem9Z76tLYEBHIQP1whxtatAWPrr/BW66wxeEMqiRfUF+YRX5iawtS
+         kCQ24gHRPtCIWZBZygF6mnc1sTh7Gy4s5Iv6t8T0y+PU6FF2jeK8+M6NY3tlvSN8kiaC
+         lWU3A6pyQVrvaAiBvhgIw239GOfQy4Wlki/+AmzNdqX5eGlhytjF1cxhWq3Taw5Xml0v
+         b37g==
+X-Gm-Message-State: AFqh2kozJ21kWMSAAdI1m+QhiDujX/t8aSdoLLXsfp3FVPaSz7OKISRW
+	EPcEUi7JkbrK1+q5E935p/A=
+X-Google-Smtp-Source: AMrXdXslchCqGmh70f80P2YbvDJBdxIzu+HfPexB7WQFcZPWKwYNQ5BuM/fuJwEdI0F73cI7vK1NlA==
+X-Received: by 2002:a05:6402:28c6:b0:49b:98be:c38 with SMTP id ef6-20020a05640228c600b0049b98be0c38mr44822085edb.11.1674850931014;
+        Fri, 27 Jan 2023 12:22:11 -0800 (PST)
+Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id f5-20020a056402068500b0046dd0c2a08esm2861517edy.36.2023.01.27.12.22.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jan 2023 12:22:10 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Bin Liu <b-liu@ti.com>, Andre Przywara <andre.przywara@arm.com>
+Cc: Icenowy Zheng <uwu@icenowy.me>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, devicetree@vger.kernel.org,
+ soc@kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v5 03/11] usb: musb: sunxi: Introduce config struct
+Date: Fri, 27 Jan 2023 21:22:08 +0100
+Message-ID: <12138531.O9o76ZdvQC@jernej-laptop>
+In-Reply-To: <20230111015332.172021-4-andre.przywara@arm.com>
+References:
+ <20230111015332.172021-1-andre.przywara@arm.com>
+ <20230111015332.172021-4-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAL_JsqJ4QsLym-bQGGjUpzT14MYuTE1n8BQkGn6Ey9NiFF7u7w@mail.gmail.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Jan 11, 2023 at 08:54:04AM -0600, Rob Herring wrote:
-> On Wed, Jan 11, 2023 at 5:30 AM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > of_device_uevent_modalias() does not modify the device pointer passed to
-> > it, so mark it constant.  In order to properly do this, a number of
-> > busses need to have a modalias function added as they were attempting to
-> > just point to of_device_uevent_modalias instead of their bus-specific
-> > modalias function.  This is fine except if the prototype for a bus and
-> > device type modalias function diverges and then problems could happen.  To
-> > prevent all of that, just wrap the call to of_device_uevent_modalias()
-> > directly for each bus and device type individually.
+Dne sreda, 11. januar 2023 ob 02:53:24 CET je Andre Przywara napisal(a):
+> Currently the probe routine explicitly compares the compatible string of
+> the device node to figure out which features and quirks a certain
+> Allwinner MUSB model requires. This gets harder to maintain for new
+> SoCs.
 > 
-> Why not just put the wrapper function in the DT code instead of making
-> 4 copies of it?
+> Add a struct sunxi_musb_cfg that names the features and quirks
+> explicitly, and create instances of this struct for every type of MUSB
+> device we support. Then bind this to the compatible strings via the OF
+> data feature.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Ok, I looked at doing this today, but in the end, making "4" copies of
-this is simpler overall.  To do it your way would require a "const"
-version of the function be added to the core, and then convert these 4
-busses to use that, and then when the real function is converted to be
-const, move all of these functions back over to use that again.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Lots of churn, and then in the end, we still have the mismatch of a
-the same function callback being used in two different types of
-callbacks (one a bus, one a class).  This way we separate them to make
-things much more obvious and self-contained.
+Best regards,
+Jernej
 
-So I'll keep this as-is for now, thanks.
 
-greg k-h
