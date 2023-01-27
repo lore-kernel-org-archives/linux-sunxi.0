@@ -1,84 +1,81 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86E01FA1
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Jan 2023 08:01:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1674720060; x=1706256060;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GBE/VjADrLDKieC7b5itKGUOfGov2KepyoUCPJ4/mf0=;
-  b=0alPX8ZyKi13luzLkeiOmtBP24ka4tGT1cxWrRzY73M6vYZelHLiVIzb
-   nvS/+jP8ETebVWQql/p0Gp2hMLi70F8s0jHlr7aV4GhLOZjABWrRCJjEZ
-   M40bBymXtRw7MEJ9RLe9e2Yk+oMgNsY5jUEKG5DsVbV1UIPDwhq4y3PZb
-   fwnIpU8q9MVAPumZGzF3fDMNfdyJEU6z6N++O3Km48tP24ENyj6YKRyF1
-   NDCuSo84WgLZiL6BOGao+Dg0MMwXgms2TnI+rluzBnqAPRGU14z4z1cTV
-   uRDkhaLR/kvcIGJJxIJ1iBrgTzdNKI8ajnoNJqEQMQks5Vg/BX7tj7bk2
-   A==;
-X-IronPort-AV: E=Sophos;i="5.97,247,1669100400"; 
-   d="asc'?scan'208";a="197475984"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 26 Jan 2023 01:00:50 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 26 Jan 2023 01:00:42 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex01.mchp-main.com
- (10.10.85.143) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16 via Frontend
- Transport; Thu, 26 Jan 2023 01:00:40 -0700
-Date: Thu, 26 Jan 2023 08:00:16 +0000
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Samuel Holland <samuel@sholland.org>
-CC: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	<linux-sunxi@lists.linux.dev>, <linux-riscv@lists.infradead.org>, Heiko
- Stuebner <heiko@sntech.de>, Palmer Dabbelt <palmer@dabbelt.com>, Conor Dooley
-	<conor@kernel.org>, Jisheng Zhang <jszhang@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Andre Przywara <andre.przywara@arm.com>, Rob
- Herring <robh+dt@kernel.org>, <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v5 00/11] riscv: Allwinner D1/D1s platform support
-Message-ID: <Y9IzELYtub1DmGB5@wendy>
-References: <20230126045738.47903-1-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C687F23A8
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Jan 2023 12:33:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA3CDC433D2;
+	Fri, 27 Jan 2023 12:33:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1674822839;
+	bh=TS2+CpKa2cp61H4L2xyxqqO1Xa+9EPd/tgoYGYbo2PU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AOIO/dmBppqhBtGmbssqspC6gF08zWXRP3blx3PpWb0QrYlXVWOIZA8xnJc3C+eWu
+	 5kyaDq09s3nJoxaQTN1VT1ciyn4JxcwsT9/Jl/kmN/S2+jN0xhoMHwTeCOCpIUG7wd
+	 bvY4O/P0xk2eSogKpMu0lC1ZQFj2jr5pjAoJdOX4=
+Date: Fri, 27 Jan 2023 13:33:56 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Rob Herring <robh+dt@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Frank Rowand <frowand.list@gmail.com>, Liang He <windhl@126.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Lyude Paul <lyude@redhat.com>, Corentin Labbe <clabbe@baylibre.com>,
+	Zou Wei <zou_wei@huawei.com>, linuxppc-dev@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 01/16] of: device: make of_device_uevent_modalias()
+ take a const device *
+Message-ID: <Y9PEtP7oLjRJTxFM@kroah.com>
+References: <20230111113018.459199-1-gregkh@linuxfoundation.org>
+ <20230111113018.459199-2-gregkh@linuxfoundation.org>
+ <CAL_JsqJ4QsLym-bQGGjUpzT14MYuTE1n8BQkGn6Ey9NiFF7u7w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="fj2Wr4MQdoooWJdA"
-Content-Disposition: inline
-In-Reply-To: <20230126045738.47903-1-samuel@sholland.org>
-
---fj2Wr4MQdoooWJdA
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAL_JsqJ4QsLym-bQGGjUpzT14MYuTE1n8BQkGn6Ey9NiFF7u7w@mail.gmail.com>
 
-On Wed, Jan 25, 2023 at 10:57:27PM -0600, Samuel Holland wrote:
-> This series adds the Kconfig/defconfig plumbing and devicetrees for a
-> range of Allwinner D1 and D1s-based boards. Many features are already
-> enabled, including USB, Ethernet, and WiFi.
->=20
-> This version drops all boards/nodes with missing YAML bindings, so at
-> least some support can get merged for v6.3.
+On Wed, Jan 11, 2023 at 08:54:04AM -0600, Rob Herring wrote:
+> On Wed, Jan 11, 2023 at 5:30 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > of_device_uevent_modalias() does not modify the device pointer passed to
+> > it, so mark it constant.  In order to properly do this, a number of
+> > busses need to have a modalias function added as they were attempting to
+> > just point to of_device_uevent_modalias instead of their bus-specific
+> > modalias function.  This is fine except if the prototype for a bus and
+> > device type modalias function diverges and then problems could happen.  To
+> > prevent all of that, just wrap the call to of_device_uevent_modalias()
+> > directly for each bus and device type individually.
+> 
+> Why not just put the wrapper function in the DT code instead of making
+> 4 copies of it?
 
-That'd be great! Pity the LDO stuff isn't ready yet, but definitely
-better to have this stuff in rather than out. In case it helps:
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Ok, I looked at doing this today, but in the end, making "4" copies of
+this is simpler overall.  To do it your way would require a "const"
+version of the function be added to the core, and then convert these 4
+busses to use that, and then when the real function is converted to be
+const, move all of these functions back over to use that again.
 
+Lots of churn, and then in the end, we still have the mismatch of a
+the same function callback being used in two different types of
+callbacks (one a bus, one a class).  This way we separate them to make
+things much more obvious and self-contained.
 
---fj2Wr4MQdoooWJdA
-Content-Type: application/pgp-signature; name="signature.asc"
+So I'll keep this as-is for now, thanks.
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY9IzDAAKCRB4tDGHoIJi
-0jEzAPwL157GoMnwml3kupueIMZ1KSMy5IfVKW2YSqP7GD6KxQD7BKmIo2ITQ2fu
-ftVmGqWDLJvwGoS4PdqMF78cCMPU6gc=
-=hIJW
------END PGP SIGNATURE-----
-
---fj2Wr4MQdoooWJdA--
+greg k-h
