@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43DEE3205
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Jan 2023 22:58:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7ACB9C433EF;
-	Fri, 27 Jan 2023 22:58:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72073205
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Jan 2023 22:59:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28E32C433EF;
+	Fri, 27 Jan 2023 22:59:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1674860313;
-	bh=gQ8vaQncjKOaKdDjatdbtt0SVCi9A+uFR2TXWoX9N2o=;
-	h=Date:From:To:Cc:Subject:From;
-	b=B+8+1oZiEaL5d79WLxWaWuSYdySY39QIZxt7dFQPqbLCqJcq8EXhiYTaHLuJ+EUK7
-	 zacPRgTaZ3iVdszCc3MkaS+uD+ttpEkZIqMkorIr6GOy0lpBt8G7FT7ZEuq3prcOpa
-	 0WQj4uRsb/0X9/CXmFl3X9aSYnV3FpssqfwAECfOijjs7IX59kSAb8MC/fEnFVEs72
-	 7plFlR4U48zDvNv3XreZEkXyXTuQvI6s0iw+TPXMfEs5o9RBYOejka+NKBqUhu4fmQ
-	 QxaK+FNPfuurVIFwWHsQk9oiEMyTHCSLteX0tjEa7+SlAKanUrmG1ROhjnzwaG2riK
-	 uFJaReV1wLAWQ==
-Date: Fri, 27 Jan 2023 23:58:29 +0100
+	s=k20201202; t=1674860384;
+	bh=U3BOKzfZzIZB6JhfmPPDnEtV8wNN8Pi6WnecOmiii6k=;
+	h=Date:From:List-Id:To:Cc:Subject:From;
+	b=MXPG6RNHnTtAOuWYIL0Q7RiJLIwVaxc2tSsR9Watol/UHBb1Zl23AFK+mucbc9XRg
+	 pBK6K7lmiGjqP6Ifz/9/AyT17bszJhWGRh3oILogDgU7qrGhrRPTKOfa0lEc5Emyw8
+	 51sjocHT5vl62K+RaidCVhE8hzBTLELK6ypza3xakdlJ/0AfMoS6V8sqUQ7YxA72Ww
+	 v2rrOwHXUsHqm43W7mjvVEgQLQkBc1oLy3pxUwE9dUvztl8c1ny7hpJR9wwn8X9ft7
+	 nTfKqaIUnnx6bSJtEOIhYZ3SvCgCuiz8cW1gY/DlFFYxvIfCEZb8cIgKZ3zojeolJO
+	 DyHeSMmpngQRQ==
+Date: Fri, 27 Jan 2023 23:59:40 +0100
 From: Jernej Skrabec <jernej@kernel.org>
-To: mturquette@baylibre.com, sboyd@kernel.org
-Cc: wens@csie.org, samuel@sholland.org, linux-clk@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [GIT PULL] Allwinner clock changes for 6.3
-Message-ID: <Y9RXFUH6URVE4LMG@jernej-laptop>
+List-Id: <soc.lore.kernel.org>
+To: arm@kernel.org, soc@kernel.org
+Cc: wens@csie.org, samuel@sholland.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: [GIT PULL] Allwinner drivers changes for 6.3
+Message-ID: <Y9RXXATRNqEv0GJT@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 Hi!
 
-Please pull following clock changes for 6.3.
+Please pull following driver changes for 6.3.
 
 Best regards,
 Jernej
@@ -45,48 +45,29 @@ The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2:
 
 are available in the Git repository at:
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-clk-for-6.3-1
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-drivers-for-6.3-1
 
-for you to fetch changes up to e6f2ffeaf58b23614cc818587aa3a4fc7c108a55:
+for you to fetch changes up to 0e30ca5ab0a80fdc7f1055f63c1436dfdc4d317d:
 
-  clk: sunxi-ng: d1: Add CAN bus gates and resets (2023-01-08 22:06:10 +0100)
-
-----------------------------------------------------------------
-- add D1 CAN bus gates and resets
-- mark D1 CPUX clock as critical
-- reuse D1 driver for R528/T113
-- cleanup sunxi-ng kconfig
-- fix sunxi-ng kernel-doc issues
-- model H3/H5 DRAM clock as fixed clock
+  soc: sunxi: Add Allwinner D1 PPU driver (2023-01-27 23:20:37 +0100)
 
 ----------------------------------------------------------------
-András Szemző (1):
-      clk: sunxi-ng: d1: Mark cpux clock as critical
+- introduce Allwinner PPU driver
+- limit iteration in sram debugfs
 
-Fabien Poussin (1):
-      clk: sunxi-ng: d1: Add CAN bus gates and resets
+----------------------------------------------------------------
+Samuel Holland (3):
+      soc: sunxi: sram: Only iterate over SRAM children
+      dt-bindings: power: Add Allwinner D1 PPU
+      soc: sunxi: Add Allwinner D1 PPU driver
 
-Randy Dunlap (1):
-      clk: sunxi-ng: fix ccu_mmc_timing.c kernel-doc issues
-
-Samuel Holland (6):
-      clk: sunxi-ng: h3/h5: Model H3 CLK_DRAM as a fixed clock
-      clk: sunxi-ng: Avoid computing the rate twice
-      clk: sunxi-ng: Remove duplicate ARCH_SUNXI dependencies
-      clk: sunxi-ng: Move SoC driver conditions to dependencies
-      clk: sunxi-ng: d1: Allow building for R528/T113
-      dt-bindings: clock: Add D1 CAN bus gates and resets
-
- drivers/clk/sunxi-ng/Kconfig              | 71 ++++++++++++++++---------------
- drivers/clk/sunxi-ng/ccu-sun20i-d1.c      | 13 +++++-
- drivers/clk/sunxi-ng/ccu-sun20i-d1.h      |  2 +-
- drivers/clk/sunxi-ng/ccu-sun8i-h3.c       | 15 ++++---
- drivers/clk/sunxi-ng/ccu_mmc_timing.c     |  8 ++--
- drivers/clk/sunxi-ng/ccu_mp.c             | 11 ++---
- drivers/clk/sunxi-ng/ccu_nk.c             |  9 ++--
- drivers/clk/sunxi-ng/ccu_nkm.c            | 10 ++---
- drivers/clk/sunxi-ng/ccu_nkmp.c           | 10 ++---
- drivers/clk/sunxi-ng/ccu_nm.c             |  9 ++--
- include/dt-bindings/clock/sun20i-d1-ccu.h |  2 +
- include/dt-bindings/reset/sun20i-d1-ccu.h |  2 +
- 12 files changed, 93 insertions(+), 69 deletions(-)
+ .../bindings/power/allwinner,sun20i-d1-ppu.yaml    |  54 ++++++
+ drivers/soc/sunxi/Kconfig                          |   8 +
+ drivers/soc/sunxi/Makefile                         |   1 +
+ drivers/soc/sunxi/sun20i-ppu.c                     | 207 +++++++++++++++++++++
+ drivers/soc/sunxi/sunxi_sram.c                     |   3 +
+ .../dt-bindings/power/allwinner,sun20i-d1-ppu.h    |  10 +
+ 6 files changed, 283 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/power/allwinner,sun20i-d1-ppu.yaml
+ create mode 100644 drivers/soc/sunxi/sun20i-ppu.c
+ create mode 100644 include/dt-bindings/power/allwinner,sun20i-d1-ppu.h
