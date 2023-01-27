@@ -1,59 +1,56 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9613D8C
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Jan 2023 20:22:12 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id n6so3108258edo.9
-        for <linux-sunxi@lists.linux.dev>; Fri, 27 Jan 2023 12:22:12 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54DF4290D
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Jan 2023 21:00:25 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id m2so16498640ejb.8
+        for <linux-sunxi@lists.linux.dev>; Fri, 27 Jan 2023 13:00:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Mqf3tpDJNX5sIiyTeIYmTr7VbjdNQeu0rlBoqz1e+Q0=;
-        b=KjwD47Qr6iZP/O9PFJhqPa4DXwn1l74X3nfx6kTwt+q9S7DkJW1ctaL1SAg+HarvRo
-         E8mVvJB8G0aM4EzQmGTh0uF45yjqn+nDVC0/6eAe57kksR2S6u2qqOIwcSZgWdFW3Ic+
-         ppvwB8u8v0YZuLJ/M88zYnWPZDekyWFImeo5gxaj3lMv1qmVWE33IHZYMQ8JX0vjY640
-         2FRiGOVg4AjznpAz8uS+VyysPYvPVhD9Uo/KGFEpLBFv3PmdhrOKmeNOTasLzM2Qmb4L
-         fqVMz85pS9/47JF/mmoSYodYM0xJpTbVeWczW1yEX5X21Ww0sQpz4eoYcNIdbzTf+3fs
-         QRvg==
+        bh=djfs4PGRa1CvWKMLKsAcAD0oTIU9m9WrTGUWf83xgvI=;
+        b=Mlt+GejfxFYxZRl4TgvhYecgrJ7r2Z/6dau1C24sH4c46kceboL/nH+nWnN6RlgrFJ
+         VB8FfyGN8cGJ2t9ZGriQMRFP7KJZbMs6nGXCO4GLPzCeQhqOW9ryzkFfeUz1z+hYlju9
+         wnFbobDIj1inUwhY6JmubqeuqazZ8/UdoGrfEUPS8iv7h/lay3vPdX5+KY8T6QfRUlT9
+         /YZFl6vckk81awOTrHMUrS6VlQkVVcf6hOUuyMzrfkdOCJr/Cx/y6AyFPYhSSrDSvfZ5
+         67kGKmZ3clK9LS8mlz+sCvvhUlojrnyWwpMs64/CMIPbtRnsfBraSAi7BqKRTfF3tKOZ
+         TFww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Mqf3tpDJNX5sIiyTeIYmTr7VbjdNQeu0rlBoqz1e+Q0=;
-        b=ZuO2sOY8l6caqa7Uw5DQLT8Q/0hQh1bCGZuEL4bOPt3QVSY/ZqYgS1lu8gDA10IkMS
-         C4P+92iOMXw6mlhLT2FCWPUP1J7pPmKno2Dw9QQh8sENwfnIyzVwHJxitapiEl4lLQdl
-         +kUjv3zPCRcOFAJem9Z76tLYEBHIQP1whxtatAWPrr/BW66wxeEMqiRfUF+YRX5iawtS
-         kCQ24gHRPtCIWZBZygF6mnc1sTh7Gy4s5Iv6t8T0y+PU6FF2jeK8+M6NY3tlvSN8kiaC
-         lWU3A6pyQVrvaAiBvhgIw239GOfQy4Wlki/+AmzNdqX5eGlhytjF1cxhWq3Taw5Xml0v
-         b37g==
-X-Gm-Message-State: AFqh2kozJ21kWMSAAdI1m+QhiDujX/t8aSdoLLXsfp3FVPaSz7OKISRW
-	EPcEUi7JkbrK1+q5E935p/A=
-X-Google-Smtp-Source: AMrXdXslchCqGmh70f80P2YbvDJBdxIzu+HfPexB7WQFcZPWKwYNQ5BuM/fuJwEdI0F73cI7vK1NlA==
-X-Received: by 2002:a05:6402:28c6:b0:49b:98be:c38 with SMTP id ef6-20020a05640228c600b0049b98be0c38mr44822085edb.11.1674850931014;
-        Fri, 27 Jan 2023 12:22:11 -0800 (PST)
+        bh=djfs4PGRa1CvWKMLKsAcAD0oTIU9m9WrTGUWf83xgvI=;
+        b=EqDJ7wLD7dUWUgw4Gvqrl4IhHpN1fFeZ7H4JE60Pe4yR96c7cfO3JwHi+J281bO8PC
+         69iYniGFhqINXb7bHOYjgLi0pHK3r1o2gwEmcK0lc6X3dlN35EGI6xX5ol9UMjuHGCGk
+         aU32W/KSj+N1suxL8M0XaDpzDgkuWH2LenhYfcuFVm2x6L1H0XcTmFGpav6o90AWJz8o
+         j4sgSmPjNFon8J1/ABNCqCJNninaGOU/9iHrBGtmn5M8PkP8dHNNN3j36Z2ItKwZ0k6V
+         eXoXZZYoHAqxDtgee/cKLCwS0wVnO8SnHYZaDInCm7vjBt3UtZgqu+2JOT3x+HTjdRV8
+         flRA==
+X-Gm-Message-State: AO0yUKWxOHbPrArYNUBu3oGmu5gA16tr8mU73D0jy91w6MwmJRqS6GmN
+	7nh34/70R/CZfRh6sqe/kJ8=
+X-Google-Smtp-Source: AK7set9mMQd5iBzzeDEzNyKR84lEscSavBnXhcfmZFSjVpVHw7P6HLc90KeABnq34XLhOwJnQtSZqA==
+X-Received: by 2002:a17:907:3e90:b0:87b:dacb:f0a4 with SMTP id hs16-20020a1709073e9000b0087bdacbf0a4mr3910174ejc.62.1674853223478;
+        Fri, 27 Jan 2023 13:00:23 -0800 (PST)
 Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id f5-20020a056402068500b0046dd0c2a08esm2861517edy.36.2023.01.27.12.22.09
+        by smtp.gmail.com with ESMTPSA id t17-20020aa7d711000000b0049dc0123f29sm2876394edq.61.2023.01.27.13.00.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jan 2023 12:22:10 -0800 (PST)
+        Fri, 27 Jan 2023 13:00:22 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Rob Herring <robh+dt@kernel.org>,
+To: Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Bin Liu <b-liu@ti.com>, Andre Przywara <andre.przywara@arm.com>
-Cc: Icenowy Zheng <uwu@icenowy.me>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, devicetree@vger.kernel.org,
- soc@kernel.org, linux-usb@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v5 03/11] usb: musb: sunxi: Introduce config struct
-Date: Fri, 27 Jan 2023 21:22:08 +0100
-Message-ID: <12138531.O9o76ZdvQC@jernej-laptop>
-In-Reply-To: <20230111015332.172021-4-andre.przywara@arm.com>
-References:
- <20230111015332.172021-1-andre.przywara@arm.com>
- <20230111015332.172021-4-andre.przywara@arm.com>
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Andre Przywara <andre.przywara@arm.com>
+Cc: linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org
+Subject:
+ Re: [PATCH] ARM: dts: sun8i: a83t: bananapi-m3: describe SATA disk regulator
+Date: Fri, 27 Jan 2023 22:00:19 +0100
+Message-ID: <5899301.lOV4Wx5bFT@jernej-laptop>
+In-Reply-To: <20230120012616.30960-1-andre.przywara@arm.com>
+References: <20230120012616.30960-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -63,20 +60,22 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne sreda, 11. januar 2023 ob 02:53:24 CET je Andre Przywara napisal(a):
-> Currently the probe routine explicitly compares the compatible string of
-> the device node to figure out which features and quirks a certain
-> Allwinner MUSB model requires. This gets harder to maintain for new
-> SoCs.
+Dne petek, 20. januar 2023 ob 02:26:16 CET je Andre Przywara napisal(a):
+> The Bananapi-M3 has a SATA connector, driven by a USB-to-SATA bridge
+> soldered on the board. The power for the SATA device is provided by a
+> GPIO controlled regulator. Since the SATA device is behind USB, it has
+> no DT node, so we never described this regulator. Instead U-Boot was
+> turning this on in a rather hackish way, which we now want to get rid of.
+> On top of that it seems fragile to leave this GPIO undescribed, as
+> userland could claim it and turn the disk off.
 > 
-> Add a struct sunxi_musb_cfg that names the features and quirks
-> explicitly, and create instances of this struct for every type of MUSB
-> device we support. Then bind this to the compatible strings via the OF
-> data feature.
+> Add a fixed regulator, controlled by the PD25 GPIO, and mark it as
+> always-on. This would mimic the current situation, but in a safer way,
+> and would allow U-Boot to drop the CONFIG_SATAPWR enable hack.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Applied, thanks!
 
 Best regards,
 Jernej
