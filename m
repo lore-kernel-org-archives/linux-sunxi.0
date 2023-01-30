@@ -1,61 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFB18522D
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Jan 2023 23:14:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D494C433D2;
-	Fri, 27 Jan 2023 23:14:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6542560
+	for <linux-sunxi@lists.linux.dev>; Mon, 30 Jan 2023 13:04:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4544C433D2;
+	Mon, 30 Jan 2023 13:04:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1674861297;
-	bh=2hdWr6T/WjT5vZCKDK6aZHVDGeohJNCAOELbi8uie98=;
-	h=Date:From:List-Id:To:Cc:Subject:From;
-	b=SnVa6IInCT1j6wozNLLRtFv1ZiJFdbb1iMgq7d0g3UNwuiR3RzS+GYf9iFv5LiraA
-	 FtA8wajncpE8TvIakN52ksDv2QAMwjnVczgzPE6/O7gH7bzM16SbfdMWsJW1WjFjhW
-	 3TBgRgpGu6ps7n8j2hj1JG+q9Q9RWeUFkOX/Hsq4notDQ3nyVwk4WPbBZw7zVVe1l0
-	 JSurwajJesL2xebjXXtH8+U5fjqinud1HcbVQawYYHrYRJlIcpu7KeFnrJE5qgdvH6
-	 Jp6ko25vBirvr3ZbL2zOYcBe6BExFtRjw3LhfO2e/o8EG279TkFxqBniWj7tWpQwPY
-	 wnxiOq0MKwnHQ==
-Date: Sat, 28 Jan 2023 00:14:53 +0100
-From: Jernej Skrabec <jernej@kernel.org>
-List-Id: <soc.lore.kernel.org>
-To: soc@kernel.org
-Cc: wens@csie.org, samuel@sholland.org, linux-sunxi@lists.linux.dev
-Subject: [GIT PULL] Allwinner config changes for 6.3
-Message-ID: <Y9Ra7dxkfMI9Xp3F@jernej-laptop>
+	s=k20201202; t=1675083897;
+	bh=mmPMPIPmQMBoM9TxOjnSVNcnUXCZeV3N+dzz5BQ8urI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ss/YBlVwPSRzs68eTT278PeUuCwFSeUvVRaBWbMkEovzKNJSh9hA8CXy0R6NarH4Z
+	 xexXO/NA2ryynCT0d4dIwEuN7c4CpOdsoIO+1eQOLLf5CmOvl7+HnvPU9ptQ+juVdi
+	 ryJMEEBmez8NHlPbyyuS9HPNdkNxoF9upX6d2f5wy36c+qsz54eeVmX2Pe9kXdYQpV
+	 VhusaCAykFEHQoknQx12e2NJGBbTpInzV2tUVlAIzotJgduSqEa8yREdu2+Js9QqIR
+	 w2RiclDurtDUfsS4lTn7GI4VoWMrO4lRdg6oc6wBVxBVDKjLkFBMGg39mVuY++WFVK
+	 q0CfgpeOYMeoQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] soc: sunxi: select CONFIG_PM
+Date: Mon, 30 Jan 2023 14:04:47 +0100
+Message-Id: <20230130130453.379749-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi!
+From: Arnd Bergmann <arnd@arndb.de>
 
-Please pull following riscv config changes for 6.3.
+Selecting CONFIG_PM_GENERIC_DOMAINS without CONFIG_PM leads to a
+build failure:
 
-Best regards,
-Jernej
+WARNING: unmet direct dependencies detected for PM_GENERIC_DOMAINS
+  Depends on [n]: PM [=n]
+  Selected by [y]:
+  - SUN20I_PPU [=y] && (ARCH_SUNXI [=n] || COMPILE_TEST [=y])
 
-The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2:
+drivers/base/power/domain_governor.c: In function 'default_suspend_ok':
+drivers/base/power/domain_governor.c:85:24: error: 'struct dev_pm_info' has no member named 'ignore_children'
+   85 |         if (!dev->power.ignore_children)
+      |                        ^
+drivers/base/power/domain.c: In function 'genpd_queue_power_off_work':
+drivers/base/power/domain.c:657:20: error: 'pm_wq' undeclared (first use in this function)
+  657 |         queue_work(pm_wq, &genpd->power_off_work);
+      |                    ^~~~~
 
-  Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
+Unfortunately platforms are inconsistent between using 'select PM'
+and 'depends on PM' here. CONFIG_PM is a user-visible symbol, so
+in principle we should be using 'depends on', but on the other hand
+using 'select' here is more common among drivers/soc. Go with the
+majority for now, as this has a smaller risk of introducing circular
+dependencies. We may need to clean this up for consistency later.
 
-are available in the Git repository at:
+Fixes: 0e30ca5ab0a8 ("soc: sunxi: Add Allwinner D1 PPU driver")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/soc/sunxi/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-config-for-6.3-1
+diff --git a/drivers/soc/sunxi/Kconfig b/drivers/soc/sunxi/Kconfig
+index 29e9ba2d520d..02d0b338feb3 100644
+--- a/drivers/soc/sunxi/Kconfig
++++ b/drivers/soc/sunxi/Kconfig
+@@ -23,6 +23,7 @@ config SUNXI_SRAM
+ config SUN20I_PPU
+ 	bool "Allwinner D1 PPU power domain driver"
+ 	depends on ARCH_SUNXI || COMPILE_TEST
++	select PM
+ 	select PM_GENERIC_DOMAINS
+ 	help
+ 	  Say y to enable the PPU power domain driver. This saves power
+-- 
+2.39.0
 
-for you to fetch changes up to eb20e7cb91ba3e5dbd94b6bfc8b9609bd5fd5770:
-
-  riscv: defconfig: Enable the Allwinner D1 platform and drivers (2023-01-27 23:10:08 +0100)
-
-----------------------------------------------------------------
-- Enable Allwinner D1 platform and drivers
-
-----------------------------------------------------------------
-Samuel Holland (1):
-      riscv: defconfig: Enable the Allwinner D1 platform and drivers
-
- arch/riscv/configs/defconfig | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
