@@ -1,61 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC747E
-	for <linux-sunxi@lists.linux.dev>; Tue, 31 Jan 2023 00:09:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6886FC433EF;
-	Tue, 31 Jan 2023 00:09:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1675123741;
-	bh=c/OydjnrsePgwEapLpVtjj/oGE81b8mD5+qHxXBLwsY=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=HFlQrYji2nXoNpxUkzcNnuiWmBYJ7E3Wqn6Y1eZqdjUyNzLgFn8akKCmhCal6yHag
-	 gBVtqnu3U0LkTycWmmGdZy92YBaMwIM3iIVj2SrOIOR/iTcPO0kM576osMAcHiZvtE
-	 noE9sX0lBxMGgUtk9Kzr7E22UAwpja2f6hVF5P6uRgWxDNkepDssOf3TyIKLzPK7Nv
-	 5lZL1v61tIK8BpJQr4AIHhstFKtD/lOsd89p/Tg5jZNjptPk2nAAfcNULjEsh6zxLH
-	 /05g3RVK+tKUA/Mf/nXSiWuXgwGHXikx2XVYgX+3kjszx72rI+kJXFLxWnY4oOobKY
-	 jSrmXcT3NQjnA==
-Message-ID: <c1d64194f7ad95e66de3db104967da2c.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9389627
+	for <linux-sunxi@lists.linux.dev>; Tue, 31 Jan 2023 22:54:47 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 32C8F2F4;
+	Tue, 31 Jan 2023 14:55:29 -0800 (PST)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B82343F71E;
+	Tue, 31 Jan 2023 14:54:44 -0800 (PST)
+Date: Tue, 31 Jan 2023 22:52:53 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Bin Liu <b-liu@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Icenowy Zheng <uwu@icenowy.me>,
+ devicetree@vger.kernel.org, soc@kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v5 02/11] usb: musb: sunxi: add support for the F1C100s
+ MUSB controller
+Message-ID: <20230131225253.04369efc@slackpad.lan>
+In-Reply-To: <20230111015332.172021-3-andre.przywara@arm.com>
+References: <20230111015332.172021-1-andre.przywara@arm.com>
+	<20230111015332.172021-3-andre.przywara@arm.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <Y9RXFUH6URVE4LMG@jernej-laptop>
-References: <Y9RXFUH6URVE4LMG@jernej-laptop>
-Subject: Re: [GIT PULL] Allwinner clock changes for 6.3
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: wens@csie.org, samuel@sholland.org, linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev
-To: Jernej Skrabec <jernej@kernel.org>, mturquette@baylibre.com
-Date: Mon, 30 Jan 2023 16:08:59 -0800
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Quoting Jernej Skrabec (2023-01-27 14:58:29)
-> Hi!
->=20
-> Please pull following clock changes for 6.3.
->=20
-> Best regards,
-> Jernej
->=20
-> The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71=
-c2:
->=20
->   Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
->=20
-> are available in the Git repository at:
->=20
->   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/su=
-nxi-clk-for-6.3-1
->=20
-> for you to fetch changes up to e6f2ffeaf58b23614cc818587aa3a4fc7c108a55:
->=20
->   clk: sunxi-ng: d1: Add CAN bus gates and resets (2023-01-08 22:06:10 +0=
-100)
->=20
-> ----------------------------------------------------------------
+On Wed, 11 Jan 2023 01:53:23 +0000
+Andre Przywara <andre.przywara@arm.com> wrote:
 
-Thanks. Pulled into clk-next
+Hi Bin, Greg,
+
+> From: Icenowy Zheng <uwu@icenowy.me>
+> 
+> The suniv SoC has a MUSB controller like the one in A33, but with a SRAM
+> region to be claimed.
+> 
+> Add support for it.
+
+is there any chance you could take this patch (and the next one,
+ideally) through your tree? And not sure if the binding patch (01/11)
+should also go this way?
+Patch 03/11 is a cleanup, so is somewhat optional, but Jernej acked
+that recently.
+
+The original series [1] is now almost three years old, and the whole
+series was mostly ready in the previous cycle already, but got stuck
+in some dependency chain, which should now be solved, since the PHY
+patch series [2] made it into -next more than two weeks ago.
+
+This would help to unblock the rest of this series, which are DT
+patches only.
+
+Many thanks, and let me know if there is something left for me to do.
+
+Cheers,
+Andre
+
+[1]
+https://patchwork.kernel.org/project/linux-usb/cover/20200309204326.27403-1-thirtythreeforty@gmail.com/
+[2] https://lore.kernel.org/linux-arm-kernel/Y8BFwPZ0DRGImo5O@matsya/
+
+> 
+> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  drivers/usb/musb/sunxi.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
+> index 7f9a999cd5ff1..4b368d16a73ad 100644
+> --- a/drivers/usb/musb/sunxi.c
+> +++ b/drivers/usb/musb/sunxi.c
+> @@ -722,14 +722,17 @@ static int sunxi_musb_probe(struct platform_device *pdev)
+>  	INIT_WORK(&glue->work, sunxi_musb_work);
+>  	glue->host_nb.notifier_call = sunxi_musb_host_notifier;
+>  
+> -	if (of_device_is_compatible(np, "allwinner,sun4i-a10-musb"))
+> +	if (of_device_is_compatible(np, "allwinner,sun4i-a10-musb") ||
+> +	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
+>  		set_bit(SUNXI_MUSB_FL_HAS_SRAM, &glue->flags);
+> +	}
+>  
+>  	if (of_device_is_compatible(np, "allwinner,sun6i-a31-musb"))
+>  		set_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags);
+>  
+>  	if (of_device_is_compatible(np, "allwinner,sun8i-a33-musb") ||
+> -	    of_device_is_compatible(np, "allwinner,sun8i-h3-musb")) {
+> +	    of_device_is_compatible(np, "allwinner,sun8i-h3-musb") ||
+> +	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
+>  		set_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags);
+>  		set_bit(SUNXI_MUSB_FL_NO_CONFIGDATA, &glue->flags);
+>  	}
+> @@ -815,6 +818,7 @@ static const struct of_device_id sunxi_musb_match[] = {
+>  	{ .compatible = "allwinner,sun6i-a31-musb", },
+>  	{ .compatible = "allwinner,sun8i-a33-musb", },
+>  	{ .compatible = "allwinner,sun8i-h3-musb", },
+> +	{ .compatible = "allwinner,suniv-f1c100s-musb", },
+>  	{}
+>  };
+>  MODULE_DEVICE_TABLE(of, sunxi_musb_match);
+
