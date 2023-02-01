@@ -1,110 +1,122 @@
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B10D28F1
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Feb 2023 14:41:18 +0000 (UTC)
-Received: from [192.168.1.103] (31.173.80.8) by msexch01.omp.ru (10.188.4.12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Wed, 1 Feb 2023
- 17:26:01 +0300
-Subject: Re: [PATCH v6 2/3] usb: musb: sunxi: add support for the F1C100s MUSB
- controller
-To: Andre Przywara <andre.przywara@arm.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Bin Liu <b-liu@ti.com>
-CC: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	<linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>
-References: <20230201105348.1815461-1-andre.przywara@arm.com>
- <20230201105348.1815461-3-andre.przywara@arm.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <b06e8182-3784-09e7-3270-70a60ee09966@omp.ru>
-Date: Wed, 1 Feb 2023 17:26:00 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC97463B3;
+	Wed,  1 Feb 2023 15:15:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52DF4C433D2;
+	Wed,  1 Feb 2023 15:15:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1675264559;
+	bh=LRcOg2q+eDGVIXXY2nwx4erwH77a/aRq28NUs5IDyCc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KU4ZzAZCfEIFr0jm610wDLcfNDu1BT7alWBq4lCdAi8jxLcmCiG+N3M8pD98e92bq
+	 jEveutD/LRtarHkLSi1VT+wkWbr0FiUwuP11kxiQ/FQ/0dLJS9f7wk4WIsY81RNwsT
+	 zE2rXqGv+swsJ+x2navfQqq5XD8GmEgv0vJSNVcB+mloglAaqXwO0rFQl2XUbT1nWE
+	 N9OHyols6boAqmJ12PCA7BF6t1yvrYW7Nw9tEb0eKdvPWGnJ5Rqf1wv3Ng4NK3ygNW
+	 owxjCxS1tCFcCwRtOSIJKriVsuXGINVmjP3mb2jgXizk7d2Q0jSrHyCO8vF9Om7Gjt
+	 MSXjxi7+9AcEg==
+Date: Wed, 1 Feb 2023 15:15:35 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+Cc: miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+	jic23@kernel.org, tudor.ambarus@microchip.com, pratyush@kernel.org,
+	sanju.mehta@amd.com, chin-ting_kuo@aspeedtech.com, clg@kaod.org,
+	kdasu.kdev@gmail.com, f.fainelli@gmail.com, rjui@broadcom.com,
+	sbranden@broadcom.com, eajames@linux.ibm.com, olteanv@gmail.com,
+	han.xu@nxp.com, john.garry@huawei.com, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, narmstrong@baylibre.com,
+	khilman@baylibre.com, matthias.bgg@gmail.com, haibo.chen@nxp.com,
+	linus.walleij@linaro.org, daniel@zonque.org,
+	haojian.zhuang@gmail.com, robert.jarzmik@free.fr, agross@kernel.org,
+	bjorn.andersson@linaro.org, heiko@sntech.de,
+	krzysztof.kozlowski@linaro.org, andi@etezian.org,
+	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+	wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+	masahisa.kojima@linaro.org, jaswinder.singh@linaro.org,
+	rostedt@goodmis.org, mingo@redhat.com, l.stelmach@samsung.com,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, alex.aring@gmail.com, stefan@datenfreihafen.org,
+	kvalo@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
+	skomatineni@nvidia.com, sumit.semwal@linaro.org,
+	christian.koenig@amd.com, j.neuschaefer@gmx.net, vireshk@kernel.org,
+	rmfrfs@gmail.com, johan@kernel.org, elder@kernel.org,
+	gregkh@linuxfoundation.org, git@amd.com, linux-spi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, joel@jms.id.au, andrew@aj.id.au,
+	radu_nicolae.pirea@upb.ro, nicolas.ferre@microchip.com,
+	alexandre.belloni@bootlin.com, claudiu.beznea@microchip.com,
+	bcm-kernel-feedback-list@broadcom.com, fancer.lancer@gmail.com,
+	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+	jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
+	avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
+	venture@google.com, yuenn@google.com, benjaminfair@google.com,
+	yogeshgaur.83@gmail.com, konrad.dybcio@somainline.org,
+	alim.akhtar@samsung.com, ldewangan@nvidia.com, michal.simek@amd.com,
+	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	netdev@vger.kernel.org, linux-wpan@vger.kernel.org,
+	libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
+	linux-mtd@lists.infradead.org, lars@metafoo.de,
+	Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
+	michael@walle.cc, palmer@dabbelt.com,
+	linux-riscv@lists.infradead.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, amitrkcian2002@gmail.com
+Subject: Re: [PATCH v2 02/13] spi: Replace all spi->chip_select and
+ spi->cs_gpiod references with function call
+Message-ID: <Y9qCF7DS+FQo1RYp@sirena.org.uk>
+References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
+ <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20230201105348.1815461-3-andre.przywara@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [31.173.80.8]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 02/01/2023 14:07:31
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 175180 [Feb 01 2023]
-X-KSE-AntiSpam-Info: Version: 5.9.59.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 502 502 69dee8ef46717dd3cb3eeb129cb7cc8dab9e30f6
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.80.8 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.80.8 in (user) dbl.spamhaus.org}
-X-KSE-AntiSpam-Info:
-	127.0.0.199:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.80.8
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 02/01/2023 14:11:00
-X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 2/1/2023 12:45:00 PM
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-
-On 2/1/23 1:53 PM, Andre Przywara wrote:
-
-> From: Icenowy Zheng <uwu@icenowy.me>
-> 
-> The suniv SoC has a MUSB controller like the one in A33, but with a SRAM
-> region to be claimed.
-> 
-> Add support for it.
-> 
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  drivers/usb/musb/sunxi.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
-> index 7f9a999cd5ff1..4b368d16a73ad 100644
-> --- a/drivers/usb/musb/sunxi.c
-> +++ b/drivers/usb/musb/sunxi.c
-> @@ -722,14 +722,17 @@ static int sunxi_musb_probe(struct platform_device *pdev)
->  	INIT_WORK(&glue->work, sunxi_musb_work);
->  	glue->host_nb.notifier_call = sunxi_musb_host_notifier;
->  
-> -	if (of_device_is_compatible(np, "allwinner,sun4i-a10-musb"))
-> +	if (of_device_is_compatible(np, "allwinner,sun4i-a10-musb") ||
-> +	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
->  		set_bit(SUNXI_MUSB_FL_HAS_SRAM, &glue->flags);
-> +	}
-
-  Why {} around single statement?
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="RnOekfr0Q/w96KQx"
+Content-Disposition: inline
+In-Reply-To: <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
+X-Cookie: Oh no, not again.
 
 
-[...]
+--RnOekfr0Q/w96KQx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-MBR, Sergey
+On Fri, Jan 20, 2023 at 12:23:31AM +0530, Amit Kumar Mahapatra wrote:
+> Supporting multi-cs in spi drivers would require the chip_select & cs_gpiod
+> members of struct spi_device to be an array. But changing the type of these
+> members to array would break the spi driver functionality. To make the
+> transition smoother introduced four new APIs to get/set the
+> spi->chip_select & spi->cs_gpiod and replaced all spi->chip_select and
+> spi->cs_gpiod references with get or set API calls.
+> While adding multi-cs support in further patches the chip_select & cs_gpiod
+> members of the spi_device structure would be converted to arrays & the
+> "idx" parameter of the APIs would be used as array index i.e.,
+> spi->chip_select[idx] & spi->cs_gpiod[idx] respectively.
+
+This doesn't apply against current code, please check and resend.
+
+--RnOekfr0Q/w96KQx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmPaghYACgkQJNaLcl1U
+h9Cmcgf7BtQa6jVrXNU71IJVO9/XKJzR22YYvwnRLJqC4Pd6uUnIG4DAhyw1qQyf
+fucGeAY9Y8jlqFuw1RM+0pFy53EabmhZAQjypGnDXk/YJ0fTV2VJuT7bSfXC+JJe
+0Qs8nYPpVfn9TmLvBxiPjnsghneRyWbx+V7MzflSFTsVl/fM5ypTH92qZ3S6rTDh
+ExXE6oTe7hNyto8+VoMfi0qvdqTKMyPciO0DnOeUsbPG3FpAiNiHN1lD5yhI6QEM
+jA8R67+KRGUoFZsozgB5N3NN8BH9FWq5Hrl/ToTuWP1AT9C8prAEa2uwlU3YVDmA
+SztMxe2B+kl+AF4gZ5yyL6EOiMGk6g==
+=zhKL
+-----END PGP SIGNATURE-----
+
+--RnOekfr0Q/w96KQx--
