@@ -1,111 +1,65 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9389627
-	for <linux-sunxi@lists.linux.dev>; Tue, 31 Jan 2023 22:54:47 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 32C8F2F4;
-	Tue, 31 Jan 2023 14:55:29 -0800 (PST)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B82343F71E;
-	Tue, 31 Jan 2023 14:54:44 -0800 (PST)
-Date: Tue, 31 Jan 2023 22:52:53 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Bin Liu <b-liu@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Icenowy Zheng <uwu@icenowy.me>,
- devicetree@vger.kernel.org, soc@kernel.org, linux-usb@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB04D7F4
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Feb 2023 05:06:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 001ABC433EF;
+	Wed,  1 Feb 2023 05:06:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1675227981;
+	bh=P+Y6BhVjqoJ5Ni1WFHr98m4Q8zM9re9BNCni0XisMFY=;
+	h=Date:From:To:List-Id:Cc:Subject:References:In-Reply-To:From;
+	b=io0ooGQx1VxW941ttwpQtsVATXekFk56ZP62uvyzruYzYEW5fFik3ncPWWt9LuOf7
+	 nG7DnzL70WODqhx6a/Qpj/MGIIb2ymB0xbxYkHK8Cgav8z4sR12+Grg+4fYr+fkfg5
+	 KM4VKXvt2Qn3sAOxGVsXRazGZ3UFPgNqSZVsgUOI=
+Date: Wed, 1 Feb 2023 06:06:18 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Andre Przywara <andre.przywara@arm.com>
+List-Id: <soc.lore.kernel.org>
+Cc: Bin Liu <b-liu@ti.com>, Chen-Yu Tsai <wens@csie.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Icenowy Zheng <uwu@icenowy.me>, devicetree@vger.kernel.org,
+	soc@kernel.org, linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 Subject: Re: [PATCH v5 02/11] usb: musb: sunxi: add support for the F1C100s
  MUSB controller
-Message-ID: <20230131225253.04369efc@slackpad.lan>
-In-Reply-To: <20230111015332.172021-3-andre.przywara@arm.com>
+Message-ID: <Y9nzSm7ZKYVsHA6m@kroah.com>
 References: <20230111015332.172021-1-andre.przywara@arm.com>
-	<20230111015332.172021-3-andre.przywara@arm.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+ <20230111015332.172021-3-andre.przywara@arm.com>
+ <20230131225253.04369efc@slackpad.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230131225253.04369efc@slackpad.lan>
 
-On Wed, 11 Jan 2023 01:53:23 +0000
-Andre Przywara <andre.przywara@arm.com> wrote:
-
-Hi Bin, Greg,
-
-> From: Icenowy Zheng <uwu@icenowy.me>
+On Tue, Jan 31, 2023 at 10:52:53PM +0000, Andre Przywara wrote:
+> On Wed, 11 Jan 2023 01:53:23 +0000
+> Andre Przywara <andre.przywara@arm.com> wrote:
 > 
-> The suniv SoC has a MUSB controller like the one in A33, but with a SRAM
-> region to be claimed.
+> Hi Bin, Greg,
 > 
-> Add support for it.
-
-is there any chance you could take this patch (and the next one,
-ideally) through your tree? And not sure if the binding patch (01/11)
-should also go this way?
-Patch 03/11 is a cleanup, so is somewhat optional, but Jernej acked
-that recently.
-
-The original series [1] is now almost three years old, and the whole
-series was mostly ready in the previous cycle already, but got stuck
-in some dependency chain, which should now be solved, since the PHY
-patch series [2] made it into -next more than two weeks ago.
-
-This would help to unblock the rest of this series, which are DT
-patches only.
-
-Many thanks, and let me know if there is something left for me to do.
-
-Cheers,
-Andre
-
-[1]
-https://patchwork.kernel.org/project/linux-usb/cover/20200309204326.27403-1-thirtythreeforty@gmail.com/
-[2] https://lore.kernel.org/linux-arm-kernel/Y8BFwPZ0DRGImo5O@matsya/
-
+> > From: Icenowy Zheng <uwu@icenowy.me>
+> > 
+> > The suniv SoC has a MUSB controller like the one in A33, but with a SRAM
+> > region to be claimed.
+> > 
+> > Add support for it.
 > 
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  drivers/usb/musb/sunxi.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
-> index 7f9a999cd5ff1..4b368d16a73ad 100644
-> --- a/drivers/usb/musb/sunxi.c
-> +++ b/drivers/usb/musb/sunxi.c
-> @@ -722,14 +722,17 @@ static int sunxi_musb_probe(struct platform_device *pdev)
->  	INIT_WORK(&glue->work, sunxi_musb_work);
->  	glue->host_nb.notifier_call = sunxi_musb_host_notifier;
->  
-> -	if (of_device_is_compatible(np, "allwinner,sun4i-a10-musb"))
-> +	if (of_device_is_compatible(np, "allwinner,sun4i-a10-musb") ||
-> +	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
->  		set_bit(SUNXI_MUSB_FL_HAS_SRAM, &glue->flags);
-> +	}
->  
->  	if (of_device_is_compatible(np, "allwinner,sun6i-a31-musb"))
->  		set_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags);
->  
->  	if (of_device_is_compatible(np, "allwinner,sun8i-a33-musb") ||
-> -	    of_device_is_compatible(np, "allwinner,sun8i-h3-musb")) {
-> +	    of_device_is_compatible(np, "allwinner,sun8i-h3-musb") ||
-> +	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
->  		set_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags);
->  		set_bit(SUNXI_MUSB_FL_NO_CONFIGDATA, &glue->flags);
->  	}
-> @@ -815,6 +818,7 @@ static const struct of_device_id sunxi_musb_match[] = {
->  	{ .compatible = "allwinner,sun6i-a31-musb", },
->  	{ .compatible = "allwinner,sun8i-a33-musb", },
->  	{ .compatible = "allwinner,sun8i-h3-musb", },
-> +	{ .compatible = "allwinner,suniv-f1c100s-musb", },
->  	{}
->  };
->  MODULE_DEVICE_TABLE(of, sunxi_musb_match);
+> is there any chance you could take this patch (and the next one,
+> ideally) through your tree? And not sure if the binding patch (01/11)
+> should also go this way?
 
+Please resend just the patches you want me to apply, picking them out of
+an old series is very difficult to do.
+
+thanks,
+
+greg k-h
