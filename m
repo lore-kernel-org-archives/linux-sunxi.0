@@ -1,65 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB04D7F4
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Feb 2023 05:06:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 001ABC433EF;
-	Wed,  1 Feb 2023 05:06:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1675227981;
-	bh=P+Y6BhVjqoJ5Ni1WFHr98m4Q8zM9re9BNCni0XisMFY=;
-	h=Date:From:To:List-Id:Cc:Subject:References:In-Reply-To:From;
-	b=io0ooGQx1VxW941ttwpQtsVATXekFk56ZP62uvyzruYzYEW5fFik3ncPWWt9LuOf7
-	 nG7DnzL70WODqhx6a/Qpj/MGIIb2ymB0xbxYkHK8Cgav8z4sR12+Grg+4fYr+fkfg5
-	 KM4VKXvt2Qn3sAOxGVsXRazGZ3UFPgNqSZVsgUOI=
-Date: Wed, 1 Feb 2023 06:06:18 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Andre Przywara <andre.przywara@arm.com>
-List-Id: <soc.lore.kernel.org>
-Cc: Bin Liu <b-liu@ti.com>, Chen-Yu Tsai <wens@csie.org>,
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1286EDA
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Feb 2023 10:53:54 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 408BC4B3;
+	Wed,  1 Feb 2023 02:54:36 -0800 (PST)
+Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 98EC53F882;
+	Wed,  1 Feb 2023 02:53:52 -0800 (PST)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bin Liu <b-liu@ti.com>
+Cc: Chen-Yu Tsai <wens@csie.org>,
 	Samuel Holland <samuel@sholland.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Icenowy Zheng <uwu@icenowy.me>, devicetree@vger.kernel.org,
-	soc@kernel.org, linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v5 02/11] usb: musb: sunxi: add support for the F1C100s
- MUSB controller
-Message-ID: <Y9nzSm7ZKYVsHA6m@kroah.com>
-References: <20230111015332.172021-1-andre.przywara@arm.com>
- <20230111015332.172021-3-andre.przywara@arm.com>
- <20230131225253.04369efc@slackpad.lan>
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v6 0/3] usb: musb: sunxi: add F1C100s MUSB support
+Date: Wed,  1 Feb 2023 10:53:45 +0000
+Message-Id: <20230201105348.1815461-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230131225253.04369efc@slackpad.lan>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 31, 2023 at 10:52:53PM +0000, Andre Przywara wrote:
-> On Wed, 11 Jan 2023 01:53:23 +0000
-> Andre Przywara <andre.przywara@arm.com> wrote:
-> 
-> Hi Bin, Greg,
-> 
-> > From: Icenowy Zheng <uwu@icenowy.me>
-> > 
-> > The suniv SoC has a MUSB controller like the one in A33, but with a SRAM
-> > region to be claimed.
-> > 
-> > Add support for it.
-> 
-> is there any chance you could take this patch (and the next one,
-> ideally) through your tree? And not sure if the binding patch (01/11)
-> should also go this way?
+Hi,
 
-Please resend just the patches you want me to apply, picking them out of
-an old series is very difficult to do.
+this is a split off from the combined USB/DT Allwinner F1C100s support
+series[1], with just the (MUSB) USB patches.
+There were no code changes in v5 or v6, those are just rebases and
+resends.
+============================
 
-thanks,
+This patchset introduces support for the F1C100s USB controller, which
+just consists of a MUSB controller variant and some USB PHY. The USB PHY
+support bits are already in -next.
+Patch 1 adds the compatible string to the binding, patch 2 introduces
+that compatible string to the driver, and lets it pick the appropriate
+flags.
+As this came up in reviews, patch 3 cleans up the SoC specific
+configuration bits in the driver, to make future additions easier.
 
-greg k-h
+Please have a look and apply, if possible.
+
+Cheers,
+Andre.
+
+[1] https://lore.kernel.org/linux-arm-kernel/20230111015332.172021-1-andre.przywara@arm.com/
+
+Changelog v5 ... v6:
+- just keep MUSB driver and binding patches
+- add Jernej's Reviewed-by:
+- Rebase on top of gregkh/usb/usb-next
+
+Changelog v4 ... v5:
+- Rebase on top to v6.2-rc1
+
+Changelog v3 ... v4:
+- Dropped the PHY patches, they go via a different tree and need a
+  different base
+- rebased on top of linux-sunxi/sunxi/for-next (provides H616 USB)
+- musb DT binding: use enum
+- musb cleanup: use musb_hdrc_config config pointer directly
+- musb cleanup: use const where possible
+- drop partitions from Popstick DTS file
+- clarify Popstick has a USB type-A *plug*
+- add tags
+
+Changelog v2 ... v3:
+- remove redundant "Device Tree Bindings" suffix in DT binding doc title
+- add BSD license to binding doc file (as per checkpatch)
+- fix some commit message title prefixes
+- use proper plural spelling for usb0_id_det-gpios
+- popstick.dts: Reorder otg_sram node reference alphabetically
+- popstick.dts: Add regulator- prefix to 3.3V regulator node name
+- popstick.dts: Fix status, compatible and reg property order
+- popstick.dts: Drop unneeded mmc0 and spi0 aliases
+- add patch to clean up sunxi MUSB driver
+- add Acks and Reviewed-by's
+
+Changelog v1 ... v2:
+- USB PHY binding: clarify the relation with other phy-sun4i-usb bindings
+- Add Popstick binding and .dts patches
+
+
+Andre Przywara (1):
+  usb: musb: sunxi: Introduce config struct
+
+Icenowy Zheng (2):
+  dt-bindings: usb: sunxi-musb: add F1C100s MUSB compatible string
+  usb: musb: sunxi: add support for the F1C100s MUSB controller
+
+ .../usb/allwinner,sun4i-a10-musb.yaml         | 10 +-
+ drivers/usb/musb/sunxi.c                      | 99 +++++++++++++------
+ 2 files changed, 76 insertions(+), 33 deletions(-)
+
+-- 
+2.25.1
+
