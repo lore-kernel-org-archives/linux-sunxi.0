@@ -1,239 +1,110 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8D5F20F6
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Feb 2023 10:53:59 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7CE121424;
-	Wed,  1 Feb 2023 02:54:41 -0800 (PST)
-Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D60683F882;
-	Wed,  1 Feb 2023 02:53:57 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Bin Liu <b-liu@ti.com>
-Cc: Chen-Yu Tsai <wens@csie.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B10D28F1
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Feb 2023 14:41:18 +0000 (UTC)
+Received: from [192.168.1.103] (31.173.80.8) by msexch01.omp.ru (10.188.4.12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Wed, 1 Feb 2023
+ 17:26:01 +0300
+Subject: Re: [PATCH v6 2/3] usb: musb: sunxi: add support for the F1C100s MUSB
+ controller
+To: Andre Przywara <andre.przywara@arm.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Bin Liu <b-liu@ti.com>
+CC: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v6 3/3] usb: musb: sunxi: Introduce config struct
-Date: Wed,  1 Feb 2023 10:53:48 +0000
-Message-Id: <20230201105348.1815461-4-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230201105348.1815461-1-andre.przywara@arm.com>
+	<linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>
 References: <20230201105348.1815461-1-andre.przywara@arm.com>
+ <20230201105348.1815461-3-andre.przywara@arm.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <b06e8182-3784-09e7-3270-70a60ee09966@omp.ru>
+Date: Wed, 1 Feb 2023 17:26:00 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230201105348.1815461-3-andre.przywara@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [31.173.80.8]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 02/01/2023 14:07:31
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 175180 [Feb 01 2023]
+X-KSE-AntiSpam-Info: Version: 5.9.59.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 502 502 69dee8ef46717dd3cb3eeb129cb7cc8dab9e30f6
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.80.8 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.80.8 in (user) dbl.spamhaus.org}
+X-KSE-AntiSpam-Info:
+	127.0.0.199:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.80.8
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 02/01/2023 14:11:00
+X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 2/1/2023 12:45:00 PM
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-Currently the probe routine explicitly compares the compatible string of
-the device node to figure out which features and quirks a certain
-Allwinner MUSB model requires. This gets harder to maintain for new
-SoCs.
+On 2/1/23 1:53 PM, Andre Przywara wrote:
 
-Add a struct sunxi_musb_cfg that names the features and quirks
-explicitly, and create instances of this struct for every type of MUSB
-device we support. Then bind this to the compatible strings via the OF
-data feature.
+> From: Icenowy Zheng <uwu@icenowy.me>
+> 
+> The suniv SoC has a MUSB controller like the one in A33, but with a SRAM
+> region to be claimed.
+> 
+> Add support for it.
+> 
+> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  drivers/usb/musb/sunxi.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
+> index 7f9a999cd5ff1..4b368d16a73ad 100644
+> --- a/drivers/usb/musb/sunxi.c
+> +++ b/drivers/usb/musb/sunxi.c
+> @@ -722,14 +722,17 @@ static int sunxi_musb_probe(struct platform_device *pdev)
+>  	INIT_WORK(&glue->work, sunxi_musb_work);
+>  	glue->host_nb.notifier_call = sunxi_musb_host_notifier;
+>  
+> -	if (of_device_is_compatible(np, "allwinner,sun4i-a10-musb"))
+> +	if (of_device_is_compatible(np, "allwinner,sun4i-a10-musb") ||
+> +	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
+>  		set_bit(SUNXI_MUSB_FL_HAS_SRAM, &glue->flags);
+> +	}
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/usb/musb/sunxi.c | 103 ++++++++++++++++++++++++++-------------
- 1 file changed, 70 insertions(+), 33 deletions(-)
+  Why {} around single statement?
 
-diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
-index 4b368d16a73ad..9b622cd9b2bd5 100644
---- a/drivers/usb/musb/sunxi.c
-+++ b/drivers/usb/musb/sunxi.c
-@@ -15,6 +15,7 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
-+#include <linux/of_device.h>
- #include <linux/phy/phy-sun4i-usb.h>
- #include <linux/platform_device.h>
- #include <linux/reset.h>
-@@ -67,6 +68,13 @@
- #define SUNXI_MUSB_FL_NO_CONFIGDATA		7
- #define SUNXI_MUSB_FL_PHY_MODE_PEND		8
- 
-+struct sunxi_musb_cfg {
-+	const struct musb_hdrc_config *hdrc_config;
-+	bool has_sram;
-+	bool has_reset;
-+	bool no_configdata;
-+};
-+
- /* Our read/write methods need access and do not get passed in a musb ref :| */
- static struct musb *sunxi_musb;
- 
-@@ -621,11 +629,10 @@ static const struct musb_platform_ops sunxi_musb_ops = {
- 	.post_root_reset_end = sunxi_musb_post_root_reset_end,
- };
- 
--/* Allwinner OTG supports up to 5 endpoints */
--#define SUNXI_MUSB_MAX_EP_NUM	6
- #define SUNXI_MUSB_RAM_BITS	11
- 
--static struct musb_fifo_cfg sunxi_musb_mode_cfg[] = {
-+/* Allwinner OTG supports up to 5 endpoints */
-+static struct musb_fifo_cfg sunxi_musb_mode_cfg_5eps[] = {
- 	MUSB_EP_FIFO_SINGLE(1, FIFO_TX, 512),
- 	MUSB_EP_FIFO_SINGLE(1, FIFO_RX, 512),
- 	MUSB_EP_FIFO_SINGLE(2, FIFO_TX, 512),
-@@ -639,9 +646,7 @@ static struct musb_fifo_cfg sunxi_musb_mode_cfg[] = {
- };
- 
- /* H3/V3s OTG supports only 4 endpoints */
--#define SUNXI_MUSB_MAX_EP_NUM_H3	5
--
--static struct musb_fifo_cfg sunxi_musb_mode_cfg_h3[] = {
-+static struct musb_fifo_cfg sunxi_musb_mode_cfg_4eps[] = {
- 	MUSB_EP_FIFO_SINGLE(1, FIFO_TX, 512),
- 	MUSB_EP_FIFO_SINGLE(1, FIFO_RX, 512),
- 	MUSB_EP_FIFO_SINGLE(2, FIFO_TX, 512),
-@@ -652,31 +657,33 @@ static struct musb_fifo_cfg sunxi_musb_mode_cfg_h3[] = {
- 	MUSB_EP_FIFO_SINGLE(4, FIFO_RX, 512),
- };
- 
--static const struct musb_hdrc_config sunxi_musb_hdrc_config = {
--	.fifo_cfg       = sunxi_musb_mode_cfg,
--	.fifo_cfg_size  = ARRAY_SIZE(sunxi_musb_mode_cfg),
-+static const struct musb_hdrc_config sunxi_musb_hdrc_config_5eps = {
-+	.fifo_cfg       = sunxi_musb_mode_cfg_5eps,
-+	.fifo_cfg_size  = ARRAY_SIZE(sunxi_musb_mode_cfg_5eps),
- 	.multipoint	= true,
- 	.dyn_fifo	= true,
--	.num_eps	= SUNXI_MUSB_MAX_EP_NUM,
-+	/* Two FIFOs per endpoint, plus ep_0. */
-+	.num_eps	= (ARRAY_SIZE(sunxi_musb_mode_cfg_5eps) / 2) + 1,
- 	.ram_bits	= SUNXI_MUSB_RAM_BITS,
- };
- 
--static struct musb_hdrc_config sunxi_musb_hdrc_config_h3 = {
--	.fifo_cfg       = sunxi_musb_mode_cfg_h3,
--	.fifo_cfg_size  = ARRAY_SIZE(sunxi_musb_mode_cfg_h3),
-+static const struct musb_hdrc_config sunxi_musb_hdrc_config_4eps = {
-+	.fifo_cfg       = sunxi_musb_mode_cfg_4eps,
-+	.fifo_cfg_size  = ARRAY_SIZE(sunxi_musb_mode_cfg_4eps),
- 	.multipoint	= true,
- 	.dyn_fifo	= true,
--	.num_eps	= SUNXI_MUSB_MAX_EP_NUM_H3,
-+	/* Two FIFOs per endpoint, plus ep_0. */
-+	.num_eps	= (ARRAY_SIZE(sunxi_musb_mode_cfg_4eps) / 2) + 1,
- 	.ram_bits	= SUNXI_MUSB_RAM_BITS,
- };
- 
--
- static int sunxi_musb_probe(struct platform_device *pdev)
- {
- 	struct musb_hdrc_platform_data	pdata;
- 	struct platform_device_info	pinfo;
- 	struct sunxi_glue		*glue;
- 	struct device_node		*np = pdev->dev.of_node;
-+	const struct sunxi_musb_cfg	*cfg;
- 	int ret;
- 
- 	if (!np) {
-@@ -713,29 +720,25 @@ static int sunxi_musb_probe(struct platform_device *pdev)
- 		return -EINVAL;
- 	}
- 	pdata.platform_ops	= &sunxi_musb_ops;
--	if (!of_device_is_compatible(np, "allwinner,sun8i-h3-musb"))
--		pdata.config = &sunxi_musb_hdrc_config;
--	else
--		pdata.config = &sunxi_musb_hdrc_config_h3;
-+
-+	cfg = of_device_get_match_data(&pdev->dev);
-+	if (!cfg)
-+		return -EINVAL;
-+
-+	pdata.config = cfg->hdrc_config;
- 
- 	glue->dev = &pdev->dev;
- 	INIT_WORK(&glue->work, sunxi_musb_work);
- 	glue->host_nb.notifier_call = sunxi_musb_host_notifier;
- 
--	if (of_device_is_compatible(np, "allwinner,sun4i-a10-musb") ||
--	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
-+	if (cfg->has_sram)
- 		set_bit(SUNXI_MUSB_FL_HAS_SRAM, &glue->flags);
--	}
- 
--	if (of_device_is_compatible(np, "allwinner,sun6i-a31-musb"))
-+	if (cfg->has_reset)
- 		set_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags);
- 
--	if (of_device_is_compatible(np, "allwinner,sun8i-a33-musb") ||
--	    of_device_is_compatible(np, "allwinner,sun8i-h3-musb") ||
--	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
--		set_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags);
-+	if (cfg->no_configdata)
- 		set_bit(SUNXI_MUSB_FL_NO_CONFIGDATA, &glue->flags);
--	}
- 
- 	glue->clk = devm_clk_get(&pdev->dev, NULL);
- 	if (IS_ERR(glue->clk)) {
-@@ -813,12 +816,46 @@ static int sunxi_musb_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static const struct sunxi_musb_cfg sun4i_a10_musb_cfg = {
-+	.hdrc_config = &sunxi_musb_hdrc_config_5eps,
-+	.has_sram = true,
-+};
-+
-+static const struct sunxi_musb_cfg sun6i_a31_musb_cfg = {
-+	.hdrc_config = &sunxi_musb_hdrc_config_5eps,
-+	.has_reset = true,
-+};
-+
-+static const struct sunxi_musb_cfg sun8i_a33_musb_cfg = {
-+	.hdrc_config = &sunxi_musb_hdrc_config_5eps,
-+	.has_reset = true,
-+	.no_configdata = true,
-+};
-+
-+static const struct sunxi_musb_cfg sun8i_h3_musb_cfg = {
-+	.hdrc_config = &sunxi_musb_hdrc_config_4eps,
-+	.has_reset = true,
-+	.no_configdata = true,
-+};
-+
-+static const struct sunxi_musb_cfg suniv_f1c100s_musb_cfg = {
-+	.hdrc_config = &sunxi_musb_hdrc_config_5eps,
-+	.has_sram = true,
-+	.has_reset = true,
-+	.no_configdata = true,
-+};
-+
- static const struct of_device_id sunxi_musb_match[] = {
--	{ .compatible = "allwinner,sun4i-a10-musb", },
--	{ .compatible = "allwinner,sun6i-a31-musb", },
--	{ .compatible = "allwinner,sun8i-a33-musb", },
--	{ .compatible = "allwinner,sun8i-h3-musb", },
--	{ .compatible = "allwinner,suniv-f1c100s-musb", },
-+	{ .compatible = "allwinner,sun4i-a10-musb",
-+	  .data = &sun4i_a10_musb_cfg, },
-+	{ .compatible = "allwinner,sun6i-a31-musb",
-+	  .data = &sun6i_a31_musb_cfg, },
-+	{ .compatible = "allwinner,sun8i-a33-musb",
-+	  .data = &sun8i_a33_musb_cfg, },
-+	{ .compatible = "allwinner,sun8i-h3-musb",
-+	  .data = &sun8i_h3_musb_cfg, },
-+	{ .compatible = "allwinner,suniv-f1c100s-musb",
-+	  .data = &suniv_f1c100s_musb_cfg, },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, sunxi_musb_match);
--- 
-2.25.1
 
+[...]
+
+MBR, Sergey
