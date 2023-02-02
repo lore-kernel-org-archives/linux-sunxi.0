@@ -1,130 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C718483;
-	Wed,  1 Feb 2023 16:57:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B4DFC433D2;
-	Wed,  1 Feb 2023 16:57:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1675270673;
-	bh=wgoFWDzet3MEnQEk+UbM8HUIOsFtAK8npPJ49HGAO1o=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=u9X4Gr7TjZ6UkgVwjSehC9yfCUt//67EjPYTXTHnJ+aTE6aXNoDaG/fZz03jXnElM
-	 c315hFd6D+lNgE3Ekgg0QaNB3z7pxxWqm4plvstpHb14GQ0FGDiib2q7//3OZr4/JT
-	 i0jWp+SqAe/OVftlr6AN17B1kIJdLkIF0i/EuIo2IVSpqxiD6qKmMLkB+1ogV6NLc6
-	 JidEOiKwk15fIiFO+dc5Qsvoe66Y0tsqMeopIu++n7efbaGm5W5Uc31U7fqGait52w
-	 WnE8sOF8lc6h19Dd3hynSSTPWQGh4Vapzj+sPUAC+hBsgiEQz8Z/aI5T8L99Afd+Hr
-	 1f40qveSqB9TQ==
-From: Mark Brown <broonie@kernel.org>
-To: miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com, 
- jic23@kernel.org, tudor.ambarus@microchip.com, pratyush@kernel.org, 
- sanju.mehta@amd.com, chin-ting_kuo@aspeedtech.com, clg@kaod.org, 
- kdasu.kdev@gmail.com, f.fainelli@gmail.com, rjui@broadcom.com, 
- sbranden@broadcom.com, eajames@linux.ibm.com, olteanv@gmail.com, 
- han.xu@nxp.com, john.garry@huawei.com, shawnguo@kernel.org, 
- s.hauer@pengutronix.de, khilman@baylibre.com, matthias.bgg@gmail.com, 
- haibo.chen@nxp.com, linus.walleij@linaro.org, daniel@zonque.org, 
- haojian.zhuang@gmail.com, robert.jarzmik@free.fr, agross@kernel.org, 
- heiko@sntech.de, krzysztof.kozlowski@linaro.org, andi@etezian.org, 
- mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, wens@csie.org, 
- jernej.skrabec@gmail.com, samuel@sholland.org, masahisa.kojima@linaro.org, 
- jaswinder.singh@linaro.org, rostedt@goodmis.org, mingo@redhat.com, 
- l.stelmach@samsung.com, davem@davemloft.net, edumazet@google.com, 
- kuba@kernel.org, pabeni@redhat.com, alex.aring@gmail.com, 
- stefan@datenfreihafen.org, kvalo@kernel.org, thierry.reding@gmail.com, 
- jonathanh@nvidia.com, skomatineni@nvidia.com, sumit.semwal@linaro.org, 
- christian.koenig@amd.com, j.neuschaefer@gmx.net, vireshk@kernel.org, 
- rmfrfs@gmail.com, johan@kernel.org, elder@kernel.org, 
- gregkh@linuxfoundation.org, Neil Armstrong <neil.armstrong@linaro.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Cc: git@amd.com, linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, 
- joel@jms.id.au, andrew@aj.id.au, radu_nicolae.pirea@upb.ro, 
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
- claudiu.beznea@microchip.com, bcm-kernel-feedback-list@broadcom.com, 
- fancer.lancer@gmail.com, kernel@pengutronix.de, festevam@gmail.com, 
- linux-imx@nxp.com, jbrunet@baylibre.com, martin.blumenstingl@googlemail.com, 
- avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com, 
- venture@google.com, yuenn@google.com, benjaminfair@google.com, 
- yogeshgaur.83@gmail.com, konrad.dybcio@somainline.org, 
- alim.akhtar@samsung.com, ldewangan@nvidia.com, michal.simek@amd.com, 
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
- netdev@vger.kernel.org, linux-wpan@vger.kernel.org, 
- libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org, 
- linux-mtd@lists.infradead.org, lars@metafoo.de, 
- Michael.Hennerich@analog.com, linux-iio@vger.kernel.org, michael@walle.cc, 
- palmer@dabbelt.com, linux-riscv@lists.infradead.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
- amitrkcian2002@gmail.com
-In-Reply-To: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
-References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
-Subject: Re: (subset) [PATCH v2 00/13] spi: Add support for
- stacked/parallel memories
-Message-Id: <167527065195.537421.10361370461620477483.b4-ty@kernel.org>
-Date: Wed, 01 Feb 2023 16:57:31 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F38E7F
+	for <linux-sunxi@lists.linux.dev>; Thu,  2 Feb 2023 07:29:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1675322913; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=IjwjhWm2SFmfK2FoZFYhneOrcuMggXNCLWm8xPB+sjnnECowaIsxTZEiViSHdkp/NW2hKHLFrvj4xgyxjEBCIzQac9VzSSYU/MUcI39iW1k6rHF9uZffmTfPzrXuaqtLNFPHfhiRG9+7fmMqRiWP0WmvQp60I1+eH0DcBTmTxVQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1675322913; h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+	bh=4KG6Hn3da4esCwQNURi09KCRvo/Fx9f2/VOO8FRDYH0=; 
+	b=QXtE2B+x0Dbu1cVGW+Bjb4Hd88xFroT9d2gY/QQFPxfLnZG+jk936s2AhmenGmVzoRHdq6NodNVryZQBvREnkzWpVo/zgQ210lQ3kWHsqMyxMC8Ku46nmWJ06SC4VoKkmUqDmwU1GKScnK5QNeXtFnxgeUs8D7FyAPziuhZn+Lw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1675322913;
+	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
+	bh=4KG6Hn3da4esCwQNURi09KCRvo/Fx9f2/VOO8FRDYH0=;
+	b=EgJR+u9St68MQ/gPLyAUlx1Fu3uJUeF5lj0/v3ndv2ecdWFtHEUrByQvWP8T6sWm
+	fWHh6gkgoH5kXLjbd82cm5nRJmBI90A3/8gAh3cRq0xvZZ9mJqTI3/oxgtLMtOzpgSU
+	h01veMKZcPnCc9ujUmZhzC6eIk4O+c+zn2SgHb8I=
+Received: from edelgard.fodlan.icenowy.me (120.85.96.142 [120.85.96.142]) by mx.zohomail.com
+	with SMTPS id 1675322911628328.6247013002745; Wed, 1 Feb 2023 23:28:31 -0800 (PST)
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Anup Patel <anup@brainfault.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	Icenowy Zheng <uwu@icenowy.me>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH RESEND] dt-bindings: timer: sifive,clint: add comaptibles for T-Head's C9xx
+Date: Thu,  2 Feb 2023 15:28:14 +0800
+Message-Id: <20230202072814.319903-1-uwu@icenowy.me>
+X-Mailer: git-send-email 2.39.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.0
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On Fri, 20 Jan 2023 00:23:29 +0530, Amit Kumar Mahapatra wrote:
-> This patch is in the continuation to the discussions which happened on
-> 'commit f89504300e94 ("spi: Stacked/parallel memories bindings")' for
-> adding dt-binding support for stacked/parallel memories.
-> 
-> This patch series updated the spi-nor, spi core and the spi drivers
-> to add stacked and parallel memories support.
-> 
-> [...]
+T-Head C906/C910 CLINT is not compliant to SiFive ones (and even not
+compliant to the newcoming ACLINT spec) because of lack of mtime
+register.
 
-Applied to
+Add a compatible string formatted like the C9xx-specific PLIC
+compatible, and do not allow a SiFive one as fallback because they're
+not really compliant.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Samuel Holland <samuel@sholland.org>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+---
+Resend this patch as a single series, because the other 2 patches in
+that series is still in discussion.
 
-Thanks!
+Changes when resending:
+- Collected Krzysztof and Conor's ACK and Samuel's Review tags.
 
-[01/13] spi: Add APIs in spi core to set/get spi->chip_select and spi->cs_gpiod
-        commit: 303feb3cc06ac0665d0ee9c1414941200e60e8a3
-[02/13] spi: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        (no commit info)
-[03/13] net: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        (no commit info)
-[04/13] iio: imu: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        (no commit info)
-[05/13] mtd: devices: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        (no commit info)
-[06/13] staging: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        (no commit info)
-[07/13] platform/x86: serial-multi-instantiate: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        (no commit info)
+ Documentation/devicetree/bindings/timer/sifive,clint.yaml | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/Documentation/devicetree/bindings/timer/sifive,clint.yaml b/Documentation/devicetree/bindings/timer/sifive,clint.yaml
+index bbad24165837..aada6957216c 100644
+--- a/Documentation/devicetree/bindings/timer/sifive,clint.yaml
++++ b/Documentation/devicetree/bindings/timer/sifive,clint.yaml
+@@ -20,6 +20,10 @@ description:
+   property of "/cpus" DT node. The "timebase-frequency" DT property is
+   described in Documentation/devicetree/bindings/riscv/cpus.yaml
+ 
++  T-Head C906/C910 CPU cores include an implementation of CLINT too, however
++  their implementation lacks a memory-mapped MTIME register, thus not
++  compatible with SiFive ones.
++
+ properties:
+   compatible:
+     oneOf:
+@@ -29,6 +33,10 @@ properties:
+               - starfive,jh7100-clint
+               - canaan,k210-clint
+           - const: sifive,clint0
++      - items:
++          - enum:
++              - allwinner,sun20i-d1-clint
++          - const: thead,c900-clint
+       - items:
+           - const: sifive,clint0
+           - const: riscv,clint0
+-- 
+2.39.1
 
