@@ -1,93 +1,57 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18CC01FB4;
+	Fri,  3 Feb 2023 10:21:36 +0000 (UTC)
+Received: from 8bytes.org (p200300c27714bc0086ad4f9d2505dd0d.dip0.t-ipconnect.de [IPv6:2003:c2:7714:bc00:86ad:4f9d:2505:dd0d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F326E7E7
-	for <linux-sunxi@lists.linux.dev>; Thu,  2 Feb 2023 16:46:04 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id f47-20020a05600c492f00b003dc584a7b7eso4162421wmp.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 02 Feb 2023 08:46:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Be6m4n2yTjxOG3cvlCymi9AVSjJxGyk5S0njtlmi7Ok=;
-        b=cA0mfPHR1Xqc7an5XX9GrkCSeUT0nmi1XnDca8+0UZzJ2Aw0yyiiBYMu7rZSQ6nQmT
-         pugxP8g9LCTbjZ8VXZlZ7R5eTXYNHfD23nDdHWCN+JNRV/rt+STOUL4fnIvq9Z5UkiS9
-         zv1gIlR+XuaL02QSJgLFzPxtg8Iy8WRa7GMCJCggrm6RrEJ/ueNjm4++hYB9frOJjhoW
-         U2ZA4Qjsy4oUrs8tgK2EefqkIpUv7B5q0ji1giOpqs8kjYfJROHm5ryzPeX1HfIcmy33
-         ehY3W5VkuzEWZqk221STNsYgl9sHdhVM24j1piItHbfYJP3iIVWWl7E6ZPw5XB+Rt/Aa
-         9WLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Be6m4n2yTjxOG3cvlCymi9AVSjJxGyk5S0njtlmi7Ok=;
-        b=WMo5dlGb4wd1pYSDFpE4R/rrOHHf/s5/1Z/eNBGJRB5LzoV0KDH23F95hKOJ0F2nCa
-         X7hEIzvsScxZXZb+1tetG28kbdDyg4QCgSSxJOgeYvv0XlXIyb3UWMRLmRDMtqDa2O7I
-         NU3pcyXaGTmO+rbrFI8lmZ8ioujz05XRifjrIod6bsSnq55YRSz2fq40bSgA+2gPp9sg
-         PsJmDZkFTRllVtQI2erq2q9VhqZrVBrA/s/w6Pev3a3FrQNADbG5X385EmX/UX3OPnmj
-         1e8grQV6I43+beGQUCTau/crWJuCjubzWokbxTNzetnUXMhai0PRWXry+EYeKgn6vusL
-         JngA==
-X-Gm-Message-State: AO0yUKU0vflP5mePTnF/KwI2xsFchAEc2YCnjOtP5CDEMlcaYoW36xPK
-	Ltf6vn3l22C6G/3kOW2iGoJ7LA==
-X-Google-Smtp-Source: AK7set9k2KtdeDKVcscpUyx6R5b36GQ/sv5f3qbkMR16PnZLnkTxqesp0C66to1pdh7mwuTQqWi73Q==
-X-Received: by 2002:a05:600c:1c88:b0:3dc:1687:9ba2 with SMTP id k8-20020a05600c1c8800b003dc16879ba2mr6840135wms.35.1675356363119;
-        Thu, 02 Feb 2023 08:46:03 -0800 (PST)
-Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.googlemail.com with ESMTPSA id r12-20020a05600c35cc00b003d9fba3c7a4sm5925540wmq.16.2023.02.02.08.46.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Feb 2023 08:46:02 -0800 (PST)
-Message-ID: <88ddcf84-47ed-109c-5fe7-1c213abb0340@linaro.org>
-Date: Thu, 2 Feb 2023 17:46:01 +0100
+	by mail.8bytes.org (Postfix) with ESMTPSA id EF54A223E73;
+	Fri,  3 Feb 2023 11:21:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1675419696;
+	bh=aNTbAULS7WsWPSOr/TReq3Mz/0kZAyyR8eXbUDeUWRM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UpFKNyxyIFsx8S0NQ982PN/4BwNkSFDbL+Z6uxkQO7EOPZwdC7j0iinDL/mrr4t4o
+	 lbBvvvtO1il46wDSoJOxxL8HLq1ao/yAc51Lxf9uUUqeEsNGxlWRIFy9nVftaVN5AR
+	 FYo6IKSmNUkRFivi0or3CecJPjM8amf0bnh5IYe40fc9dZ7KevQMvybu5pnoJfrMb/
+	 Jal6Tat9buiK45YnJbkalAIbLjcUVAjG8nx8mHQtZWjKuNZeM92JZuz9Ilnpzb8mD2
+	 HGCVb5OMIahRuKf8HfCZnRmz+hGVGTyxifIBTaJDbcvEOYNnOCGRnZNTiPKALxNbZU
+	 MXIMMmFt89MEg==
+Date: Fri, 3 Feb 2023 11:21:29 +0100
+From: Joerg Roedel <joro@8bytes.org>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>, iommu@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v2 0/6] iommu/sun50i: Allwinner D1 support
+Message-ID: <Y9zgKUUjjPq8ifPn@8bytes.org>
+References: <20230103010903.11181-1-samuel@sholland.org>
+ <Y8qvIRXcCdLZjDCK@8bytes.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH RESEND] dt-bindings: timer: sifive,clint: add comaptibles
- for T-Head's C9xx
-Content-Language: en-US
-To: Icenowy Zheng <uwu@icenowy.me>, Thomas Gleixner <tglx@linutronix.de>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Anup Patel <anup@brainfault.org>,
- Conor Dooley <conor.dooley@microchip.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20230202072814.319903-1-uwu@icenowy.me>
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <20230202072814.319903-1-uwu@icenowy.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y8qvIRXcCdLZjDCK@8bytes.org>
 
-On 02/02/2023 08:28, Icenowy Zheng wrote:
-> T-Head C906/C910 CLINT is not compliant to SiFive ones (and even not
-> compliant to the newcoming ACLINT spec) because of lack of mtime
-> register.
-> 
-> Add a compatible string formatted like the C9xx-specific PLIC
-> compatible, and do not allow a SiFive one as fallback because they're
-> not really compliant.
-> 
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Reviewed-by: Samuel Holland <samuel@sholland.org>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
+Hi Samuel,
 
-Applied, thanks
+On Fri, Jan 20, 2023 at 04:11:30PM +0100, Joerg Roedel wrote:
+> Once this is fixed I will include the arm/allwinner branch into my next
+> branch again.
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+Since there was no reply to this I nuked the patches from the IOMMU
+tree. If this is still relevant please resubmit them after the next
+merge window.
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+Regards,
 
+	Joerg
