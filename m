@@ -1,106 +1,108 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968931FB6
-	for <linux-sunxi@lists.linux.dev>; Sat,  4 Feb 2023 10:39:01 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id A0B0F5C012C;
-	Sat,  4 Feb 2023 05:39:00 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Sat, 04 Feb 2023 05:39:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1675507140; x=1675593540; bh=FcE/plgwiH
-	cAVpfmlr0FqbcFN9q3FpSWErJCt2r3sUY=; b=mZybz0G+RrfYZ3Z6AksMIRtsQF
-	jHF9hTvJOiefPZpxELDGYMJ6tAUmQIWljfR3T0AZNPEjTcmoKU8lI3UkBtJxU/Tw
-	355PM+QEo/6YQ+Lt9CJt/B10S0Kz1yYC7zhEwbf/yS+pJUQ9xO05HEab2UOKNU3g
-	rmLE1KvDR/0PZbG3BMov/T29D6+SFN4lPbpCJNUjPQGXYdBGoyVCJsHWzyDsre6M
-	bU6qNoiKqhh2ZbTDwmbg2I/3QNrQsysSY/3Y/LVT6PoiQAUfmBoeRNhxKbhbu7Wz
-	qwTar1LUOnfTCA38AWuN/WqaZLZQpFk5LGDhFjHbAXC+jDyo/Mlbh+riMQ0w==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA77723DF
+	for <linux-sunxi@lists.linux.dev>; Sat,  4 Feb 2023 14:35:18 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 9AF2D5C00B2;
+	Sat,  4 Feb 2023 09:35:17 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Sat, 04 Feb 2023 09:35:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm1; t=1675521317; x=1675607717; bh=xQ+77WxDcU7LsWzVt9+SldMRg
+	mN28mhoYTDjd14rlqg=; b=c2Gy5mL8aq4qjm1aNmxy7JKWI4UbVsp0hyXDTUzTm
+	MyQaPxKUoj0InfI4ZV+ieo0UgxFbz4EMIInGLkiD1jceqbooJDtSh4dYZ0GDGXY+
+	4t8HjczBkrTWZBUwXKHaU+CxyN3nXueJ77CYA2yEE0eNABnczgl7d/tVnuMeiRmY
+	kvgphu32n30p0xoiU+AjFmzEU39NF7c9pDLcBpe8wKEqVauoN0Qib2ppPy79P/bo
+	UePQyJrIqZlYhVF8SSMyOrl0UzqsdfJjwe/iC1jpSfH1O+0pa5mBBS5eFlSMovZH
+	xIXGM7le/yKBIRxyRqH1ESvsrSKuhe3tLI1c5TCZ9/QvA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1675507140; x=1675593540; bh=FcE/plgwiHcAVpfmlr0FqbcFN9q3
-	FpSWErJCt2r3sUY=; b=rcAdinM44pfyqTxPSfGahV4qzjI/uAtbtis9Ywvj6yS3
-	eowG1IkKQHNxby/somsvjLSR5DcXGtUR2qAQAlS2mnQz6vWvZh46MkyI3U5RdKqc
-	ujXvDcSEiL6xIItuEXE1uFrDiO+7AJFj4dKSpvNIwUpSieA792RtWSFxFkT8bdm/
-	3voGoLaLBxNpcmz9F2Uo63hoIvINeGTblbNHPsYF5ZuOzGePg7JvEAleq/HXcrlJ
-	iuHueQcPKbRGBazaJMZ0Lku2hIPaP1EKobXZALvrASJWRFskRr5vWZ2VJ2kfuWj2
-	Lb/p28ItiAY8yZZXckajGloBwXGSSQ/2muK0/cET2g==
-X-ME-Sender: <xms:xDXeY-5BUxCZzO_xBtKPXzCdGckBnJKl5QtDUKpg_gC1AJAN_C8wiQ>
-    <xme:xDXeY34CDTSmZPI-QenjF4D2RPZEPOBNXCoKersdWEiRSmPbymyoVVsp110fK3Jww
-    tCB9UOVcXZkZprYpCU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudegvddgudelucetufdoteggodetrfdotf
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1675521317; x=1675607717; bh=xQ+77WxDcU7LsWzVt9+SldMRgmN28mhoYTD
+	jd14rlqg=; b=m1hnD1sVpWB0RRFfS/7k2abqgp8vWLdoimv5XrWE7sRHRoe3ohA
+	RlN4Q5EJnKzRkNK4aE1xw3XOby4F2g7YZxKHa6PVm79KWgYYcVUjx7l6jrLgxxob
+	JWK/MKD8RAAt0YdnT/79kl8N9f3zJB24YxjsMNKxoBtYdSXUHmyjhVDH65JM6dgr
+	rQAPUo2XgTIru2I/3fZsyoL8hZOuK8rCBennjEVBPNlEHOOloP3cWJyaGdQz1tC0
+	kyzUdeS+lRMd+YNbExAiwJqnEX38wP4aYBj+2lVw9hScS6SNNx23yOWWCRVMa3f+
+	Y8ykhSSRJe2nmIDXqT8zVVU80n+z0pNTxQg==
+X-ME-Sender: <xms:JG3eY5PD4jZOZl-KeHCkqsdChQ5JT5Mf-rZMpC70HU4WaZs8rA6cyg>
+    <xme:JG3eY79zvServTzlVn3Gu3w1nx4qsdvie4coT2sz6NbAKHY6IQ1yxM-C88fz03kOC
+    jQdxrAksWSrxKPCDQ>
+X-ME-Received: <xmr:JG3eY4Q6HG-iyYW5MB50kak0vmydb8Y7vdfYDUg6FELL02I7tzxh0hBfSmwUufZ5ktNXN2zoz1x8VJ8QFWtYJpsGDUWJZ-_z4f6Jo1YMcLIgrbsE80QE1f7aDC8ePWKNABmk9A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudegvddgieehucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:xDXeY9ebT2H0UOKDzayXg18SrXyhhl-vHRWfDi2kf8DQtIUO63ibog>
-    <xmx:xDXeY7Lw_1V8cVzXCosLPAF5KjZIahUxpUhyEPQX-InMl3Drxw_vxw>
-    <xmx:xDXeYyIslQwCWkHriQRTNEi0kGMKQmEMYWGGSgO-CLbOh97_0ZLhCw>
-    <xmx:xDXeY6_-7JaDKQ5aHV-_eYxlShm_hrPQVAKVYXDnQREJuv7ORKI1mg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 1522EB60086; Sat,  4 Feb 2023 05:38:59 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-107-g82c3c54364-fm-20230131.002-g82c3c543
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepkeehffethedtteffgfefteetjedvfeelueevudffgfeutdejvdehledv
+    vdffhfevnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgrnhgu
+    rdhorhhg
+X-ME-Proxy: <xmx:JG3eY1vuKlrIu7-ySLvHe64iI47-2yFmUEWoJhPWicdUaL8KbD9fTw>
+    <xmx:JG3eYxcDldiiUcymve0EzomL7Px_pfKIMCXqE0xQl_oZt4K0M62HDA>
+    <xmx:JG3eYx2XU2RxdNTabFuRjKvoIcz1SielsiZxpON0ZZHnEZaX_Po9IA>
+    <xmx:JW3eY95bFHkqAqa4MrkjYX9LhMEwS951M8OOv6-lVtJRzZhbQX907A>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 4 Feb 2023 09:35:16 -0500 (EST)
+From: Samuel Holland <samuel@sholland.org>
+To: Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>
+Cc: Boris Brezillon <bbrezillon@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 0/3] mtd: rawnand: sunxi: Some cleanup
+Date: Sat,  4 Feb 2023 08:35:17 -0600
+Message-Id: <20230204143520.9682-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.37.4
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <e2c5a0db-aa25-496c-9a5e-4e996d908dc9@app.fastmail.com>
-In-Reply-To: <46dafb64-81d2-c084-97c5-8d01e8b9785b@infradead.org>
-References: <20230130130453.379749-1-arnd@kernel.org>
- <46dafb64-81d2-c084-97c5-8d01e8b9785b@infradead.org>
-Date: Sat, 04 Feb 2023 11:38:41 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Randy Dunlap" <rdunlap@infradead.org>, "Arnd Bergmann" <arnd@kernel.org>,
- "Chen-Yu Tsai" <wens@csie.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>,
- sparclinux <sparclinux@vger.kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] soc: sunxi: select CONFIG_PM
-Content-Type: text/plain
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sat, Feb 4, 2023, at 08:47, Randy Dunlap wrote:
-> On 1/30/23 05:04, Arnd Bergmann wrote:
->
-> Apparently sparc32 does not support PM (arch/sparc/Kconfig):
->
-> if SPARC64
-> source "kernel/power/Kconfig"
-> endif
->
-> so I think that SUN20I_PPU should also depend on !SPARC32.
-> Does that make sense?
+(Apologies for the delay in sending v2. As discussed previously[1],
+the first patch needs to be merged in the same merge window as commit
+34569d869532 from v1 of the series, even if the others don't make it.)
 
-I would suggest working around this in arch/sparc/ instead
-of every driver that uses 'select PM', perhaps something like
+I have an A33 tablet with MLC NAND, and I wanted to use mainline Linux
+to dump the NAND. To do that, I updated this driver's ECC ops to fully
+utilize the hardware for ECC and scrambling. This made the driver
+compatible with the existing (scrambled) on-flash bad block map, and I
+was able to read the full NAND contents.
 
---- a/arch/sparc/Kconfig
-+++ b/arch/sparc/Kconfig
-@@ -283,7 +283,7 @@ config ARCH_FORCE_MAX_ORDER
-          This config option is actually maximum order plus one. For example,
-          a value of 13 means that the largest free memory block is 2^12 pages.
- 
--if SPARC64
-+if SPARC64 || COMPILE_TEST
- source "kernel/power/Kconfig"
- endif
- 
-The issue does not happen anywhere else, as it's fine if
-kernel/power/Kconfig is not included at all. I'm also not too
-worried about random sparc32 configs since it's pretty much impossible
-to build a sparc32 allmodconfig or randconfig, with all the other
-bugs that runs into.
+This series contains some cleanup from that effort. The first patch
+ensures we can make good use of the hardware ECC/descrambler. The other
+two patches simplify some code for managing the ECC engine.
 
-     Arnd
+[1]: https://lore.kernel.org/linux-mtd/20230102175351.64690aaf@xps-13/
+
+Changes in v2:
+ - Update commit message to address backward-compatibility concerns
+ - Keep `struct sunxi_nand_hw_ecc` but change the pointer to a value
+ - Split ECC_CTL precomputation and structure updates to two patches
+
+Samuel Holland (3):
+  mtd: rawnand: sunxi: Update OOB layout to match hardware
+  mtd: rawnand: sunxi: Embed sunxi_nand_hw_ecc by value
+  mtd: rawnand: sunxi: Precompute the ECC_CTL register value
+
+ drivers/mtd/nand/raw/sunxi_nand.c | 73 +++++++++----------------------
+ 1 file changed, 20 insertions(+), 53 deletions(-)
+
+-- 
+2.37.4
+
