@@ -1,162 +1,106 @@
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E422568
-	for <linux-sunxi@lists.linux.dev>; Sat,  4 Feb 2023 14:35:22 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 381CD5C00BC;
-	Sat,  4 Feb 2023 09:35:21 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Sat, 04 Feb 2023 09:35:21 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D5F2568;
+	Sat,  4 Feb 2023 14:49:45 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 0B1115C00EC;
+	Sat,  4 Feb 2023 09:49:45 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Sat, 04 Feb 2023 09:49:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1675521321; x=1675607721; bh=E9
-	RXjzAMWwCZjLz8gcyf65T0pEMdRjhGQmaREoREwGo=; b=rpmeq7B6G98Sb0ovmV
-	/51tGFKPb17uOp6IcbhUo+2F5xZ4hdJnQiwP7EaBFneyEPUQ5qS9GwD08XSBDaWp
-	Sn+I5GMkIZ+EjqN6E290wZOKxDMjMmuFa0J07kMWTB5+3GyGvCJfEYetWjgYHkZj
-	hhR4Wnqseb3xlfjJE4hKbUCa1C6fUjDWF83mtt93Q4lpdgmCg1vHo5B8OmTbzvzF
-	UtABhwXsMMPJzI9+2BCsd5oAo6sdwTwgcsNYsi90YbE/SbF1sarfiqK3eJf3DLPF
-	aPuewV5VVyHMUI7KxxBREawzWmIPsoTXDyBK/GaHd1PanSV6xdei9LgsGd0mXn+d
-	zvgQ==
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1675522185; x=
+	1675608585; bh=gMF2GYBH1UtrzPcwansQiHlAFbQcqh9mttTQYrPJ6Fk=; b=L
+	xUMCZHVeWVpTjgMEckVHJJ2xwG8302Y+EFEninU5mI5Az3XieJ+wFnic4r78V5BC
+	BdioDdnnpsaCQTptXOMCBfAVVwcNmqcPooinD2woY96DRkDMSUFMHgExRDWSaN1K
+	ITjRktPngy2YIsL/uLYxMfzkRAI24SYqqJvd7eQ0q8qFSEmoZM6RiXbINYV9Bb8S
+	YjYtQzCeWkkh90K1iY9fxGq7GGeCX9E1/a+TCAbVPBOdNnRogZAe+zrnQ0aJngW3
+	2gePpo0d6JtXMrcQ1T1fXRlYalrPiMTv97V+4CaSCcHMojSun91iZlNqD4AYLUz3
+	jrHZ4RboTqHSCCyvbnZYg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1675521321; x=1675607721; bh=E9RXjzAMWwCZj
-	Lz8gcyf65T0pEMdRjhGQmaREoREwGo=; b=VRCiq62Lo2m8Z18aKjFbeQsaUsS/w
-	AWOcRclqnRcPJ5bKWl1EJ21KaBPkfl7yCa+aoREGyF09sXkvOnLicVyHmbuKnyjb
-	8txpfy9eKGIDSamuiloSNHj28yK1vGZvvyOFpBuZE8tklJUCd2j0wCB4FKk3AfKR
-	HUx6T0hail2uIZa6yhyC2nwyfRdQwBu9FydoE5vMYia0dwX4KYIsqd3okNmAdMCd
-	lGmI4eG0hrQjBKUubkkeNKfaJgmN1Oz6cgiFi0B4yqhF10mzRw4st807MXJ4OjPe
-	Bnhdc7JcunttrRw6uMYH/jQIVmxNQrvgtQgCOaLuC5qlfiVxT0wFXET6g==
-X-ME-Sender: <xms:KG3eY9SGkCmUtWP_DBs8gRxRz_iyFU8rCyFX3GugG3e9E4Xup7HnNg>
-    <xme:KG3eY2z8EfdS46OCCe6JzLa2_okHnu8BFW07KIoEtyyDHs3oBWm_BiV5awwWoUtkD
-    x8wM5kKNm3viS9G-Q>
-X-ME-Received: <xmr:KG3eYy3aYa43biFYV9-recLE3ZuYbUKG48_fieqfwhoL61HGm5W0AeG0w5m5UWym_pR3YiGBUP-tkBrokY09wZTAmqAFTHc0N-ok3i_d3J4VuLdRRzJFTIHNCobZOOHtc10LjQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudegvddgieeiucetufdoteggodetrfdotf
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1675522185; x=
+	1675608585; bh=gMF2GYBH1UtrzPcwansQiHlAFbQcqh9mttTQYrPJ6Fk=; b=j
+	4Hwd0wmVUOsbmo/ozZmsrivkhAeC8BAmMSEp9MDCPkNDTJjrjns/Ah24Cbqf4TgR
+	XHvY/XI0ZAQFryw37+szzVGHk39mTNPlY7fcxeARNXLqlHwSuJPUTdxDElbxe8nO
+	hg53hgu0s1oP7KeqtVv9X931nW8qYqMmDNkZbMCjPypxtH61s3NUpG9VX8Z74y4K
+	6p9p6cuvgkTFwP8tgU2Wz107xsTJ+6dq5QzM3VMVTGgPn9wMpNF111jRVRRQDMco
+	wt/FAY1/s2/HGyI4l1Wms87w39uk4YylfrJsn/pvaZU/3aKqfncJMvCtZzXwIeG9
+	PlAs4cEbbX1VHbbbMQG4g==
+X-ME-Sender: <xms:iHDeYx4LV1QEi-Tjgm-rM6U07FpVIdikQEOQAd5yLx2oDWqtERxk9Q>
+    <xme:iHDeY-7LqqjHEN3YORxLqrti-j9radWayFGESMZeMbb2JA_T5omStAoTkXbBKmKhU
+    fv-8sS6MJkZ5cqk5g>
+X-ME-Received: <xmr:iHDeY4cAuZ5uuruZ6ncS4JmS3IjKZYvTbUlrSv3wxmOWwawE0JlstrZWfzzftv1aOIVcDBESnWRcFh7k-86zAi5Ox5EV5jaRBwOJ2ao8YXGqtXTMSCPVsDfb1g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudegvddgieekucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepudekteeuudehtdelteevgfduvddvjefhfedulefgudevgeeghefg
-    udefiedtveetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:KG3eY1C_DZYTIBV6ZHdgFZJPEuO4kCHTj3icNqVc3uTzvjye1C6JXg>
-    <xmx:KG3eY2gZwDd0VxMgSHtspBYTiUoD8r3q0v5bZlhRN_zoYE9z1Xd9Lw>
-    <xmx:KG3eY5rdZHCl1mxTjrmqH2-5LFoVignlQKX28mQKxrFFP7oRvzbBeQ>
-    <xmx:KW3eYxNUUQJ3KFanUBXy0aXqttX2F9TrG8w8nU9ijyqCO59JvV1BpQ>
+    cujfgurhepkfffgggfvfevfhfhufgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpeejgfffhfdujeeftdeuudeguedttefgieetffffheejuefguedv
+    heejteeftdfftdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:iHDeY6LvlZ7wOnTn0YYcH7j-jKc6jrnqVUe09Y0LJwIZ2oOFFD22bw>
+    <xmx:iHDeY1JYvtxYbdCaZrzOP7ert_TxMPV2hJNqb5L2BhKyjoK_ud05VA>
+    <xmx:iHDeYzzj4wglxWykOC-5YLfBikH-jJJ9IHM9N_ZSU_IQvK-x6FtAtA>
+    <xmx:iXDeY_w8ab8XNThP-41BpYCbGop_9p0l9YFQQSgdDyz4p-dWbb27iA>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 4 Feb 2023 09:35:20 -0500 (EST)
-From: Samuel Holland <samuel@sholland.org>
-To: Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>
-Cc: Boris Brezillon <bbrezillon@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-mtd@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 3/3] mtd: rawnand: sunxi: Precompute the ECC_CTL register value
-Date: Sat,  4 Feb 2023 08:35:20 -0600
-Message-Id: <20230204143520.9682-4-samuel@sholland.org>
-X-Mailer: git-send-email 2.37.4
-In-Reply-To: <20230204143520.9682-1-samuel@sholland.org>
-References: <20230204143520.9682-1-samuel@sholland.org>
+ 4 Feb 2023 09:49:43 -0500 (EST)
+Message-ID: <6302b081-fab5-2eea-1a56-5ad903ff7d54@sholland.org>
+Date: Sat, 4 Feb 2023 08:49:48 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Content-Language: en-US
+To: Joerg Roedel <joro@8bytes.org>
+Cc: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, iommu@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>
+References: <20230103010903.11181-1-samuel@sholland.org>
+ <Y8qvIRXcCdLZjDCK@8bytes.org> <Y9zgKUUjjPq8ifPn@8bytes.org>
+From: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v2 0/6] iommu/sun50i: Allwinner D1 support
+In-Reply-To: <Y9zgKUUjjPq8ifPn@8bytes.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The value computed by this function never changes for a given chip.
-Compute the whole register value once up front, instead of every time
-the ECC engine is enabled.
+Hi Joerg,
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+On 2/3/23 04:21, Joerg Roedel wrote:
+> On Fri, Jan 20, 2023 at 04:11:30PM +0100, Joerg Roedel wrote:
+>> There is a conflict between these patches and changes in the IOMMU
+>> core branch. With those merged in there is a compile warning about 
+>> sun50i_iommu_detach_domain() being unused. Fixing that requires
+>> removing of 3-4 functions, which I am not sure is the right
+>> solution.
+>>
+>> Once this is fixed I will include the arm/allwinner branch into my
+>> next branch again.
+> 
+> Since there was no reply to this I nuked the patches from the IOMMU 
+> tree. If this is still relevant please resubmit them after the next 
+> merge window.
 
-Changes in v2:
- - Split ECC_CTL precomputation and structure updates to two patches
+I am not sure what the right solution is here either, and I have not had
+the chance to look at it again. With my limited understanding of how the
+default domain logic works, and the fact that the IOMMU driver only
+supports one domain, it seems the driver should keep that domain enabled
+permanently, regardless of which devices are attached. So my patch 2
+would be wrong. I will investigate and send a v3 after the merge window.
 
- drivers/mtd/nand/raw/sunxi_nand.c | 27 ++++++++++-----------------
- 1 file changed, 10 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
-index a0d0cb17c150..13e3e0198d15 100644
---- a/drivers/mtd/nand/raw/sunxi_nand.c
-+++ b/drivers/mtd/nand/raw/sunxi_nand.c
-@@ -172,10 +172,10 @@ struct sunxi_nand_chip_sel {
- /**
-  * struct sunxi_nand_hw_ecc - stores information related to HW ECC support
-  *
-- * @mode: the sunxi ECC mode field deduced from ECC requirements
-+ * @ecc_ctl: ECC_CTL register value for this NAND chip
-  */
- struct sunxi_nand_hw_ecc {
--	int mode;
-+	u32 ecc_ctl;
- };
- 
- /**
-@@ -689,26 +689,15 @@ static void sunxi_nfc_hw_ecc_enable(struct nand_chip *nand)
- {
- 	struct sunxi_nand_chip *sunxi_nand = to_sunxi_nand(nand);
- 	struct sunxi_nfc *nfc = to_sunxi_nfc(nand->controller);
--	u32 ecc_ctl;
--
--	ecc_ctl = readl(nfc->regs + NFC_REG_ECC_CTL);
--	ecc_ctl &= ~(NFC_ECC_MODE_MSK | NFC_ECC_PIPELINE |
--		     NFC_ECC_BLOCK_SIZE_MSK);
--	ecc_ctl |= NFC_ECC_EN | NFC_ECC_MODE(sunxi_nand->ecc.mode) |
--		   NFC_ECC_EXCEPTION | NFC_ECC_PIPELINE;
--
--	if (nand->ecc.size == 512)
--		ecc_ctl |= NFC_ECC_BLOCK_512;
- 
--	writel(ecc_ctl, nfc->regs + NFC_REG_ECC_CTL);
-+	writel(sunxi_nand->ecc.ecc_ctl, nfc->regs + NFC_REG_ECC_CTL);
- }
- 
- static void sunxi_nfc_hw_ecc_disable(struct nand_chip *nand)
- {
- 	struct sunxi_nfc *nfc = to_sunxi_nfc(nand->controller);
- 
--	writel(readl(nfc->regs + NFC_REG_ECC_CTL) & ~NFC_ECC_EN,
--	       nfc->regs + NFC_REG_ECC_CTL);
-+	writel(0, nfc->regs + NFC_REG_ECC_CTL);
- }
- 
- static inline void sunxi_nfc_user_data_to_buf(u32 user_data, u8 *buf)
-@@ -1693,8 +1682,6 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand_chip *nand,
- 		return -ENOTSUPP;
- 	}
- 
--	sunxi_nand->ecc.mode = i;
--
- 	/* HW ECC always request ECC bytes for 1024 bytes blocks */
- 	ecc->bytes = DIV_ROUND_UP(ecc->strength * fls(8 * 1024), 8);
- 
-@@ -1726,6 +1713,12 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand_chip *nand,
- 	ecc->read_oob_raw = nand_read_oob_std;
- 	ecc->write_oob_raw = nand_write_oob_std;
- 
-+	sunxi_nand->ecc.ecc_ctl = NFC_ECC_MODE(i) | NFC_ECC_EXCEPTION |
-+				  NFC_ECC_PIPELINE | NFC_ECC_EN;
-+
-+	if (ecc->size == 512)
-+		sunxi_nand->ecc.ecc_ctl |= NFC_ECC_BLOCK_512;
-+
- 	return 0;
- }
- 
--- 
-2.37.4
-
+Regards,
+Samuel
