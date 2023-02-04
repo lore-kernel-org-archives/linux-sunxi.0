@@ -1,57 +1,137 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18CC01FB4;
-	Fri,  3 Feb 2023 10:21:36 +0000 (UTC)
-Received: from 8bytes.org (p200300c27714bc0086ad4f9d2505dd0d.dip0.t-ipconnect.de [IPv6:2003:c2:7714:bc00:86ad:4f9d:2505:dd0d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id EF54A223E73;
-	Fri,  3 Feb 2023 11:21:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1675419696;
-	bh=aNTbAULS7WsWPSOr/TReq3Mz/0kZAyyR8eXbUDeUWRM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UpFKNyxyIFsx8S0NQ982PN/4BwNkSFDbL+Z6uxkQO7EOPZwdC7j0iinDL/mrr4t4o
-	 lbBvvvtO1il46wDSoJOxxL8HLq1ao/yAc51Lxf9uUUqeEsNGxlWRIFy9nVftaVN5AR
-	 FYo6IKSmNUkRFivi0or3CecJPjM8amf0bnh5IYe40fc9dZ7KevQMvybu5pnoJfrMb/
-	 Jal6Tat9buiK45YnJbkalAIbLjcUVAjG8nx8mHQtZWjKuNZeM92JZuz9Ilnpzb8mD2
-	 HGCVb5OMIahRuKf8HfCZnRmz+hGVGTyxifIBTaJDbcvEOYNnOCGRnZNTiPKALxNbZU
-	 MXIMMmFt89MEg==
-Date: Fri, 3 Feb 2023 11:21:29 +0100
-From: Joerg Roedel <joro@8bytes.org>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>, iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v2 0/6] iommu/sun50i: Allwinner D1 support
-Message-ID: <Y9zgKUUjjPq8ifPn@8bytes.org>
-References: <20230103010903.11181-1-samuel@sholland.org>
- <Y8qvIRXcCdLZjDCK@8bytes.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB431C27
+	for <linux-sunxi@lists.linux.dev>; Sat,  4 Feb 2023 07:47:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=Cbez7xsfY4MkNROF6v40RsR64/eF53uzf9QET049CiU=; b=h2yKIPZKALZ/Fa5lajMCu+tN32
+	yrIEABdRQ+BpLahqh1URk5TrSGccOqf/LC+aiKFFUYrPUkth4lNha0V/UrZSYn8Snl/q5m1Og2BPb
+	cPEfgryi3ILOTADo7de6ZFMv1wetvEJ2mpzca2URZlt/eYcXZY3xlYbGDqpwNiZDIaShWoMA7XrbA
+	M0z2c7qANyyyY93e2XUuFxItlwwsmp9c0A8sv5+R7mFXTkizr91GKFilIUPzImy8pi4zChh1q6QQZ
+	2OPyzkbzrBYLOLaSdWRVvZYcjFWWm0JK5NcdEKrOcqFuNWoGC3jG/NMm3M/3iyD2RUbGhEuIMBAHp
+	dXbUbMGQ==;
+Received: from [2601:1c2:d00:6a60::9526]
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1pODH1-004fK3-SZ; Sat, 04 Feb 2023 07:47:47 +0000
+Message-ID: <46dafb64-81d2-c084-97c5-8d01e8b9785b@infradead.org>
+Date: Fri, 3 Feb 2023 23:47:45 -0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8qvIRXcCdLZjDCK@8bytes.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] soc: sunxi: select CONFIG_PM
+Content-Language: en-US
+To: Arnd Bergmann <arnd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, sparclinux <sparclinux@vger.kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20230130130453.379749-1-arnd@kernel.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230130130453.379749-1-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Samuel,
+Hi--
 
-On Fri, Jan 20, 2023 at 04:11:30PM +0100, Joerg Roedel wrote:
-> Once this is fixed I will include the arm/allwinner branch into my next
-> branch again.
+On 1/30/23 05:04, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> Selecting CONFIG_PM_GENERIC_DOMAINS without CONFIG_PM leads to a
+> build failure:
+> 
+> WARNING: unmet direct dependencies detected for PM_GENERIC_DOMAINS
+>   Depends on [n]: PM [=n]
+>   Selected by [y]:
+>   - SUN20I_PPU [=y] && (ARCH_SUNXI [=n] || COMPILE_TEST [=y])
+> 
+> drivers/base/power/domain_governor.c: In function 'default_suspend_ok':
+> drivers/base/power/domain_governor.c:85:24: error: 'struct dev_pm_info' has no member named 'ignore_children'
+>    85 |         if (!dev->power.ignore_children)
+>       |                        ^
+> drivers/base/power/domain.c: In function 'genpd_queue_power_off_work':
+> drivers/base/power/domain.c:657:20: error: 'pm_wq' undeclared (first use in this function)
+>   657 |         queue_work(pm_wq, &genpd->power_off_work);
+>       |                    ^~~~~
+> 
+> Unfortunately platforms are inconsistent between using 'select PM'
+> and 'depends on PM' here. CONFIG_PM is a user-visible symbol, so
+> in principle we should be using 'depends on', but on the other hand
+> using 'select' here is more common among drivers/soc. Go with the
+> majority for now, as this has a smaller risk of introducing circular
+> dependencies. We may need to clean this up for consistency later.
+> 
+> Fixes: 0e30ca5ab0a8 ("soc: sunxi: Add Allwinner D1 PPU driver")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Since there was no reply to this I nuked the patches from the IOMMU
-tree. If this is still relevant please resubmit them after the next
-merge window.
+With this patch (in linux-next-20230203), building on sparc32 with
+COMPILE_TEST=y and ARCH_SUNXI not set:
 
-Regards,
+WARNING: unmet direct dependencies detected for PM
+  Depends on [n]: SPARC64 [=n]
+  Selected by [y]:
+  - SUN20I_PPU [=y] && (ARCH_SUNXI || COMPILE_TEST [=y])
 
-	Joerg
+WARNING: unmet direct dependencies detected for PM
+  Depends on [n]: SPARC64 [=n]
+  Selected by [y]:
+  - SUN20I_PPU [=y] && (ARCH_SUNXI || COMPILE_TEST [=y])
+
+WARNING: unmet direct dependencies detected for PM_GENERIC_DOMAINS
+  Depends on [n]: SPARC64 [=n] && PM [=y]
+  Selected by [y]:
+  - QCOM_GDSC [=y] && COMMON_CLK [=y] && PM [=y]
+  - SUN20I_PPU [=y] && (ARCH_SUNXI || COMPILE_TEST [=y])
+  - MESON_GX_PM_DOMAINS [=y] && (ARCH_MESON || COMPILE_TEST [=y]) && PM [=y] && OF [=y]
+  - BCM2835_POWER [=y] && (ARCH_BCM2835 || COMPILE_TEST [=y] && OF [=y]) && PM [=y]
+  - BCM_PMB [=y] && (ARCH_BCMBCA || COMPILE_TEST [=y] && OF [=y]) && PM [=y]
+  - ROCKCHIP_PM_DOMAINS [=y] && (ARCH_ROCKCHIP || COMPILE_TEST [=y]) && PM [=y]
+  Selected by [m]:
+  - ARM_SCPI_POWER_DOMAIN [=m] && (ARM_SCPI_PROTOCOL [=m] || COMPILE_TEST [=y] && OF [=y]) && PM [=y]
+  - MESON_EE_PM_DOMAINS [=m] && (ARCH_MESON || COMPILE_TEST [=y]) && PM [=y] && OF [=y]
+  - QCOM_AOSS_QMP [=m] && (ARCH_QCOM || COMPILE_TEST [=y]) && MAILBOX [=y] && COMMON_CLK [=y] && PM [=y]
+
+WARNING: unmet direct dependencies detected for PM_GENERIC_DOMAINS_OF
+  Depends on [n]: SPARC64 [=n] && PM_GENERIC_DOMAINS [=y] && OF [=y]
+  Selected by [y]:
+  - MESON_GX_PM_DOMAINS [=y] && (ARCH_MESON || COMPILE_TEST [=y]) && PM [=y] && OF [=y]
+  Selected by [m]:
+  - MESON_EE_PM_DOMAINS [=m] && (ARCH_MESON || COMPILE_TEST [=y]) && PM [=y] && OF [=y]
+
+Apparently sparc32 does not support PM (arch/sparc/Kconfig):
+
+if SPARC64
+source "kernel/power/Kconfig"
+endif
+
+so I think that SUN20I_PPU should also depend on !SPARC32.
+Does that make sense?
+
+Thanks.
+
+> ---
+>  drivers/soc/sunxi/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/soc/sunxi/Kconfig b/drivers/soc/sunxi/Kconfig
+> index 29e9ba2d520d..02d0b338feb3 100644
+> --- a/drivers/soc/sunxi/Kconfig
+> +++ b/drivers/soc/sunxi/Kconfig
+> @@ -23,6 +23,7 @@ config SUNXI_SRAM
+>  config SUN20I_PPU
+>  	bool "Allwinner D1 PPU power domain driver"
+>  	depends on ARCH_SUNXI || COMPILE_TEST
+> +	select PM
+>  	select PM_GENERIC_DOMAINS
+>  	help
+>  	  Say y to enable the PPU power domain driver. This saves power
+
+-- 
+~Randy
