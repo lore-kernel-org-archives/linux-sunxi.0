@@ -1,131 +1,164 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C34D7F
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 Feb 2023 01:18:01 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1F74C13D5;
-	Mon,  6 Feb 2023 17:18:43 -0800 (PST)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1A6243F71E;
-	Mon,  6 Feb 2023 17:17:58 -0800 (PST)
-Date: Tue, 7 Feb 2023 01:16:08 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Andreas Feldner <pelzi@flying-snail.de>
-Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ARM: dts: allwinner: minimize irq debounce filter per
- default
-Message-ID: <20230207011608.2ce24d17@slackpad.lan>
-In-Reply-To: <Y+FaVorMl37F5Dve@debian-qemu.internal.flying-snail.de>
-References: <Y+FaVorMl37F5Dve@debian-qemu.internal.flying-snail.de>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B006520E8
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 Feb 2023 09:06:53 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.nyi.internal (Postfix) with ESMTP id 943A25C00EC;
+	Tue,  7 Feb 2023 04:06:52 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Tue, 07 Feb 2023 04:06:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1675760812; x=
+	1675847212; bh=pHgQUOaYyQmtUXSqG6ibGpvZ1Y53BCyC9+II4RDDp5M=; b=O
+	U7P47cfgrl2zdVBqhyimE+S0ooV/81G+t+Y1OwdFmLsTqllcyWoWanAkzK4z4117
+	Ghjmw5sqLR5rhWsDac0758ImGxhkx7kNuW6T70faVH645GShHffp57tNWNkpaSm9
+	pXSHXDK2AxmR+Fh5cFH0zgRarNYAD+kfw4kC+n8RvuDqBDKu7aY6j0mauU9/wuUm
+	rjGWCE/vy/S0OBfl0oJEgxLWkgwgS8WcyNO33axfiwH5TpGkAqm3iIl1g1aYHqBc
+	C8NzaRBg6euYODk9DSMUGbBgRaD9dJ9+GrBzHTbpCKqD7opqn/BbUlThBeC3le+1
+	+ZjucG+di6Ann0s4NK1IQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1675760812; x=
+	1675847212; bh=pHgQUOaYyQmtUXSqG6ibGpvZ1Y53BCyC9+II4RDDp5M=; b=j
+	PncpDrUbMVfBvaLwk76jE8r4MrhjHA5thRYzuCVWN24sJ4xc1JtkOjJg1jWfHDKp
+	jb6/neoM/TH5rXZ6V6Q3ker1AIcNC3V/RITGDIgINTQOe5rlNBCEvgMBwOngUbmd
+	dlYlEop46EN8BMU03wNekR2lL+/LLUBQSaVR7dozUJdXQELUnSH1p6PisuFtXTXe
+	z8yW3CwJXgMKwgydFYqoOlZNIdTCfIh312kLNvuTkwLT0QMJWkZAJdOXor6vcw2w
+	yXaqCjpzxrt7mxiOMofeGzdPQFaGPQ8QZbVq0M+BJ0dC1V5NemYYK5EtSidgd3ty
+	TWe4thMe1i8piVWFagoOA==
+X-ME-Sender: <xms:qxTiY554AwEBiLmj8iKQcAwHesc1W5-IyXwi7a37foVCvJjO0TxSsQ>
+    <xme:qxTiY25rdgp9Y5lTW2sfB3E0KgJdTTKywAxXi03xfXXaxAdpgHB19A9MZV-zkmK4J
+    KvkBUSEHu9S83BfsRw>
+X-ME-Received: <xmr:qxTiYwfquD1gEZJaDZQSYyZC__nI3E0Iwe546TDQRhzxKtvJuZXhJsTmG0fUfzGJcQu7HQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudegjedguddviecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgr
+    gihimhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtf
+    frrghtthgvrhhnpeeggeduteffkeejlefhhfeggfevieeljeekkedvhfelffdtiefgkedu
+    ledugeetgeenucffohhmrghinhepghhithhhuhgsrdgtohhmpdgsohhothhlihhnrdgtoh
+    hmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgr
+    gihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:qxTiYyJbVX-amr0tK1Bp5DXX_q13W9m07LHMXIZY2LtTTRxVIOMgxw>
+    <xmx:qxTiY9Id1KIMif8PtnAP6kLKhph0h7lTKLmmZmO6EnYyrJuap9GmmQ>
+    <xmx:qxTiY7z6mQHASvgjRS0nMccO2mDAMNLihZpeRvvprmBi0K2c5hR4kg>
+    <xmx:rBTiY3BEnP_13D2C17npg_m46IDBR6gBQNPSfnskpfqiwPuYNHEHVA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 7 Feb 2023 04:06:51 -0500 (EST)
+Date: Tue, 7 Feb 2023 10:06:48 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Oleg Verych <olecom@gmail.com>
+Cc: "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
+	Priit Laes <plaes@plaes.org>,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	Emilio =?utf-8?B?TMOzcGV6?= <emilio@elopez.com.ar>,
+	Chen-Yu Tsai <wens@csie.org>,
+	linux-sunxi <linux-sunxi@googlegroups.com>
+Subject: Re: sun4i CCU CCF vs CSI0 question (Re: [PATCH] doc sunxi: update
+ CCU wiki page link in clocks.rst)
+Message-ID: <20230207090648.ncmptkr7g36j5fkt@houat>
+References: <CAHdV42VzJNQUUD5NtkSnGcivXAmrHH-cQGXiA-A5g-fQFNbzuw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAHdV42VzJNQUUD5NtkSnGcivXAmrHH-cQGXiA-A5g-fQFNbzuw@mail.gmail.com>
 
-On Mon, 6 Feb 2023 20:51:50 +0100
-Andreas Feldner <pelzi@flying-snail.de> wrote:
-
-Hi Andreas,
-
-thanks for taking care about this board and sending patches!
-
-> The SoC features debounce logic for external interrupts. Per default,
-> this is based on a 32kHz oscillator, in effect filtering away multiple
-> interrupts separated by less than roughly 100=C3=AF=C2=BF=C2=BDs.
+On Sun, Feb 05, 2023 at 09:50:22PM +0200, Oleg Verych wrote:
+> Hello!
 >=20
-> This patch sets different defaults for this filter for this board:
-> PG is connected to non-mechanical components, without any risk for
-> showing bounces. PA is mostly exposed to GPIO pins, however the
-> existence of a debounce filter is undesirable as well if electronic
-> components are connected.
-
-So how do you know if that's the case? It seems to be quite normal to
-just connect mechanical switches to GPIO pins.
-
-If you are trying to fix a particular issue you encountered, please
-describe that here, and say how (or at least that) the patch fixes it.
-
-And I would suggest to treat port G and port A differently. If you
-need a lower debounce threshold for port A, you can apply a DT overlay
-in U-Boot, just for your board.
-
-> Additionally, the clock-frequency attribute is added for each of
-> the 4 cores to eliminate the kernel error message on boot, that
-> the attribute is missing.
+> On 1/17/23, Oleg Verych <olecom@gmail.com> wrote:
+> > Update wiki page link to the Allwinner sunXi SoC Clock Control Module.
+> >
+> > Signed-off-by: Oleg Verych <olecom@gmail.com>
+> > ---
+> > Hi!
+> >
+> > Can I ask additional question to those in the file?
 >=20
-> Signed-off-by: Andreas Feldner <pelzi@flying-snail.de>
-> ---
->  .../dts/sun8i-h2-plus-bananapi-m2-zero.dts     | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+> Q:
+> > How is it possible to setup PLL7 to particular frequency and select
+> > it as a source to CSI0 via CCM_CSI0_CLK[1]?
 >=20
-> diff --git a/arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dts b/arch/=
-arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dts
-> index d729b7c705db..1fc0d5d1e51a 100644
-> --- a/arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dts
-> +++ b/arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dts
-> @@ -113,6 +113,22 @@ wifi_pwrseq: wifi_pwrseq {
-> =20
->  &cpu0 {
->  	cpu-supply =3D <&reg_vdd_cpux>;
-> +	clock-frequency =3D <1296000000>;
+> A:
+> by setting clock source and frequency via CCF[2] in a camera device as:
+>=20
+> ```
+> 	ov5640: camera@3c {
+> 		compatible =3D "ovti,ov5640";
+> 		reg =3D <0x3c>;
+> 		pinctrl-names =3D "default";
+> 		pinctrl-0 =3D <&csi0_clk_pin>;
+> 		clocks =3D <&ccu CLK_CSI0>;
+> 		clock-names =3D "xclk";
+>=20
+> 		assigned-clocks =3D <&ccu CLK_CSI0>, <&ccu 17>; /* 17 =3D CLK_PLL_VIDEO=
+1 * /
 
-I see where you are coming from, this is really an unnecessary warning
-message. However this message should be really removed from the kernel
-instead of adding some rather meaningless value here.
-The current DT spec marks this property as required, though, so I added
-a PR there to get this fixed:
-https://github.com/devicetree-org/devicetree-specification/pull/61
-Once this is through, we can try to remove the kernel message.
+You don't need the second clock.
 
-> +};
-> +
-> +&cpu1 {
-> +	cpu-supply =3D <&reg_vdd_cpux>;
+> 		assigned-clock-rates =3D <32000000>;
+> 		assigned-clock-parents =3D <&ccu 17>;
+> ...
+> 		port {
+> 			ov5640_to_csi0: endpoint {
+> ...
+>=20
+> ```
+> [2] https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schema=
+s/clock/clock.yaml
 
-I don't think we need this for every core?
+I'm not sure why you're trying to do that in the first place, but please
+note that this isn't a guarantee in any way. It could change at any
+point in time after probe has been called.
 
-> +	clock-frequency =3D <1296000000>;
-> +};
-> +
-> +&cpu2 {
-> +	cpu-supply =3D <&reg_vdd_cpux>;
-> +	clock-frequency =3D <1296000000>;
-> +};
-> +
-> +&cpu3 {
-> +	cpu-supply =3D <&reg_vdd_cpux>;
-> +	clock-frequency =3D <1296000000>;
->  };
-> =20
->  &de {
-> @@ -193,6 +209,8 @@ bluetooth {
->  };
-> =20
->  &pio {
-> +	/* 1=C3=AF=C2=BF=C2=BDs debounce filter on both IRQ banks */
+> Set of other related questions:
+>=20
+> Q: When trying to setup main CSI0 clock to 32MHz from example above,
+> it is not possible to get integer mode value:
+>=20
+> sun4i_csi_probe mclk: 31578948 Hz
+>=20
+> Why it is so, while PLL7 can be configured to (3*(9 + 23)) =3D 96 MHz
+> which then can be divided by (2 + 1) using CCM_CSI0_CLK [1] /
+> CSI0_CLK_REG [A20_User_Manual_v1.4_20150510.pdf p.84]?
 
-Is that supposed to be <micro> in UTF-8? It seems to have got lost in
-translation, or is that just me?
+I think what happens with your DT bits is that CLK_CSI0 and PLL_VIDEO1
+will be set to 32MHz, in that order.
 
-> +	input-debounce =3D <1 1>;
+> Q: Initial value for CSI0 ISP clock is not as hardcoded in
+> `sun4i_csi_runtime_resume()`. Is it correct to hardcode the value for
+> resume? E.g.[3]:
+> ```
+> 	clk_prepare_enable(csi->ram_clk);
+> >>	clk_set_rate(csi->isp_clk, 80000000);
+> 	clk_prepare_enable(csi->isp_clk);
+> ```
+> [3] https://elixir.bootlin.com/linux/v6.1/source/drivers/media/platform/s=
+unxi/sun4i-csi/sun4i_csi.c#L303
 
-As mentioned above, I am not so sure this is generic enough to put it
-here for PA. And what is the significance of "1 us", in particular? Is
-that just the smallest value?
+I guess? What's wrong with it?
 
-Cheers,
-Andre
+> Q: Is there a good guide / how-to somewhere on how to suspend/resume
+> A20-processor based devices, e.g. for `sun4i_csi_runtime_resume()`
+> testing?
 
->  	gpio-line-names =3D
->  		/* PA */
->  		"CON2-P13", "CON2-P11", "CON2-P22", "CON2-P15",
+runtime PM is not related to suspend/resume. It will start and stop the
+device whenever it's actually used instead of keeping it on all the
+time.
 
+If you start a capture and it works, then you've tested runtime PM
+
+Maxime
