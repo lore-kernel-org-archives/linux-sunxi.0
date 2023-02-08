@@ -1,32 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE2A33FF
-	for <linux-sunxi@lists.linux.dev>; Wed,  8 Feb 2023 16:28:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A93BCC433D2;
-	Wed,  8 Feb 2023 16:28:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3362D33C9
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Feb 2023 16:43:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5950C433D2;
+	Wed,  8 Feb 2023 16:43:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1675873723;
-	bh=C7+N9mRaBPOFc2SBvsjZMyh3t4Zdy9AIEyoV7hwJ0gs=;
+	s=k20201202; t=1675874591;
+	bh=9JnV3h9dVys98lzdeX7nLKiew6Xl3wZrBHZ3W+YcEV4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GgZ54k/UjrcxZLbOevM41Jpx8L/10l4ULONIL5wr8WRLjzeLJ9NnytMYyiaZjZg2F
-	 R4cntQYSBX6y4/UFrIlT+FlCPhfkvlS0fGvMbcTvrdnE86bc51fOm/YrSwYpSFX7Kv
-	 biwW2Wk8OHWpl7tFnE4zpaAk+YmSgnGLo1H9TQkYtZazhEYUqAgJfFHZK8fSPjreJ1
-	 4tTE9mIJmz2MSnjjCl4nxEFSQeKfcUGzaWKHd37Ro646Xtt97fj3l1RRGpznhSNbfJ
-	 /MCCcAAwAsEsCVoVDpExpJBfBCTKI4BIbpMKQvpB0WxpXH+tbl5h6KJNquTbqj/ipI
-	 I+7KeCI5yQ0UQ==
-Date: Wed, 8 Feb 2023 16:28:39 +0000
+	b=cVf7PoPR0hfFREHoNOntlFKcTWcwIEawIPfSU4oA0o+namPfcpnELDHhsKGZ7+fCO
+	 /908A6h77w8wfHs97Oh5qBsYnqOBSm1OTlIB+DyYkZTZd1eztbXcnAix+5cEFonI8M
+	 9MblElIhNvZdsIly571mIkuVeE0AdDTVO5uKP1e4uo/gE0pmBD9ePYLYDD72QS8syD
+	 6npy2WkXvy8MhU3l230C3zju6IJDPusKOF1qWRnw4zOfFlHsl1j7VW9A6SjjGUPoN2
+	 GOpwrcRCY2Ctg6FNmo9x6h5U4Bh5EzCDiD+U7jzpuGEYQZmT2DL/hMF6/1JRBC2nFb
+	 q6E3jf+uuWwuA==
+Date: Wed, 8 Feb 2023 16:43:06 +0000
 From: Conor Dooley <conor@kernel.org>
-To: Trevor Woerner <twoerner@gmail.com>, palmer@dabbelt.com,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Paul Walmsley <paul.walmsley@sifive.com>,
+To: Trevor Woerner <twoerner@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] MAINTAINERS: update Allwinner sunXi SoC support entry
-Message-ID: <Y+PNt8JObYK5WZKb@spud>
-References: <20230208142841.19597-1-twoerner@gmail.com>
+	Albert Ou <aou@eecs.berkeley.edu>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] riscv: dts: nezha-d1: add gpio-line-names
+Message-ID: <Y+PRGjn8a26pe5Dy@spud>
+References: <20230208014504.18899-1-twoerner@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -34,64 +37,128 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Qb4K182P4OIRGlj0"
+	protocol="application/pgp-signature"; boundary="S4azWlTkoRx3v2FI"
 Content-Disposition: inline
-In-Reply-To: <20230208142841.19597-1-twoerner@gmail.com>
+In-Reply-To: <20230208014504.18899-1-twoerner@gmail.com>
 
 
---Qb4K182P4OIRGlj0
+--S4azWlTkoRx3v2FI
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 08, 2023 at 09:28:41AM -0500, Trevor Woerner wrote:
-> Update the information in the "Allwinner sunXi SoC support" block:
-> - include more RISC-V information
-> - move the block to keep it in alphabetical order
-> - "L" before "T" (as reported by checkpatch.pl)
+Hey Trevor,
+
+On Tue, Feb 07, 2023 at 08:45:03PM -0500, Trevor Woerner wrote:
+> Add descriptive names so users can associate specific lines with their
+> respective pins on the 40-pin header according to the schematics found at:
+>=20
+> 	http://dl.linux-sunxi.org/D1/D1_Nezha_development_board_schematic_diagra=
+m_20210224.pdf
+
+Dunno about the sunxi folk, but ideally that'd be a Link: tag IMO.
+
 >=20
 > Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+> ---
+>  .../boot/dts/allwinner/sun20i-d1-nezha.dts    | 53 +++++++++++++++++++
+>  1 file changed, 53 insertions(+)
+>=20
+> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts b/arch/ris=
+cv/boot/dts/allwinner/sun20i-d1-nezha.dts
+> index a0769185be97..33489c7619cb 100644
+> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
+> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
+> @@ -90,6 +90,15 @@ pcf8574a: gpio@38 {
+>  		gpio-controller;
+>  		#gpio-cells =3D <2>;
+>  		#interrupt-cells =3D <2>;
+> +		gpio-line-names =3D
+> +			"pin13 [PP0,gpio8] ",
+> +			"pin16 [PP1,gpio10]",
+> +			"pin18 [PP2,gpio11]",
+> +			"pin26 [PP3,gpio17]",
+> +			"pin22 [PP4,gpio14]",
+> +			"pin28 [PP5,gpio19]",
+> +			"pin37 [PP6,gpio23]",
+> +			"pin11 [PP7,gpio6] ";
 
-> -ARM/Allwinner sunXi SoC support
-> -L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
-> -L:	linux-sunxi@lists.linux.dev
+dtbs_check does not like this:
+arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dtb: gpio@38: 'gpio-line-name=
+s' does not match any of the regexes: '^(.+-hog(-[0-9]+)?)$', 'pinctrl-[0-9=
+]+'
+        From schema: Documentation/devicetree/bindings/gpio/nxp,pcf8575.yaml
 
-> +ARM/RISC-V/Allwinner sunXi SoC support
-> +L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
-> +L:	linux-riscv@lists.infradead.org
-> +L:	linux-sunxi@lists.linux.dev
+>  	};
+>  };
+> =20
+> @@ -164,3 +173,47 @@ &usbphy {
+>  	usb1_vbus-supply =3D <&reg_vcc>;
+>  	status =3D "okay";
+>  };
+> +
+> +&pio {
+> +	gpio-line-names =3D
+> +		/* Port A */
+> +		"", "", "", "", "", "", "", "",
+> +		"", "", "", "", "", "", "", "",
+> +		"", "", "", "", "", "", "", "",
+> +		"", "", "", "", "", "", "", "",
+> +		/* Port B */
+> +		"pin5  [PB0, gpio2/twi2-sck]",
+> +		"pin3  [PB1, gpio1/twi2-sda]",
+> +		"",
+> +		"pin38 [PB3, gpio24/i2s2-din]",
+> +		"pin40 [PB4, gpio25/i2s2-dout]",
+> +		"pin12 [PB5, gpio7/i2s-clk]",
+> +		"pin35 [PB6, gpio22/i2s2-lrck]",
+> +		"",
+> +		"pin8  [PB8, gpio4/uart0-txd]",
+> +		"pin10 [PB9, gpio5/uart0-rxd]",
+> +		"",
+> +		"",
+> +		"pin15 [PB12,gpio9]",
 
-IIRC having the arm list is needed here because the arch/arm{,64}
-entries specifically exclude the dts subdir. RISC-V doesn't do that
-though, so adding the list here is mostly redundant.
-
-Not that it matters for this patch, but might be worth doing for the
-RISC-V entry at some point.
-
-Also Trevor, I was about to send the above but noticed that your CC list
-is a bit odd, changing the maintainers entry without CCing any of the
-maintainers listed in it!
-I assume you ran get_maintainer.pl & there was a regex match for riscv
-in it, so only got Palmer & co.
-I've added the sunxi folk to CC & depending on workflow they may ask you
-to resend this.
-
-FWIW if you lot use b4, the msg-id is:
-20230208142841.19597-1-twoerner@gmail.com
+Why not pick a consistent styling w.r.t. the space between PB#, & gpio?
 
 Cheers,
 Conor.
 
+> +		"", "", "", "",
+> +		"", "", "", "", "", "", "", "",
+> +		"", "", "", "", "", "", "", "",
+> +		/* Port C */
+> +		"",
+> +		"pin31 [PC1, gpio21]",
+> +		"", "", "", "", "", "",
+> +		"", "", "", "", "", "", "", "",
+> +		"", "", "", "", "", "", "", "",
+> +		"", "", "", "", "", "", "", "",
+> +		/* Port D */
+> +		"", "", "", "", "", "", "", "",
+> +		"", "",
+> +		"pin24 [PD10,gpio16/spi1-ce0]",
+> +		"pin23 [PD11,gpio15/spi1-clk]",
+> +		"pin19 [PD12,gpio12/spi1-mosi]",
+> +		"pin21 [PD13,gpio13/spi1-miso]",
+> +		"pin27 [PD14,gpio18/spi1-hold]",
+> +		"pin29 [PD15,gpio20/spi1-wp]",
+> +		"", "", "", "", "", "",
+> +		"pin7  [PD22,gpio3/pwm]";
+> +};
+> --=20
+> 2.36.0.rc2.17.g4027e30c53
+>=20
 
---Qb4K182P4OIRGlj0
+--S4azWlTkoRx3v2FI
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY+PNtwAKCRB4tDGHoIJi
-0kDIAQDWdvyj262sL9izmrDv21mnh+0Sis8AAtWRYHpiSnBjCwD/YCGSzHggTMcl
-sFZp9o8YamSATf2K1K7j1rqb3M4tJgA=
-=i4oP
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY+PRGgAKCRB4tDGHoIJi
+0iRiAP4vgkyStKLRofn1o81fjP/aeDkslORttfK0szBbB8AwZgD7B96WjbtVAZkn
+oXsPbP3B0H5zboAMRKCEfxhs0feWaQY=
+=E3Jw
 -----END PGP SIGNATURE-----
 
---Qb4K182P4OIRGlj0--
+--S4azWlTkoRx3v2FI--
