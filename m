@@ -1,250 +1,97 @@
-Received: from mx.flying-snail.de (mx.flying-snail.de [185.101.94.82])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA22F9478
-	for <linux-sunxi@lists.linux.dev>; Wed,  8 Feb 2023 12:50:35 +0000 (UTC)
-Received: from [2a02:908:1b0:8800:2ff:ffff:fe11:2236] (helo=mondbasis.internal.flying-snail.de)
-	by mx.flying-snail.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <andreas@feldner-bv.de>)
-	id 1pPjtp-002BgJ-EI; Wed, 08 Feb 2023 13:50:09 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=feldner-bv.de; s=s1; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-	From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=/yDnLpZT7axdNeq6mVTzNC/zbjG2jenE6smkcCw0zAE=; b=n85tM6HuohF6nDWC8PXqfLPS4J
-	qYSDH74RbZhBNEyROpJ7K8XgiXBBXTRuMkp9t5cTqkmfOnwOO7Yr6VdQ3LgqLCWY8bLq9iohJgjWa
-	ZIJv0SdWbQJp+ZUc/3okp+KU94+eExofJ3A0xdTcAh1nIKG0w86ORpZeMzOhChOfGesGYnaidKTNd
-	MPXkFMo+3HKrF6P8IU/u0y9C2DF1E1TDxEzfGzSizpRNM1QjZ3a0TFnqyO1pSfiVP/amLR7YFPX9V
-	tYZIwT8Q0M3N5YlAVutxXzjtWX6LF5hTU3y/t8ZDi2MINPxYq7Rp3Zyqn5WyEvo8tMvfUt1y/E/QR
-	ZCX2ptGQ==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=flying-snail.de; s=s1; h=Content-Transfer-Encoding:Content-Type:In-Reply-To
-	:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=/yDnLpZT7axdNeq6mVTzNC/zbjG2jenE6smkcCw0zAE=; b=q4DG6sv/JEUdtmV13KalBww4Ve
-	cL7+6cBHdfMjpgaNNdluk+P7Lmz4PHdEGZCPBc0RMfPItQ+yQRHo1tGzvnfjEgrsWdrq87jXDn9gt
-	ukmLrc9ToDlLLPMpRLejxCdIS/2uUaQamEcPc8unH51fC02eVTwzrRmh2wIS1Dx+MUFIfRafYsjVQ
-	22VANNKGHzoqvnx1xhH0mQ74iubveKj3vyI9Rc77DlPg/toUoPQVwnX1/9kjMm5exFhzC/Y3TzWw9
-	zCPKRj4DjXsKX8qPIwihSOEoKAIH8IdEVUb59dk9z5GIQEzaOnw3OTTB4YW7oYg2hRhh9NrvvIcU6
-	vHNI80hQ==;
-Received: from [2a02:908:1b0:8800:99b0:f082:b591:5921]
-	by mondbasis.internal.flying-snail.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.94.2)
-	(envelope-from <andreas@feldner-bv.de>)
-	id 1pPjtl-000HS2-EE; Wed, 08 Feb 2023 13:50:08 +0100
-Message-ID: <d0534762-3785-ec2d-8d1e-aba0e39f701b@feldner-bv.de>
-Date: Wed, 8 Feb 2023 13:50:04 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE2A33FF
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Feb 2023 16:28:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A93BCC433D2;
+	Wed,  8 Feb 2023 16:28:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1675873723;
+	bh=C7+N9mRaBPOFc2SBvsjZMyh3t4Zdy9AIEyoV7hwJ0gs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GgZ54k/UjrcxZLbOevM41Jpx8L/10l4ULONIL5wr8WRLjzeLJ9NnytMYyiaZjZg2F
+	 R4cntQYSBX6y4/UFrIlT+FlCPhfkvlS0fGvMbcTvrdnE86bc51fOm/YrSwYpSFX7Kv
+	 biwW2Wk8OHWpl7tFnE4zpaAk+YmSgnGLo1H9TQkYtZazhEYUqAgJfFHZK8fSPjreJ1
+	 4tTE9mIJmz2MSnjjCl4nxEFSQeKfcUGzaWKHd37Ro646Xtt97fj3l1RRGpznhSNbfJ
+	 /MCCcAAwAsEsCVoVDpExpJBfBCTKI4BIbpMKQvpB0WxpXH+tbl5h6KJNquTbqj/ipI
+	 I+7KeCI5yQ0UQ==
+Date: Wed, 8 Feb 2023 16:28:39 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Trevor Woerner <twoerner@gmail.com>, palmer@dabbelt.com,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] MAINTAINERS: update Allwinner sunXi SoC support entry
+Message-ID: <Y+PNt8JObYK5WZKb@spud>
+References: <20230208142841.19597-1-twoerner@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH] ARM: dts: allwinner: minimize irq debounce filter per
- default
-To: Andre Przywara <andre.przywara@arm.com>,
- Andreas Feldner <pelzi@flying-snail.de>
-Cc: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <Y+FaVorMl37F5Dve@debian-qemu.internal.flying-snail.de>
- <20230207011608.2ce24d17@slackpad.lan>
-From: Andreas Feldner <andreas@feldner-bv.de>
-In-Reply-To: <20230207011608.2ce24d17@slackpad.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-Hi Andre,
-
-Am 07.02.23 um 02:16 schrieb Andre Przywara:
-> On Mon, 6 Feb 2023 20:51:50 +0100
-> Andreas Feldner <pelzi@flying-snail.de> wrote:
->
-> Hi Andreas,
->
-> thanks for taking care about this board and sending patches!
-Thank YOU for maintaining it!
->> The SoC features debounce logic for external interrupts. Per default,
->> this is based on a 32kHz oscillator, in effect filtering away multiple
->> interrupts separated by less than roughly 100ï¿½s.
->>
->> This patch sets different defaults for this filter for this board:
->> PG is connected to non-mechanical components, without any risk for
->> showing bounces. PA is mostly exposed to GPIO pins, however the
->> existence of a debounce filter is undesirable as well if electronic
->> components are connected.
-> So how do you know if that's the case? It seems to be quite normal to
-> just connect mechanical switches to GPIO pins.
->
-> If you are trying to fix a particular issue you encountered, please
-> describe that here, and say how (or at least that) the patch fixes it.
->
-> And I would suggest to treat port G and port A differently. If you
-> need a lower debounce threshold for port A, you can apply a DT overlay
-> in U-Boot, just for your board.
-
-Fair enough. You run into problems when you connect (electronic)
-devices to bank A (typically by the 40pin CON2 connector), where
-the driver requires fast IRQs to work. In my case this has been a
-DHT22 sensor, and the default debounce breaking the dht11.ko
-driver.
-
-Now, what kind of problem is this - I'm no way sure:
-
-a) is it an unlucky default, because whoever connects a mechanical
-switch will know about the problem of bouncing and be taking
-care to deal with it (whereas at least I was complete unsuspecting
-when connecting an electronic device that a debounce function
-might be in place), or
-
-b) is it a bug in the devicetree for (at least) the BananaPi M2 Zero,
-because the IRQ bank G is hard wired to electronic devices that
-should not be fenced by a debouncing function, or
-
-c) is it missing dt binding documentation of the input-debounce
-attribute?
-
-Anyway, the combination of these is quite irritating. To me it
-seems a sufficiently elegant solution to explicitly include the
-setting in the devicetree and leave it to whoever is unhappy
-with it, to create a better suited device tree overlay.
-
->> Additionally, the clock-frequency attribute is added for each of
->> the 4 cores to eliminate the kernel error message on boot, that
->> the attribute is missing.
->>
->> Signed-off-by: Andreas Feldner <pelzi@flying-snail.de>
->> ---
->>   .../dts/sun8i-h2-plus-bananapi-m2-zero.dts     | 18 ++++++++++++++++++
->>   1 file changed, 18 insertions(+)
->>
->> diff --git a/arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dts b/arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dts
->> index d729b7c705db..1fc0d5d1e51a 100644
->> --- a/arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dts
->> +++ b/arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dts
->> @@ -113,6 +113,22 @@ wifi_pwrseq: wifi_pwrseq {
->>   
->>   &cpu0 {
->>   	cpu-supply = <&reg_vdd_cpux>;
->> +	clock-frequency = <1296000000>;
-> I see where you are coming from, this is really an unnecessary warning
-> message. However this message should be really removed from the kernel
-> instead of adding some rather meaningless value here.
-> The current DT spec marks this property as required, though, so I added
-> a PR there to get this fixed:
-> https://github.com/devicetree-org/devicetree-specification/pull/61
-> Once this is through, we can try to remove the kernel message.
-
-OK, so I'll take care to have this change removed from my patch.
-I thought so, but then it was the configuration I'd been testing with...
-
->> +};
->> +
->> +&cpu1 {
->> +	cpu-supply = <&reg_vdd_cpux>;
-> I don't think we need this for every core?
-
-I came across a discussion that this was marked required on the
-cpu@... level whereas it would make sense on the cpus level. I did
-not check if this suggestion was implemented in the meantime,
-sorry!
-
->> +	clock-frequency = <1296000000>;
->> +};
->> +
->> +&cpu2 {
->> +	cpu-supply = <&reg_vdd_cpux>;
->> +	clock-frequency = <1296000000>;
->> +};
->> +
->> +&cpu3 {
->> +	cpu-supply = <&reg_vdd_cpux>;
->> +	clock-frequency = <1296000000>;
->>   };
->>   
->>   &de {
->> @@ -193,6 +209,8 @@ bluetooth {
->>   };
->>   
->>   &pio {
->> +	/* 1ï¿½s debounce filter on both IRQ banks */
-> Is that supposed to be <micro> in UTF-8? It seems to have got lost in
-> translation, or is that just me?
-O yes, the Greek character slipped into the comment.
->> +	input-debounce = <1 1>;
-> As mentioned above, I am not so sure this is generic enough to put it
-> here for PA. And what is the significance of "1 us", in particular? Is
-> that just the smallest value?
-
-Yes indeed it's a bit more complicated than I feel it needs to be. The
-configuration is taken as microseconds and translated into the best
-matching clock and divider by the driver. However, 0 is not translated
-to the lowest divider of the high speed clock as would be logical if
-you ask for zero microseconds, but to "leave at default". The default
-of the board is 0 in the register, translating to lowest divider on the
-_low_ speed clock.
-
-To me this is mindboggling.
-
-If you want to keep IRQ bank A as it is today and switch off the
-definitely unnecessary (and _potentially_ IRQ eating) debounce off
-for bank G only, I'd suggest the following setting:
-
-     input-debounce = <31 1>;
-
-This is because 31 Microseconds is exactly the time that is best
-matched by the low speed clock with low divider and translated
-to a 0 in the config register by the driver.
-
-The absolutely equivalent setting, with the only drawback that it
-would have confused me to death is:
-
-     input-debounce = <0 1>;
-
-(because it skips setting IRQ bank A debouncing, leaving it at 31.25 us)
-
-Or, and that was my suggestion, you set both correctly for
-electronic devices and leave the task of switching on debouncing
-to the implementors of applications with mechanical switches:
-
-     input-debounce = <1 1>;
-
-To me, any of these being present in the devicetree would have been
-of great help, because I would have seen that there is something
-to set.
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Qb4K182P4OIRGlj0"
+Content-Disposition: inline
+In-Reply-To: <20230208142841.19597-1-twoerner@gmail.com>
 
 
-One final question: how would you like this change:
+--Qb4K182P4OIRGlj0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
---- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-+++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-@@ -1467,6 +1467,10 @@ static int sunxi_pinctrl_setup_debounce(struct 
-sunxi_pinctrl *pctl,
-                 writel(src | div << 4,
-                        pctl->membase +
-sunxi_irq_debounce_reg_from_bank(pctl->desc, i));
-+
-+               pr_info("Debounce filter for IRQ bank %d configured to "
-+                       "%d us (reg %x)\n",
-+                       i, debounce, src | div << 4);
-         }
+On Wed, Feb 08, 2023 at 09:28:41AM -0500, Trevor Woerner wrote:
+> Update the information in the "Allwinner sunXi SoC support" block:
+> - include more RISC-V information
+> - move the block to keep it in alphabetical order
+> - "L" before "T" (as reported by checkpatch.pl)
+>=20
+> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 
-         return 0;
+> -ARM/Allwinner sunXi SoC support
+> -L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+> -L:	linux-sunxi@lists.linux.dev
 
-It helped me to cross-check what the driver is really doing, and it
-again would have helped me with me DHT problem to learn about
-the existence of a debouncing filter.
+> +ARM/RISC-V/Allwinner sunXi SoC support
+> +L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+> +L:	linux-riscv@lists.infradead.org
+> +L:	linux-sunxi@lists.linux.dev
 
-Yours,
+IIRC having the arm list is needed here because the arch/arm{,64}
+entries specifically exclude the dts subdir. RISC-V doesn't do that
+though, so adding the list here is mostly redundant.
 
-Andreas.
+Not that it matters for this patch, but might be worth doing for the
+RISC-V entry at some point.
+
+Also Trevor, I was about to send the above but noticed that your CC list
+is a bit odd, changing the maintainers entry without CCing any of the
+maintainers listed in it!
+I assume you ran get_maintainer.pl & there was a regex match for riscv
+in it, so only got Palmer & co.
+I've added the sunxi folk to CC & depending on workflow they may ask you
+to resend this.
+
+FWIW if you lot use b4, the msg-id is:
+20230208142841.19597-1-twoerner@gmail.com
+
+Cheers,
+Conor.
 
 
+--Qb4K182P4OIRGlj0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY+PNtwAKCRB4tDGHoIJi
+0kDIAQDWdvyj262sL9izmrDv21mnh+0Sis8AAtWRYHpiSnBjCwD/YCGSzHggTMcl
+sFZp9o8YamSATf2K1K7j1rqb3M4tJgA=
+=i4oP
+-----END PGP SIGNATURE-----
+
+--Qb4K182P4OIRGlj0--
