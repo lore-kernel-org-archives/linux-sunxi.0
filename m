@@ -1,87 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210F97F4;
-	Fri, 10 Feb 2023 06:05:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C77ADC433D2;
-	Fri, 10 Feb 2023 06:05:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1676009109;
-	bh=R+M0ft2NoW5OEkw9Yp/lx0D4Vb1O1La2tMhNLmrHwBk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UzFaShVbYUL6AnzcrewjwVNrWiJJde9hTV8N08ircjXv3C51e3nW1I8NUd2RMI+7M
-	 3qFjHfFG7uUtTMfQ3B0mmemAuWTzOCQsVIym1QDac0Fwh6uGDPSj2lZQFVTwFfBf+J
-	 qXnz//A5czX2LOvB+wyWER7bwOfG59bq2nmKpbzKWgYYw14Kf2JzmmQlTomzMeLQhA
-	 +POxMFnDWrSFug3xwaq+SJuL5KJIXJArxMGqB99mLZ2l/k2nVd4Lq/Gs3AhFG9XiUR
-	 hLRjRPu2RUQIFYOBXTlsc2I6Deu+PJSzIOoLmDbZH50Qu31YrxFNc0fxfN1/oMMCik
-	 pcYUxYygwH29Q==
-Date: Fri, 10 Feb 2023 11:35:05 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh+dt@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4936A21
+	for <linux-sunxi@lists.linux.dev>; Fri, 10 Feb 2023 08:29:41 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id AD7F95C00E4;
+	Fri, 10 Feb 2023 03:29:40 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Fri, 10 Feb 2023 03:29:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1676017780; x=1676104180; bh=uiCqwTBEe0
+	viYok2ufMUsJ+Af16OiXAcjw4HpacnMW8=; b=CdqPoCjRjHWyCt876eRW7jlDxI
+	Uu1x/7QDk31H0wd7iGPfTDiT6iZTVxbJ7jcHvoJgVzniIsfiaR2XbCKXdQhz2+Bz
+	yMvrK3cqSxmtso9E6i+qP/D8XgZS1/bDkmmxFsEN9nsLaFEJd1DZZ2FS8gmYURyx
+	luDHBvhPMO/+0qbsILTUlcWoRXJYeRmigmAnRNc3kFh3mLzl6b7f+5qHpP9Q+lx4
+	6hTZ+X68BxlWtYqXeVTc1LewfYdpUi16BKloI5u4tzni0G7wU7vdSw3Xn65Vfi2y
+	/ibVkOB2DE4iFkH+/5G3VQJz3/5vE8hemNk4nJqVHOfVJ4ojR+8nsodaam5g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1676017780; x=1676104180; bh=uiCqwTBEe0viYok2ufMUsJ+Af16O
+	iXAcjw4HpacnMW8=; b=q1oILHirAjf/5bseLhy6ayhC17Y8jgiwf5VaZiV3D11C
+	bykVUmLjB7bD9cZUNU9uLfzuo6bzivWv0W9884ctvsSgCvL6npffip9YfWstrccD
+	9+gzmOtwidOF+RnRFgkhQSL+tECUpGiJtRf2ukkeNZ6dKoZ0hjFktXtWyMak7Wjw
+	81+4WWowjwhWiT/C69qdFbX3cE5vt1VC3EZ0mJp4+XdtwL+7lt3oTtjQctDlJ8u3
+	r8TXHebWQ2JntmPZ2wSQZOGTCHUM7VcIJ1/SsBsbrWUdCN5lXWaK+bnMd6B0F3Ii
+	ndQZRPlsFotHrvBbKg2YdrUFif9S4XW44XMIy93TAw==
+X-ME-Sender: <xms:cwDmY-5wwv-8qWHlTbLIJ2YybO6v8LiAFkeZ5TbuuykS-fRNDrRBrQ>
+    <xme:cwDmY34Fnl6SYM4fxrbRomAuxPEK0Rs6S_Lvix9e8x1oan_OGRXAWKtI7_l8iH6e7
+    39Bso7cVxpxixWbTco>
+X-ME-Received: <xmr:cwDmY9fiv41Kis3OVoe36JAIhjVxnZfvlDQRn1tRn1LQb58byoMvQYy9GHVuGqjeeD5M4A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudehgedguddujecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgig
+    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+    grthhtvghrnhepjeevfeehfeekieffgeevleevtefgffefkedtfeeuhfettdegjeehgfeg
+    udffffdunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:cwDmY7IrmJWCbPG6dElEm1mJ47CTqc3zAG2P8Zb_9CAAkuVRKZAy4w>
+    <xmx:cwDmYyJLaEnvEDC6-MH3Py79FNY4XGMNo-yAkuRtQA-cT4-EgkCB4A>
+    <xmx:cwDmY8wlJzVJMytapZgW9i53wqW8Sp0X103aieDA1J9BxdpcnkCRnQ>
+    <xmx:dADmYy6aGPaSxQgtI488ULeJ1kCAuThA_NOt0uj6eEnTw_ixRk_Sdw>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 10 Feb 2023 03:29:39 -0500 (EST)
+Date: Fri, 10 Feb 2023 09:29:36 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Andreas Feldner <andreas@feldner-bv.de>,
+	Andreas Feldner <pelzi@flying-snail.de>,
+	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Olivier Dautricourt <olivierdautricourt@gmail.com>,
-	Stefan Roese <sr@denx.de>, Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Green Wan <green.wan@sifive.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	=?utf-8?B?77+9ZXI=?= <povik+lin@cutebit.org>,
-	Peng Fan <peng.fan@nxp.com>, Paul Cercueil <paul@crapouillou.net>,
-	- <chuanhua.lei@intel.com>, Long Cheng <long.cheng@mediatek.com>,
-	Rajesh Gumasta <rgumasta@nvidia.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Palmer Debbelt <palmer@sifive.com>,
-	Masahiro Yamada <yamada.masahiro@socionext.com>,
-	Amelie Delaunay <amelie.delaunay@foss.st.com>,
-	Linus Walleij <linus.walleij@linaro.org>, dmaengine@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-mediatek@lists.infradead.org, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: dma: drop unneeded quotes
-Message-ID: <Y+XekQsIwpixyPD0@matsya>
-References: <20230124081117.31186-1-krzysztof.kozlowski@linaro.org>
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ARM: dts: allwinner: minimize irq debounce filter per
+ default
+Message-ID: <20230210082936.qefzz4fsp3jpalvp@houat>
+References: <Y+FaVorMl37F5Dve@debian-qemu.internal.flying-snail.de>
+ <20230207011608.2ce24d17@slackpad.lan>
+ <d0534762-3785-ec2d-8d1e-aba0e39f701b@feldner-bv.de>
+ <20230209202952.673d5a60@slackpad.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3nragrb2jbk2zyfl"
 Content-Disposition: inline
-In-Reply-To: <20230124081117.31186-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230209202952.673d5a60@slackpad.lan>
 
-On 24-01-23, 09:11, Krzysztof Kozlowski wrote:
-> Cleanup by removing unneeded quotes from refs and redundant blank lines.
-> No functional impact except adjusting to preferred coding style.
 
-Applied both, thanks
+--3nragrb2jbk2zyfl
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-~Vinod
+On Thu, Feb 09, 2023 at 08:29:52PM +0000, Andre Przywara wrote:
+> > >>   &pio {
+> > >> +	/* 1=EF=BF=BDs debounce filter on both IRQ banks */
+> > > Is that supposed to be <micro> in UTF-8? It seems to have got lost in
+> > > translation, or is that just me?
+> > O yes, the Greek character slipped into the comment.
+> > >> +	input-debounce =3D <1 1>;
+> > > As mentioned above, I am not so sure this is generic enough to put it
+> > > here for PA. And what is the significance of "1 us", in particular? Is
+> > > that just the smallest value? =20
+> >=20
+> > Yes indeed it's a bit more complicated than I feel it needs to be. The
+> > configuration is taken as microseconds and translated into the best
+> > matching clock and divider by the driver. However, 0 is not translated
+> > to the lowest divider of the high speed clock as would be logical if
+> > you ask for zero microseconds, but to "leave at default". The default
+> > of the board is 0 in the register, translating to lowest divider on the
+> > _low_ speed clock.
+>=20
+> I'd say the "if (!debounce) continue;" code is just to defend against
+> the division by zero, which would be the next statement to execute.
+>=20
+> We might want to change that to interpret 0 as "lowest possible", which
+> would be 24MHz/1. Please feel free to send a patch in this regard, and
+> CC: Maxime, to get some input on that idea.
+
+I never had any complaint on that part either, so the default looks sane
+to me.
+
+If some board needs a higher debouncing rate, then we should obviously
+set it up in the device tree of that board, but changing it for every
+user also introduces the risk of breaking other boards that actually
+require a lower debouncing frequency.
+
+And any default is always going to be debated, there's one, it seems to
+create little controversy, it seems to work in most case, I'd just stick
+with it.
+
+> > To me this is mindboggling.
+> >=20
+> > If you want to keep IRQ bank A as it is today and switch off the
+> > definitely unnecessary (and _potentially_ IRQ eating) debounce off
+> > for bank G only, I'd suggest the following setting:
+> >=20
+> >  =A0=A0=A0 input-debounce =3D <31 1>;
+>=20
+> It should be documented that the effective default is 31, I guess the
+> binding is the right place.
+
+Yeah, if the documentation is lacking, we should definitely improve it.
+
+Maxime
+
+--3nragrb2jbk2zyfl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY+YAawAKCRDj7w1vZxhR
+xYg7AP0ckcuX2nOcAZ6OY/Rg9KQEpnr6I19NX9UOSX+nlSREVgD+JSHvch+fVoZk
+53OrNbFnFVJH7IBNYSyVW1yqOhvuoA4=
+=eFLj
+-----END PGP SIGNATURE-----
+
+--3nragrb2jbk2zyfl--
