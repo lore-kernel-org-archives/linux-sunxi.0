@@ -1,207 +1,213 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.flying-snail.de (mx.flying-snail.de [185.101.94.82])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B3A629
-	for <linux-sunxi@lists.linux.dev>; Fri, 10 Feb 2023 20:37:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 275F4C433EF;
-	Fri, 10 Feb 2023 20:37:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1676061459;
-	bh=kQcgBSgO4Pqd5pDJgSZbOuSbBKNIGIndQLymWgAO8R8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qHjTKPxAdg1gmrYBi4vhRVNACilMQYwGyPPMLgVNF9QeXdfp4VOIUZaZZrXsqkh5q
-	 YKzI3XvYrdiWDuCB49ASSxVcvcenNUDPwACZ5fjgsiAI3qUXc2LTvmbUszU7b/5nf9
-	 /I72vAB2w5WOrvOWEddhvDlBydvYelP4/KeOS+HmfEC0xb9UXdb7EUrLmGSgV1Xelw
-	 LjGIxuJQDUZkmNGoaTj56V8Mv2B0dYaNTUYiEwNSb96XKoUojzwgQky60l8aiIUFYP
-	 WMhYtzdgF+6Q21nLPxlDE8YsL2Xeu7TgbEEiF63wPtPaR3qIpCgrjuCKHZg+wQd2qP
-	 3jqVLhF34VIhA==
-Date: Fri, 10 Feb 2023 20:37:34 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 2/2] riscv: dts: nezha-d1: add gpio-line-names
-Message-ID: <Y+arDr+XTp85CDRc@spud>
-References: <20230210025132.36605-1-twoerner@gmail.com>
- <20230210025132.36605-2-twoerner@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E2E1C39
+	for <linux-sunxi@lists.linux.dev>; Sat, 11 Feb 2023 12:51:23 +0000 (UTC)
+Received: from [2a02:908:1b0:8800:2ff:ffff:fe11:2236] (helo=mondbasis.internal.flying-snail.de)
+	by mx.flying-snail.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <pelzi@flying-snail.de>)
+	id 1pQpLF-002hh1-Am; Sat, 11 Feb 2023 13:50:57 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=feldner-bv.de; s=s1; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+	From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=d9+iGEgIwRxflVdlATRLt0hCy8G+dB+4w5pm+7iqI14=; b=PI/Q80g4tetscIgyvihMyUpGh4
+	nnz/oFO9lfOvUvBmHx6ol16tXHqmEtPREVxnK64egg8NBbUoVRq4w7jWclL/v6yJmQ8FKcUI/6kAe
+	Tluxm2ghldkUGi25fB//AJj7256gClRKKfq++VK+FveHCiLOcwMXxjpnHMwrjqa/OEWxTB4nybMQx
+	g6Am0BU6vsrE7GwPICQIk9l25oHglOgzPNfzhU5MFHFz/qYIy0VLfkcnXFGwRuNu5TFkKUXHHJKyV
+	ScYTpaM0ifzPej26OTfLMh2InAhJGOm1HpCvW8OmTLsbDxO4mGXCEESF6Pol+tL0sY8dKPVmsMTpw
+	X4883lPg==;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=flying-snail.de; s=s1; h=Content-Transfer-Encoding:Content-Type:In-Reply-To
+	:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=d9+iGEgIwRxflVdlATRLt0hCy8G+dB+4w5pm+7iqI14=; b=fJgY/eWzvmTTCcO7ad/pIzRmpZ
+	Gp+xQX7tyZnZk4va0rRX26ficlzosr7VBrv4ZWLskyTQkhSpX8DQaVkAeZbm1J5MzKyx/AdFaxAPH
+	1o0SAnFsLzvfEZ5wp+vOi+ub7VPpy8q4NQPxatyRhhlG+W1Pb3NFQlFsUOTCIxlrn8JiUioSt3ESd
+	EC0+saalsfrqNkIItLn8kxRH0G6bBHj/R0vBx7lq0fSr7Gph28lDfIC6K2qF7Rr+SgMB0CnRW6s85
+	HhIERDokogpKV6zMMKhkp7KQug16pUV5EtA+38+f73pIayL+59gBH6zALtuePrKhEpCsna64/mk0d
+	4NqvmPbQ==;
+Received: from [2a02:908:1b0:8800:b4d0:2d46:3866:fddf]
+	by mondbasis.internal.flying-snail.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.94.2)
+	(envelope-from <pelzi@flying-snail.de>)
+	id 1pQpLC-000diM-25; Sat, 11 Feb 2023 13:50:56 +0100
+Message-ID: <ba463d40-3d39-a621-b198-191fdbe239a1@feldner-bv.de>
+Date: Sat, 11 Feb 2023 13:50:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="hZ8ik5mZsnIy+h/o"
-Content-Disposition: inline
-In-Reply-To: <20230210025132.36605-2-twoerner@gmail.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH] ARM: dts: allwinner: minimize irq debounce filter per
+ default
+To: Andre Przywara <andre.przywara@arm.com>, Maxime Ripard <maxime@cerno.tech>
+Cc: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <Y+FaVorMl37F5Dve@debian-qemu.internal.flying-snail.de>
+ <20230207011608.2ce24d17@slackpad.lan>
+ <d0534762-3785-ec2d-8d1e-aba0e39f701b@feldner-bv.de>
+ <20230209202952.673d5a60@slackpad.lan>
+ <20230210082936.qefzz4fsp3jpalvp@houat>
+ <20230210094425.474cfba5@donnerap.cambridge.arm.com>
+ <20230210100620.z6j7rvkiwyu7paij@houat>
+ <20230210101814.2d36ae57@donnerap.cambridge.arm.com>
+From: pelzi@flying-snail.de
+In-Reply-To: <20230210101814.2d36ae57@donnerap.cambridge.arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+Am 10.02.23 um 11:18 schrieb Andre Przywara:
+> On Fri, 10 Feb 2023 11:06:20 +0100
+> Maxime Ripard <maxime@cerno.tech> wrote:
+>
+>> On Fri, Feb 10, 2023 at 09:44:25AM +0000, Andre Przywara wrote:
+>>> On Fri, 10 Feb 2023 09:29:36 +0100
+>>> Maxime Ripard <maxime@cerno.tech> wrote:
+>>>
+>>> Hi Maxime,
+>>>
+>>> thanks for the reply!
+>>>    
+>>>> On Thu, Feb 09, 2023 at 08:29:52PM +0000, Andre Przywara wrote:
+>>>>>>>>    &pio {
+>>>>>>>> +	/* 1ï¿½s debounce filter on both IRQ banks */
+>>>>>>> Is that supposed to be <micro> in UTF-8? It seems to have got lost in
+>>>>>>> translation, or is that just me?
+>>>>>> O yes, the Greek character slipped into the comment.
+>>>>>>>> +	input-debounce = <1 1>;
+>>>>>>> As mentioned above, I am not so sure this is generic enough to put it
+>>>>>>> here for PA. And what is the significance of "1 us", in particular? Is
+>>>>>>> that just the smallest value?
+>>>>>> Yes indeed it's a bit more complicated than I feel it needs to be. The
+>>>>>> configuration is taken as microseconds and translated into the best
+>>>>>> matching clock and divider by the driver. However, 0 is not translated
+>>>>>> to the lowest divider of the high speed clock as would be logical if
+>>>>>> you ask for zero microseconds, but to "leave at default". The default
+>>>>>> of the board is 0 in the register, translating to lowest divider on the
+>>>>>> _low_ speed clock.
+>>>>> I'd say the "if (!debounce) continue;" code is just to defend against
+>>>>> the division by zero, which would be the next statement to execute.
+>>>>>
+>>>>> We might want to change that to interpret 0 as "lowest possible", which
+>>>>> would be 24MHz/1. Please feel free to send a patch in this regard, and
+>>>>> CC: Maxime, to get some input on that idea.
+>>>> I never had any complaint on that part either, so the default looks sane
+>>>> to me.
+>>>>
+>>>> If some board needs a higher debouncing rate, then we should obviously
+>>>> set it up in the device tree of that board, but changing it for every
+>>>> user also introduces the risk of breaking other boards that actually
+>>>> require a lower debouncing frequency.
+>>> Yeah, we definitely should keep the default at 32KHz/1, as this is also
+>>> the hardware reset value.
+>>>
+>>> Not sure if you were actually arguing this, but the change I sketched
+>>> above (interpreting 0 as 24MHz/1) is separate though, as the current
+>>> default is "no DT property", and not 0. There is no input-debounce
+>>> property user in the kernel tree at the moment, so we wouldn't break
+>>> anyone. The only thing that would change is if a downstream user was
+>>> relying on "0" being interpreted as "skip the setup", which isn't
+>>> really documented and could be argued to be an implementation detail.
+>>>
+>>> So I'd suggest to implement 0 as "lowest possible", and documenting that
+>>> and the 32KHz/1 default if no property is given.
+>> Ah, my bad.
+>>
+>> There's another thing to consider: there's already a generic per-pin
+>> input-debounce property in pinctrl.
+>>
+>> Since we can't control it per pin but per bank, we moved it to the
+>> controller back then, but there's always been this (implicit)
+>> expectation that it was behaving the same way.
+>>
+>> And the generic, per-pin, input-debounce documentation says:
+>>
+>>> Takes the debounce time in usec as argument or 0 to disable debouncing
+>> I agree that silently ignoring it is not great, but interpreting 0 as
+>> the lowest possible is breaking that behaviour which, I believe, is a
+>> worse outcome.
+> Is it really? If I understand the hardware manuals correctly, we cannot
+> really turn that feature off, so isn't the lowest possible time period (24
+> MHz/1 at the moment) the closest we can get to "turn it off"? So
+> implementing this would bring us actually closer to the documented
+> behaviour? Or did I get the meaning of this time period wrong?
+> At least that's my understanding of how it fixed Andreas' problem: 1µs
+> is still not "off", but much better than the 31µs of the default. The new
+> 0 would then be 0.041µs.
+I would fully agree. There seems to be no way to turn off the debouncing
+filter, and in terms of that filter, the lowest possible time is closest 
+to "off".
+The SoC default is equivalent to 31 us, far, far away from "off", the 
+currently
+configurable minimum is 1us.
 
---hZ8ik5mZsnIy+h/o
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I did a patch that enables to set "0" in the device tree configuration 
+and it
+takes care not to do a #div0, but to determine the lowest possible time. As
+the patch is done in the driver for a device that cannot switch off 
+debouncing,
+I'd say, the driver patched in that way does its best to come as close 
+to the
+intended outcome as is possible.
 
-Hey Trevor,
+I tested this setting on the Banana M2 Zero board, and it is working (does
+the right thing setting the relevant registers to value 0x0001, and the 
+board
+works in general, w/o producing smoke. (I have no idea how to test if
+the debouncing filter is actually faster with setting "0" than with 
+setting "1",
+I can only confirm it is not significantly slower).
 
-Just one thing about process sorta stuff, ordinarily a new version is
-not posted as a reply to the last one.
-If you look on lore, you'll see it looks a bit odd:
-https://lore.kernel.org/all/20230210025132.36605-2-twoerner@gmail.com/
-(scroll to "thread overview")
+If we can agree on a concrete way to go I'm happy to try to produce a new
+patch version. My suggestion from the discussion:
 
-Tooling may/may not do the right thing w.r.t. testing/application of
-the patches as a result.
+- Change drivers/pinctrl/sunxi/pinctrl-sunxi.c to set the minimum
+    possible filter time when input-debounce is configured to "0"
+    (corresponding to 1 on the affected hardware register).
+    What I don't like is the huge gap between configuration 1 and 0, but
+    I have no idea what to do about it without breaking all compatibility.
 
-On Thu, Feb 09, 2023 at 09:51:32PM -0500, Trevor Woerner wrote:
-> Add descriptive names so users can associate specific lines with their
-> respective pins on the 40-pin header according to the schematics.
->=20
-> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+- in arch/arm/boot/dts/sunxi-h3-h5.dtsi, set input-debounce <31 31>
+    corresponding to the default "0" in both affected hardware registers.
+    Note that the clocks hosc and losc that make this 31 map to 0 are
+    configured exactly here.
 
-Comment looks nice & there are no more warnings from dtbs_check :)
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+- in arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dts, set
+    input-debounce <31 0> as this board has electronic devices
+    attached to bank G and only exposes bank A to its users.
+    I'd like to advertise on that one: this board does not require
+    debouncing on bank G. Plus it feels the board got more stable
+    by this setting: my BananaPi is connected via WiFi (only) and in the
+    past it went apparently dead every other day or so. Nothing like
+    this happened after switching off input debounce. Anectdotal
+    evidence, I know...
 
-Thanks,
-Conor.
+- (in my devicetree overlay, I set input-debounce <0 0> to make IRQ
+    based drivers like drivers/iio/humidity/dht11.c work on bank A) -
+    not part of the patch.
 
-> Link: http://dl.linux-sunxi.org/D1/D1_Nezha_development_board_schematic_d=
-iagram_20210224.pdf
-> ---
-> changes since v2:
-> - (no changes, skip to a v3 to align with the other patch in this group)
->=20
-> changes since v1:
-> - this patch needs to be placed in order, and come second, after a patch =
-to
->   update the schema for the nxp,pcf8575, put this patch in a group where =
-it
->   wasn't previously
-> - use a Link: to point to the schematic
-> - add a comment section describing the rational behind the naming that was
->   used
-> - make the spacing of each line name uniform, don't try to "line them up"
->   vertically
-> ---
->  .../boot/dts/allwinner/sun20i-d1-nezha.dts    | 72 +++++++++++++++++++
->  1 file changed, 72 insertions(+)
->=20
-> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts b/arch/ris=
-cv/boot/dts/allwinner/sun20i-d1-nezha.dts
-> index a0769185be97..4ed33c1e7c9c 100644
-> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
-> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
-> @@ -1,6 +1,25 @@
->  // SPDX-License-Identifier: (GPL-2.0+ or MIT)
->  // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
-> =20
-> +/*
-> + * gpio line names
-> + *
-> + * The Nezha-D1 has a 40-pin IO header. Some of these pins are routed
-> + * directly to pads on the SoC, others come from an 8-bit pcf857x IO
-> + * expander. Therefore, these line names are specified in two places:
-> + * one set for the pcf857x, and one set for the pio controller.
-> + *
-> + * Lines which are routed to the 40-pin header are named as follows:
-> + *	<pin#> [<pin name>]
-> + * where:
-> + *	<pin#>		is the actual pin number of the 40-pin header
-> + *	<pin name>	is the name of the pin by function/gpio#
-> + *
-> + * For details regarding pin numbers and names see the schematics (under
-> + * "IO EXPAND"):
-> + * http://dl.linux-sunxi.org/D1/D1_Nezha_development_board_schematic_dia=
-gram_20210224.pdf
-> + */
-> +
->  #include <dt-bindings/gpio/gpio.h>
->  #include <dt-bindings/input/input.h>
-> =20
-> @@ -90,6 +109,15 @@ pcf8574a: gpio@38 {
->  		gpio-controller;
->  		#gpio-cells =3D <2>;
->  		#interrupt-cells =3D <2>;
-> +		gpio-line-names =3D
-> +			"pin13 [gpio8]",
-> +			"pin16 [gpio10]",
-> +			"pin18 [gpio11]",
-> +			"pin26 [gpio17]",
-> +			"pin22 [gpio14]",
-> +			"pin28 [gpio19]",
-> +			"pin37 [gpio23]",
-> +			"pin11 [gpio6]";
->  	};
->  };
-> =20
-> @@ -164,3 +192,47 @@ &usbphy {
->  	usb1_vbus-supply =3D <&reg_vcc>;
->  	status =3D "okay";
->  };
-> +
-> +&pio {
-> +	gpio-line-names =3D
-> +		/* Port A */
-> +		"", "", "", "", "", "", "", "",
-> +		"", "", "", "", "", "", "", "",
-> +		"", "", "", "", "", "", "", "",
-> +		"", "", "", "", "", "", "", "",
-> +		/* Port B */
-> +		"pin5 [gpio2/twi2-sck]",
-> +		"pin3 [gpio1/twi2-sda]",
-> +		"",
-> +		"pin38 [gpio24/i2s2-din]",
-> +		"pin40 [gpio25/i2s2-dout]",
-> +		"pin12 [gpio7/i2s-clk]",
-> +		"pin35 [gpio22/i2s2-lrck]",
-> +		"",
-> +		"pin8 [gpio4/uart0-txd]",
-> +		"pin10 [gpio5/uart0-rxd]",
-> +		"",
-> +		"",
-> +		"pin15 [gpio9]",
-> +		"", "", "", "",
-> +		"", "", "", "", "", "", "", "",
-> +		"", "", "", "", "", "", "", "",
-> +		/* Port C */
-> +		"",
-> +		"pin31 [gpio21]",
-> +		"", "", "", "", "", "",
-> +		"", "", "", "", "", "", "", "",
-> +		"", "", "", "", "", "", "", "",
-> +		"", "", "", "", "", "", "", "",
-> +		/* Port D */
-> +		"", "", "", "", "", "", "", "",
-> +		"", "",
-> +		"pin24 [gpio16/spi1-ce0]",
-> +		"pin23 [gpio15/spi1-clk]",
-> +		"pin19 [gpio12/spi1-mosi]",
-> +		"pin21 [gpio13/spi1-miso]",
-> +		"pin27 [gpio18/spi1-hold]",
-> +		"pin29 [gpio20/spi1-wp]",
-> +		"", "", "", "", "", "",
-> +		"pin7 [gpio3/pwm]";
-> +};
-> --=20
-> 2.36.0.rc2.17.g4027e30c53
->=20
+Would that appear right?
 
---hZ8ik5mZsnIy+h/o
-Content-Type: application/pgp-signature; name="signature.asc"
+Best regards,
 
------BEGIN PGP SIGNATURE-----
+Andreas.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY+arDgAKCRB4tDGHoIJi
-0vNzAP9wY996zdS8j0ZJ6vVTM/3fQQST8EkENXy1piEExyrn9gD+KQrB1AMu5qII
-DUtpxzPnxhq5rv8Iib6vl7gDq1pkLwc=
-=PAXW
------END PGP SIGNATURE-----
+PS: Perhaps someone can point me to further reading regarding
+drivers for electronic devices attached to GPIO. Assuming I want
+to attach a device to a GPIO that is not accidentally covered by
+hardware support of the pinctrl subsystem, what options do I
+have _apart_ from registering edge IRQs to react on a digital
+signal from that device? Isn't it called bit-banging and the
+usual technique?
 
---hZ8ik5mZsnIy+h/o--
