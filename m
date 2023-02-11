@@ -1,173 +1,178 @@
-Received: from mx.flying-snail.de (mx.flying-snail.de [185.101.94.82])
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0105C3FC7
-	for <linux-sunxi@lists.linux.dev>; Sat, 11 Feb 2023 18:08:50 +0000 (UTC)
-Received: from [2a02:908:1b0:8800:2ff:ffff:fe11:2236] (helo=mondbasis.internal.flying-snail.de)
-	by mx.flying-snail.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <pelzi@flying-snail.de>)
-	id 1pQuId-002kLh-MN; Sat, 11 Feb 2023 19:08:35 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=feldner-bv.de; s=s1; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-	From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=zqbmGy0Jv3vJGh6aAHHKeDDZRhY9sXO436cNNDadWT8=; b=Go1hEZsENvYi1EX69q3k7cU/r+
-	iInM6Er3NdykzgXG6J41flKQ88txUv5FVrah+mhS7+cKDDJSk01oINQQi2xMffl+wPVF2P7xWBMuC
-	7/Dad1S16kwSl9N9Tpas5D+wGSInWA6aa1WHgNJOf2kdfas3pYmtuVwngToUI6Fhi+AEMfr9cTnRv
-	aVdxc3d6Fj6nRHlvdmzW1pxWM+ZqbCzNAEbKXEbfNJA7BtIznxKOH7Zd9uDvJtVAncoh7QfiFEl6i
-	wRVwPQDiINnOwTaFLHN9ueqOR67Dl9kW5+BRHIHQWveWbYhCS8RIIL4zKhfnaJAaIBMT2y00KOqDO
-	6XCS38Ig==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=flying-snail.de; s=s1; h=Content-Transfer-Encoding:Content-Type:In-Reply-To
-	:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=zqbmGy0Jv3vJGh6aAHHKeDDZRhY9sXO436cNNDadWT8=; b=aD8g22JUJdi6Gpfk9VpgXfG1i6
-	S+hfGkMqHFky338JQRi30NKu7BzAghc3z4O0STe83eVfRk7Hm29Ryc/TWYvU062noS+8khzp1qQzT
-	jv/f2Mi2ROfXdat0BoRlgw8+nhh7hFzEjPjb0GO/0pB3HIdnLLPZ6FTa1fpVfxSKOQHM3m8pfEuXd
-	N2rTh8HlWYqmHeOCNyc7u+SrIdG1fFtB5x0p5MlUMyDKznV9PvRcBzlEgIQIRZzxfp1pIYz+Z7ZFz
-	bZUA8YWYjb5ro+y7CVnzORWh39AOb6pJWkgLQ3EgIwYXFLYynOyqYgCq55NA1EzjPJFpmKpoDSjoT
-	5iQOpBYA==;
-Received: from [2a02:908:1b0:8800:d984:3cf8:3cb3:b087]
-	by mondbasis.internal.flying-snail.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.94.2)
-	(envelope-from <pelzi@flying-snail.de>)
-	id 1pQuIa-000f1N-PK; Sat, 11 Feb 2023 19:08:35 +0100
-Message-ID: <200d4457-9801-c862-0e86-850e3188f765@flying-snail.de>
-Date: Sat, 11 Feb 2023 19:08:32 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21C48483
+	for <linux-sunxi@lists.linux.dev>; Sat, 11 Feb 2023 19:45:36 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id 39901320027A;
+	Sat, 11 Feb 2023 14:45:35 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Sat, 11 Feb 2023 14:45:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1676144734; x=
+	1676231134; bh=nAfDCv4pIOfY0PAcpVEd13mZpp4d1bY5NKYeBEKLtY8=; b=c
+	M3tKyMDQ6T3ypKhzSasgMSKqpIXx9FcpW9Kud0162tNpjIXgm5T2eLa20U003lWT
+	MN0pF3oiuxGL/jbunG1Cr11ge19vzhoZqvBbAVbragCml7pBXps2k+LvCyiwMkk4
+	gw9IwLzbL/FEL1PQRmjPlGyAWVC0UDxx+Q+6xZtNP6U7GTns/px6QWt0b+kzLNqm
+	jacZTUiYYHMSxoOeF99ulbKdNaAUBxr70gtbcC+Jv0hhcoZonXXw50qIryEx7N1S
+	BG5tfRqtLzEByL41MK7K75F8liU5MQMAUo56q2bR1i5Y9DqXNyyPu1mXfD4O6ef3
+	w1+JR0cBH0hZtm4Mw8bUg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1676144734; x=
+	1676231134; bh=nAfDCv4pIOfY0PAcpVEd13mZpp4d1bY5NKYeBEKLtY8=; b=B
+	LX0pZotXAdKf4FiqFxIQOUJAxJRxU/RLP16YYXfXfNfCQJu67be2Ml/HGIkaNUQb
+	xaPo11AARF7o0XsyYt3Gv8TqMSBOKdWfYr+R87fIUgVUDx+l/14XV2pTqHxW/c1d
+	a5FWjPsfJkLaCDAgq/SYD+ol38sdfV8t+J6fpvqRkCf0I+Xj91NZg/6LXuFuYkpe
+	utVNrN0uQ0CnE794nQja1s1VJGYfR5ej1jevFr8Tc1Yk9GYTfdXFuVoNOYuw4g7U
+	r9tqpMjMmjqPdmuRItNFX4a+nrPX/w3VfqNA3o8FC60W9WPmBYduPM2bb91aP7by
+	8i1VdE1W4Pt70EDEk+UIw==
+X-ME-Sender: <xms:XfDnY8JpE8jQYpszHur2BxTjOEZ23TYtXS-Xi3wCkKK-oZO_0uxrhQ>
+    <xme:XfDnY8JvFqQG6kgmq-3Ke5dNdvf5s3fDjXHiQlzBFAGgJ6cbEbE4PbXdzDnR1q_xM
+    p82YDytmwma9EaA6g>
+X-ME-Received: <xmr:XfDnY8s5LkCvq_tG-HphoJ8pukrQ61m-aFagX_S5BE37tzJtVBjgX-GpQLqdrpq0qUPDAkNJiHFrqE7R7J2TI1vSQhTmW3Uat0rnebD-7NfpGGqiBVCwRXrl4A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudehjedguddvkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefkffggfgfvvehfhffujggtgfesthekredttdefjeenucfhrhhomhepufgr
+    mhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqne
+    cuggftrfgrthhtvghrnhepgeeikeeufedvvdeuteeivdeiffdtgfdtfeejgfetfeefgeff
+    gfdvffehjedvueeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:XfDnY5ZponFTd60fXxnbkAhgpmcvRAbKVDMky_lNytSsbB9V7-VmmA>
+    <xmx:XfDnYzZ9j_NJBwakM8SOHBMYvP4NuL6OQeZWK8FOO3N-M2sLKq89zQ>
+    <xmx:XfDnY1BwRWG2M0NqtOEh7z8ppmNoh-nheablZa5nEW6vmiAGy43lRA>
+    <xmx:XvDnYwTJR4OQl25ZjNQIqr1PToOxkVsYZBglZXF0kpZfZs5lA06AiQ>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 11 Feb 2023 14:45:32 -0500 (EST)
+Message-ID: <76a1cabd-f173-f86a-423a-ba5be7c1efd0@sholland.org>
+Date: Sat, 11 Feb 2023 13:45:37 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: [PATCH] pinctrl: sunxi: set minimal debounce on input-debounce 0
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Content-Language: en-US
 To: Andre Przywara <andre.przywara@arm.com>
-Cc: Maxime Ripard <maxime@cerno.tech>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+Cc: Andreas Feldner <pelzi@flying-snail.de>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Andreas Feldner <andreas@feldner-bv.de>
 References: <Y+FaVorMl37F5Dve@debian-qemu.internal.flying-snail.de>
  <20230207011608.2ce24d17@slackpad.lan>
  <d0534762-3785-ec2d-8d1e-aba0e39f701b@feldner-bv.de>
  <20230209202952.673d5a60@slackpad.lan>
- <20230210082936.qefzz4fsp3jpalvp@houat>
- <20230210094425.474cfba5@donnerap.cambridge.arm.com>
- <20230210100620.z6j7rvkiwyu7paij@houat>
- <20230210101814.2d36ae57@donnerap.cambridge.arm.com>
- <ba463d40-3d39-a621-b198-191fdbe239a1@feldner-bv.de>
- <20230211151358.3467b4f9@slackpad.lan>
-From: Andreas Feldner <pelzi@flying-snail.de>
-In-Reply-To: <20230211151358.3467b4f9@slackpad.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH] ARM: dts: allwinner: minimize irq debounce filter per
+ default
+In-Reply-To: <20230209202952.673d5a60@slackpad.lan>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-sunxi-h3-h5 based boards have no support for switching
-off IRQ debouncing filter. This would be the expected
-behaviour of value 0 for the general pinctl parameter
-input-debounce.
-The current driver implementation ignores value 0
-for input-debounce, leaving the chip's default. This
-default, however, is not minimal, but equivalent to
-value 31 (microseconds).
+Hi Andre,
 
-This patch does not ignore value 0 but instead makes
-sure the corresponding IRQ debounce filter is set
-to the shortest time selectable, i. e. the fast
-oscillator with a divider of 1 == (2 ^ 0).
+On 2/9/23 14:29, Andre Przywara wrote:
+> On Wed, 8 Feb 2023 13:50:04 +0100
+> Andreas Feldner <andreas@feldner-bv.de> wrote:
+> 
+> Hi Andreas,
+> 
+> CC:ing Maxime, who wrote the debouncing code back then.
+> 
+>> Am 07.02.23 um 02:16 schrieb Andre Przywara:
+>>> On Mon, 6 Feb 2023 20:51:50 +0100
+>>> Andreas Feldner <pelzi@flying-snail.de> wrote:
+>>>
+>>> Hi Andreas,
+>>>
+>>> thanks for taking care about this board and sending patches!  
+>> Thank YOU for maintaining it!
+>>>> The SoC features debounce logic for external interrupts. Per default,
+>>>> this is based on a 32kHz oscillator, in effect filtering away multiple
+>>>> interrupts separated by less than roughly 100ï¿½s.
+>>>>
+>>>> This patch sets different defaults for this filter for this board:
+>>>> PG is connected to non-mechanical components, without any risk for
+>>>> showing bounces. PA is mostly exposed to GPIO pins, however the
+>>>> existence of a debounce filter is undesirable as well if electronic
+>>>> components are connected.  
+>>> So how do you know if that's the case? It seems to be quite normal to
+>>> just connect mechanical switches to GPIO pins.
+>>>
+>>> If you are trying to fix a particular issue you encountered, please
+>>> describe that here, and say how (or at least that) the patch fixes it.
+>>>
+>>> And I would suggest to treat port G and port A differently. If you
+>>> need a lower debounce threshold for port A, you can apply a DT overlay
+>>> in U-Boot, just for your board.  
+>>
+>> Fair enough. You run into problems when you connect (electronic)
+>> devices to bank A (typically by the 40pin CON2 connector), where
+>> the driver requires fast IRQs to work. In my case this has been a
+>> DHT22 sensor, and the default debounce breaking the dht11.ko
+>> driver.
+> 
+> Sure, what I meant is that this is a property of your particular
+> setup (because you attach something to the *headers*) , so it shouldn't
+> be in the generic DT, but just in your copy. Which ideally means using
+> a DT overlay.
+> 
+>> Now, what kind of problem is this - I'm no way sure:
+>>
+>> a) is it an unlucky default, because whoever connects a mechanical
+>> switch will know about the problem of bouncing and be taking
+>> care to deal with it (whereas at least I was complete unsuspecting
+>> when connecting an electronic device that a debounce function
+>> might be in place), or
+> 
+> The Linux default is basically the reset default: just leave the
+> register at 0x0. It seems like you cannot really turn that off at all
+> in hardware, and the reset setting is indeed 32KHz/1. So far there
+> haven't been any complaints, though I don't know if people just
+> don't use it in anger, or cannot be bothered to send a report to the
+> list.
+> 
+>> b) is it a bug in the devicetree for (at least) the BananaPi M2 Zero,
+>> because the IRQ bank G is hard wired to electronic devices that
+>> should not be fenced by a debouncing function, or
+> 
+> Well, we could try to turn that "off" as much as possible, but on the
+> other hand the debounce only affects *GPIO* *interrupts*, so not sure
+> that gives us anything. The PortG pins are used for the SDIO Wifi, BT
+> UART, and the wakeup pins for the Wifi chip. Only the wakeup pins would
+> be affected, and I doubt that we wake up that often that it matters. If
+> you've made other observations, please let me know.
+> 
+> Certainly no board with an in-tree DT sets the debounce property, which
+> means everyone uses 32KHz/1, and also did so before the functionality
+> was introduced.
 
-The current default behaviour is explicitly ensured
-by including input-debounce=<31 31> in the relevant
-part of the devicetree.
+One side note relevant to wakeup pins: if the debounce clock source is
+set to HOSC, and the 24 MHz oscillator is disabled, then IRQs for those
+pins will never fire.
 
-Fixes: 7c926492d38a ("pinctrl: sunxi: Add support for interrupt debouncing")
+Currently, Crust does not check the debounce configuration when deciding
+if it can turn off the 24 MHz crystal during system suspend (or fake-off
+on boards without PMICs), so any wakeup-capable GPIOs need to use LOSC
+as their debounce clock.
 
-Signed-off-by: Andreas Feldner <pelzi@flying-snail.de>
----
-  arch/arm/boot/dts/sunxi-h3-h5.dtsi    |  1 +
-  drivers/pinctrl/sunxi/pinctrl-sunxi.c | 40 +++++++++++++++------------
-  2 files changed, 24 insertions(+), 17 deletions(-)
+Do you have any thoughts about if/how we should handle this
+automatically? Should Linux (or Crust) override the debounce
+configuration when entering suspend? I imagine no wakeup source will
+require a particularly short debounce time.
 
-diff --git a/arch/arm/boot/dts/sunxi-h3-h5.dtsi 
-b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
-index 686193bd6bd9..e9ed4948134d 100644
---- a/arch/arm/boot/dts/sunxi-h3-h5.dtsi
-+++ b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
-@@ -410,6 +410,7 @@ pio: pinctrl@1c20800 {
-              #gpio-cells = <3>;
-              interrupt-controller;
-              #interrupt-cells = <3>;
-+            input-debounce = <31 31>;
-
-              csi_pins: csi-pins {
-                  pins = "PE0", "PE2", "PE3", "PE4", "PE5",
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c 
-b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-index f35179eceb4e..6798c8f4067e 100644
---- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-+++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-@@ -1444,29 +1444,35 @@ static int sunxi_pinctrl_setup_debounce(struct 
-sunxi_pinctrl *pctl,
-          if (ret)
-              return ret;
-
--        if (!debounce)
--            continue;
--
--        debounce_freq = DIV_ROUND_CLOSEST(USEC_PER_SEC, debounce);
--        losc_div = sunxi_pinctrl_get_debounce_div(losc,
--                              debounce_freq,
--                              &losc_diff);
--
--        hosc_div = sunxi_pinctrl_get_debounce_div(hosc,
--                              debounce_freq,
--                              &hosc_diff);
--
--        if (hosc_diff < losc_diff) {
--            div = hosc_div;
--            src = 1;
-+        if (debounce) {
-+            debounce_freq = DIV_ROUND_CLOSEST(USEC_PER_SEC, debounce);
-+            losc_div = sunxi_pinctrl_get_debounce_div(losc,
-+                                  debounce_freq,
-+                                  &losc_diff);
-+
-+            hosc_div = sunxi_pinctrl_get_debounce_div(hosc,
-+                                  debounce_freq,
-+                                  &hosc_diff);
-+
-+            if (hosc_diff < losc_diff) {
-+                div = hosc_div;
-+                src = 1;
-+            } else {
-+                div = losc_div;
-+                src = 0;
-+            }
-          } else {
--            div = losc_div;
--            src = 0;
-+            /* lowest time as best approximation to "off" */
-+            div = 0;
-+            src = 1;
-          }
-
-          writel(src | div << 4,
-                 pctl->membase +
-                 sunxi_irq_debounce_reg_from_bank(pctl->desc, i));
-+
-+        pr_info("Debounce filter for IRQ bank %d configured to %d us 
-(reg %x)\n",
-+            i, debounce, src | div << 4);
-      }
-
-      return 0;
--- 
-2.30.2
-
+Regards,
+Samuel
 
