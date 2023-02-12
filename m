@@ -1,144 +1,152 @@
-Received: from mx.flying-snail.de (mx.flying-snail.de [185.101.94.82])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBF72FAE
-	for <linux-sunxi@lists.linux.dev>; Sun, 12 Feb 2023 18:21:21 +0000 (UTC)
-Received: from [2a02:908:1b0:8800:2ff:ffff:fe11:2236] (helo=mondbasis.internal.flying-snail.de)
-	by mx.flying-snail.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <pelzi@flying-snail.de>)
-	id 1pRGyN-002vxr-UT; Sun, 12 Feb 2023 19:21:11 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=feldner-bv.de; s=s1; h=Content-Type:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References;
-	bh=S4eMM/Ni/1THzQ6AsWye0pgbL3S8Ck4ZUQKNSjmDg90=; b=R4HIaQTZpT3xitUTor7oeHuIft
-	QAm4Y7Mf5W3PytfbjE3Lxb06SBnDfbv45QYiR8pzGzFFAvKhnsZp/C4U06qVaGVmdfo4CdRlllUci
-	ATVmnyYr8g4IJTlhI3WMVXM2lJngKIV2EDyfGdY7KCG5fHNIBPQom0gGD0Xe42jb6aQbeTPNWaInR
-	aa6K44kPMQRElJu7CLhlmnTG1Dtw7NJPM4PdqUDDRpiTA1R2pFSgkRVmFU723bq7PBF2QIF/ZoHp1
-	nI2zSuo/304IPWEg5GwfgRUXPt7FqGSAOtPLRWsqqeZPv9rJSHOocVJdJT0wFu/G+pkB1TTClhxm7
-	IVjypYhg==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=flying-snail.de; s=s1; h=Content-Type:MIME-Version:Message-ID:Subject:Cc:To
-	:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References;
-	bh=S4eMM/Ni/1THzQ6AsWye0pgbL3S8Ck4ZUQKNSjmDg90=; b=QXYsV5raxeP8886jyYVl3kXwPc
-	1fz5BMvo75L1zXBayWNv+kZXVa8k/u9fXKHGlqYCLn0bXy8eHZlQJU7XTBmvscG7BvSSJDhnDq38w
-	5JWFMSrfOE2O3ElxowUrJvioOYDiXoZEI+Am7KboQkccXF7714HOa95V+jV2bEdPuBMtwoLWs4noh
-	8Iu7ai7KuyTX8nQO0P0EUc5v/i2dwR4eghgPKh4l4nl/59drKYjDQwjKM/10KleKMgRq7/VJ/RTmi
-	qon1ojdh39mJiEb6MnwXpInBcQNvKBzEjiO720UHmEGi2ayGaZChHhwNmcRXd0vb2Dk/T6Bff+kX6
-	MvncLsgw==;
-Received: from [fde6:2538:5b30:3b53:146b:5d45:c296:7cff] (helo=debian-qemu)
-	by mondbasis.internal.flying-snail.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <pelzi@flying-snail.de>)
-	id 1pRGyF-000lvu-Kt; Sun, 12 Feb 2023 19:21:11 +0100
-Date: Sun, 12 Feb 2023 19:21:03 +0100
-From: Andreas Feldner <pelzi@flying-snail.de>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-gpio@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] pinctrl: sunxi: set minimal debounce on input-debounce 0
-Message-ID: <Y+kuD+/v3+N1vwxR@debian-qemu.internal.flying-snail.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F55C7E5
+	for <linux-sunxi@lists.linux.dev>; Sun, 12 Feb 2023 21:09:58 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 3E06F5C00F3;
+	Sun, 12 Feb 2023 16:09:57 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Sun, 12 Feb 2023 16:09:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1676236197; x=
+	1676322597; bh=wfIsoUZApr8e7Lrxv9tsDnhqLEAta34iw5p74J+0dro=; b=I
+	pqaPo89o17h5ShCwFokV3KO3nbd/Tu0y5bZIXy1N97AxKJkzwtFctzHh7cDx7hgB
+	dfrmgLfDWObv52rA9X7IG37LfadGotBk0SEBWeBWx7crrk2N9nTmaCDYIvNYGRyk
+	mOAAzF49elyqsiHmT1ab8to81Nh3GqVI1cvGFuXKUIiXjU2ahHdQuX1jVHnMQXSC
+	chLCJ8KN08vtTQiySKVfOtR9IjIEKokf3GTA/OGx1w/cVApy4YlrzfEYbtS7BBn1
+	mX9inXXHUINK/P/3G2Mm5SoAKIh3XBXMU+z5TCKdOG51bNaMSa2RsC2h3GUXCY51
+	TXF8eaXyDUnjRrUbUzM7A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1676236197; x=
+	1676322597; bh=wfIsoUZApr8e7Lrxv9tsDnhqLEAta34iw5p74J+0dro=; b=A
+	d/QSMIKMeTm6RthhYcbbHK89QWRauvEz+g+iLZU8ug7jb9xNWfECxQtH6G7JwBQ2
+	fkWQjy5GkzmofcNS45vfRmtMpljng6AyLm/hdVX5/U6uObeU5qfjlReEg15HtDbg
+	zu3JOk8SKrtMv2QJb2EMbdRLnNadgX5hz8vY8FB2eXLADRZHF8MjcTwXFakAdJ2M
+	+UgF/fYvlWppio63ybf4Tl6YIKxqM4nYC0vdncc5CWjtPs8aly4ZJ7CXTYmnXtVf
+	BqpMZLzNlVoyGcYVCOAKFJbsCSp68x06o2IYEvSBWBaDxICjp/hovDx9dzuJNeVY
+	rkTgsSjSg7wzTisB+wGIw==
+X-ME-Sender: <xms:pFXpY5aC0xQYHmvMjnOvLczqk4r0Omu_zzUy3sFz7a9kFTc46xzODQ>
+    <xme:pFXpYwZ6n6MaLKJKzg37aTmUxVnhc98Nx_9CjFq-xrrTQzFF-pPy76RTQNtGu-URr
+    Wbo8ps40kbGV9JMoQ>
+X-ME-Received: <xmr:pFXpY7-wcJsB66SmW8ddFzW5iQSRuAm5b-1a7Ydu4ELIAdYiw28_ueobixo429rjCTWxC7YLwfOMhed21xUiVG258pAh3DlIVELqa6wCKg7iLVW133ZzDJW1Bg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudehledgudeghecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefkffggfgfvvehfhffujggtgfesthekredttdefjeenucfhrhhomhepufgr
+    mhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqne
+    cuggftrfgrthhtvghrnhepgeeikeeufedvvdeuteeivdeiffdtgfdtfeejgfetfeefgeff
+    gfdvffehjedvueeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:pFXpY3pHvkQI4KQG3B2GKBpzHU81GyEbOOaVZVk11OQHc9fdpJdnWg>
+    <xmx:pFXpY0rP9yWWLZYVnt8JwMXGwCU1KGS-jB2fDYF--m-ObwT38w9HMQ>
+    <xmx:pFXpY9Ra3pPSIw4Yrp85jwILx-Vuu-lWagciTlGtvd9SCMZHMiEUgg>
+    <xmx:pVXpY1e5Hgiy9QI_JLQZQEBOvPpQPlcKO9r_tZ4vOo3fiTAVZBo0NQ>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 12 Feb 2023 16:09:55 -0500 (EST)
+Message-ID: <90760cb1-81b2-ad83-0c62-f1c8180b0c0f@sholland.org>
+Date: Sun, 12 Feb 2023 15:10:00 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Content-Language: en-US
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-rtc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Chen-Yu Tsai <wens@csie.org>
+References: <20221229184011.62925-1-samuel@sholland.org>
+ <8201852.NyiUUSuA9g@jernej-laptop>
+ <5c20af59-5fb5-8f7d-f6af-2b3984d79595@sholland.org>
+ <4834080.31r3eYUQgx@jernej-laptop>
+From: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH 1/2] rtc: sun6i: Prevent an out-of-bounds read
+In-Reply-To: <4834080.31r3eYUQgx@jernej-laptop>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-sunxi-h3-h5 based boards have no support for switching
-off IRQ debouncing filter. This would be the expected
-behaviour of value 0 for the general pinctl parameter
-input-debounce.
-The current driver implementation ignores value 0
-for input-debounce, leaving the chip's default. This
-default, however, is not minimal, but equivalent to
-value 31 (microseconds).
+Hi Jernej,
 
-This patch does not ignore value 0 but instead makes
-sure the corresponding IRQ debounce filter is set
-to the shortest time selectable, i. e. the fast
-oscillator with a divider of 1 == (2 ^ 0).
+On 1/8/23 13:39, Jernej Škrabec wrote:
+> Dne sobota, 07. januar 2023 ob 18:15:47 CET je Samuel Holland napisal(a):
+>> On 1/5/23 11:26, Jernej Škrabec wrote:
+>>> Dne četrtek, 29. december 2022 ob 19:40:10 CET je Samuel Holland napisal(a):
+>>>> If there is more than one parent clock in the devicetree, the
+>>>> driver sets .num_parents to a larger value than the number of array
+>>>> elements, which causes an out-of-bounds read in the clock framework.
+>>>
+>>> Is there any DT with more than one parent? I think more fixes are needed
+>>> if
+>>> this is the case.
+>>
+>> H616 and newer expect more than one parent, to accurately represent the
+>> RTC clock tree, but they use the CCU driver instead of this code.
+> 
+> If I understand that correctly, second clock would be 24 MHz crystal? In any 
 
-Fixes: 7c926492d38a ("pinctrl: sunxi: Add support for interrupt debouncing")
+That is correct.
 
-Signed-off-by: Andreas Feldner <pelzi@flying-snail.de>
----
-Changes in v2:
-  - Posted as separate mail thread
-  - Made sure tabs are kept
-  - Excluded patch to devicetree
+> case, if multiple parents are possible, check needs to be added to see if 
+> parent clocks include 32 kHz clock or not.
 
- drivers/pinctrl/sunxi/pinctrl-sunxi.c | 40 +++++++++++++++------------
- 1 file changed, 23 insertions(+), 17 deletions(-)
+Right, if we allow other clock inputs, we need to check specifically for
+"ext-osc32k", or a single clock input without clock-names, not just the
+presence of the clocks property. (A hypothetical new binding would have
+to require clock-names even for a single clock to distinguish the old
+binding with only "ext-osc32k" from the new binding with only "hosc".)
 
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-index f35179eceb4e..6798c8f4067e 100644
---- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-+++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-@@ -1444,29 +1444,35 @@ static int sunxi_pinctrl_setup_debounce(struct sunxi_pinctrl *pctl,
- 		if (ret)
- 			return ret;
- 
--		if (!debounce)
--			continue;
--
--		debounce_freq = DIV_ROUND_CLOSEST(USEC_PER_SEC, debounce);
--		losc_div = sunxi_pinctrl_get_debounce_div(losc,
--							  debounce_freq,
--							  &losc_diff);
--
--		hosc_div = sunxi_pinctrl_get_debounce_div(hosc,
--							  debounce_freq,
--							  &hosc_diff);
--
--		if (hosc_diff < losc_diff) {
--			div = hosc_div;
--			src = 1;
-+		if (debounce) {
-+			debounce_freq = DIV_ROUND_CLOSEST(USEC_PER_SEC, debounce);
-+			losc_div = sunxi_pinctrl_get_debounce_div(losc,
-+								  debounce_freq,
-+								  &losc_diff);
-+
-+			hosc_div = sunxi_pinctrl_get_debounce_div(hosc,
-+								  debounce_freq,
-+								  &hosc_diff);
-+
-+			if (hosc_diff < losc_diff) {
-+				div = hosc_div;
-+				src = 1;
-+			} else {
-+				div = losc_div;
-+				src = 0;
-+			}
- 		} else {
--			div = losc_div;
--			src = 0;
-+			/* lowest time as best approximation to "off" */
-+			div = 0;
-+			src = 1;
- 		}
- 
- 		writel(src | div << 4,
- 		       pctl->membase +
- 		       sunxi_irq_debounce_reg_from_bank(pctl->desc, i));
-+
-+		pr_info("Debounce filter for IRQ bank %d configured to %d us (reg %x)\n",
-+			i, debounce, src | div << 4);
- 	}
- 
- 	return 0;
--- 
-2.30.2
+>> This bug is preventing us from relaxing `maxItems` in the binding for H6
+>> and older SoCs, even if Linux does not use the additional parent clocks.
+>> I want to fix this bug now, to give us the option (if beneficial) of
+>> relaxing the binding in the long-term future.
+> 
+> I wouldn't call it a bug, since it works just fine for currently defined 
+> binding. Do you have DT binding change in pipeline?
+
+This would be a far future change, so as to not break the "old kernel +
+new DT" scenario. Maybe it's not even worth doing. But I really don't
+like the unbounded assignment to num_parents here.
+
+Regards,
+Samuel
+
+>>>> Fix this by coercing the parent count to a Boolean value, like the
+>>>> driver expects.
+>>>>
+>>>> Fixes: 3855c2c3e546 ("rtc: sun6i: Expose the 32kHz oscillator")
+>>>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>>>> ---
+>>>>
+>>>>  drivers/rtc/rtc-sun6i.c | 2 +-
+>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+>>>> index ed5516089e9a..a22358a44e32 100644
+>>>> --- a/drivers/rtc/rtc-sun6i.c
+>>>> +++ b/drivers/rtc/rtc-sun6i.c
+>>>> @@ -294,7 +294,7 @@ static void __init sun6i_rtc_clk_init(struct
+>>>> device_node *node,
+>>>>
+>>>>  	init.parent_names = parents;
+>>>>  	/* ... number of clock parents will be 1. */
+>>>>
+>>>> -	init.num_parents = of_clk_get_parent_count(node) + 1;
+>>>> +	init.num_parents = !!of_clk_get_parent_count(node) + 1;
+>>>>
+>>>>  	of_property_read_string_index(node, "clock-output-names", 0,
+>>>>  	
+>>>>  				      &init.name);
 
