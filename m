@@ -1,60 +1,70 @@
-Received: from mx.flying-snail.de (mx.flying-snail.de [185.101.94.82])
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240E81FDA
-	for <linux-sunxi@lists.linux.dev>; Mon, 13 Feb 2023 08:50:14 +0000 (UTC)
-Received: from [2a02:908:1b0:8800:2ff:ffff:fe11:2236] (helo=mondbasis.internal.flying-snail.de)
-	by mx.flying-snail.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <pelzi@flying-snail.de>)
-	id 1pRUX9-0034f1-BO; Mon, 13 Feb 2023 09:49:59 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=feldner-bv.de; s=s1; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-	From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=D6MuNRohfsBhCYGBsum0yLL3ZqtP1FjupA4uVal3vSo=; b=BaHLhjdQ/Pn9o4EISJcsyCAmt1
-	JDusPDyS3XPbRXGeadZxVNSYeSgBkf4WCDL2al9iNo3RbLHt9/59cxJqbb2AURre5ojdizLfcQFBW
-	lYvFtMcTDEi86TZLktafjEWdGAWv+4Yof8RDrhH0L4Sm/FVhJqrhVsGRFpIeqnVIubW5jHFf5OJrh
-	elMoBCqokzOD1wjFltbbCm5NFT2JzCc8M908UlslMlY3qca5AngLIzu8oIHzwoibLpv2dnh+rvBM+
-	eWLlw/l4AlcmxTrvRUdtbWZMD1BQ0sLI2lLSRutr+wy/GWJUknsv6s1pa6Ab7G+3pIEaWwUBMeVP4
-	w385Y6uw==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=flying-snail.de; s=s1; h=Content-Transfer-Encoding:Content-Type:In-Reply-To
-	:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=D6MuNRohfsBhCYGBsum0yLL3ZqtP1FjupA4uVal3vSo=; b=nPUG585Mxn2ezJObymPA4CjNxg
-	78yCxzVwRv7+6EcbWF5R8W5OapMbmhEvYY248ANyfbt+EkBLF/Llkym536pxNlRoR/m8LGZnoyCLG
-	2+Krp6Td1o0u/vLOv/TC++SRUV9tisNhQMGsfpmqIZxGGUc9IDMrqizrRAwaeQzp/usKG3MN3cMKb
-	gYcSyOQAkgRz5o+F/ZXyjMJpAXqAW2GonhO/M76zY3XNYL/9XUvQuVEPNW6HcrJxUTMowjOhjdxC0
-	/X0+1LBKCqmhexFecIK7gNPLFUYQ1d8FFiuvoLWUxgPZ8n58p+2ZVpDFyMCAdBM5mZBNYjUPnNqb7
-	HIFd0m3A==;
-Received: from [2a02:908:1b0:8800:5057:a51f:9eb5:f4ee]
-	by mondbasis.internal.flying-snail.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.94.2)
-	(envelope-from <pelzi@flying-snail.de>)
-	id 1pRUX5-000pl1-QK; Mon, 13 Feb 2023 09:49:57 +0100
-Message-ID: <c3dda403-6963-040a-3827-443edf0a377a@flying-snail.de>
-Date: Mon, 13 Feb 2023 09:49:55 +0100
-Precedence: bulk
-X-Mailing-List: linux-sunxi@lists.linux.dev
-List-Id: <linux-sunxi.lists.linux.dev>
-List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05EBD23A5
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 Feb 2023 09:18:08 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 7A2063200893;
+	Mon, 13 Feb 2023 04:18:06 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Mon, 13 Feb 2023 04:18:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1676279886; x=
+	1676366286; bh=Eysr3UtHr3VtG3fm3bUaTYUgWFQmZNOhdveZFGzL2Y0=; b=T
+	t0BK/PG/lFLXNMFaUlK2DnfAzbxGre6D7oMregD7+VwEEYKx/AlqwjKJ6NwXpkdL
+	3Vr/A673V81gNbZKC59YjvGvbK540rxqriV0KKoH5HlKdHI+PCGtwyBvfpGh2NKd
+	MjV7URWH+JeD33F4rYvnqGAFbNBQDb5G5C6CQr8bL2sEv4LViN8OORUtSwvMPGwc
+	cEFV9ZRFqaah3WDKEnTUJrn1/oOi+Pz9YjbvN8QYEbtGgTJ0q3E2kSeJ3P8mNIAv
+	hFbQ1SAVkgqo8k+BCxlYFnFbSiCt5R6mUd0yqK6T2t2MRED6CKXnU1dikB98J5Px
+	W12N8JXsqY7U4kdrBCTcA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1676279886; x=
+	1676366286; bh=Eysr3UtHr3VtG3fm3bUaTYUgWFQmZNOhdveZFGzL2Y0=; b=P
+	2lDrD09gRGyViU74Ze1i8X0wHG9KbSg5TQ9zCIlRqbr1EwBBRJ64BnLEp7vTAMfL
+	S+DeRAGpXEYua/yVnSRr2IVtPNQUJcVA+kSmHR7qLcxy0gDnSG/pQ7IcZVTrpCbP
+	E1Q3M+iGM/q2sM3QnwyOtpdamb+w6iB/EjLCyDhrxPSC82NDKT4wOdwjvAfG2hbU
+	oiSgrlsWIeBa7uSerTVHBHJwiUrwI5VqUvh/MpxIsuEUB6eNFSl366b/49ehiLn6
+	3jYQpd8ETewnJL1DdRu5uGfdixC6087kgdah8YItPr2DdkWH0z+lMgQEi65uMxTV
+	0R7PgKnDmMz2zKCnEkFkQ==
+X-ME-Sender: <xms:TQDqYz4PtHRKAD2lN5GBBmSZ4kJnpRx9am8rEuZLi59IXt7F-JSJKQ>
+    <xme:TQDqY45Neo_Injqya6GY63SlL6a7Zun2tQCgkfHVdaNdDY6QEh6WI6VXG40kBOwoT
+    deUBsJvMOAOGPBZxD8>
+X-ME-Received: <xmr:TQDqY6fxCJNpQrjfR7QOprp_fmtVRAL2Doj3uv4o3gU1PTfptK1_0AF-b9lfo9P4DhkuaA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeiudcutefuodetggdotefrodftvfcurf
+    hrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtugfgjgesthhqredttddtudenucfhrhhomhepofgrgihimhgv
+    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+    gvrhhnpeelleefieelleetteefvdeikeeffeffvefhtdevgfehveduveehjedvvdeiledt
+    ieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+    igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:TQDqY0JawoB2OXlJgdHKl--x7SiP8r-TGK6lhC8f8-huQuYmqzvdhg>
+    <xmx:TQDqY3J-8xz8YuTb1PB5jeaWGYJ1AEG0Zms_z6m3g1FSEV5R9uJTrQ>
+    <xmx:TQDqY9zeRQWdgrTCsrnxJh3Zcaw5E-NOWierd_Qv5FGl1259DCfTkA>
+    <xmx:TgDqY_IS2wcJQHSfGgasmqCNClqkQZdogVzTfSAdWwQc95sDCNGSsA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 13 Feb 2023 04:18:04 -0500 (EST)
+Date: Mon, 13 Feb 2023 10:18:03 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: pelzi@flying-snail.de
+Cc: Andre Przywara <andre.przywara@arm.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] ARM: dts: allwinner: minimize irq debounce filter per
  default
-To: Maxime Ripard <maxime@cerno.tech>, Andre Przywara <andre.przywara@arm.com>
-Cc: Andreas Feldner <pelzi@flying-snail.de>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
+Message-ID: <20230213091803.bxle6ly2sapodsbs@houat>
 References: <Y+FaVorMl37F5Dve@debian-qemu.internal.flying-snail.de>
  <20230207011608.2ce24d17@slackpad.lan>
  <d0534762-3785-ec2d-8d1e-aba0e39f701b@feldner-bv.de>
@@ -64,62 +74,101 @@ References: <Y+FaVorMl37F5Dve@debian-qemu.internal.flying-snail.de>
  <20230210100620.z6j7rvkiwyu7paij@houat>
  <20230210101814.2d36ae57@donnerap.cambridge.arm.com>
  <20230213084329.ulckaigwd7dof37u@houat>
-From: pelzi@flying-snail.de
-In-Reply-To: <20230213084329.ulckaigwd7dof37u@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ <c3dda403-6963-040a-3827-443edf0a377a@flying-snail.de>
+Precedence: bulk
+X-Mailing-List: linux-sunxi@lists.linux.dev
+List-Id: <linux-sunxi.lists.linux.dev>
+List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <c3dda403-6963-040a-3827-443edf0a377a@flying-snail.de>
 
-Am 13.02.23 um 09:43 schrieb Maxime Ripard:
-> On Fri, Feb 10, 2023 at 10:18:14AM +0000, Andre Przywara wrote:
->>>> Not sure if you were actually arguing this, but the change I sketched
->>>> above (interpreting 0 as 24MHz/1) is separate though, as the current
->>>> default is "no DT property", and not 0. There is no input-debounce
->>>> property user in the kernel tree at the moment, so we wouldn't break
->>>> anyone. The only thing that would change is if a downstream user was
->>>> relying on "0" being interpreted as "skip the setup", which isn't
->>>> really documented and could be argued to be an implementation detail.
->>>>
->>>> So I'd suggest to implement 0 as "lowest possible", and documenting that
->>>> and the 32KHz/1 default if no property is given.
->>> Ah, my bad.
->>>
->>> There's another thing to consider: there's already a generic per-pin
->>> input-debounce property in pinctrl.
->>>
->>> Since we can't control it per pin but per bank, we moved it to the
->>> controller back then, but there's always been this (implicit)
->>> expectation that it was behaving the same way.
->>>
->>> And the generic, per-pin, input-debounce documentation says:
->>>
->>>> Takes the debounce time in usec as argument or 0 to disable debouncing
->>> I agree that silently ignoring it is not great, but interpreting 0 as
->>> the lowest possible is breaking that behaviour which, I believe, is a
->>> worse outcome.
->> Is it really? If I understand the hardware manuals correctly, we cannot
->> really turn that feature off, so isn't the lowest possible time period (24
->> MHz/1 at the moment) the closest we can get to "turn it off"? So
->> implementing this would bring us actually closer to the documented
->> behaviour? Or did I get the meaning of this time period wrong?
->> At least that's my understanding of how it fixed Andreas' problem: 1µs
->> is still not "off", but much better than the 31µs of the default. The new
->> 0 would then be 0.041µs.
-> My point was that the property we share the name (and should share the
-> semantics with) documents 0 as disabled. We would have a behavior that
-> doesn't disable it. It's inconsistent.
->
-> The reason doesn't really matter, we would share the same name but have
-> a completely different behavior, this is super confusing to me.
+On Mon, Feb 13, 2023 at 09:49:55AM +0100, pelzi@flying-snail.de wrote:
+> Am 13.02.23 um 09:43 schrieb Maxime Ripard:
+> > On Fri, Feb 10, 2023 at 10:18:14AM +0000, Andre Przywara wrote:
+> > > > > Not sure if you were actually arguing this, but the change I sket=
+ched
+> > > > > above (interpreting 0 as 24MHz/1) is separate though, as the curr=
+ent
+> > > > > default is "no DT property", and not 0. There is no input-debounce
+> > > > > property user in the kernel tree at the moment, so we wouldn't br=
+eak
+> > > > > anyone. The only thing that would change is if a downstream user =
+was
+> > > > > relying on "0" being interpreted as "skip the setup", which isn't
+> > > > > really documented and could be argued to be an implementation det=
+ail.
+> > > > >=20
+> > > > > So I'd suggest to implement 0 as "lowest possible", and documenti=
+ng that
+> > > > > and the 32KHz/1 default if no property is given.
+> > > > Ah, my bad.
+> > > >=20
+> > > > There's another thing to consider: there's already a generic per-pin
+> > > > input-debounce property in pinctrl.
+> > > >=20
+> > > > Since we can't control it per pin but per bank, we moved it to the
+> > > > controller back then, but there's always been this (implicit)
+> > > > expectation that it was behaving the same way.
+> > > >=20
+> > > > And the generic, per-pin, input-debounce documentation says:
+> > > >=20
+> > > > > Takes the debounce time in usec as argument or 0 to disable debou=
+ncing
+> > > > I agree that silently ignoring it is not great, but interpreting 0 =
+as
+> > > > the lowest possible is breaking that behaviour which, I believe, is=
+ a
+> > > > worse outcome.
+> > > Is it really? If I understand the hardware manuals correctly, we cann=
+ot
+> > > really turn that feature off, so isn't the lowest possible time perio=
+d (24
+> > > MHz/1 at the moment) the closest we can get to "turn it off"? So
+> > > implementing this would bring us actually closer to the documented
+> > > behaviour? Or did I get the meaning of this time period wrong?
+> > > At least that's my understanding of how it fixed Andreas' problem: 1=
+=B5s
+> > > is still not "off", but much better than the 31=B5s of the default. T=
+he new
+> > > 0 would then be 0.041=B5s.
+> > My point was that the property we share the name (and should share the
+> > semantics with) documents 0 as disabled. We would have a behavior that
+> > doesn't disable it. It's inconsistent.
+> >=20
+> > The reason doesn't really matter, we would share the same name but have
+> > a completely different behavior, this is super confusing to me.
+>=20
+> I got the point. As far as I can tell from the datasheet, it is not possi=
+ble
+> to actually switch off input-debounce. But as a debounce filter is actual=
+ly
+> a low-pass filter, setting the cut-off frequency as high as possible,
+> appears to be the equivalent to switching it off.
 
-I got the point. As far as I can tell from the datasheet, it is not possible
-to actually switch off input-debounce. But as a debounce filter is actually
-a low-pass filter, setting the cut-off frequency as high as possible,
-appears to be the equivalent to switching it off.
-To me it does not appear inconsistent, as any hardware will have an
-implicit cut-off frequency given by its physical capabilites.
+It's not really a matter of hardware here, it's a matter of driver
+behavior vs generic behavior from the framework. The hardware obviously
+influences the former, but it's marginal in that discussion.
 
-Cheers,
+As that whole discussion shows, whether the frequency would be high
+enough is application dependent, and thus we cannot just claim that it's
+equivalent in all circumstances.
 
-Andreas.
+Making such an assumption will just bite someone else down the road,
+except this time we will have users (you, I'd assume) relying on that
+behavior so we wouldn't be able to address it.
 
+But I also agree with the fact that doing nothing with 0 is bad UX and
+confusing as well.
 
+I still think that we can address both by just erroring out on 0 /
+printing an error message so that it's obvious that we can't support it,
+and we wouldn't change the semantics of the property either.
+
+And then you can set the actual debouncing time you need instead of
+"whatever" in the device tree.
+
+Maxime
