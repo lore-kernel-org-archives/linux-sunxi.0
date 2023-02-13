@@ -1,152 +1,136 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C30D97E
-	for <linux-sunxi@lists.linux.dev>; Mon, 13 Feb 2023 01:53:49 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B97EB4B3;
-	Sun, 12 Feb 2023 17:54:25 -0800 (PST)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 65B3D3F881;
-	Sun, 12 Feb 2023 17:53:40 -0800 (PST)
-Date: Mon, 13 Feb 2023 01:51:31 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Andreas Feldner <pelzi@flying-snail.de>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, Andreas
- Feldner <andreas@feldner-bv.de>
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F1761FDA
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 Feb 2023 08:43:36 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id E9A1432008FD;
+	Mon, 13 Feb 2023 03:43:33 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Mon, 13 Feb 2023 03:43:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1676277813; x=
+	1676364213; bh=bJwx7IwzH47R8jsBNLlGfXE6Uds64AApY/i7ejI6wdY=; b=U
+	FYN2TUhUNbrI2a4xXJ9XQy3WUoEIlCJdxOpqzVfnoFnQBeoAgjZHQqosBmfN1Zf/
+	q0Ay0VQgfRsA0sj3AhuCol9MlTRScMqIPrP0EoFuuZ+k5khwpiptTJkOvjKG4Vgt
+	MZvT13s9fFkjIQqj/xGkulimec0zjDnlMHxcf30DPf9TQH2d7DXPCkd4EESoi2y+
+	p/3imwDbmqIbYjLgvdDCo/s49kpPZLZA9VaTL2+nykMUMYt6Z7gS6nRBMCYJ/hqd
+	oOGcdVsmZrQapxCoM8a95zyOjWNWq/Qwkb/G3lItKEpuGCgggGc9FRCPU7u5tC99
+	kyRheWd5Twb3M1Ay/3X1w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1676277813; x=
+	1676364213; bh=bJwx7IwzH47R8jsBNLlGfXE6Uds64AApY/i7ejI6wdY=; b=I
+	GcI7/1iGpjUEPD53awGngS3YgMN5cNldEbBl+Ci8jGrlPxJwqh2tNhrHqwHO6SnH
+	QPqGl6QQu2Dm0o8KrywfQ3OT8fjTM+aSTHeXTPvBXXedObvZw+ROOd8zI56HXjrW
+	eFIqx/vs2oKcWtmOzpizZiZOUylfS7Y/PiscK+BQTXK5mgJ2dQVore2cdK4BLfGk
+	iQ8HSOuB8Vjp5op2LM6YZP1lcwf+cB++T7ZUF1AUjUNuLdTyEH54ef6r+vzW/SZK
+	K9ZuJh9Co/5YNm2OPjTPRt+5ogGpSaZFDow4H0v0B6oCKOROr12l96Tk0VqkE2x8
+	h6Kv05srKdDUsVGklGQJg==
+X-ME-Sender: <xms:NPjpY8ALTdvtQ6E3HH5jqxKNho9ystFtb2ilcIzeVCXKxNAelOpIDQ>
+    <xme:NPjpY-icUjUs0zXfSrntBo9GKr8DWouFpYuLYY6p7r3ywSe35tWqtTZ5o_647tqbd
+    h7q5WLQHtJ-8LcY0cU>
+X-ME-Received: <xmr:NPjpY_mWZbqAcOPPR9GRi4KRw8qJ98MSaUHnLxmUJBdQnXmBz4Jh86VCLue_CDjQOu2e_g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeitddguddvudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtudenucfhrhhomhepofgr
+    gihimhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtf
+    frrghtthgvrhhnpeelleefieelleetteefvdeikeeffeffvefhtdevgfehveduveehjedv
+    vdeiledtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:NPjpYyxqVAMVP99KhXqZwyrQQsND3ipbrKukBUpbfGXftczv4j1x-g>
+    <xmx:NPjpYxSBKIdyH64goSMPErX4FCHCG1Xua0lMXRuixILT7aQN9gbBmQ>
+    <xmx:NPjpY9aJjcezKVaMxuRazW2on4PnOfMNki1r7H6Lc3KH1geka84Rpw>
+    <xmx:NfjpYwAGc3PW7tZ8yCkcpYhpomvG8OyXvM1dWaonxbvfqM7pnteGJw>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 13 Feb 2023 03:43:32 -0500 (EST)
+Date: Mon, 13 Feb 2023 09:43:29 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Andreas Feldner <andreas@feldner-bv.de>,
+	Andreas Feldner <pelzi@flying-snail.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] ARM: dts: allwinner: minimize irq debounce filter per
  default
-Message-ID: <20230213015131.6da11658@slackpad.lan>
-In-Reply-To: <76a1cabd-f173-f86a-423a-ba5be7c1efd0@sholland.org>
+Message-ID: <20230213084329.ulckaigwd7dof37u@houat>
 References: <Y+FaVorMl37F5Dve@debian-qemu.internal.flying-snail.de>
-	<20230207011608.2ce24d17@slackpad.lan>
-	<d0534762-3785-ec2d-8d1e-aba0e39f701b@feldner-bv.de>
-	<20230209202952.673d5a60@slackpad.lan>
-	<76a1cabd-f173-f86a-423a-ba5be7c1efd0@sholland.org>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+ <20230207011608.2ce24d17@slackpad.lan>
+ <d0534762-3785-ec2d-8d1e-aba0e39f701b@feldner-bv.de>
+ <20230209202952.673d5a60@slackpad.lan>
+ <20230210082936.qefzz4fsp3jpalvp@houat>
+ <20230210094425.474cfba5@donnerap.cambridge.arm.com>
+ <20230210100620.z6j7rvkiwyu7paij@houat>
+ <20230210101814.2d36ae57@donnerap.cambridge.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230210101814.2d36ae57@donnerap.cambridge.arm.com>
 
-On Sat, 11 Feb 2023 13:45:37 -0600
-Samuel Holland <samuel@sholland.org> wrote:
-
-Hi Samuel,
-
-> On 2/9/23 14:29, Andre Przywara wrote:
-> > On Wed, 8 Feb 2023 13:50:04 +0100
-> > Andreas Feldner <andreas@feldner-bv.de> wrote:
+On Fri, Feb 10, 2023 at 10:18:14AM +0000, Andre Przywara wrote:
+> > > Not sure if you were actually arguing this, but the change I sketched
+> > > above (interpreting 0 as 24MHz/1) is separate though, as the current
+> > > default is "no DT property", and not 0. There is no input-debounce
+> > > property user in the kernel tree at the moment, so we wouldn't break
+> > > anyone. The only thing that would change is if a downstream user was
+> > > relying on "0" being interpreted as "skip the setup", which isn't
+> > > really documented and could be argued to be an implementation detail.
+> > >=20
+> > > So I'd suggest to implement 0 as "lowest possible", and documenting t=
+hat
+> > > and the 32KHz/1 default if no property is given. =20
 > >=20
-> > Hi Andreas,
+> > Ah, my bad.
 > >=20
-> > CC:ing Maxime, who wrote the debouncing code back then.
-> >  =20
-> >> Am 07.02.23 um 02:16 schrieb Andre Przywara: =20
-> >>> On Mon, 6 Feb 2023 20:51:50 +0100
-> >>> Andreas Feldner <pelzi@flying-snail.de> wrote:
-> >>>
-> >>> Hi Andreas,
-> >>>
-> >>> thanks for taking care about this board and sending patches!   =20
-> >> Thank YOU for maintaining it! =20
-> >>>> The SoC features debounce logic for external interrupts. Per default,
-> >>>> this is based on a 32kHz oscillator, in effect filtering away multip=
-le
-> >>>> interrupts separated by less than roughly 100=C3=AF=C2=BF=C2=BDs.
-> >>>>
-> >>>> This patch sets different defaults for this filter for this board:
-> >>>> PG is connected to non-mechanical components, without any risk for
-> >>>> showing bounces. PA is mostly exposed to GPIO pins, however the
-> >>>> existence of a debounce filter is undesirable as well if electronic
-> >>>> components are connected.   =20
-> >>> So how do you know if that's the case? It seems to be quite normal to
-> >>> just connect mechanical switches to GPIO pins.
-> >>>
-> >>> If you are trying to fix a particular issue you encountered, please
-> >>> describe that here, and say how (or at least that) the patch fixes it.
-> >>>
-> >>> And I would suggest to treat port G and port A differently. If you
-> >>> need a lower debounce threshold for port A, you can apply a DT overlay
-> >>> in U-Boot, just for your board.   =20
-> >>
-> >> Fair enough. You run into problems when you connect (electronic)
-> >> devices to bank A (typically by the 40pin CON2 connector), where
-> >> the driver requires fast IRQs to work. In my case this has been a
-> >> DHT22 sensor, and the default debounce breaking the dht11.ko
-> >> driver. =20
+> > There's another thing to consider: there's already a generic per-pin
+> > input-debounce property in pinctrl.
 > >=20
-> > Sure, what I meant is that this is a property of your particular
-> > setup (because you attach something to the *headers*) , so it shouldn't
-> > be in the generic DT, but just in your copy. Which ideally means using
-> > a DT overlay.
-> >  =20
-> >> Now, what kind of problem is this - I'm no way sure:
-> >>
-> >> a) is it an unlucky default, because whoever connects a mechanical
-> >> switch will know about the problem of bouncing and be taking
-> >> care to deal with it (whereas at least I was complete unsuspecting
-> >> when connecting an electronic device that a debounce function
-> >> might be in place), or =20
+> > Since we can't control it per pin but per bank, we moved it to the
+> > controller back then, but there's always been this (implicit)
+> > expectation that it was behaving the same way.
 > >=20
-> > The Linux default is basically the reset default: just leave the
-> > register at 0x0. It seems like you cannot really turn that off at all
-> > in hardware, and the reset setting is indeed 32KHz/1. So far there
-> > haven't been any complaints, though I don't know if people just
-> > don't use it in anger, or cannot be bothered to send a report to the
-> > list.
-> >  =20
-> >> b) is it a bug in the devicetree for (at least) the BananaPi M2 Zero,
-> >> because the IRQ bank G is hard wired to electronic devices that
-> >> should not be fenced by a debouncing function, or =20
+> > And the generic, per-pin, input-debounce documentation says:
 > >=20
-> > Well, we could try to turn that "off" as much as possible, but on the
-> > other hand the debounce only affects *GPIO* *interrupts*, so not sure
-> > that gives us anything. The PortG pins are used for the SDIO Wifi, BT
-> > UART, and the wakeup pins for the Wifi chip. Only the wakeup pins would
-> > be affected, and I doubt that we wake up that often that it matters. If
-> > you've made other observations, please let me know.
+> > > Takes the debounce time in usec as argument or 0 to disable debouncin=
+g =20
 > >=20
-> > Certainly no board with an in-tree DT sets the debounce property, which
-> > means everyone uses 32KHz/1, and also did so before the functionality
-> > was introduced. =20
+> > I agree that silently ignoring it is not great, but interpreting 0 as
+> > the lowest possible is breaking that behaviour which, I believe, is a
+> > worse outcome.
 >=20
-> One side note relevant to wakeup pins: if the debounce clock source is
-> set to HOSC, and the 24 MHz oscillator is disabled, then IRQs for those
-> pins will never fire.
+> Is it really? If I understand the hardware manuals correctly, we cannot
+> really turn that feature off, so isn't the lowest possible time period (24
+> MHz/1 at the moment) the closest we can get to "turn it off"? So
+> implementing this would bring us actually closer to the documented
+> behaviour? Or did I get the meaning of this time period wrong?
+> At least that's my understanding of how it fixed Andreas' problem: 1=B5s
+> is still not "off", but much better than the 31=B5s of the default. The n=
+ew
+> 0 would then be 0.041=B5s.
 
-That's a good point.
+My point was that the property we share the name (and should share the
+semantics with) documents 0 as disabled. We would have a behavior that
+doesn't disable it. It's inconsistent.
 
-> Currently, Crust does not check the debounce configuration when deciding
-> if it can turn off the 24 MHz crystal during system suspend (or fake-off
-> on boards without PMICs), so any wakeup-capable GPIOs need to use LOSC
-> as their debounce clock.
->=20
-> Do you have any thoughts about if/how we should handle this
-> automatically? Should Linux (or Crust) override the debounce
-> configuration when entering suspend?
+The reason doesn't really matter, we would share the same name but have
+a completely different behavior, this is super confusing to me.
 
-My feeling is since it's Crust's decision to disable the 24MHz
-oscillator, it should make sure that's a workable configuration. So it
-would be Crust's responsibility to avoid using 24 MHz as the debounce
-clock, I'd say. There could be an argument about Linux re-initialising
-the GPIO during resume, but that wouldn't help you anyway.
-
-> I imagine no wakeup source will
-> require a particularly short debounce time.
-
-Since it all seems to work fine with the current 32KHz/1 setup, I
-wouldn't expect any issues due to too short pulses being eaten by the
-debouncing logic. And a too short debounce period shouldn't matter for
-wakeup either, since it's the first edge that counts.
-
-Cheers,
-Andre
+Maxime
