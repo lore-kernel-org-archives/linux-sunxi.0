@@ -1,23 +1,23 @@
 Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4EB4525A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC21D6105
 	for <linux-sunxi@lists.linux.dev>; Wed, 15 Feb 2023 20:37:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
 	s=smtpauto.stravinsky; h=X-Debian-User:Content-Transfer-Encoding:MIME-Version
 	:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=H4m3RP9AkGa0lGoncGnuU5TSiDprpEx7CfW0CHNe6C4=; b=Xv/LX8xdfRA3IJXZUbMbjDLKxe
-	xm7Pccqt4fjdnkBet05mvUTdubkfrMNdU7Pc/yemm12fkAV6oaKDC0Oe5Bbv1GaieZEEq5mQNh5kq
-	piDNJuUhOr3DkHj2fiHoL3Sf8fbeGU9R8dnXnuCVI00JMPJFjZ3gV/CXgS91M3Eydsw7yK/C2Mzl4
-	k+AY4TDj0rfniyHhswQhBhleKbrUBoZe8lo9/uWmT12QV+26pRQFNrmP6BPNp/aoa8WymGsB39hDD
-	THFm5TpCo6c23+3vgVoP851fe1UA/UxtNZG/FkP7jDNjhBmQrRuxnus6bSg2pMF9nPIDZ2ivSueGq
-	2sgA5x0g==;
+	bh=r49yZYmJjuE0DOdqDD4meHmGEzLhjIGb5mML7c5O7pA=; b=nWZitlbNhn+wFiicL3hw+i9Kp1
+	Qq8MR8kEy3UH/kxsk+U8NUazMQhqV2OaRN80F7T+XlgBDakte1VDsqn5Cmar5M9WDtRNOAjfzv3UL
+	PtxHF+WNi2w3jkpZRwgSXOWn27lh7exgg5B7QCG0Mzn53tqquCX098gxoljrQnoP1At5nnKYs50NX
+	2+FHOq45N504I4Xdx+QR4AIo+dHTlZN8A9Am7DIkzYDhaymRRBk8hYzw4LMTwmPAp9YhkP54jrnYA
+	jXUNQp1380Mb9fv3e1ej2R4bwDhPk1faA9CqHEM46W1uLi6weOec2GbMHku6yMMh3OqjLUdp8gUrw
+	AWSJQydw==;
 Received: from authenticated user
 	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.94.2)
 	(envelope-from <bage@debian.org>)
-	id 1pSOWi-002j5f-MJ; Wed, 15 Feb 2023 20:37:16 +0000
+	id 1pSOWj-002j5f-CM; Wed, 15 Feb 2023 20:37:17 +0000
 From: Bastian Germann <bage@debian.org>
 To: Wilken Gottwalt <wilken.gottwalt@posteo.net>
 Cc: Bastian Germann <bage@debian.org>,
@@ -32,12 +32,10 @@ Cc: Bastian Germann <bage@debian.org>,
 	linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Andre Przywara <andre.przywara@arm.com>
-Subject: [PATCH v2 1/5] dt-bindings: hwlock: sun6i: Add missing #hwlock-cells
-Date: Wed, 15 Feb 2023 21:37:06 +0100
-Message-Id: <20230215203711.6293-2-bage@debian.org>
+	devicetree@vger.kernel.org
+Subject: [PATCH v2 3/5] dt-bindings: hwlock: sun6i: Add missing names
+Date: Wed, 15 Feb 2023 21:37:08 +0100
+Message-Id: <20230215203711.6293-4-bage@debian.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230215203711.6293-1-bage@debian.org>
 References: <20230215203711.6293-1-bage@debian.org>
@@ -50,39 +48,57 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Debian-User: bage
 
-The allwinner,sun6i-a31-hwspinlock.yaml binding needs #hwlock-cells
-which is required by the hwlock type.
+The allwinner,sun6i-a31-hwspinlock.yaml binding needs clock-names
+and reset-names set to "ahb" as required by the Linux driver.
 
 Fixes: f9e784dcb63f ("dt-bindings: hwlock: add sun6i_hwspinlock")
 Signed-off-by: Bastian Germann <bage@debian.org>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Signed-off-by: Bjorn Andersson <andersson@kernel.org>
-Link: https://lore.kernel.org/r/20230213231931.6546-2-bage@debian.org
 ---
- .../bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml       | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../hwlock/allwinner,sun6i-a31-hwspinlock.yaml       | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml b/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml
-index 10e5a53e447b..01b1bbb3061f 100644
+index 38478dad8b25..6cdfe22deb3c 100644
 --- a/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml
 +++ b/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml
-@@ -26,11 +26,15 @@ properties:
+@@ -23,9 +23,17 @@ properties:
+   clocks:
+     maxItems: 1
+ 
++  clock-names:
++    items:
++      - const: ahb
++
    resets:
      maxItems: 1
  
-+  '#hwlock-cells':
-+    const: 1
++  reset-names:
++    items:
++      - const: ahb
 +
- required:
+   '#hwlock-cells':
+     const: 1
+ 
+@@ -33,7 +41,9 @@ required:
    - compatible
    - reg
    - clocks
++  - clock-names
    - resets
-+  - "#hwlock-cells"
++  - reset-names
+   - "#hwlock-cells"
  
  additionalProperties: false
- 
+@@ -47,7 +57,9 @@ examples:
+         compatible = "allwinner,sun6i-a31-hwspinlock";
+         reg = <0x01c18000 0x1000>;
+         clocks = <&ccu CLK_BUS_SPINLOCK>;
++        clock-names = "ahb";
+         resets = <&ccu RST_BUS_SPINLOCK>;
++        reset-names = "ahb";
+         #hwlock-cells = <1>;
+     };
+ ...
 -- 
 2.39.1
 
