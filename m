@@ -1,23 +1,23 @@
 Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFBFD2F2F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B2B539D
 	for <linux-sunxi@lists.linux.dev>; Wed, 15 Feb 2023 20:37:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
 	s=smtpauto.stravinsky; h=X-Debian-User:Content-Transfer-Encoding:MIME-Version
-	:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=e/h7Jd3Bftz4I/V3GwkrnB37sFuV2tm61VzgB83k3L4=; b=OffNwXDw2cmv09Gyr4ScW2cmR8
-	ddg010JHL6upKIJS4YL0BLf8upSmjs0nkBYuycSPCIadhCthTA2OEyUAD7WrEWSrOTD/jBIFtip0O
-	y9mYrS1MDbym6lMeKM7aN9N3OkLrRe838X02Oh7HRxUXTSoev4o2Ex0dL4NV9i2V4gk6ROQ88Yr4L
-	L6CecifHmbvpBDCN0DDtSaAx3mxcJt15rWoEokXcRu1WwJ70FULOBRfb8qvGyTJ9glwwfOrNbayEK
-	8893zclLjf36lU5GfinPl02IIz6VkH4byI7ZmYMdMhokXq2snKBBiBR41fIrI4NAomTbv1EwVaReW
-	HijuX0KA==;
+	:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=bld27SLtxMpempS0AaLEC71g3ll0gb2LqYxVJXQMgP0=; b=C/vR31YwgO+/9WE/MfvwDcX6nl
+	MnOQzf4x8MbdFEQB/AixPa6/aCOBB7KsaVZE7peLeV6+ZIKafhWfRj9lxwMIFYxurdyU9kYfJKIrP
+	Uu0BDr6K9IkhzsCwoNahkucR+eXdsGS3WUdCiI0O0KwfR7yP3PkJ7pFzMbeOHWrqJhqbTR8OgMRon
+	jg4br3a3eYwwIS445ahRgsRKRW4AJaTEaIE4Bp3Zhm2U/wMUslrHgT8ORSfhG3kAgfZhkQk+A3SDv
+	GaKcCll97bTezdz5+VafSytGoEg26gw8CC5gUvEDHA1RhHgfZydx6votexyfD7BuVEgs9Jry2ywro
+	ddFwyiOg==;
 Received: from authenticated user
 	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.94.2)
 	(envelope-from <bage@debian.org>)
-	id 1pSOWi-002j5f-B0; Wed, 15 Feb 2023 20:37:16 +0000
+	id 1pSOWj-002j5f-2I; Wed, 15 Feb 2023 20:37:17 +0000
 From: Bastian Germann <bage@debian.org>
 To: Wilken Gottwalt <wilken.gottwalt@posteo.net>
 Cc: Bastian Germann <bage@debian.org>,
@@ -33,10 +33,12 @@ Cc: Bastian Germann <bage@debian.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	devicetree@vger.kernel.org
-Subject: [PATCH v2 0/5] Enable hwlock on Allwinner A64
-Date: Wed, 15 Feb 2023 21:37:05 +0100
-Message-Id: <20230215203711.6293-1-bage@debian.org>
+Subject: [PATCH v2 2/5] dt-bindings: hwlock: sun6i: Add #hwlock-cells to example
+Date: Wed, 15 Feb 2023 21:37:07 +0100
+Message-Id: <20230215203711.6293-3-bage@debian.org>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230215203711.6293-1-bage@debian.org>
+References: <20230215203711.6293-1-bage@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -46,34 +48,25 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Debian-User: bage
 
-The allwinner,sun6i-a31-hwspinlock compatible driver can be used with
-the Allwinner A64 chip. Add the wiring required to enable it.
+The dt-bindings tools will compile the yaml dt examples
+and this prevents an error about this node not existing.
 
-The device tree binding needs some work to verify everything that is
-needed by the sun6i hwlock driver.
+Signed-off-by: Bastian Germann <bage@debian.org>
+---
+ .../bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml          | 1 +
+ 1 file changed, 1 insertion(+)
 
-The hwlock device was verified to be available with this series applied
-on a Pinebook.
-
-1/5 was already applied in linux-next.
-
-Changelog:
-v2:
-   Fix the dt-binding example for the added properties.
-   Add a compatible string for a64.
-   Wording 3/5: driver -> Linux driver.
-
-Bastian Germann (5):
-  dt-bindings: hwlock: sun6i: Add missing #hwlock-cells
-  dt-bindings: hwlock: sun6i: Add #hwlock-cells to example
-  dt-bindings: hwlock: sun6i: Add missing names
-  dt-bindings: hwlock: sun6i: Add a64 compatible string
-  arm64: dts: allwinner: a64: Add hwspinlock node
-
- .../allwinner,sun6i-a31-hwspinlock.yaml       | 21 ++++++++++++++++++-
- arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 11 ++++++++++
- 2 files changed, 31 insertions(+), 1 deletion(-)
-
+diff --git a/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml b/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml
+index 01b1bbb3061f..38478dad8b25 100644
+--- a/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml
++++ b/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml
+@@ -48,5 +48,6 @@ examples:
+         reg = <0x01c18000 0x1000>;
+         clocks = <&ccu CLK_BUS_SPINLOCK>;
+         resets = <&ccu RST_BUS_SPINLOCK>;
++        #hwlock-cells = <1>;
+     };
+ ...
 -- 
 2.39.1
 
