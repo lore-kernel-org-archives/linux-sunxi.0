@@ -1,132 +1,63 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF657B
-	for <linux-sunxi@lists.linux.dev>; Wed, 15 Feb 2023 00:25:50 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id u75so11389329pgc.10
-        for <linux-sunxi@lists.linux.dev>; Tue, 14 Feb 2023 16:25:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=13xGsV2jjmQG8zQgYM+MlutjbCojfUR9ZAZxMQUAu6A=;
-        b=VbDHSuKi2kZRWENSk2pFNf3FMtXUOOe3VDfIEKUiwUU2+nF2+OCaaPOuXdYtNyUpLQ
-         9Xd6EO7n+xMbaBqmbVbZrsA/QZ0yVnFFzEFzoEbgloRQvcRU+Ki24BDOV+MfdQ2jBar5
-         eiZqKerrZbTyGjo6xBnZQi2ut6PhyieHf/h2xGezwbRP9mthdu/8cMTCBWAzZXPR2gdR
-         PiN1UI8bVN+UgiaeNJCUWgfamW6ad7EVUNUwK7ChPOaz9F0R9pHDUsTzhgm5s+peYflE
-         7CBDOVmIbnPaWF8jdyyrURj3MGG7bRXnNdgk62B6mB12/0Wng4KDkH5wFr2fI4oR7OxN
-         joRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=13xGsV2jjmQG8zQgYM+MlutjbCojfUR9ZAZxMQUAu6A=;
-        b=0uUXi/uN+zc2Mdi9K3y45jw5JrmKlNlIYC30cQYwJlRsXAwSc+tfXPKJbu7Ng6SvXo
-         ZXawHnykEFWxeqgv4C19XG3EZ+g2V5uNWfbUlXVGVtQK9tE3QH3Vh+A80UaB9JGQZjlP
-         ZzjrnNDPWhf2cxURQvVm/iaDxui0SIeG+nTllGvZxH4uSh5HcUxmYBrUoPq3rFkkGIdj
-         8kB8j5Pq/RP5wNMwUsb1/GHOMLkDNB0BcOxK580qxdIkSaIq7C+NeGIV783qP/lVI61K
-         h155ZDdc0IOgXNtvwqMLz0qd9g9P8x/IuCXN6FKIavq0ISd3u02OtYY9/1gUO4S/83VN
-         tD1Q==
-X-Gm-Message-State: AO0yUKUcbtnRntR2H6MebyWXbqeBvBbM068/d+oeCjXMJaKmDuXgmlVn
-	ZqZy+79B6eAKWyoCwZgX2Qiu7w==
-X-Google-Smtp-Source: AK7set/RfDAmrDwKus+3EwyrpiXyachl6rM8SdJg8/oDC0GOfqqp5AasjoE8kO/Zq+15hhwXvqWA4Q==
-X-Received: by 2002:aa7:9581:0:b0:5a8:65e4:aba9 with SMTP id z1-20020aa79581000000b005a865e4aba9mr55940pfj.18.1676420750261;
-        Tue, 14 Feb 2023 16:25:50 -0800 (PST)
-Received: from localhost ([135.180.226.51])
-        by smtp.gmail.com with ESMTPSA id i22-20020aa787d6000000b005998a75dbc5sm10351038pfo.2.2023.02.14.16.25.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Feb 2023 16:25:49 -0800 (PST)
-Date: Tue, 14 Feb 2023 16:25:49 -0800 (PST)
-X-Google-Original-Date: Tue, 14 Feb 2023 16:25:45 PST (-0800)
-Subject:     Re: [PATCH 4/4] riscv: dts: allwinner: d1: Add video engine node
-In-Reply-To: <4767366.GXAFRqVoOG@jernej-laptop>
-CC: paul.kocialkowski@bootlin.com, samuel@sholland.org, wens@csie.org,
-  mchehab@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, aou@eecs.berkeley.edu,
-  Conor Dooley <conor@kernel.org>, Greg KH <gregkh@linuxfoundation.org>, mripard@kernel.org,
-  Paul Walmsley <paul.walmsley@sifive.com>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-riscv@lists.infradead.org,
-  linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: jernej.skrabec@gmail.com
-Message-ID: <mhng-e29729d8-6f1e-42a5-bff6-852a16626cd4@palmer-ri-x1c9>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC46817F5
+	for <linux-sunxi@lists.linux.dev>; Wed, 15 Feb 2023 05:07:06 +0000 (UTC)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 38F632401B1
+	for <linux-sunxi@lists.linux.dev>; Wed, 15 Feb 2023 06:01:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1676437290; bh=FWiteDJexgPQ7XRRBus0P85wr8k1keyo2CAWC376RBg=;
+	h=Date:From:To:Cc:Subject:From;
+	b=LgoCIgmA4DG3U60cJpRJjIfKH2twgmEqeqoq6NeO4a5klvUy8lbvR28CSQQGmpLeB
+	 u/cuCqwPjajm87/BGARvdGKD7jbG7tuMZd5kvjp8XR7FGogGQjTtBILnhU4uOFLtaC
+	 NqEN/t1repkDdAO46q6Frc8WszoJ4xFjstGj4D+W8YNzJsuOjZKChNHGl4So8xi1rm
+	 dysZ4bqopyhPAep0kE1DpQm1+Oj9BVrxkLtcLGKvF3lFPY7+rgwOO1CH2LWK4dFQgu
+	 T+4yjxHc7VypDuYwKSU/8pgo2ZmZr/rj9Xy4vbsFKRf+HNwzFWqVJ7a7ITbQOdHk4s
+	 FsddejQMTLvWg==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4PGmBZ5hGhz9rxF;
+	Wed, 15 Feb 2023 06:01:26 +0100 (CET)
+Date: Wed, 15 Feb 2023 05:01:25 +0000
+From: Wilken Gottwalt <wilken.gottwalt@posteo.net>
+To: Bastian Germann <bage@debian.org>
+Cc: Andre Przywara <andre.przywara@arm.com>, Ohad Ben-Cohen
+ <ohad@wizery.com>, Bjorn Andersson <andersson@kernel.org>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai
+ <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org
+Subject: Re: [PATCH 0/3] Enable hwlock on Allwinner A64
+Message-ID: <20230215060125.0e06312e@posteo.net>
+In-Reply-To: <d483ea28-feed-41d1-f9b6-4abfcfe42874@debian.org>
+References: <20230213231931.6546-1-bage@debian.org>
+	<20230214001805.6ead683d@slackpad.lan>
+	<d483ea28-feed-41d1-f9b6-4abfcfe42874@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, 05 Jan 2023 08:21:58 PST (-0800), jernej.skrabec@gmail.com wrote:
-> Dne četrtek, 05. januar 2023 ob 15:38:36 CET je Samuel Holland napisal(a):
->> Hi Paul,
->> 
->> On 1/5/23 04:11, Paul Kocialkowski wrote:
->> > On Sat 31 Dec 22, 10:46, Samuel Holland wrote:
->> >> D1 contains a video engine which is supported by the Cedrus driver.
->> > 
->> > Does it work "outside the box" without power domain management?
->> > If not, it might be a bit confusing to add the node at this point.
->> 
->> Yes, it does. All of the power domains are enabled by default. However,
->> if the PPU series is merged first, I will respin this to include the
->> power-domains property from the beginning.
->
-> I would rather see that merged before and having complete node right away.
->
-> I've been away, but I'll merge everything that's ready for sunxi tree until 
-> end of the weekend.
+On Tue, 14 Feb 2023 22:55:45 +0100
+Bastian Germann <bage@debian.org> wrote:
 
-Just checking up on this one, as it's still in the RISC-V patchwork but 
-I don't see it in linux-next.  No big deal on my end, I just don't want 
-to be dropping the ball here.
+> Am 14.02.23 um 01:18 schrieb Andre Przywara:
+> > So are there Linux/Crust patches out there that use this device?
+> 
+> I do not know of any. I was just investigating the chip and checked the parts that I could easily
+> use in Linux.
 
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+Easily using it is, well, a bit questionable. The only reason to use this is
+for syncing access to hardware between the ARM and the embedded OpenRISC core.
+Like Andre wrote, it only makes sense if you want to etablish some form of
+shared access between Linux and the Crust firmware. Using this in Linux only
+instead of the common spinlocks won't be fun, that hwspinlock unit is slower.
 
-In case you were waiting for it (in which case sorry).
-
->
-> Best regards,
-> Jernej
->
->> 
->> Regards,
->> Samuel
->> 
->> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
->> >> ---
->> >> 
->> >>  arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 11 +++++++++++
->> >>  1 file changed, 11 insertions(+)
->> >> 
->> >> diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
->> >> b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi index
->> >> dff363a3c934..4bd374279155 100644
->> >> --- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
->> >> +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
->> >> @@ -34,6 +34,17 @@ soc {
->> >> 
->> >>  		#address-cells = <1>;
->> >>  		#size-cells = <1>;
->> >> 
->> >> +		ve: video-codec@1c0e000 {
->> >> +			compatible = "allwinner,sun20i-d1-video-
-> engine";
->> >> +			reg = <0x1c0e000 0x2000>;
->> >> +			interrupts = <SOC_PERIPHERAL_IRQ(66) 
-> IRQ_TYPE_LEVEL_HIGH>;
->> >> +			clocks = <&ccu CLK_BUS_VE>,
->> >> +				 <&ccu CLK_VE>,
->> >> +				 <&ccu CLK_MBUS_VE>;
->> >> +			clock-names = "ahb", "mod", "ram";
->> >> +			resets = <&ccu RST_BUS_VE>;
->> >> +		};
->> >> +
->> >> 
->> >>  		pio: pinctrl@2000000 {
->> >>  		
->> >>  			compatible = "allwinner,sun20i-d1-pinctrl";
->> >>  			reg = <0x2000000 0x800>;
+greetings,
+Will
