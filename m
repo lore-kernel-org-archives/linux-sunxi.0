@@ -1,45 +1,45 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491F420FB
-	for <linux-sunxi@lists.linux.dev>; Thu, 16 Feb 2023 08:16:01 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id t24so3262689eji.4
-        for <linux-sunxi@lists.linux.dev>; Thu, 16 Feb 2023 00:16:01 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3B77B
+	for <linux-sunxi@lists.linux.dev>; Thu, 16 Feb 2023 08:36:12 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id 10so2579812ejc.10
+        for <linux-sunxi@lists.linux.dev>; Thu, 16 Feb 2023 00:36:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=BUKG5YPhru70hIY0uF2wn2wEXa9HKzbQaUOh/EWXtKE=;
-        b=TviBwG1j/4T74Vy5Q6UPni7S2+k88DB0D9XxQuZPZ3KxBM6rmpF6ejlSi7F9MJPGZI
-         VtDzQ+ZLdUhLt9yF/yoMkJEdDt9PGO01fOVFuPUp7FudOFGBR+d+K6Z81gx0quW7LdaK
-         aKeCWpx1thXc+SxM5UjxbR8Xvng8gU1PhdSyo5RcTu5uJEtyeYTyw9oA+Loeuk0Rxb/8
-         53xcK6jF7OaaYuqfl/f+KJu3Q9N6MQUJza5K+UxS8H468npU1g5pJZHtTCeb0Wy8oOxZ
-         YdMEN98CfqUjWYrIkhfK7U6lb7h82Kq/f3Q/gS/bOacLGpxcBFdFFPtN2u1HZpiTuoiy
-         FldA==
+        bh=16RBvX2K5fEOc65TEX4CGMW4aoTgfh9Mm/UNw/VAU3g=;
+        b=Ct04YhcQwiyukWh9jRrxjqrgGfT2820R8JZ9p0D8sliT8YMn58C+4+Leupc6/dUpmi
+         AIKX+t4YdphFhKgHD0XTs4tlbi1mX1yFM2lMDJ2zBeOaBTi0ZQ6/Z40aiW7nqiI2bha/
+         FrbfV3gSIyBHjTHaXKS7Bz/HJrktiN6eiHiGjI1IipCSeUBbLO9hS1+Ko7bqF9dUbsST
+         2BsgAkSLaOFPwL98ctbXdQUBDBrKVC2deLNw3bB5k3f5lcKL+ELfsx71xoLoo72o2DFU
+         jTcblEPqndNVSRUfDIJ3oDpeN1sxJOw5/nWtlF3hzxd/vaJFQheEBfmNHR2geuYkxV75
+         x4EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BUKG5YPhru70hIY0uF2wn2wEXa9HKzbQaUOh/EWXtKE=;
-        b=vCTed2jubf2lVZ6kusOwNdQ1X/4KvQavMGDt5KYnMig2Xi+xbkLC37Kh7gLE+a95Ru
-         P/4TWv+9xTomPl8aWtCCJfn343xfBM6gr6efjekdps5k4q0fLWo3GDPE99ALWS/pVFX+
-         lgig5hgR4Vx0Sx+qckjPzNClO7DGtqbCWIEsDoSjkWTwp2gdScZBJD9Lnwl1Y8fcIFHq
-         qGkdvQxMqcpyPBBeXrj1jmT6szacdJqHnTYpKBDkohFHY9XSXBlRLJQekmOuxTxQHIYq
-         oFZAfNpIkSLFCglfuPTF+6SdTZM/12fTkpHfxBHlCpcwzRUB9soD4X6OlcTsXjziDy64
-         LWGw==
-X-Gm-Message-State: AO0yUKXplETNBXMOvByzXv2G+1xGiXNkxDJEhglc8iIBJyyP+jml4jRu
-	fHgSWqt1/1CFkFBxHLTfGGNROgs0SRswEhrv
-X-Google-Smtp-Source: AK7set9NqBS/MqufYv5CckvhPlTpKHEyZXD1IaqYeAqa8KMVWLtyfPIOV1bTl9tEMBgo6Lcejy4AYA==
-X-Received: by 2002:a17:906:68c7:b0:8a6:93a4:c892 with SMTP id y7-20020a17090668c700b008a693a4c892mr5133777ejr.44.1676535359466;
-        Thu, 16 Feb 2023 00:15:59 -0800 (PST)
+        bh=16RBvX2K5fEOc65TEX4CGMW4aoTgfh9Mm/UNw/VAU3g=;
+        b=h9+o/ii+Mik+1YButSQeVh5ttsAXTTyMgM0nF919O2c/OS40xwY9Lz6iFKQrnZxe/7
+         lv6mf8YATryTOsDZSmfyODu4RH2k1iWxKQvgNbzoyS24ywkC32deI8BN4SUFcsLIwtaB
+         KF/BJ6FnLNeSa8BXuUL+gpeLKpJ6ixHl9sy6S7plF8zkZv4tT1oMvczk8BARIt+VFWcB
+         mlqAbdU9XynpR80pBbHZGM2XNL+JWIvH2vBW4gaTv7vH/ow9zl/kuSUi/Jd94ps8sau0
+         vUJyspDBwyVPPsU0Rs2zajDpD5OW2D+ygyJcaK9rwaCpjlOxWSRzJM3VTqSJ4HpncTYB
+         67EQ==
+X-Gm-Message-State: AO0yUKXlru2tka8kgijitPIEqY2sQzfBLazCBPlqrXsZuqgCILEqQ+9Y
+	/sUrh4GIapUp2+UQLu2BGDugqA==
+X-Google-Smtp-Source: AK7set+6JdqmHrgsAeZvbyRq8PwsgciY8Be2DD/ZmGB20N36E1ggS7scV9cCgRysBHp/TfIoehBASA==
+X-Received: by 2002:a17:907:6d99:b0:8af:2bb3:80d7 with SMTP id sb25-20020a1709076d9900b008af2bb380d7mr1172166ejc.31.1676536571096;
+        Thu, 16 Feb 2023 00:36:11 -0800 (PST)
 Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id g24-20020a170906395800b008b1315bff9fsm480986eje.148.2023.02.16.00.15.57
+        by smtp.gmail.com with ESMTPSA id y21-20020a17090629d500b0087bda70d3efsm503337eje.118.2023.02.16.00.36.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Feb 2023 00:15:58 -0800 (PST)
-Message-ID: <fa013fbc-dc54-6d20-7935-2ce01afc37be@linaro.org>
-Date: Thu, 16 Feb 2023 09:15:56 +0100
+        Thu, 16 Feb 2023 00:36:10 -0800 (PST)
+Message-ID: <a2d10295-d9eb-cd1f-8f48-b61f97487208@linaro.org>
+Date: Thu, 16 Feb 2023 09:36:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -48,76 +48,36 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 2/3] dt-bindings: hwlock: sun6i: Add missing names
+Subject: Re: [PATCH v2 3/5] dt-bindings: hwlock: sun6i: Add missing names
 Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Wilken Gottwalt <wilken.gottwalt@posteo.net>,
- Bastian Germann <bage@debian.org>, Ohad Ben-Cohen <ohad@wizery.com>,
- Bjorn Andersson <andersson@kernel.org>,
+To: Bastian Germann <bage@debian.org>,
+ Wilken Gottwalt <wilken.gottwalt@posteo.net>
+Cc: Ohad Ben-Cohen <ohad@wizery.com>, Bjorn Andersson <andersson@kernel.org>,
  Baolin Wang <baolin.wang@linux.alibaba.com>, Rob Herring
  <robh+dt@kernel.org>, Krzysztof Kozlowski
  <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
  Samuel Holland <samuel@sholland.org>, linux-remoteproc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org
-References: <20230213231931.6546-1-bage@debian.org>
- <20230213231931.6546-3-bage@debian.org> <20230214104554.35338faa@posteo.net>
- <43336959-643d-4041-d11a-b0c030fbf050@linaro.org>
- <20230214181138.4a8f4beb@donnerap.cambridge.arm.com>
+References: <20230215203711.6293-1-bage@debian.org>
+ <20230215203711.6293-4-bage@debian.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230214181138.4a8f4beb@donnerap.cambridge.arm.com>
+In-Reply-To: <20230215203711.6293-4-bage@debian.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 14/02/2023 19:11, Andre Przywara wrote:
-> On Tue, 14 Feb 2023 13:37:20 +0100
-> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+On 15/02/2023 21:37, Bastian Germann wrote:
+> The allwinner,sun6i-a31-hwspinlock.yaml binding needs clock-names and
+> reset-names set to "ahb" as required by the Linux driver.
 > 
-> Hi Krzysztof,
-> 
->> On 14/02/2023 10:45, Wilken Gottwalt wrote:
->>> On Tue, 14 Feb 2023 00:19:29 +0100
->>> Bastian Germann <bage@debian.org> wrote:
->>>   
->>>> The allwinner,sun6i-a31-hwspinlock.yaml binding needs clock-names
->>>> and reset-names set to "ahb" as required by the driver.  
->>>
->>> Hmm, this one is a bit odd. If you look into my earlier versions of the
->>> patchset, you may notice, that I actually included these bindings and they
->>> were refused. I think the argumentation was like
->>> "there is only one bus = no need for it".
->>>
->>> If it gets accepted now, I really like to know why. (It was some trouble
->>> back then to get the documentation properly done and accepted.)  
->>
->> The clock names and resent names are not correct. They should have never
->> been added. If you got comments about this and did not update driver,
->> that's not nice. You just shoved incomplete bindings. :(
->>
->> So indeed to avoid precedence - people pushing fake bindings and
->> avoiding review - NAK on this.
-> 
-> Maybe it's just me, but I don't think this tone is necessary.
-> 
-> Wilken's original submission was correct. Later there was a comment just
-> on the binding patch, to remove the not needed clock-names and reset-names
-> properties. But there was not a word in there that the driver requires
-> changing as well, and I don't think it's fair to blame Wilken on this, or
-> somewhat even implying intention. There were several patch revisions after
-> this was raised, and this just slipped through review. But surely no one
-> wanted this or pushed for that.
+> Fixes: f9e784dcb63f ("dt-bindings: hwlock: add sun6i_hwspinlock") 
+> Signed-off-by: Bastian Germann <bage@debian.org>
 
-I would say it is quite obvious. Otherwise you could remove entire
-binding and still submit the driver, right? Isn't the entire point of
-the binding to match what the driver is doing, as it is the description
-of interface used by driver towards DTS?
+With new data, I changed my opinion and NAKed this. Still NAK, sorry.
+Please drop the clock/reset-names from the driver (use indices) and DTS.
 
-> 
-> If anything, it tells us that we should be more careful when merging
-> drivers without users: if there would have been a DT patch, possibly even
-> a consumer, this would have been flagged by dtbs_check.
-
-Sure. To me it tells - this patch is a no-go and driver should be fixed.
+NAK means Not-acknowledge. Usually you should not send the same patch
+after getting NAK, because it looks like you ignore the comment.
 
 Best regards,
 Krzysztof
