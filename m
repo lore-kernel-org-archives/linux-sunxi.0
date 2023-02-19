@@ -1,590 +1,343 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C06E9446
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Feb 2023 18:29:51 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 41ADCFB;
-	Fri, 17 Feb 2023 19:20:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1676658002;
-	bh=R5z08ctZazpDmLQ5pDPudTTuRI9CMv5DEVCBj40DI4w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lry0URqMUc1VD+G5YvkWTo0y06egkSiRbN1wCE9FIIj+PUZsKAbtssLJhXbCSxZwT
-	 HcsHXGJ65VCI5u6Ib09okN4VGET3lq3F86iaHYgiMQbKrR7IFfXIwXRwh04JUY/LG/
-	 AR6vu24eVd2B7UfNy3EZN3qrWVEyFr+inEUKEWGc=
-Date: Fri, 17 Feb 2023 20:20:00 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: paul.kocialkowski@bootlin.com
-Cc: Adam Pigg <adam@piggz.co.uk>, linux-media@vger.kernel.org,
-	yong.deng@magewell.com, mchehab@kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/3] media: sun6i-csi: merge sun6i_csi_formats and
- sun6i_csi_formats_match
-Message-ID: <Y+/FUICC58w10rNJ@pendragon.ideasonboard.com>
-References: <20230106194038.16018-1-adam@piggz.co.uk>
- <20230106194038.16018-2-adam@piggz.co.uk>
- <Y7ivZC2e0TZtbASV@pendragon.ideasonboard.com>
- <5905587.lOV4Wx5bFT@192-168-1-215>
- <Y7sm4ZbAoBhuhmP/@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67BA8210F
+	for <linux-sunxi@lists.linux.dev>; Sun, 19 Feb 2023 14:37:26 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id g7so386024wrd.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 19 Feb 2023 06:37:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pnsqbAY13Isy9Q4vAmb7bu7Jt4464vvs/IoNIYDr6xU=;
+        b=hSKy+u5AgwaR/pjI3BVInARul9SXO0sQyw0n7yjY6yRDSg8BEuFLd5I5qrTlEpimNM
+         Xjpl9UAbCCo9nok1y4IpVJ9MLE2XeHXG98wOfKu2d3NCxoPBH32UMAye1vooyYx1ErnD
+         ricWKv9mPs3ba1qo4onNdonbsz4f+fGKOjQzVkGBoYVRHfTNp0sTV4wutDcxSYtnm8CH
+         pxpYUDxS0coiNJcCa7tzwePTrwb9jeloVabBqo+ddLL3pZ7VUpIfX0IhEiKOfXtx1d/8
+         1rUFK2J6S7yGqO9Iwiv++xzaS+2n7XjMuTbyAivc3fVQKvuBI/RXADB6caPXI29TjPRh
+         O0eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pnsqbAY13Isy9Q4vAmb7bu7Jt4464vvs/IoNIYDr6xU=;
+        b=gXtktrgkQtyMShvSKw3Bh23baC1DZnYf7uTzUIbalPupZAv/A2LZIZsnP5Dd69y0vx
+         uOrJmD9qspEqcMep8MKsF44rCe5kZECzpoGOaJXRVFXbX2x933kX7roTrhAOnXsidfXn
+         QvFVRM+vkq83JPr/54tnpX+TV/c5IuDuY+62ZFYc7Eo1iQDu3EUBbr/C+YxCTM1wb2aH
+         PXGtRq4Rf6v9wEkb+GWMbZWM13xrlx5kL4gU28vy/bxCHlMvcIbRPfQVC8IviVivg2lX
+         o5LY1ZYL62nYl/JwGeLVZVZMk5IUcUqML3BpE9A8G4SnGC+I3OCza92E2DlfL5HHuT5o
+         0SsQ==
+X-Gm-Message-State: AO0yUKXQER2g1HBvZODVzLuJLx1kA5Fj3YEOy0uMJy5I4/psItNkOwmw
+	Yqt1l/OOg/Dc/vv7r1dOoVsdmA==
+X-Google-Smtp-Source: AK7set9gXafURZgOj1Yem7EqSUruiomk29jrLU507lTzAdGLNHnFcqKBP+ki22tLjJJTUzMVG5WPYw==
+X-Received: by 2002:adf:f84e:0:b0:2c5:5048:8a6a with SMTP id d14-20020adff84e000000b002c550488a6amr1432164wrq.60.1676817444373;
+        Sun, 19 Feb 2023 06:37:24 -0800 (PST)
+Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:6f43:b92:7670:463])
+        by smtp.gmail.com with ESMTPSA id a18-20020adfe5d2000000b002be505ab59asm86176wrn.97.2023.02.19.06.37.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Feb 2023 06:37:23 -0800 (PST)
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+To: rafael@kernel.org,
+	daniel.lezcano@linaro.org
+Cc: linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhang Rui <rui.zhang@intel.com>,
+	Len Brown <lenb@kernel.org>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Raju Rangoju <rajur@chelsio.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Ido Schimmel <idosch@nvidia.com>,
+	Petr Machata <petrm@nvidia.com>,
+	Gregory Greenman <gregory.greenman@intel.com>,
+	Kalle Valo <kvalo@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Amit Kucheria <amitk@kernel.org>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Markus Mayer <mmayer@broadcom.com>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Vasily Khoruzhick <anarsoul@gmail.com>,
+	Yangtao Li <tiny.windzz@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Talel Shenhar <talel@amazon.com>,
+	Eduardo Valentin <edubezval@gmail.com>,
+	Keerthy <j-keerthy@ti.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Zheng Yongjun <zhengyongjun3@huawei.com>,
+	Yang Li <yang.lee@linux.alibaba.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Balsam CHIHI <bchihi@baylibre.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	linux-acpi@vger.kernel.org,
+	linux-ide@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-hwmon@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-input@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH v1 00/17] Self-encapsulate the thermal zone device structure
+Date: Sun, 19 Feb 2023 15:36:40 +0100
+Message-Id: <20230219143657.241542-1-daniel.lezcano@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y7sm4ZbAoBhuhmP/@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Paul,
+The exported thermal headers expose the thermal core structure while those
+should be private to the framework. The initial idea was the thermal sensor
+drivers use the thermal zone device structure pointer to pass it around from
+the ops to the thermal framework API like a handler.
 
-Could you share your opinion on the question below ?
+Unfortunately, different drivers are using and abusing the internals of this
+structure to hook the associated struct device, read the internals values, take
+the lock, etc ...
 
-On Sun, Jan 08, 2023 at 10:26:09PM +0200, Laurent Pinchart wrote:
-> On Sun, Jan 08, 2023 at 06:23:56PM +0000, Adam Pigg wrote:
-> > On Friday, 6 January 2023 23:31:48 GMT Laurent Pinchart wrote:
-> > > On Fri, Jan 06, 2023 at 07:40:36PM +0000, adam@piggz.co.uk wrote:
-> > > > From: Adam Pigg <adam@piggz.co.uk>
-> > > > 
-> > > > Merged the two format arrays into sun6i_csi_capture_formats as a
-> > > > pre-requisite to implementing V4L2_CAP_IO_MC
-> > > 
-> > > I'll point to https://cbea.ms/git-commit/ if you haven't read it yet.
-> > > You can ignore the "Limit the subject line to 50 characters" rule and go
-> > > up to the normal 72 characters limit for commit messages, as 50 doesn't
-> > > include the prefixes commonly used in kernel commit messages.
-> > > 
-> > > For this specific patch, I would write
-> > > 
-> > > Information about media bus formats and pixel formats supported by the
-> > > driver is split between the sun6i_csi_capture_formats and
-> > > sun6i_csi_capture_format_matches arrays. This makes it difficult to map
-> > > media bus formats to pixel formats when enumerating the supported pixel
-> > > formats by walking the sun6i_csi_capture_formats array. To prepare for
-> > > support of media bus format support in sun6i_csi_capture_enum_fmt(),
-> > > merge the two arrays toegether.
-> > > 
-> > > 
-> > > An extra paragraph could be added to explain *how* this is being done,
-> > > but the implementation is straightforward enough to not require that.
-> > > 
-> > > > Signed-off-by: Adam Pigg <adam@piggz.co.uk>
-> > > > ---
-> > > > 
-> > > >  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 155 +++++-------------
-> > > >  .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   6 +-
-> > > >  2 files changed, 46 insertions(+), 115 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> > > > b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c index
-> > > > 03d4adec054c..69578075421c 100644
-> > > > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> > > > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> > > > @@ -22,6 +22,8 @@
-> > > > 
-> > > >  /* Helpers */
-> > > > 
-> > > > +#define SUN6I_BUS_FMTS(fmt...) (const u32[]) {fmt, 0}
-> > > > +
-> > > > 
-> > > >  void sun6i_csi_capture_dimensions(struct sun6i_csi_device *csi_dev,
-> > > >  
-> > > >  				  unsigned int *width, unsigned  int *height)
-> > > >  
-> > > >  {
-> > > > 
-> > > > @@ -49,72 +51,86 @@ static const struct sun6i_csi_capture_format
-> > > > sun6i_csi_capture_formats[] = {> 
-> > > >  		.pixelformat		= V4L2_PIX_FMT_SBGGR8,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_8,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > > > 
-> > > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SBGGR8_1X8),
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_SGBRG8,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_8,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > > > 
-> > > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SGBRG8_1X8),
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_SGRBG8,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_8,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > > > 
-> > > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SGRBG8_1X8),
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_SRGGB8,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_8,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > > > 
-> > > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SRGGB8_1X8),
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_SBGGR10,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_10,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_10,
-> > > > 
-> > > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SBGGR10_1X10),
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_SGBRG10,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_10,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_10,
-> > > > 
-> > > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SGBRG10_1X10),
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_SGRBG10,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_10,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_10,
-> > > > 
-> > > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SGRBG10_1X10),
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_SRGGB10,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_10,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_10,
-> > > > 
-> > > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SRGGB10_1X10),
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_SBGGR12,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_12,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_12,
-> > > > 
-> > > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SBGGR12_1X12),
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_SGBRG12,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_12,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_12,
-> > > > 
-> > > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SGBRG12_1X12),
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_SGRBG12,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_12,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_12,
-> > > > 
-> > > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SGRBG12_1X12),
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_SRGGB12,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_12,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_12,
-> > > > 
-> > > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SRGGB12_1X12),
-> > > > 
-> > > >  	},
-> > > >  	/* RGB */
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_RGB565,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RGB565,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RGB565,
-> > > > 
-> > > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_RGB565_2X8_LE),
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_RGB565X,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RGB565,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RGB565,
-> > > > 
-> > > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_RGB565_2X8_BE),
-> > > > 
-> > > >  	},
-> > > >  	/* YUV422 */
-> > > >  	{
-> > > > 
-> > > > @@ -123,6 +139,8 @@ static const struct sun6i_csi_capture_format
-> > > > sun6i_csi_capture_formats[] = {> 
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > > >  		.input_format_raw	= true,
-> > > >  		.hsize_len_factor	= 2,
-> > > > 
-> > > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_YUYV8_2X8,
-> > > > +							  MEDIA_BUS_FMT_YUYV8_1X16),
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_YVYU,
-> > > > 
-> > > > @@ -130,6 +148,8 @@ static const struct sun6i_csi_capture_format
-> > > > sun6i_csi_capture_formats[] = {> 
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > > >  		.input_format_raw	= true,
-> > > >  		.hsize_len_factor	= 2,
-> > > > 
-> > > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_YVYU8_2X8,
-> > > > +							  MEDIA_BUS_FMT_YVYU8_1X16),
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_UYVY,
-> > > > 
-> > > > @@ -137,6 +157,8 @@ static const struct sun6i_csi_capture_format
-> > > > sun6i_csi_capture_formats[] = {
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > > >  		.input_format_raw	= true,
-> > > >  		.hsize_len_factor	= 2,
-> > > > 
-> > > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_UYVY8_2X8,
-> > > > +							  MEDIA_BUS_FMT_UYVY8_1X16),
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_VYUY,
-> > > > 
-> > > > @@ -144,57 +166,68 @@ static const struct sun6i_csi_capture_format
-> > > > sun6i_csi_capture_formats[] = {> 
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > > >  		.input_format_raw	= true,
-> > > >  		.hsize_len_factor	= 2,
-> > > > 
-> > > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_VYUY8_2X8,
-> > > > +							  MEDIA_BUS_FMT_VYUY8_1X16),
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_NV16,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV422SP,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV422SP,
-> > > > 
-> > > > +		.mbus_codes		= 0,
-> > > 
-> > > I don't think this is correct. To produce semi-planar or multi-planar
-> > > YUV formats, I believe the CSI needs YUV input. This should thus be
-> > > (unless I'm mistaken)
-> > > 
-> > > 		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_UYVY8_2X8,
-> > > 							  MEDIA_BUS_FMT_UYVY8_1X16,
-> > > 							  MEDIA_BUS_FMT_VYUY8_2X8,
-> > > 							  MEDIA_BUS_FMT_VYUY8_1X16,
-> > > 							  MEDIA_BUS_FMT_YUYV8_2X8,
-> > > 							  MEDIA_BUS_FMT_YUYV8_1X16,
-> > > 							  MEDIA_BUS_FMT_YVYU8_2X8,
-> > > 							  MEDIA_BUS_FMT_YVYU8_1X16),
-> > > 
-> > > and same below.
-> > > 
-> > Hi Laurent
-> > 
-> > Thanks for the help and tips.  Ive made all the other changes, which can be 
-> > viewed here until i resubmit them https://github.com/sailfish-on-dontbeevil/
-> > kernel-megi/commits/pinephone-libcamera
-> > 
-> > Im just not quite sure on this one.  I think my implementation of merging the 
-> > arrays keeps the previous mapping right?  In sun6i_csi_capture_format_matches 
-> > there is no mapping for the *NV formats, and the remaining ones ive set to 0?
-> 
-> The current implementation allows writing multi-planar formats (e.g.
-> NV12) to memory when the input of the CSI is a YUV media bus format
-> (e.g. YUYV8_1X16). This patch doesn't change that, but it will prevent
-> NV12 from being enumerated when using media bus-based enumeration of
-> pixel formats, so userspace won't see NV12 as being available.
-> 
-> It would be fine fixing that issue in a separate patch on top of this
-> one, but I though you could as well do both in one go.
+rn order to fix this situation, let's encapsulate the structure leaking the
+more in the different drivers: the thermal_zone_device structure.
 
-Adam, you mentioned that NV12 and NV16 "don't work". Could you elaborate
-and explain what you've tried exactly ?
+This series revisit the existing drivers using the thermal zone private
+structure internals to change the access to something else. For instance, the
+get_temp() ops is using the tz->dev to write a debug trace. Despite the trace
+is not helpful, we can check the return value for the get_temp() ops in the
+call site and show the message in this place.
 
-> > > Paul, could you confirm this ?
-> > > 
-> > > I'm a bit surprised that the CSI can't shuffle the YUV components for
-> > > packed YUYV formats, but so be it if that's a hardware limitation.
-> > > 
-> > > I'm also thinking that a subsequent patch could drop the raw check from
-> > > sun6i_csi_capture_link_validate():
-> > > 
-> > > -	/* With raw input mode, we need a 1:1 match between input and  output. */
-> > > -	if (bridge_format->input_format == SUN6I_CSI_INPUT_FMT_RAW ||
-> > > -	    capture_format->input_format_raw) {
-> > > -		match = sun6i_csi_capture_format_match(pixelformat,
-> > > -						        fmt.format.code);
-> > > -		if (!match)
-> > > -			goto invalid;
-> > > -	}
-> > > +	/* Make sure the media bus code and pixel format are compatible. */
-> > > +	match = sun6i_csi_capture_format_match(pixelformat,  fmt.format.code);
-> > > +	if (!match)
-> > > +		goto invalid;
-> > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_NV61,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV422SP,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV422SP,
-> > > >  		.input_yuv_seq_invert	= true,
-> > > > 
-> > > > +		.mbus_codes		= 0,
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_YUV422P,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV422P,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV422P,
-> > > > 
-> > > > +		.mbus_codes		= 0,
-> > > > 
-> > > >  	},
-> > > >  	/* YUV420 */
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_NV12_16L16,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV420MB,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV420MB,
-> > > > 
-> > > > +		.mbus_codes		= 0,
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_NV12,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV420SP,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV420SP,
-> > > > 
-> > > > +		.mbus_codes		= 0,
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_NV21,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV420SP,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV420SP,
-> > > >  		.input_yuv_seq_invert	= true,
-> > > > 
-> > > > +		.mbus_codes		= 0,
-> > > > 
-> > > >  	},
-> > > >  	
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_YUV420,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV420P,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV420P,
-> > > > 
-> > > > +		.mbus_codes		= 0,
-> > > > 
-> > > >  	},
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_YVU420,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV420P,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV420P,
-> > > >  		.input_yuv_seq_invert	= true,
-> > > > 
-> > > > +		.mbus_codes		= 0,
-> > > > 
-> > > >  	},
-> > > >  	/* Compressed */
-> > > >  	{
-> > > >  	
-> > > >  		.pixelformat		= V4L2_PIX_FMT_JPEG,
-> > > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_8,
-> > > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > > > 
-> > > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_JPEG_1X8),
-> > > > 
-> > > >  	},
-> > > >  
-> > > >  };
-> > > > 
-> > > > @@ -210,118 +243,20 @@ struct sun6i_csi_capture_format
-> > > > *sun6i_csi_capture_format_find(u32 pixelformat)> 
-> > > >  	return NULL;
-> > > >  
-> > > >  }
-> > > > 
-> > > > -/* RAW formats need an exact match between pixel and mbus formats. */
-> > > > -static const
-> > > > -struct sun6i_csi_capture_format_match sun6i_csi_capture_format_matches[]
-> > > > = { -	/* YUV420 */
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_YUYV,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_YUYV8_2X8,
-> > > > -	},
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_YUYV,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_YUYV8_1X16,
-> > > > -	},
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_YVYU,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_YVYU8_2X8,
-> > > > -	},
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_YVYU,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_YVYU8_1X16,
-> > > > -	},
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_UYVY,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_UYVY8_2X8,
-> > > > -	},
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_UYVY,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_UYVY8_1X16,
-> > > > -	},
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_VYUY,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_VYUY8_2X8,
-> > > > -	},
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_VYUY,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_VYUY8_1X16,
-> > > > -	},
-> > > > -	/* RGB */
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_RGB565,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_RGB565_2X8_LE,
-> > > > -	},
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_RGB565X,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_RGB565_2X8_BE,
-> > > > -	},
-> > > > -	/* Bayer */
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_SBGGR8,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_SBGGR8_1X8,
-> > > > -	},
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_SGBRG8,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_SGBRG8_1X8,
-> > > > -	},
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_SGRBG8,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_SGRBG8_1X8,
-> > > > -	},
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_SRGGB8,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_SRGGB8_1X8,
-> > > > -	},
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_SBGGR10,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_SBGGR10_1X10,
-> > > > -	},
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_SGBRG10,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_SGBRG10_1X10,
-> > > > -	},
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_SGRBG10,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_SGRBG10_1X10,
-> > > > -	},
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_SRGGB10,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_SRGGB10_1X10,
-> > > > -	},
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_SBGGR12,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_SBGGR12_1X12,
-> > > > -	},
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_SGBRG12,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_SGBRG12_1X12,
-> > > > -	},
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_SGRBG12,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_SGRBG12_1X12,
-> > > > -	},
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_SRGGB12,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_SRGGB12_1X12,
-> > > > -	},
-> > > > -	/* Compressed */
-> > > > -	{
-> > > > -		.pixelformat	= V4L2_PIX_FMT_JPEG,
-> > > > -		.mbus_code	= MEDIA_BUS_FMT_JPEG_1X8,
-> > > > -	},
-> > > > -};
-> > > > -
-> > > > 
-> > > >  static bool sun6i_csi_capture_format_match(u32 pixelformat, u32
-> > > >  mbus_code)
-> > > >  {
-> > > > 
-> > > > -	unsigned int i;
-> > > > -
-> > > > -	for (i = 0; i < ARRAY_SIZE(sun6i_csi_capture_format_matches); i++)  {
-> > > > -		const struct sun6i_csi_capture_format_match *match =
-> > > > -			&sun6i_csi_capture_format_matches[i];
-> > > > -
-> > > > -		if (match->pixelformat == pixelformat &&
-> > > > -		    match->mbus_code == mbus_code)
-> > > > -			return true;
-> > > > +	unsigned int i, j;
-> > > > +
-> > > > +	for (i = 0; i < ARRAY_SIZE(sun6i_csi_capture_formats); i++) {
-> > > > +		const struct sun6i_csi_capture_format *format =
-> > > > +			&sun6i_csi_capture_formats[i];
-> > > > +
-> > > > +		if (format->pixelformat == pixelformat) {
-> > > > +			for (j = 0; format->mbus_codes[j]; j++) {
-> > > > +				if (mbus_code == format->mbus_codes[j])
-> > > > +					return true;
-> > > > +			}
-> > > > +		}
-> > > > 
-> > > >  	}
-> > > >  	
-> > > >  	return false;
-> > > > 
-> > > > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-> > > > b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h index
-> > > > 3ee5ccefbd10..0484942834e3 100644
-> > > > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-> > > > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-> > > > @@ -27,11 +27,7 @@ struct sun6i_csi_capture_format {
-> > > > 
-> > > >  	bool	input_yuv_seq_invert;
-> > > >  	bool	input_format_raw;
-> > > >  	u32	hsize_len_factor;
-> > > > 
-> > > > -};
-> > > > -
-> > > > -struct sun6i_csi_capture_format_match {
-> > > > -	u32	pixelformat;
-> > > > -	u32	mbus_code;
-> > > > +	const u32 *mbus_codes;
-> > > > 
-> > > >  };
-> > > >  
-> > > >  #undef current
+With this set of changes, the thermal_zone_device is almost self-encapsulated.
+As usual, the acpi driver needs a more complex changes, so that will come in a
+separate series along with the structure moved the private core headers.
+
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Zhang Rui <rui.zhang@intel.com>
+Cc: Len Brown <lenb@kernel.org>
+Cc: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Cc: Jean Delvare <jdelvare@suse.com>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: Jonathan Cameron <jic23@kernel.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Raju Rangoju <rajur@chelsio.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Ido Schimmel <idosch@nvidia.com>
+Cc: Petr Machata <petrm@nvidia.com>
+Cc: Gregory Greenman <gregory.greenman@intel.com>
+Cc: Kalle Valo <kvalo@kernel.org>
+Cc: Sebastian Reichel <sre@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Amit Kucheria <amitk@kernel.org>
+Cc: Florian Fainelli <f.fainelli@gmail.com>
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: Ray Jui <rjui@broadcom.com>
+Cc: Scott Branden <sbranden@broadcom.com>
+Cc: Markus Mayer <mmayer@broadcom.com>
+Cc: Support Opensource <support.opensource@diasemi.com>
+Cc: Andy Gross <agross@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>
+Cc: Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: Thara Gopinath <thara.gopinath@gmail.com>
+Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
+Cc: Heiko Stuebner <heiko@sntech.de>
+Cc: Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Alim Akhtar <alim.akhtar@samsung.com>
+Cc: Orson Zhai <orsonzhai@gmail.com>
+Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: Chunyan Zhang <zhang.lyra@gmail.com>
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>
+Cc: Yangtao Li <tiny.windzz@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Talel Shenhar <talel@amazon.com>
+Cc: Eduardo Valentin <edubezval@gmail.com>
+Cc: Keerthy <j-keerthy@ti.com>
+Cc: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Stefan Wahren <stefan.wahren@i2se.com>
+Cc: Zheng Yongjun <zhengyongjun3@huawei.com>
+Cc: Yang Li <yang.lee@linux.alibaba.com>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Daniel Golle <daniel@makrotopia.org>
+Cc: Balsam CHIHI <bchihi@baylibre.com>
+Cc: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: linux-acpi@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-ide@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-hwmon@vger.kernel.org
+Cc: linux-iio@vger.kernel.org
+Cc: linux-sunxi@lists.linux.dev
+Cc: linux-input@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Cc: linux-wireless@vger.kernel.org
+Cc: linux-pm@vger.kernel.org
+Cc: linux-rpi-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-rockchip@lists.infradead.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org
+Cc: linux-omap@vger.kernel.org
+Cc: linux-mediatek@lists.infradead.org
+
+
+Daniel Lezcano (17):
+  thermal/core: Add a thermal zone 'devdata' accessor
+  thermal/core: Show a debug message when get_temp() fails
+  thermal: Remove debug or error messages in get_temp() ops
+  thermal/hwmon: Do not set no_hwmon before calling
+    thermal_add_hwmon_sysfs()
+  thermal/hwmon: Use the right device for devm_thermal_add_hwmon_sysfs()
+  thermal: Don't use 'device' internal thermal zone structure field
+  thermal/hwmon: Use the thermal API instead tampering the internals
+  thermal/drivers/spear: Don't use tz->device but pdev->dev
+  thermal: Add a thermal zone id accessor
+  thermal: Do not access 'type' field, use the tz id instead
+  thermal/drivers/da9062: Don't access the thermal zone device fields
+  thermal/hwmon: Use the thermal_core.h header
+  thermal/drivers/tegra: Remove unneeded lock when setting a trip point
+  thermal/tegra: Do not enable the thermal zone, it is already enabled
+  thermal/drivers/acerhdf: Make interval setting only at module load
+    time
+  thermal/drivers/acerhdf: Remove pointless governor test
+  thermal/traces: Replace the thermal zone structure parameter with the
+    field value
+
+ drivers/acpi/thermal.c                        | 18 +++----
+ drivers/ata/ahci_imx.c                        |  2 +-
+ drivers/hwmon/hwmon.c                         |  4 +-
+ drivers/hwmon/pmbus/pmbus_core.c              |  2 +-
+ drivers/hwmon/scmi-hwmon.c                    |  4 +-
+ drivers/hwmon/scpi-hwmon.c                    |  2 +-
+ drivers/iio/adc/sun4i-gpadc-iio.c             |  2 +-
+ drivers/input/touchscreen/sun4i-ts.c          |  2 +-
+ .../ethernet/chelsio/cxgb4/cxgb4_thermal.c    |  2 +-
+ .../ethernet/mellanox/mlxsw/core_thermal.c    | 18 +++----
+ drivers/net/wireless/intel/iwlwifi/mvm/tt.c   |  4 +-
+ drivers/platform/x86/acerhdf.c                | 19 ++------
+ drivers/power/supply/power_supply_core.c      |  2 +-
+ drivers/regulator/max8973-regulator.c         |  2 +-
+ drivers/thermal/amlogic_thermal.c             |  2 +-
+ drivers/thermal/armada_thermal.c              | 14 ++----
+ drivers/thermal/broadcom/bcm2711_thermal.c    |  3 +-
+ drivers/thermal/broadcom/bcm2835_thermal.c    |  3 +-
+ drivers/thermal/broadcom/brcmstb_thermal.c    |  8 ++--
+ drivers/thermal/broadcom/ns-thermal.c         |  2 +-
+ drivers/thermal/broadcom/sr-thermal.c         |  2 +-
+ drivers/thermal/da9062-thermal.c              | 13 +++--
+ drivers/thermal/dove_thermal.c                |  7 +--
+ drivers/thermal/gov_fair_share.c              |  2 +-
+ drivers/thermal/gov_power_allocator.c         |  4 +-
+ drivers/thermal/gov_step_wise.c               |  2 +-
+ drivers/thermal/hisi_thermal.c                |  5 +-
+ drivers/thermal/imx8mm_thermal.c              |  4 +-
+ drivers/thermal/imx_sc_thermal.c              |  9 ++--
+ drivers/thermal/imx_thermal.c                 | 47 +++++--------------
+ drivers/thermal/intel/intel_pch_thermal.c     |  2 +-
+ drivers/thermal/intel/intel_soc_dts_iosf.c    | 13 ++---
+ drivers/thermal/intel/x86_pkg_temp_thermal.c  |  4 +-
+ drivers/thermal/k3_bandgap.c                  |  4 +-
+ drivers/thermal/k3_j72xx_bandgap.c            |  2 +-
+ drivers/thermal/kirkwood_thermal.c            |  7 +--
+ drivers/thermal/max77620_thermal.c            |  6 +--
+ drivers/thermal/mediatek/auxadc_thermal.c     |  4 +-
+ drivers/thermal/mediatek/lvts_thermal.c       |  9 ++--
+ drivers/thermal/qcom/qcom-spmi-adc-tm5.c      |  6 +--
+ drivers/thermal/qcom/qcom-spmi-temp-alarm.c   |  6 +--
+ drivers/thermal/qcom/tsens.c                  |  4 +-
+ drivers/thermal/qoriq_thermal.c               |  4 +-
+ drivers/thermal/rcar_gen3_thermal.c           |  5 +-
+ drivers/thermal/rcar_thermal.c                |  8 +---
+ drivers/thermal/rockchip_thermal.c            |  8 +---
+ drivers/thermal/rzg2l_thermal.c               |  3 +-
+ drivers/thermal/samsung/exynos_tmu.c          |  4 +-
+ drivers/thermal/spear_thermal.c               | 10 ++--
+ drivers/thermal/sprd_thermal.c                |  2 +-
+ drivers/thermal/st/st_thermal.c               |  2 -
+ drivers/thermal/sun8i_thermal.c               |  4 +-
+ drivers/thermal/tegra/tegra-bpmp-thermal.c    |  6 ++-
+ drivers/thermal/tegra/tegra30-tsensor.c       | 31 ++++++------
+ drivers/thermal/thermal-generic-adc.c         |  7 ++-
+ drivers/thermal/thermal_core.c                | 17 ++++++-
+ drivers/thermal/thermal_helpers.c             |  3 ++
+ drivers/thermal/thermal_hwmon.c               | 19 +++-----
+ drivers/thermal/thermal_hwmon.h               |  4 +-
+ drivers/thermal/thermal_mmio.c                |  2 +-
+ .../ti-soc-thermal/ti-thermal-common.c        | 10 ++--
+ drivers/thermal/uniphier_thermal.c            |  2 +-
+ include/linux/thermal.h                       |  4 ++
+ include/trace/events/thermal.h                | 24 +++++-----
+ .../trace/events/thermal_power_allocator.h    | 12 ++---
+ 65 files changed, 203 insertions(+), 265 deletions(-)
 
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
