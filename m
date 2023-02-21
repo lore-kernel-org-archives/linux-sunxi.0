@@ -1,197 +1,453 @@
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2121.outbound.protection.outlook.com [40.107.114.121])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80FD46AF
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Feb 2023 14:48:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SKHpUCwNtL8Yo6xoXTncMgZfUXexGKt9xv2MpK1LMxMgNpEpLHaYS8Bhss7gSW9wnrnriuv8qOBBjklIbm9A8MDnRXMfMIXlnujynY3rXQJS8GeRWGRi3/Tx0i/9akkJS7P5Ux3m5nD/D+76xRCmRSwy5beLayKCbNKNVV7/8z+RkLngJnlT+BtT7bf0fK1csJLiLTF0+ctYY+V9Ff6sa3id0ltI/6A7B5qgjB3uk8N/x+7BX7RE2c3dD9HFT+gVECWqKiEifY+YtFw15IGoHs/xcRPoZju4/DFY4QSx4+Q8YvQC+zpWygXVXVSmuOrM0dS4dPfMHdWvODo2Fi/8PA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pIuTBnLnQIudgCtj2bdotjgMlU4s0gBzV2WiGo0mugA=;
- b=TLqCvU5k5iCk0ooF1PaLp5T2QnM4gc6z7AgyqMU/ZKGzXXkmOGS6fmS6MdozHE67J+FMrj6phN0WpcaFvKWnFkkWm+RNBpzMUarLrkoLx5qvfHQgoPYvsOzVvEgZYxa5bQehyxs2xvJIpecIbTeviFL+d+we3AJizflFbc0CK+JaUUe9lZPbFkxGnl8Q3fzIO6wAgMXvCLAal/X/gYz/J7fycJ39OrgKrVGBKVNA+jcTQKQ6Mgya0IblegNqiBKPhSXz7KO5ZjD+JUirc+JevsAoiRptgcspxkLMGVhJvgdEy2vsgo/2FGN0FeCxaIpTGWI8FqMw4FLnfbck5X5yaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=dm.renesas.com; dmarc=pass action=none
- header.from=dm.renesas.com; dkim=pass header.d=dm.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dm.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pIuTBnLnQIudgCtj2bdotjgMlU4s0gBzV2WiGo0mugA=;
- b=ZazSW/8J76Ah2Ux5EbY+YVr8JSKweCxBpPv90CjPPdnrWZbWp8QJRZw9Fvu5RNHsce5Vi0PzWi9xcmoz0DvDJW2gq8nJ9czmGVTf4mAz6nvyPWbuItiyGKFSzdBPZsAxs4lpKe0EWKZGxnEhcWv78sMs+A37buoqXfSPEL8/Vuo=
-Received: from OS3PR01MB8460.jpnprd01.prod.outlook.com (2603:1096:604:197::13)
- by OSZPR01MB8687.jpnprd01.prod.outlook.com (2603:1096:604:15e::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.19; Mon, 20 Feb
- 2023 14:48:44 +0000
-Received: from OS3PR01MB8460.jpnprd01.prod.outlook.com
- ([fe80::e332:554a:7:7135]) by OS3PR01MB8460.jpnprd01.prod.outlook.com
- ([fe80::e332:554a:7:7135%5]) with mapi id 15.20.6111.019; Mon, 20 Feb 2023
- 14:48:44 +0000
-From: DLG Adam Ward <DLG-Adam.Ward.opensource@dm.renesas.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>, DLG Adam Ward
-	<DLG-Adam.Ward.opensource@dm.renesas.com>
-CC: Daniel Lezcano <daniel.lezcano@linaro.org>, "rafael@kernel.org"
-	<rafael@kernel.org>, "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Zhang Rui
-	<rui.zhang@intel.com>, Len Brown <lenb@kernel.org>, Damien Le Moal
-	<damien.lemoal@opensource.wdc.com>, Shawn Guo <shawnguo@kernel.org>, Sascha
- Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
-	<kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team
-	<linux-imx@nxp.com>, Jean Delvare <jdelvare@suse.com>, Guenter Roeck
-	<linux@roeck-us.net>, Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen
-	<lars@metafoo.de>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Dmitry
- Torokhov <dmitry.torokhov@gmail.com>, Raju Rangoju <rajur@chelsio.com>,
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Ido
- Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, Gregory
- Greenman <gregory.greenman@intel.com>, Kalle Valo <kvalo@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>, Miquel Raynal <miquel.raynal@bootlin.com>, Amit
- Kucheria <amitk@kernel.org>, Florian Fainelli <f.fainelli@gmail.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, Markus
- Mayer <mmayer@broadcom.com>, Support Opensource
-	<support.opensource@diasemi.com>, Andy Gross <agross@kernel.org>, Bjorn
- Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Thara Gopinath <thara.gopinath@gmail.com>,
-	=?utf-8?B?TmlrbGFzIFPDtmRlcmx1bmQ=?= <niklas.soderlund@ragnatech.se>, Heiko
- Stuebner <heiko@sntech.de>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Alim Akhtar
-	<alim.akhtar@samsung.com>, Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
-	<baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, Vasily
- Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, Thierry
- Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
-	Talel Shenhar <talel@amazon.com>, Eduardo Valentin <edubezval@gmail.com>,
-	Keerthy <j-keerthy@ti.com>, Kunihiko Hayashi
-	<hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Stefan Wahren
-	<stefan.wahren@i2se.com>, Neil Armstrong <neil.armstrong@linaro.org>, ye
- xingchen <ye.xingchen@zte.com.cn>, Zheng Yongjun <zhengyongjun3@huawei.com>,
-	Tim Zimmermann <tim@linux4.de>, Yang Li <yang.lee@linux.alibaba.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Ricardo Neri
-	<ricardo.neri-calderon@linux.intel.com>, Jiang Jian <jiangjian@cdjrlc.com>,
-	Daniel Golle <daniel@makrotopia.org>, Balsam CHIHI <bchihi@baylibre.com>,
-	Randy Dunlap <rdunlap@infradead.org>, Mikko Perttunen
-	<mperttunen@nvidia.com>, "open list:ACPI THERMAL DRIVER"
-	<linux-acpi@vger.kernel.org>, "open list:LIBATA SUBSYSTEM (Serial and
- Parallel ATA drivers)" <linux-ide@vger.kernel.org>, "moderated
- list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
-	<linux-arm-kernel@lists.infradead.org>, "open list:HARDWARE MONITORING"
-	<linux-hwmon@vger.kernel.org>, "open list:IIO SUBSYSTEM AND DRIVERS"
-	<linux-iio@vger.kernel.org>, "open list:ARM/Allwinner sunXi SoC support"
-	<linux-sunxi@lists.linux.dev>, "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK,
- TOUCHSCREEN)..." <linux-input@vger.kernel.org>, "open list:CXGB4 ETHERNET
- DRIVER (CXGB4)" <netdev@vger.kernel.org>, "open list:INTEL WIRELESS WIFI LINK
- (iwlwifi)" <linux-wireless@vger.kernel.org>, "moderated list:BROADCOM
- BCM2711/BCM2835 ARM ARCHITECTURE" <linux-rpi-kernel@lists.infradead.org>,
-	"open list:ARM/QUALCOMM SUPPORT" <linux-arm-msm@vger.kernel.org>, "open
- list:RENESAS R-CAR THERMAL DRIVERS" <linux-renesas-soc@vger.kernel.org>,
-	"open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
-	"open list:SAMSUNG THERMAL DRIVER" <linux-samsung-soc@vger.kernel.org>, "open
- list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>, "open list:TI
- BANDGAP AND THERMAL DRIVER" <linux-omap@vger.kernel.org>, "moderated
- list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>
-Subject: RE: [PATCH v1 01/17] thermal/core: Add a thermal zone 'devdata'
- accessor
-Thread-Topic: [PATCH v1 01/17] thermal/core: Add a thermal zone 'devdata'
- accessor
-Thread-Index: AQHZRG/HAV0yCC5B/ky2ximBKy+xBK7Xm3swgAAmkQCAACChEA==
-Date: Mon, 20 Feb 2023 14:48:44 +0000
-Message-ID:
- <OS3PR01MB8460AADEFC7EA2F60936555AC2A49@OS3PR01MB8460.jpnprd01.prod.outlook.com>
-References: <20230219143657.241542-1-daniel.lezcano@linaro.org>
- <20230219143657.241542-2-daniel.lezcano@linaro.org>
- <OS3PR01MB8460E7C2D1F9EEEDDC579FFEC2A49@OS3PR01MB8460.jpnprd01.prod.outlook.com>
- <CAMuHMdWFn+LbKE=77mRBfGqSu3x5qsk3X-pQVeu3uZXEejyRRg@mail.gmail.com>
-In-Reply-To:
- <CAMuHMdWFn+LbKE=77mRBfGqSu3x5qsk3X-pQVeu3uZXEejyRRg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=dm.renesas.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS3PR01MB8460:EE_|OSZPR01MB8687:EE_
-x-ms-office365-filtering-correlation-id: 1f3bfd92-71c7-42fb-6a8c-08db135190d2
-x-ms-exchange-sharedmailbox-routingagent-processed: True
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- Cur/nBWMflxuJyDQwWiXhvh0FhzYT77uoFNzRlEMOfrYZafOn1k73aRP9DQQVviRaF1Ts/Whb/lA5w+jEqPOp4Nt2nwsv+TwXtKlv+fBqZXLTvkGOpvEd3CrB0KAsdGuL7bbZH9bFfe2hqeYIAhsWVdvr4QRDRnI+87uF69KUny+cQd/0X72ppJJszuUrhoIs+vknNmFQFa+5DxmwTJCZLaetn8nnptm4mfZDoHCypscHqL6cgKIo5lp53gJfmHQ0oIPfR5hGumCDolg06UUoA82pOBwyLCAjDN8fqHFmuRh5BZi4GOe7hpKZHi4+UEXQulXVkL/AxA5mj0kGFZfaoDBf7s2vdBGY6+wBwg9t54aV+h+0WkrsVuLxYk836luU5x36v+LtSvqPGGJyDLbyXwqoY6yNmM1QNZ77riZb2gl52u3f4WHgTtwo45MpFR9s8twTCBCFC5f7V7PBshNY6s4r8qOUk1L5HMXso2eZY6TO6bgaC0fDiaMJgnw4qJzOJ/ZV6nk5K4xphbC745Y3Wr9/WATz2kg9pEmYn74iguFTHV+1BpMqquEDIcUHxIqKD8uJ/B/pVU+glT7rfbV2elvxM5A56pu2b1TcxzmmRhWzSiOVaAGzMUpQxwIU4gmra1y3YlCWZpaPWcloCxrjzCTBa8aQq3MgR0z2JwhMC7iOZnRZaYlrWJwrLFoNMT3
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8460.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(376002)(39860400002)(396003)(346002)(136003)(451199018)(54906003)(478600001)(110136005)(71200400001)(122000001)(38100700002)(86362001)(2906002)(4744005)(33656002)(38070700005)(316002)(41300700001)(52536014)(5660300002)(7336002)(7406005)(7366002)(83380400001)(8936002)(7416002)(55016003)(66446008)(4326008)(66556008)(8676002)(64756008)(66476007)(66946007)(66899018)(76116006)(26005)(186003)(53546011)(55236004)(966005)(6506007)(7696005)(9686003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?aWEva2ZEelNuT01DN0p5YWN4b2hFRFZPenB1T0dSdjhSViszWndKQkJpNFk3?=
- =?utf-8?B?bHBTS0VGMVFJTzQ3RU9LbWx5S2I0eWtLWkt1Nzl5Mkh0MEhJK3dXLytaLys5?=
- =?utf-8?B?Ny9sNy9rVSs4RlpYcG9zSCtGNzRYNjl3U2NkTGR3MEVuZE9QWkJIcC8zSWZv?=
- =?utf-8?B?UDQvUEJVckhwWVNFSkpuMnB1c1lUNW9iWGxRS0plOHJmTFN4MXZpbGlkMFUy?=
- =?utf-8?B?WkRqL3hPVTNRUXBNZW5VTTN2NXJZWkNueVIvZTZRd2dENTQ2OExaS25sQ2NV?=
- =?utf-8?B?ZHZCMlJDUHhiQit5VG0wZ3Z2MXVUTHJTRVhXcUxYTjJXUUQyZXM4S0lrbDRT?=
- =?utf-8?B?NTlqdk9JQXlrKzVkc3JxRmlSUUNnYnBTaEx0Q1d2UHd0dXBMYXhaZnFTNFJi?=
- =?utf-8?B?dG1oUE9zeUxiWHF1VXJvZU52M3FBM3orN0RIa2V5U2tnZ2U4N0hZVzhabWp6?=
- =?utf-8?B?b1ZMdnowUFVxZXI3QXJ4NG5remIzdWxsd2RJcnZnVmhvRFBhVTBTUHAzemVv?=
- =?utf-8?B?SENHb2xodTFLd3dnK0xnT3dST2ZaaDRxS2pBbzFsaEZ1OFFWV1JpSnE0QjhP?=
- =?utf-8?B?UmlBT1lSeTBiWndWeEpLSTVMSHA5akFGRE5wSUhIQkpGRzc0anQ3Nys5MUgv?=
- =?utf-8?B?NDNPeFFmYWc1RTZZMTN6Mlp4QkVqVmNlaWwxaTVCS3p6bzBLYWpnT3E0Qjha?=
- =?utf-8?B?dW56UWNkUUVJL3VUamJpdUlnZVBSdXVmb1NJYWhQQldzYjROZnEvWWVpTnA4?=
- =?utf-8?B?Mis3U2h1SDBYekJYV0JudW1MbXdkdkJ4aTV4TVd1NnhEcVI5YUFTK0hYMGpR?=
- =?utf-8?B?OXYrR0N1Z21JeDNTaFJydU9WN09SVlpRZC84WHVvQTd6YWt6NWxoZ0g5OUgv?=
- =?utf-8?B?OEErRkVxcDhMUkp4UDZKK3g5US9DUUJKdHFNWkxlc051Q3R0TklabXg1bWxC?=
- =?utf-8?B?T1Z2Q1ViSVNadFdIVFp1ZUN4VWtLcEVzQVdiTVo4ZHRUOUt4Rk9Sd3cwbVRF?=
- =?utf-8?B?YTU0WDF1cEdqbGhDVzdnQnBvTEdNTGlkOEpmS3lFcUhOeHJWYmYyeXlrenlK?=
- =?utf-8?B?L0hZRFdLTUlFTnVnS2t3ODlTcXowcjE3MG9vdi9SSXRvc1hIVlZiN2N3MkhM?=
- =?utf-8?B?WEl3Nkh2a0trOHFuMmRuUzFDVE9TUlBTZWFWcWM3bXhRNzQ5QUF4MVphcVhS?=
- =?utf-8?B?V2xKMHlqQ3ZnV1cwZzh6QjcrQTdLaVJQOE44eFhjcVBRS0J2eGVUcXllOHZZ?=
- =?utf-8?B?UEUvdFJIdjFPSHhsQ3BMQTVSTGY2YXRkZjY5aGd5dS9lYS9CN3BScUlMcm16?=
- =?utf-8?B?N2J6emhvcldTZmVnbFUvZEdjMWVqOTJuZ24veDM0MUo5VEI0K1NqUGpyUyth?=
- =?utf-8?B?NnpEc0xYSVBoUUFVVmh1bDFRejVFeXJuclljQVI3d0dXUjVBM1dDZHp6R2VC?=
- =?utf-8?B?TXJKbmpwRzNXQlRRUFVPQ0RyS3JiNXBQMDBYUXFiYlF6aWg3NE5COEdXRlZS?=
- =?utf-8?B?RnFXRFdTa3lpWFdsekxnakhMMDBGSkhCNmlrOXhvaGF5czJOUG9nZnNBZmJv?=
- =?utf-8?B?d1pCSnZobG8yc29mbWY1bUMxVHlJVWw1eExDZFBWcDBtTW9yWHZYV1ZGSmpa?=
- =?utf-8?B?WUxkd0x1amRwN3VIR2xwNHlnN3MxM01idGh1Wk4yUE5seVhQbVh2RU5pdkh4?=
- =?utf-8?B?emgxd2k2RnNuNW9qeVFkYkhVUjVyR01lWStIMFgwVG8yamxWSXZnMDlWTHlS?=
- =?utf-8?B?TG1sNXJmUU5VdVk5VFFJUmhILzBiaGFGelgzZXRRYzBNMzJ0NkNxT3lnYzh0?=
- =?utf-8?B?c3R1amRsZldhV3FFdkkvTmpWZUtXbS8vRVRLNHpuRUlRaXptbTgwN0lkVGVt?=
- =?utf-8?B?N0l5RGR2b3d4UjZoTTE5YjJxaTFlVzVPcEc4bjdacmh5V1EwZCswUkpyV2lV?=
- =?utf-8?B?eVRaWE9mZjZxQ2hMRE9hdUFSM1lmMCtTaVFMaks2TkZOZEJEbWg4aDZueEFj?=
- =?utf-8?B?Z1ZHT1VYZHZIb2RnZVZudUhFazN0SEM3aTFtYTV6NERweDJubG9GMEZ5TXBY?=
- =?utf-8?B?Vm9SemJKUGJsaEQ2RXMrYkcwTHh0UTJPYzVPSnVwbVNMUVZSN1FaZ0ZjS3kw?=
- =?utf-8?B?WWxlQVpVRnlQZkltcjJGazMzMjR4RW1wWHBZYjEvTTVPODZxTUg1KzRDWmRN?=
- =?utf-8?B?dmc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 439322F31;
+	Tue, 21 Feb 2023 14:50:37 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id b18so4707564ljr.4;
+        Tue, 21 Feb 2023 06:50:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=P7/zBt9RI+h5q554M3Jcay+wAvydmSQwU+aKyeCnK0g=;
+        b=U/zOTyu4ZLYzJ1JqwMQv/JXvZmE0mV4QheB1pAdLoc0nq19NpA1d6urWM8j5LCWmtF
+         Pv1CJiv6gHV7HmTwj2pVLZTDXFvuQZansaeYBQ8dLoESpvLGU3aUU1AmkMcQc0SiVPKJ
+         Ktqux7nnrltrOQJ1NyXtirOAWKJ5oUThPfIjC1jqufcwvAqc/x1alERpTMDr+RWdgJii
+         MtxykQTVvtlbtPMSo/dhK3Ddcy5uxRDklZzWRWMsoQtnZilypwO+zBVTPj+31vmdqmYG
+         eixZDB1aqDNB2yj5qFGLzOEUu9ly1b2+EujMZzpsKflrbuCwinAFsBhrMy1/lj57lhax
+         r9WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P7/zBt9RI+h5q554M3Jcay+wAvydmSQwU+aKyeCnK0g=;
+        b=J2tRse9a2xM2QqOLuvcQtDLwcTDVrmfbSghY9L19LTJUXvha0f/nQTS1+zhseaasxo
+         drUuMsorEvw1r4O16mdRG8Z6sVQmF0d1nVL+dKdtfSFr2+iltISOESTUCpWi9IfkHDRF
+         vTR4RTVKbIB0MAYHweHQh/0ndcjv6aXyWTxyK005BpLZg0QXoxdrBCz6FnXKiB+yqEyR
+         L0+3wZMs2ANPU3zlslqCPHYI85bN0/9SAnJMyuXW8VEe+eMHqcGpAJlwcdRNA/HoNFoS
+         M/iYYVPLmp9kRphb0ie6GPeTEc5aNmaWAKsB8P8rrmb14pYCfz/gtGAnPY67EgSeoCC9
+         fgTg==
+X-Gm-Message-State: AO0yUKUaOBwcOxWNcz/fATiMpBiSRqAbkvAotuQ09VCbvhPKWIvRa1Y9
+	cETu9D1/eHOa6fyJplCnPLA=
+X-Google-Smtp-Source: AK7set+yNWsEQR8rPhwfk9o+5XiOZLXzB/wc2Zt5lT474Lcy4fGPMcOc2et2+Vvk0lwrz0oNHN73hw==
+X-Received: by 2002:a05:651c:1544:b0:293:5f51:3d41 with SMTP id y4-20020a05651c154400b002935f513d41mr1883399ljp.11.1676991035021;
+        Tue, 21 Feb 2023 06:50:35 -0800 (PST)
+Received: from localhost.lan (ip-194-187-74-233.konfederacka.maverick.com.pl. [194.187.74.233])
+        by smtp.gmail.com with ESMTPSA id c10-20020a05651c014a00b0028f9e5b7d9dsm829572ljd.65.2023.02.21.06.50.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Feb 2023 06:50:34 -0800 (PST)
+From: =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Vincent Shih <vincent.sunplus@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michal Simek <michal.simek@xilinx.com>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Evgeniy Polyakov <zbr@ioremap.net>,
+	linux-mtd@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	linux-rtc@vger.kernel.org,
+	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>
+Subject: [PATCH] nvmem: add explicit config option to read OF fixed cells
+Date: Tue, 21 Feb 2023 15:50:21 +0100
+Message-Id: <20230221145021.31993-1-zajec5@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: dm.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8460.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f3bfd92-71c7-42fb-6a8c-08db135190d2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Feb 2023 14:48:44.5887
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: XfGxfM+UvC7CceENOIaJ/wR0OogqGKQ2KvAhEXad9O1zZdROdMNjnsdjHedjxZpXXCRN9aHKE08DjA9zqFNu/M0yZY58laD5tT3c12AELiQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB8687
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-T24gMjAvMDIvMjAyMyAxMjoxOSwgR2VlcnQgVXl0dGVyaG9ldmVuIHdyb3RlOg0KDQo+TG9va3Mg
-bGlrZSBEYW5pZWwgaGFzIGZvdW5kIHRoZSBuZXcgRGlhbG9nIG1haW50YWluZXIgaGUgd2FzIGxv
-b2tpbmcgZm9yPyANCg0KTm90IHF1aXRlOyBJJ20ganVzdCBmaWxsaW5nIGluIGZvciBhIHdoaWxl
-LCBhbG9uZ3NpZGUgb3RoZXIgZHV0aWVzLg0KDQo+VGltZSB0byB1cGRhdGUgTUFJTlRBSU5FUlM/
-DQoNCldlbGwsIGluIG91ciBkZWZlbmNlLCBhbiBhdHRlbXB0IHdhcyBtYWRlIC0gYnV0IHByYWdt
-YXRpc20gbG9zdCBvdXQgdG8gaWRlYWxpc206DQpodHRwczovL2xrbWwub3JnL2xrbWwvMjAyMi84
-LzEvMjY0DQpGb3J0dW5hdGVseSwgdGhlIG9yaWdpbmFsIG1haWxpbmcgbGlzdCB3YXMgc3VzdGFp
-bmVkIHRodXMgZmFyLi4uDQoNCkNoYW5nZXMgYXJlIHNldHRsaW5nIGRvd24gbm93LCBzbyB5ZXMs
-IGEgcGF0Y2ggdG8gc3BsaXQgc3VwcG9ydCBieSBkZXZpY2UsIGFuZCBwcm92aWRlIG5hbWVzIGlu
-IGFkZGl0aW9uIHRvIHRoZSBuZXcgbWFpbGluZyBsaXN0LCBpcyBpbmRlZWQgcGVuZGluZy4NCg0K
-UmVnYXJkcywNCkFkYW0NCg0K
+From: Rafał Miłecki <rafal@milecki.pl>
+
+NVMEM subsystem looks for fixed NVMEM cells (specified in DT) by
+default. This behaviour made sense in early days before adding support
+for dynamic cells.
+
+With every new supported NVMEM device with dynamic cells current
+behaviour becomes non-optimal. It results in unneeded iterating over DT
+nodes and may result in false discovery of cells (depending on used DT
+properties).
+
+This behaviour has actually caused a problem already with the MTD
+subsystem. MTD subpartitions were incorrectly treated as NVMEM cells.
+
+Solve this by modifying drivers for bindings that support specifying
+fixed NVMEM cells in DT. Make them explicitly tell NVMEM subsystem to
+read cells from DT.
+
+It wasn't clear (to me) if rtc and w1 code actually uses fixed cells. I
+enabled them to don't risk any breakage.
+
+Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+---
+ drivers/mtd/mtdcore.c          | 2 ++
+ drivers/nvmem/apple-efuses.c   | 1 +
+ drivers/nvmem/core.c           | 8 +++++---
+ drivers/nvmem/imx-ocotp-scu.c  | 1 +
+ drivers/nvmem/imx-ocotp.c      | 1 +
+ drivers/nvmem/meson-efuse.c    | 1 +
+ drivers/nvmem/meson-mx-efuse.c | 1 +
+ drivers/nvmem/microchip-otpc.c | 1 +
+ drivers/nvmem/mtk-efuse.c      | 1 +
+ drivers/nvmem/qcom-spmi-sdam.c | 1 +
+ drivers/nvmem/qfprom.c         | 1 +
+ drivers/nvmem/rave-sp-eeprom.c | 1 +
+ drivers/nvmem/rockchip-efuse.c | 1 +
+ drivers/nvmem/sc27xx-efuse.c   | 1 +
+ drivers/nvmem/sprd-efuse.c     | 1 +
+ drivers/nvmem/stm32-romem.c    | 1 +
+ drivers/nvmem/sunplus-ocotp.c  | 1 +
+ drivers/nvmem/sunxi_sid.c      | 1 +
+ drivers/nvmem/uniphier-efuse.c | 1 +
+ drivers/nvmem/zynqmp_nvmem.c   | 1 +
+ drivers/rtc/nvmem.c            | 1 +
+ drivers/w1/slaves/w1_ds250x.c  | 1 +
+ include/linux/nvmem-provider.h | 2 ++
+ 23 files changed, 29 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c
+index 0feacb9fbdac..1bb479c0f758 100644
+--- a/drivers/mtd/mtdcore.c
++++ b/drivers/mtd/mtdcore.c
+@@ -523,6 +523,7 @@ static int mtd_nvmem_add(struct mtd_info *mtd)
+ 	config.dev = &mtd->dev;
+ 	config.name = dev_name(&mtd->dev);
+ 	config.owner = THIS_MODULE;
++	config.use_fixed_of_cells = of_device_is_compatible(node, "nvmem-cells");
+ 	config.reg_read = mtd_nvmem_reg_read;
+ 	config.size = mtd->size;
+ 	config.word_size = 1;
+@@ -891,6 +892,7 @@ static struct nvmem_device *mtd_otp_nvmem_register(struct mtd_info *mtd,
+ 	config.name = kasprintf(GFP_KERNEL, "%s-%s", dev_name(&mtd->dev), compatible);
+ 	config.id = NVMEM_DEVID_NONE;
+ 	config.owner = THIS_MODULE;
++	config.use_fixed_of_cells = true;
+ 	config.type = NVMEM_TYPE_OTP;
+ 	config.root_only = true;
+ 	config.ignore_wp = true;
+diff --git a/drivers/nvmem/apple-efuses.c b/drivers/nvmem/apple-efuses.c
+index 9b7c87102104..0119bac43b2c 100644
+--- a/drivers/nvmem/apple-efuses.c
++++ b/drivers/nvmem/apple-efuses.c
+@@ -36,6 +36,7 @@ static int apple_efuses_probe(struct platform_device *pdev)
+ 	struct resource *res;
+ 	struct nvmem_config config = {
+ 		.dev = &pdev->dev,
++		.use_fixed_of_cells = true,
+ 		.read_only = true,
+ 		.reg_read = apple_efuses_read,
+ 		.stride = sizeof(u32),
+diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+index 174ef3574e07..6783cd8478d7 100644
+--- a/drivers/nvmem/core.c
++++ b/drivers/nvmem/core.c
+@@ -844,9 +844,11 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
+ 	if (rval)
+ 		goto err_remove_cells;
+ 
+-	rval = nvmem_add_cells_from_of(nvmem);
+-	if (rval)
+-		goto err_remove_cells;
++	if (config->use_fixed_of_cells) {
++		rval = nvmem_add_cells_from_of(nvmem);
++		if (rval)
++			goto err_remove_cells;
++	}
+ 
+ 	dev_dbg(&nvmem->dev, "Registering nvmem device %s\n", config->name);
+ 
+diff --git a/drivers/nvmem/imx-ocotp-scu.c b/drivers/nvmem/imx-ocotp-scu.c
+index 399e1eb8b4c1..ec5cce7c6697 100644
+--- a/drivers/nvmem/imx-ocotp-scu.c
++++ b/drivers/nvmem/imx-ocotp-scu.c
+@@ -220,6 +220,7 @@ static int imx_scu_ocotp_write(void *context, unsigned int offset,
+ 
+ static struct nvmem_config imx_scu_ocotp_nvmem_config = {
+ 	.name = "imx-scu-ocotp",
++	.use_fixed_of_cells = true,
+ 	.read_only = false,
+ 	.word_size = 4,
+ 	.stride = 1,
+diff --git a/drivers/nvmem/imx-ocotp.c b/drivers/nvmem/imx-ocotp.c
+index e9b52ecb3f72..e37a82f98ba6 100644
+--- a/drivers/nvmem/imx-ocotp.c
++++ b/drivers/nvmem/imx-ocotp.c
+@@ -616,6 +616,7 @@ static int imx_ocotp_probe(struct platform_device *pdev)
+ 		return PTR_ERR(priv->clk);
+ 
+ 	priv->params = of_device_get_match_data(&pdev->dev);
++	imx_ocotp_nvmem_config.use_fixed_of_cells = true;
+ 	imx_ocotp_nvmem_config.size = 4 * priv->params->nregs;
+ 	imx_ocotp_nvmem_config.dev = dev;
+ 	imx_ocotp_nvmem_config.priv = priv;
+diff --git a/drivers/nvmem/meson-efuse.c b/drivers/nvmem/meson-efuse.c
+index d6b533497ce1..657e171d5af3 100644
+--- a/drivers/nvmem/meson-efuse.c
++++ b/drivers/nvmem/meson-efuse.c
+@@ -93,6 +93,7 @@ static int meson_efuse_probe(struct platform_device *pdev)
+ 
+ 	econfig->dev = dev;
+ 	econfig->name = dev_name(dev);
++	econfig->use_fixed_of_cells = true;
+ 	econfig->stride = 1;
+ 	econfig->word_size = 1;
+ 	econfig->reg_read = meson_efuse_read;
+diff --git a/drivers/nvmem/meson-mx-efuse.c b/drivers/nvmem/meson-mx-efuse.c
+index 13eb14316f46..7cc51391ec9c 100644
+--- a/drivers/nvmem/meson-mx-efuse.c
++++ b/drivers/nvmem/meson-mx-efuse.c
+@@ -213,6 +213,7 @@ static int meson_mx_efuse_probe(struct platform_device *pdev)
+ 	efuse->config.owner = THIS_MODULE;
+ 	efuse->config.dev = &pdev->dev;
+ 	efuse->config.priv = efuse;
++	efuse->config.use_fixed_of_cells = true;
+ 	efuse->config.stride = drvdata->word_size;
+ 	efuse->config.word_size = drvdata->word_size;
+ 	efuse->config.size = SZ_512;
+diff --git a/drivers/nvmem/microchip-otpc.c b/drivers/nvmem/microchip-otpc.c
+index 436e0dc4f337..fb920fd7a8fc 100644
+--- a/drivers/nvmem/microchip-otpc.c
++++ b/drivers/nvmem/microchip-otpc.c
+@@ -261,6 +261,7 @@ static int mchp_otpc_probe(struct platform_device *pdev)
+ 		return ret;
+ 
+ 	mchp_nvmem_config.dev = otpc->dev;
++	mchp_nvmem_config.use_fixed_of_cells = true;
+ 	mchp_nvmem_config.size = size;
+ 	mchp_nvmem_config.priv = otpc;
+ 	nvmem = devm_nvmem_register(&pdev->dev, &mchp_nvmem_config);
+diff --git a/drivers/nvmem/mtk-efuse.c b/drivers/nvmem/mtk-efuse.c
+index a08e0aedd21c..1947337a121f 100644
+--- a/drivers/nvmem/mtk-efuse.c
++++ b/drivers/nvmem/mtk-efuse.c
+@@ -45,6 +45,7 @@ static int mtk_efuse_probe(struct platform_device *pdev)
+ 	if (IS_ERR(priv->base))
+ 		return PTR_ERR(priv->base);
+ 
++	econfig.use_fixed_of_cells = true;
+ 	econfig.stride = 1;
+ 	econfig.word_size = 1;
+ 	econfig.reg_read = mtk_reg_read;
+diff --git a/drivers/nvmem/qcom-spmi-sdam.c b/drivers/nvmem/qcom-spmi-sdam.c
+index f822790db49e..b547def94b5b 100644
+--- a/drivers/nvmem/qcom-spmi-sdam.c
++++ b/drivers/nvmem/qcom-spmi-sdam.c
+@@ -142,6 +142,7 @@ static int sdam_probe(struct platform_device *pdev)
+ 	sdam->sdam_config.name = "spmi_sdam";
+ 	sdam->sdam_config.id = NVMEM_DEVID_AUTO;
+ 	sdam->sdam_config.owner = THIS_MODULE;
++	sdam->sdam_config.use_fixed_of_cells = true;
+ 	sdam->sdam_config.stride = 1;
+ 	sdam->sdam_config.word_size = 1;
+ 	sdam->sdam_config.reg_read = sdam_read;
+diff --git a/drivers/nvmem/qfprom.c b/drivers/nvmem/qfprom.c
+index c1e893c8a247..eb126d507561 100644
+--- a/drivers/nvmem/qfprom.c
++++ b/drivers/nvmem/qfprom.c
+@@ -357,6 +357,7 @@ static int qfprom_probe(struct platform_device *pdev)
+ {
+ 	struct nvmem_config econfig = {
+ 		.name = "qfprom",
++		.use_fixed_of_cells = true,
+ 		.stride = 1,
+ 		.word_size = 1,
+ 		.id = NVMEM_DEVID_AUTO,
+diff --git a/drivers/nvmem/rave-sp-eeprom.c b/drivers/nvmem/rave-sp-eeprom.c
+index c456011b75e8..e9b4c7927e37 100644
+--- a/drivers/nvmem/rave-sp-eeprom.c
++++ b/drivers/nvmem/rave-sp-eeprom.c
+@@ -328,6 +328,7 @@ static int rave_sp_eeprom_probe(struct platform_device *pdev)
+ 	of_property_read_string(np, "zii,eeprom-name", &config.name);
+ 	config.priv		= eeprom;
+ 	config.dev		= dev;
++	config.use_fixed_of_cells	= true;
+ 	config.size		= size;
+ 	config.reg_read		= rave_sp_eeprom_reg_read;
+ 	config.reg_write	= rave_sp_eeprom_reg_write;
+diff --git a/drivers/nvmem/rockchip-efuse.c b/drivers/nvmem/rockchip-efuse.c
+index e4579de5d014..211f6e7401a9 100644
+--- a/drivers/nvmem/rockchip-efuse.c
++++ b/drivers/nvmem/rockchip-efuse.c
+@@ -205,6 +205,7 @@ static int rockchip_rk3399_efuse_read(void *context, unsigned int offset,
+ 
+ static struct nvmem_config econfig = {
+ 	.name = "rockchip-efuse",
++	.use_fixed_of_cells = true,
+ 	.stride = 1,
+ 	.word_size = 1,
+ 	.read_only = true,
+diff --git a/drivers/nvmem/sc27xx-efuse.c b/drivers/nvmem/sc27xx-efuse.c
+index c825fc902d10..ed5cc4f3e2bc 100644
+--- a/drivers/nvmem/sc27xx-efuse.c
++++ b/drivers/nvmem/sc27xx-efuse.c
+@@ -248,6 +248,7 @@ static int sc27xx_efuse_probe(struct platform_device *pdev)
+ 	econfig.reg_read = sc27xx_efuse_read;
+ 	econfig.priv = efuse;
+ 	econfig.dev = &pdev->dev;
++	econfig.use_fixed_of_cells = true;
+ 	nvmem = devm_nvmem_register(&pdev->dev, &econfig);
+ 	if (IS_ERR(nvmem)) {
+ 		dev_err(&pdev->dev, "failed to register nvmem config\n");
+diff --git a/drivers/nvmem/sprd-efuse.c b/drivers/nvmem/sprd-efuse.c
+index 4f1fcbfec394..ef3161645f60 100644
+--- a/drivers/nvmem/sprd-efuse.c
++++ b/drivers/nvmem/sprd-efuse.c
+@@ -408,6 +408,7 @@ static int sprd_efuse_probe(struct platform_device *pdev)
+ 	econfig.read_only = false;
+ 	econfig.name = "sprd-efuse";
+ 	econfig.size = efuse->data->blk_nums * SPRD_EFUSE_BLOCK_WIDTH;
++	econfig.use_fixed_of_cells = true;
+ 	econfig.reg_read = sprd_efuse_read;
+ 	econfig.reg_write = sprd_efuse_write;
+ 	econfig.priv = efuse;
+diff --git a/drivers/nvmem/stm32-romem.c b/drivers/nvmem/stm32-romem.c
+index ba779e26937a..3d3e557cb88f 100644
+--- a/drivers/nvmem/stm32-romem.c
++++ b/drivers/nvmem/stm32-romem.c
+@@ -208,6 +208,7 @@ static int stm32_romem_probe(struct platform_device *pdev)
+ 	priv->cfg.priv = priv;
+ 	priv->cfg.owner = THIS_MODULE;
+ 	priv->cfg.type = NVMEM_TYPE_OTP;
++	priv->cfe.use_fixed_of_cells = true;
+ 
+ 	priv->lower = 0;
+ 
+diff --git a/drivers/nvmem/sunplus-ocotp.c b/drivers/nvmem/sunplus-ocotp.c
+index 52b928a7a6d5..57e3e0833b85 100644
+--- a/drivers/nvmem/sunplus-ocotp.c
++++ b/drivers/nvmem/sunplus-ocotp.c
+@@ -145,6 +145,7 @@ static int sp_ocotp_read(void *priv, unsigned int offset, void *value, size_t by
+ 
+ static struct nvmem_config sp_ocotp_nvmem_config = {
+ 	.name = "sp-ocotp",
++	.use_fixed_of_cells = true,
+ 	.read_only = true,
+ 	.word_size = 1,
+ 	.size = QAC628_OTP_SIZE,
+diff --git a/drivers/nvmem/sunxi_sid.c b/drivers/nvmem/sunxi_sid.c
+index a970f1741cc6..6ab7aa3724a0 100644
+--- a/drivers/nvmem/sunxi_sid.c
++++ b/drivers/nvmem/sunxi_sid.c
+@@ -156,6 +156,7 @@ static int sunxi_sid_probe(struct platform_device *pdev)
+ 	nvmem_cfg->dev = dev;
+ 	nvmem_cfg->name = "sunxi-sid";
+ 	nvmem_cfg->type = NVMEM_TYPE_OTP;
++	nvmem_cfg->use_fixed_of_cells = true;
+ 	nvmem_cfg->read_only = true;
+ 	nvmem_cfg->size = cfg->size;
+ 	nvmem_cfg->word_size = 1;
+diff --git a/drivers/nvmem/uniphier-efuse.c b/drivers/nvmem/uniphier-efuse.c
+index aca910b3b6f8..69b9dfe6ab6e 100644
+--- a/drivers/nvmem/uniphier-efuse.c
++++ b/drivers/nvmem/uniphier-efuse.c
+@@ -53,6 +53,7 @@ static int uniphier_efuse_probe(struct platform_device *pdev)
+ 	econfig.size = resource_size(res);
+ 	econfig.priv = priv;
+ 	econfig.dev = dev;
++	econfig.use_fixed_of_cells = true;
+ 	nvmem = devm_nvmem_register(dev, &econfig);
+ 
+ 	return PTR_ERR_OR_ZERO(nvmem);
+diff --git a/drivers/nvmem/zynqmp_nvmem.c b/drivers/nvmem/zynqmp_nvmem.c
+index e28d7b133e11..d13750a4c112 100644
+--- a/drivers/nvmem/zynqmp_nvmem.c
++++ b/drivers/nvmem/zynqmp_nvmem.c
+@@ -58,6 +58,7 @@ static int zynqmp_nvmem_probe(struct platform_device *pdev)
+ 
+ 	priv->dev = dev;
+ 	econfig.dev = dev;
++	econfig.use_fixed_of_cells = true;
+ 	econfig.reg_read = zynqmp_nvmem_read;
+ 	econfig.priv = priv;
+ 
+diff --git a/drivers/rtc/nvmem.c b/drivers/rtc/nvmem.c
+index 07ede21cee34..5cc039d92257 100644
+--- a/drivers/rtc/nvmem.c
++++ b/drivers/rtc/nvmem.c
+@@ -21,6 +21,7 @@ int devm_rtc_nvmem_register(struct rtc_device *rtc,
+ 
+ 	nvmem_config->dev = dev;
+ 	nvmem_config->owner = rtc->owner;
++	nvmem_config->use_fixed_of_cells = true;
+ 	nvmem = devm_nvmem_register(dev, nvmem_config);
+ 	if (IS_ERR(nvmem))
+ 		dev_err(dev, "failed to register nvmem device for RTC\n");
+diff --git a/drivers/w1/slaves/w1_ds250x.c b/drivers/w1/slaves/w1_ds250x.c
+index 7592c7050d1d..538722b41f87 100644
+--- a/drivers/w1/slaves/w1_ds250x.c
++++ b/drivers/w1/slaves/w1_ds250x.c
+@@ -168,6 +168,7 @@ static int w1_eprom_add_slave(struct w1_slave *sl)
+ 	struct nvmem_device *nvmem;
+ 	struct nvmem_config nvmem_cfg = {
+ 		.dev = &sl->dev,
++		.use_fixed_of_cells = true,
+ 		.reg_read = w1_nvmem_read,
+ 		.type = NVMEM_TYPE_OTP,
+ 		.read_only = true,
+diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
+index 0262b86194eb..b3c14ce87a65 100644
+--- a/include/linux/nvmem-provider.h
++++ b/include/linux/nvmem-provider.h
+@@ -73,6 +73,7 @@ struct nvmem_cell_info {
+  * @owner:	Pointer to exporter module. Used for refcounting.
+  * @cells:	Optional array of pre-defined NVMEM cells.
+  * @ncells:	Number of elements in cells.
++ * @use_fixed_of_cells:	Read fixed NVMEM cells from OF.
+  * @keepout:	Optional array of keepout ranges (sorted ascending by start).
+  * @nkeepout:	Number of elements in the keepout array.
+  * @type:	Type of the nvmem storage
+@@ -103,6 +104,7 @@ struct nvmem_config {
+ 	struct module		*owner;
+ 	const struct nvmem_cell_info	*cells;
+ 	int			ncells;
++	bool			use_fixed_of_cells;
+ 	const struct nvmem_keepout *keepout;
+ 	unsigned int		nkeepout;
+ 	enum nvmem_type		type;
+-- 
+2.34.1
+
