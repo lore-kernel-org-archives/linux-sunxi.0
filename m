@@ -1,57 +1,54 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015118492
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Feb 2023 18:24:31 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id cy6so15426771edb.5
-        for <linux-sunxi@lists.linux.dev>; Tue, 21 Feb 2023 10:24:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FF38492
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Feb 2023 18:25:12 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id da10so22142234edb.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 21 Feb 2023 10:25:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XicgGxxpxnjWOAupqddiOjOjwVHxq+BPEsx44HPQNeA=;
-        b=QTWnOKsaUPUp0dN+ok26p/p57wnxvJ9zQNA6WvOCq+B/Uapg2fsAXqfhwhl7w3rLke
-         rRrjl5DSzfrxFyW17QzrpY76Zu8pfQmHuMNkIvA8D646a44f/0fxPAlFZ8Iott9td/W0
-         z9mTNzn3g2QsUvMJKgAxhanOriMDvvbQojevqwKFjC/OI2XzqMdu4OKwRzwi6uskvdBT
-         h8sYPbKs4yAwPO2lMlWajxaw87LYxJYlHMSJ41nMDLCMNSYziBpaDc4pA5/CXPLdCbRv
-         fxQ+uRGTlPVKiW3hs8F7GAwcFK0cbOvR/KFCoWFpPLooZdfwgNPJTa++FKuva+RJnaHX
-         bunQ==
+        bh=c3BLHBNbyB6d4PScjJ/843xzZfyZJGKfFJawvu4dX2Y=;
+        b=OoQboNmUTe52RXikv+7iuojM9BYFM1K0l2C5ASBMAunqW2ynay57tF+lJN8GW4cxAo
+         brqUlL3eGHUDbfj5s3ZBrG/9WomcwJy8fynKVekVh65I8Uezl8KzpgUrtkQZB7TPSCEg
+         x8nS3GgGUnVWc0DckOU69z1Cte4Nk3oatH17U2JX5MaJeT6yQHw6AhjzoPHqxItaXmyn
+         xeHiHiXTA1OqwqApZjpBZ1eByhH+KV9qz4hftm0lmqvJaUf8fSyccDJEmngHKVI/Pmh8
+         Ok8IM2u2zda5szc4POCqpG0/XQdwnpetkfgHqDTtNLMEPwk4ETv8ZTL/3W67gqADpDO2
+         ioDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XicgGxxpxnjWOAupqddiOjOjwVHxq+BPEsx44HPQNeA=;
-        b=Vh9MDOnBEzibsM+tMCitzrgJ++GR+9itjz1vG1koK1NREm/C+wg6yDkp9aH0bveeJc
-         4dyfZ7UTTfULL8zww2WuZBPxmD8/JWjQfKCFbMyD7nmRihsQlc3QCJ/lwTcP1BfN9hrZ
-         PRRFvjXNQQ3zIBC4qUas08+/XVSYjlR/Cktfoz2q4pwYIa1r192UmrAypdx+EgbgIlEB
-         lHVcAs7/xVzbjkv9Hd33vQg7GqoC8T5h9/peVMemVyEHSgKM6mVGT9jE3NHqrCuR+SoS
-         xQW3U5WABRtZnhQlIjGkgbEsUyO5pINttuLbh5hYhp2ersTuZ46Owz0kgabxm2iIGrwx
-         E3dQ==
-X-Gm-Message-State: AO0yUKU2MOAoce9gVWYttFMHbRNgB6Kvu1Bj3QqMyhVfkyMkwz0m9Ek0
-	ax1paB4wA7rgB3FMnrI96Zk=
-X-Google-Smtp-Source: AK7set9eFaA2C9JxaxHcQzx5t2aKoqYrMobeqSCJao7DFH76N6d16pI6tn+/FVWlT/bRyhwL+KxCKw==
-X-Received: by 2002:a17:907:1dd9:b0:89e:8c3d:bb87 with SMTP id og25-20020a1709071dd900b0089e8c3dbb87mr14788646ejc.71.1677003870083;
-        Tue, 21 Feb 2023 10:24:30 -0800 (PST)
+        bh=c3BLHBNbyB6d4PScjJ/843xzZfyZJGKfFJawvu4dX2Y=;
+        b=vHms7sWer3PddtCW0M/BmIpMioSSyBI17JJVTxBgEOvbDFiVkLgzRyeAhmhdcf+EJV
+         XHVOsbqvuLhdE9+zAS/B5OCWyHOxt7kOIFUeHFVCn5eVZ8XR+d9VRjwTd18dEnClzP6k
+         jL9LTC7AJFJ8xHAAJPN7PDNdw3hk65CsRqWNNu56cOaVr8cuqqttmlT+zmSvOjGq+cph
+         IEHhQA3ay7YorAdbONsiDADtCgVkwTVaH/jRVSuYwmZsPhduBCCT58yb5UTuvEMKwTq7
+         WaIX2DqzY2HSRYbSKiRS1Wv0VrUPPSDjfNz+26fPvV3F4s8HrunNRAxg9u3+Teh70K91
+         mJAQ==
+X-Gm-Message-State: AO0yUKUOEsWcwXb6PWUPhbt4EVs/LmJsU1T9I/Jl5PhFy9oaqWweR9AV
+	QGRxZL1xQSeY0vLfpeVohIs=
+X-Google-Smtp-Source: AK7set82XfQubhD+uVW5tIofQEMfTx1cY8todx0VzsAG9Cqi770GiHgVkzcuEjv+mlLWqFa37ybx2w==
+X-Received: by 2002:aa7:c796:0:b0:4aa:a9c7:4224 with SMTP id n22-20020aa7c796000000b004aaa9c74224mr5535537eds.30.1677003911082;
+        Tue, 21 Feb 2023 10:25:11 -0800 (PST)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id kw24-20020a170907771800b008cd1f773754sm3500642ejc.5.2023.02.21.10.24.28
+        by smtp.gmail.com with ESMTPSA id j19-20020a508a93000000b004a21c9facd5sm3826686edj.67.2023.02.21.10.25.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 10:24:29 -0800 (PST)
+        Tue, 21 Feb 2023 10:25:10 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mcgrof@kernel.org, Nick Alcock <nick.alcock@oracle.com>
-Cc: linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
- Hitomi Hasegawa <hasegawa-hitomi@fujitsu.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 12/24] kbuild,
- soc: sunxi: sram: remove MODULE_LICENSE in non-modules
-Date: Tue, 21 Feb 2023 19:24:28 +0100
-Message-ID: <4779930.GXAFRqVoOG@jernej-laptop>
-In-Reply-To: <20230217141059.392471-13-nick.alcock@oracle.com>
-References:
- <20230217141059.392471-1-nick.alcock@oracle.com>
- <20230217141059.392471-13-nick.alcock@oracle.com>
+To: dmitry.torokhov@gmail.com, ye.xingchen@zte.com.cn
+Cc: hdegoede@redhat.com, wens@csie.org, samuel@sholland.org,
+ linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH] Input: sun4i-lradc-keys - Use devm_platform_ioremap_resource()
+Date: Tue, 21 Feb 2023 19:25:09 +0100
+Message-ID: <2133023.irdbgypaU6@jernej-laptop>
+In-Reply-To: <202302171036375639285@zte.com.cn>
+References: <202302171036375639285@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,34 +58,19 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne petek, 17. februar 2023 ob 15:10:47 CET je Nick Alcock napisal(a):
-> Since commit 8b41fc4454e ("kbuild: create modules.builtin without
-> Makefile.modbuiltin or tristate.conf"), MODULE_LICENSE declarations
-> are used to identify modules. As a consequence, uses of the macro
-> in non-modules will cause modprobe to misidentify their containing
-> object file as a module when it is not (false positives), and modprobe
-> might succeed rather than failing with a suitable error message.
+Dne petek, 17. februar 2023 ob 03:36:37 CET je ye.xingchen@zte.com.cn 
+napisal(a):
+> From: Ye Xingchen <ye.xingchen@zte.com.cn>
 > 
-> So remove it in the files in this commit, none of which can be built as
-> modules.
+> Convert platform_get_resource(), devm_ioremap_resource() to a single
+> call to Use devm_platform_ioremap_resource(), as this is exactly
+> what this function does.
 > 
-> Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
-> Suggested-by: Luis Chamberlain <mcgrof@kernel.org>
-> Cc: Luis Chamberlain <mcgrof@kernel.org>
-> Cc: linux-modules@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: Hitomi Hasegawa <hasegawa-hitomi@fujitsu.com>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Samuel Holland <samuel@sholland.org>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-sunxi@lists.linux.dev
+> Signed-off-by: Ye Xingchen <ye.xingchen@zte.com.cn>
 
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
-
 
 
