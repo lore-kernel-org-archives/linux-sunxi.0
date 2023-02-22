@@ -1,168 +1,140 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E7629A8
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Feb 2023 19:21:01 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id bh1so10022111plb.11
-        for <linux-sunxi@lists.linux.dev>; Wed, 22 Feb 2023 11:21:01 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3267EA92D;
+	Wed, 22 Feb 2023 21:15:08 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id s26so35833193edw.11;
+        Wed, 22 Feb 2023 13:15:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PLcAztFgWUursA52wmlD2jf40Bmb4ZiQCGT0PizPSB4=;
-        b=fZyXLUPiE4kw6WQeRU6MY4prH3y67vM2b3mdvJAichVGcePn7mOzwSwqqZqsDnIi+B
-         oCI2VPjF6j3wnr3KmIi7Hjfxnq5GV6m5PRZ7UYE5Zl2Y7YOXFH4E3UO0GJpZGsL3orby
-         2GDy7jk+pDEO7a1C/nZ9uKBVSsnZZlZrch5T0UZyD5YiSCDssGWpr9P/VWgv2x43dTcs
-         YSM/86PLOypniQeF1qiHZGAmqbXwKc6E3NtmX3aD5oS69HMEFrwmeWsE1j4I5Bkf6LO2
-         +ps2XnIPJpvyaM97dv4bJ+y/bbuSRbspaNYNYLKoOGeflbKGftMte5xtnVY1ffNSgTKw
-         jSng==
+        d=googlemail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1hpkcdj31Kp+64I0H+8QjpzTiuX76hZTeMvrWdpVOt4=;
+        b=Y95tEBQTvJnja0wiaBFlONHEPFFpg4E5Aidd7Wxu88GO6+Efw9s32CSm6Qrv+mXXKE
+         i5+x1nQprf7tfF0IcJzKPjG26LQSm8lVS+CQndNmsIeuLxTz3Zws+u23ldaG3K54+WIL
+         IKeo6NJCJ7WchtpfymyIpeNWai8L7kAy3lwcxu51e9DNdYZrZ0f3D1Sw8ivAk+CfDKS3
+         Ek4oq62+5hOyx3h0ySU4oZmDiESIURoGhUvHFCUOXpdaqhWIldAEFOJmG9Rfku2zdt2S
+         XHD98cqCLTBp5a+c55IWJPbpd06egfIFbD37YQMjJACS4ZlT8leLyYR4DAvtMaXLTN/X
+         IY6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PLcAztFgWUursA52wmlD2jf40Bmb4ZiQCGT0PizPSB4=;
-        b=F3wcrxXr4oP6YA5jCjF5jJ/RBp5rYs09Uj71ryabaVmDD4QQvIBzPW0G1kyf23ASZm
-         571pQMrJTnzEfOOfpX5yQPYfjAlvVUYjDyvefsG0l+3IIda8JDALlO4qe0iQAyZaR08M
-         J9b6dENmFagp+aRy9WjFjHT0uFvxivhnP/t2TD54/36M3ib3teSVSYx4SHd8iQwoa08M
-         bqWLceVKGUPef7lwMrwj/3AJk6/P6s7xLHVsW1HGSvtx9GJ1MnTmsrYNuRfR9Ub11IT2
-         vY7CMo3yQZSLvd3GV0M/0osMlJG/XAKQceRi8FeqlTM4yBN005p/aMNnDmHXDLCTm4uS
-         bw9w==
-X-Gm-Message-State: AO0yUKVD9Iz8xmK6AGiaZ1AbDEgfYljL1FoYU871iSso5mVaeqmoof4E
-	Nta631AuVBBx+st0RXPa9NU=
-X-Google-Smtp-Source: AK7set8wAaTOtklU375O2ukRLvaDd0j7hswGqcDt2qm3lUDw62M6nbZXaAjlVk3zGZQQR2Svvz5L3A==
-X-Received: by 2002:a17:902:fa8c:b0:19b:dcfe:5f4 with SMTP id lc12-20020a170902fa8c00b0019bdcfe05f4mr6520296plb.20.1677093660760;
-        Wed, 22 Feb 2023 11:21:00 -0800 (PST)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id a7-20020a170902b58700b0019abd4ddbf2sm3579577pls.179.2023.02.22.11.20.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Feb 2023 11:20:59 -0800 (PST)
-Message-ID: <187c2741-7545-6480-2d00-fd93a6f8e07e@gmail.com>
-Date: Wed, 22 Feb 2023 11:20:34 -0800
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1hpkcdj31Kp+64I0H+8QjpzTiuX76hZTeMvrWdpVOt4=;
+        b=thMq8KbCqsWNousqpeBo+eweUiagiITTc+gaHhNIqfuvv6xzl/JJDAbv27v1VU74YD
+         az246G5CD7CsZsrpArDluLAPcOV8r9DN4hNc2/J2hnKhTzco95p/becgk2hxT0hKChSg
+         XvB2uHDGm9alk2HuZirBA1ClJgFZE0/Sam14o4nmHbjBUDbnKbVXQFT+m3y+cZwcl8ET
+         PWm6gbUDaKzrvO/4XPrRz1mjjNC/VmZ8lY0PFiUPU26J1t5pJI+08jNzEG6/QzLllZ7f
+         +1EfC54/sodm3ilO4VZFwd1fkC1F59Yq4mTIl1ftGeRg71QlqCE1rC1LvmdMct9OGHgD
+         bsJg==
+X-Gm-Message-State: AO0yUKUhQKeFDG6+7gGWn35yhH41xsqFbdKPN3SH3JI/QwRSvQf3LyTL
+	zx7d9ouGlxuVxlhqzWyDlROga3HbWyde6g8bpUs=
+X-Google-Smtp-Source: AK7set8TXb46bTmDPfzW/xczn6QfGU7MdMXPRf/CaO6cyWdNx+3X84yvibHTXzLWWA/EAH5iiZY+OShEAAHjsEGwRMc=
+X-Received: by 2002:a50:f611:0:b0:4ac:b7c1:9109 with SMTP id
+ c17-20020a50f611000000b004acb7c19109mr4476929edn.6.1677100506156; Wed, 22 Feb
+ 2023 13:15:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 01/16] thermal/core: Add a thermal zone 'devdata'
- accessor
-Content-Language: en-US
-To: Daniel Lezcano <daniel.lezcano@linaro.org>, rafael@kernel.org
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Guenter Roeck <linux@roeck-us.net>,
- =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Mark Brown <broonie@kernel.org>, Ido Schimmel <idosch@nvidia.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Balsam CHIHI <bchihi@baylibre.com>,
- Gregory Greenman <gregory.greenman@intel.com>,
- Adam Ward <DLG-Adam.Ward.opensource@dm.renesas.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Jean Delvare <jdelvare@suse.com>, Jonathan Cameron <jic23@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Raju Rangoju
- <rajur@chelsio.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Petr Machata <petrm@nvidia.com>,
- Kalle Valo <kvalo@kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Amit Kucheria <amitk@kernel.org>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>, Markus Mayer <mmayer@broadcom.com>,
- Support Opensource <support.opensource@diasemi.com>,
- Thara Gopinath <thara.gopinath@gmail.com>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
- Heiko Stuebner <heiko@sntech.de>,
- Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Orson Zhai <orsonzhai@gmail.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Vasily Khoruzhick
- <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Talel Shenhar <talel@amazon.com>,
- Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Stefan Wahren <stefan.wahren@i2se.com>, ye xingchen
- <ye.xingchen@zte.com.cn>, Zheng Yongjun <zhengyongjun3@huawei.com>,
- Tim Zimmermann <tim@linux4.de>, Yang Li <yang.lee@linux.alibaba.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Jiang Jian <jiangjian@cdjrlc.com>, Daniel Golle <daniel@makrotopia.org>,
- Randy Dunlap <rdunlap@infradead.org>, Mikko Perttunen
- <mperttunen@nvidia.com>,
- "open list:ACPI THERMAL DRIVER" <linux-acpi@vger.kernel.org>,
- "open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)"
- <linux-ide@vger.kernel.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>,
- "open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
- "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
- "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
- "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..."
- <linux-input@vger.kernel.org>,
- "open list:CXGB4 ETHERNET DRIVER (CXGB4)" <netdev@vger.kernel.org>,
- "open list:INTEL WIRELESS WIFI LINK (iwlwifi)"
- <linux-wireless@vger.kernel.org>,
- "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
- <linux-rpi-kernel@lists.infradead.org>,
- "open list:QUALCOMM TSENS THERMAL DRIVER" <linux-arm-msm@vger.kernel.org>,
- "open list:RENESAS R-CAR THERMAL DRIVERS"
- <linux-renesas-soc@vger.kernel.org>,
- "open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
- "open list:SAMSUNG THERMAL DRIVER" <linux-samsung-soc@vger.kernel.org>,
- "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
- "open list:TI BANDGAP AND THERMAL DRIVER" <linux-omap@vger.kernel.org>,
- "moderated list:ARM/Mediatek SoC support"
- <linux-mediatek@lists.infradead.org>
-References: <20230221180710.2781027-1-daniel.lezcano@linaro.org>
- <20230221180710.2781027-2-daniel.lezcano@linaro.org>
-From: Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <20230221180710.2781027-2-daniel.lezcano@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230221145021.31993-1-zajec5@gmail.com> <CAFBinCDxB=xtz9mtZupBC7J5oxknN1ENHzJ-cFxX4FTDSgZeFQ@mail.gmail.com>
+ <101a5bdf-870a-a1bb-954d-1d675ecad5a7@gmail.com>
+In-Reply-To: <101a5bdf-870a-a1bb-954d-1d675ecad5a7@gmail.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Wed, 22 Feb 2023 22:14:55 +0100
+Message-ID: <CAFBinCDcDYtdOdikc2ieXjRUkrjgwNKaPYvYZb_v84gh66q=bw@mail.gmail.com>
+Subject: Re: [PATCH] nvmem: add explicit config option to read OF fixed cells
+To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Claudiu Beznea <claudiu.beznea@microchip.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Andy Gross <agross@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Vincent Shih <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Michal Simek <michal.simek@xilinx.com>, Alessandro Zummo <a.zummo@towertech.it>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Evgeniy Polyakov <zbr@ioremap.net>, 
+	linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+	linux-rtc@vger.kernel.org, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2/21/23 10:06, Daniel Lezcano wrote:
-> The thermal zone device structure is exposed to the different drivers
-> and obviously they access the internals while that should be
-> restricted to the core thermal code.
-> 
-> In order to self-encapsulate the thermal core code, we need to prevent
-> the drivers accessing directly the thermal zone structure and provide
-> accessor functions to deal with.
-> 
-> Provide an accessor to the 'devdata' structure and make use of it in
-> the different drivers.
-> 
-> No functional changes intended.
-> 
-> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Acked-by: Guenter Roeck <linux@roeck-us.net> #hwmon
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se> #R-Car
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Reviewed-by: Ido Schimmel <idosch@nvidia.com> #mlxsw
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> #MediaTek auxadc and lvts
-> Reviewed-by: Balsam CHIHI <bchihi@baylibre.com> #Mediatek lvts
-> Acked-by: Gregory Greenman <gregory.greenman@intel.com> #iwlwifi
-> Reviewed-by: Adam Ward <DLG-Adam.Ward.opensource@dm.renesas.com> #da9062
-> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>  #spread
-> Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com> #power_supply
+Hello Rafa=C5=82,
 
-Acked-by: Florian Fainelli <f.fainelli@gmail.com> #Broadcom
--- 
-Florian
+On Tue, Feb 21, 2023 at 11:29 PM Rafa=C5=82 Mi=C5=82ecki <zajec5@gmail.com>=
+ wrote:
+[...]
+> > I am not familiar with the recent changes around dynamic cells.
+> > Is there any discussion/summary that I can read to get up to speed?
+>
+> Some NVMEM devices don't store specific data at hardcoded offsets. For
+> such devices we have drivers (to become: layouts) that parse their magic
+> content. They discover cells and register them and provide matching with
+> proper DT nodes.
+>
+> For bindings see:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?id=3D084973e944bec21804f8afb0515b25434438699a
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?id=3Da607a850ba1fa966cbb035544c1588e24a6307df
+>
+> For example driver see:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?id=3D6e977eaa8280e957b87904b536661550f2a6b3e8
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?id=3D207775f7e17b8fd0426a2ac4a5b81e4e1d71849e
+>
+> For usage see:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?id=3Dc8442f0fb09ca3d842b9b23d1d0650f649fd10f8
+Thanks, that makes things clearer for me!
 
+> > My main thought is: if there are many "fixed OF cells" implementations
+> > and only a few "dynamic" ones - does it make sense to flip the logic
+> > and introduce a new "use_dynamic_of_cells" flag instead?
+>
+> The problem is that there are more cases than just two. We can have:
+> 1. No cells at all
+> 2. Fixed cells in DT
+> 3. Dynamic cells with references in DT
+> 4. Driver specified cells (specified within config)
+> 5. Cells defined in a global table
+>
+> So we need to reference DT cells explicitly (we can't just confirm /
+> deny *dynamic* cells).
+>
+> Another solution would be to have "no_fixed_of_cells" but:
+>
+> 1. Personally I think negation is less clear / easy to follow
+>
+> 2. There may be actually more drivers with no fixed cells.
+> I think I modified 18 drivers. It seems devm_nvmem_register() is
+> referenced in 44 places. Few of them may be not actual users but it
+> still seems to be about equal.
+Thanks for this overview of all the special cases. Please add my:
+Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+for the following two drivers:
+- drivers/nvmem/meson-efuse.c
+- drivers/nvmem/meson-mx-efuse.c
+
+
+Best regards,
+Martin
