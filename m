@@ -1,1446 +1,168 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE1729A8
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Feb 2023 19:19:20 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id b12so34697270edd.4
-        for <linux-sunxi@lists.linux.dev>; Wed, 22 Feb 2023 11:19:20 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E7629A8
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Feb 2023 19:21:01 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id bh1so10022111plb.11
+        for <linux-sunxi@lists.linux.dev>; Wed, 22 Feb 2023 11:21:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PLcAztFgWUursA52wmlD2jf40Bmb4ZiQCGT0PizPSB4=;
+        b=fZyXLUPiE4kw6WQeRU6MY4prH3y67vM2b3mdvJAichVGcePn7mOzwSwqqZqsDnIi+B
+         oCI2VPjF6j3wnr3KmIi7Hjfxnq5GV6m5PRZ7UYE5Zl2Y7YOXFH4E3UO0GJpZGsL3orby
+         2GDy7jk+pDEO7a1C/nZ9uKBVSsnZZlZrch5T0UZyD5YiSCDssGWpr9P/VWgv2x43dTcs
+         YSM/86PLOypniQeF1qiHZGAmqbXwKc6E3NtmX3aD5oS69HMEFrwmeWsE1j4I5Bkf6LO2
+         +ps2XnIPJpvyaM97dv4bJ+y/bbuSRbspaNYNYLKoOGeflbKGftMte5xtnVY1ffNSgTKw
+         jSng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=04GSnrd8tX0yWJBkr6CyBz0vjBDnbAQt5vSHW+DOXO4=;
-        b=AO+5B1oLqwBIo8oaDKLoBatp1UDYVpLIHu6tAbciIzJsOwpltmxOn09Q4DEHPvTwXd
-         IhGWI1S+onteJNuYNEe7eil+9gxE1ZApfgl8mWzW4SqK1Eh6ow6z/P1wn4g5iOQKZntu
-         I6z7jKzv475egrFIfhLE6hOgCrVCDWblP4hzsTt6PccBs2KOc/MES490Bq4k+mSpoWTH
-         kdTRSR+ZA2C744n81fJV2eZ+rYls9BwY2UiLeS5Fy1zvRFVZATHMSLWDfk7l975pOPM1
-         flpMmhaUKCzTiHskug5/cl0RYp49Mf50Iy9s6BqZ7tSMb/4N31edk4miW+UgsQtz6zEz
-         58Nw==
-X-Gm-Message-State: AO0yUKXfm/YyAWXtbJIQyMGEGSpUVBGIOgaqneUIK41PSFMxghqn6t4A
-	pMUWItplYBarWsiir3qyDoe9wkWx5wER/t9DAUM=
-X-Google-Smtp-Source: AK7set8xxz/RZh0RzAjdttiqcVp+60EmPnPXBh7VVMMeAEehD2l6TAgC1R4KFLm26WfmcY1mcNRpYlfzyFJn3/9ihOs=
-X-Received: by 2002:a50:c00a:0:b0:4af:69e2:52f9 with SMTP id
- r10-20020a50c00a000000b004af69e252f9mr200729edb.6.1677093558509; Wed, 22 Feb
- 2023 11:19:18 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PLcAztFgWUursA52wmlD2jf40Bmb4ZiQCGT0PizPSB4=;
+        b=F3wcrxXr4oP6YA5jCjF5jJ/RBp5rYs09Uj71ryabaVmDD4QQvIBzPW0G1kyf23ASZm
+         571pQMrJTnzEfOOfpX5yQPYfjAlvVUYjDyvefsG0l+3IIda8JDALlO4qe0iQAyZaR08M
+         J9b6dENmFagp+aRy9WjFjHT0uFvxivhnP/t2TD54/36M3ib3teSVSYx4SHd8iQwoa08M
+         bqWLceVKGUPef7lwMrwj/3AJk6/P6s7xLHVsW1HGSvtx9GJ1MnTmsrYNuRfR9Ub11IT2
+         vY7CMo3yQZSLvd3GV0M/0osMlJG/XAKQceRi8FeqlTM4yBN005p/aMNnDmHXDLCTm4uS
+         bw9w==
+X-Gm-Message-State: AO0yUKVD9Iz8xmK6AGiaZ1AbDEgfYljL1FoYU871iSso5mVaeqmoof4E
+	Nta631AuVBBx+st0RXPa9NU=
+X-Google-Smtp-Source: AK7set8wAaTOtklU375O2ukRLvaDd0j7hswGqcDt2qm3lUDw62M6nbZXaAjlVk3zGZQQR2Svvz5L3A==
+X-Received: by 2002:a17:902:fa8c:b0:19b:dcfe:5f4 with SMTP id lc12-20020a170902fa8c00b0019bdcfe05f4mr6520296plb.20.1677093660760;
+        Wed, 22 Feb 2023 11:21:00 -0800 (PST)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.googlemail.com with ESMTPSA id a7-20020a170902b58700b0019abd4ddbf2sm3579577pls.179.2023.02.22.11.20.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Feb 2023 11:20:59 -0800 (PST)
+Message-ID: <187c2741-7545-6480-2d00-fd93a6f8e07e@gmail.com>
+Date: Wed, 22 Feb 2023 11:20:34 -0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230221180710.2781027-1-daniel.lezcano@linaro.org> <20230221180710.2781027-2-daniel.lezcano@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 01/16] thermal/core: Add a thermal zone 'devdata'
+ accessor
+Content-Language: en-US
+To: Daniel Lezcano <daniel.lezcano@linaro.org>, rafael@kernel.org
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Guenter Roeck <linux@roeck-us.net>,
+ =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Mark Brown <broonie@kernel.org>, Ido Schimmel <idosch@nvidia.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Balsam CHIHI <bchihi@baylibre.com>,
+ Gregory Greenman <gregory.greenman@intel.com>,
+ Adam Ward <DLG-Adam.Ward.opensource@dm.renesas.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Jean Delvare <jdelvare@suse.com>, Jonathan Cameron <jic23@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Raju Rangoju
+ <rajur@chelsio.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Petr Machata <petrm@nvidia.com>,
+ Kalle Valo <kvalo@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Amit Kucheria <amitk@kernel.org>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>, Markus Mayer <mmayer@broadcom.com>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Thara Gopinath <thara.gopinath@gmail.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+ Heiko Stuebner <heiko@sntech.de>,
+ Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Orson Zhai <orsonzhai@gmail.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Vasily Khoruzhick
+ <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Talel Shenhar <talel@amazon.com>,
+ Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Stefan Wahren <stefan.wahren@i2se.com>, ye xingchen
+ <ye.xingchen@zte.com.cn>, Zheng Yongjun <zhengyongjun3@huawei.com>,
+ Tim Zimmermann <tim@linux4.de>, Yang Li <yang.lee@linux.alibaba.com>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Jiang Jian <jiangjian@cdjrlc.com>, Daniel Golle <daniel@makrotopia.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Mikko Perttunen
+ <mperttunen@nvidia.com>,
+ "open list:ACPI THERMAL DRIVER" <linux-acpi@vger.kernel.org>,
+ "open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)"
+ <linux-ide@vger.kernel.org>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>,
+ "open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
+ "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
+ "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
+ "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..."
+ <linux-input@vger.kernel.org>,
+ "open list:CXGB4 ETHERNET DRIVER (CXGB4)" <netdev@vger.kernel.org>,
+ "open list:INTEL WIRELESS WIFI LINK (iwlwifi)"
+ <linux-wireless@vger.kernel.org>,
+ "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
+ <linux-rpi-kernel@lists.infradead.org>,
+ "open list:QUALCOMM TSENS THERMAL DRIVER" <linux-arm-msm@vger.kernel.org>,
+ "open list:RENESAS R-CAR THERMAL DRIVERS"
+ <linux-renesas-soc@vger.kernel.org>,
+ "open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
+ "open list:SAMSUNG THERMAL DRIVER" <linux-samsung-soc@vger.kernel.org>,
+ "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+ "open list:TI BANDGAP AND THERMAL DRIVER" <linux-omap@vger.kernel.org>,
+ "moderated list:ARM/Mediatek SoC support"
+ <linux-mediatek@lists.infradead.org>
+References: <20230221180710.2781027-1-daniel.lezcano@linaro.org>
+ <20230221180710.2781027-2-daniel.lezcano@linaro.org>
+From: Florian Fainelli <f.fainelli@gmail.com>
 In-Reply-To: <20230221180710.2781027-2-daniel.lezcano@linaro.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 22 Feb 2023 20:19:07 +0100
-Message-ID: <CAJZ5v0ga7e3OFEDETzr1G0pJBjNe=+ajs04=MicSyMq28imCcQ@mail.gmail.com>
-Subject: Re: [PATCH v2 01/16] thermal/core: Add a thermal zone 'devdata' accessor
-To: Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc: rafael@kernel.org, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Guenter Roeck <linux@roeck-us.net>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	Mark Brown <broonie@kernel.org>, Ido Schimmel <idosch@nvidia.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Balsam CHIHI <bchihi@baylibre.com>, Gregory Greenman <gregory.greenman@intel.com>, 
-	Adam Ward <DLG-Adam.Ward.opensource@dm.renesas.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Sebastian Reichel <sebastian.reichel@collabora.com>, Zhang Rui <rui.zhang@intel.com>, 
-	Len Brown <lenb@kernel.org>, Damien Le Moal <damien.lemoal@opensource.wdc.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	NXP Linux Team <linux-imx@nxp.com>, Jean Delvare <jdelvare@suse.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Raju Rangoju <rajur@chelsio.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Petr Machata <petrm@nvidia.com>, 
-	Kalle Valo <kvalo@kernel.org>, Sebastian Reichel <sre@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Amit Kucheria <amitk@kernel.org>, 
-	Florian Fainelli <f.fainelli@gmail.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, Markus Mayer <mmayer@broadcom.com>, 
-	Support Opensource <support.opensource@diasemi.com>, Thara Gopinath <thara.gopinath@gmail.com>, 
-	Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
-	Heiko Stuebner <heiko@sntech.de>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Talel Shenhar <talel@amazon.com>, Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>, 
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Stefan Wahren <stefan.wahren@i2se.com>, 
-	ye xingchen <ye.xingchen@zte.com.cn>, Zheng Yongjun <zhengyongjun3@huawei.com>, 
-	Tim Zimmermann <tim@linux4.de>, Yang Li <yang.lee@linux.alibaba.com>, 
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Jiang Jian <jiangjian@cdjrlc.com>, 
-	Daniel Golle <daniel@makrotopia.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, 
-	"open list:ACPI THERMAL DRIVER" <linux-acpi@vger.kernel.org>, 
-	"open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)" <linux-ide@vger.kernel.org>, 
-	"moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, 
-	"open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>, 
-	"open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>, 
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, 
-	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>, 
-	"open list:CXGB4 ETHERNET DRIVER (CXGB4)" <netdev@vger.kernel.org>, 
-	"open list:INTEL WIRELESS WIFI LINK (iwlwifi)" <linux-wireless@vger.kernel.org>, 
-	"moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" <linux-rpi-kernel@lists.infradead.org>, 
-	"open list:QUALCOMM TSENS THERMAL DRIVER" <linux-arm-msm@vger.kernel.org>, 
-	"open list:RENESAS R-CAR THERMAL DRIVERS" <linux-renesas-soc@vger.kernel.org>, 
-	"open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>, 
-	"open list:SAMSUNG THERMAL DRIVER" <linux-samsung-soc@vger.kernel.org>, 
-	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>, 
-	"open list:TI BANDGAP AND THERMAL DRIVER" <linux-omap@vger.kernel.org>, 
-	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 21, 2023 at 7:07 PM Daniel Lezcano
-<daniel.lezcano@linaro.org> wrote:
->
+On 2/21/23 10:06, Daniel Lezcano wrote:
 > The thermal zone device structure is exposed to the different drivers
 > and obviously they access the internals while that should be
 > restricted to the core thermal code.
->
+> 
 > In order to self-encapsulate the thermal core code, we need to prevent
 > the drivers accessing directly the thermal zone structure and provide
 > accessor functions to deal with.
->
+> 
 > Provide an accessor to the 'devdata' structure and make use of it in
 > the different drivers.
->
+> 
 > No functional changes intended.
->
+> 
 > Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 > Acked-by: Guenter Roeck <linux@roeck-us.net> #hwmon
-> Reviewed-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.se=
-> #R-Car
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se> #R-Car
 > Acked-by: Mark Brown <broonie@kernel.org>
 > Reviewed-by: Ido Schimmel <idosch@nvidia.com> #mlxsw
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
-ora.com> #MediaTek auxadc and lvts
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> #MediaTek auxadc and lvts
 > Reviewed-by: Balsam CHIHI <bchihi@baylibre.com> #Mediatek lvts
 > Acked-by: Gregory Greenman <gregory.greenman@intel.com> #iwlwifi
 > Reviewed-by: Adam Ward <DLG-Adam.Ward.opensource@dm.renesas.com> #da9062
 > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>  #spread
-> Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com> #power_supp=
-ly
+> Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com> #power_supply
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Acked-by: Florian Fainelli <f.fainelli@gmail.com> #Broadcom
+-- 
+Florian
 
-> ---
->  drivers/acpi/thermal.c                           | 16 ++++++++--------
->  drivers/ata/ahci_imx.c                           |  2 +-
->  drivers/hwmon/hwmon.c                            |  4 ++--
->  drivers/hwmon/pmbus/pmbus_core.c                 |  2 +-
->  drivers/hwmon/scmi-hwmon.c                       |  2 +-
->  drivers/hwmon/scpi-hwmon.c                       |  2 +-
->  drivers/iio/adc/sun4i-gpadc-iio.c                |  2 +-
->  drivers/input/touchscreen/sun4i-ts.c             |  2 +-
->  .../net/ethernet/chelsio/cxgb4/cxgb4_thermal.c   |  2 +-
->  .../net/ethernet/mellanox/mlxsw/core_thermal.c   | 14 +++++++-------
->  drivers/net/wireless/intel/iwlwifi/mvm/tt.c      |  4 ++--
->  drivers/power/supply/power_supply_core.c         |  2 +-
->  drivers/regulator/max8973-regulator.c            |  2 +-
->  drivers/thermal/armada_thermal.c                 |  4 ++--
->  drivers/thermal/broadcom/bcm2711_thermal.c       |  2 +-
->  drivers/thermal/broadcom/bcm2835_thermal.c       |  2 +-
->  drivers/thermal/broadcom/brcmstb_thermal.c       |  4 ++--
->  drivers/thermal/broadcom/ns-thermal.c            |  2 +-
->  drivers/thermal/broadcom/sr-thermal.c            |  2 +-
->  drivers/thermal/da9062-thermal.c                 |  2 +-
->  drivers/thermal/dove_thermal.c                   |  2 +-
->  drivers/thermal/hisi_thermal.c                   |  2 +-
->  drivers/thermal/imx8mm_thermal.c                 |  2 +-
->  drivers/thermal/imx_sc_thermal.c                 |  2 +-
->  drivers/thermal/imx_thermal.c                    |  6 +++---
->  drivers/thermal/intel/intel_pch_thermal.c        |  2 +-
->  drivers/thermal/intel/intel_soc_dts_iosf.c       | 13 +++++--------
->  drivers/thermal/intel/x86_pkg_temp_thermal.c     |  4 ++--
->  drivers/thermal/k3_bandgap.c                     |  2 +-
->  drivers/thermal/k3_j72xx_bandgap.c               |  2 +-
->  drivers/thermal/kirkwood_thermal.c               |  2 +-
->  drivers/thermal/max77620_thermal.c               |  2 +-
->  drivers/thermal/mediatek/auxadc_thermal.c        |  2 +-
->  drivers/thermal/mediatek/lvts_thermal.c          |  4 ++--
->  drivers/thermal/qcom/qcom-spmi-adc-tm5.c         |  4 ++--
->  drivers/thermal/qcom/qcom-spmi-temp-alarm.c      |  4 ++--
->  drivers/thermal/qoriq_thermal.c                  |  2 +-
->  drivers/thermal/rcar_gen3_thermal.c              |  4 ++--
->  drivers/thermal/rcar_thermal.c                   |  3 +--
->  drivers/thermal/rockchip_thermal.c               |  4 ++--
->  drivers/thermal/rzg2l_thermal.c                  |  2 +-
->  drivers/thermal/samsung/exynos_tmu.c             |  4 ++--
->  drivers/thermal/spear_thermal.c                  |  8 ++++----
->  drivers/thermal/sprd_thermal.c                   |  2 +-
->  drivers/thermal/sun8i_thermal.c                  |  2 +-
->  drivers/thermal/tegra/tegra-bpmp-thermal.c       |  6 ++++--
->  drivers/thermal/tegra/tegra30-tsensor.c          |  4 ++--
->  drivers/thermal/thermal-generic-adc.c            |  2 +-
->  drivers/thermal/thermal_core.c                   |  6 ++++++
->  drivers/thermal/thermal_mmio.c                   |  2 +-
->  .../thermal/ti-soc-thermal/ti-thermal-common.c   |  4 ++--
->  drivers/thermal/uniphier_thermal.c               |  2 +-
->  include/linux/thermal.h                          |  7 +++++++
->  53 files changed, 102 insertions(+), 91 deletions(-)
->
-> diff --git a/drivers/acpi/thermal.c b/drivers/acpi/thermal.c
-> index 0b4b844f9d4c..392b73b3e269 100644
-> --- a/drivers/acpi/thermal.c
-> +++ b/drivers/acpi/thermal.c
-> @@ -498,7 +498,7 @@ static int acpi_thermal_get_trip_points(struct acpi_t=
-hermal *tz)
->
->  static int thermal_get_temp(struct thermal_zone_device *thermal, int *te=
-mp)
->  {
-> -       struct acpi_thermal *tz =3D thermal->devdata;
-> +       struct acpi_thermal *tz =3D thermal_zone_device_priv(thermal);
->         int result;
->
->         if (!tz)
-> @@ -516,7 +516,7 @@ static int thermal_get_temp(struct thermal_zone_devic=
-e *thermal, int *temp)
->  static int thermal_get_trip_type(struct thermal_zone_device *thermal,
->                                  int trip, enum thermal_trip_type *type)
->  {
-> -       struct acpi_thermal *tz =3D thermal->devdata;
-> +       struct acpi_thermal *tz =3D thermal_zone_device_priv(thermal);
->         int i;
->
->         if (!tz || trip < 0)
-> @@ -560,7 +560,7 @@ static int thermal_get_trip_type(struct thermal_zone_=
-device *thermal,
->  static int thermal_get_trip_temp(struct thermal_zone_device *thermal,
->                                  int trip, int *temp)
->  {
-> -       struct acpi_thermal *tz =3D thermal->devdata;
-> +       struct acpi_thermal *tz =3D thermal_zone_device_priv(thermal);
->         int i;
->
->         if (!tz || trip < 0)
-> @@ -613,7 +613,7 @@ static int thermal_get_trip_temp(struct thermal_zone_=
-device *thermal,
->  static int thermal_get_crit_temp(struct thermal_zone_device *thermal,
->                                 int *temperature)
->  {
-> -       struct acpi_thermal *tz =3D thermal->devdata;
-> +       struct acpi_thermal *tz =3D thermal_zone_device_priv(thermal);
->
->         if (tz->trips.critical.flags.valid) {
->                 *temperature =3D deci_kelvin_to_millicelsius_with_offset(
-> @@ -628,7 +628,7 @@ static int thermal_get_crit_temp(struct thermal_zone_=
-device *thermal,
->  static int thermal_get_trend(struct thermal_zone_device *thermal,
->                              int trip, enum thermal_trend *trend)
->  {
-> -       struct acpi_thermal *tz =3D thermal->devdata;
-> +       struct acpi_thermal *tz =3D thermal_zone_device_priv(thermal);
->         enum thermal_trip_type type;
->         int i;
->
-> @@ -670,7 +670,7 @@ static int thermal_get_trend(struct thermal_zone_devi=
-ce *thermal,
->
->  static void acpi_thermal_zone_device_hot(struct thermal_zone_device *the=
-rmal)
->  {
-> -       struct acpi_thermal *tz =3D thermal->devdata;
-> +       struct acpi_thermal *tz =3D thermal_zone_device_priv(thermal);
->
->         acpi_bus_generate_netlink_event(tz->device->pnp.device_class,
->                                         dev_name(&tz->device->dev),
-> @@ -679,7 +679,7 @@ static void acpi_thermal_zone_device_hot(struct therm=
-al_zone_device *thermal)
->
->  static void acpi_thermal_zone_device_critical(struct thermal_zone_device=
- *thermal)
->  {
-> -       struct acpi_thermal *tz =3D thermal->devdata;
-> +       struct acpi_thermal *tz =3D thermal_zone_device_priv(thermal);
->
->         acpi_bus_generate_netlink_event(tz->device->pnp.device_class,
->                                         dev_name(&tz->device->dev),
-> @@ -693,7 +693,7 @@ static int acpi_thermal_cooling_device_cb(struct ther=
-mal_zone_device *thermal,
->                                           bool bind)
->  {
->         struct acpi_device *device =3D cdev->devdata;
-> -       struct acpi_thermal *tz =3D thermal->devdata;
-> +       struct acpi_thermal *tz =3D thermal_zone_device_priv(thermal);
->         struct acpi_device *dev;
->         acpi_handle handle;
->         int i;
-> diff --git a/drivers/ata/ahci_imx.c b/drivers/ata/ahci_imx.c
-> index a950767f7948..e45e91f5e703 100644
-> --- a/drivers/ata/ahci_imx.c
-> +++ b/drivers/ata/ahci_imx.c
-> @@ -418,7 +418,7 @@ static int __sata_ahci_read_temperature(void *dev, in=
-t *temp)
->
->  static int sata_ahci_read_temperature(struct thermal_zone_device *tz, in=
-t *temp)
->  {
-> -       return __sata_ahci_read_temperature(tz->devdata, temp);
-> +       return __sata_ahci_read_temperature(thermal_zone_device_priv(tz),=
- temp);
->  }
->
->  static ssize_t sata_ahci_show_temp(struct device *dev,
-> diff --git a/drivers/hwmon/hwmon.c b/drivers/hwmon/hwmon.c
-> index 33edb5c02f7d..3adf5c3c75ed 100644
-> --- a/drivers/hwmon/hwmon.c
-> +++ b/drivers/hwmon/hwmon.c
-> @@ -154,7 +154,7 @@ static DEFINE_IDA(hwmon_ida);
->  #ifdef CONFIG_THERMAL_OF
->  static int hwmon_thermal_get_temp(struct thermal_zone_device *tz, int *t=
-emp)
->  {
-> -       struct hwmon_thermal_data *tdata =3D tz->devdata;
-> +       struct hwmon_thermal_data *tdata =3D thermal_zone_device_priv(tz)=
-;
->         struct hwmon_device *hwdev =3D to_hwmon_device(tdata->dev);
->         int ret;
->         long t;
-> @@ -171,7 +171,7 @@ static int hwmon_thermal_get_temp(struct thermal_zone=
-_device *tz, int *temp)
->
->  static int hwmon_thermal_set_trips(struct thermal_zone_device *tz, int l=
-ow, int high)
->  {
-> -       struct hwmon_thermal_data *tdata =3D tz->devdata;
-> +       struct hwmon_thermal_data *tdata =3D thermal_zone_device_priv(tz)=
-;
->         struct hwmon_device *hwdev =3D to_hwmon_device(tdata->dev);
->         const struct hwmon_chip_info *chip =3D hwdev->chip;
->         const struct hwmon_channel_info **info =3D chip->info;
-> diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus=
-_core.c
-> index 95e95783972a..e39a327ac2a1 100644
-> --- a/drivers/hwmon/pmbus/pmbus_core.c
-> +++ b/drivers/hwmon/pmbus/pmbus_core.c
-> @@ -1272,7 +1272,7 @@ struct pmbus_thermal_data {
->
->  static int pmbus_thermal_get_temp(struct thermal_zone_device *tz, int *t=
-emp)
->  {
-> -       struct pmbus_thermal_data *tdata =3D tz->devdata;
-> +       struct pmbus_thermal_data *tdata =3D thermal_zone_device_priv(tz)=
-;
->         struct pmbus_sensor *sensor =3D tdata->sensor;
->         struct pmbus_data *pmbus_data =3D tdata->pmbus_data;
->         struct i2c_client *client =3D to_i2c_client(pmbus_data->dev);
-> diff --git a/drivers/hwmon/scmi-hwmon.c b/drivers/hwmon/scmi-hwmon.c
-> index e192f0c67146..046ac157749d 100644
-> --- a/drivers/hwmon/scmi-hwmon.c
-> +++ b/drivers/hwmon/scmi-hwmon.c
-> @@ -141,7 +141,7 @@ static int scmi_hwmon_thermal_get_temp(struct thermal=
-_zone_device *tz,
->  {
->         int ret;
->         long value;
-> -       struct scmi_thermal_sensor *th_sensor =3D tz->devdata;
-> +       struct scmi_thermal_sensor *th_sensor =3D thermal_zone_device_pri=
-v(tz);
->
->         ret =3D scmi_hwmon_read_scaled_value(th_sensor->ph, th_sensor->in=
-fo,
->                                            &value);
-> diff --git a/drivers/hwmon/scpi-hwmon.c b/drivers/hwmon/scpi-hwmon.c
-> index 4d75385f7d5e..121e5e9f487f 100644
-> --- a/drivers/hwmon/scpi-hwmon.c
-> +++ b/drivers/hwmon/scpi-hwmon.c
-> @@ -64,7 +64,7 @@ static void scpi_scale_reading(u64 *value, struct senso=
-r_data *sensor)
->
->  static int scpi_read_temp(struct thermal_zone_device *tz, int *temp)
->  {
-> -       struct scpi_thermal_zone *zone =3D tz->devdata;
-> +       struct scpi_thermal_zone *zone =3D thermal_zone_device_priv(tz);
->         struct scpi_sensors *scpi_sensors =3D zone->scpi_sensors;
->         struct scpi_ops *scpi_ops =3D scpi_sensors->scpi_ops;
->         struct sensor_data *sensor =3D &scpi_sensors->data[zone->sensor_i=
-d];
-> diff --git a/drivers/iio/adc/sun4i-gpadc-iio.c b/drivers/iio/adc/sun4i-gp=
-adc-iio.c
-> index a6ade70dedf8..a5322550c422 100644
-> --- a/drivers/iio/adc/sun4i-gpadc-iio.c
-> +++ b/drivers/iio/adc/sun4i-gpadc-iio.c
-> @@ -414,7 +414,7 @@ static int sun4i_gpadc_runtime_resume(struct device *=
-dev)
->
->  static int sun4i_gpadc_get_temp(struct thermal_zone_device *tz, int *tem=
-p)
->  {
-> -       struct sun4i_gpadc_iio *info =3D tz->devdata;
-> +       struct sun4i_gpadc_iio *info =3D thermal_zone_device_priv(tz);
->         int val, scale, offset;
->
->         if (sun4i_gpadc_temp_read(info->indio_dev, &val))
-> diff --git a/drivers/input/touchscreen/sun4i-ts.c b/drivers/input/touchsc=
-reen/sun4i-ts.c
-> index 73eb8f80be6e..1117fba30020 100644
-> --- a/drivers/input/touchscreen/sun4i-ts.c
-> +++ b/drivers/input/touchscreen/sun4i-ts.c
-> @@ -194,7 +194,7 @@ static int sun4i_get_temp(const struct sun4i_ts_data =
-*ts, int *temp)
->
->  static int sun4i_get_tz_temp(struct thermal_zone_device *tz, int *temp)
->  {
-> -       return sun4i_get_temp(tz->devdata, temp);
-> +       return sun4i_get_temp(thermal_zone_device_priv(tz), temp);
->  }
->
->  static const struct thermal_zone_device_ops sun4i_ts_tz_ops =3D {
-> diff --git a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_thermal.c b/drivers=
-/net/ethernet/chelsio/cxgb4/cxgb4_thermal.c
-> index 95e1b415ba13..dea9d2907666 100644
-> --- a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_thermal.c
-> +++ b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_thermal.c
-> @@ -12,7 +12,7 @@
->  static int cxgb4_thermal_get_temp(struct thermal_zone_device *tzdev,
->                                   int *temp)
->  {
-> -       struct adapter *adap =3D tzdev->devdata;
-> +       struct adapter *adap =3D thermal_zone_device_priv(tzdev);
->         u32 param, val;
->         int ret;
->
-> diff --git a/drivers/net/ethernet/mellanox/mlxsw/core_thermal.c b/drivers=
-/net/ethernet/mellanox/mlxsw/core_thermal.c
-> index c5240d38c9db..722e4a40afef 100644
-> --- a/drivers/net/ethernet/mellanox/mlxsw/core_thermal.c
-> +++ b/drivers/net/ethernet/mellanox/mlxsw/core_thermal.c
-> @@ -201,7 +201,7 @@ mlxsw_thermal_module_trips_update(struct device *dev,=
- struct mlxsw_core *core,
->  static int mlxsw_thermal_bind(struct thermal_zone_device *tzdev,
->                               struct thermal_cooling_device *cdev)
->  {
-> -       struct mlxsw_thermal *thermal =3D tzdev->devdata;
-> +       struct mlxsw_thermal *thermal =3D thermal_zone_device_priv(tzdev)=
-;
->         struct device *dev =3D thermal->bus_info->dev;
->         int i, err;
->
-> @@ -227,7 +227,7 @@ static int mlxsw_thermal_bind(struct thermal_zone_dev=
-ice *tzdev,
->  static int mlxsw_thermal_unbind(struct thermal_zone_device *tzdev,
->                                 struct thermal_cooling_device *cdev)
->  {
-> -       struct mlxsw_thermal *thermal =3D tzdev->devdata;
-> +       struct mlxsw_thermal *thermal =3D thermal_zone_device_priv(tzdev)=
-;
->         struct device *dev =3D thermal->bus_info->dev;
->         int i;
->         int err;
-> @@ -249,7 +249,7 @@ static int mlxsw_thermal_unbind(struct thermal_zone_d=
-evice *tzdev,
->  static int mlxsw_thermal_get_temp(struct thermal_zone_device *tzdev,
->                                   int *p_temp)
->  {
-> -       struct mlxsw_thermal *thermal =3D tzdev->devdata;
-> +       struct mlxsw_thermal *thermal =3D thermal_zone_device_priv(tzdev)=
-;
->         struct device *dev =3D thermal->bus_info->dev;
->         char mtmp_pl[MLXSW_REG_MTMP_LEN];
->         int temp;
-> @@ -281,7 +281,7 @@ static struct thermal_zone_device_ops mlxsw_thermal_o=
-ps =3D {
->  static int mlxsw_thermal_module_bind(struct thermal_zone_device *tzdev,
->                                      struct thermal_cooling_device *cdev)
->  {
-> -       struct mlxsw_thermal_module *tz =3D tzdev->devdata;
-> +       struct mlxsw_thermal_module *tz =3D thermal_zone_device_priv(tzde=
-v);
->         struct mlxsw_thermal *thermal =3D tz->parent;
->         int i, j, err;
->
-> @@ -310,7 +310,7 @@ static int mlxsw_thermal_module_bind(struct thermal_z=
-one_device *tzdev,
->  static int mlxsw_thermal_module_unbind(struct thermal_zone_device *tzdev=
-,
->                                        struct thermal_cooling_device *cde=
-v)
->  {
-> -       struct mlxsw_thermal_module *tz =3D tzdev->devdata;
-> +       struct mlxsw_thermal_module *tz =3D thermal_zone_device_priv(tzde=
-v);
->         struct mlxsw_thermal *thermal =3D tz->parent;
->         int i;
->         int err;
-> @@ -356,7 +356,7 @@ mlxsw_thermal_module_temp_and_thresholds_get(struct m=
-lxsw_core *core,
->  static int mlxsw_thermal_module_temp_get(struct thermal_zone_device *tzd=
-ev,
->                                          int *p_temp)
->  {
-> -       struct mlxsw_thermal_module *tz =3D tzdev->devdata;
-> +       struct mlxsw_thermal_module *tz =3D thermal_zone_device_priv(tzde=
-v);
->         struct mlxsw_thermal *thermal =3D tz->parent;
->         int temp, crit_temp, emerg_temp;
->         struct device *dev;
-> @@ -391,7 +391,7 @@ static struct thermal_zone_device_ops mlxsw_thermal_m=
-odule_ops =3D {
->  static int mlxsw_thermal_gearbox_temp_get(struct thermal_zone_device *tz=
-dev,
->                                           int *p_temp)
->  {
-> -       struct mlxsw_thermal_module *tz =3D tzdev->devdata;
-> +       struct mlxsw_thermal_module *tz =3D thermal_zone_device_priv(tzde=
-v);
->         struct mlxsw_thermal *thermal =3D tz->parent;
->         char mtmp_pl[MLXSW_REG_MTMP_LEN];
->         u16 index;
-> diff --git a/drivers/net/wireless/intel/iwlwifi/mvm/tt.c b/drivers/net/wi=
-reless/intel/iwlwifi/mvm/tt.c
-> index 232c200af38f..354d95222b1b 100644
-> --- a/drivers/net/wireless/intel/iwlwifi/mvm/tt.c
-> +++ b/drivers/net/wireless/intel/iwlwifi/mvm/tt.c
-> @@ -615,7 +615,7 @@ int iwl_mvm_send_temp_report_ths_cmd(struct iwl_mvm *=
-mvm)
->  static int iwl_mvm_tzone_get_temp(struct thermal_zone_device *device,
->                                   int *temperature)
->  {
-> -       struct iwl_mvm *mvm =3D (struct iwl_mvm *)device->devdata;
-> +       struct iwl_mvm *mvm =3D thermal_zone_device_priv(device);
->         int ret;
->         int temp;
->
-> @@ -641,7 +641,7 @@ static int iwl_mvm_tzone_get_temp(struct thermal_zone=
-_device *device,
->  static int iwl_mvm_tzone_set_trip_temp(struct thermal_zone_device *devic=
-e,
->                                        int trip, int temp)
->  {
-> -       struct iwl_mvm *mvm =3D (struct iwl_mvm *)device->devdata;
-> +       struct iwl_mvm *mvm =3D thermal_zone_device_priv(device);
->         struct iwl_mvm_thermal_device *tzone;
->         int ret;
->
-> diff --git a/drivers/power/supply/power_supply_core.c b/drivers/power/sup=
-ply/power_supply_core.c
-> index 7c790c41e2fe..83fd19079d8b 100644
-> --- a/drivers/power/supply/power_supply_core.c
-> +++ b/drivers/power/supply/power_supply_core.c
-> @@ -1142,7 +1142,7 @@ static int power_supply_read_temp(struct thermal_zo=
-ne_device *tzd,
->         int ret;
->
->         WARN_ON(tzd =3D=3D NULL);
-> -       psy =3D tzd->devdata;
-> +       psy =3D thermal_zone_device_priv(tzd);
->         ret =3D power_supply_get_property(psy, POWER_SUPPLY_PROP_TEMP, &v=
-al);
->         if (ret)
->                 return ret;
-> diff --git a/drivers/regulator/max8973-regulator.c b/drivers/regulator/ma=
-x8973-regulator.c
-> index 7e00a45db26a..303426135276 100644
-> --- a/drivers/regulator/max8973-regulator.c
-> +++ b/drivers/regulator/max8973-regulator.c
-> @@ -436,7 +436,7 @@ static int max8973_init_dcdc(struct max8973_chip *max=
-,
->
->  static int max8973_thermal_read_temp(struct thermal_zone_device *tz, int=
- *temp)
->  {
-> -       struct max8973_chip *mchip =3D tz->devdata;
-> +       struct max8973_chip *mchip =3D thermal_zone_device_priv(tz);
->         unsigned int val;
->         int ret;
->
-> diff --git a/drivers/thermal/armada_thermal.c b/drivers/thermal/armada_th=
-ermal.c
-> index 2efc222a379b..ebd606861a61 100644
-> --- a/drivers/thermal/armada_thermal.c
-> +++ b/drivers/thermal/armada_thermal.c
-> @@ -398,7 +398,7 @@ static int armada_read_sensor(struct armada_thermal_p=
-riv *priv, int *temp)
->  static int armada_get_temp_legacy(struct thermal_zone_device *thermal,
->                                   int *temp)
->  {
-> -       struct armada_thermal_priv *priv =3D thermal->devdata;
-> +       struct armada_thermal_priv *priv =3D thermal_zone_device_priv(the=
-rmal);
->         int ret;
->
->         /* Valid check */
-> @@ -420,7 +420,7 @@ static struct thermal_zone_device_ops legacy_ops =3D =
-{
->
->  static int armada_get_temp(struct thermal_zone_device *tz, int *temp)
->  {
-> -       struct armada_thermal_sensor *sensor =3D tz->devdata;
-> +       struct armada_thermal_sensor *sensor =3D thermal_zone_device_priv=
-(tz);
->         struct armada_thermal_priv *priv =3D sensor->priv;
->         int ret;
->
-> diff --git a/drivers/thermal/broadcom/bcm2711_thermal.c b/drivers/thermal=
-/broadcom/bcm2711_thermal.c
-> index 1f8651d15160..fcfcbbf044a4 100644
-> --- a/drivers/thermal/broadcom/bcm2711_thermal.c
-> +++ b/drivers/thermal/broadcom/bcm2711_thermal.c
-> @@ -33,7 +33,7 @@ struct bcm2711_thermal_priv {
->
->  static int bcm2711_get_temp(struct thermal_zone_device *tz, int *temp)
->  {
-> -       struct bcm2711_thermal_priv *priv =3D tz->devdata;
-> +       struct bcm2711_thermal_priv *priv =3D thermal_zone_device_priv(tz=
-);
->         int slope =3D thermal_zone_get_slope(tz);
->         int offset =3D thermal_zone_get_offset(tz);
->         u32 val;
-> diff --git a/drivers/thermal/broadcom/bcm2835_thermal.c b/drivers/thermal=
-/broadcom/bcm2835_thermal.c
-> index 23918bb76ae6..86aaf459de37 100644
-> --- a/drivers/thermal/broadcom/bcm2835_thermal.c
-> +++ b/drivers/thermal/broadcom/bcm2835_thermal.c
-> @@ -90,7 +90,7 @@ static int bcm2835_thermal_temp2adc(int temp, int offse=
-t, int slope)
->
->  static int bcm2835_thermal_get_temp(struct thermal_zone_device *tz, int =
-*temp)
->  {
-> -       struct bcm2835_thermal_data *data =3D tz->devdata;
-> +       struct bcm2835_thermal_data *data =3D thermal_zone_device_priv(tz=
-);
->         u32 val =3D readl(data->regs + BCM2835_TS_TSENSSTAT);
->
->         if (!(val & BCM2835_TS_TSENSSTAT_VALID))
-> diff --git a/drivers/thermal/broadcom/brcmstb_thermal.c b/drivers/thermal=
-/broadcom/brcmstb_thermal.c
-> index 4d02c28331e3..60173cc83c46 100644
-> --- a/drivers/thermal/broadcom/brcmstb_thermal.c
-> +++ b/drivers/thermal/broadcom/brcmstb_thermal.c
-> @@ -152,7 +152,7 @@ static inline u32 avs_tmon_temp_to_code(struct brcmst=
-b_thermal_priv *priv,
->
->  static int brcmstb_get_temp(struct thermal_zone_device *tz, int *temp)
->  {
-> -       struct brcmstb_thermal_priv *priv =3D tz->devdata;
-> +       struct brcmstb_thermal_priv *priv =3D thermal_zone_device_priv(tz=
-);
->         u32 val;
->         long t;
->
-> @@ -262,7 +262,7 @@ static irqreturn_t brcmstb_tmon_irq_thread(int irq, v=
-oid *data)
->
->  static int brcmstb_set_trips(struct thermal_zone_device *tz, int low, in=
-t high)
->  {
-> -       struct brcmstb_thermal_priv *priv =3D tz->devdata;
-> +       struct brcmstb_thermal_priv *priv =3D thermal_zone_device_priv(tz=
-);
->
->         dev_dbg(priv->dev, "set trips %d <--> %d\n", low, high);
->
-> diff --git a/drivers/thermal/broadcom/ns-thermal.c b/drivers/thermal/broa=
-dcom/ns-thermal.c
-> index 07a8a3f49bd0..d255aa879fc0 100644
-> --- a/drivers/thermal/broadcom/ns-thermal.c
-> +++ b/drivers/thermal/broadcom/ns-thermal.c
-> @@ -16,7 +16,7 @@
->
->  static int ns_thermal_get_temp(struct thermal_zone_device *tz, int *temp=
-)
->  {
-> -       void __iomem *pvtmon =3D tz->devdata;
-> +       void __iomem *pvtmon =3D thermal_zone_device_priv(tz);
->         int offset =3D thermal_zone_get_offset(tz);
->         int slope =3D thermal_zone_get_slope(tz);
->         u32 val;
-> diff --git a/drivers/thermal/broadcom/sr-thermal.c b/drivers/thermal/broa=
-dcom/sr-thermal.c
-> index 2b93502543ff..747915890022 100644
-> --- a/drivers/thermal/broadcom/sr-thermal.c
-> +++ b/drivers/thermal/broadcom/sr-thermal.c
-> @@ -32,7 +32,7 @@ struct sr_thermal {
->
->  static int sr_get_temp(struct thermal_zone_device *tz, int *temp)
->  {
-> -       struct sr_tmon *tmon =3D tz->devdata;
-> +       struct sr_tmon *tmon =3D thermal_zone_device_priv(tz);
->         struct sr_thermal *sr_thermal =3D tmon->priv;
->
->         *temp =3D readl(sr_thermal->regs + SR_TMON_TEMP_BASE(tmon->tmon_i=
-d));
-> diff --git a/drivers/thermal/da9062-thermal.c b/drivers/thermal/da9062-th=
-ermal.c
-> index a805a6666c44..e7097f354750 100644
-> --- a/drivers/thermal/da9062-thermal.c
-> +++ b/drivers/thermal/da9062-thermal.c
-> @@ -123,7 +123,7 @@ static irqreturn_t da9062_thermal_irq_handler(int irq=
-, void *data)
->  static int da9062_thermal_get_temp(struct thermal_zone_device *z,
->                                    int *temp)
->  {
-> -       struct da9062_thermal *thermal =3D z->devdata;
-> +       struct da9062_thermal *thermal =3D thermal_zone_device_priv(z);
->
->         mutex_lock(&thermal->lock);
->         *temp =3D thermal->temperature;
-> diff --git a/drivers/thermal/dove_thermal.c b/drivers/thermal/dove_therma=
-l.c
-> index 056622a58d00..6db1882e8229 100644
-> --- a/drivers/thermal/dove_thermal.c
-> +++ b/drivers/thermal/dove_thermal.c
-> @@ -87,7 +87,7 @@ static int dove_get_temp(struct thermal_zone_device *th=
-ermal,
->                           int *temp)
->  {
->         unsigned long reg;
-> -       struct dove_thermal_priv *priv =3D thermal->devdata;
-> +       struct dove_thermal_priv *priv =3D thermal_zone_device_priv(therm=
-al);
->
->         /* Valid check */
->         reg =3D readl_relaxed(priv->control + PMU_TEMP_DIOD_CTRL1_REG);
-> diff --git a/drivers/thermal/hisi_thermal.c b/drivers/thermal/hisi_therma=
-l.c
-> index 32a7c3cf073d..f3a374266fa0 100644
-> --- a/drivers/thermal/hisi_thermal.c
-> +++ b/drivers/thermal/hisi_thermal.c
-> @@ -431,7 +431,7 @@ static int hi3660_thermal_probe(struct hisi_thermal_d=
-ata *data)
->
->  static int hisi_thermal_get_temp(struct thermal_zone_device *tz, int *te=
-mp)
->  {
-> -       struct hisi_thermal_sensor *sensor =3D tz->devdata;
-> +       struct hisi_thermal_sensor *sensor =3D thermal_zone_device_priv(t=
-z);
->         struct hisi_thermal_data *data =3D sensor->data;
->
->         *temp =3D data->ops->get_temp(sensor);
-> diff --git a/drivers/thermal/imx8mm_thermal.c b/drivers/thermal/imx8mm_th=
-ermal.c
-> index 72b5d6f319c1..efa1a4ffc368 100644
-> --- a/drivers/thermal/imx8mm_thermal.c
-> +++ b/drivers/thermal/imx8mm_thermal.c
-> @@ -141,7 +141,7 @@ static int imx8mp_tmu_get_temp(void *data, int *temp)
->
->  static int tmu_get_temp(struct thermal_zone_device *tz, int *temp)
->  {
-> -       struct tmu_sensor *sensor =3D tz->devdata;
-> +       struct tmu_sensor *sensor =3D thermal_zone_device_priv(tz);
->         struct imx8mm_tmu *tmu =3D sensor->priv;
->
->         return tmu->socdata->get_temp(sensor, temp);
-> diff --git a/drivers/thermal/imx_sc_thermal.c b/drivers/thermal/imx_sc_th=
-ermal.c
-> index f32e59e74623..ddde4bdfc94a 100644
-> --- a/drivers/thermal/imx_sc_thermal.c
-> +++ b/drivers/thermal/imx_sc_thermal.c
-> @@ -46,7 +46,7 @@ static int imx_sc_thermal_get_temp(struct thermal_zone_=
-device *tz, int *temp)
->  {
->         struct imx_sc_msg_misc_get_temp msg;
->         struct imx_sc_rpc_msg *hdr =3D &msg.hdr;
-> -       struct imx_sc_sensor *sensor =3D tz->devdata;
-> +       struct imx_sc_sensor *sensor =3D thermal_zone_device_priv(tz);
->         int ret;
->
->         msg.data.req.resource_id =3D sensor->resource_id;
-> diff --git a/drivers/thermal/imx_thermal.c b/drivers/thermal/imx_thermal.=
-c
-> index fb0d5cab70af..a22b8086a209 100644
-> --- a/drivers/thermal/imx_thermal.c
-> +++ b/drivers/thermal/imx_thermal.c
-> @@ -252,7 +252,7 @@ static void imx_set_alarm_temp(struct imx_thermal_dat=
-a *data,
->
->  static int imx_get_temp(struct thermal_zone_device *tz, int *temp)
->  {
-> -       struct imx_thermal_data *data =3D tz->devdata;
-> +       struct imx_thermal_data *data =3D thermal_zone_device_priv(tz);
->         const struct thermal_soc_data *soc_data =3D data->socdata;
->         struct regmap *map =3D data->tempmon;
->         unsigned int n_meas;
-> @@ -311,7 +311,7 @@ static int imx_get_temp(struct thermal_zone_device *t=
-z, int *temp)
->  static int imx_change_mode(struct thermal_zone_device *tz,
->                            enum thermal_device_mode mode)
->  {
-> -       struct imx_thermal_data *data =3D tz->devdata;
-> +       struct imx_thermal_data *data =3D thermal_zone_device_priv(tz);
->
->         if (mode =3D=3D THERMAL_DEVICE_ENABLED) {
->                 pm_runtime_get(data->dev);
-> @@ -342,7 +342,7 @@ static int imx_get_crit_temp(struct thermal_zone_devi=
-ce *tz, int *temp)
->  static int imx_set_trip_temp(struct thermal_zone_device *tz, int trip,
->                              int temp)
->  {
-> -       struct imx_thermal_data *data =3D tz->devdata;
-> +       struct imx_thermal_data *data =3D thermal_zone_device_priv(tz);
->         int ret;
->
->         ret =3D pm_runtime_resume_and_get(data->dev);
-> diff --git a/drivers/thermal/intel/intel_pch_thermal.c b/drivers/thermal/=
-intel/intel_pch_thermal.c
-> index b855d031a855..dce50d239357 100644
-> --- a/drivers/thermal/intel/intel_pch_thermal.c
-> +++ b/drivers/thermal/intel/intel_pch_thermal.c
-> @@ -119,7 +119,7 @@ static int pch_wpt_add_acpi_psv_trip(struct pch_therm=
-al_device *ptd, int trip)
->
->  static int pch_thermal_get_temp(struct thermal_zone_device *tzd, int *te=
-mp)
->  {
-> -       struct pch_thermal_device *ptd =3D tzd->devdata;
-> +       struct pch_thermal_device *ptd =3D thermal_zone_device_priv(tzd);
->
->         *temp =3D GET_WPT_TEMP(WPT_TEMP_TSR & readw(ptd->hw_base + WPT_TE=
-MP));
->         return 0;
-> diff --git a/drivers/thermal/intel/intel_soc_dts_iosf.c b/drivers/thermal=
-/intel/intel_soc_dts_iosf.c
-> index 8c26f7b2316b..f99dc7e4ae89 100644
-> --- a/drivers/thermal/intel/intel_soc_dts_iosf.c
-> +++ b/drivers/thermal/intel/intel_soc_dts_iosf.c
-> @@ -54,7 +54,7 @@ static int sys_get_trip_temp(struct thermal_zone_device=
- *tzd, int trip,
->         struct intel_soc_dts_sensor_entry *dts;
->         struct intel_soc_dts_sensors *sensors;
->
-> -       dts =3D tzd->devdata;
-> +       dts =3D thermal_zone_device_priv(tzd);
->         sensors =3D dts->sensors;
->         mutex_lock(&sensors->dts_update_lock);
->         status =3D iosf_mbi_read(BT_MBI_UNIT_PMC, MBI_REG_READ,
-> @@ -168,7 +168,7 @@ static int update_trip_temp(struct intel_soc_dts_sens=
-or_entry *dts,
->  static int sys_set_trip_temp(struct thermal_zone_device *tzd, int trip,
->                              int temp)
->  {
-> -       struct intel_soc_dts_sensor_entry *dts =3D tzd->devdata;
-> +       struct intel_soc_dts_sensor_entry *dts =3D thermal_zone_device_pr=
-iv(tzd);
->         struct intel_soc_dts_sensors *sensors =3D dts->sensors;
->         int status;
->
-> @@ -176,7 +176,7 @@ static int sys_set_trip_temp(struct thermal_zone_devi=
-ce *tzd, int trip,
->                 return -EINVAL;
->
->         mutex_lock(&sensors->dts_update_lock);
-> -       status =3D update_trip_temp(tzd->devdata, trip, temp,
-> +       status =3D update_trip_temp(dts, trip, temp,
->                                   dts->trip_types[trip]);
->         mutex_unlock(&sensors->dts_update_lock);
->
-> @@ -186,9 +186,7 @@ static int sys_set_trip_temp(struct thermal_zone_devi=
-ce *tzd, int trip,
->  static int sys_get_trip_type(struct thermal_zone_device *tzd,
->                              int trip, enum thermal_trip_type *type)
->  {
-> -       struct intel_soc_dts_sensor_entry *dts;
-> -
-> -       dts =3D tzd->devdata;
-> +       struct intel_soc_dts_sensor_entry *dts =3D thermal_zone_device_pr=
-iv(tzd);
->
->         *type =3D dts->trip_types[trip];
->
-> @@ -200,11 +198,10 @@ static int sys_get_curr_temp(struct thermal_zone_de=
-vice *tzd,
->  {
->         int status;
->         u32 out;
-> -       struct intel_soc_dts_sensor_entry *dts;
-> +       struct intel_soc_dts_sensor_entry *dts =3D thermal_zone_device_pr=
-iv(tzd);
->         struct intel_soc_dts_sensors *sensors;
->         unsigned long raw;
->
-> -       dts =3D tzd->devdata;
->         sensors =3D dts->sensors;
->         status =3D iosf_mbi_read(BT_MBI_UNIT_PMC, MBI_REG_READ,
->                                SOC_DTS_OFFSET_TEMP, &out);
-> diff --git a/drivers/thermal/intel/x86_pkg_temp_thermal.c b/drivers/therm=
-al/intel/x86_pkg_temp_thermal.c
-> index 1c2de84742df..c4ec314441be 100644
-> --- a/drivers/thermal/intel/x86_pkg_temp_thermal.c
-> +++ b/drivers/thermal/intel/x86_pkg_temp_thermal.c
-> @@ -107,7 +107,7 @@ static struct zone_device *pkg_temp_thermal_get_dev(u=
-nsigned int cpu)
->
->  static int sys_get_curr_temp(struct thermal_zone_device *tzd, int *temp)
->  {
-> -       struct zone_device *zonedev =3D tzd->devdata;
-> +       struct zone_device *zonedev =3D thermal_zone_device_priv(tzd);
->         int val;
->
->         val =3D intel_tcc_get_temp(zonedev->cpu, true);
-> @@ -122,7 +122,7 @@ static int sys_get_curr_temp(struct thermal_zone_devi=
-ce *tzd, int *temp)
->  static int
->  sys_set_trip_temp(struct thermal_zone_device *tzd, int trip, int temp)
->  {
-> -       struct zone_device *zonedev =3D tzd->devdata;
-> +       struct zone_device *zonedev =3D thermal_zone_device_priv(tzd);
->         u32 l, h, mask, shift, intr;
->         int tj_max, ret;
->
-> diff --git a/drivers/thermal/k3_bandgap.c b/drivers/thermal/k3_bandgap.c
-> index 22c9bcb899c3..b5cd2c85e0c3 100644
-> --- a/drivers/thermal/k3_bandgap.c
-> +++ b/drivers/thermal/k3_bandgap.c
-> @@ -141,7 +141,7 @@ static int k3_bgp_read_temp(struct k3_thermal_data *d=
-evdata,
->
->  static int k3_thermal_get_temp(struct thermal_zone_device *tz, int *temp=
-)
->  {
-> -       struct k3_thermal_data *data =3D tz->devdata;
-> +       struct k3_thermal_data *data =3D thermal_zone_device_priv(tz);
->         int ret =3D 0;
->
->         ret =3D k3_bgp_read_temp(data, temp);
-> diff --git a/drivers/thermal/k3_j72xx_bandgap.c b/drivers/thermal/k3_j72x=
-x_bandgap.c
-> index 031ea1091909..5be1f09eeb2c 100644
-> --- a/drivers/thermal/k3_j72xx_bandgap.c
-> +++ b/drivers/thermal/k3_j72xx_bandgap.c
-> @@ -248,7 +248,7 @@ static inline int k3_bgp_read_temp(struct k3_thermal_=
-data *devdata,
->  /* Get temperature callback function for thermal zone */
->  static int k3_thermal_get_temp(struct thermal_zone_device *tz, int *temp=
-)
->  {
-> -       return k3_bgp_read_temp(tz->devdata, temp);
-> +       return k3_bgp_read_temp(thermal_zone_device_priv(tz), temp);
->  }
->
->  static const struct thermal_zone_device_ops k3_of_thermal_ops =3D {
-> diff --git a/drivers/thermal/kirkwood_thermal.c b/drivers/thermal/kirkwoo=
-d_thermal.c
-> index bec7ec20e79d..92b3ce426b9d 100644
-> --- a/drivers/thermal/kirkwood_thermal.c
-> +++ b/drivers/thermal/kirkwood_thermal.c
-> @@ -27,7 +27,7 @@ static int kirkwood_get_temp(struct thermal_zone_device=
- *thermal,
->                           int *temp)
->  {
->         unsigned long reg;
-> -       struct kirkwood_thermal_priv *priv =3D thermal->devdata;
-> +       struct kirkwood_thermal_priv *priv =3D thermal_zone_device_priv(t=
-hermal);
->
->         reg =3D readl_relaxed(priv->sensor);
->
-> diff --git a/drivers/thermal/max77620_thermal.c b/drivers/thermal/max7762=
-0_thermal.c
-> index 6451a55eb582..bf1679765f1b 100644
-> --- a/drivers/thermal/max77620_thermal.c
-> +++ b/drivers/thermal/max77620_thermal.c
-> @@ -46,7 +46,7 @@ struct max77620_therm_info {
->
->  static int max77620_thermal_read_temp(struct thermal_zone_device *tz, in=
-t *temp)
->  {
-> -       struct max77620_therm_info *mtherm =3D tz->devdata;
-> +       struct max77620_therm_info *mtherm =3D thermal_zone_device_priv(t=
-z);
->         unsigned int val;
->         int ret;
->
-> diff --git a/drivers/thermal/mediatek/auxadc_thermal.c b/drivers/thermal/=
-mediatek/auxadc_thermal.c
-> index ab730f9552d0..755baa4e5bd2 100644
-> --- a/drivers/thermal/mediatek/auxadc_thermal.c
-> +++ b/drivers/thermal/mediatek/auxadc_thermal.c
-> @@ -763,7 +763,7 @@ static int mtk_thermal_bank_temperature(struct mtk_th=
-ermal_bank *bank)
->
->  static int mtk_read_temp(struct thermal_zone_device *tz, int *temperatur=
-e)
->  {
-> -       struct mtk_thermal *mt =3D tz->devdata;
-> +       struct mtk_thermal *mt =3D thermal_zone_device_priv(tz);
->         int i;
->         int tempmax =3D INT_MIN;
->
-> diff --git a/drivers/thermal/mediatek/lvts_thermal.c b/drivers/thermal/me=
-diatek/lvts_thermal.c
-> index 84ba65a27acf..fb4b1b4db245 100644
-> --- a/drivers/thermal/mediatek/lvts_thermal.c
-> +++ b/drivers/thermal/mediatek/lvts_thermal.c
-> @@ -252,7 +252,7 @@ static u32 lvts_temp_to_raw(int temperature)
->
->  static int lvts_get_temp(struct thermal_zone_device *tz, int *temp)
->  {
-> -       struct lvts_sensor *lvts_sensor =3D tz->devdata;
-> +       struct lvts_sensor *lvts_sensor =3D thermal_zone_device_priv(tz);
->         void __iomem *msr =3D lvts_sensor->msr;
->         u32 value;
->
-> @@ -290,7 +290,7 @@ static int lvts_get_temp(struct thermal_zone_device *=
-tz, int *temp)
->
->  static int lvts_set_trips(struct thermal_zone_device *tz, int low, int h=
-igh)
->  {
-> -       struct lvts_sensor *lvts_sensor =3D tz->devdata;
-> +       struct lvts_sensor *lvts_sensor =3D thermal_zone_device_priv(tz);
->         void __iomem *base =3D lvts_sensor->base;
->         u32 raw_low =3D lvts_temp_to_raw(low);
->         u32 raw_high =3D lvts_temp_to_raw(high);
-> diff --git a/drivers/thermal/qcom/qcom-spmi-adc-tm5.c b/drivers/thermal/q=
-com/qcom-spmi-adc-tm5.c
-> index 31164ade2dd1..ed204489a950 100644
-> --- a/drivers/thermal/qcom/qcom-spmi-adc-tm5.c
-> +++ b/drivers/thermal/qcom/qcom-spmi-adc-tm5.c
-> @@ -360,7 +360,7 @@ static irqreturn_t adc_tm5_gen2_isr(int irq, void *da=
-ta)
->
->  static int adc_tm5_get_temp(struct thermal_zone_device *tz, int *temp)
->  {
-> -       struct adc_tm5_channel *channel =3D tz->devdata;
-> +       struct adc_tm5_channel *channel =3D thermal_zone_device_priv(tz);
->         int ret;
->
->         if (!channel || !channel->iio)
-> @@ -642,7 +642,7 @@ static int adc_tm5_gen2_configure(struct adc_tm5_chan=
-nel *channel, int low, int
->
->  static int adc_tm5_set_trips(struct thermal_zone_device *tz, int low, in=
-t high)
->  {
-> -       struct adc_tm5_channel *channel =3D tz->devdata;
-> +       struct adc_tm5_channel *channel =3D thermal_zone_device_priv(tz);
->         struct adc_tm5_chip *chip;
->         int ret;
->
-> diff --git a/drivers/thermal/qcom/qcom-spmi-temp-alarm.c b/drivers/therma=
-l/qcom/qcom-spmi-temp-alarm.c
-> index 101c75d0e13f..b196d8d01726 100644
-> --- a/drivers/thermal/qcom/qcom-spmi-temp-alarm.c
-> +++ b/drivers/thermal/qcom/qcom-spmi-temp-alarm.c
-> @@ -187,7 +187,7 @@ static int qpnp_tm_update_temp_no_adc(struct qpnp_tm_=
-chip *chip)
->
->  static int qpnp_tm_get_temp(struct thermal_zone_device *tz, int *temp)
->  {
-> -       struct qpnp_tm_chip *chip =3D tz->devdata;
-> +       struct qpnp_tm_chip *chip =3D thermal_zone_device_priv(tz);
->         int ret, mili_celsius;
->
->         if (!temp)
-> @@ -265,7 +265,7 @@ static int qpnp_tm_update_critical_trip_temp(struct q=
-pnp_tm_chip *chip,
->
->  static int qpnp_tm_set_trip_temp(struct thermal_zone_device *tz, int tri=
-p_id, int temp)
->  {
-> -       struct qpnp_tm_chip *chip =3D tz->devdata;
-> +       struct qpnp_tm_chip *chip =3D thermal_zone_device_priv(tz);
->         struct thermal_trip trip;
->         int ret;
->
-> diff --git a/drivers/thermal/qoriq_thermal.c b/drivers/thermal/qoriq_ther=
-mal.c
-> index 431c29c0898a..d2dc99247f61 100644
-> --- a/drivers/thermal/qoriq_thermal.c
-> +++ b/drivers/thermal/qoriq_thermal.c
-> @@ -83,7 +83,7 @@ static struct qoriq_tmu_data *qoriq_sensor_to_data(stru=
-ct qoriq_sensor *s)
->
->  static int tmu_get_temp(struct thermal_zone_device *tz, int *temp)
->  {
-> -       struct qoriq_sensor *qsensor =3D tz->devdata;
-> +       struct qoriq_sensor *qsensor =3D thermal_zone_device_priv(tz);
->         struct qoriq_tmu_data *qdata =3D qoriq_sensor_to_data(qsensor);
->         u32 val;
->         /*
-> diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_g=
-en3_thermal.c
-> index d6b5b59c5c53..2b7537ef141d 100644
-> --- a/drivers/thermal/rcar_gen3_thermal.c
-> +++ b/drivers/thermal/rcar_gen3_thermal.c
-> @@ -167,7 +167,7 @@ static int rcar_gen3_thermal_round(int temp)
->
->  static int rcar_gen3_thermal_get_temp(struct thermal_zone_device *tz, in=
-t *temp)
->  {
-> -       struct rcar_gen3_thermal_tsc *tsc =3D tz->devdata;
-> +       struct rcar_gen3_thermal_tsc *tsc =3D thermal_zone_device_priv(tz=
-);
->         int mcelsius, val;
->         int reg;
->
-> @@ -206,7 +206,7 @@ static int rcar_gen3_thermal_mcelsius_to_temp(struct =
-rcar_gen3_thermal_tsc *tsc,
->
->  static int rcar_gen3_thermal_set_trips(struct thermal_zone_device *tz, i=
-nt low, int high)
->  {
-> -       struct rcar_gen3_thermal_tsc *tsc =3D tz->devdata;
-> +       struct rcar_gen3_thermal_tsc *tsc =3D thermal_zone_device_priv(tz=
-);
->         u32 irqmsk =3D 0;
->
->         if (low !=3D -INT_MAX) {
-> diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_therma=
-l.c
-> index 436f5f9cf729..e0440f63ae77 100644
-> --- a/drivers/thermal/rcar_thermal.c
-> +++ b/drivers/thermal/rcar_thermal.c
-> @@ -101,7 +101,6 @@ struct rcar_thermal_priv {
->         list_for_each_entry(pos, &common->head, list)
->
->  #define MCELSIUS(temp)                 ((temp) * 1000)
-> -#define rcar_zone_to_priv(zone)                ((zone)->devdata)
->  #define rcar_priv_to_dev(priv)         ((priv)->common->dev)
->  #define rcar_has_irq_support(priv)     ((priv)->common->base)
->  #define rcar_id_to_shift(priv)         ((priv)->id * 8)
-> @@ -273,7 +272,7 @@ static int rcar_thermal_get_current_temp(struct rcar_=
-thermal_priv *priv,
->
->  static int rcar_thermal_get_temp(struct thermal_zone_device *zone, int *=
-temp)
->  {
-> -       struct rcar_thermal_priv *priv =3D rcar_zone_to_priv(zone);
-> +       struct rcar_thermal_priv *priv =3D thermal_zone_device_priv(zone)=
-;
->
->         return rcar_thermal_get_current_temp(priv, temp);
->  }
-> diff --git a/drivers/thermal/rockchip_thermal.c b/drivers/thermal/rockchi=
-p_thermal.c
-> index 4b7c43f34d1a..8a51eb26e798 100644
-> --- a/drivers/thermal/rockchip_thermal.c
-> +++ b/drivers/thermal/rockchip_thermal.c
-> @@ -1213,7 +1213,7 @@ static irqreturn_t rockchip_thermal_alarm_irq_threa=
-d(int irq, void *dev)
->
->  static int rockchip_thermal_set_trips(struct thermal_zone_device *tz, in=
-t low, int high)
->  {
-> -       struct rockchip_thermal_sensor *sensor =3D tz->devdata;
-> +       struct rockchip_thermal_sensor *sensor =3D thermal_zone_device_pr=
-iv(tz);
->         struct rockchip_thermal_data *thermal =3D sensor->thermal;
->         const struct rockchip_tsadc_chip *tsadc =3D thermal->chip;
->
-> @@ -1226,7 +1226,7 @@ static int rockchip_thermal_set_trips(struct therma=
-l_zone_device *tz, int low, i
->
->  static int rockchip_thermal_get_temp(struct thermal_zone_device *tz, int=
- *out_temp)
->  {
-> -       struct rockchip_thermal_sensor *sensor =3D tz->devdata;
-> +       struct rockchip_thermal_sensor *sensor =3D thermal_zone_device_pr=
-iv(tz);
->         struct rockchip_thermal_data *thermal =3D sensor->thermal;
->         const struct rockchip_tsadc_chip *tsadc =3D sensor->thermal->chip=
-;
->         int retval;
-> diff --git a/drivers/thermal/rzg2l_thermal.c b/drivers/thermal/rzg2l_ther=
-mal.c
-> index 2e0649f38506..7631430ce8a9 100644
-> --- a/drivers/thermal/rzg2l_thermal.c
-> +++ b/drivers/thermal/rzg2l_thermal.c
-> @@ -75,7 +75,7 @@ static inline void rzg2l_thermal_write(struct rzg2l_the=
-rmal_priv *priv, u32 reg,
->
->  static int rzg2l_thermal_get_temp(struct thermal_zone_device *tz, int *t=
-emp)
->  {
-> -       struct rzg2l_thermal_priv *priv =3D tz->devdata;
-> +       struct rzg2l_thermal_priv *priv =3D thermal_zone_device_priv(tz);
->         u32 result =3D 0, dsensor, ts_code_ave;
->         int val, i;
->
-> diff --git a/drivers/thermal/samsung/exynos_tmu.c b/drivers/thermal/samsu=
-ng/exynos_tmu.c
-> index 527d1eb0663a..45e5c840d130 100644
-> --- a/drivers/thermal/samsung/exynos_tmu.c
-> +++ b/drivers/thermal/samsung/exynos_tmu.c
-> @@ -645,7 +645,7 @@ static void exynos7_tmu_control(struct platform_devic=
-e *pdev, bool on)
->
->  static int exynos_get_temp(struct thermal_zone_device *tz, int *temp)
->  {
-> -       struct exynos_tmu_data *data =3D tz->devdata;
-> +       struct exynos_tmu_data *data =3D thermal_zone_device_priv(tz);
->         int value, ret =3D 0;
->
->         if (!data || !data->tmu_read)
-> @@ -723,7 +723,7 @@ static void exynos4412_tmu_set_emulation(struct exyno=
-s_tmu_data *data,
->
->  static int exynos_tmu_set_emulation(struct thermal_zone_device *tz, int =
-temp)
->  {
-> -       struct exynos_tmu_data *data =3D tz->devdata;
-> +       struct exynos_tmu_data *data =3D thermal_zone_device_priv(tz);
->         int ret =3D -EINVAL;
->
->         if (data->soc =3D=3D SOC_ARCH_EXYNOS4210)
-> diff --git a/drivers/thermal/spear_thermal.c b/drivers/thermal/spear_ther=
-mal.c
-> index 6a722b10d738..653439b965c8 100644
-> --- a/drivers/thermal/spear_thermal.c
-> +++ b/drivers/thermal/spear_thermal.c
-> @@ -31,7 +31,7 @@ struct spear_thermal_dev {
->  static inline int thermal_get_temp(struct thermal_zone_device *thermal,
->                                 int *temp)
->  {
-> -       struct spear_thermal_dev *stdev =3D thermal->devdata;
-> +       struct spear_thermal_dev *stdev =3D thermal_zone_device_priv(ther=
-mal);
->
->         /*
->          * Data are ready to be read after 628 usec from POWERDOWN signal
-> @@ -48,7 +48,7 @@ static struct thermal_zone_device_ops ops =3D {
->  static int __maybe_unused spear_thermal_suspend(struct device *dev)
->  {
->         struct thermal_zone_device *spear_thermal =3D dev_get_drvdata(dev=
-);
-> -       struct spear_thermal_dev *stdev =3D spear_thermal->devdata;
-> +       struct spear_thermal_dev *stdev =3D thermal_zone_device_priv(spea=
-r_thermal);
->         unsigned int actual_mask =3D 0;
->
->         /* Disable SPEAr Thermal Sensor */
-> @@ -64,7 +64,7 @@ static int __maybe_unused spear_thermal_suspend(struct =
-device *dev)
->  static int __maybe_unused spear_thermal_resume(struct device *dev)
->  {
->         struct thermal_zone_device *spear_thermal =3D dev_get_drvdata(dev=
-);
-> -       struct spear_thermal_dev *stdev =3D spear_thermal->devdata;
-> +       struct spear_thermal_dev *stdev =3D thermal_zone_device_priv(spea=
-r_thermal);
->         unsigned int actual_mask =3D 0;
->         int ret =3D 0;
->
-> @@ -154,7 +154,7 @@ static int spear_thermal_exit(struct platform_device =
-*pdev)
->  {
->         unsigned int actual_mask =3D 0;
->         struct thermal_zone_device *spear_thermal =3D platform_get_drvdat=
-a(pdev);
-> -       struct spear_thermal_dev *stdev =3D spear_thermal->devdata;
-> +       struct spear_thermal_dev *stdev =3D thermal_zone_device_priv(spea=
-r_thermal);
->
->         thermal_zone_device_unregister(spear_thermal);
->
-> diff --git a/drivers/thermal/sprd_thermal.c b/drivers/thermal/sprd_therma=
-l.c
-> index ac884514f116..2fb90fdad76e 100644
-> --- a/drivers/thermal/sprd_thermal.c
-> +++ b/drivers/thermal/sprd_thermal.c
-> @@ -206,7 +206,7 @@ static int sprd_thm_temp_to_rawdata(int temp, struct =
-sprd_thermal_sensor *sen)
->
->  static int sprd_thm_read_temp(struct thermal_zone_device *tz, int *temp)
->  {
-> -       struct sprd_thermal_sensor *sen =3D tz->devdata;
-> +       struct sprd_thermal_sensor *sen =3D thermal_zone_device_priv(tz);
->         u32 data;
->
->         data =3D readl(sen->data->base + SPRD_THM_TEMP(sen->id)) &
-> diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_ther=
-mal.c
-> index 497beac63e5d..6b550f0f90bf 100644
-> --- a/drivers/thermal/sun8i_thermal.c
-> +++ b/drivers/thermal/sun8i_thermal.c
-> @@ -110,7 +110,7 @@ static int sun50i_h5_calc_temp(struct ths_device *tmd=
-ev,
->
->  static int sun8i_ths_get_temp(struct thermal_zone_device *tz, int *temp)
->  {
-> -       struct tsensor *s =3D tz->devdata;
-> +       struct tsensor *s =3D thermal_zone_device_priv(tz);
->         struct ths_device *tmdev =3D s->tmdev;
->         int val =3D 0;
->
-> diff --git a/drivers/thermal/tegra/tegra-bpmp-thermal.c b/drivers/thermal=
-/tegra/tegra-bpmp-thermal.c
-> index 0b7a1a1948cb..7bd8ea770fa1 100644
-> --- a/drivers/thermal/tegra/tegra-bpmp-thermal.c
-> +++ b/drivers/thermal/tegra/tegra-bpmp-thermal.c
-> @@ -62,12 +62,14 @@ static int __tegra_bpmp_thermal_get_temp(struct tegra=
-_bpmp_thermal_zone *zone,
->
->  static int tegra_bpmp_thermal_get_temp(struct thermal_zone_device *tz, i=
-nt *out_temp)
->  {
-> -       return __tegra_bpmp_thermal_get_temp(tz->devdata, out_temp);
-> +       struct tegra_bpmp_thermal_zone *zone =3D thermal_zone_device_priv=
-(tz);
-> +
-> +       return __tegra_bpmp_thermal_get_temp(zone, out_temp);
->  }
->
->  static int tegra_bpmp_thermal_set_trips(struct thermal_zone_device *tz, =
-int low, int high)
->  {
-> -       struct tegra_bpmp_thermal_zone *zone =3D tz->devdata;
-> +       struct tegra_bpmp_thermal_zone *zone =3D thermal_zone_device_priv=
-(tz);
->         struct mrq_thermal_host_to_bpmp_request req;
->         struct tegra_bpmp_message msg;
->         int err;
-> diff --git a/drivers/thermal/tegra/tegra30-tsensor.c b/drivers/thermal/te=
-gra/tegra30-tsensor.c
-> index b3218b71b6d9..42c6fb494dd9 100644
-> --- a/drivers/thermal/tegra/tegra30-tsensor.c
-> +++ b/drivers/thermal/tegra/tegra30-tsensor.c
-> @@ -160,7 +160,7 @@ static void devm_tegra_tsensor_hw_disable(void *data)
->
->  static int tegra_tsensor_get_temp(struct thermal_zone_device *tz, int *t=
-emp)
->  {
-> -       const struct tegra_tsensor_channel *tsc =3D tz->devdata;
-> +       const struct tegra_tsensor_channel *tsc =3D thermal_zone_device_p=
-riv(tz);
->         const struct tegra_tsensor *ts =3D tsc->ts;
->         int err, c1, c2, c3, c4, counter;
->         u32 val;
-> @@ -218,7 +218,7 @@ static int tegra_tsensor_temp_to_counter(const struct=
- tegra_tsensor *ts, int tem
->
->  static int tegra_tsensor_set_trips(struct thermal_zone_device *tz, int l=
-ow, int high)
->  {
-> -       const struct tegra_tsensor_channel *tsc =3D tz->devdata;
-> +       const struct tegra_tsensor_channel *tsc =3D thermal_zone_device_p=
-riv(tz);
->         const struct tegra_tsensor *ts =3D tsc->ts;
->         u32 val;
->
-> diff --git a/drivers/thermal/thermal-generic-adc.c b/drivers/thermal/ther=
-mal-generic-adc.c
-> index 323e273e3298..2c283e762d81 100644
-> --- a/drivers/thermal/thermal-generic-adc.c
-> +++ b/drivers/thermal/thermal-generic-adc.c
-> @@ -54,7 +54,7 @@ static int gadc_thermal_adc_to_temp(struct gadc_thermal=
-_info *gti, int val)
->
->  static int gadc_thermal_get_temp(struct thermal_zone_device *tz, int *te=
-mp)
->  {
-> -       struct gadc_thermal_info *gti =3D tz->devdata;
-> +       struct gadc_thermal_info *gti =3D thermal_zone_device_priv(tz);
->         int val;
->         int ret;
->
-> diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_cor=
-e.c
-> index 0675df54c8e6..9fa12147fead 100644
-> --- a/drivers/thermal/thermal_core.c
-> +++ b/drivers/thermal/thermal_core.c
-> @@ -1378,6 +1378,12 @@ struct thermal_zone_device *thermal_zone_device_re=
-gister(const char *type, int n
->  }
->  EXPORT_SYMBOL_GPL(thermal_zone_device_register);
->
-> +void *thermal_zone_device_priv(struct thermal_zone_device *tzd)
-> +{
-> +       return tzd->devdata;
-> +}
-> +EXPORT_SYMBOL_GPL(thermal_zone_device_priv);
-> +
->  /**
->   * thermal_zone_device_unregister - removes the registered thermal zone =
-device
->   * @tz: the thermal zone device to remove
-> diff --git a/drivers/thermal/thermal_mmio.c b/drivers/thermal/thermal_mmi=
-o.c
-> index ea616731066c..6845756ad5e7 100644
-> --- a/drivers/thermal/thermal_mmio.c
-> +++ b/drivers/thermal/thermal_mmio.c
-> @@ -23,7 +23,7 @@ static u32 thermal_mmio_readb(void __iomem *mmio_base)
->  static int thermal_mmio_get_temperature(struct thermal_zone_device *tz, =
-int *temp)
->  {
->         int t;
-> -       struct thermal_mmio *sensor =3D tz->devdata;
-> +       struct thermal_mmio *sensor =3D thermal_zone_device_priv(tz);
->
->         t =3D sensor->read_mmio(sensor->mmio_base) & sensor->mask;
->         t *=3D sensor->factor;
-> diff --git a/drivers/thermal/ti-soc-thermal/ti-thermal-common.c b/drivers=
-/thermal/ti-soc-thermal/ti-thermal-common.c
-> index 8a9055bd376e..3e998c9799bb 100644
-> --- a/drivers/thermal/ti-soc-thermal/ti-thermal-common.c
-> +++ b/drivers/thermal/ti-soc-thermal/ti-thermal-common.c
-> @@ -68,7 +68,7 @@ static inline int ti_thermal_hotspot_temperature(int t,=
- int s, int c)
->  static inline int __ti_thermal_get_temp(struct thermal_zone_device *tz, =
-int *temp)
->  {
->         struct thermal_zone_device *pcb_tz =3D NULL;
-> -       struct ti_thermal_data *data =3D tz->devdata;
-> +       struct ti_thermal_data *data =3D thermal_zone_device_priv(tz);
->         struct ti_bandgap *bgp;
->         const struct ti_temp_sensor *s;
->         int ret, tmp, slope, constant;
-> @@ -109,7 +109,7 @@ static inline int __ti_thermal_get_temp(struct therma=
-l_zone_device *tz, int *tem
->
->  static int __ti_thermal_get_trend(struct thermal_zone_device *tz, int tr=
-ip, enum thermal_trend *trend)
->  {
-> -       struct ti_thermal_data *data =3D tz->devdata;
-> +       struct ti_thermal_data *data =3D thermal_zone_device_priv(tz);
->         struct ti_bandgap *bgp;
->         int id, tr, ret =3D 0;
->
-> diff --git a/drivers/thermal/uniphier_thermal.c b/drivers/thermal/uniphie=
-r_thermal.c
-> index 47801841b3f5..aef6119cc004 100644
-> --- a/drivers/thermal/uniphier_thermal.c
-> +++ b/drivers/thermal/uniphier_thermal.c
-> @@ -187,7 +187,7 @@ static void uniphier_tm_disable_sensor(struct uniphie=
-r_tm_dev *tdev)
->
->  static int uniphier_tm_get_temp(struct thermal_zone_device *tz, int *out=
-_temp)
->  {
-> -       struct uniphier_tm_dev *tdev =3D tz->devdata;
-> +       struct uniphier_tm_dev *tdev =3D thermal_zone_device_priv(tz);
->         struct regmap *map =3D tdev->regmap;
->         int ret;
->         u32 temp;
-> diff --git a/include/linux/thermal.h b/include/linux/thermal.h
-> index 2bb4bf33f4f3..7dbb5712434c 100644
-> --- a/include/linux/thermal.h
-> +++ b/include/linux/thermal.h
-> @@ -365,6 +365,8 @@ thermal_zone_device_register_with_trips(const char *,=
- struct thermal_trip *, int
->                                         void *, struct thermal_zone_devic=
-e_ops *,
->                                         struct thermal_zone_params *, int=
-, int);
->
-> +void *thermal_zone_device_priv(struct thermal_zone_device *tzd);
-> +
->  int thermal_zone_bind_cooling_device(struct thermal_zone_device *, int,
->                                      struct thermal_cooling_device *,
->                                      unsigned long, unsigned long,
-> @@ -436,6 +438,11 @@ static inline int thermal_zone_get_offset(
->                 struct thermal_zone_device *tz)
->  { return -ENODEV; }
->
-> +static inline void *thermal_zone_device_priv(struct thermal_zone_device =
-*tz)
-> +{
-> +       return NULL;
-> +}
-> +
->  static inline int thermal_zone_device_enable(struct thermal_zone_device =
-*tz)
->  { return -ENODEV; }
->
-> --
-> 2.34.1
->
