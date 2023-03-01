@@ -1,41 +1,41 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EBA863D0
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Mar 2023 15:31:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478DE46BD
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Mar 2023 15:31:14 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DDBF31FE22;
-	Wed,  1 Mar 2023 15:31:11 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9599F21AB0;
+	Wed,  1 Mar 2023 15:31:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1677684671; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1677684672; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cCmQIlons882/RJhC64ULpqtcoxvh9JKp2Pja8Hxtu4=;
-	b=gX2FWTWbOjvGOTeH7CrEDIc9GdRA2hO1otmf+M/D/zYlh019jaYc5R3ZQMN/YUQJ1E0WdI
-	ZQ654IMcdbzNOEfiEATzUGSJmJOLCi4czVJQSP30MqvRYpQn5lDI1kBb3L1kslxtdI1E37
-	RUHwtCUlBdZunBOcIBRDz1dc5kpW4KE=
+	bh=t9hDRhVqAH2G2GSgecs4SveDBlqyRo7btle9zRr82aw=;
+	b=FsDAK3fdYIWIXokjPPYoTOtjIJib+SeYZSAij6jcKHWyWMhJzev49phRyRlmJYYWO01v8T
+	eE8h/x3478+G/amDW6CV6zDFdMdBjBLmXGMByLMhA1CEFtZxxSz9TikYZlWyU+eUpHMIex
+	/2/SBFRJc6MxXObg6Yh1CA2l8efKgZc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1677684671;
+	s=susede2_ed25519; t=1677684672;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cCmQIlons882/RJhC64ULpqtcoxvh9JKp2Pja8Hxtu4=;
-	b=YLJNlzP5SYUsJPHQQFUHKQ4AkrOf3vVNn4ICx5FUa7rPPlLgOvJWvTCmvuU2REAX9QmLnf
-	9tLXjkTUkbn91ABA==
+	bh=t9hDRhVqAH2G2GSgecs4SveDBlqyRo7btle9zRr82aw=;
+	b=PoVUAiNs2KXoWCp3pIFIa3zhw6kDvMWzHhs+piqzr6c3g+XAw+mrLv5AYQZBUgD8K3Hcqc
+	r4cqJZ7AUl1uvBCQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 365F113A3E;
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E290613A64;
 	Wed,  1 Mar 2023 15:31:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 2G9bDL9v/2OAXgAAMHmgww
+	id gO9UNr9v/2OAXgAAMHmgww
 	(envelope-from <tzimmermann@suse.de>); Wed, 01 Mar 2023 15:31:11 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com,
@@ -77,9 +77,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-stm32@st-md-mailman.stormreply.com,
 	linux-sunxi@lists.linux.dev,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 10/22] drm/logicvc: Use GEM DMA fbdev emulation
-Date: Wed,  1 Mar 2023 16:30:49 +0100
-Message-Id: <20230301153101.4282-11-tzimmermann@suse.de>
+Subject: [PATCH 11/22] drm/meson: Use GEM DMA fbdev emulation
+Date: Wed,  1 Mar 2023 16:30:50 +0100
+Message-Id: <20230301153101.4282-12-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230301153101.4282-1-tzimmermann@suse.de>
 References: <20230301153101.4282-1-tzimmermann@suse.de>
@@ -96,28 +96,28 @@ possible shadow buffering and makes the code simpler.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/logicvc/logicvc_drm.c | 4 ++--
+ drivers/gpu/drm/meson/meson_drv.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/logicvc/logicvc_drm.c b/drivers/gpu/drm/logicvc/logicvc_drm.c
-index 2fb23697740a..c35c453fd025 100644
---- a/drivers/gpu/drm/logicvc/logicvc_drm.c
-+++ b/drivers/gpu/drm/logicvc/logicvc_drm.c
-@@ -17,7 +17,7 @@
- 
+diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
+index 79bfe3938d3c..6608a251106b 100644
+--- a/drivers/gpu/drm/meson/meson_drv.c
++++ b/drivers/gpu/drm/meson/meson_drv.c
+@@ -18,7 +18,7 @@
+ #include <drm/drm_aperture.h>
  #include <drm/drm_atomic_helper.h>
  #include <drm/drm_drv.h>
 -#include <drm/drm_fbdev_generic.h>
 +#include <drm/drm_fbdev_dma.h>
  #include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_print.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_modeset_helper_vtables.h>
+@@ -353,7 +353,7 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
+ 	if (ret)
+ 		goto uninstall_irq;
  
-@@ -449,7 +449,7 @@ static int logicvc_drm_probe(struct platform_device *pdev)
- 		preferred_bpp = 32;
- 		break;
- 	}
--	drm_fbdev_generic_setup(drm_dev, preferred_bpp);
-+	drm_fbdev_dma_setup(drm_dev, preferred_bpp);
+-	drm_fbdev_generic_setup(drm, 32);
++	drm_fbdev_dma_setup(drm, 32);
  
  	return 0;
  
