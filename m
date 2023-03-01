@@ -1,42 +1,42 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D1DD63D1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553D463D7
 	for <linux-sunxi@lists.linux.dev>; Wed,  1 Mar 2023 15:31:16 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 53EED21AB2;
-	Wed,  1 Mar 2023 15:31:13 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id AF6831FE26;
+	Wed,  1 Mar 2023 15:31:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1677684673; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1677684674; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nzBp/DY6t7sr42+Knju3Zd3WnVtmT8D4mV6+VRUlCjY=;
-	b=XsCJIbAp4MfwplARlgikxw9Znt6l7hGRcpxbH3lxww1tVllqP2guUrqNqLTj0RIyydxsKd
-	ESUy4gzJhFnkOsy7MmTioneD5Yq2riwQXa/FUod/XA3SondxL+fUI7nxxiyXUJEZHGicIr
-	VpN76nWpm2Am5yUi/3C6OBRs0Qqv0Ds=
+	bh=n4u/BgryxrmyST4Z7GJmsvuWEE7hYdh8pWRV+uVr1GI=;
+	b=PLPVlq/4gHoLcA90bEtLjntQZn+ui3jSkOKSXI61vNpnIAlJxDEbKLiNsnK3aZeM2kOqPD
+	6GkbsRaiB0D8phe5o3Bs3egULPNW3oqnz4mMzseBEuEV3vyhtIkllCzg/q9v+qFJFRNT2G
+	Qjuy4Xvt+XPjEKmuhzJCC7Sz9fI8M1w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1677684673;
+	s=susede2_ed25519; t=1677684674;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nzBp/DY6t7sr42+Knju3Zd3WnVtmT8D4mV6+VRUlCjY=;
-	b=OVgDpA/11UmlV9U4Cvtwc1zouTlc/QbBho6wyE8g+Bk1Ieii0LkIMYB5HtRbeU3wNSKx0/
-	OWBskXKX4Y8SghAg==
+	bh=n4u/BgryxrmyST4Z7GJmsvuWEE7hYdh8pWRV+uVr1GI=;
+	b=qgcItsswajMSjeuJJP7eDmEoffvvJroSFRjOGTFJaJPcbEL+tiJN4ZnxXKiEASkbaaIEMm
+	s8Z3t2yF9vBTs8AQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9C35B13A3E;
-	Wed,  1 Mar 2023 15:31:12 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 10F5913A3E;
+	Wed,  1 Mar 2023 15:31:14 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id qDP6JMBv/2OAXgAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Wed, 01 Mar 2023 15:31:12 +0000
+	id 6NYzA8Jv/2OAXgAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Wed, 01 Mar 2023 15:31:14 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com,
 	maarten.lankhorst@linux.intel.com,
@@ -77,9 +77,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-stm32@st-md-mailman.stormreply.com,
 	linux-sunxi@lists.linux.dev,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 12/22] drm/mxsfb/lcdif: Use GEM DMA fbdev emulation
-Date: Wed,  1 Mar 2023 16:30:51 +0100
-Message-Id: <20230301153101.4282-13-tzimmermann@suse.de>
+Subject: [PATCH 14/22] drm/sti: Use GEM DMA fbdev emulation
+Date: Wed,  1 Mar 2023 16:30:53 +0100
+Message-Id: <20230301153101.4282-15-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230301153101.4282-1-tzimmermann@suse.de>
 References: <20230301153101.4282-1-tzimmermann@suse.de>
@@ -96,28 +96,28 @@ possible shadow buffering and makes the code simpler.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mxsfb/lcdif_drv.c | 4 ++--
+ drivers/gpu/drm/sti/sti_drv.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-index cc2ceb301b96..6fb5b469ee5a 100644
---- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-+++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-@@ -16,7 +16,7 @@
+diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
+index ef6a4e63198f..1b87b5899f9e 100644
+--- a/drivers/gpu/drm/sti/sti_drv.c
++++ b/drivers/gpu/drm/sti/sti_drv.c
+@@ -14,7 +14,7 @@
  #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
+ #include <drm/drm_debugfs.h>
  #include <drm/drm_drv.h>
 -#include <drm/drm_fbdev_generic.h>
 +#include <drm/drm_fbdev_dma.h>
  #include <drm/drm_gem_dma_helper.h>
  #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_mode_config.h>
-@@ -220,7 +220,7 @@ static int lcdif_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_unload;
+ #include <drm/drm_of.h>
+@@ -199,7 +199,7 @@ static int sti_bind(struct device *dev)
  
--	drm_fbdev_generic_setup(drm, 32);
-+	drm_fbdev_dma_setup(drm, 32);
+ 	drm_mode_config_reset(ddev);
+ 
+-	drm_fbdev_generic_setup(ddev, 32);
++	drm_fbdev_dma_setup(ddev, 32);
  
  	return 0;
  
