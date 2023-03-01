@@ -1,41 +1,41 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4A863D1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F048C46BD
 	for <linux-sunxi@lists.linux.dev>; Wed,  1 Mar 2023 15:31:20 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B5D6C21AC2;
-	Wed,  1 Mar 2023 15:31:18 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 665151FE1B;
+	Wed,  1 Mar 2023 15:31:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1677684678; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1677684679; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iWyLhpCQnlpjA/tOy39o9yzRlX1O3FAGVdIogEnLiZM=;
-	b=qX5XYHhYlC7LGiKBCVdahyjKsvkvI1c0otapeXXL+xbr4mhUM33TXIjWI7w5ABzqcf4nO1
-	fUH5wFBWdMb/JA0flAKYAuEebuN9gubDJYm6WS63OAFpvQpf5jBWRFSDmDUNQyqQdJEKf6
-	MbiK7GMDoe1bYyuKts95KmRzLXD4mZw=
+	bh=RtkUhqHuhcIAUVi/h3tuwn9Mmhdx36Zy/gWjZeyK9lE=;
+	b=LhCWsQ9UNc87OBztObSaMeycJAl2HXTkPxRoGDxR2dc/6JH9cHB4JPnaJV2VUtBZFfkUBq
+	wm3xbeq5h9lKKrcyZJpVp/MBJ6fvcyfsSTnDgXW9RCEygcTn/xY4j6fx8oDPX1r6E/k5/Y
+	hHu7C24b4iIcWDT+LFID+y4b5czUHDE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1677684678;
+	s=susede2_ed25519; t=1677684679;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iWyLhpCQnlpjA/tOy39o9yzRlX1O3FAGVdIogEnLiZM=;
-	b=/DdGMxhQRcNG062tvy3aSfp1CKEZLw1lgeAU+IeUuY249AAgHMd2ijYEx6YE4cc/ivSg4x
-	Vt6sDsEn7PJIy/BA==
+	bh=RtkUhqHuhcIAUVi/h3tuwn9Mmhdx36Zy/gWjZeyK9lE=;
+	b=HKi97HAGLp0CQnY5aXI8pIwPnS8zU/T+OZcaRG4FrRb7OANUWHz7E6IvuY9jmTtki0Y8h8
+	2p1kv5PfizFBu3Aw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1652B13A64;
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BCFD213A3E;
 	Wed,  1 Mar 2023 15:31:18 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id iE2FBMZv/2OAXgAAMHmgww
+	id mD0qLcZv/2OAXgAAMHmgww
 	(envelope-from <tzimmermann@suse.de>); Wed, 01 Mar 2023 15:31:18 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com,
@@ -77,9 +77,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-stm32@st-md-mailman.stormreply.com,
 	linux-sunxi@lists.linux.dev,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 20/22] drm/tve200: Use GEM DMA fbdev emulation
-Date: Wed,  1 Mar 2023 16:30:59 +0100
-Message-Id: <20230301153101.4282-21-tzimmermann@suse.de>
+Subject: [PATCH 21/22] drm/vc4: Use GEM DMA fbdev emulation
+Date: Wed,  1 Mar 2023 16:31:00 +0100
+Message-Id: <20230301153101.4282-22-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230301153101.4282-1-tzimmermann@suse.de>
 References: <20230301153101.4282-1-tzimmermann@suse.de>
@@ -96,26 +96,26 @@ possible shadow buffering and makes the code simpler.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tve200/tve200_drv.c | 4 ++--
+ drivers/gpu/drm/vc4/vc4_drv.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/tve200/tve200_drv.c b/drivers/gpu/drm/tve200/tve200_drv.c
-index 0d05c386d303..abd557332b28 100644
---- a/drivers/gpu/drm/tve200/tve200_drv.c
-+++ b/drivers/gpu/drm/tve200/tve200_drv.c
-@@ -40,7 +40,7 @@
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index 0ccaee57fe9a..c8bf954042e0 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -33,7 +33,7 @@
+ #include <drm/drm_aperture.h>
  #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
  #include <drm/drm_drv.h>
 -#include <drm/drm_fbdev_generic.h>
 +#include <drm/drm_fbdev_dma.h>
- #include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_module.h>
-@@ -227,7 +227,7 @@ static int tve200_probe(struct platform_device *pdev)
- 	 * Passing in 16 here will make the RGB565 mode the default
- 	 * Passing in 32 will use XRGB8888 mode
- 	 */
+ #include <drm/drm_vblank.h>
+ 
+ #include <soc/bcm2835/raspberrypi-firmware.h>
+@@ -387,7 +387,7 @@ static int vc4_drm_bind(struct device *dev)
+ 	if (ret < 0)
+ 		goto unbind_all;
+ 
 -	drm_fbdev_generic_setup(drm, 16);
 +	drm_fbdev_dma_setup(drm, 16);
  
