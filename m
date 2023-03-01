@@ -1,38 +1,42 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1BA763CD
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Mar 2023 15:31:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EBA863D0
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Mar 2023 15:31:13 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4C0FA21AA3;
-	Wed,  1 Mar 2023 15:31:05 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DDBF31FE22;
+	Wed,  1 Mar 2023 15:31:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1677684665; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=zw4dcdCN/ycasTQJ0C3H8gsaU2IXHFez421oPjJCncY=;
-	b=wA3/W1cC4TC8BHEH3IiE0+apZ6kp2bRmn+v7SGYBVDc5X9b9f1IZItdN1Y/suoHKXAGw5m
-	U+XpoHiN0bEuKvIWKTTAMDYlYxTOLmvDx5Urjo1JcL1oiVw407nOmMfB9jihtNifgB3QoZ
-	FRoJOkP5v1Fs1h6BwC7mmYCiQc7MeZs=
+	t=1677684671; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cCmQIlons882/RJhC64ULpqtcoxvh9JKp2Pja8Hxtu4=;
+	b=gX2FWTWbOjvGOTeH7CrEDIc9GdRA2hO1otmf+M/D/zYlh019jaYc5R3ZQMN/YUQJ1E0WdI
+	ZQ654IMcdbzNOEfiEATzUGSJmJOLCi4czVJQSP30MqvRYpQn5lDI1kBb3L1kslxtdI1E37
+	RUHwtCUlBdZunBOcIBRDz1dc5kpW4KE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1677684665;
+	s=susede2_ed25519; t=1677684671;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=zw4dcdCN/ycasTQJ0C3H8gsaU2IXHFez421oPjJCncY=;
-	b=yG+7wxlQKAG+OR3mc0NmwBLhhBwcvf62OjpzwT4LsCYJyvJLtk6VTeWVQA9kkWL+VXPux3
-	qGYvo5KXltbSWQCA==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cCmQIlons882/RJhC64ULpqtcoxvh9JKp2Pja8Hxtu4=;
+	b=YLJNlzP5SYUsJPHQQFUHKQ4AkrOf3vVNn4ICx5FUa7rPPlLgOvJWvTCmvuU2REAX9QmLnf
+	9tLXjkTUkbn91ABA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A731613A3E;
-	Wed,  1 Mar 2023 15:31:04 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 365F113A3E;
+	Wed,  1 Mar 2023 15:31:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id p777J7hv/2OAXgAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Wed, 01 Mar 2023 15:31:04 +0000
+	id 2G9bDL9v/2OAXgAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Wed, 01 Mar 2023 15:31:11 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com,
 	maarten.lankhorst@linux.intel.com,
@@ -73,10 +77,12 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-stm32@st-md-mailman.stormreply.com,
 	linux-sunxi@lists.linux.dev,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 00/22] drm/dma-helper: Add dedicated fbdev emulation
-Date: Wed,  1 Mar 2023 16:30:39 +0100
-Message-Id: <20230301153101.4282-1-tzimmermann@suse.de>
+Subject: [PATCH 10/22] drm/logicvc: Use GEM DMA fbdev emulation
+Date: Wed,  1 Mar 2023 16:30:49 +0100
+Message-Id: <20230301153101.4282-11-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230301153101.4282-1-tzimmermann@suse.de>
+References: <20230301153101.4282-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -85,75 +91,36 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add fbdev emulation that is optimized for DMA helpers, as used by most
-drivers. It operates directly on GEM DMA buffers in system memory.
-Memory pages are mmap'ed directly to userspace. No implicit shadow
-buffers need to be allocated; as can happen with the generic fbdev
-emulation. Convert drivers that fulfil the requirements.
+Use the fbdev emulation that is optimized for DMA helpers. Avoids
+possible shadow buffering and makes the code simpler.
 
-Tested with fbcon and IGT on vc4.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/logicvc/logicvc_drm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Future direction: providing a dedicated fbdev emulation for GEM DMA
-helpers will allow us to remove this case from the generic fbdev code.
-The latter can then be simplified.
-
-Thomas Zimmermann (22):
-  drm/fbdev-dma: Implement fbdev emulation for GEM DMA helpers
-  arm/hdlcd: Use GEM DMA fbdev emulation
-  arm/malidp: Use GEM DMA fbdev emulation
-  drm/aspeed: Use GEM DMA fbdev emulation
-  drm/atmel-hlcdc: Use GEM DMA fbdev emulation
-  drm/fsl-dcu: Use GEM DMA fbdev emulation
-  drm/imx/dcss: Use GEM DMA fbdev emulation
-  drm/imx: Use GEM DMA fbdev emulation
-  drm/kmb: Use GEM DMA fbdev emulation
-  drm/logicvc: Use GEM DMA fbdev emulation
-  drm/meson: Use GEM DMA fbdev emulation
-  drm/mxsfb/lcdif: Use GEM DMA fbdev emulation
-  drm/mxsfb: Use GEM DMA fbdev emulation
-  drm/sti: Use GEM DMA fbdev emulation
-  drm/stm: Use GEM DMA fbdev emulation
-  drm/sun4i: Use GEM DMA fbdev emulation
-  drm/tidss: Use GEM DMA fbdev emulation
-  drm/tilcdc: Use GEM DMA fbdev emulation
-  drm/arcpgu: Use GEM DMA fbdev emulation
-  drm/tve200: Use GEM DMA fbdev emulation
-  drm/vc4: Use GEM DMA fbdev emulation
-  drm/xlnx: Use GEM DMA fbdev emulation
-
- drivers/gpu/drm/Makefile                     |   1 +
- drivers/gpu/drm/arm/hdlcd_drv.c              |   4 +-
- drivers/gpu/drm/arm/malidp_drv.c             |   4 +-
- drivers/gpu/drm/aspeed/aspeed_gfx_drv.c      |   4 +-
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c |   4 +-
- drivers/gpu/drm/drm_fbdev_dma.c              | 275 +++++++++++++++++++
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c    |   4 +-
- drivers/gpu/drm/imx/dcss/dcss-kms.c          |   4 +-
- drivers/gpu/drm/imx/ipuv3/imx-drm-core.c     |   4 +-
- drivers/gpu/drm/kmb/kmb_drv.c                |   4 +-
- drivers/gpu/drm/logicvc/logicvc_drm.c        |   4 +-
- drivers/gpu/drm/meson/meson_drv.c            |   4 +-
- drivers/gpu/drm/mxsfb/lcdif_drv.c            |   4 +-
- drivers/gpu/drm/mxsfb/mxsfb_drv.c            |   4 +-
- drivers/gpu/drm/sti/sti_drv.c                |   4 +-
- drivers/gpu/drm/stm/drv.c                    |   4 +-
- drivers/gpu/drm/sun4i/sun4i_drv.c            |   4 +-
- drivers/gpu/drm/tidss/tidss_drv.c            |   4 +-
- drivers/gpu/drm/tilcdc/tilcdc_drv.c          |   4 +-
- drivers/gpu/drm/tiny/arcpgu.c                |   4 +-
- drivers/gpu/drm/tve200/tve200_drv.c          |   4 +-
- drivers/gpu/drm/vc4/vc4_drv.c                |   4 +-
- drivers/gpu/drm/xlnx/zynqmp_kms.c            |   4 +-
- include/drm/drm_fbdev_dma.h                  |  15 +
- 24 files changed, 333 insertions(+), 42 deletions(-)
- create mode 100644 drivers/gpu/drm/drm_fbdev_dma.c
- create mode 100644 include/drm/drm_fbdev_dma.h
-
-
-base-commit: 734cd918122f6ec06e4c9366fb3283b29b1c7ea5
-prerequisite-patch-id: 0aa359f6144c4015c140c8a6750be19099c676fb
-prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
-prerequisite-patch-id: 3f204510fcbf9530d6540bd8e6128cce598988b6
+diff --git a/drivers/gpu/drm/logicvc/logicvc_drm.c b/drivers/gpu/drm/logicvc/logicvc_drm.c
+index 2fb23697740a..c35c453fd025 100644
+--- a/drivers/gpu/drm/logicvc/logicvc_drm.c
++++ b/drivers/gpu/drm/logicvc/logicvc_drm.c
+@@ -17,7 +17,7 @@
+ 
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_drv.h>
+-#include <drm/drm_fbdev_generic.h>
++#include <drm/drm_fbdev_dma.h>
+ #include <drm/drm_gem_dma_helper.h>
+ #include <drm/drm_print.h>
+ 
+@@ -449,7 +449,7 @@ static int logicvc_drm_probe(struct platform_device *pdev)
+ 		preferred_bpp = 32;
+ 		break;
+ 	}
+-	drm_fbdev_generic_setup(drm_dev, preferred_bpp);
++	drm_fbdev_dma_setup(drm_dev, preferred_bpp);
+ 
+ 	return 0;
+ 
 -- 
 2.39.2
 
