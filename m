@@ -1,117 +1,96 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com (mailrelay5-1.pub.mailoutpod2-cph3.one.com [46.30.211.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73F31866
-	for <linux-sunxi@lists.linux.dev>; Thu,  2 Mar 2023 07:50:18 +0000 (UTC)
-Received: by mail-oi1-f176.google.com with SMTP id bk32so12839702oib.10
-        for <linux-sunxi@lists.linux.dev>; Wed, 01 Mar 2023 23:50:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=m9NdTpfDEMV32UTE9lZbQp6kQQhUJVdsU2kqbFsl+ZA=;
-        b=GlZmeq/Hz5Um91USKrZ0+M5dSCefWeghYgtINjtcSbk4k4UwPmscvXuxvAr0OjOtJe
-         Bn4YooJd54HFa/cfRccrafHhuhfD+PS+HybZmuvJgmFuW5BI/MCO2L0tdjkaz1wRO/3g
-         i7xK7qt1TEDWuU71+TeukgWEZxv35tUADEiXZXAgsp8t2kxu+nxmmV4/F13ryXw0nNbu
-         TKO99aTui+756FKR3yFA6eHBZ7hITNCjVXwGPxsD96FaTZb8xzlKEwU6YlKt2seICV6f
-         NNoy31PXUAqY6KCyLmjuv2d9e7Yva8fp4a1mbnncKnCbqKAwHs29cxJQfvydEAEhhxXY
-         wcKg==
-X-Gm-Message-State: AO0yUKW4Kq9fdTlUvuW9BEAcs5rjOCYfiN0dk2NBsKwDY2cpi3uAoJhs
-	WVF+igJWNQ3b9fTUt8pxnS2cgvRR4K027w==
-X-Google-Smtp-Source: AK7set/KTX+UfSvr7/BB54BQghmlMBDvNWZyP9D1WubhHAqODPbtOhbGFG2AZea87E6mm6MRfNf0Cg==
-X-Received: by 2002:a54:4417:0:b0:384:2883:4dd8 with SMTP id k23-20020a544417000000b0038428834dd8mr4637455oiw.7.1677743417620;
-        Wed, 01 Mar 2023 23:50:17 -0800 (PST)
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com. [209.85.160.41])
-        by smtp.gmail.com with ESMTPSA id w129-20020aca6287000000b00383bfd8a184sm6800959oib.25.2023.03.01.23.50.17
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Mar 2023 23:50:17 -0800 (PST)
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-17652f24da7so166173fac.4
-        for <linux-sunxi@lists.linux.dev>; Wed, 01 Mar 2023 23:50:17 -0800 (PST)
-X-Received: by 2002:a81:ad1b:0:b0:52f:1c23:ef1 with SMTP id
- l27-20020a81ad1b000000b0052f1c230ef1mr5784211ywh.5.1677743396691; Wed, 01 Mar
- 2023 23:49:56 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A4310FA
+	for <linux-sunxi@lists.linux.dev>; Thu,  2 Mar 2023 19:48:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=rsa2;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=BtNi97NVqmGApn3BCpFm47tB4evorZmaN6Pi5IgjHRY=;
+	b=TYQvjvixOf/3rzSA5RmgEfx7465TZ4sZXzQtCp7dAVX3dgOixLCPjD+rbwhqy+CDyF+qXDx1/jUSx
+	 rcsdK7CMokFMUVYsTaNX7BG0G+QVYdP9DiUpqrYGRxRZCvK1UsPA+r8d1Ah8sNPtH5fo6e9OidjQjM
+	 cShBXyNDlYWFwEe7499JUEKg6hb5tSsiqaVT8jPzzimGo22ryQxRNW9lsNP9V3tJr60ogap68Hft82
+	 j7Z2VAram2dQ4f8wUTTwSk/sTr4zxoypWxXn2UJ/rJsdGJ09+rgmt6PH03mGL4u2h6Jl2YL0nn2QHR
+	 JYeihHU7gOcMm5Aku6byl6o9rOadexg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=ed2;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=BtNi97NVqmGApn3BCpFm47tB4evorZmaN6Pi5IgjHRY=;
+	b=Z7zbinB+9V6oieKcPqyRWSc+qnO8WPOFDAC9HEXYAK2WDzv6DzcUA32mQ0nEibyXIJDKJL+pbTnKq
+	 OxtBCqcBQ==
+X-HalOne-ID: 155bb931-b933-11ed-8805-7703b0afff57
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+	by mailrelay5 (Halon) with ESMTPSA
+	id 155bb931-b933-11ed-8805-7703b0afff57;
+	Thu, 02 Mar 2023 19:47:40 +0000 (UTC)
+Date: Thu, 2 Mar 2023 20:47:38 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: javierm@redhat.com, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
+	andrew@aj.id.au, laurentiu.palcu@oss.nxp.com,
+	l.stach@pengutronix.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+	p.zabel@pengutronix.de, anitha.chrisanthus@intel.com,
+	edmund.j.dea@intel.com, khilman@baylibre.com, jbrunet@baylibre.com,
+	martin.blumenstingl@googlemail.com, alain.volmat@foss.st.com,
+	yannick.fertre@foss.st.com, raphael.gallais-pou@foss.st.com,
+	philippe.cornu@foss.st.com, mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com, jernej.skrabec@gmail.com,
+	samuel@sholland.org, jyri.sarha@iki.fi, tomba@kernel.org,
+	linus.walleij@linaro.org, hyun.kwon@xilinx.com,
+	laurent.pinchart@ideasonboard.com, linux-aspeed@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 05/22] drm/atmel-hlcdc: Use GEM DMA fbdev emulation
+Message-ID: <ZAD9WnhAcwAdQPqT@ravnborg.org>
+References: <20230301153101.4282-1-tzimmermann@suse.de>
+ <20230301153101.4282-6-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230301185209.274134-1-jjhiblot@traphandler.com> <20230301185209.274134-3-jjhiblot@traphandler.com>
-In-Reply-To: <20230301185209.274134-3-jjhiblot@traphandler.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 2 Mar 2023 08:49:44 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVF337k+zyjpbzoDtWWDnYhM6eM3+As6UuZ7FCgASsMQg@mail.gmail.com>
-Message-ID: <CAMuHMdVF337k+zyjpbzoDtWWDnYhM6eM3+As6UuZ7FCgASsMQg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] of: irq: make callers of of_irq_parse_one() release
- the device node
-To: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-Cc: saravanak@google.com, clement.leger@bootlin.com, 
-	Magnus Damm <magnus.damm@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, zajec5@gmail.com, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Claudiu Beznea <claudiu.beznea@microchip.com>, Marc Zyngier <maz@kernel.org>, afaerber@suse.de, 
-	Manivannan Sadhasivam <mani@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Nishanth Menon <nm@ti.com>, ssantosh@kernel.org, 
-	mathias.nyman@intel.com, gregkh@linuxfoundation.org, thierry.reding@gmail.com, 
-	jonathanh@nvidia.com, linux-renesas-soc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-wireless@vger.kernel.org, 
-	linux-actions@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230301153101.4282-6-tzimmermann@suse.de>
 
-Hi Jean-Jacques,
-
-Thanks for your patch!
-
-On Wed, Mar 1, 2023 at 7:53=E2=80=AFPM Jean-Jacques Hiblot
-<jjhiblot@traphandler.com> wrote:
-> of_irq_parse_one() does a get() on the device node returned in out_irq->n=
-p.
-> Callers of of_irq_parse_one() must do a put() when they are done with it.
-
-What does "be done with it" really mean here?
-
-> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-
-> --- a/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c
-> +++ b/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c
-> @@ -184,6 +184,7 @@ static int __init rcar_gen2_regulator_quirk(void)
->                         kfree(quirk);
->                         continue;
->                 }
-> +               of_node_put(argsa->np);
-
-The quirk object, which is a container of argsa, is still used below,
-and stored in a linked list.  I agree argsa->np is not dereferenced,
-but the pointer itself is still compared to other pointers.
-IIUIC, calling of_node_put() might cause the reference count to drop to
-zero, and the underlying struct node object to be deallocated.
-So when a future reference to the same DT node will be taken, a new
-struct node object will be allocated, and the pointer comparison below
-will fail?
-
-Or am I missing something?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+On Wed, Mar 01, 2023 at 04:30:44PM +0100, Thomas Zimmermann wrote:
+> Use the fbdev emulation that is optimized for DMA helpers. Avoids
+> possible shadow buffering and makes the code simpler.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> index 4e806b06d35d..29603561d501 100644
+> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> @@ -19,7 +19,7 @@
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_drv.h>
+> -#include <drm/drm_fbdev_generic.h>
+> +#include <drm/drm_fbdev_dma.h>
+>  #include <drm/drm_gem_dma_helper.h>
+>  #include <drm/drm_gem_framebuffer_helper.h>
+>  #include <drm/drm_module.h>
+> @@ -760,7 +760,7 @@ static int atmel_hlcdc_dc_drm_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		goto err_unload;
+>  
+> -	drm_fbdev_generic_setup(ddev, 24);
+> +	drm_fbdev_dma_setup(ddev, 24);
+>  
+>  	return 0;
+>  
+> -- 
+> 2.39.2
