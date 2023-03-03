@@ -1,18 +1,30 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF5979D8
-	for <linux-sunxi@lists.linux.dev>; Fri,  3 Mar 2023 16:22:50 +0000 (UTC)
-Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1pY7cn-0005si-GH; Fri, 03 Mar 2023 16:47:13 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: rafael@kernel.org, daniel.lezcano@linaro.org,
- Daniel Lezcano <daniel.lezcano@linaro.org>
+Received: from mx.socionext.com (mx.socionext.com [202.248.49.38])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACECD79D8
+	for <linux-sunxi@lists.linux.dev>; Fri,  3 Mar 2023 16:23:01 +0000 (UTC)
+Received: from unknown (HELO kinkan2-ex.css.socionext.com) ([172.31.9.52])
+  by mx.socionext.com with ESMTP; 04 Mar 2023 01:21:52 +0900
+Received: from mail.mfilter.local (mail-arc02.css.socionext.com [10.213.46.40])
+	by kinkan2-ex.css.socionext.com (Postfix) with ESMTP id EE1632058442;
+	Sat,  4 Mar 2023 01:21:51 +0900 (JST)
+Received: from kinkan2.css.socionext.com ([172.31.9.51]) by m-FILTER with ESMTP; Sat, 4 Mar 2023 01:21:51 +0900
+Received: from [10.212.156.241] (unknown [10.212.156.241])
+	by kinkan2.css.socionext.com (Postfix) with ESMTP id 60F9D25528;
+	Sat,  4 Mar 2023 01:21:44 +0900 (JST)
+Message-ID: <acb7d81e-69d5-ff1b-aa0b-709c8c56010b@socionext.com>
+Date: Sat, 4 Mar 2023 01:21:43 +0900
+Precedence: bulk
+X-Mailing-List: linux-sunxi@lists.linux.dev
+List-Id: <linux-sunxi.lists.linux.dev>
+List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v5 02/18] thermal/core: Use the thermal zone 'devdata'
+ accessor in thermal located drivers
+To: Daniel Lezcano <daniel.lezcano@linaro.org>, rafael@kernel.org
 Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Niklas =?ISO-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
  Mark Brown <broonie@kernel.org>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  Balsam CHIHI <bchihi@baylibre.com>,
@@ -21,11 +33,12 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
  "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
  Florian Fainelli <f.fainelli@gmail.com>, Dhruva Gole <d-gole@ti.com>,
- Guillaume La Roque <glaroque@baylibre.com>, Amit Kucheria <amitk@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Miquel Raynal <miquel.raynal@bootlin.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Markus Mayer <mmayer@broadcom.com>,
+ Guillaume La Roque <glaroque@baylibre.com>, Amit Kucheria
+ <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>, Markus Mayer <mmayer@broadcom.com>,
  Support Opensource <support.opensource@diasemi.com>,
  Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
@@ -33,7 +46,8 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  Thara Gopinath <thara.gopinath@gmail.com>, Andy Gross <agross@kernel.org>,
  Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>,
- Niklas =?ISO-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+ =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+ Heiko Stuebner <heiko@sntech.de>,
  Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Alim Akhtar <alim.akhtar@samsung.com>, Orson Zhai <orsonzhai@gmail.com>,
@@ -45,7 +59,6 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>, Talel Shenhar <talel@amazon.com>,
  Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
  Masami Hiramatsu <mhiramat@kernel.org>,
  Matthias Brugger <matthias.bgg@gmail.com>,
  Stefan Wahren <stefan.wahren@i2se.com>,
@@ -80,43 +93,32 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  "open list:TI BANDGAP AND THERMAL DRIVER" <linux-omap@vger.kernel.org>,
  "moderated list:ARM/Mediatek SoC support"
  <linux-mediatek@lists.infradead.org>
-Subject:
- Re: [PATCH v5 02/18] thermal/core: Use the thermal zone 'devdata' accessor in
- thermal located drivers
-Date: Fri, 03 Mar 2023 16:47:15 +0100
-Message-ID: <3152081.5fSG56mABF@diego>
-In-Reply-To: <20230301201446.3713334-3-daniel.lezcano@linaro.org>
-References:
- <20230301201446.3713334-1-daniel.lezcano@linaro.org>
+References: <20230301201446.3713334-1-daniel.lezcano@linaro.org>
  <20230301201446.3713334-3-daniel.lezcano@linaro.org>
-Precedence: bulk
-X-Mailing-List: linux-sunxi@lists.linux.dev
-List-Id: <linux-sunxi.lists.linux.dev>
-List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Language: en-US
+From: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
+In-Reply-To: <20230301201446.3713334-3-daniel.lezcano@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Am Mittwoch, 1. M=E4rz 2023, 21:14:30 CET schrieb Daniel Lezcano:
+On 2023/03/02 5:14, Daniel Lezcano wrote:
 > The thermal zone device structure is exposed to the different drivers
 > and obviously they access the internals while that should be
 > restricted to the core thermal code.
->=20
+> 
 > In order to self-encapsulate the thermal core code, we need to prevent
 > the drivers accessing directly the thermal zone structure and provide
 > accessor functions to deal with.
->=20
+> 
 > Use the devdata accessor introduced in the previous patch.
->=20
+> 
 > No functional changes intended.
->=20
+> 
 > Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Reviewed-by: Niklas S=F6derlund <niklas.soderlund+renesas@ragnatech.se> #=
-R-Car
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se> #R-Car
 > Acked-by: Mark Brown <broonie@kernel.org>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
-ora.com> #MediaTek auxadc and lvts
+> Reviewed-by: AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> #MediaTek auxadc and lvts
 > Reviewed-by: Balsam CHIHI <bchihi@baylibre.com> #Mediatek lvts
 > Reviewed-by: Adam Ward <DLG-Adam.Ward.opensource@dm.renesas.com> #da9062
 > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>  #spread
@@ -125,6 +127,26 @@ ora.com> #MediaTek auxadc and lvts
 > Acked-by: Florian Fainelli <f.fainelli@gmail.com> #Broadcom
 > Reviewed-by: Dhruva Gole <d-gole@ti.com> # K3 bandgap
 
-Acked-by: Heiko Stuebner <heiko@sntech.de> #rockchip
+(snip)
 
+> diff --git a/drivers/thermal/uniphier_thermal.c
+> b/drivers/thermal/uniphier_thermal.c
+> index 47801841b3f5..aef6119cc004 100644
+> --- a/drivers/thermal/uniphier_thermal.c
+> +++ b/drivers/thermal/uniphier_thermal.c
+> @@ -187,7 +187,7 @@ static void uniphier_tm_disable_sensor(struct
+> uniphier_tm_dev *tdev)
+> 
+>   static int uniphier_tm_get_temp(struct thermal_zone_device *tz, int
+> *out_temp)
+>   {
+> -	struct uniphier_tm_dev *tdev = tz->devdata;
+> +	struct uniphier_tm_dev *tdev = thermal_zone_device_priv(tz);
 
+Reviewed-by: Kunihiko Hayashi <hayashi.kunihiko@socionext.com> #uniphier
+
+Thank you,
+
+---
+Best Regards
+Kunihiko Hayashi
