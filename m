@@ -1,91 +1,174 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F4C91FA1
-	for <linux-sunxi@lists.linux.dev>; Fri,  3 Mar 2023 17:30:19 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 60B47106F;
-	Fri,  3 Mar 2023 09:31:02 -0800 (PST)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 03EEB3F67D;
-	Fri,  3 Mar 2023 09:30:17 -0800 (PST)
-Date: Fri, 3 Mar 2023 17:30:15 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
-Cc: Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, kernel@pengutronix.de
-Subject: Re: [PATCH 75/87] spi: sun6i: Convert to platform remove callback
- returning void
-Message-ID: <20230303173015.620567b2@donnerap.cambridge.arm.com>
-In-Reply-To: <20230303172041.2103336-76-u.kleine-koenig@pengutronix.de>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539102FB3
+	for <linux-sunxi@lists.linux.dev>; Fri,  3 Mar 2023 18:40:42 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pYAJT-0004Q1-Rf; Fri, 03 Mar 2023 19:39:27 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pYAJF-001cS4-A2; Fri, 03 Mar 2023 19:39:13 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pYAJE-001ug1-Il; Fri, 03 Mar 2023 19:39:12 +0100
+Date: Fri, 3 Mar 2023 19:39:09 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Mark Brown <broonie@kernel.org>,
+	Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
+	=?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Radu Pirea <radu_nicolae.pirea@upb.ro>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	William Zhang <william.zhang@broadcom.com>,
+	Kursad Oney <kursad.oney@broadcom.com>,
+	Jonas Gorski <jonas.gorski@gmail.com>,
+	Anand Gore <anand.gore@broadcom.com>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+	Kamal Dasu <kdasu.kdev@gmail.com>,
+	Serge Semin <fancer.lancer@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>, Han Xu <han.xu@nxp.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Jay Fang <f.fangjian@huawei.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>, Haibo Chen <haibo.chen@nxp.com>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Andi Shyti <andi@etezian.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Li-hao Kuo <lhjeff911@gmail.com>,
+	Masahisa Kojima <masahisa.kojima@linaro.org>,
+	Jassi Brar <jaswinder.singh@linaro.org>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michal Simek <michal.simek@xilinx.com>,
+	Max Filippov <jcmvbkbc@gmail.com>
+Cc: linux-aspeed@lists.ozlabs.org, Alim Akhtar <alim.akhtar@samsung.com>,
+	linux-riscv@lists.infradead.org, Fabio Estevam <festevam@gmail.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	linux-samsung-soc@vger.kernel.org,
+	Benjamin Fair <benjaminfair@google.com>,
+	linux-rockchip@lists.infradead.org, openbmc@lists.ozlabs.org,
+	Nancy Yuen <yuenn@google.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	NXP Linux Team <linux-imx@nxp.com>, linux-sunxi@lists.linux.dev,
+	linux-xtensa@linux-xtensa.org,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Andrew Jeffery <andrew@aj.id.au>,
+	Patrick Venture <venture@google.com>, linux-spi@vger.kernel.org,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Yogesh Gaur <yogeshgaur.83@gmail.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>
+Subject: Re: [PATCH 00/87] spi: Convert to platform remove callback returning
+ void
+Message-ID: <20230303183909.65uqvaznntwmfwht@pengutronix.de>
 References: <20230303172041.2103336-1-u.kleine-koenig@pengutronix.de>
-	<20230303172041.2103336-76-u.kleine-koenig@pengutronix.de>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="v6z3e2z4afz7ipyr"
+Content-Disposition: inline
+In-Reply-To: <20230303172041.2103336-1-u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+
+
+--v6z3e2z4afz7ipyr
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri,  3 Mar 2023 18:20:29 +0100
-Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> wrote:
+Hello,
 
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
+On Fri, Mar 03, 2023 at 06:19:14PM +0100, Uwe Kleine-K=F6nig wrote:
+> this patch series adapts the platform drivers below drivers/spi
+> to use the .remove_new() callback. Compared to the traditional .remove()
+> callback .remove_new() returns no value. This is a good thing because
+> the driver core doesn't (and cannot) cope for errors during remove. The
+> only effect of a non-zero return value in .remove() is that the driver
+> core emits a warning. The device is removed anyhow and an early return
+> from .remove() usually yields a resource leak.
 >=20
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
+> By changing the remove callback to return void driver authors cannot
+> reasonably assume any more that there is some kind of cleanup later.
 >=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> All drivers touched here returned zero unconditionally in their remove
+> callback, so they could all be converted trivially to .remove_new().
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+One thing I failed to mention here (because my coccinelle patch to
+detect that was suboptimal) is: There are 6 drivers---namely
+atmel-quadspi.c, spi-imx.c, spi-mt65xx.c, spi-qup.c, spi-sprd.c, and
+spi-ti-qspi.c---that might return a non-zero value in their remove
+function. Note that this is exactly the problem that I target to rub out
+with the effort to change .remove() to return void.
 
-Cheers,
-Andre
+I'll address them separately.
 
-> ---
->  drivers/spi/spi-sun6i.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/spi/spi-sun6i.c b/drivers/spi/spi-sun6i.c
-> index 23ad052528db..43c29afea6bb 100644
-> --- a/drivers/spi/spi-sun6i.c
-> +++ b/drivers/spi/spi-sun6i.c
-> @@ -683,7 +683,7 @@ static int sun6i_spi_probe(struct platform_device *pd=
-ev)
->  	return ret;
->  }
-> =20
-> -static int sun6i_spi_remove(struct platform_device *pdev)
-> +static void sun6i_spi_remove(struct platform_device *pdev)
->  {
->  	struct spi_master *master =3D platform_get_drvdata(pdev);
-> =20
-> @@ -693,7 +693,6 @@ static int sun6i_spi_remove(struct platform_device *p=
-dev)
->  		dma_release_channel(master->dma_tx);
->  	if (master->dma_rx)
->  		dma_release_channel(master->dma_rx);
-> -	return 0;
->  }
-> =20
->  static const struct of_device_id sun6i_spi_match[] =3D {
-> @@ -710,7 +709,7 @@ static const struct dev_pm_ops sun6i_spi_pm_ops =3D {
-> =20
->  static struct platform_driver sun6i_spi_driver =3D {
->  	.probe	=3D sun6i_spi_probe,
-> -	.remove	=3D sun6i_spi_remove,
-> +	.remove_new =3D sun6i_spi_remove,
->  	.driver	=3D {
->  		.name		=3D "sun6i-spi",
->  		.of_match_table	=3D sun6i_spi_match,
+Best regards
+Uwe
 
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--v6z3e2z4afz7ipyr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmQCPsoACgkQwfwUeK3K
+7AnE5wf/f9JfZvlhsMW5lUYY1iF+TtcOqAj1YniGiXQoKsm+C+jWJHYOZHCCzymg
+UQ5G8rDRrzTjzXz8vR2ZoeyNaMKy/WfN5PBBn8qc795Gqt8Z4wr9Fi0hyfto/6Ic
+fpzjUOQGdtgTfm/BiPYD61484JFMRNw7SPzUGCDBsvWNmUQdmLu7jbqtTCLk/DjY
+2VO+r2QB8TYqj/9xZQcl6RJC6c3qj5gHKYZIquIIHc/3Ug4eesZlWHWt2FNVTbX7
+n4hcyTMeV8iCsDN1/FgwNnOJW3UubunsqIIDqyPS7wreu6eK3QeUoR26ZFOKW19L
+9QoJp1TuDkcr0Cccg7l24GxflQoqgA==
+=LoPr
+-----END PGP SIGNATURE-----
+
+--v6z3e2z4afz7ipyr--
