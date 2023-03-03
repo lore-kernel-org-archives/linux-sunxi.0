@@ -1,152 +1,92 @@
-Received: from mx.socionext.com (mx.socionext.com [202.248.49.38])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACECD79D8
-	for <linux-sunxi@lists.linux.dev>; Fri,  3 Mar 2023 16:23:01 +0000 (UTC)
-Received: from unknown (HELO kinkan2-ex.css.socionext.com) ([172.31.9.52])
-  by mx.socionext.com with ESMTP; 04 Mar 2023 01:21:52 +0900
-Received: from mail.mfilter.local (mail-arc02.css.socionext.com [10.213.46.40])
-	by kinkan2-ex.css.socionext.com (Postfix) with ESMTP id EE1632058442;
-	Sat,  4 Mar 2023 01:21:51 +0900 (JST)
-Received: from kinkan2.css.socionext.com ([172.31.9.51]) by m-FILTER with ESMTP; Sat, 4 Mar 2023 01:21:51 +0900
-Received: from [10.212.156.241] (unknown [10.212.156.241])
-	by kinkan2.css.socionext.com (Postfix) with ESMTP id 60F9D25528;
-	Sat,  4 Mar 2023 01:21:44 +0900 (JST)
-Message-ID: <acb7d81e-69d5-ff1b-aa0b-709c8c56010b@socionext.com>
-Date: Sat, 4 Mar 2023 01:21:43 +0900
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869931FA1
+	for <linux-sunxi@lists.linux.dev>; Fri,  3 Mar 2023 17:21:26 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pY95f-000752-PW; Fri, 03 Mar 2023 18:21:07 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pY95e-001boV-Vi; Fri, 03 Mar 2023 18:21:06 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pY95e-001tma-1s; Fri, 03 Mar 2023 18:21:06 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Mark Brown <broonie@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-spi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@pengutronix.de
+Subject: [PATCH 74/87] spi: sun4i: Convert to platform remove callback returning void
+Date: Fri,  3 Mar 2023 18:20:28 +0100
+Message-Id: <20230303172041.2103336-75-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230303172041.2103336-1-u.kleine-koenig@pengutronix.de>
+References: <20230303172041.2103336-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v5 02/18] thermal/core: Use the thermal zone 'devdata'
- accessor in thermal located drivers
-To: Daniel Lezcano <daniel.lezcano@linaro.org>, rafael@kernel.org
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Mark Brown <broonie@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Balsam CHIHI <bchihi@baylibre.com>,
- Adam Ward <DLG-Adam.Ward.opensource@dm.renesas.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Florian Fainelli <f.fainelli@gmail.com>, Dhruva Gole <d-gole@ti.com>,
- Guillaume La Roque <glaroque@baylibre.com>, Amit Kucheria
- <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>, Markus Mayer <mmayer@broadcom.com>,
- Support Opensource <support.opensource@diasemi.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Thara Gopinath <thara.gopinath@gmail.com>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
- Heiko Stuebner <heiko@sntech.de>,
- Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Orson Zhai <orsonzhai@gmail.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Talel Shenhar <talel@amazon.com>,
- Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Stefan Wahren <stefan.wahren@i2se.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- ye xingchen <ye.xingchen@zte.com.cn>,
- Zheng Yongjun <zhengyongjun3@huawei.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Sumeet Pawnikar <sumeet.r.pawnikar@intel.com>,
- "Lee, Chun-Yi" <joeyli.kernel@gmail.com>,
- Shang XiaoJing <shangxiaojing@huawei.com>, Tim Zimmermann <tim@linux4.de>,
- Yang Li <yang.lee@linux.alibaba.com>, Jiang Jian <jiangjian@cdjrlc.com>,
- Daniel Golle <daniel@makrotopia.org>, Randy Dunlap <rdunlap@infradead.org>,
- Ido Schimmel <idosch@nvidia.com>, Minghao Chi <chi.minghao@zte.com.cn>,
- Johan Hovold <johan+linaro@kernel.org>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- "open list:THERMAL DRIVER FOR AMLOGIC SOCS"
- <linux-amlogic@lists.infradead.org>,
- "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
- <linux-rpi-kernel@lists.infradead.org>,
- "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>,
- "open list:QUALCOMM TSENS THERMAL DRIVER" <linux-arm-msm@vger.kernel.org>,
- "open list:RENESAS R-CAR THERMAL DRIVERS"
- <linux-renesas-soc@vger.kernel.org>,
- "open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
- "open list:SAMSUNG THERMAL DRIVER" <linux-samsung-soc@vger.kernel.org>,
- "moderated list:ARM/STM32 ARCHITECTURE"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
- "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
- "open list:TI BANDGAP AND THERMAL DRIVER" <linux-omap@vger.kernel.org>,
- "moderated list:ARM/Mediatek SoC support"
- <linux-mediatek@lists.infradead.org>
-References: <20230301201446.3713334-1-daniel.lezcano@linaro.org>
- <20230301201446.3713334-3-daniel.lezcano@linaro.org>
-Content-Language: en-US
-From: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
-In-Reply-To: <20230301201446.3713334-3-daniel.lezcano@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1556; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=99g9qdfvrSS6qm9iWAxK+wzfSUWBvdAyiijDNit3EBg=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBkAiwqcCo3xWxzJzcGnx5prGyPVruiRtD7EF/nI rzT4XSvyLeJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCZAIsKgAKCRDB/BR4rcrs CckBB/0agkiww+BvoJrtKNgFUshm76/Smt+E19AaDyarBUQRqtRZcigP3f21l3295Q6R/hu99Pa sa2KlrRm/Jra77tPUetLZgcFAdm/q0sXkCgBbQEOcvNwQpugynZF4mT4ZPSUZ02ozIOeuK1FuRn tJVWmGD3o2TaEmBb1BCepyvPmM73TIj+j2Owj6GE0nWUp8jRuq0WD/n5ihe/EGypSfADYHjlO0k jOMJyoK7IRDmf8QIoTGS3UBIuj/20Fq0CZd+D43xvr04OWnXST12hrMaL5MbKOiLdD5+ln2Bu1G KekksLM1Kw/ux8f4t3sAukJq1sCip/gpUXbq6FI++cJTRQKE
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On 2023/03/02 5:14, Daniel Lezcano wrote:
-> The thermal zone device structure is exposed to the different drivers
-> and obviously they access the internals while that should be
-> restricted to the core thermal code.
-> 
-> In order to self-encapsulate the thermal core code, we need to prevent
-> the drivers accessing directly the thermal zone structure and provide
-> accessor functions to deal with.
-> 
-> Use the devdata accessor introduced in the previous patch.
-> 
-> No functional changes intended.
-> 
-> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se> #R-Car
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Reviewed-by: AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> #MediaTek auxadc and lvts
-> Reviewed-by: Balsam CHIHI <bchihi@baylibre.com> #Mediatek lvts
-> Reviewed-by: Adam Ward <DLG-Adam.Ward.opensource@dm.renesas.com> #da9062
-> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>  #spread
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com> #sun8i_thermal
-> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> Acked-by: Florian Fainelli <f.fainelli@gmail.com> #Broadcom
-> Reviewed-by: Dhruva Gole <d-gole@ti.com> # K3 bandgap
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is (mostly) ignored
+and this typically results in resource leaks. To improve here there is a
+quest to make the remove callback return void. In the first step of this
+quest all drivers are converted to .remove_new() which already returns
+void.
 
-(snip)
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
-> diff --git a/drivers/thermal/uniphier_thermal.c
-> b/drivers/thermal/uniphier_thermal.c
-> index 47801841b3f5..aef6119cc004 100644
-> --- a/drivers/thermal/uniphier_thermal.c
-> +++ b/drivers/thermal/uniphier_thermal.c
-> @@ -187,7 +187,7 @@ static void uniphier_tm_disable_sensor(struct
-> uniphier_tm_dev *tdev)
-> 
->   static int uniphier_tm_get_temp(struct thermal_zone_device *tz, int
-> *out_temp)
->   {
-> -	struct uniphier_tm_dev *tdev = tz->devdata;
-> +	struct uniphier_tm_dev *tdev = thermal_zone_device_priv(tz);
-
-Reviewed-by: Kunihiko Hayashi <hayashi.kunihiko@socionext.com> #uniphier
-
-Thank you,
-
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
-Best Regards
-Kunihiko Hayashi
+ drivers/spi/spi-sun4i.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/spi/spi-sun4i.c b/drivers/spi/spi-sun4i.c
+index 6000d0761206..994d0fb50e68 100644
+--- a/drivers/spi/spi-sun4i.c
++++ b/drivers/spi/spi-sun4i.c
+@@ -516,11 +516,9 @@ static int sun4i_spi_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static int sun4i_spi_remove(struct platform_device *pdev)
++static void sun4i_spi_remove(struct platform_device *pdev)
+ {
+ 	pm_runtime_force_suspend(&pdev->dev);
+-
+-	return 0;
+ }
+ 
+ static const struct of_device_id sun4i_spi_match[] = {
+@@ -536,7 +534,7 @@ static const struct dev_pm_ops sun4i_spi_pm_ops = {
+ 
+ static struct platform_driver sun4i_spi_driver = {
+ 	.probe	= sun4i_spi_probe,
+-	.remove	= sun4i_spi_remove,
++	.remove_new = sun4i_spi_remove,
+ 	.driver	= {
+ 		.name		= "sun4i-spi",
+ 		.of_match_table	= sun4i_spi_match,
+-- 
+2.39.1
+
