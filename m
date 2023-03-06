@@ -1,120 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC74E7473
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Mar 2023 21:27:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA102C433A1;
-	Mon,  6 Mar 2023 21:27:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678138079;
-	bh=OPscq8j4gixbBXyx4rYRiqcOtug0pajWX+t3LwK0uPE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PsQMxWTNyqmjmOyLA6f4aBxEbqjXLjGnQvTHUoE4f6zTvuB0TEbKKoow7O0Bl6lqg
-	 gYnqSQeBrO1rJ29HWmn+yvMly1eyD9pru67Ei5XhYPhftQR6cu4eDx5Y2uE63s5KIt
-	 s3zsZ4FOYFUkiy7gTDlGyR2DhiXrF2ddTXSUbWfDk94k+YWjCuHsJXdkT6LOyMmw3/
-	 OBMkdU9AXHfmpJlFP0bcKZdHq+IuioXEaW+oivplUHjLiBGkJeMjuBmdvu2rgkgh5Q
-	 WG7SALFgV1PPXh9MrSvGscl5OUXQrlqRl1aL8dYkfSYDeEvI72A6J1sMyBNHxpS7Fw
-	 LxAw7Z0FF0jTA==
-Date: Mon, 6 Mar 2023 21:27:32 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Cc: miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	jic23@kernel.org, tudor.ambarus@microchip.com, pratyush@kernel.org,
-	Sanju.Mehta@amd.com, chin-ting_kuo@aspeedtech.com, clg@kaod.org,
-	kdasu.kdev@gmail.com, f.fainelli@gmail.com, rjui@broadcom.com,
-	sbranden@broadcom.com, eajames@linux.ibm.com, olteanv@gmail.com,
-	han.xu@nxp.com, john.garry@huawei.com, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, narmstrong@baylibre.com,
-	khilman@baylibre.com, matthias.bgg@gmail.com, haibo.chen@nxp.com,
-	linus.walleij@linaro.org, daniel@zonque.org,
-	haojian.zhuang@gmail.com, robert.jarzmik@free.fr, agross@kernel.org,
-	bjorn.andersson@linaro.org, heiko@sntech.de,
-	krzysztof.kozlowski@linaro.org, andi@etezian.org,
-	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
-	wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
-	masahisa.kojima@linaro.org, jaswinder.singh@linaro.org,
-	rostedt@goodmis.org, mingo@redhat.com, l.stelmach@samsung.com,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, alex.aring@gmail.com, stefan@datenfreihafen.org,
-	kvalo@kernel.org, james.schulman@cirrus.com,
-	david.rhodes@cirrus.com, tanureal@opensource.cirrus.com,
-	rf@opensource.cirrus.com, perex@perex.cz, tiwai@suse.com,
-	npiggin@gmail.com, christophe.leroy@csgroup.eu, mpe@ellerman.id.au,
-	oss@buserror.net, windhl@126.com, yangyingliang@huawei.com,
-	william.zhang@broadcom.com, kursad.oney@broadcom.com,
-	jonas.gorski@gmail.com, anand.gore@broadcom.com, rafal@milecki.pl,
-	git@amd.com, linux-spi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, joel@jms.id.au, andrew@aj.id.au,
-	radu_nicolae.pirea@upb.ro, nicolas.ferre@microchip.com,
-	alexandre.belloni@bootlin.com, claudiu.beznea@microchip.com,
-	bcm-kernel-feedback-list@broadcom.com, fancer.lancer@gmail.com,
-	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-	jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
-	avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
-	venture@google.com, yuenn@google.com, benjaminfair@google.com,
-	yogeshgaur.83@gmail.com, konrad.dybcio@somainline.org,
-	alim.akhtar@samsung.com, ldewangan@nvidia.com,
-	thierry.reding@gmail.com, jonathanh@nvidia.com,
-	michal.simek@amd.com, linux-aspeed@lists.ozlabs.org,
-	openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	netdev@vger.kernel.org, linux-wpan@vger.kernel.org,
-	libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
-	linux-mtd@lists.infradead.org, lars@metafoo.de,
-	Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
-	michael@walle.cc, palmer@dabbelt.com,
-	linux-riscv@lists.infradead.org, alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com, linuxppc-dev@lists.ozlabs.org,
-	amitrkcian2002@gmail.com, Dhruva Gole <d-gole@ti.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>
-Subject: Re: [PATCH V5 01/15] spi: Replace all spi->chip_select and
- spi->cs_gpiod references with function call
-Message-ID: <00684da3-520f-459d-b6bd-55e728e93ebf@sirena.org.uk>
-References: <20230306172109.595464-1-amit.kumar-mahapatra@amd.com>
- <20230306172109.595464-2-amit.kumar-mahapatra@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D3B7473
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Mar 2023 22:19:20 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-53852143afcso211140067b3.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 06 Mar 2023 14:19:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678141159;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BIwy9GGWWk7FRheyk7kQvNm+28TrmRYb7v9Ze4E4qE4=;
+        b=ICZbYBbMVaIDZmAFB6H5iCrhGOEY35M31GUKkKobfQ8xltOrmn8D7FBBCOITMcflZS
+         tG44B2qro/h5+lzF6tMxsW8eAPNd9g34RzZohr48LOpkOe65wBRX5KoI/Ijr40eZ47u0
+         hg9LCHTphHBINZkB8S5Stwn7tdrs6yBXkgkm5ESSb9puGdqGNkOVYFJ7AlZ5nH8WM/BX
+         VLXoEQKY4rimQFW9XQI71Ag9FOrsXPDGATyku/a5MWV099Hb/BvLMCqc0tbzZW/EPoo/
+         JYcXWDx5G47YQPkidEUVePtZhKEOq7OFI76H8ngB+J188eN8H6kWVzpgqs5QTDJcNVaE
+         PWmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678141159;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BIwy9GGWWk7FRheyk7kQvNm+28TrmRYb7v9Ze4E4qE4=;
+        b=59k6FSeOwe5UHJgl7RW2XDh1uwmhoQ0nfsANjsl3VJkUDK/v6awtROkGgX2iBrmLqK
+         irw6CHo8+ArCzwYlCQGuELlOCUY21p9HwZbY/f3NtHPxfks48RapjK7dIlxqANyqUlHx
+         MfLVcjA/GUomFQ0kTbes4hF+vouXNIfogh3n1EnyP9v4V9D55s2mXWgVSh0DtmMss4m2
+         Uzu5EIEA3WdfU0rq1gveDangsIwV/JJRkhBHDR4BQSRYPNTRrsE/xKDS/Z9yiwwON1hY
+         RIsfkd8PsqiNkYRsqDz8sQNyX8LlXD9srlUwUhWsUx5hiGERsHF5HgXERy2KK1F37GRN
+         EsLQ==
+X-Gm-Message-State: AO0yUKXS+BbOasB/bMhR1o+kE6uhQoQPX33lPT/O4oLfBgknYFZNLDFn
+	5mo0d8K83mhgo9W9qd67/rVKuDCDgk+qRBzdkt1FeQ==
+X-Google-Smtp-Source: AK7set+FEBHOTN7jH6jw+W4M/INkl80XRa4XzqDzPxdd9YGD5yqFWOonMchaUl4aHKnjh/2xQeNLpP3z0RkBrl7WU5s=
+X-Received: by 2002:a81:b705:0:b0:535:fe26:acc with SMTP id
+ v5-20020a81b705000000b00535fe260accmr7785857ywh.10.1678141159600; Mon, 06 Mar
+ 2023 14:19:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="RfYQ7lwbbyjtjTUN"
-Content-Disposition: inline
-In-Reply-To: <20230306172109.595464-2-amit.kumar-mahapatra@amd.com>
-X-Cookie: teamwork, n.:
+References: <20230301153101.4282-1-tzimmermann@suse.de> <20230301153101.4282-21-tzimmermann@suse.de>
+In-Reply-To: <20230301153101.4282-21-tzimmermann@suse.de>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 6 Mar 2023 23:19:08 +0100
+Message-ID: <CACRpkdYS54Svj=B-NfrjX+kBDYw5e9Jyt70L0tr_iX5+mVYK4A@mail.gmail.com>
+Subject: Re: [PATCH 20/22] drm/tve200: Use GEM DMA fbdev emulation
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+	airlied@gmail.com, daniel@ffwll.ch, andrew@aj.id.au, 
+	laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de, shawnguo@kernel.org, 
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
+	linux-imx@nxp.com, p.zabel@pengutronix.de, anitha.chrisanthus@intel.com, 
+	edmund.j.dea@intel.com, khilman@baylibre.com, jbrunet@baylibre.com, 
+	martin.blumenstingl@googlemail.com, alain.volmat@foss.st.com, 
+	yannick.fertre@foss.st.com, raphael.gallais-pou@foss.st.com, 
+	philippe.cornu@foss.st.com, mcoquelin.stm32@gmail.com, 
+	alexandre.torgue@foss.st.com, jernej.skrabec@gmail.com, samuel@sholland.org, 
+	jyri.sarha@iki.fi, tomba@kernel.org, hyun.kwon@xilinx.com, 
+	laurent.pinchart@ideasonboard.com, dri-devel@lists.freedesktop.org, 
+	linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Mar 1, 2023 at 4:31=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse.=
+de> wrote:
 
---RfYQ7lwbbyjtjTUN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> Use the fbdev emulation that is optimized for DMA helpers. Avoids
+> possible shadow buffering and makes the code simpler.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-On Mon, Mar 06, 2023 at 10:50:55PM +0530, Amit Kumar Mahapatra wrote:
+That sounds neat:
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
->  drivers/spi/spi-omap-100k.c       |  2 +-
-
-This is also not against -rc1, this file was removed in bcace9c4c9270292
-("spi: remove omap 100K driver").
-
---RfYQ7lwbbyjtjTUN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmQGWsMACgkQJNaLcl1U
-h9C7Fwf+MqZVyi3PlI6YIKPDaaFyWnmjZtweIjxd+4E2eEmTZq9MbcCHS/W56cUk
-TPWusPOjIa33XHC376rZpTYGqNTRjvOo8UwttJFAFQFbtMNui8BfC1bnrROwoyUE
-AxcOxhCAi3r1P0nRIkS126TepySOo1qXD1gf6YUQydf6/iDxzq7VddVjfqtt3dPF
-6rnt0G5xA5O0Z75Kc76h4ePCX7kXMqJhJSaJf7HFcGwD2P5HIeRcRyucD2q4Ddnr
-KzkdziV90/s6X7Q9cfiA620jfm8jVdqqN3yC+JX/L2Iu8kpeefFFgD49yG2aMtxv
-zgXP6uMpvQm5g7F9e/wo/JMWhjfh8g==
-=uJRe
------END PGP SIGNATURE-----
-
---RfYQ7lwbbyjtjTUN--
+Yours,
+Linus Walleij
