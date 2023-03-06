@@ -1,152 +1,120 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E687B6FC5
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Mar 2023 20:00:56 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id ky4so11737750plb.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 06 Mar 2023 12:00:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678132856;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uXR1hBuNmG/TwC91AeVvsW1UVH/MwkAfhUSEnuvNaoY=;
-        b=o6hZefnQYEnFw3COvoTdyyoXo9Zv4P0LTShB301lkw0/gGr+x1ou0XeYCSdcXXLXoz
-         Ie/lwSIsRhh9vBh4c56fFPeCbh1Mg/u0f+SLHuOsNnA01L3iQxuD6tKvCodPDyUeqcUA
-         ipzyAtvRXWR1nR5U0W8m7xh6fPIYtpAYIZVYRkCJb0GTxixFtDSEeec8W6O4TIR9SFvb
-         8TyLwk+heXtYmzhntJcZ54SphmylZPrikYFa1PRdJ8V5j+VefclzJKcG1hcN/EBRiJ2z
-         A5LjdstbOHhVHAVRXA7o2dTcBNuVBc27QoVtU1tjX+Yepbtmilj428R4Os2Xd6WiLWnA
-         Of4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678132856;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uXR1hBuNmG/TwC91AeVvsW1UVH/MwkAfhUSEnuvNaoY=;
-        b=oYQYV3QCdh4G1BR/Ggh3FLnI/AtZKXbV8i1NIBbuCa2x6kPHDgwfPIhB4L0Xe57PYf
-         QKHbCkzJMjD+jKD2VshYqZmd4/IRQJvgeT2aavPHFAK5sz69pSYIvzaTV2dKyROsR/LA
-         paWkTG4eZJp5XY3TrBRhtMDx+bfTqGoB+pfASJkPTVQwNTflM+zGenP04jzQcAKrbVp0
-         3noh7Ql4i/G/99sB9zq2d9FT2YQ4N+u9NkA5k8M0RTpKl0YEnOJ39GjZo11bv73W6AEi
-         GCfG+gYATf4pvGRMn6Ba3U1lG9LpZNRWAVllPiO473ELHpWifDKAH+N0vkHGVuD8KX54
-         1b7A==
-X-Gm-Message-State: AO0yUKVVIWbWqKPtLatxgsO5OjHRSfXxHEZlGOQhANT2+Lxjo6txdZFL
-	AXsmXBdlag7NWTpc9eqHVJorNdrXdd3NjwpoI5Y=
-X-Google-Smtp-Source: AK7set/DxZtiZhO+z+A0Is7yokDniYYkETavBEcleYa7IPSvIEQBIV7zty9Y+UWe1CWFM73JZ5CBgh34wQSFC4iK+eg=
-X-Received: by 2002:a17:90a:5993:b0:233:b520:1544 with SMTP id
- l19-20020a17090a599300b00233b5201544mr6625621pji.0.1678132856231; Mon, 06 Mar
- 2023 12:00:56 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC74E7473
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Mar 2023 21:27:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA102C433A1;
+	Mon,  6 Mar 2023 21:27:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1678138079;
+	bh=OPscq8j4gixbBXyx4rYRiqcOtug0pajWX+t3LwK0uPE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PsQMxWTNyqmjmOyLA6f4aBxEbqjXLjGnQvTHUoE4f6zTvuB0TEbKKoow7O0Bl6lqg
+	 gYnqSQeBrO1rJ29HWmn+yvMly1eyD9pru67Ei5XhYPhftQR6cu4eDx5Y2uE63s5KIt
+	 s3zsZ4FOYFUkiy7gTDlGyR2DhiXrF2ddTXSUbWfDk94k+YWjCuHsJXdkT6LOyMmw3/
+	 OBMkdU9AXHfmpJlFP0bcKZdHq+IuioXEaW+oivplUHjLiBGkJeMjuBmdvu2rgkgh5Q
+	 WG7SALFgV1PPXh9MrSvGscl5OUXQrlqRl1aL8dYkfSYDeEvI72A6J1sMyBNHxpS7Fw
+	 LxAw7Z0FF0jTA==
+Date: Mon, 6 Mar 2023 21:27:32 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+Cc: miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+	jic23@kernel.org, tudor.ambarus@microchip.com, pratyush@kernel.org,
+	Sanju.Mehta@amd.com, chin-ting_kuo@aspeedtech.com, clg@kaod.org,
+	kdasu.kdev@gmail.com, f.fainelli@gmail.com, rjui@broadcom.com,
+	sbranden@broadcom.com, eajames@linux.ibm.com, olteanv@gmail.com,
+	han.xu@nxp.com, john.garry@huawei.com, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, narmstrong@baylibre.com,
+	khilman@baylibre.com, matthias.bgg@gmail.com, haibo.chen@nxp.com,
+	linus.walleij@linaro.org, daniel@zonque.org,
+	haojian.zhuang@gmail.com, robert.jarzmik@free.fr, agross@kernel.org,
+	bjorn.andersson@linaro.org, heiko@sntech.de,
+	krzysztof.kozlowski@linaro.org, andi@etezian.org,
+	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+	wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+	masahisa.kojima@linaro.org, jaswinder.singh@linaro.org,
+	rostedt@goodmis.org, mingo@redhat.com, l.stelmach@samsung.com,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, alex.aring@gmail.com, stefan@datenfreihafen.org,
+	kvalo@kernel.org, james.schulman@cirrus.com,
+	david.rhodes@cirrus.com, tanureal@opensource.cirrus.com,
+	rf@opensource.cirrus.com, perex@perex.cz, tiwai@suse.com,
+	npiggin@gmail.com, christophe.leroy@csgroup.eu, mpe@ellerman.id.au,
+	oss@buserror.net, windhl@126.com, yangyingliang@huawei.com,
+	william.zhang@broadcom.com, kursad.oney@broadcom.com,
+	jonas.gorski@gmail.com, anand.gore@broadcom.com, rafal@milecki.pl,
+	git@amd.com, linux-spi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, joel@jms.id.au, andrew@aj.id.au,
+	radu_nicolae.pirea@upb.ro, nicolas.ferre@microchip.com,
+	alexandre.belloni@bootlin.com, claudiu.beznea@microchip.com,
+	bcm-kernel-feedback-list@broadcom.com, fancer.lancer@gmail.com,
+	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+	jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
+	avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
+	venture@google.com, yuenn@google.com, benjaminfair@google.com,
+	yogeshgaur.83@gmail.com, konrad.dybcio@somainline.org,
+	alim.akhtar@samsung.com, ldewangan@nvidia.com,
+	thierry.reding@gmail.com, jonathanh@nvidia.com,
+	michal.simek@amd.com, linux-aspeed@lists.ozlabs.org,
+	openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	netdev@vger.kernel.org, linux-wpan@vger.kernel.org,
+	libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
+	linux-mtd@lists.infradead.org, lars@metafoo.de,
+	Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
+	michael@walle.cc, palmer@dabbelt.com,
+	linux-riscv@lists.infradead.org, alsa-devel@alsa-project.org,
+	patches@opensource.cirrus.com, linuxppc-dev@lists.ozlabs.org,
+	amitrkcian2002@gmail.com, Dhruva Gole <d-gole@ti.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>
+Subject: Re: [PATCH V5 01/15] spi: Replace all spi->chip_select and
+ spi->cs_gpiod references with function call
+Message-ID: <00684da3-520f-459d-b6bd-55e728e93ebf@sirena.org.uk>
+References: <20230306172109.595464-1-amit.kumar-mahapatra@amd.com>
+ <20230306172109.595464-2-amit.kumar-mahapatra@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230306172109.595464-1-amit.kumar-mahapatra@amd.com> <20230306172109.595464-10-amit.kumar-mahapatra@amd.com>
-In-Reply-To: <20230306172109.595464-10-amit.kumar-mahapatra@amd.com>
-From: Jonas Gorski <jonas.gorski@gmail.com>
-Date: Mon, 6 Mar 2023 21:00:44 +0100
-Message-ID: <CAOiHx=nmsAh3ADL3s0eZKpEZJqCB_POi=8YjfxrHYLEbjRfwHg@mail.gmail.com>
-Subject: Re: [PATCH V5 09/15] spi: Add stacked and parallel memories support
- in SPI core
-To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Cc: broonie@kernel.org, miquel.raynal@bootlin.com, richard@nod.at, 
-	vigneshr@ti.com, jic23@kernel.org, tudor.ambarus@microchip.com, 
-	pratyush@kernel.org, Sanju.Mehta@amd.com, chin-ting_kuo@aspeedtech.com, 
-	clg@kaod.org, kdasu.kdev@gmail.com, f.fainelli@gmail.com, rjui@broadcom.com, 
-	sbranden@broadcom.com, eajames@linux.ibm.com, olteanv@gmail.com, 
-	han.xu@nxp.com, john.garry@huawei.com, shawnguo@kernel.org, 
-	s.hauer@pengutronix.de, narmstrong@baylibre.com, khilman@baylibre.com, 
-	matthias.bgg@gmail.com, haibo.chen@nxp.com, linus.walleij@linaro.org, 
-	daniel@zonque.org, haojian.zhuang@gmail.com, robert.jarzmik@free.fr, 
-	agross@kernel.org, bjorn.andersson@linaro.org, heiko@sntech.de, 
-	krzysztof.kozlowski@linaro.org, andi@etezian.org, mcoquelin.stm32@gmail.com, 
-	alexandre.torgue@foss.st.com, wens@csie.org, jernej.skrabec@gmail.com, 
-	samuel@sholland.org, masahisa.kojima@linaro.org, jaswinder.singh@linaro.org, 
-	rostedt@goodmis.org, mingo@redhat.com, l.stelmach@samsung.com, 
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
-	alex.aring@gmail.com, stefan@datenfreihafen.org, kvalo@kernel.org, 
-	james.schulman@cirrus.com, david.rhodes@cirrus.com, 
-	tanureal@opensource.cirrus.com, rf@opensource.cirrus.com, perex@perex.cz, 
-	tiwai@suse.com, npiggin@gmail.com, christophe.leroy@csgroup.eu, 
-	mpe@ellerman.id.au, oss@buserror.net, windhl@126.com, 
-	yangyingliang@huawei.com, william.zhang@broadcom.com, 
-	kursad.oney@broadcom.com, anand.gore@broadcom.com, rafal@milecki.pl, 
-	git@amd.com, linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	joel@jms.id.au, andrew@aj.id.au, radu_nicolae.pirea@upb.ro, 
-	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
-	claudiu.beznea@microchip.com, bcm-kernel-feedback-list@broadcom.com, 
-	fancer.lancer@gmail.com, kernel@pengutronix.de, festevam@gmail.com, 
-	linux-imx@nxp.com, jbrunet@baylibre.com, martin.blumenstingl@googlemail.com, 
-	avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com, 
-	venture@google.com, yuenn@google.com, benjaminfair@google.com, 
-	yogeshgaur.83@gmail.com, konrad.dybcio@somainline.org, 
-	alim.akhtar@samsung.com, ldewangan@nvidia.com, thierry.reding@gmail.com, 
-	jonathanh@nvidia.com, michal.simek@amd.com, linux-aspeed@lists.ozlabs.org, 
-	openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-wpan@vger.kernel.org, libertas-dev@lists.infradead.org, 
-	linux-wireless@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	lars@metafoo.de, Michael.Hennerich@analog.com, linux-iio@vger.kernel.org, 
-	michael@walle.cc, palmer@dabbelt.com, linux-riscv@lists.infradead.org, 
-	alsa-devel@alsa-project.org, patches@opensource.cirrus.com, 
-	linuxppc-dev@lists.ozlabs.org, amitrkcian2002@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="RfYQ7lwbbyjtjTUN"
+Content-Disposition: inline
+In-Reply-To: <20230306172109.595464-2-amit.kumar-mahapatra@amd.com>
+X-Cookie: teamwork, n.:
 
-Hi,
 
-On Mon, 6 Mar 2023 at 18:26, Amit Kumar Mahapatra
-<amit.kumar-mahapatra@amd.com> wrote:
->
-> For supporting multiple CS the SPI device need to be aware of all the CS
-> values. So, the "chip_select" member in the spi_device structure is now an
-> array that holds all the CS values.
->
-> spi_device structure now has a "cs_index_mask" member. This acts as an
-> index to the chip_select array. If nth bit of spi->cs_index_mask is set
-> then the driver would assert spi->chip_select[n].
->
-> In parallel mode all the chip selects are asserted/de-asserted
-> simultaneously and each byte of data is stored in both devices, the even
-> bits in one, the odd bits in the other. The split is automatically handled
-> by the GQSPI controller. The GQSPI controller supports a maximum of two
-> flashes connected in parallel mode. A "multi-cs-cap" flag is added in the
-> spi controntroller data, through ctlr->multi-cs-cap the spi core will make
-> sure that the controller is capable of handling multiple chip selects at
-> once.
->
-> For supporting multiple CS via GPIO the cs_gpiod member of the spi_device
-> structure is now an array that holds the gpio descriptor for each
-> chipselect.
->
-> Multi CS support using GPIO is not tested due to unavailability of
-> necessary hardware setup.
->
-> Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-> ---
->  drivers/spi/spi.c       | 213 +++++++++++++++++++++++++++-------------
->  include/linux/spi/spi.h |  34 +++++--
->  2 files changed, 173 insertions(+), 74 deletions(-)
->
-> diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
-> index 5866bf5813a4..8ec7f58fa111 100644
-> --- a/drivers/spi/spi.c
-> +++ b/drivers/spi/spi.c
-> @@ -613,7 +613,8 @@ static int spi_dev_check(struct device *dev, void *data)
->         struct spi_device *new_spi = data;
->
->         if (spi->controller == new_spi->controller &&
-> -           spi_get_chipselect(spi, 0) == spi_get_chipselect(new_spi, 0))
-> +           spi_get_chipselect(spi, 0) == spi_get_chipselect(new_spi, 0) &&
-> +           spi_get_chipselect(spi, 1) == spi_get_chipselect(new_spi, 1))
->                 return -EBUSY;
+--RfYQ7lwbbyjtjTUN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This will only reject new devices if both chip selects are identical,
-but not if they only share one, e.g. CS 1 + 2 vs 1 + 3, or 1 + 2 vs
-only 2, or if the order is different (1 + 2 vs 2 + 1 - haven't read
-the code too close to know if this is allowed/possible).
+On Mon, Mar 06, 2023 at 10:50:55PM +0530, Amit Kumar Mahapatra wrote:
 
-Regards,
-Jonas
+>  drivers/spi/spi-omap-100k.c       |  2 +-
+
+This is also not against -rc1, this file was removed in bcace9c4c9270292
+("spi: remove omap 100K driver").
+
+--RfYQ7lwbbyjtjTUN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmQGWsMACgkQJNaLcl1U
+h9C7Fwf+MqZVyi3PlI6YIKPDaaFyWnmjZtweIjxd+4E2eEmTZq9MbcCHS/W56cUk
+TPWusPOjIa33XHC376rZpTYGqNTRjvOo8UwttJFAFQFbtMNui8BfC1bnrROwoyUE
+AxcOxhCAi3r1P0nRIkS126TepySOo1qXD1gf6YUQydf6/iDxzq7VddVjfqtt3dPF
+6rnt0G5xA5O0Z75Kc76h4ePCX7kXMqJhJSaJf7HFcGwD2P5HIeRcRyucD2q4Ddnr
+KzkdziV90/s6X7Q9cfiA620jfm8jVdqqN3yC+JX/L2Iu8kpeefFFgD49yG2aMtxv
+zgXP6uMpvQm5g7F9e/wo/JMWhjfh8g==
+=uJRe
+-----END PGP SIGNATURE-----
+
+--RfYQ7lwbbyjtjTUN--
