@@ -1,76 +1,94 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 381072CAB
-	for <linux-sunxi@lists.linux.dev>; Sat,  4 Mar 2023 21:53:16 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id cy23so23780401edb.12
-        for <linux-sunxi@lists.linux.dev>; Sat, 04 Mar 2023 13:53:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=glTmX378wFhL+15561BIoVBCccNOW4FDXoOgifMHBy8=;
-        b=EjDJ1R8FKouJnuSxadiRe5SiBIgUSITPbM9SnQjhYDyIZ+LuEOc2GfJjRvdd1K10zP
-         0B+VLs/N+kcVjphefjob7VPueiCtPcbheJAVql624mVmTFTwLvvcp1iZwDpKctQLPUHW
-         891sEv52O94DJnZ6KiXRE4F/ROjfjMTPMKKI+OF6yfwNHXTh46djS1YKS+5RgOvxGYeH
-         ZkMiXVI3btf5P7xmeL3czwdHnO3oxMI8+Piuk+XkuMFjbmF1+Tu4Euz0RahvlkxQA0+9
-         WfciGbFo0TezFdbslWClljVVfxIS/uCJg+p/6L25hJAymiS1NrGxJW4JFm2298dmi6Zx
-         AF8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=glTmX378wFhL+15561BIoVBCccNOW4FDXoOgifMHBy8=;
-        b=avGEk1Yr+/9DHRDpIJFjzA7nI6i09YGRTQjEJ2flRZfusKOt4tqdDUgjjuZBoCBqWt
-         w7KKlOGAQfNmXHO5r++gZ7h1Y/PbR5SYajE2BqVLd3SuJKSGjCh4rq355N7l5z6YO44V
-         YWZBFDJZ08nHht4Vw56xjt4Wbzx4CXxroR1T5w+uUy+NGIcW1Ve/e3xjAqnDW75KkVKa
-         ruZcC01+t3W8hQFoA2Bjn6qUudz2pa55VDE3x+eJ6gjWKkvYPNvr1v5+mk6GHCWsJbNA
-         /2RekISU+928a5HdOlZ65bLppH2Ydke44HKKi/HMoQLh687x1eeLizBpnleeBOj7s8Iz
-         Qdaw==
-X-Gm-Message-State: AO0yUKWkxEytEQbzX2ZdyrlLxR5iKZc46Fu3x9r+X73PJlNt0Ic5gG/M
-	BWVwEgU2eRvVw9R//QbuxkOkqObjlgZ1FZKOoaU=
-X-Google-Smtp-Source: AK7set+tmz2IUyxluM6H0uJ7rtHOVvVTQ1X6COH7sceQzb5b5yCqFKVzBbXboRNMEcYH9cGeInLEcv9muAb3OM5khBI=
-X-Received: by 2002:a50:ce19:0:b0:4bc:2776:5b61 with SMTP id
- y25-20020a50ce19000000b004bc27765b61mr3356647edi.6.1677966793189; Sat, 04 Mar
- 2023 13:53:13 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9200319B
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Mar 2023 10:32:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37D54C433D2;
+	Mon,  6 Mar 2023 10:32:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1678098777;
+	bh=s2fnw6i03aDUOVRceqTeJE5GhIX+8kNWvjFzOfwDk4s=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jiNOsXJjsaI2JlLF30jApPis06JPgizoX1wFUIyWw21iPDa61V3wQ2GP36JhldSTx
+	 bTkJVFUAwDtaJYoUDNbDyW9RoSWiWNmRBRwM5D6Ofb2IHFidkM+dFp0RL4IXwbO5Ad
+	 1PS3FDGXFW/SxYoXnJAA4yCQ4gd3n0N9LZXjCeiauPvrFiHfYDln6E0Xd3g4k9ttuF
+	 MGLf8Q2wsHlc8eJHiX31wUAZ5WZkT+0Lev32PJJm+urVpV6F743MqNh2JQzj9ISpm5
+	 s0SSFUDdbBrEIOMxgsF2dLx4MkEjTqp8bpiv9xbNaUL+xSrwIg2ZlwqQE4thA4QByr
+	 8aU+IWpQp7WMA==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+	(envelope-from <johan+linaro@kernel.org>)
+	id 1pZ89w-0001Fr-MP; Mon, 06 Mar 2023 11:33:37 +0100
+From: Johan Hovold <johan+linaro@kernel.org>
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>
+Cc: David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan+linaro@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH] drm/sun4i: fix missing component unbind on bind errors
+Date: Mon,  6 Mar 2023 11:32:42 +0100
+Message-Id: <20230306103242.4775-1-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230301153101.4282-1-tzimmermann@suse.de> <20230301153101.4282-12-tzimmermann@suse.de>
-In-Reply-To: <20230301153101.4282-12-tzimmermann@suse.de>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Sat, 4 Mar 2023 22:53:02 +0100
-Message-ID: <CAFBinCCV4yu1HszSaCJuNVMhDC35hA8cpzLMw1x=a3x+LNYrEw@mail.gmail.com>
-Subject: Re: [PATCH 11/22] drm/meson: Use GEM DMA fbdev emulation
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
-	airlied@gmail.com, daniel@ffwll.ch, andrew@aj.id.au, 
-	laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de, shawnguo@kernel.org, 
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
-	linux-imx@nxp.com, p.zabel@pengutronix.de, anitha.chrisanthus@intel.com, 
-	edmund.j.dea@intel.com, khilman@baylibre.com, jbrunet@baylibre.com, 
-	alain.volmat@foss.st.com, yannick.fertre@foss.st.com, 
-	raphael.gallais-pou@foss.st.com, philippe.cornu@foss.st.com, 
-	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, 
-	jernej.skrabec@gmail.com, samuel@sholland.org, jyri.sarha@iki.fi, 
-	tomba@kernel.org, linus.walleij@linaro.org, hyun.kwon@xilinx.com, 
-	laurent.pinchart@ideasonboard.com, dri-devel@lists.freedesktop.org, 
-	linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 1, 2023 at 4:31=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse.=
-de> wrote:
->
-> Use the fbdev emulation that is optimized for DMA helpers. Avoids
-> possible shadow buffering and makes the code simpler.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Make sure to unbind all subcomponents when binding the aggregate device
+fails.
+
+Fixes: 9026e0d122ac ("drm: Add Allwinner A10 Display Engine support")
+Cc: stable@vger.kernel.org      # 4.7
+Cc: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+---
+
+Note that this one has only been compile tested.
+
+Johan
+
+
+ drivers/gpu/drm/sun4i/sun4i_drv.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
+index cc94efbbf2d4..d6c741716167 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_drv.c
++++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
+@@ -95,12 +95,12 @@ static int sun4i_drv_bind(struct device *dev)
+ 	/* drm_vblank_init calls kcalloc, which can fail */
+ 	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
+ 	if (ret)
+-		goto cleanup_mode_config;
++		goto unbind_all;
+ 
+ 	/* Remove early framebuffers (ie. simplefb) */
+ 	ret = drm_aperture_remove_framebuffers(false, &sun4i_drv_driver);
+ 	if (ret)
+-		goto cleanup_mode_config;
++		goto unbind_all;
+ 
+ 	sun4i_framebuffer_init(drm);
+ 
+@@ -119,6 +119,8 @@ static int sun4i_drv_bind(struct device *dev)
+ 
+ finish_poll:
+ 	drm_kms_helper_poll_fini(drm);
++unbind_all:
++	component_unbind_all(dev, NULL);
+ cleanup_mode_config:
+ 	drm_mode_config_cleanup(drm);
+ 	of_reserved_mem_device_release(dev);
+-- 
+2.39.2
+
