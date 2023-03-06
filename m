@@ -1,225 +1,336 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2054.outbound.protection.outlook.com [40.107.212.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2D9566C
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Mar 2023 17:19:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678123165; x=1709659165;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Tr5B3KsXUr00luTQ2CIfWUtMztpA6dDyGsuXLxy4wKE=;
-  b=TAQQZYYNX+peYv4xIdzRzFxeg05MiUFWl8ef3QaHVHJ3zIOory4wpaW1
-   lCS2x1xUfwjrJ8vT21h28NrJszYWym9gkaRdnNNM+a/A+/m1+QK/sfpRa
-   AEO0riwrUJ7VUvhrhvPE7STRJIfhjoj82L12WvVAnEJpXSuZla6iTxO8C
-   Ry2YECxb8BjLtiwjadSvDX537GqiSHLDBvaTXTnaJ0GFYRM/f6dZc6Lzt
-   pQrMMNy/PP0AR74FkfEwXD0a6TYGG/E3xFd0MKyXSYsLYDTIrCTTrjwex
-   ya8P8TJOObdVsdYna6z7LO4Q6+GP0Zuq1Y+7N3cEDD6Wr+4mYm4aH4jDt
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="334331370"
-X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="334331370"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 09:19:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="922018483"
-X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="922018483"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmsmga006.fm.intel.com with ESMTP; 06 Mar 2023 09:19:02 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 6 Mar 2023 09:18:57 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Mon, 6 Mar 2023 09:18:57 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Mon, 6 Mar 2023 09:18:57 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF451566C
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Mar 2023 17:22:03 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hn5jPZouL+50OCcFILh8Fr8eShvHm1x1dRG/iJYqvqIsqPnmvx1sP7rw3GHiIiyEbL+qHPeMa07ms48Owgz7Mj4uuqL2VKrEfngSjS5PtnHsOLPlKo1NPFUsMcDcU84cSAw7kXmRoAfw9vGdiMvqhKRQa5eACsaKj85u3INtMtULXahfcXaEMqLDfnhTbA2NGsCkGdgjOOi+2BrqgRvOzNCHeUAJyaWZCukvUgtD6bDPvw4pPyNCzG/FcreYzk2eYYpqAAg9LvVuvrcshoRZ6EjGDk6chc+Bj8h4nzvIdWA1x6/QfQHFFmoiLcZ4Kfc1fMOYSaBi04H6Jt9T3rhxLQ==
+ b=jY2PydATWKroHUtsnh7dV/adbQnaiRtF/udqJE1oFCKcmXL1oODifv1X7K2QterKCXphFK1CoK6GXcVg/MABLaCyFdVyxzgEQRvMoLS10vGc6xGebkcUkyCQ7A5gzp7Ahbvd82N18dnQcb9rbcDm2w5DSGL0PyX9OrZ0PEhrRAkZrBmf/eut0dB/gOgZ9Gpv5HoO4IJxzyPBgS/pXYNHo30y9GrZHJeTjYAgPU5axawv+xTU24u5i+m0jxaKljckVaD/j+QL1y7cwHw7BjVkhYLbrBXdejogH/kf0JXowafi/2RrGFWwNRMpd/CQJ91UOWfn0I81/LVn4vqsdZDZpw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gzUNWxRGI0sCBhpXAQOw5SttUlGiXdN6dT0IutBPOO4=;
- b=nI110PmtBU+jHt3IgxLNz6Ggil6QmZFv2Hd2aNr5pLSvoyduC4iL+VT9hoWuN2UqjS7a08hDDY9gK+zo9+IjKQcZluIV5vLZ/hacvXVV1E7ZEsYDcEz9w9eK7kiez5FLJdJ/patWKJy1kwgZKCjsAeJaQbWw3gENAqHYreRT0TXDzJRfHbWucc9sO06j+QN9A+8tMSWoZgJMD0PzyFuYFBO3wji3SroTyX4EZsHgiV9cv8/pSWxwJlhJ23UVXrK3SfzjV3zSv4bvknDq0QAt8trTIEasIpOzTg2v3xpV9wOW1P6yafRKt0+BtsJjvFzZ/VhpS1VsLvORGAHnWXgk6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BY5PR11MB4182.namprd11.prod.outlook.com (2603:10b6:a03:183::10)
- by SJ0PR11MB5183.namprd11.prod.outlook.com (2603:10b6:a03:2d9::6) with
+ bh=WL6q/Hbj7ODGetRka5dhCXZOmTu0EJfGTSTj5c9H5Fk=;
+ b=BDmMt6U0BDG3Zinx8whZcyC4DlPpL/4EEFRoDmNSdsWm9y+gpdy2RJPaO1uQ3FrVFL49DgUCKaw2a7+lhhKQRlPljGjUXbGiQ/aew864K4xijGxUGCKQlJbZzfCTOlMozH6xFEII33jflSjMp6rsTkKtfnHROJ7qRjT7FXT5KXYpOWhcOEs+c9pew43zQRwx9ypCKJQwP3hcFKpOHp6FFtkl6sk2d8+fwrcCgIl1AgHH0kutGQSNLuKbi7njZf+QG7fXyoYmWN/bnJvSYy+mRYOH7CUSjMJ9jgBDo7Y5fH2j09YzeL5wvHxennGQM2GolVeJINNF0Gjpgjc88xBUSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WL6q/Hbj7ODGetRka5dhCXZOmTu0EJfGTSTj5c9H5Fk=;
+ b=I9nUyRoUmAh5s4nWk+UZOPPGuO79FGVEETh3P7Cyr4e5XCHD/dQtRkUxR2OjP7wen40bhEXpeXSJgPcVURyExJpe9R6R+2PdrtzWT34hS42RqCudxk2JH+tZqeg2gdHPPPi30SSo9drecuDC53mm0LZ8cAWizKb0f2lQE5T+bq8=
+Received: from DS7PR03CA0321.namprd03.prod.outlook.com (2603:10b6:8:2b::6) by
+ MN2PR12MB4238.namprd12.prod.outlook.com (2603:10b6:208:199::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.28; Mon, 6 Mar
- 2023 17:18:51 +0000
-Received: from BY5PR11MB4182.namprd11.prod.outlook.com
- ([fe80::8ce:88fe:a727:2c7d]) by BY5PR11MB4182.namprd11.prod.outlook.com
- ([fe80::8ce:88fe:a727:2c7d%7]) with mapi id 15.20.6156.028; Mon, 6 Mar 2023
- 17:18:50 +0000
-From: "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, "javierm@redhat.com"
-	<javierm@redhat.com>, "maarten.lankhorst@linux.intel.com"
-	<maarten.lankhorst@linux.intel.com>, "mripard@kernel.org"
-	<mripard@kernel.org>, "airlied@gmail.com" <airlied@gmail.com>,
-	"daniel@ffwll.ch" <daniel@ffwll.ch>, "andrew@aj.id.au" <andrew@aj.id.au>,
-	"laurentiu.palcu@oss.nxp.com" <laurentiu.palcu@oss.nxp.com>,
-	"l.stach@pengutronix.de" <l.stach@pengutronix.de>, "shawnguo@kernel.org"
-	<shawnguo@kernel.org>, "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
-	"kernel@pengutronix.de" <kernel@pengutronix.de>, "festevam@gmail.com"
-	<festevam@gmail.com>, "linux-imx@nxp.com" <linux-imx@nxp.com>,
-	"p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "edmund.j.dea@intel.com"
-	<edmund.j.dea@intel.com>, "khilman@baylibre.com" <khilman@baylibre.com>,
-	"jbrunet@baylibre.com" <jbrunet@baylibre.com>,
-	"martin.blumenstingl@googlemail.com" <martin.blumenstingl@googlemail.com>,
-	"alain.volmat@foss.st.com" <alain.volmat@foss.st.com>,
-	"yannick.fertre@foss.st.com" <yannick.fertre@foss.st.com>,
-	"raphael.gallais-pou@foss.st.com" <raphael.gallais-pou@foss.st.com>,
-	"philippe.cornu@foss.st.com" <philippe.cornu@foss.st.com>,
-	"mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-	"alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
-	"jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, "samuel@sholland.org"
-	<samuel@sholland.org>, "jyri.sarha@iki.fi" <jyri.sarha@iki.fi>,
-	"tomba@kernel.org" <tomba@kernel.org>, "linus.walleij@linaro.org"
-	<linus.walleij@linaro.org>, "hyun.kwon@xilinx.com" <hyun.kwon@xilinx.com>,
-	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-amlogic@lists.infradead.org"
-	<linux-amlogic@lists.infradead.org>,
-	"linux-stm32@st-md-mailman.stormreply.com"
-	<linux-stm32@st-md-mailman.stormreply.com>, "linux-sunxi@lists.linux.dev"
-	<linux-sunxi@lists.linux.dev>
-Subject: RE: [PATCH 09/22] drm/kmb: Use GEM DMA fbdev emulation
-Thread-Topic: [PATCH 09/22] drm/kmb: Use GEM DMA fbdev emulation
-Thread-Index: AQHZTFLqT/G+20B44Uqk84Ghxzzz9q7uBlug
-Date: Mon, 6 Mar 2023 17:18:50 +0000
-Message-ID: <BY5PR11MB418232ED63F992E309C9B2D18CB69@BY5PR11MB4182.namprd11.prod.outlook.com>
-References: <20230301153101.4282-1-tzimmermann@suse.de>
- <20230301153101.4282-10-tzimmermann@suse.de>
-In-Reply-To: <20230301153101.4282-10-tzimmermann@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY5PR11MB4182:EE_|SJ0PR11MB5183:EE_
-x-ms-office365-filtering-correlation-id: a1ba9e34-b9fb-4384-4f6c-08db1e66da64
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: /wAAl0bLOGE4tnjJP7vV9qlwQ4PRzD5R4UfHGfWP8yWVOCYAJ1EnyOBOUirE1LeZWmGqupsvXstU/C7e07+eaaQkoICgJ9yYA8KNVPuCmFFPugRjBo1B+0ybom4C+hFgS2XawGYAnR1W2UI84vx2dQwqjYMYUXsRSzu5MTawoeeZGs5Yw28/KpjtsyUqV3n+8f6j6TyYm1m5qJnaCDe7xwUF3P0eejpQtiU0TvZq3VmXNBqTjb/UiyLodQhEpgv94ie6uMmDBQwVLTBHe4Kz8kBl3FoC5duB0OrReCOlmDWNoKpUuHCNsJtCGS63Ocr2j3vRsHfFL4f+jvKFr4rdmnywJBcKe8jzHHUvXmWZlP9bNL8FKEhT0fyI7llgLECOGBQcIwr3mJXi+I5VLOecIu2LMg3MzE5RhGTE+toIdfQYFaAOD2LcRb9OcDHvCc3R08h92+csdAUcObEzAOKlZcZenx6egdlrZyibJGMjFR7CVpKOVPVuHSpCQXjH1uPcH90/2ypgH+vrEKwFn+6WHGzBQ1zib+TebbD4fsmn0d7Ssm9I/HyT2fV5Nm6UrYHi7RnKKWmE6YO+vsu2Xj7cqRnrmo6H3MZb/4J89Wzm+ZCgMwyq6SFgnTy9GUZ2gXg/iVjk+5+T6vBGfvlwBsCIFZjjeJcEbsRziZW/SP2aZjtZjXX6YmcV9gm2WiHavEGZD6CyBEfm0Osd+jawQkcHC2lI/iWc1RE002RPtXPNBnE=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4182.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(396003)(39860400002)(366004)(346002)(376002)(136003)(451199018)(110136005)(54906003)(316002)(83380400001)(55016003)(33656002)(86362001)(9686003)(186003)(2906002)(5660300002)(66476007)(76116006)(66446008)(66556008)(8936002)(66946007)(41300700001)(8676002)(4326008)(53546011)(478600001)(6506007)(26005)(64756008)(71200400001)(7416002)(7406005)(82960400001)(7696005)(122000001)(52536014)(921005)(38100700002)(38070700005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Y32UWqM8B7yUopZAxelLTE1aSq9ZaEpn6byispHi6ZJ3pCsPf91FrD80pDiE?=
- =?us-ascii?Q?Lpkn0IbqRpCcN68Xzyewcze9GFuslxznvYNGZ+r1QALGrPtTSjDR5ZZPT9Vo?=
- =?us-ascii?Q?vDqAFqCG3WIuCznlR+g1JpvOqVe740HSfeId+8l6tX9U0sibz/2+ICeT5qzQ?=
- =?us-ascii?Q?Ga4vu0hx6qWlI8H4kXM8ejv4owRh93v6lbU1r661NU2gMhy8gcevC7ZbW7eY?=
- =?us-ascii?Q?dt7eSYLpfxlg+0TN8w6deimIcT5LrnCzaP0P5df/FPWthUky60XgmsPwaq1x?=
- =?us-ascii?Q?LIOU8WMHZcXq7YRokuo4sfNybGqPPKN4USXQD86/lDTUZ52dLQf6xHkPkymV?=
- =?us-ascii?Q?Ekt+xGA5XpKcszqyuwpLduOSyn9m/yMcNq0CRVi3lyEhna+6Zd6C+c1VgGGu?=
- =?us-ascii?Q?LzBl//h1NrtAFTG0TUydfxvRagMcuBtiu6nKE0XeI7859042psjNv17J5Rh6?=
- =?us-ascii?Q?QKDdzOvcAA4c/sNrQjIyDUM7N0HHwziB/CowT0E+3lMifEWAPIOQcEn774VA?=
- =?us-ascii?Q?ZOGvB8/Upn0W7rlvxI+ReGXYc8RxaOfWfByHnhfOV3E1FKQKE7QkAVv4APOQ?=
- =?us-ascii?Q?mxJDN6e7WomqD+oKUhY36BunH6GY2vgPYX/Oxq92jhySYt6xG5eKymPaIP2M?=
- =?us-ascii?Q?mwNAqW+HQPhd2FVS866LI0gF0pLE583HwIHEDPe/lguf1HVtiIgNYNPuoK/b?=
- =?us-ascii?Q?S3BFaJdlqqi40lxjyXNtoVr+BNT66DTfWlHhp/JtWze9L8gS7/w7fuTUc2Bf?=
- =?us-ascii?Q?2arklfYXvS2mPp4d1+qgNgkPQvJgc0MgbqBvXNi3u3z6xNRKusOZE6/NNWvF?=
- =?us-ascii?Q?tEAIUGxXBxyR7XCZQBoQn/i2FxZsj/qJFEQS3Z2d4BYMoPEo9qMkL/2RXFl4?=
- =?us-ascii?Q?WQIA0tsARA3FbB/VEFHbmFArIbTfyjPo79xTBoOlH8QtIMXJm1L+41lUDKRE?=
- =?us-ascii?Q?bNuBlpxKiUdmVoFb3s402YCCMxENITacxMW3xpLqfCBZuO1BLNb8nGXdmrPI?=
- =?us-ascii?Q?/n8T84plhoaemWUjeQfZZRPn1s7M56VzZgE1n+qLCO/SnIWXFGmT+gZTinmR?=
- =?us-ascii?Q?XQmWbqLXtXqDM4cmavBGDd7/JNAQCP60MZHZ1/EwPVnuB2pzPNSuxe26vu+y?=
- =?us-ascii?Q?9SrOZAHIptJka9jtT8H6wJNIW3c1+GizNKyRgVLWMUWkRT1ETC/Jbn1fQo7U?=
- =?us-ascii?Q?5MYJjR+ArrWhXej7WWCP/F5zZXLXSbeTq30Z5R278JM2BH8c854QJt5lJ5n+?=
- =?us-ascii?Q?mil7UjD2boCbJRiZDRfJa7wNdIXDqIC1uQzVGbaFxkCTmaMUsQhT/2vh7V9b?=
- =?us-ascii?Q?pFdytV2MtPzIzDMt9sdix95uxXLPKIigiJLmpxYDVfFi2sxXv+GGaY9XMfA8?=
- =?us-ascii?Q?fGeRiwu9Y+l10D3Xa5W/kBKgXwFJ5ERxtKuBEgavw/s2EVU9wJRuerCif7b2?=
- =?us-ascii?Q?fK1vhcy3/i6lL5VfFjTn05EQpNrKZePbbXxaSnjKe1198dNnYDxQBoe0jmyc?=
- =?us-ascii?Q?MV5nnIZWsGpTacxcQDGQexWtcQgRMVercGKZBZh0jN/T4ciZF+MK/0OIApY9?=
- =?us-ascii?Q?GJVr1/B5mivBA7LOGeQ1I9ZgobCRz0ixX7TAxwjpOurIBvaiH0Ojdmlf/YMg?=
- =?us-ascii?Q?gw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ 2023 17:22:00 +0000
+Received: from DM6NAM11FT037.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:8:2b:cafe::e0) by DS7PR03CA0321.outlook.office365.com
+ (2603:10b6:8:2b::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.28 via Frontend
+ Transport; Mon, 6 Mar 2023 17:22:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ DM6NAM11FT037.mail.protection.outlook.com (10.13.172.122) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6178.15 via Frontend Transport; Mon, 6 Mar 2023 17:21:59 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 6 Mar
+ 2023 11:21:59 -0600
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 6 Mar
+ 2023 11:21:58 -0600
+Received: from xhdsneeli40.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
+ Transport; Mon, 6 Mar 2023 11:21:31 -0600
+From: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+To: <broonie@kernel.org>, <miquel.raynal@bootlin.com>, <richard@nod.at>,
+	<vigneshr@ti.com>, <jic23@kernel.org>, <tudor.ambarus@microchip.com>,
+	<pratyush@kernel.org>, <Sanju.Mehta@amd.com>, <chin-ting_kuo@aspeedtech.com>,
+	<clg@kaod.org>, <kdasu.kdev@gmail.com>, <f.fainelli@gmail.com>,
+	<rjui@broadcom.com>, <sbranden@broadcom.com>, <eajames@linux.ibm.com>,
+	<olteanv@gmail.com>, <han.xu@nxp.com>, <john.garry@huawei.com>,
+	<shawnguo@kernel.org>, <s.hauer@pengutronix.de>, <narmstrong@baylibre.com>,
+	<khilman@baylibre.com>, <matthias.bgg@gmail.com>, <haibo.chen@nxp.com>,
+	<linus.walleij@linaro.org>, <daniel@zonque.org>, <haojian.zhuang@gmail.com>,
+	<robert.jarzmik@free.fr>, <agross@kernel.org>, <bjorn.andersson@linaro.org>,
+	<heiko@sntech.de>, <krzysztof.kozlowski@linaro.org>, <andi@etezian.org>,
+	<mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>, <wens@csie.org>,
+	<jernej.skrabec@gmail.com>, <samuel@sholland.org>,
+	<masahisa.kojima@linaro.org>, <jaswinder.singh@linaro.org>,
+	<rostedt@goodmis.org>, <mingo@redhat.com>, <l.stelmach@samsung.com>,
+	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <alex.aring@gmail.com>, <stefan@datenfreihafen.org>,
+	<kvalo@kernel.org>, <james.schulman@cirrus.com>, <david.rhodes@cirrus.com>,
+	<tanureal@opensource.cirrus.com>, <rf@opensource.cirrus.com>,
+	<perex@perex.cz>, <tiwai@suse.com>, <npiggin@gmail.com>,
+	<christophe.leroy@csgroup.eu>, <mpe@ellerman.id.au>, <oss@buserror.net>,
+	<windhl@126.com>, <yangyingliang@huawei.com>, <william.zhang@broadcom.com>,
+	<kursad.oney@broadcom.com>, <jonas.gorski@gmail.com>,
+	<anand.gore@broadcom.com>, <rafal@milecki.pl>
+CC: <git@amd.com>, <linux-spi@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
+	<radu_nicolae.pirea@upb.ro>, <nicolas.ferre@microchip.com>,
+	<alexandre.belloni@bootlin.com>, <claudiu.beznea@microchip.com>,
+	<bcm-kernel-feedback-list@broadcom.com>, <fancer.lancer@gmail.com>,
+	<kernel@pengutronix.de>, <festevam@gmail.com>, <linux-imx@nxp.com>,
+	<jbrunet@baylibre.com>, <martin.blumenstingl@googlemail.com>,
+	<avifishman70@gmail.com>, <tmaimon77@gmail.com>, <tali.perry1@gmail.com>,
+	<venture@google.com>, <yuenn@google.com>, <benjaminfair@google.com>,
+	<yogeshgaur.83@gmail.com>, <konrad.dybcio@somainline.org>,
+	<alim.akhtar@samsung.com>, <ldewangan@nvidia.com>,
+	<thierry.reding@gmail.com>, <jonathanh@nvidia.com>, <michal.simek@amd.com>,
+	<linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
+	<linux-arm-kernel@lists.infradead.org>,
+	<linux-rpi-kernel@lists.infradead.org>, <linux-amlogic@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
+	<linux-rockchip@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
+	<linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>,
+	<linux-tegra@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<linux-wpan@vger.kernel.org>, <libertas-dev@lists.infradead.org>,
+	<linux-wireless@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
+	<lars@metafoo.de>, <Michael.Hennerich@analog.com>,
+	<linux-iio@vger.kernel.org>, <michael@walle.cc>, <palmer@dabbelt.com>,
+	<linux-riscv@lists.infradead.org>, <alsa-devel@alsa-project.org>,
+	<patches@opensource.cirrus.com>, <linuxppc-dev@lists.ozlabs.org>,
+	<amitrkcian2002@gmail.com>, <amit.kumar-mahapatra@amd.com>
+Subject: [PATCH V5 00/15] spi: Add support for stacked/parallel memories
+Date: Mon, 6 Mar 2023 22:50:54 +0530
+Message-ID: <20230306172109.595464-1-amit.kumar-mahapatra@amd.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4182.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1ba9e34-b9fb-4384-4f6c-08db1e66da64
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Mar 2023 17:18:50.2092
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT037:EE_|MN2PR12MB4238:EE_
+X-MS-Office365-Filtering-Correlation-Id: 560d4183-aede-4c83-2c38-08db1e674b7c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	DmDpM5mG3V6XtD3zUXc3xq43Vu3NGgZN7YMettROOX1qgBVaqv/18CNLLz1CQXN41j5mFRQDslQTB24mUO0jSqBl3u3aOaJ2LXTmZNTV/1ekp/SnwVDlk7DO08VdzFKkqWS1VPT41IunenhMCMhoqRNIdPrYN35OI53yNdo2G3IbQMmgbpHwKC/UQS6dZaW6sJYPvJBUTz0ZJzRdG+CB+6mnzPHj2Sj/Z1OFvPloiT3MgyqHLKEGPR+V0SEyyrxJIpuLHVUQ4ZyZNDQ2AuJtMAEdN5wE9ch05wuu3Mz/eyF5y0xb1hLEMeOSZL50+SctavdwrWwv7yKQTC0UE5yVsKYyUopqJ20cVPn7oFylxx3crWItzMfMQMTcKtLXxlllfQkGVCFlN76Bqneylc08e96+YQHk72qQYLMW225PCy73iJTstdFGelyqkPMQUoyrrdGYBjUMWjv6LeWk4mwpsrftCZsa3R7V0Rp7KDPi4jeVx8n/bj941j0f+CcFEr9rv5ZrwPA7VVk1k0X100+SvT5bQ/qRApkuOy0Ml1UofmzDppMy5rsE+NmjiiCpTuzIAaEsyjrWaJjA2OVaTywAbwZZ1XaxJQH6bMFfJsE1MWu0LXEHciAfbRaqx5+bXBCqyYuze+Dc37XlTyE1W+T/ekgRH8mNQskxydJJ756FYFixUUxaiCDKoZGQaV2f/8OEPoQVv3uScRLZogoMQpiqEkhyOyxCGlViYywm7k0UENZtZYQR60jLnb+RS641cBL+vLhD/Ld1hoktTjthTrCmt1kuPT7r97YxAEtkvKUpGWm6cgjmoVwUaf7GALePolthowkZxs0fTsgKRwDwnFkmBax1aob5Z8HH5ovZUjI3dSheutZHFoCoRGYcYMZgwpMZ
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(396003)(136003)(376002)(346002)(451199018)(40470700004)(46966006)(36840700001)(1076003)(966005)(6666004)(36756003)(36860700001)(47076005)(426003)(82310400005)(83380400001)(921005)(40460700003)(86362001)(81166007)(40480700001)(356005)(82740400003)(1191002)(336012)(186003)(26005)(2616005)(41300700001)(70206006)(70586007)(8676002)(4326008)(2906002)(8936002)(7276002)(7336002)(7406005)(7416002)(5660300002)(7366002)(478600001)(316002)(54906003)(110136005)(41080700001)(84006005)(36900700001)(83996005)(2101003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2023 17:21:59.8388
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +leBX449Y6a3fBrjbgIpAOKIzEF4X6wS7tNiLwOAQ5tZ6U8MzwCAJ4B/k3U1z8rMBk0m4Eyl9HlAAcCf9OsukwNdBuYZrDN3cl4wbQVawY0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5183
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 560d4183-aede-4c83-2c38-08db1e674b7c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DM6NAM11FT037.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4238
 
-Acked-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+This patch is in the continuation to the discussions which happened on
+'commit f89504300e94 ("spi: Stacked/parallel memories bindings")' for
+adding dt-binding support for stacked/parallel memories.
 
-> -----Original Message-----
-> From: Thomas Zimmermann <tzimmermann@suse.de>
-> Sent: Wednesday, March 1, 2023 7:31 AM
-> To: javierm@redhat.com; maarten.lankhorst@linux.intel.com;
-> mripard@kernel.org; airlied@gmail.com; daniel@ffwll.ch; andrew@aj.id.au;
-> laurentiu.palcu@oss.nxp.com; l.stach@pengutronix.de;
-> shawnguo@kernel.org; s.hauer@pengutronix.de; kernel@pengutronix.de;
-> festevam@gmail.com; linux-imx@nxp.com; p.zabel@pengutronix.de;
-> Chrisanthus, Anitha <anitha.chrisanthus@intel.com>;
-> edmund.j.dea@intel.com; khilman@baylibre.com; jbrunet@baylibre.com;
-> martin.blumenstingl@googlemail.com; alain.volmat@foss.st.com;
-> yannick.fertre@foss.st.com; raphael.gallais-pou@foss.st.com;
-> philippe.cornu@foss.st.com; mcoquelin.stm32@gmail.com;
-> alexandre.torgue@foss.st.com; jernej.skrabec@gmail.com;
-> samuel@sholland.org; jyri.sarha@iki.fi; tomba@kernel.org;
-> linus.walleij@linaro.org; hyun.kwon@xilinx.com;
-> laurent.pinchart@ideasonboard.com
-> Cc: dri-devel@lists.freedesktop.org; linux-aspeed@lists.ozlabs.org; linux=
--arm-
-> kernel@lists.infradead.org; linux-amlogic@lists.infradead.org; linux-
-> stm32@st-md-mailman.stormreply.com; linux-sunxi@lists.linux.dev; Thomas
-> Zimmermann <tzimmermann@suse.de>
-> Subject: [PATCH 09/22] drm/kmb: Use GEM DMA fbdev emulation
->=20
-> Use the fbdev emulation that is optimized for DMA helpers. Avoids
-> possible shadow buffering and makes the code simpler.
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/kmb/kmb_drv.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/kmb/kmb_drv.c
-> b/drivers/gpu/drm/kmb/kmb_drv.c
-> index d29c678f6c91..24035b53441c 100644
-> --- a/drivers/gpu/drm/kmb/kmb_drv.c
-> +++ b/drivers/gpu/drm/kmb/kmb_drv.c
-> @@ -15,7 +15,7 @@
->=20
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_drv.h>
-> -#include <drm/drm_fbdev_generic.h>
-> +#include <drm/drm_fbdev_dma.h>
->  #include <drm/drm_gem_dma_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
->  #include <drm/drm_module.h>
-> @@ -562,7 +562,7 @@ static int kmb_probe(struct platform_device *pdev)
->  	if (ret)
->  		goto err_register;
->=20
-> -	drm_fbdev_generic_setup(&kmb->drm, 0);
-> +	drm_fbdev_dma_setup(&kmb->drm, 0);
->=20
->  	return 0;
->=20
-> --
-> 2.39.2
+This patch series updated the spi-nor, spi core and the spi drivers
+to add stacked and parallel memories support.
+
+The first patch
+https://lore.kernel.org/all/20230119185342.2093323-1-amit.kumar-mahapatra@amd.com/
+of the previous series got applied to
+https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+But the rest of the patches in the series did not get applied due to merge
+conflict, so send the remaining patches in the series after rebasing it
+on top of for-next branch.
+---
+BRANCH: for-next
+
+Changes in v5:
+- Rebased the patches on top of v6.3-rc1 and fixed the merge conflicts.
+- Fixed compilation warnings in spi-sh-msiof.c with shmobile_defconfig  
+
+Changes in v4:
+- Fixed build error in spi-pl022.c file - reported by Mark.
+- Fixed build error in spi-sn-f-ospi.c file.
+- Added Reviewed-by: Serge Semin <fancer.lancer@gmail.com> tag.
+- Added two more patches to replace spi->chip_select with API calls in
+  mpc832x_rdb.c & cs35l41_hda_spi.c files.
+
+Changes in v3:
+- Rebased the patches on top of
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+- Added a patch to convert spi_nor_otp_region_len(nor) &
+  spi_nor_otp_n_regions(nor) macros into inline functions
+- Added Reviewed-by & Acked-by tags
+
+Changes in v2:
+- Rebased the patches on top of v6.2-rc1
+- Created separate patch to add get & set APIs for spi->chip_select &
+  spi->cs_gpiod, and replaced all spi->chip_select and spi->cs_gpiod
+  references with the API calls.
+- Created separate patch to add get & set APIs for nor->params.
+---
+Amit Kumar Mahapatra (15):
+  spi: Replace all spi->chip_select and spi->cs_gpiod references with
+    function call
+  net: Replace all spi->chip_select and spi->cs_gpiod references with
+    function call
+  iio: imu: Replace all spi->chip_select and spi->cs_gpiod references
+    with function call
+  mtd: devices: Replace all spi->chip_select and spi->cs_gpiod
+    references with function call
+  staging: Replace all spi->chip_select and spi->cs_gpiod references
+    with function call
+  platform/x86: serial-multi-instantiate: Replace all spi->chip_select
+    and spi->cs_gpiod references with function call
+  powerpc/83xx/mpc832x_rdb: Replace all spi->chip_select references with
+    function call
+  ALSA: hda: cs35l41: Replace all spi->chip_select references with
+    function call
+  spi: Add stacked and parallel memories support in SPI core
+  mtd: spi-nor: Convert macros with inline functions
+  mtd: spi-nor: Add APIs to set/get nor->params
+  mtd: spi-nor: Add stacked memories support in spi-nor
+  spi: spi-zynqmp-gqspi: Add stacked memories support in GQSPI driver
+  mtd: spi-nor: Add parallel memories support in spi-nor
+  spi: spi-zynqmp-gqspi: Add parallel memories support in GQSPI driver
+
+ arch/powerpc/platforms/83xx/mpc832x_rdb.c     |   2 +-
+ drivers/iio/imu/adis16400.c                   |   2 +-
+ drivers/mtd/devices/mtd_dataflash.c           |   2 +-
+ drivers/mtd/spi-nor/atmel.c                   |  17 +-
+ drivers/mtd/spi-nor/core.c                    | 665 +++++++++++++++---
+ drivers/mtd/spi-nor/core.h                    |   8 +
+ drivers/mtd/spi-nor/debugfs.c                 |   4 +-
+ drivers/mtd/spi-nor/gigadevice.c              |   4 +-
+ drivers/mtd/spi-nor/issi.c                    |  11 +-
+ drivers/mtd/spi-nor/macronix.c                |   6 +-
+ drivers/mtd/spi-nor/micron-st.c               |  39 +-
+ drivers/mtd/spi-nor/otp.c                     |  48 +-
+ drivers/mtd/spi-nor/sfdp.c                    |  29 +-
+ drivers/mtd/spi-nor/spansion.c                |  50 +-
+ drivers/mtd/spi-nor/sst.c                     |   7 +-
+ drivers/mtd/spi-nor/swp.c                     |  22 +-
+ drivers/mtd/spi-nor/winbond.c                 |  10 +-
+ drivers/mtd/spi-nor/xilinx.c                  |  18 +-
+ drivers/net/ethernet/adi/adin1110.c           |   2 +-
+ drivers/net/ethernet/asix/ax88796c_main.c     |   2 +-
+ drivers/net/ethernet/davicom/dm9051.c         |   2 +-
+ drivers/net/ethernet/qualcomm/qca_debug.c     |   2 +-
+ drivers/net/ieee802154/ca8210.c               |   2 +-
+ drivers/net/wan/slic_ds26522.c                |   2 +-
+ .../net/wireless/marvell/libertas/if_spi.c    |   2 +-
+ drivers/net/wireless/silabs/wfx/bus_spi.c     |   2 +-
+ drivers/net/wireless/st/cw1200/cw1200_spi.c   |   2 +-
+ .../platform/x86/serial-multi-instantiate.c   |   3 +-
+ drivers/spi/spi-altera-core.c                 |   2 +-
+ drivers/spi/spi-amd.c                         |   4 +-
+ drivers/spi/spi-ar934x.c                      |   2 +-
+ drivers/spi/spi-armada-3700.c                 |   4 +-
+ drivers/spi/spi-aspeed-smc.c                  |  13 +-
+ drivers/spi/spi-at91-usart.c                  |   2 +-
+ drivers/spi/spi-ath79.c                       |   4 +-
+ drivers/spi/spi-atmel.c                       |  26 +-
+ drivers/spi/spi-au1550.c                      |   4 +-
+ drivers/spi/spi-axi-spi-engine.c              |   2 +-
+ drivers/spi/spi-bcm-qspi.c                    |  10 +-
+ drivers/spi/spi-bcm2835.c                     |  19 +-
+ drivers/spi/spi-bcm2835aux.c                  |   4 +-
+ drivers/spi/spi-bcm63xx-hsspi.c               |  30 +-
+ drivers/spi/spi-bcm63xx.c                     |   2 +-
+ drivers/spi/spi-bcmbca-hsspi.c                |  30 +-
+ drivers/spi/spi-cadence-quadspi.c             |   5 +-
+ drivers/spi/spi-cadence-xspi.c                |   4 +-
+ drivers/spi/spi-cadence.c                     |   4 +-
+ drivers/spi/spi-cavium.c                      |   8 +-
+ drivers/spi/spi-coldfire-qspi.c               |   8 +-
+ drivers/spi/spi-davinci.c                     |  18 +-
+ drivers/spi/spi-dln2.c                        |   6 +-
+ drivers/spi/spi-dw-core.c                     |   2 +-
+ drivers/spi/spi-dw-mmio.c                     |   4 +-
+ drivers/spi/spi-falcon.c                      |   2 +-
+ drivers/spi/spi-fsi.c                         |   2 +-
+ drivers/spi/spi-fsl-dspi.c                    |  16 +-
+ drivers/spi/spi-fsl-espi.c                    |   6 +-
+ drivers/spi/spi-fsl-lpspi.c                   |   2 +-
+ drivers/spi/spi-fsl-qspi.c                    |   6 +-
+ drivers/spi/spi-fsl-spi.c                     |   2 +-
+ drivers/spi/spi-geni-qcom.c                   |   6 +-
+ drivers/spi/spi-gpio.c                        |   4 +-
+ drivers/spi/spi-gxp.c                         |   4 +-
+ drivers/spi/spi-hisi-sfc-v3xx.c               |   2 +-
+ drivers/spi/spi-img-spfi.c                    |  14 +-
+ drivers/spi/spi-imx.c                         |  30 +-
+ drivers/spi/spi-ingenic.c                     |   4 +-
+ drivers/spi/spi-intel.c                       |   2 +-
+ drivers/spi/spi-jcore.c                       |   4 +-
+ drivers/spi/spi-lantiq-ssc.c                  |   6 +-
+ drivers/spi/spi-mem.c                         |   4 +-
+ drivers/spi/spi-meson-spicc.c                 |   2 +-
+ drivers/spi/spi-microchip-core.c              |   6 +-
+ drivers/spi/spi-mpc512x-psc.c                 |   8 +-
+ drivers/spi/spi-mpc52xx.c                     |   2 +-
+ drivers/spi/spi-mt65xx.c                      |   6 +-
+ drivers/spi/spi-mt7621.c                      |   2 +-
+ drivers/spi/spi-mux.c                         |   8 +-
+ drivers/spi/spi-mxic.c                        |  10 +-
+ drivers/spi/spi-mxs.c                         |   2 +-
+ drivers/spi/spi-npcm-fiu.c                    |  20 +-
+ drivers/spi/spi-nxp-fspi.c                    |  10 +-
+ drivers/spi/spi-omap-100k.c                   |   2 +-
+ drivers/spi/spi-omap-uwire.c                  |   8 +-
+ drivers/spi/spi-omap2-mcspi.c                 |  24 +-
+ drivers/spi/spi-orion.c                       |   4 +-
+ drivers/spi/spi-pci1xxxx.c                    |   4 +-
+ drivers/spi/spi-pic32-sqi.c                   |   2 +-
+ drivers/spi/spi-pic32.c                       |   4 +-
+ drivers/spi/spi-pl022.c                       |   4 +-
+ drivers/spi/spi-pxa2xx.c                      |   6 +-
+ drivers/spi/spi-qcom-qspi.c                   |   2 +-
+ drivers/spi/spi-rb4xx.c                       |   2 +-
+ drivers/spi/spi-rockchip-sfc.c                |   2 +-
+ drivers/spi/spi-rockchip.c                    |  26 +-
+ drivers/spi/spi-rspi.c                        |  10 +-
+ drivers/spi/spi-s3c64xx.c                     |   2 +-
+ drivers/spi/spi-sc18is602.c                   |   4 +-
+ drivers/spi/spi-sh-msiof.c                    |   6 +-
+ drivers/spi/spi-sh-sci.c                      |   2 +-
+ drivers/spi/spi-sifive.c                      |   6 +-
+ drivers/spi/spi-sn-f-ospi.c                   |   2 +-
+ drivers/spi/spi-st-ssc4.c                     |   2 +-
+ drivers/spi/spi-stm32-qspi.c                  |  12 +-
+ drivers/spi/spi-sun4i.c                       |   2 +-
+ drivers/spi/spi-sun6i.c                       |   2 +-
+ drivers/spi/spi-synquacer.c                   |   6 +-
+ drivers/spi/spi-tegra114.c                    |  28 +-
+ drivers/spi/spi-tegra20-sflash.c              |   2 +-
+ drivers/spi/spi-tegra20-slink.c               |   6 +-
+ drivers/spi/spi-tegra210-quad.c               |   8 +-
+ drivers/spi/spi-ti-qspi.c                     |  16 +-
+ drivers/spi/spi-topcliff-pch.c                |   4 +-
+ drivers/spi/spi-wpcm-fiu.c                    |  12 +-
+ drivers/spi/spi-xcomm.c                       |   2 +-
+ drivers/spi/spi-xilinx.c                      |   6 +-
+ drivers/spi/spi-xlp.c                         |   4 +-
+ drivers/spi/spi-zynq-qspi.c                   |   2 +-
+ drivers/spi/spi-zynqmp-gqspi.c                |  58 +-
+ drivers/spi/spi.c                             | 213 ++++--
+ drivers/spi/spidev.c                          |   6 +-
+ drivers/staging/fbtft/fbtft-core.c            |   2 +-
+ drivers/staging/greybus/spilib.c              |   2 +-
+ include/linux/mtd/spi-nor.h                   |  18 +-
+ include/linux/spi/spi.h                       |  34 +-
+ include/trace/events/spi.h                    |  10 +-
+ sound/pci/hda/cs35l41_hda_spi.c               |   2 +-
+ 127 files changed, 1342 insertions(+), 613 deletions(-)
+
+-- 
+2.25.1
 
