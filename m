@@ -1,56 +1,55 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF6710790
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 Mar 2023 20:56:40 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id y10so8911590pfi.8
-        for <linux-sunxi@lists.linux.dev>; Tue, 07 Mar 2023 12:56:40 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2607910790
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 Mar 2023 20:59:36 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id h8so15480476plf.10
+        for <linux-sunxi@lists.linux.dev>; Tue, 07 Mar 2023 12:59:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20210112.gappssmtp.com; s=20210112; t=1678222600;
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112; t=1678222775;
         h=content-transfer-encoding:mime-version:message-id:to:from:cc
          :in-reply-to:subject:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+hUNTaLzZDvNotIxhn6MyoQhiZFZ3+VH2QjfGOxPnRw=;
-        b=h5Djc3etli6VJDb5WfFqu+J2bU6QolErLBRchPWvNYlgFyKIigoOvNjEGzW8hoT5Mq
-         DdYOTKaPB7qSQClyzh6t+sVx1I0WsyUYarEgpsb+HNQITvkwMCULmQQBkMbuyMq09vMb
-         Q6fxuwvliWWw0DzSeWKxjYIgwrUV+0CJ5zDDKvxZd0QfZj8/QvvIb8Y5XHIsA5oG/qXN
-         3OIvXRMIKo4DmsxaSyKZ6AnP+vkS6Lq5bQDneP7NxLZmgdS7WvjKwJfh5KRTH6vECpVC
-         InIae/TEHa7FK/32zXKvk0aTVnyenJeh7k/NX1nbl8/15yECB4yE0MbJ/nUaiNPjaWlO
-         GmbA==
+        bh=W6atF6I2q0Ii8LJH3Gz8PsiaDUZKWNvxsL7EGNgfsZ8=;
+        b=17PlGSKbkKuIupnjF7zLginu7kJrESk+P/cZNJX3rRw0zF5jTVklMTT4oR5QGRJVM7
+         td0ySlYq+69ZpSgNbAzR6FlBEXGLj2Nis9SADR+8/t3oWYFVdd1c8s8Eyy+n25AsiJOt
+         CiC+MRleb+/J3bbZRtBB3/bmGXFd/un/5H3hKP1sq+a2g1SiQrHa54iR/iizzfYy75st
+         ZSCa1KDT9CGoTh5cv/Lswq88zQ3lR9cBRvLTJhT5+JJq/gsHU8khfZp8LLNGcTMCMeQl
+         g0KFdVBvW8oyUCRSU+kvddY3z0TLf28jI0RrkaJcNvizuIkpYAEfriNVf7GtZNbClPEv
+         WPNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678222600;
+        d=1e100.net; s=20210112; t=1678222775;
         h=content-transfer-encoding:mime-version:message-id:to:from:cc
          :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+hUNTaLzZDvNotIxhn6MyoQhiZFZ3+VH2QjfGOxPnRw=;
-        b=fs1pbtGDjQyY5inu/y/wFRQEo422rom/aAlg1Q/gRyNyaP+ohIHNxAyN6/hGUjVOa2
-         rCGrozaxeR59XtySR25xl73TAMOTwM1ORMDyUrbuPbtXFq+jgSO1EFTzuzdBqBBqmfMZ
-         6qdz4M0cyVDgNMmZ/yj5lk3QWsF4gb56BgKBcOQxeJQ4CE8femxDll7si9MvdrzZGxFj
-         qxukjdymsrRCtpID2x5lZ3i/+IJ70aZkY5ZCrxzHLnBHnuSLQreVj8q5HObkM1jUrjph
-         CsGGOqpv8BgDw/qTxRiDmgmsmZHIYgVQNt3h46ufqyy9vqdibI7eRBWlsXBunJFqVndH
-         B1sQ==
-X-Gm-Message-State: AO0yUKXrvrYV5i1Ao/aweRWi883UH9/Fxu2FhvhHocNsvJR0LN3Ntnb1
-	GTkkU0/VYAFfEj8WjaZtgfKsxg==
-X-Google-Smtp-Source: AK7set8aj9SpSp3tb9b2XdQj4tmRkNceu/cxunxMGoS5gBVk6iL/KAt4T5ZqaeDF7AdwY3g5oAGtIQ==
-X-Received: by 2002:aa7:9af5:0:b0:5aa:4df7:7eef with SMTP id y21-20020aa79af5000000b005aa4df77eefmr15492706pfp.6.1678222599563;
-        Tue, 07 Mar 2023 12:56:39 -0800 (PST)
+        bh=W6atF6I2q0Ii8LJH3Gz8PsiaDUZKWNvxsL7EGNgfsZ8=;
+        b=RiDf24l73HV5P6ODHbVG4UhWtKP9WhR9KfZuVgZavAWA7+Kv7ac2sc3Lzjy52M18st
+         AYU9+Wv45Uejvg6xsP8yb8mGzvdMGIVD+z/8Jdtat6iYOsAqYowrOqBC9xE1GAM/xGVp
+         CQUSgAyEHUmQAau1ni8D01/+YXfgLP90pu+Ca+DxDzF6WXYSnRc2ADHO1GJlUc2/IXej
+         mlUpa/stg4JsX/sxmdR66VAcfDaljxLVsVD0bTXbYI8Ndn4kXmuHNFyrXTmcG9IdowHG
+         Js3lG9eaWxaGJmppXRKxAfVauIZwRnQN4OPK5RVRJS7kw/EOy9TG2oC/ex/ZHSBmBaLJ
+         FYMw==
+X-Gm-Message-State: AO0yUKWEB7m01a9oVj+ujh+BqN//kx927ygXJJBVOKkpyBU6LJidP4Ux
+	2HJQRjwMYh99LJ3nDvxRmTBCSw==
+X-Google-Smtp-Source: AK7set8gIjw0BxRnruPT5teFvlmXm/ZFQq6QpH299KEvyKIMUvG5/5R6imaZgBOnNpMXCYoLV8qPeA==
+X-Received: by 2002:a17:902:c94e:b0:19a:ae30:3a42 with SMTP id i14-20020a170902c94e00b0019aae303a42mr17281637pla.21.1678222775335;
+        Tue, 07 Mar 2023 12:59:35 -0800 (PST)
 Received: from localhost ([50.221.140.188])
-        by smtp.gmail.com with ESMTPSA id m21-20020aa78a15000000b00571cdbd0771sm8343415pfa.102.2023.03.07.12.56.38
+        by smtp.gmail.com with ESMTPSA id ke15-20020a170903340f00b0019aaba5c90bsm8828902plb.84.2023.03.07.12.59.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Mar 2023 12:56:39 -0800 (PST)
-Date: Tue, 07 Mar 2023 12:56:39 -0800 (PST)
-X-Google-Original-Date: Tue, 07 Mar 2023 12:55:49 PST (-0800)
-Subject:     Re: [RESEND PATCH v7 0/5] leds: Allwinner A100 LED controller support
-In-Reply-To: <20221231235541.13568-1-samuel@sholland.org>
-CC: lee@kernel.org, pavel@ucw.cz, linux-leds@vger.kernel.org, wens@csie.org,
-  jernej.skrabec@gmail.com, samuel@sholland.org, aou@eecs.berkeley.edu, Conor Dooley <conor@kernel.org>,
-  guoren@kernel.org, heiko.stuebner@vrull.eu, heiko@sntech.de, jszhang@kernel.org,
-  krzysztof.kozlowski+dt@linaro.org, Paul Walmsley <paul.walmsley@sifive.com>, p.zabel@pengutronix.de,
-  robh+dt@kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-  linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev
+        Tue, 07 Mar 2023 12:59:34 -0800 (PST)
+Date: Tue, 07 Mar 2023 12:59:34 -0800 (PST)
+X-Google-Original-Date: Tue, 07 Mar 2023 12:58:37 PST (-0800)
+Subject:     Re: [PATCH 1/4] dts: add riscv include prefix link
+In-Reply-To: <20230106010155.26868-2-andre.przywara@arm.com>
+CC: samuel@sholland.org, jernej.skrabec@gmail.com, wens@csie.org, robh+dt@kernel.org,
+  krzysztof.kozlowski+dt@linaro.org, uwu@icenowy.me, szemzo.andras@gmail.com, fabien.poussin@gmail.com,
+  Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu, linux-arm-kernel@lists.infradead.org,
+  devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org,
+  linux-kernel@vger.kernel.org, frowand.list@gmail.com
 From: Palmer Dabbelt <palmer@dabbelt.com>
-To: samuel@sholland.org
-Message-ID: <mhng-93c6925c-9c65-40dc-ac0a-221dbdbbc492@palmer-ri-x1c9a>
+To: andre.przywara@arm.com
+Message-ID: <mhng-6efe8a4c-7234-4324-8861-b4f1ff028ec2@palmer-ri-x1c9a>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,74 +59,26 @@ Mime-Version: 1.0 (MHng)
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On Sat, 31 Dec 2022 15:55:35 PST (-0800), samuel@sholland.org wrote:
-> [Resending because it has been a couple of months since v7 with no LED
-> maintainer feedback, and LEDs now have an additional maintainer.]
+On Thu, 05 Jan 2023 17:01:52 PST (-0800), andre.przywara@arm.com wrote:
+> The Allwinner D1/D1s SoCs (with a RISC-V core) use an (almost?) identical
+> die as their R528/T113-s siblings with ARM Cortex-A7 cores.
 >
-> This series adds bindings and a driver for the RGB LED controller found
-> in some Allwinner SoCs, starting with A100. The hardware in the R329 and
-> D1 SoCs appears to be identical.
+> To allow sharing the basic SoC .dtsi files across those two
+> architectures as well, introduce a symlink to the RISC-V DT directory.
 >
-> Patches 4-5 depend on the D1 devicetree series[1], but the rest of this
-> series can/should be merged without them.
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  scripts/dtc/include-prefixes/riscv | 1 +
+>  1 file changed, 1 insertion(+)
+>  create mode 120000 scripts/dtc/include-prefixes/riscv
 >
-> This driver was tested on the D1 Nezha board.
->
-> [1]: https://lore.kernel.org/lkml/20221231233851.24923-1-samuel@sholland.org/
->
-> Changes in v7:
->  - Use DEFINE_SIMPLE_DEV_PM_OPS
->
-> Changes in v6:
->  - Drop the A100 DMA controller DT node patch, which was merged via a
->    different series
->
-> Changes in v5:
->  - A100 contains the original implementation, so use that as the base
->    compatible string, and rename the binding to match
->  - Add "unevaluatedProperties: false" to the child multi-led binding
->  - Rename the driver R329 -> A100, since that is the actual original
->    implementation
->
-> Changes in v4:
->  - Use "default" instead of "maxItems" for timing properties
->  - Depend on LEDS_CLASS_MULTICOLOR
->
-> Changes in v3:
->  - Removed quotes from enumeration values
->  - Added vendor prefix to timing/format properties
->  - Renamed "format" property to "pixel-format" for clarity
->  - Dropped "vled-supply" as it is unrelated to the controller hardware
->  - Added vendor prefix to timing/format properties
->  - Renamed "format" property to "pixel-format" for clarity
->  - Dropped "vled-supply" as it is unrelated to the controller hardware
->  - Changed "writesl" to "iowrite32_rep" so the driver builds on hppa
->
-> Changes in v2:
->  - Fixed typo leading to duplicate t1h-ns property
->  - Removed "items" layer in definition of dmas/dma-names
->  - Replaced uint32 type reference with maxItems in timing properties
->  - Renamed from sunxi-ledc to sun50i-r329-ledc
->  - Added missing "static" to functions/globals as reported by 0day bot
->
-> Samuel Holland (5):
->   dt-bindings: leds: Add Allwinner A100 LED controller
->   leds: sun50i-a100: New driver for the A100 LED controller
->   arm64: dts: allwinner: a100: Add LED controller node
->   riscv: dts: allwinner: d1: Add LED controller node
->   riscv: dts: allwinner: d1: Add RGB LEDs to boards
->
->  .../leds/allwinner,sun50i-a100-ledc.yaml      | 139 +++++
->  .../arm64/boot/dts/allwinner/sun50i-a100.dtsi |  14 +
->  .../allwinner/sun20i-d1-lichee-rv-dock.dts    |  12 +
->  .../boot/dts/allwinner/sun20i-d1-nezha.dts    |  13 +
->  arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi  |   6 +
->  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  15 +
->  drivers/leds/Kconfig                          |   9 +
->  drivers/leds/Makefile                         |   1 +
->  drivers/leds/leds-sun50i-a100.c               | 555 ++++++++++++++++++
->  9 files changed, 764 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/allwinner,sun50i-a100-ledc.yaml
->  create mode 100644 drivers/leds/leds-sun50i-a100.c
+> diff --git a/scripts/dtc/include-prefixes/riscv b/scripts/dtc/include-prefixes/riscv
+> new file mode 120000
+> index 0000000000000..2025094189380
+> --- /dev/null
+> +++ b/scripts/dtc/include-prefixes/riscv
+> @@ -0,0 +1 @@
+> +../../../arch/riscv/boot/dts
+> \ No newline at end of file
 
 Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
