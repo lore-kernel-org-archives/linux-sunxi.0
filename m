@@ -1,105 +1,89 @@
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880CD321D
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 Mar 2023 14:43:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=Subject:Cc:To:Message-ID:From:Content-Transfer-Encoding:
-	Content-Type:Date:MIME-Version:Sender:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=5DMLJzQKqdF6oeNoZF8t9+eClq9ynzLjSSrN4tmUXPA=; b=BXjkskeT2aCDjWBkFBi1gJSE0o
-	KxttfCw6RT9DA1gOSi4J8shGJu4zeme59ibiNNsvkb2rcdRzl+RzXgjtRJUQHlpW9ES6pOJXlcMkQ
-	1YUunvfpuepMFk47fKFBEH+mHsl/MVkWXlkZMKwvtMZzfk5wOgCVTk5Dy+lPayv9jc9+Cq1I4kveh
-	sRcaJZ6kguPGCQxRbtimP/mOXWCLp6qzl6IBCYsIw0WnrMvQuWcqIHof8zj4Mvy/2HNbKpmJr3vt2
-	GfvjpvMMFUnBZZSI07Rxijc/DJ7u8UP3CCDrVyYwjMBmB67yAbqwP2ef5iI8eloeedS7kNS9dDn/k
-	F60VybOw==;
-Received: from [2001:67c:1be8::200] (helo=rainloop.kapsi.fi)
-	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <sarha@kapsi.fi>)
-	id 1pZXxt-005UaU-Pn; Tue, 07 Mar 2023 16:06:54 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5E0AD49
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 Mar 2023 15:30:09 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.west.internal (Postfix) with ESMTP id A97B92B071D6;
+	Tue,  7 Mar 2023 10:30:06 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 07 Mar 2023 10:30:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to; s=fm2; t=
+	1678203006; x=1678210206; bh=MRcKO6pD8Tc+Ex6F7GSZYpROWLf8RaYsLIo
+	/Rd7Ddn4=; b=VLeRC4RRakZxwsCBaCfdbEijLT5NIOhOjuKdOzlcSq3CeFWt4hc
+	/Y+yUgKmGxQrqD5b+JJ+/zTP4DLh8zxL6Us0kLorJNzpAcIgp3ukw3Vwnrxvn8Xg
+	QA70bbfC6dpk4J9qR+Oi0u9zs9M2rzYaeKG0+cf/eftU7uCv1i1TpXo6XN8gMGMs
+	4WzKUbffHBIoQ+IyGF1RoyS5Z49Uc1OEQSHJxaVhQVDrK7QGyMIxLnVkerji1U85
+	eLXwfby8p5dq8XCvolTNuRLC0ydlfViVQxCssi0uYA723yaidQ/75hSL03TBfFYk
+	79HiHX1dPSFUbVKqRMgWgekjGdpB6aIVaWQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1678203006; x=1678210206; bh=MRcKO6pD8Tc+Ex6F7GSZYpROWLf8RaYsLIo
+	/Rd7Ddn4=; b=MoUg8SUoJjhWmcJyn+qEZoysvXzlay61F4eG+nuZE+hjqrqO1tN
+	Ab4lEqRtCC+CEK37DGEq3QlITo7QxZLy1Lka47OlacwD2XLgbKOkVmeYl7NnRh0x
+	jL5XcbMRHYiv4QAgzGs2gLAWrJvaKMrJB8qEhfqp+LxSwThSVoiJjtUtm17IQQ0e
+	xZBZ84FNPz1t7Cu90PkGaWa/hdqaoWAuFulDN2Azvf9KoO++tmiQ2cRC/MGfvBhk
+	Unvscwx0T6jTLWfCrvCxlUodrnQ/sUQE7azvK2djNaaJviFM3u6dU6ddpAAnGSr7
+	y9SsWikCWucWNUoQCQH+439jqpgToKEMGPw==
+X-ME-Sender: <xms:fVgHZC6ag0xA6TP6Yz4rYMVqHyyq9mpPjQTJRyCTpQ7Smv8kXiiDoA>
+    <xme:fVgHZL4V7B4H6jCYhacSk73BFS6UpgZzIkLt3IV5rci8TRPIzygjUZng1tCXVJcGE
+    t1uwQi6UzMaCOiR_4o>
+X-ME-Received: <xmr:fVgHZBdOlgx0ZsE0G8N5FkrfWFawCHrc4AyTw6pXG30FWjny7NqeLcVbHuutUJ8PaB-oTaTpY9qdy6fOXuWPo712xhQjti0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddutddgjeduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvegjfhfukfffgggtgffosehtjeertdertdejnecuhfhrohhmpeforgig
+    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+    grthhtvghrnhepleeifffgvdetjeejueejieehuedvteeigeehtefhhfeifeegleekudek
+    teegueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:fVgHZPJVP5ryypiRBzeseFg74QqhrObdWuXlWGsKt4RYsjf__-0Ajw>
+    <xmx:fVgHZGLIiucFzjFD66_RMAJ2zX5CDho8p_HyTkMOGhB1j7nxQAF1xA>
+    <xmx:fVgHZAz6XX3yaGDasZaVrlkgOgcFNBiDKnALVFEgqdDwMwhv9HyGYg>
+    <xmx:flgHZL4HCc8QZ-_C5ww9Am64rj9EehJZMHrG9hdusoO5TCLd8VCGPZ6UcQk>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 7 Mar 2023 10:30:04 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Johan Hovold <johan+linaro@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Boris Brezillon <bbrezillon@kernel.org>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+In-Reply-To: <20230306103242.4775-1-johan+linaro@kernel.org>
+References: <20230306103242.4775-1-johan+linaro@kernel.org>
+Subject: Re: (subset) [PATCH] drm/sun4i: fix missing component unbind on
+ bind errors
+Message-Id: <167820298545.105326.9045991101528563547.b4-ty@cerno.tech>
+Date: Tue, 07 Mar 2023 16:29:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Tue, 07 Mar 2023 14:06:52 +0000
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-From: sarha@kapsi.fi
-Message-ID: <25a439e6a6d58701e5a73b33ed0d7a4a0d9a68e2@kapsi.fi>
-To: "Thomas Zimmermann" <tzimmermann@suse.de>, javierm@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, andrew@aj.id.au, laurentiu.palcu@oss.nxp.com,
- l.stach@pengutronix.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
- p.zabel@pengutronix.de, anitha.chrisanthus@intel.com,
- edmund.j.dea@intel.com, khilman@baylibre.com, jbrunet@baylibre.com,
- martin.blumenstingl@googlemail.com, alain.volmat@foss.st.com,
- yannick.fertre@foss.st.com, raphael.gallais-pou@foss.st.com,
- philippe.cornu@foss.st.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, jernej.skrabec@gmail.com,
- samuel@sholland.org, jyri.sarha@iki.fi, tomba@kernel.org,
- linus.walleij@linaro.org, hyun.kwon@xilinx.com,
- laurent.pinchart@ideasonboard.com
-Cc: dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
-X-SA-Exim-Connect-IP: 2001:67c:1be8::200
-X-SA-Exim-Mail-From: sarha@kapsi.fi
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on mail
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=no autolearn_force=no version=3.4.6
-Subject: Re: [PATCH 18/22] drm/tilcdc: Use GEM DMA fbdev emulation
-X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
-X-SA-Exim-Scanned: Yes (on mail.kapsi.fi)
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.1
 
-March 1, 2023 at 5:30 PM, "Thomas Zimmermann" <tzimmermann@suse.de mailto=
-:tzimmermann@suse.de?to=3D%22Thomas%20Zimmermann%22%20%3Ctzimmermann%40su=
-se.de%3E > wrote:
+On Mon, 06 Mar 2023 11:32:42 +0100, Johan Hovold wrote:
+> Make sure to unbind all subcomponents when binding the aggregate device
+> fails.
+> 
+> 
 
->=20
->=20Use the fbdev emulation that is optimized for DMA helpers. Avoids
-> possible shadow buffering and makes the code simpler.
->=20
->=20Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->=20
+Applied to drm/drm-misc (drm-misc-fixes).
 
-Acked-by:=20Jyri Sarha <jyri.s
+Thanks!
+Maxime
 
->=20
->=20---
-> drivers/gpu/drm/tilcdc/tilcdc_drv.c | 4 ++--
-> 1 file changed, 2 insertions(+), 2 deletions(-)
->=20
->=20diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/ti=
-lcdc/tilcdc_drv.c
-> index 4ca426007dc8..fe56beea3e93 100644
-> --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> @@ -16,7 +16,7 @@
-> #include <drm/drm_atomic_helper.h>
-> #include <drm/drm_debugfs.h>
-> #include <drm/drm_drv.h>
-> -#include <drm/drm_fbdev_generic.h>
-> +#include <drm/drm_fbdev_dma.h>
-> #include <drm/drm_fourcc.h>
-> #include <drm/drm_gem_dma_helper.h>
-> #include <drm/drm_gem_framebuffer_helper.h>
-> @@ -384,7 +384,7 @@ static int tilcdc_init(const struct drm_driver *ddr=
-v, struct device *dev)
-> goto init_failed;
-> priv->is_registered =3D true;
->=20
->=20- drm_fbdev_generic_setup(ddev, bpp);
-> + drm_fbdev_dma_setup(ddev, bpp);
-> return 0;
->=20
->=20init_failed:
-> --=20
->=202.39.2
->
