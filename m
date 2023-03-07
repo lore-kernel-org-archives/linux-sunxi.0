@@ -1,166 +1,99 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DCABA44
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 Mar 2023 17:46:59 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pZbOi-0001A8-23; Tue, 07 Mar 2023 18:46:48 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pZbOJ-002XP1-FG; Tue, 07 Mar 2023 18:46:23 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pZbOI-0034GD-GY; Tue, 07 Mar 2023 18:46:22 +0100
-Date: Tue, 7 Mar 2023 18:46:22 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Kursad Oney <kursad.oney@broadcom.com>,
-	Tomer Maimon <tmaimon77@gmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-	linux-stm32@st-md-mailman.stormreply.com,
-	Heiko Stuebner <heiko@sntech.de>, linux-samsung-soc@vger.kernel.org,
-	Samuel Holland <samuel@sholland.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Michal Simek <michal.simek@xilinx.com>,
-	Haibo Chen <haibo.chen@nxp.com>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	NXP Linux Team <linux-imx@nxp.com>, linux-sunxi@lists.linux.dev,
-	Anand Gore <anand.gore@broadcom.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Scott Branden <sbranden@broadcom.com>,
-	Andrew Jeffery <andrew@aj.id.au>, linux-spi@vger.kernel.org,
-	Yogesh Gaur <yogeshgaur.83@gmail.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Jonas Gorski <jonas.gorski@gmail.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	linux-rockchip@lists.infradead.org,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Jerome Brunet <jbrunet@baylibre.com>, linux-xtensa@linux-xtensa.org,
-	Andi Shyti <andi@etezian.org>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-arm-msm@vger.kernel.org,
-	Radu Pirea <radu_nicolae.pirea@upb.ro>,
-	Jay Fang <f.fangjian@huawei.com>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Jassi Brar <jaswinder.singh@linaro.org>,
-	=?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-	Masahisa Kojima <masahisa.kojima@linaro.org>,
-	Fabio Estevam <festevam@gmail.com>, linux-aspeed@lists.ozlabs.org,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Benjamin Fair <benjaminfair@google.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Nancy Yuen <yuenn@google.com>, Chen-Yu Tsai <wens@csie.org>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Joel Stanley <joel@jms.id.au>, Orson Zhai <orsonzhai@gmail.com>,
-	William Zhang <william.zhang@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Li-hao Kuo <lhjeff911@gmail.com>,
-	Avi Fishman <avifishman70@gmail.com>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Tali Perry <tali.perry1@gmail.com>, linux-riscv@lists.infradead.org,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Kamal Dasu <kdasu.kdev@gmail.com>,
-	Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
-	Andy Gross <agross@kernel.org>, linux-mediatek@lists.infradead.org,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>, Han Xu <han.xu@nxp.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Patrick Venture <venture@google.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>, openbmc@lists.ozlabs.org,
-	Daniel Mack <daniel@zonque.org>
-Subject: Re: [PATCH 00/87] spi: Convert to platform remove callback returning
- void
-Message-ID: <20230307174622.vluzrlicw2gdn7hq@pengutronix.de>
-References: <20230303172041.2103336-1-u.kleine-koenig@pengutronix.de>
- <ddcda593-f8e9-43a4-bba6-dae31e8d6b39@sirena.org.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA98710790
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 Mar 2023 20:55:46 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id a9so15470274plh.11
+        for <linux-sunxi@lists.linux.dev>; Tue, 07 Mar 2023 12:55:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112; t=1678222546;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PO0KQCxzIVJEU61zfS2DoDmuDuWz5uR1jN4Ijq9LhZo=;
+        b=lpHxnwwPK15OkkFaTvNUoMCaaJEJi5c9/PYeQlJ2jMiPjoPkgwrepzfmkgtyO8O+HT
+         wu3juAerU/L8cjIvUiZtQspVCHC1d+932kvi9FW+xS58qaCCsLdpwmai+bjXxQUdzCBk
+         l5mlHFpS9jE3/r4xQTsIA2O/p/CuMHJIkcb3A1pOHy9/Eybrn33WBmaDgDf4G3UIfr1c
+         iefB4omy/roI6W5ox5wVdjkHqU98G/aw2ZD5T4ZB2CVf1Z6vufEQTV3jCShu28V1PcbC
+         KCwAXE2IWqbcaM7JP5Wtn8oVYsGG0J89eG+an5RJcAvSARQQ+1X9OB8PkFV4ARWVOREC
+         56Pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678222546;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PO0KQCxzIVJEU61zfS2DoDmuDuWz5uR1jN4Ijq9LhZo=;
+        b=HXAAyWeGztqqG7XjyRS+RXAC7f5BZxKbBMhBE9sm3dSr9vRZafH2nYzfS22w0bRsYP
+         +7UnGA8COnCiRdUd4eVrNPLVf673Ed5TzqbM20pBX8mruaSfCe1CitkFR9IHcQfFgsgR
+         C4TFrrwk+wS0w3kwBUnN3GWPjS37hgx7kVWVYK8Dmkej24Zqi31TmuW5eo0lS0To3mGn
+         ci6qlVS9RKBbtQi8eJvOIoZPbJIZYMilY0tkWJGl2zz0nPe3hRdVYF1baN+uxhChrMko
+         FftHum/oclMmL5tsIF+tDjZmtesXnYWnuwICpE+aiTdCuSHZ8tEh9ATDSdAP8JsGQIWh
+         +JAA==
+X-Gm-Message-State: AO0yUKXI0/7uztQ/8SOng56F4mETZZAwwuGRnsAZJB4GiGJhukyoNVjV
+	wdmoETBq6aeYc2AneKJpEIfwvw==
+X-Google-Smtp-Source: AK7set8dzNL26UJcqtdZJRUN5setrL9jyj2OiCFQRqVQnRmvelN4BI2oq+p+jIfWk57Ieeg5LqLM/Q==
+X-Received: by 2002:a17:902:bc42:b0:19e:6a4c:9fa0 with SMTP id t2-20020a170902bc4200b0019e6a4c9fa0mr14126770plz.49.1678222546093;
+        Tue, 07 Mar 2023 12:55:46 -0800 (PST)
+Received: from localhost ([50.221.140.188])
+        by smtp.gmail.com with ESMTPSA id c6-20020a170902c1c600b0019c2cf1554csm8814373plc.13.2023.03.07.12.55.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Mar 2023 12:55:45 -0800 (PST)
+Date: Tue, 07 Mar 2023 12:55:45 -0800 (PST)
+X-Google-Original-Date: Tue, 07 Mar 2023 12:54:38 PST (-0800)
+Subject:     Re: [PATCH v2 3/3] riscv: dts: allwinner: d1: Add crypto engine node
+In-Reply-To: <20221231220146.646-4-samuel@sholland.org>
+CC: clabbe.montjoie@gmail.com, herbert@gondor.apana.org.au, davem@davemloft.net,
+  wens@csie.org, jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+  robh+dt@kernel.org, samuel@sholland.org, aou@eecs.berkeley.edu, Conor Dooley <conor@kernel.org>,
+  Paul Walmsley <paul.walmsley@sifive.com>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+  linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+  linux-sunxi@lists.linux.dev
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: samuel@sholland.org
+Message-ID: <mhng-0ef61e01-7731-4c5f-9487-e4ab8553b87c@palmer-ri-x1c9a>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="subqk3tp4gcmon6z"
-Content-Disposition: inline
-In-Reply-To: <ddcda593-f8e9-43a4-bba6-dae31e8d6b39@sirena.org.uk>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On Sat, 31 Dec 2022 14:01:45 PST (-0800), samuel@sholland.org wrote:
+> D1 contains a crypto engine which is supported by the sun8i-ce driver.
+>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+>
+> Changes in v2:
+>  - New patch for v2
+>
+>  arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>
+> diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+> index dff363a3c934..b30b4b1465f6 100644
+> --- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+> +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+> @@ -378,6 +378,18 @@ sid: efuse@3006000 {
+>  			#size-cells = <1>;
+>  		};
+>
+> +		crypto: crypto@3040000 {
+> +			compatible = "allwinner,sun20i-d1-crypto";
+> +			reg = <0x3040000 0x800>;
+> +			interrupts = <SOC_PERIPHERAL_IRQ(52) IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&ccu CLK_BUS_CE>,
+> +				 <&ccu CLK_CE>,
+> +				 <&ccu CLK_MBUS_CE>,
+> +				 <&rtc CLK_IOSC>;
+> +			clock-names = "bus", "mod", "ram", "trng";
+> +			resets = <&ccu RST_BUS_CE>;
+> +		};
+> +
+>  		mbus: dram-controller@3102000 {
+>  			compatible = "allwinner,sun20i-d1-mbus";
+>  			reg = <0x3102000 0x1000>,
 
---subqk3tp4gcmon6z
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hello Mark,
-
-On Tue, Mar 07, 2023 at 05:00:47PM +0000, Mark Brown wrote:
-> On Fri, Mar 03, 2023 at 06:19:14PM +0100, Uwe Kleine-K=F6nig wrote:
->=20
-> >   spi: mpc512x-psc: Convert to platform remove callback returning void
-> >   spi: mpc52xx-psc: Convert to platform remove callback returning void
->=20
-> As well as the Raspberry Pi patch dropped due to build failures I also
-> dropped these two as they conflicted with Rob's refactoring of that
-> driver, nothing especially complex but since there's stuff to resend
-> anyway...
-
-Fine for me. Given that my queue of patches to convert the remove
-callbacks is quite big, there is no pressure from my side to get these
-all in. 84 from 87 is great already, I'll care about the remaining 3
-patches (and the few drivers that don't return 0 in .remove()) later.
-
-Thanks
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---subqk3tp4gcmon6z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmQHeGsACgkQwfwUeK3K
-7AmJQAf+OLFnhHHVOJXrgsKSMBVT9Qycgk1Nx3JjIocPvU73GYAc8BXwKRUCjb2G
-yTOGAdCjHSEwQuDZxv2NhBd/vpxLkpD7iy/doYJxHT2UMPWV54rl6CFYJEHlJPqW
-Z/Ml4CO3hzmB4BXtCN8RnFyPLmswQObzaXX8HL2DGHB1XE8S1ih7F9Kal3TQISuT
-hZmmMMLaoUtmq5BdGPNybIlL7hGGrMoH0ej+lkPelgMI+QnFAQ6ge26Uc1x9lkDb
-M9w96TPGO6fCBhTV7g21HUUO1P1MsEqJqTPxwUxg+iatcXPmt/w55d07QZQbST7b
-W1YrIAGbAt6hkfVtrrUIlqw3J57gTA==
-=WgaT
------END PGP SIGNATURE-----
-
---subqk3tp4gcmon6z--
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
