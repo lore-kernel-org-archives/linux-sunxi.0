@@ -1,96 +1,113 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC126AD9
-	for <linux-sunxi@lists.linux.dev>; Thu,  9 Mar 2023 11:29:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1678361346;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96456AD9;
+	Thu,  9 Mar 2023 11:35:28 +0000 (UTC)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 0D53E1C000A;
+	Thu,  9 Mar 2023 11:35:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1678361721;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZE/7iJwefnAXFkAm0lKDfvx+6HRiN8eOH8p7Wvai0wo=;
-	b=QGtKIkAUDfax/IoBNEytpljnWwNlAd5TGdI7mxG9OyrPt13m1KB3h8HlHEySbVuStsGkzI
-	DokXitxMdSnZXYDxdJMthC8yhk1SbzwGyA9V+lZSHqxiiTbGAxsjXJedhhNmzEFygy8mPl
-	99lWZ8WoYWmx3Abv1pnaKZJQPLFwXhU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-594-SHrC3P8tOlmTbzaF77yJCA-1; Thu, 09 Mar 2023 06:29:05 -0500
-X-MC-Unique: SHrC3P8tOlmTbzaF77yJCA-1
-Received: by mail-wm1-f72.google.com with SMTP id k36-20020a05600c1ca400b003eac86e4387so2248104wms.8
-        for <linux-sunxi@lists.linux.dev>; Thu, 09 Mar 2023 03:29:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678361344;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZE/7iJwefnAXFkAm0lKDfvx+6HRiN8eOH8p7Wvai0wo=;
-        b=LkCdz6Bj2S33J1p+Xl2b/fwAvugKNNaZYhLpzdnCHUjg6bgRs88Rz0ka7/wr+QMdDi
-         JArhON6KerxbtpZcUXYuvYU1EjBuGhX9sJkL3GeZVD6cYD/q39TBp944/PsmrrsvjhGY
-         ePo9z6nmM9GmGt+ulbU5nWupfqlJaLZNLa/bghogX6j1bt9FKPegmi16EmNbtbF61Dxh
-         eP5ZbcSWgZ50+DizXFgr7uOVz+kUC+p+vxI531UX51czSWDkZjE640ojsBTmHBtSV2QM
-         EraIZ/P3t/LvI2WqOF/0HSEsEctiO36Uzb2a9rukw0XcTkqILB4hhxH0dKVLQf1rhnWN
-         gGkg==
-X-Gm-Message-State: AO0yUKVtVq21DFgV3dHCwkpIzVGV8TNLo+KkqCKb2hMxCYRD7J/g3h9b
-	01vPtDN3D+vwLjVDHIliB2hHe2IbO4Q888h9NrSeZilp0+R0yTJ2uH5UbIjB+JnWILHXqDa32EG
-	9i1SYQp3PXrZ4PbvG8gmqank=
-X-Received: by 2002:a5d:6505:0:b0:2c6:e682:e55b with SMTP id x5-20020a5d6505000000b002c6e682e55bmr11934466wru.48.1678361344741;
-        Thu, 09 Mar 2023 03:29:04 -0800 (PST)
-X-Google-Smtp-Source: AK7set/SuOlGzNjzuB+/71QhRoDFVzQZ5KDl1yemHeUwxjB4OayINr1XWjAGx9mSH74oqRW7vJe0XA==
-X-Received: by 2002:a5d:6505:0:b0:2c6:e682:e55b with SMTP id x5-20020a5d6505000000b002c6e682e55bmr11934447wru.48.1678361344548;
-        Thu, 09 Mar 2023 03:29:04 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id bg2-20020a05600c3c8200b003e214803343sm2615371wmb.46.2023.03.09.03.29.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 03:29:04 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, andrew@aj.id.au, laurentiu.palcu@oss.nxp.com,
- l.stach@pengutronix.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
- p.zabel@pengutronix.de, anitha.chrisanthus@intel.com,
- edmund.j.dea@intel.com, khilman@baylibre.com, jbrunet@baylibre.com,
- martin.blumenstingl@googlemail.com, alain.volmat@foss.st.com,
- yannick.fertre@foss.st.com, raphael.gallais-pou@foss.st.com,
- philippe.cornu@foss.st.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, jernej.skrabec@gmail.com,
- samuel@sholland.org, jyri.sarha@iki.fi, tomba@kernel.org,
- linus.walleij@linaro.org, hyun.kwon@xilinx.com,
- laurent.pinchart@ideasonboard.com
-Cc: dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
+	bh=YkCJYe4xTl1nq4LBH2Nzf6GB3+OQQsqPo2Fge4ocTUs=;
+	b=hiIMPBEnM9/0A6RUHYRZqxFHogmol9ukA6pSF9yyH7WStCrXbZROuFrMCgPWYlCuvRnkhD
+	gSVPsluMhNKX56RZrjnI61iTpBTA4waKAQ6JqeRqsvyo/IWOPAl/QL51nSDgAxSyu94yKy
+	PIn9wIRH2IZFlmKfSzqKCR71LaKiGkrD/HSgaRQb245/oFmYH13le2EXgsHsrIH75UqLz3
+	Z11W3tJOxR+vBh6gHjbD5FbyG6FnNCzR4oHH8uG2wNHJnoqWJ9ZmEH7DlYcnZLCUcl1gLD
+	mNnKh0EMvdHeQcM3phRrh+OldNLWfiXLDIRmHeLX33lUlMygrtc3mKklFPVC1A==
+Date: Thu, 9 Mar 2023 12:35:13 +0100
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Richard Weinberger
+ <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Hector Martin
+ <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman
+ <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>, Claudiu Beznea
+ <claudiu.beznea@microchip.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Andy
+ Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad
+ Dybcio <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>, Orson
+ Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Vincent Shih <vincent.sunplus@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Kunihiko Hayashi
+ <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Michal Simek <michal.simek@xilinx.com>, Alessandro Zummo
+ <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Evgeniy Polyakov <zbr@ioremap.net>, linux-mtd@lists.infradead.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
  linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 22/22] drm/xlnx: Use GEM DMA fbdev emulation
-In-Reply-To: <20230301153101.4282-23-tzimmermann@suse.de>
-References: <20230301153101.4282-1-tzimmermann@suse.de>
- <20230301153101.4282-23-tzimmermann@suse.de>
-Date: Thu, 09 Mar 2023 12:29:03 +0100
-Message-ID: <875yba6u4g.fsf@minerva.mail-host-address-is-not-set>
+ linux-rtc@vger.kernel.org, Michael Walle <michael@walle.cc>,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Subject: Re: [PATCH V3] nvmem: add explicit config option to read OF fixed
+ cells
+Message-ID: <20230309123513.43b7134f@xps-13>
+In-Reply-To: <20230309112028.19215-1-zajec5@gmail.com>
+References: <20230309112028.19215-1-zajec5@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+Hi Rafa=C5=82,
 
-> Use the fbdev emulation that is optimized for DMA helpers. Avoids
-> possible shadow buffering and makes the code simpler.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+> diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provide=
+r.h
+> index 0262b86194eb..b3c14ce87a65 100644
+> --- a/include/linux/nvmem-provider.h
+> +++ b/include/linux/nvmem-provider.h
+> @@ -73,6 +73,7 @@ struct nvmem_cell_info {
+>   * @owner:	Pointer to exporter module. Used for refcounting.
+>   * @cells:	Optional array of pre-defined NVMEM cells.
+>   * @ncells:	Number of elements in cells.
+> + * @use_fixed_of_cells:	Read fixed NVMEM cells from OF.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+I'm still unhappy with the naming, especially since you explained in
+more details the whole plan which involves using a container to put
+these fixed cells from now on. In both cases you extract cells from
+fixed OF nodes but this boolean needs to be set to true in one
+case, and false in the other, which would not make sense.
 
--- 
-Best regards,
+Also, regarding the bindings changes, I'm fairly happy with the idea,
+but if we go this way I would prefer a full series instead of
+individual changes with:
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+- the boolean you introduce here (renamed, at the very least)
+- the new bindings
+- the update of the current provider bindings to take the new bindings
+  into account and deprecate the old ones officially
+- support for the new bindings in the core
 
+>   * @keepout:	Optional array of keepout ranges (sorted ascending by start=
+).
+>   * @nkeepout:	Number of elements in the keepout array.
+>   * @type:	Type of the nvmem storage
+> @@ -103,6 +104,7 @@ struct nvmem_config {
+>  	struct module		*owner;
+>  	const struct nvmem_cell_info	*cells;
+>  	int			ncells;
+> +	bool			use_fixed_of_cells;
+>  	const struct nvmem_keepout *keepout;
+>  	unsigned int		nkeepout;
+>  	enum nvmem_type		type;
+
+Thanks,
+Miqu=C3=A8l
