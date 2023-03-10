@@ -1,190 +1,162 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8BB8820
-	for <linux-sunxi@lists.linux.dev>; Fri, 10 Mar 2023 14:48:43 +0000 (UTC)
-Received: by mail-oi1-f180.google.com with SMTP id bj30so4392092oib.6
-        for <linux-sunxi@lists.linux.dev>; Fri, 10 Mar 2023 06:48:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678459722;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hwhYtKzDnXEsLBl9Tm3BqnXbNzyUsQ3KuTYFbJoohGM=;
-        b=w0Y+nL3hN1wuPlz/m3Pr0TWGBsbiBhDjzLTN+elXz4KTweyURQxbbM3kEtBPrjYjKG
-         LzD4J+2gW3eZ8WcSb5/4wUssu3ZLVG198aUqKBFRjdPbup8UvrqNgYey9b3/WayphpPY
-         ZpsJJv2p4rf6ljM82aCVTRjeOA+CcIpU6H1yot5zCq5OxkHoLbXHfGTqlo38OB9zXPqf
-         StuNbGFJIy4fH/SA3IAh3BvJIHCTDRi4TzxMiL21RDytPFXOjQ0bxb4TIjeqkGH+Mxn8
-         +azahIwGg8sG770u4R7T31Qw3IrUPnwW4aWmapS4VSlARD0B0weI5fuXPggf6HUUA9ul
-         TJ/g==
-X-Gm-Message-State: AO0yUKUNbOgCuMuAmVlvWN7rAUlrr5papMQ1m1FBFaDQXywGMYojMUEs
-	p1wzo3nOsNqQLO92mfk6Mg==
-X-Google-Smtp-Source: AK7set/2Hv/GHCQ4CWKw9+OchH8gffT8eqBP4iLmC17qsMPdXt7UFyt1xWM3HZum7IWwuaM8TqbJlg==
-X-Received: by 2002:a05:6808:1d7:b0:383:ef56:a34c with SMTP id x23-20020a05680801d700b00383ef56a34cmr1364469oic.2.1678459722220;
-        Fri, 10 Mar 2023 06:48:42 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id y129-20020acae187000000b0038476262f65sm967331oig.33.2023.03.10.06.48.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 06:48:41 -0800 (PST)
-Received: (nullmailer pid 1544713 invoked by uid 1000);
-	Fri, 10 Mar 2023 14:47:21 -0000
-From: Rob Herring <robh@kernel.org>
-To: Sean Wang <sean.wang@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, Tony Lindgren <tony@atomide.com>, Haojian Zhuang <haojian.zhuang@linaro.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: [PATCH] pinctrl: Use of_property_present() for testing DT property presence
-Date: Fri, 10 Mar 2023 08:47:20 -0600
-Message-Id: <20230310144721.1544669-1-robh@kernel.org>
-X-Mailer: git-send-email 2.39.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D892C8821
+	for <linux-sunxi@lists.linux.dev>; Fri, 10 Mar 2023 15:01:26 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 01FC946D;
+	Fri, 10 Mar 2023 16:01:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1678460478;
+	bh=cTpJb1a+SSpxJzWK29EE2rEdOl4zGiuIlFPihCIIxd0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oD83KOYUmmnHR+XWWr7/Wwzdb0ZeYNG9kTRYwolbUK7VXCIjF2a/2F73U7nEuSmdx
+	 fR8+ONEn6COI5BO1sps/voMajtrIF6fI07a2aHdC6XBljXNezjONFmHFBPTxWzII1W
+	 LlaopDSq7+htewCk+xr4cRtpntf/t2GgBXi9Y5CQ=
+Date: Fri, 10 Mar 2023 17:01:22 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Clark <robdclark@gmail.com>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Sean Paul <sean@poorly.run>, Chen-Yu Tsai <wens@csie.org>,
+	Samuel Holland <samuel@sholland.org>, Emma Anholt <emma@anholt.net>,
+	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] drm: Use of_property_present() for testing DT property
+ presence
+Message-ID: <20230310150122.GJ5342@pendragon.ideasonboard.com>
+References: <20230310144705.1542207-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230310144705.1542207-1-robh@kernel.org>
 
-It is preferred to use typed property access functions (i.e.
-of_property_read_<type> functions) rather than low-level
-of_get_property/of_find_property functions for reading properties. As
-part of this, convert of_get_property/of_find_property calls to the
-recently added of_property_present() helper when we just want to test
-for presence of a property and nothing more.
+Hi Rob,
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- drivers/pinctrl/mediatek/pinctrl-moore.c |  2 +-
- drivers/pinctrl/pinctrl-single.c         |  4 ++--
- drivers/pinctrl/pinctrl-stmfx.c          |  2 +-
- drivers/pinctrl/renesas/pinctrl.c        |  4 ++--
- drivers/pinctrl/stm32/pinctrl-stm32.c    |  2 +-
- drivers/pinctrl/sunxi/pinctrl-sunxi.c    | 20 ++++++++++----------
- 6 files changed, 17 insertions(+), 17 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/pinctrl/mediatek/pinctrl-moore.c b/drivers/pinctrl/mediatek/pinctrl-moore.c
-index 007b98ce5631..8649a2f9d324 100644
---- a/drivers/pinctrl/mediatek/pinctrl-moore.c
-+++ b/drivers/pinctrl/mediatek/pinctrl-moore.c
-@@ -586,7 +586,7 @@ static int mtk_build_gpiochip(struct mtk_pinctrl *hw)
- 	 * Documentation/devicetree/bindings/gpio/gpio.txt on how to
- 	 * bind pinctrl and gpio drivers via the "gpio-ranges" property.
- 	 */
--	if (!of_find_property(hw->dev->of_node, "gpio-ranges", NULL)) {
-+	if (!of_property_present(hw->dev->of_node, "gpio-ranges")) {
- 		ret = gpiochip_add_pin_range(chip, dev_name(hw->dev), 0, 0,
- 					     chip->ngpio);
- 		if (ret < 0) {
-diff --git a/drivers/pinctrl/pinctrl-single.c b/drivers/pinctrl/pinctrl-single.c
-index 190923757cda..0dabbcf68b9f 100644
---- a/drivers/pinctrl/pinctrl-single.c
-+++ b/drivers/pinctrl/pinctrl-single.c
-@@ -939,11 +939,11 @@ static int pcs_parse_pinconf(struct pcs_device *pcs, struct device_node *np,
- 
- 	/* cacluate how much properties are supported in current node */
- 	for (i = 0; i < ARRAY_SIZE(prop2); i++) {
--		if (of_find_property(np, prop2[i].name, NULL))
-+		if (of_property_present(np, prop2[i].name))
- 			nconfs++;
- 	}
- 	for (i = 0; i < ARRAY_SIZE(prop4); i++) {
--		if (of_find_property(np, prop4[i].name, NULL))
-+		if (of_property_present(np, prop4[i].name))
- 			nconfs++;
- 	}
- 	if (!nconfs)
-diff --git a/drivers/pinctrl/pinctrl-stmfx.c b/drivers/pinctrl/pinctrl-stmfx.c
-index 1181c4b506b1..3c031692e44d 100644
---- a/drivers/pinctrl/pinctrl-stmfx.c
-+++ b/drivers/pinctrl/pinctrl-stmfx.c
-@@ -632,7 +632,7 @@ static int stmfx_pinctrl_probe(struct platform_device *pdev)
- 	pctl->dev = &pdev->dev;
- 	pctl->stmfx = stmfx;
- 
--	if (!of_find_property(np, "gpio-ranges", NULL)) {
-+	if (!of_property_present(np, "gpio-ranges")) {
- 		dev_err(pctl->dev, "missing required gpio-ranges property\n");
- 		return -EINVAL;
- 	}
-diff --git a/drivers/pinctrl/renesas/pinctrl.c b/drivers/pinctrl/renesas/pinctrl.c
-index b74147800319..5c71e168b370 100644
---- a/drivers/pinctrl/renesas/pinctrl.c
-+++ b/drivers/pinctrl/renesas/pinctrl.c
-@@ -125,8 +125,8 @@ static int sh_pfc_dt_subnode_to_map(struct pinctrl_dev *pctldev,
- 	 * inside a subnode nor across subnodes.
- 	 */
- 	if (!pmx->func_prop_name) {
--		if (of_find_property(np, "groups", NULL) ||
--		    of_find_property(np, "pins", NULL)) {
-+		if (of_property_present(np, "groups")||
-+		    of_property_present(np, "pins")) {
- 			pmx->func_prop_name = "function";
- 			pmx->groups_prop_name = "groups";
- 			pmx->pins_prop_name = "pins";
-diff --git a/drivers/pinctrl/stm32/pinctrl-stm32.c b/drivers/pinctrl/stm32/pinctrl-stm32.c
-index cb33a23ab0c1..66a25becd8f5 100644
---- a/drivers/pinctrl/stm32/pinctrl-stm32.c
-+++ b/drivers/pinctrl/stm32/pinctrl-stm32.c
-@@ -1374,7 +1374,7 @@ static struct irq_domain *stm32_pctrl_get_irq_domain(struct platform_device *pde
- 	struct device_node *parent;
- 	struct irq_domain *domain;
- 
--	if (!of_find_property(np, "interrupt-parent", NULL))
-+	if (!of_property_present(np, "interrupt-parent"))
- 		return NULL;
- 
- 	parent = of_irq_find_parent(np);
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-index f35179eceb4e..1dc1882cbdd7 100644
---- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-+++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-@@ -224,16 +224,16 @@ static int sunxi_pctrl_get_group_pins(struct pinctrl_dev *pctldev,
- 
- static bool sunxi_pctrl_has_bias_prop(struct device_node *node)
- {
--	return of_find_property(node, "bias-pull-up", NULL) ||
--		of_find_property(node, "bias-pull-down", NULL) ||
--		of_find_property(node, "bias-disable", NULL) ||
--		of_find_property(node, "allwinner,pull", NULL);
-+	return of_property_present(node, "bias-pull-up") ||
-+		of_property_present(node, "bias-pull-down") ||
-+		of_property_present(node, "bias-disable") ||
-+		of_property_present(node, "allwinner,pull");
- }
- 
- static bool sunxi_pctrl_has_drive_prop(struct device_node *node)
- {
--	return of_find_property(node, "drive-strength", NULL) ||
--		of_find_property(node, "allwinner,drive", NULL);
-+	return of_property_present(node, "drive-strength") ||
-+		of_property_present(node, "allwinner,drive");
- }
- 
- static int sunxi_pctrl_parse_bias_prop(struct device_node *node)
-@@ -241,13 +241,13 @@ static int sunxi_pctrl_parse_bias_prop(struct device_node *node)
- 	u32 val;
- 
- 	/* Try the new style binding */
--	if (of_find_property(node, "bias-pull-up", NULL))
-+	if (of_property_present(node, "bias-pull-up"))
- 		return PIN_CONFIG_BIAS_PULL_UP;
- 
--	if (of_find_property(node, "bias-pull-down", NULL))
-+	if (of_property_present(node, "bias-pull-down"))
- 		return PIN_CONFIG_BIAS_PULL_DOWN;
- 
--	if (of_find_property(node, "bias-disable", NULL))
-+	if (of_property_present(node, "bias-disable"))
- 		return PIN_CONFIG_BIAS_DISABLE;
- 
- 	/* And fall back to the old binding */
-@@ -1424,7 +1424,7 @@ static int sunxi_pinctrl_setup_debounce(struct sunxi_pinctrl *pctl,
- 		return 0;
- 
- 	/* If we don't have any setup, bail out */
--	if (!of_find_property(node, "input-debounce", NULL))
-+	if (!of_property_present(node, "input-debounce"))
- 		return 0;
- 
- 	losc = devm_clk_get(pctl->dev, "losc");
+On Fri, Mar 10, 2023 at 08:47:05AM -0600, Rob Herring wrote:
+> It is preferred to use typed property access functions (i.e.
+> of_property_read_<type> functions) rather than low-level
+> of_get_property/of_find_property functions for reading properties. As
+> part of this, convert of_get_property/of_find_property calls to the
+> recently added of_property_present() helper when we just want to test
+> for presence of a property and nothing more.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c | 2 +-
+>  drivers/gpu/drm/drm_mipi_dsi.c                  | 2 +-
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c         | 2 +-
+>  drivers/gpu/drm/sun4i/sun4i_backend.c           | 2 +-
+>  drivers/gpu/drm/sun4i/sun8i_mixer.c             | 2 +-
+>  drivers/gpu/drm/vc4/vc4_hdmi.c                  | 2 +-
+>  6 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
+> index 9e5f2b4dc2e5..fab139b324af 100644
+> --- a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
+> +++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
+> @@ -313,7 +313,7 @@ imx8qxp_pixel_link_find_next_bridge(struct imx8qxp_pixel_link *pl)
+>  		}
+>  
+>  		/* specially select the next bridge with companion PXL2DPI */
+> -		if (of_find_property(remote, "fsl,companion-pxl2dpi", NULL))
+> +		if (of_property_present(remote, "fsl,companion-pxl2dpi"))
+>  			bridge_sel = ep_cnt;
+>  
+>  		ep_cnt++;
+> diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+> index b41aaf2bb9f1..7900a4707d7c 100644
+> --- a/drivers/gpu/drm/drm_mipi_dsi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dsi.c
+> @@ -329,7 +329,7 @@ int mipi_dsi_host_register(struct mipi_dsi_host *host)
+>  
+>  	for_each_available_child_of_node(host->dev->of_node, node) {
+>  		/* skip nodes without reg property */
+> -		if (!of_find_property(node, "reg", NULL))
+> +		if (!of_property_present(node, "reg"))
+>  			continue;
+>  		of_mipi_dsi_device_add(host, node);
+>  	}
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> index ce6b76c45b6f..2359dca80492 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> @@ -964,7 +964,7 @@ static void adreno_get_pwrlevels(struct device *dev,
+>  	gpu->fast_rate = 0;
+>  
+>  	/* You down with OPP? */
+> -	if (!of_find_property(dev->of_node, "operating-points-v2", NULL))
+> +	if (!of_property_present(dev->of_node, "operating-points-v2"))
+>  		ret = adreno_get_legacy_pwrlevels(dev);
+>  	else {
+>  		ret = devm_pm_opp_of_add_table(dev);
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
+> index 38070fc261f3..b11dbd50d73e 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_backend.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
+> @@ -792,7 +792,7 @@ static int sun4i_backend_bind(struct device *dev, struct device *master,
+>  	dev_set_drvdata(dev, backend);
+>  	spin_lock_init(&backend->frontend_lock);
+>  
+> -	if (of_find_property(dev->of_node, "interconnects", NULL)) {
+> +	if (of_property_present(dev->of_node, "interconnects")) {
+>  		/*
+>  		 * This assume we have the same DMA constraints for all our the
+>  		 * devices in our pipeline (all the backends, but also the
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> index bafee05f6b24..11d5244a5aa5 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> @@ -391,7 +391,7 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
+>  	mixer->engine.ops = &sun8i_engine_ops;
+>  	mixer->engine.node = dev->of_node;
+>  
+> -	if (of_find_property(dev->of_node, "iommus", NULL)) {
+> +	if (of_property_present(dev->of_node, "iommus")) {
+>  		/*
+>  		 * This assume we have the same DMA constraints for
+>  		 * all our the mixers in our pipeline. This sounds
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> index ea22c9bf223a..bec1e0cdddb3 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -3018,7 +3018,7 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
+>  	struct device *dev = &pdev->dev;
+>  	int ret;
+>  
+> -	if (!of_find_property(dev->of_node, "interrupts", NULL)) {
+> +	if (!of_property_present(dev->of_node, "interrupts")) {
+>  		dev_warn(dev, "'interrupts' DT property is missing, no CEC\n");
+>  		return 0;
+>  	}
+
 -- 
-2.39.2
+Regards,
 
+Laurent Pinchart
