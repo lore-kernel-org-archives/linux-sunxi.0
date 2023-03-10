@@ -1,39 +1,39 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530E88820
-	for <linux-sunxi@lists.linux.dev>; Fri, 10 Mar 2023 14:47:39 +0000 (UTC)
-Received: by mail-ot1-f44.google.com with SMTP id 32-20020a9d0323000000b0069426a71d79so3023114otv.10
-        for <linux-sunxi@lists.linux.dev>; Fri, 10 Mar 2023 06:47:39 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F8C8820
+	for <linux-sunxi@lists.linux.dev>; Fri, 10 Mar 2023 14:47:51 +0000 (UTC)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-1763e201bb4so6096533fac.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 10 Mar 2023 06:47:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678459658;
+        d=1e100.net; s=20210112; t=1678459670;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=De0I+gp0jvvBU5yajyNpGosHJb+1lemGWKSIFgexoTU=;
-        b=svhlyHH5pgaFB8ee/z9okljMXivF3H9Dd2Gma5NblAjoOypnkO4K2yWok4qnnPSGC9
-         4A+DgpayPBFcDlUjnGVszzTZTC2Z8M4isGMmQr6vctZBi3KCac+s5yYgvrpG4yunBA+E
-         aCqrhB0oT5RW41h1BkAwZHJsUEMQ87OBwoWtajroM+VIQEsKEoCWN+wMVcK/CCDg7qqq
-         GtOJJFWypoRYaaMeuOufqAwwLFQ306VxAD+ExrsBkAIbllFFarsIIpbzdAToDoyhpz7m
-         n55PJdJh1qUfncEQK9AvE5Sv7xZAyMcGJpgFAJ4FSZeCjhtTSv7u5m6gTPSaDd/ZXBDu
-         gE+w==
-X-Gm-Message-State: AO0yUKVpFlSciMimx4wfqOAkfSk/rLVKhVg4AOFMg2iDZVYijNwwsVGO
-	JolXw7iurmAXgCHQBSOokw==
-X-Google-Smtp-Source: AK7set/ntzmW14qqdxNy7hqCHBPFyi/dFBckcMxYLZsj8GRAJipyUOv4BdYp/DpTEtlKrJHFgZjnoA==
-X-Received: by 2002:a9d:387:0:b0:686:50ca:7404 with SMTP id f7-20020a9d0387000000b0068650ca7404mr1271124otf.4.1678459658294;
-        Fri, 10 Mar 2023 06:47:38 -0800 (PST)
+        bh=72GZ6tt+NtMByXBprOsf1R5lfkGwkm3Xw8kwN9b+yWo=;
+        b=g4o1Lb4CtznAJJE9tTXMnJbLAXprSv72/iyGFozsR+ZpxFjk1xxtjTlxbZRzNHe/Et
+         I7IbhEdfJHPFihK4TXp9xw7k/gf6RqEmkQndon+kyuwN0BUwN98DU2ZALknfNV7QW898
+         tlotLG+uDV3KjyC4bhiyd5FjRan6dHOxp/sRfPhiGNM8J1TpkBIDJCUwM2SV+/9DlISi
+         twQN5LjaXcVzbYtcnzUiY57AuCuFTCQLCzBWWwBlIiPITEuGorsX6Fo5+FJ3UV5rKZn3
+         lDf26q8mX0ISIJsuHsa0LcG0YmLmWPTGurfW8AsdwJemCDPcxYmR7qVZ7nHi2wwKgaEP
+         6TjA==
+X-Gm-Message-State: AO0yUKWS7mKKYGJ2whteaIVJ4McC6T0k8/jG/K9RRsijxeiWC4Vcu5AP
+	ktgt7XwxQ4bCEGYtonU5uQ==
+X-Google-Smtp-Source: AK7set9JuJayVFavWfSPxdB9MZVNOuRYl8Z6r6VhwjgRJ6ZHv32dVupXnUJFExVxqSPdm4Mkjz4oFw==
+X-Received: by 2002:a05:6870:e886:b0:15e:c4e1:c9fb with SMTP id q6-20020a056870e88600b0015ec4e1c9fbmr5624135oan.31.1678459670465;
+        Fri, 10 Mar 2023 06:47:50 -0800 (PST)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id e6-20020a9d4906000000b006884c42a38asm118125otf.41.2023.03.10.06.47.36
+        by smtp.gmail.com with ESMTPSA id o20-20020a9d7194000000b0068657984c22sm124712otj.32.2023.03.10.06.47.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 06:47:37 -0800 (PST)
-Received: (nullmailer pid 1542233 invoked by uid 1000);
-	Fri, 10 Mar 2023 14:47:05 -0000
+        Fri, 10 Mar 2023 06:47:50 -0800 (PST)
+Received: (nullmailer pid 1547067 invoked by uid 1000);
+	Fri, 10 Mar 2023 14:47:36 -0000
 From: Rob Herring <robh@kernel.org>
-To: Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Emma Anholt <emma@anholt.net>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, linux-sunxi@lists.linux.dev
-Subject: [PATCH] drm: Use of_property_present() for testing DT property presence
-Date: Fri, 10 Mar 2023 08:47:05 -0600
-Message-Id: <20230310144705.1542207-1-robh@kernel.org>
+To: Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org, linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] rtc: sun6i: Use of_property_present() for testing DT property presence
+Date: Fri, 10 Mar 2023 08:47:36 -0600
+Message-Id: <20230310144736.1547041-1-robh@kernel.org>
 X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -52,92 +52,22 @@ for presence of a property and nothing more.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c | 2 +-
- drivers/gpu/drm/drm_mipi_dsi.c                  | 2 +-
- drivers/gpu/drm/msm/adreno/adreno_gpu.c         | 2 +-
- drivers/gpu/drm/sun4i/sun4i_backend.c           | 2 +-
- drivers/gpu/drm/sun4i/sun8i_mixer.c             | 2 +-
- drivers/gpu/drm/vc4/vc4_hdmi.c                  | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/rtc/rtc-sun6i.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-index 9e5f2b4dc2e5..fab139b324af 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-@@ -313,7 +313,7 @@ imx8qxp_pixel_link_find_next_bridge(struct imx8qxp_pixel_link *pl)
- 		}
- 
- 		/* specially select the next bridge with companion PXL2DPI */
--		if (of_find_property(remote, "fsl,companion-pxl2dpi", NULL))
-+		if (of_property_present(remote, "fsl,companion-pxl2dpi"))
- 			bridge_sel = ep_cnt;
- 
- 		ep_cnt++;
-diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-index b41aaf2bb9f1..7900a4707d7c 100644
---- a/drivers/gpu/drm/drm_mipi_dsi.c
-+++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -329,7 +329,7 @@ int mipi_dsi_host_register(struct mipi_dsi_host *host)
- 
- 	for_each_available_child_of_node(host->dev->of_node, node) {
- 		/* skip nodes without reg property */
--		if (!of_find_property(node, "reg", NULL))
-+		if (!of_property_present(node, "reg"))
- 			continue;
- 		of_mipi_dsi_device_add(host, node);
+diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+index 7038f47d77ff..dc76537f1b62 100644
+--- a/drivers/rtc/rtc-sun6i.c
++++ b/drivers/rtc/rtc-sun6i.c
+@@ -260,7 +260,7 @@ static void __init sun6i_rtc_clk_init(struct device_node *node,
  	}
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index ce6b76c45b6f..2359dca80492 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -964,7 +964,7 @@ static void adreno_get_pwrlevels(struct device *dev,
- 	gpu->fast_rate = 0;
  
- 	/* You down with OPP? */
--	if (!of_find_property(dev->of_node, "operating-points-v2", NULL))
-+	if (!of_property_present(dev->of_node, "operating-points-v2"))
- 		ret = adreno_get_legacy_pwrlevels(dev);
- 	else {
- 		ret = devm_pm_opp_of_add_table(dev);
-diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
-index 38070fc261f3..b11dbd50d73e 100644
---- a/drivers/gpu/drm/sun4i/sun4i_backend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
-@@ -792,7 +792,7 @@ static int sun4i_backend_bind(struct device *dev, struct device *master,
- 	dev_set_drvdata(dev, backend);
- 	spin_lock_init(&backend->frontend_lock);
- 
--	if (of_find_property(dev->of_node, "interconnects", NULL)) {
-+	if (of_property_present(dev->of_node, "interconnects")) {
- 		/*
- 		 * This assume we have the same DMA constraints for all our the
- 		 * devices in our pipeline (all the backends, but also the
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index bafee05f6b24..11d5244a5aa5 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -391,7 +391,7 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 	mixer->engine.ops = &sun8i_engine_ops;
- 	mixer->engine.node = dev->of_node;
- 
--	if (of_find_property(dev->of_node, "iommus", NULL)) {
-+	if (of_property_present(dev->of_node, "iommus")) {
- 		/*
- 		 * This assume we have the same DMA constraints for
- 		 * all our the mixers in our pipeline. This sounds
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index ea22c9bf223a..bec1e0cdddb3 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -3018,7 +3018,7 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
- 	struct device *dev = &pdev->dev;
- 	int ret;
- 
--	if (!of_find_property(dev->of_node, "interrupts", NULL)) {
-+	if (!of_property_present(dev->of_node, "interrupts")) {
- 		dev_warn(dev, "'interrupts' DT property is missing, no CEC\n");
- 		return 0;
- 	}
+ 	/* Switch to the external, more precise, oscillator, if present */
+-	if (of_get_property(node, "clocks", NULL)) {
++	if (of_property_present(node, "clocks")) {
+ 		reg |= SUN6I_LOSC_CTRL_EXT_OSC;
+ 		if (rtc->data->has_losc_en)
+ 			reg |= SUN6I_LOSC_CTRL_EXT_LOSC_EN;
 -- 
 2.39.2
 
