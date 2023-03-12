@@ -1,93 +1,110 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F271FC8
-	for <linux-sunxi@lists.linux.dev>; Sun, 12 Mar 2023 13:15:22 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id r15so11325006edq.11
-        for <linux-sunxi@lists.linux.dev>; Sun, 12 Mar 2023 06:15:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678626920;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zcxV1wX7rb47JP+vxHLlW7kUDa4wWKVgvS6sgALwgGw=;
-        b=ODbPQ7N7rdF7EFlId0JmuPvIklOktriiSsEKOHlymmDjBH/58fkmj87U42BbMmmhzq
-         cRpzesIUgktIYROMCwsOISO2LdxA0d+eejbFUIReTiGoA3PfZXdgEwewY/1mxTkhh29t
-         I0E7ytga8wv2xo8zowTdmndz9vIpuU4i7T326W2NvJjYWe3k0uY0GG8Dqvgs578pLz/a
-         8l2WVOrhD/lFxI/iFdw90crbyThWlvt5SBWG54av//X6VxirivqwVkpUKYEIR1+PP2v0
-         VETS+1yD5t+Wf4SlOfCYs2YH1y/KYNnyU8FVUAH+HVhZkSCu+Hh9zN68Q0/91/nUZ1b2
-         82GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678626920;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zcxV1wX7rb47JP+vxHLlW7kUDa4wWKVgvS6sgALwgGw=;
-        b=ZkwxZr+32mGxivGaHSKmcvhpZy1gIUz3QvGXjolr4smc6wvikGuK7iNiX6GgdcczbN
-         lxao+N/8l20zXf+fk+HaiZo9ELnL5bSpvuJsX2N47QJ2lD+2y015nIia3L7j+Z+uv9tB
-         ox4t2vZIKwye4hF1w/MJ5UT3zTGl2XZYKYYLGf/CAdXNPS84CK6nHKggZEAnNUAtbZCE
-         svtMRxNiEtkUsW6XpbcWS54KnRjuvFG5K6gX59bGj8lpffcHqwvX8WvUNKKmFq6AU7tP
-         ZhJ7LMHIe/df28Tn6omgHKtaTFGFe/s5HGYplhkmMftr9uiMgDeBVBruNpaunN5pWD3f
-         YzBQ==
-X-Gm-Message-State: AO0yUKWN2UGWBQEFnr6ANg2/kKsYlIZoSZvo2ksHAp3fH+BCxv87Eptw
-	fTnctkxUDAJURNlvto+5xhsKgA==
-X-Google-Smtp-Source: AK7set/8w9H2snVcfgYgwSmNkJivUplw0WFZlSku0efRNPRGVxUfGIQBHRgRKDu2+ZZjdY1voLlADA==
-X-Received: by 2002:a17:906:58c3:b0:878:625c:c8ff with SMTP id e3-20020a17090658c300b00878625cc8ffmr40766458ejs.54.1678626920485;
-        Sun, 12 Mar 2023 06:15:20 -0700 (PDT)
-Received: from krzk-bin.. ([2a02:810d:15c0:828:d9f6:3e61:beeb:295a])
-        by smtp.gmail.com with ESMTPSA id h26-20020a170906399a00b00915d58e56f0sm2223493eje.77.2023.03.12.06.15.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Mar 2023 06:15:20 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531031FC5
+	for <linux-sunxi@lists.linux.dev>; Sun, 12 Mar 2023 13:43:36 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (85-76-21-162-nat.elisa-mobile.fi [85.76.21.162])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F8E8D5F;
+	Sun, 12 Mar 2023 14:43:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1678628613;
+	bh=6NSDf17QydqjSciafFDtS8WETszudk1j9lrlPeU3nBo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FOm+HYLZc7DXYKb9ZJc+xDVoozhT6dVAFFVOt89WpWfy1H9dm/Gw32CFkPJ7TQXQ5
+	 WFGVJ0lbWQHTLnAtZfAClOnKd69ad1pTgGosUv6eI3z8vm6ouPRfZ+3u6YS584qboA
+	 5bRXk7l4zecEsa9udBk8vuw9ls2oWy8QblqtZxfU=
+Date: Sun, 12 Mar 2023 15:43:22 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Joe Tessler <jrt@google.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Wenyou Yang <wenyou.yang@microchip.com>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Yong Deng <yong.deng@magewell.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 4/4] Input: bcm_iproc_tsc: drop of_match_ptr for ID table
-Date: Sun, 12 Mar 2023 14:15:14 +0100
-Message-Id: <20230312131514.351603-4-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230312131514.351603-1-krzysztof.kozlowski@linaro.org>
-References: <20230312131514.351603-1-krzysztof.kozlowski@linaro.org>
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>, Sean Young <sean@mess.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 22/28] media: i2c: mt9m111: drop of_match_ptr for ID table
+Message-ID: <20230312134322.GA8229@pendragon.ideasonboard.com>
+References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
+ <20230312131318.351173-22-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230312131318.351173-22-krzysztof.kozlowski@linaro.org>
 
-The driver can match only via the DT table so the table should be always
-used and the of_match_ptr does not have any sense (this also allows ACPI
-matching via PRP0001, even though it might not be relevant here).  This
-also fixes !CONFIG_OF error:
+Hi Krzysztof,
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- drivers/input/touchscreen/bcm_iproc_tsc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thank you for the patch.
 
-diff --git a/drivers/input/touchscreen/bcm_iproc_tsc.c b/drivers/input/touchscreen/bcm_iproc_tsc.c
-index 35e2fe9911a4..9c84235327bf 100644
---- a/drivers/input/touchscreen/bcm_iproc_tsc.c
-+++ b/drivers/input/touchscreen/bcm_iproc_tsc.c
-@@ -511,7 +511,7 @@ static struct platform_driver iproc_ts_driver = {
- 	.probe = iproc_ts_probe,
- 	.driver = {
- 		.name	= IPROC_TS_NAME,
--		.of_match_table = of_match_ptr(iproc_ts_of_match),
-+		.of_match_table = iproc_ts_of_match,
- 	},
- };
- 
+On Sun, Mar 12, 2023 at 02:13:12PM +0100, Krzysztof Kozlowski wrote:
+> The driver will match mostly by DT table (even thought there is regular
+> ID table) so there is little benefit in of_match_ptr (this also allows
+> ACPI matching via PRP0001, even though it might not be relevant here).
+> This also fixes !CONFIG_OF error:
+> 
+>   drivers/media/i2c/mt9m111.c:1370:34: error: ‘mt9m111_of_match’ defined but not used [-Werror=unused-const-variable=]
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/media/i2c/mt9m111.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
+> index f5fe272d1205..20ed87d872c8 100644
+> --- a/drivers/media/i2c/mt9m111.c
+> +++ b/drivers/media/i2c/mt9m111.c
+> @@ -1382,7 +1382,7 @@ MODULE_DEVICE_TABLE(i2c, mt9m111_id);
+>  static struct i2c_driver mt9m111_i2c_driver = {
+>  	.driver = {
+>  		.name = "mt9m111",
+> -		.of_match_table = of_match_ptr(mt9m111_of_match),
+> +		.of_match_table = mt9m111_of_match,
+>  	},
+>  	.probe_new	= mt9m111_probe,
+>  	.remove		= mt9m111_remove,
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
