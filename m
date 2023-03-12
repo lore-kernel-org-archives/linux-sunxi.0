@@ -1,43 +1,43 @@
 Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3441FC5
-	for <linux-sunxi@lists.linux.dev>; Sun, 12 Mar 2023 13:13:35 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id k10so38403055edk.13
-        for <linux-sunxi@lists.linux.dev>; Sun, 12 Mar 2023 06:13:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8BC1FC5
+	for <linux-sunxi@lists.linux.dev>; Sun, 12 Mar 2023 13:13:37 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id cn21so8312950edb.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 12 Mar 2023 06:13:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678626814;
+        d=linaro.org; s=google; t=1678626815;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=msjur9BIXfohR7MjKiHFK0aZDyGMTPkmem6NEGtsCjU=;
-        b=OjW7Ch3WzJANLx1nyByhnbnA+p4+Psja196A21bF0aDMZDj+CjUc/V3NpqZSVXJz7J
-         Q4s69NqmOUkMcMhUM52lRFAx8K6Hn3pTbfhlcNGcvYtm9T/Xdmpa1eFwio1guKXpLMjx
-         /GbbBdI/iGN+TR2BIZr+OCddK8GbN3qlNgAEbLoQvrd9hqX8CNUxQUr1whlLYlnttiCD
-         2ppydo1QRfSLe7qEMLz239tuUQR12OAwkuyjl7KW/bFdhhaPMbQAkE3KxuO+3gWxoGJ9
-         OsgpWpgMvsI/YzdsoXmnuGMMDhZQ/0cnC86nUpxdiwnlRbtFNGkMGuAkbk1zVOtaFonr
-         m6HQ==
+        bh=buQg6sc8yXPiuj0KpLg54vXnkMGR4QG/BKa5y0Xpa2Y=;
+        b=GnWL3jRt7rNHd4ypSq8umyqs1x7+0wYjNeYAKRv1DYI86Q1oa+IH8PWctC1Wn1hOy1
+         y93TFuRwH5JaVlqiteoJQLpQ/TFWQauBKf6VIy3rgszMH7kuzi0S7xxTV/DUlNx6kGWz
+         bHPb++v6s5Yugrzys+edgMF3SIe18dNXHurPcmVp+cQwX6OFWKlw6aENyrobhpJE+WzO
+         oOjc55XzuJIQ+fjO7bGFVCQ9ieALrkOjivsIggJcLhUhMHqPqaqX/EMKpWTLFVuy6Hg8
+         u77f9u6QLYp9a+86xO1rMpEyWn1T3CAZdJK+Kz82pdXVzRTthcPtlqhx5FyVWNv5poo/
+         sGOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678626814;
+        d=1e100.net; s=20210112; t=1678626815;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=msjur9BIXfohR7MjKiHFK0aZDyGMTPkmem6NEGtsCjU=;
-        b=dvi8KhpRLwFjhSGacNOoTpVV8jSCNOmZOYAFEWyo11krI1r42NVMca+CHcozAI7BFY
-         WjQ/KJsaLuviP0RDA/gnuACzl2ZmpQUOU4AgYEsJA6iYE36o/M9bRSz02kJ7WyDONxDB
-         +kdMtzo4zGx/m35fSdAFJVxs4+JzuW0DbcV18pRMEhvrFQGHvK4GHJBxEEhA1U2JdxqA
-         xNrv/tspeBoCcNXd6+zl7NmrCqsHKVYYir5X9X0Zk9ooxC0RW+wjx8tEmkQtDj31agiY
-         kBrbyU13ccLpAVDh931coxpyyQFwIiQGOaAQ8jSvV/NekPBWNdBUX8CHDUAym/MSdfIF
-         +ESA==
-X-Gm-Message-State: AO0yUKXsOabB7qobm7ZiLgoVbDksojP5j0tyOWTLbS8dg0Ujtp9gwoq8
-	IvmZQMcDW/eQr9pnYZUgYtdvFQ==
-X-Google-Smtp-Source: AK7set+x2TzZ8b+2TPoP/NPOIph3epGLp33Dj5+VNI5L1g2bCpHKzqAG9L+GEAXmbu6Kg//PKl57oQ==
-X-Received: by 2002:a17:906:5206:b0:8b1:7fa:6588 with SMTP id g6-20020a170906520600b008b107fa6588mr30618440ejm.12.1678626813798;
-        Sun, 12 Mar 2023 06:13:33 -0700 (PDT)
+        bh=buQg6sc8yXPiuj0KpLg54vXnkMGR4QG/BKa5y0Xpa2Y=;
+        b=iZgWbIR5XSXpHmUZHH+HAvvLgodfMhtyDovLfCANbxZHr9EUHEUqYtPWnKPFyl+UlO
+         2lNeDRmeQz1YV+eFrnwPxhDhDk85vHZQolgLutvS23LEk03rFEJckqABBhqxoW+KX2qy
+         QiiNBk0nXY3zxhqCFkoSlUuKAeh+zBCLmQ+zo+MFnWl8OkoTOtcl167hV35O0YTJt4NB
+         955lJQe/IyiAnpwOpZZGA+5Zh2uOkay5o+ySekCvlI3Q2vRuf4cfqh+iWXqSUXwExnsy
+         MH7QzY6GLcSarcnb4iSntwuw5WU2Z89n30n0U07kX+d6jt0GrC2QhspGlAS2sfZ3AbpZ
+         dZGw==
+X-Gm-Message-State: AO0yUKXbQZuwV9jWXvLpFCJOzutXxUhLFCz1SmMNLE39j+D0HjvAivYI
+	fwJO4Y9oJLvxi8dqb7KowsTOgA==
+X-Google-Smtp-Source: AK7set8WaF2rUwXzajL4x+ub2degb8HIZtrdNRoJNVJTVfKoaxigWqj4b6PT5ae6Lxjnr++xATWHbg==
+X-Received: by 2002:a17:907:9806:b0:920:388c:7cb8 with SMTP id ji6-20020a170907980600b00920388c7cb8mr6643262ejc.40.1678626815715;
+        Sun, 12 Mar 2023 06:13:35 -0700 (PDT)
 Received: from krzk-bin.. ([2a02:810d:15c0:828:d9f6:3e61:beeb:295a])
-        by smtp.gmail.com with ESMTPSA id r19-20020a1709067fd300b008eddbd46d7esm2213279ejs.31.2023.03.12.06.13.32
+        by smtp.gmail.com with ESMTPSA id r19-20020a1709067fd300b008eddbd46d7esm2213279ejs.31.2023.03.12.06.13.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Mar 2023 06:13:33 -0700 (PDT)
+        Sun, 12 Mar 2023 06:13:35 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Joe Tessler <jrt@google.com>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -85,9 +85,9 @@ To: Joe Tessler <jrt@google.com>,
 	linux-sunxi@lists.linux.dev,
 	linux-rockchip@lists.infradead.org
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 05/28] media: rc: gpio-ir-tx: drop of_match_ptr for ID table
-Date: Sun, 12 Mar 2023 14:12:55 +0100
-Message-Id: <20230312131318.351173-5-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 06/28] media: rc: ir-rx51: drop of_match_ptr for ID table
+Date: Sun, 12 Mar 2023 14:12:56 +0100
+Message-Id: <20230312131318.351173-6-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
 References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
@@ -105,26 +105,26 @@ used and the of_match_ptr does not have any sense (this also allows ACPI
 matching via PRP0001, even though it might not be relevant here).  This
 also fixes !CONFIG_OF error:
 
-  drivers/media/rc/gpio-ir-tx.c:24:34: error: ‘gpio_ir_tx_of_match’ defined but not used [-Werror=unused-const-variable=]
+  drivers/media/rc/ir-rx51.c:264:34: error: ‘ir_rx51_match’ defined but not used [-Werror=unused-const-variable=]
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/media/rc/gpio-ir-tx.c | 2 +-
+ drivers/media/rc/ir-rx51.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/rc/gpio-ir-tx.c b/drivers/media/rc/gpio-ir-tx.c
-index 2b829c146db1..1a8fea357f14 100644
---- a/drivers/media/rc/gpio-ir-tx.c
-+++ b/drivers/media/rc/gpio-ir-tx.c
-@@ -199,7 +199,7 @@ static struct platform_driver gpio_ir_tx_driver = {
- 	.probe	= gpio_ir_tx_probe,
- 	.driver = {
- 		.name	= DRIVER_NAME,
--		.of_match_table = of_match_ptr(gpio_ir_tx_of_match),
-+		.of_match_table = gpio_ir_tx_of_match,
+diff --git a/drivers/media/rc/ir-rx51.c b/drivers/media/rc/ir-rx51.c
+index adbbe639a261..13e81bf8005d 100644
+--- a/drivers/media/rc/ir-rx51.c
++++ b/drivers/media/rc/ir-rx51.c
+@@ -275,7 +275,7 @@ static struct platform_driver ir_rx51_platform_driver = {
+ 	.resume		= ir_rx51_resume,
+ 	.driver		= {
+ 		.name	= KBUILD_MODNAME,
+-		.of_match_table = of_match_ptr(ir_rx51_match),
++		.of_match_table = ir_rx51_match,
  	},
  };
- module_platform_driver(gpio_ir_tx_driver);
+ module_platform_driver(ir_rx51_platform_driver);
 -- 
 2.34.1
 
