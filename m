@@ -1,134 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992F67B
-	for <linux-sunxi@lists.linux.dev>; Sat, 11 Mar 2023 21:17:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B025C433A8;
-	Sat, 11 Mar 2023 21:16:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678569432;
-	bh=nxjIZb2lDBuKK2G4lNzbnKP45y5UoeG95pRVo5INiRE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=bvzKGPqJVg2bAaBl8LvuSNq4FE4F8OHaj0dxY1RmvBRvrUteeh49EnCBFgpLpsimi
-	 X9QjmQX5ru5ARgvQanZf4uxwTdtbSXJBvWNRv/d86I7owOd9TPANApjMIEt8UOom/V
-	 rlpKM3DSWdmGVC5sTOOGKI7C35EJY3xqnU9SQBlbwRy+sPkyfeO2xcIoXPdhr3KG5S
-	 maSO5XBX1iOLzTj27xMUWw1Z5Arz1xysQ8bAZkDXGqorBZ3q1BRVnKovYh/ImB0NqZ
-	 5jPOxe6cAx/K/KlowItsOB1tQgOaqn0wX00B/jAga6Qsnzqoh25kwlapaLa6EQAQNP
-	 eT/NzyqjKOROw==
-From: Mark Brown <broonie@kernel.org>
-To: miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com, 
- jic23@kernel.org, pratyush@kernel.org, Sanju.Mehta@amd.com, 
- chin-ting_kuo@aspeedtech.com, clg@kaod.org, kdasu.kdev@gmail.com, 
- f.fainelli@gmail.com, rjui@broadcom.com, sbranden@broadcom.com, 
- eajames@linux.ibm.com, olteanv@gmail.com, han.xu@nxp.com, 
- john.garry@huawei.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
- khilman@baylibre.com, matthias.bgg@gmail.com, haibo.chen@nxp.com, 
- linus.walleij@linaro.org, daniel@zonque.org, haojian.zhuang@gmail.com, 
- robert.jarzmik@free.fr, agross@kernel.org, heiko@sntech.de, 
- krzysztof.kozlowski@linaro.org, andi@etezian.org, mcoquelin.stm32@gmail.com, 
- alexandre.torgue@foss.st.com, wens@csie.org, jernej.skrabec@gmail.com, 
- samuel@sholland.org, masahisa.kojima@linaro.org, jaswinder.singh@linaro.org, 
- rostedt@goodmis.org, mingo@redhat.com, l.stelmach@samsung.com, 
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
- pabeni@redhat.com, alex.aring@gmail.com, stefan@datenfreihafen.org, 
- kvalo@kernel.org, james.schulman@cirrus.com, david.rhodes@cirrus.com, 
- tanureal@opensource.cirrus.com, rf@opensource.cirrus.com, perex@perex.cz, 
- tiwai@suse.com, npiggin@gmail.com, christophe.leroy@csgroup.eu, 
- mpe@ellerman.id.au, oss@buserror.net, windhl@126.com, 
- yangyingliang@huawei.com, william.zhang@broadcom.com, 
- kursad.oney@broadcom.com, jonas.gorski@gmail.com, anand.gore@broadcom.com, 
- rafal@milecki.pl, Tudor Ambarus <tudor.ambarus@linaro.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Cc: git@amd.com, linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, 
- joel@jms.id.au, andrew@aj.id.au, radu_nicolae.pirea@upb.ro, 
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
- claudiu.beznea@microchip.com, bcm-kernel-feedback-list@broadcom.com, 
- fancer.lancer@gmail.com, kernel@pengutronix.de, festevam@gmail.com, 
- linux-imx@nxp.com, jbrunet@baylibre.com, martin.blumenstingl@googlemail.com, 
- avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com, 
- venture@google.com, yuenn@google.com, benjaminfair@google.com, 
- yogeshgaur.83@gmail.com, konrad.dybcio@somainline.org, 
- alim.akhtar@samsung.com, ldewangan@nvidia.com, thierry.reding@gmail.com, 
- jonathanh@nvidia.com, michal.simek@amd.com, linux-aspeed@lists.ozlabs.org, 
- openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
- linux-rpi-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
- linux-tegra@vger.kernel.org, netdev@vger.kernel.org, 
- linux-wpan@vger.kernel.org, libertas-dev@lists.infradead.org, 
- linux-wireless@vger.kernel.org, linux-mtd@lists.infradead.org, 
- lars@metafoo.de, Michael.Hennerich@analog.com, linux-iio@vger.kernel.org, 
- michael@walle.cc, palmer@dabbelt.com, linux-riscv@lists.infradead.org, 
- alsa-devel@alsa-project.org, patches@opensource.cirrus.com, 
- linuxppc-dev@lists.ozlabs.org, amitrkcian2002@gmail.com
-In-Reply-To: <20230310173217.3429788-1-amit.kumar-mahapatra@amd.com>
-References: <20230310173217.3429788-1-amit.kumar-mahapatra@amd.com>
-Subject: Re: (subset) [PATCH V6 00/15] Add support for stacked/parallel
- memories
-Message-Id: <167856940280.964268.10660159170818600511.b4-ty@kernel.org>
-Date: Sat, 11 Mar 2023 21:16:42 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F161FC5
+	for <linux-sunxi@lists.linux.dev>; Sun, 12 Mar 2023 13:13:27 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id g10so9626174eda.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 12 Mar 2023 06:13:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678626806;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mjvZGlI9gqxKHJb6Zb5Fkc5S1/fsh/NgaCfi/T9v11Y=;
+        b=lKlYxxhYCKn0JxPwkYKx3vASmrkH+srcYSRHily2tzLUxFl3QklS8Q4NAB9udLBZho
+         dDGPZTBINPga+76lbL33R0Ue0ftkVUUQLxJzi4w9KwBDni2xOXZwaZzbSux02prlPDHP
+         vJ7nGGelocPKxiZAPsodErx2JPF3u6mnEqcDFc2Wm/P0mWtV1EylhbCj0fTAm6z6v6t4
+         CdJ8Mm8qbbJwTOuhYW9bDTdnFKTImZMFdRSyvSmbjiOQG5UwzZqJrRtqjTlrTWLJdknY
+         zHGpr1crUtQGblfLv3akSTMscNClIduQLP5C6mBhyVCwurXuWWNgdYQ93BE30x0tKpwz
+         Z2KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678626806;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mjvZGlI9gqxKHJb6Zb5Fkc5S1/fsh/NgaCfi/T9v11Y=;
+        b=CEhPFw8zr4WqhTt08kc7r9zy4sXZEj/ANlB4ufqxIvu6WkqqvIp7xoKiKdSEpe1Nkk
+         cYSjdPyPOPUF+1gwisypC9w/6+AFrNEsakRPpCJ9l/SN8sp2kYiRduCdmsXK8alxfLt4
+         fGyGK+cRKci9LWr8UYoQDeyGshDmF4RUWPx1mL/WzoU62apENf5z0xaCPc2TR9Uc4Rro
+         oNrc9RfzgrxaoupZBb9yGgtLstmhZH6SvukxJrblyCYeN3xXo/HDEAJWW5jJY/Sr5SI4
+         9G4neEZqWr4BZOWYQr5Cd65yNLS1vwJRhEjMaGjmqdc5mdeJ1B3tsiC42yRv+vbZKnHW
+         IdHA==
+X-Gm-Message-State: AO0yUKVhuqKuPeV1erEpVBA268vmf3+5in5Eazz6ZU34BwRXJHltuQNg
+	rxtd9uj9/tvy52NzvoNnrovWKA==
+X-Google-Smtp-Source: AK7set+EVWjyvBDbBmHCcExD0NtojGt3goUEamDttcbYP3oPo0KNy0WQIuIA/C83vuguDS3t+796Xw==
+X-Received: by 2002:a17:907:98e6:b0:929:43b5:8e69 with SMTP id ke6-20020a17090798e600b0092943b58e69mr166365ejc.40.1678626805682;
+        Sun, 12 Mar 2023 06:13:25 -0700 (PDT)
+Received: from krzk-bin.. ([2a02:810d:15c0:828:d9f6:3e61:beeb:295a])
+        by smtp.gmail.com with ESMTPSA id r19-20020a1709067fd300b008eddbd46d7esm2213279ejs.31.2023.03.12.06.13.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Mar 2023 06:13:25 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Joe Tessler <jrt@google.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Wenyou Yang <wenyou.yang@microchip.com>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Yong Deng <yong.deng@magewell.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sean Young <sean@mess.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-rockchip@lists.infradead.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 01/28] media: cec: ch7322: drop of_match_ptr for ID table
+Date: Sun, 12 Mar 2023 14:12:51 +0100
+Message-Id: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-2eb1a
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 10 Mar 2023 23:02:02 +0530, Amit Kumar Mahapatra wrote:
-> This patch is in the continuation to the discussions which happened on
-> 'commit f89504300e94 ("spi: Stacked/parallel memories bindings")' for
-> adding dt-binding support for stacked/parallel memories.
-> 
-> This patch series updated the spi-nor, spi core and the spi drivers
-> to add stacked and parallel memories support.
-> 
-> [...]
+The driver can match only via the DT table so the table should be always
+used and the of_match_ptr does not have any sense (this also allows ACPI
+matching via PRP0001, even though it might not be relevant here).
 
-Applied to
+  drivers/media/cec/i2c/ch7322.c:583:34: error: ‘ch7322_of_match’ defined but not used [-Werror=unused-const-variable=]
 
-   broonie/spi.git for-next
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ drivers/media/cec/i2c/ch7322.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks!
-
-[01/15] spi: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        commit: 9e264f3f85a56cc109cc2d6010a48aa89d5c1ff1
-[02/15] net: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        commit: 25fd0550d9b9c92288a17fb7d605cdcdb4a65a64
-[03/15] iio: imu: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        commit: 0183f81fce154ae1d4df2bb28d22ad6612317148
-[04/15] mtd: devices: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        commit: 0817bcef53e4e3df23c023eddaa2b35b7288400e
-[05/15] staging: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        commit: caa9d3475b1c5566f0272273c147cc9b72f2be28
-[06/15] platform/x86: serial-multi-instantiate: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        commit: e20451f44ca33ec40422e9868775e117ef2da935
-[07/15] powerpc/83xx/mpc832x_rdb: Replace all spi->chip_select references with function call
-        commit: 3aba06a9fee04f6fefa9df71d3ee27dd4c464ad5
-[08/15] ALSA: hda: cs35l41: Replace all spi->chip_select references with function call
-        commit: 06b5e53c8b2b016e06a53ab6f01006ca7bbfa5df
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/drivers/media/cec/i2c/ch7322.c b/drivers/media/cec/i2c/ch7322.c
+index 34fad7123704..3c6e6496a001 100644
+--- a/drivers/media/cec/i2c/ch7322.c
++++ b/drivers/media/cec/i2c/ch7322.c
+@@ -589,7 +589,7 @@ MODULE_DEVICE_TABLE(of, ch7322_of_match);
+ static struct i2c_driver ch7322_i2c_driver = {
+ 	.driver = {
+ 		.name = "ch7322",
+-		.of_match_table = of_match_ptr(ch7322_of_match),
++		.of_match_table = ch7322_of_match,
+ 	},
+ 	.probe_new	= ch7322_probe,
+ 	.remove		= ch7322_remove,
+-- 
+2.34.1
 
