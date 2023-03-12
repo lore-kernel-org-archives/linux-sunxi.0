@@ -1,43 +1,43 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 049FE1FC5
-	for <linux-sunxi@lists.linux.dev>; Sun, 12 Mar 2023 13:13:54 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id cy23so38397539edb.12
-        for <linux-sunxi@lists.linux.dev>; Sun, 12 Mar 2023 06:13:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5851FC8
+	for <linux-sunxi@lists.linux.dev>; Sun, 12 Mar 2023 13:13:56 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id g10so9629306eda.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 12 Mar 2023 06:13:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678626833;
+        d=linaro.org; s=google; t=1678626836;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EnLBQwh0LWohgIW0ttdnCRYb1T+hHfqYVBdWUEvm5SY=;
-        b=La4x93DEoIwur2ndgJwLR2ny+YVu7M7nkEdhVk1ax5v8kLMw3TJYokXlZF8BTLzFjr
-         PRu/S0l02NyAfTpFe4pEI66UWaAF6uJmcsVb1BR2FK6jsIfvFwDPOFk5wFG2iVlmIxhI
-         ZJ/g12UWKozHWmTzOeZepQ3MJ3r7QVlHcomJFs3p2sPClVH5Gx16kWz33VatYadsdgFk
-         8+5zH1m4BC6cKBxTckNMY0KDC0pilc1T9xae70XkESQD63z5dT3nFJX5kwAf9svjvpJT
-         c3i2O6EBh/quArbGNHgqQMbDNPKQh6Z10jClmZdBJqN51EgX8JTNuD0PGN37wDWnlHFV
-         5sZw==
+        bh=hGcITVAy31UtuDH6LhnS9qeMquB4EE88f+CeXXPHp2U=;
+        b=IGwMfRxSQH94lhO7ruCuqsRs1ghGWJPtzeLBso4IOoVonwH/Wk7MA8ZDzMdXPXS9J2
+         ib0mD6oPs5YYF2O/8kdhDCgs703SbrzaFKCpFD/WL+t1KVqEJ1it7YJIiAJjC5M01esC
+         jcU/DXpkRp0c6gkguud2G1YRLTwdtTF6MyQFenctLsdNunaGSXbVEFEetgQg2eDgbt1w
+         Ph3ycQQrUHRZo/Hktfma5zrklPCOvni8mFHLYTlsXYqlTGot9IF9No4FYe50D3AZGKHK
+         2BARURtswtRfXN9aR8LCljCS/kcKIWD8WHbBaCYeHu/M4q7RkgVJPvoT3PsvMR+pGmGv
+         rbXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678626833;
+        d=1e100.net; s=20210112; t=1678626836;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EnLBQwh0LWohgIW0ttdnCRYb1T+hHfqYVBdWUEvm5SY=;
-        b=mLakipUxdHj572Kh4eHmloiMjKT4c3G10QaNet+/81F1mFLoqNjRlDFdgjoYs0LOsx
-         PzO7n4aCGaEF/J7ifOw5UeOi7d45HzoD5uRT3yjikg5OjGzgNWrM8oRTGzcLZqmwu7os
-         NnWyqFlCcsS1gQkjD5fWD+z92IuJ+WqdkNYBegf/DeBX/c0Kpepvs2+XU8h11hNXy/gz
-         8k+Zqf/fC30Ooxutpw6yYOvNTCt0ASAaZK38EIkKBfRKgDjiIS3Y4Z5zID6ZJ16XWHfg
-         S6yTv8AS1N7AKAXYeQCurRXQAPWDQfYpf7LamArijNSfRdbRFtYU/gmzUUpbfdIWj1gj
-         QTXQ==
-X-Gm-Message-State: AO0yUKXDuhYVKJe2oAr7DHCuwi73J3QurVzg9zgPJD4Wa3qdTwQf88yI
-	5MJtQ0r6nYDoVlXPoA6KDl5nkA==
-X-Google-Smtp-Source: AK7set9Bjjfvn/Sovq5DWKvwxol1DOkWW2/CuykQR76iLeg9De2xNQq2nnrXH4F7baVnuHw64PeF1g==
-X-Received: by 2002:a17:907:1c1f:b0:884:930:b014 with SMTP id nc31-20020a1709071c1f00b008840930b014mr39417055ejc.6.1678626833357;
-        Sun, 12 Mar 2023 06:13:53 -0700 (PDT)
+        bh=hGcITVAy31UtuDH6LhnS9qeMquB4EE88f+CeXXPHp2U=;
+        b=sviLKytwptf2+OVHoXJInYfylE0PlA1mbDIz0zAMg6nyovD4LS5ImmMt/5erZrwzbs
+         /jnfwcfhM3kRYsM92d3we5MQkord4jiWnuelUEb4wQthttBonU7tvGABqx4t1u2a9jQp
+         KWqbcBOm8TS/TS6QoxSPgpAAbWlT0S1Z7CBSJxs+SiL4jlEZbiyRQrE1mjo7LEwTXS1L
+         /qnOF2xoPha9xbK7sBhp0YbtzCj9vDyXJsAqpuiBEXeeqssJOFkBWIUVfsuwA3GpsGTj
+         8fNXiE9OPOv1iXDkKZGmjddv+hQziveWNkI10TARYoNGuTkdshBvXzMbox8a44EXnsxQ
+         feZQ==
+X-Gm-Message-State: AO0yUKUftKxZ/kuPLhW0b+tlFc0OF8UxDy5Yw46K/xqkHb8EPP89jJxZ
+	Xly/8H6pxmn6457JWV7bA7AeWw==
+X-Google-Smtp-Source: AK7set/xivJKH0hcau66sU8fJqKK2GNHVix/5Dk94HStfVumSSriO/XOviLFoDjpZUHmFVs9JDdUDg==
+X-Received: by 2002:a17:907:6d08:b0:887:dea8:b029 with SMTP id sa8-20020a1709076d0800b00887dea8b029mr36591244ejc.1.1678626835335;
+        Sun, 12 Mar 2023 06:13:55 -0700 (PDT)
 Received: from krzk-bin.. ([2a02:810d:15c0:828:d9f6:3e61:beeb:295a])
-        by smtp.gmail.com with ESMTPSA id r19-20020a1709067fd300b008eddbd46d7esm2213279ejs.31.2023.03.12.06.13.51
+        by smtp.gmail.com with ESMTPSA id r19-20020a1709067fd300b008eddbd46d7esm2213279ejs.31.2023.03.12.06.13.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Mar 2023 06:13:52 -0700 (PDT)
+        Sun, 12 Mar 2023 06:13:55 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Joe Tessler <jrt@google.com>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -85,9 +85,9 @@ To: Joe Tessler <jrt@google.com>,
 	linux-sunxi@lists.linux.dev,
 	linux-rockchip@lists.infradead.org
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 15/28] media: platform: mdp3: mark OF related data as maybe unused
-Date: Sun, 12 Mar 2023 14:13:05 +0100
-Message-Id: <20230312131318.351173-15-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 16/28] media: platform: sun6i-csi: drop of_match_ptr for ID table
+Date: Sun, 12 Mar 2023 14:13:06 +0100
+Message-Id: <20230312131318.351173-16-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
 References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
@@ -100,38 +100,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The driver can be compile tested with !CONFIG_OF making certain data
-unused:
+The driver can match only via the DT table so the table should be always
+used and the of_match_ptr does not have any sense (this also allows ACPI
+matching via PRP0001, even though it might not be relevant here).  This
+also fixes !CONFIG_OF error:
 
-  drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c:627:34: error: ‘mdp_sub_comp_dt_ids’ defined but not used [-Werror=unused-const-variable=]
+  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c:401:34: error: ‘sun6i_csi_of_match’ defined but not used [-Werror=unused-const-variable=]
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-index 091a68685590..817ba9660b5f 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-@@ -604,7 +604,7 @@ static const struct mdp_comp_match mdp_comp_matches[MDP_MAX_COMP_COUNT] = {
- 	[MDP_COMP_WDMA] =	{ MDP_COMP_TYPE_WDMA, 0 },
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+index e3e6650181c8..187a2419da96 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+@@ -429,7 +429,7 @@ static struct platform_driver sun6i_csi_platform_driver = {
+ 	.remove	= sun6i_csi_remove,
+ 	.driver	= {
+ 		.name		= SUN6I_CSI_NAME,
+-		.of_match_table	= of_match_ptr(sun6i_csi_of_match),
++		.of_match_table	= sun6i_csi_of_match,
+ 		.pm		= &sun6i_csi_pm_ops,
+ 	},
  };
- 
--static const struct of_device_id mdp_comp_dt_ids[] = {
-+static const struct of_device_id mdp_comp_dt_ids[] __maybe_unused = {
- 	{
- 		.compatible = "mediatek,mt8183-mdp3-rdma",
- 		.data = (void *)MDP_COMP_TYPE_RDMA,
-@@ -624,7 +624,7 @@ static const struct of_device_id mdp_comp_dt_ids[] = {
- 	{}
- };
- 
--static const struct of_device_id mdp_sub_comp_dt_ids[] = {
-+static const struct of_device_id mdp_sub_comp_dt_ids[] __maybe_unused = {
- 	{
- 		.compatible = "mediatek,mt8183-mdp3-wdma",
- 		.data = (void *)MDP_COMP_TYPE_PATH,
 -- 
 2.34.1
 
