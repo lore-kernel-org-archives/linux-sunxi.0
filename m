@@ -1,19 +1,19 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BABD1FC5
-	for <linux-sunxi@lists.linux.dev>; Sun, 12 Mar 2023 13:44:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F721FC5
+	for <linux-sunxi@lists.linux.dev>; Sun, 12 Mar 2023 13:45:10 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (85-76-21-162-nat.elisa-mobile.fi [85.76.21.162])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 75C1B814;
-	Sun, 12 Mar 2023 14:44:50 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 36404D5F;
+	Sun, 12 Mar 2023 14:45:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1678628692;
-	bh=Gf4R8APgW+8d30ALT2Qx8sbhHo3cryP7NIpDmZDCrv0=;
+	s=mail; t=1678628709;
+	bh=Zge1++nlY4nQwaZw6hX8CIUKOyEq8hcIOLjF6pHDcZo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jZEACncLcJxuOrh8OeqcKJGvRW78xO4EdQ/4QZg4hjFkg1uSgSPfTqSE1EzlLDTm7
-	 vrvIzzdogv5ePI0W1USX4KN6nyamrOD+mKZHARzsWogvaJJR+aFinOybXSpz4pIsd6
-	 xAK6azy2RiExNid6RFBv6PJgW/R29R3vEntuWhqg=
-Date: Sun, 12 Mar 2023 15:44:41 +0200
+	b=XJZ//ZHE3EbQS8Y4lNXhTDBZP4Jjk20f3KPF//qHiq3BrXlTY/FD66fPC10Hvt2+w
+	 wHFbQfPcoD3oSwVMGOQUvrcnSdbypRP2LNA6j52wT64JJA/QzIyTJmopOinHD5nKiW
+	 ejmyEBAuYy3NuXFkDNOql56IcKUI3wPSj4tTVzEM=
+Date: Sun, 12 Mar 2023 15:44:56 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Joe Tessler <jrt@google.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -55,10 +55,10 @@ Cc: Joe Tessler <jrt@google.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
 	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 25/28] media: i2c: ov7740: drop of_match_ptr for ID table
-Message-ID: <20230312134441.GC8229@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 26/28] media: i2c: imx290: drop of_match_ptr for ID table
+Message-ID: <20230312134456.GN2545@pendragon.ideasonboard.com>
 References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
- <20230312131318.351173-25-krzysztof.kozlowski@linaro.org>
+ <20230312131318.351173-26-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -68,41 +68,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230312131318.351173-25-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230312131318.351173-26-krzysztof.kozlowski@linaro.org>
 
 Hi Krzysztof,
 
 Thank you for the patch.
 
-On Sun, Mar 12, 2023 at 02:13:15PM +0100, Krzysztof Kozlowski wrote:
-> The driver will match mostly by DT table (even thought there is regular
-> ID table) so there is little benefit in of_match_ptr (this also allows
-> ACPI matching via PRP0001, even though it might not be relevant here).
-> This also fixes !CONFIG_OF error:
+On Sun, Mar 12, 2023 at 02:13:16PM +0100, Krzysztof Kozlowski wrote:
+> The driver can match only via the DT table so the table should be always
+> used and the of_match_ptr does not have any sense (this also allows ACPI
+> matching via PRP0001, even though it might not be relevant here).  This
+> also fixes !CONFIG_OF error:
 > 
->   drivers/media/i2c/ov7740.c:1203:34: error: ‘ov7740_of_match’ defined but not used [-Werror=unused-const-variable=]
+>   drivers/media/i2c/imx290.c:1354:34: error: ‘imx290_of_match’ defined but not used [-Werror=unused-const-variable=]
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/media/i2c/ov7740.c | 2 +-
+>  drivers/media/i2c/imx290.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/i2c/ov7740.c b/drivers/media/i2c/ov7740.c
-> index c9fd9b0bc54a..42121916d25f 100644
-> --- a/drivers/media/i2c/ov7740.c
-> +++ b/drivers/media/i2c/ov7740.c
-> @@ -1210,7 +1210,7 @@ static struct i2c_driver ov7740_i2c_driver = {
+> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> index 49d6c8bdec41..3c9470fbfd53 100644
+> --- a/drivers/media/i2c/imx290.c
+> +++ b/drivers/media/i2c/imx290.c
+> @@ -1363,7 +1363,7 @@ static struct i2c_driver imx290_i2c_driver = {
 >  	.driver = {
->  		.name = "ov7740",
->  		.pm = &ov7740_pm_ops,
-> -		.of_match_table = of_match_ptr(ov7740_of_match),
-> +		.of_match_table = ov7740_of_match,
+>  		.name  = "imx290",
+>  		.pm = &imx290_pm_ops,
+> -		.of_match_table = of_match_ptr(imx290_of_match),
+> +		.of_match_table = imx290_of_match,
 >  	},
->  	.probe_new = ov7740_probe,
->  	.remove   = ov7740_remove,
+>  };
+>  
 
 -- 
 Regards,
