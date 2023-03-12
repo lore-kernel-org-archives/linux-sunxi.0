@@ -1,43 +1,43 @@
 Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F1F1FC5
-	for <linux-sunxi@lists.linux.dev>; Sun, 12 Mar 2023 13:14:03 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id g10so9630059eda.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 12 Mar 2023 06:14:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 896F91FC5
+	for <linux-sunxi@lists.linux.dev>; Sun, 12 Mar 2023 13:14:05 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id er25so10371593edb.5
+        for <linux-sunxi@lists.linux.dev>; Sun, 12 Mar 2023 06:14:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678626843;
+        d=linaro.org; s=google; t=1678626845;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Z7zCiKznvtISJjaLkQGP6+7WjJ33gWstbauf9XZGz6U=;
-        b=hkgeQTl7kiZH/3Q54ASwYRPqBYEKm9l2FvNF4N6ujUzpjYBOHSlr9uaGtfsFgk5dUy
-         Lf7kyZH3h1JJOZsT/VqnMhAwIr9habC6FILxMvlJg+5lDE8Gm8v9LoOiSX0AgLvzYOXV
-         D1eMF/v8xIRnSfqePFrzRlbuWXhKfLcsc5BxUvRxpTQsE40ns4iU8iLxwlkwixvZdt1i
-         plgBO2DlKmx7mC/7hZlCbT6NpXJAd3vc/duYJ32+zVYAhmGzyshA+m/npMOTDXiqIciY
-         cqtNGAb85Dl+16dZ0hHPIPDKjL/nPIK6PpZ9XRG6VOw8dR+hyXC1DPyCGKqcyAUvnNbP
-         D7MA==
+        bh=TNgYfofTMT0DwU3/gnE/zf49ZhjV1abWtqYCyvkVzBQ=;
+        b=EgkbAPHTPzo9cfWlbLRM6KLB9a2CDiyTPjgvZIkiQB2D3eAiH7zCEO3VPovDUd+GB4
+         KX5pcpWniraKhokFUITVAYNqggo8wmVnv51oebW8T+jTWoS8EYz5RuidnQho16MtLB5Y
+         6HnazuF5aS+d0nJV3e7wA/9S90PNSqDWAroW/WjB+cwKhBYuD2AiqFCxO/6DSf+Lzzh5
+         s1erEPkcKXTBdvZZEH+znboKjx0L7miHhUyOS7X5sprDW30hvRNz7iLwKLf6cCe9e+VE
+         4sxLBtwFF/inQe5VeT2sEqF81F41KzmIGM4nDHT9s2mV60jv2F0INyTIWn4VM/cwT76j
+         nAww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678626843;
+        d=1e100.net; s=20210112; t=1678626845;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Z7zCiKznvtISJjaLkQGP6+7WjJ33gWstbauf9XZGz6U=;
-        b=0Bu+keofU/rM6F7n0eogIc3aJOv72NZmS0TdUBmQD5NBKvyOORFJ3tPTBaHKuZWOTF
-         tPXgpjOM67QROoP4DDRslE6wrZOREA00vUhfcu+Uh+jz/dJDEkiR6HhhQounqJ1BFD6l
-         Eg3JJYbceNrL/JMHSF8C7bisCzJNPrx58fJHoVKwNUzn2giEXSg+vBNbvFaJqBcbCO06
-         bC6Y5Dphl0vusCE2hPTxto89B7t3z8rQr09BMpEftYgdrQxRsuXiv8OfDzkys/HVkIl5
-         RqJuKa4tXyFPSlbpWhpSWe0iakep0zmwyCWjOEsKBuaGMe9L1VGCI1LhF+/5a2AU7z9+
-         5H+w==
-X-Gm-Message-State: AO0yUKWfkJUwSssnIP2XFfQVFEiDJLH0V552gR17Axgn2qy2iLzIqVVE
-	a95HVawjKMouzzUDGRgRTmb4qw==
-X-Google-Smtp-Source: AK7set9rwzHv7NjHz3Ld8t1U7IlpFCFMC7/C2h9WMvqIP99asEQnOhRylPIAm1sXrRZyif38WBVBkg==
-X-Received: by 2002:a17:906:855:b0:921:c122:52a7 with SMTP id f21-20020a170906085500b00921c12252a7mr4317759ejd.22.1678626843141;
-        Sun, 12 Mar 2023 06:14:03 -0700 (PDT)
+        bh=TNgYfofTMT0DwU3/gnE/zf49ZhjV1abWtqYCyvkVzBQ=;
+        b=tuMSTXTN37n/QoMbtzhs5K5jp2gjez7E6Mqn5RRys2PB7F/mR76ppDL2eofc/1MfH9
+         W+ClIQ5ZExF7bGTK+9L6HwsC1qEjVYieREWLcOwHpOgA+4AyU0tLc7c+4N8pT9mCUqzH
+         cuA72gtAoHaw60GqhjL+rZ94maSqiNahTIkMP3W9Mr5Rs38jLgvSnOaOb262hy3JAk+w
+         8oC5VTGomlV7dulDjJX3LbF2fiJEA9EiUsiFJloUdmV7doLx6u3YF8fy2t/gG3ofh45S
+         G3WMdM/Pt5oogrApN/JU7H2a71RnHAfkWBUR6eY9zzVK5kjcbZhOBxmXSRkB0kOot9b+
+         vnmw==
+X-Gm-Message-State: AO0yUKVwaREScmZJZez2ZG4y3BF+waER78jwE4i5PKs9XQ08wznTsBBq
+	RVZWu47lu0K2qaNZT2fLc4EIrw==
+X-Google-Smtp-Source: AK7set/vg3wcNxuj5n3r+oFsWS7o7VFQ0ZolSjtjcry30Pr24as5+4q+gdgTFv63DmbvH/wtTzc+Fw==
+X-Received: by 2002:a17:906:4f94:b0:8ed:e8d6:42c4 with SMTP id o20-20020a1709064f9400b008ede8d642c4mr31116353eju.12.1678626845092;
+        Sun, 12 Mar 2023 06:14:05 -0700 (PDT)
 Received: from krzk-bin.. ([2a02:810d:15c0:828:d9f6:3e61:beeb:295a])
-        by smtp.gmail.com with ESMTPSA id r19-20020a1709067fd300b008eddbd46d7esm2213279ejs.31.2023.03.12.06.14.01
+        by smtp.gmail.com with ESMTPSA id r19-20020a1709067fd300b008eddbd46d7esm2213279ejs.31.2023.03.12.06.14.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Mar 2023 06:14:02 -0700 (PDT)
+        Sun, 12 Mar 2023 06:14:04 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Joe Tessler <jrt@google.com>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -85,9 +85,9 @@ To: Joe Tessler <jrt@google.com>,
 	linux-sunxi@lists.linux.dev,
 	linux-rockchip@lists.infradead.org
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 20/28] media: platform: jpeg: always reference OF data
-Date: Sun, 12 Mar 2023 14:13:10 +0100
-Message-Id: <20230312131318.351173-20-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 21/28] media: i2c: isl7998x: drop of_match_ptr for ID table
+Date: Sun, 12 Mar 2023 14:13:11 +0100
+Message-Id: <20230312131318.351173-21-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
 References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
@@ -100,46 +100,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The driver can match only via the DT table so the table should be always
-used and the of_match_ptr does not have any sense (this also allows ACPI
-matching via PRP0001, even though it might not be relevant here).  This
-also fixes !CONFIG_OF error:
+The driver will match mostly by DT table (even thought there is regular
+ID table) so there is little benefit in of_match_ptr (this also allows
+ACPI matching via PRP0001, even though it might not be relevant here).
+This also fixes !CONFIG_OF error:
 
-  drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1890:38: error: ‘mtk8195_jpegdec_drvdata’ defined but not used [-Werror=unused-const-variable=]
+  drivers/media/i2c/isl7998x.c:1557:34: error: ‘isl7998x_of_match’ defined but not used [-Werror=unused-const-variable=]
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/media/i2c/isl7998x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-index 969516a940ba..bd12e73492e5 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-@@ -1898,7 +1898,6 @@ static const struct mtk_jpeg_variant mtk8195_jpegdec_drvdata = {
- 	.cap_q_default_fourcc = V4L2_PIX_FMT_YUV420M,
- };
- 
--#if defined(CONFIG_OF)
- static const struct of_device_id mtk_jpeg_match[] = {
- 	{
- 		.compatible = "mediatek,mt8173-jpgdec",
-@@ -1924,14 +1923,13 @@ static const struct of_device_id mtk_jpeg_match[] = {
- };
- 
- MODULE_DEVICE_TABLE(of, mtk_jpeg_match);
--#endif
- 
- static struct platform_driver mtk_jpeg_driver = {
- 	.probe = mtk_jpeg_probe,
- 	.remove = mtk_jpeg_remove,
+diff --git a/drivers/media/i2c/isl7998x.c b/drivers/media/i2c/isl7998x.c
+index ae7af2cc94f5..b2b351816b82 100644
+--- a/drivers/media/i2c/isl7998x.c
++++ b/drivers/media/i2c/isl7998x.c
+@@ -1611,7 +1611,7 @@ static const struct dev_pm_ops isl7998x_pm_ops = {
+ static struct i2c_driver isl7998x_i2c_driver = {
  	.driver = {
- 		.name           = MTK_JPEG_NAME,
--		.of_match_table = of_match_ptr(mtk_jpeg_match),
-+		.of_match_table = mtk_jpeg_match,
- 		.pm             = &mtk_jpeg_pm_ops,
+ 		.name = "isl7998x",
+-		.of_match_table = of_match_ptr(isl7998x_of_match),
++		.of_match_table = isl7998x_of_match,
+ 		.pm = &isl7998x_pm_ops,
  	},
- };
+ 	.probe_new	= isl7998x_probe,
 -- 
 2.34.1
 
