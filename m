@@ -1,24 +1,26 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 447B023A7
-	for <linux-sunxi@lists.linux.dev>; Mon, 13 Mar 2023 10:19:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEF9623A7
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 Mar 2023 10:23:01 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 51AC74B3;
-	Mon, 13 Mar 2023 03:20:32 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 12DE44B3;
+	Mon, 13 Mar 2023 03:23:45 -0700 (PDT)
 Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 710783F71A;
-	Mon, 13 Mar 2023 03:19:47 -0700 (PDT)
-Date: Mon, 13 Mar 2023 10:19:41 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CB2553F71A;
+	Mon, 13 Mar 2023 03:22:59 -0700 (PDT)
+Date: Mon, 13 Mar 2023 10:22:46 +0000
 From: Andre Przywara <andre.przywara@arm.com>
 To: Rob Herring <robh@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+Cc: Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ devicetree@vger.kernel.org, linux-rtc@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] soc: sunxi: Use of_property_present() for testing DT
+Subject: Re: [PATCH] rtc: sun6i: Use of_property_present() for testing DT
  property presence
-Message-ID: <20230313101941.366738a9@slackpad.lan>
-In-Reply-To: <20230310144724.1545223-1-robh@kernel.org>
-References: <20230310144724.1545223-1-robh@kernel.org>
+Message-ID: <20230313102246.6a41d61e@slackpad.lan>
+In-Reply-To: <20230310144736.1547041-1-robh@kernel.org>
+References: <20230310144736.1547041-1-robh@kernel.org>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -30,7 +32,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri, 10 Mar 2023 08:47:24 -0600
+On Fri, 10 Mar 2023 08:47:36 -0600
 Rob Herring <robh@kernel.org> wrote:
 
 > It is preferred to use typed property access functions (i.e.
@@ -48,20 +50,20 @@ Cheers,
 Andre
 
 > ---
->  drivers/soc/sunxi/sunxi_mbus.c | 2 +-
+>  drivers/rtc/rtc-sun6i.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/soc/sunxi/sunxi_mbus.c b/drivers/soc/sunxi/sunxi_mbus.c
-> index d90e4a264b6f..1734da357ca2 100644
-> --- a/drivers/soc/sunxi/sunxi_mbus.c
-> +++ b/drivers/soc/sunxi/sunxi_mbus.c
-> @@ -82,7 +82,7 @@ static int sunxi_mbus_notifier(struct notifier_block *nb,
->  	 * Older DTs or SoCs who are not clearly understood need to set
->  	 * that DMA offset though.
->  	 */
-> -	if (of_find_property(dev->of_node, "interconnects", NULL))
-> +	if (of_property_present(dev->of_node, "interconnects"))
->  		return NOTIFY_DONE;
+> diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+> index 7038f47d77ff..dc76537f1b62 100644
+> --- a/drivers/rtc/rtc-sun6i.c
+> +++ b/drivers/rtc/rtc-sun6i.c
+> @@ -260,7 +260,7 @@ static void __init sun6i_rtc_clk_init(struct device_node *node,
+>  	}
 >  
->  	ret = dma_direct_set_offset(dev, PHYS_OFFSET, 0, SZ_4G);
+>  	/* Switch to the external, more precise, oscillator, if present */
+> -	if (of_get_property(node, "clocks", NULL)) {
+> +	if (of_property_present(node, "clocks")) {
+>  		reg |= SUN6I_LOSC_CTRL_EXT_OSC;
+>  		if (rtc->data->has_losc_en)
+>  			reg |= SUN6I_LOSC_CTRL_EXT_LOSC_EN;
 
