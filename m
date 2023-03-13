@@ -1,26 +1,26 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEF9623A7
-	for <linux-sunxi@lists.linux.dev>; Mon, 13 Mar 2023 10:23:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D97923A7
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 Mar 2023 10:27:00 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 12DE44B3;
-	Mon, 13 Mar 2023 03:23:45 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5925E152B;
+	Mon, 13 Mar 2023 03:27:43 -0700 (PDT)
 Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CB2553F71A;
-	Mon, 13 Mar 2023 03:22:59 -0700 (PDT)
-Date: Mon, 13 Mar 2023 10:22:46 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3AB2D3F71A;
+	Mon, 13 Mar 2023 03:26:58 -0700 (PDT)
+Date: Mon, 13 Mar 2023 10:26:48 +0000
 From: Andre Przywara <andre.przywara@arm.com>
 To: Rob Herring <robh@kernel.org>
-Cc: Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- devicetree@vger.kernel.org, linux-rtc@vger.kernel.org,
+Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
+ <kishon@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ devicetree@vger.kernel.org, linux-phy@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] rtc: sun6i: Use of_property_present() for testing DT
- property presence
-Message-ID: <20230313102246.6a41d61e@slackpad.lan>
-In-Reply-To: <20230310144736.1547041-1-robh@kernel.org>
-References: <20230310144736.1547041-1-robh@kernel.org>
+Subject: Re: [PATCH] phy: Use of_property_present() for testing DT property
+ presence
+Message-ID: <20230313102648.324f6e75@slackpad.lan>
+In-Reply-To: <20230310144720.1544600-1-robh@kernel.org>
+References: <20230310144720.1544600-1-robh@kernel.org>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -32,7 +32,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri, 10 Mar 2023 08:47:36 -0600
+On Fri, 10 Mar 2023 08:47:20 -0600
 Rob Herring <robh@kernel.org> wrote:
 
 > It is preferred to use typed property access functions (i.e.
@@ -44,26 +44,40 @@ Rob Herring <robh@kernel.org> wrote:
 > 
 > Signed-off-by: Rob Herring <robh@kernel.org>
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+(for both:) Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
 Cheers,
 Andre
 
 > ---
->  drivers/rtc/rtc-sun6i.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/phy/allwinner/phy-sun4i-usb.c  | 2 +-
+>  drivers/phy/broadcom/phy-bcm-ns-usb2.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
-> index 7038f47d77ff..dc76537f1b62 100644
-> --- a/drivers/rtc/rtc-sun6i.c
-> +++ b/drivers/rtc/rtc-sun6i.c
-> @@ -260,7 +260,7 @@ static void __init sun6i_rtc_clk_init(struct device_node *node,
+> diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
+> index fbcd7014ab43..fc9f6fb447a0 100644
+> --- a/drivers/phy/allwinner/phy-sun4i-usb.c
+> +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
+> @@ -758,7 +758,7 @@ static int sun4i_usb_phy_probe(struct platform_device *pdev)
+>  		return PTR_ERR(data->vbus_det_gpio);
 >  	}
 >  
->  	/* Switch to the external, more precise, oscillator, if present */
-> -	if (of_get_property(node, "clocks", NULL)) {
-> +	if (of_property_present(node, "clocks")) {
->  		reg |= SUN6I_LOSC_CTRL_EXT_OSC;
->  		if (rtc->data->has_losc_en)
->  			reg |= SUN6I_LOSC_CTRL_EXT_LOSC_EN;
+> -	if (of_find_property(np, "usb0_vbus_power-supply", NULL)) {
+> +	if (of_property_present(np, "usb0_vbus_power-supply")) {
+>  		data->vbus_power_supply = devm_power_supply_get_by_phandle(dev,
+>  						     "usb0_vbus_power-supply");
+>  		if (IS_ERR(data->vbus_power_supply)) {
+> diff --git a/drivers/phy/broadcom/phy-bcm-ns-usb2.c b/drivers/phy/broadcom/phy-bcm-ns-usb2.c
+> index 6a36e187d100..269564bdf687 100644
+> --- a/drivers/phy/broadcom/phy-bcm-ns-usb2.c
+> +++ b/drivers/phy/broadcom/phy-bcm-ns-usb2.c
+> @@ -107,7 +107,7 @@ static int bcm_ns_usb2_probe(struct platform_device *pdev)
+>  		return -ENOMEM;
+>  	usb2->dev = dev;
+>  
+> -	if (of_find_property(dev->of_node, "brcm,syscon-clkset", NULL)) {
+> +	if (of_property_present(dev->of_node, "brcm,syscon-clkset")) {
+>  		usb2->base = devm_platform_ioremap_resource(pdev, 0);
+>  		if (IS_ERR(usb2->base)) {
+>  			dev_err(dev, "Failed to map control reg\n");
 
