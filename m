@@ -1,42 +1,42 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88DEA2F52
-	for <linux-sunxi@lists.linux.dev>; Mon, 13 Mar 2023 15:51:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4342F56
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 Mar 2023 15:51:47 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D3D6422AE2;
-	Mon, 13 Mar 2023 15:51:46 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7B3E71FE1D;
+	Mon, 13 Mar 2023 15:51:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1678722706; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1678722705; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YvjxTL+yszp3Qk83TsIdpDskTlMr4i6JlrFyXHd0Dq4=;
-	b=DoLM46yIRboaMIKMa8epGJMiWJyMZ+D+CUJG4w+79JP9NgpZSxGVWKbtOZ0OIAzgVOaudv
-	wZsk6hFWNtM1TFQu3r6ZBs4TeUH8nrECdhN6qy9j7LoVu5gL96N3IZ1HeqJ8aSC38fyxSr
-	23ksaRSyPMNioUWhJKn4B31d7CSvUDo=
+	bh=L93lWgJRIuBGoR48iodJJKhwvTdp+KkfaYG8MtRn1I4=;
+	b=1/P+p9s1jnEL+/LlgLInSo8oUWls3Qy5ylHPkhy/+vYj+xP1ddQ6vCgCWb55rdlbPpydHx
+	DUXeENg6zxRoRoEs9JrJaZbGKv/kGPc1VxbqENClhivflq7SWE8G8HVEZbIzIjwM/uM6Z+
+	tZz42d7M5RXKpm8+GGLUX9KohA9WOoY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1678722706;
+	s=susede2_ed25519; t=1678722705;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YvjxTL+yszp3Qk83TsIdpDskTlMr4i6JlrFyXHd0Dq4=;
-	b=NfUPabzmLwXAej4fxUfruTNpIBzlnHdOCQ4KwUYDtQF7ZNBAH5V+qDkMolTYLFcNij3IsO
-	L4WQN2y7QF94aPDQ==
+	bh=L93lWgJRIuBGoR48iodJJKhwvTdp+KkfaYG8MtRn1I4=;
+	b=UE57EwzWTrgenIc/eWI+NWeoM8dgCOIeDhY057uvTeJFev7UDfZ8q1Gq6P62ieBan20ZiL
+	jiwJa7pNIJZMoZDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9537313517;
-	Mon, 13 Mar 2023 15:51:46 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3BD3A13517;
+	Mon, 13 Mar 2023 15:51:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id KK2OI5JGD2RhegAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 13 Mar 2023 15:51:46 +0000
+	id iK28DZFGD2RhegAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 13 Mar 2023 15:51:45 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com,
 	maarten.lankhorst@linux.intel.com,
@@ -51,9 +51,9 @@ Cc: linux-aspeed@lists.ozlabs.org,
 	linux-sunxi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 25/25] drm/pl111: Use GEM DMA fbdev emulation
-Date: Mon, 13 Mar 2023 16:51:38 +0100
-Message-Id: <20230313155138.20584-26-tzimmermann@suse.de>
+Subject: [PATCH v2 20/25] drm/tve200: Use GEM DMA fbdev emulation
+Date: Mon, 13 Mar 2023 16:51:33 +0100
+Message-Id: <20230313155138.20584-21-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230313155138.20584-1-tzimmermann@suse.de>
 References: <20230313155138.20584-1-tzimmermann@suse.de>
@@ -68,32 +68,32 @@ Content-Transfer-Encoding: 8bit
 Use the fbdev emulation that is optimized for DMA helpers. Avoids
 possible shadow buffering and makes the code simpler.
 
-Reported-by: Linus Walleij <linus.walleij@linaro.org>
-Link: https://lore.kernel.org/dri-devel/CACRpkdawSQsNqKJkSSoSw3HmMHyNXFUywxkdszpTC-a_uZA+tQ@mail.gmail.com/
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/gpu/drm/pl111/pl111_drv.c | 4 ++--
+ drivers/gpu/drm/tve200/tve200_drv.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl111_drv.c
-index 00deba0b7271..4b2a9e9753f6 100644
---- a/drivers/gpu/drm/pl111/pl111_drv.c
-+++ b/drivers/gpu/drm/pl111/pl111_drv.c
-@@ -48,7 +48,7 @@
+diff --git a/drivers/gpu/drm/tve200/tve200_drv.c b/drivers/gpu/drm/tve200/tve200_drv.c
+index 0d05c386d303..abd557332b28 100644
+--- a/drivers/gpu/drm/tve200/tve200_drv.c
++++ b/drivers/gpu/drm/tve200/tve200_drv.c
+@@ -40,7 +40,7 @@
  #include <drm/drm_atomic_helper.h>
  #include <drm/drm_bridge.h>
  #include <drm/drm_drv.h>
 -#include <drm/drm_fbdev_generic.h>
 +#include <drm/drm_fbdev_dma.h>
- #include <drm/drm_fourcc.h>
  #include <drm/drm_gem_dma_helper.h>
  #include <drm/drm_gem_framebuffer_helper.h>
-@@ -308,7 +308,7 @@ static int pl111_amba_probe(struct amba_device *amba_dev,
- 	if (ret < 0)
- 		goto dev_put;
- 
--	drm_fbdev_generic_setup(drm, priv->variant->fb_bpp);
-+	drm_fbdev_dma_setup(drm, priv->variant->fb_bpp);
+ #include <drm/drm_module.h>
+@@ -227,7 +227,7 @@ static int tve200_probe(struct platform_device *pdev)
+ 	 * Passing in 16 here will make the RGB565 mode the default
+ 	 * Passing in 32 will use XRGB8888 mode
+ 	 */
+-	drm_fbdev_generic_setup(drm, 16);
++	drm_fbdev_dma_setup(drm, 16);
  
  	return 0;
  
