@@ -1,101 +1,120 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDEE82F32
-	for <linux-sunxi@lists.linux.dev>; Mon, 13 Mar 2023 15:51:50 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 37FCA22ADE;
-	Mon, 13 Mar 2023 15:51:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1678722705; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uaaDncR+NAiG12dcHe+qzbnHajGTEwLoznBzGG7LNzo=;
-	b=Eg3jKFtZ7S8CPGj5VIz3a5Q2PhXwqKyu5CsZL/qXUavVbLnOFqDXtK4OQA6Z6Fb0ie2ftD
-	dNpARZ9iA8f1WT8mhCHec8VKi69cJr6jsNCdrPYnQyqGzSVwALd9eV5I9lRx+uL4bDcZUE
-	dZVf7W0jE53zjDi9ner3EtEtXFgq9v0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1678722705;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uaaDncR+NAiG12dcHe+qzbnHajGTEwLoznBzGG7LNzo=;
-	b=cjKCMg1p1LCIaVOaBVqhlkDHEQaNWQphy1Nq0QimVUCu2Qa3VJIlRW79dxyMUlZo5uWA1M
-	DjDLo39lcvX46YAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 018B0139F9;
-	Mon, 13 Mar 2023 15:51:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id IO05O5BGD2RhegAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 13 Mar 2023 15:51:44 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	airlied@gmail.com,
-	daniel@ffwll.ch,
-	linus.walleij@linaro.org
-Cc: linux-aspeed@lists.ozlabs.org,
-	dri-devel@lists.freedesktop.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-amlogic@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 19/25] drm/arcpgu: Use GEM DMA fbdev emulation
-Date: Mon, 13 Mar 2023 16:51:32 +0100
-Message-Id: <20230313155138.20584-20-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230313155138.20584-1-tzimmermann@suse.de>
-References: <20230313155138.20584-1-tzimmermann@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B1E2F45
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 Mar 2023 16:49:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD418C433EF;
+	Mon, 13 Mar 2023 16:49:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1678726182;
+	bh=8KYXMoHAD5Z4NBIseAq6bsT/0yPZHnSTiR9g+F3H6mQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=a2JoV3Ky1b2rAYHvjxOxSJk1TNI3heElPwvSF5YrOvneNeV0VdzwNhQXiUrffvmto
+	 JA7P0WeiStnDt/6J8n1J9O5jnVgObXfH8lS4KXLMLBqO4DJUKBDJIvP6ivTa/Y09Sn
+	 HR1pOKRuwrPDI/baAtt5wUZ6Gocqmmqr2buMgjA/aCshs3yaJSkT/BdMx60/VeJQN4
+	 dkvphu6x3RN4fI6sEcajBAho9BdeW92stv1wsZ7bHVNaqIqINFZydvDFvpdEiWiF0m
+	 eG/X/a/XjC1FXr2cscVZU8Cm2pQpTkDOWTAiQQum9/Cqx4Qc/c+wOmHVG5htVbTJPc
+	 eI6rbG1xa4RhQ==
+From: Mark Brown <broonie@kernel.org>
+To: miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com, 
+ jic23@kernel.org, pratyush@kernel.org, Sanju.Mehta@amd.com, 
+ chin-ting_kuo@aspeedtech.com, clg@kaod.org, kdasu.kdev@gmail.com, 
+ f.fainelli@gmail.com, rjui@broadcom.com, sbranden@broadcom.com, 
+ eajames@linux.ibm.com, olteanv@gmail.com, han.xu@nxp.com, 
+ john.garry@huawei.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+ khilman@baylibre.com, matthias.bgg@gmail.com, haibo.chen@nxp.com, 
+ linus.walleij@linaro.org, daniel@zonque.org, haojian.zhuang@gmail.com, 
+ robert.jarzmik@free.fr, agross@kernel.org, heiko@sntech.de, 
+ krzysztof.kozlowski@linaro.org, andi@etezian.org, mcoquelin.stm32@gmail.com, 
+ alexandre.torgue@foss.st.com, wens@csie.org, jernej.skrabec@gmail.com, 
+ samuel@sholland.org, masahisa.kojima@linaro.org, jaswinder.singh@linaro.org, 
+ rostedt@goodmis.org, mingo@redhat.com, l.stelmach@samsung.com, 
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
+ pabeni@redhat.com, alex.aring@gmail.com, stefan@datenfreihafen.org, 
+ kvalo@kernel.org, james.schulman@cirrus.com, david.rhodes@cirrus.com, 
+ tanureal@opensource.cirrus.com, rf@opensource.cirrus.com, perex@perex.cz, 
+ tiwai@suse.com, npiggin@gmail.com, christophe.leroy@csgroup.eu, 
+ mpe@ellerman.id.au, oss@buserror.net, windhl@126.com, 
+ yangyingliang@huawei.com, william.zhang@broadcom.com, 
+ kursad.oney@broadcom.com, jonas.gorski@gmail.com, anand.gore@broadcom.com, 
+ rafal@milecki.pl, Tudor Ambarus <tudor.ambarus@linaro.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+Cc: git@amd.com, linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ joel@jms.id.au, andrew@aj.id.au, radu_nicolae.pirea@upb.ro, 
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
+ claudiu.beznea@microchip.com, bcm-kernel-feedback-list@broadcom.com, 
+ fancer.lancer@gmail.com, kernel@pengutronix.de, festevam@gmail.com, 
+ linux-imx@nxp.com, jbrunet@baylibre.com, martin.blumenstingl@googlemail.com, 
+ avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com, 
+ venture@google.com, yuenn@google.com, benjaminfair@google.com, 
+ yogeshgaur.83@gmail.com, konrad.dybcio@somainline.org, 
+ alim.akhtar@samsung.com, ldewangan@nvidia.com, thierry.reding@gmail.com, 
+ jonathanh@nvidia.com, michal.simek@amd.com, linux-aspeed@lists.ozlabs.org, 
+ openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rpi-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+ linux-tegra@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-wpan@vger.kernel.org, libertas-dev@lists.infradead.org, 
+ linux-wireless@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ lars@metafoo.de, Michael.Hennerich@analog.com, linux-iio@vger.kernel.org, 
+ michael@walle.cc, palmer@dabbelt.com, linux-riscv@lists.infradead.org, 
+ alsa-devel@alsa-project.org, patches@opensource.cirrus.com, 
+ linuxppc-dev@lists.ozlabs.org, amitrkcian2002@gmail.com
+In-Reply-To: <20230306172109.595464-1-amit.kumar-mahapatra@amd.com>
+References: <20230306172109.595464-1-amit.kumar-mahapatra@amd.com>
+Subject: Re: (subset) [PATCH V5 00/15] spi: Add support for
+ stacked/parallel memories
+Message-Id: <167872615942.75015.12960472969249845825.b4-ty@kernel.org>
+Date: Mon, 13 Mar 2023 16:49:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-bd1bf
 
-Use the fbdev emulation that is optimized for DMA helpers. Avoids
-possible shadow buffering and makes the code simpler.
+On Mon, 06 Mar 2023 22:50:54 +0530, Amit Kumar Mahapatra wrote:
+> This patch is in the continuation to the discussions which happened on
+> 'commit f89504300e94 ("spi: Stacked/parallel memories bindings")' for
+> adding dt-binding support for stacked/parallel memories.
+> 
+> This patch series updated the spi-nor, spi core and the spi drivers
+> to add stacked and parallel memories support.
+> 
+> [...]
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
----
- drivers/gpu/drm/tiny/arcpgu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Applied to
 
-diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu.c
-index 611bbee15071..e5b10e41554a 100644
---- a/drivers/gpu/drm/tiny/arcpgu.c
-+++ b/drivers/gpu/drm/tiny/arcpgu.c
-@@ -12,7 +12,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_fb_dma_helper.h>
--#include <drm/drm_fbdev_generic.h>
-+#include <drm/drm_fbdev_dma.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_dma_helper.h>
-@@ -394,7 +394,7 @@ static int arcpgu_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_unload;
- 
--	drm_fbdev_generic_setup(&arcpgu->drm, 16);
-+	drm_fbdev_dma_setup(&arcpgu->drm, 16);
- 
- 	return 0;
- 
--- 
-2.39.2
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+
+Thanks!
+
+[01/15] spi: Replace all spi->chip_select and spi->cs_gpiod references with function call
+        commit: 9e264f3f85a56cc109cc2d6010a48aa89d5c1ff1
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
