@@ -1,42 +1,42 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0DA28F2
-	for <linux-sunxi@lists.linux.dev>; Mon, 13 Mar 2023 15:51:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297852F55
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 Mar 2023 15:51:47 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 08FB51FE13;
-	Mon, 13 Mar 2023 15:51:42 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 71B921FE1C;
+	Mon, 13 Mar 2023 15:51:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1678722702; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1678722704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3YtpAFN7zjrzgA2sJtiUME75jFZgyE7NtvmD9EOyGjs=;
-	b=wzQ39T44QFfYdkBuyD4VDUtGta6KBpK9Y4jJCGgfsJNJtPfJzt/aNhzlULMA4sjU2aTS9Y
-	NiQN9pkP1E62jp64fHvCTcIat/5w4neqJmXcTxPHODN5BxAnmWprJXT8j07m9ssnNn8sfj
-	jghWxgxM7/E82JPRpQuCWQyfzPv7Igo=
+	bh=gI4OaAtbM26LV2A1893cD8w+HeuYtYS/hY0+uW4tXYM=;
+	b=b9L/u308rqWHUJTJzdeLzM0/hV3X7EPsI1ISkNuLtSBBSdYU586gN6v3yzOiuuTbgM5xlC
+	xhgefKnQFTcSAVHEaNqjb28KJoVDI7ZghWn2PEU4lp7UyFT0oHEEp+EVvxXjeSGFMNpgwx
+	ipcrHRBp80CQPwNgCKSSb+tnCPCwah8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1678722702;
+	s=susede2_ed25519; t=1678722704;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3YtpAFN7zjrzgA2sJtiUME75jFZgyE7NtvmD9EOyGjs=;
-	b=zN16K2UHPs5QlAUyX90yUGduAdC7QmOS1dTo7ryxgQ7ZEkgruawtVpYVTP/UUnGdwObn5L
-	I4ExCnnr6izJpACQ==
+	bh=gI4OaAtbM26LV2A1893cD8w+HeuYtYS/hY0+uW4tXYM=;
+	b=+NhRsMbPsn0LPBVxh7zIZg+O/NBHwZ9/mmsZgEtbpdjshImbNdFe+dNk/E2kInUN7lzr9N
+	VQCXa/qWJI1gmqBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C0FA9139F9;
-	Mon, 13 Mar 2023 15:51:41 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3645013517;
+	Mon, 13 Mar 2023 15:51:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id CKdALo1GD2RhegAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 13 Mar 2023 15:51:41 +0000
+	id yK1fDJBGD2RhegAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 13 Mar 2023 15:51:44 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com,
 	maarten.lankhorst@linux.intel.com,
@@ -51,9 +51,9 @@ Cc: linux-aspeed@lists.ozlabs.org,
 	linux-sunxi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 07/25] drm/imx/dcss: Use GEM DMA fbdev emulation
-Date: Mon, 13 Mar 2023 16:51:20 +0100
-Message-Id: <20230313155138.20584-8-tzimmermann@suse.de>
+Subject: [PATCH v2 16/25] drm/sun4i: Use GEM DMA fbdev emulation
+Date: Mon, 13 Mar 2023 16:51:29 +0100
+Message-Id: <20230313155138.20584-17-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230313155138.20584-1-tzimmermann@suse.de>
 References: <20230313155138.20584-1-tzimmermann@suse.de>
@@ -71,30 +71,30 @@ possible shadow buffering and makes the code simpler.
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/gpu/drm/imx/dcss/dcss-kms.c | 4 ++--
+ drivers/gpu/drm/sun4i/sun4i_drv.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.c b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-index dab5e664920d..896de946f8df 100644
---- a/drivers/gpu/drm/imx/dcss/dcss-kms.c
-+++ b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-@@ -7,7 +7,7 @@
+diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
+index d6c741716167..e49f78a6a8cf 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_drv.c
++++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
+@@ -17,7 +17,7 @@
+ #include <drm/drm_aperture.h>
  #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge_connector.h>
  #include <drm/drm_drv.h>
 -#include <drm/drm_fbdev_generic.h>
 +#include <drm/drm_fbdev_dma.h>
  #include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_module.h>
  #include <drm/drm_of.h>
-@@ -145,7 +145,7 @@ struct dcss_kms_dev *dcss_kms_attach(struct dcss_dev *dcss)
+@@ -111,7 +111,7 @@ static int sun4i_drv_bind(struct device *dev)
  	if (ret)
- 		goto cleanup_crtc;
+ 		goto finish_poll;
  
 -	drm_fbdev_generic_setup(drm, 32);
 +	drm_fbdev_dma_setup(drm, 32);
  
- 	return kms;
+ 	dev_set_drvdata(dev, drm);
  
 -- 
 2.39.2
