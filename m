@@ -1,150 +1,205 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58978F69
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 16:08:10 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (unknown [217.70.183.196])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id AF355CEF7B
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 16:04:29 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 50870E0017;
-	Tue, 14 Mar 2023 16:04:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1678809862;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E39138F69
+	for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 16:09:36 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 19A741F8B5;
+	Tue, 14 Mar 2023 16:09:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1678810175; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VzvoSA87yEUtF+tV1RSI+R4AM6DEhHX5TP5UQ8plIOc=;
-	b=Mf7kF6fAwocwFnRSgH139yTFgwuKjJqXByVHbKuJCYcIvus7Q+p+nnSARLdf2u3y1lhBvv
-	E0giuU+tv2ElM8Ui7R5XfrCYAmsz9pn9BIENV+MyJrXvGw2AQRngo8ezPizJ8dzyYKGf//
-	uBsF0SwJ3i7l/7u/3bRcm9RAuaJBvI18qel5c1uTvFp6nooDaCFqtS+buXYs8sZMmQfd9B
-	bFWO/Am/FKbpGfrdBFN9/nSlRmAGeNbZCp+x2GxTxCmUwgXU1ybYHcp6Jq4jbZzUzUfL4J
-	y0A04F7q1E8AU2+AcGLuJmWn1v820ubStPcmoSwWyiqMV3Tn0ZGioFcKi3k5fw==
-Date: Tue, 14 Mar 2023 17:04:13 +0100
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Joe Tessler <jrt@google.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Wenyou Yang <wenyou.yang@microchip.com>,
-	Bin Liu <bin.liu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Yong Deng <yong.deng@magewell.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>, Sean Young <sean@mess.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 17/28] media: platform: sun6i-mipi-csi2: drop
- of_match_ptr for ID table
-Message-ID: <ZBCa/SjuJj3LnZ55@aptenodytes>
-References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
- <20230312131318.351173-17-krzysztof.kozlowski@linaro.org>
+	bh=V34Gc2z7vPN8OnVeCrHSmsPv1GE4iORsCJqUxRIkUNs=;
+	b=xcY6MkbQroZ6h/KfEa+dhUc28+jiAPtyeyk2DtovFjjGI5XwGSNkQ9MKoON5PJSXxHZqS6
+	rIH7AYalheshR8xOXoGqmNupJMf1IbzEB3YBopCssAkqlHptVul0AJCZpiFaQCIwMyrpB7
+	Da/wrg/JcA4ehZeNUyzSdoHF/L2b85U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1678810175;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V34Gc2z7vPN8OnVeCrHSmsPv1GE4iORsCJqUxRIkUNs=;
+	b=/GrjtSos3fy4VOf4ycEmrurt5GZTahAkaHL0OLZuugwapt8xtWVpeqEHlx0ywIeOgNgk6e
+	Foqwrhg7VOSBwiDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CC2B113A26;
+	Tue, 14 Mar 2023 16:09:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 3MPYMD6cEGRlWgAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Tue, 14 Mar 2023 16:09:34 +0000
+Message-ID: <85c3029e-796d-3c3f-7f4c-9c2552312e4c@suse.de>
+Date: Tue, 14 Mar 2023 17:09:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 00/25] drm/dma-helper: Add dedicated fbdev emulation
+To: javierm@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
+ linus.walleij@linaro.org
+Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-amlogic@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20230313155138.20584-1-tzimmermann@suse.de>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230313155138.20584-1-tzimmermann@suse.de>
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="mCL4hlvlOht5eppU"
-Content-Disposition: inline
-In-Reply-To: <20230312131318.351173-17-krzysztof.kozlowski@linaro.org>
+ protocol="application/pgp-signature";
+ boundary="------------en9l0DwBxcBWW0NhRIAsEb20"
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------en9l0DwBxcBWW0NhRIAsEb20
+Content-Type: multipart/mixed; boundary="------------A0DTXeDh2q5iHYwnkuQuoTIq";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
+ linus.walleij@linaro.org
+Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-amlogic@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Message-ID: <85c3029e-796d-3c3f-7f4c-9c2552312e4c@suse.de>
+Subject: Re: [PATCH v2 00/25] drm/dma-helper: Add dedicated fbdev emulation
+References: <20230313155138.20584-1-tzimmermann@suse.de>
+In-Reply-To: <20230313155138.20584-1-tzimmermann@suse.de>
 
---mCL4hlvlOht5eppU
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--------------A0DTXeDh2q5iHYwnkuQuoTIq
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Hi Krzysztof,
+TWVyZ2VkIGludG8gZHJtLW1pc2MtbmV4dC4gVGhhbmtzIGEgbG90IGZvciByZXZpZXdzIGFu
+ZCBjb21tZW50cy4NCg0KQW0gMTMuMDMuMjMgdW0gMTY6NTEgc2NocmllYiBUaG9tYXMgWmlt
+bWVybWFubjoNCj4gQWRkIGZiZGV2IGVtdWxhdGlvbiB0aGF0IGlzIG9wdGltaXplZCBmb3Ig
+RE1BIGhlbHBlcnMsIGFzIHVzZWQgYnkgbW9zdA0KPiBkcml2ZXJzLiBJdCBvcGVyYXRlcyBk
+aXJlY3RseSBvbiBHRU0gRE1BIGJ1ZmZlcnMgaW4gc3lzdGVtIG1lbW9yeS4NCj4gTWVtb3J5
+IHBhZ2VzIGFyZSBtbWFwJ2VkIGRpcmVjdGx5IHRvIHVzZXJzcGFjZS4gTm8gaW1wbGljaXQg
+c2hhZG93DQo+IGJ1ZmZlcnMgbmVlZCB0byBiZSBhbGxvY2F0ZWQ7IGFzIGNhbiBoYXBwZW4g
+d2l0aCB0aGUgZ2VuZXJpYyBmYmRldg0KPiBlbXVsYXRpb24uIENvbnZlcnQgZHJpdmVycyB0
+aGF0IGZ1bGZpbCB0aGUgcmVxdWlyZW1lbnRzLg0KPiANCj4gVGVzdGVkIHdpdGggZmJjb24g
+YW5kIElHVCBvbiB2YzQuDQo+IA0KPiBGdXR1cmUgZGlyZWN0aW9uOiBwcm92aWRpbmcgYSBk
+ZWRpY2F0ZWQgZmJkZXYgZW11bGF0aW9uIGZvciBHRU0gRE1BDQo+IGhlbHBlcnMgd2lsbCBh
+bGxvdyB1cyB0byByZW1vdmUgdGhpcyBjYXNlIGZyb20gdGhlIGdlbmVyaWMgZmJkZXYgY29k
+ZS4NCj4gVGhlIGxhdHRlciBjYW4gdGhlbiBiZSBzaW1wbGlmaWVkLg0KPiANCj4gdjI6DQo+
+IAkqIHVwZGF0ZSBtY2RlIGFuZCBwbDExMSBhcyB3ZWxsIChMaW51cykNCj4gDQo+IExpbnVz
+IFdhbGxlaWogKDEpOg0KPiAgICBkcm0vbWNkZTogRG8gbm90IHVzZSBkaXJ0eSBHRU0gRkIg
+aGFuZGxpbmcNCj4gDQo+IFRob21hcyBaaW1tZXJtYW5uICgyNCk6DQo+ICAgIGRybS9mYmRl
+di1kbWE6IEltcGxlbWVudCBmYmRldiBlbXVsYXRpb24gZm9yIEdFTSBETUEgaGVscGVycw0K
+PiAgICBhcm0vaGRsY2Q6IFVzZSBHRU0gRE1BIGZiZGV2IGVtdWxhdGlvbg0KPiAgICBhcm0v
+bWFsaWRwOiBVc2UgR0VNIERNQSBmYmRldiBlbXVsYXRpb24NCj4gICAgZHJtL2FzcGVlZDog
+VXNlIEdFTSBETUEgZmJkZXYgZW11bGF0aW9uDQo+ICAgIGRybS9hdG1lbC1obGNkYzogVXNl
+IEdFTSBETUEgZmJkZXYgZW11bGF0aW9uDQo+ICAgIGRybS9mc2wtZGN1OiBVc2UgR0VNIERN
+QSBmYmRldiBlbXVsYXRpb24NCj4gICAgZHJtL2lteC9kY3NzOiBVc2UgR0VNIERNQSBmYmRl
+diBlbXVsYXRpb24NCj4gICAgZHJtL2lteDogVXNlIEdFTSBETUEgZmJkZXYgZW11bGF0aW9u
+DQo+ICAgIGRybS9rbWI6IFVzZSBHRU0gRE1BIGZiZGV2IGVtdWxhdGlvbg0KPiAgICBkcm0v
+bG9naWN2YzogVXNlIEdFTSBETUEgZmJkZXYgZW11bGF0aW9uDQo+ICAgIGRybS9tZXNvbjog
+VXNlIEdFTSBETUEgZmJkZXYgZW11bGF0aW9uDQo+ICAgIGRybS9teHNmYi9sY2RpZjogVXNl
+IEdFTSBETUEgZmJkZXYgZW11bGF0aW9uDQo+ICAgIGRybS9teHNmYjogVXNlIEdFTSBETUEg
+ZmJkZXYgZW11bGF0aW9uDQo+ICAgIGRybS9zdGk6IFVzZSBHRU0gRE1BIGZiZGV2IGVtdWxh
+dGlvbg0KPiAgICBkcm0vc3RtOiBVc2UgR0VNIERNQSBmYmRldiBlbXVsYXRpb24NCj4gICAg
+ZHJtL3N1bjRpOiBVc2UgR0VNIERNQSBmYmRldiBlbXVsYXRpb24NCj4gICAgZHJtL3RpZHNz
+OiBVc2UgR0VNIERNQSBmYmRldiBlbXVsYXRpb24NCj4gICAgZHJtL3RpbGNkYzogVXNlIEdF
+TSBETUEgZmJkZXYgZW11bGF0aW9uDQo+ICAgIGRybS9hcmNwZ3U6IFVzZSBHRU0gRE1BIGZi
+ZGV2IGVtdWxhdGlvbg0KPiAgICBkcm0vdHZlMjAwOiBVc2UgR0VNIERNQSBmYmRldiBlbXVs
+YXRpb24NCj4gICAgZHJtL3ZjNDogVXNlIEdFTSBETUEgZmJkZXYgZW11bGF0aW9uDQo+ICAg
+IGRybS94bG54OiBVc2UgR0VNIERNQSBmYmRldiBlbXVsYXRpb24NCj4gICAgZHJtL21jZGU6
+IFVzZSBHRU0gRE1BIGZiZGV2IGVtdWxhdGlvbg0KPiAgICBkcm0vcGwxMTE6IFVzZSBHRU0g
+RE1BIGZiZGV2IGVtdWxhdGlvbg0KPiANCj4gICBkcml2ZXJzL2dwdS9kcm0vTWFrZWZpbGUg
+ICAgICAgICAgICAgICAgICAgICB8ICAgMSArDQo+ICAgZHJpdmVycy9ncHUvZHJtL2FybS9o
+ZGxjZF9kcnYuYyAgICAgICAgICAgICAgfCAgIDQgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0v
+YXJtL21hbGlkcF9kcnYuYyAgICAgICAgICAgICB8ICAgNCArLQ0KPiAgIGRyaXZlcnMvZ3B1
+L2RybS9hc3BlZWQvYXNwZWVkX2dmeF9kcnYuYyAgICAgIHwgICA0ICstDQo+ICAgZHJpdmVy
+cy9ncHUvZHJtL2F0bWVsLWhsY2RjL2F0bWVsX2hsY2RjX2RjLmMgfCAgIDQgKy0NCj4gICBk
+cml2ZXJzL2dwdS9kcm0vZHJtX2ZiZGV2X2RtYS5jICAgICAgICAgICAgICB8IDI3NSArKysr
+KysrKysrKysrKysrKysrDQo+ICAgZHJpdmVycy9ncHUvZHJtL2ZzbC1kY3UvZnNsX2RjdV9k
+cm1fZHJ2LmMgICAgfCAgIDQgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNz
+cy1rbXMuYyAgICAgICAgICB8ICAgNCArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9pbXgvaXB1
+djMvaW14LWRybS1jb3JlLmMgICAgIHwgICA0ICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL2tt
+Yi9rbWJfZHJ2LmMgICAgICAgICAgICAgICAgfCAgIDQgKy0NCj4gICBkcml2ZXJzL2dwdS9k
+cm0vbG9naWN2Yy9sb2dpY3ZjX2RybS5jICAgICAgICB8ICAgNCArLQ0KPiAgIGRyaXZlcnMv
+Z3B1L2RybS9tY2RlL21jZGVfZHJ2LmMgICAgICAgICAgICAgIHwgICA2ICstDQo+ICAgZHJp
+dmVycy9ncHUvZHJtL21lc29uL21lc29uX2Rydi5jICAgICAgICAgICAgfCAgIDQgKy0NCj4g
+ICBkcml2ZXJzL2dwdS9kcm0vbXhzZmIvbGNkaWZfZHJ2LmMgICAgICAgICAgICB8ICAgNCAr
+LQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9teHNmYi9teHNmYl9kcnYuYyAgICAgICAgICAgIHwg
+ICA0ICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL3BsMTExL3BsMTExX2Rydi5jICAgICAgICAg
+ICAgfCAgIDQgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vc3RpL3N0aV9kcnYuYyAgICAgICAg
+ICAgICAgICB8ICAgNCArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9zdG0vZHJ2LmMgICAgICAg
+ICAgICAgICAgICAgIHwgICA0ICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRp
+X2Rydi5jICAgICAgICAgICAgfCAgIDQgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdGlkc3Mv
+dGlkc3NfZHJ2LmMgICAgICAgICAgICB8ICAgNCArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS90
+aWxjZGMvdGlsY2RjX2Rydi5jICAgICAgICAgIHwgICA0ICstDQo+ICAgZHJpdmVycy9ncHUv
+ZHJtL3RpbnkvYXJjcGd1LmMgICAgICAgICAgICAgICAgfCAgIDQgKy0NCj4gICBkcml2ZXJz
+L2dwdS9kcm0vdHZlMjAwL3R2ZTIwMF9kcnYuYyAgICAgICAgICB8ICAgNCArLQ0KPiAgIGRy
+aXZlcnMvZ3B1L2RybS92YzQvdmM0X2Rydi5jICAgICAgICAgICAgICAgIHwgICA0ICstDQo+
+ICAgZHJpdmVycy9ncHUvZHJtL3hsbngvenlucW1wX2ttcy5jICAgICAgICAgICAgfCAgIDQg
+Ky0NCj4gICBpbmNsdWRlL2RybS9kcm1fZmJkZXZfZG1hLmggICAgICAgICAgICAgICAgICB8
+ICAxNSArDQo+ICAgMjYgZmlsZXMgY2hhbmdlZCwgMzM4IGluc2VydGlvbnMoKyksIDQ3IGRl
+bGV0aW9ucygtKQ0KPiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vZHJt
+X2ZiZGV2X2RtYS5jDQo+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvZHJtL2RybV9m
+YmRldl9kbWEuaA0KPiANCj4gDQo+IGJhc2UtY29tbWl0OiBiMjFjZWQ3N2FlMWRiYzNkOGIw
+MWQzYWVmM2M5OWJiYTczNzdhNjliDQo+IHByZXJlcXVpc2l0ZS1wYXRjaC1pZDogMGFhMzU5
+ZjYxNDRjNDAxNWMxNDBjOGE2NzUwYmUxOTA5OWM2NzZmYg0KPiBwcmVyZXF1aXNpdGUtcGF0
+Y2gtaWQ6IGM2N2U1ZDg4NmE0N2I3ZDAyNjZkODExMDA4Mzc1NTdmZGEzNGNiMjQNCj4gcHJl
+cmVxdWlzaXRlLXBhdGNoLWlkOiAzZjIwNDUxMGZjYmY5NTMwZDY1NDBiZDhlNjEyOGNjZTU5
+ODk4OGI2DQo+IHByZXJlcXVpc2l0ZS1wYXRjaC1pZDogNzVmMmViZjEyNjkzZjIzNTA4ZjAw
+ZDU3NGIyYjU3NDg4NzIzZTQ3NA0KPiBwcmVyZXF1aXNpdGUtcGF0Y2gtaWQ6IDcxODUzMWJm
+NWNmMTU3MTY4MzRjZmFmMzAwOGVhMGUyMzY2ZWM5MjcNCj4gcHJlcmVxdWlzaXRlLXBhdGNo
+LWlkOiBhNzkzYWEyODNjZjQxZjI5MGQ5NzA0MDQ4ODFmMjRiZmZjNDhjYWZmDQo+IHByZXJl
+cXVpc2l0ZS1wYXRjaC1pZDogZTc0ZjI1OWQxOTIzMjQ3YTc0ZDViZjdkOTk2YWZiMGU2Y2Ew
+MTg4Mw0KPiBwcmVyZXF1aXNpdGUtcGF0Y2gtaWQ6IGExZDEyYjk1NDgxMTBiMWY1ZTlhYTM4
+MDNiMjFlMmE3ZjlmOGMxOWQNCj4gcHJlcmVxdWlzaXRlLXBhdGNoLWlkOiAwMzNmMTBkYTcy
+ZjEwZDgyZjExM2E1MDY2YTNiM2E3ZmY5MWQxM2FhDQo+IHByZXJlcXVpc2l0ZS1wYXRjaC1p
+ZDogOTc2MjY0ZmFmYmQ2OWQwOTk2MjA5YTkwYTNkNTQ2ZDliZTNmMzc3OQ0KPiBwcmVyZXF1
+aXNpdGUtcGF0Y2gtaWQ6IDYxN2M3NGFmNWUxNjcxNzg5OGEyM2NlZDljOGJhZGZmZjFlMGFk
+ZTcNCj4gcHJlcmVxdWlzaXRlLXBhdGNoLWlkOiA1ZTBjZmE5YzgxYWE3Y2ViMmNjNDhjNWNi
+Yzk5MzQ0OTYyNTFmYWM0DQo+IHByZXJlcXVpc2l0ZS1wYXRjaC1pZDogMTM1OTRjM2NjODEw
+Mjk2MGJiMTk1YmM3ZjU3MmZlZmJhOGViMTlkNw0KPiBwcmVyZXF1aXNpdGUtcGF0Y2gtaWQ6
+IDk5ZDlkYTdlMDgzNjkwNTBkMTM1YzIzZDMyZGVhZDgxMWJiOWNmOTcNCj4gcHJlcmVxdWlz
+aXRlLXBhdGNoLWlkOiA4MzNmOWQ4MzQxYTI4Nzk2MWVlNjUzYjA0NzMwZGE1N2NlOTg3YjA2
+DQo+IHByZXJlcXVpc2l0ZS1wYXRjaC1pZDogNWQ1YzljYWFmOTQ4OWE2YzJmNjg4ZDYzMmE1
+N2EwZmI2NWZjYjVmNw0KPiBwcmVyZXF1aXNpdGUtcGF0Y2gtaWQ6IGI2NDc1OGVjZDY0ZWMw
+YzBhY2Q5NmQwNzY2YmE4OTEzNzhjNWM1MzkNCj4gcHJlcmVxdWlzaXRlLXBhdGNoLWlkOiAz
+N2E3ZDNlOWZiM2U0ZTJiN2ViZWFjM2Y3N2RhNjYxMGYxMmJlZWEzDQo+IHByZXJlcXVpc2l0
+ZS1wYXRjaC1pZDogOTkwNzM0MjlkYWZkYzk4Y2RkMzE0NjRjZTI4ZTc5NTY5NmExNDlmOQ0K
+PiBwcmVyZXF1aXNpdGUtcGF0Y2gtaWQ6IGMyMjQ3ZWNhNDQ5Mjc1NjljZDJiNmQ5ZjM3MDE5
+NTk2NTM0NmFkYjQNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVy
+IERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhm
+ZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7D
+vHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-On Sun 12 Mar 23, 14:13, Krzysztof Kozlowski wrote:
-> The driver can match only via the DT table so the table should be always
-> used and the of_match_ptr does not have any sense (this also allows ACPI
-> matching via PRP0001, even though it might not be relevant here).  This
-> also fixes !CONFIG_OF error:
->=20
->   drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:751:34: =
-error: =E2=80=98sun6i_mipi_csi2_of_match=E2=80=99 defined but not used [-We=
-rror=3Dunused-const-variable=3D]
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+--------------A0DTXeDh2q5iHYwnkuQuoTIq--
 
-Looks good to me:
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-
-Thanks !
-
-Paul
-
-> ---
->  drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2=
-=2Ec b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> index a220ce849b41..0851b6b4e1ff 100644
-> --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> @@ -759,7 +759,7 @@ static struct platform_driver sun6i_mipi_csi2_platfor=
-m_driver =3D {
->  	.remove	=3D sun6i_mipi_csi2_remove,
->  	.driver	=3D {
->  		.name		=3D SUN6I_MIPI_CSI2_NAME,
-> -		.of_match_table	=3D of_match_ptr(sun6i_mipi_csi2_of_match),
-> +		.of_match_table	=3D sun6i_mipi_csi2_of_match,
->  		.pm		=3D &sun6i_mipi_csi2_pm_ops,
->  	},
->  };
-> --=20
-> 2.34.1
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---mCL4hlvlOht5eppU
-Content-Type: application/pgp-signature; name="signature.asc"
+--------------en9l0DwBxcBWW0NhRIAsEb20
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmQQmv0ACgkQ3cLmz3+f
-v9F4tQf/c8SNKs/s9jh+SCYcb7LnsBT/jMWTrMfcIpvS6n8ytOrw1m5hW2dErbKo
-aA+ODD31BjqVISeN9aDhSGcu7KVahfkt5vb+izqXoHS8RiRFYN2ulUcCOUwf30kn
-rzD4t0QhdFmfegTq2WfFbKMcUYBY39R3BbRE3ZbyuzNT63BO0mGcuoC1ssnekVxR
-4lj/mfgmMjy4+S54g6x6mwn1v3aVK9xkoCxeQo+arhJt9HieG4B0AL2R2eOyoUDa
-UdVjvYd8owBs+thW9y4oY2R+SWMPrGJcZNOjljHVzwT2j7RK6VGMOiiDQDzU8iAC
-hllLNwa3mx5T3fw3QMPZ+NhvyPy6Qg==
-=/D8E
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQQnD4FAwAAAAAACgkQlh/E3EQov+Ds
+zA//eGDlQBjEUQR7gg0qMH1dwstBZ5Jd794YT7sYGGI2b3gCe8OevwaZxHi39cyvSAj88wxQoTlF
+ZlZ6wfQs+TPZA4UpfPZmPIaT/XVUvMHXzUzE2FRvm05SkAht4DCXn+DZfhQGgKoqW/MvFM/WUkAe
+dU0DphygusHBSU1++fdpzjXYTnYyEbtfziSVhyomvlqM/wOmn88OjK6zuuuBeiYOU5gtqkAU9shU
+4cFNFYA4RGy+Acr7GL5tOFLKH5xkVljVZj+kQvwBymCHz+TXzG7oYUUcIyGGJ42zUmQuj2bAsHYD
+8RyMEcTVOGAAG0R4pRIG/4x9uL2Wya3RW84aMjwAPcUavMK+XvfHLZz9dedVOjhcJjFn99iK5AKa
+/r4hc/HjRa3wNOcXxYxVDd7GoiLqMH67vuQZVFTEwn9jwX9GiwrzzzJrAvELvfW80VH3aQZ1Z6OA
+cvE5VNA/FvfENo0ESsl4vXpGm9TjJaHePCLDMVfwEYZAqkNcQghQwuIWRsRIg3IGh00V9K0rMqug
+uwBhAVSzEpyg2vE9AvTkH5pXg1GZAFo+fXaK9J6SH1srRzeO/v/Qlg1R2915qQasBPYGd2W/eJ9/
+qUXWQY43RLjONtodxXdwmCUDKJFvIJRCRpu3R7uIBNNzdCMqybTVVOj3j6CksM5kvdMDGyRg1ti4
+les=
+=24Iy
 -----END PGP SIGNATURE-----
 
---mCL4hlvlOht5eppU--
+--------------en9l0DwBxcBWW0NhRIAsEb20--
