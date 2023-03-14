@@ -1,142 +1,116 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF4EA939
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 19:52:43 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id x3so66670448edb.10
-        for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 12:52:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A45A939;
+	Tue, 14 Mar 2023 19:53:25 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id da10so66852487edb.3;
+        Tue, 14 Mar 2023 12:53:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678823561;
+        d=gmail.com; s=20210112; t=1678823604;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=84n+oQ302Lrrw4Xj5iionDKBc2AXr3E7Vl/qNdfFHag=;
-        b=jtMqk3VJbrkKpAHPz/4m10k3iyx5QewNEjy33UoSDCoiTp8RD6GFTQmtaqMT8czpXw
-         +Uk+DEy81/sRL+3LcFriMiCaGN+2szqqX4YISqDiRotNme1tvGk59RHvoSOnTXZ41+H4
-         2fXlBn+jPV377GGy9kXTImtKGbB3Q9yjIbbmPTWqafGJvuomVcnaxDMFP4Kn1LwZ9/Qh
-         6tnk8G5PpSbXhsYwd0NwrROnOAQ3aDVqRWTfN9O+J/cafAD/5ixh9w63wF1MEzxsGni6
-         Q3WwEbB1tZrj6RlW+hV5MrOK4tSO9IEydQF34bmg1ZSZQZNeRAl2iM9Tz9aIGfGnJlAv
-         hIIQ==
+        bh=Vsp8Tj0Vktuf9bbrjDiQaJ9V5M9finhOPDw8dAUIlFQ=;
+        b=QRy9UBfQi/bmZP2AMa6LauQh1VorDM8ZrVcpeEFJYZ0LnAdvOX5JcghVGOPDf9/TCR
+         Xlk2evnPwBe60SCL69UtvMbHoKjI8gItlfvKSKOUzlFyhzZT01xFoux8YD20tQTXYEX3
+         c6QlWOR9qWYRN4QLaTLo+cJlnTO1sRmnUOm3au7yxfk9EkmGVge91mhj0KHUV5TfILZa
+         kbof++5IA8CBHsvpSOONobt2u4aPz3OyyubfLNXApoUzYEEBms6jR1RANbdfRpW0LcrQ
+         7NiGinbujqirCtCbGGGLsTi48KwMpfqyUF2YtVAjd9gizGEAGeTmoq9uxYdAeVZ3+s4B
+         v4qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678823561;
+        d=1e100.net; s=20210112; t=1678823604;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=84n+oQ302Lrrw4Xj5iionDKBc2AXr3E7Vl/qNdfFHag=;
-        b=EhARCXvc0/dp7Uk9qIMZBBZX3HBcYl63YF/JtWDjsOuGqi6lPCVi6FfJ0P4tvS1vu6
-         v8D3gagExuUL9wVmMfDoQ8GykDPBwVU7+xRLtFkELe7Q5p4ZYR6FCBXUTmk/K9RFkjH0
-         b5P69R7M2V/fKYXQVH5H19ol3wT9xO5jUFMlepo1AQiu3kqT4KF0EeUHxAE4weix4h6Z
-         9a1F7jHQnjB2/e2Pz69cIaKUIoaJ9y/lCI+dY2o5vK3mrrscExwEoA8iXdfmvlvoGsVr
-         ZIy6Q3gJ8Ail+7zNUOSqNVxY2abZj6tzKPLpNa5CKLHuWewXzArAiukUCaH/cugMVGfx
-         dC9w==
-X-Gm-Message-State: AO0yUKXWPwLtJhVsbfKpc7QEp5O9gAOr1LCbFECY6dhuy214tvRAF9YV
-	Qzwo2Lc/JgGRSDCfLn/vOd4=
-X-Google-Smtp-Source: AK7set9vnDgs0zNzFk64fSk03ZwJbehhJo01RTpV7gmR2nsQclFdjqoiygwh42ihvzlFoYsvReQjWA==
-X-Received: by 2002:a17:907:20f1:b0:924:943d:7181 with SMTP id rh17-20020a17090720f100b00924943d7181mr3347932ejb.51.1678823561589;
-        Tue, 14 Mar 2023 12:52:41 -0700 (PDT)
+        bh=Vsp8Tj0Vktuf9bbrjDiQaJ9V5M9finhOPDw8dAUIlFQ=;
+        b=kuyWaFsHW5cCrrbKaWTfQd+XtW21IfjZU8f3USVxG+md3v2cJwI697HlTo72uZu08j
+         Ru28ZYvO9PxRWkwON4+e4dh+D6Pm9GA0w1/H9abDEokJUvVV7sPw/NGi1G5So+HfYdCl
+         mLj/Rvy8xaDfvH1/AZ8fkvN0hR7t8oV8gKxHDKyifp12LB6BQ/rXHtPD6EReWRylMB8L
+         ikR82TsVpGWjtNSG6UjbsChO9cs7MJfBqjgG5Z6csYMI2pIv8QM6Ns3STBaDAqCxMXKx
+         yiTD8i/RJcwNHSX0MP38Q12jzhIY/+oz2d8gCXBrGa6sX0taoZqBUzKMUd5+IMlP11Pq
+         x9sA==
+X-Gm-Message-State: AO0yUKUY0iW309bNOZk1WFMRUUNJ+WxrzlgwKDy6go7/wKeM38cinFzA
+	kagqwrWO41J75JHtrmQ2Zbg=
+X-Google-Smtp-Source: AK7set/aZQdUOqZ2pfdQ1/SmUcMim+rOjI0ri/3qpQg1f1JZzTN0Sb5PQFFOEMQcK+x6rxZijFw+9w==
+X-Received: by 2002:a17:906:dc3:b0:839:74cf:7c4f with SMTP id p3-20020a1709060dc300b0083974cf7c4fmr4344319eji.8.1678823603740;
+        Tue, 14 Mar 2023 12:53:23 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id ot10-20020a170906ccca00b008e51a1fd7bfsm1538555ejb.172.2023.03.14.12.52.39
+        by smtp.gmail.com with ESMTPSA id rq4-20020a17090788c400b00927341bf69dsm1523827ejc.88.2023.03.14.12.53.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 12:52:41 -0700 (PDT)
+        Tue, 14 Mar 2023 12:53:23 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Joe Tessler <jrt@google.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Michael Tretter <m.tretter@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Niklas =?ISO-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Rui Miguel Silva <rmfrfs@gmail.com>, Wenyou Yang <wenyou.yang@microchip.com>,
- Bin Liu <bin.liu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Houlong Wei <houlong.wei@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Patrice Chotard <patrice.chotard@foss.st.com>,
- Yong Deng <yong.deng@magewell.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Philipp Zabel <p.zabel@pengutronix.de>, Sean Young <sean@mess.org>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: mchehab@kernel.org, Zheng Wang <zyytlz.wz@163.com>
+Cc: hverkuil@xs4all.nl, wens@csie.org, samuel@sholland.org,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, hackerzheng666@gmail.com,
+ 1395428693sheep@gmail.com, alex000young@gmail.com,
+ Zheng Wang <zyytlz.wz@163.com>
 Subject:
- Re: [PATCH 18/28] media: platform: sun8i-a83t-mipi-csi2: drop of_match_ptr
- for ID table
-Date: Tue, 14 Mar 2023 20:52:38 +0100
-Message-ID: <4812650.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <20230312131318.351173-18-krzysztof.kozlowski@linaro.org>
-References:
- <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
- <20230312131318.351173-18-krzysztof.kozlowski@linaro.org>
+ Re: [PATCH v2] media: cedrus: fix use after free bug in cedrus_remove due to
+ race condition
+Date: Tue, 14 Mar 2023 20:53:22 +0100
+Message-ID: <2274018.ElGaqSPkdT@jernej-laptop>
+In-Reply-To: <20230313163120.3741811-1-zyytlz.wz@163.com>
+References: <20230313163120.3741811-1-zyytlz.wz@163.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Dne nedelja, 12. marec 2023 ob 14:13:08 CET je Krzysztof Kozlowski napisal(=
-a):
-> The driver can match only via the DT table so the table should be always
-> used and the of_match_ptr does not have any sense (this also allows ACPI
-> matching via PRP0001, even though it might not be relevant here).  This
-> also fixes !CONFIG_OF error:
->=20
-> =20
-> drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c:=
-81
-> 8:34: error: =E2=80=98sun8i_a83t_mipi_csi2_of_match=E2=80=99 defined but =
-not used
-> [-Werror=3Dunused-const-variable=3D]
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Dne ponedeljek, 13. marec 2023 ob 17:31:20 CET je Zheng Wang napisal(a):
+> In cedrus_probe, dev->watchdog_work is bound with cedrus_watchdog function.
+> In cedrus_device_run, it will started by schedule_delayed_work. If there is
+> an unfinished work in cedrus_remove, there may be a race condition and
+> trigger UAF bug.
+> 
+> CPU0                  CPU1
+> 
+>                     |cedrus_watchdog
+> 
+> cedrus_remove       |
+>   v4l2_m2m_release  |
+>   kfree(m2m_dev)    |
+> 
+>                     | v4l2_m2m_get_curr_priv
+>                     | 
+>                     |   m2m_dev //use
+> 
+> Fix it by canceling the worker in cedrus_remove.
+> 
+> Fixes: 7c38a551bda1 ("media: cedrus: Add watchdog for job completion")
+> Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
 > ---
->  .../platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c  | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
+> v2:
+> - use cancel_delayed_work_sync instead and add Fixes
+> label suggested by Hans Verkuil
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
-> diff --git
-> a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
-> b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
-> index cd2e92ae2293..1f0cc7b1ba47 100644
-> ---
-> a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
-> +++
-> b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
-> @@ -826,7 +826,7 @@ static struct platform_driver
-> sun8i_a83t_mipi_csi2_platform_driver =3D { .remove	=3D
-> sun8i_a83t_mipi_csi2_remove,
->  	.driver	=3D {
->  		.name		=3D SUN8I_A83T_MIPI_CSI2_NAME,
-> -		.of_match_table	=3D=20
-of_match_ptr(sun8i_a83t_mipi_csi2_of_match),
-> +		.of_match_table	=3D sun8i_a83t_mipi_csi2_of_match,
->  		.pm		=3D &sun8i_a83t_mipi_csi2_pm_ops,
->  	},
->  };
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> b/drivers/staging/media/sunxi/cedrus/cedrus.c index
+> a43d5ff66716..a50a4d0a8f71 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> @@ -547,6 +547,7 @@ static int cedrus_remove(struct platform_device *pdev)
+>  {
+>  	struct cedrus_dev *dev = platform_get_drvdata(pdev);
+> 
+> +	cancel_delayed_work_sync(&dev->watchdog_work);
+>  	if (media_devnode_is_registered(dev->mdev.devnode)) {
+>  		media_device_unregister(&dev->mdev);
+>  		v4l2_m2m_unregister_media_controller(dev->m2m_dev);
 
 
 
