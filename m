@@ -1,23 +1,23 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CEE8F69
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 16:03:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B218F69
+	for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 16:04:55 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 02D474000A;
-	Tue, 14 Mar 2023 16:02:56 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 5259EE000A;
+	Tue, 14 Mar 2023 16:04:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1678809787;
+	t=1678809893;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PfjFZ5rXzr3BIOF/GtTdCC+o1HvEGjF/qwaSlO3r/Sk=;
-	b=Sf8NBWQgwLcalyizQeDgcbWTJBfhbNu7MgV+yCyqYvr7LR05IJHLkXzBdrWUIumTxANHn+
-	hB2lPIAKzi7PvefYp99DwN8aiv6h6xV84w1Z29T02/TP3Z/1CoDzcU/bFRHCZs0SWhsz2N
-	BhCaPOG/prYzw8L5sgOQMkCl+63t9qSqxMcHFEs+O8k1jdyCuZ+C0saia/3u12WSv1LMHF
-	ZFr1XpWb4UCCE8eYDePcW5uZtlAtB+j3qPKWw2aBAQiJIRucxMto3eeBgeDn10TFk9xtTh
-	H931WYtAY7hVHHwBcZoKAzGdAAp678EK8Juf6ZsL5nqnuoAnLe1pE+od7WFhKQ==
-Date: Tue, 14 Mar 2023 17:02:56 +0100
+	bh=c2+H7wt3YGMoJy1kI08Oezx1jFQC9X+jtLDpoYMlXss=;
+	b=ohgih14REmXqm2YF0JReNRyzYFa6p8DeLxCOosBOjCP69WgwLl4SrXk9XakcXKF0kd9xwy
+	iMCvNea8EW5AtPT1hqpXjAuy/hc08syMWVHptjb3t3f/VlI/gwsFTpM/GkF3gADXnCx7Sa
+	heStzYo3ZsO4uFShLISuSNrbNPDvvUn/SwHvbVuXlTsShQXYB2aIQPMGAR3hifMfAzym1f
+	vvExPpy3d7rvd/a5XYG/A7SnTG3bNwlMZpT47oWKVFLprwab4fy8qdRnSHXwrSrhA3RsMQ
+	HriELQR7raePfh3IEayUhBeiw+dLQhEZAA6NXmgA3hYX14DWwAULtDN/5eNAeg==
+Date: Tue, 14 Mar 2023 17:04:48 +0100
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Joe Tessler <jrt@google.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -58,11 +58,11 @@ Cc: Joe Tessler <jrt@google.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
 	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 16/28] media: platform: sun6i-csi: drop of_match_ptr for
- ID table
-Message-ID: <ZBCasA/J2Ci6OEZw@aptenodytes>
+Subject: Re: [PATCH 18/28] media: platform: sun8i-a83t-mipi-csi2: drop
+ of_match_ptr for ID table
+Message-ID: <ZBCbIILFhcDMIg+h@aptenodytes>
 References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
- <20230312131318.351173-16-krzysztof.kozlowski@linaro.org>
+ <20230312131318.351173-18-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -70,12 +70,12 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Il/EvjUmeeGoz4+Y"
+	protocol="application/pgp-signature"; boundary="VxKfudML6kIseEz3"
 Content-Disposition: inline
-In-Reply-To: <20230312131318.351173-16-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230312131318.351173-18-krzysztof.kozlowski@linaro.org>
 
 
---Il/EvjUmeeGoz4+Y
+--VxKfudML6kIseEz3
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -88,9 +88,9 @@ On Sun 12 Mar 23, 14:13, Krzysztof Kozlowski wrote:
 > matching via PRP0001, even though it might not be relevant here).  This
 > also fixes !CONFIG_OF error:
 >=20
->   drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c:401:34: error: =E2=
-=80=98sun6i_csi_of_match=E2=80=99 defined but not used [-Werror=3Dunused-co=
-nst-variable=3D]
+>   drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.=
+c:818:34: error: =E2=80=98sun8i_a83t_mipi_csi2_of_match=E2=80=99 defined bu=
+t not used [-Werror=3Dunused-const-variable=3D]
 >=20
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
@@ -102,22 +102,25 @@ Thanks !
 Paul
 
 > ---
->  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 2 +-
+>  .../platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c  | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers=
-/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> index e3e6650181c8..187a2419da96 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> @@ -429,7 +429,7 @@ static struct platform_driver sun6i_csi_platform_driv=
-er =3D {
->  	.remove	=3D sun6i_csi_remove,
+> diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
+_mipi_csi2.c b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
+_mipi_csi2.c
+> index cd2e92ae2293..1f0cc7b1ba47 100644
+> --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
+si2.c
+> +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
+si2.c
+> @@ -826,7 +826,7 @@ static struct platform_driver sun8i_a83t_mipi_csi2_pl=
+atform_driver =3D {
+>  	.remove	=3D sun8i_a83t_mipi_csi2_remove,
 >  	.driver	=3D {
->  		.name		=3D SUN6I_CSI_NAME,
-> -		.of_match_table	=3D of_match_ptr(sun6i_csi_of_match),
-> +		.of_match_table	=3D sun6i_csi_of_match,
->  		.pm		=3D &sun6i_csi_pm_ops,
+>  		.name		=3D SUN8I_A83T_MIPI_CSI2_NAME,
+> -		.of_match_table	=3D of_match_ptr(sun8i_a83t_mipi_csi2_of_match),
+> +		.of_match_table	=3D sun8i_a83t_mipi_csi2_of_match,
+>  		.pm		=3D &sun8i_a83t_mipi_csi2_pm_ops,
 >  	},
 >  };
 > --=20
@@ -129,19 +132,19 @@ Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---Il/EvjUmeeGoz4+Y
+--VxKfudML6kIseEz3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmQQmrAACgkQ3cLmz3+f
-v9G0UQgAgqkiTU6DCCn3MAsOxs7XlE6PTVir0WIBXYAO1uUS6eNKjIyBKLCVmKwL
-iTgalBnhTb3SW6j5kYlUmMY0FdvMgQfM1W7uAX52Vk/O0NF2DHSHVLje/jSCbwR+
-DqCCHKeVGRqWZxpPtb4GcbMEtY7xwooPm0SwEGeVcXo9sT9LUght/zJ3Pa6Eet2O
-sSo4BVIZvlqDPwSEuiB4SLH0QJDUI8rzrtYBa2bEzstHwimw0reAtAFpT/g/QnI/
-t+URgXSvKsMgPMaiOtQmsOG5c9mUKipHQVUdeIMxe4KGcIxCWz1DWXgE1FUqHaB9
-1MO6S1SgXwRmWZDToL97PcRr9fqX5A==
-=aAGN
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmQQmyAACgkQ3cLmz3+f
+v9FJ+wf/Vs+zvL4HtIgKv1HYr45R/bI+XzRQ4edLJ+86siTyMIe6/xFs4hPJqnc/
+Kuop0jFCkE6h2zK7PLMPUxXZrLAThJRzd6YcMHKFN2JutU93IMSmu5Uz6R7NvnOd
+a0EpxMMQ8VZw+1bth4K5ttM6ZOI7uNuhD6ipUvXq7QLifzs9UJ7392zOtafnn0Sd
+vHbZ+ADRZzdCYpp4MjkR5rMxMyxBUpQ8PchA4eANo+Uq+gCKQWkoWGW9DSQ84eJN
+I8+xB1hddqMNyazPRNC+r01B6GydbodK+KdDjbE8xgLGy7Q1V4NPbmV1UkH+p+Oa
+pO1TUIhFzI6T+zb/bNmkmLiKPBkdmA==
+=crX/
 -----END PGP SIGNATURE-----
 
---Il/EvjUmeeGoz4+Y--
+--VxKfudML6kIseEz3--
