@@ -1,57 +1,57 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F2942CA6
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 20:37:28 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id h8so23419279ede.8
-        for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 13:37:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834D22CA6
+	for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 20:39:40 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id cy23so67100074edb.12
+        for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 13:39:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678826247;
+        d=gmail.com; s=20210112; t=1678826379;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yHxQXQUVKaAlufj6InystnuWkNCnVQe8D4VwWl3oonA=;
-        b=pfGyCIbrJZwVx0W4DnMi8P4qySG23P8DTfQ6bcWYb1CxLz36VKp+54AYJu5cmJ1igp
-         PWSiIa9BAjGjup2Sz+W4XvZItk9qaJzCvk2w+KSwWYrTf6ci9a8DoKpK5lAGrwvljEwF
-         9y96VtiuprjcBACb6rwO6UDVD62JxStyvCflmj/5Ek1zjo3yRBuy9dPe84wiAYFld508
-         AeT5ABBcpDHOye8ZjLR3WLWMSZEaXo9t2QQelY/Y1uWmak/+UoK5FO6zfANpzV2iQnoq
-         tZr/iN4ApdtBZ83RXtrD589xi0IvQODRab+E2PA+PH2g/177gdCU5/DrKlweSCCBbdL5
-         9PHw==
+        bh=eyGDngrrwWPIxM672XPjRQ30S2ESLoP5nSFza+5+EjM=;
+        b=ira9xGzR5hc5JCLwYudB3eScpSTpIR1m3fFtid/a4uiUsh60E5TccV9mT9GqIRGvTA
+         ZBC1Ve9rKaJugz4BN1xuyUIYbqCsu+fR4bZaGy4jCKHjTynqS8xBQJcmRtmfgu+vJhkW
+         9Umxj5WlrcDEdj7qkWWgwSWB8WnSKU/jl0x60hhm53DRKG3WDCJuahcZ60B+SXC+UnJ9
+         hg39wRIM+p9zIGrQr/rAsKckTzjddFwa31DvnGkKx5A1c+O3ow9Jf4OGFnpbuYrzhrRl
+         QEvNLRub4WjHnlZAvWWR1Az7UUJZsr0EGN5eyiFNzg03S3JeoQaVprddoOZoY89Ijm51
+         oucA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678826247;
+        d=1e100.net; s=20210112; t=1678826379;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yHxQXQUVKaAlufj6InystnuWkNCnVQe8D4VwWl3oonA=;
-        b=QhUSUUBiAS+tc3LLGhRhtLovUhFyeifiVJssdonTMg0VdpST9I2M3SN+sjos2ZLr7/
-         bG/QAxLtESxx2Bie2NAWH+6kTC1g0lrtcdCiPcS0FmDJ9viL2Nc5UlnjTDzHyyUvRtXX
-         0BI03WFs1jhPlVpqMY8mOSXOqtHzNKnzUgZFot9D6bQH7CLqgr5WYuvIrD0acOLDAu0M
-         W9A+NhkVvJsjIOmZ5ZkLONG7ASaf0c6BF6jGooqN5iLkaYM8GHx2sTHq5oTpch0yk4/V
-         /1dil3wwTMU9S34lAM03HSVR47L/oQLdZDnOFmegsSyUMAAv6ByvUbIkIy4S25wW939E
-         Doqg==
-X-Gm-Message-State: AO0yUKWJaZ26lmmbtXkOZOXwKGkZj63CRgMZiS7b+4ipTiwRjmvwpX3S
-	tMbp0tKYA5aeKoneoQHA3ys=
-X-Google-Smtp-Source: AK7set9MyUrTfoBf+tiCtR8jIumRDt5q5MR/AB5bUT5NLEbDK7VQy3GBqHk2efSDZlXaiZPcylNxpQ==
-X-Received: by 2002:a17:906:2b50:b0:8aa:c2e1:6a64 with SMTP id b16-20020a1709062b5000b008aac2e16a64mr3642781ejg.61.1678826247125;
-        Tue, 14 Mar 2023 13:37:27 -0700 (PDT)
+        bh=eyGDngrrwWPIxM672XPjRQ30S2ESLoP5nSFza+5+EjM=;
+        b=IV7ukSpLaCOgmQJlKz0qG3Iu10fvqecETgE9YMTsLTCcDzJd16WcGmmlsjyNqaW0vK
+         2MBFYeKdWsmePA3jXnjUvN+RIZbm5aRvi41JFgg2kpFbZVoO+obMm5rIEE4sSmwZLzfD
+         WO4zgE4N3lFYTadmHxrBPEgg+arWP+s7eIogBt8fDCVXPHyiznUeBFHw1ykjaIZRWRdE
+         iSsKsEbfjTNgCb/9q83Q/cPr+xvOr+pNhBlhpUOLX+ZRp+3eJg4bfVNx4XK82Ze22272
+         clCVM7yCX6toXvTRxh+U3cvyMusRCbUlCH0mTs8jOxA/m9RwX+9DR9slhBt7NfOmU7ab
+         1upg==
+X-Gm-Message-State: AO0yUKWjoKyP4k3k3eanayZHslMbmf5nJvxOFyWbOygYLabV5GWza/k0
+	knV2gzlbfnShBvV1XYK4aTg=
+X-Google-Smtp-Source: AK7set+jrinMC6MRWeB656rnwC53S5/VJ5Q9JOypzJTH2TzWrlXJpiKs0oeno7Fxr9N470ge1c/y+g==
+X-Received: by 2002:a17:906:8506:b0:87b:1be:a8c2 with SMTP id i6-20020a170906850600b0087b01bea8c2mr3420089ejx.73.1678826378788;
+        Tue, 14 Mar 2023 13:39:38 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id z9-20020a170906074900b008eaf99be56esm1573648ejb.170.2023.03.14.13.37.26
+        by smtp.gmail.com with ESMTPSA id mh19-20020a170906eb9300b009200601ea12sm1552934ejb.208.2023.03.14.13.39.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 13:37:26 -0700 (PDT)
+        Tue, 14 Mar 2023 13:39:38 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Andre Przywara <andre.przywara@arm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+To: mcgrof@kernel.org, Nick Alcock <nick.alcock@oracle.com>
+Cc: linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Hitomi Hasegawa <hasegawa-hitomi@fujitsu.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev
-Subject:
- Re: [PATCH] arm64: dts: allwinner: h5: OrangePi PC2: add OPP table to enable
- DVFS
-Date: Tue, 14 Mar 2023 21:37:25 +0100
-Message-ID: <1890711.taCxCBeP46@jernej-laptop>
-In-Reply-To: <20230228114112.3340715-1-andre.przywara@arm.com>
-References: <20230228114112.3340715-1-andre.przywara@arm.com>
+Subject: Re: [PATCH 12/24] kbuild,
+ soc: sunxi: sram: remove MODULE_LICENSE in non-modules
+Date: Tue, 14 Mar 2023 21:39:37 +0100
+Message-ID: <45375953.fMDQidcC6G@jernej-laptop>
+In-Reply-To: <20230217141059.392471-13-nick.alcock@oracle.com>
+References:
+ <20230217141059.392471-1-nick.alcock@oracle.com>
+ <20230217141059.392471-13-nick.alcock@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,21 +61,49 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne torek, 28. februar 2023 ob 12:41:12 CET je Andre Przywara napisal(a):
-> So far the OrangePi PC2 board was running at a fixed frequency, set by
-> U-Boot to 816 MHz, which is the best achievable frequency at the 1.1V
-> CPU voltage provided by the PMIC at reset.
+Dne petek, 17. februar 2023 ob 15:10:47 CET je Nick Alcock napisal(a):
+> Since commit 8b41fc4454e ("kbuild: create modules.builtin without
+> Makefile.modbuiltin or tristate.conf"), MODULE_LICENSE declarations
+> are used to identify modules. As a consequence, uses of the macro
+> in non-modules will cause modprobe to misidentify their containing
+> object file as a module when it is not (false positives), and modprobe
+> might succeed rather than failing with a suitable error message.
 > 
-> We already describe the CPU voltage regulator in the DT, but were
-> missing the OPP table. Just include the default H5 OPP table, as used
-> by other boards. My OrangePi PC2 runs just fine with those values, and
-> now goes up to 1.15 GHz.
+> So remove it in the files in this commit, none of which can be built as
+> modules.
 > 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
+> Suggested-by: Luis Chamberlain <mcgrof@kernel.org>
+> Cc: Luis Chamberlain <mcgrof@kernel.org>
+> Cc: linux-modules@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: Hitomi Hasegawa <hasegawa-hitomi@fujitsu.com>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Samuel Holland <samuel@sholland.org>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-sunxi@lists.linux.dev
 
 Applied, thanks!
 
 Best regards,
 Jernej
+
+> ---
+>  drivers/soc/sunxi/sunxi_sram.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
+> index 92f9186c1c42..21116d47d26d 100644
+> --- a/drivers/soc/sunxi/sunxi_sram.c
+> +++ b/drivers/soc/sunxi/sunxi_sram.c
+> @@ -421,4 +421,3 @@ builtin_platform_driver_probe(sunxi_sram_driver,
+> sunxi_sram_probe);
+> 
+>  MODULE_AUTHOR("Maxime Ripard <maxime.ripard@free-electrons.com>");
+>  MODULE_DESCRIPTION("Allwinner sunXi SRAM Controller Driver");
+> -MODULE_LICENSE("GPL");
+
+
 
 
