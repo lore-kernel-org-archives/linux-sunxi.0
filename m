@@ -1,45 +1,45 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D2A3C30
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 16:31:35 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id x3so64347018edb.10
-        for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 09:31:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF883C30
+	for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 16:32:48 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id x3so64362407edb.10
+        for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 09:32:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678811494;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=linaro.org; s=google; t=1678811567;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=6Z20n8EovjQK6WWHRBaG09kppsRVXiyp2olQcDL0XJ8=;
-        b=JK44/SsDXBuPDZzc56hUjt+1W7VutqTow1gDp4b7GRufbuYANwBW3zJWk/Fdr5oy1V
-         5NvGdMpCt9KdMMZ0wXSMshyMmavoyRhfXn4dByC3Ra59ZWEliXiB8mN8v7xyWYoY+EKx
-         9NbExJxy4XW5gsNpzG0e2gSwtq/3tG8E45K4EBifKcy720nyV6KKjD8tKWWC0RxYMvI4
-         CZgvENMmgS4n83pA7Klyg+owq9LWy3TuivG7ClIC6BZPRDK/whWULBNFJTPomgpe6M8U
-         PpRFx1/qm8hUiI8BU9FhfgfI7bFQIDM024dDiYyf9bSQQj+BqJ/PDrxtzbJWxOGY3L03
-         zCCw==
+        bh=hZMmUYtKJ8wmH3Y0b7DE4LXgBhnyqMdRf+GRKEQEn4c=;
+        b=HOMoHJbvrS91PZJdsSoMVF4wEKhsJzukL0cbjFvfv9908EoWA62ipm8dzNSPoyH2Ha
+         7OrEZpotzbre+nBpyPdyCuM1aR627eF/GX/nRY34d9dg7fNOraC8g8rZ62ciV9E0hR8V
+         3Y+INXEIbwCT8XLueIXSFY2B6uLFjwOHG7cb+vpszvgBJ8GHEy/28Ic8maoK3PKBHVM9
+         fRqEFDoV4KXJPzGJVeUJWwCV2m6Ea2UK+eEQksGSdmaedxi7sxEBkXLx9uGM7ZPzKnWY
+         G09Xgt268QjmkKJ8+FXqyp0Z7H5o5pmGIIV/JtvItiyFAVHe5RytDR3FtLM7nk8CmKeL
+         5/xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678811494;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=1e100.net; s=20210112; t=1678811567;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6Z20n8EovjQK6WWHRBaG09kppsRVXiyp2olQcDL0XJ8=;
-        b=rXvrynMM5Z2qH3WV/UmGizIgj4L7M0Qj10bdNrOmExc6/29tQWc3b9Hsh643s/VC+p
-         AaQf6JvrL1qGfqN2Bi8JTUwYh5jFKuKObH2LBmVwGrcdskP3WZNKX5ujN5u1zDgf2HDe
-         GYmbIm7IkVM2N+Lx6EPvz3sLr5rYWz5PSuKqIc+N6oWZDmjYuEK/hDaTrEPFwY356Rni
-         Y40fZx9e9UluaHygb92JbwZvL12E4CaUBfZYMqyY+FIPHr4CuqzIHr5+uO/O+yniix8a
-         MWFOI1mGVdMUDbJkiEeVu7UqlXEWMAhqomgiHr1fNU/R0oZD2xg3GHP4sdobwZ1jgQq7
-         +jPQ==
-X-Gm-Message-State: AO0yUKUSeDNr0cY9ntGWFeEt8eMd5Rd5oLHF34S7pQY4BElcw0p+Gmtw
-	t+L+kpBIjRPoENc3pKi8XuIYdg==
-X-Google-Smtp-Source: AK7set/vSQlRu82Czuk12ElmMiD/0af+VwTO3KMyjJOjl9VfNhfnYkq0M4g5zeFFPauB5KWKj9oZYg==
-X-Received: by 2002:a17:907:31c1:b0:92d:6078:3878 with SMTP id xf1-20020a17090731c100b0092d60783878mr2427954ejb.33.1678811493961;
-        Tue, 14 Mar 2023 09:31:33 -0700 (PDT)
+        bh=hZMmUYtKJ8wmH3Y0b7DE4LXgBhnyqMdRf+GRKEQEn4c=;
+        b=QKxFt0TbzEbzoXVhHe9jzOgDl4cgH5FAqteSQalNRPhv+AFuvxxQ8YWfDHWZvehs3B
+         2tfgEK8XH/kB6LFgElciIBOZzvyqoM2tvVUOdbXzmc6Bf6ww+CP4kYqrfZJ3GZRZfNXV
+         hKRPzkZtwxqsdKTFYOJdpF3lKHPgy41633K7l1oa7hoWRWzBGa2pv5AT2SjrktfpySc5
+         xyiJU6sox5acVGkrLeL+l/ku27MALzFcDOTM69DlcCkPhg9L/CJCrqMJ4lBjmUkKfiJ7
+         zi320+IE4J7X9AGw3Z4Ku/Yo1KIzPnRJzwfFt7vIktxv+Eszefbq9Q7fLaVKWPvj3JNr
+         vCbg==
+X-Gm-Message-State: AO0yUKUbT0xwHgwjpWSLUus0Q72Zw/d71D89pQejbn+Lcu6AR/aLTYT2
+	qgNns4f1JG8On3vxV2DFbQiHOQ==
+X-Google-Smtp-Source: AK7set+myyCkcdJ6jQlFEHkzUZ2F1WAxX5BcejY0gf0Rd4/49aK9Lc6ALEebeykXKuMeNvyqb5FwSA==
+X-Received: by 2002:a05:6402:74e:b0:4fd:23c9:11ed with SMTP id p14-20020a056402074e00b004fd23c911edmr5057745edy.17.1678811567132;
+        Tue, 14 Mar 2023 09:32:47 -0700 (PDT)
 Received: from ?IPV6:2a02:810d:15c0:828:59be:4b3f:994b:e78c? ([2a02:810d:15c0:828:59be:4b3f:994b:e78c])
-        by smtp.gmail.com with ESMTPSA id 18-20020a508e12000000b004fa380a14e7sm1281024edw.77.2023.03.14.09.31.31
+        by smtp.gmail.com with ESMTPSA id cd3-20020a170906b34300b00921357fb28csm1341977ejb.123.2023.03.14.09.32.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Mar 2023 09:31:33 -0700 (PDT)
-Message-ID: <5092a0b0-6a31-f984-e28c-ca11bafef6bb@linaro.org>
-Date: Tue, 14 Mar 2023 17:31:31 +0100
+        Tue, 14 Mar 2023 09:32:46 -0700 (PDT)
+Message-ID: <bafa692c-f3a3-d317-278d-2dd3b5ff8af3@linaro.org>
+Date: Tue, 14 Mar 2023 17:32:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -50,8 +50,9 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
 Subject: Re: [PATCH 01/28] media: cec: ch7322: drop of_match_ptr for ID table
 Content-Language: en-US
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Joe Tessler <jrt@google.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Guenter Roeck <linux@roeck-us.net>
+Cc: Joe Tessler <jrt@google.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
@@ -87,28 +88,40 @@ To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Joe Tessler <jrt@google.com>,
  linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org
 References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
- <4ee5e059-6e9f-0804-30ec-ff073f436780@xs4all.nl>
+ <b83d6b81-c4ec-4fb8-b626-84af80d1c4a3@roeck-us.net>
+ <74ae8afe-c537-1714-77ec-8a80d8ddad69@xs4all.nl>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <4ee5e059-6e9f-0804-30ec-ff073f436780@xs4all.nl>
+In-Reply-To: <74ae8afe-c537-1714-77ec-8a80d8ddad69@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 13/03/2023 12:46, Hans Verkuil wrote:
-> On 12/03/2023 14:12, Krzysztof Kozlowski wrote:
->> The driver can match only via the DT table so the table should be always
->> used and the of_match_ptr does not have any sense (this also allows ACPI
->> matching via PRP0001, even though it might not be relevant here).
+On 14/03/2023 09:34, Hans Verkuil wrote:
+> On 13/03/2023 23:01, Guenter Roeck wrote:
+>> On Sun, Mar 12, 2023 at 02:12:51PM +0100, Krzysztof Kozlowski wrote:
+>>> The driver can match only via the DT table so the table should be always
+>>> used and the of_match_ptr does not have any sense (this also allows ACPI
+>>> matching via PRP0001, even though it might not be relevant here).
+>>>
+>>>   drivers/media/cec/i2c/ch7322.c:583:34: error: ‘ch7322_of_match’ defined but not used [-Werror=unused-const-variable=]
+>>>
+>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 >>
->>   drivers/media/cec/i2c/ch7322.c:583:34: error: ‘ch7322_of_match’ defined but not used [-Werror=unused-const-variable=]
+>> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 >>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> FWIW: There is also
+>> https://patches.linaro.org/project/linux-media/patch/20230215214724.3798917-1-linux@roeck-us.net/
 > 
-> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> 
-> I assume you want to take this series, but if you prefer to have us do it, then
-> just let me know.
+> I superseded that patch in patchwork in favor of this patch since this is part of
+> a larger series.
 
-I prefer if you to take it. Please grab it! :)
+I am personally fan of FIFO, so Guenter's patch should go in.
+
+> 
+> Krzysztof, please let me know if you will take this series yourself or want me to
+> make a PR for it.
+
+I prefer if you take entire patchset.
+
 
 Best regards,
 Krzysztof
