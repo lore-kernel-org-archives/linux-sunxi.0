@@ -1,61 +1,58 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0996A939
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 20:11:21 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id x13so19601796edd.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 13:11:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B814A939
+	for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 20:11:57 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id y4so37491411edo.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 13:11:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678824680;
+        d=gmail.com; s=20210112; t=1678824715;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uOmN2wxHAubP/wjFGXET4njJl/QO5fM/z9sdlvX83rU=;
-        b=CHhAm/7O/gstpGzq7X5DDLTXks05VMX04VZtP6IfWpvHV1BPITJBPtOZQzL9SfVrOP
-         K7nelNQDZ9fwxi+pliz4LX5qQ44yGJpAVVO3y+nV+piezOVBGBSSnPw47TMugdQuh8v/
-         QwWK4fQmvfOfvFByvx4fsvkgJv7c+eAE027MmoJjaf7Vc6TTC6t8SrAXj7g9hoR0PiMP
-         huzQ0bA05qJOPNg+B9W/Jf9ln49b41v935ouW7KI45o/owobC6yJhVdr3l7aQ3dmG+WU
-         qLoun8HykJR4mPX8w0DjwMEO48xJUazKN+cDziLEzfeRO3IzlWdCZek0a5pd8zhpHenA
-         afRA==
+        bh=Psn+ZNsvz+f0rmdAxM3umOGfhwT8TclOdJfGLvd1awU=;
+        b=kn2N25+ZV2LJk+6Q8gXk5Piw+tlJzE3G6tcycy73tBvEv6yTaWxMc6PPO8SWiJ1kUX
+         IO1XuElrqYEmiQ20elOKMnRL+wuTZw21TgzEI1/KSyvc0TxxUzqJhfgGrkkDpmGfgsTu
+         ymJjKCF5p29DlEvQJCYPO/lYkb2Vnylj3aV0L/Ca/EyUCs2Ieiaf/7rGYVCHakUztSud
+         AiaHcnueqiHNtzRXfSPMj4/+LQq5jrhXzAgj+d6I9L030W9RuZqSQOYzG6xMv7wIsun0
+         FJj09/5ufbcVBiO66Di7L/snpOVUYWYREkAZKfiyQNI9Os6i20yTbkZQffoP4SvDRdHN
+         vosg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678824680;
+        d=1e100.net; s=20210112; t=1678824715;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uOmN2wxHAubP/wjFGXET4njJl/QO5fM/z9sdlvX83rU=;
-        b=6S58COybRwsSNs+NPvzeOXad1FaZBCF2SZhi+hTswVcdh9F4j3lGbdumdAfSD8+CM2
-         7HfV9BtQ54W25b5IBYivgwzoFivwhs2sHzUddPycOsrEGupVd8mAKAKuV7qyPEr/V5s/
-         Lgts2BtDiQ72SsZNlqwMy3gQGv6MfXeqHcN68gNaMC/q8Q3djUp+sUvX6iH+9J9r4krZ
-         nr1bJam1GRgfbZNdguoIj24aa9Upi2MNSwY74t6D4aDGL3m2GwW5zZ8TO98qt8XSxfBv
-         108k8HmJr15w0yoOrMds3w8y7CbWMyrdqFzi/pxwIQoV4JnR34s06OxbJmhJxzfUM37n
-         PrCw==
-X-Gm-Message-State: AO0yUKXhO2Hj1G+ROz1tS8795I9/3j9z44GObGINAhMQY9pubR7WV+2s
-	Vszd3+Mkz16xLWK1bCu1tHQ=
-X-Google-Smtp-Source: AK7set+qCVKByxD7iuQXEmywLPaTa1vcwJ7G6XCqfhULVzCL/kVmJIdeJKzJeKK2tj317A2Zl/2klw==
-X-Received: by 2002:a17:907:9708:b0:878:711d:9310 with SMTP id jg8-20020a170907970800b00878711d9310mr4432767ejc.1.1678824679798;
-        Tue, 14 Mar 2023 13:11:19 -0700 (PDT)
+        bh=Psn+ZNsvz+f0rmdAxM3umOGfhwT8TclOdJfGLvd1awU=;
+        b=r1URSj7Jhoq6tyCC7umbC54pAK09GG75GyIfeyvuc8TmE4MM8bL1MNCXEME0f3+h50
+         FdREdAqg7e/dlZejoFgp6FFm00fMfNUKik2Ve81JenFrCt5Oj67Hqr7I/RfP2JRzptk1
+         YfdLpWFSDdBPo02ahFW+sy+BZhPrwPTywRNuoef/y3ofLEoOrODdjMFzZwhoI2oqzskG
+         Eg/1i8rjiidvi4R6iD+dbK+k/0yMSy/q7/hrhxNJDKoBu6QICfxsPYWHjpgFHf2c1jJi
+         Afggxp2j9a8Pzbqnwvc485YEcYGPB8fTL2TsSqZTT8RUlymbMp6lp5mJLjOApk5WM1OE
+         mwag==
+X-Gm-Message-State: AO0yUKWpIQhaPPiX5UVvpa4RdUClpT6IehNHn3SzZkZCWXp86jD0mWIW
+	+aBvUw6MPWO90yjuxhPqdPI=
+X-Google-Smtp-Source: AK7set81Sdi8Ag2OLXzypBycmwWBYTYONBGYNe393ehQSP6TWWFhDRJaFujDkZqUi3eH6EGl8ZgfWg==
+X-Received: by 2002:a17:907:2097:b0:8af:1a8c:f13f with SMTP id pv23-20020a170907209700b008af1a8cf13fmr4045889ejb.71.1678824715561;
+        Tue, 14 Mar 2023 13:11:55 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id i16-20020a170906851000b008e8e9859905sm1540068ejx.184.2023.03.14.13.11.18
+        by smtp.gmail.com with ESMTPSA id n10-20020a50c20a000000b004fb542dd8cdsm1520471edf.29.2023.03.14.13.11.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 13:11:19 -0700 (PDT)
+        Tue, 14 Mar 2023 13:11:55 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Andre Przywara <andre.przywara@arm.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Icenowy Zheng <uwu@icenowy.me>,
+To: Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
  Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+Cc: linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, kernel@pengutronix.de
 Subject:
- Re: [PATCH 01/31] phy: allwinner: phy-sun4i-usb: Convert to platform remove
- callback returning void
-Date: Tue, 14 Mar 2023 21:11:18 +0100
-Message-ID: <9076995.CDJkKcVGEf@jernej-laptop>
-In-Reply-To: <20230307115900.2293120-2-u.kleine-koenig@pengutronix.de>
+ Re: [PATCH 74/87] spi: sun4i: Convert to platform remove callback returning
+ void
+Date: Tue, 14 Mar 2023 21:11:54 +0100
+Message-ID: <5811350.MhkbZ0Pkbq@jernej-laptop>
+In-Reply-To: <20230303172041.2103336-75-u.kleine-koenig@pengutronix.de>
 References:
- <20230307115900.2293120-1-u.kleine-koenig@pengutronix.de>
- <20230307115900.2293120-2-u.kleine-koenig@pengutronix.de>
+ <20230303172041.2103336-1-u.kleine-koenig@pengutronix.de>
+ <20230303172041.2103336-75-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -65,7 +62,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="iso-8859-1"
 
-Dne torek, 07. marec 2023 ob 12:58:30 CET je Uwe Kleine-K=F6nig napisal(a):
+Dne petek, 03. marec 2023 ob 18:20:28 CET je Uwe Kleine-K=F6nig napisal(a):
 > The .remove() callback for a platform driver returns an int which makes
 > many driver authors wrongly assume it's possible to do error handling by
 > returning an error code. However the value returned is (mostly) ignored
@@ -85,41 +82,35 @@ Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Best regards,
 Jernej
 
->  drivers/phy/allwinner/phy-sun4i-usb.c | 6 ++----
+>  drivers/spi/spi-sun4i.c | 6 ++----
 >  1 file changed, 2 insertions(+), 4 deletions(-)
 >=20
-> diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c
-> b/drivers/phy/allwinner/phy-sun4i-usb.c index fbcd7014ab43..6a74e5ce180a
-> 100644
-> --- a/drivers/phy/allwinner/phy-sun4i-usb.c
-> +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-> @@ -698,7 +698,7 @@ static struct phy *sun4i_usb_phy_xlate(struct device
-> *dev, return data->phys[args->args[0]].phy;
+> diff --git a/drivers/spi/spi-sun4i.c b/drivers/spi/spi-sun4i.c
+> index 6000d0761206..994d0fb50e68 100644
+> --- a/drivers/spi/spi-sun4i.c
+> +++ b/drivers/spi/spi-sun4i.c
+> @@ -516,11 +516,9 @@ static int sun4i_spi_probe(struct platform_device
+> *pdev) return ret;
 >  }
 >=20
-> -static int sun4i_usb_phy_remove(struct platform_device *pdev)
-> +static void sun4i_usb_phy_remove(struct platform_device *pdev)
+> -static int sun4i_spi_remove(struct platform_device *pdev)
+> +static void sun4i_spi_remove(struct platform_device *pdev)
 >  {
->  	struct device *dev =3D &pdev->dev;
->  	struct sun4i_usb_phy_data *data =3D dev_get_drvdata(dev);
-> @@ -711,8 +711,6 @@ static int sun4i_usb_phy_remove(struct platform_device
-> *pdev) devm_free_irq(dev, data->vbus_det_irq, data);
->=20
->  	cancel_delayed_work_sync(&data->detect);
+>  	pm_runtime_force_suspend(&pdev->dev);
 > -
 > -	return 0;
 >  }
 >=20
->  static const unsigned int sun4i_usb_phy0_cable[] =3D {
-> @@ -1054,7 +1052,7 @@ MODULE_DEVICE_TABLE(of, sun4i_usb_phy_of_match);
+>  static const struct of_device_id sun4i_spi_match[] =3D {
+> @@ -536,7 +534,7 @@ static const struct dev_pm_ops sun4i_spi_pm_ops =3D {
 >=20
->  static struct platform_driver sun4i_usb_phy_driver =3D {
->  	.probe	=3D sun4i_usb_phy_probe,
-> -	.remove	=3D sun4i_usb_phy_remove,
-> +	.remove_new =3D sun4i_usb_phy_remove,
->  	.driver =3D {
->  		.of_match_table	=3D sun4i_usb_phy_of_match,
->  		.name  =3D "sun4i-usb-phy",
+>  static struct platform_driver sun4i_spi_driver =3D {
+>  	.probe	=3D sun4i_spi_probe,
+> -	.remove	=3D sun4i_spi_remove,
+> +	.remove_new =3D sun4i_spi_remove,
+>  	.driver	=3D {
+>  		.name		=3D "sun4i-spi",
+>  		.of_match_table	=3D sun4i_spi_match,
 
 
 
