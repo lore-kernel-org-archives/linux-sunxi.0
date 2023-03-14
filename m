@@ -1,62 +1,57 @@
 Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC1D2CA6
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 20:35:35 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id x13so19851889edd.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 13:35:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F2942CA6
+	for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 20:37:28 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id h8so23419279ede.8
+        for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 13:37:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678826133;
+        d=gmail.com; s=20210112; t=1678826247;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NxwSO/LBuR46CmjoeXSfo+IWSWZ/3pwKZV8PIGQHNrk=;
-        b=C4ylx+Vos6HtqYmeSZulI1EuEc8EaPUOfBPDLOFgvFEAqZLFPDAkR6+t48XM7KjrYy
-         zb86bFi+M5cyq1+JMrW2h0gT/X5utpQaCzusAngPMCnM1ifzrAotuCOzP/XF2+yaaQkh
-         7dycbEN4zQhpe/z3hawHy56L8Mu2SmKPZNduTRDRE9PItjeYDi083Kobx7bAVbOwKDA0
-         A2qZSTNk0Tppr/6w8gVt3C/4wcT3zMJ/BrSSRvvphwOlWddyRC7NugFJAPfGKSicHAdv
-         7DbnUk5173ijub6f/juCxDAMNr6Lk7toO8ii1/g1bvDzySxLQxbd9D2NpqNGcChRsxEH
-         KvCQ==
+        bh=yHxQXQUVKaAlufj6InystnuWkNCnVQe8D4VwWl3oonA=;
+        b=pfGyCIbrJZwVx0W4DnMi8P4qySG23P8DTfQ6bcWYb1CxLz36VKp+54AYJu5cmJ1igp
+         PWSiIa9BAjGjup2Sz+W4XvZItk9qaJzCvk2w+KSwWYrTf6ci9a8DoKpK5lAGrwvljEwF
+         9y96VtiuprjcBACb6rwO6UDVD62JxStyvCflmj/5Ek1zjo3yRBuy9dPe84wiAYFld508
+         AeT5ABBcpDHOye8ZjLR3WLWMSZEaXo9t2QQelY/Y1uWmak/+UoK5FO6zfANpzV2iQnoq
+         tZr/iN4ApdtBZ83RXtrD589xi0IvQODRab+E2PA+PH2g/177gdCU5/DrKlweSCCBbdL5
+         9PHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678826133;
+        d=1e100.net; s=20210112; t=1678826247;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NxwSO/LBuR46CmjoeXSfo+IWSWZ/3pwKZV8PIGQHNrk=;
-        b=FoAbB+XI+4V6/m4YOZaaCDdwsYPr2PwhIzoAfzndp8L/tl8Yki14nW8HjC+HwqCcQS
-         RSDmgJoNVcajzGvrf2kKNItG/4WNmnT288pCtxX6Dmez7vx59pf+h7oS8qz/w3nvHbVO
-         iINNHgTpWA4B40E+2bpyCNS5/+LBEmFP5CJQiG91CWoN3qqSKA3iUiNWvC68dJTZ9JZX
-         X75n3I2KPYb/qTKGAz+NnKXPgMqqnDLTe31zucOlO7SQcJ/pUb2irHMTJMVC+K/sFoe3
-         fmP+CKR1RToK84Whuvb8BAtBZJv4qnbzTiurRzI0KUbc+VZgzAbmzKoWGeTv8bfOOKnX
-         2WKA==
-X-Gm-Message-State: AO0yUKW0lYbi+NL9FbUQolUtlWoiMQPIfuZWMHELy7v07dyurmM40bFK
-	g1dGAGhRCRkg/6EFT47c50s=
-X-Google-Smtp-Source: AK7set8qAKElSfLk862Fb1U9iBFSLCsZ8OOml5T1pwcqPd2vA6HdnOUeXnTHL6GcYsNrzwpY2GGN4w==
-X-Received: by 2002:a17:906:2512:b0:87d:f29:3a16 with SMTP id i18-20020a170906251200b0087d0f293a16mr4278916ejb.34.1678826133362;
-        Tue, 14 Mar 2023 13:35:33 -0700 (PDT)
+        bh=yHxQXQUVKaAlufj6InystnuWkNCnVQe8D4VwWl3oonA=;
+        b=QhUSUUBiAS+tc3LLGhRhtLovUhFyeifiVJssdonTMg0VdpST9I2M3SN+sjos2ZLr7/
+         bG/QAxLtESxx2Bie2NAWH+6kTC1g0lrtcdCiPcS0FmDJ9viL2Nc5UlnjTDzHyyUvRtXX
+         0BI03WFs1jhPlVpqMY8mOSXOqtHzNKnzUgZFot9D6bQH7CLqgr5WYuvIrD0acOLDAu0M
+         W9A+NhkVvJsjIOmZ5ZkLONG7ASaf0c6BF6jGooqN5iLkaYM8GHx2sTHq5oTpch0yk4/V
+         /1dil3wwTMU9S34lAM03HSVR47L/oQLdZDnOFmegsSyUMAAv6ByvUbIkIy4S25wW939E
+         Doqg==
+X-Gm-Message-State: AO0yUKWJaZ26lmmbtXkOZOXwKGkZj63CRgMZiS7b+4ipTiwRjmvwpX3S
+	tMbp0tKYA5aeKoneoQHA3ys=
+X-Google-Smtp-Source: AK7set9MyUrTfoBf+tiCtR8jIumRDt5q5MR/AB5bUT5NLEbDK7VQy3GBqHk2efSDZlXaiZPcylNxpQ==
+X-Received: by 2002:a17:906:2b50:b0:8aa:c2e1:6a64 with SMTP id b16-20020a1709062b5000b008aac2e16a64mr3642781ejg.61.1678826247125;
+        Tue, 14 Mar 2023 13:37:27 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id go37-20020a1709070da500b00927b85e48b0sm1539379ejc.111.2023.03.14.13.35.32
+        by smtp.gmail.com with ESMTPSA id z9-20020a170906074900b008eaf99be56esm1573648ejb.170.2023.03.14.13.37.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 13:35:32 -0700 (PDT)
+        Tue, 14 Mar 2023 13:37:26 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Corentin Labbe <clabbe.montjoie@gmail.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S . Miller" <davem@davemloft.net>, Chen-Yu Tsai <wens@csie.org>,
+To: Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Samuel Holland <samuel@sholland.org>
-Cc: Samuel Holland <samuel@sholland.org>, Albert Ou <aou@eecs.berkeley.edu>,
- Conor Dooley <conor@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Andre Przywara <andre.przywara@arm.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 3/3] riscv: dts: allwinner: d1: Add crypto engine node
-Date: Tue, 14 Mar 2023 21:35:31 +0100
-Message-ID: <3544095.R56niFO833@jernej-laptop>
-In-Reply-To: <20221231220146.646-4-samuel@sholland.org>
-References:
- <20221231220146.646-1-samuel@sholland.org>
- <20221231220146.646-4-samuel@sholland.org>
+Subject:
+ Re: [PATCH] arm64: dts: allwinner: h5: OrangePi PC2: add OPP table to enable
+ DVFS
+Date: Tue, 14 Mar 2023 21:37:25 +0100
+Message-ID: <1890711.taCxCBeP46@jernej-laptop>
+In-Reply-To: <20230228114112.3340715-1-andre.przywara@arm.com>
+References: <20230228114112.3340715-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -66,12 +61,19 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne sobota, 31. december 2022 ob 23:01:45 CET je Samuel Holland napisal(a):
-> D1 contains a crypto engine which is supported by the sun8i-ce driver.
+Dne torek, 28. februar 2023 ob 12:41:12 CET je Andre Przywara napisal(a):
+> So far the OrangePi PC2 board was running at a fixed frequency, set by
+> U-Boot to 816 MHz, which is the best achievable frequency at the 1.1V
+> CPU voltage provided by the PMIC at reset.
 > 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> We already describe the CPU voltage regulator in the DT, but were
+> missing the OPP table. Just include the default H5 OPP table, as used
+> by other boards. My OrangePi PC2 runs just fine with those values, and
+> now goes up to 1.15 GHz.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Applied patch 3, thanks!
+Applied, thanks!
 
 Best regards,
 Jernej
