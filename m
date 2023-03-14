@@ -1,45 +1,47 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF883C30
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 16:32:48 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id x3so64362407edb.10
-        for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 09:32:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACEA43C30
+	for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 16:45:46 +0000 (UTC)
+Received: by mail-il1-f169.google.com with SMTP id h5so4907361ile.13
+        for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 09:45:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678811567;
+        d=gmail.com; s=20210112; t=1678812346;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hZMmUYtKJ8wmH3Y0b7DE4LXgBhnyqMdRf+GRKEQEn4c=;
-        b=HOMoHJbvrS91PZJdsSoMVF4wEKhsJzukL0cbjFvfv9908EoWA62ipm8dzNSPoyH2Ha
-         7OrEZpotzbre+nBpyPdyCuM1aR627eF/GX/nRY34d9dg7fNOraC8g8rZ62ciV9E0hR8V
-         3Y+INXEIbwCT8XLueIXSFY2B6uLFjwOHG7cb+vpszvgBJ8GHEy/28Ic8maoK3PKBHVM9
-         fRqEFDoV4KXJPzGJVeUJWwCV2m6Ea2UK+eEQksGSdmaedxi7sxEBkXLx9uGM7ZPzKnWY
-         G09Xgt268QjmkKJ8+FXqyp0Z7H5o5pmGIIV/JtvItiyFAVHe5RytDR3FtLM7nk8CmKeL
-         5/xg==
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=jlTXumnsAyLju3X5wGhezp0gUrPj0Pftji9EY7hYkTE=;
+        b=IMbOhb4nSM3i5CqrZuMYQyk4mi0FlTaUhqJ10ufd3Zycg2LInMrGQEru5ClVhMfZiY
+         MBTA8wkxYs3c2KYTMoxKnrJ5Kdaoet53INo+0KJbWWMYRADfafbmB+FTNxreih/UUxFP
+         sljADlzOvgFOuWq2vKJgWRE6/WfqMDh3/2rgEloxv7hXosmfx0f7oG5pDnBP+HE83aF/
+         7QL1yXV2X8K2JtjI8IdwWJtckGXIUdEMPXKHAnfeJSzVfdVsGJdrKJ3b056R+slPWYAZ
+         ZiycbkXMVD6nIUVxupHIdiUR4K+B4czNcaiRn6zXjSxrW1ZoSF2r8ENe7PRUrZDJB9Ih
+         j9KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678811567;
+        d=1e100.net; s=20210112; t=1678812346;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hZMmUYtKJ8wmH3Y0b7DE4LXgBhnyqMdRf+GRKEQEn4c=;
-        b=QKxFt0TbzEbzoXVhHe9jzOgDl4cgH5FAqteSQalNRPhv+AFuvxxQ8YWfDHWZvehs3B
-         2tfgEK8XH/kB6LFgElciIBOZzvyqoM2tvVUOdbXzmc6Bf6ww+CP4kYqrfZJ3GZRZfNXV
-         hKRPzkZtwxqsdKTFYOJdpF3lKHPgy41633K7l1oa7hoWRWzBGa2pv5AT2SjrktfpySc5
-         xyiJU6sox5acVGkrLeL+l/ku27MALzFcDOTM69DlcCkPhg9L/CJCrqMJ4lBjmUkKfiJ7
-         zi320+IE4J7X9AGw3Z4Ku/Yo1KIzPnRJzwfFt7vIktxv+Eszefbq9Q7fLaVKWPvj3JNr
-         vCbg==
-X-Gm-Message-State: AO0yUKUbT0xwHgwjpWSLUus0Q72Zw/d71D89pQejbn+Lcu6AR/aLTYT2
-	qgNns4f1JG8On3vxV2DFbQiHOQ==
-X-Google-Smtp-Source: AK7set+myyCkcdJ6jQlFEHkzUZ2F1WAxX5BcejY0gf0Rd4/49aK9Lc6ALEebeykXKuMeNvyqb5FwSA==
-X-Received: by 2002:a05:6402:74e:b0:4fd:23c9:11ed with SMTP id p14-20020a056402074e00b004fd23c911edmr5057745edy.17.1678811567132;
-        Tue, 14 Mar 2023 09:32:47 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:59be:4b3f:994b:e78c? ([2a02:810d:15c0:828:59be:4b3f:994b:e78c])
-        by smtp.gmail.com with ESMTPSA id cd3-20020a170906b34300b00921357fb28csm1341977ejb.123.2023.03.14.09.32.45
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jlTXumnsAyLju3X5wGhezp0gUrPj0Pftji9EY7hYkTE=;
+        b=cRQ0hIu6rvok7upP81V+3h5p3haRT2xtPZ1FsDaevXT73cfQ/UzuxtzrAcZmNuZ0Tr
+         y9b39L5XVihIufCiys2Kp5iqsfKa8MnzaauL2G9cWwo2/HwyXXjigq2dUiNCq9E+DBSd
+         7Q9QGO90M/+qybsHX3GeL3X4unEY6jE2/rCnQozyDCpO3uhfUL3MgwxbunfPk/HcIFIQ
+         PFUAHsrvXuLkRy1JJWZ4kVasE4uiWXix8JifWf0t3L7qvClQ6Z6aWYufdpUnklUGQqkw
+         W6EUDvGJzAMvb0fLIdljsp6aZ4TYc1choyAmE6T4JR/4meVZpfHmBXdkoqMY1oB9Iguu
+         eKOQ==
+X-Gm-Message-State: AO0yUKWKSKjLir5Fk+O/ukxD517SEqY0mVebWhTvW8kfqYC+2Py5L3Z8
+	oxoYtUfhSH0e/nHP4uu4vv4=
+X-Google-Smtp-Source: AK7set9fbVlYa4wCf6eJNIaNXA3YZoUWFsU4AD/JnVhm0i9hauk9yIMD83SJ3S82/ISaFKioIftPGQ==
+X-Received: by 2002:a05:6e02:60e:b0:318:aa8a:6455 with SMTP id t14-20020a056e02060e00b00318aa8a6455mr2655484ils.19.1678812345622;
+        Tue, 14 Mar 2023 09:45:45 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id c22-20020a02c9d6000000b0040380d7c768sm903996jap.106.2023.03.14.09.45.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Mar 2023 09:32:46 -0700 (PDT)
-Message-ID: <bafa692c-f3a3-d317-278d-2dd3b5ff8af3@linaro.org>
-Date: Tue, 14 Mar 2023 17:32:44 +0100
+        Tue, 14 Mar 2023 09:45:45 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <4a4e0ef5-30f8-39ce-28cf-ade2122e2aa2@roeck-us.net>
+Date: Tue, 14 Mar 2023 09:45:39 -0700
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -47,11 +49,11 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
+ Thunderbird/102.7.1
 Subject: Re: [PATCH 01/28] media: cec: ch7322: drop of_match_ptr for ID table
 Content-Language: en-US
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Guenter Roeck <linux@roeck-us.net>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc: Joe Tessler <jrt@google.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
@@ -90,39 +92,39 @@ Cc: Joe Tessler <jrt@google.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
 References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
  <b83d6b81-c4ec-4fb8-b626-84af80d1c4a3@roeck-us.net>
  <74ae8afe-c537-1714-77ec-8a80d8ddad69@xs4all.nl>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <74ae8afe-c537-1714-77ec-8a80d8ddad69@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
+ <bafa692c-f3a3-d317-278d-2dd3b5ff8af3@linaro.org>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <bafa692c-f3a3-d317-278d-2dd3b5ff8af3@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 14/03/2023 09:34, Hans Verkuil wrote:
-> On 13/03/2023 23:01, Guenter Roeck wrote:
->> On Sun, Mar 12, 2023 at 02:12:51PM +0100, Krzysztof Kozlowski wrote:
->>> The driver can match only via the DT table so the table should be always
->>> used and the of_match_ptr does not have any sense (this also allows ACPI
->>> matching via PRP0001, even though it might not be relevant here).
+On 3/14/23 09:32, Krzysztof Kozlowski wrote:
+> On 14/03/2023 09:34, Hans Verkuil wrote:
+>> On 13/03/2023 23:01, Guenter Roeck wrote:
+>>> On Sun, Mar 12, 2023 at 02:12:51PM +0100, Krzysztof Kozlowski wrote:
+>>>> The driver can match only via the DT table so the table should be always
+>>>> used and the of_match_ptr does not have any sense (this also allows ACPI
+>>>> matching via PRP0001, even though it might not be relevant here).
+>>>>
+>>>>    drivers/media/cec/i2c/ch7322.c:583:34: error: ‘ch7322_of_match’ defined but not used [-Werror=unused-const-variable=]
+>>>>
+>>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 >>>
->>>   drivers/media/cec/i2c/ch7322.c:583:34: error: ‘ch7322_of_match’ defined but not used [-Werror=unused-const-variable=]
+>>> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 >>>
->>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>> FWIW: There is also
+>>> https://patches.linaro.org/project/linux-media/patch/20230215214724.3798917-1-linux@roeck-us.net/
 >>
->> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
->>
->> FWIW: There is also
->> https://patches.linaro.org/project/linux-media/patch/20230215214724.3798917-1-linux@roeck-us.net/
+>> I superseded that patch in patchwork in favor of this patch since this is part of
+>> a larger series.
 > 
-> I superseded that patch in patchwork in favor of this patch since this is part of
-> a larger series.
-
-I am personally fan of FIFO, so Guenter's patch should go in.
-
+> I am personally fan of FIFO, so Guenter's patch should go in.
 > 
-> Krzysztof, please let me know if you will take this series yourself or want me to
-> make a PR for it.
 
-I prefer if you take entire patchset.
+FWIW, I do not care either way, I just wanted to point out that this patch
+_is_ both relevant and needed, and that it (or, rather, the original version)
+has been reviewed and tested.
 
-
-Best regards,
-Krzysztof
+Thanks,
+Guenter
 
