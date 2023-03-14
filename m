@@ -1,43 +1,43 @@
 Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4454A939
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 19:51:51 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id eg48so7481422edb.13
-        for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 12:51:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA87A939
+	for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 19:52:22 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id eg48so7486920edb.13
+        for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 12:52:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678823510;
+        d=gmail.com; s=20210112; t=1678823542;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8AT8USwG5WyHMLzA6/8T0IUfb3m04Mgmj2Z9mkS5Q9k=;
-        b=VQ1Bxxrd0PI+Y36KGSR9tvLfCRNckswniNWELVaaPvUCxWivB6ajZpVwNfQPWx/bxk
-         wlyb+IDMNnHUcblddMhuEzgUKSHLuI4IYjI16P82uxBFfu+92mr4ylyALdg2BFJvB0AO
-         onmyGCP+1rgPgi7D6BPokZjuqWgag+074+OsP3gh5V8/s6Ajcuo0Ix20CPS0vWa6y38n
-         CxUj1yc60ELISGN+7y9S+Iv2DRIOmu8bGsTq9Aeo9AEahw49g7yGwjhT0f4XFogDgefs
-         /N/wuVy/EJ9AiQTL6+rT/SW6ZaLlic2kpZM0aIBubfPL2LM3uwH4k5DAmUCIPj+m+x3r
-         sfcA==
+        bh=xMc2AnlV82kWeOQMw4Z57Uy8gyinuEGs+efX/3BzdrM=;
+        b=GaBPzv3wgeHg5mdOzdiwOVazLXCDhdCOrdePbsgJDi21f+1qnJM6ELcpmu7tU1rMST
+         cjE8SlnKUyVc4FxAIbKf3kico9yQhyCmf0umFoCZlG8v7KZ0XkFh8PPO3cbZAyTm2nCH
+         N/kIfjmK/Egjl5SbHw3k/SOTTT6+sIiCwY0kZpqrJ8gMnQq/7AIDTMp8yEnpdz4rfQuf
+         D54Rs5kZCp++koUnziuR0GUPgtpl8GPiw5dywdDwOYVUCaLameqj32/emey+m+Tq2FGK
+         OIou9a5lMr8BdC8svsyN5SZf9s8l5a3EQLYTP6FU0J3IWkhor6AUTxk78E26aUy22uE6
+         zKvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678823510;
+        d=1e100.net; s=20210112; t=1678823542;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8AT8USwG5WyHMLzA6/8T0IUfb3m04Mgmj2Z9mkS5Q9k=;
-        b=q3aOF1v9PGjRkHRDKo74B+pGlWTU7J6vgRFikTtkcsmU3PP5n/gCeIcc19MosNPkiD
-         4R5+LA/7iVS/UzXWDPxcI6UiDgpSMIRrLJKVLlBVPWSQ2Z/HsbxxoCE941G02VfDQM/T
-         HmXfTi3h0Z2A6EnlChGb5AL1ITBm5dztFfDmLsMdy1MJJSSuHC+BjRK0QMAdg2V7M3C8
-         0vdcj1YT1zw8FKYTGBDbspWEvtrGWogmNkHgBwkC7oDNjK9c0KDNz4fx0k1OchzN31i6
-         FBgoxIPOkcB+N+26n893zoDKcFESb3HmS2qgpdBsuLM4TlfbDC68jXhrUwQltVJgTlw0
-         K2tA==
-X-Gm-Message-State: AO0yUKVgP4/ZcaRq6nDj7ubFnCF/o2jVIk+3nDhGVccFlm/UrviBb3C8
-	tEBNxwpbpLe1PpJscrPD+kc=
-X-Google-Smtp-Source: AK7set/tzuvE7xTzdstMMoDin2Jn1A93J29XnBrFLWGatjpCIuLb3twRybszlAVT52/X8b7+AM6KfA==
-X-Received: by 2002:a17:906:a249:b0:92b:b4d9:3f07 with SMTP id bi9-20020a170906a24900b0092bb4d93f07mr3722129ejb.14.1678823509909;
-        Tue, 14 Mar 2023 12:51:49 -0700 (PDT)
+        bh=xMc2AnlV82kWeOQMw4Z57Uy8gyinuEGs+efX/3BzdrM=;
+        b=HRyUKYz13Mxx5SVIkdI/Zbk5L80CI0pGKzNu4NXq2vfXL++mfOo+oovTcarc/k2Anf
+         OfHF+t/sn+gtDxc+EELJN6XWhmAH/PSixYAEjMfN/5TZQsQprRcZXDXfbYxM+z2WpRuc
+         /3ZP8dJleeBaky+4Rfk9ey6DQUDQdhbhie0AIUV2mtNGlEDl5Mzrshqv67xgtL0DWbZo
+         mZ1PBrhDz/qtEKsgoLvPAgTISRWHhiF71ZHGLeI3gnJhXwAMXUX4w2UjLisWIZdiegDa
+         J+HW7z29wvbRKZo/PQJzbTPlYLs/e605YOgGXuemWrqVX5GqYe+IYK43+NKmy4yqmp8K
+         dyXA==
+X-Gm-Message-State: AO0yUKXTM1H9TkAQJ42/erenlsf8Tt0WIcUx9Ev6HVvjE0XxPjBNOPYs
+	Hr35pfsd0QTxJRsRdU9M27I=
+X-Google-Smtp-Source: AK7set9lGQSvj/0qLoxjjRbWIJWyy4clOJmKgKtnIzH8T77Xxvcq28Mg1JfG2Pp6mT42x0CH2tiMRw==
+X-Received: by 2002:a50:fe92:0:b0:4af:62af:460a with SMTP id d18-20020a50fe92000000b004af62af460amr322583edt.8.1678823542126;
+        Tue, 14 Mar 2023 12:52:22 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id z4-20020a170906714400b008e53874f8d8sm1509261ejj.180.2023.03.14.12.51.47
+        by smtp.gmail.com with ESMTPSA id v10-20020a50a44a000000b004fd204d180dsm1484455edb.64.2023.03.14.12.52.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 12:51:49 -0700 (PDT)
+        Tue, 14 Mar 2023 12:52:21 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Joe Tessler <jrt@google.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -76,13 +76,14 @@ To: Joe Tessler <jrt@google.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Subject:
- Re: [PATCH 16/28] media: platform: sun6i-csi: drop of_match_ptr for ID table
-Date: Tue, 14 Mar 2023 20:51:46 +0100
-Message-ID: <2671303.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20230312131318.351173-16-krzysztof.kozlowski@linaro.org>
+ Re: [PATCH 17/28] media: platform: sun6i-mipi-csi2: drop of_match_ptr for ID
+ table
+Date: Tue, 14 Mar 2023 20:52:19 +0100
+Message-ID: <5654872.DvuYhMxLoT@jernej-laptop>
+In-Reply-To: <20230312131318.351173-17-krzysztof.kozlowski@linaro.org>
 References:
  <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
- <20230312131318.351173-16-krzysztof.kozlowski@linaro.org>
+ <20230312131318.351173-17-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -92,42 +93,42 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-Dne nedelja, 12. marec 2023 ob 14:13:06 CET je Krzysztof Kozlowski napisal(=
+Dne nedelja, 12. marec 2023 ob 14:13:07 CET je Krzysztof Kozlowski napisal(=
 a):
 > The driver can match only via the DT table so the table should be always
 > used and the of_match_ptr does not have any sense (this also allows ACPI
 > matching via PRP0001, even though it might not be relevant here).  This
 > also fixes !CONFIG_OF error:
 >=20
->   drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c:401:34: error:
-> =E2=80=98sun6i_csi_of_match=E2=80=99 defined but not used [-Werror=3Dunus=
-ed-const-variable=3D]
+>   drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:751:34:
+> error: =E2=80=98sun6i_mipi_csi2_of_match=E2=80=99 defined but not used
+> [-Werror=3Dunused-const-variable=3D]
 >=20
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
+>  drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
->  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c index
-> e3e6650181c8..187a2419da96 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> @@ -429,7 +429,7 @@ static struct platform_driver sun6i_csi_platform_driv=
-er
-> =3D { .remove	=3D sun6i_csi_remove,
+> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2=
+=2Ec
+> b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c index
+> a220ce849b41..0851b6b4e1ff 100644
+> --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+> @@ -759,7 +759,7 @@ static struct platform_driver
+> sun6i_mipi_csi2_platform_driver =3D { .remove	=3D sun6i_mipi_csi2_remove,
 >  	.driver	=3D {
->  		.name		=3D SUN6I_CSI_NAME,
+>  		.name		=3D SUN6I_MIPI_CSI2_NAME,
 > -		.of_match_table	=3D=20
-of_match_ptr(sun6i_csi_of_match),
-> +		.of_match_table	=3D sun6i_csi_of_match,
->  		.pm		=3D &sun6i_csi_pm_ops,
+of_match_ptr(sun6i_mipi_csi2_of_match),
+> +		.of_match_table	=3D sun6i_mipi_csi2_of_match,
+>  		.pm		=3D &sun6i_mipi_csi2_pm_ops,
 >  	},
 >  };
 
