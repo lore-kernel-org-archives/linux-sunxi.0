@@ -1,199 +1,124 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A021B2CA6
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 20:44:43 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id cn21so37120982edb.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 14 Mar 2023 13:44:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9D828E2;
+	Wed, 15 Mar 2023 08:59:41 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id x11so19261444pln.12;
+        Wed, 15 Mar 2023 01:59:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678826682;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20210112; t=1678870780;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0F87m94ibj5BbWan5aojgmhq+wBUFnl+QKEcaFZCdV0=;
-        b=gxf/72SsrSMbLFOqatSqFflVgNt1bbnS4+ok3reZFnlxYwbj3yInQ75d4sHWLgRoWO
-         L/FfRqKco5fsXDQjSMbbxxZKu1NVdu5FxKJ/D3FuRkXWQJTc5OdaHJN6lM11LgLONoG2
-         wO5RmrthdftggE/vw43pKxRU8IuRtB+sNjHSvjaVWdISM+t9nQdHMJcK7ANDHGFsvQ8t
-         GmsVlmCSgLyBmfRbsIxbbNr6hfol60zqqjnzg4SZyZ+8h7So4R7iNuIUi/yJoROGwDh9
-         /nM8YXT8NFV1DWNN+q69s6y69XmZJR2127XJ3nsNOJtp43M+CbfGzLcKccU3StkX5q32
-         16ag==
+        bh=pIKnOPkj8qC3z1y/KVPXPT/wWMpHW0zTQSBUf9tEOlc=;
+        b=fO+uORb/w5iZoll6ztqXnKYfVc7IgS0+xIs2RUdwXD3SPJc2bdbfZLsKd5T4GqRMCa
+         sGKaJ48q2QfbMShI7xwKQLAmzXMorlrXh2Bpv3I4jkO0F8Z/ozQIHfqOOsoxaLCAzxzN
+         LwLRphaCiSLke2N5xyoK0/P3pAh0paoIZp5Tv3dXROWs/gp12kFhJJj9rAQvBXgZtt9M
+         e7P0m+K7fGnEoO1pRlumBOC0sJrHNAC+zYbjL8OMztW8/41qjIqYbH+PVMipFrvLGQKe
+         ds7jAf4zjRgszkSDSk9d8/WPhq1N9HloGEG3rukT7nkV1cWhosycZvDVOhrvwuCA9yFH
+         F7JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678826682;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20210112; t=1678870780;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0F87m94ibj5BbWan5aojgmhq+wBUFnl+QKEcaFZCdV0=;
-        b=2fQkgjK9a4C4X47LoXzFREJ6tcIai92JdU5wwxpqOz6ffrTnp2TIYsIOmE+jMbaqgt
-         AmQmBj/oC146CSNx1udPg2iyoR/3vKGn9Sltu0/IjVq++huBq1VCEWB1KLhwXSL12t+i
-         pGo0cvlfvT96Kaj1VglfCaa4g5gPYDiWYo6i6nRbpGEcQSbI6oeSa0d9+S4LiQxx0ur9
-         Xs2peXpoK2pAbP3drlfo0QVoa6UD8GqWYtm1GxZ/VFVUflVwGEqGf79Rj4kGQhsYL93R
-         SMnTVUMue0iBGXCMNe2E9s24zwoxJsCa4Xe3GFeLmsfTWKPZd2D0Pw9pmYMykd7NmC6c
-         FpFw==
-X-Gm-Message-State: AO0yUKX/Xm/JYHfLmZsimXoVRyyETE6vRjFFIg79FHoSiSkps+QiO3Oc
-	QM7gk0qoIUChhw/ImbJifsM=
-X-Google-Smtp-Source: AK7set+FjvdA2a7hcaGhydj/SDHPqvn+qyMA9hZ9eH7e5PKlEoMwB4q6/wpeL8xinWadVWDhw9g0lw==
-X-Received: by 2002:aa7:cc92:0:b0:4fc:7352:1131 with SMTP id p18-20020aa7cc92000000b004fc73521131mr318382edt.41.1678826681783;
-        Tue, 14 Mar 2023 13:44:41 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id hd31-20020a170907969f00b0092d58e24e11sm1081680ejc.137.2023.03.14.13.44.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 13:44:41 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-kernel@vger.kernel.org, Conor Dooley <conor@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Trevor Woerner <twoerner@gmail.com>
-Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 2/2] riscv: dts: nezha-d1: add gpio-line-names
-Date: Tue, 14 Mar 2023 21:44:40 +0100
-Message-ID: <2337214.NG923GbCHz@jernej-laptop>
-In-Reply-To: <20230210025132.36605-2-twoerner@gmail.com>
-References:
- <20230210025132.36605-1-twoerner@gmail.com>
- <20230210025132.36605-2-twoerner@gmail.com>
+        bh=pIKnOPkj8qC3z1y/KVPXPT/wWMpHW0zTQSBUf9tEOlc=;
+        b=lN8lF+Djj8InKD9b3EepmDvYGkDgWxysNQr/DhW78hsY2PZhoeq/hie2Hh23w6IlYK
+         L1FKw8HenDZKvKS+RjE/d/aWztYbqIyeJXE7LUr2admZapR4AF8stWnU/2L4Vmbom4VP
+         yjeRPQ8yux/eN0i25AnqjRVpqGRNh/pRKCZEd+1ntsexCX7GrMRa8nk7gYqI/Y57wjdP
+         gUA7clWlh0lKy9yGF4fVVvCZovtOWPzDd0h+aBQ8v3q9AYnVq9KVE9JkFumFqgORlt5b
+         2AGnYK2U9asoGPNL1iuKT9g0BJ0zblS8r2wGlIdzvcGn9oTYC+9lwGmw+R1a4JmrvO9y
+         Ry6w==
+X-Gm-Message-State: AO0yUKWZ2C3wMpSpi9tzUf0SKosEAfTFv4qj/YmZwoXuENNAFhpHt31+
+	u8gPXlMwLWX5MeFNHuk+bbIgteKXr+vIwE1aJP4=
+X-Google-Smtp-Source: AK7set8hOZJn6EE53swyCwcO/i6/tetWkkPQbwjyqZXoxq6SywsStUtUgLnMSnNnW70XMMRVDC+QZ+7/wmRODW1UeB4=
+X-Received: by 2002:a17:902:dac3:b0:1a0:503a:2a42 with SMTP id
+ q3-20020a170902dac300b001a0503a2a42mr875498plx.12.1678870780567; Wed, 15 Mar
+ 2023 01:59:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20230313163120.3741811-1-zyytlz.wz@163.com> <2274018.ElGaqSPkdT@jernej-laptop>
+In-Reply-To: <2274018.ElGaqSPkdT@jernej-laptop>
+From: Zheng Hacker <hackerzheng666@gmail.com>
+Date: Wed, 15 Mar 2023 16:59:29 +0800
+Message-ID: <CAJedcCwxbiEv4cOEyWpgrNNLZybP4O8Ubu6hpiMpmg1wL8xP1g@mail.gmail.com>
+Subject: Re: [PATCH v2] media: cedrus: fix use after free bug in cedrus_remove
+ due to race condition
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: mchehab@kernel.org, Zheng Wang <zyytlz.wz@163.com>, hverkuil@xs4all.nl, 
+	wens@csie.org, samuel@sholland.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	1395428693sheep@gmail.com, alex000young@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Dne petek, 10. februar 2023 ob 03:51:32 CET je Trevor Woerner napisal(a):
-> Add descriptive names so users can associate specific lines with their
-> respective pins on the 40-pin header according to the schematics.
-> 
-> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
-> Link:
-> http://dl.linux-sunxi.org/D1/D1_Nezha_development_board_schematic_diagram_2
-> 0210224.pdf
+Jernej =C5=A0krabec <jernej.skrabec@gmail.com> =E4=BA=8E2023=E5=B9=B43=E6=
+=9C=8815=E6=97=A5=E5=91=A8=E4=B8=89 03:53=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Dne ponedeljek, 13. marec 2023 ob 17:31:20 CET je Zheng Wang napisal(a):
+> > In cedrus_probe, dev->watchdog_work is bound with cedrus_watchdog funct=
+ion.
+> > In cedrus_device_run, it will started by schedule_delayed_work. If ther=
+e is
+> > an unfinished work in cedrus_remove, there may be a race condition and
+> > trigger UAF bug.
+> >
+> > CPU0                  CPU1
+> >
+> >                     |cedrus_watchdog
+> >
+> > cedrus_remove       |
+> >   v4l2_m2m_release  |
+> >   kfree(m2m_dev)    |
+> >
+> >                     | v4l2_m2m_get_curr_priv
+> >                     |
+> >                     |   m2m_dev //use
+> >
+> > Fix it by canceling the worker in cedrus_remove.
+> >
+> > Fixes: 7c38a551bda1 ("media: cedrus: Add watchdog for job completion")
+> > Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+> > ---
+> > v2:
+> > - use cancel_delayed_work_sync instead and add Fixes
+> > label suggested by Hans Verkuil
+> > ---
+> >  drivers/staging/media/sunxi/cedrus/cedrus.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+>
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>
 
-Applied, but next time please make sure e-mails are not linked together, as 
-Conor said.
+Thanks for your review.
 
 Best regards,
-Jernej
+Zheng
 
-> ---
-> changes since v2:
-> - (no changes, skip to a v3 to align with the other patch in this group)
-> 
-> changes since v1:
-> - this patch needs to be placed in order, and come second, after a patch to
->   update the schema for the nxp,pcf8575, put this patch in a group where it
->   wasn't previously
-> - use a Link: to point to the schematic
-> - add a comment section describing the rational behind the naming that was
->   used
-> - make the spacing of each line name uniform, don't try to "line them up"
->   vertically
-> ---
->  .../boot/dts/allwinner/sun20i-d1-nezha.dts    | 72 +++++++++++++++++++
->  1 file changed, 72 insertions(+)
-> 
-> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
-> b/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts index
-> a0769185be97..4ed33c1e7c9c 100644
-> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
-> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
-> @@ -1,6 +1,25 @@
->  // SPDX-License-Identifier: (GPL-2.0+ or MIT)
->  // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
-> 
-> +/*
-> + * gpio line names
-> + *
-> + * The Nezha-D1 has a 40-pin IO header. Some of these pins are routed
-> + * directly to pads on the SoC, others come from an 8-bit pcf857x IO
-> + * expander. Therefore, these line names are specified in two places:
-> + * one set for the pcf857x, and one set for the pio controller.
-> + *
-> + * Lines which are routed to the 40-pin header are named as follows:
-> + *	<pin#> [<pin name>]
-> + * where:
-> + *	<pin#>		is the actual pin number of the 40-pin 
-header
-> + *	<pin name>	is the name of the pin by function/gpio#
-> + *
-> + * For details regarding pin numbers and names see the schematics (under
-> + * "IO EXPAND"):
-> + *
-> http://dl.linux-sunxi.org/D1/D1_Nezha_development_board_schematic_diagram_2
-> 0210224.pdf + */
-> +
->  #include <dt-bindings/gpio/gpio.h>
->  #include <dt-bindings/input/input.h>
-> 
-> @@ -90,6 +109,15 @@ pcf8574a: gpio@38 {
->  		gpio-controller;
->  		#gpio-cells = <2>;
->  		#interrupt-cells = <2>;
-> +		gpio-line-names =
-> +			"pin13 [gpio8]",
-> +			"pin16 [gpio10]",
-> +			"pin18 [gpio11]",
-> +			"pin26 [gpio17]",
-> +			"pin22 [gpio14]",
-> +			"pin28 [gpio19]",
-> +			"pin37 [gpio23]",
-> +			"pin11 [gpio6]";
->  	};
->  };
-> 
-> @@ -164,3 +192,47 @@ &usbphy {
->  	usb1_vbus-supply = <&reg_vcc>;
->  	status = "okay";
->  };
-> +
-> +&pio {
-> +	gpio-line-names =
-> +		/* Port A */
-> +		"", "", "", "", "", "", "", "",
-> +		"", "", "", "", "", "", "", "",
-> +		"", "", "", "", "", "", "", "",
-> +		"", "", "", "", "", "", "", "",
-> +		/* Port B */
-> +		"pin5 [gpio2/twi2-sck]",
-> +		"pin3 [gpio1/twi2-sda]",
-> +		"",
-> +		"pin38 [gpio24/i2s2-din]",
-> +		"pin40 [gpio25/i2s2-dout]",
-> +		"pin12 [gpio7/i2s-clk]",
-> +		"pin35 [gpio22/i2s2-lrck]",
-> +		"",
-> +		"pin8 [gpio4/uart0-txd]",
-> +		"pin10 [gpio5/uart0-rxd]",
-> +		"",
-> +		"",
-> +		"pin15 [gpio9]",
-> +		"", "", "", "",
-> +		"", "", "", "", "", "", "", "",
-> +		"", "", "", "", "", "", "", "",
-> +		/* Port C */
-> +		"",
-> +		"pin31 [gpio21]",
-> +		"", "", "", "", "", "",
-> +		"", "", "", "", "", "", "", "",
-> +		"", "", "", "", "", "", "", "",
-> +		"", "", "", "", "", "", "", "",
-> +		/* Port D */
-> +		"", "", "", "", "", "", "", "",
-> +		"", "",
-> +		"pin24 [gpio16/spi1-ce0]",
-> +		"pin23 [gpio15/spi1-clk]",
-> +		"pin19 [gpio12/spi1-mosi]",
-> +		"pin21 [gpio13/spi1-miso]",
-> +		"pin27 [gpio18/spi1-hold]",
-> +		"pin29 [gpio20/spi1-wp]",
-> +		"", "", "", "", "", "",
-> +		"pin7 [gpio3/pwm]";
-> +};
-
-
-
-
+> Best regards,
+> Jernej
+>
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus.c index
+> > a43d5ff66716..a50a4d0a8f71 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > @@ -547,6 +547,7 @@ static int cedrus_remove(struct platform_device *pd=
+ev)
+> >  {
+> >       struct cedrus_dev *dev =3D platform_get_drvdata(pdev);
+> >
+> > +     cancel_delayed_work_sync(&dev->watchdog_work);
+> >       if (media_devnode_is_registered(dev->mdev.devnode)) {
+> >               media_device_unregister(&dev->mdev);
+> >               v4l2_m2m_unregister_media_controller(dev->m2m_dev);
+>
+>
+>
+>
