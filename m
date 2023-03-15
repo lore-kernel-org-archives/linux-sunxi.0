@@ -1,103 +1,125 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4659453AB
-	for <linux-sunxi@lists.linux.dev>; Wed, 15 Mar 2023 15:08:54 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pcSjx-0000NV-P0; Wed, 15 Mar 2023 16:08:33 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pcSjt-004KeY-3x; Wed, 15 Mar 2023 16:08:29 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pcSjr-0057ko-SU; Wed, 15 Mar 2023 16:08:27 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Mikhail Rudenko <mike.rudenko@gmail.com>,
-	Li Chen <lchen@ambarella.com>
-Cc: alsa-devel@alsa-project.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	kernel@pengutronix.de
-Subject: [PATCH 140/173] ASoC: sunxi: sun4i-codec: Convert to platform remove callback returning void
-Date: Wed, 15 Mar 2023 16:07:12 +0100
-Message-Id: <20230315150745.67084-141-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230315150745.67084-1-u.kleine-koenig@pengutronix.de>
-References: <20230315150745.67084-1-u.kleine-koenig@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9090B53AB
+	for <linux-sunxi@lists.linux.dev>; Wed, 15 Mar 2023 16:04:23 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id h8so33713200ede.8
+        for <linux-sunxi@lists.linux.dev>; Wed, 15 Mar 2023 09:04:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678896261;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pn0w3t08AxgUFgbBz/0VL9DhPFjtB6IrsFayVvSEfCE=;
+        b=V+XG+Dx4c7L4AZOeVkQ3DF4PJxyEUaJ4JI0/QFNxpYfbfAjn1G0NG9DvlZbgPiyPSK
+         TKFfrYt8VwDIX97KwNoJD7uZlt24RIlFyR7x2PE9SQxBzcZcHOYqP7Bpxn+kGe++3/eu
+         ki9APm7B+IHY9l3CGl3TJUmDjCjtumiD+agkJ5PbxUM4EezMx7PS9mYbdWMuegdTD14X
+         bHW4ITfV6GOnvn1hJk+SeoQS+ORF4QJze3LcPgWQYbqRLcp5nA0kj/NPrFJVo0m8j+HB
+         IRbQRBPJB5htw1xhSm+5l8uU3lNwiiPlL7ILHSxoTs4Bogzp3WxL9Vj4ZxuCo4Qe9NfA
+         ToKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678896261;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pn0w3t08AxgUFgbBz/0VL9DhPFjtB6IrsFayVvSEfCE=;
+        b=hY01RaDxQYGunjju0s8pPqOh2JQUDmn3mKo3dyJDLQ7IAM4FaINzGwMZ46yXBwr6iW
+         k8TUz07vQ68fDK5fGp7eexjekhrDvKX+BgOCtt5Ti5RGCtMb1b1V2QonyD6JOpHxOWgv
+         IJELh5i717WUPwej45EPP1zhxzcr2cNCeapBWel3xL4mJOB/yKstyhC3q0T7vZmJlexv
+         n0J/rmW9N6yE5KgnJwftlEkSvO4Pl0AdXV7w1EYSMudH5F/IEPf133+6yaVPcQyrUYWW
+         wy0FnlDgSUksLZTQN5HHhr2Ze9MxZE02DzNhGgpn6WqY3+1TRKeQKtudmCvYtMk2v9jw
+         YFwQ==
+X-Gm-Message-State: AO0yUKWcqCk8shqLruzQfsnhfNhWUi1CALdZByfnAk3oPlT+9lL/Ng5l
+	kvunI6GHdEJQyc16eqlawr4=
+X-Google-Smtp-Source: AK7set8bqQSQclpYXN1O4ZXhg6LspXdmsJjgsY7sBOpVihYNP7lQUf0mcRKvw872oUIGEXBbaM/qYw==
+X-Received: by 2002:a17:906:518:b0:88f:8a5:b4cd with SMTP id j24-20020a170906051800b0088f08a5b4cdmr7808720eja.1.1678896261531;
+        Wed, 15 Mar 2023 09:04:21 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
+        by smtp.gmail.com with ESMTPSA id qq11-20020a17090720cb00b008c6c47f59c1sm2726532ejb.48.2023.03.15.09.04.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Mar 2023 09:04:20 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Mikhail Rudenko <mike.rudenko@gmail.com>, Li Chen <lchen@ambarella.com>,
+ Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, kernel@pengutronix.de
+Subject:
+ Re: [PATCH 140/173] ASoC: sunxi: sun4i-codec: Convert to platform remove
+ callback returning void
+Date: Wed, 15 Mar 2023 17:04:18 +0100
+Message-ID: <5349071.Sb9uPGUboI@jernej-laptop>
+In-Reply-To: <20230315150745.67084-141-u.kleine-koenig@pengutronix.de>
+References:
+ <20230315150745.67084-1-u.kleine-koenig@pengutronix.de>
+ <20230315150745.67084-141-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1835; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=dcUEPZbouxDhw5jZ6zxfPGfcIHaKSoZUnFxJMzyPH6Y=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBkEd7XV6zQ4+UotaB6YV/1EzfFac8SlwxS4kQp8 k/q2nF3AeqJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCZBHe1wAKCRDB/BR4rcrs CcV8B/4oIH6x6tk/YRQDLKV6v15HwXFmVnUNTa0W7fbDK5dgM1GgbcInERGzQplFDwgpj2HBmr1 8GWOMnsc6/D9XcydMoqhS2HFrU7qh22bi9cI5zzVfYhCMsjgC4AW0BKIVgsEyS1Zp5WjkLBqkHl K9oKofM17um9ldm/vxhdW19kSv+sr1hnxmCdrouDOS4NeQ1mKN/wY7852yucpb0i1ccJLDHQfYL kYPKZjikG0u/EGs0OwnHIT4V0dC/JSQWdMhFCD+YVr5FF7AFCz+riTaN1k15PZu/lYRXxjoJcgq TBasxx6CMo/4X7O/H5myD/3rd4S0n24ixUkBOK2a9yJcDvd8
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is (mostly) ignored
-and this typically results in resource leaks. To improve here there is a
-quest to make the remove callback return void. In the first step of this
-quest all drivers are converted to .remove_new() which already returns
-void.
+Dne sreda, 15. marec 2023 ob 16:07:12 CET je Uwe Kleine-K=F6nig napisal(a):
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is (mostly) ignored
+> and this typically results in resource leaks. To improve here there is a
+> quest to make the remove callback return void. In the first step of this
+> quest all drivers are converted to .remove_new() which already returns
+> void.
+>=20
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- sound/soc/sunxi/sun4i-codec.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Best regards,
+Jernej
 
-diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
-index 835dc3404367..55328850aef5 100644
---- a/sound/soc/sunxi/sun4i-codec.c
-+++ b/sound/soc/sunxi/sun4i-codec.c
-@@ -1821,7 +1821,7 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 	return ret;
- }
- 
--static int sun4i_codec_remove(struct platform_device *pdev)
-+static void sun4i_codec_remove(struct platform_device *pdev)
- {
- 	struct snd_soc_card *card = platform_get_drvdata(pdev);
- 	struct sun4i_codec *scodec = snd_soc_card_get_drvdata(card);
-@@ -1830,8 +1830,6 @@ static int sun4i_codec_remove(struct platform_device *pdev)
- 	if (scodec->rst)
- 		reset_control_assert(scodec->rst);
- 	clk_disable_unprepare(scodec->clk_apb);
--
--	return 0;
- }
- 
- static struct platform_driver sun4i_codec_driver = {
-@@ -1840,7 +1838,7 @@ static struct platform_driver sun4i_codec_driver = {
- 		.of_match_table = sun4i_codec_of_match,
- 	},
- 	.probe = sun4i_codec_probe,
--	.remove = sun4i_codec_remove,
-+	.remove_new = sun4i_codec_remove,
- };
- module_platform_driver(sun4i_codec_driver);
- 
--- 
-2.39.2
+> ---
+>  sound/soc/sunxi/sun4i-codec.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
+> index 835dc3404367..55328850aef5 100644
+> --- a/sound/soc/sunxi/sun4i-codec.c
+> +++ b/sound/soc/sunxi/sun4i-codec.c
+> @@ -1821,7 +1821,7 @@ static int sun4i_codec_probe(struct platform_device
+> *pdev) return ret;
+>  }
+>=20
+> -static int sun4i_codec_remove(struct platform_device *pdev)
+> +static void sun4i_codec_remove(struct platform_device *pdev)
+>  {
+>  	struct snd_soc_card *card =3D platform_get_drvdata(pdev);
+>  	struct sun4i_codec *scodec =3D snd_soc_card_get_drvdata(card);
+> @@ -1830,8 +1830,6 @@ static int sun4i_codec_remove(struct platform_device
+> *pdev) if (scodec->rst)
+>  		reset_control_assert(scodec->rst);
+>  	clk_disable_unprepare(scodec->clk_apb);
+> -
+> -	return 0;
+>  }
+>=20
+>  static struct platform_driver sun4i_codec_driver =3D {
+> @@ -1840,7 +1838,7 @@ static struct platform_driver sun4i_codec_driver =
+=3D {
+>  		.of_match_table =3D sun4i_codec_of_match,
+>  	},
+>  	.probe =3D sun4i_codec_probe,
+> -	.remove =3D sun4i_codec_remove,
+> +	.remove_new =3D sun4i_codec_remove,
+>  };
+>  module_platform_driver(sun4i_codec_driver);
+
+
+
 
