@@ -1,122 +1,184 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA5B53AB
-	for <linux-sunxi@lists.linux.dev>; Wed, 15 Mar 2023 16:05:43 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id eh3so21603688edb.11
-        for <linux-sunxi@lists.linux.dev>; Wed, 15 Mar 2023 09:05:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678896341;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=myjMOOaJx/Yyy4X1X4K5C1WLJmP+rbBydBL5hzDI24I=;
-        b=Py9CPpKMCCbnztwqW3NSxXw3CBM+Stxv1hc87DRMM6fy7O5/1CPhw2+eQncKjw6fVp
-         tM1am1nqJCvoYP6iPyx2lGZEh3lcq7MHqnvMUOUTbWJaesmjCYW02fOsFWrgY2BcFKIX
-         TRTZfV/2sL4WLZztWZHQxW1OtDSgkvELiLBeRugs1UKp9r5JhPGNvyORfT7nARDA3Z/1
-         9UqqHhG2vUhrqULX4sXASbyPPrDHwcYbHH/5lHBDwsIs6MHkmCFxpcz1NUOMNSe8LX7X
-         XaEFrimDa/2tAAvyF93DehWX9SfbYJ5lFH4wsNC16FS+4oxvh44ajd/sTHDmn108Y+Ki
-         Xg9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678896341;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=myjMOOaJx/Yyy4X1X4K5C1WLJmP+rbBydBL5hzDI24I=;
-        b=dcWzmswnyL9p/InlS4KKar3aYtxlYvYIhCzgZBEhBGwAs31EOs+liqiayi6IV9RfKQ
-         WwbAZvS/lbhDIBZvCK2eJSgl5rvg541FSLU68zCcinrQ11sL9SmKPqZQDyUYHOztS+dL
-         hgskl/YH5XFCFC7bgTIan802XjYyzKUQOBiJ00yItGNVeAKgcN6LV5WG6Mig3XjC6BBF
-         Gxzu8tBn+WNK71p+CtgNovCWykCUK5nBpNdHp3Ino2h2EsOjaHf7yj/LxauSJJjh0NoF
-         ml7/eydoLFBDPOy6UQk9jhBsv0SA7rsiwqk9fWINvsCLpRN2B04mhMweTI0Y+kZ8TWj2
-         bVKg==
-X-Gm-Message-State: AO0yUKViPc6aPLQmt40n0oXyYN1Zot1SHxi0JnILc/Hxbq01sVeaHNgR
-	xlUmI7rTfOHJsgePSM3B4yNvJi3W/LqryA==
-X-Google-Smtp-Source: AK7set9DU+m9BN6GX71+StLcOLYTPk/4jOJqYqVt5X6yccV+p4wkWAkWqBWC164NI+nirv6R2J+sgA==
-X-Received: by 2002:aa7:d49a:0:b0:4ea:b218:f7d3 with SMTP id b26-20020aa7d49a000000b004eab218f7d3mr3524450edr.10.1678896341758;
-        Wed, 15 Mar 2023 09:05:41 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id j29-20020a508a9d000000b004fe9253e923sm2188748edj.83.2023.03.15.09.05.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 09:05:41 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, kernel@pengutronix.de
-Subject:
- Re: [PATCH 144/173] ASoC: sunxi: sun8i-codec: Convert to platform remove
- callback returning void
-Date: Wed, 15 Mar 2023 17:05:39 +0100
-Message-ID: <1771389.TLkxdtWsSY@jernej-laptop>
-In-Reply-To: <20230315150745.67084-145-u.kleine-koenig@pengutronix.de>
-References:
- <20230315150745.67084-1-u.kleine-koenig@pengutronix.de>
- <20230315150745.67084-145-u.kleine-koenig@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C602A2574;
+	Thu, 16 Mar 2023 09:32:12 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E58EF21852;
+	Thu, 16 Mar 2023 09:32:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1678959130; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LgQ6KC2ybaQuhcxvNbj5yWV84Hdg07Eok3qBPbbxY94=;
+	b=H9aXq6XWzgXy3V6gUMaMgKEQOC4u2wwCwuM31XT6epw3vcSavDTpG7v1DmpLitT3aAzvrb
+	Uij7YtTtCMzKsnoVFyM4P36fE8radT/BVqUmJO5oz33vf5WRPcRwuHN+AiCd+tOxzXuyQp
+	7HO6F55yqLXCARRi8VELwLEQafIfemA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1678959130;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LgQ6KC2ybaQuhcxvNbj5yWV84Hdg07Eok3qBPbbxY94=;
+	b=vrFmJJMHnJyGAG4vQo3kBbAm10wkR+7Kjjsf57BxURiziFHRuM5x12k5OToJ7bvAHK8XWM
+	BGwhhqI50dx0VBCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DE806133E0;
+	Thu, 16 Mar 2023 09:32:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 9o+MNRjiEmRkRAAAMHmgww
+	(envelope-from <tiwai@suse.de>); Thu, 16 Mar 2023 09:32:08 +0000
+Date: Thu, 16 Mar 2023 10:32:08 +0100
+Message-ID: <87ttylhwiv.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Jaroslav Kysela <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,	Liam
+ Girdwood <lgirdwood@gmail.com>,	Mark Brown <broonie@kernel.org>,	V sujith
+ kumar Reddy <Vsujithkumar.Reddy@amd.com>,	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,	Robert Jarzmik
+ <robert.jarzmik@free.fr>,	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,	Claudiu Beznea
+ <claudiu.beznea@microchip.com>,	Gaosheng Cui <cuigaosheng1@huawei.com>,
+	Thierry Reding <thierry.reding@gmail.com>,	Jonathan Hunter
+ <jonathanh@nvidia.com>,	Mohan Kumar <mkumard@nvidia.com>,	Geoff Levand
+ <geoff@infradead.org>,	Takashi Sakamoto <o-takashi@sakamocchi.jp>,	Michael
+ Ellerman <mpe@ellerman.id.au>,	Charles Keepax
+ <ckeepax@opensource.cirrus.com>,	Vijendar Mukunda
+ <Vijendar.Mukunda@amd.com>,	syed saba kareem <syed.sabakareem@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,	Meng Tang
+ <tangmeng@uniontech.com>,	Martin =?ISO-8859-2?Q?Povi=B9er?=
+ <povik+lin@cutebit.org>,	Codrin Ciubotariu
+ <codrin.ciubotariu@microchip.com>,	Peter Rosin <peda@axentia.se>,	Ray Jui
+ <rjui@broadcom.com>,	Scott Branden <sbranden@broadcom.com>,	Allison Randal
+ <allison@lohutok.net>,	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thomas Gleixner <tglx@linutronix.de>,	Alexander Sverdlin
+ <alexander.sverdlin@gmail.com>,	Kuninori Morimoto
+ <kuninori.morimoto.gx@renesas.com>,	Richard Fitzgerald
+ <rf@opensource.cirrus.com>,	James Schulman <james.schulman@cirrus.com>,
+	David Rhodes <david.rhodes@cirrus.com>,	Lucas Tanure
+ <tanureal@opensource.cirrus.com>,	Srinivas Kandagatla
+ <srinivas.kandagatla@linaro.org>,	Banajit Goswami <bgoswami@quicinc.com>,
+	Miaoqian Lin <linmq006@gmail.com>,	Colin Ian King <colin.i.king@gmail.com>,
+	Aidan MacDonald <aidanmacdonald.0x0@gmail.com>,	Zhang Qilong
+ <zhangqilong3@huawei.com>,	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Liang He <windhl@126.com>,	Shengjiu Wang <shengjiu.wang@gmail.com>,	Xiubo
+ Li <Xiubo.Lee@gmail.com>,	Shawn Guo <shawnguo@kernel.org>,	Sascha Hauer
+ <s.hauer@pengutronix.de>,	Yang Yingliang <yangyingliang@huawei.com>,
+	Minghao Chi <chi.minghao@zte.com.cn>,	Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>,	Bard Liao
+ <yung-chuan.liao@linux.intel.com>,	Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.intel.com>,	Cezary Rojewski
+ <cezary.rojewski@intel.com>,	Liam Girdwood
+ <liam.r.girdwood@linux.intel.com>,	Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>,	Ranjani Sridharan
+ <ranjani.sridharan@linux.intel.com>,	Akihiko Odaki
+ <akihiko.odaki@gmail.com>,	Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
+ <amadeuszx.slawinski@linux.intel.com>,	Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>,	Hans de Goede <hdegoede@redhat.com>,
+	Moises Cardona <moisesmcardona@gmail.com>,	Zhen Ni <nizhen@uniontech.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,	Andrey Turkin
+ <andrey.turkin@gmail.com>,	Muralidhar Reddy <muralidhar.reddy@intel.com>,
+	Zhu Ning <zhuning0077@gmail.com>,	Gongjun Song <gongjun.song@intel.com>,
+	Shuming Fan <shumingf@realtek.com>,	Yong Zhi <yong.zhi@intel.com>,	Lior
+ Amsalem <alior@marvell.com>,	Andrew Lunn <andrew@lunn.ch>,	Hezi Shahmoon
+ <hezi@marvell.com>,	Neta Zur Hershkovits <neta@marvell.com>,	Marcin Wojtas
+ <mw@semihalf.com>,	Matthias Brugger <matthias.bgg@gmail.com>,	Jiasheng
+ Jiang <jiasheng@iscas.ac.cn>,	Ricardo Ribalda <ribalda@chromium.org>,
+	Trevor Wu <trevor.wu@mediatek.com>,	Dan Carpenter <error27@gmail.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,	Neil Armstrong
+ <neil.armstrong@linaro.org>,	Kevin Hilman <khilman@baylibre.com>,	Heiko
+ Stuebner <heiko@sntech.de>,	Nicolas Frattaroli
+ <frattaroli.nicolas@gmail.com>,	Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>,	Sylwester Nawrocki
+ <s.nawrocki@samsung.com>,	Linh Phung <linh.phung.jy@renesas.com>,	Shang
+ XiaoJing <shangxiaojing@huawei.com>,	Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>,	Biju Das
+ <biju.das.jz@bp.renesas.com>,	Orson Zhai <orsonzhai@gmail.com>,	Baolin Wang
+ <baolin.wang@linux.alibaba.com>,	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,	Arnaud Pouliquen
+ <arnaud.pouliquen@foss.st.com>,	Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>,	Alexandre Torgue
+ <alexandre.torgue@foss.st.com>,	Chen-Yu Tsai <wens@csie.org>,	Jernej
+ Skrabec <jernej.skrabec@gmail.com>,	Samuel Holland <samuel@sholland.org>,
+	Mikhail Rudenko <mike.rudenko@gmail.com>,	Li Chen <lchen@ambarella.com>,
+	Ban Tao <fengzheng923@gmail.com>,	Sameer Pujar <spujar@nvidia.com>,
+	YueHaibing <yuehaibing@huawei.com>,	Jiapeng Chong
+ <jiapeng.chong@linux.alibaba.com>,	Li kunyu <kunyu@nfschina.com>,	Peter
+ Ujfalusi <peter.ujfalusi@gmail.com>,	Jarkko Nikula
+ <jarkko.nikula@bitmer.com>,	Kunihiko Hayashi
+ <hayashi.kunihiko@socionext.com>,	Masami Hiramatsu <mhiramat@kernel.org>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,	Arnd Bergmann
+ <arnd@arndb.de>,	Linus Walleij <linus.walleij@linaro.org>,	Michal Simek
+ <michal.simek@xilinx.com>,	Max Filippov <jcmvbkbc@gmail.com>,
+	alsa-devel@alsa-project.org,	kernel@pengutronix.de,
+	linux-arm-kernel@lists.infradead.org,	linux-tegra@vger.kernel.org,	Nicholas
+ Piggin <npiggin@gmail.com>,	Christophe Leroy
+ <christophe.leroy@csgroup.eu>,	linuxppc-dev@lists.ozlabs.org,
+	asahi@lists.linux.dev,	Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,	patches@opensource.cirrus.com,
+	Fabio Estevam <festevam@gmail.com>,	Nicolin Chen <nicoleotsuka@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,	AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>,
+	linux-mediatek@lists.infradead.org,	Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>,	linux-amlogic@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,	linux-sunxi@lists.linux.dev,
+	linux-omap@vger.kernel.org,	linux-xtensa@linux-xtensa.org
+Subject: Re: [PATCH 000/173] ALSA/ASoC: Convert to platform remove callback returning void
+In-Reply-To: <20230315150745.67084-1-u.kleine-koenig@pengutronix.de>
+References: <20230315150745.67084-1-u.kleine-koenig@pengutronix.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
 
-Dne sreda, 15. marec 2023 ob 16:07:16 CET je Uwe Kleine-K=F6nig napisal(a):
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
->=20
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+On Wed, 15 Mar 2023 16:04:52 +0100,
+Uwe Kleine-König wrote:
+> 
+> Hello,
+> 
+> this series adapts the platform drivers below sound/ to use the .remove_new()
+> callback. Compared to the traditional .remove() callback .remove_new() returns
+> no value. This is a good thing because the driver core doesn't (and cannot)
+> cope for errors during remove. The only effect of a non-zero return value in
+> .remove() is that the driver core emits a warning. The device is removed anyhow
+> and an early return from .remove() usually yields a resource leak.
+> 
+> By changing the remove callback to return void driver authors cannot
+> reasonably assume any more that there is some kind of cleanup later.
+> 
+> The first two patches simplify a driver each to return zero unconditionally,
+> and then all drivers are trivially converted to .remove_new().
+> 
+> There are nearly no interdependencies in this patch set---only 1 <- 11 and
+> 2 <- 16. So even if some individual problems are found (I don't expect that),
+> the other patches can (and from my POV should) still be applied.
+> 
+> Best regards
+> Uwe
+> 
+> Uwe Kleine-König (173):
+(snip)
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+For the whole series,
 
-Best regards,
-Jernej
-
-> ---
->  sound/soc/sunxi/sun8i-codec.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->=20
-> diff --git a/sound/soc/sunxi/sun8i-codec.c b/sound/soc/sunxi/sun8i-codec.c
-> index 9844978d91e6..4c0d0d7d3e58 100644
-> --- a/sound/soc/sunxi/sun8i-codec.c
-> +++ b/sound/soc/sunxi/sun8i-codec.c
-> @@ -1349,13 +1349,11 @@ static int sun8i_codec_probe(struct platform_devi=
-ce
-> *pdev) return ret;
->  }
->=20
-> -static int sun8i_codec_remove(struct platform_device *pdev)
-> +static void sun8i_codec_remove(struct platform_device *pdev)
->  {
->  	pm_runtime_disable(&pdev->dev);
->  	if (!pm_runtime_status_suspended(&pdev->dev))
->  		sun8i_codec_runtime_suspend(&pdev->dev);
-> -
-> -	return 0;
->  }
->=20
->  static const struct sun8i_codec_quirks sun8i_a33_quirks =3D {
-> @@ -1385,7 +1383,7 @@ static struct platform_driver sun8i_codec_driver =
-=3D {
->  		.pm =3D &sun8i_codec_pm_ops,
->  	},
->  	.probe =3D sun8i_codec_probe,
-> -	.remove =3D sun8i_codec_remove,
-> +	.remove_new =3D sun8i_codec_remove,
->  };
->  module_platform_driver(sun8i_codec_driver);
+Acked-by: Takashi Iwai <tiwai@suse.de>
 
 
+thanks,
 
-
+Takashi
