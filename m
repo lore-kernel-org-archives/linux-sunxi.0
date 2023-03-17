@@ -1,56 +1,34 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55FA33C9
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Mar 2023 11:20:45 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id c18so4930456ple.11
-        for <linux-sunxi@lists.linux.dev>; Fri, 17 Mar 2023 04:20:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679052045;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MwLiXEkSoODfLPV/T7b8EOfk9wVIiqqUoC/gH53lWZU=;
-        b=Ttm6IQgPtKVqW35fvUeY6VXzeem1vkYZOaz7vrKbqQj84Ey4plajxvY5qeVS5aAce6
-         Xkwcd0olSVfA/Pt70m1P4G+S5TwoKQ6+En8w3Y9Zhaa534QbBM3pGw8FoxdHQYCpzPEm
-         vDXQlV0DA2NaGBjJhZz2svDF7liaMLdMlcxGLHBo4mcBGWLVug4R8MBTr0IqaK3zd8wM
-         /UIyPPMOjC1Kbgst4AaM+SJvN3kd9EKEh1VLPosb4D8m8bBzlbU4xfabzadoAygf9A8j
-         I8oxYJJT3O4GiOf+6Y5mAYH/yqbI46z+dKEdO4LS4O6A8QL/Huv9sMoxrmSm7x8crldR
-         vYKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679052045;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MwLiXEkSoODfLPV/T7b8EOfk9wVIiqqUoC/gH53lWZU=;
-        b=iq08bWr5x/AUH79sUGli3mLOAtIwX2hfcTlNdQu0G/Xf4K9F5cC9EI9gp/FBNl/PEO
-         KPVW50oLFXw73uybYmcWrMDdmHRwGkAO1fG/YZv2zrZlJ/pjuEvzZlByEbsIC0/i2gkQ
-         ev5VkkTA6OnDv/lBoMQZcfbDcEjf3MH3/SxOtrsLopcrPy9urB11HgSbik/tcBu0QIfY
-         r9DcbLWTs4qLPXd0ok0jZsy4axRBYESSekpxkCzj398jPXp9lKTgF3ZrKAJF8QNxtz57
-         ElnFIYYv/H+AKKFez6p4bUwF2GDa1acsDC78y0WYsDq6ooy2lOubDg4LRqv8kCao6qVW
-         1+fQ==
-X-Gm-Message-State: AO0yUKUmKuDjDNUibpu1PJesRB8czqNqEOdZi0CBvKwp8zSgHeOtl0S2
-	41MAoxzQX02dIsDvPzrH5VM=
-X-Google-Smtp-Source: AK7set/62xLpYpXgwN2rSkGaoIOTq1VB0W8uBipmcDV+jPGswnD5z5uLk5Q3AY0HOm7fAjS0AE5Faw==
-X-Received: by 2002:a17:902:d2c7:b0:19a:a520:b203 with SMTP id n7-20020a170902d2c700b0019aa520b203mr8979837plc.25.1679052045382;
-        Fri, 17 Mar 2023 04:20:45 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:d084:8252:e846:af61])
-        by smtp.gmail.com with ESMTPSA id iw21-20020a170903045500b0019aa8149cb9sm1353820plb.79.2023.03.17.04.20.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Mar 2023 04:20:44 -0700 (PDT)
-Date: Fri, 17 Mar 2023 04:20:41 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Chen-Yu Tsai <wens@csie.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70D1079D6
+	for <linux-sunxi@lists.linux.dev>; Fri, 17 Mar 2023 22:21:26 +0000 (UTC)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 8DE4E40003;
+	Fri, 17 Mar 2023 22:21:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1679091684;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M1H0b+8pt3zecfZdT4Lt4hoL0pnvHKD6pkdBtwNxvW4=;
+	b=hJ5LBiF1mKl2oulAqe7KSjjKGLbCZw1yF7Sc+jPyNHe5He6DEIw3OKO36ROWMv3xJfcjfo
+	yQCThlu4bNCKzClbHV/hgDnTHhyrKFLaS+hHB+J323GaZC5MRzwfVPIXuRUSswx+m95XT8
+	DKzTeZfrJ3u7mRBsHqEsh3Oz2NlZwYVCVhTu+SGSEkkmi8grjOKaNp5eMWNoBUWwAUj9GP
+	FZNLslGB024APPJcabeY2gUrfszNDkes8eD4Mgu6Ni9UN+U5gKRZJ4d6lEJ+qb7U0LxBD2
+	Uno1kxl1rBW4gEM7nwQw8AEyiymx/Hkcw6k4AwIzeS2jVPBtEYa/oIl/bLQsDA==
+Date: Fri, 17 Mar 2023 23:21:22 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Alessandro Zummo <a.zummo@towertech.it>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 4/4] Input: bcm_iproc_tsc: drop of_match_ptr for ID table
-Message-ID: <ZBRNCbrpzfy35mdO@google.com>
-References: <20230312131514.351603-1-krzysztof.kozlowski@linaro.org>
- <20230312131514.351603-4-krzysztof.kozlowski@linaro.org>
+	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] rtc: sun6i: Use of_property_present() for testing DT
+ property presence
+Message-ID: <167909163830.117471.962092693437106290.b4-ty@bootlin.com>
+References: <20230310144736.1547041-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -59,17 +37,27 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230312131514.351603-4-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230310144736.1547041-1-robh@kernel.org>
 
-On Sun, Mar 12, 2023 at 02:15:14PM +0100, Krzysztof Kozlowski wrote:
-> The driver can match only via the DT table so the table should be always
-> used and the of_match_ptr does not have any sense (this also allows ACPI
-> matching via PRP0001, even though it might not be relevant here).  This
-> also fixes !CONFIG_OF error:
+
+On Fri, 10 Mar 2023 08:47:36 -0600, Rob Herring wrote:
+> It is preferred to use typed property access functions (i.e.
+> of_property_read_<type> functions) rather than low-level
+> of_get_property/of_find_property functions for reading properties. As
+> part of this, convert of_get_property/of_find_property calls to the
+> recently added of_property_present() helper when we just want to test
+> for presence of a property and nothing more.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> [...]
 
-Applied, thank you.
+Applied, thanks!
+
+[1/1] rtc: sun6i: Use of_property_present() for testing DT property presence
+      commit: 4d9890ac9d43d4dfd011110ab96633caa6fa829c
+
+Best regards,
 
 -- 
-Dmitry
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
