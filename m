@@ -1,139 +1,261 @@
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2097.outbound.protection.outlook.com [40.107.117.97])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B07EDC
-	for <linux-sunxi@lists.linux.dev>; Sat, 18 Mar 2023 14:44:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=irL0RQhPxlkpPI0G311GjDg5GUudmCn/ofNdLrPQwOzioiLWCGJt6+uzUsdKpzzngj9qvQYzIqCffJQ8ZIdqv+NtTA+HO430MHD7WFe/VhwQi5DePI4Qv3rJeSLMi/tKNPb0bPwM7yv3A3xBmkMnq1eycmkP8L/q0M+lM44TqMAK0At7M9cCskPIN/TfmFR7faPSulJOj6gPQz92F4NdxSPpIsxsTiWzLnnhdhNnHnAxf/lsdjFyh09NTDcD5GhCc8JXymVtS0aHJJ+hY/CdzAgUYSFXfGZ46d7Gy+ys2UHfUfnPbSjgDugS5b5G97fyYCBwIzYn4saGxHqN9IBdxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XOQBVLgpalta000cV0syMmALdmujptmWpGBjRSRzoWQ=;
- b=b58e+4BoiejWoYI+Xzspl8c+T9n8kWGjgpnT/pG1gMFRJS711IhgNFIO93+Fjm0DiA2Thdz6/BythRD5pzAtO4JTRDiNVQfcJiqgtOLdYejyuKR7vk5Pv5mlEDefP1/7+EP069be9qXJLNpV2q4xplpcJ09OXjnU0thqRvPJtSFt70aMyB0AwWUTMo+dampncwV6u7kdAVMssaMgzwI69GyoVn2zEGz3SGw0bQgGRczqnp1mjIRxuqBSFVnhJYU8dT2PvMA+zHPxD4upRFZdwda1gNNRq3kM+lFkO2UrUi3DfXgvwK1ymWby+vbWZ3XhS2z+1pU+9cXwFlJAqect2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XOQBVLgpalta000cV0syMmALdmujptmWpGBjRSRzoWQ=;
- b=eyN609/yhzEpZIZqyEfwUUXiyX+FsOK/5UWb5dT0qT/beTyQ2Pfe04974gcxiSujQkwKCq4wrfWjfkIRmWbz0omoSxc/HJsrkPJ66SqBVDIXjad+jnCbQtIzvsMpSAmtnGEt8KzCbwFYeXKsjRBm7jj0nAaXUc1fqgxhjcDRjVqas4PzIO0Or8zSb9f2KdDfD1RV592uFR+Cltcvt+brsd3HSWJSefs9rEwYI38PWGv75mDtiuxvvPLLhc1gpEh7pp69qVFPKYgXzsWPai7i9ObCYukvv8z+5eAR05ndkYyU97G1bV+yPPaDiXub/tNcnPGQciSkIMrG9rhYooZ86w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
- by TY0PR06MB5283.apcprd06.prod.outlook.com (2603:1096:400:210::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.36; Sat, 18 Mar
- 2023 14:44:44 +0000
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::daf6:5ebb:a93f:1869]) by SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::daf6:5ebb:a93f:1869%9]) with mapi id 15.20.6178.036; Sat, 18 Mar 2023
- 14:44:44 +0000
-From: Yangtao Li <frank.li@vivo.com>
-To: Vasily Khoruzhick <anarsoul@gmail.com>,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Amit Kucheria <amitk@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Yangtao Li <frank.li@vivo.com>,
-	linux-pm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/9] thermal/drivers/sun8i: remove redundant msg in sun8i_ths_register()
-Date: Sat, 18 Mar 2023 22:44:05 +0800
-Message-Id: <20230318144412.75046-2-frank.li@vivo.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20230318144412.75046-1-frank.li@vivo.com>
-References: <20230318144412.75046-1-frank.li@vivo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR02CA0032.apcprd02.prod.outlook.com
- (2603:1096:4:195::12) To SEZPR06MB5269.apcprd06.prod.outlook.com
- (2603:1096:101:78::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2C9EA9;
+	Sun, 19 Mar 2023 05:43:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id AD8FF426FC;
+	Sun, 19 Mar 2023 05:43:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1679204630; bh=84MOaiyVp1I295Lym01yKlMptuceSpHgF0iohhd12CQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=HyZ7B58EnY35cal+hIqu11M/hPwZh9NCy90YPkREhETJ291Y52e5qk0l8fjJfEahl
+	 5qetA9I4LA44I5W1vCmrIlqr8C8nrDkgLiWCgpSpcPAN6EV1G7LR/Uixq5zciYbF2I
+	 RQU+zXG26yJDVdW4Fe6b/s5hBew8aebAbEKdUzgYHR17SQf734odA0IzcIbgnCfnu8
+	 dHN61hpnCYJQEChAiTC3eTpK53XKemwuOMhgd2vVGpiH9sN+Kwk883oWLIWYShqd5d
+	 AbbndVd2zlEs/cV6WEG99rRE3COgVNHCZaqm8g1/AOywrcSmR7UrU/1hSFbbLzZk8W
+	 fK7XZ4+jcSl/w==
+Message-ID: <fca00ce8-3b56-9641-9eb9-f25382f29675@marcan.st>
+Date: Sun, 19 Mar 2023 14:43:38 +0900
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5269:EE_|TY0PR06MB5283:EE_
-X-MS-Office365-Filtering-Correlation-Id: 11f9c9d7-270b-4fe2-2ba7-08db27bf4ffb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	KB430VdNpnP9enNPHtbSbYnWiduKKIqaAPUkzqj+cpueA4c0c7ISnfhBMq+GIOOY0v2N7BKUr28UvnOEbw3nyTznA/asJkTIzZ3E7wThCI2IWYm72TBXHFKNobuK2iQPOrs5D2nynjQinRXtF67sASwvmeG+/SRktOldOAY6D4bZr5IySVzyMvzHA3VQ+lHIJwb63RnydfV2RtF/Hc0Ab7yu1LtT6aSxC7hecYZaWWHhARnQ6ZrxJlJdbxW+ZRoZGwI/pGK79RaUPxzpfI4cR5Uq+wQVZ2f2g22qZIRWhI/tL0myVzfElirEpRNHEI/C8rBk52STB5gGIO3TedX10z3TwQtbZMiz8tPTTPXOEE7n6qKN8FjL3DXkXnfNMfIRJEnYzGWtOfMyquLOKQnZQ3clcgVerWm8QZjLT8A0rr2QYQEddsOp5mDp+IbQSvFyiE68XHnaC76oCPVbkLUO18IAOAYJdfel5oGjeQk/95bsrWskKeluMF8rBUNYZDypqGLDqR5nBa6yy7TRpksnxTroCUyt0cr+mTp06zKc+Vyyp/3HX5E1bCzvF7dNfq/zb7IHWhJVHb7jwpsFmVva8HaaalfaaY1WsG2iHa/DQnqY/rBCDT33dD5ZaKtlI/2yzPFrWViVVDkIC4LknHFrvdHZ+IsHrbCeKURE7oaGy8G92/hfG0dJx+r/E4SomtpMsP8HZtmUgcLK8jgXBXf0/A==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(376002)(366004)(346002)(136003)(396003)(451199018)(86362001)(36756003)(52116002)(316002)(66946007)(66556008)(66476007)(8676002)(4326008)(83380400001)(478600001)(110136005)(186003)(6512007)(6506007)(1076003)(26005)(2616005)(6486002)(6666004)(38100700002)(38350700002)(8936002)(41300700001)(4744005)(2906002)(5660300002)(7416002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?P636WBjLO9Vx+dfqLJDT/GDX0IhbEjZmUPM/rImA9wjS3mzNTKEa43Q6UTq7?=
- =?us-ascii?Q?FdurZdoddeUzCMcI4AXUUI4O9IG2UokZlUrkeFMkkAjqlfeXLggeGn3tmnvU?=
- =?us-ascii?Q?ulh9TCYgYZNbStxxHcQXbFJP4LmlIYVcGL0yJXBTEeFzU5f9RRCuYigD/K0Z?=
- =?us-ascii?Q?+23DSGCRh/Us9dtLd0ePA9hI8BxscRuI9uuSIb4Tu+jBGREGEst86Yh4zQg3?=
- =?us-ascii?Q?qvCHAioNvplSXj749ACorwXqP6F1Qo2x2fHaWNMAne9svZQvacJMaP6wvEkv?=
- =?us-ascii?Q?6+rF7Kqu+qPa6bFPOlbeQ6bZehRUGQWFZIMJymgygw8EiH5N+uT0N7umWmfR?=
- =?us-ascii?Q?fzYeUHagGu7pLCb89LUsLp79q2qmQ9sIEJ70NdTbyrLxKt1qDcMEk8TTY159?=
- =?us-ascii?Q?M/oXHLW7WykTcquT7nI2thjCnaFIMFB+MJiXelDIl7kkY/NxwIkCrGM8rAig?=
- =?us-ascii?Q?KCNNGMtTEPxQcs63PJq7VdecPp2RVmeCZDtwJ0JKBjMBMWdb8eRAGLZ02G6Z?=
- =?us-ascii?Q?IYyRbFwyF7obAnZh3w3ORrTfxBCkunsd/Du5Hct/CJ05yP2Q/J8aRfXr1Jaa?=
- =?us-ascii?Q?ERGPqYsHN+Y++RdZBZCnqhW4buAPkF3GePPZdzuPSUM6HzQnXyhDHEAJwQTp?=
- =?us-ascii?Q?Xs5wxB8vgQaPeSsciQZCp3Q/bD/wN9peGMYVvSXQXivpOf10AD0VxgPFpb4U?=
- =?us-ascii?Q?V2ffSuNB9JRMSEeApd4sp+6OZGIHvkB0w2UNBGxDeWMuOxpsn1WeeyJcpLjf?=
- =?us-ascii?Q?d2TpnQOgiM80bUfC5qcvm6dg231S8dSg6DOXe/1WoqKyZsp9rUBhHbLn3BZ5?=
- =?us-ascii?Q?pa0ePd5mIKFiCmLI80P+pb7r2XZHT4MTe/G8IbFL9OvWFKe8KaLlFeFpZ0qw?=
- =?us-ascii?Q?eln9s3hzW2FYRROvQM8oNm2quCPoj86BFCS2HiWBfgUBJtFQD/IvYOCZ4DZ+?=
- =?us-ascii?Q?+2jWxZ2Rqm29G0vOKQUe2g1TUSkZLtAjtWqj9FSpOWfwcNDJDlmLQuGjRmuJ?=
- =?us-ascii?Q?Y5d2wMnKlRFWEUfMTWM2dEGTkhcv5b8Lro9OM3BKKQB4/Ex9MTZqXnnyKlYP?=
- =?us-ascii?Q?NctxO6wnIjB9yw6MpWdVi9/lzii6yoY2KMCiZ2AIIkw9Veu2JuqtvDF+Ig7F?=
- =?us-ascii?Q?hXQ72LoDEZ2RKra/5+UHKV06mi/ODihMF6ED27gmCekbkM+JBh5yeBgciX+3?=
- =?us-ascii?Q?ET2IqMcMCTj7KfCRtPTqJHaOGOxrUFSQ87nheQNEW3ZatFb82nkZmjfOVtur?=
- =?us-ascii?Q?Dg+N66WwpNoaHVP6DUeHWlxnsgoV/Fmbmmxk8i7yBn9EFiLf85gKsmnXDosQ?=
- =?us-ascii?Q?7nwOAknPzjclkg7vnEsI1g9PCxW9BdPoj7ceBAJSfwZgPHUoku5qiiOlGSTq?=
- =?us-ascii?Q?P5PJg5W7RTn6oZefGpPkoP54/GMyx/U9O3GrzBWBXJqxLe5TrRmutOuz5K/m?=
- =?us-ascii?Q?IlJvUc2hCLETaKN3+ueELpBLoEFhiU4C6pVv4uGA86oLKakO+LQkfb50ryGx?=
- =?us-ascii?Q?v2YyuaQhQuoz8AWsxMpjbteObswRei3KDiVG+E6G0kqlZ9EnNdTDhmwU4V+b?=
- =?us-ascii?Q?Le1GRWffJX0fXcgdgOcNVC6I+tVHFx1m+eFEZY+D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11f9c9d7-270b-4fe2-2ba7-08db27bf4ffb
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2023 14:44:43.9342
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QqUS4EFL5hw83iXPAlGqqIzBAzG9ObVnlAdJp/8Fl6C8twzOgUVWubUH/EgDUjYVyEr5b+cyHdW+7jXMrQEHDQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB5283
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] dt-bindings: watchdog: Drop unneeded quotes
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Julius Werner <jwerner@chromium.org>, Evan Benn <evanbenn@chromium.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <20230317233643.3969019-1-robh@kernel.org>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <20230317233643.3969019-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The upper-layer devm_thermal_add_hwmon_sysfs() function can directly
-print error information.
+On 18/03/2023 08.36, Rob Herring wrote:
+> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> checking for this can be enabled in yamllint.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml   | 2 +-
+>  Documentation/devicetree/bindings/watchdog/apple,wdt.yaml       | 2 +-
+>  Documentation/devicetree/bindings/watchdog/arm-smc-wdt.yaml     | 2 +-
+>  .../devicetree/bindings/watchdog/atmel,sama5d4-wdt.yaml         | 2 +-
+>  .../devicetree/bindings/watchdog/brcm,bcm7038-wdt.yaml          | 2 +-
+>  .../devicetree/bindings/watchdog/faraday,ftwdt010.yaml          | 2 +-
+>  Documentation/devicetree/bindings/watchdog/fsl-imx7ulp-wdt.yaml | 2 +-
+>  Documentation/devicetree/bindings/watchdog/maxim,max63xx.yaml   | 2 +-
+>  Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml     | 2 +-
+>  Documentation/devicetree/bindings/watchdog/snps,dw-wdt.yaml     | 2 +-
+>  .../devicetree/bindings/watchdog/socionext,uniphier-wdt.yaml    | 2 +-
+>  Documentation/devicetree/bindings/watchdog/st,stm32-iwdg.yaml   | 2 +-
+>  Documentation/devicetree/bindings/watchdog/ti,rti-wdt.yaml      | 2 +-
+>  13 files changed, 13 insertions(+), 13 deletions(-)
 
-Signed-off-by: Yangtao Li <frank.li@vivo.com>
----
- drivers/thermal/sun8i_thermal.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+For apple:
 
-diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-index 793ddce72132..066f9fed9b86 100644
---- a/drivers/thermal/sun8i_thermal.c
-+++ b/drivers/thermal/sun8i_thermal.c
-@@ -475,9 +475,7 @@ static int sun8i_ths_register(struct ths_device *tmdev)
- 		if (IS_ERR(tmdev->sensor[i].tzd))
- 			return PTR_ERR(tmdev->sensor[i].tzd);
- 
--		if (devm_thermal_add_hwmon_sysfs(tmdev->dev, tmdev->sensor[i].tzd))
--			dev_warn(tmdev->dev,
--				 "Failed to add hwmon sysfs attributes\n");
-+		devm_thermal_add_hwmon_sysfs(tmdev->dev, tmdev->sensor[i].tzd);
- 	}
- 
- 	return 0;
--- 
-2.35.1
+Acked-by: Hector Martin <marcan@marcan.st>
 
+> 
+> diff --git a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+> index 026c2e5e77aa..274519fc24fd 100644
+> --- a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+> @@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  title: Allwinner A10 Watchdog
+>  
+>  allOf:
+> -  - $ref: "watchdog.yaml#"
+> +  - $ref: watchdog.yaml#
+>  
+>  maintainers:
+>    - Chen-Yu Tsai <wens@csie.org>
+> diff --git a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+> index e58c56a6fdf6..20435a77e079 100644
+> --- a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+> @@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  title: Apple SoC Watchdog
+>  
+>  allOf:
+> -  - $ref: "watchdog.yaml#"
+> +  - $ref: watchdog.yaml#
+>  
+>  maintainers:
+>    - Sven Peter <sven@svenpeter.dev>
+> diff --git a/Documentation/devicetree/bindings/watchdog/arm-smc-wdt.yaml b/Documentation/devicetree/bindings/watchdog/arm-smc-wdt.yaml
+> index e3a1d79574e2..fa05d6252982 100644
+> --- a/Documentation/devicetree/bindings/watchdog/arm-smc-wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/arm-smc-wdt.yaml
+> @@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  title: ARM Secure Monitor Call based watchdog
+>  
+>  allOf:
+> -  - $ref: "watchdog.yaml#"
+> +  - $ref: watchdog.yaml#
+>  
+>  maintainers:
+>    - Julius Werner <jwerner@chromium.org>
+> diff --git a/Documentation/devicetree/bindings/watchdog/atmel,sama5d4-wdt.yaml b/Documentation/devicetree/bindings/watchdog/atmel,sama5d4-wdt.yaml
+> index a9635c03761c..b28f7b57c36b 100644
+> --- a/Documentation/devicetree/bindings/watchdog/atmel,sama5d4-wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/atmel,sama5d4-wdt.yaml
+> @@ -10,7 +10,7 @@ maintainers:
+>    - Eugen Hristev <eugen.hristev@microchip.com>
+>  
+>  allOf:
+> -  - $ref: "watchdog.yaml#"
+> +  - $ref: watchdog.yaml#
+>  
+>  properties:
+>    compatible:
+> diff --git a/Documentation/devicetree/bindings/watchdog/brcm,bcm7038-wdt.yaml b/Documentation/devicetree/bindings/watchdog/brcm,bcm7038-wdt.yaml
+> index a926809352b8..428004e7f0c3 100644
+> --- a/Documentation/devicetree/bindings/watchdog/brcm,bcm7038-wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/brcm,bcm7038-wdt.yaml
+> @@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  title: BCM63xx and BCM7038 watchdog timer
+>  
+>  allOf:
+> -  - $ref: "watchdog.yaml#"
+> +  - $ref: watchdog.yaml#
+>  
+>  maintainers:
+>    - Florian Fainelli <f.fainelli@gmail.com>
+> diff --git a/Documentation/devicetree/bindings/watchdog/faraday,ftwdt010.yaml b/Documentation/devicetree/bindings/watchdog/faraday,ftwdt010.yaml
+> index 6ecd429f76b5..6e135f48b3ba 100644
+> --- a/Documentation/devicetree/bindings/watchdog/faraday,ftwdt010.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/faraday,ftwdt010.yaml
+> @@ -15,7 +15,7 @@ description: |
+>    SoCs and others.
+>  
+>  allOf:
+> -  - $ref: "watchdog.yaml#"
+> +  - $ref: watchdog.yaml#
+>  
+>  properties:
+>    compatible:
+> diff --git a/Documentation/devicetree/bindings/watchdog/fsl-imx7ulp-wdt.yaml b/Documentation/devicetree/bindings/watchdog/fsl-imx7ulp-wdt.yaml
+> index 8562978aa0c8..d3790f1a96a2 100644
+> --- a/Documentation/devicetree/bindings/watchdog/fsl-imx7ulp-wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/fsl-imx7ulp-wdt.yaml
+> @@ -10,7 +10,7 @@ maintainers:
+>    - Anson Huang <Anson.Huang@nxp.com>
+>  
+>  allOf:
+> -  - $ref: "watchdog.yaml#"
+> +  - $ref: watchdog.yaml#
+>  
+>  properties:
+>    compatible:
+> diff --git a/Documentation/devicetree/bindings/watchdog/maxim,max63xx.yaml b/Documentation/devicetree/bindings/watchdog/maxim,max63xx.yaml
+> index 38079e1b6a44..1a6490c43d89 100644
+> --- a/Documentation/devicetree/bindings/watchdog/maxim,max63xx.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/maxim,max63xx.yaml
+> @@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  title: Maxim 63xx Watchdog Timers
+>  
+>  allOf:
+> -  - $ref: "watchdog.yaml#"
+> +  - $ref: watchdog.yaml#
+>    - $ref: /schemas/memory-controllers/mc-peripheral-props.yaml#
+>  
+>  maintainers:
+> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> index e2c9bf1aec38..50c5c48ee6fb 100644
+> --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> @@ -115,7 +115,7 @@ required:
+>    - clocks
+>  
+>  allOf:
+> -  - $ref: "watchdog.yaml#"
+> +  - $ref: watchdog.yaml#
+>  
+>    - if:
+>        not:
+> diff --git a/Documentation/devicetree/bindings/watchdog/snps,dw-wdt.yaml b/Documentation/devicetree/bindings/watchdog/snps,dw-wdt.yaml
+> index 92df6e453f64..9387e4caa0fd 100644
+> --- a/Documentation/devicetree/bindings/watchdog/snps,dw-wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/snps,dw-wdt.yaml
+> @@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  title: Synopsys Designware Watchdog Timer
+>  
+>  allOf:
+> -  - $ref: "watchdog.yaml#"
+> +  - $ref: watchdog.yaml#
+>  
+>  maintainers:
+>    - Jamie Iles <jamie@jamieiles.com>
+> diff --git a/Documentation/devicetree/bindings/watchdog/socionext,uniphier-wdt.yaml b/Documentation/devicetree/bindings/watchdog/socionext,uniphier-wdt.yaml
+> index 70c005fdd197..ba0709314360 100644
+> --- a/Documentation/devicetree/bindings/watchdog/socionext,uniphier-wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/socionext,uniphier-wdt.yaml
+> @@ -10,7 +10,7 @@ maintainers:
+>    - Keiji Hayashibara <hayashibara.keiji@socionext.com>
+>  
+>  allOf:
+> -  - $ref: "watchdog.yaml#"
+> +  - $ref: watchdog.yaml#
+>  
+>  properties:
+>    compatible:
+> diff --git a/Documentation/devicetree/bindings/watchdog/st,stm32-iwdg.yaml b/Documentation/devicetree/bindings/watchdog/st,stm32-iwdg.yaml
+> index a8e266f80c20..2cb1a2ed0f7b 100644
+> --- a/Documentation/devicetree/bindings/watchdog/st,stm32-iwdg.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/st,stm32-iwdg.yaml
+> @@ -11,7 +11,7 @@ maintainers:
+>    - Christophe Roullier <christophe.roullier@foss.st.com>
+>  
+>  allOf:
+> -  - $ref: "watchdog.yaml#"
+> +  - $ref: watchdog.yaml#
+>  
+>  properties:
+>    compatible:
+> diff --git a/Documentation/devicetree/bindings/watchdog/ti,rti-wdt.yaml b/Documentation/devicetree/bindings/watchdog/ti,rti-wdt.yaml
+> index 2f33635876ff..fc553211e42d 100644
+> --- a/Documentation/devicetree/bindings/watchdog/ti,rti-wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/ti,rti-wdt.yaml
+> @@ -18,7 +18,7 @@ description:
+>    to directly reset the SoC.
+>  
+>  allOf:
+> -  - $ref: "watchdog.yaml#"
+> +  - $ref: watchdog.yaml#
+>  
+>  properties:
+>    compatible:
+
+
+- Hector
