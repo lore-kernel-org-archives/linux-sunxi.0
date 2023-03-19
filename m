@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B4527C
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CD4C2FB2
 	for <linux-sunxi@lists.linux.dev>; Sun, 19 Mar 2023 21:29:56 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 85F9E1516;
-	Sun, 19 Mar 2023 14:30:39 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1A2DE1063;
+	Sun, 19 Mar 2023 14:30:34 -0700 (PDT)
 Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 262613F67D;
-	Sun, 19 Mar 2023 14:29:54 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 787B63F67D;
+	Sun, 19 Mar 2023 14:29:48 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -17,9 +17,9 @@ Cc: linux-sunxi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	devicetree@vger.kernel.org,
 	Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH v6 4/6] dt-binding: arm: sunxi: add two board compatible strings
-Date: Sun, 19 Mar 2023 21:29:34 +0000
-Message-Id: <20230319212936.26649-5-andre.przywara@arm.com>
+Subject: [PATCH v6 1/6] ARM: dts: suniv: add USB-related device nodes
+Date: Sun, 19 Mar 2023 21:29:31 +0000
+Message-Id: <20230319212936.26649-2-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.7
 In-Reply-To: <20230319212936.26649-1-andre.przywara@arm.com>
 References: <20230319212936.26649-1-andre.przywara@arm.com>
@@ -33,51 +33,56 @@ Content-Transfer-Encoding: 8bit
 
 From: Icenowy Zheng <uwu@icenowy.me>
 
-The SourceParts PopStick is a F1C200s-based stick-shaped SBC. The
-publicly released version is actually v1.1.
-The Lctech Pi F1C200s is a small development board using the Allwinner
-F1C200s SoC.
+The suniv SoC has a USB OTG controller and a USB PHY like other
+Allwinner SoCs.
 
-Add the compatible string lists to the bindings documentation.
+Add their device tree node.
 
 Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- Documentation/devicetree/bindings/arm/sunxi.yaml | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ arch/arm/boot/dts/suniv-f1c100s.dtsi | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-index 3ad1cd50e3fe0..cbdfc1c247a2b 100644
---- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-+++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-@@ -366,6 +366,12 @@ properties:
-           - const: lamobo,lamobo-r1
-           - const: allwinner,sun7i-a20
+diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+index 9455d27e516ee..111f8bbc2a805 100644
+--- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
++++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+@@ -133,6 +133,32 @@ mmc1: mmc@1c10000 {
+ 			#size-cells = <0>;
+ 		};
  
-+      - description: Lctech Pi F1C200s
-+        items:
-+          - const: lctech,pi-f1c200s
-+          - const: allwinner,suniv-f1c200s
-+          - const: allwinner,suniv-f1c100s
++		usb_otg: usb@1c13000 {
++			compatible = "allwinner,suniv-f1c100s-musb";
++			reg = <0x01c13000 0x0400>;
++			clocks = <&ccu CLK_BUS_OTG>;
++			resets = <&ccu RST_BUS_OTG>;
++			interrupts = <26>;
++			interrupt-names = "mc";
++			phys = <&usbphy 0>;
++			phy-names = "usb";
++			extcon = <&usbphy 0>;
++			allwinner,sram = <&otg_sram 1>;
++			status = "disabled";
++		};
 +
-       - description: Libre Computer Board ALL-H3-CC H2+
-         items:
-           - const: libretech,all-h3-cc-h2-plus
-@@ -807,6 +813,13 @@ properties:
-           - const: sinlinx,sina33
-           - const: allwinner,sun8i-a33
- 
-+      - description: SourceParts PopStick v1.1
-+        items:
-+          - const: sourceparts,popstick-v1.1
-+          - const: sourceparts,popstick
-+          - const: allwinner,suniv-f1c200s
-+          - const: allwinner,suniv-f1c100s
++		usbphy: phy@1c13400 {
++			compatible = "allwinner,suniv-f1c100s-usb-phy";
++			reg = <0x01c13400 0x10>;
++			reg-names = "phy_ctrl";
++			clocks = <&ccu CLK_USB_PHY0>;
++			clock-names = "usb0_phy";
++			resets = <&ccu RST_USB_PHY0>;
++			reset-names = "usb0_reset";
++			#phy-cells = <1>;
++			status = "disabled";
++		};
 +
-       - description: SL631 Action Camera with IMX179
-         items:
-           - const: allwinner,sl631-imx179
+ 		ccu: clock@1c20000 {
+ 			compatible = "allwinner,suniv-f1c100s-ccu";
+ 			reg = <0x01c20000 0x400>;
 -- 
 2.35.7
 
