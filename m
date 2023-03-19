@@ -1,89 +1,82 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3661373
-	for <linux-sunxi@lists.linux.dev>; Sun, 19 Mar 2023 12:07:12 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id r11so36798297edd.5
-        for <linux-sunxi@lists.linux.dev>; Sun, 19 Mar 2023 05:07:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679227630;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3GQ0kuX+CANTyKsciGzMU4Vb8Jeilt6T7QwH/C5HtcI=;
-        b=TzAXlqE8TgfprcWtggNsM5B4SQJQtCXYoRCn8uqjU6Dppl3AIp4F/El+x+T+cy9/Hp
-         oAdm77wfFODxSKeyHAiXXUxrdkhRop2rDx79qH1f2hq0fJQiR6YqC0/5p587b7PhB50N
-         Az1pLOxhlA4adj+8SICk15XWO3UofGCHYaEdHmQfeW5uy/uSbfi0mu2/WOM2SoE5NwK9
-         XKhHart75hNrLBOJU0s4puBzvV/H170DSekttmS/Ku+kn8xvWyBxg94fAif55VGfJ2lc
-         s8ZrCs9dbcSnm0K6ktftWRN9UtNVNOy7IHzXjQI/cq3HVT1durOmcBipUAdQzSZ9tz+J
-         7FNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679227630;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3GQ0kuX+CANTyKsciGzMU4Vb8Jeilt6T7QwH/C5HtcI=;
-        b=X2djuVqkZENiVXye0qIPzwVy7ShzAPdPaXxUFJRSr6oBEvuJZF0HSKFnOtIdFGFKBM
-         Blbd0pQG61ackV2LeOlC+JEg+vHZRTdfVxuAHvHXkgZabeynMNiUNX5ElD0GaVe6g6Cf
-         RODrI0n4pMh++VDpl3bXevOWZjaiu0d1ugPkHC/ZWC5w+JPbhNbMf1DjHlJ/8Oun519x
-         AVGgFB1XbwIQaJPhHJRuRUVPccn0EWjkMawOYMa3hdk6QoxwROYsGwNusIVwdTHLZ598
-         OVGXQKMdZ5yNlRE7dkkS1T0W/ZqGzv+HYV5Whw5+Caa6Ry7HVYkaWwIjRgMZmC1Xzf9O
-         V9pw==
-X-Gm-Message-State: AO0yUKWCYRya6rXnRBq4JpGZ/M7LuUMSCdLyKS5R3v2EOQ4of2Wc7lLL
-	EdJZ8z6OXtOcKG92oasQzDI1kw==
-X-Google-Smtp-Source: AK7set8ojqGhOAjmBHwzN76QhQtwOWV8Psp9NGV0PffUGEU20N+02MFB5rvCOFkPKNTFQrrwRiSzoQ==
-X-Received: by 2002:a17:906:40c2:b0:91f:32f9:82f0 with SMTP id a2-20020a17090640c200b0091f32f982f0mr5542602ejk.29.1679227630370;
-        Sun, 19 Mar 2023 05:07:10 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:5b5f:f22b:a0b:559d? ([2a02:810d:15c0:828:5b5f:f22b:a0b:559d])
-        by smtp.gmail.com with ESMTPSA id jj4-20020a170907984400b009323f08827dsm2744307ejc.13.2023.03.19.05.07.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Mar 2023 05:07:10 -0700 (PDT)
-Message-ID: <68a5d8d8-b70a-e58e-e38e-5f185121e01a@linaro.org>
-Date: Sun, 19 Mar 2023 13:07:08 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FD71846
+	for <linux-sunxi@lists.linux.dev>; Sun, 19 Mar 2023 16:15:59 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4PfjSG06Y0z9sSK;
+	Sun, 19 Mar 2023 17:07:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1679242046;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=LaQzIGUSIRQEvSeJYHlfv8DWhzz6rNivIcZxVXfH8Tk=;
+	b=vbhGGBCRkeNdS0n2fuwDNEVBbNkJAYD154FDsqKO463PdmLfQgzvZR1LYH6aN0xzMSby9c
+	ni5WA+LmVIJgHRVieSvleWvHc1fN6DGeMJxWjidXGDq3v1KiJDseE4Ld39tD0Ii0HExK/T
+	yJmSPe6bTHRGPbh2umMycAJijEyV/mG428m+n3t/b/r1avxQp9D1OqkBYoHDw0sDI9K3P2
+	GfwqczV+J10oteeMi16xzK2mpTRkWrt3fTQsVOMbRcAb762IGS+/kyvuBHOi61BjRKGtCE
+	1A6ETN3C+BHVeJhmtwjBYK+ike5/AHE4cqkxR+IdJ2hQgKua7spVZ4DhhgisBA==
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: jagan@amarulasolutions.com,
+	michael@amarulasolutions.com,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR ALLWINNER A10),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
+	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Frank Oltmanns <frank@oltmanns.dev>
+Subject: [PATCH 0/1] Fixing the DSI dot clock on Allwinner
+Date: Sun, 19 Mar 2023 17:07:03 +0100
+Message-Id: <20230319160704.9858-1-frank@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] dt-bindings: mtd: Drop unneeded quotes
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Naga Sureshkumar Relli <nagasure@xilinx.com>,
- Tudor Ambarus <tudor.ambarus@linaro.org>,
- Pratyush Yadav <pratyush@kernel.org>, Michael Walle <michael@walle.cc>,
- Linus Walleij <linus.walleij@linaro.org>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20230317233631.3968509-1-robh@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230317233631.3968509-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 18/03/2023 00:36, Rob Herring wrote:
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
+According to the Allwinner A64's BSP code, the PLL rate needs to be set to the following frequency when using DSI:
+PLL rate = DCLK * bpp / lanes
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Source: [1]
+The relevant lines for DSI (ommisions and comments mine):
+dclk_rate = lcdp->panel_info.lcd_dclk_freq * 1000000;
+lcd_rate = dclk_rate * clk_info.dsi_div; // dsi_div = bpp/lane
+pll_rate = lcd_rate * clk_info.lcd_div;  // lcd_div = 1 --> pll_rate = lcd_rate
+dsi_rate = pll_rate / clk_info.dsi_div   // --> dsi_rate = dclk_rate
+clk_set_rate(lcdp->clk_parent, pll_rate);
 
-Best regards,
-Krzysztof
+This was already discussed by Maxime, Jagan and Michael in the past in the thread following this message: [2]. Unfortunately, there never was a conclusion in the form of code.
+
+The attached patch is a slight variation of a patch that is part of megi's kernel branch that many PinePhone distributions (e.g. postmarketOS) use [3]. It calculates the TCON clock rate by using the formula above and dividing it by SUN6I_DSI_TCON_DIV, in order to force the parent clock to be set to the correct rate.
+
+If I read the thread following this message [2] correctly, this was also what Maxime had in mind.
+
+Please also note that, unfortunately, I only have a single board and panel (namely the PinePhone) to test this on.
+
+Thanks,
+  Frank
+
+[1] https://github.com/BPI-SINOVOIP/BPI-M64-bsp/blob/master/linux-sunxi/drivers/video/sunxi/disp2/disp/de/disp_lcd.c#L781
+[2] https://lore.kernel.org/lkml/CAMty3ZAsH2iZ+JEqTE3D58aXfGuhMSg9YoO56ZhhOeE4c4yQHQ@mail.gmail.com/
+[3] https://github.com/megous/linux/commit/eb5f28fb58727f4a6546f211486aad0d19cdea3f
+
+Frank Oltmanns (1):
+  drm/sun4i: tcon: Fix setting PLL rate when using DSI
+
+ drivers/gpu/drm/sun4i/sun4i_tcon.c | 46 ++++++++++++++++++++----------
+ 1 file changed, 31 insertions(+), 15 deletions(-)
+
+-- 
+2.39.2
 
