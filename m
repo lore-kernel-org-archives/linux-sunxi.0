@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CD4C2FB2
-	for <linux-sunxi@lists.linux.dev>; Sun, 19 Mar 2023 21:29:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D969C2F5A
+	for <linux-sunxi@lists.linux.dev>; Sun, 19 Mar 2023 21:29:57 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1A2DE1063;
-	Sun, 19 Mar 2023 14:30:34 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5260D15A1;
+	Sun, 19 Mar 2023 14:30:41 -0700 (PDT)
 Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 787B63F67D;
-	Sun, 19 Mar 2023 14:29:48 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DE98C3F67D;
+	Sun, 19 Mar 2023 14:29:55 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -17,9 +17,9 @@ Cc: linux-sunxi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	devicetree@vger.kernel.org,
 	Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH v6 1/6] ARM: dts: suniv: add USB-related device nodes
-Date: Sun, 19 Mar 2023 21:29:31 +0000
-Message-Id: <20230319212936.26649-2-andre.przywara@arm.com>
+Subject: [PATCH v6 5/6] ARM: dts: suniv: add device tree for PopStick v1.1
+Date: Sun, 19 Mar 2023 21:29:35 +0000
+Message-Id: <20230319212936.26649-6-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.7
 In-Reply-To: <20230319212936.26649-1-andre.przywara@arm.com>
 References: <20230319212936.26649-1-andre.przywara@arm.com>
@@ -33,56 +33,125 @@ Content-Transfer-Encoding: 8bit
 
 From: Icenowy Zheng <uwu@icenowy.me>
 
-The suniv SoC has a USB OTG controller and a USB PHY like other
-Allwinner SoCs.
+PopStick is a minimal Allwinner F1C200s dongle, with its USB controller
+wired to a USB Type-A plug, a SD slot and a SPI NAND flash on board, and
+an on-board CH340 USB-UART converted connected to F1C200s's UART0.
 
-Add their device tree node.
+Add a device tree for it. As F1C200s is just F1C100s with a different
+DRAM chip co-packaged, directly use F1C100s DTSI here.
+
+This commit covers the v1.1 version of this board, which is now shipped.
+v1.0 is some internal sample that have not been shipped at all.
 
 Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- arch/arm/boot/dts/suniv-f1c100s.dtsi | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ arch/arm/boot/dts/Makefile                    |  3 +-
+ .../boot/dts/suniv-f1c200s-popstick-v1.1.dts  | 81 +++++++++++++++++++
+ 2 files changed, 83 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
 
-diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-index 9455d27e516ee..111f8bbc2a805 100644
---- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
-+++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-@@ -133,6 +133,32 @@ mmc1: mmc@1c10000 {
- 			#size-cells = <0>;
- 		};
- 
-+		usb_otg: usb@1c13000 {
-+			compatible = "allwinner,suniv-f1c100s-musb";
-+			reg = <0x01c13000 0x0400>;
-+			clocks = <&ccu CLK_BUS_OTG>;
-+			resets = <&ccu RST_BUS_OTG>;
-+			interrupts = <26>;
-+			interrupt-names = "mc";
-+			phys = <&usbphy 0>;
-+			phy-names = "usb";
-+			extcon = <&usbphy 0>;
-+			allwinner,sram = <&otg_sram 1>;
-+			status = "disabled";
-+		};
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index efe4152e5846d..3b97d7c1e3c28 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -1406,7 +1406,8 @@ dtb-$(CONFIG_MACH_SUN9I) += \
+ 	sun9i-a80-optimus.dtb \
+ 	sun9i-a80-cubieboard4.dtb
+ dtb-$(CONFIG_MACH_SUNIV) += \
+-	suniv-f1c100s-licheepi-nano.dtb
++	suniv-f1c100s-licheepi-nano.dtb \
++	suniv-f1c200s-popstick-v1.1.dtb
+ dtb-$(CONFIG_ARCH_TEGRA_2x_SOC) += \
+ 	tegra20-acer-a500-picasso.dtb \
+ 	tegra20-asus-tf101.dtb \
+diff --git a/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts b/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
+new file mode 100644
+index 0000000000000..184c245041a6e
+--- /dev/null
++++ b/arch/arm/boot/dts/suniv-f1c200s-popstick-v1.1.dts
+@@ -0,0 +1,81 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++/*
++ * Copyright 2022 Icenowy Zheng <uwu@icenowy.me>
++ */
 +
-+		usbphy: phy@1c13400 {
-+			compatible = "allwinner,suniv-f1c100s-usb-phy";
-+			reg = <0x01c13400 0x10>;
-+			reg-names = "phy_ctrl";
-+			clocks = <&ccu CLK_USB_PHY0>;
-+			clock-names = "usb0_phy";
-+			resets = <&ccu RST_USB_PHY0>;
-+			reset-names = "usb0_reset";
-+			#phy-cells = <1>;
-+			status = "disabled";
-+		};
++/dts-v1/;
++#include "suniv-f1c100s.dtsi"
 +
- 		ccu: clock@1c20000 {
- 			compatible = "allwinner,suniv-f1c100s-ccu";
- 			reg = <0x01c20000 0x400>;
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/leds/common.h>
++
++/ {
++	model = "Popcorn Computer PopStick v1.1";
++	compatible = "sourceparts,popstick-v1.1", "sourceparts,popstick",
++		     "allwinner,suniv-f1c200s", "allwinner,suniv-f1c100s";
++
++	aliases {
++		serial0 = &uart0;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		led {
++			function = LED_FUNCTION_STATUS;
++			color = <LED_COLOR_ID_GREEN>;
++			gpios = <&pio 4 6 GPIO_ACTIVE_HIGH>; /* PE6 */
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
++	reg_vcc3v3: regulator-3v3 {
++		compatible = "regulator-fixed";
++		regulator-name = "vcc3v3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++	};
++};
++
++&mmc0 {
++	cd-gpios = <&pio 4 3 GPIO_ACTIVE_LOW>; /* PE3 */
++	bus-width = <4>;
++	disable-wp;
++	vmmc-supply = <&reg_vcc3v3>;
++	status = "okay";
++};
++
++&otg_sram {
++	status = "okay";
++};
++
++&spi0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&spi0_pc_pins>;
++	status = "okay";
++
++	flash@0 {
++		compatible = "spi-nand";
++		reg = <0>;
++		spi-max-frequency = <40000000>;
++	};
++};
++
++&uart0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart0_pe_pins>;
++	status = "okay";
++};
++
++&usb_otg {
++	dr_mode = "peripheral";
++	status = "okay";
++};
++
++&usbphy {
++	status = "okay";
++};
 -- 
 2.35.7
 
