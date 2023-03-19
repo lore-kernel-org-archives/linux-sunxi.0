@@ -1,169 +1,134 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B26B92FB2
-	for <linux-sunxi@lists.linux.dev>; Sun, 19 Mar 2023 21:29:59 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 17B88168F;
-	Sun, 19 Mar 2023 14:30:43 -0700 (PDT)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A96153F67D;
-	Sun, 19 Mar 2023 14:29:57 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Chen-Yu Tsai <wens@csie.org>
-Cc: linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH v6 6/6] ARM: dts: suniv: Add Lctech Pi F1C200s devicetree
-Date: Sun, 19 Mar 2023 21:29:36 +0000
-Message-Id: <20230319212936.26649-7-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.7
-In-Reply-To: <20230319212936.26649-1-andre.przywara@arm.com>
-References: <20230319212936.26649-1-andre.przywara@arm.com>
+Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EFAC7C
+	for <linux-sunxi@lists.linux.dev>; Sun, 19 Mar 2023 21:37:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1679261840; x=1710797840;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=TT1NZFDlglG04lWn8b3D569FNDwhCTSHE8VYkA5Dx+U=;
+  b=nlxGwoEnu7XBeCpGL6EB5mJEflO/0CEwMDPqU32Uj30RhwaqK7h8Ip0C
+   RhPwaqd2pCmYPxl7v7Vw8UG5LXMUxtySnWSUbwrEBFqMkr/EDLSfAxtku
+   zYh3IqGYnGdpefFGLHDDv6tTMTOzhHm5dp0xKl/FF3UHGpWHy+GVrlzVE
+   ydbF/OQFDMpOwt+bocAlmwuTSec77an5DAqMlxAvMu33qvX0AIoUz+U0o
+   8ncU8dxY1E0VDpwgGeYmVVIf+l8kxZ/SjRYcSGAMrHfw+akBlKMNxY4/A
+   ClB/dxIl7kKovUB6cPA9LaID1ansRcOyw6MqpPscPkilemzI8qR3uHTmM
+   w==;
+X-IronPort-AV: E=Sophos;i="5.98,274,1673884800"; 
+   d="scan'208";a="330394021"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 20 Mar 2023 05:36:10 +0800
+IronPort-SDR: pyylIcHuW5lLLHu1eUuNh8N1CTDXwMaYyeCvHyzzbnwEghO6ZukPl+hQbULcgphiEqZY6PHq1G
+ Z3jm/Qtcacu3qGHJ5OfFLoH0ggspzewAnPhg4CAODUEFw2T5jkeCXjbPA5HPG4oj7hqXre6xyS
+ xePXP8e0m/9pbACAM9L5+WXN/NKigmiMkAMYfajkZkw6qZl7Zla+3UxchsmZPWGSRB302y9Pz/
+ YrSjgAIcuZ5oM0gfmlJJkTge3uB43Y6vdpDfN6iCfUFYG/Hvlmk8Tqqfv80Hh39ZeryYbJdjJa
+ yXw=
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 19 Mar 2023 13:46:50 -0700
+IronPort-SDR: CpmeTPBntBLcJ5q5qsskcQDgUDsZFB1ZnR9YUNpXqVjENdcHdVw4rdHGpbEd89FLBqnJ2Wrg18
+ thNOlCOGXfWMe1xGirS+zN4bB8tT43VKvpdPyEjja5Sd7L93MlDBhIgnupOvs9WllIwteSbhBj
+ fxeQ7APInHD2o29p9JUhX6fTH4VnpzXS/j8RbozzD7308F1p4cCE/lfsagbgEaXOjfW7R3tkFi
+ BkOMUsswKyBTkgLvMcbKTBfX4O2PFw9vFbxwuQUp0letN1l0/clAi/O724R0C/2a2CnB5+ZGc/
+ /BQ=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 19 Mar 2023 14:36:10 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4PfrlY4rHjz1RtVp
+	for <linux-sunxi@lists.linux.dev>; Sun, 19 Mar 2023 14:36:09 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+	reason="pass (just generated, assumed good)"
+	header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+	opensource.wdc.com; h=content-transfer-encoding:content-type
+	:in-reply-to:organization:from:content-language:references:to
+	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
+	1679261769; x=1681853770; bh=TT1NZFDlglG04lWn8b3D569FNDwhCTSHE8V
+	YkA5Dx+U=; b=QceyF5oNgACqQ8sjsaRsiMOKfIYhjptv+fXpR24cGwPjyZhDE1j
+	vVmgqZawW8MFo5w81UX/N52F6h67agOJDFUyUb26MzgcphLhiinAiqQWkieTDSKP
+	tMMgaECZYxLp1AAz1MMQPIQxuB1u4yb+076EfiIzRPeTuVAU47AJHX2rsw0FD0M6
+	aN6IbHH5zNoOnkdty9lS8MRF7fH9wn7leP6VHgCRIEPD0Lu8nhsE0QYDYh6J7RuV
+	YATURhDOEJMHT68V1LyWGaCM/XqNoNFWnDzd7tMvIHoW1lRA0mU47aUJRZFpCT9y
+	Rk7jzcAnxN6RDazWX8w6IClCd740fySdtZQ==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id r5626LB6ljeG for <linux-sunxi@lists.linux.dev>;
+	Sun, 19 Mar 2023 14:36:09 -0700 (PDT)
+Received: from [10.225.163.91] (unknown [10.225.163.91])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4PfrlK1xCLz1RtVm;
+	Sun, 19 Mar 2023 14:35:57 -0700 (PDT)
+Message-ID: <de10b014-1a97-e74a-c7c4-b1004bf4cb60@opensource.wdc.com>
+Date: Mon, 20 Mar 2023 06:35:55 +0900
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] dt-bindings: pinctrl: Drop unneeded quotes
+To: Rob Herring <robh@kernel.org>, =?UTF-8?Q?Andreas_F=c3=a4rber?=
+ <afaerber@suse.de>, Manivannan Sadhasivam <mani@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
+ Damien Le Moal <damien.lemoal@wdc.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>,
+ Sean Wang <sean.wang@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Heiko Stuebner <heiko@sntech.de>, Tomasz Figa <tomasz.figa@gmail.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Emil Renner Berthing <kernel@esmil.dk>,
+ Jianlong Huang <jianlong.huang@starfivetech.com>,
+ Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+ Michal Simek <michal.simek@xilinx.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-actions@lists.infradead.org,
+ linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ asahi@lists.linux.dev, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ patches@opensource.cirrus.com, alsa-devel@alsa-project.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
+References: <20230317233623.3968172-1-robh@kernel.org>
+Content-Language: en-US
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <20230317233623.3968172-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The Lctech Pi F1C200s (also previously known under the Cherry Pi brand)
-is a small development board with the Allwinner F1C200s SoC. This is the
-same as the F1C100s, but with 64MB instead of 32MB co-packaged DRAM.
+On 3/18/23 08:36, Rob Herring wrote:
+> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> checking for this can be enabled in yamllint.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Alongside the obligatory micro-SD card slot, the board features a
-SPI-NAND flash chip, LCD and touch connectors, and unpopulated
-expansion header pins.
-There are two USB Type-C ports on the board: One supplies the power, also
-connects to the USB MUSB OTG controller port. The other one is connected
-to an CH340 USB serial chip, which in turn is connected to UART1.
+Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 
-Add a devicetree file, so that the board can be used easily.
-
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- arch/arm/boot/dts/Makefile                    |  1 +
- arch/arm/boot/dts/suniv-f1c100s.dtsi          |  6 ++
- arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts | 76 +++++++++++++++++++
- 3 files changed, 83 insertions(+)
- create mode 100644 arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts
-
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 3b97d7c1e3c28..a627d5593e51b 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1407,6 +1407,7 @@ dtb-$(CONFIG_MACH_SUN9I) += \
- 	sun9i-a80-cubieboard4.dtb
- dtb-$(CONFIG_MACH_SUNIV) += \
- 	suniv-f1c100s-licheepi-nano.dtb \
-+	suniv-f1c200s-lctech-pi.dtb \
- 	suniv-f1c200s-popstick-v1.1.dtb
- dtb-$(CONFIG_ARCH_TEGRA_2x_SOC) += \
- 	tegra20-acer-a500-picasso.dtb \
-diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-index 111f8bbc2a805..3c61d59ab5f86 100644
---- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
-+++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-@@ -207,6 +207,12 @@ uart0_pe_pins: uart0-pe-pins {
- 				pins = "PE0", "PE1";
- 				function = "uart0";
- 			};
-+
-+			/omit-if-no-ref/
-+			uart1_pa_pins: uart1-pa-pins {
-+				pins = "PA2", "PA3";
-+				function = "uart1";
-+			};
- 		};
- 
- 		i2c0: i2c@1c27000 {
-diff --git a/arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts b/arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts
-new file mode 100644
-index 0000000000000..2d2a3f026df33
---- /dev/null
-+++ b/arch/arm/boot/dts/suniv-f1c200s-lctech-pi.dts
-@@ -0,0 +1,76 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright 2022 Arm Ltd,
-+ * based on work:
-+ *   Copyright 2022 Icenowy Zheng <uwu@icenowy.me>
-+ */
-+
-+/dts-v1/;
-+#include "suniv-f1c100s.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+
-+/ {
-+	model = "Lctech Pi F1C200s";
-+	compatible = "lctech,pi-f1c200s", "allwinner,suniv-f1c200s",
-+		     "allwinner,suniv-f1c100s";
-+
-+	aliases {
-+		serial0 = &uart1;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	reg_vcc3v3: regulator-3v3 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+	};
-+};
-+
-+&mmc0 {
-+	broken-cd;
-+	bus-width = <4>;
-+	disable-wp;
-+	vmmc-supply = <&reg_vcc3v3>;
-+	status = "okay";
-+};
-+
-+&otg_sram {
-+	status = "okay";
-+};
-+
-+&spi0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&spi0_pc_pins>;
-+	status = "okay";
-+
-+	flash@0 {
-+		compatible = "spi-nand";
-+		reg = <0>;
-+		spi-max-frequency = <40000000>;
-+	};
-+};
-+
-+&uart1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart1_pa_pins>;
-+	status = "okay";
-+};
-+
-+/*
-+ * This is a Type-C socket, but CC1/2 are not connected, and VBUS is connected
-+ * to Vin, which supplies the board. Host mode works (if the board is powered
-+ * otherwise), but peripheral is probably the intention.
-+ */
-+&usb_otg {
-+	dr_mode = "peripheral";
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	status = "okay";
-+};
 -- 
-2.35.7
+Damien Le Moal
+Western Digital Research
 
