@@ -1,151 +1,114 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42191856
-	for <linux-sunxi@lists.linux.dev>; Sun, 19 Mar 2023 16:15:59 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4PfjSM1Lf7z9sct;
-	Sun, 19 Mar 2023 17:07:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1679242051;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kNjDvtMea1CQUVb5Rt+9MnBA3rnXcLU9MK13p0qx2Do=;
-	b=Jup3N7ihTwLbPIkezF6FLR3PI5Yoz0u7MQ2Q8OHGbUcIYQ0lOtukuNVlufoA5v6Wf4TWEy
-	1KAg3g7bQAHd3AsX3JaYMazu5eWjldWCJXQ4F07QAMKJ0QSw+jJ5zlwIBLdXs4e673zVEg
-	VOeCxf6RJHFlvypvKdinjYzHGe8mIpINOB3PQWgzGM9D/kUlkGQT3f/UL6f6EjEh4axAtd
-	FBaHflhpEa58acTzdDM1hVR2VbyD4TM0tOSHfMgClffdbY6dtwhipDebjm8yD49p0qu0+e
-	2K/Zlrs64VSjolK2CngqgExO5NjQ1l/rETP6iE3nxUW3ezg+neK3FjgMWqiZWQ==
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: jagan@amarulasolutions.com,
-	michael@amarulasolutions.com,
-	Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR ALLWINNER A10),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
-	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Frank Oltmanns <frank@oltmanns.dev>
-Subject: [PATCH 1/1] drm/sun4i: tcon: Fix setting PLL rate when using DSI
-Date: Sun, 19 Mar 2023 17:07:04 +0100
-Message-Id: <20230319160704.9858-2-frank@oltmanns.dev>
-In-Reply-To: <20230319160704.9858-1-frank@oltmanns.dev>
-References: <20230319160704.9858-1-frank@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941B17C
+	for <linux-sunxi@lists.linux.dev>; Sun, 19 Mar 2023 20:55:41 +0000 (UTC)
+Received: by mail-yb1-f176.google.com with SMTP id e65so10816703ybh.10
+        for <linux-sunxi@lists.linux.dev>; Sun, 19 Mar 2023 13:55:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1679259340;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ac/NF/X3Ce1vR1hDDyKBTJ707og2BXuZP/lMQW+OCrs=;
+        b=H/USSk17Fu5IdWFmU2HYEVwZ92SC2T/aL/5nOvlVpJeD0L0do87jcAsTliaBEz0MCA
+         mMqeZBU9urZirZ7zxW11auSX7+tkHYp0K9XThAE/wLNlnvSVJ8GdNjd8zqxEnyfC6R+S
+         bF0GNyNi0+l9Pp7ASmve9a2w4hwTf3i3d+4y1vux+85gQW4f0GI7kaHZLVj6jXu3zltE
+         7jVl7Q6CBsq+1I5qhe0Ga3XfgMounIvMwgwAAF156gYYGaIPQ8+xRHnk/kIV9uZT6MuK
+         aofXXYTTc5isXyhzb02mMH9GFNLJv1AQNxp4DslX98DqL+NC2qt8ieSTjsvVDSUikCvp
+         WBRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679259340;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ac/NF/X3Ce1vR1hDDyKBTJ707og2BXuZP/lMQW+OCrs=;
+        b=NM4PQ68LkPKXk+9OjevpbHIps9zhjtGa7Qe8bNaYhq6xw5u76zpACHMw/tDuVo64uH
+         bsxVLG6Pa1yZHEQaYmugRQPMArEnAgFxDc7WM3wd+Nn8yf3vuy2iwFBhIuTSaX5Qowav
+         WpAUH+Ay9XPzAz1D3oTmyVSDpbholyi0Lb4BoP2xRBt2KMuTA+smDXJzRquKd3PfZEAm
+         AvulByzb+GrucewMFqn+uEywB9TRa0wCrtWtaNnFZ6rV4qzvHzm/Moeh2/6CIaGmPcWj
+         l7Xu4MAve3asCdXzC6j84GQEI840SeRKidzD/Mec5m8w0jMi1pqhuokWqnxLlT+N9+bm
+         i67A==
+X-Gm-Message-State: AO0yUKW1AH/Bvb1KoV7mSgucUcrq5QX7n4l8ODwpTAAnhHhZfPqcAd8j
+	kjvRaQ8cDQ/WBYjfBP6EqzijRrOKGeQN43gy5oMuiQ==
+X-Google-Smtp-Source: AK7set96jMMXsU1lpAmC3W40A6khl6vhFPSlLdYAPpPspd35ltaJhYbiXGg5BwG99gy+Dk9b8AqTCwMdTjF2Un45KI0=
+X-Received: by 2002:a05:6902:110e:b0:b26:47f3:6cb with SMTP id
+ o14-20020a056902110e00b00b2647f306cbmr3222772ybu.4.1679259340445; Sun, 19 Mar
+ 2023 13:55:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230310144721.1544669-1-robh@kernel.org> <CAMuHMdUaeyHs9fQxS+16F62uHaifJYMXKJpL2-xi-SL5HCrTHQ@mail.gmail.com>
+ <CAMuHMdX1=+WwWjfiWDYOjSzTjcYBEY+QR=XKuU+o5_SCyU7rag@mail.gmail.com>
+In-Reply-To: <CAMuHMdX1=+WwWjfiWDYOjSzTjcYBEY+QR=XKuU+o5_SCyU7rag@mail.gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sun, 19 Mar 2023 21:55:29 +0100
+Message-ID: <CACRpkdaw7TodD0hr3vD8cGB80k0qtEiaC1ne-ivCj6YEefi44w@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: Use of_property_present() for testing DT
+ property presence
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Rob Herring <robh@kernel.org>, Sean Wang <sean.wang@kernel.org>, 
+	Tony Lindgren <tony@atomide.com>, Haojian Zhuang <haojian.zhuang@linaro.org>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, devicetree@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-omap@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Set the required PLL rate by adjusting the dotclock rate when calling
-clk_set_rate() when using DSI.
+On Mon, Mar 13, 2023 at 12:00=E2=80=AFPM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+> On Mon, Mar 13, 2023 at 10:00=E2=80=AFAM Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
+> > On Fri, Mar 10, 2023 at 3:56=E2=80=AFPM Rob Herring <robh@kernel.org> w=
+rote:
+> > > It is preferred to use typed property access functions (i.e.
+> > > of_property_read_<type> functions) rather than low-level
+> > > of_get_property/of_find_property functions for reading properties. As
+> > > part of this, convert of_get_property/of_find_property calls to the
+> > > recently added of_property_present() helper when we just want to test
+> > > for presence of a property and nothing more.
+> > >
+> > > Signed-off-by: Rob Herring <robh@kernel.org>
+> >
+> > Thanks for your patch!
+> >
+> > > --- a/drivers/pinctrl/renesas/pinctrl.c
+> > > +++ b/drivers/pinctrl/renesas/pinctrl.c
+> > > @@ -125,8 +125,8 @@ static int sh_pfc_dt_subnode_to_map(struct pinctr=
+l_dev *pctldev,
+> > >          * inside a subnode nor across subnodes.
+> > >          */
+> > >         if (!pmx->func_prop_name) {
+> > > -               if (of_find_property(np, "groups", NULL) ||
+> > > -                   of_find_property(np, "pins", NULL)) {
+> > > +               if (of_property_present(np, "groups")||
+> > > +                   of_property_present(np, "pins")) {
+> > >                         pmx->func_prop_name =3D "function";
+> > >                         pmx->groups_prop_name =3D "groups";
+> > >                         pmx->pins_prop_name =3D "pins";
+> >
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> >
+> > This check is used to auto-detect if the standard property names
+> > should be used, or the "renesas,"-prefixed ones.
+> > As the last users of the latter were removed from DTS in v4.10,
+> > perhaps I should just remove these checks instead?
+>
+> Sent a patch just doing that, so you can drop this chunk.
+> https://lore.kernel.org/linux-renesas-soc/ff9c14781110bbf19b56b45dd1f01e6=
+da90319ad.1678704441.git.geert+renesas@glider.be
 
-According to the Allwinners A64's BSP code, a TCON divider of 4 has to
-be used and the PLL rate needs to be set to the following frequency when
-using DSI:
-    PLL rate = DCLK * bpp / lanes
+So I need a new version of this patch before I can apply it
+I guess, or there will be conflict with Reseas stuff?
 
-After this change the common mode set function would only contain
-setting the resolution. Therefore, dissolve the function and transfer
-the functionality to the individual mode set functions.
-
-Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
----
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 46 ++++++++++++++++++++----------
- 1 file changed, 31 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index 62b3538bd81f..02d52be42f06 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -323,18 +323,6 @@ static int sun4i_tcon_get_clk_delay(const struct drm_display_mode *mode,
- 	return delay;
- }
- 
--static void sun4i_tcon0_mode_set_common(struct sun4i_tcon *tcon,
--					const struct drm_display_mode *mode)
--{
--	/* Configure the dot clock */
--	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
--
--	/* Set the resolution */
--	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
--		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
--		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
--}
--
- static void sun4i_tcon0_mode_set_dithering(struct sun4i_tcon *tcon,
- 					   const struct drm_connector *connector)
- {
-@@ -399,10 +387,24 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
- 	u32 block_space, start_delay;
- 	u32 tcon_div;
- 
-+	/*
-+	 * Configure the dot clock:
-+	 * For DSI the PLL rate has to respect the bits per pixel and
-+	 * number of lanes.
-+	 *
-+	 * According to the BSP code:
-+	 * TCON divider = 4
-+	 * PLL rate = DCLK * bpp / lanes
-+	 */
- 	tcon->dclk_min_div = SUN6I_DSI_TCON_DIV;
- 	tcon->dclk_max_div = SUN6I_DSI_TCON_DIV;
-+	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000
-+				 * bpp / (lanes * SUN6I_DSI_TCON_DIV));
- 
--	sun4i_tcon0_mode_set_common(tcon, mode);
-+	/* Set the resolution */
-+	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-+		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
- 
- 	/* Set dithering if needed */
- 	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-@@ -470,7 +472,14 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
- 
- 	tcon->dclk_min_div = 7;
- 	tcon->dclk_max_div = 7;
--	sun4i_tcon0_mode_set_common(tcon, mode);
-+
-+	/* Configure the dot clock */
-+	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-+
-+	/* Set the resolution */
-+	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-+		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
- 
- 	/* Set dithering if needed */
- 	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-@@ -549,7 +558,14 @@ static void sun4i_tcon0_mode_set_rgb(struct sun4i_tcon *tcon,
- 
- 	tcon->dclk_min_div = tcon->quirks->dclk_min_div;
- 	tcon->dclk_max_div = 127;
--	sun4i_tcon0_mode_set_common(tcon, mode);
-+
-+	/* Configure the dot clock */
-+	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-+
-+	/* Set the resolution */
-+	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-+		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
- 
- 	/* Set dithering if needed */
- 	sun4i_tcon0_mode_set_dithering(tcon, connector);
--- 
-2.39.2
-
+Yours,
+Linus Walleij
