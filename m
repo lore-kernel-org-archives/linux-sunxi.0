@@ -1,45 +1,45 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A961373
-	for <linux-sunxi@lists.linux.dev>; Sun, 19 Mar 2023 11:37:35 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id cy23so36537418edb.12
-        for <linux-sunxi@lists.linux.dev>; Sun, 19 Mar 2023 04:37:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB711373
+	for <linux-sunxi@lists.linux.dev>; Sun, 19 Mar 2023 12:06:34 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id r11so36794146edd.5
+        for <linux-sunxi@lists.linux.dev>; Sun, 19 Mar 2023 05:06:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679225853;
+        d=linaro.org; s=google; t=1679227593;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=zjQK98wMTvC2q3E7fdiQTGy4CfE9nib0P1aeqr32BDM=;
-        b=CNN+BQW1qwnIWDvTxDCdF3J/x2g//K0JqhfSGQ0F1o+DOFxtJMpexG7Zg2xkstrcG3
-         N+bDvSoc3N+PX8xxyOpd4P5FQyhLI7jmL6DiHr17l04ctANkt/h/obwznW6Ey2lYYQQU
-         eP2I596H+O3bmLUf6p+46nb/f7yBcuo7lzxfgySwO2BcdcVmDv45qTT7YshpQk33z034
-         C3rS/NaL3yaQbNCXzcGPGc5C4/FRf1ebAXvgljWLU1fDQSFe8a8q04Z4NFFYizrr+uiC
-         AYnUZxGFufy4sIdurjFrVZbDayiYAgPBKzWOFy1RXzaONpIXOOt6Ffh7VM4DM14tCvBD
-         itHg==
+        bh=3GQ0kuX+CANTyKsciGzMU4Vb8Jeilt6T7QwH/C5HtcI=;
+        b=q/Wwmwtmi5ctcH6j5K3nCXBiz9uR0+OP/odaZ0yeLNMn0P9OkvfGw11VAgRnOyicjD
+         dRjK50152RNnjgjge6gAAt5Oam85/MTmtLQltFikeLXblNNntYLDxeIl/jxH7cl6DlQU
+         sY4XtUDCoocxbk8uJ7HOQfu1jUXU17C+IKRJby/o8bWFg/PmAAU/fafUO6CqreFLjueK
+         aMRfAOGK16sg24DvYuSU3+cwAV/ypTXHaiO1E7FzvjPIDtQxYYpxTuvdJPLO5wV+DQCA
+         oFGeTeBYPJtHdqLfLxMfW+FmzXsQe40biKcOOPKt9peVzMslgC29+L/CA9QbxDf/a150
+         Ne3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679225853;
+        d=1e100.net; s=20210112; t=1679227593;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zjQK98wMTvC2q3E7fdiQTGy4CfE9nib0P1aeqr32BDM=;
-        b=62PWCmA1RDj14F+ytJNOO+GjJh2qPUSlo8w/o7yKLN+p3OelssQz2EP4NDBU3jpVHn
-         Lk4UsI26ykQiGGARHZ0HB7v5qJ4D7I8hPhZdfBJhDBRUZEPLIPMDOqVbRH3YD+kFFwOa
-         +5X+hrz9vN05BXRZZZIFrdjBYY81THUT4v1Fv1rH9Uvmia31mzm84c7COv2G8DgHzHFl
-         pESpk2SU3x3w73zAzjJI9WZlJJjq7jujUFpXHiymgbFGEZfYTvUy4HBGc6fpZu06Eu1Q
-         M6J5gwNGUcvBuivKnlCYdBuJriyu/HkLxClOovJ3BsnPw4ugvJohaBkjrqC8iB87JKYj
-         ZTYw==
-X-Gm-Message-State: AO0yUKWuBm7mwvwRDqt4fQBF6ow5Az9RYAcJFQ/op35D74kctj3yjjsp
-	oPH64XB/rH6QbsqAP1aN4VnVIw==
-X-Google-Smtp-Source: AK7set9U0AOSAuCrrvQlU6ITw/snJRIJElKkSVMThrbqvxYqk0NpWETXKzJ097yOzmwdgjDNpq92Zg==
-X-Received: by 2002:a05:6402:c2:b0:4fe:94a2:81be with SMTP id i2-20020a05640200c200b004fe94a281bemr8384168edu.7.1679225853579;
-        Sun, 19 Mar 2023 04:37:33 -0700 (PDT)
+        bh=3GQ0kuX+CANTyKsciGzMU4Vb8Jeilt6T7QwH/C5HtcI=;
+        b=AbEzFY/vDyLVtC9Koilgx/pEqyObd7Y4ud1NUI7MSf0UlHA0wSR+1Q8/5VvOWPJiTU
+         2w+hWSHvWS9w7PF4TUazXZe7X6wKurkX0i4z43cHc2PH9GeP4xL545XyvxOfr3SAAlAO
+         mRcX4H35yopJPH0IQXhoejl4hVX2PZLcDr6jBdyup7ujoe5VwH8SqfMGDvm5uNWu10E7
+         c+uj6xt8w2ku2wkmmlE4jfabyalVC3uGPVoSMOF8fyxpVpj9wBGMURRlGNaCzseCmW7m
+         MD9XX+YPMc4cnS61A5ysbQg8HhF/9nt0dFJ8lqTAZh14gokv3LG2+sNTwVchX6VTO3Ud
+         LSAw==
+X-Gm-Message-State: AO0yUKXLXswoBFh/GTpgJyCuOkbmXBnxsQH+dwVpSjO4T7eRuLRVTxhw
+	v/nS0Lq4qBSVFMUCIfurdeouVg==
+X-Google-Smtp-Source: AK7set9NHq4wBQYJWJ/ZRlVN9Tlxwe4UcNKkxGkrS38jM5S1VezeVO4DSvYLo/+tr/EvFNS6LaAQbQ==
+X-Received: by 2002:a17:907:2101:b0:8d6:626d:7e03 with SMTP id qn1-20020a170907210100b008d6626d7e03mr5390303ejb.40.1679227593238;
+        Sun, 19 Mar 2023 05:06:33 -0700 (PDT)
 Received: from ?IPV6:2a02:810d:15c0:828:5b5f:f22b:a0b:559d? ([2a02:810d:15c0:828:5b5f:f22b:a0b:559d])
-        by smtp.gmail.com with ESMTPSA id s29-20020a50d49d000000b004fc2a75c6b3sm3408547edi.23.2023.03.19.04.37.31
+        by smtp.gmail.com with ESMTPSA id i3-20020a508703000000b004fbd365fb33sm3468506edb.38.2023.03.19.05.06.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Mar 2023 04:37:33 -0700 (PDT)
-Message-ID: <7098b2cb-eba9-ebae-1edc-f4c934bbd898@linaro.org>
-Date: Sun, 19 Mar 2023 12:37:31 +0100
+        Sun, 19 Mar 2023 05:06:32 -0700 (PDT)
+Message-ID: <efc29278-b1b6-c30c-5c89-294e5198b80a@linaro.org>
+Date: Sun, 19 Mar 2023 13:06:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -48,35 +48,47 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH] dt-bindings: watchdog: Drop unneeded quotes
+Subject: Re: [PATCH] dt-bindings: net: Drop unneeded quotes
 Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>,
+To: Rob Herring <robh@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Julius Werner <jwerner@chromium.org>, Evan Benn <evanbenn@chromium.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Florian Fainelli <f.fainelli@gmail.com>,
+ =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
+ Manivannan Sadhasivam <mani@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
+ <rafal@milecki.pl>,
  Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Appana Durga Kedareswara rao <appana.durga.rao@xilinx.com>,
+ Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>,
+ Wolfgang Grandegger <wg@grandegger.com>,
+ Marc Kleine-Budde <mkl@pengutronix.de>,
+ Michal Simek <michal.simek@xilinx.com>, Andrew Lunn <andrew@lunn.ch>,
+ Vladimir Oltean <olteanv@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Tobias Waldekranz <tobias@waldekranz.com>,
+ Lars Povlsen <lars.povlsen@microchip.com>,
+ Steen Hegelund <Steen.Hegelund@microchip.com>,
+ Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
  Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20230317233643.3969019-1-robh@kernel.org>
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-actions@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-aspeed@lists.ozlabs.org, linux-can@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-mediatek@lists.infradead.org
+References: <20230317233605.3967621-1-robh@kernel.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230317233643.3969019-1-robh@kernel.org>
+In-Reply-To: <20230317233605.3967621-1-robh@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -86,7 +98,6 @@ On 18/03/2023 00:36, Rob Herring wrote:
 > 
 > Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
-
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
