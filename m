@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27171A2D
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Mar 2023 00:53:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48E6BA2D
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Mar 2023 00:53:09 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 463711042;
-	Sun, 19 Mar 2023 17:53:49 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AD76C1063;
+	Sun, 19 Mar 2023 17:53:52 -0700 (PDT)
 Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BF9A53F885;
-	Sun, 19 Mar 2023 17:53:02 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9C3433F885;
+	Sun, 19 Mar 2023 17:53:05 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -26,9 +26,9 @@ Cc: linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Belisko Marek <marek.belisko@gmail.com>
-Subject: [PATCH v2 1/4] dts: add riscv include prefix link
-Date: Mon, 20 Mar 2023 00:52:46 +0000
-Message-Id: <20230320005249.13403-2-andre.przywara@arm.com>
+Subject: [PATCH v2 2/4] ARM: dts: sunxi: add Allwinner T113-s SoC .dtsi
+Date: Mon, 20 Mar 2023 00:52:47 +0000
+Message-Id: <20230320005249.13403-3-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.7
 In-Reply-To: <20230320005249.13403-1-andre.przywara@arm.com>
 References: <20230320005249.13403-1-andre.przywara@arm.com>
@@ -40,28 +40,85 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Allwinner D1/D1s SoCs (with a RISC-V core) use an (almost?) identical
-die as their R528/T113-s siblings with ARM Cortex-A7 cores.
-
-To allow sharing the basic SoC .dtsi files across those two
-architectures as well, introduce a symlink to the RISC-V DT directory.
+The Allwinner T113-s SoC is apparently using the same (or at least a very
+similar) die as the D1/D1s, but replaces the single RISC-V core with
+two Arm Cortex-A7 cores.
+Since the D1 core .dtsi already describes all common peripherals, we
+just need a DT describing the ARM specific peripherals: the CPU cores,
+the Generic Timer, the GIC and the PMU.
+We include the core .dtsi directly from the riscv DT directory.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- scripts/dtc/include-prefixes/riscv | 1 +
- 1 file changed, 1 insertion(+)
- create mode 120000 scripts/dtc/include-prefixes/riscv
+ arch/arm/boot/dts/sun8i-t113s.dtsi | 59 ++++++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
+ create mode 100644 arch/arm/boot/dts/sun8i-t113s.dtsi
 
-diff --git a/scripts/dtc/include-prefixes/riscv b/scripts/dtc/include-prefixes/riscv
-new file mode 120000
-index 0000000000000..2025094189380
+diff --git a/arch/arm/boot/dts/sun8i-t113s.dtsi b/arch/arm/boot/dts/sun8i-t113s.dtsi
+new file mode 100644
+index 0000000000000..804aa197a24f8
 --- /dev/null
-+++ b/scripts/dtc/include-prefixes/riscv
-@@ -0,0 +1 @@
-+../../../arch/riscv/boot/dts
-\ No newline at end of file
++++ b/arch/arm/boot/dts/sun8i-t113s.dtsi
+@@ -0,0 +1,59 @@
++// SPDX-License-Identifier: (GPL-2.0+ or MIT)
++// Copyright (C) 2022 Arm Ltd.
++
++#define SOC_PERIPHERAL_IRQ(nr) GIC_SPI nr
++
++#include <dt-bindings/interrupt-controller/arm-gic.h>
++#include <riscv/allwinner/sunxi-d1s-t113.dtsi>
++#include <riscv/allwinner/sunxi-d1-t113.dtsi>
++
++/ {
++	interrupt-parent = <&gic>;
++
++	cpus {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		cpu0: cpu@0 {
++			compatible = "arm,cortex-a7";
++			device_type = "cpu";
++			reg = <0>;
++			clocks = <&ccu CLK_CPUX>;
++			clock-names = "cpu";
++		};
++
++		cpu1: cpu@1 {
++			compatible = "arm,cortex-a7";
++			device_type = "cpu";
++			reg = <1>;
++			clocks = <&ccu CLK_CPUX>;
++			clock-names = "cpu";
++		};
++	};
++
++	gic: interrupt-controller@1c81000 {
++		compatible = "arm,gic-400";
++		reg = <0x03021000 0x1000>,
++		      <0x03022000 0x2000>,
++		      <0x03024000 0x2000>,
++		      <0x03026000 0x2000>;
++		interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
++		interrupt-controller;
++		#interrupt-cells = <3>;
++	};
++
++	timer {
++		compatible = "arm,armv7-timer";
++		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
++			     <GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
++			     <GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
++			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
++	};
++
++	pmu {
++		compatible = "arm,cortex-a7-pmu";
++		interrupts = <GIC_SPI 172 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 173 IRQ_TYPE_LEVEL_HIGH>;
++		interrupt-affinity = <&cpu0>, <&cpu1>;
++	};
++};
 -- 
 2.35.7
 
