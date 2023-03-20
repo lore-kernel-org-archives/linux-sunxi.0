@@ -1,110 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18F4E4D6
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Mar 2023 11:38:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 714C1C433EF;
-	Mon, 20 Mar 2023 11:38:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A00184C
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Mar 2023 11:39:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3086C433D2;
+	Mon, 20 Mar 2023 11:39:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679312311;
-	bh=YfQJfApGvnHfGU8gi0gNukjaGzsg84xu5lWbeqt0lnw=;
+	s=k20201202; t=1679312359;
+	bh=MvT8IT0Ss5u4BlpeMs3E5aK69DJP+3SRpjlmwQWHM/s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Eb0R3e1JjZqoZgzBIBGjddsyzF5oRvdKqX4zJzfcsM0/DnTdJPwvylLD+N+LKBRzx
-	 IUP4xObd68HKq8F/Qvpt1W8+ib5Odyumu8IK77yOV7UrOlBps49shv9e9/SC/xo2kz
-	 m0aAW+ll4AWGsB8I2maII0LRP6fC/xl2FJLRDWSewz86h49su8evjRUcjYOvGhEqEP
-	 OqxjJPCWzSjGCbGJ72Q91R07MKL6mi3EU3EI8GH5XvBh3WyMEz82QnPL2OuhZKfQhY
-	 kOBto01PJnNfY6OWt0wG8oiBvRdeyp56uvftv10KL3GXZXlc50hUNdkT6jkk/wjKoa
-	 ZZVIoO4TNk3KQ==
-Date: Mon, 20 Mar 2023 17:08:27 +0530
+	b=NFT3L/8DuTMbycnq+SKBGIWPGo3fU1ec9fsQoItM0ZlHxqfNMfXh+ah6sk5RrjV4/
+	 dmJaLG3EfWZpoGY0WXBoLDuQLj3M/ZBcuMk3khWc38gIfzhj52Sc63nSx8Ug18C0Bx
+	 LNnGTQx7OojkbvD/fOXPCRM7HgF84bv8Kext3AiNvjJGKUM0drGewFac+IU2jHZSOg
+	 zHUEUyUbpb40byv/KGL7ZOs+LbmHFn46ANVGHXQn25u3O5iS9C8bqsDx2vUBRiSCQy
+	 Htx5UGmta6hCTscglgW5gof5ldijB5w/BvWtDHWhV3FHL1F0vz7WYMkS+m1cuM3jHB
+	 MLmTx80ecxkfQ==
+Date: Mon, 20 Mar 2023 17:09:15 +0530
 From: Vinod Koul <vkoul@kernel.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+To: Rob Herring <robh@kernel.org>
 Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Icenowy Zheng <uwu@icenowy.me>, Justin Chen <justinpopo6@gmail.com>,
-	Al Cooper <alcooperx@gmail.com>, Pratyush Yadav <p.yadav@ti.com>,
-	Rahul T R <r-ravikumar@ti.com>,
-	Swapnil Jakhade <sjakhade@cadence.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Liu Ying <victor.liu@nxp.com>, Yuan Can <yuancan@huawei.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Chunfeng Yun <chunfeng.yun@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Allison Randal <allison@lohutok.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Miaoqian Lin <linmq006@gmail.com>, Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Amelie Delaunay <amelie.delaunay@foss.st.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	JC Kuo <jckuo@nvidia.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Roger Quadros <rogerq@kernel.org>, Matt Ranostay <mranostay@ti.com>,
-	Sinthu Raja <sinthu.raja@ti.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Tanmay Patil <t-patil@ti.com>,
-	Siddharth Vadapalli <s-vadapalli@ti.com>,
-	Lv Ruyi <lv.ruyi@zte.com.cn>, linux-phy@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	kernel@pengutronix.de,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 00/31] phy: Convert to platform remove callback returning
- void
-Message-ID: <ZBhFsyXyN4wHV5BB@matsya>
-References: <20230307115900.2293120-1-u.kleine-koenig@pengutronix.de>
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] phy: Use of_property_present() for testing DT property
+ presence
+Message-ID: <ZBhF4yia/FzkHy6y@matsya>
+References: <20230310144720.1544600-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230307115900.2293120-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230310144720.1544600-1-robh@kernel.org>
 
-On 07-03-23, 12:58, Uwe Kleine-König wrote:
-> Hello,
-> 
-> this patch series adapts the platform drivers below drivers/phy to use the
-> .remove_new() callback. Compared to the traditional .remove() callback
-> .remove_new() returns no value. This is a good thing because the driver core
-> doesn't (and cannot) cope for errors during remove. The only effect of a
-> non-zero return value in .remove() is that the driver core emits a warning. The
-> device is removed anyhow and an early return from .remove() usually yields a
-> resource leak.
-> 
-> By changing the remove callback to return void driver authors cannot
-> reasonably assume any more that there is some kind of cleanup later.
-> 
-> All drivers in drivers/spmi returned zero unconditionally in their remove
-> callback, so they could all be converted trivially to .remove_new().
-> 
-> Note that this series depends on commit 5c5a7680e67b ("platform: Provide
-> a remove callback that returns no value") which is included in v6.3-rc1.
+On 10-03-23, 08:47, Rob Herring wrote:
+> It is preferred to use typed property access functions (i.e.
+> of_property_read_<type> functions) rather than low-level
+> of_get_property/of_find_property functions for reading properties. As
+> part of this, convert of_get_property/of_find_property calls to the
+> recently added of_property_present() helper when we just want to test
+> for presence of a property and nothing more.
 
 Applied, thanks
+
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  drivers/phy/allwinner/phy-sun4i-usb.c  | 2 +-
+>  drivers/phy/broadcom/phy-bcm-ns-usb2.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
+> index fbcd7014ab43..fc9f6fb447a0 100644
+> --- a/drivers/phy/allwinner/phy-sun4i-usb.c
+> +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
+> @@ -758,7 +758,7 @@ static int sun4i_usb_phy_probe(struct platform_device *pdev)
+>  		return PTR_ERR(data->vbus_det_gpio);
+>  	}
+>  
+> -	if (of_find_property(np, "usb0_vbus_power-supply", NULL)) {
+> +	if (of_property_present(np, "usb0_vbus_power-supply")) {
+>  		data->vbus_power_supply = devm_power_supply_get_by_phandle(dev,
+>  						     "usb0_vbus_power-supply");
+>  		if (IS_ERR(data->vbus_power_supply)) {
+> diff --git a/drivers/phy/broadcom/phy-bcm-ns-usb2.c b/drivers/phy/broadcom/phy-bcm-ns-usb2.c
+> index 6a36e187d100..269564bdf687 100644
+> --- a/drivers/phy/broadcom/phy-bcm-ns-usb2.c
+> +++ b/drivers/phy/broadcom/phy-bcm-ns-usb2.c
+> @@ -107,7 +107,7 @@ static int bcm_ns_usb2_probe(struct platform_device *pdev)
+>  		return -ENOMEM;
+>  	usb2->dev = dev;
+>  
+> -	if (of_find_property(dev->of_node, "brcm,syscon-clkset", NULL)) {
+> +	if (of_property_present(dev->of_node, "brcm,syscon-clkset")) {
+>  		usb2->base = devm_platform_ioremap_resource(pdev, 0);
+>  		if (IS_ERR(usb2->base)) {
+>  			dev_err(dev, "Failed to map control reg\n");
+> -- 
+> 2.39.2
 
 -- 
 ~Vinod
