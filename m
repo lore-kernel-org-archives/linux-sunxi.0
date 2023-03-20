@@ -1,87 +1,118 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13951846
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Mar 2023 09:22:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1679304167; x=1710840167;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=52HlZPeoz1Lq10GDbn1tdSpDfEepChN/u9evpNWzX/Y=;
-  b=BiuOrmq+ofHiQp9cuF+EPts+zKMX9HGZCwSRfeoKuz4JpklgOb2ucMhU
-   8MerwMwIIVwgQTblam5/SmCaOLgmTcWfjN78cI8eVYfJp/uSu0/nbHZYS
-   p2WfRLrNn0j2jFNtzMbcjAAZm6KUqLS2aUTORcvrGfqP6u/MW/cL58rqp
-   1PzEpEW6t8CIYa71Wa01R3xvX9MpIl17aI2ni5UH25L6+uSHE87QbEDpF
-   EJqB9hGStOfHV2QBRlnUAbdXgtX/2UnBNmIuIeQ7fZBqXCls2JmtYhg//
-   +zbXAHdkhy9Mh9htMK2qDq/CDrNcEWo6WRZV02iVaT2oWdORTHDmpyvm9
-   g==;
-X-IronPort-AV: E=Sophos;i="5.98,274,1673938800"; 
-   d="scan'208";a="202464503"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 20 Mar 2023 02:22:45 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 20 Mar 2023 02:22:39 -0700
-Received: from [10.159.245.112] (10.10.115.15) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
- Transport; Mon, 20 Mar 2023 02:22:34 -0700
-Message-ID: <9840f009-d056-ea2d-fbcf-61e168157cc9@microchip.com>
-Date: Mon, 20 Mar 2023 10:22:28 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 154AD184C
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Mar 2023 11:36:05 +0000 (UTC)
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1peDmk-0005Mb-3u; Mon, 20 Mar 2023 12:34:42 +0100
+Received: from pengutronix.de (unknown [IPv6:2a00:20:c04b:45e4:1953:f0f4:6a85:b0])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 05ADB19732D;
+	Mon, 20 Mar 2023 09:23:50 +0000 (UTC)
+Date: Mon, 20 Mar 2023 10:23:49 +0100
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Rob Herring <robh@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@aj.id.au>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Appana Durga Kedareswara rao <appana.durga.rao@xilinx.com>,
+	Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>,
+	Wolfgang Grandegger <wg@grandegger.com>,
+	Michal Simek <michal.simek@xilinx.com>,
+	Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Tobias Waldekranz <tobias@waldekranz.com>,
+	Lars Povlsen <lars.povlsen@microchip.com>,
+	Steen Hegelund <Steen.Hegelund@microchip.com>,
+	Daniel Machon <daniel.machon@microchip.com>,
+	UNGLinuxDriver@microchip.com, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-actions@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-aspeed@lists.ozlabs.org,
+	linux-can@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] dt-bindings: net: Drop unneeded quotes
+Message-ID: <20230320092349.7eqjqiblksjpw3fb@pengutronix.de>
+References: <20230317233605.3967621-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] dt-bindings: rtc: Drop unneeded quotes
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, Alessandro Zummo <a.zummo@towertech.it>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, "Jernej
- Skrabec" <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>, Florian Fainelli
-	<f.fainelli@gmail.com>, Broadcom internal kernel review list
-	<bcm-kernel-feedback-list@broadcom.com>, Hans Ulli Kroll
-	<ulli.kroll@googlemail.com>, Linus Walleij <linus.walleij@linaro.org>, "Avi
- Fishman" <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, "Tali
- Perry" <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, "Nancy
- Yuen" <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, "Maxime
- Coquelin" <mcoquelin.stm32@gmail.com>, Alexandre Torgue
-	<alexandre.torgue@foss.st.com>
-CC: <linux-rtc@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>
-References: <20230317233634.3968656-1-robh@kernel.org>
-From: Nicolas Ferre <nicolas.ferre@microchip.com>
-Organization: microchip
-In-Reply-To: <20230317233634.3968656-1-robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="5rfbuzw7ieky3r2g"
+Content-Disposition: inline
+In-Reply-To: <20230317233605.3967621-1-robh@kernel.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:b01:1d::7b
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On 18/03/2023 at 00:36, Rob Herring wrote:
+
+--5rfbuzw7ieky3r2g
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 17.03.2023 18:36:03, Rob Herring wrote:
 > Cleanup bindings dropping unneeded quotes. Once all these are fixed,
 > checking for this can be enabled in yamllint.
-> 
-> Signed-off-by: Rob Herring<robh@kernel.org>
+>=20
+> Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
+[...]
+>  .../devicetree/bindings/net/can/xilinx,can.yaml    |  6 +++---
 
-[..]
+Acked-by: Marc Kleine-Budde <mkl@pengutronix.de> # for bindings/net/can
 
->   .../devicetree/bindings/rtc/atmel,at91rm9200-rtc.yaml         | 2 +-
->   .../devicetree/bindings/rtc/atmel,at91sam9260-rtt.yaml        | 2 +-
+Marc
 
-For Microchip:
-Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
 
-Thanks! Best regards,
-   Nicolas
+--5rfbuzw7ieky3r2g
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Nicolas Ferre
+iQEzBAABCgAdFiEEDs2BvajyNKlf9TJQvlAcSiqKBOgFAmQYJiIACgkQvlAcSiqK
+BOhjVQf/acPAkVlZAgSx2EeDlEf8hS1lf2sRkjDcvxt3kTD2h5jAh5U3kLV5DTD4
+MjEV9UTZecOll5eioSnCl1DrrqCemegxaoOeML/pQDa4hNYWmm5JHZFLOKdQbL0T
+B9Jl3hxOtVzm95NTggCnKp31A7Q7ft8wfQgSN//1++W90f7Yot/HEv/oPR68ElzX
+J2GyX741B6AfKBqEztJ6OYDWiB2lHw6zzIxacqqM+zn9vjVteFg2FsbKvCRAbUCV
+Bxg0WyzixKLhUf2Of1QOnEW70UfVtICWJ25BjPXp9+WGomovd5nb0MbV+2lou9kk
+0u595tSMCR5sWDa8jKOahMLP+4ZClA==
+=xkke
+-----END PGP SIGNATURE-----
 
+--5rfbuzw7ieky3r2g--
