@@ -1,63 +1,59 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F347882D
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Mar 2023 23:38:21 +0000 (UTC)
-Received: by mail-ot1-f50.google.com with SMTP id m20-20020a9d6094000000b0069caf591747so7675523otj.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Mar 2023 16:38:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5862D882D
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Mar 2023 23:39:51 +0000 (UTC)
+Received: by mail-oi1-f181.google.com with SMTP id r36so9993768oiw.7
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Mar 2023 16:39:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679355500;
+        d=1e100.net; s=20210112; t=1679355590;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Wx0tmN7E+I9eqOA7dz5fMrWQWdX3VWtCMjWenVJzWaI=;
-        b=QNfTIKmov5KhzggHSa44dZtBTTTjnc7bBko5If2pyOlcGmU+neB5MddgMQqdb/JUx/
-         8DHXNtNOOROc1F7g787Hpy8vqPFWrvldRdQ08OBqv/F+E6hrhyAyNoHkZ311FKehKi9b
-         VROJqCw7+R9csfeLxGYc2dI6RH39fv3oNzbE1niBpw6MZ18pbADTPRzXKodpYI+yn5s6
-         6WDGGu9sJNuCyTWQY3D24UUs/619kPu2SA+iukdSRPAoTUtUChO7l6wHOqYUlhfgSZhK
-         T9vV6PBpOuhbfKMle0479DOhjLfyB2C/S086FIYxbMVyovBBrvsKV9qcqTHUw7IANvXh
-         ftaw==
-X-Gm-Message-State: AO0yUKX/JDaFZhz7P9J1nkU8sLLukaZsZRn0Q8PI42MzmKhaHLehw3TA
-	IL5qbx6/mwAYWa1QnMIdGw==
-X-Google-Smtp-Source: AK7set+ZRtWhFg4YiEJQGEuUSlr8S2aXPvyC5lH68gWOZznDvBLSCCPwbj2PVEe7Sqhpcny4ANm/dw==
-X-Received: by 2002:a9d:6d8e:0:b0:69f:8342:df85 with SMTP id x14-20020a9d6d8e000000b0069f8342df85mr225149otp.9.1679355500076;
-        Mon, 20 Mar 2023 16:38:20 -0700 (PDT)
+        bh=lKkqDWJGSFmdYPuDTJS322SrO1PrieN1ZYpzK57ZFeg=;
+        b=LBtAYc4bMH5Q0baaYK9UvFxSKC3HKsyhP9rJkJMEyEOPseBFkhaSu6xko8O+rsRlGA
+         RbzEtu1IX6BQMjf6V6/9izC59egjesQAIRxhLuJ4Gj1zgfolUoN/ifN+p8UeK1ByVKqk
+         BH8ziDrbU2A8dq0cFD59Rp+7heldYE6TYb5IcRHjJ0vT6OY8QlM7uVrOk5r9doPa+/t0
+         yndc4uwE/4ofKmVnHnIAoG1JOa70WF0M4SN1jlpffEVYtzdlIKK4ke9+faN1Mtux9YUC
+         6m/mAwHkbbqQSX0X/3jV8bsOqo2nGHghUDf+E9yfqlAdVB5PdmkXCIip/xOqWDi0LLb9
+         mfHQ==
+X-Gm-Message-State: AO0yUKUyQ66w7GHx3+CCJONarYCoRp195TL6gwvXpsWWLRvTj76vU57r
+	8RY1e4nKMpVJsmQ/7VfjNg==
+X-Google-Smtp-Source: AK7set//ZIyMD9UD/hveKMzpLp6ECZPUzPJb1Tgz36uPARtjfdQ87eLm5Mri+IO8/pEFxs4TkPXG3g==
+X-Received: by 2002:a05:6808:2d3:b0:363:a5fd:9cd5 with SMTP id a19-20020a05680802d300b00363a5fd9cd5mr128812oid.3.1679355590147;
+        Mon, 20 Mar 2023 16:39:50 -0700 (PDT)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id t2-20020a4a96c2000000b005251903c669sm4330313ooi.13.2023.03.20.16.38.17
+        by smtp.gmail.com with ESMTPSA id c9-20020a056808138900b00386f761db6esm2259720oiw.26.2023.03.20.16.39.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Mar 2023 16:38:19 -0700 (PDT)
-Received: (nullmailer pid 2919409 invoked by uid 1000);
-	Mon, 20 Mar 2023 23:38:17 -0000
+        Mon, 20 Mar 2023 16:39:49 -0700 (PDT)
+Received: (nullmailer pid 2921107 invoked by uid 1000);
+	Mon, 20 Mar 2023 23:39:48 -0000
 From: Rob Herring <robh@kernel.org>
-To: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, 
 	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
 	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
 	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Joel Stanley <joel@jms.id.au>, 
-	Andrew Jeffery <andrew@aj.id.au>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Florian Fainelli <f.fainelli@gmail.com>, 
-	Appana Durga Kedareswara rao <appana.durga.rao@xilinx.com>, 
-	Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>, Wolfgang Grandegger <wg@grandegger.com>, 
-	Marc Kleine-Budde <mkl@pengutronix.de>, Michal Simek <michal.simek@xilinx.com>, 
-	Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Tobias Waldekranz <tobias@waldekranz.com>, Lars Povlsen <lars.povlsen@microchip.com>, 
-	Steen Hegelund <Steen.Hegelund@microchip.com>, Daniel Machon <daniel.machon@microchip.com>, 
-	UNGLinuxDriver@microchip.com, Andy Gross <agross@kernel.org>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Joe Tessler <jrt@google.com>, 
+	Dongchun Zhu <dongchun.zhu@mediatek.com>, Jacopo Mondi <jacopo+renesas@jmondi.org>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+	Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
+	Yunfei Dong <yunfei.dong@mediatek.com>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Robert Foss <rfoss@kernel.org>, 
+	Todor Tomov <todor.too@gmail.com>, Andy Gross <agross@kernel.org>, 
 	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Heiko Stuebner <heiko@sntech.de>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
-	Richard Cochran <richardcochran@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Benoit Parrot <bparrot@ti.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, netdev@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-actions@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, linux-aspeed@lists.ozlabs.org, linux-can@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, linux-mediatek@lists.infradead.org
-Subject: [PATCH v2] dt-bindings: net: Drop unneeded quotes
-Date: Mon, 20 Mar 2023 18:37:54 -0500
-Message-Id: <20230320233758.2918972-1-robh@kernel.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: [PATCH] media: dt-bindings: Drop unneeded quotes
+Date: Mon, 20 Mar 2023 18:39:42 -0500
+Message-Id: <20230320233944.2920964-1-robh@kernel.org>
 X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -70,815 +66,512 @@ Content-Transfer-Encoding: 8bit
 Cleanup bindings dropping unneeded quotes. Once all these are fixed,
 checking for this can be enabled in yamllint.
 
-Acked-by: Marc Kleine-Budde <mkl@pengutronix.de> # for bindings/net/can
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Acked-by: Florian Fainelli <f.fainelli@gmail.com>
-Reviewed-by: Steen Hegelund <Steen.Hegelund@microchip.com>
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
-v2:
- - Also drop quotes on URLs
----
- .../bindings/net/actions,owl-emac.yaml         |  2 +-
- .../bindings/net/allwinner,sun4i-a10-emac.yaml |  2 +-
- .../bindings/net/allwinner,sun4i-a10-mdio.yaml |  2 +-
- .../devicetree/bindings/net/altr,tse.yaml      |  2 +-
- .../bindings/net/amlogic,meson-dwmac.yaml      |  4 ++--
- .../bindings/net/aspeed,ast2600-mdio.yaml      |  2 +-
- .../devicetree/bindings/net/brcm,amac.yaml     |  2 +-
- .../bindings/net/brcm,systemport.yaml          |  2 +-
- .../bindings/net/broadcom-bluetooth.yaml       |  2 +-
- .../bindings/net/can/xilinx,can.yaml           |  6 +++---
- .../devicetree/bindings/net/dsa/brcm,sf2.yaml  |  2 +-
- .../devicetree/bindings/net/dsa/qca8k.yaml     |  2 +-
- .../bindings/net/engleder,tsnep.yaml           |  2 +-
- .../devicetree/bindings/net/ethernet-phy.yaml  |  2 +-
- .../bindings/net/fsl,qoriq-mc-dpmac.yaml       |  2 +-
- .../bindings/net/intel,ixp46x-ptp-timer.yaml   |  4 ++--
- .../bindings/net/intel,ixp4xx-ethernet.yaml    | 12 ++++++------
- .../bindings/net/intel,ixp4xx-hss.yaml         | 18 +++++++++---------
- .../devicetree/bindings/net/marvell,mvusb.yaml |  2 +-
- .../bindings/net/marvell-bluetooth.yaml        |  4 ++--
- .../devicetree/bindings/net/mdio-gpio.yaml     |  2 +-
- .../devicetree/bindings/net/mediatek,net.yaml  |  2 +-
- .../bindings/net/mediatek,star-emac.yaml       |  2 +-
- .../bindings/net/microchip,lan966x-switch.yaml |  2 +-
- .../bindings/net/microchip,sparx5-switch.yaml  |  4 ++--
- .../devicetree/bindings/net/mscc,miim.yaml     |  2 +-
- .../bindings/net/nfc/marvell,nci.yaml          |  2 +-
- .../devicetree/bindings/net/nfc/nxp,pn532.yaml |  2 +-
- .../net/pse-pd/podl-pse-regulator.yaml         |  2 +-
- .../bindings/net/qcom,ipq4019-mdio.yaml        |  2 +-
- .../bindings/net/qcom,ipq8064-mdio.yaml        |  2 +-
- .../devicetree/bindings/net/rockchip,emac.yaml |  2 +-
- .../bindings/net/rockchip-dwmac.yaml           |  4 ++--
- .../devicetree/bindings/net/sff,sfp.yaml       |  4 ++--
- .../devicetree/bindings/net/snps,dwmac.yaml    |  2 +-
- .../devicetree/bindings/net/stm32-dwmac.yaml   |  8 ++++----
- .../bindings/net/ti,cpsw-switch.yaml           | 10 +++++-----
- .../bindings/net/ti,davinci-mdio.yaml          |  2 +-
- .../devicetree/bindings/net/ti,dp83822.yaml    |  6 +++---
- .../devicetree/bindings/net/ti,dp83867.yaml    |  6 +++---
- .../devicetree/bindings/net/ti,dp83869.yaml    |  6 +++---
- .../bindings/net/toshiba,visconti-dwmac.yaml   |  4 ++--
- .../bindings/net/vertexcom-mse102x.yaml        |  4 ++--
- 43 files changed, 79 insertions(+), 79 deletions(-)
+ .../devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml | 2 +-
+ .../bindings/media/allwinner,sun50i-h6-vpu-g2.yaml        | 4 ++--
+ .../devicetree/bindings/media/amlogic,axg-ge2d.yaml       | 4 ++--
+ .../devicetree/bindings/media/amlogic,gx-vdec.yaml        | 4 ++--
+ .../devicetree/bindings/media/amlogic,meson-ir-tx.yaml    | 4 ++--
+ .../devicetree/bindings/media/i2c/chrontel,ch7322.yaml    | 4 ++--
+ .../devicetree/bindings/media/i2c/dongwoon,dw9768.yaml    | 6 +++---
+ .../devicetree/bindings/media/i2c/maxim,max9286.yaml      | 2 +-
+ .../devicetree/bindings/media/i2c/ovti,ov02a10.yaml       | 2 +-
+ .../devicetree/bindings/media/mediatek,mdp3-rdma.yaml     | 2 +-
+ .../bindings/media/mediatek,vcodec-subdev-decoder.yaml    | 4 ++--
+ .../devicetree/bindings/media/microchip,sama5d4-vdec.yaml | 4 ++--
+ .../devicetree/bindings/media/nxp,imx8mq-vpu.yaml         | 4 ++--
+ .../devicetree/bindings/media/qcom,msm8916-camss.yaml     | 4 ++--
+ .../devicetree/bindings/media/qcom,msm8916-venus.yaml     | 8 ++++----
+ .../devicetree/bindings/media/qcom,msm8996-camss.yaml     | 4 ++--
+ .../devicetree/bindings/media/qcom,msm8996-venus.yaml     | 4 ++--
+ .../devicetree/bindings/media/qcom,sc7180-venus.yaml      | 4 ++--
+ .../devicetree/bindings/media/qcom,sc7280-venus.yaml      | 4 ++--
+ .../devicetree/bindings/media/qcom,sdm660-camss.yaml      | 4 ++--
+ .../devicetree/bindings/media/qcom,sdm660-venus.yaml      | 4 ++--
+ .../devicetree/bindings/media/qcom,sdm845-camss.yaml      | 4 ++--
+ .../devicetree/bindings/media/qcom,sdm845-venus-v2.yaml   | 4 ++--
+ .../devicetree/bindings/media/qcom,sdm845-venus.yaml      | 4 ++--
+ .../devicetree/bindings/media/qcom,sm8250-camss.yaml      | 4 ++--
+ .../devicetree/bindings/media/qcom,sm8250-venus.yaml      | 4 ++--
+ Documentation/devicetree/bindings/media/rc.yaml           | 2 +-
+ .../devicetree/bindings/media/rockchip,rk3568-vepu.yaml   | 4 ++--
+ Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 4 ++--
+ Documentation/devicetree/bindings/media/ti,cal.yaml       | 2 +-
+ 30 files changed, 57 insertions(+), 57 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/net/actions,owl-emac.yaml b/Documentation/devicetree/bindings/net/actions,owl-emac.yaml
-index d30fada2ac39..5718ab4654b2 100644
---- a/Documentation/devicetree/bindings/net/actions,owl-emac.yaml
-+++ b/Documentation/devicetree/bindings/net/actions,owl-emac.yaml
-@@ -16,7 +16,7 @@ description: |
-   operation modes at 10/100 Mb/s data transfer rates.
- 
- allOf:
--  - $ref: "ethernet-controller.yaml#"
-+  - $ref: ethernet-controller.yaml#
- 
- properties:
-   compatible:
-diff --git a/Documentation/devicetree/bindings/net/allwinner,sun4i-a10-emac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun4i-a10-emac.yaml
-index 987b91b9afe9..eb26623dab51 100644
---- a/Documentation/devicetree/bindings/net/allwinner,sun4i-a10-emac.yaml
-+++ b/Documentation/devicetree/bindings/net/allwinner,sun4i-a10-emac.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Allwinner A10 EMAC Ethernet Controller
- 
- allOf:
--  - $ref: "ethernet-controller.yaml#"
-+  - $ref: ethernet-controller.yaml#
- 
- maintainers:
-   - Chen-Yu Tsai <wens@csie.org>
-diff --git a/Documentation/devicetree/bindings/net/allwinner,sun4i-a10-mdio.yaml b/Documentation/devicetree/bindings/net/allwinner,sun4i-a10-mdio.yaml
-index ede977cdfb8d..85f552b907f3 100644
---- a/Documentation/devicetree/bindings/net/allwinner,sun4i-a10-mdio.yaml
-+++ b/Documentation/devicetree/bindings/net/allwinner,sun4i-a10-mdio.yaml
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
+index 53945c61325c..42dfe22ad5f1 100644
+--- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
++++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
 @@ -11,7 +11,7 @@ maintainers:
    - Maxime Ripard <mripard@kernel.org>
  
  allOf:
--  - $ref: "mdio.yaml#"
-+  - $ref: mdio.yaml#
+-  - $ref: "rc.yaml#"
++  - $ref: rc.yaml#
  
- # Select every compatible, including the deprecated ones. This way, we
- # will be able to report a warning when we have that compatible, since
-diff --git a/Documentation/devicetree/bindings/net/altr,tse.yaml b/Documentation/devicetree/bindings/net/altr,tse.yaml
-index 8d1d94494349..9d02af468906 100644
---- a/Documentation/devicetree/bindings/net/altr,tse.yaml
-+++ b/Documentation/devicetree/bindings/net/altr,tse.yaml
-@@ -66,7 +66,7 @@ required:
-   - tx-fifo-depth
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
+index 9d44236f2deb..a4f06bbdfe49 100644
+--- a/Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
++++ b/Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
+@@ -2,8 +2,8 @@
  
- allOf:
--  - $ref: "ethernet-controller.yaml#"
-+  - $ref: ethernet-controller.yaml#
-   - if:
-       properties:
-         compatible:
-diff --git a/Documentation/devicetree/bindings/net/amlogic,meson-dwmac.yaml b/Documentation/devicetree/bindings/net/amlogic,meson-dwmac.yaml
-index ddd5a073c3a8..a2c51a84efa5 100644
---- a/Documentation/devicetree/bindings/net/amlogic,meson-dwmac.yaml
-+++ b/Documentation/devicetree/bindings/net/amlogic,meson-dwmac.yaml
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/media/allwinner,sun50i-h6-vpu-g2.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/media/allwinner,sun50i-h6-vpu-g2.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Hantro G2 VPU codec implemented on Allwinner H6 SoC
+ 
+diff --git a/Documentation/devicetree/bindings/media/amlogic,axg-ge2d.yaml b/Documentation/devicetree/bindings/media/amlogic,axg-ge2d.yaml
+index e551be5e680e..f23fa6d06ad0 100644
+--- a/Documentation/devicetree/bindings/media/amlogic,axg-ge2d.yaml
++++ b/Documentation/devicetree/bindings/media/amlogic,axg-ge2d.yaml
+@@ -2,8 +2,8 @@
+ # Copyright 2020 BayLibre, SAS
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/media/amlogic,axg-ge2d.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/media/amlogic,axg-ge2d.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Amlogic GE2D Acceleration Unit
+ 
+diff --git a/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml b/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
+index b827edabcafa..55930f6107c9 100644
+--- a/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
++++ b/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
 @@ -2,8 +2,8 @@
  # Copyright 2019 BayLibre, SAS
  %YAML 1.2
  ---
--$id: "http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#"
+-$id: "http://devicetree.org/schemas/media/amlogic,gx-vdec.yaml#"
 -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#
++$id: http://devicetree.org/schemas/media/amlogic,gx-vdec.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
  
- title: Amlogic Meson DWMAC Ethernet controller
+ title: Amlogic Video Decoder
  
-diff --git a/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml b/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
-index f81eda8cb0a5..d6ef468495c5 100644
---- a/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
-+++ b/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
-@@ -15,7 +15,7 @@ description: |+
-   MAC.
- 
- allOf:
--  - $ref: "mdio.yaml#"
-+  - $ref: mdio.yaml#
- 
- properties:
-   compatible:
-diff --git a/Documentation/devicetree/bindings/net/brcm,amac.yaml b/Documentation/devicetree/bindings/net/brcm,amac.yaml
-index ee2eac8f5710..210fb29c4e7b 100644
---- a/Documentation/devicetree/bindings/net/brcm,amac.yaml
-+++ b/Documentation/devicetree/bindings/net/brcm,amac.yaml
-@@ -10,7 +10,7 @@ maintainers:
-   - Florian Fainelli <f.fainelli@gmail.com>
- 
- allOf:
--  - $ref: "ethernet-controller.yaml#"
-+  - $ref: ethernet-controller.yaml#
-   - if:
-       properties:
-         compatible:
-diff --git a/Documentation/devicetree/bindings/net/brcm,systemport.yaml b/Documentation/devicetree/bindings/net/brcm,systemport.yaml
-index 5fc9c9fafd85..b40006d44791 100644
---- a/Documentation/devicetree/bindings/net/brcm,systemport.yaml
-+++ b/Documentation/devicetree/bindings/net/brcm,systemport.yaml
-@@ -66,7 +66,7 @@ required:
-   - phy-mode
- 
- allOf:
--  - $ref: "ethernet-controller.yaml#"
-+  - $ref: ethernet-controller.yaml#
- 
- unevaluatedProperties: false
- 
-diff --git a/Documentation/devicetree/bindings/net/broadcom-bluetooth.yaml b/Documentation/devicetree/bindings/net/broadcom-bluetooth.yaml
-index b964c7dcec15..cc70b00c6ce5 100644
---- a/Documentation/devicetree/bindings/net/broadcom-bluetooth.yaml
-+++ b/Documentation/devicetree/bindings/net/broadcom-bluetooth.yaml
-@@ -121,7 +121,7 @@ required:
-   - compatible
- 
- dependencies:
--  brcm,requires-autobaud-mode: [ 'shutdown-gpios' ]
-+  brcm,requires-autobaud-mode: [ shutdown-gpios ]
- 
- if:
-   not:
-diff --git a/Documentation/devicetree/bindings/net/can/xilinx,can.yaml b/Documentation/devicetree/bindings/net/can/xilinx,can.yaml
-index 65af8183cb9c..897d2cbda45b 100644
---- a/Documentation/devicetree/bindings/net/can/xilinx,can.yaml
-+++ b/Documentation/devicetree/bindings/net/can/xilinx,can.yaml
-@@ -35,15 +35,15 @@ properties:
-     maxItems: 1
- 
-   tx-fifo-depth:
--    $ref: "/schemas/types.yaml#/definitions/uint32"
-+    $ref: /schemas/types.yaml#/definitions/uint32
-     description: CAN Tx fifo depth (Zynq, Axi CAN).
- 
-   rx-fifo-depth:
--    $ref: "/schemas/types.yaml#/definitions/uint32"
-+    $ref: /schemas/types.yaml#/definitions/uint32
-     description: CAN Rx fifo depth (Zynq, Axi CAN, CAN FD in sequential Rx mode)
- 
-   tx-mailbox-count:
--    $ref: "/schemas/types.yaml#/definitions/uint32"
-+    $ref: /schemas/types.yaml#/definitions/uint32
-     description: CAN Tx mailbox buffer count (CAN FD)
- 
- required:
-diff --git a/Documentation/devicetree/bindings/net/dsa/brcm,sf2.yaml b/Documentation/devicetree/bindings/net/dsa/brcm,sf2.yaml
-index eed16e216fb6..37bf33bd4670 100644
---- a/Documentation/devicetree/bindings/net/dsa/brcm,sf2.yaml
-+++ b/Documentation/devicetree/bindings/net/dsa/brcm,sf2.yaml
-@@ -103,7 +103,7 @@ required:
-   - "#size-cells"
- 
- allOf:
--  - $ref: "dsa.yaml#"
-+  - $ref: dsa.yaml#
-   - if:
-       properties:
-         compatible:
-diff --git a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-index 389892592aac..fe9ebe285938 100644
---- a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-+++ b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-@@ -66,7 +66,7 @@ properties:
-                  With the legacy mapping the reg corresponding to the internal
-                  mdio is the switch reg with an offset of -1.
- 
--$ref: "dsa.yaml#"
-+$ref: dsa.yaml#
- 
- patternProperties:
-   "^(ethernet-)?ports$":
-diff --git a/Documentation/devicetree/bindings/net/engleder,tsnep.yaml b/Documentation/devicetree/bindings/net/engleder,tsnep.yaml
-index 4116667133ce..82a5d7927ca4 100644
---- a/Documentation/devicetree/bindings/net/engleder,tsnep.yaml
-+++ b/Documentation/devicetree/bindings/net/engleder,tsnep.yaml
-@@ -62,7 +62,7 @@ properties:
- 
-   mdio:
-     type: object
--    $ref: "mdio.yaml#"
-+    $ref: mdio.yaml#
-     description: optional node for embedded MDIO controller
- 
- required:
-diff --git a/Documentation/devicetree/bindings/net/ethernet-phy.yaml b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
-index 1327b81f15a2..ac04f8efa35c 100644
---- a/Documentation/devicetree/bindings/net/ethernet-phy.yaml
-+++ b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
-@@ -83,7 +83,7 @@ properties:
-       0: Disable 2.4 Vpp operating mode.
-       1: Request 2.4 Vpp operating mode from link partner.
-       Absence of this property will leave configuration to default values.
--    $ref: "/schemas/types.yaml#/definitions/uint32"
-+    $ref: /schemas/types.yaml#/definitions/uint32
-     enum: [0, 1]
- 
-   broken-turn-around:
-diff --git a/Documentation/devicetree/bindings/net/fsl,qoriq-mc-dpmac.yaml b/Documentation/devicetree/bindings/net/fsl,qoriq-mc-dpmac.yaml
-index 6e0763898d3a..a1b71b35319e 100644
---- a/Documentation/devicetree/bindings/net/fsl,qoriq-mc-dpmac.yaml
-+++ b/Documentation/devicetree/bindings/net/fsl,qoriq-mc-dpmac.yaml
-@@ -14,7 +14,7 @@ description:
-   located under the 'dpmacs' node for the fsl-mc bus DTS node.
- 
- allOf:
--  - $ref: "ethernet-controller.yaml#"
-+  - $ref: ethernet-controller.yaml#
- 
- properties:
-   compatible:
-diff --git a/Documentation/devicetree/bindings/net/intel,ixp46x-ptp-timer.yaml b/Documentation/devicetree/bindings/net/intel,ixp46x-ptp-timer.yaml
-index 8b9b3f915d92..f92730b1d2fa 100644
---- a/Documentation/devicetree/bindings/net/intel,ixp46x-ptp-timer.yaml
-+++ b/Documentation/devicetree/bindings/net/intel,ixp46x-ptp-timer.yaml
+diff --git a/Documentation/devicetree/bindings/media/amlogic,meson-ir-tx.yaml b/Documentation/devicetree/bindings/media/amlogic,meson-ir-tx.yaml
+index 4432fea32650..377acce93423 100644
+--- a/Documentation/devicetree/bindings/media/amlogic,meson-ir-tx.yaml
++++ b/Documentation/devicetree/bindings/media/amlogic,meson-ir-tx.yaml
 @@ -2,8 +2,8 @@
- # Copyright 2018 Linaro Ltd.
+ 
  %YAML 1.2
  ---
--$id: "http://devicetree.org/schemas/net/intel,ixp46x-ptp-timer.yaml#"
+-$id: "http://devicetree.org/schemas/media/amlogic,meson-ir-tx.yaml#"
 -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/net/intel,ixp46x-ptp-timer.yaml#
++$id: http://devicetree.org/schemas/media/amlogic,meson-ir-tx.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
  
- title: Intel IXP46x PTP Timer (TSYNC)
+ title: Amlogic Meson IR transmitter
  
-diff --git a/Documentation/devicetree/bindings/net/intel,ixp4xx-ethernet.yaml b/Documentation/devicetree/bindings/net/intel,ixp4xx-ethernet.yaml
-index 4e1b79818aff..4fdc5328826c 100644
---- a/Documentation/devicetree/bindings/net/intel,ixp4xx-ethernet.yaml
-+++ b/Documentation/devicetree/bindings/net/intel,ixp4xx-ethernet.yaml
-@@ -2,13 +2,13 @@
- # Copyright 2018 Linaro Ltd.
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/net/intel,ixp4xx-ethernet.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/net/intel,ixp4xx-ethernet.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Intel IXP4xx ethernet
- 
- allOf:
--  - $ref: "ethernet-controller.yaml#"
-+  - $ref: ethernet-controller.yaml#
- 
- maintainers:
-   - Linus Walleij <linus.walleij@linaro.org>
-@@ -28,7 +28,7 @@ properties:
-     description: Ethernet MMIO address range
- 
-   queue-rx:
--    $ref: '/schemas/types.yaml#/definitions/phandle-array'
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-     items:
-       - items:
-           - description: phandle to the RX queue node
-@@ -36,7 +36,7 @@ properties:
-     description: phandle to the RX queue on the NPE
- 
-   queue-txready:
--    $ref: '/schemas/types.yaml#/definitions/phandle-array'
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-     items:
-       - items:
-           - description: phandle to the TX READY queue node
-@@ -48,7 +48,7 @@ properties:
-   phy-handle: true
- 
-   intel,npe-handle:
--    $ref: '/schemas/types.yaml#/definitions/phandle-array'
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-     items:
-       - items:
-           - description: phandle to the NPE this ethernet instance is using
-diff --git a/Documentation/devicetree/bindings/net/intel,ixp4xx-hss.yaml b/Documentation/devicetree/bindings/net/intel,ixp4xx-hss.yaml
-index e6329febb60c..7a405e9b37b2 100644
---- a/Documentation/devicetree/bindings/net/intel,ixp4xx-hss.yaml
-+++ b/Documentation/devicetree/bindings/net/intel,ixp4xx-hss.yaml
-@@ -2,8 +2,8 @@
- # Copyright 2021 Linaro Ltd.
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/net/intel,ixp4xx-hss.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/net/intel,ixp4xx-hss.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Intel IXP4xx V.35 WAN High Speed Serial Link (HSS)
- 
-@@ -24,7 +24,7 @@ properties:
-     description: The HSS instance
- 
-   intel,npe-handle:
--    $ref: '/schemas/types.yaml#/definitions/phandle-array'
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-     items:
-       items:
-         - description: phandle to the NPE this HSS instance is using
-@@ -33,7 +33,7 @@ properties:
-       and the instance to use in the second cell
- 
-   intel,queue-chl-rxtrig:
--    $ref: '/schemas/types.yaml#/definitions/phandle-array'
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-     items:
-       - items:
-           - description: phandle to the RX trigger queue on the NPE
-@@ -41,7 +41,7 @@ properties:
-     description: phandle to the RX trigger queue on the NPE
- 
-   intel,queue-chl-txready:
--    $ref: '/schemas/types.yaml#/definitions/phandle-array'
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-     items:
-       - items:
-           - description: phandle to the TX ready queue on the NPE
-@@ -49,7 +49,7 @@ properties:
-     description: phandle to the TX ready queue on the NPE
- 
-   intel,queue-pkt-rx:
--    $ref: '/schemas/types.yaml#/definitions/phandle-array'
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-     items:
-       - items:
-           - description: phandle to the RX queue on the NPE
-@@ -57,7 +57,7 @@ properties:
-     description: phandle to the packet RX queue on the NPE
- 
-   intel,queue-pkt-tx:
--    $ref: '/schemas/types.yaml#/definitions/phandle-array'
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-     maxItems: 4
-     items:
-       items:
-@@ -66,7 +66,7 @@ properties:
-     description: phandle to the packet TX0, TX1, TX2 and TX3 queues on the NPE
- 
-   intel,queue-pkt-rxfree:
--    $ref: '/schemas/types.yaml#/definitions/phandle-array'
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-     maxItems: 4
-     items:
-       items:
-@@ -76,7 +76,7 @@ properties:
-       RXFREE3 queues on the NPE
- 
-   intel,queue-pkt-txdone:
--    $ref: '/schemas/types.yaml#/definitions/phandle-array'
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-     items:
-       - items:
-           - description: phandle to the TXDONE queue on the NPE
-diff --git a/Documentation/devicetree/bindings/net/marvell,mvusb.yaml b/Documentation/devicetree/bindings/net/marvell,mvusb.yaml
-index 8e288ab38fd7..3a3325168048 100644
---- a/Documentation/devicetree/bindings/net/marvell,mvusb.yaml
-+++ b/Documentation/devicetree/bindings/net/marvell,mvusb.yaml
-@@ -20,7 +20,7 @@ description: |+
-   definition.
- 
- allOf:
--  - $ref: "mdio.yaml#"
-+  - $ref: mdio.yaml#
- 
- properties:
-   compatible:
-diff --git a/Documentation/devicetree/bindings/net/marvell-bluetooth.yaml b/Documentation/devicetree/bindings/net/marvell-bluetooth.yaml
-index 309ef21a1e37..6aa7a078faa2 100644
---- a/Documentation/devicetree/bindings/net/marvell-bluetooth.yaml
-+++ b/Documentation/devicetree/bindings/net/marvell-bluetooth.yaml
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/net/marvell-bluetooth.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/net/marvell-bluetooth.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Marvell Bluetooth chips
- 
-diff --git a/Documentation/devicetree/bindings/net/mdio-gpio.yaml b/Documentation/devicetree/bindings/net/mdio-gpio.yaml
-index 137657341802..eb4171a1940e 100644
---- a/Documentation/devicetree/bindings/net/mdio-gpio.yaml
-+++ b/Documentation/devicetree/bindings/net/mdio-gpio.yaml
-@@ -12,7 +12,7 @@ maintainers:
-   - Russell King <linux@armlinux.org.uk>
- 
- allOf:
--  - $ref: "mdio.yaml#"
-+  - $ref: mdio.yaml#
- 
- properties:
-   compatible:
-diff --git a/Documentation/devicetree/bindings/net/mediatek,net.yaml b/Documentation/devicetree/bindings/net/mediatek,net.yaml
-index 7ef696204c5a..49e7f5e1a531 100644
---- a/Documentation/devicetree/bindings/net/mediatek,net.yaml
-+++ b/Documentation/devicetree/bindings/net/mediatek,net.yaml
-@@ -91,7 +91,7 @@ properties:
-     const: 0
- 
- allOf:
--  - $ref: "ethernet-controller.yaml#"
-+  - $ref: ethernet-controller.yaml#
-   - if:
-       properties:
-         compatible:
-diff --git a/Documentation/devicetree/bindings/net/mediatek,star-emac.yaml b/Documentation/devicetree/bindings/net/mediatek,star-emac.yaml
-index 64c893c98d80..2e889f9a563e 100644
---- a/Documentation/devicetree/bindings/net/mediatek,star-emac.yaml
-+++ b/Documentation/devicetree/bindings/net/mediatek,star-emac.yaml
-@@ -15,7 +15,7 @@ description:
-   modes with flow-control as well as CRC offloading and VLAN tags.
- 
- allOf:
--  - $ref: "ethernet-controller.yaml#"
-+  - $ref: ethernet-controller.yaml#
- 
- properties:
-   compatible:
-diff --git a/Documentation/devicetree/bindings/net/microchip,lan966x-switch.yaml b/Documentation/devicetree/bindings/net/microchip,lan966x-switch.yaml
-index dc116f14750e..306ef9ecf2b9 100644
---- a/Documentation/devicetree/bindings/net/microchip,lan966x-switch.yaml
-+++ b/Documentation/devicetree/bindings/net/microchip,lan966x-switch.yaml
-@@ -73,7 +73,7 @@ properties:
-       "^port@[0-9a-f]+$":
-         type: object
- 
--        $ref: "/schemas/net/ethernet-controller.yaml#"
-+        $ref: /schemas/net/ethernet-controller.yaml#
-         unevaluatedProperties: false
- 
-         properties:
-diff --git a/Documentation/devicetree/bindings/net/microchip,sparx5-switch.yaml b/Documentation/devicetree/bindings/net/microchip,sparx5-switch.yaml
-index 57ffeb8fc876..fcafef8d5a33 100644
---- a/Documentation/devicetree/bindings/net/microchip,sparx5-switch.yaml
-+++ b/Documentation/devicetree/bindings/net/microchip,sparx5-switch.yaml
-@@ -99,7 +99,7 @@ properties:
- 
-           microchip,bandwidth:
-             description: Specifies bandwidth in Mbit/s allocated to the port.
--            $ref: "/schemas/types.yaml#/definitions/uint32"
-+            $ref: /schemas/types.yaml#/definitions/uint32
-             maximum: 25000
- 
-           microchip,sd-sgpio:
-@@ -107,7 +107,7 @@ properties:
-               Index of the ports Signal Detect SGPIO in the set of 384 SGPIOs
-               This is optional, and only needed if the default used index is
-               is not correct.
--            $ref: "/schemas/types.yaml#/definitions/uint32"
-+            $ref: /schemas/types.yaml#/definitions/uint32
-             minimum: 0
-             maximum: 383
- 
-diff --git a/Documentation/devicetree/bindings/net/mscc,miim.yaml b/Documentation/devicetree/bindings/net/mscc,miim.yaml
-index 2c451cfa4e0b..5b292e7c9e46 100644
---- a/Documentation/devicetree/bindings/net/mscc,miim.yaml
-+++ b/Documentation/devicetree/bindings/net/mscc,miim.yaml
-@@ -10,7 +10,7 @@ maintainers:
-   - Alexandre Belloni <alexandre.belloni@bootlin.com>
- 
- allOf:
--  - $ref: "mdio.yaml#"
-+  - $ref: mdio.yaml#
- 
- properties:
-   compatible:
-diff --git a/Documentation/devicetree/bindings/net/nfc/marvell,nci.yaml b/Documentation/devicetree/bindings/net/nfc/marvell,nci.yaml
-index 308485a8ee6c..8e9a95f24c80 100644
---- a/Documentation/devicetree/bindings/net/nfc/marvell,nci.yaml
-+++ b/Documentation/devicetree/bindings/net/nfc/marvell,nci.yaml
-@@ -28,7 +28,7 @@ properties:
-     maxItems: 1
- 
-   reset-n-io:
--    $ref: "/schemas/types.yaml#/definitions/phandle-array"
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-     maxItems: 1
-     description: |
-       Output GPIO pin used to reset the chip (active low)
-diff --git a/Documentation/devicetree/bindings/net/nfc/nxp,pn532.yaml b/Documentation/devicetree/bindings/net/nfc/nxp,pn532.yaml
-index 0509e0166345..07c67c1e985f 100644
---- a/Documentation/devicetree/bindings/net/nfc/nxp,pn532.yaml
-+++ b/Documentation/devicetree/bindings/net/nfc/nxp,pn532.yaml
-@@ -31,7 +31,7 @@ required:
-   - compatible
- 
- dependencies:
--  interrupts: [ 'reg' ]
-+  interrupts: [ reg ]
- 
- additionalProperties: false
- 
-diff --git a/Documentation/devicetree/bindings/net/pse-pd/podl-pse-regulator.yaml b/Documentation/devicetree/bindings/net/pse-pd/podl-pse-regulator.yaml
-index c6b1c188abf7..94a527e6aa1b 100644
---- a/Documentation/devicetree/bindings/net/pse-pd/podl-pse-regulator.yaml
-+++ b/Documentation/devicetree/bindings/net/pse-pd/podl-pse-regulator.yaml
-@@ -13,7 +13,7 @@ description: Regulator based PoDL PSE controller. The device must be referenced
-   by the PHY node to control power injection to the Ethernet cable.
- 
- allOf:
--  - $ref: "pse-controller.yaml#"
-+  - $ref: pse-controller.yaml#
- 
- properties:
-   compatible:
-diff --git a/Documentation/devicetree/bindings/net/qcom,ipq4019-mdio.yaml b/Documentation/devicetree/bindings/net/qcom,ipq4019-mdio.yaml
-index 7631ecc8fd01..3407e909e8a7 100644
---- a/Documentation/devicetree/bindings/net/qcom,ipq4019-mdio.yaml
-+++ b/Documentation/devicetree/bindings/net/qcom,ipq4019-mdio.yaml
-@@ -51,7 +51,7 @@ required:
-   - "#size-cells"
- 
- allOf:
--  - $ref: "mdio.yaml#"
-+  - $ref: mdio.yaml#
- 
-   - if:
-       properties:
-diff --git a/Documentation/devicetree/bindings/net/qcom,ipq8064-mdio.yaml b/Documentation/devicetree/bindings/net/qcom,ipq8064-mdio.yaml
-index d7748dd33199..144001ff840c 100644
---- a/Documentation/devicetree/bindings/net/qcom,ipq8064-mdio.yaml
-+++ b/Documentation/devicetree/bindings/net/qcom,ipq8064-mdio.yaml
-@@ -14,7 +14,7 @@ description:
-   used to communicate with the gmac phy connected.
- 
- allOf:
--  - $ref: "mdio.yaml#"
-+  - $ref: mdio.yaml#
- 
- properties:
-   compatible:
-diff --git a/Documentation/devicetree/bindings/net/rockchip,emac.yaml b/Documentation/devicetree/bindings/net/rockchip,emac.yaml
-index a6d4f14df442..364028b3bba4 100644
---- a/Documentation/devicetree/bindings/net/rockchip,emac.yaml
-+++ b/Documentation/devicetree/bindings/net/rockchip,emac.yaml
-@@ -61,7 +61,7 @@ required:
-   - mdio
- 
- allOf:
--  - $ref: "ethernet-controller.yaml#"
-+  - $ref: ethernet-controller.yaml#
-   - if:
-       properties:
-         compatible:
-diff --git a/Documentation/devicetree/bindings/net/rockchip-dwmac.yaml b/Documentation/devicetree/bindings/net/rockchip-dwmac.yaml
-index 04936632fcbb..2a21bbe02892 100644
---- a/Documentation/devicetree/bindings/net/rockchip-dwmac.yaml
-+++ b/Documentation/devicetree/bindings/net/rockchip-dwmac.yaml
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: GPL-2.0
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/net/rockchip-dwmac.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Rockchip 10/100/1000 Ethernet driver(GMAC)
- 
-diff --git a/Documentation/devicetree/bindings/net/sff,sfp.yaml b/Documentation/devicetree/bindings/net/sff,sfp.yaml
-index 231c4d75e4b1..973e478a399d 100644
---- a/Documentation/devicetree/bindings/net/sff,sfp.yaml
-+++ b/Documentation/devicetree/bindings/net/sff,sfp.yaml
+diff --git a/Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.yaml b/Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.yaml
+index af8ada55b3f2..4e69b6a7ffcc 100644
+--- a/Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.yaml
 @@ -1,8 +1,8 @@
  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
  %YAML 1.2
  ---
--$id: "http://devicetree.org/schemas/net/sff,sfp.yaml#"
+-$id: "http://devicetree.org/schemas/media/i2c/chrontel,ch7322.yaml#"
 -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/net/sff,sfp.yaml#
++$id: http://devicetree.org/schemas/media/i2c/chrontel,ch7322.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
  
- title: Small Form Factor (SFF) Committee Small Form-factor Pluggable (SFP)
-   Transceiver
-diff --git a/Documentation/devicetree/bindings/net/snps,dwmac.yaml b/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-index 16b7d2904696..74f2ddc12018 100644
---- a/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-+++ b/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-@@ -555,7 +555,7 @@ dependencies:
-   snps,reset-delays-us: ["snps,reset-gpio"]
+ title: Chrontel HDMI-CEC Controller
  
- allOf:
--  - $ref: "ethernet-controller.yaml#"
-+  - $ref: ethernet-controller.yaml#
-   - if:
-       properties:
-         compatible:
-diff --git a/Documentation/devicetree/bindings/net/stm32-dwmac.yaml b/Documentation/devicetree/bindings/net/stm32-dwmac.yaml
-index 5c93167b3b41..fc8c96b08d7d 100644
---- a/Documentation/devicetree/bindings/net/stm32-dwmac.yaml
-+++ b/Documentation/devicetree/bindings/net/stm32-dwmac.yaml
-@@ -2,8 +2,8 @@
- # Copyright 2019 BayLibre, SAS
- %YAML 1.2
- ---
--$id: "http://devicetree.org/schemas/net/stm32-dwmac.yaml#"
--$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/net/stm32-dwmac.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: STMicroelectronics STM32 / MCU DWMAC glue layer controller
- 
-@@ -26,7 +26,7 @@ select:
-     - compatible
- 
- allOf:
--  - $ref: "snps,dwmac.yaml#"
-+  - $ref: snps,dwmac.yaml#
- 
- properties:
-   compatible:
-@@ -73,7 +73,7 @@ properties:
-         - ptp_ref
- 
-   st,syscon:
--    $ref: "/schemas/types.yaml#/definitions/phandle-array"
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-     items:
-       - items:
-           - description: phandle to the syscon node which encompases the glue register
-diff --git a/Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml b/Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml
-index e36c7817be69..b04ac4966608 100644
---- a/Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml
-+++ b/Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml
-@@ -62,10 +62,10 @@ properties:
- 
-   interrupt-names:
-     items:
--      - const: "rx_thresh"
--      - const: "rx"
--      - const: "tx"
--      - const: "misc"
-+      - const: rx_thresh
-+      - const: rx
-+      - const: tx
-+      - const: misc
- 
-   pinctrl-names: true
- 
-@@ -154,7 +154,7 @@ patternProperties:
-     type: object
+diff --git a/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
+index 82d3d18c16a1..a0855d3b7577 100644
+--- a/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
+@@ -38,7 +38,7 @@ properties:
+   dongwoon,aac-mode:
      description:
-       CPSW MDIO bus.
--    $ref: "ti,davinci-mdio.yaml#"
-+    $ref: ti,davinci-mdio.yaml#
+       Indication of AAC mode select.
+-    $ref: "/schemas/types.yaml#/definitions/uint32"
++    $ref: /schemas/types.yaml#/definitions/uint32
+     enum:
+       - 1    #  AAC2 mode(operation time# 0.48 x Tvib)
+       - 2    #  AAC3 mode(operation time# 0.70 x Tvib)
+@@ -50,7 +50,7 @@ properties:
+     description:
+       Number of AAC Timing count that controlled by one 6-bit period of
+       vibration register AACT[5:0], the unit of which is 100 us.
+-    $ref: "/schemas/types.yaml#/definitions/uint32"
++    $ref: /schemas/types.yaml#/definitions/uint32
+     default: 0x20
+     minimum: 0x00
+     maximum: 0x3f
+@@ -59,7 +59,7 @@ properties:
+     description:
+       Indication of VCM internal clock dividing rate select, as one multiple
+       factor to calculate VCM ring periodic time Tvib.
+-    $ref: "/schemas/types.yaml#/definitions/uint32"
++    $ref: /schemas/types.yaml#/definitions/uint32
+     enum:
+       - 0    #  Dividing Rate -  2
+       - 1    #  Dividing Rate -  1
+diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+index 0c4213adbf6a..8df859136047 100644
+--- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+@@ -86,7 +86,7 @@ properties:
+       is 100000 micro volts
  
+   maxim,gpio-poc:
+-    $ref: '/schemas/types.yaml#/definitions/uint32-array'
++    $ref: /schemas/types.yaml#/definitions/uint32-array
+     minItems: 2
+     maxItems: 2
+     description: |
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+index 54df9d73dc86..763cebe03dc2 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+@@ -88,7 +88,7 @@ properties:
+         properties:
+           link-frequencies: true
+           ovti,mipi-clock-voltage:
+-            $ref: "/schemas/types.yaml#/definitions/uint32"
++            $ref: /schemas/types.yaml#/definitions/uint32
+             description:
+               Definition of MIPI clock voltage unit. This entry corresponds to
+               the link speed defined by the 'link-frequencies' property.
+diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+index 9cfc0c7d23e0..7032c7e15039 100644
+--- a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
++++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+@@ -27,7 +27,7 @@ properties:
+     maxItems: 1
  
- required:
-diff --git a/Documentation/devicetree/bindings/net/ti,davinci-mdio.yaml b/Documentation/devicetree/bindings/net/ti,davinci-mdio.yaml
-index a339202c5e8e..53604fab0b73 100644
---- a/Documentation/devicetree/bindings/net/ti,davinci-mdio.yaml
-+++ b/Documentation/devicetree/bindings/net/ti,davinci-mdio.yaml
-@@ -13,7 +13,7 @@ description:
-   TI SoC Davinci/Keystone2 MDIO Controller
- 
- allOf:
--  - $ref: "mdio.yaml#"
-+  - $ref: mdio.yaml#
- 
- properties:
-   compatible:
-diff --git a/Documentation/devicetree/bindings/net/ti,dp83822.yaml b/Documentation/devicetree/bindings/net/ti,dp83822.yaml
-index f2489a9c852f..db74474207ed 100644
---- a/Documentation/devicetree/bindings/net/ti,dp83822.yaml
-+++ b/Documentation/devicetree/bindings/net/ti,dp83822.yaml
+   mediatek,gce-client-reg:
+-    $ref: '/schemas/types.yaml#/definitions/phandle-array'
++    $ref: /schemas/types.yaml#/definitions/phandle-array
+     items:
+       items:
+         - description: phandle of GCE
+diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+index c4f20acdc1f8..20675f9ba3cd 100644
+--- a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
++++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
 @@ -2,8 +2,8 @@
- # Copyright (C) 2020 Texas Instruments Incorporated
+ 
  %YAML 1.2
  ---
--$id: "http://devicetree.org/schemas/net/ti,dp83822.yaml#"
+-$id: "http://devicetree.org/schemas/media/mediatek,vcodec-subdev-decoder.yaml#"
 -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/net/ti,dp83822.yaml#
++$id: http://devicetree.org/schemas/media/mediatek,vcodec-subdev-decoder.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
  
- title: TI DP83822 ethernet PHY
+ title: Mediatek Video Decode Accelerator With Multi Hardware
  
-@@ -21,7 +21,7 @@ description: |
-     http://www.ti.com/lit/ds/symlink/dp83822i.pdf
+diff --git a/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml b/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
+index 4b77103ca913..59b805ca47c5 100644
+--- a/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
++++ b/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
+@@ -2,8 +2,8 @@
  
- allOf:
--  - $ref: "ethernet-phy.yaml#"
-+  - $ref: ethernet-phy.yaml#
- 
- properties:
-   reg:
-diff --git a/Documentation/devicetree/bindings/net/ti,dp83867.yaml b/Documentation/devicetree/bindings/net/ti,dp83867.yaml
-index b8c0e4b5b494..4bc1f98fd9fe 100644
---- a/Documentation/devicetree/bindings/net/ti,dp83867.yaml
-+++ b/Documentation/devicetree/bindings/net/ti,dp83867.yaml
-@@ -2,13 +2,13 @@
- # Copyright (C) 2019 Texas Instruments Incorporated
  %YAML 1.2
  ---
--$id: "http://devicetree.org/schemas/net/ti,dp83867.yaml#"
+-$id: "http://devicetree.org/schemas/media/microchip,sama5d4-vdec.yaml#"
 -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/net/ti,dp83867.yaml#
++$id: http://devicetree.org/schemas/media/microchip,sama5d4-vdec.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
  
- title: TI DP83867 ethernet PHY
+ title: Hantro G1 VPU codec implemented on Microchip SAMA5D4 SoCs
  
- allOf:
--  - $ref: "ethernet-controller.yaml#"
-+  - $ref: ethernet-controller.yaml#
+diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+index 7dc13a4b1805..3d58f02b0c5d 100644
+--- a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
++++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+@@ -2,8 +2,8 @@
  
- maintainers:
-   - Andrew Davis <afd@ti.com>
-diff --git a/Documentation/devicetree/bindings/net/ti,dp83869.yaml b/Documentation/devicetree/bindings/net/ti,dp83869.yaml
-index b04ff0014a59..fb6725df4668 100644
---- a/Documentation/devicetree/bindings/net/ti,dp83869.yaml
-+++ b/Documentation/devicetree/bindings/net/ti,dp83869.yaml
-@@ -2,13 +2,13 @@
- # Copyright (C) 2019 Texas Instruments Incorporated
  %YAML 1.2
  ---
--$id: "http://devicetree.org/schemas/net/ti,dp83869.yaml#"
+-$id: "http://devicetree.org/schemas/media/nxp,imx8mq-vpu.yaml#"
 -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/net/ti,dp83869.yaml#
++$id: http://devicetree.org/schemas/media/nxp,imx8mq-vpu.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
  
- title: TI DP83869 ethernet PHY
+ title: Hantro G1/G2 VPU codecs implemented on i.MX8M SoCs
  
- allOf:
--  - $ref: "ethernet-phy.yaml#"
-+  - $ref: ethernet-phy.yaml#
+diff --git a/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
+index 12ec3e1ea869..eb1499912c58 100644
+--- a/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
+@@ -2,8 +2,8 @@
  
- maintainers:
-   - Andrew Davis <afd@ti.com>
-diff --git a/Documentation/devicetree/bindings/net/toshiba,visconti-dwmac.yaml b/Documentation/devicetree/bindings/net/toshiba,visconti-dwmac.yaml
-index 0988ed8d1c12..474fa8bcf302 100644
---- a/Documentation/devicetree/bindings/net/toshiba,visconti-dwmac.yaml
-+++ b/Documentation/devicetree/bindings/net/toshiba,visconti-dwmac.yaml
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
  %YAML 1.2
  ---
--$id: "http://devicetree.org/schemas/net/toshiba,visconti-dwmac.yaml#"
+-$id: "http://devicetree.org/schemas/media/qcom,msm8916-camss.yaml#"
 -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/net/toshiba,visconti-dwmac.yaml#
++$id: http://devicetree.org/schemas/media/qcom,msm8916-camss.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
  
- title: Toshiba Visconti DWMAC Ethernet controller
+ title: Qualcomm CAMSS ISP
  
-diff --git a/Documentation/devicetree/bindings/net/vertexcom-mse102x.yaml b/Documentation/devicetree/bindings/net/vertexcom-mse102x.yaml
-index 6a71f694cb55..4c4ced8cfa4b 100644
---- a/Documentation/devicetree/bindings/net/vertexcom-mse102x.yaml
-+++ b/Documentation/devicetree/bindings/net/vertexcom-mse102x.yaml
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+diff --git a/Documentation/devicetree/bindings/media/qcom,msm8916-venus.yaml b/Documentation/devicetree/bindings/media/qcom,msm8916-venus.yaml
+index 2abb7d21c0d1..4ad42b8f19e6 100644
+--- a/Documentation/devicetree/bindings/media/qcom,msm8916-venus.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,msm8916-venus.yaml
+@@ -2,8 +2,8 @@
+ 
  %YAML 1.2
  ---
--$id: "http://devicetree.org/schemas/net/vertexcom-mse102x.yaml#"
+-$id: "http://devicetree.org/schemas/media/qcom,msm8916-venus.yaml#"
 -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+$id: http://devicetree.org/schemas/net/vertexcom-mse102x.yaml#
++$id: http://devicetree.org/schemas/media/qcom,msm8916-venus.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
  
- title: The Vertexcom MSE102x (SPI)
+ title: Qualcomm Venus video encode and decode accelerators
  
+@@ -47,7 +47,7 @@ properties:
+ 
+     properties:
+       compatible:
+-        const: "venus-decoder"
++        const: venus-decoder
+ 
+     required:
+       - compatible
+@@ -59,7 +59,7 @@ properties:
+ 
+     properties:
+       compatible:
+-        const: "venus-encoder"
++        const: venus-encoder
+ 
+     required:
+       - compatible
+diff --git a/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
+index 6aeb3d6d02d5..8a10aa1cafc5 100644
+--- a/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
+@@ -2,8 +2,8 @@
+ 
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/media/qcom,msm8996-camss.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/media/qcom,msm8996-camss.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Qualcomm CAMSS ISP
+ 
+diff --git a/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml b/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml
+index 29d0cb6c6ebe..213247a43ef2 100644
+--- a/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml
+@@ -2,8 +2,8 @@
+ 
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/media/qcom,msm8996-venus.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/media/qcom,msm8996-venus.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Qualcomm Venus video encode and decode accelerators
+ 
+diff --git a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
+index 42ee3f06c6be..5128a254fd25 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
+@@ -2,8 +2,8 @@
+ 
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/media/qcom,sc7180-venus.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/media/qcom,sc7180-venus.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Qualcomm Venus video encode and decode accelerators
+ 
+diff --git a/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
+index cf361dd9de08..eb9ce438dbe0 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
+@@ -2,8 +2,8 @@
+ 
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/media/qcom,sc7280-venus.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/media/qcom,sc7280-venus.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Qualcomm Venus video encode and decode accelerators
+ 
+diff --git a/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
+index b28c8e17f158..0a109e126064 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
+@@ -2,8 +2,8 @@
+ 
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/media/qcom,sdm660-camss.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/media/qcom,sdm660-camss.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Qualcomm CAMSS ISP
+ 
+diff --git a/Documentation/devicetree/bindings/media/qcom,sdm660-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sdm660-venus.yaml
+index 45e3f58f52bd..4a0a9ca33cad 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sdm660-venus.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sdm660-venus.yaml
+@@ -2,8 +2,8 @@
+ 
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/media/qcom,sdm660-venus.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/media/qcom,sdm660-venus.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Qualcomm Venus video encode and decode accelerators
+ 
+diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
+index f9a003882f84..1530ad0d80bd 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
+@@ -2,8 +2,8 @@
+ 
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/media/qcom,sdm845-camss.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/media/qcom,sdm845-camss.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Qualcomm CAMSS ISP
+ 
+diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
+index 8edc8a2f43a5..d81c3ee53ed6 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
+@@ -2,8 +2,8 @@
+ 
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/media/qcom,sdm845-venus-v2.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/media/qcom,sdm845-venus-v2.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Qualcomm Venus video encode and decode accelerators
+ 
+diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-venus.yaml
+index 57d503373efe..1bf043c4c8fb 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sdm845-venus.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sdm845-venus.yaml
+@@ -2,8 +2,8 @@
+ 
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/media/qcom,sdm845-venus.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/media/qcom,sdm845-venus.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Qualcomm Venus video encode and decode accelerators
+ 
+diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
+index 07a2af12f37d..fa5073c0fd1e 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
+@@ -2,8 +2,8 @@
+ 
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/media/qcom,sm8250-camss.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/media/qcom,sm8250-camss.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Qualcomm CAMSS ISP
+ 
+diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
+index 4b7a12523dcf..8c8141723524 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
+@@ -2,8 +2,8 @@
+ 
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Qualcomm Venus video encode and decode accelerators
+ 
+diff --git a/Documentation/devicetree/bindings/media/rc.yaml b/Documentation/devicetree/bindings/media/rc.yaml
+index e732b7f3a635..6cecd7d941ca 100644
+--- a/Documentation/devicetree/bindings/media/rc.yaml
++++ b/Documentation/devicetree/bindings/media/rc.yaml
+@@ -18,7 +18,7 @@ properties:
+     description:
+       Specifies the scancode/key mapping table defined in-kernel for
+       the remote controller.
+-    $ref: '/schemas/types.yaml#/definitions/string'
++    $ref: /schemas/types.yaml#/definitions/string
+     enum:
+       - rc-adstech-dvb-t-pci
+       - rc-alink-dtu-m
+diff --git a/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml b/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
+index 81b26eb4cd35..9d90d8d0565a 100644
+--- a/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
++++ b/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
+@@ -2,8 +2,8 @@
+ 
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/media/rockchip,rk3568-vepu.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/media/rockchip,rk3568-vepu.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Hantro G1 VPU encoders implemented on Rockchip SoCs
+ 
+diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+index 6cc4d3e5a61d..ee622a8ee1cc 100644
+--- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
++++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+@@ -2,8 +2,8 @@
+ 
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/media/rockchip-vpu.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/media/rockchip-vpu.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Hantro G1 VPU codecs implemented on Rockchip SoCs
+ 
+diff --git a/Documentation/devicetree/bindings/media/ti,cal.yaml b/Documentation/devicetree/bindings/media/ti,cal.yaml
+index 26b3fedef355..f1a940a110d2 100644
+--- a/Documentation/devicetree/bindings/media/ti,cal.yaml
++++ b/Documentation/devicetree/bindings/media/ti,cal.yaml
+@@ -47,7 +47,7 @@ properties:
+     maxItems: 1
+ 
+   ti,camerrx-control:
+-    $ref: "/schemas/types.yaml#/definitions/phandle-array"
++    $ref: /schemas/types.yaml#/definitions/phandle-array
+     items:
+       - items:
+           - description: phandle to device control module
 -- 
 2.39.2
 
