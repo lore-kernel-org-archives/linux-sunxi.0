@@ -1,85 +1,136 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5441104
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Mar 2023 06:51:47 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id eh3so42499567edb.11
-        for <linux-sunxi@lists.linux.dev>; Sun, 19 Mar 2023 23:51:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679295106;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nwbSUlA3zxhSUQTAKIITpjLxnW9LRkO1uNXODCdYZpY=;
-        b=TJUA4HSk2vyI9uvLAda9IAbvHowKju3Ud7/DXFgBBR80st2dGVOk45Uwl5Va9IOjjd
-         60Fg7d1RElyizsQ7Xn8CQklSl/L7xdryMA13aiw8RDTjzDX0hBYwH94vyMo23ak4WxP8
-         qrO44K9jkavktz5l8YFgl0F+8dzybddaQiU37RcymS7bGAS7CH+nNfXLIr8U8tkJ4z04
-         QcbV7SHE0kqpFcAGpc3spwEFft8EwdSMVPXUbP8tCx1pxHcgrnzvrRukgGz40vAG+EyK
-         82GfMoREnRGKvHqRodNjc5PZe71AseLswOVGwKILOdkEYvI9gLONMieIHRKOmpreWKqK
-         dYsQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FC31104
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Mar 2023 08:01:18 +0000 (UTC)
+Received: by mail-qt1-f182.google.com with SMTP id ay22so746026qtb.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Mar 2023 01:01:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679295106;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nwbSUlA3zxhSUQTAKIITpjLxnW9LRkO1uNXODCdYZpY=;
-        b=bp0QdbPvZyHmCpijxelEfUF0eAMba1wMDtPGp1bQpqyJbILQT5yp9o5RpaoqMxI0fp
-         zwzdlL3ExS0GXJx5qRTw1IqTULVr6YffeR/eGfG9Ll5e7+0g+K8H+6T0UQpPqEZLXwfH
-         +NhEXcwV6O7Nnb1uuIqOgmrs7x0X6LdrjA50o59FtpnNNfWB9cPwYyzgWAE9rofKdq1a
-         qmHQycvAnz0fehAPpGcjVuf1phY6wr2FWeb6abfM27eIj06Zl1F/7DrGVBL/cASt+Ktz
-         YO7G3WTHGGqAEtUeh3KTDYe/IaqYJvVYol+KhFaxbfFFH46CrbwOkPjnJrS6rtWnonP4
-         rslw==
-X-Gm-Message-State: AO0yUKVRdHjnDyW5G3dXd5535RtKW2IqKi1kMU7KqUMDDKtRHSN2VKHD
-	FJFngqWC6RvVIw0jys4jvK+gyQ==
-X-Google-Smtp-Source: AK7set8Sjm75w1NkHTe1vkKDO/DxHYYy69GkFCJ6+mezWU4SeCxP3PBNqIc3uz5JtTX1pbrqswwBjg==
-X-Received: by 2002:a17:906:cedd:b0:932:4cbf:5bcc with SMTP id si29-20020a170906cedd00b009324cbf5bccmr7853610ejb.37.1679295106132;
-        Sun, 19 Mar 2023 23:51:46 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:4428:8354:afb6:2992? ([2a02:810d:15c0:828:4428:8354:afb6:2992])
-        by smtp.gmail.com with ESMTPSA id g1-20020a1709061c8100b0092669fb4ba1sm3983391ejh.130.2023.03.19.23.51.43
+        d=1e100.net; s=20210112; t=1679299277;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9YDU8IzF0EsSpDkzRDjzs/d7Q1NfYw1Ou2xNB8kfdm8=;
+        b=tqqFyO/QQcDnLHLJVKG7rCtPMAIGimSwp7E/kJvg1bbjW9lytVIljOuIRtNo8wzUkw
+         GkPdMlfNXhLyv5kTxs4kAC59sM8HFD7vLlWt5G/dmVfJ6/VkjnmgEK1sJFwEvevbq39V
+         7Tt8/F+pj1BDgsn/+zPUxgxZsUlXrfhSmi7VbXNNdpc0J//OxCaaJzCYAfJekc4m8PbB
+         vYUmlWHBEKJPlKQ7+7P0nSGVntKckvAuaN494CeAV8+CrvBuxn/2ZXoHNc+SF+nsoeoH
+         BVeI9YqWHu4wdIeqIRtQfiWL+3Gn+5+U23xcSGUkrOwUGSvcH+REJI7lXGbWVe/jfxuC
+         APIg==
+X-Gm-Message-State: AO0yUKVNGX6Zz2+QhgSs21DXUY8inVX8D+Nv142EyDYAAMFQZ4YdmD11
+	2N/YDdbFUaxCRoQ67SPoebngIK59/utuXw==
+X-Google-Smtp-Source: AK7set/LcIKUaJ7bRb2BocP4gcYqapZSA7erEOaImkCBb7s5jsM3q/bIHgR03lBCvfe6Yks3dY7x4g==
+X-Received: by 2002:a05:622a:20e:b0:3d4:17dc:3fcf with SMTP id b14-20020a05622a020e00b003d417dc3fcfmr17999989qtx.5.1679299277022;
+        Mon, 20 Mar 2023 01:01:17 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id y5-20020ac85245000000b003de68caf5b7sm3312528qtn.35.2023.03.20.01.01.14
+        for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Mar 2023 23:51:44 -0700 (PDT)
-Message-ID: <170bc10c-143a-86d8-91b6-7841584b8f0a@linaro.org>
-Date: Mon, 20 Mar 2023 07:51:42 +0100
+        Mon, 20 Mar 2023 01:01:16 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-544787916d9so209092377b3.13
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Mar 2023 01:01:14 -0700 (PDT)
+X-Received: by 2002:a81:e508:0:b0:544:5fc7:f01f with SMTP id
+ s8-20020a81e508000000b005445fc7f01fmr9057012ywl.4.1679299274592; Mon, 20 Mar
+ 2023 01:01:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 3/4] dt-bindings: arm: sunxi: document MangoPi MQ-R
- board names
-Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor@kernel.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- =?UTF-8?B?QW5kcsOhcyBTemVtesO2?= <szemzo.andras@gmail.com>,
- Icenowy Zheng <uwu@icenowy.me>, Fabien Poussin <fabien.poussin@gmail.com>,
- linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Belisko Marek <marek.belisko@gmail.com>
-References: <20230320005249.13403-1-andre.przywara@arm.com>
- <20230320005249.13403-4-andre.przywara@arm.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230320005249.13403-4-andre.przywara@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230310144721.1544669-1-robh@kernel.org> <CAMuHMdUaeyHs9fQxS+16F62uHaifJYMXKJpL2-xi-SL5HCrTHQ@mail.gmail.com>
+ <CAMuHMdX1=+WwWjfiWDYOjSzTjcYBEY+QR=XKuU+o5_SCyU7rag@mail.gmail.com> <CACRpkdaw7TodD0hr3vD8cGB80k0qtEiaC1ne-ivCj6YEefi44w@mail.gmail.com>
+In-Reply-To: <CACRpkdaw7TodD0hr3vD8cGB80k0qtEiaC1ne-ivCj6YEefi44w@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 20 Mar 2023 09:01:02 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVgWne0goeJ3A1=v8FZCz3hmHC2j_UEYPn51gD1jz-9uA@mail.gmail.com>
+Message-ID: <CAMuHMdVgWne0goeJ3A1=v8FZCz3hmHC2j_UEYPn51gD1jz-9uA@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: Use of_property_present() for testing DT
+ property presence
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Sean Wang <sean.wang@kernel.org>, 
+	Tony Lindgren <tony@atomide.com>, Haojian Zhuang <haojian.zhuang@linaro.org>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, devicetree@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-omap@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 20/03/2023 01:52, Andre Przywara wrote:
-> The MangoPi MQ-R board is a small development board, using Allwinner
-> SoCs with co-packaged DRAM. There are versions with a RISC-V core and
-> ones with two Arm Cortex-A7 cores.
-> 
+Hi Linus,
 
+On Sun, Mar 19, 2023 at 9:55=E2=80=AFPM Linus Walleij <linus.walleij@linaro=
+.org> wrote:
+> On Mon, Mar 13, 2023 at 12:00=E2=80=AFPM Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
+> > On Mon, Mar 13, 2023 at 10:00=E2=80=AFAM Geert Uytterhoeven
+> > <geert@linux-m68k.org> wrote:
+> > > On Fri, Mar 10, 2023 at 3:56=E2=80=AFPM Rob Herring <robh@kernel.org>=
+ wrote:
+> > > > It is preferred to use typed property access functions (i.e.
+> > > > of_property_read_<type> functions) rather than low-level
+> > > > of_get_property/of_find_property functions for reading properties. =
+As
+> > > > part of this, convert of_get_property/of_find_property calls to the
+> > > > recently added of_property_present() helper when we just want to te=
+st
+> > > > for presence of a property and nothing more.
+> > > >
+> > > > Signed-off-by: Rob Herring <robh@kernel.org>
+> > >
+> > > Thanks for your patch!
+> > >
+> > > > --- a/drivers/pinctrl/renesas/pinctrl.c
+> > > > +++ b/drivers/pinctrl/renesas/pinctrl.c
+> > > > @@ -125,8 +125,8 @@ static int sh_pfc_dt_subnode_to_map(struct pinc=
+trl_dev *pctldev,
+> > > >          * inside a subnode nor across subnodes.
+> > > >          */
+> > > >         if (!pmx->func_prop_name) {
+> > > > -               if (of_find_property(np, "groups", NULL) ||
+> > > > -                   of_find_property(np, "pins", NULL)) {
+> > > > +               if (of_property_present(np, "groups")||
+> > > > +                   of_property_present(np, "pins")) {
+> > > >                         pmx->func_prop_name =3D "function";
+> > > >                         pmx->groups_prop_name =3D "groups";
+> > > >                         pmx->pins_prop_name =3D "pins";
+> > >
+> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > >
+> > > This check is used to auto-detect if the standard property names
+> > > should be used, or the "renesas,"-prefixed ones.
+> > > As the last users of the latter were removed from DTS in v4.10,
+> > > perhaps I should just remove these checks instead?
+> >
+> > Sent a patch just doing that, so you can drop this chunk.
+> > https://lore.kernel.org/linux-renesas-soc/ff9c14781110bbf19b56b45dd1f01=
+e6da90319ad.1678704441.git.geert+renesas@glider.be
+>
+> So I need a new version of this patch before I can apply it
+> I guess, or there will be conflict with Reseas stuff?
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+It would be a minor conflict, though, and you would have to resolve
+that yourself, when merging my renesas-pinctrl PR.  So when you
+will send a PR to The Other Linus, there won't be a conflict anymore,
+and no angriness ;-)
 
-Best regards,
-Krzysztof
+Thanks!
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
