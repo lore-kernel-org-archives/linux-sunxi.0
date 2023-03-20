@@ -1,118 +1,110 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 154AD184C
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Mar 2023 11:36:05 +0000 (UTC)
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1peDmk-0005Mb-3u; Mon, 20 Mar 2023 12:34:42 +0100
-Received: from pengutronix.de (unknown [IPv6:2a00:20:c04b:45e4:1953:f0f4:6a85:b0])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id 05ADB19732D;
-	Mon, 20 Mar 2023 09:23:50 +0000 (UTC)
-Date: Mon, 20 Mar 2023 10:23:49 +0100
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Rob Herring <robh@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18F4E4D6
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Mar 2023 11:38:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 714C1C433EF;
+	Mon, 20 Mar 2023 11:38:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1679312311;
+	bh=YfQJfApGvnHfGU8gi0gNukjaGzsg84xu5lWbeqt0lnw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Eb0R3e1JjZqoZgzBIBGjddsyzF5oRvdKqX4zJzfcsM0/DnTdJPwvylLD+N+LKBRzx
+	 IUP4xObd68HKq8F/Qvpt1W8+ib5Odyumu8IK77yOV7UrOlBps49shv9e9/SC/xo2kz
+	 m0aAW+ll4AWGsB8I2maII0LRP6fC/xl2FJLRDWSewz86h49su8evjRUcjYOvGhEqEP
+	 OqxjJPCWzSjGCbGJ72Q91R07MKL6mi3EU3EI8GH5XvBh3WyMEz82QnPL2OuhZKfQhY
+	 kOBto01PJnNfY6OWt0wG8oiBvRdeyp56uvftv10KL3GXZXlc50hUNdkT6jkk/wjKoa
+	 ZZVIoO4TNk3KQ==
+Date: Mon, 20 Mar 2023 17:08:27 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@aj.id.au>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Appana Durga Kedareswara rao <appana.durga.rao@xilinx.com>,
-	Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>,
-	Wolfgang Grandegger <wg@grandegger.com>,
-	Michal Simek <michal.simek@xilinx.com>,
-	Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Tobias Waldekranz <tobias@waldekranz.com>,
-	Lars Povlsen <lars.povlsen@microchip.com>,
-	Steen Hegelund <Steen.Hegelund@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	UNGLinuxDriver@microchip.com, Andy Gross <agross@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Icenowy Zheng <uwu@icenowy.me>, Justin Chen <justinpopo6@gmail.com>,
+	Al Cooper <alcooperx@gmail.com>, Pratyush Yadav <p.yadav@ti.com>,
+	Rahul T R <r-ravikumar@ti.com>,
+	Swapnil Jakhade <sjakhade@cadence.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Liu Ying <victor.liu@nxp.com>, Yuan Can <yuancan@huawei.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Chunfeng Yun <chunfeng.yun@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Allison Randal <allison@lohutok.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Miaoqian Lin <linmq006@gmail.com>, Andy Gross <agross@kernel.org>,
 	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	Heiko Stuebner <heiko@sntech.de>,
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
+	Amelie Delaunay <amelie.delaunay@foss.st.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	JC Kuo <jckuo@nvidia.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Roger Quadros <rogerq@kernel.org>, Matt Ranostay <mranostay@ti.com>,
+	Sinthu Raja <sinthu.raja@ti.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Tanmay Patil <t-patil@ti.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Lv Ruyi <lv.ruyi@zte.com.cn>, linux-phy@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	kernel@pengutronix.de,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-actions@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-aspeed@lists.ozlabs.org,
-	linux-can@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-stm32@st-md-mailman.stormreply.com,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] dt-bindings: net: Drop unneeded quotes
-Message-ID: <20230320092349.7eqjqiblksjpw3fb@pengutronix.de>
-References: <20230317233605.3967621-1-robh@kernel.org>
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 00/31] phy: Convert to platform remove callback returning
+ void
+Message-ID: <ZBhFsyXyN4wHV5BB@matsya>
+References: <20230307115900.2293120-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5rfbuzw7ieky3r2g"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230317233605.3967621-1-robh@kernel.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:b01:1d::7b
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230307115900.2293120-1-u.kleine-koenig@pengutronix.de>
 
+On 07-03-23, 12:58, Uwe Kleine-König wrote:
+> Hello,
+> 
+> this patch series adapts the platform drivers below drivers/phy to use the
+> .remove_new() callback. Compared to the traditional .remove() callback
+> .remove_new() returns no value. This is a good thing because the driver core
+> doesn't (and cannot) cope for errors during remove. The only effect of a
+> non-zero return value in .remove() is that the driver core emits a warning. The
+> device is removed anyhow and an early return from .remove() usually yields a
+> resource leak.
+> 
+> By changing the remove callback to return void driver authors cannot
+> reasonably assume any more that there is some kind of cleanup later.
+> 
+> All drivers in drivers/spmi returned zero unconditionally in their remove
+> callback, so they could all be converted trivially to .remove_new().
+> 
+> Note that this series depends on commit 5c5a7680e67b ("platform: Provide
+> a remove callback that returns no value") which is included in v6.3-rc1.
 
---5rfbuzw7ieky3r2g
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied, thanks
 
-On 17.03.2023 18:36:03, Rob Herring wrote:
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
->=20
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-[...]
->  .../devicetree/bindings/net/can/xilinx,can.yaml    |  6 +++---
-
-Acked-by: Marc Kleine-Budde <mkl@pengutronix.de> # for bindings/net/can
-
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
-
---5rfbuzw7ieky3r2g
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEDs2BvajyNKlf9TJQvlAcSiqKBOgFAmQYJiIACgkQvlAcSiqK
-BOhjVQf/acPAkVlZAgSx2EeDlEf8hS1lf2sRkjDcvxt3kTD2h5jAh5U3kLV5DTD4
-MjEV9UTZecOll5eioSnCl1DrrqCemegxaoOeML/pQDa4hNYWmm5JHZFLOKdQbL0T
-B9Jl3hxOtVzm95NTggCnKp31A7Q7ft8wfQgSN//1++W90f7Yot/HEv/oPR68ElzX
-J2GyX741B6AfKBqEztJ6OYDWiB2lHw6zzIxacqqM+zn9vjVteFg2FsbKvCRAbUCV
-Bxg0WyzixKLhUf2Of1QOnEW70UfVtICWJ25BjPXp9+WGomovd5nb0MbV+2lou9kk
-0u595tSMCR5sWDa8jKOahMLP+4ZClA==
-=xkke
------END PGP SIGNATURE-----
-
---5rfbuzw7ieky3r2g--
+-- 
+~Vinod
