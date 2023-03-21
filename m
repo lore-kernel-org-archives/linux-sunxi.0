@@ -1,87 +1,56 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BAE10788
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Mar 2023 22:17:34 +0000 (UTC)
-Received: from [192.168.1.90] (unknown [188.24.179.102])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id A31A866030D8;
-	Tue, 21 Mar 2023 22:17:31 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1679437052;
-	bh=kISYc8jF93sURnyHntnC1OZ2p4p1sWgcPPfEJiI3pho=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DAlF+kqBJ+TEevV3l2dvq4UP4emcgYVVXEzpExVl2nEEZQG5wPo/gPGRhrebUJ4jB
-	 6UuwSHDZL7gQadG/0pX/QwT7ZZZFuhysxpycz/tYEs+BX1pZC9hNMfwaFnJ8FI718S
-	 HX3dybyqVznpzuASOX/4MQKrkzxdElPKo0R0J7/oCJbOGQbBgfu15V3g2EEsCgKg3O
-	 I7C7YYalHMeiFiBzzMhgrgJqZtMzR9T1ai92Kz63OL3ffXAXSla6rJHdZbhEmEzNB6
-	 EftcQErQx9ncAjS18lQI5SGVnMHuwCrZxx0b1cCZ3EZvTR5On2hyhy1IxBeDicRKnm
-	 r++47+MMC+UQA==
-Message-ID: <7cd34af7-94e7-b5e2-053c-4cc831e4cfc4@collabora.com>
-Date: Wed, 22 Mar 2023 00:17:28 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F421078E
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Mar 2023 23:55:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95BB6C433EF;
+	Tue, 21 Mar 2023 23:55:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1679442905;
+	bh=Zmz+zFJqVc5SKCrgmnXSfAha9+ORxpYl8yLYMGMMags=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=vC+aPija08rwI0Z0SCC6TQmecCZUnv4kBRG5bUWq4oYuCh+42hNg59KRj7ooNvAjt
+	 0q0FQWa86ld9KLPmMjkZN8lTIHAXgAI6+lIDL2fHz4l8k1cxRd3ZoVTtqbSuG3X2jB
+	 74pA+6tcit6gt9Q97zO8pwWLFl/yckFNnX/nlDRmuMz0GINKVfZO0FLUjT/HLKgr9g
+	 7f02ip0HHmm6kXdGMavcuXeslpF/J5ZUbMOQRPRJpC6o2sbii/Rs3MX+3w/Sbx5rWO
+	 KpF00mRwuB9S8RXVbMZRYoGt3OhqjW1z29iRQHJsocvvizBcCtPmySahlQ1kxvcUCN
+	 5JQkltE/Zmu+g==
+Message-ID: <f804380a14c346fdbbf3286bcb40b3c2.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 01/10] dt-bindings: serial: snps-dw-apb-uart: Switch
- dma-names order
-To: Conor Dooley <conor@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Heiko Stuebner <heiko@sntech.de>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
- linux-riscv@lists.infradead.org, kernel@collabora.com
-References: <20230321215624.78383-1-cristian.ciocaltea@collabora.com>
- <20230321215624.78383-2-cristian.ciocaltea@collabora.com>
- <5287504e-c0f7-4964-8a61-fd49b7ee9547@spud>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <5287504e-c0f7-4964-8a61-fd49b7ee9547@spud>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+Subject: Re: [PATCH v2 00/65] clk: Make determine_rate mandatory for muxes
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: linux-stm32@st-md-mailman.stormreply.com, alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org, linux-mips@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>, linux-renesas-soc@vger.kernel.org, linux-actions@lists.infradead.org, linux-clk@vger.kernel.org, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, patches@opensource.cirrus.com, linux-tegra@vger.kernel.org, linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+To: Abel Vesa <abelvesa@kernel.org>, Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Andreas =?utf-8?q?F=C3=A4rber?= <afaerber@suse.de>, Baolin Wang <baolin.wang@linux.alibaba.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, Chen-Yu Tsai <wens@csie.org>, Chunyan Zhang <zhang.lyra@gmail.com>, Claudiu Beznea <claudiu.beznea@microchip.com>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, David Lechner <david@lechnology.com>, Dinh Nguyen <dinguyen@kernel.org>, Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Jaroslav Kysela <perex@perex.cz>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Kishon Vijay Abraham I <kishon@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, Luca Ceresoli <luca.ceresoli@bootlin.com>, Manivannan Sadhasivam <mani@kernel.org>, Mark Brown <br
+ oonie@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Maxime Ripard <maxime@cerno.tech>, Michael Turquette <mturquette@baylibre.com>, NXP Linux Team <linux-imx@nxp.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, Orson Zhai <orsonzhai@gmail.com>, Paul Cercueil <paul@crapouillou.net>, Pengutronix Kernel Team <kernel@pengutronix.de>, Peter De Schrijver <pdeschrijver@nvidia.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, Samuel Holland <samuel@sholland.org>, Sascha Hauer <s.hauer@pengutronix.de>, Sekhar Nori <nsekhar@ti.com>, Shawn Guo <shawnguo@kernel.org>, Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, Vinod Koul <vkoul@kernel.org>
+Date: Tue, 21 Mar 2023 16:55:03 -0700
+User-Agent: alot/0.10
 
-On 3/22/23 00:09, Conor Dooley wrote:
-> On Tue, Mar 21, 2023 at 11:56:15PM +0200, Cristian Ciocaltea wrote:
->> Commit 370f696e4474 ("dt-bindings: serial: snps-dw-apb-uart: add dma &
->> dma-names properties") documented dma-names property to handle Allwinner
->> D1 dtbs_check warnings, but relies on the rx->tx ordering, which is the
->> reverse of what a different board expects:
->>
->>    rk3326-odroid-go2.dtb: serial@ff030000: dma-names:0: 'rx' was expected
->>
->> A quick and incomplete check shows the inconsistency is present in many
->> other DTS files:
-> 
->> The initial proposed solution was to allow a flexible dma-names order in
->> the binding, due to potential ABI breakage concerns after fixing the DTS
->> files. But luckily the Allwinner boards are not really affected, since
->> all of them are using a shared DMA channel for rx and tx:
-> 
->> Switch dma-names order to tx->rx as the first step in fixing the
->> inconsistency. The remaining DTS fixes will be handled by separate
->> patches.
->>
->> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> 
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> 
-> Thanks for doing all of the switch overs too. I should've probably
-> broadened my searching beyond the allwinner platforms when I initially
-> added this, so yeah, thanks.
+Quoting Maxime Ripard (2022-11-04 06:17:17)
+> Hi,
+>=20
+> This is a follow-up to a previous series that was printing a warning
+> when a mux has a set_parent implementation but is missing
+> determine_rate().
+>=20
+> The rationale is that set_parent() is very likely to be useful when
+> changing the rate, but it's determine_rate() that takes the parenting
+> decision. If we're missing it, then the current parent is always going
+> to be used, and thus set_parent() will not be used. The only exception
+> being a direct call to clk_set_parent(), but those are fairly rare
+> compared to clk_set_rate().
+>=20
+> Stephen then asked to promote the warning to an error, and to fix up all
+> the muxes that are in that situation first. So here it is :)
+>=20
+> Let me know what you think,
 
-Thanks for the quick review! And no worries, I'm glad I could help, 
-hopefully I didn't miss anything..
+What's the plan here? Are you going to resend?
