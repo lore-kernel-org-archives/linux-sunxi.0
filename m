@@ -1,78 +1,92 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D4FD530
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Mar 2023 20:16:52 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::227])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 19F78C6C8C
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Mar 2023 19:39:28 +0000 (UTC)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 600B420002;
-	Tue, 21 Mar 2023 19:39:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1679427559;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F12C9440
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Mar 2023 20:31:42 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Ph3D35wsCz9sJB;
+	Tue, 21 Mar 2023 21:31:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1679430691;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yBHkU6tb5xg5smOIlShgBtygMh+FM3sL86bax3a5bDo=;
-	b=Gqqu81VcF0q1VsN48gRKkyeZZ3R6+UANTWm2J0WaavxgBCkF8PFF1FerT5b2POxH1Hq7s9
-	1Qv0wA5bBLGiB1yBLatCXEeo/olRqMhkC5dE4arA3WU73R7BIuzPPg4vfFc1u/sVLYaKUn
-	m2OghwcQmLKpja/d6gy4765C02hTkInW1+wBxz83j1dyTKQe4ZMhwBitXC40IKLdqmfHTU
-	BAMM0YHBvatH/VDQ67MXVxu7s73gDTtd4aJxEGXc5aVBqOchr9VzbdyawWSJcaBYaQZlD0
-	VbHpWvQhmbAASjUzsLZ8sIYPYNcy9pB0mKubjbE0R6u2nurh6F5U/M0+ADg2EA==
-Date: Tue, 21 Mar 2023 20:39:15 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Alessandro Zummo <a.zummo@towertech.it>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Hans Ulli Kroll <ulli.kroll@googlemail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Avi Fishman <avifishman70@gmail.com>,
-	Tomer Maimon <tmaimon77@gmail.com>,
-	Tali Perry <tali.perry1@gmail.com>,
-	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
-	Benjamin Fair <benjaminfair@google.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Rob Herring <robh@kernel.org>
-Cc: linux-rtc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH] dt-bindings: rtc: Drop unneeded quotes
-Message-ID: <167942752119.675121.3470511868063129229.b4-ty@bootlin.com>
-References: <20230317233634.3968656-1-robh@kernel.org>
+	bh=EI5/y4CkeUNPmFzU1WxwnwF9KrIdum2QGMnmVmYyGcA=;
+	b=ZWa4V3Z8E37AtZWzuoa765w3O+EbcbsjORlzxFQ303NssHQP/4F4nxS3Bf5Iy3GkO3FfQs
+	mO4NdgckVtiK8J7lsQLun16oIBolSsFXsD/FvIe0DLOCnEdoLQXdSFGGc1WN2DPTJT8r2M
+	UmRjE2Mgj16nMpWrErfWfy7Q2vU2iU1waTn2c5oERGNdlJ0fqVNvcZqbJTAbg0PQ5IZ4Dp
+	zy9s4CuheqrjcxG+FBsWqfrrB936qfhFnoBykVNAOEcP9rTpTX5hVZAWn0qKjmEb/5BPaH
+	dudgZKxdGnduwCjuGBnY6g6CfuzkeO7VwsU06XizmQQWNJ03jrHA5eyTg3fL6g==
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: jagan@amarulasolutions.com, michael@amarulasolutions.com, Chen-Yu Tsai
+ <wens@csie.org>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, "open list:DRM DRIVERS FOR ALLWINNER A10"
+ <dri-devel@lists.freedesktop.org>, "moderated list:ARM/Allwinner sunXi SoC
+ support" <linux-arm-kernel@lists.infradead.org>, "open list:ARM/Allwinner
+ sunXi SoC support" <linux-sunxi@lists.linux.dev>, open list
+ <linux-kernel@vger.kernel.org>, Roman Beranek <romanberanek@icloud.com>
+Subject: Re: [PATCH 1/1] drm/sun4i: tcon: Fix setting PLL rate when using DSI
+Date: Tue, 21 Mar 2023 20:55:32 +0100
+Message-ID: <87a605hmo5.fsf@oltmanns.dev>
+References: <20230319160704.9858-1-frank@oltmanns.dev>
+ <20230319160704.9858-2-frank@oltmanns.dev>
+ <20230321145739.jlpbzplsc27dlh7v@houat>
+In-reply-to: <20230321145739.jlpbzplsc27dlh7v@houat>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/mixed; boundary="=-=-="
+X-Rspamd-Queue-Id: 4Ph3D35wsCz9sJB
+
+--=-=-=
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230317233634.3968656-1-robh@kernel.org>
+Content-Transfer-Encoding: quoted-printable
 
+Hi Maxime,
 
-On Fri, 17 Mar 2023 18:36:33 -0500, Rob Herring wrote:
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
-> 
-> 
+On 2023-03-21 at 15:57:39 +0100, Maxime Ripard <maxime@cerno.tech> wrote:
+> Hi,
+>
+> On Sun, Mar 19, 2023 at 05:07:04PM +0100, Frank Oltmanns wrote:
+>> Set the required PLL rate by adjusting the dotclock rate when calling
+>> clk_set_rate() when using DSI.
+>>
+>> According to the Allwinners A64=E2=80=99s BSP code, a TCON divider of 4 =
+has to
+>> be used and the PLL rate needs to be set to the following frequency when
+>> using DSI:
+>>     PLL rate =3D DCLK * bpp / lanes
+>>
+>> After this change the common mode set function would only contain
+>> setting the resolution. Therefore, dissolve the function and transfer
+>> the functionality to the individual mode set functions.
+>>
+>> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+>
+> This is similar to:
+> <https://lore.kernel.org/all/20230320161636.24411-1-romanberanek@icloud.c=
+om/>
+>
+> What=E2=80=99s the story there?
 
-Applied, thanks!
-
-[1/1] dt-bindings: rtc: Drop unneeded quotes
-      commit: ab0fccc373d505c9a09bf459557768ab3177e0d2
+Sorry, as Roman wrote in the other thread, I submitted the patch after not =
+hearing back from him for a week. My apologies, I wasn=E2=80=99t patient en=
+ough. So now there are two submissions to consider. FWIW, I think this patc=
+h is a bit more straightforward than the other one.
 
 Best regards,
+  Frank
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> Maxime
+>
+
+--=-=-=--
