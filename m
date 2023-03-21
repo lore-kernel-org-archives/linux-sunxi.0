@@ -1,503 +1,78 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ECA2D306
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Mar 2023 17:50:47 +0000 (UTC)
-Received: by mail-ot1-f49.google.com with SMTP id m20-20020a9d6094000000b0069caf591747so8976841otj.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 21 Mar 2023 10:50:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679421046;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hkJwMlCiDTlqzsjpVfjEWIOKQQ9rIssiVzw2rvOzZa0=;
-        b=WiP+DfTaD/fR/5uihtjCXZvu5GF3deM2DQY7a2xfdrJXFS2vXjY6SQlo6enm79oE9m
-         9UjKg9C8WQe6zA5+j3WQyF6BdOFl5FHzJBJ7klR66ONfvhcitYYZDEbKLZK2r+9Y340G
-         UjfkndCOqytD9Uq/Odg7FULgWtn6LtnF1JfI0uEF44l/UYfvbNbeQXKAVQPgNeKwkg5E
-         6pGnKL1hUA9F0IIe67i2wcc5OIcJsKt8K/On0qaGlIE6TwYgQrRqhyRU6+wnwc8fJBCF
-         B1igpMUa/4MQUrq1tYGOza5CK07xEmxQCFF3nOxvWSMg86xOtuGlTH60x38Ojz4aJ2we
-         MIwg==
-X-Gm-Message-State: AO0yUKWhl0XgyQA37Razf4+bz++526aofRtoH0zBH3FlfGtNdvnkeN7V
-	mH0fKoPVP+GM8bv49PXTwJph07xJVKhdamomx34=
-X-Google-Smtp-Source: AK7set9nXWd8OVKksqEPYrPVA1o30yxu9d/Cj3gkxVq2A0K1+8mcUmDzD3Qll5Rov+0t/UyR5BflSyJU6a3Ps2VqCsk=
-X-Received: by 2002:a9d:3e53:0:b0:69a:7f40:3fb9 with SMTP id
- h19-20020a9d3e53000000b0069a7f403fb9mr1219944otg.3.1679421046646; Tue, 21 Mar
- 2023 10:50:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D4FD530
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Mar 2023 20:16:52 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::227])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 19F78C6C8C
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Mar 2023 19:39:28 +0000 (UTC)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 600B420002;
+	Tue, 21 Mar 2023 19:39:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1679427559;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yBHkU6tb5xg5smOIlShgBtygMh+FM3sL86bax3a5bDo=;
+	b=Gqqu81VcF0q1VsN48gRKkyeZZ3R6+UANTWm2J0WaavxgBCkF8PFF1FerT5b2POxH1Hq7s9
+	1Qv0wA5bBLGiB1yBLatCXEeo/olRqMhkC5dE4arA3WU73R7BIuzPPg4vfFc1u/sVLYaKUn
+	m2OghwcQmLKpja/d6gy4765C02hTkInW1+wBxz83j1dyTKQe4ZMhwBitXC40IKLdqmfHTU
+	BAMM0YHBvatH/VDQ67MXVxu7s73gDTtd4aJxEGXc5aVBqOchr9VzbdyawWSJcaBYaQZlD0
+	VbHpWvQhmbAASjUzsLZ8sIYPYNcy9pB0mKubjbE0R6u2nurh6F5U/M0+ADg2EA==
+Date: Tue, 21 Mar 2023 20:39:15 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Alessandro Zummo <a.zummo@towertech.it>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Hans Ulli Kroll <ulli.kroll@googlemail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
+	Benjamin Fair <benjaminfair@google.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Rob Herring <robh@kernel.org>
+Cc: linux-rtc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+	linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH] dt-bindings: rtc: Drop unneeded quotes
+Message-ID: <167942752119.675121.3470511868063129229.b4-ty@bootlin.com>
+References: <20230317233634.3968656-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230106194038.16018-1-adam@piggz.co.uk> <20230106194038.16018-2-adam@piggz.co.uk>
- <Y7ivZC2e0TZtbASV@pendragon.ideasonboard.com> <5905587.lOV4Wx5bFT@192-168-1-215>
- <Y7sm4ZbAoBhuhmP/@pendragon.ideasonboard.com> <Y+/FUICC58w10rNJ@pendragon.ideasonboard.com>
- <Y/Xw7lsKOYFqaZEw@aptenodytes>
-In-Reply-To: <Y/Xw7lsKOYFqaZEw@aptenodytes>
-From: Adam Pigg <adam@piggz.co.uk>
-Date: Tue, 21 Mar 2023 17:50:35 +0000
-Message-ID: <CANFkB1xNRMJyA3MKgwtPXc7B2BiGKhQPDan9NXw+QtCMD7cEJQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] media: sun6i-csi: merge sun6i_csi_formats and sun6i_csi_formats_match
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, 
-	yong.deng@magewell.com, mchehab@kernel.org, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230317233634.3968656-1-robh@kernel.org>
 
-On Wed, 22 Feb 2023 at 10:39, Paul Kocialkowski
-<paul.kocialkowski@bootlin.com> wrote:
->
-> Hi Adam, Laurent,
->
-> On Fri 17 Feb 23, 20:20, Laurent Pinchart wrote:
-> > Could you share your opinion on the question below ?
->
-> Yeah sorry for the long delay here. It's taken me a while to dive back into
-> this topic.
->
-> My first impression is that I would rather be in favor of keeping a dynamic
-> approach like what's already in sun6i_csi_capture_link_validate and extract
-> the mbus/pixfmt matching logic from there.
->
-> I would be happy to craft a patch in that direction, but maybe you'd like
-> to have a try at it (since it's your series). Just let me know, I think I can
-> do it pretty quickly now that I have everything back in mind. I could also
-> add some comment about the general hardware mechanism/limitations.
->
 
-Hi Paul
+On Fri, 17 Mar 2023 18:36:33 -0500, Rob Herring wrote:
+> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> checking for this can be enabled in yamllint.
+> 
+> 
 
-Apologies for missing this email!
+Applied, thanks!
 
-As you seem to know the hardware much better, and I was only getting
-it working together with
-help from others, im more than happy for you to work up the changes,
-and it will likely result in
-a much shorter change cycle!
+[1/1] dt-bindings: rtc: Drop unneeded quotes
+      commit: ab0fccc373d505c9a09bf459557768ab3177e0d2
 
-Would that be for this patch only in the series, or the other 2 also?
+Best regards,
 
-Thanks
-
-> The hardware is a bit odd in a few ways and I found that the explicit
-> combinatory approach wasn't a very good fit (but obviously that's an open topic
-> for discussions).
->
-> The general idea is that the SUN6I_CSI_INPUT_FMT_YUV420/422 can only be used
-> to produce outputs on 2 or 3 planes, but not packed YUV. There's also no
-> explicit hardware reordering of the chroma components, so we need to lie about
-> the input order (input_yuv_seq_invert) to achieve inverted chroma components
-> on the output format.
->
-> In order to produce packed data, we can only rely on SUN6I_CSI_INPUT_FMT_RAW
-> which provides no reordering mechanism. This is why it made good sense to me
-> to only have an explicit matching table for this case and rely on more general
-> logic that reflects the hardware capabilities otherwise.
->
-> > On Sun, Jan 08, 2023 at 10:26:09PM +0200, Laurent Pinchart wrote:
-> > > On Sun, Jan 08, 2023 at 06:23:56PM +0000, Adam Pigg wrote:
-> > > > On Friday, 6 January 2023 23:31:48 GMT Laurent Pinchart wrote:
-> > > > > On Fri, Jan 06, 2023 at 07:40:36PM +0000, adam@piggz.co.uk wrote:
->
-> [...]
->
-> > > > > > +#define SUN6I_BUS_FMTS(fmt...) (const u32[]) {fmt, 0}
->
-> Cosmetic suggestion to stay consistent with the rest:
-> #define SUN6I_CSI_CAPTURE_MBUS_CODES(mbus_codes...) \
->         (const u32[]) { mbus_codes, 0 }
->
-> Also it would look better in sun6i_csi_capture.h.
->
-> But really I would be happier with a dynamic approach.
->
-> [...]
->
-> > > > > >       /* YUV422 */
-> > > > > >       {
-> > > > > >
-> > > > > > @@ -123,6 +139,8 @@ static const struct sun6i_csi_capture_format
-> > > > > > sun6i_csi_capture_formats[] = {>
-> > > > > >               .output_format_field    =  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > > > > >               .input_format_raw       = true,
-> > > > > >               .hsize_len_factor       = 2,
-> > > > > >
-> > > > > > +             .mbus_codes             =  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_YUYV8_2X8,
-> > > > > > +                                                       MEDIA_BUS_FMT_YUYV8_1X16),
-> > > > > >
-> > > > > >       },
-> > > > > >       {
-> > > > > >
-> > > > > >               .pixelformat            = V4L2_PIX_FMT_YVYU,
-> > > > > >
-> > > > > > @@ -130,6 +148,8 @@ static const struct sun6i_csi_capture_format
-> > > > > > sun6i_csi_capture_formats[] = {>
-> > > > > >               .output_format_field    =  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > > > > >               .input_format_raw       = true,
-> > > > > >               .hsize_len_factor       = 2,
-> > > > > >
-> > > > > > +             .mbus_codes             =  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_YVYU8_2X8,
-> > > > > > +                                                       MEDIA_BUS_FMT_YVYU8_1X16),
-> > > > > >
-> > > > > >       },
-> > > > > >       {
-> > > > > >
-> > > > > >               .pixelformat            = V4L2_PIX_FMT_UYVY,
-> > > > > >
-> > > > > > @@ -137,6 +157,8 @@ static const struct sun6i_csi_capture_format
-> > > > > > sun6i_csi_capture_formats[] = {
-> > > > > >               .output_format_field    =  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > > > > >               .input_format_raw       = true,
-> > > > > >               .hsize_len_factor       = 2,
-> > > > > >
-> > > > > > +             .mbus_codes             =  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_UYVY8_2X8,
-> > > > > > +                                                       MEDIA_BUS_FMT_UYVY8_1X16),
-> > > > > >
-> > > > > >       },
-> > > > > >       {
-> > > > > >
-> > > > > >               .pixelformat            = V4L2_PIX_FMT_VYUY,
-> > > > > >
-> > > > > > @@ -144,57 +166,68 @@ static const struct sun6i_csi_capture_format
-> > > > > > sun6i_csi_capture_formats[] = {>
-> > > > > >               .output_format_field    =  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > > > > >               .input_format_raw       = true,
-> > > > > >               .hsize_len_factor       = 2,
-> > > > > >
-> > > > > > +             .mbus_codes             =  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_VYUY8_2X8,
-> > > > > > +                                                       MEDIA_BUS_FMT_VYUY8_1X16),
-> > > > > >
-> > > > > >       },
-> > > > > >       {
-> > > > > >
-> > > > > >               .pixelformat            = V4L2_PIX_FMT_NV16,
-> > > > > >               .output_format_frame    =  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV422SP,
-> > > > > >               .output_format_field    =  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV422SP,
-> > > > > >
-> > > > > > +             .mbus_codes             = 0,
-> > > > >
-> > > > > I don't think this is correct. To produce semi-planar or multi-planar
-> > > > > YUV formats, I believe the CSI needs YUV input. This should thus be
-> > > > > (unless I'm mistaken)
->
-> You are correct.
->
-> > > > >
-> > > > >                 .mbus_codes             =  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_UYVY8_2X8,
-> > > > >                                                           MEDIA_BUS_FMT_UYVY8_1X16,
-> > > > >                                                           MEDIA_BUS_FMT_VYUY8_2X8,
-> > > > >                                                           MEDIA_BUS_FMT_VYUY8_1X16,
-> > > > >                                                           MEDIA_BUS_FMT_YUYV8_2X8,
-> > > > >                                                           MEDIA_BUS_FMT_YUYV8_1X16,
-> > > > >                                                           MEDIA_BUS_FMT_YVYU8_2X8,
-> > > > >                                                           MEDIA_BUS_FMT_YVYU8_1X16),
-> > > > >
-> > > > > and same below.
->
-> All of the YUV420/422 pixel formats on 2 or 3 planes can take all of the
-> supports packed 16-bit YUV bus formats, which is why it doesn't seem very
-> graceful to have an explicit list.
->
-> > > > >
-> > > > Hi Laurent
-> > > >
-> > > > Thanks for the help and tips.  Ive made all the other changes, which can be
-> > > > viewed here until i resubmit them https://github.com/sailfish-on-dontbeevil/
-> > > > kernel-megi/commits/pinephone-libcamera
-> > > >
-> > > > Im just not quite sure on this one.  I think my implementation of merging the
-> > > > arrays keeps the previous mapping right?  In sun6i_csi_capture_format_matches
-> > > > there is no mapping for the *NV formats, and the remaining ones ive set to 0?
-> > >
-> > > The current implementation allows writing multi-planar formats (e.g.
-> > > NV12) to memory when the input of the CSI is a YUV media bus format
-> > > (e.g. YUYV8_1X16). This patch doesn't change that, but it will prevent
-> > > NV12 from being enumerated when using media bus-based enumeration of
-> > > pixel formats, so userspace won't see NV12 as being available.
-> > >
-> > > It would be fine fixing that issue in a separate patch on top of this
-> > > one, but I though you could as well do both in one go.
-> >
-> > Adam, you mentioned that NV12 and NV16 "don't work". Could you elaborate
-> > and explain what you've tried exactly ?
->
-> We definitely need to keep the ability to produce NV12, NV16 and friends from
-> YUV bus formats.
->
-> > > > > Paul, could you confirm this ?
-> > > > >
-> > > > > I'm a bit surprised that the CSI can't shuffle the YUV components for
-> > > > > packed YUYV formats, but so be it if that's a hardware limitation.
->
-> Yep that is correct, it's a hardware limitation.
->
-> Cheers,
->
-> Paul
->
-> > > > > I'm also thinking that a subsequent patch could drop the raw check from
-> > > > > sun6i_csi_capture_link_validate():
-> > > > >
-> > > > > -       /* With raw input mode, we need a 1:1 match between input and  output. */
-> > > > > -       if (bridge_format->input_format == SUN6I_CSI_INPUT_FMT_RAW ||
-> > > > > -           capture_format->input_format_raw) {
-> > > > > -               match = sun6i_csi_capture_format_match(pixelformat,
-> > > > > -                                                       fmt.format.code);
-> > > > > -               if (!match)
-> > > > > -                       goto invalid;
-> > > > > -       }
-> > > > > +       /* Make sure the media bus code and pixel format are compatible. */
-> > > > > +       match = sun6i_csi_capture_format_match(pixelformat,  fmt.format.code);
-> > > > > +       if (!match)
-> > > > > +               goto invalid;
-> > > > >
-> > > > > >       },
-> > > > > >       {
-> > > > > >
-> > > > > >               .pixelformat            = V4L2_PIX_FMT_NV61,
-> > > > > >               .output_format_frame    =  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV422SP,
-> > > > > >               .output_format_field    =  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV422SP,
-> > > > > >               .input_yuv_seq_invert   = true,
-> > > > > >
-> > > > > > +             .mbus_codes             = 0,
-> > > > > >
-> > > > > >       },
-> > > > > >       {
-> > > > > >
-> > > > > >               .pixelformat            = V4L2_PIX_FMT_YUV422P,
-> > > > > >               .output_format_frame    =  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV422P,
-> > > > > >               .output_format_field    =  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV422P,
-> > > > > >
-> > > > > > +             .mbus_codes             = 0,
-> > > > > >
-> > > > > >       },
-> > > > > >       /* YUV420 */
-> > > > > >       {
-> > > > > >
-> > > > > >               .pixelformat            = V4L2_PIX_FMT_NV12_16L16,
-> > > > > >               .output_format_frame    =  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV420MB,
-> > > > > >               .output_format_field    =  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV420MB,
-> > > > > >
-> > > > > > +             .mbus_codes             = 0,
-> > > > > >
-> > > > > >       },
-> > > > > >       {
-> > > > > >
-> > > > > >               .pixelformat            = V4L2_PIX_FMT_NV12,
-> > > > > >               .output_format_frame    =  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV420SP,
-> > > > > >               .output_format_field    =  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV420SP,
-> > > > > >
-> > > > > > +             .mbus_codes             = 0,
-> > > > > >
-> > > > > >       },
-> > > > > >       {
-> > > > > >
-> > > > > >               .pixelformat            = V4L2_PIX_FMT_NV21,
-> > > > > >               .output_format_frame    =  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV420SP,
-> > > > > >               .output_format_field    =  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV420SP,
-> > > > > >               .input_yuv_seq_invert   = true,
-> > > > > >
-> > > > > > +             .mbus_codes             = 0,
-> > > > > >
-> > > > > >       },
-> > > > > >
-> > > > > >       {
-> > > > > >
-> > > > > >               .pixelformat            = V4L2_PIX_FMT_YUV420,
-> > > > > >               .output_format_frame    =  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV420P,
-> > > > > >               .output_format_field    =  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV420P,
-> > > > > >
-> > > > > > +             .mbus_codes             = 0,
-> > > > > >
-> > > > > >       },
-> > > > > >       {
-> > > > > >
-> > > > > >               .pixelformat            = V4L2_PIX_FMT_YVU420,
-> > > > > >               .output_format_frame    =  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV420P,
-> > > > > >               .output_format_field    =  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV420P,
-> > > > > >               .input_yuv_seq_invert   = true,
-> > > > > >
-> > > > > > +             .mbus_codes             = 0,
-> > > > > >
-> > > > > >       },
-> > > > > >       /* Compressed */
-> > > > > >       {
-> > > > > >
-> > > > > >               .pixelformat            = V4L2_PIX_FMT_JPEG,
-> > > > > >               .output_format_frame    =  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_8,
-> > > > > >               .output_format_field    =  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > > > > >
-> > > > > > +             .mbus_codes             =  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_JPEG_1X8),
-> > > > > >
-> > > > > >       },
-> > > > > >
-> > > > > >  };
-> > > > > >
-> > > > > > @@ -210,118 +243,20 @@ struct sun6i_csi_capture_format
-> > > > > > *sun6i_csi_capture_format_find(u32 pixelformat)>
-> > > > > >       return NULL;
-> > > > > >
-> > > > > >  }
-> > > > > >
-> > > > > > -/* RAW formats need an exact match between pixel and mbus formats. */
-> > > > > > -static const
-> > > > > > -struct sun6i_csi_capture_format_match sun6i_csi_capture_format_matches[]
-> > > > > > = { - /* YUV420 */
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_YUYV,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_YUYV8_2X8,
-> > > > > > -     },
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_YUYV,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_YUYV8_1X16,
-> > > > > > -     },
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_YVYU,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_YVYU8_2X8,
-> > > > > > -     },
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_YVYU,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_YVYU8_1X16,
-> > > > > > -     },
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_UYVY,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_UYVY8_2X8,
-> > > > > > -     },
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_UYVY,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_UYVY8_1X16,
-> > > > > > -     },
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_VYUY,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_VYUY8_2X8,
-> > > > > > -     },
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_VYUY,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_VYUY8_1X16,
-> > > > > > -     },
-> > > > > > -     /* RGB */
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_RGB565,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_RGB565_2X8_LE,
-> > > > > > -     },
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_RGB565X,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_RGB565_2X8_BE,
-> > > > > > -     },
-> > > > > > -     /* Bayer */
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_SBGGR8,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_SBGGR8_1X8,
-> > > > > > -     },
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_SGBRG8,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_SGBRG8_1X8,
-> > > > > > -     },
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_SGRBG8,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_SGRBG8_1X8,
-> > > > > > -     },
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_SRGGB8,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_SRGGB8_1X8,
-> > > > > > -     },
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_SBGGR10,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_SBGGR10_1X10,
-> > > > > > -     },
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_SGBRG10,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_SGBRG10_1X10,
-> > > > > > -     },
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_SGRBG10,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_SGRBG10_1X10,
-> > > > > > -     },
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_SRGGB10,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_SRGGB10_1X10,
-> > > > > > -     },
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_SBGGR12,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_SBGGR12_1X12,
-> > > > > > -     },
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_SGBRG12,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_SGBRG12_1X12,
-> > > > > > -     },
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_SGRBG12,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_SGRBG12_1X12,
-> > > > > > -     },
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_SRGGB12,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_SRGGB12_1X12,
-> > > > > > -     },
-> > > > > > -     /* Compressed */
-> > > > > > -     {
-> > > > > > -             .pixelformat    = V4L2_PIX_FMT_JPEG,
-> > > > > > -             .mbus_code      = MEDIA_BUS_FMT_JPEG_1X8,
-> > > > > > -     },
-> > > > > > -};
-> > > > > > -
-> > > > > >
-> > > > > >  static bool sun6i_csi_capture_format_match(u32 pixelformat, u32
-> > > > > >  mbus_code)
-> > > > > >  {
-> > > > > >
-> > > > > > -     unsigned int i;
-> > > > > > -
-> > > > > > -     for (i = 0; i < ARRAY_SIZE(sun6i_csi_capture_format_matches); i++)  {
-> > > > > > -             const struct sun6i_csi_capture_format_match *match =
-> > > > > > -                     &sun6i_csi_capture_format_matches[i];
-> > > > > > -
-> > > > > > -             if (match->pixelformat == pixelformat &&
-> > > > > > -                 match->mbus_code == mbus_code)
-> > > > > > -                     return true;
-> > > > > > +     unsigned int i, j;
-> > > > > > +
-> > > > > > +     for (i = 0; i < ARRAY_SIZE(sun6i_csi_capture_formats); i++) {
-> > > > > > +             const struct sun6i_csi_capture_format *format =
-> > > > > > +                     &sun6i_csi_capture_formats[i];
-> > > > > > +
-> > > > > > +             if (format->pixelformat == pixelformat) {
-> > > > > > +                     for (j = 0; format->mbus_codes[j]; j++) {
-> > > > > > +                             if (mbus_code == format->mbus_codes[j])
-> > > > > > +                                     return true;
-> > > > > > +                     }
-> > > > > > +             }
-> > > > > >
-> > > > > >       }
-> > > > > >
-> > > > > >       return false;
-> > > > > >
-> > > > > > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-> > > > > > b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h index
-> > > > > > 3ee5ccefbd10..0484942834e3 100644
-> > > > > > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-> > > > > > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-> > > > > > @@ -27,11 +27,7 @@ struct sun6i_csi_capture_format {
-> > > > > >
-> > > > > >       bool    input_yuv_seq_invert;
-> > > > > >       bool    input_format_raw;
-> > > > > >       u32     hsize_len_factor;
-> > > > > >
-> > > > > > -};
-> > > > > > -
-> > > > > > -struct sun6i_csi_capture_format_match {
-> > > > > > -     u32     pixelformat;
-> > > > > > -     u32     mbus_code;
-> > > > > > +     const u32 *mbus_codes;
-> > > > > >
-> > > > > >  };
-> > > > > >
-> > > > > >  #undef current
-> >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
->
-> --
-> Paul Kocialkowski, Bootlin
-> Embedded Linux and kernel engineering
-> https://bootlin.com
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
