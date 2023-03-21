@@ -1,129 +1,124 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064243212
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Mar 2023 08:26:33 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id cn12so10823197edb.4
-        for <linux-sunxi@lists.linux.dev>; Tue, 21 Mar 2023 01:26:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679387192;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0mTzuTr7Qws+cUrzbSI+C/8BpG+BCY4L1yCujqjQO80=;
-        b=F0XMce0naaobBfyCQtabTxdjFlSDXtRsY59OVOruFSmpR9cvkfZ293h2nrTG5pheLb
-         mjov15+plh04xZriyDiET4af/BfKT329TO0zZ4SaJ9WBsM6RqZczGF3VhRHnd+ZuO+oy
-         gd0q56A62UfbLkchrVvemzOWkVE79g4EMJ5NoAUG4563Dcu4jB3ugwP5iSmX3KGkI9//
-         NuEjyIQsXFxucDiGuD3faRv179z5sC1fFVnTfzU+HONr1V72R8uDwRyGkG4UuOYj9UZc
-         WfHNAFeRmrZ/wnzOsH1VoKwOlBJAkNTN9ajSkqA/1FiYiAd2rYYHPPS9CqsbeXGUIpV5
-         kFhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679387192;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0mTzuTr7Qws+cUrzbSI+C/8BpG+BCY4L1yCujqjQO80=;
-        b=e8RTWpLA56GTvuIluVOuBt1Xm75MJckF1KUgbzH1QYocMIkBZc5EkL5hHc+XQ6g1vy
-         xdOg8RiSOKONxSpLoSKJbCaeE/hU4PspPtrpgs/BWWNWv5qJG8qLtPgYD8foSuSpDokm
-         x+aFiVjgPbDx9QWQW80dFl9Ny1Opk+HhSzAfWjhFuNG27UGKk1ya5ewlIqM1QepXR86/
-         7k/QRJhycN8Y2vRESeE0DHAEukQVwprXL695MLFuz7tES7pDYsrDlJC2boy9ngFuuinI
-         69x85hf1/JtcacY9xY+OOgpH1XNGkqNTS0pGQWweXVmCsQB/FhDKM0lUlQDeEhphdIGv
-         c05A==
-X-Gm-Message-State: AO0yUKV7EVCxmwGIYoOd5ABcbK6KK6IH9j8t61fWYdBwaQYF+lLcG/xD
-	miclc8uYBc6zS/YugObpMNLHHw==
-X-Google-Smtp-Source: AK7set+Yo3j0orRg0yJ8E1/dJwlIJ3rt2gBjk8VtlpRwTZcxqtlBtQSIoTar3pcg+04BUhx1cgL4AA==
-X-Received: by 2002:aa7:d315:0:b0:4ad:738b:6706 with SMTP id p21-20020aa7d315000000b004ad738b6706mr2495618edq.2.1679387192285;
-        Tue, 21 Mar 2023 01:26:32 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:2142:d8da:5ae4:d817? ([2a02:810d:15c0:828:2142:d8da:5ae4:d817])
-        by smtp.gmail.com with ESMTPSA id z67-20020a509e49000000b00501dac14d7asm534626ede.3.2023.03.21.01.26.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Mar 2023 01:26:31 -0700 (PDT)
-Message-ID: <676cb6ac-84a3-025f-bb05-55dd27c365fe@linaro.org>
-Date: Tue, 21 Mar 2023 09:26:29 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66728C952
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Mar 2023 14:56:50 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.nyi.internal (Postfix) with ESMTP id 6A7185C00FD;
+	Tue, 21 Mar 2023 10:56:49 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Tue, 21 Mar 2023 10:56:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm3; t=1679410609; x=1679497009; bh=Kr
+	zg0wsgi3e1+bN2uZEn+LdbVtw9+KSDVRGMqDt0WbY=; b=rOFJfN0ZWr4AOuVBov
+	h67qAC7OEWFK6+Lcmoxr4zy9jam8b5UPcV4rttDgUYhblJwTiNkoPAZ8S2f4QXqI
+	khWQvUhOMUEXRA5Tnh3pnwhqy2vYe6cUxkaI8XKypB/U3jv5bWB4Gml3l2M0vqRI
+	8mJa7sS91lwUUOuEiTaCZduzUxOZFgbgLsj5Q6hKNQV6TS7MUWHp2lqfLTR9w6/n
+	wvZ3/6VplK1vWi4bxTNvF2DJzRBFZuFpLluihrbUXyRbWuZzCLxjldNoxRCDnsIh
+	YDK98MSyNUuENuemqGZkDWxgnuS1pz1N9motRBRTE1SifM2zDEmsDjkPoL7Wh7W3
+	8gPw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1679410609; x=1679497009; bh=Krzg0wsgi3e1+
+	bN2uZEn+LdbVtw9+KSDVRGMqDt0WbY=; b=HyLtwTHXPYjFq/3VilH0N4YsaxI0U
+	CEVCkcQlv5EwGi/cmTpvzouxVUQuETIwpkz+XgS6rlxpVg52+XbaPvXlUdLCoEPu
+	AQvzDhp84NU/D85de731dJQcXhKYsKOgUGNHvoRJntDpBN74Jj4m3vuOGhBOl8By
+	6fijWW30/KVCyv7WzBJscCRUvjulbNSCpJfZZrudFjKXijsxQPuGAglSLDxEtw4p
+	OPLG56lSNeXsyN7rffp/TVlZADqDIlHO8bVrrpx7C5ghZtlnnt3w3pjQxodFl0cG
+	GeI19nlM6sIQuSxgfTk+N3MeMbugxnLsuiQ5013S/CAV/uVWXsUdr9C3g==
+X-ME-Sender: <xms:sMUZZDA6TTiiQ4dKff3RNcFHbyTWFupKfv2GGsBnqNxInfOMRe7y1Q>
+    <xme:sMUZZJgCX-c8oV6GxFI7VLrIiN9jaNV7_l9x0KlRcYr5oPFPER9Wj36o_WfAQR0CD
+    FN_Coh-rwk1WVrOFbE>
+X-ME-Received: <xmr:sMUZZOkCSQvDPdl7-gbbxEhgX0ekXFynCmUVMplv-HGOGMFE_nz8a4YF-NtdDJfMqLa8zKqL3MfvqsUKH2hS0cbRwOGXzhM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdegtddgieelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeeuvdejfefhueeukeegffekieejtdefkeejuedtueegleeijefgjeeigfej
+    hedtteenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhkvghrnhgvlhdrohhrghenuc
+    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhm
+    vgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:sMUZZFz_YmheqIOzHQHDNT-qXP8dWAxzYkM1ntWuaip3sD4Hwdvbsw>
+    <xmx:sMUZZIQmp9BzpaaH9ozAMrLOrqi1LiQ9PiH65ob3FXOqZpXIWk9sZg>
+    <xmx:sMUZZIaaXH7DIfEVzrygybErvVHAUBAoHB21dttCxAYwxvnJv8Kdtw>
+    <xmx:scUZZJL7YCbwJh8p6dSlsi-QwqvWQhUHCD9XhyeqSW73288P1g_s1A>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 21 Mar 2023 10:56:47 -0400 (EDT)
+Date: Tue, 21 Mar 2023 15:56:46 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Roman Beranek <romanberanek@icloud.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sun4i: uncouple DSI dotclock divider from
+ TCON0_DCLK_REG
+Message-ID: <20230321145646.w6kr7ddurfxpg5rt@houat>
+References: <20230320161636.24411-1-romanberanek@icloud.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 20/28] media: platform: jpeg: always reference OF data
-Content-Language: en-US
-To: Arnd Bergmann <arnd@arndb.de>, Joe Tessler <jrt@google.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Thierry Reding <thierry.reding@gmail.com>, Jon Hunter
- <jonathanh@nvidia.com>, Manivannan Sadhasivam <mani@kernel.org>,
- Michael Tretter <m.tretter@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Rui Miguel Silva <rmfrfs@gmail.com>, Wenyou Yang
- <wenyou.yang@microchip.com>, Bin Liu <bin.liu@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Houlong Wei <houlong.wei@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Patrice Chotard <patrice.chotard@foss.st.com>,
- Yong Deng <yong.deng@magewell.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Prabhakar
- <prabhakar.csengg@gmail.com>, Ezequiel Garcia
- <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>,
- Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-rockchip@lists.infradead.org, oushixiong <oushixiong@kylinos.cn>
-References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
- <20230312131318.351173-20-krzysztof.kozlowski@linaro.org>
- <86431868-488b-4a72-944b-231b6d0382b0@app.fastmail.com>
- <8b7816b0-1daa-1c49-6f9d-40769d228a39@linaro.org>
- <b9342459-efec-4e17-aee6-332ee17f44d2@app.fastmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <b9342459-efec-4e17-aee6-332ee17f44d2@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-On 21/03/2023 09:24, Arnd Bergmann wrote:
-> On Tue, Mar 21, 2023, at 09:21, Krzysztof Kozlowski wrote:
->> On 21/03/2023 09:11, Arnd Bergmann wrote:
->>> On Sun, Mar 12, 2023, at 14:13, Krzysztof Kozlowski wrote:
->>>> The driver can match only via the DT table so the table should be always
->>>> used and the of_match_ptr does not have any sense (this also allows ACPI
->>>> matching via PRP0001, even though it might not be relevant here).  This
->>>> also fixes !CONFIG_OF error:
->>>>
->>>>   drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1890:38: error: 
->>>> ‘mtk8195_jpegdec_drvdata’ defined but not used 
->>>> [-Werror=unused-const-variable=]
->>>>
->>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>>
->>> I see now that we both submitted the same patch, but now Hans
->>
->> We as you and me? I cannot find your patch on lore:
->> https://lore.kernel.org/all/?q=f%3Aarnd%40arndb.de
-> 
-> This is the one that I sent back in January:
-> 
-> https://lore.kernel.org/all/20230117172644.3044265-1-arnd@kernel.org
-
-Uh, that's from January! It's still waiting in Patchwork:
-https://patchwork.linuxtv.org/project/linux-media/patch/20230117172644.3044265-1-arnd@kernel.org/
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="zucvqkk7astyp3jt"
+Content-Disposition: inline
+In-Reply-To: <20230320161636.24411-1-romanberanek@icloud.com>
 
 
-Best regards,
-Krzysztof
+--zucvqkk7astyp3jt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
+
+On Mon, Mar 20, 2023 at 05:16:36PM +0100, Roman Beranek wrote:
+> In the case of DSI output, the value of SUN4I_TCON0_DCLK_DIV (4) does
+> not represent the actual dotclock divider, PLL_MIPI instead runs at
+> (bpp / lanes )-multiple [1] of the dotclock. [2] Setting 4 as dotclock
+> divder thus leads to reduced frame rate, specifically by 1/3 on 4-lane
+> panels, and by 2/3 on 2-lane panels respectively.
+>=20
+> As sun4i_dotclock driver stores its calculated divider directly in
+> the register, conditional handling of the DSI output scenario is needed.
+> Instead of reading the divider from SUN4I_TCON0_DCLK_REG, retrieve
+> the value from tcon->dclk_min_div.
+>=20
+> [1] bits per pixel / number of DSI lanes
+> [2] https://github.com/BPI-SINOVOIP/BPI-M64-bsp-4.4/blob/66bef0f2f30b367e=
+b93b1cbad21ce85e0361f7ae/linux-sunxi/drivers/video/fbdev/sunxi/disp2/disp/d=
+e/lowlevel_sun50iw1/disp_al.c#L322
+>=20
+> Signed-off-by: Roman Beranek <romanberanek@icloud.com>
+
+This is similar to
+https://lore.kernel.org/all/20230319160704.9858-2-frank@oltmanns.dev/
+
+What's the story there? Also, how was it tested/confirmed?
+
+Maxime
+
+--zucvqkk7astyp3jt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZBnFrgAKCRDj7w1vZxhR
+xW1uAP9976ZsRECK0eQpWRQZgu8XVlengWG8ooPy6U2I7N47ZgEA6brbh4HoKGtV
+lwnpwiadCnsprq26idTI18GGtM6lrAY=
+=giCa
+-----END PGP SIGNATURE-----
+
+--zucvqkk7astyp3jt--
