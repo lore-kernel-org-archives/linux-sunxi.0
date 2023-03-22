@@ -1,70 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC148C01
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Mar 2023 15:19:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8301DC433D2;
-	Wed, 22 Mar 2023 15:19:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679498358;
-	bh=EEErT/PnRAtdQE0xsUp/GkoJjA2tZIOlkEavkERihSA=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=biz9bCMNpkK2ZEQa+eaU+sNLjl7taEonfLGWnhALLtgkorM899mr4nkh/IxFNN3nN
-	 nJ8zf6kd9ma1XWWQN723hJBFbunjh7bWY6cNcMki8eHBAltLh6IIJI508urmj1MapD
-	 JTUNJwewzxCeo4W5xDNfWE9SRxilevfEGZeplSUxKR8eK6JDEGdZGqtC1yaB/GX/d5
-	 Hm4YlBRnG9Uo9db85S4u3R8JymPLotvxLSzr/8NbFvPABTfLD1D9ZdxDncX/1SKkhB
-	 J8j13I8QXDyGwrgpvNRQ/GUh8VH55YjjyNRF38nHR9RbQQi71Z28jdsata/N9enUg3
-	 lfo4mo3dbV8dA==
-Message-ID: <a5e4e878bbd2493e27ef9acd6a1f9af1.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5AD8C01
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Mar 2023 16:08:27 +0000 (UTC)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 6C9E1E0002;
+	Wed, 22 Mar 2023 16:08:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1679501300;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mVIf0xBR1dhGg/rt0kkDl4rNkivAG+axMpXPPBjw85M=;
+	b=owCwyVQhPVV5yGruQwAfTRLhAW7by3LXFlI9h3IDn+DN63T27PK5gW84sP1IULijqCStO5
+	+6S/lYq4NGyuna9nY8rl8tEF7fNsAjv1Ia6Za62sPMj+/BzZPVdIf8ijjwDra39BG997iC
+	/R62Z+s6BP4Ku/ZV34WTPt6yx96fhD4fzFUfwbMwujUG3q1VIsYTcuUTGFwapbgpq7E0qV
+	5wxL6L42lvurv2YeqsqEcjTk1opWrN2isiK6jDwICPHf2wBsv7z06Gjr0SMLBC24sqYX4c
+	kBAWVMkXPV0s5PQiRdsRXlbk9qrBVsAgWE0C1QD3VyZWx2+FgphikFaPpkKOcw==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Rob Herring <robh@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Naga Sureshkumar Relli <nagasure@xilinx.com>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Michael Walle <michael@walle.cc>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: linux-mtd@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH] dt-bindings: mtd: Drop unneeded quotes
+Date: Wed, 22 Mar 2023 17:08:12 +0100
+Message-Id: <20230322160812.2232713-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230317233631.3968509-1-robh@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230322100153.gzyznaukbdngcvko@houat>
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech> <f804380a14c346fdbbf3286bcb40b3c2.sboyd@kernel.org> <20230322100153.gzyznaukbdngcvko@houat>
-Subject: Re: [PATCH v2 00/65] clk: Make determine_rate mandatory for muxes
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: Abel Vesa <abelvesa@kernel.org>, Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Andreas =?utf-8?q?F=C3=A4rber?= <afaerber@suse.de>, Baolin Wang <baolin.wang@linux.alibaba.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, Chen-Yu Tsai <wens@csie.org>, Chunyan Zhang <zhang.lyra@gmail.com>, Claudiu Beznea <claudiu.beznea@microchip.com>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, David Lechner <david@lechnology.com>, Dinh Nguyen <dinguyen@kernel.org>, Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Jaroslav Kysela <perex@perex.cz>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Kishon Vijay Abraham I <kishon@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, Luca Ceresoli <luca.ceresoli@bootlin.com>, Manivannan Sadhasivam <mani@kernel.org>, Mark Brown <br
- oonie@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Michael Turquette <mturquette@baylibre.com>, NXP Linux Team <linux-imx@nxp.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, Orson Zhai <orsonzhai@gmail.com>, Paul Cercueil <paul@crapouillou.net>, Pengutronix Kernel Team <kernel@pengutronix.de>, Peter De Schrijver <pdeschrijver@nvidia.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, Samuel Holland <samuel@sholland.org>, Sascha Hauer <s.hauer@pengutronix.de>, Sekhar Nori <nsekhar@ti.com>, Shawn Guo <shawnguo@kernel.org>, Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, Vinod Koul <vkoul@kernel.org>, linux-stm32@st-md-mailman.stormreply.com, alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org, linux-mips@vger.kernel.org, linux-renesas-soc@vger.ker
- nel.org, linux-actions@lists.infradead.org, linux-clk@vger.kernel.org, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, patches@opensource.cirrus.com, linux-tegra@vger.kernel.org, linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-To: Maxime Ripard <maxime@cerno.tech>
-Date: Wed, 22 Mar 2023 08:19:16 -0700
-User-Agent: alot/0.10
+X-linux-mtd-patch-notification: thanks
+X-linux-mtd-patch-commit: b'85ef1236fb6915aba83d156ec02c14b6b378298b'
+Content-Transfer-Encoding: 8bit
 
-Quoting Maxime Ripard (2023-03-22 03:01:53)
-> Hi Stephen,
->=20
-> On Tue, Mar 21, 2023 at 04:55:03PM -0700, Stephen Boyd wrote:
-> > Quoting Maxime Ripard (2022-11-04 06:17:17)
-> > > Hi,
-> > >=20
-> > > This is a follow-up to a previous series that was printing a warning
-> > > when a mux has a set_parent implementation but is missing
-> > > determine_rate().
-> > >=20
-> > > The rationale is that set_parent() is very likely to be useful when
-> > > changing the rate, but it's determine_rate() that takes the parenting
-> > > decision. If we're missing it, then the current parent is always going
-> > > to be used, and thus set_parent() will not be used. The only exception
-> > > being a direct call to clk_set_parent(), but those are fairly rare
-> > > compared to clk_set_rate().
-> > >=20
-> > > Stephen then asked to promote the warning to an error, and to fix up =
-all
-> > > the muxes that are in that situation first. So here it is :)
-> > >=20
-> > > Let me know what you think,
-> >=20
-> > What's the plan here? Are you going to resend?
->=20
-> It wasn't clear to me whether or not this was something that you wanted,
-> and I got some pushback on the drivers so I kind of forgot about it.
->=20
-> If you do want it (and it looks like you do), I'll resend it.
+On Fri, 2023-03-17 at 23:36:30 UTC, Rob Herring wrote:
+> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> checking for this can be enabled in yamllint.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Let me read the whole series first. I was ignoring it because I was
-assuming it was going to be resent.
+Applied to https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git mtd/next, thanks.
+
+Miquel
