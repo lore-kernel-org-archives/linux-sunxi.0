@@ -1,96 +1,77 @@
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C34320A
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 08:40:09 +0000 (UTC)
-Received: by mail-yb1-f172.google.com with SMTP id s67so7073726ybi.5
-        for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 01:40:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679560808;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LVdvufZV56apmT3wmD9ncMcsijkg1/WCzRLjEqhYbYk=;
-        b=jt0T1kyTzkSVHHCl6C3RepTUHJHJMJwp3E7PBrhT2/xYa5EtksiTTG/c8wwIzIU4Z/
-         SP6qSrUD+NxMXZX1bTG8PCQpgfuHP59u0Np8wiu0KUJPXSqAJzXQDAgAhdBdm4ERqTZu
-         W1iU/UXMn4o+x12ZfA1TbzzlGle1mhqc6+pCFoTYeSycXLH0chaeh9w1eBTkD2vOP8sA
-         vAdlNnAtJbu1a1BYoccU9GKqHc2Cvh+aARoS6g2QyjguTZ3KI+BylBNheh9Xg9t4NtTd
-         2k3OHgvwLC4ljAJqFRZ+gv0eOvpjcGObjDM/uBGal3iyuErBjVTwBqdgO9KbDxL+mVt4
-         VMjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679560808;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LVdvufZV56apmT3wmD9ncMcsijkg1/WCzRLjEqhYbYk=;
-        b=B2C9ECUvJ3tnJNchW8nvoKZ8bzxj93gcuupwvSSTvpd22mOthEhm6j/SixZ3uQ6EoL
-         5k7qmAdNMb52GQmj7iFtXTpGz/slHP4DuLJi1o24JczUQA6zkNJfm5L8rex7ziVx2oU1
-         R+OUeqoqfSAGVK6X4X3jSTTojMSzNLDTJfRX3HOnj7Nk8/M0arDCaak1FVGEetquqq46
-         RL/N7U5UynF/D9l4Rwj7S2TGYS3JOnsOvfPegbWDMpc3BEpjdUYZ5VMRCEty31w4PEzd
-         uwyGgzB/M+tppheTMmO6WiB3bM+7Jz6zW7Nb6amTZjGyaL75Hb9eATdFx6A55oJDnHhM
-         RzEg==
-X-Gm-Message-State: AAQBX9d/vBTDkAbzkKIBHbCyY5BNK3/p55Zazhhjtx15v16oXVi28lcr
-	B9k4okblIs9KwD5XKXTcKU6u83WI4XcUNPeJt7Z4KQ==
-X-Google-Smtp-Source: AKy350aSyoiWihVzfFCCUghPO+0y8OTXazqo59ZooJtguYITdbyYyykALVgXcFtgTaOhhPAE83rDbJuRGMjWP7pJT3I=
-X-Received: by 2002:a25:8712:0:b0:b26:47f3:6cb with SMTP id
- a18-20020a258712000000b00b2647f306cbmr1346675ybl.4.1679560808264; Thu, 23 Mar
- 2023 01:40:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88EB9320A
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 08:53:52 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1pfGh0-0006FY-NJ; Thu, 23 Mar 2023 09:53:06 +0100
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1pfGgr-0066mb-Rs; Thu, 23 Mar 2023 09:52:57 +0100
+Received: from pza by lupine with local (Exim 4.94.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1pfGgq-0001AB-Lo; Thu, 23 Mar 2023 09:52:56 +0100
+Message-ID: <12f3f106791ad390aa1b4c850c7665467ba5d2d2.camel@pengutronix.de>
+Subject: Re: [PATCH] media: dt-bindings: Drop unneeded quotes
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Rob Herring <robh@kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>,  Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman
+ <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>,  Joe Tessler
+ <jrt@google.com>, Dongchun Zhu <dongchun.zhu@mediatek.com>, Jacopo Mondi
+ <jacopo+renesas@jmondi.org>, Kieran Bingham
+ <kieran.bingham+renesas@ideasonboard.com>, Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>, Niklas
+ =?ISO-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen
+ <andrew-ct.chen@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>, 
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Shawn Guo
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>,  Fabio Estevam <festevam@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Robert Foss <rfoss@kernel.org>,  Todor
+ Tomov <todor.too@gmail.com>, Andy Gross <agross@kernel.org>, Bjorn
+ Andersson <andersson@kernel.org>,  Konrad Dybcio
+ <konrad.dybcio@linaro.org>, Stanimir Varbanov
+ <stanimir.k.varbanov@gmail.com>, Vikash Garodia
+ <quic_vgarodia@quicinc.com>, Heiko Stuebner <heiko@sntech.de>, Benoit
+ Parrot <bparrot@ti.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org
+Date: Thu, 23 Mar 2023 09:52:56 +0100
+In-Reply-To: <20230320233944.2920964-1-robh@kernel.org>
+References: <20230320233944.2920964-1-robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.38.3-1+deb11u1 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230317233623.3968172-1-robh@kernel.org>
-In-Reply-To: <20230317233623.3968172-1-robh@kernel.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 23 Mar 2023 09:39:57 +0100
-Message-ID: <CACRpkdYq4jE7Qn1w8iPeGz7vxj_CeZ+H48B0TVYmeF4Tt=kHgA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: pinctrl: Drop unneeded quotes
-To: Rob Herring <robh@kernel.org>
-Cc: =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, 
-	Damien Le Moal <damien.lemoal@wdc.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Dong Aisheng <aisheng.dong@nxp.com>, 
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	NXP Linux Team <linux-imx@nxp.com>, Sean Wang <sean.wang@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Andy Gross <agross@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Heiko Stuebner <heiko@sntech.de>, 
-	Tomasz Figa <tomasz.figa@gmail.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Emil Renner Berthing <kernel@esmil.dk>, 
-	Jianlong Huang <jianlong.huang@starfivetech.com>, Dvorkin Dmitry <dvorkin@tibbo.com>, 
-	Wells Lu <wellslutw@gmail.com>, Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
-	Michal Simek <michal.simek@xilinx.com>, linux-arm-kernel@lists.infradead.org, 
-	linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, asahi@lists.linux.dev, 
-	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
-	linux-riscv@lists.infradead.org, patches@opensource.cirrus.com, 
-	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On Sat, Mar 18, 2023 at 12:36=E2=80=AFAM Rob Herring <robh@kernel.org> wrot=
-e:
-
+On Mo, 2023-03-20 at 18:39 -0500, Rob Herring wrote:
 > Cleanup bindings dropping unneeded quotes. Once all these are fixed,
 > checking for this can be enabled in yamllint.
->
+>=20
 > Signed-off-by: Rob Herring <robh@kernel.org>
 
-Should I queue this patch by the way, or do you need it to go into some
-DT-related tree?
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-Yours,
-Linus Walleij
+regards
+Philipp
