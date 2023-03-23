@@ -1,43 +1,43 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C9CD2E2
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 21:17:16 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id ew6so430714edb.7
-        for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 14:17:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CFBDD2E2
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 21:21:12 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id p34so31244wms.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 14:21:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679606235;
+        d=gmail.com; s=20210112; t=1679606470;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3+99Id4vlxpRMOhGjaSB6bloNnr3EAmVVri5OUB3HI0=;
-        b=Z0OU4zaxuMlq76Gk4nh+Y3sS3l4JuzykQcrJRFgVcU4j3G99BBLVe5F8T31Hs1pnfF
-         hYPLX9iuFec7w3kEKsmgrOGm7M0dfAXgq0u6Tw2FglaTMif9h7HGqo306Nz6FSKUfdxs
-         /E8CtpxeTvNfOIVx8LcKy/9AU6GDQj6pOXr30TAad6lh0Qw7dNL+V3CC17p0hpWI1PyJ
-         JP+dWjVOA3cB6bETXZ+L4xHytwjWrUfnrcmTWlxCLf9N6fpPp2lsvVpEmoGzz4RtQw9c
-         OcTeKFFPxCbmCtyYq2tUArCpX7wefJwkmGb4fS18m3V5qswE+8F7KsDwk4+R3De956Ie
-         uSEw==
+        bh=OVc7Of+Ix0ryK/+RAH7Z4FzYtXWWON2rs5eqRA4tiWA=;
+        b=XEapRCAfRjQ3Vvhm/kfmQ20knSNfS4nyJ/DeNjhfKvWH2mP0mTbIUKHMGqzD4Cny7L
+         pnHGYrLZhiQ3qpg0UnAKWYhtQZymabZ89gHgA1UyPiUr4X7/ZucB76UM7P0gfnMvc6+w
+         N5ju5ShkPJ2UoqBR347f7Sp37dTkbdMKiUc9AA7vOWH0vKbb1W/v4qj5vn/YMqyPRi1U
+         lXEjFYiMa/v/g6AvU66r1/KY0L+P0QKdJTvenLQcUmsEoGVjxZlcqUlAN8BPK9i3oDcF
+         Xpqr43xWIu9Ae7F5+NEs5ALgrRlDuC7Rws/EFSWvlJeAFI8XZV9HC8BQB7pdZxSqO4ew
+         JX3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679606235;
+        d=1e100.net; s=20210112; t=1679606470;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3+99Id4vlxpRMOhGjaSB6bloNnr3EAmVVri5OUB3HI0=;
-        b=pu8GSS5vaRSLP7eg/rkTTlAf8CyA6rTZ528fjwYaq0t9XGwZBk9D2DsnUIEqq4hj/n
-         eIi2z3B/59s7LyQwFNgGFMxHtWvPe2ABemovS4ptDOmP2PSs4bTWDB+R08FRTE/qh1gZ
-         XLasjwgnwbMS/DKOPXVvMmB/6QNHGAqpCqQy5208XS6I2at2WfYSKF9K4FoCU7/Hiw8R
-         VHs4+xDk80sHpbK3gni5gCUfzQreGK3NeKkMhggEk5yARjpM308yXBeZCyBhtRux5lWK
-         Z4H1zbcxElMKJ6/6xV8bneFG497+of/pNsNASjxxJOdANaHj678K9rvp2iy02PLiRx5f
-         8kMw==
-X-Gm-Message-State: AAQBX9fyWEHBUzyciS5rT/HwKtroraoj4MbRrQvyelxLJSBZwmOPmJVJ
-	S7efYOg3Kig+H99jo5nLdOM=
-X-Google-Smtp-Source: AKy350YXV7OnGGHypgylfPA7W/z5nJ+1x5GYw3D1Ob/zxZAWqv391Qz43ld0dBcs8lA0IxMw54UvSQ==
-X-Received: by 2002:a17:906:fa0b:b0:8b8:c06e:52d8 with SMTP id lo11-20020a170906fa0b00b008b8c06e52d8mr404362ejb.36.1679606234729;
-        Thu, 23 Mar 2023 14:17:14 -0700 (PDT)
+        bh=OVc7Of+Ix0ryK/+RAH7Z4FzYtXWWON2rs5eqRA4tiWA=;
+        b=PXgNQZfnrcvyZGAqxMlEJHzTTYr2rJvUNXzYoBy8wpjfExEA9xT+wahH88+3brZF6h
+         Us4/UvOlcwjpRNmfH/GynskfqRAUQHcS/zIvWEqDDQeMT4EnjIU5GlDXNjT77svLRf8f
+         /sVHm0D5lNzUOC5da3CbECRcUkrN57+Q6boyDyQ0TK8+o7l1Qv7FNIjHDvIEW4+mW2CT
+         jxQ5ATH324sHLkcCL6Suzf8Xdk7280oyxMfZCNws63MLtQ2IUl0aaQbqCj8upmpqANvb
+         O6SSsF8EqNdA/YiC7TUSloXc27AHyXHk3bczQimgc0pDHsyjLb8/KfmEscOy3QVNZWkD
+         lR/A==
+X-Gm-Message-State: AO0yUKW9yQ9ue71ftPms88nQg6Xq6CIFTUq/QFyWwrRAx4QMSaIdkznj
+	WE04C3uPOikXpemfmQCiaMA=
+X-Google-Smtp-Source: AK7set+7XkMQw//QRP6U0zw01ONMG6SisHKvyle8hz7Ra/I8s94s0O0zFWuYYD6E3TY5EKsJLVrbaA==
+X-Received: by 2002:a7b:cd10:0:b0:3ee:672d:caa4 with SMTP id f16-20020a7bcd10000000b003ee672dcaa4mr686528wmj.17.1679606470461;
+        Thu, 23 Mar 2023 14:21:10 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id r5-20020a1709064d0500b00923f05b2931sm9111409eju.118.2023.03.23.14.17.13
+        by smtp.gmail.com with ESMTPSA id t7-20020a05600c450700b003edddae1068sm3135457wmo.9.2023.03.23.14.21.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 14:17:14 -0700 (PDT)
+        Thu, 23 Mar 2023 14:21:10 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -51,13 +51,13 @@ Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor@kernel.org>,
  linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
  Belisko Marek <marek.belisko@gmail.com>
-Subject: Re: [PATCH v2 2/4] ARM: dts: sunxi: add Allwinner T113-s SoC .dtsi
-Date: Thu, 23 Mar 2023 22:17:13 +0100
-Message-ID: <13227090.uLZWGnKmhe@jernej-laptop>
-In-Reply-To: <20230320005249.13403-3-andre.przywara@arm.com>
+Subject: Re: [PATCH v2 4/4] ARM: dts: sunxi: add MangoPi MQ-R-T113 board
+Date: Thu, 23 Mar 2023 22:21:08 +0100
+Message-ID: <3225657.44csPzL39Z@jernej-laptop>
+In-Reply-To: <20230320005249.13403-5-andre.przywara@arm.com>
 References:
  <20230320005249.13403-1-andre.przywara@arm.com>
- <20230320005249.13403-3-andre.przywara@arm.com>
+ <20230320005249.13403-5-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -67,14 +67,17 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne ponedeljek, 20. marec 2023 ob 01:52:47 CET je Andre Przywara napisal(a):
-> The Allwinner T113-s SoC is apparently using the same (or at least a very
-> similar) die as the D1/D1s, but replaces the single RISC-V core with
-> two Arm Cortex-A7 cores.
-> Since the D1 core .dtsi already describes all common peripherals, we
-> just need a DT describing the ARM specific peripherals: the CPU cores,
-> the Generic Timer, the GIC and the PMU.
-> We include the core .dtsi directly from the riscv DT directory.
+Dne ponedeljek, 20. marec 2023 ob 01:52:49 CET je Andre Przywara napisal(a):
+> The MangoPi MQ-R-T113 is a small SBC with the Allwinner T113-s3 SoC.
+> The SoC features two Arm Cortex-A7 cores and 128 MB of co-packaged DDR3
+> DRAM. The board adds mostly connectors and the required regulators, plus
+> a Realtek RTL8189FTV WiFi chip.
+> Power comes in via a USB-C connector wired as a peripheral, and there is
+> a second USB-C connector usable as a host port.
+> 
+> Add a .dtsi file describing most of the board's peripherals, and include
+> that from the actual board .dts file. This allows to re-use the .dtsi
+> for the MQ-R-F113 RISC-V variant of that board.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
