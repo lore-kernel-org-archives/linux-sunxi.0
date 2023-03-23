@@ -1,608 +1,644 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384B0320A
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 09:10:39 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id v20-20020a05600c471400b003ed8826253aso1600513wmo.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 02:10:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679562637;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=1Q9t9Il4QCvc+OYsFCOq2Y2kM3JhY3Ymwzc544wPMKY=;
-        b=JAXG7TVxy3oUXnP5lw4wYb5eUI0PguXzTm0MUJRZOgGNg+x9sJrgIZfwXD8V6uJAlu
-         WT0ELZzwgjZWE2rZ34WVtUCDvXKHam0T5lPtLHmgTgp8/e+X6S/6KNHKqFnc8pPKdetw
-         vmYxxs4d+HE3pxtvWwA+3OF92i32upKk4N37YAiK8X0gi0GcRSywHiyEGx2eEzSoO6V9
-         cLqMWqKMJvceB5POvhgrb6SBGgT9jODoQno0y6IPsK/42icg50bW2/rhalI2bXBGFhy0
-         JcuFkp9O56MUzU/aDCQoKcMJR+0UFYuAc/HQTHCIW/umRJSObRIHc95BSAqGn+ouIdPi
-         osbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679562637;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1Q9t9Il4QCvc+OYsFCOq2Y2kM3JhY3Ymwzc544wPMKY=;
-        b=0OlKHf+fr58/30ZAdf1qjxwIZ55oOM3sGVyx1ahkArWHosSCAXM2s8t6yOTccSjzkR
-         KIJtY3oADx8UtqLHAxNSqVAFE6ua00z+CCz6LRKujbRpK4CBUPPMHxCghxh6ZI7Kv6c3
-         ylzY4f4paWNki8GQLpQG+QOA+23ugkq0Hq+gPoQUd+jehu5lni9QKOQwQLJywEBwFdRU
-         AYRDp8LF4syBH3kva8oYwrqDv9J5A2DPpl4hYdiX70BrhrPWN5FrKP9jUyycW+AdetIr
-         Gbc3AnZABbPc+FNxSEgBhQYrF7o8QuTtTRFgnk4lM/ouMGDx9HZYtj1XBIYBqfcHADTl
-         J5jQ==
-X-Gm-Message-State: AO0yUKWD7txZsQmYVqaToTaejxHHpBj9VD8snVEcYGRAKU/R6RxADfZ6
-	5+bSNxf03VfrurNVmRNoXjHVwQ==
-X-Google-Smtp-Source: AK7set9xyYcinzWn6c0YukVAn7Jmk43wPs8OMq65solPUGlI33Pxd/Jqw8KMSSdh+BGnWmDSul5q8Q==
-X-Received: by 2002:a7b:cbc8:0:b0:3ed:34e6:df4c with SMTP id n8-20020a7bcbc8000000b003ed34e6df4cmr1732318wmi.16.1679562637271;
-        Thu, 23 Mar 2023 02:10:37 -0700 (PDT)
-Received: from [192.168.7.188] (679773502.box.freepro.com. [212.114.21.58])
-        by smtp.gmail.com with ESMTPSA id e7-20020a05600c4e4700b003ee91983003sm803157wmq.4.2023.03.23.02.10.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Mar 2023 02:10:36 -0700 (PDT)
-Message-ID: <f3429a2a-9796-e071-923e-3af8f20d0e91@linaro.org>
-Date: Thu, 23 Mar 2023 10:10:34 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F788F6D
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 12:55:12 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 7B2AF1BF207;
+	Thu, 23 Mar 2023 12:55:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1679576110;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1Xu5G7WmAXfstavo6YSNPn9wQakQvbtqI2Xg/0IpTpc=;
+	b=C2i7X9iIn350ZHDv1RjWwgiG99WPF/fuXULPSrOuU1EZRKbV1hc1L4Xke+BCfX8iZEGIhT
+	i3MQ3uNpbeRoSdX2copr1Ew/BaFxV1X/g76K+IRBK+vvw8lXlo2jrW4OXI7zcg7+0LITkw
+	ML+e51DQlt/f1kkpRhj7D5h6aZvadepjJcUIFA4qcj1ieF4XWiVNOV0jn3mdn8x/HeUfI9
+	87BcXqq0oR61C127H6FxTngi6hUCvFa7+Dy8DGWL+oXmlhdMh610LfRIiAMclvyblzm3dS
+	9C6j7x35Qi51m4xQhx6IRaVfVbwC5QdmeXq7mG/PZZlDF/yakzPrns5SfXkufA==
+Date: Thu, 23 Mar 2023 13:55:09 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Adam Pigg <adam@piggz.co.uk>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, yong.deng@magewell.com,
+	mchehab@kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/3] media: sun6i-csi: merge sun6i_csi_formats and
+ sun6i_csi_formats_match
+Message-ID: <ZBxMLU+PJgPqlU4j@aptenodytes>
+References: <20230106194038.16018-1-adam@piggz.co.uk>
+ <20230106194038.16018-2-adam@piggz.co.uk>
+ <Y7ivZC2e0TZtbASV@pendragon.ideasonboard.com>
+ <5905587.lOV4Wx5bFT@192-168-1-215>
+ <Y7sm4ZbAoBhuhmP/@pendragon.ideasonboard.com>
+ <Y+/FUICC58w10rNJ@pendragon.ideasonboard.com>
+ <Y/Xw7lsKOYFqaZEw@aptenodytes>
+ <CANFkB1xNRMJyA3MKgwtPXc7B2BiGKhQPDan9NXw+QtCMD7cEJQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH] media: dt-bindings: Drop unneeded quotes
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Joe Tessler <jrt@google.com>, Dongchun Zhu <dongchun.zhu@mediatek.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>, Heiko Stuebner
- <heiko@sntech.de>, Benoit Parrot <bparrot@ti.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org
-References: <20230320233944.2920964-1-robh@kernel.org>
-Organization: Linaro Developer Services
-In-Reply-To: <20230320233944.2920964-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="KOKAUefQFL8klRs8"
+Content-Disposition: inline
+In-Reply-To: <CANFkB1xNRMJyA3MKgwtPXc7B2BiGKhQPDan9NXw+QtCMD7cEJQ@mail.gmail.com>
 
-On 21/03/2023 00:39, Rob Herring wrote:
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->   .../devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml | 2 +-
->   .../bindings/media/allwinner,sun50i-h6-vpu-g2.yaml        | 4 ++--
->   .../devicetree/bindings/media/amlogic,axg-ge2d.yaml       | 4 ++--
->   .../devicetree/bindings/media/amlogic,gx-vdec.yaml        | 4 ++--
->   .../devicetree/bindings/media/amlogic,meson-ir-tx.yaml    | 4 ++--
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+--KOKAUefQFL8klRs8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->   .../devicetree/bindings/media/i2c/chrontel,ch7322.yaml    | 4 ++--
->   .../devicetree/bindings/media/i2c/dongwoon,dw9768.yaml    | 6 +++---
->   .../devicetree/bindings/media/i2c/maxim,max9286.yaml      | 2 +-
->   .../devicetree/bindings/media/i2c/ovti,ov02a10.yaml       | 2 +-
->   .../devicetree/bindings/media/mediatek,mdp3-rdma.yaml     | 2 +-
->   .../bindings/media/mediatek,vcodec-subdev-decoder.yaml    | 4 ++--
->   .../devicetree/bindings/media/microchip,sama5d4-vdec.yaml | 4 ++--
->   .../devicetree/bindings/media/nxp,imx8mq-vpu.yaml         | 4 ++--
->   .../devicetree/bindings/media/qcom,msm8916-camss.yaml     | 4 ++--
->   .../devicetree/bindings/media/qcom,msm8916-venus.yaml     | 8 ++++----
->   .../devicetree/bindings/media/qcom,msm8996-camss.yaml     | 4 ++--
->   .../devicetree/bindings/media/qcom,msm8996-venus.yaml     | 4 ++--
->   .../devicetree/bindings/media/qcom,sc7180-venus.yaml      | 4 ++--
->   .../devicetree/bindings/media/qcom,sc7280-venus.yaml      | 4 ++--
->   .../devicetree/bindings/media/qcom,sdm660-camss.yaml      | 4 ++--
->   .../devicetree/bindings/media/qcom,sdm660-venus.yaml      | 4 ++--
->   .../devicetree/bindings/media/qcom,sdm845-camss.yaml      | 4 ++--
->   .../devicetree/bindings/media/qcom,sdm845-venus-v2.yaml   | 4 ++--
->   .../devicetree/bindings/media/qcom,sdm845-venus.yaml      | 4 ++--
->   .../devicetree/bindings/media/qcom,sm8250-camss.yaml      | 4 ++--
->   .../devicetree/bindings/media/qcom,sm8250-venus.yaml      | 4 ++--
->   Documentation/devicetree/bindings/media/rc.yaml           | 2 +-
->   .../devicetree/bindings/media/rockchip,rk3568-vepu.yaml   | 4 ++--
->   Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 4 ++--
->   Documentation/devicetree/bindings/media/ti,cal.yaml       | 2 +-
->   30 files changed, 57 insertions(+), 57 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
-> index 53945c61325c..42dfe22ad5f1 100644
-> --- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
-> @@ -11,7 +11,7 @@ maintainers:
->     - Maxime Ripard <mripard@kernel.org>
->   
->   allOf:
-> -  - $ref: "rc.yaml#"
-> +  - $ref: rc.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
-> index 9d44236f2deb..a4f06bbdfe49 100644
-> --- a/Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/allwinner,sun50i-h6-vpu-g2.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/allwinner,sun50i-h6-vpu-g2.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Hantro G2 VPU codec implemented on Allwinner H6 SoC
->   
-> diff --git a/Documentation/devicetree/bindings/media/amlogic,axg-ge2d.yaml b/Documentation/devicetree/bindings/media/amlogic,axg-ge2d.yaml
-> index e551be5e680e..f23fa6d06ad0 100644
-> --- a/Documentation/devicetree/bindings/media/amlogic,axg-ge2d.yaml
-> +++ b/Documentation/devicetree/bindings/media/amlogic,axg-ge2d.yaml
-> @@ -2,8 +2,8 @@
->   # Copyright 2020 BayLibre, SAS
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/amlogic,axg-ge2d.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/amlogic,axg-ge2d.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Amlogic GE2D Acceleration Unit
->   
-> diff --git a/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml b/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
-> index b827edabcafa..55930f6107c9 100644
-> --- a/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
-> +++ b/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
-> @@ -2,8 +2,8 @@
->   # Copyright 2019 BayLibre, SAS
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/amlogic,gx-vdec.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/amlogic,gx-vdec.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Amlogic Video Decoder
->   
-> diff --git a/Documentation/devicetree/bindings/media/amlogic,meson-ir-tx.yaml b/Documentation/devicetree/bindings/media/amlogic,meson-ir-tx.yaml
-> index 4432fea32650..377acce93423 100644
-> --- a/Documentation/devicetree/bindings/media/amlogic,meson-ir-tx.yaml
-> +++ b/Documentation/devicetree/bindings/media/amlogic,meson-ir-tx.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/amlogic,meson-ir-tx.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/amlogic,meson-ir-tx.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Amlogic Meson IR transmitter
->   
-> diff --git a/Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.yaml b/Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.yaml
-> index af8ada55b3f2..4e69b6a7ffcc 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.yaml
-> @@ -1,8 +1,8 @@
->   # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/i2c/chrontel,ch7322.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/i2c/chrontel,ch7322.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Chrontel HDMI-CEC Controller
->   
-> diff --git a/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
-> index 82d3d18c16a1..a0855d3b7577 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
-> @@ -38,7 +38,7 @@ properties:
->     dongwoon,aac-mode:
->       description:
->         Indication of AAC mode select.
-> -    $ref: "/schemas/types.yaml#/definitions/uint32"
-> +    $ref: /schemas/types.yaml#/definitions/uint32
->       enum:
->         - 1    #  AAC2 mode(operation time# 0.48 x Tvib)
->         - 2    #  AAC3 mode(operation time# 0.70 x Tvib)
-> @@ -50,7 +50,7 @@ properties:
->       description:
->         Number of AAC Timing count that controlled by one 6-bit period of
->         vibration register AACT[5:0], the unit of which is 100 us.
-> -    $ref: "/schemas/types.yaml#/definitions/uint32"
-> +    $ref: /schemas/types.yaml#/definitions/uint32
->       default: 0x20
->       minimum: 0x00
->       maximum: 0x3f
-> @@ -59,7 +59,7 @@ properties:
->       description:
->         Indication of VCM internal clock dividing rate select, as one multiple
->         factor to calculate VCM ring periodic time Tvib.
-> -    $ref: "/schemas/types.yaml#/definitions/uint32"
-> +    $ref: /schemas/types.yaml#/definitions/uint32
->       enum:
->         - 0    #  Dividing Rate -  2
->         - 1    #  Dividing Rate -  1
-> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> index 0c4213adbf6a..8df859136047 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> @@ -86,7 +86,7 @@ properties:
->         is 100000 micro volts
->   
->     maxim,gpio-poc:
-> -    $ref: '/schemas/types.yaml#/definitions/uint32-array'
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
->       minItems: 2
->       maxItems: 2
->       description: |
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
-> index 54df9d73dc86..763cebe03dc2 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
-> @@ -88,7 +88,7 @@ properties:
->           properties:
->             link-frequencies: true
->             ovti,mipi-clock-voltage:
-> -            $ref: "/schemas/types.yaml#/definitions/uint32"
-> +            $ref: /schemas/types.yaml#/definitions/uint32
->               description:
->                 Definition of MIPI clock voltage unit. This entry corresponds to
->                 the link speed defined by the 'link-frequencies' property.
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
-> index 9cfc0c7d23e0..7032c7e15039 100644
-> --- a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
-> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
-> @@ -27,7 +27,7 @@ properties:
->       maxItems: 1
->   
->     mediatek,gce-client-reg:
-> -    $ref: '/schemas/types.yaml#/definitions/phandle-array'
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
->       items:
->         items:
->           - description: phandle of GCE
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
-> index c4f20acdc1f8..20675f9ba3cd 100644
-> --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
-> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/mediatek,vcodec-subdev-decoder.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/mediatek,vcodec-subdev-decoder.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Mediatek Video Decode Accelerator With Multi Hardware
->   
-> diff --git a/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml b/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
-> index 4b77103ca913..59b805ca47c5 100644
-> --- a/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
-> +++ b/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/microchip,sama5d4-vdec.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/microchip,sama5d4-vdec.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Hantro G1 VPU codec implemented on Microchip SAMA5D4 SoCs
->   
-> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
-> index 7dc13a4b1805..3d58f02b0c5d 100644
-> --- a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
-> +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/nxp,imx8mq-vpu.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/nxp,imx8mq-vpu.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Hantro G1/G2 VPU codecs implemented on i.MX8M SoCs
->   
-> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
-> index 12ec3e1ea869..eb1499912c58 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/qcom,msm8916-camss.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/qcom,msm8916-camss.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Qualcomm CAMSS ISP
->   
-> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8916-venus.yaml b/Documentation/devicetree/bindings/media/qcom,msm8916-venus.yaml
-> index 2abb7d21c0d1..4ad42b8f19e6 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,msm8916-venus.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,msm8916-venus.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/qcom,msm8916-venus.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/qcom,msm8916-venus.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Qualcomm Venus video encode and decode accelerators
->   
-> @@ -47,7 +47,7 @@ properties:
->   
->       properties:
->         compatible:
-> -        const: "venus-decoder"
-> +        const: venus-decoder
->   
->       required:
->         - compatible
-> @@ -59,7 +59,7 @@ properties:
->   
->       properties:
->         compatible:
-> -        const: "venus-encoder"
-> +        const: venus-encoder
->   
->       required:
->         - compatible
-> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
-> index 6aeb3d6d02d5..8a10aa1cafc5 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/qcom,msm8996-camss.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/qcom,msm8996-camss.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Qualcomm CAMSS ISP
->   
-> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml b/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml
-> index 29d0cb6c6ebe..213247a43ef2 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/qcom,msm8996-venus.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/qcom,msm8996-venus.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Qualcomm Venus video encode and decode accelerators
->   
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-> index 42ee3f06c6be..5128a254fd25 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/qcom,sc7180-venus.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/qcom,sc7180-venus.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Qualcomm Venus video encode and decode accelerators
->   
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
-> index cf361dd9de08..eb9ce438dbe0 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/qcom,sc7280-venus.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/qcom,sc7280-venus.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Qualcomm Venus video encode and decode accelerators
->   
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
-> index b28c8e17f158..0a109e126064 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/qcom,sdm660-camss.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/qcom,sdm660-camss.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Qualcomm CAMSS ISP
->   
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm660-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sdm660-venus.yaml
-> index 45e3f58f52bd..4a0a9ca33cad 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sdm660-venus.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sdm660-venus.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/qcom,sdm660-venus.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/qcom,sdm660-venus.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Qualcomm Venus video encode and decode accelerators
->   
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
-> index f9a003882f84..1530ad0d80bd 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/qcom,sdm845-camss.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/qcom,sdm845-camss.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Qualcomm CAMSS ISP
->   
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-> index 8edc8a2f43a5..d81c3ee53ed6 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/qcom,sdm845-venus-v2.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/qcom,sdm845-venus-v2.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Qualcomm Venus video encode and decode accelerators
->   
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-venus.yaml
-> index 57d503373efe..1bf043c4c8fb 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sdm845-venus.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sdm845-venus.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/qcom,sdm845-venus.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/qcom,sdm845-venus.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Qualcomm Venus video encode and decode accelerators
->   
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
-> index 07a2af12f37d..fa5073c0fd1e 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/qcom,sm8250-camss.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/qcom,sm8250-camss.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Qualcomm CAMSS ISP
->   
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
-> index 4b7a12523dcf..8c8141723524 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/qcom,sm8250-venus.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Qualcomm Venus video encode and decode accelerators
->   
-> diff --git a/Documentation/devicetree/bindings/media/rc.yaml b/Documentation/devicetree/bindings/media/rc.yaml
-> index e732b7f3a635..6cecd7d941ca 100644
-> --- a/Documentation/devicetree/bindings/media/rc.yaml
-> +++ b/Documentation/devicetree/bindings/media/rc.yaml
-> @@ -18,7 +18,7 @@ properties:
->       description:
->         Specifies the scancode/key mapping table defined in-kernel for
->         the remote controller.
-> -    $ref: '/schemas/types.yaml#/definitions/string'
-> +    $ref: /schemas/types.yaml#/definitions/string
->       enum:
->         - rc-adstech-dvb-t-pci
->         - rc-alink-dtu-m
-> diff --git a/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml b/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
-> index 81b26eb4cd35..9d90d8d0565a 100644
-> --- a/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
-> +++ b/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/rockchip,rk3568-vepu.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/rockchip,rk3568-vepu.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Hantro G1 VPU encoders implemented on Rockchip SoCs
->   
-> diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-> index 6cc4d3e5a61d..ee622a8ee1cc 100644
-> --- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-> +++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-> @@ -2,8 +2,8 @@
->   
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/media/rockchip-vpu.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/media/rockchip-vpu.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Hantro G1 VPU codecs implemented on Rockchip SoCs
->   
-> diff --git a/Documentation/devicetree/bindings/media/ti,cal.yaml b/Documentation/devicetree/bindings/media/ti,cal.yaml
-> index 26b3fedef355..f1a940a110d2 100644
-> --- a/Documentation/devicetree/bindings/media/ti,cal.yaml
-> +++ b/Documentation/devicetree/bindings/media/ti,cal.yaml
-> @@ -47,7 +47,7 @@ properties:
->       maxItems: 1
->   
->     ti,camerrx-control:
-> -    $ref: "/schemas/types.yaml#/definitions/phandle-array"
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
->       items:
->         - items:
->             - description: phandle to device control module
+Hi Adam,
 
+On Tue 21 Mar 23, 17:50, Adam Pigg wrote:
+> On Wed, 22 Feb 2023 at 10:39, Paul Kocialkowski
+> <paul.kocialkowski@bootlin.com> wrote:
+> >
+> > Hi Adam, Laurent,
+> >
+> > On Fri 17 Feb 23, 20:20, Laurent Pinchart wrote:
+> > > Could you share your opinion on the question below ?
+> >
+> > Yeah sorry for the long delay here. It's taken me a while to dive back =
+into
+> > this topic.
+> >
+> > My first impression is that I would rather be in favor of keeping a dyn=
+amic
+> > approach like what's already in sun6i_csi_capture_link_validate and ext=
+ract
+> > the mbus/pixfmt matching logic from there.
+> >
+> > I would be happy to craft a patch in that direction, but maybe you'd li=
+ke
+> > to have a try at it (since it's your series). Just let me know, I think=
+ I can
+> > do it pretty quickly now that I have everything back in mind. I could a=
+lso
+> > add some comment about the general hardware mechanism/limitations.
+> >
+>=20
+> Hi Paul
+>=20
+> Apologies for missing this email!
+>=20
+> As you seem to know the hardware much better, and I was only getting
+> it working together with
+> help from others, im more than happy for you to work up the changes,
+> and it will likely result in
+> a much shorter change cycle!
+
+Glad to hear! I have some patches working already :)
+
+> Would that be for this patch only in the series, or the other 2 also?
+
+That would be for the enum_fmt mbus_code support as well as enum_framesizes.
+For the latter, I've made little change to your code so I will add your
+Co-authored-by and Signed-off-by lines.
+
+The same changes also apply to the sun6i-isp driver, which I try to keep
+in sync with sun6i-csi.
+
+Will send the patches soon (probably tomorrow).
+
+Cheers!
+
+Paul
+
+> Thanks
+>=20
+> > The hardware is a bit odd in a few ways and I found that the explicit
+> > combinatory approach wasn't a very good fit (but obviously that's an op=
+en topic
+> > for discussions).
+> >
+> > The general idea is that the SUN6I_CSI_INPUT_FMT_YUV420/422 can only be=
+ used
+> > to produce outputs on 2 or 3 planes, but not packed YUV. There's also no
+> > explicit hardware reordering of the chroma components, so we need to li=
+e about
+> > the input order (input_yuv_seq_invert) to achieve inverted chroma compo=
+nents
+> > on the output format.
+> >
+> > In order to produce packed data, we can only rely on SUN6I_CSI_INPUT_FM=
+T_RAW
+> > which provides no reordering mechanism. This is why it made good sense =
+to me
+> > to only have an explicit matching table for this case and rely on more =
+general
+> > logic that reflects the hardware capabilities otherwise.
+> >
+> > > On Sun, Jan 08, 2023 at 10:26:09PM +0200, Laurent Pinchart wrote:
+> > > > On Sun, Jan 08, 2023 at 06:23:56PM +0000, Adam Pigg wrote:
+> > > > > On Friday, 6 January 2023 23:31:48 GMT Laurent Pinchart wrote:
+> > > > > > On Fri, Jan 06, 2023 at 07:40:36PM +0000, adam@piggz.co.uk wrot=
+e:
+> >
+> > [...]
+> >
+> > > > > > > +#define SUN6I_BUS_FMTS(fmt...) (const u32[]) {fmt, 0}
+> >
+> > Cosmetic suggestion to stay consistent with the rest:
+> > #define SUN6I_CSI_CAPTURE_MBUS_CODES(mbus_codes...) \
+> >         (const u32[]) { mbus_codes, 0 }
+> >
+> > Also it would look better in sun6i_csi_capture.h.
+> >
+> > But really I would be happier with a dynamic approach.
+> >
+> > [...]
+> >
+> > > > > > >       /* YUV422 */
+> > > > > > >       {
+> > > > > > >
+> > > > > > > @@ -123,6 +139,8 @@ static const struct sun6i_csi_capture_for=
+mat
+> > > > > > > sun6i_csi_capture_formats[] =3D {>
+> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FIELD_RAW_8,
+> > > > > > >               .input_format_raw       =3D true,
+> > > > > > >               .hsize_len_factor       =3D 2,
+> > > > > > >
+> > > > > > > +             .mbus_codes             =3D  SUN6I_BUS_FMTS(MED=
+IA_BUS_FMT_YUYV8_2X8,
+> > > > > > > +                                                       MEDIA=
+_BUS_FMT_YUYV8_1X16),
+> > > > > > >
+> > > > > > >       },
+> > > > > > >       {
+> > > > > > >
+> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_YVYU,
+> > > > > > >
+> > > > > > > @@ -130,6 +148,8 @@ static const struct sun6i_csi_capture_for=
+mat
+> > > > > > > sun6i_csi_capture_formats[] =3D {>
+> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FIELD_RAW_8,
+> > > > > > >               .input_format_raw       =3D true,
+> > > > > > >               .hsize_len_factor       =3D 2,
+> > > > > > >
+> > > > > > > +             .mbus_codes             =3D  SUN6I_BUS_FMTS(MED=
+IA_BUS_FMT_YVYU8_2X8,
+> > > > > > > +                                                       MEDIA=
+_BUS_FMT_YVYU8_1X16),
+> > > > > > >
+> > > > > > >       },
+> > > > > > >       {
+> > > > > > >
+> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_UYVY,
+> > > > > > >
+> > > > > > > @@ -137,6 +157,8 @@ static const struct sun6i_csi_capture_for=
+mat
+> > > > > > > sun6i_csi_capture_formats[] =3D {
+> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FIELD_RAW_8,
+> > > > > > >               .input_format_raw       =3D true,
+> > > > > > >               .hsize_len_factor       =3D 2,
+> > > > > > >
+> > > > > > > +             .mbus_codes             =3D  SUN6I_BUS_FMTS(MED=
+IA_BUS_FMT_UYVY8_2X8,
+> > > > > > > +                                                       MEDIA=
+_BUS_FMT_UYVY8_1X16),
+> > > > > > >
+> > > > > > >       },
+> > > > > > >       {
+> > > > > > >
+> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_VYUY,
+> > > > > > >
+> > > > > > > @@ -144,57 +166,68 @@ static const struct sun6i_csi_capture_f=
+ormat
+> > > > > > > sun6i_csi_capture_formats[] =3D {>
+> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FIELD_RAW_8,
+> > > > > > >               .input_format_raw       =3D true,
+> > > > > > >               .hsize_len_factor       =3D 2,
+> > > > > > >
+> > > > > > > +             .mbus_codes             =3D  SUN6I_BUS_FMTS(MED=
+IA_BUS_FMT_VYUY8_2X8,
+> > > > > > > +                                                       MEDIA=
+_BUS_FMT_VYUY8_1X16),
+> > > > > > >
+> > > > > > >       },
+> > > > > > >       {
+> > > > > > >
+> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_NV16,
+> > > > > > >               .output_format_frame    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FRAME_YUV422SP,
+> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FIELD_YUV422SP,
+> > > > > > >
+> > > > > > > +             .mbus_codes             =3D 0,
+> > > > > >
+> > > > > > I don't think this is correct. To produce semi-planar or multi-=
+planar
+> > > > > > YUV formats, I believe the CSI needs YUV input. This should thu=
+s be
+> > > > > > (unless I'm mistaken)
+> >
+> > You are correct.
+> >
+> > > > > >
+> > > > > >                 .mbus_codes             =3D  SUN6I_BUS_FMTS(MED=
+IA_BUS_FMT_UYVY8_2X8,
+> > > > > >                                                           MEDIA=
+_BUS_FMT_UYVY8_1X16,
+> > > > > >                                                           MEDIA=
+_BUS_FMT_VYUY8_2X8,
+> > > > > >                                                           MEDIA=
+_BUS_FMT_VYUY8_1X16,
+> > > > > >                                                           MEDIA=
+_BUS_FMT_YUYV8_2X8,
+> > > > > >                                                           MEDIA=
+_BUS_FMT_YUYV8_1X16,
+> > > > > >                                                           MEDIA=
+_BUS_FMT_YVYU8_2X8,
+> > > > > >                                                           MEDIA=
+_BUS_FMT_YVYU8_1X16),
+> > > > > >
+> > > > > > and same below.
+> >
+> > All of the YUV420/422 pixel formats on 2 or 3 planes can take all of the
+> > supports packed 16-bit YUV bus formats, which is why it doesn't seem ve=
+ry
+> > graceful to have an explicit list.
+> >
+> > > > > >
+> > > > > Hi Laurent
+> > > > >
+> > > > > Thanks for the help and tips.  Ive made all the other changes, wh=
+ich can be
+> > > > > viewed here until i resubmit them https://github.com/sailfish-on-=
+dontbeevil/
+> > > > > kernel-megi/commits/pinephone-libcamera
+> > > > >
+> > > > > Im just not quite sure on this one.  I think my implementation of=
+ merging the
+> > > > > arrays keeps the previous mapping right?  In sun6i_csi_capture_fo=
+rmat_matches
+> > > > > there is no mapping for the *NV formats, and the remaining ones i=
+ve set to 0?
+> > > >
+> > > > The current implementation allows writing multi-planar formats (e.g.
+> > > > NV12) to memory when the input of the CSI is a YUV media bus format
+> > > > (e.g. YUYV8_1X16). This patch doesn't change that, but it will prev=
+ent
+> > > > NV12 from being enumerated when using media bus-based enumeration of
+> > > > pixel formats, so userspace won't see NV12 as being available.
+> > > >
+> > > > It would be fine fixing that issue in a separate patch on top of th=
+is
+> > > > one, but I though you could as well do both in one go.
+> > >
+> > > Adam, you mentioned that NV12 and NV16 "don't work". Could you elabor=
+ate
+> > > and explain what you've tried exactly ?
+> >
+> > We definitely need to keep the ability to produce NV12, NV16 and friend=
+s from
+> > YUV bus formats.
+> >
+> > > > > > Paul, could you confirm this ?
+> > > > > >
+> > > > > > I'm a bit surprised that the CSI can't shuffle the YUV componen=
+ts for
+> > > > > > packed YUYV formats, but so be it if that's a hardware limitati=
+on.
+> >
+> > Yep that is correct, it's a hardware limitation.
+> >
+> > Cheers,
+> >
+> > Paul
+> >
+> > > > > > I'm also thinking that a subsequent patch could drop the raw ch=
+eck from
+> > > > > > sun6i_csi_capture_link_validate():
+> > > > > >
+> > > > > > -       /* With raw input mode, we need a 1:1 match between inp=
+ut and  output. */
+> > > > > > -       if (bridge_format->input_format =3D=3D SUN6I_CSI_INPUT_=
+FMT_RAW ||
+> > > > > > -           capture_format->input_format_raw) {
+> > > > > > -               match =3D sun6i_csi_capture_format_match(pixelf=
+ormat,
+> > > > > > -                                                       fmt.for=
+mat.code);
+> > > > > > -               if (!match)
+> > > > > > -                       goto invalid;
+> > > > > > -       }
+> > > > > > +       /* Make sure the media bus code and pixel format are co=
+mpatible. */
+> > > > > > +       match =3D sun6i_csi_capture_format_match(pixelformat,  =
+fmt.format.code);
+> > > > > > +       if (!match)
+> > > > > > +               goto invalid;
+> > > > > >
+> > > > > > >       },
+> > > > > > >       {
+> > > > > > >
+> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_NV61,
+> > > > > > >               .output_format_frame    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FRAME_YUV422SP,
+> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FIELD_YUV422SP,
+> > > > > > >               .input_yuv_seq_invert   =3D true,
+> > > > > > >
+> > > > > > > +             .mbus_codes             =3D 0,
+> > > > > > >
+> > > > > > >       },
+> > > > > > >       {
+> > > > > > >
+> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_YUV422=
+P,
+> > > > > > >               .output_format_frame    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FRAME_YUV422P,
+> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FIELD_YUV422P,
+> > > > > > >
+> > > > > > > +             .mbus_codes             =3D 0,
+> > > > > > >
+> > > > > > >       },
+> > > > > > >       /* YUV420 */
+> > > > > > >       {
+> > > > > > >
+> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_NV12_1=
+6L16,
+> > > > > > >               .output_format_frame    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FRAME_YUV420MB,
+> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FIELD_YUV420MB,
+> > > > > > >
+> > > > > > > +             .mbus_codes             =3D 0,
+> > > > > > >
+> > > > > > >       },
+> > > > > > >       {
+> > > > > > >
+> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_NV12,
+> > > > > > >               .output_format_frame    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FRAME_YUV420SP,
+> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FIELD_YUV420SP,
+> > > > > > >
+> > > > > > > +             .mbus_codes             =3D 0,
+> > > > > > >
+> > > > > > >       },
+> > > > > > >       {
+> > > > > > >
+> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_NV21,
+> > > > > > >               .output_format_frame    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FRAME_YUV420SP,
+> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FIELD_YUV420SP,
+> > > > > > >               .input_yuv_seq_invert   =3D true,
+> > > > > > >
+> > > > > > > +             .mbus_codes             =3D 0,
+> > > > > > >
+> > > > > > >       },
+> > > > > > >
+> > > > > > >       {
+> > > > > > >
+> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_YUV420,
+> > > > > > >               .output_format_frame    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FRAME_YUV420P,
+> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FIELD_YUV420P,
+> > > > > > >
+> > > > > > > +             .mbus_codes             =3D 0,
+> > > > > > >
+> > > > > > >       },
+> > > > > > >       {
+> > > > > > >
+> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_YVU420,
+> > > > > > >               .output_format_frame    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FRAME_YUV420P,
+> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FIELD_YUV420P,
+> > > > > > >               .input_yuv_seq_invert   =3D true,
+> > > > > > >
+> > > > > > > +             .mbus_codes             =3D 0,
+> > > > > > >
+> > > > > > >       },
+> > > > > > >       /* Compressed */
+> > > > > > >       {
+> > > > > > >
+> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_JPEG,
+> > > > > > >               .output_format_frame    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FRAME_RAW_8,
+> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
+MT_FIELD_RAW_8,
+> > > > > > >
+> > > > > > > +             .mbus_codes             =3D  SUN6I_BUS_FMTS(MED=
+IA_BUS_FMT_JPEG_1X8),
+> > > > > > >
+> > > > > > >       },
+> > > > > > >
+> > > > > > >  };
+> > > > > > >
+> > > > > > > @@ -210,118 +243,20 @@ struct sun6i_csi_capture_format
+> > > > > > > *sun6i_csi_capture_format_find(u32 pixelformat)>
+> > > > > > >       return NULL;
+> > > > > > >
+> > > > > > >  }
+> > > > > > >
+> > > > > > > -/* RAW formats need an exact match between pixel and mbus fo=
+rmats. */
+> > > > > > > -static const
+> > > > > > > -struct sun6i_csi_capture_format_match sun6i_csi_capture_form=
+at_matches[]
+> > > > > > > =3D { - /* YUV420 */
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_YUYV,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_YUYV8_2X8,
+> > > > > > > -     },
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_YUYV,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_YUYV8_1X16,
+> > > > > > > -     },
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_YVYU,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_YVYU8_2X8,
+> > > > > > > -     },
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_YVYU,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_YVYU8_1X16,
+> > > > > > > -     },
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_UYVY,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_UYVY8_2X8,
+> > > > > > > -     },
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_UYVY,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_UYVY8_1X16,
+> > > > > > > -     },
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_VYUY,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_VYUY8_2X8,
+> > > > > > > -     },
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_VYUY,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_VYUY8_1X16,
+> > > > > > > -     },
+> > > > > > > -     /* RGB */
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_RGB565,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_RGB565_2X8_LE,
+> > > > > > > -     },
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_RGB565X,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_RGB565_2X8_BE,
+> > > > > > > -     },
+> > > > > > > -     /* Bayer */
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SBGGR8,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SBGGR8_1X8,
+> > > > > > > -     },
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SGBRG8,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SGBRG8_1X8,
+> > > > > > > -     },
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SGRBG8,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SGRBG8_1X8,
+> > > > > > > -     },
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SRGGB8,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SRGGB8_1X8,
+> > > > > > > -     },
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SBGGR10,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SBGGR10_1X10,
+> > > > > > > -     },
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SGBRG10,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SGBRG10_1X10,
+> > > > > > > -     },
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SGRBG10,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SGRBG10_1X10,
+> > > > > > > -     },
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SRGGB10,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SRGGB10_1X10,
+> > > > > > > -     },
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SBGGR12,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SBGGR12_1X12,
+> > > > > > > -     },
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SGBRG12,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SGBRG12_1X12,
+> > > > > > > -     },
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SGRBG12,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SGRBG12_1X12,
+> > > > > > > -     },
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SRGGB12,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SRGGB12_1X12,
+> > > > > > > -     },
+> > > > > > > -     /* Compressed */
+> > > > > > > -     {
+> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_JPEG,
+> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_JPEG_1X8,
+> > > > > > > -     },
+> > > > > > > -};
+> > > > > > > -
+> > > > > > >
+> > > > > > >  static bool sun6i_csi_capture_format_match(u32 pixelformat, =
+u32
+> > > > > > >  mbus_code)
+> > > > > > >  {
+> > > > > > >
+> > > > > > > -     unsigned int i;
+> > > > > > > -
+> > > > > > > -     for (i =3D 0; i < ARRAY_SIZE(sun6i_csi_capture_format_m=
+atches); i++)  {
+> > > > > > > -             const struct sun6i_csi_capture_format_match *ma=
+tch =3D
+> > > > > > > -                     &sun6i_csi_capture_format_matches[i];
+> > > > > > > -
+> > > > > > > -             if (match->pixelformat =3D=3D pixelformat &&
+> > > > > > > -                 match->mbus_code =3D=3D mbus_code)
+> > > > > > > -                     return true;
+> > > > > > > +     unsigned int i, j;
+> > > > > > > +
+> > > > > > > +     for (i =3D 0; i < ARRAY_SIZE(sun6i_csi_capture_formats)=
+; i++) {
+> > > > > > > +             const struct sun6i_csi_capture_format *format =
+=3D
+> > > > > > > +                     &sun6i_csi_capture_formats[i];
+> > > > > > > +
+> > > > > > > +             if (format->pixelformat =3D=3D pixelformat) {
+> > > > > > > +                     for (j =3D 0; format->mbus_codes[j]; j+=
++) {
+> > > > > > > +                             if (mbus_code =3D=3D format->mb=
+us_codes[j])
+> > > > > > > +                                     return true;
+> > > > > > > +                     }
+> > > > > > > +             }
+> > > > > > >
+> > > > > > >       }
+> > > > > > >
+> > > > > > >       return false;
+> > > > > > >
+> > > > > > > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi=
+_capture.h
+> > > > > > > b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h =
+index
+> > > > > > > 3ee5ccefbd10..0484942834e3 100644
+> > > > > > > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_captur=
+e.h
+> > > > > > > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_captur=
+e.h
+> > > > > > > @@ -27,11 +27,7 @@ struct sun6i_csi_capture_format {
+> > > > > > >
+> > > > > > >       bool    input_yuv_seq_invert;
+> > > > > > >       bool    input_format_raw;
+> > > > > > >       u32     hsize_len_factor;
+> > > > > > >
+> > > > > > > -};
+> > > > > > > -
+> > > > > > > -struct sun6i_csi_capture_format_match {
+> > > > > > > -     u32     pixelformat;
+> > > > > > > -     u32     mbus_code;
+> > > > > > > +     const u32 *mbus_codes;
+> > > > > > >
+> > > > > > >  };
+> > > > > > >
+> > > > > > >  #undef current
+> > >
+> > > --
+> > > Regards,
+> > >
+> > > Laurent Pinchart
+> >
+> > --
+> > Paul Kocialkowski, Bootlin
+> > Embedded Linux and kernel engineering
+> > https://bootlin.com
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--KOKAUefQFL8klRs8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmQcTCwACgkQ3cLmz3+f
+v9HXBwf/TEJkfHIvbVX/VWK8INedkVMw3Xe069lj1Vu+0rL1YyW339G0EHq5wy6E
+oD1dXG15quVthGK9rF6nbOIoQiEAKH23t2fteRCmTsNnGdodL7MkznmdIZ2htE4Z
+ahGvALgv9tdpj/7j9kQttcjSv2xuH7u5XOqZdjBGqtT8+sPYhicChamMqeb72yGG
+IywTOGuRFv0IdjCwmV3fLoMLqAyGc8vO8GMxFs2jqiuskupvyqMbg7aThtQzmFZS
+HU9Ws7nLUn2XMr1DO4UpSeLLsRK2o2pceTxEwbCGvXs6DJ7Ihe5PCf5nBzh2rh26
+91Q1Vpx9XbCjP/Sh1RRkuWnRKIoW4w==
+=8JIu
+-----END PGP SIGNATURE-----
+
+--KOKAUefQFL8klRs8--
