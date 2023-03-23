@@ -1,81 +1,77 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ADD53C04
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 18:49:10 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id l15-20020a05600c4f0f00b003ed58a9a15eso1724686wmq.5
-        for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 11:49:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B694B3C04
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 19:01:39 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id o40-20020a05600c512800b003eddedc47aeso1866942wms.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 12:01:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679597348;
+        d=gmail.com; s=20210112; t=1679598098;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UaAtIRtOu++U0RXXy05q7KocYfCm4/E/CZEqe2Ect2k=;
-        b=h2ivD7hcvtWe9brHOPv+jqBpm0raSc80vwDnXEhu5IdMrXiSPdjv0esN1GT7ewwyYG
-         H2y8Eqn4Mo60ywPRXJTn8XgB+fMxZVA7Ct7E9JHORCpJmeCIzHvdrGjUdnE+vxLGYPiz
-         VllmEBVE8pnA4884rTJfjjv+EJ0V+uVKTLuKCdadwNglfs7N/eccLAUNRpSrEf1I0/Hg
-         dxzYcGpTFKNcuWyNeoJKlNn2EdqUnIIf8IbDhN28vDqEqCqgpCdS+JbajSk8ldfUqupS
-         L6eoIE7x1bDdqffvBZdtYyGHZKEJjlBUFneI5JFhM147Bl5C24i2CFWn5q43MEwWX9Re
-         KG+Q==
+        bh=eLv+OdWP2/q4icqUygxqdKy5WVqm1CK1qz/X+1uMQ6s=;
+        b=cu5m+OlbboTOC7NIqSEcp8iW3kmX+jLP0i9ZshSDb0YwwsjhG1UnGQihGdnCsHvzxT
+         E5fzMruGiyGXORVsaVQVBbyi7036u7U5L4qTaq5l56LuyOE9nazVT64HJCGkSLuVN93r
+         1B4AKbmo7E/IH5irUJwFpldHtDZ0+Orn/pNa9BAq9838vXVb3y7SkxG89vediufY01gv
+         iT/xH+JDL/vm8bbKhZUAcxrvBAsVgYJLNDWRSp5CWvQ6mQIAPqudwQWWgSduywYWAvd6
+         ICah9KqPXqaujDhUvMUhzr0TOCO/Cv+vmxBx11QIL752t6GbzmIoKJBQf+QxYLTe/Kgd
+         cVoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679597348;
+        d=1e100.net; s=20210112; t=1679598098;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UaAtIRtOu++U0RXXy05q7KocYfCm4/E/CZEqe2Ect2k=;
-        b=KU+QSkTiOhmnOXRpOYcr0kY7uSLg4IdiisCCOYqjjQ7rqRGM2HwRRIDFv/hasDLnje
-         sdjMel5Gd446PcHLY3d1yKzE/YwBwokHListLZN3cGVbyOttzuBPPUFm5UAyEhB97HBW
-         uMiPjOLhFp8zR0pAVGqLQV923+lqztJMOwnORBgMXO/9BaBI4BHBRdPLhmFPvSTdHfgB
-         pUqLdam8ETFaSHdDKiNs01sg03xfXK7YWYJzh7+OMoKqVJPrvZ1Y+Ff2PE3+cmL3euJ4
-         /YjeZN9aFFGWFoeYYEAzEh5gPDc3d/Dt8p5W/+ar2hhMHPOMrhWfTcCcuwL5961MbHEd
-         Varg==
-X-Gm-Message-State: AO0yUKUtt+Tv7gaCR0ZE0WyupmHRytX2qgA0O3CvQ+YwJXr6zQntMjlv
-	cfLaI1+WEBOMRIUw8cFXsmA=
-X-Google-Smtp-Source: AK7set8iPShWRfidqt9I4Gp4+eMynjPzq6WpxgPllmii/Bx8E6MpO7U6wLeZYbAleSLfDLFNMZa2Gg==
-X-Received: by 2002:a7b:cd88:0:b0:3ee:7061:1bdd with SMTP id y8-20020a7bcd88000000b003ee70611bddmr481614wmj.4.1679597348358;
-        Thu, 23 Mar 2023 11:49:08 -0700 (PDT)
+        bh=eLv+OdWP2/q4icqUygxqdKy5WVqm1CK1qz/X+1uMQ6s=;
+        b=aAsIUYlwJ0JUjGHq0+PoNGNMfLfll07OZXItn5if0zsYJbhS62FiTKyETheGP6S8bL
+         FsAuqQrLY8hj2P/GSqDR+djD7docQ5Ll6W0DUmP4OW1EaUGbLmNqAg492zLA6avZrSzJ
+         lNsBpxjrCFAo576SzwPYx6qRGp3yp8x0ZY4D3+wosFW6j61YjJfkgjVUO/4VlX1HrVX9
+         q3XNsgSCV463oqLGJ0SZbnO3p9oxGEYK89sTCWkvqX99JyabEphNIyH/M/F7nSN063Ij
+         IY4QVhQxvrjB0HUysh9LmjBasozUOnuVQb2QoVp/PWWRnwMAFYrL3u6Ar8NgUK3Eq6eQ
+         kSkg==
+X-Gm-Message-State: AO0yUKVU9Q8h1ij3Bfl8w6Cvfo4Qmzogzy82gWMQsG7fe25RDAM9qGGZ
+	VVDhWRpuTFiLUCqGlYWZkwo=
+X-Google-Smtp-Source: AK7set+rYnmeyHLDI8kRSWajUorF8AQNiBslvOhL1B8d1ZJbljrj8VFTESbYvCOCBRF9m/MSyyRPaw==
+X-Received: by 2002:a05:600c:22d4:b0:3ed:b56c:9496 with SMTP id 20-20020a05600c22d400b003edb56c9496mr523314wmg.31.1679598097756;
+        Thu, 23 Mar 2023 12:01:37 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id n17-20020a1c7211000000b003edf2dc7ca3sm2621024wmc.34.2023.03.23.11.49.06
+        by smtp.gmail.com with ESMTPSA id x11-20020a05600c21cb00b003ede3e54ed7sm2724420wmj.6.2023.03.23.12.01.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 11:49:07 -0700 (PDT)
+        Thu, 23 Mar 2023 12:01:37 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+To: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Joe Tessler <jrt@google.com>, Dongchun Zhu <dongchun.zhu@mediatek.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Niklas =?ISO-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>, Heiko Stuebner <heiko@sntech.de>,
- Benoit Parrot <bparrot@ti.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Yu Chen <chenyu56@huawei.com>, Binghui Wang <wangbinghui@hisilicon.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Rob Herring <robh@kernel.org>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Robert Marko <robert.marko@sartura.hr>, Luka Perkov <luka.perkov@sartura.hr>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Vincent Shih <vincent.sunplus@gmail.com>,
+ Wolfgang Grandegger <wg@grandegger.com>,
+ Marc Kleine-Budde <mkl@pengutronix.de>, Rob Herring <robh@kernel.org>
+Cc: linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] media: dt-bindings: Drop unneeded quotes
-Date: Thu, 23 Mar 2023 19:49:05 +0100
-Message-ID: <5657054.DvuYhMxLoT@jernej-laptop>
-In-Reply-To: <20230320233944.2920964-1-robh@kernel.org>
-References: <20230320233944.2920964-1-robh@kernel.org>
+ linux-usb@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-can@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: phy: Drop unneeded quotes
+Date: Thu, 23 Mar 2023 20:01:34 +0100
+Message-ID: <4814446.31r3eYUQgx@jernej-laptop>
+In-Reply-To: <20230320233955.2921179-1-robh@kernel.org>
+References: <20230320233955.2921179-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -85,14 +81,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne torek, 21. marec 2023 ob 00:39:42 CET je Rob Herring napisal(a):
+Dne torek, 21. marec 2023 ob 00:39:52 CET je Rob Herring napisal(a):
 > Cleanup bindings dropping unneeded quotes. Once all these are fixed,
 > checking for this can be enabled in yamllint.
 > 
 > Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
->  .../devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml | 2 +-
->  .../bindings/media/allwinner,sun50i-h6-vpu-g2.yaml        | 4 ++--
+>  .../bindings/phy/allwinner,sun50i-h6-usb3-phy.yaml          | 4 ++--
+>  .../bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml         | 2 +-
 
 For Allwinner:
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
@@ -100,35 +96,40 @@ Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Best regards,
 Jernej
 
->  .../devicetree/bindings/media/amlogic,axg-ge2d.yaml       | 4 ++--
->  .../devicetree/bindings/media/amlogic,gx-vdec.yaml        | 4 ++--
->  .../devicetree/bindings/media/amlogic,meson-ir-tx.yaml    | 4 ++--
->  .../devicetree/bindings/media/i2c/chrontel,ch7322.yaml    | 4 ++--
->  .../devicetree/bindings/media/i2c/dongwoon,dw9768.yaml    | 6 +++---
->  .../devicetree/bindings/media/i2c/maxim,max9286.yaml      | 2 +-
->  .../devicetree/bindings/media/i2c/ovti,ov02a10.yaml       | 2 +-
->  .../devicetree/bindings/media/mediatek,mdp3-rdma.yaml     | 2 +-
->  .../bindings/media/mediatek,vcodec-subdev-decoder.yaml    | 4 ++--
->  .../devicetree/bindings/media/microchip,sama5d4-vdec.yaml | 4 ++--
->  .../devicetree/bindings/media/nxp,imx8mq-vpu.yaml         | 4 ++--
->  .../devicetree/bindings/media/qcom,msm8916-camss.yaml     | 4 ++--
->  .../devicetree/bindings/media/qcom,msm8916-venus.yaml     | 8 ++++----
->  .../devicetree/bindings/media/qcom,msm8996-camss.yaml     | 4 ++--
->  .../devicetree/bindings/media/qcom,msm8996-venus.yaml     | 4 ++--
->  .../devicetree/bindings/media/qcom,sc7180-venus.yaml      | 4 ++--
->  .../devicetree/bindings/media/qcom,sc7280-venus.yaml      | 4 ++--
->  .../devicetree/bindings/media/qcom,sdm660-camss.yaml      | 4 ++--
->  .../devicetree/bindings/media/qcom,sdm660-venus.yaml      | 4 ++--
->  .../devicetree/bindings/media/qcom,sdm845-camss.yaml      | 4 ++--
->  .../devicetree/bindings/media/qcom,sdm845-venus-v2.yaml   | 4 ++--
->  .../devicetree/bindings/media/qcom,sdm845-venus.yaml      | 4 ++--
->  .../devicetree/bindings/media/qcom,sm8250-camss.yaml      | 4 ++--
->  .../devicetree/bindings/media/qcom,sm8250-venus.yaml      | 4 ++--
->  Documentation/devicetree/bindings/media/rc.yaml           | 2 +-
->  .../devicetree/bindings/media/rockchip,rk3568-vepu.yaml   | 4 ++--
->  Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 4 ++--
->  Documentation/devicetree/bindings/media/ti,cal.yaml       | 2 +-
->  30 files changed, 57 insertions(+), 57 deletions(-)
+>  .../devicetree/bindings/phy/amlogic,axg-mipi-dphy.yaml      | 4 ++--
+>  .../bindings/phy/amlogic,g12a-mipi-dphy-analog.yaml         | 4 ++--
+>  .../devicetree/bindings/phy/amlogic,g12a-usb2-phy.yaml      | 4 ++--
+>  .../devicetree/bindings/phy/amlogic,g12a-usb3-pcie-phy.yaml | 4 ++--
+>  .../bindings/phy/amlogic,meson-axg-mipi-pcie-analog.yaml    | 4 ++--
+>  .../devicetree/bindings/phy/amlogic,meson-axg-pcie.yaml     | 4 ++--
+>  .../devicetree/bindings/phy/amlogic,meson8-hdmi-tx-phy.yaml | 4 ++--
+>  .../devicetree/bindings/phy/amlogic,meson8b-usb2-phy.yaml   | 4 ++--
+>  .../devicetree/bindings/phy/brcm,bcm63xx-usbh-phy.yaml      | 4 ++--
+>  Documentation/devicetree/bindings/phy/brcm,sata-phy.yaml    | 4 ++--
+>  Documentation/devicetree/bindings/phy/cdns,salvo-phy.yaml   | 4 ++--
+>  .../devicetree/bindings/phy/hisilicon,hi3660-usb3.yaml      | 4 ++--
+>  .../devicetree/bindings/phy/hisilicon,hi3670-usb3.yaml      | 6 +++---
+>  .../bindings/phy/marvell,armada-3700-utmi-phy.yaml          | 4 ++--
+>  .../bindings/phy/marvell,armada-cp110-utmi-phy.yaml         | 4 ++--
+>  .../devicetree/bindings/phy/marvell,mmp3-hsic-phy.yaml      | 4 ++--
+>  .../devicetree/bindings/phy/mediatek,mt7621-pci-phy.yaml    | 4 ++--
+>  .../devicetree/bindings/phy/phy-cadence-sierra.yaml         | 4 ++--
+>  .../devicetree/bindings/phy/phy-cadence-torrent.yaml        | 4 ++--
+>  Documentation/devicetree/bindings/phy/phy-tegra194-p2u.yaml | 4 ++--
+>  Documentation/devicetree/bindings/phy/qcom,edp-phy.yaml     | 4 ++--
+>  Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml   | 4 ++--
+>  Documentation/devicetree/bindings/phy/qcom,usb-hs-28nm.yaml | 4 ++--
+>  .../devicetree/bindings/phy/qcom,usb-snps-femto-v2.yaml     | 4 ++--
+>  Documentation/devicetree/bindings/phy/qcom,usb-ss.yaml      | 4 ++--
+>  .../devicetree/bindings/phy/qcom-usb-ipq4019-phy.yaml       | 4 ++--
+>  .../devicetree/bindings/phy/samsung,exynos-pcie-phy.yaml    | 4 ++--
+>  Documentation/devicetree/bindings/phy/samsung,ufs-phy.yaml  | 2 +-
+>  .../devicetree/bindings/phy/sunplus,sp7021-usb2-phy.yaml    | 4 ++--
+>  .../devicetree/bindings/phy/ti,phy-am654-serdes.yaml        | 4 ++--
+>  Documentation/devicetree/bindings/phy/ti,phy-gmii-sel.yaml  | 4 ++--
+>  Documentation/devicetree/bindings/phy/ti,phy-j721e-wiz.yaml | 4 ++--
+>  Documentation/devicetree/bindings/phy/ti,tcan104x-can.yaml  | 4 ++--
+>  35 files changed, 69 insertions(+), 69 deletions(-)
 
 
 
