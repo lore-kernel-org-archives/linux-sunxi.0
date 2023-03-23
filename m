@@ -1,74 +1,134 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA723C04
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 18:48:00 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id j24so12750358wrd.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 11:48:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ADD53C04
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 18:49:10 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id l15-20020a05600c4f0f00b003ed58a9a15eso1724686wmq.5
+        for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 11:49:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679597279;
+        d=gmail.com; s=20210112; t=1679597348;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Q8FWNgQNPCC7D7xKGDpYpPeNQgBYQlnN/7rIkoHcrFk=;
-        b=A3qhSSsUsD/lcphIMCN1rqn4spmYLqxOG8pKshDIEoxr8HVR/L+UzpNq5BOfMPIJlD
-         B+5wR6AvIR2CuZIdGd/WKGkkXAscp6/88OntRjifaYmyNwSrb4gfjIYsp+wGqgcGbAig
-         84j2hnha0Zr1scEZymEwQ5hztC7yaglGYdoV9scQ6HZJIQ2ZYWgrMoY4kXQax7P3S7BW
-         a+jaAvwmRJDo6prhIBJYdpSCGEHUoS47IG7mjmzGoIX5t9YZ8nyk0FgpgVT/rcdZN7XR
-         ssXBToTblWo9v1ALX+5Q685638iWGa+KYZf3azI0kGvK/Te7brV4PRbCVlHDE3R15THq
-         +wxA==
+        bh=UaAtIRtOu++U0RXXy05q7KocYfCm4/E/CZEqe2Ect2k=;
+        b=h2ivD7hcvtWe9brHOPv+jqBpm0raSc80vwDnXEhu5IdMrXiSPdjv0esN1GT7ewwyYG
+         H2y8Eqn4Mo60ywPRXJTn8XgB+fMxZVA7Ct7E9JHORCpJmeCIzHvdrGjUdnE+vxLGYPiz
+         VllmEBVE8pnA4884rTJfjjv+EJ0V+uVKTLuKCdadwNglfs7N/eccLAUNRpSrEf1I0/Hg
+         dxzYcGpTFKNcuWyNeoJKlNn2EdqUnIIf8IbDhN28vDqEqCqgpCdS+JbajSk8ldfUqupS
+         L6eoIE7x1bDdqffvBZdtYyGHZKEJjlBUFneI5JFhM147Bl5C24i2CFWn5q43MEwWX9Re
+         KG+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679597279;
+        d=1e100.net; s=20210112; t=1679597348;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Q8FWNgQNPCC7D7xKGDpYpPeNQgBYQlnN/7rIkoHcrFk=;
-        b=4AA5CkIHmmRo71I6GX0FwUPZ4X7qeXD4/tGnH1rPzs05HfSBRiVRNxNJ4VRWg1tQpF
-         ZW+EJzI2ZH7G93LRnB/Hwq3LN3QgzKx9rRCyAoM9eKSWtIIKpG/cfI38J8LifydUvNG7
-         YUdMNRhO12waPKlUmy7fjI0kOHRZIFnr3kZsT53ie8WcFhZIDf8YP3lpDiAHHCwu/ztL
-         pfKY/syElXb3tZ/iKiaPToPT3kOhRBddq1E56ql4UxoSW6MpXNDBpIhN7SiZA1BVGVRA
-         SHRAXp018CKLOkENhLSpmzwFD2TBB+UcAFnuZKYzcEp1pAUmS2vaHj7onzNsP90ZaEng
-         zPOg==
-X-Gm-Message-State: AAQBX9cBdgwpAVtNebjZrP7SpXFgigmCRMaoU/rlOr3myZd9DyiNaKg4
-	jxwFnBh9TVIQQ7+zMbLBKQI=
-X-Google-Smtp-Source: AKy350aBvrFH/pBwHenW0d3ikefW7j6jxF4RZSJ9EpFvZkGt37FYUa2OgZABIV5NDF983nCS4QRhbQ==
-X-Received: by 2002:a5d:6389:0:b0:2cf:e058:3ccc with SMTP id p9-20020a5d6389000000b002cfe0583cccmr119559wru.66.1679597278568;
-        Thu, 23 Mar 2023 11:47:58 -0700 (PDT)
+        bh=UaAtIRtOu++U0RXXy05q7KocYfCm4/E/CZEqe2Ect2k=;
+        b=KU+QSkTiOhmnOXRpOYcr0kY7uSLg4IdiisCCOYqjjQ7rqRGM2HwRRIDFv/hasDLnje
+         sdjMel5Gd446PcHLY3d1yKzE/YwBwokHListLZN3cGVbyOttzuBPPUFm5UAyEhB97HBW
+         uMiPjOLhFp8zR0pAVGqLQV923+lqztJMOwnORBgMXO/9BaBI4BHBRdPLhmFPvSTdHfgB
+         pUqLdam8ETFaSHdDKiNs01sg03xfXK7YWYJzh7+OMoKqVJPrvZ1Y+Ff2PE3+cmL3euJ4
+         /YjeZN9aFFGWFoeYYEAzEh5gPDc3d/Dt8p5W/+ar2hhMHPOMrhWfTcCcuwL5961MbHEd
+         Varg==
+X-Gm-Message-State: AO0yUKUtt+Tv7gaCR0ZE0WyupmHRytX2qgA0O3CvQ+YwJXr6zQntMjlv
+	cfLaI1+WEBOMRIUw8cFXsmA=
+X-Google-Smtp-Source: AK7set8iPShWRfidqt9I4Gp4+eMynjPzq6WpxgPllmii/Bx8E6MpO7U6wLeZYbAleSLfDLFNMZa2Gg==
+X-Received: by 2002:a7b:cd88:0:b0:3ee:7061:1bdd with SMTP id y8-20020a7bcd88000000b003ee70611bddmr481614wmj.4.1679597348358;
+        Thu, 23 Mar 2023 11:49:08 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id p5-20020adfce05000000b002d64fcb362dsm11489891wrn.111.2023.03.23.11.47.56
+        by smtp.gmail.com with ESMTPSA id n17-20020a1c7211000000b003edf2dc7ca3sm2621024wmc.34.2023.03.23.11.49.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 11:47:57 -0700 (PDT)
+        Thu, 23 Mar 2023 11:49:07 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: vkoul@kernel.org, ye.xingchen@zte.com.cn
-Cc: kishon@kernel.org, wens@csie.org, samuel@sholland.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] phy: allwinner: Use dev_err_probe()
-Date: Thu, 23 Mar 2023 19:47:56 +0100
-Message-ID: <2672110.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <202303231542125412125@zte.com.cn>
-References: <202303231542125412125@zte.com.cn>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Joe Tessler <jrt@google.com>, Dongchun Zhu <dongchun.zhu@mediatek.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Niklas =?ISO-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>, Heiko Stuebner <heiko@sntech.de>,
+ Benoit Parrot <bparrot@ti.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Herring <robh@kernel.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] media: dt-bindings: Drop unneeded quotes
+Date: Thu, 23 Mar 2023 19:49:05 +0100
+Message-ID: <5657054.DvuYhMxLoT@jernej-laptop>
+In-Reply-To: <20230320233944.2920964-1-robh@kernel.org>
+References: <20230320233944.2920964-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Dne =C4=8Detrtek, 23. marec 2023 ob 08:42:12 CET je ye.xingchen@zte.com.cn=
-=20
-napisal(a):
-> From: Ye Xingchen <ye.xingchen@zte.com.cn>
->=20
-> Replace the open-code with dev_err_probe() to simplify the code.
->=20
-> Signed-off-by: Ye Xingchen <ye.xingchen@zte.com.cn>
+Dne torek, 21. marec 2023 ob 00:39:42 CET je Rob Herring napisal(a):
+> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> checking for this can be enabled in yamllint.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml | 2 +-
+>  .../bindings/media/allwinner,sun50i-h6-vpu-g2.yaml        | 4 ++--
 
+For Allwinner:
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
+
+>  .../devicetree/bindings/media/amlogic,axg-ge2d.yaml       | 4 ++--
+>  .../devicetree/bindings/media/amlogic,gx-vdec.yaml        | 4 ++--
+>  .../devicetree/bindings/media/amlogic,meson-ir-tx.yaml    | 4 ++--
+>  .../devicetree/bindings/media/i2c/chrontel,ch7322.yaml    | 4 ++--
+>  .../devicetree/bindings/media/i2c/dongwoon,dw9768.yaml    | 6 +++---
+>  .../devicetree/bindings/media/i2c/maxim,max9286.yaml      | 2 +-
+>  .../devicetree/bindings/media/i2c/ovti,ov02a10.yaml       | 2 +-
+>  .../devicetree/bindings/media/mediatek,mdp3-rdma.yaml     | 2 +-
+>  .../bindings/media/mediatek,vcodec-subdev-decoder.yaml    | 4 ++--
+>  .../devicetree/bindings/media/microchip,sama5d4-vdec.yaml | 4 ++--
+>  .../devicetree/bindings/media/nxp,imx8mq-vpu.yaml         | 4 ++--
+>  .../devicetree/bindings/media/qcom,msm8916-camss.yaml     | 4 ++--
+>  .../devicetree/bindings/media/qcom,msm8916-venus.yaml     | 8 ++++----
+>  .../devicetree/bindings/media/qcom,msm8996-camss.yaml     | 4 ++--
+>  .../devicetree/bindings/media/qcom,msm8996-venus.yaml     | 4 ++--
+>  .../devicetree/bindings/media/qcom,sc7180-venus.yaml      | 4 ++--
+>  .../devicetree/bindings/media/qcom,sc7280-venus.yaml      | 4 ++--
+>  .../devicetree/bindings/media/qcom,sdm660-camss.yaml      | 4 ++--
+>  .../devicetree/bindings/media/qcom,sdm660-venus.yaml      | 4 ++--
+>  .../devicetree/bindings/media/qcom,sdm845-camss.yaml      | 4 ++--
+>  .../devicetree/bindings/media/qcom,sdm845-venus-v2.yaml   | 4 ++--
+>  .../devicetree/bindings/media/qcom,sdm845-venus.yaml      | 4 ++--
+>  .../devicetree/bindings/media/qcom,sm8250-camss.yaml      | 4 ++--
+>  .../devicetree/bindings/media/qcom,sm8250-venus.yaml      | 4 ++--
+>  Documentation/devicetree/bindings/media/rc.yaml           | 2 +-
+>  .../devicetree/bindings/media/rockchip,rk3568-vepu.yaml   | 4 ++--
+>  Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 4 ++--
+>  Documentation/devicetree/bindings/media/ti,cal.yaml       | 2 +-
+>  30 files changed, 57 insertions(+), 57 deletions(-)
+
 
 
