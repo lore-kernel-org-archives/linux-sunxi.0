@@ -1,88 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [58.251.27.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A737717FC
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 05:00:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 51E55C4339C;
-	Thu, 23 Mar 2023 05:00:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679547618;
-	bh=NPnB/UKnNUercF44HUDX/+E3dqZ3zJVMKeECg6m+d1A=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=IsZJcdwN7BEzr41ZzVOxogP/fo9bLZra4v8eGb4EUa1bebhFu3AHFwAuHzM+uW3j4
-	 FVEGqDpUtiyjsw6cxk/EY51PNCkW5TDrwdTjTsd51ePOQUek5onn2Tl45jGa/lPq7B
-	 IrTXp0IXIZHn9lfxZ7RvJ23PQuYkYopnkYjMbLUUsMtjrHPdokfHMkQCvc4qPucy3i
-	 87hhPSfaDMVrjblhVr9BbaSaj6CmkEPSrOyN5Fqm7vs01FRYrO2P4wqjGa7Gb80a6N
-	 4bncUA09GxrPJxzloqiV5FOTNOtkvYP1pWr5dwyhHFQJHmeSVQfZaM7bnhYKVJbr9U
-	 grdHl1qm9Jsfg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1A7FDE4F0D7;
-	Thu, 23 Mar 2023 05:00:18 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB8D2565
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 07:48:34 +0000 (UTC)
+Received: from mxde.zte.com.cn (unknown [10.35.20.165])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4Phy4Q3JRxz1DsP
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 15:43:02 +0800 (CST)
+Received: from mxus.zte.com.cn (unknown [10.36.20.94])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mxde.zte.com.cn (FangMail) with ESMTPS id 4Phy4215gyz54hxy
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 15:42:42 +0800 (CST)
+Received: from mxhk.zte.com.cn (unknown [192.168.250.138])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mxus.zte.com.cn (FangMail) with ESMTPS id 4Phy3t1LkFz9wn6d
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 15:42:34 +0800 (CST)
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4Phy3f635rz6FK2Q;
+	Thu, 23 Mar 2023 15:42:22 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl2.zte.com.cn with SMTP id 32N7gAsq080139;
+	Thu, 23 Mar 2023 15:42:10 +0800 (+08)
+	(envelope-from ye.xingchen@zte.com.cn)
+Received: from mapi (xaxapp02[null])
+	by mapi (Zmail) with MAPI id mid31;
+	Thu, 23 Mar 2023 15:42:12 +0800 (CST)
+Date: Thu, 23 Mar 2023 15:42:12 +0800 (CST)
+X-Zmail-TransId: 2afa641c02d44f0-7a6ec
+X-Mailer: Zmail v1.0
+Message-ID: <202303231542125412125@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] dt-bindings: net: Drop unneeded quotes
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <167954761809.22889.18341092686850307793.git-patchwork-notify@kernel.org>
-Date: Thu, 23 Mar 2023 05:00:18 +0000
-References: <20230320233758.2918972-1-robh@kernel.org>
-In-Reply-To: <20230320233758.2918972-1-robh@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, krzysztof.kozlowski+dt@linaro.org, afaerber@suse.de,
- mani@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, neil.armstrong@linaro.org, khilman@baylibre.com,
- jbrunet@baylibre.com, martin.blumenstingl@googlemail.com, joel@jms.id.au,
- andrew@aj.id.au, rafal@milecki.pl, bcm-kernel-feedback-list@broadcom.com,
- f.fainelli@gmail.com, appana.durga.rao@xilinx.com,
- naga.sureshkumar.relli@xilinx.com, wg@grandegger.com, mkl@pengutronix.de,
- michal.simek@xilinx.com, andrew@lunn.ch, olteanv@gmail.com,
- hkallweit1@gmail.com, linux@armlinux.org.uk, tobias@waldekranz.com,
- lars.povlsen@microchip.com, Steen.Hegelund@microchip.com,
- daniel.machon@microchip.com, UNGLinuxDriver@microchip.com, agross@kernel.org,
- andersson@kernel.org, konrad.dybcio@linaro.org, heiko@sntech.de,
- mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
- nobuhiro1.iwamatsu@toshiba.co.jp, richardcochran@gmail.com,
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- krzysztof.kozlowski@linaro.org, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-actions@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-can@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-mediatek@lists.infradead.org
+Mime-Version: 1.0
+From: <ye.xingchen@zte.com.cn>
+To: <vkoul@kernel.org>
+Cc: <kishon@kernel.org>, <wens@csie.org>, <jernej.skrabec@gmail.com>,
+        <samuel@sholland.org>, <linux-phy@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+        <linux-kernel@vger.kernel.org>
+Subject: =?UTF-8?B?W1BBVENIXSBwaHk6IGFsbHdpbm5lcjogVXNlIGRldl9lcnJfcHJvYmUoKQ==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 32N7gAsq080139
+X-FangMail-Miltered: at esgde01-1.novalocal with ID 641C02F1.000 by FangMail milter!
+X-FangMail-Envelope: 1679557362/4Phy4215gyz54hxy/641C02F1.000/10.36.20.94/[10.36.20.94]/mxus.zte.com.cn/<ye.xingchen@zte.com.cn>
+X-Fangmail-Gw-Spam-Type: 0
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 641C0305.000/4Phy4Q3JRxz1DsP
 
-Hello:
+From: Ye Xingchen <ye.xingchen@zte.com.cn>
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Replace the open-code with dev_err_probe() to simplify the code.
 
-On Mon, 20 Mar 2023 18:37:54 -0500 you wrote:
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
-> 
-> Acked-by: Marc Kleine-Budde <mkl@pengutronix.de> # for bindings/net/can
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Acked-by: Florian Fainelli <f.fainelli@gmail.com>
-> Reviewed-by: Steen Hegelund <Steen.Hegelund@microchip.com>
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> 
-> [...]
+Signed-off-by: Ye Xingchen <ye.xingchen@zte.com.cn>
+---
+ drivers/phy/allwinner/phy-sun50i-usb3.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-Here is the summary with links:
-  - [v2] dt-bindings: net: Drop unneeded quotes
-    https://git.kernel.org/netdev/net-next/c/3079bfdbda6c
+diff --git a/drivers/phy/allwinner/phy-sun50i-usb3.c b/drivers/phy/allwinner/phy-sun50i-usb3.c
+index 84055b720016..c43087b85070 100644
+--- a/drivers/phy/allwinner/phy-sun50i-usb3.c
++++ b/drivers/phy/allwinner/phy-sun50i-usb3.c
+@@ -140,11 +140,8 @@ static int sun50i_usb3_phy_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
 
-You are awesome, thank you!
+ 	phy->clk = devm_clk_get(dev, NULL);
+-	if (IS_ERR(phy->clk)) {
+-		if (PTR_ERR(phy->clk) != -EPROBE_DEFER)
+-			dev_err(dev, "failed to get phy clock\n");
+-		return PTR_ERR(phy->clk);
+-	}
++	if (IS_ERR(phy->clk))
++		return dev_err_probe(dev, PTR_ERR(phy->clk), "failed to get phy clock\n");
+
+ 	phy->reset = devm_reset_control_get(dev, NULL);
+ 	if (IS_ERR(phy->reset)) {
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+2.25.1
