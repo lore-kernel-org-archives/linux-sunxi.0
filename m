@@ -1,89 +1,66 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CFBDD2E2
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 21:21:12 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id p34so31244wms.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 23 Mar 2023 14:21:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679606470;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OVc7Of+Ix0ryK/+RAH7Z4FzYtXWWON2rs5eqRA4tiWA=;
-        b=XEapRCAfRjQ3Vvhm/kfmQ20knSNfS4nyJ/DeNjhfKvWH2mP0mTbIUKHMGqzD4Cny7L
-         pnHGYrLZhiQ3qpg0UnAKWYhtQZymabZ89gHgA1UyPiUr4X7/ZucB76UM7P0gfnMvc6+w
-         N5ju5ShkPJ2UoqBR347f7Sp37dTkbdMKiUc9AA7vOWH0vKbb1W/v4qj5vn/YMqyPRi1U
-         lXEjFYiMa/v/g6AvU66r1/KY0L+P0QKdJTvenLQcUmsEoGVjxZlcqUlAN8BPK9i3oDcF
-         Xpqr43xWIu9Ae7F5+NEs5ALgrRlDuC7Rws/EFSWvlJeAFI8XZV9HC8BQB7pdZxSqO4ew
-         JX3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679606470;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OVc7Of+Ix0ryK/+RAH7Z4FzYtXWWON2rs5eqRA4tiWA=;
-        b=PXgNQZfnrcvyZGAqxMlEJHzTTYr2rJvUNXzYoBy8wpjfExEA9xT+wahH88+3brZF6h
-         Us4/UvOlcwjpRNmfH/GynskfqRAUQHcS/zIvWEqDDQeMT4EnjIU5GlDXNjT77svLRf8f
-         /sVHm0D5lNzUOC5da3CbECRcUkrN57+Q6boyDyQ0TK8+o7l1Qv7FNIjHDvIEW4+mW2CT
-         jxQ5ATH324sHLkcCL6Suzf8Xdk7280oyxMfZCNws63MLtQ2IUl0aaQbqCj8upmpqANvb
-         O6SSsF8EqNdA/YiC7TUSloXc27AHyXHk3bczQimgc0pDHsyjLb8/KfmEscOy3QVNZWkD
-         lR/A==
-X-Gm-Message-State: AO0yUKW9yQ9ue71ftPms88nQg6Xq6CIFTUq/QFyWwrRAx4QMSaIdkznj
-	WE04C3uPOikXpemfmQCiaMA=
-X-Google-Smtp-Source: AK7set+7XkMQw//QRP6U0zw01ONMG6SisHKvyle8hz7Ra/I8s94s0O0zFWuYYD6E3TY5EKsJLVrbaA==
-X-Received: by 2002:a7b:cd10:0:b0:3ee:672d:caa4 with SMTP id f16-20020a7bcd10000000b003ee672dcaa4mr686528wmj.17.1679606470461;
-        Thu, 23 Mar 2023 14:21:10 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id t7-20020a05600c450700b003edddae1068sm3135457wmo.9.2023.03.23.14.21.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 14:21:10 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Andre Przywara <andre.przywara@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor@kernel.org>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- =?ISO-8859-1?Q?Andr=E1s_Szemz=F6?= <szemzo.andras@gmail.com>,
- Icenowy Zheng <uwu@icenowy.me>, Fabien Poussin <fabien.poussin@gmail.com>,
- linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Belisko Marek <marek.belisko@gmail.com>
-Subject: Re: [PATCH v2 4/4] ARM: dts: sunxi: add MangoPi MQ-R-T113 board
-Date: Thu, 23 Mar 2023 22:21:08 +0100
-Message-ID: <3225657.44csPzL39Z@jernej-laptop>
-In-Reply-To: <20230320005249.13403-5-andre.przywara@arm.com>
-References:
- <20230320005249.13403-1-andre.przywara@arm.com>
- <20230320005249.13403-5-andre.przywara@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0777E
+	for <linux-sunxi@lists.linux.dev>; Fri, 24 Mar 2023 07:10:24 +0000 (UTC)
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045168;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0VeWmRtS_1679641498;
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0VeWmRtS_1679641498)
+          by smtp.aliyun-inc.com;
+          Fri, 24 Mar 2023 15:04:58 +0800
+From: Yang Li <yang.lee@linux.alibaba.com>
+To: srinivas.kandagatla@linaro.org
+Cc: wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Yang Li <yang.lee@linux.alibaba.com>
+Subject: [PATCH -next] nvmem: sunxi_sid: Use devm_platform_ioremap_resource()
+Date: Fri, 24 Mar 2023 15:04:49 +0800
+Message-Id: <20230324070449.8182-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-Dne ponedeljek, 20. marec 2023 ob 01:52:49 CET je Andre Przywara napisal(a):
-> The MangoPi MQ-R-T113 is a small SBC with the Allwinner T113-s3 SoC.
-> The SoC features two Arm Cortex-A7 cores and 128 MB of co-packaged DDR3
-> DRAM. The board adds mostly connectors and the required regulators, plus
-> a Realtek RTL8189FTV WiFi chip.
-> Power comes in via a USB-C connector wired as a peripheral, and there is
-> a second USB-C connector usable as a host port.
-> 
-> Add a .dtsi file describing most of the board's peripherals, and include
-> that from the actual board .dts file. This allows to re-use the .dtsi
-> for the MQ-R-F113 RISC-V variant of that board.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+According to commit 7945f929f1a7 ("drivers: provide
+devm_platform_ioremap_resource()"), convert platform_get_resource(),
+devm_ioremap_resource() to a single call to use
+devm_platform_ioremap_resource(), as this is exactly what this function
+does.
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
+ drivers/nvmem/sunxi_sid.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Best regards,
-Jernej
-
+diff --git a/drivers/nvmem/sunxi_sid.c b/drivers/nvmem/sunxi_sid.c
+index a970f1741cc6..6bfe02ab169a 100644
+--- a/drivers/nvmem/sunxi_sid.c
++++ b/drivers/nvmem/sunxi_sid.c
+@@ -125,7 +125,6 @@ static int sun8i_sid_read_by_reg(void *context, unsigned int offset,
+ static int sunxi_sid_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+-	struct resource *res;
+ 	struct nvmem_config *nvmem_cfg;
+ 	struct nvmem_device *nvmem;
+ 	struct sunxi_sid *sid;
+@@ -142,8 +141,7 @@ static int sunxi_sid_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+ 	sid->value_offset = cfg->value_offset;
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	sid->base = devm_ioremap_resource(dev, res);
++	sid->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(sid->base))
+ 		return PTR_ERR(sid->base);
+ 
+-- 
+2.20.1.7.g153144c
 
