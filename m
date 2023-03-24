@@ -1,161 +1,89 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 630BC525F
-	for <linux-sunxi@lists.linux.dev>; Fri, 24 Mar 2023 11:30:52 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 203E31684;
-	Fri, 24 Mar 2023 04:31:36 -0700 (PDT)
-Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8268E3F6C4;
-	Fri, 24 Mar 2023 04:30:50 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Lee Jones <lee@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Martin Botka <martin.botka@somainline.org>,
-	martin.botka1@gmail.com,
-	Shengyu Qu <wiagn233@outlook.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v9 3/3] regulator: axp20x: Add support for AXP313a variant
-Date: Fri, 24 Mar 2023 11:30:13 +0000
-Message-Id: <20230324113013.254371-4-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230324113013.254371-1-andre.przywara@arm.com>
-References: <20230324113013.254371-1-andre.przywara@arm.com>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2601210B;
+	Fri, 24 Mar 2023 14:34:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AE51C433A0;
+	Fri, 24 Mar 2023 14:34:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1679668454;
+	bh=ozq+vH75mAjNkKi3jfaobvjryF3L2Ni1S1Tn6tmagvQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=lwiXRb2iEXrDB+SiECZJsaGr+ZPWpvDVobXKSZxI3R/2BonDrW+T45JU8V4ybQXkf
+	 WpLnx1F2jVOz+eboiDJaGWwG8JzHp+W8OKnzQxEXWIq1g4E1nBUlyqrOn/RqhecPgY
+	 8pY7Mv53TIN43pmE6/SegvDys/Qur4lldwf0dKGTRHtzggZmldApWpq/M/G0n+eZSg
+	 A3me5yZQSwEwtxCSVcCpaM+cw+ptQ1Hpv1QKX5CdY4Vd2wKjMnu6uYZht5FGsBTyhF
+	 OBnRRMLMC5Q1Yns01rzlcZ2fPGF4vchj1Vedc2mx5/hp23hx7F5jOd3WxH/7g7OQ+B
+	 G2cX5HrcJiQEA==
+Received: by mail-pj1-f45.google.com with SMTP id qe8-20020a17090b4f8800b0023f07253a2cso1763702pjb.3;
+        Fri, 24 Mar 2023 07:34:14 -0700 (PDT)
+X-Gm-Message-State: AAQBX9fCMM4iBrUwt99cHIh3FoxduzdT+erdDFG5c75xqUNuYYz4C9Ql
+	H1ZBF7iYnumS82Kk1t4dXmk5ieZJVKhAc0aIqQ==
+X-Google-Smtp-Source: AKy350Y57cQ3/TzcctMtJeBkZVGy3RaGVnEiqyzqBxcgVPo3gFc72P+HHXJ3tIgI+qnw4mjDX3xPaiNQsV4yB10ee/Y=
+X-Received: by 2002:a81:b149:0:b0:543:9065:b225 with SMTP id
+ p70-20020a81b149000000b005439065b225mr1122523ywh.5.1679668433642; Fri, 24 Mar
+ 2023 07:33:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230317233623.3968172-1-robh@kernel.org> <CACRpkdYq4jE7Qn1w8iPeGz7vxj_CeZ+H48B0TVYmeF4Tt=kHgA@mail.gmail.com>
+In-Reply-To: <CACRpkdYq4jE7Qn1w8iPeGz7vxj_CeZ+H48B0TVYmeF4Tt=kHgA@mail.gmail.com>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 24 Mar 2023 09:33:42 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqL+nF_WwZ-EDpUSD2yrxPLZWxaeb=WpTtPnnbpgcXT7qA@mail.gmail.com>
+Message-ID: <CAL_JsqL+nF_WwZ-EDpUSD2yrxPLZWxaeb=WpTtPnnbpgcXT7qA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: pinctrl: Drop unneeded quotes
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, 
+	Damien Le Moal <damien.lemoal@wdc.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Dong Aisheng <aisheng.dong@nxp.com>, 
+	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	NXP Linux Team <linux-imx@nxp.com>, Sean Wang <sean.wang@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Andy Gross <agross@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Heiko Stuebner <heiko@sntech.de>, 
+	Tomasz Figa <tomasz.figa@gmail.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Emil Renner Berthing <kernel@esmil.dk>, 
+	Jianlong Huang <jianlong.huang@starfivetech.com>, Dvorkin Dmitry <dvorkin@tibbo.com>, 
+	Wells Lu <wellslutw@gmail.com>, Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
+	Michal Simek <michal.simek@xilinx.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, asahi@lists.linux.dev, 
+	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
+	linux-riscv@lists.infradead.org, patches@opensource.cirrus.com, 
+	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Martin Botka <martin.botka@somainline.org>
+On Thu, Mar 23, 2023 at 3:40=E2=80=AFAM Linus Walleij <linus.walleij@linaro=
+.org> wrote:
+>
+> On Sat, Mar 18, 2023 at 12:36=E2=80=AFAM Rob Herring <robh@kernel.org> wr=
+ote:
+>
+> > Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> > checking for this can be enabled in yamllint.
+> >
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+>
+> Should I queue this patch by the way, or do you need it to go into some
+> DT-related tree?
 
-The AXP313a is your typical I2C controlled PMIC, although in a lighter
-fashion compared to the other X-Powers PMICs: it has only three DCDC
-rails, three LDOs, and no battery charging support.
+Stands on its own. You can take it.
 
-The AXP313a datasheet does not describe a register to change the DCDC
-switching frequency, and talks of it being fixed at 3 MHz. Check that
-the property allowing to change that frequency is absent from the DT,
-and bail out otherwise.
-
-The third LDO, RTCLDO, is fixed, and cannot even be turned on or off,
-programmatically. On top of that, its voltage is customisable (either
-1.8V or 3.3V), which we cannot describe easily using the existing
-regulator wrapper functions. This should be fixed properly, using
-regulator-{min,max}-microvolt in the DT, but this requires more changes
-to the code. As some other PMICs (AXP2xx, AXP803) seem to paper over the
-same problem as well, we follow suit here and pretend it's a fixed 1.8V
-regulator. A proper fix can follow later. The BSP code seems to ignore
-this regulator altogether.
-
-Describe the AXP313A's voltage settings and switch registers, how the
-voltages are encoded, and connect this to the MFD device via its
-regulator ID.
-
-Signed-off-by: Martin Botka <martin.botka@somainline.org>
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- drivers/regulator/axp20x-regulator.c | 60 ++++++++++++++++++++++++++++
- 1 file changed, 60 insertions(+)
-
-diff --git a/drivers/regulator/axp20x-regulator.c b/drivers/regulator/axp20x-regulator.c
-index d260c442b788d..81f339009df9b 100644
---- a/drivers/regulator/axp20x-regulator.c
-+++ b/drivers/regulator/axp20x-regulator.c
-@@ -134,6 +134,11 @@
- #define AXP22X_PWR_OUT_DLDO4_MASK	BIT_MASK(6)
- #define AXP22X_PWR_OUT_ALDO3_MASK	BIT_MASK(7)
- 
-+#define AXP313A_DCDC1_NUM_VOLTAGES	107
-+#define AXP313A_DCDC23_NUM_VOLTAGES	88
-+#define AXP313A_DCDC_V_OUT_MASK		GENMASK(6, 0)
-+#define AXP313A_LDO_V_OUT_MASK		GENMASK(4, 0)
-+
- #define AXP803_PWR_OUT_DCDC1_MASK	BIT_MASK(0)
- #define AXP803_PWR_OUT_DCDC2_MASK	BIT_MASK(1)
- #define AXP803_PWR_OUT_DCDC3_MASK	BIT_MASK(2)
-@@ -638,6 +643,48 @@ static const struct regulator_desc axp22x_drivevbus_regulator = {
- 	.ops		= &axp20x_ops_sw,
- };
- 
-+static const struct linear_range axp313a_dcdc1_ranges[] = {
-+	REGULATOR_LINEAR_RANGE(500000,   0,  70,  10000),
-+	REGULATOR_LINEAR_RANGE(1220000, 71,  87,  20000),
-+	REGULATOR_LINEAR_RANGE(1600000, 88, 106, 100000),
-+};
-+
-+static const struct linear_range axp313a_dcdc2_ranges[] = {
-+	REGULATOR_LINEAR_RANGE(500000,   0, 70, 10000),
-+	REGULATOR_LINEAR_RANGE(1220000, 71, 87, 20000),
-+};
-+
-+/*
-+ * This is deviating from the datasheet. The values here are taken from the
-+ * BSP driver and have been confirmed by measurements.
-+ */
-+static const struct linear_range axp313a_dcdc3_ranges[] = {
-+	REGULATOR_LINEAR_RANGE(500000,   0,  70, 10000),
-+	REGULATOR_LINEAR_RANGE(1220000, 71, 102, 20000),
-+};
-+
-+static const struct regulator_desc axp313a_regulators[] = {
-+	AXP_DESC_RANGES(AXP313A, DCDC1, "dcdc1", "vin1",
-+			axp313a_dcdc1_ranges, AXP313A_DCDC1_NUM_VOLTAGES,
-+			AXP313A_DCDC1_CONRTOL, AXP313A_DCDC_V_OUT_MASK,
-+			AXP313A_OUTPUT_CONTROL, BIT(0)),
-+	AXP_DESC_RANGES(AXP313A, DCDC2, "dcdc2", "vin2",
-+			axp313a_dcdc2_ranges, AXP313A_DCDC23_NUM_VOLTAGES,
-+			AXP313A_DCDC2_CONRTOL, AXP313A_DCDC_V_OUT_MASK,
-+			AXP313A_OUTPUT_CONTROL, BIT(1)),
-+	AXP_DESC_RANGES(AXP313A, DCDC3, "dcdc3", "vin3",
-+			axp313a_dcdc3_ranges, AXP313A_DCDC23_NUM_VOLTAGES,
-+			AXP313A_DCDC3_CONRTOL, AXP313A_DCDC_V_OUT_MASK,
-+			AXP313A_OUTPUT_CONTROL, BIT(2)),
-+	AXP_DESC(AXP313A, ALDO1, "aldo1", "vin1", 500, 3500, 100,
-+		 AXP313A_ALDO1_CONRTOL, AXP313A_LDO_V_OUT_MASK,
-+		 AXP313A_OUTPUT_CONTROL, BIT(3)),
-+	AXP_DESC(AXP313A, DLDO1, "dldo1", "vin1", 500, 3500, 100,
-+		 AXP313A_DLDO1_CONRTOL, AXP313A_LDO_V_OUT_MASK,
-+		 AXP313A_OUTPUT_CONTROL, BIT(4)),
-+	AXP_DESC_FIXED(AXP313A, RTC_LDO, "rtc-ldo", "vin1", 1800),
-+};
-+
- /* DCDC ranges shared with AXP813 */
- static const struct linear_range axp803_dcdc234_ranges[] = {
- 	REGULATOR_LINEAR_RANGE(500000,
-@@ -1040,6 +1087,15 @@ static int axp20x_set_dcdc_freq(struct platform_device *pdev, u32 dcdcfreq)
- 		def = 3000;
- 		step = 150;
- 		break;
-+	case AXP313A_ID:
-+		/* The DCDC PWM frequency seems to be fixed to 3 MHz. */
-+		if (dcdcfreq != 0) {
-+			dev_err(&pdev->dev,
-+				"DCDC frequency on AXP313a is fixed to 3 MHz.\n");
-+			return -EINVAL;
-+		}
-+
-+		return 0;
- 	default:
- 		dev_err(&pdev->dev,
- 			"Setting DCDC frequency for unsupported AXP variant\n");
-@@ -1232,6 +1288,10 @@ static int axp20x_regulator_probe(struct platform_device *pdev)
- 		drivevbus = of_property_read_bool(pdev->dev.parent->of_node,
- 						  "x-powers,drive-vbus-en");
- 		break;
-+	case AXP313A_ID:
-+		regulators = axp313a_regulators;
-+		nregulators = AXP313A_REG_ID_MAX;
-+		break;
- 	case AXP803_ID:
- 		regulators = axp803_regulators;
- 		nregulators = AXP803_REG_ID_MAX;
--- 
-2.25.1
-
+Rob
