@@ -1,27 +1,34 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5273C27
-	for <linux-sunxi@lists.linux.dev>; Sat, 25 Mar 2023 20:19:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27C42574;
+	Sat, 25 Mar 2023 20:59:23 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1DBDA89F;
-	Sat, 25 Mar 2023 21:19:48 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3DB908BE;
+	Sat, 25 Mar 2023 21:59:21 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1679775588;
-	bh=t9Gm2qg6/V2UGvpZMwAY3Fw5/d2Aa94eWo39errrAao=;
+	s=mail; t=1679777961;
+	bh=XDOgw2GefM0eseiJqCNlrlw35zFm5hcDtZNb8x7V5JQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IItCIk+5v2CF1NaP0YvkhWL4UibVN39HI9AyBpMExOjdnDVJKSuVOBMl7ZjKCCxQo
-	 DN7IRwUrBJveGSG9OOMiz5BSr+Evmx5Rl3Bx0QQYeEK06dUtoC+6BbbkD6TsyhQ8mk
-	 ShzSvsQ2vFgBYrxwNK7uKNH69NOsWT2AqqfrVdJ4=
-Date: Sat, 25 Mar 2023 22:19:54 +0200
+	b=aGKCYx8BPpjBrf5Ov5zUh4XTfipVhPqkW/J37649g1wAQd2CpNAVp+itKGm69qhZy
+	 I30jxkvhJLwmsQvwDZPcRQ14E7PybGI6JOkaM2jprVk+97WM6U9cM14s3S3vh3fuPW
+	 Ia9Tu5oeBT2RJAGUq11z2mjFvZJc6EeZUaEiUzEQ=
+Date: Sat, 25 Mar 2023 22:59:27 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: linux-sunxi@lists.linux.dev, Yong Deng <yong.deng@magewell.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Adam Pigg <adam@piggz.co.uk>
-Subject: Re: [PATCH v1 0/2] media: sun6i-csi: Fix format propagation in bridge
-Message-ID: <20230325201954.GA17021@pendragon.ideasonboard.com>
-References: <20230104162215.31194-1-laurent.pinchart@ideasonboard.com>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Adam Pigg <adam@piggz.co.uk>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 1/9] media: v4l2: Add RGB565X pixel format to v4l2 format
+ info
+Message-ID: <20230325205927.GA22214@pendragon.ideasonboard.com>
+References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
+ <20230324151228.2778112-2-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -30,38 +37,37 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230104162215.31194-1-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20230324151228.2778112-2-paul.kocialkowski@bootlin.com>
 
 Hi Paul,
 
-Ping for a review. I'd like to get this in v6.4.
+Thank you for the patch.
 
-On Wed, Jan 04, 2023 at 06:22:13PM +0200, Laurent Pinchart wrote:
-> Hello,
+On Fri, Mar 24, 2023 at 04:12:20PM +0100, Paul Kocialkowski wrote:
+> Represent the RGB565X pixel format in the v4l2 format info table.
+> This is a big-endian variant of the already present RGB565 format,
+> which has the same characteristics.
 > 
-> This small patch series fixes format propagation in the sun6i-csi-bridge
-> subdev from sink pad to source pad. In order to do so, it uses the V4L2
-> subdev active state provided by the V4L2 subdev core (patch 2/2), with a
-> preparatory patch (1/2) that drops direct access to the bridge fields
-> from the capture side.
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> ---
+>  drivers/media/v4l2-core/v4l2-common.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> I haven't tested the patches myself as I lack a hardware platform for
-> this, but Adam (on CC) has successfully tested them. Adam, if you want
-> to reply with a Tested-by tag, that would be appreciated.
-> 
-> Laurent Pinchart (2):
->   media: sun6i-csi: capture: Use subdev operation to access bridge
->     format
->   media: sun6i-csi: subdev: Use subdev active state to store active
->     format
-> 
->  .../sunxi/sun6i-csi/sun6i_csi_bridge.c        | 211 ++++++++----------
->  .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   9 -
->  .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  23 +-
->  3 files changed, 110 insertions(+), 133 deletions(-)
-> 
-> 
-> base-commit: 6599e683db1bf22fee74302c47e31b9a42a1c3d2
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> index 40f56e044640..3d044b31caad 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -250,6 +250,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+>  		{ .format = V4L2_PIX_FMT_ABGR32,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_BGRA32,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_RGB565,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+> +		{ .format = V4L2_PIX_FMT_RGB565X, .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_RGB555,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_BGR666,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+>  
 
 -- 
 Regards,
