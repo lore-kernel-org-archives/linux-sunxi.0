@@ -1,215 +1,69 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89FAB2574
-	for <linux-sunxi@lists.linux.dev>; Sat, 25 Mar 2023 12:17:00 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4PkHvP2qKjz9sW6;
-	Sat, 25 Mar 2023 13:09:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1679746193;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QalUgYTR7L02Pm/gpKnsde2aCBCLEQnrH09k5/MdlqE=;
-	b=fK8Dw61CyQMFkvLPY0C5GZzBqzfKwKLL9ub62cJXQZpF70SVtceBlF8/sJaEciLa8exyNp
-	dzf43/oEBdYAsXWhujvF3E+HE/SMU812X2riTfovbQtzke/6Q9YE9zDfVIgAe2FRRsqBW+
-	VYpIsZEJAslBFZzwj9ERjXeKehSwZSTZMCU3EpfLE9j9xuQSOkiz//Si/hG1cGoCJH5wu1
-	fM/frIuk6Rntpszv+Zw2XoMyTkHiMWdF17/2wydEtOnfLwJKKsDAen+zgC/nl19AcbZR3G
-	qrZn8jks90hm2z9b93b2CDvoJa5CYGqunGPr2HEWsEQu3cqqoCJZXsKgQ9P+qA==
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Roman Beranek <romanberanek@icloud.com>, Maxime Ripard <mripard@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sun4i: uncouple DSI dotclock divider from
- TCON0_DCLK_REG
-Date: Sat, 25 Mar 2023 12:40:04 +0100
-References: <20230320161636.24411-1-romanberanek@icloud.com>
-In-reply-to: <20230320161636.24411-1-romanberanek@icloud.com>
-Message-ID: <87wn356ni4.fsf@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5273C27
+	for <linux-sunxi@lists.linux.dev>; Sat, 25 Mar 2023 20:19:50 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1DBDA89F;
+	Sat, 25 Mar 2023 21:19:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1679775588;
+	bh=t9Gm2qg6/V2UGvpZMwAY3Fw5/d2Aa94eWo39errrAao=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IItCIk+5v2CF1NaP0YvkhWL4UibVN39HI9AyBpMExOjdnDVJKSuVOBMl7ZjKCCxQo
+	 DN7IRwUrBJveGSG9OOMiz5BSr+Evmx5Rl3Bx0QQYeEK06dUtoC+6BbbkD6TsyhQ8mk
+	 ShzSvsQ2vFgBYrxwNK7uKNH69NOsWT2AqqfrVdJ4=
+Date: Sat, 25 Mar 2023 22:19:54 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: linux-sunxi@lists.linux.dev, Yong Deng <yong.deng@magewell.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Adam Pigg <adam@piggz.co.uk>
+Subject: Re: [PATCH v1 0/2] media: sun6i-csi: Fix format propagation in bridge
+Message-ID: <20230325201954.GA17021@pendragon.ideasonboard.com>
+References: <20230104162215.31194-1-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="=-=-="
-X-Rspamd-Queue-Id: 4PkHvP2qKjz9sW6
-
---=-=-=
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230104162215.31194-1-laurent.pinchart@ideasonboard.com>
 
-Hi,
+Hi Paul,
 
-On 2023-03-20 at 17:16:36 +0100, Roman Beranek <romanberanek@icloud.com> wr=
-ote:
-> In the case of DSI output, the value of SUN4I_TCON0_DCLK_DIV (4) does
-> not represent the actual dotclock divider, PLL_MIPI instead runs at
-> (bpp / lanes )-multiple [1] of the dotclock. [2] Setting 4 as dotclock
-> divder thus leads to reduced frame rate, specifically by 1/3 on 4-lane
-> panels, and by 2/3 on 2-lane panels respectively.
->
-> As sun4i_dotclock driver stores its calculated divider directly in
-> the register, conditional handling of the DSI output scenario is needed.
-> Instead of reading the divider from SUN4I_TCON0_DCLK_REG, retrieve
-> the value from tcon->dclk_min_div.
->
-> [1] bits per pixel / number of DSI lanes
-> [2] <https://github.com/BPI-SINOVOIP/BPI-M64-bsp-4.4/blob/66bef0f2f30b367=
-eb93b1cbad21ce85e0361f7ae/linux-sunxi/drivers/video/fbdev/sunxi/disp2/disp/=
-de/lowlevel_sun50iw1/disp_al.c#L322>
->
-> Signed-off-by: Roman Beranek <romanberanek@icloud.com>
-> =E2=80=94
->  drivers/gpu/drm/sun4i/sun4i_dotclock.c | 6 +++++-
->  drivers/gpu/drm/sun4i/sun4i_tcon.c     | 5 +++=E2=80=93
->  drivers/gpu/drm/sun4i/sun4i_tcon.h     | 1 +
->  3 files changed, 9 insertions(+), 3 deletions(-)
->
-> diff =E2=80=93git a/drivers/gpu/drm/sun4i/sun4i_dotclock.c b/drivers/gpu/=
-drm/sun4i/sun4i_dotclock.c
-> index 417ade3d2565..26fa99aff590 100644
-> =E2=80=94 a/drivers/gpu/drm/sun4i/sun4i_dotclock.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_dotclock.c
-> @@ -11,6 +11,7 @@
->
->  #include =E2=80=9Csun4i_tcon.h=E2=80=9D
->  #include =E2=80=9Csun4i_dotclock.h=E2=80=9D
-> +#include =E2=80=9Csun6i_mipi_dsi.h=E2=80=9D
->
->  struct sun4i_dclk {
->  	struct clk_hw  hw;
-> @@ -56,6 +57,9 @@ static unsigned long sun4i_dclk_recalc_rate(struct clk_=
-hw *hw,
->  	struct sun4i_dclk *dclk =3D hw_to_dclk(hw);
->  	u32 val;
->
-> +	if (dclk->tcon->is_dsi)
-> +		return parent_rate / dclk->tcon->dclk_min_div;
-> +
->  	regmap_read(dclk->regmap, SUN4I_TCON0_DCLK_REG, &val);
->
->  	val >>=3D SUN4I_TCON0_DCLK_DIV_SHIFT;
-> @@ -116,7 +120,7 @@ static int sun4i_dclk_set_rate(struct clk_hw *hw, uns=
-igned long rate,
->  			       unsigned long parent_rate)
->  {
->  	struct sun4i_dclk *dclk =3D hw_to_dclk(hw);
-> -	u8 div =3D parent_rate / rate;
-> +	u8 div =3D dclk->tcon->is_dsi ? SUN6I_DSI_TCON_DIV : parent_rate / rate;
->
->  	return regmap_update_bits(dclk->regmap, SUN4I_TCON0_DCLK_REG,
->  				  GENMASK(6, 0), div);
-> diff =E2=80=93git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/=
-sun4i/sun4i_tcon.c
-> index 523a6d787921..7f5d3c135058 100644
-> =E2=80=94 a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> @@ -367,8 +367,9 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tco=
-n *tcon,
->  	u32 block_space, start_delay;
->  	u32 tcon_div;
->
-> -	tcon->dclk_min_div =3D SUN6I_DSI_TCON_DIV;
-> -	tcon->dclk_max_div =3D SUN6I_DSI_TCON_DIV;
-> +	tcon->is_dsi =3D true;
-> +	tcon->dclk_min_div =3D bpp / lanes;
-> +	tcon->dclk_max_div =3D bpp / lanes;
+Ping for a review. I'd like to get this in v6.4.
 
-Claiming to set the divider to a different value (bpp / lanes) than what we=
-=E2=80=99re actually using in the end (SUN6I_DSIO_TCON_DIV) is somehow bugg=
-ing me. I feel like the proposal that I submitted is more direct:
-<https://lore.kernel.org/all/20230319160704.9858-2-frank@oltmanns.dev/>
+On Wed, Jan 04, 2023 at 06:22:13PM +0200, Laurent Pinchart wrote:
+> Hello,
+> 
+> This small patch series fixes format propagation in the sun6i-csi-bridge
+> subdev from sink pad to source pad. In order to do so, it uses the V4L2
+> subdev active state provided by the V4L2 subdev core (patch 2/2), with a
+> preparatory patch (1/2) that drops direct access to the bridge fields
+> from the capture side.
+> 
+> I haven't tested the patches myself as I lack a hardware platform for
+> this, but Adam (on CC) has successfully tested them. Adam, if you want
+> to reply with a Tested-by tag, that would be appreciated.
+> 
+> Laurent Pinchart (2):
+>   media: sun6i-csi: capture: Use subdev operation to access bridge
+>     format
+>   media: sun6i-csi: subdev: Use subdev active state to store active
+>     format
+> 
+>  .../sunxi/sun6i-csi/sun6i_csi_bridge.c        | 211 ++++++++----------
+>  .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   9 -
+>  .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  23 +-
+>  3 files changed, 110 insertions(+), 133 deletions(-)
+> 
+> 
+> base-commit: 6599e683db1bf22fee74302c47e31b9a42a1c3d2
 
-Actually, I had the following third patch prepared that adjusted the dotclo=
-ck rate so that the required PLL rate is set. But again, this seems very in=
-direct, so that=E2=80=99s why I refrained from submitting it and I submitte=
-d the linked patch above instead.
+-- 
+Regards,
 
-Anyway, here is the third proposal:
-
-=E2=80=94 a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-+++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-@@ -819,6 +819,34 @@ static void sun6i_dsi_encoder_disable(struct drm_encod=
-er *encoder)
- 	regulator_disable(dsi->regulator);
- }
-
-+static bool sun6i_dsi_encoder_mode_fixup(
-=E2=81=83 struct drm_encoder *encoder,
-=E2=81=83 const struct drm_display_mode *mode,
-=E2=81=83 struct drm_display_mode *adjusted_mode)
-+{
-=E2=81=83 if (encoder->encoder_type =3D=3D DRM_MODE_ENCODER_DSI) {
-=E2=81=83 /*
-=E2=81=83 * For DSI the PLL rate has to respect the bits per pixel and
-=E2=81=83 * number of lanes.
-=E2=81=83 *
-=E2=81=83 * According to the BSP code:
-=E2=81=83 * PLL rate =3D DOTCLOCK * bpp / lanes
-=E2=81=83 *
-=E2=81=83 * Therefore, the clock has to be adjusted in order to set the
-=E2=81=83 * correct PLL rate when actually setting the clock.
-=E2=81=83 */
-=E2=81=83 struct sun6i_dsi *dsi =3D encoder_to_sun6i_dsi(encoder);
-=E2=81=83 struct mipi_dsi_device *device =3D dsi->device;
-=E2=81=83 u8 bpp =3D mipi_dsi_pixel_format_to_bpp(device->format);
-=E2=81=83 u8 lanes =3D device->lanes;
-=E2=81=83=20
-
-=E2=81=83 adjusted_mode->crtc_clock =3D mode->crtc_clock
-=E2=81=83 * bpp / (lanes * SUN6I_DSI_TCON_DIV);
-=E2=81=83 }
-=E2=81=83=20
-
-=E2=81=83 return true;
-+}
-=E2=81=83 static int sun6i_dsi_get_modes(struct drm_connector *connector)
-  {
-      struct sun6i_dsi *dsi =3D connector_to_sun6i_dsi(connector);
-@@ -851,6 +879,7 @@ static const struct drm_connector_funcs sun6i_dsi_conne=
-ctor_funcs =3D {
- static const struct drm_encoder_helper_funcs sun6i_dsi_enc_helper_funcs =
-=3D {
- 	.disable	=3D sun6i_dsi_encoder_disable,
- 	.enable		=3D sun6i_dsi_encoder_enable,
-=E2=81=83 .mode_fixup =3D sun6i_dsi_encoder_mode_fixup,
-  };
-
-  static u32 sun6i_dsi_dcs_build_pkt_hdr(struct sun6i_dsi *dsi,
-
-
-
-Maxime, Roman, CC, what do you think? Can we achieve consensus? If I=E2=80=
-=99m not mistaken, all of the three proposal are a step in the right direct=
-ion, because they correct faulty behavior. Don=E2=80=99t you think?
-
-Thanks,
-  Frank
-
->
->  	sun4i_tcon0_mode_set_common(tcon, mode);
->
-> diff =E2=80=93git a/drivers/gpu/drm/sun4i/sun4i_tcon.h b/drivers/gpu/drm/=
-sun4i/sun4i_tcon.h
-> index fa23aa23fe4a..d8150ba2f319 100644
-> =E2=80=94 a/drivers/gpu/drm/sun4i/sun4i_tcon.h
-> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-> @@ -271,6 +271,7 @@ struct sun4i_tcon {
->  	struct clk			*dclk;
->  	u8				dclk_max_div;
->  	u8				dclk_min_div;
-> +	bool				is_dsi;
->
->  	/* Reset control */
->  	struct reset_control  *lcd_rst;
-
---=-=-=--
+Laurent Pinchart
