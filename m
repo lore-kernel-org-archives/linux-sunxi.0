@@ -1,22 +1,22 @@
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC04E62E
-	for <linux-sunxi@lists.linux.dev>; Sun, 26 Mar 2023 14:33:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2BD33E9
+	for <linux-sunxi@lists.linux.dev>; Sun, 26 Mar 2023 14:33:02 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pgRQS-0000Ui-2y; Sun, 26 Mar 2023 16:32:52 +0200
+	id 1pgRQN-00009B-9o; Sun, 26 Mar 2023 16:32:47 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pgRQQ-006rhT-8e; Sun, 26 Mar 2023 16:32:50 +0200
+	id 1pgRQJ-006ren-Ki; Sun, 26 Mar 2023 16:32:43 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pgRQP-0088au-Ez; Sun, 26 Mar 2023 16:32:49 +0200
+	id 1pgRQI-0088Yp-Dz; Sun, 26 Mar 2023 16:32:42 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Sean Young <sean@mess.org>,
+To: Maxime Ripard <mripard@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -25,9 +25,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	kernel@pengutronix.de
-Subject: [PATCH 110/117] media: sunxi-cir: Convert to platform remove callback returning void
-Date: Sun, 26 Mar 2023 16:32:17 +0200
-Message-Id: <20230326143224.572654-113-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 078/117] media: sun4i_csi: Convert to platform remove callback returning void
+Date: Sun, 26 Mar 2023 16:31:45 +0200
+Message-Id: <20230326143224.572654-81-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
 References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
@@ -38,7 +38,7 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1672; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=7hyD2BqMB/NdPUXZusMT/OdZctbrC0UG18HQRt8dIBM=; b=owGbwMvMwMXY3/A7olbonx/jabUkhhSFcK/2ZXb/E63WR2zw13Cb9OL8wq6rpzdVft4Q7aVU9 /JC1oQdnYzGLAyMXAyyYoos9o1rMq2q5CI71/67DDOIlQlkCgMXpwBMJFWK/Z9VTplo3hWN2Iv/ /VK2PktNdCpJ7Vir5R+6usfm85PqxarnpOdFTtwolJYsJ5UlkXvaxCJO7OE7wfxG1vKd6+qTTpp M2deR/Fc6lP3G/Psry7LTssJVRWr5l22J9uX13VPLeEq6exXH/0qpfSG5darC4iZM3p9b02I69j 2o/jVBwlUpTf3lyjhe18uH1u1eHCLP2LiTOz3/+TyB1H0f7b+vmCqsWXR+q6D9wYInE0OXlaazP 791pH3Roxghl7upG9T2vGiYdM5h1nFnr/9SmzZXb9raJ7vX/+iJaZY6UUYJp4KTxWq4RX9cnLRP Wk76ZJJ7089MzoV7m1blbPvR/PiAfKh6Tur1O8GHA53rAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1908; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=92f+/LQb/H6f1ORxRx6eRZYglN/JIjU1cdoQA/Fu7uU=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkIFbjj4OPXL2XVpzi/Nj0dmAgJvKqDyZkMFnTr hw1BsChwWiJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCBW4wAKCRCPgPtYfRL+ Tk/uB/95Csm+2fLfFB/qcZ7rs82AZiz/VIPmV4wv7JtBRl7913WpkszO6OjoTe12jmTt9DuUl9M Me9tqYJqwqLprsXxZstU4wdf8765sPnMUQMNugx5QXcmh0rJTAKqzWhlJANpr8vRQjwYMnNlMwA dFJoSN+v7RwJxkinGUDtXKUpc6u+fVY4wIv430fKQJH7Z7lctNC/hirIN13EEO3jfViZwHDqKpL UOr0Wd1TaGqY0TcWSqLK9+lRwAAyGBcFXkKaCnAPgdlq3KIqB6Tg9OI5Mp3+rnQk3nJ32Yn5G2P ykbYtKeAdZrkAGrnm/rT/AOC/i/Z4o3rAw5Hi4iuTu+4vNAQ
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -59,38 +59,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/media/rc/sunxi-cir.c | 6 ++----
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
-index b631a81e58bb..75b7aed1579c 100644
---- a/drivers/media/rc/sunxi-cir.c
-+++ b/drivers/media/rc/sunxi-cir.c
-@@ -364,14 +364,12 @@ static int sunxi_ir_probe(struct platform_device *pdev)
+diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+index 86c5235a0c7a..d6e7d1b36083 100644
+--- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
++++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+@@ -260,7 +260,7 @@ static int sun4i_csi_probe(struct platform_device *pdev)
  	return ret;
  }
  
--static int sunxi_ir_remove(struct platform_device *pdev)
-+static void sunxi_ir_remove(struct platform_device *pdev)
+-static int sun4i_csi_remove(struct platform_device *pdev)
++static void sun4i_csi_remove(struct platform_device *pdev)
  {
- 	struct sunxi_ir *ir = platform_get_drvdata(pdev);
+ 	struct sun4i_csi *csi = platform_get_drvdata(pdev);
  
- 	rc_unregister_device(ir->rc);
- 	sunxi_ir_hw_exit(&pdev->dev);
+@@ -271,8 +271,6 @@ static int sun4i_csi_remove(struct platform_device *pdev)
+ 	media_device_unregister(&csi->mdev);
+ 	sun4i_csi_dma_unregister(csi);
+ 	media_device_cleanup(&csi->mdev);
 -
 -	return 0;
  }
  
- static void sunxi_ir_shutdown(struct platform_device *pdev)
-@@ -413,7 +411,7 @@ MODULE_DEVICE_TABLE(of, sunxi_ir_match);
+ static const struct sun4i_csi_traits sun4i_a10_csi1_traits = {
+@@ -330,7 +328,7 @@ static const struct dev_pm_ops sun4i_csi_pm_ops = {
  
- static struct platform_driver sunxi_ir_driver = {
- 	.probe          = sunxi_ir_probe,
--	.remove         = sunxi_ir_remove,
-+	.remove_new     = sunxi_ir_remove,
- 	.shutdown       = sunxi_ir_shutdown,
- 	.driver = {
- 		.name = SUNXI_IR_DEV,
+ static struct platform_driver sun4i_csi_driver = {
+ 	.probe	= sun4i_csi_probe,
+-	.remove	= sun4i_csi_remove,
++	.remove_new = sun4i_csi_remove,
+ 	.driver	= {
+ 		.name		= "sun4i-csi",
+ 		.of_match_table	= sun4i_csi_of_match,
 -- 
 2.39.2
 
