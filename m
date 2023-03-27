@@ -1,129 +1,110 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC66D79C8
-	for <linux-sunxi@lists.linux.dev>; Mon, 27 Mar 2023 20:46:44 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id r11so41419558edd.5
-        for <linux-sunxi@lists.linux.dev>; Mon, 27 Mar 2023 13:46:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4EA79CE
+	for <linux-sunxi@lists.linux.dev>; Mon, 27 Mar 2023 21:52:50 +0000 (UTC)
+Received: by mail-yb1-f177.google.com with SMTP id z83so12645901ybb.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 27 Mar 2023 14:52:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679950003;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1679953969;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=n5VGGE40NcbEq8mDa+XnKTY8jKSu6LE7xtzGaY9kskM=;
-        b=aY9n6MwEOjFxlplG/AmL1AhqIv6DAGPlesKsrSMZUOQfrazRbBVuLvn/maeIs9IH2S
-         i1/4kALdIGyCdVYjF58Gmh/aZMsqpQa9ap/Awf9qSknI9le2GH+39R89RPlTFovdUaeD
-         2n5eWhISNQsl73Zg7uh9pKQTVvFGP92WlUjlrwDaxO6rCLBmawXNB7SiPwyrJXWsCwJv
-         Sv9YiJMkxpFyr3Kc8rgdHIQtzRZu3FvDzcAU7ktuas5gkar71JxZHt0bGmFxY4aKlPaI
-         5jyNtYd6DM/ay/JufXUfyjF+12zA2R8QLofrVAL5DDFdcUQEdIRRxQedl1rnJY6jkSj0
-         Nqfw==
+        bh=nLI5m06f2WlStlUywkxHpgfVuIZ5JS/MDTFzEPNuSfU=;
+        b=pOSHTN0gxWzMWkqyiNymvzEciJmMzDynaEbRFezy7nLLDqD1LINJt9Abz9IIuoPrea
+         w6BYlguZiNT/hPuPXgbYFH+nK5VQNYOCmkfeTEJcefvBQi9za56UC8iqta+AKeLauOTu
+         BYL0/iVJoeimYgwvs/tGLDATSN9mnXGj/ZTsNmgMmjZWjqUGqwweml9p3K3ISlDJ3pRy
+         FJb0uOBeoz+CDw0gVfgEvWnExyi8ZW1zUmJYIiBbYreayGe/FxZCi8XsTr1Ox7zjK0S5
+         OocDVIB4YAfd2kuVypBdFKkODtS9bY96MYlXVs23YNcbgJMXbEQCjP9ECgACofB2FL3i
+         aWQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679950003;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20210112; t=1679953969;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=n5VGGE40NcbEq8mDa+XnKTY8jKSu6LE7xtzGaY9kskM=;
-        b=dThOiMB+n+OE+WKF/Clq4GpktK0DKWIzfhK/mrIspQL4iS9J+JGn8MK0L+0d0oDsdB
-         aq0T4jvDyj1yuYhR33HJse2+eb9nlcYc13NcrIgp7aNgC/jtnmZ+E+AB0eEOCmY9bLPw
-         vptY32iRYHiVNzPXF0LYX7hNpETFjMvKAiOFRuasb2B6tiH751ffkq4dPvWKT3Vm4mJ5
-         d0ZEzwnvSa+HRhYiLLWUb27epAPtpK8IBcpFNZHgktKA55mwWd6e8baHQAydYWdzfnI+
-         pZ5FGIO5m5EMEgltSisWxyBxG7sYfwP/78W2veUnfZsoPdjgXyFxevlldvaU8HVZxVrM
-         KVTg==
-X-Gm-Message-State: AAQBX9dbxAnSej0PKJmFpzptby0FLr4c+A5u1zXaJwTVM191My2vhPju
-	ExUps6LfUzhzeRC04cdxzQg=
-X-Google-Smtp-Source: AKy350aK9Y63itdv4ewgSBQo+2OgFfKBT+Q+is5SeV+AA/eMwqp0tLtQc6vcwjQ/bGUVRwPpC2Gc3w==
-X-Received: by 2002:a17:906:4d0f:b0:8b2:8876:6a3c with SMTP id r15-20020a1709064d0f00b008b288766a3cmr12973366eju.29.1679950002716;
-        Mon, 27 Mar 2023 13:46:42 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id e3-20020a170906504300b00930c6c01c9esm14694983ejk.143.2023.03.27.13.46.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Mar 2023 13:46:42 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Andre Przywara <andre.przywara@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor@kernel.org>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- =?ISO-8859-1?Q?Andr=E1s_Szemz=F6?= <szemzo.andras@gmail.com>,
- Icenowy Zheng <uwu@icenowy.me>, Fabien Poussin <fabien.poussin@gmail.com>,
- linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Belisko Marek <marek.belisko@gmail.com>
-Subject: Re: [PATCH v2 0/4] ARM: dts: sunxi: Add MangoPi MQ-R board support
-Date: Mon, 27 Mar 2023 22:46:40 +0200
-Message-ID: <2673156.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20230320005249.13403-1-andre.przywara@arm.com>
-References: <20230320005249.13403-1-andre.przywara@arm.com>
+        bh=nLI5m06f2WlStlUywkxHpgfVuIZ5JS/MDTFzEPNuSfU=;
+        b=S2xb3o4Nn5y64VgEhgKmJoAITaXJUOiZTldd1+geFiBZOjd4M2fLUQUKU1P6vsy3Ta
+         5Gvp6KWy8mWFWJGkINk4GjUOTQ43tFj/gLpoIFf+7COggu0jinl6OwX1VnCB56Hzt33/
+         OCfKzHNT/vW/7tyHxO5e2EuXxvWRlXNJN4aZZRCyfiMXtUYi0/QFnrRjZR6TN10LcdUu
+         mjU7exqWWb71CzGqXa9c2V6P8sbZZ3mqBUWfkK/WTLkyIZLl9QD84cGq+sHJPqPeI5hU
+         AGMkcGf3b13llKEqR6pD32vlY5X+xb/yEEybwKbuRLoZF/TWItwF4XKKa72TSuXs7x0j
+         rm1Q==
+X-Gm-Message-State: AAQBX9dYrr4uewiUOuRTtWqBBzd6SiUF1qfPTj5zeC6ZS5DMRZQb5SMu
+	lpqfHkOjHCMd1TgwSyXWfQCrQ6RG855F0TI3D4AiSw==
+X-Google-Smtp-Source: AKy350YXWieWPPn4qPNXsbtFZBIPGWFVrw4KqEcgFae4NZrCaiM4DhD+RmS9uESY7KP/zdWUYuSeFcGkhfdSERGtuKw=
+X-Received: by 2002:a25:542:0:b0:a6b:bc64:a0af with SMTP id
+ 63-20020a250542000000b00a6bbc64a0afmr8149446ybf.4.1679953969020; Mon, 27 Mar
+ 2023 14:52:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20230317233623.3968172-1-robh@kernel.org> <CACRpkdYq4jE7Qn1w8iPeGz7vxj_CeZ+H48B0TVYmeF4Tt=kHgA@mail.gmail.com>
+ <CAL_JsqL+nF_WwZ-EDpUSD2yrxPLZWxaeb=WpTtPnnbpgcXT7qA@mail.gmail.com>
+In-Reply-To: <CAL_JsqL+nF_WwZ-EDpUSD2yrxPLZWxaeb=WpTtPnnbpgcXT7qA@mail.gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 27 Mar 2023 23:52:37 +0200
+Message-ID: <CACRpkdbR_PFSkqeK4xAmxdfdhi332hyax8jAnEa7VXFVp=QEDA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: pinctrl: Drop unneeded quotes
+To: Rob Herring <robh@kernel.org>
+Cc: =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, 
+	Damien Le Moal <damien.lemoal@wdc.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Dong Aisheng <aisheng.dong@nxp.com>, 
+	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	NXP Linux Team <linux-imx@nxp.com>, Sean Wang <sean.wang@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Andy Gross <agross@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Heiko Stuebner <heiko@sntech.de>, 
+	Tomasz Figa <tomasz.figa@gmail.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Emil Renner Berthing <kernel@esmil.dk>, 
+	Jianlong Huang <jianlong.huang@starfivetech.com>, Dvorkin Dmitry <dvorkin@tibbo.com>, 
+	Wells Lu <wellslutw@gmail.com>, Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
+	Michal Simek <michal.simek@xilinx.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, asahi@lists.linux.dev, 
+	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
+	linux-riscv@lists.infradead.org, patches@opensource.cirrus.com, 
+	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Dne ponedeljek, 20. marec 2023 ob 01:52:45 CEST je Andre Przywara napisal(a):
-> Hi,
-> 
-> this is v2, mostly acknowledging the fact that there is an Allwinner D1s
-> version of the board as well, thus splitting the board .dts into a
-> shared .dtsi and a stub .dts for the ARM version. I don't have the RISC-V
-> version, so cannot provide (nor test) this .dts file, but creation should
-> be easy, being based on the shared board .dtsi file.
-> Since the D1/D1s .dts files are now merged, this patch set should compile
-> cleanly now.
-> 
-> ======================================
-> 
-> The MangoPi MQ-R-T113 is a small SBC with the Allwinner T113-s3 SoC.
-> That is a very close relative to the Allwinner D1/D1s SoCs, but with
-> Arm Cortex-A7 cores, and 128 MB of SIP co-packaged DDR3 DRAM.
-> 
-> This series introduces the missing T113-s .dtsi, which builds on top of
-> the D1/D1s .dtsi, but adds the ARM specific peripherals, like the CPU
-> cores, the arch timer, the GIC and the PMU.
-> This requires to add a symlink to the RISC-V DT directory in patch 1/4,
-> to be able to easily reference the base .dtsi from other architecture
-> directories.
-> Since there are versions of the MQ-R boards with the Allwinner D1s,
-> there is shared .dtsi describing the board peripherals, plus a small
-> stub .dts to tie together all bits for the actual board.
-> 
-> Cheers,
-> Andre
-> 
-> Changelog v1 ... v2:
-> - rebase on top of v6.3-rc3 (including now merged D1/D1s .dtsi files)
-> - refine board naming, stating both RISC-V and ARM versions
-> - move board .dts into a shared .dtsi (to cover RISC-V version)
-> - fix 5V regulator node name
-> 
-> Andre Przywara (4):
->   dts: add riscv include prefix link
->   ARM: dts: sunxi: add Allwinner T113-s SoC .dtsi
->   dt-bindings: arm: sunxi: document MangoPi MQ-R board names
->   ARM: dts: sunxi: add MangoPi MQ-R-T113 board
-> 
->  .../devicetree/bindings/arm/sunxi.yaml        |   5 +
->  .../devicetree/bindings/riscv/sunxi.yaml      |   5 +
->  arch/arm/boot/dts/Makefile                    |   1 +
->  .../dts/sun8i-t113s-mangopi-mq-r-t113.dts     |  35 +++++
->  arch/arm/boot/dts/sun8i-t113s.dtsi            |  59 ++++++++
->  .../boot/dts/sunxi-d1s-t113-mangopi-mq-r.dtsi | 126 ++++++++++++++++++
->  scripts/dtc/include-prefixes/riscv            |   1 +
->  7 files changed, 232 insertions(+)
->  create mode 100644 arch/arm/boot/dts/sun8i-t113s-mangopi-mq-r-t113.dts
->  create mode 100644 arch/arm/boot/dts/sun8i-t113s.dtsi
->  create mode 100644 arch/arm/boot/dts/sunxi-d1s-t113-mangopi-mq-r.dtsi
->  create mode 120000 scripts/dtc/include-prefixes/riscv
+On Fri, Mar 24, 2023 at 3:33=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
+:
+> On Thu, Mar 23, 2023 at 3:40=E2=80=AFAM Linus Walleij <linus.walleij@lina=
+ro.org> wrote:
+> > On Sat, Mar 18, 2023 at 12:36=E2=80=AFAM Rob Herring <robh@kernel.org> =
+wrote:
+> >
+> > > Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> > > checking for this can be enabled in yamllint.
+> > >
+> > > Signed-off-by: Rob Herring <robh@kernel.org>
+> >
+> > Should I queue this patch by the way, or do you need it to go into some
+> > DT-related tree?
+>
+> Stands on its own. You can take it.
 
-Merged, thanks!
+This sadly conflicts hard with my "devel" branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git/lo=
+g/?h=3Ddevel
 
-Best regards,
-Jernej
+Cause seems to be major refactorings of Mediatek and Ralink
+bindings.
 
-
-
+Yours,
+Linus Walleij
