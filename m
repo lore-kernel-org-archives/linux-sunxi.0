@@ -1,42 +1,116 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937BA3C0F
-	for <linux-sunxi@lists.linux.dev>; Mon, 27 Mar 2023 15:30:23 +0000 (UTC)
-Received: by mail-ot1-f53.google.com with SMTP id r17-20020a05683002f100b006a131458abfso2163908ote.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 27 Mar 2023 08:30:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679931022;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GyK2fUsSPD/ZhKF2aRPOTaEqWirYfYdqwsIGEX2UYRY=;
-        b=ng82dkEKBmY+F793UaIZZnuno66YQ5a9cVKoNvfAJKo6ooOX8koQucPr4cgtRdOnYj
-         dD/oA25J9OrIHWSIQtxzCqzqKJBODmekOy8fnR6BcD2SDIYiDfRfRn32Xi4yHSWAfQuw
-         4vNvGKMlke/nnUbicbQq8Rt06Jdq21bgju+EGfl66RO1i4t6ha6KB6rdbVgqHEQKT8n0
-         iYPlSmLrLdPvKZBArHclLRkWMKNsVvVYD6Y746OvGNQW5aQJ5v1pKDIrqrH9wEM91JGQ
-         xjleMOFGXanoh4Hg2g8wDhqqBNxYAEFGlu0HIn9biu/BKwwxm1USIZtdBj15M2WMQ/i+
-         R0xg==
-X-Gm-Message-State: AO0yUKUC0xhlj7nsXAOgD8Aba6t3Ou1f1zsNOaSFZYPZpJA8vkaSGa36
-	psRA6jGOGMbuaram6srTjg==
-X-Google-Smtp-Source: AK7set/gGvswDR9Qi8QEAjTtwuOiAplRhNhucwkwiCcY/K2JNpIB9iD2QrPd5kmkGr8CtufM0mCkUA==
-X-Received: by 2002:a9d:6642:0:b0:690:a6b3:a2f6 with SMTP id q2-20020a9d6642000000b00690a6b3a2f6mr6294603otm.0.1679931022551;
-        Mon, 27 Mar 2023 08:30:22 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id j15-20020a9d7f0f000000b0069fb32837a9sm4748248otq.42.2023.03.27.08.30.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Mar 2023 08:30:22 -0700 (PDT)
-Received: (nullmailer pid 3908955 invoked by uid 1000);
-	Mon, 27 Mar 2023 15:30:21 -0000
-Date: Mon, 27 Mar 2023 10:30:21 -0500
-From: Rob Herring <robh@kernel.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-sunxi@lists.linux.dev, Conor Dooley <conor@kernel.org>, linux-rockchip@lists.infradead.org, Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, kernel@collabora.com, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>, linux-serial@vger.kernel.org, Paul Walmsley <paul.walmsley@sifive.com>, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v2 01/10] dt-bindings: serial: snps-dw-apb-uart: Switch
- dma-names order
-Message-ID: <167993102075.3908904.11641161105077047331.robh@kernel.org>
-References: <20230321215624.78383-1-cristian.ciocaltea@collabora.com>
- <20230321215624.78383-2-cristian.ciocaltea@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DD07468
+	for <linux-sunxi@lists.linux.dev>; Mon, 27 Mar 2023 19:24:36 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.nyi.internal (Postfix) with ESMTP id A10135821C9;
+	Mon, 27 Mar 2023 15:24:35 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Mon, 27 Mar 2023 15:24:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to; s=fm3; t=
+	1679945075; x=1679952275; bh=rUuK9HXT1QKP+JaV2sHZBw1jLvvNj/LeTVl
+	Vzz2mgnE=; b=Gbu8P4udsMzoUHOjBbc5vfZkP8tmap7dDKr2UbNlg1rixDocDy1
+	FxnzMOf4IOE2QfpQC16ztGYJPxILJkIxjIgvAYZvE6YKh8ByrZaG/DwGgBebbWeR
+	u897wwvNEQblafmWFWlheo89ARPXU3Y8oogaRB7FitYdT+Ut11wADq6gdu2WovDh
+	Xkmp8I7I9FIQMArX6acMwEXaNFUqd2HKMXcH43MHmPOzshN26/iirV1eH6W3dVXI
+	8/qFTx4K/XYsgt3TO6s0Awb2KVJUO/QYpQYZyPru8lsOFL1AaMAGCylG/7RBI5k9
+	jN2zsyhGhjzCZHGorsCFbB/6Ikisoduw5rw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1679945075; x=1679952275; bh=rUuK9HXT1QKP+JaV2sHZBw1jLvvNj/LeTVl
+	Vzz2mgnE=; b=SHHB4k7bT/dpA/WpBJ4y6Me/WnLbpnFXIndTiaB8/gRhPh84gMh
+	BWWBeQ2XwYOIN72SfXrmMvw1Fp7uf/LOu2PSFypexIyJHggZzMGs7l6ee1zSHLSh
+	oDdQ+vdPBe9KNPXErhfHevDOs1nDqM2OVelCWFp97TAwMIVY0/2/h3xlmXqOtiYf
+	EVwH2yJfjFhnXvgqDRNyzHjPstZZOaYq3QFTE2qxYXpu0A46u0Mm1LUIMjT71nea
+	MN2+d/lsVf8chYLWOQNX2owgkOwLov/Ep9ne8iDdinid6yyrileqeAyQzZn48c9N
+	Q0qZYiL21tuinlqT4OtghVeAeGKaikoV2ow==
+X-ME-Sender: <xms:ce0hZIdM24euIGEUtoe65OkBtoRYVeI3ONUCSPWoGVW_5JO4kFnMXA>
+    <xme:ce0hZKP7isXAj98ojUZU3qfBX3AC7TN1qwun_tqjjRNsKWlTzcp_QsyECQ0whwQwo
+    rwnun8onbXM8eXunNI>
+X-ME-Received: <xmr:ce0hZJju5UXKYf1ZB4-cgid8Z7MS1h-PShHiUVPZRgduIHmJvBnjnu1tYdV9>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehvddgudefkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgr
+    gihimhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtf
+    frrghtthgvrhhnpeetgfelgefggeekkefggfeludeiudffjeffgeevveekjedukedtudeu
+    teefteefgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:ce0hZN-SRmDaQe-0vFu3eAyHD4JPegYDiDKo-JQR5BGerdxYpxnFaQ>
+    <xmx:ce0hZEun2Gmy0YnOs-3_4-7t5O9t6z8MgMYrxxX_G44CPUvCVCr81Q>
+    <xmx:ce0hZEE5l3ugjz44F874HhjsOZZjibqjYjw1zy4XvsjTYlW2FEW9Yg>
+    <xmx:c-0hZFMocL39774IjxJ1l8UQZNiYw8FCE5ns7VU4Jf79p3npVDrKMQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Mar 2023 15:24:32 -0400 (EDT)
+Date: Mon, 27 Mar 2023 21:24:30 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
+Cc: Stephen Boyd <sboyd@kernel.org>, Paul Cercueil <paul@crapouillou.net>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Shawn Guo <shawnguo@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,	Ulf Hansson <ulf.hansson@linaro.org>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+	Jonathan Hunter <jonathanh@nvidia.com>,	Abel Vesa <abelvesa@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Peter De Schrijver <pdeschrijver@nvidia.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Prashant Gaikwad <pgaikwad@nvidia.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Vinod Koul <vkoul@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
+	Sekhar Nori <nsekhar@ti.com>,	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,	Takashi Iwai <tiwai@suse.com>,
+ David Airlie <airlied@gmail.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	David Lechner <david@lechnology.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,	Mark Brown <broonie@kernel.org>,
+ Max Filippov <jcmvbkbc@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-stm32@st-md-mailman.stormreply.com,	alsa-devel@alsa-project.org,
+ linux-mediatek@lists.infradead.org,	linux-phy@lists.infradead.org,
+ linux-mips@vger.kernel.org,	linux-renesas-soc@vger.kernel.org,
+	linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 56/65] clk: ingenic: cgu: Switch to determine_rate
+Message-ID: <20230327192430.b2cp3yyrkzy4g4vw@penduick>
+References: <80VTKR.CE8RVN8M3ZYK3@crapouillou.net>
+ <20221104145946.orsyrhiqvypisl5j@houat>
+ <cp7Yh29ndlOOi1yW8KwCcpzoLPLxm1vR@localhost>
+ <20221107085417.xrsh6xy3ouwdkp4z@houat>
+ <ucJ6KSBqdPTxfxUQqLUr9C9RGiQRnY1I@localhost>
+ <20221109110045.j24vwkaq3s4yzoy3@houat>
+ <06a293adc75990ed3e297b076fc38d8a.sboyd@kernel.org>
+ <xpKMzGb1sOsucWMTlJIMzrT5KjLlZ7JP@localhost>
+ <20230324111959.frjf4neopbs67ugd@houat>
+ <rTJKpeLOBeu3eOLW5z3P5fEpcOJJLrGs@localhost>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,75 +119,59 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230321215624.78383-2-cristian.ciocaltea@collabora.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <rTJKpeLOBeu3eOLW5z3P5fEpcOJJLrGs@localhost>
 
+On Fri, Mar 24, 2023 at 08:58:48PM +0000, Aidan MacDonald wrote:
+> >> My suggestion: add a per-clock bitmap to keep track of which parents
+> >> are allowed. Any operation that would select a parent clock not on the
+> >> whitelist should fail. Automatic reparenting should only select from
+> >> clocks on the whitelist. And we need new DT bindings for controlling
+> >> the whitelist, for example:
+> >>
+> >>     clock-parents-0 =3D <&clk1>, <&pll_c>;
+> >>     clock-parents-1 =3D <&clk2>, <&pll_a>, <&pll_b>;
+> >>
+> >> This means that clk1 can only have pll_c as a parent, while clk2 can
+> >> have pll_a or pll_b as parents. By default every clock will be able
+> >> to use any parent, so a list is only needed if the machine needs a
+> >> more restrictive policy.
+> >>
+> >> assigned-clock-parents should disable automatic reparenting, but allow
+> >> explicit clk_set_parent(). This will allow clock drivers to start doing
+> >> reparenting without breaking old DTs.
+> >
+> > I'm generally not a fan of putting all these policies in the device
+> > tree. Do you have an example where it wouldn't be possible to do exactly
+> > this from the driver itself?
+>=20
+> I'm confused. What's implicit in the example is clk1 and clk2 might
+> have *other* possible choices of parent clock and the device tree is
+> limiting what the OS is allowed to choose.
+>
+> Why would you put such arbitrary limitations into the driver?
 
-On Tue, 21 Mar 2023 23:56:15 +0200, Cristian Ciocaltea wrote:
-> Commit 370f696e4474 ("dt-bindings: serial: snps-dw-apb-uart: add dma &
-> dma-names properties") documented dma-names property to handle Allwinner
-> D1 dtbs_check warnings, but relies on the rx->tx ordering, which is the
-> reverse of what a different board expects:
-> 
->   rk3326-odroid-go2.dtb: serial@ff030000: dma-names:0: 'rx' was expected
-> 
-> A quick and incomplete check shows the inconsistency is present in many
-> other DTS files:
-> 
-> $ git grep -A10 snps,dw-apb-uart | grep dma-names | sort -u
-> arch/arm64/boot/dts/rockchip/px30.dtsi-         dma-names = "tx", "rx";
-> arch/arm64/boot/dts/rockchip/rk3328.dtsi-       dma-names = "tx", "rx";
-> arch/arm64/boot/dts/rockchip/rk3588s.dtsi-      dma-names = "tx", "rx";
-> arch/arm/boot/dts/rk3066a.dtsi-                 dma-names = "tx", "rx";
-> arch/arm/boot/dts/rk3128.dtsi-                  dma-names = "tx", "rx";
-> arch/arm/boot/dts/rk3288.dtsi-                  dma-names = "tx", "rx";
-> arch/arm/boot/dts/rv1126.dtsi-                  dma-names = "tx", "rx";
-> arch/arm/boot/dts/socfpga.dtsi-                 dma-names = "tx", "rx";
-> arch/arm/boot/dts/sun6i-a31.dtsi-               dma-names = "rx", "tx";
-> arch/arm/boot/dts/sun8i-a23-a33.dtsi-           dma-names = "rx", "tx";
-> arch/arm/boot/dts/sun8i-v3s.dtsi-               dma-names = "rx", "tx";
-> arch/arm/boot/dts/sunxi-h3-h5.dtsi-             dma-names = "rx", "tx";
-> arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi-  dma-names = "rx", "tx";
-> 
-> The initial proposed solution was to allow a flexible dma-names order in
-> the binding, due to potential ABI breakage concerns after fixing the DTS
-> files. But luckily the Allwinner boards are not really affected, since
-> all of them are using a shared DMA channel for rx and tx:
-> 
-> $ git grep -A10 snps,dw-apb-uart | grep 'sun.*dmas' | sort -u
-> arch/arm/boot/dts/sun6i-a31.dtsi-       dmas = <&dma 10>, <&dma 10>;
-> arch/arm/boot/dts/sun6i-a31.dtsi-       dmas = <&dma 22>, <&dma 22>;
-> arch/arm/boot/dts/sun6i-a31.dtsi-       dmas = <&dma 6>, <&dma 6>;
-> arch/arm/boot/dts/sun6i-a31.dtsi-       dmas = <&dma 7>, <&dma 7>;
-> arch/arm/boot/dts/sun6i-a31.dtsi-       dmas = <&dma 8>, <&dma 8>;
-> arch/arm/boot/dts/sun6i-a31.dtsi-       dmas = <&dma 9>, <&dma 9>;
-> arch/arm/boot/dts/sun8i-a23-a33.dtsi-   dmas = <&dma 10>, <&dma 10>;
-> arch/arm/boot/dts/sun8i-a23-a33.dtsi-   dmas = <&dma 6>, <&dma 6>;
-> arch/arm/boot/dts/sun8i-a23-a33.dtsi-   dmas = <&dma 7>, <&dma 7>;
-> arch/arm/boot/dts/sun8i-a23-a33.dtsi-   dmas = <&dma 8>, <&dma 8>;
-> arch/arm/boot/dts/sun8i-a23-a33.dtsi-   dmas = <&dma 9>, <&dma 9>;
-> arch/arm/boot/dts/sun8i-v3s.dtsi-       dmas = <&dma 6>, <&dma 6>;
-> arch/arm/boot/dts/sun8i-v3s.dtsi-       dmas = <&dma 7>, <&dma 7>;
-> arch/arm/boot/dts/sun8i-v3s.dtsi-       dmas = <&dma 8>, <&dma 8>;
-> arch/arm/boot/dts/sunxi-h3-h5.dtsi-     dmas = <&dma 6>, <&dma 6>;
-> arch/arm/boot/dts/sunxi-h3-h5.dtsi-     dmas = <&dma 7>, <&dma 7>;
-> arch/arm/boot/dts/sunxi-h3-h5.dtsi-     dmas = <&dma 8>, <&dma 8>;
-> arch/arm/boot/dts/sunxi-h3-h5.dtsi-     dmas = <&dma 9>, <&dma 9>;
-> arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi-  dmas = <&dma 14>, <&dma 14>;
-> arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi-  dmas = <&dma 15>, <&dma 15>;
-> arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi-  dmas = <&dma 16>, <&dma 16>;
-> arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi-  dmas = <&dma 17>, <&dma 17>;
-> arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi-  dmas = <&dma 18>, <&dma 18>;
-> arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi-  dmas = <&dma 19>, <&dma 19>;
-> 
-> Switch dma-names order to tx->rx as the first step in fixing the
-> inconsistency. The remaining DTS fixes will be handled by separate
-> patches.
-> 
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
->  Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+Why would we put such arbitrary limitations in the firmware? As this
+entire thread can attest, people are already using the device tree to
+work around the limitations of the Linux driver, or reduce the
+features of Linux because they can rely on the device tree. Either
+way, it's linked to the state of the Linux driver, and any other OS or
+Linux version could very well implement something more dynamic.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+> They would be different from machine to machine, unless the clock
+> tree is so simple there is only *one* meaningful way to configure
+> it.
 
+If we look at the device trees we have in-tree, most of the users of
+assigned-clocks are the same from one board to another.
+
+> Most SoCs are complicated enough that there will be tradeoffs
+> depending on what peripherals you are using (typically a single
+> machine will not use *every* peripheral device provided by the SoC).
+
+We already have APIs to lock parents or rates on a given clock from
+the consumer. It's far superior (feature-wise) than what the device
+tree will ever offer because it's code, and it depends on the usage
+already since an unused driver won't probe.
+
+Maxime
