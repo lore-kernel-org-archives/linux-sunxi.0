@@ -1,36 +1,36 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C54B2F30
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 15:53:12 +0000 (UTC)
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-177ca271cb8so16674094fac.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 08:53:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44DDC2F30
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 15:53:15 +0000 (UTC)
+Received: by mail-oo1-f47.google.com with SMTP id m6-20020a4ae846000000b0053b9059edd5so2497247oom.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 08:53:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680105192;
+        d=1e100.net; s=20210112; t=1680105194;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WurTN6TQClVnhKzRVCxCDshUnc0lAKMY5Mp4cC77h0Y=;
-        b=OG91/v9stHHOe28uEycMk40cV8OGwtSAU06TsH94Phve2a4eJx0zAwlOYtkKjuv3sC
-         wv5A+rps7aXwuSiju9B8EtrUKlUnZnGkrbHLdF1ph4MdcMd0Gnj7LN7LKJAZSPYlStVq
-         TAvlwOdiBWgwtmJ+ux8SGgUciaLoZEN5ceO66gFmE+niWvmq9utP9Q5Wkn9wgW/qBVNC
-         Mv579LyyWJBZl/fNdDjMgd6oUvriJWbdpgCqJ+4HFgldr1huxcmergNaHlhnog1QHcNw
-         Fpmg9jPywUzRfH4geBRUevbj/utuGyH6fJp8nhkqt/xgooyERIcYABVTHFUU21GZZ17b
-         tvng==
-X-Gm-Message-State: AAQBX9fK2o9Swmawee5pQ99tCwwxp+B5Zq9DCjtxUQYvvJHoizQINH4d
-	sLhYVVATsWNk/rrIIHpsKw==
-X-Google-Smtp-Source: AKy350Zo9NclgwNBZoANioCGcuLyMicsG3a/5+eN9bgHMpdMdqlYEHn7LZHT8hqlsIh4r2ZmsXlMnw==
-X-Received: by 2002:a05:6870:2194:b0:17e:cb7:29c0 with SMTP id l20-20020a056870219400b0017e0cb729c0mr13838293oae.13.1680105192039;
-        Wed, 29 Mar 2023 08:53:12 -0700 (PDT)
+        bh=tOFzIiTcs5glICtXCi7orAKYw6mLzzis64IJ8Etn534=;
+        b=FJt3sKXWugsK+alLpzCSbzYInunif2EERRGP+olgHzcC9rubyDyni0tpu4RoS4mcao
+         19FmvuBoxOJYxWvkwci7clL50enjdt5+I5FeHHmEYh42WP40jrSj6zF/nAuj53UZlScH
+         ydbFRnkIurAtG6GfyEBCbqgpCszAVgwGdOV8tLGgplN2Rwfe5AUaaDr+PR6P7wsDN4yM
+         ul6359i6XBqdSghPLiH/KLUcljo27qKloH4n8MQPYeAVH36jhoZByBaggKhrrRnDmHp4
+         yJ3gNuALTpZcRqxRdy36Yp7ZFwbV8MqE2eUd0J/9XJd9zB0FG6CfYT8U0uvD+D+RXVV5
+         SlxQ==
+X-Gm-Message-State: AO0yUKVNknUF0EZEyTBB198665YN2fLZzxFYRl/AWm2gr6ZP7VGDUeyh
+	PNoRa+tsXJcUsIFR0BovGA==
+X-Google-Smtp-Source: AK7set9MAD4tg5pc/rHdBuixw1K3iao0K53LrjqhMjiHjl+aL1ahzPwsk7GYhgXBJpfdS1Uabklemg==
+X-Received: by 2002:a4a:41cb:0:b0:537:ad3c:d74f with SMTP id x194-20020a4a41cb000000b00537ad3cd74fmr9577499ooa.9.1680105194254;
+        Wed, 29 Mar 2023 08:53:14 -0700 (PDT)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id aw8-20020a0568707f8800b001762d1bf6a9sm11897731oac.45.2023.03.29.08.53.10
+        by smtp.gmail.com with ESMTPSA id q125-20020a4a4b83000000b0051ffe0fe11bsm14001119ooa.6.2023.03.29.08.53.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 08:53:11 -0700 (PDT)
-Received: (nullmailer pid 3198075 invoked by uid 1000);
+        Wed, 29 Mar 2023 08:53:13 -0700 (PDT)
+Received: (nullmailer pid 3198073 invoked by uid 1000);
 	Wed, 29 Mar 2023 15:52:45 -0000
 From: Rob Herring <robh@kernel.org>
-Date: Wed, 29 Mar 2023 10:52:04 -0500
-Subject: [PATCH 07/19] ARM: cpuidle: Drop of_device.h include
+Date: Wed, 29 Mar 2023 10:52:03 -0500
+Subject: [PATCH 06/19] ARM: sunxi: Drop of_device.h include
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -39,7 +39,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230329-dt-cpu-header-cleanups-v1-7-581e2605fe47@kernel.org>
+Message-Id: <20230329-dt-cpu-header-cleanups-v1-6-581e2605fe47@kernel.org>
 References: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org>
 In-Reply-To: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org>
 To: "David S. Miller" <davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>, 
@@ -73,21 +73,21 @@ Signed-off-by: Rob Herring <robh@kernel.org>
 ---
 Please ack and I will take the series via the DT tree.
 ---
- arch/arm/kernel/cpuidle.c | 1 -
+ arch/arm/mach-sunxi/mc_smp.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/arch/arm/kernel/cpuidle.c b/arch/arm/kernel/cpuidle.c
-index 437ff39f7808..fba1f8bb03b5 100644
---- a/arch/arm/kernel/cpuidle.c
-+++ b/arch/arm/kernel/cpuidle.c
-@@ -5,7 +5,6 @@
- 
- #include <linux/cpuidle.h>
+diff --git a/arch/arm/mach-sunxi/mc_smp.c b/arch/arm/mach-sunxi/mc_smp.c
+index 26cbce135338..cb63921232a6 100644
+--- a/arch/arm/mach-sunxi/mc_smp.c
++++ b/arch/arm/mach-sunxi/mc_smp.c
+@@ -19,7 +19,6 @@
+ #include <linux/irqchip/arm-gic.h>
  #include <linux/of.h>
+ #include <linux/of_address.h>
 -#include <linux/of_device.h>
- #include <asm/cpuidle.h>
+ #include <linux/smp.h>
  
- extern struct of_cpuidle_method __cpuidle_method_of_table[];
+ #include <asm/cacheflush.h>
 
 -- 
 2.39.2
