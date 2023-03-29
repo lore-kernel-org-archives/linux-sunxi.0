@@ -1,41 +1,41 @@
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E6826FCB
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 19:50:58 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.west.internal (Postfix) with ESMTP id B22DC2B05BE1;
-	Wed, 29 Mar 2023 15:50:53 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Wed, 29 Mar 2023 15:50:58 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB2D6FCB
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 19:56:43 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id CF0D032002F9;
+	Wed, 29 Mar 2023 15:56:41 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Wed, 29 Mar 2023 15:56:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
 	:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1680119453; x=1680126653; bh=S0
-	0Xp8JXjn19UH995q1FPsxfz6/qb923iCtN7jshDa0=; b=bjfu/u+3WNSfLMbwG8
-	kgDlb33yFeBpTyDn26O0i5sMcaQYMH5k+w0P2n88u/CL6nmHobkHURfCmf1/C29t
-	U0Qh1AeatQqCeBn6lka/dn10E2764ErqPqb3njkwCEp0gR+damC3mrcUvTxoLGFt
-	C8YUuH43zoflGPvolh5JgeGOuMjpcUVK2XMglwkAj5Jbl90JOiW6MmIBfFxsj47Z
-	LmLClTdxuUi8kFNiCE0STmAKXFF18XHkXI+HXgSXZYmlUiBbZLpqDOcow+ybw2xE
-	2FoegJ/5RU8yvTqRDV9YushjRc122S3DH00UzJnafvUsGPLUeJnt1P45+mZXlwwx
-	9r5w==
+	:subject:subject:to:to; s=fm3; t=1680119801; x=1680206201; bh=no
+	XiJIPie8dV9ePTw+SFQsO0YQNm2CoaSAiwIsdQxWY=; b=dhX/CDGktLBJ59bws1
+	SBd5MyUrWvJrFsBrVeAcOAIIOON8qZVFvlHWEupXGQ+QK9V6Shv8v1V06GUfSHbE
+	REpoPWc4hpwXLYnOM2yBzg9XThL5e88JOKvyn9WDy86EkjsFXTKAtgocml/wELkK
+	M8CbixMKVxgLW7vA+szzycquz6Kd6FuLzewgt+ej30+TL+hFaL4VAPztbJo44ELG
+	hIrT8HCkNG+x+Ui+TalipT8H89pKukX3868zIlyVPPlm4MsNSEkpRC09R6iNAgsO
+	kp9sbQfeWynd1hRnKNj77/HENaBHF1jwvncRUVngGBVjNo7YsbyZ4gzqPcXyKA6A
+	Mkzw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1680119453; x=1680126653; bh=S00Xp8JXjn19U
-	H995q1FPsxfz6/qb923iCtN7jshDa0=; b=mDHZlaVnXucLsPRdtiP08QfOw0gbw
-	L+tUMJhcynxctO/kzDo9N9LThihIenJjo53qM0euM2lsFwMzIIJmLZaKDMEQ9gKS
-	btQwIniilAJ2KR0keHWJin00kBMMw6Fvxj0Tqr2fZDydPMLtTJ9/sGRArw3nvLEJ
-	Inl8nRAJ+p1On2TOo/Jkf5NvgfFrgD8xiz+wUxe+OLxZLqgad7dL+FZKdxkOCpJr
-	jXFB1C2jlktQjz7Pf5BdwXfRgXBHnZg2CeqLIpNinGTcVjw+BWRP0a6XnT9W3OK0
-	vrpjM1vniY/j4v5fsA1EOzPEQz9MwxVgK2edMj2xcjAO4WZgtdvUtY6ug==
-X-ME-Sender: <xms:mpYkZD7Ox3zkaNg9OIbaq_Geirriia0AyR5zsctORI6EJu7ND1ZsRQ>
-    <xme:mpYkZI6gfNEQJJATGLF-jP5tejftDvf4e2pRhn5b30pSmUBJQi8Q22RK3CYpCbdPk
-    nljkuFaqJebKdIGblI>
-X-ME-Received: <xmr:mpYkZKdImEiijk94na28hpIQuEi3cQuAMkQWm0nzJyixb0OJnKMRnOXbcA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehiedgudeggecutefuodetggdotefrod
+	:x-sasl-enc; s=fm2; t=1680119801; x=1680206201; bh=noXiJIPie8dV9
+	ePTw+SFQsO0YQNm2CoaSAiwIsdQxWY=; b=VQflJgiYK2fuZdRhXHweK9JeB6Anm
+	hA0vcz6up+MNKNHhh68F2kQF+/4NhFDnxiT7y6it/PctSKFwI66OC47kTVL+rts/
+	978f/qKQdDK6xpgdhHhnZGB58lQ4ZBX3c/tGi0chGgBCgUlc1xW+jA9xiKvDOkVX
+	wcXVZksgXC/665tWjAew2SBt9V8u70RWHWUyyCItLvNpSGiMiI1uOWyVihpZ8j03
+	V1JWWsVcfBajs9O5xkKyRYURQLMkGTTgcwVGDeiFy4zOwNK7gtYYRxGq81mO1svf
+	NI8SuXlIQXLDdEs/Sr5WSgkMI32fDtPDZhW44t6UtdTZJ6Kk1JzNkWvrw==
+X-ME-Sender: <xms:-JckZPreUsTnw_QVHZp9gOewnoEeXGFrxnq2phyZsqeqRLyDFM_S5g>
+    <xme:-JckZJqoC64_TFJePBjgzeQRZLoNywmyZGH23AGYEOuqLwAj7dZJK7Z9ydmeVayO9
+    KIybdJYquTloxwXTZg>
+X-ME-Received: <xmr:-JckZMN9yYVwFdC7NRsKsRT60YIjpGzXiAs_vY_60xNnrEcyocQ0dmkAqQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehiedgudeghecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
     enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgig
@@ -43,72 +43,30 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehiedgudeggecutefuodetgg
     grthhtvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheeh
     fffhvedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
     epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:mpYkZEJl9MrKZSU_H62ZAJfDV2fQB_Dukmg12b6sz6GsGnrs1I7MQA>
-    <xmx:mpYkZHItJM6rTbcj4kioTn3BMkpHiPds2sYYICneLW9ubA5TBI5WRQ>
-    <xmx:mpYkZNxhOoittDkCw7hbXZnCUDUd-FuZ-EKLeSqNz8AN2-VxFNYVfA>
-    <xmx:nZYkZIRJx8oRJdN_mOMdRd18Mh8SZ8lDvg6OQ5KdOS-_17hhw45Pa7Wurdo>
+X-ME-Proxy: <xmx:-ZckZC4qb0zUDG1CSROAhpnm2N3QaW8m1t0xrzdddB8wR2-9obZXow>
+    <xmx:-ZckZO4N5m00Z91caxn0OYmPuT_6dB_ThYi-0ir03NVvoYSuDRMSgQ>
+    <xmx:-ZckZKhexjf47-Je1pfiLB-1ojxCMMHMCzj8j71uRrzLWgYjwgpmhA>
+    <xmx:-ZckZHEye8DGUgO1iIYeMyQAfxVhnS_47QNV9vn28e-gTwXw1Urzmw>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 29 Mar 2023 15:50:49 -0400 (EDT)
-Date: Wed, 29 Mar 2023 21:50:49 +0200
+ 29 Mar 2023 15:56:40 -0400 (EDT)
+Date: Wed, 29 Mar 2023 21:56:39 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Shawn Guo <shawnguo@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>,	Ulf Hansson <ulf.hansson@linaro.org>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Dinh Nguyen <dinguyen@kernel.org>,	Paul Cercueil <paul@crapouillou.net>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-	Jonathan Hunter <jonathanh@nvidia.com>,	Abel Vesa <abelvesa@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Peter De Schrijver <pdeschrijver@nvidia.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Prashant Gaikwad <pgaikwad@nvidia.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Vinod Koul <vkoul@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
-	Sekhar Nori <nsekhar@ti.com>,	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,	Takashi Iwai <tiwai@suse.com>,
- David Airlie <airlied@gmail.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+To: Frank Oltmanns <frank@oltmanns.dev>
+Cc: Roman Beranek <romanberanek@icloud.com>, Chen-Yu Tsai <wens@csie.org>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	David Lechner <david@lechnology.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,	Max Filippov <jcmvbkbc@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-stm32@st-md-mailman.stormreply.com,	alsa-devel@alsa-project.org,
- linux-mediatek@lists.infradead.org,	linux-phy@lists.infradead.org,
- linux-mips@vger.kernel.org,	linux-renesas-soc@vger.kernel.org,
-	linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
-	linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 43/65] ASoC: tlv320aic32x4: Add a determine_rate hook
-Message-ID: <20230329195049.lbdbkbqu6zbq5xii@penduick>
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
- <20221018-clk-range-checks-fixes-v2-43-f6736dec138e@cerno.tech>
- <Y2UzdYyjgahJsbHg@sirena.org.uk>
- <20221104155123.qomguvthehnogkdd@houat>
- <Y2U2+ePwRieYkNjv@sirena.org.uk>
- <20221107084322.gk4j75r52zo5k7xk@houat>
- <Y2j0r0wX1XtQBvqO@sirena.org.uk>
- <20221107152603.57qimyzkinhifx5p@houat>
- <5819b1362f35ce306e1b6d566bfd44e5.sboyd@kernel.org>
+	Samuel Holland <samuel@sholland.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sun4i: uncouple DSI dotclock divider from
+ TCON0_DCLK_REG
+Message-ID: <20230329195639.iep4rv5rcigu3gj2@penduick>
+References: <20230320161636.24411-1-romanberanek@icloud.com>
+ <87wn356ni4.fsf@oltmanns.dev>
+ <20230327202045.ceeqqwjug4ktxtsf@penduick>
+ <87bkkc3bzc.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -116,85 +74,69 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bx2st77tq2vvri5u"
+	protocol="application/pgp-signature"; boundary="w77waeuhy2kubgq3"
 Content-Disposition: inline
-In-Reply-To: <5819b1362f35ce306e1b6d566bfd44e5.sboyd@kernel.org>
+In-Reply-To: <87bkkc3bzc.fsf@oltmanns.dev>
 
 
---bx2st77tq2vvri5u
+--w77waeuhy2kubgq3
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Stephen,
+Hi,
 
-On Wed, Mar 22, 2023 at 04:31:04PM -0700, Stephen Boyd wrote:
-> > It's also replacing one implicit behavior by another. The point of this
-> > series was to raise awareness on that particular point, so I'm not sure
-> > it actually fixes things. We'll see what Stephen thinks about it.
-> >=20
+On Tue, Mar 28, 2023 at 09:28:19PM +0200, Frank Oltmanns wrote:
+> --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> @@ -819,6 +819,34 @@ static void sun6i_dsi_encoder_disable(struct drm_enc=
+oder *encoder)
+>  	regulator_disable(dsi->regulator);
+>  }
 >=20
-> Right. A decade ago (!) when determine_rate() was introduced we
-> introduced CLK_SET_RATE_NO_REPARENT and set it on each mux user (see
-> commit  819c1de344c5 ("clk: add CLK_SET_RATE_NO_REPARENT flag")). This
-> way driver behavior wouldn't change and the status quo would be
-> maintained, i.e. that clk_set_rate() on a mux wouldn't change parents.
-> We didn't enforce that determine_rate exists if the set_parent() op
-> existed at the same time though. Probably an oversight.
->=20
-> Most of the replies to this series have been "DT is setting the parent",
-> which makes me believe that there are 'assigned-clock-parents' being
-> used.
+> +static bool sun6i_dsi_encoder_mode_fixup(
+> +				   struct drm_encoder *encoder,
+> +				   const struct drm_display_mode *mode,
+> +				   struct drm_display_mode *adjusted_mode)
 
-Yes, that's my understanding as well.
+So, mode_fixup is kind of deprecated in favour of atomic_check
 
-> The clk_set_parent() path is valid for those cases. Probably nobody
-> cares about determine_rate because they don't set rates on these clks.
-> Some drivers even explicitly left out determine_rate()/round_rate()
-> because they didn't want to have some other clk round up to the mux
-> and change the parent.
->=20
-> Eventually we want drivers to migrate to determine_rate op so we can get
-> rid of the round_rate op and save a pointer (we're so greedy). It's been
-> 10 years though, and that hasn't been done. Sigh! I can see value in
-> this series from the angle of migrating, but adding a determine_rate op
-> when there isn't a round_rate op makes it hard to reason about. What if
-> something copies the clk_ops or sets a different flag? Now we've just
-> added parent changing support to clk_set_rate(). What if the clk has
-> CLK_SET_RATE_PARENT flag set? Now we're going to ask the parent clk to
-> change rate. Fun bugs.
->=20
-> TL;DR: If the set_parent op exists but determine_rate/round_rate doesn't
-> then the clk is a mux that doesn't want to support clk_set_rate(). Make
-> a new mux function that's the contents of the CLK_SET_RATE_NO_REPARENT
-> branch in clk_mux_determine_rate_flags() and call that directly from the
-> clk_ops so it is clear what's happening,
-> clk_hw_mux_same_parent_determine_rate() or something with a better name.
-> Otherwise migrate the explicit determine_rate op to this new function
-> and don't set the flag.
->=20
-> It may be possible to entirely remove the CLK_SET_RATE_NO_REPARENT flag
-> with this design, if the determine_rate clk_op can call the inner
-> wrapper function instead of __clk_mux_determine_rate*() (those
-> underscores are awful, we should just prefix them with clk_hw_mux_*()
-> and live happier). That should be another patch series.
+> +{
+> +	if (encoder->encoder_type =3D=3D DRM_MODE_ENCODER_DSI) {
+> +		/*
+> +		 * For DSI the PLL rate has to respect the bits per pixel and
+> +		 * number of lanes.
+> +		 *
+> +		 * According to the BSP code:
+> +		 * PLL rate =3D DOTCLOCK * bpp / lanes
+> +		 *
+> +		 * Therefore, the clock has to be adjusted in order to set the
+> +		 * correct PLL rate when actually setting the clock.
+> +		 */
+> +		struct sun6i_dsi *dsi =3D encoder_to_sun6i_dsi(encoder);
+> +		struct mipi_dsi_device *device =3D dsi->device;
+> +		u8 bpp =3D mipi_dsi_pixel_format_to_bpp(device->format);
+> +		u8 lanes =3D device->lanes;
+> +
+> +		adjusted_mode->crtc_clock =3D mode->crtc_clock
+> +				 * bpp / (lanes * SUN6I_DSI_TCON_DIV);
 
-Sorry but it's not really clear to me what you expect in the v2 of this
-series (if you even expect one). It looks that you don't like the
-assignment-if-missing idea Mark suggested, but should I just
-rebase/resend or did you expect something else?
+And that's visible to the userspace, so it's not where we should store
+that value. I guess the best way to do something similar would be to
+store it into crtc_state, and then reuse it there. But it starts to make
+a lot of rather complicated code compared to your previous patch.
 
 Maxime
 
---bx2st77tq2vvri5u
+--w77waeuhy2kubgq3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZCSWmAAKCRDj7w1vZxhR
-xQXTAP0bPg2EVQxPktgSpE4coaiyyn0Cu6Bba/x8MkUcPgNRVQEAxpbYr0uDsXMC
-CE9ojO6fXNwPgqHm5ELQGJgnrvcQQQg=
-=B5xn
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZCSX9wAKCRDj7w1vZxhR
+xaruAQCGPe9DdXyqjNQS1/luLCBVHVNEYdtb1P+8H83LWTX0FgEAswrnvVcJtuq+
+lBULl/xcVsrxuFzib6ShMcSpHy9u6AM=
+=LAf9
 -----END PGP SIGNATURE-----
 
---bx2st77tq2vvri5u--
+--w77waeuhy2kubgq3--
