@@ -1,36 +1,37 @@
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0F52F30
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 15:53:01 +0000 (UTC)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-17e140619fdso16642072fac.11
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 08:53:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA6072F30
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 15:53:03 +0000 (UTC)
+Received: by mail-oi1-f172.google.com with SMTP id w133so11926451oib.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 08:53:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680105180;
+        d=1e100.net; s=20210112; t=1680105183;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tGkcT5R0a8JeH9pr+tvR6Dp+SnQFVzxwMvRKP+oraeM=;
-        b=OnZoEFdqXXdNy1n8sMfZCQz++HZjhD2W/7A4GmXgnCsUaThJPgfGHzjNOU6F9TnZmL
-         1m36eMmiTHsuK8QfGOw30Zc/MGmTqNJWrovCG1bEetL+RMkGWDuFbDwdgh9RMjCOuJcl
-         cInX69B4x4Mlfu+RGHbjzgTUak0O62qWwQx8rppcuH9fWi+8A0XDzgsok0vkar7jVv1n
-         CkoHrv+tUqk32sjjozxx3MsOWUPcQh74Yo2xVyccfgbY0iz41q9YOkPPtMtwqHotKsUk
-         w4jUhVRoiDaQu8CwTLVEzOpUxbI4X8GzaYWVJHzoO7LGc1Szwsj+R5xLMhX3f3FBjKuy
-         sRTg==
-X-Gm-Message-State: AAQBX9cPf/8pBGjoIaYKKCvXQd4Dcz+65BgBa8gBn+bDiSJRlSSNGTFy
-	dLW2th64WcpZPxS6SgOfPw==
-X-Google-Smtp-Source: AKy350Zzh18IDSS9PRm/nm4uzfWROBk4i8K8e/GnmjZJixonIc4wyA8Ejs1S5hYlKdIJ6vpTCTaGZw==
-X-Received: by 2002:a05:6870:1fcd:b0:172:5de5:785 with SMTP id gp13-20020a0568701fcd00b001725de50785mr13981327oac.6.1680105180656;
-        Wed, 29 Mar 2023 08:53:00 -0700 (PDT)
+        bh=ZxkTC00mmtvkJ/ocm+Trr4LHDuiGbRgef51Eh65eFno=;
+        b=HEjUz2Gm4L2QJd/mMEbxTh851psYMH4z9ffTRmTHJU2bs4VIPN4f5HjOy2BSYmZrSp
+         qlGQv5tQXoBcvKLhddEcEmDsvQfzYHOwyAag4+isH9zjWtZDQnUvTVqpWkjP3oawirEb
+         GaHgLSEVWhzcvKucup/WLuYGZEm4Z+4P8LcJ2f7Q+kMuPYMyD1wL7748+Gi0in0Ozo03
+         abzVxb8PWLmGyvpnLjXUR26K6kHIM8n92FqAbRCLCN7T+BfpeyDP/KpyD0j6UumPy0cm
+         832Aex2kplh11NImPdxnTSfsvVb0eKxW4E7CWOdCxgn2ZUFFpPmkwZF3KQdt9UEB3c/W
+         49Kg==
+X-Gm-Message-State: AO0yUKUx0cm1IB1CUIc39OhyQYyhKIYrRgARuEASRDkYAaAuzZ1hfw1F
+	pu0D/f6t4sbS5Wudp1dL1A==
+X-Google-Smtp-Source: AK7set/XHs0DeHUv3FR5klH7bLctWLDiPHbV4Bgynq9MiBxHYJ127vn5iRHwUkAWb6rjGdajk82w8Q==
+X-Received: by 2002:a05:6808:1445:b0:387:715e:56b8 with SMTP id x5-20020a056808144500b00387715e56b8mr10764982oiv.56.1680105182676;
+        Wed, 29 Mar 2023 08:53:02 -0700 (PDT)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id b4-20020a056871030400b001762ce27f9asm11853490oag.23.2023.03.29.08.52.58
+        by smtp.gmail.com with ESMTPSA id p184-20020acad8c1000000b003896e31867esm228723oig.49.2023.03.29.08.53.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 08:53:00 -0700 (PDT)
-Received: (nullmailer pid 3198091 invoked by uid 1000);
+        Wed, 29 Mar 2023 08:53:02 -0700 (PDT)
+Received: (nullmailer pid 3198083 invoked by uid 1000);
 	Wed, 29 Mar 2023 15:52:45 -0000
 From: Rob Herring <robh@kernel.org>
-Date: Wed, 29 Mar 2023 10:52:12 -0500
-Subject: [PATCH 15/19] cpufreq: sun50i: Add explicit include for cpu.h
+Date: Wed, 29 Mar 2023 10:52:08 -0500
+Subject: [PATCH 11/19] clocksource: ingenic: Add explicit include for
+ cpuhotplug.h
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -39,7 +40,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20230329-dt-cpu-header-cleanups-v1-15-581e2605fe47@kernel.org>
+Message-Id: <20230329-dt-cpu-header-cleanups-v1-11-581e2605fe47@kernel.org>
 References: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org>
 In-Reply-To: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org>
 To: "David S. Miller" <davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>, 
@@ -65,36 +66,41 @@ To: "David S. Miller" <davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>,
 Cc: sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org, linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org
 X-Mailer: b4 0.13-dev
 
-Removing the include of cpu.h from of_device.h causes an error:
+Removing include of cpu.h from of_device.h (included by of_platform.h)
+causes an error in ingenic-timer:
 
-drivers/cpufreq/sun50i-cpufreq-nvmem.c:42:19: error: implicit declaration of function ‘get_cpu_device’; did you mean ‘get_device’? [-Werror=implicit-function-declaration]
+drivers/clocksource/ingenic-timer.c: In function ‘ingenic_tcu_init’:
+drivers/clocksource/ingenic-timer.c:338:15: error: implicit declaration of function ‘cpuhp_setup_state’
 
-As of_device.h is not otherwise needed, it can be replaced with of.h
-(also implicitly included).
+The of_platform.h header is not necessary either, so it and of_address.h
+can be dropped.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
 Please ack and I will take the series via the DT tree.
 ---
- drivers/cpufreq/sun50i-cpufreq-nvmem.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/clocksource/ingenic-timer.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-index 1583a370da39..4321d7bbe769 100644
---- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-+++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-@@ -10,9 +10,10 @@
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
-+#include <linux/cpu.h>
- #include <linux/module.h>
- #include <linux/nvmem-consumer.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
+diff --git a/drivers/clocksource/ingenic-timer.c b/drivers/clocksource/ingenic-timer.c
+index 24ed0f1f089b..089ce64b1c3f 100644
+--- a/drivers/clocksource/ingenic-timer.c
++++ b/drivers/clocksource/ingenic-timer.c
+@@ -9,13 +9,12 @@
+ #include <linux/clk.h>
+ #include <linux/clockchips.h>
+ #include <linux/clocksource.h>
++#include <linux/cpuhotplug.h>
+ #include <linux/interrupt.h>
+ #include <linux/mfd/ingenic-tcu.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/of.h>
+-#include <linux/of_address.h>
+ #include <linux/of_irq.h>
+-#include <linux/of_platform.h>
+ #include <linux/overflow.h>
  #include <linux/platform_device.h>
- #include <linux/pm_opp.h>
- #include <linux/slab.h>
+ #include <linux/regmap.h>
 
 -- 
 2.39.2
