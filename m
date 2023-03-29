@@ -1,37 +1,37 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8827C2F30
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 15:52:50 +0000 (UTC)
-Received: by mail-oi1-f181.google.com with SMTP id w13so543129oik.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 08:52:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2E42F30
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 15:52:52 +0000 (UTC)
+Received: by mail-oo1-f51.google.com with SMTP id g21-20020a4ad855000000b0053e563c2f72so1297288oov.6
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 08:52:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680105169;
+        d=1e100.net; s=20210112; t=1680105172;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UL9zh/S00J+cmPfrAtv4vflOTxQVISfijtGfdl2R3L0=;
-        b=ThLXsRFv0ZUxKcG+LDvaqaaDxP6cvuLF7K7p2r/KfqlE0A3bLN563Kslpkgc/jrxyF
-         TkAMZN5BRJNAdba4AzwTFYfRgrQkNL3RGmE/bnufh7Uvvi+n9ikqGQCfirZ2GTiSUq5h
-         CxkBCyABNVuon044L/T/tGsl0+eKNRAxTEkd8t8uZhmRhkROLOCFbBC1EVp+i2RnJJMq
-         3LxN+uEa4H3I8rZO2uev3v31cMVNjukzKi7nzh1javGtw9Ug3UTwxQP3A4CW/9OJifrE
-         KP0DH18J6gWNwdf1NUDKAQ1GgnfeDw4Wp2uFdUgRQtMF6lQR8hr3JiCCzKVdUjSkx38Q
-         E1fg==
-X-Gm-Message-State: AAQBX9dCUkEiIk59hAuMESA51fjZP74wqLYV9K1iiCTo80JCC+H46LQT
-	n2JJzakg/DQNGV7FDvJHsw==
-X-Google-Smtp-Source: AKy350YWPg6naXojJ+dh5QDGD5h6eaepx41Bc/m1xdmR3LQVsEP9dglulW7uPvOZ4q19z4rMeJNnvA==
-X-Received: by 2002:a05:6808:4da:b0:386:9883:ca9d with SMTP id a26-20020a05680804da00b003869883ca9dmr1291968oie.2.1680105169571;
-        Wed, 29 Mar 2023 08:52:49 -0700 (PDT)
+        bh=hUvdSWvlelGy1WbXkwFcUNCtjmz5cL2Z3yoJim8fyN4=;
+        b=dALS9xprj6HsdgJbG8zwQYZHkTLKYTSjFexwL8yJTr4MbsGD3kCClfhP6Mu3VyA5Cx
+         QDRAfpMr53hBjY+0Xh75f58CaAhIqk4PvGpw8nLUnw5tlh1ByXaKp911pjUa589J78AY
+         Y6AQ5gt1g7UZ5k1Ow9jRAzLC6m7iX0q6Pza0UgVZeTLgztB7M6ou9IO0TrfcPq97ZTyJ
+         5NMI7Oz0HIaVhRYNRePwOShGFXy0V77iDwIPwKDOtFja00FunpaB1lFFpguX/HO1RdJx
+         90KkzzBY+5MI8UZqr8vhF5rFrmlfb7yEY6IBgl++twrt+NChQD1TeWgS+mqivykuRlwo
+         4c+w==
+X-Gm-Message-State: AO0yUKW/0hAuaGMDGXlnZ6I7u1SSFw/6ITLIdpGe274ziJ4f4hm361cg
+	jI+bJSrFr5tvNSwQB0zlwg==
+X-Google-Smtp-Source: AK7set8fZmNpueyLlqRjeVxsIcrGmIm7sG0omBAJB7zOEj3TTntZfmKbMnjZiGlZRcAnzZ6+ha8iMg==
+X-Received: by 2002:a4a:4191:0:b0:538:4d29:30cb with SMTP id x139-20020a4a4191000000b005384d2930cbmr9034039ooa.8.1680105171818;
+        Wed, 29 Mar 2023 08:52:51 -0700 (PDT)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id v184-20020acadec1000000b003871471f894sm10161090oig.27.2023.03.29.08.52.47
+        by smtp.gmail.com with ESMTPSA id 129-20020a4a1887000000b005252d376caesm13850273ooo.22.2023.03.29.08.52.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 08:52:49 -0700 (PDT)
-Received: (nullmailer pid 3198065 invoked by uid 1000);
+        Wed, 29 Mar 2023 08:52:51 -0700 (PDT)
+Received: (nullmailer pid 3198095 invoked by uid 1000);
 	Wed, 29 Mar 2023 15:52:45 -0000
 From: Rob Herring <robh@kernel.org>
-Date: Wed, 29 Mar 2023 10:51:59 -0500
-Subject: [PATCH 02/19] of: Move of_device_(add|register|unregister) to
- of_platform.h
+Date: Wed, 29 Mar 2023 10:52:14 -0500
+Subject: [PATCH 17/19] irqchip: loongson-eiointc: Add explicit include for
+ cpuhotplug.h
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -40,7 +40,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230329-dt-cpu-header-cleanups-v1-2-581e2605fe47@kernel.org>
+Message-Id: <20230329-dt-cpu-header-cleanups-v1-17-581e2605fe47@kernel.org>
 References: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org>
 In-Reply-To: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org>
 To: "David S. Miller" <davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>, 
@@ -66,48 +66,41 @@ To: "David S. Miller" <davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>,
 Cc: sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org, linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org
 X-Mailer: b4 0.13-dev
 
-As of_device_(add|register|unregister) functions work on struct
-platform_device, they should be declared in of_platform.h instead.
+Removing the include of cpu.h from of_device.h causes an error:
 
-This move is transparent for now as both headers include each other.
+drivers/irqchip/irq-loongson-eiointc.c:420:9: error: implicit declaration of function 'cpuhp_setup_state_nocalls' [-Werror=implicit-function-declaration]
+
+This driver doesn't even use DT, so all the DT includes can be dropped.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- include/linux/of_device.h   | 4 ----
- include/linux/of_platform.h | 5 +++++
- 2 files changed, 5 insertions(+), 4 deletions(-)
+Please ack and I will take the series via the DT tree.
+---
+ drivers/irqchip/irq-loongson-eiointc.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/include/linux/of_device.h b/include/linux/of_device.h
-index f4b57614979d..e4aa61cb2bd0 100644
---- a/include/linux/of_device.h
-+++ b/include/linux/of_device.h
-@@ -26,10 +26,6 @@ static inline int of_driver_match_device(struct device *dev,
- 	return of_match_device(drv->of_match_table, dev) != NULL;
- }
+diff --git a/drivers/irqchip/irq-loongson-eiointc.c b/drivers/irqchip/irq-loongson-eiointc.c
+index d15fd38c1756..fd9d87f1470e 100644
+--- a/drivers/irqchip/irq-loongson-eiointc.c
++++ b/drivers/irqchip/irq-loongson-eiointc.c
+@@ -7,16 +7,13 @@
  
--extern int of_device_add(struct platform_device *pdev);
--extern int of_device_register(struct platform_device *ofdev);
--extern void of_device_unregister(struct platform_device *ofdev);
--
- extern const void *of_device_get_match_data(const struct device *dev);
+ #define pr_fmt(fmt) "eiointc: " fmt
  
- extern ssize_t of_device_modalias(struct device *dev, char *str, ssize_t len);
-diff --git a/include/linux/of_platform.h b/include/linux/of_platform.h
-index d15b6cd5e1c3..8ac5cb933dc3 100644
---- a/include/linux/of_platform.h
-+++ b/include/linux/of_platform.h
-@@ -52,6 +52,11 @@ extern const struct of_device_id of_default_bus_match_table[];
- extern struct platform_device *of_device_alloc(struct device_node *np,
- 					 const char *bus_id,
- 					 struct device *parent);
-+
-+extern int of_device_add(struct platform_device *pdev);
-+extern int of_device_register(struct platform_device *ofdev);
-+extern void of_device_unregister(struct platform_device *ofdev);
-+
- #ifdef CONFIG_OF
- extern struct platform_device *of_find_device_by_node(struct device_node *np);
- #else
++#include <linux/cpuhotplug.h>
+ #include <linux/interrupt.h>
+ #include <linux/irq.h>
+ #include <linux/irqchip.h>
+ #include <linux/irqdomain.h>
+ #include <linux/irqchip/chained_irq.h>
+ #include <linux/kernel.h>
+-#include <linux/platform_device.h>
+-#include <linux/of_address.h>
+-#include <linux/of_irq.h>
+-#include <linux/of_platform.h>
+ #include <linux/syscore_ops.h>
+ 
+ #define EIOINTC_REG_NODEMAP	0x14a0
 
 -- 
 2.39.2
