@@ -1,40 +1,39 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B83187C
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 13:18:45 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id lr16-20020a17090b4b9000b0023f187954acso16127255pjb.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 06:18:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05DCD187C
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 13:19:40 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id f6-20020a17090ac28600b0023b9bf9eb63so16114216pjt.5
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 06:19:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1680095925;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ayYxgFJMhixN73Dm9Yf7ruaoOJe6G2KL+MHmxqG0S5Q=;
-        b=Tkq5mhDm5ZQ+yiV1OtfyRGIvcm6whneUFGGlczqp/vSrs7C7VXKmht8Y87gNnukLVv
-         UblkzhL6hGy/9w74FwGQJB48hURwaWI57RoCIqlyhZ3vJWNQRbd4X52ve0dQ/geHdmTN
-         Ximd50oNuNiixWKqCTuhz632/5gMF7XMR1vSA=
+        d=amarulasolutions.com; s=google; t=1680095980;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/v0aeTjxkLPm8Geh7qWRGFN17I5ZClwfGotSGAvvgRo=;
+        b=Yk1ZX+WLEPPdWL2SD3QOvrYJbjyVLaxAmc1SRNI16HvFnnip4H+fNCct1NxOY03yp7
+         q7v+fC3LCpqmBx+mZBhks3zK5jwjN0fyuv+W14RENLl4Q8PzI3cPphDKYB+9taccSGvd
+         uOz0RemLx7vwkMenM1ACiUddbuNGOvikDWXBE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680095925;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ayYxgFJMhixN73Dm9Yf7ruaoOJe6G2KL+MHmxqG0S5Q=;
-        b=uPEQNGypRkkU6MCzxORTG12vhnzOvh5F+Is26tV6nW5vsMkD9QpxAcWW1w4mzR9jWM
-         dZgpAEuKAGH+xeG357D5Cv02A8UqJ7Mq/Q0C1T0HRCnpQdaw0jIgmyOGoNLvNMj+ye+I
-         W9vtOzTKa2hBATaceX2AhIyTAQ7jNhs6SASwkFvRystKtISYcBAM7INfM+ARr8IxTUub
-         g1TA/hrmEMvEIjqHIDTaUVNjAxxyjEmmgyDr1XaaaqDgNP6G6UeBpNcpuxHRBkeI7eJS
-         MHofo1GTXIUVFA/rVLVjISdUqY9ZYzIyGUOWRIuuelAgx/9tHEQ6PvXGCsdXZorRMab2
-         FMiQ==
-X-Gm-Message-State: AAQBX9ersDtdaZ5d87XbA2tNTukp1OCPyq/PaB9ZD3klEHFm2hgtNexk
-	p7twvC6wbtycPRxQHzvktebz8Q==
-X-Google-Smtp-Source: AKy350YO+Kpdu0/vAJkHuRQaxWiiCBUBvweO4jcD6ZDCYS8/PYA2ZACp2GIqrs5TCbiYnZ9OHuAaCg==
-X-Received: by 2002:a17:90b:1b49:b0:23d:1fc0:dd20 with SMTP id nv9-20020a17090b1b4900b0023d1fc0dd20mr20207025pjb.17.1680095925196;
-        Wed, 29 Mar 2023 06:18:45 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680095980;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/v0aeTjxkLPm8Geh7qWRGFN17I5ZClwfGotSGAvvgRo=;
+        b=cjodRVXIHgArvJK1nFds/cbA7eOXHAIKLnItKIzt2TfT8zm2PEeAZJhhlQZzhJ8xzt
+         ff0IQRphdA8ityIk+zJoqd7s6yvdiwyMjZyCen3hDAOWBZ7NFsS2WvMujYwyOYUjzmpi
+         35XvMyUQncsg6lRVNFH2d1jppI6auo6Sunur5NhRdVtguU+U5TEp8/ZvQ5ciF+4ncKVF
+         3JNghK6p904VbV4TBVZ3a0wlmU0/jj69MTt6uMsfUlWgkzCFtK+KKoxOHNSKP1gqpXTL
+         bY+z7lIJqBlg0+A6vwzbytO8bjnbGyQKwt380c70qkjavpszJFQ+fOq+mAA+t1vzkxML
+         c6VA==
+X-Gm-Message-State: AAQBX9e23Ogeli8OsdZ6DDQ0jjM0I/1ghnWpOUv+/QY24qfipH6ax/qo
+	PwH3ewGqk798BfqeOPTcYWSuDQ==
+X-Google-Smtp-Source: AKy350a30gmaeoHI3gtRW94k9vTAreUbchLxDVDQ49J4FoNt8UN/7ACF8JX/3OzUkhDlIZRne6BRAw==
+X-Received: by 2002:a17:903:22cb:b0:1a1:b174:8363 with SMTP id y11-20020a17090322cb00b001a1b1748363mr23482597plg.59.1680095980475;
+        Wed, 29 Mar 2023 06:19:40 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:c00a:a047:206d:4722:c4fa:e845])
-        by smtp.gmail.com with ESMTPSA id s16-20020a17090b071000b0023f5c867f82sm1400192pjz.41.2023.03.29.06.18.39
+        by smtp.gmail.com with ESMTPSA id d9-20020a170902854900b0019c90f8c831sm22949389plo.242.2023.03.29.06.19.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 06:18:44 -0700 (PDT)
+        Wed, 29 Mar 2023 06:19:39 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -58,106 +57,323 @@ Cc: linux-arm-kernel@lists.infradead.org,
 	Marek Vasut <marex@denx.de>,
 	linux-amarula <linux-amarula@amarulasolutions.com>,
 	Jagan Teki <jagan@amarulasolutions.com>
-Subject: [PATCH v7 09/12] arm64: dts: rockchip: a64: Add endpoint@0 to dsi_in_tcon0
-Date: Wed, 29 Mar 2023 18:46:15 +0530
-Message-Id: <20230329131615.1328366-10-jagan@amarulasolutions.com>
+Subject: [PATCH v7 10/12] drm/bridge: Implement enable_next_first to alter bridge init order
+Date: Wed, 29 Mar 2023 18:49:27 +0530
+Message-Id: <20230329131929.1328612-1-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230329131615.1328366-1-jagan@amarulasolutions.com>
-References: <20230329131615.1328366-1-jagan@amarulasolutions.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The DSI downstream devices are likely to be Panel, Bridge and
-I2C-Configured Bridge.
+DSI sink devices typically send the MIPI-DCS commands to the DSI host
+via general MIPI_DSI_DCS read and write API.
 
-It is possible to connect all three devices using upstream OF-graph port
-or ports node however only Panel and Bridge are possible to connect via
-child node but not possible to connect I2C-Configured Bridge via child
-node since I2C-Configure bridges are child of I2C not upstream DSI hosts
-and it must represent them via port or ports with endpoint linking.
+The classical DSI sequence mentioned that the DSI host receives MIPI-DCS
+commands from the DSI sink first in order to switch HS mode properly.
+Once the DSI host switches to HS mode any MIPI-DCS commands from the
+DSI sink are unfunctional.
 
-Allwinner A64 DSI node already has a port so add endpoint 0 for input
-tcon so that the downstream DSI devices can use endpoint 1 to connect
-Panel or Bridge or I2C-Configured Bridge.
+DSI sink uses the @enable function to send the MIPI-DCS commands. In a
+typical DSI host, sink pipeline the @enable call chain start with the
+DSI host, and then the DSI sink which is the "wrong" order as DSI host
+@enable is called and switched to HS mode before DSI sink @enable.
 
-An example of the I2C-Configured downstream bridge representation is,
+If the DSI host enables with the @enable_next_first flag then the
+@enable for the DSI sink will be called first before the @enable of
+the DSI host. This alter bridge init order makes sure that the MIPI-DCS
+commands send first and then switch to the HS mode properly by DSI host.
 
-i2c1 {
-       bridge@1b {
-	     compatible = "ti,dlpc3433";
+This new flag @enable_next_first that any bridg can set to swap the
+order of @enable (and #disable) for that and the immediately next bridge.
 
-             ports {
-                  port@0 {
-                         reg = <0>;
+[enable]
+If a bridge sets @enable_next_first, then the @enable for the next bridge
+will be called first before enable of this bridge.
 
-                         bridge_in_dsi: endpoint {
-                                remote-endpoint = <&dsi_out_bridge>;
-                                data-lanes = <1 2 3 4>;
-                         };
-                  };
+[disable]
+If a bridge sets @enable_next_first, then the @disable for the next bridge
+will be called first before @disable of this bridge to reverse the @enable
+calling direction.
 
-	          port@2 {
-	                 reg = <2>;
+eg:
+- Panel
+- Bridge 1
+- Bridge 2 enable_next_first
+- Bridge 3
+- Bridge 4 enable_next_first
+- Bridge 5 enable_next_first
+- Bridge 6
+- Encoder
 
-                         bridge_out_dmd: endpoint {
-                                remote-endpoint = <&dmd_out_bridge>;
-                         };
-                  };
-             };
-       };
-};
+Would result in enable's being called as Encoder, Bridge 6, Bridge 3,
+Bridge 4, Bridge 5, Bridge 1, Bridge 2, Panel.
 
-dsi {
-       compatible = "allwinner,sun50i-a64-mipi-dsi";
-
-       port {
-             dsi_in_tcon0: endpoint@0 {
-	          reg = <0>;
-		  remote-endpoint = <tcon0_out_dsi>;
-	     };
-
-	     dsi_out_bridge: endpoint@1 {
-	   	  reg = <1>;
-		  remote-endpoint = <&bridge_in_dsi>;
-	     };
-	};
-};
-
-Note that existing device bindings are untouched and still represent
-the downstream devices via child nodes since the sun6i-mipi-dsi host
-will migrate to a standardized single helper to lookup for a
-downstream device via child or OF-graph port or port node.
+and the result in disable's being called as Panel, Bridge 2, Bridge 1,
+Bridge 5, Bridge 4, Bridge 3, Bridge 6, Encoder.
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
 Changes for v7:
 - new patch
 
- arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_bridge.c | 171 ++++++++++++++++++++++++++++++-----
+ include/drm/drm_bridge.h     |   8 ++
+ 2 files changed, 154 insertions(+), 25 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-index 77b5349f6087..3ed566dc2172 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-@@ -1189,7 +1189,11 @@ dsi: dsi@1ca0000 {
- 			#size-cells = <0>;
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index caf0f341e524..cdc2669b3512 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -577,6 +577,24 @@ void drm_bridge_chain_mode_set(struct drm_bridge *bridge,
+ }
+ EXPORT_SYMBOL(drm_bridge_chain_mode_set);
  
- 			port {
--				dsi_in_tcon0: endpoint {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
++static void drm_atomic_bridge_call_disable(struct drm_bridge *bridge,
++					   struct drm_atomic_state *old_state)
++{
++	if (old_state && bridge->funcs->atomic_disable) {
++		struct drm_bridge_state *old_bridge_state;
 +
-+				dsi_in_tcon0: endpoint@0 {
-+					reg = <0>;
- 					remote-endpoint = <&tcon0_out_dsi>;
- 				};
- 			};
++		old_bridge_state =
++			drm_atomic_get_old_bridge_state(old_state,
++							bridge);
++		if (WARN_ON(!old_bridge_state))
++			return;
++
++		bridge->funcs->atomic_disable(bridge, old_bridge_state);
++	} else if (bridge->funcs->disable) {
++		bridge->funcs->disable(bridge);
++	}
++}
++
+ /**
+  * drm_atomic_bridge_chain_disable - disables all bridges in the encoder chain
+  * @bridge: bridge control structure
+@@ -587,33 +605,73 @@ EXPORT_SYMBOL(drm_bridge_chain_mode_set);
+  * starting from the last bridge to the first. These are called before calling
+  * &drm_encoder_helper_funcs.atomic_disable
+  *
++ * If a bridge sets @enable_next_first, then the @disable for the next bridge
++ * will be called first before @disable of this bridge to reverse the @enable
++ * calling direction.
++ *
++ * Example:
++ * Bridge A ---> Bridge B ---> Bridge C ---> Bridge D ---> Bridge E
++ *
++ * With enable_next_first flag enable in Bridge A, C, D then the resulting
++ * @disable order would be,
++ * Bridge C, Bridge D, Bridge E, Bridge A, Bridge B.
++ *
+  * Note: the bridge passed should be the one closest to the encoder
+  */
+ void drm_atomic_bridge_chain_disable(struct drm_bridge *bridge,
+ 				     struct drm_atomic_state *old_state)
+ {
+ 	struct drm_encoder *encoder;
+-	struct drm_bridge *iter;
++	struct drm_bridge *iter, *next, *limit;
+ 
+ 	if (!bridge)
+ 		return;
+ 
+ 	encoder = bridge->encoder;
++
+ 	list_for_each_entry_reverse(iter, &encoder->bridge_chain, chain_node) {
+-		if (iter->funcs->atomic_disable) {
+-			struct drm_bridge_state *old_bridge_state;
+-
+-			old_bridge_state =
+-				drm_atomic_get_old_bridge_state(old_state,
+-								iter);
+-			if (WARN_ON(!old_bridge_state))
+-				return;
+-
+-			iter->funcs->atomic_disable(iter, old_bridge_state);
+-		} else if (iter->funcs->disable) {
+-			iter->funcs->disable(iter);
++		limit = NULL;
++
++		if (!list_is_first(&iter->chain_node, &encoder->bridge_chain)) {
++			next = list_prev_entry(iter, chain_node);
++
++			if (next->enable_next_first) {
++				limit = bridge;
++				list_for_each_entry_from_reverse(next,
++							 &encoder->bridge_chain,
++							 chain_node) {
++					if (next == bridge)
++						break;
++
++					if (!next->enable_next_first) {
++						/* Found first bridge that does NOT
++						 * request next to be enabled first
++						 */
++						next = list_next_entry(next, chain_node);
++						limit = next;
++						break;
++					}
++				}
++
++				list_for_each_entry_from(next, &encoder->bridge_chain, chain_node) {
++					/* Call requested next bridge enable in order */
++					if (next == iter)
++						/* At the first bridge to request next
++						 * bridges called first.
++						 */
++						break;
++
++					drm_atomic_bridge_call_disable(next, old_state);
++				}
++			}
+ 		}
+ 
++		drm_atomic_bridge_call_disable(iter, old_state);
++
++		if (limit)
++			/* Jump all bridges that we have already disabled */
++			iter = limit;
++
+ 		if (iter == bridge)
+ 			break;
+ 	}
+@@ -822,6 +880,24 @@ void drm_atomic_bridge_chain_pre_enable(struct drm_bridge *bridge,
+ }
+ EXPORT_SYMBOL(drm_atomic_bridge_chain_pre_enable);
+ 
++static void drm_atomic_bridge_call_enable(struct drm_bridge *bridge,
++					  struct drm_atomic_state *old_state)
++{
++	if (old_state && bridge->funcs->atomic_enable) {
++		struct drm_bridge_state *old_bridge_state;
++
++		old_bridge_state =
++			drm_atomic_get_old_bridge_state(old_state,
++							bridge);
++		if (WARN_ON(!old_bridge_state))
++			return;
++
++		bridge->funcs->atomic_enable(bridge, old_bridge_state);
++	} else if (bridge->funcs->enable) {
++		bridge->funcs->enable(bridge);
++	}
++}
++
+ /**
+  * drm_atomic_bridge_chain_enable - enables all bridges in the encoder chain
+  * @bridge: bridge control structure
+@@ -832,31 +908,76 @@ EXPORT_SYMBOL(drm_atomic_bridge_chain_pre_enable);
+  * starting from the first bridge to the last. These are called after completing
+  * &drm_encoder_helper_funcs.atomic_enable
+  *
++ * If a bridge sets @enable_next_first, then the @enable for the next bridge
++ * will be called first before enable of this bridge.
++ *
++ * Example:
++ * Bridge A ---> Bridge B ---> Bridge C ---> Bridge D ---> Bridge E
++ *
++ * With enable_next_first flag enable in Bridge A, C, D then the resulting
++ * @enable order would be,
++ * Bridge B, Bridge A, Bridge E, Bridge D, Bridge C.
++ *
+  * Note: the bridge passed should be the one closest to the encoder
+  */
+ void drm_atomic_bridge_chain_enable(struct drm_bridge *bridge,
+ 				    struct drm_atomic_state *old_state)
+ {
+ 	struct drm_encoder *encoder;
++	struct drm_bridge *next, *limit;
+ 
+ 	if (!bridge)
+ 		return;
+ 
+ 	encoder = bridge->encoder;
++
+ 	list_for_each_entry_from(bridge, &encoder->bridge_chain, chain_node) {
+-		if (bridge->funcs->atomic_enable) {
+-			struct drm_bridge_state *old_bridge_state;
+-
+-			old_bridge_state =
+-				drm_atomic_get_old_bridge_state(old_state,
+-								bridge);
+-			if (WARN_ON(!old_bridge_state))
+-				return;
+-
+-			bridge->funcs->atomic_enable(bridge, old_bridge_state);
+-		} else if (bridge->funcs->enable) {
+-			bridge->funcs->enable(bridge);
++		limit = NULL;
++
++		if (!list_is_last(&bridge->chain_node, &encoder->bridge_chain)) {
++			if (bridge->enable_next_first) {
++				/* next bridge had requested that next
++				 * was enabled first, so disabled last
++				 */
++				next = list_next_entry(bridge, chain_node);
++				limit = next;
++
++				list_for_each_entry_from(next, &encoder->bridge_chain,
++							 chain_node) {
++					/* Find the next bridge that has NOT requested
++					 * next to be enabled first / disabled last
++					 */
++					if (!next->enable_next_first) {
++						limit = next;
++						break;
++					}
++
++					/* Last bridge has requested next to be limit
++					 * otherwise the control move to end of chain
++					 */
++					if (list_is_last(&next->chain_node,
++							 &encoder->bridge_chain)) {
++						limit = next;
++						break;
++					}
++				}
++
++				/* Call these bridges in reverse order */
++				list_for_each_entry_from_reverse(next, &encoder->bridge_chain,
++								 chain_node) {
++					if (next == bridge)
++						break;
++
++					drm_atomic_bridge_call_enable(next, old_state);
++				}
++			}
+ 		}
++
++		drm_atomic_bridge_call_enable(bridge, old_state);
++
++		if (limit)
++			/* Jump all bridges that we have already enabled */
++			bridge = limit;
+ 	}
+ }
+ EXPORT_SYMBOL(drm_atomic_bridge_chain_enable);
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index a1a31704b917..9879129047e4 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -752,6 +752,14 @@ struct drm_bridge {
+ 	 * before the peripheral.
+ 	 */
+ 	bool pre_enable_prev_first;
++	/**
++	 * @enable_next_first: The bridge requires that the next bridge @enable
++	 * function is called first before its @enable, and conversely for
++	 * @disable. This is most frequently a requirement for a DSI host to
++	 * receive MIPI-DCS commands from DSI sink first in order to switch
++	 * HS mode properly.
++	 */
++	bool enable_next_first;
+ 	/**
+ 	 * @ddc: Associated I2C adapter for DDC access, if any.
+ 	 */
 -- 
 2.25.1
 
