@@ -1,36 +1,36 @@
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A71F2F30
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 15:52:59 +0000 (UTC)
-Received: by mail-oo1-f41.google.com with SMTP id n6-20020a4abd06000000b0053b59893660so2510376oop.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 08:52:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0F52F30
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 15:53:01 +0000 (UTC)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-17e140619fdso16642072fac.11
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 08:53:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680105178;
+        d=1e100.net; s=20210112; t=1680105180;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xaKQY99G3HY+F9cltbrOFgoelmJMxNBfQJcO0sLBgas=;
-        b=H5CS54MO+8na6rl7ez7UAe+7DoyKE1mjd5SmuyVurAOzhFr7+MBrRxZ7oSjUz54YyY
-         DVXGQk9O8H6xz00uumusyhS6N+Je4xbKCLNKUI3OBZFFhnvOXnlaPMNm4/JR2VFiyBIZ
-         B6QzaajspJiRd0VM+aX4LlBQ4X7XdH05KoAOsTC/ieVokXZL8gy0dmC41I2lHVhpYcLE
-         zh6AmMLQFD0TBPcduEuTeP30QQM2x3jyp/sKmB/t6Pua+MnDTncNUYAqPiFe58gwvlud
-         k6Bci46BF9vF4xTSbj+UWtooh0FxxCRhh61tNQCWW5oB7fKOhr/P49/3Xsqc8LUAFnDg
-         awEQ==
-X-Gm-Message-State: AO0yUKWsidjphuRC6jvWHZyKr5LvsFXLuCizU8I3EN3RW+reeufIGdD7
-	tRrSYA6JV1N/33b8bhuf6Q==
-X-Google-Smtp-Source: AK7set/NHlve/5dROzrE0RjwFIfWzeZwZim5jtRZxJnjvVhB2968rp1PLl6KK6w8FucuWDAPMr2x9Q==
-X-Received: by 2002:a4a:890d:0:b0:51a:6ea9:5053 with SMTP id f13-20020a4a890d000000b0051a6ea95053mr8240938ooi.9.1680105178376;
-        Wed, 29 Mar 2023 08:52:58 -0700 (PDT)
+        bh=tGkcT5R0a8JeH9pr+tvR6Dp+SnQFVzxwMvRKP+oraeM=;
+        b=OnZoEFdqXXdNy1n8sMfZCQz++HZjhD2W/7A4GmXgnCsUaThJPgfGHzjNOU6F9TnZmL
+         1m36eMmiTHsuK8QfGOw30Zc/MGmTqNJWrovCG1bEetL+RMkGWDuFbDwdgh9RMjCOuJcl
+         cInX69B4x4Mlfu+RGHbjzgTUak0O62qWwQx8rppcuH9fWi+8A0XDzgsok0vkar7jVv1n
+         CkoHrv+tUqk32sjjozxx3MsOWUPcQh74Yo2xVyccfgbY0iz41q9YOkPPtMtwqHotKsUk
+         w4jUhVRoiDaQu8CwTLVEzOpUxbI4X8GzaYWVJHzoO7LGc1Szwsj+R5xLMhX3f3FBjKuy
+         sRTg==
+X-Gm-Message-State: AAQBX9cPf/8pBGjoIaYKKCvXQd4Dcz+65BgBa8gBn+bDiSJRlSSNGTFy
+	dLW2th64WcpZPxS6SgOfPw==
+X-Google-Smtp-Source: AKy350Zzh18IDSS9PRm/nm4uzfWROBk4i8K8e/GnmjZJixonIc4wyA8Ejs1S5hYlKdIJ6vpTCTaGZw==
+X-Received: by 2002:a05:6870:1fcd:b0:172:5de5:785 with SMTP id gp13-20020a0568701fcd00b001725de50785mr13981327oac.6.1680105180656;
+        Wed, 29 Mar 2023 08:53:00 -0700 (PDT)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id c192-20020a4a4fc9000000b0053b88b03e24sm8091146oob.18.2023.03.29.08.52.56
+        by smtp.gmail.com with ESMTPSA id b4-20020a056871030400b001762ce27f9asm11853490oag.23.2023.03.29.08.52.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 08:52:58 -0700 (PDT)
-Received: (nullmailer pid 3198071 invoked by uid 1000);
+        Wed, 29 Mar 2023 08:53:00 -0700 (PDT)
+Received: (nullmailer pid 3198091 invoked by uid 1000);
 	Wed, 29 Mar 2023 15:52:45 -0000
 From: Rob Herring <robh@kernel.org>
-Date: Wed, 29 Mar 2023 10:52:02 -0500
-Subject: [PATCH 05/19] of: Drop unnecessary includes in headers
+Date: Wed, 29 Mar 2023 10:52:12 -0500
+Subject: [PATCH 15/19] cpufreq: sun50i: Add explicit include for cpu.h
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -38,8 +38,8 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230329-dt-cpu-header-cleanups-v1-5-581e2605fe47@kernel.org>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20230329-dt-cpu-header-cleanups-v1-15-581e2605fe47@kernel.org>
 References: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org>
 In-Reply-To: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org>
 To: "David S. Miller" <davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>, 
@@ -65,79 +65,36 @@ To: "David S. Miller" <davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>,
 Cc: sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org, linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org
 X-Mailer: b4 0.13-dev
 
-Drop unnecessary includes in DT headers. Some simply aren't needed and
-some can be replaced with forward declarations.
+Removing the include of cpu.h from of_device.h causes an error:
+
+drivers/cpufreq/sun50i-cpufreq-nvmem.c:42:19: error: implicit declaration of function ‘get_cpu_device’; did you mean ‘get_device’? [-Werror=implicit-function-declaration]
+
+As of_device.h is not otherwise needed, it can be replaced with of.h
+(also implicitly included).
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- include/linux/of.h          | 5 ++---
- include/linux/of_device.h   | 3 ++-
- include/linux/of_platform.h | 5 +++--
- 3 files changed, 7 insertions(+), 6 deletions(-)
+Please ack and I will take the series via the DT tree.
+---
+ drivers/cpufreq/sun50i-cpufreq-nvmem.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/of.h b/include/linux/of.h
-index 1f1e847a1c13..96979c67c5fa 100644
---- a/include/linux/of.h
-+++ b/include/linux/of.h
-@@ -16,13 +16,10 @@
- #include <linux/errno.h>
- #include <linux/kobject.h>
- #include <linux/mod_devicetable.h>
--#include <linux/topology.h>
--#include <linux/notifier.h>
- #include <linux/property.h>
- #include <linux/list.h>
+diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+index 1583a370da39..4321d7bbe769 100644
+--- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
++++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+@@ -10,9 +10,10 @@
  
- #include <asm/byteorder.h>
--#include <asm/errno.h>
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
  
- typedef u32 phandle;
- typedef u32 ihandle;
-@@ -1517,6 +1514,8 @@ enum of_reconfig_change {
- 	OF_RECONFIG_CHANGE_REMOVE,
- };
- 
-+struct notifier_block;
-+
- #ifdef CONFIG_OF_DYNAMIC
- extern int of_reconfig_notifier_register(struct notifier_block *);
- extern int of_reconfig_notifier_unregister(struct notifier_block *);
-diff --git a/include/linux/of_device.h b/include/linux/of_device.h
-index 910951a22eb4..5cdafe19dc80 100644
---- a/include/linux/of_device.h
-+++ b/include/linux/of_device.h
-@@ -7,9 +7,10 @@
- #include <linux/of_platform.h> /* temporary until merge */
- 
- #include <linux/of.h>
--#include <linux/mod_devicetable.h>
- 
- struct device;
-+struct of_device_id;
-+struct kobj_uevent_env;
- 
- #ifdef CONFIG_OF
- extern const struct of_device_id *of_match_device(
-diff --git a/include/linux/of_platform.h b/include/linux/of_platform.h
-index 8ac5cb933dc3..d8045bcfc35e 100644
---- a/include/linux/of_platform.h
-+++ b/include/linux/of_platform.h
-@@ -6,12 +6,13 @@
-  *			 <benh@kernel.crashing.org>
-  */
- 
--#include <linux/device.h>
- #include <linux/mod_devicetable.h>
--#include <linux/pm.h>
- #include <linux/of_device.h>
++#include <linux/cpu.h>
+ #include <linux/module.h>
+ #include <linux/nvmem-consumer.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
  #include <linux/platform_device.h>
- 
-+struct device;
-+struct of_device_id;
-+
- /**
-  * struct of_dev_auxdata - lookup table entry for device names & platform_data
-  * @compatible: compatible value of node to match against node
+ #include <linux/pm_opp.h>
+ #include <linux/slab.h>
 
 -- 
 2.39.2
