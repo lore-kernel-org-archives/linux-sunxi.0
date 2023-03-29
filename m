@@ -1,111 +1,165 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729B92F30
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 15:38:29 +0000 (UTC)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-5419d4c340aso299810087b3.11
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 08:38:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1680104308;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BjRFa9g3onI1kC4K0Bhev7+GmSoMwaeDzlNBL5jHj68=;
-        b=Mi6YU1rgntanGu1TnibK+PJaPy357W/mJA63yHdPw3nBV3U0TjPaqtjgyzXcQm1xtO
-         6NMzWsRdpwuqTKCcNbr1TIFRMaxoWQElKew/F6Bo5LPjY8XdkphGmXPwUBH916LfOhQ5
-         rK7ls+5F9RiRE7hN6V/acBEF7evVuF5i1WnGE=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8C12F30
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 15:52:48 +0000 (UTC)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-17e140619fdso16641368fac.11
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 08:52:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680104308;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BjRFa9g3onI1kC4K0Bhev7+GmSoMwaeDzlNBL5jHj68=;
-        b=Wo9HZfeTjrk0LixoF5zSzyJteqZbUfxB118t0VixHafxOvNwZVGIjju5N9mJxSYQ+j
-         OLVGWlpvyonVH2J5dORRUNjI+ZyM9H3m/W0frbRtppSEH1kVg2pytjBquRl4O1IskG6Y
-         XUEOhEcHlI7IHYvgw0gehfowRpXvk15upIDD37yz+2Lf0Wf423+S7J1mYaOWGjEx/U9S
-         a3xal2EKLN6RwsWASZ4QHxTnHNM9TXyZuNTdS6n1xxGhhbcupSAXeJBEWyM6c2WpEMVi
-         eqCdUIZE1TG2nNV2OWQLGCYUzT0UR4lY5gqBFBCTyxT+DaQMLbYLNiZfnkg/GFp7xGgE
-         YLKQ==
-X-Gm-Message-State: AAQBX9cVKT8ofWipayW1N130vPta+TiTWFE70XLzH3fjRt/pYJtWpaAn
-	pUu/YdCMjkRRjBudOjdoEAkdatiAxqFCNJi/fU19Ew==
-X-Google-Smtp-Source: AKy350YYUvrbMDF7TvuD73hFUqxg7MO1EfxmBpZ8yOwn2fCl7O3CFbZEtrIBZxvqLWsEjX5aIvD6D8tDlprGjyT23Xg=
-X-Received: by 2002:a05:690c:b94:b0:541:698b:7bdb with SMTP id
- ck20-20020a05690c0b9400b00541698b7bdbmr1644187ywb.2.1680104308357; Wed, 29
- Mar 2023 08:38:28 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680105167;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=myNahkzgyzJXsmSpdQrVTovV/3CgUWg7sSEu7RQwjG0=;
+        b=6mx+uetRAC5kU5h/63z0+iVIYkw5AVI41yqg9FvVLjqkE9XwzzZ/rpMVaZLGxxKSBE
+         KnMHxOu3+DEZpZH/C5+c1vbxaejSPMQ4Dg8NnOEf13klocy6xkH89X7NsaboohMXuUXj
+         9Iii893nE4jIT5QnL0lp0n9qMAWyLedsL5VETUD7EbOGYdWbNSFdcKtQILwNaUDskLAP
+         oM4gzfPlr4Ei4VSLonuPflUya0dLf37MFmJIjditu0ppGTOm5gu1+CymksteKreuDQck
+         XvmWJa0ab+XSQIxXjyS/Y7msxz5RCaRJlHqjyJyvBhPOzK4GC/cjPGM6ZOit9hYGrPLn
+         qQ9Q==
+X-Gm-Message-State: AAQBX9fn7alM0/6DD0GyCEAXh5cI/dy4Nhhry0u+2znZHyRDGyFo6hV1
+	wKxTFgWAlwZyTeOSC9y+kg==
+X-Google-Smtp-Source: AK7set9u04Mn8XGtckt02xXgvmDdYPAodmqaRmO7QbQsn4pMne9ZnJvBTvxw9bjwWx1vNoyCfeyKQg==
+X-Received: by 2002:a05:6870:eca0:b0:177:baf4:5b10 with SMTP id eo32-20020a056870eca000b00177baf45b10mr12821109oab.31.1680105167283;
+        Wed, 29 Mar 2023 08:52:47 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id hv12-20020a056870f98c00b00176209a6d6asm11896178oab.10.2023.03.29.08.52.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Mar 2023 08:52:46 -0700 (PDT)
+Received: (nullmailer pid 3198060 invoked by uid 1000);
+	Wed, 29 Mar 2023 15:52:45 -0000
+From: Rob Herring <robh@kernel.org>
+Subject: [PATCH 00/19] DT header disentangling, part 1
+Date: Wed, 29 Mar 2023 10:51:57 -0500
+Message-Id: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230329131929.1328612-1-jagan@amarulasolutions.com>
- <20230329131929.1328612-3-jagan@amarulasolutions.com> <20230329145939.7zcex4x2pipivuj4@penduick>
-In-Reply-To: <20230329145939.7zcex4x2pipivuj4@penduick>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Wed, 29 Mar 2023 21:08:17 +0530
-Message-ID: <CAMty3ZDWK0xVe7E+gER+TihHf1yv3YAWgZc1GCJQ2V5KD_mN-g@mail.gmail.com>
-Subject: Re: [PATCH v7 12/12] drm: sun4: dsi: Convert to bridge driver
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Marek Vasut <marex@denx.de>, 
-	linux-amarula <linux-amarula@amarulasolutions.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJ1eJGQC/x2NywoCMQwAf2XJ2UBtER+/Ih7SNNpCqaWxi7Dsv
+ xs8zsAwG6iMIgq3ZYMha9HybgbHwwKcqb0ESzIG73xwwV8xfZD7xCyUZCBXoTa7Ip+jpAu7GE4
+ eLI6kgnFQ42x5m7Wa7EOe5fu/3R/7/gPTb5swfQAAAA==
+To: "David S. Miller" <davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>, 
+	Frank Rowand <frowand.list@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Amit Daniel Kachhap <amit.kachhap@gmail.com>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Lukasz Luba <lukasz.luba@arm.com>, Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Yangtao Li <tiny.windzz@gmail.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, 
+	Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Anup Patel <anup@brainfault.org>, 
+	Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+	Marc Zyngier <maz@kernel.org>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
+	Stephen Boyd <sboyd@kernel.org>
+Cc: sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org, linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org
+X-Mailer: b4 0.13-dev
 
-On Wed, Mar 29, 2023 at 8:29=E2=80=AFPM Maxime Ripard <maxime@cerno.tech> w=
-rote:
->
-> Hi,
->
-> The patch prefix should be drm/sun4i:
+This is the first of a series of clean-ups to disentangle the DT 
+includes. There's a decade plus old comment in of_device.h:
 
-I did follow my previous prefix, I will update this.
+ #include <linux/of_platform.h> /* temporary until merge */
 
->
-> On Wed, Mar 29, 2023 at 06:49:29PM +0530, Jagan Teki wrote:
-> > Convert the encoder to bridge driver in order to standardize on a
-> > single API by supporting all varients of downstream bridge devices.
->
-> Which variant, and why do we need to convert to a bridge to support all o=
-f them?
+Who's this Grant person that wrote this? ;)
 
-Downstream bridge variants like DSI panel, DSI bridge and
-I2C-Configured DSI bridges. Bridge conversion would be required for
-the DSI host to access the more variety and complex downstream bridges
-in a standardized bridge chain way which is indeed complex for encoder
-driven DSI hosts.
+It gets better. of_device.h also pulls in of.h, and of_platform.h 
+includes of_device.h. So naturally, drivers include all combinations of 
+those 3 headers and sometimes they actually need them. 
 
->
-> > The drm_encoder can't be removed as it's exposed to userspace, so it
-> > then becomes a dumb encoder, without any operation implemented.
-> >
-> > Tested on DSI Panel, DSI Bridge, I2C-Configured DSI Bridge.
-> >
-> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
->
-> [...]
->
-> > +static const struct component_ops sun6i_dsi_ops;
-> > +
-> >  static int sun6i_dsi_attach(struct mipi_dsi_host *host,
-> >                           struct mipi_dsi_device *device)
-> >  {
-> >       struct sun6i_dsi *dsi =3D host_to_sun6i_dsi(host);
-> > -     struct drm_panel *panel =3D of_drm_find_panel(device->dev.of_node=
-);
->
-> That one looks unrelated. Why do you need that change?
+I started on fixing this years ago, but just dropping the circular 
+includes and fixing all the fallout was massive and didn't sit well. 
+Pulling in of_device.h in all the drivers that happen to call only
+of_device_get_match_data/of_match_device didn't seem great when the rest 
+of of_device.h would never be needed. of_device.h being everything that 
+works on a struct device is not a great split because several types of 
+users deal with struct device. The better split seems to be by user 
+(subsys driver vs. consumer) which several subsystems now do. For 
+of_device.h, the users can primarily be split between bus 
+implementations and device drivers. Device drivers also typically need 
+of.h to read properties. So let's move of_device.h towards just bus 
+related functions and move device driver related functions to of.h.
 
-This was replaced with drmm_of_dsi_get_bridge for lookup of both panel
-and bridge. I think I will separate this into another patch.
+This series is just the first step. It makes a couple of clean-ups to 
+replace some includes with forward declarations. It moves 
+of_device_get_match_data() and of_cpu_device_node_get() to of.h. The 
+former move is transparent for now and preparation for the next series.
+The last part of the series updates drivers using 
+of_cpu_device_node_get() and/or relying on the implicit cpu.h include 
+which is removed in the last patch.
 
-Thanks,
-Jagan.
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+Rob Herring (19):
+      of: Make devtree_lock declaration private
+      of: Move of_device_(add|register|unregister) to of_platform.h
+      of: Move of_device_get_match_data() declaration
+      of: Move CPU node related functions to their own file
+      of: Drop unnecessary includes in headers
+      ARM: sunxi: Drop of_device.h include
+      ARM: cpuidle: Drop of_device.h include
+      riscv: Add explicit include for cpu.h
+      riscv: cacheinfo: Adjust includes to remove of_device.h
+      cacheinfo: Adjust includes to remove of_device.h
+      clocksource: ingenic: Add explicit include for cpuhotplug.h
+      thermal: cpuidle_cooling: Adjust includes to remove of_device.h
+      soc: mediatek: mtk-svs: Add explicit include for cpu.h
+      cpufreq: Adjust includes to remove of_device.h
+      cpufreq: sun50i: Add explicit include for cpu.h
+      cpuidle: Adjust includes to remove of_device.h
+      irqchip: loongson-eiointc: Add explicit include for cpuhotplug.h
+      OPP: Adjust includes to remove of_device.h
+      of: Drop cpu.h include from of_device.h
+
+ arch/arm/kernel/cpuidle.c              |   1 -
+ arch/arm/mach-sunxi/mc_smp.c           |   1 -
+ arch/riscv/kernel/cacheinfo.c          |   1 -
+ arch/riscv/kernel/setup.c              |   2 +-
+ arch/sparc/include/asm/prom.h          |   3 +
+ drivers/base/cacheinfo.c               |   2 +-
+ drivers/clocksource/ingenic-timer.c    |   3 +-
+ drivers/cpufreq/cpufreq-dt-platdev.c   |   1 -
+ drivers/cpufreq/kirkwood-cpufreq.c     |   2 +-
+ drivers/cpufreq/maple-cpufreq.c        |   2 +-
+ drivers/cpufreq/pmac32-cpufreq.c       |   2 +-
+ drivers/cpufreq/pmac64-cpufreq.c       |   2 +-
+ drivers/cpufreq/qcom-cpufreq-hw.c      |   4 +-
+ drivers/cpufreq/spear-cpufreq.c        |   2 +-
+ drivers/cpufreq/sun50i-cpufreq-nvmem.c |   3 +-
+ drivers/cpufreq/tegra124-cpufreq.c     |   1 -
+ drivers/cpufreq/tegra20-cpufreq.c      |   2 +-
+ drivers/cpuidle/cpuidle-psci.c         |   1 -
+ drivers/cpuidle/cpuidle-qcom-spm.c     |   3 +-
+ drivers/cpuidle/cpuidle-riscv-sbi.c    |   2 +-
+ drivers/cpuidle/dt_idle_states.c       |   1 -
+ drivers/irqchip/irq-loongson-eiointc.c |   5 +-
+ drivers/of/Makefile                    |   2 +-
+ drivers/of/base.c                      | 187 -----------------------------
+ drivers/of/cpu.c                       | 210 +++++++++++++++++++++++++++++++++
+ drivers/of/of_private.h                |   1 +
+ drivers/opp/of.c                       |   2 +-
+ drivers/soc/mediatek/mtk-svs.c         |   1 +
+ drivers/thermal/cpuidle_cooling.c      |   3 +-
+ include/linux/cpufreq.h                |   1 -
+ include/linux/of.h                     |  28 +++--
+ include/linux/of_device.h              |  24 +---
+ include/linux/of_platform.h            |  10 +-
+ 33 files changed, 261 insertions(+), 254 deletions(-)
+---
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+change-id: 20230329-dt-cpu-header-cleanups-c7bed8c0b352
+
+Best regards,
+-- 
+Rob Herring <robh@kernel.org>
+
