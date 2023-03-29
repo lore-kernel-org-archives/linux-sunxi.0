@@ -1,36 +1,36 @@
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF4B2F30
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 15:53:08 +0000 (UTC)
-Received: by mail-oo1-f50.google.com with SMTP id n7-20020a4ae1c7000000b0053b61145406so2495149oot.11
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 08:53:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93A92F30
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 15:53:10 +0000 (UTC)
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-17ab3a48158so16686974fac.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 08:53:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680105188;
+        d=1e100.net; s=20210112; t=1680105190;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/qOq2NGpUAbxXp1g8F5WR4fkX2S7bH0m0xxnMP60FJ8=;
-        b=mDSu0jediigVin6hODxOwCkj+BQNnZAf80jmRaRLLPyUR5SzZDObYMy9PqbSlfETmN
-         F/y2MexKB6loL/16k2tLGkZRjge01b1juxlUdWLgr2ArjizHw/aUs2CnnzTF9LubLfRD
-         k+siNvhPgyz4HCBxKiU1iLIXrP/tYvhXNg0URpgwp5SvsTeOqc46DgsT/eC2dsYFLTRI
-         Vgo0rYrDzp48evA3OCl16IXXHP/DybxhCiQS/FNgR1/Ae0LN289bdhfcZyBeohwO7lqQ
-         pP0DH5pMLiHcfsmuIhC1KLGNcm2x7J7unX1UP85lL3ZmWPf9XzbZZ6E3z6AuJCrVOfUZ
-         dD5A==
-X-Gm-Message-State: AO0yUKWq1IOlAeWTIBMiXQKR6HbmWyQaAInIXCgZY9hADCamgMWCN3dd
-	lOYpiRPj3TPQ+cWsQ+ZDzQ==
-X-Google-Smtp-Source: AK7set+oji6+6UZVdlF32jW97Cd5wKPzdK3BfB/MTFUCEZ/Z55TdZpfcLorcJt7g+5txg06Aa2xkVA==
-X-Received: by 2002:a4a:3797:0:b0:538:1e63:1725 with SMTP id r145-20020a4a3797000000b005381e631725mr10070334oor.4.1680105187664;
-        Wed, 29 Mar 2023 08:53:07 -0700 (PDT)
+        bh=o+n6GH4Nk3FkonjtkMjc2Nc5AHFrGJ7ZcCh9y20RfPM=;
+        b=Nh0GrNnnE40TqeLlJtQojrosZaohZw8RZWS4YS8I65mu8UYBeM7k01Y79bZynSfoUv
+         q1f8NiBI0q7t/z9Cs1aj+m5mLr0qpbjzYwjaL7SddQdxvjDV3GTuEJQXaVurpuhcw0vJ
+         S+163i3g3SVSv+99XspbaUCoWuKMZMS5F/3QIH8bkOsGSUGW1l6cqMvXFJEkj9JGzPtU
+         lOLRhS/M6PFCm1V45fJTWloKJ+eJg5sDVABLezhocKOlRlZjWcD0zNy3oHOcQBIXqBmq
+         FKLUOvcy1Ywb0xAJS0jgawxcfzkzB++u6PjHxgewn901QKSciMzclkUM+Ggub4tf8v/Z
+         plmQ==
+X-Gm-Message-State: AAQBX9cboiH8Ywuc6ZA0tuIQmaneyAlA0ZHfxUHMpv3CrECNWgjyaa8H
+	l1OAqsYoK+/zwqkh75ssBw==
+X-Google-Smtp-Source: AK7set9TWw7WlWpaVRoaXna+i6jfLH3b5BBVKHUpgOSqr1CxQaOSf7zeRp9d9vawXGilKhjHZUk1VQ==
+X-Received: by 2002:a05:6870:a2d4:b0:17a:a959:ea2c with SMTP id w20-20020a056870a2d400b0017aa959ea2cmr12910266oak.34.1680105189867;
+        Wed, 29 Mar 2023 08:53:09 -0700 (PDT)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id s9-20020a4a9689000000b005255e556399sm13966954ooi.43.2023.03.29.08.53.05
+        by smtp.gmail.com with ESMTPSA id y18-20020a056830109200b0069fb033f577sm7210819oto.51.2023.03.29.08.53.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 08:53:07 -0700 (PDT)
-Received: (nullmailer pid 3198063 invoked by uid 1000);
+        Wed, 29 Mar 2023 08:53:09 -0700 (PDT)
+Received: (nullmailer pid 3198081 invoked by uid 1000);
 	Wed, 29 Mar 2023 15:52:45 -0000
 From: Rob Herring <robh@kernel.org>
-Date: Wed, 29 Mar 2023 10:51:58 -0500
-Subject: [PATCH 01/19] of: Make devtree_lock declaration private
+Date: Wed, 29 Mar 2023 10:52:07 -0500
+Subject: [PATCH 10/19] cacheinfo: Adjust includes to remove of_device.h
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -39,7 +39,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230329-dt-cpu-header-cleanups-v1-1-581e2605fe47@kernel.org>
+Message-Id: <20230329-dt-cpu-header-cleanups-v1-10-581e2605fe47@kernel.org>
 References: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org>
 In-Reply-To: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org>
 To: "David S. Miller" <davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>, 
@@ -65,69 +65,30 @@ To: "David S. Miller" <davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>,
 Cc: sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org, linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org
 X-Mailer: b4 0.13-dev
 
-Sparc is the only place devtree_lock is used outside of drivers/of/.
-Move the devtree_lock declaration into of_private.h and Sparc's prom.h
-so pulling in spinlock.h to of.h can be avoided for everything besides
-Sparc.
+Now that of_cpu_device_node_get() is defined in of.h, of_device.h is just
+implicitly including other includes, and is no longer needed. Update the
+includes to use of.h instead of of_device.h.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- arch/sparc/include/asm/prom.h | 3 +++
- drivers/of/of_private.h       | 1 +
- include/linux/of.h            | 2 --
- 3 files changed, 4 insertions(+), 2 deletions(-)
+Please ack and I will take the series via the DT tree.
+---
+ drivers/base/cacheinfo.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/sparc/include/asm/prom.h b/arch/sparc/include/asm/prom.h
-index 587edb8b5a65..8184575b1336 100644
---- a/arch/sparc/include/asm/prom.h
-+++ b/arch/sparc/include/asm/prom.h
-@@ -19,11 +19,14 @@
- #include <linux/mutex.h>
- #include <linux/atomic.h>
- #include <linux/irqdomain.h>
-+#include <linux/spinlock.h>
- 
- #define of_compat_cmp(s1, s2, l)	strncmp((s1), (s2), (l))
- #define of_prop_cmp(s1, s2)		strcasecmp((s1), (s2))
- #define of_node_cmp(s1, s2)		strcmp((s1), (s2))
- 
-+extern raw_spinlock_t devtree_lock;
-+
- struct of_irq_controller {
- 	unsigned int	(*irq_build)(struct device_node *, unsigned int, void *);
- 	void		*data;
-diff --git a/drivers/of/of_private.h b/drivers/of/of_private.h
-index fb6792d381a6..b57f1014e419 100644
---- a/drivers/of/of_private.h
-+++ b/drivers/of/of_private.h
-@@ -38,6 +38,7 @@ struct alias_prop {
- #define OF_ROOT_NODE_SIZE_CELLS_DEFAULT 1
- 
- extern struct mutex of_mutex;
-+extern raw_spinlock_t devtree_lock;
- extern struct list_head aliases_lookup;
- extern struct kset *of_kset;
- 
-diff --git a/include/linux/of.h b/include/linux/of.h
-index 0af611307db2..36cf94596eba 100644
---- a/include/linux/of.h
-+++ b/include/linux/of.h
-@@ -16,7 +16,6 @@
- #include <linux/errno.h>
- #include <linux/kobject.h>
- #include <linux/mod_devicetable.h>
--#include <linux/spinlock.h>
- #include <linux/topology.h>
- #include <linux/notifier.h>
- #include <linux/property.h>
-@@ -145,7 +144,6 @@ extern struct device_node *of_root;
- extern struct device_node *of_chosen;
- extern struct device_node *of_aliases;
- extern struct device_node *of_stdout;
--extern raw_spinlock_t devtree_lock;
- 
- /*
-  * struct device_node flag descriptions
+diff --git a/drivers/base/cacheinfo.c b/drivers/base/cacheinfo.c
+index f6573c335f4c..a5f7a1063411 100644
+--- a/drivers/base/cacheinfo.c
++++ b/drivers/base/cacheinfo.c
+@@ -14,7 +14,7 @@
+ #include <linux/cpu.h>
+ #include <linux/device.h>
+ #include <linux/init.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/sched.h>
+ #include <linux/slab.h>
+ #include <linux/smp.h>
 
 -- 
 2.39.2
