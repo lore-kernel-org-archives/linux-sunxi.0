@@ -1,36 +1,37 @@
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD582F4E
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 15:53:26 +0000 (UTC)
-Received: by mail-oo1-f50.google.com with SMTP id h22-20020a4ad756000000b0053e4ab58fb5so1449704oot.4
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 08:53:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866C42F4E
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 15:53:28 +0000 (UTC)
+Received: by mail-oi1-f182.google.com with SMTP id b19so11914888oib.7
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 08:53:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680105205;
+        d=1e100.net; s=20210112; t=1680105207;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GxrilhvfwDlef/A2YTUefG5k1p916jMGPiiHrDKkFR0=;
-        b=Tz/MdZQ1H6VcDYcipnTgy05vHvHKcuneCZKh0lLZeEW5hzx+0ab8vcdwdTUaX2Lb7n
-         gji5Bs2NsoLf63wOFNxiLpUWzRm31NxIEH+EVMMXkG7ix9x0+n/cioG1nX3ONFbPjTOC
-         VxYRIqP/IAK4sdVpNrP5Zgdgi0MzmqdwYJ5mbJ5BwAD30lNoRRVGi/1Czf5B30JfUd1L
-         NxZFwsJ4UM1yTpYfP4mgFLOz55zHtUSX8wLo012cwPm+c9YxcEjwV/R9kqWNzpuX6R+3
-         Vpj8HEN24x3PHeGOe83crrqTFLw/cH/1nI6FC9oXsZhNLpu7Xu/Q+Do1zuUvTE9t2Wgm
-         Zm/g==
-X-Gm-Message-State: AO0yUKXITDYg59Dmsw9JzdusjvCUVg/rpBeqWKc7Dv1vQ4aRuvJrNLHp
-	Pk5nl3gOYuuiDPj5rqFD4Q==
-X-Google-Smtp-Source: AK7set/IvKP58b96RyfRxVRB8Yjm2uXbhHwCU35QLNRLqkqctfQoMFiFz1/Ijy3GHwDVb/O3xlHYvQ==
-X-Received: by 2002:a4a:52d4:0:b0:53b:8b5:48d0 with SMTP id d203-20020a4a52d4000000b0053b08b548d0mr9782179oob.1.1680105205203;
-        Wed, 29 Mar 2023 08:53:25 -0700 (PDT)
+        bh=022ntgbo/qozcpOEnF6DlWHlLfWcIn+6VTfzUh5A9FY=;
+        b=kgkjnK+SC4wIi7Itfz8ISGT+z3nq2MUcbIhNVAy0RdLtA8ahjXUK+V55ruw8Lr+Fjk
+         NxSVzrjPay7qpRLM2/HW3HUsjZqqQCoFkl9UWJsiwcT3iVDopIfolu7cTZ5jIbQy4pe7
+         GyTlm8fIrcOoUCTCXytbTHUMR/w9YK8kC+YeY6FgERLc1t+Q1WS7iED8j3fXgmI3Ecan
+         UyXsyOmuXGyrrEvWM1cSqM/Kh4P8NPZViDpNM9XhDHoTMgW1XCCzVAFAvngDeDteatH2
+         zjqiFtFf7mTLxNmwtTfDI5ABTLj/bwWecbydxPNvMSZT1AQrI7X8RVq0ZzUQM5migXQu
+         /JdA==
+X-Gm-Message-State: AO0yUKUk/Y15MtSRT6hH/O9BxwYHckIlYZ4CaPyCxwQCOc2YYLz6hdYB
+	Ppocc0slq9lOP6qjjgju5w==
+X-Google-Smtp-Source: AK7set+mgwqrtp3sj8LCfLB0ZJyIWcTnGcbFer41ylAZRGD0ZYDF+G/GFDHWLU149fBQcrWXcPEKPQ==
+X-Received: by 2002:a05:6808:616:b0:386:db46:f6fb with SMTP id y22-20020a056808061600b00386db46f6fbmr8106850oih.17.1680105207535;
+        Wed, 29 Mar 2023 08:53:27 -0700 (PDT)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id 4-20020a4a1704000000b00524faf3d2d7sm13940444ooe.41.2023.03.29.08.53.23
+        by smtp.gmail.com with ESMTPSA id l8-20020a056808020800b003874631e249sm8002092oie.36.2023.03.29.08.53.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 08:53:24 -0700 (PDT)
-Received: (nullmailer pid 3198097 invoked by uid 1000);
+        Wed, 29 Mar 2023 08:53:26 -0700 (PDT)
+Received: (nullmailer pid 3198085 invoked by uid 1000);
 	Wed, 29 Mar 2023 15:52:45 -0000
 From: Rob Herring <robh@kernel.org>
-Date: Wed, 29 Mar 2023 10:52:15 -0500
-Subject: [PATCH 18/19] OPP: Adjust includes to remove of_device.h
+Date: Wed, 29 Mar 2023 10:52:09 -0500
+Subject: [PATCH 12/19] thermal: cpuidle_cooling: Adjust includes to remove
+ of_device.h
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -39,7 +40,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230329-dt-cpu-header-cleanups-v1-18-581e2605fe47@kernel.org>
+Message-Id: <20230329-dt-cpu-header-cleanups-v1-12-581e2605fe47@kernel.org>
 References: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org>
 In-Reply-To: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org>
 To: "David S. Miller" <davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>, 
@@ -74,22 +75,28 @@ Signed-off-by: Rob Herring <robh@kernel.org>
 ---
 Please ack and I will take the series via the DT tree.
 ---
- drivers/opp/of.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/thermal/cpuidle_cooling.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/opp/of.c b/drivers/opp/of.c
-index e55c6095adf0..63b126c6215e 100644
---- a/drivers/opp/of.c
-+++ b/drivers/opp/of.c
-@@ -13,7 +13,7 @@
- #include <linux/cpu.h>
- #include <linux/errno.h>
+diff --git a/drivers/thermal/cpuidle_cooling.c b/drivers/thermal/cpuidle_cooling.c
+index 4f41102e8b16..6f6daead485e 100644
+--- a/drivers/thermal/cpuidle_cooling.c
++++ b/drivers/thermal/cpuidle_cooling.c
+@@ -7,12 +7,13 @@
+  */
+ #define pr_fmt(fmt) "cpuidle cooling: " fmt
+ 
++#include <linux/cpu.h>
+ #include <linux/cpu_cooling.h>
+ #include <linux/cpuidle.h>
  #include <linux/device.h>
+ #include <linux/err.h>
+ #include <linux/idle_inject.h>
 -#include <linux/of_device.h>
 +#include <linux/of.h>
- #include <linux/pm_domain.h>
  #include <linux/slab.h>
- #include <linux/export.h>
+ #include <linux/thermal.h>
+ 
 
 -- 
 2.39.2
