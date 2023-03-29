@@ -1,40 +1,40 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D1F187C
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 13:19:47 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id o11so14903508ple.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 06:19:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6067B187C
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 13:19:54 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id e15-20020a17090ac20f00b0023d1b009f52so18537303pjt.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 06:19:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1680095987;
+        d=amarulasolutions.com; s=google; t=1680095994;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=u6Zop59KiDms2RJ1oWf1wfATSRqRH4OJms0tUCu66Ds=;
-        b=QQ4mv0hzsvmkqMfZ15yfLZhf/wl79O4+d+NBuatGYLK4BGPk9Np/s4ckoMZRB3LZXo
-         I3dscvMrxXCbTMtb7/FDV05iLJ2rUvj36gPeS7d0vqmmPQeVd2WB7IiqF1xr4PDKBwF2
-         i3aV50EnDgs+bsKD5ZfaHeeybIOgqGkOc1ghc=
+        bh=cAaFhF/a5ENgWUKZdfeicYv37T8G+yzz+kNYaBM8Ibc=;
+        b=HKqkbFZ2TYU68RSVDYycQrf3/QBAqDxyk3yugbSjnTad90HAJxauBWG3pqUTxIC5OX
+         LSXPyPy4TO+DdSqZfNlD9kWSuR9mQamSmKAps4wplUDsC9JvHvXe4R4Tdeo2e4SD67qC
+         eFn3r+7noJAIVpNaVr59LcSBfBFHcXvKjrQh8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680095987;
+        d=1e100.net; s=20210112; t=1680095994;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=u6Zop59KiDms2RJ1oWf1wfATSRqRH4OJms0tUCu66Ds=;
-        b=ckQ91IHkcBaWn+kKaLcdxHpOYmRakgwsRzCLW8djfT5AgIpjsHiMfmtt4Mv3tZ2+F6
-         uHG+UTBeCOmN7rZSAzEF3N/yN0rYJYMIzUvaC2wAx9kXV7/bHYVUpImDGB/46Gx9rj19
-         PSckIxyiVIMYz0uQ+N4cQiCH21WwBs8Z/oI667gE8mDVb6TOg0XKflrRtOv94ZUT/W6u
-         OhYaI7yfbDQPOhDmBo8PNbj9PfWXF0q2bHWA9S2Bs4A2nYHBUO7aPvqryh4GKUY4JM0u
-         kAmJvID3CrglMd6ogv6a/UcLSLFIL23BJK7Mq003lIpZ9Lv5i9cb/UzVf0ze5hhS3cp3
-         yDug==
-X-Gm-Message-State: AAQBX9fz2R7mUKaV4Fm8u8BYy8+L9l3kCFf+uyfvLeUdbKoDYYlqW/Lh
-	oRv/EUGsSz9fDsnQ3OXxnpCo+Q==
-X-Google-Smtp-Source: AKy350bJSgXAsk9heZqbdTPpDv1tZiTFnee58NDrLnd5uUac7ubukuyOG3UH7pLKrlBz3vrhjtw4ZQ==
-X-Received: by 2002:a17:902:d2d2:b0:1a0:6ed9:f9d0 with SMTP id n18-20020a170902d2d200b001a06ed9f9d0mr24347448plc.68.1680095987116;
-        Wed, 29 Mar 2023 06:19:47 -0700 (PDT)
+        bh=cAaFhF/a5ENgWUKZdfeicYv37T8G+yzz+kNYaBM8Ibc=;
+        b=vwgZL4RvJ2OzgZAHnwCKwACrWESn95pGdxIoeQKe7tXqjiB/ORW0aTpdtJUiPDITch
+         BTaUhXUOdEUoXyCd823q1lA3Cx0W+5g3cpVqcfWToSmVD9aAYuFT0ajPD8mXiwxNKk7A
+         UFkBrYmCPfro4RybwLoVe0qZFxl6K1DXLeuhMebWXysLiqa63JCE7RPjtgoYLnXlRiXl
+         pznPF5sg/DB+iCQ0+VO2NpI9DChMpzpFi71AphkoEK4EiuSeKk+DqjuosQ8iDAd5R+nD
+         bR9Yj0wHdps876NuuECRl4033ah0y9yXLSa6Xo9n6tNHdohTCAolH9LO5zI5VSXD7HsZ
+         LxMQ==
+X-Gm-Message-State: AAQBX9dO42RM24soxjvBWe6wTQphL0aN2B0hJ59odMrT/ngb0gjpdE8J
+	Li2teDJgVZr0c5m9ficbrqu5kQ==
+X-Google-Smtp-Source: AKy350aIXLLIcBKLX4EnbM2MFHWk3+DhkZBq+rft36HmP01HP9W/YHK9ov8fdY0JAetpLe7hMizBhA==
+X-Received: by 2002:a17:902:f551:b0:1a0:616d:7618 with SMTP id h17-20020a170902f55100b001a0616d7618mr18983382plf.51.1680095993863;
+        Wed, 29 Mar 2023 06:19:53 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:c00a:a047:206d:4722:c4fa:e845])
-        by smtp.gmail.com with ESMTPSA id d9-20020a170902854900b0019c90f8c831sm22949389plo.242.2023.03.29.06.19.40
+        by smtp.gmail.com with ESMTPSA id d9-20020a170902854900b0019c90f8c831sm22949389plo.242.2023.03.29.06.19.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 06:19:46 -0700 (PDT)
+        Wed, 29 Mar 2023 06:19:53 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -58,9 +58,9 @@ Cc: linux-arm-kernel@lists.infradead.org,
 	Marek Vasut <marex@denx.de>,
 	linux-amarula <linux-amarula@amarulasolutions.com>,
 	Jagan Teki <jagan@amarulasolutions.com>
-Subject: [PATCH v7 11/12] drm/bridge: Document bridge init order with enable_next_first
-Date: Wed, 29 Mar 2023 18:49:28 +0530
-Message-Id: <20230329131929.1328612-2-jagan@amarulasolutions.com>
+Subject: [PATCH v7 12/12] drm: sun4: dsi: Convert to bridge driver
+Date: Wed, 29 Mar 2023 18:49:29 +0530
+Message-Id: <20230329131929.1328612-3-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230329131929.1328612-1-jagan@amarulasolutions.com>
 References: <20230329131929.1328612-1-jagan@amarulasolutions.com>
@@ -70,52 +70,346 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-In order to switch HS mode properly by DSI host, the DSI sink has to
-send the MIPI-DCS commands first before the DSI host switches to HS
-mode.
+Convert the encoder to bridge driver in order to standardize on a
+single API by supporting all varients of downstream bridge devices.
 
-This behavior requires a bridge init alter in @enable and @disable
-function calls with the help of @enable_next_first.
+The drm_encoder can't be removed as it's exposed to userspace, so it
+then becomes a dumb encoder, without any operation implemented.
 
-Document the affected bridge init order with a proper explanation.
+Tested on DSI Panel, DSI Bridge, I2C-Configured DSI Bridge.
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
 Changes for v7:
-- new patch
-
- drivers/gpu/drm/drm_bridge.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index cdc2669b3512..3c6c9937537a 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -190,6 +190,21 @@
-  * Ultra Low Power State (ULPS) is not explicitly supported by DRM. If
-  * implemented, it therefore needs to be handled entirely within the DSI Host
-  * driver.
-+ *
-+ * DSI sink devices typically send the MIPI-DCS commands to the DSI host via
-+ * general MIPI_DSI_DCS read and write API. The classical DSI sequence
-+ * mentioned that the DSI host receives MIPI-DCS commands from the DSI sink
-+ * first in order to switch HS mode properly. Once the DSI host switches to
-+ * HS mode any MIPI-DCS commands from the DSI sink are unfunctional.
-+ *
-+ * DSI sink uses the @enable function to send the MIPI-DCS commands. In a
-+ * typical DSI host, sink pipeline the @enable call chain start with the
-+ * DSI host, and then the DSI sink which is the "wrong" order as DSI host
-+ * @enable is called and switched to HS mode before DSI sink @enable. If
-+ * the DSI host enables with the @enable_next_first flag then the @enable
-+ * for the DSI sink will be called first before the @enable of the DSI host.
-+ * This alter bridge init order makes sure that the MIPI-DCS commands send
-+ * first and then switch to the HS mode properly by the DSI host.
-  */
+- drop bridge call chain
+- use drmm_of_dsi_get_bridge
+- switch to atomic bridge calls
+- use atomic_pre_enable and atomic_enable for previous enable
+Changes for v6:
+- support donwstream bridge
+- drop bridge conversion
+- devm_drm_of_get_bridge() require child lookup
+https://patchwork.kernel.org/project/dri-devel/cover/20211207054747.461029-1-jagan@amarulasolutions.com/
+Changes for v5:
+- add atomic APIs
+- find host and device variant DSI devices.
+Changes for v4, v3:
+- none
  
- static DEFINE_MUTEX(bridge_lock);
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 143 ++++++++++---------------
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h |  10 +-
+ 2 files changed, 61 insertions(+), 92 deletions(-)
+
+diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+index 760ff05eabf4..71951a6dc914 100644
+--- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
++++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+@@ -20,8 +20,8 @@
+ #include <linux/slab.h>
+ 
+ #include <drm/drm_atomic_helper.h>
++#include <drm/drm_bridge.h>
+ #include <drm/drm_mipi_dsi.h>
+-#include <drm/drm_panel.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
+@@ -713,10 +713,11 @@ static int sun6i_dsi_start(struct sun6i_dsi *dsi,
+ 	return 0;
+ }
+ 
+-static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
++static void sun6i_dsi_bridge_pre_enable(struct drm_bridge *bridge,
++					struct drm_bridge_state *old_state)
+ {
+-	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
+-	struct sun6i_dsi *dsi = encoder_to_sun6i_dsi(encoder);
++	struct drm_display_mode *mode = &bridge->encoder->crtc->state->adjusted_mode;
++	struct sun6i_dsi *dsi = bridge_to_sun6i_dsi(bridge);
+ 	struct mipi_dsi_device *device = dsi->device;
+ 	union phy_configure_opts opts = { };
+ 	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
+@@ -768,9 +769,12 @@ static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
+ 	phy_set_mode(dsi->dphy, PHY_MODE_MIPI_DPHY);
+ 	phy_configure(dsi->dphy, &opts);
+ 	phy_power_on(dsi->dphy);
++}
+ 
+-	if (dsi->panel)
+-		drm_panel_prepare(dsi->panel);
++static void sun6i_dsi_bridge_enable(struct drm_bridge *bridge,
++					struct drm_bridge_state *old_state)
++{
++	struct sun6i_dsi *dsi = bridge_to_sun6i_dsi(bridge);
+ 
+ 	/*
+ 	 * FIXME: This should be moved after the switch to HS mode.
+@@ -784,9 +788,6 @@ static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
+ 	 * ordering on the panels I've tested it with, so I guess this
+ 	 * will do for now, until that IP is better understood.
+ 	 */
+-	if (dsi->panel)
+-		drm_panel_enable(dsi->panel);
+-
+ 	sun6i_dsi_start(dsi, DSI_START_HSC);
+ 
+ 	udelay(1000);
+@@ -794,17 +795,13 @@ static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
+ 	sun6i_dsi_start(dsi, DSI_START_HSD);
+ }
+ 
+-static void sun6i_dsi_encoder_disable(struct drm_encoder *encoder)
++static void sun6i_dsi_bridge_disable(struct drm_bridge *bridge,
++				     struct drm_bridge_state *old_state)
+ {
+-	struct sun6i_dsi *dsi = encoder_to_sun6i_dsi(encoder);
++	struct sun6i_dsi *dsi = bridge_to_sun6i_dsi(bridge);
+ 
+ 	DRM_DEBUG_DRIVER("Disabling DSI output\n");
+ 
+-	if (dsi->panel) {
+-		drm_panel_disable(dsi->panel);
+-		drm_panel_unprepare(dsi->panel);
+-	}
+-
+ 	phy_power_off(dsi->dphy);
+ 	phy_exit(dsi->dphy);
+ 
+@@ -813,38 +810,23 @@ static void sun6i_dsi_encoder_disable(struct drm_encoder *encoder)
+ 	regulator_disable(dsi->regulator);
+ }
+ 
+-static int sun6i_dsi_get_modes(struct drm_connector *connector)
+-{
+-	struct sun6i_dsi *dsi = connector_to_sun6i_dsi(connector);
+-
+-	return drm_panel_get_modes(dsi->panel, connector);
+-}
+-
+-static const struct drm_connector_helper_funcs sun6i_dsi_connector_helper_funcs = {
+-	.get_modes	= sun6i_dsi_get_modes,
+-};
+-
+-static enum drm_connector_status
+-sun6i_dsi_connector_detect(struct drm_connector *connector, bool force)
++static int sun6i_dsi_bridge_attach(struct drm_bridge *bridge,
++				   enum drm_bridge_attach_flags flags)
+ {
+-	struct sun6i_dsi *dsi = connector_to_sun6i_dsi(connector);
++	struct sun6i_dsi *dsi = bridge_to_sun6i_dsi(bridge);
+ 
+-	return dsi->panel ? connector_status_connected :
+-			    connector_status_disconnected;
++	return drm_bridge_attach(bridge->encoder, dsi->out_bridge,
++				 &dsi->bridge, flags);
+ }
+ 
+-static const struct drm_connector_funcs sun6i_dsi_connector_funcs = {
+-	.detect			= sun6i_dsi_connector_detect,
+-	.fill_modes		= drm_helper_probe_single_connector_modes,
+-	.destroy		= drm_connector_cleanup,
+-	.reset			= drm_atomic_helper_connector_reset,
+-	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
+-	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
+-};
+-
+-static const struct drm_encoder_helper_funcs sun6i_dsi_enc_helper_funcs = {
+-	.disable	= sun6i_dsi_encoder_disable,
+-	.enable		= sun6i_dsi_encoder_enable,
++static const struct drm_bridge_funcs sun6i_mipi_dsi_bridge_funcs = {
++	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
++	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
++	.atomic_reset		= drm_atomic_helper_bridge_reset,
++	.atomic_pre_enable	= sun6i_dsi_bridge_pre_enable,
++	.atomic_enable		= sun6i_dsi_bridge_enable,
++	.atomic_disable		= sun6i_dsi_bridge_disable,
++	.attach			= sun6i_dsi_bridge_attach,
+ };
+ 
+ static u32 sun6i_dsi_dcs_build_pkt_hdr(struct sun6i_dsi *dsi,
+@@ -959,20 +941,27 @@ static int sun6i_dsi_dcs_read(struct sun6i_dsi *dsi,
+ 	return 1;
+ }
+ 
++static const struct component_ops sun6i_dsi_ops;
++
+ static int sun6i_dsi_attach(struct mipi_dsi_host *host,
+ 			    struct mipi_dsi_device *device)
+ {
+ 	struct sun6i_dsi *dsi = host_to_sun6i_dsi(host);
+-	struct drm_panel *panel = of_drm_find_panel(device->dev.of_node);
++	int ret;
++
++	dsi->device = device;
++
++	drm_bridge_add(&dsi->bridge);
++
++	ret = component_add(dsi->dev, &sun6i_dsi_ops);
++	if (ret) {
++		dev_err(dsi->dev, "Couldn't register our component\n");
++		return ret;
++	}
+ 
+-	if (IS_ERR(panel))
+-		return PTR_ERR(panel);
+ 	if (!dsi->drm || !dsi->drm->registered)
+ 		return -EPROBE_DEFER;
+ 
+-	dsi->panel = panel;
+-	dsi->device = device;
+-
+ 	drm_kms_helper_hotplug_event(dsi->drm);
+ 
+ 	dev_info(host->dev, "Attached device %s\n", device->name);
+@@ -985,11 +974,10 @@ static int sun6i_dsi_detach(struct mipi_dsi_host *host,
+ {
+ 	struct sun6i_dsi *dsi = host_to_sun6i_dsi(host);
+ 
+-	dsi->panel = NULL;
++	component_del(dsi->dev, &sun6i_dsi_ops);
++	drm_bridge_remove(&dsi->bridge);
+ 	dsi->device = NULL;
+ 
+-	drm_kms_helper_hotplug_event(dsi->drm);
+-
+ 	return 0;
+ }
+ 
+@@ -1054,8 +1042,13 @@ static int sun6i_dsi_bind(struct device *dev, struct device *master,
+ 	struct sun6i_dsi *dsi = dev_get_drvdata(dev);
+ 	int ret;
+ 
+-	drm_encoder_helper_add(&dsi->encoder,
+-			       &sun6i_dsi_enc_helper_funcs);
++	dsi->out_bridge = drmm_of_dsi_get_bridge(drm, dev->of_node, 0, 1);
++	if (IS_ERR(dsi->out_bridge)) {
++		ret = PTR_ERR(dsi->out_bridge);
++		DRM_DEV_ERROR(dsi->dev, "failed to find the bridge: %d\n", ret);
++		return ret;
++	}
++
+ 	ret = drm_simple_encoder_init(drm, &dsi->encoder,
+ 				      DRM_MODE_ENCODER_DSI);
+ 	if (ret) {
+@@ -1064,39 +1057,19 @@ static int sun6i_dsi_bind(struct device *dev, struct device *master,
+ 	}
+ 	dsi->encoder.possible_crtcs = BIT(0);
+ 
+-	drm_connector_helper_add(&dsi->connector,
+-				 &sun6i_dsi_connector_helper_funcs);
+-	ret = drm_connector_init(drm, &dsi->connector,
+-				 &sun6i_dsi_connector_funcs,
+-				 DRM_MODE_CONNECTOR_DSI);
++	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL, 0);
+ 	if (ret) {
+-		dev_err(dsi->dev,
+-			"Couldn't initialise the DSI connector\n");
+-		goto err_cleanup_connector;
++		dev_err(dsi->dev, "Couldn't attach the DSI bridge\n");
++		return ret;
+ 	}
+ 
+-	drm_connector_attach_encoder(&dsi->connector, &dsi->encoder);
+-
+ 	dsi->drm = drm;
+ 
+ 	return 0;
+-
+-err_cleanup_connector:
+-	drm_encoder_cleanup(&dsi->encoder);
+-	return ret;
+-}
+-
+-static void sun6i_dsi_unbind(struct device *dev, struct device *master,
+-			    void *data)
+-{
+-	struct sun6i_dsi *dsi = dev_get_drvdata(dev);
+-
+-	dsi->drm = NULL;
+ }
+ 
+ static const struct component_ops sun6i_dsi_ops = {
+ 	.bind	= sun6i_dsi_bind,
+-	.unbind	= sun6i_dsi_unbind,
+ };
+ 
+ static int sun6i_dsi_probe(struct platform_device *pdev)
+@@ -1175,22 +1148,19 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
+ 		goto err_unprotect_clk;
+ 	}
+ 
++	dsi->bridge.funcs = &sun6i_mipi_dsi_bridge_funcs;
++	dsi->bridge.of_node = dev->of_node;
++	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
++	dsi->bridge.enable_next_first = true;
++
+ 	ret = mipi_dsi_host_register(&dsi->host);
+ 	if (ret) {
+ 		dev_err(dev, "Couldn't register MIPI-DSI host\n");
+ 		goto err_unprotect_clk;
+ 	}
+ 
+-	ret = component_add(&pdev->dev, &sun6i_dsi_ops);
+-	if (ret) {
+-		dev_err(dev, "Couldn't register our component\n");
+-		goto err_remove_dsi_host;
+-	}
+-
+ 	return 0;
+ 
+-err_remove_dsi_host:
+-	mipi_dsi_host_unregister(&dsi->host);
+ err_unprotect_clk:
+ 	if (dsi->variant->has_mod_clk && dsi->variant->set_mod_clk)
+ 		clk_rate_exclusive_put(dsi->mod_clk);
+@@ -1205,7 +1175,6 @@ static int sun6i_dsi_remove(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct sun6i_dsi *dsi = dev_get_drvdata(dev);
+ 
+-	component_del(&pdev->dev, &sun6i_dsi_ops);
+ 	mipi_dsi_host_unregister(&dsi->host);
+ 	if (dsi->variant->has_mod_clk && dsi->variant->set_mod_clk)
+ 		clk_rate_exclusive_put(dsi->mod_clk);
+diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h
+index f1ddefe0f554..8b9263e0f4ef 100644
+--- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h
++++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h
+@@ -21,9 +21,9 @@ struct sun6i_dsi_variant {
+ };
+ 
+ struct sun6i_dsi {
+-	struct drm_connector	connector;
+ 	struct drm_encoder	encoder;
+ 	struct mipi_dsi_host	host;
++	struct drm_bridge	bridge;
+ 
+ 	struct clk		*bus_clk;
+ 	struct clk		*mod_clk;
+@@ -35,7 +35,7 @@ struct sun6i_dsi {
+ 	struct device		*dev;
+ 	struct mipi_dsi_device	*device;
+ 	struct drm_device	*drm;
+-	struct drm_panel	*panel;
++	struct drm_bridge	*out_bridge;
+ 
+ 	const struct sun6i_dsi_variant *variant;
+ };
+@@ -45,10 +45,10 @@ static inline struct sun6i_dsi *host_to_sun6i_dsi(struct mipi_dsi_host *host)
+ 	return container_of(host, struct sun6i_dsi, host);
+ };
+ 
+-static inline struct sun6i_dsi *connector_to_sun6i_dsi(struct drm_connector *connector)
++static inline struct sun6i_dsi *bridge_to_sun6i_dsi(struct drm_bridge *bridge)
+ {
+-	return container_of(connector, struct sun6i_dsi, connector);
+-};
++	return container_of(bridge, struct sun6i_dsi, bridge);
++}
+ 
+ static inline struct sun6i_dsi *encoder_to_sun6i_dsi(const struct drm_encoder *encoder)
+ {
 -- 
 2.25.1
 
