@@ -1,61 +1,50 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 900B22F30
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 15:57:12 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id ew6so65226687edb.7
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 08:57:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C8F3229
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 15:57:25 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id eg48so65189822edb.13
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 08:57:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680105430;
+        d=1e100.net; s=20210112; t=1680105444;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Mv45vqNNvk7gfjj9ywv5t87xL9EGo+L1vyvtzDS68LU=;
-        b=Ma6Ab+OMk7AO79l+pxJs7YUu5U89irKHRAvu9F9SBFwxrcg4nQc0eZx9IcTPG0NatT
-         5gFhWima6GTJjTtDWfuxJJOSyw0qSylQMRtiSClzrqUKiGw8g5pGBZcG6EfBnxd678aV
-         SjFskJ8uWeXgRalvYqtyO53XXcN+sLNVk8Ul4W7uvV7BEIbHJGD/HAvRaZELxkluzCfA
-         De+4oHkIxXYdxXvmnVVZmRMuA2fdX0a+ME/T6J0CJfHZkcagi3+cH6XRFHu30S7BgOmH
-         rqvGVhIsWki5Wkk4IfZSkJDnLylcKZEUTUnMNTWHKoAzHrSj8YLW/e3i+Dts4XKxM9Eu
-         W92g==
-X-Gm-Message-State: AAQBX9fIMBKzJq8Yd7sEbGuYtOO43pYqMwVmDyuzZZUynEOZ4pp6MRQc
-	2vtnudLhxU7i8hHN3mjQjVIlrhbKQ56/TbAw
-X-Google-Smtp-Source: AKy350Y/ZC0Dhg+MSzmldeVVx+IVDk4Lzw1Ly88fB6hQ/Fx5oC5r9oY+WYNDrJjMEaBmtJojJjDCUA==
-X-Received: by 2002:a50:e604:0:b0:4fa:c3eb:d2c9 with SMTP id y4-20020a50e604000000b004fac3ebd2c9mr20026958edm.12.1680105430453;
-        Wed, 29 Mar 2023 08:57:10 -0700 (PDT)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com. [209.85.128.50])
-        by smtp.gmail.com with ESMTPSA id u5-20020a50d505000000b004c09f0ba24dsm17189552edi.48.2023.03.29.08.57.10
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Mar 2023 08:57:10 -0700 (PDT)
-Received: by mail-wm1-f50.google.com with SMTP id u1so9226181wmn.5
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 08:57:10 -0700 (PDT)
-X-Received: by 2002:a5d:591c:0:b0:2ca:4533:5d6a with SMTP id
- v28-20020a5d591c000000b002ca45335d6amr4154237wrd.7.1680105410028; Wed, 29 Mar
- 2023 08:56:50 -0700 (PDT)
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CiLLqeasGYV72OnUftYDwpJH98iYFk7qhLz9/jkuOco=;
+        b=yWhHRdoZtvlqqtoJ3hgmwOFS8pSolSvF1NeX4jX92nYl7TGU+0b6bfHQ0ukXhziPCM
+         jm+3a9oNp8h1R+gjg7JMW86SNrGxXuxpSA/Ziz30ocnaW8OqPRLA3LTNVtZYl1ST+Qw3
+         vW0eOe2rINeNAyKdZiv6HmF1/m0Iyp3bllSvLumJffw6ZY2ZdhLO5mJd9pGl1++lBsPV
+         Zfek3BLmaY301CYpt3j3uDN52yY/Rrm6dP9x9poHw5Sr+Xg9AOaOfg4diYWn0jbfC/IO
+         DuTotqpSo9naYmBY1YUZp2d2KuNCqx6BdDEAKSq/Tdik/KpnEo9ib02paTumlZ3LpFa5
+         xpWA==
+X-Gm-Message-State: AAQBX9fryRGHPLoDJhGFlbHb4FsG4b/a29DRDUk2mK4N0poOEWHaaP7J
+	5+GLWss5ZkAsCYH6++Y6DjkJNoCM2Da1QctiEE4=
+X-Google-Smtp-Source: AKy350bpppzhtgK7epjSXQz3h0DFNSdZnWNofTwOprIA61Xay8SqtY2fCtP8X1SqYIkDWIEHDZMZthJxQAfHpdrMVVg=
+X-Received: by 2002:a50:cc94:0:b0:4fb:c8e3:1ae2 with SMTP id
+ q20-20020a50cc94000000b004fbc8e31ae2mr10233137edi.3.1680105443653; Wed, 29
+ Mar 2023 08:57:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org> <20230329-dt-cpu-header-cleanups-v1-6-581e2605fe47@kernel.org>
-In-Reply-To: <20230329-dt-cpu-header-cleanups-v1-6-581e2605fe47@kernel.org>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Wed, 29 Mar 2023 23:56:38 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64tNZa_LCUpHBbBUdpftB_Dms=oHcb7ZAD42qL-ov73hw@mail.gmail.com>
-Message-ID: <CAGb2v64tNZa_LCUpHBbBUdpftB_Dms=oHcb7ZAD42qL-ov73hw@mail.gmail.com>
-Subject: Re: [PATCH 06/19] ARM: sunxi: Drop of_device.h include
+References: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org> <20230329-dt-cpu-header-cleanups-v1-16-581e2605fe47@kernel.org>
+In-Reply-To: <20230329-dt-cpu-header-cleanups-v1-16-581e2605fe47@kernel.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 29 Mar 2023 17:57:12 +0200
+Message-ID: <CAJZ5v0iFMOWMuG1t4gwzF=m-kfonj4ni9+zciRHDzqFcTGaYpw@mail.gmail.com>
+Subject: Re: [PATCH 16/19] cpuidle: Adjust includes to remove of_device.h
 To: Rob Herring <robh@kernel.org>
 Cc: "David S. Miller" <davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>, 
 	Frank Rowand <frowand.list@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Amit Daniel Kachhap <amit.kachhap@gmail.com>, 
-	Viresh Kumar <viresh.kumar@linaro.org>, Lukasz Luba <lukasz.luba@arm.com>, 
-	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Amit Daniel Kachhap <amit.kachhap@gmail.com>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Lukasz Luba <lukasz.luba@arm.com>, Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
 	Matthias Brugger <matthias.bgg@gmail.com>, 
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
 	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
@@ -75,37 +64,89 @@ Cc: "David S. Miller" <davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 29, 2023 at 11:53=E2=80=AFPM Rob Herring <robh@kernel.org> wrot=
-e:
+On Wed, Mar 29, 2023 at 5:52=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
+:
 >
 > Now that of_cpu_device_node_get() is defined in of.h, of_device.h is just
-> implicitly including other includes, and is no longer needed. Just drop
-> including of_device.h as of.h is already included.
+> implicitly including other includes, and is no longer needed. Adjust the
+> include files with what was implicitly included by of_device.h (cpu.h,
+> cpuhotplug.h, of.h, and of_platform.h) and drop including of_device.h.
 >
 > Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
 > Please ack and I will take the series via the DT tree.
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
-
-I doubt this file would ever see any more changes.
+Acked-by: Rafael J. Wysocki <rafael@kernel.org>
 
 > ---
->  arch/arm/mach-sunxi/mc_smp.c | 1 -
->  1 file changed, 1 deletion(-)
+>  drivers/cpuidle/cpuidle-psci.c      | 1 -
+>  drivers/cpuidle/cpuidle-qcom-spm.c  | 3 +--
+>  drivers/cpuidle/cpuidle-riscv-sbi.c | 2 +-
+>  drivers/cpuidle/dt_idle_states.c    | 1 -
+>  4 files changed, 2 insertions(+), 5 deletions(-)
 >
-> diff --git a/arch/arm/mach-sunxi/mc_smp.c b/arch/arm/mach-sunxi/mc_smp.c
-> index 26cbce135338..cb63921232a6 100644
-> --- a/arch/arm/mach-sunxi/mc_smp.c
-> +++ b/arch/arm/mach-sunxi/mc_smp.c
-> @@ -19,7 +19,6 @@
->  #include <linux/irqchip/arm-gic.h>
+> diff --git a/drivers/cpuidle/cpuidle-psci.c b/drivers/cpuidle/cpuidle-psc=
+i.c
+> index 6de027f9f6f5..bf68920d038a 100644
+> --- a/drivers/cpuidle/cpuidle-psci.c
+> +++ b/drivers/cpuidle/cpuidle-psci.c
+> @@ -16,7 +16,6 @@
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
 >  #include <linux/of.h>
->  #include <linux/of_address.h>
 > -#include <linux/of_device.h>
->  #include <linux/smp.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/psci.h>
+>  #include <linux/pm_domain.h>
+> diff --git a/drivers/cpuidle/cpuidle-qcom-spm.c b/drivers/cpuidle/cpuidle=
+-qcom-spm.c
+> index c6e2e91bb4c3..1fc9968eae19 100644
+> --- a/drivers/cpuidle/cpuidle-qcom-spm.c
+> +++ b/drivers/cpuidle/cpuidle-qcom-spm.c
+> @@ -11,8 +11,7 @@
+>  #include <linux/io.h>
+>  #include <linux/slab.h>
+>  #include <linux/of.h>
+> -#include <linux/of_address.h>
+> -#include <linux/of_device.h>
+> +#include <linux/of_platform.h>
+>  #include <linux/err.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/cpuidle.h>
+> diff --git a/drivers/cpuidle/cpuidle-riscv-sbi.c b/drivers/cpuidle/cpuidl=
+e-riscv-sbi.c
+> index be383f4b6855..ae0b838a0634 100644
+> --- a/drivers/cpuidle/cpuidle-riscv-sbi.c
+> +++ b/drivers/cpuidle/cpuidle-riscv-sbi.c
+> @@ -8,6 +8,7 @@
 >
->  #include <asm/cacheflush.h>
+>  #define pr_fmt(fmt) "cpuidle-riscv-sbi: " fmt
+>
+> +#include <linux/cpuhotplug.h>
+>  #include <linux/cpuidle.h>
+>  #include <linux/cpumask.h>
+>  #include <linux/cpu_pm.h>
+> @@ -15,7 +16,6 @@
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> -#include <linux/of_device.h>
+>  #include <linux/slab.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_domain.h>
+> diff --git a/drivers/cpuidle/dt_idle_states.c b/drivers/cpuidle/dt_idle_s=
+tates.c
+> index 02aa0b39af9d..12fec92a85fd 100644
+> --- a/drivers/cpuidle/dt_idle_states.c
+> +++ b/drivers/cpuidle/dt_idle_states.c
+> @@ -14,7 +14,6 @@
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> -#include <linux/of_device.h>
+>
+>  #include "dt_idle_states.h"
+>
 >
 > --
 > 2.39.2
