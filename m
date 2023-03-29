@@ -1,135 +1,83 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDCC6FCB
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 19:58:06 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id E1EBC3200902;
-	Wed, 29 Mar 2023 15:58:04 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Wed, 29 Mar 2023 15:58:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1680119884; x=1680206284; bh=2U
-	pu4KS/HglgZqR5QPgAuFmmlBS7eNJtiUFPyeWRlVg=; b=ji4rtCkiOQkBU+MsPc
-	TZUZ27CAkQZLcaYtr4LvaerHn0KLrfz7wsUxjDfb06+6AUEcmCai/nmbD849mds6
-	pAyXoiBRd0Y0oHnAuL5j35CnwuuTf1KWDR9KtLgsiL+US8VKk8PZlC3w028BvYee
-	fw/luSJ3pPsxM80NwyQPF/Y1E8aa0WGQRxS/GnoLtjWssvxZH6lV39nD9jL4H3Dc
-	QhaXiSq5CwoRd5/uRjl/S/x78e/OKbLdRPcoKljYa0Yu1bBTNu3VTR6uWGO06zvq
-	/CU1/fqNelBCrC0+ZysF316g3fe2RfhRb9NX0zncglvh/dree6R/86/9W12jJICU
-	qAaQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1680119884; x=1680206284; bh=2Upu4KS/HglgZ
-	qR5QPgAuFmmlBS7eNJtiUFPyeWRlVg=; b=SrDiGXfwY6CSrYJm1C4SYYpl4AR0e
-	ZlN+XAsubo35P8rS2DUAkRhc8yh7hRuXYfg+x2F35AjBrhE5UJgPiiRMmeLh7rQZ
-	oLryKLu+yN5kDNVLTZd0FFWjocCi88QB9HBT2GM5OSQvYbKL+j3EzIL8ndh1a9RZ
-	RCTNRfczpXW8+GPLrpa/J4vWxHGUl9LmGxmG0iH2oTYj7GRdhVmDV96cA4D2xcur
-	Zte73guvCKL0ieYsH1BTuKydJO35kW+X2Oe+KTW4dqTbFsKc5DNABD1+7Je7r8Xk
-	QjfEi6zOXYPQgNjUOSxfvL9MbYHm066MaeaouIbPtRxqH6h6ojO4G2NaQ==
-X-ME-Sender: <xms:TJgkZDyVPGfArwiyhiO_4YqU0eeRmpLEjai9C8t6o3NLBS24P4wJvw>
-    <xme:TJgkZLSOJUZWrPXjNWZYbOi0uwvXn6X1mdT1nMDvlzdPaBjC5h8SaBcyCV0N9ZD0v
-    vuKtSMOy0IslKDWEHE>
-X-ME-Received: <xmr:TJgkZNXSgzlyzDj2S-lMse_divkUXcVSRyaHxxyRQgQJLzCCEZctCggl8Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehiedgudeghecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpeforgig
-    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
-    grthhtvghrnhepgfduhedttdegudffuefgvefhveejtdevgeegteejudeuueefvdfgkedv
-    uddvhfffnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgv
-    tghh
-X-ME-Proxy: <xmx:TJgkZNiOy0NNiLs6jtU-UqbKfEJgy2XisDuW_MGv49iIEMGCFijEXA>
-    <xmx:TJgkZFCmZfvFNwjrQbIO2ZsG7T9h4ThbAbbXR59M_iDxHF7jeR32Tw>
-    <xmx:TJgkZGJMWpD0ZAktr1H51Na3VEl8mVHib3hm093mPvxZMPsfSkV1bg>
-    <xmx:TJgkZJsVwqQYWDouSV7NWKgcQHah2zmnUbTLMTaI32Lv0ZwIlcl74g>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 29 Mar 2023 15:58:03 -0400 (EDT)
-Date: Wed, 29 Mar 2023 21:58:02 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Roman Beranek <romanberanek@icloud.com>
-Cc: Frank Oltmanns <frank@oltmanns.dev>, Chen-Yu Tsai <wens@csie.org>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sun4i: uncouple DSI dotclock divider from
- TCON0_DCLK_REG
-Message-ID: <20230329195802.veybo3367zifw77n@penduick>
-References: <20230320161636.24411-1-romanberanek@icloud.com>
- <87wn356ni4.fsf@oltmanns.dev>
- <20230327202045.ceeqqwjug4ktxtsf@penduick>
- <CRHKFX934UA0.1MCKCD8SJSPIE@iMac.local>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE626FCB
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 20:04:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 090DEC433D2;
+	Wed, 29 Mar 2023 20:04:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680120256;
+	bh=4zOE3jMEKOhNI25UF0fOfIL08piHi2bqDz6TyK76qR4=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=uw7qtD3HESWGMQ9Baj1w6twvKM7JMNgmt7PKXoCvJOczY0u340GfBpvymvmBiBWVx
+	 qf+kcFVYf4dg0yAAoDZF/aYBqaksZ6Fa6+sA1PoByUd2LNaPRyh7sgPqRQE/0pwpm6
+	 kLBCPzCQv/zuh06cTNQJrCxJ0npzPNiAuiOv4nPQtFpsUot5FTUeXXUIthYvejQLJp
+	 rYE7s1omKIT+oMjKorhMYWPlc7LMeX1LkHhCE8Dy2xq0wbdX6qu2wzq8S2YfmcMFVE
+	 ghrqf/6Xyf4MjMXD1dbNaL7jIuCYUjU2Xzl7KYDgsErEqGoLGnH3utZKKa/Vvp72NN
+	 7AGUd6HAiLFYg==
+Message-ID: <da1ea2d9278c15a4aa9d4fb3d459e819.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jhubbfpnry7jtl6t"
-Content-Disposition: inline
-In-Reply-To: <CRHKFX934UA0.1MCKCD8SJSPIE@iMac.local>
-
-
---jhubbfpnry7jtl6t
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230329195049.lbdbkbqu6zbq5xii@penduick>
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech> <20221018-clk-range-checks-fixes-v2-43-f6736dec138e@cerno.tech> <Y2UzdYyjgahJsbHg@sirena.org.uk> <20221104155123.qomguvthehnogkdd@houat> <Y2U2+ePwRieYkNjv@sirena.org.uk> <20221107084322.gk4j75r52zo5k7xk@houat> <Y2j0r0wX1XtQBvqO@sirena.org.uk> <20221107152603.57qimyzkinhifx5p@houat> <5819b1362f35ce306e1b6d566bfd44e5.sboyd@kernel.org> <20230329195049.lbdbkbqu6zbq5xii@penduick>
+Subject: Re: [PATCH v2 43/65] ASoC: tlv320aic32x4: Add a determine_rate hook
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>, Nicolas Ferre <nicolas.ferre@microchip.com>, Thierry Reding <thierry.reding@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, Claudiu Beznea <claudiu.beznea@microchip.com>, Michael Turquette <mturquette@baylibre.com>, Dinh Nguyen <dinguyen@kernel.org>, Paul Cercueil <paul@crapouillou.net>, Chunyan Zhang <zhang.lyra@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>, Andreas =?utf-8?q?F=C3=A4rber?= <afaerber@suse.de>, Jonathan Hunter <jonathanh@nvidia.com>, Abel Vesa <abelvesa@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, Alessandro Zummo <a.zummo@towertech.it>, Peter De Schrijver <pdeschrijver@nvidia.com>, Orson Zhai <orsonzhai@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Prashant Gaikwad <pgaikwad@nvidia.com
+ >, Liam Girdwood <lgirdwood@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Samuel Holland <samuel@sholland.org>, Matthias Brugger <matthias.bgg@gmail.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, Vinod Koul <vkoul@kernel.org>, NXP Linux Team <linux-imx@nxp.com>, Sekhar Nori <nsekhar@ti.com>, Kishon Vijay Abraham I <kishon@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, Takashi Iwai <tiwai@suse.com>, David Airlie <airlied@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, Baolin Wang <baolin.wang@linux.alibaba.com>, David Lechner <david@lechnology.com>, Sascha Hauer <s.hauer@pengutronix.de>, Max Filippov <jcmvbkbc@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, linux-stm32@st-md-mailman.stormreply.com, alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org, linux-mips@vger.kernel.org, linux-renesas-soc@vger.ker
+ nel.org, linux-actions@lists.infradead.org, linux-clk@vger.kernel.org, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, patches@opensource.cirrus.com, linux-tegra@vger.kernel.org, linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+To: Maxime Ripard <maxime@cerno.tech>
+Date: Wed, 29 Mar 2023 13:04:13 -0700
+User-Agent: alot/0.10
 
-On Tue, Mar 28, 2023 at 01:48:33AM +0200, Roman Beranek wrote:
-> On Mon Mar 27, 2023 at 10:20 PM CEST, Maxime Ripard wrote:
-> >
-> > On Sat, Mar 25, 2023 at 12:40:04PM +0100, Frank Oltmanns wrote:
-> > > Claiming to set the divider to a different value (bpp / lanes) than w=
-hat we=E2=80=99re actually using in
-> > > the end (SUN6I_DSIO_TCON_DIV) is somehow bugging me. I feel like the =
-proposal that I submitted is
-> > > more direct: <https://lore.kernel.org/all/20230319160704.9858-2-frank=
-@oltmanns.dev/>
-> >
-> > Yeah, this patch looks better to me too: it's simpler, more straightfor=
-ward. If Roman can confirm it
-> > works with his testing, I'll be happy to merge it.
-> >
+Quoting Maxime Ripard (2023-03-29 12:50:49)
+> On Wed, Mar 22, 2023 at 04:31:04PM -0700, Stephen Boyd wrote:
 >=20
-> So I've just found out that my understanding of what sun4i_dotclock is
-> was wrong the whole time. I treated it as a virtual clock representing
-> the true CRTC pixel clock and only coincidentally also matching what
-> A64 Reference Manual labels as TCON0 data clock (a coincidence to which
-> DSI is an exception).
+> > The clk_set_parent() path is valid for those cases. Probably nobody
+> > cares about determine_rate because they don't set rates on these clks.
+> > Some drivers even explicitly left out determine_rate()/round_rate()
+> > because they didn't want to have some other clk round up to the mux
+> > and change the parent.
+> >=20
+> > Eventually we want drivers to migrate to determine_rate op so we can get
+> > rid of the round_rate op and save a pointer (we're so greedy). It's been
+> > 10 years though, and that hasn't been done. Sigh! I can see value in
+> > this series from the angle of migrating, but adding a determine_rate op
+> > when there isn't a round_rate op makes it hard to reason about. What if
+> > something copies the clk_ops or sets a different flag? Now we've just
+> > added parent changing support to clk_set_rate(). What if the clk has
+> > CLK_SET_RATE_PARENT flag set? Now we're going to ask the parent clk to
+> > change rate. Fun bugs.
+> >=20
+> > TL;DR: If the set_parent op exists but determine_rate/round_rate doesn't
+> > then the clk is a mux that doesn't want to support clk_set_rate(). Make
+> > a new mux function that's the contents of the CLK_SET_RATE_NO_REPARENT
+> > branch in clk_mux_determine_rate_flags() and call that directly from the
+> > clk_ops so it is clear what's happening,
+> > clk_hw_mux_same_parent_determine_rate() or something with a better name.
+> > Otherwise migrate the explicit determine_rate op to this new function
+> > and don't set the flag.
+> >=20
+> > It may be possible to entirely remove the CLK_SET_RATE_NO_REPARENT flag
+> > with this design, if the determine_rate clk_op can call the inner
+> > wrapper function instead of __clk_mux_determine_rate*() (those
+> > underscores are awful, we should just prefix them with clk_hw_mux_*()
+> > and live happier). That should be another patch series.
 >=20
-> Now that I finally see dotclock as 'what could dclk be an abbreviation
-> to', I to agree that it's not only straightforward but also correct to
-> keep the divider at 4 and adjust the rate as is done it the patch Frank
-> submitted.
+> Sorry but it's not really clear to me what you expect in the v2 of this
+> series (if you even expect one). It looks that you don't like the
+> assignment-if-missing idea Mark suggested, but should I just
+> rebase/resend or did you expect something else?
 >=20
-> In order to preserve semantic correctness however, I propose to preface
-> the change with a patch that renames sun4i_dotclock and tcon-pixel-clock
-> such that dot/pixel is replaced with d/data. What do you think?
 
-I don't think it's exposed to the userspace in any way so it makes sense to=
- me
-
-Maxime
-
---jhubbfpnry7jtl6t
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZCSYSgAKCRDj7w1vZxhR
-xQgyAP4iRhVGZNaSGJ5BGI2H6CXWA1Oi2JNtRr4PQZ4IkSWWIwD/Zqs+v+sDPinR
-jz7XAk8q+wY/CSPp0d7d34Th7Zj6qgQ=
-=KqnG
------END PGP SIGNATURE-----
-
---jhubbfpnry7jtl6t--
+Yes, we want explicit code. Just rebase & resend. Don't add a
+determine_rate if there isn't a round_rate. Don't add more users of
+CLK_SET_RATE_NO_REPARENT. Instead, make an explicit determine_rate
+function for that. If you want to work on the removal of
+CLK_SET_RATE_NO_REPARENT go for it. Otherwise I'll take care of it after
+this series.
