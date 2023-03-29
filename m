@@ -1,81 +1,392 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E682F30
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 16:22:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59034C4339B;
-	Wed, 29 Mar 2023 16:22:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1680106937;
-	bh=BeBWudnFSsiVzY/XlA8t6ty5AObYn0Ada11HTQX3T+8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u77tBwSS5bosw8PvckswT9NhtXRstnMxAy7Krq+Abf7i3tkpUwr6drporyQLSvXtT
-	 BCvaZ5mRgUkrF8Y8zhtgEhfhsvlF2lzrP+gYl5jlH4LfSa3L8n2CSNIB+unlcfrkqG
-	 7NTDsu7EcBbp717SiI4mSEHcjZWUE8a9cr7163R4=
-Date: Wed, 29 Mar 2023 18:22:13 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Rob Herring <robh@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Russell King <linux@armlinux.org.uk>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Amit Daniel Kachhap <amit.kachhap@gmail.com>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Lukasz Luba <lukasz.luba@arm.com>, Amit Kucheria <amitk@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>, Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Anup Patel <anup@brainfault.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Marc Zyngier <maz@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
-	Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
-	sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, linux-tegra@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org
-Subject: Re: [PATCH 10/19] cacheinfo: Adjust includes to remove of_device.h
-Message-ID: <ZCRltUZOTDsmLJsE@kroah.com>
-References: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org>
- <20230329-dt-cpu-header-cleanups-v1-10-581e2605fe47@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914882F30
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 16:28:45 +0000 (UTC)
+Received: by mail-ua1-f41.google.com with SMTP id x33so11764622uaf.12
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 09:28:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1680107324;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/QljfKrLeruMdObpbuIH67x3LRicDKkhH+Rx+cuDIjE=;
+        b=GuKD/QJaZpYoQ9SoDCPrgcXHYa2cB9t2jUTvuA5x4iKrn+fLxvlCbZSC5DaiyDfR2c
+         DsO6lzais/ZUNqvgYhGVuElP0HEeDhnz6igR0dApWVnMEJtMOuDOf4DQ7LOm7uKqVFrb
+         RYGi64C29Pw21Tm9RwJ5uhEOMhikXoSIwDzEy1m+QQGI9eVCwUB9Gu9s2qKRNHkVUb6L
+         tf+ZHFXul38rEVbceiFCAQi2i7XT4MhqGqx41spx1Pnzs2vJN28OgHQMrkp4Jx5k6x0O
+         IgsRsVjKAOEf+vGgW8sfsG2cCNFeaL//6n/uB8tdMEECd4H8pV6cztVJKXfMYY94U+8E
+         20MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680107324;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/QljfKrLeruMdObpbuIH67x3LRicDKkhH+Rx+cuDIjE=;
+        b=GsChXhDtmNw36XbaCe/gZ08X8KfMYQAlUnvqzUWgijXyj0V9NtFt1oE1b0yrEeqPyE
+         V3DQbZehHfTvbCdqFwQDS5SiBQp3AlDZ2nOul14DK+c6Z4vkTmp61o0UCNe23YW0uu+s
+         YoJxEFxGoCubV99YgyEYPbaFfYnbMGYU4sO7XwZ/QaPqcMom91fORwznUKXYBLA5IMiQ
+         7QUrGHcqNoO4ABOh70jOFouT41LB/N7aWB36yU7HvQz/rSWIB3lYtHw1rFTwIC4Lm6nq
+         4YghHcKq/zrPY8MM89UbhWIQUUk4Nuar9iOWhOiX6RDrjkxJhW8lFw5+XmsWLLi0ekKx
+         xqmw==
+X-Gm-Message-State: AAQBX9fDw3tGChkN71MUvWhu4mAjhItcN6x7eB0LoFpur2pgPs5fOMPv
+	kttXWzFmcb0lAea3lZ31tmCkehoXaKPuROborKB/YQ==
+X-Google-Smtp-Source: AKy350a9w64JHUimPNn/HaYU5DdEwAOJEAPdyW9mDxshDZ3vBSD7gdVp0M9ATAAApgXxbd1nabuTBAs/bFycVB32EAM=
+X-Received: by 2002:ab0:3d89:0:b0:755:9b3:fef8 with SMTP id
+ l9-20020ab03d89000000b0075509b3fef8mr15650792uac.2.1680107324352; Wed, 29 Mar
+ 2023 09:28:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230329-dt-cpu-header-cleanups-v1-10-581e2605fe47@kernel.org>
+References: <20230329131929.1328612-1-jagan@amarulasolutions.com>
+In-Reply-To: <20230329131929.1328612-1-jagan@amarulasolutions.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Wed, 29 Mar 2023 17:28:28 +0100
+Message-ID: <CAPY8ntCJP53uiGNQHUZqma08Vsxfwm7KvAkgMzK=hn4AxJLS3A@mail.gmail.com>
+Subject: Re: [PATCH v7 10/12] drm/bridge: Implement enable_next_first to alter
+ bridge init order
+To: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Maxime Ripard <mripard@kernel.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Marek Vasut <marex@denx.de>, 
+	linux-amarula <linux-amarula@amarulasolutions.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Mar 29, 2023 at 10:52:07AM -0500, Rob Herring wrote:
-> Now that of_cpu_device_node_get() is defined in of.h, of_device.h is just
-> implicitly including other includes, and is no longer needed. Update the
-> includes to use of.h instead of of_device.h.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> Please ack and I will take the series via the DT tree.
-> ---
+Hi Jagan
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+On Wed, 29 Mar 2023 at 14:19, Jagan Teki <jagan@amarulasolutions.com> wrote:
+>
+> DSI sink devices typically send the MIPI-DCS commands to the DSI host
+> via general MIPI_DSI_DCS read and write API.
+>
+> The classical DSI sequence mentioned that the DSI host receives MIPI-DCS
+> commands from the DSI sink first in order to switch HS mode properly.
+> Once the DSI host switches to HS mode any MIPI-DCS commands from the
+> DSI sink are unfunctional.
+
+That statement contradicts the spec.
+The DSI spec section 8.11.1 Transmission Packet Sequences says that
+during any BLLP (Blanking or Low Power) period the host can do any of:
+- remain in LP-11
+- transmit one or more non-video packets from host to peripheral in escape mode
+- transmit one or more non-video packets from host to peripheral in
+using HS mode
+- receive one or more packets from peripheral to host using escape mode
+- transmit data on a different virtual channel.
+
+Indeed if the sink doesn't set MIPI_DSI_MODE_LPM /
+MIPI_DSI_MSG_USE_LPM, then the expectation is that any data transfer
+will be in HS mode.
+
+That makes me confused as to the need for this patch.
+
+  Dave
+
+> DSI sink uses the @enable function to send the MIPI-DCS commands. In a
+> typical DSI host, sink pipeline the @enable call chain start with the
+> DSI host, and then the DSI sink which is the "wrong" order as DSI host
+> @enable is called and switched to HS mode before DSI sink @enable.
+>
+> If the DSI host enables with the @enable_next_first flag then the
+> @enable for the DSI sink will be called first before the @enable of
+> the DSI host. This alter bridge init order makes sure that the MIPI-DCS
+> commands send first and then switch to the HS mode properly by DSI host.
+>
+> This new flag @enable_next_first that any bridg can set to swap the
+> order of @enable (and #disable) for that and the immediately next bridge.
+>
+> [enable]
+> If a bridge sets @enable_next_first, then the @enable for the next bridge
+> will be called first before enable of this bridge.
+>
+> [disable]
+> If a bridge sets @enable_next_first, then the @disable for the next bridge
+> will be called first before @disable of this bridge to reverse the @enable
+> calling direction.
+>
+> eg:
+> - Panel
+> - Bridge 1
+> - Bridge 2 enable_next_first
+> - Bridge 3
+> - Bridge 4 enable_next_first
+> - Bridge 5 enable_next_first
+> - Bridge 6
+> - Encoder
+>
+> Would result in enable's being called as Encoder, Bridge 6, Bridge 3,
+> Bridge 4, Bridge 5, Bridge 1, Bridge 2, Panel.
+>
+> and the result in disable's being called as Panel, Bridge 2, Bridge 1,
+> Bridge 5, Bridge 4, Bridge 3, Bridge 6, Encoder.
+>
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> ---
+> Changes for v7:
+> - new patch
+>
+>  drivers/gpu/drm/drm_bridge.c | 171 ++++++++++++++++++++++++++++++-----
+>  include/drm/drm_bridge.h     |   8 ++
+>  2 files changed, 154 insertions(+), 25 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index caf0f341e524..cdc2669b3512 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -577,6 +577,24 @@ void drm_bridge_chain_mode_set(struct drm_bridge *bridge,
+>  }
+>  EXPORT_SYMBOL(drm_bridge_chain_mode_set);
+>
+> +static void drm_atomic_bridge_call_disable(struct drm_bridge *bridge,
+> +                                          struct drm_atomic_state *old_state)
+> +{
+> +       if (old_state && bridge->funcs->atomic_disable) {
+> +               struct drm_bridge_state *old_bridge_state;
+> +
+> +               old_bridge_state =
+> +                       drm_atomic_get_old_bridge_state(old_state,
+> +                                                       bridge);
+> +               if (WARN_ON(!old_bridge_state))
+> +                       return;
+> +
+> +               bridge->funcs->atomic_disable(bridge, old_bridge_state);
+> +       } else if (bridge->funcs->disable) {
+> +               bridge->funcs->disable(bridge);
+> +       }
+> +}
+> +
+>  /**
+>   * drm_atomic_bridge_chain_disable - disables all bridges in the encoder chain
+>   * @bridge: bridge control structure
+> @@ -587,33 +605,73 @@ EXPORT_SYMBOL(drm_bridge_chain_mode_set);
+>   * starting from the last bridge to the first. These are called before calling
+>   * &drm_encoder_helper_funcs.atomic_disable
+>   *
+> + * If a bridge sets @enable_next_first, then the @disable for the next bridge
+> + * will be called first before @disable of this bridge to reverse the @enable
+> + * calling direction.
+> + *
+> + * Example:
+> + * Bridge A ---> Bridge B ---> Bridge C ---> Bridge D ---> Bridge E
+> + *
+> + * With enable_next_first flag enable in Bridge A, C, D then the resulting
+> + * @disable order would be,
+> + * Bridge C, Bridge D, Bridge E, Bridge A, Bridge B.
+> + *
+>   * Note: the bridge passed should be the one closest to the encoder
+>   */
+>  void drm_atomic_bridge_chain_disable(struct drm_bridge *bridge,
+>                                      struct drm_atomic_state *old_state)
+>  {
+>         struct drm_encoder *encoder;
+> -       struct drm_bridge *iter;
+> +       struct drm_bridge *iter, *next, *limit;
+>
+>         if (!bridge)
+>                 return;
+>
+>         encoder = bridge->encoder;
+> +
+>         list_for_each_entry_reverse(iter, &encoder->bridge_chain, chain_node) {
+> -               if (iter->funcs->atomic_disable) {
+> -                       struct drm_bridge_state *old_bridge_state;
+> -
+> -                       old_bridge_state =
+> -                               drm_atomic_get_old_bridge_state(old_state,
+> -                                                               iter);
+> -                       if (WARN_ON(!old_bridge_state))
+> -                               return;
+> -
+> -                       iter->funcs->atomic_disable(iter, old_bridge_state);
+> -               } else if (iter->funcs->disable) {
+> -                       iter->funcs->disable(iter);
+> +               limit = NULL;
+> +
+> +               if (!list_is_first(&iter->chain_node, &encoder->bridge_chain)) {
+> +                       next = list_prev_entry(iter, chain_node);
+> +
+> +                       if (next->enable_next_first) {
+> +                               limit = bridge;
+> +                               list_for_each_entry_from_reverse(next,
+> +                                                        &encoder->bridge_chain,
+> +                                                        chain_node) {
+> +                                       if (next == bridge)
+> +                                               break;
+> +
+> +                                       if (!next->enable_next_first) {
+> +                                               /* Found first bridge that does NOT
+> +                                                * request next to be enabled first
+> +                                                */
+> +                                               next = list_next_entry(next, chain_node);
+> +                                               limit = next;
+> +                                               break;
+> +                                       }
+> +                               }
+> +
+> +                               list_for_each_entry_from(next, &encoder->bridge_chain, chain_node) {
+> +                                       /* Call requested next bridge enable in order */
+> +                                       if (next == iter)
+> +                                               /* At the first bridge to request next
+> +                                                * bridges called first.
+> +                                                */
+> +                                               break;
+> +
+> +                                       drm_atomic_bridge_call_disable(next, old_state);
+> +                               }
+> +                       }
+>                 }
+>
+> +               drm_atomic_bridge_call_disable(iter, old_state);
+> +
+> +               if (limit)
+> +                       /* Jump all bridges that we have already disabled */
+> +                       iter = limit;
+> +
+>                 if (iter == bridge)
+>                         break;
+>         }
+> @@ -822,6 +880,24 @@ void drm_atomic_bridge_chain_pre_enable(struct drm_bridge *bridge,
+>  }
+>  EXPORT_SYMBOL(drm_atomic_bridge_chain_pre_enable);
+>
+> +static void drm_atomic_bridge_call_enable(struct drm_bridge *bridge,
+> +                                         struct drm_atomic_state *old_state)
+> +{
+> +       if (old_state && bridge->funcs->atomic_enable) {
+> +               struct drm_bridge_state *old_bridge_state;
+> +
+> +               old_bridge_state =
+> +                       drm_atomic_get_old_bridge_state(old_state,
+> +                                                       bridge);
+> +               if (WARN_ON(!old_bridge_state))
+> +                       return;
+> +
+> +               bridge->funcs->atomic_enable(bridge, old_bridge_state);
+> +       } else if (bridge->funcs->enable) {
+> +               bridge->funcs->enable(bridge);
+> +       }
+> +}
+> +
+>  /**
+>   * drm_atomic_bridge_chain_enable - enables all bridges in the encoder chain
+>   * @bridge: bridge control structure
+> @@ -832,31 +908,76 @@ EXPORT_SYMBOL(drm_atomic_bridge_chain_pre_enable);
+>   * starting from the first bridge to the last. These are called after completing
+>   * &drm_encoder_helper_funcs.atomic_enable
+>   *
+> + * If a bridge sets @enable_next_first, then the @enable for the next bridge
+> + * will be called first before enable of this bridge.
+> + *
+> + * Example:
+> + * Bridge A ---> Bridge B ---> Bridge C ---> Bridge D ---> Bridge E
+> + *
+> + * With enable_next_first flag enable in Bridge A, C, D then the resulting
+> + * @enable order would be,
+> + * Bridge B, Bridge A, Bridge E, Bridge D, Bridge C.
+> + *
+>   * Note: the bridge passed should be the one closest to the encoder
+>   */
+>  void drm_atomic_bridge_chain_enable(struct drm_bridge *bridge,
+>                                     struct drm_atomic_state *old_state)
+>  {
+>         struct drm_encoder *encoder;
+> +       struct drm_bridge *next, *limit;
+>
+>         if (!bridge)
+>                 return;
+>
+>         encoder = bridge->encoder;
+> +
+>         list_for_each_entry_from(bridge, &encoder->bridge_chain, chain_node) {
+> -               if (bridge->funcs->atomic_enable) {
+> -                       struct drm_bridge_state *old_bridge_state;
+> -
+> -                       old_bridge_state =
+> -                               drm_atomic_get_old_bridge_state(old_state,
+> -                                                               bridge);
+> -                       if (WARN_ON(!old_bridge_state))
+> -                               return;
+> -
+> -                       bridge->funcs->atomic_enable(bridge, old_bridge_state);
+> -               } else if (bridge->funcs->enable) {
+> -                       bridge->funcs->enable(bridge);
+> +               limit = NULL;
+> +
+> +               if (!list_is_last(&bridge->chain_node, &encoder->bridge_chain)) {
+> +                       if (bridge->enable_next_first) {
+> +                               /* next bridge had requested that next
+> +                                * was enabled first, so disabled last
+> +                                */
+> +                               next = list_next_entry(bridge, chain_node);
+> +                               limit = next;
+> +
+> +                               list_for_each_entry_from(next, &encoder->bridge_chain,
+> +                                                        chain_node) {
+> +                                       /* Find the next bridge that has NOT requested
+> +                                        * next to be enabled first / disabled last
+> +                                        */
+> +                                       if (!next->enable_next_first) {
+> +                                               limit = next;
+> +                                               break;
+> +                                       }
+> +
+> +                                       /* Last bridge has requested next to be limit
+> +                                        * otherwise the control move to end of chain
+> +                                        */
+> +                                       if (list_is_last(&next->chain_node,
+> +                                                        &encoder->bridge_chain)) {
+> +                                               limit = next;
+> +                                               break;
+> +                                       }
+> +                               }
+> +
+> +                               /* Call these bridges in reverse order */
+> +                               list_for_each_entry_from_reverse(next, &encoder->bridge_chain,
+> +                                                                chain_node) {
+> +                                       if (next == bridge)
+> +                                               break;
+> +
+> +                                       drm_atomic_bridge_call_enable(next, old_state);
+> +                               }
+> +                       }
+>                 }
+> +
+> +               drm_atomic_bridge_call_enable(bridge, old_state);
+> +
+> +               if (limit)
+> +                       /* Jump all bridges that we have already enabled */
+> +                       bridge = limit;
+>         }
+>  }
+>  EXPORT_SYMBOL(drm_atomic_bridge_chain_enable);
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index a1a31704b917..9879129047e4 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -752,6 +752,14 @@ struct drm_bridge {
+>          * before the peripheral.
+>          */
+>         bool pre_enable_prev_first;
+> +       /**
+> +        * @enable_next_first: The bridge requires that the next bridge @enable
+> +        * function is called first before its @enable, and conversely for
+> +        * @disable. This is most frequently a requirement for a DSI host to
+> +        * receive MIPI-DCS commands from DSI sink first in order to switch
+> +        * HS mode properly.
+> +        */
+> +       bool enable_next_first;
+>         /**
+>          * @ddc: Associated I2C adapter for DDC access, if any.
+>          */
+> --
+> 2.25.1
+>
