@@ -1,36 +1,36 @@
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93A92F30
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 15:53:10 +0000 (UTC)
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-17ab3a48158so16686974fac.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 08:53:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C54B2F30
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 15:53:12 +0000 (UTC)
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-177ca271cb8so16674094fac.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 08:53:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680105190;
+        d=1e100.net; s=20210112; t=1680105192;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=o+n6GH4Nk3FkonjtkMjc2Nc5AHFrGJ7ZcCh9y20RfPM=;
-        b=Nh0GrNnnE40TqeLlJtQojrosZaohZw8RZWS4YS8I65mu8UYBeM7k01Y79bZynSfoUv
-         q1f8NiBI0q7t/z9Cs1aj+m5mLr0qpbjzYwjaL7SddQdxvjDV3GTuEJQXaVurpuhcw0vJ
-         S+163i3g3SVSv+99XspbaUCoWuKMZMS5F/3QIH8bkOsGSUGW1l6cqMvXFJEkj9JGzPtU
-         lOLRhS/M6PFCm1V45fJTWloKJ+eJg5sDVABLezhocKOlRlZjWcD0zNy3oHOcQBIXqBmq
-         FKLUOvcy1Ywb0xAJS0jgawxcfzkzB++u6PjHxgewn901QKSciMzclkUM+Ggub4tf8v/Z
-         plmQ==
-X-Gm-Message-State: AAQBX9cboiH8Ywuc6ZA0tuIQmaneyAlA0ZHfxUHMpv3CrECNWgjyaa8H
-	l1OAqsYoK+/zwqkh75ssBw==
-X-Google-Smtp-Source: AK7set9TWw7WlWpaVRoaXna+i6jfLH3b5BBVKHUpgOSqr1CxQaOSf7zeRp9d9vawXGilKhjHZUk1VQ==
-X-Received: by 2002:a05:6870:a2d4:b0:17a:a959:ea2c with SMTP id w20-20020a056870a2d400b0017aa959ea2cmr12910266oak.34.1680105189867;
-        Wed, 29 Mar 2023 08:53:09 -0700 (PDT)
+        bh=WurTN6TQClVnhKzRVCxCDshUnc0lAKMY5Mp4cC77h0Y=;
+        b=OG91/v9stHHOe28uEycMk40cV8OGwtSAU06TsH94Phve2a4eJx0zAwlOYtkKjuv3sC
+         wv5A+rps7aXwuSiju9B8EtrUKlUnZnGkrbHLdF1ph4MdcMd0Gnj7LN7LKJAZSPYlStVq
+         TAvlwOdiBWgwtmJ+ux8SGgUciaLoZEN5ceO66gFmE+niWvmq9utP9Q5Wkn9wgW/qBVNC
+         Mv579LyyWJBZl/fNdDjMgd6oUvriJWbdpgCqJ+4HFgldr1huxcmergNaHlhnog1QHcNw
+         Fpmg9jPywUzRfH4geBRUevbj/utuGyH6fJp8nhkqt/xgooyERIcYABVTHFUU21GZZ17b
+         tvng==
+X-Gm-Message-State: AAQBX9fK2o9Swmawee5pQ99tCwwxp+B5Zq9DCjtxUQYvvJHoizQINH4d
+	sLhYVVATsWNk/rrIIHpsKw==
+X-Google-Smtp-Source: AKy350Zo9NclgwNBZoANioCGcuLyMicsG3a/5+eN9bgHMpdMdqlYEHn7LZHT8hqlsIh4r2ZmsXlMnw==
+X-Received: by 2002:a05:6870:2194:b0:17e:cb7:29c0 with SMTP id l20-20020a056870219400b0017e0cb729c0mr13838293oae.13.1680105192039;
+        Wed, 29 Mar 2023 08:53:12 -0700 (PDT)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id y18-20020a056830109200b0069fb033f577sm7210819oto.51.2023.03.29.08.53.08
+        by smtp.gmail.com with ESMTPSA id aw8-20020a0568707f8800b001762d1bf6a9sm11897731oac.45.2023.03.29.08.53.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 08:53:09 -0700 (PDT)
-Received: (nullmailer pid 3198081 invoked by uid 1000);
+        Wed, 29 Mar 2023 08:53:11 -0700 (PDT)
+Received: (nullmailer pid 3198075 invoked by uid 1000);
 	Wed, 29 Mar 2023 15:52:45 -0000
 From: Rob Herring <robh@kernel.org>
-Date: Wed, 29 Mar 2023 10:52:07 -0500
-Subject: [PATCH 10/19] cacheinfo: Adjust includes to remove of_device.h
+Date: Wed, 29 Mar 2023 10:52:04 -0500
+Subject: [PATCH 07/19] ARM: cpuidle: Drop of_device.h include
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -39,7 +39,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230329-dt-cpu-header-cleanups-v1-10-581e2605fe47@kernel.org>
+Message-Id: <20230329-dt-cpu-header-cleanups-v1-7-581e2605fe47@kernel.org>
 References: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org>
 In-Reply-To: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org>
 To: "David S. Miller" <davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>, 
@@ -66,29 +66,28 @@ Cc: sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.ke
 X-Mailer: b4 0.13-dev
 
 Now that of_cpu_device_node_get() is defined in of.h, of_device.h is just
-implicitly including other includes, and is no longer needed. Update the
-includes to use of.h instead of of_device.h.
+implicitly including other includes, and is no longer needed. Just drop
+including of_device.h as of.h is already included.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
 Please ack and I will take the series via the DT tree.
 ---
- drivers/base/cacheinfo.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm/kernel/cpuidle.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/base/cacheinfo.c b/drivers/base/cacheinfo.c
-index f6573c335f4c..a5f7a1063411 100644
---- a/drivers/base/cacheinfo.c
-+++ b/drivers/base/cacheinfo.c
-@@ -14,7 +14,7 @@
- #include <linux/cpu.h>
- #include <linux/device.h>
- #include <linux/init.h>
+diff --git a/arch/arm/kernel/cpuidle.c b/arch/arm/kernel/cpuidle.c
+index 437ff39f7808..fba1f8bb03b5 100644
+--- a/arch/arm/kernel/cpuidle.c
++++ b/arch/arm/kernel/cpuidle.c
+@@ -5,7 +5,6 @@
+ 
+ #include <linux/cpuidle.h>
+ #include <linux/of.h>
 -#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/sched.h>
- #include <linux/slab.h>
- #include <linux/smp.h>
+ #include <asm/cpuidle.h>
+ 
+ extern struct of_cpuidle_method __cpuidle_method_of_table[];
 
 -- 
 2.39.2
