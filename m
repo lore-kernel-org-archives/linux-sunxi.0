@@ -1,40 +1,40 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA75187C
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 13:18:39 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id mp3-20020a17090b190300b0023fcc8ce113so18512020pjb.4
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 06:18:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B83187C
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 13:18:45 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id lr16-20020a17090b4b9000b0023f187954acso16127255pjb.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 06:18:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1680095919;
+        d=amarulasolutions.com; s=google; t=1680095925;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nd2Hzi5pbnX457/tZ1SGDUudK/Mgpe+Ly4/pUeQ6HnM=;
-        b=BxNdyUGAorjHPinmo8knKGhWp8mcw/YgRk4iYNWDGp+87Odbgo0V0ajx8K99ZvbH3m
-         uK1o/myHvEIucTiBG5DYCQ2UcxcizWIeVayEhlo/8lScUog6XsvXM6+6OOEyJd/pLOs2
-         /RttKWJwSMHDK2hDoJcL5A8izTKP8wEnKCyoc=
+        bh=ayYxgFJMhixN73Dm9Yf7ruaoOJe6G2KL+MHmxqG0S5Q=;
+        b=Tkq5mhDm5ZQ+yiV1OtfyRGIvcm6whneUFGGlczqp/vSrs7C7VXKmht8Y87gNnukLVv
+         UblkzhL6hGy/9w74FwGQJB48hURwaWI57RoCIqlyhZ3vJWNQRbd4X52ve0dQ/geHdmTN
+         Ximd50oNuNiixWKqCTuhz632/5gMF7XMR1vSA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680095919;
+        d=1e100.net; s=20210112; t=1680095925;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nd2Hzi5pbnX457/tZ1SGDUudK/Mgpe+Ly4/pUeQ6HnM=;
-        b=hewkuKAKCPwc0reRmLVpF8Hkoj7IXcQvj1LMb0YP+mVSBS/svu8wEfPfNOkjy1qSTR
-         KnlWda5AaOBJDEodHdoOT2Cda/bcKIOSfXgYAUg2Cv1lx0AgacKBfL5lXDruQkfgZi1Z
-         xGIwJuF7lQ/N8n3hnRqPhoL2vYDygkLUvl4yTNUDKG5Z5vcBIFEB5ivwdK3xyUl4LOoS
-         sGoNiXXlMQpebZyM2y1upeT5ZcoVF4IArLjUA4KgQ6psfwra0VbDi322RIqd3GHLQ5qD
-         yYIOjiSFbm2bR+T/yc/hrkKquIkbs9sjNHhT9KY2hMe6CM/uk20unJpvQYeybUJKArhT
-         1ouA==
-X-Gm-Message-State: AAQBX9fEguc6F32E6V71sQMSn9EPj1/mfGZWA7ThDJzKvRctHUBLa0lu
-	iFa08M81TSLxZirQ8kBQI8oLQQ==
-X-Google-Smtp-Source: AKy350bk2/fzr+dtM9w5K/plrUVW+fEKnyzucVJ/a5hXz7GHf87bUlhqvKmrLM/SThMMOW9uCmEMAA==
-X-Received: by 2002:a17:90b:1d8e:b0:23f:37b6:48f4 with SMTP id pf14-20020a17090b1d8e00b0023f37b648f4mr20675024pjb.43.1680095918961;
-        Wed, 29 Mar 2023 06:18:38 -0700 (PDT)
+        bh=ayYxgFJMhixN73Dm9Yf7ruaoOJe6G2KL+MHmxqG0S5Q=;
+        b=uPEQNGypRkkU6MCzxORTG12vhnzOvh5F+Is26tV6nW5vsMkD9QpxAcWW1w4mzR9jWM
+         dZgpAEuKAGH+xeG357D5Cv02A8UqJ7Mq/Q0C1T0HRCnpQdaw0jIgmyOGoNLvNMj+ye+I
+         W9vtOzTKa2hBATaceX2AhIyTAQ7jNhs6SASwkFvRystKtISYcBAM7INfM+ARr8IxTUub
+         g1TA/hrmEMvEIjqHIDTaUVNjAxxyjEmmgyDr1XaaaqDgNP6G6UeBpNcpuxHRBkeI7eJS
+         MHofo1GTXIUVFA/rVLVjISdUqY9ZYzIyGUOWRIuuelAgx/9tHEQ6PvXGCsdXZorRMab2
+         FMiQ==
+X-Gm-Message-State: AAQBX9ersDtdaZ5d87XbA2tNTukp1OCPyq/PaB9ZD3klEHFm2hgtNexk
+	p7twvC6wbtycPRxQHzvktebz8Q==
+X-Google-Smtp-Source: AKy350YO+Kpdu0/vAJkHuRQaxWiiCBUBvweO4jcD6ZDCYS8/PYA2ZACp2GIqrs5TCbiYnZ9OHuAaCg==
+X-Received: by 2002:a17:90b:1b49:b0:23d:1fc0:dd20 with SMTP id nv9-20020a17090b1b4900b0023d1fc0dd20mr20207025pjb.17.1680095925196;
+        Wed, 29 Mar 2023 06:18:45 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:c00a:a047:206d:4722:c4fa:e845])
-        by smtp.gmail.com with ESMTPSA id s16-20020a17090b071000b0023f5c867f82sm1400192pjz.41.2023.03.29.06.18.33
+        by smtp.gmail.com with ESMTPSA id s16-20020a17090b071000b0023f5c867f82sm1400192pjz.41.2023.03.29.06.18.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 06:18:38 -0700 (PDT)
+        Wed, 29 Mar 2023 06:18:44 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -58,9 +58,9 @@ Cc: linux-arm-kernel@lists.infradead.org,
 	Marek Vasut <marex@denx.de>,
 	linux-amarula <linux-amarula@amarulasolutions.com>,
 	Jagan Teki <jagan@amarulasolutions.com>
-Subject: [PATCH v7 08/12] ARM: dts: sun8i: a33: Add endpoint@0 to dsi_in_tcon0
-Date: Wed, 29 Mar 2023 18:46:14 +0530
-Message-Id: <20230329131615.1328366-9-jagan@amarulasolutions.com>
+Subject: [PATCH v7 09/12] arm64: dts: rockchip: a64: Add endpoint@0 to dsi_in_tcon0
+Date: Wed, 29 Mar 2023 18:46:15 +0530
+Message-Id: <20230329131615.1328366-10-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230329131615.1328366-1-jagan@amarulasolutions.com>
 References: <20230329131615.1328366-1-jagan@amarulasolutions.com>
@@ -81,7 +81,7 @@ child node but not possible to connect I2C-Configured Bridge via child
 node since I2C-Configure bridges are child of I2C not upstream DSI hosts
 and it must represent them via port or ports with endpoint linking.
 
-Allwinner R33 DSI node already has a port so add endpoint 0 for input
+Allwinner A64 DSI node already has a port so add endpoint 0 for input
 tcon so that the downstream DSI devices can use endpoint 1 to connect
 Panel or Bridge or I2C-Configured Bridge.
 
@@ -113,7 +113,7 @@ i2c1 {
 };
 
 dsi {
-       compatible = "allwinner,sun6i-a31-mipi-dsi";
+       compatible = "allwinner,sun50i-a64-mipi-dsi";
 
        port {
              dsi_in_tcon0: endpoint@0 {
@@ -138,14 +138,14 @@ Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 Changes for v7:
 - new patch
 
- arch/arm/boot/dts/sun8i-a33.dtsi | 6 +++++-
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 6 +++++-
  1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/sun8i-a33.dtsi b/arch/arm/boot/dts/sun8i-a33.dtsi
-index b3d1bdfb5118..50c2424ec31e 100644
---- a/arch/arm/boot/dts/sun8i-a33.dtsi
-+++ b/arch/arm/boot/dts/sun8i-a33.dtsi
-@@ -269,7 +269,11 @@ dsi: dsi@1ca0000 {
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+index 77b5349f6087..3ed566dc2172 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+@@ -1189,7 +1189,11 @@ dsi: dsi@1ca0000 {
  			#size-cells = <0>;
  
  			port {
