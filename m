@@ -1,40 +1,40 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0AC1C2B
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 13:18:19 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id le6so14853632plb.12
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 06:18:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20522187C
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 13:18:26 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id gp15-20020a17090adf0f00b0023d1bbd9f9eso18572469pjb.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 06:18:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1680095899;
+        d=amarulasolutions.com; s=google; t=1680095906;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=f+Jq4CQBAwZOjvBLdvikVzLpWjI0SGbxRpeBtUQtDcQ=;
-        b=Ou/OtLmpNc78F/fwnqk1lzBgwyfUoX8VK7o4RpfnSYek0c6mzr55RafkbJPWpVDXEi
-         eUvONb1/8WR9m/S+MqqA3BfxCALKIkNuYaZPDo/X4FFKOP2gHBDL14hZsB51ThK0gMCo
-         E1irsVQt1JZisYTFF7Lfw1qND+3EgJ+bff+GA=
+        bh=O2tcpLeWl99rVNnc/BvvLtZEsLOgUmupjkNUsxeTVcU=;
+        b=UdCHrE7/F4LUh7hQ2PmcZsobbVhzz88QVAURCF04bdOUcixNytJMVbyBR/3Rw8N12x
+         MVxl5we+vHJftN0y2JnudLK2tnLlZax9Sbw+5Oot89CpJUDrLdG8XFnbedNYOmo9FXDB
+         oIduaHar12yN2QSMpZ8CpRYroeFZ6UkiA65Rw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680095899;
+        d=1e100.net; s=20210112; t=1680095906;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=f+Jq4CQBAwZOjvBLdvikVzLpWjI0SGbxRpeBtUQtDcQ=;
-        b=ovgSZH0iOAlD84h7tzDiLzFCx25dAt3XWHDMnJlS+voMtUWa1crIha+tVEq+jFcN+c
-         CY8h4P0RpzSRTqGIL4RxMDMv9Sy+Dra8GJQK7S8f6QIfhf3868bQbYrzvCmMybKV+54Y
-         qubdnlUVI5QqB9cOIoDZcJpWMMgVY0uVn/C0hb1uqZWL0jmSiJWat0LOnq/vhhQa9L+Y
-         3JXfWU3hv7jaER6TebuSaghSODcdpW+7L+KAQFPgn1XuI23xgkjvkftbDPD2tXKnHxx9
-         +GDIr+2v4ZreIc8MjWqMuUl9J6P4cOHVP6kSRelj9zqKT8/GvImzEbukYnVtiDyATUVF
-         CaEA==
-X-Gm-Message-State: AAQBX9eOAAiGGFTSxdc3/myfalUQ/G8RioO9hJCyAX+z4hQhe7wZZk6B
-	oz9WMs65C3NRHybNALt37kXCow==
-X-Google-Smtp-Source: AKy350YCiiWm/rDw6yILBFYbQ4o+gaIGsdINxQHWQbNw3orvvBWljZZZiHyHon7RGJ7hUl10VDOAFQ==
-X-Received: by 2002:a17:90b:1e4f:b0:23b:4438:e9ee with SMTP id pi15-20020a17090b1e4f00b0023b4438e9eemr2098113pjb.12.1680095899302;
-        Wed, 29 Mar 2023 06:18:19 -0700 (PDT)
+        bh=O2tcpLeWl99rVNnc/BvvLtZEsLOgUmupjkNUsxeTVcU=;
+        b=sWay8bBkmq88vGR4qNMieyiiuCKmEImy669BJwcxLRgKvlDgOIcZOkbWi7BHqsR4ii
+         Bm0MkXvGfeFYSZoa/9MSHqwtyriY06I5pTV4m0ktDAvjIMTmDM54ET0ScsS0NM77mSWB
+         jE3ydIUL3ftmFeHteiiPhzeDg23XZOV0nJ8rodHnK1ZX2FR9BMm+zIHKi2RGNFO1gYK5
+         wvzzwBqTlDIQoeXlGUdPqTK9mfbmyeXBcGXGrTc1krejiYPj8YbjZVpL2hiH2fiH4zmw
+         aRmIF+AAHnkuxI2KDAfwhaFeXVCHcQ0Xtj5lsQK0bhGWz+kfMWjE3I+nX02x/q/C++gQ
+         i8dg==
+X-Gm-Message-State: AAQBX9cmf8Pur2rGqRdkr0BmV9VMZzzVy49EasWE/JCPwpq4qzK9stfV
+	wcp9Z5rwd2qCJS/giCKdR5fIeg==
+X-Google-Smtp-Source: AKy350aezuMjKTTjFyH6/gyzvMVWaT+9pmv5Ms2TGgIoeYwTtKj6D8+d21S+PexByXuy9cf7MOK6Yw==
+X-Received: by 2002:a17:90b:4acf:b0:236:99c4:6096 with SMTP id mh15-20020a17090b4acf00b0023699c46096mr20503031pjb.35.1680095905750;
+        Wed, 29 Mar 2023 06:18:25 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:c00a:a047:206d:4722:c4fa:e845])
-        by smtp.gmail.com with ESMTPSA id s16-20020a17090b071000b0023f5c867f82sm1400192pjz.41.2023.03.29.06.18.12
+        by smtp.gmail.com with ESMTPSA id s16-20020a17090b071000b0023f5c867f82sm1400192pjz.41.2023.03.29.06.18.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 06:18:18 -0700 (PDT)
+        Wed, 29 Mar 2023 06:18:25 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -58,10 +58,10 @@ Cc: linux-arm-kernel@lists.infradead.org,
 	Marek Vasut <marex@denx.de>,
 	linux-amarula <linux-amarula@amarulasolutions.com>,
 	Jagan Teki <jagan@amarulasolutions.com>,
-	Ondrej Jirman <megous@megous.com>
-Subject: [PATCH v7 05/12] drm: panel: sitronix-st7703: Enable prepare_prev_first for xbd599
-Date: Wed, 29 Mar 2023 18:46:11 +0530
-Message-Id: <20230329131615.1328366-6-jagan@amarulasolutions.com>
+	Icenowy Zheng <icenowy@aosc.io>
+Subject: [PATCH v7 06/12] drm: panel: feixin-k101-im2ba02: Enable prepare_prev_first flag
+Date: Wed, 29 Mar 2023 18:46:12 +0530
+Message-Id: <20230329131615.1328366-7-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230329131615.1328366-1-jagan@amarulasolutions.com>
 References: <20230329131615.1328366-1-jagan@amarulasolutions.com>
@@ -74,48 +74,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Enable the drm panel prepare_prev_first flag for xbd599 panel so-that
-the previous controller should be prepared first before the prepare for
-the panel is called.
-               
+Enable the drm panel prepare_prev_first flag for feixin-k101-im2ba02
+so-that the previous controller should be prepared first before the
+prepare for the panel is called.
+                   
 This makes sure that the previous controller(sun6i-mipi-dsi), likely to
 be a DSI host controller should be initialized to LP-11 before the panel
 is powered up.
 
-Cc: Ondrej Jirman <megous@megous.com>
+Cc: Icenowy Zheng <icenowy@aosc.io>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
 Changes for v7:
 - new patch
 
- drivers/gpu/drm/panel/panel-sitronix-st7703.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-index 6747ca237ced..6e6112f5d971 100644
---- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-+++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-@@ -65,6 +65,7 @@ struct st7703_panel_desc {
- 	unsigned int lanes;
- 	unsigned long mode_flags;
- 	enum mipi_dsi_pixel_format format;
-+	bool prepare_prev_first;
- 	int (*init_sequence)(struct st7703 *ctx);
- };
+diff --git a/drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c b/drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c
+index 76572c922983..77c936496eef 100644
+--- a/drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c
++++ b/drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c
+@@ -466,6 +466,7 @@ static int k101_im2ba02_dsi_probe(struct mipi_dsi_device *dsi)
  
-@@ -335,6 +336,7 @@ static const struct st7703_panel_desc xbd599_desc = {
- 	.lanes = 4,
- 	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE,
- 	.format = MIPI_DSI_FMT_RGB888,
-+	.prepare_prev_first = true,
- 	.init_sequence = xbd599_init_sequence,
- };
- 
-@@ -544,6 +546,7 @@ static int st7703_probe(struct mipi_dsi_device *dsi)
- 
- 	drm_panel_init(&ctx->panel, dev, &st7703_drm_funcs,
+ 	drm_panel_init(&ctx->panel, &dsi->dev, &k101_im2ba02_funcs,
  		       DRM_MODE_CONNECTOR_DSI);
-+	ctx->panel.prepare_prev_first = ctx->desc->prepare_prev_first;
++	ctx->panel.prepare_prev_first = true;
  
  	ret = drm_panel_of_backlight(&ctx->panel);
  	if (ret)
