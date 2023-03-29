@@ -1,17 +1,18 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F00E63D2
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 18:17:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63E4563D2
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 18:21:42 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DDC9912FC;
-	Wed, 29 Mar 2023 11:18:30 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B965B2F4;
+	Wed, 29 Mar 2023 11:15:50 -0700 (PDT)
 Received: from bogus (unknown [10.57.52.160])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 158D23F6C4;
-	Wed, 29 Mar 2023 11:17:36 -0700 (PDT)
-Date: Wed, 29 Mar 2023 19:17:02 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5F9453F6C4;
+	Wed, 29 Mar 2023 11:14:57 -0700 (PDT)
+Date: Wed, 29 Mar 2023 19:14:23 +0100
 From: Sudeep Holla <sudeep.holla@arm.com>
 To: Rob Herring <robh@kernel.org>
 Cc: "David S. Miller" <davem@davemloft.net>,
 	Rob Herring <robh+dt@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
 	Frank Rowand <frowand.list@gmail.com>,
 	Russell King <linux@armlinux.org.uk>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -19,7 +20,6 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Paul Walmsley <paul.walmsley@sifive.com>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
 	Albert Ou <aou@eecs.berkeley.edu>,
-	Sudeep Holla <sudeep.holla@arm.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Daniel Lezcano <daniel.lezcano@linaro.org>,
@@ -51,50 +51,37 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org,
 	linuxppc-dev@lists.ozlabs.org, linux-tegra@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org
-Subject: Re: [PATCH 16/19] cpuidle: Adjust includes to remove of_device.h
-Message-ID: <20230329181702.x5u562himerwolfg@bogus>
+Subject: Re: [PATCH 04/19] of: Move CPU node related functions to their own
+ file
+Message-ID: <20230329181423.6e2z2giwkgdvhshn@bogus>
 References: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org>
- <20230329-dt-cpu-header-cleanups-v1-16-581e2605fe47@kernel.org>
+ <20230329-dt-cpu-header-cleanups-v1-4-581e2605fe47@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230329-dt-cpu-header-cleanups-v1-16-581e2605fe47@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230329-dt-cpu-header-cleanups-v1-4-581e2605fe47@kernel.org>
 
-On Wed, Mar 29, 2023 at 10:52:13AM -0500, Rob Herring wrote:
-> Now that of_cpu_device_node_get() is defined in of.h, of_device.h is just
-> implicitly including other includes, and is no longer needed. Adjust the
-> include files with what was implicitly included by of_device.h (cpu.h,
-> cpuhotplug.h, of.h, and of_platform.h) and drop including of_device.h.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> Please ack and I will take the series via the DT tree.
-> ---
->  drivers/cpuidle/cpuidle-psci.c      | 1 -
->  drivers/cpuidle/cpuidle-qcom-spm.c  | 3 +--
->  drivers/cpuidle/cpuidle-riscv-sbi.c | 2 +-
->  drivers/cpuidle/dt_idle_states.c    | 1 -
->  4 files changed, 2 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/cpuidle/cpuidle-psci.c b/drivers/cpuidle/cpuidle-psci.c
-> index 6de027f9f6f5..bf68920d038a 100644
-> --- a/drivers/cpuidle/cpuidle-psci.c
-> +++ b/drivers/cpuidle/cpuidle-psci.c
-> @@ -16,7 +16,6 @@
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> -#include <linux/of_device.h>
->  #include <linux/platform_device.h>
->  #include <linux/psci.h>
->  #include <linux/pm_domain.h>
+On Wed, Mar 29, 2023 at 10:52:01AM -0500, Rob Herring wrote:
+> drivers/of/base.c is quite long and we've accumulated a number of CPU
+> node functions. Let's move them to a new file, cpu.c, along with the
+> lone of_cpu_device_node_get() in of_device.h. Moving the declaration has
+> no effect yet as of.h is included by of_device.h. This serves as
+> preparation to disentangle the includes in of_device.h and
+> of_platform.h.
+>
 
-Acked-by: Sudeep Holla <sudeep.holla@arm.com>
+Makes sense to have its own file for CPUs, I am sure there will be more
+additions 😉.
+
+FWIW,
+
+Reviewed-by: Sudeep Holla <sudeep.holla@arm.com>
 
 -- 
 Regards,
