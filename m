@@ -1,169 +1,104 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4579DC2C0
-	for <linux-sunxi@lists.linux.dev>; Thu, 30 Mar 2023 04:02:20 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id h8so71422193ede.8
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Mar 2023 21:02:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brainfault-org.20210112.gappssmtp.com; s=20210112; t=1680148938;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DRrMSTrE1hzXNMTnJR9hzwcHZG5OJLH6N1k4mRkhtxc=;
-        b=ynfExVnq8Pbne4CrK35vVvzcZo/HMcJEJUR3Ujna/kLNgyxndnnVOhaOok7Q3u4boK
-         FW4keBgSZ6pU7kWyE+manshTU5Tk7hNavSWkOvFCWTteIMmp/9Qk7GSzFj7kYZ5XfmBv
-         miUHdrLcGJzpXksYn+qz42allwe3QMPmR/pnE7vpqvm1r6J8sdtN2nbt3yHJRZJvjQa2
-         WULHOKYx2FaImOfeOidrkyK9ABt3NseOxAzqi3/iHsrvkvaPYLGzC0VonLkMDJt7dAvE
-         qA6CCYx7R2kWBHI86Kqb+JhYZk0VIktRQH4ecdVqtPrNiVN9gXZkgnTnC6UdsKE6Gs/B
-         u+Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680148938;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DRrMSTrE1hzXNMTnJR9hzwcHZG5OJLH6N1k4mRkhtxc=;
-        b=U7ciyGZqW6TYmqKBnEjgcpcCZvGwkIowKc4dthf0YzdX42eYY25S2BWhNV5pSkluXK
-         pbJFbktpoF5PK7MbOWVgPv/oHrg8pW5dHzsLb7wsf/Zhu01GivQrq3MuwaOlp+y+YgKU
-         54j6frdtSL4KAsX8lTYzFLrl3cAIRPQjvCoP6NAb1hzorlFON4LY66Fc1hsyNroHjWZc
-         uTZm4cQqMgpZfbuOIC6DO5x+g1DJnX8DnabZnLhWfnr+KX5WhxVZ049o4zL3HNNx7uDT
-         I0wPfpbGBt5v5JTrURfwMLFl5xsFuZy/u48gd2LeRUg927O4GDCgjZ6SJVNe50lIHxEd
-         ldXQ==
-X-Gm-Message-State: AAQBX9eIw7P49hb7oJqdFB/IO1IlRSidsJrVXDqtw5XhCl1LSdPwClDi
-	MQdxXDGUm1jPAgmCrhoWWF5/iGFkiuLmwqqBRPn07g==
-X-Google-Smtp-Source: AKy350YsOJqAiqRYem5e01w1p2m+BEvgEUELir1jFBDVGQszGos9GuJs6YHfU/Z+9mLpMcFmxWEdJiS8UYrZt9G/tI4=
-X-Received: by 2002:a50:9fef:0:b0:4fc:1608:68c8 with SMTP id
- c102-20020a509fef000000b004fc160868c8mr10756114edf.1.1680148938164; Wed, 29
- Mar 2023 21:02:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB4EC2D0
+	for <linux-sunxi@lists.linux.dev>; Thu, 30 Mar 2023 04:52:04 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Pn9nH5Xj3z9sW9;
+	Thu, 30 Mar 2023 06:44:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1680151475;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Scw9GnQ38qy4L9yW8NU1qFZ8sCslAjUOVuTv4AxjKs=;
+	b=0cAPL4EucscPGnjt8TkvhJ236LPfnYqc+03YuCGy7AVKY/Co+HQiHxKkXiDdC9cyAeUwy3
+	bwxhcRl58mVQii9a4u/SsB1IdpulDrkuXjGNUjBxK8/VJSTn6yAQG/17QOdTiNHSSRgEL9
+	p8faqcuKdAEofHpSmqGkuIKWqXMiXHqNzx1djrYNVr/LkGhr9Pqgyg53/PIGeeR7Lton+6
+	aFZU5ZictHNrzEmIaA5PAsyC7Gj6d717rVZJi4Kpf888qKc7alKuaHWFXFLGXPTh3ZaTN5
+	0ppHQn0B4qwyam1y3dDZ9lYbvPF+CwZ2EkkqhGDFHswpJx6G7pKIEqmJ4ILKjg==
+References: <20230320161636.24411-1-romanberanek@icloud.com>
+ <87wn356ni4.fsf@oltmanns.dev> <20230327202045.ceeqqwjug4ktxtsf@penduick>
+ <87bkkc3bzc.fsf@oltmanns.dev> <20230329195639.iep4rv5rcigu3gj2@penduick>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Roman Beranek <romanberanek@icloud.com>, Chen-Yu Tsai <wens@csie.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sun4i: uncouple DSI dotclock divider from
+ TCON0_DCLK_REG
+Date: Thu, 30 Mar 2023 06:41:44 +0200
+In-reply-to: <20230329195639.iep4rv5rcigu3gj2@penduick>
+Message-ID: <87bkkaonkr.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org> <20230329-dt-cpu-header-cleanups-v1-16-581e2605fe47@kernel.org>
-In-Reply-To: <20230329-dt-cpu-header-cleanups-v1-16-581e2605fe47@kernel.org>
-From: Anup Patel <anup@brainfault.org>
-Date: Thu, 30 Mar 2023 09:32:06 +0530
-Message-ID: <CAAhSdy3MYV=v2TNZ_507zGe6Pj_c95TZwODPK8-zTHpkn-ukww@mail.gmail.com>
-Subject: Re: [PATCH 16/19] cpuidle: Adjust includes to remove of_device.h
-To: Rob Herring <robh@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>, 
-	Frank Rowand <frowand.list@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Amit Daniel Kachhap <amit.kachhap@gmail.com>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Lukasz Luba <lukasz.luba@arm.com>, Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Yangtao Li <tiny.windzz@gmail.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, 
-	Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Huacai Chen <chenhuacai@kernel.org>, 
-	Jiaxun Yang <jiaxun.yang@flygoat.com>, Marc Zyngier <maz@kernel.org>, 
-	Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
-	sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org, 
-	linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-tegra@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Rspamd-Queue-Id: 4Pn9nH5Xj3z9sW9
 
-On Wed, Mar 29, 2023 at 9:22=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
->
-> Now that of_cpu_device_node_get() is defined in of.h, of_device.h is just
-> implicitly including other includes, and is no longer needed. Adjust the
-> include files with what was implicitly included by of_device.h (cpu.h,
-> cpuhotplug.h, of.h, and of_platform.h) and drop including of_device.h.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
 
-For cpuidle-riscv-sbi.c
-Acked-by: Anup Patel <anup@brainfault.org>
+Hi,
 
-Regards,
-Anup
+On 2023-03-29 at 21:56:39 +0200, Maxime Ripard <maxime@cerno.tech> wrote:
+> Hi,
+>
+> On Tue, Mar 28, 2023 at 09:28:19PM +0200, Frank Oltmanns wrote:
+>> --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+>> +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+>> @@ -819,6 +819,34 @@ static void sun6i_dsi_encoder_disable(struct drm_encoder *encoder)
+>>  	regulator_disable(dsi->regulator);
+>>  }
+>>
+>> +static bool sun6i_dsi_encoder_mode_fixup(
+>> +				   struct drm_encoder *encoder,
+>> +				   const struct drm_display_mode *mode,
+>> +				   struct drm_display_mode *adjusted_mode)
+>
+> So, mode_fixup is kind of deprecated in favour of atomic_check
 
-> ---
-> Please ack and I will take the series via the DT tree.
-> ---
->  drivers/cpuidle/cpuidle-psci.c      | 1 -
->  drivers/cpuidle/cpuidle-qcom-spm.c  | 3 +--
->  drivers/cpuidle/cpuidle-riscv-sbi.c | 2 +-
->  drivers/cpuidle/dt_idle_states.c    | 1 -
->  4 files changed, 2 insertions(+), 5 deletions(-)
+I see. Thanks for pointing that out.
+
+>> +{
+>> +	if (encoder->encoder_type == DRM_MODE_ENCODER_DSI) {
+>> +		/*
+>> +		 * For DSI the PLL rate has to respect the bits per pixel and
+>> +		 * number of lanes.
+>> +		 *
+>> +		 * According to the BSP code:
+>> +		 * PLL rate = DOTCLOCK * bpp / lanes
+>> +		 *
+>> +		 * Therefore, the clock has to be adjusted in order to set the
+>> +		 * correct PLL rate when actually setting the clock.
+>> +		 */
+>> +		struct sun6i_dsi *dsi = encoder_to_sun6i_dsi(encoder);
+>> +		struct mipi_dsi_device *device = dsi->device;
+>> +		u8 bpp = mipi_dsi_pixel_format_to_bpp(device->format);
+>> +		u8 lanes = device->lanes;
+>> +
+>> +		adjusted_mode->crtc_clock = mode->crtc_clock
+>> +				 * bpp / (lanes * SUN6I_DSI_TCON_DIV);
 >
-> diff --git a/drivers/cpuidle/cpuidle-psci.c b/drivers/cpuidle/cpuidle-psc=
-i.c
-> index 6de027f9f6f5..bf68920d038a 100644
-> --- a/drivers/cpuidle/cpuidle-psci.c
-> +++ b/drivers/cpuidle/cpuidle-psci.c
-> @@ -16,7 +16,6 @@
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> -#include <linux/of_device.h>
->  #include <linux/platform_device.h>
->  #include <linux/psci.h>
->  #include <linux/pm_domain.h>
-> diff --git a/drivers/cpuidle/cpuidle-qcom-spm.c b/drivers/cpuidle/cpuidle=
--qcom-spm.c
-> index c6e2e91bb4c3..1fc9968eae19 100644
-> --- a/drivers/cpuidle/cpuidle-qcom-spm.c
-> +++ b/drivers/cpuidle/cpuidle-qcom-spm.c
-> @@ -11,8 +11,7 @@
->  #include <linux/io.h>
->  #include <linux/slab.h>
->  #include <linux/of.h>
-> -#include <linux/of_address.h>
-> -#include <linux/of_device.h>
-> +#include <linux/of_platform.h>
->  #include <linux/err.h>
->  #include <linux/platform_device.h>
->  #include <linux/cpuidle.h>
-> diff --git a/drivers/cpuidle/cpuidle-riscv-sbi.c b/drivers/cpuidle/cpuidl=
-e-riscv-sbi.c
-> index be383f4b6855..ae0b838a0634 100644
-> --- a/drivers/cpuidle/cpuidle-riscv-sbi.c
-> +++ b/drivers/cpuidle/cpuidle-riscv-sbi.c
-> @@ -8,6 +8,7 @@
+> And that's visible to the userspace, so it's not where we should store
+> that value. I guess the best way to do something similar would be to
+> store it into crtc_state, and then reuse it there. But it starts to make
+> a lot of rather complicated code compared to your previous patch.
+
+Ah, interesting. But I agree, let's stick to the simpler aproach.
+
+Thanks,
+  Frank
+
 >
->  #define pr_fmt(fmt) "cpuidle-riscv-sbi: " fmt
+> Maxime
 >
-> +#include <linux/cpuhotplug.h>
->  #include <linux/cpuidle.h>
->  #include <linux/cpumask.h>
->  #include <linux/cpu_pm.h>
-> @@ -15,7 +16,6 @@
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> -#include <linux/of_device.h>
->  #include <linux/slab.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_domain.h>
-> diff --git a/drivers/cpuidle/dt_idle_states.c b/drivers/cpuidle/dt_idle_s=
-tates.c
-> index 02aa0b39af9d..12fec92a85fd 100644
-> --- a/drivers/cpuidle/dt_idle_states.c
-> +++ b/drivers/cpuidle/dt_idle_states.c
-> @@ -14,7 +14,6 @@
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> -#include <linux/of_device.h>
->
->  #include "dt_idle_states.h"
->
->
-> --
-> 2.39.2
->
+> [[End of PGP Signed Part]]
+
+--
