@@ -1,169 +1,213 @@
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A7CC2F0
-	for <linux-sunxi@lists.linux.dev>; Thu, 30 Mar 2023 10:01:56 +0000 (UTC)
-Received: by mail-vs1-f49.google.com with SMTP id g17so15724764vst.10
-        for <linux-sunxi@lists.linux.dev>; Thu, 30 Mar 2023 03:01:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1680170515;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zFVAdu6ppZ2JJ0TB7WygDJ/QOjrOvH1MnFVC2V2mdcA=;
-        b=SLK2Fsr5J+chOEjLHu6pgOT5N4tBFXWbEdTWXkZBvjkQhZrVVs5KwGymk/wbts3orC
-         5qVCnJQBF48SXipRZnnQr6nprWp3qWUQfZx3abwBym0T+qoTcMiU3vM93gjyvZPhNp++
-         13RSdLmLOmb62ycr2x75NX/szItoJTUtncZFkX9MnW5AoIsSw/RpoUVHrGczcoIvuROt
-         31FKaLnFj4qCKAN0a0VnBOZk3J6+xjlyfxwnlG5vI4AXuy4eQuDB5nZLEBiD4AEdyCTP
-         l+A/WGKM3e4CB+niRKFu/zQTPUGh8MFnjwCj+SgglODI9BOTifypbPXg44QUow+TtSyy
-         1npA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680170515;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zFVAdu6ppZ2JJ0TB7WygDJ/QOjrOvH1MnFVC2V2mdcA=;
-        b=YBVD1BHjXlscBQWOy0lc9rtZn6l5Itbuaujm7HDtDXNBMIphXSSKtt2Y/bTqCTfG/s
-         qoPgswru8+FN3dM5tyfTXuqcHQFHFAY8O9yNeZIq4ijmJGCt70Ae6LRw6E9QQH0OXZQ8
-         02LSXdfsmqha65fqKtao/F0rXvz2KOIVqfFDfTEaEt8J/Rt3O+6bI52kLCMOXpMfbD+z
-         EfnNfC1vRtmekUWuTCILY9An/B54ULUp2mOwvqWhf9qoCuL5AQRxH+pXiCfLoP9/2IWY
-         hPBvfXQgjMuGzyAm9acxENuTbOXdqw3ejYBs7SkMDOD5hOGdf1W9iHjyJpVbAhkE6nDr
-         7d8w==
-X-Gm-Message-State: AAQBX9c2eunBBApnRuBZbhlq9VDxu8fvN6RJQpjbj2455ALLPhBF5YVB
-	ATam+YP9uQtGznpXoMKaspJITP/jn6eSTqKIz5DX9w==
-X-Google-Smtp-Source: AKy350aZQmuN6Txd8qgiZLf4NMU2jGzKPkOBh2iY9wyo2i8nkHVk5yOPF47moMqKzLQxdN2ql3qLD6zv7wi79iemBp4=
-X-Received: by 2002:a67:e053:0:b0:425:d52d:f5cb with SMTP id
- n19-20020a67e053000000b00425d52df5cbmr12001780vsl.1.1680170515307; Thu, 30
- Mar 2023 03:01:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 702B12F3E
+	for <linux-sunxi@lists.linux.dev>; Thu, 30 Mar 2023 13:29:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFFCCC433EF;
+	Thu, 30 Mar 2023 13:29:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680182981;
+	bh=Iiezy7MHd0OQyIJ37QYZcwjoZ0dREEzhmcn52eBrRuc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AeYyouDObQFj3T4HvZViNgVGfFTyAyXiJvupN/7ZvVndsmt9LVnRAH6IdunpT+uJO
+	 julqE8DajyjDJShnLetEan2x+sQJk+uWCYnflD5amFk68K4x+7ez+L10TRNOEYaRNK
+	 qFe5K8gH4pJssfgs8rgVVJoxcxfwx/xy3QkFyegmifObuqIINir9HTt3Pp4zRm3yO5
+	 V1PeLSobbK0duiZtgGxte39ZkhBxfkD0gIz4+PQa99wnd3fKtlgws9d+wVH0M5zYtk
+	 qiLhg4C1cyhLr0RXKk5vaCSWV0coz0O0wmGetqT95X2gQynP1J4OBwzGYnvlKdGunI
+	 QYUkETK32zsOQ==
+Date: Thu, 30 Mar 2023 14:29:35 +0100
+From: Lee Jones <lee@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Martin Botka <martin.botka@somainline.org>, martin.botka1@gmail.com,
+	Shengyu Qu <wiagn233@outlook.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v9 2/3] mfd: axp20x: Add support for AXP313a PMIC
+Message-ID: <20230330132935.GS434339@google.com>
+References: <20230324113013.254371-1-andre.przywara@arm.com>
+ <20230324113013.254371-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230329131929.1328612-1-jagan@amarulasolutions.com>
- <CAPY8ntCJP53uiGNQHUZqma08Vsxfwm7KvAkgMzK=hn4AxJLS3A@mail.gmail.com>
- <20230329164638.v43la4l7rxut6hk6@penduick> <CAMty3ZCsn6OR1-TvqFXP48iamG-k5sPU1_CH2fNLBQP3Ofb0QA@mail.gmail.com>
-In-Reply-To: <CAMty3ZCsn6OR1-TvqFXP48iamG-k5sPU1_CH2fNLBQP3Ofb0QA@mail.gmail.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 30 Mar 2023 11:01:39 +0100
-Message-ID: <CAPY8ntCpmKPzPVjRWS7Pf1Fat9V_JqGD4BaMo8P8_o+74DeDiQ@mail.gmail.com>
-Subject: Re: [PATCH v7 10/12] drm/bridge: Implement enable_next_first to alter
- bridge init order
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Maxime Ripard <maxime@cerno.tech>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Marek Vasut <marex@denx.de>, 
-	linux-amarula <linux-amarula@amarulasolutions.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230324113013.254371-3-andre.przywara@arm.com>
 
-Hi Jagan
+On Fri, 24 Mar 2023, Andre Przywara wrote:
 
-On Thu, 30 Mar 2023 at 07:56, Jagan Teki <jagan@amarulasolutions.com> wrote=
-:
+> From: Martin Botka <martin.botka@somainline.org>
 >
-> On Wed, Mar 29, 2023 at 10:16=E2=80=AFPM Maxime Ripard <maxime@cerno.tech=
-> wrote:
-> >
-> > On Wed, Mar 29, 2023 at 05:28:28PM +0100, Dave Stevenson wrote:
-> > > On Wed, 29 Mar 2023 at 14:19, Jagan Teki <jagan@amarulasolutions.com>=
- wrote:
-> > > >
-> > > > DSI sink devices typically send the MIPI-DCS commands to the DSI ho=
-st
-> > > > via general MIPI_DSI_DCS read and write API.
-> > > >
-> > > > The classical DSI sequence mentioned that the DSI host receives MIP=
-I-DCS
-> > > > commands from the DSI sink first in order to switch HS mode properl=
-y.
-> > > > Once the DSI host switches to HS mode any MIPI-DCS commands from th=
-e
-> > > > DSI sink are unfunctional.
-> > >
-> > > That statement contradicts the spec.
-> > > The DSI spec section 8.11.1 Transmission Packet Sequences says that
-> > > during any BLLP (Blanking or Low Power) period the host can do any of=
-:
-> > > - remain in LP-11
-> > > - transmit one or more non-video packets from host to peripheral in e=
-scape mode
-> > > - transmit one or more non-video packets from host to peripheral in
-> > > using HS mode
-> > > - receive one or more packets from peripheral to host using escape mo=
-de
-> > > - transmit data on a different virtual channel.
-> > >
-> > > Indeed if the sink doesn't set MIPI_DSI_MODE_LPM /
-> > > MIPI_DSI_MSG_USE_LPM, then the expectation is that any data transfer
-> > > will be in HS mode.
-> > >
-> > > That makes me confused as to the need for this patch.
-> >
-> > Yeah, and it looks like that would break the expectation that, in
-> > enable, a bridge can expect its controller to be in HS mode.
-> >
-> > I think that was Jagan is trying to do is to work around an issue with
-> > the Allwinner DSI driver:
-> > https://elixir.bootlin.com/linux/v6.3-rc4/source/drivers/gpu/drm/sun4i/=
-sun6i_mipi_dsi.c#L775
+> The AXP313a is a PMIC chip produced by X-Powers, it can be connected via
+> an I2C bus.
+> The name AXP1530 seems to appear as well, and this is what is used in
+> the BSP driver. From all we know it's the same chip, just a different
+> name. However we have only seen AXP313a chips in the wild, so go with
+> this name.
 >
-> Correct and I can see it seems to be a classic DSI sequence observed
-> in dw-mipi-dsi as well - based on Neil's comments.
-> https://lore.kernel.org/all/9aa3d19d-4378-aaf3-6857-c40be5d252c7@baylibre=
-.com/
-
-Neil's comments are from 2021, and his response would appear to be
-with regard the PHY power up sequence issues that
-pre_enable_prev_first should solve. The DSI host pre_enable can now be
-called before the sink's pre_enable, therefore allowing the PHY to be
-configured in pre_enable. Hacking the PHY init into mode_set is
-therefore not required.
-
-I don't see any restriction in dw-mipi-dsi over when transfer can be
-called (as long as it is between pre_enable and post_disable), and it
-supports MIPI_DSI_MSG_USE_LPM for requesting the command be sent in
-either LP or HS mode.
-
-> In fact, I did follow and initialize the command-mode mode_set which
-> set low-speed DCS and switch back to video-mode @enable and switch to
-> HS but could see the same issue as the host cannot accept DCS as
-> before (I might implement improper sequence, but not sure due to lack
-> of documentation). But this sequence has issues with calling
-> post_disable twice even on dw-mipi-dsi.
-
-Calling up/down the bridge chain from within other bridge elements is
-going to have issues and shouldn't be necessary.
-
-The comment in dw-mipi-dsi post_disable[1]
-* TODO Only way found to call panel-bridge post_disable &
-* panel unprepare before the dsi "final" disable...
-* This needs to be fixed in the drm_bridge framework and the API
-* needs to be updated to manage our own call chains...
-
-It has now been fixed up with pre_enable_prev_first.
-
-I seem to recall seeing a patchset for one of the DSI hosts (other
-than vc4) that was moving the init from mode_set to pre_enable - I
-think it is probably [2] for msm.
-
-Cheers
-  Dave
-
-[1] https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/bridge/sy=
-nopsys/dw-mipi-dsi.c#L862-L867
-[2] https://github.com/torvalds/linux/commit/ec7981e6c614254937b37ce0af9eac=
-09901c05c5
-
-> May be Neill, can comment here?
+> Compared to the other AXP PMICs it's a rather simple affair: just three
+> DCDC converters, three LDOs, and no battery charging support.
 >
-> Thanks,
-> Jagan.
+> Describe the regmap and the MFD bits, along with the registers exposed
+> via I2C. Aside from the various regulators, also describe the power key
+> interrupts, and adjust the shutdown handler routine to use a different
+> register than the other PMICs.
+> Eventually advertise the device using the new compatible string.
+>
+> Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  drivers/mfd/axp20x-i2c.c   |  2 +
+>  drivers/mfd/axp20x.c       | 82 +++++++++++++++++++++++++++++++++++++-
+>  include/linux/mfd/axp20x.h | 32 +++++++++++++++
+>  3 files changed, 115 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/mfd/axp20x-i2c.c b/drivers/mfd/axp20x-i2c.c
+> index f49fbd3079589..f061177cb18e5 100644
+> --- a/drivers/mfd/axp20x-i2c.c
+> +++ b/drivers/mfd/axp20x-i2c.c
+> @@ -63,6 +63,7 @@ static const struct of_device_id axp20x_i2c_of_match[] = {
+>  	{ .compatible = "x-powers,axp209", .data = (void *)AXP209_ID },
+>  	{ .compatible = "x-powers,axp221", .data = (void *)AXP221_ID },
+>  	{ .compatible = "x-powers,axp223", .data = (void *)AXP223_ID },
+> +	{ .compatible = "x-powers,axp313a", .data = (void *)AXP313A_ID },
+>  	{ .compatible = "x-powers,axp803", .data = (void *)AXP803_ID },
+>  	{ .compatible = "x-powers,axp806", .data = (void *)AXP806_ID },
+>  	{ },
+> @@ -76,6 +77,7 @@ static const struct i2c_device_id axp20x_i2c_id[] = {
+>  	{ "axp209", 0 },
+>  	{ "axp221", 0 },
+>  	{ "axp223", 0 },
+> +	{ "axp313a", 0 },
+>  	{ "axp803", 0 },
+>  	{ "axp806", 0 },
+>  	{ },
+> diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
+> index 01a6bbb6d266d..c4325977e384b 100644
+> --- a/drivers/mfd/axp20x.c
+> +++ b/drivers/mfd/axp20x.c
+> @@ -39,6 +39,7 @@ static const char * const axp20x_model_names[] = {
+>  	"AXP221",
+>  	"AXP223",
+>  	"AXP288",
+> +	"AXP313a",
+>  	"AXP803",
+>  	"AXP806",
+>  	"AXP809",
+> @@ -154,6 +155,25 @@ static const struct regmap_range axp806_writeable_ranges[] = {
+>  	regmap_reg_range(AXP806_REG_ADDR_EXT, AXP806_REG_ADDR_EXT),
+>  };
+>
+> +static const struct regmap_range axp313a_writeable_ranges[] = {
+> +	regmap_reg_range(AXP313A_ON_INDICATE, AXP313A_IRQ_STATE),
+> +};
+> +
+> +static const struct regmap_range axp313a_volatile_ranges[] = {
+> +	regmap_reg_range(AXP313A_SHUTDOWN_CTRL, AXP313A_SHUTDOWN_CTRL),
+> +	regmap_reg_range(AXP313A_IRQ_STATE, AXP313A_IRQ_STATE),
+> +};
+> +
+> +static const struct regmap_access_table axp313a_writeable_table = {
+> +	.yes_ranges = axp313a_writeable_ranges,
+> +	.n_yes_ranges = ARRAY_SIZE(axp313a_writeable_ranges),
+> +};
+> +
+> +static const struct regmap_access_table axp313a_volatile_table = {
+> +	.yes_ranges = axp313a_volatile_ranges,
+> +	.n_yes_ranges = ARRAY_SIZE(axp313a_volatile_ranges),
+> +};
+> +
+>  static const struct regmap_range axp806_volatile_ranges[] = {
+>  	regmap_reg_range(AXP20X_IRQ1_STATE, AXP20X_IRQ2_STATE),
+>  };
+> @@ -221,6 +241,11 @@ static const struct resource axp288_fuel_gauge_resources[] = {
+>  	DEFINE_RES_IRQ(AXP288_IRQ_WL1),
+>  };
+>
+> +static const struct resource axp313a_pek_resources[] = {
+> +	DEFINE_RES_IRQ_NAMED(AXP313A_IRQ_PEK_RIS_EDGE, "PEK_DBR"),
+> +	DEFINE_RES_IRQ_NAMED(AXP313A_IRQ_PEK_FAL_EDGE, "PEK_DBF"),
+> +};
+> +
+>  static const struct resource axp803_pek_resources[] = {
+>  	DEFINE_RES_IRQ_NAMED(AXP803_IRQ_PEK_RIS_EDGE, "PEK_DBR"),
+>  	DEFINE_RES_IRQ_NAMED(AXP803_IRQ_PEK_FAL_EDGE, "PEK_DBF"),
+> @@ -272,6 +297,15 @@ static const struct regmap_config axp288_regmap_config = {
+>  	.cache_type	= REGCACHE_RBTREE,
+>  };
+>
+> +static const struct regmap_config axp313a_regmap_config = {
+> +	.reg_bits = 8,
+> +	.val_bits = 8,
+> +	.wr_table = &axp313a_writeable_table,
+> +	.volatile_table = &axp313a_volatile_table,
+> +	.max_register = AXP313A_IRQ_STATE,
+> +	.cache_type = REGCACHE_RBTREE,
+> +};
+> +
+>  static const struct regmap_config axp806_regmap_config = {
+>  	.reg_bits	= 8,
+>  	.val_bits	= 8,
+> @@ -415,6 +449,16 @@ static const struct regmap_irq axp288_regmap_irqs[] = {
+>  	INIT_REGMAP_IRQ(AXP288, BC_USB_CHNG,            5, 1),
+>  };
+>
+> +static const struct regmap_irq axp313a_regmap_irqs[] = {
+> +	INIT_REGMAP_IRQ(AXP313A, PEK_RIS_EDGE,		0, 7),
+> +	INIT_REGMAP_IRQ(AXP313A, PEK_FAL_EDGE,		0, 6),
+> +	INIT_REGMAP_IRQ(AXP313A, PEK_SHORT,		0, 5),
+> +	INIT_REGMAP_IRQ(AXP313A, PEK_LONG,		0, 4),
+> +	INIT_REGMAP_IRQ(AXP313A, DCDC3_V_LOW,		0, 3),
+> +	INIT_REGMAP_IRQ(AXP313A, DCDC2_V_LOW,		0, 2),
+> +	INIT_REGMAP_IRQ(AXP313A, DIE_TEMP_HIGH,		0, 0),
+> +};
+> +
+>  static const struct regmap_irq axp803_regmap_irqs[] = {
+>  	INIT_REGMAP_IRQ(AXP803, ACIN_OVER_V,		0, 7),
+>  	INIT_REGMAP_IRQ(AXP803, ACIN_PLUGIN,		0, 6),
+> @@ -548,6 +592,17 @@ static const struct regmap_irq_chip axp288_regmap_irq_chip = {
+>
+>  };
+>
+> +static const struct regmap_irq_chip axp313a_regmap_irq_chip = {
+> +	.name			= "axp313a_irq_chip",
+> +	.status_base		= AXP313A_IRQ_STATE,
+> +	.ack_base		= AXP313A_IRQ_STATE,
+> +	.unmask_base		= AXP313A_IRQ_EN,
+> +	.init_ack_masked	= true,
+> +	.irqs			= axp313a_regmap_irqs,
+> +	.num_irqs		= ARRAY_SIZE(axp313a_regmap_irqs),
+> +	.num_regs		= 1,
+> +};
+> +
+>  static const struct regmap_irq_chip axp803_regmap_irq_chip = {
+>  	.name			= "axp803",
+>  	.status_base		= AXP20X_IRQ1_STATE,
+> @@ -676,6 +731,15 @@ static const struct mfd_cell axp152_cells[] = {
+>  	},
+>  };
+>
+> +static struct mfd_cell axp313a_cells[] = {
+> +	MFD_CELL_NAME("axp20x-regulator"),
+> +	{
+> +		.name		= "axp313a-pek",
+> +		.num_resources	= ARRAY_SIZE(axp313a_pek_resources),
+> +		.resources	= axp313a_pek_resources,
+> +	},
+
+Nit: MFD_CELL_RES() ?
+
+Other than that, looks fine.  Once fixed:
+
+For my own reference (apply this as-is to your sign-off block):
+
+Acked-for-MFD-by: Lee Jones <lee@kernel.org>
+
+--
+Lee Jones [李琼斯]
