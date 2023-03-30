@@ -1,175 +1,169 @@
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E721C31
-	for <linux-sunxi@lists.linux.dev>; Thu, 30 Mar 2023 08:47:11 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.west.internal (Postfix) with ESMTP id 04CF52B0040A;
-	Thu, 30 Mar 2023 04:47:08 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Thu, 30 Mar 2023 04:47:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to; s=fm3; t=
-	1680166028; x=1680173228; bh=a+Yl4odf/Ot+biMN+Oi3kAyv0TNIqouyp5L
-	beLQZr2E=; b=eBNrcwuvrgSp6+31rIiAsOUqG6uMQ6QFUsakEPSuzePgk29YCc9
-	21MTLTzN/CS0cDbj3MgHTvLlawIIABhYB8tVeUZEdCU8RP3ThpWear5ZNazut7is
-	4EugKtcsijnzVHcF55TsVXS6TzzZY6irtPiRkPTWrn1r4CNa/05h86omoJNJtNXi
-	lbHMqIU1TKVINClq2tEFyQFx7ljJNTIKaLpi+9f46H7Oz/Bv+XiK+UQmwWuciXUX
-	Cq2bSBsUWwoNuOkvF05OHpxgYiGPykeRSkgrtDPU+Q/CgPi3PkKK7elxOxeTopVa
-	2nvMkUmUjwfFU6aZJgdR2PLMxDB0HPklJGw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1680166028; x=1680173228; bh=a+Yl4odf/Ot+biMN+Oi3kAyv0TNIqouyp5L
-	beLQZr2E=; b=KkP5NinBZ4i5Z6uDBmt2PRMh0y9QwGRsc8RKAe+yyjm14UEENU2
-	x4I8MnhE5eD9QkL9kXH8kYjxy8DyHublTEpcbm8q4phweNClOmzuhXeNu76/LYfR
-	dJ7HXAXUTn8FFPMXf97wpWYdynZ5cbq/nG5wnnx5GZs2zEYcpJ08+mzSefkH00yL
-	uwBmNG4iHfDCEWSkMP/yUEjl/uxT3Q8Bo16PEdLMO3UsfhQu73q2Yj57/3f5gyXm
-	m/l09tx5q0EcIvvrHoLn13GgJorLeqUc6g1cfeJ+78dRyh/a6STxiyHVh8t2uenY
-	4MUgufUmIOHkwTsAOdfPbGqr6C3eBO+StFQ==
-X-ME-Sender: <xms:i0wlZEaCuddUGW3jdsi1wq7rmrszioz9WVwxAcnOIa6OML_F-SrrJA>
-    <xme:i0wlZPZ3hZnrNNMycM1rbJQwJfIadvqKckk_Tk1wMYR5b_nmtttrcPBHk5aHYitNF
-    OQten1IKIWL3iZZTCg>
-X-ME-Received: <xmr:i0wlZO9vwyktcZDHfmGyVtQII-wK1UCSTqeteVjM82YF3q2FAMBJ8QHicGw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehkedgtdejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttdejnecuhfhrohhmpeforgig
-    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
-    grthhtvghrnhepffdttdeufefgffegtdejffevuddvudfhudegjeegkeetuefgfefhheek
-    udfhvdfhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:i0wlZOrO_hXCHB3ELpkaKAIkTZqrj-3baqEvgaXmy7j_ZC8oYvW2KQ>
-    <xmx:i0wlZPoZYDPlHfH2bjN05cmvHZSmOtHeTHduCz8BG3H_4ixPVvZV6Q>
-    <xmx:i0wlZMRHoHZzk5RsIQlsS-a9MP614RbJWYSq1EdvF4BmRnsGWqCGag>
-    <xmx:jEwlZGcRbtHfHw87r7_jkOL4MI8KkEmBkky7_2yEOHqiulDfD187H2SZVRo>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 30 Mar 2023 04:47:07 -0400 (EDT)
-Date: Thu, 30 Mar 2023 10:47:06 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Marek Vasut <marex@denx.de>,
-	linux-amarula <linux-amarula@amarulasolutions.com>
-Subject: Re: [PATCH v7 12/12] drm: sun4: dsi: Convert to bridge driver
-Message-ID: <20230330084706.lw5r6ll2r6lk5d2z@penduick>
-References: <20230329131929.1328612-1-jagan@amarulasolutions.com>
- <20230329131929.1328612-3-jagan@amarulasolutions.com>
- <20230329145939.7zcex4x2pipivuj4@penduick>
- <CAMty3ZDWK0xVe7E+gER+TihHf1yv3YAWgZc1GCJQ2V5KD_mN-g@mail.gmail.com>
- <20230329160652.7gel5qvckzwihjx4@penduick>
- <CAMty3ZB=R0RfU+o7LZWpS=4-ny00ocCxBu-M6yicY4q0-eYL9A@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A7CC2F0
+	for <linux-sunxi@lists.linux.dev>; Thu, 30 Mar 2023 10:01:56 +0000 (UTC)
+Received: by mail-vs1-f49.google.com with SMTP id g17so15724764vst.10
+        for <linux-sunxi@lists.linux.dev>; Thu, 30 Mar 2023 03:01:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1680170515;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zFVAdu6ppZ2JJ0TB7WygDJ/QOjrOvH1MnFVC2V2mdcA=;
+        b=SLK2Fsr5J+chOEjLHu6pgOT5N4tBFXWbEdTWXkZBvjkQhZrVVs5KwGymk/wbts3orC
+         5qVCnJQBF48SXipRZnnQr6nprWp3qWUQfZx3abwBym0T+qoTcMiU3vM93gjyvZPhNp++
+         13RSdLmLOmb62ycr2x75NX/szItoJTUtncZFkX9MnW5AoIsSw/RpoUVHrGczcoIvuROt
+         31FKaLnFj4qCKAN0a0VnBOZk3J6+xjlyfxwnlG5vI4AXuy4eQuDB5nZLEBiD4AEdyCTP
+         l+A/WGKM3e4CB+niRKFu/zQTPUGh8MFnjwCj+SgglODI9BOTifypbPXg44QUow+TtSyy
+         1npA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680170515;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zFVAdu6ppZ2JJ0TB7WygDJ/QOjrOvH1MnFVC2V2mdcA=;
+        b=YBVD1BHjXlscBQWOy0lc9rtZn6l5Itbuaujm7HDtDXNBMIphXSSKtt2Y/bTqCTfG/s
+         qoPgswru8+FN3dM5tyfTXuqcHQFHFAY8O9yNeZIq4ijmJGCt70Ae6LRw6E9QQH0OXZQ8
+         02LSXdfsmqha65fqKtao/F0rXvz2KOIVqfFDfTEaEt8J/Rt3O+6bI52kLCMOXpMfbD+z
+         EfnNfC1vRtmekUWuTCILY9An/B54ULUp2mOwvqWhf9qoCuL5AQRxH+pXiCfLoP9/2IWY
+         hPBvfXQgjMuGzyAm9acxENuTbOXdqw3ejYBs7SkMDOD5hOGdf1W9iHjyJpVbAhkE6nDr
+         7d8w==
+X-Gm-Message-State: AAQBX9c2eunBBApnRuBZbhlq9VDxu8fvN6RJQpjbj2455ALLPhBF5YVB
+	ATam+YP9uQtGznpXoMKaspJITP/jn6eSTqKIz5DX9w==
+X-Google-Smtp-Source: AKy350aZQmuN6Txd8qgiZLf4NMU2jGzKPkOBh2iY9wyo2i8nkHVk5yOPF47moMqKzLQxdN2ql3qLD6zv7wi79iemBp4=
+X-Received: by 2002:a67:e053:0:b0:425:d52d:f5cb with SMTP id
+ n19-20020a67e053000000b00425d52df5cbmr12001780vsl.1.1680170515307; Thu, 30
+ Mar 2023 03:01:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20230329131929.1328612-1-jagan@amarulasolutions.com>
+ <CAPY8ntCJP53uiGNQHUZqma08Vsxfwm7KvAkgMzK=hn4AxJLS3A@mail.gmail.com>
+ <20230329164638.v43la4l7rxut6hk6@penduick> <CAMty3ZCsn6OR1-TvqFXP48iamG-k5sPU1_CH2fNLBQP3Ofb0QA@mail.gmail.com>
+In-Reply-To: <CAMty3ZCsn6OR1-TvqFXP48iamG-k5sPU1_CH2fNLBQP3Ofb0QA@mail.gmail.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 30 Mar 2023 11:01:39 +0100
+Message-ID: <CAPY8ntCpmKPzPVjRWS7Pf1Fat9V_JqGD4BaMo8P8_o+74DeDiQ@mail.gmail.com>
+Subject: Re: [PATCH v7 10/12] drm/bridge: Implement enable_next_first to alter
+ bridge init order
+To: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Maxime Ripard <maxime@cerno.tech>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Marek Vasut <marex@denx.de>, 
+	linux-amarula <linux-amarula@amarulasolutions.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAMty3ZB=R0RfU+o7LZWpS=4-ny00ocCxBu-M6yicY4q0-eYL9A@mail.gmail.com>
 
-On Thu, Mar 30, 2023 at 12:15:49PM +0530, Jagan Teki wrote:
-> On Wed, Mar 29, 2023 at 9:36=E2=80=AFPM Maxime Ripard <maxime@cerno.tech>=
+Hi Jagan
+
+On Thu, 30 Mar 2023 at 07:56, Jagan Teki <jagan@amarulasolutions.com> wrote=
+:
+>
+> On Wed, Mar 29, 2023 at 10:16=E2=80=AFPM Maxime Ripard <maxime@cerno.tech=
+> wrote:
+> >
+> > On Wed, Mar 29, 2023 at 05:28:28PM +0100, Dave Stevenson wrote:
+> > > On Wed, 29 Mar 2023 at 14:19, Jagan Teki <jagan@amarulasolutions.com>=
  wrote:
-> >
-> > On Wed, Mar 29, 2023 at 09:08:17PM +0530, Jagan Teki wrote:
-> > > On Wed, Mar 29, 2023 at 8:29=E2=80=AFPM Maxime Ripard <maxime@cerno.t=
-ech> wrote:
 > > > >
-> > > > Hi,
+> > > > DSI sink devices typically send the MIPI-DCS commands to the DSI ho=
+st
+> > > > via general MIPI_DSI_DCS read and write API.
 > > > >
-> > > > The patch prefix should be drm/sun4i:
+> > > > The classical DSI sequence mentioned that the DSI host receives MIP=
+I-DCS
+> > > > commands from the DSI sink first in order to switch HS mode properl=
+y.
+> > > > Once the DSI host switches to HS mode any MIPI-DCS commands from th=
+e
+> > > > DSI sink are unfunctional.
 > > >
-> > > I did follow my previous prefix, I will update this.
+> > > That statement contradicts the spec.
+> > > The DSI spec section 8.11.1 Transmission Packet Sequences says that
+> > > during any BLLP (Blanking or Low Power) period the host can do any of=
+:
+> > > - remain in LP-11
+> > > - transmit one or more non-video packets from host to peripheral in e=
+scape mode
+> > > - transmit one or more non-video packets from host to peripheral in
+> > > using HS mode
+> > > - receive one or more packets from peripheral to host using escape mo=
+de
+> > > - transmit data on a different virtual channel.
 > > >
-> > > >
-> > > > On Wed, Mar 29, 2023 at 06:49:29PM +0530, Jagan Teki wrote:
-> > > > > Convert the encoder to bridge driver in order to standardize on a
-> > > > > single API by supporting all varients of downstream bridge device=
-s.
-> > > >
-> > > > Which variant, and why do we need to convert to a bridge to support=
- all of them?
+> > > Indeed if the sink doesn't set MIPI_DSI_MODE_LPM /
+> > > MIPI_DSI_MSG_USE_LPM, then the expectation is that any data transfer
+> > > will be in HS mode.
 > > >
-> > > Downstream bridge variants like DSI panel, DSI bridge and
-> > > I2C-Configured DSI bridges. Bridge conversion would be required for
-> > > the DSI host to access the more variety and complex downstream bridges
-> > > in a standardized bridge chain way which is indeed complex for encoder
-> > > driven DSI hosts.
-> > >
-> > > >
-> > > > > The drm_encoder can't be removed as it's exposed to userspace, so=
- it
-> > > > > then becomes a dumb encoder, without any operation implemented.
-> > > > >
-> > > > > Tested on DSI Panel, DSI Bridge, I2C-Configured DSI Bridge.
-> > > > >
-> > > > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> > > >
-> > > > [...]
-> > > >
-> > > > > +static const struct component_ops sun6i_dsi_ops;
-> > > > > +
-> > > > >  static int sun6i_dsi_attach(struct mipi_dsi_host *host,
-> > > > >                           struct mipi_dsi_device *device)
-> > > > >  {
-> > > > >       struct sun6i_dsi *dsi =3D host_to_sun6i_dsi(host);
-> > > > > -     struct drm_panel *panel =3D of_drm_find_panel(device->dev.o=
-f_node);
-> > > >
-> > > > That one looks unrelated. Why do you need that change?
-> > >
-> > > This was replaced with drmm_of_dsi_get_bridge for lookup of both panel
-> > > and bridge. I think I will separate this into another patch.
+> > > That makes me confused as to the need for this patch.
 > >
-> > So, it looks to me that you're doing two (unrelated) things in that pat=
-ch:
->=20
-> Correct.
->=20
+> > Yeah, and it looks like that would break the expectation that, in
+> > enable, a bridge can expect its controller to be in HS mode.
 > >
-> >   - You modify the existing driver to be a bridge
->=20
-> Yes, Convert to bridge driver - register drm_bridge_add and replace
-> encoder ops with bridge ops.
->=20
-> >
-> >   - And you support downstream device being bridges.
->=20
-> Yes, Support the downstream bridge. (If I'm correct we can still use
-> encoder ops with this).
->=20
-> If we see the hierarchy of support it would
-> 1. support the downstream bridge.
-> 2. convert to the bridge driver.
->=20
-> >
-> > Both are orthogonal, can (and should!) be done separately, and I'm
-> > pretty sure you don't actually need to do the former at all.
->=20
-> Do you mean converting to bridge driver is not needed?
+> > I think that was Jagan is trying to do is to work around an issue with
+> > the Allwinner DSI driver:
+> > https://elixir.bootlin.com/linux/v6.3-rc4/source/drivers/gpu/drm/sun4i/=
+sun6i_mipi_dsi.c#L775
+>
+> Correct and I can see it seems to be a classic DSI sequence observed
+> in dw-mipi-dsi as well - based on Neil's comments.
+> https://lore.kernel.org/all/9aa3d19d-4378-aaf3-6857-c40be5d252c7@baylibre=
+.com/
 
-Yes, and given the current state of the DCS-in-HS discussion, I even
-think it's does more harm than good.
+Neil's comments are from 2021, and his response would appear to be
+with regard the PHY power up sequence issues that
+pre_enable_prev_first should solve. The DSI host pre_enable can now be
+called before the sink's pre_enable, therefore allowing the PHY to be
+configured in pre_enable. Hacking the PHY init into mode_set is
+therefore not required.
 
-Maxime
+I don't see any restriction in dw-mipi-dsi over when transfer can be
+called (as long as it is between pre_enable and post_disable), and it
+supports MIPI_DSI_MSG_USE_LPM for requesting the command be sent in
+either LP or HS mode.
+
+> In fact, I did follow and initialize the command-mode mode_set which
+> set low-speed DCS and switch back to video-mode @enable and switch to
+> HS but could see the same issue as the host cannot accept DCS as
+> before (I might implement improper sequence, but not sure due to lack
+> of documentation). But this sequence has issues with calling
+> post_disable twice even on dw-mipi-dsi.
+
+Calling up/down the bridge chain from within other bridge elements is
+going to have issues and shouldn't be necessary.
+
+The comment in dw-mipi-dsi post_disable[1]
+* TODO Only way found to call panel-bridge post_disable &
+* panel unprepare before the dsi "final" disable...
+* This needs to be fixed in the drm_bridge framework and the API
+* needs to be updated to manage our own call chains...
+
+It has now been fixed up with pre_enable_prev_first.
+
+I seem to recall seeing a patchset for one of the DSI hosts (other
+than vc4) that was moving the init from mode_set to pre_enable - I
+think it is probably [2] for msm.
+
+Cheers
+  Dave
+
+[1] https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/bridge/sy=
+nopsys/dw-mipi-dsi.c#L862-L867
+[2] https://github.com/torvalds/linux/commit/ec7981e6c614254937b37ce0af9eac=
+09901c05c5
+
+> May be Neill, can comment here?
+>
+> Thanks,
+> Jagan.
