@@ -1,119 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E9E3D63
-	for <linux-sunxi@lists.linux.dev>; Fri, 31 Mar 2023 18:39:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3256CC433EF;
-	Fri, 31 Mar 2023 18:39:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680287955;
-	bh=eqEkQdcItulIBYfu63tsCeTblX411ylkWCoUY/V/uWs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CBQ+Ry2iM7+5i9TV/gOsUHqOL/h49W1vS9TeUUVJ9gJtWjuI+vRd9yHkwrGpjrmn8
-	 W0N4XstXsBEomURTXLS6AEwngiWkZ/UcMOeyRSJ+xVP50JxxJaZ6s9epZaJ8nfOtpJ
-	 ad2Wylb7EtVa6kXpe2J1S8BsEf+IE/h8rUuDjl5BzMPUNMHniUO9Eo9RHwDioYBDVO
-	 npuOA+mZBcWz7b69M/NXBfWIrPRgI51acgb/du9+JUEHKIY39+Ti90f0BQWXQwLHr4
-	 cRfSjYpXTDnqehIiCcEolchbHALgutD+6rDaBTcYknnl3ZcL+0v99sBx+7CGb8+ctE
-	 MXKlJ7dXbu63Q==
-Date: Fri, 31 Mar 2023 19:39:09 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Evan Green <evan@rivosinc.com>
-Cc: linux-sunxi@lists.linux.dev, conor.dooley@microchip.com,
-	Albert Ou <aou@eecs.berkeley.edu>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Trevor Woerner <twoerner@gmail.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [RFC PATCH] riscv: dts: nezha-d1: Add memory
-Message-ID: <25837ca5-b709-4d20-912b-ab13e6353069@spud>
-References: <20230331182727.4062790-1-evan@rivosinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D637D8C1A
+	for <linux-sunxi@lists.linux.dev>; Fri, 31 Mar 2023 18:54:22 +0000 (UTC)
+Received: by mail-qt1-f179.google.com with SMTP id n14so22589982qta.10
+        for <linux-sunxi@lists.linux.dev>; Fri, 31 Mar 2023 11:54:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112; t=1680288861;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=uAm5w/BgV+ualcvdqUfpIBSmMWRJ7Ixo/8KUSDUf6wY=;
+        b=Khz9WpXFZoEp7QKh2GVHbGIFvMum3FoxXwERbrXyJLQdIeQl/rFcxEllenep1Zq8wM
+         9CkHSaG64XbMyzbOaffevp1JK1clvO7fpUcQVAltBAPJLYORdjiXklRRvxT3/0HAt0C/
+         juuUW0Ce9a2kgk+SFjCthUMnlJm4sqyk/uZq1/+HOIrSTM6OwgyMw8Pn4WSsnV/pkYS4
+         fzF8fASURhgdpIQvT8wKwBxvoNkt10co61XwVTX2NwMy6Bb1dS+VdFkJsTsh8CPFiFnG
+         J4JNXue1mN8XWPNNGtREwNCFN6ihnuippPVT3B8Z7hiHvh2imFwDArJw4kgl4ZY8McV1
+         AJsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680288861;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uAm5w/BgV+ualcvdqUfpIBSmMWRJ7Ixo/8KUSDUf6wY=;
+        b=SXQd5jjrQgUPXq7Vdht/0cuuGyt07AaSerNxIa9A0Db2Wlgl7gGaCZe4Lbce476/T2
+         sUyKTnnkRtSN//EaiIdRKUgr5bAwBzOI96mlaCjvcMkcLammP28g6tKoGh50jdM1Lyd3
+         tXXnIdwqs6HfnyJaFT4fea4zRM3TFX5vmTmOpE7y3flUVQZvURErQ7NS6F2F6H6GYz/8
+         GnuV5NSNxoBhcesjawbYbR7sHrRplJ8ubeRFr+hWIMrFhDA9g42doKgAMWpkNkzmrI6e
+         SS2zCpWDzDmtPjAHjxh/pTguIoCTXjejYfKrgsZOGDSfsNZu5eEU9LejS5BJUrskT7rv
+         slQg==
+X-Gm-Message-State: AO0yUKXYTuMBwpiJRaZnVlKSRsxZrLsBTU79lp+ZeAeLB498q35Pg8CU
+	cyWdkbxInw9iDdnSUrkRe5y0Wg==
+X-Google-Smtp-Source: AK7set+daBkEW3AmOiZY1jXtcAP2pYWH1K1y6fSO6tiLi7UWikLksdVGYOr1S8dgYrtZX1J6wiT2Xg==
+X-Received: by 2002:a05:622a:184:b0:3bf:e13e:438f with SMTP id s4-20020a05622a018400b003bfe13e438fmr49210416qtw.36.1680288861692;
+        Fri, 31 Mar 2023 11:54:21 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:a07e::580])
+        by smtp.gmail.com with ESMTPSA id c7-20020ac84e07000000b003e3921077d9sm799278qtw.38.2023.03.31.11.54.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Mar 2023 11:54:21 -0700 (PDT)
+Message-ID: <40774dc0ef32246af76a202caca3632abc1ae25f.camel@ndufresne.ca>
+Subject: Re: [PATCH 2/9] media: v4l2: Add NV12_16L16 pixel format to v4l2
+ format info
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Paul Kocialkowski
+	 <paul.kocialkowski@bootlin.com>
+Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Chen-Yu Tsai
+	 <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+	 <samuel@sholland.org>, Adam Pigg <adam@piggz.co.uk>, Thomas Petazzoni
+	 <thomas.petazzoni@bootlin.com>
+Date: Fri, 31 Mar 2023 14:54:20 -0400
+In-Reply-To: <20230325210120.GB22214@pendragon.ideasonboard.com>
+References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
+	 <20230324151228.2778112-3-paul.kocialkowski@bootlin.com>
+	 <20230325210120.GB22214@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="TnwQBgyZeUS8jdJs"
-Content-Disposition: inline
-In-Reply-To: <20230331182727.4062790-1-evan@rivosinc.com>
 
+Le samedi 25 mars 2023 =C3=A0 23:01 +0200, Laurent Pinchart a =C3=A9crit=C2=
+=A0:
+> Hi Paul,
+>=20
+> Thank you for the patch.
+>=20
+> On Fri, Mar 24, 2023 at 04:12:21PM +0100, Paul Kocialkowski wrote:
+> > Represent the NV12_16L16 pixel format in the v4l2 format info table.
+> > This is a 16x16 tiled version of NV12.
+> >=20
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-common.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >=20
+> > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2=
+-core/v4l2-common.c
+> > index 3d044b31caad..5101989716aa 100644
+> > --- a/drivers/media/v4l2-core/v4l2-common.c
+> > +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > @@ -280,6 +280,8 @@ const struct v4l2_format_info *v4l2_format_info(u32=
+ format)
+> >  		/* Tiled YUV formats */
+> >  		{ .format =3D V4L2_PIX_FMT_NV12_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_Y=
+UV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .hdiv =
+=3D 2, .vdiv =3D 2 },
+> >  		{ .format =3D V4L2_PIX_FMT_P010_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_Y=
+UV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4, 0, 0 }, .hdiv =
+=3D 2, .vdiv =3D 2 },
+> > +		{ .format =3D V4L2_PIX_FMT_NV12_16L16,	.pixel_enc =3D V4L2_PIXEL_ENC=
+_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .hdiv=
+ =3D 2, .vdiv =3D 2,
+> > +		  .block_w =3D { 16, 16, 0, 0 }, .block_h =3D { 16, 16, 0, 0 } },
+>=20
+> Not necessarily related to this patch, but I'm a bit puzzled by why
+> V4L2_PIX_FMT_NV12_4L4 doesn't list block sizes.
 
---TnwQBgyZeUS8jdJs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It looks like Ezequiel introduced that initially, but didn't introduce any =
+tiled
+format, as a side effect, we missed it and no one ever used it.
 
-On Fri, Mar 31, 2023 at 11:27:27AM -0700, Evan Green wrote:
-> Add memory info for the D1 Nezha, which seems to be required for it to
-> boot with the stock firmware. Note that this hardcodes 1GB, which is
-> not technically correct as they also make models with different amounts
-> of RAM.
-
-> Is the firmware supposed to populate this?
-
-Yup. Samuel intentionally did it this way:
-https://lore.kernel.org/linux-riscv/8a2194bf-93bd-de4d-8d39-0cd72aabb0a9@sh=
-olland.org/
-
-Since I don't like using the firmware provided stuff to more easily
-test I do this in my u-boot boot script:
-
-tftp 0x54000000 d1-fitImage.fit
-bootm start 0x54000000
-bootm loados 0x54000000
-bootm ramdisk;
-bootm prep;
-fdt memory 0x40000000 0x20000000
-bootm go;
-
-Hope either of the above are helpful,
-Conor.
+In practice, its not dramatic, since most of the time, the alignment needed=
+ is
+bigger then the block (specially with only 4x4 tiles), but we should certai=
+nly
+fix that, thanks for spotting.
 
 >=20
-> Signed-off-by: Evan Green <evan@rivosinc.com>
->=20
-> ---
->=20
->  arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts b/arch/ris=
-cv/boot/dts/allwinner/sun20i-d1-nezha.dts
-> index 4ed33c1e7c9c..6aba68cf5541 100644
-> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
-> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dts
-> @@ -32,6 +32,12 @@ / {
->  	model =3D "Allwinner D1 Nezha";
->  	compatible =3D "allwinner,d1-nezha", "allwinner,sun20i-d1";
-> =20
-> +	// FIXME: this is temporary.
-> +	memory@40000000 {
-> +		device_type =3D "memory";
-> +		reg =3D <0x40000000 0x40000000>; /* 1 GB */
-> +	};
-> +
->  	aliases {
->  		ethernet0 =3D &emac;
->  		ethernet1 =3D &xr829;
-> --=20
-> 2.25.1
+> > =20
+> >  		/* YUV planar formats, non contiguous variant */
+> >  		{ .format =3D V4L2_PIX_FMT_YUV420M, .pixel_enc =3D V4L2_PIXEL_ENC_YU=
+V, .mem_planes =3D 3, .comp_planes =3D 3, .bpp =3D { 1, 1, 1, 0 }, .hdiv =
+=3D 2, .vdiv =3D 2 },
 >=20
 
---TnwQBgyZeUS8jdJs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZCcozQAKCRB4tDGHoIJi
-0htEAP0diQJ9Zbhuux3uzUrGT5BnDcXMtCUEsij5CLqMnsP97wD+MhvYerrIgPU2
-VSRJF3YaWTBm0hqklFNbFU7LFRj0sg0=
-=cDyc
------END PGP SIGNATURE-----
-
---TnwQBgyZeUS8jdJs--
