@@ -1,102 +1,133 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3E93D63
-	for <linux-sunxi@lists.linux.dev>; Fri, 31 Mar 2023 19:03:06 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id k37so30249410lfv.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 31 Mar 2023 12:03:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF6168C1A
+	for <linux-sunxi@lists.linux.dev>; Fri, 31 Mar 2023 19:07:25 +0000 (UTC)
+Received: by mail-qt1-f169.google.com with SMTP id t19so22621262qta.12
+        for <linux-sunxi@lists.linux.dev>; Fri, 31 Mar 2023 12:07:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1680289384;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+Op2hvo1QpmD4q1fBgDvpflzYt4ille90lJOYkm9McQ=;
-        b=I9MBLXscoVftIVV9CjCEAHOLc8es0K+E7ZAIKRZSAuC79s8JCWAbcfd1/wUUY2D1HQ
-         qqYcbYBp9j38efRMctWg4KhDrinDHH5RMfqVpMBTCL4Pk5KAEY8YYLgbdBmp5lNBd4WX
-         WBc1Yn7iuEmqLxYw2OFLb+mQtYK5mlHl0JUwNLCzNVz+0GIhP2VGQ8Kctjbx/6443Naz
-         LZCatuF8uyuce31qb7oKNBD0H88jyGp68xeFcevSTSVJbS9mpFdEBMKyuWIBKJiEr2z3
-         maWg/ujFK92UZ5pkT8/UrO2C4mPvcUCyo0eGZRpGS2QfuAbUsDWyZRFIM1W4el2h38OR
-         Ai8A==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112; t=1680289644;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=pMRUsebyQ3K+oRbvGz0OgZqKFBtrPEJ2p4+ZFvhigaU=;
+        b=YuQxViwdUk90gHQ/2KIzGu/DK8R4deZMcmawGiTY+fXik+vDT6npk7xJqJFWoyp6TR
+         e2VhlrZjt4RUoOLmQw313flnsClMLakq9J92I3I5n+G7SdQJQMGulL48Re+VsrqsitYa
+         8A2FED5SaUxgAG8PcRFtGNwTRVCiC9VHuuMY8PejpvTq8+ARgsJfAzrXtBeDGKOUaR7M
+         yUvajONXOgGY3AjiQ3KMfy0WgQad2sQN07S1w4qAiLZgmFsKgXYTuhIGZpOhIN8Zrf1G
+         jthDxywmg2BHnm0uTRB/z7AT4EnIU/tmdolnadp7XfZiksfBnYXuOhfPYawRUDHi6P5n
+         Zjrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680289384;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+Op2hvo1QpmD4q1fBgDvpflzYt4ille90lJOYkm9McQ=;
-        b=ergUexjZESoXkFSb4Nw/8i3qMfH2l/nNoQnHG28iEc0Jrm9bIPLon2FT4mYydDDq/K
-         ah85sb+ZZGi2cF8Sja1yGW3elm7ctKw6PoihusWhWVwuUsXgI9PSILxrDDy9kAewWYZI
-         0Yn/J0+TPqhoCxODx4EiseCzpHPZ28aDF5NUn3LEHO4ZCKmwdUhD6/edTbpReQhF9jeA
-         1CnT9eFW7EE640WP4jQqlZBAXif5Vl7akJNBM6S5AxIc08yx4ZqteILJ4xKSHI4IqQlu
-         wXQIAIuEOaEQUCrW1BXfjfHj2JWL9/+CBfN+h/32lpY/rnn7v/ug6+tYwIU9qHsjmsa7
-         VvIQ==
-X-Gm-Message-State: AAQBX9e+u2THuYQzT8VY8q8EFFIRzt4lXVac1YUMlP2dqNxOwJwQc5UP
-	Bhe+pkPxhN3Hi2xwYwQPAi5MDztELZSkN1ZY3C1Sqw==
-X-Google-Smtp-Source: AKy350bg046U6kUEdMKJ47xgMoqU+o1btrNpujCJ6vXB3o551Lu3oiJA8WifEc5bExAewh/oNaLY16yV+c/9sUrBP2Y=
-X-Received: by 2002:ac2:4470:0:b0:4eb:304f:66ea with SMTP id
- y16-20020ac24470000000b004eb304f66eamr823973lfl.13.1680289384305; Fri, 31 Mar
- 2023 12:03:04 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680289644;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pMRUsebyQ3K+oRbvGz0OgZqKFBtrPEJ2p4+ZFvhigaU=;
+        b=PXX8vWfHd4xEzv4dt76uvV6Hm5svYTfSG0Dy73lNSdStZPHp0yUe7H+ab452cNMcre
+         tASRc1VSyek/rKH6oWjwanwAm9DIDRykfAVWbL+zEhLPZaYP5kQBLZz+pERu0YSOo4WH
+         fnwhcdq7Js2Xw7CdOf27ZwDBbzSPMfdO5gPB6iWjrZHGvopFOEfo9i5kF15IylajfPw9
+         MD7Li/GwNZARD/qTSWHbbzJV8XuZwihJ+FrM1oE9IT5nFVtwdWDdS/QUYHrKBN8fNsIN
+         4ZnWXNXXuPJ4Hm56s2gzX7IJkL9tBzBV8+wv0qQOFy2g7WqH1AXD906jQ/InqHIkxc00
+         wsRw==
+X-Gm-Message-State: AO0yUKXKbpCL9QPujXvCpdGpgITh10qFxwxP7DmPEXOvBACjHZ3gfuZD
+	KypOeltRfkApYSUYcEEeo5OyEQ==
+X-Google-Smtp-Source: AK7set+yzGmjUCCfKmLI0eGwVq5GmGvjBm883sXpbX5Kxiis3RtX5l/GNMfOuCsLPZdohe+mayr6uQ==
+X-Received: by 2002:a05:622a:181b:b0:3d0:7bdf:42c4 with SMTP id t27-20020a05622a181b00b003d07bdf42c4mr48530950qtc.59.1680289644733;
+        Fri, 31 Mar 2023 12:07:24 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:a07e::580])
+        by smtp.gmail.com with ESMTPSA id e1-20020a05620a014100b0074a1d2a17c8sm701489qkn.29.2023.03.31.12.07.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Mar 2023 12:07:24 -0700 (PDT)
+Message-ID: <57144a4a5dc9994319bb1f7c3a75a1943227417c.camel@ndufresne.ca>
+Subject: Re: [PATCH 4/9] media: v4l2: Add JPEG pixel format to v4l2 format
+ info
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai
+ <wens@csie.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Adam Pigg <adam@piggz.co.uk>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>
+Date: Fri, 31 Mar 2023 15:07:23 -0400
+In-Reply-To: <20230324151228.2778112-5-paul.kocialkowski@bootlin.com>
+References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
+	 <20230324151228.2778112-5-paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230331182727.4062790-1-evan@rivosinc.com> <25837ca5-b709-4d20-912b-ab13e6353069@spud>
-In-Reply-To: <25837ca5-b709-4d20-912b-ab13e6353069@spud>
-From: Evan Green <evan@rivosinc.com>
-Date: Fri, 31 Mar 2023 12:02:28 -0700
-Message-ID: <CALs-Hss-W78x04LS7X_RiTmU19Xv6d3f4x5rgeEhV7TVy7_CEA@mail.gmail.com>
-Subject: Re: [RFC PATCH] riscv: dts: nezha-d1: Add memory
-To: Conor Dooley <conor@kernel.org>
-Cc: linux-sunxi@lists.linux.dev, conor.dooley@microchip.com, 
-	Albert Ou <aou@eecs.berkeley.edu>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Rob Herring <robh+dt@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Trevor Woerner <twoerner@gmail.com>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 31, 2023 at 11:39=E2=80=AFAM Conor Dooley <conor@kernel.org> wr=
-ote:
->
-> On Fri, Mar 31, 2023 at 11:27:27AM -0700, Evan Green wrote:
-> > Add memory info for the D1 Nezha, which seems to be required for it to
-> > boot with the stock firmware. Note that this hardcodes 1GB, which is
-> > not technically correct as they also make models with different amounts
-> > of RAM.
->
-> > Is the firmware supposed to populate this?
->
-> Yup. Samuel intentionally did it this way:
-> https://lore.kernel.org/linux-riscv/8a2194bf-93bd-de4d-8d39-0cd72aabb0a9@=
-sholland.org/
->
-> Since I don't like using the firmware provided stuff to more easily
-> test I do this in my u-boot boot script:
->
-> tftp 0x54000000 d1-fitImage.fit
-> bootm start 0x54000000
-> bootm loados 0x54000000
-> bootm ramdisk;
-> bootm prep;
-> fdt memory 0x40000000 0x20000000
-> bootm go;
->
-> Hope either of the above are helpful,
-> Conor.
+Le vendredi 24 mars 2023 =C3=A0 16:12 +0100, Paul Kocialkowski a =C3=A9crit=
+=C2=A0:
+> Represent the JPEG pixel format in the v4l2 format info table.
+>=20
+> Note that the bpp is set to 1 which is not a proper way to estimate
+> the needed buffer size for a given JPEG image. However the compression
+> ratios of JPEG typically allow fitting the image in a smaller size,
+> even though extra metadata could increase the total size by an
+> arbitrary amount. Thus it is not a perfectly safe way to calculate the
+> size of a JPEG buffer for given dimensions but it still provides a
+> reasonable approach.
+>=20
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-common.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
+ore/v4l2-common.c
+> index 5101989716aa..8b2f201a8918 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -317,6 +317,9 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
+ormat)
+>  		{ .format =3D V4L2_PIX_FMT_SGBRG12,	.pixel_enc =3D V4L2_PIXEL_ENC_BAYE=
+R, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =
+=3D 1, .vdiv =3D 1 },
+>  		{ .format =3D V4L2_PIX_FMT_SGRBG12,	.pixel_enc =3D V4L2_PIXEL_ENC_BAYE=
+R, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =
+=3D 1, .vdiv =3D 1 },
+>  		{ .format =3D V4L2_PIX_FMT_SRGGB12,	.pixel_enc =3D V4L2_PIXEL_ENC_BAYE=
+R, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =
+=3D 1, .vdiv =3D 1 },
+> +
+> +		/* Compressed formats */
+> +		{ .format =3D V4L2_PIX_FMT_JPEG,	.pixel_enc =3D V4L2_PIXEL_ENC_COMPRES=
+SED, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 1, 0, 0, 0 }, .hdiv =
+=3D 1, .vdiv =3D 1 },
 
-Ah, I see, thanks for the pointers. I've got whatever firmware came
-with the "dd and go" Fedora image I found on the internet somewhere,
-which doesn't seem to do the memory node population for me. I've been
-hesitant to rebuild the firmware as I don't want to break the Fedora
-"safe OS", and if there's a way to get mired in some build
-environment, I seem to have a nose for finding it.
+This is ackward, at best. Guesstimating the compressed buffer size is a val=
+id
+use case, but this table and the related helper function seems badly suited=
+.
+When I look at the stateless decoders that do that, they take into account =
+the
+fact that the compression can handle different bit depth, and difference
+subsampling (choma idc). In this implementation, JPEG is reduce to 4:4:4, 8=
+bit.
 
-I'll probably just keep the patch locally in my tree, and if I'm
-forced to update the firmware for some other reason I'll try removing
-it.
+I'd like to reject this change, and recommand coming back with a suitable
+integration, so that it can be special cased and the driver can communicate=
+ the
+required information to narrow down the estimate. And this way, you are act=
+ually
+making it usable for other compressed format like H.264, HEVC, VP8, VP9 AV1=
+ etc.
 
--Evan
+Nicolas
+
+Nacked in that form.
+
+>=20
+>  	};
+>  	unsigned int i;
+> =20
+
