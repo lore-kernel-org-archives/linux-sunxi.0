@@ -1,124 +1,127 @@
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA8A23BC
-	for <linux-sunxi@lists.linux.dev>; Fri, 31 Mar 2023 09:39:26 +0000 (UTC)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Pnw7y6y75z49QHd;
-	Fri, 31 Mar 2023 12:33:18 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1680255203;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0A923D5
+	for <linux-sunxi@lists.linux.dev>; Fri, 31 Mar 2023 11:01:21 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (unknown [217.70.183.195])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 9DF76C9424
+	for <linux-sunxi@lists.linux.dev>; Fri, 31 Mar 2023 10:57:40 +0000 (UTC)
+Received: (Authenticated sender: me@crly.cz)
+	by mail.gandi.net (Postfix) with ESMTPSA id F39F66000A;
+	Fri, 31 Mar 2023 10:57:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crly.cz; s=gm1;
+	t=1680260251;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3gdxuNf+Axr67LtZ9uJ4KzAt1BhlIlNW7JVJbQsQ2a4=;
-	b=uXy9sQTh/lvsZhI8D39u2L7eRoKWTZqYrBObxWhgUi19wSqbDOo4bkQAA+JNPylXaevKjR
-	wX/cLSrqWnxfqJwi4d4ID9rAxNsHIQ112pOwbAz1+s30nbtRPb6oqSXDqy0o4h7CfBdn81
-	s1JlPIRZe3B6HLaH92Oc2D9xJ34xUDkPrP/OS869Ave1kMhR/xsCCUgB4wRAPKdfbzqn8Q
-	4NBmnKpHUV3JDk48b1eihaTahad1sEMxctjY6q+Mq3Mf/JTxKV3XBLkyiQBlnv++n6jGvW
-	yezJnJeADvPG6kYbfW+aVWBXvLybXRjXRe60kZFJgPe2xX0mMZR7Lch8VRNzcg==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1680255203; a=rsa-sha256;
-	cv=none;
-	b=Y2mZwfIhcSXk29ca9bHqTLn/zar/UzrZyA15qi7nfy1qho/19EEqw6j7C++olU6O/EUuKU
-	B73TSoLjdSUX5WFyBllNzObNCbJXuRpOSRgBgBK3g8xAchzvJOMYNwAh/cO0vFbwaSOjLO
-	W57CeqdPyNDzZMbFKXxktS6jOQQf77Ed8EhR3rB1SsZFqGMfgZ1PCVbGLAnhW41lId6jf7
-	IB8nQDQboFRYhBKJR5eC2GYQbfmhaCsdtitIvOYg3sNpbt5sLSVuLlgp1bElmbkenu+2rB
-	oFaropMfL/y7VZmCxvcb3bmKAx/tUBavgkBuB4pwuJyqT4vlrmiCXgXks7v1EQ==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1680255203;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3gdxuNf+Axr67LtZ9uJ4KzAt1BhlIlNW7JVJbQsQ2a4=;
-	b=E2uOv63ikqvai+QjOg9zREzxnZCJkC84meEtQzTTa7nzCuzXVI/dbifCOExzIHLQM+BepV
-	EhNPoaAmQE2hr0gXNblU6SPC5ScIEEimrRd6DPY63TxoJS0wWHczl2ukMPynVMubfz6EpD
-	+T6xspQJ+7wT8ELSfD0u8gPTVc0hH6hzm3iHcSdXGG24mqVNCEDwlhgjnLaH+fGLfKAhaa
-	JmbkXn/Bp2/+tNw6qjbUHnekPOVMDTR/SQcDPFtlSFpR8xDynoJrmaIN2I5J4xnWeLb3wS
-	U/KGktAh2MVh6tv7vpwbCl7mMQXJIK4IMlAWJDRshfxdjuNAysNfaJKHXHR4xg==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id D0C70634C99;
-	Fri, 31 Mar 2023 12:31:03 +0300 (EEST)
-Date: Fri, 31 Mar 2023 12:31:03 +0300
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Rob Herring <robh@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Fgmk/mwe5whG0BvKW+Z4uq6pXrcxqgZ9/TVRoi9sWUA=;
+	b=Y93L4mF7M7unOId+barp7rL3xVOHQwR6/bvCssFVYIgxlNnUJHOeCPInd35BH8YjXqFNd5
+	S5L1S0cltXaPuOwrZMS6ukA5L0BM65lLkioABh0/PPnRpljRvUMEWw89SEiq4gYLVlWYDJ
+	pwwVTleF/ouhGlEUfOMEiox0GFMR3EOUwI3igcG+ggpedK6bSLdRk2Re1mcPHZ+mfcr/t9
+	hSNU2qTYiiXyukeYumTARbUvmIICxOKCMED5yghWcGyNEfhHDufk2rGs2OAuonU5DODinf
+	zzL2RYNiYs93PHoaEkXAAFiX8qfwFpmd4MI040vcr4ZuN9l5n0J0z7KjFX5VsQ==
+From: Roman Beranek <me@crly.cz>
+To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Joe Tessler <jrt@google.com>,
-	Dongchun Zhu <dongchun.zhu@mediatek.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>, Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>, Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Heiko Stuebner <heiko@sntech.de>, Benoit Parrot <bparrot@ti.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] media: dt-bindings: Drop unneeded quotes
-Message-ID: <ZCaoVwRuxVOTZdI4@valkosipuli.retiisi.eu>
-References: <20230320233944.2920964-1-robh@kernel.org>
+	Samuel Holland <samuel@sholland.org>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 2/3] ARM: dts: sunxi: rename tcon's clock output
+Date: Fri, 31 Mar 2023 12:57:20 +0200
+Message-Id: <20230331105721.43025-2-me@crly.cz>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230320233944.2920964-1-robh@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Rob,
+While the rate of TCON0's DCLK matches dotclock for parallel and LVDS
+outputs, this doesn't hold for DSI. According manuals from Allwinner,
+DCLK is an abbrebiation of Data Clock, not dotclock, so go with that
+instead.
 
-On Mon, Mar 20, 2023 at 06:39:42PM -0500, Rob Herring wrote:
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Roman Beranek <me@crly.cz>
+---
+ arch/arm/boot/dts/sun5i.dtsi                  | 2 +-
+ arch/arm/boot/dts/sun8i-a23-a33.dtsi          | 2 +-
+ arch/arm/boot/dts/sun8i-a83t.dtsi             | 2 +-
+ arch/arm/boot/dts/sun8i-v3s.dtsi              | 2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-This patch contains changes to Qualcomm bindings that have been already
-made by other patches by Krzysztof. I think these took some time to get
-merged to the media tree.
-
-I've dropped those, the result is here:
-
-<URL:https://git.linuxtv.org/sailus/media_tree.git/commit/?id=d75cae0884e80bba486f85e82b33a1dae3c9c976>
-
+diff --git a/arch/arm/boot/dts/sun5i.dtsi b/arch/arm/boot/dts/sun5i.dtsi
+index 250d6b87ab4d..2f901a013676 100644
+--- a/arch/arm/boot/dts/sun5i.dtsi
++++ b/arch/arm/boot/dts/sun5i.dtsi
+@@ -286,7 +286,7 @@ tcon0: lcd-controller@1c0c000 {
+ 			clock-names = "ahb",
+ 				      "tcon-ch0",
+ 				      "tcon-ch1";
+-			clock-output-names = "tcon-pixel-clock";
++			clock-output-names = "tcon-data-clock";
+ 			#clock-cells = <0>;
+ 			status = "disabled";
+ 
+diff --git a/arch/arm/boot/dts/sun8i-a23-a33.dtsi b/arch/arm/boot/dts/sun8i-a23-a33.dtsi
+index f630ab55bb6a..ddc87cc15e51 100644
+--- a/arch/arm/boot/dts/sun8i-a23-a33.dtsi
++++ b/arch/arm/boot/dts/sun8i-a23-a33.dtsi
+@@ -190,7 +190,7 @@ tcon0: lcd-controller@1c0c000 {
+ 			clock-names = "ahb",
+ 				      "tcon-ch0",
+ 				      "lvds-alt";
+-			clock-output-names = "tcon-pixel-clock";
++			clock-output-names = "tcon-data-clock";
+ 			#clock-cells = <0>;
+ 			resets = <&ccu RST_BUS_LCD>,
+ 				 <&ccu RST_BUS_LVDS>;
+diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8i-a83t.dtsi
+index 82fdb04122ca..94eb3bfc989e 100644
+--- a/arch/arm/boot/dts/sun8i-a83t.dtsi
++++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
+@@ -456,7 +456,7 @@ tcon0: lcd-controller@1c0c000 {
+ 			interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&ccu CLK_BUS_TCON0>, <&ccu CLK_TCON0>;
+ 			clock-names = "ahb", "tcon-ch0";
+-			clock-output-names = "tcon-pixel-clock";
++			clock-output-names = "tcon-data-clock";
+ 			#clock-cells = <0>;
+ 			resets = <&ccu RST_BUS_TCON0>, <&ccu RST_BUS_LVDS>;
+ 			reset-names = "lcd", "lvds";
+diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
+index db194c606fdc..ab2a0e1235e4 100644
+--- a/arch/arm/boot/dts/sun8i-v3s.dtsi
++++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
+@@ -191,7 +191,7 @@ tcon0: lcd-controller@1c0c000 {
+ 				 <&ccu CLK_TCON0>;
+ 			clock-names = "ahb",
+ 				      "tcon-ch0";
+-			clock-output-names = "tcon-pixel-clock";
++			clock-output-names = "tcon-data-clock";
+ 			#clock-cells = <0>;
+ 			resets = <&ccu RST_BUS_TCON0>;
+ 			reset-names = "lcd";
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+index 62f45f71ec65..e3b17575699c 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+@@ -407,7 +407,7 @@ tcon0: lcd-controller@1c0c000 {
+ 			interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&ccu CLK_BUS_TCON0>, <&ccu CLK_TCON0>;
+ 			clock-names = "ahb", "tcon-ch0";
+-			clock-output-names = "tcon-pixel-clock";
++			clock-output-names = "tcon-data-clock";
+ 			#clock-cells = <0>;
+ 			resets = <&ccu RST_BUS_TCON0>, <&ccu RST_BUS_LVDS>;
+ 			reset-names = "lcd", "lvds";
 -- 
-Kind regards,
+2.32.0 (Apple Git-132)
 
-Sakari Ailus
