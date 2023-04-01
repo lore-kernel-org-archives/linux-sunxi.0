@@ -1,87 +1,116 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 200422CA4
-	for <linux-sunxi@lists.linux.dev>; Sat,  1 Apr 2023 16:31:34 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id d11-20020a05600c3acb00b003ef6e6754c5so11806210wms.5
-        for <linux-sunxi@lists.linux.dev>; Sat, 01 Apr 2023 09:31:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C0A79DE
+	for <linux-sunxi@lists.linux.dev>; Sat,  1 Apr 2023 19:22:05 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id l37so14807228wms.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 01 Apr 2023 12:22:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680366692;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AH+0bN1WVMkRFsPVRu+iIPRXnwUZbJTtFLk6cby4eBE=;
-        b=jpepsIRw3W6IDR7ifzEST4IQLONfqEXFBNsHDCkT667xCPSgqnKpS/8OLO5OK8e2iF
-         utgZFEWgkcUBrj+W8YeiT4eGdW5h2hRQDKvm4ke4hipJBa7BsFILtoSztIolkU4r7fLf
-         yfX1g5loE+mVSHpTYk8ExYQkuTyEMQBicrSO888NQEf5LfnkcC6sPcY1mcVmrds93zv5
-         l6OGh3lBmjnEQmer9oxmib9wOfWzAYDDv2nShLa5buyZagYbHyflYzcmnX8kZUBdzBW6
-         JMxvAqLI38lQYc2j9ZZQIFI8lNaluR1dy/aLas+2q2P3d7opycJvtT+66pKobZ5Is2VI
-         7glg==
+        d=linaro.org; s=google; t=1680376923;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0hCHlkF5Z3NmTqMnInVbTSc5iAXn26gWIw7YwXQgkr4=;
+        b=g6sUbB29tDRqwWFaUjnPs6EJpXE5M1cKRPU9iBTc0LRSeeY2pnemn3+Ow7d7VJL9vC
+         1UPid8/hMd1vpO8Z1HH8wUfyfZNWK5WVNz8O2iOSwFulwT14iN6cAJ9k3kYRxszx/8J+
+         ZfVbXmkh0pMO1XRkO2ML4wn90O4bBd4syFghP/pgtFlNifs4VINxjJrPhysz2kyaFa3d
+         ut2cSJXOHIi46pQrkm23u6p9HDSNAX9mJNsPIRMYtwbQg8sSv434+Zoa59dQRAEnpuIW
+         UIBhBPrlBG9iosFOv68C9vWhjUSSn5P/QoCed33C2PtnKJGt1PfFOt1XJFjzTE6pAOu+
+         O3Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680366692;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AH+0bN1WVMkRFsPVRu+iIPRXnwUZbJTtFLk6cby4eBE=;
-        b=1dJ0dm/DE5dSWRI8J5GkNvyc5jqpSOuTXKVaa1Ilz3pMK4wiZjiO9Yt8pk+PXeVdPd
-         Uya3A/Ifaq6wpfg37qhV4ddtvh+8wE3RI/0U1eNIyo6UIQGZVGID/DkaECdNOLJLaHrP
-         ZseKmpDdpTo0dmETK54J415mbV90h5zAgRWtqCg3PItOGQbq8awTo55vn5j3+pu/nAh0
-         IXTQ7n2yiC4OHpcz7CBzs0pSwk0g/fsiP7Fw8IhiYrQuPGOMjCdaCmGWcoPWFUSdJfP0
-         66laTlHAhWJseFKVEEUvW905cxT+3wFJ7h+6b7tLCVbj/YT8YwE/plNT6WPRLxMRpMF3
-         ww5Q==
-X-Gm-Message-State: AAQBX9dVHRBJ5zNWESHPnwIYz/gmSAerxSpOKzzphFtv6jR/Ov8xOtHc
-	8K4lkjJ+iZ8jUfUOnb2L/IjHlO9to8ZP8A==
-X-Google-Smtp-Source: AKy350byHRXINA1w450E0QwNu7Ahu2wY0/s2pJ12q+ZhfS1Zs1qC/Svj5UvTIxX/n92vaCt+lRHr9Q==
-X-Received: by 2002:a7b:cb58:0:b0:3f0:3ce6:9b0e with SMTP id v24-20020a7bcb58000000b003f03ce69b0emr5786431wmj.13.1680366692161;
-        Sat, 01 Apr 2023 09:31:32 -0700 (PDT)
-Received: from jernej-laptop.localnet ([209.198.137.155])
-        by smtp.gmail.com with ESMTPSA id u17-20020a7bcb11000000b003ef5db16176sm6590622wmj.32.2023.04.01.09.31.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Apr 2023 09:31:31 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Miquel Raynal <miquel.raynal@bootlin.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Richard Weinberger <richard@nod.at>, linux-mtd@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- kernel@pengutronix.de
-Subject:
- Re: [PATCH 46/49] mtd: rawnand: sunxi: Convert to platform remove callback
- returning void
-Date: Sat, 01 Apr 2023 18:31:30 +0200
-Message-ID: <2676543.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20230401161938.2503204-47-u.kleine-koenig@pengutronix.de>
-References:
- <20230401161938.2503204-1-u.kleine-koenig@pengutronix.de>
- <20230401161938.2503204-47-u.kleine-koenig@pengutronix.de>
+        d=1e100.net; s=20210112; t=1680376923;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0hCHlkF5Z3NmTqMnInVbTSc5iAXn26gWIw7YwXQgkr4=;
+        b=Eftk1AvssYZ+rJPLqV4B/Vxu3sdw+EAbj71ez4RYhIMZrYgFeGG1rb49Nx27t3F1pK
+         BOSoP1JxFecNKa9BsJUVs/aAcpXNgKzKUbHJptmibxHknKL/lmHdw0F4r+SLC1Ctbkc8
+         d+8oc27uSoxLemNbMnPsVieDs9vil1rDZ218c09WvWuuQNnJIVfZ4cTn/z3IEdSWIMa+
+         snCkBmI7Nq3LWpNLhaVJCUNSUn2pjS1K2moa3mFEjtQJfo6e9CUFX+RFLtEDUo7/TLFA
+         w9U69CjEakkZW2hUvnynQM1VcSxQh6XKvneNBU5ub5bJD/8wWh/VTVvUmvFvZA3byZLb
+         +0yQ==
+X-Gm-Message-State: AO0yUKV2YOck+ClyMER9XVPwzN/XlrFvp2cRVI+1C0+5lJOW/qF8Z1rP
+	cmo1OGao5bs81mzNFzJi6zYfdg==
+X-Google-Smtp-Source: AK7set9h+h3Yx3+JglVGj8gMjIzM5W42Mci6pIwcqvCbd9w9+V46ksoIxY9Juxkx8HAEL/TqjQdSeA==
+X-Received: by 2002:a7b:cb95:0:b0:3d0:6a57:66a5 with SMTP id m21-20020a7bcb95000000b003d06a5766a5mr22553123wmi.0.1680376923601;
+        Sat, 01 Apr 2023 12:22:03 -0700 (PDT)
+Received: from ?IPV6:2a05:6e02:1041:c10:b36a:1186:309c:1f9a? ([2a05:6e02:1041:c10:b36a:1186:309c:1f9a])
+        by smtp.googlemail.com with ESMTPSA id o9-20020a05600c4fc900b003ef6bc71cccsm14508987wmq.27.2023.04.01.12.22.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 01 Apr 2023 12:22:03 -0700 (PDT)
+Message-ID: <c0fdb192-43d1-760f-ccd8-2f9d5fe41a99@linaro.org>
+Date: Sat, 1 Apr 2023 21:22:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 11/19] clocksource: ingenic: Add explicit include for
+ cpuhotplug.h
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Thomas Gleixner
+ <tglx@linutronix.de>, Amit Daniel Kachhap <amit.kachhap@gmail.com>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Lukasz Luba <lukasz.luba@arm.com>,
+ Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Yangtao Li <tiny.windzz@gmail.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Sudeep Holla <sudeep.holla@arm.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Anup Patel <anup@brainfault.org>,
+ Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Marc Zyngier <maz@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
+ Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>
+Cc: sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org,
+ linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linuxppc-dev@lists.ozlabs.org, linux-tegra@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org
+References: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org>
+ <20230329-dt-cpu-header-cleanups-v1-11-581e2605fe47@kernel.org>
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <20230329-dt-cpu-header-cleanups-v1-11-581e2605fe47@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Dne sobota, 01. april 2023 ob 18:19:35 CEST je Uwe Kleine-K=F6nig napisal(a=
-):
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
->=20
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+On 29/03/2023 17:52, Rob Herring wrote:
+> Removing include of cpu.h from of_device.h (included by of_platform.h)
+> causes an error in ingenic-timer:
+> 
+> drivers/clocksource/ingenic-timer.c: In function ‘ingenic_tcu_init’:
+> drivers/clocksource/ingenic-timer.c:338:15: error: implicit declaration of function ‘cpuhp_setup_state’
+> 
+> The of_platform.h header is not necessary either, so it and of_address.h
+> can be dropped.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+> Please ack and I will take the series via the DT tree.
+> ---
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 
-Best regards,
-Jernej
 
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
 
