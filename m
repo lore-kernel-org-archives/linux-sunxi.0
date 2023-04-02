@@ -1,110 +1,74 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC3479DE
-	for <linux-sunxi@lists.linux.dev>; Sat,  1 Apr 2023 19:22:32 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id r19-20020a05600c459300b003eb3e2a5e7bso15824420wmo.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 01 Apr 2023 12:22:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680376950;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YsdIX4QaNsFy8jAUYtXLUiYq0pMM/KF7S/HscFFRFa8=;
-        b=wLou/172SsZ4tbZKAmsf4wdm/jkdhPJhgp/9PODUlSx+8zj3bvceTjgZUslKBzMWw8
-         dbzF5WM+xXp7t01zz37q83r+zoMvSKVW3P/J28MwkqEbL9aNMV8iCK1aq/f4+7SIi4B9
-         qp2UZBwhIDmh3rDtCB63WKwzAN5BUgdGepgfYA2wOSMqur9AYXlb5tF5t3JYnBT9m+FF
-         QZNbjh2HDQTcX3YBnp/khnrydEiI2K5FE2h9klkr7WGo/ExSeTZ8Jium1tK606uJuIKM
-         bxjPVjsLqxf1k5WstPx4prev8VXkZHddRS3F63SKw/dTy0euJ1u4Vad24HvY2PFiL49V
-         8UgQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6211B20F5
+	for <linux-sunxi@lists.linux.dev>; Sun,  2 Apr 2023 06:09:23 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id ew6so105288073edb.7
+        for <linux-sunxi@lists.linux.dev>; Sat, 01 Apr 2023 23:09:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680376950;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YsdIX4QaNsFy8jAUYtXLUiYq0pMM/KF7S/HscFFRFa8=;
-        b=u+ge+7zCUVvPwKrDwRFkCbn406H+MSEL1bGM7FB6SDpS2lGKESayoduYa9cRDD1D00
-         wf+IDRTStMUkLDE9H4DLLPWu8bjyV+OIEihiv1h92MQgItk8f94ULt9yvdCJNhrM+Zzk
-         A75nhXIHJbhbV1DHPvft7UO7j4QEihGO7WNweqGwuszG+C1rcly3GoH1mbwJaVnWexer
-         OW7YngdpK4g934Y+JL/dFH57965VdoM1y24OTokTRNY4Ekg+gqWqb/RRMWSFlKHxANbo
-         Y6t1jDxbF7GMnSpfEqxgKyJuw1MqTfDfl7ZgCB4wt98K1qMa6O3BHkyaQKA4Yahx4eGz
-         PXOQ==
-X-Gm-Message-State: AO0yUKXZdLY4D6dhlAuSaF+SDTFxTrKr1z3ww9zOXHksL4LfVjT4zMQU
-	uQnjytxPIxpQg9vADU+6nqsm7Q==
-X-Google-Smtp-Source: AK7set9y5bHkZCySLIhsJfaK02RbOBp8M7OwMT91WfVTWaYaVc0pGHqd8wtNzjk/5/WSJSDGT1LTiA==
-X-Received: by 2002:a7b:cd88:0:b0:3ee:7061:1bdd with SMTP id y8-20020a7bcd88000000b003ee70611bddmr22820919wmj.4.1680376950405;
-        Sat, 01 Apr 2023 12:22:30 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:b36a:1186:309c:1f9a? ([2a05:6e02:1041:c10:b36a:1186:309c:1f9a])
-        by smtp.googlemail.com with ESMTPSA id r5-20020adfe685000000b002e61e002943sm4791678wrm.116.2023.04.01.12.22.28
+        d=1e100.net; s=20210112; t=1680415761;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6rTS/ruyRiwSLe4zYoc3zyVGgTu2JSYGkMmye5BXjHs=;
+        b=smGyXUIaAoA8OJGocwzcM0y9/IxVILfiLvoW7HVlGG6NzqHg9umHwp2Pwu2S9p5TRN
+         PJQ8wepGndx+PC6XCCldA3v9yoNyIA+nfhuz1BWQ/ZxuF8TmIzr6YazXWZvo6tc3npl0
+         p1v2nlSPkI61IxUbB+3DcdmH6HNivGlBdnabPmF7NKtTFE3EIELevw6yuNdb+5HE3o03
+         YiBQ63j6FleceWGS4f/4gGLNf00DMe9HsugynLQ9Ten6LPZDlr45BXEHPeaJN2djLO0G
+         Dlh/l/w+fZbS1imYQqJ6IkNy+9y00/jc+em+oUSvkSSWvEjztc1rbrt7Og0xyhkIpKcl
+         CNXA==
+X-Gm-Message-State: AAQBX9cauKFSwdzulihl1AqIDWwS/jo2hztIgN3w/uZkPuXaZp7WaEtB
+	Nh1AQeYOyEXp8nl/NK48d/3nXv3nXu23+Q==
+X-Google-Smtp-Source: AKy350aWaup+e+30eLd1uxcpqTd/3bJp432FOJvZK/QVpz2/uviMisazPFtZi0Fp9PG/bkQaCDmZVg==
+X-Received: by 2002:a50:fb11:0:b0:4fb:5291:13bb with SMTP id d17-20020a50fb11000000b004fb529113bbmr33195104edq.39.1680415761262;
+        Sat, 01 Apr 2023 23:09:21 -0700 (PDT)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com. [209.85.221.48])
+        by smtp.gmail.com with ESMTPSA id z16-20020a5096d0000000b00501d51c23fbsm2917046eda.6.2023.04.01.23.09.20
+        for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 01 Apr 2023 12:22:29 -0700 (PDT)
-Message-ID: <93ffd73a-4544-5148-0159-1a9ea773c0a0@linaro.org>
-Date: Sat, 1 Apr 2023 21:22:28 +0200
+        Sat, 01 Apr 2023 23:09:20 -0700 (PDT)
+Received: by mail-wr1-f48.google.com with SMTP id l27so26208885wrb.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 01 Apr 2023 23:09:20 -0700 (PDT)
+X-Received: by 2002:adf:efc8:0:b0:2e6:e4df:a7bd with SMTP id
+ i8-20020adfefc8000000b002e6e4dfa7bdmr646032wrp.7.1680415760483; Sat, 01 Apr
+ 2023 23:09:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 12/19] thermal: cpuidle_cooling: Adjust includes to remove
- of_device.h
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Thomas Gleixner
- <tglx@linutronix.de>, Amit Daniel Kachhap <amit.kachhap@gmail.com>,
- Viresh Kumar <viresh.kumar@linaro.org>, Lukasz Luba <lukasz.luba@arm.com>,
- Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Yangtao Li <tiny.windzz@gmail.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Sudeep Holla <sudeep.holla@arm.com>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Anup Patel <anup@brainfault.org>,
- Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Marc Zyngier <maz@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>
-Cc: sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org,
- linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, linux-tegra@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org
-References: <20230329-dt-cpu-header-cleanups-v1-0-581e2605fe47@kernel.org>
- <20230329-dt-cpu-header-cleanups-v1-12-581e2605fe47@kernel.org>
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <20230329-dt-cpu-header-cleanups-v1-12-581e2605fe47@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230401001850.4988-1-andre.przywara@arm.com> <20230401001850.4988-2-andre.przywara@arm.com>
+In-Reply-To: <20230401001850.4988-2-andre.przywara@arm.com>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Sun, 2 Apr 2023 14:09:09 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65t1bsfvg8WhfcuwsnAnbq4tXKz1YCKL719VHDd2D=8pg@mail.gmail.com>
+Message-ID: <CAGb2v65t1bsfvg8WhfcuwsnAnbq4tXKz1YCKL719VHDd2D=8pg@mail.gmail.com>
+Subject: Re: [PATCH v10 1/3] dt-bindings: mfd: x-powers,axp152: Document the
+ AXP313a variant
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
+	Martin Botka <martin.botka@somainline.org>, martin.botka1@gmail.com, 
+	Shengyu Qu <wiagn233@outlook.com>, Samuel Holland <samuel@sholland.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 29/03/2023 17:52, Rob Herring wrote:
-> Now that of_cpu_device_node_get() is defined in of.h, of_device.h is just
-> implicitly including other includes, and is no longer needed. Adjust the
-> include files with what was implicitly included by of_device.h (cpu.h and
-> of.h) and drop including of_device.h.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> Please ack and I will take the series via the DT tree.
+On Sat, Apr 1, 2023 at 8:19=E2=80=AFAM Andre Przywara <andre.przywara@arm.c=
+om> wrote:
+>
+> From: Martin Botka <martin.botka@somainline.org>
+>
+> The X-Powers AXP313a is a PMIC used on some devices with the Allwinner
+> H616 or H313 SoC.
+> According to the datasheet, the DC/DC converter PWM frequency is fixed
+> (to 3 MHz), so disallow the property that lets us set this frequency
+> for the other PMICs.
+>
+> Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
-
+Acked-by: Chen-Yu Tsai <wens@csie.org>
