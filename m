@@ -1,20 +1,20 @@
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B6C2F2D
-	for <linux-sunxi@lists.linux.dev>; Sun,  2 Apr 2023 14:31:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87573D60
+	for <linux-sunxi@lists.linux.dev>; Sun,  2 Apr 2023 14:31:19 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1piyjI-0002tv-B5; Sun, 02 Apr 2023 16:30:48 +0200
+	id 1piyjM-0002tW-Lv; Sun, 02 Apr 2023 16:30:52 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1piyjF-008TQw-4g; Sun, 02 Apr 2023 16:30:45 +0200
+	id 1piyjD-008TQM-5v; Sun, 02 Apr 2023 16:30:43 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1piyjE-009zBt-I8; Sun, 02 Apr 2023 16:30:44 +0200
+	id 1piyjC-009zBI-BL; Sun, 02 Apr 2023 16:30:42 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
@@ -23,21 +23,39 @@ To: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Vinod Koul <vkoul@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>
-Cc: netdev@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Bhupesh Sharma <bhupesh.sharma@linaro.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	netdev@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com,
-	kernel@pengutronix.de
-Subject: [PATCH net-next 10/11] net: stmmac: dwmac-sun8i: Convert to platform remove callback returning void
-Date: Sun,  2 Apr 2023 16:30:24 +0200
-Message-Id: <20230402143025.2524443-11-u.kleine-koenig@pengutronix.de>
+	linux-arm-kernel@lists.infradead.org,
+	kernel@pengutronix.de,
+	linux-amlogic@lists.infradead.org,
+	linux-oxnas@groups.io,
+	linux-sunxi@lists.linux.dev,
+	linux-mediatek@lists.infradead.org,
+	linux-tegra@vger.kernel.org
+Subject: [PATCH net-next 00/11] net: stmmac: Convert to platform remove callback returning void
+Date: Sun,  2 Apr 2023 16:30:14 +0200
+Message-Id: <20230402143025.2524443-1-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230402143025.2524443-1-u.kleine-koenig@pengutronix.de>
-References: <20230402143025.2524443-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +63,7 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1929; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=anKtvZugCAQ7612WUfgw0lecBejL8+CxdJGcr65UJQw=; b=owGbwMvMwMXY3/A7olbonx/jabUkhhTNiZWbugVTy1km2KinmF0Pjv5aWRTW155csLqkVPlcH pvCzJJORmMWBkYuBlkxRRb7xjWZVlVykZ1r/12GGcTKBDKFgYtTACayYiL7f38RnVcbu255Ptqc PydwSoNrUePp/s/ztx/ZqTX5Cu++7H0uBr7yZvVqhrUWO9etPL1uU2ap+PKK/u2xF86sb+n8L3b op7NshTbbzytGgq2Trp++HH7iqH1354LU8gUX+G31bz+3k2t3lTkh/XKXe1fg3qoInsMtGc/vxJ me4imuVM5TLJrgvS7+9f706rDwRNaEh388js6evc+GW1hP8KFb5JatWfpvF+Unxfb/XXron26IH zejvVWYtVkW477wbBm9rgzTYysMZJXmNyllmTL8DPpy3/2czH4O3V9zjp+uemG1WVn6KueRWWrN Fs/yGyN+ihttZ5X5evzyrKXZqtsK817Y3tN9zGEXFuMEAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3027; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=2S8iDuofW67/ny3bI4GsEkxdI4rVopUa4vtAe1AT45s=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKZFtalM3e5vgpcp2bO9QfXXotzevy7zlzaW6S v6ELfAMxDeJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCmRbQAKCRCPgPtYfRL+ Th1PCACf4rIZGqr7Q1fHE0q/GWziKMJqR85AtxSGXJLhzT7CQSsyTXjBwYVABzW53zfy7pCrr4T HXZsWp66M/nk9P5mpeaDTcUcTPF6Qs/NTHteV/BXG4fj6e6WI8rrYF+KM04pO7+oF6oguY4imfS fwj5GYmyLZIFPP/iQjUjtQ9EHVBjDYDZw7rgDnX9S0aT6ntEGHpOtyknrs9kXNI832Squ9C+XCP s0fDZLuIuFx9EEAo3qRBbBheDH0kO3cs1Gg2Dq9MPf/PxvjH7KAtCymq/Kmlp1vFkRa+j88Wy5w a9Bnr4Pih92GDV2Y6wNv/CXK5iG5ZlZVUwGFiMn21RZaY50D
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -53,53 +71,60 @@ X-SA-Exim-Mail-From: ukl@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is (mostly) ignored
-and this typically results in resource leaks. To improve here there is a
-quest to make the remove callback return void. In the first step of this
-quest all drivers are converted to .remove_new() which already returns
-void.
+Hello,
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+this series adapts the platform drivers below
+drivers/net/ethernet/stmicro to use the .remove_new() callback. Compared
+to the traditional .remove() callback .remove_new() returns no value.
+This is a good thing because the driver core doesn't (and cannot) cope
+for errors during remove. The only effect of a non-zero return value in
+.remove() is that the driver core emits a warning. The device is removed
+anyhow and an early return from .remove() usually yields a resource
+leak.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+The first three commits make sure that the various remove callbacks
+(obviously) always return zero. After that all drivers are converted to
+.remove_new().
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-index f834472599f7..b12927c799ce 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-@@ -1282,7 +1282,7 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
- 	return ret;
- }
- 
--static int sun8i_dwmac_remove(struct platform_device *pdev)
-+static void sun8i_dwmac_remove(struct platform_device *pdev)
- {
- 	struct net_device *ndev = platform_get_drvdata(pdev);
- 	struct stmmac_priv *priv = netdev_priv(ndev);
-@@ -1297,8 +1297,6 @@ static int sun8i_dwmac_remove(struct platform_device *pdev)
- 
- 	stmmac_pltfr_remove(pdev);
- 	sun8i_dwmac_unset_syscon(gmac);
--
--	return 0;
- }
- 
- static void sun8i_dwmac_shutdown(struct platform_device *pdev)
-@@ -1329,7 +1327,7 @@ MODULE_DEVICE_TABLE(of, sun8i_dwmac_match);
- 
- static struct platform_driver sun8i_dwmac_driver = {
- 	.probe  = sun8i_dwmac_probe,
--	.remove = sun8i_dwmac_remove,
-+	.remove_new = sun8i_dwmac_remove,
- 	.shutdown = sun8i_dwmac_shutdown,
- 	.driver = {
- 		.name           = "dwmac-sun8i",
+Uwe Kleine-König (11):
+  net: stmmac: Make stmmac_pltfr_remove() return void
+  net: stmmac: dwmac-visconti: Make visconti_eth_clock_remove() return void
+  net: stmmac: dwmac-qcom-ethqos: Drop an if with an always false condition
+  net: stmmac: dwmac-visconti: Convert to platform remove callback returning void
+  net: stmmac: dwmac-dwc-qos-eth: Convert to platform remove callback returning void
+  net: stmmac: dwmac-qcom-ethqos: Convert to platform remove callback returning void
+  net: stmmac: dwmac-rk: Convert to platform remove callback returning void
+  net: stmmac: dwmac-sti: Convert to platform remove callback returning void
+  net: stmmac: dwmac-stm32: Convert to platform remove callback returning void
+  net: stmmac: dwmac-sun8i: Convert to platform remove callback returning void
+  net: stmmac: dwmac-tegra: Convert to platform remove callback returning void
+
+ .../ethernet/stmicro/stmmac/dwmac-anarion.c   |  2 +-
+ .../stmicro/stmmac/dwmac-dwc-qos-eth.c        |  6 ++----
+ .../ethernet/stmicro/stmmac/dwmac-generic.c   |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-imx.c   |  2 +-
+ .../ethernet/stmicro/stmmac/dwmac-ingenic.c   |  2 +-
+ .../stmicro/stmmac/dwmac-intel-plat.c         |  9 +++------
+ .../ethernet/stmicro/stmmac/dwmac-ipq806x.c   |  2 +-
+ .../ethernet/stmicro/stmmac/dwmac-lpc18xx.c   |  2 +-
+ .../ethernet/stmicro/stmmac/dwmac-mediatek.c  |  9 +++------
+ .../net/ethernet/stmicro/stmmac/dwmac-meson.c |  2 +-
+ .../ethernet/stmicro/stmmac/dwmac-meson8b.c   |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-oxnas.c |  2 +-
+ .../stmicro/stmmac/dwmac-qcom-ethqos.c        | 15 ++++-----------
+ .../net/ethernet/stmicro/stmmac/dwmac-rk.c    |  6 ++----
+ .../ethernet/stmicro/stmmac/dwmac-socfpga.c   |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-sti.c   |  6 ++----
+ .../net/ethernet/stmicro/stmmac/dwmac-stm32.c |  6 ++----
+ .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c |  6 ++----
+ .../net/ethernet/stmicro/stmmac/dwmac-sunxi.c |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-tegra.c |  6 ++----
+ .../ethernet/stmicro/stmmac/dwmac-visconti.c  | 19 +++++--------------
+ .../ethernet/stmicro/stmmac/stmmac_platform.c |  4 +---
+ .../ethernet/stmicro/stmmac/stmmac_platform.h |  2 +-
+ 23 files changed, 40 insertions(+), 76 deletions(-)
+
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
 -- 
 2.39.2
 
