@@ -1,148 +1,105 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823AC17E2
-	for <linux-sunxi@lists.linux.dev>; Sun,  2 Apr 2023 11:02:05 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Pq9sW6T1fz9sVx;
-	Sun,  2 Apr 2023 12:55:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1680432911;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JGmLL2lif/lN1JO6yxqqMUbCCQ09GzfW7zKPJU5P/qA=;
-	b=B53XDWj8eAlOkkTpZqQh0vAT+uK+slZGNpNqeRmmbjiB3J0NWX56+wQF62EussCLl8zDKW
-	m5KnuZ10WixAhM111aPX4gVET5pbzPjBITADUpWWIKjCERRQ1aaYprjCcV/52/JU5MoJnS
-	L36CnY7LVREDx/PR8iugWLYT3S0LJspLg3zL2XdpOyCjVNui/7ktJX3Yhra0kav6S9cxch
-	+WENgzLr/+iVvFculnbm2sloiGCTYMSy7NWFFZtOcaHvMMEdXySRz6j2S3vhCiiemUv4Wc
-	HZpDlHWIaPqv8k/NE7QWye0VOaZjmUWS0+WM7cVPf4eC4oGqS/gVtYTF45DEbA==
-References: <20230331110245.43527-1-me@crly.cz>
- <20230331110245.43527-4-me@crly.cz>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Roman Beranek <me@crly.cz>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] drm: sun4i: calculate proper DCLK rate for DSI
-Date: Sun, 02 Apr 2023 12:49:08 +0200
-In-reply-to: <20230331110245.43527-4-me@crly.cz>
-Message-ID: <87h6tya70h.fsf@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B6C2F2D
+	for <linux-sunxi@lists.linux.dev>; Sun,  2 Apr 2023 14:31:18 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1piyjI-0002tv-B5; Sun, 02 Apr 2023 16:30:48 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1piyjF-008TQw-4g; Sun, 02 Apr 2023 16:30:45 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1piyjE-009zBt-I8; Sun, 02 Apr 2023 16:30:44 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com,
+	kernel@pengutronix.de
+Subject: [PATCH net-next 10/11] net: stmmac: dwmac-sun8i: Convert to platform remove callback returning void
+Date: Sun,  2 Apr 2023 16:30:24 +0200
+Message-Id: <20230402143025.2524443-11-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230402143025.2524443-1-u.kleine-koenig@pengutronix.de>
+References: <20230402143025.2524443-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1929; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=anKtvZugCAQ7612WUfgw0lecBejL8+CxdJGcr65UJQw=; b=owGbwMvMwMXY3/A7olbonx/jabUkhhTNiZWbugVTy1km2KinmF0Pjv5aWRTW155csLqkVPlcH pvCzJJORmMWBkYuBlkxRRb7xjWZVlVykZ1r/12GGcTKBDKFgYtTACayYiL7f38RnVcbu255Ptqc PydwSoNrUePp/s/ztx/ZqTX5Cu++7H0uBr7yZvVqhrUWO9etPL1uU2ap+PKK/u2xF86sb+n8L3b op7NshTbbzytGgq2Trp++HH7iqH1354LU8gUX+G31bz+3k2t3lTkh/XKXe1fg3qoInsMtGc/vxJ me4imuVM5TLJrgvS7+9f706rDwRNaEh388js6evc+GW1hP8KFb5JatWfpvF+Unxfb/XXron26IH zejvVWYtVkW477wbBm9rgzTYysMZJXmNyllmTL8DPpy3/2czH4O3V9zjp+uemG1WVn6KueRWWrN Fs/yGyN+ihttZ5X5evzyrKXZqtsK817Y3tN9zGEXFuMEAA==
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-Hi Roman,
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is (mostly) ignored
+and this typically results in resource leaks. To improve here there is a
+quest to make the remove callback return void. In the first step of this
+quest all drivers are converted to .remove_new() which already returns
+void.
 
-On 2023-03-31 at 13:02:45 +0200, Roman Beranek <me@crly.cz> wrote:
-> In DSI mode, TCON0's data clock is required to run at 1/4 the per-lane
-> bit rate.
->
-> Signed-off-by: Roman Beranek <me@crly.cz>
-> ---
->  drivers/gpu/drm/sun4i/sun4i_tcon.c | 36 +++++++++++++++++-------------
->  1 file changed, 21 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> index eec26b1faa4b..b263de7a8237 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> @@ -291,18 +291,6 @@ static int sun4i_tcon_get_clk_delay(const struct drm_display_mode *mode,
->  	return delay;
->  }
->
-> -static void sun4i_tcon0_mode_set_common(struct sun4i_tcon *tcon,
-> -					const struct drm_display_mode *mode)
-> -{
-> -	/* Configure the dot clock */
-> -	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-> -
-> -	/* Set the resolution */
-> -	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-> -		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-> -		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
-> -}
-> -
->  static void sun4i_tcon0_mode_set_dithering(struct sun4i_tcon *tcon,
->  					   const struct drm_connector *connector)
->  {
-> @@ -367,10 +355,18 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
->  	u32 block_space, start_delay;
->  	u32 tcon_div;
->
-> +	/*
-> +	 * dclk is required to run at 1/4 the DSI per-lane bit rate.
-> +	 */
->  	tcon->dclk_min_div = SUN6I_DSI_TCON_DIV;
->  	tcon->dclk_max_div = SUN6I_DSI_TCON_DIV;
-> +	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000 * (bpp / lanes)
-> +						  / SUN6I_DSI_TCON_DIV);
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
-When apply this to drm-next my panel stays dark. I haven't figured out
-yet why, though. The other two patches in this series work fine, i.e.
-they have no effect as they are just a refactoring.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-I'm testing this on my pinephone. It's the same with the patch I
-submitted. For whatever reason, it no longer works on drm-next.
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+index f834472599f7..b12927c799ce 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+@@ -1282,7 +1282,7 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static int sun8i_dwmac_remove(struct platform_device *pdev)
++static void sun8i_dwmac_remove(struct platform_device *pdev)
+ {
+ 	struct net_device *ndev = platform_get_drvdata(pdev);
+ 	struct stmmac_priv *priv = netdev_priv(ndev);
+@@ -1297,8 +1297,6 @@ static int sun8i_dwmac_remove(struct platform_device *pdev)
+ 
+ 	stmmac_pltfr_remove(pdev);
+ 	sun8i_dwmac_unset_syscon(gmac);
+-
+-	return 0;
+ }
+ 
+ static void sun8i_dwmac_shutdown(struct platform_device *pdev)
+@@ -1329,7 +1327,7 @@ MODULE_DEVICE_TABLE(of, sun8i_dwmac_match);
+ 
+ static struct platform_driver sun8i_dwmac_driver = {
+ 	.probe  = sun8i_dwmac_probe,
+-	.remove = sun8i_dwmac_remove,
++	.remove_new = sun8i_dwmac_remove,
+ 	.shutdown = sun8i_dwmac_shutdown,
+ 	.driver = {
+ 		.name           = "dwmac-sun8i",
+-- 
+2.39.2
 
-At the time I'm writing this, drm-next is at 82bbec189ab3 "Merge
-v6.3-rc4 into drm-next".
-
-Does it work for you? And if so, on which commit are you basing this
-series?
-
-Thanks,
-  Frank
-
-
->
-> -	sun4i_tcon0_mode_set_common(tcon, mode);
-> +	/* Set the resolution */
-> +	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-> +		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-> +		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
->
->  	/* Set dithering if needed */
->  	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-> @@ -438,7 +434,12 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
->
->  	tcon->dclk_min_div = 7;
->  	tcon->dclk_max_div = 7;
-> -	sun4i_tcon0_mode_set_common(tcon, mode);
-> +	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-> +
-> +	/* Set the resolution */
-> +	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-> +		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-> +		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
->
->  	/* Set dithering if needed */
->  	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-> @@ -515,7 +516,12 @@ static void sun4i_tcon0_mode_set_rgb(struct sun4i_tcon *tcon,
->
->  	tcon->dclk_min_div = tcon->quirks->dclk_min_div;
->  	tcon->dclk_max_div = 127;
-> -	sun4i_tcon0_mode_set_common(tcon, mode);
-> +	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-> +
-> +	/* Set the resolution */
-> +	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-> +		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-> +		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
->
->  	/* Set dithering if needed */
->  	sun4i_tcon0_mode_set_dithering(tcon, connector);
-
-
---
---
-Frank Oltmanns
