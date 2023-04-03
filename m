@@ -1,194 +1,142 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2105.outbound.protection.outlook.com [40.107.94.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958796FA1
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Apr 2023 15:41:43 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMIC-0004b4-3b; Mon, 03 Apr 2023 17:40:24 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMI6-008iaO-0i; Mon, 03 Apr 2023 17:40:18 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMI5-00AHwO-5x; Mon, 03 Apr 2023 17:40:17 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Deepak R Varma <drv@mailo.com>,
-	Yuan Can <yuancan@huawei.com>,
-	Simon Horman <horms@verge.net.au>,
-	Sven Van Asbroeck <TheSven73@gmail.com>,
-	Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965666FA1
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Apr 2023 15:53:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nQ05EheKz1Hd7/BFojYWpszyh+cp4f3gfREiyIjxlNlYTvefkwwTtfwV9FuDeV2xTotN1yTmA/9QFM4Y5B2VdrJ4drA+QgAo6fhSErvM40Hlqi5zMCbFAc7JFmG4OY4oah0ex3yemmX8JZlCjdI0fDr+0ZTjJZfRszorpUnxu2LoBQR76MWl2SYyVqj0EESKvSpyu+UioOzOqBVvWUYyl8Nu0r5lzTWU3Y+IsJ9NhK5GBZ0IXDgak2Vb6gCb8XKO7G538AYElgAuCWMzYKx1RL5fLBfXD2EE5F6Q7eeTILuON5u9095y/qYLNvs1S83BeOS4vr5RHKGniit2sE7X9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+F6DCkzY7x7C+oTr2ABQ/B0b4KuCx9ypSsK9IexnGpE=;
+ b=and2UvBis/O0xfzoSxAkKS0jk17mD/I0oH95uWgizPZijdS03lzvc7mTFweUr8X1zJVtcrhgPCm36iCAVO0bqcom7DMb1pu7H5lWDF6RlQes6LDfcxVvxORFkFM3+CLhI4GF8mRakg7pGr0/cVWDoxwmFN1BWshVja5iVA9ZpXRwtgCtMUaKK5tmD2OIWp+JInuUdlnv6+FiUDWI7EYc7selWZEFSFPSgtVDJdU/572Nvz0LRtSmf5Nyq/bnjixq4ocS6FeWXIvxXxKRLnoHAeasI4LnlSw+9HLwRtKY6xpM+7IjtU9/MJARs7vWGYWc05rTIInOVUfEJC19XjanDQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
+ dkim=pass header.d=corigine.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+F6DCkzY7x7C+oTr2ABQ/B0b4KuCx9ypSsK9IexnGpE=;
+ b=jmlzwe3biYkXV8JrnxqJHt2UOOsAKPkM4SWOadplZLHzEtrO0JPKGLLJ+U79voing0zlNg+3HANS+htd3x1PXPkaMi6tuOv/DV+A+GT7K/BUhuY3sBUJc9Yuvm6x6nKM0If13cuQ9kgP5rpqoMCek5eEfhoHQZkrILynaJJ2Bis=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=corigine.com;
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
+ by MN2PR13MB4069.namprd13.prod.outlook.com (2603:10b6:208:269::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.33; Mon, 3 Apr
+ 2023 15:53:00 +0000
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::c506:5243:557e:82cb]) by PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::c506:5243:557e:82cb%5]) with mapi id 15.20.6254.030; Mon, 3 Apr 2023
+ 15:53:00 +0000
+Date: Mon, 3 Apr 2023 17:52:51 +0200
+From: Simon Horman <simon.horman@corigine.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Marc Dietrich <marvin24@gmx.de>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Adrien Thierry <athierry@redhat.com>,
-	Stefan Wahren <stefan.wahren@i2se.com>,
-	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Jakob Koschel <jakobkoschel@gmail.com>
-Cc: linux-staging@lists.linux.dev,
-	kernel@pengutronix.de,
-	greybus-dev@lists.linaro.org,
-	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-amlogic@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	ac100@lists.launchpad.net,
-	linux-tegra@vger.kernel.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-rpi-kernel@lists.infradead.org
-Subject: [PATCH 00/24] staging: Convert to platform remove callback returning void
-Date: Mon,  3 Apr 2023 17:39:50 +0200
-Message-Id: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com, kernel@pengutronix.de
+Subject: Re: [PATCH net-next 10/11] net: stmmac: dwmac-sun8i: Convert to
+ platform remove callback returning void
+Message-ID: <ZCr2U3EbRBr4NtgX@corigine.com>
+References: <20230402143025.2524443-1-u.kleine-koenig@pengutronix.de>
+ <20230402143025.2524443-11-u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230402143025.2524443-11-u.kleine-koenig@pengutronix.de>
+X-ClientProxiedBy: AS4PR09CA0004.eurprd09.prod.outlook.com
+ (2603:10a6:20b:5e0::10) To PH0PR13MB4842.namprd13.prod.outlook.com
+ (2603:10b6:510:78::6)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5012; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=QcqVobs2IGjtDB50UkJ1/XzbU0MSF7u4i5A5EQTdJQg=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvM0O0Tc0pjx/M/6GF+i1BCxRCmy/MPnr7RU1 yFBMKjXOfaJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzNAAKCRCPgPtYfRL+ Tpy2CACy6x0vU06fdXyxll9SO1keGvUJwPKWx+3c3iql31e1Lm+qBWx4HjLGWAH1BCBwe3626DH lDN1BYh6O1PbPw6fq7eefH5DBIAVGnQSOsyyOFUmo5y3kXQn60JKzxX7xSKuHzUxXXkaj6BYFEl dl3VmQyiYF0+g1PGODFTQSeX9kxjPWoD5g9e11a2P8dLs8Iu1lwVEIyHyEyjcsrYsB3Wj23JY5E t8/rn6+663fTt7WDV/oQ0q40Q54RNHtq2Ou/9xwLL/Jm63tGZ6gAnvbnQcFoAji4hrf+apNVsp/ aW4zaDe6809yWD3o9ofDidHCWNev/88M0ILROQDh07UCEMyG
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|MN2PR13MB4069:EE_
+X-MS-Office365-Filtering-Correlation-Id: 587c8265-4b04-488a-e30e-08db345b8044
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	jduOpqFTMO7Nff/9zjVfw5+VkUOEdZcxn8WZcOTtmmex2eOiG/33spwMmnq7PEhJBwDYTEPzMKbSizYleJ2gQ5BQZZtnDjfCFqqaOOXDtCuazchfdUZvXlzIBtfl7EYyLpQ6rfX6ABTrFj2zrPZgQB5XJtdzsCQNy7AJOjrRErDglu2FOLbLrmcGvQPSo6wwnoeMZxDjYVYWO4vlAybQ24J5xtqG/7bTSGHg0W7cc1gpqLN2uyGrUAaVMfkEmGvR7GVBHmtRa74nkCrKHQ3kZt0hrJAYYbI91Hl4p+HdU1SZv/T2yL6yoM7iPSB5s08QkFOaF9zKU3Lg/7ItUCgrfgF+iLW2b7JZry8O/BP9ckKbZk+GtpsiIZomUv2bPx80bbUyZ37JGLrmYrTdl/sbAyRzoKkP7wK6kIy5QH1dh7jFjCUhjVZnkYwxQJRSsVC5JSS8JAr0B2SUwWUPsHKm6bzqlKV6w2Gb0+NPwv+sAqhTsWkP8DoNgnCHpzFGK/Yp+AnOT8j8kUhotzKvGltiYaL8QQa5AodeQa0o/bxo9S1JKouYJIvPoYarziRhEACK
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(346002)(39840400004)(376002)(136003)(366004)(451199021)(38100700002)(5660300002)(7416002)(4744005)(44832011)(2616005)(54906003)(316002)(6486002)(478600001)(186003)(86362001)(6666004)(6512007)(6506007)(41300700001)(36756003)(4326008)(6916009)(8676002)(66946007)(66556008)(66476007)(8936002)(2906002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NGEzcXViT2hDaWUrQUJrcklIWS9BSkEzbGl2OWY5U2N0aHVQZVNKWTg5Z0R2?=
+ =?utf-8?B?YjdVbVVqUXM3VWgwTHZmbmlJWmU4TVRxQXJ2VGlsczJ1eVdlUjJoR1Z3dTA3?=
+ =?utf-8?B?c3d1Zjh0SnBRdGhoaldvYTZHK0tFRHo0Q0JlTVRsN1BPakhrRlBpMnJuT3Fl?=
+ =?utf-8?B?bXhmL0t2T2c1Zm81clRPSCtWL2VaU3pzNk1FS2VCM2RQQ1ljU2ljRXNuaE1k?=
+ =?utf-8?B?bnNBcHYyWEgxM25UWDIrSnhBMEpFcTdaSU0xUTRnL2Y4b3pBYnVidHAzVTY4?=
+ =?utf-8?B?RVhFNG84Y3krd2Ruc2NVSU5HVnZRelllcE9QMzIrY0hER0VwNHBhbjFkaHMz?=
+ =?utf-8?B?K01oZFBTZG4wNW02SEVxZUVDdTdVNVJKbUYvb3M4Y2J5a1FxZzIvKzltRjk4?=
+ =?utf-8?B?UE9aSzlQRUt1alJMMkMrandFbS9tV1BwY0JqMlFsSGh0RjV6WXVBZGh0ek9x?=
+ =?utf-8?B?MWF2YmZxckRsMGQ1YUZQWlVFYlcya3AxZWZsTG1MUzlNSkRTcUkzVVlwSUZU?=
+ =?utf-8?B?VHBuTWk2eEhVVVJaQlpEYmFBd2hCdTdMdVhTenNCWnpibFNOU3BLU0toNERN?=
+ =?utf-8?B?aEJiODdWRGs2YXRaMjVYeXh2RVJpSmQwMUpkeGxpSklUVFlMSHEreENId01U?=
+ =?utf-8?B?aXJBZXNremlDMWVRMHZKYmhhUHBEZXBkQ29PbDE3UW1ZQVhFclJ4T1N5VFNU?=
+ =?utf-8?B?VENCMGwxYmR2NHZlUTd1NW02UTFQcElrVjhSaVFEdlYrcHQ5WWRtNmlUdHpQ?=
+ =?utf-8?B?VXRqSmgrNzRjeWQ1dVRaVXE5M1BvcnJsb2VZSnQ3eU95OHppOEtnNDBNS2U3?=
+ =?utf-8?B?aFQvNmV2b0k2b2x6M25CVmJFNjEzbmhkcHUrclJpSlV0SGxtazZkR3NJN1lF?=
+ =?utf-8?B?czduc3hUQ3U0VUhsNXZNN0Q1UG9XZWV6MHRYS1dySlZuME1PY0FldjA2c0NP?=
+ =?utf-8?B?cWlMd3VmUlQrQWZ6bTVVdWhFQjh2UnFIdjBJcGM0TzZReHJZU042Tno2cGdL?=
+ =?utf-8?B?OTErenNKUmM2TGZlVmtDTlRWNXN3K2Zwd1BzYWNDRXpMUGZnQjM5aEFycXJF?=
+ =?utf-8?B?ZFkxUituYUpsYmo1RTdYNXg1K2FvenUvNkxjbE9QaFF6ZG1SaXMzKythWDIx?=
+ =?utf-8?B?WTB0dU51NzdxUlkrTGlxYVFDa0pIeThvN2dULzUvaUxFLytZeU1xanA3UFV0?=
+ =?utf-8?B?SDh3OHNKOHVYMDd1NjJxM0g1N2tLWmFhek1WUlFYR21UZEJTS05iaGdRUkRr?=
+ =?utf-8?B?S3c4am5jak10S0hTQmlSZkFMb0dGTGtjN3ZhbzZWQ0hvQ1l5M0t1emdEOUE3?=
+ =?utf-8?B?cUpFUmJudjgvVWJ0d05TREY1cTdjaXZhYkhnbXF3TnY3SytvWk5ac211S3Ns?=
+ =?utf-8?B?R2VvWTR6RkQ2eC91UFltd002YU1peWgxQ1lpNEN0ZkpTaFZTU1dFTU5DWUdk?=
+ =?utf-8?B?ODJ3aWp1dkZHb2cvL0dPb3dVNnJkdTVOUjVvNm9peEJaMG5aK1I2azdYY0V6?=
+ =?utf-8?B?UGNrUzNzYkJKSXg1OFRDK2NjZVNVcnFzdTJNYWc2cWowRWp2bm8zbkZ2cXp3?=
+ =?utf-8?B?SldGN3M2MHg1SDNvU0U4ZXBEcjM3QThWSHR6Y1B3QkU0cWhxR2c5ZHljZGth?=
+ =?utf-8?B?NE5LK2Z5RlRMeEVFdEkvUG83V2xVd0Y3RXdYYjF0WjJDczE5ck42Vy9pTk5k?=
+ =?utf-8?B?a2s5VXM4M0VOd292STN1N29iOWhZK3F2R0V2aHlEZmd4TDh4MlJIclZZSnNY?=
+ =?utf-8?B?QTVnclFGazhvTUZKKzJxRXYyWlZkaU5mdi9tVStqV29ZZDBDVUJsZU5BODBa?=
+ =?utf-8?B?bk5NM1BvSEZXVEJpRk83SGoyQ3Nzd0JubUo3RGRUdllYc202RWZKb1NJdHJH?=
+ =?utf-8?B?eGZCRDJDOFdJbWtBNGFXRVN5VWFCMmFiRFNXdGZYY2VVcGVuU09aSXlwNVlr?=
+ =?utf-8?B?WjVPRitWSlVQaUxCcnVSM0xwOHJQMW90Z01yeVNSdXFpNmx4d1VDOFN1MWRW?=
+ =?utf-8?B?QU5ZemtNVlVONHpiTEhwQkRxb2ExSmJWZzBQMFdBUGhsRkxEMzhLUjhjN0J2?=
+ =?utf-8?B?bUJZZUhrMzFYWW93a0ZGRWxQQzdtWHhYbDQ2eUdPVEhWUGFvT0FtajRVMmMv?=
+ =?utf-8?B?dWtuQ0NZYUw0SnB0MmhSZ2FIemhEQnpycTF5T1M5RUFxR3pQQlExNG5KZ05Q?=
+ =?utf-8?B?UjE0L3Y5cDIvOGpscWRxd3V4amtiM3kvd01teC9CNE1kWHNQcW1HMERHTFU3?=
+ =?utf-8?B?QUIvdHhEZE1JU1ptYjVqeFR5TEJ3PT0=?=
+X-OriginatorOrg: corigine.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 587c8265-4b04-488a-e30e-08db345b8044
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2023 15:53:00.3693
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LLzJM2CT/06zXQ0JHbAbLPTUo7LlscYeMKZq/+iDmCMQThshFgJEa5Lsnxy6vgctIOg6QrOz7GUskzCiJ4lg6cBBWUtaIroDIBrDuJTSEZE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR13MB4069
 
-Hello,
+On Sun, Apr 02, 2023 at 04:30:24PM +0200, Uwe Kleine-König wrote:
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is (mostly) ignored
+> and this typically results in resource leaks. To improve here there is a
+> quest to make the remove callback return void. In the first step of this
+> quest all drivers are converted to .remove_new() which already returns
+> void.
+> 
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-this series adapts the platform drivers below drivers/staging to use the
-.remove_new() callback. Compared to the traditional .remove() callback
-.remove_new() returns no value. This is a good thing because the driver
-core doesn't (and cannot) cope for errors during remove. The only effect
-of a non-zero return value in .remove() is that the driver core emits a
-warning. The device is removed anyhow and an early return from .remove()
-usually yields a resource leak.
-
-By changing the remove callback to return void driver authors cannot
-reasonably assume any more that there is some kind of cleanup later.
-
-All drivers in staging already return zero in their remove callback, so
-they can be trivially converted.
-
-The changes to the individual drivers are all orthogonal. If I need to
-resend some patches because of some review feedback, I'd like to only
-send the patches that actually needed changes, so please pick up the
-remaining patches that don't need changing to reduce the amount of mail.
-
-Best regards
-Uwe
-
-Uwe Kleine-König (24):
-  staging: axis-fifo: Convert to platform remove callback returning void
-  staging: emxx_udc: Convert to platform remove callback returning void
-  staging: fieldbus: arcx-anybus: Convert to platform remove callback
-    returning void
-  staging: greybus: arche-apb-ctrl: Convert to platform remove callback
-    returning void
-  staging: greybus: arche: Convert to platform remove callback returning
-    void
-  staging: media: atmel-sama5d2-isc: Convert to platform remove callback
-    returning void
-  staging: media: atmel-sama7g5-isc: Convert to platform remove callback
-    returning void
-  staging: media: imx-media-csi: Convert to platform remove callback
-    returning void
-  staging: media: imx-media-dev: Convert to platform remove callback
-    returning void
-  staging: media: imx6-mipi-csi2: Convert to platform remove callback
-    returning void
-  staging: media: imx8mq-mipi-csi2: Convert to platform remove callback
-    returning void
-  staging: media: meson: vdec: Convert to platform remove callback
-    returning void
-  staging: media: omap4iss: Convert to platform remove callback
-    returning void
-  staging: media: rkvdec: Convert to platform remove callback returning
-    void
-  staging: media: sunxi: cedrus: Convert to platform remove callback
-    returning void
-  staging: media: sun6i-isp: Convert to platform remove callback
-    returning void
-  staging: most: dim2: Convert to platform remove callback returning
-    void
-  staging: nvec: Convert to platform remove callback returning void
-  staging: nvec: nvec_kbd: Convert to platform remove callback returning
-    void
-  staging: nvec_power: Convert to platform remove callback returning
-    void
-  staging: nvec_ps2: Convert to platform remove callback returning void
-  staging: octeon: ethernet: Convert to platform remove callback
-    returning void
-  staging: vc04_services: bcm2835-camera: Convert to platform remove
-    callback returning void
-  staging: vc04_services: vchiq_arm: Convert to platform remove callback
-    returning void
-
- drivers/staging/axis-fifo/axis-fifo.c                       | 6 ++----
- drivers/staging/emxx_udc/emxx_udc.c                         | 6 ++----
- drivers/staging/fieldbus/anybuss/arcx-anybus.c              | 5 ++---
- drivers/staging/greybus/arche-apb-ctrl.c                    | 6 ++----
- drivers/staging/greybus/arche-platform.c                    | 6 ++----
- drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c  | 6 ++----
- drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c  | 6 ++----
- drivers/staging/media/imx/imx-media-csi.c                   | 6 ++----
- drivers/staging/media/imx/imx-media-dev.c                   | 6 ++----
- drivers/staging/media/imx/imx6-mipi-csi2.c                  | 6 ++----
- drivers/staging/media/imx/imx8mq-mipi-csi2.c                | 6 ++----
- drivers/staging/media/meson/vdec/vdec.c                     | 6 ++----
- drivers/staging/media/omap4iss/iss.c                        | 6 ++----
- drivers/staging/media/rkvdec/rkvdec.c                       | 5 ++---
- drivers/staging/media/sunxi/cedrus/cedrus.c                 | 6 ++----
- drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c           | 6 ++----
- drivers/staging/most/dim2/dim2.c                            | 6 ++----
- drivers/staging/nvec/nvec.c                                 | 6 ++----
- drivers/staging/nvec/nvec_kbd.c                             | 6 ++----
- drivers/staging/nvec/nvec_power.c                           | 6 ++----
- drivers/staging/nvec/nvec_ps2.c                             | 6 ++----
- drivers/staging/octeon/ethernet.c                           | 5 ++---
- .../staging/vc04_services/bcm2835-camera/bcm2835-camera.c   | 6 ++----
- .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c   | 6 ++----
- 24 files changed, 48 insertions(+), 93 deletions(-)
-
-
-base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
--- 
-2.39.2
+Reviewed-by: Simon Horman <simon.horman@corigine.com>
 
