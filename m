@@ -1,67 +1,101 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729035683
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Apr 2023 13:52:48 +0000 (UTC)
-Received: (Authenticated sender: me@crly.cz)
-	by mail.gandi.net (Postfix) with ESMTPSA id 02CD660007;
-	Mon,  3 Apr 2023 13:52:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crly.cz; s=gm1;
-	t=1680529959;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yjZVA2mMTeWzOtGqbKtDtJ1agsEpiSlCHKJk6KjuyTk=;
-	b=a+axboIp+P2/EKx8WVgBZOoRoRb9hQH4yMUJKl/KYwTUXyWTHkrdOcsRBihMNMuo2dl3QV
-	zWOf2kr4ADe3KnTUNknPdufaa+L4lsOwXiR2y7Gma3pvVwv3JpTkY8iVX7m5RtIHlWCqfj
-	gtlXcAJzUSIjwDYnwLcdHWT6bi2HsK3G6cunNA5Ir3/fkY5mIBklap5LlA1PVfm27uqBIc
-	RM2xnKgFFxAo/EPlKGKCWqf3BP+rWeYJXnEO5ARANwcYxyCRVZd058YKlxfLKQ5MLzUgC6
-	upc7FgQGmjHoLlWXZL9JaTEk2pbSI7L8GYt2tdTN6hhcXvidQ3OevjSfPQHwPA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF5E7476
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Apr 2023 15:40:39 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pjMIA-0004fs-PB; Mon, 03 Apr 2023 17:40:22 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pjMI8-008ibO-Iq; Mon, 03 Apr 2023 17:40:20 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pjMI7-00AHxO-PK; Mon, 03 Apr 2023 17:40:19 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@pengutronix.de
+Subject: [PATCH 15/24] staging: media: sunxi: cedrus: Convert to platform remove callback returning void
+Date: Mon,  3 Apr 2023 17:40:05 +0200
+Message-Id: <20230403154014.2564054-16-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
+References: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 03 Apr 2023 15:52:36 +0200
-Message-Id: <CRN65FVKWIUG.1VSDAH8INXQMT@iMac.local>
-Subject: Re: [PATCH 3/3] drm: sun4i: calculate proper DCLK rate for DSI
-From: "Roman Beranek" <me@crly.cz>
-To: "Frank Oltmanns" <frank@oltmanns.dev>
-Cc: "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
- "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Samuel Holland"
- <samuel@sholland.org>, <dri-devel@lists.freedesktop.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.14.0
-References: <20230331110245.43527-1-me@crly.cz>
- <20230331110245.43527-4-me@crly.cz> <87h6tya70h.fsf@oltmanns.dev>
-In-Reply-To: <87h6tya70h.fsf@oltmanns.dev>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1827; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=4rphF2uHdZojhekW3CCbPpn9xzSOrNxB1a5CNnkqM/Y=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvNGCAxk1Yw6v6inzB0LxE1nLpf9y0i0UlnlJ uMkbhjSmkeJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzRgAKCRCPgPtYfRL+ TmzoB/kBkgPlrDjtaABO5jHJwmcsB0ibjdBZPI9YQ8M2/tgDnWxIVgjlP1mzf4NVX4bo9b4tseR cOXSnMqLda1tnct8CzrSV+c6v2RINzXW/t8iLStrhwZeSf3j0O9K/Y7lv5TNZMaXE9NV3zfKvfY BU9DnI5tRlHzBZD4t8Bp6Hs4n1RlRS2nfh47kpMiJv8lSL0buMxS1EurMtA6jUM7nKhn1OcbrNM 540mJ1J+BD8pvsqzbppYZ95z043X6XKy4RRyj8FPxfJKK927u/eSLPqidLzE+bfx6KH/HstEZu8 mDrD+uOFrdo5A4enCB4VQ3trxt//70b2IQmN3MXAXiLvp7yy
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On Sun Apr 2, 2023 at 12:49 PM CEST, Frank Oltmanns wrote:
->
-> When apply this to drm-next my panel stays dark. I haven't figured out
-> yet why, though. The other two patches in this series work fine, i.e.
-> they have no effect as they are just a refactoring.
->
-> I'm testing this on my pinephone. It's the same with the patch I
-> submitted. For whatever reason, it no longer works on drm-next.
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is (mostly) ignored
+and this typically results in resource leaks. To improve here there is a
+quest to make the remove callback return void. In the first step of this
+quest all drivers are converted to .remove_new() which already returns
+void.
 
-I've reproduced the issue on my PinePhone and noticed that tcon0 had set
-pll-video0-2x as its parent instead of pll-mipi. Having tried a whole
-range of pll-video0 rates, I'm now convinced that DSI only works when
-tcon0 has pll-mipi as its parent.
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
-As little a change as setting .clock in the default mode of PP's panel
-to 73500 can fix it. Better yet, dropping pll-video0-2x from the set
-of acceptable parents for tcon0 fixes it universally. And that's what
-megi's kernel does, though the measure was introduced with a different
-rationale:
-<https://github.com/megous/linux/commit/7374d5756aa0cc3f11e494e3cbc54f6c7c0=
-1e1a8>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-Roman
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index a43d5ff66716..3c62376c3e94 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -543,7 +543,7 @@ static int cedrus_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static int cedrus_remove(struct platform_device *pdev)
++static void cedrus_remove(struct platform_device *pdev)
+ {
+ 	struct cedrus_dev *dev = platform_get_drvdata(pdev);
+ 
+@@ -558,8 +558,6 @@ static int cedrus_remove(struct platform_device *pdev)
+ 	v4l2_device_unregister(&dev->v4l2_dev);
+ 
+ 	cedrus_hw_remove(dev);
+-
+-	return 0;
+ }
+ 
+ static const struct cedrus_variant sun4i_a10_cedrus_variant = {
+@@ -706,7 +704,7 @@ static const struct dev_pm_ops cedrus_dev_pm_ops = {
+ 
+ static struct platform_driver cedrus_driver = {
+ 	.probe		= cedrus_probe,
+-	.remove		= cedrus_remove,
++	.remove_new	= cedrus_remove,
+ 	.driver		= {
+ 		.name		= CEDRUS_NAME,
+ 		.of_match_table	= of_match_ptr(cedrus_dt_match),
+-- 
+2.39.2
+
