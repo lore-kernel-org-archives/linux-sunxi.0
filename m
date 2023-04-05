@@ -1,130 +1,80 @@
-Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37126FD0
-	for <linux-sunxi@lists.linux.dev>; Wed,  5 Apr 2023 16:09:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=PEOSsUi8JIMvoW7QnnkpkkJijxo4IUuMnZ9vv3EjUhQ=; b=PlcvWllVCZZLIxn7TA0uYZOD2i
-	8Timk2idYv+lLO3yZJhWhHPsl92ZREHTEkcZ2uj1e53hz36DkB/efojzcWFV0Na8cR9Qj+10qLhOH
-	ta3+36sHegS1o46TQyP99X9cQQUBT/Z1QMqvJ9krER9Ob1/RWq++SuzdzpDHI3Xhy5MHfqna5eIZw
-	+3KCwr3As0xZzcRdS0d74nyj+RIivO7MbcvRaGz8ll694eT/OgE8InMgGs8kJwhgkR/6hUQpNlGNz
-	Za3hBrO3EltLq0JnttfLThWdO07VZ32OqVzWbWH2mgZNY1LmC2nLtlkLnHo1jx4ghOCQVGFpuJj4L
-	hqCUbhxg==;
-Received: from ip98-183-112-29.ok.ok.cox.net ([98.183.112.29]:48320 helo=[192.168.0.134])
-	by vern.gendns.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96)
-	(envelope-from <david@lechnology.com>)
-	id 1pk5gX-00020w-28;
-	Wed, 05 Apr 2023 12:08:34 -0400
-Message-ID: <9d163cc7-d7ee-55e8-c01d-a1d4b3b19877@lechnology.com>
-Date: Wed, 5 Apr 2023 11:07:56 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E9A6FDB
+	for <linux-sunxi@lists.linux.dev>; Wed,  5 Apr 2023 16:15:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E49CC433D2;
+	Wed,  5 Apr 2023 16:15:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680711355;
+	bh=w0QOoZC6Z1FdtspycG1J5Gl9DW3sbrtz8bGzU0Vx3A4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MTX4+bOwCN7O5P+7WSnlZg4lWu7ihxfoHwodA5t87v0CNuiUo/aCrUf0ZTnbk0JL2
+	 m/el1ZL8MJ3F8mZXoK7FPW2UFZR0iZEQSo+9BLdCmnOWM2gOGmOM0YFrYpQn+JrtWg
+	 OgIon2tRxHTGMls+k4e8vmIlh8HVCmtkaaqcSMMlFHI95QV5gBrut7cSi9ZQ6ALbuS
+	 0I0t9eLoTMhL3YYteXJcw6GrIgRb2cJTsdjB57WaJ594VXq96pOOAHRV1AJpdw4Lr1
+	 T5dCzBZAcCqMbHyX0QpPkUN2HsRRkc+qNzb5pt4M+mkop0pxQ7GAUstU6J32NowB6j
+	 jh+spj617h41Q==
+Date: Wed, 5 Apr 2023 17:15:49 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Lee Jones <lee@kernel.org>
+Cc: Andre Przywara <andre.przywara@arm.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	Martin Botka <martin.botka@somainline.org>, martin.botka1@gmail.com,
+	Shengyu Qu <wiagn233@outlook.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v10 3/3] regulator: axp20x: Add support for AXP313a
+ variant
+Message-ID: <e86dd4a9-540a-461f-a78a-5acb480e98b9@sirena.org.uk>
+References: <20230401001850.4988-1-andre.przywara@arm.com>
+ <20230401001850.4988-4-andre.przywara@arm.com>
+ <20230405142103.GL8371@google.com>
+ <f1d7526b-7f51-462d-8192-0a05828bfc4f@sirena.org.uk>
+ <20230405153651.GS8371@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v3 54/65] clk: da8xx: clk48: Switch to determine_rate
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, =?UTF-8?Q?Andreas_F=c3=a4rber?=
- <afaerber@suse.de>, Manivannan Sadhasivam <mani@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Max Filippov <jcmvbkbc@gmail.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, Sekhar Nori <nsekhar@ti.com>,
- Abel Vesa <abelvesa@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Dinh Nguyen <dinguyen@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Ulf Hansson
- <ulf.hansson@linaro.org>, Linus Walleij <linus.walleij@linaro.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Alessandro Zummo <a.zummo@towertech.it>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Paul Cercueil <paul@crapouillou.net>,
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-arm-kernel@lists.infradead.org, linux-actions@lists.infradead.org,
- patches@opensource.cirrus.com, linux-stm32@st-md-mailman.stormreply.com,
- linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-phy@lists.infradead.org, linux-rtc@vger.kernel.org,
- linux-sunxi@lists.linux.dev, alsa-devel@alsa-project.org,
- linux-mips@vger.kernel.org
-References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
- <20221018-clk-range-checks-fixes-v3-54-9a1358472d52@cerno.tech>
- <04f5d305-9992-bcdc-cd54-111eb8254155@lechnology.com>
- <3nyoulu5eba6eyo644crhbtog63jh7vockbp7dz6mxquj2omsn@j56kn6vkbktg>
-From: David Lechner <david@lechnology.com>
-In-Reply-To: <3nyoulu5eba6eyo644crhbtog63jh7vockbp7dz6mxquj2omsn@j56kn6vkbktg>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - vern.gendns.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lechnology.com
-X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id: davidmain+lechnology.com/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nprJI15YJuH1TX2C"
+Content-Disposition: inline
+In-Reply-To: <20230405153651.GS8371@google.com>
+X-Cookie: 1 bulls, 3 cows.
 
-On 4/5/23 10:22 AM, Maxime Ripard wrote:
-> Hi David,
-> 
-> On Wed, Apr 05, 2023 at 10:03:24AM -0500, David Lechner wrote:
->> On 4/4/23 5:11 AM, Maxime Ripard wrote:
->>> The TI DA8xx USB0 clk48 clocks implements a mux with a set_parent
->>> hook, but doesn't provide a determine_rate implementation.
->>>
->>> This is a bit odd, since set_parent() is there to, as its name implies,
->>> change the parent of a clock. However, the most likely candidate to
->>> trigger that parent change is a call to clk_set_rate(), with
->>> determine_rate() figuring out which parent is the best suited for a
->>> given rate.
->>>
->>
->> As mentioned in my previous review, parent is selected by device
->> tree and should never be changed after init.
-> 
-> Great minds think alike then, because the driver implements exactly
-> that, either before or after that patch.
-> 
-> That patch makes the current behaviour explicit but doesn't change it in
-> any way.
-> 
-> So I guess that means that I can add your Acked-by on the three patches
-> you reviewed with the same message?
-> 
-> Maxime
 
-Yes, preferably with a simplified commit message.
+--nprJI15YJuH1TX2C
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Acked-by: David Lechner <david@lechnology.com>
+On Wed, Apr 05, 2023 at 04:36:51PM +0100, Lee Jones wrote:
+> On Wed, 05 Apr 2023, Mark Brown wrote:
 
+> > I'm waiting for the MFD.
+
+> To do what?  #deadlock
+
+Whatever it is you need to do to be happy with and apply the shared bit
+of the series.  We're somehow on v10 here for what seems like it should
+be a very simple change, I've not followed the ins and outs of how that
+happened.
+
+--nprJI15YJuH1TX2C
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmQtnrQACgkQJNaLcl1U
+h9BZgQf+LnRk3Hq0trgC9NQD/uZERKo/0K3IQO8A8cO/vY10LGr+6uUEH/Fe8lw6
+7k0r20zI/GSzcGNRcbBDLd3UE87pQAg0lZs1jptVIzgyND+wUe1qPaJEv/WSNlqI
+Sny2lH2OhJDy1O+I3rbyXPOzCALs4Nnz2VjuCryvgQHAhBJy6wRiTlrugEGuNMYN
+li3yAANYYRkaFon75/vTNk7N1WDC/lh0pLqTPhDhBRznlyjo/yyMIqA9NTlUn1Da
+vvWJEowPsC1He8gyP1vKqOLfC22Sa4vhWnBfREM9YZFk4nTOuUc6qIOby/c/ujAN
+KHpowtF8CIusmLNfSQktnpW0h7xo+Q==
+=tvgq
+-----END PGP SIGNATURE-----
+
+--nprJI15YJuH1TX2C--
