@@ -1,90 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384101FBB
-	for <linux-sunxi@lists.linux.dev>; Wed,  5 Apr 2023 18:38:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8497DC433D2;
-	Wed,  5 Apr 2023 18:38:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680719921;
-	bh=Plk+eHzKUO7XGS0vNsSKUKGT9kZ3xSq0tiKaF75pX+E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=okPEC2PdLZvNMWDZ3fLWjD+X++uC3xbaMyU+S5EnleKBbj4U6cXTSODjM/Ylbkt99
-	 /rDGnaukisIccX8lTJzFHh0u5+kfthNDQgNTJ2VA4SofmzCGGPHCOAXedqmRq+Ak/7
-	 7HUbx2gqh5YNp4G3am+3OHpA2MXNfNu9I+4OGEPVR2mHH71hWLa3CTB8A1Dq/nKImD
-	 4ONioFAqEWmgvqRnh+l65zS9WPHPEDL3ygCThRjr8lnMGi0xIs31SDCbyLWEXEp8hc
-	 7f5en9mQHcV0E4vrkSK/YxnmhQH+uqhpLXaELKVgZ+UVp9iXzFH747KKMqUXFEnIRs
-	 d63cukxJIxZdQ==
-Date: Wed, 5 Apr 2023 19:38:36 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Lee Jones <lee@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-	Martin Botka <martin.botka@somainline.org>, martin.botka1@gmail.com,
-	Shengyu Qu <wiagn233@outlook.com>,
-	Samuel Holland <samuel@sholland.org>,
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F149A5B
+	for <linux-sunxi@lists.linux.dev>; Wed,  5 Apr 2023 20:30:27 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 51D04FEC;
+	Wed,  5 Apr 2023 13:31:11 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DD71D3F6C4;
+	Wed,  5 Apr 2023 13:30:25 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Samuel Holland <samuel@sholland.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v10 3/3] regulator: axp20x: Add support for AXP313a
- variant
-Message-ID: <601dd4c7-0940-498b-815e-99e570e732d2@sirena.org.uk>
-References: <20230401001850.4988-1-andre.przywara@arm.com>
- <20230401001850.4988-4-andre.przywara@arm.com>
- <20230405142103.GL8371@google.com>
- <f1d7526b-7f51-462d-8192-0a05828bfc4f@sirena.org.uk>
- <20230405153651.GS8371@google.com>
- <e86dd4a9-540a-461f-a78a-5acb480e98b9@sirena.org.uk>
- <20230405163906.GT8371@google.com>
- <185fbb80-7fa3-4c88-9f96-92894370a3aa@sirena.org.uk>
- <20230405180340.GV8371@google.com>
+	Piotr Oniszczuk <piotr.oniszczuk@gmail.com>,
+	Mikhail Kalashnikov <iuncuim@gmail.com>,
+	u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: [RFC PATCH] sunxi: arm64: boot0.h: runtime check for RVBAR address
+Date: Wed,  5 Apr 2023 21:30:11 +0100
+Message-Id: <20230405203011.10325-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.7
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dFXWKpFjmqoxgdDx"
-Content-Disposition: inline
-In-Reply-To: <20230405180340.GV8371@google.com>
-X-Cookie: 1 bulls, 3 cows.
+Content-Transfer-Encoding: 8bit
 
+Some SoCs of the H616 family use a die variant, that puts some CPU power
+and reset control registers at a different address. There are examples
+of two instances of the same board, using different die revisions of the
+otherwise same H313 SoC. We need to write to a register in that block
+*very* early in the SPL boot, to switch the core to AArch64.
 
---dFXWKpFjmqoxgdDx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Since the devices are otherwise indistinguishable, let the SPL code read
+that die variant and use the respective RVBAR address based on that.
+That is a bit tricky, since we need to do that in hand-coded AArch32
+machine language, shared by all 64-bit SoCs. To avoid build dependencies
+in this mess, we always provide two addresses to choose from, and just
+give identical values for all other SoCs. This allows the same code to
+run on all 64-bit SoCs, and controls this switch behaviour purely from
+Kconfig.
 
-On Wed, Apr 05, 2023 at 07:03:40PM +0100, Lee Jones wrote:
-> On Wed, 05 Apr 2023, Mark Brown wrote:
-> > On Wed, Apr 05, 2023 at 05:39:06PM +0100, Lee Jones wrote:
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+Hi,
 
-> > > I can't do anything without an Ack from you or some indication that you
-> > > want me to apply the first 2 patches and share an IB.
+this patch goes on top of the two patches I sent earlier, that
+introduce CONFIG_SUNXI_RVBAR_ADDRESS. I don't have a device with that
+die variant, so just roughly tested this by inverting the ldrne and
+swapping the addresses.
+Please let me know if you have such a device and can confirm that this
+code works on the original and alternative die alike.
 
-> > Yes, please apply and share a branch like you usually do.
+Cheers,
+Andre
 
-> I usually encompass the other subsystem's patches in the IB too.
+ arch/arm/include/asm/arch-sunxi/boot0.h | 14 ++++++++++----
+ arch/arm/mach-sunxi/Kconfig             | 17 ++++++++++++++++-
+ 2 files changed, 26 insertions(+), 5 deletions(-)
 
-> To enable me to do that, I need an Ack from you.
+diff --git a/arch/arm/include/asm/arch-sunxi/boot0.h b/arch/arm/include/asm/arch-sunxi/boot0.h
+index 1a396f78488..b27df3b9b5e 100644
+--- a/arch/arm/include/asm/arch-sunxi/boot0.h
++++ b/arch/arm/include/asm/arch-sunxi/boot0.h
+@@ -20,8 +20,8 @@
+ 	b       reset
+ 	.space  0x7c
+ 
+-	.word	0xe28f0058	// add     r0, pc, #88
+-	.word	0xe59f1054	// ldr     r1, [pc, #84]
++	.word	0xe28f0070	// add     r0, pc, #112	 // @(fel_stash - .)
++	.word	0xe59f106c	// ldr     r1, [pc, #108] // fel_stash - .
+ 	.word	0xe0800001	// add     r0, r0, r1
+ 	.word	0xe580d000	// str     sp, [r0]
+ 	.word	0xe580e004	// str     lr, [r0, #4]
+@@ -32,8 +32,12 @@
+ 	.word	0xee1cef10	// mrc     15, 0, lr, cr12, cr0, {0}
+ 	.word	0xe580e010	// str     lr, [r0, #16]
+ 
+-	.word	0xe59f1024	// ldr     r1, [pc, #36] ; 0x170000a0
+-	.word	0xe59f0024	// ldr     r0, [pc, #36] ; CONFIG_*_TEXT_BASE
++	.word	0xe59f1034	// ldr     r1, [pc, #52] ; RVBAR_ADDRESS
++	.word	0xe59f0034	// ldr     r0, [pc, #52] ; SUNXI_SRAMC_BASE
++	.word	0xe5900024	// ldr     r0, [r0, #36] ; SRAM_VER_REG
++	.word	0xe21000ff	// ands    r0, r0, #255    ; 0xff
++	.word	0x159f102c	// ldrne   r1, [pc, #44] ; RVBAR_ALTERNATIVE
++	.word	0xe59f002c	// ldr     r0, [pc, #44] ; CONFIG_*TEXT_BASE
+ 	.word	0xe5810000	// str     r0, [r1]
+ 	.word	0xf57ff04f	// dsb     sy
+ 	.word	0xf57ff06f	// isb     sy
+@@ -45,6 +49,8 @@
+ 	.word	0xeafffffd	// b       @wfi
+ 
+ 	.word	CONFIG_SUNXI_RVBAR_ADDRESS	// writable RVBAR mapping addr
++	.word	SUNXI_SRAMC_BASE
++	.word	CONFIG_SUNXI_RVBAR_ALTERNATIVE	// address for die variant
+ #ifdef CONFIG_SPL_BUILD
+ 	.word	CONFIG_SPL_TEXT_BASE
+ #else
+diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+index 0527b3863a7..be0910499bb 100644
+--- a/arch/arm/mach-sunxi/Kconfig
++++ b/arch/arm/mach-sunxi/Kconfig
+@@ -111,7 +111,7 @@ config SUNXI_SRAM_ADDRESS
+ 	SRAM to a different address.
+ 
+ config SUNXI_RVBAR_ADDRESS
+-	hex "RVBAR address"
++	hex
+ 	depends on ARM64
+ 	default 0x09010040 if SUN50I_GEN_H6
+ 	default 0x017000a0
+@@ -122,6 +122,21 @@ config SUNXI_RVBAR_ADDRESS
+ 	entry point when switching to AArch64. This store is on different
+ 	addresses, depending on the SoC.
+ 
++config SUNXI_RVBAR_ALTERNATIVE
++	hex
++	depends on ARM64
++	default 0x81000040 if MACH_SUN50I_H616
++	default 0x09010040 if SUN50I_GEN_H6
++	default 0x017000a0
++	---help---
++	The H616 die exists is at least two variants, with one having the
++	RVBAR registers at a different address. If the SoC variant ID
++	(stored in SRAM_VER_REG[7:0]) is not 0, we need to use the
++	other address.
++	Set this alternative address to the same as the normal address
++	for all other SoCs, so the content of the SRAM_VER_REG becomes
++	irrelevant there, and we can use the same code.
++
+ config SUNXI_A64_TIMER_ERRATUM
+ 	bool
+ 
+-- 
+2.35.7
 
-So not apply the first two patches and share a branch like you said
-above...  TBH these serieses would probably be a bit more legible if
-the branch were created with just the MFD patches, that'd also mean
-smaller cross merges.
-
---dFXWKpFjmqoxgdDx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmQtwCsACgkQJNaLcl1U
-h9C9Fwf/Qt5h+o5pfvxtQJEyBb3Na7YBcHUBvcSUfXIUkt1Hc6Wie3HJBzSpiNSR
-wYvLYSHQm9XmSaMdOEGg/eIFNa2dQq1A/7gKD8HGp4eXrCK1Pf422jB7kdDcMtwI
-9NMjlJleNEdIATfasDarUfylsehtTXwjlUKLXO2Qlgj6wh6SgBsmbd+D7avhL5qm
-Z7CnhSVZ7RkxBRrtKHiHTXmXiUuRPSDaxPk6xHDwDgyg4jize/1RfVW8Rr7tp2uj
-cuI1L/uKZzyvQE6N90g+u0KsCdui29jlkgCtDn0jZCSIrbEYhqNvZ+tnH0ojShLM
-013Ab/7VbFmsV5xhI2V/jpXWapUCqg==
-=PVfP
------END PGP SIGNATURE-----
-
---dFXWKpFjmqoxgdDx--
