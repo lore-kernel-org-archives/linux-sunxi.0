@@ -1,86 +1,116 @@
-Received: from ci74p00im-qukt09082302.me.com (ci74p00im-qukt09082302.me.com [17.57.156.13])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7D57FC
-	for <linux-sunxi@lists.linux.dev>; Wed,  5 Apr 2023 12:34:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
-	s=1a1hai; t=1680698055;
-	bh=F9sCyrOcH7GGRQDR6k6ODpcaztnsDl3q3KGT+/q2kkg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To;
-	b=NmXz7YV7suT/an18Bm3kXN9qYYtVjz3JC1Pi8c0rRjXIdgsdCD8vRXK/hBea1Z9Lu
-	 quEvBE0iU0J7QwF/85KbSweyw1r7Qx/Fuv5ZGD/UPBXkFcoTwgXTaAFXgvU3AbgwWT
-	 4rrXV9DwtnE0SYMeftz7cBij6tYLUzfFQmuJo3L8WnFBUdEg2cUESCcpJobOgAXrgB
-	 l+99wx4vkv/KGzD0Md7ar0jhyNvmMeMkXw7t/L1m+1fdGYUmrMcDUZ8Q4QVJ8DebbB
-	 wv7+thpKKDIfqJPeY/Hz7QrQaWpX6M/549f2GK66uUSQVnetRWhjLQyg6xutArhL6q
-	 xsAQInPOLXWUw==
-Received: from localhost (ci77p00im-dlb-asmtp-mailmevip.me.com [17.57.156.26])
-	by ci74p00im-qukt09082302.me.com (Postfix) with ESMTPSA id 54AAE2FC0494;
-	Wed,  5 Apr 2023 12:34:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F1FA5E;
+	Wed,  5 Apr 2023 13:02:14 +0000 (UTC)
+Received: from ip4d1634d3.dynamic.kabel-deutschland.de ([77.22.52.211] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1pk2lE-0006xn-Nr; Wed, 05 Apr 2023 15:01:12 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Vincent Shih <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Michal Simek <michal.simek@xilinx.com>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Evgeniy Polyakov <zbr@ioremap.net>, linux-mtd@lists.infradead.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-sunxi@lists.linux.dev, linux-rtc@vger.kernel.org,
+ Michael Walle <michael@walle.cc>,
+ =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Subject:
+ Re: [PATCH V4] nvmem: add explicit config option to read old syntax fixed OF
+ cells
+Date: Wed, 05 Apr 2023 15:01:10 +0200
+Message-ID: <4767237.ejJDZkT8p0@diego>
+In-Reply-To: <20230403225540.1931-1-zajec5@gmail.com>
+References: <20230403225540.1931-1-zajec5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 05 Apr 2023 14:34:11 +0200
-Message-Id: <CROTQHUM88W0.2URPO95U5ZMS5@void.crly.cz>
-Cc: "Frank Oltmanns" <frank@oltmanns.dev>, "Chen-Yu Tsai" <wens@csie.org>,
- "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Samuel Holland"
- <samuel@sholland.org>, <dri-devel@lists.freedesktop.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/sun4i: uncouple DSI dotclock divider from
- TCON0_DCLK_REG
-From: "Roman Beranek" <romanberanek@icloud.com>
-To: "Maxime Ripard" <maxime@cerno.tech>
-X-Mailer: aerc 0.14.0
-References: <20230320161636.24411-1-romanberanek@icloud.com>
- <87wn356ni4.fsf@oltmanns.dev> <20230327202045.ceeqqwjug4ktxtsf@penduick>
- <CRHKFX934UA0.1MCKCD8SJSPIE@iMac.local>
- <20230329195802.veybo3367zifw77n@penduick>
-In-Reply-To: <20230329195802.veybo3367zifw77n@penduick>
-X-Proofpoint-ORIG-GUID: 8ldobzSC-nxTZzHvT0knq1iLnYTlBAI9
-X-Proofpoint-GUID: 8ldobzSC-nxTZzHvT0knq1iLnYTlBAI9
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.572,17.11.62.513.0000000_definitions?=
- =?UTF-8?Q?=3D2020-02-14=5F11:2020-02-14=5F02,2020-02-14=5F11,2021-12-02?=
- =?UTF-8?Q?=5F01_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=366 suspectscore=0
- adultscore=0 clxscore=1015 phishscore=0 malwarescore=0 spamscore=0
- mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2304050113
+Content-Type: text/plain; charset="UTF-8"
 
-Hello Maxime,
+Am Dienstag, 4. April 2023, 00:55:40 CEST schrieb Rafa=C5=82 Mi=C5=82ecki:
+> From: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
+>=20
+> Binding for fixed NVMEM cells defined directly as NVMEM device subnodes
+> has been deprecated. It has been replaced by the "fixed-layout" NVMEM
+> layout binding.
+>=20
+> New syntax is meant to be clearer and should help avoiding imprecise
+> bindings.
+>=20
+> NVMEM subsystem already supports the new binding. It should be a good
+> idea to limit support for old syntax to existing drivers that actually
+> support & use it (we can't break backward compatibility!). That way we
+> additionally encourage new bindings & drivers to ignore deprecated
+> binding.
+>=20
+> It wasn't clear (to me) if rtc and w1 code actually uses old syntax
+> fixed cells. I enabled them to don't risk any breakage.
+>=20
+> Signed-off-by: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
+> [for meson-{efuse,mx-efuse}.c]
+> Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> [for mtk-efuse.c, nvmem/core.c, nvmem-provider.h]
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
+ora.com>
+> [MT8192, MT8195 Chromebooks]
+> Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabor=
+a.com>
+> [for microchip-otpc.c]
+> Reviewed-by: Claudiu Beznea <claudiu.beznea@microchip.com>
+> [SAMA7G5-EK]
+> Tested-by: Claudiu Beznea <claudiu.beznea@microchip.com>
 
-On Wed Mar 29, 2023 at 9:58 PM CEST, Maxime Ripard wrote:
-> > In order to preserve semantic correctness however, I propose to preface
-> > the change with a patch that renames sun4i_dotclock and tcon-pixel-cloc=
-k
-> > such that dot/pixel is replaced with d/data. What do you think?
->
-> I don't think it's exposed to the userspace in any way so it makes sense =
-to me
->
+> diff --git a/drivers/nvmem/rockchip-efuse.c b/drivers/nvmem/rockchip-efus=
+e.c
+> index e4579de5d014..adc8bc70cffa 100644
+> --- a/drivers/nvmem/rockchip-efuse.c
+> +++ b/drivers/nvmem/rockchip-efuse.c
+> @@ -205,6 +205,7 @@ static int rockchip_rk3399_efuse_read(void *context, =
+unsigned int offset,
+> =20
+>  static struct nvmem_config econfig =3D {
+>  	.name =3D "rockchip-efuse",
+> +	.add_legacy_fixed_of_cells =3D true,
+>  	.stride =3D 1,
+>  	.word_size =3D 1,
+>  	.read_only =3D true,
 
-Here's a new series that includes those renames:
-<https://lore.kernel.org/all/20230331110245.43527-1-me@crly.cz/>
+for rockchip-efuse.c
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
-It turns out however that the new dclk rates can't be set exactly as
-requested without touching pll-video0*, tcon0 now therefore gets
-reparented from pll-mipi to pll-video0-2x which, as it further turns
-out, breaks DSI. While simply forbidding the video0-2x mux option seems
-to me as the right way to go because there's not much use for it with
-non-DSI interfaces either besides the opportunity to power pll-mipi
-down, I'd like to run by you first.
 
-Kind regards,
-Roman
-
-* As pll-mipi doesn't have CLK_SET_RATE_PARENT flag set, pll-video0
-  retains its boot-time rate of 294 MHz set by sunxi-dw-hdmi driver
-  in u-boot. Why 294 MHz (as opposed to the default rate of 297 MHz)?
-  The driver actually asks for 297 MHz, clock_set_pll3 rounds it to
-  294 MHz though because it limits itself to 6 MHz steps.
