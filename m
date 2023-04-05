@@ -1,228 +1,214 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D78B63A2
-	for <linux-sunxi@lists.linux.dev>; Wed,  5 Apr 2023 14:27:47 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F0AD31691;
-	Wed,  5 Apr 2023 07:28:25 -0700 (PDT)
-Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5675E3F762;
-	Wed,  5 Apr 2023 07:27:40 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Piotr Oniszczuk <piotr.oniszczuk@gmail.com>,
-	Mikhail Kalashnikov <iuncuim@gmail.com>,
-	u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 2/2] sunxi: remove support for boot0 header reservation
-Date: Wed,  5 Apr 2023 15:27:31 +0100
-Message-Id: <20230405142731.1246503-2-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230405142731.1246503-1-andre.przywara@arm.com>
-References: <20230405142731.1246503-1-andre.przywara@arm.com>
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F64129A9
+	for <linux-sunxi@lists.linux.dev>; Wed,  5 Apr 2023 14:51:13 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailnew.west.internal (Postfix) with ESMTP id 297162B066F9;
+	Wed,  5 Apr 2023 10:51:03 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Wed, 05 Apr 2023 10:51:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm3; t=1680706262; x=1680713462; bh=12
+	Dan7+hixlpFENmGLL4GqaHPQrKwrlwcpNYaShrlRU=; b=hkUfRXi9ZUU/v0L/+I
+	gVrH+uthhloeGbMuMyLFaLPGdmHx+ZfnEv71Adty8UoYbiAE/xjl8u5KqVjg9iph
+	dDL+1SNtFZ1DIoSql0P9/+KZLkrmQQF9uAj4XJ3/r3yzAoVDyU+3UZyu1+aTEPER
+	OWkJxOHbEINNDSPozQUVQlhGFT/1jQ99cutqUong+yuWAY6hka25mlIqIA3GjQ0M
+	xDl9zwU8ch2EEnAt9r2dDdVWFEMDWJMeeAG6cjRIoFxOKPLQyawDWpS1LKq7S1Sc
+	MGSHJpnZvjWdEWmQvJiSBEknGcWQYWFHfj+4DYMwd9wCkAvA7EmYRRWbg1P2K/Fd
+	qCiA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1680706262; x=1680713462; bh=12Dan7+hixlpF
+	ENmGLL4GqaHPQrKwrlwcpNYaShrlRU=; b=lOTStozRcIhNQiVpqSWvy6hRgVXT/
+	Z8/ftiEBKyaVp1oyePcUHHGpoOaAaw1wd36ZBldHKB440gbnuuWDgL4aZxY4t+D2
+	JoJRCNbY0NF2d9BzWQZ6I8nmk8bEGEJ52MOxbUnQvnpqprCtvLgw9V0VvdXk8yjW
+	C/YVrE2H0tJEXEaoqCnm6pQNlv7lYnQwjCa/Zg4z9cPIiCtx72SsV2zfomP957up
+	I+sHEZnv3M0+ChpZ9XsHO6Dx8kCKXakzvR1oF5fyxjofwoD6OTcV2p4PzM7eDPWe
+	UjJ4Qg64vq3vbaPOW4sz1a3L5/0xOG6j9Rn4k8PPs7pnugtw7Htymzhvg==
+X-ME-Sender: <xms:1IotZPUuMsHKcRIV1tn8qjLzvF2oPV7C1u5MRVolQHZ2CdI44Gsrcg>
+    <xme:1IotZHk4YGCS6J8sDxTrZTGDxzKZcR2TlvRV3xQhuYyw2YgyyrkEFWI9FNsau1Oxz
+    7biG3a4ROm7r4_f2cw>
+X-ME-Received: <xmr:1IotZLYZoXCiLfJAril3onbQaZKPqh_r1AoINPLHEvj2IgoW0Z7RkujzYMTIWt_jWufho636g6-ftQYTaczYPPB_G36PK4o>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdejuddgkedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtudenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeefjeeiueeiheevtddvgfeluedufeeigeeijefhveelfeevueefieehuefg
+    ffetteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:1IotZKXiXH4XvSiK_3aa4fqs5l2lv1GpNF5NGvI7WsaC9GLK8gzAGA>
+    <xmx:1IotZJmCjINoZE4kymmtgWXz9xLJzq_D049KW1UQySfT5mjHyygKrg>
+    <xmx:1IotZHetG9QWgJCeQdyxnOMLtU3uerimAkHUHXaEXwRWPSNKWtET1A>
+    <xmx:1ootZOSLB3yQ5ftmsB4dyjGTTS9hWpXHNN90QPLp89JeVXerMhgMeNFYNDs>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 5 Apr 2023 10:50:59 -0400 (EDT)
+Date: Wed, 5 Apr 2023 16:50:56 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>,
+ 	Stephen Boyd <sboyd@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ 	Chen-Yu Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>,
+ 	Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ 	Jaroslav Kysela <perex@perex.cz>, Shawn Guo <shawnguo@kernel.org>,
+ 	Fabio Estevam <festevam@gmail.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ 	Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ 	Dinh Nguyen <dinguyen@kernel.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ 	Manivannan Sadhasivam <mani@kernel.org>,
+ Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+ 	Jonathan Hunter <jonathanh@nvidia.com>, Abel Vesa <abelvesa@kernel.org>,
+ 	Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ 	Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Orson Zhai <orsonzhai@gmail.com>,
+ 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ 	Liam Girdwood <lgirdwood@gmail.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ 	Samuel Holland <samuel@sholland.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ 	Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Vinod Koul <vkoul@kernel.org>, 	NXP Linux Team <linux-imx@nxp.com>,
+ Sekhar Nori <nsekhar@ti.com>,
+ 	Kishon Vijay Abraham I <kishon@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>, 	Takashi Iwai <tiwai@suse.com>,
+ David Airlie <airlied@gmail.com>,
+ 	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ 	Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ 	David Lechner <david@lechnology.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, 	Mark Brown <broonie@kernel.org>,
+ Max Filippov <jcmvbkbc@gmail.com>,
+ 	Geert Uytterhoeven <geert+renesas@glider.be>,
+ linux-stm32@st-md-mailman.stormreply.com, 	alsa-devel@alsa-project.org,
+ linux-mediatek@lists.infradead.org, 	linux-phy@lists.infradead.org,
+ linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ 	linux-actions@lists.infradead.org, linux-clk@vger.kernel.org,
+ 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ patches@opensource.cirrus.com, linux-tegra@vger.kernel.org,
+ 	linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 56/65] clk: ingenic: cgu: Switch to determine_rate
+Message-ID: <g24dkwtsobslw6qdvs4vbcdmk2txrlrephm5zmlff2fusrxheo@mqxrprzctymk>
+References: <cp7Yh29ndlOOi1yW8KwCcpzoLPLxm1vR@localhost>
+ <20221107085417.xrsh6xy3ouwdkp4z@houat>
+ <ucJ6KSBqdPTxfxUQqLUr9C9RGiQRnY1I@localhost>
+ <20221109110045.j24vwkaq3s4yzoy3@houat>
+ <06a293adc75990ed3e297b076fc38d8a.sboyd@kernel.org>
+ <xpKMzGb1sOsucWMTlJIMzrT5KjLlZ7JP@localhost>
+ <20230324111959.frjf4neopbs67ugd@houat>
+ <rTJKpeLOBeu3eOLW5z3P5fEpcOJJLrGs@localhost>
+ <20230327192430.b2cp3yyrkzy4g4vw@penduick>
+ <1e0e8e9fe44c27e844e7e918a985704e58da2c27.camel@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="i7uz65y3usvns4hs"
+Content-Disposition: inline
+In-Reply-To: <1e0e8e9fe44c27e844e7e918a985704e58da2c27.camel@crapouillou.net>
 
-In the early days of the Allwinner A64 U-Boot support, we relied on a
-vendor provided "boot0" binary to perform the DRAM initialisation. This
-replaced the SPL, and required to equip the U-Boot (proper) binary with
-a vendor specific header to be recognised as a valid boot0 payload.
-Fortunately these days are long gone (we gained SPL and DRAM support in
-early 2017!), and we never needed to use that hack on any later 64-bit
-Allwinner SoC.
 
-Since this is highly obsolete by now, remove the Kconfig option and the
-small pieces of "code" associated with it.
+--i7uz65y3usvns4hs
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Provide some comments about the purpose of the remaining boot0 code on
-the way.
+On Wed, Apr 05, 2023 at 02:57:26PM +0200, Paul Cercueil wrote:
+> Le lundi 27 mars 2023 =E0 21:24 +0200, Maxime Ripard a =E9crit=A0:
+> > On Fri, Mar 24, 2023 at 08:58:48PM +0000, Aidan MacDonald wrote:
+> > > > > My suggestion: add a per-clock bitmap to keep track of which
+> > > > > parents
+> > > > > are allowed. Any operation that would select a parent clock not
+> > > > > on the
+> > > > > whitelist should fail. Automatic reparenting should only select
+> > > > > from
+> > > > > clocks on the whitelist. And we need new DT bindings for
+> > > > > controlling
+> > > > > the whitelist, for example:
+> > > > >=20
+> > > > > =A0=A0=A0 clock-parents-0 =3D <&clk1>, <&pll_c>;
+> > > > > =A0=A0=A0 clock-parents-1 =3D <&clk2>, <&pll_a>, <&pll_b>;
+> > > > >=20
+> > > > > This means that clk1 can only have pll_c as a parent, while
+> > > > > clk2 can
+> > > > > have pll_a or pll_b as parents. By default every clock will be
+> > > > > able
+> > > > > to use any parent, so a list is only needed if the machine
+> > > > > needs a
+> > > > > more restrictive policy.
+> > > > >=20
+> > > > > assigned-clock-parents should disable automatic reparenting,
+> > > > > but allow
+> > > > > explicit clk_set_parent(). This will allow clock drivers to
+> > > > > start doing
+> > > > > reparenting without breaking old DTs.
+> > > >=20
+> > > > I'm generally not a fan of putting all these policies in the
+> > > > device
+> > > > tree. Do you have an example where it wouldn't be possible to do
+> > > > exactly
+> > > > this from the driver itself?
+> > >=20
+> > > I'm confused. What's implicit in the example is clk1 and clk2 might
+> > > have *other* possible choices of parent clock and the device tree
+> > > is
+> > > limiting what the OS is allowed to choose.
+> > >=20
+> > > Why would you put such arbitrary limitations into the driver?
+> >=20
+> > Why would we put such arbitrary limitations in the firmware? As this
+> > entire thread can attest, people are already using the device tree to
+> > work around the limitations of the Linux driver, or reduce the
+> > features of Linux because they can rely on the device tree. Either
+> > way, it's linked to the state of the Linux driver, and any other OS
+> > or
+> > Linux version could very well implement something more dynamic.
+>=20
+> Probably because if we have to choose between setting policy in the
+> kernel or in the firmware, it is arguably better to set it in the
+> firmware.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- arch/arm/include/asm/arch-sunxi/boot0.h | 18 +++++++++++-------
- arch/arm/mach-sunxi/Kconfig             |  9 ---------
- configs/a64-olinuxino-emmc_defconfig    |  1 -
- configs/a64-olinuxino_defconfig         |  1 -
- configs/amarula_a64_relic_defconfig     |  1 -
- configs/bananapi_m64_defconfig          |  1 -
- configs/nanopi_a64_defconfig            |  1 -
- configs/oceanic_5205_5inmfd_defconfig   |  1 -
- configs/orangepi_win_defconfig          |  1 -
- configs/pine64_plus_defconfig           |  1 -
- configs/sopine_baseboard_defconfig      |  1 -
- 11 files changed, 11 insertions(+), 25 deletions(-)
+I have a very different view on this I guess. Firmware is (most of the
+time) hard to update, and the policy depend on the state of support of a
+given OS so it's likely to evolve. The kernel is the best place to me to
+put that kind of policy. Why do you think differently?
 
-diff --git a/arch/arm/include/asm/arch-sunxi/boot0.h b/arch/arm/include/asm/arch-sunxi/boot0.h
-index 59ea75a96b5..1a396f78488 100644
---- a/arch/arm/include/asm/arch-sunxi/boot0.h
-+++ b/arch/arm/include/asm/arch-sunxi/boot0.h
-@@ -1,13 +1,17 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * Configuration settings for the Allwinner A64 (sun50i) CPU
-+ * Very early code for Allwinner 64-bit CPUs.
-+ *
-+ * The BROM runs entirely in AArch32 state, so the SPL is entered using this
-+ * ISA. Depending on the rest of the firmware stack, this may also be true
-+ * for U-Boot proper.
-+ * Provide the "RMR reset into 64-bit" sequence, in AArch32 machine language,
-+ * so that we can have all of U-Boot in AArch64. The first instruction is
-+ * chosen so that if the CPU is already using AArch64, it will skip the code
-+ * and jump straight to the reset vector.
-  */
- 
--#if defined(CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER) && !defined(CONFIG_SPL_BUILD)
--/* reserve space for BOOT0 header information */
--	b	reset
--	.space	1532
--#elif defined(CONFIG_ARM_BOOT_HOOK_RMR)
-+#ifdef CONFIG_ARM_BOOT_HOOK_RMR
- /*
-  * Switch into AArch64 if needed.
-  * Refer to arch/arm/mach-sunxi/rmr_switch.S for the original source.
-@@ -47,7 +51,7 @@
- 	.word   CONFIG_TEXT_BASE
- #endif
- 	.word	fel_stash - .
--#else
-+#else	/* !CONFIG_ARM_BOOT_HOOK_RMR */
- /* normal execution */
- 	b	reset
- #endif
-diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-index b46667ce01e..0527b3863a7 100644
---- a/arch/arm/mach-sunxi/Kconfig
-+++ b/arch/arm/mach-sunxi/Kconfig
-@@ -386,15 +386,6 @@ config MACH_SUN8I
- 	default y if MACH_SUN8I_R40
- 	default y if MACH_SUN8I_V3S
- 
--config RESERVE_ALLWINNER_BOOT0_HEADER
--	bool "reserve space for Allwinner boot0 header"
--	select ENABLE_ARM_SOC_BOOT0_HOOK
--	---help---
--	Prepend a 1536 byte (empty) header to the U-Boot image file, to be
--	filled with magic values post build. The Allwinner provided boot0
--	blob relies on this information to load and execute U-Boot.
--	Only needed on 64-bit Allwinner boards so far when using boot0.
--
- config ARM_BOOT_HOOK_RMR
- 	bool
- 	depends on ARM64
-diff --git a/configs/a64-olinuxino-emmc_defconfig b/configs/a64-olinuxino-emmc_defconfig
-index 8ec9eb3e9c2..a5989fab1c6 100644
---- a/configs/a64-olinuxino-emmc_defconfig
-+++ b/configs/a64-olinuxino-emmc_defconfig
-@@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=y
- CONFIG_DEFAULT_DEVICE_TREE="sun50i-a64-olinuxino-emmc"
- CONFIG_SPL=y
- CONFIG_MACH_SUN50I=y
--CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER=y
- CONFIG_MMC_SUNXI_SLOT_EXTRA=2
- # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
- CONFIG_SUPPORT_EMMC_BOOT=y
-diff --git a/configs/a64-olinuxino_defconfig b/configs/a64-olinuxino_defconfig
-index 16cef18beef..0b469c25d0d 100644
---- a/configs/a64-olinuxino_defconfig
-+++ b/configs/a64-olinuxino_defconfig
-@@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=y
- CONFIG_DEFAULT_DEVICE_TREE="sun50i-a64-olinuxino"
- CONFIG_SPL=y
- CONFIG_MACH_SUN50I=y
--CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER=y
- CONFIG_MMC_SUNXI_SLOT_EXTRA=2
- # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
- CONFIG_SUN8I_EMAC=y
-diff --git a/configs/amarula_a64_relic_defconfig b/configs/amarula_a64_relic_defconfig
-index ae44b66d109..292af6e372e 100644
---- a/configs/amarula_a64_relic_defconfig
-+++ b/configs/amarula_a64_relic_defconfig
-@@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=y
- CONFIG_DEFAULT_DEVICE_TREE="sun50i-a64-amarula-relic"
- CONFIG_SPL=y
- CONFIG_MACH_SUN50I=y
--CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER=y
- CONFIG_MMC_SUNXI_SLOT_EXTRA=2
- # CONFIG_VIDEO_DE2 is not set
- # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-diff --git a/configs/bananapi_m64_defconfig b/configs/bananapi_m64_defconfig
-index 99dc2f7d209..d957071cb13 100644
---- a/configs/bananapi_m64_defconfig
-+++ b/configs/bananapi_m64_defconfig
-@@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=y
- CONFIG_DEFAULT_DEVICE_TREE="sun50i-a64-bananapi-m64"
- CONFIG_SPL=y
- CONFIG_MACH_SUN50I=y
--CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER=y
- CONFIG_MMC_SUNXI_SLOT_EXTRA=2
- # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
- CONFIG_SUPPORT_EMMC_BOOT=y
-diff --git a/configs/nanopi_a64_defconfig b/configs/nanopi_a64_defconfig
-index 70fc257eebd..608238757ba 100644
---- a/configs/nanopi_a64_defconfig
-+++ b/configs/nanopi_a64_defconfig
-@@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=y
- CONFIG_DEFAULT_DEVICE_TREE="sun50i-a64-nanopi-a64"
- CONFIG_SPL=y
- CONFIG_MACH_SUN50I=y
--CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER=y
- # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
- CONFIG_SUN8I_EMAC=y
- CONFIG_USB_EHCI_HCD=y
-diff --git a/configs/oceanic_5205_5inmfd_defconfig b/configs/oceanic_5205_5inmfd_defconfig
-index 2ebca673808..6cdcf782bee 100644
---- a/configs/oceanic_5205_5inmfd_defconfig
-+++ b/configs/oceanic_5205_5inmfd_defconfig
-@@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=y
- CONFIG_DEFAULT_DEVICE_TREE="sun50i-a64-oceanic-5205-5inmfd"
- CONFIG_SPL=y
- CONFIG_MACH_SUN50I=y
--CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER=y
- CONFIG_SUNXI_DRAM_LPDDR3_STOCK=y
- CONFIG_DRAM_CLK=552
- CONFIG_DRAM_ZQ=3881949
-diff --git a/configs/orangepi_win_defconfig b/configs/orangepi_win_defconfig
-index 3b78ad7e52d..df11ad8c8fd 100644
---- a/configs/orangepi_win_defconfig
-+++ b/configs/orangepi_win_defconfig
-@@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=y
- CONFIG_DEFAULT_DEVICE_TREE="sun50i-a64-orangepi-win"
- CONFIG_SPL=y
- CONFIG_MACH_SUN50I=y
--CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER=y
- CONFIG_MACPWR="PD14"
- CONFIG_SPL_SPI_SUNXI=y
- # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-diff --git a/configs/pine64_plus_defconfig b/configs/pine64_plus_defconfig
-index f42f4e5923a..08c13b58a1e 100644
---- a/configs/pine64_plus_defconfig
-+++ b/configs/pine64_plus_defconfig
-@@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=y
- CONFIG_DEFAULT_DEVICE_TREE="sun50i-a64-pine64-plus"
- CONFIG_SPL=y
- CONFIG_MACH_SUN50I=y
--CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER=y
- CONFIG_PINE64_DT_SELECTION=y
- # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
- CONFIG_OF_LIST="sun50i-a64-pine64 sun50i-a64-pine64-plus"
-diff --git a/configs/sopine_baseboard_defconfig b/configs/sopine_baseboard_defconfig
-index a5e1478c117..d9b0eb37c54 100644
---- a/configs/sopine_baseboard_defconfig
-+++ b/configs/sopine_baseboard_defconfig
-@@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=y
- CONFIG_DEFAULT_DEVICE_TREE="sun50i-a64-sopine-baseboard"
- CONFIG_SPL=y
- CONFIG_MACH_SUN50I=y
--CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER=y
- CONFIG_SUNXI_DRAM_LPDDR3_STOCK=y
- CONFIG_DRAM_CLK=552
- CONFIG_DRAM_ZQ=3881949
--- 
-2.25.1
+> Especially when talking about clocks, as the firmware is already the
+> one programming the boot clocks.
 
+I'm not sure what your point is there. I don't think I ever saw a
+firmware getting the clocks right for every possible scenario on a given
+platform. And if it was indeed the case, then we wouldn't even a kernel
+driver.
+
+Maxime
+
+--i7uz65y3usvns4hs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZC2KyAAKCRDj7w1vZxhR
+xbx0AQDo/091Al9F55xVR4k44hMshHS0Db7q/bHfCkOFHJG+RwEAxo0zFijQl/Op
+i9WCXbYvyuKQciwCDCJE5/F+69faAgw=
+=nWIA
+-----END PGP SIGNATURE-----
+
+--i7uz65y3usvns4hs--
