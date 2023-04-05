@@ -1,109 +1,189 @@
-Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A50EB63AE
-	for <linux-sunxi@lists.linux.dev>; Wed,  5 Apr 2023 15:28:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=WEVhki1z04JzpG6JGv+tXPk2KVEYI5pMsCd6omv0e8Y=; b=Oqb3PO1k4CqBJ/hcNQoQc+Xjed
-	eqJ8vOTGWrK6NhOYRyoWYY4aVIyndl7gxFnpfFolncw0Z9voV1OiJ34cx8DI5SlracX7U/bo5KRaU
-	DzOLBECWff7waN7kl5pjbA+z6u9PMEFYB6+ajs7fS0CXZGw40zjzdo0rWKS8xMJmOVnDXIFueTgH6
-	lxiuEmeKpsF9wRHjxbmkeO0Mqa9IgYFF3iW++MSoQIiqip/0SHWaz7KosJ8I7VUFw7LVrqjDGC8jw
-	23/tXgr5RlS0iaJ9nSDJPDrclY9+f3iUBwbWWkjX2TCAO2a7+mA2Py7eJ4NjhNAeH7qlGdjkUunR3
-	bJRwCG0A==;
-Received: from ip98-183-112-29.ok.ok.cox.net ([98.183.112.29]:40758 helo=[192.168.0.134])
-	by vern.gendns.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96)
-	(envelope-from <david@lechnology.com>)
-	id 1pk4fg-0004Km-04;
-	Wed, 05 Apr 2023 11:03:36 -0400
-Message-ID: <04f5d305-9992-bcdc-cd54-111eb8254155@lechnology.com>
-Date: Wed, 5 Apr 2023 10:03:24 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB6E263AE
+	for <linux-sunxi@lists.linux.dev>; Wed,  5 Apr 2023 15:29:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1680708591;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Mjb6j+bIXE7b8JKh7kXdb3mAp/fvDvyUInzyZqABl7c=;
+	b=KkyZeRD8zRr9DUPi8E+yaAiJ6llkrkavOcg1hU9CiniByzzr5DJTX0SyfBAelvEuN8MeEv
+	jL7uDqd+LBP5S8A6OuKPnyJCiz26onUF85KEMt1FysxEno2QjGawIYOL+G+P8JgGTbkscL
+	0Btl6oFLBPglYsRqL+QJzG3n9bKa4SU=
+Message-ID: <84dea45aa0a46f531d38369a31d08420dc43dfe3.camel@crapouillou.net>
+Subject: Re: [PATCH v2 56/65] clk: ingenic: cgu: Switch to determine_rate
+From: Paul Cercueil <paul@crapouillou.net>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>, Stephen Boyd
+ <sboyd@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Chen-Yu
+ Tsai <wens@csie.org>, Daniel Vetter <daniel@ffwll.ch>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Thierry Reding <thierry.reding@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Shawn Guo <shawnguo@kernel.org>, Fabio
+ Estevam <festevam@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, Claudiu
+ Beznea <claudiu.beznea@microchip.com>, Michael Turquette
+ <mturquette@baylibre.com>,  Dinh Nguyen <dinguyen@kernel.org>, Chunyan
+ Zhang <zhang.lyra@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>,
+ Andreas =?ISO-8859-1?Q?F=E4rber?= <afaerber@suse.de>,  Jonathan Hunter
+ <jonathanh@nvidia.com>, Abel Vesa <abelvesa@kernel.org>, Charles Keepax
+ <ckeepax@opensource.cirrus.com>, Alessandro Zummo <a.zummo@towertech.it>, 
+ Peter De Schrijver <pdeschrijver@nvidia.com>, Orson Zhai
+ <orsonzhai@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Samuel Holland <samuel@sholland.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Vinod Koul <vkoul@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,  Sekhar
+ Nori <nsekhar@ti.com>, Kishon Vijay Abraham I <kishon@kernel.org>, Linus
+ Walleij <linus.walleij@linaro.org>, Takashi Iwai <tiwai@suse.com>, David
+ Airlie <airlied@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>,  Baolin Wang <baolin.wang@linux.alibaba.com>,
+ David Lechner <david@lechnology.com>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Mark Brown <broonie@kernel.org>, Max Filippov
+ <jcmvbkbc@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+ linux-stm32@st-md-mailman.stormreply.com, alsa-devel@alsa-project.org, 
+ linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org, 
+ linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-actions@lists.infradead.org, linux-clk@vger.kernel.org, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ patches@opensource.cirrus.com, linux-tegra@vger.kernel.org, 
+ linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Date: Wed, 05 Apr 2023 17:29:47 +0200
+In-Reply-To: <g24dkwtsobslw6qdvs4vbcdmk2txrlrephm5zmlff2fusrxheo@mqxrprzctymk>
+References: <cp7Yh29ndlOOi1yW8KwCcpzoLPLxm1vR@localhost>
+	 <20221107085417.xrsh6xy3ouwdkp4z@houat>
+	 <ucJ6KSBqdPTxfxUQqLUr9C9RGiQRnY1I@localhost>
+	 <20221109110045.j24vwkaq3s4yzoy3@houat>
+	 <06a293adc75990ed3e297b076fc38d8a.sboyd@kernel.org>
+	 <xpKMzGb1sOsucWMTlJIMzrT5KjLlZ7JP@localhost>
+	 <20230324111959.frjf4neopbs67ugd@houat>
+	 <rTJKpeLOBeu3eOLW5z3P5fEpcOJJLrGs@localhost>
+	 <20230327192430.b2cp3yyrkzy4g4vw@penduick>
+	 <1e0e8e9fe44c27e844e7e918a985704e58da2c27.camel@crapouillou.net>
+	 <g24dkwtsobslw6qdvs4vbcdmk2txrlrephm5zmlff2fusrxheo@mqxrprzctymk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v3 54/65] clk: da8xx: clk48: Switch to determine_rate
-To: Maxime Ripard <maxime@cerno.tech>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Max Filippov <jcmvbkbc@gmail.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, Sekhar Nori <nsekhar@ti.com>,
- Abel Vesa <abelvesa@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Dinh Nguyen <dinguyen@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Ulf Hansson
- <ulf.hansson@linaro.org>, Linus Walleij <linus.walleij@linaro.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Alessandro Zummo <a.zummo@towertech.it>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Paul Cercueil <paul@crapouillou.net>,
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>
-Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-arm-kernel@lists.infradead.org, linux-actions@lists.infradead.org,
- patches@opensource.cirrus.com, linux-stm32@st-md-mailman.stormreply.com,
- linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-phy@lists.infradead.org, linux-rtc@vger.kernel.org,
- linux-sunxi@lists.linux.dev, alsa-devel@alsa-project.org,
- linux-mips@vger.kernel.org
-References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
- <20221018-clk-range-checks-fixes-v3-54-9a1358472d52@cerno.tech>
-Content-Language: en-US
-From: David Lechner <david@lechnology.com>
-In-Reply-To: <20221018-clk-range-checks-fixes-v3-54-9a1358472d52@cerno.tech>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - vern.gendns.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lechnology.com
-X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id: davidmain+lechnology.com/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
 
-On 4/4/23 5:11 AM, Maxime Ripard wrote:
-> The TI DA8xx USB0 clk48 clocks implements a mux with a set_parent
-> hook, but doesn't provide a determine_rate implementation.
-> 
-> This is a bit odd, since set_parent() is there to, as its name implies,
-> change the parent of a clock. However, the most likely candidate to
-> trigger that parent change is a call to clk_set_rate(), with
-> determine_rate() figuring out which parent is the best suited for a
-> given rate.
-> 
+Le mercredi 05 avril 2023 =C3=A0 16:50 +0200, Maxime Ripard a =C3=A9crit=C2=
+=A0:
+> On Wed, Apr 05, 2023 at 02:57:26PM +0200, Paul Cercueil wrote:
+> > Le lundi 27 mars 2023 =C3=A0 21:24 +0200, Maxime Ripard a =C3=A9crit=C2=
+=A0:
+> > > On Fri, Mar 24, 2023 at 08:58:48PM +0000, Aidan MacDonald wrote:
+> > > > > > My suggestion: add a per-clock bitmap to keep track of
+> > > > > > which
+> > > > > > parents
+> > > > > > are allowed. Any operation that would select a parent clock
+> > > > > > not
+> > > > > > on the
+> > > > > > whitelist should fail. Automatic reparenting should only
+> > > > > > select
+> > > > > > from
+> > > > > > clocks on the whitelist. And we need new DT bindings for
+> > > > > > controlling
+> > > > > > the whitelist, for example:
+> > > > > >=20
+> > > > > > =C2=A0=C2=A0=C2=A0 clock-parents-0 =3D <&clk1>, <&pll_c>;
+> > > > > > =C2=A0=C2=A0=C2=A0 clock-parents-1 =3D <&clk2>, <&pll_a>, <&pll=
+_b>;
+> > > > > >=20
+> > > > > > This means that clk1 can only have pll_c as a parent, while
+> > > > > > clk2 can
+> > > > > > have pll_a or pll_b as parents. By default every clock will
+> > > > > > be
+> > > > > > able
+> > > > > > to use any parent, so a list is only needed if the machine
+> > > > > > needs a
+> > > > > > more restrictive policy.
+> > > > > >=20
+> > > > > > assigned-clock-parents should disable automatic
+> > > > > > reparenting,
+> > > > > > but allow
+> > > > > > explicit clk_set_parent(). This will allow clock drivers to
+> > > > > > start doing
+> > > > > > reparenting without breaking old DTs.
+> > > > >=20
+> > > > > I'm generally not a fan of putting all these policies in the
+> > > > > device
+> > > > > tree. Do you have an example where it wouldn't be possible to
+> > > > > do
+> > > > > exactly
+> > > > > this from the driver itself?
+> > > >=20
+> > > > I'm confused. What's implicit in the example is clk1 and clk2
+> > > > might
+> > > > have *other* possible choices of parent clock and the device
+> > > > tree
+> > > > is
+> > > > limiting what the OS is allowed to choose.
+> > > >=20
+> > > > Why would you put such arbitrary limitations into the driver?
+> > >=20
+> > > Why would we put such arbitrary limitations in the firmware? As
+> > > this
+> > > entire thread can attest, people are already using the device
+> > > tree to
+> > > work around the limitations of the Linux driver, or reduce the
+> > > features of Linux because they can rely on the device tree.
+> > > Either
+> > > way, it's linked to the state of the Linux driver, and any other
+> > > OS
+> > > or
+> > > Linux version could very well implement something more dynamic.
+> >=20
+> > Probably because if we have to choose between setting policy in the
+> > kernel or in the firmware, it is arguably better to set it in the
+> > firmware.
+>=20
+> I have a very different view on this I guess. Firmware is (most of
+> the
+> time) hard to update, and the policy depend on the state of support
+> of a
+> given OS so it's likely to evolve. The kernel is the best place to me
+> to
+> put that kind of policy. Why do you think differently?
 
-As mentioned in my previous review, parent is selected by device
-tree and should never be changed after init.
+Because the clocks configuration can be board-specific. And you don't
+really want board-specific stuff in the driver.
 
+If we take the Ingenic JZ4770 SoC as example, on one board we parent
+everything we can to the PLL1 clock and set it to 432 MHz (the least
+common multiple). Then the PLL0 (which drives the DDR and CPU clocks)
+can be updated to overclock/underclock the CPU and RAM.
+
+So should that be hardcoded in the driver? Well, for a different board,
+for which overclock is not really needed, it's better to parent
+everything to PLL0 so that PLL1 can be shut down to save power. So what
+policy should be hardcoded in the driver?
+
+>=20
+> > Especially when talking about clocks, as the firmware is already
+> > the
+> > one programming the boot clocks.
+>=20
+> I'm not sure what your point is there. I don't think I ever saw a
+> firmware getting the clocks right for every possible scenario on a
+> given
+> platform. And if it was indeed the case, then we wouldn't even a
+> kernel
+> driver.
+
+My point is that there is already policy in how the firmware sets up
+the hardware; and most often than not, the kernel driver won't change
+that (e.g. you're probably not going to touch the DDR clock). It's
+better to have all policy in the firmware then, instead of having some
+in the firmware, and some in the kernel driver.
+
+Cheers,
+-Paul
