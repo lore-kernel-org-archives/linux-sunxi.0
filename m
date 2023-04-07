@@ -1,112 +1,126 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FA848BE0
-	for <linux-sunxi@lists.linux.dev>; Thu,  6 Apr 2023 15:21:31 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D72F1169E;
-	Thu,  6 Apr 2023 08:22:08 -0700 (PDT)
-Received: from [10.2.7.51] (stinger.cambridge.arm.com [10.2.7.51])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ADE653F762;
-	Thu,  6 Apr 2023 08:21:17 -0700 (PDT)
-Message-ID: <a54a4ea0-f9f5-6869-9629-747c3889a1de@arm.com>
-Date: Thu, 6 Apr 2023 16:21:15 +0100
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8548A1FA9
+	for <linux-sunxi@lists.linux.dev>; Fri,  7 Apr 2023 08:11:01 +0000 (UTC)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id D70776000C;
+	Fri,  7 Apr 2023 08:10:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1680855059;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k62lE0Z84brwUbN0RTewMQPHSeeiOVUlnJEgkCzQsvo=;
+	b=R9CLiy5G5LdE9BO36N204fuspyAxiiF7TmcabLrbwrQPeoEl5Pn0pcw2pa9LFURAj+yhqS
+	Ku6ulo+yoPDqo0ywa6hZxIhfMa2hfrKY6oIoCe+v26HM6BlIqcgn8p8u0WJDFU+gYVyAOT
+	iWOVTokLobBTMlDhc5L2oqSRq3pJIdqQ+s5IqSFwu1iEWL1rH1J0xX63ZpwsrUgxYtF5VC
+	JMA7zniKULdwaW97f/g6p4Ec2AzETlg0EBYuF+OIU67+xs5aqnBUa8bo0FWsfGskdfArda
+	sO7wxwa4nSLUU/oHmfv/0zUTbea+upPaTGkKYKQ1Sq0BSBr1Ah5yUIuIzPRbHA==
+Date: Fri, 7 Apr 2023 10:10:43 +0200
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>, Kyungmin Park
+ <kyungmin.park@samsung.com>, Naga Sureshkumar Relli <nagasure@xilinx.com>,
+ Tudor Ambarus <tudor.ambarus@linaro.org>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea
+ <claudiu.beznea@microchip.com>, Yang Yingliang <yangyingliang@huawei.com>,
+ ye xingchen <ye.xingchen@zte.com.cn>, Valentin Korenblit
+ <vkorenblit@sequans.com>, Wang Weiyang <wangweiyang2@huawei.com>, Pali
+ =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>, Marek =?UTF-8?B?QmVow7pu?=
+ <kabel@kernel.org>, Han Xu <han.xu@nxp.com>, Harvey Hunt
+ <harveyhuntnexus@gmail.com>, Paul Cercueil <paul@crapouillou.net>, Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>, Vladimir Zapolskiy
+ <vz@mleia.com>, Geert Uytterhoeven <geert@linux-m68k.org>, Dmitry Torokhov
+ <dmitry.torokhov@gmail.com>, Liang Yang <liang.yang@amlogic.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, Phil Edworthy
+ <phil.edworthy@renesas.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Chuanhong Guo <gch981213@gmail.com>, Roger Quadros <rogerq@kernel.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Manivannan Sadhasivam
+ <mani@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, Arnd Bergmann <arnd@arndb.de>, Linus
+ Walleij <linus.walleij@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ Miaoqian Lin <linmq006@gmail.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Christophe Kerello
+ <christophe.kerello@foss.st.com>, Jack Wang <jinpu.wang@ionos.com>, Chen-Yu
+ Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Stefan Agner <stefan@agner.ch>, Lucas Stach
+ <dev@lynxeye.de>, Thierry Reding <thierry.reding@gmail.com>, Jonathan
+ Hunter <jonathanh@nvidia.com>, Richard Weinberger <richard@nod.at>,
+ linux-mtd@lists.infradead.org, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, Jerome
+ Brunet <jbrunet@baylibre.com>, linux-amlogic@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-mediatek@lists.infradead.org, linux-oxnas@groups.io,
+ linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 00/49] mtd: nand: Convert to platform remove callback
+ returning void
+Message-ID: <20230407101043.299f5e22@xps-13>
+In-Reply-To: <20230401161938.2503204-1-u.kleine-koenig@pengutronix.de>
+References: <20230401161938.2503204-1-u.kleine-koenig@pengutronix.de>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v3 36/65] clk: versatile: sp810: Add a determine_rate hook
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, =?UTF-8?Q?Andreas_F=c3=a4rber?=
- <afaerber@suse.de>, Manivannan Sadhasivam <mani@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Max Filippov <jcmvbkbc@gmail.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- David Lechner <david@lechnology.com>, Sekhar Nori <nsekhar@ti.com>,
- Abel Vesa <abelvesa@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Dinh Nguyen <dinguyen@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Ulf Hansson
- <ulf.hansson@linaro.org>, Linus Walleij <linus.walleij@linaro.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Alessandro Zummo <a.zummo@towertech.it>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Paul Cercueil <paul@crapouillou.net>,
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- linux-kernel@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-arm-kernel@lists.infradead.org, linux-actions@lists.infradead.org,
- patches@opensource.cirrus.com, linux-stm32@st-md-mailman.stormreply.com,
- linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-phy@lists.infradead.org, linux-rtc@vger.kernel.org,
- linux-sunxi@lists.linux.dev, alsa-devel@alsa-project.org,
- linux-mips@vger.kernel.org
-References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
- <20221018-clk-range-checks-fixes-v3-36-9a1358472d52@cerno.tech>
-From: Pawel Moll <pawel.moll@arm.com>
-In-Reply-To: <20221018-clk-range-checks-fixes-v3-36-9a1358472d52@cerno.tech>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-On 04/04/2023 11:11, Maxime Ripard wrote:
-> The Versatile sp810 "timerclken" clock implements a mux with a
-> set_parent hook, but doesn't provide a determine_rate implementation.
-> 
-> This is a bit odd, since set_parent() is there to, as its name implies,
-> change the parent of a clock. 
+Hi Uwe,
 
-Explanation of this mystery is pretty simple - the original patch:
+u.kleine-koenig@pengutronix.de wrote on Sat,  1 Apr 2023 18:18:49 +0200:
 
-	commit 6e973d2c438502dcf956e76305258ba7d1c7d1d3
-	Author: Pawel Moll <pawel.moll@arm.com>
-	Date:   Thu Apr 18 18:23:22 2013 +0100
+> Hello,
+>=20
+> this series adapts the platform drivers below drivers/mtd/nand to use the
+> .remove_new() callback. Compared to the traditional .remove() callback
+> .remove_new() returns no value. This is a good thing because the driver c=
+ore
+> doesn't (and cannot) cope for errors during remove. The only effect of a
+> non-zero return value in .remove() is that the driver core emits a warnin=
+g. The
+> device is removed anyhow and an early return from .remove() usually yield=
+s a
+> resource leak.
+>=20
+> By changing the remove callback to return void driver authors cannot
+> reasonably assume any more that there is some kind of cleanup later.
+>=20
+> As all drivers already return 0 in their .remove callback, they can be
+> converted trivially.
 
-	    clk: vexpress: Add separate SP810 driver
+I've looked at the different patches, they look good to me but as they
+are all trivial and exactly identical, would you mind sending this
+again all squashed in a single patch? A subsystem-wide conversion seems
+appropriate. In all cases I plan to take this for the next merge
+window.
 
-predates introduction of determine_rate to clk_ops...
+I've collected the tags received so far if you want:
 
-	commit 71472c0c06cf9a3d1540762ea205654c584e3bc4
-	Author: James Hogan <jhogan@kernel.org>
-	Date:   Mon Jul 29 12:25:00 2013 +0100
+Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com> # atmel
+Reviewed-by: Paul Cercueil <paul@crapouillou.net> # ingenic
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> # ingenic
+Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com> # intel
+Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com> # mes=
+on
+Acked-by: Roger Quadros <rogerq@kernel.org> # omap
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
+Reviewed-by: Heiko Stuebner <heiko@sntech.de> # rockchip
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com> # sunxi
+Acked-by: Thierry Reding <treding@nvidia.com> # tegra
 
-	    clk: add support for clock reparent on set_rate
+BTW, thanks to all of you who reviewed and answered to this thread!
+This is highly appreciated.=20
 
-and clearly no one (the author included ;-) bothered to have another
-look at this side of the driver.
-
-> And if it was an oversight, then we are at least explicit about our
-> behavior now and it can be further refined down the line.
-
-It's been one hell of a memory lane trip, but my recollection suggest
-that the main goal of the driver was simply initialisation of the mux
-to select the 1MHz parent, because the other option - 32kHz - just
-didn't make any sense whatsoever. And that would be the case on every
-single platform using SP810 I know (or at least: knew), so it's seems
-to me that making the state permanent, as you're suggesting (or I
-think you're suggesting?) it's the right thing to do.
-
-Thanks!
-
-Paweł
+Thanks,
+Miqu=C3=A8l
