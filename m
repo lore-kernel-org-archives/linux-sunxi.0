@@ -1,43 +1,43 @@
 Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA74A1841
-	for <linux-sunxi@lists.linux.dev>; Sat,  8 Apr 2023 12:12:42 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id xi5so2422175ejb.13
-        for <linux-sunxi@lists.linux.dev>; Sat, 08 Apr 2023 05:12:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8021841
+	for <linux-sunxi@lists.linux.dev>; Sat,  8 Apr 2023 12:12:59 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id xi5so2423442ejb.13
+        for <linux-sunxi@lists.linux.dev>; Sat, 08 Apr 2023 05:12:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680955961;
+        d=gmail.com; s=20210112; t=1680955979;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OEjyigADndOdizLeD+7XPzcSBZVRCHIxciRjEv6kJxg=;
-        b=dXHNue3tfQS7WytEgGHmZW8HJVXaXr6PVc3hV7N4G2roojWs2Ke8ZuvMD/67J/K1ML
-         uaQzEWaSid873PrggNGX2FavoHdL3gTdvvK53X5uu3y+m7LI5HApCIgkSsiPiSwMfrra
-         1gK7OX0I44vpnwiuj8La02MBIAc7nLBhWrwlldRxzUiZ3+S+9wmsXwoG8IYSpWnmufQq
-         huu1TMjvTfi3cgC2apzUJDX0ONbAPH+XUqHbR2GxDy8k0n9zi/RLk/GD4mlY0vdz1SGG
-         7kZv5SYLJXx86MenvfFTwWs99lKqiPmSPab0Xv/X64SddUKViG12OolSE8u7WgyXzZVm
-         1MOw==
+        bh=fh1w6MZVvyVEsvytmtNdPF4PmTaTKXUM9E0VL+nzXOQ=;
+        b=JU4P2piMvKh/GIkpuzP/xIQOOpn2ZnltJSPsX6ToqWYejNfSEHUMEQKkk2vxWQGqxu
+         tkgCRmUgCOeXfcH4BM5JwHRqumBt3d0pmiOf2KtqOMYDBR9yE2jaAPWaetwNmD99cx22
+         EX0jtsIAWeRKOnyFG4RMK7FsKSAq93I3V3U6vOrMoB/RDutlkjHOn6c4pL6tsUON8Nbj
+         ier5+/rfjnH6s0UR7/G3T8RDb+Zrp0Ok1/bPgFik9dBl/OPTg8KVfrj1DXP4oE6TJrrH
+         IzlKLM0oix3dFcesvzN8ljeA/JYXYEluRi9cIfdVcvZJN2yz7HpQiUu7wqtTQDozctY7
+         soDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680955961;
+        d=1e100.net; s=20210112; t=1680955979;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OEjyigADndOdizLeD+7XPzcSBZVRCHIxciRjEv6kJxg=;
-        b=MgR3eU2bTYGzkjMAL/VylLEGAXe/8/qXYDkEMd4S7623Q3yfGPfGrEQKlOILdDYdFo
-         HghdnuWa1EBJCn5GlNg6NU3h1dzccLZmJTrZWdCDSYxTYI5J4J6FIOsVSP6kJQ6Tw2ni
-         dMWu9402u1BieVFg6EDzHOl+4lbpBQYCjOLv/WAtl2mONogf5vM5ucofnF6bjuesZPyG
-         jCJZfMmqtt+Uc5NxDLHq8nOHLv3qXeqMSaL1nOJ1iZLyR869VZYahVTS8EvtRJwWVfpD
-         uT9kDr234mi8HM9Yzg1mkPJxT2iuxnI3+2ce2nfbsrW9QU83r3vNrzgdl3wMeNxer8c6
-         u+pw==
-X-Gm-Message-State: AAQBX9fdrzqYjLWJAWdXQg2YGOjCzDfBklrem6o2R6olvBCUQOQKfZPY
-	1CiC+AHZmuWjY17bCr6sw6E=
-X-Google-Smtp-Source: AKy350ZKm612bONyntbJNhUcSmJqS/wij8yX9R0YK3mv05gal13Hkgd68SwJxMfJJzhR6AYahsrYbg==
-X-Received: by 2002:a17:906:71c9:b0:930:123:8cc8 with SMTP id i9-20020a17090671c900b0093001238cc8mr2399797ejk.21.1680955960788;
-        Sat, 08 Apr 2023 05:12:40 -0700 (PDT)
+        bh=fh1w6MZVvyVEsvytmtNdPF4PmTaTKXUM9E0VL+nzXOQ=;
+        b=olDQjahFe4Q2SsFGG1IopjOzzPlfpRwCwueSCeFJT6pL+A0Gz0WjCH36SLvDb3EwWq
+         9SjF+s4sFtI4sofgoF9pfeCcAW53KzLy6j16kbb8PC7+X0jWU7Jp+JxdLefLXNMdKJAx
+         MRRqTFVxFzwwnn/PY028SYlNYF69LI+TgAmts8JxUsEC1Cpbl3n7dgaSv8lE6VEu3mdX
+         UXKVa+eWSZHztXEBmF3U0U2VA3/5s5gAIpoaJrh+Yk29/1uGuYmohbbd5jHzFKgvZCPx
+         unJE7eP3K1SrTE00eBTlFf+kHdojXt9eSybgrOZLznHnYUhdiiGGOQdeDhcygMixEtqh
+         Uybg==
+X-Gm-Message-State: AAQBX9doNDQV7VjkjyGHjSXtBSz2+qBoKDE+daYzNLfunXFsKHTvn38G
+	Z+9l0igfj1Q2eMvp0NdA8c8=
+X-Google-Smtp-Source: AKy350aE3T02AUVNWDyuHg0EPy6lYfeZjBOoMhh6F5J6LzBKmjJy7eJPSVbbRfKO/iq7X1XGLm39Tg==
+X-Received: by 2002:a17:906:9484:b0:884:3174:119d with SMTP id t4-20020a170906948400b008843174119dmr2429409ejx.14.1680955979016;
+        Sat, 08 Apr 2023 05:12:59 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id qb19-20020a1709077e9300b00948da767832sm3072503ejc.152.2023.04.08.05.12.39
+        by smtp.gmail.com with ESMTPSA id qk6-20020a1709077f8600b00948fd62a53asm3078363ejc.71.2023.04.08.05.12.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Apr 2023 05:12:40 -0700 (PDT)
+        Sat, 08 Apr 2023 05:12:58 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Rob Herring <robh+dt@kernel.org>,
@@ -53,14 +53,14 @@ Cc: linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
  linux-riscv@lists.infradead.org, kernel@collabora.com
 Subject:
- Re: [PATCH v2 03/10] ARM: dts: sun8i: a23/a33: Switch dma-names order for
+ Re: [PATCH v2 04/10] ARM: dts: sun8i: v3s: Switch dma-names order for
  snps,dw-apb-uart nodes
-Date: Sat, 08 Apr 2023 14:12:38 +0200
-Message-ID: <3489160.iIbC2pHGDl@jernej-laptop>
-In-Reply-To: <20230321215624.78383-4-cristian.ciocaltea@collabora.com>
+Date: Sat, 08 Apr 2023 14:12:57 +0200
+Message-ID: <3155463.5fSG56mABF@jernej-laptop>
+In-Reply-To: <20230321215624.78383-5-cristian.ciocaltea@collabora.com>
 References:
  <20230321215624.78383-1-cristian.ciocaltea@collabora.com>
- <20230321215624.78383-4-cristian.ciocaltea@collabora.com>
+ <20230321215624.78383-5-cristian.ciocaltea@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -70,7 +70,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne torek, 21. marec 2023 ob 22:56:17 CEST je Cristian Ciocaltea napisal(a):
+Dne torek, 21. marec 2023 ob 22:56:18 CEST je Cristian Ciocaltea napisal(a):
 > Commit 370f696e4474 ("dt-bindings: serial: snps-dw-apb-uart: add dma &
 > dma-names properties") documented dma-names property to handle Allwinner
 > D1 dtbs_check warnings, but relies on the rx->tx ordering, which is the
@@ -94,58 +94,40 @@ Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Best regards,
 Jernej
 
->  arch/arm/boot/dts/sun8i-a23-a33.dtsi | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  arch/arm/boot/dts/sun8i-v3s.dtsi | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/arch/arm/boot/dts/sun8i-a23-a33.dtsi
-> b/arch/arm/boot/dts/sun8i-a23-a33.dtsi index f630ab55bb6a..4aa9d88c9ea3
-> 100644
-> --- a/arch/arm/boot/dts/sun8i-a23-a33.dtsi
-> +++ b/arch/arm/boot/dts/sun8i-a23-a33.dtsi
-> @@ -490,7 +490,7 @@ uart0: serial@1c28000 {
+> diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi
+> b/arch/arm/boot/dts/sun8i-v3s.dtsi index db194c606fdc..b001251644f7 100644
+> --- a/arch/arm/boot/dts/sun8i-v3s.dtsi
+> +++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
+> @@ -479,7 +479,7 @@ uart0: serial@1c28000 {
+>  			reg-io-width = <4>;
 >  			clocks = <&ccu CLK_BUS_UART0>;
->  			resets = <&ccu RST_BUS_UART0>;
 >  			dmas = <&dma 6>, <&dma 6>;
 > -			dma-names = "rx", "tx";
 > +			dma-names = "tx", "rx";
+>  			resets = <&ccu RST_BUS_UART0>;
 >  			status = "disabled";
 >  		};
-> 
-> @@ -503,7 +503,7 @@ uart1: serial@1c28400 {
+> @@ -492,7 +492,7 @@ uart1: serial@1c28400 {
+>  			reg-io-width = <4>;
 >  			clocks = <&ccu CLK_BUS_UART1>;
->  			resets = <&ccu RST_BUS_UART1>;
 >  			dmas = <&dma 7>, <&dma 7>;
 > -			dma-names = "rx", "tx";
 > +			dma-names = "tx", "rx";
+>  			resets = <&ccu RST_BUS_UART1>;
 >  			status = "disabled";
 >  		};
-> 
-> @@ -516,7 +516,7 @@ uart2: serial@1c28800 {
+> @@ -505,7 +505,7 @@ uart2: serial@1c28800 {
+>  			reg-io-width = <4>;
 >  			clocks = <&ccu CLK_BUS_UART2>;
->  			resets = <&ccu RST_BUS_UART2>;
 >  			dmas = <&dma 8>, <&dma 8>;
 > -			dma-names = "rx", "tx";
 > +			dma-names = "tx", "rx";
->  			status = "disabled";
->  		};
-> 
-> @@ -529,7 +529,7 @@ uart3: serial@1c28c00 {
->  			clocks = <&ccu CLK_BUS_UART3>;
->  			resets = <&ccu RST_BUS_UART3>;
->  			dmas = <&dma 9>, <&dma 9>;
-> -			dma-names = "rx", "tx";
-> +			dma-names = "tx", "rx";
->  			status = "disabled";
->  		};
-> 
-> @@ -542,7 +542,7 @@ uart4: serial@1c29000 {
->  			clocks = <&ccu CLK_BUS_UART4>;
->  			resets = <&ccu RST_BUS_UART4>;
->  			dmas = <&dma 10>, <&dma 10>;
-> -			dma-names = "rx", "tx";
-> +			dma-names = "tx", "rx";
->  			status = "disabled";
->  		};
+>  			resets = <&ccu RST_BUS_UART2>;
+>  			pinctrl-0 = <&uart2_pins>;
+>  			pinctrl-names = "default";
 
 
 
