@@ -1,56 +1,56 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25C21841
-	for <linux-sunxi@lists.linux.dev>; Sat,  8 Apr 2023 06:11:34 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-944bd1d58easo208235566b.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 07 Apr 2023 23:11:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3D641841
+	for <linux-sunxi@lists.linux.dev>; Sat,  8 Apr 2023 06:14:14 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id g18so12723566ejj.5
+        for <linux-sunxi@lists.linux.dev>; Fri, 07 Apr 2023 23:14:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680934293;
+        d=gmail.com; s=20210112; t=1680934453;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=T6rkJAJjvyybCLQc29B0AV64lXN3v1kLw0xR7ic7RBw=;
-        b=iMVNWm+AKHNcCznObeAoNud819vvDMz934HNCoNNdIDEujv/96mwk2rOkv2hItfBJk
-         uJzHaIpuVC9DS64O1Lb80wn8sR2O4CESahvg8qIyQ7ZYZuNWlVRbZA3Iq8KGFSncruZL
-         Ku1dsFtdb0QC+NId9SefwrQzCk+ry6ofxDBSDMQ/O0wpjaS9f0rELoigDUE1OPhwIB2f
-         GKXhkXQINglLGAqGjL3KxkgooVrEatQ0oJ6Q8lq3jYLZhE1o4sktEh1lu6ZW9bjjfEPI
-         hQT2vmBkdg9FyAw+AaQn+RWtVc0T6uqNddsGrhVWofwA+NUbgrq9+3TnOuahKWPg85Q1
-         04Rw==
+        bh=o69rVVZUlQtAKepCevn5KK/mZXmD+OWtcVmo2waT3xg=;
+        b=mjhbBpv8kUf7fH+VkParqaWCUwai+qeq2UU76YSVCZo/hX+0gR/6qZyJL4myvsMIfq
+         uZQzcUhl8V3o3V4+reLMDx4Pz9rrtDDjtdUdxMXmTF0H7HXuTn7AQWXS96XJS1v9x/h+
+         Ml3BrAYtyQHVHQ28TNWNH4OB51u5LZrGYy8kMrVW9eyujzHpYJAnw13/DXYfM0e8k0pa
+         4qn4mpUHzML7Kku2yhXAah4fEPh4iNQtdVnkIyq4AOCvByWyvLmKl+pv7iXR94OtZFYG
+         nAAtou/7SFKD5mXwW6VeQj3/poB28KdOCEZrvZkgKQbXcFHowtvYO3gvEkfBh4sfmfUt
+         dEug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680934293;
+        d=1e100.net; s=20210112; t=1680934453;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=T6rkJAJjvyybCLQc29B0AV64lXN3v1kLw0xR7ic7RBw=;
-        b=Q1hVWcf91xAL+qXsTDc0nEn23aH7rhTZjm10XyfUvPPsf3YiR3LZo236MCqdNIhaKf
-         ahRYYc55QkdhxZ5buXA01hxWAc8Og2r75uAuMjg7qEtFkLa5lNQRI0v/aLnlvOuT7IST
-         qNzqJxkEMeKBrY81YYVqB/syISEyai1nTZW+gPJUx5ZD84DF0xEeGBzJK/+ggbFjlat/
-         BzhHWADrN4J9e8oxm6XEEGL4XWDQfCEiPU74Jz9QSCWcyHkXjOYwEO6o77j6ohzWmgtR
-         xL5TcblbFjuRcqKpQz9wOmubfMMpAp4+F0HPnHoYPowUMWOhGaJ8pXFQmfhKySHcyuDA
-         3l/A==
-X-Gm-Message-State: AAQBX9dj7EkJllHfYECsr5Y5eQXkhCKagI6N06gMu1XCOaRfGfoh0fO8
-	CF4Iri0EZUBxH38FKaS++tc=
-X-Google-Smtp-Source: AKy350badOO3wftbdT8/kCnLHmlz1vRI1TbjytIyMTTkYX7Mg2UTqVeiSXP+0bwx7/Fq2l9VbCO2GQ==
-X-Received: by 2002:a50:ed17:0:b0:504:8173:ec8c with SMTP id j23-20020a50ed17000000b005048173ec8cmr2767061eds.13.1680934293143;
-        Fri, 07 Apr 2023 23:11:33 -0700 (PDT)
+        bh=o69rVVZUlQtAKepCevn5KK/mZXmD+OWtcVmo2waT3xg=;
+        b=YuNDHv9yPnXJO1EJkJ9ENbrXiSU8vILvGf87TSVFIquU/0NaNt81API3TX3XEKqkhS
+         Sx0JgG3UjT9HpjJa2JPlWXdzL9U7tUnN4IQZxZ9+LEujOuVzI6pa+X4rymBTjQYGZSf0
+         sjgmbhooQasTI2nNKPIatbF69toLyrJ5fKdrE7ziB/cyXj6nQji9+mtB8WWZ8YZ+p3sz
+         4KcKyS8Nq8zoJ8P7147hzWKoTNlm3d7NuWH9/PMXctCCa6CbyuZAVbMF2bnvB6ql0pQn
+         pQfV+C8fRc/fI810ubq6D9To3nR5MFUfQU+faswozJf33Z9Wjv4gAlmh1XaSWGZRAjp3
+         GO4g==
+X-Gm-Message-State: AAQBX9cqLiac0s4ilDX9ojmsrI4fx+v3ZJmg1WmmHfW2m34AzUqu1Jl4
+	W21uGcN70cj6F9NMk3vzYAw=
+X-Google-Smtp-Source: AKy350ZwyUZPiXJOiEEerVIcF5m847p4Hnm9TCL793TSsSPKtxtJjbO35GToMvnEXUIoJF2Sdrbe6g==
+X-Received: by 2002:a17:906:711b:b0:930:625d:6a25 with SMTP id x27-20020a170906711b00b00930625d6a25mr1528971ejj.61.1680934453010;
+        Fri, 07 Apr 2023 23:14:13 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id v6-20020a50c406000000b0050432d2b443sm2595818edf.48.2023.04.07.23.11.32
+        by smtp.gmail.com with ESMTPSA id ta14-20020a1709078c0e00b00949c02dcf10sm2808780ejc.6.2023.04.07.23.14.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Apr 2023 23:11:32 -0700 (PDT)
+        Fri, 07 Apr 2023 23:14:12 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Samuel Holland <samuel@sholland.org>, Anatolij Gustschin <agust@denx.de>,
+To: Jagan Teki <jagan@amarulasolutions.com>,
  Andre Przywara <andre.przywara@arm.com>
-Cc: Lukasz Majewski <lukma@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
- Sean Anderson <seanga2@gmail.com>, u-boot@lists.denx.de,
+Cc: Samuel Holland <samuel@sholland.org>,
+ Piotr Oniszczuk <piotr.oniszczuk@gmail.com>,
+ Mikhail Kalashnikov <iuncuim@gmail.com>, u-boot@lists.denx.de,
  linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 2/2] video: sunxi: dw-hdmi: Use DM for HVCC regulator
-Date: Sat, 08 Apr 2023 08:11:31 +0200
-Message-ID: <5661411.DvuYhMxLoT@jernej-laptop>
-In-Reply-To: <20230408002639.26241-3-andre.przywara@arm.com>
-References:
- <20230408002639.26241-1-andre.przywara@arm.com>
- <20230408002639.26241-3-andre.przywara@arm.com>
+Subject:
+ Re: [PATCH 1/2] sunxi: boot0.h: allow RVBAR MMIO address customisation
+Date: Sat, 08 Apr 2023 08:14:11 +0200
+Message-ID: <4818131.31r3eYUQgx@jernej-laptop>
+In-Reply-To: <20230405142731.1246503-1-andre.przywara@arm.com>
+References: <20230405142731.1246503-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,14 +60,20 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne sobota, 08. april 2023 ob 02:26:39 CEST je Andre Przywara napisal(a):
-> From: Samuel Holland <samuel@sholland.org>
+Dne sreda, 05. april 2023 ob 16:27:30 CEST je Andre Przywara napisal(a):
+> To switch the ARMv8 Allwinner SoCs into the 64-bit AArch64 ISA, we need
+> to program the 64-bit start code address into an MMIO mapped register
+> that shadows the architectural RVBAR register.
+> This address is SoC specific, with just two versions out there so far.
+> Now a third address emerged, on a *variant* of an existing SoC (H616).
 > 
-> The HDMI PHY depends on the HVCC supply being enabled. So far we have
-> relied on it being enabled by an earlier firmware stage (SPL or TF-A).
-> Attempt to enable the regulator here, so we can remove that dependency.
+> Change the boot0.h start code to make this address a Kconfig
+> selectable option, to allow easier maintenance.
+> We make this address user-visible (even though it shouldn't be), to
+> allow putting this in defconfig. This is needed because there are
+> apparently revisions of the H616 SoC out there using different
+> addresses, so this becomes a per-board decision.
 > 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
@@ -76,47 +82,52 @@ Best regards,
 Jernej
 
 > ---
->  drivers/video/sunxi/sunxi_dw_hdmi.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
+>  arch/arm/include/asm/arch-sunxi/boot0.h |  7 ++-----
+>  arch/arm/mach-sunxi/Kconfig             | 12 ++++++++++++
+>  2 files changed, 14 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/video/sunxi/sunxi_dw_hdmi.c
-> b/drivers/video/sunxi/sunxi_dw_hdmi.c index ef18d1f281f..0324a050d03 100644
-> --- a/drivers/video/sunxi/sunxi_dw_hdmi.c
-> +++ b/drivers/video/sunxi/sunxi_dw_hdmi.c
-> @@ -19,11 +19,13 @@
->  #include <asm/arch/lcdc.h>
->  #include <linux/bitops.h>
->  #include <linux/delay.h>
-> +#include <power/regulator.h>
-> 
->  struct sunxi_dw_hdmi_priv {
->  	struct dw_hdmi hdmi;
->  	struct reset_ctl_bulk resets;
->  	struct clk_bulk clocks;
-> +	struct udevice *hvcc;
->  };
-> 
->  struct sunxi_hdmi_phy {
-> @@ -333,6 +335,9 @@ static int sunxi_dw_hdmi_probe(struct udevice *dev)
->  		(struct sunxi_ccm_reg *)SUNXI_CCM_BASE;
->  	int ret;
-> 
-> +	if (priv->hvcc)
-> +		regulator_set_enable(priv->hvcc, true);
+> diff --git a/arch/arm/include/asm/arch-sunxi/boot0.h
+> b/arch/arm/include/asm/arch-sunxi/boot0.h index 46b7e073b59..59ea75a96b5
+> 100644
+> --- a/arch/arm/include/asm/arch-sunxi/boot0.h
+> +++ b/arch/arm/include/asm/arch-sunxi/boot0.h
+> @@ -39,11 +39,8 @@
+>  	.word	0xf57ff06f	// isb     sy
+>  	.word	0xe320f003	// wfi
+>  	.word	0xeafffffd	// b       @wfi
+> -#ifndef CONFIG_SUN50I_GEN_H6
+> -	.word	0x017000a0	// writeable RVBAR mapping address
+> -#else
+> -	.word	0x09010040	// writeable RVBAR mapping address
+> -#endif
 > +
->  	/* Set pll3 to 297 MHz */
->  	clock_set_pll3(297000000);
+> +	.word	CONFIG_SUNXI_RVBAR_ADDRESS	// writable RVBAR mapping 
+addr
+>  #ifdef CONFIG_SPL_BUILD
+>  	.word	CONFIG_SPL_TEXT_BASE
+>  #else
+> diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+> index 6417aee944b..b46667ce01e 100644
+> --- a/arch/arm/mach-sunxi/Kconfig
+> +++ b/arch/arm/mach-sunxi/Kconfig
+> @@ -110,6 +110,18 @@ config SUNXI_SRAM_ADDRESS
+>  	Some newer SoCs map the boot ROM at address 0 instead and move the
+>  	SRAM to a different address.
 > 
-> @@ -384,6 +389,10 @@ static int sunxi_dw_hdmi_of_to_plat(struct udevice
-> *dev) if (ret)
->  		return ret;
-> 
-> +	ret = device_get_supply_regulator(dev, "hvcc-supply", &priv->hvcc);
-> +	if (ret)
-> +		priv->hvcc = NULL;
+> +config SUNXI_RVBAR_ADDRESS
+> +	hex "RVBAR address"
+> +	depends on ARM64
+> +	default 0x09010040 if SUN50I_GEN_H6
+> +	default 0x017000a0
+> +	---help---
+> +	The read-only RVBAR system register holds the address of the first
+> +	instruction to execute after a reset. Allwinner cores provide a
+> +	writable MMIO backing store for this register, to allow to set the
+> +	entry point when switching to AArch64. This store is on different
+> +	addresses, depending on the SoC.
 > +
->  	return 0;
->  }
+>  config SUNXI_A64_TIMER_ERRATUM
+>  	bool
 
 
 
