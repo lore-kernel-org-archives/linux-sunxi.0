@@ -1,55 +1,70 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43DC258F
-	for <linux-sunxi@lists.linux.dev>; Mon, 10 Apr 2023 08:21:33 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id sh8so10764530ejc.10
-        for <linux-sunxi@lists.linux.dev>; Mon, 10 Apr 2023 01:21:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1E32598
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 Apr 2023 08:49:40 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id qb20so10504747ejc.6
+        for <linux-sunxi@lists.linux.dev>; Mon, 10 Apr 2023 01:49:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681114892;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HoEYtuLXNvMR4AD/LW1RstUpMysxtawQwngIM54/dGE=;
-        b=iVRw6rLeALmhYdtw1BK2ZK/D0vZaIjOL8fZRccQMeYf9IVe3w9VnAYtNcXv+o7MzCZ
-         DprK3e3RlmdQdz3WKlTfcF1FHXE/SEKx7rBBYVtTz7FiZcLILbqaXF7PkCjSgXLlE4Qw
-         PVVyUhCsSE8zYxIn1uJMbBluEnllVULcyjC/v09mvTQuGXVRW2ajrZlR3aKCIw7jmbc8
-         dx6sMdZukMLdXhLUZvOSvnSQncQVkJlMlGwQTHyzWemNEHJP7kAqdnSBDYwoCpweUKsy
-         dcvDPRNd5iUPGtw29edoDFrmOyaXNt37OGbMFX9msVi49cpnRI2R7SkAOATAhyZ8MtWG
-         oqPA==
+        d=gmail.com; s=20210112; t=1681116579; x=1683708579;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=y5ePFxjbLBzvierh0vPmoX2AJ6odjU/okQNVSYo6+J0=;
+        b=RCJpuhAmaiEhyX7miTtpDm2B6aHyY7G7AUvRlRukNsyjL70ZJsCQAtaj3OQvh5OYPV
+         TFriUULQnUDlx2HjEsI/Kw2Ah9VIJ9ZIeDYYBye3hexNLts3plMTPCJjFWrxMbIu6Eag
+         XjqvoXa1xSsAljafdAreM72uC7lUHl6yPkaAmYZuhufCOwNvWRRWHj1YBOsWfhdoFgnF
+         kSBopPrfEZ28my/Fa41Qr6TJNH9JpbaOPigMEYVU/B8HSmVqjIqBmV8qS+8UuhdK0dRL
+         nxO6iYDY4vXdt8A9z2+h74Uj92wooKBV/Qh70Eg4GbRrknLo9F3pWeHJHPTVX9UIkidz
+         CSUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681114892;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HoEYtuLXNvMR4AD/LW1RstUpMysxtawQwngIM54/dGE=;
-        b=tr0+p2hVR9NtFWXWzREcxN5Fe3NGmy1u65En/E7gMoOm6O8ATPhW70c+1K7uuncaak
-         5CFOTxmbVoLhSq/sH1Jn2oszLWBd/qE8qnS3wGzBGboZNU6fyXkZHI81T8vK/45Ie2EJ
-         icZ7ErEnocymymgFrcigafNkMEG63KDPab7OiSegg/rRmoXtyJ4GJPbA5YZV1c4MgdGg
-         qR2iROm0zZPdXToAYARtRZlYi5WpTw0pDd18OFzT5FDyfX2nlOaMX97C1QUgfIBqqByc
-         HVlw9By0n3vqXMqzI9CJJjU6GtJ76GRkVLqiXURjlz7MwYDtilLtaAGDoPKK5p1BFNty
-         Oi9g==
-X-Gm-Message-State: AAQBX9c8y04tNlEgDsdPUhNkifYnXCUvX+Uj5KK9RCV1IWyamjfQgdxC
-	dkpTWzD+hApJikANJ0GCpAU=
-X-Google-Smtp-Source: AKy350b8TRdWUGjdKuSEgwwQPy5eKxMPOVUsowLXBlfjTBrn6VEfkDJ07SKn3aSRUkiQnIewqoXeXQ==
-X-Received: by 2002:a17:906:40d9:b0:94a:78a2:6092 with SMTP id a25-20020a17090640d900b0094a78a26092mr3062730ejk.66.1681114891863;
-        Mon, 10 Apr 2023 01:21:31 -0700 (PDT)
-Received: from localhost.localdomain (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id o21-20020a1709061b1500b0094a7e4dfed8sm1016686ejg.47.2023.04.10.01.21.31
+        d=1e100.net; s=20210112; t=1681116579; x=1683708579;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=y5ePFxjbLBzvierh0vPmoX2AJ6odjU/okQNVSYo6+J0=;
+        b=claL765FieTyomh7klItUmaDBWFqIKcd7L6kTm8V0SkBJzDd+E3i08Stnt48Si0cjI
+         lE+neRTWitA77QItw9SbbKvKQXmRQM/Eal1Oo3TjwsTlDf/Vo8YIJtIFFENAgAzuP12d
+         xMlWQ8+VK0nUrebjrAWsHGxSTs73RXWFqIcG3Tt1M7huMn90ConAsKbcCH/Hsv0hNted
+         DUKmyOn8q7W4YsGhGdW4hMfZTmjiDBqew96LOQ967oXRmd1pveXWxEgAa9zG/jlvWLni
+         hIkJCjrAOBkLRAn/RX0y12Av1hiCMyzggOANKTb8Dqv94DfYw2OsZVtD4MlAkLFHpeIO
+         KVSw==
+X-Gm-Message-State: AAQBX9cMdzAC5b6pkDnr4fnisnL+wSpFAsQCdgsiKQlkZggLKpgqO+Dn
+	2lWiLxOWcVatJMVbb6Rm3A4=
+X-Google-Smtp-Source: AKy350bKbp2C72vty5skdGElAcpoLwKvITKzpR2b0BLRFPeIA6nODgwcXIjQGRg4GNgULAPUQS2ugA==
+X-Received: by 2002:a17:906:8585:b0:94a:7a2f:d6e8 with SMTP id v5-20020a170906858500b0094a7a2fd6e8mr2904492ejx.61.1681116578666;
+        Mon, 10 Apr 2023 01:49:38 -0700 (PDT)
+Received: from localhost.localdomain ([154.72.161.184])
+        by smtp.gmail.com with ESMTPSA id v13-20020a50954d000000b004fc649481basm4709962eda.58.2023.04.10.01.49.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Apr 2023 01:21:31 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: andre.przywara@arm.com
-Cc: jagan@amarulasolutions.com,
-	u-boot@lists.denx.de,
+        Mon, 10 Apr 2023 01:49:38 -0700 (PDT)
+From: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+To: maxime@cerno.tech
+Cc: airlied@gmail.com,
+	andrzej.hajda@intel.com,
+	daniel@ffwll.ch,
+	dave.stevenson@raspberrypi.com,
+	devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	jagan@amarulasolutions.com,
+	jernej.skrabec@gmail.com,
+	krzysztof.kozlowski+dt@linaro.org,
+	linux-amarula@amarulasolutions.com,
+	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 10/10] sunxi: Add TPR2 parameter for H616 DRAM driver
-Date: Mon, 10 Apr 2023 10:21:19 +0200
-Message-Id: <20230410082119.24616-11-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230410082119.24616-1-jernej.skrabec@gmail.com>
-References: <20230410082119.24616-1-jernej.skrabec@gmail.com>
+	maarten.lankhorst@linux.intel.com,
+	marex@denx.de,
+	neil.armstrong@linaro.org,
+	rfoss@kernel.org,
+	robh+dt@kernel.org,
+	sam@ravnborg.org,
+	samuel@sholland.org,
+	tzimmermann@suse.de,
+	wens@csie.org,
+	Brandon Cheo Fusi <fusibrandon13@gmail.com>
+Subject: [PATCH 0/2] drm: sun4i/dsi: allow modeset helpers to manage display
+Date: Mon, 10 Apr 2023 09:47:48 +0100
+Message-Id: <20230410084750.164016-1-fusibrandon13@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -58,206 +73,21 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-It turns out that some H616 and related SoCs (like H313) need TPR2
-parameter for proper working. Add it.
+This change moves DSI PHY poweron/off from the encoder to the TCON. 
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- .../include/asm/arch-sunxi/dram_sun50i_h616.h |  1 +
- arch/arm/mach-sunxi/Kconfig                   |  6 ++
- arch/arm/mach-sunxi/dram_sun50i_h616.c        | 75 +++++++++++++------
- .../mach-sunxi/dram_timings/h616_ddr3_1333.c  | 17 ++++-
- 4 files changed, 75 insertions(+), 24 deletions(-)
+As a consequence enabling or disabling the DSI sink can be left to the modeset
+helpers, and bridge support easily introduced without touching the 
+drm_encoder.bridge_chain or converting the encoder to a drm_bridge.
 
-diff --git a/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h b/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h
-index 615532c6eebb..6db869c0985b 100644
---- a/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h
-+++ b/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h
-@@ -157,6 +157,7 @@ struct dram_para {
- 	u32 ca_dri;
- 	u32 odt_en;
- 	u32 tpr0;
-+	u32 tpr2;
- 	u32 tpr10;
- 	u32 tpr11;
- 	u32 tpr12;
-diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-index fe34755f88ec..6be8a4de53fe 100644
---- a/arch/arm/mach-sunxi/Kconfig
-+++ b/arch/arm/mach-sunxi/Kconfig
-@@ -79,6 +79,12 @@ config DRAM_SUN50I_H616_TPR0
- 	help
- 	  TPR0 value from vendor DRAM settings.
- 
-+config DRAM_SUN50I_H616_TPR2
-+	hex "H616 DRAM TPR2 parameter"
-+	default 0x0
-+	help
-+	  TPR2 value from vendor DRAM settings.
-+
- config DRAM_SUN50I_H616_TPR10
- 	hex "H616 DRAM TPR10 parameter"
- 	help
-diff --git a/arch/arm/mach-sunxi/dram_sun50i_h616.c b/arch/arm/mach-sunxi/dram_sun50i_h616.c
-index 44bb15367beb..1f9416d6eaf5 100644
---- a/arch/arm/mach-sunxi/dram_sun50i_h616.c
-+++ b/arch/arm/mach-sunxi/dram_sun50i_h616.c
-@@ -788,21 +788,37 @@ static void mctl_phy_ca_bit_delay_compensation(struct dram_para *para)
- 		writel(val, &ptr[i]);
- 
- 	val = (para->tpr10 << 1) & 0x1e;
-+	writel(val, SUNXI_DRAM_PHY0_BASE + 0x7d8);
- 	writel(val, SUNXI_DRAM_PHY0_BASE + 0x7dc);
- 	writel(val, SUNXI_DRAM_PHY0_BASE + 0x7e0);
-+	writel(val, SUNXI_DRAM_PHY0_BASE + 0x7f4);
- 
- 	/* following configuration is DDR3 specific */
- 	val = (para->tpr10 >> 7) & 0x1e;
--	writel(val, SUNXI_DRAM_PHY0_BASE + 0x7d4);
--	if (para->ranks == 2) {
--		val = (para->tpr10 >> 11) & 0x1e;
--		writel(val, SUNXI_DRAM_PHY0_BASE + 0x79c);
--	}
--	if (para->tpr0 & BIT(31)) {
--		val = (para->tpr0 << 1) & 0x3e;
--		writel(val, SUNXI_DRAM_PHY0_BASE + 0x78c);
--		writel(val, SUNXI_DRAM_PHY0_BASE + 0x7a4);
--		writel(val, SUNXI_DRAM_PHY0_BASE + 0x7b8);
-+	if (para->tpr2 & 1) {
-+		writel(val, SUNXI_DRAM_PHY0_BASE + 0x794);
-+		if (para->ranks == 2) {
-+			val = (para->tpr10 >> 11) & 0x1e;
-+			writel(val, SUNXI_DRAM_PHY0_BASE + 0x7e4);
-+		}
-+		if (para->tpr0 & BIT(31)) {
-+			val = (para->tpr0 << 1) & 0x3e;
-+			writel(val, SUNXI_DRAM_PHY0_BASE + 0x790);
-+			writel(val, SUNXI_DRAM_PHY0_BASE + 0x7b8);
-+			writel(val, SUNXI_DRAM_PHY0_BASE + 0x7cc);
-+		}
-+	} else {
-+		writel(val, SUNXI_DRAM_PHY0_BASE + 0x7d4);
-+		if (para->ranks == 2) {
-+			val = (para->tpr10 >> 11) & 0x1e;
-+			writel(val, SUNXI_DRAM_PHY0_BASE + 0x79c);
-+		}
-+		if (para->tpr0 & BIT(31)) {
-+			val = (para->tpr0 << 1) & 0x3e;
-+			writel(val, SUNXI_DRAM_PHY0_BASE + 0x78c);
-+			writel(val, SUNXI_DRAM_PHY0_BASE + 0x7a4);
-+			writel(val, SUNXI_DRAM_PHY0_BASE + 0x7b8);
-+		}
- 	}
- }
- 
-@@ -812,7 +828,7 @@ static bool mctl_phy_init(struct dram_para *para)
- 			(struct sunxi_mctl_com_reg *)SUNXI_DRAM_COM_BASE;
- 	struct sunxi_mctl_ctl_reg * const mctl_ctl =
- 			(struct sunxi_mctl_ctl_reg *)SUNXI_DRAM_CTL0_BASE;
--	u32 val, *ptr;
-+	u32 val, val2, *ptr, mr0, mr2;
- 	int i;
- 
- 	if (para->bus_full_width)
-@@ -821,20 +837,28 @@ static bool mctl_phy_init(struct dram_para *para)
- 		val = 3;
- 	clrsetbits_le32(SUNXI_DRAM_PHY0_BASE + 0x3c, 0xf, val);
- 
--	writel(0xd, SUNXI_DRAM_PHY0_BASE + 0x14);
--	writel(0xd, SUNXI_DRAM_PHY0_BASE + 0x35c);
--	writel(0xd, SUNXI_DRAM_PHY0_BASE + 0x368);
--	writel(0xd, SUNXI_DRAM_PHY0_BASE + 0x374);
-+	if (para->tpr2 & 0x100) {
-+		val = 9;
-+		val2 = 7;
-+	} else {
-+		val = 13;
-+		val2 = 9;
-+	}
-+
-+	writel(val, SUNXI_DRAM_PHY0_BASE + 0x14);
-+	writel(val, SUNXI_DRAM_PHY0_BASE + 0x35c);
-+	writel(val, SUNXI_DRAM_PHY0_BASE + 0x368);
-+	writel(val, SUNXI_DRAM_PHY0_BASE + 0x374);
- 
- 	writel(0, SUNXI_DRAM_PHY0_BASE + 0x18);
- 	writel(0, SUNXI_DRAM_PHY0_BASE + 0x360);
- 	writel(0, SUNXI_DRAM_PHY0_BASE + 0x36c);
- 	writel(0, SUNXI_DRAM_PHY0_BASE + 0x378);
- 
--	writel(9, SUNXI_DRAM_PHY0_BASE + 0x1c);
--	writel(9, SUNXI_DRAM_PHY0_BASE + 0x364);
--	writel(9, SUNXI_DRAM_PHY0_BASE + 0x370);
--	writel(9, SUNXI_DRAM_PHY0_BASE + 0x37c);
-+	writel(val2, SUNXI_DRAM_PHY0_BASE + 0x1c);
-+	writel(val2, SUNXI_DRAM_PHY0_BASE + 0x364);
-+	writel(val2, SUNXI_DRAM_PHY0_BASE + 0x370);
-+	writel(val2, SUNXI_DRAM_PHY0_BASE + 0x37c);
- 
- 	ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0xc0);
- 	for (i = 0; i < ARRAY_SIZE(phy_init); i++)
-@@ -890,7 +914,15 @@ static bool mctl_phy_init(struct dram_para *para)
- 	writel(1, &mctl_ctl->swctl);
- 	mctl_await_completion(&mctl_ctl->swstat, 1, 1);
- 
--	writel(0x1f14, &mctl_ctl->mrctrl1);
-+	if (para->tpr2 & 0x100) {
-+		mr0 = 0x1b50;
-+		mr2 = 0x10;
-+	} else {
-+		mr0 = 0x1f14;
-+		mr2 = 0x20;
-+	}
-+
-+	writel(mr0, &mctl_ctl->mrctrl1);
- 	writel(0x80000030, &mctl_ctl->mrctrl0);
- 	mctl_await_completion(&mctl_ctl->mrctrl0, BIT(31), 0);
- 
-@@ -898,7 +930,7 @@ static bool mctl_phy_init(struct dram_para *para)
- 	writel(0x80001030, &mctl_ctl->mrctrl0);
- 	mctl_await_completion(&mctl_ctl->mrctrl0, BIT(31), 0);
- 
--	writel(0x20, &mctl_ctl->mrctrl1);
-+	writel(mr2, &mctl_ctl->mrctrl1);
- 	writel(0x80002030, &mctl_ctl->mrctrl0);
- 	mctl_await_completion(&mctl_ctl->mrctrl0, BIT(31), 0);
- 
-@@ -1135,6 +1167,7 @@ unsigned long sunxi_dram_init(void)
- 		.ca_dri = CONFIG_DRAM_SUN50I_H616_CA_DRI,
- 		.odt_en = CONFIG_DRAM_SUN50I_H616_ODT_EN,
- 		.tpr0 = CONFIG_DRAM_SUN50I_H616_TPR0,
-+		.tpr2 = CONFIG_DRAM_SUN50I_H616_TPR2,
- 		.tpr10 = CONFIG_DRAM_SUN50I_H616_TPR10,
- 		.tpr11 = CONFIG_DRAM_SUN50I_H616_TPR11,
- 		.tpr12 = CONFIG_DRAM_SUN50I_H616_TPR12,
-diff --git a/arch/arm/mach-sunxi/dram_timings/h616_ddr3_1333.c b/arch/arm/mach-sunxi/dram_timings/h616_ddr3_1333.c
-index f109e920820b..eea4d6abec81 100644
---- a/arch/arm/mach-sunxi/dram_timings/h616_ddr3_1333.c
-+++ b/arch/arm/mach-sunxi/dram_timings/h616_ddr3_1333.c
-@@ -50,9 +50,20 @@ void mctl_set_timing_params(struct dram_para *para)
- 	u8 t_rdata_en	= 9;			/* ? */
- 	u8 t_wr_lat	= 5;			/* ? */
- 
--	u8 twtp		= tcl + 2 + tcwl;	/* (WL + BL / 2 + tWR) / 2 */
--	u8 twr2rd	= trtp + 2 + tcwl;	/* (WL + BL / 2 + tWTR) / 2 */
--	u8 trd2wr	= tcl + 3 - tcwl;	/* (RL + BL / 2 + 2 - WL) / 2 */
-+	u8 twtp;				/* (WL + BL / 2 + tWR) / 2 */
-+	u8 twr2rd;				/* (WL + BL / 2 + tWTR) / 2 */
-+	u8 trd2wr;				/* (RL + BL / 2 + 2 - WL) / 2 */
-+
-+	if (para->tpr2 & 0x100) {
-+		tcl = 5;
-+		tcwl = 4;
-+		t_rdata_en = 5;
-+		t_wr_lat = 3;
-+	}
-+
-+	twtp   = tcl + 2 + tcwl;
-+	twr2rd = trtp + 2 + tcwl;
-+	trd2wr = tcl + 3 - tcwl;
- 
- 	/* set DRAM timing */
- 	writel((twtp << 24) | (tfaw << 16) | (trasmax << 8) | tras,
+Brandon Cheo Fusi (2):
+  drm: sun4i/dsi: factor out DSI PHY poweron and poweroff
+  drm: sun4i: tie DSI PHY Poweron/off to crtc enable/disable
+
+ drivers/gpu/drm/sun4i/sun4i_tcon.c     | 10 +++-
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 64 ++++++++++++--------------
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h |  4 ++
+ 3 files changed, 43 insertions(+), 35 deletions(-)
+
 -- 
-2.40.0
+2.30.2
 
