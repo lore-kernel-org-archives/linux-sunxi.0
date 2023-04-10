@@ -1,52 +1,52 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D622C2580
-	for <linux-sunxi@lists.linux.dev>; Mon, 10 Apr 2023 08:21:32 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id j17so1155272ejs.5
-        for <linux-sunxi@lists.linux.dev>; Mon, 10 Apr 2023 01:21:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43DC258F
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 Apr 2023 08:21:33 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id sh8so10764530ejc.10
+        for <linux-sunxi@lists.linux.dev>; Mon, 10 Apr 2023 01:21:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681114891;
+        d=gmail.com; s=20210112; t=1681114892;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hU+qXrwaAPMTbWqGlOJi976THVgTFXt+TgGipOqXPLM=;
-        b=CKLvf8tGlzvQ77ikz0XK1og0DfIdmQ1BOxxPGK+IGOtLRYg+4rCfKYLXXAyNLCwQ73
-         9EFNyCcKudoBgu+uZDO7Gny/XE10ugWYSUHr/nvvIZ+tDzspDJV1xULaFtorrY4Y7luX
-         M2CnzwwdIkvkW2ZtPPtznGZKTDXXgrXuF8XFriwP53pNH8l3nOBX83C3mVt4xywBH0K+
-         u2IVk8j1ELqgjLYIO8rkJrKHS7PgeNcP9W9uhx+9n7n+TbedRdGmJSAEDWPZB816Bat+
-         92RWQVQZ0JIfcK0jWVe5JLrG2ahFc6rrIV7rAf5gskfzJICkuZKgJBEquyvgNeV+PAXM
-         Z7Fg==
+        bh=HoEYtuLXNvMR4AD/LW1RstUpMysxtawQwngIM54/dGE=;
+        b=iVRw6rLeALmhYdtw1BK2ZK/D0vZaIjOL8fZRccQMeYf9IVe3w9VnAYtNcXv+o7MzCZ
+         DprK3e3RlmdQdz3WKlTfcF1FHXE/SEKx7rBBYVtTz7FiZcLILbqaXF7PkCjSgXLlE4Qw
+         PVVyUhCsSE8zYxIn1uJMbBluEnllVULcyjC/v09mvTQuGXVRW2ajrZlR3aKCIw7jmbc8
+         dx6sMdZukMLdXhLUZvOSvnSQncQVkJlMlGwQTHyzWemNEHJP7kAqdnSBDYwoCpweUKsy
+         dcvDPRNd5iUPGtw29edoDFrmOyaXNt37OGbMFX9msVi49cpnRI2R7SkAOATAhyZ8MtWG
+         oqPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681114891;
+        d=1e100.net; s=20210112; t=1681114892;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hU+qXrwaAPMTbWqGlOJi976THVgTFXt+TgGipOqXPLM=;
-        b=05SYyuY7WlgYcDHFFgUyBHIfZPx0cK2EAPFJGRDR0L9qxeAiYJdqFSiYFql0n5iKVs
-         sPcDfCYGYPRXK2lNAGM39jXVyB5mBSCZEhnEgr/VcFq2eY2/zoyKgFA3sag4SZWNWu5R
-         BFBUt2Qrh0YXxy997+hJkXr4SPf0XIQjLNEl5dKjOVV9HDS76/ylKxiRxsytWeoAQ68j
-         a92Kymao8E75syrj4SKwac+/zEgS86900HkNVu0Zos7g777nNGhv06FYDU0g2z+nQdyY
-         ZBfP3ciXdS67tnwdkpI9c63Q2ftvgV4f42nXY4vr1YvyCea3kLdtl5i4D2X+5xF9wDQ/
-         wq/A==
-X-Gm-Message-State: AAQBX9fazDmYiy3mmTye2uhqUaadYzEiOfBFQpL3AAeSpT9mFGMJYE21
-	S4zQAru45rLEr9/1wlPZs20SS4Bu+n7Gqg==
-X-Google-Smtp-Source: AKy350ahXlfjl/GkHFYB7lKrtDbOLqym8B47Au9RMy12JJlLpfu10/ZpPmiay5Obnf37+Ue7sVBKlQ==
-X-Received: by 2002:a17:906:eea:b0:92b:34cf:16a with SMTP id x10-20020a1709060eea00b0092b34cf016amr7357099eji.52.1681114891069;
+        bh=HoEYtuLXNvMR4AD/LW1RstUpMysxtawQwngIM54/dGE=;
+        b=tr0+p2hVR9NtFWXWzREcxN5Fe3NGmy1u65En/E7gMoOm6O8ATPhW70c+1K7uuncaak
+         5CFOTxmbVoLhSq/sH1Jn2oszLWBd/qE8qnS3wGzBGboZNU6fyXkZHI81T8vK/45Ie2EJ
+         icZ7ErEnocymymgFrcigafNkMEG63KDPab7OiSegg/rRmoXtyJ4GJPbA5YZV1c4MgdGg
+         qR2iROm0zZPdXToAYARtRZlYi5WpTw0pDd18OFzT5FDyfX2nlOaMX97C1QUgfIBqqByc
+         HVlw9By0n3vqXMqzI9CJJjU6GtJ76GRkVLqiXURjlz7MwYDtilLtaAGDoPKK5p1BFNty
+         Oi9g==
+X-Gm-Message-State: AAQBX9c8y04tNlEgDsdPUhNkifYnXCUvX+Uj5KK9RCV1IWyamjfQgdxC
+	dkpTWzD+hApJikANJ0GCpAU=
+X-Google-Smtp-Source: AKy350b8TRdWUGjdKuSEgwwQPy5eKxMPOVUsowLXBlfjTBrn6VEfkDJ07SKn3aSRUkiQnIewqoXeXQ==
+X-Received: by 2002:a17:906:40d9:b0:94a:78a2:6092 with SMTP id a25-20020a17090640d900b0094a78a26092mr3062730ejk.66.1681114891863;
         Mon, 10 Apr 2023 01:21:31 -0700 (PDT)
 Received: from localhost.localdomain (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id o21-20020a1709061b1500b0094a7e4dfed8sm1016686ejg.47.2023.04.10.01.21.30
+        by smtp.gmail.com with ESMTPSA id o21-20020a1709061b1500b0094a7e4dfed8sm1016686ejg.47.2023.04.10.01.21.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Apr 2023 01:21:30 -0700 (PDT)
+        Mon, 10 Apr 2023 01:21:31 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: andre.przywara@arm.com
 Cc: jagan@amarulasolutions.com,
 	u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 09/10] sunxi: Parameterize some of H616 DDR3 timings
-Date: Mon, 10 Apr 2023 10:21:18 +0200
-Message-Id: <20230410082119.24616-10-jernej.skrabec@gmail.com>
+Subject: [PATCH v2 10/10] sunxi: Add TPR2 parameter for H616 DRAM driver
+Date: Mon, 10 Apr 2023 10:21:19 +0200
+Message-Id: <20230410082119.24616-11-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230410082119.24616-1-jernej.skrabec@gmail.com>
 References: <20230410082119.24616-1-jernej.skrabec@gmail.com>
@@ -58,46 +58,206 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently twr2rd, trd2wr and twtp are constants, but according to
-vendor driver they are calculated from other values. Do that here too,
-in preparation for later introduction of new parameter.
-
-While at it, introduce constant for t_wr_lat, which was incorrectly
-calculated from tcl before.
+It turns out that some H616 and related SoCs (like H313) need TPR2
+parameter for proper working. Add it.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- arch/arm/mach-sunxi/dram_timings/h616_ddr3_1333.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ .../include/asm/arch-sunxi/dram_sun50i_h616.h |  1 +
+ arch/arm/mach-sunxi/Kconfig                   |  6 ++
+ arch/arm/mach-sunxi/dram_sun50i_h616.c        | 75 +++++++++++++------
+ .../mach-sunxi/dram_timings/h616_ddr3_1333.c  | 17 ++++-
+ 4 files changed, 75 insertions(+), 24 deletions(-)
 
+diff --git a/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h b/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h
+index 615532c6eebb..6db869c0985b 100644
+--- a/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h
++++ b/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h
+@@ -157,6 +157,7 @@ struct dram_para {
+ 	u32 ca_dri;
+ 	u32 odt_en;
+ 	u32 tpr0;
++	u32 tpr2;
+ 	u32 tpr10;
+ 	u32 tpr11;
+ 	u32 tpr12;
+diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+index fe34755f88ec..6be8a4de53fe 100644
+--- a/arch/arm/mach-sunxi/Kconfig
++++ b/arch/arm/mach-sunxi/Kconfig
+@@ -79,6 +79,12 @@ config DRAM_SUN50I_H616_TPR0
+ 	help
+ 	  TPR0 value from vendor DRAM settings.
+ 
++config DRAM_SUN50I_H616_TPR2
++	hex "H616 DRAM TPR2 parameter"
++	default 0x0
++	help
++	  TPR2 value from vendor DRAM settings.
++
+ config DRAM_SUN50I_H616_TPR10
+ 	hex "H616 DRAM TPR10 parameter"
+ 	help
+diff --git a/arch/arm/mach-sunxi/dram_sun50i_h616.c b/arch/arm/mach-sunxi/dram_sun50i_h616.c
+index 44bb15367beb..1f9416d6eaf5 100644
+--- a/arch/arm/mach-sunxi/dram_sun50i_h616.c
++++ b/arch/arm/mach-sunxi/dram_sun50i_h616.c
+@@ -788,21 +788,37 @@ static void mctl_phy_ca_bit_delay_compensation(struct dram_para *para)
+ 		writel(val, &ptr[i]);
+ 
+ 	val = (para->tpr10 << 1) & 0x1e;
++	writel(val, SUNXI_DRAM_PHY0_BASE + 0x7d8);
+ 	writel(val, SUNXI_DRAM_PHY0_BASE + 0x7dc);
+ 	writel(val, SUNXI_DRAM_PHY0_BASE + 0x7e0);
++	writel(val, SUNXI_DRAM_PHY0_BASE + 0x7f4);
+ 
+ 	/* following configuration is DDR3 specific */
+ 	val = (para->tpr10 >> 7) & 0x1e;
+-	writel(val, SUNXI_DRAM_PHY0_BASE + 0x7d4);
+-	if (para->ranks == 2) {
+-		val = (para->tpr10 >> 11) & 0x1e;
+-		writel(val, SUNXI_DRAM_PHY0_BASE + 0x79c);
+-	}
+-	if (para->tpr0 & BIT(31)) {
+-		val = (para->tpr0 << 1) & 0x3e;
+-		writel(val, SUNXI_DRAM_PHY0_BASE + 0x78c);
+-		writel(val, SUNXI_DRAM_PHY0_BASE + 0x7a4);
+-		writel(val, SUNXI_DRAM_PHY0_BASE + 0x7b8);
++	if (para->tpr2 & 1) {
++		writel(val, SUNXI_DRAM_PHY0_BASE + 0x794);
++		if (para->ranks == 2) {
++			val = (para->tpr10 >> 11) & 0x1e;
++			writel(val, SUNXI_DRAM_PHY0_BASE + 0x7e4);
++		}
++		if (para->tpr0 & BIT(31)) {
++			val = (para->tpr0 << 1) & 0x3e;
++			writel(val, SUNXI_DRAM_PHY0_BASE + 0x790);
++			writel(val, SUNXI_DRAM_PHY0_BASE + 0x7b8);
++			writel(val, SUNXI_DRAM_PHY0_BASE + 0x7cc);
++		}
++	} else {
++		writel(val, SUNXI_DRAM_PHY0_BASE + 0x7d4);
++		if (para->ranks == 2) {
++			val = (para->tpr10 >> 11) & 0x1e;
++			writel(val, SUNXI_DRAM_PHY0_BASE + 0x79c);
++		}
++		if (para->tpr0 & BIT(31)) {
++			val = (para->tpr0 << 1) & 0x3e;
++			writel(val, SUNXI_DRAM_PHY0_BASE + 0x78c);
++			writel(val, SUNXI_DRAM_PHY0_BASE + 0x7a4);
++			writel(val, SUNXI_DRAM_PHY0_BASE + 0x7b8);
++		}
+ 	}
+ }
+ 
+@@ -812,7 +828,7 @@ static bool mctl_phy_init(struct dram_para *para)
+ 			(struct sunxi_mctl_com_reg *)SUNXI_DRAM_COM_BASE;
+ 	struct sunxi_mctl_ctl_reg * const mctl_ctl =
+ 			(struct sunxi_mctl_ctl_reg *)SUNXI_DRAM_CTL0_BASE;
+-	u32 val, *ptr;
++	u32 val, val2, *ptr, mr0, mr2;
+ 	int i;
+ 
+ 	if (para->bus_full_width)
+@@ -821,20 +837,28 @@ static bool mctl_phy_init(struct dram_para *para)
+ 		val = 3;
+ 	clrsetbits_le32(SUNXI_DRAM_PHY0_BASE + 0x3c, 0xf, val);
+ 
+-	writel(0xd, SUNXI_DRAM_PHY0_BASE + 0x14);
+-	writel(0xd, SUNXI_DRAM_PHY0_BASE + 0x35c);
+-	writel(0xd, SUNXI_DRAM_PHY0_BASE + 0x368);
+-	writel(0xd, SUNXI_DRAM_PHY0_BASE + 0x374);
++	if (para->tpr2 & 0x100) {
++		val = 9;
++		val2 = 7;
++	} else {
++		val = 13;
++		val2 = 9;
++	}
++
++	writel(val, SUNXI_DRAM_PHY0_BASE + 0x14);
++	writel(val, SUNXI_DRAM_PHY0_BASE + 0x35c);
++	writel(val, SUNXI_DRAM_PHY0_BASE + 0x368);
++	writel(val, SUNXI_DRAM_PHY0_BASE + 0x374);
+ 
+ 	writel(0, SUNXI_DRAM_PHY0_BASE + 0x18);
+ 	writel(0, SUNXI_DRAM_PHY0_BASE + 0x360);
+ 	writel(0, SUNXI_DRAM_PHY0_BASE + 0x36c);
+ 	writel(0, SUNXI_DRAM_PHY0_BASE + 0x378);
+ 
+-	writel(9, SUNXI_DRAM_PHY0_BASE + 0x1c);
+-	writel(9, SUNXI_DRAM_PHY0_BASE + 0x364);
+-	writel(9, SUNXI_DRAM_PHY0_BASE + 0x370);
+-	writel(9, SUNXI_DRAM_PHY0_BASE + 0x37c);
++	writel(val2, SUNXI_DRAM_PHY0_BASE + 0x1c);
++	writel(val2, SUNXI_DRAM_PHY0_BASE + 0x364);
++	writel(val2, SUNXI_DRAM_PHY0_BASE + 0x370);
++	writel(val2, SUNXI_DRAM_PHY0_BASE + 0x37c);
+ 
+ 	ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0xc0);
+ 	for (i = 0; i < ARRAY_SIZE(phy_init); i++)
+@@ -890,7 +914,15 @@ static bool mctl_phy_init(struct dram_para *para)
+ 	writel(1, &mctl_ctl->swctl);
+ 	mctl_await_completion(&mctl_ctl->swstat, 1, 1);
+ 
+-	writel(0x1f14, &mctl_ctl->mrctrl1);
++	if (para->tpr2 & 0x100) {
++		mr0 = 0x1b50;
++		mr2 = 0x10;
++	} else {
++		mr0 = 0x1f14;
++		mr2 = 0x20;
++	}
++
++	writel(mr0, &mctl_ctl->mrctrl1);
+ 	writel(0x80000030, &mctl_ctl->mrctrl0);
+ 	mctl_await_completion(&mctl_ctl->mrctrl0, BIT(31), 0);
+ 
+@@ -898,7 +930,7 @@ static bool mctl_phy_init(struct dram_para *para)
+ 	writel(0x80001030, &mctl_ctl->mrctrl0);
+ 	mctl_await_completion(&mctl_ctl->mrctrl0, BIT(31), 0);
+ 
+-	writel(0x20, &mctl_ctl->mrctrl1);
++	writel(mr2, &mctl_ctl->mrctrl1);
+ 	writel(0x80002030, &mctl_ctl->mrctrl0);
+ 	mctl_await_completion(&mctl_ctl->mrctrl0, BIT(31), 0);
+ 
+@@ -1135,6 +1167,7 @@ unsigned long sunxi_dram_init(void)
+ 		.ca_dri = CONFIG_DRAM_SUN50I_H616_CA_DRI,
+ 		.odt_en = CONFIG_DRAM_SUN50I_H616_ODT_EN,
+ 		.tpr0 = CONFIG_DRAM_SUN50I_H616_TPR0,
++		.tpr2 = CONFIG_DRAM_SUN50I_H616_TPR2,
+ 		.tpr10 = CONFIG_DRAM_SUN50I_H616_TPR10,
+ 		.tpr11 = CONFIG_DRAM_SUN50I_H616_TPR11,
+ 		.tpr12 = CONFIG_DRAM_SUN50I_H616_TPR12,
 diff --git a/arch/arm/mach-sunxi/dram_timings/h616_ddr3_1333.c b/arch/arm/mach-sunxi/dram_timings/h616_ddr3_1333.c
-index 8f508344bc17..f109e920820b 100644
+index f109e920820b..eea4d6abec81 100644
 --- a/arch/arm/mach-sunxi/dram_timings/h616_ddr3_1333.c
 +++ b/arch/arm/mach-sunxi/dram_timings/h616_ddr3_1333.c
-@@ -48,10 +48,11 @@ void mctl_set_timing_params(struct dram_para *para)
- 	u8 tcl		= 7;			/* JEDEC: CL / 2 => 6 */
- 	u8 tcwl		= 5;			/* JEDEC: 8 */
+@@ -50,9 +50,20 @@ void mctl_set_timing_params(struct dram_para *para)
  	u8 t_rdata_en	= 9;			/* ? */
-+	u8 t_wr_lat	= 5;			/* ? */
+ 	u8 t_wr_lat	= 5;			/* ? */
  
--	u8 twtp		= 14;			/* (WL + BL / 2 + tWR) / 2 */
--	u8 twr2rd	= trtp + 7;		/* (WL + BL / 2 + tWTR) / 2 */
--	u8 trd2wr	= 5;			/* (RL + BL / 2 + 2 - WL) / 2 */
-+	u8 twtp		= tcl + 2 + tcwl;	/* (WL + BL / 2 + tWR) / 2 */
-+	u8 twr2rd	= trtp + 2 + tcwl;	/* (WL + BL / 2 + tWTR) / 2 */
-+	u8 trd2wr	= tcl + 3 - tcwl;	/* (RL + BL / 2 + 2 - WL) / 2 */
+-	u8 twtp		= tcl + 2 + tcwl;	/* (WL + BL / 2 + tWR) / 2 */
+-	u8 twr2rd	= trtp + 2 + tcwl;	/* (WL + BL / 2 + tWTR) / 2 */
+-	u8 trd2wr	= tcl + 3 - tcwl;	/* (RL + BL / 2 + 2 - WL) / 2 */
++	u8 twtp;				/* (WL + BL / 2 + tWR) / 2 */
++	u8 twr2rd;				/* (WL + BL / 2 + tWTR) / 2 */
++	u8 trd2wr;				/* (RL + BL / 2 + 2 - WL) / 2 */
++
++	if (para->tpr2 & 0x100) {
++		tcl = 5;
++		tcwl = 4;
++		t_rdata_en = 5;
++		t_wr_lat = 3;
++	}
++
++	twtp   = tcl + 2 + tcwl;
++	twr2rd = trtp + 2 + tcwl;
++	trd2wr = tcl + 3 - tcwl;
  
  	/* set DRAM timing */
  	writel((twtp << 24) | (tfaw << 16) | (trasmax << 8) | tras,
-@@ -85,7 +86,7 @@ void mctl_set_timing_params(struct dram_para *para)
- 	clrsetbits_le32(&mctl_ctl->rankctl, 0xff0, 0x660);
- 
- 	/* Configure DFI timing */
--	writel((tcl - 2) | 0x2000000 | (t_rdata_en << 16) | 0x808000,
-+	writel(t_wr_lat | 0x2000000 | (t_rdata_en << 16) | 0x808000,
- 	       &mctl_ctl->dfitmg0);
- 	writel(0x100202, &mctl_ctl->dfitmg1);
- 
 -- 
 2.40.0
 
