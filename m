@@ -1,133 +1,114 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B03E8C0D
-	for <linux-sunxi@lists.linux.dev>; Tue, 11 Apr 2023 13:43:22 +0000 (UTC)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 9447D60012;
-	Tue, 11 Apr 2023 13:43:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1681220595;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YG/a/d5U809a62Azy9i6h0lXlFjsDlTWJ9pqm8OP5bU=;
-	b=hHX8UiCAZtL5szZpK25h+QcFJybRGblg1lJQbRfyMx4JhQP74URDH1PKlY0KtXD3u0AO2m
-	+ojA1YL+HugJT1SJVxxR1NYpviqZqbbpow2rLTyNqPi0WoFB5rz7YxXiVuAr4g5gmsiyxL
-	8xeH9vyYgmP34C7BrjUOpRtzFxvVV8P2UmIaJD4/UQDa583WTuDsx7Ds98idmyBl2HFpp3
-	zvTwQvoQEzuSkPafSJjtVuXbFV4hd7FtG06jKqZ6fcBnTEJrP4zP/9kNobxXCtGcqWgOlE
-	Ef+hIJk5W9JQ94A7C/XGwiY1NyrQCIQ80fZuj6vDKRBjxmLd8EqRkNBiqztvTA==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Naga Sureshkumar Relli <nagasure@xilinx.com>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Yang Yingliang <yangyingliang@huawei.com>,
-	ye xingchen <ye.xingchen@zte.com.cn>,
-	Valentin Korenblit <vkorenblit@sequans.com>,
-	Wang Weiyang <wangweiyang2@huawei.com>,
-	=?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
-	=?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
-	Han Xu <han.xu@nxp.com>,
-	Harvey Hunt <harveyhuntnexus@gmail.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Liang Yang <liang.yang@amlogic.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Phil Edworthy <phil.edworthy@renesas.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Chuanhong Guo <gch981213@gmail.com>,
-	Roger Quadros <rogerq@kernel.org>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Miaoqian Lin <linmq006@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Christophe Kerello <christophe.kerello@foss.st.com>,
-	Jack Wang <jinpu.wang@ionos.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Stefan Agner <stefan@agner.ch>,
-	Lucas Stach <dev@lynxeye.de>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Richard Weinberger <richard@nod.at>,
-	linux-mediatek@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-mtd@lists.infradead.org,
-	kernel@pengutronix.de,
-	linux-arm-msm@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	=?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v3] mtd: nand: Convert to platform remove callback returning void
-Date: Tue, 11 Apr 2023 15:43:04 +0200
-Message-Id: <20230411134305.445759-1-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230411113816.3472237-1-u.kleine-koenig@pengutronix.de>
-References: 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511F528EE
+	for <linux-sunxi@lists.linux.dev>; Tue, 11 Apr 2023 15:24:36 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 2481058228D;
+	Tue, 11 Apr 2023 11:24:35 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 11 Apr 2023 11:24:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1681226675; x=1681233875; bh=BP
+	WBSjvAcd1HSqMD45GjKmJHtTH8tlrO7GGDHM65Ri8=; b=a3n7GwzNMqFa8yAL6k
+	H+5aWtMrbBPxrh6XmwN8I5seXb4Lz4GGXOU7DxShpdriF6BMiQ/j+mDom4vkPj79
+	X9Tl2Norm7tAQFzUCewZj8H8z3tNMiRA3EmUf3AuIznvJPDzA3Rv9LC1SN7TqyDq
+	+noyuFkF6IDvbN8AVO0jUpvNxVyJgAcZePBSx31NiTWRZaT9UvhCoLtGKKGPawgi
+	BCyA9ISjidUWvuBpXxGDLRXETJfwFazm0JR8EO7Qn36SILEB17n/3VuQEcgmI3VN
+	yPfrA3tANkVa5DaH6imfWesBud1VH1+Ug9PmgXbaJp/40HB5zroHtfOu8JYFe3kH
+	rc/Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1681226675; x=1681233875; bh=BPWBSjvAcd1HS
+	qMD45GjKmJHtTH8tlrO7GGDHM65Ri8=; b=UHD4xDNo9SUZPRJPS/kFdQMz9Sz/Z
+	qVY9GFmj7aU+l1+3qHr1jioS3kuAy/uaAlvOB63WO+MvKW7wUnwG5ED6aE8go73w
+	nXY1S+m2Ut8KGGI3QnFlVbecnYMOZuG9srp4M0b0KlToAFaLPGF+LrCuktAfc2zp
+	Kg8x/ZmpOY3dBMA8EztsZVJB6Zqtx4AYbXDDanm4tqb4DFNjQaFdEIYi/QeVoq3h
+	DEOmNwdjRms4Y+J/kp+EOZRi0/VXylWKxymxZ8518kLsdxG0vm2RYl9KqcZW+2C8
+	iadN1D0YuBqqfaL7kbuyINFHaV77FiqzTDAWTgmSwdvQiprJkZuJ4eH5A==
+X-ME-Sender: <xms:sXs1ZBx5mGwrOofZgPujDRdOk-RP8-d1uK4XuGl7h2uL0sJdNeCMmw>
+    <xme:sXs1ZBTVgG-a5jHUm0LUaN9HBPhQOvWH537TBO1jDzDzDzWVkSFpKKIeLEMvgOls9
+    66tlUFwU50NehCH2rU>
+X-ME-Received: <xmr:sXs1ZLUJG_fhs2kdFPgxvfoTOHlXM4RbmBozi6Rrdb1joXirSA1OwtSLf3Yj5a3FntCoaMN2MQhxl9L9s7ylJkNRA-uAZoQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekgedgkeekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
+    gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:sXs1ZDgs-65LQ9SqnAPKMrRAqlL6dmEvsBdM5L-BP4k8mcfsgoqRtQ>
+    <xmx:sXs1ZDDoj7oZW2QtlPRVVdbeZuRbe36gP8Mz1QMS9Honc_QXWsgk4Q>
+    <xmx:sXs1ZMKYB-coT8gWaOx3eBuI-r5SLbkTQG1rddOmzm7VHkh2SBRZwA>
+    <xmx:s3s1ZIBr1wlhq7XfW51qbGdhOUpq4UrlhuUN5Yp6sHGxbD15xHER5A>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 11 Apr 2023 11:24:32 -0400 (EDT)
+Date: Tue, 11 Apr 2023 17:24:30 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+Cc: airlied@gmail.com, andrzej.hajda@intel.com, daniel@ffwll.ch, 
+	dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	jagan@amarulasolutions.com, jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org, 
+	linux-amarula@amarulasolutions.com, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, maarten.lankhorst@linux.intel.com, marex@denx.de, 
+	neil.armstrong@linaro.org, rfoss@kernel.org, robh+dt@kernel.org, sam@ravnborg.org, 
+	samuel@sholland.org, tzimmermann@suse.de, wens@csie.org
+Subject: Re: [PATCH 0/2] drm: sun4i/dsi: allow modeset helpers to manage
+ display
+Message-ID: <yaygghm3dovfe7h57en4eij37ixo2m5bzcvsrd3mmp6wlig6gw@hp5s7ppfnnvt>
+References: <20230410084750.164016-1-fusibrandon13@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-linux-mtd-patch-notification: thanks
-X-linux-mtd-patch-commit: b'ec185b18c22323cb0cde0319fa90b3e467b1ed2d'
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bjaocwkkzgz3ckfr"
+Content-Disposition: inline
+In-Reply-To: <20230410084750.164016-1-fusibrandon13@gmail.com>
 
-On Tue, 2023-04-11 at 11:38:16 UTC, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
-> 
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
-> 
-> Acked-by: Tudor Ambarus <tudor.ambarus@linaro.org>
-> Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com> # atmel
-> Reviewed-by: Paul Cercueil <paul@crapouillou.net> # ingenic
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org> # ingenic
-> Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com> # intel
-> Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com> # meson
-> Acked-by: Roger Quadros <rogerq@kernel.org> # omap_elm
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
-> Reviewed-by: Heiko Stuebner <heiko@sntech.de> # rockchip
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com> # sunxi
-> Acked-by: Thierry Reding <treding@nvidia.com> # tegra
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-Applied to https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next, thanks.
+--bjaocwkkzgz3ckfr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Miquel
+Hi,
+
+On Mon, Apr 10, 2023 at 09:47:48AM +0100, Brandon Cheo Fusi wrote:
+> This change moves DSI PHY poweron/off from the encoder to the TCON.=20
+>=20
+> As a consequence enabling or disabling the DSI sink can be left to the
+> modeset helpers, and bridge support easily introduced without touching
+> the drm_encoder.bridge_chain or converting the encoder to a
+> drm_bridge.
+
+I guess this is related to the discussion we had a couple of weeks ago
+about being able to send DCS commands while in HS mode.
+
+This just seems to workaround the issue entirely, breaking KMS
+abstractions in the process. We had some leads on how to fix it
+properly, so please follow them instead.
+
+Maxime
+
+--bjaocwkkzgz3ckfr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZDV7rgAKCRDj7w1vZxhR
+xbqXAQD6jcK+bSLPFLZQNjjdc3UwkM9NOt4AgwJUb23Y5RqlCwD9H96XoxcbNNeM
+R5ogIgLUdRWJ8njN1S+2Qtk73+9CGAQ=
+=peVk
+-----END PGP SIGNATURE-----
+
+--bjaocwkkzgz3ckfr--
