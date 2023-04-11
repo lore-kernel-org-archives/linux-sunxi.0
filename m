@@ -1,114 +1,104 @@
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511F528EE
-	for <linux-sunxi@lists.linux.dev>; Tue, 11 Apr 2023 15:24:36 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 2481058228D;
-	Tue, 11 Apr 2023 11:24:35 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 11 Apr 2023 11:24:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1681226675; x=1681233875; bh=BP
-	WBSjvAcd1HSqMD45GjKmJHtTH8tlrO7GGDHM65Ri8=; b=a3n7GwzNMqFa8yAL6k
-	H+5aWtMrbBPxrh6XmwN8I5seXb4Lz4GGXOU7DxShpdriF6BMiQ/j+mDom4vkPj79
-	X9Tl2Norm7tAQFzUCewZj8H8z3tNMiRA3EmUf3AuIznvJPDzA3Rv9LC1SN7TqyDq
-	+noyuFkF6IDvbN8AVO0jUpvNxVyJgAcZePBSx31NiTWRZaT9UvhCoLtGKKGPawgi
-	BCyA9ISjidUWvuBpXxGDLRXETJfwFazm0JR8EO7Qn36SILEB17n/3VuQEcgmI3VN
-	yPfrA3tANkVa5DaH6imfWesBud1VH1+Ug9PmgXbaJp/40HB5zroHtfOu8JYFe3kH
-	rc/Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1681226675; x=1681233875; bh=BPWBSjvAcd1HS
-	qMD45GjKmJHtTH8tlrO7GGDHM65Ri8=; b=UHD4xDNo9SUZPRJPS/kFdQMz9Sz/Z
-	qVY9GFmj7aU+l1+3qHr1jioS3kuAy/uaAlvOB63WO+MvKW7wUnwG5ED6aE8go73w
-	nXY1S+m2Ut8KGGI3QnFlVbecnYMOZuG9srp4M0b0KlToAFaLPGF+LrCuktAfc2zp
-	Kg8x/ZmpOY3dBMA8EztsZVJB6Zqtx4AYbXDDanm4tqb4DFNjQaFdEIYi/QeVoq3h
-	DEOmNwdjRms4Y+J/kp+EOZRi0/VXylWKxymxZ8518kLsdxG0vm2RYl9KqcZW+2C8
-	iadN1D0YuBqqfaL7kbuyINFHaV77FiqzTDAWTgmSwdvQiprJkZuJ4eH5A==
-X-ME-Sender: <xms:sXs1ZBx5mGwrOofZgPujDRdOk-RP8-d1uK4XuGl7h2uL0sJdNeCMmw>
-    <xme:sXs1ZBTVgG-a5jHUm0LUaN9HBPhQOvWH537TBO1jDzDzDzWVkSFpKKIeLEMvgOls9
-    66tlUFwU50NehCH2rU>
-X-ME-Received: <xmr:sXs1ZLUJG_fhs2kdFPgxvfoTOHlXM4RbmBozi6Rrdb1joXirSA1OwtSLf3Yj5a3FntCoaMN2MQhxl9L9s7ylJkNRA-uAZoQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekgedgkeekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
-    gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:sXs1ZDgs-65LQ9SqnAPKMrRAqlL6dmEvsBdM5L-BP4k8mcfsgoqRtQ>
-    <xmx:sXs1ZDDoj7oZW2QtlPRVVdbeZuRbe36gP8Mz1QMS9Honc_QXWsgk4Q>
-    <xmx:sXs1ZMKYB-coT8gWaOx3eBuI-r5SLbkTQG1rddOmzm7VHkh2SBRZwA>
-    <xmx:s3s1ZIBr1wlhq7XfW51qbGdhOUpq4UrlhuUN5Yp6sHGxbD15xHER5A>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 11 Apr 2023 11:24:32 -0400 (EDT)
-Date: Tue, 11 Apr 2023 17:24:30 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Brandon Cheo Fusi <fusibrandon13@gmail.com>
-Cc: airlied@gmail.com, andrzej.hajda@intel.com, daniel@ffwll.ch, 
-	dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	jagan@amarulasolutions.com, jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org, 
-	linux-amarula@amarulasolutions.com, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, maarten.lankhorst@linux.intel.com, marex@denx.de, 
-	neil.armstrong@linaro.org, rfoss@kernel.org, robh+dt@kernel.org, sam@ravnborg.org, 
-	samuel@sholland.org, tzimmermann@suse.de, wens@csie.org
-Subject: Re: [PATCH 0/2] drm: sun4i/dsi: allow modeset helpers to manage
- display
-Message-ID: <yaygghm3dovfe7h57en4eij37ixo2m5bzcvsrd3mmp6wlig6gw@hp5s7ppfnnvt>
-References: <20230410084750.164016-1-fusibrandon13@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0DE8F4D
+	for <linux-sunxi@lists.linux.dev>; Tue, 11 Apr 2023 15:30:56 +0000 (UTC)
+Received: by mail-qt1-f170.google.com with SMTP id x17so27008207qtv.7
+        for <linux-sunxi@lists.linux.dev>; Tue, 11 Apr 2023 08:30:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112; t=1681227055; x=1683819055;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=cfTBJGcArvpMvQorRR/sDUXlP2hWx7bq+L50IV9DIms=;
+        b=JKZPjE5NStYFMsyKIK+QBmpGoGQK5yp5uKuW4jvH8JOoyl5W/KcBtlebcPLgyZpB8R
+         r/eXObo8oZId0qiXxdDmIY6RII3S7Z4bHBThx9Nw7CKGTl48ToVAkcaQYs6qFNojsl+R
+         y+MMllVyCd5SGUfPsMvA8/qt8bgYnjwJIM83kvu1MOuNOAv8YuVUuILmkIgV8zwGDb3Y
+         k6jTM8A5W0np+KUdxQP2T+eptr44mVGsjeSIHM08lq9LMb5XTrkIsZaPMkVNOHwPhvOG
+         /o7ba1w6i1gE6rxqaPP+u5yQ00cE64lXGP5TfpgpPd0qtoWJ9CE+sfBMQf8KNLbBjKpk
+         JDiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681227055; x=1683819055;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cfTBJGcArvpMvQorRR/sDUXlP2hWx7bq+L50IV9DIms=;
+        b=LP8cYn17evm2HH2wh5mL5sqocgpUpS9mrtBHuJZ3IoOWW8KPniSY9k5+4AOCT43q0s
+         DjHxeL3r/VmlVWZ5AzDNCcguH3cciQBqrWMZ8ujN6S7fkOoqziVjkXkqlfnVtIeHv19M
+         IJrkLxX6mnL7X6zpLIzAFx2om6pXmQKpg8W0sXCHCX5t/utPQ3hyBhaiD14hfUeWjm+w
+         mcD/FyRsMF4pp9+TRLXWOvyHn/HSMDfob7f+tQTqv8GsKJudsWgWkUS8KprkcnUyeMVW
+         P+RhjHqAF26hcB+wSIfoU+QOk5MhFRpm4qJfSLCegkskBkzdEL7ZTZKLbT9NxdeCPAh+
+         lNyQ==
+X-Gm-Message-State: AAQBX9cJ+KyBryTuD1bI5Gu0+ozSdkP0SLnzOohSL5iL4jv7/Cxol63E
+	b/aJrm5KTVNm6uOiLnqHciRBpA==
+X-Google-Smtp-Source: AKy350aFEJeoltoyWsD6S1OqbhVS42G2M1t36SP58Nd2uIo2BOAovB2zr1zgb510F7xMjZesc4AYiQ==
+X-Received: by 2002:a05:622a:291:b0:3bf:d9f3:debe with SMTP id z17-20020a05622a029100b003bfd9f3debemr4919958qtw.59.1681227055380;
+        Tue, 11 Apr 2023 08:30:55 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:199e::580])
+        by smtp.gmail.com with ESMTPSA id x1-20020ac87301000000b003e6610471c1sm3634284qto.16.2023.04.11.08.30.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Apr 2023 08:30:55 -0700 (PDT)
+Message-ID: <ebbfcf603930f0414abff23b329e66a59bf1f812.camel@ndufresne.ca>
+Subject: Re: [PATCH 2/9] media: v4l2: Add NV12_16L16 pixel format to v4l2
+ format info
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai
+ <wens@csie.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Adam Pigg <adam@piggz.co.uk>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>
+Date: Tue, 11 Apr 2023 11:30:54 -0400
+In-Reply-To: <20230324151228.2778112-3-paul.kocialkowski@bootlin.com>
+References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
+	 <20230324151228.2778112-3-paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bjaocwkkzgz3ckfr"
-Content-Disposition: inline
-In-Reply-To: <20230410084750.164016-1-fusibrandon13@gmail.com>
 
-
---bjaocwkkzgz3ckfr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Mon, Apr 10, 2023 at 09:47:48AM +0100, Brandon Cheo Fusi wrote:
-> This change moves DSI PHY poweron/off from the encoder to the TCON.=20
+Le vendredi 24 mars 2023 =C3=A0 16:12 +0100, Paul Kocialkowski a =C3=A9crit=
+=C2=A0:
+> Represent the NV12_16L16 pixel format in the v4l2 format info table.
+> This is a 16x16 tiled version of NV12.
 >=20
-> As a consequence enabling or disabling the DSI sink can be left to the
-> modeset helpers, and bridge support easily introduced without touching
-> the drm_encoder.bridge_chain or converting the encoder to a
-> drm_bridge.
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-I guess this is related to the discussion we had a couple of weeks ago
-about being able to send DCS commands while in HS mode.
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-This just seems to workaround the issue entirely, breaking KMS
-abstractions in the process. We had some leads on how to fix it
-properly, so please follow them instead.
+> ---
+>  drivers/media/v4l2-core/v4l2-common.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
+ore/v4l2-common.c
+> index 3d044b31caad..5101989716aa 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -280,6 +280,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
+ormat)
+>  		/* Tiled YUV formats */
+>  		{ .format =3D V4L2_PIX_FMT_NV12_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_YUV=
+, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .hdiv =3D=
+ 2, .vdiv =3D 2 },
+>  		{ .format =3D V4L2_PIX_FMT_P010_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_YUV=
+, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4, 0, 0 }, .hdiv =3D=
+ 2, .vdiv =3D 2 },
+> +		{ .format =3D V4L2_PIX_FMT_NV12_16L16,	.pixel_enc =3D V4L2_PIXEL_ENC_Y=
+UV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .hdiv =
+=3D 2, .vdiv =3D 2,
+> +		  .block_w =3D { 16, 16, 0, 0 }, .block_h =3D { 16, 16, 0, 0 } },
+> =20
+>  		/* YUV planar formats, non contiguous variant */
+>  		{ .format =3D V4L2_PIX_FMT_YUV420M, .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
+ .mem_planes =3D 3, .comp_planes =3D 3, .bpp =3D { 1, 1, 1, 0 }, .hdiv =3D =
+2, .vdiv =3D 2 },
 
-Maxime
-
---bjaocwkkzgz3ckfr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZDV7rgAKCRDj7w1vZxhR
-xbqXAQD6jcK+bSLPFLZQNjjdc3UwkM9NOt4AgwJUb23Y5RqlCwD9H96XoxcbNNeM
-R5ogIgLUdRWJ8njN1S+2Qtk73+9CGAQ=
-=peVk
------END PGP SIGNATURE-----
-
---bjaocwkkzgz3ckfr--
