@@ -1,155 +1,180 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E5B15A5
-	for <linux-sunxi@lists.linux.dev>; Tue, 11 Apr 2023 13:03:18 +0000 (UTC)
-Received: by mail-qt1-f180.google.com with SMTP id bn8so6896041qtb.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 11 Apr 2023 06:03:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112; t=1681218197; x=1683810197;
-        h=mime-version:user-agent:content-transfer-encoding:in-reply-to
-         :references:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=48ZGep8agVIFkiKE+tF0Dg09U1koXWBDBYS5oLlDvgg=;
-        b=6v+dhrXtGDeDBqPvu1ZLzV5tJJ604ZmQpcMpwF4MAqbb0Q1pEsf7Ebbq34DSfVLlpU
-         SvaEor9qMcmEROAh81rpc1OGVsqOMrM93YZX50eT4JRpLnrWSRTvUpYP26EeUPtYHUa5
-         IJtU1CRbyFh+Ol0NDFfovUqJb/pRq9MkOg1YUYIiKKuO/yN0E7nITj53toUKHjv91OSX
-         EcmMKnLocLMeAGrStVHt8vTEqj40gLBD1mPH7lc5nCcj9fVZ6VUUeYF59nSaPKjeFmEL
-         yqSliAW/4t2O4cbD/XgHTZmtk7yafgIizDcBEUoMDRmILwQGQXLSvuHyWuMtg659Tt1Q
-         fNWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681218197; x=1683810197;
-        h=mime-version:user-agent:content-transfer-encoding:in-reply-to
-         :references:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=48ZGep8agVIFkiKE+tF0Dg09U1koXWBDBYS5oLlDvgg=;
-        b=JPKiRXlQ6PxA94mymLxJG+D3HQiIkn2gqfwHt2XXQB0paPSC9Aok2j/6e0/rak/ev2
-         supai7JQVF2JxW/bHfJ9qemQb1M078at1lJT/jEGMsbFycRLG+sCmdUqJJMcaijzpJ1m
-         ajFYlRiqOsQsBLlJII/tuKsTfeG8vv6OByjQmMMxSic/Y73/iBqllBwHcN9DC/Cvs1Lp
-         yZvmVVbVHqqH8OLDQiH82HZhQ6uDzF7liHAJp3VCwHkv6W75Y0qcX/zkAC1WtNRq+pqj
-         netpT87Gkmq7VsbsllG9J84FY3nRR4fiaMc2HAbSQSlQW9viUrY0fE592iKGlXO5gW5k
-         ISRQ==
-X-Gm-Message-State: AAQBX9dKi4GW2CMa1WGaOxNzs91pAXp3BrOovdaAcS8CH1lGKD1NaeMB
-	iGHihdyB3AOkPSULN3VhmKiMzQ==
-X-Google-Smtp-Source: AKy350aBNqc9Nqhi4ZcBbIoTNhKQwdXmy00nuSQAUSrAiCgNfMG2bBNrHukz3572jhBTZ0lBRoqKOQ==
-X-Received: by 2002:a05:622a:5d1:b0:3e4:e2f3:3776 with SMTP id d17-20020a05622a05d100b003e4e2f33776mr17808603qtb.16.1681218197534;
-        Tue, 11 Apr 2023 06:03:17 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:15:199e::580])
-        by smtp.gmail.com with ESMTPSA id b16-20020ac844d0000000b003e64303bd2dsm3541983qto.63.2023.04.11.06.03.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Apr 2023 06:03:17 -0700 (PDT)
-Message-ID: <08dc61aa2c61771e99c73b308d4c36d40ea28c2f.camel@ndufresne.ca>
-Subject: Re: [PATCH 2/9] media: v4l2: Add NV12_16L16 pixel format to v4l2
- format info
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Andrzej
-	Pietrasiewicz <andrzej.p@collabora.com>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>, DVB_Linux_Media
- <linux-media@vger.kernel.org>, linux-arm-kernel
- <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, Linux
- Kernel Mailing List <linux-kernel@vger.kernel.org>, "open list:STAGING
- SUBSYSTEM" <linux-staging@lists.linux.dev>,  Mauro Carvalho Chehab
- <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Adam Pigg
- <adam@piggz.co.uk>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Date: Tue, 11 Apr 2023 09:03:16 -0400
-References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
-	 <20230324151228.2778112-3-paul.kocialkowski@bootlin.com>
-	 <20230325210120.GB22214@pendragon.ideasonboard.com>
-	 <40774dc0ef32246af76a202caca3632abc1ae25f.camel@ndufresne.ca>
-	 <20230405042131.GO9915@pendragon.ideasonboard.com>
-In-Reply-To: <20230405042131.GO9915@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EC538C0D
+	for <linux-sunxi@lists.linux.dev>; Tue, 11 Apr 2023 13:17:17 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::227])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id D2673CB20F
+	for <linux-sunxi@lists.linux.dev>; Tue, 11 Apr 2023 13:09:53 +0000 (UTC)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 8667320007;
+	Tue, 11 Apr 2023 13:09:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1681218585;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zj1JtAKrv3GVkrzExsf9B7vpxAMSpGNgfjgQje0eTak=;
+	b=oNG2Rb7etLGd3op/Iz2fmq0xokA2awaHaTUwmpMIqfWRcdiVNffJhH1OiD/NJa8U8VhbyA
+	yF9MXtYH8Fxz3M+cAq/7V/oq1xoDx4mXB50I/MCViACuf5Xj/3sm+jiFSUhQyd/GFiKSU+
+	MvbhXoQ5xcQFvUgIZ6glZLEM1HPSvT3ZkSE8cIw3GiRKuf3ey7u+ch+9vo/URZlNg8hBkX
+	sdQ/9ZojYLUArwz1K4ERP3d5/cBFRF6/83yyqSdXppNVR0gRdgwuMipAeMDZ8IGKN7s335
+	n6r/K2t/A0PaaBtBH3FUkAWJV3CrDikEbkeZlUHa/BD6XrUBmGFFsgVYyetBaQ==
+Date: Tue, 11 Apr 2023 15:09:30 +0200
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Maxime Ripard <maxime@cerno.tech>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Andreas
+ =?UTF-8?B?RsOkcmJlcg==?= <afaerber@suse.de>, Manivannan Sadhasivam
+ <mani@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre
+ Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
+ <claudiu.beznea@microchip.com>, Max Filippov <jcmvbkbc@gmail.com>, Charles
+ Keepax <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
+ <rf@opensource.cirrus.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Luca Ceresoli
+ <luca.ceresoli@bootlin.com>, David Lechner <david@lechnology.com>, Sekhar
+ Nori <nsekhar@ti.com>, Abel Vesa <abelvesa@kernel.org>, Shawn Guo
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Dinh Nguyen <dinguyen@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, Thierry
+ Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Linus Walleij
+ <linus.walleij@linaro.org>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
+ <kishon@kernel.org>, Alessandro Zummo <a.zummo@towertech.it>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, Paul Cercueil <paul@crapouillou.net>, Orson Zhai
+ <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan
+ Zhang <zhang.lyra@gmail.com>, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>,
+ linux-arm-kernel@lists.infradead.org, linux-actions@lists.infradead.org,
+ patches@opensource.cirrus.com, linux-stm32@st-md-mailman.stormreply.com,
+ linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-phy@lists.infradead.org, linux-rtc@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, alsa-devel@alsa-project.org,
+ linux-mips@vger.kernel.org, Gareth Williams
+ <gareth.williams.jx@renesas.com>, Herve Codina <herve.codina@bootlin.com>,
+ Ralph Siemsen <ralph.siemsen@linaro.org>
+Subject: Re: [PATCH v3 28/65] clk: renesas: r9a06g032: Add a determine_rate
+ hook
+Message-ID: <20230411150930.4fb22d7e@xps-13>
+In-Reply-To: <CAMuHMdXUEOP_3zjf8nwDyHvZVG-D0AsBjnr=esKzejMMcEiLSQ@mail.gmail.com>
+References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
+	<20221018-clk-range-checks-fixes-v3-28-9a1358472d52@cerno.tech>
+	<CAMuHMdXUEOP_3zjf8nwDyHvZVG-D0AsBjnr=esKzejMMcEiLSQ@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent,
+Hi Geert & Maxime,
 
-Le mer. 5 avr. 2023, 00 h 21, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> a =C3=A9crit=C2=A0:
-> Hi Nicolas,
->=20
-> On Fri, Mar 31, 2023 at 02:54:20PM -0400, Nicolas Dufresne wrote:
-> > Le samedi 25 mars 2023 =C3=A0 23:01 +0200, Laurent Pinchart a =C3=A9cri=
-t=C2=A0:
-> > > On Fri, Mar 24, 2023 at 04:12:21PM +0100, Paul Kocialkowski wrote:
-> > > > Represent the NV12_16L16 pixel format in the v4l2 format info table=
-.
-> > > > This is a 16x16 tiled version of NV12.
-> > > >=20
-> > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > ---
-> > > >=C2=A0 drivers/media/v4l2-core/v4l2-common.c | 2 ++
-> > > >=C2=A0 1 file changed, 2 insertions(+)
-> > > >=20
-> > > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/=
-v4l2-
-core/v4l2-common.c
-> > > > index 3d044b31caad..5101989716aa 100644
-> > > > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > > > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > > > @@ -280,6 +280,8 @@ const struct v4l2_format_info *v4l2_format_info=
-(u32
-format)
-> > > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Tiled YUV formats */
-> > > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ .format =3D V4L2_PIX_FMT_=
-NV12_4L4, .pixel_enc =3D
-V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2,=
- 0, 0 },
-.hdiv =3D 2, .vdiv =3D 2 },
-> > > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ .format =3D V4L2_PIX_FMT_=
-P010_4L4, .pixel_enc =3D
-V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4,=
- 0, 0 },
-.hdiv =3D 2, .vdiv =3D 2 },
-> > > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ .format =3D V4L2_PIX_FMT_NV12_=
-16L16,=C2=A0 =C2=A0 .pixel_enc =3D
-V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2,=
- 0, 0 },
-.hdiv =3D 2, .vdiv =3D 2,
-> > > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.block_w =3D { 16, 16, 0,=
- 0 }, .block_h =3D { 16, 16, 0, 0 } },
-> > >=20
-> > > Not necessarily related to this patch, but I'm a bit puzzled by why
-> > > V4L2_PIX_FMT_NV12_4L4 doesn't list block sizes.
-> >=20
-> > It looks like Ezequiel introduced that initially, but didn't introduce =
-any
-tiled
-> > format, as a side effect, we missed it and no one ever used it.
-> >=20
-> > In practice, its not dramatic, since most of the time, the alignment ne=
-eded
-is
-> > bigger then the block (specially with only 4x4 tiles), but we should
-certainly
-> > fix that, thanks for spotting.
->=20
-> Just to make sure this won't fall through the cracks, will you send a
-> patch ?
+geert@linux-m68k.org wrote on Tue, 11 Apr 2023 12:27:38 +0200:
 
-I didn't had any immediate plan to fix it (lack of time, absence of related
-bugs). Andrzej, do you happen to have some time ? The SUNXI pixel format sh=
-ould
-have that too, along with some NXP format.
+> CC Gareth, Herv=C3=A9, Miquel, Ralph
+>=20
+> On Tue, Apr 4, 2023 at 2:44=E2=80=AFPM Maxime Ripard <maxime@cerno.tech> =
+wrote:
+> > The Renesas r9a06g032 bitselect clock implements a mux with a set_parent
+> > hook, but doesn't provide a determine_rate implementation.
+> >
+> > This is a bit odd, since set_parent() is there to, as its name implies,
+> > change the parent of a clock. However, the most likely candidate to
+> > trigger that parent change is a call to clk_set_rate(), with
+> > determine_rate() figuring out which parent is the best suited for a
+> > given rate.
+> >
+> > The other trigger would be a call to clk_set_parent(), but it's far less
+> > used, and it doesn't look like there's any obvious user for that clock.
+> >
+> > So, the set_parent hook is effectively unused, possibly because of an
+> > oversight. However, it could also be an explicit decision by the
+> > original author to avoid any reparenting but through an explicit call to
+> > clk_set_parent().
+> >
+> > The latter case would be equivalent to setting the flag
+> > CLK_SET_RATE_NO_REPARENT, together with setting our determine_rate hook
+> > to __clk_mux_determine_rate(). Indeed, if no determine_rate
+> > implementation is provided, clk_round_rate() (through
+> > clk_core_round_rate_nolock()) will call itself on the parent if
+> > CLK_SET_RATE_PARENT is set, and will not change the clock rate
+> > otherwise. __clk_mux_determine_rate() has the exact same behavior when
+> > CLK_SET_RATE_NO_REPARENT is set.
+> >
+> > And if it was an oversight, then we are at least explicit about our
+> > behavior now and it can be further refined down the line.
+> >
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech> =20
+>=20
+> LGTM, so
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-regards,
-Nicolas
+I searched for 'possible callers', I didn't find any places
+where this would be used on the consumer side. However, downstream,
+there is a rzn1-clock-bitselect.c clock driver which states:
+
++ * This clock provider handles the case of the RZN1 where you have periphe=
+rals
++ * that have two potential clock source and two gates, one for each of the
++ * clock source - the used clock source (for all sub clocks) is selected b=
+y a
++ * single bit.
++ * That single bit affects all sub-clocks, and therefore needs to change t=
+he
++ * active gate (and turn the others off) and force a recalculation of the =
+rates.
+
+I don't know how much of this file has been upstreamed (under a
+different form) but this might very well be related to the fact that
+reparenting in some cases would be a major issue and thus needs to be
+avoided unless done on purpose (guessing?).
+
+Maybe Ralph can comment, but for what I understand,
+
+Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
+
+> But I do not have the hardware.
 >=20
-> > > >=C2=A0=20
-> > > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* YUV planar formats, non =
-contiguous variant */
-> > > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ .format =3D V4L2_PIX_FMT_=
-YUV420M, .pixel_enc =3D V4L2_PIXEL_ENC_YUV, .mem_planes =3D 3, .comp_planes=
- =3D 3, .bpp =3D { 1, 1, 1, 0 }, .hdiv =3D 2, .vdiv =3D 2 },
+> > --- a/drivers/clk/renesas/r9a06g032-clocks.c
+> > +++ b/drivers/clk/renesas/r9a06g032-clocks.c
+> > @@ -1121,6 +1121,7 @@ static int r9a06g032_clk_mux_set_parent(struct cl=
+k_hw *hw, u8 index)
+> >  }
+> >
+> >  static const struct clk_ops clk_bitselect_ops =3D {
+> > +       .determine_rate =3D __clk_mux_determine_rate,
+> >         .get_parent =3D r9a06g032_clk_mux_get_parent,
+> >         .set_parent =3D r9a06g032_clk_mux_set_parent,
+> >  };
+> > @@ -1145,7 +1146,7 @@ r9a06g032_register_bitsel(struct r9a06g032_priv *=
+clocks,
+> >
+> >         init.name =3D desc->name;
+> >         init.ops =3D &clk_bitselect_ops;
+> > -       init.flags =3D CLK_SET_RATE_PARENT;
+> > +       init.flags =3D CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT;
+> >         init.parent_names =3D names;
+> >         init.num_parents =3D 2;
+> > =20
 >=20
-> --=20
-> Regards,
+> Gr{oetje,eeting}s,
 >=20
-> Laurent Pinchart
+>                         Geert
+>=20
+
+Thanks,
+Miqu=C3=A8l
