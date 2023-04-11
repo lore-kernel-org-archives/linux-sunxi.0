@@ -1,158 +1,450 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB30133D5
-	for <linux-sunxi@lists.linux.dev>; Tue, 11 Apr 2023 08:35:00 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id A611DCD19D
-	for <linux-sunxi@lists.linux.dev>; Tue, 11 Apr 2023 08:20:52 +0000 (UTC)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 86501C000B;
-	Tue, 11 Apr 2023 08:20:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1681201245;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5dxn4NJiE3B4l0ky6etbuCAHmNrCsdSn8aiPhVJqzK0=;
-	b=ZsU8dYwTOc46TPHSbq5p16/9AQmMS/uUngPw/Ep3ffxRbxNAvDSBCBvcAy2pJthLsUo170
-	Rj2p9Mc9u19gW1370eOx7JvIAabcDATJDumAn+o4DLCQe7iYje0L16LYJobe4Ma8iY4S2M
-	hVT2XlKE7FDCpaVqWTtgFMG9mm77zh0cU7Io21vdLB2MKPq3F4zr/E7ECZswWoUCh/54s9
-	LxOZOxezaGsD/cMwwjzDu8L5qQzOGwesAiCNFf9eRpldZFKNpdmxXMmy52npYKIeX+l3mz
-	4g3Xo/1Q9fGa3R74wYDYHo17n1DEYEktLz9cH0XxSNGHCrcLqbBdY32P+qBBmQ==
-Date: Tue, 11 Apr 2023 10:20:25 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>, Lucas Stach <dev@lynxeye.de>, Vignesh
- Raghavendra <vigneshr@ti.com>, Linus Walleij <linus.walleij@linaro.org>,
- Miaoqian Lin <linmq006@gmail.com>, Stefan Agner <stefan@agner.ch>,
- linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- linux-tegra@vger.kernel.org, Liang Yang <liang.yang@amlogic.com>, Naga
- Sureshkumar Relli <nagasure@xilinx.com>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, linux-amlogic@lists.infradead.org, Chuanhong
- Guo <gch981213@gmail.com>, linux-stm32@st-md-mailman.stormreply.com, Heiko
- Stuebner <heiko@sntech.de>, Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Kevin Hilman <khilman@baylibre.com>,
- linux-mediatek@lists.infradead.org, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, Jonathan Hunter <jonathanh@nvidia.com>,
- linux-rockchip@lists.infradead.org, Tudor Ambarus
- <tudor.ambarus@linaro.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Yang
- Yingliang <yangyingliang@huawei.com>, Jack Wang <jinpu.wang@ionos.com>,
- Jerome Brunet <jbrunet@baylibre.com>, linux-sunxi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, kernel@pengutronix.de, Arnd Bergmann
- <arnd@arndb.de>, Manivannan Sadhasivam <mani@kernel.org>, Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>, ye xingchen
- <ye.xingchen@zte.com.cn>, Vladimir Zapolskiy <vz@mleia.com>, Roger Quadros
- <rogerq@kernel.org>, Wang Weiyang <wangweiyang2@huawei.com>, Harvey Hunt
- <harveyhuntnexus@gmail.com>, Christophe JAILLET
- <christophe.jaillet@wanadoo.fr>, Matthias Brugger <matthias.bgg@gmail.com>,
- Han Xu <han.xu@nxp.com>, Chen-Yu Tsai <wens@csie.org>,
- linux-arm-kernel@lists.infradead.org, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Christophe Kerello
- <christophe.kerello@foss.st.com>, Stephen Boyd <sboyd@kernel.org>, Valentin
- Korenblit <vkorenblit@sequans.com>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, linux-renesas-soc@vger.kernel.org, Kyungmin
- Park <kyungmin.park@samsung.com>, Thierry Reding
- <thierry.reding@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Richard Weinberger <richard@nod.at>, linux-mtd@lists.infradead.org,
- linux-oxnas@groups.io, Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>, Claudiu
- Beznea <claudiu.beznea@microchip.com>
-Subject: Re: [PATCH] mtd: nand: Convert to platform remove callback
- returning void
-Message-ID: <20230411102025.6b2fdc9e@xps-13>
-In-Reply-To: <20230408185332.d2g2ao4tdp6ltm4i@pengutronix.de>
-References: <20230401161938.2503204-1-u.kleine-koenig@pengutronix.de>
-	<20230407101043.299f5e22@xps-13>
-	<20230408185332.d2g2ao4tdp6ltm4i@pengutronix.de>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0744053B7
+	for <linux-sunxi@lists.linux.dev>; Tue, 11 Apr 2023 10:13:11 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E9615D75;
+	Tue, 11 Apr 2023 03:13:55 -0700 (PDT)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D9E423F73F;
+	Tue, 11 Apr 2023 03:13:10 -0700 (PDT)
+Date: Tue, 11 Apr 2023 11:13:04 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: jagan@amarulasolutions.com, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 04/10] sunxi: Convert H616 DRAM options to single
+ setting
+Message-ID: <20230411111304.4ba7ba2d@donnerap.cambridge.arm.com>
+In-Reply-To: <20230410082119.24616-5-jernej.skrabec@gmail.com>
+References: <20230410082119.24616-1-jernej.skrabec@gmail.com>
+ <20230410082119.24616-5-jernej.skrabec@gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Uwe,
+On Mon, 10 Apr 2023 10:21:13 +0200
+Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
 
-u.kleine-koenig@pengutronix.de wrote on Sat, 8 Apr 2023 20:53:32 +0200:
+> Vendor DRAM settings use TPR10 parameter to enable various features.
+> There are many mores features that just those that are currently
+> mentioned. Since new will be added later and most are not known, let's
+> reuse value from vendor DRAM driver as-is. This will also help adding
+> support for new boards.
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
->=20
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
->=20
-> Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
-> Reviewed-by: Paul Cercueil <paul@crapouillou.net>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> Acked-by: Roger Quadros <rogerq@kernel.org>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Heiko Stuebner <heiko@sntech.de>
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Acked-by: Thierry Reding <treding@nvidia.com>
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+Thanks, based on my previous review, and the changes to the bit names:
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Just one note here, mostly for the reference when people stumble upon
+this patch: this enables the CA bit delay compensation code for the X96,
+which was not enabled before, because DRAM_SUN50I_H616_UNKNOWN_FEATURE
+was not set. I don't know if the fixed values written by this
+code here were meant for the OrangePi Zero2 (which though never
+runs this code), but for the X96 Mate the values written by this patch
+will be changed in a later patch.
+
+Cheers,
+Andre
+
 > ---
->=20
-> Hey Miquel,
->=20
-> On Fri, Apr 07, 2023 at 10:10:43AM +0200, Miquel Raynal wrote:
-> > I've looked at the different patches, they look good to me but as they
-> > are all trivial and exactly identical, would you mind sending this
-> > again all squashed in a single patch? A subsystem-wide conversion seems
-> > appropriate. In all cases I plan to take this for the next merge
-> > window. =20
->=20
-> I slightly prefer them separately, because I like small patches and
-> because the Acks and Reviews only apply to the individual drivers.
-> But I don't mind seriously, so here comes the series squashed into one.
+>  .../include/asm/arch-sunxi/dram_sun50i_h616.h |   9 +
+>  arch/arm/mach-sunxi/Kconfig                   |  38 +---
+>  arch/arm/mach-sunxi/dram_sun50i_h616.c        | 197 +++++++++---------
+>  configs/orangepi_zero2_defconfig              |   5 +-
+>  configs/x96_mate_defconfig                    |   1 +
+>  5 files changed, 117 insertions(+), 133 deletions(-)
+> 
+> diff --git a/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h b/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h
+> index c9e1f84bfcdd..dbdc6b694ec1 100644
+> --- a/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h
+> +++ b/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h
+> @@ -137,6 +137,14 @@ check_member(sunxi_mctl_ctl_reg, unk_0x4240, 0x4240);
+>  #define MSTR_ACTIVE_RANKS(x)	(((x == 2) ? 3 : 1) << 24)
+>  #define MSTR_BURST_LENGTH(x)	(((x) >> 1) << 16)
+>  
+> +#define TPR10_CA_BIT_DELAY	BIT(16)
+> +#define TPR10_DX_BIT_DELAY0	BIT(17)
+> +#define TPR10_DX_BIT_DELAY1	BIT(18)
+> +#define TPR10_WRITE_LEVELING	BIT(20)
+> +#define TPR10_READ_CALIBRATION	BIT(21)
+> +#define TPR10_READ_TRAINING	BIT(22)
+> +#define TPR10_WRITE_TRAINING	BIT(23)
+> +
+>  struct dram_para {
+>  	u32 clk;
+>  	enum sunxi_dram_type type;
+> @@ -147,6 +155,7 @@ struct dram_para {
+>  	u32 dx_odt;
+>  	u32 dx_dri;
+>  	u32 ca_dri;
+> +	u32 tpr10;
+>  };
+>  
+>  
+> diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+> index 14fb9a95905a..1b47a49f938c 100644
+> --- a/arch/arm/mach-sunxi/Kconfig
+> +++ b/arch/arm/mach-sunxi/Kconfig
+> @@ -52,38 +52,6 @@ config DRAM_SUN50I_H616
+>  	  like H616.
+>  
+>  if DRAM_SUN50I_H616
+> -config DRAM_SUN50I_H616_WRITE_LEVELING
+> -	bool "H616 DRAM write leveling"
+> -	---help---
+> -	  Select this when DRAM on your H616 board needs write leveling.
+> -
+> -config DRAM_SUN50I_H616_READ_CALIBRATION
+> -	bool "H616 DRAM read calibration"
+> -	---help---
+> -	  Select this when DRAM on your H616 board needs read calibration.
+> -
+> -config DRAM_SUN50I_H616_READ_TRAINING
+> -	bool "H616 DRAM read training"
+> -	---help---
+> -	  Select this when DRAM on your H616 board needs read training.
+> -
+> -config DRAM_SUN50I_H616_WRITE_TRAINING
+> -	bool "H616 DRAM write training"
+> -	---help---
+> -	  Select this when DRAM on your H616 board needs write training.
+> -
+> -config DRAM_SUN50I_H616_BIT_DELAY_COMPENSATION
+> -	bool "H616 DRAM bit delay compensation"
+> -	---help---
+> -	  Select this when DRAM on your H616 board needs bit delay
+> -	  compensation.
+> -
+> -config DRAM_SUN50I_H616_UNKNOWN_FEATURE
+> -	bool "H616 DRAM unknown feature"
+> -	---help---
+> -	  Select this when DRAM on your H616 board needs this unknown
+> -	  feature.
+> -
+>  config DRAM_SUN50I_H616_DX_ODT
+>  	hex "H616 DRAM DX ODT parameter"
+>  	help
+> @@ -98,6 +66,12 @@ config DRAM_SUN50I_H616_CA_DRI
+>  	hex "H616 DRAM CA DRI parameter"
+>  	help
+>  	  CA DRI value from vendor DRAM settings.
+> +
+> +config DRAM_SUN50I_H616_TPR10
+> +	hex "H616 DRAM TPR10 parameter"
+> +	help
+> +	  TPR10 value from vendor DRAM settings. It tells which features
+> +	  should be configured, like write leveling, read calibration, etc.
+>  endif
+>  
+>  config SUN6I_PRCM
+> diff --git a/arch/arm/mach-sunxi/dram_sun50i_h616.c b/arch/arm/mach-sunxi/dram_sun50i_h616.c
+> index 06a07dfbf9cc..630c7c3be882 100644
+> --- a/arch/arm/mach-sunxi/dram_sun50i_h616.c
+> +++ b/arch/arm/mach-sunxi/dram_sun50i_h616.c
+> @@ -577,109 +577,112 @@ static bool mctl_phy_bit_delay_compensation(struct dram_para *para)
+>  	u32 *ptr;
+>  	int i;
+>  
+> -	clrbits_le32(SUNXI_DRAM_PHY0_BASE + 0x60, 1);
+> -	setbits_le32(SUNXI_DRAM_PHY0_BASE + 8, 8);
+> -	clrbits_le32(SUNXI_DRAM_PHY0_BASE + 0x190, 0x10);
+> +	if (para->tpr10 & TPR10_DX_BIT_DELAY1) {
+> +		clrbits_le32(SUNXI_DRAM_PHY0_BASE + 0x60, 1);
+> +		setbits_le32(SUNXI_DRAM_PHY0_BASE + 8, 8);
+> +		clrbits_le32(SUNXI_DRAM_PHY0_BASE + 0x190, 0x10);
+>  
+> -	ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x484);
+> -	for (i = 0; i < 9; i++) {
+> -		writel_relaxed(0x16, ptr);
+> -		writel_relaxed(0x16, ptr + 0x30);
+> -		ptr += 2;
+> -	}
+> -	writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x4d0);
+> -	writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x590);
+> -	writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x4cc);
+> -	writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x58c);
+> +		ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x484);
+> +		for (i = 0; i < 9; i++) {
+> +			writel_relaxed(0x16, ptr);
+> +			writel_relaxed(0x16, ptr + 0x30);
+> +			ptr += 2;
+> +		}
+> +		writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x4d0);
+> +		writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x590);
+> +		writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x4cc);
+> +		writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x58c);
+>  
+> -	ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x4d8);
+> -	for (i = 0; i < 9; i++) {
+> -		writel_relaxed(0x1a, ptr);
+> -		writel_relaxed(0x1a, ptr + 0x30);
+> -		ptr += 2;
+> -	}
+> -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x524);
+> -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x5e4);
+> -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x520);
+> -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x5e0);
+> +		ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x4d8);
+> +		for (i = 0; i < 9; i++) {
+> +			writel_relaxed(0x1a, ptr);
+> +			writel_relaxed(0x1a, ptr + 0x30);
+> +			ptr += 2;
+> +		}
+> +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x524);
+> +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x5e4);
+> +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x520);
+> +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x5e0);
+>  
+> -	ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x604);
+> -	for (i = 0; i < 9; i++) {
+> -		writel_relaxed(0x1a, ptr);
+> -		writel_relaxed(0x1a, ptr + 0x30);
+> -		ptr += 2;
+> -	}
+> -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x650);
+> -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x710);
+> -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x64c);
+> -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x70c);
+> +		ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x604);
+> +		for (i = 0; i < 9; i++) {
+> +			writel_relaxed(0x1a, ptr);
+> +			writel_relaxed(0x1a, ptr + 0x30);
+> +			ptr += 2;
+> +		}
+> +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x650);
+> +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x710);
+> +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x64c);
+> +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x70c);
+>  
+> -	ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x658);
+> -	for (i = 0; i < 9; i++) {
+> -		writel_relaxed(0x1a, ptr);
+> -		writel_relaxed(0x1a, ptr + 0x30);
+> -		ptr += 2;
+> -	}
+> -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x6a4);
+> -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x764);
+> -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x6a0);
+> -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x760);
+> +		ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x658);
+> +		for (i = 0; i < 9; i++) {
+> +			writel_relaxed(0x1a, ptr);
+> +			writel_relaxed(0x1a, ptr + 0x30);
+> +			ptr += 2;
+> +		}
+> +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x6a4);
+> +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x764);
+> +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x6a0);
+> +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x760);
+>  
+> -	dmb();
+> +		dmb();
+>  
+> -	setbits_le32(SUNXI_DRAM_PHY0_BASE + 0x60, 1);
+> +		setbits_le32(SUNXI_DRAM_PHY0_BASE + 0x60, 1);
+> +	}
+>  
+> -	/* second part */
+> -	clrbits_le32(SUNXI_DRAM_PHY0_BASE + 0x54, 0x80);
+> -	clrbits_le32(SUNXI_DRAM_PHY0_BASE + 0x190, 4);
+> +	if (para->tpr10 & TPR10_DX_BIT_DELAY0) {
+> +		clrbits_le32(SUNXI_DRAM_PHY0_BASE + 0x54, 0x80);
+> +		clrbits_le32(SUNXI_DRAM_PHY0_BASE + 0x190, 4);
+>  
+> -	ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x480);
+> -	for (i = 0; i < 9; i++) {
+> -		writel_relaxed(0x10, ptr);
+> -		writel_relaxed(0x10, ptr + 0x30);
+> -		ptr += 2;
+> -	}
+> -	writel_relaxed(0x18, SUNXI_DRAM_PHY0_BASE + 0x528);
+> -	writel_relaxed(0x18, SUNXI_DRAM_PHY0_BASE + 0x5e8);
+> -	writel_relaxed(0x18, SUNXI_DRAM_PHY0_BASE + 0x4c8);
+> -	writel_relaxed(0x18, SUNXI_DRAM_PHY0_BASE + 0x588);
+> +		ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x480);
+> +		for (i = 0; i < 9; i++) {
+> +			writel_relaxed(0x10, ptr);
+> +			writel_relaxed(0x10, ptr + 0x30);
+> +			ptr += 2;
+> +		}
+> +		writel_relaxed(0x18, SUNXI_DRAM_PHY0_BASE + 0x528);
+> +		writel_relaxed(0x18, SUNXI_DRAM_PHY0_BASE + 0x5e8);
+> +		writel_relaxed(0x18, SUNXI_DRAM_PHY0_BASE + 0x4c8);
+> +		writel_relaxed(0x18, SUNXI_DRAM_PHY0_BASE + 0x588);
+>  
+> -	ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x4d4);
+> -	for (i = 0; i < 9; i++) {
+> -		writel_relaxed(0x12, ptr);
+> -		writel_relaxed(0x12, ptr + 0x30);
+> -		ptr += 2;
+> -	}
+> -	writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x52c);
+> -	writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x5ec);
+> -	writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x51c);
+> -	writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x5dc);
+> +		ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x4d4);
+> +		for (i = 0; i < 9; i++) {
+> +			writel_relaxed(0x12, ptr);
+> +			writel_relaxed(0x12, ptr + 0x30);
+> +			ptr += 2;
+> +		}
+> +		writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x52c);
+> +		writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x5ec);
+> +		writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x51c);
+> +		writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x5dc);
+>  
+> -	ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x600);
+> -	for (i = 0; i < 9; i++) {
+> -		writel_relaxed(0x12, ptr);
+> -		writel_relaxed(0x12, ptr + 0x30);
+> -		ptr += 2;
+> -	}
+> -	writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x6a8);
+> -	writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x768);
+> -	writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x648);
+> -	writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x708);
+> +		ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x600);
+> +		for (i = 0; i < 9; i++) {
+> +			writel_relaxed(0x12, ptr);
+> +			writel_relaxed(0x12, ptr + 0x30);
+> +			ptr += 2;
+> +		}
+> +		writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x6a8);
+> +		writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x768);
+> +		writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x648);
+> +		writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x708);
+>  
+> -	ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x654);
+> -	for (i = 0; i < 9; i++) {
+> -		writel_relaxed(0x14, ptr);
+> -		writel_relaxed(0x14, ptr + 0x30);
+> -		ptr += 2;
+> -	}
+> -	writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x6ac);
+> -	writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x76c);
+> -	writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x69c);
+> -	writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x75c);
+> +		ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x654);
+> +		for (i = 0; i < 9; i++) {
+> +			writel_relaxed(0x14, ptr);
+> +			writel_relaxed(0x14, ptr + 0x30);
+> +			ptr += 2;
+> +		}
+> +		writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x6ac);
+> +		writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x76c);
+> +		writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x69c);
+> +		writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x75c);
+>  
+> -	dmb();
+> +		dmb();
+>  
+> -	setbits_le32(SUNXI_DRAM_PHY0_BASE + 0x54, 0x80);
+> +		setbits_le32(SUNXI_DRAM_PHY0_BASE + 0x54, 0x80);
+> +	}
+>  
+>  	return true;
+>  }
+> @@ -718,7 +721,7 @@ static bool mctl_phy_init(struct dram_para *para)
+>  	for (i = 0; i < ARRAY_SIZE(phy_init); i++)
+>  		writel(phy_init[i], &ptr[i]);
+>  
+> -	if (IS_ENABLED(CONFIG_DRAM_SUN50I_H616_UNKNOWN_FEATURE)) {
+> +	if (para->tpr10 & TPR10_CA_BIT_DELAY) {
+>  		ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x780);
+>  		for (i = 0; i < 32; i++)
+>  			writel(0x16, &ptr[i]);
+> @@ -800,7 +803,7 @@ static bool mctl_phy_init(struct dram_para *para)
+>  	clrbits_le32(&mctl_ctl->rfshctl3, 1);
+>  	writel(1, &mctl_ctl->swctl);
+>  
+> -	if (IS_ENABLED(CONFIG_DRAM_SUN50I_H616_WRITE_LEVELING)) {
+> +	if (para->tpr10 & TPR10_WRITE_LEVELING) {
+>  		for (i = 0; i < 5; i++)
+>  			if (mctl_phy_write_leveling(para))
+>  				break;
+> @@ -810,7 +813,7 @@ static bool mctl_phy_init(struct dram_para *para)
+>  		}
+>  	}
+>  
+> -	if (IS_ENABLED(CONFIG_DRAM_SUN50I_H616_READ_CALIBRATION)) {
+> +	if (para->tpr10 & TPR10_READ_CALIBRATION) {
+>  		for (i = 0; i < 5; i++)
+>  			if (mctl_phy_read_calibration(para))
+>  				break;
+> @@ -820,7 +823,7 @@ static bool mctl_phy_init(struct dram_para *para)
+>  		}
+>  	}
+>  
+> -	if (IS_ENABLED(CONFIG_DRAM_SUN50I_H616_READ_TRAINING)) {
+> +	if (para->tpr10 & TPR10_READ_TRAINING) {
+>  		for (i = 0; i < 5; i++)
+>  			if (mctl_phy_read_training(para))
+>  				break;
+> @@ -830,7 +833,7 @@ static bool mctl_phy_init(struct dram_para *para)
+>  		}
+>  	}
+>  
+> -	if (IS_ENABLED(CONFIG_DRAM_SUN50I_H616_WRITE_TRAINING)) {
+> +	if (para->tpr10 & TPR10_WRITE_TRAINING) {
+>  		for (i = 0; i < 5; i++)
+>  			if (mctl_phy_write_training(para))
+>  				break;
+> @@ -840,8 +843,7 @@ static bool mctl_phy_init(struct dram_para *para)
+>  		}
+>  	}
+>  
+> -	if (IS_ENABLED(CONFIG_DRAM_SUN50I_H616_BIT_DELAY_COMPENSATION))
+> -		mctl_phy_bit_delay_compensation(para);
+> +	mctl_phy_bit_delay_compensation(para);
+>  
+>  	clrbits_le32(SUNXI_DRAM_PHY0_BASE + 0x60, 4);
+>  
+> @@ -1022,6 +1024,7 @@ unsigned long sunxi_dram_init(void)
+>  		.dx_odt = CONFIG_DRAM_SUN50I_H616_DX_ODT,
+>  		.dx_dri = CONFIG_DRAM_SUN50I_H616_DX_DRI,
+>  		.ca_dri = CONFIG_DRAM_SUN50I_H616_CA_DRI,
+> +		.tpr10 = CONFIG_DRAM_SUN50I_H616_TPR10,
+>  	};
+>  	unsigned long size;
+>  
+> diff --git a/configs/orangepi_zero2_defconfig b/configs/orangepi_zero2_defconfig
+> index d70b15a07705..6cb942f511a1 100644
+> --- a/configs/orangepi_zero2_defconfig
+> +++ b/configs/orangepi_zero2_defconfig
+> @@ -2,13 +2,10 @@ CONFIG_ARM=y
+>  CONFIG_ARCH_SUNXI=y
+>  CONFIG_DEFAULT_DEVICE_TREE="sun50i-h616-orangepi-zero2"
+>  CONFIG_SPL=y
+> -CONFIG_DRAM_SUN50I_H616_WRITE_LEVELING=y
+> -CONFIG_DRAM_SUN50I_H616_READ_CALIBRATION=y
+> -CONFIG_DRAM_SUN50I_H616_READ_TRAINING=y
+> -CONFIG_DRAM_SUN50I_H616_WRITE_TRAINING=y
+>  CONFIG_DRAM_SUN50I_H616_DX_ODT=0x08080808
+>  CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
+>  CONFIG_DRAM_SUN50I_H616_CA_DRI=0x0e0e
+> +CONFIG_DRAM_SUN50I_H616_TPR10=0xf83438
+>  CONFIG_MACH_SUN50I_H616=y
+>  CONFIG_R_I2C_ENABLE=y
+>  CONFIG_SPL_SPI_SUNXI=y
+> diff --git a/configs/x96_mate_defconfig b/configs/x96_mate_defconfig
+> index 60cc8fbe751c..b00daa458b28 100644
+> --- a/configs/x96_mate_defconfig
+> +++ b/configs/x96_mate_defconfig
+> @@ -6,6 +6,7 @@ CONFIG_DRAM_SUN50I_H616_READ_CALIBRATION=y
+>  CONFIG_DRAM_SUN50I_H616_DX_ODT=0x03030303
+>  CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
+>  CONFIG_DRAM_SUN50I_H616_CA_DRI=0x1c12
+> +CONFIG_DRAM_SUN50I_H616_TPR10=0x2f0007
+>  CONFIG_MACH_SUN50I_H616=y
+>  CONFIG_R_I2C_ENABLE=y
+>  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
 
-For any non trivial change, I would definitely do that as well.
-
-The thing is, by collecting the tags with b4, you lost all the Acks and
-Reviews targets, while we could prevent this, see below.
-
-> While going through the changed, probably the s3c24xx driver (which
-> isn't exactly identical to the other changes) could benefit from an
-> additional change throwing out the early exit (which---I guess---cannot
-> be hit).
-
-Yes, I believe the 'info =3D=3D NULL' condition is useless, feel free to
-drop it in a second patch if you wish.
-
-> BTW, I constructed the lists of acks/reviews myself and found the same
-> set. However b4 wailed about each patch claiming:
->=20
-> 	    =E2=9C=97 BADSIG: DKIM/infradead.org
-
-No idea what this means, any pointer?
-
-> And it didn't like you producing the tags, saying:
->=20
-> 	NOTE: some trailers ignored due to from/email mismatches:
-> 	    ! Trailer: Acked-by: Roger Quadros <rogerq@kernel.org>
-> 	     Msg From: Miquel Raynal <miquel.raynal@bootlin.com>
-> 	    [...]
-
-Well, yes, I don't expect b4 to read plain english when I say "I
-collected them for you" ^^ But at least my list had a '# <area>' suffix
-for each of the Acked and Reviewed changes, which is now missing. I
-don't know  how useful they actually are, but it seems to me that the
-information was lost between v1 and v2?
-
-Thanks,
-Miqu=C3=A8l
