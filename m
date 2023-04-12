@@ -1,563 +1,86 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from qs51p00im-qukt01071902.me.com (qs51p00im-qukt01071902.me.com [17.57.155.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365DF631
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Apr 2023 05:05:22 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id l18so9532493wrb.9
-        for <linux-sunxi@lists.linux.dev>; Tue, 11 Apr 2023 22:05:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681275920;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aeEnWZIdM8PQD1Z5FFjjsMDfCCFhzMtlYIWHC0Ye40Q=;
-        b=O8B2sKtWbPQJR/75dzwpRdKlJfZ2osEiljaMdEextBKGuAYGalp8pWRKeJdYQrwZwv
-         g5J9GBdIFQGybDPgpV6bCGKxpaEKBmitM3LzlhLKPhRJDrgCjskFXtcIU4JxWQ1KOOwP
-         vXSmE0iiHDX7RWYMgKGOFKAXiQz+pwwhT5VllK2lKsWvJl+sGznyl1FYrVEkTqvXBKrD
-         i+9AypCH9SdT78R8FBabDHJQgJCuycBHUFuwt55vC8NRZLl16DpKP3Da6gYHdUYz2tNL
-         +CxegId/O3rbU444inl6qTBtfd3XwF3X1UlT+PrDRfoHYMwQ0oNADRvtH1APK4BiXLV4
-         pJgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681275920;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aeEnWZIdM8PQD1Z5FFjjsMDfCCFhzMtlYIWHC0Ye40Q=;
-        b=FhAhobk92+ZGqR14gK9YOuPHZos8mGUCgr5cid95gK67aU/0duxBKLUZ4S3R8nBTVw
-         mjVsW2GbypeMO8hb/GBQ4Rp219DELF2FXIUJT2D/fXlCkf+djeEx3Lu0p1pI6F93GrI+
-         haR+VZ73+ISLTmYKZyz4aO6hdp++fmV+pdB2xk7ioaGxhHLWPQDfkB2tqviT29XgP6Zr
-         LHAHHNEYVRcgu9/TJN8ZZ/4lkf83aYgEXj/ELOhJHsZ2hCyf45MOQKLwqG2aM6iPzGfh
-         y8SRTwadC1B4U/12CCAcqdGKc0TWVyZ7h6OOGTn6/O7E6FI5KzCgKann4+j12HC0Pbcl
-         iquQ==
-X-Gm-Message-State: AAQBX9dejISpFa3rUhbvPoIb5zfAuxfM2bReORa3+H7XX+OuZ6gJUCL9
-	bgisigjJcC1dk7ttfD8Vb5g=
-X-Google-Smtp-Source: AKy350a/EWdmFPH24H3o/ZSr2mhh+UT0UdYE4s2yHprEtXmrfrjWaw+zZRAS5Kx93cYnECfeWysI+w==
-X-Received: by 2002:adf:e391:0:b0:2c7:fc61:12d4 with SMTP id e17-20020adfe391000000b002c7fc6112d4mr12862158wrm.47.1681275920116;
-        Tue, 11 Apr 2023 22:05:20 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id e18-20020adfe392000000b002c56013c07fsm16036989wrm.109.2023.04.11.22.05.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Apr 2023 22:05:19 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: jagan@amarulasolutions.com, u-boot@lists.denx.de,
- linux-sunxi@lists.linux.dev
-Subject:
- Re: [PATCH v2 04/10] sunxi: Convert H616 DRAM options to single setting
-Date: Wed, 12 Apr 2023 07:05:18 +0200
-Message-ID: <5662672.DvuYhMxLoT@jernej-laptop>
-In-Reply-To: <20230411111304.4ba7ba2d@donnerap.cambridge.arm.com>
-References:
- <20230410082119.24616-1-jernej.skrabec@gmail.com>
- <20230410082119.24616-5-jernej.skrabec@gmail.com>
- <20230411111304.4ba7ba2d@donnerap.cambridge.arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2D917EA
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Apr 2023 07:15:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+	s=1a1hai; t=1681283703;
+	bh=FuHa2VctxY8ljAUtLpIjGV5QmLAE4POaPbEVmwgcH2o=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To;
+	b=qY08AyFEmbBbMRmPeik5yhhAU3lwphghNn24tlEZ05vOVrFWtZSNDXmUtGuHh8n5N
+	 vFBfCSUOMVpXxOSzg00fpuzPLEkUrVvbznMG5ErYZEbnDeeVkW/qbjlOxr2oX2Bomy
+	 v5KC7nZMd/+z/r5cZ1ilzsAebgJn1m7/DiOQebOT8F4ZVvCSXRwH8NdCfGRPrEJ3oB
+	 IW+Pc4wC30B0LWGprb9e4gJMCsOTJFQN0WuKuHYUD5U/L2E8ZltqoR4xXpdes5Ct1i
+	 WjQc3/gtJcsSykcDtr8ljRgmxlFNdy87z4EydHZshcht2f70xYrxVMuOJsMe5ICQGc
+	 ww/8hNCOGbCqQ==
+Received: from localhost (qs51p00im-dlb-asmtp-mailmevip.me.com [17.57.155.28])
+	by qs51p00im-qukt01071902.me.com (Postfix) with ESMTPSA id 4C7375EC011E;
+	Wed, 12 Apr 2023 07:15:01 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 12 Apr 2023 09:14:59 +0200
+Message-Id: <CRULBWW4VCWG.3KS7HX7P1G4P6@void.crly.cz>
+Cc: "Frank Oltmanns" <frank@oltmanns.dev>, "Chen-Yu Tsai" <wens@csie.org>,
+ "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Samuel Holland"
+ <samuel@sholland.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/sun4i: uncouple DSI dotclock divider from
+ TCON0_DCLK_REG
+From: "Roman Beranek" <romanberanek@icloud.com>
+To: "Maxime Ripard" <maxime@cerno.tech>
+X-Mailer: aerc 0.14.0
+References: <20230320161636.24411-1-romanberanek@icloud.com>
+ <87wn356ni4.fsf@oltmanns.dev> <20230327202045.ceeqqwjug4ktxtsf@penduick>
+ <CRHKFX934UA0.1MCKCD8SJSPIE@iMac.local>
+ <20230329195802.veybo3367zifw77n@penduick>
+ <CROTQHUM88W0.2URPO95U5ZMS5@void.crly.cz>
+ <pu3vdz4gnkwgn4thg6tndbnvfroevpnq75bqbfv7yyrh4gkv63@xxl3dsjf2ih3>
+In-Reply-To: <pu3vdz4gnkwgn4thg6tndbnvfroevpnq75bqbfv7yyrh4gkv63@xxl3dsjf2ih3>
+X-Proofpoint-GUID: s-iO_fMJ2HHG6apJavxJxsPYR0SgWQJt
+X-Proofpoint-ORIG-GUID: s-iO_fMJ2HHG6apJavxJxsPYR0SgWQJt
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.572,17.11.62.513.0000000_definitions?=
+ =?UTF-8?Q?=3D2022-01-11=5F01:2022-01-11=5F01,2020-02-14=5F11,2021-12-02?=
+ =?UTF-8?Q?=5F01_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=487 phishscore=0
+ bulkscore=0 suspectscore=0 malwarescore=0 spamscore=0 clxscore=1015
+ adultscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2304120065
 
-Dne torek, 11. april 2023 ob 12:13:04 CEST je Andre Przywara napisal(a):
-> On Mon, 10 Apr 2023 10:21:13 +0200
-> 
-> Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
-> > Vendor DRAM settings use TPR10 parameter to enable various features.
-> > There are many mores features that just those that are currently
-> > mentioned. Since new will be added later and most are not known, let's
-> > reuse value from vendor DRAM driver as-is. This will also help adding
-> > support for new boards.
-> > 
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> 
-> Thanks, based on my previous review, and the changes to the bit names:
-> 
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-> 
-> Just one note here, mostly for the reference when people stumble upon
-> this patch: this enables the CA bit delay compensation code for the X96,
-> which was not enabled before, because C
-> was not set. I don't know if the fixed values written by this
-> code here were meant for the OrangePi Zero2 (which though never
-> runs this code), but for the X96 Mate the values written by this patch
-> will be changed in a later patch.
+On Wed Apr 5, 2023 at 5:03 PM CEST, Maxime Ripard wrote:
+> On Wed, Apr 05, 2023 at 02:34:11PM +0200, Roman Beranek wrote:
+> > It turns out however that the new dclk rates can't be set exactly as
+> > requested without touching pll-video0*, tcon0 now therefore gets
+> > reparented from pll-mipi to pll-video0-2x which, as it further turns
+> > out, breaks DSI. While simply forbidding the video0-2x mux option seems
+> > to me as the right way to go because there's not much use for it with
+> > non-DSI interfaces either besides the opportunity to power pll-mipi
+> > down, I'd like to run by you first.
+>
+> Sounds reasonable
 
-DRAM_SUN50I_H616_UNKNOWN_FEATURE was tested with T95 box, but there is no 
-upstream support for it (yet). I think this series was tested with enough 
-(mostly not supported in mainline) devices that it's safe to say it works.
+Okay, I'm unsure of how to denote that in the code however. Should I
+just comment the parent out of the table and put an explanation in
+a comment nearby? Or just erase it? I couldn't find an applicable
+precedent.
 
-Note that there are several versions of vendor DRAM driver which naturally 
-differ slightly. This series is based on V0.651.
+> > * As pll-mipi doesn't have CLK_SET_RATE_PARENT flag set, pll-video0
+> >   retains its boot-time rate of 294 MHz set by sunxi-dw-hdmi driver
+> >   in u-boot. Why 294 MHz (as opposed to the default rate of 297 MHz)?
+> >   The driver actually asks for 297 MHz, clock_set_pll3 rounds it to
+> >   294 MHz though because it limits itself to 6 MHz steps.
+>
+> We could also address that though
 
-Thanks for merging!
+Should I include it in v2 of the series, or leave it for later?
 
-Best regards,
-Jernej
-
-> 
-> Cheers,
-> Andre
-> 
-> > ---
-> > 
-> >  .../include/asm/arch-sunxi/dram_sun50i_h616.h |   9 +
-> >  arch/arm/mach-sunxi/Kconfig                   |  38 +---
-> >  arch/arm/mach-sunxi/dram_sun50i_h616.c        | 197 +++++++++---------
-> >  configs/orangepi_zero2_defconfig              |   5 +-
-> >  configs/x96_mate_defconfig                    |   1 +
-> >  5 files changed, 117 insertions(+), 133 deletions(-)
-> > 
-> > diff --git a/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h
-> > b/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h index
-> > c9e1f84bfcdd..dbdc6b694ec1 100644
-> > --- a/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h
-> > +++ b/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h
-> > @@ -137,6 +137,14 @@ check_member(sunxi_mctl_ctl_reg, unk_0x4240, 0x4240);
-> > 
-> >  #define MSTR_ACTIVE_RANKS(x)	(((x == 2) ? 3 : 1) << 24)
-> >  #define MSTR_BURST_LENGTH(x)	(((x) >> 1) << 16)
-> > 
-> > +#define TPR10_CA_BIT_DELAY	BIT(16)
-> > +#define TPR10_DX_BIT_DELAY0	BIT(17)
-> > +#define TPR10_DX_BIT_DELAY1	BIT(18)
-> > +#define TPR10_WRITE_LEVELING	BIT(20)
-> > +#define TPR10_READ_CALIBRATION	BIT(21)
-> > +#define TPR10_READ_TRAINING	BIT(22)
-> > +#define TPR10_WRITE_TRAINING	BIT(23)
-> > +
-> > 
-> >  struct dram_para {
-> >  
-> >  	u32 clk;
-> >  	enum sunxi_dram_type type;
-> > 
-> > @@ -147,6 +155,7 @@ struct dram_para {
-> > 
-> >  	u32 dx_odt;
-> >  	u32 dx_dri;
-> >  	u32 ca_dri;
-> > 
-> > +	u32 tpr10;
-> > 
-> >  };
-> > 
-> > diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-> > index 14fb9a95905a..1b47a49f938c 100644
-> > --- a/arch/arm/mach-sunxi/Kconfig
-> > +++ b/arch/arm/mach-sunxi/Kconfig
-> > @@ -52,38 +52,6 @@ config DRAM_SUN50I_H616
-> > 
-> >  	  like H616.
-> >  
-> >  if DRAM_SUN50I_H616
-> > 
-> > -config DRAM_SUN50I_H616_WRITE_LEVELING
-> > -	bool "H616 DRAM write leveling"
-> > -	---help---
-> > -	  Select this when DRAM on your H616 board needs write leveling.
-> > -
-> > -config DRAM_SUN50I_H616_READ_CALIBRATION
-> > -	bool "H616 DRAM read calibration"
-> > -	---help---
-> > -	  Select this when DRAM on your H616 board needs read calibration.
-> > -
-> > -config DRAM_SUN50I_H616_READ_TRAINING
-> > -	bool "H616 DRAM read training"
-> > -	---help---
-> > -	  Select this when DRAM on your H616 board needs read training.
-> > -
-> > -config DRAM_SUN50I_H616_WRITE_TRAINING
-> > -	bool "H616 DRAM write training"
-> > -	---help---
-> > -	  Select this when DRAM on your H616 board needs write training.
-> > -
-> > -config DRAM_SUN50I_H616_BIT_DELAY_COMPENSATION
-> > -	bool "H616 DRAM bit delay compensation"
-> > -	---help---
-> > -	  Select this when DRAM on your H616 board needs bit delay
-> > -	  compensation.
-> > -
-> > -config DRAM_SUN50I_H616_UNKNOWN_FEATURE
-> > -	bool "H616 DRAM unknown feature"
-> > -	---help---
-> > -	  Select this when DRAM on your H616 board needs this unknown
-> > -	  feature.
-> > -
-> > 
-> >  config DRAM_SUN50I_H616_DX_ODT
-> >  
-> >  	hex "H616 DRAM DX ODT parameter"
-> >  	help
-> > 
-> > @@ -98,6 +66,12 @@ config DRAM_SUN50I_H616_CA_DRI
-> > 
-> >  	hex "H616 DRAM CA DRI parameter"
-> >  	help
-> >  	
-> >  	  CA DRI value from vendor DRAM settings.
-> > 
-> > +
-> > +config DRAM_SUN50I_H616_TPR10
-> > +	hex "H616 DRAM TPR10 parameter"
-> > +	help
-> > +	  TPR10 value from vendor DRAM settings. It tells which features
-> > +	  should be configured, like write leveling, read calibration, etc.
-> > 
-> >  endif
-> >  
-> >  config SUN6I_PRCM
-> > 
-> > diff --git a/arch/arm/mach-sunxi/dram_sun50i_h616.c
-> > b/arch/arm/mach-sunxi/dram_sun50i_h616.c index 06a07dfbf9cc..630c7c3be882
-> > 100644
-> > --- a/arch/arm/mach-sunxi/dram_sun50i_h616.c
-> > +++ b/arch/arm/mach-sunxi/dram_sun50i_h616.c
-> > @@ -577,109 +577,112 @@ static bool mctl_phy_bit_delay_compensation(struct
-> > dram_para *para)> 
-> >  	u32 *ptr;
-> >  	int i;
-> > 
-> > -	clrbits_le32(SUNXI_DRAM_PHY0_BASE + 0x60, 1);
-> > -	setbits_le32(SUNXI_DRAM_PHY0_BASE + 8, 8);
-> > -	clrbits_le32(SUNXI_DRAM_PHY0_BASE + 0x190, 0x10);
-> > +	if (para->tpr10 & TPR10_DX_BIT_DELAY1) {
-> > +		clrbits_le32(SUNXI_DRAM_PHY0_BASE + 0x60, 1);
-> > +		setbits_le32(SUNXI_DRAM_PHY0_BASE + 8, 8);
-> > +		clrbits_le32(SUNXI_DRAM_PHY0_BASE + 0x190, 0x10);
-> > 
-> > -	ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x484);
-> > -	for (i = 0; i < 9; i++) {
-> > -		writel_relaxed(0x16, ptr);
-> > -		writel_relaxed(0x16, ptr + 0x30);
-> > -		ptr += 2;
-> > -	}
-> > -	writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x4d0);
-> > -	writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x590);
-> > -	writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x4cc);
-> > -	writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x58c);
-> > +		ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x484);
-> > +		for (i = 0; i < 9; i++) {
-> > +			writel_relaxed(0x16, ptr);
-> > +			writel_relaxed(0x16, ptr + 0x30);
-> > +			ptr += 2;
-> > +		}
-> > +		writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x4d0);
-> > +		writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x590);
-> > +		writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x4cc);
-> > +		writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x58c);
-> > 
-> > -	ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x4d8);
-> > -	for (i = 0; i < 9; i++) {
-> > -		writel_relaxed(0x1a, ptr);
-> > -		writel_relaxed(0x1a, ptr + 0x30);
-> > -		ptr += 2;
-> > -	}
-> > -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x524);
-> > -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x5e4);
-> > -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x520);
-> > -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x5e0);
-> > +		ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x4d8);
-> > +		for (i = 0; i < 9; i++) {
-> > +			writel_relaxed(0x1a, ptr);
-> > +			writel_relaxed(0x1a, ptr + 0x30);
-> > +			ptr += 2;
-> > +		}
-> > +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x524);
-> > +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x5e4);
-> > +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x520);
-> > +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x5e0);
-> > 
-> > -	ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x604);
-> > -	for (i = 0; i < 9; i++) {
-> > -		writel_relaxed(0x1a, ptr);
-> > -		writel_relaxed(0x1a, ptr + 0x30);
-> > -		ptr += 2;
-> > -	}
-> > -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x650);
-> > -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x710);
-> > -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x64c);
-> > -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x70c);
-> > +		ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x604);
-> > +		for (i = 0; i < 9; i++) {
-> > +			writel_relaxed(0x1a, ptr);
-> > +			writel_relaxed(0x1a, ptr + 0x30);
-> > +			ptr += 2;
-> > +		}
-> > +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x650);
-> > +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x710);
-> > +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x64c);
-> > +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x70c);
-> > 
-> > -	ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x658);
-> > -	for (i = 0; i < 9; i++) {
-> > -		writel_relaxed(0x1a, ptr);
-> > -		writel_relaxed(0x1a, ptr + 0x30);
-> > -		ptr += 2;
-> > -	}
-> > -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x6a4);
-> > -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x764);
-> > -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x6a0);
-> > -	writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x760);
-> > +		ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x658);
-> > +		for (i = 0; i < 9; i++) {
-> > +			writel_relaxed(0x1a, ptr);
-> > +			writel_relaxed(0x1a, ptr + 0x30);
-> > +			ptr += 2;
-> > +		}
-> > +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x6a4);
-> > +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x764);
-> > +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x6a0);
-> > +		writel_relaxed(0x1e, SUNXI_DRAM_PHY0_BASE + 0x760);
-> > 
-> > -	dmb();
-> > +		dmb();
-> > 
-> > -	setbits_le32(SUNXI_DRAM_PHY0_BASE + 0x60, 1);
-> > +		setbits_le32(SUNXI_DRAM_PHY0_BASE + 0x60, 1);
-> > +	}
-> > 
-> > -	/* second part */
-> > -	clrbits_le32(SUNXI_DRAM_PHY0_BASE + 0x54, 0x80);
-> > -	clrbits_le32(SUNXI_DRAM_PHY0_BASE + 0x190, 4);
-> > +	if (para->tpr10 & TPR10_DX_BIT_DELAY0) {
-> > +		clrbits_le32(SUNXI_DRAM_PHY0_BASE + 0x54, 0x80);
-> > +		clrbits_le32(SUNXI_DRAM_PHY0_BASE + 0x190, 4);
-> > 
-> > -	ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x480);
-> > -	for (i = 0; i < 9; i++) {
-> > -		writel_relaxed(0x10, ptr);
-> > -		writel_relaxed(0x10, ptr + 0x30);
-> > -		ptr += 2;
-> > -	}
-> > -	writel_relaxed(0x18, SUNXI_DRAM_PHY0_BASE + 0x528);
-> > -	writel_relaxed(0x18, SUNXI_DRAM_PHY0_BASE + 0x5e8);
-> > -	writel_relaxed(0x18, SUNXI_DRAM_PHY0_BASE + 0x4c8);
-> > -	writel_relaxed(0x18, SUNXI_DRAM_PHY0_BASE + 0x588);
-> > +		ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x480);
-> > +		for (i = 0; i < 9; i++) {
-> > +			writel_relaxed(0x10, ptr);
-> > +			writel_relaxed(0x10, ptr + 0x30);
-> > +			ptr += 2;
-> > +		}
-> > +		writel_relaxed(0x18, SUNXI_DRAM_PHY0_BASE + 0x528);
-> > +		writel_relaxed(0x18, SUNXI_DRAM_PHY0_BASE + 0x5e8);
-> > +		writel_relaxed(0x18, SUNXI_DRAM_PHY0_BASE + 0x4c8);
-> > +		writel_relaxed(0x18, SUNXI_DRAM_PHY0_BASE + 0x588);
-> > 
-> > -	ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x4d4);
-> > -	for (i = 0; i < 9; i++) {
-> > -		writel_relaxed(0x12, ptr);
-> > -		writel_relaxed(0x12, ptr + 0x30);
-> > -		ptr += 2;
-> > -	}
-> > -	writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x52c);
-> > -	writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x5ec);
-> > -	writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x51c);
-> > -	writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x5dc);
-> > +		ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x4d4);
-> > +		for (i = 0; i < 9; i++) {
-> > +			writel_relaxed(0x12, ptr);
-> > +			writel_relaxed(0x12, ptr + 0x30);
-> > +			ptr += 2;
-> > +		}
-> > +		writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x52c);
-> > +		writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x5ec);
-> > +		writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x51c);
-> > +		writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x5dc);
-> > 
-> > -	ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x600);
-> > -	for (i = 0; i < 9; i++) {
-> > -		writel_relaxed(0x12, ptr);
-> > -		writel_relaxed(0x12, ptr + 0x30);
-> > -		ptr += 2;
-> > -	}
-> > -	writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x6a8);
-> > -	writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x768);
-> > -	writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x648);
-> > -	writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x708);
-> > +		ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x600);
-> > +		for (i = 0; i < 9; i++) {
-> > +			writel_relaxed(0x12, ptr);
-> > +			writel_relaxed(0x12, ptr + 0x30);
-> > +			ptr += 2;
-> > +		}
-> > +		writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x6a8);
-> > +		writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x768);
-> > +		writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x648);
-> > +		writel_relaxed(0x1a, SUNXI_DRAM_PHY0_BASE + 0x708);
-> > 
-> > -	ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x654);
-> > -	for (i = 0; i < 9; i++) {
-> > -		writel_relaxed(0x14, ptr);
-> > -		writel_relaxed(0x14, ptr + 0x30);
-> > -		ptr += 2;
-> > -	}
-> > -	writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x6ac);
-> > -	writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x76c);
-> > -	writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x69c);
-> > -	writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x75c);
-> > +		ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x654);
-> > +		for (i = 0; i < 9; i++) {
-> > +			writel_relaxed(0x14, ptr);
-> > +			writel_relaxed(0x14, ptr + 0x30);
-> > +			ptr += 2;
-> > +		}
-> > +		writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x6ac);
-> > +		writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x76c);
-> > +		writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x69c);
-> > +		writel_relaxed(0x1c, SUNXI_DRAM_PHY0_BASE + 0x75c);
-> > 
-> > -	dmb();
-> > +		dmb();
-> > 
-> > -	setbits_le32(SUNXI_DRAM_PHY0_BASE + 0x54, 0x80);
-> > +		setbits_le32(SUNXI_DRAM_PHY0_BASE + 0x54, 0x80);
-> > +	}
-> > 
-> >  	return true;
-> >  
-> >  }
-> > 
-> > @@ -718,7 +721,7 @@ static bool mctl_phy_init(struct dram_para *para)
-> > 
-> >  	for (i = 0; i < ARRAY_SIZE(phy_init); i++)
-> >  	
-> >  		writel(phy_init[i], &ptr[i]);
-> > 
-> > -	if (IS_ENABLED(CONFIG_DRAM_SUN50I_H616_UNKNOWN_FEATURE)) {
-> > +	if (para->tpr10 & TPR10_CA_BIT_DELAY) {
-> > 
-> >  		ptr = (u32 *)(SUNXI_DRAM_PHY0_BASE + 0x780);
-> >  		for (i = 0; i < 32; i++)
-> >  		
-> >  			writel(0x16, &ptr[i]);
-> > 
-> > @@ -800,7 +803,7 @@ static bool mctl_phy_init(struct dram_para *para)
-> > 
-> >  	clrbits_le32(&mctl_ctl->rfshctl3, 1);
-> >  	writel(1, &mctl_ctl->swctl);
-> > 
-> > -	if (IS_ENABLED(CONFIG_DRAM_SUN50I_H616_WRITE_LEVELING)) {
-> > +	if (para->tpr10 & TPR10_WRITE_LEVELING) {
-> > 
-> >  		for (i = 0; i < 5; i++)
-> >  		
-> >  			if (mctl_phy_write_leveling(para))
-> >  			
-> >  				break;
-> > 
-> > @@ -810,7 +813,7 @@ static bool mctl_phy_init(struct dram_para *para)
-> > 
-> >  		}
-> >  	
-> >  	}
-> > 
-> > -	if (IS_ENABLED(CONFIG_DRAM_SUN50I_H616_READ_CALIBRATION)) {
-> > +	if (para->tpr10 & TPR10_READ_CALIBRATION) {
-> > 
-> >  		for (i = 0; i < 5; i++)
-> >  		
-> >  			if (mctl_phy_read_calibration(para))
-> >  			
-> >  				break;
-> > 
-> > @@ -820,7 +823,7 @@ static bool mctl_phy_init(struct dram_para *para)
-> > 
-> >  		}
-> >  	
-> >  	}
-> > 
-> > -	if (IS_ENABLED(CONFIG_DRAM_SUN50I_H616_READ_TRAINING)) {
-> > +	if (para->tpr10 & TPR10_READ_TRAINING) {
-> > 
-> >  		for (i = 0; i < 5; i++)
-> >  		
-> >  			if (mctl_phy_read_training(para))
-> >  			
-> >  				break;
-> > 
-> > @@ -830,7 +833,7 @@ static bool mctl_phy_init(struct dram_para *para)
-> > 
-> >  		}
-> >  	
-> >  	}
-> > 
-> > -	if (IS_ENABLED(CONFIG_DRAM_SUN50I_H616_WRITE_TRAINING)) {
-> > +	if (para->tpr10 & TPR10_WRITE_TRAINING) {
-> > 
-> >  		for (i = 0; i < 5; i++)
-> >  		
-> >  			if (mctl_phy_write_training(para))
-> >  			
-> >  				break;
-> > 
-> > @@ -840,8 +843,7 @@ static bool mctl_phy_init(struct dram_para *para)
-> > 
-> >  		}
-> >  	
-> >  	}
-> > 
-> > -	if (IS_ENABLED(CONFIG_DRAM_SUN50I_H616_BIT_DELAY_COMPENSATION))
-> > -		mctl_phy_bit_delay_compensation(para);
-> > +	mctl_phy_bit_delay_compensation(para);
-> > 
-> >  	clrbits_le32(SUNXI_DRAM_PHY0_BASE + 0x60, 4);
-> > 
-> > @@ -1022,6 +1024,7 @@ unsigned long sunxi_dram_init(void)
-> > 
-> >  		.dx_odt = CONFIG_DRAM_SUN50I_H616_DX_ODT,
-> >  		.dx_dri = CONFIG_DRAM_SUN50I_H616_DX_DRI,
-> >  		.ca_dri = CONFIG_DRAM_SUN50I_H616_CA_DRI,
-> > 
-> > +		.tpr10 = CONFIG_DRAM_SUN50I_H616_TPR10,
-> > 
-> >  	};
-> >  	unsigned long size;
-> > 
-> > diff --git a/configs/orangepi_zero2_defconfig
-> > b/configs/orangepi_zero2_defconfig index d70b15a07705..6cb942f511a1
-> > 100644
-> > --- a/configs/orangepi_zero2_defconfig
-> > +++ b/configs/orangepi_zero2_defconfig
-> > @@ -2,13 +2,10 @@ CONFIG_ARM=y
-> > 
-> >  CONFIG_ARCH_SUNXI=y
-> >  CONFIG_DEFAULT_DEVICE_TREE="sun50i-h616-orangepi-zero2"
-> >  CONFIG_SPL=y
-> > 
-> > -CONFIG_DRAM_SUN50I_H616_WRITE_LEVELING=y
-> > -CONFIG_DRAM_SUN50I_H616_READ_CALIBRATION=y
-> > -CONFIG_DRAM_SUN50I_H616_READ_TRAINING=y
-> > -CONFIG_DRAM_SUN50I_H616_WRITE_TRAINING=y
-> > 
-> >  CONFIG_DRAM_SUN50I_H616_DX_ODT=0x08080808
-> >  CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
-> >  CONFIG_DRAM_SUN50I_H616_CA_DRI=0x0e0e
-> > 
-> > +CONFIG_DRAM_SUN50I_H616_TPR10=0xf83438
-> > 
-> >  CONFIG_MACH_SUN50I_H616=y
-> >  CONFIG_R_I2C_ENABLE=y
-> >  CONFIG_SPL_SPI_SUNXI=y
-> > 
-> > diff --git a/configs/x96_mate_defconfig b/configs/x96_mate_defconfig
-> > index 60cc8fbe751c..b00daa458b28 100644
-> > --- a/configs/x96_mate_defconfig
-> > +++ b/configs/x96_mate_defconfig
-> > @@ -6,6 +6,7 @@ CONFIG_DRAM_SUN50I_H616_READ_CALIBRATION=y
-> > 
-> >  CONFIG_DRAM_SUN50I_H616_DX_ODT=0x03030303
-> >  CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
-> >  CONFIG_DRAM_SUN50I_H616_CA_DRI=0x1c12
-> > 
-> > +CONFIG_DRAM_SUN50I_H616_TPR10=0x2f0007
-> > 
-> >  CONFIG_MACH_SUN50I_H616=y
-> >  CONFIG_R_I2C_ENABLE=y
-> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-
-
-
-
+Thanks,
+Roman
