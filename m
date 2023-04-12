@@ -1,268 +1,89 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D62C02F21
-	for <linux-sunxi@lists.linux.dev>; Tue, 11 Apr 2023 22:16:33 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 46B34D75;
-	Tue, 11 Apr 2023 15:17:17 -0700 (PDT)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D1B373F6C4;
-	Tue, 11 Apr 2023 15:16:25 -0700 (PDT)
-Date: Tue, 11 Apr 2023 23:16:00 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, Samuel Holland
- <samuel@sholland.org>, Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, Mikhail
- Kalashnikov <iuncuim@gmail.com>, u-boot@lists.denx.de,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 2/2] sunxi: remove support for boot0 header reservation
-Message-ID: <20230411231600.27afdeea@slackpad.lan>
-In-Reply-To: <4790687.GXAFRqVoOG@jernej-laptop>
-References: <20230405142731.1246503-1-andre.przywara@arm.com>
-	<20230405142731.1246503-2-andre.przywara@arm.com>
-	<4790687.GXAFRqVoOG@jernej-laptop>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+Received: from st43p00im-ztbu10073601.me.com (st43p00im-ztbu10073601.me.com [17.58.63.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABED364
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Apr 2023 01:23:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+	s=1a1hai; t=1681262584;
+	bh=5lYEMcGNaDjCakbfqg3dZSHw5YYijll0DV6pUU4IwUQ=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To;
+	b=atT1omM/juMY7qst5KCgYsE6VaDU9lY5T+rr6QEqEViHM+OS2qQL8LwuyIe7a9Mpm
+	 1UBL2YqmM4xmqD/xSJfIzVz7PmkjxvSOBcEsoIE/UQkOFAcd/LfEee3O/9im9b1dnl
+	 4UracAxZZ8NNMIjFcgjL6IoYGD1Q9vQtqtsVPYRimlHooPEqc/HvIYMT9XTh+FkCQ1
+	 YyATazRM8rb1SN7g03dIXN1bdogviM+cFb/8W4WABoZjnaX1BKLUyQCUd5L2S8SpNI
+	 OAXQM8UUStujT1JHMzhmsklmNMW8eDRshhkwvMMnRNzZn1daAqltxZsq/9I/zscDLW
+	 l/PqMUceJJ44Q==
+Received: from localhost (st43p00im-dlb-asmtp-mailmevip.me.com [17.42.251.41])
+	by st43p00im-ztbu10073601.me.com (Postfix) with ESMTPSA id 923FD180C17;
+	Wed, 12 Apr 2023 01:23:01 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 12 Apr 2023 03:22:59 +0200
+Message-Id: <CRUDUEL17ER4.1R8WRNNB5CJ35@void.crly.cz>
+Cc: "Frank Oltmanns" <frank@oltmanns.dev>, "Chen-Yu Tsai" <wens@csie.org>,
+ "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
+ "Samuel Holland" <samuel@sholland.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>, <icenowy@aosc.io>
+Subject: Re: [PATCH] drm/sun4i: uncouple DSI dotclock divider from
+ TCON0_DCLK_REG
+From: "Roman Beranek" <romanberanek@icloud.com>
+To: =?utf-8?q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, "Maxime
+ Ripard" <maxime@cerno.tech>
+X-Mailer: aerc 0.14.0
+References: <20230320161636.24411-1-romanberanek@icloud.com>
+ <20230329195802.veybo3367zifw77n@penduick>
+ <CROTQHUM88W0.2URPO95U5ZMS5@void.crly.cz>
+ <2219295.iZASKD2KPV@jernej-laptop>
+In-Reply-To: <2219295.iZASKD2KPV@jernej-laptop>
+X-Proofpoint-GUID: g1DkOftfS7myPiNQXtcxfcmsJmiyUcmX
+X-Proofpoint-ORIG-GUID: g1DkOftfS7myPiNQXtcxfcmsJmiyUcmX
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.883,17.0.605.474.0000000_definitions?=
+ =?UTF-8?Q?=3D2022-06-21=5F08:2020-02-14=5F02,2022-06-21=5F08,2020-01-23?=
+ =?UTF-8?Q?=5F02_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=24 bulkscore=0 mlxlogscore=51
+ malwarescore=0 adultscore=0 clxscore=1011 spamscore=24 mlxscore=24
+ suspectscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2304120009
 
-On Sat, 08 Apr 2023 08:19:16 +0200
-Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+On Sat Apr 8, 2023 at 9:07 AM CEST, Jernej =C5=A0krabec wrote:
+> Dne sreda, 05. april 2023 ob 14:34:11 CEST je Roman Beranek napisal(a):
+> > While simply forbidding the video0-2x mux option seems
+> > to me as the right way to go because there's not much use for it with
+> > non-DSI interfaces either besides the opportunity to power pll-mipi
+> > down, I'd like to run by you first.
+>
+> It's been a long time since I looked at A64 HDMI clocks, but IIRC, pll-vi=
+deo0=20
+> is the only useful source for HDMI PHY (as opposed to HDMI controller.)
+> So question remains how to properly support both displays at the same tim=
+e.
+>
 
-Hi,
+Correct.
 
-> Dne sreda, 05. april 2023 ob 16:27:31 CEST je Andre Przywara napisal(a):
-> > In the early days of the Allwinner A64 U-Boot support, we relied on a
-> > vendor provided "boot0" binary to perform the DRAM initialisation. This
-> > replaced the SPL, and required to equip the U-Boot (proper) binary with
-> > a vendor specific header to be recognised as a valid boot0 payload.
-> > Fortunately these days are long gone (we gained SPL and DRAM support in
-> > early 2017!), and we never needed to use that hack on any later 64-bit
-> > Allwinner SoC.
-> >=20
-> > Since this is highly obsolete by now, remove the Kconfig option and the
-> > small pieces of "code" associated with it.
-> >=20
-> > Provide some comments about the purpose of the remaining boot0 code on
-> > the way.
-> >=20
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com> =20
->=20
-> I think it's time to remove this code too.
->=20
-> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Have you ever tried to make HDMI and DSI work at the same time? This is o=
+ne of=20
+> issues of the PinePhone IIUC.
+>
 
-Many thanks! So I kept the "code" in for now, to appease Piotr, but
-removed the symbols from the A64's defconfigs. I will propose that
-removal then again at a later time.
+Yes, I have. Prusa3D's SL1 printer, on which I previously worked on,
+uses both outputs simultaneously. I had encountered the same reparenting
+problem back then but since I hadn't been able to identify it,
+I resorted to fiddling with the DSI pixelclock until it worked.=20
 
-Queued for sunxi/master.
+DSI & HDMI co-existence is yet another reasoni though for forbidding
+the pll-video-2x parent. megi's kernel includes Mr. Zheng's commit which
+does the same.
 
-Cheers,
-Andre
+<https://github.com/megous/linux/commit/7374d57>
 
-
-
->=20
-> > ---
-> >  arch/arm/include/asm/arch-sunxi/boot0.h | 18 +++++++++++-------
-> >  arch/arm/mach-sunxi/Kconfig             |  9 ---------
-> >  configs/a64-olinuxino-emmc_defconfig    |  1 -
-> >  configs/a64-olinuxino_defconfig         |  1 -
-> >  configs/amarula_a64_relic_defconfig     |  1 -
-> >  configs/bananapi_m64_defconfig          |  1 -
-> >  configs/nanopi_a64_defconfig            |  1 -
-> >  configs/oceanic_5205_5inmfd_defconfig   |  1 -
-> >  configs/orangepi_win_defconfig          |  1 -
-> >  configs/pine64_plus_defconfig           |  1 -
-> >  configs/sopine_baseboard_defconfig      |  1 -
-> >  11 files changed, 11 insertions(+), 25 deletions(-)
-> >=20
-> > diff --git a/arch/arm/include/asm/arch-sunxi/boot0.h
-> > b/arch/arm/include/asm/arch-sunxi/boot0.h index 59ea75a96b5..1a396f78488
-> > 100644
-> > --- a/arch/arm/include/asm/arch-sunxi/boot0.h
-> > +++ b/arch/arm/include/asm/arch-sunxi/boot0.h
-> > @@ -1,13 +1,17 @@
-> >  /* SPDX-License-Identifier: GPL-2.0+ */
-> >  /*
-> > - * Configuration settings for the Allwinner A64 (sun50i) CPU
-> > + * Very early code for Allwinner 64-bit CPUs.
-> > + *
-> > + * The BROM runs entirely in AArch32 state, so the SPL is entered using
-> > this + * ISA. Depending on the rest of the firmware stack, this may als=
-o be
-> > true + * for U-Boot proper.
-> > + * Provide the "RMR reset into 64-bit" sequence, in AArch32 machine
-> > language, + * so that we can have all of U-Boot in AArch64. The first
-> > instruction is + * chosen so that if the CPU is already using AArch64, =
-it
-> > will skip the code + * and jump straight to the reset vector.
-> >   */
-> >=20
-> > -#if defined(CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER) &&
-> > !defined(CONFIG_SPL_BUILD) -/* reserve space for BOOT0 header informati=
-on
-> > */
-> > -	b	reset
-> > -	.space	1532
-> > -#elif defined(CONFIG_ARM_BOOT_HOOK_RMR)
-> > +#ifdef CONFIG_ARM_BOOT_HOOK_RMR
-> >  /*
-> >   * Switch into AArch64 if needed.
-> >   * Refer to arch/arm/mach-sunxi/rmr_switch.S for the original source.
-> > @@ -47,7 +51,7 @@
-> >  	.word   CONFIG_TEXT_BASE
-> >  #endif
-> >  	.word	fel_stash - .
-> > -#else
-> > +#else	/* !CONFIG_ARM_BOOT_HOOK_RMR */
-> >  /* normal execution */
-> >  	b	reset
-> >  #endif
-> > diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-> > index b46667ce01e..0527b3863a7 100644
-> > --- a/arch/arm/mach-sunxi/Kconfig
-> > +++ b/arch/arm/mach-sunxi/Kconfig
-> > @@ -386,15 +386,6 @@ config MACH_SUN8I
-> >  	default y if MACH_SUN8I_R40
-> >  	default y if MACH_SUN8I_V3S
-> >=20
-> > -config RESERVE_ALLWINNER_BOOT0_HEADER
-> > -	bool "reserve space for Allwinner boot0 header"
-> > -	select ENABLE_ARM_SOC_BOOT0_HOOK
-> > -	---help---
-> > -	Prepend a 1536 byte (empty) header to the U-Boot image file, to be
-> > -	filled with magic values post build. The Allwinner provided boot0
-> > -	blob relies on this information to load and execute U-Boot.
-> > -	Only needed on 64-bit Allwinner boards so far when using boot0.
-> > -
-> >  config ARM_BOOT_HOOK_RMR
-> >  	bool
-> >  	depends on ARM64
-> > diff --git a/configs/a64-olinuxino-emmc_defconfig
-> > b/configs/a64-olinuxino-emmc_defconfig index 8ec9eb3e9c2..a5989fab1c6
-> > 100644
-> > --- a/configs/a64-olinuxino-emmc_defconfig
-> > +++ b/configs/a64-olinuxino-emmc_defconfig
-> > @@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=3Dy
-> >  CONFIG_DEFAULT_DEVICE_TREE=3D"sun50i-a64-olinuxino-emmc"
-> >  CONFIG_SPL=3Dy
-> >  CONFIG_MACH_SUN50I=3Dy
-> > -CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER=3Dy
-> >  CONFIG_MMC_SUNXI_SLOT_EXTRA=3D2
-> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-> >  CONFIG_SUPPORT_EMMC_BOOT=3Dy
-> > diff --git a/configs/a64-olinuxino_defconfig
-> > b/configs/a64-olinuxino_defconfig index 16cef18beef..0b469c25d0d 100644
-> > --- a/configs/a64-olinuxino_defconfig
-> > +++ b/configs/a64-olinuxino_defconfig
-> > @@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=3Dy
-> >  CONFIG_DEFAULT_DEVICE_TREE=3D"sun50i-a64-olinuxino"
-> >  CONFIG_SPL=3Dy
-> >  CONFIG_MACH_SUN50I=3Dy
-> > -CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER=3Dy
-> >  CONFIG_MMC_SUNXI_SLOT_EXTRA=3D2
-> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-> >  CONFIG_SUN8I_EMAC=3Dy
-> > diff --git a/configs/amarula_a64_relic_defconfig
-> > b/configs/amarula_a64_relic_defconfig index ae44b66d109..292af6e372e 10=
-0644
-> > --- a/configs/amarula_a64_relic_defconfig
-> > +++ b/configs/amarula_a64_relic_defconfig
-> > @@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=3Dy
-> >  CONFIG_DEFAULT_DEVICE_TREE=3D"sun50i-a64-amarula-relic"
-> >  CONFIG_SPL=3Dy
-> >  CONFIG_MACH_SUN50I=3Dy
-> > -CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER=3Dy
-> >  CONFIG_MMC_SUNXI_SLOT_EXTRA=3D2
-> >  # CONFIG_VIDEO_DE2 is not set
-> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-> > diff --git a/configs/bananapi_m64_defconfig b/configs/bananapi_m64_defc=
-onfig
-> > index 99dc2f7d209..d957071cb13 100644
-> > --- a/configs/bananapi_m64_defconfig
-> > +++ b/configs/bananapi_m64_defconfig
-> > @@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=3Dy
-> >  CONFIG_DEFAULT_DEVICE_TREE=3D"sun50i-a64-bananapi-m64"
-> >  CONFIG_SPL=3Dy
-> >  CONFIG_MACH_SUN50I=3Dy
-> > -CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER=3Dy
-> >  CONFIG_MMC_SUNXI_SLOT_EXTRA=3D2
-> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-> >  CONFIG_SUPPORT_EMMC_BOOT=3Dy
-> > diff --git a/configs/nanopi_a64_defconfig b/configs/nanopi_a64_defconfig
-> > index 70fc257eebd..608238757ba 100644
-> > --- a/configs/nanopi_a64_defconfig
-> > +++ b/configs/nanopi_a64_defconfig
-> > @@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=3Dy
-> >  CONFIG_DEFAULT_DEVICE_TREE=3D"sun50i-a64-nanopi-a64"
-> >  CONFIG_SPL=3Dy
-> >  CONFIG_MACH_SUN50I=3Dy
-> > -CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER=3Dy
-> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-> >  CONFIG_SUN8I_EMAC=3Dy
-> >  CONFIG_USB_EHCI_HCD=3Dy
-> > diff --git a/configs/oceanic_5205_5inmfd_defconfig
-> > b/configs/oceanic_5205_5inmfd_defconfig index 2ebca673808..6cdcf782bee
-> > 100644
-> > --- a/configs/oceanic_5205_5inmfd_defconfig
-> > +++ b/configs/oceanic_5205_5inmfd_defconfig
-> > @@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=3Dy
-> >  CONFIG_DEFAULT_DEVICE_TREE=3D"sun50i-a64-oceanic-5205-5inmfd"
-> >  CONFIG_SPL=3Dy
-> >  CONFIG_MACH_SUN50I=3Dy
-> > -CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER=3Dy
-> >  CONFIG_SUNXI_DRAM_LPDDR3_STOCK=3Dy
-> >  CONFIG_DRAM_CLK=3D552
-> >  CONFIG_DRAM_ZQ=3D3881949
-> > diff --git a/configs/orangepi_win_defconfig b/configs/orangepi_win_defc=
-onfig
-> > index 3b78ad7e52d..df11ad8c8fd 100644
-> > --- a/configs/orangepi_win_defconfig
-> > +++ b/configs/orangepi_win_defconfig
-> > @@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=3Dy
-> >  CONFIG_DEFAULT_DEVICE_TREE=3D"sun50i-a64-orangepi-win"
-> >  CONFIG_SPL=3Dy
-> >  CONFIG_MACH_SUN50I=3Dy
-> > -CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER=3Dy
-> >  CONFIG_MACPWR=3D"PD14"
-> >  CONFIG_SPL_SPI_SUNXI=3Dy
-> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-> > diff --git a/configs/pine64_plus_defconfig b/configs/pine64_plus_defcon=
-fig
-> > index f42f4e5923a..08c13b58a1e 100644
-> > --- a/configs/pine64_plus_defconfig
-> > +++ b/configs/pine64_plus_defconfig
-> > @@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=3Dy
-> >  CONFIG_DEFAULT_DEVICE_TREE=3D"sun50i-a64-pine64-plus"
-> >  CONFIG_SPL=3Dy
-> >  CONFIG_MACH_SUN50I=3Dy
-> > -CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER=3Dy
-> >  CONFIG_PINE64_DT_SELECTION=3Dy
-> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-> >  CONFIG_OF_LIST=3D"sun50i-a64-pine64 sun50i-a64-pine64-plus"
-> > diff --git a/configs/sopine_baseboard_defconfig
-> > b/configs/sopine_baseboard_defconfig index a5e1478c117..d9b0eb37c54 100=
-644
-> > --- a/configs/sopine_baseboard_defconfig
-> > +++ b/configs/sopine_baseboard_defconfig
-> > @@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=3Dy
-> >  CONFIG_DEFAULT_DEVICE_TREE=3D"sun50i-a64-sopine-baseboard"
-> >  CONFIG_SPL=3Dy
-> >  CONFIG_MACH_SUN50I=3Dy
-> > -CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER=3Dy
-> >  CONFIG_SUNXI_DRAM_LPDDR3_STOCK=3Dy
-> >  CONFIG_DRAM_CLK=3D552
-> >  CONFIG_DRAM_ZQ=3D3881949 =20
->=20
->=20
->=20
->=20
->=20
-
+Best wishes
+Roman Beranek
