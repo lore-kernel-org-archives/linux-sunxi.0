@@ -1,136 +1,111 @@
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE2E568B
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Apr 2023 14:09:58 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 68600582A85;
-	Wed, 12 Apr 2023 10:09:57 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Wed, 12 Apr 2023 10:09:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1681308597; x=1681315797; bh=+6
-	c91CjmYIxtUqQXd3hOvEtB9DdbEY6oIma7Y8N/Mjo=; b=ib7pWYB1n6aJSdrpJQ
-	fY5o9y+RlaIb0qfrmsZSmlILn6qzjK9sSETdoq0/hb36Y4zhDs7vUX8e/m3CX8cP
-	aiRH2h0Bv0MYH4qsODXwgzQYDD2p5a7gZQvi5GMY2MCHoSGiN8GZ5f78iOohcV6J
-	vgAsGGKmlt0Dsl3YFMGXHlUnjA1XTET8FHRQ06Z87e4JInI2XyMbXEi2l6Kfszzd
-	DLR88XpeOdzXVuqOWfJWsTnWRH8vCvYdVQ5eXC9MoNsDrinFg7GwnyCBxkTu7BN1
-	hWGYHHcprJJeYU7A9R5MfecL+sfwZjCV3iMo3V3JmyrAhjEsOfMmL93ohOCj1okf
-	JzkA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1681308597; x=1681315797; bh=+6c91CjmYIxtU
-	qQXd3hOvEtB9DdbEY6oIma7Y8N/Mjo=; b=KJ7yfzAf7FGIldi78fa7VdpD4gtBS
-	+wv58kmjpp1ujCZD9slNbsIFzGgIAll3f6UpPJ7KfsngSI+3WSBqC6xK9enuFBVl
-	3pq37O8Uch5OJokDOImpb0TfUwgZzSBVm47bzA29iMVenfXZ1R/AZLKA/dlpwiqP
-	f/S79HmOwJAZ0IWVIyND9NU2rL/LCmyB8YfqIkhFP4qDLtFs0b8uIGouvJ1sVyLe
-	PBGZN/v+mdJXlEWE4dY1AptiSEBeYABovZijA4/PtVOV9A9zEtXtdRSfVD98a/3g
-	6vJShHBPDrIOvIrkWQG2p4wEwg3uQvPruFkIMzeWqHmxBUsUgbUbGMXSA==
-X-ME-Sender: <xms:tLs2ZJpBTlMGip7gemGbWvS9eqAkGh2wXIx8bMNT1LeL3DSXkPu_MA>
-    <xme:tLs2ZLpmMBXeDvXkyrXUopU5fEFJOI7ur0jDGeHSH1sfH0njaU1XLNGdGDazS_zza
-    u-wwavp-4MqQqeqncI>
-X-ME-Received: <xmr:tLs2ZGMxv3iyT60FneNHurZn82fdudL1lj5CBeUHNTERRHmWXpWfVDq_RVW-dYLp5GnGaw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekiedgjeehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
-    gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:tLs2ZE5l7tWY-V0RnN7o93rPkSLvTkU0SVwIBEKbVR2efbWVKcy1oA>
-    <xmx:tLs2ZI76sIllvjSJjroOScwTSXL_PRFl53guYRdscUSLb3XosmGxGg>
-    <xmx:tLs2ZMjeREEh2x1jCp2OZO5chhrGzVhDAZbN5spQAtGljPt1R06IAg>
-    <xmx:tbs2ZO68eIfU8Qj4ZKOWun3RY5gW_kwFiGEUawEvKMr8BiNld2NLDA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 12 Apr 2023 10:09:56 -0400 (EDT)
-Date: Wed, 12 Apr 2023 16:09:54 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Roman Beranek <romanberanek@icloud.com>
-Cc: Frank Oltmanns <frank@oltmanns.dev>, Chen-Yu Tsai <wens@csie.org>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sun4i: uncouple DSI dotclock divider from
- TCON0_DCLK_REG
-Message-ID: <qrjzn5dy7qasjubovofyzsazakiqpsjyyt2av6kfbqq7mqcdqe@bvs2egtopbqs>
-References: <20230320161636.24411-1-romanberanek@icloud.com>
- <87wn356ni4.fsf@oltmanns.dev>
- <20230327202045.ceeqqwjug4ktxtsf@penduick>
- <CRHKFX934UA0.1MCKCD8SJSPIE@iMac.local>
- <20230329195802.veybo3367zifw77n@penduick>
- <CROTQHUM88W0.2URPO95U5ZMS5@void.crly.cz>
- <pu3vdz4gnkwgn4thg6tndbnvfroevpnq75bqbfv7yyrh4gkv63@xxl3dsjf2ih3>
- <CRULBWW4VCWG.3KS7HX7P1G4P6@void.crly.cz>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FD5933CC
+	for <linux-sunxi@lists.linux.dev>; Thu, 13 Apr 2023 10:20:59 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 689F34B3;
+	Thu, 13 Apr 2023 03:21:43 -0700 (PDT)
+Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ED5103F6C4;
+	Thu, 13 Apr 2023 03:20:57 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: Simon Glass <sjg@chromium.org>,
+	u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Subject: Pull request: u-boot-sunxi/master for v2023.07
+Date: Thu, 13 Apr 2023 11:20:48 +0100
+Message-Id: <20230413102048.1627141-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gw23oqhzikhjtwgb"
-Content-Disposition: inline
-In-Reply-To: <CRULBWW4VCWG.3KS7HX7P1G4P6@void.crly.cz>
+Content-Transfer-Encoding: 8bit
 
+Hi Tom,
 
---gw23oqhzikhjtwgb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+please pull the sunxi/master branch, containing the first part of the
+2023.07 changes.
 
-On Wed, Apr 12, 2023 at 09:14:59AM +0200, Roman Beranek wrote:
-> On Wed Apr 5, 2023 at 5:03 PM CEST, Maxime Ripard wrote:
-> > On Wed, Apr 05, 2023 at 02:34:11PM +0200, Roman Beranek wrote:
-> > > It turns out however that the new dclk rates can't be set exactly as
-> > > requested without touching pll-video0*, tcon0 now therefore gets
-> > > reparented from pll-mipi to pll-video0-2x which, as it further turns
-> > > out, breaks DSI. While simply forbidding the video0-2x mux option see=
-ms
-> > > to me as the right way to go because there's not much use for it with
-> > > non-DSI interfaces either besides the opportunity to power pll-mipi
-> > > down, I'd like to run by you first.
-> >
-> > Sounds reasonable
->=20
-> Okay, I'm unsure of how to denote that in the code however. Should I
-> just comment the parent out of the table and put an explanation in
-> a comment nearby? Or just erase it? I couldn't find an applicable
-> precedent.
+The biggest change is some refactoring of the H616 DRAM driver, which
+allows better fine-tuning for each board, and is the base for pending
+LPDDR3 and LPDDR4 support, needed by new boards.
+The sun8i-emac Ethernet driver sees some refactoring that enables it for
+the Allwinner D1 EMAC IP. The sunxi HDMI driver is now using more DT
+properties. Also the early SPL code now supports some odd H616 SoC
+variant.
 
-I think that forcing the parent at boot, and adding the
-CLK_SET_RATE_NOREPARENT flag should be enough.
+There are some more patches pending, that require the final review
+touches and some testing, I will send a separate PR for them later.
 
-> > > * As pll-mipi doesn't have CLK_SET_RATE_PARENT flag set, pll-video0
-> > >   retains its boot-time rate of 294 MHz set by sunxi-dw-hdmi driver
-> > >   in u-boot. Why 294 MHz (as opposed to the default rate of 297 MHz)?
-> > >   The driver actually asks for 297 MHz, clock_set_pll3 rounds it to
-> > >   294 MHz though because it limits itself to 6 MHz steps.
-> >
-> > We could also address that though
->=20
-> Should I include it in v2 of the series, or leave it for later?
+The gitlab CI completed successfully, and I boot tested a few boards with
+different SoCs, via FEL and SD card, into Linux.
 
-I guess you can include it into this one too
+Thanks,
+Andre
 
-Maxime
+===========================
+The following changes since commit 9e804638bfe2693a908abf066ff66c251572afa7:
 
---gw23oqhzikhjtwgb
-Content-Type: application/pgp-signature; name="signature.asc"
+  Merge tag 'for-v2023-07-rc1' of https://source.denx.de/u-boot/custodians/u-boot-i2c (2023-04-11 09:29:28 -0400)
 
------BEGIN PGP SIGNATURE-----
+are available in the Git repository at:
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZDa7sgAKCRDj7w1vZxhR
-xcbdAQDlABOUSRin2TeBWh2nNqjI2tuMlU0bJZQjxFS9a+mQiQEAv5twOP7R+ugi
-y49VRW9d7AF34brzpVy7yy+Tzffp1A8=
-=0sQH
------END PGP SIGNATURE-----
+  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
 
---gw23oqhzikhjtwgb--
+for you to fetch changes up to 5fc892e83f34a0b082ff46d3cc411d6813c1f726:
+
+  sunxi: A64: drop boot0 header reservation (2023-04-12 00:17:22 +0100)
+
+----------------------------------------------------------------
+Andre Przywara (3):
+      sunxi: boot0.h: allow RVBAR MMIO address customisation
+      sunxi: arm64: boot0.h: runtime check for RVBAR address
+      sunxi: A64: drop boot0 header reservation
+
+Jernej Skrabec (10):
+      sunxi: Fix write to H616 DRAM CR register
+      sunxi: cosmetic: Fix H616 DRAM driver code style
+      sunxi: parameterize H616 DRAM ODT values
+      sunxi: Convert H616 DRAM options to single setting
+      sunxi: Always configure ODT on H616 DRAM
+      sunxi: Make bit delay function in H616 DRAM code void
+      sunxi: Parameterize bit delay code in H616 DRAM driver
+      sunxi: Parameterize "unknown feature" in H616 DRAM driver
+      sunxi: Parameterize some of H616 DDR3 timings
+      sunxi: Add TPR2 parameter for H616 DRAM driver
+
+Samuel Holland (8):
+      video: sunxi: dw-hdmi: Use DM for clock gates and resets
+      video: sunxi: dw-hdmi: Use DM for HVCC regulator
+      net: sun8i-emac: Add a structure for variant data
+      net: sun8i-emac: Add a flag for RMII support
+      net: sun8i-emac: Add a flag for the internal PHY switch
+      net: sun8i-emac: Use common syscon setup for R40
+      net: sun8i-emac: Remove the SoC variant ID
+      ARM: dts: sun6i: mixtile-loftq: Add USB1 VBUS regulator
+
+ arch/arm/dts/sun6i-a31-mixtile-loftq.dts           |  17 +
+ arch/arm/include/asm/arch-sunxi/boot0.h            |  21 +-
+ arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h |  17 +
+ arch/arm/mach-sunxi/Kconfig                        |  99 ++--
+ arch/arm/mach-sunxi/dram_sun50i_h616.c             | 508 ++++++++++++++-------
+ arch/arm/mach-sunxi/dram_timings/h616_ddr3_1333.c  |  20 +-
+ configs/a64-olinuxino-emmc_defconfig               |   1 -
+ configs/a64-olinuxino_defconfig                    |   1 -
+ configs/amarula_a64_relic_defconfig                |   1 -
+ configs/bananapi_m64_defconfig                     |   1 -
+ configs/nanopi_a64_defconfig                       |   1 -
+ configs/oceanic_5205_5inmfd_defconfig              |   1 -
+ configs/orangepi_win_defconfig                     |   1 -
+ configs/orangepi_zero2_defconfig                   |   8 +-
+ configs/pine64_plus_defconfig                      |   1 -
+ configs/sopine_baseboard_defconfig                 |   1 -
+ configs/x96_mate_defconfig                         |   7 +
+ drivers/net/sun8i_emac.c                           |  96 ++--
+ drivers/video/sunxi/sunxi_dw_hdmi.c                |  36 +-
+ 19 files changed, 564 insertions(+), 274 deletions(-)
