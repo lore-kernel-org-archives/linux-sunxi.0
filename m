@@ -1,95 +1,71 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D133D813;
-	Sat, 15 Apr 2023 20:36:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681591017; x=1713127017;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9iZGajGkwfSEo9OapwAQBNWHmJAD3OotwdQ+yG7ORnU=;
-  b=EPfiBzVW1SnqzvMOn11S6YD3qG+AjVr3KnjuW43WolpwGcSIwYahvPZP
-   8JsTyBuroBDgRC+NggQLfmSgTMDwoScCaRfTV5anUcymVsE1/xx5ociK/
-   PERsbfNMaSxLfTmRc2Lu7BOFNVxG8m7+6lgHXQHkFFlEBqD8iudMoMm/d
-   SRxvVBd23VCti0iL5XiRqhWxnueKHPIVRaWkFsM7ugl/VSQ3bAPkO3fLO
-   XmQaq7e6eDRSXLuuyVHnHBjGhZj6ZbFJ/hAz7SukJlPDxa/YH8qJlb+4e
-   Edo4Gg4ZodG52eBIlcYnBu2Lvcixb3txAGmKWjP0bbYU/DOuuQFIJuMkz
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="333466734"
-X-IronPort-AV: E=Sophos;i="5.99,200,1677571200"; 
-   d="scan'208";a="333466734"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 13:36:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="720690216"
-X-IronPort-AV: E=Sophos;i="5.99,200,1677571200"; 
-   d="scan'208";a="720690216"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 15 Apr 2023 13:36:53 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pnmdh-000bLD-0S;
-	Sat, 15 Apr 2023 20:36:53 +0000
-Date: Sun, 16 Apr 2023 04:36:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonathan McDowell <noodles@earth.li>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F86E7B
+	for <linux-sunxi@lists.linux.dev>; Sun, 16 Apr 2023 00:24:49 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 550BE1063;
+	Sat, 15 Apr 2023 17:25:28 -0700 (PDT)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3DC203F587;
+	Sat, 15 Apr 2023 17:24:42 -0700 (PDT)
+Date: Sun, 16 Apr 2023 01:24:21 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jonathan McDowell <noodles@earth.li>
+Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 1/3] ARM: dts: sun5i: chip: Enable bluetooth
-Message-ID: <202304160423.TaGIRb5X-lkp@intel.com>
-References: <f26d11e613df7bd55822ff3fb7689e36bf9e4f7a.1681580558.git.noodles@earth.li>
+Message-ID: <20230416012421.255bfd19@slackpad.lan>
+In-Reply-To: <f26d11e613df7bd55822ff3fb7689e36bf9e4f7a.1681580558.git.noodles@earth.li>
+References: <cover.1681580558.git.noodles@earth.li>
+	<f26d11e613df7bd55822ff3fb7689e36bf9e4f7a.1681580558.git.noodles@earth.li>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f26d11e613df7bd55822ff3fb7689e36bf9e4f7a.1681580558.git.noodles@earth.li>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Jonathan,
+On Sat, 15 Apr 2023 18:46:03 +0100
+Jonathan McDowell <noodles@earth.li> wrote:
 
-kernel test robot noticed the following build errors:
+> The C.H.I.P has an rtl8723bs device with the bluetooth interface hooked
+> up on UART3. Support for this didn't exist in mainline when the DTS was
+> initially added, but it does now, so enable it.
+> 
+> Signed-off-by: Jonathan McDowell <noodles@earth.li>
+> ---
+>  arch/arm/boot/dts/sun5i-r8-chip.dts | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/sun5i-r8-chip.dts b/arch/arm/boot/dts/sun5i-r8-chip.dts
+> index fd37bd1f3920..4d72a181d8aa 100644
+> --- a/arch/arm/boot/dts/sun5i-r8-chip.dts
+> +++ b/arch/arm/boot/dts/sun5i-r8-chip.dts
+> @@ -255,6 +255,10 @@ &uart3 {
+>  	pinctrl-0 = <&uart3_pg_pins>,
+>  		    <&uart3_cts_rts_pg_pins>;
+>  	status = "okay";
+> +
+> +	bluetooth {
+> +		compatible = "realtek,rtl8723bs-bt";
+> +	}
 
-[auto build test ERROR on sunxi/sunxi/for-next]
-[also build test ERROR on robh/for-next krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.3-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+As the kernel test robot already pointed out, there is a semicolon
+missing here.
+Otherwise looks good (dt-validate passes), but don't know if there are
+any wakeup GPIOs connected (can't seem to find a schematic?).
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-McDowell/ARM-dts-sun5i-chip-Enable-bluetooth/20230416-014856
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
-patch link:    https://lore.kernel.org/r/f26d11e613df7bd55822ff3fb7689e36bf9e4f7a.1681580558.git.noodles%40earth.li
-patch subject: [PATCH 1/3] ARM: dts: sun5i: chip: Enable bluetooth
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20230416/202304160423.TaGIRb5X-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/7eb91ccc0e287519d5df2e97e81c3bee553e3535
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jonathan-McDowell/ARM-dts-sun5i-chip-Enable-bluetooth/20230416-014856
-        git checkout 7eb91ccc0e287519d5df2e97e81c3bee553e3535
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+Cheers,
+Andre
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304160423.TaGIRb5X-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+>  };
+>  
+>  &usb_otg {
 
->> Error: arch/arm/boot/dts/sun5i-r8-chip.dts:262.1-2 syntax error
-   FATAL ERROR: Unable to parse input tree
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
