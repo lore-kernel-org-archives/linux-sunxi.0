@@ -1,81 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DEC76FCB
-	for <linux-sunxi@lists.linux.dev>; Mon, 17 Apr 2023 13:32:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D08E6C433A1
-	for <linux-sunxi@lists.linux.dev>; Mon, 17 Apr 2023 13:32:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1681738378;
-	bh=YnO373PW8kFPYYEga0WKpnzfKPRu65AqgaMNSJcVERc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=K+tF1m4CWen8Pb45l6Ofuvy5jJZrWa5OkbOtta7j9xSL9G6y1gPoqts4Q7UuO4GIY
-	 vhukENSBwvZtBPGFtgwEl245KEawE/4qE3mlVHVJgDb5sUOUiYCAcJVEk/c6neLYTl
-	 gWZ+D5r+BhCMIH3FySxEc1RlW1VGUGCUhFO1J3cCv6Ok5U5Dk2R4prsB113sohqUqt
-	 nqBChqzzQf2rpWp0MJuiPL2aaKMhVj/aTsoWw5SNZn052dMEKL77RG5Ft0cQV0OkaG
-	 n8EkRY3W4SuI9QX8da2TQcMPdtePDgCAt7XK27g20SCvea4ea8RyHM4+SgxBlXm0Eq
-	 map3H+TcMyv/Q==
-Received: by mail-pl1-f177.google.com with SMTP id q2so30522597pll.7
-        for <linux-sunxi@lists.linux.dev>; Mon, 17 Apr 2023 06:32:58 -0700 (PDT)
-X-Gm-Message-State: AAQBX9csDBWj2JhYXfdv2ScULo/A+/R7DyXul1twkBCuFvUqV0ce3tfU
-	x7WYV2EXpPWLiOm6ZqP9g2e4hWyA1vp8PwStQ4h+pg==
-X-Google-Smtp-Source: AKy350Y5U4Z/dfv+AvSqZXRHfVhVpKBzwMX3b9aXK5doLIcEmW2NRnzfpKko53ahGbE+qIVjBzucEnKmTK75Bh9acDc=
-X-Received: by 2002:a17:90a:2944:b0:247:2c8e:9911 with SMTP id
- x4-20020a17090a294400b002472c8e9911mr3535372pjf.5.1681738378299; Mon, 17 Apr
- 2023 06:32:58 -0700 (PDT)
+Received: from smtp.smtpout.orange.fr (smtp-26.smtpout.orange.fr [80.12.242.26])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88B28AD2D
+	for <linux-sunxi@lists.linux.dev>; Mon, 17 Apr 2023 20:55:32 +0000 (UTC)
+Received: from pop-os.home ([86.243.2.178])
+	by smtp.orange.fr with ESMTPA
+	id oVPSpee2zSbkVoVPTp9Pz8; Mon, 17 Apr 2023 22:25:16 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=orange.fr;
+	s=t20230301; t=1681763116;
+	bh=3onsbqZgKfvrXgPm/nW/ZF4q8OzaHmYxJu4RGrC1D6U=;
+	h=From:To:Cc:Subject:Date;
+	b=ZYJegovxU/r5wUZqc2AuOcLGEoKUXh8XzjZN4HvUyxJJ4fd6Mo0DqAD5RiL4ThcHe
+	 l0pvp/0p8CBXDXEypDegzNS+/+Gi0TT5KQ+Gibg9vtvmnUxcdX+dR6846L+Vt9f+Ub
+	 7e1xkbitW9ZhgbZQNrK5wXfkImsHx7p6Zt6229Vt0bJel826+2haY12YdBeX2bJjaV
+	 zPW4YxdGdepDialzEASqca1Fp2ngjd7dYIBy3wonShZ0dnO39VhZWATr2G3vdYhoxf
+	 8WP7Eo+OfkhbZEN6SFuST7GuVxuH0/r79URE/7CfyJnYvAKGZ6unibwMYWwduZr8Vj
+	 zoZz0/c8mFf4g==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 17 Apr 2023 22:25:16 +0200
+X-ME-IP: 86.243.2.178
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Corentin Labbe <clabbe.montjoie@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Corentin Labbe <clabbe@baylibre.com>,
+	linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] crypto: sun8i-ss - Fix a test in sun8i_ss_setup_ivs()
+Date: Mon, 17 Apr 2023 22:25:09 +0200
+Message-Id: <bedaeefc8e2099ab255e7542e7d671889678de86.1681763086.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230415104613.61224-1-jernej.skrabec@gmail.com> <20230415104613.61224-3-jernej.skrabec@gmail.com>
-In-Reply-To: <20230415104613.61224-3-jernej.skrabec@gmail.com>
-From: Robert Foss <rfoss@kernel.org>
-Date: Mon, 17 Apr 2023 15:32:47 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi72CP+DO-MG0=7Ajmqnd-q7r4bw_rxnvya-e4wUVEeujg@mail.gmail.com>
-Message-ID: <CAN6tsi72CP+DO-MG0=7Ajmqnd-q7r4bw_rxnvya-e4wUVEeujg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm/bridge: dw_hdmi: Handle snps,disable-cec property
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, robh+dt@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, wens@csie.org, samuel@sholland.org, 
-	devicetree@vger.kernel.org, jonas@kwiboo.se, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com, 
-	hverkuil-cisco@xs4all.nl, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Apr 15, 2023 at 12:47=E2=80=AFPM Jernej Skrabec
-<jernej.skrabec@gmail.com> wrote:
->
-> New DT property allows to skip CEC initialization.
->
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/=
-bridge/synopsys/dw-hdmi.c
-> index 603bb3c51027..e7e8199d2fb1 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -3615,7 +3615,9 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_devic=
-e *pdev,
->                 hdmi->audio =3D platform_device_register_full(&pdevinfo);
->         }
->
-> -       if (!plat_data->disable_cec && (config0 & HDMI_CONFIG0_CEC)) {
-> +       if (!plat_data->disable_cec &&
-> +           !of_property_read_bool(np, "snps,disable-cec") &&
-> +           (config0 & HDMI_CONFIG0_CEC)) {
->                 cec.hdmi =3D hdmi;
->                 cec.ops =3D &dw_hdmi_cec_ops;
->                 cec.irq =3D irq;
-> --
-> 2.40.0
->
+SS_ENCRYPTION is (0 << 7 = 0), so the test can never be true.
+Use a direct comparison to SS_ENCRYPTION instead.
 
+The same king of test is already done the same way in sun8i_ss_run_task().
 
-Reviewed-by: Robert Foss <rfoss@kernel.org>
+Fixes: 359e893e8af4 ("crypto: sun8i-ss - rework handling of IV")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+Untested
+---
+ drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
+index 83c6dfad77e1..16966cc94e24 100644
+--- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
++++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
+@@ -151,7 +151,7 @@ static int sun8i_ss_setup_ivs(struct skcipher_request *areq)
+ 		}
+ 		rctx->p_iv[i] = a;
+ 		/* we need to setup all others IVs only in the decrypt way */
+-		if (rctx->op_dir & SS_ENCRYPTION)
++		if (rctx->op_dir == SS_ENCRYPTION)
+ 			return 0;
+ 		todo = min(len, sg_dma_len(sg));
+ 		len -= todo;
+-- 
+2.34.1
+
