@@ -1,41 +1,44 @@
-Received: from smtp.smtpout.orange.fr (smtp-26.smtpout.orange.fr [80.12.242.26])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88B28AD2D
-	for <linux-sunxi@lists.linux.dev>; Mon, 17 Apr 2023 20:55:32 +0000 (UTC)
-Received: from pop-os.home ([86.243.2.178])
-	by smtp.orange.fr with ESMTPA
-	id oVPSpee2zSbkVoVPTp9Pz8; Mon, 17 Apr 2023 22:25:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=orange.fr;
-	s=t20230301; t=1681763116;
-	bh=3onsbqZgKfvrXgPm/nW/ZF4q8OzaHmYxJu4RGrC1D6U=;
-	h=From:To:Cc:Subject:Date;
-	b=ZYJegovxU/r5wUZqc2AuOcLGEoKUXh8XzjZN4HvUyxJJ4fd6Mo0DqAD5RiL4ThcHe
-	 l0pvp/0p8CBXDXEypDegzNS+/+Gi0TT5KQ+Gibg9vtvmnUxcdX+dR6846L+Vt9f+Ub
-	 7e1xkbitW9ZhgbZQNrK5wXfkImsHx7p6Zt6229Vt0bJel826+2haY12YdBeX2bJjaV
-	 zPW4YxdGdepDialzEASqca1Fp2ngjd7dYIBy3wonShZ0dnO39VhZWATr2G3vdYhoxf
-	 8WP7Eo+OfkhbZEN6SFuST7GuVxuH0/r79URE/7CfyJnYvAKGZ6unibwMYWwduZr8Vj
-	 zoZz0/c8mFf4g==
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Mon, 17 Apr 2023 22:25:16 +0200
-X-ME-IP: 86.243.2.178
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Corentin Labbe <clabbe.montjoie@gmail.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8884D185A
+	for <linux-sunxi@lists.linux.dev>; Tue, 18 Apr 2023 07:40:50 +0000 (UTC)
+Received: (Authenticated sender: me@crly.cz)
+	by mail.gandi.net (Postfix) with ESMTPSA id 985E6FF80A;
+	Tue, 18 Apr 2023 07:40:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crly.cz; s=gm1;
+	t=1681803648;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X0sviRPbOQNgwuuHmcHgQR68LQiPFHckMJxw1tVvt8g=;
+	b=QsJveq3/NDr0qACBLj+eGSq+BTWI/i+XTbyK5fZPgLEp3XHR3wSeaR/ankdP/evHCtBYf6
+	U+XRSksek4uSDpgUq5R0Qsy8QHBn8x1h52MCMPd2SqN/zypwGALkPV+eNPpONdQhumztb0
+	eNNhCeUcgSPV5ot2hcCPDkeezyQ11D0F2y4qYjcr9t00Otaz9uUibDfXCw5HtoVg/fUGbe
+	Hf/0dAMN9uvI5uwseTGpCtFjSmQk2aTrgqH+ddBHWOolNd8j+0l1dtTNEbgkatRFxRYvvR
+	Xn2rTWDdEcKaZki4QprBb06k15kHSzZO4hYMU9QLDEgbtPb56+Sz5sHk3C34Lg==
+From: Roman Beranek <me@crly.cz>
+To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Corentin Labbe <clabbe@baylibre.com>,
-	linux-crypto@vger.kernel.org,
+Cc: Roman Beranek <me@crly.cz>,
+	Frank Oltmanns <frank@oltmanns.dev>,
+	Icenowy Zheng <icenowy@aosp.io>,
+	Ondrej Jirman <megi@xff.cz>,
+	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] crypto: sun8i-ss - Fix a test in sun8i_ss_setup_ivs()
-Date: Mon, 17 Apr 2023 22:25:09 +0200
-Message-Id: <bedaeefc8e2099ab255e7542e7d671889678de86.1681763086.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 2/7] clk: sunxi-ng: a64: export PLL_MIPI
+Date: Tue, 18 Apr 2023 09:40:03 +0200
+Message-Id: <20230418074008.69752-3-me@crly.cz>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+In-Reply-To: <20230418074008.69752-1-me@crly.cz>
+References: <20230418074008.69752-1-me@crly.cz>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -44,32 +47,42 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-SS_ENCRYPTION is (0 << 7 = 0), so the test can never be true.
-Use a direct comparison to SS_ENCRYPTION instead.
+PLL_MIPI will be referenced as assigned parent to TCON0
 
-The same king of test is already done the same way in sun8i_ss_run_task().
-
-Fixes: 359e893e8af4 ("crypto: sun8i-ss - rework handling of IV")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Signed-off-by: Roman Beranek <me@crly.cz>
 ---
-Untested
----
- drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.h      | 4 +++-
+ include/dt-bindings/clock/sun50i-a64-ccu.h | 1 +
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
-index 83c6dfad77e1..16966cc94e24 100644
---- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
-+++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
-@@ -151,7 +151,7 @@ static int sun8i_ss_setup_ivs(struct skcipher_request *areq)
- 		}
- 		rctx->p_iv[i] = a;
- 		/* we need to setup all others IVs only in the decrypt way */
--		if (rctx->op_dir & SS_ENCRYPTION)
-+		if (rctx->op_dir == SS_ENCRYPTION)
- 			return 0;
- 		todo = min(len, sg_dma_len(sg));
- 		len -= todo;
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.h b/drivers/clk/sunxi-ng/ccu-sun50i-a64.h
+index a8c11c0b4e06..35ab84e03e77 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.h
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.h
+@@ -32,7 +32,9 @@
+ #define CLK_PLL_PERIPH1_2X		14
+ #define CLK_PLL_VIDEO1			15
+ #define CLK_PLL_GPU			16
+-#define CLK_PLL_MIPI			17
++
++/* PLL_MIPI exported for TCON0 */
++
+ #define CLK_PLL_HSIC			18
+ #define CLK_PLL_DE			19
+ #define CLK_PLL_DDR1			20
+diff --git a/include/dt-bindings/clock/sun50i-a64-ccu.h b/include/dt-bindings/clock/sun50i-a64-ccu.h
+index 175892189e9d..5ad769a29c4e 100644
+--- a/include/dt-bindings/clock/sun50i-a64-ccu.h
++++ b/include/dt-bindings/clock/sun50i-a64-ccu.h
+@@ -45,6 +45,7 @@
+ 
+ #define CLK_PLL_VIDEO0		7
+ #define CLK_PLL_PERIPH0		11
++#define CLK_PLL_MIPI		17
+ 
+ #define CLK_CPUX		21
+ #define CLK_BUS_MIPI_DSI	28
 -- 
 2.34.1
+
 
