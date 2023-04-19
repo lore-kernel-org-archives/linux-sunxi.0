@@ -1,84 +1,340 @@
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03F2C94A
-	for <linux-sunxi@lists.linux.dev>; Tue, 18 Apr 2023 21:41:17 +0000 (UTC)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-187b07ad783so758655fac.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 18 Apr 2023 14:41:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681854077; x=1684446077;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ElC7aqM0OYKhp7zqQxQuTXx1H9IDxJGXKnxZVOIROXA=;
-        b=TbE4xgpTXm+D4PDcg0aU6ZXEJOBlRuy04mNPJZk8/f68BWa1IkJ45HZIGAyHV4AAWJ
-         factK+GxsADz+2fFp6hqWFPIhhQgvoqzX0QTtFN8exUHuuPABIFYqISt1o5R5lZmE3NI
-         eElwahQ/+JF1Sn+HbQw3mFbzRPqK5YTJmnAVCgSE/JI/ykjBDqys/k3b7Jtmicb0t3MN
-         SocEE8vGZIWoRJCywxLc1gHxs/vd/pdjIMt4CcjoAqs50oGBMnDrjsIF9wPm3o9aBK22
-         QnQ8JA6eWyAuMtB0sPtN/+HK3kXyxjNRmFZtZgX+Fg46Wz38eudmhOzdO0ccq+OS7Pi2
-         gP0A==
-X-Gm-Message-State: AAQBX9emJ0/ztgm1lvVeVsO13qFmGo9TwAuLW6REsWTsLEm0Zsl2tcfe
-	4Udmpuzl6mNtaYsEZSe+2g==
-X-Google-Smtp-Source: AKy350Y/zUwTPUY+bloMxG86x5GIO5/WgZZJ0w2lgVcgHZEOKfFzsX6+0hRjmFOdov3MNztPcibQZw==
-X-Received: by 2002:a05:6870:1702:b0:187:8f01:7107 with SMTP id h2-20020a056870170200b001878f017107mr2215193oae.44.1681854076847;
-        Tue, 18 Apr 2023 14:41:16 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id o19-20020a9d5c13000000b006a3f8f7b686sm6075534otk.28.2023.04.18.14.41.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Apr 2023 14:41:16 -0700 (PDT)
-Received: (nullmailer pid 2378744 invoked by uid 1000);
-	Tue, 18 Apr 2023 21:41:15 -0000
-Date: Tue, 18 Apr 2023 16:41:15 -0500
-From: Rob Herring <robh@kernel.org>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, krzysztof.kozlowski+dt@linaro.org, wens@csie.org, samuel@sholland.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl
-Subject: Re: [PATCH 1/3] dt-bindings: display: synopsys,dw-hdmi: Add property
- for disabling CEC
-Message-ID: <20230418214115.GA2376963-robh@kernel.org>
-References: <20230415104613.61224-1-jernej.skrabec@gmail.com>
- <20230415104613.61224-2-jernej.skrabec@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7442C3C17
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 Apr 2023 12:13:26 +0000 (UTC)
+Received: from debian-test.local.in-circuit.de ([84.160.205.173]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1M72bv-1pgYlj3U35-008YxC; Wed, 19 Apr 2023 14:12:56 +0200
+From: Ludwig Kormann <ludwig.kormann@in-circuit.de>
+To: samuel@sholland.org,
+	jernej.skrabec@gmail.com,
+	wens@csie.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	andre.przywara@arm.com
+Cc: linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ludwig Kormann <ludwig.kormann@in-circuit.de>
+Subject: [PATCH v2 1/1] arm: dts: sunxi: Add ICnova A20 ADB4006 board support
+Date: Wed, 19 Apr 2023 14:12:29 +0200
+Message-Id: <20230419121229.1384024-1-ludwig.kormann@in-circuit.de>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230415104613.61224-2-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:pDbREjauL5xxw5l83x6870Xx44wPqt82QV0OwogdIz5SxHEDrjF
+ HYNX/zZokYYH4+YXZaTTjIxzndXVrPY/62O92ZU1HO0mu6/Du4a6opz/yb0HDBUfnTbLwIc
+ QWS2snNskSvYZha5MI0BvxKch7y13K/OaHawcNV+FoNMh84L4VVySBHcjkO/Q8D2MTq+Mcv
+ jOtMIzK7xA1ggJr6KJvag==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:KmOBEjPC1TU=;bJizmgHslynCR5Boe3lPbwudtJu
+ zlHWs+zq7Z/vcYIai48JhVfqsZEY6V3NTLDb3iQG1KAY1Upkmop48qqHIfD41eXRffMvSlx+l
+ r3yl7567+iIAOpaINGKW3ETqtfNjehssDJv0KbSIX8/VmsfQ9YAWgaMaTaKDod4nqDwrP0lWZ
+ lnetpG4kakpPom+hfr5fNsq26PU0j6xz0/Q3qREqNvW2lOR9IVjy7/Kr7EIhcfvqCai1k5+pG
+ XjtSsyLxI1oo7TScufFkk5P4jZ+L8k16N9Vtm4AYkDCWvyvc2oN4Xl2CPFZE6vrZUmmp6u/8P
+ GyDG6oNy/DjgK3dzrG+HsSJZgVeFZDlS07/vkJISDAy1HymxkbtvZGx8q53EAbRIKHYbejqB1
+ CjPiM6C+IO6ZUc3sY+vh+xmbMUgwwDWIdZiuv/NLXco4JmIyaKZAd5dLrH3w3eC2MZPGFx74o
+ L0loX6ZkNUrJRJQ7BBzoLjExXkkEDg69qp0iIpmNEi+9C8jg96Fu2lK3VObClmPQsWsa48N3C
+ BmcRQFY8M1TTFYBIM0wDVtsZPhhbewMkWwJp2Bq8lGCTWe6+HGgh2wsik5Z7wFZK+eaYK1KNY
+ 4djx8RAZvXpyG9z5Wm1zhZp2PlUWybLcmshbBT4QCe6bLcXAxbEfv8X1r8WCFt9uwtHoF7WHI
+ d7UQ92oWgsZpQUcXg+Qa9Xm8Yozrqi7FCotBJHvY7w==
 
-On Sat, Apr 15, 2023 at 12:46:11PM +0200, Jernej Skrabec wrote:
-> Even though some DW-HDMI controllers have perfectly usable HDMI-CEC
-> implementation, some boards might prefer not to use it or even use
-> software implementation instead.
-> 
-> Add property for disabling CEC so driver doesn't expose unused CEC
-> interface, if CEC pin isn't connected anywhere.
+Add board support for ICnova A20 SomPi compute module on
+ICnova ADB4006 development board.
 
-Isn't this all true for any bridge supporting CEC? Make this common.
+Specification:
+SoM
+- Processor: Allwinner A20 Cortex-A7 Dual Core at 1GHz
+- 512MB DDR3 RAM
+- Fast Ethernet (Phy: Realtek RTL8201CP)
+ADB4006
+- I2C
+- 2x USB 2.0
+- 1x Fast Ethernet port
+- 1x SATA
+- 2x buttons (PWRON, Boot)
+- 2x LEDS
+- serial console
+- HDMI
+- µSD-Card slot
+- Audio Line-In / Line-Out
+- GPIO pinheaders
 
-> 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->  .../devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> index 4b7e54a8f037..624d32c024f6 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> @@ -48,6 +48,11 @@ properties:
->    interrupts:
->      maxItems: 1
->  
-> +  snps,disable-cec:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description:
-> +      Disable HDMI-CEC.
-> +
->  additionalProperties: true
->  
->  ...
-> -- 
-> 2.40.0
-> 
+https://wiki.in-circuit.de/index.php5?title=ICnova_ADB4006
+https://wiki.in-circuit.de/index.php5?title=ICnova_A20_SODIMM
+
+---
+
+changes in v2:
+- use short licensing header
+- remove deprecated elements from led nodes
+- disable csi power supply
+- add missing pins in usbphy node
+- split dts into SoM dtsi and carrier board dts
+
+v1 of this patch was sent to the uboot mailing list [1].
+
+[1] https://lists.denx.de/pipermail/u-boot/2023-April/514605.html
+
+Signed-off-by: Ludwig Kormann <ludwig.kormann@in-circuit.de>
+---
+ .../devicetree/bindings/arm/sunxi.yaml        |   6 +
+ arch/arm/boot/dts/Makefile                    |   1 +
+ .../boot/dts/sun7i-a20-icnova-a20-adb4006.dts | 137 ++++++++++++++++++
+ arch/arm/boot/dts/sun7i-a20-icnova-a20.dtsi   |  63 ++++++++
+ 4 files changed, 207 insertions(+)
+ create mode 100644 arch/arm/boot/dts/sun7i-a20-icnova-a20-adb4006.dts
+ create mode 100644 arch/arm/boot/dts/sun7i-a20-icnova-a20.dtsi
+
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index 013821f4a7b8..12f0c236f17b 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -305,6 +305,12 @@ properties:
+           - const: allwinner,i12-tvbox
+           - const: allwinner,sun7i-a20
+ 
++      - description: ICNova A20 ADB4006
++        items:
++          - const: incircuit,icnova-a20-adb4006
++          - const: incircuit,icnova-a20
++          - const: allwinner,sun7i-a20
++
+       - description: ICNova A20 SWAC
+         items:
+           - const: incircuit,icnova-a20-swac
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 3cc32722c394..b6b408417261 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -1321,6 +1321,7 @@ dtb-$(CONFIG_MACH_SUN7I) += \
+ 	sun7i-a20-hummingbird.dtb \
+ 	sun7i-a20-itead-ibox.dtb \
+ 	sun7i-a20-i12-tvbox.dtb \
++	sun7i-a20-icnova-a20-adb4006.dtb \
+ 	sun7i-a20-icnova-swac.dtb \
+ 	sun7i-a20-lamobo-r1.dtb \
+ 	sun7i-a20-linutronix-testbox-v2.dtb \
+diff --git a/arch/arm/boot/dts/sun7i-a20-icnova-a20-adb4006.dts b/arch/arm/boot/dts/sun7i-a20-icnova-a20-adb4006.dts
+new file mode 100644
+index 000000000000..c1606c085e4e
+--- /dev/null
++++ b/arch/arm/boot/dts/sun7i-a20-icnova-a20-adb4006.dts
+@@ -0,0 +1,137 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++// Copyright (C) 2023 In-Circuit GmbH
++
++/dts-v1/;
++
++#include "sun7i-a20-icnova-a20.dtsi"
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/leds/common.h>
++
++/ {
++	model = "In-Circuit ICnova A20 ADB4006";
++	compatible = "incircuit,icnova-a20-adb4006", "incircuit,icnova-a20",
++		     "allwinner,sun7i-a20";
++
++	aliases {
++		serial0 = &uart0;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	hdmi-connector {
++		compatible = "hdmi-connector";
++		type = "a";
++
++		port {
++			hdmi_con_in: endpoint {
++				remote-endpoint = <&hdmi_out_con>;
++			};
++		};
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		led-0 {
++			function = LED_FUNCTION_POWER;
++			color = <LED_COLOR_ID_YELLOW>;
++			gpios = <&pio 7 21 GPIO_ACTIVE_HIGH>; /* PH21 */
++			default-state = "on";
++		};
++
++		led-1 {
++			function = LED_FUNCTION_HEARTBEAT;
++			color = <LED_COLOR_ID_RED>;
++			gpios = <&pio 7 20 GPIO_ACTIVE_HIGH>; /* PH20 */
++			linux,default-trigger = "heartbeat";
++		};
++	};
++};
++
++&ahci {
++	target-supply = <&reg_ahci_5v>;
++	status = "okay";
++};
++
++&codec {
++	status = "okay";
++};
++
++&de {
++	status = "okay";
++};
++
++&ehci0 {
++	status = "okay";
++};
++
++&ehci1 {
++	status = "okay";
++};
++
++&hdmi {
++	status = "okay";
++};
++
++&hdmi_out {
++	hdmi_out_con: endpoint {
++		remote-endpoint = <&hdmi_con_in>;
++	};
++};
++
++&mmc0 {
++	vmmc-supply = <&reg_vcc3v3>;
++	bus-width = <4>;
++	cd-gpios = <&pio 7 1 GPIO_ACTIVE_LOW>; /* PH1 */
++	status = "okay";
++};
++
++&ohci0 {
++	status = "okay";
++};
++
++&ohci1 {
++	status = "okay";
++};
++
++&otg_sram {
++	status = "okay";
++};
++
++&reg_ahci_5v {
++	status = "okay";
++};
++
++&ac_power_supply {
++	status = "okay";
++};
++
++&reg_usb1_vbus {
++	status = "okay";
++};
++
++&reg_usb2_vbus {
++	status = "okay";
++};
++
++&uart0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart0_pb_pins>;
++	status = "okay";
++};
++
++&usb_otg {
++	dr_mode = "otg";
++	status = "okay";
++};
++
++&usbphy {
++	usb0_id_det-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
++	usb0_vbus_det-gpios = <&pio 7 5 GPIO_ACTIVE_HIGH>; /* PH5 */
++	usb1_vbus-supply = <&reg_usb1_vbus>;
++	usb2_vbus-supply = <&reg_usb2_vbus>;
++	status = "okay";
++};
+diff --git a/arch/arm/boot/dts/sun7i-a20-icnova-a20.dtsi b/arch/arm/boot/dts/sun7i-a20-icnova-a20.dtsi
+new file mode 100644
+index 000000000000..f1142bda5cd7
+--- /dev/null
++++ b/arch/arm/boot/dts/sun7i-a20-icnova-a20.dtsi
+@@ -0,0 +1,63 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++// Copyright (C) 2023 In-Circuit GmbH
++
++#include "sun7i-a20.dtsi"
++#include "sunxi-common-regulators.dtsi"
++
++#include <dt-bindings/interrupt-controller/irq.h>
++
++&cpu0 {
++	cpu-supply = <&reg_dcdc2>;
++};
++
++&gmac {
++	pinctrl-names = "default";
++	pinctrl-0 = <&gmac_mii_pins>;
++	phy-handle = <&phy1>;
++	phy-mode = "mii";
++	status = "okay";
++};
++
++&i2c0 {
++	status = "okay";
++
++	axp209: pmic@34 {
++		reg = <0x34>;
++		interrupt-parent = <&nmi_intc>;
++		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
++	};
++};
++
++&gmac_mdio {
++	phy1: ethernet-phy@1 {
++		reg = <1>;
++	};
++};
++
++#include "axp209.dtsi"
++
++&reg_dcdc2 {
++	regulator-always-on;
++	regulator-min-microvolt = <1000000>;
++	regulator-max-microvolt = <1400000>;
++	regulator-name = "vdd-cpu";
++};
++
++&reg_dcdc3 {
++	regulator-always-on;
++	regulator-min-microvolt = <1000000>;
++	regulator-max-microvolt = <1400000>;
++	regulator-name = "vdd-int-dll";
++};
++
++&reg_ldo1 {
++	regulator-name = "vdd-rtc";
++};
++
++&reg_ldo2 {
++	regulator-always-on;
++	regulator-min-microvolt = <3000000>;
++	regulator-max-microvolt = <3000000>;
++	regulator-name = "avcc";
++};
++
+-- 
+2.30.2
+
