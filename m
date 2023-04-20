@@ -1,79 +1,101 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from the.earth.li (the.earth.li [93.93.131.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF618C15
-	for <linux-sunxi@lists.linux.dev>; Thu, 20 Apr 2023 15:42:03 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id xi5so7224301ejb.13
-        for <linux-sunxi@lists.linux.dev>; Thu, 20 Apr 2023 08:42:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1682005322; x=1684597322;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KnJpp8n/D0kUuMw5srBtiHxWnY5agaKj5jAEcqN8M30=;
-        b=d7l1XYePBoWBNgg+K9TiUXnEeE1sNHrY5RlzHQid8iJYdL41erTXfy7aPeIm4TeOFX
-         9RkBJBANWPmKeZXEJLBg22JkFYJPaK2qH+GnUQ9KUKjHJ2TJ1IkVkIZ21Tn6lb7Hz0vB
-         HhtpVKng1rKja4iFnwW7odp1E5EHbCV47OLlPiTmNLHMRrbLzepCvMgM1ETRgmvqdZpU
-         fNV/PuLVsgBerGE6ikKNNXeCBrxwuu+MLin13ualf7pm82WlE5pJWO9ggd850PQohLcg
-         wZI9SAHcXop2U2VXX5C9CDNsquagEwYH+zZ5yrNyh2nVC0XTnut3uvHr2sGgkwNL/+a9
-         bNgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682005322; x=1684597322;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KnJpp8n/D0kUuMw5srBtiHxWnY5agaKj5jAEcqN8M30=;
-        b=Cal9wBfxZhQWTtKsKfoQPNTuzveg9mIFAuJXWEYMQ2e4ngzjtMz5X8ksb2uudw2vRP
-         TmrBYclWAKKt9DXlkKGC8e09+5HRPX+0H7hu8JB3tyw3DTunhQaU5GZ8/Oy+9VXHH4kQ
-         P3NDjYQTzKgimQZUa2t5KRrb7cHhGtpxWD+auUt+L5SPgAi4Aj4jX2QgyIp0tYZB1yCc
-         EZwmr9C4z+y+7eaKrgMa26xZ9zR87+ZdVMYE6TreCgYbfNd0XUL0g7X18MY5Ob3GwiCz
-         fgkarIOgMV+iwBtu1MeeoDq+4XAVY4BOqvJAp6brl+ePCN6V5T5mOe5Tpz504xZmDvwa
-         IlbA==
-X-Gm-Message-State: AAQBX9egRPYorm0Ru/XZtDbRCZTHjQy+Rn/R4gc8wb2ec37h0OsQjT61
-	R5ORX92yOq89119ZHT3iorurbw==
-X-Google-Smtp-Source: AKy350aUUUuiHPcRVrmXlKjxRMAKQP2h9+Dfv/GAZvKgaHmZyTTXiJnohkiGrcI/uqV5UoEmIm3qzQ==
-X-Received: by 2002:a17:906:5281:b0:956:f636:cc93 with SMTP id c1-20020a170906528100b00956f636cc93mr878092ejm.15.1682005322054;
-        Thu, 20 Apr 2023 08:42:02 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:bcb8:77e6:8f45:4771? ([2a02:810d:15c0:828:bcb8:77e6:8f45:4771])
-        by smtp.gmail.com with ESMTPSA id x16-20020a170906805000b00953285b937asm842463ejw.189.2023.04.20.08.42.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Apr 2023 08:42:01 -0700 (PDT)
-Message-ID: <0d096ba8-1bb2-249e-153f-eb430a9f5e8e@linaro.org>
-Date: Thu, 20 Apr 2023 17:42:00 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2A98F68
+	for <linux-sunxi@lists.linux.dev>; Thu, 20 Apr 2023 19:06:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=earth.li;
+	s=the; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:
+	Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=XcF8YitubdrlVVq61vFiY7n8l4J1XfxeL5mXCzPntYY=; b=EPHwvB3GslDJ+Sn+7RhDg0+EVC
+	F7mwGVAR48099+1uUizWmamElC50qVWut9o9KHoCdkXUYM48f1RxCgfbSJJhHW64smRpPw+KZOL5f
+	edyzb/KW/nxzQYbDhrebvVM79AJBJboMNdr2DTFgR2yvgxrBglAhGVYjRMb1pdVXIOYMRUxLzO/Iu
+	0wOAOqWEqH5RiiNudJF9MMjFS/3IoF7Ol5nyyx2WG6sZ9Ae61PoZHNuFsDD4PQbt66Gw1yCeRjdqc
+	Ip3Lvf05kHM/J4QstwjK6LPVVucxcoqqyooNVXsBXq4LAm2vOczh1Rs1yjbU81sSHGK1BazdBqQxS
+	teQg4muA==;
+Received: from noodles by the.earth.li with local (Exim 4.94.2)
+	(envelope-from <noodles@earth.li>)
+	id 1ppZbd-002TL6-RO; Thu, 20 Apr 2023 20:06:09 +0100
+Date: Thu, 20 Apr 2023 20:06:09 +0100
+From: Jonathan McDowell <noodles@earth.li>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] ARM: dts: axp209: Add iio-hwmon node for internal
+ temperature
+Message-ID: <ZEGNIQdmf8NSUs7+@earth.li>
+References: <cover.1681580558.git.noodles@earth.li>
+ <a40b6d46209f9b5626cd5a147c31daf5d19c9439.1681580558.git.noodles@earth.li>
+ <25a8dcf9-fd1b-0eb3-eced-7a1e158ca7fc@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3 1/2] dt-bindings: arm: sunxi: add ICnova A20 ADB4006
- binding
-Content-Language: en-US
-To: Ludwig Kormann <ludwig.kormann@in-circuit.de>, samuel@sholland.org,
- jernej.skrabec@gmail.com, wens@csie.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, andre.przywara@arm.com
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20230420102409.1394618-1-ludwig.kormann@in-circuit.de>
- <20230420102409.1394618-2-ludwig.kormann@in-circuit.de>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230420102409.1394618-2-ludwig.kormann@in-circuit.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <25a8dcf9-fd1b-0eb3-eced-7a1e158ca7fc@linaro.org>
 
-On 20/04/2023 12:24, Ludwig Kormann wrote:
-> Document board compatible names for In-Circuit ICnova A20 ADB4006
-> development board.
+On Sun, Apr 16, 2023 at 09:27:46AM +0200, Krzysztof Kozlowski wrote:
+> On 15/04/2023 19:47, Jonathan McDowell wrote:
+> > This adds a DT node to hook up the internal temperature ADC to the
 > 
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-> Signed-off-by: Ludwig Kormann <ludwig.kormann@in-circuit.de>
-> ---
+> Do not use "This commit/patch", but imperative mood. See:
+> https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
+> 
+> > iio-hwmon driver. The various voltage + current ADCs are consumed and
+> > exposed by their respective drivers, but this is not and is always
+> > available. Naming chosen to match the axp20x_ prefix the power sensors
+> > use.
+> 
+> Weird choice.
 
+You think? I didn't choose the axp20x_ prefix for the others, but it
+made sense to me that all the sensors from the same device would be
+identifiable as such. From your comment below it sounds like you'd
+prefer I use the more generic pmic-temp as the node name? Will do for
+v2.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Signed-off-by: Jonathan McDowell <noodles@earth.li>
+> > ---
+> >  arch/arm/boot/dts/axp209.dtsi | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> > 
+> > diff --git a/arch/arm/boot/dts/axp209.dtsi b/arch/arm/boot/dts/axp209.dtsi
+> > index ca240cd6f6c3..f00b5a7ec106 100644
+> > --- a/arch/arm/boot/dts/axp209.dtsi
+> > +++ b/arch/arm/boot/dts/axp209.dtsi
+> > @@ -48,6 +48,13 @@
+> >   * http://dl.linux-sunxi.org/AXP/AXP209%20Datasheet%20v1.0_cn.pdf
+> >   */
+> >  
+> > +/ {
+> > +	axp20x_temp {
+> 
+> No underscores in node names.
+> 
+> Node names should be generic.
+> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+> 
+> > +		compatible = "iio-hwmon";
+> > +		io-channels = <&axp_adc 4>; /* Internal temperature */
+> > +	};
+> > +};
+> > +
+> >  &axp209 {
+> >  	compatible = "x-powers,axp209";
+> >  	interrupt-controller;
 
-Best regards,
-Krzysztof
+J.
 
+-- 
+"My house has this new innovation called "windows".  Even my bedroom
+has them. " -- Paul Tomblin
