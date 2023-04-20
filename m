@@ -1,384 +1,78 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2B74432
-	for <linux-sunxi@lists.linux.dev>; Thu, 20 Apr 2023 09:23:05 +0000 (UTC)
-Received: from [192.168.4.220] ([84.160.205.173]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MZAvp-1pksAp24h7-00V7HZ; Thu, 20 Apr 2023 11:22:46 +0200
-Message-ID: <99388c8f-a00a-f0f1-d279-24253c84dea2@in-circuit.de>
-Date: Thu, 20 Apr 2023 11:22:44 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDFE8539D
+	for <linux-sunxi@lists.linux.dev>; Thu, 20 Apr 2023 10:24:44 +0000 (UTC)
+Received: from debian-test.local.in-circuit.de ([84.160.205.173]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1M2ep5-1pt1pY1Ztv-004DKE; Thu, 20 Apr 2023 12:24:23 +0200
+From: Ludwig Kormann <ludwig.kormann@in-circuit.de>
+To: samuel@sholland.org,
+	jernej.skrabec@gmail.com,
+	wens@csie.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	andre.przywara@arm.com
+Cc: linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 1/2] dt-bindings: arm: sunxi: add ICnova A20 ADB4006 binding
+Date: Thu, 20 Apr 2023 12:24:08 +0200
+Message-Id: <20230420102409.1394618-2-ludwig.kormann@in-circuit.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230420102409.1394618-1-ludwig.kormann@in-circuit.de>
+References: <20230420102409.1394618-1-ludwig.kormann@in-circuit.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v2 1/1] arm: dts: sunxi: Add ICnova A20 ADB4006 board
- support
-Content-Language: de-DE
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: samuel@sholland.org, jernej.skrabec@gmail.com, wens@csie.org,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20230419121229.1384024-1-ludwig.kormann@in-circuit.de>
- <20230420095735.00cbf365@donnerap.cambridge.arm.com>
-From: Ludwig Kormann <ludwig.kormann@in-circuit.de>
-Organization: In-Circuit GmbH
-In-Reply-To: <20230420095735.00cbf365@donnerap.cambridge.arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Sb4jXLQ2nImn5SrBlqYtrFOByIuwMpRA35yTtarjrJRnBQ+pwGw
- P8qQJxkA4iw0S6BpNb+bopwjsG8tNNvhDDNPos9wXE3csDs+LOrz3buITt9qxLliB6KlHIX
- elhvSQW4V+Sr7wnIJLJUtob9BrCf4kAoDVxZaACR5QHXKeRDPjlZqOSIbQq7BvfWEa5kaJd
- bq4k42yCf8IdY78+dMEsw==
+X-Provags-ID: V03:K1:pl4wWMFhhwVqCOS52QAmHuK+7lZMDuokr64cczEZgQbo559rx6Z
+ A+laCnHe4Yk4MRodEGZmdIIXnsdlc2J+o+NNmPP2e9mxxUU0G4xBDZ/Is66RDMrg6otAR1R
+ sGk0pvpfxFhDFPUAp2Ym5SWw2AINAQwnORq2QAEdwVm9Jl/syeUmvhL7h6m8Oh/dbUxLSi3
+ j2dQDzVoRV6SUqpX2XSNQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:H5ejDJGSSUw=;FRJaifOpKCF1j6S3PsAX+mX2RKG
- TiCshoqGoyIZ6G+JEVedLjfU+DB+2RzGQ2YmTWhbfmS6rCwL7zZqJbP7zzA4cQAuXV4R1Qzm4
- Y8FnSIcD3h59p90yjWfRfvM9WMx8x0W4WYHB8vNuqVyKo2K0o8ifjyfy2sxO+Axsk+poJn31Q
- 7eAZC/vYdkCx5CLkZalmsdRth5ohCusL7hoSCHigidLKTU5Ei/ciCduP4k8Tm0Kc3gVL1ai+8
- VMYswdYMA+Z9+IIqqMME19NFlxL1jcj6nGiNyPr3Re7o1mFJpITslDh5+/saQqhSU0dZEf6TL
- NiOLiWHD598UH6SXY1VpKx/+mjJqXJd3ob4wV07UCmriw+KXkLxByWqqVf/YYBJsB3nkZ5rKx
- OEAtNOLNMRuOB8xKluKsXLh3r03FuJp4c0DxdHn78PV2k5KvXbAbR+1ZVq1AY1EXCvqcf0WYd
- lbUnUbHnB5x3u9DT7dKpYpIPm4FF1nBbapSP7pVrTSUamy0UJq+zjn9fveII20hK/UTTJZ3YE
- w7O5fVK89zipzOJxwNkz+lYl2L40xWqwvTsW3NkKRYFF3/c+ciN7hJ+3c7gquq+j3aYIYRlad
- e4TwqDFEu0DNZsW9L3ydY/oVV+Qc+ezVmpg0ktDkhrwQkLVwU2JedgMGBQdgkjfTWrSIJdbHh
- Vawkxyj1e4wNvWKyAC7ZQP41s6oR8AzNkW3YQ0QBAvdu27dbXrCuhgr1oUDLpGbb6upRQrsMj
- dFmPzsrbsKrAXjYTM7bcBvyn2UDd1PVSQ==
+UI-OutboundReport: notjunk:1;M01:P0:Umu3DpUi9po=;gsg67P5HsflTLc2Y+N1wz/X07ri
+ UazckAMqQiE385HVpo74CIyqlM0KOsOoFXeVMhHFs2dBBrlLFQyOxAJM1hK92Omvv6ON7XmDY
+ xvo5omNMuKspu0a59BC6URzox5kKBVuCHLzxJEkVPKRoMHior8E/s9/CSbB/wtbKuAPqk4uFt
+ YcTiW39/9wJ5EIMcocu2KV75nUeqQBhA5JI0hr/t5BQ3VVoYbt6lzsdoWtHp8+QNDxLIM/Ncd
+ Sxs2yuaT9TmNgdYmyUnX2VZdEEI5ZfFTS3Hnld52cKSsaQNr6FQ7DApHT46q/hOP1KkHQsSMY
+ WiBDI40vwKI1HQMJAwdyguse5clQ3R/DhAVuoYoV977+5TMiDIUuSk1WJhaCIiBKkOT/hRRXM
+ EF96rpU77wlqwI4ZlPSYh5gWO6FGitjrL274yw1nrE3BPjcKTLNO0z8ixsfmmct1DuS8O/YfJ
+ lfJ894dZy/2/UE8TVCYRiEhk1VzJ5DqTMR/nzEEai3/3Xyo4MqIHmEbX8gGE9/pToxW9xnw3B
+ vbw6NtOuzBrd+os/A2CKgCwsAQRlBAFIos7zOTSq7/Xeu1AczCe+V3sGG+ENB5mEvXbw3HdI4
+ uHT9yO9RSOyd3BYnuy3Qx2x5rLmLPk7DnVL7Xn9cmkuEcAy7UWL9RXGZrjWx2yKliW8wes24z
+ V8PHJ0aAR3tgEN/7smkhvXkkR+/7mo+YOTIcH6EgbA==
 
-Hi Andre,
+Document board compatible names for In-Circuit ICnova A20 ADB4006
+development board.
 
-Am 20.04.23 um 10:57 schrieb Andre Przywara:
-> On Wed, 19 Apr 2023 14:12:29 +0200
-> Ludwig Kormann <ludwig.kormann@in-circuit.de> wrote:
->
-> Hi Ludwig,
->
-> thanks for posting this!
->
->> Add board support for ICnova A20 SomPi compute module on
->> ICnova ADB4006 development board.
->>
->> Specification:
->> SoM
->> - Processor: Allwinner A20 Cortex-A7 Dual Core at 1GHz
->> - 512MB DDR3 RAM
->> - Fast Ethernet (Phy: Realtek RTL8201CP)
->> ADB4006
->> - I2C
->> - 2x USB 2.0
->> - 1x Fast Ethernet port
->> - 1x SATA
->> - 2x buttons (PWRON, Boot)
->> - 2x LEDS
->> - serial console
->> - HDMI
->> - µSD-Card slot
->> - Audio Line-In / Line-Out
->> - GPIO pinheaders
->>
->> https://wiki.in-circuit.de/index.php5?title=ICnova_ADB4006
->> https://wiki.in-circuit.de/index.php5?title=ICnova_A20_SODIMM
->>
->> ---
->>
->> changes in v2:
->> - use short licensing header
->> - remove deprecated elements from led nodes
->> - disable csi power supply
->> - add missing pins in usbphy node
->> - split dts into SoM dtsi and carrier board dts
->>
->> v1 of this patch was sent to the uboot mailing list [1].
->>
->> [1] https://lists.denx.de/pipermail/u-boot/2023-April/514605.html
->>
->> Signed-off-by: Ludwig Kormann <ludwig.kormann@in-circuit.de>
-> So apart from what Krzysztof already mentioned (separate binding patch and
-> stray line), this looks good to me, and passed dt-validate. Also you
-> addressed all the comments I had on the U-Boot post (thanks for that), so
-> with those nits above fixed:
->
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Signed-off-by: Ludwig Kormann <ludwig.kormann@in-circuit.de>
+---
+ Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Thanks for your review! I will provide v3 in a few minutes.
-
-kind regards,
-Ludwig
-> Cheers,
-> Andre
->
->> ---
->>   .../devicetree/bindings/arm/sunxi.yaml        |   6 +
->>   arch/arm/boot/dts/Makefile                    |   1 +
->>   .../boot/dts/sun7i-a20-icnova-a20-adb4006.dts | 137 ++++++++++++++++++
->>   arch/arm/boot/dts/sun7i-a20-icnova-a20.dtsi   |  63 ++++++++
->>   4 files changed, 207 insertions(+)
->>   create mode 100644 arch/arm/boot/dts/sun7i-a20-icnova-a20-adb4006.dts
->>   create mode 100644 arch/arm/boot/dts/sun7i-a20-icnova-a20.dtsi
->>
->> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
->> index 013821f4a7b8..12f0c236f17b 100644
->> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
->> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
->> @@ -305,6 +305,12 @@ properties:
->>             - const: allwinner,i12-tvbox
->>             - const: allwinner,sun7i-a20
->>   
->> +      - description: ICNova A20 ADB4006
->> +        items:
->> +          - const: incircuit,icnova-a20-adb4006
->> +          - const: incircuit,icnova-a20
->> +          - const: allwinner,sun7i-a20
->> +
->>         - description: ICNova A20 SWAC
->>           items:
->>             - const: incircuit,icnova-a20-swac
->> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
->> index 3cc32722c394..b6b408417261 100644
->> --- a/arch/arm/boot/dts/Makefile
->> +++ b/arch/arm/boot/dts/Makefile
->> @@ -1321,6 +1321,7 @@ dtb-$(CONFIG_MACH_SUN7I) += \
->>   	sun7i-a20-hummingbird.dtb \
->>   	sun7i-a20-itead-ibox.dtb \
->>   	sun7i-a20-i12-tvbox.dtb \
->> +	sun7i-a20-icnova-a20-adb4006.dtb \
->>   	sun7i-a20-icnova-swac.dtb \
->>   	sun7i-a20-lamobo-r1.dtb \
->>   	sun7i-a20-linutronix-testbox-v2.dtb \
->> diff --git a/arch/arm/boot/dts/sun7i-a20-icnova-a20-adb4006.dts b/arch/arm/boot/dts/sun7i-a20-icnova-a20-adb4006.dts
->> new file mode 100644
->> index 000000000000..c1606c085e4e
->> --- /dev/null
->> +++ b/arch/arm/boot/dts/sun7i-a20-icnova-a20-adb4006.dts
->> @@ -0,0 +1,137 @@
->> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
->> +// Copyright (C) 2023 In-Circuit GmbH
->> +
->> +/dts-v1/;
->> +
->> +#include "sun7i-a20-icnova-a20.dtsi"
->> +
->> +#include <dt-bindings/gpio/gpio.h>
->> +#include <dt-bindings/leds/common.h>
->> +
->> +/ {
->> +	model = "In-Circuit ICnova A20 ADB4006";
->> +	compatible = "incircuit,icnova-a20-adb4006", "incircuit,icnova-a20",
->> +		     "allwinner,sun7i-a20";
->> +
->> +	aliases {
->> +		serial0 = &uart0;
->> +	};
->> +
->> +	chosen {
->> +		stdout-path = "serial0:115200n8";
->> +	};
->> +
->> +	hdmi-connector {
->> +		compatible = "hdmi-connector";
->> +		type = "a";
->> +
->> +		port {
->> +			hdmi_con_in: endpoint {
->> +				remote-endpoint = <&hdmi_out_con>;
->> +			};
->> +		};
->> +	};
->> +
->> +	leds {
->> +		compatible = "gpio-leds";
->> +
->> +		led-0 {
->> +			function = LED_FUNCTION_POWER;
->> +			color = <LED_COLOR_ID_YELLOW>;
->> +			gpios = <&pio 7 21 GPIO_ACTIVE_HIGH>; /* PH21 */
->> +			default-state = "on";
->> +		};
->> +
->> +		led-1 {
->> +			function = LED_FUNCTION_HEARTBEAT;
->> +			color = <LED_COLOR_ID_RED>;
->> +			gpios = <&pio 7 20 GPIO_ACTIVE_HIGH>; /* PH20 */
->> +			linux,default-trigger = "heartbeat";
->> +		};
->> +	};
->> +};
->> +
->> +&ahci {
->> +	target-supply = <&reg_ahci_5v>;
->> +	status = "okay";
->> +};
->> +
->> +&codec {
->> +	status = "okay";
->> +};
->> +
->> +&de {
->> +	status = "okay";
->> +};
->> +
->> +&ehci0 {
->> +	status = "okay";
->> +};
->> +
->> +&ehci1 {
->> +	status = "okay";
->> +};
->> +
->> +&hdmi {
->> +	status = "okay";
->> +};
->> +
->> +&hdmi_out {
->> +	hdmi_out_con: endpoint {
->> +		remote-endpoint = <&hdmi_con_in>;
->> +	};
->> +};
->> +
->> +&mmc0 {
->> +	vmmc-supply = <&reg_vcc3v3>;
->> +	bus-width = <4>;
->> +	cd-gpios = <&pio 7 1 GPIO_ACTIVE_LOW>; /* PH1 */
->> +	status = "okay";
->> +};
->> +
->> +&ohci0 {
->> +	status = "okay";
->> +};
->> +
->> +&ohci1 {
->> +	status = "okay";
->> +};
->> +
->> +&otg_sram {
->> +	status = "okay";
->> +};
->> +
->> +&reg_ahci_5v {
->> +	status = "okay";
->> +};
->> +
->> +&ac_power_supply {
->> +	status = "okay";
->> +};
->> +
->> +&reg_usb1_vbus {
->> +	status = "okay";
->> +};
->> +
->> +&reg_usb2_vbus {
->> +	status = "okay";
->> +};
->> +
->> +&uart0 {
->> +	pinctrl-names = "default";
->> +	pinctrl-0 = <&uart0_pb_pins>;
->> +	status = "okay";
->> +};
->> +
->> +&usb_otg {
->> +	dr_mode = "otg";
->> +	status = "okay";
->> +};
->> +
->> +&usbphy {
->> +	usb0_id_det-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
->> +	usb0_vbus_det-gpios = <&pio 7 5 GPIO_ACTIVE_HIGH>; /* PH5 */
->> +	usb1_vbus-supply = <&reg_usb1_vbus>;
->> +	usb2_vbus-supply = <&reg_usb2_vbus>;
->> +	status = "okay";
->> +};
->> diff --git a/arch/arm/boot/dts/sun7i-a20-icnova-a20.dtsi b/arch/arm/boot/dts/sun7i-a20-icnova-a20.dtsi
->> new file mode 100644
->> index 000000000000..f1142bda5cd7
->> --- /dev/null
->> +++ b/arch/arm/boot/dts/sun7i-a20-icnova-a20.dtsi
->> @@ -0,0 +1,63 @@
->> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
->> +// Copyright (C) 2023 In-Circuit GmbH
->> +
->> +#include "sun7i-a20.dtsi"
->> +#include "sunxi-common-regulators.dtsi"
->> +
->> +#include <dt-bindings/interrupt-controller/irq.h>
->> +
->> +&cpu0 {
->> +	cpu-supply = <&reg_dcdc2>;
->> +};
->> +
->> +&gmac {
->> +	pinctrl-names = "default";
->> +	pinctrl-0 = <&gmac_mii_pins>;
->> +	phy-handle = <&phy1>;
->> +	phy-mode = "mii";
->> +	status = "okay";
->> +};
->> +
->> +&i2c0 {
->> +	status = "okay";
->> +
->> +	axp209: pmic@34 {
->> +		reg = <0x34>;
->> +		interrupt-parent = <&nmi_intc>;
->> +		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
->> +	};
->> +};
->> +
->> +&gmac_mdio {
->> +	phy1: ethernet-phy@1 {
->> +		reg = <1>;
->> +	};
->> +};
->> +
->> +#include "axp209.dtsi"
->> +
->> +&reg_dcdc2 {
->> +	regulator-always-on;
->> +	regulator-min-microvolt = <1000000>;
->> +	regulator-max-microvolt = <1400000>;
->> +	regulator-name = "vdd-cpu";
->> +};
->> +
->> +&reg_dcdc3 {
->> +	regulator-always-on;
->> +	regulator-min-microvolt = <1000000>;
->> +	regulator-max-microvolt = <1400000>;
->> +	regulator-name = "vdd-int-dll";
->> +};
->> +
->> +&reg_ldo1 {
->> +	regulator-name = "vdd-rtc";
->> +};
->> +
->> +&reg_ldo2 {
->> +	regulator-always-on;
->> +	regulator-min-microvolt = <3000000>;
->> +	regulator-max-microvolt = <3000000>;
->> +	regulator-name = "avcc";
->> +};
->> +
->
-
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index 013821f4a7b8..ee8fdd2da869 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -305,6 +305,12 @@ properties:
+           - const: allwinner,i12-tvbox
+           - const: allwinner,sun7i-a20
+ 
++      - description: ICnova A20 ADB4006
++        items:
++          - const: incircuit,icnova-a20-adb4006
++          - const: incircuit,icnova-a20
++          - const: allwinner,sun7i-a20
++
+       - description: ICNova A20 SWAC
+         items:
+           - const: incircuit,icnova-a20-swac
 -- 
-Dipl.-Ing. Ludwig Kormann
-
-In-Circuit GmbH
-Boltenhagener Straße 124
-01109 Dresden
-Germany
-
-Phone: +49 351 42 66 850
-Fax: +49 351 42 66 849
-Email: ludwig.kormann@in-circuit.de
-https://www.in-circuit.de/
-
-Name der Gesellschaft: In-Circuit GmbH
-Sitz der Gesellschaft: Dresden
-Handelsregister : HRB 23099
-Geschäftsführer : Jörg Träger
-UST-ID Nr. : DE237550066
+2.30.2
 
