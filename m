@@ -1,26 +1,28 @@
 Received: from the.earth.li (the.earth.li [93.93.131.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2A98F68
-	for <linux-sunxi@lists.linux.dev>; Thu, 20 Apr 2023 19:06:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A62B8F68
+	for <linux-sunxi@lists.linux.dev>; Thu, 20 Apr 2023 19:12:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=earth.li;
 	s=the; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:
 	Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=XcF8YitubdrlVVq61vFiY7n8l4J1XfxeL5mXCzPntYY=; b=EPHwvB3GslDJ+Sn+7RhDg0+EVC
-	F7mwGVAR48099+1uUizWmamElC50qVWut9o9KHoCdkXUYM48f1RxCgfbSJJhHW64smRpPw+KZOL5f
-	edyzb/KW/nxzQYbDhrebvVM79AJBJboMNdr2DTFgR2yvgxrBglAhGVYjRMb1pdVXIOYMRUxLzO/Iu
-	0wOAOqWEqH5RiiNudJF9MMjFS/3IoF7Ol5nyyx2WG6sZ9Ae61PoZHNuFsDD4PQbt66Gw1yCeRjdqc
-	Ip3Lvf05kHM/J4QstwjK6LPVVucxcoqqyooNVXsBXq4LAm2vOczh1Rs1yjbU81sSHGK1BazdBqQxS
-	teQg4muA==;
+	bh=2+GOjpE5zP3l/Yj2zge3EDzVuoeZQl9/VD1vHaJbzx8=; b=onvz42aaty3fwxg9Ca5yT7zvbj
+	ApCgI1YVT0f5FoEGBkWJxsWjY/I3p/YK6pev3OKfqIv4sdqdqnJdP8kYC0PMw7CZDVL50uMQx2gZU
+	+DJWKf8jiwN9ZA9UTStq6aaGgInOXUrnbL31TGAs4xLkUAqBnOVgc8LQt5mrFwM++xLlu4Ejohbai
+	Ra1YNhokSow9BBIo23A3W6ZKGDhQ649mvu1I4rYyvmgWLeL+0LO0aEiihsvfGJy+E+SsCuNTSlRCl
+	wv4vbUjMxyYOHpEfWC3dv5a6PSwas1pRY6AyjBXe8g5DidDpAS+BLa0WswtgIvgQlWQGzsHasGfoL
+	S6dHsp7Q==;
 Received: from noodles by the.earth.li with local (Exim 4.94.2)
 	(envelope-from <noodles@earth.li>)
-	id 1ppZbd-002TL6-RO; Thu, 20 Apr 2023 20:06:09 +0100
-Date: Thu, 20 Apr 2023 20:06:09 +0100
+	id 1ppZhb-002Tg3-Ac; Thu, 20 Apr 2023 20:12:19 +0100
+Date: Thu, 20 Apr 2023 20:12:19 +0100
 From: Jonathan McDowell <noodles@earth.li>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Andre Przywara <andre.przywara@arm.com>,
+	Saravana Kannan <saravanak@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Chen-Yu Tsai <wens@csie.org>,
@@ -28,12 +30,11 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] ARM: dts: axp209: Add iio-hwmon node for internal
- temperature
-Message-ID: <ZEGNIQdmf8NSUs7+@earth.li>
+Subject: Re: [PATCH 1/3] ARM: dts: sun5i: chip: Enable bluetooth
+Message-ID: <ZEGOk1isRhaekk3h@earth.li>
 References: <cover.1681580558.git.noodles@earth.li>
- <a40b6d46209f9b5626cd5a147c31daf5d19c9439.1681580558.git.noodles@earth.li>
- <25a8dcf9-fd1b-0eb3-eced-7a1e158ca7fc@linaro.org>
+ <f26d11e613df7bd55822ff3fb7689e36bf9e4f7a.1681580558.git.noodles@earth.li>
+ <20230416012421.255bfd19@slackpad.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -42,60 +43,72 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <25a8dcf9-fd1b-0eb3-eced-7a1e158ca7fc@linaro.org>
+In-Reply-To: <20230416012421.255bfd19@slackpad.lan>
 
-On Sun, Apr 16, 2023 at 09:27:46AM +0200, Krzysztof Kozlowski wrote:
-> On 15/04/2023 19:47, Jonathan McDowell wrote:
-> > This adds a DT node to hook up the internal temperature ADC to the
+On Sun, Apr 16, 2023 at 01:24:21AM +0100, Andre Przywara wrote:
+> On Sat, 15 Apr 2023 18:46:03 +0100
+> Jonathan McDowell <noodles@earth.li> wrote:
 > 
-> Do not use "This commit/patch", but imperative mood. See:
-> https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
-> 
-> > iio-hwmon driver. The various voltage + current ADCs are consumed and
-> > exposed by their respective drivers, but this is not and is always
-> > available. Naming chosen to match the axp20x_ prefix the power sensors
-> > use.
-> 
-> Weird choice.
-
-You think? I didn't choose the axp20x_ prefix for the others, but it
-made sense to me that all the sensors from the same device would be
-identifiable as such. From your comment below it sounds like you'd
-prefer I use the more generic pmic-temp as the node name? Will do for
-v2.
-
+> > The C.H.I.P has an rtl8723bs device with the bluetooth interface hooked
+> > up on UART3. Support for this didn't exist in mainline when the DTS was
+> > initially added, but it does now, so enable it.
+> > 
 > > Signed-off-by: Jonathan McDowell <noodles@earth.li>
 > > ---
-> >  arch/arm/boot/dts/axp209.dtsi | 7 +++++++
-> >  1 file changed, 7 insertions(+)
+> >  arch/arm/boot/dts/sun5i-r8-chip.dts | 4 ++++
+> >  1 file changed, 4 insertions(+)
 > > 
-> > diff --git a/arch/arm/boot/dts/axp209.dtsi b/arch/arm/boot/dts/axp209.dtsi
-> > index ca240cd6f6c3..f00b5a7ec106 100644
-> > --- a/arch/arm/boot/dts/axp209.dtsi
-> > +++ b/arch/arm/boot/dts/axp209.dtsi
-> > @@ -48,6 +48,13 @@
-> >   * http://dl.linux-sunxi.org/AXP/AXP209%20Datasheet%20v1.0_cn.pdf
-> >   */
-> >  
-> > +/ {
-> > +	axp20x_temp {
-> 
-> No underscores in node names.
-> 
-> Node names should be generic.
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-> 
-> > +		compatible = "iio-hwmon";
-> > +		io-channels = <&axp_adc 4>; /* Internal temperature */
-> > +	};
-> > +};
+> > diff --git a/arch/arm/boot/dts/sun5i-r8-chip.dts b/arch/arm/boot/dts/sun5i-r8-chip.dts
+> > index fd37bd1f3920..4d72a181d8aa 100644
+> > --- a/arch/arm/boot/dts/sun5i-r8-chip.dts
+> > +++ b/arch/arm/boot/dts/sun5i-r8-chip.dts
+> > @@ -255,6 +255,10 @@ &uart3 {
+> >  	pinctrl-0 = <&uart3_pg_pins>,
+> >  		    <&uart3_cts_rts_pg_pins>;
+> >  	status = "okay";
 > > +
-> >  &axp209 {
-> >  	compatible = "x-powers,axp209";
-> >  	interrupt-controller;
+> > +	bluetooth {
+> > +		compatible = "realtek,rtl8723bs-bt";
+> > +	}
+> 
+> As the kernel test robot already pointed out, there is a semicolon
+> missing here.
+> Otherwise looks good (dt-validate passes), but don't know if there are
+> any wakeup GPIOs connected (can't seem to find a schematic?).
+
+So there are wakeups, but if I add:
+
+	device-wake-gpios = <&axp_gpio 3 GPIO_ACTIVE_LOW>;
+	host-wake-gpios = <&pio 1 3 GPIO_ACTIVE_HIGH>; /* PB3 */
+
+then some odd sort of dependency issue happens where the serial port
+load is deferred waiting for the GPIO to appear, and then the device
+doesn't work. Error in dmesg is:
+
+serial serial0-0: deferred probe pending
+
+on 6.3-rc and on 6.1 I get:
+
+dw-apb-uart 1c28c00.serial: Failed to create device link (0x180) with axp20x-gpio
+
+I'm not clear why it's trying to link the serial port to the GPIO; it
+seems that it should be the bluetooth device that depends on both the
+UART and the GPIO, and that the GPIO is actually optional so shouldn't
+hold up loading, but I can't see how that should be represented.
+
+Adding Greg + Saravana in the hope they can tell me what I've done wrong
+here. The LED driver using a different GPIO line on the axp209 works
+fine, so the device is definitely loaded and working ok.
+
+> >  };
+> >  
+> >  &usb_otg {
+> 
 
 J.
 
 -- 
-"My house has this new innovation called "windows".  Even my bedroom
-has them. " -- Paul Tomblin
+    Sex, truth and jellibabies.    |  .''`.  Debian GNU/Linux Developer
+                                   | : :' :  Happy to accept PGP signed
+                                   | `. `'   or encrypted mail - RSA
+                                   |   `-    key on the keyservers.
