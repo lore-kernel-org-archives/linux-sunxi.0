@@ -1,36 +1,42 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from the.earth.li (the.earth.li [93.93.131.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F54D20EE
-	for <linux-sunxi@lists.linux.dev>; Fri, 21 Apr 2023 07:32:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90E43C433D2;
-	Fri, 21 Apr 2023 07:32:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682062340;
-	bh=LupbggItcXQ6NTf6z/Xh7ZMsrzDnQEBz/D9rsNfGSjg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SxONRrLNwqSTkCtReNhTdhpbB3QudDltcy6Y6L0XpsG32u92bept0TvbEuFIwjo0J
-	 U3EzNmEBiOF+tieHoaeeeU9JuQx1+DG3lMwQTtkZDJXqG2pcvpnmu4ET4XOaLV2eji
-	 o85qocDsfjDpOrtnWC+2gnxKDZXJttqamGIUxjjxtrF4KIRotMm+T9fKwLkS8TvGAa
-	 /JCyJXr67opDXdKH/WP3P0JNBMhyP/ZnKCNK/yWtsACCF6K+nm+J7FjtXcykzbrrrk
-	 TcNcm6Z/DRH4TJng1nnwazQ/Xw7Vjrwjt6lH2f8jW9mqwswKl0xnEJRMscJ//jPvaN
-	 t6pSOdBqAucFw==
-Date: Fri, 21 Apr 2023 08:32:14 +0100
-From: Lee Jones <lee@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-	Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0FA23A0
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 Apr 2023 08:28:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=earth.li;
+	s=the; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=UvG09/bWiSWNE+FsalNqF2CIFPzlOov2h8jwZ/B2Hkk=; b=b1lqPxG56Gk4PK2AN3q/ZFM5MK
+	b371yhL6dx9Zhzr3uXxyMkYkNdY0a2wR8vn7lSeb1ApFm26B4jGFql1MoRigZsSZ0rFGw7Xi8JtOP
+	TJ4EOFBVZ+OiOQE439t0C7LqPQZXhHPKZh2CGIiT3CFkSSZjWjGT5UrFAScg0kxyEGG9TOzQBcqxj
+	rz+nPKu2Il2cOER1R0BLqvClrWohQJiQ4d1yUTLtxF4/gdL/QMpgLmG4fhNNvH6Rz8z0+C/xLLmIl
+	cEk1wH3WQWa0Vail651RFg2G+T4WCwyVZjmiKn0y7P5wbc0/ZlooFUUYrw+6i66ZmWWRAYEBaJPZe
+	IE+IzjtA==;
+Received: from noodles by the.earth.li with local (Exim 4.94.2)
+	(envelope-from <noodles@earth.li>)
+	id 1ppm7k-0033d1-Rz; Fri, 21 Apr 2023 09:28:08 +0100
+Date: Fri, 21 Apr 2023 09:28:08 +0100
+From: Jonathan McDowell <noodles@earth.li>
+To: Saravana Kannan <saravanak@google.com>
+Cc: Andre Przywara <andre.przywara@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Rob Herring <robh+dt@kernel.org>,
-	Martin Botka <martin.botka@somainline.org>, martin.botka1@gmail.com,
-	Shengyu Qu <wiagn233@outlook.com>,
-	Samuel Holland <samuel@sholland.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v10 0/3] regulator: Add X-Powers AXP313a PMIC support
-Message-ID: <20230421073214.GN996918@google.com>
-References: <20230401001850.4988-1-andre.przywara@arm.com>
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] ARM: dts: sun5i: chip: Enable bluetooth
+Message-ID: <ZEJJGGeIu8QW44mh@earth.li>
+References: <cover.1681580558.git.noodles@earth.li>
+ <f26d11e613df7bd55822ff3fb7689e36bf9e4f7a.1681580558.git.noodles@earth.li>
+ <20230416012421.255bfd19@slackpad.lan>
+ <ZEGOk1isRhaekk3h@earth.li>
+ <CAGETcx-UnEK3CPC38Ef3gmHcq46nXSJbA9QAwEsF+Xt2bDKEWA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -40,35 +46,141 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230401001850.4988-1-andre.przywara@arm.com>
+In-Reply-To: <CAGETcx-UnEK3CPC38Ef3gmHcq46nXSJbA9QAwEsF+Xt2bDKEWA@mail.gmail.com>
 
-On Sat, 01 Apr 2023, Andre Przywara wrote:
+On Thu, Apr 20, 2023 at 06:43:06PM -0700, Saravana Kannan wrote:
+> On Thu, Apr 20, 2023 at 12:12 PM Jonathan McDowell <noodles@earth.li> wrote:
+> > On Sun, Apr 16, 2023 at 01:24:21AM +0100, Andre Przywara wrote:
+> > > On Sat, 15 Apr 2023 18:46:03 +0100
+> > > Jonathan McDowell <noodles@earth.li> wrote:
+> > >
+> > > > The C.H.I.P has an rtl8723bs device with the bluetooth interface hooked
+> > > > up on UART3. Support for this didn't exist in mainline when the DTS was
+> > > > initially added, but it does now, so enable it.
+> > > >
+> > > > Signed-off-by: Jonathan McDowell <noodles@earth.li>
+> > > > ---
+> > > >  arch/arm/boot/dts/sun5i-r8-chip.dts | 4 ++++
+> > > >  1 file changed, 4 insertions(+)
+> > > >
+> > > > diff --git a/arch/arm/boot/dts/sun5i-r8-chip.dts b/arch/arm/boot/dts/sun5i-r8-chip.dts
+> > > > index fd37bd1f3920..4d72a181d8aa 100644
+> > > > --- a/arch/arm/boot/dts/sun5i-r8-chip.dts
+> > > > +++ b/arch/arm/boot/dts/sun5i-r8-chip.dts
+> > > > @@ -255,6 +255,10 @@ &uart3 {
+> > > >     pinctrl-0 = <&uart3_pg_pins>,
+> > > >                 <&uart3_cts_rts_pg_pins>;
+> > > >     status = "okay";
+> > > > +
+> > > > +   bluetooth {
+> > > > +           compatible = "realtek,rtl8723bs-bt";
+> > > > +   }
+> > >
+> > > As the kernel test robot already pointed out, there is a semicolon
+> > > missing here.
+> > > Otherwise looks good (dt-validate passes), but don't know if there are
+> > > any wakeup GPIOs connected (can't seem to find a schematic?).
+> >
+> > So there are wakeups, but if I add:
+> >
+> >         device-wake-gpios = <&axp_gpio 3 GPIO_ACTIVE_LOW>;
+> >         host-wake-gpios = <&pio 1 3 GPIO_ACTIVE_HIGH>; /* PB3 */
+> >
+> > then some odd sort of dependency issue happens where the serial port
+> > load is deferred waiting for the GPIO to appear, and then the device
+> > doesn't work.
+> 
+> When you say your device doesn't work, are you saying it never probes?
 
-> This patch series adds support for the X-Powers AXP313a PMIC, which is
-> often bundled with Allwinner H616 or H313 SoCs.
-> It's my turn again for this revision of the series, after Martin did
-> v7 and v8.
-> After some more significant changes in v9, this is fixing some nits,
-> and builds on Krzysztof's patch to simplify the DT binding document
-> (patch ID at the end of this email). For a complete changelog see below.
-> 
-> Up to v5 this was speaking of the AXP1530, which seems to be some internal
-> name. The chips we have seen in the wild are all labeled AXP313a, so we
-> go with this name here, from now on. This is supported by the fact that
-> there is an AXP313a datasheet, but none for the AXP1530.
-> 
-> Patch 1 is the binding documentation (just the new compatible string),
-> patch 2 adds the MFD bits (mostly describing the extent of the regmap),
-> while patch 3 describes the actual AXP313a register definitions.
-> Since this ties neatly into the existing AXP and generic regulator
-> framework, the patches are indeed only structure definitions, there is
-> little new code.
-> 
-> For now we papered over this "fixed customizable" RTC-LDO regulator in the
-> same way this was done before for other PMICs (AXP803, for instance), We
-> think we can fix this properly with a follow-up patch, for all instances.
+The bluetooth device (realtek,rtl8723bs-bt) never appears, apparently
+because the UART it's attached to never loads - it doesn't even try to
+load the firmware.
 
-MFD patches applied.  PR for Mark to follow.
+> <debugfs>/devices_deferred should tell you what devices have deferred and why.
+
+root@chip:~# cat /sys/kernel/debug/devices_deferred
+serial0-0
+
+> > Error in dmesg is:
+> >
+> > serial serial0-0: deferred probe pending
+> >
+> > on 6.3-rc and on 6.1 I get:
+> >
+> > dw-apb-uart 1c28c00.serial: Failed to create device link (0x180) with axp20x-gpio
+> 
+> This error message doesn't block anything. So I don't think this is
+> the cause of your blocking issue. But I still want to understand why
+> this error message is showing up.
+> 
+> > I'm not clear why it's trying to link the serial port to the GPIO; it
+> > seems that it should be the bluetooth device that depends on both the
+> > UART and the GPIO,
+> 
+> A fix for the device link error message went in on v6.3-rc3. Is that
+> the 6.3 version you tested this on?
+
+I originally tried on 6.1.21, which is where I got the "Failed to create
+device link" message. I then moved to 6.3-rc7 as I saw there had been
+further changes recently. There I just get the:
+
+serial serial0-0: deferred probe pending
+
+message.
+
+> Also, I tried looking into the UART driver
+> (drivers/tty/serial/8250/8250_dw.c) but it wasn't clear how it ends up
+> populating the bluetooth serial device. If you can point that out,
+> that'd be helpful (assuming 6.3-rc3 still shows that error message).
+
+I have the following in my device tree:
+
+&uart3 {
+        pinctrl-names = "default";
+        pinctrl-0 = <&uart3_pg_pins>,
+                    <&uart3_cts_rts_pg_pins>;
+        status = "okay";
+
+        bluetooth {
+                compatible = "realtek,rtl8723bs-bt";
+                device-wake-gpios = <&axp_gpio 3 GPIO_ACTIVE_LOW>;
+                host-wake-gpios = <&pio 1 3 GPIO_ACTIVE_HIGH>; /* PB3 */
+        };
+};
+
+uart3 is a snps,dw-apb-uart, defined in arch/arm/boot/dts/sun5i.dtsi
+
+The UART and AXP209 device drivers are compiled into the kernel:
+
+CONFIG_PINCTRL_AXP209=y
+CONFIG_SERIAL_8250=y
+CONFIG_SERIAL_8250_DW=y
+
+The bluetooth bits are modules (btrtl, hci_uart).
+
+If I remove the device-wake-gpios line then the Bluetooth device works
+fine, and /sys/kernel/debug/devices_deferred is empty.
+
+Somehow it seems like the GPIO is being parsed as a dependency for the
+serial port, even though the serial port + GPIO are both dependencies
+for the bluetooth device. Even with that, given both are built-in I
+don't understand why the serial port never completes setup.
+
+> > and that the GPIO is actually optional so shouldn't
+> > hold up loading, but I can't see how that should be represented.
+> 
+> Optional dependencies should get ignored after the default
+> deferred_probe_timeout runs out and the supplier driver hasn't been
+> loaded yet.
+
+When I say it's optional I mean if it's not listed everything works
+fine, but I don't believe there's anyway to express that in the DTS.
+It's certainly not required for the serial port, just the bluetooth
+device.
+
+J.
 
 -- 
-Lee Jones [李琼斯]
+Web [                     Don't be a stranger.                     ]
+site: https:// [                                          ]      Made by
+www.earth.li/~noodles/  [                      ]         HuggieTag 0.0.24
