@@ -1,106 +1,147 @@
-Received: from the.earth.li (the.earth.li [93.93.131.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72BB8F68
-	for <linux-sunxi@lists.linux.dev>; Thu, 20 Apr 2023 19:13:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=earth.li;
-	s=the; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:
-	Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=TRyyzeUqKdaTnqrBucZ3TkmfveNP8li2ctk9FYv0/ms=; b=aF8iWtfV0ZpqH+2RoF9PSmZLZc
-	vRZNwV3F/wGCFBvHyolVlMrdfFSu5Mt1FGWS1sj/9NQE3xe9/YbaGPGWgeiEh/WbWcP6NiWAe2aRn
-	vGVO8z8QX8BWdjt6O2djnE/Y2DUDRV2aDUuAJjxtsoi0XrlG/i5Pi6/BrX9HRrvL//mOr0AXiRyRj
-	dradurzGI01KfKrxqeG7HXwdeHhF/T2fGH0xHTV7hsKNS8PW2hOHj5c9CSOL08pqA5GrVKjacLfsF
-	jF72L7iUj68Fw4xBxPopF9VwXWVHPgv22CjJXywUGOej9N9flst+j/RdWN+En4QfGjbmtzz8SPoX4
-	v4gj/PBQ==;
-Received: from noodles by the.earth.li with local (Exim 4.94.2)
-	(envelope-from <noodles@earth.li>)
-	id 1ppZib-002Tk7-TH; Thu, 20 Apr 2023 20:13:21 +0100
-Date: Thu, 20 Apr 2023 20:13:21 +0100
-From: Jonathan McDowell <noodles@earth.li>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] ARM: dts: sun5i: Add port E pinmux settings for mmc2
-Message-ID: <ZEGO0SbkBoPqV7kA@earth.li>
-References: <cover.1681580558.git.noodles@earth.li>
- <00d37ef9bf70785d05fb446ee6d0060c4a8d521a.1681580558.git.noodles@earth.li>
- <20230416014756.2270af13@slackpad.lan>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0112E37A
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 Apr 2023 01:43:43 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1a7ff4a454eso406505ad.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 20 Apr 2023 18:43:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1682041423; x=1684633423;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dIxy13HfCmUT7EC5y5m4UCU0YeS0VjV5fZQ5jhML6eE=;
+        b=qw8MaCUvrN0Zk46JopzDu1i95viE1y9QMcRYLwicZ7IUpzsNd4mLhxoglU3f6L67tD
+         XcHwkffp88Zp+CzDTdY0ZDrRe/0OpumfRosvaqq/M9HtwUW9JNTdtiqDzE6giLTNmfut
+         F3FiSaMXOj4IirV4/0xlNrpPfnNEsfSOg61PM2JDllV/+Xk4aKiYJP9QM0ZaNA/PoVmy
+         TP3aixmciyyj/ICJb85pAPLqFEW7VHzwO8TTIJDXTRDDVVRoPnHlrrl+W6hizmnSsnAp
+         s66LEehvPywdjmkjlJi0ZAVxnyQj8dk96ylVOMAcK4MRhtGNcJCjpMp0splqkZs50TCu
+         9SSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682041423; x=1684633423;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dIxy13HfCmUT7EC5y5m4UCU0YeS0VjV5fZQ5jhML6eE=;
+        b=AMjCTOali1ZAR3lZfkisE04VQto1ybXB7KSw/yeKrQZrn/eV68D903YKLtrvhLluKk
+         QsObXT5UxcCgRBk2Qr0UEUwxK/7K9Ns4VoISyMXFonxSZRpRlKN/297wSSMoak9OaaKH
+         kg8nSyb8JdNvcw4YqAFXI58DUJMm0naMDYVFCfHB8e/ue4woqNmrZvG9sif1X1+6DVoT
+         P7n/Edq20H4TwxAqEFjZ4f0NnETMay87ONr2b07fHs//UFXSoy4i5QNM0DoqVs0saFB3
+         h/2dGdrQC//e4CMgST0Q5Z7TLciS9Y4/8VIrXm263rtv7tPqPuCiFWTWQe7yD6eWoGU3
+         5Blg==
+X-Gm-Message-State: AAQBX9cpxsl/VnX0XQUYBs1ef8D2Mu06G6kC2+Tlk98dXxZrqS1wnTx2
+	QEIQ/754PW9uMxsiVv1A2izWk4cuH1lYYf9pmuoc/Q==
+X-Google-Smtp-Source: AKy350aS2eg9ZuypDmu9bYDHvI0CqyL2p3mLuHY04xWLwJca+BkbuN4FFuxU81uvAcWXOwQQKjaQmXxLG+p3pbWr7Rs=
+X-Received: by 2002:a17:902:eb8c:b0:1a9:23a7:7c57 with SMTP id
+ q12-20020a170902eb8c00b001a923a77c57mr135908plg.10.1682041423159; Thu, 20 Apr
+ 2023 18:43:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230416014756.2270af13@slackpad.lan>
+References: <cover.1681580558.git.noodles@earth.li> <f26d11e613df7bd55822ff3fb7689e36bf9e4f7a.1681580558.git.noodles@earth.li>
+ <20230416012421.255bfd19@slackpad.lan> <ZEGOk1isRhaekk3h@earth.li>
+In-Reply-To: <ZEGOk1isRhaekk3h@earth.li>
+From: Saravana Kannan <saravanak@google.com>
+Date: Thu, 20 Apr 2023 18:43:06 -0700
+Message-ID: <CAGETcx-UnEK3CPC38Ef3gmHcq46nXSJbA9QAwEsF+Xt2bDKEWA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] ARM: dts: sun5i: chip: Enable bluetooth
+To: Jonathan McDowell <noodles@earth.li>
+Cc: Andre Przywara <andre.przywara@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Apr 16, 2023 at 01:47:56AM +0100, Andre Przywara wrote:
-> On Sat, 15 Apr 2023 18:46:24 +0100
-> Jonathan McDowell <noodles@earth.li> wrote:
-> 
-> Hi,
-> 
-> > These alternate pins for mmc2 are brought out to the 40 pin U14 header
-> > on the C.H.I.P and can be used to add an external MMC device with a 4
-> > bit interface. See
-> > 
-> > https://byteporter.com/ntc-chip-micro-sd-slot/
-> > 
-> > for further details on how.
-> > 
-> > Signed-off-by: Jonathan McDowell <noodles@earth.li>
-> > ---
-> >  arch/arm/boot/dts/sun5i.dtsi | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> > 
-> > diff --git a/arch/arm/boot/dts/sun5i.dtsi b/arch/arm/boot/dts/sun5i.dtsi
-> > index 250d6b87ab4d..e4922506ce22 100644
-> > --- a/arch/arm/boot/dts/sun5i.dtsi
-> > +++ b/arch/arm/boot/dts/sun5i.dtsi
-> > @@ -517,6 +517,14 @@ mmc2_4bit_pc_pins: mmc2-4bit-pc-pins {
-> >  				bias-pull-up;
-> >  			};
-> > 
-> 
-> As this seems to be a highly non-standard and rare modification, that
-> doesn't even get used in the mainline DT, please add a:
-> 			/omit-if-no-ref/
-> line, so we don't get this into every sun5i board.
+On Thu, Apr 20, 2023 at 12:12=E2=80=AFPM Jonathan McDowell <noodles@earth.l=
+i> wrote:
+>
+> On Sun, Apr 16, 2023 at 01:24:21AM +0100, Andre Przywara wrote:
+> > On Sat, 15 Apr 2023 18:46:03 +0100
+> > Jonathan McDowell <noodles@earth.li> wrote:
+> >
+> > > The C.H.I.P has an rtl8723bs device with the bluetooth interface hook=
+ed
+> > > up on UART3. Support for this didn't exist in mainline when the DTS w=
+as
+> > > initially added, but it does now, so enable it.
+> > >
+> > > Signed-off-by: Jonathan McDowell <noodles@earth.li>
+> > > ---
+> > >  arch/arm/boot/dts/sun5i-r8-chip.dts | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/arch/arm/boot/dts/sun5i-r8-chip.dts b/arch/arm/boot/dts/=
+sun5i-r8-chip.dts
+> > > index fd37bd1f3920..4d72a181d8aa 100644
+> > > --- a/arch/arm/boot/dts/sun5i-r8-chip.dts
+> > > +++ b/arch/arm/boot/dts/sun5i-r8-chip.dts
+> > > @@ -255,6 +255,10 @@ &uart3 {
+> > >     pinctrl-0 =3D <&uart3_pg_pins>,
+> > >                 <&uart3_cts_rts_pg_pins>;
+> > >     status =3D "okay";
+> > > +
+> > > +   bluetooth {
+> > > +           compatible =3D "realtek,rtl8723bs-bt";
+> > > +   }
+> >
+> > As the kernel test robot already pointed out, there is a semicolon
+> > missing here.
+> > Otherwise looks good (dt-validate passes), but don't know if there are
+> > any wakeup GPIOs connected (can't seem to find a schematic?).
+>
+> So there are wakeups, but if I add:
+>
+>         device-wake-gpios =3D <&axp_gpio 3 GPIO_ACTIVE_LOW>;
+>         host-wake-gpios =3D <&pio 1 3 GPIO_ACTIVE_HIGH>; /* PB3 */
+>
+> then some odd sort of dependency issue happens where the serial port
+> load is deferred waiting for the GPIO to appear, and then the device
+> doesn't work.
 
-Neat, will add in v2.
+When you say your device doesn't work, are you saying it never probes?
+<debugfs>/devices_deferred should tell you what devices have deferred and w=
+hy.
 
-> Otherwise looks good, though I don't know if that should belong into
-> the same DT overlay that is probably used to also enable the MMC2 node.
+> Error in dmesg is:
+>
+> serial serial0-0: deferred probe pending
+>
+> on 6.3-rc and on 6.1 I get:
+>
+> dw-apb-uart 1c28c00.serial: Failed to create device link (0x180) with axp=
+20x-gpio
 
-I pondered that, but we already have the mmc2-4bit-pc-pins definition
-here so it seemed helpful to add the pe-pins too.
+This error message doesn't block anything. So I don't think this is
+the cause of your blocking issue. But I still want to understand why
+this error message is showing up.
 
-> > +			mmc2_4bit_pe_pins: mmc2-4bit-pe-pins {
-> > +				pins = "PE4", "PE5", "PE6", "PE7",
-> > +				       "PE8", "PE9";
-> > +				function = "mmc2";
-> > +				drive-strength = <30>;
-> > +				bias-pull-up;
-> > +			};
-> > +
-> >  			mmc2_8bit_pins: mmc2-8bit-pins {
-> >  				pins = "PC6", "PC7", "PC8", "PC9",
-> >  				       "PC10", "PC11", "PC12", "PC13",
-> 
+> I'm not clear why it's trying to link the serial port to the GPIO; it
+> seems that it should be the bluetooth device that depends on both the
+> UART and the GPIO,
 
-J.
+A fix for the device link error message went in on v6.3-rc3. Is that
+the 6.3 version you tested this on?
 
--- 
-    "Where the f**k is all this    |  .''`.  Debian GNU/Linux Developer
-  water coming from?" -- Captain   | : :' :  Happy to accept PGP signed
-          of the Titanic           | `. `'   or encrypted mail - RSA
-                                   |   `-    key on the keyservers.
+Also, I tried looking into the UART driver
+(drivers/tty/serial/8250/8250_dw.c) but it wasn't clear how it ends up
+populating the bluetooth serial device. If you can point that out,
+that'd be helpful (assuming 6.3-rc3 still shows that error message).
+
+> and that the GPIO is actually optional so shouldn't
+> hold up loading, but I can't see how that should be represented.
+
+Optional dependencies should get ignored after the default
+deferred_probe_timeout runs out and the supplier driver hasn't been
+loaded yet.
+
+-Saravana
+
+> Adding Greg + Saravana in the hope they can tell me what I've done wrong
+> here. The LED driver using a different GPIO line on the axp209 works
+> fine, so the device is definitely loaded and working ok.
