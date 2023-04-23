@@ -1,122 +1,139 @@
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.196])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 168FA620
-	for <linux-sunxi@lists.linux.dev>; Sun, 23 Apr 2023 03:18:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=GQP9Y
-	0UdXINKE5voFtMMPDl1m29fvMt/Vmaw5XaxM60=; b=bl42mxwp4NezjE/c/7eRs
-	lp35XRAdDD4bSb6W/uF4yxXr7A56e+Alx9T8doVEGyOw7YJ+YVbmiMLrMTaWzb+3
-	n+5js1fiYUN1Hqd9Qh0GlxiaoEIpEirlNkVxe9aU5i7POVdWvTyIR9Iuwm6aLQr0
-	z/Axef+OEpe8x7Shkl339k=
-Received: from DESKTOP-B1R4FVG.localdomain (unknown [218.201.129.19])
-	by zwqz-smtp-mta-g0-2 (Coremail) with SMTP id _____wDHncZfmERkdXTMCA--.30683S2;
-	Sun, 23 Apr 2023 10:30:55 +0800 (CST)
-From: qianfanguijin@163.com
-To: linux-sunxi@lists.linux.dev,
-	linux-spi@vger.kernel.org
-Cc: Andre Przywara <andre.przywara@arm.com>,
-	Evgeny Boger <boger@wirenboard.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Mark Brown <broonie@kernel.org>,
-	qianfan Zhao <qianfanguijin@163.com>
-Subject: [PATCH] drivers: spi: sunxi: Enable irq after the initialization is done
-Date: Sun, 23 Apr 2023 10:30:56 +0800
-Message-Id: <20230423023056.27929-1-qianfanguijin@163.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914091FBB
+	for <linux-sunxi@lists.linux.dev>; Sun, 23 Apr 2023 13:31:16 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Q48Kl1Qdyz9sTs;
+	Sun, 23 Apr 2023 15:31:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1682256667;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lAz/UFBeFhKJZjIfr/COBnUte6wIEOR9FV2CuK4nvXI=;
+	b=0Nl66lZcukxMY05O5jqLeBmtBFWcBakJGlvNPUB4xLTuo3ksqFo6skPiotRH0wcuUznFkW
+	qpieXfG2ZFwXjvLv+v/n0Dxgy2mBcNdCGUO6iXGDX+LE8xjuH3WgP4GCDhN8tZxMmvoM48
+	WhGDIzc4N3xGGdal2OPDrqytxk4MoZ8BKLWUdG4qv7A01+MDK6B040xP0m4cMiI8q9impD
+	mtUIP9ntAqNwB5aEpVY3eKSDZKAhjuBPhyBfklbxCH7Oy1CVbclJy8ACxcQ6bab3p+JsQu
+	FoFsV+HWLdYtz3e00KAQo7Dumep/l5bec+DR5m0w4R79bPZjc3ih8mO9hYI+IQ==
+References: <20230418074008.69752-1-me@crly.cz>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Roman Beranek <me@crly.cz>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Icenowy Zheng <icenowy@aosp.io>, Ondrej Jirman <megi@xff.cz>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/7] drm: sun4i: set proper TCON0 DCLK rate in DSI mode
+Date: Sun, 23 Apr 2023 15:24:33 +0200
+In-reply-to: <20230418074008.69752-1-me@crly.cz>
+Message-ID: <87cz3uzpx1.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDHncZfmERkdXTMCA--.30683S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxCrW7ury3AFWrXFWfJr4xJFb_yoW5Cw15pF
-	WUAF4Fyr48WF1Y9F13Cws0v34ak3yIg3yxGrWqk3s3A3s0grykXF1rJa4avFs3tFWkGa43
-	tFWqqr4Ska1jqaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziKFAJUUUUU=
-X-Originating-IP: [218.201.129.19]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/xtbBzgha7WI0Y8TkEQAAs1
+Content-Type: text/plain
 
-From: qianfan Zhao <qianfanguijin@163.com>
+Hi Roman,
 
-Interrupts are opened prematurely before some initialization work is finished.
-When some uninitialized variables are used in interrupt functions,
-the kernel crashes.
+On 2023-04-18 at 09:40:01 +0200, Roman Beranek <me@crly.cz> wrote:
+> According to Allwinner's BSP code, in DSI mode, TCON0 clock needs to be
+> running at what's effectively the per-lane datarate of the DSI link.
+> Given that the TCON DCLK divider is fixed to 4 (SUN6I_DSI_TCON_DIV),
+> DCLK can't be set equal to the dotclock. Therefore labeling TCON DCLK
+> as sun4i_dotclock or tcon-pixel-clock shall be avoided.
+>
+> With bpp bits per pixel transmitted over n DSI lanes, the target DCLK
+> rate for a given pixel clock is obtained as follows:
+>
+> DCLK rate = 1/4 * bpp / n * pixel clock
+>
+> Effect of this change can be observed through the rate of Vblank IRQs
+> which should now match refresh rate implied by set display mode. It
+> was verified to do so on a A64 board with a 2-lane and a 4-lane panel.
+>
+> v2:
+> 1. prevent reparent of tcon0 to pll-video0-2x
+> 2. include pll-video0 in setting TCON0 DCLK rate
+> 3. tested the whole thing also on a PinePhone
+>
+> Roman Beranek (7):
+>   clk: sunxi-ng: a64: propagate rate change from pll-mipi
+>   clk: sunxi-ng: a64: export PLL_MIPI
+>   clk: sunxi-ng: a64: prevent CLK_TCON0 being reparented
+>   arm64: dts: allwinner: a64: assign PLL_MIPI to CLK_TCON0
+>   ARM: dts: sunxi: rename tcon's clock output
+>   drm: sun4i: rename sun4i_dotclock to sun4i_tcon_dclk
+>   drm: sun4i: calculate proper DCLK rate for DSI
+>
+>  arch/arm/boot/dts/sun5i.dtsi                  |  2 +-
+>  arch/arm/boot/dts/sun8i-a23-a33.dtsi          |  2 +-
+>  arch/arm/boot/dts/sun8i-a83t.dtsi             |  2 +-
+>  arch/arm/boot/dts/sun8i-v3s.dtsi              |  2 +-
+>  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  4 +-
+>  drivers/clk/sunxi-ng/ccu-sun50i-a64.c         |  6 ++-
+>  drivers/clk/sunxi-ng/ccu-sun50i-a64.h         |  4 +-
+>  drivers/gpu/drm/sun4i/Makefile                |  2 +-
+>  drivers/gpu/drm/sun4i/sun4i_tcon.c            | 46 +++++++++++--------
+>  .../{sun4i_dotclock.c => sun4i_tcon_dclk.c}   |  2 +-
+>  .../{sun4i_dotclock.h => sun4i_tcon_dclk.h}   |  0
+>  include/dt-bindings/clock/sun50i-a64-ccu.h    |  1 +
+>  12 files changed, 43 insertions(+), 30 deletions(-)
+>  rename drivers/gpu/drm/sun4i/{sun4i_dotclock.c => sun4i_tcon_dclk.c} (99%)
+>  rename drivers/gpu/drm/sun4i/{sun4i_dotclock.h => sun4i_tcon_dclk.h} (100%)
+>
+>
+> base-commit: 4aa35a0130d6b8afbefc9ef530a521fb0fb9b8e1
 
-A typical case is the second kernel loaded with kdump starting when the first
-kernel transfering spi messages.
 
-The kernel error messages is as follows:
+I've tried your patches on my pinephone. I also set the panel's clock to
+72 MHz, so at 24 bpp and 4 lanes that should result in a data clock of
+108 MHz. This should be possible when pll-video0 is at 297 MHz.
 
-[    1.362449] sun6i-spi 1c06000.spi: Failed to request RX DMA channel
-[    1.369654] 8<--- cut here ---
-[    1.372716] Unable to handle kernel paging request at virtual address fffffffc
-[    1.379928] pgd = (ptrval)
-[    1.382632] [fffffffc] *pgd=6bef6861, *pte=00000000, *ppte=00000000
-[    1.388907] Internal error: Oops: 37 [#1] SMP ARM
-...
-[    1.784024] [<c0159c54>] (swake_up_locked.part.0) from [<c0159d9c>] (complete+0x30/0x40)
-[    1.792114] [<c0159d9c>] (complete) from [<c0491ab0>] (sun6i_spi_handler+0x168/0x194)
-[    1.799947] [<c0491ab0>] (sun6i_spi_handler) from [<c0169070>] (__handle_irq_event_percpu+0x50/0x120)
-[    1.809168] [<c0169070>] (__handle_irq_event_percpu) from [<c0169170>] (handle_irq_event_percpu+0x30/0x78)
-[    1.818818] [<c0169170>] (handle_irq_event_percpu) from [<c01691fc>] (handle_irq_event+0x44/0x68)
-[    1.827687] [<c01691fc>] (handle_irq_event) from [<c016d96c>] (handle_fasteoi_irq+0xac/0x118)
-[    1.836210] [<c016d96c>] (handle_fasteoi_irq) from [<c01689bc>] (handle_domain_irq+0x5c/0x78)
-[    1.844731] [<c01689bc>] (handle_domain_irq) from [<c03bc058>] (gic_handle_irq+0x7c/0x90)
-[    1.852910] [<c03bc058>] (gic_handle_irq) from [<c0100afc>] (__irq_svc+0x5c/0x78)
+Unfortunately, pll-video0 is not set and therefore the relevant part of
+the clk_summary looks like this:
 
-Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
----
- drivers/spi/spi-sun4i.c | 4 +++-
- drivers/spi/spi-sun6i.c | 4 +++-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+                          enable  prepare  protect              hardware
+clock                      count    count    count        rate    enable
+------------------------------------------------------------------------
+ pll-video0                    1        1        1   294000000         Y
+    hdmi                       0        0        0   294000000         N
+    tcon1                      0        0        0   294000000         N
+    pll-mipi                   1        1        1   431200000         Y
+       tcon0                   2        2        1   431200000         Y
+          tcon-data-clock      1        1        1   107800000         Y
+    pll-video0-2x              0        0        0   588000000         Y
 
-diff --git a/drivers/spi/spi-sun4i.c b/drivers/spi/spi-sun4i.c
-index 1fdfc6e6691d..2f797b903692 100644
---- a/drivers/spi/spi-sun4i.c
-+++ b/drivers/spi/spi-sun4i.c
-@@ -452,7 +452,7 @@ static int sun4i_spi_probe(struct platform_device *pdev)
- 	}
- 
- 	ret = devm_request_irq(&pdev->dev, irq, sun4i_spi_handler,
--			       0, "sun4i-spi", sspi);
-+			       IRQF_NO_AUTOEN, "sun4i-spi", sspi);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Cannot request IRQ\n");
- 		goto err_free_master;
-@@ -506,6 +506,8 @@ static int sun4i_spi_probe(struct platform_device *pdev)
- 		goto err_pm_disable;
- 	}
- 
-+	enable_irq(irq);
+Note, I've cut the columns accuracy, phase, and duty cycle, because they
+show the same values for all clocks (0, 0, 50000).
+
+My understanding was that with this patchset setting the parent clock
+should be possible. Do you have any idea why it doesn't work on the
+pinephone? Or maybe it does work on yours and I'm making some kind of
+mistake?
+
+On a brighter note, when I initialize pll-video0 to 297 MHz in
+sunxi-ng/ccu-sun50i-a64.c:sun50i_a64_ccu_probe() I get an even 108 Mhz
+for the data clock. The patch is:
+
+	writel(0x515, reg + SUN50I_A64_PLL_MIPI_REG);
+
++	/*
++	 * Initialize PLL VIDEO0 to default values (297 MHz)
++	 * to clean up any changes made by bootloader
++	 */
++	writel(0x03006207, reg + 0x10);
 +
- 	return 0;
- 
- err_pm_disable:
-diff --git a/drivers/spi/spi-sun6i.c b/drivers/spi/spi-sun6i.c
-index 1151d8592656..0eec2d0e312b 100644
---- a/drivers/spi/spi-sun6i.c
-+++ b/drivers/spi/spi-sun6i.c
-@@ -583,7 +583,7 @@ static int sun6i_spi_probe(struct platform_device *pdev)
- 	}
- 
- 	ret = devm_request_irq(&pdev->dev, irq, sun6i_spi_handler,
--			       0, "sun6i-spi", sspi);
-+			       IRQF_NO_AUTOEN, "sun6i-spi", sspi);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Cannot request IRQ\n");
- 		goto err_free_master;
-@@ -675,6 +675,8 @@ static int sun6i_spi_probe(struct platform_device *pdev)
- 		goto err_pm_disable;
- 	}
- 
-+	enable_irq(irq);
-+
- 	return 0;
- 
- err_pm_disable:
--- 
-2.25.1
+	ret = devm_sunxi_ccu_probe(&pdev->dev, reg, &sun50i_a64_ccu_desc);
+	if (ret)
+		return ret;
 
+Best,
+  Frank
