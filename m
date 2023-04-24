@@ -1,139 +1,91 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914091FBB
-	for <linux-sunxi@lists.linux.dev>; Sun, 23 Apr 2023 13:31:16 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Q48Kl1Qdyz9sTs;
-	Sun, 23 Apr 2023 15:31:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1682256667;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lAz/UFBeFhKJZjIfr/COBnUte6wIEOR9FV2CuK4nvXI=;
-	b=0Nl66lZcukxMY05O5jqLeBmtBFWcBakJGlvNPUB4xLTuo3ksqFo6skPiotRH0wcuUznFkW
-	qpieXfG2ZFwXjvLv+v/n0Dxgy2mBcNdCGUO6iXGDX+LE8xjuH3WgP4GCDhN8tZxMmvoM48
-	WhGDIzc4N3xGGdal2OPDrqytxk4MoZ8BKLWUdG4qv7A01+MDK6B040xP0m4cMiI8q9impD
-	mtUIP9ntAqNwB5aEpVY3eKSDZKAhjuBPhyBfklbxCH7Oy1CVbclJy8ACxcQ6bab3p+JsQu
-	FoFsV+HWLdYtz3e00KAQo7Dumep/l5bec+DR5m0w4R79bPZjc3ih8mO9hYI+IQ==
-References: <20230418074008.69752-1-me@crly.cz>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Roman Beranek <me@crly.cz>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Icenowy Zheng <icenowy@aosp.io>, Ondrej Jirman <megi@xff.cz>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/7] drm: sun4i: set proper TCON0 DCLK rate in DSI mode
-Date: Sun, 23 Apr 2023 15:24:33 +0200
-In-reply-to: <20230418074008.69752-1-me@crly.cz>
-Message-ID: <87cz3uzpx1.fsf@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144647C
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 Apr 2023 09:58:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2747C433EF;
+	Mon, 24 Apr 2023 09:58:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1682330286;
+	bh=0Bo6Vh+vs7/WySfkMx93OTiQxZzTu1pqiefSV8EGBds=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=giDhPRPj8yWuvc4hpC3lloHxLOSHha1/A9D7M7PgXDu+TTPnOP5MRr9RDP1r4b1LC
+	 DSZfLvJHXwREXJuNU5bCSMf9CUeLVlxqNZkcxcGDjwnv5Uqnn3APFkaaMhkILAweKY
+	 GuRZlJ9gTkPiPKByhPnkMvmCuMRMvtAr+g6YMPQ3nFg5KteB69e9Hn7xaA9tSNunnU
+	 iKG2v/ogWQm20n0EJJy/Xk+Bq3+Iu0KSr3lD6WTJSluLIwTo8K5Dd+gJhA1gXLTtJP
+	 EDwKL8LRtd8Ri6DxUh2kZC/elJrkPaIH9YSgW5G2DETfTl0+toau6EOfZcoegXjPou
+	 9f4mOsV0vXStA==
+Date: Mon, 24 Apr 2023 10:57:54 +0100
+From: Lee Jones <lee@kernel.org>
+To: Shengyu Qu <wiagn233@outlook.com>
+Cc: Andre Przywara <andre.przywara@arm.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	Mark Brown <broonie@kernel.org>,
+	Martin Botka <martin.botka@somainline.org>, martin.botka1@gmail.com,
+	Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v10 2/3] mfd: axp20x: Add support for AXP313a PMIC
+Message-ID: <20230424095754.GD8035@google.com>
+References: <20230401001850.4988-1-andre.przywara@arm.com>
+ <20230401001850.4988-3-andre.przywara@arm.com>
+ <20230421073137.GM996918@google.com>
+ <TY3P286MB2611E7B758E6C2208925127E98609@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <TY3P286MB2611E7B758E6C2208925127E98609@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
 
-Hi Roman,
+On Fri, 21 Apr 2023, Shengyu Qu wrote:
 
-On 2023-04-18 at 09:40:01 +0200, Roman Beranek <me@crly.cz> wrote:
-> According to Allwinner's BSP code, in DSI mode, TCON0 clock needs to be
-> running at what's effectively the per-lane datarate of the DSI link.
-> Given that the TCON DCLK divider is fixed to 4 (SUN6I_DSI_TCON_DIV),
-> DCLK can't be set equal to the dotclock. Therefore labeling TCON DCLK
-> as sun4i_dotclock or tcon-pixel-clock shall be avoided.
->
-> With bpp bits per pixel transmitted over n DSI lanes, the target DCLK
-> rate for a given pixel clock is obtained as follows:
->
-> DCLK rate = 1/4 * bpp / n * pixel clock
->
-> Effect of this change can be observed through the rate of Vblank IRQs
-> which should now match refresh rate implied by set display mode. It
-> was verified to do so on a A64 board with a 2-lane and a 4-lane panel.
->
-> v2:
-> 1. prevent reparent of tcon0 to pll-video0-2x
-> 2. include pll-video0 in setting TCON0 DCLK rate
-> 3. tested the whole thing also on a PinePhone
->
-> Roman Beranek (7):
->   clk: sunxi-ng: a64: propagate rate change from pll-mipi
->   clk: sunxi-ng: a64: export PLL_MIPI
->   clk: sunxi-ng: a64: prevent CLK_TCON0 being reparented
->   arm64: dts: allwinner: a64: assign PLL_MIPI to CLK_TCON0
->   ARM: dts: sunxi: rename tcon's clock output
->   drm: sun4i: rename sun4i_dotclock to sun4i_tcon_dclk
->   drm: sun4i: calculate proper DCLK rate for DSI
->
->  arch/arm/boot/dts/sun5i.dtsi                  |  2 +-
->  arch/arm/boot/dts/sun8i-a23-a33.dtsi          |  2 +-
->  arch/arm/boot/dts/sun8i-a83t.dtsi             |  2 +-
->  arch/arm/boot/dts/sun8i-v3s.dtsi              |  2 +-
->  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  4 +-
->  drivers/clk/sunxi-ng/ccu-sun50i-a64.c         |  6 ++-
->  drivers/clk/sunxi-ng/ccu-sun50i-a64.h         |  4 +-
->  drivers/gpu/drm/sun4i/Makefile                |  2 +-
->  drivers/gpu/drm/sun4i/sun4i_tcon.c            | 46 +++++++++++--------
->  .../{sun4i_dotclock.c => sun4i_tcon_dclk.c}   |  2 +-
->  .../{sun4i_dotclock.h => sun4i_tcon_dclk.h}   |  0
->  include/dt-bindings/clock/sun50i-a64-ccu.h    |  1 +
->  12 files changed, 43 insertions(+), 30 deletions(-)
->  rename drivers/gpu/drm/sun4i/{sun4i_dotclock.c => sun4i_tcon_dclk.c} (99%)
->  rename drivers/gpu/drm/sun4i/{sun4i_dotclock.h => sun4i_tcon_dclk.h} (100%)
->
->
-> base-commit: 4aa35a0130d6b8afbefc9ef530a521fb0fb9b8e1
+> Hello Lee,
+> 
+> Where is your branch? I'm gonna rebase my AXP15060 series on it.
+
+You can use -next.
+
+> 在 2023/4/21 15:31, Lee Jones 写道:
+> > On Sat, 01 Apr 2023, Andre Przywara wrote:
+> > 
+> > > From: Martin Botka <martin.botka@somainline.org>
+> > > 
+> > > The AXP313a is a PMIC chip produced by X-Powers, it can be connected via
+> > > an I2C bus.
+> > > The name AXP1530 seems to appear as well, and this is what is used in
+> > > the BSP driver. From all we know it's the same chip, just a different
+> > > name. However we have only seen AXP313a chips in the wild, so go with
+> > > this name.
+> > > 
+> > > Compared to the other AXP PMICs it's a rather simple affair: just three
+> > > DCDC converters, three LDOs, and no battery charging support.
+> > > 
+> > > Describe the regmap and the MFD bits, along with the registers exposed
+> > > via I2C. Aside from the various regulators, also describe the power key
+> > > interrupts, and adjust the shutdown handler routine to use a different
+> > > register than the other PMICs.
+> > > Eventually advertise the device using the new compatible string.
+> > > 
+> > > Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > > Acked-for-MFD-by: Lee Jones <lee@kernel.org>
+> > > ---
+> > >   drivers/mfd/axp20x-i2c.c   |  2 +
+> > >   drivers/mfd/axp20x.c       | 78 +++++++++++++++++++++++++++++++++++++-
+> > >   include/linux/mfd/axp20x.h | 32 ++++++++++++++++
+> > >   3 files changed, 111 insertions(+), 1 deletion(-)
+> > Applied, thanks.
+> > 
 
 
-I've tried your patches on my pinephone. I also set the panel's clock to
-72 MHz, so at 24 bpp and 4 lanes that should result in a data clock of
-108 MHz. This should be possible when pll-video0 is at 297 MHz.
 
-Unfortunately, pll-video0 is not set and therefore the relevant part of
-the clk_summary looks like this:
 
-                          enable  prepare  protect              hardware
-clock                      count    count    count        rate    enable
-------------------------------------------------------------------------
- pll-video0                    1        1        1   294000000         Y
-    hdmi                       0        0        0   294000000         N
-    tcon1                      0        0        0   294000000         N
-    pll-mipi                   1        1        1   431200000         Y
-       tcon0                   2        2        1   431200000         Y
-          tcon-data-clock      1        1        1   107800000         Y
-    pll-video0-2x              0        0        0   588000000         Y
 
-Note, I've cut the columns accuracy, phase, and duty cycle, because they
-show the same values for all clocks (0, 0, 50000).
 
-My understanding was that with this patchset setting the parent clock
-should be possible. Do you have any idea why it doesn't work on the
-pinephone? Or maybe it does work on yours and I'm making some kind of
-mistake?
-
-On a brighter note, when I initialize pll-video0 to 297 MHz in
-sunxi-ng/ccu-sun50i-a64.c:sun50i_a64_ccu_probe() I get an even 108 Mhz
-for the data clock. The patch is:
-
-	writel(0x515, reg + SUN50I_A64_PLL_MIPI_REG);
-
-+	/*
-+	 * Initialize PLL VIDEO0 to default values (297 MHz)
-+	 * to clean up any changes made by bootloader
-+	 */
-+	writel(0x03006207, reg + 0x10);
-+
-	ret = devm_sunxi_ccu_probe(&pdev->dev, reg, &sun50i_a64_ccu_desc);
-	if (ret)
-		return ret;
-
-Best,
-  Frank
+-- 
+Lee Jones [李琼斯]
