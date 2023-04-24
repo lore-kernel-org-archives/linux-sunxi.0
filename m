@@ -1,225 +1,142 @@
-Received: from the.earth.li (the.earth.li [93.93.131.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3A63214
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 Apr 2023 17:34:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=earth.li;
-	s=the; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=MALtH7KdH2u58m3ORCeTHdlEibD9lD3fggU3i60p380=; b=H9HsbaBLjOCvrt/dB9ebYNHoE7
-	GMLZhTfS+cQXxKiL+lP+lbeQRSbegOnpUf8PXbCI7ZTT4ywxOeXw/PvDgVX3MZakxZplZisWFj+g6
-	RN5ulsX/fgpz5g2/rs9vhmwjw/6loibDBlGxJKOX0kM72NbzPPxXqGzjB0NAaAb6V8rKA3OiqBGvW
-	J9kTrMs5jD5su6BSHRrDU2Gbjpti5EHa354wcFj0aDpEIaykCUg38ML2ZyA9pNJuXOfrRHYNGmhO0
-	7RBH23A7ZzR17zXOFIHsQ1N4Kw3iuHkTeIWBxE2a8E+fdb3z2dXu+ivTroN5h4bxYWEdDSz7+eTU7
-	IbG7CImQ==;
-Received: from noodles by the.earth.li with local (Exim 4.94.2)
-	(envelope-from <noodles@earth.li>)
-	id 1pr05F-0060iO-CP; Mon, 24 Apr 2023 18:34:37 +0100
-Date: Mon, 24 Apr 2023 18:34:37 +0100
-From: Jonathan McDowell <noodles@earth.li>
-To: Saravana Kannan <saravanak@google.com>
-Cc: Andre Przywara <andre.przywara@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] ARM: dts: sun5i: chip: Enable bluetooth
-Message-ID: <ZEa9rcDlIOn+df5h@earth.li>
-References: <cover.1681580558.git.noodles@earth.li>
- <f26d11e613df7bd55822ff3fb7689e36bf9e4f7a.1681580558.git.noodles@earth.li>
- <20230416012421.255bfd19@slackpad.lan>
- <ZEGOk1isRhaekk3h@earth.li>
- <CAGETcx-UnEK3CPC38Ef3gmHcq46nXSJbA9QAwEsF+Xt2bDKEWA@mail.gmail.com>
- <ZEJJGGeIu8QW44mh@earth.li>
- <CAGETcx8JDYUT2bdDhJ0PN8_CPmHJ37jCfnuoav6CGFJoovfSqA@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7469D29A9
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 Apr 2023 18:32:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6DC2C433EF;
+	Mon, 24 Apr 2023 18:32:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1682361155;
+	bh=Qwb6xQXtIp9IK5K1XYNjKtQG2ZIwhMNhHPe94Eain8I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=AL1mQRPIK32zEIp1g3UTreatnys6JEiIOElV8WxQ0HCWYrYOh9FUa/pV+J28wkIb0
+	 kuYZuUJpavJkOZaHtCtWDI71bQfr8PqKub4qFn3x5yzC4y8fbdLxu7HbJwBzC+XQwm
+	 VrE7IOJkHHjP11gDLRWFy86EVLqVWwQrt/B4cpTsksi6B3BO3cBvv6mbtnfmE01ZgB
+	 TzxQElbzcDm36YDmuacquU8+DAzm2Bx6Sa8BvlgfPXGSzs47J+MRnxBY/ACBhDqqPE
+	 NaKy9ZqKj3mZAujGR2xqbrAlZIyDJXBbelkgz2XIH4N+SG2lVTYr08TXhvRv/t7uAi
+	 Q8Hr8qGO9TEdw==
+Message-ID: <679921ee-98d4-d6ef-5934-e009fd4b31fc@kernel.org>
+Date: Mon, 24 Apr 2023 13:32:28 -0500
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGETcx8JDYUT2bdDhJ0PN8_CPmHJ37jCfnuoav6CGFJoovfSqA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3 29/65] clk: socfpga: gate: Add a determine_rate hook
+To: Maxime Ripard <maxime@cerno.tech>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Max Filippov <jcmvbkbc@gmail.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ David Lechner <david@lechnology.com>, Sekhar Nori <nsekhar@ti.com>,
+ Abel Vesa <abelvesa@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Ulf Hansson
+ <ulf.hansson@linaro.org>, Linus Walleij <linus.walleij@linaro.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Alessandro Zummo <a.zummo@towertech.it>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Paul Cercueil <paul@crapouillou.net>,
+ Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>
+Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-arm-kernel@lists.infradead.org, linux-actions@lists.infradead.org,
+ patches@opensource.cirrus.com, linux-stm32@st-md-mailman.stormreply.com,
+ linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-phy@lists.infradead.org, linux-rtc@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, alsa-devel@alsa-project.org,
+ linux-mips@vger.kernel.org
+References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
+ <20221018-clk-range-checks-fixes-v3-29-9a1358472d52@cerno.tech>
+Content-Language: en-US
+From: Dinh Nguyen <dinguyen@kernel.org>
+In-Reply-To: <20221018-clk-range-checks-fixes-v3-29-9a1358472d52@cerno.tech>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 21, 2023 at 03:45:52PM -0700, Saravana Kannan wrote:
-> On Fri, Apr 21, 2023 at 1:28 AM Jonathan McDowell <noodles@earth.li> wrote:
-> >
-> > On Thu, Apr 20, 2023 at 06:43:06PM -0700, Saravana Kannan wrote:
-> > > On Thu, Apr 20, 2023 at 12:12 PM Jonathan McDowell <noodles@earth.li> wrote:
-> > > > On Sun, Apr 16, 2023 at 01:24:21AM +0100, Andre Przywara wrote:
-> > > > > On Sat, 15 Apr 2023 18:46:03 +0100
-> > > > > Jonathan McDowell <noodles@earth.li> wrote:
-> > > > >
-> > > > > > The C.H.I.P has an rtl8723bs device with the bluetooth interface hooked
-> > > > > > up on UART3. Support for this didn't exist in mainline when the DTS was
-> > > > > > initially added, but it does now, so enable it.
-> > > > > >
-> > > > > > Signed-off-by: Jonathan McDowell <noodles@earth.li>
-> > > > > > ---
-> > > > > >  arch/arm/boot/dts/sun5i-r8-chip.dts | 4 ++++
-> > > > > >  1 file changed, 4 insertions(+)
-> > > > > >
-> > > > > > diff --git a/arch/arm/boot/dts/sun5i-r8-chip.dts b/arch/arm/boot/dts/sun5i-r8-chip.dts
-> > > > > > index fd37bd1f3920..4d72a181d8aa 100644
-> > > > > > --- a/arch/arm/boot/dts/sun5i-r8-chip.dts
-> > > > > > +++ b/arch/arm/boot/dts/sun5i-r8-chip.dts
-> > > > > > @@ -255,6 +255,10 @@ &uart3 {
-> > > > > >     pinctrl-0 = <&uart3_pg_pins>,
-> > > > > >                 <&uart3_cts_rts_pg_pins>;
-> > > > > >     status = "okay";
-> > > > > > +
-> > > > > > +   bluetooth {
-> > > > > > +           compatible = "realtek,rtl8723bs-bt";
-> > > > > > +   }
-> > > > >
-> > > > > As the kernel test robot already pointed out, there is a semicolon
-> > > > > missing here.
-> > > > > Otherwise looks good (dt-validate passes), but don't know if there are
-> > > > > any wakeup GPIOs connected (can't seem to find a schematic?).
-> > > >
-> > > > So there are wakeups, but if I add:
-> > > >
-> > > >         device-wake-gpios = <&axp_gpio 3 GPIO_ACTIVE_LOW>;
-> > > >         host-wake-gpios = <&pio 1 3 GPIO_ACTIVE_HIGH>; /* PB3 */
-> > > >
-> > > > then some odd sort of dependency issue happens where the serial port
-> > > > load is deferred waiting for the GPIO to appear, and then the device
-> > > > doesn't work.
-> > >
-> > > When you say your device doesn't work, are you saying it never probes?
+Hi Maxime,
+
+On 4/4/23 05:11, Maxime Ripard wrote:
+> The SoCFGPA gate clock implements a mux with a set_parent hook, but
+> doesn't provide a determine_rate implementation.
 > 
-> Read your whole email and it's a strange issue. Also, going forward to
-> avoid confusion, only reply to questions with respect to 6.3-rc7.
-
-Just to be clear, in my initial mail I referred to 6.1.21 as that's
-where I started, but in my reply to you all output was quoted from
-6.3-rc7. 6.3 has been released since, so all details below are based on
-that.
-
-> > The bluetooth device (realtek,rtl8723bs-bt) never appears, apparently
-> > because the UART it's attached to never loads - it doesn't even try to
-> > load the firmware.
-> >
-> > > <debugfs>/devices_deferred should tell you what devices have deferred and why.
-> >
-> > root@chip:~# cat /sys/kernel/debug/devices_deferred
-> > serial0-0
+> This is a bit odd, since set_parent() is there to, as its name implies,
+> change the parent of a clock. However, the most likely candidate to
+> trigger that parent change is a call to clk_set_rate(), with
+> determine_rate() figuring out which parent is the best suited for a
+> given rate.
 > 
-> Do you see this in 6.3-rc7 too?
-
-That was under 6.3-rc7. I see it on 6.3 too:
-
-root@chip:~# cat /sys/kernel/debug/devices_deferred
-serial0-0
-
-Without the device-wake-gpios line in the device tree it's empty.
-
-> > > > Error in dmesg is:
-> > > >
-> > > > serial serial0-0: deferred probe pending
-> > > >
-> > > > on 6.3-rc and on 6.1 I get:
-> > > >
-> > > > dw-apb-uart 1c28c00.serial: Failed to create device link (0x180) with axp20x-gpio
-> > >
-> > > This error message doesn't block anything. So I don't think this is
-> > > the cause of your blocking issue. But I still want to understand why
-> > > this error message is showing up.
-> > >
-> > > > I'm not clear why it's trying to link the serial port to the GPIO; it
-> > > > seems that it should be the bluetooth device that depends on both the
-> > > > UART and the GPIO,
-> > >
-> > > A fix for the device link error message went in on v6.3-rc3. Is that
-> > > the 6.3 version you tested this on?
-> >
-> > I originally tried on 6.1.21, which is where I got the "Failed to create
-> > device link" message. I then moved to 6.3-rc7 as I saw there had been
-> > further changes recently. There I just get the:
-> >
-> > serial serial0-0: deferred probe pending
+> The other trigger would be a call to clk_set_parent(), but it's far less
+> used, and it doesn't look like there's any obvious user for that clock.
 > 
-> If the deferral is related to fw_devlink, you should see the reason
-> for deferring in the devices_deferred file. So I don't think the issue
-> is related to fw_devlink.
-
-Ok.
-
-> > message.
-> >
-> > > Also, I tried looking into the UART driver
-> > > (drivers/tty/serial/8250/8250_dw.c) but it wasn't clear how it ends up
-> > > populating the bluetooth serial device. If you can point that out,
-> > > that'd be helpful (assuming 6.3-rc3 still shows that error message).
-> >
-> > I have the following in my device tree:
-> >
-> > &uart3 {
-> >         pinctrl-names = "default";
-> >         pinctrl-0 = <&uart3_pg_pins>,
-> >                     <&uart3_cts_rts_pg_pins>;
-> >         status = "okay";
-> >
-> >         bluetooth {
-> >                 compatible = "realtek,rtl8723bs-bt";
-> >                 device-wake-gpios = <&axp_gpio 3 GPIO_ACTIVE_LOW>;
-> >                 host-wake-gpios = <&pio 1 3 GPIO_ACTIVE_HIGH>; /* PB3 */
-> >         };
-> > };
-> >
-> > uart3 is a snps,dw-apb-uart, defined in arch/arm/boot/dts/sun5i.dtsi
-> >
-> > The UART and AXP209 device drivers are compiled into the kernel:
-> >
-> > CONFIG_PINCTRL_AXP209=y
-> > CONFIG_SERIAL_8250=y
-> > CONFIG_SERIAL_8250_DW=y
-> >
-> > The bluetooth bits are modules (btrtl, hci_uart).
-> >
-> > If I remove the device-wake-gpios line then the Bluetooth device works
-> > fine, and /sys/kernel/debug/devices_deferred is empty.
-> >
-> > Somehow it seems like the GPIO is being parsed as a dependency for the
-> > serial port, even though the serial port + GPIO are both dependencies
-> > for the bluetooth device.
+> So, the set_parent hook is effectively unused, possibly because of an
+> oversight. However, it could also be an explicit decision by the
+> original author to avoid any reparenting but through an explicit call to
+> clk_set_parent().
 > 
-> I'm fairly sure that fw_devlink isn't causing that. Because even
-> without bluetooth, fw_devlink doesn't consider any suppliers listed in
-> child DT nodes as mandatory suppliers. That has been the case since
-> the beginning.
-
-Ok, I just got confused with the 6.1 message about the device link and
-thought that might be the rough area.
-
-> > Even with that, given both are built-in I
-> > don't understand why the serial port never completes setup.
+> The latter case would be equivalent to setting the flag
+> CLK_SET_RATE_NO_REPARENT, together with setting our determine_rate hook
+> to __clk_mux_determine_rate(). Indeed, if no determine_rate
+> implementation is provided, clk_round_rate() (through
+> clk_core_round_rate_nolock()) will call itself on the parent if
+> CLK_SET_RATE_PARENT is set, and will not change the clock rate
+> otherwise. __clk_mux_determine_rate() has the exact same behavior when
+> CLK_SET_RATE_NO_REPARENT is set.
 > 
-> My guess is that the driver itself has some bug that's sensitive to
-> device probe order even though it shouldn't.
+> And if it was an oversight, then we are at least explicit about our
+> behavior now and it can be further refined down the line.
 > 
-> Can you add #define DEBUG 1 to the top of drivers/base/core.c and
-> share the boot log? I can try and help debug it.
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>   drivers/clk/socfpga/clk-gate.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/clk/socfpga/clk-gate.c b/drivers/clk/socfpga/clk-gate.c
+> index 32ccda960f28..cbba8462a09e 100644
+> --- a/drivers/clk/socfpga/clk-gate.c
+> +++ b/drivers/clk/socfpga/clk-gate.c
+> @@ -110,6 +110,7 @@ static unsigned long socfpga_clk_recalc_rate(struct clk_hw *hwclk,
+>   
+>   static struct clk_ops gateclk_ops = {
+>   	.recalc_rate = socfpga_clk_recalc_rate,
+> +	.determine_rate = __clk_mux_determine_rate,
+>   	.get_parent = socfpga_clk_get_parent,
+>   	.set_parent = socfpga_clk_set_parent,
+>   };
+> @@ -166,7 +167,7 @@ void __init socfpga_gate_init(struct device_node *node)
+>   
+>   	init.name = clk_name;
+>   	init.ops = ops;
+> -	init.flags = 0;
+> +	init.flags = CLK_SET_RATE_NO_REPARENT;
+>   
+>   	init.num_parents = of_clk_parent_fill(node, parent_name, SOCFPGA_MAX_PARENTS);
+>   	if (init.num_parents < 2) {
+> 
 
-Thanks for any input you're able to provide. dmesg from 6.3 with a
-failure to complete the probe:
+This patch broke SoCFPGA boot serial port. The characters are mangled.
 
-https://the.earth.li/~noodles/chip-bluetooth/6.3-not-working
-
-and just for completeness, without the device-wake-gpios line:
-
-https://the.earth.li/~noodles/chip-bluetooth/6.3-working
-
-J.
-
--- 
-Most people are descended from apes. Redheads are descended from cats.
+Dinh
