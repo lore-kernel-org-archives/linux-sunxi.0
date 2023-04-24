@@ -1,91 +1,104 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144647C
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 Apr 2023 09:58:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2747C433EF;
-	Mon, 24 Apr 2023 09:58:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7D37C
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 Apr 2023 11:46:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B4C7C433EF;
+	Mon, 24 Apr 2023 11:46:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682330286;
-	bh=0Bo6Vh+vs7/WySfkMx93OTiQxZzTu1pqiefSV8EGBds=;
+	s=k20201202; t=1682336779;
+	bh=GxOTEZ4mrEoi+hKdxhOMZ9S7w/cm0pC791wpQL9b93s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=giDhPRPj8yWuvc4hpC3lloHxLOSHha1/A9D7M7PgXDu+TTPnOP5MRr9RDP1r4b1LC
-	 DSZfLvJHXwREXJuNU5bCSMf9CUeLVlxqNZkcxcGDjwnv5Uqnn3APFkaaMhkILAweKY
-	 GuRZlJ9gTkPiPKByhPnkMvmCuMRMvtAr+g6YMPQ3nFg5KteB69e9Hn7xaA9tSNunnU
-	 iKG2v/ogWQm20n0EJJy/Xk+Bq3+Iu0KSr3lD6WTJSluLIwTo8K5Dd+gJhA1gXLTtJP
-	 EDwKL8LRtd8Ri6DxUh2kZC/elJrkPaIH9YSgW5G2DETfTl0+toau6EOfZcoegXjPou
-	 9f4mOsV0vXStA==
-Date: Mon, 24 Apr 2023 10:57:54 +0100
-From: Lee Jones <lee@kernel.org>
-To: Shengyu Qu <wiagn233@outlook.com>
-Cc: Andre Przywara <andre.przywara@arm.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-	Mark Brown <broonie@kernel.org>,
-	Martin Botka <martin.botka@somainline.org>, martin.botka1@gmail.com,
-	Samuel Holland <samuel@sholland.org>,
+	b=YPkWm39uLKarHdhU+rHY+G8eqVpU1GTFfVKc5CCBnEuJqwNqQ+Su6cTugiZHZBEQy
+	 aXVSdSninNrgefpqKcIxdb0tZX59rJRV5UngszKUt+YHfkkYztcvbw9JUQiAKpIidS
+	 gz0LRy8Y+A7HqOkD4xuMnjktIqNrRTeUtTrx/Ty9pk8F0IBICGb9f61H2nxrDvBlH4
+	 1jAAlK/jbmgjdkXYInZhvEySTukFdF5yx29at1bPxBV6aIlA41X23trqLU3zZdHOYd
+	 BND3zG3g7kZ+p6D5lTYkwyqqjPcfe7FwpVDjrzlLtlFBS71Khd/OZ2uTBqn03Me/KP
+	 vmSrcapvnwGTg==
+Date: Mon, 24 Apr 2023 12:46:14 +0100
+From: Mark Brown <broonie@kernel.org>
+To: qianfanguijin@163.com
+Cc: linux-sunxi@lists.linux.dev, linux-spi@vger.kernel.org,
+	Andre Przywara <andre.przywara@arm.com>,
+	Evgeny Boger <boger@wirenboard.com>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v10 2/3] mfd: axp20x: Add support for AXP313a PMIC
-Message-ID: <20230424095754.GD8035@google.com>
-References: <20230401001850.4988-1-andre.przywara@arm.com>
- <20230401001850.4988-3-andre.przywara@arm.com>
- <20230421073137.GM996918@google.com>
- <TY3P286MB2611E7B758E6C2208925127E98609@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
+	Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH] drivers: spi: sunxi: Enable irq after the initialization
+ is done
+Message-ID: <2fe1f98b-9126-4245-bce9-d8fbb3da9ba8@sirena.org.uk>
+References: <20230423023056.27929-1-qianfanguijin@163.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="HoSjYou460whfHPF"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <TY3P286MB2611E7B758E6C2208925127E98609@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
-
-On Fri, 21 Apr 2023, Shengyu Qu wrote:
-
-> Hello Lee,
-> 
-> Where is your branch? I'm gonna rebase my AXP15060 series on it.
-
-You can use -next.
-
-> 在 2023/4/21 15:31, Lee Jones 写道:
-> > On Sat, 01 Apr 2023, Andre Przywara wrote:
-> > 
-> > > From: Martin Botka <martin.botka@somainline.org>
-> > > 
-> > > The AXP313a is a PMIC chip produced by X-Powers, it can be connected via
-> > > an I2C bus.
-> > > The name AXP1530 seems to appear as well, and this is what is used in
-> > > the BSP driver. From all we know it's the same chip, just a different
-> > > name. However we have only seen AXP313a chips in the wild, so go with
-> > > this name.
-> > > 
-> > > Compared to the other AXP PMICs it's a rather simple affair: just three
-> > > DCDC converters, three LDOs, and no battery charging support.
-> > > 
-> > > Describe the regmap and the MFD bits, along with the registers exposed
-> > > via I2C. Aside from the various regulators, also describe the power key
-> > > interrupts, and adjust the shutdown handler routine to use a different
-> > > register than the other PMICs.
-> > > Eventually advertise the device using the new compatible string.
-> > > 
-> > > Signed-off-by: Martin Botka <martin.botka@somainline.org>
-> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > > Acked-for-MFD-by: Lee Jones <lee@kernel.org>
-> > > ---
-> > >   drivers/mfd/axp20x-i2c.c   |  2 +
-> > >   drivers/mfd/axp20x.c       | 78 +++++++++++++++++++++++++++++++++++++-
-> > >   include/linux/mfd/axp20x.h | 32 ++++++++++++++++
-> > >   3 files changed, 111 insertions(+), 1 deletion(-)
-> > Applied, thanks.
-> > 
+In-Reply-To: <20230423023056.27929-1-qianfanguijin@163.com>
+X-Cookie: A rolling disk gathers no MOS.
 
 
+--HoSjYou460whfHPF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Sun, Apr 23, 2023 at 10:30:56AM +0800, qianfanguijin@163.com wrote:
 
+>=20
+> The kernel error messages is as follows:
+>=20
+> [    1.362449] sun6i-spi 1c06000.spi: Failed to request RX DMA channel
+> [    1.369654] 8<--- cut here ---
+> [    1.372716] Unable to handle kernel paging request at virtual address =
+fffffffc
+> [    1.379928] pgd =3D (ptrval)
+> [    1.382632] [fffffffc] *pgd=3D6bef6861, *pte=3D00000000, *ppte=3D00000=
+000
+> [    1.388907] Internal error: Oops: 37 [#1] SMP ARM
+> ...
+> [    1.784024] [<c0159c54>] (swake_up_locked.part.0) from [<c0159d9c>] (c=
+omplete+0x30/0x40)
 
+Please think hard before including complete backtraces in upstream
+reports, they are very large and contain almost no useful information
+relative to their size so often obscure the relevant content in your
+message. If part of the backtrace is usefully illustrative (it often is
+for search engines if nothing else) then it's usually better to pull out
+the relevant sections.
 
--- 
-Lee Jones [李琼斯]
+>  	ret =3D devm_request_irq(&pdev->dev, irq, sun4i_spi_handler,
+> -			       0, "sun4i-spi", sspi);
+> +			       IRQF_NO_AUTOEN, "sun4i-spi", sspi);
+>  	if (ret) {
+>  		dev_err(&pdev->dev, "Cannot request IRQ\n");
+>  		goto err_free_master;
+> @@ -506,6 +506,8 @@ static int sun4i_spi_probe(struct platform_device *pd=
+ev)
+>  		goto err_pm_disable;
+>  	}
+> =20
+> +	enable_irq(irq);
+> +
+
+The usual approach would be to move the requesting of the interrupt
+later.  Why do this instead?
+
+--HoSjYou460whfHPF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmRGbAUACgkQJNaLcl1U
+h9CJJwf/VNOgCjbqjYTgMaVHVc2C9gviY6zsIwlQZG4/72QxhCpqIxro55eug/cD
+ShKf4fwVT1lgR2AXw1mMvYZAYSiZI5fFFwn39P4ix3R3delx0Z9TdrFw7ifL6Qnz
+LjR4kKJWm3JUfyOIKK8GGoCXQhTAF8ht8MQq9PbZ9n+cYDYkEeshVSyOWJN8ru6Y
+FKkrJXTAXiLBnauW1bdk5+NIUWzi7XiUiilVctoS4gtwZekQgHNqZ52YEV2qGYCG
+7WUtEsKLOH8URWqy689WESKYUowXHsovZak/Rx/pVDGRS6lFhl/dirKY2aczM/AI
+5A0ZPzBflw+KhdlY6hcHrI+UcsbHeQ==
+=UKfX
+-----END PGP SIGNATURE-----
+
+--HoSjYou460whfHPF--
