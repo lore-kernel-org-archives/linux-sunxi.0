@@ -1,104 +1,225 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from the.earth.li (the.earth.li [93.93.131.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7D37C
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 Apr 2023 11:46:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B4C7C433EF;
-	Mon, 24 Apr 2023 11:46:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682336779;
-	bh=GxOTEZ4mrEoi+hKdxhOMZ9S7w/cm0pC791wpQL9b93s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YPkWm39uLKarHdhU+rHY+G8eqVpU1GTFfVKc5CCBnEuJqwNqQ+Su6cTugiZHZBEQy
-	 aXVSdSninNrgefpqKcIxdb0tZX59rJRV5UngszKUt+YHfkkYztcvbw9JUQiAKpIidS
-	 gz0LRy8Y+A7HqOkD4xuMnjktIqNrRTeUtTrx/Ty9pk8F0IBICGb9f61H2nxrDvBlH4
-	 1jAAlK/jbmgjdkXYInZhvEySTukFdF5yx29at1bPxBV6aIlA41X23trqLU3zZdHOYd
-	 BND3zG3g7kZ+p6D5lTYkwyqqjPcfe7FwpVDjrzlLtlFBS71Khd/OZ2uTBqn03Me/KP
-	 vmSrcapvnwGTg==
-Date: Mon, 24 Apr 2023 12:46:14 +0100
-From: Mark Brown <broonie@kernel.org>
-To: qianfanguijin@163.com
-Cc: linux-sunxi@lists.linux.dev, linux-spi@vger.kernel.org,
-	Andre Przywara <andre.przywara@arm.com>,
-	Evgeny Boger <boger@wirenboard.com>, Chen-Yu Tsai <wens@csie.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3A63214
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 Apr 2023 17:34:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=earth.li;
+	s=the; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=MALtH7KdH2u58m3ORCeTHdlEibD9lD3fggU3i60p380=; b=H9HsbaBLjOCvrt/dB9ebYNHoE7
+	GMLZhTfS+cQXxKiL+lP+lbeQRSbegOnpUf8PXbCI7ZTT4ywxOeXw/PvDgVX3MZakxZplZisWFj+g6
+	RN5ulsX/fgpz5g2/rs9vhmwjw/6loibDBlGxJKOX0kM72NbzPPxXqGzjB0NAaAb6V8rKA3OiqBGvW
+	J9kTrMs5jD5su6BSHRrDU2Gbjpti5EHa354wcFj0aDpEIaykCUg38ML2ZyA9pNJuXOfrRHYNGmhO0
+	7RBH23A7ZzR17zXOFIHsQ1N4Kw3iuHkTeIWBxE2a8E+fdb3z2dXu+ivTroN5h4bxYWEdDSz7+eTU7
+	IbG7CImQ==;
+Received: from noodles by the.earth.li with local (Exim 4.94.2)
+	(envelope-from <noodles@earth.li>)
+	id 1pr05F-0060iO-CP; Mon, 24 Apr 2023 18:34:37 +0100
+Date: Mon, 24 Apr 2023 18:34:37 +0100
+From: Jonathan McDowell <noodles@earth.li>
+To: Saravana Kannan <saravanak@google.com>
+Cc: Andre Przywara <andre.przywara@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH] drivers: spi: sunxi: Enable irq after the initialization
- is done
-Message-ID: <2fe1f98b-9126-4245-bce9-d8fbb3da9ba8@sirena.org.uk>
-References: <20230423023056.27929-1-qianfanguijin@163.com>
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] ARM: dts: sun5i: chip: Enable bluetooth
+Message-ID: <ZEa9rcDlIOn+df5h@earth.li>
+References: <cover.1681580558.git.noodles@earth.li>
+ <f26d11e613df7bd55822ff3fb7689e36bf9e4f7a.1681580558.git.noodles@earth.li>
+ <20230416012421.255bfd19@slackpad.lan>
+ <ZEGOk1isRhaekk3h@earth.li>
+ <CAGETcx-UnEK3CPC38Ef3gmHcq46nXSJbA9QAwEsF+Xt2bDKEWA@mail.gmail.com>
+ <ZEJJGGeIu8QW44mh@earth.li>
+ <CAGETcx8JDYUT2bdDhJ0PN8_CPmHJ37jCfnuoav6CGFJoovfSqA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="HoSjYou460whfHPF"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230423023056.27929-1-qianfanguijin@163.com>
-X-Cookie: A rolling disk gathers no MOS.
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGETcx8JDYUT2bdDhJ0PN8_CPmHJ37jCfnuoav6CGFJoovfSqA@mail.gmail.com>
 
+On Fri, Apr 21, 2023 at 03:45:52PM -0700, Saravana Kannan wrote:
+> On Fri, Apr 21, 2023 at 1:28 AM Jonathan McDowell <noodles@earth.li> wrote:
+> >
+> > On Thu, Apr 20, 2023 at 06:43:06PM -0700, Saravana Kannan wrote:
+> > > On Thu, Apr 20, 2023 at 12:12 PM Jonathan McDowell <noodles@earth.li> wrote:
+> > > > On Sun, Apr 16, 2023 at 01:24:21AM +0100, Andre Przywara wrote:
+> > > > > On Sat, 15 Apr 2023 18:46:03 +0100
+> > > > > Jonathan McDowell <noodles@earth.li> wrote:
+> > > > >
+> > > > > > The C.H.I.P has an rtl8723bs device with the bluetooth interface hooked
+> > > > > > up on UART3. Support for this didn't exist in mainline when the DTS was
+> > > > > > initially added, but it does now, so enable it.
+> > > > > >
+> > > > > > Signed-off-by: Jonathan McDowell <noodles@earth.li>
+> > > > > > ---
+> > > > > >  arch/arm/boot/dts/sun5i-r8-chip.dts | 4 ++++
+> > > > > >  1 file changed, 4 insertions(+)
+> > > > > >
+> > > > > > diff --git a/arch/arm/boot/dts/sun5i-r8-chip.dts b/arch/arm/boot/dts/sun5i-r8-chip.dts
+> > > > > > index fd37bd1f3920..4d72a181d8aa 100644
+> > > > > > --- a/arch/arm/boot/dts/sun5i-r8-chip.dts
+> > > > > > +++ b/arch/arm/boot/dts/sun5i-r8-chip.dts
+> > > > > > @@ -255,6 +255,10 @@ &uart3 {
+> > > > > >     pinctrl-0 = <&uart3_pg_pins>,
+> > > > > >                 <&uart3_cts_rts_pg_pins>;
+> > > > > >     status = "okay";
+> > > > > > +
+> > > > > > +   bluetooth {
+> > > > > > +           compatible = "realtek,rtl8723bs-bt";
+> > > > > > +   }
+> > > > >
+> > > > > As the kernel test robot already pointed out, there is a semicolon
+> > > > > missing here.
+> > > > > Otherwise looks good (dt-validate passes), but don't know if there are
+> > > > > any wakeup GPIOs connected (can't seem to find a schematic?).
+> > > >
+> > > > So there are wakeups, but if I add:
+> > > >
+> > > >         device-wake-gpios = <&axp_gpio 3 GPIO_ACTIVE_LOW>;
+> > > >         host-wake-gpios = <&pio 1 3 GPIO_ACTIVE_HIGH>; /* PB3 */
+> > > >
+> > > > then some odd sort of dependency issue happens where the serial port
+> > > > load is deferred waiting for the GPIO to appear, and then the device
+> > > > doesn't work.
+> > >
+> > > When you say your device doesn't work, are you saying it never probes?
+> 
+> Read your whole email and it's a strange issue. Also, going forward to
+> avoid confusion, only reply to questions with respect to 6.3-rc7.
 
---HoSjYou460whfHPF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Just to be clear, in my initial mail I referred to 6.1.21 as that's
+where I started, but in my reply to you all output was quoted from
+6.3-rc7. 6.3 has been released since, so all details below are based on
+that.
 
-On Sun, Apr 23, 2023 at 10:30:56AM +0800, qianfanguijin@163.com wrote:
+> > The bluetooth device (realtek,rtl8723bs-bt) never appears, apparently
+> > because the UART it's attached to never loads - it doesn't even try to
+> > load the firmware.
+> >
+> > > <debugfs>/devices_deferred should tell you what devices have deferred and why.
+> >
+> > root@chip:~# cat /sys/kernel/debug/devices_deferred
+> > serial0-0
+> 
+> Do you see this in 6.3-rc7 too?
 
->=20
-> The kernel error messages is as follows:
->=20
-> [    1.362449] sun6i-spi 1c06000.spi: Failed to request RX DMA channel
-> [    1.369654] 8<--- cut here ---
-> [    1.372716] Unable to handle kernel paging request at virtual address =
-fffffffc
-> [    1.379928] pgd =3D (ptrval)
-> [    1.382632] [fffffffc] *pgd=3D6bef6861, *pte=3D00000000, *ppte=3D00000=
-000
-> [    1.388907] Internal error: Oops: 37 [#1] SMP ARM
-> ...
-> [    1.784024] [<c0159c54>] (swake_up_locked.part.0) from [<c0159d9c>] (c=
-omplete+0x30/0x40)
+That was under 6.3-rc7. I see it on 6.3 too:
 
-Please think hard before including complete backtraces in upstream
-reports, they are very large and contain almost no useful information
-relative to their size so often obscure the relevant content in your
-message. If part of the backtrace is usefully illustrative (it often is
-for search engines if nothing else) then it's usually better to pull out
-the relevant sections.
+root@chip:~# cat /sys/kernel/debug/devices_deferred
+serial0-0
 
->  	ret =3D devm_request_irq(&pdev->dev, irq, sun4i_spi_handler,
-> -			       0, "sun4i-spi", sspi);
-> +			       IRQF_NO_AUTOEN, "sun4i-spi", sspi);
->  	if (ret) {
->  		dev_err(&pdev->dev, "Cannot request IRQ\n");
->  		goto err_free_master;
-> @@ -506,6 +506,8 @@ static int sun4i_spi_probe(struct platform_device *pd=
-ev)
->  		goto err_pm_disable;
->  	}
-> =20
-> +	enable_irq(irq);
-> +
+Without the device-wake-gpios line in the device tree it's empty.
 
-The usual approach would be to move the requesting of the interrupt
-later.  Why do this instead?
+> > > > Error in dmesg is:
+> > > >
+> > > > serial serial0-0: deferred probe pending
+> > > >
+> > > > on 6.3-rc and on 6.1 I get:
+> > > >
+> > > > dw-apb-uart 1c28c00.serial: Failed to create device link (0x180) with axp20x-gpio
+> > >
+> > > This error message doesn't block anything. So I don't think this is
+> > > the cause of your blocking issue. But I still want to understand why
+> > > this error message is showing up.
+> > >
+> > > > I'm not clear why it's trying to link the serial port to the GPIO; it
+> > > > seems that it should be the bluetooth device that depends on both the
+> > > > UART and the GPIO,
+> > >
+> > > A fix for the device link error message went in on v6.3-rc3. Is that
+> > > the 6.3 version you tested this on?
+> >
+> > I originally tried on 6.1.21, which is where I got the "Failed to create
+> > device link" message. I then moved to 6.3-rc7 as I saw there had been
+> > further changes recently. There I just get the:
+> >
+> > serial serial0-0: deferred probe pending
+> 
+> If the deferral is related to fw_devlink, you should see the reason
+> for deferring in the devices_deferred file. So I don't think the issue
+> is related to fw_devlink.
 
---HoSjYou460whfHPF
-Content-Type: application/pgp-signature; name="signature.asc"
+Ok.
 
------BEGIN PGP SIGNATURE-----
+> > message.
+> >
+> > > Also, I tried looking into the UART driver
+> > > (drivers/tty/serial/8250/8250_dw.c) but it wasn't clear how it ends up
+> > > populating the bluetooth serial device. If you can point that out,
+> > > that'd be helpful (assuming 6.3-rc3 still shows that error message).
+> >
+> > I have the following in my device tree:
+> >
+> > &uart3 {
+> >         pinctrl-names = "default";
+> >         pinctrl-0 = <&uart3_pg_pins>,
+> >                     <&uart3_cts_rts_pg_pins>;
+> >         status = "okay";
+> >
+> >         bluetooth {
+> >                 compatible = "realtek,rtl8723bs-bt";
+> >                 device-wake-gpios = <&axp_gpio 3 GPIO_ACTIVE_LOW>;
+> >                 host-wake-gpios = <&pio 1 3 GPIO_ACTIVE_HIGH>; /* PB3 */
+> >         };
+> > };
+> >
+> > uart3 is a snps,dw-apb-uart, defined in arch/arm/boot/dts/sun5i.dtsi
+> >
+> > The UART and AXP209 device drivers are compiled into the kernel:
+> >
+> > CONFIG_PINCTRL_AXP209=y
+> > CONFIG_SERIAL_8250=y
+> > CONFIG_SERIAL_8250_DW=y
+> >
+> > The bluetooth bits are modules (btrtl, hci_uart).
+> >
+> > If I remove the device-wake-gpios line then the Bluetooth device works
+> > fine, and /sys/kernel/debug/devices_deferred is empty.
+> >
+> > Somehow it seems like the GPIO is being parsed as a dependency for the
+> > serial port, even though the serial port + GPIO are both dependencies
+> > for the bluetooth device.
+> 
+> I'm fairly sure that fw_devlink isn't causing that. Because even
+> without bluetooth, fw_devlink doesn't consider any suppliers listed in
+> child DT nodes as mandatory suppliers. That has been the case since
+> the beginning.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmRGbAUACgkQJNaLcl1U
-h9CJJwf/VNOgCjbqjYTgMaVHVc2C9gviY6zsIwlQZG4/72QxhCpqIxro55eug/cD
-ShKf4fwVT1lgR2AXw1mMvYZAYSiZI5fFFwn39P4ix3R3delx0Z9TdrFw7ifL6Qnz
-LjR4kKJWm3JUfyOIKK8GGoCXQhTAF8ht8MQq9PbZ9n+cYDYkEeshVSyOWJN8ru6Y
-FKkrJXTAXiLBnauW1bdk5+NIUWzi7XiUiilVctoS4gtwZekQgHNqZ52YEV2qGYCG
-7WUtEsKLOH8URWqy689WESKYUowXHsovZak/Rx/pVDGRS6lFhl/dirKY2aczM/AI
-5A0ZPzBflw+KhdlY6hcHrI+UcsbHeQ==
-=UKfX
------END PGP SIGNATURE-----
+Ok, I just got confused with the 6.1 message about the device link and
+thought that might be the rough area.
 
---HoSjYou460whfHPF--
+> > Even with that, given both are built-in I
+> > don't understand why the serial port never completes setup.
+> 
+> My guess is that the driver itself has some bug that's sensitive to
+> device probe order even though it shouldn't.
+> 
+> Can you add #define DEBUG 1 to the top of drivers/base/core.c and
+> share the boot log? I can try and help debug it.
+
+Thanks for any input you're able to provide. dmesg from 6.3 with a
+failure to complete the probe:
+
+https://the.earth.li/~noodles/chip-bluetooth/6.3-not-working
+
+and just for completeness, without the device-wake-gpios line:
+
+https://the.earth.li/~noodles/chip-bluetooth/6.3-working
+
+J.
+
+-- 
+Most people are descended from apes. Redheads are descended from cats.
