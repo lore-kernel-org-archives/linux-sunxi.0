@@ -1,102 +1,91 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7B57B;
-	Tue, 25 Apr 2023 07:28:07 +0000 (UTC)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-54fc94476e2so63676137b3.1;
-        Tue, 25 Apr 2023 00:28:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682407686; x=1684999686;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uGl5U27dIAVcoPRAhAw7M++MtUvlNkzHHP3i/+uz8BM=;
-        b=EBzDrBYDef+hyvN6tYgaPNH3i6bKzTQWJRpJge1XAtefLn0acoCgHF2ZnXnkiq6JKR
-         ta4xAZeWfOTkDu1DMeKkMHh3eyFu/kX/7z87g2OXPceAJkEdGNN21q2m9HCMuiMc5B5M
-         U9UZvh+68JQ3933kuZ5S489e3i0c0lXOjIUBnG/yrtti0FByGz1r2FmTcwUQCTg4yu8M
-         wM2D3vqTBYJTrrJiI6DnPb+T6YWI0wlgPB214TSk/nYds+Ix5E4ermkj0nIKKiEO/ET2
-         p4ttEh01veICtnxs0xZ4m3GkIbgHYJvfSScqZVU91ibUmi3SMfzTusL/SfSsr8Jng4OR
-         xFTQ==
-X-Gm-Message-State: AAQBX9edwy/PdwgtNQH92lYfIe262F/6+v/C6aidERXJqQ4umDX4fqkv
-	MIoHSxOYtt431XFe2zNJAgHYNkOy6G5WIA==
-X-Google-Smtp-Source: AKy350aRcvHlGtGzvWgMwOuxf/s8yGgIV1wpq7S0ZIRPUloSnhxm1zWN/vkDqydgJIQXvd24QhMZCw==
-X-Received: by 2002:a0d:d905:0:b0:54f:5cec:a643 with SMTP id b5-20020a0dd905000000b0054f5ceca643mr10265449ywe.41.1682407686168;
-        Tue, 25 Apr 2023 00:28:06 -0700 (PDT)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id d197-20020a814fce000000b0054f8de7c6f1sm3432202ywb.70.2023.04.25.00.28.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Apr 2023 00:28:04 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-54fe2e39156so63555777b3.2;
-        Tue, 25 Apr 2023 00:28:04 -0700 (PDT)
-X-Received: by 2002:a81:4e4a:0:b0:54c:9c2:d1be with SMTP id
- c71-20020a814e4a000000b0054c09c2d1bemr10102189ywb.13.1682407684508; Tue, 25
- Apr 2023 00:28:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C78C7B;
+	Tue, 25 Apr 2023 08:00:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B19AC4339B;
+	Tue, 25 Apr 2023 08:00:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1682409635;
+	bh=cDv3M/1s+tjOQjJbPUGblM4x/VHbLIoWAfEO3RoBZLM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=t8tVDcisi1Ua1xsK0eh4wXd6TRl8zqRR065VHttovC11XtMZF6D/4bba5k+B9QVcD
+	 wosEZN7on9/BZBObgZeW4zV919V5Z45lRsX9k7Fm3mqp0kUE89nHF/t0zlqhvF9+dB
+	 2h6Dz3k0IgtGd470zSwjfCJivMhODaPf9YsDcjkg014i+ABYaNR22jfQS6VgIFy5WX
+	 vVhV9/8kPwppHz662OIcc0AhHtcKwYVCwvnfRzqmvB8PESp/To9CcsNdaTVKSHAQ9+
+	 fTB2q5Cbai6xwkIifbnmNyaVCEpLHdO8kzBQU4MtjB0kPYGm2MS/weEHAZC22lIJik
+	 7OelZpaQThsmg==
+Message-ID: <7fe274df-6bcd-5993-d6cc-8fbcef435866@kernel.org>
+Date: Tue, 25 Apr 2023 10:00:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220328000915.15041-1-ansuelsmth@gmail.com> <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
- <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain> <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 25 Apr 2023 09:27:51 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
-Message-ID: <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
 Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-To: Rob Herring <robh+dt@kernel.org>
-Cc: Ansuel Smith <ansuelsmth@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-actions@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-omap@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	linux-arm-kernel@axis.com, linux-aspeed@lists.ozlabs.org, 
-	linux-rpi-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, kernel@dh-electronics.com, 
-	linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org, 
-	linux-tegra@vger.kernel.org, linux-oxnas@groups.io, 
-	linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-realtek-soc@lists.infradead.org, 
-	Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+To: Rob Herring <robh+dt@kernel.org>, Ansuel Smith <ansuelsmth@gmail.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
+ linux-aspeed@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
+ chrome-platform@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ kernel@dh-electronics.com, linux-mediatek@lists.infradead.org,
+ openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
+ linux-oxnas@groups.io, linux-arm-msm@vger.kernel.org,
+ linux-unisoc@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-realtek-soc@lists.infradead.org, Arnd Bergmann <arnd@arndb.de>,
+ Olof Johansson <olof@lixom.net>
+References: <20220328000915.15041-1-ansuelsmth@gmail.com>
+ <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
+ <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain>
+ <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Rob,
-
-On Tue, Apr 25, 2023 at 12:16=E2=80=AFAM Rob Herring <robh+dt@kernel.org> w=
-rote:
+On 25/04/2023 00:10, Rob Herring wrote:
+>> I had some problem with gmail and sending mail too much users. I put Rob
+>> and You and all the various list to try to workaround the "gmail spam
+>> protection"
+>>
+>>> I am pretty sure we were discussing such split idea in the past and it
+>>> did not get traction, but I cannot recall the exact discussion.
+>>>
+>>
+>> I think the main issue here is how to handle bot and how problematic is
+>> to merge this. As written in the cover letter the final version of this
+>> should be a big series of 50+ patch with every commit specific to each
+>> oem. In theory we should be able to merge the different oem separately
+>> and try to at least start the categorization.
+>> Another idea I got to at least have a "migration path" is to convert
+>> every dts in the dts/ directory to a symbolic link that target the dts
+>> in the correct oem. But I assume that would fix only part of the problem
+>> and git am will still be problematic.
+> 
 > I have a script[1] that does the conversion written the last time this
 > came up. Just have to agree on directory names. I think the easiest
 > would be for Arnd/Olof to run it at the end of a merge window before
 > rc1.
-
-"emev2" and "sh7" are missing for renesas.
-
-Does your script also cater for .dts files not matching any pattern,
-but including a .dtsi file that does match a pattern?
-
+> 
 > I'm very much in favor of this happening especially before *any*
 > overlays are added to add to the mess (it's probably already
 > happened).
-
-;-)
-
+> 
+> Rob
+> 
 > [1] https://lore.kernel.org/all/20181204183649.GA5716@bogus/
 
-Thanks!
+This is the thread I was thinking about. Looks good for me (the original
+script with exynos->samsung).
 
-Gr{oetje,eeting}s,
+Best regards,
+Krzysztof
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
