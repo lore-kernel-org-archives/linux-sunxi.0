@@ -1,123 +1,102 @@
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A0A66ADC
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Apr 2023 16:10:34 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.west.internal (Postfix) with ESMTP id 60AF42B066F2;
-	Tue, 25 Apr 2023 12:10:31 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 25 Apr 2023 12:10:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1682439030; x=1682446230; bh=Ua
-	ojCscwxi86AjVuIh2qCHuKpN/ZbtkSzMZy6PZ+dq0=; b=rs9Bvn6pjM1EZQb5/e
-	0ew6BcvE534Wwf7Fzg9YF9G5XCPwkxWv/hHowRoqwoln8M3w6BS3FVaflLkpC/iw
-	UnjfQZBhve3krhuivKbT0UBqx0TAkj7+4OQlO2irX93g5wn+D1JnfH8y1k7TjmIS
-	bOPHVnyJC/TE/TE6+LwTclIrPAbVmxJg780W82bFwxtf2ZeS7VJT+Kg4wDQD3Hbs
-	IqZ7qG30WK3dclE1EGXiMdmvSes9Mg4JZuBnoXpD+4gZClHEOU2eCYRAivfWwZWS
-	DFvo8v7297lyTAvTFcoIBF8nk1vXy7STAQaI+M+sgHeRFGcShMbcOnwP0BTfNzRM
-	2K5A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1682439030; x=1682446230; bh=UaojCscwxi86A
-	jVuIh2qCHuKpN/ZbtkSzMZy6PZ+dq0=; b=iRfpC/KUuKid9v5Vzv+Nd4uFvSOmv
-	9Htvapj5EI3Et4MTXTMqhfAgGar2TOfcXCAp92v7w59J8Af/HjgMB+SpLoD2whu1
-	+6B+zOXJOLpRbFCiES54J7AnESgWNWfBR9XMLAqA8cm+pasBqqjDZYEy2O3tRrxV
-	05HeNsYYy5RxjMLSYZpwn+6IFLNEjwVITNM6+ALzGLZbBLh/cKlWliuznrRqh78d
-	MP2LJZoFh/JdSBWc4M2412zL6CDbTBilhZlINlBlW4Msy2a0cfz88HNpDUa7KIRH
-	3Y06ShqOzp3/tIrhGYbHW21lnTsnSkVPkJ0PuWBdhPwNaNfFS+Zp9pDcA==
-X-ME-Sender: <xms:dvtHZERRfaU0QMkLYwj01ATOOt1tV4CZNOano-vE55h_mvXjxTHEHg>
-    <xme:dvtHZBzOBDgCqomITd47pDyJdRVEREhLYAkO_FxLKOtryFKk8x9bsYTJQtANZ2oq1
-    t3Zmikt5MqjVQ6hFgs>
-X-ME-Received: <xmr:dvtHZB1CaWxHfHYGDX3jCUtQ8ud-eQfrwBcpiDn2orGEav4ztX6qByJkBR8y_e0flDDCL7J5FITU4tdehpawrRO4A-jk_1U>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeduvddgleekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
-    gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:dvtHZICg1hf_RrP49Zi1_AhugxGpaAgGWgcjeBGcexA4DETOmd6lMw>
-    <xmx:dvtHZNga2Sx_rdmPqqyjyeq6RiP-XAK0SsBbrCFFZO16e-q_Sf_EOg>
-    <xmx:dvtHZEoalbbm5lyqLNg6HKNezs9dr-IHd2gDEd1zkhj8KX8oSwBnAQ>
-    <xmx:dvtHZMR29DgSlFWknbJFm84tT23VE-RXf5EPdHnaidpBhWQf0ZCd5NDsb6k>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 25 Apr 2023 12:10:29 -0400 (EDT)
-Date: Tue, 25 Apr 2023 18:10:28 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Roman Beranek <me@crly.cz>
-Cc: Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Frank Oltmanns <frank@oltmanns.dev>, 
-	Icenowy Zheng <icenowy@aosp.io>, Ondrej Jirman <megi@xff.cz>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/7] arm64: dts: allwinner: a64: assign PLL_MIPI to
- CLK_TCON0
-Message-ID: <loz3kx53jl56klgwpiwcmwub4flilgts6nxvdbxashed25c5m4@jqmgtcdw5z7a>
-References: <20230418074008.69752-1-me@crly.cz>
- <20230418074008.69752-5-me@crly.cz>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 580C76ADC;
+	Tue, 25 Apr 2023 16:21:36 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6E2F24B3;
+	Tue, 25 Apr 2023 09:22:19 -0700 (PDT)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CD31A3F587;
+	Tue, 25 Apr 2023 09:21:31 -0700 (PDT)
+Message-ID: <45bc13a8-1442-2dd3-b9ea-1ed2f5962bac@arm.com>
+Date: Tue, 25 Apr 2023 17:21:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wfstf36tsrjcb6td"
-Content-Disposition: inline
-In-Reply-To: <20230418074008.69752-5-me@crly.cz>
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
+Content-Language: en-GB
+To: Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Daniel Palmer <daniel@0x0f.com>, Ansuel Smith <ansuelsmth@gmail.com>,
+ Claudiu Beznea <Claudiu.Beznea@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Santiago Esteban <Santiago.Esteban@microchip.com>,
+ Cristian Birsan <Cristian.Birsan@microchip.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, linux-arm-kernel
+ <linux-arm-kernel@lists.infradead.org>, DTML <devicetree@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-actions@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-omap@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@axis.com, linux-aspeed@lists.ozlabs.org,
+ linux-rpi-kernel@lists.infradead.org, chrome-platform@lists.linux.dev,
+ linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, kernel@dh-electronics.com,
+ linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org,
+ linux-tegra@vger.kernel.org, linux-oxnas@groups.io,
+ linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-realtek-soc@lists.infradead.org
+References: <20220328000915.15041-1-ansuelsmth@gmail.com>
+ <CAFr9PXkgrRe-=E=GhNnZ4w1x_FMb97-_RmX6ND1vEd74_TbZSw@mail.gmail.com>
+ <4ff4f171-c5f8-87af-aad1-5e7686292288@microchip.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <4ff4f171-c5f8-87af-aad1-5e7686292288@microchip.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 29/03/2022 9:50 am, Nicolas Ferre wrote:
+> Ansuel, All,
+> 
+> On 28/03/2022 at 10:55, Daniel Palmer wrote:
+>> Hi Ansuel
+>>
+>> On Mon, 28 Mar 2022 at 09:09, Ansuel Smith <ansuelsmth@gmail.com> wrote:
+>>>
+>>> Hi,
+>>> as the title say, the intention of this ""series"" is to finally 
+>>> categorize
+>>> the ARM dts directory in subdirectory for each oem.
+>>
+>> While I agree with this change and think it's for the good (browsing
+>> the ARM dts directory at the moment is frustrating..) I think
+>> buildroot and others need to be told about this as it'll potentially
+>> break their kernel build scripting for ARM and probably messes up the
+>> configs they have for existing boards.
+> 
+> This aspect mustn't be underestimated and I anticipate lots of issues 
+> during a long time on this particular topic of "build systems".
+> 
+> Another aspect is CI and public or private testing farms we all have 
+> running.
 
---wfstf36tsrjcb6td
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yet another is if this affects what `make dtbs_install` does (I don't 
+know for sure, but I'd be inclined to suspect it might). Some distros 
+use that to deliver the DTBs as part of their kernel package, so if 
+paths suddenly change it could break end users' bootloader setups too.
 
-On Tue, Apr 18, 2023 at 09:40:05AM +0200, Roman Beranek wrote:
-> Assign pll-mipi parent to tcon0's source clock via 'assigned-clocks'.
->=20
-> Signed-off-by: Roman Beranek <me@crly.cz>
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/b=
-oot/dts/allwinner/sun50i-a64.dtsi
-> index 62f45f71ec65..e6a194db420d 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-> @@ -411,6 +411,8 @@ tcon0: lcd-controller@1c0c000 {
->  			#clock-cells =3D <0>;
->  			resets =3D <&ccu RST_BUS_TCON0>, <&ccu RST_BUS_LVDS>;
->  			reset-names =3D "lcd", "lvds";
-> +			assigned-clocks =3D <&ccu CLK_TCON0>;
-> +			assigned-clock-parents =3D <&ccu CLK_PLL_MIPI>;
+Thanks,
+Robin.
 
-assigned-clock-parents is fairly fragile, and it's essentially an OS
-decision, so that doesn't have much to do with the platform.
-
-Just force the parent in the clock driver, and prevent it from being
-reparented. It will be more robust, and we will be able to change it in
-the future easily.
-
-Maxime
-
---wfstf36tsrjcb6td
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZEf7dAAKCRDj7w1vZxhR
-xSYEAP9ufal853zPBswPlSP34CsO6Dbt8fsbiPRYUozvKqvluQD/Xizu/MNXPNTL
-5be4XrGm/g+J+J6/+WtdZT9oLQQhwgI=
-=CC4z
------END PGP SIGNATURE-----
-
---wfstf36tsrjcb6td--
+> These aspects always refrained me to change anything in the naming 
+> scheme of our DT files, but if we go in this direction, we must really 
+> be prepared and I'm still not convince it's worth it...
+> 
+> 
+> If this has to happen, I would also like to queue some file name changes 
+> to do all modifications in one go in order to lower the annoyance level 
+> of those who would need to adapt to those changes.
+> 
+> BTW, is there a common scheme for dts/dtsi file naming? Is it more 
+> enforced in one way or another for arm64 in a sense that I can take some 
+> norm as an example?
+> 
+> [..]
+> 
+> Best regards,
+>    Nicolas
+> 
+> 
+> 
