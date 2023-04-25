@@ -1,111 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA3A6ADC;
-	Tue, 25 Apr 2023 15:58:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 457D1C433AA;
-	Tue, 25 Apr 2023 15:58:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682438290;
-	bh=itrfj1uL7ULKhIO/qSGGwopdMhHtcuGv7fowY1MDPYk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=EgTh2lVlpMtQ5px5R+jV+EfXPM/vMd0vZZcesoDR/dZgys7DryqsRrWS2pdpS9uas
-	 OYd9yTEmElOVrIZbn0OqVscAcdbafdiKbG9xGY95F+dXOVKPpAW5UFqkaPFQaikMgo
-	 aWZCYgp15j+P/IiGD62g++flweL1qEmmRIyA46J9ZxdgcgQr67x7Q3TlACfNIAqEWA
-	 ybnHZqICC3N6Bh2h/8vZ/QwOp/oM5lTZZiMl9J1LI5jXGxCqVcLQ5wSHavpOM+9lzJ
-	 GcWe9oPB1zz3J6OXPcR6ftsIf9jN3vnmyzPm8qTrcAX6jvM8Z/Yhdc9tzdb3LHV6hX
-	 cc5h5IH4H4Nww==
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-b996127ec71so5142858276.0;
-        Tue, 25 Apr 2023 08:58:10 -0700 (PDT)
-X-Gm-Message-State: AAQBX9cuRG7Ze/2jGbjOYIsrzVddx1y65+doWmMC6RmNTEykIdhEf+XW
-	fmghZI8ySx3Ebj4HJh4g3R8/QEGbcsU4rjqauw==
-X-Google-Smtp-Source: AKy350bpts/PPga3+dzd9vak+rbAaLdXpa4DHHS4UXvr1kLSlKfqR897O6l7AESMOVdvAuhJNuLkwu1gSc/085IiOR0=
-X-Received: by 2002:a25:b097:0:b0:b97:f46:a2b8 with SMTP id
- f23-20020a25b097000000b00b970f46a2b8mr12284894ybj.17.1682438288965; Tue, 25
- Apr 2023 08:58:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF586ADC
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Apr 2023 16:09:08 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.west.internal (Postfix) with ESMTP id 58BBE2B066EE;
+	Tue, 25 Apr 2023 12:09:06 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Tue, 25 Apr 2023 12:09:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1682438945; x=1682446145; bh=OQ
+	bk/kcId6uCyxUgunwrLpX0eRV2V+V1kjrMSflW4bw=; b=xfL+bIvoqJkDlIn6NT
+	JZABXentETsjQmDqX+VeP82DXmf9JUaacNXYyZsOEz3yRUBp7Au7qCEIWJMIye7A
+	t9DOuW4Pt7S4O9mEdjF5QCe5WKbPEYe9LUoqbHdJ7geCRNIDVbhmeADSSSe+lOYR
+	Hvp27IX5gonGrfFCLaeiZ6v7E5QQZz5Gv0o1ucj6maVISdK9jZaYk1iwGpVJ/0JZ
+	n1DnYTZWFAOSSA3amJP0yhbTXUX9zS1oPOkCs6mPnxvnrStliyvfwfURquB98u7C
+	gH8LRGomgQNCAKFFFUeqJb0qKiPyFZrnBieOsvJ+huc4HWZBR7sW3XSz4KxbO7iQ
+	Dmlg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1682438945; x=1682446145; bh=OQbk/kcId6uCy
+	xUgunwrLpX0eRV2V+V1kjrMSflW4bw=; b=RrqaQmCV3ic2Cw6IQVPi+EHytTXcW
+	Le8Pa5kd23TCvs+VtguVnHSgSxTIggj9nnZOkxI0FOx32Gr+j3ISk1DE4IdMqswU
+	x+hI/gUJlNlmY+AgsD35ANsmSzXJcfwgk9/5WUUvFUs3yZOvG8EEUBYsn7+K2uI7
+	L8R/Bdmx3S51Gmtyn1IaHlWATEaPhGWyLmvrH/lbakV/jWE21Huwowlmpo4C9HBr
+	NZTqmaEzkeUhn4hCDX6uuTeBup+LKUsytzipT4TL3NU2YSQyQwpp80BY/i26D+jC
+	xXGxB2Zs7cvEg/NT85L5atwMb9pUZnqyA8o7JRT+zJuVjuiufU+PeXVRA==
+X-ME-Sender: <xms:IPtHZCqbNRTzXvOxc9ebAK-NhsMlCnlFevO7pBJv1-fkOSHYLfi-6A>
+    <xme:IPtHZArp6IJ88X8w89fwRB93tfYVCarSxKmNR5mWP8p860iEGNUlxbJM8WDaHIfnT
+    YQpZ3UW-iKJKynKQQ4>
+X-ME-Received: <xmr:IPtHZHONIndbAJI4qZw5-icA44GPx5wXWKGTIo99f6vou0Y3To2uPfRnUWle8UNrnrMPODg7Gq5pBQpaZAdt1CBZAwThD_M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeduvddgleejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
+    gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:IPtHZB74simx7Dvnq_JO4GXRbnw6s5w60_fOTePPjHYkNjQB1jcYUw>
+    <xmx:IPtHZB5dCohDIbKCcDNOda-l0U91Ve42omh-E2gD89tFvRstFAmhGQ>
+    <xmx:IPtHZBg2oZhWOZIrfe8zI4Nw0PXTHjoc5n-JlQR2J-6NAms1ihA4jw>
+    <xmx:IftHZBol1LSWumMtyJH7TvVO5McxamADQDbwywOuZMSn3_PRfga7yJ5wn1I>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 25 Apr 2023 12:09:04 -0400 (EDT)
+Date: Tue, 25 Apr 2023 18:09:01 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Roman Beranek <me@crly.cz>
+Cc: Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Frank Oltmanns <frank@oltmanns.dev>, 
+	Icenowy Zheng <icenowy@aosp.io>, Ondrej Jirman <megi@xff.cz>, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/7] clk: sunxi-ng: a64: propagate rate change from
+ pll-mipi
+Message-ID: <eyhlequ4hldyvtjqi5ouvbozmjeqqve4jcvgdtvktf3tqmwqjf@bqvjcu2kxajf>
+References: <20230418074008.69752-1-me@crly.cz>
+ <20230418074008.69752-2-me@crly.cz>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220328000915.15041-1-ansuelsmth@gmail.com> <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
- <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain> <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
- <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
-In-Reply-To: <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Tue, 25 Apr 2023 10:57:57 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
-Message-ID: <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>
-Cc: Ansuel Smith <ansuelsmth@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-actions@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-omap@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	linux-arm-kernel@axis.com, linux-aspeed@lists.ozlabs.org, 
-	linux-rpi-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, kernel@dh-electronics.com, 
-	linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org, 
-	linux-tegra@vger.kernel.org, linux-oxnas@groups.io, 
-	linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-realtek-soc@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="drnscjmrlojh2hnd"
+Content-Disposition: inline
+In-Reply-To: <20230418074008.69752-2-me@crly.cz>
+
+
+--drnscjmrlojh2hnd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 25, 2023 at 2:28=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Rob,
->
-> On Tue, Apr 25, 2023 at 12:16=E2=80=AFAM Rob Herring <robh+dt@kernel.org>=
- wrote:
-> > I have a script[1] that does the conversion written the last time this
-> > came up. Just have to agree on directory names. I think the easiest
-> > would be for Arnd/Olof to run it at the end of a merge window before
-> > rc1.
->
-> "emev2" and "sh7" are missing for renesas.
+Hi,
 
-No doubt it's been bitrotting (or I may have missed some).
+On Tue, Apr 18, 2023 at 09:40:02AM +0200, Roman Beranek wrote:
+> Propagating rate change from tcon0 all the way to pll-video0 allows for
+> greater precision in matching requested display timing.
+>=20
+> Signed-off-by: Roman Beranek <me@crly.cz>
+> ---
+>  drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng=
+/ccu-sun50i-a64.c
+> index 41519185600a..dd6212286dcd 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+> @@ -179,7 +179,8 @@ static struct ccu_nkm pll_mipi_clk =3D {
+>  	.common		=3D {
+>  		.reg		=3D 0x040,
+>  		.hw.init	=3D CLK_HW_INIT("pll-mipi", "pll-video0",
+> -					      &ccu_nkm_ops, CLK_SET_RATE_UNGATE),
+> +					      &ccu_nkm_ops, CLK_SET_RATE_UNGATE
+> +							  | CLK_SET_RATE_PARENT),
 
-> Does your script also cater for .dts files not matching any pattern,
-> but including a .dtsi file that does match a pattern?
+The OR should be on the previous line
 
-I assume I built everything after moving, but maybe not...
+Maxime
 
-That's all just "details". First, we need agreement on a) moving
-things to subdirs and b) doing it 1-by-1 or all at once. So far we've
-been stuck on a) for being 'too much churn'.
+--drnscjmrlojh2hnd
+Content-Type: application/pgp-signature; name="signature.asc"
 
-One nice thing with subdirs is 'make CHECK_DTBS=3Dy
-arch/arm/boot/dts/foo/' can build everything for a platform family
-without having to mess with the kconfig. Maybe most folks don't care,
-but I do. My CI job running schema checks looks like this to deal with
-grouping the arm dts files (this list is probably out of date too, but
-less so):
+-----BEGIN PGP SIGNATURE-----
 
-        if [ "$ARCH" =3D "arm" ]; then
-            VENDOR_LIST=3D"alphascale alpine artpec aspeed axm bcm cx9
-(ecx|highbank) \
-              efm ep7 imx1 imx23 imx28 imx27 imx5 imx6 imx7 ls vf qcom \
-              (am3|am4|am5|dra|keystone|omap|compulab|logicpd|elpida|motoro=
-la-cpcap|da|dm)
-\
-              nspire armada dove kirkwood orion mvebu mmp2 berlin pxa
-(arm-|integ|mps|ve) \
-              (at91|sama|usb_|tny_|mpa1600|animeo_ip|aks-cdu|ethernut5|evk-=
-pro3|pm9g45|ge86)
-\
-              exynos s3c s5p gemini (hisi|hi3|hip) mt meson moxa nuvo
-lpc owl ox8 \
-              (r7|r8|r9|emev2|sh73a|gr-|iwg) (rk|rv11) socfpga stm
-(sti|st-pin) ste \
-              spear (sun|axp) tegra uniph (vt8500|wm8) xen zynq"
-        else
-            VENDOR_LIST=3D$(ls arch/$ARCH/boot/dts/ | xargs)
-        fi
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZEf7HQAKCRDj7w1vZxhR
+xUnvAP4yDrqezoLe1dBxve+9KckvqmP5apjHhhVINJc5nbFIlgD+Pf04BAirUXFu
+I2LHFHnGnYXeBu6+yR/jrJs6uxw9tAM=
+=slla
+-----END PGP SIGNATURE-----
 
-Rob
+--drnscjmrlojh2hnd--
