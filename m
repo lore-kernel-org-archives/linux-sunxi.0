@@ -1,34 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D5E7B
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Apr 2023 11:34:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECE8CC433EF;
-	Tue, 25 Apr 2023 11:34:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682422452;
-	bh=BJECKTyL4M0Q6VTSvs6CkudlFlee1snqVlvV5ucEI/E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N4l6QPNslNTUfSlUfVLsTkT5Ed6r/OjfvlOzt70L0ex7HbzcHPcLTdvVJYZPH6Apg
-	 J1/LoR8yxeBxy/3r98i6yDHGyYizSKfkqIj1IqcknN+pRfQgyrlZcMtQY8xg87PeGs
-	 AGHAMgHfYGopPbS3DrqOdpoVPIT6we3Mdm4TwN45NAjAw+LIDkyaVU/T/Vxq6TSvVs
-	 P8kLk+2RoyujIA0BDt3geud8fRP+AixgpapfPn/GhwOA/KdyjcfTJ2/5J03b0IgfUH
-	 hW/akWMYDCYG2HEe4uBhDOxBz5Q8h//tu8+ku3eWuW6CLN7jzBAr+gFm33AWz1H30j
-	 zhEFaZ7r7Hyag==
-Date: Tue, 25 Apr 2023 12:34:07 +0100
-From: Mark Brown <broonie@kernel.org>
-To: qianfan <qianfanguijin@163.com>
-Cc: linux-sunxi@lists.linux.dev, linux-spi@vger.kernel.org,
-	Andre Przywara <andre.przywara@arm.com>,
-	Evgeny Boger <boger@wirenboard.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH] drivers: spi: sunxi: Enable irq after the initialization
- is done
-Message-ID: <48647774-e612-4084-a8d9-b82c53bb939a@sirena.org.uk>
-References: <20230423023056.27929-1-qianfanguijin@163.com>
- <2fe1f98b-9126-4245-bce9-d8fbb3da9ba8@sirena.org.uk>
- <7cadd411-77a5-17d6-a145-54b01b0d0eee@163.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317E1538B
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Apr 2023 14:46:54 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 07934582407;
+	Tue, 25 Apr 2023 10:46:53 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Tue, 25 Apr 2023 10:46:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1682434013; x=1682441213; bh=en
+	1RVV51OfqfCNU3FiRu/BosXNaMgZdQKojjPV9z+Rc=; b=fQzHTOZ6paF2GmxznV
+	Yv4EqX4UawQN8UDH75BiX1XxbOrFyU34s885PjMpGmyFMhfA2Gsr+GJx6hMQ05IV
+	0gJ+lU3HbK6G0vkyPFGb5q6b03Ka/Q4k6BOLyanUIeemgQyB0Ih17ta8J99y/cug
+	hpRzOQ0KZRKhiCAUBGW5XcWVmf6BFlMx5FwlMlfY5UXqPWl0BcywSTzuBly2UEjc
+	h7AU70R3O5OqjWix8REwSV3sblDjCOI2srd7fKlv5IWutajBwGjvCxdr76mhCs9N
+	qkjPjTojtlO9cHj0dmUJuooH30DNVLAGbFufLHaBIbG9LKaU3ZUUmQji0imf2S/V
+	N9aw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1682434013; x=1682441213; bh=en1RVV51OfqfC
+	NU3FiRu/BosXNaMgZdQKojjPV9z+Rc=; b=I4t0FWm0dd6OFi2aSkWgpBABu+oaf
+	WqgmyEJsiXORvFRmbJmFTqpY0AGTB7ZiQOFWetUU/JNxbjy4awAyYQ4JFunU6fQf
+	Rz+Oo/78vsrhL7Xkd8XgDdzZc58Sn+bc2bhSNb9apFI6z32c4uxp7Jb7/JF84hLo
+	50q5CCLpg7WyRTIQ/jjJak+lY0QtglRaq5zbBVpM7F0ejZDuJ3Jty6mNptPCS4lH
+	IAavcbAaVhI2BTifppMGXs2pXMyXaUtNaP1H9y8Nfjphg2Obw5TFmGQit0AgN9sQ
+	e6tJfBVMAZW+5CiaANrEmAqkn2M7v02jYqf1Ma7CXd24tcB0Zncp/Xktw==
+X-ME-Sender: <xms:2udHZFwZ_QIiF6SL-QlmC_Lewd6M6MaNvyZn1MfROHTcLFhUquQfCw>
+    <xme:2udHZFSQUhtCOxwN2fiIy3C_t4pC3IVp_h6i1PqECr5h6skrj7BGyl2fDN84P5jZV
+    ibCEta40AdQ2KE4Rb8>
+X-ME-Received: <xmr:2udHZPVDo6xGsCdHJlh86bbHJAp8xNFq-UiRmarNnxxDS1F3L26uiLFS8bOwjYUZsR7ELMSYtIqVyZm7eHacuuXL5xIZwXg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeduvddgkedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
+    gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:2udHZHh5UZHEMBw8jN195wMlo8i_gan7Xb4fMuWhW1OoxPCppna0Zg>
+    <xmx:2udHZHBMtlk6pfPmyMwPAprlvh-iE56gRWWUWOQmEoL8Gji1fZrb8g>
+    <xmx:2udHZALIcRP02Uga96xJwRNOAbOCCE-tsfoPqljmdqRavM_KDfchpg>
+    <xmx:3edHZBNJxelcn1gOxFFPqvUDnAdocnUy8ZCixw6-Tz1yPY9Rt8skdg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 25 Apr 2023 10:46:48 -0400 (EDT)
+Date: Tue, 25 Apr 2023 16:46:47 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Stephen Boyd <sboyd@kernel.org>
+Cc: Abel Vesa <abelvesa@kernel.org>,
+ 	Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+ 	Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ 	Chen-Yu Tsai <wens@csie.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ 	Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 	David Airlie <airlied@gmail.com>,
+ David Lechner <david@lechnology.com>, 	Dinh Nguyen <dinguyen@kernel.org>,
+ Fabio Estevam <festevam@gmail.com>,
+ 	Geert Uytterhoeven <geert+renesas@glider.be>,
+ Jaroslav Kysela <perex@perex.cz>,
+ 	Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ 	Kishon Vijay Abraham I <kishon@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ 	Linus Walleij <linus.walleij@linaro.org>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ 	Manivannan Sadhasivam <mani@kernel.org>,
+ Mark Brown <broonie@kernel.org>,
+ 	Matthias Brugger <matthias.bgg@gmail.com>,
+ Max Filippov <jcmvbkbc@gmail.com>,
+ 	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ 	NXP Linux Team <linux-imx@nxp.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ 	Orson Zhai <orsonzhai@gmail.com>, Paul Cercueil <paul@crapouillou.net>,
+ 	Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ 	Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ 	Samuel Holland <samuel@sholland.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, 	Sekhar Nori <nsekhar@ti.com>,
+ Shawn Guo <shawnguo@kernel.org>, Takashi Iwai <tiwai@suse.com>,
+ 	Thierry Reding <thierry.reding@gmail.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, 	Vinod Koul <vkoul@kernel.org>,
+ linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+ 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-arm-kernel@lists.infradead.org, 	linux-actions@lists.infradead.org,
+ patches@opensource.cirrus.com, 	linux-stm32@st-md-mailman.stormreply.com,
+ linux-mediatek@lists.infradead.org, 	linux-renesas-soc@vger.kernel.org,
+ linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ 	linux-phy@lists.infradead.org, linux-rtc@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, 	alsa-devel@alsa-project.org,
+ linux-mips@vger.kernel.org, Liam Beguin <liambeguin@gmail.com>
+Subject: Re: [PATCH v3 00/65] clk: Make determine_rate mandatory for muxes
+Message-ID: <3nwpjtfa46zorfpuvvugximqe5qmovff76dqphoxbndr6mczcc@ndau7cegfxb2>
+References: <20221018-clk-range-checks-fixes-v3-0-9a1358472d52@cerno.tech>
+ <636b8f855b6009ba068010e00c20e7f5.sboyd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -36,45 +111,54 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="FDg1qXk4zXHJ6hzq"
+	protocol="application/pgp-signature"; boundary="75sfg4dfrxr3i5xc"
 Content-Disposition: inline
-In-Reply-To: <7cadd411-77a5-17d6-a145-54b01b0d0eee@163.com>
-X-Cookie: The meek don't want it.
+In-Reply-To: <636b8f855b6009ba068010e00c20e7f5.sboyd@kernel.org>
 
 
---FDg1qXk4zXHJ6hzq
-Content-Type: text/plain; charset=utf-8
+--75sfg4dfrxr3i5xc
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 25, 2023 at 08:22:16AM +0800, qianfan wrote:
-> =E5=9C=A8 2023/4/24 19:46, Mark Brown =E5=86=99=E9=81=93:
-> > On Sun, Apr 23, 2023 at 10:30:56AM +0800, qianfanguijin@163.com wrote:
+On Thu, Apr 13, 2023 at 02:44:51PM -0700, Stephen Boyd wrote:
+> Quoting Maxime Ripard (2023-04-04 03:10:50)
+> > Hi,
+> >=20
+> > This is a follow-up to a previous series that was printing a warning
+> > when a mux has a set_parent implementation but is missing
+> > determine_rate().
+> >=20
+> > The rationale is that set_parent() is very likely to be useful when
+> > changing the rate, but it's determine_rate() that takes the parenting
+> > decision. If we're missing it, then the current parent is always going
+> > to be used, and thus set_parent() will not be used. The only exception
+> > being a direct call to clk_set_parent(), but those are fairly rare
+> > compared to clk_set_rate().
+> >=20
+> > Stephen then asked to promote the warning to an error, and to fix up all
+> > the muxes that are in that situation first. So here it is :)
+> >=20
+>=20
+> Thanks for resending.
+>=20
+> I was thinking that we apply this patch first and then set
+> determine_rate clk_ops without setting the clk flag. The function name
+> is up for debate.
 
-> > > +	enable_irq(irq);
+Ack, I'll send a new version following your proposal
 
-> > The usual approach would be to move the requesting of the interrupt
-> > later.  Why do this instead?
+Maxime
 
-> Nothing special, this way does not change the goto logic.
-
-It would be better to restructure the code, enable_irq() is a fairly
-specialist function and should only be used if it is really needed -
-it's a big warning sign to see it used.
-
---FDg1qXk4zXHJ6hzq
+--75sfg4dfrxr3i5xc
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmRHuq4ACgkQJNaLcl1U
-h9DZKwf/b6ukY3n/bvqLzNA1/ZGr4Kom9cl1IAcpOdfvcqqjNGdKe1MaWDPq5O04
-iYDpB7+VJ0DjJwVgW5YdduvepDzhpHKVgHi+a4lXGmP3dmtUukSg4rAjLP4wUO32
-2BArzrhXNeKolNJAvgj42sThiWVvaNhW2OowANbmFBuN92tqHqazxeJSE1up1yF/
-2/wBQM1de7WzMlQQp43gNVRjFCfxyzP0F0wqTz686qiKjLF+JHBEffn5HKiBbqFW
-ckV8SGsOi+vPIFfgQx+U/pnTguT9OgWnlrhgRdS1S32S/cjezVi6BpYpub2q0VIC
-K4jEr8EzWEK1kgNZTel5imd4tYXcYA==
-=mMoT
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZEfn1wAKCRDj7w1vZxhR
+xaSaAP96/77zpjIZ1yxHOKTWolPnSBrvZZStILbYFUHTfnf4ZQEAy9TnDb76xLC+
+cV82CRmIHcP1MQoDgnjetPo+R14sLwk=
+=xg1X
 -----END PGP SIGNATURE-----
 
---FDg1qXk4zXHJ6hzq--
+--75sfg4dfrxr3i5xc--
