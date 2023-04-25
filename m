@@ -1,91 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C78C7B;
-	Tue, 25 Apr 2023 08:00:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B19AC4339B;
-	Tue, 25 Apr 2023 08:00:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D5E7B
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Apr 2023 11:34:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECE8CC433EF;
+	Tue, 25 Apr 2023 11:34:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682409635;
-	bh=cDv3M/1s+tjOQjJbPUGblM4x/VHbLIoWAfEO3RoBZLM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=t8tVDcisi1Ua1xsK0eh4wXd6TRl8zqRR065VHttovC11XtMZF6D/4bba5k+B9QVcD
-	 wosEZN7on9/BZBObgZeW4zV919V5Z45lRsX9k7Fm3mqp0kUE89nHF/t0zlqhvF9+dB
-	 2h6Dz3k0IgtGd470zSwjfCJivMhODaPf9YsDcjkg014i+ABYaNR22jfQS6VgIFy5WX
-	 vVhV9/8kPwppHz662OIcc0AhHtcKwYVCwvnfRzqmvB8PESp/To9CcsNdaTVKSHAQ9+
-	 fTB2q5Cbai6xwkIifbnmNyaVCEpLHdO8kzBQU4MtjB0kPYGm2MS/weEHAZC22lIJik
-	 7OelZpaQThsmg==
-Message-ID: <7fe274df-6bcd-5993-d6cc-8fbcef435866@kernel.org>
-Date: Tue, 25 Apr 2023 10:00:26 +0200
+	s=k20201202; t=1682422452;
+	bh=BJECKTyL4M0Q6VTSvs6CkudlFlee1snqVlvV5ucEI/E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=N4l6QPNslNTUfSlUfVLsTkT5Ed6r/OjfvlOzt70L0ex7HbzcHPcLTdvVJYZPH6Apg
+	 J1/LoR8yxeBxy/3r98i6yDHGyYizSKfkqIj1IqcknN+pRfQgyrlZcMtQY8xg87PeGs
+	 AGHAMgHfYGopPbS3DrqOdpoVPIT6we3Mdm4TwN45NAjAw+LIDkyaVU/T/Vxq6TSvVs
+	 P8kLk+2RoyujIA0BDt3geud8fRP+AixgpapfPn/GhwOA/KdyjcfTJ2/5J03b0IgfUH
+	 hW/akWMYDCYG2HEe4uBhDOxBz5Q8h//tu8+ku3eWuW6CLN7jzBAr+gFm33AWz1H30j
+	 zhEFaZ7r7Hyag==
+Date: Tue, 25 Apr 2023 12:34:07 +0100
+From: Mark Brown <broonie@kernel.org>
+To: qianfan <qianfanguijin@163.com>
+Cc: linux-sunxi@lists.linux.dev, linux-spi@vger.kernel.org,
+	Andre Przywara <andre.przywara@arm.com>,
+	Evgeny Boger <boger@wirenboard.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH] drivers: spi: sunxi: Enable irq after the initialization
+ is done
+Message-ID: <48647774-e612-4084-a8d9-b82c53bb939a@sirena.org.uk>
+References: <20230423023056.27929-1-qianfanguijin@163.com>
+ <2fe1f98b-9126-4245-bce9-d8fbb3da9ba8@sirena.org.uk>
+ <7cadd411-77a5-17d6-a145-54b01b0d0eee@163.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Content-Language: en-US
-To: Rob Herring <robh+dt@kernel.org>, Ansuel Smith <ansuelsmth@gmail.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
- linux-aspeed@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
- chrome-platform@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- kernel@dh-electronics.com, linux-mediatek@lists.infradead.org,
- openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
- linux-oxnas@groups.io, linux-arm-msm@vger.kernel.org,
- linux-unisoc@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-realtek-soc@lists.infradead.org, Arnd Bergmann <arnd@arndb.de>,
- Olof Johansson <olof@lixom.net>
-References: <20220328000915.15041-1-ansuelsmth@gmail.com>
- <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
- <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain>
- <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="FDg1qXk4zXHJ6hzq"
+Content-Disposition: inline
+In-Reply-To: <7cadd411-77a5-17d6-a145-54b01b0d0eee@163.com>
+X-Cookie: The meek don't want it.
 
-On 25/04/2023 00:10, Rob Herring wrote:
->> I had some problem with gmail and sending mail too much users. I put Rob
->> and You and all the various list to try to workaround the "gmail spam
->> protection"
->>
->>> I am pretty sure we were discussing such split idea in the past and it
->>> did not get traction, but I cannot recall the exact discussion.
->>>
->>
->> I think the main issue here is how to handle bot and how problematic is
->> to merge this. As written in the cover letter the final version of this
->> should be a big series of 50+ patch with every commit specific to each
->> oem. In theory we should be able to merge the different oem separately
->> and try to at least start the categorization.
->> Another idea I got to at least have a "migration path" is to convert
->> every dts in the dts/ directory to a symbolic link that target the dts
->> in the correct oem. But I assume that would fix only part of the problem
->> and git am will still be problematic.
-> 
-> I have a script[1] that does the conversion written the last time this
-> came up. Just have to agree on directory names. I think the easiest
-> would be for Arnd/Olof to run it at the end of a merge window before
-> rc1.
-> 
-> I'm very much in favor of this happening especially before *any*
-> overlays are added to add to the mess (it's probably already
-> happened).
-> 
-> Rob
-> 
-> [1] https://lore.kernel.org/all/20181204183649.GA5716@bogus/
 
-This is the thread I was thinking about. Looks good for me (the original
-script with exynos->samsung).
+--FDg1qXk4zXHJ6hzq
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
-Krzysztof
+On Tue, Apr 25, 2023 at 08:22:16AM +0800, qianfan wrote:
+> =E5=9C=A8 2023/4/24 19:46, Mark Brown =E5=86=99=E9=81=93:
+> > On Sun, Apr 23, 2023 at 10:30:56AM +0800, qianfanguijin@163.com wrote:
 
+> > > +	enable_irq(irq);
+
+> > The usual approach would be to move the requesting of the interrupt
+> > later.  Why do this instead?
+
+> Nothing special, this way does not change the goto logic.
+
+It would be better to restructure the code, enable_irq() is a fairly
+specialist function and should only be used if it is really needed -
+it's a big warning sign to see it used.
+
+--FDg1qXk4zXHJ6hzq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmRHuq4ACgkQJNaLcl1U
+h9DZKwf/b6ukY3n/bvqLzNA1/ZGr4Kom9cl1IAcpOdfvcqqjNGdKe1MaWDPq5O04
+iYDpB7+VJ0DjJwVgW5YdduvepDzhpHKVgHi+a4lXGmP3dmtUukSg4rAjLP4wUO32
+2BArzrhXNeKolNJAvgj42sThiWVvaNhW2OowANbmFBuN92tqHqazxeJSE1up1yF/
+2/wBQM1de7WzMlQQp43gNVRjFCfxyzP0F0wqTz686qiKjLF+JHBEffn5HKiBbqFW
+ckV8SGsOi+vPIFfgQx+U/pnTguT9OgWnlrhgRdS1S32S/cjezVi6BpYpub2q0VIC
+K4jEr8EzWEK1kgNZTel5imd4tYXcYA==
+=mMoT
+-----END PGP SIGNATURE-----
+
+--FDg1qXk4zXHJ6hzq--
