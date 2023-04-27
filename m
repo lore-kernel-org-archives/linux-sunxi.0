@@ -1,131 +1,103 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE34023BF
-	for <linux-sunxi@lists.linux.dev>; Thu, 27 Apr 2023 09:17:10 +0000 (UTC)
-Received: (Authenticated sender: me@crly.cz)
-	by mail.gandi.net (Postfix) with ESMTPSA id CA9521BF20A;
-	Thu, 27 Apr 2023 09:17:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crly.cz; s=gm1;
-	t=1682587029;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RXbaBNxkiTTV4hInjji5NkCrdDSarnLLhwu9cO3OfTc=;
-	b=dQ4NDlSI58cJBb7iv0QJQowSzJODauNypp2m+QipibmpGjXssSEAgumLdAxs/1KE/x+dyW
-	iZQki3PXi9o87QJvuzqpiZr+gCbfZUC7VaVLjLPDf78HsWOwgcIwc3cgr/vBCoyFaYKpC/
-	a/RxZyyxDw8hNDyTvDrhMbfBWRoPBz4KRklb/EVp7vJBSA/wiyQT9LDhyDctFFLv8Sv4I8
-	a8xlWsQY8Y691V4qkX9dXYKccZUpOGcdDFM5/DYylarPGuEl/t5Vs4wIM1v8mmXwVrsX1e
-	bAKFe20aDWyhi/eHbtziQRQ1EYAGc/mbPCy6qCEdMD4hBMfM7oK2D77UtOQycw==
-From: Roman Beranek <me@crly.cz>
-To: Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Roman Beranek <me@crly.cz>,
-	Frank Oltmanns <frank@oltmanns.dev>,
-	Icenowy Zheng <icenowy@aosc.io>,
-	Ondrej Jirman <megi@xff.cz>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 7/7] drm: sun4i: calculate proper DCLK rate for DSI
-Date: Thu, 27 Apr 2023 11:16:11 +0200
-Message-Id: <20230427091611.99044-8-me@crly.cz>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
-In-Reply-To: <20230427091611.99044-1-me@crly.cz>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DACF23BD
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 Apr 2023 09:27:18 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.west.internal (Postfix) with ESMTP id 7BCBF2B06722;
+	Thu, 27 Apr 2023 05:27:15 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Thu, 27 Apr 2023 05:27:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1682587635; x=1682594835; bh=Di
+	IG0SqQqwKC+QxzuzST+OM7ic3p060jotUTDIfc4ws=; b=Dn+Is4x5yrdGG9I/J9
+	ApHGPFahxTBhzqskzdGrli7Yz+fBKHAK2zed1hSfZCngH8KV/gVRkUUC6i4Z8u79
+	WNXzO0aUR5kkBcpydvtpxIGV+yubw/8teSuQrrcthxDYz8S83es01YH/2hETAESR
+	Kc+BMRDQxzQaW/RNAzCQ/QHFDZYUPFRSvZu2jxN92wk+IhUCghQQiLcKqDvO4TCv
+	QtxL45lnpq9qYhxRvv+uoSjsXMbrCEhdK2paHJerNkBHhirbz4LSPLvIorBOaxtY
+	n3bn3P83y+l6uylpp+Gj9pdsLHl2cxcR2/8KYMdvVjFnuRQbmgrhADdmFtwlbpam
+	X/9A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1682587635; x=1682594835; bh=DiIG0SqQqwKC+
+	QxzuzST+OM7ic3p060jotUTDIfc4ws=; b=O+IzhBOLswPqo4Q7DC7VEdKHjH2ST
+	YxgfUQCbaKqV0420VrHPgYbUQ07TJH8HVIXtqt04TO1rkSRwxeltCm+NiBsgucuX
+	/j/pDCTbeC5LuoF+5Ho5ZjusWXUCh9Q9XTk7cojkW+2LIXIV0f086JhdkygNq+Kx
+	BnCFxPumMZgCt9biR9zcc60cEU+o5HpZLA/9Hh4+Ofiuv17fpQXqdh9040gTHnzV
+	joNyjI6Sv7pqW/AGdeFN8rCrMx9tlM5URZqgAQHb35T4B1hyfSlxIWvAyeUVDtE3
+	7czqih1jOrh3MDCPMhfcH2EEO5eKoOqz40dDLyMeU3iAfh7QLYdDmJJnw==
+X-ME-Sender: <xms:8j9KZFAnOYGV5MesUxkBMi4Ak9sJrNKjWh60NIQsCeEthkUmA7UREg>
+    <xme:8j9KZDi5XUQJem8w3r0LagYAAU8-S9Ns7t8bxQ30RROA6VeIlQubt70nLesyltScN
+    Ki728lvwrsRVwSodos>
+X-ME-Received: <xmr:8j9KZAmFUJeIeXVIpysJ_0IpkLZVovKjiFreZT0T1APdyJ-Djfq4UVZy5QkUZSlOQJGCpxmJ4zndSyIXHKoMCFVSVCagm54>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeduiedgudeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
+    gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:8j9KZPwm_ntFwRHPNLGMFMoJi6qaU9SzEOKJ7BMiDu2K1QuhB40Izw>
+    <xmx:8j9KZKTF0NZi-fKYzZVEq6Lxw3tyy0LUe60V9nSYDuzKLs4fMSRPwg>
+    <xmx:8j9KZCYbjPQi9P-2RtB3hlfoaEKTYE2nS44fFHJoXaX-hKS6PEIm9w>
+    <xmx:8z9KZLCfMxW6IqCEN2G3j3m-PI1tGeNIz98Hj7TwYEXIp1we6DTKopM1KDQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 27 Apr 2023 05:27:13 -0400 (EDT)
+Date: Thu, 27 Apr 2023 11:27:11 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Roman Beranek <me@crly.cz>
+Cc: Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Frank Oltmanns <frank@oltmanns.dev>, 
+	Icenowy Zheng <icenowy@aosc.io>, Ondrej Jirman <megi@xff.cz>, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/7] arm64: dts: allwinner: a64: assign PLL_MIPI to
+ CLK_TCON0
+Message-ID: <4o243jwhbdfw32s5gzsbn4nhinicliugo4gqhh55lwxbfxkvkh@2jofbkdavewn>
 References: <20230427091611.99044-1-me@crly.cz>
+ <20230427091611.99044-4-me@crly.cz>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qgslua4gfdtt6xq5"
+Content-Disposition: inline
+In-Reply-To: <20230427091611.99044-4-me@crly.cz>
 
-In DSI mode, TCON0's data clock is required to run at 1/4 the per-lane
-bit rate.
 
-Signed-off-by: Roman Beranek <me@crly.cz>
----
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 36 +++++++++++++++++-------------
- 1 file changed, 21 insertions(+), 15 deletions(-)
+--qgslua4gfdtt6xq5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index eec26b1faa4b..b263de7a8237 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -291,18 +291,6 @@ static int sun4i_tcon_get_clk_delay(const struct drm_display_mode *mode,
- 	return delay;
- }
- 
--static void sun4i_tcon0_mode_set_common(struct sun4i_tcon *tcon,
--					const struct drm_display_mode *mode)
--{
--	/* Configure the dot clock */
--	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
--
--	/* Set the resolution */
--	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
--		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
--		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
--}
--
- static void sun4i_tcon0_mode_set_dithering(struct sun4i_tcon *tcon,
- 					   const struct drm_connector *connector)
- {
-@@ -367,10 +355,18 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
- 	u32 block_space, start_delay;
- 	u32 tcon_div;
- 
-+	/*
-+	 * dclk is required to run at 1/4 the DSI per-lane bit rate.
-+	 */
- 	tcon->dclk_min_div = SUN6I_DSI_TCON_DIV;
- 	tcon->dclk_max_div = SUN6I_DSI_TCON_DIV;
-+	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000 * (bpp / lanes)
-+						  / SUN6I_DSI_TCON_DIV);
- 
--	sun4i_tcon0_mode_set_common(tcon, mode);
-+	/* Set the resolution */
-+	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-+		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
- 
- 	/* Set dithering if needed */
- 	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-@@ -438,7 +434,12 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
- 
- 	tcon->dclk_min_div = 7;
- 	tcon->dclk_max_div = 7;
--	sun4i_tcon0_mode_set_common(tcon, mode);
-+	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-+
-+	/* Set the resolution */
-+	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-+		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
- 
- 	/* Set dithering if needed */
- 	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-@@ -515,7 +516,12 @@ static void sun4i_tcon0_mode_set_rgb(struct sun4i_tcon *tcon,
- 
- 	tcon->dclk_min_div = tcon->quirks->dclk_min_div;
- 	tcon->dclk_max_div = 127;
--	sun4i_tcon0_mode_set_common(tcon, mode);
-+	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-+
-+	/* Set the resolution */
-+	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-+		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
- 
- 	/* Set dithering if needed */
- 	sun4i_tcon0_mode_set_dithering(tcon, connector);
--- 
-2.34.1
+On Thu, Apr 27, 2023 at 11:16:07AM +0200, Roman Beranek wrote:
+> Assign pll-mipi parent to tcon0's source clock via 'assigned-clocks'.
+>=20
+> Signed-off-by: Roman Beranek <me@crly.cz>
 
+Again, you should be doing it in the driver, not the device tree.
+
+Maxime
+
+--qgslua4gfdtt6xq5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZEo/7wAKCRDj7w1vZxhR
+xeKXAP9u1WrfKJfosG1ywij448ZJihQE5w/g08nQ3OOHuy8mxwD/TadcRTkLXYFT
+CabMDNnhkfOFqrbngXbnseRYpdEFKAw=
+=UrYD
+-----END PGP SIGNATURE-----
+
+--qgslua4gfdtt6xq5--
