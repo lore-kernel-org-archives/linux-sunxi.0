@@ -1,83 +1,100 @@
-Received: from muru.com (muru.com [72.249.23.125])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EF451FCC;
-	Thu, 27 Apr 2023 07:57:25 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by muru.com (Postfix) with ESMTPS id AA15480A4;
-	Thu, 27 Apr 2023 07:48:46 +0000 (UTC)
-Date: Thu, 27 Apr 2023 10:48:45 +0300
-From: Tony Lindgren <tony@atomide.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Olof Johansson <olof@lixom.net>,
-	Ansuel Smith <ansuelsmth@gmail.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
-	linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
-	linux-aspeed@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
-	chrome-platform@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com, kernel@dh-electronics.com,
-	linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org,
-	linux-tegra@vger.kernel.org, linux-oxnas@groups.io,
-	linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-realtek-soc@lists.infradead.org
-Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Message-ID: <20230427074845.GG14287@atomide.com>
-References: <20220328000915.15041-1-ansuelsmth@gmail.com>
- <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
- <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain>
- <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
- <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
- <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
- <1cfc224b-f8b0-3143-42d2-188b56368c61@gmail.com>
- <CAMuHMdU91NtZeFKe6mB3B48TNb64wfPu77xRbOEVX4tV65e38w@mail.gmail.com>
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA741FCC
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 Apr 2023 09:16:58 +0000 (UTC)
+Received: (Authenticated sender: me@crly.cz)
+	by mail.gandi.net (Postfix) with ESMTPSA id 4F5721BF20B;
+	Thu, 27 Apr 2023 09:16:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crly.cz; s=gm1;
+	t=1682587010;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=qyG9+gfvXxHgY4xjE51TQp+TEhpzgbUoMouaN8SoApA=;
+	b=Q3NOrROXvABtDDchHYtp2kMYBn5EktZ7FWG2pI8mE0i3ZMHsSKepON8uIQCTNEG+VkCZ1R
+	eRXBCHVzdEldNX0d5jTA1BZgLw/gHdRlHzuy0/g4A0hgxE0oVHrWt6uHnaAVOIx75fwGv2
+	dwK93MwV/HDF1ykZr8095sJa+XI9ddXM1FDlxr+Ty70yeViCGHOoHDspxVb9sI0YkA2CQp
+	GFteNZeEhq7M0cdSHI9VDv3rf//uPzooRWwD/3wxCNSEJZNIZ6Kf24GR207BoXlGurDSn+
+	RrUyb3DFuosiIpBxX2sz0RV8Lg9EGFqECBqLcOVhBmbmnzv3EmedwHWvEE66LQ==
+From: Roman Beranek <me@crly.cz>
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Roman Beranek <me@crly.cz>,
+	Frank Oltmanns <frank@oltmanns.dev>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	Ondrej Jirman <megi@xff.cz>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/7]  drm: sun4i: set proper TCON0 DCLK rate in DSI mode
+Date: Thu, 27 Apr 2023 11:16:04 +0200
+Message-Id: <20230427091611.99044-1-me@crly.cz>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdU91NtZeFKe6mB3B48TNb64wfPu77xRbOEVX4tV65e38w@mail.gmail.com>
 
-* Geert Uytterhoeven <geert@linux-m68k.org> [230427 07:47]:
-> On Thu, Apr 27, 2023 at 9:37 AM Matthias Brugger <matthias.bgg@gmail.com> wrote:
-> > On 25/04/2023 17:57, Rob Herring wrote:
-> > > On Tue, Apr 25, 2023 at 2:28 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > >> On Tue, Apr 25, 2023 at 12:16 AM Rob Herring <robh+dt@kernel.org> wrote:
-> > >>> I have a script[1] that does the conversion written the last time this
-> > >>> came up. Just have to agree on directory names. I think the easiest
-> > >>> would be for Arnd/Olof to run it at the end of a merge window before
-> > >>> rc1.
-> > >>
-> > >> "emev2" and "sh7" are missing for renesas.
-> > >
-> > > No doubt it's been bitrotting (or I may have missed some).
-> > >
-> > >> Does your script also cater for .dts files not matching any pattern,
-> > >> but including a .dtsi file that does match a pattern?
-> > >
-> > > I assume I built everything after moving, but maybe not...
-> > >
-> > > That's all just "details". First, we need agreement on a) moving
-> > > things to subdirs and b) doing it 1-by-1 or all at once. So far we've
-> > > been stuck on a) for being 'too much churn'.
-> > >
-> >
-> > I think it makes sense to move them and probably the best way to do so is, as
-> > you proposed: that Arnd or Olof run the script to move them just before -rc1
-> 
-> FTR, no objections from my side.
+According to Allwinner's BSP code, in DSI mode, TCON0 clock needs to be
+running at what's effectively the per-lane datarate of the DSI link.
+Given that the TCON DCLK divider is fixed to 4 (SUN6I_DSI_TCON_DIV),
+DCLK can't be set equal to the dotclock. Therefore labeling TCON DCLK
+as sun4i_dotclock or tcon-pixel-clock shall be avoided.
 
-Sounds good to me.
+With bpp bits per pixel transmitted over n DSI lanes, the target DCLK
+rate for a given pixel clock is obtained as follows:
 
-Regards,
+DCLK rate = 1/4 * bpp / n * pixel clock
 
-Tony
+Effect of this change can be observed through the rate of Vblank IRQs
+which should now match refresh rate implied by set display mode. It
+was verified to do so on a A64 board with a 2-lane and a 4-lane panel.
+
+v2:
+1. prevent reparent of tcon0 to pll-video0-2x
+2. include pll-video0 in setting TCON0 DCLK rate
+3. tested the whole thing also on a PinePhone
+
+v3:
+1. accept that pll-video0 can't be included in setting TCON0 DCLK rate
+2. reset pll-video0 to its default rate in case u-boot changed it
+
+Roman Beranek (7):
+  clk: sunxi-ng: a64: export PLL_MIPI
+  clk: sunxi-ng: a64: prevent CLK_TCON0 being reparented
+  arm64: dts: allwinner: a64: assign PLL_MIPI to CLK_TCON0
+  arm64: dts: allwinner: a64: reset pll-video0 rate
+  ARM: dts: sunxi: rename tcon's clock output
+  drm: sun4i: rename sun4i_dotclock to sun4i_tcon_dclk
+  drm: sun4i: calculate proper DCLK rate for DSI
+
+ arch/arm/boot/dts/sun5i.dtsi                  |  2 +-
+ arch/arm/boot/dts/sun8i-a23-a33.dtsi          |  2 +-
+ arch/arm/boot/dts/sun8i-a83t.dtsi             |  2 +-
+ arch/arm/boot/dts/sun8i-v3s.dtsi              |  2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  7 ++-
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c         |  3 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.h         |  4 +-
+ drivers/gpu/drm/sun4i/Makefile                |  2 +-
+ drivers/gpu/drm/sun4i/sun4i_tcon.c            | 46 +++++++++++--------
+ .../{sun4i_dotclock.c => sun4i_tcon_dclk.c}   |  2 +-
+ .../{sun4i_dotclock.h => sun4i_tcon_dclk.h}   |  0
+ include/dt-bindings/clock/sun50i-a64-ccu.h    |  1 +
+ 12 files changed, 44 insertions(+), 29 deletions(-)
+ rename drivers/gpu/drm/sun4i/{sun4i_dotclock.c => sun4i_tcon_dclk.c} (99%)
+ rename drivers/gpu/drm/sun4i/{sun4i_dotclock.h => sun4i_tcon_dclk.h} (100%)
+
+
+base-commit: 40aeab044a352b9af106960542257c1b9b652e8a
+-- 
+2.34.1
+
