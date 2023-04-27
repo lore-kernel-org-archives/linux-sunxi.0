@@ -1,23 +1,23 @@
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99AC123BF
-	for <linux-sunxi@lists.linux.dev>; Thu, 27 Apr 2023 09:17:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA6623BF
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 Apr 2023 09:17:05 +0000 (UTC)
 Received: (Authenticated sender: me@crly.cz)
-	by mail.gandi.net (Postfix) with ESMTPSA id 866121BF209;
-	Thu, 27 Apr 2023 09:16:53 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 4770E1BF212;
+	Thu, 27 Apr 2023 09:17:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crly.cz; s=gm1;
-	t=1682587015;
+	t=1682587023;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UBZh9CI93O6+fbjia0d6/4ywzhm2KDiLVkNXCWUzpXE=;
-	b=EA7hqnKVxzellkcxsNKV3u/L4x2qcNVjbkn42IpcuWUoVlSSpg8kbYUXwbwti2l/YkCjCb
-	jKmNW+qXgYfdZd4Y0YMVi7V3IxOJu9234sxTAyR+mvW1ToVwbGOUE8WQ4SDi7emQdr10Ki
-	zj+vbWy0ahNpL8K+q9W35c+QUxtNbb/feB6Llh3129YA5CQA6icFAsaeIKLWeVNmDcOFaZ
-	pU6Fbh8MHvf4ZoTI0Y/ygwNDrGCubbQ6hQ473Kps4UFSjhKWyoUPQkNA5Nq3LbqVi6UM7d
-	UzmmOTCRX7ScGrYABS+MXo+qUpTuJ5kvuZMNabsGjswx+MygAyiH5SyCuSFgDw==
+	bh=I2h5VMqaJesUOuPG8+eybvYx3Ki8p5H+CLiCTNTLovw=;
+	b=GgasaxcNkI+SGUsQZJuzuZwIdPpd1MTVPJ2lq6t3yH7M0xQN3Id6ZveAAR3mguKKSel/Po
+	eAK2Blyiw86ew2FfV25lnNHrAHcYxo7YiU3sT793Ht+rQGsqsWiepQ4ZcmWnIybsx6b1pf
+	8RrFa+eGGCFWbZKezbuGYYRk6dVonD00gWS0n7SCdRI6aETKIE98/kTbnX+wRlWkv5/erq
+	nTPEqOxFSuONbeq9j5FALmt8xlCEztT9QtfM96/ieMXasE51MhEm1+7BWI9O2/uMFZw+aR
+	jErfU4nyB1730zdc6LHFvRfQX+YDP6CYADP+TIztmjXdSD3xNkZ+wbHzXQHKtQ==
 From: Roman Beranek <me@crly.cz>
 To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
@@ -33,9 +33,9 @@ Cc: Roman Beranek <me@crly.cz>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/7] clk: sunxi-ng: a64: prevent CLK_TCON0 being reparented
-Date: Thu, 27 Apr 2023 11:16:06 +0200
-Message-Id: <20230427091611.99044-3-me@crly.cz>
+Subject: [PATCH v3 5/7] ARM: dts: sunxi: rename tcon's clock output
+Date: Thu, 27 Apr 2023 11:16:09 +0200
+Message-Id: <20230427091611.99044-6-me@crly.cz>
 X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 In-Reply-To: <20230427091611.99044-1-me@crly.cz>
 References: <20230427091611.99044-1-me@crly.cz>
@@ -47,33 +47,85 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-TCON0's source clock can be fed from either pll-mipi, or pll-video0-2x,
-however MIPI DSI output only seem to work when pll-mipi is selected and
-thus some restriction have to be put on reparenting CLK_TCON0.
-
-Functionally, there's no harm to other TCON0 users (LVDS, parallel RGB)
-in also forcing them to settle on pll-mipi. The parent will be assigned
-during boot based off of tcon0's DT node.
+While the rate of TCON0's DCLK matches dotclock for parallel and LVDS
+outputs, this doesn't hold for DSI. According manuals from Allwinner,
+DCLK is an abbreviation of Data Clock, not dotclock, so go with that
+instead.
 
 Signed-off-by: Roman Beranek <me@crly.cz>
 ---
- drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/sun5i.dtsi                  | 2 +-
+ arch/arm/boot/dts/sun8i-a23-a33.dtsi          | 2 +-
+ arch/arm/boot/dts/sun8i-a83t.dtsi             | 2 +-
+ arch/arm/boot/dts/sun8i-v3s.dtsi              | 2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-index 41519185600a..044f301a8c61 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-@@ -532,7 +532,8 @@ static const char * const tcon0_parents[] = { "pll-mipi", "pll-video0-2x" };
- static const u8 tcon0_table[] = { 0, 2, };
- static SUNXI_CCU_MUX_TABLE_WITH_GATE(tcon0_clk, "tcon0", tcon0_parents,
- 				     tcon0_table, 0x118, 24, 3, BIT(31),
--				     CLK_SET_RATE_PARENT);
-+				     CLK_SET_RATE_PARENT |
-+				     CLK_SET_RATE_NO_REPARENT);
+diff --git a/arch/arm/boot/dts/sun5i.dtsi b/arch/arm/boot/dts/sun5i.dtsi
+index 250d6b87ab4d..2f901a013676 100644
+--- a/arch/arm/boot/dts/sun5i.dtsi
++++ b/arch/arm/boot/dts/sun5i.dtsi
+@@ -286,7 +286,7 @@ tcon0: lcd-controller@1c0c000 {
+ 			clock-names = "ahb",
+ 				      "tcon-ch0",
+ 				      "tcon-ch1";
+-			clock-output-names = "tcon-pixel-clock";
++			clock-output-names = "tcon-data-clock";
+ 			#clock-cells = <0>;
+ 			status = "disabled";
  
- static const char * const tcon1_parents[] = { "pll-video0", "pll-video1" };
- static const u8 tcon1_table[] = { 0, 2, };
+diff --git a/arch/arm/boot/dts/sun8i-a23-a33.dtsi b/arch/arm/boot/dts/sun8i-a23-a33.dtsi
+index f630ab55bb6a..ddc87cc15e51 100644
+--- a/arch/arm/boot/dts/sun8i-a23-a33.dtsi
++++ b/arch/arm/boot/dts/sun8i-a23-a33.dtsi
+@@ -190,7 +190,7 @@ tcon0: lcd-controller@1c0c000 {
+ 			clock-names = "ahb",
+ 				      "tcon-ch0",
+ 				      "lvds-alt";
+-			clock-output-names = "tcon-pixel-clock";
++			clock-output-names = "tcon-data-clock";
+ 			#clock-cells = <0>;
+ 			resets = <&ccu RST_BUS_LCD>,
+ 				 <&ccu RST_BUS_LVDS>;
+diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8i-a83t.dtsi
+index 82fdb04122ca..94eb3bfc989e 100644
+--- a/arch/arm/boot/dts/sun8i-a83t.dtsi
++++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
+@@ -456,7 +456,7 @@ tcon0: lcd-controller@1c0c000 {
+ 			interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&ccu CLK_BUS_TCON0>, <&ccu CLK_TCON0>;
+ 			clock-names = "ahb", "tcon-ch0";
+-			clock-output-names = "tcon-pixel-clock";
++			clock-output-names = "tcon-data-clock";
+ 			#clock-cells = <0>;
+ 			resets = <&ccu RST_BUS_TCON0>, <&ccu RST_BUS_LVDS>;
+ 			reset-names = "lcd", "lvds";
+diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
+index db194c606fdc..ab2a0e1235e4 100644
+--- a/arch/arm/boot/dts/sun8i-v3s.dtsi
++++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
+@@ -191,7 +191,7 @@ tcon0: lcd-controller@1c0c000 {
+ 				 <&ccu CLK_TCON0>;
+ 			clock-names = "ahb",
+ 				      "tcon-ch0";
+-			clock-output-names = "tcon-pixel-clock";
++			clock-output-names = "tcon-data-clock";
+ 			#clock-cells = <0>;
+ 			resets = <&ccu RST_BUS_TCON0>;
+ 			reset-names = "lcd";
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+index cfc60dce80b0..b40474c92d48 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+@@ -407,7 +407,7 @@ tcon0: lcd-controller@1c0c000 {
+ 			interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&ccu CLK_BUS_TCON0>, <&ccu CLK_TCON0>;
+ 			clock-names = "ahb", "tcon-ch0";
+-			clock-output-names = "tcon-pixel-clock";
++			clock-output-names = "tcon-data-clock";
+ 			#clock-cells = <0>;
+ 			resets = <&ccu RST_BUS_TCON0>, <&ccu RST_BUS_LVDS>;
+ 			reset-names = "lcd", "lvds";
 -- 
 2.34.1
 
