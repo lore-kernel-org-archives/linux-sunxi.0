@@ -1,121 +1,84 @@
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D9F23BD
-	for <linux-sunxi@lists.linux.dev>; Thu, 27 Apr 2023 09:31:34 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.west.internal (Postfix) with ESMTP id 473382B05EAC;
-	Thu, 27 Apr 2023 05:31:32 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Thu, 27 Apr 2023 05:31:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1682587891; x=1682595091; bh=4A
-	A/hUm7D5pj1dXpkRE40WDcs6X1KOVEyS7AjjrVzTg=; b=c6gG7qWeLWbvTYBneh
-	0cpMlN1hyuwFW9AVaILSZUzXlq2VrkXNdECHe5Koom2PdV8p4wwa+81y5gKhunta
-	aAaGkdMC0YRzd1PuHg2GdjJHx1yUYKa3lb8ki5/TovNESn5HJ2N9l+uxdSERyb8j
-	6UPazgbAd3C/ncRP8N+/LNCKgVEUAyUYGQmIdwKAjaQOFwCgj0SYRfCbU69u17uo
-	DjtDjRJDjj7Nxd6B1mqAC/0L3o2vyxySuqMqklSIh7zx01IuMQ1BH1ZIKVXGTc5C
-	drJu3ZJFshS42Uzf3h6K9NIB1X8C/49PWH9Hw8cNXB+Kiiv/KvVSxaFg5MBToIp6
-	KlCA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1682587891; x=1682595091; bh=4AA/hUm7D5pj1
-	dXpkRE40WDcs6X1KOVEyS7AjjrVzTg=; b=W7jpYx5LESYg91sizldIl10GJj+rD
-	jy65wkdbCw9O2TfuZAxD8IXNKrJU54OHcVsK0s8PBzGKRRhO5D8H64obaZgmJLzj
-	6t0y2Voe0mmDovsP/Sr02ZFSSs/A2fTixlzQ4cCky62qPAsnYsOYe7WxgqGVuGMr
-	w23ok5ubBrSkkNAql/NxVjgSxlwUCzI4a8fdNS1kiq8iCLrBlWQ2+c2UIY+Rf5D+
-	1zKWmXemMSUJxEKiioxqTLbe8DNGVa2ZTMcxW69sMUcqZIiHQ3BCksM3h4uo88hI
-	5hmu0js2B8jrbEAXV8FqDng+UL7k1Vhc3SFFs3Rk5PR8jjIFkVzqd7ctw==
-X-ME-Sender: <xms:80BKZMuezHer77xiPJPHYQSQdr8oXzND7NAvo5BvbwQ0SgOCW6OvZA>
-    <xme:80BKZJca5I2T0brI_D2owkz9GslDbTu4l1WYIuAoUiV0SHjP0NMKOs02VbIhYqvwH
-    AUJ-guwwvwIUWQy66s>
-X-ME-Received: <xmr:80BKZHxUl8aMEWZltEiEr2W91x2OfV3PxH-BSGTEwSjUxVD-Q28S6TiPP6e6lAeK_BLtID6_fIr33xntyh37F71PREGTxpw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeduiedgudeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
-    gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:80BKZPPMiTNp0pBWuXJpw5IwOR3f38iRB439Cq27YP-QUCoGIsVqpw>
-    <xmx:80BKZM9ZFqa3UlRm8hdodsvAqVdMvyDVXWChodXOIVFa3Yjt3eWzVg>
-    <xmx:80BKZHXT7pkUKMWvj08PDMoi81_ZdSo8ESftR8zGgCqgAPx_znBg0g>
-    <xmx:80BKZKMkjjtpN_9xl810hqNl5QdFO91lcsI8bvgOh3pYhmGLgHUvkD2O1vA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 27 Apr 2023 05:31:30 -0400 (EDT)
-Date: Thu, 27 Apr 2023 11:31:29 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Roman Beranek <me@crly.cz>
-Cc: Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Frank Oltmanns <frank@oltmanns.dev>, 
-	Icenowy Zheng <icenowy@aosc.io>, Ondrej Jirman <megi@xff.cz>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/7] arm64: dts: allwinner: a64: reset pll-video0 rate
-Message-ID: <i5sad34yvpcdavj76imjeifdz72ah3ue6mi6g6tf4cxc54yzla@gzhfmogh3oar>
-References: <20230427091611.99044-1-me@crly.cz>
- <20230427091611.99044-5-me@crly.cz>
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.215])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FEA823D9
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 Apr 2023 10:53:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=Eq28a
+	JWhL8y2iB8tzC8v6UvzBFNUjpkbRpbiqZIVEF0=; b=XxN+dPBr+whiToIBF/FFT
+	elOIDm//FqnJ+9ZLpuMA4BkYOLQ8ZOntQFCgiHrZVhLr3CsjciDeFD+DXcqli4II
+	U/F75nBmDuY/x77tLWJSaieKfbqWHq1D14anXHOO29c5ocFAFb/eJ7b7JQ5JavLO
+	xrZovgDzL5JKiVsyJ419zk=
+Received: from DESKTOP-B1R4FVG.localdomain (unknown [218.201.129.19])
+	by zwqz-smtp-mta-g1-0 (Coremail) with SMTP id _____wDnU7DwU0pkyUYQAQ--.4631S4;
+	Thu, 27 Apr 2023 18:52:34 +0800 (CST)
+From: qianfanguijin@163.com
+To: linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Samuel Holland <samuel@sholland.org>,
+	=?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+	qianfan Zhao <qianfanguijin@163.com>
+Subject: [PATCH v3 2/2] drivers: net: sun4i-emac: Fix emac_timeout
+Date: Thu, 27 Apr 2023 18:52:31 +0800
+Message-Id: <20230427105231.13900-3-qianfanguijin@163.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230427105231.13900-1-qianfanguijin@163.com>
+References: <20220912063331.23369-1-qianfanguijin@163.com>
+ <20230427105231.13900-1-qianfanguijin@163.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="73te7bsofh2bjjp6"
-Content-Disposition: inline
-In-Reply-To: <20230427091611.99044-5-me@crly.cz>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDnU7DwU0pkyUYQAQ--.4631S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tr4Dur43Gw43KFWfuFyrtFb_yoW8GFy3pr
+	W8CFWIkrW8tF15Xa18uan7WFs5Xa15JrsFkrZ7J3yrWa4akFsxtr15trWqkF4UAr4rua1Y
+	vr1jyrW3ur4DXaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zi9qXdUUUUU=
+X-Originating-IP: [218.201.129.19]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXBNe7VXl6aM+cwAAsL
 
+From: qianfan Zhao <qianfanguijin@163.com>
 
---73te7bsofh2bjjp6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The system will hang in softirq after emac_timeout happens, next is the
+trace logs:
 
-Hi,
+289.902631: softirq_entry: vec=2 [action=NET_TX]
+289.902651: net_dev_xmit: dev=eth0 skbaddr=(ptrval) len=98 rc=16
+289.902656: softirq_exit: vec=2 [action=NET_TX]
+289.902659: softirq_entry: vec=2 [action=NET_TX]
+289.902664: net_dev_xmit: dev=eth0 skbaddr=(ptrval) len=98 rc=16
+289.902668: softirq_exit: vec=2 [action=NET_TX]
+...
 
-I'm not sure I understand what you're doing here
+Clear tx_fifo_stat to free all tx channels after emac reset done to fix.
 
-On Thu, Apr 27, 2023 at 11:16:08AM +0200, Roman Beranek wrote:
-> With pll-mipi as its source clock, the exact rate to which TCON0's data
-> clock can be set to is constrained by the current rate of pll-video0.
+Fixes: 492205050d77b (net: Add EMAC ethernet driver found on Allwinner A10 SoC's)
+Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
+---
+ drivers/net/ethernet/allwinner/sun4i-emac.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-What in the TCON exactly is constrained by pll-video0 rate?
+diff --git a/drivers/net/ethernet/allwinner/sun4i-emac.c b/drivers/net/ethernet/allwinner/sun4i-emac.c
+index 8093d6d2101c..964c5e7188f8 100644
+--- a/drivers/net/ethernet/allwinner/sun4i-emac.c
++++ b/drivers/net/ethernet/allwinner/sun4i-emac.c
+@@ -536,6 +536,9 @@ static void emac_timeout(struct net_device *dev, unsigned int txqueue)
+ 	netif_trans_update(dev);
+ 	netif_wake_queue(dev);
+ 
++	/* Clear tx_fifo_stat to free all tx channels */
++	db->tx_fifo_stat = 0;
++
+ 	/* Restore previous register address */
+ 	spin_unlock_irqrestore(&db->lock, flags);
+ }
+-- 
+2.25.1
 
-> Unless changed on a request of another consumer, the rate of pll-video0
-> is left as inherited from the bootloader.
->
-> The default rate on reset is 297 MHz, a value preferable to what it is
-> later set to in u-boot (294 MHz). This happens unintentionally though,
-> as u-boot, for the sake of simplicity, rounds the rate requested by DE2
-> driver (297 MHz) to 6 MHz steps.
->
-> Reset the PLL to its default rate of 297 MHz.
->=20
-> Signed-off-by: Roman Beranek <me@crly.cz>
-
-If the driver depends on the value being the reset value, then that's
-the issue we should fix, either by reading the clock rate and adjusting
-to it, or enforcing the rate we expect in the TCON driver.
-
-Maxime
-
---73te7bsofh2bjjp6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZEpA8QAKCRDj7w1vZxhR
-xaEnAP9+CfgLfIBh7+mlIZQEeNhmazMhTc+4FfTDKHlU2/4uwwEAhul26+AYC72i
-NRQL72HmiIWlL9U7nFEsCX6vZx2DlgI=
-=ra2f
------END PGP SIGNATURE-----
-
---73te7bsofh2bjjp6--
