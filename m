@@ -1,98 +1,103 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40295669
-	for <linux-sunxi@lists.linux.dev>; Sat, 29 Apr 2023 18:24:52 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1aad55244b7so4554595ad.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 29 Apr 2023 11:24:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20221208.gappssmtp.com; s=20221208; t=1682792692; x=1685384692;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KGl5HMSK57VmBSwKSnwgm3VXr902jH6XBJlNczgIzTY=;
-        b=l+H0JwRFKwAD4TzkKtg69sq/SE0iMjDe/NX6Txlv16Ba4kBdBRnOLJE9cuEp/EtowJ
-         pvTfeswVQQvBqhKyncNpPdAR29BMkNe6LB9ZMzoVyBV5Q9aGwXPM1Fc+6Qr50SDIiKsJ
-         q9xyHClsPNOcAaBRr9fQ8UfCjonz6jsBwXrYvJjTpLiOgKgKgvN8uwk1fTPbl8XK+035
-         m3QY80DvBeDJf799u5hnhHuLgfMpPNb4a9jtTjDBw2OzLziw75OHG2J322CH+dAw1HCw
-         HsmmVI7grjIDtuj7uBS5rk+EMADzgTEglzedbNWVOsorwBluoILEBWp5M0RLFiHKNfCf
-         2+Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682792692; x=1685384692;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KGl5HMSK57VmBSwKSnwgm3VXr902jH6XBJlNczgIzTY=;
-        b=O1edZCPk/FIlybXb4hRPvL2GfjKVcT0IQvDsRuKyJ0Uj1k0okYdCn+h//swvM3RpFE
-         lXZYdplfQ/xKQUdVRdCMlMmv/pSvhss40qgPj4VSeI82sYNmhaFt2J6edippC5Q1oagI
-         skSRRmJgZc4pMbhyLquBh6vnlbZBvxg9N7UerAbuNb8JKOP1FN3JhrgsZYmyL1CeJ28+
-         Azaz2fGGBvtvzEMPyR5/NfUCcgYiF88h+I17gbckWP53axVc7jU9sHn0AIOj401D9tl8
-         6B0MKdHzeUEgacN75U+ZNX96+IcLmZQ7n6XDL5d26NHN0I3BiWC1YDKvi238LOfbq/dK
-         4HYg==
-X-Gm-Message-State: AC+VfDxOZxrIN9/LFUct+oDfx3K67n7UOCN2wr6vvAYEC7pAMMWXDkYa
-	gTYsoPd/TFyMMsHRUIGdQyK4aA==
-X-Google-Smtp-Source: ACHHUZ6ZiLzN9eR+ckFMqg7tN3D4bPpq4geojnHO1Jqz7HXa46oxZHVvxREPvQQtQygRvSqX/lxFkg==
-X-Received: by 2002:a17:903:124b:b0:1a2:8c7e:f315 with SMTP id u11-20020a170903124b00b001a28c7ef315mr10630845plh.21.1682792692014;
-        Sat, 29 Apr 2023 11:24:52 -0700 (PDT)
-Received: from localhost ([50.221.140.188])
-        by smtp.gmail.com with ESMTPSA id z2-20020a170902708200b001a19196af48sm15137375plk.64.2023.04.29.11.24.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Apr 2023 11:24:51 -0700 (PDT)
-Date: Sat, 29 Apr 2023 11:24:51 -0700 (PDT)
-X-Google-Original-Date: Sat, 29 Apr 2023 11:24:33 PDT (-0700)
-Subject:     Re: [PATCH 09/19] riscv: cacheinfo: Adjust includes to remove of_device.h
-In-Reply-To: <20230329-dt-cpu-header-cleanups-v1-9-581e2605fe47@kernel.org>
-CC: davem@davemloft.net, robh+dt@kernel.org, frowand.list@gmail.com,
-  linux@armlinux.org.uk, wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
-  Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu, Greg KH <gregkh@linuxfoundation.org>, rafael@kernel.org,
-  daniel.lezcano@linaro.org, tglx@linutronix.de, amit.kachhap@gmail.com, viresh.kumar@linaro.org,
-  lukasz.luba@arm.com, amitk@kernel.org, rui.zhang@intel.com, matthias.bgg@gmail.com,
-  angelogioacchino.delregno@collabora.com, mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
-  thierry.reding@gmail.com, jonathanh@nvidia.com, tiny.windzz@gmail.com, lpieralisi@kernel.org,
-  sudeep.holla@arm.com, agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-  anup@brainfault.org, chenhuacai@kernel.org, jiaxun.yang@flygoat.com, Marc Zyngier <maz@kernel.org>,
-  vireshk@kernel.org, nm@ti.com, sboyd@kernel.org, sparclinux@vger.kernel.org,
-  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-  linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org, linux-pm@vger.kernel.org,
-  linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, linux-tegra@vger.kernel.org,
-  linux-arm-msm@vger.kernel.org, linux-mips@vger.kernel.org
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: robh@kernel.org
-Message-ID: <mhng-8827afbb-9f5f-4a6d-b528-4b79b1a32f8a@palmer-ri-x1c9a>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431B83D68
+	for <linux-sunxi@lists.linux.dev>; Sat, 29 Apr 2023 18:38:55 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Q7ysx06D9z9scm;
+	Sat, 29 Apr 2023 20:38:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1682793525;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MKVXlCxV91AvQC40PaHejbx2C5FhflXVfXqbt+Wgr3s=;
+	b=IhiiCZBEqOZRzOlnvV5+R34liaYcc6Xa16I+39uKaw/iDw5UdMwJoVBG2bumLqDuHZRpZI
+	lAi5kIkrCwb4Q9QVZkcrl1dYEAAzJlPHtCyzIjR1nBdEYc7l8d8EuueqSLXzHKOMLWFqjJ
+	4feocP9ohcqWMjbz/ImXq4qVZc/+e9UfZHNKTyl5M9HvwhvPBkXHjqK97X6tKMuRlC9/6k
+	GTbj7MRFamyPKbWlraqmZiNC3c00UYjAUc5kugf2JImm7j3W2sFRdwGN2L+URUnC+DTXSS
+	zVT0yw8rPjVo7+WZSNiFmupP3Hz/BGTWHZED44BNjGV++RmfxdOXjGx2du5YLA==
+References: <20230427091611.99044-1-me@crly.cz>
+ <20230427091611.99044-5-me@crly.cz> <4477541.LvFx2qVVIh@jernej-laptop>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Samuel
+ Holland <samuel@sholland.org>, Roman Beranek <me@crly.cz>, Icenowy Zheng
+ <icenowy@aosc.io>, Ondrej Jirman <megi@xff.cz>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 4/7] arm64: dts: allwinner: a64: reset pll-video0 rate
+Date: Sat, 29 Apr 2023 20:28:38 +0200
+In-reply-to: <4477541.LvFx2qVVIh@jernej-laptop>
+Message-ID: <87wn1uleje.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 4Q7ysx06D9z9scm
 
-On Wed, 29 Mar 2023 08:52:06 PDT (-0700), robh@kernel.org wrote:
-> Now that of_cpu_device_node_get() is defined in of.h, of_device.h is just
-> implicitly including other includes, and is no longer needed. Adjust the
-> include files with what was implicitly included by of_device.h (cpu.h and
-> of.h) and drop including of_device.h.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> Please ack and I will take the series via the DT tree.
-> ---
->  arch/riscv/kernel/cacheinfo.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/arch/riscv/kernel/cacheinfo.c b/arch/riscv/kernel/cacheinfo.c
-> index 3a13113f1b29..e3829d2de5d9 100644
-> --- a/arch/riscv/kernel/cacheinfo.c
-> +++ b/arch/riscv/kernel/cacheinfo.c
-> @@ -5,7 +5,6 @@
->
->  #include <linux/cpu.h>
->  #include <linux/of.h>
-> -#include <linux/of_device.h>
->  #include <asm/cacheinfo.h>
->
->  static struct riscv_cacheinfo_ops *rv_cache_ops;
+Hi Jernej,
 
-Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+On 2023-04-28 at 08:43:29 +0200, Jernej =C5=A0krabec <jernej.skrabec@gmail.=
+com> wrote:
+> Dne =C4=8Detrtek, 27. april 2023 ob 11:16:08 CEST je Roman Beranek napisa=
+l(a):
+>> With pll-mipi as its source clock, the exact rate to which TCON0's data
+>> clock can be set to is constrained by the current rate of pll-video0.
+>> Unless changed on a request of another consumer, the rate of pll-video0
+>> is left as inherited from the bootloader.
+>>
+>> The default rate on reset is 297 MHz, a value preferable to what it is
+>> later set to in u-boot (294 MHz). This happens unintentionally though,
+>> as u-boot, for the sake of simplicity, rounds the rate requested by DE2
+>> driver (297 MHz) to 6 MHz steps.
+>>
+>> Reset the PLL to its default rate of 297 MHz.
+>
+> Why would that be preferable? You actually dropped "clk: sunxi-ng: a64:
+> propagate rate change from pll-mipi" patch which would take care for adju=
+sting
+> parent rate to correct value.
+
+For me, on the pinephone, it somehow doesn't. Please see here:
+https://lore.kernel.org/all/87cz3uzpx1.fsf@oltmanns.dev/
+
+I haven't figured out yet why that is. But hopefully, I'll find time in
+the coming days / weeks to look into that.
+
+Best regards,
+  Frank
+
+> Best regards,
+> Jernej
+>
+>>
+>> Signed-off-by: Roman Beranek <me@crly.cz>
+>> ---
+>>  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>> b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi index
+>> e6a194db420d..cfc60dce80b0 100644
+>> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>> @@ -667,6 +667,9 @@ ccu: clock@1c20000 {
+>>  			clock-names =3D "hosc", "losc";
+>>  			#clock-cells =3D <1>;
+>>  			#reset-cells =3D <1>;
+>> +
+>> +			assigned-clocks =3D <&ccu CLK_PLL_VIDEO0>;
+>> +			assigned-clock-rates =3D <297000000>;
+>>  		};
+>>
+>>  		pio: pinctrl@1c20800 {
