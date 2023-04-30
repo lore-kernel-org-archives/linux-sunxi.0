@@ -1,103 +1,141 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from hust.edu.cn (mail.hust.edu.cn [202.114.0.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431B83D68
-	for <linux-sunxi@lists.linux.dev>; Sat, 29 Apr 2023 18:38:55 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Q7ysx06D9z9scm;
-	Sat, 29 Apr 2023 20:38:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1682793525;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MKVXlCxV91AvQC40PaHejbx2C5FhflXVfXqbt+Wgr3s=;
-	b=IhiiCZBEqOZRzOlnvV5+R34liaYcc6Xa16I+39uKaw/iDw5UdMwJoVBG2bumLqDuHZRpZI
-	lAi5kIkrCwb4Q9QVZkcrl1dYEAAzJlPHtCyzIjR1nBdEYc7l8d8EuueqSLXzHKOMLWFqjJ
-	4feocP9ohcqWMjbz/ImXq4qVZc/+e9UfZHNKTyl5M9HvwhvPBkXHjqK97X6tKMuRlC9/6k
-	GTbj7MRFamyPKbWlraqmZiNC3c00UYjAUc5kugf2JImm7j3W2sFRdwGN2L+URUnC+DTXSS
-	zVT0yw8rPjVo7+WZSNiFmupP3Hz/BGTWHZED44BNjGV++RmfxdOXjGx2du5YLA==
-References: <20230427091611.99044-1-me@crly.cz>
- <20230427091611.99044-5-me@crly.cz> <4477541.LvFx2qVVIh@jernej-laptop>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Samuel
- Holland <samuel@sholland.org>, Roman Beranek <me@crly.cz>, Icenowy Zheng
- <icenowy@aosc.io>, Ondrej Jirman <megi@xff.cz>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/7] arm64: dts: allwinner: a64: reset pll-video0 rate
-Date: Sat, 29 Apr 2023 20:28:38 +0200
-In-reply-to: <4477541.LvFx2qVVIh@jernej-laptop>
-Message-ID: <87wn1uleje.fsf@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F3E2119
+	for <linux-sunxi@lists.linux.dev>; Sun, 30 Apr 2023 11:26:08 +0000 (UTC)
+Received: from haru.localdomain ([10.12.176.125])
+	(user=m202071377@hust.edu.cn mech=LOGIN bits=0)
+	by mx1.hust.edu.cn  with ESMTP id 33UBNmPL023948-33UBNmPM023948
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Sun, 30 Apr 2023 19:23:53 +0800
+From: XuDong Liu <m202071377@hust.edu.cn>
+To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: hust-os-kernel-patches@googlegroups.com,
+        XuDong Liu <m202071377@hust.edu.cn>, Dongliang Mu <dzm91@hust.edu.cn>,
+        dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm: sun4i_tcon: use devm_clk_get_enabled in `sun4i_tcon_init_clocks`
+Date: Sun, 30 Apr 2023 19:23:46 +0800
+Message-Id: <20230430112347.4689-1-m202071377@hust.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 4Q7ysx06D9z9scm
+Content-Transfer-Encoding: 8bit
+X-FEAS-AUTH-USER: m202071377@hust.edu.cn
 
-Hi Jernej,
+Smatch reports:
+drivers/gpu/drm/sun4i/sun4i_tcon.c:805 sun4i_tcon_init_clocks() warn:
+'tcon->clk' from clk_prepare_enable() not released on lines: 792,801.
 
-On 2023-04-28 at 08:43:29 +0200, Jernej =C5=A0krabec <jernej.skrabec@gmail.=
-com> wrote:
-> Dne =C4=8Detrtek, 27. april 2023 ob 11:16:08 CEST je Roman Beranek napisa=
-l(a):
->> With pll-mipi as its source clock, the exact rate to which TCON0's data
->> clock can be set to is constrained by the current rate of pll-video0.
->> Unless changed on a request of another consumer, the rate of pll-video0
->> is left as inherited from the bootloader.
->>
->> The default rate on reset is 297 MHz, a value preferable to what it is
->> later set to in u-boot (294 MHz). This happens unintentionally though,
->> as u-boot, for the sake of simplicity, rounds the rate requested by DE2
->> driver (297 MHz) to 6 MHz steps.
->>
->> Reset the PLL to its default rate of 297 MHz.
->
-> Why would that be preferable? You actually dropped "clk: sunxi-ng: a64:
-> propagate rate change from pll-mipi" patch which would take care for adju=
-sting
-> parent rate to correct value.
+In the function sun4i_tcon_init_clocks(), tcon->clk and tcon->sclk0 are
+not disabled in the error handling, which affects the release of
+these variable. Although sun4i_tcon_bind(), which calls
+sun4i_tcon_init_clocks(), use sun4i_tcon_free_clocks to disable the
+variables mentioned, but the error handling branch of
+sun4i_tcon_init_clocks() ignores the required disable process.
 
-For me, on the pinephone, it somehow doesn't. Please see here:
-https://lore.kernel.org/all/87cz3uzpx1.fsf@oltmanns.dev/
+To fix this issue, use the devm_clk_get_enabled to automatically
+balance enable and disabled calls. As original implementation use
+sun4i_tcon_free_clocks() to disable clk explicitly, we delete the
+related calls and error handling that are no longer needed.
 
-I haven't figured out yet why that is. But hopefully, I'll find time in
-the coming days / weeks to look into that.
+Fixes: 9026e0d122ac ("drm: Add Allwinner A10 Display Engine support")
+Fixes: b14e945bda8a ("drm/sun4i: tcon: Prepare and enable TCON channel 0 clock at init")
+Fixes: 8e9240472522 ("drm/sun4i: support TCONs without channel 1")
+Fixes: 34d698f6e349 ("drm/sun4i: Add has_channel_0 TCON quirk")
+Signed-off-by: XuDong Liu <m202071377@hust.edu.cn>
+Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+---
+The issue is discovered by static analysis, and the patch is not tested
+yet.
+---
+ drivers/gpu/drm/sun4i/sun4i_tcon.c | 19 ++++---------------
+ 1 file changed, 4 insertions(+), 15 deletions(-)
 
-Best regards,
-  Frank
+diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+index 523a6d787921..936796851ffd 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
++++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+@@ -778,21 +778,19 @@ static irqreturn_t sun4i_tcon_handler(int irq, void *private)
+ static int sun4i_tcon_init_clocks(struct device *dev,
+ 				  struct sun4i_tcon *tcon)
+ {
+-	tcon->clk = devm_clk_get(dev, "ahb");
++	tcon->clk = devm_clk_get_enabled(dev, "ahb");
+ 	if (IS_ERR(tcon->clk)) {
+ 		dev_err(dev, "Couldn't get the TCON bus clock\n");
+ 		return PTR_ERR(tcon->clk);
+ 	}
+-	clk_prepare_enable(tcon->clk);
+ 
+ 	if (tcon->quirks->has_channel_0) {
+-		tcon->sclk0 = devm_clk_get(dev, "tcon-ch0");
++		tcon->sclk0 = devm_clk_get_enabled(dev, "tcon-ch0");
+ 		if (IS_ERR(tcon->sclk0)) {
+ 			dev_err(dev, "Couldn't get the TCON channel 0 clock\n");
+ 			return PTR_ERR(tcon->sclk0);
+ 		}
+ 	}
+-	clk_prepare_enable(tcon->sclk0);
+ 
+ 	if (tcon->quirks->has_channel_1) {
+ 		tcon->sclk1 = devm_clk_get(dev, "tcon-ch1");
+@@ -805,12 +803,6 @@ static int sun4i_tcon_init_clocks(struct device *dev,
+ 	return 0;
+ }
+ 
+-static void sun4i_tcon_free_clocks(struct sun4i_tcon *tcon)
+-{
+-	clk_disable_unprepare(tcon->sclk0);
+-	clk_disable_unprepare(tcon->clk);
+-}
+-
+ static int sun4i_tcon_init_irq(struct device *dev,
+ 			       struct sun4i_tcon *tcon)
+ {
+@@ -1223,14 +1215,14 @@ static int sun4i_tcon_bind(struct device *dev, struct device *master,
+ 	ret = sun4i_tcon_init_regmap(dev, tcon);
+ 	if (ret) {
+ 		dev_err(dev, "Couldn't init our TCON regmap\n");
+-		goto err_free_clocks;
++		goto err_assert_reset;
+ 	}
+ 
+ 	if (tcon->quirks->has_channel_0) {
+ 		ret = sun4i_dclk_create(dev, tcon);
+ 		if (ret) {
+ 			dev_err(dev, "Couldn't create our TCON dot clock\n");
+-			goto err_free_clocks;
++			goto err_assert_reset;
+ 		}
+ 	}
+ 
+@@ -1293,8 +1285,6 @@ static int sun4i_tcon_bind(struct device *dev, struct device *master,
+ err_free_dotclock:
+ 	if (tcon->quirks->has_channel_0)
+ 		sun4i_dclk_free(tcon);
+-err_free_clocks:
+-	sun4i_tcon_free_clocks(tcon);
+ err_assert_reset:
+ 	reset_control_assert(tcon->lcd_rst);
+ 	return ret;
+@@ -1308,7 +1298,6 @@ static void sun4i_tcon_unbind(struct device *dev, struct device *master,
+ 	list_del(&tcon->list);
+ 	if (tcon->quirks->has_channel_0)
+ 		sun4i_dclk_free(tcon);
+-	sun4i_tcon_free_clocks(tcon);
+ }
+ 
+ static const struct component_ops sun4i_tcon_ops = {
+-- 
+2.34.1
 
-> Best regards,
-> Jernej
->
->>
->> Signed-off-by: Roman Beranek <me@crly.cz>
->> ---
->>  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
->> b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi index
->> e6a194db420d..cfc60dce80b0 100644
->> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
->> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
->> @@ -667,6 +667,9 @@ ccu: clock@1c20000 {
->>  			clock-names =3D "hosc", "losc";
->>  			#clock-cells =3D <1>;
->>  			#reset-cells =3D <1>;
->> +
->> +			assigned-clocks =3D <&ccu CLK_PLL_VIDEO0>;
->> +			assigned-clock-rates =3D <297000000>;
->>  		};
->>
->>  		pio: pinctrl@1c20800 {
