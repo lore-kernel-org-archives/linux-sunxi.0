@@ -1,141 +1,180 @@
-Received: from hust.edu.cn (mail.hust.edu.cn [202.114.0.240])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F3E2119
-	for <linux-sunxi@lists.linux.dev>; Sun, 30 Apr 2023 11:26:08 +0000 (UTC)
-Received: from haru.localdomain ([10.12.176.125])
-	(user=m202071377@hust.edu.cn mech=LOGIN bits=0)
-	by mx1.hust.edu.cn  with ESMTP id 33UBNmPL023948-33UBNmPM023948
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Sun, 30 Apr 2023 19:23:53 +0800
-From: XuDong Liu <m202071377@hust.edu.cn>
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: hust-os-kernel-patches@googlegroups.com,
-        XuDong Liu <m202071377@hust.edu.cn>, Dongliang Mu <dzm91@hust.edu.cn>,
-        dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm: sun4i_tcon: use devm_clk_get_enabled in `sun4i_tcon_init_clocks`
-Date: Sun, 30 Apr 2023 19:23:46 +0800
-Message-Id: <20230430112347.4689-1-m202071377@hust.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABA320F8
+	for <linux-sunxi@lists.linux.dev>; Mon,  1 May 2023 13:42:05 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Q94BX2xRGz9sVh;
+	Mon,  1 May 2023 15:41:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1682948516;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jqYP4L/dOQIMjnG4KNToVeLEt+0G6LtXeDVBdi/r+Rg=;
+	b=zvcWH6KBDacptU5xkzi9uKyNMs3di7lqxMKl+ZHDf60qM2JjAQ9YphAvYDVbSp4Nk5p3/k
+	BNusxtiVRWr91z42j93X8ZpJYR5717bDOnVJph+9WTy2BrlkdYDGy22ceS6sXfVnhzrH6z
+	KDjDIkH59HlUqz0l4EtylDF5dJZda7BZhbKxBzcwzkf8sjq6ic08nLD+/7fYSRz6Efo4y6
+	ex2mdqmCTcVJH6vbiNj/NPkEf6hMLyz/VslpjDVkzIAoQNHd6F161qrCm4jkAXIa2bOC86
+	UFCOnfPeOhh2mQECnozaInvlast3VtVl1lwR1qngUtWw5XKKjtrTCbxqrYYffA==
+References: <20230418074008.69752-1-me@crly.cz> <87cz3uzpx1.fsf@oltmanns.dev>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Maxime Ripard <mripard@kernel.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>
+Cc: Roman Beranek <me@crly.cz>, Chen-Yu Tsai <wens@csie.org>, David  Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Samuel Holland
+ <samuel@sholland.org>, Ondrej Jirman <megi@xff.cz>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/7] drm: sun4i: set proper TCON0 DCLK rate in DSI mode
+Date: Mon, 01 May 2023 15:40:49 +0200
+In-reply-to: <87cz3uzpx1.fsf@oltmanns.dev>
+Message-ID: <87mt2o9njh.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-FEAS-AUTH-USER: m202071377@hust.edu.cn
+Content-Type: text/plain
+X-Rspamd-Queue-Id: 4Q94BX2xRGz9sVh
 
-Smatch reports:
-drivers/gpu/drm/sun4i/sun4i_tcon.c:805 sun4i_tcon_init_clocks() warn:
-'tcon->clk' from clk_prepare_enable() not released on lines: 792,801.
+Maxime, Jernej, I was trying to understand why pll-video0 is not updated
+and I tracked down the culprit to ccu_nkm.c.
 
-In the function sun4i_tcon_init_clocks(), tcon->clk and tcon->sclk0 are
-not disabled in the error handling, which affects the release of
-these variable. Although sun4i_tcon_bind(), which calls
-sun4i_tcon_init_clocks(), use sun4i_tcon_free_clocks to disable the
-variables mentioned, but the error handling branch of
-sun4i_tcon_init_clocks() ignores the required disable process.
+On 2023-04-23 at 15:24:33 +0200, Frank Oltmanns <frank@oltmanns.dev> wrote:
+> On 2023-04-18 at 09:40:01 +0200, Roman Beranek <me@crly.cz> wrote:
+>> According to Allwinner's BSP code, in DSI mode, TCON0 clock needs to be
+>> running at what's effectively the per-lane datarate of the DSI link.
+>> Given that the TCON DCLK divider is fixed to 4 (SUN6I_DSI_TCON_DIV),
+>> DCLK can't be set equal to the dotclock. Therefore labeling TCON DCLK
+>> as sun4i_dotclock or tcon-pixel-clock shall be avoided.
+>>
+>> With bpp bits per pixel transmitted over n DSI lanes, the target DCLK
+>> rate for a given pixel clock is obtained as follows:
+>>
+>> DCLK rate = 1/4 * bpp / n * pixel clock
+>>
+>> Effect of this change can be observed through the rate of Vblank IRQs
+>> which should now match refresh rate implied by set display mode. It
+>> was verified to do so on a A64 board with a 2-lane and a 4-lane panel.
+[...]
+> I've tried your patches on my pinephone. I also set the panel's clock to
+> 72 MHz, so at 24 bpp and 4 lanes that should result in a data clock of
+> 108 MHz. This should be possible when pll-video0 is at 297 MHz.
+>
+> Unfortunately, pll-video0 is not set and therefore the relevant part of
+> the clk_summary looks like this:
+>
+>                           enable  prepare  protect              hardware
+> clock                      count    count    count        rate    enable
+> ------------------------------------------------------------------------
+>  pll-video0                    1        1        1   294000000         Y
+>     hdmi                       0        0        0   294000000         N
+>     tcon1                      0        0        0   294000000         N
+>     pll-mipi                   1        1        1   431200000         Y
+>        tcon0                   2        2        1   431200000         Y
+>           tcon-data-clock      1        1        1   107800000         Y
+>     pll-video0-2x              0        0        0   588000000         Y
+>
+> Note, I've cut the columns accuracy, phase, and duty cycle, because they
+> show the same values for all clocks (0, 0, 50000).
+>
+> My understanding was that with this patchset setting the parent clock
+> should be possible. Do you have any idea why it doesn't work on the
+> pinephone? Or maybe it does work on yours and I'm making some kind of
+> mistake?
 
-To fix this issue, use the devm_clk_get_enabled to automatically
-balance enable and disabled calls. As original implementation use
-sun4i_tcon_free_clocks() to disable clk explicitly, we delete the
-related calls and error handling that are no longer needed.
+To better understand what's going on I've extended the clk_rate_request
+class to also output the requested rate. The relevant output is this
+(leading line numbers by me for referencing the lines below):
+line  1:     kworker/u8:2-49      [002] .....     1.850141: clk_rate_request_start: tcon-data-clock rate 108000000 min 0 max 18446744073709551615, parent tcon0 (588000000)
+line  2:     kworker/u8:2-49      [002] .....     1.850149: clk_rate_request_start: tcon0 rate 432000000 min 0 max 18446744073709551615, parent pll-mipi (588000000)
+line  3:     kworker/u8:2-49      [002] .....     1.850154: clk_rate_request_start: pll-mipi rate 432000000 min 0 max 18446744073709551615, parent pll-video0 (294000000)
+line  4:     kworker/u8:2-49      [002] .....     1.850168: clk_rate_request_done: pll-mipi rate 431200000 min 0 max 18446744073709551615, parent pll-video0 (294000000)
+line  5:     kworker/u8:2-49      [002] .....     1.850169: clk_rate_request_done: tcon0 rate 431200000 min 0 max 18446744073709551615, parent pll-mipi (431200000)
+line  6:     kworker/u8:2-49      [002] .....     1.850171: clk_rate_request_done: tcon-data-clock rate 107800000 min 0 max 18446744073709551615, parent tcon0 (431200000)
+line  7:     kworker/u8:2-49      [002] .....     1.850172: clk_rate_request_start: tcon-data-clock rate 108000000 min 0 max 18446744073709551615, parent tcon0 (588000000)
+line  8:     kworker/u8:2-49      [002] .....     1.850174: clk_rate_request_start: tcon0 rate 432000000 min 0 max 18446744073709551615, parent pll-mipi (588000000)
+line  9:     kworker/u8:2-49      [002] .....     1.850179: clk_rate_request_start: pll-mipi rate 432000000 min 0 max 18446744073709551615, parent pll-video0 (294000000)
+line 10:     kworker/u8:2-49      [002] .....     1.850190: clk_rate_request_done: pll-mipi rate 431200000 min 0 max 18446744073709551615, parent pll-video0 (294000000)
+line 11:     kworker/u8:2-49      [002] .....     1.850191: clk_rate_request_done: tcon0 rate 431200000 min 0 max 18446744073709551615, parent pll-mipi (431200000)
+line 12:     kworker/u8:2-49      [002] .....     1.850192: clk_rate_request_done: tcon-data-clock rate 107800000 min 0 max 18446744073709551615, parent tcon0 (431200000)
+line 13:     kworker/u8:2-49      [002] .....     1.850193: clk_rate_request_start: tcon0 rate 431200000 min 0 max 18446744073709551615, parent pll-mipi (588000000)
+line 14:     kworker/u8:2-49      [002] .....     1.850195: clk_rate_request_start: pll-mipi rate 431200000 min 0 max 18446744073709551615, parent pll-video0 (294000000)
+line 15:     kworker/u8:2-49      [002] .....     1.850205: clk_rate_request_done: pll-mipi rate 431200000 min 0 max 18446744073709551615, parent pll-video0 (294000000)
+line 16:     kworker/u8:2-49      [002] .....     1.850206: clk_rate_request_done: tcon0 rate 431200000 min 0 max 18446744073709551615, parent pll-mipi (431200000)
+line 17:     kworker/u8:2-49      [002] .....     1.850208: clk_rate_request_start: pll-mipi rate 431200000 min 0 max 18446744073709551615, parent pll-video0 (294000000)
+line 18:     kworker/u8:2-49      [002] .....     1.850219: clk_rate_request_done: pll-mipi rate 431200000 min 0 max 18446744073709551615, parent pll-video0 (294000000)
+line 19:     kworker/u8:2-49      [002] .....     1.850229: clk_set_rate: pll-mipi 431200000
+line 20:     kworker/u8:2-49      [003] .....     1.850508: clk_set_rate_complete: pll-mipi 431200000
+line 21:     kworker/u8:2-49      [003] .....     1.850513: clk_set_rate: tcon0 431200000
+line 22:     kworker/u8:2-49      [003] .....     1.850515: clk_set_rate_complete: tcon0 431200000
+line 23:     kworker/u8:2-49      [003] .....     1.850516: clk_set_rate: tcon-data-clock 107800000
+line 24:     kworker/u8:2-49      [003] .....     1.850524: clk_set_rate_complete: tcon-data-clock 107800000
+line 25:     kworker/u8:2-49      [003] .....     1.853320: clk_prepare: tcon-data-clock
+line 26:     kworker/u8:2-49      [003] .....     1.853324: clk_prepare_complete: tcon-data-clock
+line 27:     kworker/u8:2-49      [003] d..1.     1.853328: clk_enable: tcon-data-clock
+line 28:     kworker/u8:2-49      [003] d..1.     1.853333: clk_enable_complete: tcon-data-clock
 
-Fixes: 9026e0d122ac ("drm: Add Allwinner A10 Display Engine support")
-Fixes: b14e945bda8a ("drm/sun4i: tcon: Prepare and enable TCON channel 0 clock at init")
-Fixes: 8e9240472522 ("drm/sun4i: support TCONs without channel 1")
-Fixes: 34d698f6e349 ("drm/sun4i: Add has_channel_0 TCON quirk")
-Signed-off-by: XuDong Liu <m202071377@hust.edu.cn>
-Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
----
-The issue is discovered by static analysis, and the patch is not tested
-yet.
----
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 19 ++++---------------
- 1 file changed, 4 insertions(+), 15 deletions(-)
+In line 1 we can see that a rate of 108 MHz is requested for
+tcon-data-clock. In lines 2 and 3 this is forwarded to tcon0 and
+pll-mipi (432 MHz). What surprised me, is that there is no request to
+set the rate of pll-video0. Instead pll-mipi (and subsequently tcon0)
+are set to 431.2 MHz (lines 4,5) and consequently tcon-data-clock is at
+107.8 MHz (line 6) as I also reported in my previous mail (see quote
+above).
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index 523a6d787921..936796851ffd 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -778,21 +778,19 @@ static irqreturn_t sun4i_tcon_handler(int irq, void *private)
- static int sun4i_tcon_init_clocks(struct device *dev,
- 				  struct sun4i_tcon *tcon)
- {
--	tcon->clk = devm_clk_get(dev, "ahb");
-+	tcon->clk = devm_clk_get_enabled(dev, "ahb");
- 	if (IS_ERR(tcon->clk)) {
- 		dev_err(dev, "Couldn't get the TCON bus clock\n");
- 		return PTR_ERR(tcon->clk);
- 	}
--	clk_prepare_enable(tcon->clk);
- 
- 	if (tcon->quirks->has_channel_0) {
--		tcon->sclk0 = devm_clk_get(dev, "tcon-ch0");
-+		tcon->sclk0 = devm_clk_get_enabled(dev, "tcon-ch0");
- 		if (IS_ERR(tcon->sclk0)) {
- 			dev_err(dev, "Couldn't get the TCON channel 0 clock\n");
- 			return PTR_ERR(tcon->sclk0);
- 		}
- 	}
--	clk_prepare_enable(tcon->sclk0);
- 
- 	if (tcon->quirks->has_channel_1) {
- 		tcon->sclk1 = devm_clk_get(dev, "tcon-ch1");
-@@ -805,12 +803,6 @@ static int sun4i_tcon_init_clocks(struct device *dev,
- 	return 0;
- }
- 
--static void sun4i_tcon_free_clocks(struct sun4i_tcon *tcon)
--{
--	clk_disable_unprepare(tcon->sclk0);
--	clk_disable_unprepare(tcon->clk);
--}
--
- static int sun4i_tcon_init_irq(struct device *dev,
- 			       struct sun4i_tcon *tcon)
- {
-@@ -1223,14 +1215,14 @@ static int sun4i_tcon_bind(struct device *dev, struct device *master,
- 	ret = sun4i_tcon_init_regmap(dev, tcon);
- 	if (ret) {
- 		dev_err(dev, "Couldn't init our TCON regmap\n");
--		goto err_free_clocks;
-+		goto err_assert_reset;
- 	}
- 
- 	if (tcon->quirks->has_channel_0) {
- 		ret = sun4i_dclk_create(dev, tcon);
- 		if (ret) {
- 			dev_err(dev, "Couldn't create our TCON dot clock\n");
--			goto err_free_clocks;
-+			goto err_assert_reset;
- 		}
- 	}
- 
-@@ -1293,8 +1285,6 @@ static int sun4i_tcon_bind(struct device *dev, struct device *master,
- err_free_dotclock:
- 	if (tcon->quirks->has_channel_0)
- 		sun4i_dclk_free(tcon);
--err_free_clocks:
--	sun4i_tcon_free_clocks(tcon);
- err_assert_reset:
- 	reset_control_assert(tcon->lcd_rst);
- 	return ret;
-@@ -1308,7 +1298,6 @@ static void sun4i_tcon_unbind(struct device *dev, struct device *master,
- 	list_del(&tcon->list);
- 	if (tcon->quirks->has_channel_0)
- 		sun4i_dclk_free(tcon);
--	sun4i_tcon_free_clocks(tcon);
- }
- 
- static const struct component_ops sun4i_tcon_ops = {
--- 
-2.34.1
+When figuring out the call stack, I traced the whole thing down to
+ccu_nkm_determine_rate(). The simplified call stack looks like this:
 
+clk_set_rate(tcon-data-clock, 108MHz)
+   clk_core_set_rate_nolock(tcon-data-clock, 108MHz)
+      clk_core_req_round_rate_nolock(tcon-data-clock, 108MHz)
+         clk_core_round_rate_nolock(tcon-data-clock, 108MHz)
+            sun4i_dclk_round_rate(tcon-data-clock)
+               clk_hw_round_rate(tcon0, 432MHz)
+                  clk_core_round_rate_nolock(tcon0, 432MHz)
+                     clk_mux_determine_rate_flags(tcon0, 432MHz)
+                        clk_core_round_rate_nolock(pll-mipi, 432MHz)
+                           ccu_nkm_determine_rate(pll-mipi, 432MHz)
+
+Looking at ccu_nkm_determine_rate(), we've found our culprit because it
+does not try parent clock rates other than the current one. The same
+applies to all other ccu_nkm_* functions.
+
+So, I can see two options:
+ a. Set pll-video0 to 297 MHz on boot
+ b. Add functionality to ccu_nkm_* to also update the parent clock rate.
+
+I'm actually interested in tackling b, but I can't make any promises as
+to if and when I'll be able to solve it. I'm not certain about any side
+effects this might have.
+
+Until then, is option a acceptable in mainline?
+
+Thanks,
+  Frank
+
+>
+> On a brighter note, when I initialize pll-video0 to 297 MHz in
+> sunxi-ng/ccu-sun50i-a64.c:sun50i_a64_ccu_probe() I get an even 108 Mhz
+> for the data clock. The patch is:
+>
+> 	writel(0x515, reg + SUN50I_A64_PLL_MIPI_REG);
+>
+> +	/*
+> +	 * Initialize PLL VIDEO0 to default values (297 MHz)
+> +	 * to clean up any changes made by bootloader
+> +	 */
+> +	writel(0x03006207, reg + 0x10);
+> +
+> 	ret = devm_sunxi_ccu_probe(&pdev->dev, reg, &sun50i_a64_ccu_desc);
+> 	if (ret)
+> 		return ret;
+>
+> Best,
+>   Frank
