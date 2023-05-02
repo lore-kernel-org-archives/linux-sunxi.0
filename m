@@ -1,120 +1,116 @@
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C30D7E;
-	Tue,  2 May 2023 08:15:28 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 0A58D5803C3;
-	Tue,  2 May 2023 04:15:27 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Tue, 02 May 2023 04:15:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to; s=fm2; t=
-	1683015327; x=1683022527; bh=ghjR7QqLTKl0Wa6Qp/pmJnR12EKA7bqxYQW
-	ouqZ3mAY=; b=G/ReWH/CR4stPP8pBvKE2oH2tiIxeT1Y9djsugPvcan1vwLCNKB
-	+CmHc2S3racpCMakxZ1qQRdhDmpzbTSxPsJLCIAsBgFwKTe+QJwmoUIe5cxfT6Wy
-	tgZI7GBK40sokCJo7woyfvbYgCDiIcu9MJqEUid0mCHXVNlzPDjNZzJJBtLrLhF9
-	X/mbJHalC7bJ1Xs6/CKvhniyT1ORP+ioH4B0Q9MMwa1hEm8wfe270mide7U5ucC4
-	jYc1KiyRZtz0ezseY2LvXW4OKb5R6V9gMew5kODf8MnejtSKgLd/xIANaAqpsh7o
-	O3SUD5day0+7MZzwDONO0PUZT+hvXwYxYyA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1683015327; x=1683022527; bh=ghjR7QqLTKl0Wa6Qp/pmJnR12EKA7bqxYQW
-	ouqZ3mAY=; b=Y/xWbzku7vrNHNzte8uy72nMxc+pbAIi4IeA/XfvwUvtiZV9Est
-	bPyNKEthPJpnwnx5/Y68ss9jDEmHmeNI9uaomvywj4LEhNdN2/6OUB0Ap6qjjHvb
-	OQIPRGrLOJBmcaLg/XgkHAzTOPE5Xwu/E3de9zryJ4QMstqpCG+bbbWHvXXdfXgL
-	L+W8t5CYwFrU7f8XrnzjjIYPTrCSQ2/hUzXAWg8+DhkBUcIkmt6eVQO+8Sms9yZ1
-	Z+nDtml+a4kCprv84LWaOxgu+YrgM2G6hBbX6r3CD52Qvxv2Jvyac8zhWROAt9xl
-	Ftb8duEVIIhaiX5H6fsUSxaLGjuOvtdmUyw==
-X-ME-Sender: <xms:nsZQZGG99LYs7t6dhgAngkbsv9osgUeFMS5nCv0_eqkMW790xp5pVg>
-    <xme:nsZQZHXku8NWvKl4XxdR48yR-0RVaLsU5fwZmJq18kazWD7vv8gAEIoPKVDAKkTuy
-    5prPVni2U8mfnd5sN8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedviecutefuodetggdotefrodftvfcurf
-    hrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedftehrnhgu
-    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudektdfgjeev
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
-    gusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:nsZQZAK8fS_X5YYcPQ8tmCY5TK5FJ7gjlJsS0RCSCVoEK-Zwdrq3Yw>
-    <xmx:nsZQZAFFLoJhNSVEvLGVyQfmt0zeZphfcdHG8-tw9pYY47GFwhKrNA>
-    <xmx:nsZQZMUL4rbP96pvZI76ZCUHun2qRq8vNtMGMdc-nT5M5xb0isYJ2g>
-    <xmx:n8ZQZPq1o7msWppgt2EUHhnFGcmwGcb09Ud671-g5_97NEtVzT49Eg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 1C690B60086; Tue,  2 May 2023 04:15:26 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-374-g72c94f7a42-fm-20230417.001-g72c94f7a
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04A4EA45
+	for <linux-sunxi@lists.linux.dev>; Tue,  2 May 2023 09:13:32 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 54A484B3;
+	Tue,  2 May 2023 02:14:16 -0700 (PDT)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 727743F5A1;
+	Tue,  2 May 2023 02:13:30 -0700 (PDT)
+Date: Tue, 2 May 2023 10:13:17 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Ludwig Kormann <ludwig.kormann@in-circuit.de>
+Cc: samuel@sholland.org, jernej.skrabec@gmail.com, wens@csie.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] arm: dts: sunxi: Add ICnova A20 ADB4006 board
+ support
+Message-ID: <20230502101317.39767a0d@slackpad.lan>
+In-Reply-To: <10a2e893-18b6-d9c2-1db7-3d500cc0891c@in-circuit.de>
+References: <20230420102409.1394618-1-ludwig.kormann@in-circuit.de>
+	<10a2e893-18b6-d9c2-1db7-3d500cc0891c@in-circuit.de>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <720a2829-b6b5-411c-ac69-9a53e881f48d@app.fastmail.com>
-In-Reply-To: 
- <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
-References: <20220328000915.15041-1-ansuelsmth@gmail.com>
- <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
- <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain>
- <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
- <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
- <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
-Date: Tue, 02 May 2023 10:15:03 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Rob Herring" <robh+dt@kernel.org>,
- "Geert Uytterhoeven" <geert@linux-m68k.org>,
- "Olof Johansson" <olof@lixom.net>
-Cc: "Christian Marangi" <ansuelsmth@gmail.com>,
- "Krzysztof Kozlowski" <krzk@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Linux-OMAP <linux-omap@vger.kernel.org>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
- linux-aspeed@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
- chrome-platform@lists.linux.dev,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- kernel@dh-electronics.com, linux-mediatek@lists.infradead.org,
- openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
- "linux-oxnas@groups.io" <linux-oxnas@groups.io>,
- linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-realtek-soc@lists.infradead.org
-Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 25, 2023, at 17:57, Rob Herring wrote:
-> On Tue, Apr 25, 2023 at 2:28=E2=80=AFAM Geert Uytterhoeven <geert@linu=
-x-m68k.org> wrote:
->
->> Does your script also cater for .dts files not matching any pattern,
->> but including a .dtsi file that does match a pattern?
->
-> I assume I built everything after moving, but maybe not...
->
-> That's all just "details". First, we need agreement on a) moving
-> things to subdirs and b) doing it 1-by-1 or all at once. So far we've
-> been stuck on a) for being 'too much churn'.
+On Tue, 2 May 2023 10:06:20 +0200
+Ludwig Kormann <ludwig.kormann@in-circuit.de> wrote:
 
-Sorry for missing most of the discussion last week. The script sounds
-fine to me, the only reason I didn't want to do this in the past is that
-we had the plan to move platforms out of the kernel tree to an external
-repository and I wanted to do this platform at a time and also only move
-each one once. I don't think that is going to happen anytime soon now,
-so let's just do your script.
+Hi,
 
-Can you send me the script and/or a pull request of the resulting
-tree based on my soc/dt branch? Everything is merged upstream,
-and I think git-merge would handle the remaining merges with any
-other changes in mainline.
+> Hello,
+> 
+> thanks for the reviews so far!
+> 
+> Is there anything I can do / need to do for my patch series for it to 
+> get merged before -rc1?
 
-        Arnd
+The cutoff date for most board DT patches to get into a release is
+around -rc5/-rc6 of the *previous* release: patches should live in
+linux-next for a while. Also most pull requests need to "trickle up" the
+stream first (from the sunxi tree to the SoC tree, then into mainline).
+So -rc1 is out of reach now.
+
+> The patch series was based on the "for-next" branch in jernej's tree, 
+> but it seems that it was too late for the "dt-for-6.4" merge.
+
+Yes.
+
+> So I'm just trying to understand in general what the best way in this 
+> situation would be:
+> - wait if someone else takes the patch series before -rc1
+> - wait for -rc1 and rebase, rework, send a new version of the patch 
+> series (because of the planned restructuring of the ARM dts directory)
+
+Yes, this is the way to go. The maintainers will probably take care of
+any minor conflicts (like in the Makefile), so (the upcoming) -rc1
+should be the base tree. For new DT files the conflict potential should
+be minimal anyway.
+Just make sure to run "make dt_binding_check" and "make dtbs_check"
+again, because the rules might have been updated meanwhile.
+
+Cheers,
+Andre
+
+
+> - wait for -rc3 (?) and rebase & rework the patch series for jernej's 
+> tree for the "dt-for-6.5" branch
+> 
+> Thanks for your help.
+> 
+> kind regards
+> Ludwig Kormann
+> 
+> 
+> Am 20.04.23 um 12:24 schrieb Ludwig Kormann:
+> > Add board support for ICnova A20 SomPi compute module on
+> > ICnova ADB4006 development board.
+> >
+> > v3:
+> > - drop stray blank lines at end of files
+> > - separate patch for bindings
+> > - update licensing to "GPL-2.0 OR MIT"
+> > - fix typo: ICNova -> ICnova
+> >
+> > v2:
+> > - use short licensing header
+> > - remove deprecated elements from led nodes
+> > - disable csi power supply
+> > - add missing pins in usbphy node
+> > - split dts into SoM dtsi and carrier board dts
+> >
+> > v1 of this patch was sent to the uboot mailing list [1].
+> >
+> > [1] https://lists.denx.de/pipermail/u-boot/2023-April/514605.html
+> >
+> > Ludwig Kormann (2):
+> >    dt-bindings: arm: sunxi: add ICnova A20 ADB4006 binding
+> >    arm: dts: sunxi: Add ICnova A20 ADB4006 board
+> >
+> >   .../devicetree/bindings/arm/sunxi.yaml        |   6 +
+> >   arch/arm/boot/dts/Makefile                    |   1 +
+> >   .../boot/dts/sun7i-a20-icnova-a20-adb4006.dts | 137 ++++++++++++++++++
+> >   arch/arm/boot/dts/sun7i-a20-icnova-a20.dtsi   |  62 ++++++++
+> >   4 files changed, 206 insertions(+)
+> >   create mode 100644 arch/arm/boot/dts/sun7i-a20-icnova-a20-adb4006.dts
+> >   create mode 100644 arch/arm/boot/dts/sun7i-a20-icnova-a20.dtsi
+> >  
+
