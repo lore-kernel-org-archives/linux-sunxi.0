@@ -1,186 +1,119 @@
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26304D50E;
-	Wed,  3 May 2023 11:02:35 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailnew.west.internal (Postfix) with ESMTP id 6C7392B0671E;
-	Wed,  3 May 2023 07:02:32 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Wed, 03 May 2023 07:02:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to; s=fm3; t=
-	1683111752; x=1683118952; bh=MMamfdw2Idw7oZk+/E3mvL+dBo0TUHD8cWv
-	2z+u/0pc=; b=WBctjyvS2xYVsNx/PXLCezyBfk6d0fNGJLAbjyR93iv+JntYfRw
-	1FknZqmA6tsFPUoOxwPIzC92Rp5Y6yMCdnzeprisuAEmk/2FwjwhujnyjmXpkimB
-	SppIL5oaBfr59F6AzPecb7p3PngCPKwbucj2v1SwZaiAn0b8V6yRvxWIATOoB1yT
-	kTJFFdKrKoLxDca9M6vO2wD00yP0v9E+Y6cH9ws5eKi/SUd2UHkyPleSrFe3oyLX
-	8GenDC9VkDzpl0DM3D3MJqCCidmbvb4oXCVvEsbwuVU7zsrm1wOjex4kRkPwyRT1
-	Y3o5kMbVVaclWgwF5PhZKyT7r7Y+YHslZ1Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1683111752; x=1683118952; bh=MMamfdw2Idw7oZk+/E3mvL+dBo0TUHD8cWv
-	2z+u/0pc=; b=AH+K36zaN4zYugn+q+n765d7RqYhBnYAkyeBKpd/jUwnO4cc17N
-	sOtk4fgnjqgBRejjoUPfmgWTaKFP4N6l86PC9yWkTl7qSHDYKt8zUNrMJm7hgsac
-	MAKOY5kQ55a0V+cd6KgpG+xKpJy4SWbnKyPbmZiW4Z0r+3tL/pAww5DKoBXtHvDI
-	i273D40wtniWtgLX4sC5ApVUdClgCvIzPssLKxyAw/v9JuPv2gH8vOUO3lADSDBb
-	NaXuK10560hVSSAb2s815TRFlAaY6HIsVEB4nLwDJq5pD3D+mqkoaNJij4p9s68c
-	FZWuHfNk6rEKY5SsKc3Dqj2x0oLyHX/paVw==
-X-ME-Sender: <xms:Rj9SZKlTTnbDiHX55Z0zVK4RRHqTtD34Ic0kr9gu8LXRZUd5vW1sNQ>
-    <xme:Rj9SZB2RRbTSlfnvoyCiq-CjuDURcGdNgs5GoDJl4qCHFJ5-ZHoIvp9bWKCYjpXN-
-    ODT0WgrXyw40LeC0sc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedvkedgfeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
-    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:Rj9SZIovGybcnhaYiLbWAMPNr2wtxMzL-NEtbKfgejz2jVx79Q3BOw>
-    <xmx:Rj9SZOmlZGrdb2-rGVi2XdPxahue8H13hkdPES4NDGwCeY-jXgd-ew>
-    <xmx:Rj9SZI2--fY13skOLwZ1x9wt_VRgsao0yXJv8XyToKLEhPijWfOSBw>
-    <xmx:SD9SZMJstDJSwk6E9VhGeSPmli8W6KuMDF8H4lCfg1AWmdfP8FfC5WnUfw0>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id B77FBB6008D; Wed,  3 May 2023 07:02:30 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-386-g2404815117-fm-20230425.001-g24048151
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 145F7D50F;
+	Wed,  3 May 2023 12:02:18 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0EA0F2F4;
+	Wed,  3 May 2023 05:03:02 -0700 (PDT)
+Received: from [10.57.82.232] (unknown [10.57.82.232])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 671F23F5A1;
+	Wed,  3 May 2023 05:02:12 -0700 (PDT)
+Message-ID: <1a995f30-31fe-354f-ddfe-e944fa36e7a0@arm.com>
+Date: Wed, 3 May 2023 13:01:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <99b49e6b-e963-415a-a2c9-72505087833c@app.fastmail.com>
-In-Reply-To: 
- <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
-References: <20220328000915.15041-1-ansuelsmth@gmail.com>
- <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
- <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain>
- <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
- <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
- <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
- <720a2829-b6b5-411c-ac69-9a53e881f48d@app.fastmail.com>
- <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
-Date: Wed, 03 May 2023 13:02:10 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Rob Herring" <robh+dt@kernel.org>
-Cc: "Geert Uytterhoeven" <geert@linux-m68k.org>,
- "Olof Johansson" <olof@lixom.net>,
- "Christian Marangi" <ansuelsmth@gmail.com>,
- "Krzysztof Kozlowski" <krzk@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Linux-OMAP <linux-omap@vger.kernel.org>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
- linux-aspeed@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
- chrome-platform@lists.linux.dev,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- linux-samsung-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, kernel@dh-electronics.com,
- linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org,
- linux-tegra@vger.kernel.org,
- "linux-oxnas@groups.io" <linux-oxnas@groups.io>,
- linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org,
- linux-rockchip@lists.infradead.org,
- linux-realtek-soc@lists.infradead.org
-Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH 02/20] iommu/terga-gart: Replace set_platform_dma_ops()
+ with IOMMU_DOMAIN_PLATFORM
+Content-Language: en-GB
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Andy Gross <agross@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Orson Zhai <orsonzhai@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Niklas Schnelle <schnelle@linux.ibm.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Krishna Reddy
+ <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+ Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Kevin Tian <kevin.tian@intel.com>, Nicolin Chen <nicolinc@nvidia.com>,
+ Steven Price <steven.price@arm.com>
+References: <2-v1-21cc72fcfb22+a7a-iommu_all_defdom_jgg@nvidia.com>
+ <1db712d2-9e33-4183-2766-34e32f170507@arm.com> <ZFI/D6mnLKYpdIqx@nvidia.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <ZFI/D6mnLKYpdIqx@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 2, 2023, at 21:40, Rob Herring wrote:
-> On Tue, May 2, 2023 at 3:15=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> w=
-rote:
+On 2023-05-03 12:01, Jason Gunthorpe wrote:
+> On Wed, May 03, 2023 at 10:17:29AM +0100, Robin Murphy wrote:
+>> On 2023-05-01 19:02, Jason Gunthorpe wrote:
+>>> tegra-gart seems to be kind of wonky since from the start its 'detach_dev'
+>>> op doesn't actually touch hardware. It is supposed to empty the GART of
+>>> all translations loaded into it.
+>>
+>> No, detach should never tear down translations - what if other devices are
+>> still using the domain?
+> 
+> ?? All other drivers do this.
 
-> vendor_map =3D {
->     'alphascale' : 'alphascale',
->     'alpine' : 'alpine',
+The only driver I'm aware of which effectively tore down mappings by 
+freeing its pagetable on detach was sprd-iommu, and that was recently 
+fixed on account of it being clearly wrong.
 
-I would make this one 'amazon' if we go with current manufacturers.
+Remember that the GART registers here are literally just its pagetable, 
+nothing more.
 
->     'nspire' : 'nspire',
+> The core contract is that this sequence:
+> 
+>     dom = iommu_domain_alloc()
+>     iommu_attach_device(dom, dev)
+>     iommu_map(dom,...)
+>     iommu_detach_device(dom, dev)
+> 
+> Will not continue to have the IOVA mapped to the device. We rely on
+> this for various error paths.
 
-nspire is the name of the end-user product, so that doesn't quite
-fit. The SoC was apparently an LSI logic Zevio, which is now owned
-by Broadcom.
+Yes, I'm not disputing that we expect detach to remove that device's 
+*access* to the IOVA (which is what GART can't do...), but it should 
+absolutely not destroy the IOVA mapping itself. Follow that sequence 
+with iommu_attach_device(dom, dev) again and the caller can expect to be 
+able to continue using the same translation.
 
->     'mvebu' : 'marvell',
->     'mmp' : 'marvell',
->     'berlin' : 'berlin',
+> If the HW is multi-device then it is supposed to have groups.
 
-While berlin is related to pxa/mmp, this one is now owned
-by Synaptics, and the 64-bit versions are already in the
-synaptics subdir, so I'd go with teh same here.
+Groups are in fact the most practical example: set up a VFIO domain, 
+attach two groups to it, map some IOVAs, detach one of the groups, keep 
+using the other. If the detach carried an implicit iommu_unmap() there 
+would be fireworks.
 
->     'openbmc' : 'aspeed',
->     'en7' : 'airoha',
+>>> Call this weirdness PLATFORM which keeps the basic original
+>>> ops->detach_dev() semantic alive without needing much special core code
+>>> support. I'm guessing it really ends up in a BLOCKING configuration, but
+>>> without any forced cleanup it is unsafe.
+>>
+>> The GART translation aperture is in physical address space, so the truth is
+>> that all devices have access to it at the same time as having access to the
+>> rest of physical address space. Attach/detach here really are only
+>> bookkeeping for which domain currently owns the aperture.
+> 
+> Oh yuk, that is not an UNMANAGED domain either as we now assume empty
+> UNMANAGED domains are blocking in the core...
 
-airoha is a separate company now, but the hardware is still
-shared with mediatek, so we could consider lumping it into
-that subdir, but a separate one may be better long-term.
+They are, in the sense that accesses within the aperture won't go 
+anywhere. It might help if domain->geometry.force_aperture was 
+meaningful, because it's never been clear whether it was supposed to 
+reflect a hardware capability (in which case it should be false for 
+GART) or be an instruction to the user of the domain (wherein it's a bit 
+pointless that everyone always sets it).
 
->     'gemini' : 'gemini',
-
-This one is also a product name, not a company. Apparently,
-gemini was originally made by Storm Semiconductor, and then
-by Cortina, which was subsequently acquired by Inphi, and that ended
-up in Marvell after the product was already discontinued.
-
-Out of the four, I'd probably go with 'cortina' as the
-directory name.
-
->     'meson' : 'meson',
-
--> amlogic
-
->     'moxa' : 'moxa',
->     'mstar' : 'mstar',
-
--> sigmastar
-
->     'nuvo' : 'nuvoton',
->     'lpc' : 'lpc',
-
--> nxp
-
->     'lan96' : 'microchip',
->     'owl' : 'actions',
->     'ox8' : 'oxsemi',
->     'rda' : 'rda',
-
--> unisoc
-
->     'rtd' : 'realtek',
->     'r7' : 'renesas',
->     'r8' : 'renesas',
->     'r9' : 'renesas',
->     'emev2' : 'renesas',
->     'sh73a' : 'renesas',
->     'gr-' : 'renesas',
->     'iwg' : 'renesas',
->     'rk' : 'rockchip',
->     'rv11' : 'rockchip',
->     'rockchip' : 'rockchip',
->     'socfpga' : 'socfpga',
-
--> intel
-
->     'stm' : 'stm32',
->     'sti' : 'sti',
->     'st-pin' : 'sti',
->     'ste' : 'st-ericsson',
->     'spear' : 'spear',
-
-I would put all five of these into 'st'. The ux500 was developed
-in st-ericsson, but last sold by st, and the other ones are all
-original st products.
-
-      Arnd
+Thanks,
+Robin.
