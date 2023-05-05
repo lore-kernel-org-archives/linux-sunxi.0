@@ -1,25 +1,26 @@
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95473156E0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2BBF1C17
 	for <linux-sunxi@lists.linux.dev>; Fri,  5 May 2023 05:34:28 +0000 (UTC)
 Received: from relay8-d.mail.gandi.net (unknown [217.70.183.201])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id E2DD6C54D7
-	for <linux-sunxi@lists.linux.dev>; Fri,  5 May 2023 05:21:34 +0000 (UTC)
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id C1E7CC57C4
+	for <linux-sunxi@lists.linux.dev>; Fri,  5 May 2023 05:21:37 +0000 (UTC)
 Received: (Authenticated sender: me@crly.cz)
-	by mail.gandi.net (Postfix) with ESMTPSA id 440EA1BF20A;
-	Fri,  5 May 2023 05:21:21 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 1156A1BF206;
+	Fri,  5 May 2023 05:21:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crly.cz; s=gm1;
-	t=1683264086;
+	t=1683264089;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=GRdOoP7K5t1Qmrug0XJy+c34os7rpF7gVntp5bQK458=;
-	b=MHUcTg5y6RwNfqDH4nhHg2jVT68SY2Ni30HE0C+0bJZIHv7pXGu7TP0auq613VAvcx7Atr
-	nRpeaPT5xAVxBE+vcB1RsIgtNIoIz73PQC4hma+ndYr8wOga6YbQT5yaHXm0o9iVhiRIps
-	oNEPiXY+wOU37gA/U3adL9J7Ush70ixMokIFaYqqSbUmNQIvWf1Rsj70ErsszCOloyBnAp
-	MtUydyM7/eo3M4M4fj7fUf2O+zTb/9m5ieB3VPFkWipEhz7rt8Zd/wBMtwwqiURu207uJD
-	nmxmyelyX+jSrtuoPEen50qWTCErqWoGtethnfymqSiNQnbPbSxtUAcfwGgNaw==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BTishZVtaZFYmhTS+E1QiU0pRfLyhtvgErYcS+oT66w=;
+	b=GVdpRfQ/+vgBYi++UmvBh4Y77lLLjV4XQnUR02Wa1uGtdEboJRUvP2SlRJqgIndYgUV7bf
+	A2HTns2I7UbKS8wBlemmnZEVKfAQDxFLWchJe5CBss/g2qHVcGZjEtFngnl/tApm5H8A7l
+	fMbdVIExXmZwm74jiCf44UO/+ppvgyZWEhUYttjca9+sE05nsLhCUAX/tChhhoMZSOUlmk
+	LoG9YlW1mwJ9vQ4thicJrxVG/+NP+VBSlzEwpgc9VNK0+58Wfufl+OGVUnyzqIysybzLW5
+	0ddVdLLGX5DO5ASd1DlaX3OvGdxNMjBUEteikOQ/aIIu5ZpKtgOV0NtS3LVIqQ==
 From: Roman Beranek <me@crly.cz>
 To: Maxime Ripard <mripard@kernel.org>,
 	David Airlie <airlied@gmail.com>,
@@ -40,10 +41,12 @@ Cc: Frank Oltmanns <frank@oltmanns.dev>,
 	linux-sunxi@lists.linux.dev,
 	linux-clk@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 0/4] drm: sun4i: set proper TCON0 DCLK rate in DSI mode
-Date: Fri,  5 May 2023 07:21:06 +0200
-Message-Id: <20230505052110.67514-1-me@crly.cz>
+Subject: [PATCH v4 1/4] clk: sunxi-ng: a64: force select PLL_MIPI in TCON0 mux
+Date: Fri,  5 May 2023 07:21:07 +0200
+Message-Id: <20230505052110.67514-2-me@crly.cz>
 X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+In-Reply-To: <20230505052110.67514-1-me@crly.cz>
+References: <20230505052110.67514-1-me@crly.cz>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -52,56 +55,59 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+TCON0's source clock can be fed from either PLL_MIPI, or PLL_VIDEO0(2X),
+however MIPI DSI output only seems to work when PLL_MIPI is selected and
+thus the choice must be hardcoded in.
 
-According to Allwinner's BSP code, in DSI mode, TCON0 clock needs to be
-running at what's effectively the per-lane datarate of the DSI link.
-Given that the TCON DCLK divider is fixed to 4 (SUN6I_DSI_TCON_DIV),
-DCLK can't be set equal to the dotclock. Therefore labeling TCON DCLK
-as sun4i_dotclock or tcon-pixel-clock shall be avoided.
+Currently, this driver can't propagate rate change from N-K-M clocks
+(such as PLL_MIPI) upwards. This prevents PLL_VIDEO0 from participating
+in setting of the TCON0 data clock rate, limiting the precision with
+which a target pixel clock can be matched.
 
-With bpp bits per pixel transmitted over n DSI lanes, the target DCLK
-rate for a given pixel clock is obtained as follows:
+For outputs with fixed TCON0 divider, that is DSI and LVDS, the dotclock
+can deviate up to 8% off target.
 
-DCLK rate = 1/4 * bpp / n * pixel clock
+Signed-off-by: Roman Beranek <me@crly.cz>
+---
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-Effect of this change can be observed through the rate of Vblank IRQs
-which should now match refresh rate implied by set display mode. It
-was verified to do so on a A64 board with a 2-lane and a 4-lane panel.
-
-v2:
-1. prevent reparent of tcon0 to pll-video0-2x
-2. include pll-video0 in setting TCON0 DCLK rate
-3. tested the whole thing also on a PinePhone
-
-v3:
-1. accept that pll-video0 can't be included in setting TCON0 DCLK rate
-2. reset pll-video0 to its default rate in case u-boot changed it
-
-v4:
-1. keep pll-video0 as is
-2. assign parent to TCON0 mux in sun50i_a64_ccu_probe (not in DT)
-
-Roman Beranek (4):
-  clk: sunxi-ng: a64: force select PLL_MIPI in TCON0 mux
-  ARM: dts: sunxi: rename tcon's clock output
-  drm: sun4i: rename sun4i_dotclock to sun4i_tcon_dclk
-  drm: sun4i: calculate proper DCLK rate for DSI
-
- arch/arm/boot/dts/sun5i.dtsi                  |  2 +-
- arch/arm/boot/dts/sun8i-a23-a33.dtsi          |  2 +-
- arch/arm/boot/dts/sun8i-a83t.dtsi             |  2 +-
- arch/arm/boot/dts/sun8i-v3s.dtsi              |  2 +-
- arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  2 +-
- drivers/clk/sunxi-ng/ccu-sun50i-a64.c         | 14 +++++-
- drivers/gpu/drm/sun4i/Makefile                |  2 +-
- drivers/gpu/drm/sun4i/sun4i_tcon.c            | 46 +++++++++++--------
- .../{sun4i_dotclock.c => sun4i_tcon_dclk.c}   |  2 +-
- .../{sun4i_dotclock.h => sun4i_tcon_dclk.h}   |  0
- 10 files changed, 46 insertions(+), 28 deletions(-)
- rename drivers/gpu/drm/sun4i/{sun4i_dotclock.c => sun4i_tcon_dclk.c} (99%)
- rename drivers/gpu/drm/sun4i/{sun4i_dotclock.h => sun4i_tcon_dclk.h} (100%)
-
-
-base-commit: 8a91b29f1f50ce7742cdbe5cf11d17f128511f3f
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+index 41519185600a..eb36f8f77d55 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+@@ -528,11 +528,18 @@ static SUNXI_CCU_M_WITH_MUX_GATE(de_clk, "de", de_parents,
+ 				 0x104, 0, 4, 24, 3, BIT(31),
+ 				 CLK_SET_RATE_PARENT);
+ 
++/*
++ * DSI output seems to work only when PLL_MIPI selected. Set it and prevent
++ * the mux from reparenting.
++ */
++#define SUN50I_A64_TCON0_CLK_REG	0x118
++
+ static const char * const tcon0_parents[] = { "pll-mipi", "pll-video0-2x" };
+ static const u8 tcon0_table[] = { 0, 2, };
+ static SUNXI_CCU_MUX_TABLE_WITH_GATE(tcon0_clk, "tcon0", tcon0_parents,
+ 				     tcon0_table, 0x118, 24, 3, BIT(31),
+-				     CLK_SET_RATE_PARENT);
++				     CLK_SET_RATE_PARENT |
++				     CLK_SET_RATE_NO_REPARENT);
+ 
+ static const char * const tcon1_parents[] = { "pll-video0", "pll-video1" };
+ static const u8 tcon1_table[] = { 0, 2, };
+@@ -953,6 +960,11 @@ static int sun50i_a64_ccu_probe(struct platform_device *pdev)
+ 
+ 	writel(0x515, reg + SUN50I_A64_PLL_MIPI_REG);
+ 
++	/* Set PLL MIPI as parent for TCON0 */
++	val = readl(reg + SUN50I_A64_TCON0_CLK_REG);
++	val &= ~GENMASK(26, 24);
++	writel(val | (0 << 24), reg + SUN50I_A64_TCON0_CLK_REG);
++
+ 	ret = devm_sunxi_ccu_probe(&pdev->dev, reg, &sun50i_a64_ccu_desc);
+ 	if (ret)
+ 		return ret;
 -- 
 2.32.0 (Apple Git-132)
+
