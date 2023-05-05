@@ -1,23 +1,26 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1147D1C07
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9747A1C11
+	for <linux-sunxi@lists.linux.dev>; Fri,  5 May 2023 05:34:28 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (unknown [217.70.183.201])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id CE9FFC5ABE
 	for <linux-sunxi@lists.linux.dev>; Fri,  5 May 2023 05:21:40 +0000 (UTC)
 Received: (Authenticated sender: me@crly.cz)
-	by mail.gandi.net (Postfix) with ESMTPSA id 3AE901BF208;
-	Fri,  5 May 2023 05:21:36 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 1D8731BF209;
+	Fri,  5 May 2023 05:21:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crly.cz; s=gm1;
-	t=1683264099;
+	t=1683264093;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MA7Dv2Qs3SnMl09WxFtijC9xKkxYGB+hhEONwk+AOpE=;
-	b=KRxGZnPIwFPcXwsh95D8QJGiTws0jL1SgdggYOeNdxHN2tLFu4HCSu5X7f9udRmDknwQ8j
-	PGD3r6spEUAp6+4VkbtTk7vhSjD7fZvmpXSRF7Y+wJP+eXOM9OtiXUA2ee6EvjVeOcSC60
-	T8p8Np2hXSMdk6AggOc+AMiOUamTC5KZHkVw4Z3VjNoCVMlak3YJEt9rkw2jSAHZCMjgdy
-	pxMaby2+q96VF3MvfXHhEHaJ07BbQ2DTFqFCz+3zkZg/7uf5LFYlnCTKurKb1dBHdh5Ltd
-	NBpVVWhjcdsQvg8+ysJszRpAQdvIX8kFInl1XnOGZ0UAebddt4DaHhQFQrvffQ==
+	bh=/oot7a6jjkHYrhgmWeZp0eSKNEBceRdK+riq6iDjoiY=;
+	b=LochVUyvd29nALvDfn6vrXXHq8NtkMhpSDMjMhWh8muXxnY0iuJCA7KVuy3wPIENCLmP3N
+	+lvbJmrzSwmyTeS5AaNyYHEsB49wA7QGY/c/CEgmx7UZCjRIGdX9kg6/e4lGcR2h09P55p
+	43o+qi54mr4oBU8/hTWMPBwQD39D9UFqqK61RNBDdtFLjUAm9AgZfkpkrcGLiyJH6jwugb
+	EimAaRpvYJ8/3G396KPd31KsYBZYFc6blToQOVp6ad5lvxRAkASW/rpYr0bcb+A3uOGQeX
+	in4wnSIVtSphv98NnFa/DZ1Mfbe6CJ0yPDlY/00Seah2KihwxL3uRRZ3c6vaVQ==
 From: Roman Beranek <me@crly.cz>
 To: Maxime Ripard <mripard@kernel.org>,
 	David Airlie <airlied@gmail.com>,
@@ -38,9 +41,9 @@ Cc: Frank Oltmanns <frank@oltmanns.dev>,
 	linux-sunxi@lists.linux.dev,
 	linux-clk@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 4/4] drm: sun4i: calculate proper DCLK rate for DSI
-Date: Fri,  5 May 2023 07:21:10 +0200
-Message-Id: <20230505052110.67514-5-me@crly.cz>
+Subject: [PATCH v4 2/4] ARM: dts: sunxi: rename tcon's clock output
+Date: Fri,  5 May 2023 07:21:08 +0200
+Message-Id: <20230505052110.67514-3-me@crly.cz>
 X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 In-Reply-To: <20230505052110.67514-1-me@crly.cz>
 References: <20230505052110.67514-1-me@crly.cz>
@@ -52,85 +55,85 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In DSI mode, TCON0's data clock is required to run at 1/4 the per-lane
-bit rate.
+While the rate of TCON0's DCLK matches dotclock for parallel and LVDS
+outputs, this doesn't hold for DSI. According manuals from Allwinner,
+DCLK is an abbreviation of Data Clock, not dotclock, so go with that
+instead.
 
 Signed-off-by: Roman Beranek <me@crly.cz>
 ---
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 36 +++++++++++++++++-------------
- 1 file changed, 21 insertions(+), 15 deletions(-)
+ arch/arm/boot/dts/sun5i.dtsi                  | 2 +-
+ arch/arm/boot/dts/sun8i-a23-a33.dtsi          | 2 +-
+ arch/arm/boot/dts/sun8i-a83t.dtsi             | 2 +-
+ arch/arm/boot/dts/sun8i-v3s.dtsi              | 2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index eec26b1faa4b..b263de7a8237 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -291,18 +291,6 @@ static int sun4i_tcon_get_clk_delay(const struct drm_display_mode *mode,
- 	return delay;
- }
+diff --git a/arch/arm/boot/dts/sun5i.dtsi b/arch/arm/boot/dts/sun5i.dtsi
+index 250d6b87ab4d..2f901a013676 100644
+--- a/arch/arm/boot/dts/sun5i.dtsi
++++ b/arch/arm/boot/dts/sun5i.dtsi
+@@ -286,7 +286,7 @@ tcon0: lcd-controller@1c0c000 {
+ 			clock-names = "ahb",
+ 				      "tcon-ch0",
+ 				      "tcon-ch1";
+-			clock-output-names = "tcon-pixel-clock";
++			clock-output-names = "tcon-data-clock";
+ 			#clock-cells = <0>;
+ 			status = "disabled";
  
--static void sun4i_tcon0_mode_set_common(struct sun4i_tcon *tcon,
--					const struct drm_display_mode *mode)
--{
--	/* Configure the dot clock */
--	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
--
--	/* Set the resolution */
--	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
--		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
--		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
--}
--
- static void sun4i_tcon0_mode_set_dithering(struct sun4i_tcon *tcon,
- 					   const struct drm_connector *connector)
- {
-@@ -367,10 +355,18 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
- 	u32 block_space, start_delay;
- 	u32 tcon_div;
- 
-+	/*
-+	 * dclk is required to run at 1/4 the DSI per-lane bit rate.
-+	 */
- 	tcon->dclk_min_div = SUN6I_DSI_TCON_DIV;
- 	tcon->dclk_max_div = SUN6I_DSI_TCON_DIV;
-+	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000 * (bpp / lanes)
-+						  / SUN6I_DSI_TCON_DIV);
- 
--	sun4i_tcon0_mode_set_common(tcon, mode);
-+	/* Set the resolution */
-+	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-+		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
- 
- 	/* Set dithering if needed */
- 	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-@@ -438,7 +434,12 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
- 
- 	tcon->dclk_min_div = 7;
- 	tcon->dclk_max_div = 7;
--	sun4i_tcon0_mode_set_common(tcon, mode);
-+	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-+
-+	/* Set the resolution */
-+	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-+		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
- 
- 	/* Set dithering if needed */
- 	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-@@ -515,7 +516,12 @@ static void sun4i_tcon0_mode_set_rgb(struct sun4i_tcon *tcon,
- 
- 	tcon->dclk_min_div = tcon->quirks->dclk_min_div;
- 	tcon->dclk_max_div = 127;
--	sun4i_tcon0_mode_set_common(tcon, mode);
-+	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-+
-+	/* Set the resolution */
-+	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-+		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
- 
- 	/* Set dithering if needed */
- 	sun4i_tcon0_mode_set_dithering(tcon, connector);
+diff --git a/arch/arm/boot/dts/sun8i-a23-a33.dtsi b/arch/arm/boot/dts/sun8i-a23-a33.dtsi
+index f630ab55bb6a..ddc87cc15e51 100644
+--- a/arch/arm/boot/dts/sun8i-a23-a33.dtsi
++++ b/arch/arm/boot/dts/sun8i-a23-a33.dtsi
+@@ -190,7 +190,7 @@ tcon0: lcd-controller@1c0c000 {
+ 			clock-names = "ahb",
+ 				      "tcon-ch0",
+ 				      "lvds-alt";
+-			clock-output-names = "tcon-pixel-clock";
++			clock-output-names = "tcon-data-clock";
+ 			#clock-cells = <0>;
+ 			resets = <&ccu RST_BUS_LCD>,
+ 				 <&ccu RST_BUS_LVDS>;
+diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8i-a83t.dtsi
+index 82fdb04122ca..94eb3bfc989e 100644
+--- a/arch/arm/boot/dts/sun8i-a83t.dtsi
++++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
+@@ -456,7 +456,7 @@ tcon0: lcd-controller@1c0c000 {
+ 			interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&ccu CLK_BUS_TCON0>, <&ccu CLK_TCON0>;
+ 			clock-names = "ahb", "tcon-ch0";
+-			clock-output-names = "tcon-pixel-clock";
++			clock-output-names = "tcon-data-clock";
+ 			#clock-cells = <0>;
+ 			resets = <&ccu RST_BUS_TCON0>, <&ccu RST_BUS_LVDS>;
+ 			reset-names = "lcd", "lvds";
+diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
+index db194c606fdc..ab2a0e1235e4 100644
+--- a/arch/arm/boot/dts/sun8i-v3s.dtsi
++++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
+@@ -191,7 +191,7 @@ tcon0: lcd-controller@1c0c000 {
+ 				 <&ccu CLK_TCON0>;
+ 			clock-names = "ahb",
+ 				      "tcon-ch0";
+-			clock-output-names = "tcon-pixel-clock";
++			clock-output-names = "tcon-data-clock";
+ 			#clock-cells = <0>;
+ 			resets = <&ccu RST_BUS_TCON0>;
+ 			reset-names = "lcd";
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+index 62f45f71ec65..e3b17575699c 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+@@ -407,7 +407,7 @@ tcon0: lcd-controller@1c0c000 {
+ 			interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&ccu CLK_BUS_TCON0>, <&ccu CLK_TCON0>;
+ 			clock-names = "ahb", "tcon-ch0";
+-			clock-output-names = "tcon-pixel-clock";
++			clock-output-names = "tcon-data-clock";
+ 			#clock-cells = <0>;
+ 			resets = <&ccu RST_BUS_TCON0>, <&ccu RST_BUS_LVDS>;
+ 			reset-names = "lcd", "lvds";
 -- 
 2.32.0 (Apple Git-132)
 
