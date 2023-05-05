@@ -1,81 +1,111 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FB618BE0
-	for <linux-sunxi@lists.linux.dev>; Fri,  5 May 2023 16:00:20 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0B3E61FB;
-	Fri,  5 May 2023 09:01:04 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CFA093F5A1;
-	Fri,  5 May 2023 09:00:17 -0700 (PDT)
-Date: Fri, 5 May 2023 17:00:15 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Maxim Kiselev <bigunclemax@gmail.com>
-Cc: robh+dt@kernel.org, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>, devicetree@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] riscv: dts: allwinner: d1: Add SPI0 controller node
-Message-ID: <20230505170015.664c18bc@donnerap.cambridge.arm.com>
-In-Reply-To: <CALHCpMi8=t1bMceTOfZjh7aKEQcEEpfeG4wi9pB=5o34Ca+N3w@mail.gmail.com>
-References: <20230505074701.1030980-1-bigunclemax@gmail.com>
-	<20230505105805.548d1a1b@donnerap.cambridge.arm.com>
-	<CALHCpMi8=t1bMceTOfZjh7aKEQcEEpfeG4wi9pB=5o34Ca+N3w@mail.gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD26D5383;
+	Fri,  5 May 2023 17:16:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683306991; x=1714842991;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=COkGdhmzVsdP87GQO1YqoDziPbpeYNGC0sWooQdVgSE=;
+  b=gGKfoPFQ1j8ZRXjdLE/t3B73zXMMFzoAhRI6XfxXiKKezq6/eKDLtJ/l
+   Vxle/p6CS253xaNkG3CilBmW6wVzSrzNSED+QVOLtcyFwcPRngbERtahD
+   pLJJVcRyfq9L5GsdJvRwIs5J3xJRDyt50sYC68A4kqnFyo+KxD85MUgX2
+   9W1Uk0yaRHnIN5ZO2ZBm0LX6BRSikvNa7ojgMxay+7FLrSG6c6qttTnEL
+   8nn6u9WLjTX1//PuFttXBq6jHKZoTiniiGgyhf/u91HUHMHd5yIZLM9fr
+   p45TJcCYmHrDS6bO/NHkueLofUshDcmdO+ttWPDq35ORub0abevk6nxLs
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="435579034"
+X-IronPort-AV: E=Sophos;i="5.99,252,1677571200"; 
+   d="scan'208";a="435579034"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 10:16:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="675166695"
+X-IronPort-AV: E=Sophos;i="5.99,252,1677571200"; 
+   d="scan'208";a="675166695"
+Received: from lkp-server01.sh.intel.com (HELO fe5d646e317d) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 05 May 2023 10:16:23 -0700
+Received: from kbuild by fe5d646e317d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1puz2d-0000mD-0U;
+	Fri, 05 May 2023 17:16:23 +0000
+Date: Sat, 6 May 2023 01:15:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maxime Ripard <maxime@cerno.tech>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Peng Fan <peng.fan@nxp.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Sekhar Nori <nsekhar@ti.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Prashant Gaikwad <pgaikwad@nvidia.com>,
+	linux-phy@lists.infradead.org, linux-clk@vger.kernel.org,
+	Abel Vesa <abelvesa@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Chunyan Zhang <zhang.lyra@gmail.com>, Takashi Iwai <tiwai@suse.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Chen-Yu Tsai <wens@csie.org>, NXP Linux Team <linux-imx@nxp.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>, linux-mips@vger.kernel.org,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	linux-sunxi@lists.linux.dev,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Subject: Re: [PATCH v4 04/68] clk: Introduce
+ clk_hw_determine_rate_no_reparent()
+Message-ID: <202305060103.z9ddfq9A-lkp@intel.com>
+References: <20221018-clk-range-checks-fixes-v4-4-971d5077e7d2@cerno.tech>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221018-clk-range-checks-fixes-v4-4-971d5077e7d2@cerno.tech>
 
-On Fri, 5 May 2023 17:27:07 +0400
-Maxim Kiselev <bigunclemax@gmail.com> wrote:
+Hi Maxime,
 
-Hi Maxim,
+kernel test robot noticed the following build errors:
 
-> > From a quick glance at the manuals, it
-> > looks like there are not quite the same, though: the D1/R528/T113s
-> > mentions a SPI_SAMP_DL register @0x28, whereas the older IP has a SPI_CCR
-> > register @0x24 - which is not mentioned in the newer manuals. The driver
-> > relies on that clock control register, so it wouldn't really work
-> > reliably, if that register is not there.  
-> 
-> Thank you for pointing this out. I missed this difference.
-> I actually have a board with T113 SoC, and it looks like writing to
-> SPI_CCR@0x24 does nothing.
+[auto build test ERROR on 145e5cddfe8b4bf607510b2dcf630d95f4db420f]
 
-According to the manual, the register doesn't exist, so this would support
-this theory. Most Allwinner IP just implements non-existing registers as
-RAZ/WI.
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/clk-Export-clk_hw_forward_rate_request/20230505-193724
+base:   145e5cddfe8b4bf607510b2dcf630d95f4db420f
+patch link:    https://lore.kernel.org/r/20221018-clk-range-checks-fixes-v4-4-971d5077e7d2%40cerno.tech
+patch subject: [PATCH v4 04/68] clk: Introduce clk_hw_determine_rate_no_reparent()
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230506/202305060103.z9ddfq9A-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/3acd93f10087c4a2905407786d6dc7af83c2a58c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Maxime-Ripard/clk-Export-clk_hw_forward_rate_request/20230505-193724
+        git checkout 3acd93f10087c4a2905407786d6dc7af83c2a58c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
 
-> And it doesn't affect access to connected SPI NOR flash (read\write
-> operations are fine).
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305060103.z9ddfq9A-lkp@intel.com/
 
-I guess it just works with *some* (default?) clock settings then. Might be
-faster than configured, but the SPI flash chip might be fine with that.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-> But I completely agree with you that this difference should be handled
-> by the spi driver.
+>> ERROR: modpost: "clk_hw_determine_rate_no_reparent" [drivers/clk/clk_test.ko] undefined!
 
-As Samuel pointed out on IRC, there are patches, for the R329, using the
-same IP:
-https://lore.kernel.org/lkml/BYAPR20MB2472E8B10BFEF75E7950BBC0BCF79@BYAPR20MB2472.namprd20.prod.outlook.com/
-And he also seemed to have issues, at least with SPI-NAND on one board:
-https://lore.kernel.org/lkml/0b5b586a-3bc7-384e-103c-e40d0b2fac23@sholland.org/
-
-Can you please try these patches, and use:
-compatible = "allwinner,sun20i-d1-spi", "allwinner,sun50i-r329-spi";
-for the compatible string?
-If possible, you could revive this series, and add the D1/T113s support on
-top: just add the compatible string combo to the binding document.
-
-Cheers,
-Andre
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
