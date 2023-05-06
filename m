@@ -1,46 +1,47 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C3A1C26
-	for <linux-sunxi@lists.linux.dev>; Sat,  6 May 2023 07:32:35 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3078aa0b152so86859f8f.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 06 May 2023 00:32:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452B61C26
+	for <linux-sunxi@lists.linux.dev>; Sat,  6 May 2023 07:32:44 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3f4000ec6ecso26353225e9.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 06 May 2023 00:32:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683358353; x=1685950353;
+        d=gmail.com; s=20221208; t=1683358362; x=1685950362;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Cc4szePKx1X47wb+R4eZfAu1BbHj1cJ7EQ+8XaS2XQU=;
-        b=jJmA383HE6SadUuzWkr0Aexf3fnIPKp3FGbn6NUtx4kukFoljCKelXY7NBQZ4fslrm
-         rVjI1LL+w02bLpKBuGx7Vvw+i+qUBZi84kFu8sLwmcj8RynSLycyEgBUMZh425IDu21M
-         k1aEe8bCQ+I9UNOMCxD9K9T/Jo9xb8HtFwp/51yjDt4scSY180My623vn9qtvOtbXVyT
-         V+T/ZXVr1ND9qmgXdO7m20L2Iz7k0ju0YxdBVdsSAPO6O4elXWy/8zRU0Jdj3F/6bKCH
-         PXSUr7XUUftdYfOpcHE36/KbgMwU7X8R2soYMRhXBTjtqpDJEoT5NPOuEAXfah9R28xl
-         JTHQ==
+        bh=J+gJSA9KlwYKmHRtBzH4uVO77NzvF1saoblSPNiiNsM=;
+        b=qA6gUHbwstdpIjn8F6SxFuw2gF8TnBRl6Utbnn5nKnIN1dc6yiW4Kggxs98iH2B2TI
+         LIgMeQP0wpeR8uxOcHWEjOqO77jW8dOatD34+yk+VMpZcpGU/1coDkwpM1qXi5NcoaPw
+         VfLOVfsZUEF2u+BG3NieHGrpjmKzmDwjn7mGfjfV8IVOChpF1/rxMRj4Gm3vY908feCA
+         rl3hcqWY++Wx1lJjkJXwE+yzZMH/9xGkNTcbxMjLZUwflRdT/E70DUE1HsaQ2vO3NuFn
+         i3LoscS9nH6gBh0ONq9B5djETjhbT62hU/7C53l3PWjKXHVH3ELC4cu4Ibnav2HpyVa6
+         wN6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683358353; x=1685950353;
+        d=1e100.net; s=20221208; t=1683358362; x=1685950362;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Cc4szePKx1X47wb+R4eZfAu1BbHj1cJ7EQ+8XaS2XQU=;
-        b=BkrkOBMZc9SumjOxl6sjzJ7a1DK3XOkmd9mk8OMuQSygNJfQqPeTLPGJeNNENr/jGm
-         L7+YTqoWXQ6VNFxw67pjCVw7mmsRJFbs0dYtLki34SczAQdFMmIutMFuhEfSVtJPyjWi
-         eUJRwH7tAy3lEVNctSwNaq8U0cf7npcDinogaVu9dez5qSDhTHn08beJNPHhrOtw7Z5J
-         actQhv1IBEG3xNbwVo39DIxXjv25mXZjo/2Hp3iDVRXn2Sgq3mV6Q+lV7jPNbANg+Hmp
-         n2zYDDo6TP0Wetkp/1eY5nMdx4kZyvd8u+wA3JkX6py/zfP9J9/P8c5NwgGW99iPkTwg
-         LOow==
-X-Gm-Message-State: AC+VfDwb9GLxudyz3nSSEp/giP+B6M3R6h8wFb4cLv/8n8wqdI/stiKY
-	6I+ygfd6U0uMxyVv020tfkA=
-X-Google-Smtp-Source: ACHHUZ7iKNMgiA6FrTO13Wh1jcfSYOwc7z8ztUbs82d23I9cVn3y0WpeoXY7leOX/h1s07PE72rZmA==
-X-Received: by 2002:adf:e6cd:0:b0:307:886f:fac1 with SMTP id y13-20020adfe6cd000000b00307886ffac1mr692505wrm.35.1683358353148;
-        Sat, 06 May 2023 00:32:33 -0700 (PDT)
+        bh=J+gJSA9KlwYKmHRtBzH4uVO77NzvF1saoblSPNiiNsM=;
+        b=AHEp8/oZj4oKwbtgZ+rFTqKu115I8wQitdTjwfs/TwGHtscZ8ZtvHv6J+TdlvpDntZ
+         +TzDRRVKp/HZoXowJiy19/ZeHyG61SbSF9PUjKQGAbtrCBTorH8oB6EIDybGOkT10f8u
+         TbIhJbLcwX0hRRM1CtyWIoNaoP0W5T/CyRwzoJ+C+rkFg7vh7qokQjknwGDHL4uQgHRs
+         PwgU2p728vBqdGiLFnX44qq8c9RebIrpXIH6Z/YEXGOV5+k64HZt6GK/Cr7nc5bCVXRT
+         1eYrdRiqMjom7ka4E611IMAf2/nGMcz3WO1i3F3X1KhIQoQnTMU67X7D+VKo7n8+wBuX
+         mh1g==
+X-Gm-Message-State: AC+VfDwgoNHWjbwPWPN2VjhJpuHx5EpS3ihBdhf/uCJBwYNI7dflrSmV
+	Zb+oVOP0qyKLxa1kcexO7S4=
+X-Google-Smtp-Source: ACHHUZ6VgW5RfMKlfXefD5nobAzpG2CP/3myjrgVEXnND0iEFu+mWT1BCJgrUUE+j5IM/f/vxmW0fg==
+X-Received: by 2002:a7b:c8c3:0:b0:3f1:8aaa:c212 with SMTP id f3-20020a7bc8c3000000b003f18aaac212mr2828550wml.33.1683358362207;
+        Sat, 06 May 2023 00:32:42 -0700 (PDT)
 Received: from localhost.localdomain ([176.221.215.212])
-        by smtp.gmail.com with ESMTPSA id q14-20020a7bce8e000000b003f182a10106sm10071944wmj.8.2023.05.06.00.32.30
+        by smtp.gmail.com with ESMTPSA id q14-20020a7bce8e000000b003f182a10106sm10071944wmj.8.2023.05.06.00.32.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 May 2023 00:32:32 -0700 (PDT)
+        Sat, 06 May 2023 00:32:41 -0700 (PDT)
 From: Maksim Kiselev <bigunclemax@gmail.com>
 To: Andre Przywara <andre.przywara@arm.com>
 Cc: Icenowy Zheng <icenowy@aosc.io>,
+	Maksim Kiselev <bigunclemax@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -52,8 +53,6 @@ Cc: Icenowy Zheng <icenowy@aosc.io>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
 	Albert Ou <aou@eecs.berkeley.edu>,
 	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Maksim Kiselev <bigunclemax@gmail.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	linux-spi@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -61,9 +60,9 @@ Cc: Icenowy Zheng <icenowy@aosc.io>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-riscv@lists.infradead.org
-Subject: [PATCH v2 4/6] spi: sun6i: add support for R329 SPI controllers
-Date: Sat,  6 May 2023 10:30:12 +0300
-Message-Id: <20230506073018.1411583-5-bigunclemax@gmail.com>
+Subject: [PATCH v2 5/6] dt-bindings: spi: sun6i: add DT bindings for Allwinner D1/R528/T113s SPI
+Date: Sat,  6 May 2023 10:30:13 +0300
+Message-Id: <20230506073018.1411583-6-bigunclemax@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230506073018.1411583-1-bigunclemax@gmail.com>
 References: <20230506073018.1411583-1-bigunclemax@gmail.com>
@@ -75,47 +74,30 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Icenowy Zheng <icenowy@aosc.io>
+Allwinner D1/R528/T113s SPI has the same as R329 controllers
 
-R329 has two SPI controllers. One of it is quite similar to previous
-ones, but with internal clock divider removed; the other added MIPI DBI
-Type-C offload based on the first one.
+Add compatible string for this controller
 
-Add basical support for these controllers. As we're not going to
-support the DBI functionality now, just implement the two kinds of
-controllers as the same.
-
-Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
+Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
 ---
- drivers/spi/spi-sun6i.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ .../devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml      | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/spi/spi-sun6i.c b/drivers/spi/spi-sun6i.c
-index 82523011a3a5..fe287a45df9b 100644
---- a/drivers/spi/spi-sun6i.c
-+++ b/drivers/spi/spi-sun6i.c
-@@ -715,9 +715,21 @@ static const struct sun6i_spi_cfg sun8i_h3_spi_cfg = {
- 	.has_clk_ctl	= true,
- };
+diff --git a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
+index 2c1b8da35339..164bd6af9299 100644
+--- a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
++++ b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
+@@ -30,6 +30,10 @@ properties:
+               - allwinner,sun50i-h616-spi
+               - allwinner,suniv-f1c100s-spi
+           - const: allwinner,sun8i-h3-spi
++      - items:
++          - enum:
++              - allwinner,sun20i-d1-spi
++          - const: allwinner,sun50i-r329-spi
  
-+static const struct sun6i_spi_cfg sun50i_r329_spi_cfg = {
-+	.fifo_depth	= SUN8I_FIFO_DEPTH,
-+};
-+
- static const struct of_device_id sun6i_spi_match[] = {
- 	{ .compatible = "allwinner,sun6i-a31-spi", .data = &sun6i_a31_spi_cfg },
- 	{ .compatible = "allwinner,sun8i-h3-spi",  .data = &sun8i_h3_spi_cfg },
-+	{
-+		.compatible = "allwinner,sun50i-r329-spi",
-+		.data = &sun50i_r329_spi_cfg
-+	},
-+	{
-+		.compatible = "allwinner,sun50i-r329-spi-dbi",
-+		.data = &sun50i_r329_spi_cfg
-+	},
- 	{}
- };
- MODULE_DEVICE_TABLE(of, sun6i_spi_match);
+   reg:
+     maxItems: 1
 -- 
 2.39.2
 
