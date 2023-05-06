@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383D71FB0
-	for <linux-sunxi@lists.linux.dev>; Sat,  6 May 2023 10:46:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06DA7C433D2;
-	Sat,  6 May 2023 10:46:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6E21FB0
+	for <linux-sunxi@lists.linux.dev>; Sat,  6 May 2023 10:49:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E23DC433EF;
+	Sat,  6 May 2023 10:49:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683369994;
-	bh=ZlRWQ95zd+5sTAIL7gAqnoDe9APBh7ECq48G+NXjqBY=;
+	s=k20201202; t=1683370181;
+	bh=OlQOxYKW4SXZYcXypb34XxCl3+X160znYrTJbr+qWUM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IqcwzGWNSOiBOx2a9oADjHiDrb00JicUT9jRND2AmVJZdpWiXnNRpmNhGENf/7/xV
-	 Mo1atovpgajhmYn216HVE5rZHVPJtJJlJGYKaE64qeFRF+dM5/2/Jk8sQv5Hrt8gaz
-	 QR/KMRMHn7kbzwNgtQJ4vuPN0fkWq+WIIL/xcQBDMvWgTysNKZPYzvAiJhW/EfzjTC
-	 SUOKofzPtaQE1UoP4sL14B0wCTJQ8TRp2ti8vQoFPCqZe2xTtIoPd3wiDNqAGEtS0E
-	 6cojbUC7BL86T0iiM1Ha7cFNXG2Pj0Eg3YY6/E1vRocFfKYKiVQ+/gsrfE66k45dpU
-	 ijQCMyedaZVuA==
-Date: Sat, 6 May 2023 11:46:28 +0100
+	b=MLl1/gdKFqK8ElwObuC+WmydhWi4GpDT7ht6fPKxoC6hAUDlfnZwMPHHpmiEKs0fx
+	 qsR6Wu5FitpadgxOoLkKSwVGXv7vEPiGm/tYXDQx2+cap8x77SaAZQFnmC5kJqUTrk
+	 54Br4GZfN6uo1v7JlHDWpBYqWbFBVpUqJtVWQKQRJAoLZDmQtkaP7AJa8bZFFQybge
+	 lBgOTEj82f2x0u2Ib0GpPib75XdT58vynnHnbbUY9Mt8SP3/lb050p+UvpQY/tf/kX
+	 NcPAyrhuNBcH0XoxXkAcS+/yLhROBcJgr+MFxaKMvBJ2w9uecCttj0VXZMLK/xnfGO
+	 y5lvhkTp5vC5Q==
+Date: Sat, 6 May 2023 11:49:35 +0100
 From: Conor Dooley <conor@kernel.org>
 To: Maksim Kiselev <bigunclemax@gmail.com>
 Cc: Andre Przywara <andre.przywara@arm.com>,
@@ -33,11 +33,11 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
 	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v2 6/6] riscv: dts: allwinner: d1: Add SPI0 controller
- node
-Message-ID: <20230506-synapse-shelving-cc61b168d7c2@spud>
+Subject: Re: [PATCH v2 5/6] dt-bindings: spi: sun6i: add DT bindings for
+ Allwinner D1/R528/T113s SPI
+Message-ID: <20230506-unfixable-lavish-eb7907a1a887@spud>
 References: <20230506073018.1411583-1-bigunclemax@gmail.com>
- <20230506073018.1411583-7-bigunclemax@gmail.com>
+ <20230506073018.1411583-6-bigunclemax@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,42 +45,62 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="SEplYM9AlrXlDGun"
+	protocol="application/pgp-signature"; boundary="5lAUstyTyaabrUyb"
 Content-Disposition: inline
-In-Reply-To: <20230506073018.1411583-7-bigunclemax@gmail.com>
+In-Reply-To: <20230506073018.1411583-6-bigunclemax@gmail.com>
 
 
---SEplYM9AlrXlDGun
+--5lAUstyTyaabrUyb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 06, 2023 at 10:30:14AM +0300, Maksim Kiselev wrote:
-> Some boards form the MangoPi family (MQ\MQ-Dual\MQ-R) may have
-> an optional SPI flash that connects to the SPI0 controller.
+On Sat, May 06, 2023 at 10:30:13AM +0300, Maksim Kiselev wrote:
+> Allwinner D1/R528/T113s SPI has the same as R329 controllers
 >=20
-> This controller is the same for R329/D1/R528/T113s SoCs and
-> should be supported by the sun50i-r329-spi driver.
->=20
-> So let's add its DT node.
+> Add compatible string for this controller
 >=20
 > Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
+> ---
+>  .../devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml      | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-sp=
+i.yaml b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
+> index 2c1b8da35339..164bd6af9299 100644
+> --- a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
+> +++ b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
+> @@ -30,6 +30,10 @@ properties:
+>                - allwinner,sun50i-h616-spi
+>                - allwinner,suniv-f1c100s-spi
+>            - const: allwinner,sun8i-h3-spi
+> +      - items:
+> +          - enum:
+> +              - allwinner,sun20i-d1-spi
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Yah, this one is more like it. The "allwinner,sun50i-r329-spi-dbi" one
+should be done in the way too.
 
-Thanks,
+Cheers,
 Conor.
 
+> +          - const: allwinner,sun50i-r329-spi
+> =20
+>    reg:
+>      maxItems: 1
+> --=20
+> 2.39.2
+>=20
 
---SEplYM9AlrXlDGun
+--5lAUstyTyaabrUyb
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZFYwBAAKCRB4tDGHoIJi
-0gugAPsFaNmurMn1m04GZaPBTMtKIju4z0TINH9oqp4Bn2TkJQD/QsCEt441QKoQ
-fvXJ1d3lQBaor6kkuScmKeu7JcdV4QI=
-=KWaz
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZFYwvwAKCRB4tDGHoIJi
+0kJmAQDqt8aTRyBU1JudXMxWI7MO+3HuHjTKN+FXiHOxoEwPRAEA9d6bTe/01zz2
+D1porgB5E8jZK3nBcEWbGNZ04hDmaQk=
+=RXB8
 -----END PGP SIGNATURE-----
 
---SEplYM9AlrXlDGun--
+--5lAUstyTyaabrUyb--
