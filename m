@@ -1,149 +1,70 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7D8C2EB
-	for <linux-sunxi@lists.linux.dev>; Sat,  6 May 2023 23:27:48 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-306f2b42a86so1986573f8f.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 06 May 2023 16:27:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ECB310F2
+	for <linux-sunxi@lists.linux.dev>; Sat,  6 May 2023 23:34:38 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-50bd2d7ba74so38048612a12.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 06 May 2023 16:34:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683415666; x=1686007666;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6aWNeOXwnkGXx7BWbyXaj7Kul1oiC8tUChPKVcUGoAU=;
-        b=hqBI5AfOQOQd86X8mkaZPkW/VEcSlmA4PGHENrf374QREkEIM45HC5HiV9T6St+Ol9
-         L+Z73x/dc4oo7oWgjad8xZXH4eN5TH+0SyRBktv5r0Srl8Fvu7otgt10ZGBJYiLPxEM6
-         EgqlXZvWGYllVgMEzgOKLIhC0VNANn0LrNFjDJgmzg0BTt8ow+gn6t1wuLeuAtFBrzc3
-         92eek28suumx+hJ7ZjxgUJ/Sc2J8eRroFAEJ7I4h9nzEEcmEQEfTbimX685sW95CEOgr
-         3OCX5KcftyL2ce9y2tltYrPuuH06OzzYlTXN7GAZhn2nAmwNWHxXztLeJVHlPXbyfH9f
-         rDUA==
+        d=gmail.com; s=20221208; t=1683416076; x=1686008076;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=d9CMRNtxtAY+iVGmS9Nhh6aBEK5BkbQct2dEiCYBRLY=;
+        b=REqdkMLCTy5UbebEqan+d2erjtQW+iSjh884sXj1Iqi4KYxB131TlOq+KW3UENuDWX
+         THEXQaq1WHPMypuFmc4Ml820f1CQcnJiRhg6tIzULFl0U7XUdt/BtJkTqvBlwVHTKmZo
+         RrSbBWgY5Z/a+YK/iUZyJUaxTyRDa7mKvcJHTFETzU4XSaLZ732eP3d9cicNn1c/FHPN
+         C+JXs5T4yrUw/3HFnYtgw6Wf5giKRXIvUIVVXxDtuo2MW2/ES9apApq6gqqD8xswEo9j
+         zbpg1K+6pf1+scu4m7KByOUFr/PIsJColgxbgMqpEgGBOkmBp8U6eoMr4U4Ufiv3pJG6
+         9psA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683415666; x=1686007666;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6aWNeOXwnkGXx7BWbyXaj7Kul1oiC8tUChPKVcUGoAU=;
-        b=W012WGhAYaZMQ/nvNqWHOSbcb5Yuhz9VTIclfk2XLMajQuEuOsdBzM4RHd2LBoQFm2
-         rrQhf1GzlfGUyLgFh8iYOyAheIx0cVlBLdKWpGyqW+oznJN7jrlJhd5xxAK5ul4u4UaS
-         HkGfgN9x40nYFUVtFaspoz9ETao/1wUyvJIhF0btNmioGOe/9LZjHbGXYKm4+TPoL3g7
-         +7yDSBtlEqwe+xCNHudvoB6+4b0cnL2+VWdkN/981faPn5yXItKOSG85d5cySq2jQlOR
-         +zuIDKJ+ynEgzFAj56iAy3PW+FbvxChNIMwxMlvcgU3mvOlXSPVoW919ePym9y3uh57O
-         /N7g==
-X-Gm-Message-State: AC+VfDyC6s9CvUy+Vq1l8ygDfWeAX92eIkuJTXOrKvn2RMBou8hiapzm
-	axsVnhbSZfVmU0bwbGIyyRc=
-X-Google-Smtp-Source: ACHHUZ7FTYmJxCyZm2ZCulaucrLFWOmqwq91uFwSGOBEAyYGzAOiOr1CSWhB+1vUVvzDTMOTN3LASA==
-X-Received: by 2002:adf:db84:0:b0:306:28dd:5fb with SMTP id u4-20020adfdb84000000b0030628dd05fbmr3881083wri.62.1683415666151;
-        Sat, 06 May 2023 16:27:46 -0700 (PDT)
-Received: from localhost.localdomain ([176.221.215.212])
-        by smtp.gmail.com with ESMTPSA id p4-20020a1c7404000000b003f1739a0116sm12098655wmc.33.2023.05.06.16.27.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 May 2023 16:27:45 -0700 (PDT)
-From: Maksim Kiselev <bigunclemax@gmail.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Icenowy Zheng <icenowy@aosc.io>,
-	Maksim Kiselev <bigunclemax@gmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	linux-spi@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v3 5/5] riscv: dts: allwinner: d1: Add SPI controllers node
-Date: Sun,  7 May 2023 02:26:08 +0300
-Message-Id: <20230506232616.1792109-6-bigunclemax@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230506232616.1792109-1-bigunclemax@gmail.com>
-References: <20230506232616.1792109-1-bigunclemax@gmail.com>
+        d=1e100.net; s=20221208; t=1683416076; x=1686008076;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=d9CMRNtxtAY+iVGmS9Nhh6aBEK5BkbQct2dEiCYBRLY=;
+        b=UKTG8wz2kB9NjIyRTJ04/qKwzgWFmyw8y5x68rdttbV8CjNrsEbsFl6ZOqXD4+IGEZ
+         YfGmm770ZHjb2uZ2ChaCrxcFLJ3kLKmmi7+TseNPo6PBlcfPwsl6Y393+sSxj4NZnwUr
+         tTNYhms5TRJY30bRQtzB56V7cQcxgMSHITw8QFDleMUo/dUcNjrITH37DN5pt071rvZz
+         hk2+BUW5USJscGU5VMkcJaTwIotI9n/8GLW5HydpRUkEYRj6pXaN9Ptikq9SNdfuawtG
+         nToBn6TMrKHiHiWXOT0y2j7RRBHrw+avwcIfaiV//2AdO4Hx1o6LbfSJxNxisx7jgF0/
+         vUuQ==
+X-Gm-Message-State: AC+VfDzQF+4Mv1igzjMSsutKz3aZe2GmLOTjPAvI1rDgoCMhpGdZ1kCS
+	AONdpm330D9vlBZdpwpuq1SX9RGW7iED7p9+zxA=
+X-Google-Smtp-Source: ACHHUZ5pLbXef8h/yugyYWaRiTv4z9p+9JV6clL+Ey23A/L6IzrVNYFXYzqgEhKueJGdu7i1soJsP6surAam4+MVHnM=
+X-Received: by 2002:a17:906:6a03:b0:933:4d47:55b7 with SMTP id
+ qw3-20020a1709066a0300b009334d4755b7mr4790270ejc.2.1683416076334; Sat, 06 May
+ 2023 16:34:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230506073018.1411583-1-bigunclemax@gmail.com>
+ <20230506073018.1411583-4-bigunclemax@gmail.com> <20230506225848.3278d7ab@slackpad.lan>
+In-Reply-To: <20230506225848.3278d7ab@slackpad.lan>
+From: Maxim Kiselev <bigunclemax@gmail.com>
+Date: Sun, 7 May 2023 02:34:24 +0300
+Message-ID: <CALHCpMg31VLy7=epEs4LTpUcWT+gLDJ-9bWGJMgYrTP1ozOX_w@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] spi: sun6i: add quirk for in-controller clock divider
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Icenowy Zheng <icenowy@aosc.io>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Heiko Stuebner <heiko.stuebner@vrull.eu>, 
+	Maxime Ripard <mripard@kernel.org>, linux-spi@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
-Some boards form the MangoPi family (MQ\MQ-Dual\MQ-R) may have
-an optional SPI flash that connects to the SPI0 controller.
+> Don't we need to set tfr->effective_speed_hz to the actually programmed
+> clock rate here?
 
-This controller is the same for R329/D1/R528/T113s SoCs and
-should be supported by the sun50i-r329-spi driver.
+Yes, we should. Also we need to configure SPI sample mode by setting
+SDM and SDC bits in the SPI_TCR register.
 
-So let's add its DT nodes.
-
-Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
----
- .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 37 +++++++++++++++++++
- 1 file changed, 37 insertions(+)
-
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-index 922e8e0e2c09..1bb1e5cae602 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-@@ -108,6 +108,12 @@ rmii_pe_pins: rmii-pe-pins {
- 				function = "emac";
- 			};
- 
-+			/omit-if-no-ref/
-+			spi0_pins: spi0-pins {
-+				pins = "PC2", "PC3", "PC4", "PC5";
-+				function = "spi0";
-+			};
-+
- 			/omit-if-no-ref/
- 			uart1_pg6_pins: uart1-pg6-pins {
- 				pins = "PG6", "PG7";
-@@ -447,6 +453,37 @@ mmc2: mmc@4022000 {
- 			#size-cells = <0>;
- 		};
- 
-+		spi0: spi@4025000 {
-+			compatible = "allwinner,sun20i-d1-spi",
-+				     "allwinner,sun50i-r329-spi";
-+			reg = <0x04025000 0x1000>;
-+			interrupts = <SOC_PERIPHERAL_IRQ(15) IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_SPI0>, <&ccu CLK_SPI0>;
-+			clock-names = "ahb", "mod";
-+			dmas = <&dma 22>, <&dma 22>;
-+			dma-names = "rx", "tx";
-+			resets = <&ccu RST_BUS_SPI0>;
-+			status = "disabled";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+
-+		spi1: spi@4026000 {
-+			compatible = "allwinner,sun20i-d1-spi-dbi",
-+				     "allwinner,sun50i-r329-spi-dbi",
-+				     "allwinner,sun50i-r329-spi";
-+			reg = <0x04026000 0x1000>;
-+			interrupts = <SOC_PERIPHERAL_IRQ(16) IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_SPI1>, <&ccu CLK_SPI1>;
-+			clock-names = "ahb", "mod";
-+			dmas = <&dma 23>, <&dma 23>;
-+			dma-names = "rx", "tx";
-+			resets = <&ccu RST_BUS_SPI1>;
-+			status = "disabled";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+
- 		usb_otg: usb@4100000 {
- 			compatible = "allwinner,sun20i-d1-musb",
- 				     "allwinner,sun8i-a33-musb";
--- 
-2.39.2
-
+Please check a new version of this patch.
+https://lore.kernel.org/linux-arm-kernel/20230506232616.1792109-5-bigunclemax@gmail.com/
