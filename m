@@ -1,37 +1,169 @@
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEAE82567
-	for <linux-sunxi@lists.linux.dev>; Sun,  7 May 2023 16:26:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0762567
+	for <linux-sunxi@lists.linux.dev>; Sun,  7 May 2023 16:27:22 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pvhDd-0002Mz-7o; Sun, 07 May 2023 18:26:41 +0200
+	id 1pvhDT-0001dQ-9k; Sun, 07 May 2023 18:26:31 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pvhDc-001nEx-IM; Sun, 07 May 2023 18:26:40 +0200
+	id 1pvhDN-001nB9-TQ; Sun, 07 May 2023 18:26:25 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pvhDa-002AiR-ST; Sun, 07 May 2023 18:26:38 +0200
+	id 1pvhDM-002Afe-ST; Sun, 07 May 2023 18:26:24 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
+To: James@pengutronix.de,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Mihail Atanassov <mihail.atanassov@arm.com>,
+	Brian Starkey <brian.starkey@arm.com>,
 	David Airlie <airlied@gmail.com>,
 	Daniel Vetter <daniel@ffwll.ch>,
+	Russell King <linux@armlinux.org.uk>,
+	Joel Stanley <joel@jms.id.au>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Rahul T R <r-ravikumar@ti.com>,
+	Jayshri Pawar <jpawar@cadence.com>,
+	Liu Ying <victor.liu@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Minghao Chi <chi.minghao@zte.com.cn>,
+	Mark Brown <broonie@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Inki Dae <inki.dae@samsung.com>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Stefan Agner <stefan@agner.ch>,
+	Alison Wang <alison.wang@nxp.com>,
+	Xinliang Liu <xinliang.liu@linaro.org>,
+	Tian Tao <tiantao6@hisilicon.com>,
+	=?utf-8?b?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Danilo Krummrich <dakr@redhat.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+	Edmund Dea <edmund.j.dea@intel.com>,
+	Qiang Yu <yuq825@gmail.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Rob Clark <robdclark@gmail.com>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Akhil P Oommen <quic_akhilpo@quicinc.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Konrad Dybcio <konrad.dybcio@somainline.org>,
+	Johan Hovold <johan+linaro@kernel.org>,
+	Joel@pengutronix.de,
+	Stephen Boyd <swboyd@chromium.org>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Liu Shixin <liushixin2@huawei.com>,
+	Douglas Anderson <dianders@chromium.org>,
+	Miaoqian Lin <linmq006@gmail.com>,
+	Kuogee Hsieh <quic_khsieh@quicinc.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Marek Vasut <marex@denx.de>,
+	Ben Skeggs <bskeggs@redhat.com>,
+	Karol Herbst <kherbst@redhat.com>,
+	Lyude Paul <lyude@redhat.com>,
+	Tomi Valkeinen <tomba@kernel.org>,
+	Guo Zhengkui <guozhengkui@vivo.com>,
+	Yuan Can <yuancan@huawei.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Liang He <windhl@126.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Sandy Huang <hjc@rock-chips.com>,
+	=?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Deepak R Varma <drv@mailo.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Yannick Fertre <yannick.fertre@foss.st.com>,
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+	Philippe Cornu <philippe.cornu@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: dri-devel@lists.freedesktop.org,
+	Samuel Holland <samuel@sholland.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Maxime Ripard <maxime@cerno.tech>,
+	=?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+	=?utf-8?q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+	Jyri Sarha <jyri.sarha@iki.fi>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Emma Anholt <emma@anholt.net>,
+	Melissa Wen <mwen@igalia.com>,
+	Hyun Kwon <hyun.kwon@xilinx.com>,
+	Michal Simek <michal.simek@xilinx.com>
+Cc: Mali DP Maintainers <malidp@foss.arm.com>,
+	dri-devel@lists.freedesktop.org,
+	kernel@pengutronix.de,
+	Andrew Jeffery <andrew@aj.id.au>,
+	linux-aspeed@lists.ozlabs.org,
 	linux-arm-kernel@lists.infradead.org,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Russell King <linux+etnaviv@armlinux.org.uk>,
+	Christian Gmeiner <christian.gmeiner@gmail.com>,
+	etnaviv@lists.freedesktop.org,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	linux-samsung-soc@vger.kernel.org,
+	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Yongqin Liu <yongqin.liu@linaro.org>,
+	John Stultz <jstultz@google.com>,
+	linux-mips@vger.kernel.org,
+	lima@lists.freedesktop.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-mediatek@lists.infradead.org,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-amlogic@lists.infradead.org,
+	Sean Paul <sean@poorly.run>,
+	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org,
+	Steven Price <steven.price@arm.com>,
+	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
 	linux-sunxi@lists.linux.dev,
-	kernel@pengutronix.de
-Subject: [PATCH 43/53] drm/sun4i: Convert to platform remove callback returning void
-Date: Sun,  7 May 2023 18:26:06 +0200
-Message-Id: <20230507162616.1368908-44-u.kleine-koenig@pengutronix.de>
+	linux-tegra@vger.kernel.org
+Subject: [PATCH 00/53] drm: Convert to platform remove callback returning void
+Date: Sun,  7 May 2023 18:25:23 +0200
+Message-Id: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
-References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -39,7 +171,7 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=11829; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=ohgJo94kyt0RNLgyTYuJgk8dygZHofC9LVsJ+owdWP0=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9EVIA+iAJjFctTP6iRXt+HqZODQc1IA+/107 io8u7+9p7OJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfRFQAKCRCPgPtYfRL+ TsuXB/0VJzDkq314OTfzK50tWqSEw9KhIhLeCN5n6klG4+sI4fYe83X3qlOZRu55FRfuI9oOeoS ypX8RNoDNrtGs5783x+tpUaMPF6xi1T34pjvBv3Zni3MXDN40BzoAQANs2CqZ906iw1BxdaCuTK /3pZW+caA28MDlhceZq0sGZH0uFq102nlo9gts68X0yaZIGJpEpI0zyT/r5IfWdy40knbQhArpl 6HJ8zRC0Po+CD3EqcDxmSxm2g5cJ27+g5Nyk0gRJCOetCUakh+xL+gHN/6zwTwmg/Urvs0+HBp7 LPpS0NG+vWOP6VLFtBzU6RrWYGV0W12BGcM2vPzn76e910vo
+X-Developer-Signature: v=1; a=openpgp-sha256; l=14798; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=lYC/6nt2775YYktBBe0La4Rd2LbkHx63Y8C/T7uMCDE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9DiHJvsTbW8rDzpNQDprwurMfyYCBw0QTbXz 4sTxy3YVsuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfQ4gAKCRCPgPtYfRL+ TviMB/9PsRD/JiXPREc6Dc3inx8IdOBOrHq6jxR5UDc/pmYqKB6+6v/3uFt5U+2QXfzV3gsSX8e utyLxLAFqDYkaZkXZYTsGdtJ/RE7Q2w5yAaRCF4DAu0k4iEyZr+QUUF8FNJ3xE5hkdOoD2m5qO3 rJz4ZawyKXTCeQ9FZU/w2YIIh78VkoHyhfn+TSOxwFWnzxB4PFhfpv5yWyDiGfAci2r6guguWYZ Mh8yYbvfm/ULrsI3q5kZ4s3RlWdC+E9KqC4PXRn7G6vW6X/g6OGu9KA9Q4KYIcIH8EmVs6R3U4r WM07tmh6e12qYth7UA/lmTb00hY7H23XsjDkMxU0N7bnHX1g
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -47,323 +179,250 @@ X-SA-Exim-Mail-From: ukl@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is (mostly) ignored
-and this typically results in resource leaks. To improve here there is a
-quest to make the remove callback return void. In the first step of this
-quest all drivers are converted to .remove_new() which already returns
-void.
+Hello,
 
-Trivially convert the sun4i drm drivers from always returning zero in
-the remove callback to the void returning variant.
+this patch series adapts the platform drivers below drivers/gpu/drm
+to use the .remove_new() callback. Compared to the traditional .remove()
+callback .remove_new() returns no value. This is a good thing because
+the driver core doesn't (and cannot) cope for errors during remove. The
+only effect of a non-zero return value in .remove() is that the driver
+core emits a warning. The device is removed anyhow and an early return
+from .remove() usually yields a resource leak.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/gpu/drm/sun4i/sun4i_backend.c  | 6 ++----
- drivers/gpu/drm/sun4i/sun4i_drv.c      | 6 ++----
- drivers/gpu/drm/sun4i/sun4i_frontend.c | 6 ++----
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 6 ++----
- drivers/gpu/drm/sun4i/sun4i_tcon.c     | 6 ++----
- drivers/gpu/drm/sun4i/sun4i_tv.c       | 6 ++----
- drivers/gpu/drm/sun4i/sun6i_drc.c      | 6 ++----
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 6 ++----
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c  | 6 ++----
- drivers/gpu/drm/sun4i/sun8i_mixer.c    | 6 ++----
- drivers/gpu/drm/sun4i/sun8i_tcon_top.c | 6 ++----
- 11 files changed, 22 insertions(+), 44 deletions(-)
+By changing the remove callback to return void driver authors cannot
+reasonably (but wrongly) assume any more that there happens some kind of
+cleanup later.
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
-index 38070fc261f3..b70950137bf1 100644
---- a/drivers/gpu/drm/sun4i/sun4i_backend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
-@@ -965,11 +965,9 @@ static int sun4i_backend_probe(struct platform_device *pdev)
- 	return component_add(&pdev->dev, &sun4i_backend_ops);
- }
- 
--static int sun4i_backend_remove(struct platform_device *pdev)
-+static void sun4i_backend_remove(struct platform_device *pdev)
- {
- 	component_del(&pdev->dev, &sun4i_backend_ops);
--
--	return 0;
- }
- 
- static const struct sun4i_backend_quirks sun4i_backend_quirks = {
-@@ -1028,7 +1026,7 @@ MODULE_DEVICE_TABLE(of, sun4i_backend_of_table);
- 
- static struct platform_driver sun4i_backend_platform_driver = {
- 	.probe		= sun4i_backend_probe,
--	.remove		= sun4i_backend_remove,
-+	.remove_new	= sun4i_backend_remove,
- 	.driver		= {
- 		.name		= "sun4i-backend",
- 		.of_match_table	= sun4i_backend_of_table,
-diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-index d6c741716167..1449b7ea66d3 100644
---- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-@@ -408,11 +408,9 @@ static int sun4i_drv_probe(struct platform_device *pdev)
- 		return 0;
- }
- 
--static int sun4i_drv_remove(struct platform_device *pdev)
-+static void sun4i_drv_remove(struct platform_device *pdev)
- {
- 	component_master_del(&pdev->dev, &sun4i_drv_master_ops);
--
--	return 0;
- }
- 
- static const struct of_device_id sun4i_drv_of_table[] = {
-@@ -438,7 +436,7 @@ MODULE_DEVICE_TABLE(of, sun4i_drv_of_table);
- 
- static struct platform_driver sun4i_drv_platform_driver = {
- 	.probe		= sun4i_drv_probe,
--	.remove		= sun4i_drv_remove,
-+	.remove_new	= sun4i_drv_remove,
- 	.driver		= {
- 		.name		= "sun4i-drm",
- 		.of_match_table	= sun4i_drv_of_table,
-diff --git a/drivers/gpu/drm/sun4i/sun4i_frontend.c b/drivers/gpu/drm/sun4i/sun4i_frontend.c
-index 799ab7460ae5..3872c91a85c7 100644
---- a/drivers/gpu/drm/sun4i/sun4i_frontend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_frontend.c
-@@ -634,11 +634,9 @@ static int sun4i_frontend_probe(struct platform_device *pdev)
- 	return component_add(&pdev->dev, &sun4i_frontend_ops);
- }
- 
--static int sun4i_frontend_remove(struct platform_device *pdev)
-+static void sun4i_frontend_remove(struct platform_device *pdev)
- {
- 	component_del(&pdev->dev, &sun4i_frontend_ops);
--
--	return 0;
- }
- 
- static int sun4i_frontend_runtime_resume(struct device *dev)
-@@ -719,7 +717,7 @@ MODULE_DEVICE_TABLE(of, sun4i_frontend_of_table);
- 
- static struct platform_driver sun4i_frontend_driver = {
- 	.probe		= sun4i_frontend_probe,
--	.remove		= sun4i_frontend_remove,
-+	.remove_new	= sun4i_frontend_remove,
- 	.driver		= {
- 		.name		= "sun4i-frontend",
- 		.of_match_table	= sun4i_frontend_of_table,
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index c0df5e892fa7..c139e1262e03 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -693,11 +693,9 @@ static int sun4i_hdmi_probe(struct platform_device *pdev)
- 	return component_add(&pdev->dev, &sun4i_hdmi_ops);
- }
- 
--static int sun4i_hdmi_remove(struct platform_device *pdev)
-+static void sun4i_hdmi_remove(struct platform_device *pdev)
- {
- 	component_del(&pdev->dev, &sun4i_hdmi_ops);
--
--	return 0;
- }
- 
- static const struct of_device_id sun4i_hdmi_of_table[] = {
-@@ -710,7 +708,7 @@ MODULE_DEVICE_TABLE(of, sun4i_hdmi_of_table);
- 
- static struct platform_driver sun4i_hdmi_driver = {
- 	.probe		= sun4i_hdmi_probe,
--	.remove		= sun4i_hdmi_remove,
-+	.remove_new	= sun4i_hdmi_remove,
- 	.driver		= {
- 		.name		= "sun4i-hdmi",
- 		.of_match_table	= sun4i_hdmi_of_table,
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index 523a6d787921..f0a3752878fe 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -1336,11 +1336,9 @@ static int sun4i_tcon_probe(struct platform_device *pdev)
- 	return component_add(&pdev->dev, &sun4i_tcon_ops);
- }
- 
--static int sun4i_tcon_remove(struct platform_device *pdev)
-+static void sun4i_tcon_remove(struct platform_device *pdev)
- {
- 	component_del(&pdev->dev, &sun4i_tcon_ops);
--
--	return 0;
- }
- 
- /* platform specific TCON muxing callbacks */
-@@ -1575,7 +1573,7 @@ EXPORT_SYMBOL(sun4i_tcon_of_table);
- 
- static struct platform_driver sun4i_tcon_platform_driver = {
- 	.probe		= sun4i_tcon_probe,
--	.remove		= sun4i_tcon_remove,
-+	.remove_new	= sun4i_tcon_remove,
- 	.driver		= {
- 		.name		= "sun4i-tcon",
- 		.of_match_table	= sun4i_tcon_of_table,
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tv.c b/drivers/gpu/drm/sun4i/sun4i_tv.c
-index 9625a00a48ba..ec65d9d59de7 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tv.c
-@@ -546,11 +546,9 @@ static int sun4i_tv_probe(struct platform_device *pdev)
- 	return component_add(&pdev->dev, &sun4i_tv_ops);
- }
- 
--static int sun4i_tv_remove(struct platform_device *pdev)
-+static void sun4i_tv_remove(struct platform_device *pdev)
- {
- 	component_del(&pdev->dev, &sun4i_tv_ops);
--
--	return 0;
- }
- 
- static const struct of_device_id sun4i_tv_of_table[] = {
-@@ -561,7 +559,7 @@ MODULE_DEVICE_TABLE(of, sun4i_tv_of_table);
- 
- static struct platform_driver sun4i_tv_platform_driver = {
- 	.probe		= sun4i_tv_probe,
--	.remove		= sun4i_tv_remove,
-+	.remove_new	= sun4i_tv_remove,
- 	.driver		= {
- 		.name		= "sun4i-tve",
- 		.of_match_table	= sun4i_tv_of_table,
-diff --git a/drivers/gpu/drm/sun4i/sun6i_drc.c b/drivers/gpu/drm/sun4i/sun6i_drc.c
-index 4fbe9a6b5182..0d342f43fa93 100644
---- a/drivers/gpu/drm/sun4i/sun6i_drc.c
-+++ b/drivers/gpu/drm/sun4i/sun6i_drc.c
-@@ -95,11 +95,9 @@ static int sun6i_drc_probe(struct platform_device *pdev)
- 	return component_add(&pdev->dev, &sun6i_drc_ops);
- }
- 
--static int sun6i_drc_remove(struct platform_device *pdev)
-+static void sun6i_drc_remove(struct platform_device *pdev)
- {
- 	component_del(&pdev->dev, &sun6i_drc_ops);
--
--	return 0;
- }
- 
- static const struct of_device_id sun6i_drc_of_table[] = {
-@@ -114,7 +112,7 @@ MODULE_DEVICE_TABLE(of, sun6i_drc_of_table);
- 
- static struct platform_driver sun6i_drc_platform_driver = {
- 	.probe		= sun6i_drc_probe,
--	.remove		= sun6i_drc_remove,
-+	.remove_new	= sun6i_drc_remove,
- 	.driver		= {
- 		.name		= "sun6i-drc",
- 		.of_match_table	= sun6i_drc_of_table,
-diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-index 760ff05eabf4..4abf4f102007 100644
---- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-+++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-@@ -1200,7 +1200,7 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
- 	return ret;
- }
- 
--static int sun6i_dsi_remove(struct platform_device *pdev)
-+static void sun6i_dsi_remove(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct sun6i_dsi *dsi = dev_get_drvdata(dev);
-@@ -1211,8 +1211,6 @@ static int sun6i_dsi_remove(struct platform_device *pdev)
- 		clk_rate_exclusive_put(dsi->mod_clk);
- 
- 	regmap_mmio_detach_clk(dsi->regs);
--
--	return 0;
- }
- 
- static const struct sun6i_dsi_variant sun6i_a31_mipi_dsi_variant = {
-@@ -1246,7 +1244,7 @@ MODULE_DEVICE_TABLE(of, sun6i_dsi_of_table);
- 
- static struct platform_driver sun6i_dsi_platform_driver = {
- 	.probe		= sun6i_dsi_probe,
--	.remove		= sun6i_dsi_remove,
-+	.remove_new	= sun6i_dsi_remove,
- 	.driver		= {
- 		.name		= "sun6i-mipi-dsi",
- 		.of_match_table	= sun6i_dsi_of_table,
-diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-index 7cab4213a680..26dd8f0dde99 100644
---- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-@@ -235,11 +235,9 @@ static int sun8i_dw_hdmi_probe(struct platform_device *pdev)
- 	return component_add(&pdev->dev, &sun8i_dw_hdmi_ops);
- }
- 
--static int sun8i_dw_hdmi_remove(struct platform_device *pdev)
-+static void sun8i_dw_hdmi_remove(struct platform_device *pdev)
- {
- 	component_del(&pdev->dev, &sun8i_dw_hdmi_ops);
--
--	return 0;
- }
- 
- static const struct sun8i_dw_hdmi_quirks sun8i_a83t_quirks = {
-@@ -266,7 +264,7 @@ MODULE_DEVICE_TABLE(of, sun8i_dw_hdmi_dt_ids);
- 
- static struct platform_driver sun8i_dw_hdmi_pltfm_driver = {
- 	.probe  = sun8i_dw_hdmi_probe,
--	.remove = sun8i_dw_hdmi_remove,
-+	.remove_new = sun8i_dw_hdmi_remove,
- 	.driver = {
- 		.name = "sun8i-dw-hdmi",
- 		.of_match_table = sun8i_dw_hdmi_dt_ids,
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index bafee05f6b24..e4a73ca08365 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -555,11 +555,9 @@ static int sun8i_mixer_probe(struct platform_device *pdev)
- 	return component_add(&pdev->dev, &sun8i_mixer_ops);
- }
- 
--static int sun8i_mixer_remove(struct platform_device *pdev)
-+static void sun8i_mixer_remove(struct platform_device *pdev)
- {
- 	component_del(&pdev->dev, &sun8i_mixer_ops);
--
--	return 0;
- }
- 
- static const struct sun8i_mixer_cfg sun8i_a83t_mixer0_cfg = {
-@@ -711,7 +709,7 @@ MODULE_DEVICE_TABLE(of, sun8i_mixer_of_table);
- 
- static struct platform_driver sun8i_mixer_platform_driver = {
- 	.probe		= sun8i_mixer_probe,
--	.remove		= sun8i_mixer_remove,
-+	.remove_new	= sun8i_mixer_remove,
- 	.driver		= {
- 		.name		= "sun8i-mixer",
- 		.of_match_table	= sun8i_mixer_of_table,
-diff --git a/drivers/gpu/drm/sun4i/sun8i_tcon_top.c b/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
-index da97682b6835..2e8dd7723e29 100644
---- a/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
-@@ -261,11 +261,9 @@ static int sun8i_tcon_top_probe(struct platform_device *pdev)
- 	return component_add(&pdev->dev, &sun8i_tcon_top_ops);
- }
- 
--static int sun8i_tcon_top_remove(struct platform_device *pdev)
-+static void sun8i_tcon_top_remove(struct platform_device *pdev)
- {
- 	component_del(&pdev->dev, &sun8i_tcon_top_ops);
--
--	return 0;
- }
- 
- static const struct sun8i_tcon_top_quirks sun8i_r40_tcon_top_quirks = {
-@@ -302,7 +300,7 @@ EXPORT_SYMBOL(sun8i_tcon_top_of_table);
- 
- static struct platform_driver sun8i_tcon_top_platform_driver = {
- 	.probe		= sun8i_tcon_top_probe,
--	.remove		= sun8i_tcon_top_remove,
-+	.remove_new	= sun8i_tcon_top_remove,
- 	.driver		= {
- 		.name		= "sun8i-tcon-top",
- 		.of_match_table	= sun8i_tcon_top_of_table,
+Best regards
+Uwe
+
+Uwe Kleine-König (53):
+  drm/komeda: Convert to platform remove callback returning void
+  drm/arm/hdlcd: Convert to platform remove callback returning void
+  drm/arm/malidp: Convert to platform remove callback returning void
+  drm/armada: Convert to platform remove callback returning void
+  drm/aspeed: Convert to platform remove callback returning void
+  drm/atmel-hlcdc: Convert to platform remove callback returning void
+  drm/bridge: cdns-dsi: Convert to platform remove callback returning
+    void
+  drm/bridge: display-connector: Convert to platform remove callback
+    returning void
+  drm/bridge: fsl-ldb: Convert to platform remove callback returning
+    void
+  drm/imx/imx8*: Convert to platform remove callback returning void
+  drm/bridge: lvds-codec: Convert to platform remove callback returning
+    void
+  drm/bridge: nwl-dsi: Convert to platform remove callback returning
+    void
+  drm/bridge: simple-bridge: Convert to platform remove callback
+    returning void
+  drm/bridge: synopsys: Convert to platform remove callback returning
+    void
+  drm/bridge: thc63lvd1024: Convert to platform remove callback
+    returning void
+  drm/bridge: tfp410: Convert to platform remove callback returning void
+  drm/etnaviv: Convert to platform remove callback returning void
+  drm/exynos: Convert to platform remove callback returning void
+  drm/fsl-dcu: Convert to platform remove callback returning void
+  drm/hisilicon: Convert to platform remove callback returning void
+  drm/imx/dcss: Convert to platform remove callback returning void
+  drm/imx/ipuv3: Convert to platform remove callback returning void
+  drm/ingenic: Convert to platform remove callback returning void
+  drm/kmb: Convert to platform remove callback returning void
+  drm/lima: Convert to platform remove callback returning void
+  drm/logicvc: Convert to platform remove callback returning void
+  drm/mcde: Convert to platform remove callback returning void
+  drm/mediatek: Convert to platform remove callback returning void
+  drm/mediatek: Convert to platform remove callback returning void
+  drm/meson: Convert to platform remove callback returning void
+  drm/msm: Convert to platform remove callback returning void
+  drm/mxsfb: Convert to platform remove callback returning void
+  drm/nouveau: Convert to platform remove callback returning void
+  drm/omap: Convert to platform remove callback returning void
+  drm/panel: Convert to platform remove callback returning void
+  drm/panfrost: Convert to platform remove callback returning void
+  drm/rcar-du: Convert to platform remove callback returning void
+  drm/rockchip: Convert to platform remove callback returning void
+  drm/shmobile: Convert to platform remove callback returning void
+  drm/sprd: Convert to platform remove callback returning void
+  drm/sti: Convert to platform remove callback returning void
+  drm/stm: Convert to platform remove callback returning void
+  drm/sun4i: Convert to platform remove callback returning void
+  drm/tegra: Convert to platform remove callback returning void
+  drm/tests: helpers: Convert to platform remove callback returning void
+  drm/tidss: Convert to platform remove callback returning void
+  drm/tilcdc: Convert to platform remove callback returning void
+  drm/tiny: Convert to platform remove callback returning void
+  drm/tiny: Convert to platform remove callback returning void
+  drm/tve200: Convert to platform remove callback returning void
+  drm/v3d: Convert to platform remove callback returning void
+  drm/vc4: Convert to platform remove callback returning void
+  drm/xlnx/zynqmp_dpsub: Convert to platform remove callback returning
+    void
+
+ drivers/gpu/drm/arm/display/komeda/komeda_drv.c     | 5 ++---
+ drivers/gpu/drm/arm/hdlcd_drv.c                     | 5 ++---
+ drivers/gpu/drm/arm/malidp_drv.c                    | 5 ++---
+ drivers/gpu/drm/armada/armada_crtc.c                | 5 ++---
+ drivers/gpu/drm/armada/armada_drv.c                 | 5 ++---
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c             | 6 ++----
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c        | 6 ++----
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c      | 6 ++----
+ drivers/gpu/drm/bridge/display-connector.c          | 6 ++----
+ drivers/gpu/drm/bridge/fsl-ldb.c                    | 6 ++----
+ drivers/gpu/drm/bridge/imx/imx8qm-ldb-drv.c         | 6 ++----
+ drivers/gpu/drm/bridge/imx/imx8qxp-ldb-drv.c        | 6 ++----
+ drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c | 6 ++----
+ drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c     | 6 ++----
+ drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c        | 6 ++----
+ drivers/gpu/drm/bridge/lvds-codec.c                 | 6 ++----
+ drivers/gpu/drm/bridge/nwl-dsi.c                    | 5 ++---
+ drivers/gpu/drm/bridge/simple-bridge.c              | 6 ++----
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 6 ++----
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c       | 6 ++----
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-gp-audio.c  | 6 ++----
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c | 6 ++----
+ drivers/gpu/drm/bridge/thc63lvd1024.c               | 6 ++----
+ drivers/gpu/drm/bridge/ti-tfp410.c                  | 6 ++----
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c               | 6 ++----
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c               | 5 ++---
+ drivers/gpu/drm/exynos/exynos5433_drm_decon.c       | 6 ++----
+ drivers/gpu/drm/exynos/exynos7_drm_decon.c          | 6 ++----
+ drivers/gpu/drm/exynos/exynos_dp.c                  | 6 ++----
+ drivers/gpu/drm/exynos/exynos_drm_drv.c             | 5 ++---
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c             | 6 ++----
+ drivers/gpu/drm/exynos/exynos_drm_fimc.c            | 6 ++----
+ drivers/gpu/drm/exynos/exynos_drm_fimd.c            | 6 ++----
+ drivers/gpu/drm/exynos/exynos_drm_g2d.c             | 6 ++----
+ drivers/gpu/drm/exynos/exynos_drm_gsc.c             | 6 ++----
+ drivers/gpu/drm/exynos/exynos_drm_mic.c             | 6 ++----
+ drivers/gpu/drm/exynos/exynos_drm_rotator.c         | 6 ++----
+ drivers/gpu/drm/exynos/exynos_drm_scaler.c          | 6 ++----
+ drivers/gpu/drm/exynos/exynos_hdmi.c                | 6 ++----
+ drivers/gpu/drm/exynos/exynos_mixer.c               | 6 ++----
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c           | 6 ++----
+ drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c        | 6 ++----
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c     | 5 ++---
+ drivers/gpu/drm/imx/dcss/dcss-drv.c                 | 6 ++----
+ drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c             | 6 ++----
+ drivers/gpu/drm/imx/ipuv3/imx-drm-core.c            | 5 ++---
+ drivers/gpu/drm/imx/ipuv3/imx-ldb.c                 | 5 ++---
+ drivers/gpu/drm/imx/ipuv3/imx-tve.c                 | 5 ++---
+ drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c              | 5 ++---
+ drivers/gpu/drm/imx/ipuv3/parallel-display.c        | 6 ++----
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c           | 6 ++----
+ drivers/gpu/drm/ingenic/ingenic-ipu.c               | 5 ++---
+ drivers/gpu/drm/kmb/kmb_drv.c                       | 5 ++---
+ drivers/gpu/drm/lima/lima_drv.c                     | 5 ++---
+ drivers/gpu/drm/logicvc/logicvc_drm.c               | 6 ++----
+ drivers/gpu/drm/mcde/mcde_drv.c                     | 6 ++----
+ drivers/gpu/drm/mcde/mcde_dsi.c                     | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_cec.c                  | 5 ++---
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c             | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c           | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_color.c           | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c           | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c           | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c             | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c            | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_dp.c                   | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_dpi.c                  | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c              | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_dsi.c                  | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_hdmi.c                 | 5 ++---
+ drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c             | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c             | 5 ++---
+ drivers/gpu/drm/meson/meson_drv.c                   | 6 ++----
+ drivers/gpu/drm/meson/meson_dw_hdmi.c               | 6 ++----
+ drivers/gpu/drm/msm/adreno/adreno_device.c          | 5 ++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c             | 6 ++----
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c            | 6 ++----
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c            | 5 ++---
+ drivers/gpu/drm/msm/dp/dp_display.c                 | 6 ++----
+ drivers/gpu/drm/msm/dsi/dsi.c                       | 6 ++----
+ drivers/gpu/drm/msm/hdmi/hdmi.c                     | 6 ++----
+ drivers/gpu/drm/msm/hdmi/hdmi_phy.c                 | 6 ++----
+ drivers/gpu/drm/msm/msm_drv.c                       | 6 ++----
+ drivers/gpu/drm/msm/msm_mdss.c                      | 6 ++----
+ drivers/gpu/drm/mxsfb/lcdif_drv.c                   | 6 ++----
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c                   | 6 ++----
+ drivers/gpu/drm/nouveau/nouveau_platform.c          | 5 ++---
+ drivers/gpu/drm/omapdrm/dss/dispc.c                 | 5 ++---
+ drivers/gpu/drm/omapdrm/dss/dsi.c                   | 6 ++----
+ drivers/gpu/drm/omapdrm/dss/dss.c                   | 6 ++----
+ drivers/gpu/drm/omapdrm/dss/hdmi4.c                 | 5 ++---
+ drivers/gpu/drm/omapdrm/dss/hdmi5.c                 | 5 ++---
+ drivers/gpu/drm/omapdrm/dss/venc.c                  | 5 ++---
+ drivers/gpu/drm/omapdrm/omap_dmm_tiler.c            | 9 +++------
+ drivers/gpu/drm/omapdrm/omap_drv.c                  | 6 ++----
+ drivers/gpu/drm/panel/panel-lvds.c                  | 6 ++----
+ drivers/gpu/drm/panel/panel-seiko-43wvf1g.c         | 6 ++----
+ drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c     | 6 ++----
+ drivers/gpu/drm/panel/panel-simple.c                | 6 ++----
+ drivers/gpu/drm/panfrost/panfrost_drv.c             | 5 ++---
+ drivers/gpu/drm/rcar-du/rcar_cmm.c                  | 6 ++----
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c               | 6 ++----
+ drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c              | 6 ++----
+ drivers/gpu/drm/rcar-du/rcar_lvds.c                 | 6 ++----
+ drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c             | 6 ++----
+ drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c            | 6 ++----
+ drivers/gpu/drm/rockchip/analogix_dp-rockchip.c     | 6 ++----
+ drivers/gpu/drm/rockchip/cdn-dp-core.c              | 6 ++----
+ drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c     | 6 ++----
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c         | 6 ++----
+ drivers/gpu/drm/rockchip/inno_hdmi.c                | 6 ++----
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c              | 6 ++----
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c         | 6 ++----
+ drivers/gpu/drm/rockchip/rockchip_lvds.c            | 6 ++----
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c        | 6 ++----
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c         | 6 ++----
+ drivers/gpu/drm/shmobile/shmob_drm_drv.c            | 6 ++----
+ drivers/gpu/drm/sprd/sprd_dpu.c                     | 6 ++----
+ drivers/gpu/drm/sprd/sprd_drm.c                     | 5 ++---
+ drivers/gpu/drm/sprd/sprd_dsi.c                     | 6 ++----
+ drivers/gpu/drm/sti/sti_compositor.c                | 5 ++---
+ drivers/gpu/drm/sti/sti_drv.c                       | 6 ++----
+ drivers/gpu/drm/sti/sti_dvo.c                       | 5 ++---
+ drivers/gpu/drm/sti/sti_hda.c                       | 5 ++---
+ drivers/gpu/drm/sti/sti_hdmi.c                      | 6 ++----
+ drivers/gpu/drm/sti/sti_hqvdp.c                     | 5 ++---
+ drivers/gpu/drm/sti/sti_tvout.c                     | 5 ++---
+ drivers/gpu/drm/stm/drv.c                           | 6 ++----
+ drivers/gpu/drm/stm/dw_mipi_dsi-stm.c               | 6 ++----
+ drivers/gpu/drm/sun4i/sun4i_backend.c               | 6 ++----
+ drivers/gpu/drm/sun4i/sun4i_drv.c                   | 6 ++----
+ drivers/gpu/drm/sun4i/sun4i_frontend.c              | 6 ++----
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c              | 6 ++----
+ drivers/gpu/drm/sun4i/sun4i_tcon.c                  | 6 ++----
+ drivers/gpu/drm/sun4i/sun4i_tv.c                    | 6 ++----
+ drivers/gpu/drm/sun4i/sun6i_drc.c                   | 6 ++----
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c              | 6 ++----
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c               | 6 ++----
+ drivers/gpu/drm/sun4i/sun8i_mixer.c                 | 6 ++----
+ drivers/gpu/drm/sun4i/sun8i_tcon_top.c              | 6 ++----
+ drivers/gpu/drm/tegra/dpaux.c                       | 6 ++----
+ drivers/gpu/drm/tests/drm_kunit_helpers.c           | 5 ++---
+ drivers/gpu/drm/tidss/tidss_drv.c                   | 6 ++----
+ drivers/gpu/drm/tilcdc/tilcdc_panel.c               | 6 ++----
+ drivers/gpu/drm/tiny/arcpgu.c                       | 6 ++----
+ drivers/gpu/drm/tiny/ofdrm.c                        | 6 ++----
+ drivers/gpu/drm/tiny/simpledrm.c                    | 6 ++----
+ drivers/gpu/drm/tve200/tve200_drv.c                 | 6 ++----
+ drivers/gpu/drm/v3d/v3d_drv.c                       | 6 ++----
+ drivers/gpu/drm/vc4/vc4_crtc.c                      | 5 ++---
+ drivers/gpu/drm/vc4/vc4_dpi.c                       | 5 ++---
+ drivers/gpu/drm/vc4/vc4_drv.c                       | 6 ++----
+ drivers/gpu/drm/vc4/vc4_dsi.c                       | 6 ++----
+ drivers/gpu/drm/vc4/vc4_hdmi.c                      | 5 ++---
+ drivers/gpu/drm/vc4/vc4_hvs.c                       | 5 ++---
+ drivers/gpu/drm/vc4/vc4_txp.c                       | 5 ++---
+ drivers/gpu/drm/vc4/vc4_v3d.c                       | 5 ++---
+ drivers/gpu/drm/vc4/vc4_vec.c                       | 5 ++---
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c                 | 6 ++----
+ 159 files changed, 319 insertions(+), 597 deletions(-)
+
+
+base-commit: 457391b0380335d5e9a5babdec90ac53928b23b4
 -- 
 2.39.2
 
