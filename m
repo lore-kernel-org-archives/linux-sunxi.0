@@ -1,119 +1,124 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882401C04
-	for <linux-sunxi@lists.linux.dev>; Sun,  7 May 2023 07:44:01 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-965f7bdab6bso381794066b.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 07 May 2023 00:44:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683445440; x=1686037440;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8X7J0rVubekG+DrRrQuBm6C1ywPBgjwPpumVcwGX+HQ=;
-        b=rWcUEwlQJpV+ycrxz/+0KJoAxqQmMQrWo5GfzIqEGoPRyDBz2d+L+9XPBTpuPW1BEE
-         7inHPMTKghSfeJUSlzMt86K5tsOSxTMXP5xgRr5v6RQZr+XoSBXOqu0tVMfEK8indjkg
-         amJt97l/vCXBHr5voY09o91QhrNvuqv/COZGiDHzxQQlFvzA7LT7lr6Pn+MdmiDIt81r
-         SmO8prh7tQTVsEGg7Iws7vQJGL1joiSAYJG8VVopngkhm0M4Ed4Mr4vSpYHTU5riPO9C
-         6jrsbrvwvYYrMbkqolOpSF9y+nTjtI7KUM28I9V8gQNZCiZ2roM+GHncS/R2ljPwVSZg
-         qmNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683445440; x=1686037440;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8X7J0rVubekG+DrRrQuBm6C1ywPBgjwPpumVcwGX+HQ=;
-        b=Ve9gfmYqeL7BwCbKifcfZfeiB4L8vajxxuvOpH/XY2Arj9+nahPKgEuytH0fbe5hag
-         AKg0TUeuQG3+xeraNY9SLGhiYxcS6M/EDygo1Wk6AvXqLYTJYnANjuoV8h6m5P1dVSzE
-         +TLFJ1ammjZmc41jh5Upb7SLPxfwrKZbwHtuSp/cbR46Ndi6pCCWseuYno4b6/PoN7mk
-         PLtOFLjfIZJIiyMJ1ExOMj6IPFCm43SaBFuHO//ysAsMrYP+47LIGcfDHXluos5hhe0Z
-         8X+Bv1vRR7D8aM6wmJpmbHZFnwCzGw+Q18V8Ygj5k8SoWZVQK8qPln3xHbV8j6jQ8ZX/
-         P9Dg==
-X-Gm-Message-State: AC+VfDzFDmg1TuB1ImJqC85ADxrgahR9IFOOshNputDPmAxIQZ88s0jm
-	Vulrq2EFjL2vFufKJBLuQPuk7A==
-X-Google-Smtp-Source: ACHHUZ5JGEdSovi3dxyHchKR/hKO87oq5KWsTOg10yOhk2jCXZqX6mRsswt41WqNAgRTvqy5CBpc2A==
-X-Received: by 2002:a17:907:360c:b0:94a:845c:3528 with SMTP id bk12-20020a170907360c00b0094a845c3528mr5491362ejc.45.1683445439836;
-        Sun, 07 May 2023 00:43:59 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:183b:950f:b4d5:135a? ([2a02:810d:15c0:828:183b:950f:b4d5:135a])
-        by smtp.gmail.com with ESMTPSA id g4-20020a170906348400b009659cdb2f98sm3319965ejb.23.2023.05.07.00.43.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 07 May 2023 00:43:59 -0700 (PDT)
-Message-ID: <ec31e502-6b40-ca5d-1294-2e5f174a37b9@linaro.org>
-Date: Sun, 7 May 2023 09:43:58 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CE0E7C
+	for <linux-sunxi@lists.linux.dev>; Sun,  7 May 2023 09:51:05 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8AFBC2F4;
+	Sun,  7 May 2023 02:51:49 -0700 (PDT)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3A8D73F64C;
+	Sun,  7 May 2023 02:51:02 -0700 (PDT)
+Date: Sun, 7 May 2023 10:50:45 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Icenowy Zheng <icenowy@aosc.io>
+Cc: Maksim Kiselev <bigunclemax@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+ <aou@eecs.berkeley.edu>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Maxime Ripard <mripard@kernel.org>,
+ linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v3 1/5] dt-bindings: spi: sun6i: add DT bindings for
+ Allwinner R329/D1/R528/T113s SPI
+Message-ID: <20230507105045.085fa058@slackpad.lan>
+In-Reply-To: <835082fe07b77db8598aebabe98a74c2c5ac47d1.camel@aosc.io>
+References: <20230506232616.1792109-1-bigunclemax@gmail.com>
+	<20230506232616.1792109-2-bigunclemax@gmail.com>
+	<835082fe07b77db8598aebabe98a74c2c5ac47d1.camel@aosc.io>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v3 1/5] dt-bindings: spi: sun6i: add DT bindings for
- Allwinner R329/D1/R528/T113s SPI
-Content-Language: en-US
-To: Maksim Kiselev <bigunclemax@gmail.com>,
- Andre Przywara <andre.przywara@arm.com>
-Cc: Icenowy Zheng <icenowy@aosc.io>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Maxime Ripard <mripard@kernel.org>, linux-spi@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org
-References: <20230506232616.1792109-1-bigunclemax@gmail.com>
- <20230506232616.1792109-2-bigunclemax@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230506232616.1792109-2-bigunclemax@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 07/05/2023 01:26, Maksim Kiselev wrote:
-> Listed above Allwinner SoCs has two SPI controllers. First is the regular
-> SPI controller and the second one has additional functionality for
-> MIPI-DBI Type C.
-> 
-> Add compatible strings for these controllers
-> 
-> Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
-> ---
->  .../devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml   | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-> index de36c6a34a0f..807dde457e3b 100644
-> --- a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-> +++ b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-> @@ -21,6 +21,7 @@ properties:
->      oneOf:
->        - const: allwinner,sun6i-a31-spi
->        - const: allwinner,sun8i-h3-spi
-> +      - const: allwinner,sun50i-r329-spi
+On Sun, 07 May 2023 12:06:58 +0800
+Icenowy Zheng <icenowy@aosc.io> wrote:
 
-Keep the list ordered.
+Hi,
 
->        - items:
->            - enum:
->                - allwinner,sun8i-r40-spi
-> @@ -28,6 +29,12 @@ properties:
->                - allwinner,sun50i-h616-spi
->                - allwinner,suniv-f1c100s-spi
->            - const: allwinner,sun8i-h3-spi
-> +      - items:
-> +          - enum:
-> +              - allwinner,sun20i-d1-spi
-> +              - allwinner,sun20i-d1-spi-dbi
-> +              - allwinner,sun50i-r329-spi-dbi
-> +          - const: allwinner,sun50i-r329-spi
+> =E5=9C=A8 2023-05-07=E6=98=9F=E6=9C=9F=E6=97=A5=E7=9A=84 02:26 +0300=EF=
+=BC=8CMaksim Kiselev=E5=86=99=E9=81=93=EF=BC=9A
+> > Listed above Allwinner SoCs has two SPI controllers. First is the
+> > regular
+> > SPI controller and the second one has additional functionality for
+> > MIPI-DBI Type C.
+> >=20
+> > Add compatible strings for these controllers
+> >=20
+> > Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
+> > ---
+> > =C2=A0.../devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml=C2=A0=C2=
+=A0 | 7
+> > +++++++
+> > =C2=A01 file changed, 7 insertions(+)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/spi/allwinner,sun6i-
+> > a31-spi.yaml b/Documentation/devicetree/bindings/spi/allwinner,sun6i-
+> > a31-spi.yaml
+> > index de36c6a34a0f..807dde457e3b 100644
+> > --- a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-
+> > spi.yaml
+> > +++ b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-
+> > spi.yaml
+> > @@ -21,6 +21,7 @@ properties:
+> > =C2=A0=C2=A0=C2=A0=C2=A0 oneOf:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: allwinner,sun6i-a31-spi
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: allwinner,sun8i-h3-spi
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: allwinner,sun50i-r329-spi
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - items:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - enum:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 - allwinner,sun8i-r40-spi
+> > @@ -28,6 +29,12 @@ properties:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 - allwinner,sun50i-h616-spi
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 - allwinner,suniv-f1c100s-spi
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: a=
+llwinner,sun8i-h3-spi
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - items:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - enum:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 - allwinner,sun20i-d1-spi
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 - allwinner,sun20i-d1-spi-dbi =20
 
+This construct doesn't cover the three compatible string case, since we
+only get to choose from one of the enums, and always have two strings -
+hence my challenge to find the shortest sequence ;-)
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> In this case I will prefer to list all 4 compatibles if backward
+> compatibility is used:
+> "allwinner,sun20i-d1-spi-dbi", "allwinner-sun20i-d1-spi",
+> "allwinner,sun50i-r329-spi-dbi", "allwinner, sun50i-r329-spi", in case
+> if we were gaining support for either quirks of D1 controller or
+> SPI_DBI controllers.
 
-Best regards,
-Krzysztof
+I see where you are coming from, but that order doesn't look right,
+since we go back from DBI to normal and then back again. And
+"allwinner-sun20i-d1-spi" is not a super set of
+"allwinner,sun50i-r329-spi-dbi".
+In case we will need a D1 quirk, we could key this to the D1 DBI
+compatible as well, I think, so this three string version should work.
+
+Cheers,
+Andre
+
+>=20
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 - allwinner,sun50i-r329-spi-dbi
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: allwin=
+ner,sun50i-r329-spi
+> > =C2=A0
+> > =C2=A0=C2=A0 reg:
+> > =C2=A0=C2=A0=C2=A0=C2=A0 maxItems: 1 =20
+>=20
 
