@@ -1,23 +1,23 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1443413AC6;
-	Mon,  8 May 2023 03:45:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9BDE1C433A1;
-	Mon,  8 May 2023 03:45:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8912213AC8;
+	Mon,  8 May 2023 03:56:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 017E0C433A1;
+	Mon,  8 May 2023 03:56:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683517514;
-	bh=B107g9Lt1qqRc8zGMhAvO5F9KOo7vdHb61jTMsoTnGM=;
+	s=k20201202; t=1683518162;
+	bh=iqxRQMD53u2tbr+scb/mygfA71sAOYFgkZWapjTWLC8=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=hkMTnw/raTjwK8dXNNlAE97OKveUSkIvTENObtPpXmS/b16Zo99WrTSP7cywcVOaz
-	 2+XnilGdG5W9CxLf21CBgwIE3dr+BS7eeWVfHE2NnInr3cCuU07cmXjcdUiylXBODh
-	 rlNP3mWO5sv2ub5TQwGiSAwmfFrT56h1gR1UEdK9KiPWbygV7PLvqSJFb0Bn/t5IPY
-	 tOW3rn8pjHLIK17yRFrplFPu32Bd4Kid59zpQP1Hqnns7ZgLQGXjoHeKLpqWF0FShM
-	 CS13qoXkg1I2NfqjGaO5WOeMIk3l1Pc07ZvdP+PzhTx1ikCP9qq88EvckL12EFrnQc
-	 6GLTtN5goJPrg==
+	b=nEjcgk3+n8PYkAocEwDvhmB9jmQVz13X6O5K2hyos1vxLgzNen0Ynbvp4PFTtwysi
+	 +BCR/a9mQn1f1BPAE4k0psgkYYi9BqOywL6GkMDTwiUY8GYSL9lYyA1BdBuKzU2hXH
+	 dIMT772sNaVuDE9zKYN9NvgT6DxfUYiSp40yp/AmEVnehU+lds/vfVirVunCKpAyLa
+	 6GHtWMLiKGxD2l0QV4Eeu747HdERt5Fw9YwxiuyioA/1nUw9YUMaq/ikApjI7ejKWe
+	 3t1Ha3yKoi59DNpgdlEAe7bez5m1nP6bIOk3zteJUF1LZ2Qo1c7mFFVQ9iCtduLuP8
+	 TS+0FH9YEdnOw==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6D73BE26D27;
-	Mon,  8 May 2023 03:45:14 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D3B00E26D29;
+	Mon,  8 May 2023 03:56:01 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -29,8 +29,8 @@ Content-Transfer-Encoding: 8bit
 Subject: Re: [PATCH 00/30] pwm: Convert to platform remove callback returning void
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <168351751444.5651.16443197694918881526.git-patchwork-notify@kernel.org>
-Date: Mon, 08 May 2023 03:45:14 +0000
+ <168351816186.5651.2096317681881714301.git-patchwork-notify@kernel.org>
+Date: Mon, 08 May 2023 03:56:01 +0000
 References: <20230303185445.2112695-1-u.kleine-koenig@pengutronix.de>
 In-Reply-To: <20230303185445.2112695-1-u.kleine-koenig@pengutronix.de>
 To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
@@ -56,7 +56,7 @@ Cc: thierry.reding@gmail.com, nicolas.ferre@microchip.com,
 
 Hello:
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
+This patch was applied to chrome-platform/linux.git (for-next)
 by Thierry Reding <thierry.reding@gmail.com>:
 
 On Fri,  3 Mar 2023 19:54:15 +0100 you wrote:
