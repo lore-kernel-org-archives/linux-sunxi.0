@@ -1,120 +1,80 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8903C22
-	for <linux-sunxi@lists.linux.dev>; Mon,  8 May 2023 08:53:59 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4QFFLH2cmXz9sZg;
-	Mon,  8 May 2023 10:48:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1683535687;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FQoQY5pIK/HZeZmbF38CtnZKLgaiKBQEXeYGzcGHP5g=;
-	b=o8EJDXixeVki95ipLVB+bnKZTJ7X7qq8hmz/vg+jbCuZ3O3tHRh33WLul0VLPdzh5rJ4zj
-	NUUunOtUN8yNwzNZqq6A296WevvW+TDjOMLyC9rS4FiLHJGDfLZkrHl0ESqB1ui4P2vdlB
-	4VT1g4PX3Zu1xW41QNvsF4tWERaxQFihncjmP2GZA6sDVKqbx8Uha1RelcJH9Mqp4c6eo1
-	ySXMq7tQPNMZZFrLU9PUCxNc77oZ/5qeH59Hlwdpm8DYgK3qO5Ag5iy5kydVZGpGNr0WDV
-	OHfy6RU++9uhMtb8Vm8PCSZPLqP0LLOao5L5yr6r1ghKTtMpWqNmgMWFXGPZkA==
-References: <20230505052110.67514-1-me@crly.cz>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Roman Beranek <me@crly.cz>
-Cc: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Icenowy Zheng <icenowy@aosc.io>,
- Ondrej Jirman <megi@xff.cz>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/4] drm: sun4i: set proper TCON0 DCLK rate in DSI mode
-Date: Mon, 08 May 2023 10:47:41 +0200
-In-reply-to: <20230505052110.67514-1-me@crly.cz>
-Message-ID: <87jzxjp5tp.fsf@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9D7A93B
+	for <linux-sunxi@lists.linux.dev>; Mon,  8 May 2023 09:47:41 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-133-aC6YXYG9OjSIkw3kXPonVg-1; Mon, 08 May 2023 10:47:38 +0100
+X-MC-Unique: aC6YXYG9OjSIkw3kXPonVg-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Mon, 8 May
+ 2023 10:47:37 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Mon, 8 May 2023 10:47:37 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Maksim Kiselev' <bigunclemax@gmail.com>, Andre Przywara
+	<andre.przywara@arm.com>
+CC: Icenowy Zheng <icenowy@aosc.io>, Samuel Holland <samuel@sholland.org>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+	<conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+	<jernej.skrabec@gmail.com>, Paul Walmsley <paul.walmsley@sifive.com>, "Palmer
+ Dabbelt" <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, "Cristian
+ Ciocaltea" <cristian.ciocaltea@collabora.com>, Heiko Stuebner
+	<heiko.stuebner@vrull.eu>, Maxime Ripard <mripard@kernel.org>,
+	"linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-sunxi@lists.linux.dev"
+	<linux-sunxi@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-riscv@lists.infradead.org"
+	<linux-riscv@lists.infradead.org>
+Subject: RE: [PATCH v3 2/5] spi: sun6i: change OF match data to a struct
+Thread-Topic: [PATCH v3 2/5] spi: sun6i: change OF match data to a struct
+Thread-Index: AQHZgHJVw1wL+axJhkKYU1TQITl02K9QIrDQ
+Date: Mon, 8 May 2023 09:47:36 +0000
+Message-ID: <702d085b3b814759a344886364c518f8@AcuMS.aculab.com>
+References: <20230506232616.1792109-1-bigunclemax@gmail.com>
+ <20230506232616.1792109-3-bigunclemax@gmail.com>
+In-Reply-To: <20230506232616.1792109-3-bigunclemax@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Rspamd-Queue-Id: 4QFFLH2cmXz9sZg
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Roman,
+From: Maksim Kiselev
+> Sent: 07 May 2023 00:26
+>=20
+> As we're adding more properties to the OF match data, convert it to a
+> struct now.
+>=20
+...
+> -=09sspi->fifo_depth =3D (unsigned long)of_device_get_match_data(&pdev->d=
+ev);
+> +=09sspi->cfg =3D of_device_get_match_data(&pdev->dev);
 
-On 2023-05-05 at 07:21:06 +0200, Roman Beranek <me@crly.cz> wrote:
-> According to Allwinner's BSP code, in DSI mode, TCON0 clock needs to be
-> running at what's effectively the per-lane datarate of the DSI link.
-> Given that the TCON DCLK divider is fixed to 4 (SUN6I_DSI_TCON_DIV),
-> DCLK can't be set equal to the dotclock. Therefore labeling TCON DCLK
-> as sun4i_dotclock or tcon-pixel-clock shall be avoided.
->
-> With bpp bits per pixel transmitted over n DSI lanes, the target DCLK
-> rate for a given pixel clock is obtained as follows:
->
-> DCLK rate = 1/4 * bpp / n * pixel clock
->
-> Effect of this change can be observed through the rate of Vblank IRQs
-> which should now match refresh rate implied by set display mode. It
-> was verified to do so on a A64 board with a 2-lane and a 4-lane panel.
->
-> v2:
-> 1. prevent reparent of tcon0 to pll-video0-2x
-> 2. include pll-video0 in setting TCON0 DCLK rate
-> 3. tested the whole thing also on a PinePhone
->
-> v3:
-> 1. accept that pll-video0 can't be included in setting TCON0 DCLK rate
-> 2. reset pll-video0 to its default rate in case u-boot changed it
->
-> v4:
-> 1. keep pll-video0 as is
-> 2. assign parent to TCON0 mux in sun50i_a64_ccu_probe (not in DT)
->
-> Roman Beranek (4):
->   clk: sunxi-ng: a64: force select PLL_MIPI in TCON0 mux
->   ARM: dts: sunxi: rename tcon's clock output
->   drm: sun4i: rename sun4i_dotclock to sun4i_tcon_dclk
->   drm: sun4i: calculate proper DCLK rate for DSI
->
->  arch/arm/boot/dts/sun5i.dtsi                  |  2 +-
->  arch/arm/boot/dts/sun8i-a23-a33.dtsi          |  2 +-
->  arch/arm/boot/dts/sun8i-a83t.dtsi             |  2 +-
->  arch/arm/boot/dts/sun8i-v3s.dtsi              |  2 +-
->  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  2 +-
->  drivers/clk/sunxi-ng/ccu-sun50i-a64.c         | 14 +++++-
->  drivers/gpu/drm/sun4i/Makefile                |  2 +-
->  drivers/gpu/drm/sun4i/sun4i_tcon.c            | 46 +++++++++++--------
->  .../{sun4i_dotclock.c => sun4i_tcon_dclk.c}   |  2 +-
->  .../{sun4i_dotclock.h => sun4i_tcon_dclk.h}   |  0
->  10 files changed, 46 insertions(+), 28 deletions(-)
->  rename drivers/gpu/drm/sun4i/{sun4i_dotclock.c => sun4i_tcon_dclk.c} (99%)
->  rename drivers/gpu/drm/sun4i/{sun4i_dotclock.h => sun4i_tcon_dclk.h} (100%)
->
->
-> base-commit: 8a91b29f1f50ce7742cdbe5cf11d17f128511f3f
+Is it worth doing a structure copy at this point?
+The 'cfg' data is short and constant and it would make
+the code that uses it smaller and faster.
 
-I tested this on my pinephone on drm-next, using additional patches for
-the pinephone's panel. [1] [2] [3]
+=09David
 
-I played back a 60 fps video (10 seconds) and recorded the panel's
-output with a 240 fps camera. I noticed only 2 dropped frames, that I
-account to the imperfect data rate of 107.8MHz instead of 108 MHz due to
-pll-video0's rate being 294MHz instead of the 297 MHz for reasons I
-described in the thread on your v2 of this patch [4]).
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
 
-Tested-by: Frank Oltmanns <frank@oltmanns.dev>
-
-Thanks,
-  Frank
-
-[1]: https://lore.kernel.org/all/20230213123238.76889-2-frank@oltmanns.dev/
-[2]: https://lore.kernel.org/all/20230211171748.36692-2-frank@oltmanns.dev/
-[3]: https://github.com/megous/linux/commit/e83ffbfe930562257abef1eed4abb8e2251b795a
-[4]: https://lore.kernel.org/all/87cz3uzpx1.fsf@oltmanns.dev/
