@@ -1,108 +1,84 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AF1533EC
-	for <linux-sunxi@lists.linux.dev>; Sun,  7 May 2023 22:41:16 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 84FA44B3;
-	Sun,  7 May 2023 15:41:53 -0700 (PDT)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6D0203F663;
-	Sun,  7 May 2023 15:41:05 -0700 (PDT)
-Date: Sun, 7 May 2023 23:40:49 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Maksim Kiselev <bigunclemax@gmail.com>
-Cc: Icenowy Zheng <icenowy@aosc.io>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, Mark Brown <broonie@kernel.org>, Rob
- Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>, Maxime Ripard <mripard@kernel.org>,
- linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v4 1/5] dt-bindings: spi: sun6i: add DT bindings for
- Allwinner R329/D1/R528/T113s SPI
-Message-ID: <20230507234049.3f285450@slackpad.lan>
-In-Reply-To: <20230507150345.1971083-2-bigunclemax@gmail.com>
-References: <20230507150345.1971083-1-bigunclemax@gmail.com>
-	<20230507150345.1971083-2-bigunclemax@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1443413AC6;
+	Mon,  8 May 2023 03:45:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9BDE1C433A1;
+	Mon,  8 May 2023 03:45:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1683517514;
+	bh=B107g9Lt1qqRc8zGMhAvO5F9KOo7vdHb61jTMsoTnGM=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=hkMTnw/raTjwK8dXNNlAE97OKveUSkIvTENObtPpXmS/b16Zo99WrTSP7cywcVOaz
+	 2+XnilGdG5W9CxLf21CBgwIE3dr+BS7eeWVfHE2NnInr3cCuU07cmXjcdUiylXBODh
+	 rlNP3mWO5sv2ub5TQwGiSAwmfFrT56h1gR1UEdK9KiPWbygV7PLvqSJFb0Bn/t5IPY
+	 tOW3rn8pjHLIK17yRFrplFPu32Bd4Kid59zpQP1Hqnns7ZgLQGXjoHeKLpqWF0FShM
+	 CS13qoXkg1I2NfqjGaO5WOeMIk3l1Pc07ZvdP+PzhTx1ikCP9qq88EvckL12EFrnQc
+	 6GLTtN5goJPrg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6D73BE26D27;
+	Mon,  8 May 2023 03:45:14 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 00/30] pwm: Convert to platform remove callback returning void
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <168351751444.5651.16443197694918881526.git-patchwork-notify@kernel.org>
+Date: Mon, 08 May 2023 03:45:14 +0000
+References: <20230303185445.2112695-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230303185445.2112695-1-u.kleine-koenig@pengutronix.de>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
+Cc: thierry.reding@gmail.com, nicolas.ferre@microchip.com,
+ alexandre.belloni@bootlin.com, claudiu.beznea@microchip.com,
+ rjui@broadcom.com, sbranden@broadcom.com, f.fainelli@gmail.com,
+ bleung@chromium.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ vz@mleia.com, matthias.bgg@gmail.com, heiko@sntech.de,
+ krzysztof.kozlowski@linaro.org, palmer@dabbelt.com, paul.walmsley@sifive.com,
+ orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
+ fabrice.gasnier@foss.st.com, mcoquelin.stm32@gmail.com,
+ alexandre.torgue@foss.st.com, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, jonathanh@nvidia.com, sean.anderson@seco.com,
+ michal.simek@xilinx.com, kernel@pengutronix.de, linux-pwm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, groeck@chromium.org,
+ chrome-platform@lists.linux.dev, festevam@gmail.com, linux-imx@nxp.com,
+ angelogioacchino.delregno@collabora.com, linux-mediatek@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, alim.akhtar@samsung.com,
+ linux-samsung-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org
 
-On Sun,  7 May 2023 18:03:33 +0300
-Maksim Kiselev <bigunclemax@gmail.com> wrote:
+Hello:
 
-Hi,
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Thierry Reding <thierry.reding@gmail.com>:
 
-> Listed above Allwinner SoCs has two SPI controllers. First is the regular
-> SPI controller and the second one has additional functionality for
-> MIPI-DBI Type C.
+On Fri,  3 Mar 2023 19:54:15 +0100 you wrote:
+> Hello,
 > 
-> Add compatible strings for these controllers
+> this patch series adapts the platform drivers below drivers/pwm to use
+> the .remove_new() callback. Compared to the traditional .remove()
+> callback .remove_new() returns no value. This is a good thing because
+> the driver core doesn't (and cannot) cope for errors during remove. The
+> only effect of a non-zero return value in .remove() is that the driver
+> core emits a warning. The device is removed anyhow and an early return
+> from .remove() usually yields a resource leak.
 > 
-> Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml   | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-> index de36c6a34a0f..ab2d8a03011e 100644
-> --- a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-> +++ b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-> @@ -19,6 +19,7 @@ properties:
->  
->    compatible:
->      oneOf:
-> +      - const: allwinner,sun50i-r329-spi
->        - const: allwinner,sun6i-a31-spi
->        - const: allwinner,sun8i-h3-spi
->        - items:
-> @@ -28,6 +29,12 @@ properties:
->                - allwinner,sun50i-h616-spi
->                - allwinner,suniv-f1c100s-spi
->            - const: allwinner,sun8i-h3-spi
-> +      - items:
-> +          - enum:
-> +              - allwinner,sun20i-d1-spi
-> +              - allwinner,sun20i-d1-spi-dbi
-> +              - allwinner,sun50i-r329-spi-dbi
-> +          - const: allwinner,sun50i-r329-spi
+> [...]
 
-So this is still not right: It allows:
-"allwinner,sun20i-d1-spi-dbi", "allwinner,sun50i-r329-spi"
-which it shouldn't, but more importantly disallows the three string
-version that is introduced in patch 5/5, which makes dtbs_check fail.
-So we need to fix this. I think the simplest is probably:
+Here is the summary with links:
+  - [09/30] pwm: cros-ec: Convert to platform remove callback returning void
+    https://git.kernel.org/chrome-platform/c/159a61a7b5b0
 
-+      - items:
-+          - enum:
-+              - allwinner,sun20i-d1-spi
-+              - allwinner,sun50i-r329-spi-dbi
-+          - const: allwinner,sun50i-r329-spi
-+      - items:
-+          - const: allwinner,sun20i-d1-spi-dbi
-+          - const: allwinner,sun50i-r329-spi-dbi
-+          - const: allwinner,sun50i-r329-spi
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Maybe there is a shorter sequence.
-This assumes we go with the three-string combo, of course.
-
-Cheers,
-Andre
-
-
->  
->    reg:
->      maxItems: 1
 
