@@ -1,70 +1,162 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3CE5CB0
-	for <linux-sunxi@lists.linux.dev>; Mon,  8 May 2023 04:43:20 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-50bc22805d3so6236272a12.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 07 May 2023 21:43:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683520999; x=1686112999;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=wLGbxnOdQH05ihvsc63364XzMDdgmp6oHJPVZ7OBOoM=;
-        b=bNDHeN2Mv9sA7wX69vDsJeOoMS+Lm006HMq41c6ncW6gq7CMRV50jSJ8yuKObyIlrJ
-         PiPm+3JXsaprVIMfMzNdMpopKz6Cdor9/1bdBMF9vagxHh0URpy3Mu2aghHtltX/7skL
-         MnAM/oMdsd4YGiedf9m9diV9jB0vvSKddJNbtAQXatgyPp+bCXxggwGyqL3/7qJp+IvD
-         u6Ta/VNfikkbjb4u7zq2bK/15j6/YjPwo40PpcW9gM5vjYwXrMTnACcH2kWO4iB7j2fz
-         JNd7EOlL4fxOSHSIcGz5Jo8P+3IHuelT+oKyZNcneNPAvktnGmpkUvbFCmmCfwjcbmEt
-         ZBTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683520999; x=1686112999;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wLGbxnOdQH05ihvsc63364XzMDdgmp6oHJPVZ7OBOoM=;
-        b=f1Giba5x2NyT9xxPVndfzvYC36+uyM34z6LQJjJDEJGaYaqBZao/hLQC2Izrz2dDZ7
-         ox7vNY12j+qz43OWenIuVpWB/04PuvXdQ3XTIRNewib+gFZWjgfkgqhX98H3wdO7I/Q8
-         qsKaIJe8U0KATdOeLINMqzEemk/S+6qJTLRzhYCOXy8Bd53yi4eebWqQqRfoeCHin5+7
-         0miRwFzegxhoSQbWAtrjkQHxNIJNFwdcKwLclFBN9xEWDSzVt5ugyoO7zp8/lc7RkQDS
-         uJ6u1a9wiR4dWrYUCrzBDFzlSiT8VTeUiC+x/RxiZ5kxS5b9+CVD2oLPMnO3shJpqqys
-         Go2A==
-X-Gm-Message-State: AC+VfDzDuzIPfF2gPc3gjg0JTGLdZ3piYh8a858ERImQcLnI8JWZE/xW
-	hRuhfPCbC0kLRCq/Qd1EFYVw1gdA7qqtuKjuyKM=
-X-Google-Smtp-Source: ACHHUZ7mNoFVuUgYjmaEGFCXtfAGR8Za76cQQJ3P63GXnHwj4GjAkK7hfDQHde09dzNijnm1XeZ9jvIEVy/mf5aiAaY=
-X-Received: by 2002:a17:907:da5:b0:94a:67a9:6052 with SMTP id
- go37-20020a1709070da500b0094a67a96052mr8491313ejc.67.1683520998626; Sun, 07
- May 2023 21:43:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4172F7E
+	for <linux-sunxi@lists.linux.dev>; Mon,  8 May 2023 07:04:55 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4QFBtZ5Z9sz9sbv;
+	Mon,  8 May 2023 08:57:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1683529046;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XtmaYEfhkK+ur5naimltvQ4iqVq57t4hjPHSqtkEcow=;
+	b=xB9Jx8VLgZAlpCoPZLpqC5O2aKUuP18Lhn2kgotfbfZnKanZ9WMuGV4domG/79dUM5gaEF
+	ikjBALJB2mlbwY8zHBfMcmtT8gYV6RU+99i9Uqnemngy9soX343R7ds5yPK4WQtF5SMFJP
+	KwQGvebLAfy/kB59YW4bJJfUjvNxusGBImCuxBiTwoL1EW+PPg+bDCztc7JgCkJg2di+Oh
+	KulvYJpfVXPd++bihCV135c8C6W4kGleJ1gzIMoEaMnKobETJzUqZ3ravBF9uUvhLALMpM
+	gXgnQcsf9wKDLmoUf76aDuSqCO4876JtycNJcUlVBM/kj9K0nbvxBNoWCLi2tA==
+References: <20230418074008.69752-1-me@crly.cz>
+ <87cz3uzpx1.fsf@oltmanns.dev> <87mt2o9njh.fsf@oltmanns.dev>
+ <CSCPKPC8OB80.1TTBCM3YDVJQ5@void.crly.cz>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Roman Beranek <me@crly.cz>
+Cc: Maxime Ripard <mripard@kernel.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Samuel Holland
+ <samuel@sholland.org>, Ondrej Jirman <megi@xff.cz>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/7] drm: sun4i: set proper TCON0 DCLK rate in DSI mode
+Date: Mon, 08 May 2023 08:54:28 +0200
+In-reply-to: <CSCPKPC8OB80.1TTBCM3YDVJQ5@void.crly.cz>
+Message-ID: <87o7mvpayj.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Mon, 8 May 2023 06:43:07 +0200
-Message-ID: <CAKXUXMzqCktKz7vGN4_QAp4n1SeP0-YHL19evmVSfseZOemd5g@mail.gmail.com>
-Subject: Situation of CONFIG_CLK_SUNXI_PRCM_SUN9I
-To: Maxime Ripard <maxime.ripard@bootlin.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org
-Cc: kernel-janitors <kernel-janitors@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-Dear Maxime,
+Hello Roman,
 
-with commit 49c726d55c1b ("clk: sunxi: Add Kconfig options"), you
-introduce various build configurations for Legacy clock support for
-Allwinner SoCs. Among them, you introduce the config
-CLK_SUNXI_PRCM_SUN9I in drivers/clk/sunxi/Kconfig, but this config is
-not used anywhere in the kernel tree.
+On 2023-05-03 at 16:22:32 +0200, "Roman Beranek" <me@crly.cz> wrote:
+> Hello everyone,
+>
+> I apologize for my absence from the discussion during past week, I got
+> hit with tonsillitis.
 
-Can we just delete this config CLK_SUNXI_PRCM_SUN9I again, as it is
-not needed, or did you simply miss to adjust the Makefile for this
-option to be effective?
+I hope you feel better!
 
-I will gladly send a patch, once you could give me a quick pointer.
+> On Mon May 1, 2023 at 3:40 PM CEST, Frank Oltmanns wrote:
+>> Looking at ccu_nkm_determine_rate(), we've found our culprit because it
+>> does not try parent clock rates other than the current one. The same
+>> applies to all other ccu_nkm_* functions.
+>
+> Yes, that's why I dropped CLK_SET_RATE_PARENT from pll-mipi in v3.
+>
+>>  b. Add functionality to ccu_nkm_* to also update the parent clock rate.
+>>
+>> I'm actually interested in tackling b, but I can't make any promises as
+>> to if and when I'll be able to solve it. I'm not certain about any side
+>> effects this might have.
+>
+> It sounds like an interesting exercise. But what if HDMI is then added
+> to the mix?
 
+Thanks for interest in this discussion! I really appreciate it!
 
-Best regards,
+First of all, let me admit that I'm no expert on this. But nobody else
+has replied so far, and I want to keep this conversation going, so let
+me share my view.
 
-Lukas
+My understanding is that pll-mipi being able to set pll-video0's rate
+should not have an impact on HDMI, neither positive nor negative. If I'm
+not mistaken those two things are orthogonal.
+
+The relevant part of the clk_summary with your v4 [1] patch on top of
+drm-next looks like this:
+
+                                 enable  protect              hardware
+   clock                          count    count        rate    enable
+----------------------------------------------------------------------
+    pll-video0                        1        1   294000000         Y
+       hdmi                           0        0   294000000         N
+       tcon1                          0        0   294000000         N
+       pll-mipi                       1        1   431200000         Y
+          tcon0                       2        1   431200000         Y
+             tcon-data-clock          1        1   107800000         Y
+       pll-video0-2x                  0        0   588000000         Y
+
+Note, that pll-video0 is protected.
+
+I don't own any boards that support HDMI in mainline. For the pinephone
+this support is added e.g. in megi's kernel, where connecting an HDMI
+output results in pll-video0's rate being set to 297MHz, even though it
+is 294MHz after boot.
+
+So, for reference, this is the same part of the clk_summary with megi's
+6.3.0 kernel, USB-C dock unplugged:
+
+                                 enable  protect              hardware
+   clock                          count    count        rate    enable
+----------------------------------------------------------------------
+    pll-video0                        3        0   294000000         Y
+       hdmi-phy-clk                   1        0    73500000         Y
+       hdmi                           1        0   294000000         Y
+       tcon1                          0        0   294000000         N
+       pll-mipi                       1        0   431200000         Y
+          tcon0                       2        0   431200000         Y
+             tcon-pixel-clock         1        0   107800000         Y
+       pll-video0-2x                  0        0   588000000         Y
+
+pll-video0 is not protected. When plugging in the USB-C dock with an HDMI
+monitor connected, the situation looks like this:
+
+                                 enable  protect              hardware
+   clock                          count    count        rate    enable
+----------------------------------------------------------------------
+    pll-video0                        4        1   297000000         Y
+       hdmi-phy-clk                   1        0   148500000         Y
+       hdmi                           1        0   148500000         Y
+       tcon1                          1        1   148500000         Y
+       pll-mipi                       1        0   424285714         Y
+          tcon0                       2        0   424285714         Y
+             tcon-pixel-clock         1        0   106071428         Y
+       pll-video0-2x                  0        0   594000000         Y
+
+As you can see, pll-video0 is updated to 297 MHz. My understanding is
+(again: not an expert here) this is only possible due to the missing
+protection.
+
+What I'm trying to say is that I don't see a connection between HDMI and
+having the functionality in ccu_nkm_* to update the parent clock rate.
+
+But I do think it would be preferable to have pll-video0 at 297 MHz
+after boot on the pinephone. We could achieve this with my two previous
+proposals:
+
+ a) Set pll-video0 to 297 MHz on boot
+ b) Add functionality to ccu_nkm_* to also update the parent clock rate.
+
+If solution b is viable, the goal for the pinephone (and any other
+boards supporting HDMI) would then be to select a pixel-data-clock so
+that the rate for pll-video0 is set to 297 MHz (by selecting an
+appropriate clock speed for the internal panel).
+
+Maybe I'm misunderstanding something. If so, I'd appreciate any
+corrections.
+
+Thanks,
+  Frank
+
+[1]: https://lore.kernel.org/all/20230505052110.67514-1-me@crly.cz/
+
+>
+> Best regards
+> Roman
