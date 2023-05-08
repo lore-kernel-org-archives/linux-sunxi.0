@@ -1,84 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8912213AC8;
-	Mon,  8 May 2023 03:56:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 017E0C433A1;
-	Mon,  8 May 2023 03:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683518162;
-	bh=iqxRQMD53u2tbr+scb/mygfA71sAOYFgkZWapjTWLC8=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=nEjcgk3+n8PYkAocEwDvhmB9jmQVz13X6O5K2hyos1vxLgzNen0Ynbvp4PFTtwysi
-	 +BCR/a9mQn1f1BPAE4k0psgkYYi9BqOywL6GkMDTwiUY8GYSL9lYyA1BdBuKzU2hXH
-	 dIMT772sNaVuDE9zKYN9NvgT6DxfUYiSp40yp/AmEVnehU+lds/vfVirVunCKpAyLa
-	 6GHtWMLiKGxD2l0QV4Eeu747HdERt5Fw9YwxiuyioA/1nUw9YUMaq/ikApjI7ejKWe
-	 3t1Ha3yKoi59DNpgdlEAe7bez5m1nP6bIOk3zteJUF1LZ2Qo1c7mFFVQ9iCtduLuP8
-	 TS+0FH9YEdnOw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D3B00E26D29;
-	Mon,  8 May 2023 03:56:01 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3CE5CB0
+	for <linux-sunxi@lists.linux.dev>; Mon,  8 May 2023 04:43:20 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-50bc22805d3so6236272a12.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 07 May 2023 21:43:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683520999; x=1686112999;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wLGbxnOdQH05ihvsc63364XzMDdgmp6oHJPVZ7OBOoM=;
+        b=bNDHeN2Mv9sA7wX69vDsJeOoMS+Lm006HMq41c6ncW6gq7CMRV50jSJ8yuKObyIlrJ
+         PiPm+3JXsaprVIMfMzNdMpopKz6Cdor9/1bdBMF9vagxHh0URpy3Mu2aghHtltX/7skL
+         MnAM/oMdsd4YGiedf9m9diV9jB0vvSKddJNbtAQXatgyPp+bCXxggwGyqL3/7qJp+IvD
+         u6Ta/VNfikkbjb4u7zq2bK/15j6/YjPwo40PpcW9gM5vjYwXrMTnACcH2kWO4iB7j2fz
+         JNd7EOlL4fxOSHSIcGz5Jo8P+3IHuelT+oKyZNcneNPAvktnGmpkUvbFCmmCfwjcbmEt
+         ZBTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683520999; x=1686112999;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wLGbxnOdQH05ihvsc63364XzMDdgmp6oHJPVZ7OBOoM=;
+        b=f1Giba5x2NyT9xxPVndfzvYC36+uyM34z6LQJjJDEJGaYaqBZao/hLQC2Izrz2dDZ7
+         ox7vNY12j+qz43OWenIuVpWB/04PuvXdQ3XTIRNewib+gFZWjgfkgqhX98H3wdO7I/Q8
+         qsKaIJe8U0KATdOeLINMqzEemk/S+6qJTLRzhYCOXy8Bd53yi4eebWqQqRfoeCHin5+7
+         0miRwFzegxhoSQbWAtrjkQHxNIJNFwdcKwLclFBN9xEWDSzVt5ugyoO7zp8/lc7RkQDS
+         uJ6u1a9wiR4dWrYUCrzBDFzlSiT8VTeUiC+x/RxiZ5kxS5b9+CVD2oLPMnO3shJpqqys
+         Go2A==
+X-Gm-Message-State: AC+VfDzDuzIPfF2gPc3gjg0JTGLdZ3piYh8a858ERImQcLnI8JWZE/xW
+	hRuhfPCbC0kLRCq/Qd1EFYVw1gdA7qqtuKjuyKM=
+X-Google-Smtp-Source: ACHHUZ7mNoFVuUgYjmaEGFCXtfAGR8Za76cQQJ3P63GXnHwj4GjAkK7hfDQHde09dzNijnm1XeZ9jvIEVy/mf5aiAaY=
+X-Received: by 2002:a17:907:da5:b0:94a:67a9:6052 with SMTP id
+ go37-20020a1709070da500b0094a67a96052mr8491313ejc.67.1683520998626; Sun, 07
+ May 2023 21:43:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 00/30] pwm: Convert to platform remove callback returning void
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <168351816186.5651.2096317681881714301.git-patchwork-notify@kernel.org>
-Date: Mon, 08 May 2023 03:56:01 +0000
-References: <20230303185445.2112695-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230303185445.2112695-1-u.kleine-koenig@pengutronix.de>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
-Cc: thierry.reding@gmail.com, nicolas.ferre@microchip.com,
- alexandre.belloni@bootlin.com, claudiu.beznea@microchip.com,
- rjui@broadcom.com, sbranden@broadcom.com, f.fainelli@gmail.com,
- bleung@chromium.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
- vz@mleia.com, matthias.bgg@gmail.com, heiko@sntech.de,
- krzysztof.kozlowski@linaro.org, palmer@dabbelt.com, paul.walmsley@sifive.com,
- orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
- fabrice.gasnier@foss.st.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, jonathanh@nvidia.com, sean.anderson@seco.com,
- michal.simek@xilinx.com, kernel@pengutronix.de, linux-pwm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, groeck@chromium.org,
- chrome-platform@lists.linux.dev, festevam@gmail.com, linux-imx@nxp.com,
- angelogioacchino.delregno@collabora.com, linux-mediatek@lists.infradead.org,
- linux-rockchip@lists.infradead.org, alim.akhtar@samsung.com,
- linux-samsung-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 8 May 2023 06:43:07 +0200
+Message-ID: <CAKXUXMzqCktKz7vGN4_QAp4n1SeP0-YHL19evmVSfseZOemd5g@mail.gmail.com>
+Subject: Situation of CONFIG_CLK_SUNXI_PRCM_SUN9I
+To: Maxime Ripard <maxime.ripard@bootlin.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org
+Cc: kernel-janitors <kernel-janitors@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hello:
+Dear Maxime,
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Thierry Reding <thierry.reding@gmail.com>:
+with commit 49c726d55c1b ("clk: sunxi: Add Kconfig options"), you
+introduce various build configurations for Legacy clock support for
+Allwinner SoCs. Among them, you introduce the config
+CLK_SUNXI_PRCM_SUN9I in drivers/clk/sunxi/Kconfig, but this config is
+not used anywhere in the kernel tree.
 
-On Fri,  3 Mar 2023 19:54:15 +0100 you wrote:
-> Hello,
-> 
-> this patch series adapts the platform drivers below drivers/pwm to use
-> the .remove_new() callback. Compared to the traditional .remove()
-> callback .remove_new() returns no value. This is a good thing because
-> the driver core doesn't (and cannot) cope for errors during remove. The
-> only effect of a non-zero return value in .remove() is that the driver
-> core emits a warning. The device is removed anyhow and an early return
-> from .remove() usually yields a resource leak.
-> 
-> [...]
+Can we just delete this config CLK_SUNXI_PRCM_SUN9I again, as it is
+not needed, or did you simply miss to adjust the Makefile for this
+option to be effective?
 
-Here is the summary with links:
-  - [09/30] pwm: cros-ec: Convert to platform remove callback returning void
-    https://git.kernel.org/chrome-platform/c/159a61a7b5b0
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+I will gladly send a patch, once you could give me a quick pointer.
 
 
+Best regards,
+
+Lukas
