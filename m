@@ -1,182 +1,108 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54491361
-	for <linux-sunxi@lists.linux.dev>; Mon,  8 May 2023 14:10:33 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4QFNV81gNZz9sZZ;
-	Mon,  8 May 2023 16:10:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1683555024;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bsLGikCTizd2YRaD9J2ClJ+IZZ22ebzrO411xaRQwB4=;
-	b=X8SoL0uTiYRw82KzKqnlJbS3cOyzjlyDYyZZchaAn9C3sauN4oltXMSnsW5subRjEplErC
-	6sXjAecD4ilwIH/eC5JxvFBvibfSCC5vDwTEZjTcXGL5POvVWaYZ2XDOaJv1jAN65EUN96
-	NScT46fNe9gF4S5xH02aoiuYQzZpBTZ5BhZqSGquAc1gzmT/M2VXtXfN08VZJfhU4mn8UF
-	KHD2WMQGuIRfIEnfo7IC26YB1KYV68oaweovJzm5lQAOX76mupr0OXbixvWZ1C0VvFrwH4
-	Ui1Vu8tCEDw705/lYZguM4nCOPm3UGxcHZnz2857XL1YG+vS77lsProt5f8VMQ==
-References: <20230418074008.69752-1-me@crly.cz>
- <87cz3uzpx1.fsf@oltmanns.dev> <87mt2o9njh.fsf@oltmanns.dev>
- <CSCPKPC8OB80.1TTBCM3YDVJQ5@void.crly.cz> <87o7mvpayj.fsf@oltmanns.dev>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Roman Beranek <me@crly.cz>
-Cc: Maxime Ripard <mripard@kernel.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Samuel Holland
- <samuel@sholland.org>, Ondrej Jirman <megi@xff.cz>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Icenowy Zheng
- <uwu@icenowy.me>
-Subject: Re: [PATCH v2 0/7] drm: sun4i: set proper TCON0 DCLK rate in DSI mode
-Date: Mon, 08 May 2023 16:08:32 +0200
-In-reply-to: <87o7mvpayj.fsf@oltmanns.dev>
-Message-ID: <87fs86q5h4.fsf@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40AAA53A8
+	for <linux-sunxi@lists.linux.dev>; Mon,  8 May 2023 14:27:06 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pw1pA-0008Nw-R9; Mon, 08 May 2023 16:26:48 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pw1p5-0021HH-4G; Mon, 08 May 2023 16:26:43 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pw1p4-002Skf-E4; Mon, 08 May 2023 16:26:42 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@pengutronix.de,
+	Simon Horman <simon.horman@corigine.com>
+Subject: [PATCH net-next v2 10/11] net: stmmac: dwmac-sun8i: Convert to platform remove callback returning void
+Date: Mon,  8 May 2023 16:26:36 +0200
+Message-Id: <20230508142637.1449363-11-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230508142637.1449363-1-u.kleine-koenig@pengutronix.de>
+References: <20230508142637.1449363-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Rspamd-Queue-Id: 4QFNV81gNZz9sZZ
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2037; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=9Shlmb8v+AhrVeULIB1h6y4X5PTP/bx9o18siJBdxbU=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkWQaYjHwoE7ffOgbnN/9zHTc2Ys1dOEWaUDmSv mL7daHRPGCJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFkGmAAKCRCPgPtYfRL+ ThxmB/9YpT7i0/4pZzNkykAmPpG7K2UmndtkX7viodk5rK+y7/jHpI9MzQoOvSmiOvbXKbHq23W ADUBp9RqsR9mAAGey6oGiA1f9eZ4ki7UOmCSVY0PH3HeZtV6qC4mMxh3IpkfHY95X5VVJAoFBJU emePzbIsg6mxX0FoEtXGY2vEN65lcb3oH7VVDbjjnJ+fS5SCFlrDxVN6B6YlESprSxQyyXeSHEb G935F40kizAYB//cM5dO/r2D7UyjQgIbBf5ZTSdEIyrlAC+WPJDvXLZKSOMsMmJUlBYlFeEA+ap ombLLAXhTZIEiDeobwalJvUmgZDdSTrTrckMD6ftRx/M8NFW
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-Hello again,
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is (mostly) ignored
+and this typically results in resource leaks. To improve here there is a
+quest to make the remove callback return void. In the first step of this
+quest all drivers are converted to .remove_new() which already returns
+void.
 
-On 2023-05-08 at 08:54:28 +0200, Frank Oltmanns <frank@oltmanns.dev> wrote:
-> Hello Roman,
->
-> On 2023-05-03 at 16:22:32 +0200, "Roman Beranek" <me@crly.cz> wrote:
->> Hello everyone,
->>
->> I apologize for my absence from the discussion during past week, I got
->> hit with tonsillitis.
->
-> I hope you feel better!
->
->> On Mon May 1, 2023 at 3:40 PM CEST, Frank Oltmanns wrote:
->>> Looking at ccu_nkm_determine_rate(), we've found our culprit because it
->>> does not try parent clock rates other than the current one. The same
->>> applies to all other ccu_nkm_* functions.
->>
->> Yes, that's why I dropped CLK_SET_RATE_PARENT from pll-mipi in v3.
->>
->>>  b. Add functionality to ccu_nkm_* to also update the parent clock rate.
->>>
->>> I'm actually interested in tackling b, but I can't make any promises as
->>> to if and when I'll be able to solve it. I'm not certain about any side
->>> effects this might have.
->>
->> It sounds like an interesting exercise. But what if HDMI is then added
->> to the mix?
->
-> Thanks for interest in this discussion! I really appreciate it!
->
-> First of all, let me admit that I'm no expert on this. But nobody else
-> has replied so far, and I want to keep this conversation going, so let
-> me share my view.
->
-> My understanding is that pll-mipi being able to set pll-video0's rate
-> should not have an impact on HDMI, neither positive nor negative. If I'm
-> not mistaken those two things are orthogonal.
->
-> The relevant part of the clk_summary with your v4 [1] patch on top of
-> drm-next looks like this:
->
->                                  enable  protect              hardware
->    clock                          count    count        rate    enable
-> ----------------------------------------------------------------------
->     pll-video0                        1        1   294000000         Y
->        hdmi                           0        0   294000000         N
->        tcon1                          0        0   294000000         N
->        pll-mipi                       1        1   431200000         Y
->           tcon0                       2        1   431200000         Y
->              tcon-data-clock          1        1   107800000         Y
->        pll-video0-2x                  0        0   588000000         Y
->
-> Note, that pll-video0 is protected.
->
-> I don't own any boards that support HDMI in mainline. For the pinephone
-> this support is added e.g. in megi's kernel, where connecting an HDMI
-> output results in pll-video0's rate being set to 297MHz, even though it
-> is 294MHz after boot.
->
-> So, for reference, this is the same part of the clk_summary with megi's
-> 6.3.0 kernel, USB-C dock unplugged:
->
->                                  enable  protect              hardware
->    clock                          count    count        rate    enable
-> ----------------------------------------------------------------------
->     pll-video0                        3        0   294000000         Y
->        hdmi-phy-clk                   1        0    73500000         Y
->        hdmi                           1        0   294000000         Y
->        tcon1                          0        0   294000000         N
->        pll-mipi                       1        0   431200000         Y
->           tcon0                       2        0   431200000         Y
->              tcon-pixel-clock         1        0   107800000         Y
->        pll-video0-2x                  0        0   588000000         Y
->
-> pll-video0 is not protected. When plugging in the USB-C dock with an HDMI
-> monitor connected, the situation looks like this:
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
-Just for reference, the protection count is disabled by this commit [1]
-in megi's kernel.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Reviewed-by: Simon Horman <simon.horman@corigine.com>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-In the commit message Icenowy Zheng refers to "the ability to keep TCON0
-clock stable when HDMI changes its parent's clock." She implemented this
-in these two previous commits [2] [3]. None of this is in mainline.
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+index c2c592ba0eb8..1e714380d125 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+@@ -1294,7 +1294,7 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static int sun8i_dwmac_remove(struct platform_device *pdev)
++static void sun8i_dwmac_remove(struct platform_device *pdev)
+ {
+ 	struct net_device *ndev = platform_get_drvdata(pdev);
+ 	struct stmmac_priv *priv = netdev_priv(ndev);
+@@ -1309,8 +1309,6 @@ static int sun8i_dwmac_remove(struct platform_device *pdev)
+ 
+ 	stmmac_pltfr_remove(pdev);
+ 	sun8i_dwmac_unset_syscon(gmac);
+-
+-	return 0;
+ }
+ 
+ static void sun8i_dwmac_shutdown(struct platform_device *pdev)
+@@ -1341,7 +1339,7 @@ MODULE_DEVICE_TABLE(of, sun8i_dwmac_match);
+ 
+ static struct platform_driver sun8i_dwmac_driver = {
+ 	.probe  = sun8i_dwmac_probe,
+-	.remove = sun8i_dwmac_remove,
++	.remove_new = sun8i_dwmac_remove,
+ 	.shutdown = sun8i_dwmac_shutdown,
+ 	.driver = {
+ 		.name           = "dwmac-sun8i",
+-- 
+2.39.2
 
-Best regards,
-  Frank
-
-[1]: https://github.com/megous/linux/commit/039f7ee3f44adfbe4c6b7c2f1798b9a70c9fb9ee
-[2]: https://github.com/megous/linux/commit/a927843932f16e5a7f5ff57fbfd2d5f11c712b67
-[3]: https://github.com/megous/linux/commit/0e305371eaa49128856acce9830e6af079442ad6
-
->
->                                  enable  protect              hardware
->    clock                          count    count        rate    enable
-> ----------------------------------------------------------------------
->     pll-video0                        4        1   297000000         Y
->        hdmi-phy-clk                   1        0   148500000         Y
->        hdmi                           1        0   148500000         Y
->        tcon1                          1        1   148500000         Y
->        pll-mipi                       1        0   424285714         Y
->           tcon0                       2        0   424285714         Y
->              tcon-pixel-clock         1        0   106071428         Y
->        pll-video0-2x                  0        0   594000000         Y
->
-> As you can see, pll-video0 is updated to 297 MHz. My understanding is
-> (again: not an expert here) this is only possible due to the missing
-> protection.
->
-> What I'm trying to say is that I don't see a connection between HDMI and
-> having the functionality in ccu_nkm_* to update the parent clock rate.
->
-> But I do think it would be preferable to have pll-video0 at 297 MHz
-> after boot on the pinephone. We could achieve this with my two previous
-> proposals:
->
->  a) Set pll-video0 to 297 MHz on boot
->  b) Add functionality to ccu_nkm_* to also update the parent clock rate.
->
-> If solution b is viable, the goal for the pinephone (and any other
-> boards supporting HDMI) would then be to select a pixel-data-clock so
-> that the rate for pll-video0 is set to 297 MHz (by selecting an
-> appropriate clock speed for the internal panel).
->
-> Maybe I'm misunderstanding something. If so, I'd appreciate any
-> corrections.
->
-> Thanks,
->   Frank
->
-> [1]: https://lore.kernel.org/all/20230505052110.67514-1-me@crly.cz/
->
->>
->> Best regards
->> Roman
