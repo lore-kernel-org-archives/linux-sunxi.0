@@ -1,58 +1,72 @@
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.214])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDD927C
-	for <linux-sunxi@lists.linux.dev>; Tue,  9 May 2023 01:56:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:From:Subject:
-	Content-Type; bh=8k5f8xUHxBQyDb3flKRK9AaZt1QHbdTM1U6Y2KfP+F0=;
-	b=k+gt+wJGZA7ZqyR77kERbxz/mhxup7bs2cHVPeKOogagjnZzTYrvxY+0Jg0CFm
-	8+uN0tkFUuRftbKDLqLKjwiNUeDsLcpGB0/1G1IdtFb66+/yt2JVNr+M45AI8JSb
-	VTweOH6u/lsImjbwxQVsKh5Tjk8dzhK5KNhv8aEEx6tPI=
-Received: from [172.21.25.67] (unknown [218.201.129.19])
-	by zwqz-smtp-mta-g0-0 (Coremail) with SMTP id _____wCn1ipFqFlkGYtmBQ--.9492S2;
-	Tue, 09 May 2023 09:56:21 +0800 (CST)
-Message-ID: <0527d592-3829-71b7-e040-d463793500e7@163.com>
-Date: Tue, 9 May 2023 09:56:21 +0800
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5EC31094D
+	for <linux-sunxi@lists.linux.dev>; Tue,  9 May 2023 11:11:06 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::229])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 894EBCEEA3
+	for <linux-sunxi@lists.linux.dev>; Tue,  9 May 2023 11:05:06 +0000 (UTC)
+Received: (Authenticated sender: me@crly.cz)
+	by mail.gandi.net (Postfix) with ESMTPSA id 9750EFF806;
+	Tue,  9 May 2023 11:04:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crly.cz; s=gm1;
+	t=1683630298;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cDT0BtDNWazrZ4uv2nOgwA/L/iBlds6MCiBQoDX01O8=;
+	b=nSHUVWeB/sHhhhKvC0ANQeATJy/AYsdWCoxH6/rR0iq/mzZY5b0etDsw0+/CMFVtiUQ3Ov
+	xjmj4eLNviD5ppjGWTJjtUBeXTmJ8RT6p2h+pCQAqVdM71f1CHBzdM8yVsjMwxGreTxhiu
+	2dgJaAq3XqNjRd4sQN/cH18YXNgfZUYSvf4u8fa4EC/96ssNFlZYM3/nD383t2AOlbMn1w
+	zI3KMUaYMg9ZlR1SYVeHQHEpi6eBaFEjPToakJ28UeUKS0mzkXXMtn5XD/2v4gNQQrNDTE
+	TDBj073uecqHyipjvbp3JZPPVwAQ1wetsx+Taa0ZlgNQEzMS+hweEMFlQiGVNQ==
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Content-Language: en-US
-To: linux-sunxi@lists.linux.dev
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-From: qianfan <qianfanguijin@163.com>
-Subject: allwinner usb phy driver
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:_____wCn1ipFqFlkGYtmBQ--.9492S2
-X-Coremail-Antispam: 1Uf129KBjvdXoW7XF43trWxGryxAryxWryDZFb_yoWxCrX_Wr
-	y8JF4kJw1jy3s5Ka1DAw13WrZ0gFnrJa1kAa1xZrn3Gr1ftF93Zry3ArW7ur9Iq3WS9r4U
-	G342vry3Awn7KjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU0yKZJUUUUU==
-X-Originating-IP: [218.201.129.19]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiQgZq7VaEFQiWIwAAs5
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 09 May 2023 13:04:50 +0200
+Message-Id: <CSHP4M31IC80.2WGQC75I3PX71@void.crly.cz>
+Cc: "Maxime Ripard" <mripard@kernel.org>, "David Airlie"
+ <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>, "Chen-Yu Tsai"
+ <wens@csie.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Samuel
+ Holland" <samuel@sholland.org>, "Michael Turquette"
+ <mturquette@baylibre.com>, "Stephen Boyd" <sboyd@kernel.org>, "Rob Herring"
+ <robh+dt@kernel.org>, "Krzysztof Kozlowski"
+ <krzysztof.kozlowski+dt@linaro.org>, "Icenowy Zheng" <icenowy@aosc.io>,
+ "Ondrej Jirman" <megi@xff.cz>, <devicetree@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-sunxi@lists.linux.dev>, <linux-clk@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 0/4] drm: sun4i: set proper TCON0 DCLK rate in DSI
+ mode
+From: "Roman Beranek" <me@crly.cz>
+To: "Frank Oltmanns" <frank@oltmanns.dev>
+X-Mailer: aerc 0.15.1
+References: <20230505052110.67514-1-me@crly.cz>
+ <87jzxjp5tp.fsf@oltmanns.dev>
+In-Reply-To: <87jzxjp5tp.fsf@oltmanns.dev>
 
-Hi:
+Hello Frank,
 
-All of the usb phys run sun4i_usb_phy_write to set some private tp register,
-but based on allwinner R40's bsp code, sun4i_usb_phy_write only work for
-ehci0/ohci0.
+On Mon May 8, 2023 at 10:47 AM CEST, Frank Oltmanns wrote:
+> I tested this on my pinephone on drm-next, using additional patches for
+> the pinephone's panel. [1] [2] [3]
 
-And I had changed PHY_TX_AMPLITUDE_TUNE's value to 0x17 from 0x14, when 
-the usb
-enter TEST_J mode, only the ehci0's amplitude is changed.
+Thank you for testing this and all the previous version of this
+patchset. I appreciate your help.
 
-sun4i_usb_phy_write is as same as USBC_Phy_TpWrite in allwinner bsp code,
-it is used for change otg's tp values. the backtrace is:
+> I played back a 60 fps video (10 seconds) and recorded the panel's
+> output with a 240 fps camera. I noticed only 2 dropped frames, that I
+> account to the imperfect data rate of 107.8MHz instead of 108 MHz due to
+> pll-video0's rate being 294MHz instead of the 297 MHz for reasons I
+> described in the thread on your v2 of this patch [4]).
 
-sunxi_udc_bsp_init -> open_usb_clock -> UsbPhyInit(0) -> USBC_Phy_TpWrite.
+Yes. That's what should happen, right? Or do you report this as a
+defect?
 
-The other ehci/ohci device should use usb_phyx_tp_write instead.
-The backtrace is:
-
-open_ehci_clock -> open_clock -> usb_phyx_tp_write
-
+Roman
