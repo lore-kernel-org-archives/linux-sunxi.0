@@ -1,110 +1,78 @@
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [85.215.255.83])
+Received: from the.earth.li (the.earth.li [93.93.131.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F5B6AB3
-	for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 11:33:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1683717336; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=eiI2ai3RD/FSJjGz8noMOZ7eXEQg+QVNijYrHWTQJkiEQYC6gRYMiQI679TEEbTfKD
-    ZPobRrMfWOZzLpPug3QBgtgPf52QSwRmELG6TAUj+qCHPn464HFngt2ra60ejkE399rv
-    KLqb427Qld02YgIf8rWipzHN4XsNn2O/CxUxE5BSmQzxS5Brh4q7ymB8WGDcYRhQm3OR
-    UevkwoD6c/Y3fy0Zxrh75f9pL1V48/yBPPDEgchuV2FGuPdJz0JOxyF97VfZZghQl5xN
-    a0KPRUu93mHVgzM5W5LrwsOcscFHGr6CdvTyAf4Yh/IhxI+OgcSmTmGBVt0PFk+fGJyw
-    aQFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1683717336;
-    s=strato-dkim-0002; d=strato.com;
-    h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=yWKXphPfAfqJ3U/7+p8M020DCOa3asr6Zk2okS7l2as=;
-    b=V35v2g4DoUklEEEKfp0rglq/crLpLdlABxZbYPuAe3FinznUP1niBMAmWPwLQ62Xqf
-    NZycIVAGKVKPL1ZGTA54hxpJ0aYnNSrCzSuCQtJR/Eq8tLju4Rwz93231NMj0S4RXdHN
-    DlCiP1IBHnV0VtON5CqJTWqO2gLDLRW3RTuHYWrLjyZcPpE4c7Hv2LphHmcCBXa5Fw5C
-    nSEAbfdb3Am8FbowMLaj3dFy03XeIz4dwemqgZcfdLA2GrKUUzBijW+/PCDA6/+2cLhw
-    AicFHP6iQw1XNRRG7tDB573pXLkVtvqPuZHcSS4Vnbh+kIo6FQB7TYYHNx9MKWarHCb/
-    56Fw==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1683717336;
-    s=strato-dkim-0002; d=ict42.de;
-    h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=yWKXphPfAfqJ3U/7+p8M020DCOa3asr6Zk2okS7l2as=;
-    b=NgGJLfc03iCVAxP5BBk3jQMLmBlwEbYDj33G87FhlaFFHJ4YTMLGPRplcAuJy2uApO
-    Y4LorBKCWirs5wW4XnBAettdjnp15n52aLuTlcW9bKqQ6uf+jkE61KWRzLlxylb5NMQp
-    eXzCXBJX0jLJD0oFxUbBTK+HpJo4lep8fWBCviu5tDPJhaOyw9msCYzsNGn5vBlJ4WMJ
-    uKrUcH2rjezXZQWfSA7T4kXf2uIC47Z00U3ocwJVmMDwWYqK7HTpoXk8YAix8CbGhkuY
-    LEjWfZZnl4tpdoQQd8LC1uPPRKT/zf1ZDnA2GgWDHtvXwLDIpwCTnPb8TvsWlyk2DKbg
-    DDtA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1683717336;
-    s=strato-dkim-0003; d=ict42.de;
-    h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=yWKXphPfAfqJ3U/7+p8M020DCOa3asr6Zk2okS7l2as=;
-    b=PtX9+Dz4V2uGb2Q4Nr7bzp/qH9Wy6+udlgwF6PvFbxXRbnQYPZM+2MR2K5/5iONlkZ
-    jvzAnoJAC3a9zHkFtOAg==
-X-RZG-AUTH: ":IHkAYkmvNfSwjg/qSc4u8zZOVaURsoXe3UH2mQA0KglxDI1B7BeEcdPLARTmoNSwY8PK6ePqLwYCwAs="
-Received: from debian-test.local.in-circuit.de
-    by smtp.strato.de (RZmta 49.4.0 DYNA|AUTH)
-    with ESMTPSA id R2b608z4ABFaJXw
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Wed, 10 May 2023 13:15:36 +0200 (CEST)
-From: Ludwig Kormann <ludwig.kormann@ict42.de>
-To: samuel@sholland.org,
-	jernej.skrabec@gmail.com,
-	wens@csie.org,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	andre.przywara@arm.com
-Cc: linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v4 1/2] dt-bindings: arm: sunxi: add ICnova A20 ADB4006 binding
-Date: Wed, 10 May 2023 13:15:27 +0200
-Message-Id: <20230510111528.2155582-2-ludwig.kormann@ict42.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230510111528.2155582-1-ludwig.kormann@ict42.de>
-References: <20230510111528.2155582-1-ludwig.kormann@ict42.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7045F8C18
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 12:01:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=earth.li;
+	s=the; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:
+	Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=qL5OwOHKWsGEJz5LBeBEW7MkLSt6oAOQjlwwT1NVmAE=; b=IXJjsg74s+hgDNm9yBKSa5Hcyn
+	BKfy08wg9lHyXZBWy0eLO/F9bItUkyLMqeKqlaiSiItJ1L5381VNREpC5S5BkACtUBxGE1OD/aQdl
+	jH899dZGGTz8mWR9YzTko2X7qqY07Uu5JmNG19Cg9zQjfGl0Y4EKu17Njh6+QnGHWaafmHDB0e8E1
+	akZ/PT8dnbatOo7wgxKXTWnw7YL5pTUz4DqfQ00gsYhiNqOLQlBJW5PAGEvCuvIfmgtsqh4kPcHKp
+	sRmt9571hgXxwyGCuyVC6/azdCAVEdvimaoDD9ATOfnnZPHjgTTvzvgravKkmozIp9fLC5MIxrF6Y
+	8rT5Jtog==;
+Received: from [2001:4d48:ad59:1403::16a3] (helo=earth.li)
+	by the.earth.li with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <noodles@earth.li>)
+	id 1pwiVB-007udb-3Z; Wed, 10 May 2023 13:01:01 +0100
+Date: Wed, 10 May 2023 13:00:55 +0100
+From: Jonathan McDowell <noodles@earth.li>
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org
+Subject: [PATCH v2 0/5] Minor device-tree additions for C.H.I.P
+Message-ID: <cover.1683719613.git.noodles@earth.li>
+References: <cover.1681580558.git.noodles@earth.li>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1681580558.git.noodles@earth.li>
 
-Document board compatible names for In-Circuit ICnova A20 ADB4006
-development board.
+This small patch series adds some improvements for the C.H.I.P DTS,
+enabling bluetooth, exporting the PMIC temperature details via iio-hwmon
+and finally adding the appropriate base pinmux info for an external MMC
+card. As a pre-requisite for the Bluetooth it also adds support to the
+AXP209 driver for GPIO3, which is the Bluetooth device wakeup line.
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Signed-off-by: Ludwig Kormann <ludwig.kormann@ict42.de>
----
- Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+v2:
+- Fix missing ; on bluetooth stanza in DTS
+- Add device/host wake GPIOs for Bluetooth device
+- Add omit-if-no-ref on the port E pinmux stanza
+- Rename axp20x_temp to pmic-temp
+- Add AXP209 GPIO3 support
 
-diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-index 013821f4a7b8..ee8fdd2da869 100644
---- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-+++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-@@ -305,6 +305,12 @@ properties:
-           - const: allwinner,i12-tvbox
-           - const: allwinner,sun7i-a20
- 
-+      - description: ICnova A20 ADB4006
-+        items:
-+          - const: incircuit,icnova-a20-adb4006
-+          - const: incircuit,icnova-a20
-+          - const: allwinner,sun7i-a20
-+
-       - description: ICNova A20 SWAC
-         items:
-           - const: incircuit,icnova-a20-swac
+Jonathan McDowell (5):
+  dt-bindings: gpio: Add GPIO3 for AXP209 GPIO binding schema
+  pinctrl: axp209: Add support for GPIO3 on the AXP209
+  ARM: dts: sun5i: chip: Enable bluetooth
+  ARM: dts: sun5i: Add port E pinmux settings for mmc2
+  ARM: dts: axp209: Add iio-hwmon node for internal temperature
+
+ .../bindings/gpio/x-powers,axp209-gpio.yaml   |  1 +
+ arch/arm/boot/dts/axp209.dtsi                 |  7 ++++
+ arch/arm/boot/dts/sun5i-r8-chip.dts           |  6 +++
+ arch/arm/boot/dts/sun5i.dtsi                  |  9 ++++
+ drivers/pinctrl/pinctrl-axp209.c              | 42 +++++++++++++++++++
+ 5 files changed, 65 insertions(+)
+
 -- 
-2.30.2
+2.39.2
 
