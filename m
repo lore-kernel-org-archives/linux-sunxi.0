@@ -1,49 +1,48 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF7DE21CC9
-	for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 20:59:46 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-965ac4dd11bso1539291866b.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 13:59:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492CE21CC3
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 21:05:35 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-9619095f479so1242403666b.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 14:05:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683752385; x=1686344385;
+        d=gmail.com; s=20221208; t=1683752733; x=1686344733;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=F7iiVpNS2TbezgmpT9ZKv1CtTBR6JW8urFYOpMbLQIE=;
-        b=Ve84bY8EFJx6v5kYiXJIW4l38TbjweukQ9WPJ6EbKvaOLLh081oFWKHsluTDupOCmg
-         EgQ2VgSu1zl+F5zx/otyUBmafq657FY6qzHR/gAXtygP1fxPk7pW/RnQSI5wFSPnZFww
-         6RmKXFADFOlhsqW9PTuM++FK0p9pu7tusMpanqQTRHMNjv+Dy1GL9aZud/QcI+dsFCnQ
-         vQCa0EYiDIPqjztsz31dqgLbRnBBGZwwXX/NitSrvpYh3Q6U75nBzB9X6SqeNPZUp5Gv
-         bZbHAXNCNx3VUDFbS4roIkGZCwnZGai/7bkWX2JlW+XPd9KR3JjArqQIkml0W+1MR9Vj
-         WvXA==
+        bh=nFI/AGkZEYwWG8fSHOsXcamR405M2Qv38gjoGfCKNeM=;
+        b=ovchRibZYAQviLH9dX5jb99BxG+AS7aDTIwBB7C8HLtQorCHH4eNTbtCDLiS0fj3nB
+         dR3Pyxh+jKBgm+/Wri7zEvpNZvjdNLI44jE3hjiTVVTh6odErkG0Ns+BUsa3/3UDeyra
+         0BivPjhBTIcC8wSIiJtStqh0XU/kFmBRiD0bq+gyicLBq46gtZZlEaxBhK+NZaciPJ9Q
+         iEEk9WgZY8MiVNzvu/lNc435FXTzL7rreouRg10OjZpVt0uGrwYUvTeQPMMdslu+1QX0
+         ExDrE1yhfPZD5hPkI4oKo1gWQM43H+/lf08JlqKqmn30SXPvwA7SR0Y1kLCJyfuvDgGG
+         wqDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683752385; x=1686344385;
+        d=1e100.net; s=20221208; t=1683752733; x=1686344733;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=F7iiVpNS2TbezgmpT9ZKv1CtTBR6JW8urFYOpMbLQIE=;
-        b=NZg9kFj2uWjEUiEpnP3H9gOvVjBT4d/jUTkW5bf5BpdpnSqUVGYpzhLPdlzHEaFYSa
-         RLx6jG4e45KMYH1D9SwApx4n2cDcJxxlLroGmYE/LkWjLQcKu0AqqymtrkRJZlq+0XIr
-         MjHtkZu7lDz0rbYntXxY6L8ANwFDmQPMA7KCB0nvn7CQOuzmkWbNdAcPyJlkp9mL013Z
-         lBWi0KoFlCJ0w9aaGQ7bJMccs3ac9W2hWJOoWef8W2Y9btRxecZvipp4wLP8GZcOR3Xe
-         I9c1ADU7ABe3b+Ld4nSi24OKLRbXJmY6IHWr0k/LUMN1VR0G25j46mX3tBRG6fdwJqsX
-         ovMg==
-X-Gm-Message-State: AC+VfDxz4XWRvOsArDPgIOft0aR/oLamoCMv65rM0PsG7jL5mlMSMOui
-	UuG8b00yovoZup7VfwDD+DA=
-X-Google-Smtp-Source: ACHHUZ6672faX07heGWs3B0PV7ZJkqYGuQNoX8YzdTu1PeXrQ3hCuaiW5DPyaliV7S7XcyE3AyDzgA==
-X-Received: by 2002:a17:907:94d3:b0:96a:58a:6cd8 with SMTP id dn19-20020a17090794d300b0096a058a6cd8mr6734541ejc.9.1683752384784;
-        Wed, 10 May 2023 13:59:44 -0700 (PDT)
+        bh=nFI/AGkZEYwWG8fSHOsXcamR405M2Qv38gjoGfCKNeM=;
+        b=atc5zK2DhnaewUGXcNYAvO/sMtO/7xiioQrZWcRPhlhlUqkziN2WNFFQ0xRm+0XwHP
+         D6yxpNmnShb29yBB6cUDct6zhIC97Yo/tdXizUdeqUX89xdgmtnhaYLQh15EJnpy3nLX
+         ZpTVsjoAlKxHboIXt8EeXdipzV3KWZ5g5OdDn5/ulmVANYfdDOgYZEwhqxWUJaiifbK6
+         bTBQjUSaBAxhHu0Bw2Mej1LuNGA9l8FhNKv0U/jbR3LdnU6kg8VKZWyfuwtJqCSFZrz4
+         MGQ8CrGYgzy68/fvMpu6uRUKy2S5sRKizBZT44FVEAiBOkNst3yh2dEpZGyec9NqKWE8
+         VyNA==
+X-Gm-Message-State: AC+VfDxJBLQw5FW874yc6OtJloutgASfq9PLfqlHWzrfGagOC0GfJlf5
+	9WCWBKBELJ/Gtmog0sgJC3Y=
+X-Google-Smtp-Source: ACHHUZ61hk+OAcODH4eeT51yIZ3XxxsSviX9vqg5Cf3X9lqBzmuOBS43oBR6cQfmDcqe2MzRJXJCuw==
+X-Received: by 2002:a17:907:26c2:b0:94f:788:6bc with SMTP id bp2-20020a17090726c200b0094f078806bcmr18796096ejc.37.1683752733238;
+        Wed, 10 May 2023 14:05:33 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id p15-20020a17090653cf00b0094ebc041e20sm3072028ejo.46.2023.05.10.13.59.43
+        by smtp.gmail.com with ESMTPSA id n25-20020a056402061900b0050a276e7ba8sm2329786edv.36.2023.05.10.14.05.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 May 2023 13:59:44 -0700 (PDT)
+        Wed, 10 May 2023 14:05:32 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Andre Przywara <andre.przywara@arm.com>,
  Maksim Kiselev <bigunclemax@gmail.com>
 Cc: Icenowy Zheng <icenowy@aosc.io>, Maksim Kiselev <bigunclemax@gmail.com>,
- Conor Dooley <conor.dooley@microchip.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Samuel Holland <samuel@sholland.org>,
@@ -55,13 +54,14 @@ Cc: Icenowy Zheng <icenowy@aosc.io>, Maksim Kiselev <bigunclemax@gmail.com>,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
  linux-riscv@lists.infradead.org
 Subject:
- Re: [PATCH v5 5/5] riscv: dts: allwinner: d1: Add SPI controllers node
-Date: Wed, 10 May 2023 22:59:42 +0200
-Message-ID: <1932306.PYKUYFuaPT@jernej-laptop>
-In-Reply-To: <20230510081121.3463710-6-bigunclemax@gmail.com>
+ Re: [PATCH v5 4/5] spi: sun6i: add support for R329/D1/R528/T113s SPI
+ controllers
+Date: Wed, 10 May 2023 23:05:31 +0200
+Message-ID: <3739192.kQq0lBPeGt@jernej-laptop>
+In-Reply-To: <20230510081121.3463710-5-bigunclemax@gmail.com>
 References:
  <20230510081121.3463710-1-bigunclemax@gmail.com>
- <20230510081121.3463710-6-bigunclemax@gmail.com>
+ <20230510081121.3463710-5-bigunclemax@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -71,17 +71,17 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne sreda, 10. maj 2023 ob 10:11:12 CEST je Maksim Kiselev napisal(a):
-> Some boards form the MangoPi family (MQ\MQ-Dual\MQ-R) may have
-> an optional SPI flash that connects to the SPI0 controller.
+Dne sreda, 10. maj 2023 ob 10:11:11 CEST je Maksim Kiselev napisal(a):
+> These SoCs has two SPI controllers. One of it is quite similar to previous
+> ones, but with internal clock divider removed; the other added MIPI DBI
+> Type-C offload based on the first one.
 > 
-> This controller is the same for R329/D1/R528/T113s SoCs and
-> should be supported by the sun50i-r329-spi driver.
+> Add basical support for these controllers. As we're not going to
+> support the DBI functionality now, just implement the two kinds of
+> controllers as the same.
 > 
-> So let's add its DT nodes.
-> 
+> Co-developed-by: Icenowy Zheng <icenowy@aosc.io>
 > Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 > Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
