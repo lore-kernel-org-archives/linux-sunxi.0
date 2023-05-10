@@ -1,56 +1,67 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8BA21CDD
-	for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 20:54:36 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-50b8d2eed3dso11837798a12.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 13:54:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF7DE21CC9
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 20:59:46 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-965ac4dd11bso1539291866b.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 13:59:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683752074; x=1686344074;
+        d=gmail.com; s=20221208; t=1683752385; x=1686344385;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Schew7/1f6L1gKiDAa1E4oOxjUrtaVYHdw6xtsV4v+0=;
-        b=rQ3v3bvNEW/TP+71y9yt+8ogek9+za16jzuA+0/1P91JuEJ4Uop02XoElQdJXpWvPv
-         JVJ4tTGsi1CVb1nbaOOCfIYDSKpzZJ8AP5b1geWol42wwfc+DY910ja+7+Ly7PVelY3r
-         fLyiu+VChaYZ16zJtsMbYzsAtS06tkRsvwTtJXsCO7hY2UPDqcCVRJaxmOmQ/vaH1KFw
-         f0pzYkubO9WKVKfBTO7SeOfGJHoOJr2CsE8TMkmq1kXDaGqxz0PP3fuaCgtud/Eyr6VC
-         wRwl/agFRerBpel/Hc6TzPoU6vzOHmce93eOcBZNsSCleENVdSPnEu3jJ2TeqfY4gZjx
-         zJZA==
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=F7iiVpNS2TbezgmpT9ZKv1CtTBR6JW8urFYOpMbLQIE=;
+        b=Ve84bY8EFJx6v5kYiXJIW4l38TbjweukQ9WPJ6EbKvaOLLh081oFWKHsluTDupOCmg
+         EgQ2VgSu1zl+F5zx/otyUBmafq657FY6qzHR/gAXtygP1fxPk7pW/RnQSI5wFSPnZFww
+         6RmKXFADFOlhsqW9PTuM++FK0p9pu7tusMpanqQTRHMNjv+Dy1GL9aZud/QcI+dsFCnQ
+         vQCa0EYiDIPqjztsz31dqgLbRnBBGZwwXX/NitSrvpYh3Q6U75nBzB9X6SqeNPZUp5Gv
+         bZbHAXNCNx3VUDFbS4roIkGZCwnZGai/7bkWX2JlW+XPd9KR3JjArqQIkml0W+1MR9Vj
+         WvXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683752074; x=1686344074;
+        d=1e100.net; s=20221208; t=1683752385; x=1686344385;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Schew7/1f6L1gKiDAa1E4oOxjUrtaVYHdw6xtsV4v+0=;
-        b=YkeKdWX5n537CD8LppXt+2zxA9X4YSsmj0w+CqZ2EZtxdtyBD5EyFIwjxWb6/KR5ko
-         WWH43CSjETRU/PncSXi7fpdxZANp+8SLYVM1qBt9wr39LQN3RAX6ady8azKZcbfd8uhn
-         lJtQMbhJ+nDn3DzizUsDdoZRhp03jKL15hEtNqRPfJyR4K1n9QXHLooGESPVNAs7wCkB
-         XqELNnRTO55NDCGOWczEOsYDufyMmXTF95tF2EfyGY1pyjihQmN5LwL9lSEXXHAlZ85V
-         nqO5J2hWWTxH4J2o7srGRxcBnC3FQ3ZnRdx4cWABvRot7e3RZVQfnkwuY+8Fg/S3NIRX
-         wYXA==
-X-Gm-Message-State: AC+VfDz4CX8CF8UIzBi0EvNTm6iSAG4+DqtBV6c/Zk56qzrY3CkgMCAK
-	09Jch2BsbnU84QO0Pfgtiew=
-X-Google-Smtp-Source: ACHHUZ7HN36RSXe1y/LhN2y7JSVz5OGcyYIMQaUDQczYtNLp41YDSovvtoyFOkx79Si5DjsLAjjNqg==
-X-Received: by 2002:a17:907:98d:b0:94e:cf72:8147 with SMTP id bf13-20020a170907098d00b0094ecf728147mr17485950ejc.48.1683752074142;
-        Wed, 10 May 2023 13:54:34 -0700 (PDT)
+        bh=F7iiVpNS2TbezgmpT9ZKv1CtTBR6JW8urFYOpMbLQIE=;
+        b=NZg9kFj2uWjEUiEpnP3H9gOvVjBT4d/jUTkW5bf5BpdpnSqUVGYpzhLPdlzHEaFYSa
+         RLx6jG4e45KMYH1D9SwApx4n2cDcJxxlLroGmYE/LkWjLQcKu0AqqymtrkRJZlq+0XIr
+         MjHtkZu7lDz0rbYntXxY6L8ANwFDmQPMA7KCB0nvn7CQOuzmkWbNdAcPyJlkp9mL013Z
+         lBWi0KoFlCJ0w9aaGQ7bJMccs3ac9W2hWJOoWef8W2Y9btRxecZvipp4wLP8GZcOR3Xe
+         I9c1ADU7ABe3b+Ld4nSi24OKLRbXJmY6IHWr0k/LUMN1VR0G25j46mX3tBRG6fdwJqsX
+         ovMg==
+X-Gm-Message-State: AC+VfDxz4XWRvOsArDPgIOft0aR/oLamoCMv65rM0PsG7jL5mlMSMOui
+	UuG8b00yovoZup7VfwDD+DA=
+X-Google-Smtp-Source: ACHHUZ6672faX07heGWs3B0PV7ZJkqYGuQNoX8YzdTu1PeXrQ3hCuaiW5DPyaliV7S7XcyE3AyDzgA==
+X-Received: by 2002:a17:907:94d3:b0:96a:58a:6cd8 with SMTP id dn19-20020a17090794d300b0096a058a6cd8mr6734541ejc.9.1683752384784;
+        Wed, 10 May 2023 13:59:44 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id h9-20020a170906584900b0094e597f0e4dsm3059489ejs.121.2023.05.10.13.54.33
+        by smtp.gmail.com with ESMTPSA id p15-20020a17090653cf00b0094ebc041e20sm3072028ejo.46.2023.05.10.13.59.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 May 2023 13:54:33 -0700 (PDT)
+        Wed, 10 May 2023 13:59:44 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org,
- kernel-janitors <kernel-janitors@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: Re: Situation of CONFIG_CLK_SUNXI_PRCM_SUN9I
-Date: Wed, 10 May 2023 22:54:32 +0200
-Message-ID: <10272596.nUPlyArG6x@jernej-laptop>
-In-Reply-To:
- <CAKXUXMy3_krgwHMS6TaDZhBePkaHTHigntwBD0WFxMJ=DtgWYA@mail.gmail.com>
+To: Andre Przywara <andre.przywara@arm.com>,
+ Maksim Kiselev <bigunclemax@gmail.com>
+Cc: Icenowy Zheng <icenowy@aosc.io>, Maksim Kiselev <bigunclemax@gmail.com>,
+ Conor Dooley <conor.dooley@microchip.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-spi@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org
+Subject:
+ Re: [PATCH v5 5/5] riscv: dts: allwinner: d1: Add SPI controllers node
+Date: Wed, 10 May 2023 22:59:42 +0200
+Message-ID: <1932306.PYKUYFuaPT@jernej-laptop>
+In-Reply-To: <20230510081121.3463710-6-bigunclemax@gmail.com>
 References:
- <CAKXUXMy3_krgwHMS6TaDZhBePkaHTHigntwBD0WFxMJ=DtgWYA@mail.gmail.com>
+ <20230510081121.3463710-1-bigunclemax@gmail.com>
+ <20230510081121.3463710-6-bigunclemax@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,43 +71,22 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi Lukas,
-
-Dne sreda, 10. maj 2023 ob 07:38:04 CEST je Lukas Bulwahn napisal(a):
-> Dear Maxime,
+Dne sreda, 10. maj 2023 ob 10:11:12 CEST je Maksim Kiselev napisal(a):
+> Some boards form the MangoPi family (MQ\MQ-Dual\MQ-R) may have
+> an optional SPI flash that connects to the SPI0 controller.
 > 
-
-I don't see Maxime in recipients...
-
-> with commit 49c726d55c1b ("clk: sunxi: Add Kconfig options"), you
-> introduce various build configurations for Legacy clock support for
-> Allwinner SoCs. Among them, you introduce the config
-> CLK_SUNXI_PRCM_SUN9I in drivers/clk/sunxi/Kconfig, but this config is
-> not used anywhere in the kernel tree.
+> This controller is the same for R329/D1/R528/T113s SoCs and
+> should be supported by the sun50i-r329-spi driver.
 > 
-> Can we just delete this config CLK_SUNXI_PRCM_SUN9I again, as it is
-> not needed, or did you simply miss to adjust the Makefile for this
-> option to be effective?
+> So let's add its DT nodes.
+> 
+> Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
-I think this is the best approach. If it wasn't used by now, it can only make 
-further mess in distro configs if introduced.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
-> 
-> I will gladly send a patch, once you could give me a quick pointer.
-> 
-> 
-> Best regards,
-> 
-> Lukas
-> 
-> Note: This is a resent email (see original email:
-> https://lore.kernel.org/all/CAKXUXMzqCktKz7vGN4_QAp4n1SeP0-YHL19evmVSfseZOem
-> d5g@mail.gmail.com/); now hopefully with an email address for Maxime that
-> reaches Maxime.
-
-
 
 
