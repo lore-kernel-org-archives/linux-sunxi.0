@@ -1,73 +1,73 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7824939F
-	for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 04:38:36 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4QGMjG03vPz9sbC;
-	Wed, 10 May 2023 06:38:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1683693506;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0TGqUxEs7+KA0bUhtlK1lVZB5oosirddpuH1iKWN/KY=;
-	b=qZqEMiiK9m96NDdgm0AnO6/mf8bQdwNxo1oktDksIzGixa+60AHTXNKvWfMMF6WhH9gKJs
-	gHE9iAE1unK6VYv+saT9wUn30yAzcKzRIlG8cJVP7esjgJ9/aZGMgkUk6aND/gCVcJXyq6
-	cjd2yXOLsKrff8lUanv5SudV64JiUCdic170HU68nroUZJNAc1lbLCmjfopAQnyfWjrLrB
-	jzLbHb0lFIVJ/13nse6u0rIu6LiDSXGZI9818rUjqHE3n6OJDKN5rTTujXAHXtju3w1USK
-	rX1GF1M7daxUuV1LoOt8h/BWlKNx/oOgMboHfWXshP/Q2fgqZXt9pJBpk/Gxew==
-References: <20230505052110.67514-1-me@crly.cz>
- <87jzxjp5tp.fsf@oltmanns.dev> <CSHP4M31IC80.2WGQC75I3PX71@void.crly.cz>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Roman Beranek <me@crly.cz>
-Cc: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel  Holland <samuel@sholland.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Icenowy Zheng <icenowy@aosc.io>,
- Ondrej Jirman <megi@xff.cz>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/4] drm: sun4i: set proper TCON0 DCLK rate in DSI mode
-Date: Wed, 10 May 2023 06:30:04 +0200
-In-reply-to: <CSHP4M31IC80.2WGQC75I3PX71@void.crly.cz>
-Message-ID: <874jokg5sf.fsf@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2FD80C
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 05:38:17 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-965e4be7541so1060367966b.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 09 May 2023 22:38:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683697095; x=1686289095;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=IRV+sBk5PSnkH2cvQJEurZPQMXkcZOja4gthBlnfdvw=;
+        b=A1h54Fif7vGJHhX9m1f3Kshr1flFcjj5AzZ/ocnSu3BiLmXjzWi8eQZxj/rncY8miQ
+         0v27z+lMPwGBmHopVHW2+2J14kjpyubV1MgJlX+pboaAr0MZToQgz/2v2g3expkwDpKe
+         WZ3tAFfb7li10tp/88owAqkA0zPC+8hxwtaA6ff26GFvXDgrFw78JG7QQUH2LYdwFv5u
+         vN1FyOhDc6JeOVeA1f6OWLEPfCBTQVmdWhzybqZa7gw0D+OsML6oniiMpxYs4T4nzHQ6
+         JOlHgzkLxan/XMa7ezvhi7uRB3nazYJl74itRiBJ+qcoWns94wmL1BbIUw6l/93Qu5jR
+         rODA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683697095; x=1686289095;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IRV+sBk5PSnkH2cvQJEurZPQMXkcZOja4gthBlnfdvw=;
+        b=jU80aVb6mX4BTl5SpaK7PMKEmVGTbEj+iNL6XXEHbOZCKRMWEW/eiiQ4R1vRJBDghO
+         JjUFgzaWG1jiQnozhEiZAskzFtz7D9KBOiloXQ0Mp8ezuqvZm6flwqgftm8qUXl9A/rS
+         SFMs/sALpxwpaCCk8hQwivL+MFHKBHJBKSbbM+yJqqQNvwBlOTLabrsdC4dZPyhPCLO+
+         PedSx5dVjBSRNsynDUUC0MY3KjB46NLyH4SmVWQ0tveiGWxFdXvzAxQ8tRW/+yu8el5i
+         kpSnS/dQeYXSvBY2WRUiwiFHS/m3ZolV49ofz4OJt6ngyiBKxIS6khf9rUYIncAd988j
+         hIng==
+X-Gm-Message-State: AC+VfDyM5Krmb7oTAW5inKQxbLFXWN940MlgTG6TXKu9gCtXeVNnFt3G
+	fzKVeYbU16kZnZ/cpVJeQgim49lOuD0OE2eoLWZZzoY2xGI=
+X-Google-Smtp-Source: ACHHUZ4ogjZtGrQXMJMKwEGu0G0AbD0KpYVERcNwR4arcIxdi5S+ollKjEgImzB7I/MuJA0JZh7eBw+2jTW/8V51pB4=
+X-Received: by 2002:a17:907:9808:b0:94f:4801:6d08 with SMTP id
+ ji8-20020a170907980800b0094f48016d08mr15277609ejc.71.1683697095024; Tue, 09
+ May 2023 22:38:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Rspamd-Queue-Id: 4QGMjG03vPz9sbC
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Wed, 10 May 2023 07:38:04 +0200
+Message-ID: <CAKXUXMy3_krgwHMS6TaDZhBePkaHTHigntwBD0WFxMJ=DtgWYA@mail.gmail.com>
+Subject: Situation of CONFIG_CLK_SUNXI_PRCM_SUN9I
+To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev, 
+	linux-clk@vger.kernel.org, kernel-janitors <kernel-janitors@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hello Roman,
+Dear Maxime,
 
-On 2023-05-09 at 13:04:50 +0200, "Roman Beranek" <me@crly.cz> wrote:
-> On Mon May 8, 2023 at 10:47 AM CEST, Frank Oltmanns wrote:
->> I played back a 60 fps video (10 seconds) and recorded the panel's
->> output with a 240 fps camera. I noticed only 2 dropped frames, that I
->> account to the imperfect data rate of 107.8MHz instead of 108 MHz due
->> to pll-video0's rate being 294MHz instead of the 297 MHz for reasons
->> I described in the thread on your v2 of this patch [4]).
->
-> Yes. That's what should happen, right? Or do you report this as a
-> defect?
+with commit 49c726d55c1b ("clk: sunxi: Add Kconfig options"), you
+introduce various build configurations for Legacy clock support for
+Allwinner SoCs. Among them, you introduce the config
+CLK_SUNXI_PRCM_SUN9I in drivers/clk/sunxi/Kconfig, but this config is
+not used anywhere in the kernel tree.
 
-Sorry, I didn't communicate more clearly. Without your patch, I'm losing
-a number of frames in the realm of three digits. With your patch I only
-lost 2 frames which is expetcted. Your patches are a big improvement.
+Can we just delete this config CLK_SUNXI_PRCM_SUN9I again, as it is
+not needed, or did you simply miss to adjust the Makefile for this
+option to be effective?
 
-This is the opposite of a defect report. :-)
+I will gladly send a patch, once you could give me a quick pointer.
 
-Thanks,
-  Frank
 
->
-> Roman
+Best regards,
+
+Lukas
+
+Note: This is a resent email (see original email:
+https://lore.kernel.org/all/CAKXUXMzqCktKz7vGN4_QAp4n1SeP0-YHL19evmVSfseZOemd5g@mail.gmail.com/);
+now hopefully with an email address for Maxime that reaches Maxime.
