@@ -1,100 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5B6373;
-	Wed, 10 May 2023 03:00:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B5C7CC4339B;
-	Wed, 10 May 2023 03:00:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683687624;
-	bh=7LO/nm+SvO2zUJm9O7tKkRrwmKO+jJgciV/tuTaQgEI=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=RTOVU+VB5lVL3KuGZFTpoKDpYjJRZaFEG2sQHTVRB003U8JjjD5mssizr5+LQvmxS
-	 FiRe09LS1LVd1YWnDEJh5qAL8JXede7MYdp/xXZvK/GdzrksCN2HWYx2Yl6T6VU0FJ
-	 9JyyJlSaOGUYos/Lyy9six7qob5Gkj21W/akStnMjymLUTb5PyAM8M1Wbf3N951mzV
-	 Eg6NfnYrqIYGWQtpMzg4W3Sk8GzvYYx+hlaSlCIHcLFyllWUB3ydom5VLPkfJdMfc6
-	 YNs6Y4Xid5qDf/PpW1q5ZniGiemNLv2Btm+78JH6TJxiVI7ORNqyekAAsAcCAtY5+p
-	 +unEdK3RS/REg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8C0E5C39562;
-	Wed, 10 May 2023 03:00:24 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7824939F
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 04:38:36 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4QGMjG03vPz9sbC;
+	Wed, 10 May 2023 06:38:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1683693506;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0TGqUxEs7+KA0bUhtlK1lVZB5oosirddpuH1iKWN/KY=;
+	b=qZqEMiiK9m96NDdgm0AnO6/mf8bQdwNxo1oktDksIzGixa+60AHTXNKvWfMMF6WhH9gKJs
+	gHE9iAE1unK6VYv+saT9wUn30yAzcKzRIlG8cJVP7esjgJ9/aZGMgkUk6aND/gCVcJXyq6
+	cjd2yXOLsKrff8lUanv5SudV64JiUCdic170HU68nroUZJNAc1lbLCmjfopAQnyfWjrLrB
+	jzLbHb0lFIVJ/13nse6u0rIu6LiDSXGZI9818rUjqHE3n6OJDKN5rTTujXAHXtju3w1USK
+	rX1GF1M7daxUuV1LoOt8h/BWlKNx/oOgMboHfWXshP/Q2fgqZXt9pJBpk/Gxew==
+References: <20230505052110.67514-1-me@crly.cz>
+ <87jzxjp5tp.fsf@oltmanns.dev> <CSHP4M31IC80.2WGQC75I3PX71@void.crly.cz>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Roman Beranek <me@crly.cz>
+Cc: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel  Holland <samuel@sholland.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Icenowy Zheng <icenowy@aosc.io>,
+ Ondrej Jirman <megi@xff.cz>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/4] drm: sun4i: set proper TCON0 DCLK rate in DSI mode
+Date: Wed, 10 May 2023 06:30:04 +0200
+In-reply-to: <CSHP4M31IC80.2WGQC75I3PX71@void.crly.cz>
+Message-ID: <874jokg5sf.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v2 00/11] net: stmmac: Convert to platform remove
- callback returning void
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <168368762456.27124.17176817660933091864.git-patchwork-notify@kernel.org>
-Date: Wed, 10 May 2023 03:00:24 +0000
-References: <20230508142637.1449363-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230508142637.1449363-1-u.kleine-koenig@pengutronix.de>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
-Cc: peppe.cavallaro@st.com, alexandre.torgue@foss.st.com,
- joabreu@synopsys.com, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, mcoquelin.stm32@gmail.com,
- shawnguo@kernel.org, s.hauer@pengutronix.de, vz@mleia.com,
- neil.armstrong@linaro.org, khilman@baylibre.com, vkoul@kernel.org,
- kernel@esmil.dk, samin.guo@starfivetech.com, wens@csie.org,
- jernej.skrabec@gmail.com, samuel@sholland.org,
- nobuhiro1.iwamatsu@toshiba.co.jp, matthias.bgg@gmail.com,
- thierry.reding@gmail.com, jonathanh@nvidia.com, festevam@gmail.com,
- linux-imx@nxp.com, jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
- bhupesh.sharma@linaro.org, angelogioacchino.delregno@collabora.com,
- netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de,
- linux-amlogic@lists.infradead.org, linux-oxnas@groups.io,
- linux-sunxi@lists.linux.dev, linux-mediatek@lists.infradead.org,
- linux-tegra@vger.kernel.org
+Content-Type: text/plain
+X-Rspamd-Queue-Id: 4QGMjG03vPz9sbC
 
-Hello:
+Hello Roman,
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+On 2023-05-09 at 13:04:50 +0200, "Roman Beranek" <me@crly.cz> wrote:
+> On Mon May 8, 2023 at 10:47 AM CEST, Frank Oltmanns wrote:
+>> I played back a 60 fps video (10 seconds) and recorded the panel's
+>> output with a 240 fps camera. I noticed only 2 dropped frames, that I
+>> account to the imperfect data rate of 107.8MHz instead of 108 MHz due
+>> to pll-video0's rate being 294MHz instead of the 297 MHz for reasons
+>> I described in the thread on your v2 of this patch [4]).
+>
+> Yes. That's what should happen, right? Or do you report this as a
+> defect?
 
-On Mon,  8 May 2023 16:26:26 +0200 you wrote:
-> Hello,
-> 
-> (implicit) v1 of this series is available at
-> https://lore.kernel.org/netdev/20230402143025.2524443-1-u.kleine-koenig@pengutronix.de
-> .
-> 
-> Changes since then:
-> 
-> [...]
+Sorry, I didn't communicate more clearly. Without your patch, I'm losing
+a number of frames in the realm of three digits. With your patch I only
+lost 2 frames which is expetcted. Your patches are a big improvement.
 
-Here is the summary with links:
-  - [net-next,v2,01/11] net: stmmac: Make stmmac_pltfr_remove() return void
-    https://git.kernel.org/netdev/net-next/c/3246627f11c5
-  - [net-next,v2,02/11] net: stmmac: dwmac-visconti: Make visconti_eth_clock_remove() return void
-    https://git.kernel.org/netdev/net-next/c/b9bc44fe068d
-  - [net-next,v2,03/11] net: stmmac: dwmac-qcom-ethqos: Drop an if with an always false condition
-    https://git.kernel.org/netdev/net-next/c/c5f3ffe35cc9
-  - [net-next,v2,04/11] net: stmmac: dwmac-visconti: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/f4d05c419761
-  - [net-next,v2,05/11] net: stmmac: dwmac-dwc-qos-eth: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/360cd89064b6
-  - [net-next,v2,06/11] net: stmmac: dwmac-qcom-ethqos: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/5580b559a80a
-  - [net-next,v2,07/11] net: stmmac: dwmac-rk: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/903cc461c901
-  - [net-next,v2,08/11] net: stmmac: dwmac-sti: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/b394982a10d9
-  - [net-next,v2,09/11] net: stmmac: dwmac-stm32: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/fec3f552140e
-  - [net-next,v2,10/11] net: stmmac: dwmac-sun8i: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/cc708d4ed7b3
-  - [net-next,v2,11/11] net: stmmac: dwmac-tegra: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/a86f8601c8f0
+This is the opposite of a defect report. :-)
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Thanks,
+  Frank
 
-
+>
+> Roman
