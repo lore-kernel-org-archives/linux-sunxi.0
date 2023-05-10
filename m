@@ -1,26 +1,26 @@
 Received: from the.earth.li (the.earth.li [93.93.131.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 362468C18
-	for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 12:02:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82FC28C1E
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 12:02:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=earth.li;
 	s=the; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:
 	Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=z8H44rBFTZY4TjUWBjN6TrB1XXhRt5aeYvbMpCw9dXc=; b=umz3uG+c8l/FBlg+yh4/xaC1Zx
-	cx6v/g0gitksL1b15tseps4BYnsdNDLhiF7OoeQaBLwqIGYqgmh1f941M6ml9nOgqWxrKDCbOfuTo
-	pAW/eBRHbKiYv+l13qFHxsF3bNiKbvSyiQvMcfyEm2EtGVCYVENtoIWhHjlCh79gbhHdCbONx1DVX
-	KdSy96olRByAMPO4wVSLv28Zu6lJVwnefohEone4TyJ+3BL46inO5h8cQq+nJahXJEtPCIBEmP5hU
-	cRTB25iF6ihoYrci9Hn+PVP1csBmRi5Cp103GdHjFldUKVNIQBxSwPPA3YZTcAUVT7qmDrAC/RcZe
-	DUJp0voQ==;
+	bh=CN7Du21sI7b6jGDaBlQmutgYmHF034Timd3PFCK1lso=; b=M2zpdK72/0OU+ZG8ALGEXrwrwo
+	pbCuExJ9wxSviUCBdK/C6l3sKwYmBGSE6VrnOxgHXG6su0pMooB1N0aeEVjJUvlOumaGxmYxHdCNc
+	wZisbB4/diwj151NoHNhkEsEW9tWL9A2wS5+c+68TnkUt9J7YzvFUGqv4+5F3L3UXmdBYzMgTk+pm
+	Az9USfra7VkwiQ1wCLFVntirYXPfcOrErtfVN9ChS9lecVuC/s5jOh1zeXkcaWianIiITNRS9pVkT
+	t3NuaT+qUvvWAmF8fvs3PGyVbVRg5NjX6zdrC9Qg316hiqRoLw98b3gDiSZlCNjglz4Oi2zeRW3ta
+	mCcvrOmw==;
 Received: from [2001:4d48:ad59:1403::16a3] (helo=earth.li)
 	by the.earth.li with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <noodles@earth.li>)
-	id 1pwiWF-007uiT-CU; Wed, 10 May 2023 13:02:07 +0100
-Date: Wed, 10 May 2023 13:02:02 +0100
+	id 1pwiWf-007ujP-UW; Wed, 10 May 2023 13:02:34 +0100
+Date: Wed, 10 May 2023 13:02:28 +0100
 From: Jonathan McDowell <noodles@earth.li>
 To: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -33,8 +33,9 @@ To: Rob Herring <robh+dt@kernel.org>,
 Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-gpio@vger.kernel.org
-Subject: [PATCH v2 4/5] ARM: dts: sun5i: Add port E pinmux settings for mmc2
-Message-ID: <7949169f581cab37175602188f44bc26e79a45c0.1683719613.git.noodles@earth.li>
+Subject: [PATCH v2 5/5] ARM: dts: axp209: Add iio-hwmon node for internal
+ temperature
+Message-ID: <2a9bd53a65c4a154cccba622c60cbffcdceaeb95.1683719613.git.noodles@earth.li>
 References: <cover.1681580558.git.noodles@earth.li>
  <cover.1683719613.git.noodles@earth.li>
 Precedence: bulk
@@ -47,39 +48,35 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1683719613.git.noodles@earth.li>
 
-These alternate pins for mmc2 are brought out to the 40 pin U14 header
-on the C.H.I.P and can be used to add an external MMC device with a 4
-bit interface. See
-
-https://byteporter.com/ntc-chip-micro-sd-slot/
-
-for further details on how.
+This adds a DT node to hook up the internal temperature ADC to the
+iio-hwmon driver. The various voltage + current ADCs are consumed and
+exposed by their respective drivers, but this is not and is always
+available. Naming chosen to match the axp20x_ prefix the power sensors
+use.
 
 Signed-off-by: Jonathan McDowell <noodles@earth.li>
 ---
- arch/arm/boot/dts/sun5i.dtsi | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ arch/arm/boot/dts/axp209.dtsi | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/arch/arm/boot/dts/sun5i.dtsi b/arch/arm/boot/dts/sun5i.dtsi
-index 250d6b87ab4d..ab7f675aeec4 100644
---- a/arch/arm/boot/dts/sun5i.dtsi
-+++ b/arch/arm/boot/dts/sun5i.dtsi
-@@ -517,6 +517,15 @@ mmc2_4bit_pc_pins: mmc2-4bit-pc-pins {
- 				bias-pull-up;
- 			};
+diff --git a/arch/arm/boot/dts/axp209.dtsi b/arch/arm/boot/dts/axp209.dtsi
+index ca240cd6f6c3..469d0f7d5185 100644
+--- a/arch/arm/boot/dts/axp209.dtsi
++++ b/arch/arm/boot/dts/axp209.dtsi
+@@ -48,6 +48,13 @@
+  * http://dl.linux-sunxi.org/AXP/AXP209%20Datasheet%20v1.0_cn.pdf
+  */
  
-+			/omit-if-no-ref/
-+			mmc2_4bit_pe_pins: mmc2-4bit-pe-pins {
-+				pins = "PE4", "PE5", "PE6", "PE7",
-+				       "PE8", "PE9";
-+				function = "mmc2";
-+				drive-strength = <30>;
-+				bias-pull-up;
-+			};
++/ {
++	pmic-temp {
++		compatible = "iio-hwmon";
++		io-channels = <&axp_adc 4>; /* Internal temperature */
++	};
++};
 +
- 			mmc2_8bit_pins: mmc2-8bit-pins {
- 				pins = "PC6", "PC7", "PC8", "PC9",
- 				       "PC10", "PC11", "PC12", "PC13",
+ &axp209 {
+ 	compatible = "x-powers,axp209";
+ 	interrupt-controller;
 -- 
 2.39.2
 
