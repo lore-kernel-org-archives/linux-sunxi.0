@@ -1,58 +1,56 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9709014A81
-	for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 19:03:23 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-50bc5197d33so14152749a12.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 12:03:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202F13D7F
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 20:37:36 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-94f4b911570so1210324966b.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 13:37:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683745402; x=1686337402;
+        d=gmail.com; s=20221208; t=1683751054; x=1686343054;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LUm1RseG4gL1lkYyVQ+0Gcvm9e1117RvbwpOaGA4O7s=;
-        b=XPz/s4HTgv63jYJh8z3f7SS/1iAoLoxJtMzBarJSI+t5sOgKgifmZAMtKXWud6JXVZ
-         wLCJOLkW/n3ss06Igw+XlIhRQwemvnf18H0mWifAhu4YRO7AvJK3CeReQzb/jRiMN2eZ
-         Hs2WYNu5hIAbWMHUtmyiCmbvP6W6ubNR+9V+gaZPdbYyDLFCs5A4UjqAxi+Xc0rZ2Ink
-         VXkVCxn7/Az1K1jBItqDqKOD9QL18cMtCemNi6istCKx2DK3OwVMG0R83C06Vu0aUz5j
-         +CWXQYnmFTo9jfIo8SjRIkZO12XcyWOdh2kd+lseeFhaySun9TL84b32Hl5PqmDlcJVn
-         nHPg==
+        bh=JKLe9GckdTdkHZtguF0iXQBcbGXhHOajSjz8g7ZeM5M=;
+        b=QQtE9RRCn/jkT69Hp2nltequONP9L6uyHnHEb4BbIfTZ89GoUPebECrUkGQyXfG2HC
+         Zl0OSskrONHPqwhZ/+PGqWLCFX3eyunxhUPhs3pfuvnXmjDLXkPmxZRbkUqp0bdo7jOq
+         qxnsQzjSirvkbiMLe3ND+RY/z13EuaPkJb8Q3H9OrWerC6L/kdwfZKp4dc22IxUOxoCr
+         0ahmPx0F1BIBU7bQYunSEVFUfJV3f8AlhLi/Y7uMB7Yq4jUQZ1OItltgWrm+3/23Vpkf
+         XzRKFO6AvNbc8pLTdRPwhMdY3tPr/VucXF1Q5XxrgAhvGXU0SEnAAKUBCP2YTaqhD83j
+         Sebg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683745402; x=1686337402;
+        d=1e100.net; s=20221208; t=1683751054; x=1686343054;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LUm1RseG4gL1lkYyVQ+0Gcvm9e1117RvbwpOaGA4O7s=;
-        b=RqjVyK32O52z4nyYngWL1uCz3xyR3Wc4z6WpPyzgiXl91EFSKQmmZrkEuvDc7OpIS0
-         Q7BhLwjJKcJetlCg2XsfF/sutmN1RITaFavLXaMWgA4c9T0m/3GE+hupduTQRJLZod+r
-         z5uVlJTp8IJbag9kj4ykeNnoHWlwC3A7qzXmYBSRss6Wk3UkjFNddw1CQwscpUuaOT+X
-         +xDA348znJ3xl/HXcLnDl57HAOsUm3v2Gu0uXLw4aJQ37SRTDjkNiWiYgXicYhyert/h
-         f63XJZeV+GPihxiVTbfty4DCiAiBLqPl0xhHVYU2BP6PSJ5kTCAPyBUMcZnTEvYuXREB
-         zJ+A==
-X-Gm-Message-State: AC+VfDwkmo8EMc2YVaCiA1WinPJMI1G6pnKyf+W4qtmhrnooNivJK93/
-	JIdXSBKQmVz9GV7fZyPQqgw=
-X-Google-Smtp-Source: ACHHUZ6BFE4NR5OmqK9DHzA38atpHNyNW6749lGSKxskq0PTDosCWiIzwlxIOkNSaqAx8IVLf5bL5g==
-X-Received: by 2002:a05:6402:48f:b0:506:9220:b149 with SMTP id k15-20020a056402048f00b005069220b149mr14073920edv.26.1683745401705;
-        Wed, 10 May 2023 12:03:21 -0700 (PDT)
+        bh=JKLe9GckdTdkHZtguF0iXQBcbGXhHOajSjz8g7ZeM5M=;
+        b=j8PZ/sSU8axW7bC1cHx+b6yeOLHHnDHplM1WDPi1XgdR2W8/HtXKewgEU3C/ykDZE3
+         FJzoN+dOTriX/DUqxFJ0vgI9cqUg9jzu7pbViOiaPa9UqNea8m5KPoiSkJonwsUrYKmr
+         DrVFmmcl6tBd+yfoz4VFRNdZskh1FQEidty7cT2rpEt29YcUsJowCp1wZs6gL842u4is
+         JAuRjti2Wy5sOokWfBUwOVurklK1K7QHNbOKewJejQ2QN/zzWPg1ptnK4Sz6dccXYVUj
+         0YF9GjqPUgfQsHFWh6dxnbl6e3SRA00aQbW/jJ/7nNbUn4IVswrJ4T8ERjzehG4QGy0i
+         de5g==
+X-Gm-Message-State: AC+VfDyqhnCvXxqcDPH0Hcn75nn9WBoeTwEeTHioyxGOK0NYTNu0PSgu
+	4s5BFpODwO0jOluKbATnYwk=
+X-Google-Smtp-Source: ACHHUZ6EWi21RhWVFtn1nPxL+PWBZG0fvKPOx6+ELIllnIghvcwehy9Wf1jiMQ0PAowgDcnZAE0Chw==
+X-Received: by 2002:a17:907:97d2:b0:968:1102:1fb7 with SMTP id js18-20020a17090797d200b0096811021fb7mr10543863ejc.6.1683751054155;
+        Wed, 10 May 2023 13:37:34 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id k23-20020a05640212d700b0050c0b9d31a7sm2185149edx.22.2023.05.10.12.03.20
+        by smtp.gmail.com with ESMTPSA id u15-20020aa7db8f000000b0050bc863d32asm2215712edt.27.2023.05.10.13.37.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 May 2023 12:03:21 -0700 (PDT)
+        Wed, 10 May 2023 13:37:33 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Wolfram Sang <wsa@kernel.org>,
- Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, kernel@pengutronix.de
-Subject:
- Re: [PATCH 71/89] i2c: sun6i-p2wi: Convert to platform remove callback
- returning void
-Date: Wed, 10 May 2023 21:03:19 +0200
-Message-ID: <1854054.tdWV9SEqCh@jernej-laptop>
-In-Reply-To: <20230508205306.1474415-72-u.kleine-koenig@pengutronix.de>
+To: samuel@sholland.org, wens@csie.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, andre.przywara@arm.com,
+ Ludwig Kormann <ludwig.kormann@ict42.de>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] arm: dts: sunxi: Add ICnova A20 ADB4006 board
+Date: Wed, 10 May 2023 22:37:32 +0200
+Message-ID: <3231392.aeNJFYEL58@jernej-laptop>
+In-Reply-To: <20230510111528.2155582-3-ludwig.kormann@ict42.de>
 References:
- <20230508205306.1474415-1-u.kleine-koenig@pengutronix.de>
- <20230508205306.1474415-72-u.kleine-koenig@pengutronix.de>
+ <20230510111528.2155582-1-ludwig.kormann@ict42.de>
+ <20230510111528.2155582-3-ludwig.kormann@ict42.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -62,22 +60,35 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="iso-8859-1"
 
-Dne ponedeljek, 08. maj 2023 ob 22:52:48 CEST je Uwe Kleine-K=F6nig napisal=
-(a):
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
+Dne sreda, 10. maj 2023 ob 13:15:28 CEST je Ludwig Kormann napisal(a):
+> Add board support for ICnova A20 SomPi compute module on
+> ICnova ADB4006 development board.
 >=20
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
+> Specification:
+> SoM
+> - Processor: Allwinner A20 Cortex-A7 Dual Core at 1GHz
+> - 512MB DDR3 RAM
+> - Fast Ethernet (Phy: Realtek RTL8201CP)
+> ADB4006
+> - I2C
+> - 2x USB 2.0
+> - 1x Fast Ethernet port
+> - 1x SATA
+> - 2x buttons (PWRON, Boot)
+> - 2x LEDS
+> - serial console
+> - HDMI
+> - =B5SD-Card slot
+> - Audio Line-In / Line-Out
+> - GPIO pinheaders
 >=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> https://wiki.in-circuit.de/index.php5?title=3DICnova_ADB4006
+> https://wiki.in-circuit.de/index.php5?title=3DICnova_A20_SODIMM
+>=20
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> Signed-off-by: Ludwig Kormann <ludwig.kormann@ict42.de>
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
