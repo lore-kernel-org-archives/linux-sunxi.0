@@ -1,104 +1,89 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16E8364
-	for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 08:34:09 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-50bd2d7ba74so66584151a12.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 01:34:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683707648; x=1686299648;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B0p9eN+ggVsgeu7VJetFmhwwW1D4ZwxzfXfjX9kMJRM=;
-        b=aeJMh3kSstDe1tz2bumuhjkcM10fYPnNrpPFTf8YaH+43l4LdtxVqZKDDS6zar4ITc
-         Hqyxpo3mhZi7S8O/stKHeIkPNQubDmKQi8SGpJkxKOFdRwNDNhH3LTiSZx73UID970SX
-         013fKgK1EoMIFg0iEmRgbk7wzOrtA4JRBD3VzS6NgvmgOPdYGXf5Ygbz87M9CEQrZG87
-         w98LSZC1YVvPzzi+1uODZ3QtjeZbPvjh1op9tN/oulKncSxqKt09CrFJHKxfhWftL6n0
-         rwX5KAgGtkRzfriquYC1kaYGLT+z8RrY62wCWWEAo72iNN1rQv2ZBRYgnmhRbqe1njoH
-         HVHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683707648; x=1686299648;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=B0p9eN+ggVsgeu7VJetFmhwwW1D4ZwxzfXfjX9kMJRM=;
-        b=UMfSst8aa24JhyoSFoZwqttX4R4Xd87m8qQT/qL5xrxqEk6LQ9xg9ugx86AfNYcjq3
-         NgIijlr44lnpe2Qgdn/FV1irHJ+jncoqQQYwzaenwkbRoQFAKqwpJJ/x6aLxqvHgfMyl
-         gj7VzeAMPKj40stMSMuMdMiF/BC+cZgAaP1qCUTNw3jvHW6DHDRUWDl8iNq7tOoqg6cg
-         ExYx1i+8QldUVYUJI7EezbYiTTgO5rq1Y5KojiwWA+G4+FFGUX4ER5BHsfuorhco9roY
-         OO8HyOHjDAUV3/MkTsNEAz7NcX/Vbz2dHGItTMj98V3LQTW8QcBY6F07185FS75E9OpP
-         jgpg==
-X-Gm-Message-State: AC+VfDzIVGhb/0NbUu4xJMpm/nsFNG1grbw9TlgwWEkEyQIkrI9WIJwk
-	97nSs4E6qOhfIUXusaQMgFvzbhfAO/uOq4H9bBI=
-X-Google-Smtp-Source: ACHHUZ5LA+oyV/jkzhbvC/Oj8UgFvIAECULeZEfOx2nOpmbXWSiznXG43fIAKb5+pEqhaTHmHRKki6vY600b90D3Eyk=
-X-Received: by 2002:a17:907:724b:b0:94d:e2ef:1618 with SMTP id
- ds11-20020a170907724b00b0094de2ef1618mr14022272ejc.7.1683707647722; Wed, 10
- May 2023 01:34:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A188263E
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 May 2023 08:55:31 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-33-N3ky-fLINuaf4cVNoHcZnw-1; Wed, 10 May 2023 09:55:28 +0100
+X-MC-Unique: N3ky-fLINuaf4cVNoHcZnw-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Wed, 10 May
+ 2023 09:55:27 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Wed, 10 May 2023 09:55:27 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Maxim Kiselev' <bigunclemax@gmail.com>
+CC: Andre Przywara <andre.przywara@arm.com>, Icenowy Zheng <icenowy@aosc.io>,
+	Samuel Holland <samuel@sholland.org>, Mark Brown <broonie@kernel.org>, "Rob
+ Herring" <robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	"Paul Walmsley" <paul.walmsley@sifive.com>, Palmer Dabbelt
+	<palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Cristian Ciocaltea
+	<cristian.ciocaltea@collabora.com>, Heiko Stuebner <heiko.stuebner@vrull.eu>,
+	Maxime Ripard <mripard@kernel.org>, "linux-spi@vger.kernel.org"
+	<linux-spi@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-sunxi@lists.linux.dev"
+	<linux-sunxi@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-riscv@lists.infradead.org"
+	<linux-riscv@lists.infradead.org>
+Subject: RE: [PATCH v3 2/5] spi: sun6i: change OF match data to a struct
+Thread-Topic: [PATCH v3 2/5] spi: sun6i: change OF match data to a struct
+Thread-Index: AQHZgHJVw1wL+axJhkKYU1TQITl02K9QIrDQgAL/+QCAABUggA==
+Date: Wed, 10 May 2023 08:55:27 +0000
+Message-ID: <1592f46b0f794b24a87a964d7208da68@AcuMS.aculab.com>
+References: <20230506232616.1792109-1-bigunclemax@gmail.com>
+ <20230506232616.1792109-3-bigunclemax@gmail.com>
+ <702d085b3b814759a344886364c518f8@AcuMS.aculab.com>
+ <CALHCpMh84Q8RAh2Y+cHzAvsm4h5zBZY=9fPF6OVmtLNvX+ePxQ@mail.gmail.com>
+In-Reply-To: <CALHCpMh84Q8RAh2Y+cHzAvsm4h5zBZY=9fPF6OVmtLNvX+ePxQ@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230506232616.1792109-1-bigunclemax@gmail.com>
- <20230506232616.1792109-3-bigunclemax@gmail.com> <702d085b3b814759a344886364c518f8@AcuMS.aculab.com>
-In-Reply-To: <702d085b3b814759a344886364c518f8@AcuMS.aculab.com>
-From: Maxim Kiselev <bigunclemax@gmail.com>
-Date: Wed, 10 May 2023 11:33:56 +0300
-Message-ID: <CALHCpMh84Q8RAh2Y+cHzAvsm4h5zBZY=9fPF6OVmtLNvX+ePxQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/5] spi: sun6i: change OF match data to a struct
-To: David Laight <David.Laight@aculab.com>
-Cc: Andre Przywara <andre.przywara@arm.com>, Icenowy Zheng <icenowy@aosc.io>, 
-	Samuel Holland <samuel@sholland.org>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, 
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Heiko Stuebner <heiko.stuebner@vrull.eu>, 
-	Maxime Ripard <mripard@kernel.org>, 
-	"linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-Hi, David
+RnJvbTogTWF4aW0gS2lzZWxldg0KPiBTZW50OiAxMCBNYXkgMjAyMyAwOTozNA0KPiANCj4gSGks
+IERhdmlkDQo+IA0KPiA+IElzIGl0IHdvcnRoIGRvaW5nIGEgc3RydWN0dXJlIGNvcHkgYXQgdGhp
+cyBwb2ludD8NCj4gPiBUaGUgJ2NmZycgZGF0YSBpcyBzaG9ydCBhbmQgY29uc3RhbnQgYW5kIGl0
+IHdvdWxkIG1ha2UNCj4gPiB0aGUgY29kZSB0aGF0IHVzZXMgaXQgc21hbGxlciBhbmQgZmFzdGVy
+Lg0KPiANCj4gSSdtIHNvcnJ5IGJ1dCBJIGRvbid0IGZ1bGx5IHVuZGVyc3RhbmQgd2hhdCB5b3Ug
+YXJlIHN1Z2dlc3RpbmcuDQo+IEluIHBhdGNoIDNcNSB3ZSBleHRlbmQgdGhlIHN1bjZpX3NwaV9j
+Zmcgc3RydWN0dXJlIHdpdGggdGhlIGhhc19jbGtfY3RsIGZpZWxkLg0KDQpZb3UgYXJlIHN0aWxs
+IG9ubHkgYWRkaW5nIGEgc2Vjb25kIGludGVnZXIuDQoNCkknbSBzdWdnZXN0aW5nIHRoYXQgaW5z
+dGVhZCBvZiBzc3BpLT5jZmcgYmVpbmcgYSBwb2ludGVyIHRvIHRoZQ0KY29uZmlnIGRhdGEgaXQg
+aXMgYSBjb3B5IG9mIHRoZSBjb25maWcgZGF0YS4NClNvIHRoZSBhc3NpZ25tZW50IGJlbG93IGJl
+Y29tZXMgKGlnbm9yaW5nIGVycm9yIGNoZWNrcykNCgltZW1jcHkoJnNzcGktPmNmZywgb2ZfZGV2
+aWNlX2dldF9tYXRjaF9kYXRhKCZwZGV2LT5kZXYpLCBzaXplb2Ygc3NwaS0+Y2ZnKTsNCmFuZCB0
+aGUgY29kZSB0aGF0IG5lZWRzIHRoZSB2YWx1ZXMgaXM6DQoJc3NwaS0+Y2ZnLmZpZm9fZGVwdGgN
+CihldGMpDQoNCglEYXZpZA0KDQo+IA0KPiDQv9C9LCA4INC80LDRjyAyMDIz4oCv0LMuINCyIDEy
+OjQ3LCBEYXZpZCBMYWlnaHQgPERhdmlkLkxhaWdodEBhY3VsYWIuY29tPjoNCj4gPg0KPiA+IEZy
+b206IE1ha3NpbSBLaXNlbGV2DQo+ID4gPiBTZW50OiAwNyBNYXkgMjAyMyAwMDoyNg0KPiA+ID4N
+Cj4gPiA+IEFzIHdlJ3JlIGFkZGluZyBtb3JlIHByb3BlcnRpZXMgdG8gdGhlIE9GIG1hdGNoIGRh
+dGEsIGNvbnZlcnQgaXQgdG8gYQ0KPiA+ID4gc3RydWN0IG5vdy4NCj4gPiA+DQo+ID4gLi4uDQo+
+ID4gPiAtICAgICBzc3BpLT5maWZvX2RlcHRoID0gKHVuc2lnbmVkIGxvbmcpb2ZfZGV2aWNlX2dl
+dF9tYXRjaF9kYXRhKCZwZGV2LT5kZXYpOw0KPiA+ID4gKyAgICAgc3NwaS0+Y2ZnID0gb2ZfZGV2
+aWNlX2dldF9tYXRjaF9kYXRhKCZwZGV2LT5kZXYpOw0KPiA+DQo+ID4gSXMgaXQgd29ydGggZG9p
+bmcgYSBzdHJ1Y3R1cmUgY29weSBhdCB0aGlzIHBvaW50Pw0KPiA+IFRoZSAnY2ZnJyBkYXRhIGlz
+IHNob3J0IGFuZCBjb25zdGFudCBhbmQgaXQgd291bGQgbWFrZQ0KPiA+IHRoZSBjb2RlIHRoYXQg
+dXNlcyBpdCBzbWFsbGVyIGFuZCBmYXN0ZXIuDQo+ID4NCj4gPiAgICAgICAgIERhdmlkDQo+ID4N
+Cj4gPiAtDQo+ID4gUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1v
+dW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQo+ID4gUmVnaXN0cmF0aW9uIE5v
+OiAxMzk3Mzg2IChXYWxlcykNCj4gPg0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUs
+IEJyYW1sZXkgUm9hZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJl
+Z2lzdHJhdGlvbiBObzogMTM5NzM4NiAoV2FsZXMpDQo=
 
-> Is it worth doing a structure copy at this point?
-> The 'cfg' data is short and constant and it would make
-> the code that uses it smaller and faster.
-
-I'm sorry but I don't fully understand what you are suggesting.
-In patch 3\5 we extend the sun6i_spi_cfg structure with the has_clk_ctl fie=
-ld.
-
-=D0=BF=D0=BD, 8 =D0=BC=D0=B0=D1=8F 2023=E2=80=AF=D0=B3. =D0=B2 12:47, David=
- Laight <David.Laight@aculab.com>:
->
-> From: Maksim Kiselev
-> > Sent: 07 May 2023 00:26
-> >
-> > As we're adding more properties to the OF match data, convert it to a
-> > struct now.
-> >
-> ...
-> > -     sspi->fifo_depth =3D (unsigned long)of_device_get_match_data(&pde=
-v->dev);
-> > +     sspi->cfg =3D of_device_get_match_data(&pdev->dev);
->
-> Is it worth doing a structure copy at this point?
-> The 'cfg' data is short and constant and it would make
-> the code that uses it smaller and faster.
->
->         David
->
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1=
- 1PT, UK
-> Registration No: 1397386 (Wales)
->
