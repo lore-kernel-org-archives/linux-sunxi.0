@@ -1,46 +1,85 @@
-Received: from hust.edu.cn (unknown [202.114.0.240])
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98EC1773B
-	for <linux-sunxi@lists.linux.dev>; Thu, 11 May 2023 06:21:07 +0000 (UTC)
-Received: from [10.12.176.125] ([10.12.176.125])
-	(user=m202071377@hust.edu.cn mech=PLAIN bits=0)
-	by mx1.hust.edu.cn  with ESMTP id 34B6IdG3005001-34B6IdG5005001
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-	Thu, 11 May 2023 14:18:39 +0800
-Message-ID: <9935262d-a68b-edbf-0329-f755cbf99c45@hust.edu.cn>
-Date: Thu, 11 May 2023 14:18:39 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A8481B8F1
+	for <linux-sunxi@lists.linux.dev>; Thu, 11 May 2023 07:32:45 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 601E65C084A;
+	Thu, 11 May 2023 03:32:44 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Thu, 11 May 2023 03:32:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to; s=fm2; t=
+	1683790364; x=1683876764; bh=wYFYldVZ7F6H2DOpsymRO/OM8vDYBZCnRDN
+	SUpMOjpE=; b=e+RYGBqnkGYFVQEo2Mac00EHhWQefHpqIMtmXgDynoceEB6PhIO
+	2shdgrz7H0fIvxJW4MImc2s12FN49MaDCKhORtZcOSUr8pp2Kopy5wxKFOatkdaV
+	+VFevbWkFI86HXZO+fk0Dfk8C5/04XwWA40lOIN380Q2XTQYL9yK20Qt7/SE455w
+	6NArPYlrAbqehZXYZt/77evofgzO/0BESWyvaqIU7woK+usMj6/9EWq0B9eIBeyb
+	iJ59LznmTG9nqhe3hXIBvYuyJ4QQCFZzL/jm1MZQeoOqJMg9bgSY6cnRS9kEiSiE
+	o/uIFG78u2eOvpmv3DQ3EN6GkHdYcpidxrw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1683790364; x=1683876764; bh=wYFYldVZ7F6H2DOpsymRO/OM8vDYBZCnRDN
+	SUpMOjpE=; b=k0CrTwxQd8aP88MVJO8COQ+0xCOYfjH/wWc6CfsXnFOeK4rDyfM
+	oD1ljUCBVj1KqsVWyVjmxHKkP226T7TcVE1t8wj4TSWlT3SL6iftJySJy9D8rGHM
+	KOzAvzkvKOLYA3Gad+EiXgb1/AZZ/OkmytE8XvQ8k0FQGaI9Wau8EWSNYlq5xbRA
+	4j9shG28HOOjWaZqWGAJCUVVmG2UqC1zm8hid3f6MCoHyHoYT3U72kW8vcDYcxn0
+	m+G/KwrW60Ydwxh+Tr9ZIAQ/cGDFMlM22urAqc6jC58GfnDIYZ60PseX9GecAHKc
+	Cc/p5imo2FqNztI7/I+hqrKywoOeiWwbz7g==
+X-ME-Sender: <xms:G5pcZEMmEq1XBfUXxBbjl9ASO8tlS7556n_lfgkZyYWfRNfry4kEzg>
+    <xme:G5pcZK-Y1KblLowMMv7sVbzW7bUsFw7jKq7jDpNhGR9x28I-bUEa5jqScOLG9hvQY
+    RlJvYnivhO32spf330>
+X-ME-Received: <xmr:G5pcZLSUZoSMiuX32lqPLQD8U2oc7DOvZDp0Y9sdFWm4eFH2fxti0zSd5gTUeUFbPbz0hdVEXD7UMXFQuYJn5Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeegjedguddvudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefhvfevjghfuffkffggtgfgofesthejredtredtjeenucfhrhhomhepofgr
+    gihimhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtf
+    frrghtthgvrhhnpeelieffgfdvteejjeeujeeiheeuvdetieegheethffhieefgeelkedu
+    keetgeeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:G5pcZMt0GvwW2Cb5HrpgRdcJ2ShYGfK6ZYyWKMxFtgL4vSetDTfYEA>
+    <xmx:G5pcZMfgmQ0WoF9qbb2vBkAt41jz2jevbFbQG8-EaKlKKlP2x8Kc9Q>
+    <xmx:G5pcZA0b0lQORNGKW-uF2MDcggltMrpzwgdjC6VMsqmHeAFxB-TM4g>
+    <xmx:HJpcZL_qFPPAolowwQd8r5ZwD-8yRumotup1QCkzD4tbZZEI_zBJ0w>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 11 May 2023 03:32:43 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Boris Brezillon <bbrezillon@kernel.org>, 
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+ XuDong Liu <m202071377@hust.edu.cn>
+Cc: hust-os-kernel-patches@googlegroups.com, 
+ Dongliang Mu <dzm91@hust.edu.cn>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20230430112347.4689-1-m202071377@hust.edu.cn>
+References: <20230430112347.4689-1-m202071377@hust.edu.cn>
+Subject: Re: (subset) [PATCH] drm: sun4i_tcon: use devm_clk_get_enabled in
+ `sun4i_tcon_init_clocks`
+Message-Id: <168379036200.796072.421403145532970427.b4-ty@cerno.tech>
+Date: Thu, 11 May 2023 09:32:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH] drm: sun4i_tcon: use devm_clk_get_enabled in
- `sun4i_tcon_init_clocks`
-Content-Language: en-US
-To: XuDong Liu <m202071377@hust.edu.cn>, Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Boris Brezillon
- <bbrezillon@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: hust-os-kernel-patches@googlegroups.com, Dongliang Mu
- <dzm91@hust.edu.cn>,
-        dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20230430112347.4689-1-m202071377@hust.edu.cn>
-From: XuDong Liu <m202071377@hust.edu.cn>
-In-Reply-To: <20230430112347.4689-1-m202071377@hust.edu.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-FEAS-AUTH-USER: m202071377@hust.edu.cn
+X-Mailer: b4 0.12.2
 
-On 2023/4/30 19:23, XuDong Liu wrote:
+On Sun, 30 Apr 2023 19:23:46 +0800, XuDong Liu wrote:
 > Smatch reports:
 > drivers/gpu/drm/sun4i/sun4i_tcon.c:805 sun4i_tcon_init_clocks() warn:
 > 'tcon->clk' from clk_prepare_enable() not released on lines: 792,801.
@@ -52,97 +91,10 @@ On 2023/4/30 19:23, XuDong Liu wrote:
 > variables mentioned, but the error handling branch of
 > sun4i_tcon_init_clocks() ignores the required disable process.
 > 
-> To fix this issue, use the devm_clk_get_enabled to automatically
-> balance enable and disabled calls. As original implementation use
-> sun4i_tcon_free_clocks() to disable clk explicitly, we delete the
-> related calls and error handling that are no longer needed.
-> 
-> Fixes: 9026e0d122ac ("drm: Add Allwinner A10 Display Engine support")
-> Fixes: b14e945bda8a ("drm/sun4i: tcon: Prepare and enable TCON channel 0 clock at init")
-> Fixes: 8e9240472522 ("drm/sun4i: support TCONs without channel 1")
-> Fixes: 34d698f6e349 ("drm/sun4i: Add has_channel_0 TCON quirk")
-> Signed-off-by: XuDong Liu <m202071377@hust.edu.cn>
-> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
-> ---
-> The issue is discovered by static analysis, and the patch is not tested
-> yet.
-> ---
->   drivers/gpu/drm/sun4i/sun4i_tcon.c | 19 ++++---------------
->   1 file changed, 4 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> index 523a6d787921..936796851ffd 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> @@ -778,21 +778,19 @@ static irqreturn_t sun4i_tcon_handler(int irq, void *private)
->   static int sun4i_tcon_init_clocks(struct device *dev,
->   				  struct sun4i_tcon *tcon)
->   {
-> -	tcon->clk = devm_clk_get(dev, "ahb");
-> +	tcon->clk = devm_clk_get_enabled(dev, "ahb");
->   	if (IS_ERR(tcon->clk)) {
->   		dev_err(dev, "Couldn't get the TCON bus clock\n");
->   		return PTR_ERR(tcon->clk);
->   	}
-> -	clk_prepare_enable(tcon->clk);
->   
->   	if (tcon->quirks->has_channel_0) {
-> -		tcon->sclk0 = devm_clk_get(dev, "tcon-ch0");
-> +		tcon->sclk0 = devm_clk_get_enabled(dev, "tcon-ch0");
->   		if (IS_ERR(tcon->sclk0)) {
->   			dev_err(dev, "Couldn't get the TCON channel 0 clock\n");
->   			return PTR_ERR(tcon->sclk0);
->   		}
->   	}
-> -	clk_prepare_enable(tcon->sclk0);
->   
->   	if (tcon->quirks->has_channel_1) {
->   		tcon->sclk1 = devm_clk_get(dev, "tcon-ch1");
-> @@ -805,12 +803,6 @@ static int sun4i_tcon_init_clocks(struct device *dev,
->   	return 0;
->   }
->   
-> -static void sun4i_tcon_free_clocks(struct sun4i_tcon *tcon)
-> -{
-> -	clk_disable_unprepare(tcon->sclk0);
-> -	clk_disable_unprepare(tcon->clk);
-> -}
-> -
->   static int sun4i_tcon_init_irq(struct device *dev,
->   			       struct sun4i_tcon *tcon)
->   {
-> @@ -1223,14 +1215,14 @@ static int sun4i_tcon_bind(struct device *dev, struct device *master,
->   	ret = sun4i_tcon_init_regmap(dev, tcon);
->   	if (ret) {
->   		dev_err(dev, "Couldn't init our TCON regmap\n");
-> -		goto err_free_clocks;
-> +		goto err_assert_reset;
->   	}
->   
->   	if (tcon->quirks->has_channel_0) {
->   		ret = sun4i_dclk_create(dev, tcon);
->   		if (ret) {
->   			dev_err(dev, "Couldn't create our TCON dot clock\n");
-> -			goto err_free_clocks;
-> +			goto err_assert_reset;
->   		}
->   	}
->   
-> @@ -1293,8 +1285,6 @@ static int sun4i_tcon_bind(struct device *dev, struct device *master,
->   err_free_dotclock:
->   	if (tcon->quirks->has_channel_0)
->   		sun4i_dclk_free(tcon);
-> -err_free_clocks:
-> -	sun4i_tcon_free_clocks(tcon);
->   err_assert_reset:
->   	reset_control_assert(tcon->lcd_rst);
->   	return ret;
-> @@ -1308,7 +1298,6 @@ static void sun4i_tcon_unbind(struct device *dev, struct device *master,
->   	list_del(&tcon->list);
->   	if (tcon->quirks->has_channel_0)
->   		sun4i_dclk_free(tcon);
-> -	sun4i_tcon_free_clocks(tcon);
->   }
->   
->   static const struct component_ops sun4i_tcon_ops = {
-Ping?
+> [...]
+
+Applied to drm/drm-misc (drm-misc-next).
+
+Thanks!
+Maxime
+
