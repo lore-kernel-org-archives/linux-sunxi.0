@@ -1,51 +1,52 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D47220696
-	for <linux-sunxi@lists.linux.dev>; Thu, 11 May 2023 16:39:34 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-965fc25f009so1321948966b.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 11 May 2023 09:39:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E79F20F6
+	for <linux-sunxi@lists.linux.dev>; Thu, 11 May 2023 16:39:58 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-50bc37e1525so16680194a12.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 11 May 2023 09:39:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683823173; x=1686415173;
+        d=gmail.com; s=20221208; t=1683823196; x=1686415196;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1X+KxaJIVgVYeyuNeujb/8uBRFLjXmO+GYF9SJ60beU=;
-        b=Ma3S9GWfat9WnqrYyoHgo5dry853rcAt7P66kj6bNzlHIiIB+6Y/+u0gBYDLzcuSdu
-         vT1NW6MdOAyowFiuwWrbGQUGRLvowFSEqjZQw76i4sNrDKXSSMTY6DwL5LTHaU0GNNfP
-         46M8g1qCVkRdo+8/WCCNVM5ooDFEVCo6Fxjexl3Hzbo1ZY3rKp2tqkTiQRwtVqcnmwCW
-         Lo9afas3hvNaSz8vp/KNwWiBK2QlCfuxc7kO9HFgyIJK3hawuFkfV9U9Ugn4Sj/XiMt8
-         lKxG3hjb95hmBIakmQqo8CVQcVhnhtqdZyNtn12O5VmFGMAqRgwEcehYILx/HtRJvH5f
-         6pOQ==
+        bh=mpg8XDB92ynuRzY1i3UBYEufHNkhwJLAak/2Lx31N6M=;
+        b=ibTgPIrHlC7KM/tGyqwtf1UyJoDnPrrLqtP2Zqej1oTbR/ruuQMX9ZXvgnS39ULJvo
+         DERGtBVBE4r78wvrzmORpxZDKusSm7SnefyLARh9hy9m3JL7n5Yu7HlfQmQ34BXafg7r
+         1/GM07+C5kHldeoOv7dn4eYcXFOHvIFUJfDuGzTvPdmfmLIMUh916Sa1Ffbe8Glz5uTC
+         veeqqFL58PtyBrn682RVe0XbnqYAtyRHlIAJyhX/Lwp3/ynI/wiZolwdiO+KfG5L/QIl
+         24BSF3UgtwsHic13L1N4Qvk31GZG9r9hpBup0hFkQFGdYLqJuhnrTbkXNvTIGn9i5+ga
+         eFTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683823173; x=1686415173;
+        d=1e100.net; s=20221208; t=1683823196; x=1686415196;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1X+KxaJIVgVYeyuNeujb/8uBRFLjXmO+GYF9SJ60beU=;
-        b=hWW5w5I984yYgmPC8IffP3ouFtxC+D0dzpWykQ+bUh1RpKU65p2Bk0YD+JLsxKKPsk
-         SYacMlch2o2mABNaHfv2I+rPI5KwMpQ6F5nXnLf8eX8L8RjMcJo/5eioTSIx9m8SEj9c
-         h0vYRv/oyArwbq+Ee/9qoQ+xbQmHG2HtkAb/op/nKDOcwVkOEQ2H1l3g/lNna2a3AweQ
-         kHpexxnIOdQqhEzg8KMDE86h8YOlyVCXdskk1GOdUvztx6/cTdUMEFIcma8k9Rg1AgVu
-         ayU0mhMBLSsKwhLpHq1+svB3ppGohCFsjTASQEKnNBXVwaq+M80ZIoZGG80YHpAlq53y
-         IDwg==
-X-Gm-Message-State: AC+VfDxlKx1+WOb6dpZvKKhMFofOvYR0BfbjXnXgsUBNDw/sHfpGbqxr
-	rXBNOu+YxLOaKSMg1+lVo74=
-X-Google-Smtp-Source: ACHHUZ5wFJGKUF0ZD6faiGAglKWn8oRRHvDFWFpErE5pc3yl110oDTNxwsggOt4RFsmN3fJSCYNXQw==
-X-Received: by 2002:a17:907:3f25:b0:969:edf8:f73b with SMTP id hq37-20020a1709073f2500b00969edf8f73bmr11308254ejc.60.1683823173131;
-        Thu, 11 May 2023 09:39:33 -0700 (PDT)
+        bh=mpg8XDB92ynuRzY1i3UBYEufHNkhwJLAak/2Lx31N6M=;
+        b=ValOH4VmN0++P7cJKc9EaIALbX8TygDySge9KkP7hG+DGwX7gF1nzBU10EHecvLMPi
+         uqeubzavVNEzb+ass1d5eEQ0eUnnG+esAQx6qiEg20haH269AjC7RF5SNIcC9ThUW8Xc
+         mO9h5I13Voh2a5Xr7pZAI1mmlbDeUtfDfOQcr/dSlmtQc/olto1P/py+cP9JnUmpI7ne
+         MfBvTc3Lb94iw4lUJZIFOQS73AN8b/HPewEFZTkme+efsMjoXATVBkOBRwI+IL+kf6Xd
+         s6pT1ZeVbjJP2Vp0xtHKvdcUNl7yz9/9N1UlWy5nL8+vociPHE2wmYajwaxlq9cmEdVX
+         DwjQ==
+X-Gm-Message-State: AC+VfDxNYy0WYmPKs5iDhLkP5KWTPsOBOrspW+MTTcjIAvalUUs9AsNQ
+	N1kLxXXcnvYm8ek7D7p9+ZE=
+X-Google-Smtp-Source: ACHHUZ5M06vBgci6zS42m3wRUWv6RwPtzqUTomGRUWOkHFF5nSTmaSbApuSRzoOCjc6tHcHBsCYfeQ==
+X-Received: by 2002:a17:907:843:b0:94f:5847:8ac with SMTP id ww3-20020a170907084300b0094f584708acmr19514441ejb.51.1683823196255;
+        Thu, 11 May 2023 09:39:56 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id t27-20020a170906269b00b0096616aef7e5sm4339459ejc.149.2023.05.11.09.39.31
+        by smtp.gmail.com with ESMTPSA id r12-20020a1709062ccc00b0094e954fd015sm4260699ejr.175.2023.05.11.09.39.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 09:39:32 -0700 (PDT)
+        Thu, 11 May 2023 09:39:55 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Andre Przywara <andre.przywara@arm.com>,
  Maksim Kiselev <bigunclemax@gmail.com>
 Cc: Icenowy Zheng <icenowy@aosc.io>, Maksim Kiselev <bigunclemax@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
  Paul Walmsley <paul.walmsley@sifive.com>,
  Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
  Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
@@ -53,13 +54,15 @@ Cc: Icenowy Zheng <icenowy@aosc.io>, Maksim Kiselev <bigunclemax@gmail.com>,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
  linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v5 2/5] spi: sun6i: change OF match data to a struct
-Date: Thu, 11 May 2023 18:39:30 +0200
-Message-ID: <4268659.ejJDZkT8p0@jernej-laptop>
-In-Reply-To: <20230510081121.3463710-3-bigunclemax@gmail.com>
+Subject:
+ Re: [PATCH v5 1/5] dt-bindings: spi: sun6i: add DT bindings for Allwinner
+ R329/D1/R528/T113s SPI
+Date: Thu, 11 May 2023 18:39:54 +0200
+Message-ID: <3558185.R56niFO833@jernej-laptop>
+In-Reply-To: <20230510081121.3463710-2-bigunclemax@gmail.com>
 References:
  <20230510081121.3463710-1-bigunclemax@gmail.com>
- <20230510081121.3463710-3-bigunclemax@gmail.com>
+ <20230510081121.3463710-2-bigunclemax@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -69,16 +72,15 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne sreda, 10. maj 2023 ob 10:11:09 CEST je Maksim Kiselev napisal(a):
-> From: Icenowy Zheng <icenowy@aosc.io>
+Dne sreda, 10. maj 2023 ob 10:11:08 CEST je Maksim Kiselev napisal(a):
+> Listed above Allwinner SoCs has two SPI controllers. First is the regular
+> SPI controller and the second one has additional functionality for
+> MIPI-DBI Type C.
 > 
-> As we're adding more properties to the OF match data, convert it to a
-> struct now.
+> Add compatible strings for these controllers
 > 
-> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
 > Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
-> Reviewed-by: Samuel Holland <samuel@sholland.org>
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
