@@ -1,76 +1,189 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48622115
-	for <linux-sunxi@lists.linux.dev>; Thu, 11 May 2023 18:55:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F252C433D2;
-	Thu, 11 May 2023 18:55:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683831347;
-	bh=51tobzSJ4CHR3t43CA/+6zmp7vaUcOP2gvXgutyaO+U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WDo9IB685bWp4uy1p75LcM03RQ1qDwjJy29C4jXWER1LAj5ZVBgmm+mtoISfPEyx3
-	 TEgygUlqzI1Ez86xJmSG41lBg3ALBAWy2x5eOeTvOJTdHmBHwoOFSwork+gei8HyH0
-	 KD4LoKyVRUaADkfp0PtTd16YGm4Grt3/X5vqpDhs6uhmLUQI6axSjb4Xb0BDFYTLjB
-	 CsdBAK0ejLG7xBiFI8WRBGYHtbH8RPtdjGS88jpNvB90eTjklH+eXFY99yRzaR9HXo
-	 gIyiNXD8r2+BkuQ1sFq4AeMgmiP5qkrxKk38OcHzJxeCbCIY2GHX31i0YCNqxOHj6F
-	 hk2q8fsxoQm7w==
-Date: Thu, 11 May 2023 19:55:42 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Jonathan McDowell <noodles@earth.li>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] dt-bindings: gpio: Add GPIO3 for AXP209 GPIO
- binding schema
-Message-ID: <20230511-lapel-onboard-ccac0b959921@spud>
-References: <cover.1681580558.git.noodles@earth.li>
- <cover.1683719613.git.noodles@earth.li>
- <e22cd891ea966bc18411d01d5e3b0d94e7ba6869.1683719613.git.noodles@earth.li>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A487E9;
+	Fri, 12 May 2023 02:55:29 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-4efe8b3f3f7so10721231e87.2;
+        Thu, 11 May 2023 19:55:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683860128; x=1686452128;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dkOUlUNxiR4Gqj0+EmYuULSRki0JxNp8SsnGkEdjwKw=;
+        b=PpruK/NzGHjzRovvWCYvW7HqDD68KmOoIjPRjVBwwjOl44YKmS9LJw0bJlpO5wCaTK
+         JYQMRTt8PUIg7Tt3sXx/BumOofEX1UyIXH2rVZ7HQ4xk8w/0TIePej2ODQWIhhjMLGCF
+         ObsKQnai0HwA0gxPpanVkllqPWACWFvsyhk8otvSXkxJ7boKNh6rOvhXhhU7XGpKW3yF
+         bnb3jZjGoJuviMp6XaP/FxIe9hwsqI+C+2qQBWPRGsJkiS6fP0ZvUhHR+JTm3yUIwJpq
+         rSKT9UqKx0zvTFuela8XEHqJdseFq2qZbEhMjlCN21nk45Ltut9jjYaQ7C5U84jN7UFH
+         YUlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683860128; x=1686452128;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dkOUlUNxiR4Gqj0+EmYuULSRki0JxNp8SsnGkEdjwKw=;
+        b=cy70onkHMr0Ral/R5zW74sgugAnxznBDgifZLmL6/Bd90WmrPNPITAebOnjIkNtfRw
+         DOahBLAeLwCdC4henTjzOy0TTWiw3O7VFM0njQeCUzUVFXEGuq2OI57TrQ95/Taewwbd
+         T7tNrDlWFevgPLuKMkFLoi57AKstzgeeV3PPFLqn1Pj8J6rIXJrC+w+apw+VBzTf0g3q
+         MQVwZQDbLjFwwqCXW4C1OLqdHOVcoKb/6bYxs+Q33VeLQZIBtkx5cDh3d9wiytHrouze
+         yNiHAOnI7//GI4XtFX+AaIVC0AFgm6ihH/Ao1OmQ0rDywuxt0ly4Y1blO8/o6aN4YWhM
+         j1uQ==
+X-Gm-Message-State: AC+VfDyy+wtfob0G1rLvNYtH9BAjeAGxPHJ3C9kaxaOE0BhvWvbKOPiF
+	kXdz0+KFCznbzezpsrxcAd8=
+X-Google-Smtp-Source: ACHHUZ4dxW4iqzv/N28X1gKcL88SemTjJ65/wtcy0AZdHSmj4XHMTrDxPz8Icvt/RO3sRR4TuYCJgw==
+X-Received: by 2002:ac2:488c:0:b0:4f1:4086:9384 with SMTP id x12-20020ac2488c000000b004f140869384mr3159987lfc.61.1683860127415;
+        Thu, 11 May 2023 19:55:27 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-144-198.dynamic.spd-mgts.ru. [109.252.144.198])
+        by smtp.googlemail.com with ESMTPSA id c26-20020ac244ba000000b004efae490c51sm1285288lfm.240.2023.05.11.19.55.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 May 2023 19:55:26 -0700 (PDT)
+Message-ID: <4a5ebc65-a384-a8df-c692-ca114f1a018d@gmail.com>
+Date: Fri, 12 May 2023 05:55:23 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="HWXMSkJJfXxLImVu"
-Content-Disposition: inline
-In-Reply-To: <e22cd891ea966bc18411d01d5e3b0d94e7ba6869.1683719613.git.noodles@earth.li>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH 02/20] iommu/terga-gart: Replace set_platform_dma_ops()
+ with IOMMU_DOMAIN_PLATFORM
+Content-Language: en-US
+To: Jason Gunthorpe <jgg@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>
+Cc: Robin Murphy <robin.murphy@arm.com>, Andy Gross <agross@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Bjorn Andersson
+ <andersson@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Orson Zhai <orsonzhai@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Niklas Schnelle <schnelle@linux.ibm.com>, Krishna Reddy <vdumpa@nvidia.com>,
+ Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>,
+ Yong Wu <yong.wu@mediatek.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Lu Baolu <baolu.lu@linux.intel.com>, Kevin Tian <kevin.tian@intel.com>,
+ Nicolin Chen <nicolinc@nvidia.com>, Steven Price <steven.price@arm.com>
+References: <2-v1-21cc72fcfb22+a7a-iommu_all_defdom_jgg@nvidia.com>
+ <1db712d2-9e33-4183-2766-34e32f170507@arm.com> <ZFI/D6mnLKYpdIqx@nvidia.com>
+ <1a995f30-31fe-354f-ddfe-e944fa36e7a0@arm.com> <ZFJlZ03lswl9uHD0@nvidia.com>
+ <ZFJzKQcKNFHdIWqy@orome> <ZFKXz/HWFkYOJrgT@nvidia.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+In-Reply-To: <ZFKXz/HWFkYOJrgT@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+03.05.2023 20:20, Jason Gunthorpe пишет:
+> On Wed, May 03, 2023 at 04:43:53PM +0200, Thierry Reding wrote:
+> 
+>>> The only thing it does is cause dma-iommu.c in ARM64 to use the
+>>> dma-ranges from OF instead of the domain aperture. sprd has no
+>>> dma-ranges in arch/arm64/boot/dts/sprd.
+>>>
+>>> Further, sprd hard fails any map attempt outside the aperture, so it
+>>> looks like a bug if the OF somehow chooses a wider aperture as
+>>> dma-iommu.c will start failing maps.
+>>
+>> That all sounds odd. of_dma_configure_id() already sets up the DMA mask
+>> based on dma-ranges and the DMA API uses that to restrict what IOVA any
+>> buffers can get mapped to for a given device.
+> 
+> Yes, and after it sets up the mask it also passes that range down like this:
+> 
+>  of_dma_configure_id():
+> 	end = dma_start + size - 1;
+> 	mask = DMA_BIT_MASK(ilog2(end) + 1);
+> 	dev->coherent_dma_mask &= mask;
+> 
+> 	arch_setup_dma_ops(dev, dma_start, size, iommu, coherent);
+> 
+> Which eventually goes to:
+> 
+>  iommu_setup_dma_ops()
+>  iommu_dma_init_domain()
+> 
+> Which then does:
+> 
+> 	if (domain->geometry.force_aperture) {
+> 
+> And if not set uses the dma_start/size parameter as the actual
+> aperture. (!?)
+> 
+> Since sprd does this in the iommu driver:
+> 
+> 	dom->domain.geometry.aperture_start = 0;
+> 	dom->domain.geometry.aperture_end = SZ_256M - 1;
+> 
+> And it is serious about enforcing it during map:
+> 
+> 	unsigned long start = domain->geometry.aperture_start;
+> 	unsigned long end = domain->geometry.aperture_end;
+> 
+> 	if (iova < start || (iova + size) > (end + 1)) {
+> 			return -EINVAL;
+> 
+> We must see the dma_start/size parameter be a subset of the aperture
+> or eventually dma-iommu.c will see map failures.
+> 
+> I can't see how this is can happen, so it looks like omitting
+> force_aperture is a mistake not a deliberate choice. I'll make a patch
+> and see if the SPRD folks have any comment. If there is no reason I
+> can go ahead and purge force_aperture and all the dma_start/size
+> passing through arch_setup_dma_ops().
+> 
+>>> Thus, I propose we just remove the whole thing. All drivers must set
+>>> an aperture and the aperture is the pure HW capability to map an
+>>> IOPTE at that address. ie it reflects the design of the page table
+>>> itself and nothing else.
+>>
+>> Yeah, that sounds reasonable. If the aperture represents what the IOMMU
+>> supports. Together with each device's DMA mask we should have everything
+>> we need.
+> 
+> Arguably we should respect the dma-ranges as well, but I think that
+> should come up from the iommu driver via the get_resv_regions() which
+> is the usual place we return FW originated information.
+> 
+>> For Tegra GART I think there's indeed no use-cases at the moment. Dmitry
+>> had at one point tried to make use of it because it can be helpful on
+>> some of the older devices that were very memory-constrained. That
+>> support never made it upstream because it required significant changes
+>> in various places, if I recall correctly. For anything with a decent
+>> enough amount of RAM, CMA is usually a better option.
+> 
+> So the actual use case of this HW is to linearize buffers? ie it is a
+> general scatter/gather engine?
+> 
+>> This has occasionally come up in the past and I seem to remember that it
+>> had once been proposed to simply remove tegra-gart and there had been no
+>> objections. Adding Dmitry, if he doesn't have objections to remaving it,
+>> neither do I.
+> 
+> Dmitry, please say yes and I will remove it instead of trying to carry
+> it. The driver is almost 10 years old at this point, I'm skeptical
+> anyone will need it on a 6.2 era kernel..
 
---HWXMSkJJfXxLImVu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+You probably missed that support for many of 10 years old Tegra2/3
+devices was added to kernel during last years.
 
-On Wed, May 10, 2023 at 01:01:12PM +0100, Jonathan McDowell wrote:
-> The AXP209 has a 4th GPIO, so add it in preparation for support in the
-> driver.
->=20
-> Signed-off-by: Jonathan McDowell <noodles@earth.li>
+This GART isn't used by upstream DRM driver, but it's used by downstream
+kernel which uses alternative Tegra DRM driver that works better for
+older hardware.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+If it's too much burden to maintain this driver, then feel free to
+remove it and I'll continue maintaining it in downstream myself.
+Otherwise I can test your changes if needed.
 
-Thanks,
-Conor.
-
---HWXMSkJJfXxLImVu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZF06LQAKCRB4tDGHoIJi
-0ryJAQDsVpUaAEJAA3CFENMLfIoTABI1Ik8bAkd4jMrr8C8ajgEAn49e8m267hN5
-2UHyMX8OasllSM86Smdo966e+nqAYwg=
-=wzug
------END PGP SIGNATURE-----
-
---HWXMSkJJfXxLImVu--
