@@ -1,92 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from the.earth.li (the.earth.li [93.93.131.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16835A41
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 May 2023 05:24:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D0BAC433D2;
-	Fri, 12 May 2023 05:24:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683869085;
-	bh=tX7KXgnuK8lqbNh920fj8SiOGOJFJBgIs9eJVO2OaCo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Xf9JOuaYCM3EPmqhsz48M30Y+Tb9ZyOYop62KsGUdEDtoCz0F52/nnFRdjRQuiu8i
-	 3JhjWP18oVH7yU5vJXwyys0q89EX/828pwuuiyyo1g1ZltMy8bIx6u1elxGBypct0j
-	 ZyI5ZrIu3qsg/TG6RZgamtwzQfDoBAeW7bC0nWGrM63qzQe+SfTCy5Qk/foOBeniPK
-	 FkTHlJlOI1rR9xFWOVA5bBxoQMgtRMCsYgc+JCwTif2Xs5eeQGeUCq90RnpvaaTOQh
-	 cxQUu7Jp4RF9S1rtflEEXAtO9rp9XCQyqgHNRtT8S0y/o1tizAunDgRl5qCrAMeuxX
-	 fd5ge+cyFGtkw==
-From: Mark Brown <broonie@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>, 
- Maksim Kiselev <bigunclemax@gmail.com>
-Cc: Icenowy Zheng <icenowy@aosc.io>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
- Maxime Ripard <mripard@kernel.org>, linux-spi@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-riscv@lists.infradead.org
-In-Reply-To: <20230510081121.3463710-1-bigunclemax@gmail.com>
-References: <20230510081121.3463710-1-bigunclemax@gmail.com>
-Subject: Re: (subset) [PATCH v5 0/5] Allwinner R329/D1/R528/T113s SPI
- support
-Message-Id: <168386905416.366566.2289755397704500905.b4-ty@kernel.org>
-Date: Fri, 12 May 2023 14:24:14 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F47AD51C
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 May 2023 10:30:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=earth.li;
+	s=the; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=XO4oiI1WNZCBGXID74Maj061GJZrrhbmIDz22HJ58gU=; b=wBAyUpI+5/KekxytWPe3rJjhGr
+	GnFgPUT2WkeD4vrpjTvrRLSlb+mVCIVoqQ5/uSIKIk75LIUmbZhQDsrMh5D6yrxXDaYNG0mNd7Bsi
+	3kyhEDKXkZO6QOQKt/7rMjV9FkRm9ABhR8PQM5K+fUGSCwlW4OYxg+5juPqokJJMXz4RryO3gUnZZ
+	yd2yClocyD3omuW3VwwxhiCA+gxonVCejBEbipm8VRU8TSItJH0vCfnL6v2HFEenbtcvnqQQ/whmP
+	njSw0sBxqCiK9aMV0lH2JgLtXILMqL2t3s6kJkkDQp2htNEzaXxLK088p/3Mb7kEETiadBHSkohpD
+	DHKB7Ssw==;
+Received: from noodles by the.earth.li with local (Exim 4.94.2)
+	(envelope-from <noodles@earth.li>)
+	id 1pxQ2i-00AGrY-Rx; Fri, 12 May 2023 11:30:32 +0100
+Date: Fri, 12 May 2023 11:30:32 +0100
+From: Jonathan McDowell <noodles@earth.li>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v2 5/5] ARM: dts: axp209: Add iio-hwmon node for internal
+ temperature
+Message-ID: <ZF4VSCxvb6ihw9JL@earth.li>
+References: <cover.1681580558.git.noodles@earth.li>
+ <cover.1683719613.git.noodles@earth.li>
+ <2a9bd53a65c4a154cccba622c60cbffcdceaeb95.1683719613.git.noodles@earth.li>
+ <3421275.QJadu78ljV@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-bfdf5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3421275.QJadu78ljV@jernej-laptop>
 
-On Wed, 10 May 2023 11:11:07 +0300, Maksim Kiselev wrote:
-> v5:
->   - fixed DT bindings (Allowed three-string compatibility)
+On Thu, May 11, 2023 at 06:11:49PM +0200, Jernej Škrabec wrote:
+> Dne sreda, 10. maj 2023 ob 14:02:28 CEST je Jonathan McDowell napisal(a):
+> > This adds a DT node to hook up the internal temperature ADC to the
+> > iio-hwmon driver. The various voltage + current ADCs are consumed and
+> > exposed by their respective drivers, but this is not and is always
+> > available. Naming chosen to match the axp20x_ prefix the power sensors
+> > use.
 > 
-> v4:
->   - fixed SPI sample mode configuration
->   - sorted DT bindings list
-> 
-> [...]
+> Sorry for maybe obvious thing, but where are other ADC channels exposed?
 
-Applied to
+In the associated power drivers; e.g. axp20x_ac_power, axp20x_usb_power
++ axp20x_battery. The internal temperature is the only one that
+logically belongs to the chip as a whole rather than one of the
+subfunctions.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+root@chip:~# sensors
+axp20x_battery-isa-0000
+Adapter: ISA adapter
+in0:           0.00 V
+curr1:         0.00 A
 
-Thanks!
+pmic_temp-isa-0000
+Adapter: ISA adapter
+temp1:        +42.5°C
 
-[1/5] dt-bindings: spi: sun6i: add DT bindings for Allwinner R329/D1/R528/T113s SPI
-      commit: f603a3f083aeb9438865975c28b27be0afaae0c1
-[2/5] spi: sun6i: change OF match data to a struct
-      commit: b00c0d8932f1e7e36570edf0f000c64399e985e0
-[3/5] spi: sun6i: add quirk for in-controller clock divider
-      commit: 8e886ac838ef12f6994ed9b13ab87784c4f0bc35
-[4/5] spi: sun6i: add support for R329/D1/R528/T113s SPI controllers
-      commit: 046484cb214b43dc4463343e8c49133d9edb5454
+axp20x_ac-isa-0000
+Adapter: ISA adapter
+in0:           0.00 V
+curr1:         0.00 A
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+axp20x_usb-isa-0000
+Adapter: ISA adapter
+in0:           4.93 V  (min =  +4.00 V)
+curr1:       330.00 mA (max =  +0.00 A)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+> > Signed-off-by: Jonathan McDowell <noodles@earth.li>
+> > ---
+> >  arch/arm/boot/dts/axp209.dtsi | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> > 
+> > diff --git a/arch/arm/boot/dts/axp209.dtsi b/arch/arm/boot/dts/axp209.dtsi
+> > index ca240cd6f6c3..469d0f7d5185 100644
+> > --- a/arch/arm/boot/dts/axp209.dtsi
+> > +++ b/arch/arm/boot/dts/axp209.dtsi
+> > @@ -48,6 +48,13 @@
+> >   * http://dl.linux-sunxi.org/AXP/AXP209%20Datasheet%20v1.0_cn.pdf
+> >   */
+> > 
+> > +/ {
+> > +	pmic-temp {
+> > +		compatible = "iio-hwmon";
+> > +		io-channels = <&axp_adc 4>; /* Internal temperature */
+> > +	};
+> > +};
+> > +
+> >  &axp209 {
+> >  	compatible = "x-powers,axp209";
+> >  	interrupt-controller;
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+J.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+/-\                             |  Synonym: word used when you can't
+|@/  Debian GNU/Linux Developer |       spell the one you want
+\-                              |
