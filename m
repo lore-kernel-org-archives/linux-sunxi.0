@@ -1,20 +1,20 @@
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480F820991
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 May 2023 21:27:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D5C261F2
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 May 2023 21:28:50 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pxaIa-0005KV-9K; Fri, 12 May 2023 23:27:36 +0200
+	id 1pxaIe-0005HQ-DI; Fri, 12 May 2023 23:27:40 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pxaIY-0033X1-Ty; Fri, 12 May 2023 23:27:34 +0200
+	id 1pxaIU-0033Vk-UV; Fri, 12 May 2023 23:27:30 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pxaIY-003qiZ-0T; Fri, 12 May 2023 23:27:34 +0200
+	id 1pxaIU-003qhX-9g; Fri, 12 May 2023 23:27:30 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Wolfgang Grandegger <wg@grandegger.com>,
 	Marc Kleine-Budde <mkl@pengutronix.de>,
@@ -22,20 +22,46 @@ To: Wolfgang Grandegger <wg@grandegger.com>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Paolo Abeni <pabeni@redhat.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+	=?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Minghao Chi <chi.minghao@zte.com.cn>,
+	Zhang Changzhong <zhangchangzhong@huawei.com>,
+	Wei Fang <wei.fang@nxp.com>,
+	Rob Herring <robh@kernel.org>,
+	Pavel Pisa <pisa@cmp.felk.cvut.cz>,
+	Ondrej Ille <ondrej.ille@gmail.com>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Haibo Chen <haibo.chen@nxp.com>,
+	Oliver Hartkopp <socketcan@hartkopp.net>,
+	Yang Yingliang <yangyingliang@huawei.com>,
+	Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Simon Horman <simon.horman@corigine.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
+	Samuel Holland <samuel@sholland.org>,
+	Appana Durga Kedareswara rao <appana.durga.rao@xilinx.com>,
+	Michal Simek <michal.simek@amd.com>
 Cc: linux-can@vger.kernel.org,
 	netdev@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
+	kernel@pengutronix.de,
 	linux-sunxi@lists.linux.dev,
-	kernel@pengutronix.de
-Subject: [PATCH 17/19] can: sun4i_can: Convert to platform remove callback returning void
-Date: Fri, 12 May 2023 23:27:23 +0200
-Message-Id: <20230512212725.143824-18-u.kleine-koenig@pengutronix.de>
+	Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>
+Subject: [PATCH net-next 00/19] can: Convert to platform remove callback returning void
+Date: Fri, 12 May 2023 23:27:06 +0200
+Message-Id: <20230512212725.143824-1-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230512212725.143824-1-u.kleine-koenig@pengutronix.de>
-References: <20230512212725.143824-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -43,7 +69,7 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1738; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=vEDIuWMQZGyuzjSJCDfeA2Tz5oPjwkAzpFxYPKklLv0=; b=owGbwMvMwMXY3/A7olbonx/jabUkhpS49eZNt3wqZ1YsFC0/8aQybJvL2cqlYn/DF966czFPV FjAO7Sjk9GYhYGRi0FWTJHFvnFNplWVXGTn2n+XYQaxMoFMYeDiFICJNNSx/0/5qG3UkK6SkX+m t29ZoY90t8tjCTVnR7/TDtmbuG8dfPsmxWaDfVr/jkBZu45dpyI1smOvygmFHtzx6hvv4Q4DnVL PLzMLtpV+eDhB7mnEzBlXvJ71OHXc8jxne01b1SAzPvs135JfShcY3ly9+VNQfnPQ9ftcZmyzlZ Sl1wUzvrTzOjctdkd0q94Jp7mMgVrSCfPnNdeHL5/oF7R1+RP2kHdCr+QX2s5Z4+J5e2bO/MseQ maps9NezWFx7FrWvohpWbw2z/NsAeHG7/qTpZZPVmj0eFnlpaL5st7OKfmn/8vm+Q3Xpu/3kffk PXN/JeumtW+cU1XXW4loJIlobets/tjx0MIg0v97xl1WAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3125; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=CIVa8xJjV/wvM1n16ALppP7HbOG+7K8Otx33EB/s+c0=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkXq8jGmHgDZEf5cFd1OBFCsjWWCUAe06FRikIq ds4QLnPzAqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZF6vIwAKCRCPgPtYfRL+ TmYxB/9iNwRB5UaB0O45PJH5RdP8FrqojNP8biv2y/VJGnuzlX8A/i0R+iAnz8Tjwn/doXTpQY1 DupInE8JbPNoloyz40iQR35UMlBZJctUUwsOnbhw8VoKR1t+kXUilqDqXJ/JqRVqV/FvaZnvJVo 6znakdpOYzjF8HttRpv35yOAMGdqOrWTQ8OBiJsz7BODeLQ5NORuHwNqY8J6bVMsBiY12dGiabB rTVqins7zFASXM4Wa/2/twpOEAjhmomMDvXEeDu35JfCpgEyEF8VNZBXb4XZU1FQMxcyFRfeU9k I8CHT0COd2M7AlGhwZnwX9y42GojbmwzsygTn8CYGVlD19Em
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -51,52 +77,65 @@ X-SA-Exim-Mail-From: ukl@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is ignored (apart from
-emitting a warning) and this typically results in resource leaks. To improve
-here there is a quest to make the remove callback return void. In the first
-step of this quest all drivers are converted to .remove_new() which already
-returns void. Eventually after all drivers are converted, .remove_new() is
-renamed to .remove().
+Hello,
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+this series convers the drivers below drivers/net/can to the
+.remove_new() callback of struct platform_driver(). The motivation is to
+make the remove callback less prone for errors and wrong assumptions.
+See commit 5c5a7680e67b ("platform: Provide a remove callback that
+returns no value") for a more detailed rationale.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/net/can/sun4i_can.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+All drivers already returned zero unconditionally in their
+.remove() callback, so converting them to .remove_new() is trivial.
 
-diff --git a/drivers/net/can/sun4i_can.c b/drivers/net/can/sun4i_can.c
-index 2b78f9197681..0827830bbf28 100644
---- a/drivers/net/can/sun4i_can.c
-+++ b/drivers/net/can/sun4i_can.c
-@@ -791,14 +791,12 @@ static const struct of_device_id sun4ican_of_match[] = {
- 
- MODULE_DEVICE_TABLE(of, sun4ican_of_match);
- 
--static int sun4ican_remove(struct platform_device *pdev)
-+static void sun4ican_remove(struct platform_device *pdev)
- {
- 	struct net_device *dev = platform_get_drvdata(pdev);
- 
- 	unregister_netdev(dev);
- 	free_candev(dev);
--
--	return 0;
- }
- 
- static int sun4ican_probe(struct platform_device *pdev)
-@@ -901,7 +899,7 @@ static struct platform_driver sun4i_can_driver = {
- 		.of_match_table = sun4ican_of_match,
- 	},
- 	.probe = sun4ican_probe,
--	.remove = sun4ican_remove,
-+	.remove_new = sun4ican_remove,
- };
- 
- module_platform_driver(sun4i_can_driver);
+Best regards
+Uwe
+
+Uwe Kleine-König (19):
+  can: at91_can: Convert to platform remove callback returning void
+  can: bxcan: Convert to platform remove callback returning void
+  can: c_can: Convert to platform remove callback returning void
+  can: cc770_isa: Convert to platform remove callback returning void
+  can: cc770_platform: Convert to platform remove callback returning void
+  can: ctucanfd: Convert to platform remove callback returning void
+  can: flexcan: Convert to platform remove callback returning void
+  can: grcan: Convert to platform remove callback returning void
+  can: ifi_canfd: Convert to platform remove callback returning void
+  can: janz-ican3: Convert to platform remove callback returning void
+  can: m_can: Convert to platform remove callback returning void
+  can: mscan/mpc5xxx_can.c -- Convert to platform remove callback returning void
+  can: rcar: Convert to platform remove callback returning void
+  can: sja1000_isa: Convert to platform remove callback returning void
+  can: sja1000_platform: Convert to platform remove callback returning void
+  can: softing: Convert to platform remove callback returning void
+  can: sun4i_can: Convert to platform remove callback returning void
+  can: ti_hecc: Convert to platform remove callback returning void
+  can: xilinx: Convert to platform remove callback returning void
+
+ drivers/net/can/at91_can.c                   | 6 ++----
+ drivers/net/can/bxcan.c                      | 5 ++---
+ drivers/net/can/c_can/c_can_platform.c       | 6 ++----
+ drivers/net/can/cc770/cc770_isa.c            | 6 ++----
+ drivers/net/can/cc770/cc770_platform.c       | 6 ++----
+ drivers/net/can/ctucanfd/ctucanfd_platform.c | 6 ++----
+ drivers/net/can/flexcan/flexcan-core.c       | 6 ++----
+ drivers/net/can/grcan.c                      | 6 ++----
+ drivers/net/can/ifi_canfd/ifi_canfd.c        | 6 ++----
+ drivers/net/can/janz-ican3.c                 | 6 ++----
+ drivers/net/can/m_can/m_can_platform.c       | 6 ++----
+ drivers/net/can/mscan/mpc5xxx_can.c          | 6 ++----
+ drivers/net/can/rcar/rcar_can.c              | 5 ++---
+ drivers/net/can/rcar/rcar_canfd.c            | 6 ++----
+ drivers/net/can/sja1000/sja1000_isa.c        | 6 ++----
+ drivers/net/can/sja1000/sja1000_platform.c   | 6 ++----
+ drivers/net/can/softing/softing_main.c       | 5 ++---
+ drivers/net/can/sun4i_can.c                  | 6 ++----
+ drivers/net/can/ti_hecc.c                    | 6 ++----
+ drivers/net/can/xilinx_can.c                 | 6 ++----
+ 20 files changed, 40 insertions(+), 77 deletions(-)
+
+
+base-commit: ac9a78681b921877518763ba0e89202254349d1b
 -- 
 2.39.2
 
