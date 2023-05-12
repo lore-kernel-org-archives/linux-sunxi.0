@@ -1,211 +1,102 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2054.outbound.protection.outlook.com [40.107.93.54])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2184B138F;
-	Fri, 12 May 2023 20:52:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cVptgSzBtU85Zr1RVj9Wx/XdCxztyWYv32Q3j5iDyW0f7aJJuh36ATlEX39o+dFLGBwN400feL+DaatKwFn4LnWDx9nzEs7tqXJkCWEJBu/LnP24WDgj/MiQbSfHNI088RRi0PQJHo1wVt/bxVAEIsnWS/iY4VcFxRM8BR9OpsW0LUmP1qFUSKn0Ok6aVEVF22Oxv9PIdoLMV4pUZlUzYqMHHzH6ijoqIvYR/0hfe4Hn7vHGoDHWZz/4gY0uoy4Kpo71oH80gWAZUHRdAt5bfeclq5Fzhfo8EkpTYofsAznIcBFG5I9dg4PRrAv91CGxsrWA91iH6mk3pGcQOHISQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=efScZjkjmic7la8z/qAlJo5TNkfYpCfcYfV3h4narFE=;
- b=Nz3a9/MV2nEeevJKlSGMR8XplPFHNO25UvOIbbMav26RA/9ZEblAlRSjAcu1k1MmU+XnOTtnTlhzH+9HDoqBDntQph85Hfqd8cXUcOiHBgZxv+SArPNB2zbSD6AHH4re3MYn7jrjdnFBXN3vD1b7fdNPy1G2xZ7Luqzd4FYYUdsUzDwwj1csqZ22MNeQcNyRAALJS8x12YkwGkYekWdGlwEEpQgsVZdXW5VpInRHtsS1HRMeIh+UXB3fWhDpkHRwP14ASgtZwrNGfNHPaPj2yDCqolU7nb8+5aNum65xhK8ecbBsDEVL3J+GuTPBbix2kA2Zhdde1vvaH7DvEo3fSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=efScZjkjmic7la8z/qAlJo5TNkfYpCfcYfV3h4narFE=;
- b=SXqigWThFFPY4vrs9IpK404+EPyF01qzNa9Csoj4eEgwxTuyPPRZTAQFGyTenmGXexgG16M9jwBL+7Lbp/8HbdXaJf4uKYV+xwNqFNMOhZCT58W63nBb8/ljTFQto63R6sBKkfRzt2d/baqkIq1qiiq5lMH80E1RpQh9k2A/feE2EVPrkAYxfxrczLzWROM+PR/1C8vyh091CyNUi3hsrwWpg4i/+Fm8znKISe0QUKv2/YQpCp567U3ho1G27p4mDj08sWg0ygo11I168mjuHCTBYewBsNnpB8ZW2KwUKGFTO8TdzKZ3Iu3stluauUlK6cSKw/cYUpKT3NNShxuq7A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by DS0PR12MB8269.namprd12.prod.outlook.com (2603:10b6:8:fd::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.20; Fri, 12 May
- 2023 20:52:30 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f7a7:a561:87e9:5fab]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f7a7:a561:87e9:5fab%6]) with mapi id 15.20.6387.021; Fri, 12 May 2023
- 20:52:29 +0000
-Date: Fri, 12 May 2023 17:52:27 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Dmitry Osipenko <digetx@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Andy Gross <agross@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480F820991
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 May 2023 21:27:59 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pxaIa-0005KV-9K; Fri, 12 May 2023 23:27:36 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pxaIY-0033X1-Ty; Fri, 12 May 2023 23:27:34 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pxaIY-003qiZ-0T; Fri, 12 May 2023 23:27:34 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Wolfgang Grandegger <wg@grandegger.com>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Matthew Rosato <mjrosato@linux.ibm.com>,
-	Orson Zhai <orsonzhai@gmail.com>, Rob Clark <robdclark@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
-	Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH 02/20] iommu/terga-gart: Replace set_platform_dma_ops()
- with IOMMU_DOMAIN_PLATFORM
-Message-ID: <ZF6nC7fvmaNZNph3@nvidia.com>
-References: <2-v1-21cc72fcfb22+a7a-iommu_all_defdom_jgg@nvidia.com>
- <1db712d2-9e33-4183-2766-34e32f170507@arm.com>
- <ZFI/D6mnLKYpdIqx@nvidia.com>
- <1a995f30-31fe-354f-ddfe-e944fa36e7a0@arm.com>
- <ZFJlZ03lswl9uHD0@nvidia.com>
- <ZFJzKQcKNFHdIWqy@orome>
- <ZFKXz/HWFkYOJrgT@nvidia.com>
- <4a5ebc65-a384-a8df-c692-ca114f1a018d@gmail.com>
- <ZF5uKPhpBNioJUwL@nvidia.com>
- <9488a2cc-fbc6-6c1e-58f8-e2e1dc5db579@arm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9488a2cc-fbc6-6c1e-58f8-e2e1dc5db579@arm.com>
-X-ClientProxiedBy: MWH0EPF00056D05.namprd21.prod.outlook.com
- (2603:10b6:30f:fff2:0:1:0:e) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-can@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@pengutronix.de
+Subject: [PATCH 17/19] can: sun4i_can: Convert to platform remove callback returning void
+Date: Fri, 12 May 2023 23:27:23 +0200
+Message-Id: <20230512212725.143824-18-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230512212725.143824-1-u.kleine-koenig@pengutronix.de>
+References: <20230512212725.143824-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DS0PR12MB8269:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3a442b5c-4d49-4c47-17c9-08db532acce9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	XfdKzJ2+8zMFLBARctyz8DdIysXLM9aMKpNjOZac1bxSiNgys497s2V/XsSuhUVbbRO96dkBv9IAb1PJFnJpiu4G5mV24AH4OfURTW4PR8P03NIARIDbR5NxgKG9jygLjCjYhYLpE9MlvxfdKX1qAZgN4ixmO93hz4G6+MmAsuIsdJ/+XBqKNvOzCwLzk3/dKo5+B2kFFtzlJUhZqd2ahTHkeWIaOHAPEKStgLiuO6J9+DoEOL/AZa9f6dwjE8Z0laBP7vb0Z0JDLWLB+hcQTwmcp8eS9yL7s3jy+DEarU3oi4PHOBSqKP2W1WbJSgwhp6mpiKQ9ppRJHoRSZMVWqx2DCkucW/rngR8FKJfpHBC4qbXUZ8zo2+i/C3NuuEOfmI9B42Lz4OCShGy4S5gk7UUIq5CJIdzIqoYdeLivEyALvQkM17A/UruU09nB5Bq3LDhVjAD3jeW/V4J+gNe0h5j+yA2aYSvqsIrSyUnblUZqCaJ3AtDQCZVMF80Sl6zqxGhWO+x8m9Mb/ZysWcGwnBwSbvqhFDMjYrCRPY06ADYvHZ+sT6IV64fICvIQBClO
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(136003)(396003)(366004)(39860400002)(451199021)(7406005)(6506007)(478600001)(26005)(316002)(7416002)(6512007)(83380400001)(41300700001)(66946007)(66476007)(66556008)(54906003)(4326008)(6916009)(38100700002)(6486002)(2616005)(8676002)(86362001)(8936002)(2906002)(36756003)(186003)(5660300002)(53546011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?iByBEW7V+hdwnnMf3C6nVnRgkFI+mQq0zbKNwjIYdqZdbdt0pPpII+b2NZ2K?=
- =?us-ascii?Q?uelOeKBHNG4MlCvLE9T3GESlLNV7PVy/m1jQf3EAnbaRGKnF0r10UtFLEXXQ?=
- =?us-ascii?Q?+eHes9PpOXuCsebNzzUZtkWcwVqLUwpbt7k7NpfQs6odJoeqRCxtO0erCl2j?=
- =?us-ascii?Q?6TelzDKUUgfrRtfRTFEq0bAMyclv10tgfxl8zxUgBud0NTsSJGMCaNXBVQv8?=
- =?us-ascii?Q?5LdEB5y2QV5sWVU+QabTzPvdttl7kkmeei573TkzeOGTSz8GYCQWxQPksTIr?=
- =?us-ascii?Q?jC0QYbp3VyB+eAAKqJObeivSdsZEHjym/oU8KZV9sR+6+0k4Ad9SZp44do9X?=
- =?us-ascii?Q?GrXZoAi8XrBwbvKQz9q3vFkSjAJaaq7O3zKySndvIGP3hUbmjmxaRCHDd4Xe?=
- =?us-ascii?Q?HnpjleOhS4pJWtasUhLadi3xD0fIh0ys96oND4nG8GnstBK5gX/eG7Tj75af?=
- =?us-ascii?Q?NYnMzogU4yWj59VnTODvKdsieK3tQdB/8NK04NMJgMfpsNNw34R9Zvdz9gOP?=
- =?us-ascii?Q?6QLENxKgZPMs8hfvcFlbh0rvf6zLkZIW2xYxqPm27sYMuY3CLgurU4RPiZbb?=
- =?us-ascii?Q?QQ86fRHduNKPAKyyTBm5k0A5fDiVn29D7Ni/kRaazybhTXKQmJQ81MNzQStn?=
- =?us-ascii?Q?dghiTnXiKjagfoN8u0wo5ug73xrU4G+0LbM1mcel3zgX+/Dlg2PC12Hb/QGh?=
- =?us-ascii?Q?d2ilq5AL+ycIm01MtUW+tvHVXzCOQjpB5UnpndHeCCByWxG0blQaJVVR28Te?=
- =?us-ascii?Q?bju/VVuMnvEYDFsFxX9pqq73XCDohr5UlRfIbwIYk8Uf9Szwt/WleOsgxFZ4?=
- =?us-ascii?Q?a8dz2OtlC4DrMeDM1XPPCCeO+jj/BNy41DSMCxJx5G3vUW+ggBpAtec05gw0?=
- =?us-ascii?Q?pJ+aAJCjx5YQILftcGqK6bN2nbEhsKV+OYuGY0jLnXF51NZDIhTJ3Io8Hxf7?=
- =?us-ascii?Q?SihS84WWE5KDjNph7CYvjB/6k9zR0dIIP2E6+xUrd8iucEENARpVToK6Eu8d?=
- =?us-ascii?Q?smKaUwAQ9vBv2kwKiuZwSGj0YGxPs0UWB78HxJ+Z+NnqXzd6al1M+j07VMVb?=
- =?us-ascii?Q?qCh0CoHRYne0Bc+HBohHWCMZM4d039AayEloEX7SWkC0g6+z++wW0zr9ZyUc?=
- =?us-ascii?Q?0gt/KXTvvMbYRy03UlcrvlOZ9c11yIK1ZgeNejWwbCVohGC6TLer2ValxWp0?=
- =?us-ascii?Q?npdxpRRSNEWG7RxAIFOsrtu5oo6chhrwdPk1ociNsWwKJO8CyqX32FFtG3zN?=
- =?us-ascii?Q?1JusmxYbh7KVap7yBMtD1yhKCM+nkGSH+dEktwpq5/SwkIgIRekxB71CGCaq?=
- =?us-ascii?Q?EYWIV3DECnP1t9bf58pDWSC+eUU6LOTHwvapBn+miyLzCwrlv3fw5ImDyutl?=
- =?us-ascii?Q?FMnc/nhbFhurCvTnWiZeTXcfWoAMqsxpsrt6G49OL8s4kmSpl4cTX4l/goX8?=
- =?us-ascii?Q?ERIWbHmqxSY18iUODcoEyN56wLnYo5dKMygHI0RMxMbPiPWWVNxhIv0X5iBN?=
- =?us-ascii?Q?Nnjkk+oGM8GlyIU5kCVVVL6kYw0bxDpHrvnzCrU2moVgyRP9DabQUBfJKn8W?=
- =?us-ascii?Q?aQxn7NjG6KE4lp9rw6E=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3a442b5c-4d49-4c47-17c9-08db532acce9
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2023 20:52:29.5817
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: J9yW1Skn+kvOBwIRorqSo1+xEPGwoWewzqFjQyIauZ3aPe7npwZ77g+wxw9Dakrd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8269
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1738; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=vEDIuWMQZGyuzjSJCDfeA2Tz5oPjwkAzpFxYPKklLv0=; b=owGbwMvMwMXY3/A7olbonx/jabUkhpS49eZNt3wqZ1YsFC0/8aQybJvL2cqlYn/DF966czFPV FjAO7Sjk9GYhYGRi0FWTJHFvnFNplWVXGTn2n+XYQaxMoFMYeDiFICJNNSx/0/5qG3UkK6SkX+m t29ZoY90t8tjCTVnR7/TDtmbuG8dfPsmxWaDfVr/jkBZu45dpyI1smOvygmFHtzx6hvv4Q4DnVL PLzMLtpV+eDhB7mnEzBlXvJ71OHXc8jxne01b1SAzPvs135JfShcY3ly9+VNQfnPQ9ftcZmyzlZ Sl1wUzvrTzOjctdkd0q94Jp7mMgVrSCfPnNdeHL5/oF7R1+RP2kHdCr+QX2s5Z4+J5e2bO/MseQ maps9NezWFx7FrWvohpWbw2z/NsAeHG7/qTpZZPVmj0eFnlpaL5st7OKfmn/8vm+Q3Xpu/3kffk PXN/JeumtW+cU1XXW4loJIlobets/tjx0MIg0v97xl1WAA==
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On Fri, May 12, 2023 at 07:12:21PM +0100, Robin Murphy wrote:
-> On 2023-05-12 17:49, Jason Gunthorpe wrote:
-> > On Fri, May 12, 2023 at 05:55:23AM +0300, Dmitry Osipenko wrote:
-> > 
-> > > > > This has occasionally come up in the past and I seem to remember that it
-> > > > > had once been proposed to simply remove tegra-gart and there had been no
-> > > > > objections. Adding Dmitry, if he doesn't have objections to remaving it,
-> > > > > neither do I.
-> > > > 
-> > > > Dmitry, please say yes and I will remove it instead of trying to carry
-> > > > it. The driver is almost 10 years old at this point, I'm skeptical
-> > > > anyone will need it on a 6.2 era kernel..
-> > > 
-> > > You probably missed that support for many of 10 years old Tegra2/3
-> > > devices was added to kernel during last years.
-> > > 
-> > > This GART isn't used by upstream DRM driver, but it's used by downstream
-> > > kernel which uses alternative Tegra DRM driver that works better for
-> > > older hardware.
-> > 
-> > It is kernel policy not to carry code to only support out of tree drivers in
-> > mainline, so it should be removed, thanks
-> 
-> Aww, I was literally in the middle of writing a Friday-afternoon patch to
-> fix it... still need to build-test, but it's really not looking too bad at
-> all:
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is ignored (apart from
+emitting a warning) and this typically results in resource leaks. To improve
+here there is a quest to make the remove callback return void. In the first
+step of this quest all drivers are converted to .remove_new() which already
+returns void. Eventually after all drivers are converted, .remove_new() is
+renamed to .remove().
 
-But we still need some kind of core support to accommodate a domain
-with a mixture of identity and translation. Seems a bit pointless for
-a driver with no in tree user even?
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
-> After that I was going to clean up the force_aperture confusion.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/net/can/sun4i_can.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-Oh I already made a patch to delete it :)
+diff --git a/drivers/net/can/sun4i_can.c b/drivers/net/can/sun4i_can.c
+index 2b78f9197681..0827830bbf28 100644
+--- a/drivers/net/can/sun4i_can.c
++++ b/drivers/net/can/sun4i_can.c
+@@ -791,14 +791,12 @@ static const struct of_device_id sun4ican_of_match[] = {
+ 
+ MODULE_DEVICE_TABLE(of, sun4ican_of_match);
+ 
+-static int sun4ican_remove(struct platform_device *pdev)
++static void sun4ican_remove(struct platform_device *pdev)
+ {
+ 	struct net_device *dev = platform_get_drvdata(pdev);
+ 
+ 	unregister_netdev(dev);
+ 	free_candev(dev);
+-
+-	return 0;
+ }
+ 
+ static int sun4ican_probe(struct platform_device *pdev)
+@@ -901,7 +899,7 @@ static struct platform_driver sun4i_can_driver = {
+ 		.of_match_table = sun4ican_of_match,
+ 	},
+ 	.probe = sun4ican_probe,
+-	.remove = sun4ican_remove,
++	.remove_new = sun4ican_remove,
+ };
+ 
+ module_platform_driver(sun4i_can_driver);
+-- 
+2.39.2
 
-> TBH I've grown to rather like having this driver around as an
-> exception to prove our abstractions and help make sure they make
-> sense 
-
-Except nobody else seems to know it is here or really understand how
-weird/broken it is compared to the other drivers. We've managed to
-ignore the issues, but I wouldn't say it is helping build
-abstractions.
-
-If we remove this driver then the iommu subsystem has no HW with a
-mixed translation in the iommu_domain and looking forwards I think
-that will be the kind of HW people want to build. The remaining
-GART-like hardware is in arch code.
-
-> not like there aren't plenty of in-tree drivers for hardware even
-> more ancient, obscure and less-used than Tegra20. FWIW I have
-> *20*-year-old hardware at home running an up-to-date mainline-based
-> distro for a practical purpose, but I guess that's considered valid
-> if it says Intel on it? :P
-
-Well, We keep trying to remove stuff across the kernel.. This week I
-heard about removing areas of HIGHMEM support, removing ia64 and even
-some rumbles that it is time to say good bye to ia32 - apparently it
-is now slightly broken. Who knows what will stick in the end but it is
-not just ARM.
-
-Stuff tends to get removed when it stands in the way..
-
-On the other hand stuff with no in-tree user should just be summarily
-deleted. We have enough problems keeping actual ancient used code
-going, the community doesn't need even more work to support some out
-of tree stuff.
-
-Jason
