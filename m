@@ -1,189 +1,92 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A487E9;
-	Fri, 12 May 2023 02:55:29 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-4efe8b3f3f7so10721231e87.2;
-        Thu, 11 May 2023 19:55:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683860128; x=1686452128;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dkOUlUNxiR4Gqj0+EmYuULSRki0JxNp8SsnGkEdjwKw=;
-        b=PpruK/NzGHjzRovvWCYvW7HqDD68KmOoIjPRjVBwwjOl44YKmS9LJw0bJlpO5wCaTK
-         JYQMRTt8PUIg7Tt3sXx/BumOofEX1UyIXH2rVZ7HQ4xk8w/0TIePej2ODQWIhhjMLGCF
-         ObsKQnai0HwA0gxPpanVkllqPWACWFvsyhk8otvSXkxJ7boKNh6rOvhXhhU7XGpKW3yF
-         bnb3jZjGoJuviMp6XaP/FxIe9hwsqI+C+2qQBWPRGsJkiS6fP0ZvUhHR+JTm3yUIwJpq
-         rSKT9UqKx0zvTFuela8XEHqJdseFq2qZbEhMjlCN21nk45Ltut9jjYaQ7C5U84jN7UFH
-         YUlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683860128; x=1686452128;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dkOUlUNxiR4Gqj0+EmYuULSRki0JxNp8SsnGkEdjwKw=;
-        b=cy70onkHMr0Ral/R5zW74sgugAnxznBDgifZLmL6/Bd90WmrPNPITAebOnjIkNtfRw
-         DOahBLAeLwCdC4henTjzOy0TTWiw3O7VFM0njQeCUzUVFXEGuq2OI57TrQ95/Taewwbd
-         T7tNrDlWFevgPLuKMkFLoi57AKstzgeeV3PPFLqn1Pj8J6rIXJrC+w+apw+VBzTf0g3q
-         MQVwZQDbLjFwwqCXW4C1OLqdHOVcoKb/6bYxs+Q33VeLQZIBtkx5cDh3d9wiytHrouze
-         yNiHAOnI7//GI4XtFX+AaIVC0AFgm6ihH/Ao1OmQ0rDywuxt0ly4Y1blO8/o6aN4YWhM
-         j1uQ==
-X-Gm-Message-State: AC+VfDyy+wtfob0G1rLvNYtH9BAjeAGxPHJ3C9kaxaOE0BhvWvbKOPiF
-	kXdz0+KFCznbzezpsrxcAd8=
-X-Google-Smtp-Source: ACHHUZ4dxW4iqzv/N28X1gKcL88SemTjJ65/wtcy0AZdHSmj4XHMTrDxPz8Icvt/RO3sRR4TuYCJgw==
-X-Received: by 2002:ac2:488c:0:b0:4f1:4086:9384 with SMTP id x12-20020ac2488c000000b004f140869384mr3159987lfc.61.1683860127415;
-        Thu, 11 May 2023 19:55:27 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-144-198.dynamic.spd-mgts.ru. [109.252.144.198])
-        by smtp.googlemail.com with ESMTPSA id c26-20020ac244ba000000b004efae490c51sm1285288lfm.240.2023.05.11.19.55.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 May 2023 19:55:26 -0700 (PDT)
-Message-ID: <4a5ebc65-a384-a8df-c692-ca114f1a018d@gmail.com>
-Date: Fri, 12 May 2023 05:55:23 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16835A41
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 May 2023 05:24:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D0BAC433D2;
+	Fri, 12 May 2023 05:24:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1683869085;
+	bh=tX7KXgnuK8lqbNh920fj8SiOGOJFJBgIs9eJVO2OaCo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Xf9JOuaYCM3EPmqhsz48M30Y+Tb9ZyOYop62KsGUdEDtoCz0F52/nnFRdjRQuiu8i
+	 3JhjWP18oVH7yU5vJXwyys0q89EX/828pwuuiyyo1g1ZltMy8bIx6u1elxGBypct0j
+	 ZyI5ZrIu3qsg/TG6RZgamtwzQfDoBAeW7bC0nWGrM63qzQe+SfTCy5Qk/foOBeniPK
+	 FkTHlJlOI1rR9xFWOVA5bBxoQMgtRMCsYgc+JCwTif2Xs5eeQGeUCq90RnpvaaTOQh
+	 cxQUu7Jp4RF9S1rtflEEXAtO9rp9XCQyqgHNRtT8S0y/o1tizAunDgRl5qCrAMeuxX
+	 fd5ge+cyFGtkw==
+From: Mark Brown <broonie@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>, 
+ Maksim Kiselev <bigunclemax@gmail.com>
+Cc: Icenowy Zheng <icenowy@aosc.io>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
+ Maxime Ripard <mripard@kernel.org>, linux-spi@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-riscv@lists.infradead.org
+In-Reply-To: <20230510081121.3463710-1-bigunclemax@gmail.com>
+References: <20230510081121.3463710-1-bigunclemax@gmail.com>
+Subject: Re: (subset) [PATCH v5 0/5] Allwinner R329/D1/R528/T113s SPI
+ support
+Message-Id: <168386905416.366566.2289755397704500905.b4-ty@kernel.org>
+Date: Fri, 12 May 2023 14:24:14 +0900
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH 02/20] iommu/terga-gart: Replace set_platform_dma_ops()
- with IOMMU_DOMAIN_PLATFORM
-Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>
-Cc: Robin Murphy <robin.murphy@arm.com>, Andy Gross <agross@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Bjorn Andersson
- <andersson@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, Orson Zhai <orsonzhai@gmail.com>,
- Rob Clark <robdclark@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Niklas Schnelle <schnelle@linux.ibm.com>, Krishna Reddy <vdumpa@nvidia.com>,
- Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>,
- Yong Wu <yong.wu@mediatek.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Lu Baolu <baolu.lu@linux.intel.com>, Kevin Tian <kevin.tian@intel.com>,
- Nicolin Chen <nicolinc@nvidia.com>, Steven Price <steven.price@arm.com>
-References: <2-v1-21cc72fcfb22+a7a-iommu_all_defdom_jgg@nvidia.com>
- <1db712d2-9e33-4183-2766-34e32f170507@arm.com> <ZFI/D6mnLKYpdIqx@nvidia.com>
- <1a995f30-31fe-354f-ddfe-e944fa36e7a0@arm.com> <ZFJlZ03lswl9uHD0@nvidia.com>
- <ZFJzKQcKNFHdIWqy@orome> <ZFKXz/HWFkYOJrgT@nvidia.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-In-Reply-To: <ZFKXz/HWFkYOJrgT@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-bfdf5
 
-03.05.2023 20:20, Jason Gunthorpe пишет:
-> On Wed, May 03, 2023 at 04:43:53PM +0200, Thierry Reding wrote:
+On Wed, 10 May 2023 11:11:07 +0300, Maksim Kiselev wrote:
+> v5:
+>   - fixed DT bindings (Allowed three-string compatibility)
 > 
->>> The only thing it does is cause dma-iommu.c in ARM64 to use the
->>> dma-ranges from OF instead of the domain aperture. sprd has no
->>> dma-ranges in arch/arm64/boot/dts/sprd.
->>>
->>> Further, sprd hard fails any map attempt outside the aperture, so it
->>> looks like a bug if the OF somehow chooses a wider aperture as
->>> dma-iommu.c will start failing maps.
->>
->> That all sounds odd. of_dma_configure_id() already sets up the DMA mask
->> based on dma-ranges and the DMA API uses that to restrict what IOVA any
->> buffers can get mapped to for a given device.
+> v4:
+>   - fixed SPI sample mode configuration
+>   - sorted DT bindings list
 > 
-> Yes, and after it sets up the mask it also passes that range down like this:
-> 
->  of_dma_configure_id():
-> 	end = dma_start + size - 1;
-> 	mask = DMA_BIT_MASK(ilog2(end) + 1);
-> 	dev->coherent_dma_mask &= mask;
-> 
-> 	arch_setup_dma_ops(dev, dma_start, size, iommu, coherent);
-> 
-> Which eventually goes to:
-> 
->  iommu_setup_dma_ops()
->  iommu_dma_init_domain()
-> 
-> Which then does:
-> 
-> 	if (domain->geometry.force_aperture) {
-> 
-> And if not set uses the dma_start/size parameter as the actual
-> aperture. (!?)
-> 
-> Since sprd does this in the iommu driver:
-> 
-> 	dom->domain.geometry.aperture_start = 0;
-> 	dom->domain.geometry.aperture_end = SZ_256M - 1;
-> 
-> And it is serious about enforcing it during map:
-> 
-> 	unsigned long start = domain->geometry.aperture_start;
-> 	unsigned long end = domain->geometry.aperture_end;
-> 
-> 	if (iova < start || (iova + size) > (end + 1)) {
-> 			return -EINVAL;
-> 
-> We must see the dma_start/size parameter be a subset of the aperture
-> or eventually dma-iommu.c will see map failures.
-> 
-> I can't see how this is can happen, so it looks like omitting
-> force_aperture is a mistake not a deliberate choice. I'll make a patch
-> and see if the SPRD folks have any comment. If there is no reason I
-> can go ahead and purge force_aperture and all the dma_start/size
-> passing through arch_setup_dma_ops().
-> 
->>> Thus, I propose we just remove the whole thing. All drivers must set
->>> an aperture and the aperture is the pure HW capability to map an
->>> IOPTE at that address. ie it reflects the design of the page table
->>> itself and nothing else.
->>
->> Yeah, that sounds reasonable. If the aperture represents what the IOMMU
->> supports. Together with each device's DMA mask we should have everything
->> we need.
-> 
-> Arguably we should respect the dma-ranges as well, but I think that
-> should come up from the iommu driver via the get_resv_regions() which
-> is the usual place we return FW originated information.
-> 
->> For Tegra GART I think there's indeed no use-cases at the moment. Dmitry
->> had at one point tried to make use of it because it can be helpful on
->> some of the older devices that were very memory-constrained. That
->> support never made it upstream because it required significant changes
->> in various places, if I recall correctly. For anything with a decent
->> enough amount of RAM, CMA is usually a better option.
-> 
-> So the actual use case of this HW is to linearize buffers? ie it is a
-> general scatter/gather engine?
-> 
->> This has occasionally come up in the past and I seem to remember that it
->> had once been proposed to simply remove tegra-gart and there had been no
->> objections. Adding Dmitry, if he doesn't have objections to remaving it,
->> neither do I.
-> 
-> Dmitry, please say yes and I will remove it instead of trying to carry
-> it. The driver is almost 10 years old at this point, I'm skeptical
-> anyone will need it on a 6.2 era kernel..
+> [...]
 
-You probably missed that support for many of 10 years old Tegra2/3
-devices was added to kernel during last years.
+Applied to
 
-This GART isn't used by upstream DRM driver, but it's used by downstream
-kernel which uses alternative Tegra DRM driver that works better for
-older hardware.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-If it's too much burden to maintain this driver, then feel free to
-remove it and I'll continue maintaining it in downstream myself.
-Otherwise I can test your changes if needed.
+Thanks!
+
+[1/5] dt-bindings: spi: sun6i: add DT bindings for Allwinner R329/D1/R528/T113s SPI
+      commit: f603a3f083aeb9438865975c28b27be0afaae0c1
+[2/5] spi: sun6i: change OF match data to a struct
+      commit: b00c0d8932f1e7e36570edf0f000c64399e985e0
+[3/5] spi: sun6i: add quirk for in-controller clock divider
+      commit: 8e886ac838ef12f6994ed9b13ab87784c4f0bc35
+[4/5] spi: sun6i: add support for R329/D1/R528/T113s SPI controllers
+      commit: 046484cb214b43dc4463343e8c49133d9edb5454
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
