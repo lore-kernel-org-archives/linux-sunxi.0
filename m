@@ -1,114 +1,147 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB39FA32
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 May 2023 16:35:17 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9660af2499dso1594813966b.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 12 May 2023 09:35:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E63A32
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 May 2023 16:37:13 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-50bd37ca954so91296062a12.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 12 May 2023 09:37:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683909316; x=1686501316;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Oj3vBLYi0VGg7znZN4GARmcXM9pKwrBpVwIV9KkQbec=;
-        b=cX9t50W3qWgc+/ZaeMekhrhK1HUSgn6pR9RA6For+1pKOyNl38tWsLSYOfttWTB89c
-         Vr2S7zudABZH+b7KSDqiMNpgQAWPYU7rpl+r5I9fF147w2jcxg6cRplVOIq4PYhRJSuX
-         1H2dQdesYD3RgRF+wtsb5y2D+cBLKlR/go2UbTI757Xu/FfM2oQTSbndCZzd6iGc2Wvh
-         Wg+KeqlAtEUQbqigYT559PDPA5RPd2OVmYiP4zXf3PP3bsJ6e/ZtLEtAfaGvZO3NIjOc
-         L4BCIFXPgs9MbOyq4n0ZUayjP7HhqQcTqVmuYAtJnYBi9943hkimGEBt6m7DAqjRCsuJ
-         ZEpw==
+        d=gmail.com; s=20221208; t=1683909431; x=1686501431;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QTY/iNPhSxqsOYVuVF5oPridnajCISLwpvB33cCStX4=;
+        b=mQXoys12JvgdLa62LLYJLDzvL+tsH1KN3YfXhC27Z2LXWBDAyL4sAy6E0hG/t0xXtB
+         AVAog6/+PYoXEq+ed3XdJqz2/jZ8xKjBID+qoLIW+tYcw+Nkkg9YeANhRjmh6ykQKPS7
+         VGwn/KRajhXuvvdVaZ+xxI0jS9XS9zHsVX0eLKfyGJrLjlsuUmGxgmKGJ0FOVrHh9Qg3
+         7qWI7PndkHVQAUgwyEduQJNWq5Uumwh06tB8TiJFMq6BwnRxIqhlKq4qs2Qi1WOwub6L
+         FYybZIBV92FE15seZ946u1LrhcO/nVQIi7+XOAQWc4VbaUpVvfzWHH/Bkcnj5ESK9jEY
+         IW8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683909316; x=1686501316;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Oj3vBLYi0VGg7znZN4GARmcXM9pKwrBpVwIV9KkQbec=;
-        b=A44DHEM1l1mLc2uYgy44vE7Kf/+hgf4vj1wvqnc6TIXn0LQmTFix8vQ7/y+l9fzu3c
-         jU9docJl5vMW+KhTQ4g5r9GDFDjywSmumxGT4R8MCIFMYph0AxR4uAWq+Irabh1xUPOg
-         JY8DThCruMeP6XJGx0/MT2zWOQEJDj6ThEBCNMtxS0PETbCArlwZrY7fQaLqITtCKbE4
-         nRq5eFJ5RRrCYJ+MOLLQdinY9FRtrnnaZNSkN2wl+WC1Z4ZMRzXuSajAqU4LHwewDd/l
-         7BdScs7rNl9g7v4g2ZupLnKrx44tXtVygolo3PcUImqH2wZu2CaQTm1N5N/TDFt24VFm
-         pMdA==
-X-Gm-Message-State: AC+VfDyLKYbu+rjleC/tYpZOVph1wI/7yYPHIqsKN4B23uPrpjogUW48
-	QGlPUkcm/fcebvmaMtzI8Muqxw==
-X-Google-Smtp-Source: ACHHUZ4ot459mbkMzA1b+DbStmTsgAlYaGVvjjMaw+ecLAMB38L9UcblvQxLt2/wAAYALelHBjLbFA==
-X-Received: by 2002:a17:907:3e9e:b0:96a:29c0:8515 with SMTP id hs30-20020a1709073e9e00b0096a29c08515mr8774854ejc.58.1683909315994;
-        Fri, 12 May 2023 09:35:15 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:7ede:fc7b:2328:3883? ([2a02:810d:15c0:828:7ede:fc7b:2328:3883])
-        by smtp.gmail.com with ESMTPSA id lt14-20020a170906fa8e00b0094efdfe60dcsm5490714ejb.206.2023.05.12.09.35.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 May 2023 09:35:15 -0700 (PDT)
-Message-ID: <98a77653-ec58-56c4-9893-3b424f67c87e@linaro.org>
-Date: Fri, 12 May 2023 18:35:12 +0200
+        d=1e100.net; s=20221208; t=1683909431; x=1686501431;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QTY/iNPhSxqsOYVuVF5oPridnajCISLwpvB33cCStX4=;
+        b=GjzFgtAvof5wCc7gothpKQF+lEt7nEkhMWmLSiuz4OH9xtAo5JtEajULxreBgefelS
+         M80lvDRR8LO+kwwmcBSJnHp2J5O498QV8B9kOYkvjyfgnqIYBArDcykdJeN+7qkDxAcu
+         6s5yF3e8KCSg/3uxRYeShBGCaSSN529AJcKrNzAFSXDUuy+KH/CeAAeZ+Qh3aEPm8+k5
+         XB5YObRhXQLBeggQalin2raD48AgCVgQcazngQcoxys8b2fO4loA+U5rCkiBCFhxSR6k
+         F0fw832re7TAvLmsaZtOSAqBcV2C11oM3iDoKXP3ucId105bChZN6jz6Y7dQv5GZpDZm
+         x1NQ==
+X-Gm-Message-State: AC+VfDxNLL/D0w1SQ3NHQgrJPcJH4KMzMSNqezsX3dZAgbmhpWq315jX
+	+q61yEFTm5bKDDxelojoK1E=
+X-Google-Smtp-Source: ACHHUZ6oEr96mBEftUGvQgedCvHzktnamXm3QY6YaaVsVAMNVUmfiCMwnVR7gm8jofdWN5YF0zwLWA==
+X-Received: by 2002:a17:907:3e2a:b0:966:4973:b35 with SMTP id hp42-20020a1709073e2a00b0096649730b35mr17510063ejc.22.1683909431229;
+        Fri, 12 May 2023 09:37:11 -0700 (PDT)
+Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
+        by smtp.gmail.com with ESMTPSA id gv28-20020a1709072bdc00b00965cfc209d5sm5619198ejc.8.2023.05.12.09.37.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 May 2023 09:37:10 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Jonathan McDowell <noodles@earth.li>
+Cc: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Conor Dooley <conor+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org
+Subject:
+ Re: [PATCH v2 5/5] ARM: dts: axp209: Add iio-hwmon node for internal
+ temperature
+Date: Fri, 12 May 2023 18:37:09 +0200
+Message-ID: <2679706.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <ZF4VSCxvb6ihw9JL@earth.li>
+References:
+ <cover.1681580558.git.noodles@earth.li> <3421275.QJadu78ljV@jernej-laptop>
+ <ZF4VSCxvb6ihw9JL@earth.li>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 01/28] media: cec: ch7322: drop of_match_ptr for ID table
-Content-Language: en-US
-To: Joe Tessler <jrt@google.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Michael Tretter <m.tretter@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Rui Miguel Silva <rmfrfs@gmail.com>, Wenyou Yang
- <wenyou.yang@microchip.com>, Bin Liu <bin.liu@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Houlong Wei <houlong.wei@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Patrice Chotard <patrice.chotard@foss.st.com>,
- Yong Deng <yong.deng@magewell.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Philipp Zabel <p.zabel@pengutronix.de>, Sean Young <sean@mess.org>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org
-References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On 12/03/2023 14:12, Krzysztof Kozlowski wrote:
-> The driver can match only via the DT table so the table should be always
-> used and the of_match_ptr does not have any sense (this also allows ACPI
-> matching via PRP0001, even though it might not be relevant here).
-> 
->   drivers/media/cec/i2c/ch7322.c:583:34: error: ‘ch7322_of_match’ defined but not used [-Werror=unused-const-variable=]
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
+Dne petek, 12. maj 2023 ob 12:30:32 CEST je Jonathan McDowell napisal(a):
+> On Thu, May 11, 2023 at 06:11:49PM +0200, Jernej =C5=A0krabec wrote:
+> > Dne sreda, 10. maj 2023 ob 14:02:28 CEST je Jonathan McDowell napisal(a=
+):
+> > > This adds a DT node to hook up the internal temperature ADC to the
+> > > iio-hwmon driver. The various voltage + current ADCs are consumed and
+> > > exposed by their respective drivers, but this is not and is always
+> > > available. Naming chosen to match the axp20x_ prefix the power sensors
+> > > use.
+> >=20
+> > Sorry for maybe obvious thing, but where are other ADC channels exposed?
+>=20
+> In the associated power drivers; e.g. axp20x_ac_power, axp20x_usb_power
+> + axp20x_battery. The internal temperature is the only one that
+> logically belongs to the chip as a whole rather than one of the
+> subfunctions.
+>=20
+> root@chip:~# sensors
+> axp20x_battery-isa-0000
+> Adapter: ISA adapter
+> in0:           0.00 V
+> curr1:         0.00 A
+>=20
+> pmic_temp-isa-0000
+> Adapter: ISA adapter
+> temp1:        +42.5=C2=B0C
+>=20
+> axp20x_ac-isa-0000
+> Adapter: ISA adapter
+> in0:           0.00 V
+> curr1:         0.00 A
+>=20
+> axp20x_usb-isa-0000
+> Adapter: ISA adapter
+> in0:           4.93 V  (min =3D  +4.00 V)
+> curr1:       330.00 mA (max =3D  +0.00 A)
 
-Hans, Sakari,
+Right.
 
-Can you pick up the patchset? There was positive feedback:
-https://patchwork.linuxtv.org/project/linux-media/patch/20230312131318.351173-1-krzysztof.kozlowski@linaro.org/
-
-but it seems it was not applied.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
-Krzysztof
+Jernej
+
+>=20
+> > > Signed-off-by: Jonathan McDowell <noodles@earth.li>
+> > > ---
+> > >=20
+> > >  arch/arm/boot/dts/axp209.dtsi | 7 +++++++
+> > >  1 file changed, 7 insertions(+)
+> > >=20
+> > > diff --git a/arch/arm/boot/dts/axp209.dtsi
+> > > b/arch/arm/boot/dts/axp209.dtsi
+> > > index ca240cd6f6c3..469d0f7d5185 100644
+> > > --- a/arch/arm/boot/dts/axp209.dtsi
+> > > +++ b/arch/arm/boot/dts/axp209.dtsi
+> > > @@ -48,6 +48,13 @@
+> > >=20
+> > >   * http://dl.linux-sunxi.org/AXP/AXP209%20Datasheet%20v1.0_cn.pdf
+> > >   */
+> > >=20
+> > > +/ {
+> > > +	pmic-temp {
+> > > +		compatible =3D "iio-hwmon";
+> > > +		io-channels =3D <&axp_adc 4>; /* Internal temperature */
+> > > +	};
+> > > +};
+> > > +
+> > >=20
+> > >  &axp209 {
+> > > =20
+> > >  	compatible =3D "x-powers,axp209";
+> > >  	interrupt-controller;
+>=20
+> J.
+
+
+
 
