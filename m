@@ -1,62 +1,67 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52EB37E1
-	for <linux-sunxi@lists.linux.dev>; Sat, 13 May 2023 06:37:01 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-50bd2d7ba74so95678505a12.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 12 May 2023 23:37:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25BBBA35
+	for <linux-sunxi@lists.linux.dev>; Sat, 13 May 2023 06:38:02 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-969f90d71d4so893268866b.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 12 May 2023 23:38:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683959819; x=1686551819;
+        d=gmail.com; s=20221208; t=1683959880; x=1686551880;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uYFpbAhkvFBTjOnXoqutGtIEzJiI9XzWLyx/evSFRPs=;
-        b=ZDwCPoKhDsaMVA4DZ28mz5uv7DdK9kqQIbuBPI5TTiGMn6p3f3usZotGU5qDDyqaIO
-         ng0xO05Jd8LrdLvSkwQmRU5TPujOB8sxvBgIChoecRAcX/QSO3XWNN+IpRT6bh0q5+w+
-         oXPKoIceDsgbWl7iPXcwMMQmvGmssj06/bnklDRL/wzCfK+TDuYK0AvSKhdS94L+yoKt
-         iCpNIqfNeWQswOkoXX/ssGY4HoTRvjwmv7hine31YNafEsenfklnoLWuBIr95nLHmUJM
-         dIx72fBXWOWigU1QSfejbLAJK0W0nwit3wMb6Cc63bAa5qnjrkDN0DY0EUw7f+b1EpkV
-         Cx4w==
+        bh=pJAHS0Zaj0yVKhfNHhf5jx/XvjbWQe6dR3+gBFASJBU=;
+        b=YFD59SfNwI80NXatbYx+VnyB6F8bgTWYF5cM6l+/+0MBybE4ati0s2sJJIOR2Dql7+
+         p1amTvshUKIr2n/XCcTaSELHndPCCWo+owGMRBQcF/Dqmp+vlOOYoDOxZRpsvEpdJTTt
+         uUWxOlqz2ZYWlYXn3eE74ooL2nOXT5Ihsd3l/9W6ncaGvgy3lVfZ82Ck9LaTltNt5dzg
+         lJRmt1J1fdlgtxYrkXdL/DEI7/7ui+2QBZi4T4g0e30hckViwFx3A7ksKyFnKHVWrPK9
+         jVMcj+eSseJrZuT5YwPN3F/Fco1dfu1OckFwiEsVHkkT4aZx7GvkIUR0MCgOw0J9PThd
+         O3QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683959819; x=1686551819;
+        d=1e100.net; s=20221208; t=1683959880; x=1686551880;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uYFpbAhkvFBTjOnXoqutGtIEzJiI9XzWLyx/evSFRPs=;
-        b=Me7eukPM+XjIR3OjWZKjIBpAYI8WP73vSYZHjGtxGgeHWBVSlyEtV+CHRVgl1k6cwf
-         9q8dULl4KSExvy9TuC3MokasFgw7Qvk2RyZQ97w9+rmQnem/k+CHWPBwSogYDF3ieGdZ
-         D7KV/3UuqlO0W6JRfHHEbybI4kZS+bOauazkZBktNT1FNz8uZMTC06O90yQfguqM6vc1
-         fFQpR2tUGjaNh2LE8a6jHxweGmnlA5xo1NWVfj9FbKtJbNRwQMQuCZbzUScfN77uNTRD
-         L2Utc0SXaE4SidOlDobtfdchbq3wRgJTFgme+0OaLK4Dt3gbbeeWI5fEFeOpCKuqr1Rh
-         Xqhg==
-X-Gm-Message-State: AC+VfDyQ0LnWDZqB5RIFYGIBYKpqwKszHw7eNdAR7V2KsdJfN0scTnzX
-	OOxyfQSSmKSxMqstxepKStA=
-X-Google-Smtp-Source: ACHHUZ6U/3VzZBDjJhchWHFsH0R1I/SSBEmKisnb8+MCxNQXGXdvu+WFC+oPYObLvSAMQjHue5mW8g==
-X-Received: by 2002:a17:907:6e11:b0:96a:2210:7dd8 with SMTP id sd17-20020a1709076e1100b0096a22107dd8mr10416560ejc.38.1683959819039;
-        Fri, 12 May 2023 23:36:59 -0700 (PDT)
+        bh=pJAHS0Zaj0yVKhfNHhf5jx/XvjbWQe6dR3+gBFASJBU=;
+        b=iBF0VN3Wg1fC3dFh8AiaudIytP0B6CsAV4iesTfrN6KYMGbpU/+ZHXnWEvae5oflBa
+         rVBlK5ovZNnzfyUvCemGrlvB8ZVQN2ITDwMRtHg3XtnElXilD2T0etB+0ZIqC/QKiwxv
+         s8wnUvEyDUXaNBNk/i6Wd8mSR6HPMbUac6aVtc97hTuasTO6EeS3UCuyJbIEX3J9W9TR
+         5F4Rvpcx3e0bdB0YLbe3chIQkWHUolyQ/xutGSofwIMlOyBA0W7nGOoOOI+f8X2PzSxX
+         sW47o54BgchVUFesMQkb6pAZBzEqhEM0kr39LARoHRlyTz3FNU8p2VzEu6+jBwVSCkon
+         3JHg==
+X-Gm-Message-State: AC+VfDzMW77eSHqWN/d75x/WuY14MTzu6Ks/vlXo3wzwB4bIgigSyxpP
+	CffbfDGbVYpXMb/t7F/BDak=
+X-Google-Smtp-Source: ACHHUZ6ItNQrDwZ3aO2IHbDnGlrK+eX28iXA7zT5j5NaZuSZ7J3VBuL20juqQ/09jGy+jwM+MI5cag==
+X-Received: by 2002:a17:906:5d0f:b0:96a:ec5c:687b with SMTP id g15-20020a1709065d0f00b0096aec5c687bmr248946ejt.64.1683959880013;
+        Fri, 12 May 2023 23:38:00 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id d4-20020a170907272400b00965e9b435dfsm6425131ejl.65.2023.05.12.23.36.57
+        by smtp.gmail.com with ESMTPSA id b16-20020a170906195000b0094e96e46cc0sm6371733eje.69.2023.05.12.23.37.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 May 2023 23:36:58 -0700 (PDT)
+        Fri, 12 May 2023 23:37:59 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Wolfgang Grandegger <wg@grandegger.com>,
- Marc Kleine-Budde <mkl@pengutronix.de>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+To: Damien Le Moal <dlemoal@kernel.org>,
+ Serge Semin <fancer.lancer@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+ Patrice Chotard <patrice.chotard@foss.st.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
  Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: linux-can@vger.kernel.org, netdev@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- kernel@pengutronix.de
-Subject:
- Re: [PATCH 17/19] can: sun4i_can: Convert to platform remove callback
- returning void
-Date: Sat, 13 May 2023 08:36:57 +0200
-Message-ID: <5672483.DvuYhMxLoT@jernej-laptop>
-In-Reply-To: <20230512212725.143824-18-u.kleine-koenig@pengutronix.de>
-References:
- <20230512212725.143824-1-u.kleine-koenig@pengutronix.de>
- <20230512212725.143824-18-u.kleine-koenig@pengutronix.de>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>,
+ "open list:LIBATA SUBSYSTEM" <linux-ide@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] ata: libata: Make ata_platform_remove_one return void
+Date: Sat, 13 May 2023 08:37:58 +0200
+Message-ID: <4827684.31r3eYUQgx@jernej-laptop>
+In-Reply-To: <20230512204646.137746-1-u.kleine-koenig@pengutronix.de>
+References: <20230512204646.137746-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -66,27 +71,44 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="iso-8859-1"
 
-Dne petek, 12. maj 2023 ob 23:27:23 CEST je Uwe Kleine-K=F6nig napisal(a):
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is ignored (apart from
-> emitting a warning) and this typically results in resource leaks. To impr=
-ove
-> here there is a quest to make the remove callback return void. In the fir=
-st
-> step of this quest all drivers are converted to .remove_new() which alrea=
-dy
-> returns void. Eventually after all drivers are converted, .remove_new() is
-> renamed to .remove().
->=20
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
+Dne petek, 12. maj 2023 ob 22:46:46 CEST je Uwe Kleine-K=F6nig napisal(a):
+> The function returned zero unconditionally, so the function returning an
+> int is something between useless and irritating. With the goal to make
+> platform drivers' remove function return void, it's helpful to convert
+> the function accordingly. This converts several drivers to the new
+> .remove_new callback that was introduced to smoothen the platform driver
+> conversion.
 >=20
 > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> ---
+>  drivers/ata/ahci_brcm.c        | 6 +++---
+>  drivers/ata/ahci_ceva.c        | 2 +-
+>  drivers/ata/ahci_da850.c       | 2 +-
+>  drivers/ata/ahci_dm816.c       | 2 +-
+>  drivers/ata/ahci_dwc.c         | 2 +-
+>  drivers/ata/ahci_imx.c         | 2 +-
+>  drivers/ata/ahci_mtk.c         | 2 +-
+>  drivers/ata/ahci_mvebu.c       | 2 +-
+>  drivers/ata/ahci_platform.c    | 2 +-
+>  drivers/ata/ahci_qoriq.c       | 2 +-
+>  drivers/ata/ahci_seattle.c     | 2 +-
+>  drivers/ata/ahci_st.c          | 2 +-
+>  drivers/ata/ahci_sunxi.c       | 2 +-
 
+=46or sunxi:
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
+
+>  drivers/ata/ahci_tegra.c       | 2 +-
+>  drivers/ata/ahci_xgene.c       | 2 +-
+>  drivers/ata/libata-core.c      | 4 +---
+>  drivers/ata/pata_ixp4xx_cf.c   | 2 +-
+>  drivers/ata/pata_of_platform.c | 2 +-
+>  drivers/ata/pata_platform.c    | 2 +-
+>  drivers/ata/sata_highbank.c    | 2 +-
+>  include/linux/libata.h         | 2 +-
+
 
 
