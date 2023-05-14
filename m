@@ -1,25 +1,25 @@
-Received: from smtp.smtpout.orange.fr (smtp-29.smtpout.orange.fr [80.12.242.29])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25BE26FC7
-	for <linux-sunxi@lists.linux.dev>; Sun, 14 May 2023 17:30:56 +0000 (UTC)
+Received: from smtp.smtpout.orange.fr (smtp-25.smtpout.orange.fr [80.12.242.25])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2EAA22600
+	for <linux-sunxi@lists.linux.dev>; Sun, 14 May 2023 17:40:37 +0000 (UTC)
 Received: from [192.168.1.18] ([86.243.2.178])
 	by smtp.orange.fr with ESMTPA
-	id yF5Gptvct0mnzyF5HpzTYd; Sun, 14 May 2023 19:00:41 +0200
+	id yFaYpbyRDlqGTyFaYpLaxw; Sun, 14 May 2023 19:33:00 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1684083642;
-	bh=kwdEt+nhIevT/nV5jYgb0d1y6AicLUM3sr6p4iWxPOk=;
+	s=t20230301; t=1684085580;
+	bh=mtkk84FKtzNu1ujBz4Fu/8kTW/TEwhhK9XrxgsIUZ9k=;
 	h=Date:Subject:To:References:From:In-Reply-To;
-	b=O6uo/asRYQ5IiGiP4W7iA2N11KQ5W1oZbifVuza6uohA3Q7rQl/cT9Oah+i8/wnhf
-	 KdJ5U8Qi4S9L/henIwJewMqGAC+drJtKMdqScxyORgm+fQB7O116Yr8d99PePWRVs3
-	 TO2lCDlbSPmKLm5v0aRHxO1e++ROOUNoTgNHmmHegYt7VlwEloUF3aNkUASvzNXLs5
-	 m5xOc3P5UGDsSWGH/7J/VblU4fFtmBXivuvfCTRncEJ7Alco4VuDwC6dMErR1Zwt4A
-	 9DJ6n0rAPzGBIIC7jVnIr/WH+cAYoQKbVTNgCP1NRZ1HjTP44LtweFT5/xcGFTW/Wg
-	 MkrgTwqFW9AZQ==
+	b=MCHAE2pFRIAIJXayl8wC9MR8rSEQF8rdrCMiSQ5axfxg5a5zpywcOIeL9x1K8KsQ1
+	 vsL3e/+mSBQATjSI+QRIrnOd+NR60xLfEONP/XNwwHMafqxPrtS7lXtGh3myxdJH+j
+	 pwk+srVORl9FbXxUQ5JFuONke5LGK926HSweYbOsXpRcP2OClinnTEEZhQGdXeeFhp
+	 +5WyBZjCvz5Udg5M1/sHwNYnLnkwQ34cINDdKrJel+i3/PSobkhSe4ZKGbo+xh8eGp
+	 0v0rFGElNt7P+CEZTjOhZDWHea8GOmSIOXnT8TTRis947JNIxlETfAxKoHIh0Xf1p5
+	 Tw0MZM3n2x5aw==
 X-ME-Helo: [192.168.1.18]
 X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 14 May 2023 19:00:41 +0200
+X-ME-Date: Sun, 14 May 2023 19:33:00 +0200
 X-ME-IP: 86.243.2.178
-Message-ID: <9ae3f111-e13b-cdd7-317d-316585390952@wanadoo.fr>
-Date: Sun, 14 May 2023 19:00:34 +0200
+Message-ID: <61d3dac0-550c-70bd-daf8-352e903de36d@wanadoo.fr>
+Date: Sun, 14 May 2023 19:32:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -30,7 +30,7 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
 Subject: Re: [PATCH] thermal/drivers/sun8i: Fix some error handling paths in
  sun8i_ths_probe()
-Content-Language: fr
+Content-Language: fr, en-GB
 To: =?UTF-8?Q?Ond=c5=99ej_Jirman?= <megi@xff.cz>,
  Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
  "Rafael J. Wysocki" <rafael@kernel.org>,
@@ -44,150 +44,86 @@ To: =?UTF-8?Q?Ond=c5=99ej_Jirman?= <megi@xff.cz>,
  linux-sunxi@lists.linux.dev
 References: <26f9e3bb3fcd0c12ea24a44c75b7960da993b68b.1684077651.git.christophe.jaillet@wanadoo.fr>
  <yd37pz2nbs2i5m4a5avonj4w7ili4kx7d7w7fgbiss7z26jnfy@rwytm26i6v7h>
+ <9ae3f111-e13b-cdd7-317d-316585390952@wanadoo.fr>
+ <qatlg75vf4tbugut2xehwbv4722uklprr36lvsgtcdmgoiqwgi@mdsaurbgy6jz>
 From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <yd37pz2nbs2i5m4a5avonj4w7ili4kx7d7w7fgbiss7z26jnfy@rwytm26i6v7h>
+In-Reply-To: <qatlg75vf4tbugut2xehwbv4722uklprr36lvsgtcdmgoiqwgi@mdsaurbgy6jz>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Le 14/05/2023 à 17:35, Ondřej Jirman a écrit :
-> Hello Christophe,
-> 
-> On Sun, May 14, 2023 at 05:21:35PM +0200, Christophe JAILLET wrote:
+Le 14/05/2023 à 19:10, Ondřej Jirman a écrit :
+> On Sun, May 14, 2023 at 07:00:34PM +0200, Christophe JAILLET wrote:
 >>
->> Should an error occur after calling sun8i_ths_resource_init() in the probe
->> function, some resources need to be released, as already done in the
->> .remove() function.
+>> Le 14/05/2023 à 17:35, Ondřej Jirman a écrit :
+>>> Hello Christophe,
+>>>
+>>> [...]
+>>>
+>>> This changes the recommeded order of reset release/clock enable steps, eg. A64
+>>> manual says:
+>>>
+>>> 	3.3.6.4. Gating and reset
+>>>
+>>> 	Make sure that the reset signal has been released before the release of
+>>> 	module clock gating;
 >>
->> Switch to the devm_clk_get_enabled() helper and add a new devm_action to
->> turn sun8i_ths_resource_init() into a fully managed function.
->>
->> This fixes the issue and removes some LoC at the same time.
->>
->> Fixes: dccc5c3b6f30 ("thermal/drivers/sun8i: Add thermal driver for H6/H5/H3/A64/A83T/R40")
->> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
->> ---
->> This changes the order of the release functions, but should be fine.
->> ---
->>   drivers/thermal/sun8i_thermal.c | 43 +++++++++------------------------
->>   1 file changed, 12 insertions(+), 31 deletions(-)
->>
->> diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
->> index 793ddce72132..8f4c29bc85aa 100644
->> --- a/drivers/thermal/sun8i_thermal.c
->> +++ b/drivers/thermal/sun8i_thermal.c
->> @@ -319,6 +319,11 @@ static int sun8i_ths_calibrate(struct ths_device *tmdev)
->>   	return ret;
->>   }
->>   
->> +static void sun8i_ths_reset_control_assert(void *data)
->> +{
->> +	reset_control_assert(data);
->> +}
->> +
->>   static int sun8i_ths_resource_init(struct ths_device *tmdev)
->>   {
->>   	struct device *dev = tmdev->dev;
->> @@ -339,13 +344,13 @@ static int sun8i_ths_resource_init(struct ths_device *tmdev)
->>   		if (IS_ERR(tmdev->reset))
->>   			return PTR_ERR(tmdev->reset);
->>   
->> -		tmdev->bus_clk = devm_clk_get(&pdev->dev, "bus");
->> +		tmdev->bus_clk = devm_clk_get_enabled(&pdev->dev, "bus");
->>   		if (IS_ERR(tmdev->bus_clk))
->>   			return PTR_ERR(tmdev->bus_clk);
->>   	}
->>   
->>   	if (tmdev->chip->has_mod_clk) {
->> -		tmdev->mod_clk = devm_clk_get(&pdev->dev, "mod");
->> +		tmdev->mod_clk = devm_clk_get_enabled(&pdev->dev, "mod");
-> 
-> This changes the recommeded order of reset release/clock enable steps, eg. A64
-> manual says:
-> 
-> 	3.3.6.4. Gating and reset
-> 
-> 	Make sure that the reset signal has been released before the release of
-> 	module clock gating;
+>> Ok, so moving reset_control_deassert() (and my proposed
 
-Ok, so moving reset_control_deassert() (and my proposed 
-devm_add_action_or_reset()) just after devm_reset_control_get() should 
-keep the expected order, right?
+                  ^^^^^^^^^^^^^^^^^^^^^^
+
+>> devm_add_action_or_reset()) just after devm_reset_control_get() should keep
+>> the expected order, right?
+> 
+> That would be after reset_control_deassert(). devm_reset_control_get() is just
+> resource management, like devm_clk_get().
+
+Not sure to get your point. I think you misunderstood what I tried to say.
+
+
+I propose to move reset_control_deassert() in a v2. And have 
+devm_add_action_or_reset() just after it.
+
+Something like:
+
+	if (tmdev->chip->has_bus_clk_reset) {
+		tmdev->reset = devm_reset_control_get(dev, NULL);
+		if (IS_ERR(tmdev->reset))
+			return PTR_ERR(tmdev->reset);
+
+		ret = reset_control_deassert(tmdev->reset);
+		if (ret)
+			return ret;
+
+		ret = devm_add_action_or_reset(dev, sun8i_ths_reset_control_assert,
+					       tmdev->reset);
+		if (ret)
+			return ret;
+
+		tmdev->bus_clk = devm_clk_get_enabled(&pdev->dev, "bus");
+		if (IS_ERR(tmdev->bus_clk))
+			return PTR_ERR(tmdev->bus_clk);
+	}
+
+	if (tmdev->chip->has_mod_clk) {
+		tmdev->mod_clk = devm_clk_get_enabled(&pdev->dev, "mod");
+		if (IS_ERR(tmdev->mod_clk))
+			return PTR_ERR(tmdev->mod_clk);
+	}
+
+	ret = clk_set_rate(tmdev->mod_clk, 24000000);
+	if (ret)
+		return ret;
+
+
+This would keep the order of operation, still fix the leak in the probe 
+and still save some LoC.
+
+Would it make it?
 
 CJ
 
 > 
-> kind regards,
+> regards,
 > 	o.
-> 
->>   		if (IS_ERR(tmdev->mod_clk))
->>   			return PTR_ERR(tmdev->mod_clk);
->>   	}
->> @@ -354,32 +359,20 @@ static int sun8i_ths_resource_init(struct ths_device *tmdev)
->>   	if (ret)
->>   		return ret;
->>   
->> -	ret = clk_prepare_enable(tmdev->bus_clk);
->> +	ret = devm_add_action_or_reset(dev, sun8i_ths_reset_control_assert,
->> +				       tmdev->reset);
->>   	if (ret)
->> -		goto assert_reset;
->> +		return ret;
->>   
->>   	ret = clk_set_rate(tmdev->mod_clk, 24000000);
->>   	if (ret)
->> -		goto bus_disable;
->> -
->> -	ret = clk_prepare_enable(tmdev->mod_clk);
->> -	if (ret)
->> -		goto bus_disable;
->> +		return ret;
->>   
->>   	ret = sun8i_ths_calibrate(tmdev);
->>   	if (ret)
->> -		goto mod_disable;
->> +		return ret;
->>   
->>   	return 0;
->> -
->> -mod_disable:
->> -	clk_disable_unprepare(tmdev->mod_clk);
->> -bus_disable:
->> -	clk_disable_unprepare(tmdev->bus_clk);
->> -assert_reset:
->> -	reset_control_assert(tmdev->reset);
->> -
->> -	return ret;
->>   }
->>   
->>   static int sun8i_h3_thermal_init(struct ths_device *tmdev)
->> @@ -530,17 +523,6 @@ static int sun8i_ths_probe(struct platform_device *pdev)
->>   	return 0;
->>   }
->>   
->> -static int sun8i_ths_remove(struct platform_device *pdev)
->> -{
->> -	struct ths_device *tmdev = platform_get_drvdata(pdev);
->> -
->> -	clk_disable_unprepare(tmdev->mod_clk);
->> -	clk_disable_unprepare(tmdev->bus_clk);
->> -	reset_control_assert(tmdev->reset);
->> -
->> -	return 0;
->> -}
->> -
->>   static const struct ths_thermal_chip sun8i_a83t_ths = {
->>   	.sensor_num = 3,
->>   	.scale = 705,
->> @@ -642,7 +624,6 @@ MODULE_DEVICE_TABLE(of, of_ths_match);
->>   
->>   static struct platform_driver ths_driver = {
->>   	.probe = sun8i_ths_probe,
->> -	.remove = sun8i_ths_remove,
->>   	.driver = {
->>   		.name = "sun8i-thermal",
->>   		.of_match_table = of_ths_match,
->> -- 
->> 2.34.1
->>
 > 
 
