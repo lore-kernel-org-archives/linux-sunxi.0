@@ -1,186 +1,97 @@
-Received: from smtp.smtpout.orange.fr (smtp-22.smtpout.orange.fr [80.12.242.22])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F4C1ED1
-	for <linux-sunxi@lists.linux.dev>; Sun, 14 May 2023 18:53:59 +0000 (UTC)
-Received: from pop-os.home ([86.243.2.178])
-	by smtp.orange.fr with ESMTPA
-	id yGjOpRl6UIsg1yGjOpZsJM; Sun, 14 May 2023 20:46:21 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1684089981;
-	bh=Lq4t2RwZUg9fe1YN6jfcFon281FtXbX0H4guo24wo8k=;
-	h=From:To:Cc:Subject:Date;
-	b=hXeuGLKNFeHpsYz+fvzZqeiCvPflHPwRkHXULJ8mRGrX2/heUijF1P8r73TpJx1gZ
-	 aqtjB4mpQ2tixtMWiQgqK2069ugLiudfgr/DFS1R99EuQS+AltGot/3LPEpLqtJiw0
-	 dO/vfAZA1ojigki+G6qRjyy7MdPPLFULTNnywkBzD6VF7qfQhZX+1iG+qgFsl+JX9N
-	 Ykdy4FtAKZe9BJIxjVSTQLxMhSK2DpRRtjp+a8lOhnAJZxHZwOJjbhaVQ6uQ6B8vTZ
-	 pe3S28Cq0HnliU4Y0B+pDC8zuVctzlN3DJ0v9i7nfM9JxjvgODMRKb5Smr0qlnBY4j
-	 jI1BCynuUTmvw==
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 14 May 2023 20:46:21 +0200
-X-ME-IP: 86.243.2.178
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Vasily Khoruzhick <anarsoul@gmail.com>,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Amit Kucheria <amitk@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Ondrej Jirman <megous@megous.com>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-pm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2] thermal/drivers/sun8i: Fix some error handling paths in sun8i_ths_probe()
-Date: Sun, 14 May 2023 20:46:05 +0200
-Message-Id: <a8ae84bd2dc4b55fe428f8e20f31438bf8bb6762.1684089931.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D7DAD5C
+	for <linux-sunxi@lists.linux.dev>; Sun, 14 May 2023 20:22:06 +0000 (UTC)
+Received: from [192.168.1.103] (178.176.76.26) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Sun, 14 May
+ 2023 23:06:48 +0300
+Subject: Re: [PATCH] ata: libata: Make ata_platform_remove_one return void
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>, Damien
+ Le Moal <dlemoal@kernel.org>, Serge Semin <fancer.lancer@gmail.com>, Shawn
+ Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Matthias
+ Brugger <matthias.bgg@gmail.com>, Hans de Goede <hdegoede@redhat.com>, Jens
+ Axboe <axboe@kernel.dk>, Patrice Chotard <patrice.chotard@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Thierry Reding
+	<thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>
+CC: Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
+	<festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, AngeloGioacchino
+ Del Regno <angelogioacchino.delregno@collabora.com>, "open list:LIBATA
+ SUBSYSTEM" <linux-ide@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>
+References: <20230512204646.137746-1-u.kleine-koenig@pengutronix.de>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <7a29c928-1e76-2b6b-5b8f-d79003f3359c@omp.ru>
+Date: Sun, 14 May 2023 23:06:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <20230512204646.137746-1-u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [178.176.76.26]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 05/14/2023 19:47:15
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 177305 [May 12 2023]
+X-KSE-AntiSpam-Info: Version: 5.9.59.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 510 510 bc345371020d3ce827abc4c710f5f0ecf15eaf2e
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.76.26 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info:
+	omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;178.176.76.26:7.7.3;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.76.26
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 05/14/2023 19:56:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 5/14/2023 5:19:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-Should an error occur after calling sun8i_ths_resource_init() in the probe
-function, some resources need to be released, as already done in the
-.remove() function.
+Hello!
 
-Switch to the devm_clk_get_enabled() helper and add a new devm_action to
-turn sun8i_ths_resource_init() into a fully managed function.
+On 5/12/23 11:46 PM, Uwe Kleine-König wrote:
 
-Move the place where reset_control_deassert() is called so that the
-recommended order of reset release/clock enable steps is kept.
-A64 manual states that:
+> The function returned zero unconditionally, so the function returning an
+> int is something between useless and irritating. With the goal to make
+> platform drivers' remove function return void, it's helpful to convert
+> the function accordingly. This converts several drivers to the new
+> .remove_new callback that was introduced to smoothen the platform driver
+> conversion.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-	3.3.6.4. Gating and reset
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-	Make sure that the reset signal has been released before the release of
-	module clock gating;
+[...]
 
-This fixes the issue and removes some LoC at the same time.
-
-Fixes: dccc5c3b6f30 ("thermal/drivers/sun8i: Add thermal driver for H6/H5/H3/A64/A83T/R40")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-Changes in v2:
-   - move reset_control_deassert() next to devm_reset_control_get()
-
-v1: https://lore.kernel.org/all/26f9e3bb3fcd0c12ea24a44c75b7960da993b68b.1684077651.git.christophe.jaillet@wanadoo.fr/
----
- drivers/thermal/sun8i_thermal.c | 55 +++++++++++----------------------
- 1 file changed, 18 insertions(+), 37 deletions(-)
-
-diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-index 793ddce72132..d4d241686c81 100644
---- a/drivers/thermal/sun8i_thermal.c
-+++ b/drivers/thermal/sun8i_thermal.c
-@@ -319,6 +319,11 @@ static int sun8i_ths_calibrate(struct ths_device *tmdev)
- 	return ret;
- }
- 
-+static void sun8i_ths_reset_control_assert(void *data)
-+{
-+	reset_control_assert(data);
-+}
-+
- static int sun8i_ths_resource_init(struct ths_device *tmdev)
- {
- 	struct device *dev = tmdev->dev;
-@@ -339,47 +344,35 @@ static int sun8i_ths_resource_init(struct ths_device *tmdev)
- 		if (IS_ERR(tmdev->reset))
- 			return PTR_ERR(tmdev->reset);
- 
--		tmdev->bus_clk = devm_clk_get(&pdev->dev, "bus");
-+		ret = reset_control_deassert(tmdev->reset);
-+		if (ret)
-+			return ret;
-+
-+		ret = devm_add_action_or_reset(dev, sun8i_ths_reset_control_assert,
-+					       tmdev->reset);
-+		if (ret)
-+			return ret;
-+
-+		tmdev->bus_clk = devm_clk_get_enabled(&pdev->dev, "bus");
- 		if (IS_ERR(tmdev->bus_clk))
- 			return PTR_ERR(tmdev->bus_clk);
- 	}
- 
- 	if (tmdev->chip->has_mod_clk) {
--		tmdev->mod_clk = devm_clk_get(&pdev->dev, "mod");
-+		tmdev->mod_clk = devm_clk_get_enabled(&pdev->dev, "mod");
- 		if (IS_ERR(tmdev->mod_clk))
- 			return PTR_ERR(tmdev->mod_clk);
- 	}
- 
--	ret = reset_control_deassert(tmdev->reset);
--	if (ret)
--		return ret;
--
--	ret = clk_prepare_enable(tmdev->bus_clk);
--	if (ret)
--		goto assert_reset;
--
- 	ret = clk_set_rate(tmdev->mod_clk, 24000000);
- 	if (ret)
--		goto bus_disable;
--
--	ret = clk_prepare_enable(tmdev->mod_clk);
--	if (ret)
--		goto bus_disable;
-+		return ret;
- 
- 	ret = sun8i_ths_calibrate(tmdev);
- 	if (ret)
--		goto mod_disable;
-+		return ret;
- 
- 	return 0;
--
--mod_disable:
--	clk_disable_unprepare(tmdev->mod_clk);
--bus_disable:
--	clk_disable_unprepare(tmdev->bus_clk);
--assert_reset:
--	reset_control_assert(tmdev->reset);
--
--	return ret;
- }
- 
- static int sun8i_h3_thermal_init(struct ths_device *tmdev)
-@@ -530,17 +523,6 @@ static int sun8i_ths_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
--static int sun8i_ths_remove(struct platform_device *pdev)
--{
--	struct ths_device *tmdev = platform_get_drvdata(pdev);
--
--	clk_disable_unprepare(tmdev->mod_clk);
--	clk_disable_unprepare(tmdev->bus_clk);
--	reset_control_assert(tmdev->reset);
--
--	return 0;
--}
--
- static const struct ths_thermal_chip sun8i_a83t_ths = {
- 	.sensor_num = 3,
- 	.scale = 705,
-@@ -642,7 +624,6 @@ MODULE_DEVICE_TABLE(of, of_ths_match);
- 
- static struct platform_driver ths_driver = {
- 	.probe = sun8i_ths_probe,
--	.remove = sun8i_ths_remove,
- 	.driver = {
- 		.name = "sun8i-thermal",
- 		.of_match_table = of_ths_match,
--- 
-2.34.1
-
+MBR, Sergey
