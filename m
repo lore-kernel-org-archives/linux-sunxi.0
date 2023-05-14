@@ -1,61 +1,193 @@
-Received: from mail.rdts.de (mail.rdts.de [195.243.153.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D586FC9
-	for <linux-sunxi@lists.linux.dev>; Sun, 14 May 2023 17:12:29 +0000 (UTC)
-Received: from webmail.rdts.de (php1.rdts.de [82.223.13.20])
-	by mail.rdts.de (Postfix) with ESMTPSA id A06F1BABA4;
-	Sun, 14 May 2023 19:05:08 +0200 (CEST)
+Received: from smtp.smtpout.orange.fr (smtp-29.smtpout.orange.fr [80.12.242.29])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25BE26FC7
+	for <linux-sunxi@lists.linux.dev>; Sun, 14 May 2023 17:30:56 +0000 (UTC)
+Received: from [192.168.1.18] ([86.243.2.178])
+	by smtp.orange.fr with ESMTPA
+	id yF5Gptvct0mnzyF5HpzTYd; Sun, 14 May 2023 19:00:41 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1684083642;
+	bh=kwdEt+nhIevT/nV5jYgb0d1y6AicLUM3sr6p4iWxPOk=;
+	h=Date:Subject:To:References:From:In-Reply-To;
+	b=O6uo/asRYQ5IiGiP4W7iA2N11KQ5W1oZbifVuza6uohA3Q7rQl/cT9Oah+i8/wnhf
+	 KdJ5U8Qi4S9L/henIwJewMqGAC+drJtKMdqScxyORgm+fQB7O116Yr8d99PePWRVs3
+	 TO2lCDlbSPmKLm5v0aRHxO1e++ROOUNoTgNHmmHegYt7VlwEloUF3aNkUASvzNXLs5
+	 m5xOc3P5UGDsSWGH/7J/VblU4fFtmBXivuvfCTRncEJ7Alco4VuDwC6dMErR1Zwt4A
+	 9DJ6n0rAPzGBIIC7jVnIr/WH+cAYoQKbVTNgCP1NRZ1HjTP44LtweFT5/xcGFTW/Wg
+	 MkrgTwqFW9AZQ==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 14 May 2023 19:00:41 +0200
+X-ME-IP: 86.243.2.178
+Message-ID: <9ae3f111-e13b-cdd7-317d-316585390952@wanadoo.fr>
+Date: Sun, 14 May 2023 19:00:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] thermal/drivers/sun8i: Fix some error handling paths in
+ sun8i_ths_probe()
+Content-Language: fr
+To: =?UTF-8?Q?Ond=c5=99ej_Jirman?= <megi@xff.cz>,
+ Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria
+ <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Maxime Ripard <mripard@kernel.org>,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <26f9e3bb3fcd0c12ea24a44c75b7960da993b68b.1684077651.git.christophe.jaillet@wanadoo.fr>
+ <yd37pz2nbs2i5m4a5avonj4w7ili4kx7d7w7fgbiss7z26jnfy@rwytm26i6v7h>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <yd37pz2nbs2i5m4a5avonj4w7ili4kx7d7w7fgbiss7z26jnfy@rwytm26i6v7h>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Date: Sun, 14 May 2023 19:05:08 +0200
-From: Gerhard Bertelsmann <info@gerhard-bertelsmann.de>
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Wolfgang Grandegger <wg@grandegger.com>, Marc Kleine-Budde
- <mkl@pengutronix.de>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- linux-can@vger.kernel.org, netdev@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- kernel@pengutronix.de
-Subject: Re: [PATCH 17/19] can: sun4i_can: Convert to platform remove callback
- returning void
-In-Reply-To: <20230512212725.143824-18-u.kleine-koenig@pengutronix.de>
-References: <20230512212725.143824-1-u.kleine-koenig@pengutronix.de>
- <20230512212725.143824-18-u.kleine-koenig@pengutronix.de>
-Message-ID: <e8d411e1e01f3c7ae8bf97f2f1700e3d@gerhard-bertelsmann.de>
-X-Sender: info@gerhard-bertelsmann.de
-User-Agent: Roundcube Webmail/1.2.3
 
-Am 2023-05-12 23:27, schrieb Uwe Kleine-König:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling 
-> by
-> returning an error code. However the value returned is ignored (apart 
-> from
-> emitting a warning) and this typically results in resource leaks. To 
-> improve
-> here there is a quest to make the remove callback return void. In the 
-> first
-> step of this quest all drivers are converted to .remove_new() which 
-> already
-> returns void. Eventually after all drivers are converted, .remove_new() 
-> is
-> renamed to .remove().
+Le 14/05/2023 à 17:35, Ondřej Jirman a écrit :
+> Hello Christophe,
 > 
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
+> On Sun, May 14, 2023 at 05:21:35PM +0200, Christophe JAILLET wrote:
+>>
+>> Should an error occur after calling sun8i_ths_resource_init() in the probe
+>> function, some resources need to be released, as already done in the
+>> .remove() function.
+>>
+>> Switch to the devm_clk_get_enabled() helper and add a new devm_action to
+>> turn sun8i_ths_resource_init() into a fully managed function.
+>>
+>> This fixes the issue and removes some LoC at the same time.
+>>
+>> Fixes: dccc5c3b6f30 ("thermal/drivers/sun8i: Add thermal driver for H6/H5/H3/A64/A83T/R40")
+>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+>> ---
+>> This changes the order of the release functions, but should be fine.
+>> ---
+>>   drivers/thermal/sun8i_thermal.c | 43 +++++++++------------------------
+>>   1 file changed, 12 insertions(+), 31 deletions(-)
+>>
+>> diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
+>> index 793ddce72132..8f4c29bc85aa 100644
+>> --- a/drivers/thermal/sun8i_thermal.c
+>> +++ b/drivers/thermal/sun8i_thermal.c
+>> @@ -319,6 +319,11 @@ static int sun8i_ths_calibrate(struct ths_device *tmdev)
+>>   	return ret;
+>>   }
+>>   
+>> +static void sun8i_ths_reset_control_assert(void *data)
+>> +{
+>> +	reset_control_assert(data);
+>> +}
+>> +
+>>   static int sun8i_ths_resource_init(struct ths_device *tmdev)
+>>   {
+>>   	struct device *dev = tmdev->dev;
+>> @@ -339,13 +344,13 @@ static int sun8i_ths_resource_init(struct ths_device *tmdev)
+>>   		if (IS_ERR(tmdev->reset))
+>>   			return PTR_ERR(tmdev->reset);
+>>   
+>> -		tmdev->bus_clk = devm_clk_get(&pdev->dev, "bus");
+>> +		tmdev->bus_clk = devm_clk_get_enabled(&pdev->dev, "bus");
+>>   		if (IS_ERR(tmdev->bus_clk))
+>>   			return PTR_ERR(tmdev->bus_clk);
+>>   	}
+>>   
+>>   	if (tmdev->chip->has_mod_clk) {
+>> -		tmdev->mod_clk = devm_clk_get(&pdev->dev, "mod");
+>> +		tmdev->mod_clk = devm_clk_get_enabled(&pdev->dev, "mod");
 > 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> This changes the recommeded order of reset release/clock enable steps, eg. A64
+> manual says:
+> 
+> 	3.3.6.4. Gating and reset
+> 
+> 	Make sure that the reset signal has been released before the release of
+> 	module clock gating;
 
-Acked-by: Gerhard Bertelsmann <info@gerhard-bertelsmann.de>
+Ok, so moving reset_control_deassert() (and my proposed 
+devm_add_action_or_reset()) just after devm_reset_control_get() should 
+keep the expected order, right?
 
-Thanks Uwe :-)
+CJ
+
+> 
+> kind regards,
+> 	o.
+> 
+>>   		if (IS_ERR(tmdev->mod_clk))
+>>   			return PTR_ERR(tmdev->mod_clk);
+>>   	}
+>> @@ -354,32 +359,20 @@ static int sun8i_ths_resource_init(struct ths_device *tmdev)
+>>   	if (ret)
+>>   		return ret;
+>>   
+>> -	ret = clk_prepare_enable(tmdev->bus_clk);
+>> +	ret = devm_add_action_or_reset(dev, sun8i_ths_reset_control_assert,
+>> +				       tmdev->reset);
+>>   	if (ret)
+>> -		goto assert_reset;
+>> +		return ret;
+>>   
+>>   	ret = clk_set_rate(tmdev->mod_clk, 24000000);
+>>   	if (ret)
+>> -		goto bus_disable;
+>> -
+>> -	ret = clk_prepare_enable(tmdev->mod_clk);
+>> -	if (ret)
+>> -		goto bus_disable;
+>> +		return ret;
+>>   
+>>   	ret = sun8i_ths_calibrate(tmdev);
+>>   	if (ret)
+>> -		goto mod_disable;
+>> +		return ret;
+>>   
+>>   	return 0;
+>> -
+>> -mod_disable:
+>> -	clk_disable_unprepare(tmdev->mod_clk);
+>> -bus_disable:
+>> -	clk_disable_unprepare(tmdev->bus_clk);
+>> -assert_reset:
+>> -	reset_control_assert(tmdev->reset);
+>> -
+>> -	return ret;
+>>   }
+>>   
+>>   static int sun8i_h3_thermal_init(struct ths_device *tmdev)
+>> @@ -530,17 +523,6 @@ static int sun8i_ths_probe(struct platform_device *pdev)
+>>   	return 0;
+>>   }
+>>   
+>> -static int sun8i_ths_remove(struct platform_device *pdev)
+>> -{
+>> -	struct ths_device *tmdev = platform_get_drvdata(pdev);
+>> -
+>> -	clk_disable_unprepare(tmdev->mod_clk);
+>> -	clk_disable_unprepare(tmdev->bus_clk);
+>> -	reset_control_assert(tmdev->reset);
+>> -
+>> -	return 0;
+>> -}
+>> -
+>>   static const struct ths_thermal_chip sun8i_a83t_ths = {
+>>   	.sensor_num = 3,
+>>   	.scale = 705,
+>> @@ -642,7 +624,6 @@ MODULE_DEVICE_TABLE(of, of_ths_match);
+>>   
+>>   static struct platform_driver ths_driver = {
+>>   	.probe = sun8i_ths_probe,
+>> -	.remove = sun8i_ths_remove,
+>>   	.driver = {
+>>   		.name = "sun8i-thermal",
+>>   		.of_match_table = of_ths_match,
+>> -- 
+>> 2.34.1
+>>
+> 
+
