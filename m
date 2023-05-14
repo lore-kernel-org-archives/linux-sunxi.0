@@ -1,74 +1,61 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.rdts.de (mail.rdts.de [195.243.153.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598996FC9
-	for <linux-sunxi@lists.linux.dev>; Sun, 14 May 2023 17:10:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1684084240; bh=BgJR/kqppVUacidrLtYW5Ojg4kMiGFWqEAPq48YsoGI=;
-	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=fgGneq8vVbULdCtbHBCWwh3qs4xxOHHpGtfGhZ6U+5D0IS7rIQAacacVJ0oqE68Ur
-	 P3lT4F3MrPvmeUchr2OEr0yrTQ4UFQ36NW+UtMbotRHHfF2sRDVbaLmfoH4YRO0h6J
-	 xzwyssXpBx+T3ObrewZo4iRbjz8kzNM0/ZEtBKTs=
-Date: Sun, 14 May 2023 19:10:39 +0200
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>, 
-	Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria <amitk@kernel.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org, 
-	kernel-janitors@vger.kernel.org, linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] thermal/drivers/sun8i: Fix some error handling paths in
- sun8i_ths_probe()
-Message-ID: <qatlg75vf4tbugut2xehwbv4722uklprr36lvsgtcdmgoiqwgi@mdsaurbgy6jz>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Vasily Khoruzhick <anarsoul@gmail.com>, 
-	Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria <amitk@kernel.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org, 
-	kernel-janitors@vger.kernel.org, linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <26f9e3bb3fcd0c12ea24a44c75b7960da993b68b.1684077651.git.christophe.jaillet@wanadoo.fr>
- <yd37pz2nbs2i5m4a5avonj4w7ili4kx7d7w7fgbiss7z26jnfy@rwytm26i6v7h>
- <9ae3f111-e13b-cdd7-317d-316585390952@wanadoo.fr>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D586FC9
+	for <linux-sunxi@lists.linux.dev>; Sun, 14 May 2023 17:12:29 +0000 (UTC)
+Received: from webmail.rdts.de (php1.rdts.de [82.223.13.20])
+	by mail.rdts.de (Postfix) with ESMTPSA id A06F1BABA4;
+	Sun, 14 May 2023 19:05:08 +0200 (CEST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9ae3f111-e13b-cdd7-317d-316585390952@wanadoo.fr>
+Date: Sun, 14 May 2023 19:05:08 +0200
+From: Gerhard Bertelsmann <info@gerhard-bertelsmann.de>
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Wolfgang Grandegger <wg@grandegger.com>, Marc Kleine-Budde
+ <mkl@pengutronix.de>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ linux-can@vger.kernel.org, netdev@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ kernel@pengutronix.de
+Subject: Re: [PATCH 17/19] can: sun4i_can: Convert to platform remove callback
+ returning void
+In-Reply-To: <20230512212725.143824-18-u.kleine-koenig@pengutronix.de>
+References: <20230512212725.143824-1-u.kleine-koenig@pengutronix.de>
+ <20230512212725.143824-18-u.kleine-koenig@pengutronix.de>
+Message-ID: <e8d411e1e01f3c7ae8bf97f2f1700e3d@gerhard-bertelsmann.de>
+X-Sender: info@gerhard-bertelsmann.de
+User-Agent: Roundcube Webmail/1.2.3
 
-On Sun, May 14, 2023 at 07:00:34PM +0200, Christophe JAILLET wrote:
+Am 2023-05-12 23:27, schrieb Uwe Kleine-König:
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling 
+> by
+> returning an error code. However the value returned is ignored (apart 
+> from
+> emitting a warning) and this typically results in resource leaks. To 
+> improve
+> here there is a quest to make the remove callback return void. In the 
+> first
+> step of this quest all drivers are converted to .remove_new() which 
+> already
+> returns void. Eventually after all drivers are converted, .remove_new() 
+> is
+> renamed to .remove().
 > 
-> Le 14/05/2023 à 17:35, Ondřej Jirman a écrit :
-> > Hello Christophe,
-> > 
-> > [...]
-> >
-> > This changes the recommeded order of reset release/clock enable steps, eg. A64
-> > manual says:
-> > 
-> > 	3.3.6.4. Gating and reset
-> > 
-> > 	Make sure that the reset signal has been released before the release of
-> > 	module clock gating;
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
 > 
-> Ok, so moving reset_control_deassert() (and my proposed
-> devm_add_action_or_reset()) just after devm_reset_control_get() should keep
-> the expected order, right?
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-That would be after reset_control_deassert(). devm_reset_control_get() is just
-resource management, like devm_clk_get().
+Acked-by: Gerhard Bertelsmann <info@gerhard-bertelsmann.de>
 
-regards,
-	o.
+Thanks Uwe :-)
