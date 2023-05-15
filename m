@@ -1,41 +1,91 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808C9A943
-	for <linux-sunxi@lists.linux.dev>; Mon, 15 May 2023 12:33:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1684154031; bh=0yXiPXLG1mE9Cp0QFJsDToPAJuYXk6I4juqB/x64HMM=;
-	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=NmbH2EXdkDST+t545oWgvXbyEH2Wd6r/DrYWrzyAsN23XGFDWHKA7pxlCAsCS6+IV
-	 Zw+JPcfhIAFVp67PipJyizpQpACFp9LNF4bnbYreZrVNqlz02nBiCkBYFv+73twX9R
-	 qh9CbPY8WSaaQofjqHpNE6BAzwhfwJoJElQbnlD4=
-Date: Mon, 15 May 2023 14:33:51 +0200
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
-	Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2] thermal/drivers/sun8i: Fix some error handling paths
- in sun8i_ths_probe()
-Message-ID: <u7mmywm63bm5q4zlsbnooeplscn4rrd3qnslkfq2xnquxgnkkd@n3tsnrutmfjp>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
-	Maxime Ripard <maxime@cerno.tech>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
-	Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <a8ae84bd2dc4b55fe428f8e20f31438bf8bb6762.1684089931.git.christophe.jaillet@wanadoo.fr>
- <ucnnixemxbpkjlbyenboydicslozt5jpyjjfbd4gjk4oye52et@fgyd3zqdqsh2>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95131C8DE
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 May 2023 13:07:30 +0000 (UTC)
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-3f4ef2880fcso48871701cf.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 15 May 2023 06:07:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1684156049; x=1686748049;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=r52VsGt7pCD5MqwU7Iz5hhf7etBKNWqtKNN+QQL4Wbs=;
+        b=c+5jOYw/nbV0ulxcZUPP/BwmGfGabE0GudFc4Pxot2MDSxnZOMjQBHanidAXv8AN4s
+         wCtL4vKPT/NQuQtyRosfY1v+Cc4PX94PKhH/K4vGQkh8BXrOSCykMzDtIWTaHdinMTlL
+         GTd1vPbd7jdhMb9Xp18vHEaSJ5oykF8Q18Co+JrFWfrSsGa06ytgp5MPhg2lAuMcBHY9
+         +cXuTSEKaaD6FCDHfVc+wlq2TFUxcMNkM8xdx//DfRqBb1wXlbXwUaZ0w2XcKKmJCXYm
+         rNhNdyMFvde5Wj2WqbjDnUEci9/JLzGroYUlyOEdGT2Q14DOTFUq69HjSZo3vkt1aQ7q
+         pxiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684156049; x=1686748049;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r52VsGt7pCD5MqwU7Iz5hhf7etBKNWqtKNN+QQL4Wbs=;
+        b=Yqu/aOs9Jmf5YRmWYhRpVQ8S8bbsVckFUC4kxZIYK9wP4sjZM9GjSTdUKGKYCNzEu9
+         6x5qdyoU0JUqJUMD4WloFeZSu5fnctaQt/GaJMMtMjBtUruYUBt6pJCB9jx12fRH3z1C
+         guJh5GvZn7xzZIn+xN6pS24ivqcdoOrEriEWonLGdYaNt7ISn8UJlAFGt/pYNXM/hkHa
+         5i7/tciTVGvFuOYjaQGq3ZsVJFJNwf+1lYEh+A1psyP2BdajcgVSlCyeCz0LmKbPQcUa
+         9XXBpbIn5VD425s1dQBmjrASmZ4eHMWB4lEoKoGzwpOSeM5VfNR/5CrYZHBD6przY3Pq
+         6fRQ==
+X-Gm-Message-State: AC+VfDwkQf8Y2YSHfHLrBoVHiW2NzXjr2phUnj52jiWTjgPBQGX4WURs
+	mpKS4dSjUDx2IfDdm+tHY5Inyw==
+X-Google-Smtp-Source: ACHHUZ6oq1rgsxAhha/L8rTgUYSyK7wV0xG3BSAlCLbWHRWP4j4vcs+gZ2cT74Vr/sFz2mlpsmeCpA==
+X-Received: by 2002:ac8:7f44:0:b0:3f3:928a:eae2 with SMTP id g4-20020ac87f44000000b003f3928aeae2mr42158943qtk.4.1684156049337;
+        Mon, 15 May 2023 06:07:29 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-25-194.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.25.194])
+        by smtp.gmail.com with ESMTPSA id n27-20020ac81e1b000000b003e388264753sm5328251qtl.65.2023.05.15.06.07.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 May 2023 06:07:28 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1pyXvD-000xlt-MR;
+	Mon, 15 May 2023 10:07:27 -0300
+Date: Mon, 15 May 2023 10:07:27 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Niklas Schnelle <schnelle@linux.ibm.com>,
+	Robin Murphy <robin.murphy@arm.com>
+Cc: Joerg Roedel <joro@8bytes.org>, Matthew Rosato <mjrosato@linux.ibm.com>,
+	Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
+	Gerd Bayer <gbayer@linux.ibm.com>,
+	Julian Ruess <julianr@linux.ibm.com>,
+	Pierre Morel <pmorel@linux.ibm.com>,
+	Alexandra Winter <wintera@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Yong Wu <yong.wu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v9 5/6] iommu/dma: Allow a single FQ in addition to
+ per-CPU FQs
+Message-ID: <ZGIuj2pRjOPffqZZ@ziepe.ca>
+References: <20230310-dma_iommu-v9-0-65bb8edd2beb@linux.ibm.com>
+ <20230310-dma_iommu-v9-5-65bb8edd2beb@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -44,44 +94,28 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ucnnixemxbpkjlbyenboydicslozt5jpyjjfbd4gjk4oye52et@fgyd3zqdqsh2>
+In-Reply-To: <20230310-dma_iommu-v9-5-65bb8edd2beb@linux.ibm.com>
 
-Hi Maxime,
+On Mon, May 15, 2023 at 11:15:55AM +0200, Niklas Schnelle wrote:
 
-On Mon, May 15, 2023 at 01:54:41PM +0200, Maxime Ripard wrote:
-> Hi,
-> 
-> On Sun, May 14, 2023 at 08:46:05PM +0200, Christophe JAILLET wrote:
-> > Should an error occur after calling sun8i_ths_resource_init() in the probe
-> > function, some resources need to be released, as already done in the
-> > .remove() function.
-> > 
-> > Switch to the devm_clk_get_enabled() helper and add a new devm_action to
-> > turn sun8i_ths_resource_init() into a fully managed function.
-> > 
-> > Move the place where reset_control_deassert() is called so that the
-> > recommended order of reset release/clock enable steps is kept.
-> > A64 manual states that:
-> > 
-> > 	3.3.6.4. Gating and reset
-> > 
-> > 	Make sure that the reset signal has been released before the release of
-> > 	module clock gating;
-> > 
-> > This fixes the issue and removes some LoC at the same time.
-> 
-> It should really be three different patches:
->  - One to fix the resource release, that can be backported to stable
->    releases
->  - One to switch to devm_clk_get_enabled
->  - and one to change the order of clock enable vs reset deassertion
+> +/**
+> + * struct dma_iommu_options - Options for dma-iommu
+> + *
+> + * @flags: Flag bits for enabling/disabling dma-iommu settings
+> + *
+> + * This structure is intended to provide IOMMU drivers a way to influence the
+> + * behavior of the dma-iommu DMA API implementation. This allows optimizing for
+> + * example for a virtualized environment with slow IOTLB flushes.
+> + */
+> +struct dma_iommu_options {
+> +#define IOMMU_DMA_OPTS_PER_CPU_QUEUE	(0L << 0)
+> +#define IOMMU_DMA_OPTS_SINGLE_QUEUE	(1L << 0)
+> +	u64	flags;
+> +};
 
-The order was correct before this patch. I don't think an incorrect order
-should be intorduced, even if temporarily between two patches.
+You need to hash it out with robin if we do something like this or use
+more untyped caps as he put in this series:
 
-regards,
-	o.
+https://lore.kernel.org/linux-iommu/cover.1683233867.git.robin.murphy@arm.com/
 
-> Maxime
-
-
+Jason
