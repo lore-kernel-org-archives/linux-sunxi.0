@@ -1,125 +1,135 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E967C2F6
-	for <linux-sunxi@lists.linux.dev>; Mon, 15 May 2023 11:54:44 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id D091B5C010F;
-	Mon, 15 May 2023 07:54:43 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Mon, 15 May 2023 07:54:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1684151683; x=1684238083; bh=YN
-	2hehfhebmIswf1/JIgo//Dtk1KbSx4NssivhFQ048=; b=dkUb9tOVLQsK1ucevf
-	PxqBQ9/HL1CaFY8DERKLlLvBKWesFX3to23gFbHHn/PU2hCbKbUsGWGnovWK+sdO
-	mZTMnndEiGxt+KDOqwPtF4gu51pGo8iFmjsHragoMjW9Sw52DKTj6yXPVeR+uQY6
-	BuXIFC777I/xSBANw72S9AUmatINBBrPtw4BPhsksGBnezW7BDkxUuQ3iJzZuMs1
-	ew/ltpk44IYQDTEQxuAQppC1K+ejD+PfaPsWAswv49cx0mLvST7LeDyMc/lGSJKL
-	oi5j/NYbZgX2/4tWeEQtdVEkIhaanQIZkmRJFIbyRAUA34HZWhH0+2anhZfEvVRT
-	nPZw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1684151683; x=1684238083; bh=YN2hehfhebmIs
-	wf1/JIgo//Dtk1KbSx4NssivhFQ048=; b=DTiL8tEDchy/0FstCPucVIhziirSW
-	yO+pzo+dbqz7u35lHvfvktCJDhPnKbn/YOgJ5/tG+zHUye7C3t3Pt2TxcpQpn+VL
-	HNo+mcpzemSMyVU6f8bf6Iyq3JrVirlKDnlHDtilOoaIIAci3GZS4D2VhEgl94eX
-	Htn4XjGmXRa9sUxPS3r5Gzg/XH83AV9/BHI/SYkV6T0KxAmHuGWjOl/RC4ljEEGK
-	V8fXpxAH0rxHl69b99hly5vW1qjH/VpHqMdYZ3jSF7AfJCPDI9YnTcDpQDMjPIrg
-	Y0I9Wc8WdeFo+9ALMuxMlrzC+6hhHOGNtkGNOqe/7HfAAEIaspoGZdRtQ==
-X-ME-Sender: <xms:gx1iZF9En5sG5LkrrOiCKPNbCB9Hz7bpGredNE7j3ZP5y8vQdP0drA>
-    <xme:gx1iZJuSxwvB1bqp0yi3dsxfPvigvS4VJsahzndOe5W6qEj65kteXw2wcKfU5pyDo
-    fu3bJbGnZgfXn7cr1s>
-X-ME-Received: <xmr:gx1iZDAG9dkMp2Sl2_qOD6x-OG_XDWwdwD76nwYNeGquJs8jvxuj23SIDwEGslxctBead6w0m696ZVKyQR-Z6g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeehjedggeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
-    gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:gx1iZJcuBoqTUTRg551tq_CoQwBJNHWl99GKruhtBlLuB4seTxaO8g>
-    <xmx:gx1iZKNE9XMXZTU1acdRHkBpH2HnRBQy94WfighePUtG77Wvav3KCw>
-    <xmx:gx1iZLlHQ9wB4S6h4qZhBskAiJt5F6zZLc-wAglyBVYcl1x3smwM3g>
-    <xmx:gx1iZHsBDIWUXjk5uflsw_7BiqdU9XlqMy7dUXeqYejdcb-1yPZGKg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 May 2023 07:54:42 -0400 (EDT)
-Date: Mon, 15 May 2023 13:54:41 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>, 
-	Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria <amitk@kernel.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Ondrej Jirman <megous@megous.com>, linux-kernel@vger.kernel.org, 
-	kernel-janitors@vger.kernel.org, linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2] thermal/drivers/sun8i: Fix some error handling paths
- in sun8i_ths_probe()
-Message-ID: <ucnnixemxbpkjlbyenboydicslozt5jpyjjfbd4gjk4oye52et@fgyd3zqdqsh2>
-References: <a8ae84bd2dc4b55fe428f8e20f31438bf8bb6762.1684089931.git.christophe.jaillet@wanadoo.fr>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578BAC2F7
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 May 2023 12:18:55 +0000 (UTC)
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-759219bed84so173498885a.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 15 May 2023 05:18:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684153134; x=1686745134;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sPBAfbPStH09i45L5DnPnuQOFxW4JGqFBQ2GbD9peU0=;
+        b=YH+Shd9jg7YumKA78gdtc+aSlzrP79SxdxGoi2LxreTrbGsx/a/9bApYKhuXR+yf7f
+         XiQ/Fy9cZrz0ATTUwALDiF/5J1lVM/XHRpp2SiENfyuOOL3Ha18qWpUYxAmtgr/Q7sEe
+         tPhuIcKq9O8tR7SWlIH6Pul8dhc/jTz92trOtsxYKRhP2JnY19qlWuy1jBCeyX7rqI8x
+         PG9JpXN47/jIdsDf+pPHVeFzwDW1lYFZh/dYSVr/HPlBx7lVR0PUEwPIgTxem1sEXy9a
+         hlxOa2ESZMoOtOP5//8pWG3pqTlKm8h6kCx8rq30evHaqLnZ1LQqfG2grBAEo3kygvxy
+         veNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684153134; x=1686745134;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sPBAfbPStH09i45L5DnPnuQOFxW4JGqFBQ2GbD9peU0=;
+        b=DFqMxOE1wq2UDrt9rLNa7MxCmTDZC3HXRm8dHw0+Yufi9MvRDpaF9vVs8GpSkf+zKs
+         7iMD3u0ShbfD7ZtN03Vc3YeBoeSdeq0KjHmIhSG7fsB9GwGFi4Xs55/EqGXTTuRrVww1
+         QtScnP/zrTLXQWgyfSRNfhaAPky19LFIvBTpy8vwGUPauUhfcl2eDz73YHMsjFB59fUM
+         uOXh8rAJgoc7vyoxeHvT8T4dH1f0QVOOzXRHvXm9MSMngevzhv674TcV8nAW6cw72LYk
+         JrQvcG7o227LLBqKZzOPr6IgDUccNvMafwTc9dIvOjHgnY02I70HNj3CyUJZZzqe8E5g
+         5Y4A==
+X-Gm-Message-State: AC+VfDwIe47lYIrRviIl+dR0ZfInfFRmJm0Lo5fOVlI7bwhLA4dRprQK
+	stZ0uEV2aUZnZrhjoJdpJhCv0pdnUQLzC6qSbt7fopVs
+X-Google-Smtp-Source: ACHHUZ6eoA3YojvSjRse/6Kk9bcYV9jJG2dg27vEDStirnLusMJfoLNOeTkOgzeEiSLm+RnbtBBGo/ZICdul8c7IkEw=
+X-Received: by 2002:ad4:596d:0:b0:623:690c:3cd7 with SMTP id
+ eq13-20020ad4596d000000b00623690c3cd7mr2116171qvb.47.1684153134129; Mon, 15
+ May 2023 05:18:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="va3mhj5nkg6jbttn"
-Content-Disposition: inline
-In-Reply-To: <a8ae84bd2dc4b55fe428f8e20f31438bf8bb6762.1684089931.git.christophe.jaillet@wanadoo.fr>
-
-
---va3mhj5nkg6jbttn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230514200345.502807-1-martin.blumenstingl@googlemail.com>
+In-Reply-To: <20230514200345.502807-1-martin.blumenstingl@googlemail.com>
+From: Julian Calaby <julian.calaby@gmail.com>
+Date: Mon, 15 May 2023 22:18:41 +1000
+Message-ID: <CAGRGNgUhUZ8X+XOQ9xDEWzwih1zbedQr=1ztxexs3djeaBWzqg@mail.gmail.com>
+Subject: Re: [PATCH wireless v1] wifi: rtw88: sdio: Always use two consecutive
+ bytes for word operations
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	pkshih@realtek.com, tony0620emma@gmail.com, kvalo@kernel.org, 
+	Larry Finger <Larry.Finger@lwfinger.net>, Rudi Heitbaum <rudi@heitbaum.com>, 
+	linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Martin,
 
-On Sun, May 14, 2023 at 08:46:05PM +0200, Christophe JAILLET wrote:
-> Should an error occur after calling sun8i_ths_resource_init() in the probe
-> function, some resources need to be released, as already done in the
-> .remove() function.
->=20
-> Switch to the devm_clk_get_enabled() helper and add a new devm_action to
-> turn sun8i_ths_resource_init() into a fully managed function.
->=20
-> Move the place where reset_control_deassert() is called so that the
-> recommended order of reset release/clock enable steps is kept.
-> A64 manual states that:
->=20
-> 	3.3.6.4. Gating and reset
->=20
-> 	Make sure that the reset signal has been released before the release of
-> 	module clock gating;
->=20
-> This fixes the issue and removes some LoC at the same time.
+On Mon, May 15, 2023 at 6:12=E2=80=AFAM Martin Blumenstingl
+<martin.blumenstingl@googlemail.com> wrote:
+>
+> The Allwinner sunxi-mmc controller cannot handle word (16 bit)
+> transfers. So and sdio_{read,write}w fails with messages like the
+> following example using an RTL8822BS (but the same problems were also
+> observed with RTL8822CS and RTL8723DS chips):
+>   rtw_8822bs mmc1:0001:1: Firmware version 27.2.0, H2C version 13
+>   sunxi-mmc 4021000.mmc: unaligned scatterlist: os f80 length 2
+>   sunxi-mmc 4021000.mmc: map DMA failed
+>   rtw_8822bs mmc1:0001:1: sdio read16 failed (0x10230): -22
+>
+> Use two consecutive single byte accesses for word operations instead. It
+> turns out that upon closer inspection this is also what the vendor
+> driver does, even though it does have support for sdio_{read,write}w. So
+> we can conclude that the rtw88 chips do support word access but only on
+> SDIO controllers that also support it. Since there's no way to detect if
+> the controller supports word access or not the rtw88 sdio driver
+> switches to the easiest approach: avoiding word access.
+>
+> Reported-by: Larry Finger <Larry.Finger@lwfinger.net>
+> Closes: https://lore.kernel.org/linux-wireless/527585e5-9cdd-66ed-c3af-6d=
+a162f4b720@lwfinger.net/
+> Reported-by: Rudi Heitbaum <rudi@heitbaum.com>
+> Fixes: 65371a3f14e7 ("wifi: rtw88: sdio: Add HCI implementation for SDIO =
+based chipsets")
+> Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 
-It should really be three different patches:
- - One to fix the resource release, that can be backported to stable
-   releases
- - One to switch to devm_clk_get_enabled
- - and one to change the order of clock enable vs reset deassertion
+The linux-sunxi folks might have comments, so I've added them to CC.
 
-Maxime
+> ---
+>  drivers/net/wireless/realtek/rtw88/sdio.c | 8 --------
+>  1 file changed, 8 deletions(-)
+>
+> diff --git a/drivers/net/wireless/realtek/rtw88/sdio.c b/drivers/net/wire=
+less/realtek/rtw88/sdio.c
+> index af0459a79899..06fce7c3adda 100644
+> --- a/drivers/net/wireless/realtek/rtw88/sdio.c
+> +++ b/drivers/net/wireless/realtek/rtw88/sdio.c
+> @@ -87,11 +87,6 @@ static void rtw_sdio_writew(struct rtw_dev *rtwdev, u1=
+6 val, u32 addr,
+>         u8 buf[2];
+>         int i;
+>
+> -       if (rtw_sdio_use_memcpy_io(rtwdev, addr, 2)) {
+> -               sdio_writew(rtwsdio->sdio_func, val, addr, err_ret);
+> -               return;
+> -       }
+> -
+>         *(__le16 *)buf =3D cpu_to_le16(val);
+>
+>         for (i =3D 0; i < 2; i++) {
+> @@ -125,9 +120,6 @@ static u16 rtw_sdio_readw(struct rtw_dev *rtwdev, u32=
+ addr, int *err_ret)
+>         u8 buf[2];
+>         int i;
+>
+> -       if (rtw_sdio_use_memcpy_io(rtwdev, addr, 2))
+> -               return sdio_readw(rtwsdio->sdio_func, addr, err_ret);
+> -
+>         for (i =3D 0; i < 2; i++) {
+>                 buf[i] =3D sdio_readb(rtwsdio->sdio_func, addr + i, err_r=
+et);
+>                 if (*err_ret)
+> --
+> 2.40.1
+>
 
---va3mhj5nkg6jbttn
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
 
------BEGIN PGP SIGNATURE-----
+--
+Julian Calaby
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZGIdgQAKCRDj7w1vZxhR
-xdmkAP9r4P7s+lWbUxXVJ+/Zx6Wfdpi7/HSi+H/K9rivRGupwAD/VW72Kfz4XlEp
-oAzjFCvvawU+fc7nkk/gA4tjCfH5MQ0=
-=KQEQ
------END PGP SIGNATURE-----
-
---va3mhj5nkg6jbttn--
+Email: julian.calaby@gmail.com
+Profile: http://www.google.com/profiles/julian.calaby/
