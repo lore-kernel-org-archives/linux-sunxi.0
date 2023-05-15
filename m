@@ -1,164 +1,125 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9F0FC152;
-	Mon, 15 May 2023 09:56:14 +0000 (UTC)
-Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34F9kL9E004814;
-	Mon, 15 May 2023 09:55:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=c69QNR7lfIqB6FKiUIhsojT+MsFH8qH65PiA7hty3/w=;
- b=XedJ+r9zfgtSzDIB4eSrPCYm0wWx4qeblaLActQ5QVrHh2HEZP56wPCN6nRfdD4hHuiP
- EhfoiT0R911OpM43d3K1kk0me4DLgXWV8s+zqgbHPChfQ3FYX4z+56AT5PA4aVx+B9K3
- S2qnW7+htzYKc4tFSAOQn6w6QayRbwJWQ5RN51Dqjzw/xNYJQr+c0ErxHoNskgUl8DFd
- yHHBmnlnMxV8YENBqZIFU66wF7Pf9Kv8sUifi612DboAhSZ7gyThFuv1UtnbRg8omvaJ
- FcXo0FBL1z6F1hLhK8K2P8bnpEOnHfIw7A8h7ehhYGnNcX/9/f9uXq9zPPOPPG4PGrtc 6g== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qkd3mswqh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 May 2023 09:55:53 +0000
-Received: from m0353727.ppops.net (m0353727.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34F9bqmA009076;
-	Mon, 15 May 2023 09:55:51 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qkd3mswp5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 May 2023 09:55:51 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
-	by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34F8Tiqw000411;
-	Mon, 15 May 2023 09:33:32 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3qj264rtm2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 May 2023 09:33:32 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34F9XTPL45744626
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 15 May 2023 09:33:29 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E664720040;
-	Mon, 15 May 2023 09:33:28 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 413B62004B;
-	Mon, 15 May 2023 09:33:26 +0000 (GMT)
-Received: from [9.171.65.23] (unknown [9.171.65.23])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 15 May 2023 09:33:26 +0000 (GMT)
-Message-ID: <670b01819f6f875364abaafa4accad9fa92e6177.camel@linux.ibm.com>
-Subject: Re: [PATCH v8 0/6] iommu/dma: s390 DMA API conversion and optimized
- IOTLB flushing
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Joerg Roedel <joro@8bytes.org>, Matthew Rosato <mjrosato@linux.ibm.com>,
-        Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
-        Robin
- Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Gerd Bayer
- <gbayer@linux.ibm.com>,
-        Julian Ruess <julianr@linux.ibm.com>,
-        Pierre Morel
- <pmorel@linux.ibm.com>,
-        Alexandra Winter <wintera@linux.ibm.com>,
-        Heiko
- Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander
- Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger
- <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Suravee
- Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Hector Martin
- <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig
- <alyssa@rosenzweig.io>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu
- <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson
- <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Yong Wu
- <yong.wu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Orson Zhai
- <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan
- Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec
- <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry
- Reding <thierry.reding@gmail.com>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
-Date: Mon, 15 May 2023 11:33:25 +0200
-In-Reply-To: <ZF5NRls92rhmzV7B@infradead.org>
-References: <20230310-dma_iommu-v8-0-2347dfbed7af@linux.ibm.com>
-	 <ZF5NRls92rhmzV7B@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1 (3.48.1-1.fc38) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E967C2F6
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 May 2023 11:54:44 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id D091B5C010F;
+	Mon, 15 May 2023 07:54:43 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Mon, 15 May 2023 07:54:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm3; t=1684151683; x=1684238083; bh=YN
+	2hehfhebmIswf1/JIgo//Dtk1KbSx4NssivhFQ048=; b=dkUb9tOVLQsK1ucevf
+	PxqBQ9/HL1CaFY8DERKLlLvBKWesFX3to23gFbHHn/PU2hCbKbUsGWGnovWK+sdO
+	mZTMnndEiGxt+KDOqwPtF4gu51pGo8iFmjsHragoMjW9Sw52DKTj6yXPVeR+uQY6
+	BuXIFC777I/xSBANw72S9AUmatINBBrPtw4BPhsksGBnezW7BDkxUuQ3iJzZuMs1
+	ew/ltpk44IYQDTEQxuAQppC1K+ejD+PfaPsWAswv49cx0mLvST7LeDyMc/lGSJKL
+	oi5j/NYbZgX2/4tWeEQtdVEkIhaanQIZkmRJFIbyRAUA34HZWhH0+2anhZfEvVRT
+	nPZw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1684151683; x=1684238083; bh=YN2hehfhebmIs
+	wf1/JIgo//Dtk1KbSx4NssivhFQ048=; b=DTiL8tEDchy/0FstCPucVIhziirSW
+	yO+pzo+dbqz7u35lHvfvktCJDhPnKbn/YOgJ5/tG+zHUye7C3t3Pt2TxcpQpn+VL
+	HNo+mcpzemSMyVU6f8bf6Iyq3JrVirlKDnlHDtilOoaIIAci3GZS4D2VhEgl94eX
+	Htn4XjGmXRa9sUxPS3r5Gzg/XH83AV9/BHI/SYkV6T0KxAmHuGWjOl/RC4ljEEGK
+	V8fXpxAH0rxHl69b99hly5vW1qjH/VpHqMdYZ3jSF7AfJCPDI9YnTcDpQDMjPIrg
+	Y0I9Wc8WdeFo+9ALMuxMlrzC+6hhHOGNtkGNOqe/7HfAAEIaspoGZdRtQ==
+X-ME-Sender: <xms:gx1iZF9En5sG5LkrrOiCKPNbCB9Hz7bpGredNE7j3ZP5y8vQdP0drA>
+    <xme:gx1iZJuSxwvB1bqp0yi3dsxfPvigvS4VJsahzndOe5W6qEj65kteXw2wcKfU5pyDo
+    fu3bJbGnZgfXn7cr1s>
+X-ME-Received: <xmr:gx1iZDAG9dkMp2Sl2_qOD6x-OG_XDWwdwD76nwYNeGquJs8jvxuj23SIDwEGslxctBead6w0m696ZVKyQR-Z6g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeehjedggeejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
+    gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:gx1iZJcuBoqTUTRg551tq_CoQwBJNHWl99GKruhtBlLuB4seTxaO8g>
+    <xmx:gx1iZKNE9XMXZTU1acdRHkBpH2HnRBQy94WfighePUtG77Wvav3KCw>
+    <xmx:gx1iZLlHQ9wB4S6h4qZhBskAiJt5F6zZLc-wAglyBVYcl1x3smwM3g>
+    <xmx:gx1iZHsBDIWUXjk5uflsw_7BiqdU9XlqMy7dUXeqYejdcb-1yPZGKg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 15 May 2023 07:54:42 -0400 (EDT)
+Date: Mon, 15 May 2023 13:54:41 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>, 
+	Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria <amitk@kernel.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Ondrej Jirman <megous@megous.com>, linux-kernel@vger.kernel.org, 
+	kernel-janitors@vger.kernel.org, linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2] thermal/drivers/sun8i: Fix some error handling paths
+ in sun8i_ths_probe()
+Message-ID: <ucnnixemxbpkjlbyenboydicslozt5jpyjjfbd4gjk4oye52et@fgyd3zqdqsh2>
+References: <a8ae84bd2dc4b55fe428f8e20f31438bf8bb6762.1684089931.git.christophe.jaillet@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: bs2KpFYuwoCp6-aBJBUXDadSE7HNCIPx
-X-Proofpoint-ORIG-GUID: d9-xVIyzWKoF0UTrrDTDDfGL5QDVi9C0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-15_06,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- priorityscore=1501 lowpriorityscore=0 phishscore=0 suspectscore=0
- adultscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 clxscore=1011
- mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305150082
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="va3mhj5nkg6jbttn"
+Content-Disposition: inline
+In-Reply-To: <a8ae84bd2dc4b55fe428f8e20f31438bf8bb6762.1684089931.git.christophe.jaillet@wanadoo.fr>
 
-On Fri, 2023-05-12 at 07:29 -0700, Christoph Hellwig wrote:
-> On Fri, Mar 10, 2023 at 05:07:45PM +0100, Niklas Schnelle wrote:
-> > Hi All,
-> >=20
-> > This patch series converts s390's PCI support from its platform specifi=
-c DMA
-> > API implementation in arch/s390/pci/pci_dma.c to the common DMA IOMMU l=
-ayer.
-> > The conversion itself is done in patches 3-4 with patch 2 providing the=
- final
-> > necessary IOMMU driver improvement to handle s390's special IOTLB flush
-> > out-of-resource indication in virtualized environments. Patches 1-2 may=
- be
-> > applied independently. The conversion itself only touches the s390 IOMM=
-U driver
-> > and s390 arch code moving over remaining functions from the s390 DMA AP=
-I
-> > implementation. No changes to common code are necessary.
+
+--va3mhj5nkg6jbttn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Sun, May 14, 2023 at 08:46:05PM +0200, Christophe JAILLET wrote:
+> Should an error occur after calling sun8i_ths_resource_init() in the probe
+> function, some resources need to be released, as already done in the
+> .remove() function.
 >=20
-> It looks like this still hasn't made it upstream as of 6.4-rc1.  What's
-> holding this series up?
+> Switch to the devm_clk_get_enabled() helper and add a new devm_action to
+> turn sun8i_ths_resource_init() into a fully managed function.
 >=20
+> Move the place where reset_control_deassert() is called so that the
+> recommended order of reset release/clock enable steps is kept.
+> A64 manual states that:
+>=20
+> 	3.3.6.4. Gating and reset
+>=20
+> 	Make sure that the reset signal has been released before the release of
+> 	module clock gating;
+>=20
+> This fixes the issue and removes some LoC at the same time.
 
-I think with all the IOMMUFD work going on this got starved out of
-reviewer resources. I didn't have any open todos but I guess there is
-still some review needed around how the IOMMU driver tells the dma-
-iommu that it expects IOTLB flushes to be slow requiring a larger
-single flush queue. There was also a small conflict with commit
-49a22aae7d9c ("iommu: Replace device_lock() with group->mutex") that
-prevented this from applying to current upstream so I've just now sent
-out a v9 rebased on v6.4-rc2.
+It should really be three different patches:
+ - One to fix the resource release, that can be backported to stable
+   releases
+ - One to switch to devm_clk_get_enabled
+ - and one to change the order of clock enable vs reset deassertion
 
-Thanks,
-Niklas
+Maxime
+
+--va3mhj5nkg6jbttn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZGIdgQAKCRDj7w1vZxhR
+xdmkAP9r4P7s+lWbUxXVJ+/Zx6Wfdpi7/HSi+H/K9rivRGupwAD/VW72Kfz4XlEp
+oAzjFCvvawU+fc7nkk/gA4tjCfH5MQ0=
+=KQEQ
+-----END PGP SIGNATURE-----
+
+--va3mhj5nkg6jbttn--
