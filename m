@@ -1,174 +1,125 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E30A8836;
-	Mon, 15 May 2023 14:43:09 +0000 (UTC)
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34FEdfW2001912;
-	Mon, 15 May 2023 14:42:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=3xmrodnLEt3plr6PfR2NiDKXpK4TnrjIaL6sDzQ/7GU=;
- b=q+a2WxQK3J7w6NJiJUphIIf9ajPoK7dLJYqI+t2yd270W7CmFhfqcxPQ4sLDs8I3yoHG
- pxet7qhizsDe49r5qacnn0up7txnPYLcrU93fC8Bm+i3aeBN80Ggy2bsIoIYrG+r6kUc
- J1XYXBbpdTFIkOMbNS2Hzs4i6D8uAWoosggxD2ywApVOUoB3k+0BLdM34/EKgjTr0v0I
- M1Qugs2xEIxBRanx3Lb4zTEg+aHcUy6ykjy9rtQaZ1BfcKCrOV62c4cgy2n4HHtWIcJg
- tOJu+la3PVYmFqjAttTuVrNtJHuyBkPyuDeqcvdGca4YJcbHej4ZLYZBslN6wQePhEil xg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qkpes0q07-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 May 2023 14:42:47 +0000
-Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34FEe63m005221;
-	Mon, 15 May 2023 14:42:46 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qkpes0pvy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 May 2023 14:42:46 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
-	by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34FD2VOD016196;
-	Mon, 15 May 2023 14:42:43 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3qj264rxmt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 May 2023 14:42:42 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34FEgdw220447944
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 15 May 2023 14:42:39 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4949420043;
-	Mon, 15 May 2023 14:42:39 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DF9C920040;
-	Mon, 15 May 2023 14:42:36 +0000 (GMT)
-Received: from [9.171.65.23] (unknown [9.171.65.23])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 15 May 2023 14:42:36 +0000 (GMT)
-Message-ID: <a2a9a2bdb431d7611588a9f9bdca64856ac56139.camel@linux.ibm.com>
-Subject: Re: [PATCH v9 5/6] iommu/dma: Allow a single FQ in addition to
- per-CPU FQs
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>
-Cc: Joerg Roedel <joro@8bytes.org>, Matthew Rosato <mjrosato@linux.ibm.com>,
-        Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
-        Gerd
- Bayer <gbayer@linux.ibm.com>,
-        Julian Ruess <julianr@linux.ibm.com>,
-        Pierre
- Morel <pmorel@linux.ibm.com>,
-        Alexandra Winter <wintera@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger
- <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Suravee
- Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Hector Martin
- <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig
- <alyssa@rosenzweig.io>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu
- <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson
- <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Yong Wu
- <yong.wu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Orson Zhai
- <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan
- Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec
- <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry
- Reding <thierry.reding@gmail.com>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
-Date: Mon, 15 May 2023 16:42:36 +0200
-In-Reply-To: <ZGIuj2pRjOPffqZZ@ziepe.ca>
-References: <20230310-dma_iommu-v9-0-65bb8edd2beb@linux.ibm.com>
-	 <20230310-dma_iommu-v9-5-65bb8edd2beb@linux.ibm.com>
-	 <ZGIuj2pRjOPffqZZ@ziepe.ca>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.48.1 (3.48.1-1.fc38) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: gNuxWXJsmokdhsaD92T6yUFS_UMSNhrG
-X-Proofpoint-ORIG-GUID: me_7t4m8_jWebgWrnvUvQ84qdxzJLwc5
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDCC819528
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 May 2023 19:50:58 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-966287b0f72so2022952866b.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 15 May 2023 12:50:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20221208; t=1684180257; x=1686772257;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1dCiTguXYORtoF4oVzk6CUPb17otNxhaws46Ic3PhU0=;
+        b=BlGt6J+ZT9Ni9RSP4xURlBWCFw+xiErx9aEKLboq5QL0xLqU9zyGK0OI55O6sP4Xda
+         MVw360SGdBAk0N0CcR0tprvDfck6C5L+SezL/Me7xBbEdurfW7pJiS+IX5nYnNPwlm5q
+         BOylS1QtHhw4S6f6LjxnYXoOjnzS7/PkPRO5walUD0POXUbsyB0xsiAFaI9Qib49QNlG
+         JlglUa/4v7D0QaVSL59QWJc2YQM1V0OQpcPBFiJK5hsxhea339f43Ys9LWV2KRVHhhgq
+         PoBwP41Tv30vTL5Gn17FpCdS9S5x6RumB8dCXISquyQECuy0cAjTWCgtYO2vACAR2CGi
+         D0FQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684180257; x=1686772257;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1dCiTguXYORtoF4oVzk6CUPb17otNxhaws46Ic3PhU0=;
+        b=bH7WU7a1+3XGQlEoyHIUMbxiL0qsutGjAtrEsiwvWmFvmgmNbnACGxRi18PIh6PuRY
+         j4gWTR10eZTYfhuRD/hsu4WikCJfywMac/RRAvhFr/kBBgFI+T0SwlwpCQy6bROIieEC
+         GsgXDcxjfigeZuIijSjhAe052ZsSzRoc1RKiH2OMSFUrYITnr/DD7XCbANl2t2uRiAUL
+         xtgOGDkmIzTMOb06fbDjrNdhWmivQMldhEUiAP9w2EDDy6e+DCj3fAOM7N0PtyoOeO2c
+         Nld4qJH9eJCwF/iM0jagiQttTkNH08/QecH9oCNT95fKwD6duuZM2C4zT/W00/2gxXA5
+         14KQ==
+X-Gm-Message-State: AC+VfDy2TpQMSRXiqooupZ4oMddTv8GpvO0s9Kn0FjgdHYNxXX2udD7E
+	N76SaDrokgLNhCeAgbaO8EU=
+X-Google-Smtp-Source: ACHHUZ4DqNRezIdT0rAW0VYLUO8cBUwaDwyh4wA5MiN+cWfM+jhwNdeZ2J2kV+PNrQydwKb0Ox1iaQ==
+X-Received: by 2002:a17:906:dac8:b0:969:f54c:dee8 with SMTP id xi8-20020a170906dac800b00969f54cdee8mr20836928ejb.35.1684180256867;
+        Mon, 15 May 2023 12:50:56 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a01-0c22-7250-7200-0000-0000-0000-0e63.c22.pool.telefonica.de. [2a01:c22:7250:7200::e63])
+        by smtp.googlemail.com with ESMTPSA id tl14-20020a170907c30e00b00961277a426dsm9810589ejc.205.2023.05.15.12.50.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 May 2023 12:50:56 -0700 (PDT)
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+To: linux-wireless@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	pkshih@realtek.com,
+	tony0620emma@gmail.com,
+	kvalo@kernel.org,
+	jernej.skrabec@gmail.com,
+	linux-sunxi@lists.linux.dev,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Rudi Heitbaum <rudi@heitbaum.com>
+Subject: [PATCH wireless v2] wifi: rtw88: sdio: Always use two consecutive bytes for word operations
+Date: Mon, 15 May 2023 21:50:43 +0200
+Message-Id: <20230515195043.572375-1-martin.blumenstingl@googlemail.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-15_11,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- clxscore=1015 phishscore=0 spamscore=0 mlxscore=0 suspectscore=0
- mlxlogscore=596 bulkscore=0 impostorscore=0 lowpriorityscore=0
- malwarescore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2304280000 definitions=main-2305150121
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2023-05-15 at 10:07 -0300, Jason Gunthorpe wrote:
-> On Mon, May 15, 2023 at 11:15:55AM +0200, Niklas Schnelle wrote:
->=20
-> > +/**
-> > + * struct dma_iommu_options - Options for dma-iommu
-> > + *
-> > + * @flags: Flag bits for enabling/disabling dma-iommu settings
-> > + *
-> > + * This structure is intended to provide IOMMU drivers a way to influe=
-nce the
-> > + * behavior of the dma-iommu DMA API implementation. This allows optim=
-izing for
-> > + * example for a virtualized environment with slow IOTLB flushes.
-> > + */
-> > +struct dma_iommu_options {
-> > +#define IOMMU_DMA_OPTS_PER_CPU_QUEUE	(0L << 0)
-> > +#define IOMMU_DMA_OPTS_SINGLE_QUEUE	(1L << 0)
-> > +	u64	flags;
-> > +};
->=20
-> You need to hash it out with robin if we do something like this or use
-> more untyped caps as he put in this series:
->=20
-> https://lore.kernel.org/linux-iommu/cover.1683233867.git.robin.murphy@arm=
-.com/
->=20
-> Jason
+The Allwinner sunxi-mmc controller cannot handle word (16 bit)
+transfers. So and sdio_{read,write}w fails with messages like the
+following example using an RTL8822BS (but the same problems were also
+observed with RTL8822CS and RTL8723DS chips):
+  rtw_8822bs mmc1:0001:1: Firmware version 27.2.0, H2C version 13
+  sunxi-mmc 4021000.mmc: unaligned scatterlist: os f80 length 2
+  sunxi-mmc 4021000.mmc: map DMA failed
+  rtw_8822bs mmc1:0001:1: sdio read16 failed (0x10230): -22
 
-Ok. I do wonder how to best represent this as a capability.
-Semantically I think a capability needs to be something positive i.e.
-while IOMMU_CAP_EXPENSIVE_FLUSH would technically work having slow
-IOTLB flushes really isn't a capability. So the best I can think of is
-maybe IOMMU_CAP_SHADOW_ON_FLUSH. It's a bit specific but does convey
-that the IOTLB flush does more than dropping hardware caches where the
-main cost is the then empty TLB not the operation itself. Or maybe to
-keep thing separate one would have to add capabilities for the existing
-users IOMMU_CAP_HW_FLUSH and IOMMU_CAP_CONCURRENT_FLUSH.
+Use two consecutive single byte accesses for word operations instead. It
+turns out that upon closer inspection this is also what the vendor
+driver does, even though it does have support for sdio_{read,write}w. So
+we can conclude that the rtw88 chips do support word access but only on
+SDIO controllers that also support it. Since there's no way to detect if
+the controller supports word access or not the rtw88 sdio driver
+switches to the easiest approach: avoiding word access.
 
-Not sure though. It does feel more clunky than the tuning op I added
-and maybe instead these mechanisms should co-exist. After all even
-though the IOTLB flushes with shadowing are expensive they still
-benefit from the flush queue just with more entries and less
-parallelism.
+Reported-by: Larry Finger <Larry.Finger@lwfinger.net>
+Closes: https://lore.kernel.org/linux-wireless/527585e5-9cdd-66ed-c3af-6da162f4b720@lwfinger.net/
+Reported-by: Rudi Heitbaum <rudi@heitbaum.com>
+Link: https://github.com/LibreELEC/LibreELEC.tv/pull/7837#issue-1708469467
+Fixes: 65371a3f14e7 ("wifi: rtw88: sdio: Add HCI implementation for SDIO based chipsets")
+Reviewed-by: Ping-Ke Shih <pkshih@realtek.com>
+Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+---
+Changes since v1:
+- Added Link to Rudi Heitbaum's issue report
+- Added Ping-Ke's Reviewed-by (thank you!)
+- Cc'ed linux-sunxi
 
-Thanks,
-Niklas
+
+ drivers/net/wireless/realtek/rtw88/sdio.c | 8 --------
+ 1 file changed, 8 deletions(-)
+
+diff --git a/drivers/net/wireless/realtek/rtw88/sdio.c b/drivers/net/wireless/realtek/rtw88/sdio.c
+index af0459a79899..06fce7c3adda 100644
+--- a/drivers/net/wireless/realtek/rtw88/sdio.c
++++ b/drivers/net/wireless/realtek/rtw88/sdio.c
+@@ -87,11 +87,6 @@ static void rtw_sdio_writew(struct rtw_dev *rtwdev, u16 val, u32 addr,
+ 	u8 buf[2];
+ 	int i;
+ 
+-	if (rtw_sdio_use_memcpy_io(rtwdev, addr, 2)) {
+-		sdio_writew(rtwsdio->sdio_func, val, addr, err_ret);
+-		return;
+-	}
+-
+ 	*(__le16 *)buf = cpu_to_le16(val);
+ 
+ 	for (i = 0; i < 2; i++) {
+@@ -125,9 +120,6 @@ static u16 rtw_sdio_readw(struct rtw_dev *rtwdev, u32 addr, int *err_ret)
+ 	u8 buf[2];
+ 	int i;
+ 
+-	if (rtw_sdio_use_memcpy_io(rtwdev, addr, 2))
+-		return sdio_readw(rtwsdio->sdio_func, addr, err_ret);
+-
+ 	for (i = 0; i < 2; i++) {
+ 		buf[i] = sdio_readb(rtwsdio->sdio_func, addr + i, err_ret);
+ 		if (*err_ret)
+-- 
+2.40.1
+
