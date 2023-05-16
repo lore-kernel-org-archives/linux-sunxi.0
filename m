@@ -1,176 +1,156 @@
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2110.outbound.protection.outlook.com [40.107.95.110])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C206156E9
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 May 2023 07:31:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Bi9lHTlIDjT5JrlRrKdukGas4pPls625i9dXUYRk8Q+PQ7Fsp66w27XzlMDswKo7q0/GYxcJFxCJ8qPIZhzY4yHkxaobSpPOrNzHb6wlt1JX2EAsLbQuMiJ76IuldhBFNOm8P6yMZ0zyo2DDRotJ046v6kIshgiTlg/JyAvUwmVUKvV3okQgEpGCx1XgVYZq8g5r+85pF7+bQjWsV++piSa0rjlWJoY8b/EZncGHX57zDkBt4VZ64eI0TV0oIcnhMma8FKc06toCYy+keahrU4cqsef0+iqBJkA3ctW+j5OcrR3n0s+TzWagy+uGY6YME/13G8v3Qx3h+7NIDcxamA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eFlqXhQiEkbgP1NIA8fFFfatf0UtjMDcqi9RLlasb10=;
- b=N5FvfGl6VTYb4HefR3T7oMHxIRL+arQJEMwhZK18aOUebLxolitQ+3OztqgqGiE1a2TIx1XaDffrmUz+OSeliTNjAZ16gGqk5HIUotVqc+2SZzTbt70KL+wNiPAFctKfUkzBG+zSd9WC+tcl3xasGZNcsC5LIsKtKIF3SWifsR6085PFweNKq9E5Aug174fW1SCZpXFBw2EN/p3FYohOxuwJ7yoYRL/KFPQ7icC5gwNIK3xTNBs4Lggw+Yfxuv8lDgjhnubzWbMvktC5fc13BtxVJac4EPUOwTR6psNbQNDyhKORE7tdEeIGlbL+5cqDFbZ/kPbIib/xT+jfuu2vhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
- dkim=pass header.d=corigine.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eFlqXhQiEkbgP1NIA8fFFfatf0UtjMDcqi9RLlasb10=;
- b=gNf5avQAB4+0nsO0SVE3vh16c6pgLl53Kprhq9u4Igwdbi4sB4qMQj+2Sg+tUou4aO0RuktvCYu0INMzj1G3TxgqXwHgquledKyJc/uaGSneP4tSdSDhQ5qX9n3E7D00qFyRaKqlPOTD4TwshfB+oMR1Zsgq+DemneBwLKZdwAk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=corigine.com;
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
- by LV3PR13MB6477.namprd13.prod.outlook.com (2603:10b6:408:199::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.15; Tue, 16 May
- 2023 07:31:44 +0000
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::f416:544d:18b7:bb34]) by PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::f416:544d:18b7:bb34%5]) with mapi id 15.20.6387.033; Tue, 16 May 2023
- 07:31:43 +0000
-Date: Tue, 16 May 2023 09:31:04 +0200
-From: Simon Horman <simon.horman@corigine.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Wolfgang Grandegger <wg@grandegger.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	Minghao Chi <chi.minghao@zte.com.cn>,
-	Zhang Changzhong <zhangchangzhong@huawei.com>,
-	Wei Fang <wei.fang@nxp.com>, Rob Herring <robh@kernel.org>,
-	Pavel Pisa <pisa@cmp.felk.cvut.cz>,
-	Ondrej Ille <ondrej.ille@gmail.com>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Haibo Chen <haibo.chen@nxp.com>,
-	Oliver Hartkopp <socketcan@hartkopp.net>,
-	Yang Yingliang <yangyingliang@huawei.com>,
-	Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Wolfram Sang <wsa@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Appana Durga Kedareswara rao <appana.durga.rao@xilinx.com>,
-	Michal Simek <michal.simek@amd.com>, linux-can@vger.kernel.org,
-	netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kernel@pengutronix.de, linux-sunxi@lists.linux.dev,
-	Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>
-Subject: Re: [PATCH net-next 00/19] can: Convert to platform remove callback
- returning void
-Message-ID: <ZGMxOB6iVj39vM6U@corigine.com>
-References: <20230512212725.143824-1-u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230512212725.143824-1-u.kleine-koenig@pengutronix.de>
-X-ClientProxiedBy: AS4P191CA0027.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:20b:5d9::10) To PH0PR13MB4842.namprd13.prod.outlook.com
- (2603:10b6:510:78::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F551D2D0;
+	Tue, 16 May 2023 07:40:01 +0000 (UTC)
+Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34G7aShZ005037;
+	Tue, 16 May 2023 07:39:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=oyXmAuPB2QwCsFmA09TyMaE9r5Wsa42TS9CvhNr4Xxo=;
+ b=jQyJnX2IE0Q9/uHuiK+tFFDM2ICZfdAS10yyEEvjakfFqK1quX2CS8p56sTYXWMVS9QP
+ hlMhqOQ+mI2WQwYJsEhn/wIKZL3WkKjRMXk6BZ5K5F/WPJmxqsampKPSkDiJmsAwxLPd
+ QY59SXf1QlQ2ey9cq+26TAma4O3D76d5TXhUj46eB6o4zAbnPGEbluM8Lr7Wt3ylPD0b
+ TxIDWKMJtEgDfyXMimQ6TXr011dMhE4PtQ4wOjElsEyFil+mkDcEqxqAJcWoxs0Fmgce
+ X8T8mgU2Vps3ESnTmGZo3FC5OP5dsorRnLIdraV+j9qiSgyKFAl3jwTnHpk6XFcyzama 7Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qm4y8hh1p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 May 2023 07:39:32 +0000
+Received: from m0353727.ppops.net (m0353727.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34G7amRA007488;
+	Tue, 16 May 2023 07:39:31 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qm4y8hgpq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 May 2023 07:39:31 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+	by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34G3qs8k006665;
+	Tue, 16 May 2023 07:39:23 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3qj264sfp5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 May 2023 07:39:23 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34G7dKNV41615626
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 16 May 2023 07:39:20 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3C0C320043;
+	Tue, 16 May 2023 07:39:20 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7498920040;
+	Tue, 16 May 2023 07:39:18 +0000 (GMT)
+Received: from [9.152.222.242] (unknown [9.152.222.242])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Tue, 16 May 2023 07:39:18 +0000 (GMT)
+Message-ID: <168d8026-207a-e7ee-21b3-4a02ed00f0ce@linux.ibm.com>
+Date: Tue, 16 May 2023 09:39:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|LV3PR13MB6477:EE_
-X-MS-Office365-Filtering-Correlation-Id: b2a29618-4d56-4c83-7683-08db55df98dd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	hr8jsJ3vUhfSc7EM0oCVyiwcJl/vmH3dyvN3VO59tE0fAkv1nVIG8++hhZzqWOAReyBptUhHxmL0fMw1/qZ55GluG/SZ3ZQnUYNPIIgIp7wtoYh9CVck51UrRxuUX9+1O6PZcbvpw/KJ95R7IdJ+otzdxBVBjBZYv/65/W6sYX4ruCLb6YphjlqQoiIrpzDjnt9PoUgq+l2zZAPKD2cXd/A+WTCY9CnrqCduNd/aERJNPPE1gYu4+tlFS1pfFlGeIjSREkdMZ8vPaYHAky6syO73RSiXrGexTGrQEIRFA2j4M1v3iSEBR4uOlzydk6o8noU3nkUIWVM0ErS+Hl0II5JbW7lp9wf/fqOp337Nx5pQFMUC1lsVixdA0sh24N5vyIP9mTPNhp4yF5VWmuHYnTgYTDMK9fJBcJQBuIa59S2ycevORa+y1Ik6bnX9m1UyidUtoJSAoipo7pUgZ7GPB9+E1kpGy3BZKkKqJurA6HVj/puAyzwhUfpcQCsv+jDbuGL+8fFx/HhxFoWjE8G6vfpg8/2QOkaSgTjFHEOifuE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(396003)(136003)(366004)(39840400004)(376002)(451199021)(54906003)(2616005)(186003)(478600001)(86362001)(6506007)(6512007)(38100700002)(6666004)(966005)(6486002)(36756003)(4326008)(316002)(6916009)(41300700001)(66476007)(5660300002)(66556008)(66946007)(2906002)(44832011)(7406005)(7416002)(8676002)(8936002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?K3NveXp3eEw1a0czUitxYVNqL1djZCtpSksraGpIUzlMOUNyUUgrSG5TZ1V1?=
- =?utf-8?B?Umx4WXowZldWWm9YT1VDR1Y2ZkhKSXJSanAvNU5YY0kveGVBYVJOSXJ6WEw2?=
- =?utf-8?B?aldzaGs1VDUwNVVCclY5M1RrejNxNkhOcGVRUHNQL2RCazhHQmJyRnd0RWpQ?=
- =?utf-8?B?c3FwTjBxNG02ekNEQ09lSklqWGNxeTFBOFRvVHVGNFhqeWNJVTVHKzd5eDVq?=
- =?utf-8?B?T1JVMDB0V0VZV1BXYzI1SVRqR25TaGlVWnZkaUloaXpFVE52QzVBSVAva2tW?=
- =?utf-8?B?TFBuSXhnYXp1Vzl4NU5sVXVueTFVSUlEOGtIRyt0VEdJZkFFK1JFMmFrKzZF?=
- =?utf-8?B?RHBJZDRCU3ZpZzNvT0JnYTV5K2NMSzJUUk9Rakt5K3ZSc252b1d4UTVqTHdy?=
- =?utf-8?B?QUMzR1YzRk5FWjZUWVRKZmVYb2JWbTZ5eUNQcE92Vnd2STBJL1NiV0tTRUh1?=
- =?utf-8?B?b3h3cVdEZ2FiWXVOVUc3OGNRT1M0czZ2WXUyR2JJMEVZY3pDb1hDQTRPUmZk?=
- =?utf-8?B?d2tFNUEvZ2kwTDd6bjlHKzRIT0lqR2llaTZxNnlEVkNIRzFBbktKVUlVN2VE?=
- =?utf-8?B?Si9YanhvYmF5T3pNZkZpMFhFV0FKZzA0YmhMWXpVOG1LSnJVcHlwUEt0SlVV?=
- =?utf-8?B?Yk9Lb2EyUVhvUy8vMlhNVGJzLzltU1FmSWxUYjZQaURDTHdTQ0JsanpaT1JU?=
- =?utf-8?B?dElSaDNPQURrYVc0eEJGc3JqdGtwVDlJZ2Z1cStzWlE1bmJLYUdXOEJTRTk5?=
- =?utf-8?B?QzN0dmh2NkhYL0o1bnB5ZVcxMmZqR0RNTDJGekZvbHZpZzAyQWZDRGIrUXho?=
- =?utf-8?B?K0taYlErNGRWVFFwZUdYOTgrV3hmZUNlZUZDMVQzek5GVVV6MDJXT1djWEYr?=
- =?utf-8?B?TVFIZzA4RVJVM3dGTGlDVXMva0dqV2FhQ3FFSTBtVmtta05hQzUxUUNrNzVw?=
- =?utf-8?B?MGZoTVZRSUxUeEVuYlBQTS9ISTJPUnBmTmwveG1JZWRxZCtxbFFTazlzeXIw?=
- =?utf-8?B?QXM1SGc5c1M1dVluNjFPMDY1eGtiWXorRm5GZ1RlMTlQOHhvUUh2WE9Wall2?=
- =?utf-8?B?dGRtbDVocGxuYWoxRjA5TmFkeXNWbTNnVjB4eGdFeWx6dHE1ZVRJRlJvbFNF?=
- =?utf-8?B?ODFKdDRyQ1d1bWRsN09SWkNGV2xjNmVmOUVybXRIblNwclVhYlI2WTFsbkJM?=
- =?utf-8?B?b3dOSXlhOFBnVVp4VDFpMklNMzVza3UyemppeUM3MnBmcG5lb215bkhBOTky?=
- =?utf-8?B?L09PcmFJRURuRmpraWNwVlJKT002cTllaVA0OUFjbUJkMkZmK1JwZTE5ckEz?=
- =?utf-8?B?aGN2TXhVaG0xWXhYMS9WTDlDeXNBUTVMVFBUbG9CUU52Y3RtdWNGOGxnMEl5?=
- =?utf-8?B?ZmJlVXNqQXhBR0RpYWQ0dGdNdzJMVjNaQmRIYkFrdzR4MUs3OC9sWlZvOWpJ?=
- =?utf-8?B?eE0rZDlMZElZMnE2b1poVnJvYkNNNkhmdkgxWmpmNFFsbXp4RWhxdGNydkxi?=
- =?utf-8?B?eDcwTGptQmtjTzVuN0hyVjRsU1QxcDJUeXkrZUtvY0g1bXlobzBNYW1MU29q?=
- =?utf-8?B?RXd2QmlBcEd3ZnJwazNlLy8ySmVteG5DNExXOENtZGE1NWMzZkhaTFZTVUNn?=
- =?utf-8?B?b3pnQy91MC9adk5VYXg4U0JQSUZIN2poSjVxTGZRV2V3ejBPN0xiN1JBcXl2?=
- =?utf-8?B?UlgzYzluZnBocTBaQVdTdmhoMFBaWlNVYWMxRFFGVWZOTzZGU3NXUHF2T0pS?=
- =?utf-8?B?Tll3M1l3dC9nNXA2VytuOXVwWWF2aFVmNkhOcHJFL0hYNEpxZmEreHVkRXh1?=
- =?utf-8?B?T2Y3Y1duWWtaKzRMam16WUp1UWxlWFd5enZIVERpWndBWEp0blV6NG5WM1or?=
- =?utf-8?B?dUdhMGMxR285dVBaN3FMeGRBU0huTklmVjRSK3cydlNTODlJOFFtRnU1U04w?=
- =?utf-8?B?alhmcW9IbjF6bmlISFpMSWVHTEpJR2tnaXR5L3VlTkU5V0dvdW5ESFlCaE5V?=
- =?utf-8?B?S2gxTlZ2MDlkNDNub1F2c3ZkSmN5bjBsZkhWNFB2ZHNwSUZYWnNyTGVsa0Jw?=
- =?utf-8?B?bTQ0bDBGT0ZPUWF5ZUpzeTQ0MnZ2UTdxVHNmeWNFOGdJL3Q1K3VaUHJveGlk?=
- =?utf-8?B?V3pmRmZ6RDJIeVpoWk5aeFBRbHhuMWlaWExDQWJubVBMY1RiWVp6cytYU3d5?=
- =?utf-8?B?TjFRcFdkaE1uT0hudVI2NFAwZ1ZXdVJwM2J1RGhjTEJoN0lzUTQzaks3UTdi?=
- =?utf-8?B?a3pZdkNQaW8yVnFmb1dGRkNmS2RRPT0=?=
-X-OriginatorOrg: corigine.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2a29618-4d56-4c83-7683-08db55df98dd
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2023 07:31:43.6547
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: C+TVER6EjSTuJO+7zCGXyHvrjKa003vlqPLQ4SAPL0RTY+7fSaVAMUqQVAZ5hIJpk075hZbLSoDdsCsTtxDKXiKO9SNaBspTLT/RLjBGJe4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR13MB6477
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v9 1/6] s390/ism: Set DMA coherent mask
+Content-Language: en-US
+To: Niklas Schnelle <schnelle@linux.ibm.com>, Joerg Roedel <joro@8bytes.org>,
+        Matthew Rosato <mjrosato@linux.ibm.com>, Will Deacon <will@kernel.org>,
+        Wenjia Zhang <wenjia@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Gerd Bayer <gbayer@linux.ibm.com>, Julian Ruess <julianr@linux.ibm.com>,
+        Alexandra Winter <wintera@linux.ibm.com>,
+        Heiko Carstens
+ <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang
+ <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Krishna Reddy
+ <vdumpa@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, asahi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20230310-dma_iommu-v9-0-65bb8edd2beb@linux.ibm.com>
+ <20230310-dma_iommu-v9-1-65bb8edd2beb@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <20230310-dma_iommu-v9-1-65bb8edd2beb@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: J4ionigi6aUPze2O9mlNApMYAufA_hrk
+X-Proofpoint-GUID: i4d6Dd2ZX11emMnTTTHfoZmJwBDtd8nN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-16_02,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
+ clxscore=1011 spamscore=0 priorityscore=1501 malwarescore=0 adultscore=0
+ mlxscore=0 impostorscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2305160065
 
-On Fri, May 12, 2023 at 11:27:06PM +0200, Uwe Kleine-König wrote:
-> Hello,
-> 
-> this series convers the drivers below drivers/net/can to the
-> .remove_new() callback of struct platform_driver(). The motivation is to
-> make the remove callback less prone for errors and wrong assumptions.
-> See commit 5c5a7680e67b ("platform: Provide a remove callback that
-> returns no value") for a more detailed rationale.
-> 
-> All drivers already returned zero unconditionally in their
-> .remove() callback, so converting them to .remove_new() is trivial.
 
-Hi Uwe,
+On 5/15/23 11:15, Niklas Schnelle wrote:
+> A future change will convert the DMA API implementation from the
+> architecture specific arch/s390/pci/pci_dma.c to using the common code
+> drivers/iommu/dma-iommu.c which the utilizes the same IOMMU hardware
+> through the s390-iommu driver. Unlike the s390 specific DMA API this
+> requires devices to correctly call set the coherent mask to be allowed
 
-I like these changes and they all look good to me.
-However, I have a question, perhaps more directed at the netdev
-maintainers than yourself.
 
-In principle patch-sets for netdev should not include more than 15 patches.
-It's unclear to me if, on the basis of that, this patchset should
-be split up. Or if, f.e. given the simple nature of the patches,
-an exception applies in this case. Or something else.
+s/call//
 
-I have no fixed opinion on this.
-But I feel that the question should be asked.
 
-Link: https://kernel.org/doc/html/v6.1/process/maintainer-netdev.html
+> to use IOVAs >2^32 in dma_alloc_coherent(). This was however not done
+> for ISM devices. ISM requires such addresses since currently the DMA
+> aperture for PCI devices starts at 2^32 and all calls to
+> dma_alloc_coherent() would thus fail.
+>
+> Reviewed-by: Alexandra Winter <wintera@linux.ibm.com>
+> Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> ---
+>   drivers/s390/net/ism_drv.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/s390/net/ism_drv.c b/drivers/s390/net/ism_drv.c
+> index 8acb9eba691b..1399b5dc646c 100644
+> --- a/drivers/s390/net/ism_drv.c
+> +++ b/drivers/s390/net/ism_drv.c
+> @@ -660,7 +660,7 @@ static int ism_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>   	if (ret)
+>   		goto err_disable;
+>   
+> -	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(64));
+> +	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+>   	if (ret)
+>   		goto err_resource;
+>   
+>
+Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
 
-...
