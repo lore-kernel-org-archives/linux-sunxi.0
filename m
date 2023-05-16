@@ -1,84 +1,121 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373A4881E
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 May 2023 16:35:16 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-51090206721so985029a12.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 16 May 2023 09:35:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770A3881E
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 May 2023 16:35:27 +0000 (UTC)
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-ba7831dfe95so6460079276.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 16 May 2023 09:35:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684254914; x=1686846914;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GsGWeD4bI6dpV1BC9oCizIGh+Gcd6Inx+UCID/pRmsk=;
-        b=dfiVEmtSSIKaB7rJeBv884PukYvSUTfyMMwWoIIKdMOM0iAPfLRtOtJa/4kQ5+YFFA
-         6YPkUed/OWY60aJ0TG6pd4aRB9FInSovR0caYysrSi5Q1vo6CIExqKgRsIe1fVMbXY2r
-         baUi/6pWfmh4tkNtaUHdOiuGf8FQcATt+o94oQASoE2UWCTEbw8ieIKs0HrmoqqVK3bc
-         rkckI0YgAh0euncxLqxucB8nyrb1AiyxCRJXSRA/C3R5z4Nu+zl23NUFbBm4jp7dhw5R
-         h1ZHbtFJWV7Z/YBhTzla4bsuuQzko4ww4rUzsjxZsL1J1gg8SvJ6RhHKYp+9LF8tbzKA
-         dp+g==
+        d=google.com; s=20221208; t=1684254926; x=1686846926;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=gUa88uA2hYweTlW6jtqdlmsRUFKb/Wg9un/qBrBPn3s=;
+        b=NXO92GvoVezp5vtSlpbo3cxcYFK9xb9EKBtf5Y0Xdx036oq9OVoj4C4mchO9a4549/
+         dfh96bKSsCuFkVrkoHTxWoPz/6ncy/7qy3qbthH/+SE08AntvNH4DemfIX5qgEPbQTaQ
+         wXjmyMKZWIAOSX8NPN3wKJapyYs82k3ZrgHqeo5fVkmGlIXAc3mjA6QPj1Ej5mgCdaIC
+         KO5Ubiojt0f371JV9nHDNoz6YXlxe4NCD333KTNkZ+6uK8iTtwvbBls38uR2YgPxV1gD
+         YRbC5XvpSn1P3u4GAbE1HYBtfftsfVgDoTdtjhmTgBy0boXZEFV9yK5az9LFAz/IkgnR
+         SNVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684254914; x=1686846914;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GsGWeD4bI6dpV1BC9oCizIGh+Gcd6Inx+UCID/pRmsk=;
-        b=Dhq5gZfH+njaTemnDwwja2aQIx/RKGsfSkAyxaM6FK4vddv936lRL4MBh32J0uTXgi
-         CnytLuyeF1TJ/x9SRaqI64H0ro7Lg2nyoNpHyB2vBc0mZnEqGRhVlQI/PG9VPlP244NT
-         /gqpjFMe2WSiwzsRvhkFYonxkmKP+shVxux7sjhn9p8ach6Ju1hyHNqQso6tpHIsDrt8
-         J4sQJALBvyKXTB5zdghkB+alEA0aU/X9I3a3F0O/ogzhUN8QdLVNH6PnonefmIfQFt8g
-         9yZKR1ppIjJ7+JQ9Yqrkjq00/jqFSgMLFVutMtyBSgmJsWUqV1hSwx9i/X74bIJwtrCj
-         ahkg==
-X-Gm-Message-State: AC+VfDz09Z6SetcPFuRPh87yiiGbhkm6Ewl9oNNFWyXlpUdI5p0MLamL
-	Hz5wwcuBTQN938Zjxkfukqm7sQ==
-X-Google-Smtp-Source: ACHHUZ7Efc971yqkR23m0IOPewDkI6jDvdPI/r84BYakaawfR2EO4wENe/0gUyH8nOi54NY6Q63aog==
-X-Received: by 2002:a50:eb03:0:b0:510:8f8d:967e with SMTP id y3-20020a50eb03000000b005108f8d967emr1241142edp.5.1684254914398;
-        Tue, 16 May 2023 09:35:14 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:77d1:16a1:abe1:84fc? ([2a02:810d:15c0:828:77d1:16a1:abe1:84fc])
-        by smtp.gmail.com with ESMTPSA id j10-20020aa7ca4a000000b005066cadcc54sm8203680edt.43.2023.05.16.09.35.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 May 2023 09:35:14 -0700 (PDT)
-Message-ID: <d1cd8378-132a-189f-5654-efa4de56a576@linaro.org>
-Date: Tue, 16 May 2023 18:35:12 +0200
+        d=1e100.net; s=20221208; t=1684254926; x=1686846926;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gUa88uA2hYweTlW6jtqdlmsRUFKb/Wg9un/qBrBPn3s=;
+        b=GfgCjvV0lTFzNh5TTeQDucizyEty2opWB4yGyXJdSTWCulDPo7q4zMu9OOSIx641x6
+         Do7CjUfBBN6awIWn14JF0KV2ijSnf15ZAyN3B/UNv3vy+odL8Ph2J1PvkfxBaPAURwcG
+         oPxgGnu2vsq2TF6EKfVPOayhbSfDiWtZSKTZVndAnwHhFfxqnVqnDUdhvcdRXMBIs9bV
+         tIbR4XksYnjbw/g1rMM6P6ZIH2mn2KXl2mpny/AmCS3zJNxcUI+Y1dJLwOtL9zUG4mqZ
+         J69QDJ8wIoEIhuawdD0NS1iYMJIaW3LiZe1NFSuot5CHZL6TLBLCTHghGRrIEGUNZctV
+         ZTLA==
+X-Gm-Message-State: AC+VfDweOghBUxk5A2S2QqSVEfKFgMX1+Jzr0++/RzZRWw61WG/SiDp8
+	ahXx2iTVBQlapS0cPc9JzvhtY4fSoUoQEtS+Z4I=
+X-Google-Smtp-Source: ACHHUZ4CU7PQkUwbdsSPEM4ZOjm46cfnUm9Z8my3bsmEl3HnEwbIYc7Zk2G2KuokdSSKVRDbLacBJeuPuXPl7+4/UuA=
+X-Received: from ndesaulniers-desktop.svl.corp.google.com ([2620:15c:2d1:203:565c:9ff:179b:e041])
+ (user=ndesaulniers job=sendgmr) by 2002:a05:6902:12cd:b0:ba7:8099:c5f2 with
+ SMTP id j13-20020a05690212cd00b00ba78099c5f2mr4644791ybu.8.1684254926394;
+ Tue, 16 May 2023 09:35:26 -0700 (PDT)
+Date: Tue, 16 May 2023 09:35:24 -0700
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] arm64: dts: allwinner: a64: add missing cache properties
-Content-Language: en-US
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20230421223137.115015-1-krzysztof.kozlowski@linaro.org>
- <2676764.mvXUDI8C0e@jernej-laptop>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <2676764.mvXUDI8C0e@jernej-laptop>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAMuwY2QC/x2NQQqEMAwAvyI5W9DIiutXxEPaZjUHu5KoCOLft
+ +5xmIG5wFiFDfriAuVDTL4pQ10WEGZKEzuJmQErbKpX3Trb0ynOh3eMhBGxY8itJ2PnlVKYn3o h21gfsSp/5PwPhvG+f2QFVVJwAAAA
+X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=UIrHvErwpgNbhCkRZAYSX0CFd/XFEwqX3D0xqtqjNug=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1684254924; l=2325;
+ i=ndesaulniers@google.com; s=20220923; h=from:subject:message-id;
+ bh=HeYXtdc42ggv/HgpsdPBYElqbpwOzwZ45ptetH+ABw0=; b=dEE8zaTLMnBBX42jOmlfnND2ZU1AR4CCqhuNxz2ufaig7+XrDtdNK0l17FQtfw9u6G4m1VSxgPrA
+ D9l8d6VZBlnJ7f3LH9JoW0nBMghvvH+dc8FA6D3nXOg4RY1GUV3Y
+X-Mailer: b4 0.12.2
+Message-ID: <20230516-sunxi-v1-1-ac4b9651a8c1@google.com>
+Subject: [PATCH] ARM: sunxi: fix return code check of of_property_match_string
+From: ndesaulniers@google.com
+To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>
+Cc: Russell King <linux@armlinux.org.uk>, Arnd Bergmann <arnd@arndb.de>, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-On 24/04/2023 21:59, Jernej Škrabec wrote:
-> Dne sobota, 22. april 2023 ob 00:31:37 CEST je Krzysztof Kozlowski napisal(a):
->> As all level 2 and level 3 caches are unified, add required
->> cache-unified property to fix warnings like:
->>
->>   sun50i-a64-pine64-lts.dtb: l2-cache: 'cache-unified' is a required
->> property
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>
->> ---
-> 
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+of_property_match_string returns an int; either an index from 0 or
+greater if successful or negative on failure.
 
-So this ack means I should grab it? Ok
+Fixes the following splat observed with UBSAN:
+[    0.166489][    T1] UBSAN: array-index-out-of-bounds in arch/arm/mach-sunxi/mc_smp.c:810:29
+[    0.166934][    T1] index 2 is out of range for type 'sunxi_mc_smp_data [2]'
+[    0.167206][    T1] CPU: 0 PID: 1 Comm: swapper/0 Tainted: G        W          6.4.0-rc2 #1
+[    0.167515][    T1] Hardware name: Generic DT based system
+[    0.167727][    T1]  unwind_backtrace from show_stack+0x18/0x1c
+[    0.167979][    T1]  show_stack from dump_stack_lvl+0x68/0x90
+[    0.168226][    T1]  dump_stack_lvl from ubsan_epilogue+0x8/0x34
+[    0.168474][    T1]  ubsan_epilogue from __ubsan_handle_out_of_bounds+0x78/0x80
+[    0.168760][    T1]  __ubsan_handle_out_of_bounds from sunxi_mc_smp_init+0xe8/0x574
+[    0.169100][    T1]  sunxi_mc_smp_init from do_one_initcall+0x178/0x9c8
+[    0.169364][    T1]  do_one_initcall from kernel_init_freeable+0x1dc/0x28c
+[    0.169661][    T1]  kernel_init_freeable from kernel_init+0x20/0x164
+[    0.169912][    T1]  kernel_init from ret_from_fork+0x14/0x2c
+
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+ arch/arm/mach-sunxi/mc_smp.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/mach-sunxi/mc_smp.c b/arch/arm/mach-sunxi/mc_smp.c
+index cb63921232a6..c7635e9e36ef 100644
+--- a/arch/arm/mach-sunxi/mc_smp.c
++++ b/arch/arm/mach-sunxi/mc_smp.c
+@@ -782,7 +782,7 @@ static int __init sunxi_mc_smp_init(void)
+ 	struct device_node *node;
+ 	struct resource res;
+ 	void __iomem *addr;
+-	int i, ret;
++	int i, ret = -1;
+ 
+ 	/*
+ 	 * Don't bother checking the "cpus" node, as an enable-method
+@@ -803,10 +803,13 @@ static int __init sunxi_mc_smp_init(void)
+ 	for (i = 0; i < ARRAY_SIZE(sunxi_mc_smp_data); i++) {
+ 		ret = of_property_match_string(node, "enable-method",
+ 					       sunxi_mc_smp_data[i].enable_method);
+-		if (!ret)
++		if (ret >= 0)
+ 			break;
+ 	}
+ 
++	if (ret < 0)
++		return -ENODEV;
++
+ 	is_a83t = sunxi_mc_smp_data[i].is_a83t;
+ 
+ 	of_node_put(node);
+
+---
+base-commit: f1fcbaa18b28dec10281551dfe6ed3a3ed80e3d6
+change-id: 20230516-sunxi-bc9dda2d228e
 
 Best regards,
-Krzysztof
+-- 
+Nick Desaulniers <ndesaulniers@google.com>
 
