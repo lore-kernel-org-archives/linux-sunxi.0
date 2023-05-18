@@ -1,67 +1,63 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EACF1EA92
-	for <linux-sunxi@lists.linux.dev>; Thu, 18 May 2023 21:12:46 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-96b0235c10bso463293766b.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 18 May 2023 14:12:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00210134B3
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 May 2023 21:21:13 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-9659e9bbff5so461836366b.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 18 May 2023 14:21:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684444364; x=1687036364;
+        d=gmail.com; s=20221208; t=1684444872; x=1687036872;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fwCXb3fk3q19qGCTHKa24w6U9eKfPUvrvysf9WTJ4BU=;
-        b=iwkF6VPKMkga/+WEV8fG/yVkrzrrI+VNiyuUAHg1JGOWKez9AL4FsMdsQv8W+qefES
-         Q3Lc7NLEEb9zpijcwsgsRo/F5rEqvbxjBfpNE9/8v5Ub8+bPQsMl5YfdndaAB69MdPsN
-         nbiJ/OCwM4A71ViOzrySkJd0xMMzrQKX8Bugq663eNqGxSObuX+0qm2AhUSbBBilXQ9W
-         /dKc4iRsjZW8830rZQiK2uRqXc7035OoPNWDu1K5pLpausyharqRV3F928xQuLqeY/6i
-         vXWZtQb5oASWlZX35my5AMele3zyXIenZOCCAnF2s7pfT6OLs4u0k3eqOD3Pv9uWnKjY
-         t9eg==
+        bh=4iUdnG3B6bDinPXQQdTMNWQPFcDR+hVyW1eiXtt7wfo=;
+        b=HXMqCulr0NH7kvtItyAe8SCEfLu/LEkiLlkw8VCp6mzMsfa2MrjqIuOGAF9rQrlGSv
+         QYNp05dZJHNXaN1ywFXwpSjmMOJejbtyYGsdKaDVWa9NtZTDkBkTwUZJLFR9V/OJu4oi
+         Fpzr7zeKT+BI8868Tpd98EeeQaQLDfsRFKTFHFScEKcntw8pbAPIefuwM3NMcV9yHbID
+         32+FUUf+QcYH8KU/txsbJxxLV4AtPbLjdnLS28+PyILufsYxCY+cuQocSN/hj4XxS6dP
+         2gdqkEf8IU1SlCefQIoSltLQi3CeTgo5G31jeSR3FnKWLnV00vEOCCyEI7qEM4qzs3ES
+         5YJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684444364; x=1687036364;
+        d=1e100.net; s=20221208; t=1684444872; x=1687036872;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fwCXb3fk3q19qGCTHKa24w6U9eKfPUvrvysf9WTJ4BU=;
-        b=foz5H/7TuDLG6D9DShuFK5NEc4ACoV7dfH9wLz1RbErpCZUDnHIKVNDJIW9nFRofCU
-         wcNkNocKKhBlRhDEsBrKrck1CgRpUGRWRUflVD+/2rm8t33MaOuPHqrxmcWAUwwniY9b
-         fLiK0JQGgT730VpODDD1+2JkN4x2s+JZJk3ZAe2bAzGVJ8h1s3a8Kws/5vM6jivKU7o7
-         DZ0GJdWbnwPdocnPKdxIRkjNNwE+qHGYnDtp7e05t2rQW6hWYEiUqm+gDweuw8Fhk9eN
-         vDRo7oj7KJXfcncz/Ov1eZv79o+nLh8LcRMd6mZC8ZkT0iFcPNSShmh6SQ0NB/YV0zjz
-         FEVg==
-X-Gm-Message-State: AC+VfDxFdVlqyL83SkxlwbGbKcWgYcWfOHnEP4XTXJPSAa4CuLt99dqw
-	xOzIU/KGiHTgV1CN8a3GjH4=
-X-Google-Smtp-Source: ACHHUZ53JeCer2PKB+m25oEFcv9u0KNWbXEekVWG+UOqzYDpisBpzOo5K/OJG+slZjH748oVe/36bg==
-X-Received: by 2002:a05:6402:396:b0:50c:cde7:285b with SMTP id o22-20020a056402039600b0050ccde7285bmr6192872edv.29.1684444364501;
-        Thu, 18 May 2023 14:12:44 -0700 (PDT)
+        bh=4iUdnG3B6bDinPXQQdTMNWQPFcDR+hVyW1eiXtt7wfo=;
+        b=ebGYT8OtL+crCoYaExogEWnrjkgQcpwmwWNvoIZj64vQgXDyNAIU3dR+LvkgJLelUC
+         P/MozbMryZLut62kLhbXEhtcq0x13AoZcAqWGtLxDSDcF4QI+2YIS117lc3ayWIKjkUi
+         ehamZLQbZ6sbdXrQh+dWoMKe7qgmMLtHo0cQK8DhA9lpnCd7th6td4lrXha7Y9Rk3EfZ
+         gnKxt4dWd30EDjyZjwn43Dx7hdQxoNPkSxEUD9E732zJDm7nKudLoPpGO3kjFe0pmvHY
+         qkojzjweUrpfkNFYySkpWRAYjuPNzLdVr3SzW6yEKbf4qZZQF5L6CuAXogMITyGBLzeH
+         ifCw==
+X-Gm-Message-State: AC+VfDzjhrdWcl9XUowVJ9VZuMX77IcYW9H5/tmA1CEYJb43JugkxVeC
+	0YkC+kWMsxjqdCtJbbN1VbU=
+X-Google-Smtp-Source: ACHHUZ4DVEeLBoJ3ljcDD6txqqTPOrPhKaAMy3wbbDw7gBrvZEJBms7KoupvsqOZZ2BRvfmUhObApw==
+X-Received: by 2002:a17:907:97cf:b0:967:142b:ff07 with SMTP id js15-20020a17090797cf00b00967142bff07mr475021ejc.21.1684444871844;
+        Thu, 18 May 2023 14:21:11 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id dy1-20020a05640231e100b0050bc4600d38sm962189edb.79.2023.05.18.14.12.43
+        by smtp.gmail.com with ESMTPSA id w25-20020a170906b19900b0095707b7dd04sm1420365ejy.42.2023.05.18.14.21.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 May 2023 14:12:44 -0700 (PDT)
+        Thu, 18 May 2023 14:21:11 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Andre Przywara <andre.przywara@arm.com>,
- Maksim Kiselev <bigunclemax@gmail.com>
-Cc: Icenowy Zheng <icenowy@aosc.io>, Maksim Kiselev <bigunclemax@gmail.com>,
- Conor Dooley <conor.dooley@microchip.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
+To: Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Maxime Ripard <mripard@kernel.org>, linux-spi@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Conor Dooley <conor+dt@kernel.org>,
+ andy.shevchenko@gmail.com, Jonathan McDowell <noodles@earth.li>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org
+ linux-gpio@vger.kernel.org
 Subject:
- Re: [PATCH v5 5/5] riscv: dts: allwinner: d1: Add SPI controllers node
-Date: Thu, 18 May 2023 23:12:42 +0200
-Message-ID: <13265211.uLZWGnKmhe@jernej-laptop>
-In-Reply-To: <20230510081121.3463710-6-bigunclemax@gmail.com>
+ Re: [PATCH v3 2/5] pinctrl: axp209: Add support for GPIO3 on the AXP209
+Date: Thu, 18 May 2023 23:21:08 +0200
+Message-ID: <2224092.iZASKD2KPV@jernej-laptop>
+In-Reply-To:
+ <dde40307f0ebc23b9841c32e702b481ab5193dc4.1684258957.git.noodles@earth.li>
 References:
- <20230510081121.3463710-1-bigunclemax@gmail.com>
- <20230510081121.3463710-6-bigunclemax@gmail.com>
+ <cover.1683719613.git.noodles@earth.li>
+ <cover.1684258957.git.noodles@earth.li>
+ <dde40307f0ebc23b9841c32e702b481ab5193dc4.1684258957.git.noodles@earth.li>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -71,22 +67,112 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne sreda, 10. maj 2023 ob 10:11:12 CEST je Maksim Kiselev napisal(a):
-> Some boards form the MangoPi family (MQ\MQ-Dual\MQ-R) may have
-> an optional SPI flash that connects to the SPI0 controller.
+Dne torek, 16. maj 2023 ob 19:47:29 CEST je Jonathan McDowell napisal(a):
+> The AXP209 device has a 4th GPIO which has a slightly different register
+> setup, where the control + status bits are held in a single register
+> rather than sharing AXP20X_GPIO20_SS with GPIOs 0-2.
 > 
-> This controller is the same for R329/D1/R528/T113s SoCs and
-> should be supported by the sun50i-r329-spi driver.
-> 
-> So let's add its DT nodes.
-> 
-> Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> Signed-off-by: Jonathan McDowell <noodles@earth.li>
 
-Applied, thanks!
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
+
+> ---
+>  drivers/pinctrl/pinctrl-axp209.c | 42 ++++++++++++++++++++++++++++++++
+>  1 file changed, 42 insertions(+)
+> 
+> diff --git a/drivers/pinctrl/pinctrl-axp209.c b/drivers/pinctrl/pinctrl-axp209.c
+> index 0bc1b381a2b8..b3ba25435c34 100644
+> --- a/drivers/pinctrl/pinctrl-axp209.c
+> +++ b/drivers/pinctrl/pinctrl-axp209.c
+> @@ -30,6 +30,11 @@
+>  #define AXP20X_GPIO_FUNCTION_OUT_HIGH	1
+>  #define AXP20X_GPIO_FUNCTION_INPUT	2
+>  
+> +#define AXP20X_GPIO3_FUNCTIONS		GENMASK(2, 1)
+> +#define AXP20X_GPIO3_FUNCTION_OUT_LOW	0
+> +#define AXP20X_GPIO3_FUNCTION_OUT_HIGH	2
+> +#define AXP20X_GPIO3_FUNCTION_INPUT	4
+> +
+>  #define AXP20X_FUNC_GPIO_OUT		0
+>  #define AXP20X_FUNC_GPIO_IN		1
+>  #define AXP20X_FUNC_LDO			2
+> @@ -73,6 +78,7 @@ static const struct pinctrl_pin_desc axp209_pins[] = {
+>  	PINCTRL_PIN(0, "GPIO0"),
+>  	PINCTRL_PIN(1, "GPIO1"),
+>  	PINCTRL_PIN(2, "GPIO2"),
+> +	PINCTRL_PIN(3, "GPIO3"),
+>  };
+>  
+>  static const struct pinctrl_pin_desc axp22x_pins[] = {
+> @@ -130,6 +136,14 @@ static int axp20x_gpio_get(struct gpio_chip *chip, unsigned int offset)
+>  	unsigned int val;
+>  	int ret;
+>  
+> +	/* AXP209 has GPIO3 status sharing the settings register */
+> +	if (offset == 3) {
+> +		ret = regmap_read(pctl->regmap, AXP20X_GPIO3_CTRL, &val);
+> +		if (ret)
+> +			return ret;
+> +		return !!(val & BIT(0));
+> +	}
+> +
+>  	ret = regmap_read(pctl->regmap, AXP20X_GPIO20_SS, &val);
+>  	if (ret)
+>  		return ret;
+> @@ -144,6 +158,17 @@ static int axp20x_gpio_get_direction(struct gpio_chip *chip,
+>  	unsigned int val;
+>  	int reg, ret;
+>  
+> +	/* AXP209 GPIO3 settings have a different layout */
+> +	if (offset == 3) {
+> +		ret = regmap_read(pctl->regmap, AXP20X_GPIO3_CTRL, &val);
+> +		if (ret)
+> +			return ret;
+> +		if (val & AXP20X_GPIO3_FUNCTION_INPUT)
+> +			return GPIO_LINE_DIRECTION_IN;
+> +
+> +		return GPIO_LINE_DIRECTION_OUT;
+> +	}
+> +
+>  	reg = axp20x_gpio_get_reg(offset);
+>  	if (reg < 0)
+>  		return reg;
+> @@ -184,6 +209,15 @@ static void axp20x_gpio_set(struct gpio_chip *chip, unsigned int offset,
+>  	struct axp20x_pctl *pctl = gpiochip_get_data(chip);
+>  	int reg;
+>  
+> +	/* AXP209 has GPIO3 status sharing the settings register */
+> +	if (offset == 3) {
+> +		regmap_update_bits(pctl->regmap, AXP20X_GPIO3_CTRL,
+> +				   AXP20X_GPIO3_FUNCTIONS,
+> +				   value ? AXP20X_GPIO3_FUNCTION_OUT_HIGH :
+> +				   AXP20X_GPIO3_FUNCTION_OUT_LOW);
+> +		return;
+> +	}
+> +
+>  	reg = axp20x_gpio_get_reg(offset);
+>  	if (reg < 0)
+>  		return;
+> @@ -200,6 +234,14 @@ static int axp20x_pmx_set(struct pinctrl_dev *pctldev, unsigned int offset,
+>  	struct axp20x_pctl *pctl = pinctrl_dev_get_drvdata(pctldev);
+>  	int reg;
+>  
+> +	/* AXP209 GPIO3 settings have a different layout */
+> +	if (offset == 3) {
+> +		return regmap_update_bits(pctl->regmap, AXP20X_GPIO3_CTRL,
+> +				   AXP20X_GPIO3_FUNCTIONS,
+> +				   config == AXP20X_MUX_GPIO_OUT ? AXP20X_GPIO3_FUNCTION_OUT_LOW :
+> +				   AXP20X_GPIO3_FUNCTION_INPUT);
+> +	}
+> +
+>  	reg = axp20x_gpio_get_reg(offset);
+>  	if (reg < 0)
+>  		return reg;
+> 
+
+
 
 
