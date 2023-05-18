@@ -1,62 +1,55 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261126FB8
-	for <linux-sunxi@lists.linux.dev>; Thu, 18 May 2023 21:09:17 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-96649b412easo401020366b.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 18 May 2023 14:09:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6916FB8
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 May 2023 21:10:57 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-510b56724caso228599a12.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 18 May 2023 14:10:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684444155; x=1687036155;
+        d=gmail.com; s=20221208; t=1684444255; x=1687036255;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rnh3tyDUDMlsulIV/kPw728cW2/MDK+ktFBwUG82RqY=;
-        b=TGR7argf0z8ZhgJu/21nGdGThgR8Or+D63dA/zj8mS+KOyyn7MsXbnBiMvZb49P/T1
-         wm+CJVG6i34RnLFbsCF/9bRb28Rm7vAKvuCsp655+5SEk/vnYKFGa89Bc7u+sYDrcIA4
-         NIaTtdCYE9dLtXDiXfSBAMjzyAT4uABaxrQmoVhtu5Y/5tD7vb3miktce4n77e3e8kS+
-         M3j85AcXJiz4DpL3xl1CQRIPo7SS6EXobIWFgnl/K+u5yAp5/FOmgAEnv9nREzflNKH/
-         dfZggDiU22pFucHgdBrBg0PVzKOebkuzNRGHMI3UKr0KLVjShk7WZ4jlN483uwy+KRw4
-         V+HA==
+        bh=GI4smLlSJQa1VUvNaW8lamLC6dslVSxDe/wJI7MniGI=;
+        b=hItu/BGU0+PVAlYm6Nh0rvKnuIveJYvyGEWRQPr/b+IEZ7iGXUmd9aQ8W3FdDfGtQS
+         rxxqgy+leUxEePBq4hRv8BBi0qwDkWlso61yVgclPuPFdEiRH0om8VivCurHbvla2KTf
+         60wIUBu2UBHHOuAMZ7jW2vv6VuopgHCahmO/6tjyfxklEteVhDfAkb8PpvQ2FfqqDzhA
+         TC4qnVOsgwlroXwo7Z4ZgcQHYJnuwXgGI8vb8I/RchoWnUzcrDur6H83h//qg8WqV1HM
+         vDm+bClF98Er2njckzbBlfLDPhY6oHEaLXGKUyYydc8qJxMuf1owB5Ygq6ofSfIsHR/1
+         kFfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684444155; x=1687036155;
+        d=1e100.net; s=20221208; t=1684444255; x=1687036255;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rnh3tyDUDMlsulIV/kPw728cW2/MDK+ktFBwUG82RqY=;
-        b=DmhMvKHsjXSDwlxVZM5pQTKy8/CRzjYVzs3SbRBXQvPTXQ7qyIo1DLJuW1bUloA2md
-         jyOiH0OdKWZmBbHM2kfB3IkgJYSKypjZztF1ZdHj0R8bg0AL1GzhNxVRUmbn3ARuprHF
-         fNPjrKhgYSpWVZKt7cVodWRShA2S0ijUdlglIPWYFijYe/ihFXDVVEwbvNQFZuLr7iA5
-         FlD0QYnuaG0OF8OSVEKIXNeDTbwiB3Ga7BioPAI0kJNQt3XHsJmMv9njvs8QyBwmVGxt
-         z9EBS6kPt1+yiKfTR93YZ8dpXUdHfi2rPE9PkWhp8Ioa6uRmhkF6lvRgJnFW3B7wcUuN
-         2G7A==
-X-Gm-Message-State: AC+VfDxEuWazmnJIsos4eQ3bQauPVFLkhQqOif8MsrEjix/4+3byoqW9
-	yCp4uw50m64FBFEn0l3fzDk=
-X-Google-Smtp-Source: ACHHUZ4xYGeWgw813K5HPP+JDjaf07MOHp6X1MaKB4myGbAL1dXQo69yO/4QoJnkEsY0D9X3ii5Y1w==
-X-Received: by 2002:a17:907:3f0d:b0:966:2984:3da0 with SMTP id hq13-20020a1709073f0d00b0096629843da0mr475421ejc.63.1684444155082;
-        Thu, 18 May 2023 14:09:15 -0700 (PDT)
+        bh=GI4smLlSJQa1VUvNaW8lamLC6dslVSxDe/wJI7MniGI=;
+        b=InHf5grFti6fIgf1GQAalWxhYGN797pAN7rPWkImsQ6liLRiT8f0x9TWjOBY4NzB8U
+         1KU+cCpG8IzK161rLQ+1MhEYlheu3eBhqAYddB5np2MmBv3bd3Ba3EwR7DZAaXHYiwEY
+         Pt3Cx2+7x0ruauzhIGBfHi98wTyNFZkWq6MwftK+nuinsI7FXwiEEuf9MdrkWExd7BFm
+         JtpwiSXwyk8/uRGNOMVAt5sdby7kCDEHU5LLsvbxF8XgO/k4Q3g6nvCeFjskwDLilZYH
+         ozUURm5TG5NitX7X7jZP8dxIFYj5ddZSVG9fA58DtJVO4eGYyiCXRUx+vstmCV2H+pYq
+         Vl2g==
+X-Gm-Message-State: AC+VfDzN0kSHUMbthopdI8gnM1vN8ZCkXunAE3D+zSpNjz+t3N7b2N5W
+	sfElVMnAy+zVn6iTNx/jlhQ=
+X-Google-Smtp-Source: ACHHUZ6DRTl8lUvOL7gbwUgr1bTmPBUj3TbeE9SqccluLW00wGjdEREweB6x3b1roF7SFmjuLSEFVQ==
+X-Received: by 2002:a05:6402:274e:b0:510:e8dc:f2a7 with SMTP id z14-20020a056402274e00b00510e8dcf2a7mr3498982edd.7.1684444255247;
+        Thu, 18 May 2023 14:10:55 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id b20-20020a056402139400b00508804f3b1dsm950498edv.57.2023.05.18.14.09.13
+        by smtp.gmail.com with ESMTPSA id dy1-20020a05640231e100b0050bc4600d38sm960823edb.79.2023.05.18.14.10.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 May 2023 14:09:14 -0700 (PDT)
+        Thu, 18 May 2023 14:10:54 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Roman Beranek <me@crly.cz>
-Cc: Frank Oltmanns <frank@oltmanns.dev>, Icenowy Zheng <icenowy@aosc.io>,
- Ondrej Jirman <megi@xff.cz>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] ARM: dts: sunxi: rename tcon's clock output
-Date: Thu, 18 May 2023 23:09:13 +0200
-Message-ID: <2281226.ElGaqSPkdT@jernej-laptop>
-In-Reply-To: <20230505052110.67514-3-me@crly.cz>
-References:
- <20230505052110.67514-1-me@crly.cz> <20230505052110.67514-3-me@crly.cz>
+To: samuel@sholland.org, wens@csie.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, andre.przywara@arm.com,
+ Ludwig Kormann <ludwig.kormann@ict42.de>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH v4 0/2] arm: dts: sunxi: Add ICnova A20 ADB4006 board support
+Date: Thu, 18 May 2023 23:10:53 +0200
+Message-ID: <1850875.tdWV9SEqCh@jernej-laptop>
+In-Reply-To: <20230510111528.2155582-1-ludwig.kormann@ict42.de>
+References: <20230510111528.2155582-1-ludwig.kormann@ict42.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -66,17 +59,51 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne petek, 05. maj 2023 ob 07:21:08 CEST je Roman Beranek napisal(a):
-> While the rate of TCON0's DCLK matches dotclock for parallel and LVDS
-> outputs, this doesn't hold for DSI. According manuals from Allwinner,
-> DCLK is an abbreviation of Data Clock, not dotclock, so go with that
-> instead.
+Dne sreda, 10. maj 2023 ob 13:15:26 CEST je Ludwig Kormann napisal(a):
+> Add board support for ICnova A20 SomPi compute module on
+> ICnova ADB4006 development board.
 > 
-> Signed-off-by: Roman Beranek <me@crly.cz>
+> I rebased the series on v6.4-rc1, I'm also using a new
+> mail address because of bouncing issues.
+> 
+> v4:
+> - rebase on v6.4-rc1
+> 
+> v3:
+> - drop stray blank lines at end of files
+> - separate patch for bindings
+> - update licensing to "GPL-2.0 OR MIT"
+> - fix typo: ICNova -> ICnova
+> 
+> v2:
+> - use short licensing header
+> - remove deprecated elements from led nodes
+> - disable csi power supply
+> - add missing pins in usbphy node
+> - split dts into SoM dtsi and carrier board dts
+> 
+> v1 of this patch was sent to the uboot mailing list [1].
+> 
+> [1] https://lists.denx.de/pipermail/u-boot/2023-April/514605.html
+> 
+> Ludwig Kormann (2):
+>   dt-bindings: arm: sunxi: add ICnova A20 ADB4006 binding
+>   arm: dts: sunxi: Add ICnova A20 ADB4006 board
+> 
+>  .../devicetree/bindings/arm/sunxi.yaml        |   6 +
+>  arch/arm/boot/dts/Makefile                    |   1 +
+>  .../boot/dts/sun7i-a20-icnova-a20-adb4006.dts | 137 ++++++++++++++++++
+>  arch/arm/boot/dts/sun7i-a20-icnova-a20.dtsi   |  62 ++++++++
+>  4 files changed, 206 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/sun7i-a20-icnova-a20-adb4006.dts
+>  create mode 100644 arch/arm/boot/dts/sun7i-a20-icnova-a20.dtsi
+> 
+> 
 
 Applied, thanks!
 
 Best regards,
 Jernej
+
 
 
