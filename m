@@ -1,43 +1,43 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2517E6FB8
-	for <linux-sunxi@lists.linux.dev>; Thu, 18 May 2023 21:08:05 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-510d6e1f1b2so4106919a12.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 18 May 2023 14:08:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261126FB8
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 May 2023 21:09:17 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-96649b412easo401020366b.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 18 May 2023 14:09:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684444083; x=1687036083;
+        d=gmail.com; s=20221208; t=1684444155; x=1687036155;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PQ1nJRxIw8TnLlb1uSAgTqg+C0cT9QEqF+EZc+fkSGE=;
-        b=qcFIYBlhQxLx5FpKG/1H+u3N7ybS144V6jLsrdWYaTAUef1G3Uq6pjVipT0EPjzIsf
-         fPa8M+8MqZNU68NgmxUnn81uBLw1UNoTwoH3v2vWcg7UC+FCOIGTjWLJPA4yh8qlEdyb
-         R+7ZPZHirHFLCQMwATJX8ntw+HT3nWxvNcrlcSMBPCg4ZU+q1EaQQI0txdXcibMPs1d9
-         NpTb0gJp8+JAhUWbyqtJmcus1ooyPCHUsrg0VQlE/S+izxUyzCjl7Es6/+qJx2NzRUDC
-         h18rwgSxqbISnBdUfohbj4b9Bkcgue6noAzU77rh7XqPZVJGZRrqX39lxW3rEEF9WTWh
-         lc7w==
+        bh=rnh3tyDUDMlsulIV/kPw728cW2/MDK+ktFBwUG82RqY=;
+        b=TGR7argf0z8ZhgJu/21nGdGThgR8Or+D63dA/zj8mS+KOyyn7MsXbnBiMvZb49P/T1
+         wm+CJVG6i34RnLFbsCF/9bRb28Rm7vAKvuCsp655+5SEk/vnYKFGa89Bc7u+sYDrcIA4
+         NIaTtdCYE9dLtXDiXfSBAMjzyAT4uABaxrQmoVhtu5Y/5tD7vb3miktce4n77e3e8kS+
+         M3j85AcXJiz4DpL3xl1CQRIPo7SS6EXobIWFgnl/K+u5yAp5/FOmgAEnv9nREzflNKH/
+         dfZggDiU22pFucHgdBrBg0PVzKOebkuzNRGHMI3UKr0KLVjShk7WZ4jlN483uwy+KRw4
+         V+HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684444083; x=1687036083;
+        d=1e100.net; s=20221208; t=1684444155; x=1687036155;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PQ1nJRxIw8TnLlb1uSAgTqg+C0cT9QEqF+EZc+fkSGE=;
-        b=My5PmJ1hqVNtmNJxcQpyXBeQU5mHwXdAKyHD0m1SGU70A0v984NlcmYD3nTBEHz5XE
-         o3jmHgk3BkR5dm92BsCecH5a9AiLayVip4ZLjgbDewFPhdnjIVm3ki2bxyCA0PAJ8wVB
-         A24MYyZCbPaUm9rc4s8Sex/4Ka+ObuKsKrz6/K2+7LNVOxX43Fm9WPnFlTCV2x+B5W8a
-         PLzAVSmb17OQ24LDpxWn0ky3Y1J+urg5CAswqzIZmpVO2FfjytfHclPDcozgmMTWuwbE
-         3mUn7j9gucD6LEGxUSEt2gZDDLHLS3+R98eJ7F0PbExpCzA87VGm3k8RxxxRgpqM2lU9
-         wQtg==
-X-Gm-Message-State: AC+VfDwBUHBXs95fZ58Kh7MbqwIktFtO970u+4G0RQbSfcxQRLiOC9yI
-	92BauVWpv4Ryv9Q5bArO0MiAsK1aanr0zdck
-X-Google-Smtp-Source: ACHHUZ52SILasiNNx8sRkg0S1vg75C4xH/2WANsiZSXCT1GQIAgCV8NbifpGXn/D63ZPnP28Jh2UMw==
-X-Received: by 2002:aa7:df0d:0:b0:50d:f9b3:444c with SMTP id c13-20020aa7df0d000000b0050df9b3444cmr6065388edy.17.1684444082935;
-        Thu, 18 May 2023 14:08:02 -0700 (PDT)
+        bh=rnh3tyDUDMlsulIV/kPw728cW2/MDK+ktFBwUG82RqY=;
+        b=DmhMvKHsjXSDwlxVZM5pQTKy8/CRzjYVzs3SbRBXQvPTXQ7qyIo1DLJuW1bUloA2md
+         jyOiH0OdKWZmBbHM2kfB3IkgJYSKypjZztF1ZdHj0R8bg0AL1GzhNxVRUmbn3ARuprHF
+         fNPjrKhgYSpWVZKt7cVodWRShA2S0ijUdlglIPWYFijYe/ihFXDVVEwbvNQFZuLr7iA5
+         FlD0QYnuaG0OF8OSVEKIXNeDTbwiB3Ga7BioPAI0kJNQt3XHsJmMv9njvs8QyBwmVGxt
+         z9EBS6kPt1+yiKfTR93YZ8dpXUdHfi2rPE9PkWhp8Ioa6uRmhkF6lvRgJnFW3B7wcUuN
+         2G7A==
+X-Gm-Message-State: AC+VfDxEuWazmnJIsos4eQ3bQauPVFLkhQqOif8MsrEjix/4+3byoqW9
+	yCp4uw50m64FBFEn0l3fzDk=
+X-Google-Smtp-Source: ACHHUZ4xYGeWgw813K5HPP+JDjaf07MOHp6X1MaKB4myGbAL1dXQo69yO/4QoJnkEsY0D9X3ii5Y1w==
+X-Received: by 2002:a17:907:3f0d:b0:966:2984:3da0 with SMTP id hq13-20020a1709073f0d00b0096629843da0mr475421ejc.63.1684444155082;
+        Thu, 18 May 2023 14:09:15 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id bc3-20020a056402204300b0050bc41352d9sm949023edb.46.2023.05.18.14.08.00
+        by smtp.gmail.com with ESMTPSA id b20-20020a056402139400b00508804f3b1dsm950498edv.57.2023.05.18.14.09.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 May 2023 14:08:02 -0700 (PDT)
+        Thu, 18 May 2023 14:09:14 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
@@ -51,13 +51,12 @@ Cc: Frank Oltmanns <frank@oltmanns.dev>, Icenowy Zheng <icenowy@aosc.io>,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH v4 1/4] clk: sunxi-ng: a64: force select PLL_MIPI in TCON0 mux
-Date: Thu, 18 May 2023 23:07:59 +0200
-Message-ID: <4828357.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <20230505052110.67514-2-me@crly.cz>
+Subject: Re: [PATCH v4 2/4] ARM: dts: sunxi: rename tcon's clock output
+Date: Thu, 18 May 2023 23:09:13 +0200
+Message-ID: <2281226.ElGaqSPkdT@jernej-laptop>
+In-Reply-To: <20230505052110.67514-3-me@crly.cz>
 References:
- <20230505052110.67514-1-me@crly.cz> <20230505052110.67514-2-me@crly.cz>
+ <20230505052110.67514-1-me@crly.cz> <20230505052110.67514-3-me@crly.cz>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -67,18 +66,11 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne petek, 05. maj 2023 ob 07:21:07 CEST je Roman Beranek napisal(a):
-> TCON0's source clock can be fed from either PLL_MIPI, or PLL_VIDEO0(2X),
-> however MIPI DSI output only seems to work when PLL_MIPI is selected and
-> thus the choice must be hardcoded in.
-> 
-> Currently, this driver can't propagate rate change from N-K-M clocks
-> (such as PLL_MIPI) upwards. This prevents PLL_VIDEO0 from participating
-> in setting of the TCON0 data clock rate, limiting the precision with
-> which a target pixel clock can be matched.
-> 
-> For outputs with fixed TCON0 divider, that is DSI and LVDS, the dotclock
-> can deviate up to 8% off target.
+Dne petek, 05. maj 2023 ob 07:21:08 CEST je Roman Beranek napisal(a):
+> While the rate of TCON0's DCLK matches dotclock for parallel and LVDS
+> outputs, this doesn't hold for DSI. According manuals from Allwinner,
+> DCLK is an abbreviation of Data Clock, not dotclock, so go with that
+> instead.
 > 
 > Signed-off-by: Roman Beranek <me@crly.cz>
 
