@@ -1,178 +1,161 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00210134B3
-	for <linux-sunxi@lists.linux.dev>; Thu, 18 May 2023 21:21:13 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-9659e9bbff5so461836366b.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 18 May 2023 14:21:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684444872; x=1687036872;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4iUdnG3B6bDinPXQQdTMNWQPFcDR+hVyW1eiXtt7wfo=;
-        b=HXMqCulr0NH7kvtItyAe8SCEfLu/LEkiLlkw8VCp6mzMsfa2MrjqIuOGAF9rQrlGSv
-         QYNp05dZJHNXaN1ywFXwpSjmMOJejbtyYGsdKaDVWa9NtZTDkBkTwUZJLFR9V/OJu4oi
-         Fpzr7zeKT+BI8868Tpd98EeeQaQLDfsRFKTFHFScEKcntw8pbAPIefuwM3NMcV9yHbID
-         32+FUUf+QcYH8KU/txsbJxxLV4AtPbLjdnLS28+PyILufsYxCY+cuQocSN/hj4XxS6dP
-         2gdqkEf8IU1SlCefQIoSltLQi3CeTgo5G31jeSR3FnKWLnV00vEOCCyEI7qEM4qzs3ES
-         5YJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684444872; x=1687036872;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4iUdnG3B6bDinPXQQdTMNWQPFcDR+hVyW1eiXtt7wfo=;
-        b=ebGYT8OtL+crCoYaExogEWnrjkgQcpwmwWNvoIZj64vQgXDyNAIU3dR+LvkgJLelUC
-         P/MozbMryZLut62kLhbXEhtcq0x13AoZcAqWGtLxDSDcF4QI+2YIS117lc3ayWIKjkUi
-         ehamZLQbZ6sbdXrQh+dWoMKe7qgmMLtHo0cQK8DhA9lpnCd7th6td4lrXha7Y9Rk3EfZ
-         gnKxt4dWd30EDjyZjwn43Dx7hdQxoNPkSxEUD9E732zJDm7nKudLoPpGO3kjFe0pmvHY
-         qkojzjweUrpfkNFYySkpWRAYjuPNzLdVr3SzW6yEKbf4qZZQF5L6CuAXogMITyGBLzeH
-         ifCw==
-X-Gm-Message-State: AC+VfDzjhrdWcl9XUowVJ9VZuMX77IcYW9H5/tmA1CEYJb43JugkxVeC
-	0YkC+kWMsxjqdCtJbbN1VbU=
-X-Google-Smtp-Source: ACHHUZ4DVEeLBoJ3ljcDD6txqqTPOrPhKaAMy3wbbDw7gBrvZEJBms7KoupvsqOZZ2BRvfmUhObApw==
-X-Received: by 2002:a17:907:97cf:b0:967:142b:ff07 with SMTP id js15-20020a17090797cf00b00967142bff07mr475021ejc.21.1684444871844;
-        Thu, 18 May 2023 14:21:11 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id w25-20020a170906b19900b0095707b7dd04sm1420365ejy.42.2023.05.18.14.21.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 May 2023 14:21:11 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Conor Dooley <conor+dt@kernel.org>,
- andy.shevchenko@gmail.com, Jonathan McDowell <noodles@earth.li>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-gpio@vger.kernel.org
-Subject:
- Re: [PATCH v3 2/5] pinctrl: axp209: Add support for GPIO3 on the AXP209
-Date: Thu, 18 May 2023 23:21:08 +0200
-Message-ID: <2224092.iZASKD2KPV@jernej-laptop>
-In-Reply-To:
- <dde40307f0ebc23b9841c32e702b481ab5193dc4.1684258957.git.noodles@earth.li>
-References:
- <cover.1683719613.git.noodles@earth.li>
- <cover.1684258957.git.noodles@earth.li>
- <dde40307f0ebc23b9841c32e702b481ab5193dc4.1684258957.git.noodles@earth.li>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB1D3D3A1
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 May 2023 16:52:50 +0000 (UTC)
+Received: from meer.lwn.net (unknown [IPv6:2601:281:8300:73::5f6])
+	by ms.lwn.net (Postfix) with ESMTPA id 0690F1C33;
+	Fri, 19 May 2023 16:46:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0690F1C33
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1684514783; bh=eVURbMBHrmInyI7Tt4uD2Av3f0HpAYpSD4vdn1u6NE8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=BupzjfOfZOGLRJU8WiQT2q3eixa3hd4KaaIcGsxvR6fh/FiWObhqBIRgaYEd6mmSm
+	 DJkLz7yDU3pqH7AohfM9GHX4pLbtf57aaO5xrWlKnJFs89bt8QdG8BdDfXripIMgRZ
+	 4Gs7nQq6N1AhQlkdPBVawTNegB1rx0qBnjg3LayGBzLhb6X2lgIgQRRONkhjlTq4n7
+	 F/6adrcv330tCvv0c7As+8ekx6/W76Thu0m+12MeBZvgVKow9Gst1xRqiTXR2DAreX
+	 s357bMKERGioqdOTxFlpOCHHU195G47SuIay4Q+8XdDvMr/euCv9OvWde856WEHPVl
+	 HQIbUpw1HkPeA==
+From: Jonathan Corbet <corbet@lwn.net>
+To: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-input@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-pwm@vger.kernel.org,
+	linux-serial@vger.kernel.org
+Subject: [PATCH 6/7] docs: update some straggling Documentation/arm references
+Date: Fri, 19 May 2023 10:46:06 -0600
+Message-Id: <20230519164607.38845-7-corbet@lwn.net>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230519164607.38845-1-corbet@lwn.net>
+References: <20230519164607.38845-1-corbet@lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Dne torek, 16. maj 2023 ob 19:47:29 CEST je Jonathan McDowell napisal(a):
-> The AXP209 device has a 4th GPIO which has a slightly different register
-> setup, where the control + status bits are held in a single register
-> rather than sharing AXP20X_GPIO20_SS with GPIOs 0-2.
-> 
-> Signed-off-by: Jonathan McDowell <noodles@earth.li>
+The Arm documentation has moved to Documentation/arch/arm; update the
+last remaining references to match.
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-input@vger.kernel.org
+Cc: linux-sunxi@lists.linux.dev
+Cc: linux-pwm@vger.kernel.org
+Cc: linux-serial@vger.kernel.org
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+ MAINTAINERS                          | 6 +++---
+ drivers/input/touchscreen/sun4i-ts.c | 2 +-
+ drivers/pwm/pwm-atmel.c              | 2 +-
+ drivers/pwm/pwm-pxa.c                | 2 +-
+ drivers/tty/serial/Kconfig           | 4 ++--
+ 5 files changed, 8 insertions(+), 8 deletions(-)
 
-Best regards,
-Jernej
-
-> ---
->  drivers/pinctrl/pinctrl-axp209.c | 42 ++++++++++++++++++++++++++++++++
->  1 file changed, 42 insertions(+)
-> 
-> diff --git a/drivers/pinctrl/pinctrl-axp209.c b/drivers/pinctrl/pinctrl-axp209.c
-> index 0bc1b381a2b8..b3ba25435c34 100644
-> --- a/drivers/pinctrl/pinctrl-axp209.c
-> +++ b/drivers/pinctrl/pinctrl-axp209.c
-> @@ -30,6 +30,11 @@
->  #define AXP20X_GPIO_FUNCTION_OUT_HIGH	1
->  #define AXP20X_GPIO_FUNCTION_INPUT	2
->  
-> +#define AXP20X_GPIO3_FUNCTIONS		GENMASK(2, 1)
-> +#define AXP20X_GPIO3_FUNCTION_OUT_LOW	0
-> +#define AXP20X_GPIO3_FUNCTION_OUT_HIGH	2
-> +#define AXP20X_GPIO3_FUNCTION_INPUT	4
-> +
->  #define AXP20X_FUNC_GPIO_OUT		0
->  #define AXP20X_FUNC_GPIO_IN		1
->  #define AXP20X_FUNC_LDO			2
-> @@ -73,6 +78,7 @@ static const struct pinctrl_pin_desc axp209_pins[] = {
->  	PINCTRL_PIN(0, "GPIO0"),
->  	PINCTRL_PIN(1, "GPIO1"),
->  	PINCTRL_PIN(2, "GPIO2"),
-> +	PINCTRL_PIN(3, "GPIO3"),
->  };
->  
->  static const struct pinctrl_pin_desc axp22x_pins[] = {
-> @@ -130,6 +136,14 @@ static int axp20x_gpio_get(struct gpio_chip *chip, unsigned int offset)
->  	unsigned int val;
->  	int ret;
->  
-> +	/* AXP209 has GPIO3 status sharing the settings register */
-> +	if (offset == 3) {
-> +		ret = regmap_read(pctl->regmap, AXP20X_GPIO3_CTRL, &val);
-> +		if (ret)
-> +			return ret;
-> +		return !!(val & BIT(0));
-> +	}
-> +
->  	ret = regmap_read(pctl->regmap, AXP20X_GPIO20_SS, &val);
->  	if (ret)
->  		return ret;
-> @@ -144,6 +158,17 @@ static int axp20x_gpio_get_direction(struct gpio_chip *chip,
->  	unsigned int val;
->  	int reg, ret;
->  
-> +	/* AXP209 GPIO3 settings have a different layout */
-> +	if (offset == 3) {
-> +		ret = regmap_read(pctl->regmap, AXP20X_GPIO3_CTRL, &val);
-> +		if (ret)
-> +			return ret;
-> +		if (val & AXP20X_GPIO3_FUNCTION_INPUT)
-> +			return GPIO_LINE_DIRECTION_IN;
-> +
-> +		return GPIO_LINE_DIRECTION_OUT;
-> +	}
-> +
->  	reg = axp20x_gpio_get_reg(offset);
->  	if (reg < 0)
->  		return reg;
-> @@ -184,6 +209,15 @@ static void axp20x_gpio_set(struct gpio_chip *chip, unsigned int offset,
->  	struct axp20x_pctl *pctl = gpiochip_get_data(chip);
->  	int reg;
->  
-> +	/* AXP209 has GPIO3 status sharing the settings register */
-> +	if (offset == 3) {
-> +		regmap_update_bits(pctl->regmap, AXP20X_GPIO3_CTRL,
-> +				   AXP20X_GPIO3_FUNCTIONS,
-> +				   value ? AXP20X_GPIO3_FUNCTION_OUT_HIGH :
-> +				   AXP20X_GPIO3_FUNCTION_OUT_LOW);
-> +		return;
-> +	}
-> +
->  	reg = axp20x_gpio_get_reg(offset);
->  	if (reg < 0)
->  		return;
-> @@ -200,6 +234,14 @@ static int axp20x_pmx_set(struct pinctrl_dev *pctldev, unsigned int offset,
->  	struct axp20x_pctl *pctl = pinctrl_dev_get_drvdata(pctldev);
->  	int reg;
->  
-> +	/* AXP209 GPIO3 settings have a different layout */
-> +	if (offset == 3) {
-> +		return regmap_update_bits(pctl->regmap, AXP20X_GPIO3_CTRL,
-> +				   AXP20X_GPIO3_FUNCTIONS,
-> +				   config == AXP20X_MUX_GPIO_OUT ? AXP20X_GPIO3_FUNCTION_OUT_LOW :
-> +				   AXP20X_GPIO3_FUNCTION_INPUT);
-> +	}
-> +
->  	reg = axp20x_gpio_get_reg(offset);
->  	if (reg < 0)
->  		return reg;
-> 
-
-
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e0ad886d3163..09aa1b0ef552 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2706,7 +2706,7 @@ Q:	https://patchwork.kernel.org/project/linux-samsung-soc/list/
+ B:	mailto:linux-samsung-soc@vger.kernel.org
+ C:	irc://irc.libera.chat/linux-exynos
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git
+-F:	Documentation/arm/samsung/
++F:	Documentation/arch/arm/samsung/
+ F:	Documentation/devicetree/bindings/arm/samsung/
+ F:	Documentation/devicetree/bindings/hwinfo/samsung,*
+ F:	Documentation/devicetree/bindings/power/pd-samsung.yaml
+@@ -3058,7 +3058,7 @@ M:	Will Deacon <will@kernel.org>
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
+-F:	Documentation/arm64/
++F:	Documentation/arch/arm64/
+ F:	arch/arm64/
+ F:	tools/testing/selftests/arm64/
+ X:	arch/arm64/boot/dts/
+@@ -15278,7 +15278,7 @@ OMAP DISPLAY SUBSYSTEM and FRAMEBUFFER SUPPORT (DSS2)
+ L:	linux-omap@vger.kernel.org
+ L:	linux-fbdev@vger.kernel.org
+ S:	Orphan
+-F:	Documentation/arm/omap/dss.rst
++F:	Documentation/arch/arm/omap/dss.rst
+ F:	drivers/video/fbdev/omap2/
+ 
+ OMAP FRAMEBUFFER SUPPORT
+diff --git a/drivers/input/touchscreen/sun4i-ts.c b/drivers/input/touchscreen/sun4i-ts.c
+index 577c75c83e25..bb3c6072fc82 100644
+--- a/drivers/input/touchscreen/sun4i-ts.c
++++ b/drivers/input/touchscreen/sun4i-ts.c
+@@ -22,7 +22,7 @@
+  * in the kernel). So this driver offers straight forward, reliable single
+  * touch functionality only.
+  *
+- * s.a. A20 User Manual "1.15 TP" (Documentation/arm/sunxi.rst)
++ * s.a. A20 User Manual "1.15 TP" (Documentation/arch/arm/sunxi.rst)
+  * (looks like the description in the A20 User Manual v1.3 is better
+  * than the one in the A10 User Manual v.1.5)
+  */
+diff --git a/drivers/pwm/pwm-atmel.c b/drivers/pwm/pwm-atmel.c
+index 0c567d9623cd..5f7d286871cf 100644
+--- a/drivers/pwm/pwm-atmel.c
++++ b/drivers/pwm/pwm-atmel.c
+@@ -6,7 +6,7 @@
+  *		 Bo Shen <voice.shen@atmel.com>
+  *
+  * Links to reference manuals for the supported PWM chips can be found in
+- * Documentation/arm/microchip.rst.
++ * Documentation/arch/arm/microchip.rst.
+  *
+  * Limitations:
+  * - Periods start with the inactive level.
+diff --git a/drivers/pwm/pwm-pxa.c b/drivers/pwm/pwm-pxa.c
+index 46ed668bd141..762429d5647f 100644
+--- a/drivers/pwm/pwm-pxa.c
++++ b/drivers/pwm/pwm-pxa.c
+@@ -8,7 +8,7 @@
+  *		eric miao <eric.miao@marvell.com>
+  *
+  * Links to reference manuals for some of the supported PWM chips can be found
+- * in Documentation/arm/marvell.rst.
++ * in Documentation/arch/arm/marvell.rst.
+  *
+  * Limitations:
+  * - When PWM is stopped, the current PWM period stops abruptly at the next
+diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
+index 398e5aac2e77..30bb9714f3c6 100644
+--- a/drivers/tty/serial/Kconfig
++++ b/drivers/tty/serial/Kconfig
+@@ -450,8 +450,8 @@ config SERIAL_SA1100
+ 	help
+ 	  If you have a machine based on a SA1100/SA1110 StrongARM(R) CPU you
+ 	  can enable its onboard serial port by enabling this option.
+-	  Please read <file:Documentation/arm/sa1100/serial_uart.rst> for further
+-	  info.
++	  Please read <file:Documentation/arch/arm/sa1100/serial_uart.rst> for
++	  further info.
+ 
+ config SERIAL_SA1100_CONSOLE
+ 	bool "Console on SA1100 serial port"
+-- 
+2.40.1
 
