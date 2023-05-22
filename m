@@ -1,95 +1,76 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87ED36AAD;
-	Sat, 20 May 2023 14:12:51 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A2FED6E3;
-	Sat, 20 May 2023 14:12:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A2FED6E3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1684591968; bh=ssW6Hz/R5GSYGIKYc6bggawEYxKcwfdt7FMg15yh+SQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Wqc7837+yYQXWUWpNZUbvPfAYsEU94Nsz63U2qrzVyv7mG9M0sVdGPh8u7zVEB38U
-	 sl6657pnw40uwSVT1M0djeLOW9uewXdf3OyWstEEpXxJ6I7nPy4oXj/iuB3RZkpCwi
-	 vxB63WPEpBIlq2H6TNUGxZM7mF0vUJPIxCT6JbKWtX8U2p21dBr0uaI34QOdMUUaXo
-	 TDDws2G9+yEWz1JZec2SLrtHGWn4d9CUQXGzyaHta5aj7U/RKlYlUlV8tiJysSna0J
-	 TqXVQXXa8kjv8LocVTL3rWVHJWzTQWPb3p4jd497m0LjvWI1wI9MWzhvObS9pq5K09
-	 nmCd0mP7uhhsw==
-From: Jonathan Corbet <corbet@lwn.net>
-To: kernel test robot <lkp@intel.com>, linux-doc@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Dmitry
- Torokhov <dmitry.torokhov@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>, Uwe =?utf-8?Q?Kleine-K=C3=B6ni?=
- =?utf-8?Q?g?=
- <u.kleine-koenig@pengutronix.de>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-input@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-pwm@vger.kernel.org,
- linux-serial@vger.kernel.org
-Subject: Re: [PATCH 6/7] docs: update some straggling Documentation/arm
- references
-In-Reply-To: <202305201023.2DYXmdv3-lkp@intel.com>
-References: <20230519164607.38845-7-corbet@lwn.net>
- <202305201023.2DYXmdv3-lkp@intel.com>
-Date: Sat, 20 May 2023 08:12:47 -0600
-Message-ID: <87r0rbjdls.fsf@meer.lwn.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF9B10F4
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 May 2023 07:37:41 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-561b7729a12so47150707b3.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 22 May 2023 00:37:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1684741060; x=1687333060;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vOQE4VDyp9QIs6NnGgNh52U8dycaA6C3cQQrIeSpbrg=;
+        b=PmRtzZjd/eb9Y0P++rxNgxg/Oc5DASz5+rQJjU5EAJMmbpOLYi90eqSsYjl1Fh1tp4
+         hmqMtIHuqXlH9dcoz89vrxb7CU6FjHHjf81IORoo8hLRDhqxbWvilYFdWlu+8n+2S76y
+         WhOA+K70xWiW65fFZdfz/ByBGrGCez3rkyxJOBylHoezUrOw24z2gk5+8i+KaVqibDxS
+         O8YH2hY0OEBKm79jKnw718EutuBzTa62OXFZZIYCTgkLTusiSsOwwKtb95P2KkngrlSt
+         Hybi9xBTPRdsctyktMzhRegEWN4pMqqSLzorNznU88QNAVgom9URAc617gjleWu2bn2Z
+         s7Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684741060; x=1687333060;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vOQE4VDyp9QIs6NnGgNh52U8dycaA6C3cQQrIeSpbrg=;
+        b=Hxs9DuYShuLqDZhA3EyEIln0pO59SpDa1N5ZSfsgguJq1Wdl923AU0qL3ulxN/9Z09
+         VfgSU9sTVMTW1KrKQ/fkfNl8QT+WFIqhexKaOrQdlrO9AorcDPFkZKFZFLi2TXCi2mJ5
+         Fc7u22XPPvFkPetdgMdTp5NIRbyrBo9pHoatmg0+omOyrj6wQCvBM5x7JXoqjOqVj+jX
+         +AcKGX2C7tQdhZBGuzaEITfZ2Zex48Met2+N0m3pbLXq0h84P6BklzJPCrYI99jNdt5S
+         Ox65+PZQM05/nwVjgZh+FX2Y2N4VOX5TQ0rgLr1Xl5ISEfYEL/YpUtv8UOp1GMWjcrHh
+         9dAw==
+X-Gm-Message-State: AC+VfDydAYyMLyhwfSFoZ/gaA8QRWcOAocE3kaf1/2niZ7xwcT6bI9zb
+	JhCYUK/ChKy+K5gtJXRSJ4leYKPU5WOVREqqBiiipA==
+X-Google-Smtp-Source: ACHHUZ4OlwL4eFt5zi+AsH8sIY8nmp4Gyo36E4mPxBwVrmJ1xabFq8GLNTy4Q8brmKGEiTqA8kpTFdMqSZoEtMrb9T8=
+X-Received: by 2002:a81:7406:0:b0:561:be2a:43fa with SMTP id
+ p6-20020a817406000000b00561be2a43famr10697543ywc.7.1684741060509; Mon, 22 May
+ 2023 00:37:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <cover.1683719613.git.noodles@earth.li> <cover.1684258957.git.noodles@earth.li>
+ <7691a35155cf644c2efb02c282c5ef007a6570fa.1684258957.git.noodles@earth.li>
+In-Reply-To: <7691a35155cf644c2efb02c282c5ef007a6570fa.1684258957.git.noodles@earth.li>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 22 May 2023 09:37:29 +0200
+Message-ID: <CACRpkdbgL68SRwMs5-TDre8OBZpAtXeMGrBsQrEs8B-RO+X8Lw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] dt-bindings: gpio: Add GPIO3 for AXP209 GPIO
+ binding schema
+To: Jonathan McDowell <noodles@earth.li>
+Cc: Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Conor Dooley <conor+dt@kernel.org>, andy.shevchenko@gmail.com, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-kernel test robot <lkp@intel.com> writes:
+On Tue, May 16, 2023 at 7:47=E2=80=AFPM Jonathan McDowell <noodles@earth.li=
+> wrote:
 
-> Hi Jonathan,
+> The AXP209 has a 4th GPIO, so add it in preparation for support in the
+> driver.
 >
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on linus/master]
-> [also build test WARNING on v6.4-rc2 next-20230519]
-> [cannot apply to sunxi/sunxi/for-next arm64/for-next/core thierry-reding-pwm/for-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Corbet/arm-docs-Move-Arm-documentation-to-Documentation-arch/20230520-005124
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20230519164607.38845-7-corbet%40lwn.net
-> patch subject: [PATCH 6/7] docs: update some straggling Documentation/arm references
-> reproduce:
->         # https://github.com/intel-lab-lkp/linux/commit/3c9885f2702a3319156cfbacedfca658e726213b
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Jonathan-Corbet/arm-docs-Move-Arm-documentation-to-Documentation-arch/20230520-005124
->         git checkout 3c9885f2702a3319156cfbacedfca658e726213b
->         make menuconfig
->         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
->         make htmldocs
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202305201023.2DYXmdv3-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/arch/arm64/
+> Signed-off-by: Jonathan McDowell <noodles@earth.li>
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Sigh...obviously this hunk:
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
--F:	Documentation/arm64/
-+F:	Documentation/arch/arm64/
- F:	arch/arm64/
- F:	tools/testing/selftests/arm64/
-
-...got a bit ahead of the game.  I'll take that one out, sorry for the
-noise.
-
-jon
+Yours,
+Linus Walleij
