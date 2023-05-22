@@ -1,94 +1,89 @@
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 359491427A;
+	Mon, 22 May 2023 16:10:05 +0000 (UTC)
+Received: from 8bytes.org (p200300c2773e310086ad4f9d2505dd0d.dip0.t-ipconnect.de [IPv6:2003:c2:773e:3100:86ad:4f9d:2505:dd0d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D45315480
-	for <linux-sunxi@lists.linux.dev>; Mon, 22 May 2023 15:53:35 +0000 (UTC)
-Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-331333e6bf1so15202095ab.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 22 May 2023 08:53:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684770814; x=1687362814;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GcASE1OrQyQi7q41P2SNchLMQc2DgftSxURxly3Px4M=;
-        b=NB4tWHOjxmpjqH1CavStoHfHO7gwuRZAoxBoRJ1E77Kjapa/DvQ2f3G50SC2sEyA0v
-         E3SHK90R8Jh4Bqsvbzudu/ufN9eGMDq8jaUjs/jfryNSvLFZfdJ34axmzRExKCLFocnb
-         2hyXX536tpiSEK9nfyyZVbWky6Ta4VVNjhusop+i3pXs0s/bhgv2yJeYpSQE2mMiWgNd
-         SoldQsemhEvJNDeyuk0F0uPU4hu8Qb0+zbrZPpP7ZyM+snhYQGDtDC7q016J6Prp29DQ
-         U4hvFTRUQ5BKMU1pN2ZTLHsSQj7sm9d1+9Cy3sM2x4D8m1e5DBXo/lbVaIk/X22E7omc
-         nZ6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684770814; x=1687362814;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GcASE1OrQyQi7q41P2SNchLMQc2DgftSxURxly3Px4M=;
-        b=F03BN7aqoIQcZ533SfcZlV9xMHv7ucWUYY/0CCnHbh10Us5wPnM8Wx2yWqH48X5jnu
-         VPthOivHcnCeklOAdVqodiSYxB1gs/esmqf8IHxJfAcd6/N+WLVmP/yNVCVqDs5BBF4H
-         QxjueQ6Dph05KynCZeN6T/aXjWV/Wl9R4uWhKGBX+GzmsyR4SieZuyI3QKWiXsXZm7TY
-         3bVACzhHOETDywrWE/raTJdt/6Kh4zbgSgMjb6EPD65TjPiSIBxfWoPEAUWhbYtOS6bo
-         ywAyYPH2SFOPtykmDVJhOVvTVdXyYFSYQ5ci3XX2vrJVKA60ppGmhOnTf8B8MLXpi9nA
-         Flrg==
-X-Gm-Message-State: AC+VfDwvA4bCRuMie8Bn5dlTL5JVQ7KkbdJn0tk8XSOQg1eJH1D1POyh
-	Hf/nhn7zIu0ZycPHb9MXCmg=
-X-Google-Smtp-Source: ACHHUZ7ooSC2UtbAlM8vlneO+IMFO5YP+L0irn37IABBL9D6o/vm+eTQElmw15bt80zcMfBWO5nZ4w==
-X-Received: by 2002:a92:da8b:0:b0:33a:6a9:6568 with SMTP id u11-20020a92da8b000000b0033a06a96568mr2007278iln.30.1684770814344;
-        Mon, 22 May 2023 08:53:34 -0700 (PDT)
-Received: from azeems-kspp.c.googlers.com.com (54.70.188.35.bc.googleusercontent.com. [35.188.70.54])
-        by smtp.gmail.com with ESMTPSA id cn6-20020a0566383a0600b004141ce991aesm1787491jab.179.2023.05.22.08.53.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 May 2023 08:53:33 -0700 (PDT)
-From: Azeem Shaikh <azeemshaikh38@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>
-Cc: linux-hardening@vger.kernel.org,
-	Azeem Shaikh <azeemshaikh38@gmail.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
+	by mail.8bytes.org (Postfix) with ESMTPSA id 0771D2434D7;
+	Mon, 22 May 2023 18:10:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1684771803;
+	bh=IEYacWChjS8pqW2eXYZUvSMLj48VE4JauxQLZBxYtqA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dsW1m+Y4pRxReMA3YAV1dR7xSpCrEFNRWPSoWZvvgL9y9t+B8nkXGdS5pIZgE/Mxc
+	 jDkmtQgdl3dVqv6n3e4yCwCoQwKfP4wgVU7uooQ8pyt47lwv0bvnKcPDbqciBPuGzz
+	 QflQuvzLHWoxNs4RdcEri8p72xuZLmU5YY/fJNWHmC0sEkQSGm+KOysLl+ctiUYkJ4
+	 7Qlh+elGqPq5y9QZv4ABmp2fOJsDSjiUh+6IV6ASZ54RN9zWxU/tU36JULF7zRzETM
+	 EVBM6Dq0OgEW2aYEblrwJsY5LuCTfZP55UCddCCkbSfFJKvpE/vQhuL22KcZwPL64w
+	 mMOPCB+3NQIhg==
+Date: Mon, 22 May 2023 18:10:01 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Niklas Schnelle <schnelle@linux.ibm.com>
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>, Will Deacon <will@kernel.org>,
+	Wenjia Zhang <wenjia@linux.ibm.com>,
+	Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Gerd Bayer <gbayer@linux.ibm.com>,
+	Julian Ruess <julianr@linux.ibm.com>,
+	Pierre Morel <pmorel@linux.ibm.com>,
+	Alexandra Winter <wintera@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Yong Wu <yong.wu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] drm/sun4i: hdmi: Replace all non-returning strlcpy with strscpy
-Date: Mon, 22 May 2023 15:53:31 +0000
-Message-ID: <20230522155331.2336966-1-azeemshaikh38@gmail.com>
-X-Mailer: git-send-email 2.40.1.698.g37aff9b760-goog
+	Thierry Reding <thierry.reding@gmail.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v9 6/6] iommu/dma: Make flush queue sizes and timeout
+ driver configurable
+Message-ID: <ZGuT2R42SWFHmklu@8bytes.org>
+References: <20230310-dma_iommu-v9-0-65bb8edd2beb@linux.ibm.com>
+ <20230310-dma_iommu-v9-6-65bb8edd2beb@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230310-dma_iommu-v9-6-65bb8edd2beb@linux.ibm.com>
 
-strlcpy() reads the entire source buffer first.
-This read may exceed the destination size limit.
-This is both inefficient and can lead to linear read
-overflows if a source string is not NUL-terminated [1].
-In an effort to remove strlcpy() completely [2], replace
-strlcpy() here with strscpy().
-No return values were used, so direct replacement is safe.
+On Mon, May 15, 2023 at 11:15:56AM +0200, Niklas Schnelle wrote:
+> In the s390 IOMMU driver a large fixed queue size and timeout is then
+> set together with single queue mode bringing its performance on s390
+> paged memory guests on par with the previous s390 specific DMA API
+> implementation.
 
-[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#strlcpy
-[2] https://github.com/KSPP/linux/issues/89
+Hmm, the right flush-queue size and timeout settings are more a function
+of the endpoint device and device driver than of the iommu driver, no? I
+think something like this could also help solving the recently reported
+scalability problems in the fq-code, if done right.
 
-Signed-off-by: Azeem Shaikh <azeemshaikh38@gmail.com>
----
- drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Regards,
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-index c7d7e9fff91c..d1a65a921f5a 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-@@ -304,7 +304,7 @@ int sun4i_hdmi_i2c_create(struct device *dev, struct sun4i_hdmi *hdmi)
- 	adap->owner = THIS_MODULE;
- 	adap->class = I2C_CLASS_DDC;
- 	adap->algo = &sun4i_hdmi_i2c_algorithm;
--	strlcpy(adap->name, "sun4i_hdmi_i2c adapter", sizeof(adap->name));
-+	strscpy(adap->name, "sun4i_hdmi_i2c adapter", sizeof(adap->name));
- 	i2c_set_adapdata(adap, hdmi);
- 
- 	ret = i2c_add_adapter(adap);
+	Joerg
 
