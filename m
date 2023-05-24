@@ -1,57 +1,57 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01olkn2080.outbound.protection.outlook.com [40.92.98.80])
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01olkn2018.outbound.protection.outlook.com [40.92.98.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A93C8C15F
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 May 2023 09:10:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C269AC159
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 May 2023 09:12:43 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YLNPEGEXULdcCwBbZ3XDLXeLbrhuaXGs7KPlRsg2zPdkHgINL00t5nsoHDl0bXCfOJoMzEWwD5Tig+HBM5BwD5vJZAWzgkxmTN1VV6FZUwDE2fMr74SS6UXb8EZOLYW3fEqkUENt/hxbV8F7zoJkFwT+iKt+Nx8T8KZtKXm+KoG66UAuwhz9eDT8ZuOZt6UeOYeeXXR+CgSfifK211O53fkzYfZZ7YiXjGQnesseZDgV8fpQUAo8YdYUn7QkUDo+wkjz1KJZ1VttvsbazYb0C33jfEn4YffH4hvXKc5N8nP7IyMkuPlEkd5n8QgzurV0kag1txPdTpOkBDjGwFgUZw==
+ b=aBqPpEqh1R0jxfyJ8aRZg2+amnM6ckY2XS36snyUQ/WZx1+13kYeGw9CNZAqjWX8KxapyFJp9fhsxhrWGY+gt3te+P5V9BlKrZ7NgISL+OW3ljo6cMZRSmPyZqMsBtJ6Fjdes4Xcj4Y+yyevHu9xkWnC0s7X9t3aNWq6JLkxNkLDN9OjFdn4NsPDnpIhjMuHSZmOmJ2Xh9A4lE9WwHAOLeR9YSduhLcMkFmFs5GHO+iUpEMXBWyDki+i0hp68yS/JWj4TpD/r1gsMPS++wqjgjR3DZneqjkajhdBST1oZnB6wnbeqKk//nf9bIXPtOGmGiuJuRXuMopXvtVyFr08jA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j3elneK6qpvV60+/YffkE8JrfOUgm/tWjKP1RD/OCsY=;
- b=dee8WvjtSpSMbE+ENdXV0D3E45nllCoCMdjmwS6ajy/lzCug2yi+1BJZ4FHkTxzzzJ0i4CteLTf+X3TkgFuQeAZRxDCq2QHTv5t9A7M4fPUOBSUiwuFln9jxspqR7afSV2bhigiho4TmENJnMD4M5uduPwZPo3MewqD8MY1XmSt/9rpaQScc/ry5PbnsmRTE9bv8QaLRPNnFraRXi7g3rx56JO7Amx9PIvPIMqtm47Bu7RjuKmuNyjVdaHQ0VQFntBBw6us6D0Ct301GzWWOYbO530k6hij5oueokrFVQ+Y1GTwoVzRu2p7OUdU+zdBYulTw3l5xakP5uuTYCPchSQ==
+ bh=xHMPZGS1TDAqIFQY3kwzgFN/cKtjgzGQuQ5/nfJsw6c=;
+ b=SXxDG1hv9nRp6K19zcSu3Ap0Vcdp6PuK0ViuLkbwp2oPp6JCOf7h2ScCw+/DUL/w06R2py7/NJz2nrfZdu4DnoOSOpdt+dFjXFinyuWP7TCA7rgJOGqSdQ2eXddfRUNW1hdWLWOsdDNy/N3coJ3vFWCgSFyf7vFyxAuKs0B7Vx/birTeATbp/jSLVzftpCZ+k0ojK0SzpaLrk6FxX6XY0jxyvTIbuTgHkiXxRaM6kiOvCOElsAiiqb8QV2E61oDhMfwx8Ppvj/dgkJezkLN8yo0wno9DXhp82rLAMLkfLPMs7J/0khiWeVW0UEKVIo/D2rgOwNCEm5kYsNQhecMKsg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j3elneK6qpvV60+/YffkE8JrfOUgm/tWjKP1RD/OCsY=;
- b=pbPCYp2+7zzoMVOeQpTWl0/AuEhQfMb3Y9VmzAqZMYgOL85EU1nFfJ+QY50wZin1glnUyabdZGAs6IcDHd2QSpz1ZnP063otgbx5PBS0ppitY700ep/o3QWyuNG6qIcMUfgsN6Ih9TkJQF7d8fQlRhzbqKR2HLT9xWuW1TcdTdoqkcUMmUqJVVA7U8vvJG/0CxnKtV/rsXKQF0HUJTcQHkoxHo3JdN9E6Q5vCxY8bZhZ2PAdOqGyO0yCjj/1pYjHQ6ohJMNJzrAIryYjVU2ryPeeKIzLJqIuhRb/uS4xVwCzuVP1VV8jA5yLUZMYgNJKp2vrL+6Vh4xHjqm8EtNorA==
+ bh=xHMPZGS1TDAqIFQY3kwzgFN/cKtjgzGQuQ5/nfJsw6c=;
+ b=D2sWOst8OkCkJva1eIeeQChAD5IDmIW4Yw0vvTWyja5HxuyL034kFl426eJ7sMBeYK+9+JfCKQ2a5ge6micUOU4AJd1HNe2UKmfVRXiepaSYgZHNAHGdALUXBbc8Gr/3YPD+eUsOSe/pqRJF84IPT0FI/IDu9zalt4rZZvaSALr8ucpOQ+q7N0QQJcF2e9/wtZxDmOHoMIZ8bw6N7V4Gjok393JJcd8ieA1KuEXSUOJrNxqDWK04WlEAiDfxSTB2/ABbHMm9K6GTJ3JAYvOA8JOZW/WUoYoFXIrsjUUyhSa/HOeiFbxy1iThp531L3CVQnQDjJhq2rJGFnIJTIGvZQ==
 Received: from TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:252::12)
- by TY3P286MB3565.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:3b0::6) with
+ by TYVP286MB3716.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:36d::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.15; Wed, 24 May
- 2023 09:10:31 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.28; Wed, 24 May
+ 2023 09:12:39 +0000
 Received: from TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
  ([fe80::5805:16d6:6ab7:6639]) by TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
  ([fe80::5805:16d6:6ab7:6639%5]) with mapi id 15.20.6411.029; Wed, 24 May 2023
- 09:10:31 +0000
+ 09:12:39 +0000
 Message-ID:
- <TY3P286MB2611591D40912950F3ECB32E98419@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
-Date: Wed, 24 May 2023 17:10:10 +0800
+ <TY3P286MB2611130B8500A098E33598E498419@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
+Date: Wed, 24 May 2023 17:12:31 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
+From: Shengyu Qu <wiagn233@outlook.com>
+Subject: Re: [PATCH v11 0/3] regulator: Add X-Powers AXP15060/AXP313a PMIC
+ support
+To: Andre Przywara <andre.przywara@arm.com>, Lee Jones <lee@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Mark Brown <broonie@kernel.org>
 Cc: wiagn233@outlook.com, Martin Botka <martin.botka@somainline.org>,
  martin.botka1@gmail.com, Samuel Holland <samuel@sholland.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org
-To: Andre Przywara <andre.przywara@arm.com>, Lee Jones <lee@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Mark Brown <broonie@kernel.org>
 References: <20230524000012.15028-1-andre.przywara@arm.com>
-From: Shengyu Qu <wiagn233@outlook.com>
-Subject: Re: [PATCH v11 0/3] regulator: Add X-Powers AXP15060/AXP313a PMIC
- support
 In-Reply-To: <20230524000012.15028-1-andre.przywara@arm.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------GFuyO0VVExGc518Cz9O8fR8R"
-X-TMN: [lgLARELR/dkBmAutdG2rvzqAj7PFXPHY]
-X-ClientProxiedBy: SI2PR04CA0005.apcprd04.prod.outlook.com
- (2603:1096:4:197::16) To TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
+ boundary="------------JHJfrvz3qXsOmrazwX1M8xtb"
+X-TMN: [iW2ZjwezmODVXvKgbtE1s4kpK3NRgq87]
+X-ClientProxiedBy: SI2PR04CA0001.apcprd04.prod.outlook.com
+ (2603:1096:4:197::12) To TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
  (2603:1096:400:252::12)
 X-Microsoft-Original-Message-ID:
- <d91cda0b-11c8-ce88-e575-8cffeba58714@outlook.com>
+ <bb6ab5e3-f0cd-4ab7-2c21-0df9815025fd@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,55 +60,55 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3P286MB2611:EE_|TY3P286MB3565:EE_
-X-MS-Office365-Filtering-Correlation-Id: 846a181d-1188-480e-1b0c-08db5c36b922
+X-MS-TrafficTypeDiagnostic: TY3P286MB2611:EE_|TYVP286MB3716:EE_
+X-MS-Office365-Filtering-Correlation-Id: cf5494b1-5648-420f-58dc-08db5c3705c4
 X-MS-Exchange-SLBlob-MailProps:
-	YfhX3sd/0TXNxj/Xt5tX4sxVLZRBiLOUfWli3tU+zcqU6ulDl6LgBPhe3eTK2zvoFGiRdUxy+1hBx/fSaRYjLLlyI1WOl9Shbi1NiAJ3QGx/hPDXWzfRCUqeDPC+lgsj0mJ30+eBZ/2NF27yPCDGYQbi9ocJlWXa0/yadr0blomzA25NdHk2tBYz3GB5RbbJSFhe++pNgocfUsNzUmSZQW5lDIiD+8r8K3dvXLooKG7SGizwWDLVVnOs+OMzHgO7XZ+vzeZMiQL77DH1jg7+nJYuRtD0g/wv5a/4JrqB5jZdmVbMgqqmfmOmYkEcaWxq5zG6d+z6qQoX9FltZZnH03mdM8cqhOJDkTZ2NBakgScravBRXCHt8dXuJyggP2/Z3uA/c0ZvVWHRZ2HKJYgudll4TTraD7Fpr3fEu3woQ1FZL3l+BdELpgSCmRNY2EPtcV3Htg4sxkj+m/+yI6tlWRWaEBtny3unbSp2DnSls4ZKLRHcH8wRAjwNsDekTgPrepNi+EPEDiwthadPvqFzzr+iC/gNHgzcB/LDn1g53LCD6BHH1y9ianldcnKOSkAUkn+xpd9eSsVIFJC9MGR9U+Ym44nlvVQ51+5cvRTLf4elCKbSS5WJXTiPOxtLFyWhpxwYpncVHrrlW7L9D4ksKsn+bJxlEuPIdqKRkGDudTEOwNhtMvbYM6tcVimgyfPxwTmTxr3z/ovB+EzND/XIFoV13WjQ0TqBoeBOdUWNaYgUv9i0sYo9mmJtIdnZnCgHaYTdJdnhBhZLt/Ed5LKcGdd83lJquPyt9HaGbBVX/jY=
+	YfhX3sd/0TXNxj/Xt5tX4sxVLZRBiLOUrhc3tHonJKEY5or3xu+T9vxwFR9sbFHWAiurHloX2zO/vJ8MkoMMWEZfybnOcEw73CUPdoAbSOJPSNwnMZiqUUcB3YCXtHK6xIjc3Vn8BcEVfi4HL2T95UMA1AtV4+bOZDI4Tpe67enkRAT+VRplF7PNrqgCQb97vd2hjIHRfa8qSHqIG5K2NquftLJjlEUXbxWLNh3BBh9iYW3YrvqcjwsHEBJE+UMOPtOcTeNsIO86UY9qCNKgjkEhagb0iSRAgu+eB4M5OaEPJRQmO1j3cc5uSsziynCat2F01w5SQkSm0PA1BB3haGtfsb7HK5HpX7nLUfkqFp1SCNPh4jRm3N0AHMcl33jZmMv2iFirnXvuWuCgWdshIQfnBd51wb/NFWKK2CoMioEQdpogS0r4buonR68daqrFqXCcXU56rgqOZUvHxQWr4MC9yRrhyE1AJKuGvuDS/13J1VxGjvWM+w6dWlplijGoCGk9k67i+5TR1mGC4XrQUEGhYrEUROsnUQFXacC3RAm/4jz33Z3tJfVnbPvePtTgD128dH+XHewqDpLUBVeiTElwaulyWAThZ2W+B9JWCdlKm2MpkCvqxfx+U2nm8x5cXrdcfncuzAQKluRNOYsCz8OGN4Fkcr8fJcfgOhRV4liknQBq1qF+WWd4DCxkIkzIR9a7RUP4fN5Z7hWo2pzfzKcu4QOMY/fWJZ33MbRlX5PXMYzPkeEKwouSDi94iyRoFx1G9ZnwplzuJi6XcsLu2d/HdT/DbTb83xkXEfQuWG8=
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	l1ltI5RyKv4FlzBELeUkp127E3l2Viu/co/s/lT/sN0h1Tij/SUf0PMnKo7v9bPsjIpJkR3OUpnl4RifGuSPTOUW26tah5nfioSMjPikzD82L0BtA4EQ/WhckRpQhlt2zKcgHc0J22sb9RUFeQtCpJSuDYk9cvPcalReuyE9ZGZO6PXKKqCOdQzyMWDCeWmoZUlA9/v/dMEFC/YY1+V+Ccx83EfzayQLaoykpg7PxC05tWQPe3/nefNyXkfkIE+feBDXIDr1IhAtbQGqEeiYt6SdmrYWdrMVUUGekNbWGU3/m+wbXILPVbldAT+Z9l+FK9TjW1ML4R8ymR9DneBugJ2E6BDfI+Q99w6Qt49doeksSmVODi8wFhZJeS++cRW+uwRC50MOxVrnIGNYPqwYUJO+EfFX7Q3U8bu7eLWeluF+NN0+AOk/qb6UcMS343+4/kSSHQpkXvhpykQ0SM3yRaDsnsGI4KJyiDlaAeS/09+r9c2VPy1yvtN7mWBuNeacEpCNDvq02WA+aks7fvy9vey6btzer+nryOlsNBl2ZLe/9w3tHW1eEULAqDvSCAhOb4/zWB2h6aB8iUMhYTKue2hP0mjHKdB/qLEsQitAP47v61zCB6Nc5EgBhdexdAwyETmETC8gzbeMTWKziu7AXA==
+	/BFC/cC9oC5T70mZ1VMp6rBV/CC04A/tEmIMbjmZa2+nZSmZRGAjUJt5cLZ5D/XEkUk3MsssuopHfOY19WL3MlGsTp81eGXG9frIV/ng/eXO/voD82yxBv2qlKpoIoq6o825kEhnD1n0FTic4uAiNe63bKAxFd1MlfJsjsuJWL8nB3x2pD0gmJQkz1A8+3ZOTQziirqS5eSYFDMH500+D7gfEopu2mCTarUCtLoTqgXuHxLe0fnMCu9CFwfLN3VzmSNpgW48WnfozyXdOVxqP+OXiZ00C08xn1dYgYLgNxvE/zGr5xJCzvtf3x1NbRA6Swvd6SEueGimVsM+NHn4pYTLcRmFP7oCG/NS7IXBdfKBkqSaEqVPDNQo8zN/icdUJzCiT+xx/Madw04vax2z95Eewri8Ne/d20YWzyXfMNNfeWrvwtjGm7dkSIg2kt3isHHWlB/+9DTSGSxTSxdi3bURP2nZ8kxj2wrEXrnJPOPa+GQdst4EV5meC8hcR8TbujTVJxOlV4hJ0GacmHXcMQFqrKH3F8wfHhUwsbdjWJK7+jjYOO6U5hPZCdsaQlYmsZw0z7RXTsvldZBWJo5hIt1ZvBeAIoQBO0KBJqFL3SPun3F3hOJ7u9oTcyunISvGGAHyo8qkvOFHmoDB2t7L5A==
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ckNPaUxKbk1YaVExbllKaVN4S1gvL2hiNElmdnJkcnJFRHJFQTZsT04rTTZI?=
- =?utf-8?B?aXRJYkp3VS9veVprNTZ0dElEM3l1eXlKWVV3NUhka0ZnUUgvc3M3Nk1LbmR1?=
- =?utf-8?B?SWhPbUIxNGN4enNLb04wbmppUFBOQ1NJSk1mNm5ranArL3lOR1Q4bWJqbG5o?=
- =?utf-8?B?elRxZCtPeUtkR0VJOEpWUFByQWNxK29GSzlWc25TODJnWXpSUFpOZlFUL0FS?=
- =?utf-8?B?UjdoTmo4Q1dIb0E1dmsrQVRiTEZMcWxkMGd6TDl6U3kxeXNZTHhVZHB6Y1Y2?=
- =?utf-8?B?QU9wMW53WU1JT2hDNnlUWk9GakxhRGczdTNNSTgyNmtZbUNYNmNHTWZQYXpi?=
- =?utf-8?B?RGwzUzRGakJpRVJRcSs0RmhsSHRFSHpySWVZUUd5T2ZDY253b1ZHalBRQmpB?=
- =?utf-8?B?VkRnNGN6a3hPZ1R4UHhydkZmYnk2aXRRYngrRTNmZ0U5RGNsamg1SUpMdjNF?=
- =?utf-8?B?QUE0U3A1am9aTE1UcHcraU9wc0tSZWhUWENOdnJheVRhZUloU0RDSm02UDZ5?=
- =?utf-8?B?NkhRbGdrbmtmMmtOb1Y5Wjk0Z3FCc1NDbnlIN2N5YWhZRXRUaGtuejZJYUpM?=
- =?utf-8?B?aE9sbE8xUkFFN09RaWxIa1dvcDQvTWpHeGY4dWZIZkN4WThtMjJOcllSWVVV?=
- =?utf-8?B?WEdRZWFRL0hPRWVoeitLbXBvNXVNR254OXlYRUI0R2NqUjRTTXBhK2lMSTBV?=
- =?utf-8?B?ajZUOEJnZWZsNVozV3BsR2s4QzFaRUppZGkvVHlXTE52aURnRDFYcnc0SUtR?=
- =?utf-8?B?QTMzZXcyKzl4MmdUYUVTRnZEUzVNV3poYW9NZXUvOHh4VDdrY094MUxSRjhu?=
- =?utf-8?B?bGR6Mm5sSm5IdzBmYlk4Vmc1VU1oVjBsZ09yS1ZGVWNaUG0ybzFHMDNTVEdq?=
- =?utf-8?B?TDRNUnhmemlUWnZMRFV2Zys4L2FyZ0V2U3dBZldHTjZpVll5RHR4TTZwN0ox?=
- =?utf-8?B?QUJHSHJhMmtkTFNYKzRNZUUrZG9hb21DNjhJWDZrMXFUeDRCa0pyVFRSWXdP?=
- =?utf-8?B?NXJDWTdmTDNTc0dkcVNERnVFYkxDWkxncE5iRktwTmJPeC90UlNqZlQ5YmxJ?=
- =?utf-8?B?ekdUS1dBRmh4cmlDNTVvNXRiMnUrSkJDMDMyQVhlMVAxUWJZSEJNTGlNVk9o?=
- =?utf-8?B?blljZ21qNHFSc0pmR2xBYUlMOXlUYkJ4RWkwN2lpZ1BmbVJKVlJXS21uOWw3?=
- =?utf-8?B?NHNtVFRXSHNKSXZka1VhRDhLekd0MEZBWENWVUJndDhzdWdraU52c2Irb3Ro?=
- =?utf-8?B?dk03RTl5aWxoTjdTSWlrdXhySXNTNDFuREpvUDZsbmY2OTczSGNhTGFKenFk?=
- =?utf-8?B?NkRydGdHWXpBc00xek9LUURzM1NRdWQ1d3ZjaWkyWVFjdlovK1dFUEw3dlh1?=
- =?utf-8?B?OTZBSHVKWkdYNS9hMTUzcHZMTTVMeTFMOXRlMzMzTHp0ZTNHbTdVTXBMUXB2?=
- =?utf-8?B?VTFmYjVwMmlLYWVvaGloL1NHODhrMHBVWFlhOHZrTWd3NDNIZUxGSEZtV2RP?=
- =?utf-8?B?cm9wWHBMdzE3TjZaTEorTXdOdUlyYWU3Q3Jmbm5NZmJudjUyMmp2cnZxcm05?=
- =?utf-8?B?Y3pwOXhEZGNhWm1VcDhScDUxQmJPODdsVkNTQkFrMDcvSTk5a2Rza1hDN2Y0?=
- =?utf-8?B?Y3Bsd21nY005K0wyejUzVDNBWkJ0S2c9PQ==?=
+	=?utf-8?B?YXBmaS9KSUFsdWwwZ05rVU9mN0dZL0x2Zi9rU0g3S3ZYNjlSNi9tQUp3SnFB?=
+ =?utf-8?B?L1Z3YXcvZ3ZWZWRqT0RVUHkyVzNSaXZiY2F5TERIMGQva2U5YkxyOExkK2Y2?=
+ =?utf-8?B?bHorUWNqS2xIdDJlTERXUDNDQVNmSXhNbzhIU09LaU9mTVhDaGthck5vSHlz?=
+ =?utf-8?B?TkErYmdqbmswV1VsWUtWbUtjeFFkM2gwQ0xHZmpPdVBjNHVCaTZqRVdJSTRY?=
+ =?utf-8?B?Nnl3Nyt4MnJDeDhkWTdzYVg1Ni9JYzFRSCtSQkkrOVl0TmVVeVlZR2hWZ2tm?=
+ =?utf-8?B?ekIwMGZHRjJOVHVPeHdxTFBRUkZzZkpwcnZkR3ZHQmord2JDNjZZK2xXUEp6?=
+ =?utf-8?B?VWlvU3NiUmtFdEZnVG9LSzRVTzJaQkVBYXE1cmNWTit2eUJSSy96ZGQ0R1g4?=
+ =?utf-8?B?SnFtT0lBNDYxVmRTdzU2Zy95eVFla0NDVlB0d1MwbkY1TUxaZ3l5Uk9qbzBq?=
+ =?utf-8?B?a2pYVWRIajBQbUNIZkV5bngyRWZ6KzdUZjVWU3dhUDI1TXo5RjlJRmNHcVYy?=
+ =?utf-8?B?Tmp0MnVCV3htVDRaME9Wa2pSOW1GbFdQTVY4RTJKY3NUa1E4RWJxd0JCYlF6?=
+ =?utf-8?B?bFl2MlV1L2pmVDBqNytNVnN1c3dHUFM5dlQrTjN0bEU5QmFuRXpYRmFQdnA0?=
+ =?utf-8?B?U0lYNTRKQTYvYTVIblpIWldlYWFTTUZNL1plMytrU0l5TFp2OCsyR25Na0xY?=
+ =?utf-8?B?MFVXR3YrWUpLeXg5QTdhbzZieUFwSm12NDhaTU56VjlmRDVwUHNHeDJaMktH?=
+ =?utf-8?B?ZHhqTGRQMDhHRmZwbk1hbysybjRDRmxZd0wvdlk4eXpIUEJiK2FHM0JxTjZE?=
+ =?utf-8?B?MDJDRW5sdW1ETWlHMzlyajlCWU5tYnpocXhUbUxTbTI1bmd5TG80R3pac2Jm?=
+ =?utf-8?B?Z2FVSXNTeVFDaWd6c1o1a3ZyMHRhSWt1UjFnUjdKeWcxWHJSU3hsMDZNTVhJ?=
+ =?utf-8?B?RnVrNkdMSGU3STgrZ2drVmJod0RDYUp3RFlZNGRxRjZUbHhueHpLQkQyaFNi?=
+ =?utf-8?B?b3RZNFMxc0poNnFTaU8yS3RSWFpMd2hGei9iOWJGVFhYbjNwU1pPbGxlR08r?=
+ =?utf-8?B?MHc2ZjkzUm11NGh3bzM5aThIM3l1UTNFalhuMVpRZ2JrUlNmQjVHbzcwVFpH?=
+ =?utf-8?B?dXhPTXJvUmd0RkUwamcyWEJVbGxkZWEzdHBHL3Jyc2FxbHRzWHlyRFlUWUx4?=
+ =?utf-8?B?cm9ab1pmRTNiNGpxaGNpWmNSdUFVT0tqUjl0RzQvT2N3Wko0T05kZ1FoQktL?=
+ =?utf-8?B?NlRlRitiODg4Q3ZUSkRGd04zbHY2eTZWdWw1QXRLaWdpUmVzVDlnRCtBbGgw?=
+ =?utf-8?B?a0xxOUwrM2g5cDhWRFNOWWpDVWN3M3lLYllwSGhkN2QwUnJtenkrNzQ0U2dJ?=
+ =?utf-8?B?T3RMcnZiYjRqK0V4NUc5OEFkajRzSEpTQjQzaHUxd2hURGpmeFV3dngza0Fp?=
+ =?utf-8?B?UmpnUG9QUjRWNGpNRGdiaVVOWHozeFBzU1dTcVZsa2R3UHdOaEVHTURUNnhY?=
+ =?utf-8?B?OEd1VnIweVBxdlIyTERoYlFmNEVLTUQ0TWZIZmtrR0l1RHlraUFNWHJyQ0Zm?=
+ =?utf-8?B?bUdSU0VnMm1pTUhsajZDV1Vhb0dCdmdCd1l3SEpBMzVvZC9sRWc1SGM5QVVv?=
+ =?utf-8?B?RzlsaXZLd1NlR0RWTnFoYW1lMGozTVE9PQ==?=
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 846a181d-1188-480e-1b0c-08db5c36b922
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf5494b1-5648-420f-58dc-08db5c3705c4
 X-MS-Exchange-CrossTenant-AuthSource: TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2023 09:10:31.3279
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2023 09:12:39.5958
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3P286MB3565
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYVP286MB3716
 
---------------GFuyO0VVExGc518Cz9O8fR8R
-Content-Type: multipart/mixed; boundary="------------g30Qyu88QrX9Zvip0B7v0kbD";
+--------------JHJfrvz3qXsOmrazwX1M8xtb
+Content-Type: multipart/mixed; boundary="------------YWDpRHQ5iGoPy5Rwuh6Hh1Yw";
  protected-headers="v1"
 From: Shengyu Qu <wiagn233@outlook.com>
 To: Andre Przywara <andre.przywara@arm.com>, Lee Jones <lee@kernel.org>,
@@ -118,20 +118,16 @@ Cc: wiagn233@outlook.com, Martin Botka <martin.botka@somainline.org>,
  martin.botka1@gmail.com, Samuel Holland <samuel@sholland.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org
-Message-ID: <d91cda0b-11c8-ce88-e575-8cffeba58714@outlook.com>
+Message-ID: <bb6ab5e3-f0cd-4ab7-2c21-0df9815025fd@outlook.com>
 Subject: Re: [PATCH v11 0/3] regulator: Add X-Powers AXP15060/AXP313a PMIC
  support
 References: <20230524000012.15028-1-andre.przywara@arm.com>
 In-Reply-To: <20230524000012.15028-1-andre.przywara@arm.com>
 
---------------g30Qyu88QrX9Zvip0B7v0kbD
-Content-Type: multipart/mixed; boundary="------------tpj16VSpqnulQG7340l3r2JR"
+--------------YWDpRHQ5iGoPy5Rwuh6Hh1Yw
+Content-Type: multipart/mixed; boundary="------------CceeTACUHKmCf29ZruQrwmB9"
 
---------------tpj16VSpqnulQG7340l3r2JR
-Content-Type: multipart/alternative;
- boundary="------------CHFVKwoKXfr4Um9Jabv3Jr46"
-
---------------CHFVKwoKXfr4Um9Jabv3Jr46
+--------------CceeTACUHKmCf29ZruQrwmB9
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: base64
 
@@ -202,142 +198,7 @@ MjB4LXJlZ3VsYXRvci5jIHwgMjkwICsrKysrKysrKysrKysrKysrKysrKysrKysrLQ0KPiAg
 IGluY2x1ZGUvbGludXgvbWZkL2F4cDIweC5oICAgICAgICAgICB8ICAzMiArKysNCj4gICA0
 IGZpbGVzIGNoYW5nZWQsIDM5MyBpbnNlcnRpb25zKCspLCA5IGRlbGV0aW9ucygtKQ0KPg0K
 
---------------CHFVKwoKXfr4Um9Jabv3Jr46
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-  <head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
--8">
-  </head>
-  <body>
-    <p>Hi Andre,</p>
-    <p>Thank you for your work, test succeeded on AXP15060 with no
-      problem.</p>
-    <pre class=3D"content"><span class=3D"tested-by">Tested-by: Shengyu Q=
-u <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:wiagn233@outlook.com"=
->&lt;wiagn233@outlook.com&gt;</a></span></pre>
-    <p></p>
-    <p>Best regards,</p>
-    <p>Shengyu<br>
-    </p>
-    <blockquote type=3D"cite"
-      cite=3D"mid:20230524000012.15028-1-andre.przywara@arm.com">
-      <pre class=3D"moz-quote-pre" wrap=3D"">Hi,
-
-this patch series adds support for the X-Powers AXP15060 and AXP313a
-PMIC, which are general purpose PMICs as seen on different boards with
-different SOCs, mostly from Allwinner.
-
-This is mostly a repost of the previous patches, combining both the
-AXP313a and AXP15060 series, rebased on top of v6.4-rc3, and omitting
-the patches that already got merged.
-The first two patches are the successors of the AXP313a v10 post,
-the third patch is based on Shengyu's AXP15060 v3 post.
-
-There were no code changes, just some tiny context differences due to
-the rebase, plus I added the newly gained tags.
-
-As the DT bindings and the AXP15060 MFD part are already in the tree,
-this is just completing support with the MFD part for the AXP313a, and
-the regulator support for both PMICs.
-
-Shengyu, Martin: can you please give this a final test?
-
-Cheers,
-Andre
-
-Changelog:
-
-v3/v10 .. v11:
-- add broonie's and Chen-Yu's review tags
-- rebase on top of v6.4-rc3
-
-AXP313a:
-v9 .. v10:
-- use MFD_CELL_RES macro
-- mark dcdc-freq property as "false" for AXP313a
-- add Lee's ACK
-
-v8 .. v9:
-- use MFD_CELL_NAME macro
-- fix LDO regulator names to match the datasheet
-- only mark changing registers as volatile
-- use correct register for shutdown operation
-- add power key resources
-- disallow x-powers,dcdc-freq in the DT binding
-- drop unused OUTPUT_MONITOR register name, add SHUTDOWN_CTRL
-- require dcdcfreq being 0 (non-present DT property default)
-
-v7 .. v8:
-- Add check for dcdcfreq being zero
-
-v6 .. v7:
-- Use alphabetical ordering
-
-v5 .. v6:
-- change name from AXP1530 to AXP313a
-- extend commit messages
-- drop AXP*_FREQUENCY register (not used anyway)
-- better vertically align struct definitions
-- rename IRQs to match names used for other PMICs
-- add RTC_LDO regulator
-- use decimal numbers for selector ranges
-- use macro definitions to name some values
-- force DC/DC switching frequency to be fixed at 3 MHz
-- change LDO source supply to VIN1 (as per datasheet)
-
-v4 .. v5:
-- Use alphabetical ordering in mfd
-- Correct { placement line
-- Replace spaces with tabs in 1 struct
-
-v3 .. v4:
-- Fix indentation
-
-v2 .. v3:
-- Move AXP1530 dt-binding to alphabetical order
-
-v1 .. v2:
-- Remove RSB support.
-- Drop .id =3D 0
-- Add dt-binding for the AXP1530
-
-AXP15060:
-v2 .. v3:
-- Rebase to AXP313a series v10 [1] + newest (20230420) -next branch
-- Disables DC-DC frequency setting
-- Add axp_regulator_only_cells rather than directly using axp806_cells
-  for cases that IRQ line isn't connected.
-- Fix some whitespace
-- Rename swout to sw to keep up with bindings
-- Add check for setting DC-DC frequency
-
-v1 .. v2:
-- Move cpusldo before drivevbus (Krzysztof Kozlowski)
-
-
-Martin Botka (2):
-  mfd: axp20x: Add support for AXP313a PMIC
-  regulator: axp20x: Add support for AXP313a variant
-
-Shengyu Qu (1):
-  regulator: axp20x: Add AXP15060 support
-
- drivers/mfd/axp20x-i2c.c             |   2 +
- drivers/mfd/axp20x.c                 |  78 ++++++-
- drivers/regulator/axp20x-regulator.c | 290 ++++++++++++++++++++++++++-
- include/linux/mfd/axp20x.h           |  32 +++
- 4 files changed, 393 insertions(+), 9 deletions(-)
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------CHFVKwoKXfr4Um9Jabv3Jr46--
---------------tpj16VSpqnulQG7340l3r2JR
+--------------CceeTACUHKmCf29ZruQrwmB9
 Content-Type: application/pgp-keys; name="OpenPGP_0xE3520CC91929C8E7.asc"
 Content-Disposition: attachment; filename="OpenPGP_0xE3520CC91929C8E7.asc"
 Content-Description: OpenPGP public key
@@ -453,30 +314,30 @@ lMSoVV3z1s8dA1DK95ykSdIFtVZT
 =3Dr4B8
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------tpj16VSpqnulQG7340l3r2JR--
+--------------CceeTACUHKmCf29ZruQrwmB9--
 
---------------g30Qyu88QrX9Zvip0B7v0kbD--
+--------------YWDpRHQ5iGoPy5Rwuh6Hh1Yw--
 
---------------GFuyO0VVExGc518Cz9O8fR8R
+--------------JHJfrvz3qXsOmrazwX1M8xtb
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEET/yoGP3p5Zl+RKVuX75KBAfJsRkFAmRt1HsACgkQX75KBAfJ
-sRng2hAAjh72NMSLS8GV264PewbnZuR4yKIsl4vrakZRmg0hxFMxlTvLvQ/ulf8R
-SxyD0Ci1sMEKV4pvunENwncRVyxXgHnamPM33GVmUnBDBgV7VCN4wnRxizgsfWSN
-/v99SgeevE/9qqC4iW8iTxu375GOp+IL1QQUQVQNxW7J1MyKZAfkBXAdQ24G+zhE
-JE2R4drCRuB8A8jo7pi6vBJ9LOZzAkZj6JvoyZGScsL8IiorcvzyQtAbbtUqnZf7
-oQVwxBf0rHQLHRmg4bpUyxK89bHhIReGNH9HnkdwWkbJOIH16WnOaLaO5DcgOYg5
-hIxorAW0/dIvtK5hhYGnpjIhk8yb8DaLFU03UVLs0YoKW+zLpAkqLek7vAWbXHwF
-0emj6T7ZFIyYGgMH+qKyZHZKCF9Mx76M3DZdr9kL13ro+4lqjq7HhsMRZ8iDIQYY
-Mn2l4S7Pz8sBuDTIXBc2s6BPlLd3sVj9bLBAcwbjJk1e7do+tGdBefXrm0KSfsLF
-5jFtaeGeWm3qYBuEUBZxHwo/pM/e7HAmaBuovfJ+RqBe19Yo1goCKo6l4gKswGRJ
-cOQny/J/HZb9sXEGNZB7/XJIYCKvsNip7VWgUvDn4hJZofUXn2e5odN6jIky4Mkz
-SrcUGunO8mE8p11ylszwL8jKwMUdZ4u2hcmS8aIYxlUCKBa2Xic=
-=P6v9
+iQIzBAEBCAAdFiEET/yoGP3p5Zl+RKVuX75KBAfJsRkFAmRt1QAACgkQX75KBAfJ
+sRm0RA/8Dg+4ghGAVdMwO7G4TGz1bGKkADkeUrOPzdbVYXgUBSU6UG90Cpu6cPM5
+bAaNh1zyXp1IExi+2oihT79fPNe/V3KCUVcB5eLuzArOpSxFhTfR+oEgU/HttH/i
+nAl6CYPBeAMFKuF2PMCFhC746yOF7LoU7WYNGlwmxjpdJwzkQY3rPPwso3qyIYMv
+OSnLh9k90KG/EJ8Ac56GRKoFjJR1sZ9mh66XJBXY/ppWnHq1xnmh1shV+6zTz9y2
+CNlw/tEVKL7+0czIQNkCJnklJrx59yNNxebX6eROARtBgF7+IqKvIi+i976S1TMC
+glNtlb5sYLI/IAKv6bMrTtRNt8UbSP316DPID7YuM6XDoOZ4ZWXUMYJdPDxfowbj
+ANOT6478RuLXYjEPlkJGcVoBEBvqRRvMUMia+CcKG7xeTTnXfHth8I3fpdztbbRD
+O2Hw8vj/5u/5pFJzDvgITfKz1Imxavtoqymy5gyNsTuS9avCrw9W3ir9/nV3aqHC
+9At2hmyZDWRuL4bozUB6l25iv/Nj8A0ljXppe7lE8USOquT/fIzdpf7BJG3eIifb
+DCeaMZWAilQaFnrM5mln/bawWa9RMMciwbgRiIMpsFMZ1JqO84zMKqs+j7g73vN9
+FtXEIdMroVS6GLWZaYvVXpuT6yCdjTh741QxZPqklNG4eOx1wsI=
+=yImd
 -----END PGP SIGNATURE-----
 
---------------GFuyO0VVExGc518Cz9O8fR8R--
+--------------JHJfrvz3qXsOmrazwX1M8xtb--
