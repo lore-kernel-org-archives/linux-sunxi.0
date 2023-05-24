@@ -1,30 +1,81 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33C96180
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 May 2023 00:00:45 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C418F1042;
-	Tue, 23 May 2023 17:01:29 -0700 (PDT)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C29FC3F67D;
-	Tue, 23 May 2023 17:00:42 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Lee Jones <lee@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCAFC146
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 May 2023 08:27:58 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-4f3a873476bso538711e87.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 24 May 2023 01:27:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684916876; x=1687508876;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yqn5qRBwLcinfNxv6VW9L+IL+2b4SfMx1zWHSgO399s=;
+        b=k37Hh7n14UGVGV4NE3zQCYH3l1evQJSVPVb/+G9Fq3cASkwC273FAbYkuSHoClOScS
+         yA70k8n8prh1aJmXgtbPAM6tF5BCuA2Y08lsRsHprvLhRH/1coP0RHOdcNoJFQ6XHFCB
+         hrgsGRMXtTVQ2JLzKF1XZr7d4E9DL80Lz+afMRbfEv0wvO7NxfPAMu5iSn/3irBjhGbj
+         eydEcIzBH1K33G9q2oya4vzq2Q597lx/luBgn80hMPlge5F5MvFydT7TjoCorzMzqiaf
+         hWIAysdO/FZy4YQCtGIknBlv8ZvAS8nU+UsUdHXMK81dBH6vhDq3xM0Zr14l367gLMu6
+         Z0DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684916876; x=1687508876;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yqn5qRBwLcinfNxv6VW9L+IL+2b4SfMx1zWHSgO399s=;
+        b=i+9he83wY2wt990uqyT2k+nlq6wkfUSq8DllZqBoFRSq43qUSLt3XaW6e70YQm+Ga9
+         VquZubbnyFraqLd+E8CrMOgiOghRBTWpmqmNBJ74LDrQbWg7703VvUy0XcweR+BEJPdK
+         vbuFH25a+mfuz8h6bdHs4NccfnB5Ce+pK9m3iSjSyRlUTUJu+XokEDnEsFmWq1LIM2AN
+         B82yFUBzwpwPL46pBInMk5FN9TrAJ60KFox/daIzGeDeK/Dn7Cmg+wrmGhYHaagDZhzf
+         EydEG0Xk+RsVqV2QUD75ABQEooMFs11Sl+VjB4sweVEMowAr8z7mlsPd/WjV+M78lOnN
+         gR7Q==
+X-Gm-Message-State: AC+VfDzlaHx/Nc8Clp61ug+hEvwJY+mbyxlcdQJ2/WHxu8NDNg9VIr8J
+	WJy/X8/vuayefGG/AFUXanA=
+X-Google-Smtp-Source: ACHHUZ51AH1JWC4YEIhLkDzsm1fECjK/PgS5MlDO56x6XPdzEJ3P3CzbjtqR9uT3ruJll6fRYG0ydg==
+X-Received: by 2002:ac2:434a:0:b0:4f3:a483:557 with SMTP id o10-20020ac2434a000000b004f3a4830557mr4741266lfl.5.1684916875768;
+        Wed, 24 May 2023 01:27:55 -0700 (PDT)
+Received: from pc.. (mail.pulsar-telecom.ru. [94.181.180.60])
+        by smtp.googlemail.com with ESMTPSA id c18-20020a197612000000b004f378fbb358sm1614049lff.112.2023.05.24.01.27.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 May 2023 01:27:55 -0700 (PDT)
+From: Maxim Kiselev <bigunclemax@gmail.com>
+To: linux-iio@vger.kernel.org
+Cc: Maxim Kiselev <bigunclemax@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Chen-Yu Tsai <wens@csie.org>,
-	Mark Brown <broonie@kernel.org>
-Cc: Martin Botka <martin.botka@somainline.org>,
-	martin.botka1@gmail.com,
-	Shengyu Qu <wiagn233@outlook.com>,
-	Samuel Holland <samuel@sholland.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Conor Dooley <conor@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Heiko Stuebner <heiko.stuebner@vrull.eu>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	Mike Looijmans <mike.looijmans@topic.nl>,
+	Haibo Chen <haibo.chen@nxp.com>,
+	ChiYuan Huang <cy_huang@richtek.com>,
+	Ramona Bolboaca <ramona.bolboaca@analog.com>,
+	Ibrahim Tilki <Ibrahim.Tilki@analog.com>,
+	Caleb Connolly <caleb.connolly@linaro.org>,
+	William Breathitt Gray <william.gray@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	=?UTF-8?q?Leonard=20G=C3=B6hrs?= <l.goehrs@pengutronix.de>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	ChiaEn Wu <chiaen_wu@richtek.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v11 3/3] regulator: axp20x: Add AXP15060 support
-Date: Wed, 24 May 2023 01:00:12 +0100
-Message-Id: <20230524000012.15028-4-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.8
-In-Reply-To: <20230524000012.15028-1-andre.przywara@arm.com>
-References: <20230524000012.15028-1-andre.przywara@arm.com>
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: [RFC PATCH v1 0/4] Add support for Allwinner GPADC on D1/T113s/R329 SoCs
+Date: Wed, 24 May 2023 11:27:29 +0300
+Message-Id: <20230524082744.3215427-1-bigunclemax@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -33,369 +84,38 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Shengyu Qu <wiagn233@outlook.com>
+Hi,
 
-The AXP15060 is a typical I2C-controlled PMIC, seen on multiple boards
-with different default register value. Current driver is tested on
-Starfive Visionfive 2.
+This series adds support for general purpose ADC (GPADC) on new
+Allwinner's SoCs, such as D1, T113s and R329. The implemented driver
+provides basic functionality for getting ADC channels data.
 
-The RTCLDO is fixed, and cannot even be turned on or off. On top of
-that, its voltage is customisable (either 1.8V or 3.3V). We pretend it's
-a fixed 1.8V regulator since other AXP driver also do like this. Also,
-BSP code ignores this regulator and it's not used according to VF2
-schematic.
+All of the listed SoCs have the same IP. The only difference is the number
+of available channels:
+     T113 - 1 channel
+     D1   - 2 channels
+     R329 - 4 channels
 
-Describe the AXP15060's voltage settings and switch registers, how the
-voltages are encoded, and connect this to the MFD device via its
-regulator ID.
+This series is just an RFC and I would be glad to see any comments
+about it.
 
-Signed-off-by: Shengyu Qu <wiagn233@outlook.com>
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Mark Brown <broonie@kernel.org>
----
- drivers/regulator/axp20x-regulator.c | 232 +++++++++++++++++++++++++--
- 1 file changed, 223 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/regulator/axp20x-regulator.c b/drivers/regulator/axp20x-regulator.c
-index db77c72d39a0f..810f90f3e2a1b 100644
---- a/drivers/regulator/axp20x-regulator.c
-+++ b/drivers/regulator/axp20x-regulator.c
-@@ -275,6 +275,74 @@
- 
- #define AXP813_PWR_OUT_DCDC7_MASK	BIT_MASK(6)
- 
-+#define AXP15060_DCDC1_V_CTRL_MASK		GENMASK(4, 0)
-+#define AXP15060_DCDC2_V_CTRL_MASK		GENMASK(6, 0)
-+#define AXP15060_DCDC3_V_CTRL_MASK		GENMASK(6, 0)
-+#define AXP15060_DCDC4_V_CTRL_MASK		GENMASK(6, 0)
-+#define AXP15060_DCDC5_V_CTRL_MASK		GENMASK(6, 0)
-+#define AXP15060_DCDC6_V_CTRL_MASK		GENMASK(4, 0)
-+#define AXP15060_ALDO1_V_CTRL_MASK		GENMASK(4, 0)
-+#define AXP15060_ALDO2_V_CTRL_MASK		GENMASK(4, 0)
-+#define AXP15060_ALDO3_V_CTRL_MASK		GENMASK(4, 0)
-+#define AXP15060_ALDO4_V_CTRL_MASK		GENMASK(4, 0)
-+#define AXP15060_ALDO5_V_CTRL_MASK		GENMASK(4, 0)
-+#define AXP15060_BLDO1_V_CTRL_MASK		GENMASK(4, 0)
-+#define AXP15060_BLDO2_V_CTRL_MASK		GENMASK(4, 0)
-+#define AXP15060_BLDO3_V_CTRL_MASK		GENMASK(4, 0)
-+#define AXP15060_BLDO4_V_CTRL_MASK		GENMASK(4, 0)
-+#define AXP15060_BLDO5_V_CTRL_MASK		GENMASK(4, 0)
-+#define AXP15060_CLDO1_V_CTRL_MASK		GENMASK(4, 0)
-+#define AXP15060_CLDO2_V_CTRL_MASK		GENMASK(4, 0)
-+#define AXP15060_CLDO3_V_CTRL_MASK		GENMASK(4, 0)
-+#define AXP15060_CLDO4_V_CTRL_MASK		GENMASK(5, 0)
-+#define AXP15060_CPUSLDO_V_CTRL_MASK		GENMASK(3, 0)
-+
-+#define AXP15060_PWR_OUT_DCDC1_MASK	BIT_MASK(0)
-+#define AXP15060_PWR_OUT_DCDC2_MASK	BIT_MASK(1)
-+#define AXP15060_PWR_OUT_DCDC3_MASK	BIT_MASK(2)
-+#define AXP15060_PWR_OUT_DCDC4_MASK	BIT_MASK(3)
-+#define AXP15060_PWR_OUT_DCDC5_MASK	BIT_MASK(4)
-+#define AXP15060_PWR_OUT_DCDC6_MASK	BIT_MASK(5)
-+#define AXP15060_PWR_OUT_ALDO1_MASK	BIT_MASK(0)
-+#define AXP15060_PWR_OUT_ALDO2_MASK	BIT_MASK(1)
-+#define AXP15060_PWR_OUT_ALDO3_MASK	BIT_MASK(2)
-+#define AXP15060_PWR_OUT_ALDO4_MASK	BIT_MASK(3)
-+#define AXP15060_PWR_OUT_ALDO5_MASK	BIT_MASK(4)
-+#define AXP15060_PWR_OUT_BLDO1_MASK	BIT_MASK(5)
-+#define AXP15060_PWR_OUT_BLDO2_MASK	BIT_MASK(6)
-+#define AXP15060_PWR_OUT_BLDO3_MASK	BIT_MASK(7)
-+#define AXP15060_PWR_OUT_BLDO4_MASK	BIT_MASK(0)
-+#define AXP15060_PWR_OUT_BLDO5_MASK	BIT_MASK(1)
-+#define AXP15060_PWR_OUT_CLDO1_MASK	BIT_MASK(2)
-+#define AXP15060_PWR_OUT_CLDO2_MASK	BIT_MASK(3)
-+#define AXP15060_PWR_OUT_CLDO3_MASK	BIT_MASK(4)
-+#define AXP15060_PWR_OUT_CLDO4_MASK	BIT_MASK(5)
-+#define AXP15060_PWR_OUT_CPUSLDO_MASK	BIT_MASK(6)
-+#define AXP15060_PWR_OUT_SW_MASK		BIT_MASK(7)
-+
-+#define AXP15060_DCDC23_POLYPHASE_DUAL_MASK		BIT_MASK(6)
-+#define AXP15060_DCDC46_POLYPHASE_DUAL_MASK		BIT_MASK(7)
-+
-+#define AXP15060_DCDC234_500mV_START	0x00
-+#define AXP15060_DCDC234_500mV_STEPS	70
-+#define AXP15060_DCDC234_500mV_END		\
-+	(AXP15060_DCDC234_500mV_START + AXP15060_DCDC234_500mV_STEPS)
-+#define AXP15060_DCDC234_1220mV_START	0x47
-+#define AXP15060_DCDC234_1220mV_STEPS	16
-+#define AXP15060_DCDC234_1220mV_END		\
-+	(AXP15060_DCDC234_1220mV_START + AXP15060_DCDC234_1220mV_STEPS)
-+#define AXP15060_DCDC234_NUM_VOLTAGES	88
-+
-+#define AXP15060_DCDC5_800mV_START	0x00
-+#define AXP15060_DCDC5_800mV_STEPS	32
-+#define AXP15060_DCDC5_800mV_END		\
-+	(AXP15060_DCDC5_800mV_START + AXP15060_DCDC5_800mV_STEPS)
-+#define AXP15060_DCDC5_1140mV_START	0x21
-+#define AXP15060_DCDC5_1140mV_STEPS	35
-+#define AXP15060_DCDC5_1140mV_END		\
-+	(AXP15060_DCDC5_1140mV_START + AXP15060_DCDC5_1140mV_STEPS)
-+#define AXP15060_DCDC5_NUM_VOLTAGES	69
-+
- #define AXP_DESC_IO(_family, _id, _match, _supply, _min, _max, _step, _vreg,	\
- 		    _vmask, _ereg, _emask, _enable_val, _disable_val)		\
- 	[_family##_##_id] = {							\
-@@ -1048,6 +1116,104 @@ static const struct regulator_desc axp813_regulators[] = {
- 		    AXP22X_PWR_OUT_CTRL2, AXP22X_PWR_OUT_DC1SW_MASK),
- };
- 
-+static const struct linear_range axp15060_dcdc234_ranges[] = {
-+	REGULATOR_LINEAR_RANGE(500000,
-+			       AXP15060_DCDC234_500mV_START,
-+			       AXP15060_DCDC234_500mV_END,
-+			       10000),
-+	REGULATOR_LINEAR_RANGE(1220000,
-+			       AXP15060_DCDC234_1220mV_START,
-+			       AXP15060_DCDC234_1220mV_END,
-+			       20000),
-+};
-+
-+static const struct linear_range axp15060_dcdc5_ranges[] = {
-+	REGULATOR_LINEAR_RANGE(800000,
-+			       AXP15060_DCDC5_800mV_START,
-+			       AXP15060_DCDC5_800mV_END,
-+			       10000),
-+	REGULATOR_LINEAR_RANGE(1140000,
-+			       AXP15060_DCDC5_1140mV_START,
-+			       AXP15060_DCDC5_1140mV_END,
-+			       20000),
-+};
-+
-+static const struct regulator_desc axp15060_regulators[] = {
-+	AXP_DESC(AXP15060, DCDC1, "dcdc1", "vin1", 1500, 3400, 100,
-+		 AXP15060_DCDC1_V_CTRL, AXP15060_DCDC1_V_CTRL_MASK,
-+		 AXP15060_PWR_OUT_CTRL1, AXP15060_PWR_OUT_DCDC1_MASK),
-+	AXP_DESC_RANGES(AXP15060, DCDC2, "dcdc2", "vin2",
-+			axp15060_dcdc234_ranges, AXP15060_DCDC234_NUM_VOLTAGES,
-+			AXP15060_DCDC2_V_CTRL, AXP15060_DCDC2_V_CTRL_MASK,
-+			AXP15060_PWR_OUT_CTRL1, AXP15060_PWR_OUT_DCDC2_MASK),
-+	AXP_DESC_RANGES(AXP15060, DCDC3, "dcdc3", "vin3",
-+			axp15060_dcdc234_ranges, AXP15060_DCDC234_NUM_VOLTAGES,
-+			AXP15060_DCDC3_V_CTRL, AXP15060_DCDC3_V_CTRL_MASK,
-+			AXP15060_PWR_OUT_CTRL1, AXP15060_PWR_OUT_DCDC3_MASK),
-+	AXP_DESC_RANGES(AXP15060, DCDC4, "dcdc4", "vin4",
-+			axp15060_dcdc234_ranges, AXP15060_DCDC234_NUM_VOLTAGES,
-+			AXP15060_DCDC4_V_CTRL, AXP15060_DCDC4_V_CTRL_MASK,
-+			AXP15060_PWR_OUT_CTRL1, AXP15060_PWR_OUT_DCDC4_MASK),
-+	AXP_DESC_RANGES(AXP15060, DCDC5, "dcdc5", "vin5",
-+			axp15060_dcdc5_ranges, AXP15060_DCDC5_NUM_VOLTAGES,
-+			AXP15060_DCDC5_V_CTRL, AXP15060_DCDC5_V_CTRL_MASK,
-+			AXP15060_PWR_OUT_CTRL1, AXP15060_PWR_OUT_DCDC5_MASK),
-+	AXP_DESC(AXP15060, DCDC6, "dcdc6", "vin6", 500, 3400, 100,
-+		 AXP15060_DCDC6_V_CTRL, AXP15060_DCDC6_V_CTRL_MASK,
-+		 AXP15060_PWR_OUT_CTRL1, AXP15060_PWR_OUT_DCDC6_MASK),
-+	AXP_DESC(AXP15060, ALDO1, "aldo1", "aldoin", 700, 3300, 100,
-+		 AXP15060_ALDO1_V_CTRL, AXP15060_ALDO1_V_CTRL_MASK,
-+		 AXP15060_PWR_OUT_CTRL2, AXP15060_PWR_OUT_ALDO1_MASK),
-+	AXP_DESC(AXP15060, ALDO2, "aldo2", "aldoin", 700, 3300, 100,
-+		 AXP15060_ALDO2_V_CTRL, AXP15060_ALDO2_V_CTRL_MASK,
-+		 AXP15060_PWR_OUT_CTRL2, AXP15060_PWR_OUT_ALDO2_MASK),
-+	AXP_DESC(AXP15060, ALDO3, "aldo3", "aldoin", 700, 3300, 100,
-+		 AXP15060_ALDO3_V_CTRL, AXP15060_ALDO3_V_CTRL_MASK,
-+		 AXP15060_PWR_OUT_CTRL2, AXP15060_PWR_OUT_ALDO3_MASK),
-+	AXP_DESC(AXP15060, ALDO4, "aldo4", "aldoin", 700, 3300, 100,
-+		 AXP15060_ALDO4_V_CTRL, AXP15060_ALDO4_V_CTRL_MASK,
-+		 AXP15060_PWR_OUT_CTRL2, AXP15060_PWR_OUT_ALDO4_MASK),
-+	AXP_DESC(AXP15060, ALDO5, "aldo5", "aldoin", 700, 3300, 100,
-+		 AXP15060_ALDO5_V_CTRL, AXP15060_ALDO5_V_CTRL_MASK,
-+		 AXP15060_PWR_OUT_CTRL2, AXP15060_PWR_OUT_ALDO5_MASK),
-+	AXP_DESC(AXP15060, BLDO1, "bldo1", "bldoin", 700, 3300, 100,
-+		 AXP15060_BLDO1_V_CTRL, AXP15060_BLDO1_V_CTRL_MASK,
-+		 AXP15060_PWR_OUT_CTRL2, AXP15060_PWR_OUT_BLDO1_MASK),
-+	AXP_DESC(AXP15060, BLDO2, "bldo2", "bldoin", 700, 3300, 100,
-+		 AXP15060_BLDO2_V_CTRL, AXP15060_BLDO2_V_CTRL_MASK,
-+		 AXP15060_PWR_OUT_CTRL2, AXP15060_PWR_OUT_BLDO2_MASK),
-+	AXP_DESC(AXP15060, BLDO3, "bldo3", "bldoin", 700, 3300, 100,
-+		 AXP15060_BLDO3_V_CTRL, AXP15060_BLDO3_V_CTRL_MASK,
-+		 AXP15060_PWR_OUT_CTRL2, AXP15060_PWR_OUT_BLDO3_MASK),
-+	AXP_DESC(AXP15060, BLDO4, "bldo4", "bldoin", 700, 3300, 100,
-+		 AXP15060_BLDO4_V_CTRL, AXP15060_BLDO4_V_CTRL_MASK,
-+		 AXP15060_PWR_OUT_CTRL3, AXP15060_PWR_OUT_BLDO4_MASK),
-+	AXP_DESC(AXP15060, BLDO5, "bldo5", "bldoin", 700, 3300, 100,
-+		 AXP15060_BLDO5_V_CTRL, AXP15060_BLDO5_V_CTRL_MASK,
-+		 AXP15060_PWR_OUT_CTRL3, AXP15060_PWR_OUT_BLDO5_MASK),
-+	AXP_DESC(AXP15060, CLDO1, "cldo1", "cldoin", 700, 3300, 100,
-+		 AXP15060_CLDO1_V_CTRL, AXP15060_CLDO1_V_CTRL_MASK,
-+		 AXP15060_PWR_OUT_CTRL3, AXP15060_PWR_OUT_CLDO1_MASK),
-+	AXP_DESC(AXP15060, CLDO2, "cldo2", "cldoin", 700, 3300, 100,
-+		 AXP15060_CLDO2_V_CTRL, AXP15060_CLDO2_V_CTRL_MASK,
-+		 AXP15060_PWR_OUT_CTRL3, AXP15060_PWR_OUT_CLDO2_MASK),
-+	AXP_DESC(AXP15060, CLDO3, "cldo3", "cldoin", 700, 3300, 100,
-+		 AXP15060_CLDO3_V_CTRL, AXP15060_CLDO3_V_CTRL_MASK,
-+		 AXP15060_PWR_OUT_CTRL3, AXP15060_PWR_OUT_CLDO3_MASK),
-+	AXP_DESC(AXP15060, CLDO4, "cldo4", "cldoin", 700, 4200, 100,
-+		 AXP15060_CLDO4_V_CTRL, AXP15060_CLDO4_V_CTRL_MASK,
-+		 AXP15060_PWR_OUT_CTRL3, AXP15060_PWR_OUT_CLDO4_MASK),
-+	/* Supply comes from DCDC5 */
-+	AXP_DESC(AXP15060, CPUSLDO, "cpusldo", NULL, 700, 1400, 50,
-+		 AXP15060_CPUSLDO_V_CTRL, AXP15060_CPUSLDO_V_CTRL_MASK,
-+		 AXP15060_PWR_OUT_CTRL3, AXP15060_PWR_OUT_CPUSLDO_MASK),
-+	/* Supply comes from DCDC1 */
-+	AXP_DESC_SW(AXP15060, SW, "sw", NULL,
-+		    AXP15060_PWR_OUT_CTRL3, AXP15060_PWR_OUT_SW_MASK),
-+	/* Supply comes from ALDO1 */
-+	AXP_DESC_FIXED(AXP15060, RTC_LDO, "rtc-ldo", NULL, 1800),
-+};
-+
- static int axp20x_set_dcdc_freq(struct platform_device *pdev, u32 dcdcfreq)
- {
- 	struct axp20x_dev *axp20x = dev_get_drvdata(pdev->dev.parent);
-@@ -1088,10 +1254,11 @@ static int axp20x_set_dcdc_freq(struct platform_device *pdev, u32 dcdcfreq)
- 		step = 150;
- 		break;
- 	case AXP313A_ID:
-+	case AXP15060_ID:
- 		/* The DCDC PWM frequency seems to be fixed to 3 MHz. */
- 		if (dcdcfreq != 0) {
- 			dev_err(&pdev->dev,
--				"DCDC frequency on AXP313a is fixed to 3 MHz.\n");
-+				"DCDC frequency on this PMIC is fixed to 3 MHz.\n");
- 			return -EINVAL;
- 		}
- 
-@@ -1201,6 +1368,15 @@ static int axp20x_set_dcdc_workmode(struct regulator_dev *rdev, int id, u32 work
- 		workmode <<= id - AXP813_DCDC1;
- 		break;
- 
-+	case AXP15060_ID:
-+		reg = AXP15060_DCDC_MODE_CTRL2;
-+		if (id < AXP15060_DCDC1 || id > AXP15060_DCDC6)
-+			return -EINVAL;
-+
-+		mask = AXP22X_WORKMODE_DCDCX_MASK(id - AXP15060_DCDC1);
-+		workmode <<= id - AXP15060_DCDC1;
-+		break;
-+
- 	default:
- 		/* should not happen */
- 		WARN_ON(1);
-@@ -1220,7 +1396,7 @@ static bool axp20x_is_polyphase_slave(struct axp20x_dev *axp20x, int id)
- 
- 	/*
- 	 * Currently in our supported AXP variants, only AXP803, AXP806,
--	 * and AXP813 have polyphase regulators.
-+	 * AXP813 and AXP15060 have polyphase regulators.
- 	 */
- 	switch (axp20x->variant) {
- 	case AXP803_ID:
-@@ -1252,6 +1428,17 @@ static bool axp20x_is_polyphase_slave(struct axp20x_dev *axp20x, int id)
- 		}
- 		break;
- 
-+	case AXP15060_ID:
-+		regmap_read(axp20x->regmap, AXP15060_DCDC_MODE_CTRL1, &reg);
-+
-+		switch (id) {
-+		case AXP15060_DCDC3:
-+			return !!(reg & AXP15060_DCDC23_POLYPHASE_DUAL_MASK);
-+		case AXP15060_DCDC6:
-+			return !!(reg & AXP15060_DCDC46_POLYPHASE_DUAL_MASK);
-+		}
-+		break;
-+
- 	default:
- 		return false;
- 	}
-@@ -1273,6 +1460,7 @@ static int axp20x_regulator_probe(struct platform_device *pdev)
- 	u32 workmode;
- 	const char *dcdc1_name = axp22x_regulators[AXP22X_DCDC1].name;
- 	const char *dcdc5_name = axp22x_regulators[AXP22X_DCDC5].name;
-+	const char *aldo1_name = axp15060_regulators[AXP15060_ALDO1].name;
- 	bool drivevbus = false;
- 
- 	switch (axp20x->variant) {
-@@ -1312,6 +1500,10 @@ static int axp20x_regulator_probe(struct platform_device *pdev)
- 		drivevbus = of_property_read_bool(pdev->dev.parent->of_node,
- 						  "x-powers,drive-vbus-en");
- 		break;
-+	case AXP15060_ID:
-+		regulators = axp15060_regulators;
-+		nregulators = AXP15060_REG_ID_MAX;
-+		break;
- 	default:
- 		dev_err(&pdev->dev, "Unsupported AXP variant: %ld\n",
- 			axp20x->variant);
-@@ -1338,8 +1530,9 @@ static int axp20x_regulator_probe(struct platform_device *pdev)
- 			continue;
- 
- 		/*
--		 * Regulators DC1SW and DC5LDO are connected internally,
--		 * so we have to handle their supply names separately.
-+		 * Regulators DC1SW, DC5LDO and RTCLDO on AXP15060 are
-+		 * connected internally, so we have to handle their supply
-+		 * names separately.
- 		 *
- 		 * We always register the regulators in proper sequence,
- 		 * so the supply names are correctly read. See the last
-@@ -1348,7 +1541,8 @@ static int axp20x_regulator_probe(struct platform_device *pdev)
- 		 */
- 		if ((regulators == axp22x_regulators && i == AXP22X_DC1SW) ||
- 		    (regulators == axp803_regulators && i == AXP803_DC1SW) ||
--		    (regulators == axp809_regulators && i == AXP809_DC1SW)) {
-+		    (regulators == axp809_regulators && i == AXP809_DC1SW) ||
-+		    (regulators == axp15060_regulators && i == AXP15060_SW)) {
- 			new_desc = devm_kzalloc(&pdev->dev, sizeof(*desc),
- 						GFP_KERNEL);
- 			if (!new_desc)
-@@ -1360,7 +1554,8 @@ static int axp20x_regulator_probe(struct platform_device *pdev)
- 		}
- 
- 		if ((regulators == axp22x_regulators && i == AXP22X_DC5LDO) ||
--		    (regulators == axp809_regulators && i == AXP809_DC5LDO)) {
-+		    (regulators == axp809_regulators && i == AXP809_DC5LDO) ||
-+		    (regulators == axp15060_regulators && i == AXP15060_CPUSLDO)) {
- 			new_desc = devm_kzalloc(&pdev->dev, sizeof(*desc),
- 						GFP_KERNEL);
- 			if (!new_desc)
-@@ -1371,6 +1566,18 @@ static int axp20x_regulator_probe(struct platform_device *pdev)
- 			desc = new_desc;
- 		}
- 
-+
-+		if (regulators == axp15060_regulators && i == AXP15060_RTC_LDO) {
-+			new_desc = devm_kzalloc(&pdev->dev, sizeof(*desc),
-+						GFP_KERNEL);
-+			if (!new_desc)
-+				return -ENOMEM;
-+
-+			*new_desc = regulators[i];
-+			new_desc->supply_name = aldo1_name;
-+			desc = new_desc;
-+		}
-+
- 		rdev = devm_regulator_register(&pdev->dev, desc, &config);
- 		if (IS_ERR(rdev)) {
- 			dev_err(&pdev->dev, "Failed to register %s\n",
-@@ -1389,19 +1596,26 @@ static int axp20x_regulator_probe(struct platform_device *pdev)
- 		}
- 
- 		/*
--		 * Save AXP22X DCDC1 / DCDC5 regulator names for later.
-+		 * Save AXP22X DCDC1 / DCDC5 / AXP15060 ALDO1 regulator names for later.
- 		 */
- 		if ((regulators == axp22x_regulators && i == AXP22X_DCDC1) ||
--		    (regulators == axp809_regulators && i == AXP809_DCDC1))
-+		    (regulators == axp809_regulators && i == AXP809_DCDC1) ||
-+		    (regulators == axp15060_regulators && i == AXP15060_DCDC1))
- 			of_property_read_string(rdev->dev.of_node,
- 						"regulator-name",
- 						&dcdc1_name);
- 
- 		if ((regulators == axp22x_regulators && i == AXP22X_DCDC5) ||
--		    (regulators == axp809_regulators && i == AXP809_DCDC5))
-+		    (regulators == axp809_regulators && i == AXP809_DCDC5) ||
-+		    (regulators == axp15060_regulators && i == AXP15060_DCDC5))
- 			of_property_read_string(rdev->dev.of_node,
- 						"regulator-name",
- 						&dcdc5_name);
-+
-+		if (regulators == axp15060_regulators && i == AXP15060_ALDO1)
-+			of_property_read_string(rdev->dev.of_node,
-+						"regulator-name",
-+						&aldo1_name);
- 	}
- 
- 	if (drivevbus) {
+Maxim Kiselev (4):
+  iio: adc: Add Allwinner D1/T113s/R329 SoCs GPADC
+  dt-bindings: iio: adc: Add Allwinner D1/T113s/R329 SoCs GPADC
+  ARM: dts: sun8i: t113s: Add GPADC node
+  riscv: dts: allwinner: d1: Add GPADC node
+
+ .../iio/adc/allwinner,sun20i-d1-gpadc.yaml    |  52 ++++
+ arch/arm/boot/dts/sun8i-t113s.dtsi            |  12 +
+ arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi  |  10 +
+ drivers/iio/adc/Kconfig                       |  10 +
+ drivers/iio/adc/Makefile                      |   1 +
+ drivers/iio/adc/sun20i-gpadc-iio.c            | 275 ++++++++++++++++++
+ 6 files changed, 360 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml
+ create mode 100644 drivers/iio/adc/sun20i-gpadc-iio.c
+
 -- 
-2.35.8
+2.39.2
 
