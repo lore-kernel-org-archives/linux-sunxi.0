@@ -1,139 +1,155 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3B88472
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 May 2023 12:15:15 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-96fe2a1db26so156907466b.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 24 May 2023 05:15:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684930513; x=1687522513;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sUEzEX3IxY8Nj/uA0tEcwms+OAaTSJtcQdltzfG1TQM=;
-        b=X/G1NRsS65NS3/nroiKeHVMFrgfmO06b1WCf9NBEt/zESPE47jw43hqRGOAShFpJE1
-         m3xTu1TjLQMjTgoqDmVUZDyyzU+a73NtinuXY5ckIzQysyIOpXo1M0SM0qStrdIeekUi
-         R3/tDDkULOtYtQ3A+VMR4+u88WPvDgZlz4jmSvCrI6Rw6mVnE8R5UT+HiB0mvhHS943V
-         CznrLkLGsxNCrfXDWJUd4jL+UP2LUKr3KtZm3nuiTtkGOvoh+OVqIikKR3QINUszw30m
-         YV1e62+euP4Zvn4f7sRunatEnf80HQsWQYwxtUvjyelOFbKOSyWcQ9aHnRUcTDX1apva
-         RRHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684930513; x=1687522513;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sUEzEX3IxY8Nj/uA0tEcwms+OAaTSJtcQdltzfG1TQM=;
-        b=gDK9clwvi6JSiGGWYM6bE/vPYp2jIWxMiuR7bCy/xYmLgjPnUM4bWcf4BEcz8+N9+F
-         EpYIXE3pMiEba/nrnBe2YXQzYgpFVjwP7fwKQ+s4PLjqQgGxZPjgkfgJqT5KXYOuMUSc
-         sKvxwuN+rSOXg3Em1i6zpDNFak5kOey4ET7A7dVXas0gZ6uP7M8vNJn+6npOaWyDF10M
-         I/NVbqCKUm0o+0FhKPJeToTo1hIs7tbv+u+F4nzhqYZfCIOa3q3lukP68+yS7y9t02pD
-         22m2/oO2eFJmdpeS5uCxdLBvknpSgT3BAmaaVze0F7nL2ky3aa02QRZ00wPGq2GiEme5
-         Jc0Q==
-X-Gm-Message-State: AC+VfDxxk4m9k1R/byIylju0AjY8nsMHG/mYwhPCasE9QHV++sANFHgM
-	Q6IuflvJlmONYFHfI41CNJHgBuUgPTPCzZOHkfI=
-X-Google-Smtp-Source: ACHHUZ51AUAOCcHb4T/Z3x9qqA2jZVV2HPi2un7zsMK9HeI68/1biA1xYkNAn9I+KTD2GDPMckgYEPnNIWHEvtCefbA=
-X-Received: by 2002:a17:907:72d2:b0:973:8198:bbf6 with SMTP id
- du18-20020a17090772d200b009738198bbf6mr2018665ejc.3.1684930513259; Wed, 24
- May 2023 05:15:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDDA960876;
+	Wed, 24 May 2023 14:54:07 +0000 (UTC)
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34OEnupv023360;
+	Wed, 24 May 2023 14:53:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : date : subject :
+ mime-version : content-type : content-transfer-encoding : message-id :
+ references : in-reply-to : to : cc; s=pp1;
+ bh=K1ceBo8oBz97cqIN7NIgj9rIYC6qSR/oJdYjykMdHW8=;
+ b=OiIL/Ca+DNz6t1Och1049chXvS8BTIoyOp8u+j3hfWG8HiaQCOK7uTza4lxLFKGVariK
+ D+snIjJJ5AhMGvdS+cGHoZvC89cyPE2QW36L/1HozGImVKq+w7WaZOiKDXaNRdgRZrh6
+ X/040RVJysgrmBJQRchJE99SVeuyIA+DbzW/GzdLBiTXZ/ALFBSgNtB+9O9xSHTXFqmu
+ gUKVj2bTaqgTNbLYqtoU1XktrQpY0FSWusUqpJuw8Ij+B2QW0TioIxDjAZv4ELeAoIHF
+ 3f6npBzij7obwzMbmOwhPgu+xPc3z0d1SX89Gjeg3I+Lp0ovttfIjF/EzIMwOrvaut7/ YQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qsmpm01re-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 24 May 2023 14:53:28 +0000
+Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34OEqWC6030205;
+	Wed, 24 May 2023 14:53:27 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qsmpm01qx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 24 May 2023 14:53:27 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+	by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34OCNhYg029074;
+	Wed, 24 May 2023 14:53:25 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3qppc11nru-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 24 May 2023 14:53:24 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34OErLg923659020
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 24 May 2023 14:53:21 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4544920043;
+	Wed, 24 May 2023 14:53:21 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 641EE2004F;
+	Wed, 24 May 2023 14:53:19 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 24 May 2023 14:53:19 +0000 (GMT)
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+Date: Wed, 24 May 2023 16:53:04 +0200
+Subject: [PATCH v10 1/6] s390/ism: Set DMA coherent mask
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230524082744.3215427-1-bigunclemax@gmail.com>
- <20230524082744.3215427-2-bigunclemax@gmail.com> <20230524110105.4928906c@donnerap.cambridge.arm.com>
- <ZG3vzxWicUgndMqv@smile.fi.intel.com>
-In-Reply-To: <ZG3vzxWicUgndMqv@smile.fi.intel.com>
-From: Maxim Kiselev <bigunclemax@gmail.com>
-Date: Wed, 24 May 2023 15:14:54 +0300
-Message-ID: <CALHCpMhhUnkko7COzg6W9AqLUfwzKA+EAmcZ+Vwmy_7KB=UdWg@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 1/4] iio: adc: Add Allwinner D1/T113s/R329 SoCs GPADC
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Andre Przywara <andre.przywara@arm.com>, linux-iio@vger.kernel.org, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Conor Dooley <conor@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Cosmin Tanislav <demonsingur@gmail.com>, 
-	Haibo Chen <haibo.chen@nxp.com>, ChiYuan Huang <cy_huang@richtek.com>, 
-	Ramona Bolboaca <ramona.bolboaca@analog.com>, Ibrahim Tilki <Ibrahim.Tilki@analog.com>, 
-	ChiaEn Wu <chiaen_wu@richtek.com>, William Breathitt Gray <william.gray@linaro.org>, 
-	Arnd Bergmann <arnd@arndb.de>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Caleb Connolly <caleb.connolly@linaro.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230310-dma_iommu-v10-1-f1fbd8310854@linux.ibm.com>
+References: <20230310-dma_iommu-v10-0-f1fbd8310854@linux.ibm.com>
+In-Reply-To: <20230310-dma_iommu-v10-0-f1fbd8310854@linux.ibm.com>
+To: Joerg Roedel <joro@8bytes.org>, Matthew Rosato <mjrosato@linux.ibm.com>,
+        Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Gerd Bayer <gbayer@linux.ibm.com>, Julian Ruess <julianr@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Alexandra Winter <wintera@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, asahi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1376;
+ i=schnelle@linux.ibm.com; h=from:subject:message-id;
+ bh=c2AUHQeLSNc+e1q7e31+UGNVymw7M3BeuxQZt/EM8Cs=;
+ b=owGbwMvMwCH2Wz534YHOJ2GMp9WSGFLyVO7Oj6k69bhO4HXHw/kWijMZY4Mvd21ZHVBmWrLm1
+ Qn+VRMdO0pZGMQ4GGTFFFkWdTn7rSuYYronqL8DZg4rE8gQBi5OAZjIQhmGfypBb20P+Heum/BG
+ t3W3t+LUz7ceNH98xq8a7TLH4iTX1peMDD8jFU3+hp07eXcRw/HwAxy/+y/Hq7lc8pgddNWb3a/
+ ClBUA
+X-Developer-Key: i=schnelle@linux.ibm.com; a=openpgp;
+ fpr=9DB000B2D2752030A5F72DDCAFE43F15E8C26090
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: tW_0F9zVMfihTA3vmlWx3bBHRxFbRoB0
+X-Proofpoint-GUID: hjqN-wxPtO6IqyJSRj_SLLQGZ-5XqL57
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-24_09,2023-05-24_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
+ lowpriorityscore=0 adultscore=0 clxscore=1015 impostorscore=0
+ malwarescore=0 phishscore=0 suspectscore=0 spamscore=0 mlxlogscore=999
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305240119
 
-Andre Przywara <andre.przywara@arm.com> wrote:
-> Or we follow the other idea of reading the number of channels from a DT
-> property, which means we would already support every IP with up to 16
-> channels, without further driver changes in the future.
+A future change will convert the DMA API implementation from the
+architecture specific arch/s390/pci/pci_dma.c to using the common code
+drivers/iommu/dma-iommu.c which the utilizes the same IOMMU hardware
+through the s390-iommu driver. Unlike the s390 specific DMA API this
+requires devices to correctly set the coherent mask to be allowed to use
+IOVAs >2^32 in dma_alloc_coherent(). This was however not done for ISM
+devices. ISM requires such addresses since currently the DMA aperture
+for PCI devices starts at 2^32 and all calls to dma_alloc_coherent()
+would thus fail.
 
-I like this idea. This will rid us from duplicating code, and we could also
-use a common DT node for D1 and T113.
+Reviewed-by: Alexandra Winter <wintera@linux.ibm.com>
+Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
+Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+---
+ drivers/s390/net/ism_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Is there any particular reason you chose a regmap to model this here?
-> Isn't that just straight-forward MMIO, which we could just drive using
-> readl()/writel()?
+diff --git a/drivers/s390/net/ism_drv.c b/drivers/s390/net/ism_drv.c
+index 8acb9eba691b..1399b5dc646c 100644
+--- a/drivers/s390/net/ism_drv.c
++++ b/drivers/s390/net/ism_drv.c
+@@ -660,7 +660,7 @@ static int ism_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (ret)
+ 		goto err_disable;
+ 
+-	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(64));
++	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+ 	if (ret)
+ 		goto err_resource;
+ 
 
-Actually there is no special reason. I just made it in the same way as
-in the sun4i-gpadc-iio driver.
+-- 
+2.39.2
 
-> I wonder if this should be either moved out to some multiplexer: the DT
-> bindings suggest that such a thing could be independent.
-
-Sorry I didn't quite get it :)
-
-> But at least we could cater for the possibility that this channel is
-> already selected, and skip this part then?
-
-Thanks for that suggestion.
-
-> Couldn't taking the lock go into the function? It seems to be only one
-> caller,
-
-Yes, we could. Thanks for the remark.
-
-> and we need the lock in any case, it seems?
-
-This lock is used in others ADC drivers to protects a read access from
-ocurring before another one has finished.
-
-
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> Even though regmap adds a few nice features that might be used.
-> For example, locking. But I dunno if this driver actually uses it
-> OR uses it correctly.
-
-Just I wrote above, I made it in the same way as in the
-sun4i-gpadc-iio driver
-
-> > > + config = of_device_get_match_data(&pdev->dev);
->
-> Please, avoid using OF-centric APIs in the new IIO drivers.
->
-> config = device_get_match_data(&pdev->dev);
->
-> should suffice.
-
-> > + irq = platform_get_irq(pdev, 0);
-> > + if (irq < 0)
-> > + return dev_err_probe(&pdev->dev, irq, "failed to get irq\n");
->
-> > > We should not repeat the message that printed by platform core.
-
-> > > + ret = devm_request_irq(&pdev->dev, irq, sun20i_gpadc_irq_handler,
-> > > + 0, dev_name(&pdev->dev), info);
->
-> You can simplify your life with
->
-> struct device *dev = &pdev->dev;
->
-> at the definition block of the function.
-> > > + .data = &sun20i_d1_gpadc_channels[1]
->
-> Also, leave comma here.
-
-Thanks for the remarks, I'll fix this in the next version.
