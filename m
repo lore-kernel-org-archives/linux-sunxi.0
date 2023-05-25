@@ -1,71 +1,76 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6F71DDCD
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 May 2023 21:43:46 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-510d92184faso3050512a12.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 24 May 2023 14:43:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wirenboard.com; s=google; t=1684964624; x=1687556624;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:subject:references:cc:to:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=j4zQioTz5D+bXRL0seQOLRivI4MP136xofa2b6ops3E=;
-        b=g6Ax582eTS+khljzt1qllAmCFtCOd/Zb3BoRwURYlAzhtIL4Mm/qgorVPE4xuCHmsN
-         hDsbUuocX8WKv3ZEbZw+tDJd/y3RfsODC3d//iGG9/yxSQzQx56Qvi5Xfa4BwEC3zXjM
-         oJ9GogORtdwPrkxdiq5vao175Q7H3RehEtrZiciK4HFFZQ0rcAVpNMhbtxvz66y4TEaU
-         PoVB2TJSjFaGIwVJ1XWdsQ3qulOcUkFJwaGp6DkAAcvs3Pq/mTca+whhZVB2ttbltpWd
-         SU1czNxyFBQwvGX040QENSBbwE4+oAwUc5+Rb+oVF4wNmGsmKRN0W9FkdMQcJkawiffF
-         lvPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684964624; x=1687556624;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:subject:references:cc:to:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j4zQioTz5D+bXRL0seQOLRivI4MP136xofa2b6ops3E=;
-        b=JL+hgHjq0g0dw1iWHc5Ivz4i8DLjEbUpNdXh4QqYDc+9Wb28+tQqcrr659CXph6wZm
-         s91JbUTnBuCFIImSu0x/Og+UlotMibwTMPz49cPjHFPMsKsutkdUz1j3vf89Ue2nb1JN
-         tXVvduxuoD0R+1aK6UKMeaex05hEK8JmKLMEPYlC6+f0FRgjH3AUe9yGqPt6ho0Ducav
-         +Ggx31VtOuIE0gfr7/arfVFZHqkycEEFeo6K9LiTeUbttvNphXVWpF1xqLv4x5K934lP
-         7FAUlfLXKAaV5iY2/HnrPdHMTxaGAJ2sqHr+ucyHSFCR9xwSBHOv8zB2yRSWojX2bb/b
-         OJiQ==
-X-Gm-Message-State: AC+VfDycpth9hxWagqPYXJJhL/qkt7KARLZJC4XscRugYyzP9SdbPo3B
-	jQLSLTIwF6qkVQcqJcfiTWw5ww==
-X-Google-Smtp-Source: ACHHUZ6h/E6wlOxa7TRUjOulLc3coiW6Vq+pK+cVudEpB9yTwlhbQ2jgubbtNXbTakoLykgPW6uqHg==
-X-Received: by 2002:a17:907:940b:b0:973:84af:66e5 with SMTP id dk11-20020a170907940b00b0097384af66e5mr2690832ejc.40.1684964624552;
-        Wed, 24 May 2023 14:43:44 -0700 (PDT)
-Received: from [192.168.1.13] ([78.109.78.213])
-        by smtp.googlemail.com with ESMTPSA id f19-20020a170906495300b0096f83b16ab1sm6268582ejt.136.2023.05.24.14.43.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 May 2023 14:43:43 -0700 (PDT)
-Message-ID: <30ea7de5-5bdf-4abd-17a9-7336c8c218db@wirenboard.com>
-Date: Thu, 25 May 2023 00:43:41 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ABF3DF52
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 May 2023 11:42:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFA18C433D2;
+	Thu, 25 May 2023 11:42:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1685014946;
+	bh=l9nq5SBnZuzxt+PrkHf7uCzl3M1koYayHH2SwJsx0Gk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=czFIhOlwtPQnH9FxcSZXitx3n1y+63xcg/JzZ5nR67Tx+X4Fh+BkEkUKrarcX9E72
+	 7Oo6Ww/odnVlgLVyXbR1tm3sZwn08PsYXVkqzh7FesrbK5n+WjUOuEW7Qe5wzv/Epm
+	 sA5K7Hg6o8hYsyUFdlfGdXc3LH7Z3/JrtKgvqPnsEY0u2ubbjJUKwAtpkhEsFRElkE
+	 SPlQNmhR/95oQ5VZADaG9ViCGxBnQSUMkTMsKsfjz2tynFCP3UVwsTx8I4zrAkgOvx
+	 B43n0JhgBiwUWZaBU6Iw+RAIrQhym7hGWqMp3dU8N+tq5N9DkfnYfV9EbzmLr/0n1A
+	 AwlsEB9rhYw9w==
+Date: Thu, 25 May 2023 12:42:20 +0100
+From: Lee Jones <lee@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	Mark Brown <broonie@kernel.org>,
+	Martin Botka <martin.botka@somainline.org>, martin.botka1@gmail.com,
+	Shengyu Qu <wiagn233@outlook.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v11 1/3] mfd: axp20x: Add support for AXP313a PMIC
+Message-ID: <20230525114220.GH423913@google.com>
+References: <20230524000012.15028-1-andre.przywara@arm.com>
+ <20230524000012.15028-2-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-To: qianfanguijin@163.com
-Cc: jernej.skrabec@gmail.com, linux-sunxi@lists.linux.dev,
- mripard@kernel.org, wens@csie.org
-References: <0527d592-3829-71b7-e040-d463793500e7@163.com>
-Subject: Re: allwinner usb phy driver
-Content-Language: en-GB
-From: Evgeny Boger <boger@wirenboard.com>
-Organization: Wiren Board
-In-Reply-To: <0527d592-3829-71b7-e040-d463793500e7@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230524000012.15028-2-andre.przywara@arm.com>
 
-Hi qianfan,
+On Wed, 24 May 2023, Andre Przywara wrote:
 
-Could you please check if this patch works for you?
-https://lore.kernel.org/all/20220111165153.63632-1-boger@wirenboard.com/
+> From: Martin Botka <martin.botka@somainline.org>
+> 
+> The AXP313a is a PMIC chip produced by X-Powers, it can be connected via
+> an I2C bus.
+> The name AXP1530 seems to appear as well, and this is what is used in
+> the BSP driver. From all we know it's the same chip, just a different
+> name. However we have only seen AXP313a chips in the wild, so go with
+> this name.
+> 
+> Compared to the other AXP PMICs it's a rather simple affair: just three
+> DCDC converters, three LDOs, and no battery charging support.
+> 
+> Describe the regmap and the MFD bits, along with the registers exposed
+> via I2C. Aside from the various regulators, also describe the power key
+> interrupts, and adjust the shutdown handler routine to use a different
+> register than the other PMICs.
+> Eventually advertise the device using the new compatible string.
+> 
+> Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+> Acked-for-MFD-by: Lee Jones <lee@kernel.org>
+> ---
+>  drivers/mfd/axp20x-i2c.c   |  2 +
+>  drivers/mfd/axp20x.c       | 78 +++++++++++++++++++++++++++++++++++++-
+>  include/linux/mfd/axp20x.h | 32 ++++++++++++++++
+>  3 files changed, 111 insertions(+), 1 deletion(-)
 
+Applied (pull-request pending - waiting on build tests).
 
-
-
+-- 
+Lee Jones [李琼斯]
