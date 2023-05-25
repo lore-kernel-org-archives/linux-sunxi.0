@@ -1,34 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ABF3DF52
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 May 2023 11:42:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFA18C433D2;
-	Thu, 25 May 2023 11:42:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1685014946;
-	bh=l9nq5SBnZuzxt+PrkHf7uCzl3M1koYayHH2SwJsx0Gk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=czFIhOlwtPQnH9FxcSZXitx3n1y+63xcg/JzZ5nR67Tx+X4Fh+BkEkUKrarcX9E72
-	 7Oo6Ww/odnVlgLVyXbR1tm3sZwn08PsYXVkqzh7FesrbK5n+WjUOuEW7Qe5wzv/Epm
-	 sA5K7Hg6o8hYsyUFdlfGdXc3LH7Z3/JrtKgvqPnsEY0u2ubbjJUKwAtpkhEsFRElkE
-	 SPlQNmhR/95oQ5VZADaG9ViCGxBnQSUMkTMsKsfjz2tynFCP3UVwsTx8I4zrAkgOvx
-	 B43n0JhgBiwUWZaBU6Iw+RAIrQhym7hGWqMp3dU8N+tq5N9DkfnYfV9EbzmLr/0n1A
-	 AwlsEB9rhYw9w==
-Date: Thu, 25 May 2023 12:42:20 +0100
-From: Lee Jones <lee@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-	Mark Brown <broonie@kernel.org>,
-	Martin Botka <martin.botka@somainline.org>, martin.botka1@gmail.com,
-	Shengyu Qu <wiagn233@outlook.com>,
-	Samuel Holland <samuel@sholland.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E83ED510
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 May 2023 12:45:32 +0000 (UTC)
+Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4QRnh50mylz49Q1p;
+	Thu, 25 May 2023 15:40:04 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1685018410;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ofi9rDKaOj5yyLfZwTQCQwt32Q4sEcICZNEgWEPwvYo=;
+	b=DKPXrx/FbnfaMLqgt/vzuwj7wLQ8AXTIVFKzL4YpEKJWfA0kJUKCttjkxWzzwsNd+9klEm
+	l/6ItAVlA2uD72MDBos9PRgOUMsxom8qH5LE5/U6YBrnqupwx7ZV8vnd+MiG//eeMrehbp
+	csZNtNYSH0/Loy/4M4YM0JIQhX1dz4Q2S5Y/xZQcHnYn1aothuv/tMstqLButi5FQq4AOl
+	oeV6l9/Ly1Ip9h42qJP5+BquyPkZZ7iuE0RyVRCKWCC3AXVCsyWxSUrEC0WKx0rLqlDejx
+	zbyGccAw9MLbvsS2RmzUansBRfUzc9AoOJ4t45Pf87+4+8zfQg3L68IRhGyJ6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1685018410;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ofi9rDKaOj5yyLfZwTQCQwt32Q4sEcICZNEgWEPwvYo=;
+	b=pgVmOaEtw4vdoOZ8eaPmA7QgR+wrMMywJgDD60w0UAC7RxyzllFL534IMqFDtenK3XAljS
+	m+vzDBMPa4uN11gUQVxXlmFoSIuc5cNzpwdIeRkcDwxfkOBmatYPGzOqQfC47v3uEYhwye
+	mriwF2jEfs62hAYYdpqyuh/cZvO07x9niovAMH7lbln2DZRqvbca+ouVSryZHvumuyKzJ1
+	b73+02DxuCtEpcT4KN53ZdZoYb4eF4s1N68JDvWQwCkEhSoH4O61Ix2pIgCw5baNCMnyqV
+	N+uZ2bNbmJY65VddBTUKx7/mGXqYu4tzyC3fY8AbER5oRBa4YCbIVxAwqTYWLQ==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1685018410; a=rsa-sha256;
+	cv=none;
+	b=EQXr1FrsCQ8foHNMEHA9eY6b/C+Vv6N83O8oWbK948jenc4D+4e7/9RX4f3Dg9YE7JzWBe
+	q9WEwFd9OheyWJNGkeIcGlZopb92MLZ2LRM09ycO/d64iCAR916Jst1hA9e6jUZeAcoMjj
+	cgobMxqIZ02lc1wO08QVCfrUFb3irmbtvOCTuz/6fH1sWQff0nqktBLnBwp5nLkLmXhaDh
+	E5FVqu/1dV//U4IGAsf17xs01k1YUL0VONCZoG2If4cFciNnNUEj0SEVkA6uv02jsGh4x1
+	7uLYzOJ5xGWxPQBmzG6nwiCHtmInsVvEIb4y+GNv+D0RsC892mwiMfJ/Yhg30A==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 6AAE6634C91;
+	Thu, 25 May 2023 15:40:04 +0300 (EEST)
+Date: Thu, 25 May 2023 15:40:04 +0300
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Joe Tessler <jrt@google.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Wenyou Yang <wenyou.yang@microchip.com>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Yong Deng <yong.deng@magewell.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v11 1/3] mfd: axp20x: Add support for AXP313a PMIC
-Message-ID: <20230525114220.GH423913@google.com>
-References: <20230524000012.15028-1-andre.przywara@arm.com>
- <20230524000012.15028-2-andre.przywara@arm.com>
+	Samuel Holland <samuel@sholland.org>,
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>, Sean Young <sean@mess.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 01/28] media: cec: ch7322: drop of_match_ptr for ID table
+Message-ID: <ZG9XJCD98VWjGjTN@valkosipuli.retiisi.eu>
+References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
+ <98a77653-ec58-56c4-9893-3b424f67c87e@linaro.org>
+ <5afcec8b-b8f6-35b0-278a-5de185e4a7a2@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -38,39 +108,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230524000012.15028-2-andre.przywara@arm.com>
+In-Reply-To: <5afcec8b-b8f6-35b0-278a-5de185e4a7a2@xs4all.nl>
 
-On Wed, 24 May 2023, Andre Przywara wrote:
+Hi Hans,
 
-> From: Martin Botka <martin.botka@somainline.org>
+On Sat, May 13, 2023 at 11:57:33AM +0200, Hans Verkuil wrote:
+> On 12/05/2023 18:35, Krzysztof Kozlowski wrote:
+> > On 12/03/2023 14:12, Krzysztof Kozlowski wrote:
+> >> The driver can match only via the DT table so the table should be always
+> >> used and the of_match_ptr does not have any sense (this also allows ACPI
+> >> matching via PRP0001, even though it might not be relevant here).
+> >>
+> >>   drivers/media/cec/i2c/ch7322.c:583:34: error: ‘ch7322_of_match’ defined but not used [-Werror=unused-const-variable=]
+> >>
+> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >> ---
+> > 
+> > Hans, Sakari,
+> > 
+> > Can you pick up the patchset? There was positive feedback:
+> > https://patchwork.linuxtv.org/project/linux-media/patch/20230312131318.351173-1-krzysztof.kozlowski@linaro.org/
+> > 
+> > but it seems it was not applied.
 > 
-> The AXP313a is a PMIC chip produced by X-Powers, it can be connected via
-> an I2C bus.
-> The name AXP1530 seems to appear as well, and this is what is used in
-> the BSP driver. From all we know it's the same chip, just a different
-> name. However we have only seen AXP313a chips in the wild, so go with
-> this name.
+> I see it is delegated to Sakari in patchwork and marked Under Review, but I don't
+> see a corresponding pull request for this series.
 > 
-> Compared to the other AXP PMICs it's a rather simple affair: just three
-> DCDC converters, three LDOs, and no battery charging support.
-> 
-> Describe the regmap and the MFD bits, along with the registers exposed
-> via I2C. Aside from the various regulators, also describe the power key
-> interrupts, and adjust the shutdown handler routine to use a different
-> register than the other PMICs.
-> Eventually advertise the device using the new compatible string.
-> 
-> Signed-off-by: Martin Botka <martin.botka@somainline.org>
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
-> Acked-for-MFD-by: Lee Jones <lee@kernel.org>
-> ---
->  drivers/mfd/axp20x-i2c.c   |  2 +
->  drivers/mfd/axp20x.c       | 78 +++++++++++++++++++++++++++++++++++++-
->  include/linux/mfd/axp20x.h | 32 ++++++++++++++++
->  3 files changed, 111 insertions(+), 1 deletion(-)
+> Sakari, did something go wrong?
 
-Applied (pull-request pending - waiting on build tests).
+I spotted this as Hans notified me in IRC, I wasn't cc'd. Apologies for
+this --- I intended to take these but I think I must have missed something
+important in the process. I'll take them now.
+
+Thanks.
 
 -- 
-Lee Jones [李琼斯]
+Kind regards,
+
+Sakari Ailus
