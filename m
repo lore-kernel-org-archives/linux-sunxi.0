@@ -1,95 +1,362 @@
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DAF8171BD
-	for <linux-sunxi@lists.linux.dev>; Fri, 26 May 2023 12:24:53 +0000 (UTC)
-Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-43932736509so415530137.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 26 May 2023 05:24:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1685103892; x=1687695892;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Kac9+1tgw97t/ZhT9HBMA1F6hwQ8HyeJeKG9Y95z0Z8=;
-        b=Rj2m49t9Gu6u5Dvb9guyp/NpRtEiMTVCA2ZOzuAVxziARXF8Vw8Jr85chjYO45vZbN
-         JHdF3s2zIHuAP3InBuqFoZqVXw3LfEYtLC6UfDhE6CM0SWJImVFE8PrWee5xZFpHoXXM
-         lxMVnHCM9shP17BIMJP6vCbsdBzJ56r4p03YePD2GaMgpAAPFLuSvaEZXUsz4LIyn4OQ
-         j2wTN4EtmoivZMurhUJQ6V5eshnwSkJ5xPCvX99Pjf5plfInPBDIQ4by/TPVSjTCk5Ui
-         xGePMvjUiiWrShWgM+8Grb7OP9xCxWhMEOzxML4QOu/2IMpOabk32EYDv2MdLxIUiVwp
-         K9bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685103892; x=1687695892;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Kac9+1tgw97t/ZhT9HBMA1F6hwQ8HyeJeKG9Y95z0Z8=;
-        b=ht4QHaEnwceHQ12Pun4b5VS8grhg8zGrVzqpamcRjAwtDP9MKFDwOVXCTgb8Kjx7Tc
-         tKxSTQG7+jwJyH0ZF1rBFClRtKYxgh88xE1AgOUjzs8vOm3rsz/O/4I4DfdXEtrVZF71
-         zQDCUcMuDwCUSKNtL3k2Cc+isXsduHgVYpuVSlCWPWCQpTk+k8IR2n+kIBRxJPSNGgQL
-         zw8SWijdTC22qCJGKnt4xESccNX/eJ/IsF7Zz4c2iRk8h/J5m53B5+3iGml5FyniPNpH
-         rWkDvZs4Mc/egxuSWjsS3C7wJ+wPMF7nRTp4StqRJvuOLLRuQ5YNFaiICedN158n+Wb4
-         E7Ww==
-X-Gm-Message-State: AC+VfDz6zVMEpSQa7025oi8YmlFlGVzV5r0BY+mSqb+1rLsXIHFYUWSh
-	jBPFyaH+Mt3veuIeyWQYNijOMTvcmCZrGqkb+zr/6A==
-X-Google-Smtp-Source: ACHHUZ4Vo4ypf1Yrzp9viUHOSDtXH4maYpbjQ0xLEQ39qLDEPhBaR9Ehjieq+52sv0yXRrHFogqdGN2e5yQGMg9FBKQ=
-X-Received: by 2002:a67:ea84:0:b0:439:4c9c:1f00 with SMTP id
- f4-20020a67ea84000000b004394c9c1f00mr456422vso.30.1685103891955; Fri, 26 May
- 2023 05:24:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566B211CA7
+	for <linux-sunxi@lists.linux.dev>; Sat, 27 May 2023 13:28:28 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4QT2fr2GC4z9sWs;
+	Sat, 27 May 2023 15:28:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1685194100;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gFF9ojQNgCDGStL3SMO101+doudWZ1WYnV6ZyOfRyN4=;
+	b=KVBUsqVLI+u86N2T/90YmIBDSi49QRWF13wM1NpuWj8HECM6v3EfKHDgZfufOaVrRoBTh5
+	98PrMXN/TKvQI48yPUwwCZCUs57tSHQaVs/SOla8ZbVWVerBTnzdoBifRXUmJqwEWjTcWf
+	71ZPtMqcLkmNVuUFsVkTB+AxkhDtESysYURXEEKNacZ73k4c408S/WVmjY13OJR3SGxeXv
+	ZX3Dp6MMn2hftYFG/TQYN2DEMqggCG99SJHvU/zqlZJX6Z/2VCov5MRQnBzwDW0GDQmQya
+	afb/eWQYobGElUufDZQNurknJlILcmJ879YwalttX2VpZlMOM8amZ6o9OMmj6Q==
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: linux-arm-kernel@lists.infradead.org,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Cc: Frank Oltmanns <frank@oltmanns.dev>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Stephen Boyd <sboyd@kernel.org>
+Subject: [RFC PATCH 3/3] clk: sunxi-ng: sun50i-a64: Precalculate NKM combinations for pll-mipi
+Date: Sat, 27 May 2023 15:27:47 +0200
+Message-Id: <20230527132747.83196-4-frank@oltmanns.dev>
+In-Reply-To: <20230527132747.83196-1-frank@oltmanns.dev>
+References: <20230527132747.83196-1-frank@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1683719613.git.noodles@earth.li> <cover.1684258957.git.noodles@earth.li>
- <7691a35155cf644c2efb02c282c5ef007a6570fa.1684258957.git.noodles@earth.li>
-In-Reply-To: <7691a35155cf644c2efb02c282c5ef007a6570fa.1684258957.git.noodles@earth.li>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Fri, 26 May 2023 14:24:41 +0200
-Message-ID: <CAMRc=MeJHKRYStTSwTCirdQo=f2okN2ys5=V7-ppzCaGYwDkvg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] dt-bindings: gpio: Add GPIO3 for AXP209 GPIO
- binding schema
-To: Jonathan McDowell <noodles@earth.li>
-Cc: Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	andy.shevchenko@gmail.com, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 16, 2023 at 7:47=E2=80=AFPM Jonathan McDowell <noodles@earth.li=
-> wrote:
->
-> The AXP209 has a 4th GPIO, so add it in preparation for support in the
-> driver.
->
-> Signed-off-by: Jonathan McDowell <noodles@earth.li>
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
->  Documentation/devicetree/bindings/gpio/x-powers,axp209-gpio.yaml | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/Documentation/devicetree/bindings/gpio/x-powers,axp209-gpio.=
-yaml b/Documentation/devicetree/bindings/gpio/x-powers,axp209-gpio.yaml
-> index 31906c253940..1638cfe90f1c 100644
-> --- a/Documentation/devicetree/bindings/gpio/x-powers,axp209-gpio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/x-powers,axp209-gpio.yaml
-> @@ -44,6 +44,7 @@ patternProperties:
->              - GPIO0
->              - GPIO1
->              - GPIO2
-> +            - GPIO3
->
->        function:
->          enum:
-> --
-> 2.39.2
->
+The NKM driver now support using a table of precalculated NKM
+combinations. Use this new method for sun50i-a64 for a faster selection
+of clock rates.
 
-Applied, thanks!
+Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+---
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 281 ++++++++++++++++++++++++++
+ 1 file changed, 281 insertions(+)
 
-Bart
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+index ff242bccc827..d201f9ec5378 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+@@ -165,6 +165,283 @@ static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK(pll_gpu_clk, "pll-gpu",
+  */
+ #define SUN50I_A64_PLL_MIPI_REG		0x040
+ 
++static struct clk_nkm_combo pll_mipi_nkm_combos[] = {
++	{ .n =  1, .k =  2,  .m = 16 /* 0.1250000*/ },
++	{ .n =  1, .k =  2,  .m = 15 /* 0.1333333*/ },
++	{ .n =  1, .k =  2,  .m = 14 /* 0.1428571*/ },
++	{ .n =  1, .k =  2,  .m = 13 /* 0.1538462*/ },
++	{ .n =  1, .k =  2,  .m = 12 /* 0.1666667*/ },
++	{ .n =  1, .k =  2,  .m = 11 /* 0.1818182*/ },
++	{ .n =  1, .k =  3,  .m = 16 /* 0.1875000*/ },
++	{ .n =  1, .k =  2,  .m = 10 /* 0.2000000*/ },
++	{ .n =  1, .k =  3,  .m = 14 /* 0.2142857*/ },
++	{ .n =  1, .k =  2,  .m =  9 /* 0.2222222*/ },
++	{ .n =  1, .k =  3,  .m = 13 /* 0.2307692*/ },
++	{ .n =  1, .k =  2,  .m =  8 /* 0.2500000*/ },
++	{ .n =  2, .k =  2,  .m = 15 /* 0.2666667*/ },
++	{ .n =  1, .k =  3,  .m = 11 /* 0.2727273*/ },
++	{ .n =  1, .k =  2,  .m =  7 /* 0.2857143*/ },
++	{ .n =  1, .k =  3,  .m = 10 /* 0.3000000*/ },
++	{ .n =  2, .k =  2,  .m = 13 /* 0.3076923*/ },
++	{ .n =  1, .k =  2,  .m =  6 /* 0.3333333*/ },
++	{ .n =  2, .k =  2,  .m = 11 /* 0.3636364*/ },
++	{ .n =  3, .k =  2,  .m = 16 /* 0.3750000*/ },
++	{ .n =  1, .k =  2,  .m =  5 /* 0.4000000*/ },
++	{ .n =  3, .k =  2,  .m = 14 /* 0.4285714*/ },
++	{ .n =  2, .k =  2,  .m =  9 /* 0.4444444*/ },
++	{ .n =  3, .k =  2,  .m = 13 /* 0.4615385*/ },
++	{ .n =  1, .k =  2,  .m =  4 /* 0.5000000*/ },
++	{ .n =  4, .k =  2,  .m = 15 /* 0.5333333*/ },
++	{ .n =  3, .k =  2,  .m = 11 /* 0.5454545*/ },
++	{ .n =  3, .k =  3,  .m = 16 /* 0.5625000*/ },
++	{ .n =  2, .k =  2,  .m =  7 /* 0.5714286*/ },
++	{ .n =  3, .k =  2,  .m = 10 /* 0.6000000*/ },
++	{ .n =  4, .k =  2,  .m = 13 /* 0.6153846*/ },
++	{ .n =  5, .k =  2,  .m = 16 /* 0.6250000*/ },
++	{ .n =  3, .k =  3,  .m = 14 /* 0.6428571*/ },
++	{ .n =  1, .k =  2,  .m =  3 /* 0.6666667*/ },
++	{ .n =  3, .k =  3,  .m = 13 /* 0.6923077*/ },
++	{ .n =  5, .k =  2,  .m = 14 /* 0.7142857*/ },
++	{ .n =  4, .k =  2,  .m = 11 /* 0.7272727*/ },
++	{ .n =  3, .k =  2,  .m =  8 /* 0.7500000*/ },
++	{ .n =  5, .k =  2,  .m = 13 /* 0.7692308*/ },
++	{ .n =  2, .k =  2,  .m =  5 /* 0.8000000*/ },
++	{ .n =  3, .k =  3,  .m = 11 /* 0.8181818*/ },
++	{ .n =  5, .k =  2,  .m = 12 /* 0.8333333*/ },
++	{ .n =  3, .k =  2,  .m =  7 /* 0.8571429*/ },
++	{ .n =  7, .k =  2,  .m = 16 /* 0.8750000*/ },
++	{ .n =  4, .k =  2,  .m =  9 /* 0.8888889*/ },
++	{ .n =  3, .k =  3,  .m = 10 /* 0.9000000*/ },
++	{ .n =  5, .k =  2,  .m = 11 /* 0.9090909*/ },
++	{ .n =  6, .k =  2,  .m = 13 /* 0.9230769*/ },
++	{ .n =  7, .k =  2,  .m = 15 /* 0.9333333*/ },
++	{ .n =  5, .k =  3,  .m = 16 /* 0.9375000*/ },
++	{ .n =  1, .k =  2,  .m =  2 /* 1.0000000*/ },
++	{ .n =  8, .k =  2,  .m = 15 /* 1.0666667*/ },
++	{ .n =  5, .k =  3,  .m = 14 /* 1.0714286*/ },
++	{ .n =  7, .k =  2,  .m = 13 /* 1.0769231*/ },
++	{ .n =  6, .k =  2,  .m = 11 /* 1.0909091*/ },
++	{ .n =  5, .k =  2,  .m =  9 /* 1.1111111*/ },
++	{ .n =  9, .k =  2,  .m = 16 /* 1.1250000*/ },
++	{ .n =  4, .k =  2,  .m =  7 /* 1.1428571*/ },
++	{ .n =  5, .k =  3,  .m = 13 /* 1.1538462*/ },
++	{ .n =  7, .k =  2,  .m = 12 /* 1.1666667*/ },
++	{ .n =  3, .k =  2,  .m =  5 /* 1.2000000*/ },
++	{ .n =  8, .k =  2,  .m = 13 /* 1.2307692*/ },
++	{ .n =  5, .k =  2,  .m =  8 /* 1.2500000*/ },
++	{ .n =  7, .k =  2,  .m = 11 /* 1.2727273*/ },
++	{ .n =  9, .k =  2,  .m = 14 /* 1.2857143*/ },
++	{ .n =  7, .k =  3,  .m = 16 /* 1.3125000*/ },
++	{ .n =  2, .k =  2,  .m =  3 /* 1.3333333*/ },
++	{ .n =  5, .k =  3,  .m = 11 /* 1.3636364*/ },
++	{ .n = 11, .k =  2,  .m = 16 /* 1.3750000*/ },
++	{ .n =  9, .k =  2,  .m = 13 /* 1.3846154*/ },
++	{ .n =  7, .k =  2,  .m = 10 /* 1.4000000*/ },
++	{ .n =  5, .k =  2,  .m =  7 /* 1.4285714*/ },
++	{ .n =  8, .k =  2,  .m = 11 /* 1.4545455*/ },
++	{ .n = 11, .k =  2,  .m = 15 /* 1.4666667*/ },
++	{ .n =  3, .k =  2,  .m =  4 /* 1.5000000*/ },
++	{ .n = 10, .k =  2,  .m = 13 /* 1.5384615*/ },
++	{ .n =  7, .k =  2,  .m =  9 /* 1.5555556*/ },
++	{ .n = 11, .k =  2,  .m = 14 /* 1.5714286*/ },
++	{ .n =  4, .k =  2,  .m =  5 /* 1.6000000*/ },
++	{ .n =  7, .k =  3,  .m = 13 /* 1.6153846*/ },
++	{ .n = 13, .k =  2,  .m = 16 /* 1.6250000*/ },
++	{ .n =  9, .k =  2,  .m = 11 /* 1.6363636*/ },
++	{ .n =  5, .k =  2,  .m =  6 /* 1.6666667*/ },
++	{ .n =  9, .k =  3,  .m = 16 /* 1.6875000*/ },
++	{ .n = 11, .k =  2,  .m = 13 /* 1.6923077*/ },
++	{ .n =  6, .k =  2,  .m =  7 /* 1.7142857*/ },
++	{ .n = 13, .k =  2,  .m = 15 /* 1.7333333*/ },
++	{ .n =  7, .k =  2,  .m =  8 /* 1.7500000*/ },
++	{ .n =  8, .k =  2,  .m =  9 /* 1.7777778*/ },
++	{ .n =  9, .k =  2,  .m = 10 /* 1.8000000*/ },
++	{ .n = 10, .k =  2,  .m = 11 /* 1.8181818*/ },
++	{ .n = 11, .k =  2,  .m = 12 /* 1.8333333*/ },
++	{ .n = 12, .k =  2,  .m = 13 /* 1.8461538*/ },
++	{ .n = 13, .k =  2,  .m = 14 /* 1.8571429*/ },
++	{ .n = 14, .k =  2,  .m = 15 /* 1.8666667*/ },
++	{ .n = 15, .k =  2,  .m = 16 /* 1.8750000*/ },
++	{ .n =  7, .k =  3,  .m = 11 /* 1.9090909*/ },
++	{ .n =  9, .k =  3,  .m = 14 /* 1.9285714*/ },
++	{ .n =  1, .k =  2,  .m =  1 /* 2.0000000*/ },
++	{ .n = 11, .k =  3,  .m = 16 /* 2.0625000*/ },
++	{ .n =  9, .k =  3,  .m = 13 /* 2.0769231*/ },
++	{ .n =  7, .k =  3,  .m = 10 /* 2.1000000*/ },
++	{ .n = 16, .k =  2,  .m = 15 /* 2.1333333*/ },
++	{ .n = 15, .k =  2,  .m = 14 /* 2.1428571*/ },
++	{ .n = 14, .k =  2,  .m = 13 /* 2.1538462*/ },
++	{ .n = 13, .k =  2,  .m = 12 /* 2.1666667*/ },
++	{ .n = 12, .k =  2,  .m = 11 /* 2.1818182*/ },
++	{ .n = 11, .k =  2,  .m = 10 /* 2.2000000*/ },
++	{ .n = 10, .k =  2,  .m =  9 /* 2.2222222*/ },
++	{ .n =  9, .k =  2,  .m =  8 /* 2.2500000*/ },
++	{ .n =  8, .k =  2,  .m =  7 /* 2.2857143*/ },
++	{ .n = 15, .k =  2,  .m = 13 /* 2.3076923*/ },
++	{ .n =  7, .k =  2,  .m =  6 /* 2.3333333*/ },
++	{ .n = 11, .k =  3,  .m = 14 /* 2.3571429*/ },
++	{ .n = 13, .k =  2,  .m = 11 /* 2.3636364*/ },
++	{ .n =  6, .k =  2,  .m =  5 /* 2.4000000*/ },
++	{ .n = 13, .k =  3,  .m = 16 /* 2.4375000*/ },
++	{ .n = 11, .k =  2,  .m =  9 /* 2.4444444*/ },
++	{ .n =  9, .k =  3,  .m = 11 /* 2.4545455*/ },
++	{ .n = 16, .k =  2,  .m = 13 /* 2.4615385*/ },
++	{ .n =  5, .k =  2,  .m =  4 /* 2.5000000*/ },
++	{ .n = 11, .k =  3,  .m = 13 /* 2.5384615*/ },
++	{ .n = 14, .k =  2,  .m = 11 /* 2.5454545*/ },
++	{ .n =  9, .k =  2,  .m =  7 /* 2.5714286*/ },
++	{ .n = 13, .k =  2,  .m = 10 /* 2.6000000*/ },
++	{ .n =  7, .k =  3,  .m =  8 /* 2.6250000*/ },
++	{ .n =  4, .k =  2,  .m =  3 /* 2.6666667*/ },
++	{ .n =  9, .k =  3,  .m = 10 /* 2.7000000*/ },
++	{ .n = 15, .k =  2,  .m = 11 /* 2.7272727*/ },
++	{ .n = 11, .k =  2,  .m =  8 /* 2.7500000*/ },
++	{ .n = 12, .k =  3,  .m = 13 /* 2.7692308*/ },
++	{ .n = 13, .k =  3,  .m = 14 /* 2.7857143*/ },
++	{ .n =  7, .k =  2,  .m =  5 /* 2.8000000*/ },
++	{ .n = 15, .k =  3,  .m = 16 /* 2.8125000*/ },
++	{ .n = 10, .k =  2,  .m =  7 /* 2.8571429*/ },
++	{ .n = 13, .k =  2,  .m =  9 /* 2.8888889*/ },
++	{ .n = 16, .k =  2,  .m = 11 /* 2.9090909*/ },
++	{ .n = 11, .k =  4,  .m = 15 /* 2.9333333*/ },
++	{ .n =  3, .k =  2,  .m =  2 /* 3.0000000*/ },
++	{ .n = 10, .k =  4,  .m = 13 /* 3.0769231*/ },
++	{ .n = 14, .k =  2,  .m =  9 /* 3.1111111*/ },
++	{ .n = 11, .k =  2,  .m =  7 /* 3.1428571*/ },
++	{ .n =  8, .k =  2,  .m =  5 /* 3.2000000*/ },
++	{ .n = 15, .k =  3,  .m = 14 /* 3.2142857*/ },
++	{ .n = 14, .k =  3,  .m = 13 /* 3.2307692*/ },
++	{ .n = 13, .k =  2,  .m =  8 /* 3.2500000*/ },
++	{ .n = 12, .k =  3,  .m = 11 /* 3.2727273*/ },
++	{ .n = 11, .k =  3,  .m = 10 /* 3.3000000*/ },
++	{ .n =  5, .k =  2,  .m =  3 /* 3.3333333*/ },
++	{ .n =  9, .k =  3,  .m =  8 /* 3.3750000*/ },
++	{ .n = 11, .k =  4,  .m = 13 /* 3.3846154*/ },
++	{ .n = 12, .k =  2,  .m =  7 /* 3.4285714*/ },
++	{ .n = 15, .k =  3,  .m = 13 /* 3.4615385*/ },
++	{ .n = 13, .k =  4,  .m = 15 /* 3.4666667*/ },
++	{ .n =  7, .k =  2,  .m =  4 /* 3.5000000*/ },
++	{ .n = 13, .k =  3,  .m = 11 /* 3.5454545*/ },
++	{ .n = 16, .k =  2,  .m =  9 /* 3.5555556*/ },
++	{ .n =  9, .k =  2,  .m =  5 /* 3.6000000*/ },
++	{ .n = 10, .k =  4,  .m = 11 /* 3.6363636*/ },
++	{ .n = 11, .k =  2,  .m =  6 /* 3.6666667*/ },
++	{ .n = 16, .k =  3,  .m = 13 /* 3.6923077*/ },
++	{ .n = 13, .k =  2,  .m =  7 /* 3.7142857*/ },
++	{ .n = 14, .k =  4,  .m = 15 /* 3.7333333*/ },
++	{ .n = 15, .k =  2,  .m =  8 /* 3.7500000*/ },
++	{ .n = 14, .k =  3,  .m = 11 /* 3.8181818*/ },
++	{ .n =  9, .k =  3,  .m =  7 /* 3.8571429*/ },
++	{ .n = 13, .k =  3,  .m = 10 /* 3.9000000*/ },
++	{ .n =  2, .k =  2,  .m =  1 /* 4.0000000*/ },
++	{ .n = 15, .k =  3,  .m = 11 /* 4.0909091*/ },
++	{ .n = 11, .k =  3,  .m =  8 /* 4.1250000*/ },
++	{ .n =  7, .k =  3,  .m =  5 /* 4.2000000*/ },
++	{ .n = 16, .k =  4,  .m = 15 /* 4.2666667*/ },
++	{ .n = 15, .k =  2,  .m =  7 /* 4.2857143*/ },
++	{ .n = 14, .k =  4,  .m = 13 /* 4.3076923*/ },
++	{ .n = 13, .k =  2,  .m =  6 /* 4.3333333*/ },
++	{ .n = 16, .k =  3,  .m = 11 /* 4.3636364*/ },
++	{ .n = 11, .k =  2,  .m =  5 /* 4.4000000*/ },
++	{ .n = 10, .k =  4,  .m =  9 /* 4.4444444*/ },
++	{ .n =  9, .k =  2,  .m =  4 /* 4.5000000*/ },
++	{ .n = 16, .k =  2,  .m =  7 /* 4.5714286*/ },
++	{ .n = 15, .k =  4,  .m = 13 /* 4.6153846*/ },
++	{ .n =  7, .k =  2,  .m =  3 /* 4.6666667*/ },
++	{ .n = 11, .k =  3,  .m =  7 /* 4.7142857*/ },
++	{ .n = 13, .k =  4,  .m = 11 /* 4.7272727*/ },
++	{ .n = 12, .k =  2,  .m =  5 /* 4.8000000*/ },
++	{ .n = 13, .k =  3,  .m =  8 /* 4.8750000*/ },
++	{ .n = 11, .k =  4,  .m =  9 /* 4.8888889*/ },
++	{ .n = 16, .k =  4,  .m = 13 /* 4.9230769*/ },
++	{ .n =  5, .k =  2,  .m =  2 /* 5.0000000*/ },
++	{ .n = 14, .k =  4,  .m = 11 /* 5.0909091*/ },
++	{ .n = 12, .k =  3,  .m =  7 /* 5.1428571*/ },
++	{ .n = 13, .k =  2,  .m =  5 /* 5.2000000*/ },
++	{ .n =  7, .k =  3,  .m =  4 /* 5.2500000*/ },
++	{ .n =  8, .k =  2,  .m =  3 /* 5.3333333*/ },
++	{ .n =  9, .k =  3,  .m =  5 /* 5.4000000*/ },
++	{ .n = 15, .k =  4,  .m = 11 /* 5.4545455*/ },
++	{ .n = 11, .k =  2,  .m =  4 /* 5.5000000*/ },
++	{ .n = 13, .k =  3,  .m =  7 /* 5.5714286*/ },
++	{ .n = 14, .k =  2,  .m =  5 /* 5.6000000*/ },
++	{ .n = 15, .k =  3,  .m =  8 /* 5.6250000*/ },
++	{ .n = 10, .k =  4,  .m =  7 /* 5.7142857*/ },
++	{ .n = 13, .k =  4,  .m =  9 /* 5.7777778*/ },
++	{ .n = 16, .k =  4,  .m = 11 /* 5.8181818*/ },
++	{ .n =  3, .k =  2,  .m =  1 /* 6.0000000*/ },
++	{ .n = 14, .k =  4,  .m =  9 /* 6.2222222*/ },
++	{ .n = 11, .k =  4,  .m =  7 /* 6.2857143*/ },
++	{ .n = 16, .k =  2,  .m =  5 /* 6.4000000*/ },
++	{ .n = 15, .k =  3,  .m =  7 /* 6.4285714*/ },
++	{ .n = 13, .k =  2,  .m =  4 /* 6.5000000*/ },
++	{ .n = 11, .k =  3,  .m =  5 /* 6.6000000*/ },
++	{ .n = 10, .k =  2,  .m =  3 /* 6.6666667*/ },
++	{ .n =  9, .k =  3,  .m =  4 /* 6.7500000*/ },
++	{ .n = 16, .k =  3,  .m =  7 /* 6.8571429*/ },
++	{ .n =  7, .k =  2,  .m =  2 /* 7.0000000*/ },
++	{ .n = 16, .k =  4,  .m =  9 /* 7.1111111*/ },
++	{ .n = 12, .k =  3,  .m =  5 /* 7.2000000*/ },
++	{ .n = 11, .k =  2,  .m =  3 /* 7.3333333*/ },
++	{ .n = 13, .k =  4,  .m =  7 /* 7.4285714*/ },
++	{ .n = 15, .k =  2,  .m =  4 /* 7.5000000*/ },
++	{ .n = 13, .k =  3,  .m =  5 /* 7.8000000*/ },
++	{ .n =  4, .k =  2,  .m =  1 /* 8.0000000*/ },
++	{ .n = 11, .k =  3,  .m =  4 /* 8.2500000*/ },
++	{ .n = 14, .k =  3,  .m =  5 /* 8.4000000*/ },
++	{ .n = 15, .k =  4,  .m =  7 /* 8.5714286*/ },
++	{ .n = 13, .k =  2,  .m =  3 /* 8.6666667*/ },
++	{ .n = 11, .k =  4,  .m =  5 /* 8.8000000*/ },
++	{ .n =  9, .k =  2,  .m =  2 /* 9.0000000*/ },
++	{ .n = 16, .k =  4,  .m =  7 /* 9.1428571*/ },
++	{ .n = 14, .k =  2,  .m =  3 /* 9.3333333*/ },
++	{ .n = 16, .k =  3,  .m =  5 /* 9.6000000*/ },
++	{ .n = 13, .k =  3,  .m =  4 /* 9.7500000*/ },
++	{ .n =  5, .k =  2,  .m =  1 /*10.0000000*/ },
++	{ .n = 13, .k =  4,  .m =  5 /*10.4000000*/ },
++	{ .n =  7, .k =  3,  .m =  2 /*10.5000000*/ },
++	{ .n = 16, .k =  2,  .m =  3 /*10.6666667*/ },
++	{ .n = 11, .k =  2,  .m =  2 /*11.0000000*/ },
++	{ .n = 14, .k =  4,  .m =  5 /*11.2000000*/ },
++	{ .n = 15, .k =  3,  .m =  4 /*11.2500000*/ },
++	{ .n =  6, .k =  2,  .m =  1 /*12.0000000*/ },
++	{ .n = 16, .k =  4,  .m =  5 /*12.8000000*/ },
++	{ .n = 13, .k =  2,  .m =  2 /*13.0000000*/ },
++	{ .n = 10, .k =  4,  .m =  3 /*13.3333333*/ },
++	{ .n =  9, .k =  3,  .m =  2 /*13.5000000*/ },
++	{ .n =  7, .k =  2,  .m =  1 /*14.0000000*/ },
++	{ .n = 11, .k =  4,  .m =  3 /*14.6666667*/ },
++	{ .n = 15, .k =  2,  .m =  2 /*15.0000000*/ },
++	{ .n =  8, .k =  2,  .m =  1 /*16.0000000*/ },
++	{ .n = 11, .k =  3,  .m =  2 /*16.5000000*/ },
++	{ .n = 13, .k =  4,  .m =  3 /*17.3333333*/ },
++	{ .n =  9, .k =  2,  .m =  1 /*18.0000000*/ },
++	{ .n = 14, .k =  4,  .m =  3 /*18.6666667*/ },
++	{ .n = 13, .k =  3,  .m =  2 /*19.5000000*/ },
++	{ .n = 10, .k =  2,  .m =  1 /*20.0000000*/ },
++	{ .n =  7, .k =  3,  .m =  1 /*21.0000000*/ },
++	{ .n = 16, .k =  4,  .m =  3 /*21.3333333*/ },
++	{ .n = 11, .k =  2,  .m =  1 /*22.0000000*/ },
++	{ .n = 15, .k =  3,  .m =  2 /*22.5000000*/ },
++	{ .n = 12, .k =  2,  .m =  1 /*24.0000000*/ },
++	{ .n = 13, .k =  2,  .m =  1 /*26.0000000*/ },
++	{ .n =  9, .k =  3,  .m =  1 /*27.0000000*/ },
++	{ .n = 14, .k =  2,  .m =  1 /*28.0000000*/ },
++	{ .n = 15, .k =  2,  .m =  1 /*30.0000000*/ },
++	{ .n = 16, .k =  2,  .m =  1 /*32.0000000*/ },
++	{ .n = 11, .k =  3,  .m =  1 /*33.0000000*/ },
++	{ .n = 12, .k =  3,  .m =  1 /*36.0000000*/ },
++	{ .n = 13, .k =  3,  .m =  1 /*39.0000000*/ },
++	{ .n = 10, .k =  4,  .m =  1 /*40.0000000*/ },
++	{ .n = 14, .k =  3,  .m =  1 /*42.0000000*/ },
++	{ .n = 11, .k =  4,  .m =  1 /*44.0000000*/ },
++	{ .n = 15, .k =  3,  .m =  1 /*45.0000000*/ },
++	{ .n = 16, .k =  3,  .m =  1 /*48.0000000*/ },
++	{ .n = 13, .k =  4,  .m =  1 /*52.0000000*/ },
++	{ .n = 14, .k =  4,  .m =  1 /*56.0000000*/ },
++	{ .n = 15, .k =  4,  .m =  1 /*60.0000000*/ },
++	{ .n = 16, .k =  4,  .m =  1 /*64.0000000*/ },
++};
+ static struct ccu_nkm pll_mipi_clk = {
+ 	/*
+ 	 * The bit 23 and 22 are called "LDO{1,2}_EN" on the SoC's
+@@ -181,6 +458,10 @@ static struct ccu_nkm pll_mipi_clk = {
+ 		.hw.init	= CLK_HW_INIT("pll-mipi", "pll-video0",
+ 					      &ccu_nkm_ops, CLK_SET_RATE_UNGATE),
+ 	},
++	.table = {
++		.num	= 275,
++		.combos	= pll_mipi_nkm_combos,
++	},
+ };
+ 
+ static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK(pll_hsic_clk, "pll-hsic",
+-- 
+2.40.1
+
