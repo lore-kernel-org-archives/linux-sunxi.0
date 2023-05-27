@@ -1,25 +1,26 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F1620EB
-	for <linux-sunxi@lists.linux.dev>; Sat, 27 May 2023 13:37:10 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E556D20EB
+	for <linux-sunxi@lists.linux.dev>; Sat, 27 May 2023 13:37:17 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4QT2fc5X1Cz9sjD;
-	Sat, 27 May 2023 15:28:08 +0200 (CEST)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4QT2fp11vSz9scm;
+	Sat, 27 May 2023 15:28:18 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1685194088;
+	s=MBO0001; t=1685194098;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=kAyuiYKxcOsDPYn8J7+22xTQEqCLXxVio4CMAPjFVu4=;
-	b=K5iz7QYp5ex0Cwa0rC4vw6obr1zLGTOIBLIkf8BWadDS2CYk6je4It0aKiqgtPz+9ipwmw
-	ioYzBFIwYm8VY260NVUH9czW9S0Ifd/IE7I0TP/Y/bh/EGdj/0jDxHViWOR+zlSEkP7HE2
-	mdoAwYibq9TUuEyHchPGFFYwbKk135+hf3zhNF81UeYWatiySf6fVCM1WLtj9FW8fmQQ2u
-	OOFE8v6bSXgayd1sZUk62kKMwUi057t5mbUaBuyaH4Y7ap/J64TKc61iyB1Gypb0L+GfiQ
-	ggGWBD9/uVnG2Vpm4svyq+au+C+sw0bJ8b3dXKf0yNQL+zpH/JPVbYh4TVhckA==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4E0//LKBNUllQfAtkiLIrhWN7vXYAzX6w6tTzQQg8xk=;
+	b=OvGVuYsKY7RuRPhxEsjloD+qLuaq7awbeJKTP8VfsQmuXdzIo5jrdutG53X3Lo2nnc+rpG
+	76ZGsRemAnDeuwaChPtGROHGTOXlVweQHvkn03uIuBEguEACkXmNr7MzE+KmkYbrdnkJeY
+	y30NivBAuv6lziTLewyWXYZprgOfcd0gwsXNTPf2LquA/K8NtM3YKv1luQ1cjJo2u8z/+y
+	gNwhnCk70+EoQKHm853UIogoYSwytYF9+j7EUAO7qFab5WvI4t3CcG4G0c+SfXI88DycWo
+	JtQeA69v9mbTY7igiAfe8A/hFN42x+8awJX66stHWJKYVDJ4ZIaFkQPjYlCviQ==
 From: Frank Oltmanns <frank@oltmanns.dev>
 To: linux-arm-kernel@lists.infradead.org,
 	linux-clk@vger.kernel.org,
@@ -35,9 +36,11 @@ Cc: Frank Oltmanns <frank@oltmanns.dev>,
 	Rob Herring <robh@kernel.org>,
 	Samuel Holland <samuel@sholland.org>,
 	Stephen Boyd <sboyd@kernel.org>
-Subject: [RFC PATCH 0/3] clk: sunxi-ng: Optimize rate selection for NKM clocks
-Date: Sat, 27 May 2023 15:27:44 +0200
-Message-Id: <20230527132747.83196-1-frank@oltmanns.dev>
+Subject: [RFC PATCH 2/3] clk: sunxi-ng: Implement precalculated NKM rate selection
+Date: Sat, 27 May 2023 15:27:46 +0200
+Message-Id: <20230527132747.83196-3-frank@oltmanns.dev>
+In-Reply-To: <20230527132747.83196-1-frank@oltmanns.dev>
+References: <20230527132747.83196-1-frank@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,95 +48,183 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4QT2fc5X1Cz9sjD
 
-I would like to bring your attention to the current process of setting the rate
-of an NKM clock. As it stands, when setting the rate of an NKM clock, the rate
-nearest but less than or equal to the requested rate is found, instead of the
-nearest rate. Moreover, ccu_nkm_find_best() is called multiple times (footnote
-[1]) when setting a rate, each time iterating over all combinations of n, k, and
-m.
+Add a new precalculation method for NKM clock rate selection in the
+sunxi-ng clock driver. Introduce ccu_nkm_find_best_precalc which uses a
+precalculated table of valid NKM combinations (struct clk_nkm_table and
+struct clk_nkm_combo) to find the best rate. This approach provides
+faster rate selection by searching a table of valid combinations rather
+than calculating for all possible combinations.
 
-In response to this, I propose the following refinements to optimize the NKM
-clock setting:
- a. when finding the best rate use the nearest rate, even if it is greater than
-    the requested rate (PATCH 1)
- b. utilize binary search to find the best rate by going through a
-    precalculated, ordered list of all meaningful combinations of n, k, and m
-    (PATCH 2)
+The table of NKM combinations needs to be initialized with meaningful
+combinations only, i.e. removing redundant combinations that result in
+the same rate.
 
-To illustrate, consider an NKM clock with min_n = 1, max_n = 16, min_k = 2,
-max_k = 4, min_m = 1, and max_m = 16. With the current approach, we have to go
-through 1024 combinations, of which only 275 are actually meaningful (the
-remaining 749 are combinations that result in the same frequency as other
-combinations). So, when selecting from these sorted 275 combinations we find the
-closest rate after 9 instead of 1024 steps.
+Keep the existing ccu_nkm_find_best function in place and use it as a
+fallback if no precalculated table is provided.
 
-As an example, I calculated the table off-line for the pll-mipi clock of
-sun50i-a64 (PATCH 3). However, I have identified two other potential strategies:
- 2. calculate before first use and persist for subsequent uses (i.e. never free,
-    see footnote [2])
- 3. calculate before first use and free after setting the rate.
+Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+---
+ drivers/clk/sunxi-ng/ccu_nkm.c | 84 +++++++++++++++++++++++++++-------
+ drivers/clk/sunxi-ng/ccu_nkm.h | 26 +++++++++++
+ 2 files changed, 94 insertions(+), 16 deletions(-)
 
-Each approach carries its own merits. The one I implemented is the most
-efficient in terms of computation time but consumes the most memory. The second
-saves compute time after the initial use, while the third minimizes memory usage
-at the cost of additional computation.
-
-The motivation for these proposed changes lies in the current behavior of rate
-selection for NKM clocks, which doesn't observe the CLK_SET_RATE_PARENT flag.
-I.e. it does not select a different rate for the parent clock to find the
-optimal rate. I believe this is likely due to the fact that selecting a new rate
-is quite compute intense, as it would involve iterating or calculating rates for
-the parent clock and then testing each rate with different n, k, and m
-combinations.
-
-As an example, if the parent is an NM clock, we would have to work through the
-combinations of the parent's factors (the parent's n) and divisor (the parent's
-m). This results in five nested loops to evaluate all possible rates, an effort
-that escalates if the parent could also influence the grandparent's rate. In my
-example case (sun50i-a64) the pll-mipi's parent (pll-video0) has 2048
-combinations of n and m, of which 1266 are meaningful because the others result
-in the same frequency for pll-video0.
-
-If we can come up with a way to iterate over the possible rates of a parent,
-this would eventually allow us to make NKM clocks obey the CLK_SET_RATE_PARENT
-flag. Because it would only require 11,349 (9 * 1,266) steps instead of
-2,097,152 (1,024 * 2,048).
-
-Things I considered but don't have a clear answer to:
- - Is there a specific reason, why currently only clock rates less than the
-   requested rate are considered when setting a new rate?
- - Do you think it is worth the memory and increased complexity to be able to
-   change the parent's clock rate?
-
-I look forward to hearing your thoughts on these proposed changes. Thank you for
-your time and consideration.
-
-Footnotes:
-[1] Multiple times because ccu_nkm_find_best is (indirectly) called from clk.c
-in
- - clk_core_req_round_rate_nolock()
- - clk_calc_new_rates() (which in turn is called three times for reasons that
-   currently elude me)
- - clk_change_rate
-
-[2] Actually, we could free the memory in a new ccu_nkm_terminate() function,
-which could become part of ccu_nkm_ops. But if my code searching skills don't
-betray me, there is currently no other clock that implements the terminate
-function.
-
-Frank Oltmanns (3):
-  clk: sunxi-ng: nkm: Minimize difference when finding rate
-  clk: sunxi-ng: Implement precalculated NKM rate selection
-  clk: sunxi-ng: sun50i-a64: Precalculate NKM combinations for pll-mipi
-
- drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 281 ++++++++++++++++++++++++++
- drivers/clk/sunxi-ng/ccu_mux.c        |   2 +-
- drivers/clk/sunxi-ng/ccu_nkm.c        |  97 +++++++--
- drivers/clk/sunxi-ng/ccu_nkm.h        |  26 +++
- 4 files changed, 385 insertions(+), 21 deletions(-)
-
+diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
+index 94d2a83992b2..9652f6df17bd 100644
+--- a/drivers/clk/sunxi-ng/ccu_nkm.c
++++ b/drivers/clk/sunxi-ng/ccu_nkm.c
+@@ -54,6 +54,49 @@ static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned long rate,
+ 	return best_rate;
+ }
+ 
++static unsigned long ccu_nkm_find_best_precalc(unsigned long parent,
++					       unsigned long rate,
++					       struct _ccu_nkm *nkm,
++					       struct clk_nkm_table *table)
++{
++	unsigned long best_rate = 0, best_diff = ULONG_MAX;
++	unsigned long best_n = 0, best_k = 0, best_m = 0;
++	int start = 0, end = table->num - 1, mid;
++
++	while (start <= end) {
++		unsigned long tmp_rate;
++		unsigned long tmp_diff;
++
++		mid = (start + end) / 2;
++
++		tmp_rate = parent * table->combos[mid].n * table->combos[mid].k /
++			   table->combos[mid].m;
++
++		tmp_diff = abs(rate - tmp_rate);
++
++		if (tmp_diff < best_diff) {
++			best_rate = tmp_rate;
++			best_diff = tmp_diff;
++			best_n = table->combos[mid].n;
++			best_k = table->combos[mid].k;
++			best_m = table->combos[mid].m;
++			if (best_diff == 0)
++				goto out;
++		}
++		if (rate < tmp_rate)
++			end = mid - 1;
++		else
++			start = mid + 1;
++	}
++
++out:
++	nkm->n = best_n;
++	nkm->k = best_k;
++	nkm->m = best_m;
++
++	return best_rate;
++}
++
+ static void ccu_nkm_disable(struct clk_hw *hw)
+ {
+ 	struct ccu_nkm *nkm = hw_to_ccu_nkm(hw);
+@@ -119,17 +162,22 @@ static unsigned long ccu_nkm_round_rate(struct ccu_mux_internal *mux,
+ 	struct ccu_nkm *nkm = data;
+ 	struct _ccu_nkm _nkm;
+ 
+-	_nkm.min_n = nkm->n.min ?: 1;
+-	_nkm.max_n = nkm->n.max ?: 1 << nkm->n.width;
+-	_nkm.min_k = nkm->k.min ?: 1;
+-	_nkm.max_k = nkm->k.max ?: 1 << nkm->k.width;
+-	_nkm.min_m = 1;
+-	_nkm.max_m = nkm->m.max ?: 1 << nkm->m.width;
+-
+ 	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
+ 		rate *= nkm->fixed_post_div;
+ 
+-	rate = ccu_nkm_find_best(*parent_rate, rate, &_nkm);
++	if (nkm->table.num)
++		rate = ccu_nkm_find_best_precalc(*parent_rate, rate, &_nkm,
++						 &nkm->table);
++	else {
++		_nkm.min_n = nkm->n.min ?: 1;
++		_nkm.max_n = nkm->n.max ?: 1 << nkm->n.width;
++		_nkm.min_k = nkm->k.min ?: 1;
++		_nkm.max_k = nkm->k.max ?: 1 << nkm->k.width;
++		_nkm.min_m = 1;
++		_nkm.max_m = nkm->m.max ?: 1 << nkm->m.width;
++
++		rate = ccu_nkm_find_best(*parent_rate, rate, &_nkm);
++	}
+ 
+ 	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
+ 		rate /= nkm->fixed_post_div;
+@@ -157,14 +205,18 @@ static int ccu_nkm_set_rate(struct clk_hw *hw, unsigned long rate,
+ 	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
+ 		rate *= nkm->fixed_post_div;
+ 
+-	_nkm.min_n = nkm->n.min ?: 1;
+-	_nkm.max_n = nkm->n.max ?: 1 << nkm->n.width;
+-	_nkm.min_k = nkm->k.min ?: 1;
+-	_nkm.max_k = nkm->k.max ?: 1 << nkm->k.width;
+-	_nkm.min_m = 1;
+-	_nkm.max_m = nkm->m.max ?: 1 << nkm->m.width;
+-
+-	ccu_nkm_find_best(parent_rate, rate, &_nkm);
++	if (nkm->table.num)
++		rate = ccu_nkm_find_best_precalc(*parent_rate, rate, &_nkm,
++						 &nkm->table);
++	else {
++		_nkm.min_n = nkm->n.min ?: 1;
++		_nkm.max_n = nkm->n.max ?: 1 << nkm->n.width;
++		_nkm.min_k = nkm->k.min ?: 1;
++		_nkm.max_k = nkm->k.max ?: 1 << nkm->k.width;
++		_nkm.min_m = 1;
++		_nkm.max_m = nkm->m.max ?: 1 << nkm->m.width;
++		ccu_nkm_find_best(parent_rate, rate, &_nkm);
++	}
+ 
+ 	spin_lock_irqsave(nkm->common.lock, flags);
+ 
+diff --git a/drivers/clk/sunxi-ng/ccu_nkm.h b/drivers/clk/sunxi-ng/ccu_nkm.h
+index 6601defb3f38..fa5551724921 100644
+--- a/drivers/clk/sunxi-ng/ccu_nkm.h
++++ b/drivers/clk/sunxi-ng/ccu_nkm.h
+@@ -12,6 +12,30 @@
+ #include "ccu_div.h"
+ #include "ccu_mult.h"
+ 
++struct clk_nkm_combo {
++	u8	n;
++	u8	k;
++	u8	m;
++};
++
++/**
++ * struct clk_nkm_table - Table of all meaningful combinations for n, k, and m
++ *
++ * @num: Number of entries in the table
++ * @combos: Array of combos (of size num) that are supported by this clock.
++ *
++ * This table shall contain all meaningful combinations of n, k, and m. That
++ * means that combinations that result in the same clock rate shall only be
++ * listed once. For example, if both
++ * { .n = 1, .k = 2, .m = 2} and  { .n = 2, .k = 2, .m = 4}
++ * are valid values for n, k, and m, only one of them would be allowed because
++ * both result in a factor of 1.0.
++ */
++struct clk_nkm_table {
++	size_t			num;
++	struct clk_nkm_combo	*combos;
++};
++
+ /*
+  * struct ccu_nkm - Definition of an N-K-M clock
+  *
+@@ -29,6 +53,8 @@ struct ccu_nkm {
+ 	unsigned int		fixed_post_div;
+ 
+ 	struct ccu_common	common;
++
++	struct clk_nkm_table	table;
+ };
+ 
+ #define SUNXI_CCU_NKM_WITH_MUX_GATE_LOCK(_struct, _name, _parents, _reg, \
 -- 
 2.40.1
 
