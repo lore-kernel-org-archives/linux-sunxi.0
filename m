@@ -1,263 +1,367 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB877C
-	for <linux-sunxi@lists.linux.dev>; Sun, 28 May 2023 15:32:15 +0000 (UTC)
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-3f8008cb772so12369421cf.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 28 May 2023 08:32:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685287935; x=1687879935;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PHJV1HfYIplIh99Ejgm8xeYpF8nKcBe4zUEBNIOYV4E=;
-        b=MagmmRExvh9FigOOEx342zgTKf0Fz2pW/Iw0gUmyfojCBK0u3qWU6bliHJIHTW6IeZ
-         HmMnTXiYqwg2gHavU9ReT3TCuKxeJ+ThP4HV7j60f4S1MyHhSpgj8g+YfacmmmYY7MDk
-         uQm2nNcG06hFn1mjEwZ+7EfYqz3DZS6aPZgdy6nqOtLZF4bWSzYBeyZZzITp09lHrUhn
-         11JZHzu5VQiELOT7vlneVMFTs8TTiZ5EK3MzOTtPio99rxteY+Kl3Kd8VDokxh3/tviN
-         zmQTNQjitQ4fJnnxzNT13tQ7pCMeynzOSVw5eCClXJHRm/B/jjik/t23sWQYsYuaZj1b
-         7ckw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685287935; x=1687879935;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PHJV1HfYIplIh99Ejgm8xeYpF8nKcBe4zUEBNIOYV4E=;
-        b=FixxCmoG/ggIRE03XsMvdFmJadA91CKB1KkVcddU6xSNdVup79Vmdp34X1A5f1aP48
-         xpsUIdn4PSq4vn4n8d4N7xNdfu6cYIl/Ulk+q6XU36MLcm9FUsW7qE2Hf5P4UWS5L3AF
-         /VgJ/rDt/WVSGWnFHrXGbD/6YPJKXYcRF/nlYGmf8AC+Rilw5XOFrroi3COBz6QD0zON
-         UaRj7/H+8o5gQPDEonTEGQXMpczf7W0+0gviiUIJraC4Jp8tsZFfP6RAxigYzUpB4JAO
-         xEf3CAz9nT0QNmsEd6ixR67jv/jhPd8i0jt/J3xtq0+LhclPIlEDf+sMDJojpOLiU/DQ
-         8uPA==
-X-Gm-Message-State: AC+VfDxUTkxLhiGFW167bF7UL+Gte2BcXWz0/op8zc71wcOJ90Zf/QQw
-	fFfKLqOszqOf78K6OP89mNj3tES9MfELQBjgVI48bh1XiHLxAQ==
-X-Google-Smtp-Source: ACHHUZ7gI6U6SNIJTmG4/dIsma30xjeqVNBoC6verlSPCnoRTbnZxjsEVh55ZqdhXPRko/v8U2bpn0RHmcdW2BQSGC8=
-X-Received: by 2002:a05:6214:5094:b0:5f1:606b:a9ca with SMTP id
- kk20-20020a056214509400b005f1606ba9camr7344504qvb.37.1685287934731; Sun, 28
- May 2023 08:32:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D150B7C
+	for <linux-sunxi@lists.linux.dev>; Sun, 28 May 2023 16:21:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A633C433EF;
+	Sun, 28 May 2023 16:21:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1685290918;
+	bh=O2vg3Ov5iVP10TTdBGk0zHoI09jnIvTNhX+NR+A0E20=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=FRcV98sjFE3eFUeFKhzRslOmQD3V7OH+iC9VQSec6fA1otwfPCSvJhYLTY/me/glM
+	 toBQaJ66OHIPlBTRRZy/Tted7o7JhwG8QO0XwVazxCWOJ6SH53Zk+TkjajS2QVWKB7
+	 A3K/6L4S6vdm4jXTzDpVZUhE7EokHt6t5VedUbcNh/vxYWdwTbE2U84Blh/rA8lcrF
+	 V42BoVGSWHTb4FYUgkRLowhzH8QRWET4Rd0YEsisjIAw7CdiknD9ShbF3YdvikH4WG
+	 bNXByJQlA+3g82gPexPPPyBAaAGSIfVQPUtUx66NrMz5ozhfoREPtlO8HFgKtrsxiB
+	 dpU4T1+VTQTHw==
+Date: Sun, 28 May 2023 17:38:14 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Maxim Kiselev <bigunclemax@gmail.com>
+Cc: linux-iio@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, Rob
+ Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Conor Dooley <conor@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Andre Przywara
+ <andre.przywara@arm.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Cosmin Tanislav
+ <demonsingur@gmail.com>, Haibo Chen <haibo.chen@nxp.com>, ChiYuan Huang
+ <cy_huang@richtek.com>, Ramona Bolboaca <ramona.bolboaca@analog.com>,
+ Ibrahim Tilki <Ibrahim.Tilki@analog.com>, ChiaEn Wu
+ <chiaen_wu@richtek.com>, William Breathitt Gray <william.gray@linaro.org>,
+ Arnd Bergmann <arnd@arndb.de>, AngeloGioacchino Del Regno        
+ <angelogioacchino.delregno@collabora.com>, Caleb Connolly
+ <caleb.connolly@linaro.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [RFC PATCH v1 1/4] iio: adc: Add Allwinner D1/T113s/R329 SoCs
+ GPADC
+Message-ID: <20230528173814.6d8dc146@jic23-huawei>
+In-Reply-To: <20230524082744.3215427-2-bigunclemax@gmail.com>
+References: <20230524082744.3215427-1-bigunclemax@gmail.com>
+	<20230524082744.3215427-2-bigunclemax@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230527132747.83196-1-frank@oltmanns.dev> <20230527132747.83196-3-frank@oltmanns.dev>
- <CAGRGNgWP6McbfORNQrrdvktEOVMgS-KCXuhC5GRYz-+SgsFx1w@mail.gmail.com> <87sfbgwyvp.fsf@oltmanns.dev>
-In-Reply-To: <87sfbgwyvp.fsf@oltmanns.dev>
-From: Julian Calaby <julian.calaby@gmail.com>
-Date: Mon, 29 May 2023 01:32:02 +1000
-Message-ID: <CAGRGNgW8tTyDksyQszkvavpQk3JGNscgoQsA8oV5xUmsuBbxUw@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/3] clk: sunxi-ng: Implement precalculated NKM rate selection
-To: Frank Oltmanns <frank@oltmanns.dev>
-Cc: linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>, Icenowy Zheng <icenowy@aosc.io>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Frank,
+On Wed, 24 May 2023 11:27:30 +0300
+Maxim Kiselev <bigunclemax@gmail.com> wrote:
 
-On Sun, May 28, 2023 at 8:10=E2=80=AFPM Frank Oltmanns <frank@oltmanns.dev>=
- wrote:
->
-> Hi Julian,
->
-> On 2023-05-28 at 09:19:36 +1000, Julian Calaby <julian.calaby@gmail.com> =
-wrote:
-> > Hi Frank,
-> >
-> > On Sat, May 27, 2023 at 11:37=E2=80=AFPM Frank Oltmanns <frank@oltmanns=
-.dev> wrote:
-> >>
-> >> Add a new precalculation method for NKM clock rate selection in the
-> >> sunxi-ng clock driver. Introduce ccu_nkm_find_best_precalc which uses =
-a
-> >> precalculated table of valid NKM combinations (struct clk_nkm_table an=
-d
-> >> struct clk_nkm_combo) to find the best rate. This approach provides
-> >> faster rate selection by searching a table of valid combinations rathe=
-r
-> >> than calculating for all possible combinations.
-> >>
-> >> The table of NKM combinations needs to be initialized with meaningful
-> >> combinations only, i.e. removing redundant combinations that result in
-> >> the same rate.
-> >>
-> >> Keep the existing ccu_nkm_find_best function in place and use it as a
-> >> fallback if no precalculated table is provided.
-> >>
-> >> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-> >> ---
-> >>  drivers/clk/sunxi-ng/ccu_nkm.c | 84 +++++++++++++++++++++++++++------=
--
-> >>  drivers/clk/sunxi-ng/ccu_nkm.h | 26 +++++++++++
-> >>  2 files changed, 94 insertions(+), 16 deletions(-)
-> >>
-> >> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu=
-_nkm.c
-> >> index 94d2a83992b2..9652f6df17bd 100644
-> >> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
-> >> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
-> >> @@ -54,6 +54,49 @@ static unsigned long ccu_nkm_find_best(unsigned lon=
-g parent, unsigned long rate,
-> >>         return best_rate;
-> >>  }
-> >>
-> >> +static unsigned long ccu_nkm_find_best_precalc(unsigned long parent,
-> >> +                                              unsigned long rate,
-> >> +                                              struct _ccu_nkm *nkm,
-> >> +                                              struct clk_nkm_table *t=
-able)
-> >> +{
-> >> +       unsigned long best_rate =3D 0, best_diff =3D ULONG_MAX;
-> >> +       unsigned long best_n =3D 0, best_k =3D 0, best_m =3D 0;
-> >> +       int start =3D 0, end =3D table->num - 1, mid;
-> >> +
-> >> +       while (start <=3D end) {
-> >> +               unsigned long tmp_rate;
-> >> +               unsigned long tmp_diff;
-> >> +
-> >> +               mid =3D (start + end) / 2;
-> >> +
-> >> +               tmp_rate =3D parent * table->combos[mid].n * table->co=
-mbos[mid].k /
-> >> +                          table->combos[mid].m;
-> >> +
-> >> +               tmp_diff =3D abs(rate - tmp_rate);
-> >> +
-> >> +               if (tmp_diff < best_diff) {
-> >> +                       best_rate =3D tmp_rate;
-> >> +                       best_diff =3D tmp_diff;
-> >> +                       best_n =3D table->combos[mid].n;
-> >> +                       best_k =3D table->combos[mid].k;
-> >> +                       best_m =3D table->combos[mid].m;
-> >> +                       if (best_diff =3D=3D 0)
-> >> +                               goto out;
-> >> +               }
-> >
->
-> Thank you for your feedback!
->
-> In my proposal, the code performs a binary search by
->  1. taking the element in the middle (mid)
->  2. calculating the rate of the element (tmp_rate)
->  3. calculating the difference to the requested rate (tmp_diff)
->  4. if the diff is better than the best_diff making it the new best
->     n-k-m-combo (the if block)
+> The General Purpose ADC (GPADC) can convert the external signal into
+> a certain proportion of digital value, to realize the measurement of
+> analog signal, which can be applied to power detection and key detection.
+> 
+> D1, T113s and R329 contain this GPADC IP. The only difference between
+> this SoCs is the number of available channels:
+> 
+>  T113 - 1 channel
+>  D1   - 2 channels
+>  R329 - 4 channels
+> 
+> Signed-off-by: Maxim Kiselev <bigunclemax@gmail.com>
 
-I'm so sorry, I thought that this was still doing a linear search as
-it's so close to the original code.
+Hi Maxim,
 
->
-> > If the table was sorted by n * k / m, this could just be a process of
->
-> Please note, the table already has to be sorted for the function to
-> work, as is the nature of a binary search. I should definitely add
-> comments. I'm sorry, the code was intended more as a basis to discuss
-> the general idea that I described in the cover letter. I should have
-> made that clearer.
->
-> > searching through until we either:
-> > - find that the first rate in the table is too high
->
-> I could see that I could add two steps in the beginning, before the loop:
->  - Take the first element and see if its rate is greater than the
->    requested rate, if so immediatly return it
->  - Take the last element and see if its rate is less than the requested
->    rate, if so immediatly return it
->
-> Is that what you mean? I'd have to run some simulations to see, if this
-> is a real improvement, because we would need two additional rate
-> calculations. Worst case would therefore be 2+log(n) calculations
-> instead of log(n) and the code would be slightly more complicated in my
-> opinion. But if we run this function with all possible parents rate (as
-> suggested in the end of my cover letter) these two special cases could
-> very well be often applicable. Thanks!
->
-> > - find an exact rate
->
-> What do you mean by "exact rate"? Do you mean a rate that matches the
-> requested rate exactly. This is what the code is already trying to do.
-> But, as this is not always possible, in cases where it does not find an
-> exact match, it takes the closest match instead.
->
-> > - go above the requested rate, then there's only two to compare: our
-> > current rate and the previous one
->
-> Sorry, you've lost me here. How would I go above the requested rate? You
-> would have to do the binary search to find that rate, but then why not
-> search the closest rate directly (as the code does) instead of searching
-> the closest rate above the requested (as you proposed). I feel like
-> either one of us is missing something. :)
-
-What we're missing is that I'm not explaining this well.
-
-Let's take a very simple table: (value =3D parent * n * k / m)
-
-0. 100
-1. 200
-2. 300
-3. 400
-
-If we search for 50, our closest is the first rate, so index 0: this
-is the "find that the first rate in the table is too high" case.
-
-If we search for 300, we'll converge on index 2: this is the "exact
-rate" situation.
-
-If we search for 275, then we'll converge on either 200 or 300: this
-is the "two to compare" situation: if we converge until we get to the
-lowest rate above our target, we only need to check the rate
-immediately before it in the table and the one we converged on to find
-the closest.
-
-So in pseudo-code, we'd end up with something like this:
-
---------
-
-start =3D 0;
-
-cur_rate =3D parent * table[start].n * table[start].k / table[start].m;
-
-if (cur_rate >=3D target)
-    return table[start];
-
-while (start <=3D end) {
-    mid =3D (start + end) / 2;
-
-    cur_rate =3D parent * table[mid].n * table[mid].k / table[mid].m;
-
-    if (cur_rate =3D=3D target)
-        return table[mid];
-
-   if (target < cur_rate)
-       end =3D mid - 1;
-   else
-       start =3D mid + 1;
-}
-
-prev_rate =3D parent * table[mid - 1].n * table[mid - 1].k / table[mid - 1]=
-.m;
-
-if (abs(target - prev_rate) < abs(target - cur_rate))
-    return table[mid - 1];
-
-return table[mid];
-
---------
-
-Which seems simpler to my eye and moves all the difference
-calculations out of the loop so they only have to be done once,
-effectively trading a difference calculation on each checked rate for
-a rate calculation, and dropping some variables in the process.
+Various comments inline.
 
 Thanks,
 
---=20
-Julian Calaby
+Jonathan
 
-Email: julian.calaby@gmail.com
-Profile: http://www.google.com/profiles/julian.calaby/
+> ---
+>  drivers/iio/adc/Kconfig            |  10 ++
+>  drivers/iio/adc/Makefile           |   1 +
+>  drivers/iio/adc/sun20i-gpadc-iio.c | 275 +++++++++++++++++++++++++++++
+>  3 files changed, 286 insertions(+)
+>  create mode 100644 drivers/iio/adc/sun20i-gpadc-iio.c
+> 
+> diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
+> index eb2b09ef5d5b..988804f46bf6 100644
+> --- a/drivers/iio/adc/Kconfig
+> +++ b/drivers/iio/adc/Kconfig
+> @@ -1123,6 +1123,16 @@ config SUN4I_GPADC
+>  	  To compile this driver as a module, choose M here: the module will be
+>  	  called sun4i-gpadc-iio.
+>  
+> +config SUN20I_GPADC
+> +	tristate "Support for the Allwinner SoCs GPADC"
+> +	depends on ARCH_SUNXI || COMPILE_TEST
+> +	help
+> +	  Say yes here to build support for Allwinner (D1, T113 and R329) SoCs
+> +	  GPADC. This ADC provides up to 4 channels.
+
+Given you wrote code that clamps at 16 channels I'd avoid saying only 4 here as
+it will then need updating if another device turns up with more than 4.
+
+> +
+> +	  To compile this driver as a module, choose M here: the module will be
+> +	  called sun20i-gpadc-iio.
+> +
+>  config TI_ADC081C
+>  	tristate "Texas Instruments ADC081C/ADC101C/ADC121C family"
+>  	depends on I2C
+
+> diff --git a/drivers/iio/adc/sun20i-gpadc-iio.c b/drivers/iio/adc/sun20i-gpadc-iio.c
+> new file mode 100644
+> index 000000000000..90f3bb2e41cd
+> --- /dev/null
+> +++ b/drivers/iio/adc/sun20i-gpadc-iio.c
+> @@ -0,0 +1,275 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * GPADC driver for sunxi platforms (D1, T113-S3 and R329)
+> + * Copyright (c) 2023 Maksim Kiselev <bigunclemax@gmail.com>
+> + */
+> +
+> +#include <linux/completion.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_device.h>
+Use generic versions from property.h
+> +#include <linux/clk.h>
+
+Alphabetical order preferred. Fine to separate out the iio one as
+a more specific group at the end though.
+
+> +#include <linux/reset.h>
+> +#include <linux/platform_device.h>
+
+I'd expect to see mod_devicetable.h included.
+
+> +#include <linux/regmap.h>
+> +#include <linux/iio/iio.h>
+> +
+> +#define SUN20I_GPADC_SR					0x00
+> +
+> +#define SUN20I_GPADC_CTRL				0x04
+> +#define SUN20I_GPADC_CTRL_ADC_FIRST_DLY			((GENMASK(7, 0) & (x)) << 24)
+
+define the mask, and use FIELD_PREP to place the data in it.
+Same for other cases that look like this.
+
+> +#define SUN20I_GPADC_CTRL_ADC_AUTOCALI_EN		BIT(23)
+> +#define SUN20I_GPADC_CTRL_ADC_OP_BIAS			((GENMASK(1, 0) & (x)) << 20)
+> +#define SUN20I_GPADC_CTRL_WORK_MODE_SELECT(x)		((GENMASK(1, 0) & (x)) << 18)
+> +#define SUN20I_GPADC_CTRL_ADC_CALI_EN			BIT(17)
+> +#define SUN20I_GPADC_CTRL_ADC_EN			BIT(16)
+> +
+> +#define SUN20I_GPADC_CS_EN				0x08
+> +#define SUN20I_GPADC_CS_EN_ADC_CHAN_CMP_EN(x)		((GENMASK(16, 0) & BIT(x)) << 16)
+
+> +#define SUN20I_GPADC_CS_EN_ADC_CHAN_SELECT(x)		(GENMASK(16, 0) & BIT(x))
+> +
+> +#define SUN20I_GPADC_DATA_INTC				0x28
+> +#define SUN20I_GPADC_DATA_INTC_CHAN_DATA_IRQ_EN(x)	(GENMASK(16, 0) & BIT(x))
+> +
+> +#define SUN20I_GPADC_DATA_INTS				0x38
+> +#define SUN20I_GPADC_DATA_INTS_DATA_PENDING(x)		(GENMASK(16, 0) & BIT(x))
+> +#define SUN20I_GPADC_DATA_INTS_DATA_PENDING_MASK	GENMASK(16, 0)
+> +
+> +#define SUN20I_GPADC_CHAN_DATA(x)			(0x80 + (x) * 4)
+> +
+> +#define SUN20I_GPADC_TIMEOUT				msecs_to_jiffies(100)
+
+I'd either document why that time here, or push this down to were it's called.
+It's a real world value rather than a magic number so doesn't need a name unless
+more information is provided with that.
+
+> +#define SUN20I_GPADC_MAX_CHANNELS			16
+> +
+
+
+...
+
+> +
+> +static int sun20i_gpadc_read_raw(struct iio_dev *indio_dev,
+> +				 struct iio_chan_spec const *chan, int *val,
+> +				 int *val2, long mask)
+> +{
+> +	struct sun20i_gpadc_iio *info = iio_priv(indio_dev);
+> +	int ret;
+> +
+> +	switch (mask) {
+> +	case IIO_CHAN_INFO_RAW:
+> +		mutex_lock(&info->lock);
+> +		ret = sun20i_gpadc_adc_read(info, chan, val);
+> +		mutex_unlock(&info->lock);
+> +		return ret;
+> +	case IIO_CHAN_INFO_SCALE:
+> +		/* 1800mV / 4096 * raw */
+
+Not * raw, because that bit is in userspace - or express this as
+value in mv = 1800mV / 4096  raw
+
+Also we have IIO_VAL_FRACTIONAL_LOG_2 - the advantage of that being that
+a consumer of this channel can do more efficient maths in some cases 
+if it gets the values in that form.
+
+> +		*val = 0;
+> +		*val2 = 439453125;
+> +		return IIO_VAL_INT_PLUS_NANO;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static irqreturn_t sun20i_gpadc_irq_handler(int irq, void *data)
+> +{
+> +	struct sun20i_gpadc_iio *info = data;
+> +	u32 reg;
+> +
+> +	/* clear data interrupt status register */
+> +	regmap_read(info->regmap, SUN20I_GPADC_DATA_INTS, &reg);
+> +	regmap_write(info->regmap, SUN20I_GPADC_DATA_INTS, reg);
+> +
+> +	complete(&info->completion);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static const struct iio_info sun20i_gpadc_iio_info = {
+> +	.read_raw = sun20i_gpadc_read_raw,
+> +};
+> +
+> +static int sun20i_gpadc_probe(struct platform_device *pdev)
+> +{
+> +	const struct sun20i_gpadc_configuration *config;
+> +	struct iio_dev *indio_dev;
+> +	struct sun20i_gpadc_iio *info;
+> +	struct reset_control *rst;
+> +	void __iomem *base;
+> +	struct clk *clk;
+> +	int irq;
+> +	int ret;
+> +
+> +	indio_dev = devm_iio_device_alloc(&pdev->dev, sizeof(*info));
+> +	if (!indio_dev)
+> +		return -ENOMEM;
+> +
+> +	info = iio_priv(indio_dev);
+> +	platform_set_drvdata(pdev, indio_dev);
+
+Why set this?  I'm not immediately spotting it being used.
+
+> +
+> +	mutex_init(&info->lock);
+> +	init_completion(&info->completion);
+> +
+> +	info->indio_dev = indio_dev;
+
+This is very rarely a good idea. It normally implies that
+the level of abstraction has gone wrong somewhere in the driver.
+Here I don't think you even use it - hence drop that pointer from
+the structure.
+
+> +	indio_dev->info = &sun20i_gpadc_iio_info;
+> +	indio_dev->name = dev_name(&pdev->dev);
+
+dev_name() has a habit of not reflecting the part number of the device,
+which is what should be used for indio_dev->name.
+Usual fix is put it in your device type specific structure - which is another
+reason you may want to keep the explicit compatibles.
+
+> +
+> +	config = of_device_get_match_data(&pdev->dev);
+
+I think this already got pointed out.  In IIO we are trying to use
+the generic firmware interfaces for everything.  Whilst there are devices
+where it is unlikely that anyone will ever use them with other firmware
+types, using the generic interfaces is more consistent for reviewers
+of the wide class of devices that are used with ACPI etc.
+
+> +	if (!config)
+> +		return -ENODEV;
+> +
+> +	/* Sanity check for possible later IP variants with more channels */
+> +	if (config->num_channels > SUN20I_GPADC_MAX_CHANNELS)
+> +		return dev_err_probe(&pdev->dev, -EINVAL,
+> +				     "max channels exceeded\n");
+
+This should be either by design or a compile time check if you really
+want to check it.
+
+> +
+> +	indio_dev->channels = config->channels;
+> +	indio_dev->num_channels = config->num_channels;
+> +
+> +	base = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(base))
+> +		return PTR_ERR(base);
+> +
+> +	info->regmap = devm_regmap_init_mmio(&pdev->dev, base,
+> +					     &sun20i_gpadc_regmap_config);
+> +	if (IS_ERR(info->regmap))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(info->regmap),
+> +				     "failed to init regmap\n");
+> +
+> +	clk = devm_clk_get_enabled(&pdev->dev, NULL);
+> +	if (IS_ERR(clk))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(clk),
+> +				     "failed to enable bus clock\n");
+> +
+> +	rst = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+> +	if (IS_ERR(rst))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(rst),
+> +				     "failed to get reset control\n");
+> +
+> +	ret = reset_control_deassert(rst);
+> +	if (ret)
+> +		return dev_err_probe(&pdev->dev, ret,
+> +				    "failed to deassert reset\n");
+> +
+> +	irq = platform_get_irq(pdev, 0);
+> +	if (irq < 0)
+> +		return dev_err_probe(&pdev->dev, irq, "failed to get irq\n");
+> +
+> +	ret = devm_request_irq(&pdev->dev, irq, sun20i_gpadc_irq_handler,
+> +			       0, dev_name(&pdev->dev), info);
+> +	if (ret < 0)
+> +		return dev_err_probe(&pdev->dev, ret,
+> +				     "failed requesting irq %d\n", irq);
+> +
+> +	/* set the single conversion mode and enable auto calibration*/
+> +	regmap_write(info->regmap, SUN20I_GPADC_CTRL,
+> +		     SUN20I_GPADC_CTRL_ADC_AUTOCALI_EN |
+> +		     SUN20I_GPADC_CTRL_WORK_MODE_SELECT(0));
+> +
+> +	ret = devm_iio_device_register(&pdev->dev, indio_dev);
+> +	if (ret < 0)
+> +		return dev_err_probe(&pdev->dev, ret,
+> +				     "could not register the device\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id sun20i_gpadc_of_id[] = {
+> +	{
+> +		.compatible = "allwinner,sun8i-t113-gpadc",
+> +		.data = &sun20i_gpadc_config[0],
+> +	},
+> +	{
+> +		.compatible = "allwinner,sun20i-d1-gpadc",
+> +		.data = &sun20i_d1_gpadc_channels[1]
+> +	},
+> +	{
+> +		.compatible = "allwinner,sun50i-r329-gpadc",
+> +		.data = &sun50i_r329_gpadc_channels[2]
+I agree with the other reviewer who suggested the array was unnecessary
+- if you did want to keep it for some reason the introduce an enum so
+you can reference it by named index.
+
+Add commas to these lines, both for consistency and because maybe we will
+one day set more in that structure and it will reduce the noise level
+of such a patch.
+> +	},
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, sun20i_gpadc_of_id);
