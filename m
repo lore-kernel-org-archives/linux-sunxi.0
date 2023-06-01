@@ -1,171 +1,315 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E329F23404
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 Jun 2023 11:32:14 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4QX3hr1bhPz9scT;
-	Thu,  1 Jun 2023 13:25:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1685618732;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Pwp2W8cQUmBk1nwG6nolUJv04uH+qo31sa1TLF5qFwQ=;
-	b=LRylmHsg4FUbZTcfmCgHjVYLcjWKChNx7sUBgD/hPw17j7dcrd6xCcnFTR6vSzqy96k0i5
-	IeEMLETJObiBboemmSJwvzag/ItT4bFc7WalRWUjTJLG7G6EFmlrDMG41JVck/IWpuX3+n
-	j82eUbYLdooxtcdFg6tPjysXRRNND5XACZBJ6OEPkVghyJZNsnDM4gPYKJdAjTZqHJ+oQa
-	jRGqOPpYe+nRXEW92IAUeP+NlEY2UoICqF4kaAzPtdDBKBo5647B8JJjmoaZ5U6Vz7fR6W
-	tsBiPWo8E0lCI9Jpixu+eVQ9RYRDVK8dAtDj0ZZu1MBfFhDAd097q4AadxAiwg==
-References: <20230527132747.83196-1-frank@oltmanns.dev>
- <flngzi4henkzcpzwdexencdkw77h52g3nduup7pwctpwfiuznk@eewnnut5mvsq>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, Andre Przywara
- <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>, Icenowy Zheng
- <icenowy@aosc.io>, Jernej Skrabec <jernej.skrabec@gmail.com>, Michael
- Turquette <mturquette@baylibre.com>, Rob Herring <robh@kernel.org>, Samuel
- Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [RFC PATCH 0/3] clk: sunxi-ng: Optimize rate selection for NKM
- clocks
-Date: Thu, 01 Jun 2023 07:16:45 +0200
-In-reply-to: <flngzi4henkzcpzwdexencdkw77h52g3nduup7pwctpwfiuznk@eewnnut5mvsq>
-Message-ID: <87mt1jbf18.fsf@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B09621CCA
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Jun 2023 14:01:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=k1; bh=xqhRMpVRwKGnSR4yTg3S/+wq82xe
+	UEL1Dnls53yl8Mw=; b=zVwx/d3ot8d8N9TH4vhGyszu0niC+gq3K8uG69HepK4Y
+	t1CR6rvFAw11dWupGg+KHJZM9VXnrwmpTZ00C0OaIHORagTv0B9jH9XPBTNbwemP
+	vFoXYAeQFLs6rY1Vz3Ww188uwFKNR5sYWZndJ8YSYXkXS19jf7QjsglAtmCGf5U=
+Received: (qmail 1670469 invoked from network); 1 Jun 2023 15:54:54 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Jun 2023 15:54:54 +0200
+X-UD-Smtp-Session: l3s3148p1@qP6/xxH9ruwujnsI
+Date: Thu, 1 Jun 2023 15:54:50 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Thor Thayer <thor.thayer@linux.intel.com>,
+	Elie Morisse <syniurge@gmail.com>,
+	Shyam Sundar S K <shyam-sundar.s-k@amd.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	ye xingchen <ye.xingchen@zte.com.cn>,
+	Krzysztof Adamski <krzysztof.adamski@nokia.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Allison Randal <allison@lohutok.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Kamal Dasu <kdasu.kdev@gmail.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jochen Friedrich <jochen@scram.de>,
+	Benson Leung <bleung@chromium.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+	Baruch Siach <baruch@tkos.co.il>,
+	Jean-Marie Verdun <verdun@hpe.com>,
+	Nick Hawkins <nick.hawkins@hpe.com>,
+	Dong Aisheng <aisheng.dong@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Oleksij Rempel <linux@rempel-privat.de>,
+	Jean Delvare <jdelvare@suse.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Chris Pringle <chris.pringle@phabrix.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Julia Lawall <Julia.Lawall@inria.fr>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Khalil Blaiech <kblaiech@nvidia.com>,
+	Asmaa Mnebhi <asmaa@nvidia.com>,
+	Vadim Pasternak <vadimp@nvidia.com>,
+	Michael Shych <michaelsh@nvidia.com>,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	Qii Wang <qii.wang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Stefan Roese <sr@denx.de>,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Peter Korsgaard <peter@korsgaard.com>, Andrew Lunn <andrew@lunn.ch>,
+	Robert Richter <rric@kernel.org>, Tony Lindgren <tony@atomide.com>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+	Vignesh R <vigneshr@ti.com>, Michael Ellerman <mpe@ellerman.id.au>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Rob Herring <robh@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Loic Poulain <loic.poulain@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Chris Brandt <chris.brandt@renesas.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jim Cromie <jim.cromie@gmail.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Wei Chen <harperchen1110@gmail.com>,
+	George Cherian <gcherian@marvell.com>,
+	Peter Rosin <peda@axentia.se>,
+	Peter Korsgaard <peter.korsgaard@barco.com>,
+	linux-aspeed@lists.ozlabs.org,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Jan Dabros <jsd@semihalf.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Guenter Roeck <groeck@chromium.org>,
+	linux-riscv@lists.infradead.org, Fabio Estevam <festevam@gmail.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+	Benjamin Fair <benjaminfair@google.com>,
+	linux-rockchip@lists.infradead.org, openbmc@lists.ozlabs.org,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Nancy Yuen <yuenn@google.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	linux-sunxi@lists.linux.dev, Joel Stanley <joel@jms.id.au>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-arm-msm@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
+	linux-mediatek@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, linux-omap@vger.kernel.org,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	linux-arm-kernel@lists.infradead.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Andrew Jeffery <andrew@aj.id.au>,
+	Patrick Venture <venture@google.com>, linux-mips@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Dmitry Osipenko <digetx@gmail.com>, asahi@lists.linux.dev,
+	kernel@pengutronix.de, linuxppc-dev@lists.ozlabs.org,
+	linux-i2c@vger.kernel.org
+Subject: Re: [PATCH 00/89] i2c: Convert to platform remove callback returning
+ void
+Message-ID: <ZHijKtBbH2sCSuT4@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Thor Thayer <thor.thayer@linux.intel.com>,
+	Elie Morisse <syniurge@gmail.com>,
+	Shyam Sundar S K <shyam-sundar.s-k@amd.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	ye xingchen <ye.xingchen@zte.com.cn>,
+	Krzysztof Adamski <krzysztof.adamski@nokia.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Allison Randal <allison@lohutok.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Kamal Dasu <kdasu.kdev@gmail.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jochen Friedrich <jochen@scram.de>,
+	Benson Leung <bleung@chromium.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+	Baruch Siach <baruch@tkos.co.il>,
+	Jean-Marie Verdun <verdun@hpe.com>,
+	Nick Hawkins <nick.hawkins@hpe.com>,
+	Dong Aisheng <aisheng.dong@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Oleksij Rempel <linux@rempel-privat.de>,
+	Jean Delvare <jdelvare@suse.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Chris Pringle <chris.pringle@phabrix.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Julia Lawall <Julia.Lawall@inria.fr>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Khalil Blaiech <kblaiech@nvidia.com>,
+	Asmaa Mnebhi <asmaa@nvidia.com>,
+	Vadim Pasternak <vadimp@nvidia.com>,
+	Michael Shych <michaelsh@nvidia.com>,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	Qii Wang <qii.wang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Stefan Roese <sr@denx.de>,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Peter Korsgaard <peter@korsgaard.com>, Andrew Lunn <andrew@lunn.ch>,
+	Robert Richter <rric@kernel.org>, Tony Lindgren <tony@atomide.com>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+	Vignesh R <vigneshr@ti.com>, Michael Ellerman <mpe@ellerman.id.au>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Rob Herring <robh@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Loic Poulain <loic.poulain@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Chris Brandt <chris.brandt@renesas.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jim Cromie <jim.cromie@gmail.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Wei Chen <harperchen1110@gmail.com>,
+	George Cherian <gcherian@marvell.com>,
+	Peter Rosin <peda@axentia.se>,
+	Peter Korsgaard <peter.korsgaard@barco.com>,
+	linux-aspeed@lists.ozlabs.org,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Jan Dabros <jsd@semihalf.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Guenter Roeck <groeck@chromium.org>,
+	linux-riscv@lists.infradead.org, Fabio Estevam <festevam@gmail.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+	Benjamin Fair <benjaminfair@google.com>,
+	linux-rockchip@lists.infradead.org, openbmc@lists.ozlabs.org,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Nancy Yuen <yuenn@google.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	linux-sunxi@lists.linux.dev, Joel Stanley <joel@jms.id.au>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-arm-msm@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
+	linux-mediatek@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, linux-omap@vger.kernel.org,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	linux-arm-kernel@lists.infradead.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Andrew Jeffery <andrew@aj.id.au>,
+	Patrick Venture <venture@google.com>, linux-mips@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Dmitry Osipenko <digetx@gmail.com>, asahi@lists.linux.dev,
+	kernel@pengutronix.de, linuxppc-dev@lists.ozlabs.org,
+	linux-i2c@vger.kernel.org
+References: <20230508205306.1474415-1-u.kleine-koenig@pengutronix.de>
+ <20230601073322.ww25ajaurktqsryr@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Rspamd-Queue-Id: 4QX3hr1bhPz9scT
-
-Hi Maxime,
-
-On 2023-05-31 at 15:48:43 +0200, Maxime Ripard <mripard@kernel.org> wrote:
-> [[PGP Signed Part:Undecided]]
-> Hi Frank,
->
-> On Sat, May 27, 2023 at 03:27:44PM +0200, Frank Oltmanns wrote:
->> I would like to bring your attention to the current process of setting
->> the rate of an NKM clock. As it stands, when setting the rate of an
->> NKM clock, the rate nearest but less than or equal to the requested
->> rate is found, instead of the nearest rate.
->
-> Yeah, it's actually pretty common, see clk_mux_determine_rate_flags()
-> for example. Some devices require that we don't overshoot, while some
-> prefer to have the closest rate.
->
-> Both are fine, and it's a bit context specific which one we should
-> favour. If we were to do anything, it would be to support both and let
-> the clock driver select which behaviour it wants.
->
-
-Ok, understood. Thank you for the explanation! Now, I'm wondering if
-anyone would be using such a flag, if I added it.
-
->
->> Moreover, ccu_nkm_find_best() is called multiple times (footnote [1])
->> when setting a rate, each time iterating over all combinations of n,
->> k, and m.
->
-> Yeah, that's expected as well.
-
-I'm wondering though, if iterating over all combinations is set in
-stone, or if some kind of optimization would be in order.
-
->
->> In response to this, I propose the following refinements to optimize the NKM
->> clock setting:
->>  a. when finding the best rate use the nearest rate, even if it is greater than
->>     the requested rate (PATCH 1)
->>  b. utilize binary search to find the best rate by going through a
->>     precalculated, ordered list of all meaningful combinations of n, k, and m
->>     (PATCH 2)
->
-> One thing you haven't really addressed is why we would be doing this? Is
-> there some clocks that require a more precise clock and don't? Is the
-> factor calculation a bottleneck for some workloads?
-
-Background
-==========
-I'm a pinephone user (ccu-sun50i-a64). I'm using U-Boot which sets the
-pll-video0 to 294 MHz on boot. The phone's panel requires DCLK to run at
-108 MHz to get a nice 60 Hz vertical refresh rate. The clock structure
-is this:
-
-    clock                       clock type
-    --------------------------------------
-    pll-video0                  ccu_nm
-       pll-mipi                 ccu_nkm
-          tcon0                 ccu_mux
-             tcon-data-clock    sun4i_dclk
-
-The divider between tcon0 and tcon-data-clock is fixed at 4. So, I need
-pll-mipi to run at 432 MHz to get the desired vertical refresh rate.
-When pll-vdeo0 is at 294 MHz this is that rate cannot be matched exactly
-with any combination. The best we can get is 431.2 MHz (n=11, k=2,
-m=15).
-
-The pinephone has some "vendor" patches (megi kernel) that
- a. add HDMI
- b. allow re-setting pll-mipi's rate when pll-video0 changes
-
-Re: Who needs a more precise clock?
-===================================
-When plugging in HDMI, pll-video's rate is set to 297 MHz, which - in
-the vendor kernel, not mainline - triggers recalculation of pll-mipi
-(trying to set it to 431.2 MHz). It ends up with a rate of 424.285714
-MHz, because this is the nearest, but less than 431.2 MHz (n=5, k=2,
-m=7). The nearest rate would be 432 MHz.
-
-So, while analyzing the whole situation that I described above, I found
-out that the NKM clocks are not set to the closest rate and wondered why
-that is. Hence my request for comments.
-
-Now, one could argue that pll-video0 should be set to 297MHz at boot or
-that pll-mipi should try to set the *requested* rate instead of the
-previous rate when the pll-video0 changes. And I think that both are
-valid or even better approaches than my proposal in this RFC to address
-this specific problem and I'll probably sent patches to discuss this as
-well.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gpYQGInw32d3wriv"
+Content-Disposition: inline
+In-Reply-To: <20230601073322.ww25ajaurktqsryr@pengutronix.de>
 
 
-Re: Why speed up factor calculation?
-====================================
-I'm not aware that the current implementation of calculating n, k, and m
-poses a bottleneck in any situation. Again, while going through the
-code, I wondered why not save a few CPU cycles by precalculating the
-meaningful combinations. In my opinion, it does not have any side
-effects, so we might as well do it. (There is of course the side effect
-of using a higher rate, but this is unrelated to precalculation as I
-could as well employ a rate comparison that only allows lower rates, or
-only optionally higher rates.)
+--gpYQGInw32d3wriv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> Clocks in general are very regression-prone, so I'd rather be a bit
-> conservative there, and "if it ain't broke, don't fix it".
 
-Sure, I get that.
+> I wonder how this series will go in. My expectation was that Wolfram
+> picks up the whole series via his tree?!
 
-As I stated in my cover letter:
-"The motivation for these proposed changes lies in the current behavior
-of rate selection for NKM clocks, which doesn't observe the
-CLK_SET_RATE_PARENT flag. I.e. it does not select a different rate for
-the parent clock to find the optimal rate."
+Will do. I am currently super-busy, though.
 
-I thought that this required this optimization to be implemented, but by
-now, I'm no longer sure. I'll probably continue investigating different
-paths for CLK_SET_RATE_PARENT for NKM clocks and follow up with new
-findings.
 
-Thanks,
-  Frank
 
->
-> Maxime
->
-> [[End of PGP Signed Part]]
+--gpYQGInw32d3wriv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmR4oyYACgkQFA3kzBSg
+KbYkxRAAgf5VeQe2YA/rv9xTTFOLsiZ2yYaKqe5cSG8ORritsNgMayx5mytBy0Eb
+vLblB6pyYYUuu3M8/UNmMh+ud1b9uX4klUjd/spaehbsehFeEKn6qXIp8cwcSIYf
+Urcj54jsziLug9CQlidx+Zv9cK5qBCkmgMqzf+Nsc/qUEnZFhpblZkoqV1cEMbkQ
+ZrFXWEauQuCK9R9A4x6GrmfmdMn3c792FdLYJIL6bVJ3YJbN27vqzC8e+5NJqhs4
+KxCJ0LH0/M3rfhuDi//PfKk116qlUNYOkukv86eih76CBDm8sef221IfgFmLQx0h
+Hhvgc9g5MZNb9gSZP3UBsdXIiQgOEMztVEnWROaMIPLhab4G/rJhF0YMEAq132/Q
+4F6E5uIBY055Hdc4rrfounk8Ia3VRfuqG9B7bmaujkDmOBkLTB33+93c+b9xsJMh
+njdGaRmhDm3FnKzUqe//7kjRC2Eh004VP4Yr4JZ4byJWDkHtLLx2foYlV/Vry+Ka
+vajzcCTXVcDghWSXcd60VkXpI8cePJeHF6pnJfq6gTGFSrE3nH27ERG0zM8T7ADq
+E3PRusML2KJhpLcPuqnF2ntYSo8cwt2MW5gtEtaFlizmjuIZ/sLCTrDZKRUN9XAX
+k3ic9QCDUVLlKLXBftokeMi0I1NEhto6+ck+Fc8SNGnNnWxYJZ8=
+=ijai
+-----END PGP SIGNATURE-----
+
+--gpYQGInw32d3wriv--
