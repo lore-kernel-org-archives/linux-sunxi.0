@@ -1,218 +1,176 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2062.outbound.protection.outlook.com [40.107.101.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E51823DF
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 Jun 2023 19:41:35 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2af290cf9b7so17987631fa.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 01 Jun 2023 12:41:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685648493; x=1688240493;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UOefF1RvR5DKubBAm6OxHlMrlAp/F0A3Hij/nZ8UEGc=;
-        b=RXNGpoUIp21qcF8zs+KFt7zYPSG7+HlGDFgXFDsGcDNdwk0OW8pMmvMgN8VBncf3t9
-         Ob3/ibn/e11ASdNLrRFmG935e1N7UFCBJWy6l0rh1f0FE4GSxl4oCSpsN+RhVunZW6V+
-         quIeOidF5lmdrpk67yK2MY8mDitzxF3DcQDMbtOQ1HVQgXtedUvk6/bn0pOcc/7PBUxE
-         KsQP72uYDu1l23GSNA54vjhmJwwwqax95sjorrfceOENnl3xbyUiiQm1z3vfOPddctrP
-         6DgR1uZLtGzYdm2ZjhsnMyfAFSapuctMSY/voqvYnJhqKmo8rHxD5WOvfBrFYV3WSiDo
-         bjhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685648493; x=1688240493;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UOefF1RvR5DKubBAm6OxHlMrlAp/F0A3Hij/nZ8UEGc=;
-        b=UU5FNluniCR7Oos1Ug27ezICsVZ1CRYva1b4GJYQmNuMLSrW1Vd0BcDIDHUwVr2+q2
-         BhtBGrIqMpZBCg9YhO4c6d7jo4A/vzxzVvNP3obJrtpRUYNFOkgNGLkfXX4jbO9tWoxY
-         AlEi/+88JeBhwfD16cWad7Z8MrV7OVuRUaYu4pPR2B8wU8hG5eSRj+ckkKFbXsdGiq3/
-         MBGV7PI28NwQ7PcT5wG1dnuCUus/OVsPPzjUIUUD9PFxZJXAhGWlLVNExNnD5+IykW9L
-         +Yz/vUGMEJS1fGWf3wjMDQVwRoMg3pezBPrnFA7ZGPzpGOcONNFgNggNGSiCkfjNc8BX
-         BzYg==
-X-Gm-Message-State: AC+VfDzboOSrGKvlEIDpqmtaTACB+LlGgYOEnSwmwDWgDaVTM21Cq1RE
-	eI+HJSnw03IWEy7HxZrP+5Q=
-X-Google-Smtp-Source: ACHHUZ6x3KIW69nM/pmEyLwFVAPLFhxWlHOmA/vqeVYEMWcA3V8UIVzrIR6dNphFCH/yXweO5GLHEg==
-X-Received: by 2002:a2e:96cb:0:b0:2aa:40dd:7a55 with SMTP id d11-20020a2e96cb000000b002aa40dd7a55mr308567ljj.8.1685648492634;
-        Thu, 01 Jun 2023 12:41:32 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id k3-20020a17090627c300b0096a1ba4e0d1sm10909812ejc.32.2023.06.01.12.41.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jun 2023 12:41:31 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>, Frank Oltmanns <frank@oltmanns.dev>
-Cc: linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
- Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
- Icenowy Zheng <icenowy@aosc.io>, Michael Turquette <mturquette@baylibre.com>,
- Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Stephen Boyd <sboyd@kernel.org>
-Subject:
- Re: [RFC PATCH 0/3] clk: sunxi-ng: Optimize rate selection for NKM clocks
-Date: Thu, 01 Jun 2023 21:41:30 +0200
-Message-ID: <4831731.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <87mt1jbf18.fsf@oltmanns.dev>
-References:
- <20230527132747.83196-1-frank@oltmanns.dev>
- <flngzi4henkzcpzwdexencdkw77h52g3nduup7pwctpwfiuznk@eewnnut5mvsq>
- <87mt1jbf18.fsf@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A061123DF;
+	Thu,  1 Jun 2023 19:46:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=htnUhKvfSEAkOiIAqAKACCICRwiNQrj++qrceiZn64RVfjiOy5OD65e1WGOpdkfMcF3Lvcevl2kKh5w9zaMPt/fDdYq+16+BXhEo+V85kYAE63jQChK3BaZ+wmXF4f5zG38/W6yit7JeM84NKaRdndd7KPeR06YudFLrkDa+Cd6/yE2BPUWtiKR/zP8PDoauzLCOYd2T2R1VHVz6nyBYMOBtrldysLJUt28Ac25iR10aIRAoXd+R9qALWOZzJ+1Z3F2I7TGdpf2f4NC7mrp5U10aT7yVo8uJ/HBwOGC/KRYnX5hwuImoEcGhEV2R0DWy5bNL40/VGg35Kc5+V4Hk4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6fkDoKnEDNYwdXpJ9Mw4Vh8lN+5cs3jBdv2oLzpmekA=;
+ b=lOfInLlbeZKje6GZ4Yc1+Mja88r2RX+MxXSXuqZwyJqP78B+gRcnCPSB9jMezs0XnlDHTK0tVOivdjXIRh1SjWdcCyAsPx9qqnqU3G0DkD+xooi8Ns1NP1eWjtaWju5ZmqyO3qUSSElMG5hqO0AhJDKsa8sjbkXI1oxb3uJq+3QCRxM7iN41xsSjv7ZY0E+a7Z9zhk701hhlpmFbfpB566q38FIvSBHcQ07xtLcpjdY0HOGPZny+RMTX+Qkm1EK/XfPNxQL2MR0rJ4fL3shlfGIQK6wzIQgAdPHg0ufxyf3uDiG1Ue4cjnZ9SKpP8pY0b7PZJS0CS9bhQQD92QHN5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6fkDoKnEDNYwdXpJ9Mw4Vh8lN+5cs3jBdv2oLzpmekA=;
+ b=C84nYiZZ25uVglFH/9VDz72kqQ7tuqyQ3MpEqLtN6HSZWzckRP/VC0NtaveQWhrJ2y7Cs7rMEYeuk4iKZgIKPtZ7afOIxVT2Q0ik4ikkvuKd27sjdaUMbRaJm96ZfKJsL5hiptIa1aZfTmQ0CpAbVipxTfSbbvO7Cw1NNP0HTAyHAR4HFQ6OJ7NHrVafueP+5bFckbHSWQ80cNKMEQnfU4W1y0i85CaDqoTf122DAqthDdPb25778ZTBcdNzzv3h6BVqMoRNYBVFes+g8csYIjFL/1R3y1JYUbvo2hpk7xIEvXZLRAIuD/4oh2e238Yj91A0leIKRn0GHvhfx0OCDA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by DM4PR12MB7648.namprd12.prod.outlook.com (2603:10b6:8:104::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.23; Thu, 1 Jun
+ 2023 19:46:29 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::f7a7:a561:87e9:5fab]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::f7a7:a561:87e9:5fab%6]) with mapi id 15.20.6433.024; Thu, 1 Jun 2023
+ 19:46:29 +0000
+Date: Thu, 1 Jun 2023 16:46:25 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Andy Gross <agross@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+	linuxppc-dev@lists.ozlabs.org,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Matthew Rosato <mjrosato@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Orson Zhai <orsonzhai@gmail.com>, Rob Clark <robdclark@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+	Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Steven Price <steven.price@arm.com>,
+	Thierry Reding <treding@nvidia.com>
+Subject: Re: [PATCH v2 09/25] iommu/fsl_pamu: Implement an IDENTITY domain
+Message-ID: <ZHj1kXMMf5iqxXOV@nvidia.com>
+References: <9-v2-8d1dc464eac9+10f-iommu_all_defdom_jgg@nvidia.com>
+ <84aa0f5e-f13d-40f5-abe6-e8ac231e2d95@arm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <84aa0f5e-f13d-40f5-abe6-e8ac231e2d95@arm.com>
+X-ClientProxiedBy: BYAPR08CA0038.namprd08.prod.outlook.com
+ (2603:10b6:a03:117::15) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DM4PR12MB7648:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9506740d-3a0a-4faa-1bd3-08db62d8e48d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	rNzspAoaYDGrnCiaY5ZzEx3y8z/pDjTL9hEPn9vweVGzMwKxAV+ePIyS5kBsTiQyXDCXl9ydRADftwjV6l6TAi9jkW+qJVTD1emWPL35fMY7OeIdl9NGj74+fpUHW2EDia6nufUskV1Y2nJ+fES97rjoh3fisyK19F1bVxpWWznF9zHRWv3VR1K+ZWYh5KVbxCcf7rXLMhVaGxfKDsirt67kJKY3JZ7YaJyYX17dkIsfBcK4XFpxpIjK7EV4bNJ6Lwy3FxL8JpXEkCM4u5c1ChhZ/bgrMJ7UU/9mh/giVoOOB0EdIdbENh5RM7EPE3VFwFtDo5YsZQAPLV0pjgDLAvzdwbiNZRCdPs0jyL5KSWFQwTIBZMinqaUX2aecEnvbfmd4YWsJTwLeU1/NfQ8VDysQNjqalG9k5BZOCIwQg3cDJdd618aYRICVGEa9Z/juLA0WtXuIh3rnVoHQUWUUnErY++ezWB9EnztA+wTfRkp1qU+2xx0QhX9pkVAs+3gDJd04SC6inwLWZDqYK/7JGiJKGZfyQnDO1UwaMegKaAVdkuBe9Q1ODXojNwsvxrLJ
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(366004)(136003)(396003)(376002)(39860400002)(451199021)(5660300002)(36756003)(6506007)(6512007)(53546011)(26005)(107886003)(7406005)(7416002)(316002)(41300700001)(38100700002)(6916009)(6486002)(66556008)(66476007)(66946007)(4326008)(8936002)(8676002)(6666004)(2616005)(86362001)(478600001)(54906003)(186003)(2906002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?VxLEGwhByentOpJ37mhg9QqH4Og5EBN7LRD8DBT1S5SQoOVxL5CRrsD+xFVd?=
+ =?us-ascii?Q?t9s3+Kxl9hQyFWaAGoqOVHxNNqYIpU/BH/kzJ+j3l9+FUIWque5YrhDxfTzT?=
+ =?us-ascii?Q?9jya2EuaX1qs2Sh9ppUsQTsuhKYv1gbIg2wCUKtLJUM9uAL64KMoA9PL3Fl4?=
+ =?us-ascii?Q?/gClwX70yiLfCOX+saz6Or/Oi19ldiWadscOuwrGgZfNwoYlZHBkHk27S7Bf?=
+ =?us-ascii?Q?+4tymVJcBfHf0xR2p+hfpgt5MsCdT2T+84bMr0XNpUJcNFyaLW+iobPT6u1y?=
+ =?us-ascii?Q?KiK3qgnNUwQxP1BJT/Bh/KcBV9I+tODMyqCkGWUnL1yrrlaK67D4+KrJW9wB?=
+ =?us-ascii?Q?CiAY7rGlGgruQClB8gKRP7uQpaU7AQd95HEwE7+g01LFUzsAGWb1bVVy8qhn?=
+ =?us-ascii?Q?+nfhZYC8cvj2SGkdyaLh19cA5XKDCtHsTvXfGZQEdyVw43LS7ZVqwKGyfJRx?=
+ =?us-ascii?Q?Dj10McJFsj5fSZO5jm/xlnSwGP7OcykLkhtnX0AOcxD0SEl7jHGFgUMb5hwu?=
+ =?us-ascii?Q?CsQdAmiJJ254Vu6zL3wdHSpeyxz9xR5ta3b+prhubcDIMuJi9TvRk0t89r9H?=
+ =?us-ascii?Q?w0DiTAh+lQI5qJ0GjaKuIaKP7ex4XioCaHJfdJK1psWsUMcwhb5lf9aw5wNb?=
+ =?us-ascii?Q?9KGnwe33zCr0OWI3ZCwLlybXO4ZmxqF0xoN/VICJJhRRnaMUd7VIVEvMIxox?=
+ =?us-ascii?Q?0Ri0BLP81cV/+cZBnP2mSdJTHVg3JvHkeFLveQJFlDaB2zGQUdxdrjU4o3QM?=
+ =?us-ascii?Q?amjuveK0rP25JgOcprjxohWVD8T717ufgX3Wr6oxEFduLujW3zSuyWVdzMnd?=
+ =?us-ascii?Q?SZ8EyHcVlG+0B4xe0356CMN+ZCCAGPV05Pkkyphbm4xOQnptoxmmdwlIZYwd?=
+ =?us-ascii?Q?TUYJe9b2QMxo6A7+FsT4H3074PJ72/MAWnxy2XuMoFsWehdHMh5oIcn7kT2x?=
+ =?us-ascii?Q?XZzKrzgdo9LMP65cmtz+Dve5DRU3LVxx/bSagsolSkV7nB/H1Nrt3RUFn5e8?=
+ =?us-ascii?Q?R41SuoVgi+PioJHIz/4y7SIK3PTskGLOSolTK7B9L3/aH3zTAM+cTKx46xH5?=
+ =?us-ascii?Q?XHb9i8Bm1quZMBHjsWeRFyqIitOozeYUkdSXs1UqWziFur6JQ5tN9bWPoAkd?=
+ =?us-ascii?Q?DiorpdQBQDZTlaic2/MjMEjzjYjbUVE+PscGoR1F0wGRztxE3b+Gn5HGSwC1?=
+ =?us-ascii?Q?S+dhU/QDeXximhDJeI491q75184np25hS2CuPbnjJXJqXdb2rl8KjwQ1b5bK?=
+ =?us-ascii?Q?xPdvEu2m/nvzdv544XbLcuf5dH4ZUBXece7tEp8/bPBr99BatASvjeoiJhka?=
+ =?us-ascii?Q?M1HjYM6fWNLT3yiK7TEhU2jYg6ulxGHzm5zGTNNRD7XJUD9xcZiv5K8iN9KY?=
+ =?us-ascii?Q?F6F4oaX24PedluV16Vl9YqQoDWQOifR7Pm20UuXuycqCK9LgCSrUf+C3GR8j?=
+ =?us-ascii?Q?jyubI+9afvl0oBrfJFOUIY37Lz7xBmoi7/LB2yDvrzRh0uE2X/CwfX975pB1?=
+ =?us-ascii?Q?j+tDF2phqmTBrFdY5RBxu67lPgVTm0fbK12b+Bzxuxw/NkuqbncOxKc7W1Gn?=
+ =?us-ascii?Q?Rb9SEMnhRXpIQKX5iiQelUjp5GB47GsZ8mYBowhx?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9506740d-3a0a-4faa-1bd3-08db62d8e48d
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2023 19:46:29.2639
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Zv3ykiAnbD7PFAAgSjCktrY14ZwKtUi3JvniDUFjcdjA2z/ehIXKjSDpVI/OBPxP
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7648
 
-Dne =C4=8Detrtek, 01. junij 2023 ob 07:16:45 CEST je Frank Oltmanns napisal=
-(a):
-> Hi Maxime,
->=20
-> On 2023-05-31 at 15:48:43 +0200, Maxime Ripard <mripard@kernel.org> wrote:
-> > [[PGP Signed Part:Undecided]]
-> > Hi Frank,
-> >
-> > On Sat, May 27, 2023 at 03:27:44PM +0200, Frank Oltmanns wrote:
-> >> I would like to bring your attention to the current process of setting
-> >> the rate of an NKM clock. As it stands, when setting the rate of an
-> >> NKM clock, the rate nearest but less than or equal to the requested
-> >> rate is found, instead of the nearest rate.
-> >
-> > Yeah, it's actually pretty common, see clk_mux_determine_rate_flags()
-> > for example. Some devices require that we don't overshoot, while some
-> > prefer to have the closest rate.
-> >
-> > Both are fine, and it's a bit context specific which one we should
-> > favour. If we were to do anything, it would be to support both and let
-> > the clock driver select which behaviour it wants.
-> >
->=20
-> Ok, understood. Thank you for the explanation! Now, I'm wondering if
-> anyone would be using such a flag, if I added it.
->=20
-> >
-> >> Moreover, ccu_nkm_find_best() is called multiple times (footnote [1])
-> >> when setting a rate, each time iterating over all combinations of n,
-> >> k, and m.
-> >
-> > Yeah, that's expected as well.
->=20
-> I'm wondering though, if iterating over all combinations is set in
-> stone, or if some kind of optimization would be in order.
->=20
-> >
-> >> In response to this, I propose the following refinements to optimize t=
-he NKM
-> >> clock setting:
-> >>  a. when finding the best rate use the nearest rate, even if it is gre=
-ater than
-> >>     the requested rate (PATCH 1)
-> >>  b. utilize binary search to find the best rate by going through a
-> >>     precalculated, ordered list of all meaningful combinations of n, k=
-, and m
-> >>     (PATCH 2)
-> >
-> > One thing you haven't really addressed is why we would be doing this? Is
-> > there some clocks that require a more precise clock and don't? Is the
-> > factor calculation a bottleneck for some workloads?
->=20
-> Background
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> I'm a pinephone user (ccu-sun50i-a64). I'm using U-Boot which sets the
-> pll-video0 to 294 MHz on boot. The phone's panel requires DCLK to run at
-> 108 MHz to get a nice 60 Hz vertical refresh rate. The clock structure
-> is this:
->=20
->     clock                       clock type
->     --------------------------------------
->     pll-video0                  ccu_nm
->        pll-mipi                 ccu_nkm
->           tcon0                 ccu_mux
->              tcon-data-clock    sun4i_dclk
->=20
-> The divider between tcon0 and tcon-data-clock is fixed at 4. So, I need
-> pll-mipi to run at 432 MHz to get the desired vertical refresh rate.
-> When pll-vdeo0 is at 294 MHz this is that rate cannot be matched exactly
-> with any combination. The best we can get is 431.2 MHz (n=3D11, k=3D2,
-> m=3D15).
->=20
-> The pinephone has some "vendor" patches (megi kernel) that
->  a. add HDMI
->  b. allow re-setting pll-mipi's rate when pll-video0 changes
->=20
-> Re: Who needs a more precise clock?
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> When plugging in HDMI, pll-video's rate is set to 297 MHz, which - in
-> the vendor kernel, not mainline - triggers recalculation of pll-mipi
-> (trying to set it to 431.2 MHz). It ends up with a rate of 424.285714
-> MHz, because this is the nearest, but less than 431.2 MHz (n=3D5, k=3D2,
-> m=3D7). The nearest rate would be 432 MHz.
->=20
-> So, while analyzing the whole situation that I described above, I found
-> out that the NKM clocks are not set to the closest rate and wondered why
-> that is. Hence my request for comments.
->=20
-> Now, one could argue that pll-video0 should be set to 297MHz at boot or
-> that pll-mipi should try to set the *requested* rate instead of the
-> previous rate when the pll-video0 changes. And I think that both are
-> valid or even better approaches than my proposal in this RFC to address
-> this specific problem and I'll probably sent patches to discuss this as
-> well.
+On Thu, Jun 01, 2023 at 08:37:45PM +0100, Robin Murphy wrote:
+> On 2023-05-16 01:00, Jason Gunthorpe wrote:
+> > Robin was able to check the documentation and what fsl_pamu has
+> > historically called detach_dev() is really putting the IOMMU into an
+> > IDENTITY mode.
+> 
+> Unfortunately it was the other way around - it's the call to
+> fsl_setup_liodns() from fsl_pamu_probe() which leaves everything in bypass
+> by default (the PAACE_ATM_NO_XLATE part, IIRC), whereas the detach_device()
+> call here ends up disabling the given device's LIODN altogether
 
-Ideally, clock rate setting code should be immune on "initial" values, set =
-by
-bootloader or default values. If it's not, then it should be improved in the
-way that it is.
+Er, I see.. Let me think about it, you convinced me to change it from
+PLATFORM, so maybe we should go back to that if it is all wonky.
 
->=20
->=20
-> Re: Why speed up factor calculation?
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> I'm not aware that the current implementation of calculating n, k, and m
-> poses a bottleneck in any situation. Again, while going through the
-> code, I wondered why not save a few CPU cycles by precalculating the
-> meaningful combinations. In my opinion, it does not have any side
-> effects, so we might as well do it. (There is of course the side effect
-> of using a higher rate, but this is unrelated to precalculation as I
-> could as well employ a rate comparison that only allows lower rates, or
-> only optionally higher rates.)
->=20
-> > Clocks in general are very regression-prone, so I'd rather be a bit
-> > conservative there, and "if it ain't broke, don't fix it".
->=20
-> Sure, I get that.
->=20
-> As I stated in my cover letter:
-> "The motivation for these proposed changes lies in the current behavior
-> of rate selection for NKM clocks, which doesn't observe the
-> CLK_SET_RATE_PARENT flag. I.e. it does not select a different rate for
-> the parent clock to find the optimal rate."
->=20
-> I thought that this required this optimization to be implemented, but by
-> now, I'm no longer sure. I'll probably continue investigating different
-> paths for CLK_SET_RATE_PARENT for NKM clocks and follow up with new
-> findings.
+> There doesn't appear to have ever been any code anywhere for putting
+> things *back* into bypass after using a VFIO domain, so as-is these
+> default domains would probably break all DMA :(
 
-Let's leave out any optimizations that are not apparently needed. Most clock
-rates are set only once at boot and others, like video clocks, not that oft=
-en,
-so a suboptimal code speed doesn't hurt currently.
+Sounds like it just never worked right.
 
-Best regards,
-Jernej
+ie going to VFIO mode was always a one way trip and you can't go back
+to a kernel driver.
 
->=20
-> Thanks,
->   Frank
->=20
-> >
-> > Maxime
-> >
-> > [[End of PGP Signed Part]]
->=20
+I don't think this patch makes it worse because we call the identity
+attach_dev in all the same places we called detach_dev in the first
+place.
 
+We add an extra call at the start of time, but that call is NOP'd
+by this:
 
+> >	if (domain == platform_domain || !domain)
+> > +		return 0;
+> > +
 
+(bah, and the variable name needs updating too)
 
+Honestly, I don't really want to fix FSL since it seems abandoned, so
+either this patch or going back to PLATFORM seems like the best option.
+
+Jason
