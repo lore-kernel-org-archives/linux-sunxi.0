@@ -1,202 +1,85 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC88B23400
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 Jun 2023 15:43:22 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1q4kPe-0006TJ-So; Thu, 01 Jun 2023 17:40:30 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1q4kPD-004Nxo-C5; Thu, 01 Jun 2023 17:40:03 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1q4kPC-00ACbI-LP; Thu, 01 Jun 2023 17:40:02 +0200
-Date: Thu, 1 Jun 2023 17:40:02 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Liviu Dudau <liviu.dudau@arm.com>,
-	Mihail Atanassov <mihail.atanassov@arm.com>,
-	Brian Starkey <brian.starkey@arm.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Russell King <linux@armlinux.org.uk>, Joel Stanley <joel@jms.id.au>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Rahul T R <r-ravikumar@ti.com>, Jayshri Pawar <jpawar@cadence.com>,
-	Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Minghao Chi <chi.minghao@zte.com.cn>,
-	Mark Brown <broonie@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Inki Dae <inki.dae@samsung.com>,
-	Seung-Woo Kim <sw0312.kim@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Stefan Agner <stefan@agner.ch>,
-	Alison Wang <alison.wang@nxp.com>,
-	Xinliang Liu <xinliang.liu@linaro.org>,
-	Tian Tao <tiantao6@hisilicon.com>,
-	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Danilo Krummrich <dakr@redhat.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-	Qiang Yu <yuq825@gmail.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Rob Clark <robdclark@gmail.com>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Akhil P Oommen <quic_akhilpo@quicinc.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Konrad Dybcio <konrad.dybcio@somainline.org>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	Stephen Boyd <swboyd@chromium.org>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Liu Shixin <liushixin2@huawei.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Miaoqian Lin <linmq006@gmail.com>,
-	Kuogee Hsieh <quic_khsieh@quicinc.com>,
-	Bjorn Andersson <andersson@kernel.org>, Marek Vasut <marex@denx.de>,
-	Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
-	Lyude Paul <lyude@redhat.com>, Tomi Valkeinen <tomba@kernel.org>,
-	Guo Zhengkui <guozhengkui@vivo.com>, Yuan Can <yuancan@huawei.com>,
-	Arnd Bergmann <arnd@arndb.de>, Liang He <windhl@126.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Deepak R Varma <drv@mailo.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Yannick Fertre <yannick.fertre@foss.st.com>,
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
-	Philippe Cornu <philippe.cornu@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Maxime Ripard <maxime@cerno.tech>,
-	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
-	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-	Jyri Sarha <jyri.sarha@iki.fi>,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
-	Hyun Kwon <hyun.kwon@xilinx.com>,
-	Michal Simek <michal.simek@xilinx.com>
-Cc: linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
-	Steven Price <steven.price@arm.com>,
-	linux-rockchip@lists.infradead.org,
-	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-	Mali DP Maintainers <malidp@foss.arm.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Russell King <linux+etnaviv@armlinux.org.uk>,
-	linux-sunxi@lists.linux.dev, Jonas Karlman <jonas@kwiboo.se>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-arm-msm@vger.kernel.org, etnaviv@lists.freedesktop.org,
-	Christian Gmeiner <christian.gmeiner@gmail.com>,
-	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
-	linux-amlogic@lists.infradead.org, Sean Paul <sean@poorly.run>,
-	linux-arm-kernel@lists.infradead.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Andrew Jeffery <andrew@aj.id.au>,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	kernel@pengutronix.de, Yongqin Liu <yongqin.liu@linaro.org>,
-	freedreno@lists.freedesktop.org
-Subject: Re: [PATCH 00/53] drm: Convert to platform remove callback returning
- void
-Message-ID: <20230601154002.uv2wfatpb7b45duz@pengutronix.de>
-References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA03023400
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Jun 2023 15:46:06 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-9745baf7c13so754966b.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 01 Jun 2023 08:46:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685634365; x=1688226365;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IklIgLnDv67Hj1MMNmzU2HBbBaSNxYen7DB/Lbq+r38=;
+        b=Db3slDYbs6+0atRzy1FP9c6+k/n4PieWOJfpRxPPfOlhlhRN9/EVb6OgpebC5tm+qU
+         /1kNIqDBQJwn+/yA0YSSMMYinmdUsWYR7YEFJp7C7jScE0DAKIdiJXu/t2D7IRrRsKro
+         dwJoe8OMBCq2SKX+1VMlXybrPj9+uS8skJTpu570ZKFrDjL/Y9JRbvio3+9uw33GkE0P
+         eX43X/9n3T23Gbqfor5bUNgE23DERuOJdC/h58WcCUNwsTnASMuGXWJRBx1RsEt83Suy
+         hiLYFUIC5l8E4JQT4SwX8OnJBBYVJdCUhLyXoWcz/qmJJ3PC5emlc11Fd5Q4pMja9jO+
+         6TkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685634365; x=1688226365;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IklIgLnDv67Hj1MMNmzU2HBbBaSNxYen7DB/Lbq+r38=;
+        b=A2pcqhTO2RnA8Ks04kRj3KwAXuG9NbltO5PnAXmsQwi8ewZJnorlN356RQKNSwRLH2
+         fCc91qXVMXoORv1XUx4BxvTnrxr64wR7N+x0HDhf9hHDvNqz7s+ZaLQjglYO8obvwP1A
+         ZMQdg+BFFcliYpa8crV10N0dpY0oatcvXb3uuVaW+q/aqEbt2vmkqkQXU/xQuMeiDU26
+         HqcRJtRtmU31uvzlXCFTosX1MIKWpfUzFOcU7nMlrDo1UppFVwxty+k6vVKOsEHPH1go
+         9VwQ/1mQ/OztBj8gYUd1Qu0XVi6IhVbsvJpZOH9LMQM8PLDZvugM7ZuPUeRf454gFf5B
+         D1Cg==
+X-Gm-Message-State: AC+VfDwu+DMEzEzXBXCioPxvTQvz7iLbilgV9elwxtgO3c0HMGxWdtY6
+	0tTRc/1XuyqchxsvwPeLci0=
+X-Google-Smtp-Source: ACHHUZ7Fbw9B2kY3i0cLSoiipzTsYASE2XF2iggqBNdNQITA9VLCljQ7MOgpw4SU2+Gba0EnHRO3hg==
+X-Received: by 2002:a17:907:7b85:b0:971:5a46:8ac8 with SMTP id ne5-20020a1709077b8500b009715a468ac8mr10300665ejc.27.1685634364702;
+        Thu, 01 Jun 2023 08:46:04 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
+        by smtp.gmail.com with ESMTPSA id a8-20020a1709062b0800b00970f0e2dab2sm10601105ejg.112.2023.06.01.08.46.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Jun 2023 08:46:04 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Keiji Hayashibara <hayashibara.keiji@socionext.com>,
+ linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject:
+ Re: [PATCH 1/3] spi: dt-bindings: allwinner: simplify with
+ unevaluatedProperties
+Date: Thu, 01 Jun 2023 17:46:02 +0200
+Message-ID: <2226283.iZASKD2KPV@jernej-laptop>
+In-Reply-To: <20230601095908.563865-1-krzysztof.kozlowski@linaro.org>
+References: <20230601095908.563865-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="p66bggbd6asm576v"
-Content-Disposition: inline
-In-Reply-To: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
-
-
---p66bggbd6asm576v
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Hello,
-
-On Sun, May 07, 2023 at 06:25:23PM +0200, Uwe Kleine-K=F6nig wrote:
-> this patch series adapts the platform drivers below drivers/gpu/drm
-> to use the .remove_new() callback. Compared to the traditional .remove()
-> callback .remove_new() returns no value. This is a good thing because
-> the driver core doesn't (and cannot) cope for errors during remove. The
-> only effect of a non-zero return value in .remove() is that the driver
-> core emits a warning. The device is removed anyhow and an early return
-> from .remove() usually yields a resource leak.
+Dne =C4=8Detrtek, 01. junij 2023 ob 11:59:06 CEST je Krzysztof Kozlowski na=
+pisal(a):
+> Remove properties already mentioned by common spi-controller.yaml and
+> switch to unevaluatedProperties:false to achieve same functional effect.
+> This makes the binding a bit smaller.  Similarly there is no need to
+> allow additionalProperties for children, because spi-controller.yaml
+> already does it.
 >=20
-> By changing the remove callback to return void driver authors cannot
-> reasonably (but wrongly) assume any more that there happens some kind of
-> cleanup later.
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-I wonder if someone would volunteer to add the whole series to
-drm-misc-next?!
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Best regards
-Uwe
+Best regards,
+Jernej
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
---p66bggbd6asm576v
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmR4u9EACgkQj4D7WH0S
-/k6pCgf/XXR0G22HLU/MVuNu1ZT+KFwZti46/pOMarp24StchWjJqsvsoo9mc1tI
-G4w/Z5yO5q4ZeCXX57bi5xuQfR0XZz96r6ZCHkxaaSJDydbm70lJyg88BUtqKsPC
-1CEZ6UQdvjhM5hXaVZzFYYydmOKvgs68jMs4AUC5auawB2lP6A8U1z7g5AxYSM7E
-elXaqEEcvsm7xBm5H4hMroNG15Gw0awdAZ3nKJnwCK3jlrf7OMaJD/nA1QK+2lpp
-pv2eI9/NwJf31WmpHLOCj8NYuTN/A4haICwhScmweXtsdFk2TnPHthGEk1+hTlC8
-Xyf99cj8btKIWF+ICt7lNc4eo0D7ZQ==
-=Nl7B
------END PGP SIGNATURE-----
-
---p66bggbd6asm576v--
