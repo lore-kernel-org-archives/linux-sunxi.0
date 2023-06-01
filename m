@@ -1,154 +1,218 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53A0F23DF;
-	Thu,  1 Jun 2023 19:37:58 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B8F4A1063;
-	Thu,  1 Jun 2023 12:38:42 -0700 (PDT)
-Received: from [10.57.84.85] (unknown [10.57.84.85])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 549F63F7BD;
-	Thu,  1 Jun 2023 12:37:50 -0700 (PDT)
-Message-ID: <84aa0f5e-f13d-40f5-abe6-e8ac231e2d95@arm.com>
-Date: Thu, 1 Jun 2023 20:37:45 +0100
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E51823DF
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Jun 2023 19:41:35 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2af290cf9b7so17987631fa.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 01 Jun 2023 12:41:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685648493; x=1688240493;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UOefF1RvR5DKubBAm6OxHlMrlAp/F0A3Hij/nZ8UEGc=;
+        b=RXNGpoUIp21qcF8zs+KFt7zYPSG7+HlGDFgXFDsGcDNdwk0OW8pMmvMgN8VBncf3t9
+         Ob3/ibn/e11ASdNLrRFmG935e1N7UFCBJWy6l0rh1f0FE4GSxl4oCSpsN+RhVunZW6V+
+         quIeOidF5lmdrpk67yK2MY8mDitzxF3DcQDMbtOQ1HVQgXtedUvk6/bn0pOcc/7PBUxE
+         KsQP72uYDu1l23GSNA54vjhmJwwwqax95sjorrfceOENnl3xbyUiiQm1z3vfOPddctrP
+         6DgR1uZLtGzYdm2ZjhsnMyfAFSapuctMSY/voqvYnJhqKmo8rHxD5WOvfBrFYV3WSiDo
+         bjhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685648493; x=1688240493;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UOefF1RvR5DKubBAm6OxHlMrlAp/F0A3Hij/nZ8UEGc=;
+        b=UU5FNluniCR7Oos1Ug27ezICsVZ1CRYva1b4GJYQmNuMLSrW1Vd0BcDIDHUwVr2+q2
+         BhtBGrIqMpZBCg9YhO4c6d7jo4A/vzxzVvNP3obJrtpRUYNFOkgNGLkfXX4jbO9tWoxY
+         AlEi/+88JeBhwfD16cWad7Z8MrV7OVuRUaYu4pPR2B8wU8hG5eSRj+ckkKFbXsdGiq3/
+         MBGV7PI28NwQ7PcT5wG1dnuCUus/OVsPPzjUIUUD9PFxZJXAhGWlLVNExNnD5+IykW9L
+         +Yz/vUGMEJS1fGWf3wjMDQVwRoMg3pezBPrnFA7ZGPzpGOcONNFgNggNGSiCkfjNc8BX
+         BzYg==
+X-Gm-Message-State: AC+VfDzboOSrGKvlEIDpqmtaTACB+LlGgYOEnSwmwDWgDaVTM21Cq1RE
+	eI+HJSnw03IWEy7HxZrP+5Q=
+X-Google-Smtp-Source: ACHHUZ6x3KIW69nM/pmEyLwFVAPLFhxWlHOmA/vqeVYEMWcA3V8UIVzrIR6dNphFCH/yXweO5GLHEg==
+X-Received: by 2002:a2e:96cb:0:b0:2aa:40dd:7a55 with SMTP id d11-20020a2e96cb000000b002aa40dd7a55mr308567ljj.8.1685648492634;
+        Thu, 01 Jun 2023 12:41:32 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
+        by smtp.gmail.com with ESMTPSA id k3-20020a17090627c300b0096a1ba4e0d1sm10909812ejc.32.2023.06.01.12.41.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Jun 2023 12:41:31 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Maxime Ripard <mripard@kernel.org>, Frank Oltmanns <frank@oltmanns.dev>
+Cc: linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
+ Icenowy Zheng <icenowy@aosc.io>, Michael Turquette <mturquette@baylibre.com>,
+ Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Stephen Boyd <sboyd@kernel.org>
+Subject:
+ Re: [RFC PATCH 0/3] clk: sunxi-ng: Optimize rate selection for NKM clocks
+Date: Thu, 01 Jun 2023 21:41:30 +0200
+Message-ID: <4831731.31r3eYUQgx@jernej-laptop>
+In-Reply-To: <87mt1jbf18.fsf@oltmanns.dev>
+References:
+ <20230527132747.83196-1-frank@oltmanns.dev>
+ <flngzi4henkzcpzwdexencdkw77h52g3nduup7pwctpwfiuznk@eewnnut5mvsq>
+ <87mt1jbf18.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v2 09/25] iommu/fsl_pamu: Implement an IDENTITY domain
-Content-Language: en-GB
-To: Jason Gunthorpe <jgg@nvidia.com>, Andy Gross <agross@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Bjorn Andersson
- <andersson@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
- Kevin Tian <kevin.tian@intel.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- Russell King <linux@armlinux.org.uk>, linuxppc-dev@lists.ozlabs.org,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Orson Zhai <orsonzhai@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>, Krishna Reddy
- <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
- Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>, Dmitry Osipenko <digetx@gmail.com>,
- Nicolin Chen <nicolinc@nvidia.com>, Niklas Schnelle
- <schnelle@linux.ibm.com>, Steven Price <steven.price@arm.com>,
- Thierry Reding <treding@nvidia.com>
-References: <9-v2-8d1dc464eac9+10f-iommu_all_defdom_jgg@nvidia.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <9-v2-8d1dc464eac9+10f-iommu_all_defdom_jgg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On 2023-05-16 01:00, Jason Gunthorpe wrote:
-> Robin was able to check the documentation and what fsl_pamu has
-> historically called detach_dev() is really putting the IOMMU into an
-> IDENTITY mode.
+Dne =C4=8Detrtek, 01. junij 2023 ob 07:16:45 CEST je Frank Oltmanns napisal=
+(a):
+> Hi Maxime,
+>=20
+> On 2023-05-31 at 15:48:43 +0200, Maxime Ripard <mripard@kernel.org> wrote:
+> > [[PGP Signed Part:Undecided]]
+> > Hi Frank,
+> >
+> > On Sat, May 27, 2023 at 03:27:44PM +0200, Frank Oltmanns wrote:
+> >> I would like to bring your attention to the current process of setting
+> >> the rate of an NKM clock. As it stands, when setting the rate of an
+> >> NKM clock, the rate nearest but less than or equal to the requested
+> >> rate is found, instead of the nearest rate.
+> >
+> > Yeah, it's actually pretty common, see clk_mux_determine_rate_flags()
+> > for example. Some devices require that we don't overshoot, while some
+> > prefer to have the closest rate.
+> >
+> > Both are fine, and it's a bit context specific which one we should
+> > favour. If we were to do anything, it would be to support both and let
+> > the clock driver select which behaviour it wants.
+> >
+>=20
+> Ok, understood. Thank you for the explanation! Now, I'm wondering if
+> anyone would be using such a flag, if I added it.
+>=20
+> >
+> >> Moreover, ccu_nkm_find_best() is called multiple times (footnote [1])
+> >> when setting a rate, each time iterating over all combinations of n,
+> >> k, and m.
+> >
+> > Yeah, that's expected as well.
+>=20
+> I'm wondering though, if iterating over all combinations is set in
+> stone, or if some kind of optimization would be in order.
+>=20
+> >
+> >> In response to this, I propose the following refinements to optimize t=
+he NKM
+> >> clock setting:
+> >>  a. when finding the best rate use the nearest rate, even if it is gre=
+ater than
+> >>     the requested rate (PATCH 1)
+> >>  b. utilize binary search to find the best rate by going through a
+> >>     precalculated, ordered list of all meaningful combinations of n, k=
+, and m
+> >>     (PATCH 2)
+> >
+> > One thing you haven't really addressed is why we would be doing this? Is
+> > there some clocks that require a more precise clock and don't? Is the
+> > factor calculation a bottleneck for some workloads?
+>=20
+> Background
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> I'm a pinephone user (ccu-sun50i-a64). I'm using U-Boot which sets the
+> pll-video0 to 294 MHz on boot. The phone's panel requires DCLK to run at
+> 108 MHz to get a nice 60 Hz vertical refresh rate. The clock structure
+> is this:
+>=20
+>     clock                       clock type
+>     --------------------------------------
+>     pll-video0                  ccu_nm
+>        pll-mipi                 ccu_nkm
+>           tcon0                 ccu_mux
+>              tcon-data-clock    sun4i_dclk
+>=20
+> The divider between tcon0 and tcon-data-clock is fixed at 4. So, I need
+> pll-mipi to run at 432 MHz to get the desired vertical refresh rate.
+> When pll-vdeo0 is at 294 MHz this is that rate cannot be matched exactly
+> with any combination. The best we can get is 431.2 MHz (n=3D11, k=3D2,
+> m=3D15).
+>=20
+> The pinephone has some "vendor" patches (megi kernel) that
+>  a. add HDMI
+>  b. allow re-setting pll-mipi's rate when pll-video0 changes
+>=20
+> Re: Who needs a more precise clock?
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> When plugging in HDMI, pll-video's rate is set to 297 MHz, which - in
+> the vendor kernel, not mainline - triggers recalculation of pll-mipi
+> (trying to set it to 431.2 MHz). It ends up with a rate of 424.285714
+> MHz, because this is the nearest, but less than 431.2 MHz (n=3D5, k=3D2,
+> m=3D7). The nearest rate would be 432 MHz.
+>=20
+> So, while analyzing the whole situation that I described above, I found
+> out that the NKM clocks are not set to the closest rate and wondered why
+> that is. Hence my request for comments.
+>=20
+> Now, one could argue that pll-video0 should be set to 297MHz at boot or
+> that pll-mipi should try to set the *requested* rate instead of the
+> previous rate when the pll-video0 changes. And I think that both are
+> valid or even better approaches than my proposal in this RFC to address
+> this specific problem and I'll probably sent patches to discuss this as
+> well.
 
-Unfortunately it was the other way around - it's the call to 
-fsl_setup_liodns() from fsl_pamu_probe() which leaves everything in 
-bypass by default (the PAACE_ATM_NO_XLATE part, IIRC), whereas the 
-detach_device() call here ends up disabling the given device's LIODN 
-altogether. There doesn't appear to have ever been any code anywhere for 
-putting things *back* into bypass after using a VFIO domain, so as-is 
-these default domains would probably break all DMA :(
+Ideally, clock rate setting code should be immune on "initial" values, set =
+by
+bootloader or default values. If it's not, then it should be improved in the
+way that it is.
 
-Thanks,
-Robin.
+>=20
+>=20
+> Re: Why speed up factor calculation?
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> I'm not aware that the current implementation of calculating n, k, and m
+> poses a bottleneck in any situation. Again, while going through the
+> code, I wondered why not save a few CPU cycles by precalculating the
+> meaningful combinations. In my opinion, it does not have any side
+> effects, so we might as well do it. (There is of course the side effect
+> of using a higher rate, but this is unrelated to precalculation as I
+> could as well employ a rate comparison that only allows lower rates, or
+> only optionally higher rates.)
+>=20
+> > Clocks in general are very regression-prone, so I'd rather be a bit
+> > conservative there, and "if it ain't broke, don't fix it".
+>=20
+> Sure, I get that.
+>=20
+> As I stated in my cover letter:
+> "The motivation for these proposed changes lies in the current behavior
+> of rate selection for NKM clocks, which doesn't observe the
+> CLK_SET_RATE_PARENT flag. I.e. it does not select a different rate for
+> the parent clock to find the optimal rate."
+>=20
+> I thought that this required this optimization to be implemented, but by
+> now, I'm no longer sure. I'll probably continue investigating different
+> paths for CLK_SET_RATE_PARENT for NKM clocks and follow up with new
+> findings.
 
-> Move to the new core support for ARM_DMA_USE_IOMMU by defining
-> ops->identity_domain. This is a ppc driver without any dma_ops, so ensure
-> the identity translation is the default domain.
-> 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->   drivers/iommu/fsl_pamu_domain.c | 32 +++++++++++++++++++++++++++++---
->   1 file changed, 29 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/iommu/fsl_pamu_domain.c b/drivers/iommu/fsl_pamu_domain.c
-> index bce37229709965..ca4f5ebf028783 100644
-> --- a/drivers/iommu/fsl_pamu_domain.c
-> +++ b/drivers/iommu/fsl_pamu_domain.c
-> @@ -283,15 +283,21 @@ static int fsl_pamu_attach_device(struct iommu_domain *domain,
->   	return ret;
->   }
->   
-> -static void fsl_pamu_set_platform_dma(struct device *dev)
-> +static int fsl_pamu_identity_attach(struct iommu_domain *platform_domain,
-> +				    struct device *dev)
->   {
->   	struct iommu_domain *domain = iommu_get_domain_for_dev(dev);
-> -	struct fsl_dma_domain *dma_domain = to_fsl_dma_domain(domain);
-> +	struct fsl_dma_domain *dma_domain;
->   	const u32 *prop;
->   	int len;
->   	struct pci_dev *pdev = NULL;
->   	struct pci_controller *pci_ctl;
->   
-> +	if (domain == platform_domain || !domain)
-> +		return 0;
-> +
-> +	dma_domain = to_fsl_dma_domain(domain);
-> +
->   	/*
->   	 * Use LIODN of the PCI controller while detaching a
->   	 * PCI device.
-> @@ -312,8 +318,18 @@ static void fsl_pamu_set_platform_dma(struct device *dev)
->   		detach_device(dev, dma_domain);
->   	else
->   		pr_debug("missing fsl,liodn property at %pOF\n", dev->of_node);
-> +	return 0;
->   }
->   
-> +static struct iommu_domain_ops fsl_pamu_identity_ops = {
-> +	.attach_dev = fsl_pamu_identity_attach,
-> +};
-> +
-> +static struct iommu_domain fsl_pamu_identity_domain = {
-> +	.type = IOMMU_DOMAIN_IDENTITY,
-> +	.ops = &fsl_pamu_identity_ops,
-> +};
-> +
->   /* Set the domain stash attribute */
->   int fsl_pamu_configure_l1_stash(struct iommu_domain *domain, u32 cpu)
->   {
-> @@ -447,12 +463,22 @@ static struct iommu_device *fsl_pamu_probe_device(struct device *dev)
->   	return &pamu_iommu;
->   }
->   
-> +static int fsl_pamu_def_domain_type(struct device *dev)
-> +{
-> +	/*
-> +	 * This platform does not use dma_ops at all so the normally the iommu
-> +	 * must be in identity mode
-> +	 */
-> +	return IOMMU_DOMAIN_IDENTITY;
-> +}
-> +
->   static const struct iommu_ops fsl_pamu_ops = {
-> +	.identity_domain = &fsl_pamu_identity_domain,
-> +	.def_domain_type = &fsl_pamu_def_domain_type,
->   	.capable	= fsl_pamu_capable,
->   	.domain_alloc	= fsl_pamu_domain_alloc,
->   	.probe_device	= fsl_pamu_probe_device,
->   	.device_group   = fsl_pamu_device_group,
-> -	.set_platform_dma_ops = fsl_pamu_set_platform_dma,
->   	.default_domain_ops = &(const struct iommu_domain_ops) {
->   		.attach_dev	= fsl_pamu_attach_device,
->   		.iova_to_phys	= fsl_pamu_iova_to_phys,
+Let's leave out any optimizations that are not apparently needed. Most clock
+rates are set only once at boot and others, like video clocks, not that oft=
+en,
+so a suboptimal code speed doesn't hurt currently.
+
+Best regards,
+Jernej
+
+>=20
+> Thanks,
+>   Frank
+>=20
+> >
+> > Maxime
+> >
+> > [[End of PGP Signed Part]]
+>=20
+
+
+
+
