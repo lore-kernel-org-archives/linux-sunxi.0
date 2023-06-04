@@ -1,109 +1,108 @@
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6852FC17
-	for <linux-sunxi@lists.linux.dev>; Sun,  4 Jun 2023 19:29:09 +0000 (UTC)
-Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-77493b3d18cso162793739f.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 04 Jun 2023 12:29:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCA8101FE
+	for <linux-sunxi@lists.linux.dev>; Sun,  4 Jun 2023 20:20:57 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-973f8dbcc02so688942566b.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 04 Jun 2023 13:20:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685910056; x=1688502056;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pc901lSB1t/5njyHaOGc8Szlz99xchoB9LNubqrB9pc=;
+        b=DoNX4mNR4KsN0iXSQQhd4DQCDKAy/YiYQuMQD6ru8VRddZ5HU9qYoL1jaIugifNuZq
+         7hZI3Fc7GCBMSXoxGBPUIekHPqx6cxXD+ifUYBWCSSi1VxGnmjlKDVzY3Yvqt0gsz7by
+         B2jj1+gU6W63y37bzdsUk55TL10jVRoYRWDmsiD4IE/iyREUrHeUWdo8ZdmSmYW9byyP
+         o2kUCLPpNeIMZDxH6g03V2Zx2o13q5xifpMdawywWXXZV1tF8ye3f/8BbGvMrNCYwByX
+         WBLHgmVUNzFsAOQHrT9LEk6onwWScg0UncK9BSgbit/tQBh0JmLCWszHpOpeYgs7u2fl
+         BSpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685906948; x=1688498948;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ij5XhT5jB8Nf96u95NnR46WqBGb6FiYB0L867QNIR/M=;
-        b=ZI/ceXnwu8bVV8mkBRZwTxTxJ+gIjGY5vcB6Xi77GXmQI1nzKFSqxvottNSIS+HFis
-         Nbsqyy40isFE18Yh68VHeLFh5PJ41XcIubBOZHU4YMqLLoax0hjZyRq7JiKw4V/CAxfC
-         ImlgBnv90DWUwU9j99eBHVES29tZQJ5lh2YTiJPPtoNNf2/mBHQ/AACh/liVSEiVKemu
-         n4b4V56yCGS/n5lq3BWKEJbDhTW21HH18Jsih8RJiDOQdEzAwGere5cFl/4WpF+AlnO+
-         nAczDrk82SthxwZUujIbETLU6iipanvZGPF0kudQNjTjFohGl3FQghMaC3ohRtF3yq29
-         7RWQ==
-X-Gm-Message-State: AC+VfDwCetTxborGqp7dKtbor1VkIpV6NoZamDAjI8zlnWBihxrts9Ve
-	ueBEuCQDR8zEEsiOxixq+w==
-X-Google-Smtp-Source: ACHHUZ4JJS8XBgdt1+SzDtD2MEpxUV98/xM2bSyFtyQkPzj8iOewpvgcay8t2+isMQNpFA3ff4OK9g==
-X-Received: by 2002:a05:6602:2584:b0:76c:785f:8f82 with SMTP id p4-20020a056602258400b0076c785f8f82mr11914911ioo.6.1685906948618;
-        Sun, 04 Jun 2023 12:29:08 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id a22-20020a056638019600b0041abd81975bsm1697542jaq.153.2023.06.04.12.29.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Jun 2023 12:29:07 -0700 (PDT)
-Received: (nullmailer pid 3700333 invoked by uid 1000);
-	Sun, 04 Jun 2023 19:29:04 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        d=1e100.net; s=20221208; t=1685910056; x=1688502056;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pc901lSB1t/5njyHaOGc8Szlz99xchoB9LNubqrB9pc=;
+        b=PP2wPIiOFWjeQFAjLAPq1p5Yu1WXFrpV1qQPpn/fCau4HKlnCBUO6rCKXhXK5XGyYu
+         Wybqg8ZyZcIfm8mpGi1FmVDF7Wtsq1dkebIyedzUXDrxv+VyY4FyqJGn8pMSipAWh8wl
+         fWtzVPan9dVzQYS3KeJr496SHtYNA26ooWZURkrEPddyQATUFNYYmqiDBnnIwicm9Kyj
+         QwArlFzNAfa/FWKkNBikMqDqUUqZae2qW+O9KICD2mIqBynEguBWQAfi6JD6YIJFLdor
+         Rsr2w/3lx6ECiqSqo3GNVoEv/tqLejVybGg6ieoSN0Mo0ctVMbU9YpqI/UrE2MOFICWg
+         Jh/g==
+X-Gm-Message-State: AC+VfDzjxdCdOMIRHm77ObWXw0kR7NSJ/xlKzns0KYZBwcsq1RctZlWl
+	nIyvStIZ5QU1WUnTG9ezrqHbaRX52UrhcssR5Fw=
+X-Google-Smtp-Source: ACHHUZ7HJh+h9S1Y+0QLnh+mPkHQqhlWKeX5TeLGIsBww9yr2NxJpXCvJ2n+CmB71U+vMZhwSkpXWhlo0NM6x+JnCj0=
+X-Received: by 2002:a17:906:730b:b0:970:132f:698f with SMTP id
+ di11-20020a170906730b00b00970132f698fmr5945181ejc.2.1685910055898; Sun, 04
+ Jun 2023 13:20:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Maksim Kiselev <bigunclemax@gmail.com>
-Cc: ChiYuan Huang <cy_huang@richtek.com>, ChiaEn Wu <chiaen_wu@richtek.com>, 
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org, 
-	Conor Dooley <conor+dt@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev, 
-	William Breathitt Gray <william.gray@linaro.org>, linux-arm-kernel@lists.infradead.org, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-riscv@lists.infradead.org, 
-	Rob Herring <robh+dt@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Haibo Chen <haibo.chen@nxp.com>, 
-	devicetree@vger.kernel.org, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Andre Przywara <andre.przywara@arm.com>, Mike Looijmans <mike.looijmans@topic.nl>, 
-	Chen-Yu Tsai <wens@csie.org>, Ramona Bolboaca <ramona.bolboaca@analog.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Cosmin Tanislav <demonsingur@gmail.com>, linux-iio@vger.kernel.org, 
-	Philipp Zabel <p.zabel@pengutronix.de>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Ibrahim Tilki <Ibrahim.Tilki@analog.com>, Caleb Connolly <caleb.connolly@linaro.org>, 
-	=?UTF-8?Q?Leonard_G=C3=B6hrs?= <l.goehrs@pengutronix.de>
-In-Reply-To: <20230604185336.1943889-3-bigunclemax@gmail.com>
-References: <20230604185336.1943889-1-bigunclemax@gmail.com>
- <20230604185336.1943889-3-bigunclemax@gmail.com>
-Message-Id: <168590694462.3700314.2525765521559343425.robh@kernel.org>
-Subject: Re: [PATCH v3 2/3] dt-bindings: iio: adc: Add Allwinner
+References: <20230601223104.1243871-1-bigunclemax@gmail.com>
+ <20230601223104.1243871-3-bigunclemax@gmail.com> <fbcc5688-387c-32fb-edac-17848c92b936@linaro.org>
+In-Reply-To: <fbcc5688-387c-32fb-edac-17848c92b936@linaro.org>
+From: Maxim Kiselev <bigunclemax@gmail.com>
+Date: Sun, 4 Jun 2023 23:20:43 +0300
+Message-ID: <CALHCpMizv52yj0rw0pR8pYjSys2UivS4L4GkWLgc-d91bdmDCA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] dt-bindings: iio: adc: Add Allwinner
  D1/T113s/R329/T507 SoCs GPADC
-Date: Sun, 04 Jun 2023 13:29:04 -0600
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: linux-iio@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, 
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Heiko Stuebner <heiko.stuebner@vrull.eu>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Cosmin Tanislav <demonsingur@gmail.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	William Breathitt Gray <william.gray@linaro.org>, Hugo Villeneuve <hvilleneuve@dimonoff.com>, 
+	Mike Looijmans <mike.looijmans@topic.nl>, ChiYuan Huang <cy_huang@richtek.com>, 
+	Ramona Bolboaca <ramona.bolboaca@analog.com>, Ibrahim Tilki <Ibrahim.Tilki@analog.com>, 
+	Caleb Connolly <caleb.connolly@linaro.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, ChiaEn Wu <chiaen_wu@richtek.com>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+=D0=BF=D1=82, 2 =D0=B8=D1=8E=D0=BD. 2023=E2=80=AF=D0=B3. =D0=B2 11:38, Krzy=
+sztof Kozlowski
+<krzysztof.kozlowski@linaro.org>:
+Hi Krzysztof,
+>
+> On 02/06/2023 00:30, Maksim Kiselev wrote:
+> > From: Maxim Kiselev <bigunclemax@gmail.com>
+> >
+> > Allwinner's D1/T113s/R329/T507 SoCs have a new general purpose ADC.
+> > This ADC is the same for all of this SoCs. The only difference is
+> > the number of available channels.
+>
+> Except that it wasn't tested...
 
-On Sun, 04 Jun 2023 21:53:15 +0300, Maksim Kiselev wrote:
-> From: Maxim Kiselev <bigunclemax@gmail.com>
-> 
-> Allwinner's D1/T113s/R329/T507 SoCs have a new general purpose ADC.
-> This ADC is the same for all of this SoCs. The only difference is
-> the number of available channels.
-> 
-> Signed-off-by: Maxim Kiselev <bigunclemax@gmail.com>
-> ---
->  .../iio/adc/allwinner,sun20i-d1-gpadc.yaml    | 90 +++++++++++++++++++
->  1 file changed, 90 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml
-> 
+Yes, you are right. I tested it only on the T113s board. And I will be glad=
+ if
+someone tests it on another SoC.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+...
 
-yamllint warnings/errors:
+> Please run scripts/checkpatch.pl and fix reported warnings. Some
+> warnings can be ignored, but the code here looks like it needs a fix.
+> Feel free to get in touch if the warning is not clear.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml: 'maintainers' is a required property
-	hint: Metaschema for devicetree binding documentation
-	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.example.dtb: adc@2009000: interrupts: [[73], [4]] is too long
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml
+I got a warning about required maintainer property. Should I do
+anything with this?
+If yes, then who should be a maintainer?
 
-doc reference errors (make refcheckdocs):
+...
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230604185336.1943889-3-bigunclemax@gmail.com
+> Hm? So you do not allow anything from adc.yaml related? Are you sure
+> this is your intention?
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+I'm not sure about it. I looked at other ADC bindings and didn't find
+another driver with 'additionalProperties: true'
