@@ -1,45 +1,45 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24388631
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 Jun 2023 06:24:05 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-4f3b5881734so5453838e87.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 04 Jun 2023 23:24:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8FE3138C
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Jun 2023 06:44:19 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9745d99cfccso548807566b.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 04 Jun 2023 23:44:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685946244; x=1688538244;
+        d=linaro.org; s=google; t=1685947458; x=1688539458;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=T+rq5XkqN28INce3TzLWsTQLy6BL9Bx5PmUS8c7Jaoc=;
-        b=iIM6Ehv/5Tuame+j/7VHDY/RJzfdGmjMN/9anQ7EDq7HLd1EOta0j10Qed1nLMTQla
-         Saw/Yz71Nz0LgIEQGt/WzYeHhMj26hjs58+WaadXcQzDoyy1d/uQUuuuOHOmKrJsD8RK
-         K6z7cDAtyeF2MdOjIZAI/aKyVg6Sr0YsfTgwoZGzjnUaI2uhmevmfNTEmZT822OxOQ01
-         OBQZEnYCn+oiWjqe3owQKt7QrVnJuuTzm3Fr6mwyy82Si2v0aIjv5NrrfpRnZaAV11wW
-         g0s76nXLTAGBPtX8gvVsJc2FKlrEhJ1E+RbXysjiCPK0NTEj6iiBKwYJns9kEopyak4U
-         kQLQ==
+        bh=RUGCYeOScHhssGielwBu6OShRHtxTVGNeYBVmelokvM=;
+        b=Y3hi0KNyXSzEYKMvg+MDTVHjRG6F+Kktuiaj4Da85HCaJjgiUomvJmHGQvQME2xvIf
+         RGSWI57KJ99Ori4rrlFP+8DBBQzFLU6rBY2g/0ZJo1hiWWrXAEzTFL7vCFAreC5iP/AG
+         +6tul+68Tllyue+r4cmcuHQXJatb2LakNUYVB3NyHE07AuySQBravQOnvFjpl15kK1MW
+         VoCs08vRcpJViLY0VuiOo3vdxHoIwxJl6CAhRJvsh+RvLozfGhYZNxTars9/QGWBz15B
+         Q9b3QBfjegFYvJC4SnI7FXGp/hSUb5oDiURzpF6s/d7ugNqWiol5BbCGTwFWvo51eCz1
+         HLqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685946244; x=1688538244;
+        d=1e100.net; s=20221208; t=1685947458; x=1688539458;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=T+rq5XkqN28INce3TzLWsTQLy6BL9Bx5PmUS8c7Jaoc=;
-        b=cPre731MXFlKHvaJN+p1Z7xEOQcmYVZe3VrAdauguKqge+RM5sfTyrWa2MQJyvhIWg
-         SaEI/VmIAG+nh4ALnGGAGu7VA2IFcZLPRTtoEjKCFcNJwOd+rJbZv8r0adX9IdNPyFQ/
-         ybpOhJTFk2h1cMpQ9Ooj4MFsPhfUD7AMGoM+kV9cm4LavhrfXUMEplVML4lurBAjhdWg
-         iZf+YKDCCiP6LkZdkyed3XeMjW26ZLl7jofKFgKOFk3cOI7CKm6oOkdmYPFJ0CDI8K9y
-         XMXh7vuK409qo9fAZfoyTC89w4aP6rXJ31xSiHgoruykToUQy5jYRrr8GekaCirQfNhx
-         nF4g==
-X-Gm-Message-State: AC+VfDxP6r5G/cBAlajygoG5O0U60nKtj18SPQWzxEJELBNCJD4SVSUO
-	xOyhRpZ+9cR7rD8aaxMKBWQtHA==
-X-Google-Smtp-Source: ACHHUZ721HTzywDNwWlcZQjpy3ZTbwS6sBCP+LYgCL+Orn1Z1WX8P/q9HPfxZPhBQLsIqlR0HXoUsw==
-X-Received: by 2002:ac2:5a01:0:b0:4f5:a181:97b1 with SMTP id q1-20020ac25a01000000b004f5a18197b1mr4917129lfn.50.1685946243884;
-        Sun, 04 Jun 2023 23:24:03 -0700 (PDT)
+        bh=RUGCYeOScHhssGielwBu6OShRHtxTVGNeYBVmelokvM=;
+        b=ZjELD4QaAImCgRYoq9ibdJbaoKoTUYGrNJA2BG75BnfEVSTHpjj/ZwGoLgA29Fi3D+
+         0c81f+j7EDvFX2chbOlk38GASwma0BqDaB4rZuW5EG8dvjNTOj9KX5JkF7jnRHPhn4jK
+         qFnZJVx3Gb0EZzk7qKwuvhCFGgH6+0DxmMvES432IucpJVB2gT7c1+GFCb/cJZBhc4MQ
+         OdcD6u2Dl0rqu/eGKFb2ldC8ZIV7tiY1IYUEwGixSXDGZOw7LAfR2vu/qFUxaKXd8TFX
+         dpX+d5hvGX1DeynZ1sAC9YicuxOVL3Ym4Pw2qgC0BamNKouTS6uuYcI0UjyOD9a3lryK
+         B2MA==
+X-Gm-Message-State: AC+VfDzPYBoi4YcMQmwboLwx2o6GGIMv18jiFUHG/Y2fe6kBn5qruOkh
+	RpW1hueDzSDXjShQvDLPGAovsw==
+X-Google-Smtp-Source: ACHHUZ5+qQg5JWv/PBzryjhJ2KpeTQWGfg3wSLbmTG3o/Dcw24uO+D5wNXzGHUhrb/s3P273RT1zBw==
+X-Received: by 2002:a17:907:728f:b0:966:4bb3:df63 with SMTP id dt15-20020a170907728f00b009664bb3df63mr5464988ejc.63.1685947457973;
+        Sun, 04 Jun 2023 23:44:17 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id bc10-20020a056402204a00b00510de087302sm3511072edb.47.2023.06.04.23.24.01
+        by smtp.gmail.com with ESMTPSA id g6-20020a170906594600b009745e1b6226sm3859246ejr.125.2023.06.04.23.44.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 04 Jun 2023 23:24:03 -0700 (PDT)
-Message-ID: <7e9e5588-46bc-51bf-13d3-7d47d2bee6ec@linaro.org>
-Date: Mon, 5 Jun 2023 08:24:00 +0200
+        Sun, 04 Jun 2023 23:44:17 -0700 (PDT)
+Message-ID: <d26d0a24-eaa5-9b32-4888-61217a24925e@linaro.org>
+Date: Mon, 5 Jun 2023 08:44:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -48,12 +48,12 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.2
-Subject: Re: [PATCH v2 2/3] dt-bindings: iio: adc: Add Allwinner
+Subject: Re: [PATCH v3 2/3] dt-bindings: iio: adc: Add Allwinner
  D1/T113s/R329/T507 SoCs GPADC
 Content-Language: en-US
-To: Maxim Kiselev <bigunclemax@gmail.com>
-Cc: linux-iio@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh+dt@kernel.org>,
+To: Maksim Kiselev <bigunclemax@gmail.com>, linux-iio@vger.kernel.org
+Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen
+ <lars@metafoo.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -62,77 +62,38 @@ Cc: linux-iio@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
  <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
  Philipp Zabel <p.zabel@pengutronix.de>,
  Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Heiko Stuebner <heiko.stuebner@vrull.eu>,
+ Andre Przywara <andre.przywara@arm.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Cosmin Tanislav <demonsingur@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- William Breathitt Gray <william.gray@linaro.org>,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>,
- Mike Looijmans <mike.looijmans@topic.nl>,
- ChiYuan Huang <cy_huang@richtek.com>,
+ Cosmin Tanislav <demonsingur@gmail.com>, ChiYuan Huang
+ <cy_huang@richtek.com>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Arnd Bergmann <arnd@arndb.de>, Mike Looijmans <mike.looijmans@topic.nl>,
  Ramona Bolboaca <ramona.bolboaca@analog.com>,
  Ibrahim Tilki <Ibrahim.Tilki@analog.com>,
  Caleb Connolly <caleb.connolly@linaro.org>,
+ William Breathitt Gray <william.gray@linaro.org>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- ChiaEn Wu <chiaen_wu@richtek.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-References: <20230601223104.1243871-1-bigunclemax@gmail.com>
- <20230601223104.1243871-3-bigunclemax@gmail.com>
- <fbcc5688-387c-32fb-edac-17848c92b936@linaro.org>
- <CALHCpMizv52yj0rw0pR8pYjSys2UivS4L4GkWLgc-d91bdmDCA@mail.gmail.com>
+ ChiaEn Wu <chiaen_wu@richtek.com>, =?UTF-8?Q?Leonard_G=c3=b6hrs?=
+ <l.goehrs@pengutronix.de>, Haibo Chen <haibo.chen@nxp.com>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org
+References: <20230604185336.1943889-1-bigunclemax@gmail.com>
+ <20230604185336.1943889-3-bigunclemax@gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CALHCpMizv52yj0rw0pR8pYjSys2UivS4L4GkWLgc-d91bdmDCA@mail.gmail.com>
+In-Reply-To: <20230604185336.1943889-3-bigunclemax@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 04/06/2023 22:20, Maxim Kiselev wrote:
-> пт, 2 июн. 2023 г. в 11:38, Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org>:
-> Hi Krzysztof,
->>
->> On 02/06/2023 00:30, Maksim Kiselev wrote:
->>> From: Maxim Kiselev <bigunclemax@gmail.com>
->>>
->>> Allwinner's D1/T113s/R329/T507 SoCs have a new general purpose ADC.
->>> This ADC is the same for all of this SoCs. The only difference is
->>> the number of available channels.
->>
->> Except that it wasn't tested...
+On 04/06/2023 20:53, Maksim Kiselev wrote:
+> From: Maxim Kiselev <bigunclemax@gmail.com>
 > 
-> Yes, you are right. I tested it only on the T113s board. And I will be glad if
-> someone tests it on another SoC.
-
-Please show me the commands how you tested bindings on T113s board. I
-really would like to see them...
-
+> Allwinner's D1/T113s/R329/T507 SoCs have a new general purpose ADC.
+> This ADC is the same for all of this SoCs. The only difference is
+> the number of available channels.
 > 
-> ...
-> 
->> Please run scripts/checkpatch.pl and fix reported warnings. Some
->> warnings can be ignored, but the code here looks like it needs a fix.
->> Feel free to get in touch if the warning is not clear.
-> 
-> I got a warning about required maintainer property. Should I do
-> anything with this?
 
-You should do something because sending broken code is not correct.
-
-> If yes, then who should be a maintainer?
-
-Someone responsible for this hardware.
-
-> 
-> ...
-> 
->> Hm? So you do not allow anything from adc.yaml related? Are you sure
->> this is your intention?
-> 
-> I'm not sure about it. I looked at other ADC bindings and didn't find
-> another driver with 'additionalProperties: true'
-
-I didn't write about additionalProperties:true, but about missing ref to
-adc.yaml.
+Patch is still broken. Don't send code which does not work - does not
+compile, does not pass basic usage tests.
 
 Best regards,
 Krzysztof
