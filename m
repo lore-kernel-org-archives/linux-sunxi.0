@@ -1,261 +1,94 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 140B8F9E8
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 Jun 2023 11:43:10 +0000 (UTC)
-Received: from smtp1.mailbox.org (unknown [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4QZWn74RF8z9sTZ;
-	Mon,  5 Jun 2023 13:37:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1685965067;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jcHhH/zRv8wNAE/JoAKaMzjUE+cSexIZRjod8l3CvqE=;
-	b=H8SpsXdl1fhnJ0o98TPnJD1bZ8bfi/iEvsxQherlcJMQBXZKIKBzE29Tmmrt1pU3L/NdEI
-	nmKtqewOeBlUqOnAY6GYeWyrWcCEtRyI78Ycom7ZJx7L6/af8YBtKFRpRwgTnDnq0X4os7
-	tjQr069Z6WYlt/RoU8A07XNHaaB3tYCV5/+Rf8lSOU9FfzwuqzmB2ecbWbY6YkUaG4s8Vm
-	FtCCMZVMR55K2NiDAirrDzOyu4mF76ndIQq8Ai17iwLXuVsBVpFRRZRPKidpY/UlM1QiJ/
-	ftVQlYbsvFU5BAqxz0M1yCJw0SoUXEkBOO+lPS1TDrvtoNb1lgZGunUAYIGT2g==
-References: <20230527132747.83196-1-frank@oltmanns.dev>
- <flngzi4henkzcpzwdexencdkw77h52g3nduup7pwctpwfiuznk@eewnnut5mvsq>
- <87mt1jbf18.fsf@oltmanns.dev>
- <uvjlkaq4drqsndpwwflmbfnxseiftkrhq5qqmpfx5vfmduazed@wcohoxcd23wc>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, Andre Przywara
- <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>, Icenowy Zheng
- <icenowy@aosc.io>, Jernej Skrabec <jernej.skrabec@gmail.com>, Michael
- Turquette <mturquette@baylibre.com>, Rob Herring <robh@kernel.org>, Samuel
- Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [RFC PATCH 0/3] clk: sunxi-ng: Optimize rate selection for NKM
- clocks
-Date: Mon, 05 Jun 2023 12:31:41 +0200
-In-reply-to: <uvjlkaq4drqsndpwwflmbfnxseiftkrhq5qqmpfx5vfmduazed@wcohoxcd23wc>
-Message-ID: <87edmq9m2m.fsf@oltmanns.dev>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8097A1C777
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Jun 2023 14:16:03 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 58E1DD75;
+	Mon,  5 Jun 2023 07:16:48 -0700 (PDT)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C8CE23F663;
+	Mon,  5 Jun 2023 07:16:01 -0700 (PDT)
+Date: Mon, 5 Jun 2023 15:15:59 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Mikhail Kalashnikov <iuncuim@gmail.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Piotr
+ Oniszczuk <piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 0/2] sunxi: H616: Add LPDDR3 DRAM type
+Message-ID: <20230605151559.537f35c6@donnerap.cambridge.arm.com>
+In-Reply-To: <20230603135506.51071-1-iuncuim@gmail.com>
+References: <20230603135506.51071-1-iuncuim@gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Maxime,
+On Sat,  3 Jun 2023 16:55:04 +0300
+Mikhail Kalashnikov <iuncuim@gmail.com> wrote:
 
-On 2023-06-02 at 09:31:59 +0200, Maxime Ripard <mripard@kernel.org> wrote:
-> [[PGP Signed Part:Undecided]]
-> Hi,
->
-> On Thu, Jun 01, 2023 at 07:16:45AM +0200, Frank Oltmanns wrote:
->> On 2023-05-31 at 15:48:43 +0200, Maxime Ripard <mripard@kernel.org> wrote:
->> > [[PGP Signed Part:Undecided]]
->> > Hi Frank,
->> >
->> > On Sat, May 27, 2023 at 03:27:44PM +0200, Frank Oltmanns wrote:
->> >> I would like to bring your attention to the current process of setting
->> >> the rate of an NKM clock. As it stands, when setting the rate of an
->> >> NKM clock, the rate nearest but less than or equal to the requested
->> >> rate is found, instead of the nearest rate.
->> >
->> > Yeah, it's actually pretty common, see clk_mux_determine_rate_flags()
->> > for example. Some devices require that we don't overshoot, while some
->> > prefer to have the closest rate.
->> >
->> > Both are fine, and it's a bit context specific which one we should
->> > favour. If we were to do anything, it would be to support both and let
->> > the clock driver select which behaviour it wants.
->> >
->>
->> Ok, understood. Thank you for the explanation! Now, I'm wondering if
->> anyone would be using such a flag, if I added it.
->
-> I guess that's another thing :) If no-one is going to use it, why should
-> we do it in the first place?
->
-> But most likely the display and audio clocks are usually fairly ok with
-> overshooting a bit, and a closest rate is usually better.
+Hi Mikhail,
 
-Ok, I dived a bit deeper into this, but, as far as I can tell, the
-closest rate is not used anywhere in the sunxi-ng ccu driver. So, when
-extending, e.g., the NM or NKM clock to support, one must also extend at
-least the mux clocks, because they expect rates less than the requested
-rate. That seems to be quite the undertaking for only a small gain in
-precision.
+> From: iuncuim <iuncuim@gmail.com>
+> 
+> At the moment, the driver only supports DDR3 memory.
+> Add support for a new type DRAM. 
+> These changes have been successfully tested by me 
+> with tvbox tra###eed t98-h2b-lp3.
 
->> >> Moreover, ccu_nkm_find_best() is called multiple times (footnote [1])
->> >> when setting a rate, each time iterating over all combinations of n,
->> >> k, and m.
->> >
->> > Yeah, that's expected as well.
->>
->> I'm wondering though, if iterating over all combinations is set in
->> stone, or if some kind of optimization would be in order.
->
-> The thing with optimization is that you need to optimize for something.
-> So you need to show that this code is suboptimal (by whatever metric you
-> want to optimize for), and that your code is more optimal that it used
-> to be.
->
-> It means identifying a problem, writing benchmarks, and showing that the
-> new code performs better there.
->
-> For example, your code might very well be faster, but it will increase
-> the kernel image (and thus the RAM usage). One is not more optimal than
-> the other in absolute, they both are, using a different metric.
+Ah, many thanks for sending this! This looks very good, in general.
+There is one newline issue introduced in patch 1, which gets fixed in
+patch 2, but that's just a small thing.
 
-Sure, I get that. I'll submit a patchset that adds the functionality to
-NKM clocks to set the rate of their parents.
+There is one bigger problem, though:
+The code size grows by a bit, when compiling for the OrangePi Zero2:
+$ size spl/arch/arm/mach-sunxi/dram_sun50i_h616.o
+   text    data     bss     dec     hex filename
+   7463       0       0    7463    1d27 dram_sun50i_h616_before.o
+   8155       0       0    8155    1fdb dram_sun50i_h616_after.o
 
-With the new patchset, the time for, e.g. setting DCLK increases from
-~0.5 ms to a whopping 30 - 37 ms. Those times were taken
-unscientifically on my pinephone, i.e. kernel logging and a couple of
-re-boots. But I think that still might give an idea of why I thought
-about the need to increase performance.
+This is somewhat surprising, given that the DRAM type is known at compile
+time, so the compiler wouldn't need to include the other case in the binary.
 
-The reason for this massive increase is, that the patch iterates over
-all combinations of NKM for pll-mipi, and for each combination it
-iterates over all combinations of NM for pll-video0.
+Looking a bit closer at the disassembly, I saw that the constant
+propagation isn't really working as we would hope for. I suspect it's due
+to struct dram_para having both fixed, but also dynamic members, so the
+compiler avoids optimising this further.
+Just marking the fixed members as "const" in the struct declaration didn't
+change anything, unfortunately, again I believe the constant propagation
+is conservative here.
+I then went ahead and split struct dram_para up into two structures: one
+which is always constant, and one dynamic, with just cols, rows, banks, and
+full_bus_width in it. Then putting "const" into the right places in the
+function prototypes *and* moving the struct dram_para definition outside
+of the sunxi_dram_init() function, resulted in quite a drop in code size:
+for current mainline (without your patches) the size of the DRAM driver
+goes down from the above mentioned 7463 bytes to 5723 bytes. Adding your
+patches on top then didn't change the size at all, as expected.
 
-Nevertheless, following your and Jernej's advice, I'll submit the
-patchset first and then we can discuss if speed optimizations are needed
-and what cost is acceptable.
+So I will send out those changes soonish, and will put your rebased
+patches on top.
 
-> And then you have the more social factors that play a huge part too:
-> readibility, maintainability, etc.
->
->> >> In response to this, I propose the following refinements to optimize the NKM
->> >> clock setting:
->> >>  a. when finding the best rate use the nearest rate, even if it is greater than
->> >>     the requested rate (PATCH 1)
->> >>  b. utilize binary search to find the best rate by going through a
->> >>     precalculated, ordered list of all meaningful combinations of n, k, and m
->> >>     (PATCH 2)
->> >
->> > One thing you haven't really addressed is why we would be doing this? Is
->> > there some clocks that require a more precise clock and don't? Is the
->> > factor calculation a bottleneck for some workloads?
->>
->> Background
->> ==========
->> I'm a pinephone user (ccu-sun50i-a64). I'm using U-Boot which sets the
->> pll-video0 to 294 MHz on boot. The phone's panel requires DCLK to run at
->> 108 MHz to get a nice 60 Hz vertical refresh rate. The clock structure
->> is this:
->>
->>     clock                       clock type
->>     --------------------------------------
->>     pll-video0                  ccu_nm
->>        pll-mipi                 ccu_nkm
->>           tcon0                 ccu_mux
->>              tcon-data-clock    sun4i_dclk
->>
->> The divider between tcon0 and tcon-data-clock is fixed at 4. So, I need
->> pll-mipi to run at 432 MHz to get the desired vertical refresh rate.
->> When pll-vdeo0 is at 294 MHz this is that rate cannot be matched exactly
->> with any combination. The best we can get is 431.2 MHz (n=11, k=2,
->> m=15).
->>
->> The pinephone has some "vendor" patches (megi kernel) that
->>  a. add HDMI
->>  b. allow re-setting pll-mipi's rate when pll-video0 changes
->>
->> Re: Who needs a more precise clock?
->> ===================================
->> When plugging in HDMI, pll-video's rate is set to 297 MHz, which - in
->> the vendor kernel, not mainline - triggers recalculation of pll-mipi
->> (trying to set it to 431.2 MHz). It ends up with a rate of 424.285714
->> MHz, because this is the nearest, but less than 431.2 MHz (n=5, k=2,
->> m=7). The nearest rate would be 432 MHz.
->>
->> So, while analyzing the whole situation that I described above, I found
->> out that the NKM clocks are not set to the closest rate and wondered why
->> that is. Hence my request for comments.
->
-> It all makes sense, but I'm not sure why it requires a complete rewrite
-> of the factor calculation algo?
+Cheers,
+Andre
 
-You are absolutely right! It does not! Here, I was talking about the
-reasons why a more precise clock might be desirable (PATCH 1), which
-touches very few lines.
+> iuncuim (2):
+>   sunxi: H616: add DRAM type selection
+>   sunxi: H616: add LPDDR3 DRAM support
+> 
+>  .../include/asm/arch-sunxi/dram_sun50i_h616.h |   1 +
+>  arch/arm/mach-sunxi/Kconfig                   |  18 +-
+>  arch/arm/mach-sunxi/dram_sun50i_h616.c        | 215 ++++++++++++------
+>  arch/arm/mach-sunxi/dram_timings/Makefile     |   4 +-
+>  .../arm/mach-sunxi/dram_timings/h616_lpddr3.c |  95 ++++++++
+>  configs/orangepi_zero2_defconfig              |   1 +
+>  configs/x96_mate_defconfig                    |   1 +
+>  7 files changed, 266 insertions(+), 69 deletions(-)
+>  create mode 100644 arch/arm/mach-sunxi/dram_timings/h616_lpddr3.c
+> 
 
-I tried to explain the reasons for the algo change further below in the
-"Re: Why speed up factor calculation?" part of my mail that was cut off
-in your response.
-
->
->> Now, one could argue that pll-video0 should be set to 297MHz at boot
->
-> Not really no, we should strive to be as immune as possible from the
-> boot state.
-
-Agreed.
-
->> or that pll-mipi should try to set the *requested* rate instead of the
->> previous rate when the pll-video0 changes.
->
-> It's not clear to me what is the distinction you make here between the
-> requested rate and the previous rate?
-
-This is quite a de-tour from the original discussion, so I'm sorry for
-the confusion.
-
-By requested rate I mean the rate that the user (DCLK) requested. But
-this is not necessarily the rate that the clock is using in the end,
-because of its parent's rate.
-
-So, when the pll-video0 changes rate from 294 MHz to 297MHz (upon
-plugging in HDMI), pll-mipi does not know any longer what the requested
-rate (let's say 432MHz) was. It only knows the rate it had before the
-rate change of pll-video0 (431.2MHz in that case). Now with the new
-parent rate, it tries to find a new rate that's close to (but less than)
-431.2 MHz instead of 432 MHz. And since with the new clock rate of 297
-MHz for pll-video0, it cannot set to 431.2 MHz, so it rounds down again
-(to 424.285714 MHz). That means it rounded down twice and is now quite
-far from the originally requested 432 MHz.
-
-So, whenever the parent rate changes, we always round down and move
-further away from the rate that the user originally requested for our
-clock. This could be mitigated by storing the requested rate (i.e. 432
-MHz instead of 431.2 MHz). However, I don't know if that's possible. I'm
-simply stating my observations. No call for action is implied in that
-statement.
-
-> Do you mean that you have two clk_set_rate in sequence, with the first
-> one on pll-mipi (or one of its child clocks), and the second one on
-> pll-video0 (but on a different sub-tree than pll-mipi) and thus pll-mipi
-> has its rate changed by the second, but doesn't match the previous rate
-> enforced?
->
-> If so, that's kind of expected: clk_set_rate doesn't provide any
-> warranty on for how long the rate is going to stay there. There's two
-> way to prevent that. Either we call clk_set_rate_exclusive (on the
-> first) instead, but it will effectively lock a clock subtree and prevent
-> any rate change which is a pretty big constraint.
-
-This is actually the current constraint in mainline. sun40i_tcon locks
-pll-video0's tree.
-
-> Or you add a notifier
-> to adjust to the parent clock rate change and still provide the same
-> output rate, with a different set of parameters.
-
-This is what the "vendor" kernel (megi kernel) tries to do. It patches
-the locking away and uses a notifier to react to pll-video0's rate
-changes. With the caveat that it does not save the requested rate, which
-I tried to explain above.
-
-Anyhow, thank you for this detailed discussion! I really appreciate it!
-Let me send my new patchset and see what everyone thinks.
-
-Thanks,
-  Frank
-
->
-> Maxime
->
-> [[End of PGP Signed Part]]
