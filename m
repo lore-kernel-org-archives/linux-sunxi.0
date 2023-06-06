@@ -1,83 +1,176 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEECA17AB4
-	for <linux-sunxi@lists.linux.dev>; Tue,  6 Jun 2023 13:30:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28642C4339B;
-	Tue,  6 Jun 2023 13:30:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9F437B71
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 Jun 2023 14:03:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18C84C433EF;
+	Tue,  6 Jun 2023 14:03:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686058237;
-	bh=Io1+FRfEzdYWTBjfKWS8JOKQ6OwVSNhb0fzsrha93wY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=OroYe3efWHMpRPG+/9cs/uIRgR3zGjLrXTXT4U+0fmYZQDeFgPbYYspqW5PeyiHEr
-	 4UuzmyP4c7e40H3uB7jVO2WVKFtqbLtwQJPhT/qVc4kQsz8y0paovPja+tHWgAQzfX
-	 FEcqccw+hex+mcZnnmHGw8Eaxzz90YoVR/7IDIPaJvyNB31FUM9i2DuCzQtTVpaK/m
-	 ypDqFOGzOw3HEnTc/J11h3d5q2Mu1pLyGM1TyAZ7puREKu4XDxngXKs5q6AvKMgWMd
-	 rNBaRyPPVCFSk1xtkt2tZnZujZGyji8ck9heSn8Fhd0FWnwcY+qKDYLn1+UA9NdTAd
-	 CleJ+3lDfuH0w==
-From: Mark Brown <broonie@kernel.org>
-To: Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Chen-Yu Tsai <wens@csie.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: Martin Botka <martin.botka@somainline.org>, martin.botka1@gmail.com, 
- Shengyu Qu <wiagn233@outlook.com>, Samuel Holland <samuel@sholland.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20230524000012.15028-1-andre.przywara@arm.com>
-References: <20230524000012.15028-1-andre.przywara@arm.com>
-Subject: Re: (subset) [PATCH v11 0/3] regulator: Add X-Powers
- AXP15060/AXP313a PMIC support
-Message-Id: <168605823485.29508.16853272522474310496.b4-ty@kernel.org>
-Date: Tue, 06 Jun 2023 14:30:34 +0100
+	s=k20201202; t=1686060181;
+	bh=92sQlbOKY9LIyGWaHFriwmNnM+2pjstn4I/di/uN298=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oRJu/8w8Wm0pzOl+OasRCkcLo+IOctRM2eC1PltWbmL48B+sYq33TC7hKpXKLqPKF
+	 QghQDUacG9jOlgMgaFSj3H29CCsCQNms6vo3prGx8LvIqX2X8bMh2joFmo6zkQmpwO
+	 nBbQiiqL8DRtzGxwnQweb7UceEnkFNc1vojV33+lhAXaBqYkoPrBF5w44NfWNnvhaW
+	 hJU+wHsYcBLhMDrtNsaYJkyyGUXvFF9Uf9CXfZUgIzJMdufuWcavRJOtVH5aNmzB1f
+	 b8iifCYwz0obcwXZn2ebQuylkYWQfBcOgnJ4Mgpyev4bfbBVL0PDlDYdf+O3v6SHHg
+	 X8ELB738mcIUQ==
+Date: Tue, 6 Jun 2023 16:02:58 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Frank Oltmanns <frank@oltmanns.dev>
+Cc: linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>, Icenowy Zheng <icenowy@aosc.io>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [RFC PATCH 0/3] clk: sunxi-ng: Optimize rate selection for NKM
+ clocks
+Message-ID: <xcgmqvdoip53yao4sfoznnppauhmsmdablwoewh43zjv3bhidp@d7pxqohxydve>
+References: <20230527132747.83196-1-frank@oltmanns.dev>
+ <flngzi4henkzcpzwdexencdkw77h52g3nduup7pwctpwfiuznk@eewnnut5mvsq>
+ <87mt1jbf18.fsf@oltmanns.dev>
+ <uvjlkaq4drqsndpwwflmbfnxseiftkrhq5qqmpfx5vfmduazed@wcohoxcd23wc>
+ <87edmq9m2m.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-bfdf5
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="oorsjwbcoooqvgbe"
+Content-Disposition: inline
+In-Reply-To: <87edmq9m2m.fsf@oltmanns.dev>
 
-On Wed, 24 May 2023 01:00:09 +0100, Andre Przywara wrote:
-> this patch series adds support for the X-Powers AXP15060 and AXP313a
-> PMIC, which are general purpose PMICs as seen on different boards with
-> different SOCs, mostly from Allwinner.
-> 
-> This is mostly a repost of the previous patches, combining both the
-> AXP313a and AXP15060 series, rebased on top of v6.4-rc3, and omitting
-> the patches that already got merged.
-> The first two patches are the successors of the AXP313a v10 post,
-> the third patch is based on Shengyu's AXP15060 v3 post.
-> 
-> [...]
 
-Applied to
+--oorsjwbcoooqvgbe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+On Mon, Jun 05, 2023 at 12:31:41PM +0200, Frank Oltmanns wrote:
+> Hi Maxime,
+>=20
+> On 2023-06-02 at 09:31:59 +0200, Maxime Ripard <mripard@kernel.org> wrote:
+> > [[PGP Signed Part:Undecided]]
+> > Hi,
+> >
+> > On Thu, Jun 01, 2023 at 07:16:45AM +0200, Frank Oltmanns wrote:
+> >> On 2023-05-31 at 15:48:43 +0200, Maxime Ripard <mripard@kernel.org> wr=
+ote:
+> >> > [[PGP Signed Part:Undecided]]
+> >> > Hi Frank,
+> >> >
+> >> > On Sat, May 27, 2023 at 03:27:44PM +0200, Frank Oltmanns wrote:
+> >> >> I would like to bring your attention to the current process of sett=
+ing
+> >> >> the rate of an NKM clock. As it stands, when setting the rate of an
+> >> >> NKM clock, the rate nearest but less than or equal to the requested
+> >> >> rate is found, instead of the nearest rate.
+> >> >
+> >> > Yeah, it's actually pretty common, see clk_mux_determine_rate_flags()
+> >> > for example. Some devices require that we don't overshoot, while some
+> >> > prefer to have the closest rate.
+> >> >
+> >> > Both are fine, and it's a bit context specific which one we should
+> >> > favour. If we were to do anything, it would be to support both and l=
+et
+> >> > the clock driver select which behaviour it wants.
+> >> >
+> >>
+> >> Ok, understood. Thank you for the explanation! Now, I'm wondering if
+> >> anyone would be using such a flag, if I added it.
+> >
+> > I guess that's another thing :) If no-one is going to use it, why should
+> > we do it in the first place?
+> >
+> > But most likely the display and audio clocks are usually fairly ok with
+> > overshooting a bit, and a closest rate is usually better.
+>=20
+> Ok, I dived a bit deeper into this, but, as far as I can tell, the
+> closest rate is not used anywhere in the sunxi-ng ccu driver. So, when
+> extending, e.g., the NM or NKM clock to support, one must also extend at
+> least the mux clocks, because they expect rates less than the requested
+> rate. That seems to be quite the undertaking for only a small gain in
+> precision.
 
-Thanks!
+mux clocks are using __clk_mux_determine_rate which should have the
+behaviour you want when CLK_MUX_ROUND_CLOSEST is set.
 
-[2/3] regulator: axp20x: Add support for AXP313a variant
-      commit: 60fd7eb89670d2636ac3156881acbd103c6eba6a
-[3/3] regulator: axp20x: Add AXP15060 support
-      commit: 9e72869d0fe12aba8cd489e485d93912b3f5c248
+> >> >> Moreover, ccu_nkm_find_best() is called multiple times (footnote [1=
+])
+> >> >> when setting a rate, each time iterating over all combinations of n,
+> >> >> k, and m.
+> >> >
+> >> > Yeah, that's expected as well.
+> >>
+> >> I'm wondering though, if iterating over all combinations is set in
+> >> stone, or if some kind of optimization would be in order.
+> >
+> > The thing with optimization is that you need to optimize for something.
+> > So you need to show that this code is suboptimal (by whatever metric you
+> > want to optimize for), and that your code is more optimal that it used
+> > to be.
+> >
+> > It means identifying a problem, writing benchmarks, and showing that the
+> > new code performs better there.
+> >
+> > For example, your code might very well be faster, but it will increase
+> > the kernel image (and thus the RAM usage). One is not more optimal than
+> > the other in absolute, they both are, using a different metric.
+>=20
+> Sure, I get that. I'll submit a patchset that adds the functionality to
+> NKM clocks to set the rate of their parents.
+>=20
+> With the new patchset, the time for, e.g. setting DCLK increases from
+> ~0.5 ms to a whopping 30 - 37 ms. Those times were taken
+> unscientifically on my pinephone, i.e. kernel logging and a couple of
+> re-boots. But I think that still might give an idea of why I thought
+> about the need to increase performance.
+>
+> The reason for this massive increase is, that the patch iterates over
+> all combinations of NKM for pll-mipi, and for each combination it
+> iterates over all combinations of NM for pll-video0.
+>=20
+> Nevertheless, following your and Jernej's advice, I'll submit the
+> patchset first and then we can discuss if speed optimizations are needed
+> and what cost is acceptable.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Honestly, for 40ms, it will be a hard sell :)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+> >> or that pll-mipi should try to set the *requested* rate instead of the
+> >> previous rate when the pll-video0 changes.
+> >
+> > It's not clear to me what is the distinction you make here between the
+> > requested rate and the previous rate?
+>=20
+> This is quite a de-tour from the original discussion, so I'm sorry for
+> the confusion.
+>=20
+> By requested rate I mean the rate that the user (DCLK) requested. But
+> this is not necessarily the rate that the clock is using in the end,
+> because of its parent's rate.
+>=20
+> So, when the pll-video0 changes rate from 294 MHz to 297MHz (upon
+> plugging in HDMI), pll-mipi does not know any longer what the requested
+> rate (let's say 432MHz) was.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+It does, it's struct clk_core's req_rate. It doesn't look like it's
+available to clk_hw users, but given the rest of your explanation, I
+guess you have a compelling use case to make it available.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Maxime
 
-Thanks,
-Mark
+--oorsjwbcoooqvgbe
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZH88kgAKCRDj7w1vZxhR
+xYZZAP0SAEPvAUvjDPfVv3zOHOnaNCsV5M4IfwS/1NtJva9K0AD/ZufHZhbfMnIu
+WquTg8eFvgf8+koLgpj/tFUrEbonwQY=
+=7fL/
+-----END PGP SIGNATURE-----
+
+--oorsjwbcoooqvgbe--
