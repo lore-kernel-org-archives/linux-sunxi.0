@@ -1,86 +1,194 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91F4EA2A
-	for <linux-sunxi@lists.linux.dev>; Thu,  8 Jun 2023 00:31:12 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C1A9FAB6;
-	Wed,  7 Jun 2023 17:31:56 -0700 (PDT)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 599A13F71E;
-	Wed,  7 Jun 2023 17:31:10 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Tom Rini <trini@konsulko.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>,
-	u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev,
-	Sam Edwards <CFSworks@gmail.com>
-Subject: Pull request: u-boot-sunxi/master for 2023.07
-Date: Thu,  8 Jun 2023 01:30:36 +0100
-Message-Id: <20230608003036.12179-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.8
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD371FBB
+	for <linux-sunxi@lists.linux.dev>; Thu,  8 Jun 2023 09:26:46 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4QcJkN0BPlz9spJ;
+	Thu,  8 Jun 2023 11:26:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1686216396;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WC+E0j9/A465/cq9Z16jbdoVUQlkJxw4cJqWxLv9qaU=;
+	b=srYmoYFaSKsuPxwSQYGXBs0NnVGljK5EyHlibUc5HzP0yvyraFE3vC1ry4lczDZ162FR0Y
+	atte+edyYs0HQ293KnBExruvvmHSZEOyDuraw/dk00jAPkV3xv4PBt3GvOBJGW97GPwvp3
+	/4KYmEJramxTGvUcLVRWWibNpUA5xFpNcZ774E8fP5CgLd/3q764hYuQ8+dt9UK9ueFUSL
+	J5vt0RyFK3vcJsFpekzgVjT1ME9nMF+SR+mufsIuByrl0uHcY0Oi5zX9UDXTIRfs8QCVpE
+	oPrTP6mYed+kLQyxIfJkfukufYSFKx0Plh0nGbcZ0UsGgcQ+DDycw69tf1cJEQ==
+References: <20230605190745.366882-1-frank@oltmanns.dev>
+ <20230605190745.366882-2-frank@oltmanns.dev>
+ <2bvcukogzhcdbfsrruylgw5fbezaqjpcojqaambfoiv5fc2upy@ffumn5sevbeb>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Michael Turquette
+ <mturquette@baylibre.com>, Roman Beranek <me@crly.cz>, Samuel Holland
+ <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/2] clk: sunxi-ng: nkm: consider alternative parent
+ rates when finding rate
+Date: Wed, 07 Jun 2023 09:39:35 +0200
+In-reply-to: <2bvcukogzhcdbfsrruylgw5fbezaqjpcojqaambfoiv5fc2upy@ffumn5sevbeb>
+Message-ID: <875y7y1f0d.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Hi Tom,
+Hi Maxime,
 
-a small late pull request for Allwinner. The main feature is just a DT
-update, matching the v6.4 Linux kernel DT files. This also enables a board
-(LCTech Pi F1C200s) which got its .dts file merged into Linux. Plus a tiny
-typo fix from Sam.
+On 2023-06-07 at 08:38:39 +0200, Maxime Ripard <maxime@cerno.tech> wrote:
+> [[PGP Signed Part:Undecided]]
+> On Mon, Jun 05, 2023 at 09:07:44PM +0200, Frank Oltmanns wrote:
+>> In case the CLK_SET_RATE_PARENT flag is set, consider using a different
+>> parent rate when determining a new rate.
+>>
+>> To find the best match for the requested rate, perform the following
+>> steps for each NKM combination:
+>>  - calculate the optimal parent rate,
+>>  - find the best parent rate that the parent clock actually supports
+>>  - use that parent rate to calculate the effective rate.
+>>
+>> In case the clk does not support setting the parent rate, use the same
+>> algorithm as before.
+>>
+>> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+>> ---
+>>  drivers/clk/sunxi-ng/ccu_nkm.c | 40 ++++++++++++++++++++++++++--------
+>>  1 file changed, 31 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
+>> index a0978a50edae..c71e237226f2 100644
+>> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
+>> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
+>> @@ -16,10 +16,10 @@ struct _ccu_nkm {
+>>  	unsigned long	m, min_m, max_m;
+>>  };
+>>
+>> -static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned long rate,
+>> -				       struct _ccu_nkm *nkm)
+>> +static unsigned long ccu_nkm_find_best(unsigned long *parent, unsigned long rate,
+>> +				       struct _ccu_nkm *nkm, struct clk_hw *parent_hw)
+>>  {
+>> -	unsigned long best_rate = 0;
+>> +	unsigned long best_rate = 0, best_parent_rate = 0, tmp_parent = *parent;
+>>  	unsigned long best_n = 0, best_k = 0, best_m = 0;
+>>  	unsigned long _n, _k, _m;
+>>
+>> @@ -28,12 +28,29 @@ static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned long rate,
+>>  			for (_m = nkm->min_m; _m <= nkm->max_m; _m++) {
+>>  				unsigned long tmp_rate;
+>>
+>> -				tmp_rate = parent * _n * _k / _m;
+>> +				if (parent_hw) {
+>
+> NKM clocks always have a parent
+>
+> You should test if the CLK_SET_RATE_PARENT flag is set.
 
-Gitlab CI passed, briefly tested on an H616 board and the new LCTech Pi.
+ccu_nkm_find_best is called in the following two situations:
+ a. from ccu_nkm_set_rate when setting the rate
+ b. from ccu_nkm_round_rate when determining the rate
 
-Thanks,
-Andre
+In situation a. we never want ccu_nkm_find_best to try different parent
+rates because setting the parent rate is a done deal (at least that's my
+understanding).
 
-========================
-The following changes since commit 0a8a4b86422650d6955a2382796089735453902d:
+In situation b. we only want ccu_nkm_find_best to try different parent
+rates when, as you mentioned, the CLK_SET_RATE_PARENT flag is set.
 
-  Merge tag 'u-boot-amlogic-20230607' of https://source.denx.de/u-boot/custodians/u-boot-amlogic (2023-06-07 12:17:06 -0400)
+So, what this patch does, it provides a NULL pointer as parent_hw when
+we don't want ccu_nkm_find_best to try alternative parent rates.
 
-are available in the Git repository at:
+Is it ok if I add a comment to ccu_nkm_find_best that explains the
+function and explicitly also the parameters?
 
-  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+I also thought about using two different functions for the two
+situations. I have no strong opinion which is better.
 
-for you to fetch changes up to 9bc6f1a4d08261032d60836ea1dd6f2e98889060:
+However, I don't think we should hand over the flags to this function,
+because we'd still only need to provide the parent_hw if we want to find
+the optimal parent rate, so having two parametes for the same purpose
+seems redundant. Unless, there is a rule to not use NULL pointers.
 
-  sunxi: Fix typo in include guard (2023-06-07 22:45:02 +0100)
+>
+>> +					// We must round up the desired parent rate, because the
+>> +					// rounding down happens when calculating tmp_rate. If we
+>> +					// round down also here, we'd round down twice.
+>> +					unsigned long optimal_parent =
+>> +							(rate * _m + (_n * _k - 1)) / _n / _k;
+>
+> I assume the addition of n * k - 1 is to round up, but I'm not sure we
+> should hack around like that.
+>
+> You should compute the ideal parent rate for a given set of timings, and
+> then just call round_rate on it. If the parent wants to round it one way
+> or another, that's the parent concern.
 
-----------------------------------------------------------------
-Andre Przywara (2):
-      sunxi: dts: arm/arm64: update devicetree files from Linux-v6.4-rc2
-      sunxi: defconfig: Add Lctech Pi F1C200s board
+I admit that the comment explaining this is not doing the complexity of
+this issue any justice. Let me try to explain:
 
-Sam Edwards (1):
-      sunxi: Fix typo in include guard
+Let's say for our panel the optimal rate for pll-mipi is 449064000. The
+best closest we can get is 449035712 with a parent rate of 217714285
+(n=11, k=3, m=16).
 
- arch/arm/dts/axp22x.dtsi                     |  6 +++
- arch/arm/dts/axp809.dtsi                     |  7 +++
- arch/arm/dts/axp81x.dtsi                     | 14 -----
- arch/arm/dts/sun50i-a64.dtsi                 |  1 +
- arch/arm/dts/sun50i-h5-orangepi-pc2.dts      |  1 +
- arch/arm/dts/sun5i-gr8-chip-pro.dts          |  2 +-
- arch/arm/dts/sun5i-r8-chip.dts               |  2 +-
- arch/arm/dts/sun6i-a31.dtsi                  | 12 ++---
- arch/arm/dts/sun6i-a31s-sina31s.dts          |  2 +-
- arch/arm/dts/sun8i-a23-a33.dtsi              | 10 ++--
- arch/arm/dts/sun8i-a33.dtsi                  |  1 +
- arch/arm/dts/sun8i-a83t-bananapi-m3.dts      | 15 ++++++
- arch/arm/dts/sun8i-h3-beelink-x2.dts         |  2 +-
- arch/arm/dts/sun8i-h3-nanopi-duo2.dts        |  2 +-
- arch/arm/dts/sun8i-v3s.dtsi                  |  6 +--
- arch/arm/dts/suniv-f1c100s-licheepi-nano.dts | 16 ++++++
- arch/arm/dts/suniv-f1c100s.dtsi              | 32 +++++++++++
- arch/arm/dts/suniv-f1c200s-lctech-pi.dts     | 76 ++++++++++++++++++++++++++
- arch/arm/dts/suniv-f1c200s-popstick-v1.1.dts | 81 ++++++++++++++++++++++++++++
- arch/arm/dts/sunxi-h3-h5.dtsi                |  8 +--
- arch/arm/include/asm/arch-sunxi/pmic_bus.h   |  2 +-
- configs/lctech_pi_f1c200s_defconfig          | 11 ++++
- 22 files changed, 271 insertions(+), 38 deletions(-)
- create mode 100644 arch/arm/dts/suniv-f1c200s-lctech-pi.dts
- create mode 100644 arch/arm/dts/suniv-f1c200s-popstick-v1.1.dts
- create mode 100644 configs/lctech_pi_f1c200s_defconfig
+Eventually, ccu_nkm_find_best is going to be called with 449035712 as
+the rate. If we don't round up, like I proposend, but instead calculate:
+  optimal_parent = rate * m / n / k
+(which is, I think, what you you're proposing) leading to an optimal
+parent of 217714284 (!). We can't get 217714284 from the parent (we
+could get 217714285, but we're not asking for that) so the parent rounds
+down.
+
+To make things worse, this story continues for the new "best rate" as
+well.
+
+In the end, ccu_nkm_find_best claims:
+ - the optimal rate for 449064000 is 449035712 (parent=217714285, n=11,
+   k=3, m=16)
+ - but ccu_nkm_find_best would claim that the optimal rate for 449035712
+   is 449018181 (parent=235200000, n=7, k=3, m=11)
+ - and finally, the optimal rate for 449018181 is 449018180
+   (parent=213818181, n=7, k=3, m=10)
+
+This doesn't seem right to me.
+
+But you're also right, in that we can't just always round up. In a
+hypothetical example that we request a parent rate of 450000000. With
+rounding up, we'd get an optimal parent rate of 218181819 for n=11, k=3,
+m=16. And let's now further claim that the parent could provide exactly
+that rate, we'd end up with a rate of 450000001. So, we'd overshoot,
+which (currently) is not acceptable.
+
+Hmm... I currently can't think of a clever way to solve this other than
+this:
+
+    optimal_parent = (rate * _m + (_n * _k - 1)) / _n / _k;
+    tmp_parent = clk_hw_round_rate(parent_hw, optimal_parent);
+    tmp_rate = tmp_parent * _n * _k / _m;
+    if (tmp_rate > rate) {
+        optimal_parent = rate * m / n / k
+        tmp_parent = clk_hw_round_rate(parent_hw, optimal_parent);
+        tmp_rate = tmp_parent * _n * _k / _m;
+    }
+    if (tmp_parent > optimal_parent)
+        continue;
+
+This seems ugly, but at least it should work in all cases. Any opinions?
+
+Cheers,
+  Frank
+
+>
+> Maxime
+>
+> [[End of PGP Signed Part]]
