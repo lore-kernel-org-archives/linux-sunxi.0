@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7461367
-	for <linux-sunxi@lists.linux.dev>; Wed,  7 Jun 2023 00:08:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87C927C
+	for <linux-sunxi@lists.linux.dev>; Wed,  7 Jun 2023 00:08:22 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 48AF915BF;
-	Tue,  6 Jun 2023 17:09:05 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 263F115DB;
+	Tue,  6 Jun 2023 17:09:07 -0700 (PDT)
 Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 61A7C3F587;
-	Tue,  6 Jun 2023 17:08:18 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1C2193F587;
+	Tue,  6 Jun 2023 17:08:19 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>,
 	Mikhail Kalashnikov <iuncuim@gmail.com>
@@ -16,9 +16,9 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Piotr Oniszczuk <piotr.oniszczuk@gmail.com>,
 	u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 1/5] sunxi: dram: make MBUS configuration functions static
-Date: Wed,  7 Jun 2023 01:07:41 +0100
-Message-Id: <20230607000745.10245-2-andre.przywara@arm.com>
+Subject: [PATCH 2/5] sunxi: H616: dram: const-ify DRAM function parameters
+Date: Wed,  7 Jun 2023 01:07:42 +0100
+Message-Id: <20230607000745.10245-3-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.8
 In-Reply-To: <20230607000745.10245-1-andre.przywara@arm.com>
 References: <20230607000745.10245-1-andre.przywara@arm.com>
@@ -30,87 +30,179 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The usage of the C keyword "inline" seems to be a common
-misunderstanding: it's a *hint* only, and modern compilers will inline
-(or not) functions based on their own judgement and provided compiler
-options.
-So while marking functions as "inline" does not do much, missing the
-"static" keyword will force to compiler to spell out a version of the
-function for potential external callers, which actually increases the
-code size (though hopefully the linker will drop the function).
-
-Change the "inline" attribute for the mbus_configure_port() functions in
-some Allwinner DRAM drivers to "static", so that the explicit version
-can actually be dropped from the object file, reducing the code size.
-
-"static inline" has a use case in header files, where it avoids a warning
-if a .c file including this header does not use the particular function.
-In a .c file itself "static inline" is not useful otherwise, so just use
-static here as well.
+There are quite some functions in the Allwinner H616 DRAM "driver", some
+of them actually change the parameters in the structure passed to them,
+but many are actually not.
+To increase the optimisation potential for the code, mark those functions
+that just read members of the passed dram_para struct as "const".
+This in itself does not decrease the code size, but lays the groundwork
+for future changes doing so.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- arch/arm/mach-sunxi/dram_sun50i_h6.c   |  3 ++-
- arch/arm/mach-sunxi/dram_sun50i_h616.c |  2 +-
- arch/arm/mach-sunxi/dram_sunxi_dw.c    | 18 +++++++++---------
- 3 files changed, 12 insertions(+), 11 deletions(-)
+ .../include/asm/arch-sunxi/dram_sun50i_h616.h |  2 +-
+ arch/arm/mach-sunxi/dram_sun50i_h616.c        | 30 +++++++++----------
+ .../mach-sunxi/dram_timings/h616_ddr3_1333.c  |  2 +-
+ 3 files changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/arch/arm/mach-sunxi/dram_sun50i_h6.c b/arch/arm/mach-sunxi/dram_sun50i_h6.c
-index b332f3a3e4a..bff2e42513c 100644
---- a/arch/arm/mach-sunxi/dram_sun50i_h6.c
-+++ b/arch/arm/mach-sunxi/dram_sun50i_h6.c
-@@ -93,7 +93,8 @@ enum {
- 	MBUS_QOS_HIGH,
- 	MBUS_QOS_HIGHEST
- };
--inline void mbus_configure_port(u8 port,
-+
-+static void mbus_configure_port(u8 port,
- 				bool bwlimit,
- 				bool priority,
- 				u8 qos,
+diff --git a/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h b/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h
+index 6db869c0985..34d19f71438 100644
+--- a/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h
++++ b/arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h
+@@ -171,6 +171,6 @@ static inline int ns_to_t(int nanoseconds)
+ 	return DIV_ROUND_UP(ctrl_freq * nanoseconds, 1000);
+ }
+ 
+-void mctl_set_timing_params(struct dram_para *para);
++void mctl_set_timing_params(const struct dram_para *para);
+ 
+ #endif /* _SUNXI_DRAM_SUN50I_H616_H */
 diff --git a/arch/arm/mach-sunxi/dram_sun50i_h616.c b/arch/arm/mach-sunxi/dram_sun50i_h616.c
-index 1f9416d6eaf..02f6b2a06d4 100644
+index 02f6b2a06d4..e0ee764cec7 100644
 --- a/arch/arm/mach-sunxi/dram_sun50i_h616.c
 +++ b/arch/arm/mach-sunxi/dram_sun50i_h616.c
-@@ -31,7 +31,7 @@ enum {
- 	MBUS_QOS_HIGHEST
+@@ -92,7 +92,7 @@ static void mctl_set_master_priority(void)
+ 	dmb();
+ }
+ 
+-static void mctl_sys_init(struct dram_para *para)
++static void mctl_sys_init(u32 clk_rate)
+ {
+ 	struct sunxi_ccm_reg * const ccm =
+ 			(struct sunxi_ccm_reg *)SUNXI_CCM_BASE;
+@@ -114,7 +114,7 @@ static void mctl_sys_init(struct dram_para *para)
+ 
+ 	/* Set PLL5 rate to doubled DRAM clock rate */
+ 	writel(CCM_PLL5_CTRL_EN | CCM_PLL5_LOCK_EN | CCM_PLL5_OUT_EN |
+-	       CCM_PLL5_CTRL_N(para->clk * 2 / 24), &ccm->pll5_cfg);
++	       CCM_PLL5_CTRL_N(clk_rate * 2 / 24), &ccm->pll5_cfg);
+ 	mctl_await_completion(&ccm->pll5_cfg, CCM_PLL5_LOCK, CCM_PLL5_LOCK);
+ 
+ 	/* Configure DRAM mod clock */
+@@ -141,7 +141,7 @@ static void mctl_sys_init(struct dram_para *para)
+ 	writel(0x8000, &mctl_ctl->clken);
+ }
+ 
+-static void mctl_set_addrmap(struct dram_para *para)
++static void mctl_set_addrmap(const struct dram_para *para)
+ {
+ 	struct sunxi_mctl_ctl_reg * const mctl_ctl =
+ 			(struct sunxi_mctl_ctl_reg *)SUNXI_DRAM_CTL0_BASE;
+@@ -234,7 +234,7 @@ static const u8 phy_init[] = {
+ 	0x09, 0x05, 0x18
  };
  
--inline void mbus_configure_port(u8 port,
-+static void mbus_configure_port(u8 port,
- 				bool bwlimit,
- 				bool priority,
- 				u8 qos,
-diff --git a/arch/arm/mach-sunxi/dram_sunxi_dw.c b/arch/arm/mach-sunxi/dram_sunxi_dw.c
-index 4af5922f334..9382d3d0be8 100644
---- a/arch/arm/mach-sunxi/dram_sunxi_dw.c
-+++ b/arch/arm/mach-sunxi/dram_sunxi_dw.c
-@@ -81,15 +81,15 @@ enum {
- 	MBUS_QOS_HIGHEST
- };
+-static void mctl_phy_configure_odt(struct dram_para *para)
++static void mctl_phy_configure_odt(const struct dram_para *para)
+ {
+ 	unsigned int val;
  
--static inline void mbus_configure_port(u8 port,
--				       bool bwlimit,
--				       bool priority,
--				       u8 qos,         /* MBUS_QOS_LOWEST .. MBUS_QOS_HIGEST */
--				       u8 waittime,    /* 0 .. 0xf */
--				       u8 acs,         /* 0 .. 0xff */
--				       u16 bwl0,       /* 0 .. 0xffff, bandwidth limit in MB/s */
--				       u16 bwl1,
--				       u16 bwl2)
-+static void mbus_configure_port(u8 port,
-+				bool bwlimit,
-+				bool priority,
-+				u8 qos,         /* MBUS_QOS_LOWEST .. MBUS_QOS_HIGEST */
-+				u8 waittime,    /* 0 .. 0xf */
-+				u8 acs,         /* 0 .. 0xff */
-+				u16 bwl0,       /* 0 .. 0xffff, bandwidth limit in MB/s */
-+				u16 bwl1,
-+				u16 bwl2)
+@@ -281,7 +281,7 @@ static void mctl_phy_configure_odt(struct dram_para *para)
+ 	dmb();
+ }
+ 
+-static bool mctl_phy_write_leveling(struct dram_para *para)
++static bool mctl_phy_write_leveling(const struct dram_para *para)
+ {
+ 	bool result = true;
+ 	u32 val;
+@@ -336,7 +336,7 @@ static bool mctl_phy_write_leveling(struct dram_para *para)
+ 	return result;
+ }
+ 
+-static bool mctl_phy_read_calibration(struct dram_para *para)
++static bool mctl_phy_read_calibration(const struct dram_para *para)
+ {
+ 	bool result = true;
+ 	u32 val, tmp;
+@@ -395,7 +395,7 @@ static bool mctl_phy_read_calibration(struct dram_para *para)
+ 	return result;
+ }
+ 
+-static bool mctl_phy_read_training(struct dram_para *para)
++static bool mctl_phy_read_training(const struct dram_para *para)
+ {
+ 	u32 val1, val2, *ptr1, *ptr2;
+ 	bool result = true;
+@@ -484,7 +484,7 @@ static bool mctl_phy_read_training(struct dram_para *para)
+ 	return result;
+ }
+ 
+-static bool mctl_phy_write_training(struct dram_para *para)
++static bool mctl_phy_write_training(const struct dram_para *para)
+ {
+ 	u32 val1, val2, *ptr1, *ptr2;
+ 	bool result = true;
+@@ -572,7 +572,7 @@ static bool mctl_phy_write_training(struct dram_para *para)
+ 	return result;
+ }
+ 
+-static void mctl_phy_bit_delay_compensation(struct dram_para *para)
++static void mctl_phy_bit_delay_compensation(const struct dram_para *para)
+ {
+ 	u32 *ptr, val;
+ 	int i;
+@@ -773,7 +773,7 @@ static void mctl_phy_bit_delay_compensation(struct dram_para *para)
+ 	}
+ }
+ 
+-static void mctl_phy_ca_bit_delay_compensation(struct dram_para *para)
++static void mctl_phy_ca_bit_delay_compensation(const struct dram_para *para)
+ {
+ 	u32 val, *ptr;
+ 	int i;
+@@ -822,7 +822,7 @@ static void mctl_phy_ca_bit_delay_compensation(struct dram_para *para)
+ 	}
+ }
+ 
+-static bool mctl_phy_init(struct dram_para *para)
++static bool mctl_phy_init(const struct dram_para *para)
  {
  	struct sunxi_mctl_com_reg * const mctl_com =
  			(struct sunxi_mctl_com_reg *)SUNXI_DRAM_COM_BASE;
+@@ -991,7 +991,7 @@ static bool mctl_phy_init(struct dram_para *para)
+ 	return true;
+ }
+ 
+-static bool mctl_ctrl_init(struct dram_para *para)
++static bool mctl_ctrl_init(const struct dram_para *para)
+ {
+ 	struct sunxi_mctl_com_reg * const mctl_com =
+ 			(struct sunxi_mctl_com_reg *)SUNXI_DRAM_COM_BASE;
+@@ -1073,9 +1073,9 @@ static bool mctl_ctrl_init(struct dram_para *para)
+ 	return true;
+ }
+ 
+-static bool mctl_core_init(struct dram_para *para)
++static bool mctl_core_init(const struct dram_para *para)
+ {
+-	mctl_sys_init(para);
++	mctl_sys_init(para->clk);
+ 
+ 	return mctl_ctrl_init(para);
+ }
+@@ -1147,7 +1147,7 @@ static void mctl_auto_detect_dram_size(struct dram_para *para)
+ 	}
+ }
+ 
+-static unsigned long mctl_calc_size(struct dram_para *para)
++static unsigned long mctl_calc_size(const struct dram_para *para)
+ {
+ 	u8 width = para->bus_full_width ? 4 : 2;
+ 
+diff --git a/arch/arm/mach-sunxi/dram_timings/h616_ddr3_1333.c b/arch/arm/mach-sunxi/dram_timings/h616_ddr3_1333.c
+index eea4d6abec8..232b4fe2df7 100644
+--- a/arch/arm/mach-sunxi/dram_timings/h616_ddr3_1333.c
++++ b/arch/arm/mach-sunxi/dram_timings/h616_ddr3_1333.c
+@@ -15,7 +15,7 @@
+ #include <asm/arch/dram.h>
+ #include <asm/arch/cpu.h>
+ 
+-void mctl_set_timing_params(struct dram_para *para)
++void mctl_set_timing_params(const struct dram_para *para)
+ {
+ 	struct sunxi_mctl_ctl_reg * const mctl_ctl =
+ 			(struct sunxi_mctl_ctl_reg *)SUNXI_DRAM_CTL0_BASE;
 -- 
 2.35.8
 
