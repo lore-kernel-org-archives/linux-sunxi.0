@@ -1,147 +1,219 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CC81C3A
-	for <linux-sunxi@lists.linux.dev>; Wed,  7 Jun 2023 07:41:14 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4QbfJg6xQMz9smV;
-	Wed,  7 Jun 2023 09:35:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1686123332;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DQz0BkcH35hQLm3KjeljrzdxrPKkYEXuRwVXLyaLMKk=;
-	b=FT70/16Q8OGXxY+Rmc9LSho9yADPBkWrdZWlobH5A8EWzR/fHAWf/xyT1ttJKCEJK76zDB
-	DksuWzc/v9pg2SS6t+PyceoptaofhXe6GZgnZXlQA0SjgtH5OXApqIb11xAtkLgxlRWXW7
-	Jrpveca3LLoorR/iu/haCW4QC+p5DbXsF2xdVy66pAnm3tbfJWI1CZsb7amL6pU7c3u7dA
-	xglQTTVJuKd4YN/BtbmL78XExuW1zftU8ehzVMZ4Q17iacCyoWi/vZ73hV5byZWHrQqYuG
-	2BecKpAr456fhcYqE2jq5zLTOrvgzNs40rG7SjpaJ2+RcKNlg14682ERcdZuHw==
-References: <20230605190745.366882-1-frank@oltmanns.dev>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard
- <maxime@cerno.tech>, Michael Turquette <mturquette@baylibre.com>, Roman
- Beranek <me@crly.cz>, Samuel Holland <samuel@sholland.org>, Stephen Boyd
- <sboyd@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 0/2] clk: sunxi-ng: Consider alternative parent rates
- when determining NKM clock rate
-In-reply-to: <20230605190745.366882-1-frank@oltmanns.dev>
-Date: Wed, 07 Jun 2023 09:35:20 +0200
-Message-ID: <87legv2093.fsf@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49D913AD6
+	for <linux-sunxi@lists.linux.dev>; Wed,  7 Jun 2023 11:42:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28AEDC433D2;
+	Wed,  7 Jun 2023 11:42:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1686138144;
+	bh=KLtdS8YfUVeUIHmboqaXGQWETl5UWBvzrYSCepsSYQ0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ODkUrE1ZZL7RktgPYR1RuRY1/mao6dCbR5TofAsFB9BoZzWWgFy/Xfrt/gtW7DNis
+	 2hFcKb0vkYD2Ck1VvMfgD8cul59R8upUoQitve+aBxmQ/l8PlVhZPQY+Uoc96REuvb
+	 nOI9b/sk+pUDw1i6uTja6dhD2bldpWXla3vspk6ExiThxOcZPo2A/Kci9dYHA2obfq
+	 dUmqDk/C3GkMWdsqW/fo1c88tV2+HEvE06oPXSABxvCSeu09fGSdoi3T3f7ZKVSVIc
+	 iLkffTa7GAacQIH9QOVHzxWQwHRicKjZIeSYT/V4Cfq6vZ9OH40KK73IFtXIe4nv9l
+	 gtxZj9lYxal0Q==
+Date: Wed, 7 Jun 2023 13:42:21 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Frank Oltmanns <frank@oltmanns.dev>
+Cc: linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>, Icenowy Zheng <icenowy@aosc.io>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [RFC PATCH 0/3] clk: sunxi-ng: Optimize rate selection for NKM
+ clocks
+Message-ID: <jscgfo3ydkjmthlsnkuaxkyztajxekz37wiq7zbdcfoievkbfn@ebr2lm6he6ku>
+References: <20230527132747.83196-1-frank@oltmanns.dev>
+ <flngzi4henkzcpzwdexencdkw77h52g3nduup7pwctpwfiuznk@eewnnut5mvsq>
+ <87mt1jbf18.fsf@oltmanns.dev>
+ <uvjlkaq4drqsndpwwflmbfnxseiftkrhq5qqmpfx5vfmduazed@wcohoxcd23wc>
+ <87edmq9m2m.fsf@oltmanns.dev>
+ <xcgmqvdoip53yao4sfoznnppauhmsmdablwoewh43zjv3bhidp@d7pxqohxydve>
+ <87sfb41fhl.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jjn4z4f2oj3kdsmu"
+Content-Disposition: inline
+In-Reply-To: <87sfb41fhl.fsf@oltmanns.dev>
 
-On 2023-06-05 at 21:07:43 +0200, Frank Oltmanns <frank@oltmanns.dev> wrote:
-> I would like to share a patchset that enables the NKM clock in pll-video0 to
-> consider alternative parent rates. I have found this feature particularly useful
-> to adjust the pll-video0's clock on Allwinner A64, as it allows me to achieve an
-> optimal rate for driving the board's panel (in my case, the Pinephone).
->
-> To provide some context, the clock structure involved in this process is as follows:
->     clock                       clock type
->     --------------------------------------
->     pll-video0                  ccu_nm
->        pll-mipi                 ccu_nkm
->           tcon0                 ccu_mux
->              tcon-data-clock    sun4i_dclk
->
-> The divider between tcon0 and tcon-data-clock is fixed at 4. Therefore, in order
-> to achieve a rate that closely matches the desired rate of the panel, I need
-> pll-mipi to operate at a specific rate.
->
-> However, I must emphasize that setting the parent's rate for NKM clocks results
-> in a significant increase in the time required to find the optimal rate. For
-> instance, setting DCLK on the pinephone has seen a 60-fold increase in the time
-> taken, from approximately 0.5 ms to around 30 ms. These figures were obtained
-> through informal measurements on my pinephone, involving kernel logging and a
-> few reboots. The worst-case scenario observed was approximately 37 ms, while the
-> majority of cases were just under 30 ms.
->
-> The reason for this considerable increase in time is that the code now iterates
-> over all combinations of NKM for pll-mipi. For each combination, it subsequently
-> iterates over all combinations of NM for pll-video0.
 
-I don't know if this increase is problematic, but if it is, there are
-options to mitigate it:
- a. Binary search for finding parent rate:
-    Precalculate an _ordered_ table of meaningful combinations of NM for
-    pll-video0. That means that combinations that result in the same
-    clock rate shall only be listed once. For example, since both
-      { .n = 8, .m = 1} and  { .n = 16, .m = 2 }
-    are valid values for n and m, only one of them would be allowed
-    because both result in a factor of 8.
+--jjn4z4f2oj3kdsmu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-    Furthermore, the table should only contain combinations that can
-    result in a valid clock rate. I.e., since the parent is a fixed rate
-    clock at 24 MHz and the ccu_nm's min_rate is 192 MHz, the
-    combination
-      { .n = 1, .m = 1 }
-    should _not_ appear in the table as the resulting rate would be 96
-    MHz.
+On Tue, Jun 06, 2023 at 10:40:34PM +0200, Frank Oltmanns wrote:
+> Hi Maxime,
+>=20
+> On 2023-06-06 at 16:02:58 +0200, Maxime Ripard <mripard@kernel.org> wrote:
+> > [[PGP Signed Part:Undecided]]
+> > On Mon, Jun 05, 2023 at 12:31:41PM +0200, Frank Oltmanns wrote:
+> >> Hi Maxime,
+> >>
+> >> On 2023-06-02 at 09:31:59 +0200, Maxime Ripard <mripard@kernel.org> wr=
+ote:
+> >> > [[PGP Signed Part:Undecided]]
+> >> > Hi,
+> >> >
+> >> > On Thu, Jun 01, 2023 at 07:16:45AM +0200, Frank Oltmanns wrote:
+> >> >> On 2023-05-31 at 15:48:43 +0200, Maxime Ripard <mripard@kernel.org>=
+ wrote:
+> >> >> > [[PGP Signed Part:Undecided]]
+> >> >> > Hi Frank,
+> >> >> >
+> >> >> > On Sat, May 27, 2023 at 03:27:44PM +0200, Frank Oltmanns wrote:
+> >> >> >> I would like to bring your attention to the current process of s=
+etting
+> >> >> >> the rate of an NKM clock. As it stands, when setting the rate of=
+ an
+> >> >> >> NKM clock, the rate nearest but less than or equal to the reques=
+ted
+> >> >> >> rate is found, instead of the nearest rate.
+> >> >> >
+> >> >> > Yeah, it's actually pretty common, see clk_mux_determine_rate_fla=
+gs()
+> >> >> > for example. Some devices require that we don't overshoot, while =
+some
+> >> >> > prefer to have the closest rate.
+> >> >> >
+> >> >> > Both are fine, and it's a bit context specific which one we should
+> >> >> > favour. If we were to do anything, it would be to support both an=
+d let
+> >> >> > the clock driver select which behaviour it wants.
+> >> >> >
+> >> >>
+> >> >> Ok, understood. Thank you for the explanation! Now, I'm wondering if
+> >> >> anyone would be using such a flag, if I added it.
+> >> >
+> >> > I guess that's another thing :) If no-one is going to use it, why sh=
+ould
+> >> > we do it in the first place?
+> >> >
+> >> > But most likely the display and audio clocks are usually fairly ok w=
+ith
+> >> > overshooting a bit, and a closest rate is usually better.
+> >>
+> >> Ok, I dived a bit deeper into this, but, as far as I can tell, the
+> >> closest rate is not used anywhere in the sunxi-ng ccu driver. So, when
+> >> extending, e.g., the NM or NKM clock to support, one must also extend =
+at
+> >> least the mux clocks, because they expect rates less than the requested
+> >> rate. That seems to be quite the undertaking for only a small gain in
+> >> precision.
+> >
+> > mux clocks are using __clk_mux_determine_rate which should have the
+> > behaviour you want when CLK_MUX_ROUND_CLOSEST is set.
+>=20
+> https://elixir.bootlin.com/linux/v6.3.6/source/drivers/clk/sunxi-ng/ccu-s=
+un50i-a64.c#L539
+> is one example of a mux clock combined with a divider that is a bit more
+> complex. I didn't look too deeply, but it seemed to me, that it would
+> require two separate flags: One for the mux component and one for the
+> div component. Maybe I'm mistaken, but it seems to me that the concept
+> of having selected rates always be equal to or less than requested
+> rates, seems to be deeply ingrained in the sunxi-ng driver. I'm afraid
+> that I might miss some parts, therefore I abandoned that idea for now
+> (especially since I have only one board for testing).
 
-    Utilizing this table, we can then do a binary search in
-    ccu_nm_find_best instead of iterating over all combinations of NM.
+All the implementations (afaik) of the "composite" clocks we have that
+combine a mux and dividers eventually use ccu_mux_helper_determine_rate
+and divider_round_rate_parent. The last one can use
+CLK_DIVIDER_ROUND_CLOSEST, and you covered the first one in your patch.
+Which one did you leave out?
 
- b. rational_best_approximation for finding parent rate:
-    Using the rational best approximation from linux/rational.h for the
-    parent's rate also significantly reduces the time. Instead of
-    iterating over all combinations of NM, the algorithm uses continued
-    fractions to "calculate best rational approximation for a given
-    fraction taking into account restricted register size" (quote from
-    the function's description).
+> >> >> >> Moreover, ccu_nkm_find_best() is called multiple times (footnote=
+ [1])
+> >> >> >> when setting a rate, each time iterating over all combinations o=
+f n,
+> >> >> >> k, and m.
+> >> >> >
+> >> >> > Yeah, that's expected as well.
+> >> >>
+> >> >> I'm wondering though, if iterating over all combinations is set in
+> >> >> stone, or if some kind of optimization would be in order.
+> >> >
+> >> > The thing with optimization is that you need to optimize for somethi=
+ng.
+> >> > So you need to show that this code is suboptimal (by whatever metric=
+ you
+> >> > want to optimize for), and that your code is more optimal that it us=
+ed
+> >> > to be.
+> >> >
+> >> > It means identifying a problem, writing benchmarks, and showing that=
+ the
+> >> > new code performs better there.
+> >> >
+> >> > For example, your code might very well be faster, but it will increa=
+se
+> >> > the kernel image (and thus the RAM usage). One is not more optimal t=
+han
+> >> > the other in absolute, they both are, using a different metric.
+> >>
+> >> Sure, I get that. I'll submit a patchset that adds the functionality to
+> >> NKM clocks to set the rate of their parents.
+> >>
+> >> With the new patchset, the time for, e.g. setting DCLK increases from
+> >> ~0.5 ms to a whopping 30 - 37 ms. Those times were taken
+> >> unscientifically on my pinephone, i.e. kernel logging and a couple of
+> >> re-boots. But I think that still might give an idea of why I thought
+> >> about the need to increase performance.
+> >>
+> >> The reason for this massive increase is, that the patch iterates over
+> >> all combinations of NKM for pll-mipi, and for each combination it
+> >> iterates over all combinations of NM for pll-video0.
+> >>
+> >> Nevertheless, following your and Jernej's advice, I'll submit the
+> >> patchset first and then we can discuss if speed optimizations are need=
+ed
+> >> and what cost is acceptable.
+> >
+> > Honestly, for 40ms, it will be a hard sell :)
+>=20
+> I'm not sure what part you think is the "hard-sell":
+>  a. the patch itself because 30 to 40 ms is way too much
+>  b. the optimization, because 30 to 40 ms isn't all that much.
+> I honestly don't know.
+>=20
+> BTW, this is the patchset in case you missed it:
+> https://lore.kernel.org/lkml/20230605190745.366882-1-frank@oltmanns.dev/
+>=20
+> Note, that I have a patch in the works, which is similar to the one in
+> this thread, but for ccu_nm. Doing a binary search for finding the
+> parent rate of pll-mipi, i.e., pll-video0, reduces the time from ~30 ms
+> to less than 2 ms. If combined with only iterating through meaningful
+> nkm combinations for pll-mipi, this should bring the time under 1 ms
+> again.
 
-    This reduces the ccu_nm_find_best function to the following two
-    lines:
-       rational_best_approximation(rate, parent, nm->max_n, nm->max_m, &nm->n, &nm->m);
-       return ccu_nm_calc_rate(parent, nm->n, nm->m);
+My point is that:
 
-I did a rough implementation of both and found that both approaches
-reduce the time spent to set DCLK to less than 2 ms, i.e., not quite the
-original 0.5 ms, but not as bad as 30 ms.
+ * it's regression prone, so quite risky
 
-Option a. either requires addional ROM space if we generate the table
-off-line or some code to generate the table during initialization (which
-of course would also require time to execute, but only once).
+ * but if the endgoal is to gain 40ms once, at boot, without any use
+   case to back that up, there's basically no reward.
 
-Option b. finds the closest approximation, whereas the current
-implementation of ccu_nm_find_rate finds the closest rate that is less
-than the requested rate. This means that option b. requires that all of
-pll-video0's children (and grand-children a.s.o.) support rates higher
-than the requested rate. Currently, the sunxi-ng driver in a lot of
-places only expects rates that are less than the requested rate, so all
-of these would need to be changed.
+a high risk, low reward patch is what's hard to sell.
 
-So, my question: Is spending the 30 ms fine or do I need to optimize for
-speed in order for this patchset to be accepted? Or is 2 ms also too
-much of an increase, in which case I'm out of ideas. :-)
+Maxime
 
-I'm looking forward to receiving your feedback.
+--jjn4z4f2oj3kdsmu
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks,
-  Frank
+-----BEGIN PGP SIGNATURE-----
 
-> I greatly appreciate your feedback and suggestions for further improving this
-> patchset.
->
-> Thanks,
->   Frank
->
-> Frank Oltmanns (2):
->   clk: sunxi-ng: nkm: consider alternative parent rates when finding
->     rate
->   clk: sunxi-ng: a64: allow pll-mipi to set parent's rate
->
->  drivers/clk/sunxi-ng/ccu-sun50i-a64.c |  3 +-
->  drivers/clk/sunxi-ng/ccu_nkm.c        | 40 +++++++++++++++++++++------
->  2 files changed, 33 insertions(+), 10 deletions(-)
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZIBtHQAKCRDj7w1vZxhR
+xcbbAQDi9CqHyZ4Awx2jfBHXAwdVCXicmpGwuE4L9hIFEEdD2AEAshGCprSSUj7e
+GBrw4iJRatq6f1o32cOMY40VD9fBdQ8=
+=9gco
+-----END PGP SIGNATURE-----
+
+--jjn4z4f2oj3kdsmu--
