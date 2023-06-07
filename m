@@ -1,132 +1,161 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E70E07C
-	for <linux-sunxi@lists.linux.dev>; Wed,  7 Jun 2023 00:33:20 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7BD61AB6;
-	Tue,  6 Jun 2023 17:34:05 -0700 (PDT)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CC3843F587;
-	Tue,  6 Jun 2023 17:33:18 -0700 (PDT)
-Date: Wed, 7 Jun 2023 01:32:47 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Mikhail Kalashnikov <iuncuim@gmail.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Piotr
- Oniszczuk <piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/2]  sunxi: H616: add DRAM type selection
-Message-ID: <20230607013247.635759f1@slackpad.lan>
-In-Reply-To: <20230603135506.51071-2-iuncuim@gmail.com>
-References: <20230603135506.51071-1-iuncuim@gmail.com>
-	<20230603135506.51071-2-iuncuim@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 537EB7F7
+	for <linux-sunxi@lists.linux.dev>; Wed,  7 Jun 2023 06:38:45 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.west.internal (Postfix) with ESMTP id 819F432006F5;
+	Wed,  7 Jun 2023 02:38:43 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Wed, 07 Jun 2023 02:38:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm3; t=1686119923; x=1686206323; bh=l0
+	vXXY95syvCk1Dxy+Bo5t1mcRUMYlKrndUydypu8sI=; b=GJHiQ0c3OhGsZx8SlD
+	uTXfcMnULlyNjrLA0NC9ey8gQfsFcrTDJW5hVrJLW3n0e6AkLS+aYHEZZpsUoKXg
+	TwRysqEmLbj1cnjYcIbqXzuRTL+VACG2C3RGmEmzp+hKKekmlc5DXT5TEgrpg2CW
+	3W/Hs/pgWq2EYKLDgWYOhha+JUFfAY3RCO/QGLNCG5D/bXyzIcFDw9dNgZkJ9nN9
+	c1kn0NJG6H2JbD+57DkKH5A+27HzCQFLzUBU0v+6pLwkRnCzoTVlOjoqCjp9x6Uu
+	u6xLNjhCtxlXQqwHTFXyN2m7UxzKNA/EZUM0Eii64JdcEIFzXUpOUbWEnD+aMd5h
+	V4vg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1686119923; x=1686206323; bh=l0vXXY95syvCk
+	1Dxy+Bo5t1mcRUMYlKrndUydypu8sI=; b=M9mAnHYHjrlZmI9833eqLN1sdIMqY
+	qqmdqcg8D5TmVN06BDSp4nk76U2hXz8Ti7jwLW0wDwThGt23dLeFFTSncrvdFEGl
+	eHyh9KM/X+2/yeSS3DRSOK6T/PbcT/0BJo2Te8FjjYR+vuZes3QHMLzl1CAgHsZd
+	GMRta+wsRTrsXaDDwi7J99R8wPWjjJpQXieJYhWHLOsOFsVRwq1R+jbPk5GxO6ej
+	2r6NvUlGHWiBPUmCm2fyUVGBRDMWwgstm50++X0X24tXy1pZu9/x8vK7FQ1rt0oH
+	6YqjMYKSljFafWULdyfU8OOAnLBysMQB6y7CFFDns3mEndWz7Va0xGqyw==
+X-ME-Sender: <xms:8iWAZGUbnh_H6-Bq5D19fjuGrgXRJns04CVTG9VAm-bXsScEklq-GA>
+    <xme:8iWAZCmEAKIjq50d8hA39KOCaKiibsbJzv41FAZ4do4wgbtXUJu6zmBqGXEhqBzMl
+    Xs9ur6wWIGAsVkwzkM>
+X-ME-Received: <xmr:8iWAZKZzIcyTqUYmA6go58ahuoLSVOZcJAHypnagGfslZwpsuGbcpEyKYilEWATCDRcplh1n9pRizwVBPsbEdg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgedtfedgjedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
+    gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:8iWAZNXNEM5xZIz_7xay0oWm82X4SWSqSfwszVYB6ZMUE5j3aoEQTw>
+    <xmx:8iWAZAnGtIh6PdoQ1hNNcynrPw6e6Fa2roF6-IHdV06WsCkX-L578w>
+    <xmx:8iWAZCcEF36piLPPj-8snJt1C3I_BDGWHL_q8WakY3T1QfZYMV4PBg>
+    <xmx:8yWAZJfs7Mttgt9ACKom2onP7SddJGiFeiYaJo4VlII8QB9cFCJm5g>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 7 Jun 2023 02:38:41 -0400 (EDT)
+Date: Wed, 7 Jun 2023 08:38:39 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Frank Oltmanns <frank@oltmanns.dev>
+Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Roman Beranek <me@crly.cz>, Samuel Holland <samuel@sholland.org>, 
+	Stephen Boyd <sboyd@kernel.org>, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/2] clk: sunxi-ng: nkm: consider alternative parent
+ rates when finding rate
+Message-ID: <2bvcukogzhcdbfsrruylgw5fbezaqjpcojqaambfoiv5fc2upy@ffumn5sevbeb>
+References: <20230605190745.366882-1-frank@oltmanns.dev>
+ <20230605190745.366882-2-frank@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-
-On Sat,  3 Jun 2023 16:55:05 +0300
-Mikhail Kalashnikov <iuncuim@gmail.com> wrote:
-
-Hi Mikhail,
-
-> From: iuncuim <iuncuim@gmail.com>
-> 
-> Allwinner H616 SoC supports several types of DRAM memory. To further
-> integrate other types of memory, we need to add this delimitation.
-
-I realised that the patches are missing your Signed-off-by, which
-signify that your contributions comply with "the rules":
-https://u-boot.readthedocs.io/en/latest/develop/process.html#review-process-git-tags
-
-Can you please reply to both of your own patches and add this line
-after the commit message (like this text here)? I cannot merge the
-patches otherwise.
-
-Thanks,
-Andre
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fnkspghtkneaqrxj"
+Content-Disposition: inline
+In-Reply-To: <20230605190745.366882-2-frank@oltmanns.dev>
 
 
+--fnkspghtkneaqrxj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Jun 05, 2023 at 09:07:44PM +0200, Frank Oltmanns wrote:
+> In case the CLK_SET_RATE_PARENT flag is set, consider using a different
+> parent rate when determining a new rate.
+>=20
+> To find the best match for the requested rate, perform the following
+> steps for each NKM combination:
+>  - calculate the optimal parent rate,
+>  - find the best parent rate that the parent clock actually supports
+>  - use that parent rate to calculate the effective rate.
+>=20
+> In case the clk does not support setting the parent rate, use the same
+> algorithm as before.
+>=20
+> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
 > ---
->  arch/arm/mach-sunxi/Kconfig               | 12 ++++++++++--
->  arch/arm/mach-sunxi/dram_timings/Makefile |  3 +--
->  configs/orangepi_zero2_defconfig          |  1 +
->  configs/x96_mate_defconfig                |  1 +
->  4 files changed, 13 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-> index 6dcbb096f7..3ad37ef6ba 100644
-> --- a/arch/arm/mach-sunxi/Kconfig
-> +++ b/arch/arm/mach-sunxi/Kconfig
-> @@ -442,7 +442,7 @@ config ARM_BOOT_HOOK_RMR
->  	This allows both the SPL and the U-Boot proper to be entered in
->  	either mode and switch to AArch64 if needed.
->  
-> -if SUNXI_DRAM_DW || DRAM_SUN50I_H6
-> +if SUNXI_DRAM_DW || DRAM_SUN50I_H6 || DRAM_SUN50I_H616
->  config SUNXI_DRAM_DDR3
->  	bool
->  
-> @@ -487,6 +487,14 @@ config SUNXI_DRAM_H6_DDR3_1333
->  	This option is the DDR3 timing used by the boot0 on H6 TV boxes
->  	which use a DDR3-1333 timing.
->  
-> +config SUNXI_DRAM_H616_DDR3_1333
-> +	bool "DDR3-1333 boot0 timings on the H616 DRAM controller"
-> +	select SUNXI_DRAM_DDR3
-> +	depends on DRAM_SUN50I_H616
-> +	---help---
-> +	This option is the DDR3 timing used by the boot0 on H616 TV boxes
-> +	which use a DDR3-1333 timing.
-> +
->  config SUNXI_DRAM_DDR2_V3S
->  	bool "DDR2 found in V3s chip"
->  	select SUNXI_DRAM_DDR2
-> @@ -1075,4 +1083,4 @@ config CHIP_DIP_SCAN
->  	select W1_GPIO
->  	select W1_EEPROM
->  	select W1_EEPROM_DS24XXX
-> -	select CMD_EXTENSION
-> +	select CMD_EXTENSION
-> \ No newline at end of file
-> diff --git a/arch/arm/mach-sunxi/dram_timings/Makefile b/arch/arm/mach-sunxi/dram_timings/Makefile
-> index 39a8756c29..4d78c04c9a 100644
-> --- a/arch/arm/mach-sunxi/dram_timings/Makefile
-> +++ b/arch/arm/mach-sunxi/dram_timings/Makefile
-> @@ -3,5 +3,4 @@ obj-$(CONFIG_SUNXI_DRAM_LPDDR3_STOCK)	+= lpddr3_stock.o
->  obj-$(CONFIG_SUNXI_DRAM_DDR2_V3S)	+= ddr2_v3s.o
->  obj-$(CONFIG_SUNXI_DRAM_H6_LPDDR3)	+= h6_lpddr3.o
->  obj-$(CONFIG_SUNXI_DRAM_H6_DDR3_1333)	+= h6_ddr3_1333.o
-> -# currently only DDR3 is supported on H616
-> -obj-$(CONFIG_MACH_SUN50I_H616)		+= h616_ddr3_1333.o
-> +obj-$(CONFIG_SUNXI_DRAM_H616_DDR3_1333)	+= h616_ddr3_1333.o
-> diff --git a/configs/orangepi_zero2_defconfig b/configs/orangepi_zero2_defconfig
-> index 6cb942f511..e38cc20ac7 100644
-> --- a/configs/orangepi_zero2_defconfig
-> +++ b/configs/orangepi_zero2_defconfig
-> @@ -7,6 +7,7 @@ CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
->  CONFIG_DRAM_SUN50I_H616_CA_DRI=0x0e0e
->  CONFIG_DRAM_SUN50I_H616_TPR10=0xf83438
->  CONFIG_MACH_SUN50I_H616=y
-> +CONFIG_SUNXI_DRAM_H616_DDR3_1333=y
->  CONFIG_R_I2C_ENABLE=y
->  CONFIG_SPL_SPI_SUNXI=y
->  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
-> diff --git a/configs/x96_mate_defconfig b/configs/x96_mate_defconfig
-> index aedb327702..2a326bf202 100644
-> --- a/configs/x96_mate_defconfig
-> +++ b/configs/x96_mate_defconfig
-> @@ -11,6 +11,7 @@ CONFIG_DRAM_SUN50I_H616_TPR10=0x2f0007
->  CONFIG_DRAM_SUN50I_H616_TPR11=0xffffdddd
->  CONFIG_DRAM_SUN50I_H616_TPR12=0xfedf7557
->  CONFIG_MACH_SUN50I_H616=y
-> +CONFIG_SUNXI_DRAM_H616_DDR3_1333=y
->  CONFIG_R_I2C_ENABLE=y
->  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
->  CONFIG_SPL_I2C=y
+>  drivers/clk/sunxi-ng/ccu_nkm.c | 40 ++++++++++++++++++++++++++--------
+>  1 file changed, 31 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nk=
+m.c
+> index a0978a50edae..c71e237226f2 100644
+> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
+> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
+> @@ -16,10 +16,10 @@ struct _ccu_nkm {
+>  	unsigned long	m, min_m, max_m;
+>  };
+> =20
+> -static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned lo=
+ng rate,
+> -				       struct _ccu_nkm *nkm)
+> +static unsigned long ccu_nkm_find_best(unsigned long *parent, unsigned l=
+ong rate,
+> +				       struct _ccu_nkm *nkm, struct clk_hw *parent_hw)
+>  {
+> -	unsigned long best_rate =3D 0;
+> +	unsigned long best_rate =3D 0, best_parent_rate =3D 0, tmp_parent =3D *=
+parent;
+>  	unsigned long best_n =3D 0, best_k =3D 0, best_m =3D 0;
+>  	unsigned long _n, _k, _m;
+> =20
+> @@ -28,12 +28,29 @@ static unsigned long ccu_nkm_find_best(unsigned long =
+parent, unsigned long rate,
+>  			for (_m =3D nkm->min_m; _m <=3D nkm->max_m; _m++) {
+>  				unsigned long tmp_rate;
+> =20
+> -				tmp_rate =3D parent * _n * _k / _m;
+> +				if (parent_hw) {
 
+NKM clocks always have a parent
+
+You should test if the CLK_SET_RATE_PARENT flag is set.
+
+> +					// We must round up the desired parent rate, because the
+> +					// rounding down happens when calculating tmp_rate. If we
+> +					// round down also here, we'd round down twice.
+> +					unsigned long optimal_parent =3D
+> +							(rate * _m + (_n * _k - 1)) / _n / _k;
+
+I assume the addition of n * k - 1 is to round up, but I'm not sure we
+should hack around like that.
+
+You should compute the ideal parent rate for a given set of timings, and
+then just call round_rate on it. If the parent wants to round it one way
+or another, that's the parent concern.
+
+Maxime
+
+--fnkspghtkneaqrxj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZIAl7wAKCRDj7w1vZxhR
+xerlAQDWr/yez5kV9pcQ2Kr1uzw/lNbRaL9QI9UVILrM/4qy1wD9Hl/9uc6F2Lkh
+OeHo+WolA+trnRWUCbw5TGyF2XUgPwk=
+=SKoZ
+-----END PGP SIGNATURE-----
+
+--fnkspghtkneaqrxj--
