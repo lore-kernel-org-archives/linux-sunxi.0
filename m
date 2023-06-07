@@ -1,39 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49D913AD6
-	for <linux-sunxi@lists.linux.dev>; Wed,  7 Jun 2023 11:42:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28AEDC433D2;
-	Wed,  7 Jun 2023 11:42:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686138144;
-	bh=KLtdS8YfUVeUIHmboqaXGQWETl5UWBvzrYSCepsSYQ0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ODkUrE1ZZL7RktgPYR1RuRY1/mao6dCbR5TofAsFB9BoZzWWgFy/Xfrt/gtW7DNis
-	 2hFcKb0vkYD2Ck1VvMfgD8cul59R8upUoQitve+aBxmQ/l8PlVhZPQY+Uoc96REuvb
-	 nOI9b/sk+pUDw1i6uTja6dhD2bldpWXla3vspk6ExiThxOcZPo2A/Kci9dYHA2obfq
-	 dUmqDk/C3GkMWdsqW/fo1c88tV2+HEvE06oPXSABxvCSeu09fGSdoi3T3f7ZKVSVIc
-	 iLkffTa7GAacQIH9QOVHzxWQwHRicKjZIeSYT/V4Cfq6vZ9OH40KK73IFtXIe4nv9l
-	 gtxZj9lYxal0Q==
-Date: Wed, 7 Jun 2023 13:42:21 +0200
-From: Maxime Ripard <mripard@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E2934443
+	for <linux-sunxi@lists.linux.dev>; Wed,  7 Jun 2023 12:27:52 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id 9843E3200941;
+	Wed,  7 Jun 2023 08:27:50 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Wed, 07 Jun 2023 08:27:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm3; t=1686140870; x=1686227270; bh=/1
+	169bcX/O7cbil0YCwg8r2k4LkhwgcSR32DXzp12J0=; b=RflaOYKFt1vhwhMW6S
+	G1JQSFkuE21Oo/7xLPvc1ISuJvZabK5Bx2VwcH+8KIgVMjHnZs7HHSZC8qWsuxmI
+	8U3dVaYsrY+84Zqe4EKHXZEMuWYa0EJ+FvG3DDKTWfhGW91/X9VRx/Do2M+LwGxG
+	AaJxCPnVJeErZi2RXdzClKCywahJLSIf8B04zb66mqNh0ZzIHdOzVIs5iiqZHnDj
+	/UNohFoxgebHRzdmzwSgj/UDf8SIR5md5crtY3Hp0N+BvNuhqclLJUKpaxitlG1k
+	JK9er9LB0LmLRyBY+D3YeR+sBOrL7+VOYhO6TWsfrtfnHV1tS/d0CFa1jwIMbbk0
+	hvVg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1686140870; x=1686227270; bh=/1169bcX/O7cb
+	il0YCwg8r2k4LkhwgcSR32DXzp12J0=; b=KrAwFCYhzFrSNFYDnDByFpjNonwQz
+	ua6P+cEAuK3ExFCIqgMYz0K5vlj1GVTVS+V9L7Zq/TYLlq3b41otF8zF8KAd53QS
+	t2qF8+zbsQAqFbFu64DFDCmPJAZGqxo/58zev+f9n+oMuSFIskiEypJ5YuhZ6ia5
+	TFFjLA+9sNrqHbDNBeSlQEn1NribhNIvDyJHHaM33NZCbevGPZ3PZZBUGaFhhRzp
+	fANpkwtvW+bfw82N2z7/6OIZbu5IxMkBw2zPbS+/Z/rjOoMva/P810eUodfH7V8G
+	P/6lZlJv4y9pRVJXEIrK0raaoQMeeAVbRjANReGpEdMzz/0iSiLk8HDSQ==
+X-ME-Sender: <xms:xXeAZIzUn8ZhQYNkr2Ctb7MhHPzhx-DneWnfsj9okIMyjcaTQhdO-Q>
+    <xme:xXeAZMRjCcwIIgXpWXlH4UFoDyICBf5fiZGbjT7kKvZ_BfDDse61E0m98Rc4Ik2eF
+    MjcfDPFNAJZdczUOd0>
+X-ME-Received: <xmr:xXeAZKXqsTdm_xq_cuxl9YMf0FQxL7i1I-8pLYFcWJotIFJGcewXMAe1heuc3is4aqxcpgb_emlNqcddEhVeQg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgedtgedgheduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
+    gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:xXeAZGiSkDpoHuUiDAoWmJvMqaUOxkGT4ZNBjn1NSXXmtormPcSwrw>
+    <xmx:xXeAZKCKOzcNVNRcE5yERrh0kisivUGPW5I9S9yoY-LgB6hhFD45eA>
+    <xmx:xXeAZHJiTA_MXy6oRh3VeiIGcTQ--BBbGZi1qHrkQigDT87b00YIFw>
+    <xmx:xneAZO4EGt56rA9S8sAJ6QlMU4nK7a--3HMp6CMvJy2YLuiw6_SZ0w>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 7 Jun 2023 08:27:48 -0400 (EDT)
+Date: Wed, 7 Jun 2023 14:27:46 +0200
+From: Maxime Ripard <maxime@cerno.tech>
 To: Frank Oltmanns <frank@oltmanns.dev>
-Cc: linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>, Icenowy Zheng <icenowy@aosc.io>, 
+Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>, 
 	Jernej Skrabec <jernej.skrabec@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [RFC PATCH 0/3] clk: sunxi-ng: Optimize rate selection for NKM
- clocks
-Message-ID: <jscgfo3ydkjmthlsnkuaxkyztajxekz37wiq7zbdcfoievkbfn@ebr2lm6he6ku>
-References: <20230527132747.83196-1-frank@oltmanns.dev>
- <flngzi4henkzcpzwdexencdkw77h52g3nduup7pwctpwfiuznk@eewnnut5mvsq>
- <87mt1jbf18.fsf@oltmanns.dev>
- <uvjlkaq4drqsndpwwflmbfnxseiftkrhq5qqmpfx5vfmduazed@wcohoxcd23wc>
- <87edmq9m2m.fsf@oltmanns.dev>
- <xcgmqvdoip53yao4sfoznnppauhmsmdablwoewh43zjv3bhidp@d7pxqohxydve>
- <87sfb41fhl.fsf@oltmanns.dev>
+	Roman Beranek <me@crly.cz>, Samuel Holland <samuel@sholland.org>, 
+	Stephen Boyd <sboyd@kernel.org>, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 0/2] clk: sunxi-ng: Consider alternative parent rates
+ when determining NKM clock rate
+Message-ID: <vvmdk3fqtjt3jspxgvlbypdxajchymydshya5b5ivk3wfodwwr@yyi26m6toosh>
+References: <20230605190745.366882-1-frank@oltmanns.dev>
+ <87legv2093.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -41,179 +70,36 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jjn4z4f2oj3kdsmu"
+	protocol="application/pgp-signature"; boundary="uuxo73wcgiod7tfb"
 Content-Disposition: inline
-In-Reply-To: <87sfb41fhl.fsf@oltmanns.dev>
+In-Reply-To: <87legv2093.fsf@oltmanns.dev>
 
 
---jjn4z4f2oj3kdsmu
+--uuxo73wcgiod7tfb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 06, 2023 at 10:40:34PM +0200, Frank Oltmanns wrote:
-> Hi Maxime,
->=20
-> On 2023-06-06 at 16:02:58 +0200, Maxime Ripard <mripard@kernel.org> wrote:
-> > [[PGP Signed Part:Undecided]]
-> > On Mon, Jun 05, 2023 at 12:31:41PM +0200, Frank Oltmanns wrote:
-> >> Hi Maxime,
-> >>
-> >> On 2023-06-02 at 09:31:59 +0200, Maxime Ripard <mripard@kernel.org> wr=
-ote:
-> >> > [[PGP Signed Part:Undecided]]
-> >> > Hi,
-> >> >
-> >> > On Thu, Jun 01, 2023 at 07:16:45AM +0200, Frank Oltmanns wrote:
-> >> >> On 2023-05-31 at 15:48:43 +0200, Maxime Ripard <mripard@kernel.org>=
- wrote:
-> >> >> > [[PGP Signed Part:Undecided]]
-> >> >> > Hi Frank,
-> >> >> >
-> >> >> > On Sat, May 27, 2023 at 03:27:44PM +0200, Frank Oltmanns wrote:
-> >> >> >> I would like to bring your attention to the current process of s=
-etting
-> >> >> >> the rate of an NKM clock. As it stands, when setting the rate of=
- an
-> >> >> >> NKM clock, the rate nearest but less than or equal to the reques=
-ted
-> >> >> >> rate is found, instead of the nearest rate.
-> >> >> >
-> >> >> > Yeah, it's actually pretty common, see clk_mux_determine_rate_fla=
-gs()
-> >> >> > for example. Some devices require that we don't overshoot, while =
-some
-> >> >> > prefer to have the closest rate.
-> >> >> >
-> >> >> > Both are fine, and it's a bit context specific which one we should
-> >> >> > favour. If we were to do anything, it would be to support both an=
-d let
-> >> >> > the clock driver select which behaviour it wants.
-> >> >> >
-> >> >>
-> >> >> Ok, understood. Thank you for the explanation! Now, I'm wondering if
-> >> >> anyone would be using such a flag, if I added it.
-> >> >
-> >> > I guess that's another thing :) If no-one is going to use it, why sh=
-ould
-> >> > we do it in the first place?
-> >> >
-> >> > But most likely the display and audio clocks are usually fairly ok w=
-ith
-> >> > overshooting a bit, and a closest rate is usually better.
-> >>
-> >> Ok, I dived a bit deeper into this, but, as far as I can tell, the
-> >> closest rate is not used anywhere in the sunxi-ng ccu driver. So, when
-> >> extending, e.g., the NM or NKM clock to support, one must also extend =
-at
-> >> least the mux clocks, because they expect rates less than the requested
-> >> rate. That seems to be quite the undertaking for only a small gain in
-> >> precision.
-> >
-> > mux clocks are using __clk_mux_determine_rate which should have the
-> > behaviour you want when CLK_MUX_ROUND_CLOSEST is set.
->=20
-> https://elixir.bootlin.com/linux/v6.3.6/source/drivers/clk/sunxi-ng/ccu-s=
-un50i-a64.c#L539
-> is one example of a mux clock combined with a divider that is a bit more
-> complex. I didn't look too deeply, but it seemed to me, that it would
-> require two separate flags: One for the mux component and one for the
-> div component. Maybe I'm mistaken, but it seems to me that the concept
-> of having selected rates always be equal to or less than requested
-> rates, seems to be deeply ingrained in the sunxi-ng driver. I'm afraid
-> that I might miss some parts, therefore I abandoned that idea for now
-> (especially since I have only one board for testing).
+On Wed, Jun 07, 2023 at 09:35:20AM +0200, Frank Oltmanns wrote:
+> So, my question: Is spending the 30 ms fine or do I need to optimize for
+> speed in order for this patchset to be accepted? Or is 2 ms also too
+> much of an increase, in which case I'm out of ideas. :-)
 
-All the implementations (afaik) of the "composite" clocks we have that
-combine a mux and dividers eventually use ccu_mux_helper_determine_rate
-and divider_round_rate_parent. The last one can use
-CLK_DIVIDER_ROUND_CLOSEST, and you covered the first one in your patch.
-Which one did you leave out?
+You keep mentioning it, but it's really not clear to me why you think
+that both are intertwined, or depend on one another?
 
-> >> >> >> Moreover, ccu_nkm_find_best() is called multiple times (footnote=
- [1])
-> >> >> >> when setting a rate, each time iterating over all combinations o=
-f n,
-> >> >> >> k, and m.
-> >> >> >
-> >> >> > Yeah, that's expected as well.
-> >> >>
-> >> >> I'm wondering though, if iterating over all combinations is set in
-> >> >> stone, or if some kind of optimization would be in order.
-> >> >
-> >> > The thing with optimization is that you need to optimize for somethi=
-ng.
-> >> > So you need to show that this code is suboptimal (by whatever metric=
- you
-> >> > want to optimize for), and that your code is more optimal that it us=
-ed
-> >> > to be.
-> >> >
-> >> > It means identifying a problem, writing benchmarks, and showing that=
- the
-> >> > new code performs better there.
-> >> >
-> >> > For example, your code might very well be faster, but it will increa=
-se
-> >> > the kernel image (and thus the RAM usage). One is not more optimal t=
-han
-> >> > the other in absolute, they both are, using a different metric.
-> >>
-> >> Sure, I get that. I'll submit a patchset that adds the functionality to
-> >> NKM clocks to set the rate of their parents.
-> >>
-> >> With the new patchset, the time for, e.g. setting DCLK increases from
-> >> ~0.5 ms to a whopping 30 - 37 ms. Those times were taken
-> >> unscientifically on my pinephone, i.e. kernel logging and a couple of
-> >> re-boots. But I think that still might give an idea of why I thought
-> >> about the need to increase performance.
-> >>
-> >> The reason for this massive increase is, that the patch iterates over
-> >> all combinations of NKM for pll-mipi, and for each combination it
-> >> iterates over all combinations of NM for pll-video0.
-> >>
-> >> Nevertheless, following your and Jernej's advice, I'll submit the
-> >> patchset first and then we can discuss if speed optimizations are need=
-ed
-> >> and what cost is acceptable.
-> >
-> > Honestly, for 40ms, it will be a hard sell :)
->=20
-> I'm not sure what part you think is the "hard-sell":
->  a. the patch itself because 30 to 40 ms is way too much
->  b. the optimization, because 30 to 40 ms isn't all that much.
-> I honestly don't know.
->=20
-> BTW, this is the patchset in case you missed it:
-> https://lore.kernel.org/lkml/20230605190745.366882-1-frank@oltmanns.dev/
->=20
-> Note, that I have a patch in the works, which is similar to the one in
-> this thread, but for ccu_nm. Doing a binary search for finding the
-> parent rate of pll-mipi, i.e., pll-video0, reduces the time from ~30 ms
-> to less than 2 ms. If combined with only iterating through meaningful
-> nkm combinations for pll-mipi, this should bring the time under 1 ms
-> again.
-
-My point is that:
-
- * it's regression prone, so quite risky
-
- * but if the endgoal is to gain 40ms once, at boot, without any use
-   case to back that up, there's basically no reward.
-
-a high risk, low reward patch is what's hard to sell.
+What's wrong with just merging (some later version of) this series?
 
 Maxime
 
---jjn4z4f2oj3kdsmu
+--uuxo73wcgiod7tfb
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZIBtHQAKCRDj7w1vZxhR
-xcbbAQDi9CqHyZ4Awx2jfBHXAwdVCXicmpGwuE4L9hIFEEdD2AEAshGCprSSUj7e
-GBrw4iJRatq6f1o32cOMY40VD9fBdQ8=
-=9gco
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZIB3wgAKCRDj7w1vZxhR
+xQGDAP9ZWebC3BinDPK4gGWLRjD0HNZE0Gw5+meDWojq2+LmcwD8DB3cp2GP9ALZ
+r3Q4b6tCW9B0o8N6153GQBAVONzS8AY=
+=HfoE
 -----END PGP SIGNATURE-----
 
---jjn4z4f2oj3kdsmu--
+--uuxo73wcgiod7tfb--
