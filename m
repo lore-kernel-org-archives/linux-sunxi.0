@@ -1,105 +1,86 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E2934443
-	for <linux-sunxi@lists.linux.dev>; Wed,  7 Jun 2023 12:27:52 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id 9843E3200941;
-	Wed,  7 Jun 2023 08:27:50 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Wed, 07 Jun 2023 08:27:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1686140870; x=1686227270; bh=/1
-	169bcX/O7cbil0YCwg8r2k4LkhwgcSR32DXzp12J0=; b=RflaOYKFt1vhwhMW6S
-	G1JQSFkuE21Oo/7xLPvc1ISuJvZabK5Bx2VwcH+8KIgVMjHnZs7HHSZC8qWsuxmI
-	8U3dVaYsrY+84Zqe4EKHXZEMuWYa0EJ+FvG3DDKTWfhGW91/X9VRx/Do2M+LwGxG
-	AaJxCPnVJeErZi2RXdzClKCywahJLSIf8B04zb66mqNh0ZzIHdOzVIs5iiqZHnDj
-	/UNohFoxgebHRzdmzwSgj/UDf8SIR5md5crtY3Hp0N+BvNuhqclLJUKpaxitlG1k
-	JK9er9LB0LmLRyBY+D3YeR+sBOrL7+VOYhO6TWsfrtfnHV1tS/d0CFa1jwIMbbk0
-	hvVg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1686140870; x=1686227270; bh=/1169bcX/O7cb
-	il0YCwg8r2k4LkhwgcSR32DXzp12J0=; b=KrAwFCYhzFrSNFYDnDByFpjNonwQz
-	ua6P+cEAuK3ExFCIqgMYz0K5vlj1GVTVS+V9L7Zq/TYLlq3b41otF8zF8KAd53QS
-	t2qF8+zbsQAqFbFu64DFDCmPJAZGqxo/58zev+f9n+oMuSFIskiEypJ5YuhZ6ia5
-	TFFjLA+9sNrqHbDNBeSlQEn1NribhNIvDyJHHaM33NZCbevGPZ3PZZBUGaFhhRzp
-	fANpkwtvW+bfw82N2z7/6OIZbu5IxMkBw2zPbS+/Z/rjOoMva/P810eUodfH7V8G
-	P/6lZlJv4y9pRVJXEIrK0raaoQMeeAVbRjANReGpEdMzz/0iSiLk8HDSQ==
-X-ME-Sender: <xms:xXeAZIzUn8ZhQYNkr2Ctb7MhHPzhx-DneWnfsj9okIMyjcaTQhdO-Q>
-    <xme:xXeAZMRjCcwIIgXpWXlH4UFoDyICBf5fiZGbjT7kKvZ_BfDDse61E0m98Rc4Ik2eF
-    MjcfDPFNAJZdczUOd0>
-X-ME-Received: <xmr:xXeAZKXqsTdm_xq_cuxl9YMf0FQxL7i1I-8pLYFcWJotIFJGcewXMAe1heuc3is4aqxcpgb_emlNqcddEhVeQg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgedtgedgheduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
-    gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:xXeAZGiSkDpoHuUiDAoWmJvMqaUOxkGT4ZNBjn1NSXXmtormPcSwrw>
-    <xmx:xXeAZKCKOzcNVNRcE5yERrh0kisivUGPW5I9S9yoY-LgB6hhFD45eA>
-    <xmx:xXeAZHJiTA_MXy6oRh3VeiIGcTQ--BBbGZi1qHrkQigDT87b00YIFw>
-    <xmx:xneAZO4EGt56rA9S8sAJ6QlMU4nK7a--3HMp6CMvJy2YLuiw6_SZ0w>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Jun 2023 08:27:48 -0400 (EDT)
-Date: Wed, 7 Jun 2023 14:27:46 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Roman Beranek <me@crly.cz>, Samuel Holland <samuel@sholland.org>, 
-	Stephen Boyd <sboyd@kernel.org>, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 0/2] clk: sunxi-ng: Consider alternative parent rates
- when determining NKM clock rate
-Message-ID: <vvmdk3fqtjt3jspxgvlbypdxajchymydshya5b5ivk3wfodwwr@yyi26m6toosh>
-References: <20230605190745.366882-1-frank@oltmanns.dev>
- <87legv2093.fsf@oltmanns.dev>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91F4EA2A
+	for <linux-sunxi@lists.linux.dev>; Thu,  8 Jun 2023 00:31:12 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C1A9FAB6;
+	Wed,  7 Jun 2023 17:31:56 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 599A13F71E;
+	Wed,  7 Jun 2023 17:31:10 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>,
+	u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev,
+	Sam Edwards <CFSworks@gmail.com>
+Subject: Pull request: u-boot-sunxi/master for 2023.07
+Date: Thu,  8 Jun 2023 01:30:36 +0100
+Message-Id: <20230608003036.12179-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.8
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="uuxo73wcgiod7tfb"
-Content-Disposition: inline
-In-Reply-To: <87legv2093.fsf@oltmanns.dev>
+Content-Transfer-Encoding: 8bit
 
+Hi Tom,
 
---uuxo73wcgiod7tfb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+a small late pull request for Allwinner. The main feature is just a DT
+update, matching the v6.4 Linux kernel DT files. This also enables a board
+(LCTech Pi F1C200s) which got its .dts file merged into Linux. Plus a tiny
+typo fix from Sam.
 
-On Wed, Jun 07, 2023 at 09:35:20AM +0200, Frank Oltmanns wrote:
-> So, my question: Is spending the 30 ms fine or do I need to optimize for
-> speed in order for this patchset to be accepted? Or is 2 ms also too
-> much of an increase, in which case I'm out of ideas. :-)
+Gitlab CI passed, briefly tested on an H616 board and the new LCTech Pi.
 
-You keep mentioning it, but it's really not clear to me why you think
-that both are intertwined, or depend on one another?
+Thanks,
+Andre
 
-What's wrong with just merging (some later version of) this series?
+========================
+The following changes since commit 0a8a4b86422650d6955a2382796089735453902d:
 
-Maxime
+  Merge tag 'u-boot-amlogic-20230607' of https://source.denx.de/u-boot/custodians/u-boot-amlogic (2023-06-07 12:17:06 -0400)
 
---uuxo73wcgiod7tfb
-Content-Type: application/pgp-signature; name="signature.asc"
+are available in the Git repository at:
 
------BEGIN PGP SIGNATURE-----
+  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZIB3wgAKCRDj7w1vZxhR
-xQGDAP9ZWebC3BinDPK4gGWLRjD0HNZE0Gw5+meDWojq2+LmcwD8DB3cp2GP9ALZ
-r3Q4b6tCW9B0o8N6153GQBAVONzS8AY=
-=HfoE
------END PGP SIGNATURE-----
+for you to fetch changes up to 9bc6f1a4d08261032d60836ea1dd6f2e98889060:
 
---uuxo73wcgiod7tfb--
+  sunxi: Fix typo in include guard (2023-06-07 22:45:02 +0100)
+
+----------------------------------------------------------------
+Andre Przywara (2):
+      sunxi: dts: arm/arm64: update devicetree files from Linux-v6.4-rc2
+      sunxi: defconfig: Add Lctech Pi F1C200s board
+
+Sam Edwards (1):
+      sunxi: Fix typo in include guard
+
+ arch/arm/dts/axp22x.dtsi                     |  6 +++
+ arch/arm/dts/axp809.dtsi                     |  7 +++
+ arch/arm/dts/axp81x.dtsi                     | 14 -----
+ arch/arm/dts/sun50i-a64.dtsi                 |  1 +
+ arch/arm/dts/sun50i-h5-orangepi-pc2.dts      |  1 +
+ arch/arm/dts/sun5i-gr8-chip-pro.dts          |  2 +-
+ arch/arm/dts/sun5i-r8-chip.dts               |  2 +-
+ arch/arm/dts/sun6i-a31.dtsi                  | 12 ++---
+ arch/arm/dts/sun6i-a31s-sina31s.dts          |  2 +-
+ arch/arm/dts/sun8i-a23-a33.dtsi              | 10 ++--
+ arch/arm/dts/sun8i-a33.dtsi                  |  1 +
+ arch/arm/dts/sun8i-a83t-bananapi-m3.dts      | 15 ++++++
+ arch/arm/dts/sun8i-h3-beelink-x2.dts         |  2 +-
+ arch/arm/dts/sun8i-h3-nanopi-duo2.dts        |  2 +-
+ arch/arm/dts/sun8i-v3s.dtsi                  |  6 +--
+ arch/arm/dts/suniv-f1c100s-licheepi-nano.dts | 16 ++++++
+ arch/arm/dts/suniv-f1c100s.dtsi              | 32 +++++++++++
+ arch/arm/dts/suniv-f1c200s-lctech-pi.dts     | 76 ++++++++++++++++++++++++++
+ arch/arm/dts/suniv-f1c200s-popstick-v1.1.dts | 81 ++++++++++++++++++++++++++++
+ arch/arm/dts/sunxi-h3-h5.dtsi                |  8 +--
+ arch/arm/include/asm/arch-sunxi/pmic_bus.h   |  2 +-
+ configs/lctech_pi_f1c200s_defconfig          | 11 ++++
+ 22 files changed, 271 insertions(+), 38 deletions(-)
+ create mode 100644 arch/arm/dts/suniv-f1c200s-lctech-pi.dts
+ create mode 100644 arch/arm/dts/suniv-f1c200s-popstick-v1.1.dts
+ create mode 100644 configs/lctech_pi_f1c200s_defconfig
