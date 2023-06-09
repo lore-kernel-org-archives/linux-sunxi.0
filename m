@@ -1,43 +1,43 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99772099E
-	for <linux-sunxi@lists.linux.dev>; Fri,  9 Jun 2023 20:24:21 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3f7fcdc7f7fso14865935e9.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 09 Jun 2023 13:24:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77A52099E
+	for <linux-sunxi@lists.linux.dev>; Fri,  9 Jun 2023 20:24:51 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-30ad458f085so1669170f8f.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 09 Jun 2023 13:24:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686342259; x=1688934259;
+        d=gmail.com; s=20221208; t=1686342290; x=1688934290;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xMTes3OxnfA3t+27kxDYxz3y9N4WXv85X5IeEuv81Lo=;
-        b=juEG/9xkGOZznHg5VN6YU8YNgUAbU5HN+C1JNiOpFShgY2+5AQ0lpdWpmhDWIUkn7S
-         Pv6I3jzgC/iLh8uDAqaLIcBBesX26eAX8Vo8j/9Bt7bMwAp3218S62WZ9OM+cPnhKbKt
-         Qke6WKP1aESqBV3Ii1J2GeAAitQCvLjcooU2t1Of6blrc6nbp7RnmplgUqK0ITjn2/Qq
-         WX24Z56uwGq5mLAKGqnjYSa4UUXsqjM1Aw86PrcywcdSg17i2H4QFz77feG2a85q8VyK
-         tPCYAuGt//58dWVQOwdoOrtJMh1omryZ6xbuiHRE9NV4dCmoO0xb57Ie2+6qCsZrQNUG
-         DNeg==
+        bh=VJmj9RC7JrITIeRp5vwXnIagysFthIp7E3tpcobsSj8=;
+        b=aYWGftir4Nc0j9T69cdUswXKfbAiXdRkiRgLgMGsiBKusnCe0+DlWwb2yuuvn72HwJ
+         X4IezSIQPb7u3npkdJlqOoO6d6I+c6TtF/kuMbde4JJc+HGIdu2KSDj8fLIE4fEwupXN
+         Sf+ZHOUuw/wetUP04lLZI9+Jup0vc8i988wlPVX7YLPhbQvNXohLlZzK013zifGCM3hA
+         KEevlSG1sXKznJkQPUJtjjGo9yKjAQhq+qjzXXqX2upGqtKHqHNZEP0UepaxdENiRoLj
+         jbKYABKNqj/i+ytjice+rPCoDDZ3dfEILnNM3Q1GKvCrFeJdbttiZYIjTzeJXeGIzBRU
+         cH+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686342259; x=1688934259;
+        d=1e100.net; s=20221208; t=1686342290; x=1688934290;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xMTes3OxnfA3t+27kxDYxz3y9N4WXv85X5IeEuv81Lo=;
-        b=IU7lYncUYfYRriSUHp4miFTQZCC03Xw26EvpQWbBGeAe3w0evbo+QOvgQO39Uh8uw9
-         P4AmfdVghFMVDnMW5aMYy4Db/o1SrCbOCljSW+OtrYjz/JQu2PwymOw3c6C704FTiDHj
-         BUnlMsGK+p6UUSM//0WMoE1hI+Bw4MGGtJJSunfVzpptsBiRmVJc0qtVi/R22vEF9xKj
-         L6Yntt0IJjPG+icRuuVzWWNUUOkpeunoiscfEQfSleLI8HdFDEaJTZed1bkV70SuUSCr
-         YoZxSJ3E9nidwvw27ojuvMoFSsAa6WDWbZWdacSDRHsyPFTED/vekHKARRywfqx1ES//
-         Q1Mw==
-X-Gm-Message-State: AC+VfDyt8hcN9D38CxLg+PmeJTHwPqfGEz9LsnqNeBtbqgxyCUG/SqSY
-	hCaBy0NgeWDL0FEwnZpH3Jc=
-X-Google-Smtp-Source: ACHHUZ4gRf5v66n+PObXVESQBfokis9kRfi+90ru8Gb4hvTcNLXbCkp8hkf7C6QYtJaqVmpIMGawMw==
-X-Received: by 2002:a05:600c:4c17:b0:3f7:3284:4e51 with SMTP id d23-20020a05600c4c1700b003f732844e51mr4681845wmp.4.1686342259331;
-        Fri, 09 Jun 2023 13:24:19 -0700 (PDT)
+        bh=VJmj9RC7JrITIeRp5vwXnIagysFthIp7E3tpcobsSj8=;
+        b=RaZKdxdH8UY1OsQLQfZtIEx6DZ0HCmclScJLqRZ8wjMvx/Ikm57HZwglX1dReghFXO
+         LCdK8KTbM7Re7YxfXuNiIlI+sJItw8BpNefLICYihdcF6ugfW1A0ZNnnLY0EpB4nN25T
+         jZBdtmvueOmkI7idrxvMyGAK4zznTT/bPbFnqml1nf6D5k0dceCQ9KlAf6RHLg9TSkMU
+         sI0ZVwqeaKNhSirLb3uAiZpz3npKy2JglonpNnfTzSVIGkQkuOdVRnps9/8rDRhsuphX
+         c0nRzyrMoEhuWYQ/aPHNtW55bHLhzcsQTSJn/2kYRLdACZkPpvE6tmGvYuOzZ6a+A6py
+         IEHg==
+X-Gm-Message-State: AC+VfDxWO+By/n1XGH4ap1i/5YdebjdUmLUEhLsB9Tl52zq2uHZHi8wR
+	EXmfqrlhg3HMwcoPhsH4m44=
+X-Google-Smtp-Source: ACHHUZ6ZBgWscntQGExTdvlE8rW0jJ4+GYUdtTFcY43K2guECx9whpzgsfcxffLEmh9mnGD8p+JECQ==
+X-Received: by 2002:adf:dc83:0:b0:30a:e901:bc66 with SMTP id r3-20020adfdc83000000b0030ae901bc66mr2290935wrj.5.1686342289715;
+        Fri, 09 Jun 2023 13:24:49 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id z10-20020a05600c220a00b003f735d6fa74sm3643498wml.9.2023.06.09.13.24.18
+        by smtp.gmail.com with ESMTPSA id a9-20020a5d5089000000b0030ae973c2e7sm5294671wrt.83.2023.06.09.13.24.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jun 2023 13:24:18 -0700 (PDT)
+        Fri, 09 Jun 2023 13:24:49 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Jagan Teki <jagan@amarulasolutions.com>,
  Mikhail Kalashnikov <iuncuim@gmail.com>,
@@ -45,13 +45,13 @@ To: Jagan Teki <jagan@amarulasolutions.com>,
 Cc: Samuel Holland <samuel@sholland.org>, Icenowy Zheng <uwu@icenowy.me>,
  Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de,
  linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/5] sunxi: dram: make MBUS configuration functions static
-Date: Fri, 09 Jun 2023 22:24:18 +0200
-Message-ID: <5943646.lOV4Wx5bFT@jernej-laptop>
-In-Reply-To: <20230607000745.10245-2-andre.przywara@arm.com>
+Subject: Re: [PATCH 2/5] sunxi: H616: dram: const-ify DRAM function parameters
+Date: Fri, 09 Jun 2023 22:24:48 +0200
+Message-ID: <4490774.LvFx2qVVIh@jernej-laptop>
+In-Reply-To: <20230607000745.10245-3-andre.przywara@arm.com>
 References:
  <20230607000745.10245-1-andre.przywara@arm.com>
- <20230607000745.10245-2-andre.przywara@arm.com>
+ <20230607000745.10245-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,99 +61,20 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne sreda, 07. junij 2023 ob 02:07:41 CEST je Andre Przywara napisal(a):
-> The usage of the C keyword "inline" seems to be a common
-> misunderstanding: it's a *hint* only, and modern compilers will inline
-> (or not) functions based on their own judgement and provided compiler
-> options.
-> So while marking functions as "inline" does not do much, missing the
-> "static" keyword will force to compiler to spell out a version of the
-> function for potential external callers, which actually increases the
-> code size (though hopefully the linker will drop the function).
-> 
-> Change the "inline" attribute for the mbus_configure_port() functions in
-> some Allwinner DRAM drivers to "static", so that the explicit version
-> can actually be dropped from the object file, reducing the code size.
-> 
-> "static inline" has a use case in header files, where it avoids a warning
-> if a .c file including this header does not use the particular function.
-> In a .c file itself "static inline" is not useful otherwise, so just use
-> static here as well.
+Dne sreda, 07. junij 2023 ob 02:07:42 CEST je Andre Przywara napisal(a):
+> There are quite some functions in the Allwinner H616 DRAM "driver", some
+> of them actually change the parameters in the structure passed to them,
+> but many are actually not.
+> To increase the optimisation potential for the code, mark those functions
+> that just read members of the passed dram_para struct as "const".
+> This in itself does not decrease the code size, but lays the groundwork
+> for future changes doing so.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-
-Nice catch! Could it be put into common functions? These functions look the
-same. Anyway:
 
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
-> ---
->  arch/arm/mach-sunxi/dram_sun50i_h6.c   |  3 ++-
->  arch/arm/mach-sunxi/dram_sun50i_h616.c |  2 +-
->  arch/arm/mach-sunxi/dram_sunxi_dw.c    | 18 +++++++++---------
->  3 files changed, 12 insertions(+), 11 deletions(-)
-> 
-> diff --git a/arch/arm/mach-sunxi/dram_sun50i_h6.c b/arch/arm/mach-sunxi/dram_sun50i_h6.c
-> index b332f3a3e4a..bff2e42513c 100644
-> --- a/arch/arm/mach-sunxi/dram_sun50i_h6.c
-> +++ b/arch/arm/mach-sunxi/dram_sun50i_h6.c
-> @@ -93,7 +93,8 @@ enum {
->  	MBUS_QOS_HIGH,
->  	MBUS_QOS_HIGHEST
->  };
-> -inline void mbus_configure_port(u8 port,
-> +
-> +static void mbus_configure_port(u8 port,
->  				bool bwlimit,
->  				bool priority,
->  				u8 qos,
-> diff --git a/arch/arm/mach-sunxi/dram_sun50i_h616.c b/arch/arm/mach-sunxi/dram_sun50i_h616.c
-> index 1f9416d6eaf..02f6b2a06d4 100644
-> --- a/arch/arm/mach-sunxi/dram_sun50i_h616.c
-> +++ b/arch/arm/mach-sunxi/dram_sun50i_h616.c
-> @@ -31,7 +31,7 @@ enum {
->  	MBUS_QOS_HIGHEST
->  };
->  
-> -inline void mbus_configure_port(u8 port,
-> +static void mbus_configure_port(u8 port,
->  				bool bwlimit,
->  				bool priority,
->  				u8 qos,
-> diff --git a/arch/arm/mach-sunxi/dram_sunxi_dw.c b/arch/arm/mach-sunxi/dram_sunxi_dw.c
-> index 4af5922f334..9382d3d0be8 100644
-> --- a/arch/arm/mach-sunxi/dram_sunxi_dw.c
-> +++ b/arch/arm/mach-sunxi/dram_sunxi_dw.c
-> @@ -81,15 +81,15 @@ enum {
->  	MBUS_QOS_HIGHEST
->  };
->  
-> -static inline void mbus_configure_port(u8 port,
-> -				       bool bwlimit,
-> -				       bool priority,
-> -				       u8 qos,         /* MBUS_QOS_LOWEST .. MBUS_QOS_HIGEST */
-> -				       u8 waittime,    /* 0 .. 0xf */
-> -				       u8 acs,         /* 0 .. 0xff */
-> -				       u16 bwl0,       /* 0 .. 0xffff, bandwidth limit in MB/s */
-> -				       u16 bwl1,
-> -				       u16 bwl2)
-> +static void mbus_configure_port(u8 port,
-> +				bool bwlimit,
-> +				bool priority,
-> +				u8 qos,         /* MBUS_QOS_LOWEST .. MBUS_QOS_HIGEST */
-> +				u8 waittime,    /* 0 .. 0xf */
-> +				u8 acs,         /* 0 .. 0xff */
-> +				u16 bwl0,       /* 0 .. 0xffff, bandwidth limit in MB/s */
-> +				u16 bwl1,
-> +				u16 bwl2)
->  {
->  	struct sunxi_mctl_com_reg * const mctl_com =
->  			(struct sunxi_mctl_com_reg *)SUNXI_DRAM_COM_BASE;
-> 
-
-
 
 
