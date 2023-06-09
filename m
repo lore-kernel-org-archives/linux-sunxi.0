@@ -1,26 +1,89 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1430310950
-	for <linux-sunxi@lists.linux.dev>; Fri,  9 Jun 2023 10:56:33 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BF218139F;
-	Fri,  9 Jun 2023 03:57:17 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4CAA03F587;
-	Fri,  9 Jun 2023 03:56:31 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Marek Vasut <marex@denx.de>,
-	Sam Edwards <cfsworks@gmail.com>,
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1AF747F
+	for <linux-sunxi@lists.linux.dev>; Fri,  9 Jun 2023 14:07:21 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-970056276acso276745366b.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 09 Jun 2023 07:07:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686319640; x=1688911640;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HtngxXUKNCQTVka0vpariN77on7n71XrWgw8hjIYsQ8=;
+        b=EQQ09IhLANk5OoNkPdErPJXECdIbDeH7UNst8EkmsOXalpdhN8F/cnL4Q+jvs92LA2
+         aPjioAFbECUdqD/5vQAt4t6seFI9W94Otds/ZrcJ58EJ/SW1VZHIn6rTNQrG5aWaXGrF
+         XU56NngGksiZRSyd5bwIT/IpsrCjrdsdbQW/lVket+UYK8Hq6rvsMyVbrJvi5A6ElYf2
+         tOoygJC/HL539cV6Xd82MytIHMbnWFz4VROnicBXDMooJCb51dPdFsJ1PiktGpsVP53d
+         /Mz9yWhoKt8AtWVDBXKQTFC9CoJt9V0Uyk4xfJcPUfxmTOJqb/7uxVXICwaRI8Gi30S/
+         Yo7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686319640; x=1688911640;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HtngxXUKNCQTVka0vpariN77on7n71XrWgw8hjIYsQ8=;
+        b=NDPj8BNP0rYygzNEn6skWZ33mSG6A+ETJmRmBCIdnz9D4ECwTLuGmTbLa8CzW02H6K
+         x2dCB1rJGSK16ZW0+aEHV/rwxdQva5tNNn7DUwrLPE/LVdkU8PwsaFzI3JcQtlXPjDQP
+         FPKB2mZUCRLRvxD+bBaYeh0InKsyZhvw+Sl11es6sdunIAkSk/KjGYdcfZ//pi20J28g
+         /i5mQTiv0zfqSO+n9yy/R58eSBqBw+UmCqwk+plShbA04CicEN3rLg3xjbPsuROB3m5o
+         +8uBvx+ODJk/bvbdP9h4HwtI50MV3QTvvdBHBzUVx5TlUiabbs2ShBlOrUsc5UsPH26L
+         laSg==
+X-Gm-Message-State: AC+VfDwAyKYv55eieuK4ywiEby6ZA0UYDaa80vjCrqz3TtscF8wprySY
+	Hgq5KiLhsl3QJjJDEe6TY8AeAw==
+X-Google-Smtp-Source: ACHHUZ4jXnmPhct/g5TaCUX1W0J9YSQDJhMQstjVD+5gi5sMD/SmL4pOvf6Vz4t9h3tieEPh3BwQeQ==
+X-Received: by 2002:a17:907:7da9:b0:973:946d:96ba with SMTP id oz41-20020a1709077da900b00973946d96bamr1755276ejc.69.1686319640156;
+        Fri, 09 Jun 2023 07:07:20 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id u13-20020a1709064acd00b009787ad3157bsm1357032ejt.39.2023.06.09.07.07.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jun 2023 07:07:19 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Icenowy Zheng <uwu@icenowy.me>,
-	u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 3/3] sunxi: Kconfig: rework PHY_USB_SUN4I selection
-Date: Fri,  9 Jun 2023 11:56:21 +0100
-Message-Id: <20230609105621.1410483-4-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230609105621.1410483-1-andre.przywara@arm.com>
-References: <20230609105621.1410483-1-andre.przywara@arm.com>
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Doug Berger <opendmb@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	"G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>,
+	Biao Huang <biao.huang@mediatek.com>,
+	Clark Wang <xiaoning.wang@nxp.com>,
+	David Wu <david.wu@rock-chips.com>,
+	Grygorii Strashko <grygorii.strashko@ti.com>,
+	Sekhar Nori <nsekhar@ti.com>,
+	netdev@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] dt-bindings: net: drop unneeded quotes
+Date: Fri,  9 Jun 2023 16:07:12 +0200
+Message-Id: <20230609140713.64701-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -29,140 +92,161 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-At the moment we use "select" in each Allwinner SoC's Kconfig section to
-include the USB PHY driver in the build. This means it cannot be disabled
-via Kconfig, although USB is not really a strictly required core
-functionality, and a particular board might not even include USB ports.
+Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+checking for this can be enabled in yamllint.
 
-Rework the Kconfig part by removing the "select" lines for each SoC's
-section, and instead letting it default to "y" in the PHY driver section
-itself. We use "depends on !" to exclude the few SoCs we don't support
-(yet). The Allwinner V3s does not enable USB (PHY) support at the moment,
-even though it should work: let the PHY default to "n" to keep the
-current behaviour.
-
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- arch/arm/mach-sunxi/Kconfig   | 11 -----------
- drivers/phy/allwinner/Kconfig |  6 +++++-
- 2 files changed, 5 insertions(+), 12 deletions(-)
+ .../devicetree/bindings/net/allwinner,sun7i-a20-gmac.yaml     | 2 +-
+ .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml    | 2 +-
+ .../devicetree/bindings/net/amlogic,meson-dwmac.yaml          | 2 +-
+ Documentation/devicetree/bindings/net/brcm,bcmgenet.yaml      | 2 +-
+ Documentation/devicetree/bindings/net/intel,dwmac-plat.yaml   | 2 +-
+ Documentation/devicetree/bindings/net/mediatek-dwmac.yaml     | 2 +-
+ Documentation/devicetree/bindings/net/nxp,dwmac-imx.yaml      | 2 +-
+ Documentation/devicetree/bindings/net/rockchip-dwmac.yaml     | 2 +-
+ .../devicetree/bindings/net/ti,k3-am654-cpsw-nuss.yaml        | 4 ++--
+ .../devicetree/bindings/net/toshiba,visconti-dwmac.yaml       | 2 +-
+ 10 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-index 6dcbb096f74..e0b1bde35a9 100644
---- a/arch/arm/mach-sunxi/Kconfig
-+++ b/arch/arm/mach-sunxi/Kconfig
-@@ -207,7 +207,6 @@ endif
+diff --git a/Documentation/devicetree/bindings/net/allwinner,sun7i-a20-gmac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun7i-a20-gmac.yaml
+index 3bd912ed7c7e..23e92be33ac8 100644
+--- a/Documentation/devicetree/bindings/net/allwinner,sun7i-a20-gmac.yaml
++++ b/Documentation/devicetree/bindings/net/allwinner,sun7i-a20-gmac.yaml
+@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ title: Allwinner A20 GMAC
  
- config MACH_SUNXI_H3_H5
- 	bool
--	select PHY_SUN4I_USB
- 	select SUNXI_DE2
- 	select SUNXI_DRAM_DW
- 	select SUNXI_DRAM_DW_32BIT
-@@ -236,7 +235,6 @@ config MACH_SUNIV
- config MACH_SUN4I
- 	bool "sun4i (Allwinner A10)"
- 	select CPU_V7A
--	select PHY_SUN4I_USB
- 	select DRAM_SUN4I
- 	select SUNXI_GEN_SUN4I
- 	select SUPPORT_SPL
-@@ -247,7 +245,6 @@ config MACH_SUN5I
- 	bool "sun5i (Allwinner A13)"
- 	select CPU_V7A
- 	select DRAM_SUN4I
--	select PHY_SUN4I_USB
- 	select SUNXI_GEN_SUN4I
- 	select SUPPORT_SPL
- 	imply SPL_SYS_I2C_LEGACY
-@@ -261,7 +258,6 @@ config MACH_SUN6I
- 	select ARCH_SUPPORT_PSCI
- 	select SPL_ARMV7_SET_CORTEX_SMPEN
- 	select DRAM_SUN6I
--	select PHY_SUN4I_USB
- 	select SPL_I2C
- 	select SUN6I_PRCM
- 	select SUNXI_GEN_SUN6I
-@@ -277,7 +273,6 @@ config MACH_SUN7I
- 	select ARCH_SUPPORT_PSCI
- 	select SPL_ARMV7_SET_CORTEX_SMPEN
- 	select DRAM_SUN4I
--	select PHY_SUN4I_USB
- 	select SUNXI_GEN_SUN4I
- 	select SUPPORT_SPL
- 	select ARMV7_BOOT_SEC_DEFAULT if OLD_SUNXI_KERNEL_COMPAT
-@@ -291,7 +286,6 @@ config MACH_SUN8I_A23
- 	select CPU_V7_HAS_VIRT
- 	select ARCH_SUPPORT_PSCI
- 	select DRAM_SUN8I_A23
--	select PHY_SUN4I_USB
- 	select SPL_I2C
- 	select SUNXI_GEN_SUN6I
- 	select SUPPORT_SPL
-@@ -305,7 +299,6 @@ config MACH_SUN8I_A33
- 	select CPU_V7_HAS_VIRT
- 	select ARCH_SUPPORT_PSCI
- 	select DRAM_SUN8I_A33
--	select PHY_SUN4I_USB
- 	select SPL_I2C
- 	select SUNXI_GEN_SUN6I
- 	select SUPPORT_SPL
-@@ -316,7 +309,6 @@ config MACH_SUN8I_A83T
- 	bool "sun8i (Allwinner A83T)"
- 	select CPU_V7A
- 	select DRAM_SUN8I_A83T
--	select PHY_SUN4I_USB
- 	select SPL_I2C
- 	select SUNXI_GEN_SUN6I
- 	select MMC_SUNXI_HAS_NEW_MODE
-@@ -344,7 +336,6 @@ config MACH_SUN8I_R40
- 	select SUPPORT_SPL
- 	select SUNXI_DRAM_DW
- 	select SUNXI_DRAM_DW_32BIT
--	select PHY_SUN4I_USB
- 	imply SPL_SYS_I2C_LEGACY
+ allOf:
+-  - $ref: "snps,dwmac.yaml#"
++  - $ref: snps,dwmac.yaml#
  
- config MACH_SUN8I_V3S
-@@ -372,7 +363,6 @@ config MACH_SUN9I
- config MACH_SUN50I
- 	bool "sun50i (Allwinner A64)"
- 	select ARM64
--	select PHY_SUN4I_USB
- 	select SUN6I_PRCM
- 	select SUNXI_DE2
- 	select SUNXI_GEN_SUN6I
-@@ -395,7 +385,6 @@ config MACH_SUN50I_H5
- config MACH_SUN50I_H6
- 	bool "sun50i (Allwinner H6)"
- 	select ARM64
--	select PHY_SUN4I_USB
- 	select DRAM_SUN50I_H6
- 	select SUN50I_GEN_H6
+ maintainers:
+   - Chen-Yu Tsai <wens@csie.org>
+diff --git a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
+index 47bc2057e629..4bfac9186886 100644
+--- a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
++++ b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
+@@ -63,7 +63,7 @@ required:
+   - syscon
  
-diff --git a/drivers/phy/allwinner/Kconfig b/drivers/phy/allwinner/Kconfig
-index f8f1e99c4f5..565b4617b01 100644
---- a/drivers/phy/allwinner/Kconfig
-+++ b/drivers/phy/allwinner/Kconfig
-@@ -4,6 +4,10 @@
- config PHY_SUN4I_USB
- 	bool "Allwinner Sun4I USB PHY driver"
- 	depends on ARCH_SUNXI
-+	depends on !MACH_SUN9I
-+	depends on !MACH_SUN50I_H616
-+	default n if MACH_SUN8I_V3S
-+	default y
- 	select DM_REGULATOR
- 	select PHY
- 	help
-@@ -11,7 +15,7 @@ config PHY_SUN4I_USB
- 	  sunxi SoCs.
+ allOf:
+-  - $ref: "snps,dwmac.yaml#"
++  - $ref: snps,dwmac.yaml#
+   - if:
+       properties:
+         compatible:
+diff --git a/Documentation/devicetree/bindings/net/amlogic,meson-dwmac.yaml b/Documentation/devicetree/bindings/net/amlogic,meson-dwmac.yaml
+index a2c51a84efa5..ee7a65b528cd 100644
+--- a/Documentation/devicetree/bindings/net/amlogic,meson-dwmac.yaml
++++ b/Documentation/devicetree/bindings/net/amlogic,meson-dwmac.yaml
+@@ -27,7 +27,7 @@ select:
+     - compatible
  
- 	  This driver controls the entire USB PHY block, both the USB OTG
--	  parts, as well as the 2 regular USB 2 host PHYs.
-+	  parts, as well as the regular USB HCI host PHYs.
+ allOf:
+-  - $ref: "snps,dwmac.yaml#"
++  - $ref: snps,dwmac.yaml#
+   - if:
+       properties:
+         compatible:
+diff --git a/Documentation/devicetree/bindings/net/brcm,bcmgenet.yaml b/Documentation/devicetree/bindings/net/brcm,bcmgenet.yaml
+index 0e5e5db32faf..7c90a4390531 100644
+--- a/Documentation/devicetree/bindings/net/brcm,bcmgenet.yaml
++++ b/Documentation/devicetree/bindings/net/brcm,bcmgenet.yaml
+@@ -55,7 +55,7 @@ properties:
+ patternProperties:
+   "^mdio@[0-9a-f]+$":
+     type: object
+-    $ref: "brcm,unimac-mdio.yaml"
++    $ref: brcm,unimac-mdio.yaml
  
- config INITIAL_USB_SCAN_DELAY
- 	int "Delay initial USB scan by x ms to allow builtin devices to init"
+     description:
+       GENET internal UniMAC MDIO bus
+diff --git a/Documentation/devicetree/bindings/net/intel,dwmac-plat.yaml b/Documentation/devicetree/bindings/net/intel,dwmac-plat.yaml
+index d23fa3771210..42a0bc94312c 100644
+--- a/Documentation/devicetree/bindings/net/intel,dwmac-plat.yaml
++++ b/Documentation/devicetree/bindings/net/intel,dwmac-plat.yaml
+@@ -19,7 +19,7 @@ select:
+     - compatible
+ 
+ allOf:
+-  - $ref: "snps,dwmac.yaml#"
++  - $ref: snps,dwmac.yaml#
+ 
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml b/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml
+index 0fa2132fa4f4..08d74ca0769c 100644
+--- a/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml
++++ b/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml
+@@ -25,7 +25,7 @@ select:
+     - compatible
+ 
+ allOf:
+-  - $ref: "snps,dwmac.yaml#"
++  - $ref: snps,dwmac.yaml#
+ 
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/net/nxp,dwmac-imx.yaml b/Documentation/devicetree/bindings/net/nxp,dwmac-imx.yaml
+index 63409cbff5ad..4c01cae7c93a 100644
+--- a/Documentation/devicetree/bindings/net/nxp,dwmac-imx.yaml
++++ b/Documentation/devicetree/bindings/net/nxp,dwmac-imx.yaml
+@@ -24,7 +24,7 @@ select:
+     - compatible
+ 
+ allOf:
+-  - $ref: "snps,dwmac.yaml#"
++  - $ref: snps,dwmac.yaml#
+ 
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/net/rockchip-dwmac.yaml b/Documentation/devicetree/bindings/net/rockchip-dwmac.yaml
+index 2a21bbe02892..176ea5f90251 100644
+--- a/Documentation/devicetree/bindings/net/rockchip-dwmac.yaml
++++ b/Documentation/devicetree/bindings/net/rockchip-dwmac.yaml
+@@ -32,7 +32,7 @@ select:
+     - compatible
+ 
+ allOf:
+-  - $ref: "snps,dwmac.yaml#"
++  - $ref: snps,dwmac.yaml#
+ 
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/net/ti,k3-am654-cpsw-nuss.yaml b/Documentation/devicetree/bindings/net/ti,k3-am654-cpsw-nuss.yaml
+index 395a4650e285..c9c25132d154 100644
+--- a/Documentation/devicetree/bindings/net/ti,k3-am654-cpsw-nuss.yaml
++++ b/Documentation/devicetree/bindings/net/ti,k3-am654-cpsw-nuss.yaml
+@@ -168,14 +168,14 @@ properties:
+ patternProperties:
+   "^mdio@[0-9a-f]+$":
+     type: object
+-    $ref: "ti,davinci-mdio.yaml#"
++    $ref: ti,davinci-mdio.yaml#
+ 
+     description:
+       CPSW MDIO bus.
+ 
+   "^cpts@[0-9a-f]+":
+     type: object
+-    $ref: "ti,k3-am654-cpts.yaml#"
++    $ref: ti,k3-am654-cpts.yaml#
+     description:
+       CPSW Common Platform Time Sync (CPTS) module.
+ 
+diff --git a/Documentation/devicetree/bindings/net/toshiba,visconti-dwmac.yaml b/Documentation/devicetree/bindings/net/toshiba,visconti-dwmac.yaml
+index 474fa8bcf302..052f636158b3 100644
+--- a/Documentation/devicetree/bindings/net/toshiba,visconti-dwmac.yaml
++++ b/Documentation/devicetree/bindings/net/toshiba,visconti-dwmac.yaml
+@@ -19,7 +19,7 @@ select:
+     - compatible
+ 
+ allOf:
+-  - $ref: "snps,dwmac.yaml#"
++  - $ref: snps,dwmac.yaml#
+ 
+ properties:
+   compatible:
 -- 
-2.25.1
+2.34.1
 
