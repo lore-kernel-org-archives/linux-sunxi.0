@@ -1,43 +1,43 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C4F2099E
-	for <linux-sunxi@lists.linux.dev>; Fri,  9 Jun 2023 20:26:24 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-30aea656e36so1577645f8f.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 09 Jun 2023 13:26:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B990822D61
+	for <linux-sunxi@lists.linux.dev>; Fri,  9 Jun 2023 20:29:39 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3f78a32266bso21589345e9.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 09 Jun 2023 13:29:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686342382; x=1688934382;
+        d=gmail.com; s=20221208; t=1686342578; x=1688934578;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EZvA/3fbhD0ZlZP2eZsPZEPlg+aDPhGDa3Vr2v+kNLw=;
-        b=Y5fWnSP4/lzEi2Pvl7jUd8iq0SzWVhCiuv41xtc+6bY2KuJzHzubdFYB/sXNzgiWKg
-         55zo/jY4nc0EEA9Co48v2T6WiWSXyxnOjdUhVe0PHHxkXU1hRdyJeyFMqmVCPFAnuYXp
-         NOJyRB+LZQapNZ2dvGSYPimailSGiet+ct8QtHmjilQODBqhlsGhUp5wEC5pwz/48BK/
-         1rlGEuLh8vL6S4aHWWP4mVBRyoCjR0MfFIokpN+zUWaIdkInfIY1T1pSvtjhLh0IqtUs
-         J2qVECRYBfUEb+W4SrDiFFK/CjN/TOkTsNacoskfqsI0ceKzb1LkGHy3QWhvSLKub2lM
-         b1LA==
+        bh=JcEqnQrFd3mgFBtWsADlMbCpvozzm7xABYQxFiwSrjI=;
+        b=d+70ExT5dRraLMDptlSvdJYrVeijCa7xXUq9NFcNGFEQUbIQQ6q+RX/xqWGfZLNLmr
+         Erji3q5Rc1DwxiHHJ0MTM8Gcngs8L340fq02oVWyh5QWtHvUaswMpHC3u6p/7x4cKoKQ
+         0X1cnziZokhnRHAYOdGhqfNmybKmR95sJcy0Zjjdu43jApjZEJddqsYrsocUaQHkX3Lb
+         M5Q0ckK+HnoXUn0T7YL754pmtNIP7+aQ17kONfZMtpVFPA0FWvmi/kKY3QMxFl17iJe6
+         Lex7euFmo8f5gDLTvZtdcBItFNlzGzqDsnRqPgeWT9csKKHe3rXPZB10ypgCZkusGa2h
+         29rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686342382; x=1688934382;
+        d=1e100.net; s=20221208; t=1686342578; x=1688934578;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EZvA/3fbhD0ZlZP2eZsPZEPlg+aDPhGDa3Vr2v+kNLw=;
-        b=XwEu4RD+k6mXG5beL2PArKd7w/+qVFYH318tJm0Vddz/WDzn3JKyEVriTyqwoZIz6q
-         pSB2uPRUno3wNJnuf9HuFQ3oUktaObzD2T4pZ+kC2HWyotikMZ7jNZgzJZlhLwDJ1Z2D
-         bWLdUdg0Wf+MKJsQyOBc3jUYMDzmi6qw0IkWnBQofzlNX6WQJF0HoftG2FKhduh38YIR
-         J8HgJkOnsk0h+euFRN9xmHW9OL6oE91Lo3j1kKz5e7+n5lbRSvhkjn08d+KBywpos9Ge
-         C12UqroF7V/3aSZ5PaOz3TiY569FxpsvJGfsZTsp1ktTB18T/xP05f4supLlUZw/u+6e
-         jvGg==
-X-Gm-Message-State: AC+VfDz1yfmcTkXARyLbVJLW7s0igiR1x7/VxtD2L7jU4WnErrSUT2J4
-	wSn0a1Et46x7RTkIqkzO8AI=
-X-Google-Smtp-Source: ACHHUZ53TC4YnpMn6/PYjOs/A4zgdRb9nuqxbGor7Pus7ebc0Z/s9VGheL2EiyyJAIuhZ/T40M+heg==
-X-Received: by 2002:adf:f6cd:0:b0:30e:3eaa:19e with SMTP id y13-20020adff6cd000000b0030e3eaa019emr1513304wrp.16.1686342382316;
-        Fri, 09 Jun 2023 13:26:22 -0700 (PDT)
+        bh=JcEqnQrFd3mgFBtWsADlMbCpvozzm7xABYQxFiwSrjI=;
+        b=D09PkiSULZbXiOtaMdKMNHOA5Cgmm+iebr8nu9chpCBtmLotx2+3otMF1OKmxmtJyT
+         QviV+nrrL9Nn9RNJvgfIrCNfMwDCtnMyp0KVC4nCGPkAwDVa5hHsCmHrFP/dGoVtFqi9
+         kC3Gfovd5ORpS+VdYizgyltZUsY5ImpEVk8nYXW72ATwszhiZ7KG8lJ66LoqjihBYLCj
+         o5Hy8YF4G2mRlkj2iZ4rQVS1e3Pt4vTQAvXvrz3VtGhvUDFKMry1YaE0EWpFcYF/8zw4
+         l6jlqBzwi677yzusORJ3tedyUzJFfMbdEtv3UYY/jWNzAGwyITlY3GeJyVh9EbAeJYza
+         94Pg==
+X-Gm-Message-State: AC+VfDy2OqdmsPhhLClHJVcn/UWNLiig9jZpGcP4iItMopkgIgFOq00j
+	W7zr/s/PfEVMaUwOL57SctU=
+X-Google-Smtp-Source: ACHHUZ6gJ6dOzJshzTZzq88n9qdQGalCvRmGnVFTiG/xvzHEv57kj9J98h6Lcckibzl9Y74E2jaEKA==
+X-Received: by 2002:a05:6000:196e:b0:30a:a15d:eb2f with SMTP id da14-20020a056000196e00b0030aa15deb2fmr1908675wrb.3.1686342577523;
+        Fri, 09 Jun 2023 13:29:37 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id v18-20020a5d43d2000000b0030ae93bd196sm5289477wrr.21.2023.06.09.13.26.21
+        by smtp.gmail.com with ESMTPSA id w11-20020a1cf60b000000b003f7ff6b1201sm3555000wmc.29.2023.06.09.13.29.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jun 2023 13:26:22 -0700 (PDT)
+        Fri, 09 Jun 2023 13:29:37 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Jagan Teki <jagan@amarulasolutions.com>,
  Mikhail Kalashnikov <iuncuim@gmail.com>,
@@ -45,13 +45,13 @@ To: Jagan Teki <jagan@amarulasolutions.com>,
 Cc: Samuel Holland <samuel@sholland.org>, Icenowy Zheng <uwu@icenowy.me>,
  Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de,
  linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 3/5] sunxi: H616: dram: split struct dram_para
-Date: Fri, 09 Jun 2023 22:26:21 +0200
-Message-ID: <4810216.GXAFRqVoOG@jernej-laptop>
-In-Reply-To: <20230607000745.10245-4-andre.przywara@arm.com>
+Subject: Re: [PATCH 4/5] sunxi: H616: add DRAM type selection
+Date: Fri, 09 Jun 2023 22:29:33 +0200
+Message-ID: <13284109.uLZWGnKmhe@jernej-laptop>
+In-Reply-To: <20230607000745.10245-5-andre.przywara@arm.com>
 References:
  <20230607000745.10245-1-andre.przywara@arm.com>
- <20230607000745.10245-4-andre.przywara@arm.com>
+ <20230607000745.10245-5-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,37 +61,93 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne sreda, 07. junij 2023 ob 02:07:43 CEST je Andre Przywara napisal(a):
-> Currently there is one DRAM parameter struct for the Allwinner H616 DRAM
-> "driver". It contains many fields that are compile time constants
-> (set by Kconfig variables), though there are also some fields that are
-> probed and changed over the runtime of the DRAM initialisation.
+Dne sreda, 07. junij 2023 ob 02:07:44 CEST je Andre Przywara napisal(a):
+> From: iuncuim <iuncuim@gmail.com>
 > 
-> Because of this mixture, the compiler cannot properly optimise the code
-> for size, as it does not consider constant propagation in its full
-> potential.
+> Allwinner H616 SoC supports several types of DRAM memory. To further
+> integrate other types of memory, we need to add this delimitation.
+> ---
+>  arch/arm/mach-sunxi/Kconfig               | 10 +++++++++-
+>  arch/arm/mach-sunxi/dram_timings/Makefile |  3 +--
+>  configs/orangepi_zero2_defconfig          |  1 +
+>  configs/x96_mate_defconfig                |  1 +
+>  4 files changed, 12 insertions(+), 3 deletions(-)
 > 
-> Help the compiler out by splitting that structure into two: one that only
-> contains values known at compile time, and another one where the values
-> will actually change. The former can then be declared "const", which will
-> let the compiler fold its values directly into the code using it.
-> 
-> We also add "const" tags for some new "struct dram_config" pointers, to
-> further increase code optimisation.
-> To help the compiler optimise the code further, the definition of the
-> now "const struct dram_para" has to happen at a file-global level, so
-> move that part out of sunxi_dram_init().
-> 
-> That results in quite some code savings (almost 2KB), and helps to keep
-> the code small with the LPDDR3 support added later.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+> index 6dcbb096f74..197d77ea658 100644
+> --- a/arch/arm/mach-sunxi/Kconfig
+> +++ b/arch/arm/mach-sunxi/Kconfig
+> @@ -442,7 +442,7 @@ config ARM_BOOT_HOOK_RMR
+>  	This allows both the SPL and the U-Boot proper to be entered in
+>  	either mode and switch to AArch64 if needed.
+>  
+> -if SUNXI_DRAM_DW || DRAM_SUN50I_H6
+> +if SUNXI_DRAM_DW || DRAM_SUN50I_H6 || DRAM_SUN50I_H616
+>  config SUNXI_DRAM_DDR3
+>  	bool
+>  
+> @@ -487,6 +487,14 @@ config SUNXI_DRAM_H6_DDR3_1333
+>  	This option is the DDR3 timing used by the boot0 on H6 TV boxes
+>  	which use a DDR3-1333 timing.
+>  
+> +config SUNXI_DRAM_H616_DDR3_1333
+> +	bool "DDR3-1333 boot0 timings on the H616 DRAM controller"
+> +	select SUNXI_DRAM_DDR3
+> +	depends on DRAM_SUN50I_H616
+> +	---help---
+> +	This option is the DDR3 timing used by the boot0 on H616 TV boxes
+> +	which use a DDR3-1333 timing.
 
-Nice trick. It could be used also in other DRAM drivers.
+I'm always a bit unsure about help part. There is no need for "---", right?
+I also usually ident help block with extra two spaces. Do we have any rules
+for that?
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Apart from that and SoB tag, it looks good.
 
 Best regards,
 Jernej
+
+> +
+>  config SUNXI_DRAM_DDR2_V3S
+>  	bool "DDR2 found in V3s chip"
+>  	select SUNXI_DRAM_DDR2
+> diff --git a/arch/arm/mach-sunxi/dram_timings/Makefile b/arch/arm/mach-sunxi/dram_timings/Makefile
+> index 39a8756c297..4d78c04c9ae 100644
+> --- a/arch/arm/mach-sunxi/dram_timings/Makefile
+> +++ b/arch/arm/mach-sunxi/dram_timings/Makefile
+> @@ -3,5 +3,4 @@ obj-$(CONFIG_SUNXI_DRAM_LPDDR3_STOCK)	+= lpddr3_stock.o
+>  obj-$(CONFIG_SUNXI_DRAM_DDR2_V3S)	+= ddr2_v3s.o
+>  obj-$(CONFIG_SUNXI_DRAM_H6_LPDDR3)	+= h6_lpddr3.o
+>  obj-$(CONFIG_SUNXI_DRAM_H6_DDR3_1333)	+= h6_ddr3_1333.o
+> -# currently only DDR3 is supported on H616
+> -obj-$(CONFIG_MACH_SUN50I_H616)		+= h616_ddr3_1333.o
+> +obj-$(CONFIG_SUNXI_DRAM_H616_DDR3_1333)	+= h616_ddr3_1333.o
+> diff --git a/configs/orangepi_zero2_defconfig b/configs/orangepi_zero2_defconfig
+> index 6cb942f511a..e38cc20ac72 100644
+> --- a/configs/orangepi_zero2_defconfig
+> +++ b/configs/orangepi_zero2_defconfig
+> @@ -7,6 +7,7 @@ CONFIG_DRAM_SUN50I_H616_DX_DRI=0x0e0e0e0e
+>  CONFIG_DRAM_SUN50I_H616_CA_DRI=0x0e0e
+>  CONFIG_DRAM_SUN50I_H616_TPR10=0xf83438
+>  CONFIG_MACH_SUN50I_H616=y
+> +CONFIG_SUNXI_DRAM_H616_DDR3_1333=y
+>  CONFIG_R_I2C_ENABLE=y
+>  CONFIG_SPL_SPI_SUNXI=y
+>  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> diff --git a/configs/x96_mate_defconfig b/configs/x96_mate_defconfig
+> index 122c1a99e32..c86cf43771c 100644
+> --- a/configs/x96_mate_defconfig
+> +++ b/configs/x96_mate_defconfig
+> @@ -10,6 +10,7 @@ CONFIG_DRAM_SUN50I_H616_TPR10=0x2f0007
+>  CONFIG_DRAM_SUN50I_H616_TPR11=0xffffdddd
+>  CONFIG_DRAM_SUN50I_H616_TPR12=0xfedf7557
+>  CONFIG_MACH_SUN50I_H616=y
+> +CONFIG_SUNXI_DRAM_H616_DDR3_1333=y
+>  CONFIG_R_I2C_ENABLE=y
+>  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+>  CONFIG_SPL_I2C=y
+> 
+
+
 
 
