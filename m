@@ -1,43 +1,43 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77A52099E
-	for <linux-sunxi@lists.linux.dev>; Fri,  9 Jun 2023 20:24:51 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-30ad458f085so1669170f8f.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 09 Jun 2023 13:24:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C4F2099E
+	for <linux-sunxi@lists.linux.dev>; Fri,  9 Jun 2023 20:26:24 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-30aea656e36so1577645f8f.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 09 Jun 2023 13:26:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686342290; x=1688934290;
+        d=gmail.com; s=20221208; t=1686342382; x=1688934382;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VJmj9RC7JrITIeRp5vwXnIagysFthIp7E3tpcobsSj8=;
-        b=aYWGftir4Nc0j9T69cdUswXKfbAiXdRkiRgLgMGsiBKusnCe0+DlWwb2yuuvn72HwJ
-         X4IezSIQPb7u3npkdJlqOoO6d6I+c6TtF/kuMbde4JJc+HGIdu2KSDj8fLIE4fEwupXN
-         Sf+ZHOUuw/wetUP04lLZI9+Jup0vc8i988wlPVX7YLPhbQvNXohLlZzK013zifGCM3hA
-         KEevlSG1sXKznJkQPUJtjjGo9yKjAQhq+qjzXXqX2upGqtKHqHNZEP0UepaxdENiRoLj
-         jbKYABKNqj/i+ytjice+rPCoDDZ3dfEILnNM3Q1GKvCrFeJdbttiZYIjTzeJXeGIzBRU
-         cH+g==
+        bh=EZvA/3fbhD0ZlZP2eZsPZEPlg+aDPhGDa3Vr2v+kNLw=;
+        b=Y5fWnSP4/lzEi2Pvl7jUd8iq0SzWVhCiuv41xtc+6bY2KuJzHzubdFYB/sXNzgiWKg
+         55zo/jY4nc0EEA9Co48v2T6WiWSXyxnOjdUhVe0PHHxkXU1hRdyJeyFMqmVCPFAnuYXp
+         NOJyRB+LZQapNZ2dvGSYPimailSGiet+ct8QtHmjilQODBqhlsGhUp5wEC5pwz/48BK/
+         1rlGEuLh8vL6S4aHWWP4mVBRyoCjR0MfFIokpN+zUWaIdkInfIY1T1pSvtjhLh0IqtUs
+         J2qVECRYBfUEb+W4SrDiFFK/CjN/TOkTsNacoskfqsI0ceKzb1LkGHy3QWhvSLKub2lM
+         b1LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686342290; x=1688934290;
+        d=1e100.net; s=20221208; t=1686342382; x=1688934382;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VJmj9RC7JrITIeRp5vwXnIagysFthIp7E3tpcobsSj8=;
-        b=RaZKdxdH8UY1OsQLQfZtIEx6DZ0HCmclScJLqRZ8wjMvx/Ikm57HZwglX1dReghFXO
-         LCdK8KTbM7Re7YxfXuNiIlI+sJItw8BpNefLICYihdcF6ugfW1A0ZNnnLY0EpB4nN25T
-         jZBdtmvueOmkI7idrxvMyGAK4zznTT/bPbFnqml1nf6D5k0dceCQ9KlAf6RHLg9TSkMU
-         sI0ZVwqeaKNhSirLb3uAiZpz3npKy2JglonpNnfTzSVIGkQkuOdVRnps9/8rDRhsuphX
-         c0nRzyrMoEhuWYQ/aPHNtW55bHLhzcsQTSJn/2kYRLdACZkPpvE6tmGvYuOzZ6a+A6py
-         IEHg==
-X-Gm-Message-State: AC+VfDxWO+By/n1XGH4ap1i/5YdebjdUmLUEhLsB9Tl52zq2uHZHi8wR
-	EXmfqrlhg3HMwcoPhsH4m44=
-X-Google-Smtp-Source: ACHHUZ6ZBgWscntQGExTdvlE8rW0jJ4+GYUdtTFcY43K2guECx9whpzgsfcxffLEmh9mnGD8p+JECQ==
-X-Received: by 2002:adf:dc83:0:b0:30a:e901:bc66 with SMTP id r3-20020adfdc83000000b0030ae901bc66mr2290935wrj.5.1686342289715;
-        Fri, 09 Jun 2023 13:24:49 -0700 (PDT)
+        bh=EZvA/3fbhD0ZlZP2eZsPZEPlg+aDPhGDa3Vr2v+kNLw=;
+        b=XwEu4RD+k6mXG5beL2PArKd7w/+qVFYH318tJm0Vddz/WDzn3JKyEVriTyqwoZIz6q
+         pSB2uPRUno3wNJnuf9HuFQ3oUktaObzD2T4pZ+kC2HWyotikMZ7jNZgzJZlhLwDJ1Z2D
+         bWLdUdg0Wf+MKJsQyOBc3jUYMDzmi6qw0IkWnBQofzlNX6WQJF0HoftG2FKhduh38YIR
+         J8HgJkOnsk0h+euFRN9xmHW9OL6oE91Lo3j1kKz5e7+n5lbRSvhkjn08d+KBywpos9Ge
+         C12UqroF7V/3aSZ5PaOz3TiY569FxpsvJGfsZTsp1ktTB18T/xP05f4supLlUZw/u+6e
+         jvGg==
+X-Gm-Message-State: AC+VfDz1yfmcTkXARyLbVJLW7s0igiR1x7/VxtD2L7jU4WnErrSUT2J4
+	wSn0a1Et46x7RTkIqkzO8AI=
+X-Google-Smtp-Source: ACHHUZ53TC4YnpMn6/PYjOs/A4zgdRb9nuqxbGor7Pus7ebc0Z/s9VGheL2EiyyJAIuhZ/T40M+heg==
+X-Received: by 2002:adf:f6cd:0:b0:30e:3eaa:19e with SMTP id y13-20020adff6cd000000b0030e3eaa019emr1513304wrp.16.1686342382316;
+        Fri, 09 Jun 2023 13:26:22 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id a9-20020a5d5089000000b0030ae973c2e7sm5294671wrt.83.2023.06.09.13.24.48
+        by smtp.gmail.com with ESMTPSA id v18-20020a5d43d2000000b0030ae93bd196sm5289477wrr.21.2023.06.09.13.26.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jun 2023 13:24:49 -0700 (PDT)
+        Fri, 09 Jun 2023 13:26:22 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Jagan Teki <jagan@amarulasolutions.com>,
  Mikhail Kalashnikov <iuncuim@gmail.com>,
@@ -45,13 +45,13 @@ To: Jagan Teki <jagan@amarulasolutions.com>,
 Cc: Samuel Holland <samuel@sholland.org>, Icenowy Zheng <uwu@icenowy.me>,
  Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, u-boot@lists.denx.de,
  linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 2/5] sunxi: H616: dram: const-ify DRAM function parameters
-Date: Fri, 09 Jun 2023 22:24:48 +0200
-Message-ID: <4490774.LvFx2qVVIh@jernej-laptop>
-In-Reply-To: <20230607000745.10245-3-andre.przywara@arm.com>
+Subject: Re: [PATCH 3/5] sunxi: H616: dram: split struct dram_para
+Date: Fri, 09 Jun 2023 22:26:21 +0200
+Message-ID: <4810216.GXAFRqVoOG@jernej-laptop>
+In-Reply-To: <20230607000745.10245-4-andre.przywara@arm.com>
 References:
  <20230607000745.10245-1-andre.przywara@arm.com>
- <20230607000745.10245-3-andre.przywara@arm.com>
+ <20230607000745.10245-4-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,16 +61,33 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne sreda, 07. junij 2023 ob 02:07:42 CEST je Andre Przywara napisal(a):
-> There are quite some functions in the Allwinner H616 DRAM "driver", some
-> of them actually change the parameters in the structure passed to them,
-> but many are actually not.
-> To increase the optimisation potential for the code, mark those functions
-> that just read members of the passed dram_para struct as "const".
-> This in itself does not decrease the code size, but lays the groundwork
-> for future changes doing so.
+Dne sreda, 07. junij 2023 ob 02:07:43 CEST je Andre Przywara napisal(a):
+> Currently there is one DRAM parameter struct for the Allwinner H616 DRAM
+> "driver". It contains many fields that are compile time constants
+> (set by Kconfig variables), though there are also some fields that are
+> probed and changed over the runtime of the DRAM initialisation.
+> 
+> Because of this mixture, the compiler cannot properly optimise the code
+> for size, as it does not consider constant propagation in its full
+> potential.
+> 
+> Help the compiler out by splitting that structure into two: one that only
+> contains values known at compile time, and another one where the values
+> will actually change. The former can then be declared "const", which will
+> let the compiler fold its values directly into the code using it.
+> 
+> We also add "const" tags for some new "struct dram_config" pointers, to
+> further increase code optimisation.
+> To help the compiler optimise the code further, the definition of the
+> now "const struct dram_para" has to happen at a file-global level, so
+> move that part out of sunxi_dram_init().
+> 
+> That results in quite some code savings (almost 2KB), and helps to keep
+> the code small with the LPDDR3 support added later.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+
+Nice trick. It could be used also in other DRAM drivers.
 
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
