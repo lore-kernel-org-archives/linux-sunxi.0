@@ -1,80 +1,112 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA191E505
-	for <linux-sunxi@lists.linux.dev>; Sat, 10 Jun 2023 17:55:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFE88C433D2;
-	Sat, 10 Jun 2023 17:55:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE5223C5
+	for <linux-sunxi@lists.linux.dev>; Sat, 10 Jun 2023 17:59:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DAFAC433D2;
+	Sat, 10 Jun 2023 17:59:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686419733;
-	bh=Z7CDYiZUhDciWFfHCWXIbPWCYecbEDUP0+fYC7qnEIE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TAJ3nnNaH/YW5/D3Hcc7UM2mzrLOh4yB5AwCexral7DO+cJBaaer4N50jLHJxh0Ij
-	 do27NCukKDieM4s9l33g5VChkQ5iAMItocYdHzhMMg/wgqN6NVeYhXhvgjMd4boT2y
-	 y8VjTNay3js48W8Ame3xXUkYAZ0z2HhNpTyKxUayiF6QeGxYKb17dLPPGN+JpsP22r
-	 fNQgrE180WTO4vCpUN6mFsj0imY6XkXs1sIUgYla/w/glfjpbW87yAF0ggFgQddkhV
-	 PbFBVuCrGPRj4VrTLsDf6HJP3YPJmbq0Y63EvyOUvdlk+UXDFVUvQTZZPfhXfXHn5r
-	 YdaNIyi3kKLVw==
-Date: Sat, 10 Jun 2023 19:12:04 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Maksim Kiselev <bigunclemax@gmail.com>
-Cc: linux-iio@vger.kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Paul
- Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Philipp Zabel <p.zabel@pengutronix.de>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Cosmin Tanislav
- <demonsingur@gmail.com>, Ramona Bolboaca <ramona.bolboaca@analog.com>,
- William Breathitt Gray <william.gray@linaro.org>, ChiYuan Huang
- <cy_huang@richtek.com>, Ibrahim Tilki <Ibrahim.Tilki@analog.com>, ChiaEn Wu
- <chiaen_wu@richtek.com>, Arnd Bergmann <arnd@arndb.de>, Leonard
- =?UTF-8?B?R8O2aHJz?= <l.goehrs@pengutronix.de>, Hugo Villeneuve
- <hvilleneuve@dimonoff.com>, Caleb Connolly <caleb.connolly@linaro.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v4 1/3] iio: adc: Add Allwinner D1/T113s/R329/T507 SoCs
- GPADC
-Message-ID: <20230610191204.007c0159@jic23-huawei>
-In-Reply-To: <20230610122934.953106-2-bigunclemax@gmail.com>
-References: <20230610122934.953106-1-bigunclemax@gmail.com>
-	<20230610122934.953106-2-bigunclemax@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	s=k20201202; t=1686419976;
+	bh=324/nSprEXjx3/4ifqHmnHXL3quqYl+6QpzMOZ+i0e4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ihinwVsf7EWheCryMaS73Y+fLmVsjcCX9jynU1z6WRiX3DuE8Zl1hNHupJ09bLgni
+	 bgb2GnPANnD7LS94BaIFIwWhnYY7A2No4XjZ13psv4P6lcAKnSWTUZn2448JWBouMr
+	 H+ZIWlyS5l9kWWMiUeemiKbEiCF2KfzClI+QcdplVglfg3M0FtZo+H7+LdD+2ZLeMi
+	 mzLSG16TgjMmZq0Py+nFIR0LL0Bb06p5jFevjqus5D8KN9KIZ03IArzqNeUEyJRWQX
+	 RdtwcPN8lKIzu7KoYiwcaczYBW/tEiU9bzWGt2HbicneKhVsXtp8xFPxOIhXj7CWXC
+	 2CKwsqmnIv/NQ==
+Date: Sat, 10 Jun 2023 18:59:29 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Maxim Kiselev <bigunclemax@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Vasily Khoruzhick <anarsoul@gmail.com>,
+	Yangtao Li <tiny.windzz@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v1 3/3] dt-bindings: thermal: sun8i: Add binding for
+ D1/T113s THS controller
+Message-ID: <20230610-enlarged-agonize-0e9219f9921d@spud>
+References: <20230610141739.999268-1-bigunclemax@gmail.com>
+ <20230610141739.999268-4-bigunclemax@gmail.com>
+ <20230610-rehire-amid-2517f43504c0@spud>
+ <CALHCpMiEmc8L=O86_x7-KkBHFwf2QpuP0M7ugz7dNPr71cpJmQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Hu94nUGXXByK8w7k"
+Content-Disposition: inline
+In-Reply-To: <CALHCpMiEmc8L=O86_x7-KkBHFwf2QpuP0M7ugz7dNPr71cpJmQ@mail.gmail.com>
 
-On Sat, 10 Jun 2023 15:29:07 +0300
-Maksim Kiselev <bigunclemax@gmail.com> wrote:
 
-> From: Maxim Kiselev <bigunclemax@gmail.com>
-> 
-> The General Purpose ADC (GPADC) can convert the external signal into
-> a certain proportion of digital value, to realize the measurement of
-> analog signal, which can be applied to power detection and key detection.
-> 
-> Theoretically, this ADC can support up to 16 channels. All SoCs below
-> contain this GPADC IP. The only difference between them is the number
-> of available channels:
-> 
->  T113 - 1 channel
->  D1   - 2 channels
->  R329 - 4 channels
->  T507 - 4 channels
-> 
-> Signed-off-by: Maxim Kiselev <bigunclemax@gmail.com>
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+--Hu94nUGXXByK8w7k
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Looks good to me. Just the issue Connor pointed out in the DT binding to resolve.
-Note that this will be cutting it fine for this cycle, but 'might'
-make it in if the stars align.  If not it will need to wait for next cycle.
+On Sat, Jun 10, 2023 at 06:30:48PM +0300, Maxim Kiselev wrote:
+> =D1=81=D0=B1, 10 =D0=B8=D1=8E=D0=BD. 2023=E2=80=AF=D0=B3. =D0=B2 17:52, C=
+onor Dooley <conor@kernel.org>:
+>=20
+> ...
+>=20
+> >
+> > Signed-off-by: Maxim Kiselev <bigunclemax@gmail.com>
+> > Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
+> >
+> >> Why do you have 2 sign-offs that are both you w/ different spellings?
+>=20
+> Sorry for that. I accidentally signed it twice.
+>=20
+> ...
+>=20
+> > +  - |
+> > +    thermal-sensor@2009400 {
+> > +          compatible =3D "allwinner,sun20i-d1-ths";
+> > +          reg =3D <0x02009400 0x400>;
+> > +          interrupts =3D <0 90 0>;
+> > +          clocks =3D <&ccu 0>;
+> > +          clock-names =3D "bus";
+> > +          resets =3D <&ccu 2>;
+> > +          nvmem-cells =3D <&ths_calibration>;
+> > +          nvmem-cell-names =3D "calibration";
+> > +          #thermal-sensor-cells =3D <0>;
+> >
+> >> Is this calibration required, or optional, for the d1?
+>=20
+> Calibration data for the D1 is optional as for the H6.
+> (But without it, the sensor data will be inaccurate).
 
-Jonathan
+Okay. Modulo the signoff:
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+
+Cheers,
+Conor.
+
+--Hu94nUGXXByK8w7k
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZIS6AQAKCRB4tDGHoIJi
+0mIxAP0Z0nJBW9IvYaLg3JZ0QkCPW8ByQAELNYI7OJWCvFzSagD/RjpEIdIWBIMz
+fIc7+Dh1sntIbmOh0+71Nu4lyjVlLws=
+=TcS+
+-----END PGP SIGNATURE-----
+
+--Hu94nUGXXByK8w7k--
