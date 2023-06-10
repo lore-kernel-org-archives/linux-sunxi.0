@@ -1,210 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A75BC8D1
-	for <linux-sunxi@lists.linux.dev>; Sat, 10 Jun 2023 15:06:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77077C433D2;
-	Sat, 10 Jun 2023 15:06:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686409604;
-	bh=U1kzKQLjBw3U2CaamkV1OihnciwYdzX6lEiWfiY9w9g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mFMmIFLq9D+Je2P4zOq9Qj7TXnerOZE+WOuFadpjtM9DJ4TYvr6yTHF029wKeDHYJ
-	 +VBXfC49Fg/P9rLKNCAqwr0Rl5ZbfP4RCJiSdX8KdtbpigM56PcwtXfas50SkoWObJ
-	 qVT5XVDA9aut86TydiQr3HUPR7RKLYwENN5DSMI96yEi8iHEfkh9qtnKI3Ebv+ip/R
-	 Q0CppC9gNDs0YQGA3YmW3qIGu1UZuKFwqFtytAlnbeie5oatbqDGGl++nk5AHT/PRw
-	 SW4qw/cqIo1qxOgm82LFoxTTGk+zwIRvN4HNJA/Tqgh1aq6Y/rrHyrnB+S04S6wXeM
-	 j5rBdXyTfBalQ==
-Date: Sat, 10 Jun 2023 16:06:35 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Maksim Kiselev <bigunclemax@gmail.com>
-Cc: linux-iio@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Cosmin Tanislav <demonsingur@gmail.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	William Breathitt Gray <william.gray@linaro.org>,
-	ChiYuan Huang <cy_huang@richtek.com>,
-	Ramona Bolboaca <ramona.bolboaca@analog.com>,
-	Ibrahim Tilki <Ibrahim.Tilki@analog.com>,
-	Caleb Connolly <caleb.connolly@linaro.org>,
-	ChiaEn Wu <chiaen_wu@richtek.com>, Haibo Chen <haibo.chen@nxp.com>,
-	Leonard =?iso-8859-1?Q?G=F6hrs?= <l.goehrs@pengutronix.de>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v4 2/3] dt-bindings: iio: adc: Add Allwinner
- D1/T113s/R329/T507 SoCs GPADC
-Message-ID: <20230610-ranged-outboard-2aaa0cc36cbd@spud>
-References: <20230610122934.953106-1-bigunclemax@gmail.com>
- <20230610122934.953106-3-bigunclemax@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA69C8E3
+	for <linux-sunxi@lists.linux.dev>; Sat, 10 Jun 2023 15:31:01 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-970056276acso418205266b.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 10 Jun 2023 08:31:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686411060; x=1689003060;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IxPCqAAcwCfGdUZiMxaBjYAZU0A3wquYmcYNKNjhuUY=;
+        b=VW/oFge+/+Orjlr3UpOgqadtUtBJ58tLJh7c0ptmvXHTALLI1Zz51N8TQSh9+aWdzL
+         7VvgNo2iitsbJxxSrRsWx2ElXrUNQuqwp58AqaSWSR4MSb2p9jFQXMx61pVnLw9CzoxG
+         +r0AdHepDGV1z/buMuMRwTLzgjk7Czyiwrfdwe7PF5abkrNROckIPIIXpr7LBt7cY1sp
+         EGzLGx82Tf4t+lCcuIQJGM9ENkfSvd62acQeVjSUx6IeJnINgNEDTEQ/AnZoyEfE7ybl
+         KA2+DI0SydJ5SmngpTSk2UYMStrAzFTfDFZ5jYHKRZcjhkat9scfDh6JIkCrSwnTMZ4g
+         7YcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686411060; x=1689003060;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IxPCqAAcwCfGdUZiMxaBjYAZU0A3wquYmcYNKNjhuUY=;
+        b=Fa6zNNKA36m/GFRBbxm3V56i+U3kQtn6cS6ibTP0hnSgwAJBJq5xe8KXpoOFVkL4EJ
+         38Cn9VXBPh5N4aBszwIEMF0nmBFLcVbq+qdHUaXyWc4GfcBVR8YCJC+HRKtGrqFCl96o
+         7uzOC6ALmfts7GiroDWcjVDeq5BYwjGCTobswO2BzFfjqnABxuyc8uwvGUr2hRy6yzRr
+         ecgNgQLazQLfU/7tDrixYTxifxydbZY/jJV61MG1YwaNDju7A2eW6omRtu0lX+X1hRig
+         0GQB4lJlh7iO3fvQK+UL4oAQ4QGUOJpBqG3UVhERhjIoyjqIhXiqvrHNYfczmVnT1zOV
+         ThBA==
+X-Gm-Message-State: AC+VfDzpl3OK1zM1+mznF+YHLqSxp5vkIKkpRWAEybWOXx5Gc6zMXXt/
+	ByxJw5+QN0EqjWhKgObs2fTEUXlPL5dA5C0zxa8=
+X-Google-Smtp-Source: ACHHUZ5ze2gv8QfGmKLPkmbnKeZqHcnYPyn27zxIIkW9XeukUemNkvD0q1gl/Wy1GyoPAlHRwGYvRgduuF0eBtVKhis=
+X-Received: by 2002:a17:907:c15:b0:97b:4c8f:c44f with SMTP id
+ ga21-20020a1709070c1500b0097b4c8fc44fmr3530103ejc.46.1686411059681; Sat, 10
+ Jun 2023 08:30:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="wh79gADhzXBzQ9SW"
-Content-Disposition: inline
-In-Reply-To: <20230610122934.953106-3-bigunclemax@gmail.com>
-
-
---wh79gADhzXBzQ9SW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230610141739.999268-1-bigunclemax@gmail.com>
+ <20230610141739.999268-4-bigunclemax@gmail.com> <20230610-rehire-amid-2517f43504c0@spud>
+In-Reply-To: <20230610-rehire-amid-2517f43504c0@spud>
+From: Maxim Kiselev <bigunclemax@gmail.com>
+Date: Sat, 10 Jun 2023 18:30:48 +0300
+Message-ID: <CALHCpMiEmc8L=O86_x7-KkBHFwf2QpuP0M7ugz7dNPr71cpJmQ@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] dt-bindings: thermal: sun8i: Add binding for
+ D1/T113s THS controller
+To: Conor Dooley <conor@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Vasily Khoruzhick <anarsoul@gmail.com>, 
+	Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria <amitk@kernel.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, linux-pm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hey,
+=D1=81=D0=B1, 10 =D0=B8=D1=8E=D0=BD. 2023=E2=80=AF=D0=B3. =D0=B2 17:52, Con=
+or Dooley <conor@kernel.org>:
 
-On Sat, Jun 10, 2023 at 03:29:08PM +0300, Maksim Kiselev wrote:
-> From: Maxim Kiselev <bigunclemax@gmail.com>
->=20
-> Allwinner's D1/T113s/R329/T507 SoCs have a new general purpose ADC.
-> This ADC is the same for all of this SoCs. The only difference is
-> the number of available channels.
->=20
+...
+
+>
 > Signed-off-by: Maxim Kiselev <bigunclemax@gmail.com>
-> ---
->  .../iio/adc/allwinner,sun20i-d1-gpadc.yaml    | 91 +++++++++++++++++++
->  1 file changed, 91 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/iio/adc/allwinner,s=
-un20i-d1-gpadc.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d=
-1-gpadc.yaml b/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d=
-1-gpadc.yaml
-> new file mode 100644
-> index 000000000000..2b59844b7c07
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc=
-=2Eyaml
-> @@ -0,0 +1,91 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/iio/adc/allwinner,sun20i-d1-gpadc.yam=
-l#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner D1 General Purpose ADC
-> +
-> +maintainers:
-> +  - Maksim Kiselev <bigunclemax@gmail.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - allwinner,sun20i-d1-gpadc
-> +
-> +  "#io-channel-cells":
-> +    const: 1
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +patternProperties:
-> +  "^channel@([0-15])$":
-> +    $ref: adc.yaml
-> +    type: object
-> +    description:
-> +      Represents the internal channels of the ADC.
-> +
-> +    properties:
-> +      reg:
-> +        items:
-> +          minimum: 0
-> +          maximum: 15
-> +
-> +    required:
-> +      - reg
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - "#io-channel-cells"
-> +  - clocks
-> +  - compatible
-> +  - interrupts
-> +  - reg
-> +  - resets
-> +
-> +unevaluatedProperties: false
+> Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
+>
+>> Why do you have 2 sign-offs that are both you w/ different spellings?
 
-How come this one changed to unevaluatedProperties: false?
-Wasn't it for the ADC that we previously discussed whether
-additionalProperties: false was correct or not?
+Sorry for that. I accidentally signed it twice.
 
-Cheers,
-Conor.
+...
 
-> +
-> +examples:
 > +  - |
-> +    #include <dt-bindings/clock/sun20i-d1-ccu.h>
-> +    #include <dt-bindings/reset/sun20i-d1-ccu.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    gpadc: adc@2009000 {
-> +        compatible =3D "allwinner,sun20i-d1-gpadc";
-> +        reg =3D <0x2009000 0x1000>;
-> +        clocks =3D <&ccu CLK_BUS_GPADC>;
-> +        resets =3D <&ccu RST_BUS_GPADC>;
-> +        interrupts =3D <73 IRQ_TYPE_LEVEL_HIGH>;
-> +        #io-channel-cells =3D <1>;
-> +
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        channel@0 {
-> +            reg =3D <0>;
-> +        };
-> +
-> +        channel@1 {
-> +            reg =3D <1>;
-> +        };
-> +    };
-> +...
-> --=20
-> 2.39.2
->=20
+> +    thermal-sensor@2009400 {
+> +          compatible =3D "allwinner,sun20i-d1-ths";
+> +          reg =3D <0x02009400 0x400>;
+> +          interrupts =3D <0 90 0>;
+> +          clocks =3D <&ccu 0>;
+> +          clock-names =3D "bus";
+> +          resets =3D <&ccu 2>;
+> +          nvmem-cells =3D <&ths_calibration>;
+> +          nvmem-cell-names =3D "calibration";
+> +          #thermal-sensor-cells =3D <0>;
+>
+>> Is this calibration required, or optional, for the d1?
 
---wh79gADhzXBzQ9SW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZISRewAKCRB4tDGHoIJi
-0t7lAQC3g8izalvV17+LOkuzC99K8K7gGKPcCDEWGDZSOQmmcgD+PmIbXH+W/Zd3
-WmLf5srpovGreGR+T+Diold6TDIk4ws=
-=rCnq
------END PGP SIGNATURE-----
-
---wh79gADhzXBzQ9SW--
+Calibration data for the D1 is optional as for the H6.
+(But without it, the sensor data will be inaccurate).
