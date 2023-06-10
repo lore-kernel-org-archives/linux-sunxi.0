@@ -1,164 +1,133 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2071.outbound.protection.outlook.com [40.107.93.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D511D3236;
-	Sat, 10 Jun 2023 12:03:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TjGEzgGAq/zw5xPNUYL6NGnplhsDzHEBtl2X5ti5tHq6O76lxQyxPsJCdAEfg4FTJ5dJvRvwEZaYL8KXkl3bxPKHYx/P61nZetjLdmstqNTTd1yXoRtCKVooxy0PpVkRfrLXq5FriOJugv+8XtFmeptUnl6vkdi8QpwYQ8nb0uSONAeFF/HgFQxSEKrmkpFiS54DCOIz1DwcjsLSL9rkjdm3vF8Pxu4O5CzhCWXViy2wPdpn8omIeRqIrsAxkkepSHkLON4+438X4LhZb6QrQAe+ekdVL2JFOUjJ8wK9Onzq14DFjh+AOhFxxevKQeMiEt53xsPiiQDdO3FYTvlETQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=klal1Vz/qPejYayGBh2aS897x3En5tvWg0ZJR3RzSHo=;
- b=LZx6AExQMSSnyaBY52XNUWuY4e60SAvUd174ESI7PSqupfZIaqmA0S7Sogn4TBARCpGEnuzMtfJP0t0X6DdFPj2KR1Eg9xIVeLqj+pY08P0kUic1fdlDKsO1Vf1DIcstOgCuy5iGEZ5xvgHdB1e3+qb2eSyXj66zN2TSA5g8/395spaAQMkhIagZQhUi8C2x/PdObb5OYIjdmjJfd4lKmbtljXpMNAe1svnpl8rVVpuZMtKZ/ztPXyOp6jMo+bTVvlGHtVKulF3mE+0X/nHMlA72DRSoeJDmFoT83i4kGYM1DwSLYUUFSNpYH4/m+as/4TphjXCWZlpjQcRDseP8dA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=klal1Vz/qPejYayGBh2aS897x3En5tvWg0ZJR3RzSHo=;
- b=hthEUyYJHCzaEKYLL6dS6zH336pHqcOgQsPXh9QKuAP79VTayYeWgLsVLFXWNJbvntZDka28Ga37dihqTnigAHIc+TQJQffBGKcRc+cHHPtloyXSQ82b6GLlMjZbOBTYy87Jbo6dy42PhsQwM4CODetEiiLzFYy6aUFxJVDt3cAcXAc/DDqK4ci9JRGFNoeiGQtsop9LdtZoBuSP3vlUohhSb1aLroaO2iA++KPwF3n1GlMZvRUCEQdeN4oNfgb5s8pGb4MGMTPlAJ9cZ9ls5Rw+pi5xhT/h7lP8XGjAz4F7wV5FLhRIRt15NhW4ayjKVWuACJ4PkYUShN+iOwjnhg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by SA1PR12MB8858.namprd12.prod.outlook.com (2603:10b6:806:385::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.44; Sat, 10 Jun
- 2023 12:03:55 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f7a7:a561:87e9:5fab]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f7a7:a561:87e9:5fab%6]) with mapi id 15.20.6455.030; Sat, 10 Jun 2023
- 12:03:53 +0000
-Date: Sat, 10 Jun 2023 09:03:52 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Baolu Lu <baolu.lu@linux.intel.com>
-Cc: Andy Gross <agross@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DAE3236
+	for <linux-sunxi@lists.linux.dev>; Sat, 10 Jun 2023 12:29:55 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3f6e4554453so19727895e9.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 10 Jun 2023 05:29:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686400194; x=1688992194;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FK/BTEpi1h8QPadFMEPE8CQ/83P2AbocLoI9C/+A1BY=;
+        b=aJ3Eu++PfSnISHhhC4Q9T0cjluUXnOgJlp+cWSALsVAq71T+rU638SgsRY2kiQEj9d
+         f0TAdOKcCsLDrd4Rnd5sOT4a47vnhgRFCjJHDrcJQIP1QBb6XPTgg/ORktEKw7iSDB4K
+         4/0Ra9AOFtPYJ900Czi/VUG9qsUDSRvGX6PeNqbcrzmodR14eQAx1SOkRTIPTfe+podw
+         +njDm/lqk1AKUMMc40PrK5OaWFTo8+QxyX7Sq05SDDJqqbax/PUaN+0K18IIejnSG5jA
+         OdLXFzGP78gBuVVeM40uhP4PyWlaFet1+OHmZ8/ynTj4ysc4z4zexGyPmfwA7jGg42RS
+         vC+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686400194; x=1688992194;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FK/BTEpi1h8QPadFMEPE8CQ/83P2AbocLoI9C/+A1BY=;
+        b=SAEtKyLiiYzYtznFDoRokapxcUiEwWtAYcV09vfAYAk76KqMLiyf8gp0GEorlvXjQl
+         /faiA1MWNh50RaQ7YKsPTGPtw/6FXFkQdCvYVs1ZckJt+XU0HuWkbQUXr3P7R1387uIf
+         3oZ/KO/AmIdm5T3XwBpeyTUj5HaaJuCm12WOMMwDS0D5jh549faBH1AnIL6Hmk7yGa84
+         69CGwYD99SggT1ZU3yXtQ5/RRffokLZTbUWe1Hit2/a+HTHvSjWm08b5FHCplxKffEtB
+         q6kPoaJ/CiNxyO5T+RKtgjO1uaUuzAsumIKr7mrT8z6OJZIWBlb9O9tmtWTFQLmbPM7G
+         KQIQ==
+X-Gm-Message-State: AC+VfDx3ADRXIcqVLhNRSZkHvZEa4wiWOgQ2KOBC162Lv+gwyTIWnXuf
+	EiLHlBBO5ZEdtidyHmlyLOc=
+X-Google-Smtp-Source: ACHHUZ6a32iAuvgt0yTJfQcHaQvVHXnVjIKQ6bUuHQx1QXzyI+6JpnqGHo3g6/SThfeC6Chhpu7lxg==
+X-Received: by 2002:a7b:c4c8:0:b0:3f4:239c:f19 with SMTP id g8-20020a7bc4c8000000b003f4239c0f19mr2492715wmk.36.1686400193609;
+        Sat, 10 Jun 2023 05:29:53 -0700 (PDT)
+Received: from user-PC.. ([178.134.198.138])
+        by smtp.gmail.com with ESMTPSA id v26-20020a1cf71a000000b003f80e81705asm2310487wmh.45.2023.06.10.05.29.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Jun 2023 05:29:53 -0700 (PDT)
+From: Maksim Kiselev <bigunclemax@gmail.com>
+To: linux-iio@vger.kernel.org
+Cc: Maksim Kiselev <bigunclemax@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-	linuxppc-dev@lists.ozlabs.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Matthew Rosato <mjrosato@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Orson Zhai <orsonzhai@gmail.com>, Rob Clark <robdclark@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
-	Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Steven Price <steven.price@arm.com>,
-	Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v3 23/25] iommu: Add ops->domain_alloc_paging()
-Message-ID: <ZIRmqK1565B/COT8@nvidia.com>
-References: <23-v3-89830a6c7841+43d-iommu_all_defdom_jgg@nvidia.com>
- <b1225451-2a2d-0f06-da37-d476342db365@linux.intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b1225451-2a2d-0f06-da37-d476342db365@linux.intel.com>
-X-ClientProxiedBy: BLAPR05CA0003.namprd05.prod.outlook.com
- (2603:10b6:208:36e::10) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	Ramona Bolboaca <ramona.bolboaca@analog.com>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	William Breathitt Gray <william.gray@linaro.org>,
+	ChiYuan Huang <cy_huang@richtek.com>,
+	Ibrahim Tilki <Ibrahim.Tilki@analog.com>,
+	ChiaEn Wu <chiaen_wu@richtek.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Haibo Chen <haibo.chen@nxp.com>,
+	Caleb Connolly <caleb.connolly@linaro.org>,
+	Mike Looijmans <mike.looijmans@topic.nl>,
+	=?UTF-8?q?Leonard=20G=C3=B6hrs?= <l.goehrs@pengutronix.de>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH v4 0/3] Add support for Allwinner GPADC on D1/T113s/R329/T507 SoCs
+Date: Sat, 10 Jun 2023 15:29:06 +0300
+Message-Id: <20230610122934.953106-1-bigunclemax@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|SA1PR12MB8858:EE_
-X-MS-Office365-Filtering-Correlation-Id: d9ab38e6-aabb-4311-81ff-08db69aac2ba
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	ob8YGfs3lBL0hMAbAtVYypTgACwFqNMu2IjYBtWONSs07VtU1kc6Bs75qw7ugJxJ3qPqdeAw/WiV8YtNp8PEs4awU0v/p+qJnsMeUHAFVSjUyC9IyMsMuzayN8VF73INsJFJjxoqOid6691jSMhdv4L43+tYmyGtDMcWgArunv8tY+iXbR29fs+4fKyOEvJd2UqDD65K7DRbU1WcMxbIZKBrrpeb8DBaULpiIED0OKQ+6xcSija/Oe2mpn6SLM4pErJN8divzgpmuhrfj9RhNUIcCF3EjvFZ/ciN+JpaEIP3ueq2MpCSKNnrTdWJDXiGR9hoglZyPxr0yUzZt5s11uDeDzThkB2nq6CV6qNLR8338lstJxlkelae9u7M1z2dBxRIjH4F1rhPzN78Aef2xolbS5MGE5xpYbXe846Jb3uR+nsw15iBD5358nBuyY0TQlCIkiAgyJLlBzggVvlNMyVKbfTB28bwM3VDJDj0UXP7ZeMyxtXtEjkOylr1tEMEQIhVS34arA8oTgPg6uPujOFPxy3q2GAKqEvR+tUbhS5tg8xrfXkbs14vg03Eh0ZG
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(39860400002)(396003)(366004)(136003)(451199021)(54906003)(478600001)(7416002)(5660300002)(7406005)(8936002)(8676002)(36756003)(86362001)(2906002)(66476007)(4326008)(66946007)(316002)(6916009)(66556008)(186003)(41300700001)(38100700002)(107886003)(6506007)(6512007)(26005)(6486002)(2616005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?hXZIhjQOnUnXFiILxWmrU+BxuH7r7TDK+u8xI2tIrJ0tzf+Gj6fD/0pjqFKZ?=
- =?us-ascii?Q?e+8CBbeph/If7/K1EIJtp5pQ/hB+ZUaZAf2GGiXNqOwFVmlMvNXFx6jUUApC?=
- =?us-ascii?Q?2tNslLxMMzC2BM8CAq4dqtSbsrERCC4KeJ2t5xo5OvTBIorojlc+HRqQ0uyx?=
- =?us-ascii?Q?8EHU+Ok+5UKWuCxAo1ge8+0bquIX1u+5JKie7OC8CqBZdovcYtItNfqVf8RU?=
- =?us-ascii?Q?9+nBF4zyiYwl6vTEmAULx+xmGyCfbtyabgU281IA+sgYsMoPuaCbVdS9ZfnL?=
- =?us-ascii?Q?KCsMwkvMY+Q87fCLqvnUnLKqywa0ks7VKf6utXL6ld7lmvP9biq5rFkxMpAo?=
- =?us-ascii?Q?pJ0P59yiS5FiSfr9lqaFo6zPLtEQoI4bNs3CAjSn+X7ZN1wFVZze7/TQ4Z9G?=
- =?us-ascii?Q?B9+yxczgkYSbkKwj4EvUcjfDcGLeCsG5pj7kXJuCIs+bPNJKg4tpsDFp0BoV?=
- =?us-ascii?Q?1l2i40tNhVneVlPEgg0Ll0smhjCdAkMEpQRFzJMI5QKP32rbuuVU+vEr2fVw?=
- =?us-ascii?Q?rWOIQSRZiCM07b3SQSId5K1HWrVNKGKe9gcHpi7D6rKON1XMVB84+tKqeK2B?=
- =?us-ascii?Q?WIyzsvLGloPty3SYVy1zgUr1oaXf6giN1FAyP87pWRGYxdPi6GhXsOCAI55u?=
- =?us-ascii?Q?ao+qSrEYYb2lIRhORei2INr+mShtLrxzW5El8ZLzdzdnDoUi6jaz8RCYib3u?=
- =?us-ascii?Q?Lz50ArpwfTu8rrMlquj5GX6qYx5Htzh6NgUUaRVTT36L8yLaR5hoQMKiPDJU?=
- =?us-ascii?Q?AykAzoMawHZJqJTJUZGJfIbafbHzqmH0tR9G/cgjXJWqu7IyQya5jXb/Ta3v?=
- =?us-ascii?Q?4cWg0xOkXW/D38C3qYW/F73fY5pAuc1DD08q4ih3srFZasNYn3wsknsGPYt8?=
- =?us-ascii?Q?8E6JKGeGlBE17FaeBLQLEmbtGe3W9giIQxFOljweSwiRwi7aGjEAsxvGAOfA?=
- =?us-ascii?Q?+sfM/+qiwRUz/lA/CAjkzylWFLNwFGojuDs3KWNI3QJl5NFXcO6tmHYaRKry?=
- =?us-ascii?Q?hMGdXUpVYTrldGz9xiMum/vfS/1D0RXL489SaB+V4z4bCSt52FDYQHU1+S7T?=
- =?us-ascii?Q?Nb+LpebB/5/0sPEKZPbhMPMcMp8893MHatl8jBOSbhzmsgu//vNm9VOfcG7t?=
- =?us-ascii?Q?NYICpozBsExdh7iYMg70mYduGra5mcCK7XVsM97Obpi0n7zb3NljbEglv2nL?=
- =?us-ascii?Q?eAE11fxfhZvdwDjlpeZ384yCiL71hDWHp7Aov8ECnNiJBWbOcCTnAtOHXGEB?=
- =?us-ascii?Q?NPaivB6QcUkWR/HV/ZZAkupwT7TeOkBkcltz/ZOZ1i2bsOM+xQFPYRBZem6J?=
- =?us-ascii?Q?msZCZfjgAc/0SyShL4mw5HalH4gbERiiMzI4341VM8IgRtvJEfc+k7cQphZs?=
- =?us-ascii?Q?jazEPIo62d6/eBFLVUyu1clU897qflD6eV3hDXFlk5H0lKW+UNadjc8nQJES?=
- =?us-ascii?Q?LzbgkkN9BS1vxvnI0ONVb06fVCk6mKouovS2bupPaA1ikqE3M4HHNHY5Tttw?=
- =?us-ascii?Q?A9xxaAVM/3wQuipbUPOK9CRW6Bu4d3O0mw+Hvgu3PJinGNWbsfLnBSVywYxh?=
- =?us-ascii?Q?ArzY/KjTKrw2KYnuPBcOQeQ9izmND9nt+W7VGo3F?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d9ab38e6-aabb-4311-81ff-08db69aac2ba
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2023 12:03:53.7279
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i0zZ9CjV0T/pAHrJO+X+0nPX2mvnViGoZBdi6LdECaIR8MZ+PCBhzuWBSHRGsp5R
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8858
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jun 10, 2023 at 05:08:31PM +0800, Baolu Lu wrote:
-> > @@ -1992,8 +1993,13 @@ static struct iommu_domain *__iommu_domain_alloc(const struct iommu_ops *ops,
-> >   	if (alloc_type == IOMMU_DOMAIN_IDENTITY && ops->identity_domain)
-> >   		return ops->identity_domain;
-> > +	else if (type & __IOMMU_DOMAIN_PAGING) {
-> > +		domain = ops->domain_alloc_paging(dev);
-> 
-> This might be problematic because not all IOMMU drivers implement this
-> callback now. In the missing cases, the code will always result in a
-> null pointer reference issue?
+This series adds support for general purpose ADC (GPADC) on new
+Allwinner's SoCs, such as D1, T113s, T507 and R329. The implemented driver
+provides basic functionality for getting ADC channels data.
 
-Ah, thank you that is a rebasing error :(
+Change History:
+v4:
+- Fixed DT bindings warnings
+- Used GENMASK to clear the irq register
+- Minor formatting fixes
 
-> >   struct iommu_domain *iommu_domain_alloc(const struct bus_type *bus)
-> >   {
-> >   	if (bus == NULL || bus->iommu_ops == NULL)
-> >   		return NULL;
-> > -	return __iommu_domain_alloc(bus->iommu_ops, IOMMU_DOMAIN_UNMANAGED);
-> > +	return __iommu_domain_alloc(bus->iommu_ops, NULL,
-> > +				    IOMMU_DOMAIN_UNMANAGED);
-> 
-> Suppose that iommu_domain_alloc() is always called from device drivers
-> where device pointer is always available. Is it possible to convert it
-> to a real device pointer?
+v3:
+- Added DT bindings dual license, fixed property order and example formatting
+- Added explanations comments for timeout and mutex
+- Dropped unnecessary regmap and used readl/writel instead
+- Added error message about getting channel number
+- Renamed labels and variables to make them self-explanatory
 
-Yes, Robin has a series for that
+v2:
+- Added lastch flag to avoid addition work for already selected channel
+- Added reset assertion on module remove
+- Added dynamic channel allocation and dropped iio_chan_spec arrays
+- Changed IIO_CHAN_INFO_SCALE type to FRACTIONAL_LOG2
+- Dropped separate compatible strings and configs for T113s and R329
+- Fixed includes
+- Fixed Kconfig description
+- Removed duplicate probe error messages
+- Used FIELD_PREP for bit setup
 
-Jason
+v1:
+- Initial version
+Maxim Kiselev (3):
+  iio: adc: Add Allwinner D1/T113s/R329/T507 SoCs GPADC
+  dt-bindings: iio: adc: Add Allwinner D1/T113s/R329/T507 SoCs GPADC
+  riscv: dts: allwinner: d1: Add GPADC node
+
+ .../iio/adc/allwinner,sun20i-d1-gpadc.yaml    |  91 ++++++
+ .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  10 +
+ drivers/iio/adc/Kconfig                       |  10 +
+ drivers/iio/adc/Makefile                      |   1 +
+ drivers/iio/adc/sun20i-gpadc-iio.c            | 281 ++++++++++++++++++
+ 5 files changed, 393 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml
+ create mode 100644 drivers/iio/adc/sun20i-gpadc-iio.c
+
+-- 
+2.39.2
+
