@@ -1,45 +1,46 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C002564
-	for <linux-sunxi@lists.linux.dev>; Sat, 10 Jun 2023 20:42:41 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3f6e13940daso30714165e9.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 10 Jun 2023 13:42:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF792564
+	for <linux-sunxi@lists.linux.dev>; Sat, 10 Jun 2023 20:42:49 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-3f7378a75c0so21262145e9.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 10 Jun 2023 13:42:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686429760; x=1689021760;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VQbsytz9TyV1LG+i5o+RBweOKvc/HeR56N+REltTEvs=;
-        b=QlViBFfedjLHorPByjYuUi0uDD/Zn5SlZiWJa4SfzVV/53gsiCRRqS65k7J9Skvbmn
-         J6MeuA+I6Pbqrh7h4SGTfc512NJLgVMK0kujhUjAyGrAllvR1pkm5x3Quwvg+jyAyKvR
-         EmSt2xAndhmQveisgStzKhSRBFKNq5Kp8s1Ixp+tikNcUyQnDg1GHbVDeYpg1QoNc9Lk
-         ENdE2L6Nq1Yads4PkRnL2wVTaUwc6GEHy3wEJ7h40d1bru90LC9zXh+AwjTVzTWytQzo
-         MKSLCKdXI7YJeh8yx+I+r+ChemT5Xg/wjaQWk1McCeF/AxqgtlzVtKlZSX+N0lsBl82z
-         Uv/g==
+        d=gmail.com; s=20221208; t=1686429768; x=1689021768;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3hJFlrCte5GBR7MpsYIzaf+ErbhQyTaUpl+j1hGve08=;
+        b=hAGLVXUPDF5zyNI17sP6N86ZIevxQyBN2PRxHG+BXQcTj+CJCRxJmBXJWVIbW/RGox
+         6odcZPSmqTpaMgwsFcFJA9RpPKihrTA5F7KLJH5TuI4s0QlMpeRaqtUggy/0Zk43ofWH
+         4gFihZMNwpaJyZmr+Kbb4Om4g0+yWemPhiw63/x1JMLepoFwqvccLGfhm+/cYoEXbf5X
+         c4iSVQkbjRkUk1QWP4RbME58NEhBcUK80MKaq+W73JlPlGdTox3d6CIE/m/HXZdetro4
+         UkwHDWB1djzvqd60Xekl0NenCKkppmD3ifKoAzCdGL0MoYqEHcPopwuW3AOcNAtV85Dr
+         VMJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686429760; x=1689021760;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VQbsytz9TyV1LG+i5o+RBweOKvc/HeR56N+REltTEvs=;
-        b=EN/GUJ5te/fwlpmbWmmfEsrGoZYVm24GA8uCHI5+ts0t+DM9CAIxjIkLtbEhb8oQ+N
-         GtPjO6PrP8H+8+DZMiGYVzNxh6sUQRADL85fo97emuS5Vs2Jy3NnqRBtojQJcKJibHgJ
-         atDd8zd/THXBm8X8Tjd+kGO9FBsrh8Hz/m85NmFmwrBYjG5bDI9BMG4GblkSMVOjXcfV
-         /J62wzS5m/DeD33hv1ni4ecU5oJOZ7F3/XEgzvMG0/NQoexUR0RNvKImMquREGv9/wOd
-         Qgo4lKRsjsk9eW29UayQWx43Sr67UOg+4ynl/k6pLwqw+5zWDZhNJ453o4ZBN8VAj0Qu
-         dHzg==
-X-Gm-Message-State: AC+VfDzRvtKfQbLQ1hx1dVIk2cxwblmX1+CNoCLQYubgefBctWMjH6sg
-	sQpC0x4yulJA4bvS6erNWX0=
-X-Google-Smtp-Source: ACHHUZ713JxFEO0RaksKMViLB1b9DqxdlXmn5SaeyO4l4BysqXEWjvxThMiW/bKGtAiipgIsiB6RTA==
-X-Received: by 2002:a05:600c:2147:b0:3f4:16bc:bd19 with SMTP id v7-20020a05600c214700b003f416bcbd19mr4214297wml.23.1686429759836;
-        Sat, 10 Jun 2023 13:42:39 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686429768; x=1689021768;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3hJFlrCte5GBR7MpsYIzaf+ErbhQyTaUpl+j1hGve08=;
+        b=Dwq9nxV/GcaTyAXjRU9nilgulNC6+/xRlPnNtIVkssNOqhmdzyGbCVKHDHBW7qoDHS
+         hxSuirbpIsAS24yWWx/oCaGvrq7BT5yJACUUJdI8moGzIybMwK9bP2RchyfsBRlFvwM5
+         9htHbnn5UFJw4J/LtOGArhkCq0OaavBIl6pYqaMXYS0b3V1ZMwHH6CQSug0PFkQP8Ok+
+         9xOD7dDqB4/4RqIPHVtQbDC20eHAs5SuMR1WZA5kWINEzttIM+bY5kDU1EaXAgi6AevA
+         In+Y1fFuE4xyZD3L92AQPw/MnlYIvMvsFtU0BdQTCPyAW35JN9u+DT6YLG4eB9RG4qzc
+         Ts0Q==
+X-Gm-Message-State: AC+VfDx6YdsOIdHh3XLNsuzVmcjk0haUbwqLuBT+QPoAUwG33kvRBXJN
+	EE2ZQ5Y18uUq0Flh6piCCs8=
+X-Google-Smtp-Source: ACHHUZ7VpOD/P9K1c9pzM/fet25ba5bKHkDD2WlG/ssQv8LH2i8o061I1aGWlrW6vmqAo8m/dVIn3g==
+X-Received: by 2002:a05:600c:211:b0:3f7:ed1e:5a21 with SMTP id 17-20020a05600c021100b003f7ed1e5a21mr3426704wmi.38.1686429767895;
+        Sat, 10 Jun 2023 13:42:47 -0700 (PDT)
 Received: from user-PC.. ([178.134.198.138])
-        by smtp.gmail.com with ESMTPSA id p14-20020a7bcc8e000000b003f605566610sm6547733wma.13.2023.06.10.13.42.37
+        by smtp.gmail.com with ESMTPSA id p14-20020a7bcc8e000000b003f605566610sm6547733wma.13.2023.06.10.13.42.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Jun 2023 13:42:39 -0700 (PDT)
+        Sat, 10 Jun 2023 13:42:47 -0700 (PDT)
 From: Maksim Kiselev <bigunclemax@gmail.com>
 To: linux-kernel@vger.kernel.org
-Cc: Maksim Kiselev <bigunclemax@gmail.com>,
+Cc: Maxim Kiselev <bigunclemax@gmail.com>,
 	Vasily Khoruzhick <anarsoul@gmail.com>,
 	Yangtao Li <tiny.windzz@gmail.com>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
@@ -61,10 +62,12 @@ Cc: Maksim Kiselev <bigunclemax@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-riscv@lists.infradead.org
-Subject: [PATCH v3 0/3] Add D1/T113s thermal sensor controller support
-Date: Sat, 10 Jun 2023 23:42:17 +0300
-Message-Id: <20230610204225.1133473-1-bigunclemax@gmail.com>
+Subject: [PATCH v3 1/3] dt-bindings: thermal: sun8i: Add binding for D1/T113s THS controller
+Date: Sat, 10 Jun 2023 23:42:18 +0300
+Message-Id: <20230610204225.1133473-2-bigunclemax@gmail.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230610204225.1133473-1-bigunclemax@gmail.com>
+References: <20230610204225.1133473-1-bigunclemax@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -73,30 +76,72 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series adds support for Allwinner D1/T113s thermal sensor controller.
-THIS controller is similar to the one on H6, but with only one sensor and
-uses a different scale and offset values.
+From: Maxim Kiselev <bigunclemax@gmail.com>
 
-v3:
-- Fixed SoB tag again
+Add a binding for D1/T113s thermal sensor controller.
 
-v2:
-- Fixed SoB tag
-- Moved binding patch before driver changes
+Signed-off-by: Maxim Kiselev <bigunclemax@gmail.com>
+---
+ .../thermal/allwinner,sun8i-a83t-ths.yaml     | 20 ++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
-v1:
-- Initial version
-
-Maxim Kiselev (3):
-  dt-bindings: thermal: sun8i: Add binding for D1/T113s THS controller
-  thermal: sun8i: Add D1/T113s THS controller support
-  riscv: dts: allwinner: d1: Add thermal sensor and thermal zone
-
- .../thermal/allwinner,sun8i-a83t-ths.yaml     | 20 +++++++++++++-
- .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 26 +++++++++++++++++++
- drivers/thermal/sun8i_thermal.c               | 13 ++++++++++
- 3 files changed, 58 insertions(+), 1 deletion(-)
-
+diff --git a/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml b/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
+index fbd4212285e2..001faa37fc27 100644
+--- a/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
++++ b/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
+@@ -16,6 +16,7 @@ properties:
+       - allwinner,sun8i-a83t-ths
+       - allwinner,sun8i-h3-ths
+       - allwinner,sun8i-r40-ths
++      - allwinner,sun20i-d1-ths
+       - allwinner,sun50i-a64-ths
+       - allwinner,sun50i-a100-ths
+       - allwinner,sun50i-h5-ths
+@@ -61,6 +62,7 @@ allOf:
+         compatible:
+           contains:
+             enum:
++              - allwinner,sun20i-d1-ths
+               - allwinner,sun50i-a100-ths
+               - allwinner,sun50i-h6-ths
+ 
+@@ -84,7 +86,9 @@ allOf:
+       properties:
+         compatible:
+           contains:
+-            const: allwinner,sun8i-h3-ths
++            enum:
++              - allwinner,sun8i-h3-ths
++              - allwinner,sun20i-d1-ths
+ 
+     then:
+       properties:
+@@ -103,6 +107,7 @@ allOf:
+             enum:
+               - allwinner,sun8i-h3-ths
+               - allwinner,sun8i-r40-ths
++              - allwinner,sun20i-d1-ths
+               - allwinner,sun50i-a64-ths
+               - allwinner,sun50i-a100-ths
+               - allwinner,sun50i-h5-ths
+@@ -159,4 +164,17 @@ examples:
+          #thermal-sensor-cells = <1>;
+     };
+ 
++  - |
++    thermal-sensor@2009400 {
++          compatible = "allwinner,sun20i-d1-ths";
++          reg = <0x02009400 0x400>;
++          interrupts = <0 90 0>;
++          clocks = <&ccu 0>;
++          clock-names = "bus";
++          resets = <&ccu 2>;
++          nvmem-cells = <&ths_calibration>;
++          nvmem-cell-names = "calibration";
++          #thermal-sensor-cells = <0>;
++    };
++
+ ...
 -- 
 2.39.2
 
