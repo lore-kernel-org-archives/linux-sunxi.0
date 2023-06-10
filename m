@@ -1,123 +1,115 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91762200AE
-	for <linux-sunxi@lists.linux.dev>; Sat, 10 Jun 2023 20:21:26 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-30aef0499b6so1805027f8f.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 10 Jun 2023 13:21:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9FB92564
+	for <linux-sunxi@lists.linux.dev>; Sat, 10 Jun 2023 20:31:17 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5149c51fd5bso5161268a12.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 10 Jun 2023 13:31:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686428484; x=1689020484;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1686429075; x=1689021075;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9/TmEA+PoC7xu6/KU/ll32pvJQ2ck1CrGNuRyF6FIV0=;
-        b=q/HkAmIWDbgYoNWDDvT9YG/eWL52I35C0UJbDbI1HdQKZp+vNeYsWGUudS+FVnuO7q
-         hw7oXcII3vxaWQLMSONG8XrmkQct32TLHET/Ql5xDmhf5uiDqZnN4HQBe0w6LiWQo4zd
-         KTb5ddXVdsLXL2s6ElAylt2FpfdAEz/YboO5Hd9p0zgz1ZqnKlP4moTQmkNENgKys9yq
-         mpoOc0nPZTKaYEZAPyPIOx48Ac/nQIeNMRCdldsJb3ivr3NtfDBs1TpRJIyLuZXgA0Am
-         1FqqmH4xUJnhQrzIBYrZggfwm3JglxUDmeeEh4F7S0htHerNjv2xR07w23BaRpcpwXLv
-         4Gsw==
+        bh=7CUfh0ADpVTOvYtA/QmP/1yzn/jTq6xsCBbjiRAuVBc=;
+        b=M47Bs76cJZduUe2jX233QqIV+egitW4UlsEXHue+q2T4KOH4cAqzlb7wCpSXUpI5ei
+         /Pi7TGIp+sOjRdi+kTM4L67E/u7YIbJu5mtyl5qUDc4RFchU5c7uHXsAAwTt2H1uoxCV
+         Hfqzlj8/B7SADPb/+YEln2DmCrLl/Yo+Yzv6RjbzPMQEMW6/YascdgSIY28YE+Wec9/X
+         dX91y+QUiMlkJ54z+Gc8eIHBpvT+1ngCWfGJUg4QW5plYiX6uWT0y75UJ+SRiTpW0A0o
+         i+q82f/xOnog1S1/ovoy3GKVHDZl0Ns+Ce2hERd9m+gppCFbqIY+AmGOFjnmi9V37reW
+         2Cdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686428484; x=1689020484;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1686429075; x=1689021075;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9/TmEA+PoC7xu6/KU/ll32pvJQ2ck1CrGNuRyF6FIV0=;
-        b=Y+uFNxIVbp5nacR3pwZl8WxoqlxeyH9NStVlH3O/OfTCILKu+tPkUbCXMrtuYMyZLd
-         Gamih0NI2FIpAnNYpLj5+tWeY6DeIPzXjeMI2/0Xo6Bz4J93oGlprLb9Br82RTOH7Sp7
-         MZG0fYcsGX3q/5ZUiqkRJobSKJnHMct1g2DplIq/50kzOv4jYnnbaeRbM5DxZ5UVsbSQ
-         NUNioGKQAK783iDNZzNWdH8IbgAYuGfZ9KiaYwiG+2GivJvOqQKrbHHojmFd5WoZUsGC
-         4a7IqiVbMkxiUWbHHrjHZj6C3DHyi/DxSIJffhue1BbA5Qxam7r1p3LlYkGSUL1v44Tk
-         48cg==
-X-Gm-Message-State: AC+VfDyHO4xfoob5oajHedjDD1zgl38yN1G/tD2sdYm4YIsFIaCnwe24
-	CDOZ60dYb33t+S53ac6fNKQ=
-X-Google-Smtp-Source: ACHHUZ5DbztnfIc7NFufk8XwP3nLXNU5KRP/S//g+7bbSRmQvPvKaCzCwkR1IA7NmuIeIlqhNtOGqg==
-X-Received: by 2002:a5d:4111:0:b0:30f:babb:4e02 with SMTP id l17-20020a5d4111000000b0030fbabb4e02mr339596wrp.10.1686428484369;
-        Sat, 10 Jun 2023 13:21:24 -0700 (PDT)
-Received: from user-PC.. ([92.51.95.194])
-        by smtp.gmail.com with ESMTPSA id m11-20020a5d6a0b000000b0030b5d203e7esm7878116wru.97.2023.06.10.13.21.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Jun 2023 13:21:24 -0700 (PDT)
-From: Maksim Kiselev <bigunclemax@gmail.com>
-To: linux-iio@vger.kernel.org
-Cc: Maxim Kiselev <bigunclemax@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Heiko Stuebner <heiko.stuebner@vrull.eu>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Cosmin Tanislav <demonsingur@gmail.com>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-	Marcus Folkesson <marcus.folkesson@gmail.com>,
-	ChiYuan Huang <cy_huang@richtek.com>,
-	Ramona Bolboaca <ramona.bolboaca@analog.com>,
-	Ibrahim Tilki <Ibrahim.Tilki@analog.com>,
-	ChiaEn Wu <chiaen_wu@richtek.com>,
-	William Breathitt Gray <william.gray@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	=?UTF-8?q?Leonard=20G=C3=B6hrs?= <l.goehrs@pengutronix.de>,
-	Caleb Connolly <caleb.connolly@linaro.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v5 3/3] riscv: dts: allwinner: d1: Add GPADC node
-Date: Sat, 10 Jun 2023 23:19:50 +0300
-Message-Id: <20230610202005.1118049-4-bigunclemax@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230610202005.1118049-1-bigunclemax@gmail.com>
-References: <20230610202005.1118049-1-bigunclemax@gmail.com>
+        bh=7CUfh0ADpVTOvYtA/QmP/1yzn/jTq6xsCBbjiRAuVBc=;
+        b=VejM8KQ0uaFhQMhuGeqhuyWcoJEAfFaHLyq2dPNO1l0qdm5iMyhBB2aDOzlgWVLbcR
+         0Wacy5tI3bmy24uASF2/BnIrTwalTlDjSM4Xz/1QG7EhpNtsg/911QSCfBnCn1izAn3e
+         /PhxfAc53bOBj6DQXKCtuIITd8wZO7YcVejOhIuouD3T239xUPtntA+LNt03ufOWqJJo
+         yiLKDQ1HRVySTQABX5jKknBglCGhSdSR0uMwVLidJyGby9XzxEJEEWc8vinE6zunDSIJ
+         BoSZ9r7GgX22Ha3QqI5h26AyA0k3gDvO7jsLVVWQNbAD1zvK8u6tnQU36ytefxy5MrQm
+         +PMA==
+X-Gm-Message-State: AC+VfDy3unMCXw+zVyri+42dlulBEEo4xpagrKkh0AZioGvDFBTddLbO
+	WdsZm0JRQB841RDdBVFKzHIk0OA8vCaBqtfpoQE=
+X-Google-Smtp-Source: ACHHUZ4dpstWeM5AQfuAw9+nOwca/wduEjuy/62JuC2LfBIkzmkX6x8lh9InUH1M4rzcmOxdrSkt3SvaUvu4hsiDGbc=
+X-Received: by 2002:a17:907:9724:b0:979:7624:1f70 with SMTP id
+ jg36-20020a170907972400b0097976241f70mr6808874ejc.18.1686429075593; Sat, 10
+ Jun 2023 13:31:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-
+References: <20230610141739.999268-1-bigunclemax@gmail.com>
+ <20230610141739.999268-4-bigunclemax@gmail.com> <20230610-rehire-amid-2517f43504c0@spud>
+ <CALHCpMiEmc8L=O86_x7-KkBHFwf2QpuP0M7ugz7dNPr71cpJmQ@mail.gmail.com>
+ <20230610-enlarged-agonize-0e9219f9921d@spud> <20230610-crumpet-spender-4133090a4728@spud>
+In-Reply-To: <20230610-crumpet-spender-4133090a4728@spud>
 From: Maxim Kiselev <bigunclemax@gmail.com>
+Date: Sat, 10 Jun 2023 23:31:03 +0300
+Message-ID: <CALHCpMjFNvJAnd2_3-1n_L3QRz4eNc-Egm-BD6jcS6H694dSyg@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] dt-bindings: thermal: sun8i: Add binding for
+ D1/T113s THS controller
+To: Conor Dooley <conor@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Vasily Khoruzhick <anarsoul@gmail.com>, 
+	Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria <amitk@kernel.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, linux-pm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This patch adds declaration of the general purpose ADC for D1
-and T113s SoCs.
+=D1=81=D0=B1, 10 =D0=B8=D1=8E=D0=BD. 2023=E2=80=AF=D0=B3. =D0=B2 21:01, Con=
+or Dooley <conor@kernel.org>:
 
-Signed-off-by: Maxim Kiselev <bigunclemax@gmail.com>
----
- arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+...
 
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-index 922e8e0e2c09..90c79041cfba 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-@@ -138,6 +138,16 @@ ccu: clock-controller@2001000 {
- 			#reset-cells = <1>;
- 		};
- 
-+		gpadc: adc@2009000 {
-+			compatible = "allwinner,sun20i-d1-gpadc";
-+			reg = <0x2009000 0x1000>;
-+			clocks = <&ccu CLK_BUS_GPADC>;
-+			resets = <&ccu RST_BUS_GPADC>;
-+			interrupts = <SOC_PERIPHERAL_IRQ(57) IRQ_TYPE_LEVEL_HIGH>;
-+			status = "disabled";
-+			#io-channel-cells = <1>;
-+		};
-+
- 		dmic: dmic@2031000 {
- 			compatible = "allwinner,sun20i-d1-dmic",
- 				     "allwinner,sun50i-h6-dmic";
--- 
-2.39.2
+> > > > +  - |
+> > > > +    thermal-sensor@2009400 {
+> > > > +          compatible =3D "allwinner,sun20i-d1-ths";
+> > > > +          reg =3D <0x02009400 0x400>;
+> > > > +          interrupts =3D <0 90 0>;
+> > > > +          clocks =3D <&ccu 0>;
+> > > > +          clock-names =3D "bus";
+> > > > +          resets =3D <&ccu 2>;
+> > > > +          nvmem-cells =3D <&ths_calibration>;
+> > > > +          nvmem-cell-names =3D "calibration";
+> > > > +          #thermal-sensor-cells =3D <0>;
+> > > >
+> > > >> Is this calibration required, or optional, for the d1?
+> > >
+> > > Calibration data for the D1 is optional as for the H6.
+> > > (But without it, the sensor data will be inaccurate).
+> >
+> > Okay. Modulo the signoff:
+> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+>
+> Wait, that's not what I meant to say... Clearly turned my brain off for
+> a moment. If it is not going to function correctly without the
+> calibration data, why not make the calibration data required for the
+> d1's ths?
 
+I don't really know why, but the calibration data is optional for
+other controllers.
+So I just did it the same way.
+Here is explanation comment about it from the driver:
+        /*
+         * Even if the external calibration data stored in sid is
+         * not accessible, the THS hardware can still work, although
+         * the data won't be so accurate.
+         *
+         * The default value of calibration register is 0x800 for
+         * every sensor, and the calibration value is usually 0x7xx
+         * or 0x8xx, so they won't be away from the default value
+         * for a lot.
+         *
+         * So here we do not return error if the calibration data is
+         * not available, except the probe needs deferring.
+         */
