@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1401CEA8
-	for <linux-sunxi@lists.linux.dev>; Sun, 11 Jun 2023 23:33:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24E01EA8
+	for <linux-sunxi@lists.linux.dev>; Sun, 11 Jun 2023 23:33:40 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 312BDC14;
-	Sun, 11 Jun 2023 16:34:23 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 201482F4;
+	Sun, 11 Jun 2023 16:34:25 -0700 (PDT)
 Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0DB6F3F663;
-	Sun, 11 Jun 2023 16:33:35 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F0A823F663;
+	Sun, 11 Jun 2023 16:33:37 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -17,9 +17,9 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	=?UTF-8?q?=E8=B7=AF=E8=BE=89?= <luhux76@gmail.com>,
 	u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 6/7] phy: sun4i: Add H616 USB PHY support
-Date: Mon, 12 Jun 2023 00:32:40 +0100
-Message-Id: <20230611233241.14235-7-andre.przywara@arm.com>
+Subject: [PATCH v2 7/7] sunxi: H616: enable USB support for H616 boards
+Date: Mon, 12 Jun 2023 00:32:41 +0100
+Message-Id: <20230611233241.14235-8-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.8
 In-Reply-To: <20230611233241.14235-1-andre.przywara@arm.com>
 References: <20230611233241.14235-1-andre.przywara@arm.com>
@@ -31,62 +31,39 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Now that the Allwinner USB PHY driver supports the H616 quirk, let's
-enable support for USB ports on that SoC.
-
-We connect the compatible string to a new struct describing the SoCs USB
-PHY properties, and unblock the PHY driver selection in Kconfig.
-
-A later patch will enable USB support in the H616 boards' defconfigs.
+Now that the PHY driver supports the H616 USB PHY, we can enable USB
+support for the two H616 boards.
+As the OrangePi Zero2 has a USB-C port hard-wired to peripheral mode,
+let's enable USB gadget mode for port 0, so people can use fastboot,
+ethernet or mass storage functionality.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- drivers/phy/allwinner/Kconfig         |  1 -
- drivers/phy/allwinner/phy-sun4i-usb.c | 12 ++++++++++++
- 2 files changed, 12 insertions(+), 1 deletion(-)
+ configs/orangepi_zero2_defconfig | 3 +++
+ configs/x96_mate_defconfig       | 2 ++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/drivers/phy/allwinner/Kconfig b/drivers/phy/allwinner/Kconfig
-index 565b4617b01..bb0bd8d5f81 100644
---- a/drivers/phy/allwinner/Kconfig
-+++ b/drivers/phy/allwinner/Kconfig
-@@ -5,7 +5,6 @@ config PHY_SUN4I_USB
- 	bool "Allwinner Sun4I USB PHY driver"
- 	depends on ARCH_SUNXI
- 	depends on !MACH_SUN9I
--	depends on !MACH_SUN50I_H616
- 	default n if MACH_SUN8I_V3S
- 	default y
- 	select DM_REGULATOR
-diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
-index c81811a7522..77dffcad884 100644
---- a/drivers/phy/allwinner/phy-sun4i-usb.c
-+++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-@@ -672,6 +672,17 @@ static const struct sun4i_usb_phy_cfg sun50i_h6_cfg = {
- 	.missing_phys = BIT(1) | BIT(2),
- };
- 
-+static const struct sun4i_usb_phy_cfg sun50i_h616_cfg = {
-+	.num_phys = 4,
-+	.disc_thresh = 3,
-+	.phyctl_offset = REG_PHYCTL_A33,
-+	.dedicated_clocks = true,
-+	.phy0_dual_route = true,
-+	.hci_phy_ctl_clear = PHY_CTL_SIDDQ,
-+	.needs_phy2_siddq = true,
-+	.siddq_in_base = true,
-+};
-+
- static const struct sun4i_usb_phy_cfg suniv_f1c100s_cfg = {
- 	.num_phys = 1,
- 	.disc_thresh = 3,
-@@ -693,6 +704,7 @@ static const struct udevice_id sun4i_usb_phy_ids[] = {
- 	{ .compatible = "allwinner,sun20i-d1-usb-phy", .data = (ulong)&sun20i_d1_cfg },
- 	{ .compatible = "allwinner,sun50i-a64-usb-phy", .data = (ulong)&sun50i_a64_cfg},
- 	{ .compatible = "allwinner,sun50i-h6-usb-phy", .data = (ulong)&sun50i_h6_cfg},
-+	{ .compatible = "allwinner,sun50i-h616-usb-phy", .data = (ulong)&sun50i_h616_cfg },
- 	{ .compatible = "allwinner,suniv-f1c100s-usb-phy", .data = (ulong)&suniv_f1c100s_cfg },
- 	{ }
- };
+diff --git a/configs/orangepi_zero2_defconfig b/configs/orangepi_zero2_defconfig
+index 6cb942f511a..4178ee6a286 100644
+--- a/configs/orangepi_zero2_defconfig
++++ b/configs/orangepi_zero2_defconfig
+@@ -19,3 +19,6 @@ CONFIG_SPI_FLASH_MACRONIX=y
+ CONFIG_PHY_REALTEK=y
+ CONFIG_SUN8I_EMAC=y
+ CONFIG_SPI=y
++CONFIG_USB_EHCI_HCD=y
++CONFIG_USB_OHCI_HCD=y
++CONFIG_USB_MUSB_GADGET=y
+diff --git a/configs/x96_mate_defconfig b/configs/x96_mate_defconfig
+index 122c1a99e32..32ef0a42ee2 100644
+--- a/configs/x96_mate_defconfig
++++ b/configs/x96_mate_defconfig
+@@ -18,3 +18,5 @@ CONFIG_SYS_I2C_MVTWSI=y
+ CONFIG_SYS_I2C_SLAVE=0x7f
+ CONFIG_SYS_I2C_SPEED=400000
+ CONFIG_SUPPORT_EMMC_BOOT=y
++CONFIG_USB_EHCI_HCD=y
++CONFIG_USB_OHCI_HCD=y
 -- 
 2.35.8
 
