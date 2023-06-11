@@ -1,84 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432F779D8
-	for <linux-sunxi@lists.linux.dev>; Sun, 11 Jun 2023 10:21:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 696E8C433EF;
-	Sun, 11 Jun 2023 10:21:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686478914;
-	bh=eDy1DNnFmuqct2VM5FZyW/QF4ZpT++8h8SfJtyuKwWk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=crix+RAzPczBIvCUNOTOtGmr51kjEkLyMRIif2FGs/Wj63GML/XRx8wbbffMRURWj
-	 Xdj8FDVuZxtQi5SZgQ4vtvL4njVRIriONzPtWlwVniFzlpAfLDlw8ArZ83VRG7Hfmj
-	 c2poavuA7dKGhcxMmppwXl8AYbL6sGbBGKXiqoTZXhnSC+tL9xqXM1EC9xt554hqWJ
-	 Gehbnw3u0PM/xsWc5CYFADJe+UYKvI1x2ce4lGeN7kmEakEi4J/0iB8676wn8zWHRq
-	 d8sTF0VYbFCkiWl4nzsSn2ziMGTjfndy4eeLoJ58iTrJG1nwtMdchrj+epLrgdC/62
-	 m08HeCfqu0nfQ==
-Date: Sun, 11 Jun 2023 11:21:47 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Maksim Kiselev <bigunclemax@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Vasily Khoruzhick <anarsoul@gmail.com>,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 687791641D
+	for <linux-sunxi@lists.linux.dev>; Sun, 11 Jun 2023 23:33:32 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 13B791FB;
+	Sun, 11 Jun 2023 16:34:11 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BD54F3F663;
+	Sun, 11 Jun 2023 16:33:23 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Marek Vasut <marex@denx.de>,
 	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v3 1/3] dt-bindings: thermal: sun8i: Add binding for
- D1/T113s THS controller
-Message-ID: <20230611-lilly-lilly-fba1c6fe8c5d@spud>
-References: <20230610204225.1133473-1-bigunclemax@gmail.com>
- <20230610204225.1133473-2-bigunclemax@gmail.com>
+	Icenowy Zheng <uwu@icenowy.me>,
+	Sam Edwards <cfsworks@gmail.com>,
+	=?UTF-8?q?=E8=B7=AF=E8=BE=89?= <luhux76@gmail.com>,
+	u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 0/7] phy: sun4i: Allwinner F1C100s/H616 support and cleanup
+Date: Mon, 12 Jun 2023 00:32:34 +0100
+Message-Id: <20230611233241.14235-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.8
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="pp3DI5TDdJDuqtL4"
-Content-Disposition: inline
-In-Reply-To: <20230610204225.1133473-2-bigunclemax@gmail.com>
+Content-Transfer-Encoding: 8bit
 
+Hi,
 
---pp3DI5TDdJDuqtL4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+version 2 of this series does not change anything in the first three
+patches adding F1C100s support (apart from adding Jernej's review tags,
+many thanks for that!), but also adds support for the H616 USB PHY.
+This is a bit more involved this time, since the USB PHY on this SoC
+requires some weird quirk to enable most ports. Along with this it adds
+some cleanup that we used in the Linux driver, which helps to keep the
+code clean and simplifies future support.
 
-On Sat, Jun 10, 2023 at 11:42:18PM +0300, Maksim Kiselev wrote:
-> From: Maxim Kiselev <bigunclemax@gmail.com>
->=20
-> Add a binding for D1/T113s thermal sensor controller.
->=20
-> Signed-off-by: Maxim Kiselev <bigunclemax@gmail.com>
+Patch 1/7 fixes a bug that prevented the V3s from being supported, and
+also affects the F1C100s. Patch 2/7 adds the compatible string for the
+F1C100s, along with its specific properties. Patch 3/7 uses the
+opportunity to cleanup the U-Boot Kconfig selection of the sunxi USB
+PHY, and patch 4/7 continues the spring clean with copying some PHY
+quirk rework done in the Linux kernel recently.
+The remaining three patches then deal with the H616 USB PHY: patch 5 adds
+the quirk support, patch 6 wires up the compatible string, while the
+final patch enables USB support in the defconfig of the two supported
+boards.
 
-Since the calibration stuff now makes sense to me (and thanks for that),
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Please have a look and test!
 
 Cheers,
-Conor.
+Andre
 
---pp3DI5TDdJDuqtL4
-Content-Type: application/pgp-signature; name="signature.asc"
+Andre Przywara (7):
+  phy: sun4i-usb: Fix of_xlate() argument check
+  phy: sun4i-usb: add Allwinner F1C100s support
+  sunxi: Kconfig: rework PHY_USB_SUN4I selection
+  phy: sun4i-usb: Replace types with explicit quirk flags
+  phy: sun4i-usb: Add H616 USB PHY quirk support
+  phy: sun4i: Add H616 USB PHY support
+  sunxi: H616: enable USB support for H616 boards
 
------BEGIN PGP SIGNATURE-----
+ arch/arm/mach-sunxi/Kconfig           |  11 ---
+ configs/orangepi_zero2_defconfig      |   3 +
+ configs/x96_mate_defconfig            |   2 +
+ drivers/phy/allwinner/Kconfig         |   5 +-
+ drivers/phy/allwinner/phy-sun4i-usb.c | 111 ++++++++++++++++++--------
+ 5 files changed, 88 insertions(+), 44 deletions(-)
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZIWgOwAKCRB4tDGHoIJi
-0udzAQDzhi9sIZfLH+m04LetoCOBs1Pmxigngt06hVp/ljyoNAD/abfWCWC5ETGg
-5j257iZ4rNVAc0LpMOZfitAsJZ3c3Q8=
-=bfL2
------END PGP SIGNATURE-----
+-- 
+2.35.8
 
---pp3DI5TDdJDuqtL4--
