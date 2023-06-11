@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DF89EA8
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00657168AF
 	for <linux-sunxi@lists.linux.dev>; Sun, 11 Jun 2023 23:33:34 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4A5EFD75;
-	Sun, 11 Jun 2023 16:34:19 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4FDDC2F4;
+	Sun, 11 Jun 2023 16:34:13 -0700 (PDT)
 Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F0E1B3F663;
-	Sun, 11 Jun 2023 16:33:31 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2CD883F663;
+	Sun, 11 Jun 2023 16:33:25 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -17,9 +17,9 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	=?UTF-8?q?=E8=B7=AF=E8=BE=89?= <luhux76@gmail.com>,
 	u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 4/7] phy: sun4i-usb: Replace types with explicit quirk flags
-Date: Mon, 12 Jun 2023 00:32:38 +0100
-Message-Id: <20230611233241.14235-5-andre.przywara@arm.com>
+Subject: [PATCH v2 1/7] phy: sun4i-usb: Fix of_xlate() argument check
+Date: Mon, 12 Jun 2023 00:32:35 +0100
+Message-Id: <20230611233241.14235-2-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.8
 In-Reply-To: <20230611233241.14235-1-andre.przywara@arm.com>
 References: <20230611233241.14235-1-andre.przywara@arm.com>
@@ -31,202 +31,42 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-So far we were assigning some crude "type" (SoC name, really) to each
-Allwinner USB PHY model, then guarding certain quirks based on this.
-This does not only look weird, but gets more or more cumbersome to
-maintain.
+In its of_xlate() function, the Allwinner USB PHY driver compares the
+args_count variable against the number of implemented USB PHYs, although
+this is the *number of arguments* to the DT phandle property. Per the DT
+binding for this PHY device, this number is always one, so this check
+will always fail if the particular SoC implements exactly one USB PHY.
+So far this affected only the V3s (which has USB support disabled), but
+the F1C100s also sports one PHY only.
 
-Remove the bogus type names altogether, instead introduce flags for each
-quirk, and explicitly check for them.
-This improves readability, and simplifies future extensions.
+Fix that check to compare args_count against exactly 1, and the args[0]
+content (requested PHY number) against the number of implemented PHYs.
 
-Port of Linux patch 8dd256bae653.
+This fixes USB operation on the Allwinner V3s and allows to enable USB
+on the Allwinner F1C100s SoC.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/phy/allwinner/phy-sun4i-usb.c | 41 ++++++---------------------
- 1 file changed, 9 insertions(+), 32 deletions(-)
+ drivers/phy/allwinner/phy-sun4i-usb.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
-index 2bf47fc36a7..88c1a3dc84a 100644
+index 6428163c188..dbea70f9a5e 100644
 --- a/drivers/phy/allwinner/phy-sun4i-usb.c
 +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-@@ -73,26 +73,15 @@
+@@ -372,7 +372,10 @@ static int sun4i_usb_phy_xlate(struct phy *phy,
+ {
+ 	struct sun4i_usb_phy_data *data = dev_get_priv(phy->dev);
  
- #define MAX_PHYS			4
+-	if (args->args_count >= data->cfg->num_phys)
++	if (args->args_count != 1)
++		return -EINVAL;
++
++	if (args->args[0] >= data->cfg->num_phys)
+ 		return -EINVAL;
  
--enum sun4i_usb_phy_type {
--	sun4i_a10_phy,
--	sun6i_a31_phy,
--	sun8i_a33_phy,
--	sun8i_a83t_phy,
--	sun8i_h3_phy,
--	sun8i_r40_phy,
--	sun8i_v3s_phy,
--	sun50i_a64_phy,
--	sun50i_h6_phy,
--};
--
- struct sun4i_usb_phy_cfg {
- 	int num_phys;
--	enum sun4i_usb_phy_type type;
-+	int hsic_index;
- 	u32 disc_thresh;
- 	u32 hci_phy_ctl_clear;
- 	u8 phyctl_offset;
- 	bool dedicated_clocks;
- 	bool phy0_dual_route;
-+	bool siddq_in_base;
- 	int missing_phys;
- };
- 
-@@ -200,7 +189,7 @@ static void sun4i_usb_phy_passby(struct phy *phy, bool enable)
- 		SUNXI_AHB_INCRX_ALIGN_EN | SUNXI_ULPI_BYPASS_EN;
- 
- 	/* A83T USB2 is HSIC */
--	if (data->cfg->type == sun8i_a83t_phy && usb_phy->id == 2)
-+	if (data->cfg->hsic_index && usb_phy->id == data->cfg->hsic_index)
- 		bits |= SUNXI_EHCI_HS_FORCE | SUNXI_HSIC_CONNECT_INT |
- 			SUNXI_HSIC;
- 
-@@ -289,8 +278,7 @@ static int sun4i_usb_phy_init(struct phy *phy)
- 		writel(val, usb_phy->pmu + REG_HCI_PHY_CTL);
- 	}
- 
--	if (data->cfg->type == sun8i_a83t_phy ||
--	    data->cfg->type == sun50i_h6_phy) {
-+	if (data->cfg->siddq_in_base) {
- 		if (phy->id == 0) {
- 			val = readl(data->base + data->cfg->phyctl_offset);
- 			val |= PHY_CTL_VBUSVLDEXT;
-@@ -339,8 +327,7 @@ static int sun4i_usb_phy_exit(struct phy *phy)
- 	int ret;
- 
- 	if (phy->id == 0) {
--		if (data->cfg->type == sun8i_a83t_phy ||
--		    data->cfg->type == sun50i_h6_phy) {
-+		if (data->cfg->siddq_in_base) {
- 			void __iomem *phyctl = data->base +
- 				data->cfg->phyctl_offset;
- 
-@@ -536,7 +523,6 @@ static int sun4i_usb_phy_probe(struct udevice *dev)
- 
- static const struct sun4i_usb_phy_cfg sun4i_a10_cfg = {
- 	.num_phys = 3,
--	.type = sun4i_a10_phy,
- 	.disc_thresh = 3,
- 	.phyctl_offset = REG_PHYCTL_A10,
- 	.dedicated_clocks = false,
-@@ -544,7 +530,6 @@ static const struct sun4i_usb_phy_cfg sun4i_a10_cfg = {
- 
- static const struct sun4i_usb_phy_cfg sun5i_a13_cfg = {
- 	.num_phys = 2,
--	.type = sun4i_a10_phy,
- 	.disc_thresh = 2,
- 	.phyctl_offset = REG_PHYCTL_A10,
- 	.dedicated_clocks = false,
-@@ -552,7 +537,6 @@ static const struct sun4i_usb_phy_cfg sun5i_a13_cfg = {
- 
- static const struct sun4i_usb_phy_cfg sun6i_a31_cfg = {
- 	.num_phys = 3,
--	.type = sun6i_a31_phy,
- 	.disc_thresh = 3,
- 	.phyctl_offset = REG_PHYCTL_A10,
- 	.dedicated_clocks = true,
-@@ -560,7 +544,6 @@ static const struct sun4i_usb_phy_cfg sun6i_a31_cfg = {
- 
- static const struct sun4i_usb_phy_cfg sun7i_a20_cfg = {
- 	.num_phys = 3,
--	.type = sun4i_a10_phy,
- 	.disc_thresh = 2,
- 	.phyctl_offset = REG_PHYCTL_A10,
- 	.dedicated_clocks = false,
-@@ -568,7 +551,6 @@ static const struct sun4i_usb_phy_cfg sun7i_a20_cfg = {
- 
- static const struct sun4i_usb_phy_cfg sun8i_a23_cfg = {
- 	.num_phys = 2,
--	.type = sun4i_a10_phy,
- 	.disc_thresh = 3,
- 	.phyctl_offset = REG_PHYCTL_A10,
- 	.dedicated_clocks = true,
-@@ -576,7 +558,6 @@ static const struct sun4i_usb_phy_cfg sun8i_a23_cfg = {
- 
- static const struct sun4i_usb_phy_cfg sun8i_a33_cfg = {
- 	.num_phys = 2,
--	.type = sun8i_a33_phy,
- 	.disc_thresh = 3,
- 	.phyctl_offset = REG_PHYCTL_A33,
- 	.dedicated_clocks = true,
-@@ -584,14 +565,14 @@ static const struct sun4i_usb_phy_cfg sun8i_a33_cfg = {
- 
- static const struct sun4i_usb_phy_cfg sun8i_a83t_cfg = {
- 	.num_phys = 3,
--	.type = sun8i_a83t_phy,
-+	.hsic_index = 2,
- 	.phyctl_offset = REG_PHYCTL_A33,
- 	.dedicated_clocks = true,
-+	.siddq_in_base = true,
- };
- 
- static const struct sun4i_usb_phy_cfg sun8i_h3_cfg = {
- 	.num_phys = 4,
--	.type = sun8i_h3_phy,
- 	.disc_thresh = 3,
- 	.phyctl_offset = REG_PHYCTL_A33,
- 	.dedicated_clocks = true,
-@@ -601,7 +582,6 @@ static const struct sun4i_usb_phy_cfg sun8i_h3_cfg = {
- 
- static const struct sun4i_usb_phy_cfg sun8i_r40_cfg = {
- 	.num_phys = 3,
--	.type = sun8i_r40_phy,
- 	.disc_thresh = 3,
- 	.phyctl_offset = REG_PHYCTL_A33,
- 	.dedicated_clocks = true,
-@@ -611,7 +591,6 @@ static const struct sun4i_usb_phy_cfg sun8i_r40_cfg = {
- 
- static const struct sun4i_usb_phy_cfg sun8i_v3s_cfg = {
- 	.num_phys = 1,
--	.type = sun8i_v3s_phy,
- 	.disc_thresh = 3,
- 	.phyctl_offset = REG_PHYCTL_A33,
- 	.dedicated_clocks = true,
-@@ -621,16 +600,15 @@ static const struct sun4i_usb_phy_cfg sun8i_v3s_cfg = {
- 
- static const struct sun4i_usb_phy_cfg sun20i_d1_cfg = {
- 	.num_phys = 2,
--	.type = sun50i_h6_phy,
- 	.phyctl_offset = REG_PHYCTL_A33,
- 	.dedicated_clocks = true,
- 	.hci_phy_ctl_clear = PHY_CTL_SIDDQ,
- 	.phy0_dual_route = true,
-+	.siddq_in_base = true,
- };
- 
- static const struct sun4i_usb_phy_cfg sun50i_a64_cfg = {
- 	.num_phys = 2,
--	.type = sun50i_a64_phy,
- 	.disc_thresh = 3,
- 	.phyctl_offset = REG_PHYCTL_A33,
- 	.dedicated_clocks = true,
-@@ -640,17 +618,16 @@ static const struct sun4i_usb_phy_cfg sun50i_a64_cfg = {
- 
- static const struct sun4i_usb_phy_cfg sun50i_h6_cfg = {
- 	.num_phys = 4,
--	.type = sun50i_h6_phy,
- 	.disc_thresh = 3,
- 	.phyctl_offset = REG_PHYCTL_A33,
- 	.dedicated_clocks = true,
- 	.phy0_dual_route = true,
-+	.siddq_in_base = true,
- 	.missing_phys = BIT(1) | BIT(2),
- };
- 
- static const struct sun4i_usb_phy_cfg suniv_f1c100s_cfg = {
- 	.num_phys = 1,
--	.type = sun4i_a10_phy,
- 	.disc_thresh = 3,
- 	.phyctl_offset = REG_PHYCTL_A10,
- 	.dedicated_clocks = true,
+ 	if (data->cfg->missing_phys & BIT(args->args[0]))
 -- 
 2.35.8
 
