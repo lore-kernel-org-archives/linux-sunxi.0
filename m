@@ -1,28 +1,71 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24E01EA8
-	for <linux-sunxi@lists.linux.dev>; Sun, 11 Jun 2023 23:33:40 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 201482F4;
-	Sun, 11 Jun 2023 16:34:25 -0700 (PDT)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F0A823F663;
-	Sun, 11 Jun 2023 16:33:37 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Marek Vasut <marex@denx.de>,
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD962567
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Jun 2023 06:34:39 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-30fb4b3e62fso808860f8f.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 11 Jun 2023 23:34:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686551678; x=1689143678;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0Wat54lnLjucqBUhCyCz2jjA942pDQtZohk+myr2KU4=;
+        b=c2zzRyWDsD9NA/NQkSWJl9TYXJpYTRoWVyrQJIqWKkJge3T4w4eXHIbyqIM227yTDD
+         +82SXmmwVQlQOmgWR0fmPw0cshkPbniT7JJ282anh1Ucg1zljdtJh5LL9zMrMN5n80tM
+         AXtaE8Y2ghuoVNoX2CQoQGov2jouSHTdP7O3OA+ijRzjnObWic7xtk9O99Vidl0H3ik5
+         2wbGJ5RZy0rhlIpYnv3LgmC5R1Sri99aLUaUOl9wGxyHLFWX9hQiAEf3LXV2GIjNuMM7
+         BvboEyN7Uc1FJZAU2O84iaBhVClYWnI4aXlHjDkuGHm0XAxibzcrSeOh3w0zxyhD8pHP
+         z4iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686551678; x=1689143678;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0Wat54lnLjucqBUhCyCz2jjA942pDQtZohk+myr2KU4=;
+        b=BFvfo/3wwUCYgzVEJ7aFlVSsz13EF7pVEiWgkuq0uZUqyYAb7qmwRtgSL2+9ScZTM1
+         1WjfcykCeXLiLO22ZWmscpTa2Uxkq7f4O0weER2udB26xaulOaxkCigyrQbjcdz54Pi8
+         C4hoVbCuKh05YnJxKR5iqrGEaxDe+IsVogqAy/tFmXRUViKex/IwDt/kEBMH4UAr1YSJ
+         4WAfCgvI5nsyAYQldiiCBZgTlme2UxHhlLFUIUTREqSsG1JXFKc524nQKUqlMefoZROb
+         axcldJxHDqBBYj+9zwRBar41/v5IZvVfyAjIHHhKgbls08SppWz+3kkVmvwpE7bpZSP/
+         ZSzA==
+X-Gm-Message-State: AC+VfDwHy1s0jYlZjKvcirJrUm/c1fC6NANkIaNpC5bF4Ly8UEOJqyuq
+	9Jv9PnsCsJoNJtbh8Zfcl3c=
+X-Google-Smtp-Source: ACHHUZ4U/ycWnSfITPfKvps91ZElflobta8YYppwQmKfPG5h9wzmgirJll+nMPk5Wu6GeYuJqEpRtw==
+X-Received: by 2002:a5d:5704:0:b0:30f:bc21:1ce4 with SMTP id a4-20020a5d5704000000b0030fbc211ce4mr2153510wrv.14.1686551677565;
+        Sun, 11 Jun 2023 23:34:37 -0700 (PDT)
+Received: from user-PC.. ([178.134.198.138])
+        by smtp.gmail.com with ESMTPSA id o7-20020adfeac7000000b002fed865c55esm11484811wrn.56.2023.06.11.23.34.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Jun 2023 23:34:37 -0700 (PDT)
+From: Maksim Kiselev <bigunclemax@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: Maksim Kiselev <bigunclemax@gmail.com>,
+	Vasily Khoruzhick <anarsoul@gmail.com>,
+	Yangtao Li <tiny.windzz@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Amit Kucheria <amitk@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Icenowy Zheng <uwu@icenowy.me>,
-	Sam Edwards <cfsworks@gmail.com>,
-	=?UTF-8?q?=E8=B7=AF=E8=BE=89?= <luhux76@gmail.com>,
-	u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 7/7] sunxi: H616: enable USB support for H616 boards
-Date: Mon, 12 Jun 2023 00:32:41 +0100
-Message-Id: <20230611233241.14235-8-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.8
-In-Reply-To: <20230611233241.14235-1-andre.przywara@arm.com>
-References: <20230611233241.14235-1-andre.przywara@arm.com>
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Heiko Stuebner <heiko.stuebner@vrull.eu>,
+	linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-riscv@lists.infradead.org
+Subject: Add D1/T113s thermal sensor controller support
+Date: Mon, 12 Jun 2023 09:34:16 +0300
+Message-Id: <20230612063429.3343061-1-bigunclemax@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -31,39 +74,33 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Now that the PHY driver supports the H616 USB PHY, we can enable USB
-support for the two H616 boards.
-As the OrangePi Zero2 has a USB-C port hard-wired to peripheral mode,
-let's enable USB gadget mode for port 0, so people can use fastboot,
-ethernet or mass storage functionality.
+This series adds support for Allwinner D1/T113s thermal sensor controller.
+THIS controller is similar to the one on H6, but with only one sensor and
+uses a different scale and offset values.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- configs/orangepi_zero2_defconfig | 3 +++
- configs/x96_mate_defconfig       | 2 ++
- 2 files changed, 5 insertions(+)
+v4:
+- Dropeed DT bindings example
 
-diff --git a/configs/orangepi_zero2_defconfig b/configs/orangepi_zero2_defconfig
-index 6cb942f511a..4178ee6a286 100644
---- a/configs/orangepi_zero2_defconfig
-+++ b/configs/orangepi_zero2_defconfig
-@@ -19,3 +19,6 @@ CONFIG_SPI_FLASH_MACRONIX=y
- CONFIG_PHY_REALTEK=y
- CONFIG_SUN8I_EMAC=y
- CONFIG_SPI=y
-+CONFIG_USB_EHCI_HCD=y
-+CONFIG_USB_OHCI_HCD=y
-+CONFIG_USB_MUSB_GADGET=y
-diff --git a/configs/x96_mate_defconfig b/configs/x96_mate_defconfig
-index 122c1a99e32..32ef0a42ee2 100644
---- a/configs/x96_mate_defconfig
-+++ b/configs/x96_mate_defconfig
-@@ -18,3 +18,5 @@ CONFIG_SYS_I2C_MVTWSI=y
- CONFIG_SYS_I2C_SLAVE=0x7f
- CONFIG_SYS_I2C_SPEED=400000
- CONFIG_SUPPORT_EMMC_BOOT=y
-+CONFIG_USB_EHCI_HCD=y
-+CONFIG_USB_OHCI_HCD=y
+v3:
+- Fixed SoB tag again
+
+v2:
+- Fixed SoB tag
+- Moved binding patch before driver changes
+
+v1:
+- Initial version
+
+Maxim Kiselev (3):
+  dt-bindings: thermal: sun8i: Add binding for D1/T113s THS controller
+  thermal: sun8i: Add D1/T113s THS controller support
+  riscv: dts: allwinner: d1: Add thermal sensor and thermal zone
+
+ .../thermal/allwinner,sun8i-a83t-ths.yaml     |  7 ++++-
+ .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 26 +++++++++++++++++++
+ drivers/thermal/sun8i_thermal.c               | 13 ++++++++++
+ 3 files changed, 45 insertions(+), 1 deletion(-)
+
 -- 
-2.35.8
+2.39.2
 
