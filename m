@@ -1,41 +1,41 @@
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E0AEBE
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Jun 2023 12:21:04 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id 5CA985C00DE;
-	Mon, 12 Jun 2023 08:21:03 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9007419BA9
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Jun 2023 12:31:24 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 851995C0130;
+	Mon, 12 Jun 2023 08:31:23 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Mon, 12 Jun 2023 08:21:03 -0400
+  by compute1.internal (MEProxy); Mon, 12 Jun 2023 08:31:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
 	:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1686572463; x=1686658863; bh=CQ
-	ngQrp3m88sfmNQ6jwb/0MCwpSvf6b3yAjboq72bpA=; b=eGsRRoLH5t8ydsG2kG
-	3wVfFqAXc8gTdaQYlJOkHzdZhJwr6veVnTPbwn96vfiLfswW8BU41MUdniRuMRmp
-	Nfz2cydtyf3iiZPGKHuRVEj5/h02Xl/YRIKh4HKgKFmD8AZls/VSLh8uXILGxBlS
-	eLVhc2i+lWq8g8L57/CnjUwdiksy3+u7vCE1uzeQni09FwqXNM5ByOaRq+rzob7S
-	5QRawbHTkq6U2BezQHkwgXj61S756h10qj+aGzQlnr3rfR4fgjz0UA1csVVO+bRJ
-	LiU5xAa4wTSvxCjmTOJ1AebY6YSEdiVyQK3jKSFCOaxGEqVCLjlDOuXsif61qD1O
-	U9wA==
+	:subject:subject:to:to; s=fm2; t=1686573083; x=1686659483; bh=18
+	ZmLcFszkml7bXV6xlP2cbQVd6SoNIPAXzHdGblAUo=; b=i00L+HAvsds1HR+Nt8
+	U5hK/TCO+llTHSmmmGoOosh+8LtiCcZY8IDGJXozWJdX9Y2ea1syogRnfTYFs4BG
+	Ly07en1f0lcAbq33nP7XYpjVwqVfgqtx0bHwD0ddsEG89PHCCdGiftCu4s3Xyq5Q
+	dByucynJpaiLtI5MZdxTiHgwokAOcN2YKmDyh4px+X0TAW0fvmQtwDCqDSVuUe5C
+	pHAgT5rAqIzIwd9VR14iiSyWzjfyzBltWGzqnFIfATvGc6GhdqCmhgCEMOc6SSwB
+	ADXtwZH6OAIzPO/Pp5HI1q6f1jwyDMUYagxEjeaRB5AEaj+9xbdI5QbIdaFxYVOg
+	WXDg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1686572463; x=1686658863; bh=CQngQrp3m88sf
-	mNQ6jwb/0MCwpSvf6b3yAjboq72bpA=; b=D5y7RDRvVSzB/6ssAwBCRtWlJtIoX
-	GyZU9cUu+oJCZAfV6yvrZualKX+lExaUGxgKyk/elY7x8KvhrjfypHI8DgVgsEo8
-	seJBYlPk5cqfzJQD4HTE/RCOXqMJkqWrjJqaUMuwEIkUjNZ/B4XrOD7bxJqUuMNa
-	kF6Q1chkEwVJB+1Af+RslaB8g0NK3RhwwWesZXSyK/+1FI3SUTGmuUFRkFZzRlSY
-	w4xsl3oqb0OrTau8qCTh0T8DSgJIsNBEVeeFEOqwCUTN1be7LcFYJ33AB4cK1oAg
-	7MwtUWtA74/LWn3Sxd3C1kT+WNyYS6RxvzMypPrWYi80f5JZm0fbcsMRg==
-X-ME-Sender: <xms:rg2HZCGGMg_gR_EbRWAArkPOBMHpI1YPpSBEWdj6E5KegjhXySElsw>
-    <xme:rg2HZDXeZmlhD-nOF-UFgAh9qh0nRC7NkZh3PuRa9wUIzTsYYBiKR-7QpG5lw57-A
-    JO2vcvMibhkv2mH8EM>
-X-ME-Received: <xmr:rg2HZMKSrBI0Ijh8JlrwjUfVgDvyTlNpgoG_-m7bFjGwYBcFGJthFR7xuAMs-6xAx9peYYFdrsBLu61xB9leag>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeduhedghedtucetufdoteggodetrfdotf
+	:x-sasl-enc; s=fm2; t=1686573083; x=1686659483; bh=18ZmLcFszkml7
+	bXV6xlP2cbQVd6SoNIPAXzHdGblAUo=; b=NYRwSONRkr5CKpdTIt8W3yzSlgVW+
+	Z5cFqjOygHnJ093+g3AnUKT0YX7VDLtyLTZa+kKGAyZh8CSEO78KCGkJ9Ya2CeJN
+	aQiXLboLoWMtfZoCbmkATLlF9Q8M4ffuBI2SkgupdYtCTIAx6FveQ+medpZMDm9c
+	uFLJnox5bEGPmBeJHIcdwf7TXbYsa+591kM6eI0VLlgGjzv275pYEQ4Bf91wdAVB
+	24+MyRfMHH+SzcBIfgiMptmAYYc956SrBuEFrDV9sKbIugC/4Py0KnnCIswqa6fl
+	T4aN00qCdPEiJVWFxiAM02rcdeEZEQ3aQRMjDRElFO+yBzm+12joQszEQ==
+X-ME-Sender: <xms:GxCHZDeugUV2gPbF-Jeb9t-H_Kwqk695K5F-bQcrGAUeKkGWSWQFAw>
+    <xme:GxCHZJOzZq-cJ357p5MUhMB2_P-0e04ARW5_YH_8pBn5UP9Pj6RLQkdRwg2ytF5Cg
+    WGqAspPSyEp4iqP7PU>
+X-ME-Received: <xmr:GxCHZMjf9PCPel29z8amu9kkCPG5QB7zNYlIMUavPMbaipUqzAcuaKHLyz2X2p7g2YB7FxEHFg6VZTdR5540oA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeduhedghedvucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
@@ -43,14 +43,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeduhedghedtucetufdoteggod
     htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
     gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
     hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:rw2HZME0EMuStbxoX7OGPtg4J6l9Rtw2q7ohuMOIoQ84g9hUozXFpA>
-    <xmx:rw2HZIWge0FdmLPfuVYu21pPNhh4eZpqLmxV-JVCIj5cJwmZVwx2qg>
-    <xmx:rw2HZPNyXcX1Y1LX21ufXOUxY7X1QhBpu3iBXW7_aWtQVSvjC2ievQ>
-    <xmx:rw2HZBNeT8Q9uM9GB8C8swn1-cVMljsIqzZ3so9IDy6xbfptYo3rNg>
+X-ME-Proxy: <xmx:GxCHZE9klJqOWO5JzTmR4_1Y2hGVFOZu-7EbvTSwPQU3r1KPwTfTSQ>
+    <xmx:GxCHZPtzZVrtgxRmnsJqrK8KOFZZwude36EsVg_HCuFonsEyrgPUiA>
+    <xmx:GxCHZDGAsLnDXR8CyH-_nmnIWazENhj66yWBQKSvWPIYz60moBIPEA>
+    <xmx:GxCHZAn7zPw7dPcXEX_80-iyBsl0I5ZU96xwtsSVow8PFS7pyEsvKQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 12 Jun 2023 08:21:02 -0400 (EDT)
-Date: Mon, 12 Jun 2023 14:21:01 +0200
+ 12 Jun 2023 08:31:22 -0400 (EDT)
+Date: Mon, 12 Jun 2023 14:31:21 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Frank Oltmanns <frank@oltmanns.dev>
 Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>, 
@@ -60,9 +60,10 @@ Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
 	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
 Subject: Re: [PATCH v2 1/2] clk: sunxi-ng: nkm: consider alternative parent
  rates when finding rate
-Message-ID: <oo534q7hgmves7pd665ut356xpksw7oonrjk22tu4h4mg6mwhd@dwoc5a5c5wn3>
+Message-ID: <sfni3vehkhotsqrrirklhzrxzkcxzkq6nbtqokeab5if3jgm53@frh7z3iowsfe>
 References: <20230611090143.132257-1-frank@oltmanns.dev>
  <20230611090143.132257-2-frank@oltmanns.dev>
+ <87edmh12s7.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -70,47 +71,64 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="e4wbpxmfzpclxccx"
+	protocol="application/pgp-signature"; boundary="kkj73vrcelww3r3q"
 Content-Disposition: inline
-In-Reply-To: <20230611090143.132257-2-frank@oltmanns.dev>
+In-Reply-To: <87edmh12s7.fsf@oltmanns.dev>
 
 
---e4wbpxmfzpclxccx
+--kkj73vrcelww3r3q
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Mon, Jun 12, 2023 at 10:51:52AM +0200, Frank Oltmanns wrote:
+> > @@ -28,12 +68,17 @@ static unsigned long ccu_nkm_find_best(unsigned lon=
+g parent, unsigned long rate,
+> >  			for (_m =3D nkm->min_m; _m <=3D nkm->max_m; _m++) {
+>=20
+> According to the manual M/N has to be <=3D 3. Therefore we need a
+> different maximum value for the _m-for-loop:
+>=20
+>         unsigned long max_m =3D min(3 * _n, nkm->max_m);
+>         for (_m =3D nkm->min_m; _m <=3D max_m; _m++) {
+>=20
+> I suggest that I add an optional member max_mn_ratio to the structs
+> ccu_nkm and _ccu_nkm. Optional meaning: Ignore if 0.
 
-On Sun, Jun 11, 2023 at 11:01:42AM +0200, Frank Oltmanns wrote:
-> In case the CLK_SET_RATE_PARENT flag is set, consider using a different
-> parent rate when determining a new rate.
->=20
-> To find the best match for the requested rate, perform the following
-> steps for each NKM combination:
->  - calculate the optimal parent rate,
->  - find the best parent rate that the parent clock actually supports
->  - use that parent rate to calculate the effective rate.
->=20
-> In case the clk does not support setting the parent rate, use the same
-> algorithm as before.
->=20
-> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+Which workload is affected by this restriction?
 
-Most of the comments I had on v1 still apply there, so let's figure them
-out before sending a v3.
+> >  				unsigned long tmp_rate;
+> >
+> > -				tmp_rate =3D parent * _n * _k / _m;
+> > -
+> > +				if (parent_hw) {
+> > +					tmp_parent =3D optimal_parent_rate(rate, _n, _k, _m);
+> > +					tmp_parent =3D clk_hw_round_rate(parent_hw, tmp_parent);
+> > +				}
+>=20
+> Another constraint is PLL-VIDEO0 rate / M >=3D 24 MHz. Therefore we also =
+need:
+>         if (tmp_parent < 24000000 * _m)
+>                 continue;
+>
+> So, we need another optional member min_m_times_parent or, for
+> shortness, maybe min_m_parent. I could use help finding a good name for
+> this.
+
+Again, if it's not causing any harm I'd rather keep the code as simple
+and maintainable as possible.
 
 Maxime
 
---e4wbpxmfzpclxccx
+--kkj73vrcelww3r3q
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZIcNrQAKCRDj7w1vZxhR
-xYjBAP4zxaQPtCC3bLmbBvqxb8o92BcM76cTi9dor6Y96WivRwD7BPrLB9GMmbgP
-qaL3OlTIIIndIP66M8PVuTjVjm6tCQw=
-=EEt7
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZIcQGQAKCRDj7w1vZxhR
+xY3hAQCtAk7IaNBuR32MugoIudSv2GZ8z2nwVAfFQtk5TRpjdgD/f+kcH1jhaq0d
+ykaty48CnAYO/yQevebm/aotTXaQgAA=
+=VEfS
 -----END PGP SIGNATURE-----
 
---e4wbpxmfzpclxccx--
+--kkj73vrcelww3r3q--
