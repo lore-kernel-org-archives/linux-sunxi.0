@@ -1,43 +1,43 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9084C19BB1
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Jun 2023 18:15:16 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-51492ae66a4so6624565a12.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 12 Jun 2023 11:15:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1973221CE4
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Jun 2023 18:15:49 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-977e0fbd742so679932966b.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 12 Jun 2023 11:15:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686593714; x=1689185714;
+        d=gmail.com; s=20221208; t=1686593748; x=1689185748;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fiUkkPofbp18WToaxO3U7ArUdrHHLUzAkU0DJhMfi3k=;
-        b=lURXcPZt8jdQVsTPGHOPCKHc9UrFHPeDScVDCHVugisRt4tqRMOk3DPkVMC2/BzCkC
-         wAfPYQWQFynx9eLL5WQTWF+AQSYwQpPECnJO65fOPll+bJv2kH8YSY70VmN8lANKi3Gk
-         xyzDnZl7PAk4QdyvMjYDJUzlpvbiYCh2wvvIygtgwQ2oev5HSIyuCYZD9AOBMU1AWHZA
-         +zuQ/NKLITTbSnC6vpalqZLu37MWXycjzGMmTOx1opGKlQnTmm3v7twsMVwj/FxyP5A6
-         YMKyzwcw3CJSnjnLj5ZWhG/ubg1BSZQ+HH1Sd12qqWkFcz+M5DgUIReAsJzMxUk0Z3BT
-         ukVA==
+        bh=yIIz+zR9TB6aKqRInYxITfV47q1fjJRdvjVAc/0LYak=;
+        b=qSVzckpLC2O15SEH6nnf3WWvlUSV/4jm1HjepXLiHUtfOWlL8LKX0M4TQhb5loeFUZ
+         eaiUvO97Sej6y2Ey49OgVGF3TQDhrW8Mp2O062wSGFieVK2bsA0z8JD9UfteMUjqM9w9
+         t7UxfxN47sWSzE3jm4yFKD06KL36gl9phlU1MR6WHa7CiopeTVDjJXZa7B691XOxpBpg
+         OXNJ8c8q7556RpR7Ic6ZDAUSCoqynS8yV48pVedkYQr52ytVPWvYq5U9pF6p1oHhVj9m
+         sOGbzJSzJJGmJC6nD5S3zP9MjCLavLrx4hTgLQanOuvBBbfuJx6NUiFKb/rgqIVf8sd6
+         7/pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686593714; x=1689185714;
+        d=1e100.net; s=20221208; t=1686593748; x=1689185748;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fiUkkPofbp18WToaxO3U7ArUdrHHLUzAkU0DJhMfi3k=;
-        b=QPx+EmCbvpPqD+84PVr+ArW17dM45/5NjW6F3bX+cM5+9HeDkAMLmyGAqY20TTCxQh
-         xQyRGtWpPY7zvvPhnsISey10q1w1du0cSGp14R7UWcMhW117abIDka7e4VZw5BrCOGgZ
-         H1YOU8zXlPE991G2Oeodtta2m8ayJoIF5XzpIs6cWvDhHEbHXlWcJ6VBzYd+6fQhL6v/
-         L3yJhuQK1JOi3owop+EHlVa4Bw/J1qE6Pb4xQv+SnMXuzwSYo05ScFYnIYFSXmEt7SoU
-         FMw1DZ+d768i9lJf7ZpRhIP3s+VntqYuT9DSp2er7en/Dqv2cH9ESaj+NVXmhvPqIrx5
-         AqjQ==
-X-Gm-Message-State: AC+VfDyKswg+4tPZJzsZfwJbJ9mwg6cJvrEppyusKz3zVEfDf7xw+4NY
-	VzFRKOapYa4c7NHwB3AzTSo=
-X-Google-Smtp-Source: ACHHUZ52JwJgavwtmj6uIUSl9nbwUF4Q1elpwO9wAdRAbA3JUXkMfyUlmPZnsNLACdVo2JZNDzfNVQ==
-X-Received: by 2002:aa7:d397:0:b0:510:ee0f:1eab with SMTP id x23-20020aa7d397000000b00510ee0f1eabmr4440101edq.41.1686593714421;
-        Mon, 12 Jun 2023 11:15:14 -0700 (PDT)
+        bh=yIIz+zR9TB6aKqRInYxITfV47q1fjJRdvjVAc/0LYak=;
+        b=SaV2bIeswqQtkaSgGsd74aExkU0VnnR2eTuwxFf1AuRo3T/GtAYweCpZwkQKh5l9uS
+         BIG+K6L+QKl8fBpV8mXIH0VxRWKOrC8Af3KdSJ+g9HLQ0CRCJSFruQS6g2Rs32vn00BW
+         +MdyQs13b0ENmMP6o0LaA6YZEvOfrotT4OKT12kyFoa9FdG74OI2/GSTY8aP7te/hjg7
+         cNYLQL0ai2+WMij1fqktTf7ypFGW1FS+tGfaAwXncYBhA5cJj9AbOn4iWyhiuju7Y5vl
+         s6Q/NLQPXTR30WI2FW4mCAXkei01Pdzv8ILc+XXwU876FrqTWYbI+xEpepm7uhv27RuM
+         yJNA==
+X-Gm-Message-State: AC+VfDwcYGRaCQ4YSlWAHoyU0hbEl8lj5rf295hUQufSKQMpJY0HSrhf
+	yLxCMjCVnOPsGlBqDwqr8/8=
+X-Google-Smtp-Source: ACHHUZ4x/mcqT4BI2lje4nDvZYgROODTsFgYtr5sqYzfBrRm1vgtBu5LWKxY47Js9+9Tt+OjkqAzNw==
+X-Received: by 2002:a17:907:9611:b0:971:2eaf:556 with SMTP id gb17-20020a170907961100b009712eaf0556mr10339470ejc.18.1686593748089;
+        Mon, 12 Jun 2023 11:15:48 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id m10-20020aa7c2ca000000b005184165f1fasm1331880edp.5.2023.06.12.11.15.13
+        by smtp.gmail.com with ESMTPSA id q11-20020a170906144b00b009788d51e4b9sm5543945ejc.130.2023.06.12.11.15.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jun 2023 11:15:13 -0700 (PDT)
+        Mon, 12 Jun 2023 11:15:47 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Jagan Teki <jagan@amarulasolutions.com>,
  Andre Przywara <andre.przywara@arm.com>
@@ -45,13 +45,13 @@ Cc: Marek Vasut <marex@denx.de>, Samuel Holland <samuel@sholland.org>,
  Icenowy Zheng <uwu@icenowy.me>, Sam Edwards <cfsworks@gmail.com>,
  =?utf-8?B?6Lev6L6J?= <luhux76@gmail.com>, u-boot@lists.denx.de,
  linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 6/7] phy: sun4i: Add H616 USB PHY support
-Date: Mon, 12 Jun 2023 20:15:12 +0200
-Message-ID: <4834451.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <20230611233241.14235-7-andre.przywara@arm.com>
+Subject: Re: [PATCH v2 7/7] sunxi: H616: enable USB support for H616 boards
+Date: Mon, 12 Jun 2023 20:15:46 +0200
+Message-ID: <2284069.ElGaqSPkdT@jernej-laptop>
+In-Reply-To: <20230611233241.14235-8-andre.przywara@arm.com>
 References:
  <20230611233241.14235-1-andre.przywara@arm.com>
- <20230611233241.14235-7-andre.przywara@arm.com>
+ <20230611233241.14235-8-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,14 +61,12 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne ponedeljek, 12. junij 2023 ob 01:32:40 CEST je Andre Przywara napisal(a):
-> Now that the Allwinner USB PHY driver supports the H616 quirk, let's
-> enable support for USB ports on that SoC.
-> 
-> We connect the compatible string to a new struct describing the SoCs USB
-> PHY properties, and unblock the PHY driver selection in Kconfig.
-> 
-> A later patch will enable USB support in the H616 boards' defconfigs.
+Dne ponedeljek, 12. junij 2023 ob 01:32:41 CEST je Andre Przywara napisal(a):
+> Now that the PHY driver supports the H616 USB PHY, we can enable USB
+> support for the two H616 boards.
+> As the OrangePi Zero2 has a USB-C port hard-wired to peripheral mode,
+> let's enable USB gadget mode for port 0, so people can use fastboot,
+> ethernet or mass storage functionality.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
