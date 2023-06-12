@@ -1,104 +1,86 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD39F1FB7
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Jun 2023 08:53:09 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 907F35C00BF;
-	Mon, 12 Jun 2023 04:53:08 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Mon, 12 Jun 2023 04:53:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to; s=fm2; t=
-	1686559988; x=1686646388; bh=O138OwL0TXhDIA3R83x9D9x7Tx/L+g0kciU
-	XuuE1oMc=; b=n/nDLBnX6mxxmi/bL5blJqyDaOEnXu4C8iVA+hmC2YqiK1Pzhft
-	I2PtIux3urVPzwe2JwVY8hvvBgE3bRRN0Y+CSMokHQXOHr6OoI25CffHqQ/5Ceap
-	sT4cNCn2eW9BDe4xT8FfUNEmVyKwJYKAO9zkofVe2INLrqHCVnXziqpN3lYpDOeI
-	xuYTIcKB57l/wpKMuxB78jS+L2sOoMkPdMo/8CJGFXpzi5ms/400AGSIBxVGBLop
-	z/ZhhCJ7iVcgdm4oRujV3hAT7u/VO4IgIzWMrUmjfTTJSYhxaqowqmHKjAdSr6+n
-	saY3j13ZcLLvXPji5VtXLeabdmLWhRi07EQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1686559988; x=1686646388; bh=O138OwL0TXhDIA3R83x9D9x7Tx/L+g0kciU
-	XuuE1oMc=; b=bq9WNzy8kON88LJVCK3rdB09IXR5dyl7gyGrf+869xdoDURcQCE
-	FueXd3bGpPvZK1cql+y0XRnFBAjcicBN+FaZC8IV2zcOPlWdB2vlUojde6AbMTJd
-	a7kBHLR8fsyhVd/FBoNnghZNEiEYBeeEixG+DwPerDOzQaCbkk7PDPyVmaaED/Fg
-	zPe6ihX6kspcnhQulUDamfxLDqRxBURp83gV2nGTtT05Xkj1sujcWWCPtV6YYYn1
-	bi067qbGaEC8+jD6SWoEYntBFPz5nWP9nJ9Tz4lU/o6L9UO7nL3L0I42Ks1ZjnUy
-	5DKJfIblE1FV+Bb5wR6436RxKJ1vDNHTfDg==
-X-ME-Sender: <xms:89yGZIEkzHMzX590XegUje6E8QSmUINtK5T-2bSwD-VPUwZM7SEzlg>
-    <xme:89yGZBWNmYO7xnZSuHm7TZDCjky7lpsH78qMXIB2OWBOn_QJToaqs2wwQ_ED_9PLu
-    ozGzpXZezZgh8fXgyw>
-X-ME-Received: <xmr:89yGZCJI3jkmBWITOFA6J3dceGjOGUq4ipCgVcq_w5rs7U8-aCXJZ_j7besO53t0rNbPUFeCQMPAbQsXG3vqlw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeduhedgtdekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhfstddttddvnecuhfhrohhmpeforgig
-    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
-    grthhtvghrnhepgeehheeljeeftdektedvudejvdekueejkeevueektdeuvedthfeljeff
-    gffhvdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:89yGZKGurpg_m4UCVIxUnG7h_PccRp5f9Fza6JsyCY_RFcogsdpR7A>
-    <xmx:89yGZOXE9Mns50yrQ22RPCrFvSPohW9NPqlW51z9aM7b9iP_BuVGDw>
-    <xmx:89yGZNMvIIC1Ynt7lIZ8ZRiYNCDP34Il6aoLb7-Ae7miuyxAhMLo9g>
-    <xmx:9NyGZHNa2tjW7YtIT8zu5Vjdc1c__I6l7ZHtxHzYO2UhMinRNwYlUA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 12 Jun 2023 04:53:07 -0400 (EDT)
-Date: Mon, 12 Jun 2023 10:53:05 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Roman Beranek <me@crly.cz>, Samuel Holland <samuel@sholland.org>, 
-	Stephen Boyd <sboyd@kernel.org>, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 0/2] clk: sunxi-ng: Consider alternative parent rates
- when determining NKM clock rate
-Message-ID: <pk3som3qkrs66hk3hf6zczmd5hqsrb5u2pkmolngqinjm7b753@27vlqdbxemwa>
-References: <20230605190745.366882-1-frank@oltmanns.dev>
- <87legv2093.fsf@oltmanns.dev>
- <vvmdk3fqtjt3jspxgvlbypdxajchymydshya5b5ivk3wfodwwr@yyi26m6toosh>
- <871qim1eow.fsf@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89D6E18B0E;
+	Mon, 12 Jun 2023 10:00:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0CB2FC4339E;
+	Mon, 12 Jun 2023 10:00:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1686564020;
+	bh=fd4cfXXX+PL9XfONOIfuuKx40StrUtxc6WwcSiy9Q0U=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=iySDKzKjo2ln1pXfyHGboc5hcwaLHVMvCWUke2VRF5bgeoX98N71gYZkCcHpHo/Zr
+	 KPXU4P/6SiL1aZdnNOy+dMEtBittCA7FO5pGdj4YH54c/HLZs7RlNgAyn1qc/qfzzt
+	 Cm8zkDen8zagaz1Nt2NgpioXY8ewXECKmWDnuYmI/EE2sGKXJH38KiRxJ0ZmCKRue9
+	 BU+uf24apUEiKt3nzSzAzVg/caXGfR3XPr3yGXH/Us6xx6O15PeasrAGDFBnCegy+r
+	 sYCMX8FiKWa/abOjyjfkAc5t3rLogATn0XxT3eF4PP6h2YEkHUMYKFU8aDuSfh0sRU
+	 knDZCcGbLYRJA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D81D1C395EC;
+	Mon, 12 Jun 2023 10:00:19 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <871qim1eow.fsf@oltmanns.dev>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] dt-bindings: net: drop unneeded quotes
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <168656401987.30960.9087751436682057307.git-patchwork-notify@kernel.org>
+Date: Mon, 12 Jun 2023 10:00:19 +0000
+References: <20230609140713.64701-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230609140713.64701-1-krzysztof.kozlowski@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, neil.armstrong@linaro.org, khilman@baylibre.com,
+ jbrunet@baylibre.com, martin.blumenstingl@googlemail.com, opendmb@gmail.com,
+ florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, linux-imx@nxp.com, heiko@sntech.de,
+ nobuhiro1.iwamatsu@toshiba.co.jp, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, mripard@kernel.org,
+ vineetha.g.jaya.kumaran@intel.com, biao.huang@mediatek.com,
+ xiaoning.wang@nxp.com, david.wu@rock-chips.com, grygorii.strashko@ti.com,
+ nsekhar@ti.com, netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org
 
-On Thu, Jun 08, 2023 at 11:29:05AM +0200, Frank Oltmanns wrote:
-> On 2023-06-07 at 14:27:46 +0200, Maxime Ripard <maxime@cerno.tech> wrote:
-> > [[PGP Signed Part:Undecided]]
-> > On Wed, Jun 07, 2023 at 09:35:20AM +0200, Frank Oltmanns wrote:
-> >> So, my question: Is spending the 30 ms fine or do I need to optimize f=
-or
-> >> speed in order for this patchset to be accepted? Or is 2 ms also too
-> >> much of an increase, in which case I'm out of ideas. :-)
-> >
-> > You keep mentioning it, but it's really not clear to me why you think
-> > that both are intertwined, or depend on one another?
->=20
-> I'm sorry about that. I guess, I got carried away. And furthermore I
-> took your mentioning of all bets being of how often setting rates
-> happens when HDMI comes into play as encouragement to optimize for
-> speed, which it clearly wasn't.
->=20
-> I saw the increase in time as a regression, because it might break
-> boards that I don't have access to. But since you say it's fine, I'll
-> speak no more of it.
+Hello:
 
-I'm not really saying it's fine, I guess I'm saying it's fine until
-proven otherwise :)
+This patch was applied to netdev/net-next.git (main)
+by David S. Miller <davem@davemloft.net>:
 
-Maxime
+On Fri,  9 Jun 2023 16:07:12 +0200 you wrote:
+> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> checking for this can be enabled in yamllint.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../devicetree/bindings/net/allwinner,sun7i-a20-gmac.yaml     | 2 +-
+>  .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml    | 2 +-
+>  .../devicetree/bindings/net/amlogic,meson-dwmac.yaml          | 2 +-
+>  Documentation/devicetree/bindings/net/brcm,bcmgenet.yaml      | 2 +-
+>  Documentation/devicetree/bindings/net/intel,dwmac-plat.yaml   | 2 +-
+>  Documentation/devicetree/bindings/net/mediatek-dwmac.yaml     | 2 +-
+>  Documentation/devicetree/bindings/net/nxp,dwmac-imx.yaml      | 2 +-
+>  Documentation/devicetree/bindings/net/rockchip-dwmac.yaml     | 2 +-
+>  .../devicetree/bindings/net/ti,k3-am654-cpsw-nuss.yaml        | 4 ++--
+>  .../devicetree/bindings/net/toshiba,visconti-dwmac.yaml       | 2 +-
+>  10 files changed, 11 insertions(+), 11 deletions(-)
+
+Here is the summary with links:
+  - dt-bindings: net: drop unneeded quotes
+    https://git.kernel.org/netdev/net-next/c/61ab5a060a57
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
