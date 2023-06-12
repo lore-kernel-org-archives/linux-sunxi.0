@@ -1,134 +1,182 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9007419BA9
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Jun 2023 12:31:24 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 851995C0130;
-	Mon, 12 Jun 2023 08:31:23 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Mon, 12 Jun 2023 08:31:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1686573083; x=1686659483; bh=18
-	ZmLcFszkml7bXV6xlP2cbQVd6SoNIPAXzHdGblAUo=; b=i00L+HAvsds1HR+Nt8
-	U5hK/TCO+llTHSmmmGoOosh+8LtiCcZY8IDGJXozWJdX9Y2ea1syogRnfTYFs4BG
-	Ly07en1f0lcAbq33nP7XYpjVwqVfgqtx0bHwD0ddsEG89PHCCdGiftCu4s3Xyq5Q
-	dByucynJpaiLtI5MZdxTiHgwokAOcN2YKmDyh4px+X0TAW0fvmQtwDCqDSVuUe5C
-	pHAgT5rAqIzIwd9VR14iiSyWzjfyzBltWGzqnFIfATvGc6GhdqCmhgCEMOc6SSwB
-	ADXtwZH6OAIzPO/Pp5HI1q6f1jwyDMUYagxEjeaRB5AEaj+9xbdI5QbIdaFxYVOg
-	WXDg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1686573083; x=1686659483; bh=18ZmLcFszkml7
-	bXV6xlP2cbQVd6SoNIPAXzHdGblAUo=; b=NYRwSONRkr5CKpdTIt8W3yzSlgVW+
-	Z5cFqjOygHnJ093+g3AnUKT0YX7VDLtyLTZa+kKGAyZh8CSEO78KCGkJ9Ya2CeJN
-	aQiXLboLoWMtfZoCbmkATLlF9Q8M4ffuBI2SkgupdYtCTIAx6FveQ+medpZMDm9c
-	uFLJnox5bEGPmBeJHIcdwf7TXbYsa+591kM6eI0VLlgGjzv275pYEQ4Bf91wdAVB
-	24+MyRfMHH+SzcBIfgiMptmAYYc956SrBuEFrDV9sKbIugC/4Py0KnnCIswqa6fl
-	T4aN00qCdPEiJVWFxiAM02rcdeEZEQ3aQRMjDRElFO+yBzm+12joQszEQ==
-X-ME-Sender: <xms:GxCHZDeugUV2gPbF-Jeb9t-H_Kwqk695K5F-bQcrGAUeKkGWSWQFAw>
-    <xme:GxCHZJOzZq-cJ357p5MUhMB2_P-0e04ARW5_YH_8pBn5UP9Pj6RLQkdRwg2ytF5Cg
-    WGqAspPSyEp4iqP7PU>
-X-ME-Received: <xmr:GxCHZMjf9PCPel29z8amu9kkCPG5QB7zNYlIMUavPMbaipUqzAcuaKHLyz2X2p7g2YB7FxEHFg6VZTdR5540oA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeduhedghedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtsfertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeeuveduheeutdekvefgudevjeeufedvvdevhfejgfelgfdtkeevueegteek
-    gfelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:GxCHZE9klJqOWO5JzTmR4_1Y2hGVFOZu-7EbvTSwPQU3r1KPwTfTSQ>
-    <xmx:GxCHZPtzZVrtgxRmnsJqrK8KOFZZwude36EsVg_HCuFonsEyrgPUiA>
-    <xmx:GxCHZDGAsLnDXR8CyH-_nmnIWazENhj66yWBQKSvWPIYz60moBIPEA>
-    <xmx:GxCHZAn7zPw7dPcXEX_80-iyBsl0I5ZU96xwtsSVow8PFS7pyEsvKQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 12 Jun 2023 08:31:22 -0400 (EDT)
-Date: Mon, 12 Jun 2023 14:31:21 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Roman Beranek <me@crly.cz>, Samuel Holland <samuel@sholland.org>, 
-	Stephen Boyd <sboyd@kernel.org>, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 1/2] clk: sunxi-ng: nkm: consider alternative parent
- rates when finding rate
-Message-ID: <sfni3vehkhotsqrrirklhzrxzkcxzkq6nbtqokeab5if3jgm53@frh7z3iowsfe>
-References: <20230611090143.132257-1-frank@oltmanns.dev>
- <20230611090143.132257-2-frank@oltmanns.dev>
- <87edmh12s7.fsf@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0D9AD38
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Jun 2023 14:59:53 +0000 (UTC)
+Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-777b922466dso285238439f.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 12 Jun 2023 07:59:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686581992; x=1689173992;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=07dB69ZZGyTHxP/KSd9bxJ1LwTeCS3J4mCqoCOU8mcc=;
+        b=GIiyeF8rKfae2dQxMyxXo3NhdPNybfyFZ2lTvDQ2C81Z019RrU6mtcsNfg14sEuSQo
+         IxCOckBlESpbRFkaP6j7gRXL0cNhRKEVFBpUhbHLqzp6wpqbPfqmzhnDWsx+rzAPpplf
+         VwB1uPC+xK7KSFiH6LNeah8fX3HjAGSOC/v0YR4c4B8yJG4vLmfyf5Tt4WvXInpueYWA
+         ruPXRSmuSSF2Ip14PBfyagYWYlp3ncts8nB9lukv6BmB89897WAVb495jEk+d7GlyQnc
+         141tjUZwgDXrhyU6nFbjm/jXfYhf84Hcd2YAhf28AMpJqoupYnSbMp+do3q1UOl0uX6L
+         thwQ==
+X-Gm-Message-State: AC+VfDyuC7AiUx3RsDLaAKuGNcTWvEV8Cbk8NdkzdPXITCZ5n5wC2pOB
+	9t9kfJehCzWuUjscHzVK4Q==
+X-Google-Smtp-Source: ACHHUZ6KNQPN7jVXTXBkLnNdRrMFykMu72Ussv53FDlxV/WfKOF6aT/n3DU/YcGQQfoex66gY6aZAQ==
+X-Received: by 2002:a6b:a05:0:b0:777:b531:eb56 with SMTP id z5-20020a6b0a05000000b00777b531eb56mr8460626ioi.7.1686581992169;
+        Mon, 12 Jun 2023 07:59:52 -0700 (PDT)
+Received: from robh_at_kernel.org ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id a24-20020a6b6618000000b00752f62cd3bdsm3260506ioc.12.2023.06.12.07.59.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jun 2023 07:59:51 -0700 (PDT)
+Received: (nullmailer pid 39495 invoked by uid 1000);
+	Mon, 12 Jun 2023 14:59:47 -0000
+Date: Mon, 12 Jun 2023 08:59:47 -0600
+From: Rob Herring <robh@kernel.org>
+To: Maksim Kiselev <bigunclemax@gmail.com>
+Cc: linux-iio@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Heiko Stuebner <heiko.stuebner@vrull.eu>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Cosmin Tanislav <demonsingur@gmail.com>, 
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	Arnd Bergmann <arnd@arndb.de>, ChiaEn Wu <chiaen_wu@richtek.com>, 
+	Ibrahim Tilki <Ibrahim.Tilki@analog.com>, ChiYuan Huang <cy_huang@richtek.com>, 
+	Ramona Bolboaca <ramona.bolboaca@analog.com>, 
+	William Breathitt Gray <william.gray@linaro.org>, =?UTF-8?Q?Leonard_G=C3=B6hrs?= <l.goehrs@pengutronix.de>, 
+	Caleb Connolly <caleb.connolly@linaro.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v5 2/3] dt-bindings: iio: adc: Add Allwinner
+ D1/T113s/R329/T507 SoCs GPADC
+Message-ID: <20230612145947.GA37083-robh@kernel.org>
+References: <20230610202005.1118049-1-bigunclemax@gmail.com>
+ <20230610202005.1118049-3-bigunclemax@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kkj73vrcelww3r3q"
-Content-Disposition: inline
-In-Reply-To: <87edmh12s7.fsf@oltmanns.dev>
-
-
---kkj73vrcelww3r3q
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230610202005.1118049-3-bigunclemax@gmail.com>
 
-On Mon, Jun 12, 2023 at 10:51:52AM +0200, Frank Oltmanns wrote:
-> > @@ -28,12 +68,17 @@ static unsigned long ccu_nkm_find_best(unsigned lon=
-g parent, unsigned long rate,
-> >  			for (_m =3D nkm->min_m; _m <=3D nkm->max_m; _m++) {
->=20
-> According to the manual M/N has to be <=3D 3. Therefore we need a
-> different maximum value for the _m-for-loop:
->=20
->         unsigned long max_m =3D min(3 * _n, nkm->max_m);
->         for (_m =3D nkm->min_m; _m <=3D max_m; _m++) {
->=20
-> I suggest that I add an optional member max_mn_ratio to the structs
-> ccu_nkm and _ccu_nkm. Optional meaning: Ignore if 0.
+On Sat, Jun 10, 2023 at 11:19:49PM +0300, Maksim Kiselev wrote:
+> From: Maxim Kiselev <bigunclemax@gmail.com>
+> 
+> Allwinner's D1/T113s/R329/T507 SoCs have a new general purpose ADC.
+> This ADC is the same for all of this SoCs. The only difference is
+> the number of available channels.
+> 
+> Signed-off-by: Maxim Kiselev <bigunclemax@gmail.com>
+> ---
+>  .../iio/adc/allwinner,sun20i-d1-gpadc.yaml    | 91 +++++++++++++++++++
+>  1 file changed, 91 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml b/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml
+> new file mode 100644
+> index 000000000000..43256ad2b7ed
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml
+> @@ -0,0 +1,91 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/adc/allwinner,sun20i-d1-gpadc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner D1 General Purpose ADC
+> +
+> +maintainers:
+> +  - Maksim Kiselev <bigunclemax@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - allwinner,sun20i-d1-gpadc
+> +
+> +  "#io-channel-cells":
+> +    const: 1
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +patternProperties:
+> +  "^channel@([0-15])$":
 
-Which workload is affected by this restriction?
+0-15? That's not how regex's work. Unit-addresses are in hex as well.
 
-> >  				unsigned long tmp_rate;
-> >
-> > -				tmp_rate =3D parent * _n * _k / _m;
-> > -
-> > +				if (parent_hw) {
-> > +					tmp_parent =3D optimal_parent_rate(rate, _n, _k, _m);
-> > +					tmp_parent =3D clk_hw_round_rate(parent_hw, tmp_parent);
-> > +				}
->=20
-> Another constraint is PLL-VIDEO0 rate / M >=3D 24 MHz. Therefore we also =
-need:
->         if (tmp_parent < 24000000 * _m)
->                 continue;
->
-> So, we need another optional member min_m_times_parent or, for
-> shortness, maybe min_m_parent. I could use help finding a good name for
-> this.
+"^channel@[0-9a-f]$"
 
-Again, if it's not causing any harm I'd rather keep the code as simple
-and maintainable as possible.
-
-Maxime
-
---kkj73vrcelww3r3q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZIcQGQAKCRDj7w1vZxhR
-xY3hAQCtAk7IaNBuR32MugoIudSv2GZ8z2nwVAfFQtk5TRpjdgD/f+kcH1jhaq0d
-ykaty48CnAYO/yQevebm/aotTXaQgAA=
-=VEfS
------END PGP SIGNATURE-----
-
---kkj73vrcelww3r3q--
+> +    $ref: adc.yaml
+> +    type: object
+> +    description:
+> +      Represents the internal channels of the ADC.
+> +
+> +    properties:
+> +      reg:
+> +        items:
+> +          minimum: 0
+> +          maximum: 15
+> +
+> +    required:
+> +      - reg
+> +
+> +    unevaluatedProperties: false
+> +
+> +required:
+> +  - "#io-channel-cells"
+> +  - clocks
+> +  - compatible
+> +  - interrupts
+> +  - reg
+> +  - resets
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/sun20i-d1-ccu.h>
+> +    #include <dt-bindings/reset/sun20i-d1-ccu.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    gpadc: adc@2009000 {
+> +        compatible = "allwinner,sun20i-d1-gpadc";
+> +        reg = <0x2009000 0x1000>;
+> +        clocks = <&ccu CLK_BUS_GPADC>;
+> +        resets = <&ccu RST_BUS_GPADC>;
+> +        interrupts = <73 IRQ_TYPE_LEVEL_HIGH>;
+> +        #io-channel-cells = <1>;
+> +
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        channel@0 {
+> +            reg = <0>;
+> +        };
+> +
+> +        channel@1 {
+> +            reg = <1>;
+> +        };
+> +    };
+> +...
+> -- 
+> 2.39.2
+> 
