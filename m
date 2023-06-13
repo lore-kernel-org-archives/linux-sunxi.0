@@ -1,144 +1,164 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A97513C25
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jun 2023 11:22:04 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 544B71FB;
-	Tue, 13 Jun 2023 04:22:48 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3A7793F587;
-	Tue, 13 Jun 2023 04:22:02 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Marek Vasut <marex@denx.de>
-Cc: Jagan Teki <jagan@amarulasolutions.com>,
-	Sam Edwards <cfsworks@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	u-boot@lists.denx.de,
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2130.outbound.protection.outlook.com [40.107.117.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5284F3C25
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jun 2023 11:25:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VICfmkJo++DKzQ6n6BT3qmKVzvdz5tDb+eS3m8J5OZsDlbK6njxLaOyb7vCSvuwE/j1Qc6qdfYsqHmMK9NfaHvOk9ywk43gpsmr2t6BBSJhXxasq27GAGO7zZQ10DSQsxfX41zUS1nT5tv4N3L1Zzs1fNF3mmQhkwkNGi44tu1+MGC7lGBy5CY8Usyc0A3pzuC7K/YnDdTZt+UH/A77YjwDUAHUMcSp9EFZyNYIa3PjPbvz9sEwApxq6isMXhUxvz8HeHCJtVu1xTEi8i6euxzTW5MRmkTN5pt/Fge1+fQhudeu/kV8llZpvWSmL+Cewn3854rw+wQBiEke22IqRFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rdh5vOmUeNsam3N24Vb/ae/KnRPNs/UXo0w5JAbpOlA=;
+ b=bIjjDc0sLa8z2dCi4Tvtt2+a1mCeXy13AthKWDNqSlDWK8jGydoQ9O3Tw1czN+iq+LAkRptS6dAGLB9TREbUQDUIOvm3qzPjDG+8+/90p0Bz5xgUaHabv5zVUsCL2uZsCGutjNBM2gCVF23csBIUQ0VfO1PLOSkTcUqwjTtGi+1Pq1Rxh4JboR6/8iBYR/CoTZN3BIceFquuQM3Dxn4Bn78+tAKmOEqiO4gvlNM5Idq9Hc5c+lHIzq7k+/J/Vdd/NcGP23S0ggA14p8k2/sTCq6g3RAnxGky2ISv9PpDIB/JB6qND+dgEe+GICd05iEndjd9d+RhiArF8AQJdr1XmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rdh5vOmUeNsam3N24Vb/ae/KnRPNs/UXo0w5JAbpOlA=;
+ b=PFkg8UwcWkAIzCgTNgGHOVFjEgGqrFwz51JtsZ1+OVfmf3xF1TwxreWkowIkVzvJ1Gdu2Es0mRG23IkpzIeNXSShvKNBvJ5yYdDsDj7KCbuiQMMZykzxMupcyn5zRcYvcYk2IegW+NRGZywH0a+1Zuhw92VG2duhsWpPB2enPKqsFPPnLnH13K9vb6wDfKgMJMmk30YZIeqjvq3Ux9AnU63tCwaCMsgTuA674ZzG1mRI5jp2rrm0FwCaLzUKDPproe5y3EPTSw6njQtBsgCe8zYbEzUDr8sRf4s7V6fs66ZAPhmIalnuM3oKPpZDAbgmD3oO7tTHszOhB5j8pKoJmw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
+ by SEZPR06MB5920.apcprd06.prod.outlook.com (2603:1096:101:f0::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32; Tue, 13 Jun
+ 2023 11:25:05 +0000
+Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
+ ([fe80::76d6:4828:7e80:2965]) by SEZPR06MB5269.apcprd06.prod.outlook.com
+ ([fe80::76d6:4828:7e80:2965%3]) with mapi id 15.20.6455.039; Tue, 13 Jun 2023
+ 11:25:05 +0000
+From: Yangtao Li <frank.li@vivo.com>
+To: glaroque@baylibre.com,
+	rafael@kernel.org,
+	daniel.lezcano@linaro.org,
+	amitk@kernel.org,
+	rui.zhang@intel.com,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	linux-imx@nxp.com,
+	agross@kernel.org,
+	andersson@kernel.org,
+	konrad.dybcio@linaro.org,
+	thara.gopinath@gmail.com,
+	anarsoul@gmail.com,
+	tiny.windzz@gmail.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	thierry.reding@gmail.com,
+	jonathanh@nvidia.com,
+	edubezval@gmail.com,
+	j-keerthy@ti.com,
+	f.fainelli@gmail.com
+Cc: linux-pm@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	=?UTF-8?q?=E8=B7=AF=E8=BE=89?= <luhux76@gmail.com>
-Subject: [PATCH] usb: musb-new: sunxi: read SRAM controller address from DT
-Date: Tue, 13 Jun 2023 12:21:58 +0100
-Message-Id: <20230613112158.1572725-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
+	linux-tegra@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	Yangtao Li <frank.li@vivo.com>
+Subject: [PATCH v2 01/11] thermal/hwmon: Add error information printing for devm_thermal_add_hwmon_sysfs()
+Date: Tue, 13 Jun 2023 19:24:34 +0800
+Message-Id: <20230613112444.48042-1-frank.li@vivo.com>
+X-Mailer: git-send-email 2.39.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR04CA0159.apcprd04.prod.outlook.com (2603:1096:4::21)
+ To SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB5269:EE_|SEZPR06MB5920:EE_
+X-MS-Office365-Filtering-Correlation-Id: 40e17ee7-8bf2-4478-54ce-08db6c00d5da
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	9wGME2FKpnULZJq+12pK6X+LK/p3rpDwE5SdkgiDxWepxFphwBX1yitOD9QIhIO4VpaYdgviMQaze6N9JNHpnlaCXll5krc27VV5WwOnTLFwA3krpoyw55HClhkIEeDsESqeji4o8cF74s062xNEcfJxZZ7V+vDKHgb2s8qSRUCZ+L1rY5Meh/STGSY30SMMuNCDDea0rLzaQugnHbgYdaFspWrzX9DTExpy0JYTeTSOG4ZejDppD1XQ+Zby9RzhsJ9sVgPXpAdzBCPn7JmoO8v2dLnX3rgPet3+YhNwEKIlfIgUpEC9cyT/iyEQst8jSCE85hhv+W7GhxDIm9tqmcI+9P7faxmJwcKd3HnJbRSXh8XBwyHITFNFmvR94CYQE0Drr55n+AbBr3myefn0FSXUNo3mchZKGqnXFNqfLDbXyPa3msQ8A+CrUKCYzQOA8M78JgVueys81xIlrWJcduQrgVjFdoFWZhcvOuXvCGXdw0t2VcuTrf8ZBmLDqpvbz2KjtkwNqjSLNlcALkR9yURptSRyugFgtF+3xZqXA5IhNI4BFfSPfRsEGlnrjbYjNi//gvSDm3afGV+D+aDSd8/eHNYqKPLpwsXk4VZg+kUB4Op746Orvtm/Dq8hKSnxJ0itpZh52MtHqrqhTYm8LA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(366004)(396003)(136003)(39860400002)(346002)(451199021)(66476007)(38100700002)(66556008)(66946007)(921005)(2616005)(6512007)(26005)(6486002)(6506007)(478600001)(52116002)(6666004)(36756003)(107886003)(86362001)(316002)(1076003)(4326008)(38350700002)(186003)(5660300002)(8936002)(2906002)(7416002)(7406005)(83380400001)(8676002)(41300700001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?HUUwZWnnDUXr8cGVK8Xj9uZwmJdF39/oEsnAQWvYP7ZJwzDQqUr3jYVogWC3?=
+ =?us-ascii?Q?2kNrEa1cpQ58k1jBWG5p9c1RahzEcaNBVcIpDZ5hp0CM7r0JRlJkJ3B0UdGk?=
+ =?us-ascii?Q?eT6sCGst+InIWtsLZpvSHOm1uVUP2ntespWMz/dY+vhN3r3F0yea2X8pYTbY?=
+ =?us-ascii?Q?Mw+QtHMGdk4wGlt7LSKEuMlrpTRWdFeX6Dy+dAea0j/rK3FidgLbmP2x8x01?=
+ =?us-ascii?Q?z/kQcVXFmC8E2YC5FNE/gCG9VQRAkHhRzRKkUXu6gCNH/nILNcxMcyBItQnI?=
+ =?us-ascii?Q?nmPUlmnR8F6UkJpeUQxSfXXqfaBg18Aux44giusrSujXtcLG9MnUjQbnCgH6?=
+ =?us-ascii?Q?AAMycnjXCc5Kc1w3YkW3XLTZNQSZwWULAnsBOlg2oZMt7R9ppXmE+i4v7Cvj?=
+ =?us-ascii?Q?6vD6uDsYGCKg4tzTPfz1KiiVoZBrcUYeKl0k/43Sje4iJLb91zWo812k+QDl?=
+ =?us-ascii?Q?snL8TKH/kmZGmmVkeTue4BhYF+ExdWmAOTRan3VS0i6B2IVHhCZiJb3MqHG1?=
+ =?us-ascii?Q?zIyDRUS8Y9lZun9a4CCeBvR74ngckJdhfs9Bk55GF4gEXKcD01wh2xNF8vYb?=
+ =?us-ascii?Q?WL3ZIagRSi3TjzbLOK3vdzJwPYjpP1k4uDKkX28yQYd+0aAB3tzUWNDT5GUa?=
+ =?us-ascii?Q?CcYWE+R1hfXhbcp5qHJLCp4aQ78Gl7iG90xMbkm3WAXc4agaSdSMXNVMfysm?=
+ =?us-ascii?Q?lnxJKgIUZ0hsdECFFCje106YjSErNcV4Ov/cyDrc+3gK48sn2KA3mwiCGcuP?=
+ =?us-ascii?Q?ZdtC7gKdgWPjNKSm+viQTxMYXmUycJdobmJX6k/vG5zpEiAgPPbA11Vk3rkr?=
+ =?us-ascii?Q?3ftwrYAd9qUlUObDFB+w/y05N7XbhEty5I8jKFZfGgZ7BRY8Q4kHUZCRy3u1?=
+ =?us-ascii?Q?91HnyMNffz6Z9eo/wgcmschRRsplOGUILsGo/V7BgvkrS9TLmyIUTxTWM3H+?=
+ =?us-ascii?Q?6ixH5x4tyJzFtXo2wISaO8fqKqp9cE1A78UWJIwDQJ/aCR3OMaNe9aUa/Eh+?=
+ =?us-ascii?Q?7qRgZ2+jO5Hg9XWmi/6Pt3ewL7Rq7Uwh3D5uJ1klAB9W8WXmERVO6MBCul9L?=
+ =?us-ascii?Q?vRgRyVuuhg8HjF2mr7iLbq3KpIyYPRNdBi3pau/VWB2ycJkOclQGhQkqLmOy?=
+ =?us-ascii?Q?1l3wJVUI3wA3LxyOj171G9y0+rilw52+lSXPrDQZXk9qdKkXAaFOklV1y0Q3?=
+ =?us-ascii?Q?+0m5G3epP1wl5PmMznYPZhGTkjaCpp8VnnAkzcKnqD8SMoJF341kvToTTtnc?=
+ =?us-ascii?Q?NV284z6cTQSOrlAH5K1V9pwVAC/tx3YY842Pn7Fb2rOHREtgz+apG9Kwzh0H?=
+ =?us-ascii?Q?kCbQuv3X9rPpjSMX48AcoLbjxXilZka4JbwnruNP5O1QKi6ktiY6Fv28CBsP?=
+ =?us-ascii?Q?9p/D2Y2ZSq/uCQQ5H+onkSKiREcJURRyMtN6dk5BnROWiCRFev69jEGC4WhG?=
+ =?us-ascii?Q?gZli2piNwUyVCg1s3iKgunaaBnschPsVuwVT9NEAD9B9gRX+rY8PSGUyLtrp?=
+ =?us-ascii?Q?OaXDlGYJTTKEBk6Zu0Q9iihmSI/IfS6r2mD/Pg+mR0+Vz12U2aiWqQt7wu+p?=
+ =?us-ascii?Q?oN4yELNw+knNcudZxcJZfRWuXNh2/KQRZTboDwWm?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40e17ee7-8bf2-4478-54ce-08db6c00d5da
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2023 11:25:04.9478
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /wXoQaLmCv4dvz9uq9/fnEXhtHg04aIys8P5LEDG+yeCAKE6YUIOu4zZNzFgJHgLo+6T6k0QQh/7G5H7FmuB9w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5920
 
-Some older SoCs (<=A20, F1C100s) do not have a dedicated SRAM buffer for
-the USB-OTG controller, but require the CPU to relinquish one of its SRAM
-blocks to the USB controller. This is done by flipping a bit in the SRAM
-controller (aka "syscon").
-So far we were doing this using the hardcoded SRAM controller address,
-but that breaks the abstraction, and we can find that address in the DT.
+Ensure that all error handling branches print error information. In this
+way, when this function fails, the upper-layer functions can directly
+return an error code without missing debugging information. Otherwise,
+the error message will be printed redundantly or missing.
 
-Follow the "allwinner,sram" phandle property in the devicetree to get to
-the SRAM node. The reg property in there gives us the SRAM MMIO address,
-as seen by the CPU, but we need the SRAM *controller* address, which is
-two levels up from that node.
-
-Utilise U-Boot's DT code to do the traversal and DT address translation
-for us, then store the controller address in the glue struct, to later
-hand it to the routine that programs the SRAM controller.
-This allows us to drop the usage of the hardcoded SUNXI_SRAMC_BASE from
-the MUSB code.
-
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Signed-off-by: Yangtao Li <frank.li@vivo.com>
 ---
-Hi,
+v2:
+-convert to dev_warn
+ drivers/thermal/thermal_hwmon.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-this patch goes on top of Sam's musb sunxi fixes. Can someone look at
-the DT calls? There are quite some interfaces to U-Boot's DT framework,
-so I want to be sure to got the right one.
-If that patch looks fine, I would send a new series including Sam's two
-patches, this patch here, and a (simple) patch adding F1C100s support.
-
-Cheers,
-Andre
-
- drivers/usb/musb-new/sunxi.c | 26 +++++++++++++++++++++++---
- 1 file changed, 23 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/usb/musb-new/sunxi.c b/drivers/usb/musb-new/sunxi.c
-index 4bf0ee346a4..1da05e29a56 100644
---- a/drivers/usb/musb-new/sunxi.c
-+++ b/drivers/usb/musb-new/sunxi.c
-@@ -23,13 +23,12 @@
- #include <malloc.h>
- #include <phy-sun4i-usb.h>
- #include <reset.h>
--#include <asm/arch/cpu.h>
--#include <asm/arch/clock.h>
- #include <dm/device_compat.h>
- #include <dm/lists.h>
- #include <dm/root.h>
- #include <linux/bitops.h>
- #include <linux/delay.h>
-+#include <linux/ioport.h>
- #include <linux/usb/musb.h>
- #include "linux-compat.h"
- #include "musb_core.h"
-@@ -93,6 +92,7 @@ struct sunxi_glue {
- 	struct sunxi_musb_config *cfg;
- 	struct device dev;
- 	struct phy phy;
-+	uintptr_t syscon_base;
- };
- #define to_sunxi_glue(d)	container_of(d, struct sunxi_glue, dev)
+diff --git a/drivers/thermal/thermal_hwmon.c b/drivers/thermal/thermal_hwmon.c
+index fbe55509e307..c3ae44659b81 100644
+--- a/drivers/thermal/thermal_hwmon.c
++++ b/drivers/thermal/thermal_hwmon.c
+@@ -271,11 +271,14 @@ int devm_thermal_add_hwmon_sysfs(struct device *dev, struct thermal_zone_device
  
-@@ -181,6 +181,7 @@ static void USBC_ForceVbusValidToHigh(__iomem void *base)
-  */
- static void sunxi_musb_claim_sram(uintptr_t syscon_base)
- {
-+	debug("%s(0x%lx);\n", __func__, (unsigned long)syscon_base);
- 	/*
- 	 * BIT(0) of SRAM_CTRL_REG1 (syscon+0x04) controls SRAM-D ownership:
- 	 * '0' -> exclusive access by CPU
-@@ -326,7 +327,7 @@ static int sunxi_musb_init(struct musb *musb)
- 		 * block 'D', ownership of which needs to be handed over by
- 		 * the CPU
- 		 */
--		sunxi_musb_claim_sram(SUNXI_SRAMC_BASE);
-+		sunxi_musb_claim_sram(glue->syscon_base);
- 	}
+ 	ptr = devres_alloc(devm_thermal_hwmon_release, sizeof(*ptr),
+ 			   GFP_KERNEL);
+-	if (!ptr)
++	if (!ptr) {
++		dev_warn(dev, "Failed to allocate device resource data\n");
+ 		return -ENOMEM;
++	}
  
- 	USBC_EnableDpDmPullUp(musb->mregs);
-@@ -450,6 +451,7 @@ static int musb_usb_probe(struct udevice *dev)
- 	struct sunxi_glue *glue = dev_get_priv(dev);
- 	struct musb_host_data *host = &glue->mdata;
- 	struct musb_hdrc_platform_data pdata;
-+	struct ofnode_phandle_args args;
- 	void *base = dev_read_addr_ptr(dev);
- 	int ret;
- 
-@@ -476,6 +478,24 @@ static int musb_usb_probe(struct udevice *dev)
+ 	ret = thermal_add_hwmon_sysfs(tz);
+ 	if (ret) {
++		dev_warn(dev, "Failed to add hwmon sysfs attributes\n");
+ 		devres_free(ptr);
  		return ret;
  	}
- 
-+	ret = dev_read_phandle_with_args(dev, "allwinner,sram", NULL, 1, 0,
-+					 &args);
-+	if (ret && ret != -ENOENT) {
-+		dev_err(dev, "failed to get SRAM node\n");
-+		return ret;
-+	} else if (!ret) {
-+		/* The SRAM *controller* address is in the grandparent node. */
-+		ofnode node = ofnode_get_parent(ofnode_get_parent(args.node));
-+		struct resource res;
-+
-+		ret = ofnode_read_resource(node, 0, &res);
-+		if (ret) {
-+			dev_err(dev, "failed to read SRAM controller base\n");
-+			return ret;
-+		}
-+		glue->syscon_base = res.start;
-+	}
-+
- 	ret = generic_phy_get_by_name(dev, "usb", &glue->phy);
- 	if (ret) {
- 		pr_err("failed to get usb PHY\n");
 -- 
-2.25.1
+2.39.0
 
