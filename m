@@ -1,45 +1,45 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6220B28C2E
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jun 2023 10:19:16 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-4f644dffd71so6577041e87.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 13 Jun 2023 03:19:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3D1DDBC
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jun 2023 10:20:48 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-30fc90f359fso944910f8f.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 13 Jun 2023 03:20:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686651554; x=1689243554;
+        d=linaro.org; s=google; t=1686651647; x=1689243647;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=gdr35NVvZt5grZEtwTcOPCBT+aQqpwrBlFz/EyaAZAY=;
-        b=MT0jfmQ3GaGeOaRdULj4v+tzEv/qyqc7kkboNHxFk95UTYxahYr1Wu/ReM1jUPq7Y7
-         5PnBXZMc96XvR2x5cF5Mo4g9VQzuxuve1smXA/x1s28HNaT0qoVmHkCdJF7zlce98Yah
-         Vaz6sEnoempjBHWeWrMDdGTGYwd16RzI8vGSIoX30PXPM8N1PCsjDICvwfsV33xxQ+bM
-         3PnDWmo4w56mPiOZQCh1PHZLXr662z+H0LyPnJ7YST9C+8Z8gHzx5BPW6C5bxnqP8edq
-         V+sYD+GUUs+oixU+TF6PE9SL7pob/GuO+3XieGjKuBrvD4M3luTpfPbY6LVciutjW5jy
-         DfQQ==
+        bh=LS1QZFq4PW+Cu7XRqqcuTNZQ+bcaoFopTjwE2sqYaSo=;
+        b=odVd10yqz/T7OpVfq0G9VoZpLJ1BBVQ4kllhXUxAlpGSNXvZUOcJfB+/Dw896mY3cV
+         AkDLdyyIN/0WjGsZw80p50HitmPdSlyiDihqvpTCWqjypydLtMDkZ8YQTybvmo9THfWh
+         E6oVQOWqgPq0BqAAcw252YF7rieVwW8qhHMRmX0uuEWlm13VmWZaKovxh4KID1jELONh
+         zmYSJ+nmRkCIF8FRlATHPNJWKvjSidkKwf/CcVn5SGpV+u/M+cmGd2Cdu24KWQXI0qNb
+         E4vLrwTHIAgmrCHcO/1IsbiBkChyd8dqEING+nDPzzaeNCfaqyKBT9PcR9BhFfjANPe0
+         L07A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686651554; x=1689243554;
+        d=1e100.net; s=20221208; t=1686651647; x=1689243647;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gdr35NVvZt5grZEtwTcOPCBT+aQqpwrBlFz/EyaAZAY=;
-        b=cXo8yMuY2c0zeY6SUP2yrwNgBblSOj9N9qi7LT/3s1a6S13ILVhGXMrzWDuaksKdDC
-         byGMGqNSK4plWas4OQEt637qoPsId/3A7oElRMjyXlwiUc0I3qYwtwAL7ig+OEFuPTn1
-         IN7yVtvG+HyiFzdZUM8tfKkDQrmrLzd147Xpnl26KWr1Unrl/ThSBF0xDdpIgXzjSpNJ
-         +eybAkxnGQnDFyxOzZkeaFFsJ6jc3n/gSm+Zfo00zjZAVsW5Buzl/r1Rs7sRASHc+LD5
-         I3Ww8W1Nx7UD9B/soG42t08mH2XqZ/IKuOWjacQrJvgKMg3Z6ICNDz84NLsZBa9P75rs
-         S2eQ==
-X-Gm-Message-State: AC+VfDxM9r3dGc5kOoDrCo0LgnemClwPweQjI+rSZbiXIU1EF2Jy6nK5
-	uTW4FaDjAk+e25aB00DXi5p7Pw==
-X-Google-Smtp-Source: ACHHUZ6PKN8jwmaGHls2F2gl2akc40go/8ljLq7Qwlu5jF0CTKmMviLXMRWLeIbs9+JRw390KY37Rg==
-X-Received: by 2002:ac2:5b9a:0:b0:4f3:9136:9cd0 with SMTP id o26-20020ac25b9a000000b004f391369cd0mr5734769lfn.44.1686651553968;
-        Tue, 13 Jun 2023 03:19:13 -0700 (PDT)
+        bh=LS1QZFq4PW+Cu7XRqqcuTNZQ+bcaoFopTjwE2sqYaSo=;
+        b=MboFjLFGJLN3V+mZqjbNJUjfgjXyYwv+fYkv569lWGalcgDWiFWog62hue/T58bLaG
+         p28J4+bATPuc6V6L4BZkEKDd8akAVFJsPp+9FTPneBo+lYjZxlHQB+OkLWNeZ+ZATHk4
+         ZQJocWmkgwtCjSGViFtmnkcqrvgXurkxATphbj10YxJSkHVUVcxmcvd8tL6paZoE+x23
+         a1s83AoVrm1kc7rceuajA+B7UVoJ27Io9W1KS/yiRqlWk7/uS9MUByinaFqNv5YAFZzi
+         kZDvlO9h3WtlIeMUg5AvtPn94BhTAgRxJqNzWg8AYkn9sjsRHR6dfWKtNdIli2nCBvBQ
+         bZmw==
+X-Gm-Message-State: AC+VfDx/e2J2Bn6DXM6pYGFQjNJB/msnYxYg5RCEvpaboPE+qq8mRt27
+	BnkjJUEpEJafqf5B9an8DCRn+w==
+X-Google-Smtp-Source: ACHHUZ4mLybWRM2xTNVY4PZztaDFQwXjC4NSKZcZAbwZFCFt4OyBZrpM11GOww0BAaWgtIStwFNbIg==
+X-Received: by 2002:adf:e30b:0:b0:309:53f3:6e3e with SMTP id b11-20020adfe30b000000b0030953f36e3emr5803184wrj.69.1686651646533;
+        Tue, 13 Jun 2023 03:20:46 -0700 (PDT)
 Received: from ?IPV6:2a05:6e02:1041:c10:d6bf:b78b:2fff:653a? ([2a05:6e02:1041:c10:d6bf:b78b:2fff:653a])
-        by smtp.googlemail.com with ESMTPSA id n6-20020a7bcbc6000000b003f6f6a6e769sm13838413wmi.17.2023.06.13.03.19.12
+        by smtp.googlemail.com with ESMTPSA id q2-20020adffec2000000b0030632833e74sm14918579wrs.11.2023.06.13.03.20.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Jun 2023 03:19:13 -0700 (PDT)
-Message-ID: <16e72927-b3b0-7191-e05c-74acb5a77859@linaro.org>
-Date: Tue, 13 Jun 2023 12:19:12 +0200
+        Tue, 13 Jun 2023 03:20:46 -0700 (PDT)
+Message-ID: <3ab066e3-97f5-8bd1-eaae-3d790432fb6f@linaro.org>
+Date: Tue, 13 Jun 2023 12:20:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -94,10 +94,6 @@ On 13/06/2023 11:56, Yangtao Li wrote:
 > +		dev_err(dev, "Failed to allocate device resource data\n");
 >   		return -ENOMEM;
 > +	}
-
-When an allocation fails, there is a callstack showed. It is not 
-necessary to print an error in this case.
-
 >   
 >   	ret = thermal_add_hwmon_sysfs(tz);
 >   	if (ret) {
@@ -106,7 +102,12 @@ necessary to print an error in this case.
 >   		return ret;
 >   	}
 
-That should not display an error. The call site will take care of that.
+Sorry, I commented to quickly this patch. Please discard my last 
+comment. I think it is a good improvement.
+
+Can you replace the dev_err to dev_warn ?
+
+Thanks
 
 -- 
 <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
