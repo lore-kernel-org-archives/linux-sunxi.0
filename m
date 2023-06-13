@@ -1,124 +1,164 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2135.outbound.protection.outlook.com [40.107.255.135])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C4B568C
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jun 2023 09:17:50 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3f8cec6641bso3099055e9.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 13 Jun 2023 02:17:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686647868; x=1689239868;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DcUX4fDs7iSlQ+LnL3iJyOLoCOfttwzDzADNkHi9/UQ=;
-        b=wE7DBOHqnnNYn0JdlNZUMAi/IfQEQdPUAEbjSX8isNwHRmldZ6YyaKSsgn3OMuDejJ
-         8sW04YcS18wT7UKNqDklWAHGQh87GS+qy4ckHY+X1Cecc0cbPgW5LdMM4kOLHes19lU/
-         bOnTd//CbkKIH3PtJkIDj+Z6BqFplONDOXCcY4dnjYrP/sas6jvJJXID1kRSulqzx+a9
-         JVRzLcfB1fb5nr41OQAOJ8jVs+suQ8AgtMIw2A/f1ejS8QqCDdl8BfLQUIQw0IKamERh
-         milN0sjKNKnosNuU4flCo2TB8C9znO4syyBO1HE5+z24kMvOSxRHjsmxCsltrqlMIhSV
-         ssBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686647868; x=1689239868;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DcUX4fDs7iSlQ+LnL3iJyOLoCOfttwzDzADNkHi9/UQ=;
-        b=NHKDae0XiGJIG2vHiqC62OotyIzQwY3U5r844xsALwhHDo3XlU5jZBnBbyxsNFpOxp
-         4ofNhBghV54wQCfpLUWQIjrouSo7I6olmalBCKJgzF+jpkjrorRHM/p2LaB20uOFtiZQ
-         nNuzGBI8MzSmPHbIiRWLNxhJOsZYdLg8KDMByAyiS7M/SKJtV6CIPTQ9i/NW/lFTOuWA
-         yYtL8UPUBBiS4HofmfYRgWE4OEb7E3acYRRMtHU5d81nLTot3/62k2f0R1b6i6MmW2PA
-         NkEykzIyqSsEVedwnz1Ldhs8xwpmLBYt1s5+wzCLsTvVZSoSbh/ghGH1Y0o55k0io5gE
-         zlTg==
-X-Gm-Message-State: AC+VfDyDiQs3cxyh6qxNrtGipG9HTdA/PvR8AiAC/ZnADhPWYIAQET8C
-	9GMjRwBehSGVT7Stzz1m32M5xQ==
-X-Google-Smtp-Source: ACHHUZ7PRirIG4e4ODfmZ78TSJJS4MY/py9QOzKFtnX3RLZe7Upxx7koRp4/SWWhSVvtEj7n/D1VUw==
-X-Received: by 2002:a7b:c394:0:b0:3f8:f5d:52ee with SMTP id s20-20020a7bc394000000b003f80f5d52eemr6890301wmj.23.1686647868566;
-        Tue, 13 Jun 2023 02:17:48 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:b5a8:28ff:af00:a97f? ([2a05:6e02:1041:c10:b5a8:28ff:af00:a97f])
-        by smtp.googlemail.com with ESMTPSA id q25-20020a7bce99000000b003f17848673fsm13769141wmj.27.2023.06.13.02.17.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Jun 2023 02:17:48 -0700 (PDT)
-Message-ID: <3613a4fb-5c68-4316-0983-7bfeb5755041@linaro.org>
-Date: Tue, 13 Jun 2023 11:17:47 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CCA02915
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jun 2023 09:56:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fLTSmsbhi7i4nUUWRBTmeJkGUbqqkVCyqKzX2ZKMw5hP4joOvmDePwp4CsUHXqco/pWMe6hftnr6oot6z5/0AVmJJS7LAY7wQUSNS/TccTDVCnGRpWchcxjdmwaQC6YVhesY13f5JD+iHoqAW0MW/q/g8kpUL4BbJNRTaqF39KhOL0IZte7z7kISh4ay3+5Z66e/mREDQ+9I3mxGHtJsoMFGjoy2WzR319eEbDyEUrMEN9KiTjNBNqHrVUFeFM/zxnR8ofkCKHpRDsptV1dAqjPR4kERE37ec7PndQYjjrlibPORqCb7xotWv6Vmj/NJAMK0jRaeGcDu15EWLq/O4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wgUHWTc8w9uXoZ9FmOs4xU+yjuY46oZRm/AqUHLmhp0=;
+ b=G7aWWL4FylmrzoPEMSaYOS59A1lDPFgi4TTx6xuBvdb2xE9F8voqV2dN7KliSEGexErNvsa5GFbOtm26Vb1bzLGU9K2ACMV9m3BvixTXIp04o0M+yWd1Cj+QMEJ+MPYg/ehtLHM39t6MviNK0NPZZb02N9vFlfAOLzD6hZEbhDcsLHaob+wxPJRxA109zvr+8SiHImifKJY5lf+x4nFq/pInVU/mUb+5Ekst42iEYL+z1pSdbxXtnH0WDl65IfettoCjY8PdrQuGNcJ8QibmdV1ucFR7O+4t6AlrHjcrqdjaYx5fN+053g55dlPoNiwDVBCmEN+07DJkGbnV0crCZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wgUHWTc8w9uXoZ9FmOs4xU+yjuY46oZRm/AqUHLmhp0=;
+ b=dj3M1cu7b0va+GFHEXe0G4j1uKkhHW2sdRflxUN384l4jMdZpMqyRI0KVVMGjNJihuyCzHuFDunfOACMhJrehAvUSOhbh/c1/TEl38eLHx1eIw7nAjiAQlXnJPuvtHyGOEFNOUEEnWlgkdD+6GOhhBcLtTcEV6afthQND65fKT+dUjzVGu8lya4sgm455sAOB5FXC2NNgnnED7OiS96HZZkRGH7G4nWKLAszklzzDPqe1D+O4MSsrHab3RLLXNsmrdnkLn9jVBTu6aAEpaOasqlmkBdY+a7raYR+suHc9mjzXlUflJazR0hZt+9ocBLcNaja1G2XcJEXqraG4fND8A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
+ by SI2PR06MB4012.apcprd06.prod.outlook.com (2603:1096:4:f9::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.46; Tue, 13 Jun
+ 2023 09:56:39 +0000
+Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
+ ([fe80::76d6:4828:7e80:2965]) by SEZPR06MB5269.apcprd06.prod.outlook.com
+ ([fe80::76d6:4828:7e80:2965%3]) with mapi id 15.20.6455.039; Tue, 13 Jun 2023
+ 09:56:38 +0000
+From: Yangtao Li <frank.li@vivo.com>
+To: glaroque@baylibre.com,
+	rafael@kernel.org,
+	daniel.lezcano@linaro.org,
+	amitk@kernel.org,
+	rui.zhang@intel.com,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	linux-imx@nxp.com,
+	thara.gopinath@gmail.com,
+	agross@kernel.org,
+	andersson@kernel.org,
+	konrad.dybcio@linaro.org,
+	anarsoul@gmail.com,
+	tiny.windzz@gmail.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	thierry.reding@gmail.com,
+	jonathanh@nvidia.com,
+	edubezval@gmail.com,
+	j-keerthy@ti.com,
+	f.fainelli@gmail.com
+Cc: linux-pm@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	Yangtao Li <frank.li@vivo.com>
+Subject: [RESEND 1/9] thermal/hwmon: Add error information printing for devm_thermal_add_hwmon_sysfs()
+Date: Tue, 13 Jun 2023 17:56:16 +0800
+Message-Id: <20230613095624.78789-1-frank.li@vivo.com>
+X-Mailer: git-send-email 2.39.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR02CA0033.apcprd02.prod.outlook.com
+ (2603:1096:3:18::21) To SEZPR06MB5269.apcprd06.prod.outlook.com
+ (2603:1096:101:78::6)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] thermal/drivers/sun8i: Fix some error handling paths
- in sun8i_ths_probe()
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: =?UTF-8?Q?Ond=c5=99ej_Jirman?= <megi@xff.cz>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Amit Kucheria <amitk@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <a8ae84bd2dc4b55fe428f8e20f31438bf8bb6762.1684089931.git.christophe.jaillet@wanadoo.fr>
- <ucnnixemxbpkjlbyenboydicslozt5jpyjjfbd4gjk4oye52et@fgyd3zqdqsh2>
- <u7mmywm63bm5q4zlsbnooeplscn4rrd3qnslkfq2xnquxgnkkd@n3tsnrutmfjp>
- <ad78c18e-13dd-fca3-1aff-5b8e68a91c90@linaro.org>
- <4j74jv53tdf4n6txibl6xjh63dzzjr3ku3uoxhv3rzodthqbqy@25eho3f7wh6y>
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <4j74jv53tdf4n6txibl6xjh63dzzjr3ku3uoxhv3rzodthqbqy@25eho3f7wh6y>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB5269:EE_|SI2PR06MB4012:EE_
+X-MS-Office365-Filtering-Correlation-Id: e9f0c09d-eb81-4388-4502-08db6bf47ade
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	iVbodcEwfJ06GuaAFyq2QmgKS2CWgmq5KMceHodqVJPsXi/m8tXdlx1F/kO/CKjNv0LtiGIOcdvWMLuzy23pLZWpUlps0ms/QlRvjO+i+DVzGflD0M3N/a+JMvH6G6iVHij2/NOrL/b6SiBsxczFk4eWGcfbCUkgXCHErFAS2TtOGv7pJD0MIO5y5X/ZYsN3mumISuqCB0PArD+lSTBkrwbxqemTU7OngrHQghGEsf1I+NVSMudxiwJZr/JY2LpQ4/n3MFM1UZZAhU2T9I1N/AOJAW/yn5J1P5CukZGk34ORYqyKLz7y29NP4tDYDW8Alw9IYaHJGlwlqgtEb8ONquBr1ljcpgHaKFw8ZaNBXfuEJ+BA22hhC4Z9o8xWpaZ8hai34JPESBjWw4Fo6zcyUdPae4XPWonCSJnEGN1nQoS2hugYuc0zPDEvBmNGsKB4aC+lh2PpnyxApXeNZ74ZWPyX+1Q5WsyQy+is7ft0SlnKWJ9lxEA60LblkSsXb+fp46XlOV32NfQhWjh3N/j0HrugLCz9sJc7OM6TpToO9CI/tWT0UvYaxG2R+yXUQ8Md4pJcek1Nq/aQJ7W6EsyM2IXM8ic/m1J20qWj/NTrRzK2EYm3aMm39nH6+V+HVK4q
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(366004)(136003)(39860400002)(376002)(346002)(451199021)(4326008)(8936002)(66556008)(316002)(7406005)(7416002)(66476007)(41300700001)(186003)(2906002)(66946007)(478600001)(8676002)(5660300002)(6666004)(52116002)(6486002)(107886003)(1076003)(921005)(6506007)(6512007)(26005)(36756003)(83380400001)(86362001)(38100700002)(2616005)(38350700002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?PkovJBVBwalxUd6yVGZZ7Zc9EOhF/vgSPkmecnEeoYNW/PcG4a74d6ytOBKy?=
+ =?us-ascii?Q?WcjZToECquF8xM1UlBRXMn6f5FTdleSLoGiONAvO7U1p6w1SdsXY69Tw4TUo?=
+ =?us-ascii?Q?uTuVH1Ifsg76ccunyjfSBnEEYqY5BOjYyl0Vey3WMKV4/FvOot/r52G71aEb?=
+ =?us-ascii?Q?Lh66TPtUsLWDZAHibPvMKpU5pQlpx8qalGANLM6Uis8NlkRMMfR6AtKE/93O?=
+ =?us-ascii?Q?pH2jmDYEWNJA57m2AgYRJg7DhtkigzdaDpIekWrwz7bfm6IK03LS9PmyjF1b?=
+ =?us-ascii?Q?h4CnTaeuYd1WTf09hBbD03ffe0NmG8hRQiEfgeF6a4XaoZqe3OerYTbv6C78?=
+ =?us-ascii?Q?G2QBSGNkQsm7pEbw5WE5Yogluz5OpzUwCXJBNfT4jOUVXGI7e1jJd72MEGnk?=
+ =?us-ascii?Q?7JugLahuOFGCWJi59BmC6uIYcsCzvgalQCLWSA8pAh8tWTFfmmwiFG5ZlIhA?=
+ =?us-ascii?Q?RMxEHF7m4Xu2gusvSe+xqj6+tXhVHb8S9qVNe31FyLBlIo7nP4YqJORcO00v?=
+ =?us-ascii?Q?jwQ/csZkBygXmORc1m2TII8s5Z5gZaM89j9gfrn9f1osALX2mTPi+vPU47KR?=
+ =?us-ascii?Q?ZXGiXrm9baJqsQed6W0m02SAC287+D4megeGa9g6dX+GFM1cOTNoNIX7aN9/?=
+ =?us-ascii?Q?5oiIRAA71kiXF2xdZCW3nIdkLDQ38alx5D5zXuyT8fKcVSmlHzZTT5+TqIzj?=
+ =?us-ascii?Q?rhDqytfDdKk2Po4O26iM5khGXoxx3t3KnIgyVBag4Bd3JskAMEfw3cBNSfts?=
+ =?us-ascii?Q?3Y/qyN0yO+36e65Ffqz4DhLEJWuP12zCQTbqik6V2eFbomNiGwNnLHxL39V6?=
+ =?us-ascii?Q?JykKW+7fM4YF2duZXOV36PZ+yo4lITJxAogUY1kvm5vx9iJdZKrYHQvDgJNL?=
+ =?us-ascii?Q?cks0FuqxUf2KkRdeYjBkfmyJ5DWf5xAjyeP/ND6QxbY4N6Qo90rN7GJ4NesP?=
+ =?us-ascii?Q?K8mKYE6rUWnff3w+bMRIZwXwA0Qq+NT7M30QbdcqZ/GHDuo9LYhVgDhJpetY?=
+ =?us-ascii?Q?Rqb0XbOjEEoQJYg/2vugwD25TmEJMFVXORXDWk+EY7eVJDw7TFUu6xuCg2vg?=
+ =?us-ascii?Q?nP1rxTc1dNsgtT/ekEn1U5kqXEdLUktMCFY/Uw/YNipEqH8cTSIJaxpex7+P?=
+ =?us-ascii?Q?iHXu00+mDJwYUWBv1V3sB1QsmKuHMIMMGCm4mZdxTd0zUcUs31OJK0LRIrPV?=
+ =?us-ascii?Q?48PI4FHtj6QMQF6bCMIV0fEpUnFJgNvo3oIDvBfrOY/ozDYQWJoBs0tC45WZ?=
+ =?us-ascii?Q?6i/3SfYSze46+o/Hzn68l5ujuW0UsMx6SzRH7oiZ5ZeTH6I2WsREh1iakC7j?=
+ =?us-ascii?Q?k3ij7i+paP6M0kpKXd+x7Fl4MwPTZ0yC4tAEMSgJEyBMqvdMeZUW+eaWpxhH?=
+ =?us-ascii?Q?CmpilvXN1AaDZMB39Z74jnc+Np4kCqZza1+ECTDNvenF2CLm8qH2aSVgrsjw?=
+ =?us-ascii?Q?YakeVvQm2xi3xTdxwnsndFokYYl3kzWAIf6kq1icKA+EaPCijWd296bMTJH0?=
+ =?us-ascii?Q?ckphxHoHjH/KL/nqYnNPCt2/9SqgMu7QkAoTcobpz0YfaTFw1wXCQXYnsMpD?=
+ =?us-ascii?Q?o2JTRpj/qmkII0QAqbL2VqzRYcad5vKx/WKga3En?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e9f0c09d-eb81-4388-4502-08db6bf47ade
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2023 09:56:38.3657
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LOfQ6gJ3ZWkmW0VC2s3VqfMQAqzhA23tWix5WZuZ0eXwAqa6I6NeLoyDfdzb5XOHAW7ho3veECp8JAcOspzWwQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR06MB4012
 
-On 13/06/2023 11:16, Maxime Ripard wrote:
-> On Tue, Jun 13, 2023 at 10:49:24AM +0200, Daniel Lezcano wrote:
->> On 15/05/2023 14:33, Ondřej Jirman wrote:
->>> Hi Maxime,
->>>
->>> On Mon, May 15, 2023 at 01:54:41PM +0200, Maxime Ripard wrote:
->>>> Hi,
->>>>
->>>> On Sun, May 14, 2023 at 08:46:05PM +0200, Christophe JAILLET wrote:
->>>>> Should an error occur after calling sun8i_ths_resource_init() in the probe
->>>>> function, some resources need to be released, as already done in the
->>>>> .remove() function.
->>>>>
->>>>> Switch to the devm_clk_get_enabled() helper and add a new devm_action to
->>>>> turn sun8i_ths_resource_init() into a fully managed function.
->>>>>
->>>>> Move the place where reset_control_deassert() is called so that the
->>>>> recommended order of reset release/clock enable steps is kept.
->>>>> A64 manual states that:
->>>>>
->>>>> 	3.3.6.4. Gating and reset
->>>>>
->>>>> 	Make sure that the reset signal has been released before the release of
->>>>> 	module clock gating;
->>>>>
->>>>> This fixes the issue and removes some LoC at the same time.
->>>>
->>>> It should really be three different patches:
->>>>    - One to fix the resource release, that can be backported to stable
->>>>      releases
->>>>    - One to switch to devm_clk_get_enabled
->>>>    - and one to change the order of clock enable vs reset deassertion
->>>
->>> The order was correct before this patch. I don't think an incorrect order
->>> should be intorduced, even if temporarily between two patches.
->>
->> Maxime ?
-> 
-> I agree with Ondřej
+Ensure that all error handling branches print error information. In this
+way, when this function fails, the upper-layer functions can directly
+return an error code without missing debugging information. Otherwise,
+the error message will be printed redundantly or missing.
 
-Thanks, I applied the patch
+Signed-off-by: Yangtao Li <frank.li@vivo.com>
+---
+Resend patchset so that the changes to thermal/hwmon.c are copied to everyone.
+ drivers/thermal/thermal_hwmon.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-
+diff --git a/drivers/thermal/thermal_hwmon.c b/drivers/thermal/thermal_hwmon.c
+index fbe55509e307..a580add5a2f6 100644
+--- a/drivers/thermal/thermal_hwmon.c
++++ b/drivers/thermal/thermal_hwmon.c
+@@ -271,11 +271,14 @@ int devm_thermal_add_hwmon_sysfs(struct device *dev, struct thermal_zone_device
+ 
+ 	ptr = devres_alloc(devm_thermal_hwmon_release, sizeof(*ptr),
+ 			   GFP_KERNEL);
+-	if (!ptr)
++	if (!ptr) {
++		dev_err(dev, "Failed to allocate device resource data\n");
+ 		return -ENOMEM;
++	}
+ 
+ 	ret = thermal_add_hwmon_sysfs(tz);
+ 	if (ret) {
++		dev_err(dev, "Failed to add hwmon sysfs attributes\n");
+ 		devres_free(ptr);
+ 		return ret;
+ 	}
 -- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+2.39.0
 
