@@ -1,98 +1,115 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F00B5229
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Jun 2023 18:58:32 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-97668583210so688979466b.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 12 Jun 2023 11:58:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1607923A5
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jun 2023 08:49:27 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3f6e13940daso54851655e9.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 13 Jun 2023 01:49:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686596311; x=1689188311;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+mUonJgToHCgnd4NYbM2VauxjgcAH9HX59bsPeQrQF8=;
-        b=BKUK/UGgH4F6ItSoTC+5ps+xppzuLOpyrcR53EjxUGgzeHXMBcF6vsGuNsjG7ZivrH
-         LekCx1Km0THyBN8bIKbqbWDqyZxhiTiOdOercO6BylOYa6hpuFOEehSonUcrZcsSt4kQ
-         OjKHo+W0jG1y6wc9o1xvg0NnMlkwpFFY2v1CL3/aXF9Pq/LuoKawFzAgzg5GwHG1nmn3
-         TKPo9zygdYCWnn64A1xNjn8TkxybrmhOKvGnV+x1gUDxIzPYSDGMpjx3eNStBTt2qGEQ
-         VeFKtYmpTEBAzrieyZVHGaTgJwjQHQ5JBDDasJH6TmES73QcPhRkEDd5pxYeIRWIpmBW
-         eNfg==
+        d=linaro.org; s=google; t=1686646166; x=1689238166;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=a0I2pNeOiPYcUgKjv6OV6+sPS7erJxX4fRSV8gqz1fw=;
+        b=JVPJNR2G9K5SB+ZbY//2raud+kEc/EIAVOrsIkSCHCmc2c4Oc6QBLqmbAJj6j3hweh
+         dXw485acl4adLieocy3FOyHxXRAgmSs7fYxE/6DLnxURl8KbWfJgNdJokpDwb9gmRuxE
+         8vi0l5DYkgzMbZHMjWiPGqZIJmixY2tpz+wUZMgxmoVIYjGHIIHg9N2A/8pft+GbW14+
+         tD3UKjvjxMKY11ZJl1oYQqi7rrIoQvusSCgRULOOcpSZjoFmQoP3c7ZshW17QdSs9XKA
+         gJTHWOERR1npxo0rAFS+CBJ5UZbvkh0Ami8TVlfy6pYx70reg/k1ctOhT9JFkPDRYK5R
+         TSHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686596311; x=1689188311;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+mUonJgToHCgnd4NYbM2VauxjgcAH9HX59bsPeQrQF8=;
-        b=WlJn6f3sfif54K5qP8KFbsO0a48YYNN/TX0U2UyRE7WvBYQl8ljzFGxHzSgPWxeYBT
-         L4Qn6ejkqa+nySU7wliz6j8IMyXzvi4q3f6N7EVkGAQ56Zn4SyIEHgcinaOqZfBbSKG1
-         2onzcawayNMtETFS5DZk7nmA1sj1rsc/ABNj8HIF247Ek2ssiEAESIanE3At4u2A+BPi
-         7xGKuMsErGOyQf7QY8kIjDW7aPJApckf6g8fe7Cd/kzsu0lLPCPQ518itLgOfaOEJ3hV
-         DLEhQ2tpdxHBcGyFZE0GzrHSzJnMZK29d0DG1fSRGniNKJM5o0Z7FKun+TB6LuIQcWX+
-         6rPg==
-X-Gm-Message-State: AC+VfDzYJMOMa70Y/POE517hw4u7KwE/b8qrLmWCQFTgH+bJx09Y/7pb
-	VhsinW9t2hf2yUiW9luFZr0QFCY973/7u0ABg5E=
-X-Google-Smtp-Source: ACHHUZ72gaCwCv6ASH5Fi/IBsI0MrQyJpEiRZoZuE7BfM5lJamwPMGfN+SlUgNamlTwETDeAHAdCKuU7RSaB2DGEdcI=
-X-Received: by 2002:a17:907:3f82:b0:97a:e496:c121 with SMTP id
- hr2-20020a1709073f8200b0097ae496c121mr10409439ejc.69.1686596310880; Mon, 12
- Jun 2023 11:58:30 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686646166; x=1689238166;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=a0I2pNeOiPYcUgKjv6OV6+sPS7erJxX4fRSV8gqz1fw=;
+        b=WAGNYwPBc6FDnKpm6ZrWKt8EXrrEXrUMZIdWbMhzz6VhB3viz1dHEuuplnIF5eydsB
+         qqQaEvfFDaoTMcX+3G3A7PQmz27FZ28LrRhauQgMCZpQSCD/Vir1waXX/qq+bF0Evj9r
+         5kSdi8j3ouXuTxiCnu2qWUuuz3u7EFABOCxfV65GOSft2uDYR7HqNYO59+YO272OAhoT
+         XvJM+NiV+Lqn2dmDDqoq/vEevOYEbuhgQUOB24lxCbwqVQoaNELg+ih9t3i7NOaSQYwl
+         /CPPccTWP9I6A2cSzi7F0uVzXQW877Ji5J/BNrbgln8QHv75Y/kffUOuJtxsSahFmwVG
+         CwWQ==
+X-Gm-Message-State: AC+VfDxJkturaLEeVL7X8fqI+RQOC7YcqWyvUNcSVfI2ZPvXbuBy9jvz
+	E+6xStuS3dtG9Jj56ovA5gTpkg==
+X-Google-Smtp-Source: ACHHUZ42xf9bgppziC+evXWZEQ23sTzyp1CSrHHwD55tNkhkvnVJMtZkpVFyXvbIV1n6bLMqRSDXhg==
+X-Received: by 2002:a7b:c7d8:0:b0:3f6:1474:905 with SMTP id z24-20020a7bc7d8000000b003f614740905mr9375762wmk.29.1686646165959;
+        Tue, 13 Jun 2023 01:49:25 -0700 (PDT)
+Received: from ?IPV6:2a05:6e02:1041:c10:b5a8:28ff:af00:a97f? ([2a05:6e02:1041:c10:b5a8:28ff:af00:a97f])
+        by smtp.googlemail.com with ESMTPSA id z15-20020a7bc7cf000000b003f6129d2e30sm13796467wmk.1.2023.06.13.01.49.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Jun 2023 01:49:25 -0700 (PDT)
+Message-ID: <ad78c18e-13dd-fca3-1aff-5b8e68a91c90@linaro.org>
+Date: Tue, 13 Jun 2023 10:49:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230612063429.3343061-1-bigunclemax@gmail.com>
- <20230612063429.3343061-4-bigunclemax@gmail.com> <20230612-wriggle-remindful-89d5105c94ee@wendy>
- <CALHCpMjxboLn2eTjOJkE2JAzH3S8OB3v9fWqDOdeipAmLvLx2Q@mail.gmail.com> <20230612-manhole-awoke-599b8ff72edb@spud>
-In-Reply-To: <20230612-manhole-awoke-599b8ff72edb@spud>
-From: Maxim Kiselev <bigunclemax@gmail.com>
-Date: Mon, 12 Jun 2023 21:58:18 +0300
-Message-ID: <CALHCpMjY8urNAVFhnBaK1Png1yY3UAQOG8u=W4-v=GiJ8TjZEw@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] riscv: dts: allwinner: d1: Add thermal sensor and
- thermal zone
-To: Conor Dooley <conor@kernel.org>
-Cc: Conor Dooley <conor.dooley@microchip.com>, linux-kernel@vger.kernel.org, 
-	Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, linux-pm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2] thermal/drivers/sun8i: Fix some error handling paths
+ in sun8i_ths_probe()
+Content-Language: en-US
+To: =?UTF-8?Q?Ond=c5=99ej_Jirman?= <megi@xff.cz>,
+ Maxime Ripard <maxime@cerno.tech>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Amit Kucheria <amitk@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <a8ae84bd2dc4b55fe428f8e20f31438bf8bb6762.1684089931.git.christophe.jaillet@wanadoo.fr>
+ <ucnnixemxbpkjlbyenboydicslozt5jpyjjfbd4gjk4oye52et@fgyd3zqdqsh2>
+ <u7mmywm63bm5q4zlsbnooeplscn4rrd3qnslkfq2xnquxgnkkd@n3tsnrutmfjp>
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <u7mmywm63bm5q4zlsbnooeplscn4rrd3qnslkfq2xnquxgnkkd@n3tsnrutmfjp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-=D0=BF=D0=BD, 12 =D0=B8=D1=8E=D0=BD. 2023=E2=80=AF=D0=B3. =D0=B2 20:27, Con=
-or Dooley <conor@kernel.org>:
->
-> On Mon, Jun 12, 2023 at 11:17:20AM +0300, Maxim Kiselev wrote:
-> > Hi, Conor
-> >
-> > =D0=BF=D0=BD, 12 =D0=B8=D1=8E=D0=BD. 2023=E2=80=AF=D0=B3. =D0=B2 10:55,=
- Conor Dooley <conor.dooley@microchip.com>:
-> >
-> > ...
-> >
-> > > The RISC-V patchwork automation is complaining about this patch while
-> > > running dtbs_check:
-> > > arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dtb: thermal-zone=
-s: cpu-thermal: 'trips' is a required property
-> > >         From schema: Documentation/devicetree/bindings/thermal/therma=
-l-zones.yaml
-> >
-> > I didn't add 'trips' because I'm not sure if they should be the same
-> > for the D1 and the T113s.
->
-> I'm sorry, but I am of no help there. Perhaps some of the Allwinner devs
-> can help you on that front.
->
-> > Maybe it's better to drop 'thermal-zones' from this patch and add them
-> > later in separate patches
-> > for T113s and D1?
->
-> Does it pass dtbs_check with the thermal-zones removed?
+On 15/05/2023 14:33, Ondřej Jirman wrote:
+> Hi Maxime,
+> 
+> On Mon, May 15, 2023 at 01:54:41PM +0200, Maxime Ripard wrote:
+>> Hi,
+>>
+>> On Sun, May 14, 2023 at 08:46:05PM +0200, Christophe JAILLET wrote:
+>>> Should an error occur after calling sun8i_ths_resource_init() in the probe
+>>> function, some resources need to be released, as already done in the
+>>> .remove() function.
+>>>
+>>> Switch to the devm_clk_get_enabled() helper and add a new devm_action to
+>>> turn sun8i_ths_resource_init() into a fully managed function.
+>>>
+>>> Move the place where reset_control_deassert() is called so that the
+>>> recommended order of reset release/clock enable steps is kept.
+>>> A64 manual states that:
+>>>
+>>> 	3.3.6.4. Gating and reset
+>>>
+>>> 	Make sure that the reset signal has been released before the release of
+>>> 	module clock gating;
+>>>
+>>> This fixes the issue and removes some LoC at the same time.
+>>
+>> It should really be three different patches:
+>>   - One to fix the resource release, that can be backported to stable
+>>     releases
+>>   - One to switch to devm_clk_get_enabled
+>>   - and one to change the order of clock enable vs reset deassertion
+> 
+> The order was correct before this patch. I don't think an incorrect order
+> should be intorduced, even if temporarily between two patches.
 
-Yes, it passes.
+Maxime ?
+
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
+
