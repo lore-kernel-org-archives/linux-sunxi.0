@@ -1,92 +1,153 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9147F
-	for <linux-sunxi@lists.linux.dev>; Wed, 14 Jun 2023 17:38:52 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5169f614977so11746809a12.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 14 Jun 2023 10:38:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686764330; x=1689356330;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1RYu2iCbQcXep64qKrAtV4kz0X66L7+L4NssZgaqsN8=;
-        b=rA0UWiUR/msjCVz6PB3wcJPHClCmuEi7z67ygf5j/FdKbMIEasIoj3zuMQMUeJOcNT
-         XeBsp55cxo2mGRucHvDFaV648MbIJBwduKd98KFFBBxYpMatu9NpMAXD2K0QGknmGXvU
-         rBAra9u5CzGUsPSpfrL59dz0LrvcY0NL1DI6c80ylI2Nv1ZipG6s1IRYLQl7YrF0psjZ
-         BMMOSr4Eyc7E+jdEz7AHxAP8r9bvQxsdWdL2ECgloaeBeRK8QEtBoRQhDPIVDVqCllnn
-         gjIFE+6KtuuB3ODtxMw/NWjDZ0v3gKAoU0tWJ/+9d0poayvmKzoFGLxNjGCqwg/Ue52O
-         EyZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686764330; x=1689356330;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1RYu2iCbQcXep64qKrAtV4kz0X66L7+L4NssZgaqsN8=;
-        b=ObxrrugR+eL3NXKRnr5cTu1wytPgbQ9+A9zf7I+mAIAhx+J89DADi9iIXKzzeQnaDl
-         C8T+c5oqqzDOXh6Ven9YdZrk1pmGj+CVIQKgYm4CL5Adm53EMA9LFk+nE9h5GFIniHgY
-         TCcLTlgMhYnaQmVB9+Zh9qNeDxicelOWzbSA+D0sDHv5Qlp3J9qTSvLano+zbrmIo6BX
-         eRyZ0TiIuLNXTQUnSl8l+Qy3GxnI+rVRoIRbxpprFPxaeUKa51RB+7tE0GbQzUup8Emb
-         jZlZTBj7PtdQgi3DemUfghnaVqDYhRCaUifYnKd6nZyMmm/o9qUk3EFON//WZ/+txOYb
-         G2ag==
-X-Gm-Message-State: AC+VfDwUIqnsoKB41EOr5OyUrLyJ7GVT7ik70tACU6iNdLJ6Tvu7xnI8
-	yS+LHgilntyFf5TycOiuF9u8zw==
-X-Google-Smtp-Source: ACHHUZ6P00V2TK9K/5IeFykjHz275i2jIyxJNsA7hSD7TGWTC7AGSpaWyQa+rkL2Ep9UzXTrz87o+Q==
-X-Received: by 2002:aa7:d756:0:b0:51a:1ff9:750 with SMTP id a22-20020aa7d756000000b0051a1ff90750mr392972eds.1.1686764330729;
-        Wed, 14 Jun 2023 10:38:50 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id c7-20020a056402120700b00514b99afa57sm7938813edw.44.2023.06.14.10.38.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Jun 2023 10:38:50 -0700 (PDT)
-Message-ID: <695204de-601b-8e3f-d7f3-ac3bcd09e6e3@linaro.org>
-Date: Wed, 14 Jun 2023 19:38:48 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FE62EC2A;
+	Wed, 14 Jun 2023 18:38:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686767911; x=1718303911;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3sI4YDTtaY0g0URvNJ8Dd8m8uuHedTrH+fP517EWAwI=;
+  b=EOmHnCzpM3djQ+zN4Od85sGvmWkNZCmuiO2zK3lviEof4YB+nzc7kIH3
+   vOPUne6dG2xMLwtl8oubFq7dR8ZFOAYVjrmrAaN9gdymOY9R8HWlWPNKv
+   joWY7BKtzYKW+q016poox5y+67vdQNRWQgXP0p4VmesrxvCxR/X6NwA3p
+   u53HEdE9WclI2YRb38hGO198MFTyM81SAblhKiP3mxtrl+/QyZxArq/ZH
+   gbC6qizAByS/AfK6+/IBc006DBFhTyGOd6tzYME9XNNb30YFOuJhMBYCq
+   R2xGDzPDm07hvtFGRlwBycl1hktSvJc5UEmGl/wp2G8v7VXd8lEiW2US3
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="356195121"
+X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
+   d="scan'208";a="356195121"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 11:38:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="745184234"
+X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
+   d="scan'208";a="745184234"
+Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 14 Jun 2023 11:38:24 -0700
+Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q9VNv-0000xK-1R;
+	Wed, 14 Jun 2023 18:38:23 +0000
+Date: Thu, 15 Jun 2023 02:38:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jisheng Zhang <jszhang@kernel.org>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 3/3] net: stmmac: use pcpu statistics where necessary
+Message-ID: <202306150255.k4BaJTXY-lkp@intel.com>
+References: <20230614161847.4071-4-jszhang@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v6 2/3] dt-bindings: iio: adc: Add Allwinner
- D1/T113s/R329/T507 SoCs GPADC
-Content-Language: en-US
-To: Maksim Kiselev <bigunclemax@gmail.com>, linux-iio@vger.kernel.org
-Cc: Conor Dooley <conor.dooley@microchip.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20230614132644.699425-3-bigunclemax@gmail.com>
- <20230614145826.777870-1-bigunclemax@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230614145826.777870-1-bigunclemax@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230614161847.4071-4-jszhang@kernel.org>
 
-On 14/06/2023 16:58, Maksim Kiselev wrote:
-> Allwinner's D1/T113s/R329/T507 SoCs have a new general purpose ADC.
-> This ADC is the same for all of this SoCs. The only difference is
-> the number of available channels.
-> 
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
+Hi Jisheng,
 
-Do not attach (thread) your patchsets to some other threads (unrelated
-or older versions). This buries them deep in the mailbox and might
-interfere with applying entire sets.
+kernel test robot noticed the following build warnings:
 
-Don't send the same patches twice. This is v6 or was v6 or is what?
+[auto build test WARNING on sunxi/sunxi/for-next]
+[also build test WARNING on linus/master v6.4-rc6]
+[cannot apply to next-20230614]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Wait for feedback and send corrected patchset next day. If you tested
-your patches before sending, which actually *is a requirement*, all mess
-could be avoided. Sending same version twice is not a solution for
-missing testing.
+url:    https://github.com/intel-lab-lkp/linux/commits/Jisheng-Zhang/net-stmmac-don-t-clear-network-statistics-in-ndo_open/20230615-003137
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
+patch link:    https://lore.kernel.org/r/20230614161847.4071-4-jszhang%40kernel.org
+patch subject: [PATCH 3/3] net: stmmac: use pcpu statistics where necessary
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230615/202306150255.k4BaJTXY-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add sunxi https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git
+        git fetch sunxi sunxi/for-next
+        git checkout sunxi/sunxi/for-next
+        b4 shazam https://lore.kernel.org/r/20230614161847.4071-4-jszhang@kernel.org
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/net/
 
-Best regards,
-Krzysztof
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306150255.k4BaJTXY-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+   drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c: In function 'stmmac_get_per_qstats':
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c:564:26: warning: 'start' is used uninitialized [-Wuninitialized]
+     564 |                 } while (u64_stats_fetch_retry(&stats->syncp, start));
+         |                          ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c:551:22: note: 'start' was declared here
+     551 |         unsigned int start;
+         |                      ^~~~~
+
+
+vim +/start +564 drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c
+
+   546	
+   547	static void stmmac_get_per_qstats(struct stmmac_priv *priv, u64 *data)
+   548	{
+   549		u32 tx_cnt = priv->plat->tx_queues_to_use;
+   550		u32 rx_cnt = priv->plat->rx_queues_to_use;
+   551		unsigned int start;
+   552		int q, stat, cpu;
+   553		char *p;
+   554		u64 *pos;
+   555	
+   556		pos = data;
+   557		for_each_possible_cpu(cpu) {
+   558			struct stmmac_pcpu_stats *stats, snapshot;
+   559	
+   560			data = pos;
+   561			stats = per_cpu_ptr(priv->xstats.pstats, cpu);
+   562			do {
+   563				snapshot = *stats;
+ > 564			} while (u64_stats_fetch_retry(&stats->syncp, start));
+   565	
+   566			for (q = 0; q < tx_cnt; q++) {
+   567				p = (char *)&snapshot + offsetof(struct stmmac_pcpu_stats,
+   568							    txq_stats[q].tx_pkt_n);
+   569				for (stat = 0; stat < STMMAC_TXQ_STATS; stat++) {
+   570					*data++ = (*(u64 *)p);
+   571					p += sizeof(u64);
+   572				}
+   573			}
+   574			for (q = 0; q < rx_cnt; q++) {
+   575				p = (char *)&snapshot + offsetof(struct stmmac_pcpu_stats,
+   576							    rxq_stats[q].rx_pkt_n);
+   577				for (stat = 0; stat < STMMAC_RXQ_STATS; stat++) {
+   578					*data++ = (*(u64 *)p);
+   579					p += sizeof(u64);
+   580				}
+   581			}
+   582		}
+   583	}
+   584	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
