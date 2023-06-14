@@ -1,65 +1,40 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5C5AD23
-	for <linux-sunxi@lists.linux.dev>; Wed, 14 Jun 2023 14:58:33 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3f736e0c9b1so8189435e9.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 14 Jun 2023 07:58:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686754712; x=1689346712;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=z5rIbWUvXPqdJJgOnGLL8m8IBmG8tIePJ5zzh46kuSM=;
-        b=gty57368/fa7vKW7lrPBjqsR/LePRAKGyODtM5uxdwHaI7Gm4mq6DViWi8rtWT6cK9
-         siC+ErDiBt+2R43VZMb77ffV7v7cJ6/K9IEDCOlKW0yhUQIelbYn1D3FMP26qvmFjZ8l
-         IFZzk0MHhw6df/N9XAxmjf7l5jH8i+jjiFYB7k5CU35bB2/9oIYiKFrrr8hGVAmciJJW
-         UBnlXs9k46PbK3umeOzK4xhHqWAWL5MktLpcS57BuooVfuVzX3KZ2bhuXPeTicMOO6AP
-         BKmWKAEleEpujvKcY4e4vpLVqbdcATcP6NZCaPfnl+HJwOoYFtRjOZihyIAPZ736YONF
-         Y1WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686754712; x=1689346712;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=z5rIbWUvXPqdJJgOnGLL8m8IBmG8tIePJ5zzh46kuSM=;
-        b=XQfYLaezbCQuDVsSEr46o8bFr2t4908blHfYHjX3prmK/veh7Dy6XMyd13lAq50bzF
-         hC/cTPXUtSd5yD4iQTCghnNzEPKLmtJBmXS9dNihI0FLjco5NynoqCY6asIjBFm9KqwB
-         nfcrNsIPuttqrJi5CU/oIYIONl5YTdHIPM/yQutdDVDBVDnmE0OP0hY6O4HJXIRtYACg
-         oLFDeAIPVcnfW7RVhSPOCR0fs+UBVZ52RmKBBXrqTIwaa6x6jFMRhQwm62+TSu4cO0fs
-         9UAnWHH8doEyboqwiECmYODL69WfKGG2DISlU+Qw0oKNO3/vmVG8g0luVoqgEB/R4HeZ
-         JIew==
-X-Gm-Message-State: AC+VfDzBU9jgr+T0Lz0kpil3rFqngXix4DL69N3VbQW97KdfDVl5UvWF
-	GTKm/EP4hQ6ZdXsce9px4Zs=
-X-Google-Smtp-Source: ACHHUZ7sGHwo0QaqenkPlnGntCuKuuIntMmPKJT5OwE2wTn3nCw5SPx9Qh8dOVyu7xm5gT9oLppxzQ==
-X-Received: by 2002:a1c:4c0b:0:b0:3f7:fcca:5e32 with SMTP id z11-20020a1c4c0b000000b003f7fcca5e32mr11806264wmf.17.1686754711716;
-        Wed, 14 Jun 2023 07:58:31 -0700 (PDT)
-Received: from user-PC.. ([178.134.198.138])
-        by smtp.gmail.com with ESMTPSA id y22-20020a7bcd96000000b003f7f2a1484csm17778706wmj.5.2023.06.14.07.58.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jun 2023 07:58:31 -0700 (PDT)
-From: Maksim Kiselev <bigunclemax@gmail.com>
-To: linux-iio@vger.kernel.org
-Cc: Maksim Kiselev <bigunclemax@gmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D17CAD36;
+	Wed, 14 Jun 2023 16:30:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA3BFC433C8;
+	Wed, 14 Jun 2023 16:30:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1686760209;
+	bh=9llC9DY9BE1LH+xc2pnl/22XEd3kSEENXwtBayoRpmc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Fnq/3Nj4MccrkPzv3Rq/CX3+iFa7JOQNucgcVaZ391g94TPoDfPbOxu6HRJquclaF
+	 nj/Rn8QMm+L+klMX8LFuwwsCcLyMWfPMyWDCJbDaxe5uUDr8Ftm8dksbP4M+LMRVhs
+	 pYNLBDGTt24/m+eKyUAuDVDcQXT+wavNLkvybREsquzx/IHQ7nmZSxnTpB7jkluVPG
+	 v5LIE6KhNkXhG6ih0rPOUHFykTdBAEFULWkxdzuuQeJEsxRVtdsr6SOHY+pKxuZdtM
+	 s3JEAGXFOJ6MvSlznDY6hb8PeFwPBTuRlonB8JNYzWJ2TiL4TzK4lxVQT6mg72eyGU
+	 gn4vGFfOPvLCg==
+From: Jisheng Zhang <jszhang@kernel.org>
+To: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	devicetree@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>
+Cc: netdev@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 2/3] dt-bindings: iio: adc: Add Allwinner D1/T113s/R329/T507 SoCs GPADC
-Date: Wed, 14 Jun 2023 17:58:16 +0300
-Message-Id: <20230614145826.777870-1-bigunclemax@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230614132644.699425-3-bigunclemax@gmail.com>
-References: <20230614132644.699425-3-bigunclemax@gmail.com>
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 0/3] net: stmmac: fix & improve driver statistics
+Date: Thu, 15 Jun 2023 00:18:44 +0800
+Message-Id: <20230614161847.4071-1-jszhang@kernel.org>
+X-Mailer: git-send-email 2.40.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -68,114 +43,34 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Allwinner's D1/T113s/R329/T507 SoCs have a new general purpose ADC.
-This ADC is the same for all of this SoCs. The only difference is
-the number of available channels.
+patch1 and patch2 fix two issues in net driver statistics:
+1. network driver statistics are cleared in .ndo_close() and
+.ndo_open() cycle
+2. some network driver statistics overflow on 32 bit platforms
 
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
----
- .../iio/adc/allwinner,sun20i-d1-gpadc.yaml    | 91 +++++++++++++++++++
- 1 file changed, 91 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml
+patch3 use pcpu statistics where necessary to remove frequent
+cacheline ping pongs.
 
-diff --git a/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml b/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml
-new file mode 100644
-index 000000000000..23c584f5a6e6
---- /dev/null
-+++ b/Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml
-@@ -0,0 +1,91 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/iio/adc/allwinner,sun20i-d1-gpadc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Allwinner D1 General Purpose ADC
-+
-+maintainers:
-+  - Maksim Kiselev <bigunclemax@gmail.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - allwinner,sun20i-d1-gpadc
-+
-+  "#io-channel-cells":
-+    const: 1
-+
-+  "#address-cells":
-+    const: 1
-+
-+  "#size-cells":
-+    const: 0
-+
-+  clocks:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  reg:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+patternProperties:
-+  "^channel@[0-9a-f]+$":
-+    $ref: adc.yaml
-+    type: object
-+    description:
-+      Represents the internal channels of the ADC.
-+
-+    properties:
-+      reg:
-+        items:
-+          minimum: 0
-+          maximum: 15
-+
-+    required:
-+      - reg
-+
-+    unevaluatedProperties: false
-+
-+required:
-+  - "#io-channel-cells"
-+  - clocks
-+  - compatible
-+  - interrupts
-+  - reg
-+  - resets
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/sun20i-d1-ccu.h>
-+    #include <dt-bindings/reset/sun20i-d1-ccu.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    gpadc: adc@2009000 {
-+        compatible = "allwinner,sun20i-d1-gpadc";
-+        reg = <0x2009000 0x1000>;
-+        clocks = <&ccu CLK_BUS_GPADC>;
-+        resets = <&ccu RST_BUS_GPADC>;
-+        interrupts = <73 IRQ_TYPE_LEVEL_HIGH>;
-+        #io-channel-cells = <1>;
-+
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        channel@0 {
-+            reg = <0>;
-+        };
-+
-+        channel@1 {
-+            reg = <1>;
-+        };
-+    };
-+...
+Jisheng Zhang (3):
+  net: stmmac: don't clear network statistics in .ndo_open()
+  net: stmmac: fix overflow of some network statistics
+  net: stmmac: use pcpu statistics where necessary
+
+ drivers/net/ethernet/stmicro/stmmac/common.h  |  54 +++--
+ .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c |  15 +-
+ .../ethernet/stmicro/stmmac/dwmac100_dma.c    |   7 +-
+ .../ethernet/stmicro/stmmac/dwmac4_descs.c    |  13 +-
+ .../net/ethernet/stmicro/stmmac/dwmac4_lib.c  |  17 +-
+ .../net/ethernet/stmicro/stmmac/dwmac_lib.c   |  10 +-
+ .../ethernet/stmicro/stmmac/dwxgmac2_descs.c  |   6 +-
+ .../ethernet/stmicro/stmmac/dwxgmac2_dma.c    |   9 +-
+ .../net/ethernet/stmicro/stmmac/enh_desc.c    |  20 +-
+ drivers/net/ethernet/stmicro/stmmac/hwif.h    |  12 +-
+ .../net/ethernet/stmicro/stmmac/norm_desc.c   |  15 +-
+ .../ethernet/stmicro/stmmac/stmmac_ethtool.c  | 100 ++++++---
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c | 190 +++++++++++++-----
+ 13 files changed, 304 insertions(+), 164 deletions(-)
+
 -- 
-2.39.2
+2.40.1
 
