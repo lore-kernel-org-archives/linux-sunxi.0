@@ -1,95 +1,102 @@
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BF112B77
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jun 2023 13:10:25 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 35DCtlqE086407;
-	Tue, 13 Jun 2023 07:55:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1686660947;
-	bh=m3aWRYVccVyv3TBm3CQBhQSLQ8Afh0rwU1mPnybKOSM=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=YbXTTZrIY+UGenKDmM/cnVARAJ7p9b2bkDm1ar7gDhRT7bIkCvpkwibosjYvgjLae
-	 63bZObWKZFTzLmbfN45ZlZJrDJ8wPl/j5e2se5bX19Uned4epzQ4Vb8vWd/pz3VDRN
-	 bBdHMeZYl0QWiJWF/oAMLaC8k8N6YWMk5xGFlFcU=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 35DCtlO3121434
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 13 Jun 2023 07:55:47 -0500
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 13
- Jun 2023 07:55:47 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 13 Jun 2023 07:55:47 -0500
-Received: from [10.250.64.104] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
-	by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 35DCtZPm112555;
-	Tue, 13 Jun 2023 07:55:36 -0500
-Message-ID: <4ee9c4dc-7dfc-3cb8-089d-c1535ab2531c@ti.com>
-Date: Tue, 13 Jun 2023 18:25:34 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C037F
+	for <linux-sunxi@lists.linux.dev>; Wed, 14 Jun 2023 07:04:32 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1q9KYC-0000oB-KR; Wed, 14 Jun 2023 09:04:16 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1q9KY9-007IK9-8z; Wed, 14 Jun 2023 09:04:13 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1q9KY8-00E8Az-HT; Wed, 14 Jun 2023 09:04:12 +0200
+Date: Wed, 14 Jun 2023 09:04:12 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-input@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-pwm@vger.kernel.org, linux-serial@vger.kernel.org
+Subject: Re: [PATCH v2 6/7] docs: update some straggling Documentation/arm
+ references
+Message-ID: <20230614070412.ts5yd47uefkvhlet@pengutronix.de>
+References: <20230529144856.102755-1-corbet@lwn.net>
+ <20230529144856.102755-7-corbet@lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v3 08/12] thermal/drivers/ti-soc: remove redundant msg in
- ti_thermal_expose_sensor()
-To: Yangtao Li <frank.li@vivo.com>, <glaroque@baylibre.com>,
-        <rafael@kernel.org>, <daniel.lezcano@linaro.org>, <amitk@kernel.org>,
-        <rui.zhang@intel.com>, <shawnguo@kernel.org>, <s.hauer@pengutronix.de>,
-        <kernel@pengutronix.de>, <festevam@gmail.com>, <linux-imx@nxp.com>,
-        <thara.gopinath@gmail.com>, <agross@kernel.org>,
-        <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
-        <anarsoul@gmail.com>, <tiny.windzz@gmail.com>, <wens@csie.org>,
-        <jernej.skrabec@gmail.com>, <samuel@sholland.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <edubezval@gmail.com>, <matthias.bgg@gmail.com>,
-        <angelogioacchino.delregno@collabora.com>, <bchihi@baylibre.com>,
-        <niklas.soderlund+renesas@ragnatech.se>, <wenst@chromium.org>
-CC: <linux-pm@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
-        <linux-tegra@vger.kernel.org>, <linux-omap@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>
-References: <20230613114904.15749-1-frank.li@vivo.com>
- <20230613114904.15749-8-frank.li@vivo.com>
-Content-Language: en-US
-From: "J, KEERTHY" <j-keerthy@ti.com>
-In-Reply-To: <20230613114904.15749-8-frank.li@vivo.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="p4c3uocja4ru6qiz"
+Content-Disposition: inline
+In-Reply-To: <20230529144856.102755-7-corbet@lwn.net>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
 
+--p4c3uocja4ru6qiz
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 6/13/2023 5:19 PM, Yangtao Li wrote:
-> The upper-layer devm_thermal_add_hwmon_sysfs() function can directly
-> print error information.
+Hello,
 
-Acked-by: Keerthy <j-keerthy@ti.com>
+On Mon, May 29, 2023 at 08:48:55AM -0600, Jonathan Corbet wrote:
+> The Arm documentation has moved to Documentation/arch/arm; update the
+> last remaining references to match.
+>=20
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Samuel Holland <samuel@sholland.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: "Uwe Kleine-K=F6nig" <u.kleine-koenig@pengutronix.de>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-sunxi@lists.linux.dev
+> Cc: linux-pwm@vger.kernel.org
+> Cc: linux-serial@vger.kernel.org
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 
-> 
-> Signed-off-by: Yangtao Li <frank.li@vivo.com>
-> ---
->   drivers/thermal/ti-soc-thermal/ti-thermal-common.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/thermal/ti-soc-thermal/ti-thermal-common.c b/drivers/thermal/ti-soc-thermal/ti-thermal-common.c
-> index 6a5335931f4d..d414a4b7a94a 100644
-> --- a/drivers/thermal/ti-soc-thermal/ti-thermal-common.c
-> +++ b/drivers/thermal/ti-soc-thermal/ti-thermal-common.c
-> @@ -182,8 +182,7 @@ int ti_thermal_expose_sensor(struct ti_bandgap *bgp, int id,
->   	ti_bandgap_write_update_interval(bgp, data->sensor_id,
->   					 TI_BANDGAP_UPDATE_INTERVAL_MS);
->   
-> -	if (devm_thermal_add_hwmon_sysfs(bgp->dev, data->ti_thermal))
-> -		dev_warn(bgp->dev, "failed to add hwmon sysfs attributes\n");
-> +	devm_thermal_add_hwmon_sysfs(bgp->dev, data->ti_thermal); >
->   	return 0;
->   }
+If you respin this series, you can add my:
+
+Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de> # for pwm
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--p4c3uocja4ru6qiz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSJZmsACgkQj4D7WH0S
+/k7I6Qf/RuLkOuJd0YIg1k8zFTfaS2bByaI7jkNapwz2cj6IM37CjKT8PnJl0khU
+USzG5sc02bVd0COaO0E69Pv1+l86wxBMqx/wRW65PSkBz6krz2skusoIGek56vDe
+LKz/YRIGjP3gcIx6fVKjPVgWb3pgQAJyi6iN+yEac+AAgBbK5NtjvRSqrjpKPSC8
++BSS5Tb7JmOthh3NMEwKUOeiBgsjuHCD//UNmenONHQBIWet3+5gOxB+sKVQQZmc
+H+bw4c8bVF8elViKHnk/omalp7oIL4l2tFITkpcR0np44NRwr8D4MSsrlEkiSxuy
+KAFqHYnkJtypcQQCYJ21VCVOBoU1ig==
+=kqLy
+-----END PGP SIGNATURE-----
+
+--p4c3uocja4ru6qiz--
