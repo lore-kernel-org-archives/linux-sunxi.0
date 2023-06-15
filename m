@@ -1,142 +1,168 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB4E15AEF
-	for <linux-sunxi@lists.linux.dev>; Thu, 15 Jun 2023 16:05:08 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4QhnDp0PwZz9skw;
-	Thu, 15 Jun 2023 18:04:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1686845098;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aC88dsjwoSfwnwVGDU7JYpF5AgySUHYNoar1O8TxeOk=;
-	b=vXRQyeiRbKjGK4w/jCqequdEYj7ujhd0yWghYZ/qpobnURY4LIBcntA47ZkCkus/VBZTGf
-	JUWnHf8kPRTyz61jwv7vZkmPlDHfPhFzm54W/jh3zMTFqK74cVmHLhHXBjE+TAsTjlq/m0
-	LLiugb++bC872ZSlibQ4D3Es/rkF3LU+yC2mI6jn1GQ8Rtcq/DvalMvcTmTIbTGzwfcvm+
-	gmRnS1hYG4y31eXXX74YvQbaz7QHBXUClpIIsvh5lwtSArOKiH6Qb2epCimJ4XPlYQNYda
-	UAdwBHkpNW8hosS0UTI5LrCrUhzCaq82XKDy+5+2S4wBUAVjIEUmfqY4wi161w==
-Date: Thu, 15 Jun 2023 18:04:53 +0200 (GMT+02:00)
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7472E2E0C3
+	for <linux-sunxi@lists.linux.dev>; Thu, 15 Jun 2023 16:37:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D897C433C0;
+	Thu, 15 Jun 2023 16:37:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1686847042;
+	bh=qNA7RNRSn7+N0rXsnB3tLIGZpW49dK4CI81wmGijPKI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FILfp0XhsCAEFvj3KRRIeHhk7gSO6N4Xy03NeLRNCYvAfs29VNg7/UETFjJROjcyE
+	 P7DvhjAWHw5fxoTtxnxgIyP2OVcMoejHbl2e0qXLatlGYmVhgBzPqvUTgNjZD7radt
+	 I+fxhhS4VccMG1ebjsplRSfpSyMh073Grs7hun14/7Cz70d6pMl4g7qgYug6f93dK2
+	 0ftJSIpAiSrxL6jJas7mr2fW1UW0zqVr6oZqDZsqdz4jlfuQacCWByttPYsW7csUgy
+	 cg0u9K9Ll0Wvg8lgWIRZtFJX06unxfnLh0VZzlBco6Aa7NcFiN9DG58rbf30ksxRoM
+	 rZqpJ2R98E6IQ==
+Date: Thu, 15 Jun 2023 17:37:15 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Aleksandr Shubin <privatesub2@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Roman Beranek <me@crly.cz>, Samuel Holland <samuel@sholland.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Message-ID: <d40e94c4-9dab-4511-bd48-1d9081f4262a@oltmanns.dev>
-In-Reply-To: <wnxjbbjfcnrg7ogwkfwbnldvyqbpt23b6mnrieb2zffooaojts@sudsbfjbjt64>
-References: <20230605190745.366882-1-frank@oltmanns.dev> <20230605190745.366882-2-frank@oltmanns.dev> <2bvcukogzhcdbfsrruylgw5fbezaqjpcojqaambfoiv5fc2upy@ffumn5sevbeb> <875y7y1f0d.fsf@oltmanns.dev> <sijbhopoxuw5wodyry3smg7tm4wzoc7k6xakt4qdvxqsok32mv@u7rh4dct5ya6> <87a5x41w5r.fsf@oltmanns.dev> <unoskbtcteluxj7g3xkwc7ngcmglvcbm5ah25m7huhqxwd4dj3@nmfxbedwyu54> <87wn07zmxp.fsf@oltmanns.dev> <wnxjbbjfcnrg7ogwkfwbnldvyqbpt23b6mnrieb2zffooaojts@sudsbfjbjt64>
-Subject: Re: [PATCH 1/2] clk: sunxi-ng: nkm: consider alternative parent
- rates when finding rate
+	Samuel Holland <samuel@sholland.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Maxime Ripard <mripard@kernel.org>, linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v1 1/3] dt-bindings: pwm: Add binding for Allwinner
+ D1/T113-S3/R329 PWM controller
+Message-ID: <20230615-display-encounter-9a7a78562ff8@spud>
+References: <20230615144423.828698-1-privatesub2@gmail.com>
+ <20230615144423.828698-2-privatesub2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="F7o1AoRcl0OiOFh0"
+Content-Disposition: inline
+In-Reply-To: <20230615144423.828698-2-privatesub2@gmail.com>
+
+
+--F7o1AoRcl0OiOFh0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Correlation-ID: <d40e94c4-9dab-4511-bd48-1d9081f4262a@oltmanns.dev>
-X-Rspamd-Queue-Id: 4QhnDp0PwZz9skw
 
+Hey Aleksandr,
 
-15.06.2023 16:47:33 Maxime Ripard <maxime@cerno.tech>:
+On Thu, Jun 15, 2023 at 05:43:56PM +0300, Aleksandr Shubin wrote:
+> Allwinner's D1, T113-S3 and R329 SoCs have a new pwm
+> controller witch is different from the previous pwm-sun4i.
+>=20
+> D1 and T113s SoCs have one PWM controller with 8 channels.
+> R329 SoC has two PWM controllers in both power domains, one of
+> them has 9 channels (CPUX one) and the other has 6 (CPUS one).
 
-> On Tue, Jun 13, 2023 at 12:17:06PM +0200, Frank Oltmanns wrote:
->> Hi Maxime,
->>
->> I'll now only respond to one aspect of your mail, because it's the
->> foundation for the whole behaviour.
->>
->> On 2023-06-13 at 11:10:08 +0200, Maxime Ripard <maxime@cerno.tech> wrote=
-:
->> [...]
->>>>>> =E2=80=A6
->>>>>
->>>>> It doesn't really matter though. The output of that function must be
->>>>> stable and must return the same set of factors and parent rate for a
->>>>> given target rate.
->>>>>
->>>>
->>>> I'm not sure if we're talking about the same thing here. Of course the
->>>> set of factors and parent rate for a given target rate will be differe=
-nt
->>>> depending on the fact if we can or cannot adjust the parent rate,
->>>> agreed?
->>>
->>> Yes, but here you also have a different behaviour in clk_round_rate()
->>> and in clk_set_rate(), which isn't ok.
->>>
->>> Basically, clk_set_rate() + clk_get_rate() must be equal to
->>> clk_round_rate().
->>>
->>> If you change if you look for parents depending on whether you're being
->>> called in clk_round_rate() and clk_set_rate(), then you're breaking tha=
-t
->>> expectation.
->>>
->>>> Let me compare my implementation to ccu_mp.
->>>>
->>>> ccu_mp_round_rate either calls the function ccu_mp_find_best or
->>>> ccu_mp_find_best_with_parent_adj, depending on CLK_SET_RATE_PARENT.
->>>
->>> Yes, and it's fine: the flag is per-clock, and the output is the same
->>> depending on whether we're being called by clk_round_rate() and
->>> clk_set_rate().
->>>
->>
->> The output is really not the same.
->>
->> ccu_mp_set_rate() always calls ccu_mp_find_best(). It never (!) consider=
-s
->> changing the parent, independent of any flags.
->>
->> ccu_mp_round_rate() is calling ccu_mp_find_best() OR
->> ccu_mp_find_best_with_parent_adj() depending on the flag.
->>
->> If I understand you correctly, you consider that a bug.
->
-> No, sorry, you're right.
->
-> clk_set_rate will call round_rate first, which will (possibly) pick up a
-> new parent, and by the time set_rate is called our parent will have been
-> changed already so we will just call find_best again considering only
-> that parent.
+It would be good to note that the D1 and T113 are identical in terms of
+peripherals, they differ only in the architecture of the CPU core, and
+even share the majority of their DT. Because of that, using the same
+compatible makes sense.
+The R329 is a different SoC though, and should have a different
+compatible string added, especially as there is a difference in the
+number of channels. It would be fine to use the current compatible for
+the D1 as a fallback.
+The allwinner,pwm-channels property should probably only be allowed on
+the R329 and only allow the values of 6 & 9.
 
-Ok, no worries. That was my understanding, so your previous statement shatt=
-ered my worldview. ;) That's why I may have seemed a bit alarmed.
+> Add a device tree binding for them.
+>=20
+> Signed-off-by: Aleksandr Shubin <privatesub2@gmail.com>
+> ---
+>  .../bindings/pwm/allwinner,sun20i-pwm.yaml    | 70 +++++++++++++++++++
+>  1 file changed, 70 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/pwm/allwinner,sun20=
+i-pwm.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.y=
+aml b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
+> new file mode 100644
+> index 000000000000..e5f9cb2d5c4f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
+> @@ -0,0 +1,70 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/pwm/allwinner,sun20i-pwm.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner D1, T113-S3 and R329 PWM
+> +
+> +maintainers:
+> +  - Chen-Yu Tsai <wens@csie.org>
+> +  - Maxime Ripard <mripard@kernel.org>
 
->
-> The set of factors and dividers should remain the same there, but I
-> don't think that's a concern.
+BTW, this should probably be you, since you have the hardware with this
+SoC.
 
-Ack. The output is stable when called with the same rate.
+> +
+> +allOf:
+> +  - $ref: pwm.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: allwinner,sun20i-d1-pwm
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  "#pwm-cells":
+> +    const: 3
+> +
+> +  clocks:
+> +    items:
+> +      - description: 24 MHz oscillator
+> +      - description: Bus Clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: hosc
+> +      - const: bus
+> +
+> +  resets:
+> +    items:
+> +      - description: module reset
 
-> That leaves us with the rounding stuff, and the overall function
-> arguments. I like the structure of ccu_mp better, is there a reason to
-> deviate from it?
+Don't need the items here, because there is only one. You can just do
+"maxItems: 1" instead.
 
-I'm still pondering the rounding stuff. I'm just not sure why you are so re=
-laxed about the fact that when calling round_rate with 449064000 we get 449=
-035712, but when we call get round_rate with 449035712 we get 449018181, an=
-d when we call round_rate with 449018181, we get 449018180.
+> +  allwinner,pwm-channels:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: The number of PWM channels configured for this instance
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#pwm-cells"
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +  - allwinner,pwm-channels
 
-But ultimately, you have the final word, of course. But I need some time to=
- be sure, that this does not become a problem in some cases.
+Cheers,
+Conor.
 
-Regarding the arguments, I can adopt ccu_mp's style. The only reason was to=
- avoid code duplication, no other reason.
+--F7o1AoRcl0OiOFh0
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks,
-=C2=A0 Frank
+-----BEGIN PGP SIGNATURE-----
 
-> > Maxime
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZIs+OwAKCRB4tDGHoIJi
+0hCRAQClhbz58ZFGWg/0NsMGr2czXIOEYRr3Icjm1MXyaIbQ2QD+JOxFNrOUEjYR
+q1YQ5xn6ccQNAWrTPBc2nULAXNeBUwI=
+=zm+X
+-----END PGP SIGNATURE-----
 
+--F7o1AoRcl0OiOFh0--
