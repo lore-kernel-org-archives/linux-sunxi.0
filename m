@@ -1,82 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDEC020F5;
-	Thu, 15 Jun 2023 15:28:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7075C433C8;
-	Thu, 15 Jun 2023 15:28:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686842929;
-	bh=3rUJKAAkVI4LiG4fM0PQkGZktYejaRvzK+AL0LZ3Y74=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WMK8BkG+KJoxgGBdTk9yp8ZAuScSukNpIc1QMKIcgns2cazl704jin1fe/1UXio5n
-	 HJ9ZR7Pg0SF0WXvQBw+oAsOPRmVV/A5Q+xoE7yj0YM3/KYiY9tCWmdiJsryU+UHBB3
-	 ri0LFyoZ9tF4c9V7ir8xb1Fp8oTMuVGnt/AEkCji6IqiCA/bnQAoiCreP9UwAU8ChQ
-	 aruy8AOj9e28HAeajwzSGG7a/3ST4fNv9DKiRlMHsZCe+bQLP01+ASsp6LatoHiScd
-	 2pBlbYs0eu0naQmy+3XJsJ93n6/5vsZIrrNY1mZG9mdyEKm3M9U7y8kY/NYBp5Ar3r
-	 TlMEq1Y/2+kpg==
-Date: Thu, 15 Jun 2023 23:17:26 +0800
-From: Jisheng Zhang <jszhang@kernel.org>
-To: Simon Horman <simon.horman@corigine.com>
-Cc: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB4E15AEF
+	for <linux-sunxi@lists.linux.dev>; Thu, 15 Jun 2023 16:05:08 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4QhnDp0PwZz9skw;
+	Thu, 15 Jun 2023 18:04:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1686845098;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aC88dsjwoSfwnwVGDU7JYpF5AgySUHYNoar1O8TxeOk=;
+	b=vXRQyeiRbKjGK4w/jCqequdEYj7ujhd0yWghYZ/qpobnURY4LIBcntA47ZkCkus/VBZTGf
+	JUWnHf8kPRTyz61jwv7vZkmPlDHfPhFzm54W/jh3zMTFqK74cVmHLhHXBjE+TAsTjlq/m0
+	LLiugb++bC872ZSlibQ4D3Es/rkF3LU+yC2mI6jn1GQ8Rtcq/DvalMvcTmTIbTGzwfcvm+
+	gmRnS1hYG4y31eXXX74YvQbaz7QHBXUClpIIsvh5lwtSArOKiH6Qb2epCimJ4XPlYQNYda
+	UAdwBHkpNW8hosS0UTI5LrCrUhzCaq82XKDy+5+2S4wBUAVjIEUmfqY4wi161w==
+Date: Thu, 15 Jun 2023 18:04:53 +0200 (GMT+02:00)
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 0/3] net: stmmac: fix & improve driver statistics
-Message-ID: <ZIsrhuxRrx2AwI7F@xhacker>
-References: <20230614161847.4071-1-jszhang@kernel.org>
- <ZIoXZQXLTWKF8nCZ@corigine.com>
+	Michael Turquette <mturquette@baylibre.com>,
+	Roman Beranek <me@crly.cz>, Samuel Holland <samuel@sholland.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Message-ID: <d40e94c4-9dab-4511-bd48-1d9081f4262a@oltmanns.dev>
+In-Reply-To: <wnxjbbjfcnrg7ogwkfwbnldvyqbpt23b6mnrieb2zffooaojts@sudsbfjbjt64>
+References: <20230605190745.366882-1-frank@oltmanns.dev> <20230605190745.366882-2-frank@oltmanns.dev> <2bvcukogzhcdbfsrruylgw5fbezaqjpcojqaambfoiv5fc2upy@ffumn5sevbeb> <875y7y1f0d.fsf@oltmanns.dev> <sijbhopoxuw5wodyry3smg7tm4wzoc7k6xakt4qdvxqsok32mv@u7rh4dct5ya6> <87a5x41w5r.fsf@oltmanns.dev> <unoskbtcteluxj7g3xkwc7ngcmglvcbm5ah25m7huhqxwd4dj3@nmfxbedwyu54> <87wn07zmxp.fsf@oltmanns.dev> <wnxjbbjfcnrg7ogwkfwbnldvyqbpt23b6mnrieb2zffooaojts@sudsbfjbjt64>
+Subject: Re: [PATCH 1/2] clk: sunxi-ng: nkm: consider alternative parent
+ rates when finding rate
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZIoXZQXLTWKF8nCZ@corigine.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Correlation-ID: <d40e94c4-9dab-4511-bd48-1d9081f4262a@oltmanns.dev>
+X-Rspamd-Queue-Id: 4QhnDp0PwZz9skw
 
-On Wed, Jun 14, 2023 at 09:39:17PM +0200, Simon Horman wrote:
-> On Thu, Jun 15, 2023 at 12:18:44AM +0800, Jisheng Zhang wrote:
-> > patch1 and patch2 fix two issues in net driver statistics:
-> > 1. network driver statistics are cleared in .ndo_close() and
-> > .ndo_open() cycle
-> > 2. some network driver statistics overflow on 32 bit platforms
-> 
-> I would encourage you to describe these as enhancements or similar,
-> but not fixes. Because fix implies a bug, such as a crash. And
-> bugs for fixes are handled by a slightly different process which
-> often includes backporting.
 
-So it seems I need to fold patch2 and patch3 into one patch. Previously
-I thought the counters overflow on 32 bit platforms was a bug, thus
-I split the 64bit stats patch into patch2 and patch3 so that patch2
-can be backported to stable tree.
+15.06.2023 16:47:33 Maxime Ripard <maxime@cerno.tech>:
 
-I will fold patch2 and patch3 into one patch in v2.
+> On Tue, Jun 13, 2023 at 12:17:06PM +0200, Frank Oltmanns wrote:
+>> Hi Maxime,
+>>
+>> I'll now only respond to one aspect of your mail, because it's the
+>> foundation for the whole behaviour.
+>>
+>> On 2023-06-13 at 11:10:08 +0200, Maxime Ripard <maxime@cerno.tech> wrote=
+:
+>> [...]
+>>>>>> =E2=80=A6
+>>>>>
+>>>>> It doesn't really matter though. The output of that function must be
+>>>>> stable and must return the same set of factors and parent rate for a
+>>>>> given target rate.
+>>>>>
+>>>>
+>>>> I'm not sure if we're talking about the same thing here. Of course the
+>>>> set of factors and parent rate for a given target rate will be differe=
+nt
+>>>> depending on the fact if we can or cannot adjust the parent rate,
+>>>> agreed?
+>>>
+>>> Yes, but here you also have a different behaviour in clk_round_rate()
+>>> and in clk_set_rate(), which isn't ok.
+>>>
+>>> Basically, clk_set_rate() + clk_get_rate() must be equal to
+>>> clk_round_rate().
+>>>
+>>> If you change if you look for parents depending on whether you're being
+>>> called in clk_round_rate() and clk_set_rate(), then you're breaking tha=
+t
+>>> expectation.
+>>>
+>>>> Let me compare my implementation to ccu_mp.
+>>>>
+>>>> ccu_mp_round_rate either calls the function ccu_mp_find_best or
+>>>> ccu_mp_find_best_with_parent_adj, depending on CLK_SET_RATE_PARENT.
+>>>
+>>> Yes, and it's fine: the flag is per-clock, and the output is the same
+>>> depending on whether we're being called by clk_round_rate() and
+>>> clk_set_rate().
+>>>
+>>
+>> The output is really not the same.
+>>
+>> ccu_mp_set_rate() always calls ccu_mp_find_best(). It never (!) consider=
+s
+>> changing the parent, independent of any flags.
+>>
+>> ccu_mp_round_rate() is calling ccu_mp_find_best() OR
+>> ccu_mp_find_best_with_parent_adj() depending on the flag.
+>>
+>> If I understand you correctly, you consider that a bug.
+>
+> No, sorry, you're right.
+>
+> clk_set_rate will call round_rate first, which will (possibly) pick up a
+> new parent, and by the time set_rate is called our parent will have been
+> changed already so we will just call find_best again considering only
+> that parent.
 
-Thanks for your review.
-> 
-> > patch3 use pcpu statistics where necessary to remove frequent
-> > cacheline ping pongs.
-> 
-> Assuming these are three enhancements, then they should be
-> targeted at the net-next tree. And that should be noted in the subject:
-> 
-> 	Subject: [PATCH net-next v2] ...
-> 
-> Unfortunately the series does not seem to apply to net-next
-> in its current form. So it probably needs to be rebased and reposted.
-> 
-> If you do post an updated series, please observe a 24h grace
-> period between postings, to give reviewers time to do their thing.
-> 
-> Link: https://docs.kernel.org/process/maintainer-netdev.html
+Ok, no worries. That was my understanding, so your previous statement shatt=
+ered my worldview. ;) That's why I may have seemed a bit alarmed.
+
+>
+> The set of factors and dividers should remain the same there, but I
+> don't think that's a concern.
+
+Ack. The output is stable when called with the same rate.
+
+> That leaves us with the rounding stuff, and the overall function
+> arguments. I like the structure of ccu_mp better, is there a reason to
+> deviate from it?
+
+I'm still pondering the rounding stuff. I'm just not sure why you are so re=
+laxed about the fact that when calling round_rate with 449064000 we get 449=
+035712, but when we call get round_rate with 449035712 we get 449018181, an=
+d when we call round_rate with 449018181, we get 449018180.
+
+But ultimately, you have the final word, of course. But I need some time to=
+ be sure, that this does not become a problem in some cases.
+
+Regarding the arguments, I can adopt ccu_mp's style. The only reason was to=
+ avoid code duplication, no other reason.
+
+Thanks,
+=C2=A0 Frank
+
+> > Maxime
+
