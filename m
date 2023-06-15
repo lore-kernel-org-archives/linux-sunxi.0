@@ -1,28 +1,51 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7472E2E0C3
-	for <linux-sunxi@lists.linux.dev>; Thu, 15 Jun 2023 16:37:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D897C433C0;
-	Thu, 15 Jun 2023 16:37:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686847042;
-	bh=qNA7RNRSn7+N0rXsnB3tLIGZpW49dK4CI81wmGijPKI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FILfp0XhsCAEFvj3KRRIeHhk7gSO6N4Xy03NeLRNCYvAfs29VNg7/UETFjJROjcyE
-	 P7DvhjAWHw5fxoTtxnxgIyP2OVcMoejHbl2e0qXLatlGYmVhgBzPqvUTgNjZD7radt
-	 I+fxhhS4VccMG1ebjsplRSfpSyMh073Grs7hun14/7Cz70d6pMl4g7qgYug6f93dK2
-	 0ftJSIpAiSrxL6jJas7mr2fW1UW0zqVr6oZqDZsqdz4jlfuQacCWByttPYsW7csUgy
-	 cg0u9K9Ll0Wvg8lgWIRZtFJX06unxfnLh0VZzlBco6Aa7NcFiN9DG58rbf30ksxRoM
-	 rZqpJ2R98E6IQ==
-Date: Thu, 15 Jun 2023 17:37:15 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Aleksandr Shubin <privatesub2@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC8B2E0FC
+	for <linux-sunxi@lists.linux.dev>; Thu, 15 Jun 2023 20:56:35 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3f8ca80e889so22829795e9.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 15 Jun 2023 13:56:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686862594; x=1689454594;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dgV1It5yzYqbMebPqzMnKIWLU3rEcZIgopMZAjPAt2g=;
+        b=DfQBDDXzeQsp+dF++eEaRIp0slv3S+MuToAvwrWA4o8RaqsNOPU3dO12qNVpNiMUZd
+         w/AbZyCDBx9VkQmkBqIAW43KrUvKMG/5HcAogWc3WIuZoh92crMTJkg424oVNhStKJhs
+         /36r0RC7bjsil2vjJL0ew8kyY+ODbPuQeAoznYGUXWM6PQ8iw7/OeKdW1QKucxLmWfO0
+         /DTVek8mtZuPrKZeRuceiS9OMTvn4W1XHTZGCIo9Jjs4ZDycqwzKpJh4tEl1yWeQ3ch3
+         42/XrViLVuinuhSuXMGc4ADjsNR1lpf7Bv4d8JvUf3xfYl+9xZmiy9c0rvpFge6L+tRi
+         x+cA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686862594; x=1689454594;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dgV1It5yzYqbMebPqzMnKIWLU3rEcZIgopMZAjPAt2g=;
+        b=PjDTgcTcC8CC+TRltoQ9l8MMr/o43s9tPjUbFpTPu0X51H6GyK3GgrXstKdzVsZp/Q
+         JGA2GdE6Q+nUnLsvyDTZParP7P/oswiFf95rFh9GYmK+KCsuEP65vHPL9W9UGrepbQeI
+         6nAlDYOWQ6wXNdb9qD4SDlv7wxrwndZuzeRSxtxV2djWnOoR44FCWNgLinvHHPF9unsH
+         onWF3cIstHvNOxynJ097iFEWC68+cjdue9iCGCXdP1C5dyBafvgapw4mQdFry7Q6arEx
+         1R8VB4+hZy5+urU2xIFdjVdfRp/MQdSiwHzFHBg4hT8MVrIP9ftJ+vy//J1d5gUCV2Fv
+         zGtA==
+X-Gm-Message-State: AC+VfDzMpw+LXkKq0B5+r0Fg3kBPUA66kDNPP6Lug5kAwymJkbiMvuiT
+	RYIAXRIXAQ/1cT5oKbUDnDY=
+X-Google-Smtp-Source: ACHHUZ6W9+N2LhPksahWf6LEg4rQS8jsG3asSDIAPSQi11bN0szlV4/qXoCKy5Vuplfx3AeLUNmG9A==
+X-Received: by 2002:a7b:ce92:0:b0:3f7:3074:d2f2 with SMTP id q18-20020a7bce92000000b003f73074d2f2mr213658wmj.34.1686862593604;
+        Thu, 15 Jun 2023 13:56:33 -0700 (PDT)
+Received: from user-PC.. ([92.51.95.194])
+        by smtp.gmail.com with ESMTPSA id k24-20020a7bc318000000b003f733c1129fsm176372wmj.33.2023.06.15.13.56.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jun 2023 13:56:33 -0700 (PDT)
+From: Maksim Kiselev <bigunclemax@gmail.com>
+To: linux-iio@vger.kernel.org
+Cc: Maksim Kiselev <bigunclemax@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
 	Paul Walmsley <paul.walmsley@sifive.com>,
@@ -30,139 +53,92 @@ Cc: linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
 	Albert Ou <aou@eecs.berkeley.edu>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
 	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Maxime Ripard <mripard@kernel.org>, linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v1 1/3] dt-bindings: pwm: Add binding for Allwinner
- D1/T113-S3/R329 PWM controller
-Message-ID: <20230615-display-encounter-9a7a78562ff8@spud>
-References: <20230615144423.828698-1-privatesub2@gmail.com>
- <20230615144423.828698-2-privatesub2@gmail.com>
+	Heiko Stuebner <heiko.stuebner@vrull.eu>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	ChiaEn Wu <chiaen_wu@richtek.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	=?UTF-8?q?Leonard=20G=C3=B6hrs?= <l.goehrs@pengutronix.de>,
+	William Breathitt Gray <william.gray@linaro.org>,
+	ChiYuan Huang <cy_huang@richtek.com>,
+	Ramona Bolboaca <ramona.bolboaca@analog.com>,
+	Ibrahim Tilki <Ibrahim.Tilki@analog.com>,
+	Caleb Connolly <caleb.connolly@linaro.org>,
+	Haibo Chen <haibo.chen@nxp.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH v7 0/3] Add support for Allwinner GPADC on D1/T113s/R329/T507 SoCs
+Date: Thu, 15 Jun 2023 23:55:19 +0300
+Message-Id: <20230615205540.1803975-1-bigunclemax@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="F7o1AoRcl0OiOFh0"
-Content-Disposition: inline
-In-Reply-To: <20230615144423.828698-2-privatesub2@gmail.com>
+Content-Transfer-Encoding: 8bit
 
+This series adds support for general purpose ADC (GPADC) on new
+Allwinner's SoCs, such as D1, T113s, T507 and R329. The implemented driver
+provides basic functionality for getting ADC channels data.
 
---F7o1AoRcl0OiOFh0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Change History:
+v7:
+- Fixed typo in DT bindings property
 
-Hey Aleksandr,
+v6:
+- Fixed DT bindings regexp for channel properties
+- Dropped checking the max number of channels from the drivers code
+  (This is redundant as we raly on DT bindings check)
 
-On Thu, Jun 15, 2023 at 05:43:56PM +0300, Aleksandr Shubin wrote:
-> Allwinner's D1, T113-S3 and R329 SoCs have a new pwm
-> controller witch is different from the previous pwm-sun4i.
->=20
-> D1 and T113s SoCs have one PWM controller with 8 channels.
-> R329 SoC has two PWM controllers in both power domains, one of
-> them has 9 channels (CPUX one) and the other has 6 (CPUS one).
+v5:
+- Fixed DT bindings properties for child nodes
 
-It would be good to note that the D1 and T113 are identical in terms of
-peripherals, they differ only in the architecture of the CPU core, and
-even share the majority of their DT. Because of that, using the same
-compatible makes sense.
-The R329 is a different SoC though, and should have a different
-compatible string added, especially as there is a difference in the
-number of channels. It would be fine to use the current compatible for
-the D1 as a fallback.
-The allwinner,pwm-channels property should probably only be allowed on
-the R329 and only allow the values of 6 & 9.
+v4:
+- Fixed DT bindings warnings
+- Used GENMASK to clear the irq register
+- Minor formatting fixes
 
-> Add a device tree binding for them.
->=20
-> Signed-off-by: Aleksandr Shubin <privatesub2@gmail.com>
-> ---
->  .../bindings/pwm/allwinner,sun20i-pwm.yaml    | 70 +++++++++++++++++++
->  1 file changed, 70 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/pwm/allwinner,sun20=
-i-pwm.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.y=
-aml b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
-> new file mode 100644
-> index 000000000000..e5f9cb2d5c4f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
-> @@ -0,0 +1,70 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/pwm/allwinner,sun20i-pwm.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner D1, T113-S3 and R329 PWM
-> +
-> +maintainers:
-> +  - Chen-Yu Tsai <wens@csie.org>
-> +  - Maxime Ripard <mripard@kernel.org>
+v3:
+- Added DT bindings dual license, fixed property order and example formatting
+- Added explanations comments for timeout and mutex
+- Dropped unnecessary regmap and used readl/writel instead
+- Added error message about getting channel number
+- Renamed labels and variables to make them self-explanatory
 
-BTW, this should probably be you, since you have the hardware with this
-SoC.
+v2:
+- Added lastch flag to avoid addition work for already selected channel
+- Added reset assertion on module remove
+- Added dynamic channel allocation and dropped iio_chan_spec arrays
+- Changed IIO_CHAN_INFO_SCALE type to FRACTIONAL_LOG2
+- Dropped separate compatible strings and configs for T113s and R329
+- Fixed includes
+- Fixed Kconfig description
+- Removed duplicate probe error messages
+- Used FIELD_PREP for bit setup
 
-> +
-> +allOf:
-> +  - $ref: pwm.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: allwinner,sun20i-d1-pwm
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#pwm-cells":
-> +    const: 3
-> +
-> +  clocks:
-> +    items:
-> +      - description: 24 MHz oscillator
-> +      - description: Bus Clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: hosc
-> +      - const: bus
-> +
-> +  resets:
-> +    items:
-> +      - description: module reset
+v1:
+- Initial version
 
-Don't need the items here, because there is only one. You can just do
-"maxItems: 1" instead.
+Maksim Kiselev (3):
+  iio: adc: Add Allwinner D1/T113s/R329/T507 SoCs GPADC
+  dt-bindings: iio: adc: Add Allwinner D1/T113s/R329/T507 SoCs GPADC
+  riscv: dts: allwinner: d1: Add GPADC node
 
-> +  allwinner,pwm-channels:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: The number of PWM channels configured for this instance
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - "#pwm-cells"
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - allwinner,pwm-channels
+ .../iio/adc/allwinner,sun20i-d1-gpadc.yaml    |  91 ++++++
+ .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  10 +
+ drivers/iio/adc/Kconfig                       |  10 +
+ drivers/iio/adc/Makefile                      |   1 +
+ drivers/iio/adc/sun20i-gpadc-iio.c            | 276 ++++++++++++++++++
+ 5 files changed, 388 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml
+ create mode 100644 drivers/iio/adc/sun20i-gpadc-iio.c
 
-Cheers,
-Conor.
+-- 
+2.39.2
 
---F7o1AoRcl0OiOFh0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZIs+OwAKCRB4tDGHoIJi
-0hCRAQClhbz58ZFGWg/0NsMGr2czXIOEYRr3Icjm1MXyaIbQ2QD+JOxFNrOUEjYR
-q1YQ5xn6ccQNAWrTPBc2nULAXNeBUwI=
-=zm+X
------END PGP SIGNATURE-----
-
---F7o1AoRcl0OiOFh0--
