@@ -1,37 +1,37 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F72513ADE;
-	Wed, 14 Jun 2023 22:17:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5006625;
+	Thu, 15 Jun 2023 04:08:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686781024; x=1718317024;
+  t=1686802121; x=1718338121;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=71XOEFVoYYfCOvsQxiZyX2FI+NKqd8f4Yj5ogkZkfLU=;
-  b=OfP+E7JhDVX8pW2KwWg6c6bVutOwyTcSfoYeCZrO5xZm9RAgqt5m3HNb
-   cBHBppzxnjUgwN2jN1YwtuoYzR7ZkxqiLL76LoJn5vR+9zQMsN5QuTdts
-   q1tYLTKKrzlmLImrWQaKPerNgEVyDUmwTsktndC6fYrnnzbUuHdMoOoPR
-   YMaxyMRo8tnuehoOqzupmI/TCuQ0OBdDy929MtSnd16vQODDyPpX8ETtK
-   fkSc4096IJv3hUEKaa2FWDgxMqz4yDT8nWQpHzZ4IPNqkZ8K/A6YeQsgO
-   3j2VsTZIIp3Y0zhofCS3rRgzjPimnjwzgdrt+M9dCUwWp8FEFtbda1AML
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="356239808"
+  bh=ubSwrvmj6TjTSKBerA+PXsJdtf+4q1F7Yg6RmhvQYfU=;
+  b=b+ohFY411oXPW+CRVeAqwgJD/vtrGqO4ovpZTllZAxFlw1Hm6x9AzmgB
+   fknsD7hV3Q8SM1xtx8VQk/fNVw3tuFHOZupoFz33au3KdnsbTlIlt/gb4
+   e6/m/EOI86Bpr4SIoDe5kXhE0E7wGdf61cITKq4LAf+hnUISm2wplHmvH
+   ob2V4exmjciEVbwXGQa/OEOrufOcjfOmPIFrXFw/ke50GlPveUKVFy+C2
+   M8+bIXVGW94U1GXy0gY7uVkss0fcsFmBKfadL2q94oNkInIybbzjkG9MS
+   1jlI50KOFrBs7G7KSMj3dORHFKZCD5OrJtBcR+TISjGaNW8POd4ivYPc9
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="362186304"
 X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="356239808"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 15:16:58 -0700
+   d="scan'208";a="362186304"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 21:08:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="777441927"
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="706482070"
 X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="777441927"
+   d="scan'208";a="706482070"
 Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 14 Jun 2023 15:16:54 -0700
+  by orsmga007.jf.intel.com with ESMTP; 14 Jun 2023 21:08:34 -0700
 Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9YnN-00017f-13;
-	Wed, 14 Jun 2023 22:16:53 +0000
-Date: Thu, 15 Jun 2023 06:16:07 +0800
+	id 1q9eHi-0001Ph-2t;
+	Thu, 15 Jun 2023 04:08:34 +0000
+Date: Thu, 15 Jun 2023 12:07:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jisheng Zhang <jszhang@kernel.org>,
 	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
@@ -44,11 +44,11 @@ To: Jisheng Zhang <jszhang@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
 Subject: Re: [PATCH 3/3] net: stmmac: use pcpu statistics where necessary
-Message-ID: <202306150658.XLO1cHJU-lkp@intel.com>
+Message-ID: <202306151110.z8I0lY3U-lkp@intel.com>
 References: <20230614161847.4071-4-jszhang@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -75,47 +75,30 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jisheng-Zhang/net-stmmac-
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
 patch link:    https://lore.kernel.org/r/20230614161847.4071-4-jszhang%40kernel.org
 patch subject: [PATCH 3/3] net: stmmac: use pcpu statistics where necessary
-config: riscv-randconfig-r006-20230612 (https://download.01.org/0day-ci/archive/20230615/202306150658.XLO1cHJU-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230615/202306151110.z8I0lY3U-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
         git remote add sunxi https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git
         git fetch sunxi sunxi/for-next
         git checkout sunxi/sunxi/for-next
         b4 shazam https://lore.kernel.org/r/20230614161847.4071-4-jszhang@kernel.org
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/net/ethernet/stmicro/stmmac/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306150658.XLO1cHJU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306151110.z8I0lY3U-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c:564:49: warning: variable 'start' is uninitialized when used here [-Wuninitialized]
-     564 |                 } while (u64_stats_fetch_retry(&stats->syncp, start));
-         |                                                               ^~~~~
-   drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c:551:20: note: initialize the variable 'start' to silence this warning
-     551 |         unsigned int start;
-         |                           ^
-         |                            = 0
-   1 warning generated.
---
->> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:7243:13: error: no member named 'xstas' in 'struct stmmac_priv'; did you mean 'xstats'?
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c: In function 'stmmac_dvr_probe':
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:7243:20: error: 'struct stmmac_priv' has no member named 'xstas'; did you mean 'xstats'?
     7243 |         if (!priv->xstas.pstats)
          |                    ^~~~~
          |                    xstats
-   drivers/net/ethernet/stmicro/stmmac/stmmac.h:247:28: note: 'xstats' declared here
-     247 |         struct stmmac_extra_stats xstats ____cacheline_aligned_in_smp;
-         |                                   ^
-   1 error generated.
 
 
 vim +7243 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
