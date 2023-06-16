@@ -1,78 +1,105 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697B92569
-	for <linux-sunxi@lists.linux.dev>; Fri, 16 Jun 2023 08:43:39 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-56cf34a3c72so5219507b3.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 16 Jun 2023 01:43:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686905018; x=1689497018;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qcAlkMME68B/DMn58wIZvDIpfRVrA5pKETi1cowyEQ4=;
-        b=LIShMYjdoGP04ZnI9mYPlm7+KOnQsqxwC3N1HHcwpk+mB25s3KACUgXvZomQesEUva
-         8etO1cgSUlojGFMmcnm0VepC1cjTnz+DZxryzhQG0ISyow8S95Uun+nw4r5cQ/Adzjvh
-         O5KZdqKIRLIAnZZo2077iRtcyNPverwIdLAun37ln/jyP64+Ntoqe1BrNJn6w8uW3Q4+
-         RXjRAsPqoTSD07zBQXRQWz1bUyXXPYm04untstdJp4zIpxs2t6Y4fYl8fKHG6l/Bqhzx
-         SHzJqGOMqKsMIj/wWOaBNo4qIlYXcvhNBJoNGtA5QEcFiqHw6HVji1nXXDdQLQUKNEGh
-         AHfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686905018; x=1689497018;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qcAlkMME68B/DMn58wIZvDIpfRVrA5pKETi1cowyEQ4=;
-        b=bsRpUG2YyGH6iu82BMt2sofD3Zt6EXERjUk+lQ46Bt5wDqlfWisllLdv2W5+ngiJpD
-         YVvu9cyUUy7D4wD4DBVSAydKstAPcQKeyz+D1ahTARZhCHjUtS9gw1azVpsizOGxzzPU
-         56DOjIcKatLrvJ4hmbgZBY0m+CabWtivOJtTXxxkDeiSLQOEBGWDVbfx8bgZL5ChchVF
-         VHb5humXFpAlzAQeyepCiMmwGzC4Sg6UkWITcmoXxtsOXaEl4Z7+NyQBpK6gm01gwtK9
-         8TXfDD9IhsjcO4bijDPVOFlkUdV+pdLMu6sVojTNpB5w3bNdoGRi2rs+QcaYacfbD8zS
-         rHUQ==
-X-Gm-Message-State: AC+VfDzVnWepe8KQL6NPgaKqn17q5hWIkxHxIH4vY+w8S9+/zt/FqsgH
-	RrHONC0EhZm0IbrVkdDlxKDiN8/NCuCAlpEZug==
-X-Google-Smtp-Source: ACHHUZ7HXl5yZodGeTdNksuSc50SL1MwuhTSo/SCJY8XtVdKpO+fiVayDP8lN7Mq22lZDtZ8KzYaROiwwX8QDM9oh6M=
-X-Received: by 2002:a81:7bd5:0:b0:56c:e2db:8d07 with SMTP id
- w204-20020a817bd5000000b0056ce2db8d07mr1000781ywc.33.1686905018211; Fri, 16
- Jun 2023 01:43:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1391DCA8
+	for <linux-sunxi@lists.linux.dev>; Fri, 16 Jun 2023 18:57:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C397C433C8;
+	Fri, 16 Jun 2023 18:57:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1686941831;
+	bh=vv/cmdovIkwrhLiTwDyTYR3pLEAnNU7iGqvbKxXb4LE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cjwtWBQ8DQYPMPpoGd9LEI3YSXNa1CDIjV9EAL4LDAkFKlQOEB/tXjPb8ev9Vyluy
+	 5cNqBGbbhNpt0hQcQOarx7D2uDbvD90VmwKjFDfYrBwuWl/TtuBJwJO4z0JxYi6hG0
+	 W+kChJ+xObPABXkazzq/IhEY+PwSpz8oeMh04RmYmhDzja5UfqGXo/Bj2IL+e5KYl7
+	 IcsUJZtNS929pvmcwsFhBiyFnTyDWViPXlv1+0BSkZRMngMGH+sB5Tho6YoV4Tm+pV
+	 09Wrey2BxRVZDGJIhr6okUOYHHyps/rd7kzn5t5MZvKDJC0j9erRpKBZAQ3BX1TinK
+	 IhRXOKWiV4hmQ==
+Date: Fri, 16 Jun 2023 19:57:05 +0100
+From: Conor Dooley <conor@kernel.org>
+To: =?utf-8?B?0JDQu9C10LrRgdCw0L3QtNGAINCo0YPQsdC40L0=?= <privatesub2@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Maxime Ripard <mripard@kernel.org>, linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v1 1/3] dt-bindings: pwm: Add binding for Allwinner
+ D1/T113-S3/R329 PWM controller
+Message-ID: <20230616-stopped-bunny-619cf684c9cb@spud>
+References: <20230615144423.828698-1-privatesub2@gmail.com>
+ <20230615144423.828698-2-privatesub2@gmail.com>
+ <20230615-display-encounter-9a7a78562ff8@spud>
+ <CAF4idNksCzkh0WMhvb7ecqYfJRLw33GrpT1+eL5S9ydS8Uu-BA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230615144423.828698-1-privatesub2@gmail.com>
- <20230615144423.828698-3-privatesub2@gmail.com> <20230616080326.2vtkfeyzwx542hk7@pengutronix.de>
-In-Reply-To: <20230616080326.2vtkfeyzwx542hk7@pengutronix.de>
-From: =?UTF-8?B?0JDQu9C10LrRgdCw0L3QtNGAINCo0YPQsdC40L0=?= <privatesub2@gmail.com>
-Date: Fri, 16 Jun 2023 11:43:33 +0300
-Message-ID: <CAF4idNm55=uFUTuoMaFHopMXZA04pQbhQDg4D8kpzp-G7rVSRA@mail.gmail.com>
-Subject: Re: [PATCH v1 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM support
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, 
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Heiko Stuebner <heiko.stuebner@vrull.eu>, 
-	Maxime Ripard <mripard@kernel.org>, linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="BTfG3I7wYmbJRwEO"
+Content-Disposition: inline
+In-Reply-To: <CAF4idNksCzkh0WMhvb7ecqYfJRLw33GrpT1+eL5S9ydS8Uu-BA@mail.gmail.com>
+
+
+--BTfG3I7wYmbJRwEO
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Uwe,
+On Fri, Jun 16, 2023 at 11:02:12AM +0300, =D0=90=D0=BB=D0=B5=D0=BA=D1=81=D0=
+=B0=D0=BD=D0=B4=D1=80 =D0=A8=D1=83=D0=B1=D0=B8=D0=BD wrote:
+> =D1=87=D1=82, 15 =D0=B8=D1=8E=D0=BD. 2023=E2=80=AF=D0=B3. =D0=B2 19:37, C=
+onor Dooley <conor@kernel.org>:
+> > On Thu, Jun 15, 2023 at 05:43:56PM +0300, Aleksandr Shubin wrote:
+> > > Allwinner's D1, T113-S3 and R329 SoCs have a new pwm
+> > > controller witch is different from the previous pwm-sun4i.
+> > >
+> > > D1 and T113s SoCs have one PWM controller with 8 channels.
+> > > R329 SoC has two PWM controllers in both power domains, one of
+> > > them has 9 channels (CPUX one) and the other has 6 (CPUS one).
+> >
+> > It would be good to note that the D1 and T113 are identical in terms of
+> > peripherals, they differ only in the architecture of the CPU core, and
+> > even share the majority of their DT. Because of that, using the same
+> > compatible makes sense.
+> > The R329 is a different SoC though, and should have a different
+> > compatible string added, especially as there is a difference in the
+> > number of channels. It would be fine to use the current compatible for
+> > the D1 as a fallback.
+> > The allwinner,pwm-channels property should probably only be allowed on
+> > the R329 and only allow the values of 6 & 9.
+>=20
+>=20
+> Maybe would it be better to allow only 8 channels for D1 and only 6 and 9
+> channels for R329?
 
-=D0=BF=D1=82, 16 =D0=B8=D1=8E=D0=BD. 2023=E2=80=AF=D0=B3. =D0=B2 11:03, Uwe=
- Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>:
->
-> Hello,
->
-> this isn't a complete review, just a first quick look. Up to you if you
-> follow up with a v2 fixing the things here. If you don't I will take a
-> deeper look at a later time.
+If you're on a D1, you don't need a dt property to tell you the number
+of channels, you already know it to be 8. Couple ways driver could
+implement that, for example: if the dt-binding requires the property on
+the R329, you could set 8 as the default and overwrite it if the
+property exists - which would only be permitted on the R329.
+Up to you.
 
-Thank you for your review. I will take your remarks into account when
-creating the v2.
+--BTfG3I7wYmbJRwEO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZIywgQAKCRB4tDGHoIJi
+0iUSAQC6ORafqrG5LIGTBeO7kYUGeuQKemVu5IOojEnUDdNgzQD/XD0jXcAx7S8i
+OAlzQpXZMNiBbh73ztIgkb5Xk2l1RAU=
+=GAvr
+-----END PGP SIGNATURE-----
+
+--BTfG3I7wYmbJRwEO--
