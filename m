@@ -1,124 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC0A61117
-	for <linux-sunxi@lists.linux.dev>; Sat, 17 Jun 2023 20:07:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF954C433C8;
-	Sat, 17 Jun 2023 20:07:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1687032431;
-	bh=akUaIhagBcheMMLkG/7LBKRbSkqRUijdxyGkrwPVDr0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bAxpYRUC4lZprbJCp81S5RRf0u2D0S1f/fMGvnVAB+zygd2WT7pmA6APGe1teSDqt
-	 XKPOD1zUbhMFLrLZanvb8Anbj367cMyHZ92M+00ps0ejbMK1adQl1ov6Y9blEfAI/T
-	 vvR0WL0vy8HYnoeb0pwaeeGtxSA3kgRViMzYuoR2BK9LBjTryJ8wOdQSPIsBhhJXCu
-	 G5NbyXdphy1Af85mGhOKuk7Y82Iw8kzxVtJzP64Jh3PdNn4Qj3HZYmaxH2mXMDVHxL
-	 oCalc+H6WNnnLieSWTcbsmgexXfq33St9mvgv4/4MnEu6zQ80N0bX6RXJTSAvWkwd0
-	 Z0q7ZwLgz7CFA==
-Date: Sat, 17 Jun 2023 21:06:58 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Maxim Kiselev <bigunclemax@gmail.com>
-Cc: linux-iio@vger.kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Paul
- Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Philipp Zabel <p.zabel@pengutronix.de>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Heiko Stuebner
- <heiko.stuebner@vrull.eu>, Cosmin Tanislav <demonsingur@gmail.com>, Haibo
- Chen <haibo.chen@nxp.com>, Leonard =?UTF-8?B?R8O2aHJz?=
- <l.goehrs@pengutronix.de>, Caleb Connolly <caleb.connolly@linaro.org>, Hugo
- Villeneuve <hvilleneuve@dimonoff.com>, Mike Looijmans
- <mike.looijmans@topic.nl>, ChiYuan Huang <cy_huang@richtek.com>, Ramona
- Bolboaca <ramona.bolboaca@analog.com>, Ibrahim Tilki
- <Ibrahim.Tilki@analog.com>, William Breathitt Gray
- <william.gray@linaro.org>, Arnd Bergmann <arnd@arndb.de>, ChiaEn Wu
- <chiaen_wu@richtek.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v7 1/3] iio: adc: Add Allwinner D1/T113s/R329/T507 SoCs
- GPADC
-Message-ID: <20230617210658.43d5b787@jic23-huawei>
-In-Reply-To: <CALHCpMgxNwz197qgiEueV9Y26LN7BBfYSGBHy6J4gOTFpiVUtw@mail.gmail.com>
-References: <20230615205540.1803975-1-bigunclemax@gmail.com>
-	<20230615205540.1803975-2-bigunclemax@gmail.com>
-	<20230617144855.0388c4ff@jic23-huawei>
-	<CALHCpMgxNwz197qgiEueV9Y26LN7BBfYSGBHy6J4gOTFpiVUtw@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FDB47F4
+	for <linux-sunxi@lists.linux.dev>; Sat, 17 Jun 2023 20:52:03 +0000 (UTC)
+Received: from localhost.localdomain (178.176.79.248) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Sat, 17 Jun
+ 2023 23:36:51 +0300
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+To: Ulf Hansson <ulf.hansson@linaro.org>, <linux-mmc@vger.kernel.org>
+CC: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <stable@vger.kernel.org>
+Subject: [PATCH v3 11/12] mmc: sunxi: fix deferred probing
+Date: Sat, 17 Jun 2023 23:36:21 +0300
+Message-ID: <20230617203622.6812-12-s.shtylyov@omp.ru>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20230617203622.6812-1-s.shtylyov@omp.ru>
+References: <20230617203622.6812-1-s.shtylyov@omp.ru>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [178.176.79.248]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 06/17/2023 20:23:23
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 0
+X-KSE-AntiSpam-Info: Lua profiles 178086 [Jun 16 2023]
+X-KSE-AntiSpam-Info: Version: 5.9.59.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 517 517 b0056c19d8e10afbb16cb7aad7258dedb0179a79
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_no_received}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info:
+	omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.79.248
+X-KSE-AntiSpam-Info: Rate: 0
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 06/17/2023 20:29:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 6/17/2023 5:34:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On Sat, 17 Jun 2023 21:52:12 +0300
-Maxim Kiselev <bigunclemax@gmail.com> wrote:
+The driver overrides the error codes and IRQ0 returned by platform_get_irq()
+to -EINVAL, so if it returns -EPROBE_DEFER, the driver will fail the probe
+permanently instead of the deferred probing. Switch to propagating the error
+codes upstream.  Since commit ce753ad1549c ("platform: finally disallow IRQ0
+in platform_get_irq() and its ilk") IRQ0 is no longer returned by those APIs,
+so we now can safely ignore it...
 
-> =D1=81=D0=B1, 17 =D0=B8=D1=8E=D0=BD. 2023=E2=80=AF=D0=B3. =D0=B2 16:49, J=
-onathan Cameron <jic23@kernel.org>:
-> >
-> > On Thu, 15 Jun 2023 23:55:20 +0300
-> > Maksim Kiselev <bigunclemax@gmail.com> wrote:
-> > =20
-> > > The General Purpose ADC (GPADC) can convert the external signal into
-> > > a certain proportion of digital value, to realize the measurement of
-> > > analog signal, which can be applied to power detection and key detect=
-ion.
-> > >
-> > > Theoretically, this ADC can support up to 16 channels. All SoCs below
-> > > contain this GPADC IP. The only difference between them is the number
-> > > of available channels:
-> > >
-> > >  T113 - 1 channel
-> > >  D1   - 2 channels
-> > >  R329 - 4 channels
-> > >  T507 - 4 channels
-> > >
-> > > Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > > Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
-> > > ---
-> > >  drivers/iio/adc/Kconfig            |  10 ++
-> > >  drivers/iio/adc/Makefile           |   1 +
-> > >  drivers/iio/adc/sun20i-gpadc-iio.c | 276 +++++++++++++++++++++++++++=
-++
-> > >  3 files changed, 287 insertions(+)
-> > >  create mode 100644 drivers/iio/adc/sun20i-gpadc-iio.c
-> > >
-> > > diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
-> > > index eb2b09ef5d5b..deff7ae704ce 100644
-> > > --- a/drivers/iio/adc/Kconfig
-> > > +++ b/drivers/iio/adc/Kconfig
-> > > @@ -1123,6 +1123,16 @@ config SUN4I_GPADC
-> > >         To compile this driver as a module, choose M here: the module=
- will be
-> > >         called sun4i-gpadc-iio.
-> > >
-> > > +config SUN20I_GPADC
-> > > +     tristate "Support for the Allwinner SoCs GPADC" =20
-> > I applied this and started a build test before noticing that this Kconf=
-ig description
-> > is very vague and matches the one for the existing 4i driver... =20
->=20
-> Indeed. I must have forgotten to change this line when copying from sun4i=
-...
->=20
-> > The 'Support for the' bit also isn't appropriate for what you see in ma=
-ke menuconfig
-> > menu etc.   Please come up with something descriptive. Maybe
-> > "sun20i and similar SoC GPADC"?
-> >
-> > Bonus points if you change the text for the 4i at the same time to be
-> > more meaningful. I clearly missed that in review a long time ago! =20
->=20
-> Should I do this in a separate patch?
-Yes please.
+Fixes: 2408a08583d ("mmc: sunxi-mmc: Handle return value of platform_get_irq")
+Cc: stable@vger.kernel.org # v5.19+
+Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+Changes in version 3:
+- added the platform_get_irq() commit reference to the  patch description and
+  the Cc: tag marking the 1st kernel version containing it;
+- added Jernej's tag.
 
-Thanks,
+Changes in version 2:
+- slightly reformatted the patch description.
 
-Jonathan
+ drivers/mmc/host/sunxi-mmc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
+index 3db9f32d6a7b..69dcb8805e05 100644
+--- a/drivers/mmc/host/sunxi-mmc.c
++++ b/drivers/mmc/host/sunxi-mmc.c
+@@ -1350,8 +1350,8 @@ static int sunxi_mmc_resource_request(struct sunxi_mmc_host *host,
+ 		return ret;
+ 
+ 	host->irq = platform_get_irq(pdev, 0);
+-	if (host->irq <= 0) {
+-		ret = -EINVAL;
++	if (host->irq < 0) {
++		ret = host->irq;
+ 		goto error_disable_mmc;
+ 	}
+ 
+-- 
+2.26.3
 
