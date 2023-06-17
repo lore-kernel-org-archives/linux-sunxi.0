@@ -1,37 +1,46 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18941117
-	for <linux-sunxi@lists.linux.dev>; Sat, 17 Jun 2023 16:58:22 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-977d55ac17bso297724166b.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 17 Jun 2023 09:58:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687021100; x=1689613100;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A2963A9
+	for <linux-sunxi@lists.linux.dev>; Sat, 17 Jun 2023 18:05:09 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5147e40bbbbso2379883a12.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 17 Jun 2023 11:05:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1687025108; x=1689617108;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IIAlmExRE6EbIYR/X1OU/hkRy+rZ5PC7Pr91ssHegm8=;
-        b=dwubeIGdwuKkLzoOvhaWiXEFZrebBGQteVxo91U1Q6w/GM4jqbxMyHJ7t1hYDIy7tO
-         6hQ/W/0LK3G4gmNTcH7mLl7N0SbQFEQPGjCR/BGrPiUpnLw/+1Fujbhg1AUIhHcg2Eax
-         24XYStXf/1TtJYOXsdT3WbF+W2J6sXxwMXSyBiMDHB7fKkD3moOF+XEnPC95Qz9NauFW
-         B0Gv4P1Fze1ZTG8dNl75T67GnRhreKTEbC8K08coRrvcAh4cuvYhCtQkgUuSccrCjFl/
-         3aWerJsbcbjzQo4IKtCCyp8wf5pAVgEMaod5GbiRoHAuOdOsBZJWLBxEtPfFPdsxNX48
-         za7g==
-X-Gm-Message-State: AC+VfDx+nScQn3cGv6SE3NF+ODLM9V7h4WRqS/Tp0NGMXLGHEk9TlkXI
-	gDMfF5iZYoY+gZl1cT/kfChUE2fMDifkq/Fd31w=
-X-Google-Smtp-Source: ACHHUZ4QUcApoyJHRz1cMJc6SlXzrN/OcpOX0VIn3aLjnsGgC6AVqXzcOXTbPQEyF70UB3lwzevPUA==
-X-Received: by 2002:a17:907:7287:b0:96a:ff7f:692 with SMTP id dt7-20020a170907728700b0096aff7f0692mr4972521ejc.68.1687021100358;
-        Sat, 17 Jun 2023 09:58:20 -0700 (PDT)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com. [209.85.221.51])
-        by smtp.gmail.com with ESMTPSA id d18-20020a170906371200b0098282bb8effsm4626303ejc.196.2023.06.17.09.58.20
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sD3IWEzBGQZ8mcTerhCj4o67e1f5v1lsAPNkuhRyMbk=;
+        b=IEV5Yt08YCAqcCOWQBYcV04CNBynEpE3ay2W+5BO2S+RwJkOE5pFMo78kpso2ssa7w
+         5U/wdsMorxouzodS0NL7sHzaliYuzlm5JgIGjA3tiDaWp/gYSiPhyGyQVF3zXzJE8t+K
+         Y0+WxK+zwfONT3ZaQ4QL3FtEQQFSYSxHIqIb8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687025108; x=1689617108;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sD3IWEzBGQZ8mcTerhCj4o67e1f5v1lsAPNkuhRyMbk=;
+        b=RNi5pfAIqWgQssZTxubiA9X0AUAHgM8knJqborsoco+GPOSsu1DTQTFkbitX9RfMtg
+         55MQ3c0KJSdAls5KBLOsOtVKM/E2U5afABqFbKBEy0lfk1+bMulS2FVxlqoeQINeesi/
+         N6W6cfBYKKvYihKIPYhAzGCfwRYHJcVQ6Lyf3JQIlSVL44wBR2n3ruYs5N0aV7O6JI6C
+         XtM2yq74eglgjLcN+YOVrHUiaIPpi0El0gzqUrSz9ezXawWJof2txLQ3dqvkMSx/rDgC
+         OcZs3oqrBl6kI2tHYEF7aiTIPDe3+rKI+gmmTzI+0Nl9iMbwxX/mOTeth/9VnBFFjpLc
+         lSsw==
+X-Gm-Message-State: AC+VfDw7IKIacfKkwTO6XgJ8E2EfZJiFjlwwvx7rY9OxAaqTrZviiAsR
+	XatWsXX5G9R3GGc7pSP91+YJO6vbuWkhWaLEXfacGEBsGBA=
+X-Google-Smtp-Source: ACHHUZ4QpIT7cbgmtngJHfme6GL3oezkUc+Dmjf6ZIQnqsFRO+eoN8RHvnG9zJ7uvTq6G/XczMqM/A==
+X-Received: by 2002:a17:907:940e:b0:988:3ce8:c5bf with SMTP id dk14-20020a170907940e00b009883ce8c5bfmr686097ejc.33.1687025108007;
+        Sat, 17 Jun 2023 11:05:08 -0700 (PDT)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com. [209.85.128.50])
+        by smtp.gmail.com with ESMTPSA id y21-20020a17090614d500b009886192584esm167269ejc.28.2023.06.17.11.05.07
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 17 Jun 2023 09:58:20 -0700 (PDT)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-310e6e6a8d4so1343755f8f.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 17 Jun 2023 09:58:20 -0700 (PDT)
-X-Received: by 2002:a2e:9896:0:b0:2ad:8380:770d with SMTP id
- b22-20020a2e9896000000b002ad8380770dmr3881903ljj.21.1687020704207; Sat, 17
- Jun 2023 09:51:44 -0700 (PDT)
+        Sat, 17 Jun 2023 11:05:07 -0700 (PDT)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-3f7f7dfc037so61265e9.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 17 Jun 2023 11:05:07 -0700 (PDT)
+X-Received: by 2002:a05:600c:444e:b0:3f4:2736:b5eb with SMTP id
+ v14-20020a05600c444e00b003f42736b5ebmr491530wmn.1.1687024655682; Sat, 17 Jun
+ 2023 10:57:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -42,15 +51,14 @@ References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
  <20230601154002.uv2wfatpb7b45duz@pengutronix.de> <CAD=FV=WvP--wJwBQtnSoW_xb57R1Wf9dH0XzWxe+NorczXfeAw@mail.gmail.com>
  <20230617161222.wy55pbomnrrlfy5u@pengutronix.de>
 In-Reply-To: <20230617161222.wy55pbomnrrlfy5u@pengutronix.de>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Sun, 18 Jun 2023 00:51:32 +0800
-X-Gmail-Original-Message-ID: <CAGb2v676WBuHeN5cLNZEF0FHRu=jsNhVxN50pnZCMbqGFPYmLw@mail.gmail.com>
-Message-ID: <CAGb2v676WBuHeN5cLNZEF0FHRu=jsNhVxN50pnZCMbqGFPYmLw@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Sat, 17 Jun 2023 10:57:23 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=U5gbMUNteyyFcTvHVBDWzfthM0aDirJC+yXGovDwMOBA@mail.gmail.com>
+Message-ID: <CAD=FV=U5gbMUNteyyFcTvHVBDWzfthM0aDirJC+yXGovDwMOBA@mail.gmail.com>
 Subject: Re: patches dropped from drm-misc-next [Was: Re: [PATCH 00/53] drm:
  Convert to platform remove callback returning] void
 To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Doug Anderson <dianders@chromium.org>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
 	Xinliang Liu <xinliang.liu@linaro.org>, Linus Walleij <linus.walleij@linaro.org>, 
 	dri-devel@lists.freedesktop.org, Russell King <linux@armlinux.org.uk>, 
 	Alim Akhtar <alim.akhtar@samsung.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
@@ -92,9 +100,10 @@ Cc: Doug Anderson <dianders@chromium.org>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
 	Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh@kernel.org>, 
 	Xinwei Kong <kong.kongxinwei@hisilicon.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Mali DP Maintainers <malidp@foss.arm.com>, Joel Stanley <joel@jms.id.au>, nouveau@lists.freedesktop.org, 
-	Orson Zhai <orsonzhai@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Lyude Paul <lyude@redhat.com>, Arnd Bergmann <arnd@arndb.de>, Guo Zhengkui <guozhengkui@vivo.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Mali DP Maintainers <malidp@foss.arm.com>, Joel Stanley <joel@jms.id.au>, 
+	nouveau@lists.freedesktop.org, Orson Zhai <orsonzhai@gmail.com>, 
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Lyude Paul <lyude@redhat.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Guo Zhengkui <guozhengkui@vivo.com>, 
 	Konrad Dybcio <konrad.dybcio@somainline.org>, Alison Wang <alison.wang@nxp.com>, 
 	Abhinav Kumar <quic_abhinavk@quicinc.com>, Christian Gmeiner <christian.gmeiner@gmail.com>, 
 	Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>, 
@@ -126,7 +135,9 @@ Cc: Doug Anderson <dianders@chromium.org>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jun 18, 2023 at 12:13=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+Hi,
+
+On Sat, Jun 17, 2023 at 9:15=E2=80=AFAM Uwe Kleine-K=C3=B6nig
 <u.kleine-koenig@pengutronix.de> wrote:
 >
 > [expanding recipents by the other affected persons]
@@ -252,9 +263,24 @@ ecb5290
 > my/these patches? Can c2807ecb5290 please be merged into drm-misc-next
 > again?
 
-AFAIK drm-misc/for-linux-next cuts off at -rc6, at which point any patches
-merged get queued up for -next-next. I think that's what happened to your
-patches?
+Actually, it was probably a mistake that these patches got merged to
+linuxnext during the 4 days that you noticed. However, your patches
+aren't dropped and are still present in drm-misc-next.
 
+drm-misc has a bit of a unique model and it's documented fairly well here:
 
-ChenYu
+https://drm.pages.freedesktop.org/maintainer-tools/drm-misc.html
+
+The key is that committers can commit to drm-misc-next _at any time_
+regardless of the merge window. The drm-misc merge strategy makes this
+OK. Specifically, when it's late in the linux cycle then drm-misc-next
+is supposed to stop merging to linuxnext. Then, shortly after the
+merge window closes, patches will start flowing again.
+
+So basically your patches are landed and should even keep the same git
+hashes when they eventually make it to Linux. They just won't land for
+another release cycle of Linux.
+
+Hope that makes sense!
+
+-Doug
