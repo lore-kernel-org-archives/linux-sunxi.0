@@ -1,96 +1,206 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2232712B9E
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Jun 2023 15:54:04 +0000 (UTC)
-X-GND-Sasl: miquel.raynal@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1687190037;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uIrH6l6h4FVOlNSp29zZGkHu1wVR3pubO6q4OyhE0xo=;
-	b=WwruJTFPXXkT5hNeyj+ooIdhFe+Y3hhZ3Of48GDqkjJ2yK8h0yAAp55/pZJLQ2LZ+1AeED
-	noqMYJEJ5W6eqWn35JuM/CFzlecNsAZm50Q7bBEEzVWsZKHCNz9K7JCtkzlT2TS0JkbtaR
-	HXit51l66818IrnRrsF2NTYhMTBoiChg8KU5A7JxG4lccoyceZRQ06xVSiqTP2z0Wnu5MQ
-	BNec9ai84G+gbV3JvlXjR7BMSp/UurwzAs/E4z+loYbUBXMRReM1+Gb9eft3EbCTwfOWlu
-	sH+ayULL9CgawEzXrPElEO+UPe41Wl7NkSt2We278liiZvYBYCSXncZ5ImVy8g==
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4B1CC1BF20E;
-	Mon, 19 Jun 2023 15:53:56 +0000 (UTC)
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Mark Brown <broonie@kernel.org>,
-	<linux-spi@vger.kernel.org>
-Cc: Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	<linux-arm-kernel@lists.infradead.org>,
-	linux-sunxi@lists.linux.dev,
-	Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH v2 3/3] spi: sun6i: Use the new helper to derive the xfer timeout value
-Date: Mon, 19 Jun 2023 17:53:49 +0200
-Message-Id: <20230619155349.3118420-4-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230619155349.3118420-1-miquel.raynal@bootlin.com>
-References: <20230619155349.3118420-1-miquel.raynal@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2829322E
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 Jun 2023 16:36:25 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 972DD5C01F3;
+	Mon, 19 Jun 2023 12:36:24 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Mon, 19 Jun 2023 12:36:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1687192584; x=1687278984; bh=Uu
+	hVo65gu7gMZTFNFSuRoYBhg4H4ij8B83s8y9DwSoA=; b=WrzKMLafCtsoOr8TEF
+	alOpm0v0pDpH0tulTE81ND1k9YwYQLkX1AFJE69Mi+IWhrf3mTsL1TUVGJk5kqTs
+	uQEvqkPnV5jt49pCLKr4FVjE1rZNRE8z+OsR0stwftsyxlWJwKSbWoUQQ1jYkojg
+	MKGHNOfLIVVMFnKOh8zGDh5K0J0wpZvifONs2WV3BEuBFZyM/+PHwJMHOTjk+0sy
+	KfxZpBOCcsJcjmobg7zg5X4ED+01zRDeMwqwUx/qMnr2JZ1nUwnVY4W/xejs/oNp
+	0pH/5SDpY+rmPfHPrhiS3312dbuwr+t/Z1ork+eFEhe/OON6t2epLQ677J2KegT1
+	Oo6g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1687192584; x=1687278984; bh=UuhVo65gu7gMZ
+	TFNFSuRoYBhg4H4ij8B83s8y9DwSoA=; b=T16DgW7ruO4dpU16BHZHZeX4JGUL4
+	Vqtcypt4muavFn51JwHBkPO1Sr/sD9MB0vQHGq3p25SeQ76m94qShzoxMI7iai2t
+	GnM9fUJX+068jEPCTUPmaLoGeYA4vsmCmk6KklhpY2roRblaEJWi4ZCqE/3oTi+4
+	h/j+u1kBSzi8NgpAMYkSltLsvbH6cc0MlQ2UT+DMMz0hq2C7yuvOlnT4blZaJnZ9
+	uz5fBdjorRwpYXXCfXp4qBmyNaoZk2GDno+uBuulvBZJ73C7T4nbIMSG86N88ovA
+	ma803FgEqqYcE+ktVjisxWWTPbVdn57eb2ihJEJWC5ZoQW4AtTC0BIdxg==
+X-ME-Sender: <xms:B4SQZH8Y3g9jq5ms1UocppEEYCjYDD7vrRKQB6vzIdOIhD2Y7aNrhw>
+    <xme:B4SQZDuknErB4-eDOjFcMWpc5WHnbkePy1styhEqRXNoLbrgcKtrviyC6UIJEWsP7
+    lYdcqj-8Pc0ndP4K20>
+X-ME-Received: <xmr:B4SQZFBHAwjbGEZchQZ31yfzQCbMYte9jQvuhuLV4hf3QdUN9vEJ5xkaQ084LdUD45PIHYf98BX9tXVPZlc1JQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeefvddguddtudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtuggjsehgtdfsredttdejnecuhfhrohhmpeforgig
+    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+    grthhtvghrnhepledufeegudehveeljeeigfehtedvffehjedvjeevhfduueevheeuvedv
+    veevueeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:B4SQZDepGr4oIZrroO9_plbOyxtGKOmB3QkTWCFoy8wcXZIpnlpRmQ>
+    <xmx:B4SQZMM6WdK4BzdYKklXXTqXx_iVVmRO4CiTqfLiWUq1h5ShaIXLPw>
+    <xmx:B4SQZFnTc4GANHYU2twsTB33xulZ1QtWJPUebEt1CubDfGOL8qwXvw>
+    <xmx:CISQZNED4Gu4sO9FYaiB5H5pCpE7I2_SkCeLzfn5-fWtbaRTFCOmVQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 19 Jun 2023 12:36:22 -0400 (EDT)
+Date: Mon, 19 Jun 2023 18:36:19 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Frank Oltmanns <frank@oltmanns.dev>
+Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Roman Beranek <me@crly.cz>, Samuel Holland <samuel@sholland.org>, 
+	Stephen Boyd <sboyd@kernel.org>, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/2] clk: sunxi-ng: nkm: consider alternative parent
+ rates when finding rate
+Message-ID: <mdpeq63lziegp2pyp7a5fj6o2psvmm4mgeo354diq2u2j267vd@l63zrttiuvkk>
+References: <20230605190745.366882-1-frank@oltmanns.dev>
+ <20230605190745.366882-2-frank@oltmanns.dev>
+ <2bvcukogzhcdbfsrruylgw5fbezaqjpcojqaambfoiv5fc2upy@ffumn5sevbeb>
+ <875y7y1f0d.fsf@oltmanns.dev>
+ <sijbhopoxuw5wodyry3smg7tm4wzoc7k6xakt4qdvxqsok32mv@u7rh4dct5ya6>
+ <87a5x41w5r.fsf@oltmanns.dev>
+ <unoskbtcteluxj7g3xkwc7ngcmglvcbm5ah25m7huhqxwd4dj3@nmfxbedwyu54>
+ <87wn07zmxp.fsf@oltmanns.dev>
+ <wnxjbbjfcnrg7ogwkfwbnldvyqbpt23b6mnrieb2zffooaojts@sudsbfjbjt64>
+ <d40e94c4-9dab-4511-bd48-1d9081f4262a@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="g7ta4xd7nex3465f"
+Content-Disposition: inline
+In-Reply-To: <d40e94c4-9dab-4511-bd48-1d9081f4262a@oltmanns.dev>
 
-A helper was recently added to the core to factorize common code between
-drivers, like the amount of time a driver should wait for a transfer to
-happen.
 
-It is of course possible to use a default value (like eg. 1s) but it is
-way stronger to adapt this amount of time to the transfer. Indeed, long
-transfers (eg. 4MiB) on a slow single-spi bus might take more than the
-usual second of timeout and prevent lengthy transfers.
+--g7ta4xd7nex3465f
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The core helper was heavily inspired by the logic applied in this
-driver, the only difference being the minimum amount of time which was
-enlarged from 0.1s to 0.5s.
+On Thu, Jun 15, 2023 at 06:04:53PM +0200, Frank Oltmanns wrote:
+> 15.06.2023 16:47:33 Maxime Ripard <maxime@cerno.tech>:
+> > On Tue, Jun 13, 2023 at 12:17:06PM +0200, Frank Oltmanns wrote:
+> >> Hi Maxime,
+> >>
+> >> I'll now only respond to one aspect of your mail, because it's the
+> >> foundation for the whole behaviour.
+> >>
+> >> On 2023-06-13 at 11:10:08 +0200, Maxime Ripard <maxime@cerno.tech> wro=
+te:
+> >> [...]
+> >>>>>> =E2=80=A6
+> >>>>>
+> >>>>> It doesn't really matter though. The output of that function must be
+> >>>>> stable and must return the same set of factors and parent rate for a
+> >>>>> given target rate.
+> >>>>>
+> >>>>
+> >>>> I'm not sure if we're talking about the same thing here. Of course t=
+he
+> >>>> set of factors and parent rate for a given target rate will be diffe=
+rent
+> >>>> depending on the fact if we can or cannot adjust the parent rate,
+> >>>> agreed?
+> >>>
+> >>> Yes, but here you also have a different behaviour in clk_round_rate()
+> >>> and in clk_set_rate(), which isn't ok.
+> >>>
+> >>> Basically, clk_set_rate() + clk_get_rate() must be equal to
+> >>> clk_round_rate().
+> >>>
+> >>> If you change if you look for parents depending on whether you're bei=
+ng
+> >>> called in clk_round_rate() and clk_set_rate(), then you're breaking t=
+hat
+> >>> expectation.
+> >>>
+> >>>> Let me compare my implementation to ccu_mp.
+> >>>>
+> >>>> ccu_mp_round_rate either calls the function ccu_mp_find_best or
+> >>>> ccu_mp_find_best_with_parent_adj, depending on CLK_SET_RATE_PARENT.
+> >>>
+> >>> Yes, and it's fine: the flag is per-clock, and the output is the same
+> >>> depending on whether we're being called by clk_round_rate() and
+> >>> clk_set_rate().
+> >>>
+> >>
+> >> The output is really not the same.
+> >>
+> >> ccu_mp_set_rate() always calls ccu_mp_find_best(). It never (!) consid=
+ers
+> >> changing the parent, independent of any flags.
+> >>
+> >> ccu_mp_round_rate() is calling ccu_mp_find_best() OR
+> >> ccu_mp_find_best_with_parent_adj() depending on the flag.
+> >>
+> >> If I understand you correctly, you consider that a bug.
+> >
+> > No, sorry, you're right.
+> >
+> > clk_set_rate will call round_rate first, which will (possibly) pick up a
+> > new parent, and by the time set_rate is called our parent will have been
+> > changed already so we will just call find_best again considering only
+> > that parent.
+>=20
+> Ok, no worries. That was my understanding, so your previous statement sha=
+ttered my worldview. ;) That's why I may have seemed a bit alarmed.
+>=20
+> >
+> > The set of factors and dividers should remain the same there, but I
+> > don't think that's a concern.
+>=20
+> Ack. The output is stable when called with the same rate.
+>=20
+> > That leaves us with the rounding stuff, and the overall function
+> > arguments. I like the structure of ccu_mp better, is there a reason to
+> > deviate from it?
+>=20
+> I'm still pondering the rounding stuff. I'm just not sure why you are
+> so relaxed about the fact that when calling round_rate with 449064000
+> we get 449035712, but when we call get round_rate with 449035712 we
+> get 449018181, and when we call round_rate with 449018181, we get
+> 449018180.
 
-Use this helper instead of open-coding it.
+I guess there's a couple of reasons:
 
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
----
- drivers/spi/spi-sun6i.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  - You mentioned that you were going to fix the rate issue later :)
 
-diff --git a/drivers/spi/spi-sun6i.c b/drivers/spi/spi-sun6i.c
-index 23ad052528db..180094dfae19 100644
---- a/drivers/spi/spi-sun6i.c
-+++ b/drivers/spi/spi-sun6i.c
-@@ -422,7 +422,7 @@ static int sun6i_spi_transfer_one(struct spi_master *master,
- 	reg = sun6i_spi_read(sspi, SUN6I_TFR_CTL_REG);
- 	sun6i_spi_write(sspi, SUN6I_TFR_CTL_REG, reg | SUN6I_TFR_CTL_XCH);
- 
--	tx_time = max(tfr->len * 8 * 2 / (tfr->speed_hz / 1000), 100U);
-+	tx_time = spi_controller_xfer_timeout(master, tfr);
- 	start = jiffies;
- 	timeout = wait_for_completion_timeout(&sspi->done,
- 					      msecs_to_jiffies(tx_time));
--- 
-2.34.1
+  - At the end of the day, it's not a huge offset and shouldn't cause
+    any big trouble
 
+> But ultimately, you have the final word, of course. But I need some
+> time to be sure, that this does not become a problem in some cases.
+
+Don't get me wrong, it should be fixed (and ideally, we should get some
+unit tests to make sure that it doesn't behave that way). I don't think
+it's urgent though, or that we introduce workarounds in one particular
+clock type.
+
+So we can definitely focus on the parent stuff first, and then get the
+rate stuff figured out.
+
+Maxime
+
+--g7ta4xd7nex3465f
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZJCEAwAKCRDj7w1vZxhR
+xTLqAQClbbvPDJ2cdhcYv+Jv7TNenlGRGGQLG7tFj1lyWz4roQEA7AYDdNJQZ9t0
+AlA5tZURWiLpemHC6+21q8YDv3Bp1g8=
+=Zcgb
+-----END PGP SIGNATURE-----
+
+--g7ta4xd7nex3465f--
