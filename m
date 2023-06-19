@@ -1,206 +1,95 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2829322E
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Jun 2023 16:36:25 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 972DD5C01F3;
-	Mon, 19 Jun 2023 12:36:24 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Mon, 19 Jun 2023 12:36:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1687192584; x=1687278984; bh=Uu
-	hVo65gu7gMZTFNFSuRoYBhg4H4ij8B83s8y9DwSoA=; b=WrzKMLafCtsoOr8TEF
-	alOpm0v0pDpH0tulTE81ND1k9YwYQLkX1AFJE69Mi+IWhrf3mTsL1TUVGJk5kqTs
-	uQEvqkPnV5jt49pCLKr4FVjE1rZNRE8z+OsR0stwftsyxlWJwKSbWoUQQ1jYkojg
-	MKGHNOfLIVVMFnKOh8zGDh5K0J0wpZvifONs2WV3BEuBFZyM/+PHwJMHOTjk+0sy
-	KfxZpBOCcsJcjmobg7zg5X4ED+01zRDeMwqwUx/qMnr2JZ1nUwnVY4W/xejs/oNp
-	0pH/5SDpY+rmPfHPrhiS3312dbuwr+t/Z1ork+eFEhe/OON6t2epLQ677J2KegT1
-	Oo6g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1687192584; x=1687278984; bh=UuhVo65gu7gMZ
-	TFNFSuRoYBhg4H4ij8B83s8y9DwSoA=; b=T16DgW7ruO4dpU16BHZHZeX4JGUL4
-	Vqtcypt4muavFn51JwHBkPO1Sr/sD9MB0vQHGq3p25SeQ76m94qShzoxMI7iai2t
-	GnM9fUJX+068jEPCTUPmaLoGeYA4vsmCmk6KklhpY2roRblaEJWi4ZCqE/3oTi+4
-	h/j+u1kBSzi8NgpAMYkSltLsvbH6cc0MlQ2UT+DMMz0hq2C7yuvOlnT4blZaJnZ9
-	uz5fBdjorRwpYXXCfXp4qBmyNaoZk2GDno+uBuulvBZJ73C7T4nbIMSG86N88ovA
-	ma803FgEqqYcE+ktVjisxWWTPbVdn57eb2ihJEJWC5ZoQW4AtTC0BIdxg==
-X-ME-Sender: <xms:B4SQZH8Y3g9jq5ms1UocppEEYCjYDD7vrRKQB6vzIdOIhD2Y7aNrhw>
-    <xme:B4SQZDuknErB4-eDOjFcMWpc5WHnbkePy1styhEqRXNoLbrgcKtrviyC6UIJEWsP7
-    lYdcqj-8Pc0ndP4K20>
-X-ME-Received: <xmr:B4SQZFBHAwjbGEZchQZ31yfzQCbMYte9jQvuhuLV4hf3QdUN9vEJ5xkaQ084LdUD45PIHYf98BX9tXVPZlc1JQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeefvddguddtudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehgtdfsredttdejnecuhfhrohhmpeforgig
-    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
-    grthhtvghrnhepledufeegudehveeljeeigfehtedvffehjedvjeevhfduueevheeuvedv
-    veevueeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:B4SQZDepGr4oIZrroO9_plbOyxtGKOmB3QkTWCFoy8wcXZIpnlpRmQ>
-    <xmx:B4SQZMM6WdK4BzdYKklXXTqXx_iVVmRO4CiTqfLiWUq1h5ShaIXLPw>
-    <xmx:B4SQZFnTc4GANHYU2twsTB33xulZ1QtWJPUebEt1CubDfGOL8qwXvw>
-    <xmx:CISQZNED4Gu4sO9FYaiB5H5pCpE7I2_SkCeLzfn5-fWtbaRTFCOmVQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 19 Jun 2023 12:36:22 -0400 (EDT)
-Date: Mon, 19 Jun 2023 18:36:19 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Roman Beranek <me@crly.cz>, Samuel Holland <samuel@sholland.org>, 
-	Stephen Boyd <sboyd@kernel.org>, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/2] clk: sunxi-ng: nkm: consider alternative parent
- rates when finding rate
-Message-ID: <mdpeq63lziegp2pyp7a5fj6o2psvmm4mgeo354diq2u2j267vd@l63zrttiuvkk>
-References: <20230605190745.366882-1-frank@oltmanns.dev>
- <20230605190745.366882-2-frank@oltmanns.dev>
- <2bvcukogzhcdbfsrruylgw5fbezaqjpcojqaambfoiv5fc2upy@ffumn5sevbeb>
- <875y7y1f0d.fsf@oltmanns.dev>
- <sijbhopoxuw5wodyry3smg7tm4wzoc7k6xakt4qdvxqsok32mv@u7rh4dct5ya6>
- <87a5x41w5r.fsf@oltmanns.dev>
- <unoskbtcteluxj7g3xkwc7ngcmglvcbm5ah25m7huhqxwd4dj3@nmfxbedwyu54>
- <87wn07zmxp.fsf@oltmanns.dev>
- <wnxjbbjfcnrg7ogwkfwbnldvyqbpt23b6mnrieb2zffooaojts@sudsbfjbjt64>
- <d40e94c4-9dab-4511-bd48-1d9081f4262a@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155BBD52A;
+	Mon, 19 Jun 2023 17:03:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 153AAC433C0;
+	Mon, 19 Jun 2023 17:03:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1687194224;
+	bh=kZcG68CKxsF0yfm9NzXeng4kRKcnmTVTpToRWIdUohQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=SbzA+ryt2mcqUhfBIGRUperz+RWLFvNbD4pn26hux6htCBKOPgyTdJ4+R/BjqdgIh
+	 1n8xFzLKDfA2RGRFwHVu+/DZ1e5VyxbjeJHQQ93/nRaUu9UJkz9OBtU3oxI1N6nHm7
+	 7wChsSxoA2pd20L7rcgzOp/aEoZoy9b/QZhmwxp2/DB5wjGEsfas2zCqLZoP6qv0Sn
+	 PdFUMyQcxOclIgdNhIpGXE1XEC3wfblY0LR72hR4qkKcfgi1YG7bC4vezTHIPb09rD
+	 Vx5tm4owkbVIIHI2s6qWtVLa7CoFVn54R9XCUEbUGtSUs2SrTS3ffB6O/kygjSs2EG
+	 /AgMeU2YU+kiA==
+From: Jisheng Zhang <jszhang@kernel.org>
+To: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Simon Horman <simon.horman@corigine.com>
+Subject: [PATCH net-next v3 0/2] net: stmmac: fix & improve driver statistics
+Date: Tue, 20 Jun 2023 00:52:18 +0800
+Message-Id: <20230619165220.2501-1-jszhang@kernel.org>
+X-Mailer: git-send-email 2.40.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="g7ta4xd7nex3465f"
-Content-Disposition: inline
-In-Reply-To: <d40e94c4-9dab-4511-bd48-1d9081f4262a@oltmanns.dev>
+Content-Transfer-Encoding: 8bit
+
+improve the stmmac driver statistics:
+
+1. don't clear network driver statistics in .ndo_close() and
+.ndo_open() cycle
+2. avoid some network driver statistics overflow on 32 bit platforms
+3. use pcpu statistics where necessary to remove frequent cacheline
+ping pongs.
+
+NOTE: v1 and v2 are back ported from an internal LTS tree, I made
+some mistakes when backporting and squashing. Now, net-next + v3
+has been well tested with 'ethtool -s' and 'ip -s link show'.
+
+Since v2:
+  - fix ethtool .get_sset_count, .get_strings and per queue stats
+    couting.
+  - fix .ndo_get_stats64 only counts the last cpu's pcpu stats.
+  - fix typo: s/iff/if in commit msg.
+  - remove unnecessary if statement brackets since we have removed
+    one LoC.
+
+Since v1:
+  - rebase on net-next
+  - fold two original patches into one patch
+  - fix issues found by lkp
+  - update commit msg
 
 
---g7ta4xd7nex3465f
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Jisheng Zhang (2):
+  net: stmmac: don't clear network statistics in .ndo_open()
+  net: stmmac: use pcpu 64 bit statistics where necessary
 
-On Thu, Jun 15, 2023 at 06:04:53PM +0200, Frank Oltmanns wrote:
-> 15.06.2023 16:47:33 Maxime Ripard <maxime@cerno.tech>:
-> > On Tue, Jun 13, 2023 at 12:17:06PM +0200, Frank Oltmanns wrote:
-> >> Hi Maxime,
-> >>
-> >> I'll now only respond to one aspect of your mail, because it's the
-> >> foundation for the whole behaviour.
-> >>
-> >> On 2023-06-13 at 11:10:08 +0200, Maxime Ripard <maxime@cerno.tech> wro=
-te:
-> >> [...]
-> >>>>>> =E2=80=A6
-> >>>>>
-> >>>>> It doesn't really matter though. The output of that function must be
-> >>>>> stable and must return the same set of factors and parent rate for a
-> >>>>> given target rate.
-> >>>>>
-> >>>>
-> >>>> I'm not sure if we're talking about the same thing here. Of course t=
-he
-> >>>> set of factors and parent rate for a given target rate will be diffe=
-rent
-> >>>> depending on the fact if we can or cannot adjust the parent rate,
-> >>>> agreed?
-> >>>
-> >>> Yes, but here you also have a different behaviour in clk_round_rate()
-> >>> and in clk_set_rate(), which isn't ok.
-> >>>
-> >>> Basically, clk_set_rate() + clk_get_rate() must be equal to
-> >>> clk_round_rate().
-> >>>
-> >>> If you change if you look for parents depending on whether you're bei=
-ng
-> >>> called in clk_round_rate() and clk_set_rate(), then you're breaking t=
-hat
-> >>> expectation.
-> >>>
-> >>>> Let me compare my implementation to ccu_mp.
-> >>>>
-> >>>> ccu_mp_round_rate either calls the function ccu_mp_find_best or
-> >>>> ccu_mp_find_best_with_parent_adj, depending on CLK_SET_RATE_PARENT.
-> >>>
-> >>> Yes, and it's fine: the flag is per-clock, and the output is the same
-> >>> depending on whether we're being called by clk_round_rate() and
-> >>> clk_set_rate().
-> >>>
-> >>
-> >> The output is really not the same.
-> >>
-> >> ccu_mp_set_rate() always calls ccu_mp_find_best(). It never (!) consid=
-ers
-> >> changing the parent, independent of any flags.
-> >>
-> >> ccu_mp_round_rate() is calling ccu_mp_find_best() OR
-> >> ccu_mp_find_best_with_parent_adj() depending on the flag.
-> >>
-> >> If I understand you correctly, you consider that a bug.
-> >
-> > No, sorry, you're right.
-> >
-> > clk_set_rate will call round_rate first, which will (possibly) pick up a
-> > new parent, and by the time set_rate is called our parent will have been
-> > changed already so we will just call find_best again considering only
-> > that parent.
->=20
-> Ok, no worries. That was my understanding, so your previous statement sha=
-ttered my worldview. ;) That's why I may have seemed a bit alarmed.
->=20
-> >
-> > The set of factors and dividers should remain the same there, but I
-> > don't think that's a concern.
->=20
-> Ack. The output is stable when called with the same rate.
->=20
-> > That leaves us with the rounding stuff, and the overall function
-> > arguments. I like the structure of ccu_mp better, is there a reason to
-> > deviate from it?
->=20
-> I'm still pondering the rounding stuff. I'm just not sure why you are
-> so relaxed about the fact that when calling round_rate with 449064000
-> we get 449035712, but when we call get round_rate with 449035712 we
-> get 449018181, and when we call round_rate with 449018181, we get
-> 449018180.
+ drivers/net/ethernet/stmicro/stmmac/common.h  |  54 +++--
+ .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c |  15 +-
+ .../ethernet/stmicro/stmmac/dwmac100_dma.c    |   7 +-
+ .../ethernet/stmicro/stmmac/dwmac4_descs.c    |  16 +-
+ .../net/ethernet/stmicro/stmmac/dwmac4_lib.c  |  15 +-
+ .../net/ethernet/stmicro/stmmac/dwmac_lib.c   |  10 +-
+ .../ethernet/stmicro/stmmac/dwxgmac2_descs.c  |   6 +-
+ .../ethernet/stmicro/stmmac/dwxgmac2_dma.c    |  13 +-
+ .../net/ethernet/stmicro/stmmac/enh_desc.c    |  20 +-
+ drivers/net/ethernet/stmicro/stmmac/hwif.h    |  12 +-
+ .../net/ethernet/stmicro/stmmac/norm_desc.c   |  15 +-
+ .../ethernet/stmicro/stmmac/stmmac_ethtool.c  | 108 +++++++---
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c | 190 +++++++++++++-----
+ 13 files changed, 312 insertions(+), 169 deletions(-)
 
-I guess there's a couple of reasons:
+-- 
+2.40.1
 
-  - You mentioned that you were going to fix the rate issue later :)
-
-  - At the end of the day, it's not a huge offset and shouldn't cause
-    any big trouble
-
-> But ultimately, you have the final word, of course. But I need some
-> time to be sure, that this does not become a problem in some cases.
-
-Don't get me wrong, it should be fixed (and ideally, we should get some
-unit tests to make sure that it doesn't behave that way). I don't think
-it's urgent though, or that we introduce workarounds in one particular
-clock type.
-
-So we can definitely focus on the parent stuff first, and then get the
-rate stuff figured out.
-
-Maxime
-
---g7ta4xd7nex3465f
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZJCEAwAKCRDj7w1vZxhR
-xTLqAQClbbvPDJ2cdhcYv+Jv7TNenlGRGGQLG7tFj1lyWz4roQEA7AYDdNJQZ9t0
-AlA5tZURWiLpemHC6+21q8YDv3Bp1g8=
-=Zcgb
------END PGP SIGNATURE-----
-
---g7ta4xd7nex3465f--
