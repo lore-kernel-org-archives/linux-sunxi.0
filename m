@@ -1,1344 +1,429 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F8A14265;
-	Mon, 19 Jun 2023 17:03:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CB8BC433C0;
-	Mon, 19 Jun 2023 17:03:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1687194233;
-	bh=N7jOvkFrEEvcgkNUvKPcQ6kNMAI6uH5q0A4IV2wB4eM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kZ07B1eHAT6HRPwxDv/yDmajGRhQ3w3ZqeqGExeIMoTV4HAcCX7sWj7jiV5ErFC7e
-	 RYP9MdOWSi02sZmI8pB0SbLZcYi/a0nNS697RVSBs3wAK0XK0wBUVAndY5SSL9Xe3q
-	 li6P4An8jZ59usEVvJtn0ReXR6THlHDAwm9i3EXHF7w+S50+DP6PCC8DDQoJqjyscm
-	 pIFim2Mi13c99Vi8JUY9sxsn3shjKcJL6MGq+Fv3D2UjClQD6xfjKMMHgA9rwYFi/q
-	 foICcgjsxzvByFlRIKdya9n8tq55adoIDVvMgJIZwPfUJmfsd8oLoUCGncw2dbVIKN
-	 gBKYVcgEjT27A==
-From: Jisheng Zhang <jszhang@kernel.org>
-To: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: netdev@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	Simon Horman <simon.horman@corigine.com>
-Subject: [PATCH net-next v3 2/2] net: stmmac: use pcpu 64 bit statistics where necessary
-Date: Tue, 20 Jun 2023 00:52:20 +0800
-Message-Id: <20230619165220.2501-3-jszhang@kernel.org>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230619165220.2501-1-jszhang@kernel.org>
-References: <20230619165220.2501-1-jszhang@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80EBC13AF9
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 Jun 2023 18:05:50 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id 7B4433200986;
+	Mon, 19 Jun 2023 14:05:48 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Mon, 19 Jun 2023 14:05:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1687197948; x=1687284348; bh=el
+	QaRNZVxlUq2csY8D9qNeou1zsE9u4oPia1Dl5rJUY=; b=GAEURsyK8cNf0fMYRW
+	vfT4g/XFGExFv3uBSysBhyC4arNrGlmj+H/2mjo5g97WHfleidSdOLEnUxN1vJX+
+	XRSQIPcLLRg5pmQEcL2r0zWixM7fIzs9PQJAbkMKYrkZQWHkfdzW0J44aDJUoJL6
+	TZS6GW1JSTUS75Q5JNT7T42LFokcU06NiRZs2EgObr+BKG4PUH5RlCuATxpkUnb4
+	fpBvjsFX0Fpiw+Uw8UPH9aZNz3S+7TxOHJVNZt0u1Ghl/FznxhQH5SonG3fVe4yl
+	hN6aQaZX+2KU6TBwtuej42Ggw2xhlAmCSynB0v+WN6hf0VFbvPkNIGaNnAEV4xlX
+	blQA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1687197948; x=1687284348; bh=elQaRNZVxlUq2
+	csY8D9qNeou1zsE9u4oPia1Dl5rJUY=; b=SuCsOF9GM9dgnsdFJXWMHoXwMEmHO
+	H88qAUBxZXv5tcIHZiN/CgmrqZGA3QOidUbc3WKJfCdvr7JDf22pWhUW8wcMj1j9
+	7VNX0/B6MNxPhccUqVuiOgMjuTv35BVk+Z7OlEjWwrUl7nGAFQnYunljttTWITwg
+	DKtpTqfPnN4G+FpC4EgEoD0VWYLEjgV9BQa+E7cu26nZJNgLalmMDRJqtjqXo3Z4
+	ysXVPcxePfH/RPzFybcNyeomzDhjuk1mTqye1cDWepUY1fPKJKACsh+8p676euOH
+	kpTt5YI39A/JKqxw1kyOMp5lauXyWKMmY3MwleYvgg7QGw2M56lU5FdUg==
+X-ME-Sender: <xms:-piQZC-Sb1nj8YV10lNK-DdJYDwzXtVoIBOF3C7y7Pvjhi7snSCwew>
+    <xme:-piQZCuUIR8OepTR0qXTEN2uFii8wwWR57GK7ixqcrH94HqtqFys96JBtpj4GqFmH
+    QQkKJLGWy3RY2OCVag>
+X-ME-Received: <xmr:-piQZIAQb0WyFfqA6SiVHa_N2DCXmlPiF2Ywfb6tdd7KPYcaBZ3lGt7Hty3MKMQHahBp6chozJ2_uyYaZ2shRg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeefvddguddulecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtuggjsehgtdfsredttddvnecuhfhrohhmpeforgig
+    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+    grthhtvghrnheptdfgudekieeguefhleehfedthffggeefgfduueeihfeuueelkeevtedv
+    iedtvdeinecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgv
+    tghh
+X-ME-Proxy: <xmx:-piQZKdyANQCjlfvC15_hiRBxwLH6BEMK4Y6FyTRBzc3IslCEiNDbQ>
+    <xmx:-piQZHOfamvmiQrrU2zEM-FkSjlQajYV7xRYXNnZ9cIgN5SzG9_5gQ>
+    <xmx:-piQZEnSkcBdn0a_8AexsHv7VZZKyxGdasmKcTbPLxbp5wJFSTCV1Q>
+    <xmx:_JiQZIH00wufb4N7gDttWPr0n32bTamPtYrgnLjRw1exojLCKY20bA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 19 Jun 2023 14:05:46 -0400 (EDT)
+Date: Mon, 19 Jun 2023 20:05:44 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Frank Oltmanns <frank@oltmanns.dev>
+Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Roman Beranek <me@crly.cz>, Samuel Holland <samuel@sholland.org>, 
+	Stephen Boyd <sboyd@kernel.org>, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/2] clk: sunxi-ng: nkm: consider alternative parent
+ rates when finding rate
+Message-ID: <yj6ss64s7p2uaslodj5zklrwhegz54bgh4l4wmldv6cccggepz@yombds4hij3c>
+References: <20230605190745.366882-1-frank@oltmanns.dev>
+ <20230605190745.366882-2-frank@oltmanns.dev>
+ <2bvcukogzhcdbfsrruylgw5fbezaqjpcojqaambfoiv5fc2upy@ffumn5sevbeb>
+ <875y7y1f0d.fsf@oltmanns.dev>
+ <sijbhopoxuw5wodyry3smg7tm4wzoc7k6xakt4qdvxqsok32mv@u7rh4dct5ya6>
+ <87a5x41w5r.fsf@oltmanns.dev>
+ <unoskbtcteluxj7g3xkwc7ngcmglvcbm5ah25m7huhqxwd4dj3@nmfxbedwyu54>
+ <87bkhbhnol.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wprkehaddrchdknb"
+Content-Disposition: inline
+In-Reply-To: <87bkhbhnol.fsf@oltmanns.dev>
 
-Currently, there are two major issues with stmmac driver statistics
-First of all, statistics in stmmac_extra_stats, stmmac_rxq_stats
-and stmmac_txq_stats are 32 bit variables on 32 bit platforms. This
-can cause some stats to overflow after several minutes of
-high traffic, for example rx_pkt_n, tx_pkt_n and so on.
 
-Secondly, if HW supports multiqueues, there are frequent cacheline
-ping pongs on some driver statistic vars, for example, normal_irq_n,
-tx_pkt_n and so on. What's more, frequent cacheline ping pongs on
-normal_irq_n happens in ISR, this makes the situation worse.
+--wprkehaddrchdknb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-To improve the driver, we convert those statistics to 64 bit, implement
-ndo_get_stats64 and update .get_ethtool_stats implementation
-accordingly. We also use pcpu statistics where necessary to remove the
-cacheline ping pongs as much as possible to make multiqueue operations
-faster. Those statistics which are not possible to overflow and not
-frequently updated are kept as is.
+On Mon, Jun 19, 2023 at 10:16:26AM +0200, Frank Oltmanns wrote:
+> Hi Maxime,
+>=20
+> the essence of my following ramblings:
+>  - I do think it is reasonable that nkm is asking its parent for the
+>    rate that nkm actually needs from said parent to fulfill the request.
+>  - I don't think nkm should make assumptions about the rounding
+>    behaviour of the parent.
 
-Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
----
- drivers/net/ethernet/stmicro/stmmac/common.h  |  54 +++--
- .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c |  15 +-
- .../ethernet/stmicro/stmmac/dwmac100_dma.c    |   7 +-
- .../ethernet/stmicro/stmmac/dwmac4_descs.c    |  16 +-
- .../net/ethernet/stmicro/stmmac/dwmac4_lib.c  |  15 +-
- .../net/ethernet/stmicro/stmmac/dwmac_lib.c   |  10 +-
- .../ethernet/stmicro/stmmac/dwxgmac2_descs.c  |   6 +-
- .../ethernet/stmicro/stmmac/dwxgmac2_dma.c    |  13 +-
- .../net/ethernet/stmicro/stmmac/enh_desc.c    |  20 +-
- drivers/net/ethernet/stmicro/stmmac/hwif.h    |  12 +-
- .../net/ethernet/stmicro/stmmac/norm_desc.c   |  15 +-
- .../ethernet/stmicro/stmmac/stmmac_ethtool.c  | 108 +++++++---
- .../net/ethernet/stmicro/stmmac/stmmac_main.c | 184 +++++++++++++-----
- 13 files changed, 310 insertions(+), 165 deletions(-)
+I guess we agree :)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/common.h b/drivers/net/ethernet/stmicro/stmmac/common.h
-index 16e67c18b6f7..ac19e7a02ad2 100644
---- a/drivers/net/ethernet/stmicro/stmmac/common.h
-+++ b/drivers/net/ethernet/stmicro/stmmac/common.h
-@@ -59,19 +59,44 @@
- /* #define FRAME_FILTER_DEBUG */
- 
- struct stmmac_txq_stats {
--	unsigned long tx_pkt_n;
--	unsigned long tx_normal_irq_n;
-+	u64 tx_pkt_n;
-+	u64 tx_normal_irq_n;
- };
- 
- struct stmmac_rxq_stats {
--	unsigned long rx_pkt_n;
--	unsigned long rx_normal_irq_n;
-+	u64 rx_pkt_n;
-+	u64 rx_normal_irq_n;
-+};
-+
-+struct stmmac_pcpu_stats {
-+	struct u64_stats_sync syncp;
-+	/* per queue statistics */
-+	struct stmmac_txq_stats txq_stats[MTL_MAX_TX_QUEUES];
-+	struct stmmac_rxq_stats rxq_stats[MTL_MAX_RX_QUEUES];
-+	/* device stats */
-+	u64 rx_packets;
-+	u64 rx_bytes;
-+	u64 tx_packets;
-+	u64 tx_bytes;
-+	/* Tx/Rx IRQ Events */
-+	u64 tx_pkt_n;
-+	u64 rx_pkt_n;
-+	u64 normal_irq_n;
-+	u64 rx_normal_irq_n;
-+	u64 napi_poll;
-+	u64 tx_normal_irq_n;
-+	u64 tx_clean;
-+	u64 tx_set_ic_bit;
-+	/* TSO */
-+	u64 tx_tso_frames;
-+	u64 tx_tso_nfrags;
- };
- 
- /* Extra statistic and debug information exposed by ethtool */
- struct stmmac_extra_stats {
-+	struct stmmac_pcpu_stats __percpu *pstats;
- 	/* Transmit errors */
--	unsigned long tx_underflow ____cacheline_aligned;
-+	unsigned long tx_underflow;
- 	unsigned long tx_carrier;
- 	unsigned long tx_losscarrier;
- 	unsigned long vlan_tag;
-@@ -81,6 +106,7 @@ struct stmmac_extra_stats {
- 	unsigned long tx_frame_flushed;
- 	unsigned long tx_payload_error;
- 	unsigned long tx_ip_header_error;
-+	unsigned long tx_collision;
- 	/* Receive errors */
- 	unsigned long rx_desc;
- 	unsigned long sa_filter_fail;
-@@ -113,14 +139,6 @@ struct stmmac_extra_stats {
- 	/* Tx/Rx IRQ Events */
- 	unsigned long rx_early_irq;
- 	unsigned long threshold;
--	unsigned long tx_pkt_n;
--	unsigned long rx_pkt_n;
--	unsigned long normal_irq_n;
--	unsigned long rx_normal_irq_n;
--	unsigned long napi_poll;
--	unsigned long tx_normal_irq_n;
--	unsigned long tx_clean;
--	unsigned long tx_set_ic_bit;
- 	unsigned long irq_receive_pmt_irq_n;
- 	/* MMC info */
- 	unsigned long mmc_tx_irq_n;
-@@ -190,18 +208,16 @@ struct stmmac_extra_stats {
- 	unsigned long mtl_rx_fifo_ctrl_active;
- 	unsigned long mac_rx_frame_ctrl_fifo;
- 	unsigned long mac_gmii_rx_proto_engine;
--	/* TSO */
--	unsigned long tx_tso_frames;
--	unsigned long tx_tso_nfrags;
- 	/* EST */
- 	unsigned long mtl_est_cgce;
- 	unsigned long mtl_est_hlbs;
- 	unsigned long mtl_est_hlbf;
- 	unsigned long mtl_est_btre;
- 	unsigned long mtl_est_btrlm;
--	/* per queue statistics */
--	struct stmmac_txq_stats txq_stats[MTL_MAX_TX_QUEUES];
--	struct stmmac_rxq_stats rxq_stats[MTL_MAX_RX_QUEUES];
-+	unsigned long rx_dropped;
-+	unsigned long rx_errors;
-+	unsigned long tx_dropped;
-+	unsigned long tx_errors;
- };
- 
- /* Safety Feature statistics exposed by ethtool */
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-index 1e714380d125..6b02c52ce917 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-@@ -440,6 +440,7 @@ static int sun8i_dwmac_dma_interrupt(struct stmmac_priv *priv,
- 				     struct stmmac_extra_stats *x, u32 chan,
- 				     u32 dir)
- {
-+	struct stmmac_pcpu_stats *stats = this_cpu_ptr(priv->xstats.pstats);
- 	u32 v;
- 	int ret = 0;
- 
-@@ -450,11 +451,18 @@ static int sun8i_dwmac_dma_interrupt(struct stmmac_priv *priv,
- 	else if (dir == DMA_DIR_TX)
- 		v &= EMAC_INT_MSK_TX;
- 
-+	u64_stats_update_begin(&stats->syncp);
- 	if (v & EMAC_TX_INT) {
- 		ret |= handle_tx;
--		x->tx_normal_irq_n++;
-+		stats->tx_normal_irq_n++;
- 	}
- 
-+	if (v & EMAC_RX_INT) {
-+		ret |= handle_rx;
-+		stats->rx_normal_irq_n++;
-+	}
-+	u64_stats_update_end(&stats->syncp);
-+
- 	if (v & EMAC_TX_DMA_STOP_INT)
- 		x->tx_process_stopped_irq++;
- 
-@@ -472,11 +480,6 @@ static int sun8i_dwmac_dma_interrupt(struct stmmac_priv *priv,
- 	if (v & EMAC_TX_EARLY_INT)
- 		x->tx_early_irq++;
- 
--	if (v & EMAC_RX_INT) {
--		ret |= handle_rx;
--		x->rx_normal_irq_n++;
--	}
--
- 	if (v & EMAC_RX_BUF_UA_INT)
- 		x->rx_buf_unav_irq++;
- 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac100_dma.c b/drivers/net/ethernet/stmicro/stmmac/dwmac100_dma.c
-index 1c32b1788f02..dea270f60cc3 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac100_dma.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac100_dma.c
-@@ -82,29 +82,24 @@ static void dwmac100_dump_dma_regs(struct stmmac_priv *priv,
- }
- 
- /* DMA controller has two counters to track the number of the missed frames. */
--static void dwmac100_dma_diagnostic_fr(struct net_device_stats *stats,
--				       struct stmmac_extra_stats *x,
-+static void dwmac100_dma_diagnostic_fr(struct stmmac_extra_stats *x,
- 				       void __iomem *ioaddr)
- {
- 	u32 csr8 = readl(ioaddr + DMA_MISSED_FRAME_CTR);
- 
- 	if (unlikely(csr8)) {
- 		if (csr8 & DMA_MISSED_FRAME_OVE) {
--			stats->rx_over_errors += 0x800;
- 			x->rx_overflow_cntr += 0x800;
- 		} else {
- 			unsigned int ove_cntr;
- 			ove_cntr = ((csr8 & DMA_MISSED_FRAME_OVE_CNTR) >> 17);
--			stats->rx_over_errors += ove_cntr;
- 			x->rx_overflow_cntr += ove_cntr;
- 		}
- 
- 		if (csr8 & DMA_MISSED_FRAME_OVE_M) {
--			stats->rx_missed_errors += 0xffff;
- 			x->rx_missed_cntr += 0xffff;
- 		} else {
- 			unsigned int miss_f = (csr8 & DMA_MISSED_FRAME_M_CNTR);
--			stats->rx_missed_errors += miss_f;
- 			x->rx_missed_cntr += miss_f;
- 		}
- 	}
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c b/drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c
-index 6a011d8633e8..89a14084c611 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c
-@@ -13,8 +13,7 @@
- #include "dwmac4.h"
- #include "dwmac4_descs.h"
- 
--static int dwmac4_wrback_get_tx_status(struct net_device_stats *stats,
--				       struct stmmac_extra_stats *x,
-+static int dwmac4_wrback_get_tx_status(struct stmmac_extra_stats *x,
- 				       struct dma_desc *p,
- 				       void __iomem *ioaddr)
- {
-@@ -40,15 +39,13 @@ static int dwmac4_wrback_get_tx_status(struct net_device_stats *stats,
- 			x->tx_frame_flushed++;
- 		if (unlikely(tdes3 & TDES3_LOSS_CARRIER)) {
- 			x->tx_losscarrier++;
--			stats->tx_carrier_errors++;
- 		}
- 		if (unlikely(tdes3 & TDES3_NO_CARRIER)) {
- 			x->tx_carrier++;
--			stats->tx_carrier_errors++;
- 		}
- 		if (unlikely((tdes3 & TDES3_LATE_COLLISION) ||
- 			     (tdes3 & TDES3_EXCESSIVE_COLLISION)))
--			stats->collisions +=
-+			x->tx_collision +=
- 			    (tdes3 & TDES3_COLLISION_COUNT_MASK)
- 			    >> TDES3_COLLISION_COUNT_SHIFT;
- 
-@@ -73,8 +70,7 @@ static int dwmac4_wrback_get_tx_status(struct net_device_stats *stats,
- 	return ret;
- }
- 
--static int dwmac4_wrback_get_rx_status(struct net_device_stats *stats,
--				       struct stmmac_extra_stats *x,
-+static int dwmac4_wrback_get_rx_status(struct stmmac_extra_stats *x,
- 				       struct dma_desc *p)
- {
- 	unsigned int rdes1 = le32_to_cpu(p->des1);
-@@ -93,7 +89,7 @@ static int dwmac4_wrback_get_rx_status(struct net_device_stats *stats,
- 
- 	if (unlikely(rdes3 & RDES3_ERROR_SUMMARY)) {
- 		if (unlikely(rdes3 & RDES3_GIANT_PACKET))
--			stats->rx_length_errors++;
-+			x->rx_length++;
- 		if (unlikely(rdes3 & RDES3_OVERFLOW_ERROR))
- 			x->rx_gmac_overflow++;
- 
-@@ -103,10 +99,8 @@ static int dwmac4_wrback_get_rx_status(struct net_device_stats *stats,
- 		if (unlikely(rdes3 & RDES3_RECEIVE_ERROR))
- 			x->rx_mii++;
- 
--		if (unlikely(rdes3 & RDES3_CRC_ERROR)) {
-+		if (unlikely(rdes3 & RDES3_CRC_ERROR))
- 			x->rx_crc_errors++;
--			stats->rx_crc_errors++;
--		}
- 
- 		if (unlikely(rdes3 & RDES3_DRIBBLE_ERROR))
- 			x->dribbling_bit++;
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac4_lib.c b/drivers/net/ethernet/stmicro/stmmac/dwmac4_lib.c
-index df41eac54058..6de82cb919ad 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac4_lib.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac4_lib.c
-@@ -168,6 +168,7 @@ void dwmac410_disable_dma_irq(struct stmmac_priv *priv, void __iomem *ioaddr,
- int dwmac4_dma_interrupt(struct stmmac_priv *priv, void __iomem *ioaddr,
- 			 struct stmmac_extra_stats *x, u32 chan, u32 dir)
- {
-+	struct stmmac_pcpu_stats *stats = this_cpu_ptr(priv->xstats.pstats);
- 	const struct dwmac4_addrs *dwmac4_addrs = priv->plat->dwmac4_addrs;
- 	u32 intr_status = readl(ioaddr + DMA_CHAN_STATUS(dwmac4_addrs, chan));
- 	u32 intr_en = readl(ioaddr + DMA_CHAN_INTR_ENA(dwmac4_addrs, chan));
-@@ -198,18 +199,22 @@ int dwmac4_dma_interrupt(struct stmmac_priv *priv, void __iomem *ioaddr,
- 		}
- 	}
- 	/* TX/RX NORMAL interrupts */
-+	u64_stats_update_begin(&stats->syncp);
- 	if (likely(intr_status & DMA_CHAN_STATUS_NIS))
--		x->normal_irq_n++;
-+		stats->normal_irq_n++;
-+
- 	if (likely(intr_status & DMA_CHAN_STATUS_RI)) {
--		x->rx_normal_irq_n++;
--		x->rxq_stats[chan].rx_normal_irq_n++;
-+		stats->rx_normal_irq_n++;
-+		stats->rxq_stats[chan].rx_normal_irq_n++;
- 		ret |= handle_rx;
- 	}
- 	if (likely(intr_status & DMA_CHAN_STATUS_TI)) {
--		x->tx_normal_irq_n++;
--		x->txq_stats[chan].tx_normal_irq_n++;
-+		stats->tx_normal_irq_n++;
-+		stats->txq_stats[chan].tx_normal_irq_n++;
- 		ret |= handle_tx;
- 	}
-+	u64_stats_update_end(&stats->syncp);
-+
- 	if (unlikely(intr_status & DMA_CHAN_STATUS_TBU))
- 		ret |= handle_tx;
- 	if (unlikely(intr_status & DMA_CHAN_STATUS_ERI))
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac_lib.c b/drivers/net/ethernet/stmicro/stmmac/dwmac_lib.c
-index 0b6f999a8305..bb938b334313 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac_lib.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac_lib.c
-@@ -10,6 +10,7 @@
- #include <linux/iopoll.h>
- #include "common.h"
- #include "dwmac_dma.h"
-+#include "stmmac.h"
- 
- #define GMAC_HI_REG_AE		0x80000000
- 
-@@ -161,6 +162,7 @@ static void show_rx_process_state(unsigned int status)
- int dwmac_dma_interrupt(struct stmmac_priv *priv, void __iomem *ioaddr,
- 			struct stmmac_extra_stats *x, u32 chan, u32 dir)
- {
-+	struct stmmac_pcpu_stats *stats = this_cpu_ptr(priv->xstats.pstats);
- 	int ret = 0;
- 	/* read the status register (CSR5) */
- 	u32 intr_status = readl(ioaddr + DMA_STATUS);
-@@ -208,19 +210,21 @@ int dwmac_dma_interrupt(struct stmmac_priv *priv, void __iomem *ioaddr,
- 	}
- 	/* TX/RX NORMAL interrupts */
- 	if (likely(intr_status & DMA_STATUS_NIS)) {
--		x->normal_irq_n++;
-+		u64_stats_update_begin(&stats->syncp);
-+		stats->normal_irq_n++;
- 		if (likely(intr_status & DMA_STATUS_RI)) {
- 			u32 value = readl(ioaddr + DMA_INTR_ENA);
- 			/* to schedule NAPI on real RIE event. */
- 			if (likely(value & DMA_INTR_ENA_RIE)) {
--				x->rx_normal_irq_n++;
-+				stats->rx_normal_irq_n++;
- 				ret |= handle_rx;
- 			}
- 		}
- 		if (likely(intr_status & DMA_STATUS_TI)) {
--			x->tx_normal_irq_n++;
-+			stats->tx_normal_irq_n++;
- 			ret |= handle_tx;
- 		}
-+		u64_stats_update_end(&stats->syncp);
- 		if (unlikely(intr_status & DMA_STATUS_ERI))
- 			x->rx_early_irq++;
- 	}
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_descs.c b/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_descs.c
-index 13c347ee8be9..fc82862a612c 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_descs.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_descs.c
-@@ -8,8 +8,7 @@
- #include "common.h"
- #include "dwxgmac2.h"
- 
--static int dwxgmac2_get_tx_status(struct net_device_stats *stats,
--				  struct stmmac_extra_stats *x,
-+static int dwxgmac2_get_tx_status(struct stmmac_extra_stats *x,
- 				  struct dma_desc *p, void __iomem *ioaddr)
- {
- 	unsigned int tdes3 = le32_to_cpu(p->des3);
-@@ -23,8 +22,7 @@ static int dwxgmac2_get_tx_status(struct net_device_stats *stats,
- 	return ret;
- }
- 
--static int dwxgmac2_get_rx_status(struct net_device_stats *stats,
--				  struct stmmac_extra_stats *x,
-+static int dwxgmac2_get_rx_status(struct stmmac_extra_stats *x,
- 				  struct dma_desc *p)
- {
- 	unsigned int rdes3 = le32_to_cpu(p->des3);
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_dma.c b/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_dma.c
-index 070bd912580b..5cf3e2f11892 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_dma.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_dma.c
-@@ -337,6 +337,7 @@ static int dwxgmac2_dma_interrupt(struct stmmac_priv *priv,
- 				  struct stmmac_extra_stats *x, u32 chan,
- 				  u32 dir)
- {
-+	struct stmmac_pcpu_stats *stats = this_cpu_ptr(priv->xstats.pstats);
- 	u32 intr_status = readl(ioaddr + XGMAC_DMA_CH_STATUS(chan));
- 	u32 intr_en = readl(ioaddr + XGMAC_DMA_CH_INT_EN(chan));
- 	int ret = 0;
-@@ -364,18 +365,20 @@ static int dwxgmac2_dma_interrupt(struct stmmac_priv *priv,
- 
- 	/* TX/RX NORMAL interrupts */
- 	if (likely(intr_status & XGMAC_NIS)) {
--		x->normal_irq_n++;
-+		u64_stats_update_begin(&stats->syncp);
-+		stats->normal_irq_n++;
- 
- 		if (likely(intr_status & XGMAC_RI)) {
--			x->rx_normal_irq_n++;
--			x->rxq_stats[chan].rx_normal_irq_n++;
-+			stats->rx_normal_irq_n++;
-+			stats->rxq_stats[chan].rx_normal_irq_n++;
- 			ret |= handle_rx;
- 		}
- 		if (likely(intr_status & (XGMAC_TI | XGMAC_TBU))) {
--			x->tx_normal_irq_n++;
--			x->txq_stats[chan].tx_normal_irq_n++;
-+			stats->tx_normal_irq_n++;
-+			stats->txq_stats[chan].tx_normal_irq_n++;
- 			ret |= handle_tx;
- 		}
-+		u64_stats_update_end(&stats->syncp);
- 	}
- 
- 	/* Clear interrupts */
-diff --git a/drivers/net/ethernet/stmicro/stmmac/enh_desc.c b/drivers/net/ethernet/stmicro/stmmac/enh_desc.c
-index a91d8f13a931..937b7a0466fc 100644
---- a/drivers/net/ethernet/stmicro/stmmac/enh_desc.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/enh_desc.c
-@@ -12,8 +12,7 @@
- #include "common.h"
- #include "descs_com.h"
- 
--static int enh_desc_get_tx_status(struct net_device_stats *stats,
--				  struct stmmac_extra_stats *x,
-+static int enh_desc_get_tx_status(struct stmmac_extra_stats *x,
- 				  struct dma_desc *p, void __iomem *ioaddr)
- {
- 	unsigned int tdes0 = le32_to_cpu(p->des0);
-@@ -38,15 +37,13 @@ static int enh_desc_get_tx_status(struct net_device_stats *stats,
- 
- 		if (unlikely(tdes0 & ETDES0_LOSS_CARRIER)) {
- 			x->tx_losscarrier++;
--			stats->tx_carrier_errors++;
- 		}
- 		if (unlikely(tdes0 & ETDES0_NO_CARRIER)) {
- 			x->tx_carrier++;
--			stats->tx_carrier_errors++;
- 		}
- 		if (unlikely((tdes0 & ETDES0_LATE_COLLISION) ||
- 			     (tdes0 & ETDES0_EXCESSIVE_COLLISIONS)))
--			stats->collisions +=
-+			x->tx_collision +=
- 				(tdes0 & ETDES0_COLLISION_COUNT_MASK) >> 3;
- 
- 		if (unlikely(tdes0 & ETDES0_EXCESSIVE_DEFERRAL))
-@@ -117,8 +114,7 @@ static int enh_desc_coe_rdes0(int ipc_err, int type, int payload_err)
- 	return ret;
- }
- 
--static void enh_desc_get_ext_status(struct net_device_stats *stats,
--				    struct stmmac_extra_stats *x,
-+static void enh_desc_get_ext_status(struct stmmac_extra_stats *x,
- 				    struct dma_extended_desc *p)
- {
- 	unsigned int rdes0 = le32_to_cpu(p->basic.des0);
-@@ -182,8 +178,7 @@ static void enh_desc_get_ext_status(struct net_device_stats *stats,
- 	}
- }
- 
--static int enh_desc_get_rx_status(struct net_device_stats *stats,
--				  struct stmmac_extra_stats *x,
-+static int enh_desc_get_rx_status(struct stmmac_extra_stats *x,
- 				  struct dma_desc *p)
- {
- 	unsigned int rdes0 = le32_to_cpu(p->des0);
-@@ -193,14 +188,14 @@ static int enh_desc_get_rx_status(struct net_device_stats *stats,
- 		return dma_own;
- 
- 	if (unlikely(!(rdes0 & RDES0_LAST_DESCRIPTOR))) {
--		stats->rx_length_errors++;
-+		x->rx_length++;
- 		return discard_frame;
- 	}
- 
- 	if (unlikely(rdes0 & RDES0_ERROR_SUMMARY)) {
- 		if (unlikely(rdes0 & RDES0_DESCRIPTOR_ERROR)) {
- 			x->rx_desc++;
--			stats->rx_length_errors++;
-+			x->rx_length++;
- 		}
- 		if (unlikely(rdes0 & RDES0_OVERFLOW_ERROR))
- 			x->rx_gmac_overflow++;
-@@ -209,7 +204,7 @@ static int enh_desc_get_rx_status(struct net_device_stats *stats,
- 			pr_err("\tIPC Csum Error/Giant frame\n");
- 
- 		if (unlikely(rdes0 & RDES0_COLLISION))
--			stats->collisions++;
-+			x->rx_collision++;
- 		if (unlikely(rdes0 & RDES0_RECEIVE_WATCHDOG))
- 			x->rx_watchdog++;
- 
-@@ -218,7 +213,6 @@ static int enh_desc_get_rx_status(struct net_device_stats *stats,
- 
- 		if (unlikely(rdes0 & RDES0_CRC_ERROR)) {
- 			x->rx_crc_errors++;
--			stats->rx_crc_errors++;
- 		}
- 		ret = discard_frame;
- 	}
-diff --git a/drivers/net/ethernet/stmicro/stmmac/hwif.h b/drivers/net/ethernet/stmicro/stmmac/hwif.h
-index 6ee7cf07cfd7..652af8f6e75f 100644
---- a/drivers/net/ethernet/stmicro/stmmac/hwif.h
-+++ b/drivers/net/ethernet/stmicro/stmmac/hwif.h
-@@ -57,8 +57,7 @@ struct stmmac_desc_ops {
- 	/* Last tx segment reports the transmit status */
- 	int (*get_tx_ls)(struct dma_desc *p);
- 	/* Return the transmit status looking at the TDES1 */
--	int (*tx_status)(struct net_device_stats *stats,
--			 struct stmmac_extra_stats *x,
-+	int (*tx_status)(struct stmmac_extra_stats *x,
- 			 struct dma_desc *p, void __iomem *ioaddr);
- 	/* Get the buffer size from the descriptor */
- 	int (*get_tx_len)(struct dma_desc *p);
-@@ -67,11 +66,9 @@ struct stmmac_desc_ops {
- 	/* Get the receive frame size */
- 	int (*get_rx_frame_len)(struct dma_desc *p, int rx_coe_type);
- 	/* Return the reception status looking at the RDES1 */
--	int (*rx_status)(struct net_device_stats *stats,
--			 struct stmmac_extra_stats *x,
-+	int (*rx_status)(struct stmmac_extra_stats *x,
- 			 struct dma_desc *p);
--	void (*rx_extended_status)(struct net_device_stats *stats,
--				   struct stmmac_extra_stats *x,
-+	void (*rx_extended_status)(struct stmmac_extra_stats *x,
- 				   struct dma_extended_desc *p);
- 	/* Set tx timestamp enable bit */
- 	void (*enable_tx_timestamp) (struct dma_desc *p);
-@@ -191,8 +188,7 @@ struct stmmac_dma_ops {
- 	void (*dma_tx_mode)(struct stmmac_priv *priv, void __iomem *ioaddr,
- 			    int mode, u32 channel, int fifosz, u8 qmode);
- 	/* To track extra statistic (if supported) */
--	void (*dma_diagnostic_fr)(struct net_device_stats *stats,
--				  struct stmmac_extra_stats *x,
-+	void (*dma_diagnostic_fr)(struct stmmac_extra_stats *x,
- 				  void __iomem *ioaddr);
- 	void (*enable_dma_transmission) (void __iomem *ioaddr);
- 	void (*enable_dma_irq)(struct stmmac_priv *priv, void __iomem *ioaddr,
-diff --git a/drivers/net/ethernet/stmicro/stmmac/norm_desc.c b/drivers/net/ethernet/stmicro/stmmac/norm_desc.c
-index 350e6670a576..68a7cfcb1d8f 100644
---- a/drivers/net/ethernet/stmicro/stmmac/norm_desc.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/norm_desc.c
-@@ -12,8 +12,7 @@
- #include "common.h"
- #include "descs_com.h"
- 
--static int ndesc_get_tx_status(struct net_device_stats *stats,
--			       struct stmmac_extra_stats *x,
-+static int ndesc_get_tx_status(struct stmmac_extra_stats *x,
- 			       struct dma_desc *p, void __iomem *ioaddr)
- {
- 	unsigned int tdes0 = le32_to_cpu(p->des0);
-@@ -31,15 +30,12 @@ static int ndesc_get_tx_status(struct net_device_stats *stats,
- 	if (unlikely(tdes0 & TDES0_ERROR_SUMMARY)) {
- 		if (unlikely(tdes0 & TDES0_UNDERFLOW_ERROR)) {
- 			x->tx_underflow++;
--			stats->tx_fifo_errors++;
- 		}
- 		if (unlikely(tdes0 & TDES0_NO_CARRIER)) {
- 			x->tx_carrier++;
--			stats->tx_carrier_errors++;
- 		}
- 		if (unlikely(tdes0 & TDES0_LOSS_CARRIER)) {
- 			x->tx_losscarrier++;
--			stats->tx_carrier_errors++;
- 		}
- 		if (unlikely((tdes0 & TDES0_EXCESSIVE_DEFERRAL) ||
- 			     (tdes0 & TDES0_EXCESSIVE_COLLISIONS) ||
-@@ -47,7 +43,7 @@ static int ndesc_get_tx_status(struct net_device_stats *stats,
- 			unsigned int collisions;
- 
- 			collisions = (tdes0 & TDES0_COLLISION_COUNT_MASK) >> 3;
--			stats->collisions += collisions;
-+			x->tx_collision += collisions;
- 		}
- 		ret = tx_err;
- 	}
-@@ -70,8 +66,7 @@ static int ndesc_get_tx_len(struct dma_desc *p)
-  * and, if required, updates the multicast statistics.
-  * In case of success, it returns good_frame because the GMAC device
-  * is supposed to be able to compute the csum in HW. */
--static int ndesc_get_rx_status(struct net_device_stats *stats,
--			       struct stmmac_extra_stats *x,
-+static int ndesc_get_rx_status(struct stmmac_extra_stats *x,
- 			       struct dma_desc *p)
- {
- 	int ret = good_frame;
-@@ -81,7 +76,7 @@ static int ndesc_get_rx_status(struct net_device_stats *stats,
- 		return dma_own;
- 
- 	if (unlikely(!(rdes0 & RDES0_LAST_DESCRIPTOR))) {
--		stats->rx_length_errors++;
-+		x->rx_length++;
- 		return discard_frame;
- 	}
- 
-@@ -96,11 +91,9 @@ static int ndesc_get_rx_status(struct net_device_stats *stats,
- 			x->ipc_csum_error++;
- 		if (unlikely(rdes0 & RDES0_COLLISION)) {
- 			x->rx_collision++;
--			stats->collisions++;
- 		}
- 		if (unlikely(rdes0 & RDES0_CRC_ERROR)) {
- 			x->rx_crc_errors++;
--			stats->rx_crc_errors++;
- 		}
- 		ret = discard_frame;
- 	}
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c
-index 2ae73ab842d4..a880f172c3dc 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c
-@@ -89,14 +89,6 @@ static const struct stmmac_stats stmmac_gstrings_stats[] = {
- 	/* Tx/Rx IRQ Events */
- 	STMMAC_STAT(rx_early_irq),
- 	STMMAC_STAT(threshold),
--	STMMAC_STAT(tx_pkt_n),
--	STMMAC_STAT(rx_pkt_n),
--	STMMAC_STAT(normal_irq_n),
--	STMMAC_STAT(rx_normal_irq_n),
--	STMMAC_STAT(napi_poll),
--	STMMAC_STAT(tx_normal_irq_n),
--	STMMAC_STAT(tx_clean),
--	STMMAC_STAT(tx_set_ic_bit),
- 	STMMAC_STAT(irq_receive_pmt_irq_n),
- 	/* MMC info */
- 	STMMAC_STAT(mmc_tx_irq_n),
-@@ -163,9 +155,6 @@ static const struct stmmac_stats stmmac_gstrings_stats[] = {
- 	STMMAC_STAT(mtl_rx_fifo_ctrl_active),
- 	STMMAC_STAT(mac_rx_frame_ctrl_fifo),
- 	STMMAC_STAT(mac_gmii_rx_proto_engine),
--	/* TSO */
--	STMMAC_STAT(tx_tso_frames),
--	STMMAC_STAT(tx_tso_nfrags),
- 	/* EST */
- 	STMMAC_STAT(mtl_est_cgce),
- 	STMMAC_STAT(mtl_est_hlbs),
-@@ -175,6 +164,30 @@ static const struct stmmac_stats stmmac_gstrings_stats[] = {
- };
- #define STMMAC_STATS_LEN ARRAY_SIZE(stmmac_gstrings_stats)
- 
-+struct stmmac_ethtool_pcpu_stats {
-+	char stat_string[ETH_GSTRING_LEN];
-+	int stat_offset;
-+};
-+
-+#define STMMAC_ETHTOOL_PCPU_STAT(m)	\
-+	{ #m, offsetof(struct stmmac_pcpu_stats, m) }
-+
-+static const struct stmmac_ethtool_pcpu_stats stmmac_gstrings_pcpu_stats[] = {
-+	/* Tx/Rx IRQ Events */
-+	STMMAC_ETHTOOL_PCPU_STAT(tx_pkt_n),
-+	STMMAC_ETHTOOL_PCPU_STAT(rx_pkt_n),
-+	STMMAC_ETHTOOL_PCPU_STAT(normal_irq_n),
-+	STMMAC_ETHTOOL_PCPU_STAT(rx_normal_irq_n),
-+	STMMAC_ETHTOOL_PCPU_STAT(napi_poll),
-+	STMMAC_ETHTOOL_PCPU_STAT(tx_normal_irq_n),
-+	STMMAC_ETHTOOL_PCPU_STAT(tx_clean),
-+	STMMAC_ETHTOOL_PCPU_STAT(tx_set_ic_bit),
-+	/* TSO */
-+	STMMAC_ETHTOOL_PCPU_STAT(tx_tso_frames),
-+	STMMAC_ETHTOOL_PCPU_STAT(tx_tso_nfrags),
-+};
-+#define STMMAC_PCPU_STATS_LEN ARRAY_SIZE(stmmac_gstrings_pcpu_stats)
-+
- /* HW MAC Management counters (if supported) */
- #define STMMAC_MMC_STAT(m)	\
- 	{ #m, sizeof_field(struct stmmac_counters, m),	\
-@@ -535,23 +548,37 @@ static void stmmac_get_per_qstats(struct stmmac_priv *priv, u64 *data)
- {
- 	u32 tx_cnt = priv->plat->tx_queues_to_use;
- 	u32 rx_cnt = priv->plat->rx_queues_to_use;
--	int q, stat;
-+	unsigned int start;
-+	int q, stat, cpu;
- 	char *p;
--
--	for (q = 0; q < tx_cnt; q++) {
--		p = (char *)priv + offsetof(struct stmmac_priv,
--					    xstats.txq_stats[q].tx_pkt_n);
--		for (stat = 0; stat < STMMAC_TXQ_STATS; stat++) {
--			*data++ = (*(unsigned long *)p);
--			p += sizeof(unsigned long);
-+	u64 *pos;
-+
-+	pos = data;
-+	for_each_possible_cpu(cpu) {
-+		struct stmmac_pcpu_stats *stats, snapshot;
-+
-+		data = pos;
-+		stats = per_cpu_ptr(priv->xstats.pstats, cpu);
-+		do {
-+			start = u64_stats_fetch_begin(&stats->syncp);
-+			snapshot = *stats;
-+		} while (u64_stats_fetch_retry(&stats->syncp, start));
-+
-+		for (q = 0; q < tx_cnt; q++) {
-+			p = (char *)&snapshot + offsetof(struct stmmac_pcpu_stats,
-+						    txq_stats[q].tx_pkt_n);
-+			for (stat = 0; stat < STMMAC_TXQ_STATS; stat++) {
-+				*data++ += (*(u64 *)p);
-+				p += sizeof(u64);
-+			}
- 		}
--	}
--	for (q = 0; q < rx_cnt; q++) {
--		p = (char *)priv + offsetof(struct stmmac_priv,
--					    xstats.rxq_stats[q].rx_pkt_n);
--		for (stat = 0; stat < STMMAC_RXQ_STATS; stat++) {
--			*data++ = (*(unsigned long *)p);
--			p += sizeof(unsigned long);
-+		for (q = 0; q < rx_cnt; q++) {
-+			p = (char *)&snapshot + offsetof(struct stmmac_pcpu_stats,
-+						    rxq_stats[q].rx_pkt_n);
-+			for (stat = 0; stat < STMMAC_RXQ_STATS; stat++) {
-+				*data++ += (*(u64 *)p);
-+				p += sizeof(u64);
-+			}
- 		}
- 	}
- }
-@@ -563,7 +590,8 @@ static void stmmac_get_ethtool_stats(struct net_device *dev,
- 	u32 rx_queues_count = priv->plat->rx_queues_to_use;
- 	u32 tx_queues_count = priv->plat->tx_queues_to_use;
- 	unsigned long count;
--	int i, j = 0, ret;
-+	unsigned int start;
-+	int i, j = 0, pos, ret, cpu;
- 
- 	if (priv->dma_cap.asp) {
- 		for (i = 0; i < STMMAC_SAFETY_FEAT_SIZE; i++) {
-@@ -574,8 +602,7 @@ static void stmmac_get_ethtool_stats(struct net_device *dev,
- 	}
- 
- 	/* Update the DMA HW counters for dwmac10/100 */
--	ret = stmmac_dma_diagnostic_fr(priv, &dev->stats, (void *) &priv->xstats,
--			priv->ioaddr);
-+	ret = stmmac_dma_diagnostic_fr(priv, &priv->xstats, priv->ioaddr);
- 	if (ret) {
- 		/* If supported, for new GMAC chips expose the MMC counters */
- 		if (priv->dma_cap.rmon) {
-@@ -606,6 +633,22 @@ static void stmmac_get_ethtool_stats(struct net_device *dev,
- 		data[j++] = (stmmac_gstrings_stats[i].sizeof_stat ==
- 			     sizeof(u64)) ? (*(u64 *)p) : (*(u32 *)p);
- 	}
-+	pos = j;
-+	for_each_possible_cpu(cpu) {
-+		struct stmmac_pcpu_stats *stats, snapshot;
-+
-+		stats = per_cpu_ptr(priv->xstats.pstats, cpu);
-+		j = pos;
-+		do {
-+			start = u64_stats_fetch_begin(&stats->syncp);
-+			snapshot = *stats;
-+		} while (u64_stats_fetch_retry(&stats->syncp, start));
-+
-+		for (i = 0; i < STMMAC_PCPU_STATS_LEN; i++) {
-+			char *p = (char *)&snapshot + stmmac_gstrings_pcpu_stats[i].stat_offset;
-+			data[j++] += *(u64 *)p;
-+		}
-+	}
- 	stmmac_get_per_qstats(priv, &data[j]);
- }
- 
-@@ -618,7 +661,7 @@ static int stmmac_get_sset_count(struct net_device *netdev, int sset)
- 
- 	switch (sset) {
- 	case ETH_SS_STATS:
--		len = STMMAC_STATS_LEN +
-+		len = STMMAC_STATS_LEN + STMMAC_PCPU_STATS_LEN +
- 		      STMMAC_TXQ_STATS * tx_cnt +
- 		      STMMAC_RXQ_STATS * rx_cnt;
- 
-@@ -695,6 +738,11 @@ static void stmmac_get_strings(struct net_device *dev, u32 stringset, u8 *data)
- 				ETH_GSTRING_LEN);
- 			p += ETH_GSTRING_LEN;
- 		}
-+		for (i = 0; i < STMMAC_PCPU_STATS_LEN; i++) {
-+			memcpy(p, stmmac_gstrings_pcpu_stats[i].stat_string,
-+				ETH_GSTRING_LEN);
-+			p += ETH_GSTRING_LEN;
-+		}
- 		stmmac_get_qstats_string(priv, p);
- 		break;
- 	case ETH_SS_TEST:
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index eb83396d6971..044c2726dec1 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -2425,6 +2425,7 @@ static void stmmac_dma_operation_mode(struct stmmac_priv *priv)
- 
- static bool stmmac_xdp_xmit_zc(struct stmmac_priv *priv, u32 queue, u32 budget)
- {
-+	struct stmmac_pcpu_stats *stats = this_cpu_ptr(priv->xstats.pstats);
- 	struct netdev_queue *nq = netdev_get_tx_queue(priv->dev, queue);
- 	struct stmmac_tx_queue *tx_q = &priv->dma_conf.tx_queue[queue];
- 	struct xsk_buff_pool *pool = tx_q->xsk_pool;
-@@ -2432,6 +2433,7 @@ static bool stmmac_xdp_xmit_zc(struct stmmac_priv *priv, u32 queue, u32 budget)
- 	struct dma_desc *tx_desc = NULL;
- 	struct xdp_desc xdp_desc;
- 	bool work_done = true;
-+	u32 tx_set_ic_bit = 0;
- 
- 	/* Avoids TX time-out as we are sharing with slow path */
- 	txq_trans_cond_update(nq);
-@@ -2492,7 +2494,7 @@ static bool stmmac_xdp_xmit_zc(struct stmmac_priv *priv, u32 queue, u32 budget)
- 		if (set_ic) {
- 			tx_q->tx_count_frames = 0;
- 			stmmac_set_tx_ic(priv, tx_desc);
--			priv->xstats.tx_set_ic_bit++;
-+			tx_set_ic_bit++;
- 		}
- 
- 		stmmac_prepare_tx_desc(priv, tx_desc, 1, xdp_desc.len,
-@@ -2504,6 +2506,9 @@ static bool stmmac_xdp_xmit_zc(struct stmmac_priv *priv, u32 queue, u32 budget)
- 		tx_q->cur_tx = STMMAC_GET_ENTRY(tx_q->cur_tx, priv->dma_conf.dma_tx_size);
- 		entry = tx_q->cur_tx;
- 	}
-+	u64_stats_update_begin(&stats->syncp);
-+	stats->tx_set_ic_bit += tx_set_ic_bit;
-+	u64_stats_update_end(&stats->syncp);
- 
- 	if (tx_desc) {
- 		stmmac_flush_tx_descriptors(priv, queue);
-@@ -2542,14 +2547,14 @@ static void stmmac_bump_dma_threshold(struct stmmac_priv *priv, u32 chan)
-  */
- static int stmmac_tx_clean(struct stmmac_priv *priv, int budget, u32 queue)
- {
-+	struct stmmac_pcpu_stats *stats = this_cpu_ptr(priv->xstats.pstats);
- 	struct stmmac_tx_queue *tx_q = &priv->dma_conf.tx_queue[queue];
- 	unsigned int bytes_compl = 0, pkts_compl = 0;
- 	unsigned int entry, xmits = 0, count = 0;
-+	u32 tx_packets = 0, tx_errors = 0;
- 
- 	__netif_tx_lock_bh(netdev_get_tx_queue(priv->dev, queue));
- 
--	priv->xstats.tx_clean++;
--
- 	tx_q->xsk_frames_done = 0;
- 
- 	entry = tx_q->dirty_tx;
-@@ -2580,8 +2585,7 @@ static int stmmac_tx_clean(struct stmmac_priv *priv, int budget, u32 queue)
- 		else
- 			p = tx_q->dma_tx + entry;
- 
--		status = stmmac_tx_status(priv, &priv->dev->stats,
--				&priv->xstats, p, priv->ioaddr);
-+		status = stmmac_tx_status(priv,	&priv->xstats, p, priv->ioaddr);
- 		/* Check if the descriptor is owned by the DMA */
- 		if (unlikely(status & tx_dma_own))
- 			break;
-@@ -2597,13 +2601,11 @@ static int stmmac_tx_clean(struct stmmac_priv *priv, int budget, u32 queue)
- 		if (likely(!(status & tx_not_ls))) {
- 			/* ... verify the status error condition */
- 			if (unlikely(status & tx_err)) {
--				priv->dev->stats.tx_errors++;
-+				tx_errors++;
- 				if (unlikely(status & tx_err_bump_tc))
- 					stmmac_bump_dma_threshold(priv, queue);
- 			} else {
--				priv->dev->stats.tx_packets++;
--				priv->xstats.tx_pkt_n++;
--				priv->xstats.txq_stats[queue].tx_pkt_n++;
-+				tx_packets++;
- 			}
- 			if (skb)
- 				stmmac_get_tx_hwtstamp(priv, p, skb);
-@@ -2707,6 +2709,15 @@ static int stmmac_tx_clean(struct stmmac_priv *priv, int budget, u32 queue)
- 			      STMMAC_COAL_TIMER(priv->tx_coal_timer[queue]),
- 			      HRTIMER_MODE_REL);
- 
-+	u64_stats_update_begin(&stats->syncp);
-+	stats->tx_packets += tx_packets;
-+	stats->tx_pkt_n += tx_packets;
-+	stats->tx_clean++;
-+	stats->txq_stats[queue].tx_pkt_n += tx_packets;
-+	u64_stats_update_end(&stats->syncp);
-+
-+	priv->xstats.tx_errors += tx_errors;
-+
- 	__netif_tx_unlock_bh(netdev_get_tx_queue(priv->dev, queue));
- 
- 	/* Combine decisions from TX clean and XSK TX */
-@@ -2734,7 +2745,7 @@ static void stmmac_tx_err(struct stmmac_priv *priv, u32 chan)
- 			    tx_q->dma_tx_phy, chan);
- 	stmmac_start_tx_dma(priv, chan);
- 
--	priv->dev->stats.tx_errors++;
-+	priv->xstats.tx_errors++;
- 	netif_tx_wake_queue(netdev_get_tx_queue(priv->dev, chan));
- }
- 
-@@ -4102,6 +4113,7 @@ static netdev_tx_t stmmac_tso_xmit(struct sk_buff *skb, struct net_device *dev)
- 	int nfrags = skb_shinfo(skb)->nr_frags;
- 	u32 queue = skb_get_queue_mapping(skb);
- 	unsigned int first_entry, tx_packets;
-+	struct stmmac_pcpu_stats *stats;
- 	int tmp_pay_len = 0, first_tx;
- 	struct stmmac_tx_queue *tx_q;
- 	bool has_vlan, set_ic;
-@@ -4254,7 +4266,6 @@ static netdev_tx_t stmmac_tso_xmit(struct sk_buff *skb, struct net_device *dev)
- 
- 		tx_q->tx_count_frames = 0;
- 		stmmac_set_tx_ic(priv, desc);
--		priv->xstats.tx_set_ic_bit++;
- 	}
- 
- 	/* We've used all descriptors we need for this skb, however,
-@@ -4270,9 +4281,14 @@ static netdev_tx_t stmmac_tso_xmit(struct sk_buff *skb, struct net_device *dev)
- 		netif_tx_stop_queue(netdev_get_tx_queue(priv->dev, queue));
- 	}
- 
--	dev->stats.tx_bytes += skb->len;
--	priv->xstats.tx_tso_frames++;
--	priv->xstats.tx_tso_nfrags += nfrags;
-+	stats = this_cpu_ptr(priv->xstats.pstats);
-+	u64_stats_update_begin(&stats->syncp);
-+	stats->tx_bytes += skb->len;
-+	stats->tx_tso_frames++;
-+	stats->tx_tso_nfrags += nfrags;
-+	if (set_ic)
-+		stats->tx_set_ic_bit++;
-+	u64_stats_update_end(&stats->syncp);
- 
- 	if (priv->sarc_type)
- 		stmmac_set_desc_sarc(priv, first, priv->sarc_type);
-@@ -4322,7 +4338,7 @@ static netdev_tx_t stmmac_tso_xmit(struct sk_buff *skb, struct net_device *dev)
- dma_map_err:
- 	dev_err(priv->device, "Tx dma map failed\n");
- 	dev_kfree_skb(skb);
--	priv->dev->stats.tx_dropped++;
-+	priv->xstats.tx_dropped++;
- 	return NETDEV_TX_OK;
- }
- 
-@@ -4344,6 +4360,7 @@ static netdev_tx_t stmmac_xmit(struct sk_buff *skb, struct net_device *dev)
- 	int nfrags = skb_shinfo(skb)->nr_frags;
- 	int gso = skb_shinfo(skb)->gso_type;
- 	struct dma_edesc *tbs_desc = NULL;
-+	struct stmmac_pcpu_stats *stats;
- 	struct dma_desc *desc, *first;
- 	struct stmmac_tx_queue *tx_q;
- 	bool has_vlan, set_ic;
-@@ -4476,7 +4493,6 @@ static netdev_tx_t stmmac_xmit(struct sk_buff *skb, struct net_device *dev)
- 
- 		tx_q->tx_count_frames = 0;
- 		stmmac_set_tx_ic(priv, desc);
--		priv->xstats.tx_set_ic_bit++;
- 	}
- 
- 	/* We've used all descriptors we need for this skb, however,
-@@ -4503,7 +4519,12 @@ static netdev_tx_t stmmac_xmit(struct sk_buff *skb, struct net_device *dev)
- 		netif_tx_stop_queue(netdev_get_tx_queue(priv->dev, queue));
- 	}
- 
--	dev->stats.tx_bytes += skb->len;
-+	stats = this_cpu_ptr(priv->xstats.pstats);
-+	u64_stats_update_begin(&stats->syncp);
-+	stats->tx_bytes += skb->len;
-+	if (set_ic)
-+		stats->tx_set_ic_bit++;
-+	u64_stats_update_end(&stats->syncp);
- 
- 	if (priv->sarc_type)
- 		stmmac_set_desc_sarc(priv, first, priv->sarc_type);
-@@ -4565,7 +4586,7 @@ static netdev_tx_t stmmac_xmit(struct sk_buff *skb, struct net_device *dev)
- dma_map_err:
- 	netdev_err(priv->dev, "Tx DMA map failed\n");
- 	dev_kfree_skb(skb);
--	priv->dev->stats.tx_dropped++;
-+	priv->xstats.tx_dropped++;
- 	return NETDEV_TX_OK;
- }
- 
-@@ -4710,6 +4731,7 @@ static unsigned int stmmac_rx_buf2_len(struct stmmac_priv *priv,
- static int stmmac_xdp_xmit_xdpf(struct stmmac_priv *priv, int queue,
- 				struct xdp_frame *xdpf, bool dma_map)
- {
-+	struct stmmac_pcpu_stats *stats = this_cpu_ptr(priv->xstats.pstats);
- 	struct stmmac_tx_queue *tx_q = &priv->dma_conf.tx_queue[queue];
- 	unsigned int entry = tx_q->cur_tx;
- 	struct dma_desc *tx_desc;
-@@ -4768,7 +4790,9 @@ static int stmmac_xdp_xmit_xdpf(struct stmmac_priv *priv, int queue,
- 	if (set_ic) {
- 		tx_q->tx_count_frames = 0;
- 		stmmac_set_tx_ic(priv, tx_desc);
--		priv->xstats.tx_set_ic_bit++;
-+		u64_stats_update_begin(&stats->syncp);
-+		stats->tx_set_ic_bit++;
-+		u64_stats_update_end(&stats->syncp);
- 	}
- 
- 	stmmac_enable_dma_transmission(priv, priv->ioaddr);
-@@ -4913,6 +4937,7 @@ static void stmmac_dispatch_skb_zc(struct stmmac_priv *priv, u32 queue,
- 				   struct dma_desc *p, struct dma_desc *np,
- 				   struct xdp_buff *xdp)
- {
-+	struct stmmac_pcpu_stats *stats = this_cpu_ptr(priv->xstats.pstats);
- 	struct stmmac_channel *ch = &priv->channel[queue];
- 	unsigned int len = xdp->data_end - xdp->data;
- 	enum pkt_hash_types hash_type;
-@@ -4922,7 +4947,7 @@ static void stmmac_dispatch_skb_zc(struct stmmac_priv *priv, u32 queue,
- 
- 	skb = stmmac_construct_skb_zc(ch, xdp);
- 	if (!skb) {
--		priv->dev->stats.rx_dropped++;
-+		priv->xstats.rx_dropped++;
- 		return;
- 	}
- 
-@@ -4941,8 +4966,10 @@ static void stmmac_dispatch_skb_zc(struct stmmac_priv *priv, u32 queue,
- 	skb_record_rx_queue(skb, queue);
- 	napi_gro_receive(&ch->rxtx_napi, skb);
- 
--	priv->dev->stats.rx_packets++;
--	priv->dev->stats.rx_bytes += len;
-+	u64_stats_update_begin(&stats->syncp);
-+	stats->rx_packets++;
-+	stats->rx_bytes += len;
-+	u64_stats_update_end(&stats->syncp);
- }
- 
- static bool stmmac_rx_refill_zc(struct stmmac_priv *priv, u32 queue, u32 budget)
-@@ -5015,8 +5042,10 @@ static struct stmmac_xdp_buff *xsk_buff_to_stmmac_ctx(struct xdp_buff *xdp)
- 
- static int stmmac_rx_zc(struct stmmac_priv *priv, int limit, u32 queue)
- {
-+	struct stmmac_pcpu_stats *stats = this_cpu_ptr(priv->xstats.pstats);
- 	struct stmmac_rx_queue *rx_q = &priv->dma_conf.rx_queue[queue];
- 	unsigned int count = 0, error = 0, len = 0;
-+	u32 rx_errors = 0, rx_dropped = 0;
- 	int dirty = stmmac_rx_dirty(priv, queue);
- 	unsigned int next_entry = rx_q->cur_rx;
- 	unsigned int desc_size;
-@@ -5077,8 +5106,7 @@ static int stmmac_rx_zc(struct stmmac_priv *priv, int limit, u32 queue)
- 			p = rx_q->dma_rx + entry;
- 
- 		/* read the status of the incoming frame */
--		status = stmmac_rx_status(priv, &priv->dev->stats,
--					  &priv->xstats, p);
-+		status = stmmac_rx_status(priv, &priv->xstats, p);
- 		/* check if managed by the DMA otherwise go ahead */
- 		if (unlikely(status & dma_own))
- 			break;
-@@ -5100,8 +5128,7 @@ static int stmmac_rx_zc(struct stmmac_priv *priv, int limit, u32 queue)
- 			break;
- 
- 		if (priv->extend_desc)
--			stmmac_rx_extended_status(priv, &priv->dev->stats,
--						  &priv->xstats,
-+			stmmac_rx_extended_status(priv, &priv->xstats,
- 						  rx_q->dma_erx + entry);
- 		if (unlikely(status == discard_frame)) {
- 			xsk_buff_free(buf->xdp);
-@@ -5109,7 +5136,7 @@ static int stmmac_rx_zc(struct stmmac_priv *priv, int limit, u32 queue)
- 			dirty++;
- 			error = 1;
- 			if (!priv->hwts_rx_en)
--				priv->dev->stats.rx_errors++;
-+				rx_errors++;
- 		}
- 
- 		if (unlikely(error && (status & rx_not_ls)))
-@@ -5157,7 +5184,7 @@ static int stmmac_rx_zc(struct stmmac_priv *priv, int limit, u32 queue)
- 			break;
- 		case STMMAC_XDP_CONSUMED:
- 			xsk_buff_free(buf->xdp);
--			priv->dev->stats.rx_dropped++;
-+			rx_dropped++;
- 			break;
- 		case STMMAC_XDP_TX:
- 		case STMMAC_XDP_REDIRECT:
-@@ -5178,8 +5205,13 @@ static int stmmac_rx_zc(struct stmmac_priv *priv, int limit, u32 queue)
- 
- 	stmmac_finalize_xdp_rx(priv, xdp_status);
- 
--	priv->xstats.rx_pkt_n += count;
--	priv->xstats.rxq_stats[queue].rx_pkt_n += count;
-+	u64_stats_update_begin(&stats->syncp);
-+	stats->rx_pkt_n += count;
-+	stats->rxq_stats[queue].rx_pkt_n += count;
-+	u64_stats_update_end(&stats->syncp);
-+
-+	priv->xstats.rx_dropped += rx_dropped;
-+	priv->xstats.rx_errors += rx_errors;
- 
- 	if (xsk_uses_need_wakeup(rx_q->xsk_pool)) {
- 		if (failure || stmmac_rx_dirty(priv, queue) > 0)
-@@ -5203,6 +5235,8 @@ static int stmmac_rx_zc(struct stmmac_priv *priv, int limit, u32 queue)
-  */
- static int stmmac_rx(struct stmmac_priv *priv, int limit, u32 queue)
- {
-+	struct stmmac_pcpu_stats *stats = this_cpu_ptr(priv->xstats.pstats);
-+	u32 rx_errors = 0, rx_dropped = 0, rx_bytes = 0, rx_packets = 0;
- 	struct stmmac_rx_queue *rx_q = &priv->dma_conf.rx_queue[queue];
- 	struct stmmac_channel *ch = &priv->channel[queue];
- 	unsigned int count = 0, error = 0, len = 0;
-@@ -5267,8 +5301,7 @@ static int stmmac_rx(struct stmmac_priv *priv, int limit, u32 queue)
- 			p = rx_q->dma_rx + entry;
- 
- 		/* read the status of the incoming frame */
--		status = stmmac_rx_status(priv, &priv->dev->stats,
--				&priv->xstats, p);
-+		status = stmmac_rx_status(priv, &priv->xstats, p);
- 		/* check if managed by the DMA otherwise go ahead */
- 		if (unlikely(status & dma_own))
- 			break;
-@@ -5285,14 +5318,13 @@ static int stmmac_rx(struct stmmac_priv *priv, int limit, u32 queue)
- 		prefetch(np);
- 
- 		if (priv->extend_desc)
--			stmmac_rx_extended_status(priv, &priv->dev->stats,
--					&priv->xstats, rx_q->dma_erx + entry);
-+			stmmac_rx_extended_status(priv, &priv->xstats, rx_q->dma_erx + entry);
- 		if (unlikely(status == discard_frame)) {
- 			page_pool_recycle_direct(rx_q->page_pool, buf->page);
- 			buf->page = NULL;
- 			error = 1;
- 			if (!priv->hwts_rx_en)
--				priv->dev->stats.rx_errors++;
-+				rx_errors++;
- 		}
- 
- 		if (unlikely(error && (status & rx_not_ls)))
-@@ -5360,7 +5392,7 @@ static int stmmac_rx(struct stmmac_priv *priv, int limit, u32 queue)
- 							   virt_to_head_page(ctx.xdp.data),
- 							   sync_len, true);
- 					buf->page = NULL;
--					priv->dev->stats.rx_dropped++;
-+					rx_dropped++;
- 
- 					/* Clear skb as it was set as
- 					 * status by XDP program.
-@@ -5389,7 +5421,7 @@ static int stmmac_rx(struct stmmac_priv *priv, int limit, u32 queue)
- 
- 			skb = napi_alloc_skb(&ch->rx_napi, buf1_len);
- 			if (!skb) {
--				priv->dev->stats.rx_dropped++;
-+				rx_dropped++;
- 				count++;
- 				goto drain_data;
- 			}
-@@ -5449,8 +5481,8 @@ static int stmmac_rx(struct stmmac_priv *priv, int limit, u32 queue)
- 		napi_gro_receive(&ch->rx_napi, skb);
- 		skb = NULL;
- 
--		priv->dev->stats.rx_packets++;
--		priv->dev->stats.rx_bytes += len;
-+		rx_packets++;
-+		rx_bytes += len;
- 		count++;
- 	}
- 
-@@ -5465,8 +5497,15 @@ static int stmmac_rx(struct stmmac_priv *priv, int limit, u32 queue)
- 
- 	stmmac_rx_refill(priv, queue);
- 
--	priv->xstats.rx_pkt_n += count;
--	priv->xstats.rxq_stats[queue].rx_pkt_n += count;
-+	u64_stats_update_begin(&stats->syncp);
-+	stats->rx_packets += rx_packets;
-+	stats->rx_bytes += rx_bytes;
-+	stats->rx_pkt_n += count;
-+	stats->rxq_stats[queue].rx_pkt_n += count;
-+	u64_stats_update_end(&stats->syncp);
-+
-+	priv->xstats.rx_dropped += rx_dropped;
-+	priv->xstats.rx_errors += rx_errors;
- 
- 	return count;
- }
-@@ -5476,10 +5515,14 @@ static int stmmac_napi_poll_rx(struct napi_struct *napi, int budget)
- 	struct stmmac_channel *ch =
- 		container_of(napi, struct stmmac_channel, rx_napi);
- 	struct stmmac_priv *priv = ch->priv_data;
-+	struct stmmac_pcpu_stats *stats;
- 	u32 chan = ch->index;
- 	int work_done;
- 
--	priv->xstats.napi_poll++;
-+	stats = this_cpu_ptr(priv->xstats.pstats);
-+	u64_stats_update_begin(&stats->syncp);
-+	stats->napi_poll++;
-+	u64_stats_update_end(&stats->syncp);
- 
- 	work_done = stmmac_rx(priv, budget, chan);
- 	if (work_done < budget && napi_complete_done(napi, work_done)) {
-@@ -5498,10 +5541,14 @@ static int stmmac_napi_poll_tx(struct napi_struct *napi, int budget)
- 	struct stmmac_channel *ch =
- 		container_of(napi, struct stmmac_channel, tx_napi);
- 	struct stmmac_priv *priv = ch->priv_data;
-+	struct stmmac_pcpu_stats *stats;
- 	u32 chan = ch->index;
- 	int work_done;
- 
--	priv->xstats.napi_poll++;
-+	stats = this_cpu_ptr(priv->xstats.pstats);
-+	u64_stats_update_begin(&stats->syncp);
-+	stats->napi_poll++;
-+	u64_stats_update_end(&stats->syncp);
- 
- 	work_done = stmmac_tx_clean(priv, budget, chan);
- 	work_done = min(work_done, budget);
-@@ -5522,10 +5569,14 @@ static int stmmac_napi_poll_rxtx(struct napi_struct *napi, int budget)
- 	struct stmmac_channel *ch =
- 		container_of(napi, struct stmmac_channel, rxtx_napi);
- 	struct stmmac_priv *priv = ch->priv_data;
-+	struct stmmac_pcpu_stats *stats;
- 	int rx_done, tx_done, rxtx_done;
- 	u32 chan = ch->index;
- 
--	priv->xstats.napi_poll++;
-+	stats = this_cpu_ptr(priv->xstats.pstats);
-+	u64_stats_update_begin(&stats->syncp);
-+	stats->napi_poll++;
-+	u64_stats_update_end(&stats->syncp);
- 
- 	tx_done = stmmac_tx_clean(priv, budget, chan);
- 	tx_done = min(tx_done, budget);
-@@ -6784,6 +6835,46 @@ int stmmac_xsk_wakeup(struct net_device *dev, u32 queue, u32 flags)
- 	return 0;
- }
- 
-+static void stmmac_get_stats64(struct net_device *dev, struct rtnl_link_stats64 *stats)
-+{
-+	struct stmmac_priv *priv = netdev_priv(dev);
-+	unsigned int start;
-+	int cpu;
-+
-+	for_each_possible_cpu(cpu) {
-+		struct stmmac_pcpu_stats *cpu_stats;
-+		u64 rx_packets;
-+		u64 rx_bytes;
-+		u64 tx_packets;
-+		u64 tx_bytes;
-+
-+		cpu_stats = per_cpu_ptr(priv->xstats.pstats, cpu);
-+		do {
-+			start = u64_stats_fetch_begin(&cpu_stats->syncp);
-+			rx_packets = cpu_stats->rx_packets;
-+			rx_bytes   = cpu_stats->rx_bytes;
-+			tx_packets = cpu_stats->tx_packets;
-+			tx_bytes   = cpu_stats->tx_bytes;
-+		} while (u64_stats_fetch_retry(&cpu_stats->syncp, start));
-+
-+		stats->rx_packets += rx_packets;
-+		stats->rx_bytes += rx_bytes;
-+		stats->tx_packets += tx_packets;
-+		stats->tx_bytes += tx_bytes;
-+	}
-+
-+	stats->rx_dropped = priv->xstats.rx_dropped;
-+	stats->rx_errors = priv->xstats.rx_errors;
-+	stats->tx_dropped = priv->xstats.tx_dropped;
-+	stats->tx_errors = priv->xstats.tx_errors;
-+	stats->tx_carrier_errors = priv->xstats.tx_losscarrier + priv->xstats.tx_carrier;
-+	stats->collisions = priv->xstats.tx_collision + priv->xstats.rx_collision;
-+	stats->rx_length_errors = priv->xstats.rx_length;
-+	stats->rx_crc_errors = priv->xstats.rx_crc_errors;
-+	stats->rx_over_errors = priv->xstats.rx_overflow_cntr;
-+	stats->rx_missed_errors = priv->xstats.rx_missed_cntr;
-+}
-+
- static const struct net_device_ops stmmac_netdev_ops = {
- 	.ndo_open = stmmac_open,
- 	.ndo_start_xmit = stmmac_xmit,
-@@ -6794,6 +6885,7 @@ static const struct net_device_ops stmmac_netdev_ops = {
- 	.ndo_set_rx_mode = stmmac_set_rx_mode,
- 	.ndo_tx_timeout = stmmac_tx_timeout,
- 	.ndo_eth_ioctl = stmmac_ioctl,
-+	.ndo_get_stats64 = stmmac_get_stats64,
- 	.ndo_setup_tc = stmmac_setup_tc,
- 	.ndo_select_queue = stmmac_select_queue,
- #ifdef CONFIG_NET_POLL_CONTROLLER
-@@ -7156,6 +7248,10 @@ int stmmac_dvr_probe(struct device *device,
- 	priv->device = device;
- 	priv->dev = ndev;
- 
-+	priv->xstats.pstats = devm_netdev_alloc_pcpu_stats(device, struct stmmac_pcpu_stats);
-+	if (!priv->xstats.pstats)
-+		return -ENOMEM;
-+
- 	stmmac_set_ethtool_ops(ndev);
- 	priv->pause = pause;
- 	priv->plat = plat_dat;
--- 
-2.40.1
+And I would go even further and say that we shouldn't make *any*
+assumption about the behaviour of the parent.
 
+> The reason is, that I want to prevent users of ccu_nkm from making
+> mistakes when defining their clocks (which includes the parent of their
+> nkm clock).
+>
+> Please read below the details on why I think that.
+>
+> [...]
+>
+> >> No. I didn't. My assumption is: If ccu_nkm_find_best is asked for the
+> >> best rate for rate =3D 449035712, it should try to include 449035712 in
+> >> its candidates, agreed?
+> >>
+> >> Example 1:
+> >> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >> rate=3D449035712, n=3D11, k=3D3, m=3D16:
+> >> We should as for a parent rate of 217714285, because:
+> >> 217714285 * 11 * 3 / 16 =3D 449035712
+> >>
+> >> How do we get from 449035712 to 217714285, you ask?
+> >>
+> >>       DIV_ROUND_UP(rate * m, n * k)
+> >
+> > Why are we rounding up? I don't think the hardware will round up there.
+>=20
+> Being a "software guy" it is also my understanding that the hardware
+> does not round up here (or round down for that matter).
+
+That's my understanding as well.
+
+> But anyway, my concern is the rate's representation *in software*. The
+> clk drivers are using unsigned long to represent the actual rate. This
+> is not a lossless representation. In other words, the value (i.e. the
+> software representation) of that rate is, of course, a "lie". The
+> hardware clock is running at some rate that is hopefully close to what
+> we represent in software, but still it's an abstraction.
+>=20
+> For example, the user (e.g. in my example a panel) asks us for a rate
+> that is represented in softwares as 449035712. Given the values n=3D11,
+> k=3D3, m=3D16, we can *only* represent this value in software if the pare=
+nt
+> gives us a rate that is represented in software as 217714285. Therefore,
+> I think it is reasonable to ask the parent for that rate (217714285).
+
+I somewhat agree, but I still don't think it's worth rounding up.
+
+If we don't round up (and assuming the parent itself won't round the
+clock), we end up with a rate of 449035710 using the dividers you
+mentioned. It's a .0000005% deviation (I hope I didn't screw up the
+number of 0s). It's negligible for all practical purposes, and it's not
+worth making the code inconsistent and eyebrow raising.
+
+> >> Do you agree that we should ask the parent for 217714285 in case we wa=
+nt
+> >> a rate of 449035712 and we're currently evaluating the case n=3D11, k=
+=3D3,
+> >> m=3D16?
+> >>
+> >> We should not ask for a parent rate of 217714284, because:
+> >> 217714284 * 11 * 3 / 16 =3D 449035710
+> >>
+> >> Example 2:
+> >> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >> rate=3D500000000, n=3D11, k=3D3, m=3D16:
+> >> Here we should not ask the parent for
+> >>       DIV_ROUND_UP(rate * m, n * k)
+> >> because that would be 242424243.
+> >>
+> >> 242424243 * 11 * 3 / 16 =3D 500000001
+> >>
+> >> We (the NKM clock, not the parent!) would overshoot (please see at the
+> >> end of this mail, why (for now) I don't want to support overshooting in
+> >> the NKM clock).
+> >>
+> >> Instead we should as for a parent rate of 242424242, because:
+> >> 242424242 * 11 * 3 / 16 =3D 499999999
+> >>
+> >> In conclusion, there are cases, where we (the NKM clock) have to ask t=
+he
+> >> parent for
+> >>       DIV_ROUND_UP(rate * m, n * k)
+> >> And there are also cases, where we have to ask the parent for
+> >>       rate * m / (n * k)
+> >
+> > I mean, I think you're overthinking this.
+> >
+> > If you never round up and mimic how the hardware behaves, and test all
+> > combination, then eventually you'll find the closest rate.
+> >
+> > If you don't because the parent doesn't look for the closest rate, then
+> > the parent should be changed too.
+> >
+> > It really is that simple.
+> >
+> >> This is what the code is trying to do. Maybe it's easier to look at V2
+> >> because I extracted the calcultion of the optimal parent rate into a
+> >> separate function hoping that this makes things clearer.
+> >>
+> >> Let me stress this: When calculating the optimal rate for the parent,
+> >> I'm not making any assumptions here about how the PARENT clock rounds.
+> >> In fact, I assume that the parent could be perfect and always provides
+> >> the rate it is asked for. I only take into account how the nkm clock
+> >> rounds.
+> >
+> > At the very least, you assume that the parent rounding can be "wrong"
+> > and try to work around that.
+>=20
+> No. I'm not assuming anything about the parent. But I *know* that if we
+> (nkm) want to get a rate that is represented in softwares as 449035712
+> and given the values n=3D11, k=3D3, m=3D16, we (nkm) must get the rate fr=
+om
+> the parent that the parent represents in software as 217714285, because
+> I know that we (nkm) calculate *our* (nkm) rate using
+>     parent * n * k / m
+>=20
+> So if (!) we want to give the user the rate that they ask for, why not
+> ask the parent for the rate that we need (217714285)?
+>=20
+> I admit that I'm making assumptions here. My assumptions are that we
+>  a. want to at least try to give the user what they asked for
+>  b. without making assumptions about the parent's behaviour.
+>=20
+> Those assumptions could of course be wrong, but, honestly, I would find
+> that confusing.
+
+I guess my point leans more towards the "social" side than the
+mathematical one. If I followed you so far, the precision you expect to
+gain is in the <1Hz range (and I've been in sick leave for a while, so
+sorry if I didn't before). The rate is in the 100MHz range.
+
+So the precision gain is pretty much nothing. Sure, it's closer from a
+mathematical standpoint. But there's zero benefit from it.
+
+However, it comes at the cost of a code that is definitely more
+complicated (or less naive, depending on how you look at it I guess :))
+and will be harder to figure out for someone that jumps into the driver.
+
+So the trade-off doesn't really make fixing it worth it to me.
+
+> >> > you ask the parent to compute whatever is closest to that optimal pa=
+rent
+> >> > rate.
+> >> >
+> >> > It's the parent responsibility now. It's the parent decision to figu=
+re
+> >> > out what "the closest" means, if it can change rate, if it has any r=
+ange
+> >> > limitation, etc. You can't work around that.
+> >> >
+> >> > What you actually want there is the parent to actually provide the
+> >> > closest rate, even if it means overshooting.
+> >> >
+> >>
+> >> I want to ask the parent for a rate, that would actually result in the
+> >> rate that nkm_find_best was asked for. Are you asking me to instead ask
+> >> the parent for a rate that doesn't fit that criterion?
+> >
+> > No. I'm asking to call clk_hw_round_rate(parent_hw, rate * m / (n * k))
+> > and use whatever value it returned.
+> >
+> > If it requires changing the parent clock to improve its round_rate
+> > behaviour, then do that too.
+> >
+>=20
+> Hmmm... Okay. So you *are* saying, that I should make changes to the
+> parent so that we do not need to request the exact rate we want from the
+> parent. But I really don't understand why.
+
+No, sorry. I initially thought that you were working around "divider"
+rounding issue (as opposed to integer like you mentionned above) with
+the parent not providing its optimal rate, and you adjusting based on
+that offset.
+
+> As I wrote above, I'm not making any assumptions of how and if the
+> parent rounds. My code is rounding *prior* to asking the parent. Your
+> proposal on the other hand *requires* changing the parent to round
+> closest where mine does not.
+>=20
+> My concern is, that we could then end up with the situation that someone
+> defines an nkm clock in their SoC which has CLK_SET_RATE_PARENT set, but
+> does not set the ROUND_CLOSEST flag on the parent, because it's not
+> immediately apparent why they should do that.
+
+It's going to happen, and probably happens at the moment already,
+because not only the NKM clocks are affected, but virtually all of them,
+and most don't use ROUND_CLOSEST.
+
+And to some extent, it's fine. We would handle it like any other bug: if
+we ever encounter one, we'll write a fix, backport it to stable and all
+will be fine.
+
+You can't figure out all the use-cases we'll require in the future
+anyway.
+
+> Let's assume that hypothetical board were the A64, the nkm clock were pll=
+-mipi,
+> and the parent were pll-video0 and we "forget" to set ROUND_CLOSEST on
+> pll-video0:
+>=20
+> When pll-mipi nkm clock is asked via determine_rate() for a rate of
+> 449064000 it would return 449035712 and a parent rate of 217714285
+> (using n=3D11, k=3D3, m=3D16, but those details aren't returned by
+> determine_rate()).
+>=20
+> Eventually, determine_rate() will be called again, but this time for a
+> rate of 449035712. The user already knows that we can provide that,
+> because we told them (see previous paragraph). But since we're
+> truncating when calculating the rate that we'd like the parent to
+> provide, we end up asking the parent for 217714284 when we actually need
+> it to provide 217714285. So we now *require* the parent to find the
+> closest and additionally we must *hope* that the parent is incapable of
+> providing the rate that we asked for.
+
+I mean... yeah. It's what abstraction is all about. For all we know, the
+parent to pll-mipi could be a crystal that can't change its frequency
+and we should deal with that. Or it could be an ideal clock that always
+returns the rate you ask for. Or a firmware clock that behaves like an
+ideal clock but lies about it :)
+
+It's that clock responsibility to do its best to provide the rate we ask
+for.
+
+And if we need to make it behave better, then it's fine too. So your
+example is indeed true, but it's more of a case of "let's send another
+patch" rather than trying to figure out all possible cases and try to
+figure things out accordingly. Because you won't be able to figure out
+all possible cases for the current SoCs and the next ones, and the
+workloads that people are going to run on those SoCs anyway.
+
+> >> If you carefully look at ccu_mp, you will see that it would ignore
+> >> cases when its parent had rounded up. ccu_nkm is no different.
+> >> Teaching all of sunxi-ng's clocks to respect ROUND_CLOSEST is a
+> >> totally different beast. For now, sunxi-ng always expects rounding
+> >> down.
+> >
+> > Then change that?
+>=20
+> You told me that both over- and undershooting are fine when
+> determining the rate, *but also* "it's a bit context specific which one
+> we should favour. If we were to do anything, it would be to support both
+> and let the clock driver select which behaviour it wants." (see
+> https://lore.kernel.org/all/flngzi4henkzcpzwdexencdkw77h52g3nduup7pwctpwf=
+iuznk@eewnnut5mvsq/)
+>=20
+> So, I can't just change NKM's parent's default behavior (which is an NM
+> clock in my case), because, if I understand correctly, I would have to
+> introduce a "ROUND_CLOSEST" flag for NM clocks.
+
+Sure
+
+> But then I feel like I would have to document somewhere that when
+> setting CLK_SET_RATE_PARENT for an NKM clock, that the parent clock
+> needs to ROUND_CLOSEST, in order to avoid drifting away from the
+> requested rate in the successive calls that are made to
+> ccu_nkm_determine_rate(), which I tried to explain above and in previous
+> messages.
+
+That's kind of what I meant too. Whether "drifting away" is an issue is
+context specific too. for some clocks it just doesn't matter. Nobody
+ever complained that the register clock of the MMC controller was
+drifting away, because it doesn't affect the system in the slightest.
+
+The video clock tree (and possibly others) will be affected though, and
+we'll indeed need to add that flag. But we're doing it all the time (and
+sometimes get it wrong) for things like which clocks should be left
+enabled for example.
+
+> Instead we could introduce the following function, like I suggested in
+> V2 of this patchset. The advantage is that it both *documents* the
+> dilemma for developers of ccu_nkm and also *avoids* it for users of
+> ccu_nkm.
+>=20
+> static unsigned long optimal_parent_rate(unsigned long rate, unsigned lon=
+g n,
+> 				 unsigned long k, unsigned long m)
+> {
+> 	unsigned long _rate, parent;
+>=20
+> 	// We must first try to find the desired parent rate that is rounded up,=
+ because there are
+> 	// cases where truncating makes us miss the requested rate.
+> 	// E.g. rate=3D449035712, n=3D11, k=3D3, m=3D16
+> 	// When truncating, we'd get parent=3D217714284 and calculating the rate=
+ from that would give
+> 	// us 449035710. When rounding up, we get parent=3D217714285 which would=
+ give us the requested
+> 	// rate of 449035712.
+> 	parent =3D DIV_ROUND_UP(rate * m, n * k);
+>=20
+> 	// But there are other cases, where rounding up the parent gives us a to=
+o high rate.
+> 	// Therefore, we need to check for this case and, if necessary, truncate=
+ the parent rate
+> 	// instead of rounding up.
+> 	_rate =3D parent * n * k / m;
+> 	if (_rate > rate)
+> 		parent =3D rate * m / (n * k);
+> 	return parent;
+> }
+>=20
+> And then we ask the parent for that optimal parent rate we just
+> calculated. I feel like that's an easy thing to do.
+
+We're back to the trade-off I was mentioning earlier. I'm not against it
+on principle. However, if it's not absolutely required, then I don't
+think it's a good idea to merge it.
+
+Especially if it's to workaround a parent flag missing. A clock flag
+patch is easy to read, write, understand, review, merge and maintain.
+It's basically a nop to merge provided the commit log is decent enough.
+
+That function is none of those things.
+
+Maxime
+
+--wprkehaddrchdknb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZJCY+AAKCRDj7w1vZxhR
+xYPGAQDqaPGRRdu92BOGsrqSfDX6VPP28nVp2Y/Ji2VE56LAwAEA2BAxuGYnB+Kd
+hQagMPrGDx93QjNJzmt/M0ALoZa40wc=
+=Gwwl
+-----END PGP SIGNATURE-----
+
+--wprkehaddrchdknb--
