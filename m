@@ -1,429 +1,174 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2131.outbound.protection.outlook.com [40.107.215.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80EBC13AF9
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Jun 2023 18:05:50 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id 7B4433200986;
-	Mon, 19 Jun 2023 14:05:48 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Mon, 19 Jun 2023 14:05:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1687197948; x=1687284348; bh=el
-	QaRNZVxlUq2csY8D9qNeou1zsE9u4oPia1Dl5rJUY=; b=GAEURsyK8cNf0fMYRW
-	vfT4g/XFGExFv3uBSysBhyC4arNrGlmj+H/2mjo5g97WHfleidSdOLEnUxN1vJX+
-	XRSQIPcLLRg5pmQEcL2r0zWixM7fIzs9PQJAbkMKYrkZQWHkfdzW0J44aDJUoJL6
-	TZS6GW1JSTUS75Q5JNT7T42LFokcU06NiRZs2EgObr+BKG4PUH5RlCuATxpkUnb4
-	fpBvjsFX0Fpiw+Uw8UPH9aZNz3S+7TxOHJVNZt0u1Ghl/FznxhQH5SonG3fVe4yl
-	hN6aQaZX+2KU6TBwtuej42Ggw2xhlAmCSynB0v+WN6hf0VFbvPkNIGaNnAEV4xlX
-	blQA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1687197948; x=1687284348; bh=elQaRNZVxlUq2
-	csY8D9qNeou1zsE9u4oPia1Dl5rJUY=; b=SuCsOF9GM9dgnsdFJXWMHoXwMEmHO
-	H88qAUBxZXv5tcIHZiN/CgmrqZGA3QOidUbc3WKJfCdvr7JDf22pWhUW8wcMj1j9
-	7VNX0/B6MNxPhccUqVuiOgMjuTv35BVk+Z7OlEjWwrUl7nGAFQnYunljttTWITwg
-	DKtpTqfPnN4G+FpC4EgEoD0VWYLEjgV9BQa+E7cu26nZJNgLalmMDRJqtjqXo3Z4
-	ysXVPcxePfH/RPzFybcNyeomzDhjuk1mTqye1cDWepUY1fPKJKACsh+8p676euOH
-	kpTt5YI39A/JKqxw1kyOMp5lauXyWKMmY3MwleYvgg7QGw2M56lU5FdUg==
-X-ME-Sender: <xms:-piQZC-Sb1nj8YV10lNK-DdJYDwzXtVoIBOF3C7y7Pvjhi7snSCwew>
-    <xme:-piQZCuUIR8OepTR0qXTEN2uFii8wwWR57GK7ixqcrH94HqtqFys96JBtpj4GqFmH
-    QQkKJLGWy3RY2OCVag>
-X-ME-Received: <xmr:-piQZIAQb0WyFfqA6SiVHa_N2DCXmlPiF2Ywfb6tdd7KPYcaBZ3lGt7Hty3MKMQHahBp6chozJ2_uyYaZ2shRg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeefvddguddulecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehgtdfsredttddvnecuhfhrohhmpeforgig
-    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
-    grthhtvghrnheptdfgudekieeguefhleehfedthffggeefgfduueeihfeuueelkeevtedv
-    iedtvdeinecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgv
-    tghh
-X-ME-Proxy: <xmx:-piQZKdyANQCjlfvC15_hiRBxwLH6BEMK4Y6FyTRBzc3IslCEiNDbQ>
-    <xmx:-piQZHOfamvmiQrrU2zEM-FkSjlQajYV7xRYXNnZ9cIgN5SzG9_5gQ>
-    <xmx:-piQZEnSkcBdn0a_8AexsHv7VZZKyxGdasmKcTbPLxbp5wJFSTCV1Q>
-    <xmx:_JiQZIH00wufb4N7gDttWPr0n32bTamPtYrgnLjRw1exojLCKY20bA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 19 Jun 2023 14:05:46 -0400 (EDT)
-Date: Mon, 19 Jun 2023 20:05:44 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Roman Beranek <me@crly.cz>, Samuel Holland <samuel@sholland.org>, 
-	Stephen Boyd <sboyd@kernel.org>, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/2] clk: sunxi-ng: nkm: consider alternative parent
- rates when finding rate
-Message-ID: <yj6ss64s7p2uaslodj5zklrwhegz54bgh4l4wmldv6cccggepz@yombds4hij3c>
-References: <20230605190745.366882-1-frank@oltmanns.dev>
- <20230605190745.366882-2-frank@oltmanns.dev>
- <2bvcukogzhcdbfsrruylgw5fbezaqjpcojqaambfoiv5fc2upy@ffumn5sevbeb>
- <875y7y1f0d.fsf@oltmanns.dev>
- <sijbhopoxuw5wodyry3smg7tm4wzoc7k6xakt4qdvxqsok32mv@u7rh4dct5ya6>
- <87a5x41w5r.fsf@oltmanns.dev>
- <unoskbtcteluxj7g3xkwc7ngcmglvcbm5ah25m7huhqxwd4dj3@nmfxbedwyu54>
- <87bkhbhnol.fsf@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F111C144
+	for <linux-sunxi@lists.linux.dev>; Tue, 20 Jun 2023 09:11:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C/IJEP3F7JSUj9WnS/d7cG8JC/f2kW9Q4cZLLDsCNFTuWQwssk/IyufVTS+66CXmehRVI/+0Ek+o+Lj1da3PENlfY0eszbcusAUdU2XA6NFTR1HogNxT50psbpfhdFnUoLQo1xPSRCN1ZrlvpPUPP89A420ABV9uboEsP+whcaU9MKUsIqrxmhbeMbTkxGVi763ZyGYBNinNf+uHiilflNnpVu+NLKIcUU6VG82dojAJ55lGUY8s2uoyATSf52S7Lhj75kmqCDeUeLi4uCnsgSHzUwygIDD18uqi941wE8cP75H3K2TV7H22wduSzlyci1HJ1y4W8iS7F14Q/VYxEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Fg3RpZ8J48pTxAFiIbg/orgixVeXEximnLov/38xDZk=;
+ b=Z+XgkBtWEM890DB3S+6CuGalnZ4OdypbVyUrjoXu9oAuksfrM+HZD4JUQZNgF4sGpqZyOACM+pDTBP12Mnhjn9PAkG+7xxnZgqd+QpMqV+GX+QDgSR8G+jmULle2xbYpyopoKCb93LKds/HlFX3nI3Dv6PClL9FXBTxqSJd+t6regWrm7gtWGRvJfdamOL0kPfUM2hM16CEwPEYkZRUyZm2EYMl16b+8bsKBAmrf664kqw2knbir4PNcnxs3KDqH5/s2uIntLLpXssVo7Lk2EdEGcPf+jnCgwKK6tnai3vDhWNYh5eYxEA5r+qrDUpMEYbAWSOeQjHDl3KfQyDzHXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Fg3RpZ8J48pTxAFiIbg/orgixVeXEximnLov/38xDZk=;
+ b=Nsm38KVp5DPvBxG36kD6/fSeBlfQzs+CbBKuahyU1TAtIjwfg9T04vKp5llWCqr0hX7OZ3HzNwMdlz3UeGeTCLTuFO8RNrD4MrZO2Z5lsOUe2v2D/tIiPg/DrYgD+Nq06z0eTA94WnLars7ZxXynM1ivuKYnntGjdtveBvIL6AMS9hQMi6diRK5Cykc+iN1ZajehoMBkuWC83nBW9FEeInkzR43mYb6EJ6UQuzJ1CTRARy3FuqF+1w/AmI6/I1NSIEm/ncTBCqsxoDwWYDeBE1x5UhPQjMbWJ6aeddx7mxpDWsOjSv1dFQv0EQRPvXt6D9uOaN3oLMTvYdIFZoEKUQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
+ by TYZPR06MB4510.apcprd06.prod.outlook.com (2603:1096:400:65::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.29; Tue, 20 Jun
+ 2023 09:10:59 +0000
+Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
+ ([fe80::fa0e:6c06:7474:285c]) by SEZPR06MB5269.apcprd06.prod.outlook.com
+ ([fe80::fa0e:6c06:7474:285c%4]) with mapi id 15.20.6500.036; Tue, 20 Jun 2023
+ 09:10:58 +0000
+From: Yangtao Li <frank.li@vivo.com>
+To: glaroque@baylibre.com,
+	rafael@kernel.org,
+	daniel.lezcano@linaro.org,
+	amitk@kernel.org,
+	rui.zhang@intel.com,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	linux-imx@nxp.com,
+	agross@kernel.org,
+	andersson@kernel.org,
+	konrad.dybcio@linaro.org,
+	thara.gopinath@gmail.com,
+	anarsoul@gmail.com,
+	tiny.windzz@gmail.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	thierry.reding@gmail.com,
+	jonathanh@nvidia.com,
+	edubezval@gmail.com,
+	j-keerthy@ti.com,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	bchihi@baylibre.com,
+	f.fainelli@gmail.com,
+	niklas.soderlund+renesas@ragnatech.se
+Cc: linux-pm@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	Yangtao Li <frank.li@vivo.com>
+Subject: [PATCH v4 01/11] thermal/hwmon: Add error information printing for devm_thermal_add_hwmon_sysfs()
+Date: Tue, 20 Jun 2023 17:07:22 +0800
+Message-Id: <20230620090732.50025-1-frank.li@vivo.com>
+X-Mailer: git-send-email 2.39.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI1PR02CA0014.apcprd02.prod.outlook.com
+ (2603:1096:4:1f7::9) To SEZPR06MB5269.apcprd06.prod.outlook.com
+ (2603:1096:101:78::6)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wprkehaddrchdknb"
-Content-Disposition: inline
-In-Reply-To: <87bkhbhnol.fsf@oltmanns.dev>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB5269:EE_|TYZPR06MB4510:EE_
+X-MS-Office365-Filtering-Correlation-Id: 50865fcc-3e30-4cce-9e46-08db716e4290
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	mcXeAwP9+tegG0ue6QCid28UoZgOHC48TZu2Xh067aSne9DO398lZdWajTOpfNZ3sHNbiQh6z/vL9EqJRX3xxsbf6jKUGlEim+Ac3YTW1a2vN+zU/GFViCol75MtkdxQTtlDc1yvcMPWx3QFg4y3GCzKtycuZmC1DFCin9XFetsPnsxMWrwgXk5a/KMW7SF35RcT0KllJhnANKoQ/7oNcBo+4HNgqkfWu4vLBtmiJp+RZYEG0LcnZYkm/mX8YZpnF26Af0Mw/akOW8BxEXYmGZm9wko+4fhqcj9u0UXHbRhm1byH6H4lxP+++eJJAcko5cnEA2jh5ES12L1ObLS+frhEN2d4xeA5bz/f7m+DIAEIeCJLv41wcbV2r7nvc6Vq3+eh/8KautdsD3sVi/kJlLqwe9pZWLXO51b35QnX1Uxpv0+PCXYgc3Nz8aDtQ04YsKOia8MiBWkvymySXD+4UmLhR/ZzdcZ+bRXaoK+2zKIdgvvPYl/PNCX/5YhTvCp6Hefs/GLJL+nuGRGfNKTo2BbaCyc2CwkKnmk2K5zk9aLz3fZjF0AqbsvdHF4Rfs+tkkUMfpZQ1YHUZUVyKecUme49nmZ0s0zuQkQSM9GePoODQtFzsrZjBdqxAp67MZcF1ypTZOKIyjgvfGEYPhSabw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(346002)(376002)(366004)(39850400004)(396003)(451199021)(478600001)(52116002)(6666004)(6486002)(921005)(5660300002)(8936002)(8676002)(36756003)(41300700001)(2906002)(86362001)(7416002)(7406005)(38100700002)(38350700002)(66476007)(66556008)(316002)(66946007)(4326008)(107886003)(26005)(1076003)(6512007)(6506007)(186003)(83380400001)(2616005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?b1Uj4/q4Nl53T/pKlgDOUhtxxf9GpXM4M/Ap+F4u5z4iN/Qmg0dui6NtW9ot?=
+ =?us-ascii?Q?9DKv9TmzYw97O4I3RrZFID84bJFjIdYUWPzPeov48Zs8vkit1rah3ilEyI4x?=
+ =?us-ascii?Q?1rL8cHVCqj9JmHa/JPHEGeoiwAU4UZDEkUSlzKdW+WYH+eVdC0FydbiU+P5Y?=
+ =?us-ascii?Q?3cJU1xD/gA28VvQtjvCywY0U5nMNcQbTIVDArmrlSR4ZKigBNdDfp0x+9kbf?=
+ =?us-ascii?Q?4/r4asvCsCSyZATsKEwXgDtvtN8g5fKFm5VQ8AYbCMOg1aTf/28c/OUqbbdp?=
+ =?us-ascii?Q?dqayVHCWZ+OsAlHEvMMZzoHtrdFxKii0l+bdXOj/8dr0CQbdvOl+HoUOwTwP?=
+ =?us-ascii?Q?JK+zLB/3FG8rWBWQZdsgwhC8opxug+cKc4WX2OovEbHYuFwAAs6Cg+L5mTzN?=
+ =?us-ascii?Q?V1Pj2UnMtbesWIV5on1Wvk3PwClhJd8waCCNcsVojZce855MUi1JswX80xde?=
+ =?us-ascii?Q?SZBpljm7K2j/FfDsUn+/UT/Qzhy4DI8TnwbLxpJ/LpBpWCROc8ZK6GlHfrPh?=
+ =?us-ascii?Q?nRhSzIOBNHvlS15R/kpOWZ/ruin6L0M/dZ5ibkvV6X5t2vhQ5Wphlfe3S5Wv?=
+ =?us-ascii?Q?umv31nieZKa61Lgx0ZFs7Su0DXpVFwaA0cyzWpgUYpyjuUVtXt25cUQSwUcg?=
+ =?us-ascii?Q?bbkN/ecIa2IH98H7yMezVBkeqO8gjKpe6YVZ9mlnN+8yBhes9EQHtXLobMcl?=
+ =?us-ascii?Q?jeUuQmoctAFVPInQGQobjJZCbF6S5xNEtfasw5utBlQQDYoFFeaZabGUFDKx?=
+ =?us-ascii?Q?GSBRO7ZB1T6bwGMicxgDVsaf+9W/Sq1Tm/AXgNiJyFTExJvNS62Xir6qQKMB?=
+ =?us-ascii?Q?+Hq/VUk+NsKZrABYjuEg8eZX3OgvGOmzBbloSF8xuUxz84EwkhKeAe5aLXqg?=
+ =?us-ascii?Q?/5Wdglemz/O3PEaMBhKHRJJjG5TA0YFTm42L1g/OoA2XhYz3njA3Ijlcw2eC?=
+ =?us-ascii?Q?TmYBkSNsystXBiL87vxwmq13gFl3umSSp5ZbvrysUbyWV8s+VaoefMspKLQ8?=
+ =?us-ascii?Q?q0szdVDuM1SnAyGvmH0B17Z5JTZ8ggafDuZS4ofOkGlFmi9iFKL/xqctT3YT?=
+ =?us-ascii?Q?b2Rz+9Fwjp1O0e5xx248f6m+0h55ma/QFcT6nM/ZE8lW6Or3cE86ZaAVSiHT?=
+ =?us-ascii?Q?TH5amavCiYu2BOTc7I5Ro1unfepNbZpMB07fgh4zvR9iuBV8rGj5A7mSYrMz?=
+ =?us-ascii?Q?E19l4rJ6IRwzLhI/I5U+Xz+3+m/EIfUAmVdXFPjBx6n2o/x94pEi04ygEJWN?=
+ =?us-ascii?Q?LnZQ6vLEO98vpxCFM4zFUW2dk/njbBIgizg7B4OstDxbHFcn6L+Q8jVyVbl6?=
+ =?us-ascii?Q?+EeXDyPJuxmonOLRx8qfTVjch8yLlL8v5UZlnhsFsYJTbPKj9R1fx8GOp0jL?=
+ =?us-ascii?Q?26ZrPnr/BrJV3qs5SLd9wHnEDb8x4ojpmlvIv9gqOVV0yCY3AmwHBqZsLSeN?=
+ =?us-ascii?Q?MIArwxDbpHYSzPgkGH9Fm8Vmp+x/8Pvww5M+2v6A8tIDuNe8ug3a4sh73IOi?=
+ =?us-ascii?Q?sK18Pyavg3a14SJNk1n4CAeEWqyZHG0C9NEUvWQ0A2ElBtZrRuRmSM0Dy+AJ?=
+ =?us-ascii?Q?HzOWCflL8sy8Pnz6oSueYuehxVk9Y3CRJpWZ1vR3?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 50865fcc-3e30-4cce-9e46-08db716e4290
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2023 09:10:58.3474
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cRdwlglLptAdbsf+fDelvnkU0ca1dC8qCsY8B9xFf8Fv7UTVcUcW8d2OMOP5+T4xsHmfYhgF0YsyOcCkzbKOTQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB4510
 
+Ensure that all error handling branches print error information. In this
+way, when this function fails, the upper-layer functions can directly
+return an error code without missing debugging information. Otherwise,
+the error message will be printed redundantly or missing.
 
---wprkehaddrchdknb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Yangtao Li <frank.li@vivo.com>
+---
+v4:
+-merge two generic-adc patch into one
+v3:
+-cleanup lvts_thermal
+v2:
+-convert to dev_warn
+ drivers/thermal/thermal_hwmon.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-On Mon, Jun 19, 2023 at 10:16:26AM +0200, Frank Oltmanns wrote:
-> Hi Maxime,
->=20
-> the essence of my following ramblings:
->  - I do think it is reasonable that nkm is asking its parent for the
->    rate that nkm actually needs from said parent to fulfill the request.
->  - I don't think nkm should make assumptions about the rounding
->    behaviour of the parent.
+diff --git a/drivers/thermal/thermal_hwmon.c b/drivers/thermal/thermal_hwmon.c
+index fbe55509e307..c3ae44659b81 100644
+--- a/drivers/thermal/thermal_hwmon.c
++++ b/drivers/thermal/thermal_hwmon.c
+@@ -271,11 +271,14 @@ int devm_thermal_add_hwmon_sysfs(struct device *dev, struct thermal_zone_device
+ 
+ 	ptr = devres_alloc(devm_thermal_hwmon_release, sizeof(*ptr),
+ 			   GFP_KERNEL);
+-	if (!ptr)
++	if (!ptr) {
++		dev_warn(dev, "Failed to allocate device resource data\n");
+ 		return -ENOMEM;
++	}
+ 
+ 	ret = thermal_add_hwmon_sysfs(tz);
+ 	if (ret) {
++		dev_warn(dev, "Failed to add hwmon sysfs attributes\n");
+ 		devres_free(ptr);
+ 		return ret;
+ 	}
+-- 
+2.39.0
 
-I guess we agree :)
-
-And I would go even further and say that we shouldn't make *any*
-assumption about the behaviour of the parent.
-
-> The reason is, that I want to prevent users of ccu_nkm from making
-> mistakes when defining their clocks (which includes the parent of their
-> nkm clock).
->
-> Please read below the details on why I think that.
->
-> [...]
->
-> >> No. I didn't. My assumption is: If ccu_nkm_find_best is asked for the
-> >> best rate for rate =3D 449035712, it should try to include 449035712 in
-> >> its candidates, agreed?
-> >>
-> >> Example 1:
-> >> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >> rate=3D449035712, n=3D11, k=3D3, m=3D16:
-> >> We should as for a parent rate of 217714285, because:
-> >> 217714285 * 11 * 3 / 16 =3D 449035712
-> >>
-> >> How do we get from 449035712 to 217714285, you ask?
-> >>
-> >>       DIV_ROUND_UP(rate * m, n * k)
-> >
-> > Why are we rounding up? I don't think the hardware will round up there.
->=20
-> Being a "software guy" it is also my understanding that the hardware
-> does not round up here (or round down for that matter).
-
-That's my understanding as well.
-
-> But anyway, my concern is the rate's representation *in software*. The
-> clk drivers are using unsigned long to represent the actual rate. This
-> is not a lossless representation. In other words, the value (i.e. the
-> software representation) of that rate is, of course, a "lie". The
-> hardware clock is running at some rate that is hopefully close to what
-> we represent in software, but still it's an abstraction.
->=20
-> For example, the user (e.g. in my example a panel) asks us for a rate
-> that is represented in softwares as 449035712. Given the values n=3D11,
-> k=3D3, m=3D16, we can *only* represent this value in software if the pare=
-nt
-> gives us a rate that is represented in software as 217714285. Therefore,
-> I think it is reasonable to ask the parent for that rate (217714285).
-
-I somewhat agree, but I still don't think it's worth rounding up.
-
-If we don't round up (and assuming the parent itself won't round the
-clock), we end up with a rate of 449035710 using the dividers you
-mentioned. It's a .0000005% deviation (I hope I didn't screw up the
-number of 0s). It's negligible for all practical purposes, and it's not
-worth making the code inconsistent and eyebrow raising.
-
-> >> Do you agree that we should ask the parent for 217714285 in case we wa=
-nt
-> >> a rate of 449035712 and we're currently evaluating the case n=3D11, k=
-=3D3,
-> >> m=3D16?
-> >>
-> >> We should not ask for a parent rate of 217714284, because:
-> >> 217714284 * 11 * 3 / 16 =3D 449035710
-> >>
-> >> Example 2:
-> >> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >> rate=3D500000000, n=3D11, k=3D3, m=3D16:
-> >> Here we should not ask the parent for
-> >>       DIV_ROUND_UP(rate * m, n * k)
-> >> because that would be 242424243.
-> >>
-> >> 242424243 * 11 * 3 / 16 =3D 500000001
-> >>
-> >> We (the NKM clock, not the parent!) would overshoot (please see at the
-> >> end of this mail, why (for now) I don't want to support overshooting in
-> >> the NKM clock).
-> >>
-> >> Instead we should as for a parent rate of 242424242, because:
-> >> 242424242 * 11 * 3 / 16 =3D 499999999
-> >>
-> >> In conclusion, there are cases, where we (the NKM clock) have to ask t=
-he
-> >> parent for
-> >>       DIV_ROUND_UP(rate * m, n * k)
-> >> And there are also cases, where we have to ask the parent for
-> >>       rate * m / (n * k)
-> >
-> > I mean, I think you're overthinking this.
-> >
-> > If you never round up and mimic how the hardware behaves, and test all
-> > combination, then eventually you'll find the closest rate.
-> >
-> > If you don't because the parent doesn't look for the closest rate, then
-> > the parent should be changed too.
-> >
-> > It really is that simple.
-> >
-> >> This is what the code is trying to do. Maybe it's easier to look at V2
-> >> because I extracted the calcultion of the optimal parent rate into a
-> >> separate function hoping that this makes things clearer.
-> >>
-> >> Let me stress this: When calculating the optimal rate for the parent,
-> >> I'm not making any assumptions here about how the PARENT clock rounds.
-> >> In fact, I assume that the parent could be perfect and always provides
-> >> the rate it is asked for. I only take into account how the nkm clock
-> >> rounds.
-> >
-> > At the very least, you assume that the parent rounding can be "wrong"
-> > and try to work around that.
->=20
-> No. I'm not assuming anything about the parent. But I *know* that if we
-> (nkm) want to get a rate that is represented in softwares as 449035712
-> and given the values n=3D11, k=3D3, m=3D16, we (nkm) must get the rate fr=
-om
-> the parent that the parent represents in software as 217714285, because
-> I know that we (nkm) calculate *our* (nkm) rate using
->     parent * n * k / m
->=20
-> So if (!) we want to give the user the rate that they ask for, why not
-> ask the parent for the rate that we need (217714285)?
->=20
-> I admit that I'm making assumptions here. My assumptions are that we
->  a. want to at least try to give the user what they asked for
->  b. without making assumptions about the parent's behaviour.
->=20
-> Those assumptions could of course be wrong, but, honestly, I would find
-> that confusing.
-
-I guess my point leans more towards the "social" side than the
-mathematical one. If I followed you so far, the precision you expect to
-gain is in the <1Hz range (and I've been in sick leave for a while, so
-sorry if I didn't before). The rate is in the 100MHz range.
-
-So the precision gain is pretty much nothing. Sure, it's closer from a
-mathematical standpoint. But there's zero benefit from it.
-
-However, it comes at the cost of a code that is definitely more
-complicated (or less naive, depending on how you look at it I guess :))
-and will be harder to figure out for someone that jumps into the driver.
-
-So the trade-off doesn't really make fixing it worth it to me.
-
-> >> > you ask the parent to compute whatever is closest to that optimal pa=
-rent
-> >> > rate.
-> >> >
-> >> > It's the parent responsibility now. It's the parent decision to figu=
-re
-> >> > out what "the closest" means, if it can change rate, if it has any r=
-ange
-> >> > limitation, etc. You can't work around that.
-> >> >
-> >> > What you actually want there is the parent to actually provide the
-> >> > closest rate, even if it means overshooting.
-> >> >
-> >>
-> >> I want to ask the parent for a rate, that would actually result in the
-> >> rate that nkm_find_best was asked for. Are you asking me to instead ask
-> >> the parent for a rate that doesn't fit that criterion?
-> >
-> > No. I'm asking to call clk_hw_round_rate(parent_hw, rate * m / (n * k))
-> > and use whatever value it returned.
-> >
-> > If it requires changing the parent clock to improve its round_rate
-> > behaviour, then do that too.
-> >
->=20
-> Hmmm... Okay. So you *are* saying, that I should make changes to the
-> parent so that we do not need to request the exact rate we want from the
-> parent. But I really don't understand why.
-
-No, sorry. I initially thought that you were working around "divider"
-rounding issue (as opposed to integer like you mentionned above) with
-the parent not providing its optimal rate, and you adjusting based on
-that offset.
-
-> As I wrote above, I'm not making any assumptions of how and if the
-> parent rounds. My code is rounding *prior* to asking the parent. Your
-> proposal on the other hand *requires* changing the parent to round
-> closest where mine does not.
->=20
-> My concern is, that we could then end up with the situation that someone
-> defines an nkm clock in their SoC which has CLK_SET_RATE_PARENT set, but
-> does not set the ROUND_CLOSEST flag on the parent, because it's not
-> immediately apparent why they should do that.
-
-It's going to happen, and probably happens at the moment already,
-because not only the NKM clocks are affected, but virtually all of them,
-and most don't use ROUND_CLOSEST.
-
-And to some extent, it's fine. We would handle it like any other bug: if
-we ever encounter one, we'll write a fix, backport it to stable and all
-will be fine.
-
-You can't figure out all the use-cases we'll require in the future
-anyway.
-
-> Let's assume that hypothetical board were the A64, the nkm clock were pll=
--mipi,
-> and the parent were pll-video0 and we "forget" to set ROUND_CLOSEST on
-> pll-video0:
->=20
-> When pll-mipi nkm clock is asked via determine_rate() for a rate of
-> 449064000 it would return 449035712 and a parent rate of 217714285
-> (using n=3D11, k=3D3, m=3D16, but those details aren't returned by
-> determine_rate()).
->=20
-> Eventually, determine_rate() will be called again, but this time for a
-> rate of 449035712. The user already knows that we can provide that,
-> because we told them (see previous paragraph). But since we're
-> truncating when calculating the rate that we'd like the parent to
-> provide, we end up asking the parent for 217714284 when we actually need
-> it to provide 217714285. So we now *require* the parent to find the
-> closest and additionally we must *hope* that the parent is incapable of
-> providing the rate that we asked for.
-
-I mean... yeah. It's what abstraction is all about. For all we know, the
-parent to pll-mipi could be a crystal that can't change its frequency
-and we should deal with that. Or it could be an ideal clock that always
-returns the rate you ask for. Or a firmware clock that behaves like an
-ideal clock but lies about it :)
-
-It's that clock responsibility to do its best to provide the rate we ask
-for.
-
-And if we need to make it behave better, then it's fine too. So your
-example is indeed true, but it's more of a case of "let's send another
-patch" rather than trying to figure out all possible cases and try to
-figure things out accordingly. Because you won't be able to figure out
-all possible cases for the current SoCs and the next ones, and the
-workloads that people are going to run on those SoCs anyway.
-
-> >> If you carefully look at ccu_mp, you will see that it would ignore
-> >> cases when its parent had rounded up. ccu_nkm is no different.
-> >> Teaching all of sunxi-ng's clocks to respect ROUND_CLOSEST is a
-> >> totally different beast. For now, sunxi-ng always expects rounding
-> >> down.
-> >
-> > Then change that?
->=20
-> You told me that both over- and undershooting are fine when
-> determining the rate, *but also* "it's a bit context specific which one
-> we should favour. If we were to do anything, it would be to support both
-> and let the clock driver select which behaviour it wants." (see
-> https://lore.kernel.org/all/flngzi4henkzcpzwdexencdkw77h52g3nduup7pwctpwf=
-iuznk@eewnnut5mvsq/)
->=20
-> So, I can't just change NKM's parent's default behavior (which is an NM
-> clock in my case), because, if I understand correctly, I would have to
-> introduce a "ROUND_CLOSEST" flag for NM clocks.
-
-Sure
-
-> But then I feel like I would have to document somewhere that when
-> setting CLK_SET_RATE_PARENT for an NKM clock, that the parent clock
-> needs to ROUND_CLOSEST, in order to avoid drifting away from the
-> requested rate in the successive calls that are made to
-> ccu_nkm_determine_rate(), which I tried to explain above and in previous
-> messages.
-
-That's kind of what I meant too. Whether "drifting away" is an issue is
-context specific too. for some clocks it just doesn't matter. Nobody
-ever complained that the register clock of the MMC controller was
-drifting away, because it doesn't affect the system in the slightest.
-
-The video clock tree (and possibly others) will be affected though, and
-we'll indeed need to add that flag. But we're doing it all the time (and
-sometimes get it wrong) for things like which clocks should be left
-enabled for example.
-
-> Instead we could introduce the following function, like I suggested in
-> V2 of this patchset. The advantage is that it both *documents* the
-> dilemma for developers of ccu_nkm and also *avoids* it for users of
-> ccu_nkm.
->=20
-> static unsigned long optimal_parent_rate(unsigned long rate, unsigned lon=
-g n,
-> 				 unsigned long k, unsigned long m)
-> {
-> 	unsigned long _rate, parent;
->=20
-> 	// We must first try to find the desired parent rate that is rounded up,=
- because there are
-> 	// cases where truncating makes us miss the requested rate.
-> 	// E.g. rate=3D449035712, n=3D11, k=3D3, m=3D16
-> 	// When truncating, we'd get parent=3D217714284 and calculating the rate=
- from that would give
-> 	// us 449035710. When rounding up, we get parent=3D217714285 which would=
- give us the requested
-> 	// rate of 449035712.
-> 	parent =3D DIV_ROUND_UP(rate * m, n * k);
->=20
-> 	// But there are other cases, where rounding up the parent gives us a to=
-o high rate.
-> 	// Therefore, we need to check for this case and, if necessary, truncate=
- the parent rate
-> 	// instead of rounding up.
-> 	_rate =3D parent * n * k / m;
-> 	if (_rate > rate)
-> 		parent =3D rate * m / (n * k);
-> 	return parent;
-> }
->=20
-> And then we ask the parent for that optimal parent rate we just
-> calculated. I feel like that's an easy thing to do.
-
-We're back to the trade-off I was mentioning earlier. I'm not against it
-on principle. However, if it's not absolutely required, then I don't
-think it's a good idea to merge it.
-
-Especially if it's to workaround a parent flag missing. A clock flag
-patch is easy to read, write, understand, review, merge and maintain.
-It's basically a nop to merge provided the commit log is decent enough.
-
-That function is none of those things.
-
-Maxime
-
---wprkehaddrchdknb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZJCY+AAKCRDj7w1vZxhR
-xYPGAQDqaPGRRdu92BOGsrqSfDX6VPP28nVp2Y/Ji2VE56LAwAEA2BAxuGYnB+Kd
-hQagMPrGDx93QjNJzmt/M0ALoZa40wc=
-=Gwwl
------END PGP SIGNATURE-----
-
---wprkehaddrchdknb--
