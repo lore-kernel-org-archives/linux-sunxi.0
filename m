@@ -1,62 +1,92 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2848C174D1
-	for <linux-sunxi@lists.linux.dev>; Tue, 20 Jun 2023 20:00:41 +0000 (UTC)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-570877f7838so43538817b3.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 20 Jun 2023 13:00:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687291241; x=1689883241;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7voCz2iYOrMknDK2wZ+2dYEFWpHgSlR/WyZVUuuoYm4=;
-        b=oRtReLS4iTpD0CZMWg2ypk5Pe4rl9AR2p7Cp6aZ3kzCOqftrcGy08DP9w6kr2wnNht
-         UFv23z/qWMEIhyx5pAUHJBFwat7L3NjpMH36Nr09W83lK1anFoOqTw1RyvSDLWh1uUSV
-         xX7V4dq8T5K8cFbThyir0bO/pvRz9KQNYYWQT/YFSqXmWXv2aNGrO3IXzUlGHde39P3/
-         FvtpKGUJUm4hCVZ0dShVskUp+ecWT7oanx2PtCKIFnWxoYDXARHtt1CJufCteOv0vq8u
-         uFj3NO6GI4wCO79pE4t2jio3KckXZeXYtE7bPLtPOCAvoz38lSeKGAghWyXN8gftkWOU
-         k96w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687291241; x=1689883241;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7voCz2iYOrMknDK2wZ+2dYEFWpHgSlR/WyZVUuuoYm4=;
-        b=a0SV6/VVh9xdd+y2OXeBKcvu0pyVXSyNT5DwGbFBl8njlJt66FmsufMvgAMTwJ3DTD
-         zPXIe0l+iaw9olNFpym26I6wa0ge0Kn7m4wVB697vN2snPoK8UnacovIiLctm6zHug9u
-         mI3CLCcEmpHyMZ7IU4/IkZpMGD5WVQZzGIO0DdZ5uQPd7Chj1INGRN7xGMIoOeCZEVL8
-         QPsjUY4b2EIDCxqUf8Z+f5pASlDpRsF58q0ByamSbHPxins4V8PxMnaXC83jpI55aWf0
-         MUlcRYXePPmRo4c+c3ZbtKIkbtU97uURy9GXP1IAeCUX02cNYA1B0vD+u4fWyxIqQoY8
-         Z04w==
-X-Gm-Message-State: AC+VfDxeG/7gUpKv2y9xTguYRXS07Z/6sEkekAOr87GNq1UVVx4ptQU1
-	VdzjqPRywPu5QlLwpIeU7tQP5PmEymU=
-X-Google-Smtp-Source: ACHHUZ7YC5A+SJ+gP9JiJSJTWmTIsXiHTZ/rnKpEVykuTKQn+xFE2Tyfo+EirWmvOHLbHC2uVhlkDA==
-X-Received: by 2002:a0d:c6c3:0:b0:568:fb28:1e24 with SMTP id i186-20020a0dc6c3000000b00568fb281e24mr12145507ywd.28.1687291240683;
-        Tue, 20 Jun 2023 13:00:40 -0700 (PDT)
-Received: from localhost.localdomain ([75.28.21.198])
-        by smtp.gmail.com with ESMTPSA id y201-20020a81a1d2000000b00569eb609458sm664197ywg.81.2023.06.20.13.00.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jun 2023 13:00:40 -0700 (PDT)
-From: Chris Morgan <macroalpha82@gmail.com>
-To: linux-sunxi@lists.linux.dev
-Cc: devicetree@vger.kernel.org,
-	mripard@kernel.org,
-	uwu@icenowy.me,
-	andre.przywara@arm.com,
-	samuel@sholland.org,
-	jernej.skrabec@gmail.com,
-	wens@csie.org,
-	conor+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	robh+dt@kernel.org,
-	Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH 3/3] ARM: dts: sunxi: add support for Anbernic RG-Nano
-Date: Tue, 20 Jun 2023 15:00:22 -0500
-Message-Id: <20230620200022.295674-4-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230620200022.295674-1-macroalpha82@gmail.com>
-References: <20230620200022.295674-1-macroalpha82@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43EB62AB2F
+	for <linux-sunxi@lists.linux.dev>; Tue, 20 Jun 2023 21:03:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687295031; x=1718831031;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=Qy2nBFndB7zMhlWJ7jbpgbfuTUNl9LWdB5UOeqaAxkc=;
+  b=FG/RjCDB4Rt2EYFx3J1O90KbT3vAnFXuruMOKcCSn3q001oBJq2LbVBS
+   yexQE7lnDb7l8l6mRyIqKoUHYXOgf5uYlfqTs5dwrUeWjNeDFN7hbQE17
+   0FaRi5k4h45d+8Gthqs4o1+vTrxYAPh4K3butzvIvV0FofW0biBu5Hf1r
+   xGQhnIdfFLDbImdyvAatDyO325gKxQATNJGByllYM2jp+N2BCb/k0F7xY
+   AilzTOjQDyxJJuSV2vvLOXjs+Ov/Vo1FKGQIcYGt4YwnGh9gHsxFIzIh/
+   qCsR60EaSHY2P0RnJ0LBNWxMfskwAUrHw+p1XHuGpXHTwz/g9XsxRitjL
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="363405821"
+X-IronPort-AV: E=Sophos;i="6.00,258,1681196400"; 
+   d="scan'208";a="363405821"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 14:03:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="888384781"
+X-IronPort-AV: E=Sophos;i="6.00,258,1681196400"; 
+   d="scan'208";a="888384781"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 14:03:31 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id CD3F811F89D;
+	Wed, 21 Jun 2023 00:03:27 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1qBiVS-002jLy-1Z;
+	Wed, 21 Jun 2023 00:03:18 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Joe Tessler <jrt@google.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Wenyou Yang <wenyou.yang@microchip.com>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Yong Deng <yong.deng@magewell.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sean Young <sean@mess.org>,
+	linux-kernel@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-rockchip@lists.infradead.org
+Subject: [PATCH v2 20/28] media: platform: jpeg: always reference OF data
+Date: Wed, 21 Jun 2023 00:03:08 +0300
+Message-Id: <20230620210308.650986-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230312131318.351173-20-krzysztof.kozlowski@linaro.org>
+References: <20230312131318.351173-20-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -65,264 +95,124 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Chris Morgan <macromorgan@hotmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-The Anbernic RG-Nano is a small portable game device based on the
-Allwinner V3s SoC. It has GPIO buttons on the face and side for
-input, a single mono speaker, a 240x240 SPI controlled display,
-and a USB-C OTG port for power. The SoC includes 64MB of RAM and
-an SD card slot for booting.
+The driver can match only via the DT table so the table should be always
+used and the of_match_ptr does not have any sense (this also allows ACPI
+matching via PRP0001, even though it might not be relevant here).
 
-The SPI display is currently unsupported, as it will either require
-a new tinydrm driver or changes to the staging fbtft driver to support.
-I plan on working on a tinydrm driver to properly support it. There
-also may be a missing mux in the audio path that must be discovered and
-defined before audio will be fully working (internal speaker does not
-work yet, external headphones untested).
-
-Working:
-- SDMMC
-- Buttons
-- Charging/battery/PMIC
-
-Not working:
-- Display
-- Audio
-
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+[Sakari Ailus: Rebased on media tree master, reword commit message,
+	       drop additional #if defined(CONFIG_OF)/#endif's.]
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- arch/arm/boot/dts/Makefile                    |   1 +
- .../boot/dts/sun8i-v3s-anbernic-rg-nano.dts   | 209 ++++++++++++++++++
- 2 files changed, 210 insertions(+)
- create mode 100644 arch/arm/boot/dts/sun8i-v3s-anbernic-rg-nano.dts
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c   | 6 +-----
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c | 4 +---
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c | 4 +---
+ 3 files changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 59829fc90315..31418b594222 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1414,6 +1414,7 @@ dtb-$(CONFIG_MACH_SUN8I) += \
- 	sun8i-t113s-mangopi-mq-r-t113.dtb \
- 	sun8i-t3-cqa3t-bv3.dtb \
- 	sun8i-v3-sl631-imx179.dtb \
-+	sun8i-v3s-anbernic-rg-nano.dtb \
- 	sun8i-v3s-licheepi-zero.dtb \
- 	sun8i-v3s-licheepi-zero-dock.dtb \
- 	sun8i-v40-bananapi-m2-berry.dtb
-diff --git a/arch/arm/boot/dts/sun8i-v3s-anbernic-rg-nano.dts b/arch/arm/boot/dts/sun8i-v3s-anbernic-rg-nano.dts
-new file mode 100644
-index 000000000000..ead315e8fc38
---- /dev/null
-+++ b/arch/arm/boot/dts/sun8i-v3s-anbernic-rg-nano.dts
-@@ -0,0 +1,209 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+
-+/dts-v1/;
-+#include <dt-bindings/input/linux-event-codes.h>
-+#include "sun8i-v3s.dtsi"
-+#include "sunxi-common-regulators.dtsi"
-+
-+/ {
-+	model = "Anbernic RG Nano";
-+	compatible = "anbernic,rg-nano", "allwinner,sun8i-v3s";
-+
-+	aliases {
-+		serial0 = &uart0;
-+	};
-+
-+	backlight: backlight {
-+		compatible = "pwm-backlight";
-+		pwms = <&pwm 0 40000 1>;
-+		brightness-levels = <0 1 2 3 8 14 21 32 46 60 80 100>;
-+		default-brightness-level = <11>;
-+		power-supply = <&reg_vcc5v0>;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	gpio_keys: gpio-keys {
-+		compatible = "gpio-keys";
-+
-+		button-a {
-+			gpios = <&gpio_expander 12 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-+			label = "BTN-A";
-+			linux,code = <BTN_EAST>;
-+		};
-+
-+		button-b {
-+			gpios = <&gpio_expander 14 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-+			label = "BTN-B";
-+			linux,code = <BTN_SOUTH>;
-+		};
-+
-+		button-down {
-+			gpios = <&gpio_expander 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-+			label = "DPAD-DOWN";
-+			linux,code = <BTN_DPAD_DOWN>;
-+		};
-+
-+		button-left {
-+			gpios = <&gpio_expander 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-+			label = "DPAD-LEFT";
-+			linux,code = <BTN_DPAD_LEFT>;
-+		};
-+
-+		button-right {
-+			gpios = <&gpio_expander 0 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-+			label = "DPAD-RIGHT";
-+			linux,code = <BTN_DPAD_RIGHT>;
-+		};
-+
-+		button-se {
-+			gpios = <&gpio_expander 7 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-+			label = "BTN-SELECT";
-+			linux,code = <BTN_SELECT>;
-+		};
-+
-+		button-st {
-+			gpios = <&gpio_expander 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-+			label = "BTN-START";
-+			linux,code = <BTN_START>;
-+		};
-+
-+		button-tl {
-+			gpios = <&gpio_expander 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-+			label = "BTN-L";
-+			linux,code = <BTN_TL>;
-+		};
-+
-+		button-tr {
-+			gpios = <&gpio_expander 15 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-+			label = "BTN-R";
-+			linux,code = <BTN_TR>;
-+		};
-+
-+		button-up {
-+			gpios = <&gpio_expander 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-+			label = "DPAD-UP";
-+			linux,code = <BTN_DPAD_UP>;
-+		};
-+
-+		button-x {
-+			gpios = <&gpio_expander 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-+			label = "BTN-X";
-+			linux,code = <BTN_NORTH>;
-+		};
-+
-+		button-y {
-+			gpios = <&gpio_expander 13 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-+			label = "BTN-Y";
-+			linux,code = <BTN_WEST>;
-+		};
-+	};
-+};
-+
-+&codec {
-+	allwinner,audio-routing = "Headphone", "HP",
-+				  "Headphone", "HPCOM",
-+				  "MIC1", "Mic",
-+				  "Mic", "HBIAS";
-+	status = "okay";
-+};
-+
-+&i2c0 {
-+	status = "okay";
-+
-+	gpio_expander: gpio@20 {
-+		compatible = "nxp,pcal6416";
-+		reg = <0x20>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		#interrupt-cells = <2>;
-+		interrupt-controller;
-+		interrupt-parent = <&pio>;
-+		interrupts = <1 3 IRQ_TYPE_EDGE_BOTH>;
-+	};
-+
-+	axp209: pmic@34 {
-+		reg = <0x34>;
-+		interrupt-parent = <&pio>;
-+		interrupts = <1 5 IRQ_TYPE_EDGE_FALLING>;
-+	};
-+
-+	pcf8563: rtc@51 {
-+		compatible = "nxp,pcf8563";
-+		reg = <0x51>;
-+	};
-+};
-+
-+#include "axp209.dtsi"
-+
-+&ac_power_supply {
-+	status = "okay";
-+};
-+
-+&battery_power_supply {
-+	status = "okay";
-+};
-+
-+&mmc0 {
-+	broken-cd;
-+	bus-width = <4>;
-+	disable-wp;
-+	vmmc-supply = <&reg_vcc3v3>;
-+	vqmmc-supply = <&reg_vcc3v3>;
-+	status = "okay";
-+};
-+
-+&pwm {
-+	status = "okay";
-+};
-+
-+&reg_dcdc2 {
-+	regulator-always-on;
-+	regulator-max-microvolt = <1400000>;
-+	regulator-min-microvolt = <1000000>;
-+	regulator-name = "vdd-cpu-sys-ephy";
-+};
-+
-+&reg_dcdc3 {
-+	regulator-always-on;
-+	regulator-max-microvolt = <3450000>;
-+	regulator-min-microvolt = <3000000>;
-+	regulator-name = "vcc-io-ephy-mcsi-usb";
-+};
-+
-+&reg_ldo1 {
-+	regulator-name = "vcc-rtc";
-+};
-+
-+&reg_ldo2 {
-+	regulator-always-on;
-+	regulator-max-microvolt = <3300000>;
-+	regulator-min-microvolt = <2800000>;
-+	regulator-name = "avcc-pll";
-+};
-+
-+&spi0 {
-+	status = "okay";
-+};
-+
-+&uart0 {
-+	pinctrl-0 = <&uart0_pb_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&usb_otg {
-+	dr_mode = "otg";
-+	status = "okay";
-+};
-+
-+&usb_power_supply {
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	usb0_id_det-gpios = <&pio 5 6 GPIO_ACTIVE_HIGH>;
-+	status = "okay";
-+};
+diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+index 4768156181c99..40cb3cb87ba17 100644
+--- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
++++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+@@ -28,7 +28,6 @@
+ #include "mtk_jpeg_core.h"
+ #include "mtk_jpeg_dec_parse.h"
+ 
+-#if defined(CONFIG_OF)
+ static struct mtk_jpeg_fmt mtk_jpeg_enc_formats[] = {
+ 	{
+ 		.fourcc		= V4L2_PIX_FMT_JPEG,
+@@ -102,7 +101,6 @@ static struct mtk_jpeg_fmt mtk_jpeg_dec_formats[] = {
+ 		.flags		= MTK_JPEG_FMT_FLAG_CAPTURE,
+ 	},
+ };
+-#endif
+ 
+ #define MTK_JPEG_ENC_NUM_FORMATS ARRAY_SIZE(mtk_jpeg_enc_formats)
+ #define MTK_JPEG_DEC_NUM_FORMATS ARRAY_SIZE(mtk_jpeg_dec_formats)
+@@ -1455,7 +1453,6 @@ static const struct dev_pm_ops mtk_jpeg_pm_ops = {
+ 	SET_RUNTIME_PM_OPS(mtk_jpeg_pm_suspend, mtk_jpeg_pm_resume, NULL)
+ };
+ 
+-#if defined(CONFIG_OF)
+ static int mtk_jpegenc_get_hw(struct mtk_jpeg_ctx *ctx)
+ {
+ 	struct mtk_jpegenc_comp_dev *comp_jpeg;
+@@ -1951,14 +1948,13 @@ static const struct of_device_id mtk_jpeg_match[] = {
+ };
+ 
+ MODULE_DEVICE_TABLE(of, mtk_jpeg_match);
+-#endif
+ 
+ static struct platform_driver mtk_jpeg_driver = {
+ 	.probe = mtk_jpeg_probe,
+ 	.remove_new = mtk_jpeg_remove,
+ 	.driver = {
+ 		.name           = MTK_JPEG_NAME,
+-		.of_match_table = of_match_ptr(mtk_jpeg_match),
++		.of_match_table = mtk_jpeg_match,
+ 		.pm             = &mtk_jpeg_pm_ops,
+ 	},
+ };
+diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
+index 869068fac5e2f..baa7be58ce691 100644
+--- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
++++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
+@@ -39,7 +39,6 @@ enum mtk_jpeg_color {
+ 	MTK_JPEG_COLOR_400		= 0x00110000
+ };
+ 
+-#if defined(CONFIG_OF)
+ static const struct of_device_id mtk_jpegdec_hw_ids[] = {
+ 	{
+ 		.compatible = "mediatek,mt8195-jpgdec-hw",
+@@ -47,7 +46,6 @@ static const struct of_device_id mtk_jpegdec_hw_ids[] = {
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, mtk_jpegdec_hw_ids);
+-#endif
+ 
+ static inline int mtk_jpeg_verify_align(u32 val, int align, u32 reg)
+ {
+@@ -653,7 +651,7 @@ static struct platform_driver mtk_jpegdec_hw_driver = {
+ 	.probe = mtk_jpegdec_hw_probe,
+ 	.driver = {
+ 		.name = "mtk-jpegdec-hw",
+-		.of_match_table = of_match_ptr(mtk_jpegdec_hw_ids),
++		.of_match_table = mtk_jpegdec_hw_ids,
+ 	},
+ };
+ 
+diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
+index 71e85b4bbf127..244018365b6f1 100644
+--- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
++++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
+@@ -46,7 +46,6 @@ static const struct mtk_jpeg_enc_qlt mtk_jpeg_enc_quality[] = {
+ 	{.quality_param = 97, .hardware_value = JPEG_ENC_QUALITY_Q97},
+ };
+ 
+-#if defined(CONFIG_OF)
+ static const struct of_device_id mtk_jpegenc_drv_ids[] = {
+ 	{
+ 		.compatible = "mediatek,mt8195-jpgenc-hw",
+@@ -54,7 +53,6 @@ static const struct of_device_id mtk_jpegenc_drv_ids[] = {
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, mtk_jpegenc_drv_ids);
+-#endif
+ 
+ void mtk_jpeg_enc_reset(void __iomem *base)
+ {
+@@ -377,7 +375,7 @@ static struct platform_driver mtk_jpegenc_hw_driver = {
+ 	.probe = mtk_jpegenc_hw_probe,
+ 	.driver = {
+ 		.name = "mtk-jpegenc-hw",
+-		.of_match_table = of_match_ptr(mtk_jpegenc_drv_ids),
++		.of_match_table = mtk_jpegenc_drv_ids,
+ 	},
+ };
+ 
 -- 
-2.34.1
+2.39.2
 
