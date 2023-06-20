@@ -1,218 +1,94 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43EB62AB2F
-	for <linux-sunxi@lists.linux.dev>; Tue, 20 Jun 2023 21:03:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687295031; x=1718831031;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Qy2nBFndB7zMhlWJ7jbpgbfuTUNl9LWdB5UOeqaAxkc=;
-  b=FG/RjCDB4Rt2EYFx3J1O90KbT3vAnFXuruMOKcCSn3q001oBJq2LbVBS
-   yexQE7lnDb7l8l6mRyIqKoUHYXOgf5uYlfqTs5dwrUeWjNeDFN7hbQE17
-   0FaRi5k4h45d+8Gthqs4o1+vTrxYAPh4K3butzvIvV0FofW0biBu5Hf1r
-   xGQhnIdfFLDbImdyvAatDyO325gKxQATNJGByllYM2jp+N2BCb/k0F7xY
-   AilzTOjQDyxJJuSV2vvLOXjs+Ov/Vo1FKGQIcYGt4YwnGh9gHsxFIzIh/
-   qCsR60EaSHY2P0RnJ0LBNWxMfskwAUrHw+p1XHuGpXHTwz/g9XsxRitjL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="363405821"
-X-IronPort-AV: E=Sophos;i="6.00,258,1681196400"; 
-   d="scan'208";a="363405821"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 14:03:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="888384781"
-X-IronPort-AV: E=Sophos;i="6.00,258,1681196400"; 
-   d="scan'208";a="888384781"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 14:03:31 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id CD3F811F89D;
-	Wed, 21 Jun 2023 00:03:27 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
-	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1qBiVS-002jLy-1Z;
-	Wed, 21 Jun 2023 00:03:18 +0300
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Joe Tessler <jrt@google.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Wenyou Yang <wenyou.yang@microchip.com>,
-	Bin Liu <bin.liu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Yong Deng <yong.deng@magewell.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sean Young <sean@mess.org>,
-	linux-kernel@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-tegra@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-rockchip@lists.infradead.org
-Subject: [PATCH v2 20/28] media: platform: jpeg: always reference OF data
-Date: Wed, 21 Jun 2023 00:03:08 +0300
-Message-Id: <20230620210308.650986-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230312131318.351173-20-krzysztof.kozlowski@linaro.org>
-References: <20230312131318.351173-20-krzysztof.kozlowski@linaro.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08C682AB42
+	for <linux-sunxi@lists.linux.dev>; Tue, 20 Jun 2023 23:50:48 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B64E51063;
+	Tue, 20 Jun 2023 16:51:25 -0700 (PDT)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E794B3F59C;
+	Tue, 20 Jun 2023 16:50:39 -0700 (PDT)
+Date: Wed, 21 Jun 2023 00:50:00 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Chris Morgan <macroalpha82@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ mripard@kernel.org, uwu@icenowy.me, samuel@sholland.org,
+ jernej.skrabec@gmail.com, wens@csie.org, conor+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, Chris Morgan
+ <macromorgan@hotmail.com>
+Subject: Re: [PATCH 1/3] arm: dts: sun8i: V3s: Add pinctrl for pwm
+Message-ID: <20230621005000.558b660c@slackpad.lan>
+In-Reply-To: <20230620200022.295674-2-macroalpha82@gmail.com>
+References: <20230620200022.295674-1-macroalpha82@gmail.com>
+	<20230620200022.295674-2-macroalpha82@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Tue, 20 Jun 2023 15:00:20 -0500
+Chris Morgan <macroalpha82@gmail.com> wrote:
 
-The driver can match only via the DT table so the table should be always
-used and the of_match_ptr does not have any sense (this also allows ACPI
-matching via PRP0001, even though it might not be relevant here).
+Hi Chris,
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-[Sakari Ailus: Rebased on media tree master, reword commit message,
-	       drop additional #if defined(CONFIG_OF)/#endif's.]
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c   | 6 +-----
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c | 4 +---
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c | 4 +---
- 3 files changed, 3 insertions(+), 11 deletions(-)
+thanks for taking care of upstreaming, cute little device.
 
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-index 4768156181c99..40cb3cb87ba17 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-@@ -28,7 +28,6 @@
- #include "mtk_jpeg_core.h"
- #include "mtk_jpeg_dec_parse.h"
- 
--#if defined(CONFIG_OF)
- static struct mtk_jpeg_fmt mtk_jpeg_enc_formats[] = {
- 	{
- 		.fourcc		= V4L2_PIX_FMT_JPEG,
-@@ -102,7 +101,6 @@ static struct mtk_jpeg_fmt mtk_jpeg_dec_formats[] = {
- 		.flags		= MTK_JPEG_FMT_FLAG_CAPTURE,
- 	},
- };
--#endif
- 
- #define MTK_JPEG_ENC_NUM_FORMATS ARRAY_SIZE(mtk_jpeg_enc_formats)
- #define MTK_JPEG_DEC_NUM_FORMATS ARRAY_SIZE(mtk_jpeg_dec_formats)
-@@ -1455,7 +1453,6 @@ static const struct dev_pm_ops mtk_jpeg_pm_ops = {
- 	SET_RUNTIME_PM_OPS(mtk_jpeg_pm_suspend, mtk_jpeg_pm_resume, NULL)
- };
- 
--#if defined(CONFIG_OF)
- static int mtk_jpegenc_get_hw(struct mtk_jpeg_ctx *ctx)
- {
- 	struct mtk_jpegenc_comp_dev *comp_jpeg;
-@@ -1951,14 +1948,13 @@ static const struct of_device_id mtk_jpeg_match[] = {
- };
- 
- MODULE_DEVICE_TABLE(of, mtk_jpeg_match);
--#endif
- 
- static struct platform_driver mtk_jpeg_driver = {
- 	.probe = mtk_jpeg_probe,
- 	.remove_new = mtk_jpeg_remove,
- 	.driver = {
- 		.name           = MTK_JPEG_NAME,
--		.of_match_table = of_match_ptr(mtk_jpeg_match),
-+		.of_match_table = mtk_jpeg_match,
- 		.pm             = &mtk_jpeg_pm_ops,
- 	},
- };
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-index 869068fac5e2f..baa7be58ce691 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-@@ -39,7 +39,6 @@ enum mtk_jpeg_color {
- 	MTK_JPEG_COLOR_400		= 0x00110000
- };
- 
--#if defined(CONFIG_OF)
- static const struct of_device_id mtk_jpegdec_hw_ids[] = {
- 	{
- 		.compatible = "mediatek,mt8195-jpgdec-hw",
-@@ -47,7 +46,6 @@ static const struct of_device_id mtk_jpegdec_hw_ids[] = {
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_jpegdec_hw_ids);
--#endif
- 
- static inline int mtk_jpeg_verify_align(u32 val, int align, u32 reg)
- {
-@@ -653,7 +651,7 @@ static struct platform_driver mtk_jpegdec_hw_driver = {
- 	.probe = mtk_jpegdec_hw_probe,
- 	.driver = {
- 		.name = "mtk-jpegdec-hw",
--		.of_match_table = of_match_ptr(mtk_jpegdec_hw_ids),
-+		.of_match_table = mtk_jpegdec_hw_ids,
- 	},
- };
- 
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-index 71e85b4bbf127..244018365b6f1 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-@@ -46,7 +46,6 @@ static const struct mtk_jpeg_enc_qlt mtk_jpeg_enc_quality[] = {
- 	{.quality_param = 97, .hardware_value = JPEG_ENC_QUALITY_Q97},
- };
- 
--#if defined(CONFIG_OF)
- static const struct of_device_id mtk_jpegenc_drv_ids[] = {
- 	{
- 		.compatible = "mediatek,mt8195-jpgenc-hw",
-@@ -54,7 +53,6 @@ static const struct of_device_id mtk_jpegenc_drv_ids[] = {
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_jpegenc_drv_ids);
--#endif
- 
- void mtk_jpeg_enc_reset(void __iomem *base)
- {
-@@ -377,7 +375,7 @@ static struct platform_driver mtk_jpegenc_hw_driver = {
- 	.probe = mtk_jpegenc_hw_probe,
- 	.driver = {
- 		.name = "mtk-jpegenc-hw",
--		.of_match_table = of_match_ptr(mtk_jpegenc_drv_ids),
-+		.of_match_table = mtk_jpegenc_drv_ids,
- 	},
- };
- 
--- 
-2.39.2
+> From: Chris Morgan <macromorgan@hotmail.com>
+> 
+> Add a default pinctrl for the pwm function.
+> 
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+
+
+> ---
+>  arch/arm/boot/dts/sun8i-v3s.dtsi | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
+> index b001251644f7..e5977524abe2 100644
+> --- a/arch/arm/boot/dts/sun8i-v3s.dtsi
+> +++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
+> @@ -414,6 +414,11 @@ mmc1_pins: mmc1-pins {
+>  				bias-pull-up;
+>  			};
+>  
+> +			pwm_pins: pwm-pins {
+> +				pins = "PB4";
+> +				function = "pwm0";
+> +			};
+> +
+>  			spi0_pins: spi0-pins {
+>  				pins = "PC0", "PC1", "PC2", "PC3";
+>  				function = "spi0";
+> @@ -441,6 +446,8 @@ pwm: pwm@1c21400 {
+>  				     "allwinner,sun7i-a20-pwm";
+>  			reg = <0x01c21400 0xc>;
+>  			clocks = <&osc24M>;
+> +			pinctrl-0 = <&pwm_pins>;
+> +			pinctrl-names = "default";
+
+How is this supposed to work with multiple channels? There is PWM1 on
+PB5. If one wants to potentially use that, we would need to add a
+reference to those pins here as well, and they would all be muxed to
+PWM upon the PWM controller probing?
+
+So while I see that it's the only output pin for PWM0, this might still
+need to go into the board .dts, alongside the status = "okay"; line. So
+each board would specify exactly the pins it needs (PWM0 only, PWM1
+only, both or none).
+
+Otherwise I compared this against the manual and Linux pinctrl driver,
+it all matches up.
+
+Cheers,
+Andre
+
+>  			#pwm-cells = <3>;
+>  			status = "disabled";
+>  		};
 
