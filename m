@@ -1,43 +1,43 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9936519BAC
-	for <linux-sunxi@lists.linux.dev>; Wed, 21 Jun 2023 18:26:18 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-3f8ff5fe50aso42964365e9.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 21 Jun 2023 11:26:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09BF81B903
+	for <linux-sunxi@lists.linux.dev>; Wed, 21 Jun 2023 18:26:19 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-31129591288so4505827f8f.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 21 Jun 2023 11:26:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1687371976; x=1689963976;
+        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1687371978; x=1689963978;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LzNmZCXlSWOYlmr4PSAR1znItM6ZQApvKlAxUdPBEws=;
-        b=lhB4O4R+QgPqC82mKzgnaE06t2sQ47iDhSESMJWL1zy6rkjIOJWFo5+Gwh6GhWI+uz
-         ey65qccVH09imlh0PF+C414coaq8d9BYz6AGcWp+N1TjTa527238y6siI9gidbDAeCDU
-         76zOQT5G9rsHAIoAkaGK9dcjoG8hZTytnrA2W4ANsAAHwDkNGjkdecHfvL4ZQMlhU19k
-         1Amyr57UncHC2/RYS3R31PHdyz3pgXXYZbKG+kkOvYDCysRw6TqqPSl2OFHKmQs8I75+
-         DmuchEoqtEMw9cVFWpn2neqSd0vqINszD70ESXoz5UALEbRcehho/0PpCMbvdpjZEcX2
-         AiUw==
+        bh=1HRVKBhefxoQaIrrk1E+lF53Gj3p4Z+uWDwMbBoofOY=;
+        b=sqmethSCf2xOuZRs/yqXfT9FW0TfEx0Z2WpwYOnm/36HW9D5GQClc4pnRWtCY593HC
+         3CT7YLTHG511kU4VsmoNzfq+Fp/EA4eo+9YA5D3T1lNKLyQ0/vscZX5lFJplU6WA9iYj
+         /eZzHGoJVXCggTYA1IRKAuTo4xsFS0NrCYdY4daomC5POJLRfqN+k0nAFXFQyBcp/o1p
+         g+JIWjr+idoAmNiEn2odRogzeIfceOLdz2F8+0vaDibviutnugLsFDKKsChUkqXf8YOL
+         Q/7/0sdF2SMO1S2e+scwJJaKnBNTAN8SuZGs7Q/PdBqb5q2vIBUk7dWkpzFKkHLX7zrF
+         ZUew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687371976; x=1689963976;
+        d=1e100.net; s=20221208; t=1687371978; x=1689963978;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LzNmZCXlSWOYlmr4PSAR1znItM6ZQApvKlAxUdPBEws=;
-        b=Aj17NwfbINYGPIlNJx5Vvb3MQPjHlq+zFgIJiWTviua+mhb1oxgnh6d8HUslHeL9Ce
-         K1R1OnzTRehuJHY14VeyovGWvwDxj6ZBaElkjEbDtRLFmDUrSMZNzqDTgYNFR3oMr6hk
-         TXGfauyA0/RA4TPn4zlfnSNHnScHDIMeFXtMP/yUyZ5uGTWEyPOe1BLRvF7VkH+sI67n
-         8NvPDrR7lFHDyCg29vB4U9+oVLGFhkGl826WlOBds518Qvv/nceAt5GQbnltYQqWrDzU
-         lVsfDn4Un/W96XJzVUZu0HSwlYhe6IcpkuxREUrSwHH6gjzd3aW64U1P+ctHXHaeayhF
-         /zYg==
-X-Gm-Message-State: AC+VfDyVcVuF6LkoSGu33EfPUrO/FOjSW7gkaGjIhZ7QwthJeRG5OVxC
-	NAPA6ph8aR3roiULuIsRNQeT8w==
-X-Google-Smtp-Source: ACHHUZ4HCkDRLe8HCWmsjiSHsLkUzqg1IZqv9rJNe6nBf1jtTA0Q2s1/Z9TWBYU3unjBDb78RiLtCg==
-X-Received: by 2002:a5d:620e:0:b0:30f:c050:88dd with SMTP id y14-20020a5d620e000000b0030fc05088ddmr18903240wru.8.1687371976794;
-        Wed, 21 Jun 2023 11:26:16 -0700 (PDT)
+        bh=1HRVKBhefxoQaIrrk1E+lF53Gj3p4Z+uWDwMbBoofOY=;
+        b=Icj8FaTzEFU0wsY8ODYGa/rgnlozkIXUWU4IL+4TN/ja8Wx5o8pyO8oTADE5b8jLKm
+         IQUHiV8ikScweQMRyz6Zcin8Ax6nVfhzNTP7oIHeyJnhrUGDNqoz/0o3eNunp0lMHE4A
+         wFN/dM1O0OfhDCP1/8o24XUdrnD0LLf8rdXSZP8ggjYpiaTx6Bz2Z1GlMa7FVDWwgb/+
+         J3dcv+Xm04G5AMtW/X0q6L/09YvqrXRrnVcBNkGPGqy1sniR9MNOfJzGZP+XwqWIf4PP
+         UJASPk8/AOi1g/2zOGjHVpWOqhODC0R/5hsoLLs1S3i0wAAsaKTMEaQKhcAl+yBEXkq8
+         iOgg==
+X-Gm-Message-State: AC+VfDwh/I6Phqrq36iYJ/SqJo/UJ2rbzovku6LMflVoBNZiMkngX9dX
+	jjbqMSki/ZvYR/rolbL8e3gUhA==
+X-Google-Smtp-Source: ACHHUZ796SsTD4oRLyqFw96CluzbNM80YkfbJzDyC80N2T8s5cRqBzXiypqgXt9r86/GSMf9RacQ5g==
+X-Received: by 2002:adf:f7cb:0:b0:305:ed26:8576 with SMTP id a11-20020adff7cb000000b00305ed268576mr11189932wrq.9.1687371978218;
+        Wed, 21 Jun 2023 11:26:18 -0700 (PDT)
 Received: from brgl-uxlite.home ([2a01:cb1d:334:ac00:a69f:8ee3:6907:ccdf])
-        by smtp.gmail.com with ESMTPSA id z13-20020adff74d000000b0030af15d7e41sm5176994wrp.4.2023.06.21.11.26.15
+        by smtp.gmail.com with ESMTPSA id z13-20020adff74d000000b0030af15d7e41sm5176994wrp.4.2023.06.21.11.26.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jun 2023 11:26:16 -0700 (PDT)
+        Wed, 21 Jun 2023 11:26:17 -0700 (PDT)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
 To: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
@@ -65,9 +65,9 @@ Cc: netdev@vger.kernel.org,
 	linux-tegra@vger.kernel.org,
 	linux-mediatek@lists.infradead.org,
 	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: [PATCH net-next 04/12] net: stmmac: replace the has_sun8i field with a flag
-Date: Wed, 21 Jun 2023 20:25:50 +0200
-Message-Id: <20230621182558.544417-5-brgl@bgdev.pl>
+Subject: [PATCH net-next 05/12] net: stmmac: replace the tso_en field with a flag
+Date: Wed, 21 Jun 2023 20:25:51 +0200
+Message-Id: <20230621182558.544417-6-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230621182558.544417-1-brgl@bgdev.pl>
 References: <20230621182558.544417-1-brgl@bgdev.pl>
@@ -86,66 +86,149 @@ simple bitfield flag.
 
 Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 ---
- drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 2 +-
- drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 4 ++--
- include/linux/stmmac.h                            | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c | 2 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c       | 3 +--
+ drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c | 3 ++-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-tegra.c       | 2 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c       | 4 ++--
+ drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c        | 2 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c   | 6 ++++--
+ include/linux/stmmac.h                                  | 2 +-
+ 8 files changed, 13 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-index 1e714380d125..2b5ebb15bfda 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-@@ -1227,7 +1227,7 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
- 	plat_dat->interface = interface;
- 	plat_dat->rx_coe = STMMAC_RX_COE_TYPE2;
- 	plat_dat->tx_coe = 1;
--	plat_dat->has_sun8i = true;
-+	plat_dat->flags |= STMMAC_FLAG_HAS_SUN8I;
- 	plat_dat->bsp_priv = gmac;
- 	plat_dat->init = sun8i_dwmac_init;
- 	plat_dat->exit = sun8i_dwmac_exit;
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index a1a59af3961d..3df32658b5bb 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -325,7 +325,7 @@ static void stmmac_clk_csr_set(struct stmmac_priv *priv)
- 			priv->clk_csr = STMMAC_CSR_250_300M;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
+index 0c12ab67c27b..b5efd9c2eac7 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
+@@ -113,7 +113,7 @@ static int dwc_eth_dwmac_config_dt(struct platform_device *pdev,
+ 	/* dwc-qos needs GMAC4, AAL, TSO and PMT */
+ 	plat_dat->has_gmac4 = 1;
+ 	plat_dat->dma_cfg->aal = 1;
+-	plat_dat->tso_en = 1;
++	plat_dat->flags |= STMMAC_FLAG_TSO_EN;
+ 	plat_dat->pmt = 1;
+ 
+ 	return 0;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
+index 44a84a6c18ce..faa6f4ec6838 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
+@@ -458,8 +458,7 @@ static int intel_mgbe_common_data(struct pci_dev *pdev,
+ 	plat->has_gmac = 0;
+ 	plat->has_gmac4 = 1;
+ 	plat->force_sf_dma_mode = 0;
+-	plat->tso_en = 1;
+-	data->flags |= STMMAC_FLAG_SPH_DISABLE;
++	plat->flags |= (STMMAC_FLAG_TSO_EN | STMMAC_FLAG_SPH_DISABLE);
+ 
+ 	/* Multiplying factor to the clk_eee_i clock time
+ 	 * period to make it closer to 100 ns. This value
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
+index 44151e69f9ce..79e196397aea 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
+@@ -787,7 +787,8 @@ static int qcom_ethqos_probe(struct platform_device *pdev)
+ 	if (ethqos->has_emac_ge_3)
+ 		plat_dat->dwmac4_addrs = &data->dwmac4_addrs;
+ 	plat_dat->pmt = 1;
+-	plat_dat->tso_en = of_property_read_bool(np, "snps,tso");
++	if (of_property_read_bool(np, "snps,tso"))
++		plat_dat->flags |= STMMAC_FLAG_TSO_EN;
+ 	if (of_device_is_compatible(np, "qcom,qcs404-ethqos"))
+ 		plat_dat->rx_clk_runs_in_lpi = 1;
+ 	if (data->has_integrated_pcs)
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-tegra.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-tegra.c
+index f8367c5b490b..5e8aa03cffae 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-tegra.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-tegra.c
+@@ -290,7 +290,7 @@ static int tegra_mgbe_probe(struct platform_device *pdev)
  	}
  
--	if (priv->plat->has_sun8i) {
-+	if (priv->plat->flags & STMMAC_FLAG_HAS_SUN8I) {
- 		if (clk_rate > 160000000)
- 			priv->clk_csr = 0x03;
- 		else if (clk_rate > 80000000)
-@@ -6856,7 +6856,7 @@ static int stmmac_hw_init(struct stmmac_priv *priv)
- 	int ret;
+ 	plat->has_xgmac = 1;
+-	plat->tso_en = 1;
++	plat->flags |= STMMAC_FLAG_TSO_EN;
+ 	plat->pmt = 1;
+ 	plat->bsp_priv = mgbe;
  
- 	/* dwmac-sun8i only work in chain mode */
--	if (priv->plat->has_sun8i)
-+	if (priv->plat->flags & STMMAC_FLAG_HAS_SUN8I)
- 		chain_mode = 1;
- 	priv->chain_mode = chain_mode;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index 3df32658b5bb..73002ed923aa 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -5677,7 +5677,7 @@ static netdev_features_t stmmac_fix_features(struct net_device *dev,
+ 		features &= ~NETIF_F_CSUM_MASK;
  
+ 	/* Disable tso if asked by ethtool */
+-	if ((priv->plat->tso_en) && (priv->dma_cap.tsoen)) {
++	if ((priv->plat->flags & STMMAC_FLAG_TSO_EN) && (priv->dma_cap.tsoen)) {
+ 		if (features & NETIF_F_TSO)
+ 			priv->tso = true;
+ 		else
+@@ -7250,7 +7250,7 @@ int stmmac_dvr_probe(struct device *device,
+ 		ndev->hw_features |= NETIF_F_HW_TC;
+ 	}
+ 
+-	if ((priv->plat->tso_en) && (priv->dma_cap.tsoen)) {
++	if ((priv->plat->flags & STMMAC_FLAG_TSO_EN) && (priv->dma_cap.tsoen)) {
+ 		ndev->hw_features |= NETIF_F_TSO | NETIF_F_TSO6;
+ 		if (priv->plat->has_gmac4)
+ 			ndev->hw_features |= NETIF_F_GSO_UDP_L4;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c
+index 644bb54f5f02..352b01678c22 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c
+@@ -77,7 +77,7 @@ static int snps_gmac5_default_data(struct pci_dev *pdev,
+ 	plat->clk_csr = 5;
+ 	plat->has_gmac4 = 1;
+ 	plat->force_sf_dma_mode = 1;
+-	plat->tso_en = 1;
++	plat->flags |= STMMAC_FLAG_TSO_EN;
+ 	plat->pmt = 1;
+ 
+ 	/* Set default value for multicast hash bins */
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
+index 3c6b55b60461..5a67af4526c7 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
+@@ -524,7 +524,8 @@ stmmac_probe_config_dt(struct platform_device *pdev, u8 *mac)
+ 		plat->has_gmac4 = 1;
+ 		plat->has_gmac = 0;
+ 		plat->pmt = 1;
+-		plat->tso_en = of_property_read_bool(np, "snps,tso");
++		if (of_property_read_bool(np, "snps,tso"))
++			plat->flags |= STMMAC_FLAG_TSO_EN;
+ 	}
+ 
+ 	if (of_device_is_compatible(np, "snps,dwmac-3.610") ||
+@@ -537,7 +538,8 @@ stmmac_probe_config_dt(struct platform_device *pdev, u8 *mac)
+ 	if (of_device_is_compatible(np, "snps,dwxgmac")) {
+ 		plat->has_xgmac = 1;
+ 		plat->pmt = 1;
+-		plat->tso_en = of_property_read_bool(np, "snps,tso");
++		if (of_property_read_bool(np, "snps,tso"))
++			plat->flags |= STMMAC_FLAG_TSO_EN;
+ 	}
+ 
+ 	dma_cfg = devm_kzalloc(&pdev->dev, sizeof(*dma_cfg),
 diff --git a/include/linux/stmmac.h b/include/linux/stmmac.h
-index 15fb07cc89c8..66dcf84d024a 100644
+index 66dcf84d024a..47ae29a98835 100644
 --- a/include/linux/stmmac.h
 +++ b/include/linux/stmmac.h
-@@ -207,6 +207,7 @@ struct dwmac4_addrs {
- #define STMMAC_FLAG_HAS_INTEGRATED_PCS		BIT(0)
+@@ -208,6 +208,7 @@ struct dwmac4_addrs {
  #define STMMAC_FLAG_SPH_DISABLE			BIT(1)
  #define STMMAC_FLAG_USE_PHY_WOL			BIT(2)
-+#define STMMAC_FLAG_HAS_SUN8I			BIT(3)
+ #define STMMAC_FLAG_HAS_SUN8I			BIT(3)
++#define STMMAC_FLAG_TSO_EN			BIT(4)
  
  struct plat_stmmacenet_data {
  	int bus_id;
-@@ -270,7 +271,6 @@ struct plat_stmmacenet_data {
+@@ -271,7 +272,6 @@ struct plat_stmmacenet_data {
  	struct reset_control *stmmac_ahb_rst;
  	struct stmmac_axi *axi;
  	int has_gmac4;
--	bool has_sun8i;
- 	bool tso_en;
+-	bool tso_en;
  	int rss_en;
  	int mac_port_sel_speed;
+ 	bool en_tx_lpi_clockgating;
 -- 
 2.39.2
 
