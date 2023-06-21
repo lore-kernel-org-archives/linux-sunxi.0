@@ -1,43 +1,43 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A8B19E62
-	for <linux-sunxi@lists.linux.dev>; Wed, 21 Jun 2023 18:26:14 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-31129591288so4505747f8f.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 21 Jun 2023 11:26:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E31719BAC
+	for <linux-sunxi@lists.linux.dev>; Wed, 21 Jun 2023 18:26:15 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f9b4bf99c2so30966505e9.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 21 Jun 2023 11:26:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1687371973; x=1689963973;
+        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1687371974; x=1689963974;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XnVUt9Dh0UjANbDqrVAk/dG3mwlxSAljXxYJAiOkMWs=;
-        b=SXR+1CSaVc/VFj+6YyiQh1YfTC4kn5BznGOyTgzxQH4zAhHphmy7po2zKWk8QcZbOu
-         uWcQrBJ/d3s9qeBl6IcPLErvFClyqACulScbO2UCePcPAmvCucD/Oo6Yh5FqBOMaOgx0
-         24/vR0PkWZpbjYqaxpB9nQlLSUkT8ZiGdt/2QkaCSYum8BFIdcMJREM6AXxRCnYBaMjN
-         x0C/R5puQNCsI4KdE3WlBtlgWAPScneLteaKr92fOVyeZwmI+ZhY/pEFc5t+CJQH/ghT
-         6272GWWWVSRWw+Rq6mI9FRaKPmY7rA44K0XrGdOrEdfGQ5Rd39ZX+AOH1DqWgCvXUlad
-         ok9A==
+        bh=ew/OjzgYg2nsW0kAROkz29zhVp2ggSYw8qH9w/3MfWE=;
+        b=n6Qrtw98lb9RJIZ3WHsZmyS+biWZdAAD8pO3XorHwhSNypxDHdSpsc/DcdZn2wepf1
+         eeoKDOVpPuuUpfLGUv8Au6ECGFSan8lw9NwNAYv9oQJaGxeVandunPuMbdJtuVIG9LvQ
+         yNiUt095Y8g+of78t6IIzuh7kONVQgsc+u8IR/Hf1b6NfSBHiytmSu/NkEfyIzOjV/JV
+         DKUKL5muz+H6jvIW7FcYK0TY2/n8I7+oSfAKZn/Uzohi+qyg+iO6onmnZyNHAHnOGKqO
+         9TOeFhR6+KzFtZg61XWdXfAcuT83tEGvMvH6jPWjtX8YGxceNdmVt6l3hr5z1qMD9mb2
+         UC/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687371973; x=1689963973;
+        d=1e100.net; s=20221208; t=1687371974; x=1689963974;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XnVUt9Dh0UjANbDqrVAk/dG3mwlxSAljXxYJAiOkMWs=;
-        b=jpygb60QBaT3nKV9mMEYLnKIZl8sR8hId0dvxreeqTQIJ/b+M2x6ACiNF2XbqM4eDs
-         6u3r8CAtWMOMZrrVRextQXwSZUTvWfVgA8dMoh20VNXDkNBaiGV72U9uvVFfuTd4lsKR
-         IX5IwOhtCGmx1jceB2oag8YIW6ODHq/zL8DDKseB9ghsmOd/i1333GEXvuNrakuVe3vy
-         /9XE4ygEV9+7btMSfmTBBYKBrzuNUKvnl7RLfBBd5FbcRuoF3hG5XgXrV9OfB6SlZuY3
-         HE07TB3m6DU0rmizuPnvT02gtifAvsu4Ih/btjY43Xq0JNKC7wNZKF4CFmooVXDcJErU
-         FJUw==
-X-Gm-Message-State: AC+VfDxALZNTAH9ha4i2Jd2ph5rLOsm82gNdmhEAqRbS3UvI/BOqR7Pm
-	9gWycevIhsrP3nkCyOsNR1dU/Q==
-X-Google-Smtp-Source: ACHHUZ5wc2omPscouYvz8DXPPf0DQRTfXe9e5VD4Xmi19o6SIopsk/LXIsSG0qcRyRKpqh2wCqn2mA==
-X-Received: by 2002:a5d:6a91:0:b0:2fe:e137:dbad with SMTP id s17-20020a5d6a91000000b002fee137dbadmr11044573wru.51.1687371972834;
-        Wed, 21 Jun 2023 11:26:12 -0700 (PDT)
+        bh=ew/OjzgYg2nsW0kAROkz29zhVp2ggSYw8qH9w/3MfWE=;
+        b=Ow2L/QPGJGmggBq1oFDmYSvb4+Ew46CsxTFh47Bu0pshrhcFu4GYM3quOK1sQuN4nn
+         +uMbyxljVJ3sLCFWBjeDLwcfK1WX60L1ehyBBsKftr6qr4E9NmexNCR29hwtz9LbSin1
+         hwH73q1LX1lEHcjgvEvCw/64cL/pGLb6Gg1zExgaRhWoZvHazgCRVN7q2opjGwWRmYiL
+         hbKk4ecVw5L9MCR5SrR6RuPaJDE8fO/59AC0LPvzaGcdbBbr/I8TlkbIwASjs0nT/a32
+         zDkMfnToa/ZKPev2y5w34Wi6iHHhkbtZAyGTE+5N2WEzZqm9+6n27XqAOPSbywOj9FCV
+         oogw==
+X-Gm-Message-State: AC+VfDz9bLLgiY7ioGi8uewoBBlxvtXmH5/7hrUQIsc78DPsLkQZTxVq
+	AHbhVbyCY+ESBrHFAd1UDkKWhw==
+X-Google-Smtp-Source: ACHHUZ5g8Bd2osHTM6eMARbkeDbcanxof28/KfBKN1/bOW0HcCripbW+ahgdGPn2t/CUqjH7+8vfjg==
+X-Received: by 2002:adf:f203:0:b0:30f:ca58:39ca with SMTP id p3-20020adff203000000b0030fca5839camr12679570wro.31.1687371974190;
+        Wed, 21 Jun 2023 11:26:14 -0700 (PDT)
 Received: from brgl-uxlite.home ([2a01:cb1d:334:ac00:a69f:8ee3:6907:ccdf])
-        by smtp.gmail.com with ESMTPSA id z13-20020adff74d000000b0030af15d7e41sm5176994wrp.4.2023.06.21.11.26.11
+        by smtp.gmail.com with ESMTPSA id z13-20020adff74d000000b0030af15d7e41sm5176994wrp.4.2023.06.21.11.26.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jun 2023 11:26:12 -0700 (PDT)
+        Wed, 21 Jun 2023 11:26:13 -0700 (PDT)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
 To: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
@@ -65,9 +65,9 @@ Cc: netdev@vger.kernel.org,
 	linux-tegra@vger.kernel.org,
 	linux-mediatek@lists.infradead.org,
 	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: [PATCH net-next 01/12] net: stmmac: replace has_integrated_pcs field with a flag
-Date: Wed, 21 Jun 2023 20:25:47 +0200
-Message-Id: <20230621182558.544417-2-brgl@bgdev.pl>
+Subject: [PATCH net-next 02/12] net: stmmac: replace the sph_disable field with a flag
+Date: Wed, 21 Jun 2023 20:25:48 +0200
+Message-Id: <20230621182558.544417-3-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230621182558.544417-1-brgl@bgdev.pl>
 References: <20230621182558.544417-1-brgl@bgdev.pl>
@@ -81,67 +81,77 @@ Content-Transfer-Encoding: 8bit
 
 From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-struct plat_stmmacenet_data contains several boolean fields that could be
-easily replaced with a common integer 'flags' bitfield and bit defines.
-
-Start the process with the has_integrated_pcs field.
+Drop the boolean field of the plat_stmmacenet_data structure in favor of a
+simple bitfield flag.
 
 Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 ---
- drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c | 3 ++-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c | 2 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c       | 2 +-
  drivers/net/ethernet/stmicro/stmmac/stmmac_main.c       | 3 ++-
- include/linux/stmmac.h                                  | 4 +++-
- 3 files changed, 7 insertions(+), 3 deletions(-)
+ include/linux/stmmac.h                                  | 2 +-
+ 4 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-index fa0fc53c56a3..44151e69f9ce 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-@@ -790,7 +790,8 @@ static int qcom_ethqos_probe(struct platform_device *pdev)
- 	plat_dat->tso_en = of_property_read_bool(np, "snps,tso");
- 	if (of_device_is_compatible(np, "qcom,qcs404-ethqos"))
- 		plat_dat->rx_clk_runs_in_lpi = 1;
--	plat_dat->has_integrated_pcs = data->has_integrated_pcs;
-+	if (data->has_integrated_pcs)
-+		plat_dat->flags |= STMMAC_FLAG_HAS_INTEGRATED_PCS;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
+index 9f88530c5e8c..0c12ab67c27b 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
+@@ -359,7 +359,7 @@ static int tegra_eqos_probe(struct platform_device *pdev,
+ 	data->fix_mac_speed = tegra_eqos_fix_speed;
+ 	data->init = tegra_eqos_init;
+ 	data->bsp_priv = eqos;
+-	data->sph_disable = 1;
++	data->flags |= STMMAC_FLAG_SPH_DISABLE;
  
- 	if (ethqos->serdes_phy) {
- 		plat_dat->serdes_powerup = qcom_ethqos_serdes_powerup;
+ 	err = tegra_eqos_init(pdev, eqos);
+ 	if (err < 0)
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
+index ab9f876b6df7..70e91bbef2a6 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
+@@ -459,7 +459,7 @@ static int intel_mgbe_common_data(struct pci_dev *pdev,
+ 	plat->has_gmac4 = 1;
+ 	plat->force_sf_dma_mode = 0;
+ 	plat->tso_en = 1;
+-	plat->sph_disable = 1;
++	data->flags |= STMMAC_FLAG_SPH_DISABLE;
+ 
+ 	/* Multiplying factor to the clk_eee_i clock time
+ 	 * period to make it closer to 100 ns. This value
 diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index 4727f7be4f86..38b6cbd8a133 100644
+index 38b6cbd8a133..18e56299363d 100644
 --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -5798,7 +5798,8 @@ static void stmmac_common_interrupt(struct stmmac_priv *priv)
- 		}
+@@ -7258,7 +7258,8 @@ int stmmac_dvr_probe(struct device *device,
+ 		dev_info(priv->device, "TSO feature enabled\n");
+ 	}
  
- 		/* PCS link status */
--		if (priv->hw->pcs && !priv->plat->has_integrated_pcs) {
-+		if (priv->hw->pcs &&
-+		    !(priv->plat->flags & STMMAC_FLAG_HAS_INTEGRATED_PCS)) {
- 			if (priv->xstats.pcs_link)
- 				netif_carrier_on(priv->dev);
- 			else
+-	if (priv->dma_cap.sphen && !priv->plat->sph_disable) {
++	if (priv->dma_cap.sphen &&
++	    !(priv->plat->flags & STMMAC_FLAG_SPH_DISABLE)) {
+ 		ndev->hw_features |= NETIF_F_GRO;
+ 		priv->sph_cap = true;
+ 		priv->sph = priv->sph_cap;
 diff --git a/include/linux/stmmac.h b/include/linux/stmmac.h
-index 06090538fe2d..8e7511071ef1 100644
+index 8e7511071ef1..1b02f866316c 100644
 --- a/include/linux/stmmac.h
 +++ b/include/linux/stmmac.h
-@@ -204,6 +204,8 @@ struct dwmac4_addrs {
- 	u32 mtl_low_cred_offset;
+@@ -205,6 +205,7 @@ struct dwmac4_addrs {
  };
  
-+#define STMMAC_FLAG_HAS_INTEGRATED_PCS		BIT(0)
-+
+ #define STMMAC_FLAG_HAS_INTEGRATED_PCS		BIT(0)
++#define STMMAC_FLAG_SPH_DISABLE			BIT(1)
+ 
  struct plat_stmmacenet_data {
  	int bus_id;
- 	int phy_addr;
-@@ -293,6 +295,6 @@ struct plat_stmmacenet_data {
- 	bool sph_disable;
+@@ -292,7 +293,6 @@ struct plat_stmmacenet_data {
+ 	int msi_rx_base_vec;
+ 	int msi_tx_base_vec;
+ 	bool use_phy_wol;
+-	bool sph_disable;
  	bool serdes_up_after_phy_linkup;
  	const struct dwmac4_addrs *dwmac4_addrs;
--	bool has_integrated_pcs;
-+	unsigned int flags;
- };
- #endif
+ 	unsigned int flags;
 -- 
 2.39.2
 
