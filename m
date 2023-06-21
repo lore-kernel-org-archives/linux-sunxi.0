@@ -1,43 +1,43 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D351B8E3
-	for <linux-sunxi@lists.linux.dev>; Wed, 21 Jun 2023 18:26:17 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3090d3e9c92so7124321f8f.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 21 Jun 2023 11:26:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9936519BAC
+	for <linux-sunxi@lists.linux.dev>; Wed, 21 Jun 2023 18:26:18 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-3f8ff5fe50aso42964365e9.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 21 Jun 2023 11:26:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1687371975; x=1689963975;
+        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1687371976; x=1689963976;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=R0OwBqk57PhsZ04IZ/thQPvSHwVfxueGqzoT1EHd/f0=;
-        b=gXdVXlJTcS5XYEo51rAA4JlwFbLrG4KYmIfKfFEMJfyjsCe39ue7rCvQCs/Gm47qB4
-         bJrItSEK/CqlAUvrHnlGOshz1H7uqWkLRLQ8Hj23JDUdJgq6Tsau8Vj8Uzo3FDatkAut
-         IDPiT9Il41Ab78s7xFRHzIBBL3ETf77C/+RcY3ZhokR2PcPkVhlTOWiK8b7xJ/3jCp1b
-         USWaPGQNNwGxg5YfdCVVVv7Mm/LCG5PI3sG1b6IpB0V+U38EObFZbjVIcgccKX79bJAY
-         b98y6vu2+0g9+LmJ+iIK/AsxM47nRu8w6leDmRCw8VUeE/yr4cmqQZjgwzfKorxVjm1c
-         ybow==
+        bh=LzNmZCXlSWOYlmr4PSAR1znItM6ZQApvKlAxUdPBEws=;
+        b=lhB4O4R+QgPqC82mKzgnaE06t2sQ47iDhSESMJWL1zy6rkjIOJWFo5+Gwh6GhWI+uz
+         ey65qccVH09imlh0PF+C414coaq8d9BYz6AGcWp+N1TjTa527238y6siI9gidbDAeCDU
+         76zOQT5G9rsHAIoAkaGK9dcjoG8hZTytnrA2W4ANsAAHwDkNGjkdecHfvL4ZQMlhU19k
+         1Amyr57UncHC2/RYS3R31PHdyz3pgXXYZbKG+kkOvYDCysRw6TqqPSl2OFHKmQs8I75+
+         DmuchEoqtEMw9cVFWpn2neqSd0vqINszD70ESXoz5UALEbRcehho/0PpCMbvdpjZEcX2
+         AiUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687371975; x=1689963975;
+        d=1e100.net; s=20221208; t=1687371976; x=1689963976;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=R0OwBqk57PhsZ04IZ/thQPvSHwVfxueGqzoT1EHd/f0=;
-        b=XLiu9skY32ZM5iM7snxD+gkv+GCw3Qydm69SDJZYQ5eJ87o8Pp0lci63HJYBYmp7tY
-         p3bmEcO3VZT7z9t24daALJKHcbO3Idijmhss2Xt80BjDqp2/aZICwWcA4RWnPNLXh3Hs
-         xVI8QOnwl1sBUCDGzu4z/fSpbQkLoiu5qMyf3fOdgn98g1WdNPE5CvP2LE65DOZKnLfO
-         vdSAo7gYcunkIO65Esymj/EeRS43LZuFrvjz/iai7laLzGE98Q/QWN3OpBUSSlv5TvnD
-         YYqltCMvAqNX6xpDHpdzxtGwEE+bbfLiG4mUYGSfZtODBUXXRt7KqI+vMRDBbICh/5kC
-         qjUw==
-X-Gm-Message-State: AC+VfDz9EBBXp38+416cWYS2kP9VPFvrH1/oFfdjwrFqH0xCCj2ffItv
-	/nRiywSlz04vhftaKZZS8QbPsA==
-X-Google-Smtp-Source: ACHHUZ6ro2dY8kK22wivgUJLDisEOfpm9abhyjxSzeV3udAHBYE7eMFpsn15ij2gBjweFqUIcAwI4w==
-X-Received: by 2002:adf:fe48:0:b0:311:1b34:a7c9 with SMTP id m8-20020adffe48000000b003111b34a7c9mr14485298wrs.12.1687371975524;
-        Wed, 21 Jun 2023 11:26:15 -0700 (PDT)
+        bh=LzNmZCXlSWOYlmr4PSAR1znItM6ZQApvKlAxUdPBEws=;
+        b=Aj17NwfbINYGPIlNJx5Vvb3MQPjHlq+zFgIJiWTviua+mhb1oxgnh6d8HUslHeL9Ce
+         K1R1OnzTRehuJHY14VeyovGWvwDxj6ZBaElkjEbDtRLFmDUrSMZNzqDTgYNFR3oMr6hk
+         TXGfauyA0/RA4TPn4zlfnSNHnScHDIMeFXtMP/yUyZ5uGTWEyPOe1BLRvF7VkH+sI67n
+         8NvPDrR7lFHDyCg29vB4U9+oVLGFhkGl826WlOBds518Qvv/nceAt5GQbnltYQqWrDzU
+         lVsfDn4Un/W96XJzVUZu0HSwlYhe6IcpkuxREUrSwHH6gjzd3aW64U1P+ctHXHaeayhF
+         /zYg==
+X-Gm-Message-State: AC+VfDyVcVuF6LkoSGu33EfPUrO/FOjSW7gkaGjIhZ7QwthJeRG5OVxC
+	NAPA6ph8aR3roiULuIsRNQeT8w==
+X-Google-Smtp-Source: ACHHUZ4HCkDRLe8HCWmsjiSHsLkUzqg1IZqv9rJNe6nBf1jtTA0Q2s1/Z9TWBYU3unjBDb78RiLtCg==
+X-Received: by 2002:a5d:620e:0:b0:30f:c050:88dd with SMTP id y14-20020a5d620e000000b0030fc05088ddmr18903240wru.8.1687371976794;
+        Wed, 21 Jun 2023 11:26:16 -0700 (PDT)
 Received: from brgl-uxlite.home ([2a01:cb1d:334:ac00:a69f:8ee3:6907:ccdf])
-        by smtp.gmail.com with ESMTPSA id z13-20020adff74d000000b0030af15d7e41sm5176994wrp.4.2023.06.21.11.26.14
+        by smtp.gmail.com with ESMTPSA id z13-20020adff74d000000b0030af15d7e41sm5176994wrp.4.2023.06.21.11.26.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jun 2023 11:26:15 -0700 (PDT)
+        Wed, 21 Jun 2023 11:26:16 -0700 (PDT)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
 To: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
@@ -65,9 +65,9 @@ Cc: netdev@vger.kernel.org,
 	linux-tegra@vger.kernel.org,
 	linux-mediatek@lists.infradead.org,
 	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: [PATCH net-next 03/12] net: stmmac: replace the use_phy_wol field with a flag
-Date: Wed, 21 Jun 2023 20:25:49 +0200
-Message-Id: <20230621182558.544417-4-brgl@bgdev.pl>
+Subject: [PATCH net-next 04/12] net: stmmac: replace the has_sun8i field with a flag
+Date: Wed, 21 Jun 2023 20:25:50 +0200
+Message-Id: <20230621182558.544417-5-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230621182558.544417-1-brgl@bgdev.pl>
 References: <20230621182558.544417-1-brgl@bgdev.pl>
@@ -86,74 +86,66 @@ simple bitfield flag.
 
 Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 ---
- drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c    | 2 +-
- drivers/net/ethernet/stmicro/stmmac/dwmac-mediatek.c | 5 ++++-
- drivers/net/ethernet/stmicro/stmmac/stmmac_main.c    | 2 +-
- include/linux/stmmac.h                               | 2 +-
- 4 files changed, 7 insertions(+), 4 deletions(-)
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 2 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 4 ++--
+ include/linux/stmmac.h                            | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
-index 70e91bbef2a6..44a84a6c18ce 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
-@@ -628,7 +628,7 @@ static int ehl_common_data(struct pci_dev *pdev,
- {
- 	plat->rx_queues_to_use = 8;
- 	plat->tx_queues_to_use = 8;
--	plat->use_phy_wol = 1;
-+	plat->flags |= STMMAC_FLAG_USE_PHY_WOL;
- 
- 	plat->safety_feat_cfg->tsoee = 1;
- 	plat->safety_feat_cfg->mrxpee = 1;
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-mediatek.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-mediatek.c
-index 73c1dfa7ecb1..4d877d75642d 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-mediatek.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-mediatek.c
-@@ -588,7 +588,10 @@ static int mediatek_dwmac_common_data(struct platform_device *pdev,
- 	int i;
- 
- 	plat->interface = priv_plat->phy_mode;
--	plat->use_phy_wol = priv_plat->mac_wol ? 0 : 1;
-+	if (priv_plat->mac_wol)
-+		plat->flags |= STMMAC_FLAG_USE_PHY_WOL;
-+	else
-+		plat->flags &= ~STMMAC_FLAG_USE_PHY_WOL;
- 	plat->riwt_off = 1;
- 	plat->maxmtu = ETH_DATA_LEN;
- 	plat->host_dma_width = priv_plat->variant->dma_bit_mask;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+index 1e714380d125..2b5ebb15bfda 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+@@ -1227,7 +1227,7 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
+ 	plat_dat->interface = interface;
+ 	plat_dat->rx_coe = STMMAC_RX_COE_TYPE2;
+ 	plat_dat->tx_coe = 1;
+-	plat_dat->has_sun8i = true;
++	plat_dat->flags |= STMMAC_FLAG_HAS_SUN8I;
+ 	plat_dat->bsp_priv = gmac;
+ 	plat_dat->init = sun8i_dwmac_init;
+ 	plat_dat->exit = sun8i_dwmac_exit;
 diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index 18e56299363d..a1a59af3961d 100644
+index a1a59af3961d..3df32658b5bb 100644
 --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -6877,7 +6877,7 @@ static int stmmac_hw_init(struct stmmac_priv *priv)
- 		 */
- 		priv->plat->enh_desc = priv->dma_cap.enh_desc;
- 		priv->plat->pmt = priv->dma_cap.pmt_remote_wake_up &&
--				!priv->plat->use_phy_wol;
-+				!(priv->plat->flags & STMMAC_FLAG_USE_PHY_WOL);
- 		priv->hw->pmt = priv->plat->pmt;
- 		if (priv->dma_cap.hash_tb_sz) {
- 			priv->hw->multicast_filter_bins =
+@@ -325,7 +325,7 @@ static void stmmac_clk_csr_set(struct stmmac_priv *priv)
+ 			priv->clk_csr = STMMAC_CSR_250_300M;
+ 	}
+ 
+-	if (priv->plat->has_sun8i) {
++	if (priv->plat->flags & STMMAC_FLAG_HAS_SUN8I) {
+ 		if (clk_rate > 160000000)
+ 			priv->clk_csr = 0x03;
+ 		else if (clk_rate > 80000000)
+@@ -6856,7 +6856,7 @@ static int stmmac_hw_init(struct stmmac_priv *priv)
+ 	int ret;
+ 
+ 	/* dwmac-sun8i only work in chain mode */
+-	if (priv->plat->has_sun8i)
++	if (priv->plat->flags & STMMAC_FLAG_HAS_SUN8I)
+ 		chain_mode = 1;
+ 	priv->chain_mode = chain_mode;
+ 
 diff --git a/include/linux/stmmac.h b/include/linux/stmmac.h
-index 1b02f866316c..15fb07cc89c8 100644
+index 15fb07cc89c8..66dcf84d024a 100644
 --- a/include/linux/stmmac.h
 +++ b/include/linux/stmmac.h
-@@ -206,6 +206,7 @@ struct dwmac4_addrs {
- 
+@@ -207,6 +207,7 @@ struct dwmac4_addrs {
  #define STMMAC_FLAG_HAS_INTEGRATED_PCS		BIT(0)
  #define STMMAC_FLAG_SPH_DISABLE			BIT(1)
-+#define STMMAC_FLAG_USE_PHY_WOL			BIT(2)
+ #define STMMAC_FLAG_USE_PHY_WOL			BIT(2)
++#define STMMAC_FLAG_HAS_SUN8I			BIT(3)
  
  struct plat_stmmacenet_data {
  	int bus_id;
-@@ -292,7 +293,6 @@ struct plat_stmmacenet_data {
- 	int msi_sfty_ue_vec;
- 	int msi_rx_base_vec;
- 	int msi_tx_base_vec;
--	bool use_phy_wol;
- 	bool serdes_up_after_phy_linkup;
- 	const struct dwmac4_addrs *dwmac4_addrs;
- 	unsigned int flags;
+@@ -270,7 +271,6 @@ struct plat_stmmacenet_data {
+ 	struct reset_control *stmmac_ahb_rst;
+ 	struct stmmac_axi *axi;
+ 	int has_gmac4;
+-	bool has_sun8i;
+ 	bool tso_en;
+ 	int rss_en;
+ 	int mac_port_sel_speed;
 -- 
 2.39.2
 
