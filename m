@@ -1,113 +1,136 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02EAD18C2E
-	for <linux-sunxi@lists.linux.dev>; Wed, 21 Jun 2023 15:51:44 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-30fcda210cfso6018460f8f.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 21 Jun 2023 08:51:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28F819BAC
+	for <linux-sunxi@lists.linux.dev>; Wed, 21 Jun 2023 18:06:29 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-54fac329a71so3329302a12.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 21 Jun 2023 11:06:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687362703; x=1689954703;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aC81hT2eRQBjkojJrQa9BM2dAGgpSMK2LXGRglIV5hw=;
-        b=mqi7fm69G1L7cEB/FeYvXqf9QyhMh1oLHnDcNBlWVNoFnHegIYS+R+ecL+9SrnZdoJ
-         omi7ZPmVm0NSXZXd2auduGsejwdcEGoF/3dwrmt9sc6SsMg0NEE0ef13Ov+KzxwA9cE3
-         BIEYV/3eYIwoyofzhRYjkFpf7O/MjWlLsiEvBmpbdHRIHqUAS9PCe8IkwS8BkAz9+zaj
-         ofXKscB/utGxvaGcm56qkL4yZUuTvE+JH827SzSlEKJTJbxtWWXbtcETz6PjMmg8gUSQ
-         qGdzas3bkJeJR+DE/gBkYgcvmL5zQc6lpOeveBlRORqlxAnRrFfzonuo6PMlT1VpdLuJ
-         ByNg==
+        d=gmail.com; s=20221208; t=1687370789; x=1689962789;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Az2bQMNiNgvxrY9glBfDppHJtPk+FnOiirU3h5SFUmI=;
+        b=GBwqsylX82eyyI6jaGm8GsagHkfo1ldmyJdiuXnqzkqc4ixPDGmBndPn+m5n78gbEX
+         grQ43KpF9obw2HM0F+0Da2EX7FG1TM+0L9uhuv2VxtTTh4Shtd4OnCRuABGudvVq5VNz
+         iQaWR9MzmTbR4azKVOEb4dzjdFL4zISHzQ8Xai7eC0gVhiFfJ7tVYQ5E9AAcbFn9q22k
+         8Ov5oteaP4Ey9KJbsK4m7VfpYJ2OGGic9pmnWe9y4g9aXPHbx1psYi9x54FtmJyaOHTJ
+         If9gncUlG0NfkZN0/Ht0Eesf6ACs38AOXcM3/k8dkmspSHj3mSTLO0ygf69hIR5HeY/c
+         7xjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687362703; x=1689954703;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aC81hT2eRQBjkojJrQa9BM2dAGgpSMK2LXGRglIV5hw=;
-        b=XYWpUjzXW12h4NS/qpNqSTvs8xbeqQkTQ2+G006GIjWT048GmnDAeqSPfoA2j5A/t1
-         WGimo6CtyHtzuHCtpJG7kNBIVHHvYcbNrbHBGCxSO2MVWmFTIIYh5skaaJoagYYaA12Y
-         uzIKeRAsriYBfJUXbboPyB6E4rS0Z2ODs/Kv1CG4NPIiBs/ZPplLUJh5kmIqWHz1y0qp
-         b+WRvK3JCcV3d0KXteqCEjpR2/RqO60Mzs8+dl/peOORuEoE/Rhw1H0TJoU8VHkezwu6
-         xeXuNxkUCiUOt2vuItaSP9o7jBCPeTAtzD3YTYXuXMcTSUN2sewzlKulflWMyvQoSI6A
-         89PA==
-X-Gm-Message-State: AC+VfDwj5x3tpOOjM7Mc/oqp9C1T/ysEesH253tN5fdcrP3BOsRHEzAG
-	30GaQUffRwYykb9WXwjmR5A=
-X-Google-Smtp-Source: ACHHUZ6mfiuUSKUL9T4FG0zO9eFCzfqn7gdQJ+UxFybrS+0IlVlSOIzIttkP0rZOt+iRNg6rGhm6KQ==
-X-Received: by 2002:a5d:4bc1:0:b0:311:b8d:a63b with SMTP id l1-20020a5d4bc1000000b003110b8da63bmr11474994wrt.15.1687362702797;
-        Wed, 21 Jun 2023 08:51:42 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id x1-20020a5d4441000000b00311d8c2561bsm4795824wrr.60.2023.06.21.08.51.41
+        d=1e100.net; s=20221208; t=1687370789; x=1689962789;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Az2bQMNiNgvxrY9glBfDppHJtPk+FnOiirU3h5SFUmI=;
+        b=Lc4vJHbOJqlyUEvZfNrvNTfFSmj89thH2On2+fcvKsfEPOIfc3R2D+dqBSatD0187o
+         7SO9TDw8eY47FihZFpWiEbJ15XsG9xi8FO5ijLc5R8tsTwPdVNUcq8iqFIqYDy3haLps
+         GO3oOW0NkFAqwTnoNsH5y0FDyTe5KuHAuSUVIuoZbI2R2np++Ro8nSARcbCFaxypZh0m
+         kH5T7cFnarRW9BP7RHix7vhmQxDXrxZegZzLiy3mndsrKbemTRloI11iaoy0mdVJbv+z
+         XnnIIdX9AmchTkV8ISc0eW8H1ZDz26XtlabeVHU47HVAjGU6SLc33fyZqJ3OI8kIXmFG
+         UR4w==
+X-Gm-Message-State: AC+VfDyigyryGXusnUMLpl35hVuN8hcLUiRQMFVATJkV+nM5Pk+xHEX1
+	y8bdOhG5WDexaJeG2T3YsEs=
+X-Google-Smtp-Source: ACHHUZ4rfAeGFSguwikDDJBGuQb8NhqAfqZhPlTkMSahmVCwaEWtuwULvNAqRQTIu3CqkjuDrOxkMw==
+X-Received: by 2002:a17:90a:bb85:b0:24d:fbaf:e0b1 with SMTP id v5-20020a17090abb8500b0024dfbafe0b1mr9657024pjr.19.1687370788961;
+        Wed, 21 Jun 2023 11:06:28 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id gq17-20020a17090b105100b00260e7c2cedesm1762390pjb.57.2023.06.21.11.06.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jun 2023 08:51:42 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org,
- Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Tudor Ambarus <tudor.ambarus@linaro.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Miquel Raynal <miquel.raynal@bootlin.com>
-Subject:
- Re: [PATCH v2 3/3] spi: sun6i: Use the new helper to derive the xfer timeout
- value
-Date: Wed, 21 Jun 2023 17:51:40 +0200
-Message-ID: <5683683.DvuYhMxLoT@jernej-laptop>
-In-Reply-To: <20230619155349.3118420-4-miquel.raynal@bootlin.com>
-References:
- <20230619155349.3118420-1-miquel.raynal@bootlin.com>
- <20230619155349.3118420-4-miquel.raynal@bootlin.com>
+        Wed, 21 Jun 2023 11:06:27 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Wed, 21 Jun 2023 11:06:26 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Joe Tessler <jrt@google.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Wenyou Yang <wenyou.yang@microchip.com>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Yong Deng <yong.deng@magewell.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>, Sean Young <sean@mess.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 01/28] media: cec: ch7322: drop of_match_ptr for ID table
+Message-ID: <dba2090c-e6b2-4a54-a233-9e8f309a20af@roeck-us.net>
+References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
 
-Dne ponedeljek, 19. junij 2023 ob 17:53:49 CEST je Miquel Raynal napisal(a):
-> A helper was recently added to the core to factorize common code between
-> drivers, like the amount of time a driver should wait for a transfer to
-> happen.
+On Sun, Mar 12, 2023 at 02:12:51PM +0100, Krzysztof Kozlowski wrote:
+> The driver can match only via the DT table so the table should be always
+> used and the of_match_ptr does not have any sense (this also allows ACPI
+> matching via PRP0001, even though it might not be relevant here).
 > 
-> It is of course possible to use a default value (like eg. 1s) but it is
-> way stronger to adapt this amount of time to the transfer. Indeed, long
-> transfers (eg. 4MiB) on a slow single-spi bus might take more than the
-> usual second of timeout and prevent lengthy transfers.
+>   drivers/media/cec/i2c/ch7322.c:583:34: error: ‘ch7322_of_match’ defined but not used [-Werror=unused-const-variable=]
 > 
-> The core helper was heavily inspired by the logic applied in this
-> driver, the only difference being the minimum amount of time which was
-> enlarged from 0.1s to 0.5s.
-> 
-> Use this helper instead of open-coding it.
-> 
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+What happened wit hthis patch ? I still don't see it applied.
 
-Best regards,
-Jernej
+FWIW:
+
+Reviewed-and-tested-by: Guenter Roeck <linux@roeck-us.net>
+
+Thanks,
+Guenter
 
 > ---
->  drivers/spi/spi-sun6i.c | 2 +-
+>  drivers/media/cec/i2c/ch7322.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/spi/spi-sun6i.c b/drivers/spi/spi-sun6i.c
-> index 23ad052528db..180094dfae19 100644
-> --- a/drivers/spi/spi-sun6i.c
-> +++ b/drivers/spi/spi-sun6i.c
-> @@ -422,7 +422,7 @@ static int sun6i_spi_transfer_one(struct spi_master *master,
->  	reg = sun6i_spi_read(sspi, SUN6I_TFR_CTL_REG);
->  	sun6i_spi_write(sspi, SUN6I_TFR_CTL_REG, reg | SUN6I_TFR_CTL_XCH);
->  
-> -	tx_time = max(tfr->len * 8 * 2 / (tfr->speed_hz / 1000), 100U);
-> +	tx_time = spi_controller_xfer_timeout(master, tfr);
->  	start = jiffies;
->  	timeout = wait_for_completion_timeout(&sspi->done,
->  					      msecs_to_jiffies(tx_time));
+> diff --git a/drivers/media/cec/i2c/ch7322.c b/drivers/media/cec/i2c/ch7322.c
+> index 34fad7123704..3c6e6496a001 100644
+> --- a/drivers/media/cec/i2c/ch7322.c
+> +++ b/drivers/media/cec/i2c/ch7322.c
+> @@ -589,7 +589,7 @@ MODULE_DEVICE_TABLE(of, ch7322_of_match);
+>  static struct i2c_driver ch7322_i2c_driver = {
+>  	.driver = {
+>  		.name = "ch7322",
+> -		.of_match_table = of_match_ptr(ch7322_of_match),
+> +		.of_match_table = ch7322_of_match,
+>  	},
+>  	.probe_new	= ch7322_probe,
+>  	.remove		= ch7322_remove,
+> -- 
+> 2.34.1
 > 
-
-
-
-
