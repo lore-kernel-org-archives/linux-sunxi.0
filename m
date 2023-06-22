@@ -1,224 +1,169 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2120.outbound.protection.outlook.com [40.107.223.120])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E73E1E509
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Jun 2023 12:03:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jmdPYziSqncs+wQ/2VsHTeFvu64gQ2Laxc3TowuBmoTbvnAM36rnnjZC1ikP8buBR+UEGaB7Rb0O7lL/eF9kC9Ucv0w1+Y4RUdN3lnSTAJfgq89IP/KQ7U2j+l9IPyQOuBP3Nijom9FRLAOhogSnTfDGcEg9fJgeZc62DvAOzt6n/esdKhOJ1Ho7XHPeixHqIS0oyhTI3PeMUO2NLt2NuvwlND06kaMJD6vUkhY0pmg5lYNUAC1T/C3eK7VprQbAzkB4kVFrgRMmcWgcuM+TnT4skuGd2VWKrhI8ysEJ+Ii/jzjLfysQOHCfWhm4WeO0j/cSBZV9FlXczvKhlu59hw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NEpRwbGBlTga8FlYx/wRem031kpGZkeYvYIuFRG+GXg=;
- b=l5dEP0zbmEgChFrg573we69yVg0htiNSIodkyNa4P7iaKrayP+8OKElgdzj6OFdUonL5MZVzIYm3nc4xuJ1Mz8opW4AbMExuNUfLK1TPWaDyun7rSdsQv3VEf/dz9htbsongo+Czc9XSktKbl6U4taLrjw/hC9/6wx78K4Jt/VSoUP+21sWYHj0LpVoiUKGxkTj/j1gedk3a64TuOOXyUPtgFY7w7q1G7/Yf5OGLKkFHKmF5PsW1o1YVwDDsOuroyMo0fKZcrC/5ex7eARTg883yn8jTDhcAQN5Asq47+wOuFgmGQSjeHOp+JMMqH8u9DheQSgDFTi8zMp3ynELAZw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
- dkim=pass header.d=corigine.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NEpRwbGBlTga8FlYx/wRem031kpGZkeYvYIuFRG+GXg=;
- b=LAXmoPxSC12gBzwGBa8PW3KVFK/EUYIQW6cxoK/8HpF0RR4BogZFFWqcCa86jGIkL0XfRwps0UO9XF3S2wKL7Jothawsg+RdioE2LEjd6B/KeMgmjKMgFVPOnmLQnHFUo8e5XG97oveLI4MX52KnDsonPKepL76hqy4BzPTk75A=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=corigine.com;
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
- by MN2PR13MB3902.namprd13.prod.outlook.com (2603:10b6:208:1e8::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.24; Thu, 22 Jun
- 2023 12:03:28 +0000
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::eb8f:e482:76e0:fe6e]) by PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::eb8f:e482:76e0:fe6e%5]) with mapi id 15.20.6521.023; Thu, 22 Jun 2023
- 12:03:27 +0000
-Date: Thu, 22 Jun 2023 14:03:20 +0200
-From: Simon Horman <simon.horman@corigine.com>
-To: Jisheng Zhang <jszhang@kernel.org>
-Cc: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, netdev@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH net-next v3 2/2] net: stmmac: use pcpu 64 bit statistics
- where necessary
-Message-ID: <ZJQ4iONJwezOs2CZ@corigine.com>
-References: <20230619165220.2501-1-jszhang@kernel.org>
- <20230619165220.2501-3-jszhang@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230619165220.2501-3-jszhang@kernel.org>
-X-ClientProxiedBy: AM0PR10CA0114.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:e6::31) To PH0PR13MB4842.namprd13.prod.outlook.com
- (2603:10b6:510:78::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DC51E532;
+	Thu, 22 Jun 2023 12:47:55 +0000 (UTC)
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35MCCCVs028146;
+	Thu, 22 Jun 2023 12:47:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=ZnXKwDJCmpNLo0BVLBFTTmnOcdUdxoUTDz2INcncd5s=;
+ b=Em6+nFh6MIADfcFTsYAwUj4mpD0xvsl0kNY28ypt8NaenRkq6OTTVMvUPipBBiOuLY9A
+ UepsZsQCnvzXvFmrXOAyoB354SEMfaaDs+bfOczJhFAkM6u9UW8ey61htjq51RKln7pe
+ YFINu+0e7CkcfQEC0k7KS0WawK4669dVyIyDwsuoIopGDW2F6Fln+nEYs5u4LGpbhV4c
+ MDbTRnVoBOSgPglVkrxvx8JbgdLfGiafA56Pep+knwqYub6SFQjg1mpjKtHYY4sx1Eo2
+ GHQ4cnCr1neHEP0pWlfDIFQFgGSRAdyeKK8S/ZblZnpgYhGwyq+JIepnUwc2j16YRhbN ug== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rcp3k151v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 22 Jun 2023 12:47:29 +0000
+Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 35MCCF4p028899;
+	Thu, 22 Jun 2023 12:47:28 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rcp3k150m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 22 Jun 2023 12:47:28 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+	by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 35M3Pbbp023319;
+	Thu, 22 Jun 2023 12:47:25 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3r94f53f9w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 22 Jun 2023 12:47:25 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 35MClKer17302058
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 22 Jun 2023 12:47:20 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CD5A620040;
+	Thu, 22 Jun 2023 12:47:20 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7E07020043;
+	Thu, 22 Jun 2023 12:47:18 +0000 (GMT)
+Received: from [9.171.1.190] (unknown [9.171.1.190])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 22 Jun 2023 12:47:18 +0000 (GMT)
+Message-ID: <2bd0da80754331e00f66c724138d9bbf157e1565.camel@linux.ibm.com>
+Subject: Re: [PATCH v10 5/6] iommu/dma: Allow a single FQ in addition to
+ per-CPU FQs
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Joerg Roedel <joro@8bytes.org>, Matthew Rosato <mjrosato@linux.ibm.com>,
+        Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
+        Robin
+ Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Gerd Bayer <gbayer@linux.ibm.com>, Julian Ruess <julianr@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Alexandra Winter
+ <wintera@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik
+ <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian
+ Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle
+ <svens@linux.ibm.com>,
+        Suravee Suthikulpanit
+ <suravee.suthikulpanit@amd.com>,
+        Hector Martin <marcan@marcan.st>, Sven
+ Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        David
+ Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>, Andy
+ Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad
+ Dybcio <konrad.dybcio@linaro.org>,
+        Yong Wu <yong.wu@mediatek.com>,
+        Matthias
+ Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>,
+        Gerald Schaefer
+ <gerald.schaefer@linux.ibm.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin
+ Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding
+ <thierry.reding@gmail.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        Jonathan
+ Hunter <jonathanh@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, asahi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+Date: Thu, 22 Jun 2023 14:47:18 +0200
+In-Reply-To: <20230310-dma_iommu-v10-5-f1fbd8310854@linux.ibm.com>
+References: <20230310-dma_iommu-v10-0-f1fbd8310854@linux.ibm.com>
+	 <20230310-dma_iommu-v10-5-f1fbd8310854@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: -L5DK6LIKNXBkDMbv58a_9My2c2n4j5V
+X-Proofpoint-ORIG-GUID: Kvl6x-pcaGo5ydQSLF0ieEdnFokEMGpS
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|MN2PR13MB3902:EE_
-X-MS-Office365-Filtering-Correlation-Id: 70badf84-5a90-46d7-365a-08db7318b038
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	xO9OiFtkwGdlPtBFN9JQrm8Bx6ksIDXHGAvA/+qGpQdoZZu6pVvWLBygj+igbsVTihjxN7RmBnAjghaV+08knPyQsBSgWEsEiBacH07HXC+BylMGYAUNPB9+S3/H5LDzamMssKP7EMHDszqroODhLxjfeBVjsBZ45lmHgZZ2FeS3tkbhLae6/hniYfLRyATIR4RO9Y7XfXXCCWw6+0eNTkHce6f2kiamGTpb0LPF5PKf+qcks3jhk1Eeh/NAOwBJZSRFRzYZsCNjrXHjPxq7385sVExP7Ss8u1lMKTvrjWeTvFl78pVCvmTIjJ3F2gFGHOru2x9rXd3jVVYV3TLSa6PTvNSFz2soU3DfG/Et6PjgCw7WYfZ4bRSK6wSLAzHVXbWpMGjfX4LMq1d2d8TR72+0iZ4LqW9mujYN6inL075LHMZqtcnF0iDI+ED2gVELSEDL8Y6JEf0OZC5luGY/UR3MsQnMoaKdJYh23e4mSLhrbmt8DdLi9lf21qtn6BWwSkTjXa0Yjwpq5+JkjbmQOFdMVMqM/C2XL8b20wBkLHoCCpphqW0wKWiBHrBDtnHR9Ff3Z4NHlHNIBqOqcDfR1gEt+NC/sMbQGiCY73cquCo=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39840400004)(346002)(136003)(366004)(396003)(376002)(451199021)(6512007)(6506007)(186003)(2616005)(4326008)(316002)(6486002)(6666004)(36756003)(6916009)(2906002)(66556008)(66946007)(66476007)(86362001)(41300700001)(38100700002)(83380400001)(54906003)(478600001)(5660300002)(7416002)(8676002)(8936002)(44832011);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?MFta2fTNENuj7XJFFMxI2HKGLRmqqzvU7mnXq3ZfGmJIexha58NdtGb3zxYL?=
- =?us-ascii?Q?f3Lsw7WpIPt//kPTkh/PwrEE7KBqU+1v71A8E0weJ8FMOR9sfSaGuzF2GmvU?=
- =?us-ascii?Q?yKVRpy5uh3bGis40QhXBk9BV4Uz02QvJqrVHXoO0bmci67y93CIZ90tDhpsA?=
- =?us-ascii?Q?KsqdbxTvUyDz3l7QtjZa0wg5hCCvjHxX+NtlKFpjCXrZD289RYQqI+ItZNqX?=
- =?us-ascii?Q?V9j+0Zk2Ot9zl1S3YwXMu64vXdlyd6hmIX9i1lLro6UryOZmGqUYd0ekRAyF?=
- =?us-ascii?Q?fwU1RMb0YLg5gVcF8j7rj5B7+DEQhG/4roNNWz/UVoqZUK+TBQZ7YVtWKqUx?=
- =?us-ascii?Q?ruJ8pIlzSRiHGKRqhJDYRtQOJAK6+6bEOdnn3huyAE9Gd2L1Lw/ADf57/waZ?=
- =?us-ascii?Q?Jg2I320AgjEHdrh2CF57/AOvmILkrYdFzXHRhUaxRNIVY82WZZl8EKjwkc/U?=
- =?us-ascii?Q?5GD1AVkkm8E/zgvpd+QExDUKyqEOAzK3gLJqfAqiZr0iV11/9IJR73SGJiR1?=
- =?us-ascii?Q?jcOKLrCgoI3XItUErusM39RpCvC/TUAMrF0vt1GBUGzDUlEUbJ4ZjwpAeq3S?=
- =?us-ascii?Q?i4bnzz4RHW3AUNi7WSwKfPC7ZmS7vSvTjaJbV0AGDG9uUvHKQQeHabKNCSqk?=
- =?us-ascii?Q?v+R0BZauGbSMTiue1WS3r+CRDoLR/QE0+gKQQzrVer6i1HGhvuX9MpzGGKfY?=
- =?us-ascii?Q?w1KbtxfkEmvuubIGW4pRIzOPah4qIsCBYroVigTSId0MEbOh6cJGEfyPjaGA?=
- =?us-ascii?Q?WR0pf0Fe9Zyu1xbvHJNTi6O0S++/Xm4RUGgxDtzVJr65wJ6HBfyz9fadf/kZ?=
- =?us-ascii?Q?wAIexnx5YOUYdVywGCKIrQk6FB1nzoQ/oX+4MWBH0AVq+19ltTyf4Ky513wf?=
- =?us-ascii?Q?g+GV8W1ltJ6uMsPI31/hmL7e+1BGFhrlWzSaY2VvoqUN2/Dx/MZXOG9z8LOI?=
- =?us-ascii?Q?IJsnI6batCGdQ7burYgwboQDv4jCiER2r27hbpFn23QLypLaEQWScdDrvGMJ?=
- =?us-ascii?Q?C2L0jAzFt1bSUTfLUYZhuhVC97JR6fI80BtvngqPJdX7m5zewgnwvJEPIUT4?=
- =?us-ascii?Q?nRio29j1QnNbgO/I6zH2wag8QG85vIxrSwlC6+2GIvHykqfHIqgQOFdC4sqM?=
- =?us-ascii?Q?sPStDBHNZJurZb0ka2IXkgptqEH4ukV4j4cAD/fVi3Fhnxa9dUGs5Pc0ITRa?=
- =?us-ascii?Q?oXTZyOn8+MU0QR5r1AlyveAClvsctOa60qMyDiGz6kWeC8mXuP/1ReavwJ5P?=
- =?us-ascii?Q?dOi4aumFk2LVEkVXwOGF6JoT9auDRobZbyic4PvX5dMMgyyXN9LRqzG9nbR5?=
- =?us-ascii?Q?jf8Qxad8AJGMuqegV9V9WKO1nEh5uaqf1LRxa4OKWg0HiBrjYNrMUNnuwn6G?=
- =?us-ascii?Q?2dUIfL3nqoqlmYvYPPvIOxUrgjP6iD08C6imvGt/CYoUb4xTLWqJdAgqj90q?=
- =?us-ascii?Q?Qf8ac3tkmhKDwtThGJ9zZNo3r6FTkwGgfBcYleVnGjYM4AJwtfU2nQPicz94?=
- =?us-ascii?Q?j0L68BZTRewBhQqc0/Ad3gT6UKEWgTi3Aowtj/+lT8TpQIaov43y14IHP1rZ?=
- =?us-ascii?Q?EO5SePERzXF4qGwo1NnBGok34ZZrhOwMfKHcpbvVBdN/3i3r5PxxRaWl3vMn?=
- =?us-ascii?Q?/VVjKKAMWGGqOVBigjusIbN+bjJkxyY32f7+uVOhlXHcd1jPQ3o21SaFZ0cV?=
- =?us-ascii?Q?u7kcyQ=3D=3D?=
-X-OriginatorOrg: corigine.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70badf84-5a90-46d7-365a-08db7318b038
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2023 12:03:27.7435
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Dup04i3r4WVVloPaWveG1aVo+nSdmG4O6NZcv/HluCbBvYBaAhEeplHqNs9EdqomNwDnykYFU0hnLsgFjCOAyEyv0Xd2ij0X6L0agXIN65o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR13MB3902
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-22_08,2023-06-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
+ mlxscore=0 clxscore=1011 spamscore=0 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 phishscore=0 suspectscore=0 mlxlogscore=897 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
+ definitions=main-2306220105
 
-On Tue, Jun 20, 2023 at 12:52:20AM +0800, Jisheng Zhang wrote:
+On Wed, 2023-05-24 at 16:53 +0200, Niklas Schnelle wrote:
+> In some virtualized environments, including s390 paged memory guests,
+> IOTLB flushes are used to update IOMMU shadow tables. Due to this, they
+> are much more expensive than in typical bare metal environments or
+> non-paged s390 guests. In addition they may parallelize poorly in
+> virtualized environments. This changes the trade off for flushing IOVAs
+> such that minimizing the number of IOTLB flushes trumps any benefit of
+> cheaper queuing operations or increased paralellism.
+>=20
+> In this scenario per-CPU flush queues pose several problems. Firstly
+> per-CPU memory is often quite limited prohibiting larger queues.
+> Secondly collecting IOVAs per-CPU but flushing via a global timeout
+> reduces the number of IOVAs flushed for each timeout especially on s390
+> where PCI interrupts may not be bound to a specific CPU.
+>=20
+> Let's introduce a single flush queue mode that reuses the same queue
+> logic but only allocates a single global queue. This mode is selected by
+> dma-iommu if a newly introduced .shadow_on_flush flag is set in struct
+> dev_iommu. As a first user the s390 IOMMU driver sets this flag during
+> probe_device. With the unchanged small FQ size and timeouts this setting
+> is worse than per-CPU queues but a follow up patch will make the FQ size
+> and timeout variable. Together this allows the common IOVA flushing code
+> to more closely resemble the global flush behavior used on s390's
+> previous internal DMA API implementation.
+>=20
+> Link: https://lore.kernel.org/linux-iommu/3e402947-61f9-b7e8-1414-fde0062=
+57b6f@arm.com/
+> Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com> #s390
+> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> ---
 
-...
+Gentle ping. As stated in the cover letter this version aimed to
+resolve the only outstanding feedback of removing the .tune_dma_iommu()
+op in favor of a .shadow_on_flush flag in struct dev_iommu. This then
+let's the dma-iommu choose a single queue and larger timeouts and IOVA
+counts. This leaves the dma-iommu  with full responsibility for the
+settings.
 
-Hi Jisheng Zhang,
-
-some minor feedback from my side, as it seems there will be a v4 anyway.
-
-> @@ -535,23 +548,37 @@ static void stmmac_get_per_qstats(struct stmmac_priv *priv, u64 *data)
->  {
->  	u32 tx_cnt = priv->plat->tx_queues_to_use;
->  	u32 rx_cnt = priv->plat->rx_queues_to_use;
-> -	int q, stat;
-> +	unsigned int start;
-> +	int q, stat, cpu;
->  	char *p;
-> -
-> -	for (q = 0; q < tx_cnt; q++) {
-> -		p = (char *)priv + offsetof(struct stmmac_priv,
-> -					    xstats.txq_stats[q].tx_pkt_n);
-> -		for (stat = 0; stat < STMMAC_TXQ_STATS; stat++) {
-> -			*data++ = (*(unsigned long *)p);
-> -			p += sizeof(unsigned long);
-> +	u64 *pos;
-
-Please use reverse xmas tree - longest line to shortest - for local
-variable declarations in new Networking code.
-
-...
-
-> @@ -563,7 +590,8 @@ static void stmmac_get_ethtool_stats(struct net_device *dev,
->  	u32 rx_queues_count = priv->plat->rx_queues_to_use;
->  	u32 tx_queues_count = priv->plat->tx_queues_to_use;
->  	unsigned long count;
-> -	int i, j = 0, ret;
-> +	unsigned int start;
-> +	int i, j = 0, pos, ret, cpu;
-
-Ditto.
-
-...
-
-> @@ -606,6 +633,22 @@ static void stmmac_get_ethtool_stats(struct net_device *dev,
->  		data[j++] = (stmmac_gstrings_stats[i].sizeof_stat ==
->  			     sizeof(u64)) ? (*(u64 *)p) : (*(u32 *)p);
->  	}
-> +	pos = j;
-> +	for_each_possible_cpu(cpu) {
-> +		struct stmmac_pcpu_stats *stats, snapshot;
-> +
-> +		stats = per_cpu_ptr(priv->xstats.pstats, cpu);
-> +		j = pos;
-> +		do {
-> +			start = u64_stats_fetch_begin(&stats->syncp);
-> +			snapshot = *stats;
-> +		} while (u64_stats_fetch_retry(&stats->syncp, start));
-> +
-> +		for (i = 0; i < STMMAC_PCPU_STATS_LEN; i++) {
-> +			char *p = (char *)&snapshot + stmmac_gstrings_pcpu_stats[i].stat_offset;
-
-Blank line here please.
-
-> +			data[j++] += *(u64 *)p;
-> +		}
-> +	}
->  	stmmac_get_per_qstats(priv, &data[j]);
->  }
->  
-
-...
-
-> @@ -695,6 +738,11 @@ static void stmmac_get_strings(struct net_device *dev, u32 stringset, u8 *data)
->  				ETH_GSTRING_LEN);
->  			p += ETH_GSTRING_LEN;
->  		}
-> +		for (i = 0; i < STMMAC_PCPU_STATS_LEN; i++) {
-> +			memcpy(p, stmmac_gstrings_pcpu_stats[i].stat_string,
-> +				ETH_GSTRING_LEN);
-
-The indentation of the line above isn't quite right: it should align
-with the inside of the opening parentheses on the previous line.
-
-			memcpy(p, stmmac_gstrings_pcpu_stats[i].stat_string,
-			       ETH_GSTRING_LEN);
-
-> +			p += ETH_GSTRING_LEN;
-> +		}
->  		stmmac_get_qstats_string(priv, p);
->  		break;
->  	case ETH_SS_TEST:
-
-...
-
-> @@ -5015,8 +5042,10 @@ static struct stmmac_xdp_buff *xsk_buff_to_stmmac_ctx(struct xdp_buff *xdp)
->  
->  static int stmmac_rx_zc(struct stmmac_priv *priv, int limit, u32 queue)
->  {
-> +	struct stmmac_pcpu_stats *stats = this_cpu_ptr(priv->xstats.pstats);
->  	struct stmmac_rx_queue *rx_q = &priv->dma_conf.rx_queue[queue];
->  	unsigned int count = 0, error = 0, len = 0;
-> +	u32 rx_errors = 0, rx_dropped = 0;
->  	int dirty = stmmac_rx_dirty(priv, queue);
->  	unsigned int next_entry = rx_q->cur_rx;
->  	unsigned int desc_size;
-
-Reverse xmas tree here too.
-
-...
+Thanks,
+Niklas
