@@ -1,112 +1,101 @@
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF7B1DDDD
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Jun 2023 13:10:54 +0000 (UTC)
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-47193e20887so1988039e0c.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 22 Jun 2023 06:10:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E585E8BF5
+	for <linux-sunxi@lists.linux.dev>; Fri, 23 Jun 2023 15:09:09 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-4f86a7a5499so1001825e87.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 23 Jun 2023 08:09:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1687439453; x=1690031453;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P2ExnUNvm4puj2j+jBwDuVgUcMJgNpTHsaeUbPYv1HA=;
-        b=yGJPcTf5yJ0LAQHbCs0//5u7zTlviWAP4S4kkO82hHeGqqVnJDo/C15mxkMnjVBse6
-         sfzsKQg/tJSVZGfVAk+tv2ZXymwjUI5lj9RIwv2zgWtET1Lze47M1HqsNjk9drvIftQ0
-         pVzHirWFhN1bcVZtplp/G3rDRFkBvIk7Ohha7vbGdSWN68j99aBXZCkf8V4jrhPnbTP+
-         nhOe8iYPriWxHdLafESB8L8s6g/NsqEs7txzboyYTOG09Qzhiu6TWoV4V1fLyW2wxBud
-         pWUKDeA7HjpbY62da6LVs0OiSI+2C/hOb/HcR/1eqFf7XNA9+3dGBuxxi6RAqth1l4dS
-         18Ig==
+        d=gmail.com; s=20221208; t=1687532948; x=1690124948;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KyhSKyzxLiTaX2cHaiVENSWEBc27n/NollVdFdTZL5M=;
+        b=HaP8+r9KISVI7nfSmXrI/Dq3qHIobkZcJPoB7bvvpeHg7K4V8muuEU5CjwPF6yz/JJ
+         TNWeJFZve0S7yepHqm/kahqRzpEAzlDrzPlWIuWZVGgiE1WJgir+wIZ4zpaKs6yyozxT
+         b0R34BOp7MMU8HwBM33r5HaRVufWY/kRaw6XHYa9T7efpI9hoYkAzzOPEKsZK/EjW5RC
+         JIWA7ab2IZ/2ZGTSDz6coX0Siuy2GtLIGicw9MtYZ7ZPCGa3O5WJehBpxAL6s6+gB0Wg
+         WvFbyVrATONdFafoiUxCU5hEnBLjAi/IPbuXxQ3UHTbxFhAHLlKc4WVUO5ZUu/S+5ehT
+         x2hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687439453; x=1690031453;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=P2ExnUNvm4puj2j+jBwDuVgUcMJgNpTHsaeUbPYv1HA=;
-        b=BQRkl+0p79yWTVg8npWrXetWwZrvyKqj0ivXLXZ68bOIqOGgcmYzpMXk0G9CXj2D7s
-         I38x/fuhcvNfh7C24sk2GY3VMSRrUZZBquOaBZTw5w1O/Fi2A0q8j0TGOUXzH+x3VFRz
-         JF8RyQQbp1eWVXTG/26VRaGqcY4h1oH0mGYpF5z1rl41oeN0xI5pxEmmubfqKCL+cciZ
-         0V8RkmVm7/5Ha4iNigMQNRKz2g/vF2+a+AY1MGrC+Sj0CWQWrvGag98KINN0odHy2Jz9
-         Ia0EIX775DPUN9EtNO0SPLjJcUjiCLrp02ANc88oeCdRUFgzZWITOrrXJmcFV5SB3irj
-         dsuQ==
-X-Gm-Message-State: AC+VfDxqf8mo4zqGC8I2+giaijSSLrEKcDScojiYJBT5EnGoeMxn57aF
-	D4EIHvwd9jhwi/W0ntyvPW1A177PvtKCwMcItbUJRw==
-X-Google-Smtp-Source: ACHHUZ51ts75wkyfRCqdLOdLzUY3leYxdAIzn0un4E/YRo60Xqah11aqcikjs7PUlI+S5vg4oKw+3YC6Mm8RyX4xhqs=
-X-Received: by 2002:a1f:e784:0:b0:471:6119:95cc with SMTP id
- e126-20020a1fe784000000b00471611995ccmr7694191vkh.14.1687439453218; Thu, 22
- Jun 2023 06:10:53 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1687532948; x=1690124948;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KyhSKyzxLiTaX2cHaiVENSWEBc27n/NollVdFdTZL5M=;
+        b=jSpJ1X7OGPj5RCJi796uoQylm12xQqlKXNqgj1Ajd7WuZUVOwQTUw9esR/yQ+fYdkX
+         javpG1J1JmItlSm9+Y+7TSoY0dlLkIB/IkNKTbpsey7Aa4/iZNf928OPLhYTSbup3Wm9
+         Rv1esUODU41icTB80FJSSPi9l6kk9WDaW4J8APANWF9rna0JD6K25pBt4O7jp0tI6Eak
+         itDy+MudlQvJRLQqupkCACgiuhwtMKq7kKG1xCphy6mgd+wF8z5IGGbPELlGSMyobE5z
+         O9MZbvW7len4T0rcZeb6K/TYuFBGW7gGGk9WOh3zhwteokCj2qO3x6yfqqiSJ2tBrRCk
+         0G0A==
+X-Gm-Message-State: AC+VfDyspSLp7yL8gXTL+K7Y50wm8B3yOMC/TGPmniyBzZky4Xf6Kz3s
+	oAT/MdOyJfeuHiHDyzNr7g==
+X-Google-Smtp-Source: ACHHUZ73xQWanjeo0B3wORGVnreb3HkxQCneLZLTQefVJHXDwD6Tmyy2CwDZIzgnt2dF7FMxNeXrUg==
+X-Received: by 2002:a05:6512:2f7:b0:4f8:70d8:2902 with SMTP id m23-20020a05651202f700b004f870d82902mr10711352lfq.18.1687532947042;
+        Fri, 23 Jun 2023 08:09:07 -0700 (PDT)
+Received: from localhost.localdomain (mail.pulsar-telecom.ru. [94.181.180.60])
+        by smtp.gmail.com with ESMTPSA id w25-20020a19c519000000b004f842e58d08sm1465686lfe.84.2023.06.23.08.09.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Jun 2023 08:09:06 -0700 (PDT)
+From: Aleksandr Shubin <privatesub2@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: Aleksandr Shubin <privatesub2@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Heiko Stuebner <heiko.stuebner@vrull.eu>,
+	linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH v2 0/3] Add support for Allwinner PWM on D1/T113s/R329 SoCs
+Date: Fri, 23 Jun 2023 17:59:58 +0300
+Message-Id: <20230623150012.1201552-1-privatesub2@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230621182558.544417-11-brgl@bgdev.pl> <202306220657.ikVUl0zU-lkp@intel.com>
-In-Reply-To: <202306220657.ikVUl0zU-lkp@intel.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 22 Jun 2023 15:10:42 +0200
-Message-ID: <CAMRc=McU+eo3TSFmpR71mak08qJsA19hz8rZo5qk=rMbxoKOzQ@mail.gmail.com>
-Subject: Re: [PATCH net-next 10/12] net: stmmac: replace the int_snapshot_en
- field with a flag
-To: kernel test robot <lkp@intel.com>
-Cc: Giuseppe Cavallaro <peppe.cavallaro@st.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, "David S . Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
-	Bhupesh Sharma <bhupesh.sharma@linaro.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Richard Cochran <richardcochran@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 22, 2023 at 1:31=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Bartosz,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on net-next/main]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewsk=
-i/net-stmmac-replace-has_integrated_pcs-field-with-a-flag/20230622-022944
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20230621182558.544417-11-brgl%40=
-bgdev.pl
-> patch subject: [PATCH net-next 10/12] net: stmmac: replace the int_snapsh=
-ot_en field with a flag
-> config: i386-randconfig-i012-20230621 (https://download.01.org/0day-ci/ar=
-chive/20230622/202306220657.ikVUl0zU-lkp@intel.com/config)
-> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git =
-8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-> reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220657=
-.ikVUl0zU-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202306220657.ikVUl0zU-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c:612:2: error: use of=
- undeclared identifier 'priv'
->            priv->plat->flags &=3D ~STMMAC_FLAG_INT_SNAPSHOT_EN;
->            ^
->    1 error generated.
->
+Hi,
 
-Eek, must have disabled this driver in my config by accident. Now fixed for=
- v2.
+This series adds support for PWM controller on new
+Allwinner's SoCs, such as D1, T113s and R329. The implemented driver
+provides basic functionality for control PWM channels.
 
-Bart
+v2:
+ - fix dt-bindings
+ - fix a remark in the driver
+
+Aleksandr Shubin (3):
+  dt-bindings: pwm: Add binding for Allwinner D1/T113-S3/R329 PWM
+    controller
+  pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM support
+  riscv: dts: allwinner: d1: Add pwm node
+
+ .../bindings/pwm/allwinner,sun20i-pwm.yaml    |  83 +++++
+ .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  12 +
+ drivers/pwm/Kconfig                           |  10 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-sun20i.c                      | 322 ++++++++++++++++++
+ 5 files changed, 428 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
+ create mode 100644 drivers/pwm/pwm-sun20i.c
+
+-- 
+2.25.1
+
