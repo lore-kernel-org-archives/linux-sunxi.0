@@ -1,171 +1,106 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3CC8C01
-	for <linux-sunxi@lists.linux.dev>; Fri, 23 Jun 2023 16:33:28 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-9896216338cso78651766b.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 23 Jun 2023 09:33:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687538007; x=1690130007;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=F+1ixJV2FYmj+SoA0cV3gTRANTZOKE/jEW6S67bqJuk=;
-        b=XxZa31d1ORlVsrrmdP58C3CyuRyekaw/LYrXsRM1RlTB+EbLl0xnuCPm1Id4Bbytqe
-         lnazcYGbn3/qXj8gniE5qy7yQpxH6bmP9HFAaqTFbogHyzkzyJ6j7k7D6xhae4mrnj9u
-         NAP9aIdheXlR4DXz9YR6q20dHYmlp6gr4p+ofygDy9GxNptyYCddhoC27qdj5oCU+2C3
-         rbeVnjAb145Dq2TT+1eegK8r6snFRXoYv7fsp6vw1pHkdltLNmZQL2deaV65sqw9GBVB
-         7PyksJKk1GTw3ynMTsXoTfOjO6kf9iysiPDz2FCM55k7CDHdCsE69dPaI/R5xP9/mOQZ
-         g29g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687538007; x=1690130007;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=F+1ixJV2FYmj+SoA0cV3gTRANTZOKE/jEW6S67bqJuk=;
-        b=jwxjHEuQAgFRYLqNoF4yRFcKRSkWBxSI7W9N0fd1F4Wk0JOf8+r4b7x1hXQg1flcmb
-         p6YAz7f9qJJOi8Q1qhX+7eHrkKE0XHPNVvG29J5j7iQNDgVnOJUtVLLh8JVu0FNT/KMI
-         puriiFKArWbLnBEWC/w2VfPq+Y7nAyV8Ylhk8pm7xndO7RQ4zsfmgnL80v+zXBsFj/CB
-         OwwjT41kKjGMtc3Y7FTOcfC9PTyqZj5SwT+y0NU5rgM2y6s5OSpeanYSFjEA3J0IrLdT
-         QDIGWiOM+BdeqGBbBtuni8okTpIpfrZ0cfQ/Mox/ehhED2Knnho+Vpcf4irGxSpozGVg
-         P+wQ==
-X-Gm-Message-State: AC+VfDzme2Y6ZkFYKooDXHrZ8vwiWvqE9vUQWUpYN8Jru/8mhr0302UF
-	fZmWKNXR3ljqDqkKsjOh9JBfNA==
-X-Google-Smtp-Source: ACHHUZ5Sm8pZbl0baYUGugIGtVPSSYfHmWwbJvqIMXKaivS52KQEH2NwX0y29m0cH+LRZ94VIhhO6w==
-X-Received: by 2002:a17:907:934e:b0:989:5d0:3189 with SMTP id bv14-20020a170907934e00b0098905d03189mr13163559ejc.33.1687538006857;
-        Fri, 23 Jun 2023 09:33:26 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id d1-20020a1709064c4100b0096f7cf96525sm6245528ejw.146.2023.06.23.09.33.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Jun 2023 09:33:26 -0700 (PDT)
-Message-ID: <d962285e-b3f0-6225-316c-39a7d16808cd@linaro.org>
-Date: Fri, 23 Jun 2023 18:33:23 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10D0362
+	for <linux-sunxi@lists.linux.dev>; Sat, 24 Jun 2023 04:58:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1687582676; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=PticwXv7vlGBvvhCG5Yzn69n/q0MjL7EB2oY+Zt8WkskZ0dJvOJLbDz1CJ3DQyHU7wYkZinXoVSPUuZpN+BQhhhpB9533Ah7njNPrGPBD4mEiKwGOJPdabktex5JY15XreyitNeuE2fM7X2VeipryFCYeWx0t0FVxPtr7Ftu3eE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1687582676; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=rHdOll5xyjkeWR7pxTxkGGQRKPGXOHCtOisa7VYSEZI=; 
+	b=ZMj1uEVPCMYWLhdOlURX9JgcShSk2GycT7cP2g4U9ERsDqQzBif50vo+9nqlavqRScJJN6szY9VM2KtmuDCzK4kp0Sc4OnLHbmaiV9sJWZzorXhp9sBcUMnP86FGzWwrL3prQxjQQaEawfGSIdNhMR0qRF2ZybWXm8bzo3jp1QQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1687582676;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=rHdOll5xyjkeWR7pxTxkGGQRKPGXOHCtOisa7VYSEZI=;
+	b=PlHw6+uyBCTekrsgCH5c6ick0Ps4sQvhCcJb3SKZG9qF4yGkWiEkRrP9KFRsDEkS
+	c6zD5W974KpRPSN0bK5Sh5XAnd6RFlQ1tT1qoxloO1ONN6tvi2MAt9NGyKVDUej6kW2
+	nrB4WnQSmzqqXk/+2GkNuJA0CjsXj3+wCUghHQbb6kRKl1tD3zbxeSAJv1V6t3lgA60
+	tA/hPqF7GCVBpTs8qFDZ7U+UJG2vbwT0NBEhvMDl2HBfJDOlY/hkqvbesFr/UJc/MPd
+	U2Q40XgCpbIkG4neAmez2nYhqtJQz79TJkeG3SXrGh7ubFt8sw/RiyUiaV+NpMlS4TO
+	krN48nnwvA==
+Received: from edelgard.fodlan.icenowy.me (120.85.99.114 [120.85.99.114]) by mx.zohomail.com
+	with SMTPS id 1687582674846683.4036542827168; Fri, 23 Jun 2023 21:57:54 -0700 (PDT)
+Message-ID: <45cfb4dc93de59a539d48a37b9becffa4d2d6278.camel@icenowy.me>
+Subject: Re: [PATCH 1/3] arm: dts: sun8i: V3s: Add pinctrl for pwm
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Andre Przywara <andre.przywara@arm.com>, Chris Morgan
+	 <macroalpha82@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ mripard@kernel.org,  samuel@sholland.org, jernej.skrabec@gmail.com,
+ wens@csie.org, conor+dt@kernel.org,  krzysztof.kozlowski+dt@linaro.org,
+ robh+dt@kernel.org, Chris Morgan <macromorgan@hotmail.com>
+Date: Sat, 24 Jun 2023 12:57:49 +0800
+In-Reply-To: <20230621005000.558b660c@slackpad.lan>
+References: <20230620200022.295674-1-macroalpha82@gmail.com>
+	 <20230620200022.295674-2-macroalpha82@gmail.com>
+	 <20230621005000.558b660c@slackpad.lan>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 1/3] dt-bindings: pwm: Add binding for Allwinner
- D1/T113-S3/R329 PWM controller
-Content-Language: en-US
-To: Aleksandr Shubin <privatesub2@gmail.com>, linux-kernel@vger.kernel.org
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Andre Przywara <andre.przywara@arm.com>, linux-pwm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
-References: <20230623150012.1201552-1-privatesub2@gmail.com>
- <20230623150012.1201552-2-privatesub2@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230623150012.1201552-2-privatesub2@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-On 23/06/2023 16:59, Aleksandr Shubin wrote:
-> Allwinner's D1, T113-S3 and R329 SoCs have a new pwm
-> controller witch is different from the previous pwm-sun4i.
-> 
-> The D1 and T113 are identical in terms of peripherals,
-> they differ only in the architecture of the CPU core, and
-> even share the majority of their DT. Because of that,
-> using the same compatible makes sense.
-> The R329 is a different SoC though, and should have
-> a different compatible string added, especially as there
-> is a difference in the number of channels.
-> 
-> D1 and T113s SoCs have one PWM controller with 8 channels.
-> R329 SoC has two PWM controllers in both power domains, one of
-> them has 9 channels (CPUX one) and the other has 6 (CPUS one).
-> 
-> Add a device tree binding for them.
-> 
-> Signed-off-by: Aleksandr Shubin <privatesub2@gmail.com>
-> ---
->  .../bindings/pwm/allwinner,sun20i-pwm.yaml    | 83 +++++++++++++++++++
->  1 file changed, 83 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
-> new file mode 100644
-> index 000000000000..eec9d1dd67c2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
-> @@ -0,0 +1,83 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/pwm/allwinner,sun20i-pwm.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner D1, T113-S3 and R329 PWM
-> +
-> +maintainers:
-> +  - Aleksandr Shubin <privatesub2@gmail.com>
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - const: allwinner,sun20i-d1-pwm
-> +      - items:
-> +          - const: allwinner,sun20i-r329-pwm
-> +          - const: allwinner,sun20i-d1-pwm
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#pwm-cells":
-> +    const: 3
-> +
-> +  clocks:
-> +    items:
-> +      - description: 24 MHz oscillator
-> +      - description: Bus Clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: hosc
-> +      - const: bus
-> +
-> +  resets:
-> +    maxItems: 1
-> +    description: module reset
-> +
-> +allOf:
-> +  - $ref: pwm.yaml#
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: allwinner,sun20i-r329-pwm
-> +
-> +    then:
-> +      properties:
-> +        allwinner,pwm-channels:
-> +          $ref: /schemas/types.yaml#/definitions/uint32
-> +          description: The number of PWM channels configured for this instance
-> +          enum: [6, 9]
-> +
-
-Your DTS says this is 8, so you did not test it. Why do you need it in
-the first place? r329 can have both 6 and 9?
-
-Anyway, this won't work with additionalProperties, which you would see
-with testing. Don't define properties in allOf. Also switch to
-unevaluatedProperties: false.
-
-Best regards,
-Krzysztof
+5ZyoIDIwMjMtMDYtMjHmmJ/mnJ/kuInnmoQgMDA6NTAgKzAxMDDvvIxBbmRyZSBQcnp5d2FyYeWG
+memBk++8mgo+IE9uIFR1ZSwgMjAgSnVuIDIwMjMgMTU6MDA6MjAgLTA1MDAKPiBDaHJpcyBNb3Jn
+YW4gPG1hY3JvYWxwaGE4MkBnbWFpbC5jb20+IHdyb3RlOgo+IAo+IEhpIENocmlzLAo+IAo+IHRo
+YW5rcyBmb3IgdGFraW5nIGNhcmUgb2YgdXBzdHJlYW1pbmcsIGN1dGUgbGl0dGxlIGRldmljZS4K
+PiAKPiA+IEZyb206IENocmlzIE1vcmdhbiA8bWFjcm9tb3JnYW5AaG90bWFpbC5jb20+Cj4gPiAK
+PiA+IEFkZCBhIGRlZmF1bHQgcGluY3RybCBmb3IgdGhlIHB3bSBmdW5jdGlvbi4KPiA+IAo+ID4g
+U2lnbmVkLW9mZi1ieTogQ2hyaXMgTW9yZ2FuIDxtYWNyb21vcmdhbkBob3RtYWlsLmNvbT4KPiAK
+PiAKPiA+IC0tLQo+ID4gwqBhcmNoL2FybS9ib290L2R0cy9zdW44aS12M3MuZHRzaSB8IDcgKysr
+KysrKwo+ID4gwqAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspCj4gPiAKPiA+IGRpZmYg
+LS1naXQgYS9hcmNoL2FybS9ib290L2R0cy9zdW44aS12M3MuZHRzaQo+ID4gYi9hcmNoL2FybS9i
+b290L2R0cy9zdW44aS12M3MuZHRzaQo+ID4gaW5kZXggYjAwMTI1MTY0NGY3Li5lNTk3NzUyNGFi
+ZTIgMTAwNjQ0Cj4gPiAtLS0gYS9hcmNoL2FybS9ib290L2R0cy9zdW44aS12M3MuZHRzaQo+ID4g
+KysrIGIvYXJjaC9hcm0vYm9vdC9kdHMvc3VuOGktdjNzLmR0c2kKPiA+IEBAIC00MTQsNiArNDE0
+LDExIEBAIG1tYzFfcGluczogbW1jMS1waW5zIHsKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBiaWFzLXB1bGwtdXA7Cj4g
+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9Owo+ID4g
+wqAKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcHdt
+X3BpbnM6IHB3bS1waW5zIHsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHBpbnMgPSAiUEI0IjsKPiA+ICvCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGZ1bmN0
+aW9uID0gInB3bTAiOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqB9Owo+ID4gKwo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgc3BpMF9waW5zOiBzcGkwLXBpbnMgewo+ID4gwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHBpbnMgPSAiUEMw
+IiwgIlBDMSIsICJQQzIiLCAiUEMzIjsKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBmdW5jdGlvbiA9ICJzcGkwIjsKPiA+
+IEBAIC00NDEsNiArNDQ2LDggQEAgcHdtOiBwd21AMWMyMTQwMCB7Cj4gPiDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgImFsbHdpbm5lcixzdW43aS1hMjAtcHdtIjsKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlZyA9IDwweDAxYzIxNDAwIDB4Yz47Cj4gPiDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjbG9ja3MgPSA8Jm9z
+YzI0TT47Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oHBpbmN0cmwtMCA9IDwmcHdtX3BpbnM+Owo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqBwaW5jdHJsLW5hbWVzID0gImRlZmF1bHQiOwo+IAo+IEhvdyBp
+cyB0aGlzIHN1cHBvc2VkIHRvIHdvcmsgd2l0aCBtdWx0aXBsZSBjaGFubmVscz8gVGhlcmUgaXMg
+UFdNMSBvbgo+IFBCNS4gSWYgb25lIHdhbnRzIHRvIHBvdGVudGlhbGx5IHVzZSB0aGF0LCB3ZSB3
+b3VsZCBuZWVkIHRvIGFkZCBhCj4gcmVmZXJlbmNlIHRvIHRob3NlIHBpbnMgaGVyZSBhcyB3ZWxs
+LCBhbmQgdGhleSB3b3VsZCBhbGwgYmUgbXV4ZWQgdG8KPiBQV00gdXBvbiB0aGUgUFdNIGNvbnRy
+b2xsZXIgcHJvYmluZz8KPiAKPiBTbyB3aGlsZSBJIHNlZSB0aGF0IGl0J3MgdGhlIG9ubHkgb3V0
+cHV0IHBpbiBmb3IgUFdNMCwgdGhpcyBtaWdodAo+IHN0aWxsCj4gbmVlZCB0byBnbyBpbnRvIHRo
+ZSBib2FyZCAuZHRzLCBhbG9uZ3NpZGUgdGhlIHN0YXR1cyA9ICJva2F5IjsgbGluZS4KPiBTbwo+
+IGVhY2ggYm9hcmQgd291bGQgc3BlY2lmeSBleGFjdGx5IHRoZSBwaW5zIGl0IG5lZWRzIChQV00w
+IG9ubHksIFBXTTEKPiBvbmx5LCBib3RoIG9yIG5vbmUpLgoKTWF5YmUgd2Ugc2hvdWxkIGhhdmUg
+dHdvIFBXTSBwaW5jdHJsIG5vZGVzLCBwd20wX3BpbnMgYW5kIHB3bTFfcGlucywKYW5kIHRoZW4g
+ZW5hYmxlIHRoZSBjb250cm9sbGVyICh3aXRoIHRoZSBwaW5jdHJsIHByb3BlcnR5KSBpbgppbmRp
+dmlkdWFsIGJvYXJkIERUcy4KCj4gCj4gT3RoZXJ3aXNlIEkgY29tcGFyZWQgdGhpcyBhZ2FpbnN0
+IHRoZSBtYW51YWwgYW5kIExpbnV4IHBpbmN0cmwKPiBkcml2ZXIsCj4gaXQgYWxsIG1hdGNoZXMg
+dXAuCj4gCj4gQ2hlZXJzLAo+IEFuZHJlCj4gCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAjcHdtLWNlbGxzID0gPDM+Owo+ID4gwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgc3RhdHVzID0gImRpc2FibGVkIjsK
+PiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfTsKPiAKCg==
 
