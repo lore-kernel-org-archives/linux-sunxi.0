@@ -1,102 +1,152 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E3A1384
-	for <linux-sunxi@lists.linux.dev>; Sat, 24 Jun 2023 13:17:17 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3fa70ec8d17so25068305e9.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 24 Jun 2023 06:17:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687612636; x=1690204636;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KAYPGxSTFPjM3RqhwW9I/u0fjI7Fx45EUbdLcf3Fbbk=;
-        b=RTqZRv+kicZW7QzVJK3ZagJlTPPID3erCQjK8DbAaVPTMWw3b0mjuGV5SQVg3A7Hfp
-         kTP3MO1AV9lx1/fyLW3WpWXj4HmKkLq3zsShiKr+AZkRpIUvDHPemFoM8d6lYuJBkhVf
-         VwXLSS0PvzKxnzoIXhwxmKBAloifepGmC78ZDgEmk5MbVTY+UmUcnQs8jnP7jUKTgQ1t
-         ovA2xPB5nkCELrRww6By/LY2lIhiGufo89h+gKofzrfcx/6CnBLsCo++cVmYMzLAiVW3
-         P2v56HjmRyol/JePLMkvownV0cd+4jPAN3a3PkXbpyjqgTMgtriUwWMRfhDtyahMiisK
-         i7jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687612636; x=1690204636;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KAYPGxSTFPjM3RqhwW9I/u0fjI7Fx45EUbdLcf3Fbbk=;
-        b=UGaNGv26oLsUmSffB7HI96lrco25F5nm9xxVJ1mkCHjwzB1sX5RFiWa1AHKNDxHGab
-         y+rSLb6/iVH7Q8zlaNnxkAE/1zP98TVaZQxBCHAcU3T02Y32KH2PZsPIUsm31YtyqDtx
-         I3yQtpHQuhZLFX3HEE2Jf6E8U+Za5iYNJE84OhSpR9goxYW/uHFf/SNHcyYGRyhFZ98Y
-         aZ3SaKQd7lgQZnB+o1zrPj7j6szGDl+lzRA4Ze69Eu1D5R0tEjG4kzRphpd4uJaPMTEK
-         REdJOlJxV6T6dY+J+pOhSx3SMBwoAnzZfn5evhppJkBoMI3uOj3TfKiGmk7TJbRwJCnq
-         rjkw==
-X-Gm-Message-State: AC+VfDw+Gr0Y1B/thTb4pInVDILvsHFBNZB7AqFrH4p5i2HV6ILHDvF3
-	ZCGNurJJUlKdOo4OMM86O/TnEoSSuUK2qwIG
-X-Google-Smtp-Source: ACHHUZ6AxRD4qR+dRoN7S7SE01tpvdTdIi7AeyJugnitjFY045wLn75ojjvOMv78elsfe85Qmldkag==
-X-Received: by 2002:a05:600c:245:b0:3fa:838d:adbd with SMTP id 5-20020a05600c024500b003fa838dadbdmr1749644wmj.1.1687612635438;
-        Sat, 24 Jun 2023 06:17:15 -0700 (PDT)
-Received: from user-PC.. ([92.51.95.194])
-        by smtp.gmail.com with ESMTPSA id l1-20020a1ced01000000b003f9b0830107sm5107428wmh.41.2023.06.24.06.17.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Jun 2023 06:17:15 -0700 (PDT)
-From: Maksim Kiselev <bigunclemax@gmail.com>
-To: linux-spi@vger.kernel.org
-Cc: Maksim Kiselev <bigunclemax@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Mark Brown <broonie@kernel.org>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	devicetree@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 3/3] riscv: dts: allwinner: d1: Add QSPI pins node for pinmux PC port
-Date: Sat, 24 Jun 2023 16:16:24 +0300
-Message-Id: <20230624131632.2972546-4-bigunclemax@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230624131632.2972546-1-bigunclemax@gmail.com>
-References: <20230624131632.2972546-1-bigunclemax@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA232A3C
+	for <linux-sunxi@lists.linux.dev>; Sun, 25 Jun 2023 10:46:11 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4QpnhB0JYyz9sSq;
+	Sun, 25 Jun 2023 12:46:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1687689962;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kKhuHPV17HEOsXIDx1u91H9Dzw6TJlM2wdyZXCpCSZY=;
+	b=JmpgZsrs8UUApbtKkjpXh+6ZRD/xTLPepvCw/G80dGvy1g6L7LKrt/qeZPmWTwbkA8SinH
+	OJw6LvcPMoZ37Op7Wz4Yp7TvFTI0imO2cV5UaZgcPKpC/jS8Re7k8UJy7xxYq8k7fxNIjg
+	UBxdsHP/tnC+qTxp4e6t4eAYFgLrzPR71kIQByKOqMQ/DezQ52oCDT1+77WGuFba33kEas
+	b1xjWviSxxnmLYkgpk+O1vVMHjva/WTdj3gCDR6Itm99I5+VAnvahqW4mXUwf2bJVJrGp+
+	D4sAmMLMtYLU6R0Uztd6PjcN2DyiWLNOsW+E79fSfchfLzXMWq6IhfAHHqspsQ==
+References: <20230611090143.132257-1-frank@oltmanns.dev>
+ <20230611090143.132257-2-frank@oltmanns.dev> <87edmh12s7.fsf@oltmanns.dev>
+ <sfni3vehkhotsqrrirklhzrxzkcxzkq6nbtqokeab5if3jgm53@frh7z3iowsfe>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Michael Turquette
+ <mturquette@baylibre.com>, Roman Beranek <me@crly.cz>, Samuel Holland
+ <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 1/2] clk: sunxi-ng: nkm: consider alternative parent
+ rates when finding rate
+In-reply-to: <sfni3vehkhotsqrrirklhzrxzkcxzkq6nbtqokeab5if3jgm53@frh7z3iowsfe>
+Date: Sun, 25 Jun 2023 12:45:45 +0200
+Message-ID: <878rc7stuu.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Rspamd-Queue-Id: 4QpnhB0JYyz9sSq
 
-Add pinmux node that describes pins on PC port which required for
-QSPI mode.
+Hi Maxime,
 
-Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
----
- arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 7 +++++++
- 1 file changed, 7 insertions(+)
+On 2023-06-12 at 14:31:21 +0200, Maxime Ripard <maxime@cerno.tech> wrote:
+> [[PGP Signed Part:Undecided]]
+> On Mon, Jun 12, 2023 at 10:51:52AM +0200, Frank Oltmanns wrote:
+>> > @@ -28,12 +68,17 @@ static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned long rate,
+>> >  			for (_m = nkm->min_m; _m <= nkm->max_m; _m++) {
+>>
+>> According to the manual M/N has to be <= 3. Therefore we need a
+>> different maximum value for the _m-for-loop:
+>>
+>>         unsigned long max_m = min(3 * _n, nkm->max_m);
+>>         for (_m = nkm->min_m; _m <= max_m; _m++) {
+>>
+>> I suggest that I add an optional member max_mn_ratio to the structs
+>> ccu_nkm and _ccu_nkm. Optional meaning: Ignore if 0.
+>
+> Which workload is affected by this restriction?
+>
 
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-index 1bb1e5cae602..9f754dd03d85 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-@@ -131,6 +131,13 @@ uart3_pb_pins: uart3-pb-pins {
- 				pins = "PB6", "PB7";
- 				function = "uart3";
- 			};
-+
-+			/omit-if-no-ref/
-+			qspi0_pc_pins: qspi0-pc-pins {
-+				pins = "PC2", "PC3", "PC4", "PC5", "PC6",
-+				       "PC7";
-+				function = "spi0";
-+			};
- 		};
- 
- 		ccu: clock-controller@2001000 {
--- 
-2.39.2
+Firstly, the restriction increases the minimum rate that pll-mipi of the
+A64 SoC can use. The rate off pll-mipi is
+        pll-video0 * K * N / M
 
+The Allwinner's user manual ([1], p.94) states that the maximum ratio of
+M/N (note how numerator and denominator changed) is 3. So, looking back
+to the original formula, the N / M part can be at most 1/3. That
+effectively limits the minimum rate that pll-mipi can provide to
+        min(pll-video0) * 2 * 1 / 3
+
+The minimum rate of pll-video0 is 192 MHz, i.e., the minimum rate for
+pll-mipi becomes 128 MHz. Without the restriction, the minimum rate
+currently is 24 MHz. It is my (albeit limited) understanding, that is no
+real limitation because no panel would request such low rates. I should
+also mention that Allwinner states in the user manual ([1], p. 94) that
+the rate must be in the 500 MHz - 1.4 GHz range.
+
+Secondly, it decreases the number of options for M for all N <= 6.
+Therefore it reduces the number of meaningful NKM combinations from 275
+(without the restriction) to 238. (With meaningful combinations, I mean
+the combinations that result in a different rate for pll-mipi, e.g.,
+K=2, M=1, N=2 is the same as K=4, M=1, N=1). The consequence is that the
+precision of pll-mipi is slightly reduced. Note, however, that this loss
+of precision is more than offset by the option that pll-mipi can now
+"freely" choose its parent rate.
+
+In conclusion, I don't see any real world limitation that this
+restriction introduces.
+
+>> >  				unsigned long tmp_rate;
+>> >
+>> > -				tmp_rate = parent * _n * _k / _m;
+>> > -
+>> > +				if (parent_hw) {
+>> > +					tmp_parent = optimal_parent_rate(rate, _n, _k, _m);
+>> > +					tmp_parent = clk_hw_round_rate(parent_hw, tmp_parent);
+>> > +				}
+>>
+>> Another constraint is PLL-VIDEO0 rate / M >= 24 MHz. Therefore we also need:
+>>         if (tmp_parent < 24000000 * _m)
+>>                 continue;
+>>
+>> So, we need another optional member min_m_times_parent or, for
+>> shortness, maybe min_m_parent. I could use help finding a good name for
+>> this.
+>
+> Again, if it's not causing any harm I'd rather keep the code as simple
+> and maintainable as possible.
+
+Unfortunately, in Allwinner's User Manual, I could not find any
+consequences of driving the SoC outside its specifications. Maybe
+someone with more experience in that area could weigh in here.
+
+I want to highlight, though, that currently (i.e., without this patch
+series), the rate of pll-video0 is not set by the kernel. So in most
+installations, it probably runs at 294 (u-boot) or 297 MHz (default
+rate). That allows for M to be smaller than or equal to 12. But with
+this patch series, we set pll-video0 to any rate that pll-mipi requests.
+Where previously, people could have hand-crafted rates that were within
+the SoC's specification - based on a well-known pll-video0 rate - this
+no longer applies.
+
+Therefore, I think we should be careful not to request rates from the
+parent that drives pll-mipi outside its specification. What do you think
+about implementing the min_m_parent functionality in a separate patch?
+That would probably facilitate the assessment of the patch from a
+simplicity and maintenance perspective. If we agree on a way forward, I
+can still squash it with other patches in a later version of this patch
+series. But if you are not convinced, I can simply drop it at any point
+- including now ;).
+
+In short, I don't know if violating the restriction causes any harm in a
+real-world application. However, Allwinner may have reasons for listing
+such limitations, even if they don't tell us the details. Those are my
+two cents.
+
+Thanks for your feedback,
+  Frank
+
+[1] https://github.com/OLIMEX/OLINUXINO/blob/027087da32d69651a58a4e6193bedadef9c036ec/DOCUMENTS/A64-PDFs/Allwinner%20A64%20User%20Manual%20v1.0.pdf
+
+>
+> Maxime
+>
+> [[End of PGP Signed Part]]
