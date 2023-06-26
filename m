@@ -1,83 +1,151 @@
-Received: from mout.web.de (mout.web.de [212.227.17.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2477C
-	for <linux-sunxi@lists.linux.dev>; Sun, 25 Jun 2023 16:56:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=s29768273; t=1687712190; x=1688316990; i=markus.elfring@web.de;
- bh=mWu+5+5RD8uWNQkDyqDgTeflu8ZPfVITkxrOWnNCHsg=;
- h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:In-Reply-To;
- b=fXCOjAaq+BTK8uVy7+dFiYunYkQtR5xJwktxMwNKTxB/5vABUacyffNCMgN3uxVXKwD/tfg
- Vl5iD4o6W88BlQbyIuuRhnV61TW+vfeUfW7QZcU+gIsHlpm3lmpi6lpeiPFMCKSYhBETumuXF
- 5b4+B6T47G6XssLXmao3FbBG5NFvPzxq5AILfLJiftymjveQXgBZsW40Gv/htf/NSZqItDcCL
- lSgaC41d6fcM6RhCP7nfpeArR+fIBhC1K2HGMlED0fnJwPFI0DEhutyxSw0x+2vgCyeZXqd5v
- 98ODSQ63u1GTlnK8z3TTh+HXEEXWP4bJW+wZc7IH3v++wx4qntkQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.82.83]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MNOQy-1qOwRI0E8o-00PELV; Sun, 25
- Jun 2023 18:56:30 +0200
-Message-ID: <6a5380dc-7090-c01f-f3a9-69d5898f06d1@web.de>
-Date: Sun, 25 Jun 2023 18:56:27 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FCE146BD
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Jun 2023 08:50:17 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 356D42F4;
+	Mon, 26 Jun 2023 01:50:55 -0700 (PDT)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 948F73F73F;
+	Mon, 26 Jun 2023 01:50:09 -0700 (PDT)
+Date: Mon, 26 Jun 2023 09:50:05 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Icenowy Zheng <uwu@icenowy.me>
+Cc: Chris Morgan  <macroalpha82@gmail.com>, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, mripard@kernel.org, samuel@sholland.org,
+ jernej.skrabec@gmail.com, wens@csie.org, conor+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, Chris Morgan
+ <macromorgan@hotmail.com>
+Subject: Re: [PATCH 1/3] arm: dts: sun8i: V3s: Add pinctrl for pwm
+Message-ID: <20230626095005.4a95c151@donnerap.cambridge.arm.com>
+In-Reply-To: <45cfb4dc93de59a539d48a37b9becffa4d2d6278.camel@icenowy.me>
+References: <20230620200022.295674-1-macroalpha82@gmail.com>
+	<20230620200022.295674-2-macroalpha82@gmail.com>
+	<20230621005000.558b660c@slackpad.lan>
+	<45cfb4dc93de59a539d48a37b9becffa4d2d6278.camel@icenowy.me>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-To: Maksim Kiselev <bigunclemax@gmail.com>, linux-spi@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org,
- kernel-janitors@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
- Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Maksim Kiselev <bigunclemax@gmail.com>, Mark Brown <broonie@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Rob Herring <robh+dt@kernel.org>,
- Samuel Holland <samuel@sholland.org>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <20230624131632.2972546-2-bigunclemax@gmail.com>
-Subject: Re: [PATCH v1 1/3] spi: sun6i: add quirk for dual and quad SPI modes
- support
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20230624131632.2972546-2-bigunclemax@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:VyJe/m3KijFvWi87fz/heZWoJfUsbwV+dpJnM5Mi9FSKu0E5On2
- G9VnXGCx620JyEijBSk1Gj/n5iQPbw6MsZK7x1gJtNoEq4SFjqBkxxR7GrWrVbXQTmw7Efk
- 0r5T41xDLuHJuesmtdzMWIu6a8yV1E/jwe3XKWc5caX0PK3QvuucBvIQY9dgOxKrhRi65y9
- 7dkl63WUtu09FKz0TobXQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:50xYpXXyqLo=;0GDqroyBbI4ygY/WhdtRVr0QgfC
- OOKihxZJPjGOSdRvGOm5xJeuP5bmxQ0vL2/6iA4LE4lLVGTF5gLEmspOoaWL/61Mu2DYwMxO0
- N41yyn6H+7Wt1aJjN0ev368EaiI+XvCz3AhB6FTxMQhMFhUiyob/kzcpF1v39deTYOUU+1PGU
- dGc5l8vKxQTY/vkVqi2Q/PmEAifjcCHGcQtzyVtUaJHigHBUr43tj2kei5BjgqIt7YAivM15Z
- HqtNmyAArWxDbf6zCaSglXlGGWvoGprD0w3Dwdd02+2aCerBb1emMzpNBSiVaFlG4/VgmOWqQ
- Ji/iuXKyBs9typSxA99SwHT2TKyyGuOBB4D+WaD2Mx22GmxWUkGd9ozzd+kdiRSfAK7hTOeYR
- Y6QG3vmk8HG6OVlCtXlKSeZaNcEk5pSq5FHEuo3RKR7TSkRBvSvLhIARZSDrK8/G6OiUiXWw2
- CTc4SVpQ4/xCJt4wJYKEkAfn1BU0ZYd9SlM2Yqf4YpWlAW+CfOzaS92NBfudDwGVNDEuckV7F
- zr/qz3nWiKsT4WCbcBwH9J7qlbS4n4c3aKuIBJGd+FzJsOLXWVZihCoIpaosTzUCmZ1szcKxu
- MAAicjJNX2VTAqcfVKKA+hV679W/Hh7ScZGMKIY1/fih3o0NhCC8xRsjki106nRhcMH4dLkBs
- wFwE0mcZZn5JcIH25uelVmn0qpa5gwvPyadAyw/HR1GjosE4ny/GsqbcJhVyVssVGCD1hgr0Z
- Fx80yWotxYcWGrKDy9dejdb0UztQNXibCoeD+TVZSQ8LbGROyDH5jYfbQbVmfqqSzeHufTUVz
- nArec0DlPEsCmIGAN/6PGlJNo2fJQgbUbQAHai42P+TTe3kMkUvtiUmmJHYokQOQcW1TH7WJG
- t8rBHaoSGIWnSkB6JjKlDvLZHNxRLhwZGwMAzit3EtSrg3OAAKLADKu+leEP0cw9/DcW0rp+k
- mN8VGblaFFMKvNEdGRZxseahV/I=
 
-=E2=80=A6
-> To enable one of these modes, we should set the corresponding bit =E2=80=
-=A6
+On Sat, 24 Jun 2023 12:57:49 +0800
+Icenowy Zheng <uwu@icenowy.me> wrote:
 
-Please choose imperative change suggestions.
+> =E5=9C=A8 2023-06-21=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 00:50 +0100=EF=
+=BC=8CAndre Przywara=E5=86=99=E9=81=93=EF=BC=9A
+> > On Tue, 20 Jun 2023 15:00:20 -0500
+> > Chris Morgan <macroalpha82@gmail.com> wrote:
+> >=20
+> > Hi Chris,
+> >=20
+> > thanks for taking care of upstreaming, cute little device.
+> >  =20
+> > > From: Chris Morgan <macromorgan@hotmail.com>
+> > >=20
+> > > Add a default pinctrl for the pwm function.
+> > >=20
+> > > Signed-off-by: Chris Morgan <macromorgan@hotmail.com> =20
+> >=20
+> >  =20
+> > > ---
+> > > =C2=A0arch/arm/boot/dts/sun8i-v3s.dtsi | 7 +++++++
+> > > =C2=A01 file changed, 7 insertions(+)
+> > >=20
+> > > diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi
+> > > b/arch/arm/boot/dts/sun8i-v3s.dtsi
+> > > index b001251644f7..e5977524abe2 100644
+> > > --- a/arch/arm/boot/dts/sun8i-v3s.dtsi
+> > > +++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
+> > > @@ -414,6 +414,11 @@ mmc1_pins: mmc1-pins {
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0bias-pull-up;
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+};
+> > > =C2=A0
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pwm=
+_pins: pwm-pins {
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pins =3D "PB4";
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0function =3D "pwm0";
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0};
+> > > +
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+spi0_pins: spi0-pins {
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pins =3D "PC0", "PC1", "PC2=
+", "PC3";
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0function =3D "spi0";
+> > > @@ -441,6 +446,8 @@ pwm: pwm@1c21400 {
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "a=
+llwinner,sun7i-a20-pwm";
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+reg =3D <0x01c21400 0xc>;
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+clocks =3D <&osc24M>;
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pin=
+ctrl-0 =3D <&pwm_pins>;
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pin=
+ctrl-names =3D "default"; =20
+> >=20
+> > How is this supposed to work with multiple channels? There is PWM1 on
+> > PB5. If one wants to potentially use that, we would need to add a
+> > reference to those pins here as well, and they would all be muxed to
+> > PWM upon the PWM controller probing?
+> >=20
+> > So while I see that it's the only output pin for PWM0, this might
+> > still
+> > need to go into the board .dts, alongside the status =3D "okay"; line.
+> > So
+> > each board would specify exactly the pins it needs (PWM0 only, PWM1
+> > only, both or none). =20
+>=20
+> Maybe we should have two PWM pinctrl nodes, pwm0_pins and pwm1_pins,
+> and then enable the controller (with the pinctrl property) in
+> individual board DTs.
 
-See also:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.4-rc7#n94
+Yes, that's what I meant: keep the pinctrl node in the .dtsi here, but move
+the pinctrl *properties* to each board's .dts.
 
-Regards,
-Markus
+Cheers,
+Andre
+
+> > Otherwise I compared this against the manual and Linux pinctrl
+> > driver,
+> > it all matches up.
+> >=20
+> > Cheers,
+> > Andre
+> >  =20
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+#pwm-cells =3D <3>;
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+status =3D "disabled";
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0}; =20
+> >  =20
+>=20
+
