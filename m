@@ -1,134 +1,101 @@
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2090.outbound.protection.outlook.com [40.107.215.90])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507617F
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Jun 2023 12:55:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gB9fqNt4pKjdod/QkBU52fP23hob6o3qSXt5kU1FjvpT0ZgCP2tHkz6uOziRrrmo6iSO0YRuZpKEBPM5oyDPGErzHL2qrj1Kvooymqc7yvK2UKv095IJTg/C1Yiaaq/+11CpusjD9J1/CgcewILdeZs5j5TDuswBJRCI+jE72YrMNnJJM4WeZSE0Hm6fQa/IB+56uUmt69pjz+8nRjtUCkvOKAO7Vn1gBtZygSk4SW8UilXXJfq24KDmQ1eBPXJrwFbtU3ehGLgk8yASs+uYnq+4eWNxPJR5DeahnzFMX+oL3pVK2VcJktVIoI7ClJ3Rd3eqiAme+TaiFNIkvkueiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6lqpjmZVffUlgEPT3QBsipRTfKSLabUIdo+4UJjAbeQ=;
- b=FiNJzD2atRPaeCP+6Vbtc5t1Q+B4xE/dIRw+gP3h+mnkyUcWpkHgWJ+Y1JiUxl2mKU1ub8M+s1o5oHAG7noOM694fRWv97ioReBrA6SafHCiAw9avM7EvNSqmU/6vghG8L0L+OdTmk/+Hjcbu1rLOPGhc2qSsVyz6zA90fo4HPlPtdyXjHHcorT+GUApDcioPXVQwVrLY/KqpqJweGYk8LKShkY8lMdyFvXN8RocCMQwDJ/pgm/1UYavNkds084Cmac6iesPHLCRpC2ToA+s0h5AfBsASJx1y+PYDPWgpQjDHn0fJvtUMv/u9sBKoLCHzaeZ/7v1WiB8HN6Q+gn8mw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6lqpjmZVffUlgEPT3QBsipRTfKSLabUIdo+4UJjAbeQ=;
- b=hrql88WEuFLqz9zLwt9fiYCGhFGMcv/+bmnrDYVg9C2yDK4nLdkvitXeCNG4NIm03zK0gBN9C322wjX2szgNFlPGrkHaTlQvtBZQhl/rm6FtnoKKzWqIWA7VErI/qj0W2X8Lc2uZYLaNToEqQgUqiXmOhBxM4gwyaeuEPhSwkAvux1g6wWb52riErS8pXSA8AEW8TDocu8Nzn/1UMlda8uuJfl0G/2cNzhg3e3DO6lvon6bwhzv195NCkqxqgMieiq5LOhMqxl413d+/R0i7MJu4BJWRmv/jg1s5Er2xpKa9dT4GCeFXpM5QfMRQQ0GjZqVoGr/3i5h3m6ZiC5ODsg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
- by KL1PR0601MB3956.apcprd06.prod.outlook.com (2603:1096:820:24::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Mon, 26 Jun
- 2023 12:55:28 +0000
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::fa0e:6c06:7474:285c]) by SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::fa0e:6c06:7474:285c%5]) with mapi id 15.20.6521.023; Mon, 26 Jun 2023
- 12:55:28 +0000
-From: Yangtao Li <frank.li@vivo.com>
-To: Vasily Khoruzhick <anarsoul@gmail.com>,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Amit Kucheria <amitk@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B329BC12D;
+	Mon, 26 Jun 2023 15:40:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88117C433C8;
+	Mon, 26 Jun 2023 15:40:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1687794012;
+	bh=dwXCF9f2fQo97nSVcp6MB0XwLHJLjovoiu215aV3VIM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=W6J0PeX7nYnoL6w01+rkgKirTv4OLMBI/68lgNEjJ6QrTT0+U5tJy43V9tdw/p/FZ
+	 U2Z4ez+Tej6OdPwLCrOOl9FQ1K5JE0Ccdy0fuIysYDlXH/mZMxJ5jFoWmr644S/Gio
+	 UgHgnyTrtpDXoh+g8dOS3EHJY4MXMPaVoF+H0FfZARHiKKZwVQD8QNdO97ieAMcsTT
+	 UbpzN2fWkB+xjxgFhRaxcAJ/XpEDcZcc1+0bgc0P85runCJPxLuWnkmi5LHgl4Sw9O
+	 +r/8+L+FQU0eI8iTkh7peEb5CZohWf6/NNMPyDEIYjWZSjTP9yp3GTvlUUYRXwfnDq
+	 EM5evYV8nKdyg==
+From: Jisheng Zhang <jszhang@kernel.org>
+To: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>
-Cc: Yangtao Li <frank.li@vivo.com>,
-	linux-pm@vger.kernel.org,
+Cc: netdev@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] thermal/drivers/sun8i: remove unneeded comments
-Date: Mon, 26 Jun 2023 20:55:15 +0800
-Message-Id: <20230626125515.18830-1-frank.li@vivo.com>
-X-Mailer: git-send-email 2.39.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR02CA0050.apcprd02.prod.outlook.com
- (2603:1096:4:196::11) To SEZPR06MB5269.apcprd06.prod.outlook.com
- (2603:1096:101:78::6)
+	Simon Horman <simon.horman@corigine.com>
+Subject: [PATCH net-next v4 0/2] net: stmmac: improve driver statistics
+Date: Mon, 26 Jun 2023 23:28:42 +0800
+Message-Id: <20230626152844.484-1-jszhang@kernel.org>
+X-Mailer: git-send-email 2.40.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5269:EE_|KL1PR0601MB3956:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0fdec005-ff72-404a-6969-08db76449da2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	d8vGPndBsRGTpe24cFTkwSU4G8FigPp0vF7fig5LDzEdAnCKKwvmbVEvb6CgSuV3PfB/dpWU1AczNXkhbRLzKTaluMopO1H+OibSzBopky7FcPQjeccVHw3Wg4GqqiAcDTjt6hsVV951QBdrx4/E3RDdSY/NkmA0x1CQjv8o/UsJHwK28yO9lc6lkb/x1hmmQl6+QDDsQPvb3NHsul6XyK84+Wes2TXeurT+1KXuQyZc7gpaERv5ChUdiWY08varxNqgGizn19ql13Dp0VDmuZXETYdczNujOuTmUaJE62zCD5qZ5nESfvMBKtUIm8DjLka0MLqLk8alp4ojxSimhJ2cAjSZx1ZKjVD9J5W1Vulkm0XwHT4NlkuwyRbYDReCAFyB7Er6ZgHhrcS5X4vJVjmWDUyv/1Oam3YA+V7RZhrbo9c+sfmMle5NLKLWBMY+xcxHAEpPxos4AoRZeiEXzpI682DAqPfKRZ72zlxKhy/lsq32mfZVEABnIw3DESeEdtkoh4wMNgeWVGZxoGNJaU0APJ9jDXxHL6WseRzXHgSbkYwftY72Ep2nShNFDF66DUE0uX9+3cpTBjGQk7shhgr2/+6TayrU+VTXPg31vrmGYp9xp4tNVw8D0Umbxmzz
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(396003)(376002)(136003)(366004)(39860400002)(451199021)(478600001)(6666004)(6486002)(52116002)(2616005)(110136005)(83380400001)(26005)(186003)(1076003)(6506007)(2906002)(4744005)(5660300002)(7416002)(36756003)(38350700002)(38100700002)(4326008)(66946007)(316002)(66556008)(8936002)(8676002)(41300700001)(86362001)(66476007)(6512007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?R3mN1rPSTeDuCSNAP+yQQ6YPp4epUe/kyY6sqZXRB0386o8d5lA31EuX1FYe?=
- =?us-ascii?Q?lyEeqHTd3aKCfSOKV8qSHe0teeWLzZkol1E6kMQ8g2sg5Ps5CE/ylB77nYEd?=
- =?us-ascii?Q?wEGTLjTobeoyi3TFwlaQFvC41IVf+TS+fZe+SZtAYQost85njvorEcmqViqP?=
- =?us-ascii?Q?UIb/QuJeuYuEREjk/ZFzTi8+oQrSKH0WYd54Hm3Y7gS2nGks0XlQ5YGIu+jR?=
- =?us-ascii?Q?rgwKhHjLpGLGel/UcZg2Q9vUbrt91VFCqUEwiWdM/0BjemorZP3D/r3L+UXp?=
- =?us-ascii?Q?+YgEP5b5HHEsaJhlemCvhcuKgjpw5V8oU/gwhSRcHiCPQFWxLAIRrQTpE3BB?=
- =?us-ascii?Q?0w6/bLby51rbaHNzj7mh6t0RSZ3GenrYoCouh5sD4mNjDprO3gb2TqdHIjeO?=
- =?us-ascii?Q?M0kirrtiqQdc+BzWrCmYSjBpxMHLAxCJ3DsSFhTV+97VBBBpA5ZKJ+FEw47h?=
- =?us-ascii?Q?UWN95cGHpPX2oPrGHAwurw2p+XDhjQYk4FnCQm9Iw7xUh9PMmMajW4EzaCPX?=
- =?us-ascii?Q?/+xju6VFwN6RIqxMTHGjEwP3j7h7WWgSYUY2dXs79HTc7Epe6vtcqJRGivHH?=
- =?us-ascii?Q?uMZX9RZ9vjY0boAwg0p27/RMDcwzDkGUWUly/SSLvXD2c++8M/a0YZDS8dIF?=
- =?us-ascii?Q?s3kewhfgDX4YX6R3Ya0Ofns3AAle8oBEBToULNHAkOYhO5yufX0/y9YA34h3?=
- =?us-ascii?Q?Awk14EpO8b0ZVPNz4T/1xDhHclOJMKZEQdbXD9Ogy68rw5YbMJu97Olh+SRB?=
- =?us-ascii?Q?NvufspJ8Gn1snhH1QNwSf6+byan1cKTEWKeU1Ol1TZN7qWr8NljpM4xOzHg+?=
- =?us-ascii?Q?EqUcBDYfiAO2f8FHfzUMbBStGpNXigUgPFMiB5DM/pejS6IahptdTSZzrS+g?=
- =?us-ascii?Q?pAB2MkdfnCpMJTB3imaqHixN7Onz88qKFOIoIEQBWmEhCBr3OQEHlA1tq1pA?=
- =?us-ascii?Q?FyKk8eR6+sgw8Ua3OIvQpOPsQ2ym4fn94qSXGYfqGwBZtAj7fjrpWDk15ORs?=
- =?us-ascii?Q?csuFnMZwihFS+DRtFJHe7vc+xtAdTitIWphI2/ydQqG941tYFwlVXb9Pmk03?=
- =?us-ascii?Q?+ycHiniyuZQWpTtiM5ViVBSJEsDlTHi0OqmdC2JJwH7p4AeKg4yWdRc52LS+?=
- =?us-ascii?Q?txqTt8qXugQKCNBYs9GvxN71Y6+NIn+z6x+hktcFjMEQDTjAhkcO79RerQYa?=
- =?us-ascii?Q?w3tNaN9FSbfJUZ8i3Ly1uPX9Gw94NQ5EDGBLhtU76M5s2UHcIGlwFBrJdkbw?=
- =?us-ascii?Q?llZWOYyZzidiQdbB7ZiJxRJry8dCPIP+lCf0PCwtZhjfnW+taAv7ypSxbED7?=
- =?us-ascii?Q?8HzsmrE8OsJdNkRVUDfUb+etotCCBcIGIr0jurPK75Uw5gwRh2dCCIxQuzjp?=
- =?us-ascii?Q?BcLVLegu+t3jCa0lkiYIk2ioeGzsjGc0obmsUxM+q/FP44l3n4h7/gmmS4+t?=
- =?us-ascii?Q?SYc8bHwd2tYR7oHC0RHbK7mT+AhjTpod8iVNmDMYYzS2BjIDVTYFNwG4gqIH?=
- =?us-ascii?Q?rm3BEk1k28DsJ/vohwDGU+dbKebBk55SvI/SxNg/7rx6MfLzOiBSYF7BfiKF?=
- =?us-ascii?Q?AEHiqcULGdhgFfU1MUOvh/9/ZzK6NQYHzUgjIFOI?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0fdec005-ff72-404a-6969-08db76449da2
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2023 12:55:27.9614
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FxHaY4kGMKhyEL7n8uksUoYdjW0LbcPc6f/YAliPnWItvkSzTOIOz+M0aDZQrkw2lQyssRGXoMt3cZ5xDRyJUg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB3956
+Content-Transfer-Encoding: 8bit
 
-It's redundant, let's remove it.
+improve the stmmac driver statistics:
 
-Signed-off-by: Yangtao Li <frank.li@vivo.com>
----
- drivers/thermal/sun8i_thermal.c | 2 --
- 1 file changed, 2 deletions(-)
+1. don't clear network driver statistics in .ndo_close() and
+.ndo_open() cycle
+2. avoid some network driver statistics overflow on 32 bit platforms
+3. use per-queue statistics where necessary to remove frequent
+cacheline ping pongs.
 
-diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-index 195f3c5d0b38..2c82bc744a24 100644
---- a/drivers/thermal/sun8i_thermal.c
-+++ b/drivers/thermal/sun8i_thermal.c
-@@ -56,8 +56,6 @@
- #define SUN50I_H6_THS_PC_TEMP_PERIOD(x)		((GENMASK(19, 0) & (x)) << 12)
- #define SUN50I_H6_THS_DATA_IRQ_STS(x)		BIT(x)
- 
--/* millidegree celsius */
--
- struct tsensor {
- 	struct ths_device		*tmdev;
- 	struct thermal_zone_device	*tzd;
+NOTE: v1 and v2 are back ported from an internal LTS tree, I made
+some mistakes when backporting and squashing. Now, net-next + v3
+has been well tested with 'ethtool -s' and 'ip -s link show'.
+
+Since v3:
+  - coding style pointed out by Simon, I.E reverse xmas tree for local
+    variable declarations and so on.
+  - put the counters in queue structs, I.E per-queue rather than per-cpu
+  - use _irqsave() variant where necessary.
+
+Since v2:
+  - fix ethtool .get_sset_count, .get_strings and per queue stats
+    couting.
+  - fix .ndo_get_stats64 only counts the last cpu's pcpu stats.
+  - fix typo: s/iff/if in commit msg.
+  - remove unnecessary if statement brackets since we have removed
+    one LoC.
+
+Since v1:
+  - rebase on net-next
+  - fold two original patches into one patch
+  - fix issues found by lkp
+  - update commit msg
+
+Jisheng Zhang (2):
+  net: stmmac: don't clear network statistics in .ndo_open()
+  net: stmmac: use per-queue 64 bit statistics where necessary
+
+ drivers/net/ethernet/stmicro/stmmac/common.h  |  39 ++--
+ .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c |  12 +-
+ .../ethernet/stmicro/stmmac/dwmac100_dma.c    |   7 +-
+ .../ethernet/stmicro/stmmac/dwmac4_descs.c    |  16 +-
+ .../net/ethernet/stmicro/stmmac/dwmac4_lib.c  |  15 +-
+ .../net/ethernet/stmicro/stmmac/dwmac_lib.c   |  12 +-
+ .../ethernet/stmicro/stmmac/dwxgmac2_descs.c  |   6 +-
+ .../ethernet/stmicro/stmmac/dwxgmac2_dma.c    |  14 +-
+ .../net/ethernet/stmicro/stmmac/enh_desc.c    |  20 +-
+ drivers/net/ethernet/stmicro/stmmac/hwif.h    |  12 +-
+ .../net/ethernet/stmicro/stmmac/norm_desc.c   |  15 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac.h  |   2 +
+ .../ethernet/stmicro/stmmac/stmmac_ethtool.c  | 123 ++++++++---
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c | 206 ++++++++++++++----
+ 14 files changed, 337 insertions(+), 162 deletions(-)
+
 -- 
-2.39.0
+2.40.1
 
