@@ -1,30 +1,53 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA474182C3
-	for <linux-sunxi@lists.linux.dev>; Tue, 27 Jun 2023 11:59:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88C68C433C8;
-	Tue, 27 Jun 2023 11:59:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1687867164;
-	bh=OMH79suvV90YGL/6hCh1wogF4ewTEowNOGyXoNxRihs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n1vprvjajWvHh2Q9wrPdei22SiZ0xoAlXqJXE+YES9kzBAIg7VI2Fl8iz4Ay00fEd
-	 RzFkALzAVVcgMPsDUddXn45o1Xt71kYRIsRPJcJznH8ECJhPw2L7VZM3dpIZViNas/
-	 FjnS0SFvuJvU0TPHhkem19iKqIQhH4Oy4qxgdXdwxiC/m+Z+QRRLThw3tLskHLTuCU
-	 hKsNK+aXyN9IGTOdKLJueM2FTHm9cQX4LTTLZB+JnU8+dz66n4i6PGoyIe0xmG+AFR
-	 8xIgI2ddjPuedG9sE2RyO3GKKKTURJOgIHe4Bpu4qNdJNginaQDl+Sh2iP81BCwZDD
-	 z0OYwpx5dFrSw==
-Date: Tue, 27 Jun 2023 13:59:20 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5F01775D
+	for <linux-sunxi@lists.linux.dev>; Tue, 27 Jun 2023 12:09:01 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-307d58b3efbso3929168f8f.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 27 Jun 2023 05:09:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687867739; x=1690459739;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XjTuTNgKEBvunVd9fAUm7Ppy6mfbSYWQcxqzB1Eo12w=;
+        b=jMET+zhwnS5q6F2CeWL/ZvUUXDxRCD3KIZroZ3mxJHNSTe+pVHeJRDOfbPh/630Aot
+         LOUAHMqjtu3E4Fh2Yoo/r8tatlVx6RP9Waczk9zetDUKGYgMybsikZfJXk8RtbHcaTVS
+         OrpAQ/hULa697u9j25R98sPaSRghRYBcpag4DKF7O5A+4f5g7K4+2eeFvSyZjEWJMcHy
+         cEwewaTPhh4epk8JRB70mg4CTANx+XtlF8iZ4lvBht/Fdo7ToGIeRIJCfgHwo8EKNvg4
+         RAScDKlNtoCmNueMswgykjbNZUBOOYFfWhrqaheSCJAwebY2PpxoBaJX1eZoqBVJ0KeV
+         8V5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687867739; x=1690459739;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XjTuTNgKEBvunVd9fAUm7Ppy6mfbSYWQcxqzB1Eo12w=;
+        b=PtrGVRXhqp2FylfbnBd6ENWrMVpq3/MJk8H4/B1IahK2KcS/Yxb3NBPMuBL6404PWx
+         S0igcEX7Cl9GF8BnMgXEy9GueWWMAzkc3sUW9bD35g81PqyZLzwm/KSNYj8U3YkqbJ5q
+         UQWaoP6+OYMSYlQToIcOfwmBR9C467wrPRTuP0tc84Cadbo75ZEMAkKEzJNAohtYBCi+
+         oH2Ydz5Z4a8hnHZq/dJJ8xmYAjz9X6BKtZPpK6F4U+2frXFLDBqR1FmsL+l6aPi8Qi1g
+         jHQaHXPZHLXt+FnpcxzykUgr8eSkXQA2kQJgEzxg54JmFWEKMgnepaT4ykhL+Z9cSxUV
+         MjfQ==
+X-Gm-Message-State: AC+VfDwguJPJXirAFN85Kj1llGcbPhq+S600m0LQnZU4Y715n+b75825
+	LE+C356uNx38S/1Fe14IqQc7jQ==
+X-Google-Smtp-Source: ACHHUZ4pCkteu52b9BlAo/HYL/OWS4u9cyn26HsksoVqBbTka5mDErRReBs9tDBbMMGxmHreePz3xg==
+X-Received: by 2002:a05:6000:118f:b0:309:4620:e155 with SMTP id g15-20020a056000118f00b003094620e155mr10664973wrx.49.1687867739301;
+        Tue, 27 Jun 2023 05:08:59 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id v10-20020a5d590a000000b0030631a599a0sm10218526wrd.24.2023.06.27.05.08.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jun 2023 05:08:56 -0700 (PDT)
+Date: Tue, 27 Jun 2023 15:08:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Andi Shyti <andi.shyti@kernel.org>
 Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>, Wolfram Sang <wsa@kernel.org>,
 	linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev, kernel-janitors@vger.kernel.org
 Subject: Re: [PATCH] i2c: sun6i-p2wi: Fix an error message in probe()
-Message-ID: <20230627115920.c4ms65vgrbiyekc6@intel.intel>
+Message-ID: <7c6db53c-427d-4ba5-80b7-a069ab9322a0@kadam.mountain>
 References: <98afbc28-3366-459e-bd01-f77cf1a67fe9@moroto.mountain>
+ <20230627115920.c4ms65vgrbiyekc6@intel.intel>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -33,45 +56,52 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <98afbc28-3366-459e-bd01-f77cf1a67fe9@moroto.mountain>
+In-Reply-To: <20230627115920.c4ms65vgrbiyekc6@intel.intel>
 
-Hi Dan,
-
-On Tue, Jun 27, 2023 at 10:12:36AM +0300, Dan Carpenter wrote:
-> The "ret" variable is uninitialized.  It was the "p2wi->rstc" variable
-> that was intended.  We can also use the %pe string format to print the
-> error code name instead of just the number.
+On Tue, Jun 27, 2023 at 01:59:20PM +0200, Andi Shyti wrote:
+> Hi Dan,
 > 
-> Fixes: 75ff8a340a81 ("i2c: sun6i-p2wi: Use devm_clk_get_enabled()")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
->  drivers/i2c/busses/i2c-sun6i-p2wi.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> On Tue, Jun 27, 2023 at 10:12:36AM +0300, Dan Carpenter wrote:
+> > The "ret" variable is uninitialized.  It was the "p2wi->rstc" variable
+> > that was intended.  We can also use the %pe string format to print the
+> > error code name instead of just the number.
+> > 
+> > Fixes: 75ff8a340a81 ("i2c: sun6i-p2wi: Use devm_clk_get_enabled()")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > ---
+> >  drivers/i2c/busses/i2c-sun6i-p2wi.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/i2c/busses/i2c-sun6i-p2wi.c b/drivers/i2c/busses/i2c-sun6i-p2wi.c
+> > index ad8270cdbd3e..fa6020dced59 100644
+> > --- a/drivers/i2c/busses/i2c-sun6i-p2wi.c
+> > +++ b/drivers/i2c/busses/i2c-sun6i-p2wi.c
+> > @@ -250,7 +250,8 @@ static int p2wi_probe(struct platform_device *pdev)
+> >  
+> >  	p2wi->rstc = devm_reset_control_get_exclusive(dev, NULL);
+> >  	if (IS_ERR(p2wi->rstc)) {
+> > -		dev_err(dev, "failed to retrieve reset controller: %d\n", ret);
+> > +		dev_err(dev, "failed to retrieve reset controller: %pe\n",
+> > +			p2wi->rstc);
 > 
-> diff --git a/drivers/i2c/busses/i2c-sun6i-p2wi.c b/drivers/i2c/busses/i2c-sun6i-p2wi.c
-> index ad8270cdbd3e..fa6020dced59 100644
-> --- a/drivers/i2c/busses/i2c-sun6i-p2wi.c
-> +++ b/drivers/i2c/busses/i2c-sun6i-p2wi.c
-> @@ -250,7 +250,8 @@ static int p2wi_probe(struct platform_device *pdev)
->  
->  	p2wi->rstc = devm_reset_control_get_exclusive(dev, NULL);
->  	if (IS_ERR(p2wi->rstc)) {
+> Yes, good catch! Thanks! But I think we want to print the error
+> value here, so I think it should be:
+> 
 > -		dev_err(dev, "failed to retrieve reset controller: %d\n", ret);
-> +		dev_err(dev, "failed to retrieve reset controller: %pe\n",
-> +			p2wi->rstc);
-
-Yes, good catch! Thanks! But I think we want to print the error
-value here, so I think it should be:
-
--		dev_err(dev, "failed to retrieve reset controller: %d\n", ret);
-+		dev_err(dev, "failed to retrieve reset controller: %d\n",
-+			PTR_ERR(p2wi->rstc));
-
-Andi
-
->  		return PTR_ERR(p2wi->rstc);
->  	}
->  
-> -- 
-> 2.39.2
+> +		dev_err(dev, "failed to retrieve reset controller: %d\n",
+> +			PTR_ERR(p2wi->rstc));
 > 
+
+The %pe which I changed it to is a cool new thing that prints:
+
+	failed to retrieve reset controller: -EINVAL\n
+
+We should create a similar %e printk format that works for ints instead
+of error pointers.  But instead of that you have people who cast error
+codes to pointers just to get the %pe functionality.  And other people
+who make suggestions (this is the catagory that I'm in) but are too lazy
+to do the actual work.
+
+regards,
+dan carpenter
+
