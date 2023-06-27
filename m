@@ -1,111 +1,77 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD1C15AF5
-	for <linux-sunxi@lists.linux.dev>; Tue, 27 Jun 2023 08:24:26 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-4fb761efa7aso2680930e87.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 27 Jun 2023 01:24:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687854265; x=1690446265;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9pjgEmaLZWbZLKm+zTsTjeEOP7/LCJvRIUhdiZyAT1I=;
-        b=TE7f+u5TbI/yG0U+0SyVxyNL4Hk/MPzSwlErkUfNEC8YTRK3M1Vh7mPhmv0rZ7kfQU
-         eRR7Ws9gTUZrwfagnu/E8dW7m7MXunWK65JTfquV2cc9qrwQW9GAqTjFQ/sBJX/ptFFK
-         p9Awmdhm1YRA+PHkhZwDZI2+y9MP6ZXjxD5pgJe/MN5RqTZsvtkZufqCVro47pOi1WjH
-         t6wKmtgRLmGI322xF27HOIye6IcvL+bV0LnBKHknVOKOxDAC+tLsgqxWFGRXVehVaDvD
-         RWxTDMdvb8628zNsTAS7lxudN343CwebXvd50Aox32mctKzNVLexHf6BPNPJ39cBB48T
-         vc2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687854265; x=1690446265;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9pjgEmaLZWbZLKm+zTsTjeEOP7/LCJvRIUhdiZyAT1I=;
-        b=mBpzBppCZ3Po9jCGAB4vGkVQD7h0+zZa+6LBhBfSFjauFh+BcC67qQc6yuPgUVbfn5
-         MMS+6o1JPnn0n/huUbSU+fAGI45UUnS5LYi6hhfPx7tiXAVxpxBeqrXRS13nKn6vPqyY
-         FYAjHiyr4ONAutDYyDerM7mw7moz42YCo1YbEmUeHAyOiaySCQO7gc5AFIaV/m4l1aJb
-         ZImvoWmm5rkM08PD7N/Xzd57JkvQtqOgGrTpaZr5Tbh1GZq93j0OvfVlyWaDspEm/M60
-         uxDx4HP75U5G3REFu3MpGqd5h83TS86La5i0fwl8qOX4H63IimPXaW5HOp5/8J8oqj7n
-         TAbg==
-X-Gm-Message-State: AC+VfDw2w9UZVHFZr7VsqWkUhG9v9zFSTsiLKFf0UPoh/iKnSq8Kc8aV
-	V0o3cdTD2R0qJRyo1yWp+g==
-X-Google-Smtp-Source: ACHHUZ4vz531eTh8MoQqbWPlqMxY7J/X7ms73AZisnK4IJIfmP73nvAIsdUP/6rmmWoOTpA9+n88FQ==
-X-Received: by 2002:a19:434a:0:b0:4f8:6e1d:cf98 with SMTP id m10-20020a19434a000000b004f86e1dcf98mr13755647lfj.66.1687854264719;
-        Tue, 27 Jun 2023 01:24:24 -0700 (PDT)
-Received: from localhost.localdomain (mail.pulsar-telecom.ru. [94.181.180.60])
-        by smtp.gmail.com with ESMTPSA id i12-20020a056512006c00b004eb12329053sm1420673lfo.256.2023.06.27.01.24.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jun 2023 01:24:24 -0700 (PDT)
-From: Aleksandr Shubin <privatesub2@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: Aleksandr Shubin <privatesub2@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v3 3/3] riscv: dts: allwinner: d1: Add pwm node
-Date: Tue, 27 Jun 2023 11:23:26 +0300
-Message-Id: <20230627082334.1253020-4-privatesub2@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230627082334.1253020-1-privatesub2@gmail.com>
-References: <20230627082334.1253020-1-privatesub2@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA474182C3
+	for <linux-sunxi@lists.linux.dev>; Tue, 27 Jun 2023 11:59:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88C68C433C8;
+	Tue, 27 Jun 2023 11:59:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1687867164;
+	bh=OMH79suvV90YGL/6hCh1wogF4ewTEowNOGyXoNxRihs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=n1vprvjajWvHh2Q9wrPdei22SiZ0xoAlXqJXE+YES9kzBAIg7VI2Fl8iz4Ay00fEd
+	 RzFkALzAVVcgMPsDUddXn45o1Xt71kYRIsRPJcJznH8ECJhPw2L7VZM3dpIZViNas/
+	 FjnS0SFvuJvU0TPHhkem19iKqIQhH4Oy4qxgdXdwxiC/m+Z+QRRLThw3tLskHLTuCU
+	 hKsNK+aXyN9IGTOdKLJueM2FTHm9cQX4LTTLZB+JnU8+dz66n4i6PGoyIe0xmG+AFR
+	 8xIgI2ddjPuedG9sE2RyO3GKKKTURJOgIHe4Bpu4qNdJNginaQDl+Sh2iP81BCwZDD
+	 z0OYwpx5dFrSw==
+Date: Tue, 27 Jun 2023 13:59:20 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Wolfram Sang <wsa@kernel.org>,
+	linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] i2c: sun6i-p2wi: Fix an error message in probe()
+Message-ID: <20230627115920.c4ms65vgrbiyekc6@intel.intel>
+References: <98afbc28-3366-459e-bd01-f77cf1a67fe9@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <98afbc28-3366-459e-bd01-f77cf1a67fe9@moroto.mountain>
 
-D1 and T113s contain a pwm controller with 8 channels.
-This controller is supported by the sun20i-pwm driver.
+Hi Dan,
 
-Add a device tree node for it.
+On Tue, Jun 27, 2023 at 10:12:36AM +0300, Dan Carpenter wrote:
+> The "ret" variable is uninitialized.  It was the "p2wi->rstc" variable
+> that was intended.  We can also use the %pe string format to print the
+> error code name instead of just the number.
+> 
+> Fixes: 75ff8a340a81 ("i2c: sun6i-p2wi: Use devm_clk_get_enabled()")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+>  drivers/i2c/busses/i2c-sun6i-p2wi.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/i2c/busses/i2c-sun6i-p2wi.c b/drivers/i2c/busses/i2c-sun6i-p2wi.c
+> index ad8270cdbd3e..fa6020dced59 100644
+> --- a/drivers/i2c/busses/i2c-sun6i-p2wi.c
+> +++ b/drivers/i2c/busses/i2c-sun6i-p2wi.c
+> @@ -250,7 +250,8 @@ static int p2wi_probe(struct platform_device *pdev)
+>  
+>  	p2wi->rstc = devm_reset_control_get_exclusive(dev, NULL);
+>  	if (IS_ERR(p2wi->rstc)) {
+> -		dev_err(dev, "failed to retrieve reset controller: %d\n", ret);
+> +		dev_err(dev, "failed to retrieve reset controller: %pe\n",
+> +			p2wi->rstc);
 
-Signed-off-by: Aleksandr Shubin <privatesub2@gmail.com>
----
- arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Yes, good catch! Thanks! But I think we want to print the error
+value here, so I think it should be:
 
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-index 922e8e0e2c09..e24543b6aff7 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-@@ -127,6 +127,17 @@ uart3_pb_pins: uart3-pb-pins {
- 			};
- 		};
- 
-+		pwm: pwm@2000c00 {
-+			compatible = "allwinner,sun20i-d1-pwm";
-+			reg = <0x02000c00 0x400>;
-+			clocks = <&dcxo>,
-+				 <&ccu CLK_BUS_PWM>;
-+			clock-names = "hosc", "bus";
-+			resets = <&ccu RST_BUS_PWM>;
-+			status = "disabled";
-+			#pwm-cells = <0x3>;
-+		};
-+
- 		ccu: clock-controller@2001000 {
- 			compatible = "allwinner,sun20i-d1-ccu";
- 			reg = <0x2001000 0x1000>;
--- 
-2.25.1
+-		dev_err(dev, "failed to retrieve reset controller: %d\n", ret);
++		dev_err(dev, "failed to retrieve reset controller: %d\n",
++			PTR_ERR(p2wi->rstc));
 
+Andi
+
+>  		return PTR_ERR(p2wi->rstc);
+>  	}
+>  
+> -- 
+> 2.39.2
+> 
