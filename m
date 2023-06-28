@@ -1,115 +1,105 @@
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 154114A27
-	for <linux-sunxi@lists.linux.dev>; Tue, 27 Jun 2023 23:18:25 +0000 (UTC)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20230627133743c994bf898e7793d4d2
-        for <linux-sunxi@lists.linux.dev>;
-        Tue, 27 Jun 2023 15:37:44 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=felix.moessbauer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=xbvKmBAtZo9Ow1l8tao9RYJLC7Y08h2AksTB6L1J/zY=;
- b=cI1/s5n2pksFjO8vpuxNLSxcwggTtzpF2aoGd00Hwh2P1TPanM7XLH6Gw0liHz68CybnwL
- FY9uSCu2PXzyOjZpdW1x1AM/hCrW9wFhCgGcEFwLwZR4od8xrsZleFkPeQPw2kAqNSh4envc
- 7Y9/1QgkEVNqWqS5+xeTUGuoOAyeg=;
-From: Felix Moessbauer <felix.moessbauer@siemens.com>
-To: Rob Herring <robh+dt@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Daniel Bovensiepen <daniel.bovensiepen@siemens.com>,
-	Quirin Gylstorff <quirin.gylstorff@siemens.com>,
-	manuel.matzinger@siemens.com,
-	devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	Felix Moessbauer <felix.moessbauer@siemens.com>
-Subject: [PATCH 1/1] arm: dts: Enable device-tree overlay support for sun8i-h3 pi devices
-Date: Tue, 27 Jun 2023 21:37:03 +0800
-Message-Id: <20230627133703.355893-1-felix.moessbauer@siemens.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655805CBE
+	for <linux-sunxi@lists.linux.dev>; Wed, 28 Jun 2023 07:44:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F264C433C8;
+	Wed, 28 Jun 2023 07:44:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1687938262;
+	bh=ePwte3hrhMRziyfeeDbbH3c5avzzRC0gIsBYcHlC9js=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qjMlEnesyK9P+AFJZDUq00Qv7DFOoMq6ry7r+9WCXSqcUqAptsBa2G+J6AXCIKA9W
+	 8D+GnaHBh+6RIKisxsCWnGAmEk5BO78SXlHoGzHSSvQeLc49aTCMvjJthF2dVIAoRw
+	 9gnQ6Tt3MjkldESuFSecBALzpffGtoe1QomDSuZK33ACMt2eZWflhvrlT3z6I3g7Yi
+	 g5c88ledeW63xvTC2vAkYgaKWR7l5zeMaGDDAu4emO99xAbO7/fzY/tB5p5vOh1rf5
+	 NmoqrrRp7zVourImRSsBDs1SwOjEz0Xf1NCRCQYSpX7H3KyzEaA+beATg/HNpzmZEx
+	 d32LGGb8NJLSQ==
+Date: Wed, 28 Jun 2023 09:44:18 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: =?utf-8?B?TcOlbnMgUnVsbGfDpXJk?= <mans@mansr.com>
+Cc: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev, 
+	Michael Turquette <mturquette@baylibre.com>, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/4] clk: sunxi-ng: Convert early providers to
+ platform drivers
+Message-ID: <maqh4yir66agto4lyulvrqrim7qnixwd246jusvvhsjlhhrmmw@gjbubqc2cv4o>
+References: <20211119033338.25486-1-samuel@sholland.org>
+ <20211119033338.25486-4-samuel@sholland.org>
+ <yw1xedly2z3m.fsf@mansr.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-72506:519-21489:flowmailer
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="oyafrdifo4lqltls"
+Content-Disposition: inline
+In-Reply-To: <yw1xedly2z3m.fsf@mansr.com>
 
-Add the '-@' DTC option for the sun8i-h3 pi-class devices. This option
-populates the '__symbols__' node that contains all the necessary symbols
-for supporting device-tree overlays (for instance from the firmware or
-the bootloader) on these devices.
 
-These devices allow various modules to be connected and this enables
-users to create out-of-tree device-tree overlays for these modules.
+--oyafrdifo4lqltls
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Please note that this change does increase the size of the resulting DTB
-by ~30%. For example, with v6.4 increase in size is as follows:
+On Mon, Jun 26, 2023 at 01:21:33PM +0100, M=E5ns Rullg=E5rd wrote:
+> Samuel Holland <samuel@sholland.org> writes:
+>=20
+> > The PRCM CCU drivers depend on clocks provided by other CCU drivers. For
+> > example, the sun8i-r-ccu driver uses the "pll-periph" clock provided by
+> > the SoC's main CCU.
+> >
+> > However, sun8i-r-ccu is an early OF clock provider, and many of the
+> > main CCUs (e.g. sun50i-a64-ccu) use platform drivers. This means that
+> > the consumer clocks will be orphaned until the supplier driver is bound.
+> > This can be avoided by converting the remaining CCUs to use platform
+> > drivers. Then fw_devlink will ensure the drivers are bound in the
+> > optimal order.
+> >
+> > The sun5i CCU is the only one which actually needs to be an early clock
+> > provider, because it provides the clock for the system timer. That one
+> > is left alone.
+> >
+> > Signed-off-by: Samuel Holland <samuel@sholland.org>
+> > ---
+> >
+> > (no changes since v1)
+> >
+> >  drivers/clk/sunxi-ng/Kconfig             | 20 ++++----
+> >  drivers/clk/sunxi-ng/ccu-sun4i-a10.c     | 58 +++++++++++++--------
+> >  drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c   | 56 ++++++++++++--------
+> >  drivers/clk/sunxi-ng/ccu-sun50i-h616.c   | 33 ++++++++----
+> >  drivers/clk/sunxi-ng/ccu-sun6i-a31.c     | 40 +++++++++++----
+> >  drivers/clk/sunxi-ng/ccu-sun8i-a23.c     | 35 +++++++++----
+> >  drivers/clk/sunxi-ng/ccu-sun8i-a33.c     | 40 +++++++++++----
+> >  drivers/clk/sunxi-ng/ccu-sun8i-h3.c      | 62 ++++++++++++++--------
+> >  drivers/clk/sunxi-ng/ccu-sun8i-r.c       | 65 ++++++++++++++----------
+> >  drivers/clk/sunxi-ng/ccu-sun8i-v3s.c     | 57 +++++++++++++--------
+> >  drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c | 38 ++++++++++----
+> >  11 files changed, 332 insertions(+), 172 deletions(-)
+>=20
+> This broke the hstimer clocksource on A20 since it requires a clock
+> provided by the sun4i ccu driver.
 
-22909 -> 29564 sun8i-h3-orangepi-lite.dtb
-24214 -> 30935 sun8i-h3-bananapi-m2-plus.dtb
-23915 -> 30664 sun8i-h3-nanopi-m1-plus.dtb
-22969 -> 29537 sun8i-h3-nanopi-m1.dtb
-24157 -> 30836 sun8i-h3-nanopi-duo2.dtb
-24110 -> 30845 sun8i-h3-orangepi-plus2e.dtb
-23472 -> 30037 sun8i-h3-orangepi-one.dtb
-24600 -> 31410 sun8i-h3-orangepi-plus.dtb
-23618 -> 30230 sun8i-h3-orangepi-2.dtb
-22170 -> 28548 sun8i-h3-orangepi-zero-plus2.dtb
-23258 -> 29795 sun8i-h3-nanopi-neo-air.dtb
-23113 -> 29699 sun8i-h3-zeropi.dtb
-22803 -> 29270 sun8i-h3-nanopi-neo.dtb
-24674 -> 31318 sun8i-h3-nanopi-r1.dtb
-23477 -> 30038 sun8i-h3-orangepi-pc.dtb
-24622 -> 31380 sun8i-h3-bananapi-m2-plus-v1.2.dtb
-23750 -> 30366 sun8i-h3-orangepi-pc-plus.dtb
+The A10 is probably broken by this, but the A20 should be able to use
+the arch timers just like all the other Cortex-A7-based SoCs.
 
-Signed-off-by: Felix Moessbauer <felix.moessbauer@siemens.com>
----
-Please note that I only tested the overlay on the sun8i-h3-nanopi-neo
-device. However, the devices are quite similar and in general the
-change to add symbols should be pretty safe. Similar patches have been
-applied to various other devices in the past without any negative
-effect (except for the increased size).
+Do you have a dmesg log that could help debug why it's not working?
 
-Felix Moessbauer
-Siemens AG
+Maxime
 
- arch/arm/boot/dts/allwinner/Makefile | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+--oyafrdifo4lqltls
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/arch/arm/boot/dts/allwinner/Makefile b/arch/arm/boot/dts/allwinner/Makefile
-index 589a1ce1120a..eebb5a0c873a 100644
---- a/arch/arm/boot/dts/allwinner/Makefile
-+++ b/arch/arm/boot/dts/allwinner/Makefile
-@@ -179,6 +179,25 @@ dtb-$(CONFIG_MACH_SUN7I) += \
- 	sun7i-a20-pcduino3-nano.dtb \
- 	sun7i-a20-wexler-tab7200.dtb \
- 	sun7i-a20-wits-pro-a20-dkt.dtb
-+
-+# Enables support for device-tree overlays for all pis
-+DTC_FLAGS_sun8i-h3-orangepi-lite := -@
-+DTC_FLAGS_sun8i-h3-bananapi-m2-plus := -@
-+DTC_FLAGS_sun8i-h3-nanopi-m1-plus := -@
-+DTC_FLAGS_sun8i-h3-nanopi-m1 := -@
-+DTC_FLAGS_sun8i-h3-nanopi-duo2 := -@
-+DTC_FLAGS_sun8i-h3-orangepi-plus2e := -@
-+DTC_FLAGS_sun8i-h3-orangepi-one := -@
-+DTC_FLAGS_sun8i-h3-orangepi-plus := -@
-+DTC_FLAGS_sun8i-h3-orangepi-2 := -@
-+DTC_FLAGS_sun8i-h3-orangepi-zero-plus2 := -@
-+DTC_FLAGS_sun8i-h3-nanopi-neo-air := -@
-+DTC_FLAGS_sun8i-h3-zeropi := -@
-+DTC_FLAGS_sun8i-h3-nanopi-neo := -@
-+DTC_FLAGS_sun8i-h3-nanopi-r1 := -@
-+DTC_FLAGS_sun8i-h3-orangepi-pc := -@
-+DTC_FLAGS_sun8i-h3-bananapi-m2-plus-v1.2 := -@
-+DTC_FLAGS_sun8i-h3-orangepi-pc-plus := -@
- dtb-$(CONFIG_MACH_SUN8I) += \
- 	sun8i-a23-evb.dtb \
- 	sun8i-a23-gt90h-v4.dtb \
--- 
-2.39.2
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZJvk0gAKCRDj7w1vZxhR
+xUNZAQCPJxji/u47iktYmhrmFscqGGbXgQkRSC/fP3nBs/RnnwEAqbOxrzh8lF3J
+naqyI7DLolA/9Bf37opYB4Lh1y4PIQw=
+=juQ0
+-----END PGP SIGNATURE-----
+
+--oyafrdifo4lqltls--
