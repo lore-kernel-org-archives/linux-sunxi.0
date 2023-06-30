@@ -1,160 +1,201 @@
 Received: from unicorn.mansr.com (unicorn.mansr.com [81.2.72.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244D114ABE
-	for <linux-sunxi@lists.linux.dev>; Fri, 30 Jun 2023 17:03:56 +0000 (UTC)
-Received: from raven.mansr.com (raven.mansr.com [81.2.72.235])
-	by unicorn.mansr.com (Postfix) with ESMTPS id E44D915360;
-	Fri, 30 Jun 2023 18:03:48 +0100 (BST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6CB717737
+	for <linux-sunxi@lists.linux.dev>; Fri, 30 Jun 2023 20:18:05 +0000 (UTC)
+Received: from raven.mansr.com (raven.mansr.com [IPv6:2001:8b0:ca0d:1::3])
+	by unicorn.mansr.com (Postfix) with ESMTPS id 61C4715362;
+	Fri, 30 Jun 2023 21:18:03 +0100 (BST)
 Received: by raven.mansr.com (Postfix, from userid 51770)
-	id BFA04219FD1; Fri, 30 Jun 2023 18:03:48 +0100 (BST)
-From: =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
- Michael Turquette <mturquette@baylibre.com>, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Stephen Boyd <sboyd@kernel.org>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/4] clk: sunxi-ng: Convert early providers to
- platform drivers
-References: <20211119033338.25486-1-samuel@sholland.org>
-	<20211119033338.25486-4-samuel@sholland.org>
-	<yw1xedly2z3m.fsf@mansr.com>
-	<maqh4yir66agto4lyulvrqrim7qnixwd246jusvvhsjlhhrmmw@gjbubqc2cv4o>
-	<yw1xa5wj3kvn.fsf@mansr.com>
-	<un3xm7ybsm54qf56ojhrtr6kehlmhdoavzcaqr2jfbcyg2kr6u@rdlq7nelycs2>
-	<yw1x352b308w.fsf@mansr.com>
-	<z2656f5zlmntm3zf5ds72vtbd6cyw3mffj7vmeygpscjcnodw6@cwb65fhurfaa>
-Date: Fri, 30 Jun 2023 18:03:48 +0100
-In-Reply-To: <z2656f5zlmntm3zf5ds72vtbd6cyw3mffj7vmeygpscjcnodw6@cwb65fhurfaa>
-	(Maxime Ripard's message of "Fri, 30 Jun 2023 16:17:32 +0200")
-Message-ID: <yw1xwmzkzxu3.fsf@mansr.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	id 4E3CC21A9CD; Fri, 30 Jun 2023 21:18:03 +0100 (BST)
+From: Mans Rullgard <mans@mansr.com>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 2/3] clocksource: sun5i: remove pointless struct
+Date: Fri, 30 Jun 2023 21:01:27 +0100
+Message-ID: <20230630201800.16501-3-mans@mansr.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230630201800.16501-1-mans@mansr.com>
+References: <20230630201800.16501-1-mans@mansr.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Maxime Ripard <mripard@kernel.org> writes:
+Remove the pointless struct added in the previous patch to make
+the diff smaller.
 
-> On Wed, Jun 28, 2023 at 07:33:35PM +0100, M=E5ns Rullg=E5rd wrote:
->> Maxime Ripard <mripard@kernel.org> writes:
->>=20
->> > On Wed, Jun 28, 2023 at 12:07:56PM +0100, M=E5ns Rullg=E5rd wrote:
->> >> Maxime Ripard <mripard@kernel.org> writes:
->> >>=20
->> >> > On Mon, Jun 26, 2023 at 01:21:33PM +0100, M=E5ns Rullg=E5rd wrote:
->> >> >> Samuel Holland <samuel@sholland.org> writes:
->> >> >>=20
->> >> >> > The PRCM CCU drivers depend on clocks provided by other CCU driv=
-ers. For
->> >> >> > example, the sun8i-r-ccu driver uses the "pll-periph" clock prov=
-ided by
->> >> >> > the SoC's main CCU.
->> >> >> >
->> >> >> > However, sun8i-r-ccu is an early OF clock provider, and many of =
-the
->> >> >> > main CCUs (e.g. sun50i-a64-ccu) use platform drivers. This means=
- that
->> >> >> > the consumer clocks will be orphaned until the supplier driver i=
-s bound.
->> >> >> > This can be avoided by converting the remaining CCUs to use plat=
-form
->> >> >> > drivers. Then fw_devlink will ensure the drivers are bound in the
->> >> >> > optimal order.
->> >> >> >
->> >> >> > The sun5i CCU is the only one which actually needs to be an earl=
-y clock
->> >> >> > provider, because it provides the clock for the system timer. Th=
-at one
->> >> >> > is left alone.
->> >> >> >
->> >> >> > Signed-off-by: Samuel Holland <samuel@sholland.org>
->> >> >> > ---
->> >> >> >
->> >> >> > (no changes since v1)
->> >> >> >
->> >> >> >  drivers/clk/sunxi-ng/Kconfig             | 20 ++++----
->> >> >> >  drivers/clk/sunxi-ng/ccu-sun4i-a10.c     | 58 +++++++++++++----=
-----
->> >> >> >  drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c   | 56 ++++++++++++-----=
+Signed-off-by: Mans Rullgard <mans@mansr.com>
 ---
->> >> >> >  drivers/clk/sunxi-ng/ccu-sun50i-h616.c   | 33 ++++++++----
->> >> >> >  drivers/clk/sunxi-ng/ccu-sun6i-a31.c     | 40 +++++++++++----
->> >> >> >  drivers/clk/sunxi-ng/ccu-sun8i-a23.c     | 35 +++++++++----
->> >> >> >  drivers/clk/sunxi-ng/ccu-sun8i-a33.c     | 40 +++++++++++----
->> >> >> >  drivers/clk/sunxi-ng/ccu-sun8i-h3.c      | 62 ++++++++++++++---=
------
->> >> >> >  drivers/clk/sunxi-ng/ccu-sun8i-r.c       | 65 ++++++++++++++---=
--------
->> >> >> >  drivers/clk/sunxi-ng/ccu-sun8i-v3s.c     | 57 +++++++++++++----=
-----
->> >> >> >  drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c | 38 ++++++++++----
->> >> >> >  11 files changed, 332 insertions(+), 172 deletions(-)
->> >> >>=20
->> >> >> This broke the hstimer clocksource on A20 since it requires a clock
->> >> >> provided by the sun4i ccu driver.
->> >> >
->> >> > The A10 is probably broken by this, but the A20 should be able to u=
-se
->> >> > the arch timers just like all the other Cortex-A7-based SoCs.
->> >> >
->> >> > Do you have a dmesg log that could help debug why it's not working?
->> >>=20
->> >> The A20 works as such since, as you say, it has other clocksources.
->> >> However, the hstimer has become unusable.  If anyone was using, for
->> >> whatever reason, it won't be working for them now.
->> >>=20
->> >> Before this change, the kernel log used include this line:
->> >>=20
->> >> clocksource: hstimer: mask: 0xffffffff max_cycles: 0xffffffff, max_id=
-le_ns: 6370868154 ns
->> >>=20
->> >> Now there is only a cryptic "Can't get timer clock" in its place.
->> >>=20
->> >> As it is now, the hstimer driver is nothing but a waste of space.
->> >> I figure it ought to be fixed one way or another.
->> >
->> > Yeah, definitely.
->> >
->> > IIRC, the situation is:
->> >
->> >  - A10 has just the "regular", old, timer
->> >  - A10s/A13/GR8 has the A10 timer + hstimer
->> >  - A20 has the A13 timers + arch timers
->> >
->> > We also default to the hstimer only for the A10s/A13 which aren't
->> > affected by this patch series afaics.
->> >
->> > We also enable the HS timer for the A31, but just like the A20 it
->> > doesn't use it by default, so it's probably been broken there too.
->> >
->> > I guess one way to fix it would be to switch the HS timer driver to a
->> > lower priority than the A10 timer, so we pick that up by default inste=
-ad
->> > for the A10s/A13, and then convert the HS timer driver to a proper
->> > platform_device driver that will be able to get its clock.
->> >
->> > The downside is that the A13 will lose some precision over its default
->> > timer, but I don't think it's a big deal.
->>=20
->> The options I see are converting the hstimer to a platform device or
->> reverting the change to the sun4i ccu driver.
->>=20
->> I don't personally have much of an opinion on this since my systems
->> aren't affected.  The only reason I looked at it was that I noticed
->> a new error message in the kernel logs.
->
-> Thanks for the report then. I'm not really working on that anymore, so I
-> won't submit a fix for this either.
+ drivers/clocksource/timer-sun5i.c | 49 ++++++++++++++-----------------
+ 1 file changed, 22 insertions(+), 27 deletions(-)
 
-I can have a go at converting it to a platform device if you think
-that's the right approach.  I don't have anything other than A20 to
-test it on, though.
+diff --git a/drivers/clocksource/timer-sun5i.c b/drivers/clocksource/timer-sun5i.c
+index e0ca97cf80cb..3ca427e54daf 100644
+--- a/drivers/clocksource/timer-sun5i.c
++++ b/drivers/clocksource/timer-sun5i.c
+@@ -35,22 +35,17 @@
+ 
+ #define TIMER_SYNC_TICKS	3
+ 
+-/* Pointless struct to minimise diff */
+-struct _sun5i_timer {
++struct sun5i_timer {
+ 	void __iomem		*base;
+ 	struct clk		*clk;
+ 	struct notifier_block	clk_rate_cb;
+ 	u32			ticks_per_jiffy;
+-};
+-
+-struct sun5i_timer {
+-	struct _sun5i_timer	timer;
+ 	struct clocksource	clksrc;
+ 	struct clock_event_device	clkevt;
+ };
+ 
+ #define nb_to_sun5i_timer(x) \
+-	container_of(x, struct sun5i_timer, timer.clk_rate_cb)
++	container_of(x, struct sun5i_timer, clk_rate_cb)
+ #define clksrc_to_sun5i_timer(x) \
+ 	container_of(x, struct sun5i_timer, clksrc)
+ #define clkevt_to_sun5i_timer(x) \
+@@ -64,28 +59,28 @@ struct sun5i_timer {
+  */
+ static void sun5i_clkevt_sync(struct sun5i_timer *ce)
+ {
+-	u32 old = readl(ce->timer.base + TIMER_CNTVAL_LO_REG(1));
++	u32 old = readl(ce->base + TIMER_CNTVAL_LO_REG(1));
+ 
+-	while ((old - readl(ce->timer.base + TIMER_CNTVAL_LO_REG(1))) < TIMER_SYNC_TICKS)
++	while ((old - readl(ce->base + TIMER_CNTVAL_LO_REG(1))) < TIMER_SYNC_TICKS)
+ 		cpu_relax();
+ }
+ 
+ static void sun5i_clkevt_time_stop(struct sun5i_timer *ce, u8 timer)
+ {
+-	u32 val = readl(ce->timer.base + TIMER_CTL_REG(timer));
+-	writel(val & ~TIMER_CTL_ENABLE, ce->timer.base + TIMER_CTL_REG(timer));
++	u32 val = readl(ce->base + TIMER_CTL_REG(timer));
++	writel(val & ~TIMER_CTL_ENABLE, ce->base + TIMER_CTL_REG(timer));
+ 
+ 	sun5i_clkevt_sync(ce);
+ }
+ 
+ static void sun5i_clkevt_time_setup(struct sun5i_timer *ce, u8 timer, u32 delay)
+ {
+-	writel(delay, ce->timer.base + TIMER_INTVAL_LO_REG(timer));
++	writel(delay, ce->base + TIMER_INTVAL_LO_REG(timer));
+ }
+ 
+ static void sun5i_clkevt_time_start(struct sun5i_timer *ce, u8 timer, bool periodic)
+ {
+-	u32 val = readl(ce->timer.base + TIMER_CTL_REG(timer));
++	u32 val = readl(ce->base + TIMER_CTL_REG(timer));
+ 
+ 	if (periodic)
+ 		val &= ~TIMER_CTL_ONESHOT;
+@@ -93,7 +88,7 @@ static void sun5i_clkevt_time_start(struct sun5i_timer *ce, u8 timer, bool perio
+ 		val |= TIMER_CTL_ONESHOT;
+ 
+ 	writel(val | TIMER_CTL_ENABLE | TIMER_CTL_RELOAD,
+-	       ce->timer.base + TIMER_CTL_REG(timer));
++	       ce->base + TIMER_CTL_REG(timer));
+ }
+ 
+ static int sun5i_clkevt_shutdown(struct clock_event_device *clkevt)
+@@ -118,7 +113,7 @@ static int sun5i_clkevt_set_periodic(struct clock_event_device *clkevt)
+ 	struct sun5i_timer *ce = clkevt_to_sun5i_timer(clkevt);
+ 
+ 	sun5i_clkevt_time_stop(ce, 0);
+-	sun5i_clkevt_time_setup(ce, 0, ce->timer.ticks_per_jiffy);
++	sun5i_clkevt_time_setup(ce, 0, ce->ticks_per_jiffy);
+ 	sun5i_clkevt_time_start(ce, 0, true);
+ 	return 0;
+ }
+@@ -139,7 +134,7 @@ static irqreturn_t sun5i_timer_interrupt(int irq, void *dev_id)
+ {
+ 	struct sun5i_timer *ce = dev_id;
+ 
+-	writel(0x1, ce->timer.base + TIMER_IRQ_ST_REG);
++	writel(0x1, ce->base + TIMER_IRQ_ST_REG);
+ 	ce->clkevt.event_handler(&ce->clkevt);
+ 
+ 	return IRQ_HANDLED;
+@@ -149,7 +144,7 @@ static u64 sun5i_clksrc_read(struct clocksource *clksrc)
+ {
+ 	struct sun5i_timer *cs = clksrc_to_sun5i_timer(clksrc);
+ 
+-	return ~readl(cs->timer.base + TIMER_CNTVAL_LO_REG(1));
++	return ~readl(cs->base + TIMER_CNTVAL_LO_REG(1));
+ }
+ 
+ static int sun5i_rate_cb(struct notifier_block *nb,
+@@ -166,7 +161,7 @@ static int sun5i_rate_cb(struct notifier_block *nb,
+ 	case POST_RATE_CHANGE:
+ 		clocksource_register_hz(&cs->clksrc, ndata->new_rate);
+ 		clockevents_update_freq(&cs->clkevt, ndata->new_rate);
+-		cs->timer.ticks_per_jiffy = DIV_ROUND_UP(ndata->new_rate, HZ);
++		cs->ticks_per_jiffy = DIV_ROUND_UP(ndata->new_rate, HZ);
+ 		break;
+ 
+ 	default:
+@@ -180,7 +175,7 @@ static int __init sun5i_setup_clocksource(struct device_node *node,
+ 					  struct sun5i_timer *cs,
+ 					  unsigned long rate)
+ {
+-	void __iomem *base = cs->timer.base;
++	void __iomem *base = cs->base;
+ 	int ret;
+ 
+ 	writel(~0, base + TIMER_INTVAL_LO_REG(1));
+@@ -206,7 +201,7 @@ static int __init sun5i_setup_clockevent(struct device_node *node,
+ 					 struct sun5i_timer *ce,
+ 					 unsigned long rate, int irq)
+ {
+-	void __iomem *base = ce->timer.base;
++	void __iomem *base = ce->base;
+ 	int ret;
+ 	u32 val;
+ 
+@@ -282,13 +277,13 @@ static int __init sun5i_timer_init(struct device_node *node)
+ 		goto err_disable_clk;
+ 	}
+ 
+-	st->timer.base = timer_base;
+-	st->timer.ticks_per_jiffy = DIV_ROUND_UP(rate, HZ);
+-	st->timer.clk = clk;
+-	st->timer.clk_rate_cb.notifier_call = sun5i_rate_cb;
+-	st->timer.clk_rate_cb.next = NULL;
++	st->base = timer_base;
++	st->ticks_per_jiffy = DIV_ROUND_UP(rate, HZ);
++	st->clk = clk;
++	st->clk_rate_cb.notifier_call = sun5i_rate_cb;
++	st->clk_rate_cb.next = NULL;
+ 
+-	ret = clk_notifier_register(clk, &st->timer.clk_rate_cb);
++	ret = clk_notifier_register(clk, &st->clk_rate_cb);
+ 	if (ret) {
+ 		pr_err("Unable to register clock notifier.\n");
+ 		goto err_disable_clk;
+@@ -305,7 +300,7 @@ static int __init sun5i_timer_init(struct device_node *node)
+ 	return sun5i_setup_clockevent(node, st, rate, irq);
+ 
+ err_remove_notifier:
+-	clk_notifier_unregister(clk, &st->timer.clk_rate_cb);
++	clk_notifier_unregister(clk, &st->clk_rate_cb);
+ err_disable_clk:
+ 	clk_disable_unprepare(clk);
+ err_free:
+-- 
+2.41.0
 
---=20
-M=E5ns Rullg=E5rd
