@@ -1,30 +1,30 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D17F233EC
-	for <linux-sunxi@lists.linux.dev>; Sun,  2 Jul 2023 17:56:00 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E360D33EC
+	for <linux-sunxi@lists.linux.dev>; Sun,  2 Jul 2023 18:02:21 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4QvGv30QhXz9sbm;
-	Sun,  2 Jul 2023 19:55:59 +0200 (CEST)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4QvGts2SHHz9sbv;
+	Sun,  2 Jul 2023 19:55:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1688320559;
+	s=MBO0001; t=1688320549;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=05TpVB802qVXSW1gPTBeMS94czD58kHBof/XOWCW1Cs=;
-	b=kj3eZyPWodwYgfYKNr14Nci5mhsXcWgQ04CfPu8XIFU7cyRpWI+61p2Onwl1RDxwP6X6PR
-	ugBTP6pmuj2hAvm86HSibUMeT+YNFuLjr6yp42YKlFOvKik2ZSgfInuNCK8kWWrn5gm6CE
-	gBGkW4O/5BGpm2QbsfmEhfn9SnedHhYNj13QJ7cllOz7jxPPzdtw2NDDyLZpEZkZyTMRh7
-	/nQboXmNpRYOElc5iwuWRxr/ChqiHmVVzjopTvVEvAJXWibmg8YCbxkNc9bEteDHen1LoF
-	12wAM+v2NZMbkg5mdHAC7V9TIZUVjPOUMtAgvaeZGHJxdjhdgD1brecUSVHrcw==
+	bh=+F9Qzm6IdvX+YdAxJq37HDn1fqo5BDQOBMr0dvLlSyw=;
+	b=kY6yKlEzhagJ9p+DAc9ZPZDEkC5M+2MaRy9XAhQy8JfO8vk17IuZvkHmDWDFIfpuTdfArn
+	xA0XeUYlDCCHJY7uZbCABfEfE0lC8Uyn2OtWHZuftxqVlAEqZRrHFMPGKa40aMoPAiU5GK
+	kpHYeVzuYgU8/VwZrnsCpFxEQkaM2qQwuHJtA+FKeFS/4yAAC9cqLgoVkJBPCOGD2zAVK6
+	KLKBEDRcU/CZOmsUWsJnd2wb0jRIwcoOqw4H2UlR/06pGoTBpoZrNqeJm4duYzvnEQ3gz1
+	VTLQctSrCeKsVpPxDADfs4ZVrj20qGgfNjwdx5Zqsa2MHF/SXXEHRTXEmMOaoQ==
 From: Frank Oltmanns <frank@oltmanns.dev>
-Date: Sun, 02 Jul 2023 19:55:27 +0200
-Subject: [PATCH v3 8/8] clk: sunxi-ng: a64: select closest rate for
- pll-video0
+Date: Sun, 02 Jul 2023 19:55:21 +0200
+Subject: [PATCH v3 2/8] clk: sunxi-ng: a64: allow pll-mipi to set parent's
+ rate
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -33,7 +33,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230702-pll-mipi_set_rate_parent-v3-8-46dcb8aa9cbc@oltmanns.dev>
+Message-Id: <20230702-pll-mipi_set_rate_parent-v3-2-46dcb8aa9cbc@oltmanns.dev>
 References: <20230702-pll-mipi_set_rate_parent-v3-0-46dcb8aa9cbc@oltmanns.dev>
 In-Reply-To: <20230702-pll-mipi_set_rate_parent-v3-0-46dcb8aa9cbc@oltmanns.dev>
 To: Maxime Ripard <maxime@cerno.tech>, 
@@ -45,110 +45,43 @@ To: Maxime Ripard <maxime@cerno.tech>,
 Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Frank Oltmanns <frank@oltmanns.dev>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3899; i=frank@oltmanns.dev;
- h=from:subject:message-id; bh=197LnJF+mxqJfrEMx97C1MbnPBlm/s49NUyIjbbLA7Y=;
- b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBkobocAcoKsagwzSb+TESv5+jJ5hL5vFRkXaIz0
- 0LDdil9I8qJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZKG6HAAKCRCaaaIIlErT
- x8woC/9KvSYyv+ISWgVej+ZAx4vm4YPRhLI7QKFc5BwLhASffMU3Z/in+P8BNB/R7d6qSJa5KDH
- rLztcWXkfww2Rmk8x02bMj0fSGedSadr5DDKQTblJ351qB4ayDz01hRO3ahxxgArYTTC/YpEKJP
- 4AIZLW4pIIGChLt/QopvUPFJ8wXSgmCnADXLPmdOHgrym2xoVfIU2CRACFXBsrFcdaOMNQ7YfAH
- sFHR3KmRnsQNIfK4+MdQIAA8xvm5KsYZfBXL5HPnB1D1fCe+liMwcW3SQXF6wKVCNnFFp21silu
- p1ZFMVLrinGZrO47MEfVWFEYme0N3mBkJzjJPzaKhzu8ARe4Nu9u0Hbh0jmS4Gj0d2dJ5Ica+tC
- epfxxjTulS7QTtaTQwVav3JTAfj5vyH4IJSyqFYH+Qkysrc8jji5FcMpxIjvfwifcHIdWmY+XlB
- 9e4SkdYsI8zONOE+9N5sn/5eIEVnQ9LWBLRXFxoHc378pgHcLHZebe7UwTg9UR9d85D18=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=806; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=6KqjBLS1Ov/nYPswsTAdcoLKG7a0XW4Ac8QXs1cSwVw=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBkobobka0bAipDKc0Ze1hPtisyY07V9gb2U08jO
+ +hyzuXZYXiJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZKG6GwAKCRCaaaIIlErT
+ x12uC/9Ae6iMuCUPFpbZhqbKawdVnd6iFNqSqi/GCBjcMh2wXjRh0Du7zQZb7G5dt8d4AoCVdgM
+ E1uD3Pf/FEtfKS1x1GMSN7UDx8gvDrI6b7cO/aMqvjInHWsuFHYVctDs+5Vxg+tMbODzLNF5mwv
+ ZFy5Ytup/8Lw0cOtFcr4x3nief+pu6PmuRdl6lMHjXqqpV81nGrai/KxjY6OygCe/nSNG/jZ5wk
+ GYpgO8+eIrtxDj1SnLIeHT/9C8loZ61RY9AfzKrX8bkc1FH0IfXKq+smvrEtGkVWOq/swT27tOA
+ OwWLJqeyRwVgyeOSYafi4gFH1UplHB9k3cyuvN2sxqOFeqR1tj/b6yZcdoCPn69a5L6PElAwFyB
+ QhLKejkhqq20rsae+CiDd7HmZCuQjMraBkv1knNdATdPbvAw0CpB1CKAszC1h0VS7f/+wSssRMH
+ //RwPC3wEg1bGdQRfMM2/EG8+sAfGB+WwKpVc0Pq02k1lV/OQzPbBanP0TtlQUK6XPmyg=
 X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
  fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
+X-Rspamd-Queue-Id: 4QvGts2SHHz9sbv
 
-Selecting the closest rate for pll-video0 instead of the closest rate
-that is less than the requested rate has no downside for this clock,
-while allowing for selecting a more suitable rate, e.g. for the
-connected panels.
-
-Furthermore, the algorithm that sets an NKM clock's parent benefits from
-the closest rate. Without it, the NKM clock's rate might drift away from
-the requested rate in the multiple successive calls to
-ccu_nkm_determine_rate that the clk framework performs when setting a
-clock rate.
-
-Therefore, configure pll-video0 and, in consequence, all of its
-descendents to select the closest rate.
+The nkm clock now supports setting the parent's rate. Utilize this
+option to find the optimal rate for pll-mipi.
 
 Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
 ---
- drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-index ebfab1fdbb96..016432ff3bde 100644
+index 41519185600a..a139a5c438d4 100644
 --- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
 +++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-@@ -81,7 +81,7 @@ static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX(pll_video0_clk, "pll-video0",
- 						BIT(31),	/* gate */
- 						BIT(28),	/* lock */
- 						CLK_SET_RATE_UNGATE,
--						0);		/* features */
-+						CCU_FEATURE_CLOSEST_RATE);
- 
- static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK(pll_ve_clk, "pll-ve",
- 					"osc24M", 0x018,
-@@ -183,6 +183,7 @@ static struct ccu_nkm pll_mipi_clk = {
- 		.hw.init	= CLK_HW_INIT("pll-mipi", "pll-video0",
- 					      &ccu_nkm_ops,
- 					      CLK_SET_RATE_UNGATE | CLK_SET_RATE_PARENT),
-+		.features	= CCU_FEATURE_CLOSEST_RATE,
- 	},
- };
- 
-@@ -533,7 +534,7 @@ static SUNXI_CCU_M_WITH_MUX_GATE(de_clk, "de", de_parents,
- 
- static const char * const tcon0_parents[] = { "pll-mipi", "pll-video0-2x" };
- static const u8 tcon0_table[] = { 0, 2, };
--static SUNXI_CCU_MUX_TABLE_WITH_GATE(tcon0_clk, "tcon0", tcon0_parents,
-+static SUNXI_CCU_MUX_TABLE_WITH_GATE_CLOSEST(tcon0_clk, "tcon0", tcon0_parents,
- 				     tcon0_table, 0x118, 24, 3, BIT(31),
- 				     CLK_SET_RATE_PARENT);
- 
-@@ -541,7 +542,7 @@ static const char * const tcon1_parents[] = { "pll-video0", "pll-video1" };
- static const u8 tcon1_table[] = { 0, 2, };
- static struct ccu_div tcon1_clk = {
- 	.enable		= BIT(31),
--	.div		= _SUNXI_CCU_DIV(0, 4),
-+	.div		= _SUNXI_CCU_DIV_FLAGS(0, 4, CLK_DIVIDER_ROUND_CLOSEST),
- 	.mux		= _SUNXI_CCU_MUX_TABLE(24, 2, tcon1_table),
+@@ -179,7 +179,8 @@ static struct ccu_nkm pll_mipi_clk = {
  	.common		= {
- 		.reg		= 0x11c,
-@@ -549,6 +550,7 @@ static struct ccu_div tcon1_clk = {
- 						      tcon1_parents,
- 						      &ccu_div_ops,
- 						      CLK_SET_RATE_PARENT),
-+		.features	= CCU_FEATURE_CLOSEST_RATE,
+ 		.reg		= 0x040,
+ 		.hw.init	= CLK_HW_INIT("pll-mipi", "pll-video0",
+-					      &ccu_nkm_ops, CLK_SET_RATE_UNGATE),
++					      &ccu_nkm_ops,
++					      CLK_SET_RATE_UNGATE | CLK_SET_RATE_PARENT),
  	},
  };
  
-@@ -580,8 +582,8 @@ static SUNXI_CCU_GATE(avs_clk,		"avs",		"osc24M",
- 		      0x144, BIT(31), 0);
- 
- static const char * const hdmi_parents[] = { "pll-video0", "pll-video1" };
--static SUNXI_CCU_M_WITH_MUX_GATE(hdmi_clk, "hdmi", hdmi_parents,
--				 0x150, 0, 4, 24, 2, BIT(31), CLK_SET_RATE_PARENT);
-+static SUNXI_CCU_M_WITH_MUX_GATE_CLOSEST(hdmi_clk, "hdmi", hdmi_parents,
-+					 0x150, 0, 4, 24, 2, BIT(31), CLK_SET_RATE_PARENT);
- 
- static SUNXI_CCU_GATE(hdmi_ddc_clk,	"hdmi-ddc",	"osc24M",
- 		      0x154, BIT(31), 0);
-@@ -593,9 +595,9 @@ static SUNXI_CCU_M_WITH_MUX_GATE(mbus_clk, "mbus", mbus_parents,
- 
- static const char * const dsi_dphy_parents[] = { "pll-video0", "pll-periph0" };
- static const u8 dsi_dphy_table[] = { 0, 2, };
--static SUNXI_CCU_M_WITH_MUX_TABLE_GATE(dsi_dphy_clk, "dsi-dphy",
--				       dsi_dphy_parents, dsi_dphy_table,
--				       0x168, 0, 4, 8, 2, BIT(15), CLK_SET_RATE_PARENT);
-+static SUNXI_CCU_M_WITH_MUX_TABLE_GATE_CLOSEST(dsi_dphy_clk, "dsi-dphy",
-+					       dsi_dphy_parents, dsi_dphy_table,
-+					       0x168, 0, 4, 8, 2, BIT(15), CLK_SET_RATE_PARENT);
- 
- static SUNXI_CCU_M_WITH_GATE(gpu_clk, "gpu", "pll-gpu",
- 			     0x1a0, 0, 3, BIT(31), CLK_SET_RATE_PARENT);
 
 -- 
 2.41.0
