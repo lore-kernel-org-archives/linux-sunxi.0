@@ -1,84 +1,237 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F261C2F
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Jul 2023 09:42:29 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Qvgm12Zkmz9sqG;
-	Mon,  3 Jul 2023 11:36:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1688376977;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c1JsEa02ZZ9hIj8kyijs4IOojCm49i+SpDKQ3wmc3yc=;
-	b=T2S1+Z5Uj9uWyp7TSiQRdyGVNHHsOm810YWrvKvShxenZFNvbiJhuzYubsNJ8OZzB9jKd5
-	yGZioIJ4Zv3pBGO412OBh2/jv75oH47Ou6HYddT6U3POWvqijE5Dw4I1i4R8DFR6BFS9mo
-	/KaEkn/Z6xrg6K4bgKZSVBDBLgB9o1mCa0kmrzYiVgbGuhpzE9u6Cm0dhhMVRxkje3Do9Q
-	BjZUBD2lxkgPDAFsDl/rGb1nYeCSoCLgYbjt8wBUiJVRKo2jDATdq5HrXBdzmmytB/XYDA
-	IUODHDwaW7X8McsOzdwaUwJse4e55cFQeMbXDmqbZVZJ8+1C1vQJAEralUSN5Q==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E715DDDB
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Jul 2023 11:36:41 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 573C55C00C9;
+	Mon,  3 Jul 2023 07:36:40 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Mon, 03 Jul 2023 07:36:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1688384200; x=1688470600; bh=gC
+	PCTITGz5GM2YGJzWq430teYe6K7ggXS69sZLriT6Y=; b=UD5WEj07kq+jJdbb6u
+	4ITYqBYoYS8WRtPU/6GItkw2B7D1ABgPVbUVvgslxk2DKU4Ne73D3G66PamakVC6
+	qqrMTDJp6u3xW0tQ42AlOBQ6gXWqTcrkEqkfWpZLlPWiKS2KiY+4vI3mwwii9YO/
+	j6IhpFpoVpBn39oEhfV2uofHTYGzKNxfBGmAVQ/k/q6D7xWBETzEdkQkMMpVoX13
+	iocG4gXHhQLuvSVCh4kpfej5ndxILrJnMe3k3sLYsjojo5XSydRWMK5Nwwb4YbCv
+	rQmnrtIDFcRYSPxsE8yKvs5ho8RMBiXfwTNMZdJKQ3dYEHctXzWiEKLUm4XgIm+K
+	8iPg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1688384200; x=1688470600; bh=gCPCTITGz5GM2
+	YGJzWq430teYe6K7ggXS69sZLriT6Y=; b=WpGmTmfzj6tBKM0iXGSIEI67DZwMz
+	o2pmh3gyl/ZNo/J/NfDuYErUSojQyvqeu3qGpCyqhtPCohDEN6DeoMLuZxhcvjmv
+	I950bgMd2zigOa2dShioQv2eSJPhm77a2NFQgsKozan0dHMB+QHD8j22ANTe6nBm
+	lwXDXnMAh4VreIR224yUFtlkDfcnr9SeVPecGPtkm8aBInu9zaLFoGiiasaaapj/
+	HbhYqYvmgIh1QqdJcG1x6TLrT25fJx2bbqbk9tk4iTLYKvWgvzpz2p0Iw+jouRZw
+	2ONSomKDzSjOT7N+TTMCBvqNQdXVx4uEThm/iQr0q4twZetZaVYNInm0w==
+X-ME-Sender: <xms:xrKiZJ3EWOj888g59jDs_bDGiezsC68ab1WcaoBpd5CL7dUCWTzjKA>
+    <xme:xrKiZAHhIl1LyBu9yyVCio50FO-Mk2E0UXtmg7jKGOkcxt9tHaxLj2cTXoyivOX3K
+    xTfef3yNvDY3NUA0Mc>
+X-ME-Received: <xmr:xrKiZJ4LTUBlsE92sz9gQ-TgfMTeqZ9oVMAmZ3eGp1eGIIctqK76-rid3t3O5LyDGVEgj1Z-9ceC-G-lVx8usQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedruddvgdegudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehgtdfsredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepueevudehuedtkeevgfduveejueefvddvvefhjefglefgtdekveeugeetkefg
+    leefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:x7KiZG1SyZfK1-t6hFDGatW3cMTFtw_cCHf79rk1FJ26QvHHxpb7Uw>
+    <xmx:x7KiZMHKhT84G0bWe3uRZDSiDaedmnmti36uepaBXwQ_1f5fIkamgA>
+    <xmx:x7KiZH9W8wg_33ql68uK3dAadZfZr3MY7RMiGkAozIiIpP5JxrZdww>
+    <xmx:yLKiZE-PaPyVUGmKPVkBFgZacxUN2cEzjCkGJZG6tSKZSD5FBpIa-w>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 3 Jul 2023 07:36:38 -0400 (EDT)
+Date: Mon, 3 Jul 2023 13:36:36 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Frank Oltmanns <frank@oltmanns.dev>
+Cc: Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Andre Przywara <andre.przywara@arm.com>, Roman Beranek <me@crly.cz>, linux-clk@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 5/8] clk: sunxi-ng: nkm: Support finding closest rate
+Message-ID: <3ikbk67av3j2drphpwncbvfzbd6jw4ytcdri2sn3tmnsny4r5h@db3uxmavz6n2>
 References: <20230702-pll-mipi_set_rate_parent-v3-0-46dcb8aa9cbc@oltmanns.dev>
- <tz2mcnyn32kedmkme2abaohhlveu37rohghddgg5njzw3534jq@qg3pevlpy4si>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Andre
- Przywara <andre.przywara@arm.com>, Roman Beranek <me@crly.cz>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/8] clk: sunxi-ng: Consider alternative parent rates
- when determining NKM clock rate
-In-reply-to: <tz2mcnyn32kedmkme2abaohhlveu37rohghddgg5njzw3534jq@qg3pevlpy4si>
-Date: Mon, 03 Jul 2023 11:36:15 +0200
-Message-ID: <874jmls5f4.fsf@oltmanns.dev>
+ <20230702-pll-mipi_set_rate_parent-v3-5-46dcb8aa9cbc@oltmanns.dev>
+ <87wmzhsbu0.fsf@oltmanns.dev>
+ <zvxviyera3zxe2ro5ej52vz2o2vrinu6zo7osddojbys4tuqhd@3f2okcbpf5jr>
+ <87jzvhs740.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Rspamd-Queue-Id: 4Qvgm12Zkmz9sqG
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gegykcvgx7vzvvkm"
+Content-Disposition: inline
+In-Reply-To: <87jzvhs740.fsf@oltmanns.dev>
 
 
-On 2023-07-03 at 09:51:22 +0200, Maxime Ripard <maxime@cerno.tech> wrote:
-> [[PGP Signed Part:Undecided]]
-> Hi,
->
-> On Sun, Jul 02, 2023 at 07:55:19PM +0200, Frank Oltmanns wrote:
->> Changes in v3:
->>  - Use dedicated function for finding the best rate in cases where an
->>    nkm clock supports setting its parent's rate, streamlining it with
->>    the structure that is used in other sunxi-ng ccus such as ccu_mp
->>    (PATCH 1).
->>  - Therefore, remove the now obsolete comments that were introduced in
->>    v2 (PATCH 1).
->>  - Remove the dedicated function for calculating the optimal parent rate
->>    for nkm clocks that was introduced in v2. Instead use a simple
->>    calculation and require the parent clock to select the closest rate to
->>    achieve optimal results (PATCH 1).
->>  - Therefore, add support to set the closest rate for nm clocks (because
->>    pll-mipi's parent pll-video0 is an nm clock) and all clock types that
->>    are descendants of a64's pll-video0, i.e., nkm, mux, and div (PATCH 3
->>    et. seq.).
->>  - Link to v2: https://lore.kernel.org/all/20230611090143.132257-1-frank@oltmanns.dev/
->
-> Thanks so much for that new version. I know it's been a long discussion,
-> but it definitely moves in the right direction and we're fairly close to
-> a final version now.
->
+--gegykcvgx7vzvvkm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I think it was a good discussion. So, thank you for that! I appreciate
-your feedback even though we don't always agree. :)
+On Mon, Jul 03, 2023 at 10:59:43AM +0200, Frank Oltmanns wrote:
+>=20
+> On 2023-07-03 at 09:25:59 +0200, Maxime Ripard <maxime@cerno.tech> wrote:
+> > [[PGP Signed Part:Undecided]]
+> > On Mon, Jul 03, 2023 at 09:17:43AM +0200, Frank Oltmanns wrote:
+> >>
+> >> On 2023-07-02 at 19:55:24 +0200, Frank Oltmanns <frank@oltmanns.dev> w=
+rote:
+> >> > When finding the best rate for a NKM clock, consider rates that are
+> >> > higher than the requested rate, if the CCU_FEATURE_CLOSEST_RATE flag=
+ is
+> >> > set.
+> >> >
+> >> > Accommodate ccu_mux_helper_determine_rate to this change.
+> >> >
+> >> > Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+> >> > ---
+> >> >  drivers/clk/sunxi-ng/ccu_mux.c | 23 +++++++++++++++-----
+> >> >  drivers/clk/sunxi-ng/ccu_nkm.c | 48 +++++++++++++++++++++++++++++++=
+-----------
+> >> >  2 files changed, 54 insertions(+), 17 deletions(-)
+> >> >
+> >> > diff --git a/drivers/clk/sunxi-ng/ccu_mux.c b/drivers/clk/sunxi-ng/c=
+cu_mux.c
+> >> > index 1d557e323169..8594d6a4addd 100644
+> >> > --- a/drivers/clk/sunxi-ng/ccu_mux.c
+> >> > +++ b/drivers/clk/sunxi-ng/ccu_mux.c
+> >> > @@ -113,7 +113,7 @@ int ccu_mux_helper_determine_rate(struct ccu_com=
+mon *common,
+> >> >  	}
+> >> >
+> >> >  	for (i =3D 0; i < clk_hw_get_num_parents(hw); i++) {
+> >> > -		unsigned long tmp_rate, parent_rate;
+> >> > +		unsigned long tmp_rate, parent_rate, best_diff =3D ULONG_MAX;
+> >> >  		struct clk_hw *parent;
+> >> >
+> >> >  		parent =3D clk_hw_get_parent_by_index(hw, i);
+> >> > @@ -139,10 +139,23 @@ int ccu_mux_helper_determine_rate(struct ccu_c=
+ommon *common,
+> >> >  			goto out;
+> >> >  		}
+> >> >
+> >> > -		if ((req->rate - tmp_rate) < (req->rate - best_rate)) {
+> >> > -			best_rate =3D tmp_rate;
+> >> > -			best_parent_rate =3D parent_rate;
+> >> > -			best_parent =3D parent;
+> >> > +		if (common->features & CCU_FEATURE_CLOSEST_RATE) {
+> >> > +			unsigned long tmp_diff =3D req->rate > tmp_rate ?
+> >> > +						 req->rate - tmp_rate :
+> >> > +						 tmp_rate - req->rate;
+> >> > +
+> >> > +			if (tmp_diff < best_diff) {
+> >> > +				best_rate =3D tmp_rate;
+> >> > +				best_parent_rate =3D parent_rate;
+> >> > +				best_parent =3D parent;
+> >> > +				best_diff =3D tmp_diff;
+> >> > +			}
+> >> > +		} else {
+> >> > +			if ((req->rate - tmp_rate) < (req->rate - best_rate)) {
+> >> > +				best_rate =3D tmp_rate;
+> >> > +				best_parent_rate =3D parent_rate;
+> >> > +				best_parent =3D parent;
+> >> > +			}
+> >> >  		}
+> >> >  	}
+> >> >
+> >> > diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/c=
+cu_nkm.c
+> >> > index d83843e69c25..36d9e987e4d8 100644
+> >> > --- a/drivers/clk/sunxi-ng/ccu_nkm.c
+> >> > +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
+> >> > @@ -18,9 +18,11 @@ struct _ccu_nkm {
+> >> >  };
+> >> >
+> >> >  static unsigned long ccu_nkm_find_best_with_parent_adj(unsigned lon=
+g *parent, unsigned long rate,
+> >> > -						       struct _ccu_nkm *nkm, struct clk_hw *phw)
+> >> > +						       struct _ccu_nkm *nkm, struct clk_hw *phw,
+> >> > +						       unsigned long features)
+> >> >  {
+> >> > -	unsigned long best_rate =3D 0, best_parent_rate =3D *parent, tmp_p=
+arent =3D *parent;
+> >> > +	unsigned long best_rate =3D 0, best_parent_rate =3D 0, tmp_parent =
+=3D *parent;
+> >> > +	unsigned long best_diff =3D ULONG_MAX;
+> >> >  	unsigned long best_n =3D 0, best_k =3D 0, best_m =3D 0;
+> >> >  	unsigned long _n, _k, _m;
+> >> >
+> >> > @@ -28,16 +30,26 @@ static unsigned long ccu_nkm_find_best_with_pare=
+nt_adj(unsigned long *parent, un
+> >> >  		for (_n =3D nkm->min_n; _n <=3D nkm->max_n; _n++) {
+> >> >  			for (_m =3D nkm->min_m; _m <=3D nkm->max_m; _m++) {
+> >> >  				unsigned long tmp_rate;
+> >> > +				unsigned long tmp_diff;
+> >> >
+> >> >  				tmp_parent =3D clk_hw_round_rate(phw, rate * _m / (_n * _k));
+> >> >
+> >> >  				tmp_rate =3D tmp_parent * _n * _k / _m;
+> >> > -				if (tmp_rate > rate)
+> >> > -					continue;
+> >> >
+> >> > -				if ((rate - tmp_rate) < (rate - best_rate)) {
+> >> > +				if (features & CCU_FEATURE_CLOSEST_RATE) {
+> >> > +					tmp_diff =3D rate > tmp_rate ?
+> >> > +						   rate - tmp_rate :
+> >> > +						   tmp_rate - rate;
+> >> > +				} else {
+> >> > +					if (tmp_rate > rate)
+> >> > +						continue;
+> >> > +					tmp_diff =3D rate - tmp_diff;
+> >>
+> >> Sorry, this should of course be tmp_diff =3D rate - tmp_rate. I'll fix
+> >> that in v4. Also I'll do tests on my phone where
+> >> CCU_FEATURE_CLOSEST_RATE is not set (i.e., without PATCH 8), so see if
+> >> it replicates the old behaviour. I'll also look into adding kunit test=
+s,
+> >> so that this doesn't happen again. I'm not sure if this is feasible, b=
+ut
+> >> I'll ask here for advise, if/when I encounter obstacles.
+> >
+> > While this would obviously be great, I don't think we have the
+> > infrastructure just yet to allow to easily add kunit tests for entire
+> > clocks.
+>=20
+> I think, clk_test.c provides a good blueprint. I tried to do that for
+> clk-fractional-divider [1], but Stephen wanted to go a different route,
+> so I dropped it. You could look at clk_fd_test_init() in [1]. A similar
+> approach might work for the sunxi-ng clocks. I don't see any real
+> blockers, but maybe that's me being naive.
 
-Thanks,
-  Frank
+The main issue will be probing and mocking. Those clocks are meant to be
+probed through the device tree and expect to have underlying registers
+accessible.
 
->
-> Maxime
->
-> [[End of PGP Signed Part]]
+We would need some way to mock / prevent any register access, while
+still registering a clock with its device tree node, parent, etc. for
+the tests to be meaningful. And that's not going to be an easy thing to
+do :)
+
+Maxime
+
+--gegykcvgx7vzvvkm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZKKyxAAKCRDj7w1vZxhR
+xV/lAQDhvphlvWpOwfrzo0B9hdjf3WpLvcLri3WR/earG6778QD+MDIjfM9bpfqo
+pt2yxU9b6TJVfjAZY2uEWLuuBiW9TwA=
+=lP/K
+-----END PGP SIGNATURE-----
+
+--gegykcvgx7vzvvkm--
