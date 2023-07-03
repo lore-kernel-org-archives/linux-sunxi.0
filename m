@@ -1,199 +1,49 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C1817F0
-	for <linux-sunxi@lists.linux.dev>; Mon,  3 Jul 2023 08:02:20 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4QvdgX1rWXz9smc;
-	Mon,  3 Jul 2023 10:02:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1688371336;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eJqGcK86nu+Tj/k/Nnx0V17iyu2NlxwPh1TXpPUIkuI=;
-	b=TiBzr8CjGgz8pvWu3Eh6dO/ajYlZTZAIzZ7DqPZog9OojLFxJDXquWD2onATkCrhscI3ds
-	aofx4mW9TDYwXadTnlfnA4+SoqztiVWUWEym7hE8ugNzBSOcMIzPHDWWmMtia6TtILYQ3P
-	GgeTlk1PEbdLqx62ajGk4PbEo+BCcqljdxgVdmyN6xRta5WEDIdws2ukTOcfzGRE0fqUr7
-	fGd7DmJzUq5h8KhOr6ndmKqXEfgjBW677pAHmsv8aBzvYfDRUqiQ/o8UtK8Iejk43JHuzW
-	BAJXL6RNPoClDboSCysw7FeCdjO2K4ZzUOfeoGG5fFAThb3y9a/EKdTbJq2j0A==
-References: <20230702-pll-mipi_set_rate_parent-v3-0-46dcb8aa9cbc@oltmanns.dev>
- <20230702-pll-mipi_set_rate_parent-v3-1-46dcb8aa9cbc@oltmanns.dev>
- <uxa7smoywmh75pzmpipdqbctbza6gjlqke3v7j4ijpfc3k4jul@dcxwsiajoomb>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Andre
- Przywara <andre.przywara@arm.com>, Roman Beranek <me@crly.cz>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/8] clk: sunxi-ng: nkm: consider alternative parent
- rates when determining rate
-In-reply-to: <uxa7smoywmh75pzmpipdqbctbza6gjlqke3v7j4ijpfc3k4jul@dcxwsiajoomb>
-Date: Mon, 03 Jul 2023 10:02:12 +0200
-Message-ID: <87sfa5s9rv.fsf@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405FF818
+	for <linux-sunxi@lists.linux.dev>; Mon,  3 Jul 2023 08:33:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AF6FC433C7;
+	Mon,  3 Jul 2023 08:33:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1688373194;
+	bh=X5VfDnbqCcPJEZik/4j9K5nnRYzFSOO4lymDpqs6bqA=;
+	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+	b=ABiQRjEtnpqBUsrN0fT5t5WyoQYRxurLc2aJy8jwEC0Kg63sfYBlkQDe/GA1u2+uz
+	 lYsMNXbV1fmxmte/IZIU3JcncQgW1VYMfAY3oeeGboGsfMKigQCQ8f1/bNS3FpWOlt
+	 jA3bgB4274bAYsXgILl1F3IKyUkeYu8/7mRaiy4iMmtfzrvybQhZpcN4t7Li+LafjK
+	 dPP8TJk6VpSKoUIogbRPhuZ2rfNZLGLn5ZiVINsH4sa77P6ufD/gNilnWapftR3J+V
+	 QhZBwelnhyADe3wbRDRwd+p0mAH8oFRM+SwYQE6lcHVeS0NsUuv3zuBb8bSpJ39zLc
+	 Z3ffwEX8cN3xQ==
+Message-ID: <b24c27d0d32ca8ca4c58773e2d45b8a1.mripard@kernel.org>
+Date: Mon, 03 Jul 2023 08:33:11 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Mans Rullgard" <mans@mansr.com>
+Subject: Re: [PATCH 0/3] clocksource: sun5i: clean up and convert to
+ platform driver
+In-Reply-To: <20230630201800.16501-1-mans@mansr.com>
+References: <20230630201800.16501-1-mans@mansr.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, "Chen-Yu
+ Tsai" <wens@csie.org>, "Daniel Lezcano" <daniel.lezcano@linaro.org>, "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, "Maxime Ripard" <mripard@kernel.org>, "Samuel
+ Holland" <samuel@sholland.org>, "Thomas Gleixner" <tglx@linutronix.de>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain
 
+On Fri, 30 Jun 2023 21:01:25 +0100, Mans Rullgard wrote:
+> The first two of these patches remove a bunch of duplicated code/data in
+> the sun5i hstimer driver.  To keep the diff clearer, the first patch
+> introduces an otherwise pointless struct which is then removed in the
+> second.
+> 
+> 
+> [ ... ]
 
-On 2023-07-03 at 08:47:43 +0200, Maxime Ripard <maxime@cerno.tech> wrote:
-> [[PGP Signed Part:Undecided]]
-> Hi,
->
-> On Sun, Jul 02, 2023 at 07:55:20PM +0200, Frank Oltmanns wrote:
->> In case the CLK_SET_RATE_PARENT flag is set, consider using a different
->> parent rate when determining a new rate.
->>
->> To find the best match for the requested rate, perform the following
->> steps for each NKM combination:
->>  - calculate the optimal parent rate,
->>  - find the best parent rate that the parent clock actually supports
->>  - use that parent rate to calculate the effective rate.
->>
->> In case the clk does not support setting the parent rate, use the same
->> algorithm as before.
->>
->> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
->> ---
->>  drivers/clk/sunxi-ng/ccu_nkm.c | 48 +++++++++++++++++++++++++++++++++++++++---
->>  1 file changed, 45 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
->> index a0978a50edae..d83843e69c25 100644
->> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
->> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
->> @@ -6,6 +6,7 @@
->>
->>  #include <linux/clk-provider.h>
->>  #include <linux/io.h>
->> +#include <linux/math.h>
->>
->>  #include "ccu_gate.h"
->>  #include "ccu_nkm.h"
->> @@ -16,6 +17,44 @@ struct _ccu_nkm {
->>  	unsigned long	m, min_m, max_m;
->>  };
->>
->> +static unsigned long ccu_nkm_find_best_with_parent_adj(unsigned long *parent, unsigned long rate,
->> +						       struct _ccu_nkm *nkm, struct clk_hw *phw)
->
-> The usual order in that driver (and Linux in general) would make the
-> clk_hw and nkm structure pointers first, and then the parent rate and
-> rate.
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
-I'll address that in v4.
-
->
-> But something looks off to me: ccu_nkm_find_best_with_parent_adj takes a
-> pointer to the parent rate which makes sense since we're going to modify
-> it.
->
->> +{
->> +	unsigned long best_rate = 0, best_parent_rate = *parent, tmp_parent = *parent;
->> +	unsigned long best_n = 0, best_k = 0, best_m = 0;
->> +	unsigned long _n, _k, _m;
->> +
->> +	for (_k = nkm->min_k; _k <= nkm->max_k; _k++) {
->> +		for (_n = nkm->min_n; _n <= nkm->max_n; _n++) {
->> +			for (_m = nkm->min_m; _m <= nkm->max_m; _m++) {
->> +				unsigned long tmp_rate;
->> +
->> +				tmp_parent = clk_hw_round_rate(phw, rate * _m / (_n * _k));
->> +
->> +				tmp_rate = tmp_parent * _n * _k / _m;
->> +				if (tmp_rate > rate)
->> +					continue;
->> +
->> +				if ((rate - tmp_rate) < (rate - best_rate)) {
->> +					best_rate = tmp_rate;
->> +					best_parent_rate = tmp_parent;
->> +					best_n = _n;
->> +					best_k = _k;
->> +					best_m = _m;
->> +				}
->> +			}
->> +		}
->> +	}
->> +
->> +	nkm->n = best_n;
->> +	nkm->k = best_k;
->> +	nkm->m = best_m;
->> +
->> +	*parent = best_parent_rate;
->> +
->> +	return best_rate;
->> +}
->> +
->>  static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned long rate,
->>  				       struct _ccu_nkm *nkm)
->
-> You haven't modified ccu_nkm_find_best though, and it still takes the
-> parent rate value.
->
->>  {
->> @@ -106,7 +145,7 @@ static unsigned long ccu_nkm_recalc_rate(struct clk_hw *hw,
->>  }
->>
->>  static unsigned long ccu_nkm_round_rate(struct ccu_mux_internal *mux,
->> -					struct clk_hw *hw,
->> +					struct clk_hw *parent_hw,
->
-> (This should be another patch)
-
-Ok, will do in v4.
-
->
->>  					unsigned long *parent_rate,
->>  					unsigned long rate,
->>  					void *data)
->> @@ -124,7 +163,10 @@ static unsigned long ccu_nkm_round_rate(struct ccu_mux_internal *mux,
->>  	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
->>  		rate *= nkm->fixed_post_div;
->>
->> -	rate = ccu_nkm_find_best(*parent_rate, rate, &_nkm);
->
-> parent_rate is a pointer, we were dereferencing it to pass its value to
-> ccu_nkm_find_best. All good so far.
->
->> +	if (!clk_hw_can_set_rate_parent(&nkm->common.hw))
->> +		rate = ccu_nkm_find_best(*parent_rate, rate, &_nkm);
->
-> Still passing by value
->
->> +	else
->> +		rate = ccu_nkm_find_best_with_parent_adj(parent_rate, rate, &_nkm, parent_hw);
->
-> And passing the pointer there since it takes a pointer. Still good.
->
->>
->>  	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
->>  		rate /= nkm->fixed_post_div;
->> @@ -159,7 +201,7 @@ static int ccu_nkm_set_rate(struct clk_hw *hw, unsigned long rate,
->>  	_nkm.min_m = 1;
->>  	_nkm.max_m = nkm->m.max ?: 1 << nkm->m.width;
->>
->> -	ccu_nkm_find_best(parent_rate, rate, &_nkm);
->> +	ccu_nkm_find_best(&parent_rate, rate, &_nkm);
->
-> But here, we're passing a pointer to parent_rate to ccu_nkm_find_best,
-> while it's still supposed to take it by value?
-
-Ugh. Yeah, sorry. I had that error in V2 but squashed the correction
-into patch 5 instead of patch 1. I'll fix that in v4.
-
-Thanks,
-  Frank
-
->
-> Maxime
->
-> [[End of PGP Signed Part]]
+Thanks!
+Maxime
