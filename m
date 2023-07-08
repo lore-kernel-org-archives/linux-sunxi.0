@@ -1,112 +1,130 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69A4C8E6
-	for <linux-sunxi@lists.linux.dev>; Fri,  7 Jul 2023 14:05:04 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2b6ef64342aso30705561fa.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 07 Jul 2023 07:05:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688738702; x=1691330702;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C42FrWKbauKrpHyGQL85ov8a9IzG5rtXeIwWVhxtqVk=;
-        b=MCu7vlROYZ/xIKEYZmjZztxNMAhryMpK0Unegzg8Q/0Z0ijMjupo0Vj5o5KA/+OE+J
-         XFiVISB2r8qtP8rYoLnpVNxW8FXFTbJfkeKDW9l4Dkb8UUmR5LqMhAVeRaF7AumW79Jb
-         RXVGTkN9yite37tYrCtpU9vqK64UbqszV80El/ekskzn9wowhvbQmaraxzrrfeJcOMlN
-         hOZiVmq/6FjsdDG1LrZM3sauPgkivdWBYOgFZ46y9Gn/mF11V9jQc3tGfUG7Y2KYnKc9
-         +nKM1MJF6h60t4rdpGe8CblT4AZ4UOXr7xH/DPGqRF9fgG8WLARufHtNFBcF8EHyUcjx
-         h+1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688738702; x=1691330702;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C42FrWKbauKrpHyGQL85ov8a9IzG5rtXeIwWVhxtqVk=;
-        b=OubBRLthNvmsA7GAOEnTOqiaDQ5+XVsSe2Fqf5wFVosOk1a14mIyX5jMDW7Vj4C9w6
-         M9NloZEYWcUIeSIGSYYh2jK6E2IA3rXhZK+eTIKegc8nWMSA/lWCFHY0E+OtcStxtTV+
-         Ee/BzOivS1rux17kO4/xIavyAl9xfiVnQkPqWJW7E9DglXZZX1yBo7TEukVtl1q3UUB0
-         KnxBKUBt4g5aPJQ01BAgvpoGy+lnWzD2yC+TAai1d4mlrContIWzidzA9Jee4yfau8Cf
-         ZROHIdQFMQAFuF+MZtapk8QogzcNLWyCweZAWI3uoKMzv3wmGqx4CiIcycYMCb8+b0Gi
-         OgJA==
-X-Gm-Message-State: ABy/qLandu0q1Ih92cg/ljVS8ZE1nhil/xpSQU5/XRsm/TiVfVGjAiR4
-	ubtWCixpopDPB0Kfar7Awp144A==
-X-Google-Smtp-Source: APBJJlGEv/lo3wa1G7PQ6zQPPu2YP1CoXxXtYuj6YVBRNt0l/8ADVQL/9ApsIP43zURVV2GBgM+6Zw==
-X-Received: by 2002:a2e:99c9:0:b0:2b6:ed7e:5a74 with SMTP id l9-20020a2e99c9000000b002b6ed7e5a74mr3830249ljj.36.1688738702659;
-        Fri, 07 Jul 2023 07:05:02 -0700 (PDT)
-Received: from uffe-tuxpro14.. (h-94-254-63-18.NA.cust.bahnhof.se. [94.254.63.18])
-        by smtp.gmail.com with ESMTPSA id u21-20020a2e8555000000b002b6cb25e3f1sm760341ljj.108.2023.07.07.07.04.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jul 2023 07:05:00 -0700 (PDT)
-From: Ulf Hansson <ulf.hansson@linaro.org>
-To: Arnd Bergmann <arnd@arndb.de>,
-	Olof Johansson <olof@lixom.net>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
-	linux-pm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 13/18] soc: sunxi: Move power-domain driver to the genpd dir
-Date: Fri,  7 Jul 2023 16:04:29 +0200
-Message-Id: <20230707140434.723349-14-ulf.hansson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230707140434.723349-1-ulf.hansson@linaro.org>
-References: <20230707140434.723349-1-ulf.hansson@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9343D3C04
+	for <linux-sunxi@lists.linux.dev>; Sat,  8 Jul 2023 14:06:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51684C433C8;
+	Sat,  8 Jul 2023 14:05:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1688825169;
+	bh=lQQG5C/x03QfBnIDAUBC6OthDK2/PtT0kHEqFxkEQpA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=sasX7Bz9d693N8HkNqBHBzRGJ4UQeUsSOXKfp5MLJd10jXmaiAh1WF1hyO/GppGQU
+	 72LFLdPkcUy+0YQtt6z8d70yuOSiwZ+HBz46iZ+UeMGgm+026bkMPxrqubOwH7gr1a
+	 j3gTGv1T3JcRcO5XVtx4eAQH8/3i7yHkUKxctG3O2Tjxpaz2gQbyX2VHkDMIGdE3tt
+	 GDLBWH5OibvZjxWb5D99nl5VHmTkculcQJGMpZwxrV83CyigCBbcgNdj9K8ZVPU2SE
+	 cxPgRaodwVry1ZPgEVl3CIppvHkpzDMsPUt87C1kuGRDN8kGB6IuQv6hbYhocHA9CE
+	 6iGWQr4i1yDsg==
+Date: Sat, 8 Jul 2023 15:05:55 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Maksim Kiselev <bigunclemax@gmail.com>
+Cc: linux-iio@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, Rob
+ Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+ <aou@eecs.berkeley.edu>, Philipp Zabel <p.zabel@pengutronix.de>, Cristian
+ Ciocaltea <cristian.ciocaltea@collabora.com>, Andre Przywara
+ <andre.przywara@arm.com>, Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Cosmin Tanislav <demonsingur@gmail.com>, Alexander Sverdlin
+ <alexander.sverdlin@gmail.com>, ChiYuan Huang <cy_huang@richtek.com>,
+ Leonard =?UTF-8?B?R8O2aHJz?= <l.goehrs@pengutronix.de>, Haibo Chen
+ <haibo.chen@nxp.com>, Ramona Bolboaca <ramona.bolboaca@analog.com>, Ibrahim
+ Tilki <Ibrahim.Tilki@analog.com>, ChiaEn Wu <chiaen_wu@richtek.com>,
+ William Breathitt Gray <william.gray@linaro.org>, Arnd Bergmann
+ <arnd@arndb.de>, Hugo Villeneuve <hvilleneuve@dimonoff.com>, Mike Looijmans
+ <mike.looijmans@topic.nl>, Quentin Schulz
+ <quentin.schulz@free-electrons.com>, Maxime Ripard <mripard@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v8 0/4] Add support for Allwinner GPADC on
+ D1/T113s/R329/T507 SoCs
+Message-ID: <20230708150555.45152996@jic23-huawei>
+In-Reply-To: <20230619154252.3951913-1-bigunclemax@gmail.com>
+References: <20230619154252.3951913-1-bigunclemax@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Cc: Chen-Yu Tsai <wens@csie.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>
-Cc: <linux-sunxi@lists.linux.dev>
-Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
----
- drivers/genpd/Makefile                    | 1 +
- drivers/genpd/sunxi/Makefile              | 2 ++
- drivers/{soc => genpd}/sunxi/sun20i-ppu.c | 0
- drivers/soc/sunxi/Makefile                | 1 -
- 4 files changed, 3 insertions(+), 1 deletion(-)
- create mode 100644 drivers/genpd/sunxi/Makefile
- rename drivers/{soc => genpd}/sunxi/sun20i-ppu.c (100%)
+On Mon, 19 Jun 2023 18:42:23 +0300
+Maksim Kiselev <bigunclemax@gmail.com> wrote:
 
-diff --git a/drivers/genpd/Makefile b/drivers/genpd/Makefile
-index baf2021235a7..76f2a411e6bc 100644
---- a/drivers/genpd/Makefile
-+++ b/drivers/genpd/Makefile
-@@ -9,3 +9,4 @@ obj-y					+= renesas/
- obj-y					+= rockchip/
- obj-y					+= samsung/
- obj-y					+= starfive/
-+obj-y					+= sunxi/
-diff --git a/drivers/genpd/sunxi/Makefile b/drivers/genpd/sunxi/Makefile
-new file mode 100644
-index 000000000000..ec1d7a2fb21d
---- /dev/null
-+++ b/drivers/genpd/sunxi/Makefile
-@@ -0,0 +1,2 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+obj-$(CONFIG_SUN20I_PPU)		+= sun20i-ppu.o
-diff --git a/drivers/soc/sunxi/sun20i-ppu.c b/drivers/genpd/sunxi/sun20i-ppu.c
-similarity index 100%
-rename from drivers/soc/sunxi/sun20i-ppu.c
-rename to drivers/genpd/sunxi/sun20i-ppu.c
-diff --git a/drivers/soc/sunxi/Makefile b/drivers/soc/sunxi/Makefile
-index 90ff2ebe7655..549159571d4f 100644
---- a/drivers/soc/sunxi/Makefile
-+++ b/drivers/soc/sunxi/Makefile
-@@ -1,4 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
- obj-$(CONFIG_SUNXI_MBUS) +=	sunxi_mbus.o
- obj-$(CONFIG_SUNXI_SRAM) +=	sunxi_sram.o
--obj-$(CONFIG_SUN20I_PPU) +=	sun20i-ppu.o
--- 
-2.34.1
+> This series adds support for general purpose ADC (GPADC) on new
+> Allwinner's SoCs, such as D1, T113s, T507 and R329. The implemented driver
+> provides basic functionality for getting ADC channels data.
+Applied 1-3 to the togreg branch of iio.git which will initially be pushed out as
+testing so that 0-day can see if we missed anything. I'll also be rebasing it
+on rc1 once available before pushing out as togreg.
+
+Thanks,
+
+Jonathan
+
+> 
+> Change History:
+> v8:
+> - Added patch that changes Kconfig description for previous Allwinner GPADC
+> - Changed Kconfig description for this GPADC driver
+> - Fixed 'reg' range for gpadc node in 'sunxi-d1s-t113.dtsi'
+> 
+> v7:
+> - Fixed typo in DT bindings property
+> 
+> v6:
+> - Fixed DT bindings regexp for channel properties
+> - Dropped checking the max number of channels from the drivers code
+>   (This is redundant as we raly on DT bindings check)
+> 
+> v5:
+> - Fixed DT bindings properties for child nodes
+> 
+> v4:
+> - Fixed DT bindings warnings
+> - Used GENMASK to clear the irq register
+> - Minor formatting fixes
+> 
+> v3:
+> - Added DT bindings dual license, fixed property order and example formatting
+> - Added explanations comments for timeout and mutex
+> - Dropped unnecessary regmap and used readl/writel instead
+> - Added error message about getting channel number
+> - Renamed labels and variables to make them self-explanatory
+> 
+> v2:
+> - Added lastch flag to avoid addition work for already selected channel
+> - Added reset assertion on module remove
+> - Added dynamic channel allocation and dropped iio_chan_spec arrays
+> - Changed IIO_CHAN_INFO_SCALE type to FRACTIONAL_LOG2
+> - Dropped separate compatible strings and configs for T113s and R329
+> - Fixed includes
+> - Fixed Kconfig description
+> - Removed duplicate probe error messages
+> - Used FIELD_PREP for bit setup
+> 
+> v1:
+> - Initial version
+> 
+> Maksim Kiselev (4):
+>   iio: adc: Kconfig change description for Allwinner GPADC
+>   iio: adc: Add Allwinner D1/T113s/R329/T507 SoCs GPADC
+>   dt-bindings: iio: adc: Add Allwinner D1/T113s/R329/T507 SoCs GPADC
+>   riscv: dts: allwinner: d1: Add GPADC node
+> 
+>  .../iio/adc/allwinner,sun20i-d1-gpadc.yaml    |  91 ++++++
+>  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  10 +
+>  drivers/iio/adc/Kconfig                       |  12 +-
+>  drivers/iio/adc/Makefile                      |   1 +
+>  drivers/iio/adc/sun20i-gpadc-iio.c            | 276 ++++++++++++++++++
+>  5 files changed, 389 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml
+>  create mode 100644 drivers/iio/adc/sun20i-gpadc-iio.c
+> 
 
