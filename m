@@ -1,130 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9343D3C04
-	for <linux-sunxi@lists.linux.dev>; Sat,  8 Jul 2023 14:06:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51684C433C8;
-	Sat,  8 Jul 2023 14:05:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1688825169;
-	bh=lQQG5C/x03QfBnIDAUBC6OthDK2/PtT0kHEqFxkEQpA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=sasX7Bz9d693N8HkNqBHBzRGJ4UQeUsSOXKfp5MLJd10jXmaiAh1WF1hyO/GppGQU
-	 72LFLdPkcUy+0YQtt6z8d70yuOSiwZ+HBz46iZ+UeMGgm+026bkMPxrqubOwH7gr1a
-	 j3gTGv1T3JcRcO5XVtx4eAQH8/3i7yHkUKxctG3O2Tjxpaz2gQbyX2VHkDMIGdE3tt
-	 GDLBWH5OibvZjxWb5D99nl5VHmTkculcQJGMpZwxrV83CyigCBbcgNdj9K8ZVPU2SE
-	 cxPgRaodwVry1ZPgEVl3CIppvHkpzDMsPUt87C1kuGRDN8kGB6IuQv6hbYhocHA9CE
-	 6iGWQr4i1yDsg==
-Date: Sat, 8 Jul 2023 15:05:55 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Maksim Kiselev <bigunclemax@gmail.com>
-Cc: linux-iio@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, Rob
- Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Philipp Zabel <p.zabel@pengutronix.de>, Cristian
- Ciocaltea <cristian.ciocaltea@collabora.com>, Andre Przywara
- <andre.przywara@arm.com>, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Cosmin Tanislav <demonsingur@gmail.com>, Alexander Sverdlin
- <alexander.sverdlin@gmail.com>, ChiYuan Huang <cy_huang@richtek.com>,
- Leonard =?UTF-8?B?R8O2aHJz?= <l.goehrs@pengutronix.de>, Haibo Chen
- <haibo.chen@nxp.com>, Ramona Bolboaca <ramona.bolboaca@analog.com>, Ibrahim
- Tilki <Ibrahim.Tilki@analog.com>, ChiaEn Wu <chiaen_wu@richtek.com>,
- William Breathitt Gray <william.gray@linaro.org>, Arnd Bergmann
- <arnd@arndb.de>, Hugo Villeneuve <hvilleneuve@dimonoff.com>, Mike Looijmans
- <mike.looijmans@topic.nl>, Quentin Schulz
- <quentin.schulz@free-electrons.com>, Maxime Ripard <mripard@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v8 0/4] Add support for Allwinner GPADC on
- D1/T113s/R329/T507 SoCs
-Message-ID: <20230708150555.45152996@jic23-huawei>
-In-Reply-To: <20230619154252.3951913-1-bigunclemax@gmail.com>
-References: <20230619154252.3951913-1-bigunclemax@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EB4320A
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 Jul 2023 09:00:13 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2b6f0508f54so63493451fa.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 10 Jul 2023 02:00:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1688979611; x=1691571611;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Pi0neW334vEUn9BnnI+UYaAU5ZZLFAfHbjZLAic+fdQ=;
+        b=EqBWfD3g9G1f2j+bgRXH5wRADIaccx1W0vEhGOo3hNKnmlyLuJx4VJJ7mTzA/k0i2d
+         F+7KfZoiLqYu9xNbaAdf4xyciku5hdX7Fm7MXl/i+Ycd9Zn7qWq+IsBhcwjC+zwJBXpq
+         ghM9Bf2gyNLr2cbrh48lSiYil8EFiWr+pFopsMPdriUzrqEuCE4KE1eRE/E7SKosr4MF
+         Dd9xTvJ6brdf1TpX+x3ThA/7st5nwDz71MIAWAZTG6Cds93Vh46UdxVVSJCZ9MMbIGaG
+         SflTHiNb4yIx1+hAc//E50HZyvTzAQHZFZrKtppJ+7GmP6up/KqbHNltSfszxujOo+BU
+         qsSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688979611; x=1691571611;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Pi0neW334vEUn9BnnI+UYaAU5ZZLFAfHbjZLAic+fdQ=;
+        b=H6u5/JoR4PalPaG2+5OwaTIpUJanJnldVJ2sm6w8e2LVrJ9itPFANH3fYYvUC9O/ti
+         yQR6AEEJzc6hCCEqaCBuxBd5IewRQJiYcrex+O2nP+Dd3f48+ZgvyTi5JfsJNYgjylCt
+         Qh0pmejxVnuyItJHctZfsST4h+V0cqqeQc/5tabH/+QeEENDxY74gyKNMSBrW596Z1hL
+         cgwHOYysP+HfEZ0bgYy9wL/eiPs+bMPTRxLlv/hmPg58PA5HwEJPy01dlfE2B6fmgitl
+         G80IcYVzfLkBCPyc3EsqOVzN/L2T4hdrYh6ew7Bb2IzR2RrJyAmA5bVyUfWe9+lg1Zhp
+         LYxQ==
+X-Gm-Message-State: ABy/qLYowD9fUJUpP4ZaOSSFdqEkbe2OT7v+99otEx7GhMskMLygOWZj
+	wpCN5X2/rVWIPq+YJRsbpeiTUQ==
+X-Google-Smtp-Source: APBJJlEjnwa6aLt1S4/l0UmZLQcAqJFRGPgprZQ9W+4d6fTrF3qCcNsLykNlD/mAdr8AMz3+iYLvsA==
+X-Received: by 2002:a2e:b0c6:0:b0:2b6:a7dd:e22 with SMTP id g6-20020a2eb0c6000000b002b6a7dd0e22mr9274754ljl.48.1688979610963;
+        Mon, 10 Jul 2023 02:00:10 -0700 (PDT)
+Received: from brgl-uxlite.home ([2a01:cb1d:334:ac00:6002:540:6954:abdd])
+        by smtp.gmail.com with ESMTPSA id k6-20020a05600c0b4600b003fc00702f65sm8581045wmr.46.2023.07.10.02.00.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jul 2023 02:00:10 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Bhupesh Sharma <bhupesh.sharma@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: [PATCH net-next v3 00/12] net: stmmac: replace boolean fields in plat_stmmacenet_data with flags
+Date: Mon, 10 Jul 2023 10:59:49 +0200
+Message-Id: <20230710090001.303225-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 19 Jun 2023 18:42:23 +0300
-Maksim Kiselev <bigunclemax@gmail.com> wrote:
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-> This series adds support for general purpose ADC (GPADC) on new
-> Allwinner's SoCs, such as D1, T113s, T507 and R329. The implemented driver
-> provides basic functionality for getting ADC channels data.
-Applied 1-3 to the togreg branch of iio.git which will initially be pushed out as
-testing so that 0-day can see if we missed anything. I'll also be rebasing it
-on rc1 once available before pushing out as togreg.
+As suggested by Jose Abreu: let's drop all 12 boolean fields in
+plat_stmmacenet_data and replace them with a common bitfield.
 
-Thanks,
+v2 -> v3:
+- fix build on intel platforms even more
+- collect review tags from Andrew
 
-Jonathan
+v1 -> v2:
+- fix build on intel platforms
 
-> 
-> Change History:
-> v8:
-> - Added patch that changes Kconfig description for previous Allwinner GPADC
-> - Changed Kconfig description for this GPADC driver
-> - Fixed 'reg' range for gpadc node in 'sunxi-d1s-t113.dtsi'
-> 
-> v7:
-> - Fixed typo in DT bindings property
-> 
-> v6:
-> - Fixed DT bindings regexp for channel properties
-> - Dropped checking the max number of channels from the drivers code
->   (This is redundant as we raly on DT bindings check)
-> 
-> v5:
-> - Fixed DT bindings properties for child nodes
-> 
-> v4:
-> - Fixed DT bindings warnings
-> - Used GENMASK to clear the irq register
-> - Minor formatting fixes
-> 
-> v3:
-> - Added DT bindings dual license, fixed property order and example formatting
-> - Added explanations comments for timeout and mutex
-> - Dropped unnecessary regmap and used readl/writel instead
-> - Added error message about getting channel number
-> - Renamed labels and variables to make them self-explanatory
-> 
-> v2:
-> - Added lastch flag to avoid addition work for already selected channel
-> - Added reset assertion on module remove
-> - Added dynamic channel allocation and dropped iio_chan_spec arrays
-> - Changed IIO_CHAN_INFO_SCALE type to FRACTIONAL_LOG2
-> - Dropped separate compatible strings and configs for T113s and R329
-> - Fixed includes
-> - Fixed Kconfig description
-> - Removed duplicate probe error messages
-> - Used FIELD_PREP for bit setup
-> 
-> v1:
-> - Initial version
-> 
-> Maksim Kiselev (4):
->   iio: adc: Kconfig change description for Allwinner GPADC
->   iio: adc: Add Allwinner D1/T113s/R329/T507 SoCs GPADC
->   dt-bindings: iio: adc: Add Allwinner D1/T113s/R329/T507 SoCs GPADC
->   riscv: dts: allwinner: d1: Add GPADC node
-> 
->  .../iio/adc/allwinner,sun20i-d1-gpadc.yaml    |  91 ++++++
->  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  10 +
->  drivers/iio/adc/Kconfig                       |  12 +-
->  drivers/iio/adc/Makefile                      |   1 +
->  drivers/iio/adc/sun20i-gpadc-iio.c            | 276 ++++++++++++++++++
->  5 files changed, 389 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml
->  create mode 100644 drivers/iio/adc/sun20i-gpadc-iio.c
-> 
+Bartosz Golaszewski (12):
+  net: stmmac: replace the has_integrated_pcs field with a flag
+  net: stmmac: replace the sph_disable field with a flag
+  net: stmmac: replace the use_phy_wol field with a flag
+  net: stmmac: replace the has_sun8i field with a flag
+  net: stmmac: replace the tso_en field with a flag
+  net: stmmac: replace the serdes_up_after_phy_linkup field with a flag
+  net: stmmac: replace the vlan_fail_q_en field with a flag
+  net: stmmac: replace the multi_msi_en field with a flag
+  net: stmmac: replace the ext_snapshot_en field with a flag
+  net: stmmac: replace the int_snapshot_en field with a flag
+  net: stmmac: replace the rx_clk_runs_in_lpi field with a flag
+  net: stmmac: replace the en_tx_lpi_clockgating field with a flag
+
+ .../stmicro/stmmac/dwmac-dwc-qos-eth.c        |  4 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-intel.c | 23 +++++------
+ .../ethernet/stmicro/stmmac/dwmac-mediatek.c  |  5 ++-
+ .../stmicro/stmmac/dwmac-qcom-ethqos.c        |  8 ++--
+ .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-tegra.c |  4 +-
+ .../ethernet/stmicro/stmmac/stmmac_hwtstamp.c |  4 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c | 40 +++++++++++--------
+ .../net/ethernet/stmicro/stmmac/stmmac_pci.c  |  2 +-
+ .../ethernet/stmicro/stmmac/stmmac_platform.c | 10 +++--
+ .../net/ethernet/stmicro/stmmac/stmmac_ptp.c  |  5 ++-
+ include/linux/stmmac.h                        | 26 ++++++------
+ 12 files changed, 76 insertions(+), 57 deletions(-)
+
+-- 
+2.39.2
 
