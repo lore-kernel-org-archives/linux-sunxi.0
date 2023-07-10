@@ -1,43 +1,43 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B6D101EA
-	for <linux-sunxi@lists.linux.dev>; Mon, 10 Jul 2023 09:00:26 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3fc0aecf15bso15818615e9.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 10 Jul 2023 02:00:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40AC3101EA
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 Jul 2023 09:00:28 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2b702319893so65023981fa.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 10 Jul 2023 02:00:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1688979624; x=1691571624;
+        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1688979626; x=1691571626;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JCzrmvkrxX95lDclfxkC13FB8OPqOuOJRmb8eYD2LXk=;
-        b=lzmr5H2JyLJZFSR1HX8BP7gWgcc1XuSawLvPgFsX4qK5Gqn6JS9jVHG/vDnDsGGqVF
-         PVQZTidPzwIWrJoUPjxRWKGmZN+Wn/csnu/odgbtP/oYq9sAk3U8Yry1oZur8//i1Q/H
-         K6d1DTHJbDwvkxTxxYYtp+6Q6zAffKPvCOOX9joq/lrd1GG0hq+vTF6eJ+0fG6v0vKua
-         41OxPANg6SG5hItVLVOEH9rmn2CODLbJdeqfjkIfbylHZIh2Q0qjCec8Ci5P6jhxAKgL
-         kCvsFHUq0Bm4GieP8DKKy3ub4kVYiYau3eKzXZ8gomEEqh5RJ2RbsGVFaIYtT5j8okSq
-         TpIA==
+        bh=DVtFhd0Km8syItagysZcPYxDGwV5P+/dGFTOfEg0+Yc=;
+        b=CddbWTskACPRtMQSrRi4hJeH5Iup7rrWzy4Y8GGk40YSMoIVZ0micpUHWhleaEjv+U
+         wKS3OBd0Nl397l8bwV8e9M1orYGwEMc0VG4rCfFxqiHRmVhQGKLtknOwXuDKrva7rglX
+         ecl89XAzYl15aSaP8fCzOsRoecFyyGAu1YUaZr3d89Mfdb8ZmSgxo8+ONF6EVPjlJFPd
+         OV+5BOOxYHddIf1neWL3qxjyUfhAEVkA3qZqZlwQt1hSI/UXdRieUC/ZQQvRVA7FEz4o
+         +mAK24YMtG1mgMKy7fLp4WmXKocn32um2M+EeyMIzwCrCYQZ30cjEt/orHyh2Y1Cw7c7
+         6pGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688979624; x=1691571624;
+        d=1e100.net; s=20221208; t=1688979626; x=1691571626;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JCzrmvkrxX95lDclfxkC13FB8OPqOuOJRmb8eYD2LXk=;
-        b=JLsWp3sfyRlFkvW3WksBRHR7gBpXzkBAQzIp5T3Qh+NUHUV/EKFB4Pwzocj3ztkRga
-         fE/hZrMUfWPLkQq4IErx3O2XKE7xmBFuMo71dcFO7YxcJLS77GJMZcGvju42j9XGfYj/
-         syqFHcLJE3jxR+Iehi8sa/dvX3ODqIlziOJbTq/E0b/xtCYy2VEhiDYaeAScD/FS5ls5
-         A/jiTvKNYRQvG4quPMUk/BkbInlmEcqy2kSDUm2Qy8Kbi9SBZoq5xRjnSyXn6f6i4yHD
-         tAucdAvfxdSqHq5dJeAf8D/8L6i50WzICYb/PEUeFLRuRc5dAdi9eTt8flx9b7Sp+yo+
-         Ij4w==
-X-Gm-Message-State: ABy/qLZi/FgdBZOqw6qdmHKW77koFyudHYt9FdAxAmH/Z7+7GmomfdR5
-	a6VTN11zfr0E5QvCG+WbHslfZg==
-X-Google-Smtp-Source: APBJJlE6D/TZ+GjwSXOMj+kecMOl3xY1WK0EcS6qAygHxCOclG4KnpRd6znUpyJJke/KJpWrsx3UJA==
-X-Received: by 2002:a1c:7416:0:b0:3fb:b3aa:1c88 with SMTP id p22-20020a1c7416000000b003fbb3aa1c88mr6693201wmc.26.1688979624591;
-        Mon, 10 Jul 2023 02:00:24 -0700 (PDT)
+        bh=DVtFhd0Km8syItagysZcPYxDGwV5P+/dGFTOfEg0+Yc=;
+        b=F6JOvAqTbF/kQ0lv/51rAqYsA6bglgxgNK+Q7pLoAdOF+ZrYDmRiet2w+hTtj7bidS
+         G7vpeESDqqprFOiIpiLHU8Mjl6bhChfeLf6Kit6mNS1IZjyaRuemzfuPgPe3IqaHZrcr
+         Bf7iZ5Mev6Oalv528JKtUFaQUO6PHezHOHC+E9w5AavrdUxV/fy0GZgAk9M9UdK1JKIu
+         OFTEECOTQmRowBq+I0+XCyrpVPciZdXHyGi3nLJrRES5F/l9r80Sf286EbZm7NVoBjMx
+         fTBc8M1yTU451Pw2GTtCb+X0LCHdkigMWoLzn/qpPumwDJGDip5AkGysSOe+fSFAccLE
+         f5dQ==
+X-Gm-Message-State: ABy/qLYCBxx244ZlXdaENr/Z6RGLSyhFVqRfMoYzu3IoCylVbdo17Bmm
+	Bdfw9jgmihoHnFZR5dobZvsqAQ==
+X-Google-Smtp-Source: APBJJlEP8RjYI6mEVqb8E5PCwkoT0tyhZKt8ufMjMDNngPcNAkchhf2+a4Mz1t5LkL2DBdggALs1DA==
+X-Received: by 2002:a2e:9815:0:b0:2b6:d8d5:15b1 with SMTP id a21-20020a2e9815000000b002b6d8d515b1mr8428218ljj.50.1688979625880;
+        Mon, 10 Jul 2023 02:00:25 -0700 (PDT)
 Received: from brgl-uxlite.home ([2a01:cb1d:334:ac00:6002:540:6954:abdd])
-        by smtp.gmail.com with ESMTPSA id k6-20020a05600c0b4600b003fc00702f65sm8581045wmr.46.2023.07.10.02.00.23
+        by smtp.gmail.com with ESMTPSA id k6-20020a05600c0b4600b003fc00702f65sm8581045wmr.46.2023.07.10.02.00.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jul 2023 02:00:24 -0700 (PDT)
+        Mon, 10 Jul 2023 02:00:25 -0700 (PDT)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
 To: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
@@ -66,9 +66,9 @@ Cc: netdev@vger.kernel.org,
 	linux-mediatek@lists.infradead.org,
 	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
 	Andrew Halaney <ahalaney@redhat.com>
-Subject: [PATCH net-next v3 10/12] net: stmmac: replace the int_snapshot_en field with a flag
-Date: Mon, 10 Jul 2023 10:59:59 +0200
-Message-Id: <20230710090001.303225-11-brgl@bgdev.pl>
+Subject: [PATCH net-next v3 11/12] net: stmmac: replace the rx_clk_runs_in_lpi field with a flag
+Date: Mon, 10 Jul 2023 11:00:00 +0200
+Message-Id: <20230710090001.303225-12-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230710090001.303225-1-brgl@bgdev.pl>
 References: <20230710090001.303225-1-brgl@bgdev.pl>
@@ -88,93 +88,58 @@ simple bitfield flag.
 Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 Reviewed-by: Andrew Halaney <ahalaney@redhat.com>
 ---
- drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c     | 10 +++++-----
- drivers/net/ethernet/stmicro/stmmac/stmmac_hwtstamp.c |  2 +-
- include/linux/stmmac.h                                |  2 +-
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c | 2 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c       | 3 ++-
+ include/linux/stmmac.h                                  | 2 +-
+ 3 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
-index a3d0da4e9e91..0ffae785d8bd 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
-@@ -329,7 +329,7 @@ static int intel_crosststamp(ktime_t *device,
- 	if (priv->plat->flags & STMMAC_FLAG_EXT_SNAPSHOT_EN)
- 		return -EBUSY;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
+index 2692ccebea50..fb593250c2e8 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
+@@ -780,7 +780,7 @@ static int qcom_ethqos_probe(struct platform_device *pdev)
+ 	if (of_property_read_bool(np, "snps,tso"))
+ 		plat_dat->flags |= STMMAC_FLAG_TSO_EN;
+ 	if (of_device_is_compatible(np, "qcom,qcs404-ethqos"))
+-		plat_dat->rx_clk_runs_in_lpi = 1;
++		plat_dat->flags |= STMMAC_FLAG_RX_CLK_RUNS_IN_LPI;
+ 	if (data->has_integrated_pcs)
+ 		plat_dat->flags |= STMMAC_FLAG_HAS_INTEGRATED_PCS;
  
--	priv->plat->int_snapshot_en = 1;
-+	priv->plat->flags |= STMMAC_FLAG_INT_SNAPSHOT_EN;
- 
- 	mutex_lock(&priv->aux_ts_lock);
- 	/* Enable Internal snapshot trigger */
-@@ -350,7 +350,7 @@ static int intel_crosststamp(ktime_t *device,
- 		break;
- 	default:
- 		mutex_unlock(&priv->aux_ts_lock);
--		priv->plat->int_snapshot_en = 0;
-+		priv->plat->flags &= ~STMMAC_FLAG_INT_SNAPSHOT_EN;
- 		return -EINVAL;
- 	}
- 	writel(acr_value, ptpaddr + PTP_ACR);
-@@ -376,7 +376,7 @@ static int intel_crosststamp(ktime_t *device,
- 	if (!wait_event_interruptible_timeout(priv->tstamp_busy_wait,
- 					      stmmac_cross_ts_isr(priv),
- 					      HZ / 100)) {
--		priv->plat->int_snapshot_en = 0;
-+		priv->plat->flags &= ~STMMAC_FLAG_INT_SNAPSHOT_EN;
- 		return -ETIMEDOUT;
- 	}
- 
-@@ -395,7 +395,7 @@ static int intel_crosststamp(ktime_t *device,
- 	}
- 
- 	system->cycles *= intel_priv->crossts_adj;
--	priv->plat->int_snapshot_en = 0;
-+	priv->plat->flags &= ~STMMAC_FLAG_INT_SNAPSHOT_EN;
- 
- 	return 0;
- }
-@@ -609,7 +609,7 @@ static int intel_mgbe_common_data(struct pci_dev *pdev,
- 	plat->ext_snapshot_num = AUX_SNAPSHOT0;
- 
- 	plat->crosststamp = intel_crosststamp;
--	plat->int_snapshot_en = 0;
-+	plat->flags &= ~STMMAC_FLAG_INT_SNAPSHOT_EN;
- 
- 	/* Setup MSI vector offset specific to Intel mGbE controller */
- 	plat->msi_mac_vec = 29;
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_hwtstamp.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_hwtstamp.c
-index afd81aac6644..fa2c3ba7e9fe 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_hwtstamp.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_hwtstamp.c
-@@ -180,7 +180,7 @@ static void timestamp_interrupt(struct stmmac_priv *priv)
- 	u64 ptp_time;
- 	int i;
- 
--	if (priv->plat->int_snapshot_en) {
-+	if (priv->plat->flags & STMMAC_FLAG_INT_SNAPSHOT_EN) {
- 		wake_up(&priv->tstamp_busy_wait);
- 		return;
- 	}
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index ebe82e7b50fc..2d68a6e84b0e 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -1085,7 +1085,8 @@ static void stmmac_mac_link_up(struct phylink_config *config,
+ 	stmmac_mac_set(priv, priv->ioaddr, true);
+ 	if (phy && priv->dma_cap.eee) {
+ 		priv->eee_active =
+-			phy_init_eee(phy, !priv->plat->rx_clk_runs_in_lpi) >= 0;
++			phy_init_eee(phy, !(priv->plat->flags &
++				STMMAC_FLAG_RX_CLK_RUNS_IN_LPI)) >= 0;
+ 		priv->eee_enabled = stmmac_eee_init(priv);
+ 		priv->tx_lpi_enabled = priv->eee_enabled;
+ 		stmmac_set_eee_pls(priv, priv->hw, true);
 diff --git a/include/linux/stmmac.h b/include/linux/stmmac.h
-index 0a77e8b05d3a..47708ddd57fd 100644
+index 47708ddd57fd..c3769dad8238 100644
 --- a/include/linux/stmmac.h
 +++ b/include/linux/stmmac.h
-@@ -213,6 +213,7 @@ struct dwmac4_addrs {
- #define STMMAC_FLAG_VLAN_FAIL_Q_EN		BIT(6)
+@@ -214,6 +214,7 @@ struct dwmac4_addrs {
  #define STMMAC_FLAG_MULTI_MSI_EN		BIT(7)
  #define STMMAC_FLAG_EXT_SNAPSHOT_EN		BIT(8)
-+#define STMMAC_FLAG_INT_SNAPSHOT_EN		BIT(9)
+ #define STMMAC_FLAG_INT_SNAPSHOT_EN		BIT(9)
++#define STMMAC_FLAG_RX_CLK_RUNS_IN_LPI		BIT(10)
  
  struct plat_stmmacenet_data {
  	int bus_id;
-@@ -286,7 +287,6 @@ struct plat_stmmacenet_data {
- 	struct pci_dev *pdev;
- 	int int_snapshot_num;
- 	int ext_snapshot_num;
--	bool int_snapshot_en;
- 	int msi_mac_vec;
- 	int msi_wol_vec;
- 	int msi_lpi_vec;
+@@ -280,7 +281,6 @@ struct plat_stmmacenet_data {
+ 	int rss_en;
+ 	int mac_port_sel_speed;
+ 	bool en_tx_lpi_clockgating;
+-	bool rx_clk_runs_in_lpi;
+ 	int has_xgmac;
+ 	u8 vlan_fail_q;
+ 	unsigned int eee_usecs_rate;
 -- 
 2.39.2
 
