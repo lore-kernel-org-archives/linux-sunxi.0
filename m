@@ -1,198 +1,113 @@
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2118.outbound.protection.outlook.com [40.107.255.118])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C338D53F
-	for <linux-sunxi@lists.linux.dev>; Mon, 10 Jul 2023 09:59:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Jm0IbutqUg4meYIGi8puRNO4x71nRzYLZUW8esomc8A2vFj/JcXiOHANDLoPzEwuA3uYh53to3kqIz0J+vNS8mvuP6PWMX2lYodFSCETgIc8pQ9pfQKx7Jk2fc/DGQV3BGt+665mnfMuZt7oED8HKI3EEVawkQVgQ+YPao2jXzznafvBFPRv+AiTPkcGPoo+IZxoPyDlOjR2XqIZj9WmMPTsdBb2jqXmsrDTbVs9xpEMLYaTTx4wrl0jZBYlpOjMLcuhRBg1lrjwhM2huFoz/ZOzaB+ZK4fNk0Vv7mZZIOxoPqNgIV1DuDFRF+zDFl9Nmxt9rqgrUhOgLWQL+jb3nw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yNQY+M8646iviKgkJhuurqleLIh9tBVfZXn3ABuGKro=;
- b=jJw9ob0jZoUjHFyZnu9y9LOmpjYWIVPsJC+AY3Lr/KQxVEgp8q4RpesPRBzY0btoY1XEmahoR1BKbTcKB6DBRLcYBy24VLVHymi9xjETO/pZzGCh13ii3SBjFVgV25t7tDo1Jz47wJEpg8mfOnEcBiHDLfFRiNaJD2gA/vGn7SUp03cEz7FLM0dFsnEdCUAZxicyXWariP6Int/V40fWlS8uH8kOjU1wFZ4QGsQnciPI76/SbHBCP7e0TzDbi0bCuKwKt5JjPbEgYv62HJxvGKNPv445fcCFlIZOOewMR+x/HzAXvkOlDjIzJgk/XuMK4EWmosKEF89Q8QJiSkkp9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yNQY+M8646iviKgkJhuurqleLIh9tBVfZXn3ABuGKro=;
- b=PAaa8LXn9+GuiIohtYbPgXfvEZpWH+scQ/FqQg0T3VYw/GpSslJMPY0CHt5/rXOHraR9ogCHXPaT9cEmrmP+oiIBgxIRiIjbADXQHcZzb8LJOGI2OyLRmVyLZmPZbTgUX1TO4O/HR6Pdvrpqp+Jj/PqomTwkl15pFoNjbJBvPWmdxefgM/opL482uu2+ULxgjmr4tLc336OQklozsO0b/j7g3CvAl480Vqrf66bwf+SK7lSaFT6jHN8VAc3twEWmiVf2nYo2kknw5Pf34HtDWLgYtNydrI50YaVlBHNSex+1C1Q+IwJuXMLk2JQD6SU3ZKYwk9jtMvvjS2tIcpQEpw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
- by SI2PR06MB3963.apcprd06.prod.outlook.com (2603:1096:4:f2::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.30; Mon, 10 Jul
- 2023 09:59:42 +0000
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::fa0e:6c06:7474:285c]) by SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::fa0e:6c06:7474:285c%5]) with mapi id 15.20.6565.028; Mon, 10 Jul 2023
- 09:59:42 +0000
-From: Yangtao Li <frank.li@vivo.com>
-To: Vasily Khoruzhick <anarsoul@gmail.com>,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Amit Kucheria <amitk@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Yangtao Li <frank.li@vivo.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E3A19BAC
+	for <linux-sunxi@lists.linux.dev>; Tue, 11 Jul 2023 14:22:09 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-4fb5bcb9a28so8951635e87.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 11 Jul 2023 07:22:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689085327; x=1691677327;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fs5HDm6ClAZIf3WkkOUYl2r52GqE7LmKxr5cfVC2LLc=;
+        b=jc4XrpikC3c2UuGtvw5CwGWN3nmPyvXxozjIL6j5tRHo/XZib9AMRJX66OHyorPEO8
+         msrKHJdpC9eP+Wqsn2i+IAzPLH/g/IuEoD9c36i6GFCwEaq9wgsvEguoJ4xviORcFhgv
+         vAT+Y3Wjs5iYZE0S7400sbFyJu8ZHR0jOl+ysnCXzK/K3C4NeV18TqHDS+hpaXDR1b7X
+         gd2U3mWP9Sw9lxmt8TBkYhMYA67lzH5aMqWDJ5DvpVQK7IKVvsXLDFfXRY3/c5cgJwIy
+         3xv/tgd6/y7WxqRd19RRrsdoANjXq2eHmbrortC/HhtogF2KadfLeUZ2ZX1kZsyiYWRz
+         sSRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689085327; x=1691677327;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fs5HDm6ClAZIf3WkkOUYl2r52GqE7LmKxr5cfVC2LLc=;
+        b=CoIyzlnFEQN+DH81fByJc6JH0civkz1awwjuKmFMjZzNiN5sqvQGHy5O4HgUuufJNQ
+         uQBfmRK8O/I33f/PDj3pnf/z5ZYjw9QSiOZQiAT6IRWl6Rk2ivwDbzibEF0npSmbnqGh
+         JPAskPgIqqybrvoImCJuAB4IZibzWfGRpEpPvE5n1YwY3HyJegJlcHpd0KWFSVpJTUuY
+         wyJjO0MPOOJdPm8T0dMjBHr22RNl6Wudop3Usu4fK+0YbSY2H0EgEgETNootm1c0oXet
+         mLvHVg0bsLXxM1uPsrS+V4yZ9LzZJIXEKcjKjhysJ7QVTRknJx5fMfxK180vZhwnq3Ar
+         19ew==
+X-Gm-Message-State: ABy/qLYKMS+HW+fgPsaxn98oqkeIEyjSxhCt4NtWFX7R0WSeOMcPraOs
+	0aifhZiJOvpNXQ7U4LmhwXkmIA==
+X-Google-Smtp-Source: APBJJlGv0oKmDLjWCKzWfjK0JMEvmmjGq+p5yDLXp8SCG7qJLArfkjI905UBeAZEoXF0MSLIsp07fQ==
+X-Received: by 2002:a05:6512:3f3:b0:4fb:772a:af19 with SMTP id n19-20020a05651203f300b004fb772aaf19mr11433025lfq.34.1689085327565;
+        Tue, 11 Jul 2023 07:22:07 -0700 (PDT)
+Received: from uffe-tuxpro14.. (h-94-254-63-18.NA.cust.bahnhof.se. [94.254.63.18])
+        by smtp.gmail.com with ESMTPSA id 27-20020ac2483b000000b004f858249932sm342123lft.90.2023.07.11.07.22.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jul 2023 07:22:06 -0700 (PDT)
+From: Ulf Hansson <ulf.hansson@linaro.org>
+To: Arnd Bergmann <arnd@arndb.de>,
+	Olof Johansson <olof@lixom.net>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
 	linux-pm@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 02/21] thermal/drivers/sun8i: convert to use devm_request*_irq_probe()
-Date: Mon, 10 Jul 2023 17:59:06 +0800
-Message-Id: <20230710095926.15614-2-frank.li@vivo.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230710095926.15614-1-frank.li@vivo.com>
-References: <20230710095926.15614-1-frank.li@vivo.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SG2PR01CA0167.apcprd01.prod.exchangelabs.com
- (2603:1096:4:28::23) To SEZPR06MB5269.apcprd06.prod.outlook.com
- (2603:1096:101:78::6)
+	linux-kernel@vger.kernel.org,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 13/18] soc: sunxi: Move power-domain driver to the genpd dir
+Date: Tue, 11 Jul 2023 16:22:04 +0200
+Message-Id: <20230711142204.751754-1-ulf.hansson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5269:EE_|SI2PR06MB3963:EE_
-X-MS-Office365-Filtering-Correlation-Id: 12e67ee2-d5be-4d2e-1e89-08db812c61a3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	U9MgY98Xvf3bmpRH066PloCXVc/aTi4r1DIDk82Xt7EfBVeYKKCpSLam6k9GBL3Md48kGJF6quz/A7GqmPfANu7yRnQ0+apbsZcDCvlin8DFFAT9o4q/KvJsgL7hsodfnYLc9pn0aXl/cpTpgi0CvBM34yKTaXvGqq3604Kblp2WUPI4KZuDn/B5czlLNIFEOjTjuEH81Hcl9SFg7F/ze12SkQQKrPtQ2Lc8Tzd79ji0JbnWTLs/yCZktPMwBUyPScNJdxTc4kSf+nQ0N+H22tFY2RfNYhNnN9r/JQVzW0lCxqFBmA0HHDNLxab0fJNyumUA5qVp465HIDm9MRJh0JDUSP1hW4u1jOaCJuSz8neVhq79RPD0UeeGr3zKPozJ486QmI65kW2Gn/fxay7lDixRiSPj9kFLbdibWMKhzI3Ilg+qmnK7rCw41VT77swMzEdbzLax7FnEjqO7dyWqRjU/2srBxwq14zz0Hp6MuQV+XkDSHjPHUsiMNsfI8WkEl29gNSjLtibrsTBBB2m22WBZR8mZlml3bpR0wubDDT3OO+IaNIoK6ncLF7dL0bjqgItRLZFHizkwvhGXHGYrQ2WBcZWKFEBfhka+dqPMx4v3eVYcFHePTA+KuoYNBamr
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(396003)(39860400002)(366004)(376002)(136003)(451199021)(86362001)(38100700002)(38350700002)(36756003)(6666004)(6486002)(52116002)(110136005)(54906003)(6506007)(26005)(186003)(1076003)(6512007)(2616005)(7416002)(5660300002)(2906002)(66556008)(316002)(478600001)(66946007)(8936002)(66476007)(8676002)(66574015)(83380400001)(4326008)(41300700001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZkwyNjB6dFpwTzNSa1B0bU5lRS8vWFFGVER2dlJwUEZGNFRqVDBNSEZCTXJG?=
- =?utf-8?B?eVlwa0d5c3dIb3U0dmFOb1JTNmZ1c3NFVWZ2eXhsY2VqQkhUb1ZiT1o4eDho?=
- =?utf-8?B?ZW1UakVwZW0rb1c3N1U2Ry9xVWlGak8xUHc0NWFRSEJLRDFSNmozMjFZTGx6?=
- =?utf-8?B?U1pZcEx1ZWMvMFRLRnhtUmtiOFJnQWp0eG1tdy95ZU5ra3hDSDd0RFpISTlV?=
- =?utf-8?B?Zko1SlUrMUU5TkpvL2w4T3MvQmowd1o1ajBvTTNybFRlWk1wNDFhV1ZJZC9J?=
- =?utf-8?B?cUFEb2NpQXcxUm0yMlFqSlU3TVhCVEZOUngrc2I0dzU2VUc3TXJLQ2ZPR3lz?=
- =?utf-8?B?TE51TDYxV2gxR2ZPRStoU1NpN0h2UjN6MjA5MEd3UGwxS3pYM1hLYXVNYVpE?=
- =?utf-8?B?VWJ5Y2hiejh6dmVBMmNUZnZNdGxadUxickg4c3N4WW1ldkloTGF5QmRDWEdS?=
- =?utf-8?B?L08yQzV1TlJSZlVocjNGSVA4SzQ5UkFTWlNPemIrQkFLVGhIU2RXdGZiVjZL?=
- =?utf-8?B?UG1jQlNpNytvUEVIQzZ4WW5ia25PUjdqRnVQK2NONDlWR2pzWUgxZllMaUZp?=
- =?utf-8?B?Tmg1Z0J1VFYxekl3eXQvQWREczJMLzZsZjRkOXIvZHRLdWlIZWR1T0tIOTZo?=
- =?utf-8?B?MHR1aDVUb3I5ZnJWOFRjcG93WGFEOTNSamdwNGRyMGIrZGhPcnpQYXgycW9T?=
- =?utf-8?B?U2xJMGIzWmc5NUZPNmEwU3NYSHRWTnRTdnZXcS84OUx0Zm03Sy9Oek51d2hT?=
- =?utf-8?B?R3lZN2lhb2I4bVp5a3NTU2VicW5HNHNnT2tydDdqQjBTQ1JUeXlEcUhQcjJ4?=
- =?utf-8?B?SER4S0VOd2pETWs4Q2xhRXcyTVhwOUU0aUdVNFExM2cyM242bENYemI1K1ZL?=
- =?utf-8?B?MTdCZml1V2tIaGVqaWgvZ1dwNm0vZzE3NTFTeWR5MHU2b2ZxWHRkNDBQZEQr?=
- =?utf-8?B?N1AwbDZSdlBHMkZQUTFTNE55aFBMQVROMzVBeHdjNFRsNHEvTm5rUW1oZ081?=
- =?utf-8?B?Vm15NjVpeWdIZlRaTkxvSy84OXdadXB6djBJOWdKcUlaenFyWitTVHRKcEtr?=
- =?utf-8?B?emNraDRVOXBFRlBOcWpBQ0l6ekJVZEJGcE1UMnE3b0Q0eWVoRnZpTXNyNUd0?=
- =?utf-8?B?Ti9DSWN5NWpXZXhBWFFiUVU5Z2hlVTM3OEVBYXNOL1dvMVVmc1hCRHdodE5C?=
- =?utf-8?B?UUVsUzBSa1V3STJyMmdnMTV6RkttcXhzZzg3bldubEVUNjN3NStYcXVpUkg1?=
- =?utf-8?B?WEoxb3FHMzI1YWdYMVcwYUNHdlZ4dC9KVWM5c04wQUJGdWtnN0tNNzkxQTBt?=
- =?utf-8?B?RW1XVHdSWVBBenFFdFlRcElqd0ZKenFmYStCMEJCbkhlUWt1KzJiTXQ3ajVJ?=
- =?utf-8?B?K3NpQ05SSi9XcWJBM2F2NStpRE5jaUY4eENVcTR5d3pUUHdGaTRZVU5ZZnB0?=
- =?utf-8?B?OVliMHJhZW0zV0svbWs4N2JkblA2dmNDVE5uYWdwdzdNQmxMeHdmSnROWElB?=
- =?utf-8?B?Z1FDSWFDRjJGMFlReTU1YWdGNkVLOXNMZjNpR25USjlrTUVHcng5QkRXZTda?=
- =?utf-8?B?V1V2czBDWWFJb1pvd241QmtjVHZWQW9uRGVsWmZTMDZlOWZEeGpVM0lob0Ra?=
- =?utf-8?B?RlBRbkFzY2RncU9hS2ZVN1VjWEtiY0xMNG4rWnFrdUZMQnB3OXZ1LytuYXl1?=
- =?utf-8?B?ZmZmN0ZFS21YMUxTUlE4S1pqYWVEQlh3amJqQm9mb0FodWhmN2tFaEFRL2Jt?=
- =?utf-8?B?T0ZpbEJPakJXcTV6ZmxPQ0hKc1lyaGF0dzVqKzlMeEdndG02amZlMEZ2VFls?=
- =?utf-8?B?TXJGQ2RwdTV4eVlwZnF2RGt2OWE0SjFMbDZmbGY2VUY3bXUvSUpFdFZBT1h2?=
- =?utf-8?B?OThKNGVCWHl4TmM1WENlOGVkdk9kMmlDN09OWWdkVnNGdk82S1Nkc0cwYjFp?=
- =?utf-8?B?NmJwNHpZMElGVWpJbDF5Z1NrcnZsT05jWk16SDU1bGh1TzFYOW9lQ2JKQVJU?=
- =?utf-8?B?WlNFTmh0cThLM3Jzd3cwZk9hOCtJUmNnVWJOU3pBQW5QUnJuNlppTVhyUGd1?=
- =?utf-8?B?d1ZIL3kxMWI3Q3YyMDJIazVRWE1UYjNtaTVERG9wN1dLNkpTYUZ5aGRlUUxM?=
- =?utf-8?Q?M06WLnJwRgvnvJ3VmPFiMiUti?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12e67ee2-d5be-4d2e-1e89-08db812c61a3
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2023 09:59:42.0657
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nYpUdDD5ef3C27UvlB9hX7fo1lzj6lz64Q/8OWPM1nrWjeizx+hX9OfMsHDqAZRvl0+doGVH2z9s0V4/b5S/xw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR06MB3963
+Content-Transfer-Encoding: 8bit
 
-There are more than 700 calls to devm_request_threaded_irq method and
-more than 1000 calls to devm_request_irq method. Most drivers only
-request one interrupt resource, and these error messages are basically
-the same. If error messages are printed everywhere, more than 2000 lines
-of code can be saved by removing the msg in the driver.
+To simplify with maintenance let's move the sunxi power-domain driver to
+the new genpd directory. Going forward, patches are intended to be managed
+through a separate git tree, according to MAINTAINERS.
 
-And tglx point out that:
-
-  If we actually look at the call sites of
-  devm_request_threaded_irq() then the vast majority of them print more or
-  less lousy error messages. A quick grep/sed/awk/sort/uniq revealed
-
-     519 messages total (there are probably more)
-
-     352 unique messages
-
-     323 unique messages after lower casing
-
-         Those 323 are mostly just variants of the same patterns with
-         slight modifications in formatting and information provided.
-
-     186 of these messages do not deliver any useful information,
-         e.g. "no irq", "
-
-     The most useful one of all is: "could request wakeup irq: %d"
-
-  So there is certainly an argument to be made that this particular
-  function should print a well formatted and informative error message.
-
-  It's not a general allocator like kmalloc(). It's specialized and in the
-  vast majority of cases failing to request the interrupt causes the
-  device probe to fail. So having proper and consistent information why
-  the device cannot be used _is_ useful.
-
-So convert to use devm_request*_irq_probe() API, which ensure that all
-error handling branches print error information.
-
-In this way, when this function fails, the upper-layer functions can
-directly return an error code without missing debugging information.
-Otherwise, the error message will be printed redundantly or missing.
-
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
-Cc: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-Cc: AngeloGioacchino Del Regno  <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Yangtao Li <frank.li@vivo.com>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: <linux-sunxi@lists.linux.dev>
+Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
 ---
- drivers/thermal/sun8i_thermal.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/genpd/Makefile                    | 1 +
+ drivers/genpd/sunxi/Makefile              | 2 ++
+ drivers/{soc => genpd}/sunxi/sun20i-ppu.c | 0
+ drivers/soc/sunxi/Makefile                | 1 -
+ 4 files changed, 3 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/genpd/sunxi/Makefile
+ rename drivers/{soc => genpd}/sunxi/sun20i-ppu.c (100%)
 
-diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-index 195f3c5d0b38..a952804ff993 100644
---- a/drivers/thermal/sun8i_thermal.c
-+++ b/drivers/thermal/sun8i_thermal.c
-@@ -512,9 +512,9 @@ static int sun8i_ths_probe(struct platform_device *pdev)
- 	 * registered yet, we deffer the registration of the interrupt to
- 	 * the end.
- 	 */
--	ret = devm_request_threaded_irq(dev, irq, NULL,
--					sun8i_irq_thread,
--					IRQF_ONESHOT, "ths", tmdev);
-+	ret = devm_request_threaded_irq_probe(dev, irq, NULL,
-+					      sun8i_irq_thread,
-+					      IRQF_ONESHOT, "ths", tmdev, NULL);
- 	if (ret)
- 		return ret;
- 
+diff --git a/drivers/genpd/Makefile b/drivers/genpd/Makefile
+index baf2021235a7..76f2a411e6bc 100644
+--- a/drivers/genpd/Makefile
++++ b/drivers/genpd/Makefile
+@@ -9,3 +9,4 @@ obj-y					+= renesas/
+ obj-y					+= rockchip/
+ obj-y					+= samsung/
+ obj-y					+= starfive/
++obj-y					+= sunxi/
+diff --git a/drivers/genpd/sunxi/Makefile b/drivers/genpd/sunxi/Makefile
+new file mode 100644
+index 000000000000..ec1d7a2fb21d
+--- /dev/null
++++ b/drivers/genpd/sunxi/Makefile
+@@ -0,0 +1,2 @@
++# SPDX-License-Identifier: GPL-2.0-only
++obj-$(CONFIG_SUN20I_PPU)		+= sun20i-ppu.o
+diff --git a/drivers/soc/sunxi/sun20i-ppu.c b/drivers/genpd/sunxi/sun20i-ppu.c
+similarity index 100%
+rename from drivers/soc/sunxi/sun20i-ppu.c
+rename to drivers/genpd/sunxi/sun20i-ppu.c
+diff --git a/drivers/soc/sunxi/Makefile b/drivers/soc/sunxi/Makefile
+index 90ff2ebe7655..549159571d4f 100644
+--- a/drivers/soc/sunxi/Makefile
++++ b/drivers/soc/sunxi/Makefile
+@@ -1,4 +1,3 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ obj-$(CONFIG_SUNXI_MBUS) +=	sunxi_mbus.o
+ obj-$(CONFIG_SUNXI_SRAM) +=	sunxi_sram.o
+-obj-$(CONFIG_SUN20I_PPU) +=	sun20i-ppu.o
 -- 
-2.39.0
+2.34.1
 
