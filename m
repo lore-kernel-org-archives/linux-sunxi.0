@@ -1,59 +1,57 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C588817FE0
-	for <linux-sunxi@lists.linux.dev>; Tue, 11 Jul 2023 18:27:52 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3fbc656873eso74409935e9.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 11 Jul 2023 11:27:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727EE17FE0
+	for <linux-sunxi@lists.linux.dev>; Tue, 11 Jul 2023 19:03:10 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-3fbd33a57ddso62674885e9.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 11 Jul 2023 12:03:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689100071; x=1691692071;
+        d=gmail.com; s=20221208; t=1689102188; x=1691694188;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uY50bhfklwYom6IbFHdDY1XKnR9zwxPbXW3WB2UupyU=;
-        b=RWaG0sP3x2YIg5aKevCdAMmLZT83c2FrrbgfmqwS7pZlxU6ab4xZCkQENYRD9NvnFR
-         Xz7xr7o/VJzRT0fctp3QMC0TZeAeKE6fu8J6UGEnE17lNFMArv7tUKgqKpE8vLMQSIiD
-         0MsxdDnZoYhYxs2pW4XQFOY4MOUI7HujXZI+bDSv6EHNlFZISUDU8bN/N43w+Rfd6oBA
-         dgVBwd6wWBRvSIq6HxR/OmaEKS//BGrWuZTx6lynL1QjUpKcl8qslQ48LwyS8MlKclX8
-         ZAKQbpDRSL4qLkheFUSRfT0zTrCLdTT6Hv1MrgZhnxaZDJc7TC20O7fC2MavzRdJKMpL
-         /X9A==
+        bh=DCeP3Zg/H4JeLn+58VLEJaihO4ZmKL3A+bfNY674m9U=;
+        b=K9F0TplCkUm8fXIoJ2MdfGFgKs5mxm0bkXhSASe7hPQkg7CTAEb8GdkmjugUjLLPod
+         E+lMTYnadSLxD5dYjTyXWrJNkMamrFsGGCUATKHn53mnw87G/LzSLvve6mPwH3jSUknI
+         I+C1UeXV6w3umiG2ShEXG5dClaEOMHiPJISAYBDTWEPCLuOeRfkHTDL41yCI57/9i3FW
+         DVnMRwn8cGjwaV8yGVb4aPJ3JOkzVNFqzJSKg1/2eAmKXPyd9G4siKDUH8cwBxppqgP4
+         84Kcjf7EM+2Ggse2wEsduUDqyyV2sj94GOlTMKR0Ko1FrZsgUtUfA2omODGQWxKRSJko
+         3T1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689100071; x=1691692071;
+        d=1e100.net; s=20221208; t=1689102188; x=1691694188;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uY50bhfklwYom6IbFHdDY1XKnR9zwxPbXW3WB2UupyU=;
-        b=RTSleklcPU7wy3ZcT1S93asqq1+bHVn9vOrd7B0bw0u5RvavOsGSUJJQIIgPrwlDnN
-         qGJOs1FhrMvH0dF+OULOlpKkSf7QQB8jBFnWxjkKb7o/XOisLPy82/nSKRRCuTvmtU37
-         B7EVZ8E/tF1bTyxCVbb38TuQouDG3M9uOjeN7y/+rBOvPSlexm4ymhXWsj8jFmTCfZA2
-         37VJlo8cHWixJWxJHI2btlO2sa+pYJzH057Qj7MGqXFX0RNLW1yYccaYr2gRuEj0J/wA
-         kEbnWuGSYEPGq6US/bP2p/Ve3FcV7PS+Cxqh9E59m5AS2uEW4uCIVu6zOSE4/pcXfAqJ
-         kfgw==
-X-Gm-Message-State: ABy/qLY4DyYWpEAcesldk4JTVOSXwqV4gWQGBkCes2PxT8AH5bma35PJ
-	YdNAva2rhYzLrFFHIpxYSs0=
-X-Google-Smtp-Source: APBJJlFc4oDq1avIkEm53uwVKsR4aP34NcWZvU8wFGjGRSwXz5Z9yA0NUsBwqFDZyh2iYIWORi/COw==
-X-Received: by 2002:a7b:cd94:0:b0:3f7:f2d0:b904 with SMTP id y20-20020a7bcd94000000b003f7f2d0b904mr21276033wmj.8.1689100070637;
-        Tue, 11 Jul 2023 11:27:50 -0700 (PDT)
+        bh=DCeP3Zg/H4JeLn+58VLEJaihO4ZmKL3A+bfNY674m9U=;
+        b=K7Z4UBkVi93opLOtjEXl1uajfIneFM91UGj2JZBouTAiPqkWdCNgue8xgqJTc9awYc
+         1sbmbJbqMLkS/jeDSOUgQrzxvxbDm6W01hRqbk6U8pAxy9j9gZHp5JF80dzl89NcOxmz
+         +Q4D3sWaPIUGFd8GMIZbHrpJOeLnUD/BjI2juq6zJpHVsb3K0pOZYPqKjrbHSJhOL3LF
+         wK+C5eayo5JcPRksEjLQLFpa/miZqiDz9gc2Qb6kZREeXYOydoXogMk/mBLPQTaBwpOT
+         rkh/2eZoKyBnI0FZ8NyXPsWmN7yBdBh7fnsKcScDEDQCXgCWT1faX+wRGwEf+c/mLUDZ
+         yWKQ==
+X-Gm-Message-State: ABy/qLYgAb7fORVUFW4zs50iJs9Exk3UiWNNPM3aWCalDPqxx6h3+fh1
+	eWdILiZYX9MKFRYwtFTA+eE=
+X-Google-Smtp-Source: APBJJlGLa9K9eE0tYsTODgWjZkTcPim5nA9Apx+yB+CXJ+4vr5wpBL/QiTp73GJUEV2dLU0j3M4bhw==
+X-Received: by 2002:a05:600c:452:b0:3fc:7d2:e0c0 with SMTP id s18-20020a05600c045200b003fc07d2e0c0mr9490361wmb.27.1689102188318;
+        Tue, 11 Jul 2023 12:03:08 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id o5-20020a1c7505000000b003fbd9e390e1sm13643250wmc.47.2023.07.11.11.27.49
+        by smtp.gmail.com with ESMTPSA id n22-20020a7bcbd6000000b003fbb618f7adsm3201286wmi.15.2023.07.11.12.03.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jul 2023 11:27:50 -0700 (PDT)
+        Tue, 11 Jul 2023 12:03:07 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Yangtao Li <frank.li@vivo.com>
-Cc: Yangtao Li <frank.li@vivo.com>, linux-input@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
+To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Maxime Ripard <mripard@kernel.org>, Mans Rullgard <mans@mansr.com>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 Subject:
- Re: [PATCH 07/10] Input: sun4i-lradc-keys - Convert to
- devm_platform_ioremap_resource()
-Date: Tue, 11 Jul 2023 20:27:49 +0200
-Message-ID: <5846980.MhkbZ0Pkbq@jernej-laptop>
-In-Reply-To: <20230705052346.39337-7-frank.li@vivo.com>
+ Re: [PATCH 1/3] clocksource: sun5i: remove duplication of code and data
+Date: Tue, 11 Jul 2023 21:03:06 +0200
+Message-ID: <8282256.NyiUUSuA9g@jernej-laptop>
+In-Reply-To: <20230630201800.16501-2-mans@mansr.com>
 References:
- <20230705052346.39337-1-frank.li@vivo.com>
- <20230705052346.39337-7-frank.li@vivo.com>
+ <20230630201800.16501-1-mans@mansr.com>
+ <20230630201800.16501-2-mans@mansr.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -63,37 +61,16 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne sreda, 05. julij 2023 ob 07:23:43 CEST je Yangtao Li napisal(a):
-> Use devm_platform_ioremap_resource() to simplify code.
+Dne petek, 30. junij 2023 ob 22:01:26 CEST je Mans Rullgard napisal(a):
+> Move the clocksource and clock_event_device structs into the main
+> struct sun5i_timer, and update the code for the new layout.  This
+> removes a lot of duplication of both code and data.
 > 
-> Signed-off-by: Yangtao Li <frank.li@vivo.com>
+> Signed-off-by: Mans Rullgard <mans@mansr.com>
 
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
-> ---
->  drivers/input/keyboard/sun4i-lradc-keys.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/input/keyboard/sun4i-lradc-keys.c
-> b/drivers/input/keyboard/sun4i-lradc-keys.c index
-> 15c15c0958b0..95d927cc8b7e 100644
-> --- a/drivers/input/keyboard/sun4i-lradc-keys.c
-> +++ b/drivers/input/keyboard/sun4i-lradc-keys.c
-> @@ -307,8 +307,7 @@ static int sun4i_lradc_probe(struct platform_device
-> *pdev)
-> 
->  	input_set_drvdata(lradc->input, lradc);
-> 
-> -	lradc->base = devm_ioremap_resource(dev,
-> -			      platform_get_resource(pdev, 
-IORESOURCE_MEM, 0));
-> +	lradc->base = devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(lradc->base))
->  		return PTR_ERR(lradc->base);
-
-
 
 
