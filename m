@@ -1,105 +1,71 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432AA1F95D
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Jul 2023 17:53:37 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-31441dfbf97so8160942f8f.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 12 Jul 2023 10:53:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689184416; x=1691776416;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jy7TMx25OOcOwHTgIEstLTCYZ1iR7it/Mc/2+XGG40M=;
-        b=h8D94D46435ovzfgyMBFeIF3u81woZEWgoieagwrfcbFRdfbma8LFIBRR6dM8BvxWJ
-         aDgVnEnLH2bGvcs9qX2k+KcTSHDzY4dmtLcG02EMR9FiRuH9AyIFBWay2B9UDvYR04kS
-         jRSvY9tcrG8tITd1qQxJyJI2cw0kCv932MRzt35JGrc0febcO1FybDXeTKLIHUs3xTz6
-         QT14y26cZjHAbbBcQTN3v47dfMIMczWMMlVy2fGb53sZehQ3cMnU8WjPDLs/9SAfdxiD
-         hujh2Drbl5nuAti2rOBdk2E1dzdU6PZ9a7E20Iet08WGeMShend1n58Yh6b3gMrwzpQV
-         mq6Q==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365FB1F95D
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Jul 2023 17:57:24 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-666eb03457cso4404598b3a.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 12 Jul 2023 10:57:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689184416; x=1691776416;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Jy7TMx25OOcOwHTgIEstLTCYZ1iR7it/Mc/2+XGG40M=;
-        b=CqZ+dFVB9Br3bfeIOOyVqzpCpyuD9FHxJhxcb34XSNVRmIC44e6QElklbbaTEYaRQG
-         /is/+DfjrbUvH2v68uYdc9qS3sYcqu6KpFlvBJ1IAJN14F7uJcy4no4nJLfzxoor5NLz
-         ZC2qSPCQkpXgFiTqcyIcJAsG8uu6k6x/tdVSxm7b0ZSzU/xoe9Hfjb4Nv+TCJkmWCXdZ
-         I7yYyjzVe733/XYJdyy7v9lgtIGsfDiETrHWzOCq/uuA9p8OSRRmpKV/Id52jytDucb9
-         g6dvuCmNp9EDfqC83GbC6MwsOfP99bfAro8AwTlmcyry+ryx/q7K5be9+Dnlcufnu/E0
-         MyZQ==
-X-Gm-Message-State: ABy/qLZ6tp0dDgCB3zc7EXHcR0Guh87688P0DpuMQk49GCs8TItMKy1w
-	3mrxVR47lB/a6uSKS9asfnI=
-X-Google-Smtp-Source: APBJJlGe4Oadz97d6MAqk6U26mnQpsHKnU2Pf6ColWhf9rdTpZ7fTGemU/U0qaeoXEhSrRE8pqouPQ==
-X-Received: by 2002:adf:e501:0:b0:314:2732:e81e with SMTP id j1-20020adfe501000000b003142732e81emr18810569wrm.8.1689184416024;
-        Wed, 12 Jul 2023 10:53:36 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id x6-20020a5d6506000000b003143b14848dsm5656142wru.102.2023.07.12.10.53.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jul 2023 10:53:35 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Linus Walleij <linus.walleij@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Mark Brown <broonie@kernel.org>
-Cc: linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Mark Brown <broonie@kernel.org>
-Subject:
- Re: [PATCH] pinctrl: sunxi: Add some defensiveness for regulators array
-Date: Wed, 12 Jul 2023 19:53:34 +0200
-Message-ID: <2688812.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20230712-pinctrl-sunxi-boudns-v1-1-85f37de79b9f@kernel.org>
-References: <20230712-pinctrl-sunxi-boudns-v1-1-85f37de79b9f@kernel.org>
+        d=1e100.net; s=20221208; t=1689184644; x=1691776644;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qxuOcBIWNZMHeehblHokbsTjPg+FYuoiZM6k4SdRa/E=;
+        b=cxcCwIPyzZ4qgKDW0VctV/PwmvJSO8ULM+V5gPu9nD0DNJLPYlYATUivL5iC3TQKrr
+         mNbjcaOIQ0Bxc63aZ+0xzNq3BdttdirIR6YxCuzf6P/e5OzrT+VHr31eZlgZyoDbyuPo
+         C0OtkafeD58d3trFvviKKu3/l8eRKD2wDc5A3IyaraWwJhrHHaxRYqd/8mIPaleYL/6F
+         S0JhmTHtxWgZD+zh3B/M1CAkAaYhNGe0kLYgIu2bJuFGfCm1/Jc5zxRyot5oAvarTmkh
+         sdRBOYO61RQoQrO9hcaF0thSw4RwHMwLs6zmhfcgIpPupryQ1oD4KxbQcLf9SxXs4lqg
+         gP+Q==
+X-Gm-Message-State: ABy/qLZcQ7148XJnqxCbt5WBByGaVUlvTecD8740i8vepHWyWpboSC/1
+	6QlVn6CfPS5opgxaADga6uoSIfBMqK0=
+X-Google-Smtp-Source: APBJJlEJ8DV97gqya1wNdZ1JSLE7uDazsFfcMPOat2uV8Maqk64vamgPVZXdcM8jTVzBxQcpVaOFGA==
+X-Received: by 2002:a05:6a00:a1e:b0:66f:578c:59fb with SMTP id p30-20020a056a000a1e00b0066f578c59fbmr19256768pfh.10.1689184643869;
+        Wed, 12 Jul 2023 10:57:23 -0700 (PDT)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com. [209.85.210.176])
+        by smtp.gmail.com with ESMTPSA id x13-20020aa784cd000000b00682a61fa525sm4004973pfn.91.2023.07.12.10.57.23
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Jul 2023 10:57:23 -0700 (PDT)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-666e5f0d60bso4386220b3a.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 12 Jul 2023 10:57:23 -0700 (PDT)
+X-Received: by 2002:a17:90b:1e05:b0:263:ba18:3bcc with SMTP id
+ pg5-20020a17090b1e0500b00263ba183bccmr14485877pjb.46.1689184643375; Wed, 12
+ Jul 2023 10:57:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20230712-pinctrl-sunxi-boudns-v1-1-85f37de79b9f@kernel.org>
+In-Reply-To: <20230712-pinctrl-sunxi-boudns-v1-1-85f37de79b9f@kernel.org>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Thu, 13 Jul 2023 01:57:11 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66ErOTdk0k+weHg6rsyOmsxUEiwRqCeBN3ERK0GmhO6iQ@mail.gmail.com>
+Message-ID: <CAGb2v66ErOTdk0k+weHg6rsyOmsxUEiwRqCeBN3ERK0GmhO6iQ@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: sunxi: Add some defensiveness for regulators array
+To: Mark Brown <broonie@kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, linux-gpio@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Dne sreda, 12. julij 2023 ob 19:19:59 CEST je Mark Brown napisal(a):
+On Thu, Jul 13, 2023 at 1:20=E2=80=AFAM Mark Brown <broonie@kernel.org> wro=
+te:
+>
 > The sunxi pinctrl has a fixed size array it uses to store regulators used
 > in the driver. There is currently nothing that ensures that the number of
-> elements in the array is large enough to map the regulators defined by the
-> individual SoCs. While this is currently the case having an explicit check
+> elements in the array is large enough to map the regulators defined by th=
+e
+> individual SoCs. While this is currently the case having an explicit chec=
+k
 > in there will make life easier for anyone debugging memory issues that
 > manifest in the driver so let's add one.
-> 
+>
 > Signed-off-by: Mark Brown <broonie@kernel.org>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Best regards,
-Jernej
-
-> ---
->  drivers/pinctrl/sunxi/pinctrl-sunxi.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> b/drivers/pinctrl/sunxi/pinctrl-sunxi.c index 1dc1882cbdd7..1d1cd3d6d379
-> 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> @@ -848,6 +848,9 @@ static int sunxi_pmx_request(struct pinctrl_dev
-> *pctldev, unsigned offset) char supply[16];
->  	int ret;
-> 
-> +	if (WARN_ON_ONCE(bank_offset >= ARRAY_SIZE(pctl->regulators)))
-> +		return -EINVAL;
-> +
->  	if (reg) {
->  		refcount_inc(&s_reg->refcount);
->  		return 0;
-> 
-> ---
-> base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
-> change-id: 20230711-pinctrl-sunxi-boudns-95bf5da3d075
-> 
-> Best regards,
-
-
-
-
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
