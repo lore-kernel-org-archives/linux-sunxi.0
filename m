@@ -1,86 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A3E200D6
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Jul 2023 11:47:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 419D5C433C8;
-	Wed, 12 Jul 2023 11:47:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689162464;
-	bh=MmDyn1rAtTKX49+lb+u+gcqGTH+0y12gnihcalWBBkY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=BInlGNRxi22YcYKoLBBL0iWHdsOgYLAyncWbHTg208cl14xmKKna6x+Uu1ZBcd2C5
-	 k61hPujabWgYNCY1H9MSsS9uL8E69wYAZyK1Q6lCL3T2xw9F7QzmWPC4PJmbpSAm4v
-	 sWvmDPdAlyaiMJ4Bf+DMG00PiTyX1Emowjls1/LH0OJb2DQ+j4mczEq5+wwif2ctdN
-	 32FvZBIpK7EHaCDwsuibwF0+0DCuVJqrxFqWcLeIaeED4QPs74fKieEQgfH0m+G6Zu
-	 zuPwFQmBEa5mnwaGnpM1NT3Jhz4s9ZkA4UOnG6veF4tKCNjyZigHSJHXcmjMjzCy20
-	 VwfFSwPs5CvOA==
-From: Mark Brown <broonie@kernel.org>
-To: linux-spi@vger.kernel.org, Maksim Kiselev <bigunclemax@gmail.com>
-Cc: Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
- devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20230624131632.2972546-1-bigunclemax@gmail.com>
-References: <20230624131632.2972546-1-bigunclemax@gmail.com>
-Subject: Re: (subset) [PATCH v1 0/3] Allwinner R329/D1/R528/T113s Dual/Quad
- SPI modes support
-Message-Id: <168916246098.47003.15457344630251001511.b4-ty@kernel.org>
-Date: Wed, 12 Jul 2023 12:47:40 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E2C1F959
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Jul 2023 12:06:33 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::225])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id D684FD30E0
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Jul 2023 11:55:06 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A21881C000B;
+	Wed, 12 Jul 2023 11:54:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1689162898;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UII/wsuuzjNZbpiAVeF6yDZcHsS9cuVB0V5RDHl93hA=;
+	b=jwaWI0SF7ZVsRx+L0joo3eYJtnmAqCUL2W8brhepKTSZTXHTvzeDDGoWe9ZiQsiMDUwf7t
+	hkFkCd5CO0qV7DbICAuhmh0+Uf08FN7I5YFKiEvtvnquH7CtW2B2KnKOBeP1Hq7jzhvmzA
+	316H3iefNRuN+nCWQY2l2T5BtUVu7Z6Smpt69xG9Z/yN2irBcGatyWeBzXLo1bqrlALgH6
+	s4tOCgd8K3mDSeojM7Ja/l/IcnCbxb39aVAxn366LEqokJ0Uea6mvUXij+l/n4uKeuFHM4
+	kyqMGliKSaKvuYYq2U+w16qkX7QNyEMYFsLBaK8GNLvj3QelxNM5d/FJGPwMOg==
+Date: Wed, 12 Jul 2023 13:54:55 +0200
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Yangtao Li <frank.li@vivo.com>
+Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra
+ <vigneshr@ti.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 01/18] mtd: rawnand: sunxi: Use
+ devm_platform_get_and_ioremap_resource()
+Message-ID: <20230712135455.71fbeb5f@xps-13>
+In-Reply-To: <20230707040622.78174-1-frank.li@vivo.com>
+References: <20230707040622.78174-1-frank.li@vivo.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-099c9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-On Sat, 24 Jun 2023 16:16:21 +0300, Maksim Kiselev wrote:
-> This series extends the previous https://lore.kernel.org/all/20230510081121.3463710-1-bigunclemax@gmail.com
-> And adds support for Dual and Quad SPI modes for the listed SoCs.
-> Both modes have been tested on the T113s and should work on
-> other Allwinner's SoCs that have a similar SPI conttoller.
-> It may also work for previous SoCs that support Dual/Quad modes.
-> One of them are H6 and H616.
-> 
-> [...]
+Hi Yangtao,
 
-Applied to
+frank.li@vivo.com wrote on Fri,  7 Jul 2023 12:06:05 +0800:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+> Convert platform_get_resource(), devm_ioremap_resource() to a single
+> call to devm_platform_get_and_ioremap_resource(), as this is exactly
+> what this function does.
+>=20
+> Signed-off-by: Yangtao Li <frank.li@vivo.com>
+> ---
+>  drivers/mtd/nand/raw/sunxi_nand.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sun=
+xi_nand.c
+> index 9884304634f6..db36bd755b8d 100644
+> --- a/drivers/mtd/nand/raw/sunxi_nand.c
+> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
+> @@ -2087,8 +2087,7 @@ static int sunxi_nfc_probe(struct platform_device *=
+pdev)
+>  	nand_controller_init(&nfc->controller);
+>  	INIT_LIST_HEAD(&nfc->chips);
+> =20
+> -	r =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -	nfc->regs =3D devm_ioremap_resource(dev, r);
+> +	nfc->regs =3D devm_platform_get_and_ioremap_resource(pdev, 0, &r);
 
-Thanks!
+Why do you keep a reference over the resource? Why not just
+devm_platform_ioremap_resource(pdev, 0) ?
 
-[1/3] spi: sun6i: add quirk for dual and quad SPI modes support
-      commit: 0605d9fb411f3337482976842a3901d6c125d298
-[2/3] spi: sun6i: add dual and quad SPI modes support for R329/D1/R528/T113s
-      commit: 25453d797d7abe8801951c8290ea11ea8bba7b96
+This comment is valid for almost all the cases in this series.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+When the resource is only needed in an error printk, I am also in favor
+of modifying the error message to avoid having to grab the resource.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+>  	if (IS_ERR(nfc->regs))
+>  		return PTR_ERR(nfc->regs);
+> =20
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+These comments apply to the 18 patches.
 
 Thanks,
-Mark
-
+Miqu=C3=A8l
