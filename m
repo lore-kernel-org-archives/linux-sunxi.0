@@ -1,281 +1,278 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F64ADDC4
-	for <linux-sunxi@lists.linux.dev>; Thu, 13 Jul 2023 09:03:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689239035; x=1720775035;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version:content-transfer-encoding;
-  bh=wpe6dsOBfDPS7D7Sq/hiKhbMpNSn/Y2A1D02VMmRxgw=;
-  b=nCC482jgclH2CTz6+8O714okx2RScR1uZ2aAY20lsHcei7XFzoS0RmBS
-   h5N0PTR8+GfYDCWQf5ysPxbzqCQZEFJi+wNxT1glQr5w2aPx5evHTAFAi
-   RP0U/ZTxT3zUpjpJFqkl6ovSYirIQDR2Z2Dy1mWNCSsgYgar9gDCOLrRm
-   N2wPAmMQsZfWXVQ7+mM0JQDNuoBBznXVebwm+HpNtMBWJ3FTQYzxoNAPS
-   /9qVkQNhtHpmq3IXBweM1YUcGUUOC/BwcEG+JrsXnPsakzPsZ2FCuc7un
-   YHqhkBTsB3xbg+FQsFEtpiwJPjWLdpdweVtTlmp4v9VEXRnjcnY3iGDNv
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="395935087"
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="395935087"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 02:03:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="715882508"
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="715882508"
-Received: from atadj-mobl1.amr.corp.intel.com (HELO localhost) ([10.252.50.30])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 02:03:08 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Xinliang Liu
- <xinliang.liu@linaro.org>, Tomi Valkeinen
- <tomi.valkeinen+renesas@ideasonboard.com>, Alexey Kodanev
- <aleksei.kodanev@bell-sw.com>, dri-devel@lists.freedesktop.org, Vandita
- Kulkarni <vandita.kulkarni@intel.com>, Alim Akhtar
- <alim.akhtar@samsung.com>, Anitha Chrisanthus
- <anitha.chrisanthus@intel.com>, Marijn Suijten
- <marijn.suijten@somainline.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Arun R Murthy <arun.r.murthy@intel.com>, Jerome Brunet
- <jbrunet@baylibre.com>, Liu Shixin <liushixin2@huawei.com>,
- linux-samsung-soc@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
- Matt Roper <matthew.d.roper@intel.com>, Wenjing Liu <wenjing.liu@amd.com>,
- Javier Martinez Canillas <javierm@redhat.com>, Stanislav Lisovskiy
- <stanislav.lisovskiy@intel.com>, Danilo Krummrich <dakr@redhat.com>, NXP
- Linux Team <linux-imx@nxp.com>, spice-devel@lists.freedesktop.org,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- linux-sunxi@lists.linux.dev, Stylon Wang <stylon.wang@amd.com>, Tim Huang
- <Tim.Huang@amd.com>, Suraj Kandpal <suraj.kandpal@intel.com>, =?utf-8?Q?A?=
- =?utf-8?Q?ndr=C3=A9?=
- Almeida <andrealmeid@igalia.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- Yifan Zhang <yifan1.zhang@amd.com>, Leo Li <sunpeng.li@amd.com>, Sascha
- Hauer <s.hauer@pengutronix.de>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Hersen Wu <hersenxs.wu@amd.com>, Jessica Zhang
- <quic_jesszhan@quicinc.com>, Kamlesh Gurudasani
- <kamlesh.gurudasani@gmail.com>, Bhawanpreet Lakha
- <Bhawanpreet.Lakha@amd.com>, =?utf-8?Q?=C5=81ukasz?= Bartosik
- <lb@semihalf.com>,
- Radhakrishna Sripada <radhakrishna.sripada@intel.com>, Andrew Jeffery
- <andrew@aj.id.au>, Seung-Woo Kim <sw0312.kim@samsung.com>, Noralf
- =?utf-8?Q?Tr=C3=B8nnes?=
- <noralf@tronnes.org>, kernel@pengutronix.de, Alex Deucher
- <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org, Claudiu
- Beznea <claudiu.beznea@microchip.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org, Mitul Golani
- <mitulkumar.ajitkumar.golani@intel.com>, =?utf-8?Q?Jos=C3=A9?= Roberto de
- Souza
- <jose.souza@intel.com>, virtualization@lists.linux-foundation.org, Thierry
- Reding <thierry.reding@gmail.com>, Yongqin Liu <yongqin.liu@linaro.org>,
- Mario Limonciello <mario.limonciello@amd.com>, Fei Yang
- <fei.yang@intel.com>, David Lechner <david@lechnology.com>, Juha-Pekka
- Heikkila <juhapekka.heikkila@gmail.com>, "Jiri Slaby (SUSE)"
- <jirislaby@kernel.org>, David Francis <David.Francis@amd.com>, Aaron Liu
- <aaron.liu@amd.com>, Vinod Polimera <quic_vpolimer@quicinc.com>,
- linux-rockchip@lists.infradead.org, Fangzhi Zuo <jerry.zuo@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, VMware Graphics Reviewers
- <linux-graphics-maintainer@vmware.com>, Ben Skeggs <bskeggs@redhat.com>,
- Jouni =?utf-8?Q?H=C3=B6gander?= <jouni.hogander@intel.com>, Dave Airlie
- <airlied@redhat.com>, linux-mips@vger.kernel.org, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Gurchetan Singh
- <gurchetansingh@chromium.org>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, linux-arm-msm@vger.kernel.org,
- Animesh Manna <animesh.manna@intel.com>,
- linux-renesas-soc@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>, Biju Das
- <biju.das.jz@bp.renesas.com>, linux-amlogic@lists.infradead.org, Evan Quan
- <evan.quan@amd.com>, Michal Simek <michal.simek@amd.com>,
- linux-arm-kernel@lists.infradead.org, Sean Paul <sean@poorly.run>, Neil
- Armstrong <neil.armstrong@linaro.org>, Kai Vehmanen
- <kai.vehmanen@linux.intel.com>, Boris Brezillon <bbrezillon@kernel.org>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Qingqing Zhuo
- <qingqing.zhuo@amd.com>, Sandy Huang <hjc@rock-chips.com>, Swati Sharma
- <swati2.sharma@intel.com>, John Stultz <jstultz@google.com>, Paul
- Kocialkowski <paul.kocialkowski@bootlin.com>, Kyungmin Park
- <kyungmin.park@samsung.com>, Drew Davenport <ddavenport@chromium.org>,
- Kevin Hilman <khilman@baylibre.com>, Hawking Zhang
- <Hawking.Zhang@amd.com>, Haneen Mohammed <hamohammed.sa@gmail.com>, Anusha
- Srivatsa <anusha.srivatsa@intel.com>, Dan Carpenter <error27@gmail.com>,
- Karol Herbst <kherbst@redhat.com>, linux-hyperv@vger.kernel.org, Melissa
- Wen <melissa.srw@gmail.com>, =?utf-8?Q?Ma=C3=ADra?= Canal
- <mairacanal@riseup.net>, Luca
- Coelho <luciano.coelho@intel.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Likun Gao <Likun.Gao@amd.com>, Sam Ravnborg
- <sam@ravnborg.org>, Alain Volmat <alain.volmat@foss.st.com>, Xinwei Kong
- <kong.kongxinwei@hisilicon.com>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Deepak Rawat <drawat.floss@gmail.com>, Chen-Yu
- Tsai <wens@csie.org>, Joel Stanley <joel@jms.id.au>, Ankit Nautiyal
- <ankit.k.nautiyal@intel.com>, Sumit Semwal <sumit.semwal@linaro.org>, Alan
- Liu <haoping.liu@amd.com>, Philip Yang <Philip.Yang@amd.com>,
- intel-gfx@lists.freedesktop.org, Alison Wang <alison.wang@nxp.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Gustavo Sousa <gustavo.sousa@intel.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Mikko Perttunen <mperttunen@nvidia.com>, Tvrtko
- Ursulin <tvrtko.ursulin@linux.intel.com>, Rodrigo Siqueira
- <rodrigosiqueiramelo@gmail.com>, Tomi Valkeinen <tomba@kernel.org>, Deepak
- R Varma <drv@mailo.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Tian Tao
- <tiantao6@hisilicon.com>, Shawn Guo <shawnguo@kernel.org>, Christian
- =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>, Khaled Almahallawy
- <khaled.almahallawy@intel.com>, linux-stm32@st-md-mailman.stormreply.com,
- Emma Anholt <emma@anholt.net>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Liviu Dudau <liviu.dudau@arm.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Roman Li <roman.li@amd.com>, Paul Cercueil
- <paul@crapouillou.net>, Hamza Mahfooz <hamza.mahfooz@amd.com>, Marek Vasut
- <marex@denx.de>, Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
- xen-devel@lists.xenproject.org, Guchun Chen <guchun.chen@amd.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>, Raphael
- Gallais-Pou <raphael.gallais-pou@foss.st.com>, Rodrigo Siqueira
- <Rodrigo.Siqueira@amd.com>, Russell King <linux@armlinux.org.uk>, Uma
- Shankar <uma.shankar@intel.com>, Mika Kahola <mika.kahola@intel.com>,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>, Srinivasan Shanmugam
- <srinivasan.shanmugam@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Vinod Govindapillai <vinod.govindapillai@intel.com>,
- linux-tegra@vger.kernel.org, Marek =?utf-8?B?T2zFocOhaw==?=
- <marek.olsak@amd.com>, =?utf-8?Q?Joaqu=C3=ADn?=
- Ignacio =?utf-8?Q?Aramend=C3=ADa?= <samsagax@gmail.com>, Melissa Wen
- <mwen@igalia.com>,
- Hans de Goede <hdegoede@redhat.com>, linux-mediatek@lists.infradead.org,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, David Tadokoro <davidbtadokoro@usp.br>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Orson Zhai <orsonzhai@gmail.com>, amd-gfx@lists.freedesktop.org, Jyri
- Sarha <jyri.sarha@iki.fi>, Yannick Fertre <yannick.fertre@foss.st.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, Philippe Cornu
- <philippe.cornu@foss.st.com>, Wayne Lin <Wayne.Lin@amd.com>, Dmitry
- Baryshkov <dmitry.baryshkov@linaro.org>, Nirmoy Das
- <nirmoy.das@intel.com>, Lang Yu <Lang.Yu@amd.com>
-Subject: Re: [PATCH RFC v1 00/52] drm/crtc: Rename struct drm_crtc::dev to
- drm_dev
-In-Reply-To: <20230712161025.22op3gtzgujrhytb@pengutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230712094702.1770121-1-u.kleine-koenig@pengutronix.de>
- <87fs5tgpvv.fsf@intel.com>
- <20230712161025.22op3gtzgujrhytb@pengutronix.de>
-Date: Thu, 13 Jul 2023 12:03:05 +0300
-Message-ID: <878rbkgp4m.fsf@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13DA0F9DA
+	for <linux-sunxi@lists.linux.dev>; Thu, 13 Jul 2023 09:30:13 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-57a8080e4a7so4387447b3.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 13 Jul 2023 02:30:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689240612; x=1691832612;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LHmbzhpkJKMYjCs3rLqCEOJxasGkKa4brFmr33oqUxc=;
+        b=g0X5wg2YgMQlApf3+BLinyr0dHp+qlSuStXCgAlIZHN72pDcwwNrvqr+YOVa4OzZD/
+         SdbSgOUsnR2X28LYrdAWREnFYof1K2eH3XCVuevqAWdwkCzC6N3yuyrxf2SSSdWXAQ7V
+         Aa/j3leD+KawsPuSdYmq1AQtqNzXLU0y1oPLKGbmdFuEq36ZHj8fHLldou3RQ0B3E104
+         OIulDEquF52c4C33/8IxBb+RkZ3UB0aAh+kEuroJGtKkpAQCQotCcTBf7dSU7ITb8gVJ
+         9fWzfwJeEb9uXP7FINgYE9J9TeqT1qQeWs5h0Dgjv6BQXoR3Pe5U6Z3q0Pq4Ktb0k6zO
+         of1g==
+X-Gm-Message-State: ABy/qLb8aVeXWS+wt7EbWwTab6lhS28gNDpffYYuLDBDu0Hujh2MFjff
+	dekpAQX7uCsgq/i0JWHamP5v1dPfJ8zJNuLY
+X-Google-Smtp-Source: APBJJlENgCCx2UyvKi5PY5pU+8WSiM0C1dxOtbuNvzBxuE0ZFUfL0zoL3sWDT3WVVWFKHIE/lfJKjA==
+X-Received: by 2002:a81:520e:0:b0:576:d65d:2802 with SMTP id g14-20020a81520e000000b00576d65d2802mr1288875ywb.3.1689240612545;
+        Thu, 13 Jul 2023 02:30:12 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id k63-20020a0dfa42000000b005773babc3cdsm1666598ywf.83.2023.07.13.02.30.11
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Jul 2023 02:30:11 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-c5ffb6cda23so467644276.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 13 Jul 2023 02:30:11 -0700 (PDT)
+X-Received: by 2002:a0d:ef46:0:b0:56e:1df1:dc58 with SMTP id
+ y67-20020a0def46000000b0056e1df1dc58mr1228415ywe.45.1689240610993; Thu, 13
+ Jul 2023 02:30:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20230712094702.1770121-1-u.kleine-koenig@pengutronix.de>
+ <87fs5tgpvv.fsf@intel.com> <20230712161025.22op3gtzgujrhytb@pengutronix.de> <878rbkgp4m.fsf@intel.com>
+In-Reply-To: <878rbkgp4m.fsf@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 13 Jul 2023 11:29:54 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV_CvSyF-dFpZwOkQ8PWXWphWxCm2Lwpx8ZXAfWDBafcQ@mail.gmail.com>
+Message-ID: <CAMuHMdV_CvSyF-dFpZwOkQ8PWXWphWxCm2Lwpx8ZXAfWDBafcQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v1 00/52] drm/crtc: Rename struct drm_crtc::dev to drm_dev
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Xinliang Liu <xinliang.liu@linaro.org>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Alexey Kodanev <aleksei.kodanev@bell-sw.com>, dri-devel@lists.freedesktop.org, 
+	Vandita Kulkarni <vandita.kulkarni@intel.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+	Marijn Suijten <marijn.suijten@somainline.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Arun R Murthy <arun.r.murthy@intel.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Liu Shixin <liushixin2@huawei.com>, linux-samsung-soc@vger.kernel.org, 
+	Samuel Holland <samuel@sholland.org>, Matt Roper <matthew.d.roper@intel.com>, 
+	Wenjing Liu <wenjing.liu@amd.com>, Javier Martinez Canillas <javierm@redhat.com>, 
+	Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>, Danilo Krummrich <dakr@redhat.com>, 
+	NXP Linux Team <linux-imx@nxp.com>, spice-devel@lists.freedesktop.org, 
+	Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>, linux-sunxi@lists.linux.dev, 
+	Stylon Wang <stylon.wang@amd.com>, Tim Huang <Tim.Huang@amd.com>, 
+	Suraj Kandpal <suraj.kandpal@intel.com>, =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+	Andi Shyti <andi.shyti@linux.intel.com>, Yifan Zhang <yifan1.zhang@amd.com>, 
+	Leo Li <sunpeng.li@amd.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Lucas De Marchi <lucas.demarchi@intel.com>, Hersen Wu <hersenxs.wu@amd.com>, 
+	Jessica Zhang <quic_jesszhan@quicinc.com>, 
+	Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>, 
+	Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>, =?UTF-8?Q?=C5=81ukasz_Bartosik?= <lb@semihalf.com>, 
+	Radhakrishna Sripada <radhakrishna.sripada@intel.com>, Andrew Jeffery <andrew@aj.id.au>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
+	kernel@pengutronix.de, Alex Deucher <alexander.deucher@amd.com>, 
+	freedreno@lists.freedesktop.org, 
+	Claudiu Beznea <claudiu.beznea@microchip.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-aspeed@lists.ozlabs.org, 
+	nouveau@lists.freedesktop.org, 
+	Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>, 
+	=?UTF-8?Q?Jos=C3=A9_Roberto_de_Souza?= <jose.souza@intel.com>, 
+	virtualization@lists.linux-foundation.org, 
+	Thierry Reding <thierry.reding@gmail.com>, Yongqin Liu <yongqin.liu@linaro.org>, 
+	Mario Limonciello <mario.limonciello@amd.com>, Fei Yang <fei.yang@intel.com>, 
+	David Lechner <david@lechnology.com>, Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>, 
+	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>, David Francis <David.Francis@amd.com>, 
+	Aaron Liu <aaron.liu@amd.com>, Vinod Polimera <quic_vpolimer@quicinc.com>, 
+	linux-rockchip@lists.infradead.org, Fangzhi Zuo <jerry.zuo@amd.com>, 
+	Aurabindo Pillai <aurabindo.pillai@amd.com>, 
+	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>, Ben Skeggs <bskeggs@redhat.com>, 
+	=?UTF-8?Q?Jouni_H=C3=B6gander?= <jouni.hogander@intel.com>, 
+	Dave Airlie <airlied@redhat.com>, linux-mips@vger.kernel.org, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Gurchetan Singh <gurchetansingh@chromium.org>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-arm-msm@vger.kernel.org, 
+	Animesh Manna <animesh.manna@intel.com>, linux-renesas-soc@vger.kernel.org, 
+	Maxime Ripard <mripard@kernel.org>, 
+	Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	linux-amlogic@lists.infradead.org, Evan Quan <evan.quan@amd.com>, 
+	Michal Simek <michal.simek@amd.com>, linux-arm-kernel@lists.infradead.org, 
+	Sean Paul <sean@poorly.run>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>, Boris Brezillon <bbrezillon@kernel.org>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Qingqing Zhuo <qingqing.zhuo@amd.com>, 
+	Sandy Huang <hjc@rock-chips.com>, Swati Sharma <swati2.sharma@intel.com>, 
+	John Stultz <jstultz@google.com>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Drew Davenport <ddavenport@chromium.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Hawking Zhang <Hawking.Zhang@amd.com>, 
+	Haneen Mohammed <hamohammed.sa@gmail.com>, Anusha Srivatsa <anusha.srivatsa@intel.com>, 
+	Dan Carpenter <error27@gmail.com>, Karol Herbst <kherbst@redhat.com>, linux-hyperv@vger.kernel.org, 
+	Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>, 
+	Luca Coelho <luciano.coelho@intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Likun Gao <Likun.Gao@amd.com>, Sam Ravnborg <sam@ravnborg.org>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Deepak Rawat <drawat.floss@gmail.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Joel Stanley <joel@jms.id.au>, 
+	Ankit Nautiyal <ankit.k.nautiyal@intel.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Alan Liu <haoping.liu@amd.com>, Philip Yang <Philip.Yang@amd.com>, 
+	intel-gfx@lists.freedesktop.org, Alison Wang <alison.wang@nxp.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Abhinav Kumar <quic_abhinavk@quicinc.com>, Gustavo Sousa <gustavo.sousa@intel.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, 
+	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Tomi Valkeinen <tomba@kernel.org>, 
+	Deepak R Varma <drv@mailo.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Tian Tao <tiantao6@hisilicon.com>, 
+	Shawn Guo <shawnguo@kernel.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Khaled Almahallawy <khaled.almahallawy@intel.com>, linux-stm32@st-md-mailman.stormreply.com, 
+	Emma Anholt <emma@anholt.net>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Liviu Dudau <liviu.dudau@arm.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Roman Li <roman.li@amd.com>, Paul Cercueil <paul@crapouillou.net>, 
+	Hamza Mahfooz <hamza.mahfooz@amd.com>, Marek Vasut <marex@denx.de>, 
+	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, xen-devel@lists.xenproject.org, 
+	Guchun Chen <guchun.chen@amd.com>, 
+	Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>, 
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+	Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Russell King <linux@armlinux.org.uk>, 
+	Uma Shankar <uma.shankar@intel.com>, Mika Kahola <mika.kahola@intel.com>, 
+	Jiasheng Jiang <jiasheng@iscas.ac.cn>, Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Vinod Govindapillai <vinod.govindapillai@intel.com>, 
+	linux-tegra@vger.kernel.org, =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>, 
+	=?UTF-8?Q?Joaqu=C3=ADn_Ignacio_Aramend=C3=ADa?= <samsagax@gmail.com>, 
+	Melissa Wen <mwen@igalia.com>, Hans de Goede <hdegoede@redhat.com>, 
+	linux-mediatek@lists.infradead.org, 
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	David Tadokoro <davidbtadokoro@usp.br>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Orson Zhai <orsonzhai@gmail.com>, 
+	amd-gfx@lists.freedesktop.org, Jyri Sarha <jyri.sarha@iki.fi>, 
+	Yannick Fertre <yannick.fertre@foss.st.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Philippe Cornu <philippe.cornu@foss.st.com>, Wayne Lin <Wayne.Lin@amd.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Nirmoy Das <nirmoy.das@intel.com>, 
+	Lang Yu <Lang.Yu@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 12 Jul 2023, Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>=
- wrote:
-> Hello Jani,
+Hi Jani,
+
+On Thu, Jul 13, 2023 at 11:03=E2=80=AFAM Jani Nikula <jani.nikula@intel.com=
+> wrote:
+> On Wed, 12 Jul 2023, Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.d=
+e> wrote:
+> > On Wed, Jul 12, 2023 at 05:34:28PM +0300, Jani Nikula wrote:
+> >> On Wed, 12 Jul 2023, Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutroni=
+x.de> wrote:
+> >> > while I debugged an issue in the imx-lcdc driver I was constantly
+> >> > irritated about struct drm_device pointer variables being named "dev=
+"
+> >> > because with that name I usually expect a struct device pointer.
+> >> >
+> >> > I think there is a big benefit when these are all renamed to "drm_de=
+v".
+> >> > I have no strong preference here though, so "drmdev" or "drm" are fi=
+ne
+> >> > for me, too. Let the bikesheding begin!
+> >> >
+> >> > Some statistics:
+> >> >
+> >> > $ git grep -ohE 'struct drm_device *\* *[^ (),;]*' v6.5-rc1 | sort |=
+ uniq -c | sort -n
+> >> >       1 struct drm_device *adev_to_drm
+> >> >       1 struct drm_device *drm_
+> >> >       1 struct drm_device          *drm_dev
+> >> >       1 struct drm_device        *drm_dev
+> >> >       1 struct drm_device *pdev
+> >> >       1 struct drm_device *rdev
+> >> >       1 struct drm_device *vdev
+> >> >       2 struct drm_device *dcss_drv_dev_to_drm
+> >> >       2 struct drm_device **ddev
+> >> >       2 struct drm_device *drm_dev_alloc
+> >> >       2 struct drm_device *mock
+> >> >       2 struct drm_device *p_ddev
+> >> >       5 struct drm_device *device
+> >> >       9 struct drm_device * dev
+> >> >      25 struct drm_device *d
+> >> >      95 struct drm_device *
+> >> >     216 struct drm_device *ddev
+> >> >     234 struct drm_device *drm_dev
+> >> >     611 struct drm_device *drm
+> >> >    4190 struct drm_device *dev
+> >> >
+> >> > This series starts with renaming struct drm_crtc::dev to drm_dev. If
+> >> > it's not only me and others like the result of this effort it should=
+ be
+> >> > followed up by adapting the other structs and the individual usages =
+in
+> >> > the different drivers.
+> >>
+> >> I think this is an unnecessary change. In drm, a dev is usually a drm
+> >> device, i.e. struct drm_device *.
+> >
+> > Well, unless it's not. Prominently there is
+> >
+> >       struct drm_device {
+> >               ...
+> >               struct device *dev;
+> >               ...
+> >       };
+> >
+> > which yields quite a few code locations using dev->dev which is
+> > IMHO unnecessary irritating:
+> >
+> >       $ git grep '\<dev->dev' v6.5-rc1 drivers/gpu/drm | wc -l
+> >       1633
+> >
+> > Also the functions that deal with both a struct device and a struct
+> > drm_device often use "dev" for the struct device and then "ddev" for
+> > the drm_device (see for example amdgpu_device_get_pcie_replay_count()).
 >
-> On Wed, Jul 12, 2023 at 05:34:28PM +0300, Jani Nikula wrote:
->> On Wed, 12 Jul 2023, Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.=
-de> wrote:
->> > Hello,
->> >
->> > while I debugged an issue in the imx-lcdc driver I was constantly
->> > irritated about struct drm_device pointer variables being named "dev"
->> > because with that name I usually expect a struct device pointer.
->> >
->> > I think there is a big benefit when these are all renamed to "drm_dev".
->> > I have no strong preference here though, so "drmdev" or "drm" are fine
->> > for me, too. Let the bikesheding begin!
->> >
->> > Some statistics:
->> >
->> > $ git grep -ohE 'struct drm_device *\* *[^ (),;]*' v6.5-rc1 | sort | u=
-niq -c | sort -n
->> >       1 struct drm_device *adev_to_drm
->> >       1 struct drm_device *drm_
->> >       1 struct drm_device          *drm_dev
->> >       1 struct drm_device        *drm_dev
->> >       1 struct drm_device *pdev
->> >       1 struct drm_device *rdev
->> >       1 struct drm_device *vdev
->> >       2 struct drm_device *dcss_drv_dev_to_drm
->> >       2 struct drm_device **ddev
->> >       2 struct drm_device *drm_dev_alloc
->> >       2 struct drm_device *mock
->> >       2 struct drm_device *p_ddev
->> >       5 struct drm_device *device
->> >       9 struct drm_device * dev
->> >      25 struct drm_device *d
->> >      95 struct drm_device *
->> >     216 struct drm_device *ddev
->> >     234 struct drm_device *drm_dev
->> >     611 struct drm_device *drm
->> >    4190 struct drm_device *dev
->> >
->> > This series starts with renaming struct drm_crtc::dev to drm_dev. If
->> > it's not only me and others like the result of this effort it should be
->> > followed up by adapting the other structs and the individual usages in
->> > the different drivers.
->>=20
->> I think this is an unnecessary change. In drm, a dev is usually a drm
->> device, i.e. struct drm_device *.
+> Why is specifically struct drm_device *dev so irritating to you?
 >
-> Well, unless it's not. Prominently there is
+> You lead us to believe it's an outlier in kernel, something that goes
+> against common kernel style, but it's really not:
 >
-> 	struct drm_device {
-> 		...
-> 		struct device *dev;
-> 		...
-> 	};
+> $ git grep -how "struct [A-Za-z0-9_]\+ \*dev" | sort | uniq -c | sort -rn=
+ | head -20
+>   38494 struct device *dev
+>   16388 struct net_device *dev
+>    4184 struct drm_device *dev
+>    2780 struct pci_dev *dev
+>    1916 struct comedi_device *dev
+>    1510 struct mlx5_core_dev *dev
+>    1057 struct mlx4_dev *dev
+>     894 struct b43_wldev *dev
+>     762 struct input_dev *dev
+>     623 struct usbnet *dev
+>     561 struct mlx5_ib_dev *dev
+>     525 struct mt76_dev *dev
+>     465 struct mt76x02_dev *dev
+>     435 struct platform_device *dev
+>     431 struct usb_device *dev
+>     411 struct mt7915_dev *dev
+>     398 struct cx231xx *dev
+>     378 struct mei_device *dev
+>     363 struct ksz_device *dev
+>     359 struct mthca_dev *dev
 >
-> which yields quite a few code locations using dev->dev which is
-> IMHO unnecessary irritating:
->
-> 	$ git grep '\<dev->dev' v6.5-rc1 drivers/gpu/drm | wc -l
-> 	1633
->
-> Also the functions that deal with both a struct device and a struct
-> drm_device often use "dev" for the struct device and then "ddev" for
-> the drm_device (see for example amdgpu_device_get_pcie_replay_count()).
+> A good portion of the above also have a dev member.
 
-Why is specifically struct drm_device *dev so irritating to you?
+Not all of them access both the foo_device and the device pointers.
 
-You lead us to believe it's an outlier in kernel, something that goes
-against common kernel style, but it's really not:
+Let's put the number of 435 platform_device pointers named "dev"
+into perspective:
 
-$ git grep -how "struct [A-Za-z0-9_]\+ \*dev" | sort | uniq -c | sort -rn |=
- head -20
-  38494 struct device *dev
-  16388 struct net_device *dev
-   4184 struct drm_device *dev
-   2780 struct pci_dev *dev
-   1916 struct comedi_device *dev
-   1510 struct mlx5_core_dev *dev
-   1057 struct mlx4_dev *dev
-    894 struct b43_wldev *dev
-    762 struct input_dev *dev
-    623 struct usbnet *dev
-    561 struct mlx5_ib_dev *dev
-    525 struct mt76_dev *dev
-    465 struct mt76x02_dev *dev
-    435 struct platform_device *dev
-    431 struct usb_device *dev
-    411 struct mt7915_dev *dev
-    398 struct cx231xx *dev
-    378 struct mei_device *dev
-    363 struct ksz_device *dev
-    359 struct mthca_dev *dev
+    10095 struct platform_device *pdev
 
-A good portion of the above also have a dev member.
+Gr{oetje,eeting}s,
 
-Are you planning on changing all of the above too, or are you only
-annoyed by drm?
-
-I'm really not convinced at all.
-
-
-BR,
-Jani.
-
+                        Geert
 
 --=20
-Jani Nikula, Intel Open Source Graphics Center
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
