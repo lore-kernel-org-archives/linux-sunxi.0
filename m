@@ -1,89 +1,106 @@
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C98815AC4
-	for <linux-sunxi@lists.linux.dev>; Fri, 14 Jul 2023 17:52:21 +0000 (UTC)
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-345d3c10bdfso9639255ab.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 14 Jul 2023 10:52:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A2415ADB
+	for <linux-sunxi@lists.linux.dev>; Fri, 14 Jul 2023 18:10:46 +0000 (UTC)
+Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-346129c9512so4978585ab.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 14 Jul 2023 11:10:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ieee.org; s=google; t=1689358246; x=1691950246;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ElBmMm1ZevyAKtumVID4tVMI+TD8QnK9EnzezYAZC1A=;
+        b=Mpdbmrnz6XIJWmlHQJGoTmuC7D53w+ptxGvR1qzM5rcUr2yuAkawf06rjkPYMTBpFq
+         l6MjPg1ZjnoCWgc8pvFZw+blKr4qxg2V0sQF1H0WVPdY6+DHII+TihuXYaBMer6Ieai0
+         olDYpMIpFkabUds26CFLUeHKHqIZFPDKt93i0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689357140; x=1691949140;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QClPpmwO/HygdGxUVkymGnsqhcX8BPsEQP+ZwgNTHR4=;
-        b=SdOXqKCpZWEFEtKppMJU9UFn98MNqD5egTPA6QIsqQx/cPY0wBVzFmeEwpdReNk04n
-         Bee4zj3rzR4NlzZqLoE3Wo8bo+fNUJAw1N7NcF/Ay3y92iLqrviUo4hoNRIMkoKGqPGQ
-         RFwJz1plNgXgnVXd4o+OLa8+fQpBGAa46fz5P7TAJ7Fi9+8ZQbPzLnt5M3cZ8U/i7KmM
-         k6T5iTJSMf+zafL+N/pC9EEkbqAyyV3pDEEqXsGX13LoX0QkynlAlhStNUmsE8F/PLIw
-         G+D5LxsCxJR1mas6qPhMnhO8OKPGlF6RMn7UcVFrEPh2CTRpDutRnvE/rEXY+kuisNpK
-         cpug==
-X-Gm-Message-State: ABy/qLbE/qBnZuMZ7HP0Qu1EvIsWlYuLBlsAxRGgecKC5YnplEdYksLs
-	yciPs/DN8oQj76YGIwO7EmerpaklaFZw
-X-Google-Smtp-Source: APBJJlEvmL5NlRfRa0C6Y6D6PT9e8Y80cl3usL+VRWP5Up+KiFH8kjMIsYgswwlSCtRa44TIyZTbIQ==
-X-Received: by 2002:a05:6e02:80c:b0:340:79ff:c1b6 with SMTP id u12-20020a056e02080c00b0034079ffc1b6mr5166464ilm.4.1689357140597;
-        Fri, 14 Jul 2023 10:52:20 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id m22-20020a02c896000000b0042b56b57a50sm2614585jao.171.2023.07.14.10.52.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 10:52:19 -0700 (PDT)
-Received: (nullmailer pid 4068370 invoked by uid 1000);
-	Fri, 14 Jul 2023 17:51:54 -0000
-From: Rob Herring <robh@kernel.org>
-To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] soc: sunxi: Explicitly include correct DT includes
-Date: Fri, 14 Jul 2023 11:51:51 -0600
-Message-Id: <20230714175152.4068286-1-robh@kernel.org>
-X-Mailer: git-send-email 2.40.1
+        d=1e100.net; s=20221208; t=1689358246; x=1691950246;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ElBmMm1ZevyAKtumVID4tVMI+TD8QnK9EnzezYAZC1A=;
+        b=KDa6ye1rnX02VC9aKsM2eFqHuYukpYpZyN5K/AJY6PXlqJ6cdrZaFsVVvX7W/tsHxb
+         5s5OouyRPtJ1dKwY/xzS7NKbQo2CepxtYsRjLKMFNUDCt4gf6LbvrFAhU6ipuW9Q0OVV
+         hbQZLuB5OGGhkFpE5rdvAyT1j9K1hMY/Brz5+wZdJ/eWMTqGQhonNyXAmvtlAQn4wOBz
+         gPocWiIKR5GHIaiPxfubbEQUKK/WDYvwW9zu8f5vUkbbo2EWLBixuUyyPbQK/VT72VtV
+         RoMfHEZt/UvjVanLAajx+iAgmISLaHreXIEXQh9VXdER7Cb+U9OxXf0vPg3ZjF9TTFBP
+         xEPQ==
+X-Gm-Message-State: ABy/qLYjW2HWJkVG1gSUsjGfKFSI0yQ1JReRdEO8LcrKlEwUPoFxdZm7
+	uUHw+aPzhpnQTb4y5Nz1uJCDiw==
+X-Google-Smtp-Source: APBJJlGUGWVq3dRmIhivYzT09y1C8kNKMoIaBZuLBrLyn6F4EFbPgbam3zAfvH0LyeRyezDMUEgn+A==
+X-Received: by 2002:a05:6e02:221e:b0:346:bf9:76fb with SMTP id j30-20020a056e02221e00b003460bf976fbmr2505344ilf.6.1689358246007;
+        Fri, 14 Jul 2023 11:10:46 -0700 (PDT)
+Received: from [172.22.22.28] (c-98-61-227-136.hsd1.mn.comcast.net. [98.61.227.136])
+        by smtp.googlemail.com with ESMTPSA id ee14-20020a056638292e00b0042ad6abe0bbsm2820039jab.20.2023.07.14.11.10.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Jul 2023 11:10:44 -0700 (PDT)
+Message-ID: <2af8ba3f-566a-756e-48bf-3e723bc713da@ieee.org>
+Date: Fri, 14 Jul 2023 13:10:42 -0500
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [greybus-dev] [PATCH] staging: Explicitly include correct DT
+ includes
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Vaibhav Hiremath <hvaibhav.linux@gmail.com>, Johan Hovold
+ <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ Steve Longerbeam <slongerbeam@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+ Christian Gromm <christian.gromm@microchip.com>
+Cc: devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org,
+ linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org
+References: <20230714175002.4064428-1-robh@kernel.org>
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <20230714175002.4064428-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The DT of_device.h and of_platform.h date back to the separate
-of_platform_bus_type before it as merged into the regular platform bus.
-As part of that merge prepping Arm DT support 13 years ago, they
-"temporarily" include each other. They also include platform_device.h
-and of.h. As a result, there's a pretty much random mix of those include
-files used throughout the tree. In order to detangle these headers and
-replace the implicit includes with struct declarations, users need to
-explicitly include the correct includes.
+On 7/14/23 12:50 PM, Rob Herring wrote:
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- drivers/soc/sunxi/sun20i-ppu.c | 2 +-
- drivers/soc/sunxi/sunxi_sram.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+For drivers/staging/greybus/arche-platform.c:
 
-diff --git a/drivers/soc/sunxi/sun20i-ppu.c b/drivers/soc/sunxi/sun20i-ppu.c
-index 98cb41d36560..8700f9dd5f75 100644
---- a/drivers/soc/sunxi/sun20i-ppu.c
-+++ b/drivers/soc/sunxi/sun20i-ppu.c
-@@ -5,7 +5,7 @@
- #include <linux/io.h>
- #include <linux/iopoll.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/pm_domain.h>
- #include <linux/reset.h>
-diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
-index 4c4864cd2342..4458b2e0562b 100644
---- a/drivers/soc/sunxi/sunxi_sram.c
-+++ b/drivers/soc/sunxi/sunxi_sram.c
-@@ -15,7 +15,7 @@
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_address.h>
--#include <linux/of_device.h>
-+#include <linux/of_platform.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
- 
--- 
-2.40.1
+Acked-by: Alex Elder <elder@linaro.org>
+
+> ---
+>   drivers/staging/axis-fifo/axis-fifo.c             | 6 ++----
+>   drivers/staging/greybus/arche-platform.c          | 1 +
+
+. . .
 
