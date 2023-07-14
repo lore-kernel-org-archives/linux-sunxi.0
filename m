@@ -1,55 +1,59 @@
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3075114A83
-	for <linux-sunxi@lists.linux.dev>; Fri, 14 Jul 2023 17:44:29 +0000 (UTC)
-Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3460b67fdd8so9343325ab.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 14 Jul 2023 10:44:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC9A14A83;
+	Fri, 14 Jul 2023 17:44:39 +0000 (UTC)
+Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-7836164a08aso89038139f.1;
+        Fri, 14 Jul 2023 10:44:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689356669; x=1691948669;
+        d=1e100.net; s=20221208; t=1689356678; x=1691948678;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uA1OYKFmaVAkjUwcQSHH/nc3mV03LI4EOQPprk91MGE=;
-        b=EOSUC8CRuTjY/5UKbiW7qBXv5EbaXJXr7+vLeMVEnIhdKrxuOSJ2O5FqsBtvt7XHCu
-         KpZkEHlNIlL1z2vjGfyw/A260EQLtdmRecQypVmO21o6CSMQg8ALE1spPO0YeBwW3Atw
-         iB2f416H6rAnUhl5hTx0aYHrtiKHL3csBaa6myW/QK0Dj5updDRIbJV2CdY25H1e2m2m
-         VlRomFtT/ElLanfum7cSluH3JW3Pmq31DjFasNk3DVE6rtgBNshZq0wbeIJaLhwicnQP
-         zwBm6kUSY2/zHzwMEIV/3rgYHnSdE3J74YDZ9oYWqaVSoYZbkSX7yQbTSzo6f+pqBTvK
-         BBHg==
-X-Gm-Message-State: ABy/qLZ0fNKQk5jG+zRjYL0xD7/SJwyYlbIMzDvZGbxM56QtfwxPMSjZ
-	9jNoZ2hi8hsZwlt5wL/3kw==
-X-Google-Smtp-Source: APBJJlHTvt8AFSieKPae/Uq7zm6T5QR1KnB7bwBj9DaC1zGZaOUrIWxIW1kn21lsgNgas84mxR3JUA==
-X-Received: by 2002:a92:c906:0:b0:345:c8d4:1147 with SMTP id t6-20020a92c906000000b00345c8d41147mr5141835ilp.16.1689356668888;
-        Fri, 14 Jul 2023 10:44:28 -0700 (PDT)
+        bh=VtjcGGt85IZMCa+mEEA7O0gZ6wqolQXg/0SyxtwNezE=;
+        b=Ibm/p3GoREbcGk3+5W5tzCu/x1Mb/+j+Gm/yG5TDfABwVw9ZcVKPR2wshFrGoGe7WG
+         yG7OgK4jJ3dJcyl7ybIjTFSLOQF3/QX8GZCm3ZuOYQE4VVUwz668OhQaFeYdooQ/GQ66
+         FhXPx2WR+9e3VRkznzGX5IEUqcUTSg/ZaXlZ8GnEe603ykJdU8cKMRq/LacJ09Hd9u8Q
+         DdLTqUq7qwhfO+MxKubQkZ+6MhgyNiapKF1dVRlQVvMpzmr9GmwnmMtgCDM+fkrwcvDh
+         +I4nLjUqOhJwuENba9+BAFO7uCPnIAENnfcMsT/DXZAuOevJJYDWSN0k4cAbQErZAL//
+         wYiA==
+X-Gm-Message-State: ABy/qLZFkGEuwOjxHyAFUUjHMdtH8HOr4pg5854QT6CzSggBi6qXKsJF
+	4R8YjOCLc99uVdfy2RC3DQ==
+X-Google-Smtp-Source: APBJJlGQtIflGF1mT3Lwdz2E7oxJQCR+E1W9CJR407r7zma02hoqOmUhTsVE3Jg4rsZdBeQyxbHKsQ==
+X-Received: by 2002:a6b:902:0:b0:786:98bd:66d4 with SMTP id t2-20020a6b0902000000b0078698bd66d4mr5912011ioi.15.1689356678173;
+        Fri, 14 Jul 2023 10:44:38 -0700 (PDT)
 Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id c3-20020a92d3c3000000b003460b456030sm2903667ilh.60.2023.07.14.10.44.25
+        by smtp.gmail.com with ESMTPSA id m17-20020a02cdd1000000b0042bc199556dsm2811774jap.21.2023.07.14.10.44.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 10:44:28 -0700 (PDT)
-Received: (nullmailer pid 4054349 invoked by uid 1000);
-	Fri, 14 Jul 2023 17:44:25 -0000
+        Fri, 14 Jul 2023 10:44:37 -0700 (PDT)
+Received: (nullmailer pid 4054684 invoked by uid 1000);
+	Fri, 14 Jul 2023 17:44:33 -0000
 From: Rob Herring <robh@kernel.org>
-To: Corentin Labbe <clabbe.montjoie@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, Chen-Yu Tsai <wens@csie.org>, 
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Vinod Koul <vkoul@kernel.org>, 
+	Ludovic Desroches <ludovic.desroches@microchip.com>, Tudor Ambarus <tudor.ambarus@linaro.org>, 
+	Paul Cercueil <paul@crapouillou.net>, Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, 
+	Viresh Kumar <vireshk@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Li Yang <leoyang.li@nxp.com>, Zhang Wei <zw@zh-kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Sean Wang <sean.wang@mediatek.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Sinan Kaya <okaya@kernel.org>, Andy Gross <agross@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, 
 	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Neal Liu <neal_liu@aspeedtech.com>, Joel Stanley <joel@jms.id.au>, 
-	Andrew Jeffery <andrew@aj.id.au>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Claudiu Beznea <claudiu.beznea@microchip.com>, Tudor Ambarus <tudor.ambarus@linaro.org>, 
-	=?UTF-8?Q?Horia_Geant=C4=83?= <horia.geanta@nxp.com>, 
-	Pankaj Gupta <pankaj.gupta@nxp.com>, Gaurav Jain <gaurav.jain@nxp.com>, 
-	Gilad Ben-Yossef <gilad@benyossef.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Hans Ulli Kroll <ulli.kroll@googlemail.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, 
-	Daniele Alessandrelli <daniele.alessandrelli@intel.com>, Declan Murphy <declan.murphy@intel.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Vladimir Zapolskiy <vz@mleia.com>, Jia Jie Ho <jiajie.ho@starfivetech.com>, 
-	William Qiu <william.qiu@starfivetech.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Michal Simek <michal.simek@amd.com>, 
-	Harsha <harsha.harsha@amd.com>
-Cc: devicetree@vger.kernel.org, linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-aspeed@lists.ozlabs.org, linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH] crypto: Explicitly include correct DT includes
-Date: Fri, 14 Jul 2023 11:44:18 -0600
-Message-Id: <20230714174421.4054194-1-robh@kernel.org>
+	Laxman Dewangan <ldewangan@nvidia.com>, Jon Hunter <jonathanh@nvidia.com>, 
+	Thierry Reding <thierry.reding@gmail.com>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
+	Michal Simek <michal.simek@amd.com>
+Cc: devicetree@vger.kernel.org, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-mediatek@lists.infradead.org, linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
+Subject: [PATCH] dmaengine: Explicitly include correct DT includes
+Date: Fri, 14 Jul 2023 11:44:28 -0600
+Message-Id: <20230714174430.4054533-1-robh@kernel.org>
 X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -70,542 +74,599 @@ explicitly include the correct includes.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c   | 1 -
- drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c   | 1 -
- drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c   | 1 -
- drivers/crypto/amlogic/amlogic-gxl-core.c           | 1 -
- drivers/crypto/aspeed/aspeed-acry.c                 | 3 ---
- drivers/crypto/atmel-aes.c                          | 6 ++----
- drivers/crypto/atmel-ecc.c                          | 2 +-
- drivers/crypto/atmel-sha.c                          | 6 ++----
- drivers/crypto/atmel-tdes.c                         | 6 ++----
- drivers/crypto/bcm/cipher.c                         | 3 +--
- drivers/crypto/caam/ctrl.c                          | 1 +
- drivers/crypto/caam/jr.c                            | 1 +
- drivers/crypto/caam/qi.c                            | 1 +
- drivers/crypto/ccree/cc_driver.c                    | 1 -
- drivers/crypto/exynos-rng.c                         | 2 +-
- drivers/crypto/gemini/sl3516-ce-core.c              | 1 -
- drivers/crypto/img-hash.c                           | 4 ++--
- drivers/crypto/intel/keembay/keembay-ocs-hcu-core.c | 3 ++-
- drivers/crypto/n2_core.c                            | 2 +-
- drivers/crypto/omap-aes.c                           | 1 -
- drivers/crypto/omap-des.c                           | 2 --
- drivers/crypto/omap-sham.c                          | 1 -
- drivers/crypto/rockchip/rk3288_crypto.c             | 1 -
- drivers/crypto/s5p-sss.c                            | 1 -
- drivers/crypto/sa2ul.c                              | 3 ++-
- drivers/crypto/sahara.c                             | 1 -
- drivers/crypto/starfive/jh7110-cryp.c               | 2 +-
- drivers/crypto/starfive/jh7110-hash.c               | 1 -
- drivers/crypto/stm32/stm32-cryp.c                   | 2 +-
- drivers/crypto/stm32/stm32-hash.c                   | 2 +-
- drivers/crypto/talitos.c                            | 4 ++--
- drivers/crypto/xilinx/zynqmp-aes-gcm.c              | 2 +-
- drivers/crypto/xilinx/zynqmp-sha.c                  | 1 -
- 33 files changed, 25 insertions(+), 45 deletions(-)
+ drivers/dma/apple-admac.c                      | 3 ++-
+ drivers/dma/at_hdmac.c                         | 2 +-
+ drivers/dma/bcm-sba-raid.c                     | 4 +++-
+ drivers/dma/bestcomm/bestcomm.c                | 4 +---
+ drivers/dma/dma-jz4780.c                       | 1 -
+ drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c | 1 -
+ drivers/dma/dw/rzn1-dmamux.c                   | 4 +++-
+ drivers/dma/fsl-qdma.c                         | 4 ++--
+ drivers/dma/fsl_raid.c                         | 3 ++-
+ drivers/dma/fsldma.c                           | 3 ++-
+ drivers/dma/img-mdc-dma.c                      | 1 -
+ drivers/dma/imx-dma.c                          | 2 +-
+ drivers/dma/imx-sdma.c                         | 1 -
+ drivers/dma/lpc18xx-dmamux.c                   | 4 +++-
+ drivers/dma/mediatek/mtk-cqdma.c               | 1 -
+ drivers/dma/mediatek/mtk-hsdma.c               | 1 -
+ drivers/dma/mediatek/mtk-uart-apdma.c          | 1 -
+ drivers/dma/mpc512x_dma.c                      | 4 ++--
+ drivers/dma/mxs-dma.c                          | 1 -
+ drivers/dma/nbpfaxi.c                          | 1 -
+ drivers/dma/owl-dma.c                          | 3 ++-
+ drivers/dma/ppc4xx/adma.c                      | 2 +-
+ drivers/dma/qcom/hidma.c                       | 2 +-
+ drivers/dma/sh/shdmac.c                        | 1 -
+ drivers/dma/sprd-dma.c                         | 2 +-
+ drivers/dma/stm32-dmamux.c                     | 4 +++-
+ drivers/dma/stm32-mdma.c                       | 1 -
+ drivers/dma/sun6i-dma.c                        | 2 +-
+ drivers/dma/tegra186-gpc-dma.c                 | 2 +-
+ drivers/dma/tegra20-apb-dma.c                  | 1 -
+ drivers/dma/tegra210-adma.c                    | 3 ++-
+ drivers/dma/ti/dma-crossbar.c                  | 5 +++--
+ drivers/dma/ti/edma.c                          | 1 -
+ drivers/dma/ti/k3-udma-private.c               | 2 ++
+ drivers/dma/ti/k3-udma.c                       | 1 -
+ drivers/dma/ti/omap-dma.c                      | 2 +-
+ drivers/dma/xgene-dma.c                        | 3 ++-
+ drivers/dma/xilinx/xilinx_dma.c                | 4 ++--
+ drivers/dma/xilinx/zynqmp_dma.c                | 3 ++-
+ 39 files changed, 46 insertions(+), 44 deletions(-)
 
-diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
-index 51a3a7b5b985..3bcfcfc37084 100644
---- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
-+++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-core.c
-@@ -14,7 +14,6 @@
- #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <crypto/scatterwalk.h>
- #include <linux/scatterlist.h>
-diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-index 07ea0cc82b16..258d447765eb 100644
---- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-+++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-@@ -18,7 +18,6 @@
- #include <linux/irq.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/reset.h>
-diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-index 3dd844b40ff7..77bddd5ebaf0 100644
---- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-+++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-@@ -19,7 +19,6 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/reset.h>
-diff --git a/drivers/crypto/amlogic/amlogic-gxl-core.c b/drivers/crypto/amlogic/amlogic-gxl-core.c
-index 937187027ad5..c8fa4a8bfd34 100644
---- a/drivers/crypto/amlogic/amlogic-gxl-core.c
-+++ b/drivers/crypto/amlogic/amlogic-gxl-core.c
-@@ -13,7 +13,6 @@
- #include <linux/irq.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <crypto/internal/skcipher.h>
- #include <linux/dma-mapping.h>
-diff --git a/drivers/crypto/aspeed/aspeed-acry.c b/drivers/crypto/aspeed/aspeed-acry.c
-index 470122c87fea..d16f570c40d2 100644
---- a/drivers/crypto/aspeed/aspeed-acry.c
-+++ b/drivers/crypto/aspeed/aspeed-acry.c
-@@ -11,10 +11,7 @@
- #include <linux/clk.h>
- #include <linux/platform_device.h>
- #include <linux/module.h>
--#include <linux/of_address.h>
--#include <linux/of_irq.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/mfd/syscon.h>
- #include <linux/interrupt.h>
- #include <linux/count_zeros.h>
-diff --git a/drivers/crypto/atmel-aes.c b/drivers/crypto/atmel-aes.c
-index 143d33fbb316..21c8c2112c6a 100644
---- a/drivers/crypto/atmel-aes.c
-+++ b/drivers/crypto/atmel-aes.c
-@@ -28,7 +28,7 @@
- #include <linux/irq.h>
- #include <linux/scatterlist.h>
- #include <linux/dma-mapping.h>
--#include <linux/of_device.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/delay.h>
- #include <linux/crypto.h>
- #include <crypto/scatterwalk.h>
-@@ -2533,13 +2533,11 @@ static void atmel_aes_get_cap(struct atmel_aes_dev *dd)
- 	}
- }
- 
--#if defined(CONFIG_OF)
- static const struct of_device_id atmel_aes_dt_ids[] = {
- 	{ .compatible = "atmel,at91sam9g46-aes" },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, atmel_aes_dt_ids);
--#endif
- 
- static int atmel_aes_probe(struct platform_device *pdev)
- {
-@@ -2687,7 +2685,7 @@ static struct platform_driver atmel_aes_driver = {
- 	.remove		= atmel_aes_remove,
- 	.driver		= {
- 		.name	= "atmel_aes",
--		.of_match_table = of_match_ptr(atmel_aes_dt_ids),
-+		.of_match_table = atmel_aes_dt_ids,
- 	},
- };
- 
-diff --git a/drivers/crypto/atmel-ecc.c b/drivers/crypto/atmel-ecc.c
-index 432beabd79e6..590ea984c622 100644
---- a/drivers/crypto/atmel-ecc.c
-+++ b/drivers/crypto/atmel-ecc.c
-@@ -14,7 +14,7 @@
- #include <linux/init.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/scatterlist.h>
- #include <linux/slab.h>
- #include <linux/workqueue.h>
-diff --git a/drivers/crypto/atmel-sha.c b/drivers/crypto/atmel-sha.c
-index 6bef634d3c86..b791be63d84b 100644
---- a/drivers/crypto/atmel-sha.c
-+++ b/drivers/crypto/atmel-sha.c
-@@ -28,7 +28,7 @@
- #include <linux/irq.h>
- #include <linux/scatterlist.h>
- #include <linux/dma-mapping.h>
--#include <linux/of_device.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/delay.h>
- #include <linux/crypto.h>
- #include <crypto/scatterwalk.h>
-@@ -2570,14 +2570,12 @@ static void atmel_sha_get_cap(struct atmel_sha_dev *dd)
- 	}
- }
- 
--#if defined(CONFIG_OF)
- static const struct of_device_id atmel_sha_dt_ids[] = {
- 	{ .compatible = "atmel,at91sam9g46-sha" },
- 	{ /* sentinel */ }
- };
- 
- MODULE_DEVICE_TABLE(of, atmel_sha_dt_ids);
--#endif
- 
- static int atmel_sha_probe(struct platform_device *pdev)
- {
-@@ -2716,7 +2714,7 @@ static struct platform_driver atmel_sha_driver = {
- 	.remove		= atmel_sha_remove,
- 	.driver		= {
- 		.name	= "atmel_sha",
--		.of_match_table	= of_match_ptr(atmel_sha_dt_ids),
-+		.of_match_table	= atmel_sha_dt_ids,
- 	},
- };
- 
-diff --git a/drivers/crypto/atmel-tdes.c b/drivers/crypto/atmel-tdes.c
-index c9ded8be9c39..2f152f80f61a 100644
---- a/drivers/crypto/atmel-tdes.c
-+++ b/drivers/crypto/atmel-tdes.c
-@@ -28,7 +28,7 @@
- #include <linux/irq.h>
- #include <linux/scatterlist.h>
- #include <linux/dma-mapping.h>
--#include <linux/of_device.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/delay.h>
- #include <linux/crypto.h>
- #include <crypto/scatterwalk.h>
-@@ -1139,13 +1139,11 @@ static void atmel_tdes_get_cap(struct atmel_tdes_dev *dd)
- 	}
- }
- 
--#if defined(CONFIG_OF)
- static const struct of_device_id atmel_tdes_dt_ids[] = {
- 	{ .compatible = "atmel,at91sam9g46-tdes" },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, atmel_tdes_dt_ids);
--#endif
- 
- static int atmel_tdes_probe(struct platform_device *pdev)
- {
-@@ -1282,7 +1280,7 @@ static struct platform_driver atmel_tdes_driver = {
- 	.remove		= atmel_tdes_remove,
- 	.driver		= {
- 		.name	= "atmel_tdes",
--		.of_match_table = of_match_ptr(atmel_tdes_dt_ids),
-+		.of_match_table = atmel_tdes_dt_ids,
- 	},
- };
- 
-diff --git a/drivers/crypto/bcm/cipher.c b/drivers/crypto/bcm/cipher.c
-index 70b911baab26..262c7dbc5e5f 100644
---- a/drivers/crypto/bcm/cipher.c
-+++ b/drivers/crypto/bcm/cipher.c
-@@ -15,8 +15,7 @@
- #include <linux/kthread.h>
- #include <linux/rtnetlink.h>
- #include <linux/sched.h>
--#include <linux/of_address.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/io.h>
- #include <linux/bitops.h>
- 
-diff --git a/drivers/crypto/caam/ctrl.c b/drivers/crypto/caam/ctrl.c
-index ff9ddbbca377..74bcd3083881 100644
---- a/drivers/crypto/caam/ctrl.c
-+++ b/drivers/crypto/caam/ctrl.c
-@@ -9,6 +9,7 @@
+diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
+index 4cf8da77bdd9..3af795635c5c 100644
+--- a/drivers/dma/apple-admac.c
++++ b/drivers/dma/apple-admac.c
+@@ -10,8 +10,9 @@
  #include <linux/device.h>
- #include <linux/of_address.h>
- #include <linux/of_irq.h>
-+#include <linux/platform_device.h>
- #include <linux/sys_soc.h>
- #include <linux/fsl/mc.h>
- 
-diff --git a/drivers/crypto/caam/jr.c b/drivers/crypto/caam/jr.c
-index 96dea5304d22..73b7aa68f21c 100644
---- a/drivers/crypto/caam/jr.c
-+++ b/drivers/crypto/caam/jr.c
-@@ -9,6 +9,7 @@
- 
- #include <linux/of_irq.h>
- #include <linux/of_address.h>
-+#include <linux/platform_device.h>
- 
- #include "compat.h"
- #include "ctrl.h"
-diff --git a/drivers/crypto/caam/qi.c b/drivers/crypto/caam/qi.c
-index 2ad2c1035856..46a083849a8e 100644
---- a/drivers/crypto/caam/qi.c
-+++ b/drivers/crypto/caam/qi.c
-@@ -13,6 +13,7 @@
- #include <linux/kernel.h>
- #include <linux/kthread.h>
- #include <linux/netdevice.h>
-+#include <linux/platform_device.h>
- #include <linux/slab.h>
- #include <linux/string.h>
- #include <soc/fsl/qman.h>
-diff --git a/drivers/crypto/ccree/cc_driver.c b/drivers/crypto/ccree/cc_driver.c
-index c57f929805d5..0f0694037dd7 100644
---- a/drivers/crypto/ccree/cc_driver.c
-+++ b/drivers/crypto/ccree/cc_driver.c
-@@ -14,7 +14,6 @@
- #include <linux/of.h>
- #include <linux/clk.h>
- #include <linux/of_address.h>
--#include <linux/of_device.h>
- #include <linux/pm_runtime.h>
- 
- #include "cc_driver.h"
-diff --git a/drivers/crypto/exynos-rng.c b/drivers/crypto/exynos-rng.c
-index cbd8ca6e52ee..773c3238c603 100644
---- a/drivers/crypto/exynos-rng.c
-+++ b/drivers/crypto/exynos-rng.c
-@@ -15,7 +15,7 @@
- #include <linux/io.h>
+ #include <linux/init.h>
  #include <linux/module.h>
- #include <linux/mutex.h>
 -#include <linux/of_device.h>
 +#include <linux/of.h>
- #include <linux/platform_device.h>
- 
- #include <crypto/internal/rng.h>
-diff --git a/drivers/crypto/gemini/sl3516-ce-core.c b/drivers/crypto/gemini/sl3516-ce-core.c
-index b7524b649068..e9c00d76545b 100644
---- a/drivers/crypto/gemini/sl3516-ce-core.c
-+++ b/drivers/crypto/gemini/sl3516-ce-core.c
-@@ -16,7 +16,6 @@
- #include <linux/irq.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
+ #include <linux/of_dma.h>
++#include <linux/platform_device.h>
  #include <linux/reset.h>
-diff --git a/drivers/crypto/img-hash.c b/drivers/crypto/img-hash.c
-index 359aa2b41016..45063693859c 100644
---- a/drivers/crypto/img-hash.c
-+++ b/drivers/crypto/img-hash.c
-@@ -13,7 +13,7 @@
- #include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/platform_device.h>
- #include <linux/scatterlist.h>
- 
-@@ -1105,7 +1105,7 @@ static struct platform_driver img_hash_driver = {
- 	.driver		= {
- 		.name	= "img-hash-accelerator",
- 		.pm	= &img_hash_pm_ops,
--		.of_match_table	= of_match_ptr(img_hash_match),
-+		.of_match_table	= img_hash_match,
- 	}
- };
- module_platform_driver(img_hash_driver);
-diff --git a/drivers/crypto/intel/keembay/keembay-ocs-hcu-core.c b/drivers/crypto/intel/keembay/keembay-ocs-hcu-core.c
-index d4bcbed1f546..226654b12779 100644
---- a/drivers/crypto/intel/keembay/keembay-ocs-hcu-core.c
-+++ b/drivers/crypto/intel/keembay/keembay-ocs-hcu-core.c
-@@ -10,7 +10,8 @@
- #include <linux/dma-mapping.h>
+ #include <linux/spinlock.h>
  #include <linux/interrupt.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/platform_device.h>
- 
- #include <crypto/engine.h>
- #include <crypto/scatterwalk.h>
-diff --git a/drivers/crypto/n2_core.c b/drivers/crypto/n2_core.c
-index 4f6ca229ee5e..d5a32d71a3e9 100644
---- a/drivers/crypto/n2_core.c
-+++ b/drivers/crypto/n2_core.c
-@@ -10,7 +10,7 @@
+diff --git a/drivers/dma/at_hdmac.c b/drivers/dma/at_hdmac.c
+index ee3a219e3a89..b2876f67471f 100644
+--- a/drivers/dma/at_hdmac.c
++++ b/drivers/dma/at_hdmac.c
+@@ -20,7 +20,7 @@
  #include <linux/module.h>
  #include <linux/of.h>
- #include <linux/of_address.h>
+ #include <linux/overflow.h>
 -#include <linux/of_device.h>
-+#include <linux/platform_device.h>
- #include <linux/cpumask.h>
++#include <linux/of_platform.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
  #include <linux/slab.h>
- #include <linux/interrupt.h>
-diff --git a/drivers/crypto/omap-aes.c b/drivers/crypto/omap-aes.c
-index 67a99c760bc4..71002a12993d 100644
---- a/drivers/crypto/omap-aes.c
-+++ b/drivers/crypto/omap-aes.c
-@@ -24,7 +24,6 @@
- #include <linux/dmaengine.h>
- #include <linux/pm_runtime.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/of_address.h>
- #include <linux/io.h>
- #include <linux/crypto.h>
-diff --git a/drivers/crypto/omap-des.c b/drivers/crypto/omap-des.c
-index f783769ea110..82cca34017e4 100644
---- a/drivers/crypto/omap-des.c
-+++ b/drivers/crypto/omap-des.c
-@@ -27,8 +27,6 @@
- #include <linux/dmaengine.h>
- #include <linux/pm_runtime.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
--#include <linux/of_address.h>
- #include <linux/io.h>
- #include <linux/crypto.h>
- #include <linux/interrupt.h>
-diff --git a/drivers/crypto/omap-sham.c b/drivers/crypto/omap-sham.c
-index cbeda59c6b19..4c25fc42044c 100644
---- a/drivers/crypto/omap-sham.c
-+++ b/drivers/crypto/omap-sham.c
-@@ -28,7 +28,6 @@
- #include <linux/dmaengine.h>
- #include <linux/pm_runtime.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/of_address.h>
- #include <linux/of_irq.h>
- #include <linux/delay.h>
-diff --git a/drivers/crypto/rockchip/rk3288_crypto.c b/drivers/crypto/rockchip/rk3288_crypto.c
-index 9f6ba770a90a..f3a79bec76a8 100644
---- a/drivers/crypto/rockchip/rk3288_crypto.c
-+++ b/drivers/crypto/rockchip/rk3288_crypto.c
-@@ -14,7 +14,6 @@
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/clk.h>
- #include <linux/crypto.h>
- #include <linux/reset.h>
-diff --git a/drivers/crypto/s5p-sss.c b/drivers/crypto/s5p-sss.c
-index 1c4d5fb05d69..fe8cf9ba8005 100644
---- a/drivers/crypto/s5p-sss.c
-+++ b/drivers/crypto/s5p-sss.c
-@@ -20,7 +20,6 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/scatterlist.h>
- 
-diff --git a/drivers/crypto/sa2ul.c b/drivers/crypto/sa2ul.c
-index df5f9d675c57..6238d34f8db2 100644
---- a/drivers/crypto/sa2ul.c
-+++ b/drivers/crypto/sa2ul.c
-@@ -15,7 +15,8 @@
- #include <linux/dmapool.h>
- #include <linux/kernel.h>
+diff --git a/drivers/dma/bcm-sba-raid.c b/drivers/dma/bcm-sba-raid.c
+index 064761289a73..94ea35330eb5 100644
+--- a/drivers/dma/bcm-sba-raid.c
++++ b/drivers/dma/bcm-sba-raid.c
+@@ -35,7 +35,9 @@
+ #include <linux/mailbox_client.h>
+ #include <linux/mailbox/brcm-message.h>
  #include <linux/module.h>
 -#include <linux/of_device.h>
 +#include <linux/of.h>
 +#include <linux/of_platform.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
++#include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/raid/pq.h>
  
-diff --git a/drivers/crypto/sahara.c b/drivers/crypto/sahara.c
-index 4c799df3e883..62d93526920f 100644
---- a/drivers/crypto/sahara.c
-+++ b/drivers/crypto/sahara.c
-@@ -27,7 +27,6 @@
- #include <linux/kthread.h>
+diff --git a/drivers/dma/bestcomm/bestcomm.c b/drivers/dma/bestcomm/bestcomm.c
+index eabbcfcaa7cb..466dd9919c4a 100644
+--- a/drivers/dma/bestcomm/bestcomm.c
++++ b/drivers/dma/bestcomm/bestcomm.c
+@@ -14,9 +14,7 @@
+ #include <linux/slab.h>
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+-#include <linux/of_device.h>
+-#include <linux/of_irq.h>
+-#include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ #include <asm/io.h>
+ #include <asm/irq.h>
+ #include <asm/mpc52xx.h>
+diff --git a/drivers/dma/dma-jz4780.c b/drivers/dma/dma-jz4780.c
+index 9c1a6e9a9c03..adbd47bd6adf 100644
+--- a/drivers/dma/dma-jz4780.c
++++ b/drivers/dma/dma-jz4780.c
+@@ -13,7 +13,6 @@
+ #include <linux/interrupt.h>
  #include <linux/module.h>
  #include <linux/of.h>
 -#include <linux/of_device.h>
+ #include <linux/of_dma.h>
  #include <linux/platform_device.h>
- #include <linux/spinlock.h>
+ #include <linux/slab.h>
+diff --git a/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c b/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
+index 796b6caf0bab..dd02f84e404d 100644
+--- a/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
++++ b/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
+@@ -21,7 +21,6 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/dma/dw/rzn1-dmamux.c b/drivers/dma/dw/rzn1-dmamux.c
+index f9912c3dd4d7..4fb8508419db 100644
+--- a/drivers/dma/dw/rzn1-dmamux.c
++++ b/drivers/dma/dw/rzn1-dmamux.c
+@@ -5,8 +5,10 @@
+  * Based on TI crossbar driver written by Peter Ujfalusi <peter.ujfalusi@ti.com>
+  */
+ #include <linux/bitops.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
++#include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/soc/renesas/r9a06g032-sysctrl.h>
+ #include <linux/types.h>
+diff --git a/drivers/dma/fsl-qdma.c b/drivers/dma/fsl-qdma.c
+index eddb2688f234..a8cc8a4bc610 100644
+--- a/drivers/dma/fsl-qdma.c
++++ b/drivers/dma/fsl-qdma.c
+@@ -13,10 +13,10 @@
  
-diff --git a/drivers/crypto/starfive/jh7110-cryp.c b/drivers/crypto/starfive/jh7110-cryp.c
-index cc43556b6c80..0f517ea06bcb 100644
---- a/drivers/crypto/starfive/jh7110-cryp.c
-+++ b/drivers/crypto/starfive/jh7110-cryp.c
-@@ -11,8 +11,8 @@
+ #include <linux/module.h>
  #include <linux/delay.h>
- #include <linux/interrupt.h>
- #include <linux/iopoll.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/reset.h>
-diff --git a/drivers/crypto/starfive/jh7110-hash.c b/drivers/crypto/starfive/jh7110-hash.c
-index 5064150b8a1c..41c9e40c6551 100644
---- a/drivers/crypto/starfive/jh7110-hash.c
-+++ b/drivers/crypto/starfive/jh7110-hash.c
-@@ -14,7 +14,6 @@
- #include <linux/iopoll.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/reset.h>
-diff --git a/drivers/crypto/stm32/stm32-cryp.c b/drivers/crypto/stm32/stm32-cryp.c
-index 6b8d731092a4..ab12c782dec5 100644
---- a/drivers/crypto/stm32/stm32-cryp.c
-+++ b/drivers/crypto/stm32/stm32-cryp.c
-@@ -10,7 +10,7 @@
- #include <linux/interrupt.h>
- #include <linux/iopoll.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
+-#include <linux/of_irq.h>
+-#include <linux/of_platform.h>
 +#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/reset.h>
-diff --git a/drivers/crypto/stm32/stm32-hash.c b/drivers/crypto/stm32/stm32-hash.c
-index f0df32382719..cb3ca28fb193 100644
---- a/drivers/crypto/stm32/stm32-hash.c
-+++ b/drivers/crypto/stm32/stm32-hash.c
-@@ -15,7 +15,7 @@
- #include <linux/iopoll.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/reset.h>
-diff --git a/drivers/crypto/talitos.c b/drivers/crypto/talitos.c
-index bb27f011cf31..4ca4fbd227bc 100644
---- a/drivers/crypto/talitos.c
-+++ b/drivers/crypto/talitos.c
-@@ -19,9 +19,9 @@
+ #include <linux/of_dma.h>
+ #include <linux/dma-mapping.h>
++#include <linux/platform_device.h>
+ 
+ #include "virt-dma.h"
+ #include "fsldma.h"
+diff --git a/drivers/dma/fsl_raid.c b/drivers/dma/fsl_raid.c
+index fdf3500d96a9..0b9ca93ce3dc 100644
+--- a/drivers/dma/fsl_raid.c
++++ b/drivers/dma/fsl_raid.c
+@@ -60,9 +60,10 @@
+  */
  #include <linux/interrupt.h>
- #include <linux/crypto.h>
- #include <linux/hw_random.h>
+ #include <linux/module.h>
++#include <linux/of.h>
+ #include <linux/of_irq.h>
 -#include <linux/of_address.h>
+ #include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/dmapool.h>
+ #include <linux/dmaengine.h>
+diff --git a/drivers/dma/fsldma.c b/drivers/dma/fsldma.c
+index f8459cc5315d..ddcf736d283d 100644
+--- a/drivers/dma/fsldma.c
++++ b/drivers/dma/fsldma.c
+@@ -28,9 +28,10 @@
+ #include <linux/delay.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/dmapool.h>
 +#include <linux/of.h>
+ #include <linux/of_address.h>
  #include <linux/of_irq.h>
 -#include <linux/of_platform.h>
 +#include <linux/platform_device.h>
- #include <linux/dma-mapping.h>
- #include <linux/io.h>
+ #include <linux/fsldma.h>
+ #include "dmaengine.h"
+ #include "fsldma.h"
+diff --git a/drivers/dma/img-mdc-dma.c b/drivers/dma/img-mdc-dma.c
+index ad084552640f..9be0d3226e19 100644
+--- a/drivers/dma/img-mdc-dma.c
++++ b/drivers/dma/img-mdc-dma.c
+@@ -17,7 +17,6 @@
+ #include <linux/mfd/syscon.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/dma/imx-dma.c b/drivers/dma/imx-dma.c
+index f040751690af..114f254b9f50 100644
+--- a/drivers/dma/imx-dma.c
++++ b/drivers/dma/imx-dma.c
+@@ -21,7 +21,7 @@
+ #include <linux/clk.h>
+ #include <linux/dmaengine.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
+ 
+ #include <asm/irq.h>
+diff --git a/drivers/dma/imx-sdma.c b/drivers/dma/imx-sdma.c
+index 7a912f90c2a9..51012bd39900 100644
+--- a/drivers/dma/imx-sdma.c
++++ b/drivers/dma/imx-sdma.c
+@@ -31,7 +31,6 @@
+ #include <linux/dmaengine.h>
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/workqueue.h>
+ 
+diff --git a/drivers/dma/lpc18xx-dmamux.c b/drivers/dma/lpc18xx-dmamux.c
+index df98cae8792b..2b6436f4b193 100644
+--- a/drivers/dma/lpc18xx-dmamux.c
++++ b/drivers/dma/lpc18xx-dmamux.c
+@@ -12,8 +12,10 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/mfd/syscon.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
++#include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ #include <linux/regmap.h>
  #include <linux/spinlock.h>
-diff --git a/drivers/crypto/xilinx/zynqmp-aes-gcm.c b/drivers/crypto/xilinx/zynqmp-aes-gcm.c
-index bf1f421e05f2..6092ff0646a8 100644
---- a/drivers/crypto/xilinx/zynqmp-aes-gcm.c
-+++ b/drivers/crypto/xilinx/zynqmp-aes-gcm.c
-@@ -12,7 +12,7 @@
  
- #include <linux/dma-mapping.h>
+diff --git a/drivers/dma/mediatek/mtk-cqdma.c b/drivers/dma/mediatek/mtk-cqdma.c
+index 9ae92b8940ef..324b7387b1b9 100644
+--- a/drivers/dma/mediatek/mtk-cqdma.c
++++ b/drivers/dma/mediatek/mtk-cqdma.c
+@@ -18,7 +18,6 @@
+ #include <linux/list.h>
  #include <linux/module.h>
+ #include <linux/of.h>
 -#include <linux/of_device.h>
-+#include <linux/mod_devicetable.h>
+ #include <linux/of_dma.h>
  #include <linux/platform_device.h>
- 
- #include <linux/firmware/xlnx-zynqmp.h>
-diff --git a/drivers/crypto/xilinx/zynqmp-sha.c b/drivers/crypto/xilinx/zynqmp-sha.c
-index 43ff170ff1c2..426bf1a72ba6 100644
---- a/drivers/crypto/xilinx/zynqmp-sha.c
-+++ b/drivers/crypto/xilinx/zynqmp-sha.c
-@@ -15,7 +15,6 @@
- #include <linux/io.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/dma/mediatek/mtk-hsdma.c b/drivers/dma/mediatek/mtk-hsdma.c
+index 69cc61c0b262..64120767d983 100644
+--- a/drivers/dma/mediatek/mtk-hsdma.c
++++ b/drivers/dma/mediatek/mtk-hsdma.c
+@@ -17,7 +17,6 @@
+ #include <linux/list.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/dma/mediatek/mtk-uart-apdma.c b/drivers/dma/mediatek/mtk-uart-apdma.c
+index a1517ef1f4a0..69366ba5db65 100644
+--- a/drivers/dma/mediatek/mtk-uart-apdma.c
++++ b/drivers/dma/mediatek/mtk-uart-apdma.c
+@@ -16,7 +16,6 @@
  #include <linux/kernel.h>
+ #include <linux/list.h>
  #include <linux/module.h>
 -#include <linux/of_device.h>
+ #include <linux/of_dma.h>
  #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/dma/mpc512x_dma.c b/drivers/dma/mpc512x_dma.c
+index 4a51fdbf5aa9..1104017320b8 100644
+--- a/drivers/dma/mpc512x_dma.c
++++ b/drivers/dma/mpc512x_dma.c
+@@ -36,11 +36,11 @@
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/slab.h>
++#include <linux/of.h>
+ #include <linux/of_address.h>
+-#include <linux/of_device.h>
+ #include <linux/of_irq.h>
+ #include <linux/of_dma.h>
+-#include <linux/of_platform.h>
++#include <linux/platform_device.h>
  
- #define ZYNQMP_DMA_BIT_MASK		32U
+ #include <linux/random.h>
+ 
+diff --git a/drivers/dma/mxs-dma.c b/drivers/dma/mxs-dma.c
+index acc4d53e4630..cfb9962417ef 100644
+--- a/drivers/dma/mxs-dma.c
++++ b/drivers/dma/mxs-dma.c
+@@ -21,7 +21,6 @@
+ #include <linux/module.h>
+ #include <linux/stmp_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/list.h>
+ #include <linux/dma/mxs-dma.h>
+diff --git a/drivers/dma/nbpfaxi.c b/drivers/dma/nbpfaxi.c
+index e72e8c10355e..0b2f96fd8bf0 100644
+--- a/drivers/dma/nbpfaxi.c
++++ b/drivers/dma/nbpfaxi.c
+@@ -15,7 +15,6 @@
+ #include <linux/log2.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+diff --git a/drivers/dma/owl-dma.c b/drivers/dma/owl-dma.c
+index 95a462a1f511..e745f0c67094 100644
+--- a/drivers/dma/owl-dma.c
++++ b/drivers/dma/owl-dma.c
+@@ -20,8 +20,9 @@
+ #include <linux/io.h>
+ #include <linux/mm.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
++#include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include "virt-dma.h"
+ 
+diff --git a/drivers/dma/ppc4xx/adma.c b/drivers/dma/ppc4xx/adma.c
+index 686c270ef710..f9b82dff3387 100644
+--- a/drivers/dma/ppc4xx/adma.c
++++ b/drivers/dma/ppc4xx/adma.c
+@@ -28,7 +28,7 @@
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+ #include <linux/of_irq.h>
+-#include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ #include <asm/dcr.h>
+ #include <asm/dcr-regs.h>
+ #include "adma.h"
+diff --git a/drivers/dma/qcom/hidma.c b/drivers/dma/qcom/hidma.c
+index 344525c3a32f..5baf7e593ea5 100644
+--- a/drivers/dma/qcom/hidma.c
++++ b/drivers/dma/qcom/hidma.c
+@@ -45,12 +45,12 @@
+ #include <linux/dmaengine.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/list.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
+ #include <linux/of_dma.h>
+-#include <linux/of_device.h>
+ #include <linux/property.h>
+ #include <linux/delay.h>
+ #include <linux/acpi.h>
+diff --git a/drivers/dma/sh/shdmac.c b/drivers/dma/sh/shdmac.c
+index 5aafe548ca5f..6f881d7d2f79 100644
+--- a/drivers/dma/sh/shdmac.c
++++ b/drivers/dma/sh/shdmac.c
+@@ -23,7 +23,6 @@
+ #include <linux/module.h>
+ #include <linux/notifier.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/rculist.h>
+diff --git a/drivers/dma/sprd-dma.c b/drivers/dma/sprd-dma.c
+index 2b639adb48ba..168aa0bd73a0 100644
+--- a/drivers/dma/sprd-dma.c
++++ b/drivers/dma/sprd-dma.c
+@@ -15,7 +15,7 @@
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_dma.h>
+-#include <linux/of_device.h>
++#include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/slab.h>
+ 
+diff --git a/drivers/dma/stm32-dmamux.c b/drivers/dma/stm32-dmamux.c
+index e415bd9f4f2b..8d77e2a7939a 100644
+--- a/drivers/dma/stm32-dmamux.c
++++ b/drivers/dma/stm32-dmamux.c
+@@ -15,8 +15,10 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
++#include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/reset.h>
+ #include <linux/slab.h>
+diff --git a/drivers/dma/stm32-mdma.c b/drivers/dma/stm32-mdma.c
+index 1d0e9dd72ab3..0de234022c6d 100644
+--- a/drivers/dma/stm32-mdma.c
++++ b/drivers/dma/stm32-mdma.c
+@@ -24,7 +24,6 @@
+ #include <linux/log2.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+index ebfd29888b2f..2469efddf540 100644
+--- a/drivers/dma/sun6i-dma.c
++++ b/drivers/dma/sun6i-dma.c
+@@ -14,8 +14,8 @@
+ #include <linux/dmapool.h>
+ #include <linux/interrupt.h>
+ #include <linux/module.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/reset.h>
+ #include <linux/slab.h>
+diff --git a/drivers/dma/tegra186-gpc-dma.c b/drivers/dma/tegra186-gpc-dma.c
+index 8f67f453a492..33b101001100 100644
+--- a/drivers/dma/tegra186-gpc-dma.c
++++ b/drivers/dma/tegra186-gpc-dma.c
+@@ -13,7 +13,7 @@
+ #include <linux/iopoll.h>
+ #include <linux/minmax.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
+ #include <linux/reset.h>
+diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
+index cc6b91f48979..063022f9df76 100644
+--- a/drivers/dma/tegra20-apb-dma.c
++++ b/drivers/dma/tegra20-apb-dma.c
+@@ -17,7 +17,6 @@
+ #include <linux/mm.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm.h>
+diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
+index b97004036071..e557bada1510 100644
+--- a/drivers/dma/tegra210-adma.c
++++ b/drivers/dma/tegra210-adma.c
+@@ -8,9 +8,10 @@
+ #include <linux/clk.h>
+ #include <linux/iopoll.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
+ #include <linux/of_irq.h>
++#include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/slab.h>
+ 
+diff --git a/drivers/dma/ti/dma-crossbar.c b/drivers/dma/ti/dma-crossbar.c
+index f744ddbbbad7..7f17ee87a6dc 100644
+--- a/drivers/dma/ti/dma-crossbar.c
++++ b/drivers/dma/ti/dma-crossbar.c
+@@ -3,14 +3,15 @@
+  *  Copyright (C) 2015 Texas Instruments Incorporated - http://www.ti.com
+  *  Author: Peter Ujfalusi <peter.ujfalusi@ti.com>
+  */
++#include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/list.h>
+ #include <linux/io.h>
+-#include <linux/of_address.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
++#include <linux/of_platform.h>
+ 
+ #define TI_XBAR_DRA7		0
+ #define TI_XBAR_AM335X		1
+diff --git a/drivers/dma/ti/edma.c b/drivers/dma/ti/edma.c
+index 9ea91c640c32..aa8e2e8ac260 100644
+--- a/drivers/dma/ti/edma.c
++++ b/drivers/dma/ti/edma.c
+@@ -20,7 +20,6 @@
+ #include <linux/of_dma.h>
+ #include <linux/of_irq.h>
+ #include <linux/of_address.h>
+-#include <linux/of_device.h>
+ #include <linux/pm_runtime.h>
+ 
+ #include <linux/platform_data/edma.h>
+diff --git a/drivers/dma/ti/k3-udma-private.c b/drivers/dma/ti/k3-udma-private.c
+index 85e00701473c..05228bf00033 100644
+--- a/drivers/dma/ti/k3-udma-private.c
++++ b/drivers/dma/ti/k3-udma-private.c
+@@ -3,6 +3,8 @@
+  *  Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com
+  *  Author: Peter Ujfalusi <peter.ujfalusi@ti.com>
+  */
++#include <linux/of.h>
++#include <linux/of_platform.h>
+ 
+ int xudma_navss_psil_pair(struct udma_dev *ud, u32 src_thread, u32 dst_thread)
+ {
+diff --git a/drivers/dma/ti/k3-udma.c b/drivers/dma/ti/k3-udma.c
+index eb4dc5fffe64..30fd2f386f36 100644
+--- a/drivers/dma/ti/k3-udma.c
++++ b/drivers/dma/ti/k3-udma.c
+@@ -20,7 +20,6 @@
+ #include <linux/sys_soc.h>
+ #include <linux/of.h>
+ #include <linux/of_dma.h>
+-#include <linux/of_device.h>
+ #include <linux/of_irq.h>
+ #include <linux/workqueue.h>
+ #include <linux/completion.h>
+diff --git a/drivers/dma/ti/omap-dma.c b/drivers/dma/ti/omap-dma.c
+index 02e1c08c596d..cf96cf915c0c 100644
+--- a/drivers/dma/ti/omap-dma.c
++++ b/drivers/dma/ti/omap-dma.c
+@@ -16,8 +16,8 @@
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
+-#include <linux/of_device.h>
+ 
+ #include "../virt-dma.h"
+ 
+diff --git a/drivers/dma/xgene-dma.c b/drivers/dma/xgene-dma.c
+index 3589b4ef50b8..bb4ff8c86733 100644
+--- a/drivers/dma/xgene-dma.c
++++ b/drivers/dma/xgene-dma.c
+@@ -18,8 +18,9 @@
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/irq.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/platform_device.h>
+ 
+ #include "dmaengine.h"
+ 
+diff --git a/drivers/dma/xilinx/xilinx_dma.c b/drivers/dma/xilinx/xilinx_dma.c
+index ac09f0e5f58d..8a4c98d28dfc 100644
+--- a/drivers/dma/xilinx/xilinx_dma.c
++++ b/drivers/dma/xilinx/xilinx_dma.c
+@@ -41,10 +41,10 @@
+ #include <linux/io.h>
+ #include <linux/iopoll.h>
+ #include <linux/module.h>
+-#include <linux/of_address.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
+-#include <linux/of_platform.h>
+ #include <linux/of_irq.h>
++#include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/clk.h>
+ #include <linux/io-64-nonatomic-lo-hi.h>
+diff --git a/drivers/dma/xilinx/zynqmp_dma.c b/drivers/dma/xilinx/zynqmp_dma.c
+index 9360f43b8e0f..bd8c3cc2eaab 100644
+--- a/drivers/dma/xilinx/zynqmp_dma.c
++++ b/drivers/dma/xilinx/zynqmp_dma.c
+@@ -11,8 +11,9 @@
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
+-#include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/clk.h>
+ #include <linux/io-64-nonatomic-lo-hi.h>
 -- 
 2.40.1
 
