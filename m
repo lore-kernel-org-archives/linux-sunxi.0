@@ -1,39 +1,68 @@
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1D214A83
-	for <linux-sunxi@lists.linux.dev>; Fri, 14 Jul 2023 17:50:26 +0000 (UTC)
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3457a3ada84so9672385ab.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 14 Jul 2023 10:50:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C0314A83
+	for <linux-sunxi@lists.linux.dev>; Fri, 14 Jul 2023 17:50:31 +0000 (UTC)
+Received: by mail-il1-f181.google.com with SMTP id e9e14a558f8ab-345f1e0abf9so9307375ab.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 14 Jul 2023 10:50:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689357025; x=1691949025;
+        d=1e100.net; s=20221208; t=1689357030; x=1691949030;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vLy+fmmmHBD7kQUYFoOu4IPxG3CVYUe0AJr9SRUEQvM=;
-        b=BkIVCt1rW5WiZlGX2Mj1ZZGZK7z9SVn0DmaL33XvojViKTyHtKEkNw1dFBZde5ilKc
-         glYiXinDcGi1UCtetG62v9hOkt8Msc7kLoPb52A7GyfV36uCESX1aAWdvJmcm+8MlqGc
-         +c7j7XaXAj4GM2ISlGoAmhHz0miDOej9qbQ8nQw2SQhphtWawluzo24kyz+CIl9b68++
-         ru0nDgc29bbwiNb8Ck6mtNCmifjLNvJCkI+Ux+Abi2oQwY+Fleu3vGQ9Q54+MJA7dGvf
-         SJWAIJCi3iPNFzfktv/mgjl39wZbOPdAJ+qGkJ+EvkejJ/BEVIOSS4iAomgLh951ovrR
-         0AIg==
-X-Gm-Message-State: ABy/qLaTRqGdlJ/ePpF3gSmtvOyxfTI3G/ZKiz0Hb+7TF0mgt3lSYbef
-	HTRAjsR9ecL1XURJvG33jA==
-X-Google-Smtp-Source: APBJJlH6F8DGTAgoPkKNBfHvMuRjeGIOUDsgDFYTU7xAIgttRpRW5jDVDzZiIxVt/yHiIy5rKVsXXg==
-X-Received: by 2002:a92:c807:0:b0:346:4766:9f76 with SMTP id v7-20020a92c807000000b0034647669f76mr4859281iln.13.1689357025190;
-        Fri, 14 Jul 2023 10:50:25 -0700 (PDT)
+        bh=lIJPdGkN8uLn9mONHPYVKKU3qJXRSOU2BNXEaUK7xdI=;
+        b=ACrT2zb0ToQzrt9Jbj6hPOONQsUYVlRAJTZX944QhvXhBBDfqzPqyfITa4oQmCvO23
+         IqtaMTVpF7QO0gVAbWMPbl5Y9pQ2XhFMIMZi4zM3ykN4ZEFncj8tQbnTyiiL9DgOIfO5
+         A3cu9tAOxu7zarvur887uwxDI77z+33dM8HvjJjIf68/e8KCzOz6itJzzejB5oLm/GQw
+         FqxRqYR372ibpBiEJ7Rgi0DqBFuzuy6sR1YQvj+mxthjSB+AoLySS5S54ENT8ns7emRU
+         PkwC1iB9+McdSxDfSYlT80chpl1Pliv2GYIvoNfyMVmuNmT9mK8EQ3xyRs7+S0cEA4fp
+         UPlg==
+X-Gm-Message-State: ABy/qLa3MD5Kw63sZPvWIZjh2WlRto9FUREbtMcQW6i0HgT2iBfh+2+e
+	ANjlg4bulfGtxXc13pDd8w==
+X-Google-Smtp-Source: APBJJlF5AyU+U7hHqgWVqLEm81f6v5Dto0Z6wXBlIVFoH22Ciigj5qFW2mT+yzr1/iyAvgE53/OLLQ==
+X-Received: by 2002:a92:da4f:0:b0:345:cea0:a676 with SMTP id p15-20020a92da4f000000b00345cea0a676mr5038625ilq.10.1689357030329;
+        Fri, 14 Jul 2023 10:50:30 -0700 (PDT)
 Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id l18-20020a922912000000b00345d6297aa7sm2888185ilg.16.2023.07.14.10.50.22
+        by smtp.gmail.com with ESMTPSA id u10-20020a92d1ca000000b00345ad48aa94sm2910179ilg.58.2023.07.14.10.50.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 10:50:24 -0700 (PDT)
-Received: (nullmailer pid 4063952 invoked by uid 1000);
-	Fri, 14 Jul 2023 17:49:46 -0000
+        Fri, 14 Jul 2023 10:50:29 -0700 (PDT)
+Received: (nullmailer pid 4064368 invoked by uid 1000);
+	Fri, 14 Jul 2023 17:50:00 -0000
 From: Rob Herring <robh@kernel.org>
-To: Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@microchip.com>, Paul Cercueil <paul@crapouillou.net>, Vladimir Zapolskiy <vz@mleia.com>, Eddie Huang <eddie.huang@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Miquel Raynal <miquel.raynal@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org, linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
-Subject: [PATCH] rtc: Explicitly include correct DT includes
-Date: Fri, 14 Jul 2023 11:49:42 -0600
-Message-Id: <20230714174944.4063829-1-robh@kernel.org>
+To: Mark Brown <broonie@kernel.org>, Radu Pirea <radu_nicolae.pirea@upb.ro>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@microchip.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Vladimir Oltean <olteanv@gmail.com>, 
+	Han Xu <han.xu@nxp.com>, Jean-Marie Verdun <verdun@hpe.com>, Nick Hawkins <nick.hawkins@hpe.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	NXP Linux Team <linux-imx@nxp.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, 
+	Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, 
+	Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, 
+	Haibo Chen <haibo.chen@nxp.com>, Yogesh Gaur <yogeshgaur.83@gmail.com>, 
+	Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Laxman Dewangan <ldewangan@nvidia.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
+	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Michal Simek <michal.simek@amd.com>
+Cc: devicetree@vger.kernel.org, linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org, linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
+Subject: [PATCH] spi: Explicitly include correct DT includes
+Date: Fri, 14 Jul 2023 11:49:52 -0600
+Message-Id: <20230714174955.4064174-1-robh@kernel.org>
 X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -54,428 +83,601 @@ explicitly include the correct includes.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- drivers/rtc/rtc-abx80x.c        | 2 +-
- drivers/rtc/rtc-armada38x.c     | 1 -
- drivers/rtc/rtc-at91rm9200.c    | 1 -
- drivers/rtc/rtc-ds1742.c        | 1 -
- drivers/rtc/rtc-fsl-ftm-alarm.c | 5 +----
- drivers/rtc/rtc-isl12026.c      | 1 -
- drivers/rtc/rtc-isl1208.c       | 2 +-
- drivers/rtc/rtc-jz4740.c        | 2 +-
- drivers/rtc/rtc-lpc24xx.c       | 3 +--
- drivers/rtc/rtc-m41t80.c        | 2 +-
- drivers/rtc/rtc-mpc5121.c       | 3 ---
- drivers/rtc/rtc-mt6397.c        | 2 +-
- drivers/rtc/rtc-mt7622.c        | 4 ++--
- drivers/rtc/rtc-mxc.c           | 1 -
- drivers/rtc/rtc-pcf85063.c      | 2 +-
- drivers/rtc/rtc-pcf85363.c      | 1 -
- drivers/rtc/rtc-pxa.c           | 1 -
- drivers/rtc/rtc-rs5c372.c       | 2 +-
- drivers/rtc/rtc-rv3028.c        | 2 +-
- drivers/rtc/rtc-rv3032.c        | 2 +-
- drivers/rtc/rtc-rv8803.c        | 2 +-
- drivers/rtc/rtc-rx6110.c        | 1 -
- drivers/rtc/rtc-rx8581.c        | 1 -
- drivers/rtc/rtc-rzn1.c          | 2 +-
- drivers/rtc/rtc-s3c.c           | 1 -
- drivers/rtc/rtc-stm32.c         | 3 ++-
- drivers/rtc/rtc-stmp3xxx.c      | 1 -
- drivers/rtc/rtc-sun6i.c         | 1 -
- drivers/rtc/rtc-sunxi.c         | 2 --
- drivers/rtc/rtc-ti-k3.c         | 2 +-
- 30 files changed, 18 insertions(+), 38 deletions(-)
+ drivers/spi/spi-ar934x.c          | 3 ++-
+ drivers/spi/spi-armada-3700.c     | 3 +--
+ drivers/spi/spi-at91-usart.c      | 1 -
+ drivers/spi/spi-bcm2835.c         | 2 +-
+ drivers/spi/spi-bcm2835aux.c      | 4 +---
+ drivers/spi/spi-cadence-quadspi.c | 1 -
+ drivers/spi/spi-cadence-xspi.c    | 1 -
+ drivers/spi/spi-davinci.c         | 1 -
+ drivers/spi/spi-fsl-dspi.c        | 3 ++-
+ drivers/spi/spi-fsl-lib.c         | 3 ++-
+ drivers/spi/spi-fsl-lpspi.c       | 1 -
+ drivers/spi/spi-fsl-qspi.c        | 1 -
+ drivers/spi/spi-gpio.c            | 1 -
+ drivers/spi/spi-gxp.c             | 1 -
+ drivers/spi/spi-imx.c             | 1 -
+ drivers/spi/spi-ingenic.c         | 2 +-
+ drivers/spi/spi-lantiq-ssc.c      | 3 ++-
+ drivers/spi/spi-loopback-test.c   | 2 +-
+ drivers/spi/spi-lp8841-rtc.c      | 1 -
+ drivers/spi/spi-meson-spicc.c     | 1 -
+ drivers/spi/spi-mt7621.c          | 2 ++
+ drivers/spi/spi-mtk-nor.c         | 3 ++-
+ drivers/spi/spi-mtk-snfi.c        | 3 ++-
+ drivers/spi/spi-npcm-fiu.c        | 2 +-
+ drivers/spi/spi-nxp-fspi.c        | 1 -
+ drivers/spi/spi-orion.c           | 1 -
+ drivers/spi/spi-qcom-qspi.c       | 2 +-
+ drivers/spi/spi-qup.c             | 1 -
+ drivers/spi/spi-rspi.c            | 2 +-
+ drivers/spi/spi-s3c64xx.c         | 1 -
+ drivers/spi/spi-sc18is602.c       | 1 -
+ drivers/spi/spi-sh-msiof.c        | 1 -
+ drivers/spi/spi-sn-f-ospi.c       | 2 +-
+ drivers/spi/spi-sprd-adi.c        | 1 -
+ drivers/spi/spi-sprd.c            | 1 -
+ drivers/spi/spi-stm32-qspi.c      | 1 -
+ drivers/spi/spi-sun6i.c           | 2 +-
+ drivers/spi/spi-tegra114.c        | 1 -
+ drivers/spi/spi-tegra20-slink.c   | 1 -
+ drivers/spi/spi-tegra210-quad.c   | 1 -
+ drivers/spi/spi-ti-qspi.c         | 1 -
+ drivers/spi/spi-wpcm-fiu.c        | 3 +--
+ drivers/spi/spi-zynqmp-gqspi.c    | 4 +---
+ 43 files changed, 26 insertions(+), 48 deletions(-)
 
-diff --git a/drivers/rtc/rtc-abx80x.c b/drivers/rtc/rtc-abx80x.c
-index e08d3181bd2a..fde2b8054c2e 100644
---- a/drivers/rtc/rtc-abx80x.c
-+++ b/drivers/rtc/rtc-abx80x.c
-@@ -15,7 +15,7 @@
- #include <linux/i2c.h>
- #include <linux/kstrtox.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/rtc.h>
- #include <linux/watchdog.h>
- 
-diff --git a/drivers/rtc/rtc-armada38x.c b/drivers/rtc/rtc-armada38x.c
-index b4139c200676..8abcad38b10c 100644
---- a/drivers/rtc/rtc-armada38x.c
-+++ b/drivers/rtc/rtc-armada38x.c
-@@ -11,7 +11,6 @@
- #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/rtc.h>
- 
-diff --git a/drivers/rtc/rtc-at91rm9200.c b/drivers/rtc/rtc-at91rm9200.c
-index e9d17232d0a8..245588a7b417 100644
---- a/drivers/rtc/rtc-at91rm9200.c
-+++ b/drivers/rtc/rtc-at91rm9200.c
-@@ -22,7 +22,6 @@
- #include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/rtc.h>
-diff --git a/drivers/rtc/rtc-ds1742.c b/drivers/rtc/rtc-ds1742.c
-index a5026b0514e7..6ae8b9a294fe 100644
---- a/drivers/rtc/rtc-ds1742.c
-+++ b/drivers/rtc/rtc-ds1742.c
-@@ -16,7 +16,6 @@
- #include <linux/jiffies.h>
- #include <linux/rtc.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/io.h>
- #include <linux/module.h>
-diff --git a/drivers/rtc/rtc-fsl-ftm-alarm.c b/drivers/rtc/rtc-fsl-ftm-alarm.c
-index 3d7c4077fe1c..a72c4ad0cec6 100644
---- a/drivers/rtc/rtc-fsl-ftm-alarm.c
-+++ b/drivers/rtc/rtc-fsl-ftm-alarm.c
-@@ -11,11 +11,8 @@
- #include <linux/err.h>
- #include <linux/interrupt.h>
- #include <linux/io.h>
--#include <linux/of_address.h>
--#include <linux/of_irq.h>
- #include <linux/platform_device.h>
--#include <linux/of.h>
--#include <linux/of_device.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/fsl/ftm.h>
- #include <linux/rtc.h>
-diff --git a/drivers/rtc/rtc-isl12026.c b/drivers/rtc/rtc-isl12026.c
-index 5abff5d348ac..8b00659fc955 100644
---- a/drivers/rtc/rtc-isl12026.c
-+++ b/drivers/rtc/rtc-isl12026.c
-@@ -11,7 +11,6 @@
- #include <linux/mutex.h>
- #include <linux/nvmem-provider.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/rtc.h>
- #include <linux/slab.h>
- 
-diff --git a/drivers/rtc/rtc-isl1208.c b/drivers/rtc/rtc-isl1208.c
-index b0712b4e3648..57e65e1b11f0 100644
---- a/drivers/rtc/rtc-isl1208.c
-+++ b/drivers/rtc/rtc-isl1208.c
-@@ -9,7 +9,7 @@
- #include <linux/clk.h>
- #include <linux/i2c.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/of_irq.h>
- #include <linux/rtc.h>
- 
-diff --git a/drivers/rtc/rtc-jz4740.c b/drivers/rtc/rtc-jz4740.c
-index 36453b008139..6ba889d7d4c4 100644
---- a/drivers/rtc/rtc-jz4740.c
-+++ b/drivers/rtc/rtc-jz4740.c
-@@ -11,7 +11,7 @@
+diff --git a/drivers/spi/spi-ar934x.c b/drivers/spi/spi-ar934x.c
+index 9dcada8c4cb9..58b98cea31d9 100644
+--- a/drivers/spi/spi-ar934x.c
++++ b/drivers/spi/spi-ar934x.c
+@@ -14,7 +14,8 @@
  #include <linux/iopoll.h>
  #include <linux/kernel.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/pm_wakeirq.h>
- #include <linux/property.h>
-diff --git a/drivers/rtc/rtc-lpc24xx.c b/drivers/rtc/rtc-lpc24xx.c
-index a4612e543f35..df17c48ff086 100644
---- a/drivers/rtc/rtc-lpc24xx.c
-+++ b/drivers/rtc/rtc-lpc24xx.c
-@@ -9,9 +9,8 @@
- #include <linux/clk.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
--#include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/rtc.h>
- 
-diff --git a/drivers/rtc/rtc-m41t80.c b/drivers/rtc/rtc-m41t80.c
-index 3cc5151e0986..866489ad56d6 100644
---- a/drivers/rtc/rtc-m41t80.c
-+++ b/drivers/rtc/rtc-m41t80.c
-@@ -17,7 +17,7 @@
- #include <linux/init.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/rtc.h>
- #include <linux/slab.h>
- #include <linux/mutex.h>
-diff --git a/drivers/rtc/rtc-mpc5121.c b/drivers/rtc/rtc-mpc5121.c
-index 07df43e4c4d0..69a6ab69c5f8 100644
---- a/drivers/rtc/rtc-mpc5121.c
-+++ b/drivers/rtc/rtc-mpc5121.c
-@@ -11,10 +11,7 @@
- #include <linux/module.h>
- #include <linux/rtc.h>
- #include <linux/of.h>
--#include <linux/of_address.h>
--#include <linux/of_device.h>
- #include <linux/of_irq.h>
--#include <linux/of_platform.h>
- #include <linux/io.h>
- #include <linux/slab.h>
- 
-diff --git a/drivers/rtc/rtc-mt6397.c b/drivers/rtc/rtc-mt6397.c
-index 1d297af80f87..1617063669cc 100644
---- a/drivers/rtc/rtc-mt6397.c
-+++ b/drivers/rtc/rtc-mt6397.c
-@@ -9,7 +9,7 @@
- #include <linux/mfd/mt6397/core.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
- #include <linux/rtc.h>
-diff --git a/drivers/rtc/rtc-mt7622.c b/drivers/rtc/rtc-mt7622.c
-index 81857a457c32..094c649fc137 100644
---- a/drivers/rtc/rtc-mt7622.c
-+++ b/drivers/rtc/rtc-mt7622.c
-@@ -7,9 +7,9 @@
- 
- #include <linux/clk.h>
- #include <linux/interrupt.h>
-+#include <linux/io.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
--#include <linux/of_address.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/rtc.h>
- 
-diff --git a/drivers/rtc/rtc-mxc.c b/drivers/rtc/rtc-mxc.c
-index 762cf03345f1..dbb935dbbd8a 100644
---- a/drivers/rtc/rtc-mxc.c
-+++ b/drivers/rtc/rtc-mxc.c
-@@ -11,7 +11,6 @@
- #include <linux/pm_wakeirq.h>
- #include <linux/clk.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- 
- #define RTC_INPUT_CLK_32768HZ	(0x00 << 5)
- #define RTC_INPUT_CLK_32000HZ	(0x01 << 5)
-diff --git a/drivers/rtc/rtc-pcf85063.c b/drivers/rtc/rtc-pcf85063.c
-index e517abfaee2a..073977d71b18 100644
---- a/drivers/rtc/rtc-pcf85063.c
-+++ b/drivers/rtc/rtc-pcf85063.c
-@@ -14,7 +14,7 @@
- #include <linux/bcd.h>
- #include <linux/rtc.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/pm_wakeirq.h>
- #include <linux/regmap.h>
- 
-diff --git a/drivers/rtc/rtc-pcf85363.c b/drivers/rtc/rtc-pcf85363.c
-index 65b8b1338dbb..569c79bac0ee 100644
---- a/drivers/rtc/rtc-pcf85363.c
-+++ b/drivers/rtc/rtc-pcf85363.c
-@@ -15,7 +15,6 @@
- #include <linux/errno.h>
- #include <linux/bcd.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/regmap.h>
- 
- /*
-diff --git a/drivers/rtc/rtc-pxa.c b/drivers/rtc/rtc-pxa.c
-index eeacf480cf36..e400c78252e8 100644
---- a/drivers/rtc/rtc-pxa.c
-+++ b/drivers/rtc/rtc-pxa.c
-@@ -14,7 +14,6 @@
- #include <linux/io.h>
- #include <linux/slab.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- 
- #include "rtc-sa1100.h"
- 
-diff --git a/drivers/rtc/rtc-rs5c372.c b/drivers/rtc/rtc-rs5c372.c
-index a5a6c8772ecd..ecabeef09196 100644
---- a/drivers/rtc/rtc-rs5c372.c
-+++ b/drivers/rtc/rtc-rs5c372.c
-@@ -12,7 +12,7 @@
- #include <linux/bcd.h>
- #include <linux/slab.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- 
- /*
-  * Ricoh has a family of I2C based RTCs, which differ only slightly from
-diff --git a/drivers/rtc/rtc-rv3028.c b/drivers/rtc/rtc-rv3028.c
-index 076e56f4e01a..68d86d06c3c3 100644
---- a/drivers/rtc/rtc-rv3028.c
-+++ b/drivers/rtc/rtc-rv3028.c
-@@ -17,7 +17,7 @@
- #include <linux/kernel.h>
- #include <linux/log2.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/regmap.h>
- #include <linux/rtc.h>
- 
-diff --git a/drivers/rtc/rtc-rv3032.c b/drivers/rtc/rtc-rv3032.c
-index 6b8eb2039a33..35b2e36b426a 100644
---- a/drivers/rtc/rtc-rv3032.c
-+++ b/drivers/rtc/rtc-rv3032.c
-@@ -19,7 +19,7 @@
- #include <linux/kernel.h>
- #include <linux/log2.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/regmap.h>
- #include <linux/rtc.h>
- 
-diff --git a/drivers/rtc/rtc-rv8803.c b/drivers/rtc/rtc-rv8803.c
-index 98679cae13e8..fd8ab0b2f731 100644
---- a/drivers/rtc/rtc-rv8803.c
-+++ b/drivers/rtc/rtc-rv8803.c
-@@ -15,7 +15,7 @@
- #include <linux/interrupt.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/rtc.h>
- 
- #define RV8803_I2C_TRY_COUNT		4
-diff --git a/drivers/rtc/rtc-rx6110.c b/drivers/rtc/rtc-rx6110.c
-index 8702db6096ba..834274db8c3f 100644
---- a/drivers/rtc/rtc-rx6110.c
-+++ b/drivers/rtc/rtc-rx6110.c
-@@ -13,7 +13,6 @@
- #include <linux/regmap.h>
- #include <linux/rtc.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/spi/spi.h>
- #include <linux/i2c.h>
- 
-diff --git a/drivers/rtc/rtc-rx8581.c b/drivers/rtc/rtc-rx8581.c
-index 82881fd2e14a..48efd61a114d 100644
---- a/drivers/rtc/rtc-rx8581.c
-+++ b/drivers/rtc/rtc-rx8581.c
-@@ -13,7 +13,6 @@
- #include <linux/i2c.h>
- #include <linux/bcd.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/regmap.h>
- #include <linux/rtc.h>
- #include <linux/log2.h>
-diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
-index dca736caba85..6f98969eedca 100644
---- a/drivers/rtc/rtc-rzn1.c
-+++ b/drivers/rtc/rtc-rzn1.c
-@@ -15,7 +15,7 @@
- #include <linux/init.h>
- #include <linux/iopoll.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/rtc.h>
-diff --git a/drivers/rtc/rtc-s3c.c b/drivers/rtc/rtc-s3c.c
-index 70e1a18e5efd..282238818f63 100644
---- a/drivers/rtc/rtc-s3c.c
-+++ b/drivers/rtc/rtc-s3c.c
-@@ -23,7 +23,6 @@
- #include <linux/log2.h>
- #include <linux/slab.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/uaccess.h>
- #include <linux/io.h>
- 
-diff --git a/drivers/rtc/rtc-stm32.c b/drivers/rtc/rtc-stm32.c
-index 3d36e11cff80..2c114e3b0f66 100644
---- a/drivers/rtc/rtc-stm32.c
-+++ b/drivers/rtc/rtc-stm32.c
-@@ -10,7 +10,8 @@
- #include <linux/ioport.h>
- #include <linux/mfd/syscon.h>
  #include <linux/module.h>
 -#include <linux/of_device.h>
 +#include <linux/of.h>
 +#include <linux/platform_device.h>
- #include <linux/pm_wakeirq.h>
- #include <linux/regmap.h>
- #include <linux/rtc.h>
-diff --git a/drivers/rtc/rtc-stmp3xxx.c b/drivers/rtc/rtc-stmp3xxx.c
-index 6f11b745f34d..7566d0a44af8 100644
---- a/drivers/rtc/rtc-stmp3xxx.c
-+++ b/drivers/rtc/rtc-stmp3xxx.c
-@@ -18,7 +18,6 @@
- #include <linux/delay.h>
- #include <linux/rtc.h>
- #include <linux/slab.h>
--#include <linux/of_device.h>
+ #include <linux/spi/spi.h>
+ 
+ #define DRIVER_NAME "spi-ar934x"
+diff --git a/drivers/spi/spi-armada-3700.c b/drivers/spi/spi-armada-3700.c
+index a7fb7c94e70e..0103ac0158c0 100644
+--- a/drivers/spi/spi-armada-3700.c
++++ b/drivers/spi/spi-armada-3700.c
+@@ -17,8 +17,7 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
  #include <linux/of.h>
- #include <linux/stmp_device.h>
- #include <linux/stmp3xxx_rtc_wdt.h>
-diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
-index 71548dd59a3a..753a2d9c8a17 100644
---- a/drivers/rtc/rtc-sun6i.c
-+++ b/drivers/rtc/rtc-sun6i.c
-@@ -24,7 +24,6 @@
+-#include <linux/of_irq.h>
+-#include <linux/of_device.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/spi/spi.h>
+ 
+diff --git a/drivers/spi/spi-at91-usart.c b/drivers/spi/spi-at91-usart.c
+index 7854d9790fe9..fb9c8da57b0c 100644
+--- a/drivers/spi/spi-at91-usart.c
++++ b/drivers/spi/spi-at91-usart.c
+@@ -13,7 +13,6 @@
+ #include <linux/interrupt.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+-#include <linux/of_platform.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/platform_device.h>
+diff --git a/drivers/spi/spi-bcm2835.c b/drivers/spi/spi-bcm2835.c
+index 3b253da98c05..b247ee887562 100644
+--- a/drivers/spi/spi-bcm2835.c
++++ b/drivers/spi/spi-bcm2835.c
+@@ -24,7 +24,7 @@
  #include <linux/module.h>
  #include <linux/of.h>
  #include <linux/of_address.h>
 -#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/rtc.h>
- #include <linux/slab.h>
-diff --git a/drivers/rtc/rtc-sunxi.c b/drivers/rtc/rtc-sunxi.c
-index 5d019e3a835a..5cab9953c44f 100644
---- a/drivers/rtc/rtc-sunxi.c
-+++ b/drivers/rtc/rtc-sunxi.c
-@@ -14,8 +14,6 @@
++#include <linux/platform_device.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/gpio/machine.h> /* FIXME: using chip internals */
+ #include <linux/gpio/driver.h> /* FIXME: using chip internals */
+diff --git a/drivers/spi/spi-bcm2835aux.c b/drivers/spi/spi-bcm2835aux.c
+index 288f7b994b36..8ace417c0a29 100644
+--- a/drivers/spi/spi-bcm2835aux.c
++++ b/drivers/spi/spi-bcm2835aux.c
+@@ -20,9 +20,7 @@
  #include <linux/kernel.h>
  #include <linux/module.h>
  #include <linux/of.h>
 -#include <linux/of_address.h>
 -#include <linux/of_device.h>
+-#include <linux/of_irq.h>
++#include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ #include <linux/spi/spi.h>
+ #include <linux/spinlock.h>
+diff --git a/drivers/spi/spi-cadence-quadspi.c b/drivers/spi/spi-cadence-quadspi.c
+index abf10f92415d..e1a8cf08ef66 100644
+--- a/drivers/spi/spi-cadence-quadspi.c
++++ b/drivers/spi/spi-cadence-quadspi.c
+@@ -21,7 +21,6 @@
+ #include <linux/kernel.h>
+ #include <linux/log2.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
+ #include <linux/of.h>
  #include <linux/platform_device.h>
- #include <linux/rtc.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/spi/spi-cadence-xspi.c b/drivers/spi/spi-cadence-xspi.c
+index ce4a3145f065..11d623cbba2e 100644
+--- a/drivers/spi/spi-cadence-xspi.c
++++ b/drivers/spi/spi-cadence-xspi.c
+@@ -11,7 +11,6 @@
+ #include <linux/iopoll.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/spi/spi-davinci.c b/drivers/spi/spi-davinci.c
+index b04811c911e2..7052783dcfb4 100644
+--- a/drivers/spi/spi-davinci.c
++++ b/drivers/spi/spi-davinci.c
+@@ -15,7 +15,6 @@
+ #include <linux/dmaengine.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/spi/spi.h>
+ #include <linux/spi/spi_bitbang.h>
+ #include <linux/slab.h>
+diff --git a/drivers/spi/spi-fsl-dspi.c b/drivers/spi/spi-fsl-dspi.c
+index 674cfe05f411..ca41c8a8ba42 100644
+--- a/drivers/spi/spi-fsl-dspi.c
++++ b/drivers/spi/spi-fsl-dspi.c
+@@ -13,7 +13,8 @@
+ #include <linux/interrupt.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/regmap.h>
+ #include <linux/spi/spi.h>
+diff --git a/drivers/spi/spi-fsl-lib.c b/drivers/spi/spi-fsl-lib.c
+index 76e1192eb025..885757c29fbb 100644
+--- a/drivers/spi/spi-fsl-lib.c
++++ b/drivers/spi/spi-fsl-lib.c
+@@ -18,7 +18,8 @@
+ #include <linux/kernel.h>
+ #include <linux/mm.h>
+ #include <linux/module.h>
+-#include <linux/of_platform.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
+ #include <linux/spi/spi.h>
+ #ifdef CONFIG_FSL_SOC
+ #include <sysdev/fsl_soc.h>
+diff --git a/drivers/spi/spi-fsl-lpspi.c b/drivers/spi/spi-fsl-lpspi.c
+index fb68c72df171..a9d3919487e8 100644
+--- a/drivers/spi/spi-fsl-lpspi.c
++++ b/drivers/spi/spi-fsl-lpspi.c
+@@ -17,7 +17,6 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/platform_device.h>
+ #include <linux/dma/imx-dma.h>
+diff --git a/drivers/spi/spi-fsl-qspi.c b/drivers/spi/spi-fsl-qspi.c
+index 8ade61e5ebc0..e3de81248893 100644
+--- a/drivers/spi/spi-fsl-qspi.c
++++ b/drivers/spi/spi-fsl-qspi.c
+@@ -34,7 +34,6 @@
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_qos.h>
+ #include <linux/sizes.h>
+diff --git a/drivers/spi/spi-gpio.c b/drivers/spi/spi-gpio.c
+index 092afc7679d4..0a7f7b0188a1 100644
+--- a/drivers/spi/spi-gpio.c
++++ b/drivers/spi/spi-gpio.c
+@@ -10,7 +10,6 @@
+ #include <linux/platform_device.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ 
+ #include <linux/spi/spi.h>
+ #include <linux/spi/spi_bitbang.h>
+diff --git a/drivers/spi/spi-gxp.c b/drivers/spi/spi-gxp.c
+index 684d63f402f3..88ab3032736b 100644
+--- a/drivers/spi/spi-gxp.c
++++ b/drivers/spi/spi-gxp.c
+@@ -3,7 +3,6 @@
+ 
+ #include <linux/iopoll.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/spi/spi.h>
+ #include <linux/spi/spi-mem.h>
+diff --git a/drivers/spi/spi-imx.c b/drivers/spi/spi-imx.c
+index 528ae46c087f..548eea7a0a90 100644
+--- a/drivers/spi/spi-imx.c
++++ b/drivers/spi/spi-imx.c
+@@ -20,7 +20,6 @@
+ #include <linux/spi/spi.h>
  #include <linux/types.h>
-diff --git a/drivers/rtc/rtc-ti-k3.c b/drivers/rtc/rtc-ti-k3.c
-index 0d90fe923355..ec759d8f7023 100644
---- a/drivers/rtc/rtc-ti-k3.c
-+++ b/drivers/rtc/rtc-ti-k3.c
-@@ -9,7 +9,7 @@
- #include <linux/delay.h>
- #include <linux/mod_devicetable.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/property.h>
+ 
+ #include <linux/dma/imx-dma.h>
+diff --git a/drivers/spi/spi-ingenic.c b/drivers/spi/spi-ingenic.c
+index 7d4b515a160d..cfa665a80bc6 100644
+--- a/drivers/spi/spi-ingenic.c
++++ b/drivers/spi/spi-ingenic.c
+@@ -12,7 +12,7 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/iopoll.h>
  #include <linux/module.h>
 -#include <linux/of_device.h>
 +#include <linux/of.h>
  #include <linux/platform_device.h>
- #include <linux/sys_soc.h>
- #include <linux/property.h>
+ #include <linux/regmap.h>
+ #include <linux/spi/spi.h>
+diff --git a/drivers/spi/spi-lantiq-ssc.c b/drivers/spi/spi-lantiq-ssc.c
+index 8d6ecc5d6f70..65568272cfd9 100644
+--- a/drivers/spi/spi-lantiq-ssc.c
++++ b/drivers/spi/spi-lantiq-ssc.c
+@@ -6,7 +6,8 @@
+ 
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
+ #include <linux/clk.h>
+ #include <linux/io.h>
+ #include <linux/delay.h>
+diff --git a/drivers/spi/spi-loopback-test.c b/drivers/spi/spi-loopback-test.c
+index 675a73cf1579..bbf2015d8e5c 100644
+--- a/drivers/spi/spi-loopback-test.c
++++ b/drivers/spi/spi-loopback-test.c
+@@ -14,8 +14,8 @@
+ #include <linux/ktime.h>
+ #include <linux/list.h>
+ #include <linux/list_sort.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
+ #include <linux/printk.h>
+ #include <linux/vmalloc.h>
+ #include <linux/spi/spi.h>
+diff --git a/drivers/spi/spi-lp8841-rtc.c b/drivers/spi/spi-lp8841-rtc.c
+index 2d436541d6c2..d732ac1ee73c 100644
+--- a/drivers/spi/spi-lp8841-rtc.c
++++ b/drivers/spi/spi-lp8841-rtc.c
+@@ -15,7 +15,6 @@
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/spi/spi.h>
+ 
+ #define DRIVER_NAME	"spi_lp8841_rtc"
+diff --git a/drivers/spi/spi-meson-spicc.c b/drivers/spi/spi-meson-spicc.c
+index 141562c882f1..2d254cfaece5 100644
+--- a/drivers/spi/spi-meson-spicc.c
++++ b/drivers/spi/spi-meson-spicc.c
+@@ -15,7 +15,6 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/spi/spi.h>
+ #include <linux/types.h>
+diff --git a/drivers/spi/spi-mt7621.c b/drivers/spi/spi-mt7621.c
+index 3e9d396b33bd..91600e5c22e4 100644
+--- a/drivers/spi/spi-mt7621.c
++++ b/drivers/spi/spi-mt7621.c
+@@ -14,7 +14,9 @@
+ #include <linux/delay.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
++#include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/platform_device.h>
+ #include <linux/reset.h>
+ #include <linux/spi/spi.h>
+ 
+diff --git a/drivers/spi/spi-mtk-nor.c b/drivers/spi/spi-mtk-nor.c
+index baa7a5353987..cf4ee8b19e42 100644
+--- a/drivers/spi/spi-mtk-nor.c
++++ b/drivers/spi/spi-mtk-nor.c
+@@ -13,7 +13,8 @@
+ #include <linux/iopoll.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/spi/spi.h>
+ #include <linux/spi/spi-mem.h>
+diff --git a/drivers/spi/spi-mtk-snfi.c b/drivers/spi/spi-mtk-snfi.c
+index bed8317cd205..4433a8a9299f 100644
+--- a/drivers/spi/spi-mtk-snfi.c
++++ b/drivers/spi/spi-mtk-snfi.c
+@@ -76,7 +76,8 @@
+ #include <linux/interrupt.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/iopoll.h>
+-#include <linux/of_platform.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
+ #include <linux/mtd/nand-ecc-mtk.h>
+ #include <linux/spi/spi.h>
+ #include <linux/spi/spi-mem.h>
+diff --git a/drivers/spi/spi-npcm-fiu.c b/drivers/spi/spi-npcm-fiu.c
+index eb353561509a..9e8c914ff26c 100644
+--- a/drivers/spi/spi-npcm-fiu.c
++++ b/drivers/spi/spi-npcm-fiu.c
+@@ -12,7 +12,7 @@
+ #include <linux/io.h>
+ #include <linux/vmalloc.h>
+ #include <linux/regmap.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/spi/spi-mem.h>
+ #include <linux/mfd/syscon.h>
+ 
+diff --git a/drivers/spi/spi-nxp-fspi.c b/drivers/spi/spi-nxp-fspi.c
+index 544017655787..2d7a2f702453 100644
+--- a/drivers/spi/spi-nxp-fspi.c
++++ b/drivers/spi/spi-nxp-fspi.c
+@@ -47,7 +47,6 @@
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_qos.h>
+ #include <linux/regmap.h>
+diff --git a/drivers/spi/spi-orion.c b/drivers/spi/spi-orion.c
+index ad9e83e34297..0ffe3777f97d 100644
+--- a/drivers/spi/spi-orion.c
++++ b/drivers/spi/spi-orion.c
+@@ -16,7 +16,6 @@
+ #include <linux/pm_runtime.h>
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+-#include <linux/of_device.h>
+ #include <linux/clk.h>
+ #include <linux/sizes.h>
+ #include <asm/unaligned.h>
+diff --git a/drivers/spi/spi-qcom-qspi.c b/drivers/spi/spi-qcom-qspi.c
+index a8a683d6145c..08b060dd7bb8 100644
+--- a/drivers/spi/spi-qcom-qspi.c
++++ b/drivers/spi/spi-qcom-qspi.c
+@@ -9,7 +9,7 @@
+ #include <linux/io.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/pm_opp.h>
+diff --git a/drivers/spi/spi-qup.c b/drivers/spi/spi-qup.c
+index 00e5e88e72c4..fd16acb1f578 100644
+--- a/drivers/spi/spi-qup.c
++++ b/drivers/spi/spi-qup.c
+@@ -11,7 +11,6 @@
+ #include <linux/list.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/spi/spi.h>
+diff --git a/drivers/spi/spi-rspi.c b/drivers/spi/spi-rspi.c
+index 08ceebbaf69b..abc97e9bf109 100644
+--- a/drivers/spi/spi-rspi.c
++++ b/drivers/spi/spi-rspi.c
+@@ -19,7 +19,7 @@
+ #include <linux/clk.h>
+ #include <linux/dmaengine.h>
+ #include <linux/dma-mapping.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/reset.h>
+ #include <linux/sh_dma.h>
+diff --git a/drivers/spi/spi-s3c64xx.c b/drivers/spi/spi-s3c64xx.c
+index fd55697144cc..29982839d971 100644
+--- a/drivers/spi/spi-s3c64xx.c
++++ b/drivers/spi/spi-s3c64xx.c
+@@ -14,7 +14,6 @@
+ #include <linux/pm_runtime.h>
+ #include <linux/spi/spi.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ 
+ #include <linux/platform_data/spi-s3c64xx.h>
+ 
+diff --git a/drivers/spi/spi-sc18is602.c b/drivers/spi/spi-sc18is602.c
+index d52ed67243f7..c67a24daaaf9 100644
+--- a/drivers/spi/spi-sc18is602.c
++++ b/drivers/spi/spi-sc18is602.c
+@@ -12,7 +12,6 @@
+ #include <linux/i2c.h>
+ #include <linux/delay.h>
+ #include <linux/pm_runtime.h>
+-#include <linux/of_device.h>
+ #include <linux/of.h>
+ #include <linux/platform_data/sc18is602.h>
+ #include <linux/gpio/consumer.h>
+diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
+index 9e90b4f8b357..5c75b5c58d97 100644
+--- a/drivers/spi/spi-sh-msiof.c
++++ b/drivers/spi/spi-sh-msiof.c
+@@ -20,7 +20,6 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/sh_dma.h>
+diff --git a/drivers/spi/spi-sn-f-ospi.c b/drivers/spi/spi-sn-f-ospi.c
+index d64d3f75c726..85e4a01bc8b0 100644
+--- a/drivers/spi/spi-sn-f-ospi.c
++++ b/drivers/spi/spi-sn-f-ospi.c
+@@ -10,7 +10,7 @@
+ #include <linux/iopoll.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/spi/spi.h>
+ #include <linux/spi/spi-mem.h>
+diff --git a/drivers/spi/spi-sprd-adi.c b/drivers/spi/spi-sprd-adi.c
+index 22e39c4c12c4..42786b28cd35 100644
+--- a/drivers/spi/spi-sprd-adi.c
++++ b/drivers/spi/spi-sprd-adi.c
+@@ -11,7 +11,6 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/reboot.h>
+ #include <linux/spi/spi.h>
+diff --git a/drivers/spi/spi-sprd.c b/drivers/spi/spi-sprd.c
+index 518c7eaca84e..95377cf748c0 100644
+--- a/drivers/spi/spi-sprd.c
++++ b/drivers/spi/spi-sprd.c
+@@ -11,7 +11,6 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/spi/spi-stm32-qspi.c b/drivers/spi/spi-stm32-qspi.c
+index 2b6804aa6901..def74ae9b5f6 100644
+--- a/drivers/spi/spi-stm32-qspi.c
++++ b/drivers/spi/spi-stm32-qspi.c
+@@ -14,7 +14,6 @@
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_gpio.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/spi/spi-sun6i.c b/drivers/spi/spi-sun6i.c
+index 30d541612253..1aa32094d7c9 100644
+--- a/drivers/spi/spi-sun6i.c
++++ b/drivers/spi/spi-sun6i.c
+@@ -14,7 +14,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/reset.h>
+diff --git a/drivers/spi/spi-tegra114.c b/drivers/spi/spi-tegra114.c
+index 488df681eaef..ca4bdd45f56e 100644
+--- a/drivers/spi/spi-tegra114.c
++++ b/drivers/spi/spi-tegra114.c
+@@ -20,7 +20,6 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/reset.h>
+ #include <linux/spi/spi.h>
+ 
+diff --git a/drivers/spi/spi-tegra20-slink.c b/drivers/spi/spi-tegra20-slink.c
+index c2915f7672cc..8feba07a1980 100644
+--- a/drivers/spi/spi-tegra20-slink.c
++++ b/drivers/spi/spi-tegra20-slink.c
+@@ -21,7 +21,6 @@
+ #include <linux/pm_opp.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/reset.h>
+ #include <linux/spi/spi.h>
+ 
+diff --git a/drivers/spi/spi-tegra210-quad.c b/drivers/spi/spi-tegra210-quad.c
+index fbd14dd7be44..e9ad9b0b598b 100644
+--- a/drivers/spi/spi-tegra210-quad.c
++++ b/drivers/spi/spi-tegra210-quad.c
+@@ -18,7 +18,6 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/reset.h>
+ #include <linux/spi/spi.h>
+ #include <linux/acpi.h>
+diff --git a/drivers/spi/spi-ti-qspi.c b/drivers/spi/spi-ti-qspi.c
+index 5914335ff63d..1cfc97c20928 100644
+--- a/drivers/spi/spi-ti-qspi.c
++++ b/drivers/spi/spi-ti-qspi.c
+@@ -22,7 +22,6 @@
+ #include <linux/slab.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/regmap.h>
+diff --git a/drivers/spi/spi-wpcm-fiu.c b/drivers/spi/spi-wpcm-fiu.c
+index f15312fdcdaf..852ffe013d32 100644
+--- a/drivers/spi/spi-wpcm-fiu.c
++++ b/drivers/spi/spi-wpcm-fiu.c
+@@ -3,9 +3,8 @@
+ 
+ #include <linux/clk.h>
+ #include <linux/mfd/syscon.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+-#include <linux/of_address.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ #include <linux/spi/spi-mem.h>
+diff --git a/drivers/spi/spi-zynqmp-gqspi.c b/drivers/spi/spi-zynqmp-gqspi.c
+index fb2ca9b90eab..a6b892d01038 100644
+--- a/drivers/spi/spi-zynqmp-gqspi.c
++++ b/drivers/spi/spi-zynqmp-gqspi.c
+@@ -14,9 +14,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
+-#include <linux/of_irq.h>
+-#include <linux/of_address.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/spi/spi.h>
 -- 
 2.40.1
 
