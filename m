@@ -1,53 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E236B15B8
-	for <linux-sunxi@lists.linux.dev>; Sat, 15 Jul 2023 16:53:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E45F0C433C8;
-	Sat, 15 Jul 2023 16:53:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE5315B8
+	for <linux-sunxi@lists.linux.dev>; Sat, 15 Jul 2023 17:13:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81BA8C433C8;
+	Sat, 15 Jul 2023 17:13:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689440012;
-	bh=2Q4FCDoenbmD/VhiBVMa5udzbl7nfKdi1+C2wdvn1O0=;
+	s=k20201202; t=1689441228;
+	bh=1p/AukyvqBFfujmrDsB0r4g71V+ZKHoyhzwzCuFNHCA=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=KGFJejuQEStcUADchTg9oWaT+ZuWLuTpi4HLb3Op7RAslZMX2tJ3LWVkhFtyi0v8C
-	 UgVxYMhhAPoJCfCUaYcatC6Yfas9V4+xwGhklnavAdjnk/Rl4Ab+hgZM6TxRfeyUyV
-	 ThGax002RCYNwEpzElSo1VimTuqHfL8TTYQk/jSQap0Yn6++SdQ5ny9z0LHwYo3FdC
-	 vffxqAxdGlr1Xe5jo7AM2rv4qWFHvquiD3cAd5crQFy+EzbDyTLx+e6S4FFlAKE5pL
-	 0+o28xIlcXV6azxJp+qbLkW/17I3yEFetA7VD4arf/orfXfQh+GG5pQ0VUUM5c8awC
-	 IoWiUm7qcWqDg==
-Date: Sat, 15 Jul 2023 17:53:19 +0100
+	b=BM2CGCDfP7E6HVkrvvHPGLDfcDjf9HKBnne9SoZKw8rJc+cGhvWSmYx4TTs3Pwh2q
+	 12CeMyAMapFp3//L1EDvlq9UyTo2q7oHpwkGuWda/vWrdYUUbsiO783mR1QvbEBdZ8
+	 NGCXe3FLdB/5l1nwbAzW9B8yKNw+SRiYqKjeHDw4JHznwMZyH6nn5SYFRZjno2pChL
+	 9YuAcWcpHhD33KJFuwVnVAtZawDgTqsfuN+vWahpL3nBIMDrR57i48i6P+X3KzAh4F
+	 fOo9DKSlItB44DRKLNemBOIWLvPnZCCtHr0ccvqBlD9eSDpMo2TJfw+fLKItCFcAn3
+	 zJm4Z40UfN5rw==
+Date: Sat, 15 Jul 2023 18:13:38 +0100
 From: Jonathan Cameron <jic23@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>,
- linux-iio@vger.kernel.org, Maksim Kiselev <bigunclemax@gmail.com>,
- Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland
- <samuel@sholland.org>, Paul Walmsley <paul.walmsley@sifive.com>, Palmer
- Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Philipp
- Zabel <p.zabel@pengutronix.de>, Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>, Andre Przywara
- <andre.przywara@arm.com>, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Cosmin Tanislav <demonsingur@gmail.com>, AngeloGioacchino Del Regno       
-  <angelogioacchino.delregno@collabora.com>, Hugo Villeneuve
- <hvilleneuve@dimonoff.com>, Arnd Bergmann <arnd@arndb.de>, Leonard
- =?UTF-8?B?R8O2aHJz?= <l.goehrs@pengutronix.de>, ChiYuan Huang
- <cy_huang@richtek.com>, Ramona Bolboaca <ramona.bolboaca@analog.com>,
- Ibrahim Tilki <Ibrahim.Tilki@analog.com>, ChiaEn Wu
- <chiaen_wu@richtek.com>, William Breathitt Gray <william.gray@linaro.org>,
- Haibo Chen <haibo.chen@nxp.com>, Mike Looijmans <mike.looijmans@topic.nl>,
- Quentin Schulz <quentin.schulz@free-electrons.com>, Maxime Ripard
- <mripard@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v8 1/4] iio: adc: Kconfig change description for
- Allwinner GPADC
-Message-ID: <20230715175319.1ea7f2c1@jic23-huawei>
-In-Reply-To: <b3723443-2a27-0a51-babd-b36eef095913@linaro.org>
-References: <20230619154252.3951913-1-bigunclemax@gmail.com>
-	<20230619154252.3951913-2-bigunclemax@gmail.com>
-	<2148594.irdbgypaU6@jernej-laptop>
-	<b3723443-2a27-0a51-babd-b36eef095913@linaro.org>
+To: Maksim Kiselev <bigunclemax@gmail.com>
+Cc: linux-iio@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, Rob
+ Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+ <aou@eecs.berkeley.edu>, Philipp Zabel <p.zabel@pengutronix.de>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v9 0/4] Add support for Allwinner GPADC on
+ D1/T113s/R329/T507 SoCs
+Message-ID: <20230715181338.55c4a942@jic23-huawei>
+In-Reply-To: <20230715091816.3074375-1-bigunclemax@gmail.com>
+References: <20230715091816.3074375-1-bigunclemax@gmail.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -55,36 +40,87 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, 12 Jul 2023 07:37:38 +0200
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+On Sat, 15 Jul 2023 12:18:12 +0300
+Maksim Kiselev <bigunclemax@gmail.com> wrote:
 
-> On 11/07/2023 20:14, Jernej =C5=A0krabec wrote:
-> > Dne ponedeljek, 19. junij 2023 ob 17:42:24 CEST je Maksim Kiselev napis=
-al(a): =20
-> >> This patch adds SoCs names to Allwinner GPADC description to
-> >> make it more informative. =20
-> >=20
-> > Please reword to remove "This patch".
-> >  =20
-> >>
-> >> Fixes: d1caa9905538 ("iio: adc: add support for Allwinner SoCs ADC") =
-=20
-> >=20
-> > I'm fine with the patch in general, but does this really warrant fixes =
-tag?
-> >  =20
->=20
-> No, it's some fake fix. There is no bug here.
->=20
-> Best regards,
-> Krzysztof
->=20
+> This series adds support for general purpose ADC (GPADC) on new
+> Allwinner's SoCs, such as D1, T113s, T507 and R329. The implemented driver
+> provides basic functionality for getting ADC channels data.
+> 
+> Change History:
+> v9:
+> - Dropped fixes tag
 
-Dropped the tag.
+I tweaked it on the tree to do this rather than dropping the series.
 
-Thanks for pointing this out.
+> - Reworded commits to remove 'This patch'
+Treated this one as a nice to have and skipped it on the tree.
+
+So v8 is queued up with the fixes tag dropped.
+
+Thanks,
 
 Jonathan
+
+> 
+> v8:
+> - Added patch that changes Kconfig description for previous Allwinner GPADC
+> - Changed Kconfig description for this GPADC driver
+> - Fixed 'reg' range for gpadc node in 'sunxi-d1s-t113.dtsi'
+> 
+> v7:
+> - Fixed typo in DT bindings property
+> 
+> v6:
+> - Fixed DT bindings regexp for channel properties
+> - Dropped checking the max number of channels from the drivers code
+>   (This is redundant as we raly on DT bindings check)
+> 
+> v5:
+> - Fixed DT bindings properties for child nodes
+> 
+> v4:
+> - Fixed DT bindings warnings
+> - Used GENMASK to clear the irq register
+> - Minor formatting fixes
+> 
+> v3:
+> - Added DT bindings dual license, fixed property order and example formatting
+> - Added explanations comments for timeout and mutex
+> - Dropped unnecessary regmap and used readl/writel instead
+> - Added error message about getting channel number
+> - Renamed labels and variables to make them self-explanatory
+> 
+> v2:
+> - Added lastch flag to avoid addition work for already selected channel
+> - Added reset assertion on module remove
+> - Added dynamic channel allocation and dropped iio_chan_spec arrays
+> - Changed IIO_CHAN_INFO_SCALE type to FRACTIONAL_LOG2
+> - Dropped separate compatible strings and configs for T113s and R329
+> - Fixed includes
+> - Fixed Kconfig description
+> - Removed duplicate probe error messages
+> - Used FIELD_PREP for bit setup
+> 
+> v1:
+> - Initial version
+> 
+> Maksim Kiselev (4):
+>   iio: adc: Kconfig change description for Allwinner GPADC
+>   iio: adc: Add Allwinner D1/T113s/R329/T507 SoCs GPADC
+>   dt-bindings: iio: adc: Add Allwinner D1/T113s/R329/T507 SoCs GPADC
+>   riscv: dts: allwinner: d1: Add GPADC node
+> 
+>  .../iio/adc/allwinner,sun20i-d1-gpadc.yaml    |  91 ++++++
+>  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  10 +
+>  drivers/iio/adc/Kconfig                       |  12 +-
+>  drivers/iio/adc/Makefile                      |   1 +
+>  drivers/iio/adc/sun20i-gpadc-iio.c            | 276 ++++++++++++++++++
+>  5 files changed, 389 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml
+>  create mode 100644 drivers/iio/adc/sun20i-gpadc-iio.c
+> 
+
