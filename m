@@ -1,38 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE5315B8
-	for <linux-sunxi@lists.linux.dev>; Sat, 15 Jul 2023 17:13:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81BA8C433C8;
-	Sat, 15 Jul 2023 17:13:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F262879FC
+	for <linux-sunxi@lists.linux.dev>; Sat, 15 Jul 2023 17:25:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EECADC433C8;
+	Sat, 15 Jul 2023 17:25:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689441228;
-	bh=1p/AukyvqBFfujmrDsB0r4g71V+ZKHoyhzwzCuFNHCA=;
+	s=k20201202; t=1689441924;
+	bh=2rWa0saIx/aSMdEvevYBh+MQQSg3D2IqD2pink9uqAw=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=BM2CGCDfP7E6HVkrvvHPGLDfcDjf9HKBnne9SoZKw8rJc+cGhvWSmYx4TTs3Pwh2q
-	 12CeMyAMapFp3//L1EDvlq9UyTo2q7oHpwkGuWda/vWrdYUUbsiO783mR1QvbEBdZ8
-	 NGCXe3FLdB/5l1nwbAzW9B8yKNw+SRiYqKjeHDw4JHznwMZyH6nn5SYFRZjno2pChL
-	 9YuAcWcpHhD33KJFuwVnVAtZawDgTqsfuN+vWahpL3nBIMDrR57i48i6P+X3KzAh4F
-	 fOo9DKSlItB44DRKLNemBOIWLvPnZCCtHr0ccvqBlD9eSDpMo2TJfw+fLKItCFcAn3
-	 zJm4Z40UfN5rw==
-Date: Sat, 15 Jul 2023 18:13:38 +0100
+	b=ehhFp2aPpwHHqcFgPeCL1aRVMT6SJUvZ0WbwW5z1GdEEHVzpkLgPuWV8jHGduq8S1
+	 RVF2ykVEzsL3rBi31a/3Iu+dYS0nJqrH/Xphsl3DFfvW3YFp32q8BwSpSPxLzKwcTP
+	 x9yO3DYNCagSY89ZgkOlaXPYZZZdGN2w/f/MQ+ootmn3o3uFglzPoxUX8ygl1d+6fD
+	 /jed+oevOtn+4fAMcNoMWj8+sLgWPQ850ABlryL6OC6pD1CyTg7UAuP+m058Z7qGDr
+	 tP2TCei67hN8ux/kvDFEcvFLMsvw1b0dVGELWwf/IbQZQDCT/y+18MC1PHPh8P2Hvf
+	 dDcPQJAgg6vFA==
+Date: Sat, 15 Jul 2023 18:25:10 +0100
 From: Jonathan Cameron <jic23@kernel.org>
-To: Maksim Kiselev <bigunclemax@gmail.com>
-Cc: linux-iio@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, Rob
- Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Philipp Zabel <p.zabel@pengutronix.de>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v9 0/4] Add support for Allwinner GPADC on
- D1/T113s/R329/T507 SoCs
-Message-ID: <20230715181338.55c4a942@jic23-huawei>
-In-Reply-To: <20230715091816.3074375-1-bigunclemax@gmail.com>
-References: <20230715091816.3074375-1-bigunclemax@gmail.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Michael Hennerich <michael.hennerich@analog.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Alexandru Tachici <alexandru.tachici@analog.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea
+ <claudiu.beznea@microchip.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Andy Gross
+ <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
+ <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>, Orson Zhai
+ <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan
+ Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Crt Mori <cmo@melexis.com>,
+ devicetree@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] iio: adc: Explicitly include correct DT includes
+Message-ID: <20230715182510.3d09970c@jic23-huawei>
+In-Reply-To: <20230714174628.4057920-1-robh@kernel.org>
+References: <20230714174628.4057920-1-robh@kernel.org>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -43,84 +51,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sat, 15 Jul 2023 12:18:12 +0300
-Maksim Kiselev <bigunclemax@gmail.com> wrote:
+On Fri, 14 Jul 2023 11:46:26 -0600
+Rob Herring <robh@kernel.org> wrote:
 
-> This series adds support for general purpose ADC (GPADC) on new
-> Allwinner's SoCs, such as D1, T113s, T507 and R329. The implemented driver
-> provides basic functionality for getting ADC channels data.
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
 > 
-> Change History:
-> v9:
-> - Dropped fixes tag
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-I tweaked it on the tree to do this rather than dropping the series.
+Hi Rob,
 
-> - Reworded commits to remove 'This patch'
-Treated this one as a nice to have and skipped it on the tree.
-
-So v8 is queued up with the fixes tag dropped.
-
-Thanks,
+Just one in here that I noticed isn't quite right. I'd have fixed it 
+up (and can still do so if nothing else comes up) but I want to give
+this more time on list anyway so won't pick it up today.
 
 Jonathan
 
-> 
-> v8:
-> - Added patch that changes Kconfig description for previous Allwinner GPADC
-> - Changed Kconfig description for this GPADC driver
-> - Fixed 'reg' range for gpadc node in 'sunxi-d1s-t113.dtsi'
-> 
-> v7:
-> - Fixed typo in DT bindings property
-> 
-> v6:
-> - Fixed DT bindings regexp for channel properties
-> - Dropped checking the max number of channels from the drivers code
->   (This is redundant as we raly on DT bindings check)
-> 
-> v5:
-> - Fixed DT bindings properties for child nodes
-> 
-> v4:
-> - Fixed DT bindings warnings
-> - Used GENMASK to clear the irq register
-> - Minor formatting fixes
-> 
-> v3:
-> - Added DT bindings dual license, fixed property order and example formatting
-> - Added explanations comments for timeout and mutex
-> - Dropped unnecessary regmap and used readl/writel instead
-> - Added error message about getting channel number
-> - Renamed labels and variables to make them self-explanatory
-> 
-> v2:
-> - Added lastch flag to avoid addition work for already selected channel
-> - Added reset assertion on module remove
-> - Added dynamic channel allocation and dropped iio_chan_spec arrays
-> - Changed IIO_CHAN_INFO_SCALE type to FRACTIONAL_LOG2
-> - Dropped separate compatible strings and configs for T113s and R329
-> - Fixed includes
-> - Fixed Kconfig description
-> - Removed duplicate probe error messages
-> - Used FIELD_PREP for bit setup
-> 
-> v1:
-> - Initial version
-> 
-> Maksim Kiselev (4):
->   iio: adc: Kconfig change description for Allwinner GPADC
->   iio: adc: Add Allwinner D1/T113s/R329/T507 SoCs GPADC
->   dt-bindings: iio: adc: Add Allwinner D1/T113s/R329/T507 SoCs GPADC
->   riscv: dts: allwinner: d1: Add GPADC node
-> 
->  .../iio/adc/allwinner,sun20i-d1-gpadc.yaml    |  91 ++++++
->  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  10 +
->  drivers/iio/adc/Kconfig                       |  12 +-
->  drivers/iio/adc/Makefile                      |   1 +
->  drivers/iio/adc/sun20i-gpadc-iio.c            | 276 ++++++++++++++++++
->  5 files changed, 389 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/devicetree/bindings/iio/adc/allwinner,sun20i-d1-gpadc.yaml
->  create mode 100644 drivers/iio/adc/sun20i-gpadc-iio.c
-> 
+> diff --git a/drivers/iio/adc/stmpe-adc.c b/drivers/iio/adc/stmpe-adc.c
+> index 67518e460e05..55e36b40fdf5 100644
+> --- a/drivers/iio/adc/stmpe-adc.c
+> +++ b/drivers/iio/adc/stmpe-adc.c
+> @@ -14,9 +14,10 @@
+>  #include <linux/kernel.h>
+>  #include <linux/mfd/stmpe.h>
+>  #include <linux/module.h>
+> -#include <linux/of_platform.h>
+> +#include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/device.h>
+> +#include <linux/of.h>
+
+Duplicate include.
 
