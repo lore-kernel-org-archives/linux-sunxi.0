@@ -1,58 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F262879FC
-	for <linux-sunxi@lists.linux.dev>; Sat, 15 Jul 2023 17:25:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EECADC433C8;
-	Sat, 15 Jul 2023 17:25:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689441924;
-	bh=2rWa0saIx/aSMdEvevYBh+MQQSg3D2IqD2pink9uqAw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ehhFp2aPpwHHqcFgPeCL1aRVMT6SJUvZ0WbwW5z1GdEEHVzpkLgPuWV8jHGduq8S1
-	 RVF2ykVEzsL3rBi31a/3Iu+dYS0nJqrH/Xphsl3DFfvW3YFp32q8BwSpSPxLzKwcTP
-	 x9yO3DYNCagSY89ZgkOlaXPYZZZdGN2w/f/MQ+ootmn3o3uFglzPoxUX8ygl1d+6fD
-	 /jed+oevOtn+4fAMcNoMWj8+sLgWPQ850ABlryL6OC6pD1CyTg7UAuP+m058Z7qGDr
-	 tP2TCei67hN8ux/kvDFEcvFLMsvw1b0dVGELWwf/IbQZQDCT/y+18MC1PHPh8P2Hvf
-	 dDcPQJAgg6vFA==
-Date: Sat, 15 Jul 2023 18:25:10 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Michael Hennerich <michael.hennerich@analog.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Alexandru Tachici <alexandru.tachici@analog.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Claudiu Beznea
- <claudiu.beznea@microchip.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Andy Gross
- <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
- <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>, Orson Zhai
- <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan
- Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Crt Mori <cmo@melexis.com>,
- devicetree@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] iio: adc: Explicitly include correct DT includes
-Message-ID: <20230715182510.3d09970c@jic23-huawei>
-In-Reply-To: <20230714174628.4057920-1-robh@kernel.org>
-References: <20230714174628.4057920-1-robh@kernel.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4605A79FC
+	for <linux-sunxi@lists.linux.dev>; Sat, 15 Jul 2023 17:57:16 +0000 (UTC)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-577637de4beso29464257b3.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 15 Jul 2023 10:57:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689443836; x=1692035836;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MWfuaj908ezvTCArkn3iKuZY57pS5DEGCvs818aKT1g=;
+        b=hXFWx/7V2ilUSpF3voEEHL3miMi68ZScjxXTYKsraLjLXai5wQQF4WPMOEwKknT73Z
+         TosQJPQ0jcS9mV4PZ/Hrjat87xHfW1QZJJvKse42oBPzZB+EGbp2N3i5id7JTxjUsgtN
+         WDL0fBXFgAJ7IwzYFb0eaIrxQI4wqfHa1Tk5UXF4g6QhSgtnbN6HAd5LXyrsoH093BeZ
+         dnzHSgUdn7weBlTbCB7MsfNkTRHFyDdDqy3vayXALCvXkwp2xHLINAeKis0MHStT3gGB
+         zSRQipZgpEoUedpY9iX8KSuraRlyBWdrTzGFZ/p6RBKPRCTekMb8kbzZG2seChNlsEGP
+         QXtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689443836; x=1692035836;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MWfuaj908ezvTCArkn3iKuZY57pS5DEGCvs818aKT1g=;
+        b=bGrcF9W6Ot6bMheUosnvjP8fnSn1rbcy7/wwDdXLw3E0hq2GTxFryqWK0pUON5LhlX
+         el8ZnUw7+JrNztEwUT5G4Xj9hBB/u6zw37aJHzTBV2rxHMFtWIFz6OIbmgmfoJnxtwJy
+         +8Edne0twm1aXubyTG96yv4v2ZpOzE0DrCL+zYb74D1G9iuQY26TqZta8gPFKyHyI1zm
+         6CtUelLCiYMMqSDAUW/Wd7v0H5fGfCjx7mgmnRHyZtsrByzu9VDLnRpzqPPbKX8oJ8yv
+         +3Y5mCl59Ry8bvHTx0QokJuEwSkDsCQ+pLAqfROJqOrGZzLbb1YSRnPG+u6kji7pwzYi
+         a88Q==
+X-Gm-Message-State: ABy/qLakn8J9XmHV6YdmaY7l7rfXrAy/3bsS1hw0HzGkhXBL4vNn1jvj
+	uZOHVKC894uLjyNIZ46icrEbhN9ODProoOLAL5dERQ==
+X-Google-Smtp-Source: APBJJlEOgFSlT/aTEORmFdIMvrXhSvSNS+ivT8OhWO9TBnbzSoXq3K3OfZ5ITuyPBt0YYAqSQP7aCMjSrPWQ6SLmwFM=
+X-Received: by 2002:a81:4ec2:0:b0:573:cacd:3b6e with SMTP id
+ c185-20020a814ec2000000b00573cacd3b6emr7407493ywb.30.1689443836031; Sat, 15
+ Jul 2023 10:57:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20230714174751.4060439-1-robh@kernel.org>
+In-Reply-To: <20230714174751.4060439-1-robh@kernel.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sat, 15 Jul 2023 19:57:04 +0200
+Message-ID: <CACRpkdaxqeZH_SOhmuZ2rhoU73uDVNPmzGFpCEuk636Jb2qMsw@mail.gmail.com>
+Subject: Re: [PATCH] mtd: Explicitly include correct DT includes
+To: Rob Herring <robh@kernel.org>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Kyungmin Park <kyungmin.park@samsung.com>, Han Xu <han.xu@nxp.com>, 
+	Harvey Hunt <harveyhuntnexus@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
+	Liang Yang <liang.yang@amlogic.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Michal Simek <michal.simek@amd.com>, Manivannan Sadhasivam <mani@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Vladimir Zapolskiy <vz@mleia.com>, 
+	Tudor Ambarus <tudor.ambarus@linaro.org>, Pratyush Yadav <pratyush@kernel.org>, 
+	Michael Walle <michael@walle.cc>, devicetree@vger.kernel.org, 
+	linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
+	linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 14 Jul 2023 11:46:26 -0600
-Rob Herring <robh@kernel.org> wrote:
+On Fri, Jul 14, 2023 at 7:48=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
+:
 
 > The DT of_device.h and of_platform.h date back to the separate
 > of_platform_bus_type before it as merged into the regular platform bus.
@@ -62,30 +80,11 @@ Rob Herring <robh@kernel.org> wrote:
 > files used throughout the tree. In order to detangle these headers and
 > replace the implicit includes with struct declarations, users need to
 > explicitly include the correct includes.
-> 
+>
 > Signed-off-by: Rob Herring <robh@kernel.org>
 
-Hi Rob,
+Thanks for going back and fixing up this!
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Just one in here that I noticed isn't quite right. I'd have fixed it 
-up (and can still do so if nothing else comes up) but I want to give
-this more time on list anyway so won't pick it up today.
-
-Jonathan
-
-> diff --git a/drivers/iio/adc/stmpe-adc.c b/drivers/iio/adc/stmpe-adc.c
-> index 67518e460e05..55e36b40fdf5 100644
-> --- a/drivers/iio/adc/stmpe-adc.c
-> +++ b/drivers/iio/adc/stmpe-adc.c
-> @@ -14,9 +14,10 @@
->  #include <linux/kernel.h>
->  #include <linux/mfd/stmpe.h>
->  #include <linux/module.h>
-> -#include <linux/of_platform.h>
-> +#include <linux/of.h>
->  #include <linux/platform_device.h>
->  #include <linux/device.h>
-> +#include <linux/of.h>
-
-Duplicate include.
-
+Yours,
+Linus Walleij
