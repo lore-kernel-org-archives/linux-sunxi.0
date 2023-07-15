@@ -1,50 +1,54 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B86C15C5
-	for <linux-sunxi@lists.linux.dev>; Sat, 15 Jul 2023 15:48:57 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 713BCFF802;
-	Sat, 15 Jul 2023 15:48:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1689436130;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Un+ufkhrXfZqLrVbDU6HeKyr3kcyHpaOW08JuHJOTAQ=;
-	b=FqWexEyC5/ncjoaJwBj4G53wiu8VDHhDUUmjeiui8D15gl2UK0/z1/JhojGPaXb7myBHt0
-	+m0+8luEUYwOnP8t5sbvBF01u6wPPDP8ekc+E+xiI5dXBEOsZg27UBqN6/Cx2Ykd/d38zY
-	Uxi4xN1DsWH3172+Q9prP3vN3AfuAUnTk0v/cqkvsBuezHKkylG8hSiaysYLY7BLSvc/OK
-	X/4nONxCNA9EoFF0A6ADkUMqN/54fCJrQYuzSAtxsbm00dNaTjHSMLlKGNk9Pa5uVm4JDa
-	KtHa+BsMQbwWPxRZR03AmaWLttL4j4jDIfE8mWV10b4zCsVL6+eAIvNGObilXQ==
-Date: Sat, 15 Jul 2023 17:48:42 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra
- <vigneshr@ti.com>, Linus Walleij <linus.walleij@linaro.org>, Kyungmin Park
- <kyungmin.park@samsung.com>, Han Xu <han.xu@nxp.com>, Harvey Hunt
- <harveyhuntnexus@gmail.com>, Paul Cercueil <paul@crapouillou.net>, Liang
- Yang <liang.yang@amlogic.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Michal Simek
- <michal.simek@amd.com>, Manivannan Sadhasivam <mani@kernel.org>, Heiko
- Stuebner <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Vladimir
- Zapolskiy <vz@mleia.com>, Tudor Ambarus <tudor.ambarus@linaro.org>,
- Pratyush Yadav <pratyush@kernel.org>, Michael Walle <michael@walle.cc>,
- devicetree@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mips@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] mtd: Explicitly include correct DT includes
-Message-ID: <20230715174804.6fc2a4c1@xps-13>
-In-Reply-To: <20230714174751.4060439-1-robh@kernel.org>
-References: <20230714174751.4060439-1-robh@kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E236B15B8
+	for <linux-sunxi@lists.linux.dev>; Sat, 15 Jul 2023 16:53:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E45F0C433C8;
+	Sat, 15 Jul 2023 16:53:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1689440012;
+	bh=2Q4FCDoenbmD/VhiBVMa5udzbl7nfKdi1+C2wdvn1O0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=KGFJejuQEStcUADchTg9oWaT+ZuWLuTpi4HLb3Op7RAslZMX2tJ3LWVkhFtyi0v8C
+	 UgVxYMhhAPoJCfCUaYcatC6Yfas9V4+xwGhklnavAdjnk/Rl4Ab+hgZM6TxRfeyUyV
+	 ThGax002RCYNwEpzElSo1VimTuqHfL8TTYQk/jSQap0Yn6++SdQ5ny9z0LHwYo3FdC
+	 vffxqAxdGlr1Xe5jo7AM2rv4qWFHvquiD3cAd5crQFy+EzbDyTLx+e6S4FFlAKE5pL
+	 0+o28xIlcXV6azxJp+qbLkW/17I3yEFetA7VD4arf/orfXfQh+GG5pQ0VUUM5c8awC
+	 IoWiUm7qcWqDg==
+Date: Sat, 15 Jul 2023 17:53:19 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>,
+ linux-iio@vger.kernel.org, Maksim Kiselev <bigunclemax@gmail.com>,
+ Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland
+ <samuel@sholland.org>, Paul Walmsley <paul.walmsley@sifive.com>, Palmer
+ Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Philipp
+ Zabel <p.zabel@pengutronix.de>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Andre Przywara
+ <andre.przywara@arm.com>, Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Cosmin Tanislav <demonsingur@gmail.com>, AngeloGioacchino Del Regno       
+  <angelogioacchino.delregno@collabora.com>, Hugo Villeneuve
+ <hvilleneuve@dimonoff.com>, Arnd Bergmann <arnd@arndb.de>, Leonard
+ =?UTF-8?B?R8O2aHJz?= <l.goehrs@pengutronix.de>, ChiYuan Huang
+ <cy_huang@richtek.com>, Ramona Bolboaca <ramona.bolboaca@analog.com>,
+ Ibrahim Tilki <Ibrahim.Tilki@analog.com>, ChiaEn Wu
+ <chiaen_wu@richtek.com>, William Breathitt Gray <william.gray@linaro.org>,
+ Haibo Chen <haibo.chen@nxp.com>, Mike Looijmans <mike.looijmans@topic.nl>,
+ Quentin Schulz <quentin.schulz@free-electrons.com>, Maxime Ripard
+ <mripard@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v8 1/4] iio: adc: Kconfig change description for
+ Allwinner GPADC
+Message-ID: <20230715175319.1ea7f2c1@jic23-huawei>
+In-Reply-To: <b3723443-2a27-0a51-babd-b36eef095913@linaro.org>
+References: <20230619154252.3951913-1-bigunclemax@gmail.com>
+	<20230619154252.3951913-2-bigunclemax@gmail.com>
+	<2148594.irdbgypaU6@jernej-laptop>
+	<b3723443-2a27-0a51-babd-b36eef095913@linaro.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,27 +57,34 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
 
-Hi Rob,
+On Wed, 12 Jul 2023 07:37:38 +0200
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-robh@kernel.org wrote on Fri, 14 Jul 2023 11:47:49 -0600:
-
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-
-				 was?
-
-Otherwise LGTM, I will fix it when applying.
-
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
+> On 11/07/2023 20:14, Jernej =C5=A0krabec wrote:
+> > Dne ponedeljek, 19. junij 2023 ob 17:42:24 CEST je Maksim Kiselev napis=
+al(a): =20
+> >> This patch adds SoCs names to Allwinner GPADC description to
+> >> make it more informative. =20
+> >=20
+> > Please reword to remove "This patch".
+> >  =20
+> >>
+> >> Fixes: d1caa9905538 ("iio: adc: add support for Allwinner SoCs ADC") =
+=20
+> >=20
+> > I'm fine with the patch in general, but does this really warrant fixes =
+tag?
+> >  =20
 >=20
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> No, it's some fake fix. There is no bug here.
+>=20
+> Best regards,
+> Krzysztof
+>=20
 
-Thanks,
-Miqu=C3=A8l
+Dropped the tag.
+
+Thanks for pointing this out.
+
+Jonathan
