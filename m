@@ -1,138 +1,91 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A85EA1
-	for <linux-sunxi@lists.linux.dev>; Sun, 16 Jul 2023 09:26:31 +0000 (UTC)
-Received: from i53875a6a.versanet.de ([83.135.90.106] helo=phil.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1qKy04-0005tq-1S; Sun, 16 Jul 2023 11:25:08 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Liviu Dudau <liviu.dudau@arm.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Liu Ying <victor.liu@nxp.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Inki Dae <inki.dae@samsung.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>,
- John Stultz <jstultz@google.com>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Paul Cercueil <paul@crapouillou.net>, Qiang Yu <yuq825@gmail.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>, Marek Vasut <marex@denx.de>,
- Stefan Agner <stefan@agner.ch>, Sam Ravnborg <sam@ravnborg.org>,
- Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
- Icenowy Zheng <icenowy@aosc.io>, Ondrej Jirman <megi@xff.cz>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- Purism Kernel Team <kernel@puri.sm>, Jianhua Lu <lujianhua000@gmail.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- Artur Weber <aweber.kernel@gmail.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Emma Anholt <emma@anholt.net>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Sandy Huang <hjc@rock-chips.com>, Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomba@kernel.org>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Rob Herring <robh@kernel.org>
-Cc: devicetree@vger.kernel.org, Ondrej Jirman <megous@megous.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, etnaviv@lists.freedesktop.org,
- linux-samsung-soc@vger.kernel.org, linux-mips@vger.kernel.org,
- lima@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-rpi-kernel@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, xen-devel@lists.xenproject.org
-Subject: Re: [PATCH] drm: Explicitly include correct DT includes
-Date: Sun, 16 Jul 2023 11:25:03 +0200
-Message-ID: <114500369.nniJfEyVGO@phil>
-In-Reply-To: <20230714174545.4056287-1-robh@kernel.org>
-References: <20230714174545.4056287-1-robh@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19585EA0
+	for <linux-sunxi@lists.linux.dev>; Sun, 16 Jul 2023 16:35:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0593C433C8;
+	Sun, 16 Jul 2023 16:35:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1689525322;
+	bh=gY8zTOWN+oMFyatXIo8LTprkvrYU5gzVL1TL7vQ5pLs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=bqS3FjIQgJXJNEIliilYLF0zUtQHjRKQMMipkE6FtAcYjKBLJBCtLCy6XHUb0jtbp
+	 YYntTBMk0nHLzxyOR05unM4oaFWq3n+Foww+cnuVcfm23DIpfNh3Hzm3Iftv2gUSJI
+	 mvywJ5s6ZJlnAiMmZhsHLFAsA4eY4RcRFfm1BEBX32ER8NVsTP5yNaf2EPvWiAJfD4
+	 cYvhszHs4rwBlI8UGgUju6wSn9s6VQtj0Z4BF9G/1A5S+lWHcQvmL3VDDGtyat5fow
+	 E68a2DbYzS4vb44eLzSmXAWLHcW9+QSeo+dgNNKikHwuzWrywn4Js/vNPst1hPI9eV
+	 baiIrcpXntNFg==
+Message-ID: <dd5d7fed-cda1-8ab2-d502-7466def675ac@kernel.org>
+Date: Sun, 16 Jul 2023 18:35:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 2/4] riscv: dts: allwinner: d1: Add CAN controller nodes
+Content-Language: en-US
+To: Jookia <contact@jookia.org>, linux-sunxi@lists.linux.dev
+Cc: devicetree@vger.kernel.org, linux-can@vger.kernel.org,
+ linux-riscv@lists.infradead.org, Fabien Poussin <fabien.poussin@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>
+References: <20230715112523.2533742-1-contact@jookia.org>
+ <20230715112523.2533742-3-contact@jookia.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <20230715112523.2533742-3-contact@jookia.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Am Freitag, 14. Juli 2023, 19:45:34 CEST schrieb Rob Herring:
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
+On 15/07/2023 13:25, Jookia wrote:
+> From: John Watts <contact@jookia.org>
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> The Allwinner D1, T113 provide two CAN controllers that are variants
+> of the R40 controller.
+> 
+> I have tested support for these controllers on two boards:
+> 
+
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC (and consider --no-git-fallback argument). It might
+happen, that command when run on an older kernel, gives you outdated
+entries. Therefore please be sure you base your patches on recent Linux
+kernel.
+
+> - A Lichee Panel RV 86 Panel running a D1 chip
+> - A Mango Pi MQ Dual running a T113-s3 chip
+> 
+> Both of these fully support both CAN controllers.
+> 
+> Signed-off-by: John Watts <contact@jookia.org>
 > ---
+>  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 30 +++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+> 
+> diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+> index 1bb1e5cae602..b185398334be 100644
+> --- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+> +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+> @@ -131,6 +131,18 @@ uart3_pb_pins: uart3-pb-pins {
+>  				pins = "PB6", "PB7";
+>  				function = "uart3";
+>  			};
+> +
+> +			/omit-if-no-ref/
+> +			can0_pins: can0_pins {
 
-[...]
+Wrong node naming. Underscores are not allowed.
 
-> diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> index 917e79951aac..2744d8f4a6fa 100644
-> --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> @@ -12,7 +12,9 @@
->  #include <linux/mfd/syscon.h>
->  #include <linux/module.h>
->  #include <linux/of_device.h>
-> +#include <linux/of_platform.h>
->  #include <linux/phy/phy.h>
-> +#include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/regmap.h>
+It does not look like you tested the DTS against bindings. Please run
+`make dtbs_check` (see
+Documentation/devicetree/bindings/writing-schema.rst or
+https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
+for instructions).
 
-I'm not sure if I'm just misreading something, but in all other places
-of_device.h gets removed while here is stays as an include. Is this
-correct this way?
 
-Thanks
-Heiko
 
+Best regards,
+Krzysztof
 
