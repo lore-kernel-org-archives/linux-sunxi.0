@@ -1,95 +1,136 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 391C38C0A
-	for <linux-sunxi@lists.linux.dev>; Sat, 15 Jul 2023 22:11:15 +0000 (UTC)
-Received: from i53875a6a.versanet.de ([83.135.90.106] helo=phil.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1qKn1b-00035T-PU; Sat, 15 Jul 2023 23:41:59 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Justin Chen <justin.chen@broadcom.com>, Al Cooper <alcooperx@gmail.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Ioana Ciornei <ioana.ciornei@nxp.com>, Yu Chen <chenyu56@huawei.com>,
- Binghui Wang <wangbinghui@hisilicon.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Lubomir Rintel <lkundrak@v3.sk>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Wolfgang Grandegger <wg@grandegger.com>,
- Marc Kleine-Budde <mkl@pengutronix.de>, Alban Bedel <albeu@free.fr>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Robert Marko <robert.marko@sartura.hr>, Luka Perkov <luka.perkov@sartura.hr>,
- Sergio Paracuellos <sergio.paracuellos@gmail.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Vincent Shih <vincent.sunplus@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, JC Kuo <jckuo@nvidia.com>,
- Rob Herring <robh@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-can@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] phy: Explicitly include correct DT includes
-Date: Sat, 15 Jul 2023 23:41:56 +0200
-Message-ID: <4021989.Mh6RI2rZIc@phil>
-In-Reply-To: <20230714174841.4061919-1-robh@kernel.org>
-References: <20230714174841.4061919-1-robh@kernel.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA0C11374
+	for <linux-sunxi@lists.linux.dev>; Sun, 16 Jul 2023 00:36:01 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D24C21063;
+	Sat, 15 Jul 2023 17:36:37 -0700 (PDT)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 605A03F67D;
+	Sat, 15 Jul 2023 17:35:54 -0700 (PDT)
+Date: Sun, 16 Jul 2023 01:35:02 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Anne Macedo <retpolanne@posteo.net>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev, Jernej =?UTF-8?B?xaBrcmFiZWM=?=
+ <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH] sunxi: H6: Enable Ethernet on Orange Pi One Plus
+Message-ID: <20230716013502.1d556edc@slackpad.lan>
+In-Reply-To: <30debca8b31ed4d2cbd64850d48b81ac@posteo.net>
+References: <20230711003957.658805-2-retpolanne@posteo.net>
+	<30debca8b31ed4d2cbd64850d48b81ac@posteo.net>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Am Freitag, 14. Juli 2023, 19:48:35 CEST schrieb Rob Herring:
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
+On Tue, 11 Jul 2023 19:40:21 +0000
+Anne Macedo <retpolanne@posteo.net> wrote:
+
+Hi Anne,
+
+thanks for reaching out to the list! But please try to avoid
+pushing any patches downstream (Yocto) before they are accepted
+or at least discussed upstream, see below.
+
+> On 11.07.2023 02:39, Anne Macedo wrote:
+> > Enable Ethernet on Orange Pi One Plus by using the correct phy for
+> > Realtek RTL8211E instead of the Generic One. Also use CONFIG_MACPWR to
+> > turn on ethernet on startup.
+> > 
+> > After this patch is applied, a few issues can be seen:
+> > 
+> > - there's still a PHY reset timed out error that doesn't seem to cause
+> >   any impacts to the overall connection
+> > 
+> > - sometimes the emac driver times out after reset (yellow LED turns on
+> >   and never blinks)
+> > 
+> > For future patches: for now, CONFIG_MACPWR is the only way to enable
+> > Ethernet on boot. There's already code on the dts for using the 
+> > 3v3-gmac
+> > regulator. However, it is not probed on boot, so it only starts after a
+> > "regulator status" command is issued.
+
+MACPWR is going to go away (probably in the next two weeks), so please
+have a look at this patch and see if that works for you:
+https://github.com/apritzel/u-boot/commit/be1fdb42968
+
+> > 
+> > More details about the troubleshooting on [1].
+> > 
+> > [1]
+> > https://lore.kernel.org/u-boot/4wsvwgy56e2xfgtvioru2tf2ofkqprlts36qggivxogww6pn5j@4jk63zxhzhag/
+> > 
+> > Signed-off-by: Anne Macedo <retpolanne@posteo.net>
+> > ---
+> >  arch/arm/dts/sun50i-h6-orangepi-one-plus.dts | 2 +-
+> >  configs/orangepi_one_plus_defconfig          | 4 ++++
+> >  2 files changed, 5 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/arch/arm/dts/sun50i-h6-orangepi-one-plus.dts
+> > b/arch/arm/dts/sun50i-h6-orangepi-one-plus.dts
+> > index 29a081e72a..6427c58f8a 100644
+> > --- a/arch/arm/dts/sun50i-h6-orangepi-one-plus.dts
+> > +++ b/arch/arm/dts/sun50i-h6-orangepi-one-plus.dts
+> > @@ -37,7 +37,7 @@
+> > 
+> >  &mdio {
+> >  	ext_rgmii_phy: ethernet-phy@1 {
+> > -		compatible = "ethernet-phy-ieee802.3-c22";
+> > +		compatible = "ethernet-phy-id001c.c915", 
+> > "ethernet-phy-ieee802.3-c22" ;
+
+So this is really odd, why would you need that? 001c.c915 is the ID for
+the normal standard Realtek 8211E PHY, which would be auto-detected via
+MDIO. You just need to define CONFIG_PHY_REALTEK to include support.
+Forcing this in the DT is not necessary and smells wrong.
+
+But I suppose you needed that to get it to work, so could this be a
+timing issue? Maybe the PHY doesn't come up quick enough after just
+pulling PD6 high, so the auto-detection wouldn't work? The DT has a
+"startup-delay-us = <100000>;" property, which MACPWR doesn't know
+about and wouldn't observe.
+So could you check whether just applying the "Remove MACPWR" patch, plus
+adding "CONFIG_SUN8I_EMAC=y" and "CONFIG_PHY_REALTEK=y" to defconfig
+fixes the issue? You may need to enable CONFIG_DM_REGULATOR_FIXED=y as
+well, although this would become standard for all sunxi boards soon.
+
+And you must NOT use SUNXI_SETUP_REGULATORS=0 in TF-A, as you need
+ALDO2 to be set up by TF-A. We introduced this build option to
+accommodate the OrangePi 3 board, which requires a specifically timed
+regulator setup, which both TF-A and U-Boot would not observe. To not
+crash the PHY with any incorrect regulator setup, we use this option to
+make at least Linux work. The side effect is that some peripherals
+(HDMI, Ethernet) will not work in U-Boot.
+Also please note that a reset from Linux might not affect the PMIC, so
+there might be different behaviour between and cold and warm boot.
+
+Cheers,
+Andre
+
+> >  		reg = <1>;
+> >  	};
+> >  };
+> > diff --git a/configs/orangepi_one_plus_defconfig
+> > b/configs/orangepi_one_plus_defconfig
+> > index aa5f540eb1..a1835492db 100644
+> > --- a/configs/orangepi_one_plus_defconfig
+> > +++ b/configs/orangepi_one_plus_defconfig
+> > @@ -8,3 +8,7 @@ CONFIG_SUNXI_DRAM_H6_LPDDR3=y
+> >  # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+> >  CONFIG_USB_EHCI_HCD=y
+> >  CONFIG_USB_OHCI_HCD=y
+> > +CONFIG_SUN8I_EMAC=y
+> > +CONFIG_PHY_REALTEK=y
+> > +CONFIG_PHY_ETHERNET_ID=y
+> > +CONFIG_MACPWR="PD6"  
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-
->  drivers/phy/rockchip/phy-rockchip-dphy-rx0.c          | 1 -
->  drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c      | 2 +-
->  drivers/phy/rockchip/phy-rockchip-inno-hdmi.c         | 1 -
->  drivers/phy/rockchip/phy-rockchip-naneng-combphy.c    | 3 ++-
->  drivers/phy/rockchip/phy-rockchip-snps-pcie3.c        | 3 ++-
-
-Acked-by: Heiko Stuebner <heiko@sntech.de>
-
-
+> Adding linux-sunxi to the thread (I unfortunately forgot this list)
+> 
 
