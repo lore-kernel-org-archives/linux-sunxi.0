@@ -1,263 +1,442 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873598F7D
-	for <linux-sunxi@lists.linux.dev>; Mon, 17 Jul 2023 13:42:34 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4R4NNZ6btSz9sW1;
-	Mon, 17 Jul 2023 15:34:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1689600879;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=KFw+bLkcS+ETKn8b32PASHcaDiBzCxXyRVkraMzMBvc=;
-	b=1kKWgsZ8wD/t51L1KgDVZRSiu3ttVJEsrwap/fT0pFF0JX7cFzGdA8UpUqWDK98Aw1sTJe
-	yFpDLeO6TdDCHCZ/3GrdU/ZDQkL8HXv4kWxFj+ut8g9kuhsnuBVj80YmTk3FGzvATmPae/
-	7aC/SUziOTNxBXPkhr3D6JeDCjBIdoOPFEB685ft4ZCJEObIrBTsDeWEnjH0MI0c/3W5Cn
-	dvDYJ4pvvdgQiCQ1N7Ug45ZDEHMHLoHop97auenmnHL/J0nmaHtEMCxaN5Hm3QpsTUEMKs
-	MawQ6/XbeADaCq649zMIDbFQtltuAS3iOmK8gWE2tL1VpGbltsCVNvJsY/uzgg==
-From: Frank Oltmanns <frank@oltmanns.dev>
-Subject: [PATCH v4 00/11] clk: sunxi-ng: Consider alternative parent rates
- when determining NKM clock rate
-Date: Mon, 17 Jul 2023 15:34:24 +0200
-Message-Id: <20230717-pll-mipi_set_rate_parent-v4-0-04acf1d39765@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D014C98
+	for <linux-sunxi@lists.linux.dev>; Mon, 17 Jul 2023 14:06:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 375CDC433C8;
+	Mon, 17 Jul 2023 14:06:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1689602765;
+	bh=hBYZWj9HqPD2hca7lsL/0QgodlbukkajjsGuscSo9U8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cytH47c820rOCOFpUtnzFtWXVA5bet4nQxUiR24wB6Qu+K5wn+6/75jgCKYPpKBNp
+	 nYqJlnZxxHgQn9ofyv17FZYjwht4w7G0Gxc01l7hZoT1fM4UWN1k2jV1qjZhPd3+SE
+	 XOShLXYbg9OCjMjW/+gj8qQbk5wxweBTFe54VtuQjKyXedprledib0JSRRhFbXDaOt
+	 NiD0ATPh8JS8zJol81yLhOW4EkpfhIR0bs4dIcfZ/P2ayy6+CtECo4tJpbPFlF1RuI
+	 UEpcDyzlR/ENrKdaK6NSEO6Cux6qqPuHGdsPuym1OQ6OfZ+N9lXXfQ90nGPGEXVNpL
+	 bLdi8oEEodPMA==
+Date: Mon, 17 Jul 2023 16:06:02 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Frank Oltmanns <frank@oltmanns.dev>
+Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Roman Beranek <me@crly.cz>, Samuel Holland <samuel@sholland.org>, 
+	Stephen Boyd <sboyd@kernel.org>, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/2] clk: sunxi-ng: nkm: consider alternative parent
+ rates when finding rate
+Message-ID: <ycdinzk5633ig5r3ao3czn4p53j32fir4jjsgue3pvi7rcovkn@sptpsyt72ir7>
+References: <20230605190745.366882-1-frank@oltmanns.dev>
+ <20230605190745.366882-2-frank@oltmanns.dev>
+ <2bvcukogzhcdbfsrruylgw5fbezaqjpcojqaambfoiv5fc2upy@ffumn5sevbeb>
+ <875y7y1f0d.fsf@oltmanns.dev>
+ <sijbhopoxuw5wodyry3smg7tm4wzoc7k6xakt4qdvxqsok32mv@u7rh4dct5ya6>
+ <87a5x41w5r.fsf@oltmanns.dev>
+ <unoskbtcteluxj7g3xkwc7ngcmglvcbm5ah25m7huhqxwd4dj3@nmfxbedwyu54>
+ <87bkhbhnol.fsf@oltmanns.dev>
+ <yj6ss64s7p2uaslodj5zklrwhegz54bgh4l4wmldv6cccggepz@yombds4hij3c>
+ <87pm4xg2ub.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGBDtWQC/43OzWrEIBSG4VsZXNdBjxlTZ9X7KCUYPTbSxISjS
- MuQe6+ZTX8Wpct38T18N5aRImZ2Pd0YYY05rqlF93BibrLpFXn0rRkIUEKD5ts88yVucchYBrI
- Fh80SpsKV0io44TXqwNp8Iwzx/U4/v7QOtC68TIT2GyilMEJ26iwVwKXnkgey6e1pnctiU8pnj
- /XAppjLSh/3mxUO8h+PKnDBda+MwfFitIef7HGqqi+rF/CHpZrVae/GR2uNG90va9/3Txl0F9h
- MAQAA
-To: Maxime Ripard <mripard@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Andre Przywara <andre.przywara@arm.com>, Roman Beranek <me@crly.cz>
-Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Frank Oltmanns <frank@oltmanns.dev>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9577; i=frank@oltmanns.dev;
- h=from:subject:message-id; bh=8GFxi7nqCtj4/EQnN0L20B7Dvs4ACEdrb1RFAgXHHPk=;
- b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBktUNmmsqO/sc1O2XL6Iw8gAzkH2nIPDwy2Uojg
- k1/nGhrsQmJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZLVDZgAKCRCaaaIIlErT
- x7kZC/4pzFpjh+5oaCiqPCBOrpPI7YZF/B8G6J5c3DFWBULgVHVi7Y38Qs7Ytbc3zo+QcyMqCA3
- YtxRqGD4kBrBDWGMC1ZGapocwD+4aMXctKmYK3OfJwEXavCzV3mJzPUv4w8UxrnfEdC2pgGrEk/
- /efK5i6Vnn0SheQaM04/Uzdw+vnDxlXmjK2BdB6BDHCugWo/OeOO9UTCOVrml6pnPcX4jPFd/MF
- tUGM+EEdTnLou8t/5daMvIpumP2sfmMxbvg0a0PVa+48kBr6M7wx5FoDTs3/ZYNMX9Oik5JWSF5
- iqGXTGrUM8+Kakv1o8d3OlIh8ueaTpVKmft6ZvnEPizHLWuVW92FXO3voOZ9XRG/NYro2dhZrUl
- /dpN3WI+LpVuVYJ7+IUSjUN545BdDe/vbz0U1bOBOwpVCIG6xRc3HsDlpEhcg3rTIuiWESE4P+x
- AJi/XVRUD76fNCPDWaeYt8Q2cXPlVSJGM2BpcsJBItD1suGPyuEASrHCE7XMam3qkijTE=
-X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
- fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
-X-Rspamd-Queue-Id: 4R4NNZ6btSz9sW1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7qt7rhskywx5xp3d"
+Content-Disposition: inline
+In-Reply-To: <87pm4xg2ub.fsf@oltmanns.dev>
 
-This patchset enables NKM clocks to consider alternative parent rates
-and utilize this new feature to adjust the pll-video0 clock on Allwinner
-A64 (PATCH 2 and 3).
 
-Furthermore, with this patchset pll-video0 considers rates that are
-higher than the requested rate when finding the closest rate. In
-consequence, higher rates are also considered by pll-video0's
-descandents (PATCH 4 et. seq.). In total, after applying this patchset,
-finding the closest rate is supported by:
-  - ccu_nm
-  - ccu_nkm
-  - ccu_mux
-  - ccu_div
+--7qt7rhskywx5xp3d
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This allows us to achieve an optimal rate for driving the board's panel.
+On Wed, Jul 12, 2023 at 06:39:56AM +0200, Frank Oltmanns wrote:
+> Hi Maxime,
+>=20
+> On 2023-06-19 at 20:05:44 +0200, Maxime Ripard <maxime@cerno.tech> wrote:
+> > [[PGP Signed Part:Undecided]]
+> > On Mon, Jun 19, 2023 at 10:16:26AM +0200, Frank Oltmanns wrote:
+> >> Hi Maxime,
+> >>
+> >> the essence of my following ramblings:
+> >>  - I do think it is reasonable that nkm is asking its parent for the
+> >>    rate that nkm actually needs from said parent to fulfill the reques=
+t.
+> >>  - I don't think nkm should make assumptions about the rounding
+> >>    behaviour of the parent.
+> >
+> > I guess we agree :)
+> >
+> > And I would go even further and say that we shouldn't make *any*
+> > assumption about the behaviour of the parent.
+> >
+> >> The reason is, that I want to prevent users of ccu_nkm from making
+> >> mistakes when defining their clocks (which includes the parent of their
+> >> nkm clock).
+> >>
+> >> Please read below the details on why I think that.
+> >>
+> >> [...]
+> >>
+> >> >> No. I didn't. My assumption is: If ccu_nkm_find_best is asked for t=
+he
+> >> >> best rate for rate =3D 449035712, it should try to include 44903571=
+2 in
+> >> >> its candidates, agreed?
+> >> >>
+> >> >> Example 1:
+> >> >> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >> >> rate=3D449035712, n=3D11, k=3D3, m=3D16:
+> >> >> We should as for a parent rate of 217714285, because:
+> >> >> 217714285 * 11 * 3 / 16 =3D 449035712
+> >> >>
+> >> >> How do we get from 449035712 to 217714285, you ask?
+> >> >>
+> >> >>       DIV_ROUND_UP(rate * m, n * k)
+> >> >
+> >> > Why are we rounding up? I don't think the hardware will round up the=
+re.
+> >>
+> >> Being a "software guy" it is also my understanding that the hardware
+> >> does not round up here (or round down for that matter).
+> >
+> > That's my understanding as well.
+> >
+> >> But anyway, my concern is the rate's representation *in software*. The
+> >> clk drivers are using unsigned long to represent the actual rate. This
+> >> is not a lossless representation. In other words, the value (i.e. the
+> >> software representation) of that rate is, of course, a "lie". The
+> >> hardware clock is running at some rate that is hopefully close to what
+> >> we represent in software, but still it's an abstraction.
+> >>
+> >> For example, the user (e.g. in my example a panel) asks us for a rate
+> >> that is represented in softwares as 449035712. Given the values n=3D11,
+> >> k=3D3, m=3D16, we can *only* represent this value in software if the p=
+arent
+> >> gives us a rate that is represented in software as 217714285. Therefor=
+e,
+> >> I think it is reasonable to ask the parent for that rate (217714285).
+> >
+> > I somewhat agree, but I still don't think it's worth rounding up.
+> >
+> > If we don't round up (and assuming the parent itself won't round the
+> > clock), we end up with a rate of 449035710 using the dividers you
+> > mentioned. It's a .0000005% deviation (I hope I didn't screw up the
+> > number of 0s). It's negligible for all practical purposes, and it's not
+> > worth making the code inconsistent and eyebrow raising.
+> >
+> >> >> Do you agree that we should ask the parent for 217714285 in case we=
+ want
+> >> >> a rate of 449035712 and we're currently evaluating the case n=3D11,=
+ k=3D3,
+> >> >> m=3D16?
+> >> >>
+> >> >> We should not ask for a parent rate of 217714284, because:
+> >> >> 217714284 * 11 * 3 / 16 =3D 449035710
+> >> >>
+> >> >> Example 2:
+> >> >> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >> >> rate=3D500000000, n=3D11, k=3D3, m=3D16:
+> >> >> Here we should not ask the parent for
+> >> >>       DIV_ROUND_UP(rate * m, n * k)
+> >> >> because that would be 242424243.
+> >> >>
+> >> >> 242424243 * 11 * 3 / 16 =3D 500000001
+> >> >>
+> >> >> We (the NKM clock, not the parent!) would overshoot (please see at =
+the
+> >> >> end of this mail, why (for now) I don't want to support overshootin=
+g in
+> >> >> the NKM clock).
+> >> >>
+> >> >> Instead we should as for a parent rate of 242424242, because:
+> >> >> 242424242 * 11 * 3 / 16 =3D 499999999
+> >> >>
+> >> >> In conclusion, there are cases, where we (the NKM clock) have to as=
+k the
+> >> >> parent for
+> >> >>       DIV_ROUND_UP(rate * m, n * k)
+> >> >> And there are also cases, where we have to ask the parent for
+> >> >>       rate * m / (n * k)
+> >> >
+> >> > I mean, I think you're overthinking this.
+> >> >
+> >> > If you never round up and mimic how the hardware behaves, and test a=
+ll
+> >> > combination, then eventually you'll find the closest rate.
+> >> >
+> >> > If you don't because the parent doesn't look for the closest rate, t=
+hen
+> >> > the parent should be changed too.
+> >> >
+> >> > It really is that simple.
+> >> >
+> >> >> This is what the code is trying to do. Maybe it's easier to look at=
+ V2
+> >> >> because I extracted the calcultion of the optimal parent rate into a
+> >> >> separate function hoping that this makes things clearer.
+> >> >>
+> >> >> Let me stress this: When calculating the optimal rate for the paren=
+t,
+> >> >> I'm not making any assumptions here about how the PARENT clock roun=
+ds.
+> >> >> In fact, I assume that the parent could be perfect and always provi=
+des
+> >> >> the rate it is asked for. I only take into account how the nkm clock
+> >> >> rounds.
+> >> >
+> >> > At the very least, you assume that the parent rounding can be "wrong"
+> >> > and try to work around that.
+> >>
+> >> No. I'm not assuming anything about the parent. But I *know* that if we
+> >> (nkm) want to get a rate that is represented in softwares as 449035712
+> >> and given the values n=3D11, k=3D3, m=3D16, we (nkm) must get the rate=
+ from
+> >> the parent that the parent represents in software as 217714285, because
+> >> I know that we (nkm) calculate *our* (nkm) rate using
+> >>     parent * n * k / m
+> >>
+> >> So if (!) we want to give the user the rate that they ask for, why not
+> >> ask the parent for the rate that we need (217714285)?
+> >>
+> >> I admit that I'm making assumptions here. My assumptions are that we
+> >>  a. want to at least try to give the user what they asked for
+> >>  b. without making assumptions about the parent's behaviour.
+> >>
+> >> Those assumptions could of course be wrong, but, honestly, I would find
+> >> that confusing.
+> >
+> > I guess my point leans more towards the "social" side than the
+> > mathematical one. If I followed you so far, the precision you expect to
+> > gain is in the <1Hz range (and I've been in sick leave for a while, so
+> > sorry if I didn't before). The rate is in the 100MHz range.
+> >
+> > So the precision gain is pretty much nothing. Sure, it's closer from a
+> > mathematical standpoint. But there's zero benefit from it.
+> >
+> > However, it comes at the cost of a code that is definitely more
+> > complicated (or less naive, depending on how you look at it I guess :))
+> > and will be harder to figure out for someone that jumps into the driver.
+> >
+> > So the trade-off doesn't really make fixing it worth it to me.
+> >
+> >> >> > you ask the parent to compute whatever is closest to that optimal=
+ parent
+> >> >> > rate.
+> >> >> >
+> >> >> > It's the parent responsibility now. It's the parent decision to f=
+igure
+> >> >> > out what "the closest" means, if it can change rate, if it has an=
+y range
+> >> >> > limitation, etc. You can't work around that.
+> >> >> >
+> >> >> > What you actually want there is the parent to actually provide the
+> >> >> > closest rate, even if it means overshooting.
+> >> >> >
+> >> >>
+> >> >> I want to ask the parent for a rate, that would actually result in =
+the
+> >> >> rate that nkm_find_best was asked for. Are you asking me to instead=
+ ask
+> >> >> the parent for a rate that doesn't fit that criterion?
+> >> >
+> >> > No. I'm asking to call clk_hw_round_rate(parent_hw, rate * m / (n * =
+k))
+> >> > and use whatever value it returned.
+> >> >
+> >> > If it requires changing the parent clock to improve its round_rate
+> >> > behaviour, then do that too.
+> >> >
+> >>
+> >> Hmmm... Okay. So you *are* saying, that I should make changes to the
+> >> parent so that we do not need to request the exact rate we want from t=
+he
+> >> parent. But I really don't understand why.
+> >
+> > No, sorry. I initially thought that you were working around "divider"
+> > rounding issue (as opposed to integer like you mentionned above) with
+> > the parent not providing its optimal rate, and you adjusting based on
+> > that offset.
+> >
+> >> As I wrote above, I'm not making any assumptions of how and if the
+> >> parent rounds. My code is rounding *prior* to asking the parent. Your
+> >> proposal on the other hand *requires* changing the parent to round
+> >> closest where mine does not.
+> >>
+> >> My concern is, that we could then end up with the situation that someo=
+ne
+> >> defines an nkm clock in their SoC which has CLK_SET_RATE_PARENT set, b=
+ut
+> >> does not set the ROUND_CLOSEST flag on the parent, because it's not
+> >> immediately apparent why they should do that.
+> >
+> > It's going to happen, and probably happens at the moment already,
+> > because not only the NKM clocks are affected, but virtually all of them,
+> > and most don't use ROUND_CLOSEST.
+> >
+> > And to some extent, it's fine. We would handle it like any other bug: if
+> > we ever encounter one, we'll write a fix, backport it to stable and all
+> > will be fine.
+> >
+> > You can't figure out all the use-cases we'll require in the future
+> > anyway.
+> >
+> >> Let's assume that hypothetical board were the A64, the nkm clock were =
+pll-mipi,
+> >> and the parent were pll-video0 and we "forget" to set ROUND_CLOSEST on
+> >> pll-video0:
+> >>
+> >> When pll-mipi nkm clock is asked via determine_rate() for a rate of
+> >> 449064000 it would return 449035712 and a parent rate of 217714285
+> >> (using n=3D11, k=3D3, m=3D16, but those details aren't returned by
+> >> determine_rate()).
+> >>
+> >> Eventually, determine_rate() will be called again, but this time for a
+> >> rate of 449035712. The user already knows that we can provide that,
+> >> because we told them (see previous paragraph). But since we're
+> >> truncating when calculating the rate that we'd like the parent to
+> >> provide, we end up asking the parent for 217714284 when we actually ne=
+ed
+> >> it to provide 217714285. So we now *require* the parent to find the
+> >> closest and additionally we must *hope* that the parent is incapable of
+> >> providing the rate that we asked for.
+> >
+> > I mean... yeah. It's what abstraction is all about. For all we know, the
+> > parent to pll-mipi could be a crystal that can't change its frequency
+> > and we should deal with that. Or it could be an ideal clock that always
+> > returns the rate you ask for. Or a firmware clock that behaves like an
+> > ideal clock but lies about it :)
+> >
+> > It's that clock responsibility to do its best to provide the rate we ask
+> > for.
+> >
+> > And if we need to make it behave better, then it's fine too. So your
+> > example is indeed true, but it's more of a case of "let's send another
+> > patch" rather than trying to figure out all possible cases and try to
+> > figure things out accordingly. Because you won't be able to figure out
+> > all possible cases for the current SoCs and the next ones, and the
+> > workloads that people are going to run on those SoCs anyway.
+> >
+> >> >> If you carefully look at ccu_mp, you will see that it would ignore
+> >> >> cases when its parent had rounded up. ccu_nkm is no different.
+> >> >> Teaching all of sunxi-ng's clocks to respect ROUND_CLOSEST is a
+> >> >> totally different beast. For now, sunxi-ng always expects rounding
+> >> >> down.
+> >> >
+> >> > Then change that?
+> >>
+> >> You told me that both over- and undershooting are fine when
+> >> determining the rate, *but also* "it's a bit context specific which one
+> >> we should favour. If we were to do anything, it would be to support bo=
+th
+> >> and let the clock driver select which behaviour it wants." (see
+> >> https://lore.kernel.org/all/flngzi4henkzcpzwdexencdkw77h52g3nduup7pwct=
+pwfiuznk@eewnnut5mvsq/)
+> >>
+> >> So, I can't just change NKM's parent's default behavior (which is an NM
+> >> clock in my case), because, if I understand correctly, I would have to
+> >> introduce a "ROUND_CLOSEST" flag for NM clocks.
+> >
+> > Sure
+> >
+> >> But then I feel like I would have to document somewhere that when
+> >> setting CLK_SET_RATE_PARENT for an NKM clock, that the parent clock
+> >> needs to ROUND_CLOSEST, in order to avoid drifting away from the
+> >> requested rate in the successive calls that are made to
+> >> ccu_nkm_determine_rate(), which I tried to explain above and in previo=
+us
+> >> messages.
+> >
+> > That's kind of what I meant too. Whether "drifting away" is an issue is
+> > context specific too. for some clocks it just doesn't matter. Nobody
+> > ever complained that the register clock of the MMC controller was
+> > drifting away, because it doesn't affect the system in the slightest.
+> >
+> > The video clock tree (and possibly others) will be affected though, and
+> > we'll indeed need to add that flag. But we're doing it all the time (and
+> > sometimes get it wrong) for things like which clocks should be left
+> > enabled for example.
+>=20
+> I'm afraid we have to re-visit this decision. I found a case, where the
+> drifting causes a problem.
 
-To provide some context, the clock structure involved in this process is
-as follows:
-    clock                       clock type
-    --------------------------------------
-    pll-video0                  ccu_nm
-       pll-mipi                 ccu_nkm
-          tcon0                 ccu_mux
-             tcon-data-clock    sun4i_dclk
+I'm sure it can cause a lot of issues everywhere. My point was that the
+solution is to add the flag so the issue goes away, and not to try to
+workaround a driver that might or not have the flag. We should assume
+it's properly set, and properly set it.
 
-The divider between tcon0 and tcon-data-clock is fixed at 4. Therefore,
-in order to achieve a rate that closely matches the desired rate of the
-panel, pll-mipi needs to operate at a specific rate.
+> Setting pll-mipi's SET_PARENT_RATE flag, but not setting the tree's
+> CCU_FEATURE_CLOSEST_RATE flag results in the following tree:
+>=20
+>     clock                     rate
+>     -----------------------------------
+>     pll-video0                201000000
+>        hdmi-phy-clk            50250000
+>        hdmi                   201000000
+>        tcon1                  201000000
+>        pll-mipi               414562500
+>           tcon0               414562500
+>              tcon-data-clock  138187500
+>=20
+> Note, that tcon-data-clock's rate is garbage. It should be tcon0/4, but
+> it is tcon0/3.
+>
+> I added some logging to ccu_find_best*() to understand, as to why that
+> is:
+>=20
+>     ccu_nkm_find_best_with_parent_adj: rate=3D414600000, best_rate=3D4145=
+77776, best_parent_rate=3D282666666, n=3D11, k=3D2, m=3D15
+>     ccu_nkm_find_best_with_parent_adj: rate=3D414600000, best_rate=3D4145=
+77776, best_parent_rate=3D282666666, n=3D11, k=3D2, m=3D15
+>     ccu_nkm_find_best_with_parent_adj: rate=3D414577776, best_rate=3D4145=
+62500, best_parent_rate=3D201000000, n=3D11, k=3D3, m=3D16
+>     ccu_nkm_find_best_with_parent_adj: rate=3D414562500, best_rate=3D4145=
+62500, best_parent_rate=3D201000000, n=3D11, k=3D3, m=3D16
+>     ccu_nkm_find_best: rate=3D414562500, best_rate=3D414562500, parent_ra=
+te=3D201000000, n=3D11, k=3D3, m=3D16
+>=20
+> We can see that the rate is drifting over the successive calls. We've
+> seen it before and deemed it no big deal.
+>=20
+> To highlight the issue a bit more, I added some logging at the end of
+> sun4i_dclk_round_rate() and sun4i_dclk_set_rate.
+>=20
+>     ccu_nkm_find_best_with_parent_adj: rate=3D414600000, best_rate=3D4145=
+77776, best_parent_rate=3D282666666, n=3D11, k=3D2, m=3D15
+>     sun4i_dclk_round_rate: rate=3D103650000, best_rate=3D103644444, best_=
+parent=3D414577776, best_div=3D4
+>     ccu_nkm_find_best_with_parent_adj: rate=3D414600000, best_rate=3D4145=
+77776, best_parent_rate=3D282666666, n=3D11, k=3D2, m=3D15
+>     sun4i_dclk_round_rate: rate=3D103650000, best_rate=3D103644444, best_=
+parent=3D414577776, best_div=3D4
+>=20
+> Here we can see that sun4i_dclk now has determined that 103644444 is its
+> best rate, based on the parent rate of 414577776.
+>=20
+> But now, the nkm clock pll-mipi changes its mind and thinks that it
+> cannot provide 414577776 any more, instead it wants to provide
+> 414562500.
 
-Tests
-=====
-So far, this has been successfully tested on the A64-based Pinephone
-using three different panel rates:
+That's a bit surprising, but not entirely. For example, one of the
+parent clock of our parent might have changed rate between our
+round_rate and set_rate calls.
 
- 1. A panel rate that can be matched exactly by pll-video0.
- 2. A panel rate that requires pll-video0 to undershoot to get the
-    closest rate.
- 3. A panel rate that requires pll-video0 to overshoot to get the
-    closest rate.
+Why does it change its mind?
 
-Test records:
+Maxime
 
-Re 1:
------
-Panel requests tcon-data-clock of 103500000 Hz, i.e., pll-mipi needs to
-run at 414000000 Hz. This results in the following clock rates:
-   clock                            rate
-   -------------------------------------
-    pll-video0                 207000000
-       hdmi-phy-clk             51750000
-       hdmi                    207000000
-       tcon1                   207000000
-       pll-mipi                414000000
-          tcon0                414000000
-             tcon-data-clock   103500000
+--7qt7rhskywx5xp3d
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The results of the find_best calls:
-ccu_nkm_find_best_with_parent_adj: rate=414000000, best_rate=414000000, best_parent_rate=207000000, n=1, k=2, m=1
-ccu_nkm_find_best_with_parent_adj: rate=414000000, best_rate=414000000, best_parent_rate=207000000, n=1, k=2, m=1
-ccu_nkm_find_best_with_parent_adj: rate=414000000, best_rate=414000000, best_parent_rate=207000000, n=1, k=2, m=1
-ccu_nkm_find_best_with_parent_adj: rate=414000000, best_rate=414000000, best_parent_rate=207000000, n=1, k=2, m=1
-ccu_nkm_find_best: rate=414000000, best_rate=414000000, parent_rate=207000000, n=1, k=2, m=1
+-----BEGIN PGP SIGNATURE-----
 
-Re 2:
------
-Panel requests tcon-data-clock of 103650000 Hz, i.e., pll-mipi needs to
-run at 414600000 Hz. This results in the following clock rates:
-   clock                            rate
-   -------------------------------------
-    pll-video0                 282666666
-       hdmi-phy-clk             70666666
-       hdmi                    282666666
-       tcon1                   282666666
-       pll-mipi                414577776
-          tcon0                414577776
-             tcon-data-clock   103644444
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZLVKygAKCRDj7w1vZxhR
+xU/OAP4vanlIaDol6Hvz3JmMa0mO1cdKjVSEdGVNB0WxFhCuwQEAhIWFRM6R+nxy
+jLDAqVsBdMAuZ2a0NXm2i9ArGDuHmw0=
+=pqQe
+-----END PGP SIGNATURE-----
 
-The results of the find_best calls:
-ccu_nkm_find_best_with_parent_adj: rate=414600000, best_rate=414577776, best_parent_rate=282666666, n=11, k=2, m=15
-ccu_nkm_find_best_with_parent_adj: rate=414600000, best_rate=414577776, best_parent_rate=282666666, n=11, k=2, m=15
-ccu_nkm_find_best_with_parent_adj: rate=414577776, best_rate=414577776, best_parent_rate=282666666, n=11, k=2, m=15
-ccu_nkm_find_best_with_parent_adj: rate=414577776, best_rate=414577776, best_parent_rate=282666666, n=11, k=2, m=15
-ccu_nkm_find_best: rate=414577776, best_rate=414577776, parent_rate=282666666, n=11, k=2, m=15
-
-Here, we first ask pll-video0 for a rate that it can't provide exactly:
- - rate=414600000: We ask the parent for rate * m / (n * k) = 282681818,
-   it returns 282666666. Here the parent undershoots.
-Later we ask pll-video0 for exactly that rate again:
- - rate=414577776: We ask the parent for DIV_ROUND_UP(rate * m, n * k) =
-   282666666, which it then returns.
-
-Re 3:
------
-Panel requests tcon-data-clock of 112266000 Hz, i.e., pll-mipi needs to
-run at 449064000 Hz. This results in the following clock rates:
-   clock                            rate
-   -------------------------------------
-    pll-video0                 207272727
-       hdmi-phy-clk             51818181
-       hdmi                    207272727
-       tcon1                   207272727
-       pll-mipi                449090908
-          tcon0                449090908
-             tcon-data-clock   112272727
-
-The results of the find_best calls:
-ccu_nkm_find_best_with_parent_adj: rate=449064000, best_rate=449090908, best_parent_rate=207272727, n=13, k=2, m=12
-ccu_nkm_find_best_with_parent_adj: rate=449064000, best_rate=449090908, best_parent_rate=207272727, n=13, k=2, m=12
-ccu_nkm_find_best_with_parent_adj: rate=449090908, best_rate=449090908, best_parent_rate=207272727, n=13, k=2, m=12
-ccu_nkm_find_best_with_parent_adj: rate=449090908, best_rate=449090908, best_parent_rate=207272727, n=13, k=2, m=12
-ccu_nkm_find_best: rate=449090908, best_rate=449090908, parent_rate=207272727, n=13, k=2, m=12
-
-Here, we first ask the pll-video0 for a rate that it can't provide
-exactly:
- - rate=449064000: We ask the parent for DIV_ROUND_UP(rate * m, n * k) =
-   207260308, it returns 207272727. Here the parent overshoots.
-Later we ask pll-video0 for exactly that rate again:
- - rate=449090908: We ask the parent for DIV_ROUND_UP(rate * m, n * k) =
-   207272727, which it then returns.
-
-Changelog:
-----------
-Changes in v4:
- - Re-introduce a dedicated function for calculating the optimal parent
-   rate for nkm clocks that was introduced in v2 and removed in v3. It
-   turned out that not having this functionality introduces a bug when
-   the parent does not support finding the closest rate:
-   https://lore.kernel.org/all/87pm4xg2ub.fsf@oltmanns.dev/
- - Incorporate review remarks:
-    - Correcting the parameter name for ccu_nkm_round_rate()'s parent HW
-      is now in a separate patch.
-    - Use correct parameter order in ccu_nkm_find_best_with_parent_adj.
-    - Add ccu_is_better_rate() and use it for determining the best rate
-      for nm and nkm, as well as ccu_mux_helper_determine_rate.
-    - Consistently introduce new macros for clock variants that support
-      finding the closest rate instead of updating existing macros.
-    - Use wrapper function for determining a ccu_mux's rate in order to
-      support finding the closest rate.
- - Link to v3: https://lore.kernel.org/r/20230702-pll-mipi_set_rate_parent-v3-0-46dcb8aa9cbc@oltmanns.dev
-
-Changes in v3:
- - Use dedicated function for finding the best rate in cases where an
-   nkm clock supports setting its parent's rate, streamlining it with
-   the structure that is used in other sunxi-ng ccus such as ccu_mp
-   (PATCH 1).
- - Therefore, remove the now obsolete comments that were introduced in
-   v2 (PATCH 1).
- - Remove the dedicated function for calculating the optimal parent rate
-   for nkm clocks that was introduced in v2. Instead use a simple
-   calculation and require the parent clock to select the closest rate to
-   achieve optimal results (PATCH 1).
- - Therefore, add support to set the closest rate for nm clocks (because
-   pll-mipi's parent pll-video0 is an nm clock) and all clock types that
-   are descendants of a64's pll-video0, i.e., nkm, mux, and div (PATCH 3
-   et. seq.).
- - Link to v2: https://lore.kernel.org/all/20230611090143.132257-1-frank@oltmanns.dev/
-
-Changes in V2:
- - Move optimal parent rate calculation to dedicated function
- - Choose a parent rate that does not to overshoot requested rate
- - Add comments to ccu_nkm_find_best
- - Make sure that best_parent_rate stays at original parent rate in the unlikely
-   case that all combinations overshoot.
-
-Link to V1:
-https://lore.kernel.org/lkml/20230605190745.366882-1-frank@oltmanns.dev/
-
----
-Frank Oltmanns (11):
-      clk: sunxi-ng: nkm: Use correct parameter name for parent HW
-      clk: sunxi-ng: nkm: consider alternative parent rates when determining rate
-      clk: sunxi-ng: nkm: Improve determine rate when setting parent
-      clk: sunxi-ng: a64: allow pll-mipi to set parent's rate
-      clk: sunxi-ng: Add feature to find closest rate
-      clk: sunxi-ng: Add helper function to find closest rate
-      clk: sunxi-ng: nm: Support finding closest rate
-      clk: sunxi-ng: nkm: Support finding closest rate
-      clk: sunxi-ng: mux: Support finding closest rate
-      clk: sunxi-ng: div: Support finding closest rate
-      clk: sunxi-ng: a64: select closest rate for pll-video0
-
- drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 36 ++++++++---------
- drivers/clk/sunxi-ng/ccu_common.c     | 12 ++++++
- drivers/clk/sunxi-ng/ccu_common.h     |  6 +++
- drivers/clk/sunxi-ng/ccu_div.h        | 30 ++++++++++++++
- drivers/clk/sunxi-ng/ccu_mux.c        | 15 ++++++-
- drivers/clk/sunxi-ng/ccu_mux.h        | 38 +++++++++++++-----
- drivers/clk/sunxi-ng/ccu_nkm.c        | 76 +++++++++++++++++++++++++++++++----
- drivers/clk/sunxi-ng/ccu_nm.c         | 11 ++---
- drivers/clk/sunxi-ng/ccu_nm.h         | 48 ++++++++++++++++++++--
- 9 files changed, 222 insertions(+), 50 deletions(-)
----
-base-commit: 6995e2de6891c724bfeb2db33d7b87775f913ad1
-change-id: 20230626-pll-mipi_set_rate_parent-3363fc0d6e6f
-
-Best regards,
--- 
-Frank Oltmanns <frank@oltmanns.dev>
-
+--7qt7rhskywx5xp3d--
