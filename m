@@ -1,156 +1,113 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4784D8480
-	for <linux-sunxi@lists.linux.dev>; Mon, 17 Jul 2023 06:43:45 +0000 (UTC)
-From: Kurt Kanzenbach <kurt@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1689576217;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uboJEUKSahjdAVYpA+pF5+aSJ07v5EaQ349H/nsSHfw=;
-	b=JtWPLPlrsuM3RupOo5UUWtyEXwtzvhKqw/HW1UHwDOMmbBRQ/QmJZgZBjar4KOos/ATHBN
-	FVeRzyNa7e5MqS/vQpfZt+vcENuhhxsj2My8mYiL4fphLiPMtlOU6HdcMsxDqnQ1sEhNQz
-	NJjlbA026w0upxHlxBwNcBU5hgbd2qeeHGi0nDLJoGJyPHOkWNXGPfPEXK/lOb2QseiD0a
-	MRWYBkNWwkdz+j+H/qEC6XJscdi2JmQUkd9yvuFLKjPWqIzPFXtt0KNjzN/rZhI15vxlNH
-	DEVIwUHuNrU6jwJkdOWTM6D4LtFyGxEwGD5Hy8NKo36a44VqsUYSFgXDPqbH+A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1689576217;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uboJEUKSahjdAVYpA+pF5+aSJ07v5EaQ349H/nsSHfw=;
-	b=SWiZ2ZAWDV2WrTFAOBDomuHgk89Qm6iY5G2ULlukqd9M8oXoTTZbgD1XRFh7LF0KLB/zVm
-	e5qJVtMqyKfxhiAQ==
-To: Rob Herring <robh@kernel.org>, Dario Binacchi
- <dario.binacchi@amarulasolutions.com>, Wolfgang Grandegger
- <wg@grandegger.com>, Marc Kleine-Budde <mkl@pengutronix.de>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Chandrasekar
- Ramakrishnan <rcsekar@samsung.com>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Andrew Lunn
- <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>, Woojung Huh
- <woojung.huh@microchip.com>, UNGLinuxDriver@microchip.com, =?utf-8?B?QXI=?=
- =?utf-8?B?xLFuw6cgw5xOQUw=?=
- <arinc.unal@arinc9.com>, Daniel Golle <daniel@makrotopia.org>, Landen Chao
- <Landen.Chao@mediatek.com>, DENG Qingfang <dqfext@gmail.com>, Sean Wang
- <sean.wang@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Cla
- udiu Manoil <claudiu.manoil@nxp.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Linus Walleij <linus.walleij@linaro.org>,
- Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>, George McCollister
- <george.mccollister@gmail.com>, Andreas Larsson <andreas@gaisler.com>,
- Iyappan Subramanian <iyappan@os.amperecomputing.com>, Keyur Chudgar
- <keyur@os.amperecomputing.com>, Chris Snook <chris.snook@gmail.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Claudiu Beznea
- <claudiu.beznea@microchip.com>, Madalin Bucur <madalin.bucur@nxp.com>, Wei
- Fang <wei.fang@nxp.com>, Shenwei Wang <shenwei.wang@nxp.com>, Clark Wang
- <xiaoning.wang@nxp.com>, NXP Linux Team <linux-imx@nxp.com>, Sean Anderson
- <sean.anderson@seco.com>, Pantelis Antoniou <pantelis.antoniou@gmail.com>,
- Li Yang <leoyang.li@nxp.com>, Yisen Zhuang <yisen.zhuang@huawei.com>,
- Salil Mehta <salil.mehta@huawei.com>, Douglas Miller
- <dougmill@linux.ibm.com>, Marcin Wojtas <mw@semihalf.com>, Russell King
- <linux@armlinux.org.uk>, Tara s Chornyi <taras.chornyi@plvision.eu>, Mirko
- Lindner <mlindner@marvell.com>, Stephen Hemminger
- <stephen@networkplumber.org>, Felix Fietkau <nbd@nbd.name>, John Crispin
- <john@phrozen.org>, Mark Lee <Mark-MC.Lee@mediatek.com>, Lorenzo Bianconi
- <lorenzo@kernel.org>, Horatiu Vultur <horatiu.vultur@microchip.com>, Timur
- Tabi <timur@kernel.org>, Sergey Shtylyov <s.shtylyov@omp.ru>, Steve
- Glendinning <steve.glendinning@shawell.net>, Kunihiko Hayashi
- <hayashi.kunihiko@socionext.com>, Giuseppe Cavallaro
- <peppe.cavallaro@st.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Jose Abreu <joabreu@synopsys.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, Jerome
- Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Vinod Ko ul <vkoul@kernel.org>,
- Bhupesh Sharma <bhupesh.sharma@linaro.org>, Emil Renner Berthing
- <kernel@esmil.dk>, Samin Guo <samin.guo@starfivetech.com>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, Grygorii Strashko
- <grygorii.strashko@ti.com>, Kevin Brace <kevinbrace@bracecomputerlab.com>,
- Francois Romieu <romieu@fr.zoreil.com>, Michal Simek
- <michal.simek@amd.com>, Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
- Alexander Aring <alex.aring@gmail.com>, Stefan Schmidt
- <stefan@datenfreihafen.org>, Miquel Raynal <miquel.raynal@bootlin.com>,
- Alex Elder <elder@kernel.org>, =?utf-8?Q?Cl=C3=A9ment_L=C3=A9ger?=
- <clement.leger@bootlin.com>,
- Heiner Kallweit <hkallweit1@gmail.com>, SkyLake Huang
- <SkyLake.Huang@mediatek.com>, Kalle Valo <kvalo@kernel.org>, Loic Poulain
- <loic.poulain@linaro.org>, Ryder Lee <ryder.lee@mediatek.com>, Shayne Chen
- <shayne.chen@mediatek.com>, =?utf-8?B?SsOpcsO0bWU=?= Pouille r
- <jerome.pouiller@silabs.com>,
- Richard Cochran <richardcochran@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-can@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- linux-renesas-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-amlogic@lists.infradead.org, linux-oxnas@groups.io,
- linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-wpan@vger.kernel.org, ath10k@lists.infradead.org,
- linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
- wcn36xx@lists.infradead.org
-Subject: Re: [PATCH] net: Explicitly include correct DT includes
-In-Reply-To: <20230714174809.4060885-1-robh@kernel.org>
-References: <20230714174809.4060885-1-robh@kernel.org>
-Date: Mon, 17 Jul 2023 08:43:32 +0200
-Message-ID: <87r0p7597v.fsf@kurt>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D915257
+	for <linux-sunxi@lists.linux.dev>; Mon, 17 Jul 2023 07:03:27 +0000 (UTC)
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1qLIGE-0000T3-Cf; Mon, 17 Jul 2023 09:03:10 +0200
+Received: from pengutronix.de (unknown [172.20.34.65])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 08B4F1F305E;
+	Mon, 17 Jul 2023 07:03:07 +0000 (UTC)
+Date: Mon, 17 Jul 2023 09:03:06 +0200
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: John Watts <contact@jookia.org>, linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-can@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	Fabien Poussin <fabien.poussin@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>
+Subject: Re: [PATCH 3/4] can: sun4i_can: Add send support for the Allwinner D1
+Message-ID: <20230717-aluminum-driven-a008473620ca-mkl@pengutronix.de>
+References: <20230715112523.2533742-1-contact@jookia.org>
+ <20230715112523.2533742-4-contact@jookia.org>
+ <f3b1240a-4be0-4c02-0a63-561499ad6d0d@kernel.org>
+ <ZLQgQAigmhk9uYYd@titan>
+ <eb2d6e5a-595f-85f2-fe36-8acbb76d3987@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="j7xfjmlq2qs7lfx4"
+Content-Disposition: inline
+In-Reply-To: <eb2d6e5a-595f-85f2-fe36-8acbb76d3987@kernel.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:b01:1d::7b
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
---=-=-=
-Content-Type: text/plain
 
-On Fri Jul 14 2023, Rob Herring wrote:
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
+--j7xfjmlq2qs7lfx4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[...]
+On 17.07.2023 08:41:07, Krzysztof Kozlowski wrote:
+> On 16/07/2023 18:52, John Watts wrote:
+> > Hello,
+> >=20
+> > On Sun, Jul 16, 2023 at 06:36:03PM +0200, Krzysztof Kozlowski wrote:
+> >>> +static const struct sun4ican_quirks sun4ican_quirks_d1 =3D {
+> >>> +	.has_reset =3D true,
+> >>> +};
+> >>
+> >> Isn't this the same as previous?
+> >=20
+> > Yes, but I wanted to split up the new quirk in to its own patch.
+>=20
+> I don't understand why you need this new, duplicated entry. Aren't
+> devices compatible?
 
->  drivers/net/dsa/hirschmann/hellcreek.c                  | 1 -
->  drivers/net/dsa/hirschmann/hellcreek_ptp.c              | 1 +
+According to patch 4/4 the devices are not compatible.
 
-Acked-by: Kurt Kanzenbach <kurt@linutronix.de> # hellcreek
+> I also do not understand what 'own patch' has anything to do with it.
 
---=-=-=
+Patch 4/4 adds a new quirk to the new device.
+
+Jookia, please let the patches build on each other so that the resulting
+kernel is consistent. The kernel at the state 3/4 will build and load
+the driver on the D1, but it will not work, as the new quirk is missing.
+Please exchange patches 3/4 and 4/4 (add the sun4ican_quirks_d1 in patch
+4/4 only).
+
+> > Is
+> > there a better way of doing that?
+>=20
+> Devices are compatible, right? So express it in the bindings and DTS.
+
+regards,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+
+--j7xfjmlq2qs7lfx4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJHBAEBCgAxFiEEvLm/ssjDfdPf21mSwZPR8qpGc4IFAmS04xQTHGt1cnRAbGlu
-dXRyb25peC5kZQAKCRDBk9HyqkZzgtQ+D/4rxLrP90HZoMklo1bSDPz4shsBjqNI
-WnulP+nkfb+Qtwn8rBKcJezrFK9O6lJpYTq33kAJwEX/SE8b961KoY/V9s6ssagq
-UBdww2O31sKDjd4MbmNjsULZi1BpRmVBJLaxkTQRy/i1JQlHN3rNZtQBT9ZPLcus
-oYN4pegQ+WymkHI/KQtmFpPpTMNZjPn6ItB8g5uh6LFWgVIOZi5L13KC4mus7SFP
-ujD3Fe0Y2ya/EOyjT4NpcS2IQjTacbYk/z/hB3fuFp0mW5l1X8TKVKz2zquZ01ef
-armvD+bjs+3emvjNDs4/9yBd6kJ/4RHP6BkYJMWIHuYxxM62qOJvr3O6JV2FRKug
-CKGvmYJBedVkf4RAEc1nQrMH8U4H8ktjYYUKsMp2JdQ5mrDI0xS5Mrfzf4vsonpe
-OZXf5Z0CrehMlal4X5Y330gU0iVuZmUARGWKSGFmzWDV5A7vn3jubM8FqCJtiB0X
-wD9w4pdsJ+jRp+35GluO4anayr9lDPU3w8Y+4KDmwafuzG2VUajeUSWmBxiDgGh9
-6WB5lWsI0Oa+Llb6DzrALRkwXzJPDzZ7YULwb2v37sOq9xma8cce3W9N967on0bX
-YcnqpBdEg3tncRq58oK9uDJtdggXzTSO7C78b09WvIa2l5G2JkaM77I/VXhGgvGt
-BXSqDM8imlVRFg==
-=8lun
+iQEzBAABCgAdFiEEDs2BvajyNKlf9TJQvlAcSiqKBOgFAmS056cACgkQvlAcSiqK
+BOgTZgf+I68G1vUzidxsQq9n5fAC7r0kF1tOoX+Bdb/J+hxId7T1pN+ip8l6XrXY
+IaKMtl8z7JVcPJbcieeUFWxbhFjpKmpY16iQnukesYWseAggktWdtdFdv2gaa5XM
+XWQDvGB846jMQUv4yYC6NQfC4FNY8BZRYEJCMuggpntAx3CrLWR/b8sIC111cRb7
+0cS6k4VznFomJCrZB5XEuS5tD7PbIyuk4DiA6DHxBmfIbJVsFFrlGW9GsINKBtbC
+/mERFA1TB1VALhEnvlP809s/eLhMRrXV1wVVnAQpfp9i0bDQaAdJNmzuVe+5Aw7f
+H8y0DguEiwAG7bb4eTGkEi8uLKp31w==
+=v8dE
 -----END PGP SIGNATURE-----
---=-=-=--
+
+--j7xfjmlq2qs7lfx4--
