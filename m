@@ -1,72 +1,88 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2157D79C8;
-	Mon, 17 Jul 2023 12:38:17 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 63003C0003;
-	Mon, 17 Jul 2023 12:38:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1689597489;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1164BAD28
+	for <linux-sunxi@lists.linux.dev>; Mon, 17 Jul 2023 13:34:50 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4R4NNd5Wr3z9sSZ;
+	Mon, 17 Jul 2023 15:34:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1689600881;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MM/PEyd181tJuLy8r7nqOJOdJv9WHZixT7LUP2KhY9Q=;
-	b=CJSdJUIaJOmzbN/Tj4KhsGBnpIzKmLKXw5kMnjexwbj9y7Ge/VVgXKfpiv6eq5W9wcF9dp
-	sd/2U7mXflRPXLpVjusstuLTPt8N2SZlDeNsujy0iHcJE4iLv5gRuMhTwZ4mMmBMGjAF64
-	qwHz/AKECHcd0xWxb2+V+Up/oxY2hWG0KeU8blU452HvKU9iMKB3HedvxklLcwyMVE+Zy+
-	50B1rWMTI8ltBn0//4FfpRbnkzFIA2rEYf3Gj3lDjF+D+cJiPdTwvuCcfsiimP3e+v2LdY
-	EDKN/bYZ9JBD3oCSej3UhQM4VknrSyUzHk4r49YevmLr/q96PziK3BkSVQTHhA==
-Date: Mon, 17 Jul 2023 14:38:04 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Vaibhav Hiremath
- <hvaibhav.linux@gmail.com>, Johan Hovold <johan@kernel.org>, Alex Elder
- <elder@kernel.org>, Steve Longerbeam <slongerbeam@gmail.com>, Philipp Zabel
- <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn
- Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, Jerome
- Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Maxime Ripard <mripard@kernel.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Thierry Reding <thierry.reding@gmail.com>, Jonathan
- Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni
- <skomatineni@nvidia.com>, Parthiban Veerasooran
- <parthiban.veerasooran@microchip.com>, Christian Gromm
- <christian.gromm@microchip.com>, devicetree@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- greybus-dev@lists.linaro.org, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] staging: Explicitly include correct DT includes
-Message-ID: <20230717143804.4e82bcc1@booty>
-In-Reply-To: <20230714175002.4064428-1-robh@kernel.org>
-References: <20230714175002.4064428-1-robh@kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	bh=Rv0VQb3dID9vli2KRI1IVx8tJ5Pn4HiXMxnfk/v2f54=;
+	b=UdgMZcFQiZNijaJ818yBZITHgNgs7jk9u/yxUH2p4p6zjpy2lMPdZjGYvH9tuo3JL0PLyz
+	AIwcmeJV8YtIavkbsDo/ckUIrUBBzd5udR1J11SCpqLUOJtik7xrFrTpRX9dwvBsnNSe3g
+	IdpuM2ckCPnexhIs3KkTRs3AE5AL7jzwxZAGJrRNUZFD1U3PZ/0fl2LnrsotXLlOQad++p
+	/chQPeBFUr53hjGSl/j9+rgn4B9G1e3x9ZCrICpVBAEnTmKwdSr+PO9u5Ugg89LkWA6eBE
+	sinCM2G5EFfOG+kcq8mNPkQPLKdrv2SC8SFHUZRWS0oy5yuHekvB2S6f1YaRHw==
+From: Frank Oltmanns <frank@oltmanns.dev>
+Date: Mon, 17 Jul 2023 15:34:25 +0200
+Subject: [PATCH v4 01/11] clk: sunxi-ng: nkm: Use correct parameter name
+ for parent HW
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Message-Id: <20230717-pll-mipi_set_rate_parent-v4-1-04acf1d39765@oltmanns.dev>
+References: <20230717-pll-mipi_set_rate_parent-v4-0-04acf1d39765@oltmanns.dev>
+In-Reply-To: <20230717-pll-mipi_set_rate_parent-v4-0-04acf1d39765@oltmanns.dev>
+To: Maxime Ripard <mripard@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Andre Przywara <andre.przywara@arm.com>, Roman Beranek <me@crly.cz>
+Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Frank Oltmanns <frank@oltmanns.dev>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=891; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=uK7iF9etz2opMttdEsAttxwMIOMUY7i/XdBlUa+elf0=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBktUNmFQCKCWHtrI124RzW8kgbzVigb3cH+d6IZ
+ XD6/S3ICBiJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZLVDZgAKCRCaaaIIlErT
+ x9QAC/9fRFd5dETwAqOSVpi+ipUDaYRB+lzuhAfAdqmX2FjcTnTuSiBAgk/WAkANzhgLAoMTfeO
+ DxJmc/G4V6gSd+X9mDNjwbdNh1HCxHYXAkqz3RwwEYSRl7bH+29uQyEeNd+A7vLlRs64ODpR7ok
+ xwn8O0HYE45jPYYh6jjcE9/rlujiqY1AbxvRfVprQoB6JHpzFwmQe1ukoeUDMXTUw2S9S1UEetr
+ IsGGuPOetODJP6mqbtcdhU9xCmjqmiJsUWw58Wz/5QqZw6tpA2LQcHY9bsLOB4zGuGDgx4olfY2
+ pZ1vGNja0LpukouUr4c6/SIDd4r6wEAE0rktWi3lp4MyjlV0cEyOOVhiCgd+YfiX6z9bbppnYEg
+ JMv4x1VVGQoBnOfOMYQ098WX9yaUrBxAydC7e151XRkQeHpcMhdMg4FXskfVfsLahVPSdc/Pgsq
+ GTKa4K3rjMAe1Yor8IegTjJTS9pF2lL5pyHJVQSEYaROVqEh25+iWYDfbflmqJrUY26Xk=
+X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
+ fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
 
-On Fri, 14 Jul 2023 11:50:01 -0600
-Rob Herring <robh@kernel.org> wrote:
+ccu_nkm_round_rate() takes a clk_hw as parameter "hw". Since "hw" is the
+nkm clock's parent clk_hw, not the clk_hw of the nkm clock itself,
+change the parameter name to "parent_hw" to make it more clear what
+we're dealing with.
 
->  drivers/staging/media/tegra-video/csi.c           | 1 -
->  drivers/staging/media/tegra-video/vi.c            | 2 +-
->  drivers/staging/media/tegra-video/vip.c           | 1 -
+Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+---
+ drivers/clk/sunxi-ng/ccu_nkm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # tegra-video
+diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
+index a0978a50edae..f267142e58b3 100644
+--- a/drivers/clk/sunxi-ng/ccu_nkm.c
++++ b/drivers/clk/sunxi-ng/ccu_nkm.c
+@@ -106,7 +106,7 @@ static unsigned long ccu_nkm_recalc_rate(struct clk_hw *hw,
+ }
+ 
+ static unsigned long ccu_nkm_round_rate(struct ccu_mux_internal *mux,
+-					struct clk_hw *hw,
++					struct clk_hw *parent_hw,
+ 					unsigned long *parent_rate,
+ 					unsigned long rate,
+ 					void *data)
 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.41.0
+
