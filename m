@@ -1,30 +1,30 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 118A6BA2E
-	for <linux-sunxi@lists.linux.dev>; Mon, 17 Jul 2023 13:41:24 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87390BA28
+	for <linux-sunxi@lists.linux.dev>; Mon, 17 Jul 2023 13:42:34 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4R4NP15rWvz9sb3;
-	Mon, 17 Jul 2023 15:35:01 +0200 (CEST)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4R4NNh29vnz9spM;
+	Mon, 17 Jul 2023 15:34:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1689600901;
+	s=MBO0001; t=1689600884;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OJ8q9pTL81Tc/TWJNsV0MmsER+aXTbba/DFvUTK1urY=;
-	b=RyjvvacVElds1v9SVihgtHTAJ5WZcV/ma4doRQAdtPycHMb7YtW2zzXwwOjyvtuXpKsxK8
-	3WJFAiNKmuI4uMe+WXlvhqyLDjY2Qp3uDY078xIcH1BiLphCJV7Qzu6zaaFJ1my07/Fxt1
-	TE8PXd6bEiJ6a12JI/p49m7qhqm3cfaerwfMAHapnIz6Oxg/zhuEN/lQ1H27SBYWqd/WaG
-	EvWks4/LemYtRLBjbkC2ILcEiqeG0lWhcyqG/iMCc8eT5KL8XbohPESoAXBADTgoqyCjlm
-	NK+5iz+rrG6CmlrzsFS/rvIVARXRzV3dH9Rfog4naZsFmFZHWfpwN15X1Xp2aA==
+	bh=cPWCHbaMIzPJhoorxt9HLF+kv4sZYegCcJXZOrRKrWE=;
+	b=04fVJiZMhngVED/Pi8lx6h0xC5TrS3ghl8MRos+jdHoBkK4RYfzP+J7Z3OzHd+aTdwVxxj
+	TZnQgTeq2fhVSyD8uphoqt4xtiCV2Is69RvL7XuoGpFqmF6FJt/esQ+5voG76rhwM1je8F
+	52geNyGydIyifzJPVt765+jB4rrtvB/RdY8d1UQgI1Up21ClXHyy0wRLuswKdklq2yrF16
+	1AoLcnxN5Y1Cp1xdQVL9CK4/cXzieSO/y2h2YQLEaQg/Riug5gIjL4Yuh5gpu/2VqlNGAA
+	gHAoRWsUXDTdGIx6pRXpuW/NGyY6ph+lOA+s7mPQsGdMBlNYf3BqiZWsqdZ6sQ==
 From: Frank Oltmanns <frank@oltmanns.dev>
-Date: Mon, 17 Jul 2023 15:34:35 +0200
-Subject: [PATCH v4 11/11] clk: sunxi-ng: a64: select closest rate for
- pll-video0
+Date: Mon, 17 Jul 2023 15:34:26 +0200
+Subject: [PATCH v4 02/11] clk: sunxi-ng: nkm: consider alternative parent
+ rates when determining rate
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -33,7 +33,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230717-pll-mipi_set_rate_parent-v4-11-04acf1d39765@oltmanns.dev>
+Message-Id: <20230717-pll-mipi_set_rate_parent-v4-2-04acf1d39765@oltmanns.dev>
 References: <20230717-pll-mipi_set_rate_parent-v4-0-04acf1d39765@oltmanns.dev>
 In-Reply-To: <20230717-pll-mipi_set_rate_parent-v4-0-04acf1d39765@oltmanns.dev>
 To: Maxime Ripard <mripard@kernel.org>, 
@@ -45,117 +45,106 @@ To: Maxime Ripard <mripard@kernel.org>,
 Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Frank Oltmanns <frank@oltmanns.dev>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4299; i=frank@oltmanns.dev;
- h=from:subject:message-id; bh=jbnrLs6Wz/DZblxpFGtXN3DOQE/Va3X1a9GFPqxAmdg=;
- b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBktUNoFZsC7quYPm3VlK7cJ6Gb3ocsdztxFbMi+
- kj/FSNkNECJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZLVDaAAKCRCaaaIIlErT
- x5MzC/901SBdHj/WRYrs67Egfj+3aeeouvEYMGGdbS2AdxoneAoPP09JkPwjoygvwxHN+j6Z6WT
- DiLG61Wt4z+IId7IbXdPGPjpxd9RvPVk7gsdb1JzmNMXCbV10iEIcgqmlOCMwVxaKiCqTfTcny/
- jU7TIXn8aseG01l9lebjncm2Ds/tRT1my90mh46LKyNnWKpXWXixx/BGG0Qq50vk5ipRteeM1vq
- QM/7DK/lfjp83fsywR4GaIhqYvRbhgXvci4JSgnqnHl/BR8qpiH/zSViv11aSd+aIFIDhUAT1eF
- FvYqTnWXWzm+a6CxlaXGvEtaGBI/Ax6lKf+KMSX8W1lD2Kuvu2cVMXVuK4E4N0M8YQwPYiMreNJ
- WSnSyPGKAi6izQVzMLSInHNJ2MbfEf4SyTXOLpaM6ZLT0MidPPAWyjvvRRJ3ZttnbqiigTwQV/Z
- tMZSiPshYbYW+uTHSNB3WV6Mh4iKE8U2u8ddQNYSnlI9Kul1Tf4zEO7crsoRKhfC+ctGA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2786; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=ln8ewZB8HSlEkTwEPnYVk2xiK3z7aFrdhE31L9k7BeE=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBktUNmBiTRyNBUXsoPkUobN7y+D/M84n6Ihezx/
+ KIsuAQwbISJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZLVDZgAKCRCaaaIIlErT
+ x8mfC/4xmWR7TpNRcNtu6On+oaAp0H/+K7AOZP1gdw1xLCJOXl9mGeYL7ljQLqfh8WF9eRo+6jn
+ Tyo9Q3fpCcorU9J8yx75k+xqfWqL6SY7mnZhCBLOrhCypR1P4eaVkYMBwYaSHr/TDPBaIJT+u9H
+ IXWYrd+KcYzTi17mp/d5zq1BhhOEjtE5GXSd/NQwYsT2KY13aR8crSiLulzaF9a91AGKfJSHY8l
+ ajeMK7Ey5yjGWPwHQ/QIqeClx1wiIaqUi4svjaq6RhwhwhSJCTiFV2eBPFyBe/9QUXyA3h7qLPQ
+ 7cNdnijiR7KbMJHsGulPj/YbJtQaCLVZDyBv+GtVqxwupZ46KfJMaAE3IbmS5TAGnqWjgXbFNOT
+ Ird7Nyy6Pno14Tyw13oi/3evBs/Z0Sv7qjrmRZO+okjE0sBG255Pzxq6204gK8j7XNOiI8379HO
+ Jisb/I+ujmzOjXx0XsIJQLr0gY0xVeCg0J6JrlNp/ROiV25ZweDOoaSwdg0gWhF4i9Zws=
 X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
  fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
-X-Rspamd-Queue-Id: 4R4NP15rWvz9sb3
 
-Selecting the closest rate for pll-video0 instead of the closest rate
-that is less than the requested rate has no downside for this clock,
-while allowing for selecting a more suitable rate, e.g. for the
-connected panels.
+In case the CLK_SET_RATE_PARENT flag is set, consider using a different
+parent rate when determining a new rate.
 
-Furthermore, the algorithm that sets an NKM clock's parent benefits from
-the closest rate. Without it, the NKM clock's rate might drift away from
-the requested rate in the multiple successive calls to
-ccu_nkm_determine_rate that the clk framework performs when setting a
-clock rate.
+To find the best match for the requested rate, perform the following
+steps for each NKM combination:
+ - calculate the optimal parent rate,
+ - find the best parent rate that the parent clock actually supports
+ - use that parent rate to calculate the effective rate.
 
-Therefore, configure pll-video0 and, in consequence, all of its
-descendents to select the closest rate.
+In case the clk does not support setting the parent rate, use the same
+algorithm as before.
 
 Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
 ---
- drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 33 ++++++++++++++-------------------
- 1 file changed, 14 insertions(+), 19 deletions(-)
+ drivers/clk/sunxi-ng/ccu_nkm.c | 44 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 43 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-index a139a5c438d4..73c84d20f3ee 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-@@ -68,7 +68,7 @@ static SUNXI_CCU_NM_WITH_SDM_GATE_LOCK(pll_audio_base_clk, "pll-audio-base",
- 				       BIT(28),	/* lock */
- 				       CLK_SET_RATE_UNGATE);
+diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
+index f267142e58b3..750e2b8da24b 100644
+--- a/drivers/clk/sunxi-ng/ccu_nkm.c
++++ b/drivers/clk/sunxi-ng/ccu_nkm.c
+@@ -6,6 +6,7 @@
  
--static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX(pll_video0_clk, "pll-video0",
-+static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_CLOSEST(pll_video0_clk, "pll-video0",
- 						"osc24M", 0x010,
- 						192000000,	/* Minimum rate */
- 						1008000000,	/* Maximum rate */
-@@ -181,6 +181,7 @@ static struct ccu_nkm pll_mipi_clk = {
- 		.hw.init	= CLK_HW_INIT("pll-mipi", "pll-video0",
- 					      &ccu_nkm_ops,
- 					      CLK_SET_RATE_UNGATE | CLK_SET_RATE_PARENT),
-+		.features	= CCU_FEATURE_CLOSEST_RATE,
- 	},
+ #include <linux/clk-provider.h>
+ #include <linux/io.h>
++#include <linux/math.h>
+ 
+ #include "ccu_gate.h"
+ #include "ccu_nkm.h"
+@@ -16,6 +17,44 @@ struct _ccu_nkm {
+ 	unsigned long	m, min_m, max_m;
  };
  
-@@ -531,24 +532,18 @@ static SUNXI_CCU_M_WITH_MUX_GATE(de_clk, "de", de_parents,
++static unsigned long ccu_nkm_find_best_with_parent_adj(struct clk_hw *phw, struct _ccu_nkm *nkm,
++						       unsigned long *parent, unsigned long rate)
++{
++	unsigned long best_rate = 0, best_parent_rate = *parent, tmp_parent = *parent;
++	unsigned long best_n = 0, best_k = 0, best_m = 0;
++	unsigned long _n, _k, _m;
++
++	for (_k = nkm->min_k; _k <= nkm->max_k; _k++) {
++		for (_n = nkm->min_n; _n <= nkm->max_n; _n++) {
++			for (_m = nkm->min_m; _m <= nkm->max_m; _m++) {
++				unsigned long tmp_rate;
++
++				tmp_parent = clk_hw_round_rate(phw, rate * _m / (_n * _k));
++
++				tmp_rate = tmp_parent * _n * _k / _m;
++				if (tmp_rate > rate)
++					continue;
++
++				if ((rate - tmp_rate) < (rate - best_rate)) {
++					best_rate = tmp_rate;
++					best_parent_rate = tmp_parent;
++					best_n = _n;
++					best_k = _k;
++					best_m = _m;
++				}
++			}
++		}
++	}
++
++	nkm->n = best_n;
++	nkm->k = best_k;
++	nkm->m = best_m;
++
++	*parent = best_parent_rate;
++
++	return best_rate;
++}
++
+ static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned long rate,
+ 				       struct _ccu_nkm *nkm)
+ {
+@@ -124,7 +163,10 @@ static unsigned long ccu_nkm_round_rate(struct ccu_mux_internal *mux,
+ 	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
+ 		rate *= nkm->fixed_post_div;
  
- static const char * const tcon0_parents[] = { "pll-mipi", "pll-video0-2x" };
- static const u8 tcon0_table[] = { 0, 2, };
--static SUNXI_CCU_MUX_TABLE_WITH_GATE(tcon0_clk, "tcon0", tcon0_parents,
-+static SUNXI_CCU_MUX_TABLE_WITH_GATE_CLOSEST(tcon0_clk, "tcon0", tcon0_parents,
- 				     tcon0_table, 0x118, 24, 3, BIT(31),
- 				     CLK_SET_RATE_PARENT);
+-	rate = ccu_nkm_find_best(*parent_rate, rate, &_nkm);
++	if (!clk_hw_can_set_rate_parent(&nkm->common.hw))
++		rate = ccu_nkm_find_best(*parent_rate, rate, &_nkm);
++	else
++		rate = ccu_nkm_find_best_with_parent_adj(parent_hw, &_nkm, parent_rate, rate);
  
- static const char * const tcon1_parents[] = { "pll-video0", "pll-video1" };
- static const u8 tcon1_table[] = { 0, 2, };
--static struct ccu_div tcon1_clk = {
--	.enable		= BIT(31),
--	.div		= _SUNXI_CCU_DIV(0, 4),
--	.mux		= _SUNXI_CCU_MUX_TABLE(24, 2, tcon1_table),
--	.common		= {
--		.reg		= 0x11c,
--		.hw.init	= CLK_HW_INIT_PARENTS("tcon1",
--						      tcon1_parents,
--						      &ccu_div_ops,
--						      CLK_SET_RATE_PARENT),
--	},
--};
-+static SUNXI_CCU_M_WITH_MUX_TABLE_GATE_CLOSEST(tcon1_clk, "tcon1", tcon1_parents,
-+					       tcon1_table, 0x11c,
-+					       0, 4,	/* M */
-+					       24, 2,	/* mux */
-+					       BIT(31),	/* gate */
-+					       CLK_SET_RATE_PARENT);
- 
- static const char * const deinterlace_parents[] = { "pll-periph0", "pll-periph1" };
- static SUNXI_CCU_M_WITH_MUX_GATE(deinterlace_clk, "deinterlace", deinterlace_parents,
-@@ -578,8 +573,8 @@ static SUNXI_CCU_GATE(avs_clk,		"avs",		"osc24M",
- 		      0x144, BIT(31), 0);
- 
- static const char * const hdmi_parents[] = { "pll-video0", "pll-video1" };
--static SUNXI_CCU_M_WITH_MUX_GATE(hdmi_clk, "hdmi", hdmi_parents,
--				 0x150, 0, 4, 24, 2, BIT(31), CLK_SET_RATE_PARENT);
-+static SUNXI_CCU_M_WITH_MUX_GATE_CLOSEST(hdmi_clk, "hdmi", hdmi_parents,
-+					 0x150, 0, 4, 24, 2, BIT(31), CLK_SET_RATE_PARENT);
- 
- static SUNXI_CCU_GATE(hdmi_ddc_clk,	"hdmi-ddc",	"osc24M",
- 		      0x154, BIT(31), 0);
-@@ -591,9 +586,9 @@ static SUNXI_CCU_M_WITH_MUX_GATE(mbus_clk, "mbus", mbus_parents,
- 
- static const char * const dsi_dphy_parents[] = { "pll-video0", "pll-periph0" };
- static const u8 dsi_dphy_table[] = { 0, 2, };
--static SUNXI_CCU_M_WITH_MUX_TABLE_GATE(dsi_dphy_clk, "dsi-dphy",
--				       dsi_dphy_parents, dsi_dphy_table,
--				       0x168, 0, 4, 8, 2, BIT(15), CLK_SET_RATE_PARENT);
-+static SUNXI_CCU_M_WITH_MUX_TABLE_GATE_CLOSEST(dsi_dphy_clk, "dsi-dphy",
-+					       dsi_dphy_parents, dsi_dphy_table,
-+					       0x168, 0, 4, 8, 2, BIT(15), CLK_SET_RATE_PARENT);
- 
- static SUNXI_CCU_M_WITH_GATE(gpu_clk, "gpu", "pll-gpu",
- 			     0x1a0, 0, 3, BIT(31), CLK_SET_RATE_PARENT);
+ 	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
+ 		rate /= nkm->fixed_post_div;
 
 -- 
 2.41.0
