@@ -1,118 +1,177 @@
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC52E946D
-	for <linux-sunxi@lists.linux.dev>; Mon, 17 Jul 2023 09:00:12 +0000 (UTC)
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id C02543F235
-	for <linux-sunxi@lists.linux.dev>; Mon, 17 Jul 2023 09:00:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1689584404;
-	bh=JHnHS0B61qcl/Td8/lm9RDjYsfSOyiiTTr5PsC3FWaA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type;
-	b=iaYVq55rdX9ZOQzOEBnT6j8l7mCyW/myKb8kLteoxLQDt70VpKcY/sgOADb4ILtq2
-	 DYbT2KH6OGmgKKhyfcW3A3DG/HULfhsmivJs6D/AvcVqcc1r3iKZsq3YZDBFcND2HC
-	 cggBJvrvBWB3+7B72rqP5KJMgMcVpnfbv86zAvv6EijrKPCjae5MQ7+ihQRSDaBqjh
-	 3PaZZsWRpkIaNIVhvi+AGH6ol2r5SX9j7VE0chX2x44XGJ2jrgUTSgu+31plGOEvEK
-	 SSx/CG1LiJwdy7t9ciNCvh9oBR/Lwh+byC4ZDUAGEOi87EyRBtBG0pbB9G/vGSfkCN
-	 FSowSxBDIOP4w==
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-403b4983a24so39122041cf.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 17 Jul 2023 02:00:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689584401; x=1692176401;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JHnHS0B61qcl/Td8/lm9RDjYsfSOyiiTTr5PsC3FWaA=;
-        b=NBhMdtUShJuZemvZKXM12O0KULR89rZurkYG+8haC8IlfQ4IJMSyTy+4bLoQE/hrPi
-         qe1vOGr112K7ejRMgN5XjVAmqwlB8idt7mTCRw2VFpDKtWDIYbgzveZ5n1M0S0Q9MYe6
-         zbkI9YWBahhreGe2f9V0xy9UTKnDxwL/LDUf+yDRPPkCVpKZ6aeqInY79UxAT5rmFczU
-         ZP3H3TRwmjOrz/01X41s2bt5KAAiINdU8YNQ913LBkwzIcZY6jlIWCZIKLcJPvkwVrwf
-         FixhWdq9z1byCAV8q9HMotxFcL+rIcUDz6xW26nhr9GRLXkpFbrcq7ZxThm6geRL2gEr
-         vObQ==
-X-Gm-Message-State: ABy/qLYZ481s9z29baRNjEul1rwQuYOcLEu1oyfQBI2rtTrGrQxCNVo1
-	E19Z03uNh/dECyKC5vOAt3nc8ukMXHneke9Hclg6KdBf1F7K+eYjdkhEbyvqpD7Y9AQMCyYsPQq
-	d/T/hioeOBAPlGxrPrI1QU2YQ9lptNLjCRAQQTA5mlv/MFsmdwoaVeXzk
-X-Received: by 2002:ac8:7c48:0:b0:403:2dfd:1fdf with SMTP id o8-20020ac87c48000000b004032dfd1fdfmr15892574qtv.23.1689584401507;
-        Mon, 17 Jul 2023 02:00:01 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlEMazgMYki8IR1CHHFS4st+/s+/y1hah0oj0+nBQlO+NhXDM06BTdCzgvWJM4HcjDSd4KVriXj5Pmlo8MNpIrE=
-X-Received: by 2002:ac8:7c48:0:b0:403:2dfd:1fdf with SMTP id
- o8-20020ac87c48000000b004032dfd1fdfmr15892526qtv.23.1689584401259; Mon, 17
- Jul 2023 02:00:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A4615C4;
+	Mon, 17 Jul 2023 11:03:37 +0000 (UTC)
+Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36HAxmgZ009203;
+	Mon, 17 Jul 2023 11:02:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : date : subject :
+ mime-version : content-type : content-transfer-encoding : message-id :
+ references : in-reply-to : to : cc; s=pp1;
+ bh=rodPNwLfHsIuiQQiFeOVrCe92jgLqk9u0QoV1c2yRD8=;
+ b=eNfUOHXfJaJXaRoNwaHjlPVS/K2Y8/vkANub8lEhUs/4g4SXxhM/gzCmcsBd7uGdHA5a
+ c+Eebgpny4qGFgK8aCPGws0Q/SNAzZ5XBas3dNqrt0CQtS/Rin0NCfollQzj4/u+Aelg
+ s+7PtBfqRlX0G3bCyi7P92cmJBA+m1F0yfxmxEa/89wi8N6qfkm96MLwX20mH6fMj6hQ
+ F+BAm6cOrY7zRuAI+zAUX1II7sDlr2YraiAEGLfLPD3sVCd63hz2he79B94LW6dKr9XV
+ Vr4PJJsmpKS/G6pmVIaroju9zu6XxLc33pBDav7W3u+MnKB9ib/uyGkEG6LOFfmWksuL 9Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rw4cfr1ed-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Jul 2023 11:01:57 +0000
+Received: from m0353724.ppops.net (m0353724.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 36HB0EDX010721;
+	Mon, 17 Jul 2023 11:01:56 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rw4cfr1e1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Jul 2023 11:01:56 +0000
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 36H8eKcN029165;
+	Mon, 17 Jul 2023 11:01:55 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3rv6sma11s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Jul 2023 11:01:55 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 36HB1q1m43450626
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 17 Jul 2023 11:01:52 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7210620040;
+	Mon, 17 Jul 2023 11:01:52 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EEDBE2004E;
+	Mon, 17 Jul 2023 11:01:50 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 17 Jul 2023 11:01:50 +0000 (GMT)
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+Date: Mon, 17 Jul 2023 13:00:02 +0200
+Subject: [PATCH v11 2/6] s390/pci: prepare is_passed_through() for
+ dma-iommu
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230714174901.4062397-1-robh@kernel.org>
-In-Reply-To: <20230714174901.4062397-1-robh@kernel.org>
-From: Emil Renner Berthing <emil.renner.berthing@canonical.com>
-Date: Mon, 17 Jul 2023 10:59:45 +0200
-Message-ID: <CAJM55Z_Eba-LKxKAH0i0_vDM6JO_HvWgDLCLFQDave2+UFLMzA@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: Explicitly include correct DT includes
-To: Rob Herring <robh@kernel.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Dong Aisheng <aisheng.dong@nxp.com>, 
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	NXP Linux Team <linux-imx@nxp.com>, Sean Wang <sean.wang@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Gregory Clement <gregory.clement@bootlin.com>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Chester Lin <clin@suse.com>, 
-	NXP S32 Linux Team <s32@nxp.com>, Chen-Yu Tsai <wens@csie.org>, Damien Le Moal <dlemoal@kernel.org>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Heiko Stuebner <heiko@sntech.de>, Tony Lindgren <tony@atomide.com>, 
-	Haojian Zhuang <haojian.zhuang@linaro.org>, Daniel Mack <daniel@zonque.org>, 
-	Robert Jarzmik <robert.jarzmik@free.fr>, Andy Gross <agross@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Tomasz Figa <tomasz.figa@gmail.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Sylwester Nawrocki <s.nawrocki@samsung.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Viresh Kumar <vireshk@kernel.org>, Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Emil Renner Berthing <kernel@esmil.dk>, 
-	Jianlong Huang <jianlong.huang@starfivetech.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, linux-oxnas@groups.io, 
-	linux-rockchip@lists.infradead.org, linux-omap@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230717-dma_iommu-v11-2-a7a0b83c355c@linux.ibm.com>
+References: <20230717-dma_iommu-v11-0-a7a0b83c355c@linux.ibm.com>
+In-Reply-To: <20230717-dma_iommu-v11-0-a7a0b83c355c@linux.ibm.com>
+To: Joerg Roedel <joro@8bytes.org>, Matthew Rosato <mjrosato@linux.ibm.com>,
+        Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Gerd Bayer <gbayer@linux.ibm.com>, Julian Ruess <julianr@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Alexandra Winter <wintera@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, asahi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1902;
+ i=schnelle@linux.ibm.com; h=from:subject:message-id;
+ bh=JnpBPtIA02SvkModRZiVKujLXSYwAXU0tTNoKrRKqJY=;
+ b=owGbwMvMwCH2Wz534YHOJ2GMp9WSGFK2ylcain7WL7vDYWd8e5Icb8PJnIdrJ72pYrnPsmXvi
+ ik20rzbO0pZGMQ4GGTFFFkWdTn7rSuYYronqL8DZg4rE8gQBi5OAZjI21CG/77Tf2s9t93BnM/8
+ fpXS4zNrbomEb4+RdchIlv+RE7DozW1Ghk+LHHtlBRrPJQm9M/F7xaCg3qCYtfTdB02BFd1Hv1t
+ M4gcA
+X-Developer-Key: i=schnelle@linux.ibm.com; a=openpgp;
+ fpr=9DB000B2D2752030A5F72DDCAFE43F15E8C26090
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: S0-0YKVib5tVkn7NbYXusLYxJcxSKIMA
+X-Proofpoint-GUID: fIzrsUpVE5xoolfH4r9boa0N3zGQbhpC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-17_08,2023-07-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ priorityscore=1501 malwarescore=0 mlxlogscore=999 phishscore=0
+ suspectscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015
+ spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307170096
 
-On Fri, 14 Jul 2023 at 19:52, Rob Herring <robh@kernel.org> wrote:
->
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
+With the IOMMU always controlled through the IOMMU driver testing for
+zdev->s390_domain is not a valid indication of the device being
+passed-through. Instead test if zdev->kzdev is set.
 
->  drivers/pinctrl/starfive/pinctrl-starfive-jh7110-aon.c | 5 +----
->  drivers/pinctrl/starfive/pinctrl-starfive-jh7110-sys.c | 2 --
->  drivers/pinctrl/starfive/pinctrl-starfive-jh7110.c     | 1 -
+Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+---
+ arch/s390/pci/pci_event.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-Acked-by: Emil Renner Berthing <emil.renner.berthing@canonical.com>
+diff --git a/arch/s390/pci/pci_event.c b/arch/s390/pci/pci_event.c
+index b9324ca2eb94..4ef5a6a1d618 100644
+--- a/arch/s390/pci/pci_event.c
++++ b/arch/s390/pci/pci_event.c
+@@ -59,9 +59,16 @@ static inline bool ers_result_indicates_abort(pci_ers_result_t ers_res)
+ 	}
+ }
+ 
+-static bool is_passed_through(struct zpci_dev *zdev)
++static bool is_passed_through(struct pci_dev *pdev)
+ {
+-	return zdev->s390_domain;
++	struct zpci_dev *zdev = to_zpci(pdev);
++	bool ret;
++
++	mutex_lock(&zdev->kzdev_lock);
++	ret = !!zdev->kzdev;
++	mutex_unlock(&zdev->kzdev_lock);
++
++	return ret;
+ }
+ 
+ static bool is_driver_supported(struct pci_driver *driver)
+@@ -176,7 +183,7 @@ static pci_ers_result_t zpci_event_attempt_error_recovery(struct pci_dev *pdev)
+ 	}
+ 	pdev->error_state = pci_channel_io_frozen;
+ 
+-	if (is_passed_through(to_zpci(pdev))) {
++	if (is_passed_through(pdev)) {
+ 		pr_info("%s: Cannot be recovered in the host because it is a pass-through device\n",
+ 			pci_name(pdev));
+ 		goto out_unlock;
+@@ -239,7 +246,7 @@ static void zpci_event_io_failure(struct pci_dev *pdev, pci_channel_state_t es)
+ 	 * we will inject the error event and let the guest recover the device
+ 	 * itself.
+ 	 */
+-	if (is_passed_through(to_zpci(pdev)))
++	if (is_passed_through(pdev))
+ 		goto out;
+ 	driver = to_pci_driver(pdev->dev.driver);
+ 	if (driver && driver->err_handler && driver->err_handler->error_detected)
 
-Thanks,
-/Emil
+-- 
+2.39.2
+
