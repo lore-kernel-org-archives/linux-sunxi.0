@@ -1,30 +1,29 @@
 Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1164BAD28
-	for <linux-sunxi@lists.linux.dev>; Mon, 17 Jul 2023 13:34:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB83EBA2B
+	for <linux-sunxi@lists.linux.dev>; Mon, 17 Jul 2023 13:34:52 +0000 (UTC)
 Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4R4NNd5Wr3z9sSZ;
-	Mon, 17 Jul 2023 15:34:41 +0200 (CEST)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4R4NNn2wXfz9scd;
+	Mon, 17 Jul 2023 15:34:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1689600881;
+	s=MBO0001; t=1689600889;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Rv0VQb3dID9vli2KRI1IVx8tJ5Pn4HiXMxnfk/v2f54=;
-	b=UdgMZcFQiZNijaJ818yBZITHgNgs7jk9u/yxUH2p4p6zjpy2lMPdZjGYvH9tuo3JL0PLyz
-	AIwcmeJV8YtIavkbsDo/ckUIrUBBzd5udR1J11SCpqLUOJtik7xrFrTpRX9dwvBsnNSe3g
-	IdpuM2ckCPnexhIs3KkTRs3AE5AL7jzwxZAGJrRNUZFD1U3PZ/0fl2LnrsotXLlOQad++p
-	/chQPeBFUr53hjGSl/j9+rgn4B9G1e3x9ZCrICpVBAEnTmKwdSr+PO9u5Ugg89LkWA6eBE
-	sinCM2G5EFfOG+kcq8mNPkQPLKdrv2SC8SFHUZRWS0oy5yuHekvB2S6f1YaRHw==
+	bh=9mBnj/sxnS9zwU8wD2TdC9KZuObHfj2Iut9ShLW7rE4=;
+	b=P4IYBLXpzSKDpQDC3y/8eQEb7xIwNG2KeqYk9uYFHqXJh+SvwkbfijIZOWTyq9ScLuLh3t
+	o5xviA0TEGMhMCOWCdOszeUF8aSM3UJbub59652i3lt0+Z3ZBWO8hNqLBs6b23oi7awO78
+	QrEa2gpkhWFeXbp79PcSYhZvAGuo7OEv4nbjMtzXB+QyhUuzAjKlAw2N2E2rAmGLQVhURo
+	rmuS65BPDo5/b0uqaXRVXzvHs9m4XQRfsll0LunNKgYXGrBfy65rz14MZtAFwPbrnhYaZa
+	NBn+tMDFWOw8cTuhcciq8pqy5laq7dH7ozr/CLuFpClYY7eTl97GflWoNWpT0g==
 From: Frank Oltmanns <frank@oltmanns.dev>
-Date: Mon, 17 Jul 2023 15:34:25 +0200
-Subject: [PATCH v4 01/11] clk: sunxi-ng: nkm: Use correct parameter name
- for parent HW
+Date: Mon, 17 Jul 2023 15:34:29 +0200
+Subject: [PATCH v4 05/11] clk: sunxi-ng: Add feature to find closest rate
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -33,7 +32,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230717-pll-mipi_set_rate_parent-v4-1-04acf1d39765@oltmanns.dev>
+Message-Id: <20230717-pll-mipi_set_rate_parent-v4-5-04acf1d39765@oltmanns.dev>
 References: <20230717-pll-mipi_set_rate_parent-v4-0-04acf1d39765@oltmanns.dev>
 In-Reply-To: <20230717-pll-mipi_set_rate_parent-v4-0-04acf1d39765@oltmanns.dev>
 To: Maxime Ripard <mripard@kernel.org>, 
@@ -45,43 +44,44 @@ To: Maxime Ripard <mripard@kernel.org>,
 Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Frank Oltmanns <frank@oltmanns.dev>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=891; i=frank@oltmanns.dev;
- h=from:subject:message-id; bh=uK7iF9etz2opMttdEsAttxwMIOMUY7i/XdBlUa+elf0=;
- b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBktUNmFQCKCWHtrI124RzW8kgbzVigb3cH+d6IZ
- XD6/S3ICBiJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZLVDZgAKCRCaaaIIlErT
- x9QAC/9fRFd5dETwAqOSVpi+ipUDaYRB+lzuhAfAdqmX2FjcTnTuSiBAgk/WAkANzhgLAoMTfeO
- DxJmc/G4V6gSd+X9mDNjwbdNh1HCxHYXAkqz3RwwEYSRl7bH+29uQyEeNd+A7vLlRs64ODpR7ok
- xwn8O0HYE45jPYYh6jjcE9/rlujiqY1AbxvRfVprQoB6JHpzFwmQe1ukoeUDMXTUw2S9S1UEetr
- IsGGuPOetODJP6mqbtcdhU9xCmjqmiJsUWw58Wz/5QqZw6tpA2LQcHY9bsLOB4zGuGDgx4olfY2
- pZ1vGNja0LpukouUr4c6/SIDd4r6wEAE0rktWi3lp4MyjlV0cEyOOVhiCgd+YfiX6z9bbppnYEg
- JMv4x1VVGQoBnOfOMYQ098WX9yaUrBxAydC7e151XRkQeHpcMhdMg4FXskfVfsLahVPSdc/Pgsq
- GTKa4K3rjMAe1Yor8IegTjJTS9pF2lL5pyHJVQSEYaROVqEh25+iWYDfbflmqJrUY26Xk=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=925; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=gnSO2u9KSds+yso2ENUmK1fTBfjNRGShsPD5HpXqe+0=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBktUNnQaE7W76TYcfxfYnWsd1bG/r3SzYlXk8Rx
+ EmA2MoX7ZmJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZLVDZwAKCRCaaaIIlErT
+ x492C/96NNmsav+tjwb4ER/kGeVV0NdFdh7BNDSmd/fCpHM4z0947Pi/8UHRgMHz+7i5n/xydyk
+ oeKOFIEFZTCvA6MbQS7vcuS3szA4u72eOREafKEpwCLZRq6Tns0R2Z4r8lAuFZIs8bHf2QR86GB
+ zy0yk0exP77FgUh3DycvDSpz/a0nuQZbzeqAjpPiVwre4TO0Bsez/lWMVGF5ZcnNSkA8KosGdsv
+ mSSWmoYNU1YxO22J+r/Pg3HWIPW4k1TiQkOLTmK8Xcd7Nw67uGDQDpWLBxTC2t5sM+rCupVcwVf
+ foXD7h21UYidnpg0wCaOc00SnWDTTxZzt9Kpewun2mYlfaP+dxmzqdG4QR2+qiwIgnoin3DDuYV
+ avd/LnyHh1w7v3pkqXOSw4NjSoBzmpx3a1tm088tY9qsDf6JIAxH2CxsRFYu8NF+SXSQtWxwEtZ
+ tGFLjGS0ANDgnLFddEki3/pMZqaDgig7bC+BgWgd+OyYJqGveWqPjK1Gs/mGAS1ne3RcE=
 X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
  fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
 
-ccu_nkm_round_rate() takes a clk_hw as parameter "hw". Since "hw" is the
-nkm clock's parent clk_hw, not the clk_hw of the nkm clock itself,
-change the parameter name to "parent_hw" to make it more clear what
-we're dealing with.
+The default behaviour of clocks in the sunxi-ng driver is to select a
+clock rate that is closest to but less than the requested rate.
 
+Add the CCU_FEATURE_CLOSEST_RATE flag, which can be used to allow clocks
+to find the closest rate instead.
+
+Acked-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
 ---
- drivers/clk/sunxi-ng/ccu_nkm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/clk/sunxi-ng/ccu_common.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
-index a0978a50edae..f267142e58b3 100644
---- a/drivers/clk/sunxi-ng/ccu_nkm.c
-+++ b/drivers/clk/sunxi-ng/ccu_nkm.c
-@@ -106,7 +106,7 @@ static unsigned long ccu_nkm_recalc_rate(struct clk_hw *hw,
- }
+diff --git a/drivers/clk/sunxi-ng/ccu_common.h b/drivers/clk/sunxi-ng/ccu_common.h
+index fbf16c6b896d..5ad219f041d5 100644
+--- a/drivers/clk/sunxi-ng/ccu_common.h
++++ b/drivers/clk/sunxi-ng/ccu_common.h
+@@ -18,6 +18,7 @@
+ #define CCU_FEATURE_MMC_TIMING_SWITCH	BIT(6)
+ #define CCU_FEATURE_SIGMA_DELTA_MOD	BIT(7)
+ #define CCU_FEATURE_KEY_FIELD		BIT(8)
++#define CCU_FEATURE_CLOSEST_RATE	BIT(9)
  
- static unsigned long ccu_nkm_round_rate(struct ccu_mux_internal *mux,
--					struct clk_hw *hw,
-+					struct clk_hw *parent_hw,
- 					unsigned long *parent_rate,
- 					unsigned long rate,
- 					void *data)
+ /* MMC timing mode switch bit */
+ #define CCU_MMC_NEW_TIMING_MODE		BIT(30)
 
 -- 
 2.41.0
