@@ -1,108 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A44A253DE;
-	Mon, 17 Jul 2023 16:03:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9DF3C433CA;
-	Mon, 17 Jul 2023 16:03:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E210D253CA;
+	Mon, 17 Jul 2023 16:18:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 456CCC433C7;
+	Mon, 17 Jul 2023 16:18:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689609783;
-	bh=aZICCOVfKf1PqTHgRCOupCS9EkykRJONrhoP14RlBbY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=u9qcGdu2hQm4MUz7+RSnzRd6HW4caA+Q8n7HyFS6wT9cyGnC7rtzLwKrRzMH8GBaB
-	 0ltb480a8fpNIUjcQb0t6f4BzCIUQqGFko0ozptmlOIlQd0aPhSCDzl7fML/jE8eao
-	 DvHqaE4NHpxdEVvix8NLdokkVt/NutsW3eFTLa4xP/ja3cqSHqFZj4RA6J5fRTw+mN
-	 M5YONYDw1e52hiAIwhF5YkPUzbXIm+w2V5k5YjRLXlbT4jMhM+KWHo2BzfzW35bF2Q
-	 oZXj9j4D2MROP+j69VpFb0pPlf7cXuNHnSe99U4Aam5XsqG6w0lbYMMuhENIRLnSqb
-	 YYlZN94wG13jg==
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3fbdfda88f4so42255145e9.1;
-        Mon, 17 Jul 2023 09:03:03 -0700 (PDT)
-X-Gm-Message-State: ABy/qLYxVYvZM/PnoCJcLRMlwo8RUVnZ8j1lp/hLyLQZ4lbYobvg7ndh
-	manaJWF+UES+4sGuDAHCkx9xwqJKirkSea1fyA==
-X-Google-Smtp-Source: APBJJlGT3Z4OwG+5PD2iOuBmukBKYkwOVI4cYi2ZBHphRuP2mDYunFyhxEBn+UEFg93NJOzQaxqKN1Nt2m8NdZz6Fm0=
-X-Received: by 2002:a2e:9455:0:b0:2b4:6f0c:4760 with SMTP id
- o21-20020a2e9455000000b002b46f0c4760mr8630130ljh.11.1689609761393; Mon, 17
- Jul 2023 09:02:41 -0700 (PDT)
+	s=k20201202; t=1689610684;
+	bh=2JnoWmK4iiKhwvm4zZER4WLqRTh1WYZ3pksnmGmNMF0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=JEd/NWkpgNyU1zp8QYb+T90jg3gHO5xywy6EXUiluLzC3z3JEpGFFvW03J6OifvvH
+	 ckFdGvk6CnHo/egSHVgu4wdfuvg8aksVpFMOBEL/BRsEeJjOozRk5eETmUDrYVKgdB
+	 c2JZezHUa/HkSrAOtKWckhLCa6kTj7qANsfMwBdMY/gaYJ2Sjt4UbkCJFs68nySI9f
+	 x9RgXh790tAp8K7l8p3HGYJGvnZyo7N0ip7sc1gq9xw+PY1VlN5ndTCiRc0wsJqG5z
+	 xAtk51Q6KksvJp/WBf7cZcqTKW8Omr5KMjguZESqxgtmpkQoBUbi23cd+7qMGDiED2
+	 J4VBeQuwBWleA==
+From: Jisheng Zhang <jszhang@kernel.org>
+To: Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH net-next v5 0/2] net: stmmac: improve driver statistics
+Date: Tue, 18 Jul 2023 00:06:28 +0800
+Message-Id: <20230717160630.1892-1-jszhang@kernel.org>
+X-Mailer: git-send-email 2.40.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230714174430.4054533-1-robh@kernel.org>
-In-Reply-To: <20230714174430.4054533-1-robh@kernel.org>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 17 Jul 2023 10:02:28 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+qcoFd7_wWUZeHgqWpB0JfdE0j4qLCxfJwD_Cqkz-HgA@mail.gmail.com>
-Message-ID: <CAL_Jsq+qcoFd7_wWUZeHgqWpB0JfdE0j4qLCxfJwD_Cqkz-HgA@mail.gmail.com>
-Subject: Re: [PATCH] dmaengine: Explicitly include correct DT includes
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Vinod Koul <vkoul@kernel.org>, 
-	Ludovic Desroches <ludovic.desroches@microchip.com>, Tudor Ambarus <tudor.ambarus@linaro.org>, 
-	Paul Cercueil <paul@crapouillou.net>, Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, 
-	Viresh Kumar <vireshk@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Li Yang <leoyang.li@nxp.com>, Zhang Wei <zw@zh-kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Sean Wang <sean.wang@mediatek.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Sinan Kaya <okaya@kernel.org>, Andy Gross <agross@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Laxman Dewangan <ldewangan@nvidia.com>, Jon Hunter <jonathanh@nvidia.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
-	Michal Simek <michal.simek@amd.com>
-Cc: devicetree@vger.kernel.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, dmaengine@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-mediatek@lists.infradead.org, 
-	linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 14, 2023 at 11:44=E2=80=AFAM Rob Herring <robh@kernel.org> wrot=
-e:
->
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  drivers/dma/apple-admac.c                      | 3 ++-
->  drivers/dma/at_hdmac.c                         | 2 +-
->  drivers/dma/bcm-sba-raid.c                     | 4 +++-
->  drivers/dma/bestcomm/bestcomm.c                | 4 +---
+improve the stmmac driver statistics:
 
-v2 coming for this:
+1. don't clear network driver statistics in .ndo_close() and
+.ndo_open() cycle
+2. avoid some network driver statistics overflow on 32 bit platforms
+3. use per-queue statistics where necessary to remove frequent
+cacheline ping pongs.
 
->> drivers/dma/bestcomm/bestcomm.
-c:80:13: error: call to undeclared function 'irq_of_parse_and_map';
-ISO C99 and later do not support implicit function declarations
-[-Wimplicit-function-declaration]
-      80 |         tsk->irq =3D irq_of_parse_and_map(bcom_eng->ofnode,
-tsk->tasknum);
-         |                    ^
->> drivers/dma/bestcomm/bestcomm.c:105:4: error: call to undeclared functio=
-n 'irq_dispose_mapping'; ISO C99 and later do not support implicit function=
- declarations [-Wimplicit-function-declaration]
-     105 |                         irq_dispose_mapping(tsk->irq);
-         |                         ^
-   drivers/dma/bestcomm/bestcomm.c:128:2: error: call to undeclared
-function 'irq_dispose_mapping'; ISO C99 and later do not support
-implicit function declarations [-Wimplicit-function-declaration]
-     128 |         irq_dispose_mapping(tsk->irq);
-         |         ^
-   3 errors generated.
+NOTE: v1 and v2 are back ported from an internal LTS tree, I made
+some mistakes when backporting and squashing. Now, net-next + v3
+has been well tested with 'ethtool -s' and 'ip -s link show'.
+
+Since v4:
+  - rebased on the latest net-next
+
+Since v3:
+  - coding style pointed out by Simon, I.E reverse xmas tree for local
+    variable declarations and so on.
+  - put the counters in queue structs, I.E per-queue rather than per-cpu
+  - use _irqsave() variant where necessary.
+
+Since v2:
+  - fix ethtool .get_sset_count, .get_strings and per queue stats
+    couting.
+  - fix .ndo_get_stats64 only counts the last cpu's pcpu stats.
+  - fix typo: s/iff/if in commit msg.
+  - remove unnecessary if statement brackets since we have removed
+    one LoC.
+
+Since v1:
+  - rebase on net-next
+  - fold two original patches into one patch
+  - fix issues found by lkp
+  - update commit msg
+
+
+Jisheng Zhang (2):
+  net: stmmac: don't clear network statistics in .ndo_open()
+  net: stmmac: use per-queue 64 bit statistics where necessary
+
+ drivers/net/ethernet/stmicro/stmmac/common.h  |  39 ++--
+ .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c |  12 +-
+ .../ethernet/stmicro/stmmac/dwmac100_dma.c    |   7 +-
+ .../ethernet/stmicro/stmmac/dwmac4_descs.c    |  16 +-
+ .../net/ethernet/stmicro/stmmac/dwmac4_lib.c  |  15 +-
+ .../net/ethernet/stmicro/stmmac/dwmac_lib.c   |  12 +-
+ .../ethernet/stmicro/stmmac/dwxgmac2_descs.c  |   6 +-
+ .../ethernet/stmicro/stmmac/dwxgmac2_dma.c    |  14 +-
+ .../net/ethernet/stmicro/stmmac/enh_desc.c    |  20 +-
+ drivers/net/ethernet/stmicro/stmmac/hwif.h    |  12 +-
+ .../net/ethernet/stmicro/stmmac/norm_desc.c   |  15 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac.h  |   2 +
+ .../ethernet/stmicro/stmmac/stmmac_ethtool.c  | 123 ++++++++---
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c | 206 ++++++++++++++----
+ 14 files changed, 337 insertions(+), 162 deletions(-)
+
+-- 
+2.40.0
+
