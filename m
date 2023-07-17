@@ -1,30 +1,29 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150B7BA2B
-	for <linux-sunxi@lists.linux.dev>; Mon, 17 Jul 2023 13:40:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23DD8F7D
+	for <linux-sunxi@lists.linux.dev>; Mon, 17 Jul 2023 13:41:24 +0000 (UTC)
 Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4R4NNk0BPCz9sqj;
-	Mon, 17 Jul 2023 15:34:46 +0200 (CEST)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4R4NNw3Svtz9sXk;
+	Mon, 17 Jul 2023 15:34:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1689600886;
+	s=MBO0001; t=1689600896;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mxSpbKadXwGFFmICM4KCVhlYhVMAa5nTGvXXvvCR/6c=;
-	b=C8pe7OXk8RmslfUhyHWhNO1IAtnp2revBFmvlWYWs4pPEwjPuzxgx4oGVOm/nj+6w3TjzE
-	/byQuUXA3cFygxHe6MO7QXpb6p+rP1xlv8EDye4yJ5GSrKwhSin4zrB6or+fQKoDzrdSDd
-	B70RVo2tyg+/NHo/rVYnUi8xgOHpMj03QzG8Z5J7fN0XHE8rgQczeMQsKRFmYPqEFLBUde
-	8OOogZnIznjMwQjqkNBYU+UJUkcCPd9FLtbICDR1lPnRHsSFepaZS6fY4kAVYC7Wz+bXke
-	hbMNcyY/kM66phckmFXXIwlgojxvAq2nNFtDqxu95dnComl3b7wyFAZRILDXqQ==
+	bh=rlTJuOBcXldwNheInskRcuqMdDaXa3wlYPUBaUVJITM=;
+	b=k3Izz2QDMb4ZkG7IdiVrxI4xiC2CYmFKBAPQsC9m8jqjf3xoziGkIDTMs6Yv1jKAVxTW7c
+	nxWUALor4jJ3y+1Zht/k8H7RaK8CHGpZlnfXW39dK1ak0pIiTpLOClXSyrLq3oiNp+i54a
+	qCeCRH/t4RBpvrpo1GAsg+M0Pnd5kDXN+S8PcQY1W85RWtkHa3810Y0JWzctpE7A+l3dML
+	EYqJWgUYsXi+QJMijoa91VI/cBFrb69m+kaRGajxhE2YvCGqHg1mvZ0uh89UDpfBdiVsDJ
+	BJId1g7oXD8lp9Gkr3ZnlC5eb3fx0mkUYAHHHVXpRCr/QxlDwQYEHAXOmxWM0g==
 From: Frank Oltmanns <frank@oltmanns.dev>
-Date: Mon, 17 Jul 2023 15:34:27 +0200
-Subject: [PATCH v4 03/11] clk: sunxi-ng: nkm: Improve determine rate when
- setting parent
+Date: Mon, 17 Jul 2023 15:34:32 +0200
+Subject: [PATCH v4 08/11] clk: sunxi-ng: nkm: Support finding closest rate
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -33,7 +32,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230717-pll-mipi_set_rate_parent-v4-3-04acf1d39765@oltmanns.dev>
+Message-Id: <20230717-pll-mipi_set_rate_parent-v4-8-04acf1d39765@oltmanns.dev>
 References: <20230717-pll-mipi_set_rate_parent-v4-0-04acf1d39765@oltmanns.dev>
 In-Reply-To: <20230717-pll-mipi_set_rate_parent-v4-0-04acf1d39765@oltmanns.dev>
 To: Maxime Ripard <mripard@kernel.org>, 
@@ -45,100 +44,112 @@ To: Maxime Ripard <mripard@kernel.org>,
 Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Frank Oltmanns <frank@oltmanns.dev>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3162; i=frank@oltmanns.dev;
- h=from:subject:message-id; bh=ybYcatfzXzLhtH3Us9O9aTKgAbrOK5YclAuVqdRWKwM=;
- b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBktUNnbBuKGKMOIVIPQcqh33VQB7vClVkKoHIDR
- onfsZc+Gk6JAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZLVDZwAKCRCaaaIIlErT
- xyBjC/9k/2f+UphH0jsSxuPMHBPNOkwewxe5ctT/T+mDGggMT8aTLtvJTrBkOE/+QkBYPZYwzVn
- PjJh/JJLKKxSno6MIYixIr1m5N5sEiN2IdnbXcQ7FldjLxmXSFkuIBPft4rMCefIorle4AWmRkt
- 4j2hyOjn5oevtUQ+/+XyixdE4kdu8/cXW24bxdu5zNWkA33EkFL1qNHrmCImPOqv1r28nhZmGuN
- uSO7XCCclDwDLJ23OrGCKXl7WCFFTkiFhHjplSOEChoYDQGwO+flDmtjpJ67CZe21pV/ZcglEES
- Tria8vZKA737utAYpVjz8oXp/SmzcaZ6MQMTyXAepfwRaL/Ndq2ON5rjS94/mlFxyV8SNYv0kld
- k33OMm1FSdXXIP2MIpKSiC0+bJSQ2JN8Mi/JaLzlHxUjRgQtrpj75TI+V+pbC+OH0x/S3yAoPDc
- pTzVNaX5rs05gNeQ46W2fMz7KWwGutatxTlDXuDPrqD11nUmIuthZ24Zfk00qH4+qrkm0=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3726; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=QflG05ovfcYkdKjU+vIi9ERE1oD6pVxvlipjsNU5BvM=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBktUNn4hmkcdxGSrDuWuDUm1o7lKzVeUSIiR/VN
+ 5cUaRPKDoCJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZLVDZwAKCRCaaaIIlErT
+ x8EdC/wMKH2lWa2XhH6vFrr4FfyZCnlE9m584JJSfG2UVEaRUIzh7hLvIUC68KvBShSyFtZuX60
+ 8+eq7o5e4wQh+j6J5W5yxD4t0XDxBhxBvUfqjifbm92vVi119LVinHbZ6cYOApuARW+MRqVJCGS
+ v7E2aLzLCOfLXrbVZeQIuSGszrtZvw1dYul1GIGUyNjER0XAzHaJpF+0iQeTO0KvArCgQvXEPB6
+ VVczu+kl70h4jnv+gyxt/i28SkjhSzzYJ3HA8TEkGCB4iWnn7wx3WwFzQMIIHNfCrBU0vCgh9NH
+ sRM4+V+yxXOgjd2AQTPxY9t5QETLVLqU7OTYi9+/IrFSPR+lNhvzX5Mc6+daIwExsIxRcHGoNX7
+ gDhe6LW4VBQKLfnV9VZ6G3GChdB6zVY27wPNg2kf5SDj/AcOxh0mLiUUD9tlPblR+lhxOjJfsqw
+ rbvKLi5iqgg9gZ9QmVSYsFyLZuOHioFbFzexXZ62Zz2U/sBm2BIOwdLMjDtOgvhnJNcJ4=
 X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
  fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
-X-Rspamd-Queue-Id: 4R4NNk0BPCz9sqj
+X-Rspamd-Queue-Id: 4R4NNw3Svtz9sXk
 
-Make the SET_PARENT_RATE flag independent of the parents round_rate or
-determine_rate implementation.
+When finding the best rate for a NKM clock, consider rates that are
+higher than the requested rate, if the CCU_FEATURE_CLOSEST_RATE flag is
+set by using the helper function ccu_is_better_rate().
 
-Currently, the algorithm for ccu_nkm_find_best_with_parent_adj simply
-calculates the optimal parent rate as
-    (1) parent = rate * m / (n * k)
-
-Due to integer division (1) might return a parent rate that is too low.
-So using this value for asking the parent for a rate it supports via
-clk_hw_round_rate causes problems on
- a) parents that only support finding rates that are lower than the
-    requested rate - which is the default for sunxi-ng ccu's.
- b) parents that incidentally also support the truncated rate.
-
-In those cases ccu_nkm_determine_rate might return A' when A is
-requested and A'' when rate A' is requested.
-
-Prevent this by trying to find a parent rate so that
-    (2) _rate = parent * n * k / m
-matches the requested rate exactly, if possible.
-
-Background:
-===========
-determine_rate may be called multiple times by the clk framework when
-setting a clock's rate. But the clk framework expects that the values
-determine_rate returns (i.e. the rate and parent_rate) are consistent
-with previous calls.
-
-Specifically, clock's have to ensure that if determine_rate is called
-with requested rate A and the best rate it can find is A', it must also
-return A' when called with requested rate A'.
+Accommodate ccu_mux_helper_determine_rate to this change.
 
 Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
 ---
- drivers/clk/sunxi-ng/ccu_nkm.c | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+ drivers/clk/sunxi-ng/ccu_mux.c |  2 +-
+ drivers/clk/sunxi-ng/ccu_nkm.c | 18 ++++++++----------
+ 2 files changed, 9 insertions(+), 11 deletions(-)
 
+diff --git a/drivers/clk/sunxi-ng/ccu_mux.c b/drivers/clk/sunxi-ng/ccu_mux.c
+index 1d557e323169..3ca695439620 100644
+--- a/drivers/clk/sunxi-ng/ccu_mux.c
++++ b/drivers/clk/sunxi-ng/ccu_mux.c
+@@ -139,7 +139,7 @@ int ccu_mux_helper_determine_rate(struct ccu_common *common,
+ 			goto out;
+ 		}
+ 
+-		if ((req->rate - tmp_rate) < (req->rate - best_rate)) {
++		if (ccu_is_better_rate(common, req->rate, tmp_rate, best_rate)) {
+ 			best_rate = tmp_rate;
+ 			best_parent_rate = parent_rate;
+ 			best_parent = parent;
 diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
-index 750e2b8da24b..793160bc2d47 100644
+index 793160bc2d47..5439b9351cd7 100644
 --- a/drivers/clk/sunxi-ng/ccu_nkm.c
 +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
-@@ -17,6 +17,27 @@ struct _ccu_nkm {
- 	unsigned long	m, min_m, max_m;
- };
+@@ -39,6 +39,7 @@ static unsigned long ccu_nkm_optimal_parent_rate(unsigned long rate, unsigned lo
+ }
  
-+/*
-+ * Calculate the optimal parent when determining the nkm clock's rate.
-+ *
-+ * This function is used when the nkm clock supports setting the parent rate and ensures that the
-+ * determine_rate function returns consistent values. I.e., when determine rate is called for rate A
-+ * and the best rate it can find is A', this function ensures that determine_rate will also return
-+ * A' when A' is requested.
-+ */
-+static unsigned long ccu_nkm_optimal_parent_rate(unsigned long rate, unsigned long n,
-+				 unsigned long k, unsigned long m)
-+{
-+	unsigned long _rate, parent;
-+
-+	parent = DIV_ROUND_UP(rate * m, n * k);
-+
-+	_rate = parent * n * k / m;
-+	if (_rate > rate)
-+		parent = rate * m / (n * k);
-+	return parent;
-+}
-+
  static unsigned long ccu_nkm_find_best_with_parent_adj(struct clk_hw *phw, struct _ccu_nkm *nkm,
++						       struct ccu_common *common,
  						       unsigned long *parent, unsigned long rate)
  {
-@@ -29,7 +50,8 @@ static unsigned long ccu_nkm_find_best_with_parent_adj(struct clk_hw *phw, struc
- 			for (_m = nkm->min_m; _m <= nkm->max_m; _m++) {
- 				unsigned long tmp_rate;
- 
--				tmp_parent = clk_hw_round_rate(phw, rate * _m / (_n * _k));
-+				tmp_parent = ccu_nkm_optimal_parent_rate(rate, _n, _k, _m);
-+				tmp_parent = clk_hw_round_rate(phw, tmp_parent);
+ 	unsigned long best_rate = 0, best_parent_rate = *parent, tmp_parent = *parent;
+@@ -54,10 +55,8 @@ static unsigned long ccu_nkm_find_best_with_parent_adj(struct clk_hw *phw, struc
+ 				tmp_parent = clk_hw_round_rate(phw, tmp_parent);
  
  				tmp_rate = tmp_parent * _n * _k / _m;
- 				if (tmp_rate > rate)
+-				if (tmp_rate > rate)
+-					continue;
+ 
+-				if ((rate - tmp_rate) < (rate - best_rate)) {
++				if (ccu_is_better_rate(common, rate, tmp_rate, best_rate)) {
+ 					best_rate = tmp_rate;
+ 					best_parent_rate = tmp_parent;
+ 					best_n = _n;
+@@ -78,7 +77,7 @@ static unsigned long ccu_nkm_find_best_with_parent_adj(struct clk_hw *phw, struc
+ }
+ 
+ static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned long rate,
+-				       struct _ccu_nkm *nkm)
++				       struct _ccu_nkm *nkm, struct ccu_common *common)
+ {
+ 	unsigned long best_rate = 0;
+ 	unsigned long best_n = 0, best_k = 0, best_m = 0;
+@@ -91,9 +90,7 @@ static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned long rate,
+ 
+ 				tmp_rate = parent * _n * _k / _m;
+ 
+-				if (tmp_rate > rate)
+-					continue;
+-				if ((rate - tmp_rate) < (rate - best_rate)) {
++				if (ccu_is_better_rate(common, rate, tmp_rate, best_rate)) {
+ 					best_rate = tmp_rate;
+ 					best_n = _n;
+ 					best_k = _k;
+@@ -186,9 +183,10 @@ static unsigned long ccu_nkm_round_rate(struct ccu_mux_internal *mux,
+ 		rate *= nkm->fixed_post_div;
+ 
+ 	if (!clk_hw_can_set_rate_parent(&nkm->common.hw))
+-		rate = ccu_nkm_find_best(*parent_rate, rate, &_nkm);
++		rate = ccu_nkm_find_best(*parent_rate, rate, &_nkm, &nkm->common);
+ 	else
+-		rate = ccu_nkm_find_best_with_parent_adj(parent_hw, &_nkm, parent_rate, rate);
++		rate = ccu_nkm_find_best_with_parent_adj(parent_hw, &_nkm, &nkm->common,
++							 parent_rate, rate);
+ 
+ 	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
+ 		rate /= nkm->fixed_post_div;
+@@ -223,7 +221,7 @@ static int ccu_nkm_set_rate(struct clk_hw *hw, unsigned long rate,
+ 	_nkm.min_m = 1;
+ 	_nkm.max_m = nkm->m.max ?: 1 << nkm->m.width;
+ 
+-	ccu_nkm_find_best(parent_rate, rate, &_nkm);
++	ccu_nkm_find_best(parent_rate, rate, &_nkm, &nkm->common);
+ 
+ 	spin_lock_irqsave(nkm->common.lock, flags);
+ 
 
 -- 
 2.41.0
