@@ -1,90 +1,141 @@
-Received: from mail.croughan.sh (mail.croughan.sh [135.181.193.41])
+Received: from 15.mo582.mail-out.ovh.net (15.mo582.mail-out.ovh.net [188.165.39.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251F5FBF9
-	for <linux-sunxi@lists.linux.dev>; Tue, 18 Jul 2023 15:09:05 +0000 (UTC)
-Message-ID: <0645409b-3f79-9109-26c1-6e84065e46bf@nix.how>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nix.how; s=mail;
-	t=1689692942; bh=/mhfgxqxtca1gPyaeAwDuQ1jXHYYV0q9p+QPHOPgwkY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=U+Myn8Iz5ccNcfgclf5tfsw9wX0CAD+yR6jVmLL9Cwj0KvWZmhgRXkWW0znaxEFFY
-	 iBfO/wOWha9+S59WB0S8WVEGlWAexEHXl3aZ6mqp/RCwePabAh93nEfGt2o1fU438M
-	 255Wd8uU2PfF9D6Q1+KcOvGuwQ5gi3RJoVKKdN8w=
-Date: Tue, 18 Jul 2023 16:09:00 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE1FD52A
+	for <linux-sunxi@lists.linux.dev>; Tue, 18 Jul 2023 15:17:43 +0000 (UTC)
+Received: from director2.ghost.mail-out.ovh.net (unknown [10.109.143.18])
+	by mo582.mail-out.ovh.net (Postfix) with ESMTP id EDB6F25437
+	for <linux-sunxi@lists.linux.dev>; Tue, 18 Jul 2023 09:19:55 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-mn4ct (unknown [10.109.138.229])
+	by director2.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 9177E1FEB2;
+	Tue, 18 Jul 2023 09:19:49 +0000 (UTC)
+Received: from RCM-web4.webmail.mail.ovh.net ([176.31.235.81])
+	by ghost-submission-6684bf9d7b-mn4ct with ESMTPSA
+	id gQ79HjVZtmSJDgAAInjvQA
+	(envelope-from <rafal@milecki.pl>); Tue, 18 Jul 2023 09:19:49 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] arm64: dts: allwinner: h616: Add Mango Pi MQ-Quad DTS
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20230718124752.1279094-1-matthew.croughan@nix.how>
- <a85a6d11-a3de-958c-bd87-d2fffe446bca@linaro.org>
-From: Matthew Croughan <matthew.croughan@nix.how>
-In-Reply-To: <a85a6d11-a3de-958c-bd87-d2fffe446bca@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Date: Tue, 18 Jul 2023 11:19:49 +0200
+From: =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>, Srinivas
+ Kandagatla <srinivas.kandagatla@linaro.org>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Alessandro Zummo <a.zummo@towertech.it>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Kunihiko Hayashi
+ <hayashi.kunihiko@socionext.com>, linux-mtd@lists.infradead.org, Miquel
+ Raynal <miquel.raynal@bootlin.com>, Evgeniy Polyakov <zbr@ioremap.net>,
+ Fabio Estevam <festevam@gmail.com>,
+ linux-stm32@st-md-mailman.stormreply.com, Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, Heiko Stuebner <heiko@sntech.de>,
+ linux-rtc@vger.kernel.org, Samuel Holland <samuel@sholland.org>, Richard
+ Weinberger <richard@nod.at>, Michal Simek <michal.simek@xilinx.com>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, linux-rockchip@lists.infradead.org,
+ Chen-Yu Tsai <wens@csie.org>, Andy Gross <agross@kernel.org>, NXP Linux Team
+ <linux-imx@nxp.com>, Vincent Shih <vincent.sunplus@gmail.com>, Orson Zhai
+ <orsonzhai@gmail.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ linux-sunxi@lists.linux.dev, asahi@lists.linux.dev, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Sven Peter <sven@svenpeter.dev>, Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-arm-msm@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
+ linux-mediatek@lists.infradead.org, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>, Hector Martin <marcan@marcan.st>,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Michael Walle <michael@walle.cc>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, Kevin Hilman
+ <khilman@baylibre.com>, Shawn Guo <shawnguo@kernel.org>, Claudiu Beznea
+ <claudiu.beznea@microchip.com>
+Subject: Re: [Linux-stm32] [PATCH V4] nvmem: add explicit config option to
+ read old syntax fixed OF cells
+In-Reply-To: <e5a8524c-8961-9ff0-db30-3b648345319e@pengutronix.de>
+References: <20230403225540.1931-1-zajec5@gmail.com>
+ <e5a8524c-8961-9ff0-db30-3b648345319e@pengutronix.de>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <d51234ebc05d2b9fe44625299c103caa@milecki.pl>
+X-Sender: rafal@milecki.pl
+X-Originating-IP: 31.11.218.106
+X-Webmail-UserID: rafal@milecki.pl
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 6429732894367460296
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedviedrgeeggdduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeggfffhvfevufgjfhgfkfigihgtgfesthejjhdttdervdenucfhrhhomheptfgrfhgrlhcuofhilhgvtghkihcuoehrrghfrghlsehmihhlvggtkhhirdhplheqnecuggftrfgrthhtvghrnhepgfeuleeuteetfeeuhefhhffgtedvgeejfeelffeuvdfhueffvdehgeeuveeuhfelnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpfedurdduuddrvddukedruddtiedpudejiedrfedurddvfeehrdekudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehrrghfrghlsehmihhlvggtkhhirdhplheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqshhunhigiheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheekvddpmhhouggvpehsmhhtphhouhht
 
-On 18/07/2023 15:08, Krzysztof Kozlowski wrote:
+Hi Ahmad,
 
-> On 18/07/2023 14:47, Matthew Croughan wrote:
->> Mango Pi MQ Quad is a H616 based SBC, add basic support for the board
->> and its peripherals
->> ---
-> Third email within few hours - no, wait a day. There are so many issues
-> here that sending immediately won't help you.
->
-> 1. Missing changelog, so did you ignore entire feedback?
-> 2. Missing Signed-off-by
->
->
->>   arch/arm64/boot/dts/allwinner/Makefile        |   1 +
->>   .../allwinner/sun50i-h616-mangopi-mq-quad.dts | 183 ++++++++++++++++++
-> Yeah, no bindings patch, so you did ignore the feedback.
->
-> Sorry, that's a no.
->
-> This is a friendly reminder during the review process.
->
-> It seems my previous comments were not fully addressed. Maybe my
-> feedback got lost between the quotes, maybe you just forgot to apply it.
-> Please go back to the previous discussion and either implement all
-> requested changes or keep discussing them.
->
-> Thank you.
->
-> Best regards,
-> Krzysztof
+On 2023-07-18 11:08, Ahmad Fatoum wrote:
+>> diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c
+>> index 60670b2f70b9..334adbae3690 100644
+>> --- a/drivers/mtd/mtdcore.c
+>> +++ b/drivers/mtd/mtdcore.c
+>> @@ -522,6 +522,7 @@ static int mtd_nvmem_add(struct mtd_info *mtd)
+>>  	config.dev = &mtd->dev;
+>>  	config.name = dev_name(&mtd->dev);
+>>  	config.owner = THIS_MODULE;
+>> +	config.add_legacy_fixed_of_cells = of_device_is_compatible(node, 
+>> "nvmem-cells");
+> 
+> How does the new binding look like in this situation?
+> 
+> Before it was:
+> 
+> &{flash/partitions} {
+> 	compatible = "fixed-partitions";
+> 	#address-cells = <1>;
+> 	#size-cells = <1>;
+> 
+> 	partition@0 {
+> 		compatible = "nvmem-cells";
+> 		reg = <0 0x100>;
+> 		#address-cells = <1>;
+> 		#size-cells = <1>;
+> 
+> 		calib@1 {
+> 			reg = <1 1>;
+> 		};
+> 	}
+> };
+> 
+> It it now the same, but s/"nvmem-cells"/"fixed-layout"/ ?
 
-No problem, this is my first attempt at contribution to the kernel, and 
-my first time trying to follow the process on 
-https://docs.kernel.org/process/submitting-patches.html. The first reply 
-attempting to address your feedback, I screwed up and didn't add -v2 to 
-git format-patch. I wasn't sure if I'd get yelled at for that, so I 
-panicked and sent with the -v2 to correct it afterwards, hoping you'd 
-ignore it. It appears I've made it worse, spam was not the intent. 
-Please let me know if I've replied to this email with good etiquette 
-also, as I'm told I shouldn't be "top-posting". But I was born after 
-Email was obsolete, so am not sure if I'm doing it correctly.
+Please take a look at those commits and examples:
 
-Changelog: I'm sorry, I missed the part of submitting-patches.html that 
-said it would be good for other reviewers. I'll try making a changelog 
-on my next submission.
+bd912c991d2e ("dt-bindings: nvmem: layouts: add fixed-layout")
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=bd912c991d2ef079a32558f057b8663bcf1fb6fc
 
-Bindings: I just figured out that you meant I should add to the 
-`Documentation` folder, and that you were not suggesting the dt-bindings 
-in the #includes were inaccurate or missing.
-
-
+fa7fbe53ecdc ("dt-bindings: nvmem: convert base example to use NVMEM 
+fixed cells layout")
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fa7fbe53ecdc4e7d549a9f73a40e257b0046b4b9
 
 
+Basically you need a "nvmem-layout" node with:
+compatible = "fixed-layout";
 
+So in your case that would be:
+
+&{flash/partitions} {
+	compatible = "fixed-partitions";
+
+	partition@0 {
+		reg = <0 0x100>;
+
+		nvmem-layout {
+			compatible = "fixed-layout";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			calib@1 {
+				reg = <1 1>;
+			};
+		};
+	}
+};
