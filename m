@@ -1,111 +1,243 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mail.croughan.sh (mail.croughan.sh [135.181.193.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEBE3E547
-	for <linux-sunxi@lists.linux.dev>; Tue, 18 Jul 2023 09:27:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1689672437;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z0vyMeOfw7fSC/qxKnZBBj+xlz8lL8pZMksMNnnuzCg=;
-	b=Q2+7fGF0YkjJPjxBfiXUIFkyFK5IRcBIC8/xhlL+kpaCbfiCSxwWapD7JXhNS7srOtvUqS
-	idSrC9/xzjOeMZ/M8q6XgyTv9hMgFnvyY/sllrd8LeFgIm4k5nuBQ93iP4SiKvPFB6UUz+
-	ZN478OsyWDXLgMv7hDKdnoKQ5HpMCPE=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-547-8JWaEIDJOmOMcyl8zANr4Q-1; Tue, 18 Jul 2023 05:27:16 -0400
-X-MC-Unique: 8JWaEIDJOmOMcyl8zANr4Q-1
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4032a3ad8c0so8395411cf.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 18 Jul 2023 02:27:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689672436; x=1690277236;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=z0vyMeOfw7fSC/qxKnZBBj+xlz8lL8pZMksMNnnuzCg=;
-        b=HAMTwCYqO+DJtNrkIaouXX3X35oByfjEcmKUCX1PdBuhdfI8DiRcgzINMJ/XfU/mqF
-         3ft4uMKLenz+Lg26w45gI1mAz2qWGp2mPCQz+MFXVeZfk4wyhkS05otUBx4ntX0NKitG
-         UOKtS4i5K7N1jPqs+A0Za9OEamc4jiX2VybiGMpOXScfxjzVj5o9r/7YX07cWOxV22dg
-         4n9bv0yofBY74trOxxeCi6D0VT/vUv4wfZFTk0RrOENKDcm/3EWSfRj43Hysd7hdqj2u
-         eadL/ZGsNUUa9NH0HmiVhyTKAghjH68GXiy7iBOoFuf2OFmUng1b4uPidGc/gZadBMiW
-         mkPA==
-X-Gm-Message-State: ABy/qLYrpN/0dnXYxjQkdtfhTUZmSb4/Qe8F427EVOgH+ikgUPRCYJDh
-	T8Psk8MK/ApjNSxxCwfdkvTXNXmJUdFpUmGHrcqK9znDBgVqjJ1AVeiMrMA9IOlqdeLqssBq5oq
-	LoYjSeDuvXfCxojNInmF7RVE=
-X-Received: by 2002:a05:6214:509d:b0:63c:7427:e7e9 with SMTP id kk29-20020a056214509d00b0063c7427e7e9mr12261353qvb.6.1689672436183;
-        Tue, 18 Jul 2023 02:27:16 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFYFNw7x3jThmvZICEe6iXFu0qG+zQql7vEpRKMvc0qVPxJUK7o8zW+ji84Z85dUEkIw+qD2g==
-X-Received: by 2002:a05:6214:509d:b0:63c:7427:e7e9 with SMTP id kk29-20020a056214509d00b0063c7427e7e9mr12261327qvb.6.1689672435965;
-        Tue, 18 Jul 2023 02:27:15 -0700 (PDT)
-Received: from gerbillo.redhat.com (146-241-226-170.dyn.eolo.it. [146.241.226.170])
-        by smtp.gmail.com with ESMTPSA id h10-20020a0cf20a000000b00635fc10afd6sm592785qvk.70.2023.07.18.02.27.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 02:27:15 -0700 (PDT)
-Message-ID: <ee31215ededd386eba19fb62b0de8d0bad78d687.camel@redhat.com>
-Subject: Re: [PATCH] net: Explicitly include correct DT includes
-From: Paolo Abeni <pabeni@redhat.com>
-To: Alex Elder <elder@ieee.org>, Rob Herring <robh@kernel.org>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>,  Alex Elder <elder@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-can@vger.kernel.org, 
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, 
- linux-renesas-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, 
- linux-amlogic@lists.infradead.org, linux-oxnas@groups.io, 
- linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org, 
- linux-wpan@vger.kernel.org, ath10k@lists.infradead.org, 
- linux-wireless@vger.kernel.org, ath11k@lists.infradead.org, 
- wcn36xx@lists.infradead.org
-Date: Tue, 18 Jul 2023 11:27:10 +0200
-In-Reply-To: <1c6175fc-496a-843c-c8c5-2173e065eaa8@ieee.org>
-References: <20230714174809.4060885-1-robh@kernel.org>
-	 <1c6175fc-496a-843c-c8c5-2173e065eaa8@ieee.org>
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1ABF1FD8
+	for <linux-sunxi@lists.linux.dev>; Tue, 18 Jul 2023 11:29:33 +0000 (UTC)
+From: Matthew Croughan <matthew.croughan@nix.how>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nix.how; s=mail;
+	t=1689679185; bh=EKwrix3EnhCGzCZ8LjEib/k02rDGeBqZS8NBwK4dCTE=;
+	h=From:To:Cc:Subject:Date;
+	b=dINMv/x9Xr89p1+jJC/hdQO1KTNVn1y+DsetZkQ2nOA4uhz7ngz1/iQIbg9/7rSnX
+	 s5U7Lb8jANJpWWSyixmHakirWlfkm0lblBgxTRvQVrbOPRe1Foxry0AP3wJUcsnUaz
+	 lA46FVu/kdJqbaycBVrZbbLsQ4qRb2GwqdzlO9wA=
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Matthew Croughan <matthew.croughan@nix.how>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] arm64: dts: allwinner: h616: Add Mango Pi MQ-Quad DTS
+Date: Tue, 18 Jul 2023 12:19:07 +0100
+Message-ID: <20230718111908.1178727-1-matthew.croughan@nix.how>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Mango Pi MQ Quad is a H616 based SBC, add basic support for the board
+and its peripherals
+---
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../allwinner/sun50i-h616-mangopi-mq-quad.dts | 183 ++++++++++++++++++
+ 2 files changed, 184 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-mangopi-mq-quad.dts
 
-On Sat, 2023-07-15 at 10:11 -0500, Alex Elder wrote:
-> On 7/14/23 12:48 PM, Rob Herring wrote:
-> > The DT of_device.h and of_platform.h date back to the separate
-> > of_platform_bus_type before it as merged into the regular platform bus.
-> > As part of that merge prepping Arm DT support 13 years ago, they
-> > "temporarily" include each other. They also include platform_device.h
-> > and of.h. As a result, there's a pretty much random mix of those includ=
-e
-> > files used throughout the tree. In order to detangle these headers and
-> > replace the implicit includes with struct declarations, users need to
-> > explicitly include the correct includes.
-> >=20
-> > Signed-off-by: Rob Herring <robh@kernel.org>
->=20
-> (I significantly reduced the addressee list to permit the message
-> to be sent.)
->=20
-> For "drivers/net/ipa/ipa_main.c":
->=20
-> Acked-by: Alex Elder <elder@linaro.org>
-
-The patch does not apply cleanly to net-next. Rob, could you please re-
-spin it? While at that, have you considered splitting it in a few
-smaller patches (e.g. can, dsa, freescale, ibm, marvel, mediatek,
-stmmicro,  sun, ti, xilinx, wireless, remaining)?
-
-Thanks!
-
-Paolo
+diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+index 6a96494a2e0a..fbc64885ef79 100644
+--- a/arch/arm64/boot/dts/allwinner/Makefile
++++ b/arch/arm64/boot/dts/allwinner/Makefile
+@@ -40,3 +40,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
++dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-mangopi-mq-quad.dtb
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-mangopi-mq-quad.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-mangopi-mq-quad.dts
+new file mode 100644
+index 000000000000..752e5296c4af
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-mangopi-mq-quad.dts
+@@ -0,0 +1,183 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++// Copyright (C) 2020 Arm Ltd.
++/*
++ * Copyright (C) 2023 Matthew Croughan <matthew.croughan@nix.how>
++ */
++
++/dts-v1/;
++
++#include "sun50i-h616.dtsi"
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/interrupt-controller/arm-gic.h>
++#include <dt-bindings/leds/common.h>
++
++/ {
++	model = "MangoPi MQ-Quad";
++	compatible = "allwinner,sun50i-h616";
++
++	aliases {
++		serial0 = &uart0;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		led-0 {
++			function = LED_FUNCTION_STATUS;
++			color = <LED_COLOR_ID_GREEN>;
++			gpios = <&pio 2 13 GPIO_ACTIVE_HIGH>; /* PC13 */
++		};
++	};
++
++	reg_vcc5v: vcc5v {
++		/* board wide 5V supply directly from the USB-C socket */
++		compatible = "regulator-fixed";
++		regulator-name = "vcc-5v";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		regulator-always-on;
++	};
++
++	reg_vcc3v3: vcc3v3 {
++		/* board wide 3V3 supply directly from SY8008 regulator */
++		compatible = "regulator-fixed";
++		regulator-name = "vcc-3v3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-always-on;
++	};
++
++	wifi_pwrseq: wifi-pwrseq {
++		compatible = "mmc-pwrseq-simple";
++		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
++	};
++};
++
++&ehci1 {
++	status = "okay";
++};
++
++/* USB 2 & 3 are on headers only. */
++
++&mmc0 {
++	vmmc-supply = <&reg_vcc3v3>;
++	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
++	bus-width = <4>;
++	status = "okay";
++};
++
++&mmc1 {
++	bus-width = <4>;
++	mmc-pwrseq = <&wifi_pwrseq>;
++	non-removable;
++	vmmc-supply = <&reg_vcc3v3>;
++	vqmmc-supply = <&reg_vcc3v3>;
++	pinctrl-0 = <&mmc1_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++
++	rtl8723ds: wifi@1 {
++		reg = <1>;
++		interrupt-parent = <&pio>;
++		interrupts = <6 15 IRQ_TYPE_LEVEL_LOW>; /* PG15 */
++		interrupt-names = "host-wake";
++	};
++};
++
++
++&uart1 {
++	uart-has-rtscts;
++	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++
++	bluetooth {
++		compatible = "realtek,rtl8723ds-bt";
++		device-wake-gpios = <&pio 6 17 GPIO_ACTIVE_HIGH>; /* PG17 */
++		enable-gpios = <&pio 6 19 GPIO_ACTIVE_HIGH>; /* PG19 */
++		host-wake-gpios = <&pio 6 16 GPIO_ACTIVE_HIGH>; /* PG16 */
++	};
++};
++
++&ohci1 {
++	status = "okay";
++};
++
++&r_i2c {
++	status = "okay";
++
++	axp313a: pmic@36 {
++		compatible = "x-powers,axp313a";
++		reg = <0x36>;
++		x-powers,self-working-mode;
++		regulators {
++			reg_aldo1: aldo1 {
++				regulator-always-on;
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++				regulator-name = "vcc-1v8";
++			};
++
++			reg_dldo1: dldo1 {
++				regulator-always-on;
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-name = "vcc-3v3-pmic";
++			};
++
++			reg_dcdc1: dcdc1 {
++				regulator-always-on;
++				regulator-min-microvolt = <810000>;
++				regulator-max-microvolt = <990000>;
++				regulator-name = "vdd-gpu-sys";
++			};
++
++			reg_dcdc2: dcdc2 {
++				regulator-always-on;
++				regulator-min-microvolt = <810000>;
++				regulator-max-microvolt = <1100000>;
++				regulator-name = "vdd-cpu";
++			};
++
++			reg_dcdc3: dcdc3 {
++				regulator-always-on;
++				regulator-min-microvolt = <1500000>;
++				regulator-max-microvolt = <1500000>;
++				regulator-name = "vdd-dram";
++			};
++
++		};
++	};
++};
++
++&uart0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart0_ph_pins>;
++	status = "okay";
++};
++
++&usbotg {
++	/*
++	 * PHY0 pins are connected to a USB-C socket, but a role switch
++	 * is not implemented: both CC pins are pulled to GND.
++	 * The VBUS pins power the device, so a fixed peripheral mode
++	 * is the best choice.
++	 * The board can be powered via GPIOs, in this case port0 *can*
++	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
++	 * then provided by the GPIOs. Any user of this setup would
++	 * need to adjust the DT accordingly: dr_mode set to "host",
++	 * enabling OHCI0 and EHCI0.
++	 */
++	dr_mode = "peripheral";
++	status = "okay";
++};
++
++&usbphy {
++	usb1_vbus-supply = <&reg_vcc5v>;
++	status = "okay";
++};
+-- 
+2.41.0
 
