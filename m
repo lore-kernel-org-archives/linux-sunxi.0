@@ -1,141 +1,268 @@
-Received: from 15.mo582.mail-out.ovh.net (15.mo582.mail-out.ovh.net [188.165.39.161])
+Received: from mail.croughan.sh (mail.croughan.sh [135.181.193.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE1FD52A
-	for <linux-sunxi@lists.linux.dev>; Tue, 18 Jul 2023 15:17:43 +0000 (UTC)
-Received: from director2.ghost.mail-out.ovh.net (unknown [10.109.143.18])
-	by mo582.mail-out.ovh.net (Postfix) with ESMTP id EDB6F25437
-	for <linux-sunxi@lists.linux.dev>; Tue, 18 Jul 2023 09:19:55 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-mn4ct (unknown [10.109.138.229])
-	by director2.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 9177E1FEB2;
-	Tue, 18 Jul 2023 09:19:49 +0000 (UTC)
-Received: from RCM-web4.webmail.mail.ovh.net ([176.31.235.81])
-	by ghost-submission-6684bf9d7b-mn4ct with ESMTPSA
-	id gQ79HjVZtmSJDgAAInjvQA
-	(envelope-from <rafal@milecki.pl>); Tue, 18 Jul 2023 09:19:49 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D3FE57B
+	for <linux-sunxi@lists.linux.dev>; Tue, 18 Jul 2023 15:23:12 +0000 (UTC)
+From: Matthew Croughan <matthew.croughan@nix.how>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nix.how; s=mail;
+	t=1689693788; bh=kQ0zZJmWuTH6LfvyNouDwXGvkH45qS30ZnRRxJ3YoH8=;
+	h=From:To:Cc:Subject:Date;
+	b=fZHVpsFfS0VFKCmHvJCKu5qPsqiWvLfl4VMMikW5tzarafVW0U9nP25HZgRUGLHcO
+	 I8mHcJMQLHcIHaHFF4MKvGVdZOv2iTXsBZfuflGOQISBNfnTR1TG1R5UI43DY+pJm7
+	 Ap6+eZexbEstVgdUfBswR6ihUcpL/Byv/7SA90vw=
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: Matthew Croughan <matthew.croughan@nix.how>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] arm64: dts: allwinner: h616: Add Mango Pi MQ-Quad DTS
+Date: Tue, 18 Jul 2023 16:22:03 +0100
+Message-ID: <20230718152206.1430313-1-matthew.croughan@nix.how>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Tue, 18 Jul 2023 11:19:49 +0200
-From: =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>
-To: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc: =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>, Srinivas
- Kandagatla <srinivas.kandagatla@linaro.org>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Alessandro Zummo <a.zummo@towertech.it>,
- Vignesh Raghavendra <vigneshr@ti.com>, Kunihiko Hayashi
- <hayashi.kunihiko@socionext.com>, linux-mtd@lists.infradead.org, Miquel
- Raynal <miquel.raynal@bootlin.com>, Evgeniy Polyakov <zbr@ioremap.net>,
- Fabio Estevam <festevam@gmail.com>,
- linux-stm32@st-md-mailman.stormreply.com, Alyssa Rosenzweig
- <alyssa@rosenzweig.io>, Heiko Stuebner <heiko@sntech.de>,
- linux-rtc@vger.kernel.org, Samuel Holland <samuel@sholland.org>, Richard
- Weinberger <richard@nod.at>, Michal Simek <michal.simek@xilinx.com>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, linux-rockchip@lists.infradead.org,
- Chen-Yu Tsai <wens@csie.org>, Andy Gross <agross@kernel.org>, NXP Linux Team
- <linux-imx@nxp.com>, Vincent Shih <vincent.sunplus@gmail.com>, Orson Zhai
- <orsonzhai@gmail.com>, Jerome Brunet <jbrunet@baylibre.com>,
- linux-sunxi@lists.linux.dev, asahi@lists.linux.dev, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Sven Peter <sven@svenpeter.dev>, Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-arm-msm@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-mediatek@lists.infradead.org, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Neil
- Armstrong <neil.armstrong@linaro.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>, Hector Martin <marcan@marcan.st>,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Michael Walle <michael@walle.cc>, Masami Hiramatsu <mhiramat@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Kevin Hilman
- <khilman@baylibre.com>, Shawn Guo <shawnguo@kernel.org>, Claudiu Beznea
- <claudiu.beznea@microchip.com>
-Subject: Re: [Linux-stm32] [PATCH V4] nvmem: add explicit config option to
- read old syntax fixed OF cells
-In-Reply-To: <e5a8524c-8961-9ff0-db30-3b648345319e@pengutronix.de>
-References: <20230403225540.1931-1-zajec5@gmail.com>
- <e5a8524c-8961-9ff0-db30-3b648345319e@pengutronix.de>
-User-Agent: Roundcube Webmail/1.4.13
-Message-ID: <d51234ebc05d2b9fe44625299c103caa@milecki.pl>
-X-Sender: rafal@milecki.pl
-X-Originating-IP: 31.11.218.106
-X-Webmail-UserID: rafal@milecki.pl
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 6429732894367460296
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedviedrgeeggdduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeggfffhvfevufgjfhgfkfigihgtgfesthejjhdttdervdenucfhrhhomheptfgrfhgrlhcuofhilhgvtghkihcuoehrrghfrghlsehmihhlvggtkhhirdhplheqnecuggftrfgrthhtvghrnhepgfeuleeuteetfeeuhefhhffgtedvgeejfeelffeuvdfhueffvdehgeeuveeuhfelnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpfedurdduuddrvddukedruddtiedpudejiedrfedurddvfeehrdekudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehrrghfrghlsehmihhlvggtkhhirdhplheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqshhunhigiheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheekvddpmhhouggvpehsmhhtphhouhht
+Content-Transfer-Encoding: 8bit
 
-Hi Ahmad,
+Mango Pi MQ Quad is a H616 based SBC, add basic support for the board
+and its peripherals
 
-On 2023-07-18 11:08, Ahmad Fatoum wrote:
->> diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c
->> index 60670b2f70b9..334adbae3690 100644
->> --- a/drivers/mtd/mtdcore.c
->> +++ b/drivers/mtd/mtdcore.c
->> @@ -522,6 +522,7 @@ static int mtd_nvmem_add(struct mtd_info *mtd)
->>  	config.dev = &mtd->dev;
->>  	config.name = dev_name(&mtd->dev);
->>  	config.owner = THIS_MODULE;
->> +	config.add_legacy_fixed_of_cells = of_device_is_compatible(node, 
->> "nvmem-cells");
-> 
-> How does the new binding look like in this situation?
-> 
-> Before it was:
-> 
-> &{flash/partitions} {
-> 	compatible = "fixed-partitions";
-> 	#address-cells = <1>;
-> 	#size-cells = <1>;
-> 
-> 	partition@0 {
-> 		compatible = "nvmem-cells";
-> 		reg = <0 0x100>;
-> 		#address-cells = <1>;
-> 		#size-cells = <1>;
-> 
-> 		calib@1 {
-> 			reg = <1 1>;
-> 		};
-> 	}
-> };
-> 
-> It it now the same, but s/"nvmem-cells"/"fixed-layout"/ ?
+Signed-off-by: Matthew Croughan <matthew.croughan@nix.how>
+---
+V1 -> V2: Alphabetical ordering, added "widora,mangopi-mq-quad" compatible
+V2 -> V3: Added Signed-off-by, add to device-tree compatible/bindings documentation
 
-Please take a look at those commits and examples:
+ .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../allwinner/sun50i-h616-mangopi-mq-quad.dts | 183 ++++++++++++++++++
+ 3 files changed, 189 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-mangopi-mq-quad.dts
 
-bd912c991d2e ("dt-bindings: nvmem: layouts: add fixed-layout")
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=bd912c991d2ef079a32558f057b8663bcf1fb6fc
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index ee8fdd2da869..2dee815fd45e 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -862,6 +862,11 @@ properties:
+           - const: wexler,tab7200
+           - const: allwinner,sun7i-a20
+ 
++      - description: MangoPi MQ-Quad
++        items:
++          - const: widora,mangopi-mq-quad
++          - const: allwinner,sun50i-h616
++
+       - description: MangoPi MQ-R board
+         items:
+           - const: widora,mangopi-mq-r-t113
+diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+index 6a96494a2e0a..06c5b97dbfc3 100644
+--- a/arch/arm64/boot/dts/allwinner/Makefile
++++ b/arch/arm64/boot/dts/allwinner/Makefile
+@@ -38,5 +38,6 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64-model-b.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
++dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-mangopi-mq-quad.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-mangopi-mq-quad.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-mangopi-mq-quad.dts
+new file mode 100644
+index 000000000000..47fd49af2886
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-mangopi-mq-quad.dts
+@@ -0,0 +1,183 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++// Copyright (C) 2020 Arm Ltd.
++/*
++ * Copyright (C) 2023 Matthew Croughan <matthew.croughan@nix.how>
++ */
++
++/dts-v1/;
++
++#include "sun50i-h616.dtsi"
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/interrupt-controller/arm-gic.h>
++#include <dt-bindings/leds/common.h>
++
++/ {
++	model = "MangoPi MQ-Quad";
++	compatible = "widora,mangopi-mq-quad", "allwinner,sun50i-h616";
++
++	aliases {
++		serial0 = &uart0;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		led-0 {
++			function = LED_FUNCTION_STATUS;
++			color = <LED_COLOR_ID_GREEN>;
++			gpios = <&pio 2 13 GPIO_ACTIVE_HIGH>; /* PC13 */
++		};
++	};
++
++	reg_vcc5v: vcc5v {
++		/* board wide 5V supply directly from the USB-C socket */
++		compatible = "regulator-fixed";
++		regulator-name = "vcc-5v";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		regulator-always-on;
++	};
++
++	reg_vcc3v3: vcc3v3 {
++		/* board wide 3V3 supply directly from SY8008 regulator */
++		compatible = "regulator-fixed";
++		regulator-name = "vcc-3v3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-always-on;
++	};
++
++	wifi_pwrseq: wifi-pwrseq {
++		compatible = "mmc-pwrseq-simple";
++		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
++	};
++};
++
++&ehci1 {
++	status = "okay";
++};
++
++/* USB 2 & 3 are on headers only. */
++
++&mmc0 {
++	vmmc-supply = <&reg_vcc3v3>;
++	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
++	bus-width = <4>;
++	status = "okay";
++};
++
++&mmc1 {
++	bus-width = <4>;
++	mmc-pwrseq = <&wifi_pwrseq>;
++	non-removable;
++	vmmc-supply = <&reg_vcc3v3>;
++	vqmmc-supply = <&reg_vcc3v3>;
++	pinctrl-0 = <&mmc1_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++
++	rtl8723ds: wifi@1 {
++		reg = <1>;
++		interrupt-parent = <&pio>;
++		interrupts = <6 15 IRQ_TYPE_LEVEL_LOW>; /* PG15 */
++		interrupt-names = "host-wake";
++	};
++};
++
++
++&uart1 {
++	uart-has-rtscts;
++	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++
++	bluetooth {
++		compatible = "realtek,rtl8723ds-bt";
++		device-wake-gpios = <&pio 6 17 GPIO_ACTIVE_HIGH>; /* PG17 */
++		enable-gpios = <&pio 6 19 GPIO_ACTIVE_HIGH>; /* PG19 */
++		host-wake-gpios = <&pio 6 16 GPIO_ACTIVE_HIGH>; /* PG16 */
++	};
++};
++
++&ohci1 {
++	status = "okay";
++};
++
++&r_i2c {
++	status = "okay";
++
++	axp313a: pmic@36 {
++		compatible = "x-powers,axp313a";
++		reg = <0x36>;
++		x-powers,self-working-mode;
++		regulators {
++			reg_aldo1: aldo1 {
++				regulator-always-on;
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++				regulator-name = "vcc-1v8";
++			};
++
++			reg_dldo1: dldo1 {
++				regulator-always-on;
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-name = "vcc-3v3-pmic";
++			};
++
++			reg_dcdc1: dcdc1 {
++				regulator-always-on;
++				regulator-min-microvolt = <810000>;
++				regulator-max-microvolt = <990000>;
++				regulator-name = "vdd-gpu-sys";
++			};
++
++			reg_dcdc2: dcdc2 {
++				regulator-always-on;
++				regulator-min-microvolt = <810000>;
++				regulator-max-microvolt = <1100000>;
++				regulator-name = "vdd-cpu";
++			};
++
++			reg_dcdc3: dcdc3 {
++				regulator-always-on;
++				regulator-min-microvolt = <1500000>;
++				regulator-max-microvolt = <1500000>;
++				regulator-name = "vdd-dram";
++			};
++
++		};
++	};
++};
++
++&uart0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart0_ph_pins>;
++	status = "okay";
++};
++
++&usbotg {
++	/*
++	 * PHY0 pins are connected to a USB-C socket, but a role switch
++	 * is not implemented: both CC pins are pulled to GND.
++	 * The VBUS pins power the device, so a fixed peripheral mode
++	 * is the best choice.
++	 * The board can be powered via GPIOs, in this case port0 *can*
++	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
++	 * then provided by the GPIOs. Any user of this setup would
++	 * need to adjust the DT accordingly: dr_mode set to "host",
++	 * enabling OHCI0 and EHCI0.
++	 */
++	dr_mode = "peripheral";
++	status = "okay";
++};
++
++&usbphy {
++	usb1_vbus-supply = <&reg_vcc5v>;
++	status = "okay";
++};
+-- 
+2.41.0
 
-fa7fbe53ecdc ("dt-bindings: nvmem: convert base example to use NVMEM 
-fixed cells layout")
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fa7fbe53ecdc4e7d549a9f73a40e257b0046b4b9
-
-
-Basically you need a "nvmem-layout" node with:
-compatible = "fixed-layout";
-
-So in your case that would be:
-
-&{flash/partitions} {
-	compatible = "fixed-partitions";
-
-	partition@0 {
-		reg = <0 0x100>;
-
-		nvmem-layout {
-			compatible = "fixed-layout";
-			#address-cells = <1>;
-			#size-cells = <1>;
-
-			calib@1 {
-				reg = <1 1>;
-			};
-		};
-	}
-};
