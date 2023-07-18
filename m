@@ -1,15 +1,15 @@
 Received: from mail.croughan.sh (mail.croughan.sh [135.181.193.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D122BAD4B
-	for <linux-sunxi@lists.linux.dev>; Tue, 18 Jul 2023 12:46:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94EE1AD4B
+	for <linux-sunxi@lists.linux.dev>; Tue, 18 Jul 2023 12:50:04 +0000 (UTC)
 From: Matthew Croughan <matthew.croughan@nix.how>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nix.how; s=mail;
-	t=1689684382; bh=nwlBb65OLa7zMh3H51fSU4uBOp2MNxRFHVyMKLw7ne8=;
+	t=1689684600; bh=nwlBb65OLa7zMh3H51fSU4uBOp2MNxRFHVyMKLw7ne8=;
 	h=From:To:Cc:Subject:Date;
-	b=hR5LXOnulatovy0TdCalKkSnVbxetiCg0o6EiI0kE4Dip1Ix8cNdyYF9QpMMfJRc+
-	 s34SfoWYcFjbwEi2ydje8j0ew+mzc7V2txuLLaPwwfWxpqrtNy6MODeUrPVrk4HZj+
-	 6whDa43x5x1RZ+wUqsaeksPtCFSu971qGxVBQ2pE=
+	b=WaeuGGt9ajw5LFAm9PDNAjkmciSaA2j0vsA3H9bhddl6D0Ohzg56Pnf6U679Lsx7+
+	 FVAy3xzU9ct1hru3Ai2NRF7F4wPrGeZywShwD3XaxK3ltJq0pWDvI2wYQsSI2mU6Tz
+	 z7cgHN9ox4UQZ2YpVcIw0vJM8jmPAL+AbWtIERo0=
 To: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
@@ -21,9 +21,9 @@ Cc: Matthew Croughan <matthew.croughan@nix.how>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] arm64: dts: allwinner: h616: Add Mango Pi MQ-Quad DTS
-Date: Tue, 18 Jul 2023 13:46:01 +0100
-Message-ID: <20230718124602.1276663-1-matthew.croughan@nix.how>
+Subject: [PATCH v2] arm64: dts: allwinner: h616: Add Mango Pi MQ-Quad DTS
+Date: Tue, 18 Jul 2023 13:47:51 +0100
+Message-ID: <20230718124752.1279094-1-matthew.croughan@nix.how>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
