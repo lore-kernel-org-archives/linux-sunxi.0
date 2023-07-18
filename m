@@ -1,141 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.croughan.sh (mail.croughan.sh [135.181.193.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74F5D52A
-	for <linux-sunxi@lists.linux.dev>; Tue, 18 Jul 2023 15:04:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F4045C433C7;
-	Tue, 18 Jul 2023 15:04:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689692699;
-	bh=dC6xVfoZAu1dLbggSONL4fKCtfqFkZexMTtlfTvKgfQ=;
-	h=From:Date:Subject:To:Cc:From;
-	b=gxNRHk6jXJH/sG6nAzOBErvD+wxObBarcDNUB6t09I3NPMoYDs8QMY/+xAlDmLZpZ
-	 HrBgUUGG9jB+y8aiTLSQ1wXsLnpNVB6j6mmkzC1H3NycyIxBQ83ra7piSD8fOl5N7y
-	 6+l7IyikBmGQoBJcXg8WJU7UmOQjl5RkMMHVDRdWRsnxy+oX2wXy1tXDpqlrle//BO
-	 t/19NuIW5ZYvCKAqHhpmB0oeialXBbX/ZWLqVwb7zAxby2FJxD4wCEdbxPSUn4ukDX
-	 M2UTDfSYcEcoXlXKOXLBcsFEvgYbuf5lqJMSXxWPdRiMUyJrmhwxexp9GhAAi5v5PM
-	 A/+EPCsgpEyUA==
-From: Mark Brown <broonie@kernel.org>
-Date: Tue, 18 Jul 2023 16:04:22 +0100
-Subject: [PATCH] thermal/drivers/sun8i: Don't fail probe due to zone
- registration failure
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251F5FBF9
+	for <linux-sunxi@lists.linux.dev>; Tue, 18 Jul 2023 15:09:05 +0000 (UTC)
+Message-ID: <0645409b-3f79-9109-26c1-6e84065e46bf@nix.how>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nix.how; s=mail;
+	t=1689692942; bh=/mhfgxqxtca1gPyaeAwDuQ1jXHYYV0q9p+QPHOPgwkY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=U+Myn8Iz5ccNcfgclf5tfsw9wX0CAD+yR6jVmLL9Cwj0KvWZmhgRXkWW0znaxEFFY
+	 iBfO/wOWha9+S59WB0S8WVEGlWAexEHXl3aZ6mqp/RCwePabAh93nEfGt2o1fU438M
+	 255Wd8uU2PfF9D6Q1+KcOvGuwQ5gi3RJoVKKdN8w=
+Date: Tue, 18 Jul 2023 16:09:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230718-thermal-sun8i-registration-v1-1-c95b1b070340@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAPWptmQC/x3MQQqEMAxA0atI1hOwFlS8irgINdWAdoakI4J4d
- 4vLt/j/AmMVNhiqC5QPMfmmAvepIKyUFkaZi6GpG193rse8su60of1TL6i8iGWlXDKcoyfn2xA
- oEpTBTznK+c7H6b4fh5UeimwAAAA=
-To: Vasily Khoruzhick <anarsoul@gmail.com>, 
- Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, 
- Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+Subject: Re: [PATCH v2] arm64: dts: allwinner: h616: Add Mango Pi MQ-Quad DTS
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
  Samuel Holland <samuel@sholland.org>
-Cc: Hugh Dickins <hughd@google.com>, linux-pm@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.13-dev-099c9
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3509; i=broonie@kernel.org;
- h=from:subject:message-id; bh=dC6xVfoZAu1dLbggSONL4fKCtfqFkZexMTtlfTvKgfQ=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBktqoWNHLFaGMbLnk71Po+ikg0HmEFb2Er2KcvO
- TdEj449f3GJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZLaqFgAKCRAk1otyXVSH
- 0LBjB/9h8x5fbbbKuVsnCClJlyBKWsag8KbTFfpYMqgbuOYaRUZZEvIbLBoNKoSImBBiumXjCkP
- haBO3wVDrdvIpH90ub6r0UBAN7Z8F6ncmgNkWN7TlZwqymZdzXpucPHXbubWMT7BiiIirajZHvs
- D6A1s9yzq1Ac2htEyg4MraFxIM0Ew5LHtzTT/as0yE1VFUGzuuwl84dItvJu4N8XMAwIzlYfkIU
- Yrw0HUMNKWviJgjPcTjNvktREwhEjTNu5P/3XsEs6nklQCNk5JxbA7XnP6lbXoeHF6tH+e2Wx4k
- ofnYisR3/Q80C3IFmHKy6u09jteOqH0mYOw/KTG/6gHbxoDc
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20230718124752.1279094-1-matthew.croughan@nix.how>
+ <a85a6d11-a3de-958c-bd87-d2fffe446bca@linaro.org>
+From: Matthew Croughan <matthew.croughan@nix.how>
+In-Reply-To: <a85a6d11-a3de-958c-bd87-d2fffe446bca@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Currently the sun8i thermal driver will fail to probe if any of the
-thermal zones it is registering fails to register with the thermal core.
-Since we currently do not define any trip points for the GPU thermal
-zones on at least A64 or H5 this means that we have no thermal support
-on these platforms:
+On 18/07/2023 15:08, Krzysztof Kozlowski wrote:
 
-[    1.698703] thermal_sys: Failed to find 'trips' node
-[    1.698707] thermal_sys: Failed to find trip points for thermal-sensor id=1
+> On 18/07/2023 14:47, Matthew Croughan wrote:
+>> Mango Pi MQ Quad is a H616 based SBC, add basic support for the board
+>> and its peripherals
+>> ---
+> Third email within few hours - no, wait a day. There are so many issues
+> here that sending immediately won't help you.
+>
+> 1. Missing changelog, so did you ignore entire feedback?
+> 2. Missing Signed-off-by
+>
+>
+>>   arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+>>   .../allwinner/sun50i-h616-mangopi-mq-quad.dts | 183 ++++++++++++++++++
+> Yeah, no bindings patch, so you did ignore the feedback.
+>
+> Sorry, that's a no.
+>
+> This is a friendly reminder during the review process.
+>
+> It seems my previous comments were not fully addressed. Maybe my
+> feedback got lost between the quotes, maybe you just forgot to apply it.
+> Please go back to the previous discussion and either implement all
+> requested changes or keep discussing them.
+>
+> Thank you.
+>
+> Best regards,
+> Krzysztof
 
-even though the main CPU thermal zone on both SoCs is fully configured.
-This does not seem ideal, while we may not be able to use all the zones
-it seems better to have those zones which are usable be operational.
-Instead just carry on registering zones if we get any non-deferral
-error, allowing use of those zones which are usable.
+No problem, this is my first attempt at contribution to the kernel, and 
+my first time trying to follow the process on 
+https://docs.kernel.org/process/submitting-patches.html. The first reply 
+attempting to address your feedback, I screwed up and didn't add -v2 to 
+git format-patch. I wasn't sure if I'd get yelled at for that, so I 
+panicked and sent with the -v2 to correct it afterwards, hoping you'd 
+ignore it. It appears I've made it worse, spam was not the intent. 
+Please let me know if I've replied to this email with good etiquette 
+also, as I'm told I shouldn't be "top-posting". But I was born after 
+Email was obsolete, so am not sure if I'm doing it correctly.
 
-This means that we also need to update the interrupt handler to not
-attempt to notify the core for events on zones which we have not
-registered, I didn't see an ability to mask individual interrupts and
-I would expect that interrupts would still be indicated in the ISR even
-if they were masked.
+Changelog: I'm sorry, I missed the part of submitting-patches.html that 
+said it would be good for other reviewers. I'll try making a changelog 
+on my next submission.
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
-I noticed this while trying to debug an issue with memory corruption on
-boot which since the merge window has prevented Pine64 Plus (an A64)
-from booting at all:
+Bindings: I just figured out that you meant I should add to the 
+`Documentation` folder, and that you were not suggesting the dt-bindings 
+in the #includes were inaccurate or missing.
 
-   https://storage.kernelci.org/mainline/master/v6.5-rc2/arm64/defconfig/gcc-10/lab-baylibre/baseline-sun50i-a64-pine64-plus.txt
 
-(which I bisected to a random memory management change that clearly
-wasn't at fault) and has been causing less consistent but still very
-severe boot issues on Libretech Tritium (a H3).  The corruption appears
-to happen when unbinding a the one thermal zone that does register, I've
-not figured out exactly where.
 
-The memory corruption issue obviously needs to be dealt with properly
-(I'm still digging into it) but this does allow both platforms to boot
-reliably and seems like a sensible thing to do independently, ideally we
-could get this in as a fix.
----
- drivers/thermal/sun8i_thermal.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-index 195f3c5d0b38..b69134538867 100644
---- a/drivers/thermal/sun8i_thermal.c
-+++ b/drivers/thermal/sun8i_thermal.c
-@@ -190,6 +190,9 @@ static irqreturn_t sun8i_irq_thread(int irq, void *data)
- 	int i;
- 
- 	for_each_set_bit(i, &irq_bitmap, tmdev->chip->sensor_num) {
-+		/* We allow some zones to not register. */
-+		if (IS_ERR(tmdev->sensor[i].tzd))
-+			continue;
- 		thermal_zone_device_update(tmdev->sensor[i].tzd,
- 					   THERMAL_EVENT_UNSPECIFIED);
- 	}
-@@ -465,8 +468,17 @@ static int sun8i_ths_register(struct ths_device *tmdev)
- 						      i,
- 						      &tmdev->sensor[i],
- 						      &ths_ops);
--		if (IS_ERR(tmdev->sensor[i].tzd))
--			return PTR_ERR(tmdev->sensor[i].tzd);
-+
-+		/*
-+		 * If an individual zone fails to register for reasons
-+		 * other than probe deferral (eg, a bad DT) then carry
-+		 * on, other zones might register successfully.
-+		 */
-+		if (IS_ERR(tmdev->sensor[i].tzd)) {
-+			if (PTR_ERR(tmdev->sensor[i].tzd) == -EPROBE_DEFER)
-+				return PTR_ERR(tmdev->sensor[i].tzd);
-+			continue;
-+		}
- 
- 		devm_thermal_add_hwmon_sysfs(tmdev->dev, tmdev->sensor[i].tzd);
- 	}
-
----
-base-commit: fdf0eaf11452d72945af31804e2a1048ee1b574c
-change-id: 20230718-thermal-sun8i-registration-df3a136ccafa
-
-Best regards,
--- 
-Mark Brown <broonie@kernel.org>
 
