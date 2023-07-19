@@ -1,285 +1,60 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-17.mta0.migadu.com (out-17.mta0.migadu.com [91.218.175.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A18C17FA;
-	Wed, 19 Jul 2023 06:39:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D2CAC433C7;
-	Wed, 19 Jul 2023 06:39:01 +0000 (UTC)
-Message-ID: <a5dc2d77-93fd-9a0b-6778-e724be67584e@xs4all.nl>
-Date: Wed, 19 Jul 2023 08:38:59 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045835229
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 Jul 2023 06:53:31 +0000 (UTC)
+Date: Wed, 19 Jul 2023 16:52:46 +1000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+	t=1689749609;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Lc9Aiu6PXaiP7fZ39vLAvDfId+QeqHYOYEE/jCSgr4k=;
+	b=EutD7K3D+v5ucF4MRVCpzb04OEpQRUCikJigDSzA0eiUMOjhsaODcLGcBPF0AnKQMvVhld
+	ljLrR5rUxmrMGH/m1UzntBC/fvc5KoLQd5hZW3Lg7stDUnJuJWWaZ6iToAoQpi0/+JwATA
+	DSgzmtiTVQfSsBMzBeXcILXn7f2ocQeoPXBmi+uETsZRGmZqO9CecMeOlB/dT4iS0rdGSB
+	9r0dyfcR23BCxF8D2gGheOi5UxkdjBKitoKzfMErYbfoqx9i5bincWEoevHvR0csNc1WSu
+	u1AjR8Ykh4OZ8R54ddMqjIxg5k10C5FcBWRpvobo8yYTsUuLhtcDsl+FUZmBnw==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: John Watts <contact@jookia.org>
+To: Conor Dooley <conor@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Ben Dooks <ben.dooks@codethink.co.uk>,
+	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-can@vger.kernel.org, linux-riscv@lists.infradead.org,
+	Fabien Poussin <fabien.poussin@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>
+Subject: Re: [PATCH 0/4] Add support for Allwinner D1 CAN controllers
+Message-ID: <ZLeIPnpQnFq1qmfF@titan>
+References: <20230715112523.2533742-1-contact@jookia.org>
+ <96641e09-c676-2702-149c-885002f45a64@codethink.co.uk>
+ <20230718221504.GA2015343-robh@kernel.org>
+ <20230718-matron-backlit-ddf56c391f8a@spud>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] staging: Explicitly include correct DT includes
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Vaibhav Hiremath <hvaibhav.linux@gmail.com>, Johan Hovold
- <johan@kernel.org>, Alex Elder <elder@kernel.org>,
- Steve Longerbeam <slongerbeam@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Maxime Ripard <mripard@kernel.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
- Christian Gromm <christian.gromm@microchip.com>
-Cc: devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org,
- linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org
-References: <20230714175002.4064428-1-robh@kernel.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230714175002.4064428-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230718-matron-backlit-ddf56c391f8a@spud>
+X-Migadu-Flow: FLOW_OUT
 
-On 14/07/2023 19:50, Rob Herring wrote:
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
+On Tue, Jul 18, 2023 at 11:38:48PM +0100, Conor Dooley wrote:
+> > The email needs to be an actual person. 'contact' doesn't appear to be 
+> > one.
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  drivers/staging/axis-fifo/axis-fifo.c             | 6 ++----
->  drivers/staging/greybus/arche-platform.c          | 1 +
->  drivers/staging/media/imx/imx-media-capture.c     | 1 -
->  drivers/staging/media/imx/imx-media-dev-common.c  | 2 --
->  drivers/staging/media/imx/imx8mq-mipi-csi2.c      | 1 -
->  drivers/staging/media/meson/vdec/esparser.c       | 1 -
->  drivers/staging/media/meson/vdec/vdec.c           | 2 +-
->  drivers/staging/media/sunxi/cedrus/cedrus_hw.c    | 2 +-
->  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c | 1 -
->  drivers/staging/media/tegra-video/csi.c           | 1 -
->  drivers/staging/media/tegra-video/vi.c            | 2 +-
->  drivers/staging/media/tegra-video/vip.c           | 1 -
->  drivers/staging/most/dim2/dim2.c                  | 2 +-
->  drivers/staging/pi433/pi433_if.c                  | 1 -
->  14 files changed, 7 insertions(+), 17 deletions(-)
+> I don't think it is that complicated, a cursory check of the domain
+> suggests that "Jookia" is a nickname & there's surely nothing wrong with
+> not having your name in your email address.
 
-For staging/media:
+Yes, this is the case. I figured contact@jookia.org was better than
+jookia@jookia.org.
 
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+I generally go by my nickname online and in the open source community so
+it's much more useful as an identifier in this case, but I've put my real
+name here instead to make things easier on everyone.
 
-Regards,
-
-	Hans
-
-> 
-> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-> index 98db47cb4fa4..5910fada7075 100644
-> --- a/drivers/staging/axis-fifo/axis-fifo.c
-> +++ b/drivers/staging/axis-fifo/axis-fifo.c
-> @@ -15,6 +15,8 @@
->   */
->  
->  #include <linux/kernel.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
->  #include <linux/wait.h>
->  #include <linux/mutex.h>
->  #include <linux/device.h>
-> @@ -32,10 +34,6 @@
->  #include <linux/jiffies.h>
->  #include <linux/miscdevice.h>
->  
-> -#include <linux/of_address.h>
-> -#include <linux/of_device.h>
-> -#include <linux/of_platform.h>
-> -
->  /* ----------------------------
->   *       driver parameters
->   * ----------------------------
-> diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-> index ebe835f25d13..891b75327d7f 100644
-> --- a/drivers/staging/greybus/arche-platform.c
-> +++ b/drivers/staging/greybus/arche-platform.c
-> @@ -20,6 +20,7 @@
->  #include <linux/suspend.h>
->  #include <linux/time.h>
->  #include <linux/greybus.h>
-> +#include <linux/of.h>
->  #include "arche_platform.h"
->  
->  #if IS_ENABLED(CONFIG_USB_HSIC_USB3613)
-> diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
-> index 4364df27c6d2..4846078315ff 100644
-> --- a/drivers/staging/media/imx/imx-media-capture.c
-> +++ b/drivers/staging/media/imx/imx-media-capture.c
-> @@ -7,7 +7,6 @@
->  #include <linux/delay.h>
->  #include <linux/fs.h>
->  #include <linux/module.h>
-> -#include <linux/of_platform.h>
->  #include <linux/pinctrl/consumer.h>
->  #include <linux/platform_device.h>
->  #include <linux/sched.h>
-> diff --git a/drivers/staging/media/imx/imx-media-dev-common.c b/drivers/staging/media/imx/imx-media-dev-common.c
-> index 991820a8500f..7b7cbec08326 100644
-> --- a/drivers/staging/media/imx/imx-media-dev-common.c
-> +++ b/drivers/staging/media/imx/imx-media-dev-common.c
-> @@ -6,8 +6,6 @@
->   * Copyright (c) 2016 Mentor Graphics Inc.
->   */
->  
-> -#include <linux/of_graph.h>
-> -#include <linux/of_platform.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-event.h>
->  #include <media/v4l2-ioctl.h>
-> diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> index ca2efcc21efe..c84b6dceece2 100644
-> --- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> @@ -17,7 +17,6 @@
->  #include <linux/module.h>
->  #include <linux/mutex.h>
->  #include <linux/of.h>
-> -#include <linux/of_device.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/regmap.h>
-> diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
-> index 7b15fc54efe4..4632346f04a9 100644
-> --- a/drivers/staging/media/meson/vdec/esparser.c
-> +++ b/drivers/staging/media/meson/vdec/esparser.c
-> @@ -11,7 +11,6 @@
->  #include <linux/ioctl.h>
->  #include <linux/list.h>
->  #include <linux/module.h>
-> -#include <linux/of_device.h>
->  #include <linux/reset.h>
->  #include <linux/interrupt.h>
->  #include <media/videobuf2-dma-contig.h>
-> diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-> index 5ca4b1200831..219185aaa588 100644
-> --- a/drivers/staging/media/meson/vdec/vdec.c
-> +++ b/drivers/staging/media/meson/vdec/vdec.c
-> @@ -4,7 +4,7 @@
->   * Author: Maxime Jourdan <mjourdan@baylibre.com>
->   */
->  
-> -#include <linux/of_device.h>
-> +#include <linux/of.h>
->  #include <linux/clk.h>
->  #include <linux/io.h>
->  #include <linux/module.h>
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> index fa86a658fdc6..b696bf884cbd 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> @@ -14,8 +14,8 @@
->   */
->  
->  #include <linux/platform_device.h>
-> +#include <linux/of.h>
->  #include <linux/of_reserved_mem.h>
-> -#include <linux/of_device.h>
->  #include <linux/dma-mapping.h>
->  #include <linux/interrupt.h>
->  #include <linux/clk.h>
-> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-> index 0dc75adbd9d8..8337dc487047 100644
-> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-> @@ -10,7 +10,6 @@
->  #include <linux/interrupt.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> -#include <linux/of_device.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/regmap.h>
-> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
-> index 052172017b3b..e79657920dc8 100644
-> --- a/drivers/staging/media/tegra-video/csi.c
-> +++ b/drivers/staging/media/tegra-video/csi.c
-> @@ -10,7 +10,6 @@
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/of_graph.h>
-> -#include <linux/of_device.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  
-> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-> index 79284c3b6cae..4add037537a2 100644
-> --- a/drivers/staging/media/tegra-video/vi.c
-> +++ b/drivers/staging/media/tegra-video/vi.c
-> @@ -11,8 +11,8 @@
->  #include <linux/list.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> -#include <linux/of_device.h>
->  #include <linux/of_graph.h>
-> +#include <linux/of_platform.h>
->  #include <linux/platform_device.h>
->  #include <linux/regulator/consumer.h>
->  #include <linux/pm_runtime.h>
-> diff --git a/drivers/staging/media/tegra-video/vip.c b/drivers/staging/media/tegra-video/vip.c
-> index a1ab886acc18..4cf3fde7e034 100644
-> --- a/drivers/staging/media/tegra-video/vip.c
-> +++ b/drivers/staging/media/tegra-video/vip.c
-> @@ -13,7 +13,6 @@
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/of_graph.h>
-> -#include <linux/of_device.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  
-> diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-> index 44d3252d4612..ed6a9cc88541 100644
-> --- a/drivers/staging/most/dim2/dim2.c
-> +++ b/drivers/staging/most/dim2/dim2.c
-> @@ -8,7 +8,6 @@
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->  
->  #include <linux/module.h>
-> -#include <linux/of_platform.h>
->  #include <linux/printk.h>
->  #include <linux/kernel.h>
->  #include <linux/init.h>
-> @@ -21,6 +20,7 @@
->  #include <linux/sched.h>
->  #include <linux/kthread.h>
->  #include <linux/most.h>
-> +#include <linux/of.h>
->  #include "hal.h"
->  #include "errors.h"
->  #include "sysfs.h"
-> diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
-> index 220e157d4a5e..58887619b83f 100644
-> --- a/drivers/staging/pi433/pi433_if.c
-> +++ b/drivers/staging/pi433/pi433_if.c
-> @@ -31,7 +31,6 @@
->  #include <linux/errno.h>
->  #include <linux/mutex.h>
->  #include <linux/of.h>
-> -#include <linux/of_device.h>
->  #include <linux/interrupt.h>
->  #include <linux/irq.h>
->  #include <linux/gpio/consumer.h>
-
+John.
