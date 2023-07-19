@@ -1,77 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F6C17AA3
-	for <linux-sunxi@lists.linux.dev>; Tue, 18 Jul 2023 22:38:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFD43C433C7;
-	Tue, 18 Jul 2023 22:38:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7AA3ECA
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 Jul 2023 00:59:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB324C433C8;
+	Wed, 19 Jul 2023 00:59:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689719933;
-	bh=ft0pZeRGcxSCLViSj0gpccBQLxFThl7+npAOY8U0YXk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qbLHYHwJ16vjba/YKmSZ6+kQdtrhywcnd7NEm1UhXFKhq28m9ej/cfF1oAHVOozqp
-	 tHVNcbCaznUp2eCrx+NeRljdoOXCoHWB+0sRJQOiSVTFcQDr3GAcnKR5xl8GofAP45
-	 OtFqPxllJ8SxO/OYH7qAXozA/25q1J8BQ0FvQEAGGVrG8YHhL68LucWtSVQiFuALn4
-	 70Gvu2MFWVna7T99qYIjf3EYdpDSMk/HtZw4RwO661Ih8VN7WXwRrIcnnVXJISPHUS
-	 0C7MJz2/kzrzMJ7Zpl24pdn8nOqOGJmBR7WK4TtX0oIQoKdFBfgseu/Va8voylNbET
-	 4FUA7b0nETmpg==
-Date: Tue, 18 Jul 2023 23:38:48 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Ben Dooks <ben.dooks@codethink.co.uk>, Jookia <contact@jookia.org>,
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-can@vger.kernel.org, linux-riscv@lists.infradead.org,
-	Fabien Poussin <fabien.poussin@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>
-Subject: Re: [PATCH 0/4] Add support for Allwinner D1 CAN controllers
-Message-ID: <20230718-matron-backlit-ddf56c391f8a@spud>
-References: <20230715112523.2533742-1-contact@jookia.org>
- <96641e09-c676-2702-149c-885002f45a64@codethink.co.uk>
- <20230718221504.GA2015343-robh@kernel.org>
+	s=k20201202; t=1689728344;
+	bh=m+DQXW5oOBBKiDq+gqnKrZk+GHqHZgupJCPrOePrckM=;
+	h=From:Date:Subject:To:Cc:From;
+	b=n1x+oYfzNnx9aUiCysKEHFobDcDr4Rg8FBVHYbKKgGjw1eA0amX9CDQSbWFbcW1l6
+	 MRpxyj6VU17Ymgzan6vIympW5XZ5rI7KBJ6ogrlB6qw0hSTYWbBHh8m1PQtq3vQlmg
+	 1SvenkkIGROm+l8lP9i5fDHl3Pe8IA+bzz0aqhOfcPbib1rfk5psWQpDg5Rv5jm6E8
+	 qBZAOmHuYUZn1aOZHrUAt4wXj8ybfDFUbBdNY48N07T4KeYbwVwUydqrAA33Q84+pE
+	 /9pmaNyooiG/alZVXiVwbJDx1SiVOKlUAPepH6nv4YCuf8o8PhRRkP+yQAKEwW0UGj
+	 CQsa00oqxtPgg==
+From: Mark Brown <broonie@kernel.org>
+Date: Wed, 19 Jul 2023 01:58:54 +0100
+Subject: [PATCH] thermal/drivers/sun8i: Free calibration nvmem after
+ reading it
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="cqqc/lv3UK4SVqTX"
-Content-Disposition: inline
-In-Reply-To: <20230718221504.GA2015343-robh@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230719-thermal-sun8i-free-nvmem-v1-1-f553d5afef79@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAE01t2QC/x3MywqDMBBG4VeRWXcgF2jVV5EuRP80AybKxEpBf
+ HdDl9/inJMKVFCob05SHFJkzRX20dAUx/wBy1xNzjhvXrblPULTuHD55lY4KMD5SEjs0cFZb57
+ woJpviiC//3p4X9cN1Am1wWoAAAA=
+To: Vasily Khoruzhick <anarsoul@gmail.com>, 
+ Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, 
+ Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.13-dev-099c9
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1503; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=m+DQXW5oOBBKiDq+gqnKrZk+GHqHZgupJCPrOePrckM=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBktzVTom85+f/CsiB3tDq5aRty+QLY7GiyI2QXE
+ 45eZI49muaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZLc1UwAKCRAk1otyXVSH
+ 0NPMB/sGvVdLD3D+bb6SkCXEGskTVhY3pzkBBDYQpA9CssD24JsbsElftzoztvE8sNMWNOTB9IL
+ ZdzrPxjPkpJhNOxUee+uMML6eg0lVtsSIobZe1fWidnN8/B4EE4IzywkOXiQdpiDSFlGgDJ23FX
+ Yrto56HDP/bE4eFMxQmixvC2sQ3ZsnSrbfU90AiDkJAs6cxrh6GaTKvZ8PUOxSd5PTGHsHnGgKY
+ beBzLXkLBl62wFZXghrfoIOVPRwJpwOaaObPnrTiBt3agCEF6hKDWLLVpSYe4YU4I+9l5Xz1Lmp
+ HMup7rGvqY+EJincYrtBcOQ0fwDXCmsJPnsoHr5iOj2KdsAs
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+The sun8i thermal driver reads calibration data via the nvmem API at
+startup, updating the device configuration and not referencing the data
+again.  Rather than explicitly freeing the nvmem data the driver relies
+on devm_ to release it, even though the data is never referenced again.
+The allocation is still tracked so it's not leaked but this is notable
+when looking at the code and is a little wasteful so let's instead
+explicitly free the nvmem after we're done with it.
 
---cqqc/lv3UK4SVqTX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ drivers/thermal/sun8i_thermal.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-On Tue, Jul 18, 2023 at 04:15:04PM -0600, Rob Herring wrote:
-> On Mon, Jul 17, 2023 at 09:00:47AM +0100, Ben Dooks wrote:
-> > On 15/07/2023 12:25, Jookia wrote:
-> > > From: John Watts <contact@jookia.org>
-> >=20
-> > It would be better if you sent your sending email to be the same
-> > as the from, I think you'd technically need a signed-off-by from
-> > "Jookia" as well.
->=20
-> The email needs to be an actual person. 'contact' doesn't appear to be=20
-> one.
+diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
+index 195f3c5d0b38..af3098717e3c 100644
+--- a/drivers/thermal/sun8i_thermal.c
++++ b/drivers/thermal/sun8i_thermal.c
+@@ -286,7 +286,7 @@ static int sun8i_ths_calibrate(struct ths_device *tmdev)
+ 	size_t callen;
+ 	int ret = 0;
+ 
+-	calcell = devm_nvmem_cell_get(dev, "calibration");
++	calcell = nvmem_cell_get(dev, "calibration");
+ 	if (IS_ERR(calcell)) {
+ 		if (PTR_ERR(calcell) == -EPROBE_DEFER)
+ 			return -EPROBE_DEFER;
+@@ -316,6 +316,8 @@ static int sun8i_ths_calibrate(struct ths_device *tmdev)
+ 
+ 	kfree(caldata);
+ out:
++	if (!IS_ERR(calcell))
++		nvmem_cell_put(calcell);
+ 	return ret;
+ }
+ 
 
-I don't think it is that complicated, a cursory check of the domain
-suggests that "Jookia" is a nickname & there's surely nothing wrong with
-not having your name in your email address.
+---
+base-commit: fdf0eaf11452d72945af31804e2a1048ee1b574c
+change-id: 20230718-thermal-sun8i-free-nvmem-3e9e21306e3e
 
---cqqc/lv3UK4SVqTX
-Content-Type: application/pgp-signature; name="signature.asc"
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZLcUeAAKCRB4tDGHoIJi
-0gFRAP97y0ufNPfdKPAqRJk0x2B640Tp0m/2UvKiv1Kb+/FzHwEApZbMd48vDPFx
-97j93TdvKGT2uC1XqbKlFQL+p1TpFgw=
-=VWl0
------END PGP SIGNATURE-----
-
---cqqc/lv3UK4SVqTX--
