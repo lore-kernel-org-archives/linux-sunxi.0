@@ -1,171 +1,147 @@
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF4BCC138
-	for <linux-sunxi@lists.linux.dev>; Wed, 19 Jul 2023 12:26:22 +0000 (UTC)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20230719122619eab87f04c0831bb82f
-        for <linux-sunxi@lists.linux.dev>;
-        Wed, 19 Jul 2023 14:26:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=felix.moessbauer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=SFjbsl0Mw2fylIqOjv0Vve4M5pxJN5yXXdFIXx3vH+I=;
- b=k+HJNG8JCJKmVa/VUgJXUaqUZWiO8ADilkB3JzWZDNIy1u3U5INblJ27b/OI4QETUHQm0i
- yAzhR5G2+bmnL67UAFIK5LxysoJHBQ360mNw5nv7bKG3MO872w+DWCRfAGvzMEntvkZLz8uN
- vx15qmA13LIdJAJpwaR5o3IB9XWyY=;
-Message-ID: <17c7a0c952913e21d9a323f42a1cfad84ed8a51b.camel@siemens.com>
-Subject: Re: [PATCH 1/1] arm: dts: Enable device-tree overlay support for
- sun8i-h3 pi devices
-From: Moessbauer Felix <felix.moessbauer@siemens.com>
-To: Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, Rob Herring
-	 <robh+dt@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
-	 <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Daniel Bovensiepen
-	 <daniel.bovensiepen@siemens.com>, Quirin Gylstorff
-	 <quirin.gylstorff@siemens.com>, manuel.matzinger@siemens.com, 
-	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
-Date: Wed, 19 Jul 2023 20:26:13 +0800
-In-Reply-To: <1830379.atdPhlSkOF@jernej-laptop>
-References: <20230627133703.355893-1-felix.moessbauer@siemens.com>
-	 <1830379.atdPhlSkOF@jernej-laptop>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AE112B79;
+	Wed, 19 Jul 2023 12:57:33 +0000 (UTC)
+Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36JC13Ru024043;
+	Wed, 19 Jul 2023 12:57:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=vTJllK3QIosIdkN/l1AacXcP7ML5CIMxUDU9jzrNDpA=;
+ b=GHGbdYQASDxavATVPpsM1WgWPgS/2U+jpxlUluO2wbWS1BpTVRZM8xxmRTAV1D/cAVHi
+ XMox148U3Y6AQV/wV2Lcv1gOs8iqwGdwFBmztXjyvLWrVAhBRti1qz6bdmzG6JuVTWJE
+ iBAOYNMouQ6G9DEGC9GBTNkFBJDR5VJcMGx5nb/LMQKumQan3RxQM/+U4Al4cklaXLs0
+ Gqm2kb6gA91dWbgE/RpDricOxcKG+9H4PqTxPKheRrurwtEpAD0Ps7f4yUPxjVdBNrip
+ ymHqrKhWUJ5QXPGY9qF+VNtFg5s6YJ239xLilYrda5QsVmSMjGAaJITNOPaU15Bd0PLC 7Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rxcen6vht-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 19 Jul 2023 12:57:02 +0000
+Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 36JBoV6T007562;
+	Wed, 19 Jul 2023 12:57:01 GMT
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rxcen6vhc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 19 Jul 2023 12:57:01 +0000
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 36JBUgeR007434;
+	Wed, 19 Jul 2023 12:57:00 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3rv80j7bq8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 19 Jul 2023 12:57:00 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
+	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 36JCuxQC61866456
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 19 Jul 2023 12:56:59 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0697A58056;
+	Wed, 19 Jul 2023 12:56:59 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 069AB58052;
+	Wed, 19 Jul 2023 12:56:56 +0000 (GMT)
+Received: from [9.61.44.182] (unknown [9.61.44.182])
+	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 19 Jul 2023 12:56:55 +0000 (GMT)
+Message-ID: <3663c0e7-4108-c2cc-06cf-ac569f65d101@linux.ibm.com>
+Date: Wed, 19 Jul 2023 08:56:55 -0400
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-72506:519-21489:flowmailer
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v11 4/6] iommu/s390: Force ISM devices to use
+ IOMMU_DOMAIN_DMA
+Content-Language: en-US
+To: Niklas Schnelle <schnelle@linux.ibm.com>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Gerd Bayer <gbayer@linux.ibm.com>, Julian Ruess <julianr@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Alexandra Winter
+ <wintera@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev
+ <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang
+ <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Krishna Reddy
+ <vdumpa@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, asahi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20230717-dma_iommu-v11-0-a7a0b83c355c@linux.ibm.com>
+ <20230717-dma_iommu-v11-4-a7a0b83c355c@linux.ibm.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+In-Reply-To: <20230717-dma_iommu-v11-4-a7a0b83c355c@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: mAn_ySuLThAyex-XKSILyYpwW2wAL_f5
+X-Proofpoint-ORIG-GUID: p_U8uENcifu8d_t15JnMCmjpsu3eYgTy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-19_08,2023-07-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
+ adultscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 malwarescore=0
+ priorityscore=1501 suspectscore=0 clxscore=1011 mlxscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2307190113
 
-On Tue, 2023-07-11 at 21:42 +0200, Jernej =C5=A0krabec wrote:
-> Dne torek, 27. junij 2023 ob 15:37:03 CEST je Felix Moessbauer
-> napisal(a):
-> > Add the '-@' DTC option for the sun8i-h3 pi-class devices. This
-> > option
-> > populates the '__symbols__' node that contains all the necessary
-> > symbols
-> > for supporting device-tree overlays (for instance from the firmware
-> > or
-> > the bootloader) on these devices.
-> >=20
-> > These devices allow various modules to be connected and this
-> > enables
-> > users to create out-of-tree device-tree overlays for these modules.
-> >=20
-> > Please note that this change does increase the size of the
-> > resulting DTB
-> > by ~30%. For example, with v6.4 increase in size is as follows:
-> >=20
-> > 22909 -> 29564 sun8i-h3-orangepi-lite.dtb
-> > 24214 -> 30935 sun8i-h3-bananapi-m2-plus.dtb
-> > 23915 -> 30664 sun8i-h3-nanopi-m1-plus.dtb
-> > 22969 -> 29537 sun8i-h3-nanopi-m1.dtb
-> > 24157 -> 30836 sun8i-h3-nanopi-duo2.dtb
-> > 24110 -> 30845 sun8i-h3-orangepi-plus2e.dtb
-> > 23472 -> 30037 sun8i-h3-orangepi-one.dtb
-> > 24600 -> 31410 sun8i-h3-orangepi-plus.dtb
-> > 23618 -> 30230 sun8i-h3-orangepi-2.dtb
-> > 22170 -> 28548 sun8i-h3-orangepi-zero-plus2.dtb
-> > 23258 -> 29795 sun8i-h3-nanopi-neo-air.dtb
-> > 23113 -> 29699 sun8i-h3-zeropi.dtb
-> > 22803 -> 29270 sun8i-h3-nanopi-neo.dtb
-> > 24674 -> 31318 sun8i-h3-nanopi-r1.dtb
-> > 23477 -> 30038 sun8i-h3-orangepi-pc.dtb
-> > 24622 -> 31380 sun8i-h3-bananapi-m2-plus-v1.2.dtb
-> > 23750 -> 30366 sun8i-h3-orangepi-pc-plus.dtb
-> >=20
-> > Signed-off-by: Felix Moessbauer <felix.moessbauer@siemens.com>
-> > ---
-> > Please note that I only tested the overlay on the sun8i-h3-nanopi-
-> > neo
-> > device. However, the devices are quite similar and in general the
-> > change to add symbols should be pretty safe. Similar patches have
-> > been
-> > applied to various other devices in the past without any negative
-> > effect (except for the increased size).
->=20
-> I'm not a fan of this approach. What's wrong with letting kernel
-> builders=20
-> specify this flag on their own at compile time? That way size is
-> still=20
-> completely in domain of builder.
+On 7/17/23 7:00 AM, Niklas Schnelle wrote:
+> ISM devices are virtual PCI devices used for cross-LPAR communication.
+> Unlike real PCI devices ISM devices do not use the hardware IOMMU but
+> inspects IOMMU translation tables directly on IOTLB flush (s390 RPCIT
+> instruction).
+> 
+> While ISM devices keep their DMA allocations static and only very rarely
+> DMA unmap at all, For each IOTLB flush that occurs after unmap the ISM
+> devices will inspect the area of the IOVA space indicated by the flush.
+> This means that for the global IOTLB flushes used by the flush queue
+> mechanism the entire IOVA space would be inspected. In principle this
+> would be fine, albeit potentially unnecessarily slow, it turns out
+> however that ISM devices are sensitive to seeing IOVA addresses that are
+> currently in use in the IOVA range being flushed. Seeing such in-use
+> IOVA addresses will cause the ISM device to enter an error state and
+> become unusable.
+> 
+> Fix this by forcing IOMMU_DOMAIN_DMA to be used for ISM devices. This
+> makes sure IOTLB flushes only cover IOVAs that have been unmapped and
+> also restricts the range of the IOTLB flush potentially reducing latency
+> spikes.
+> 
+> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
 
-That's easier said than done. These symbols are only needed for some
-targets (that are commonly used with overlays). But how should a
-general purpose kernel builder like Debian know which DT to build with
-symbols and which without? In Yocto the overlays are not really needed,
-as often the original dts is just patched directly.
+This makes sense to me.
 
-There has been a discussion in 2017 to improve the situation in
-general, but without any final decision or implementation [1]. By that,
-these patches got more and more common. I recently sent a very similar
-patch for a riscv board that got accepted [2].
+Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
 
-IMHO it is better to have these patches in the kernel instead of
-carrying different variants of this in each Linux distro. IMHO, the
-board vendors themselves should add this when they add a board.
-
-[1]
-https://lore.kernel.org/lkml/1502831736-28282-1-git-send-email-trini@konsul=
-ko.com/
-[2]
-https://lore.kernel.org/linux-devicetree/20230627080620.329873-1-felix.moes=
-sbauer@siemens.com/
-
-Best regards,
-Felix
-
->=20
-> Best regards,
-> Jernej
->=20
-> >=20
-> > Felix Moessbauer
-> > Siemens AG
-> >=20
-> > =C2=A0arch/arm/boot/dts/allwinner/Makefile | 19 +++++++++++++++++++
-> > =C2=A01 file changed, 19 insertions(+)
-> >=20
-> > diff --git a/arch/arm/boot/dts/allwinner/Makefile
-> > b/arch/arm/boot/dts/allwinner/Makefile index
-> > 589a1ce1120a..eebb5a0c873a
-> > 100644
-> > --- a/arch/arm/boot/dts/allwinner/Makefile
-> > +++ b/arch/arm/boot/dts/allwinner/Makefile
-> > @@ -179,6 +179,25 @@ dtb-$(CONFIG_MACH_SUN7I) +=3D \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun7i-a20-pcduino3-nano=
-.dtb \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun7i-a20-wexler-tab720=
-0.dtb \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun7i-a20-wits-pro-a20-=
-dkt.dtb
-> > +
-> > +# Enables support for device-tree overlays for all pis
-> > +DTC_FLAGS_sun8i-h3-orangepi-lite :=3D -@
-> > +DTC_FLAGS_sun8i-h3-bananapi-m2-plus :=3D -@
-> > +DTC_FLAGS_sun8i-h3-nanopi-m1-plus :=3D -@
-> > +DTC_FLAGS_sun8i-h3-nanopi-m1 :=3D -@
-> > +DTC_FLAGS_sun8i-h3-nanopi-duo2 :=3D -@
-> > +DTC_FLAGS_sun8i-h3-orangepi-plus2e :=3D -@
-> > +DTC_FLAGS_sun8i-h3-orangepi-one :=3D -@
-> > +DTC_FLAGS_sun8i-h3-orangepi-plus :=3D -@
-> > +DTC_FLAGS_sun8i-h3-orangepi-2 :=3D -@
-> > +DTC_FLAGS_sun8i-h3-orangepi-zero-plus2 :=3D -@
-> > +DTC_FLAGS_sun8i-h3-nanopi-neo-air :=3D -@
-> > +DTC_FLAGS_sun8i-h3-zeropi :=3D -@
-> > +DTC_FLAGS_sun8i-h3-nanopi-neo :=3D -@
-> > +DTC_FLAGS_sun8i-h3-nanopi-r1 :=3D -@
-> > +DTC_FLAGS_sun8i-h3-orangepi-pc :=3D -@
-> > +DTC_FLAGS_sun8i-h3-bananapi-m2-plus-v1.2 :=3D -@
-> > +DTC_FLAGS_sun8i-h3-orangepi-pc-plus :=3D -@
-> > =C2=A0dtb-$(CONFIG_MACH_SUN8I) +=3D \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun8i-a23-evb.dtb \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun8i-a23-gt90h-v4.dtb =
-\
->=20
->=20
->=20
->=20
 
