@@ -1,129 +1,116 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E2A275A1
-	for <linux-sunxi@lists.linux.dev>; Wed, 19 Jul 2023 18:46:03 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-4fb7589b187so11979620e87.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 19 Jul 2023 11:46:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20221208.gappssmtp.com; s=20221208; t=1689792361; x=1692384361;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=8P6p5GxD+C7LfK4xTVAmdgfr7J5QiZZmSr+c4qR0eQ4=;
-        b=PNHMPmfGkc1gL3s+kuZsOV06iS0AVcua9wceAmdSEpVaau8usQXOmlxuVajPoqahSZ
-         oXCeyXW3i7qO4gPQC3/B5Lo5Eqmi2HM4U13eYxzJby4ZFd5uR2kFc8wjOiArIEd55PBA
-         FeCJue+xZBMErbY8RHL9QpZivP+scZ+Uhv+xiPlfw+QmU/c+xu8cJYkIrMEc/MG7elAK
-         qWZ83FR4V9wLcNgcODc1mJlKxSJnwdLewAg5rcPN0PhCf2e09w5V1Bp1xL5H141MnfFQ
-         Zld3xPSZJnzYVXtM2wQmsSZTU5Qt4Z0CaW8ampG4BzUMYrnqq3UfbUoP7KRh6XWbjalG
-         17Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689792361; x=1692384361;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8P6p5GxD+C7LfK4xTVAmdgfr7J5QiZZmSr+c4qR0eQ4=;
-        b=Oxlu81a9ky7GH4F0Qi3pezKLgl6wSRtYpxlnuqqIqkbNBnT7Pfa3HwzK0rnNkyV0m5
-         4E27KN2i7VqzlzBGbJaBfKROZ48b4C3IIAAHkr2e7/L/Z+/TnsX4b8CLQB1EssH1C67W
-         LBEju7//AEeHx9CRNVWWfc2iNH2FMVYddm92N5rMErijEF/37kuGRsezodpL8aTCGoMz
-         g1RcnDQoy9nkz0O6UhYmTEdO5nmIw9RYSkFqc7TlZC/DRodYCnqpOYwVOyxaqINP2yIq
-         WjA75VaK5k+vBdxTl/bX9B0MMRbI/Uzur4jCCejhQ+HdzSm/NqR0tCFCd7c7iQbLKbcX
-         DseA==
-X-Gm-Message-State: ABy/qLaglvFdlWFke7YUJPQ53FczTz6VJNfUDxafwW+7K3KsWR216KU1
-	ITFQ9qTxQNCyQSWiCWtVxcH6RQ==
-X-Google-Smtp-Source: APBJJlFtrWyQNURr4DI24Yfx+KhHtEnbcs8mZXCEdNLSvmMP4IixrdRQLU+06NloRR7Z4XxkYEDlqQ==
-X-Received: by 2002:a05:6512:250f:b0:4fb:8de9:ac0e with SMTP id be15-20020a056512250f00b004fb8de9ac0emr607490lfb.1.1689792361237;
-        Wed, 19 Jul 2023 11:46:01 -0700 (PDT)
-Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
-        by smtp.gmail.com with ESMTPSA id m8-20020ac24248000000b004fbad6bc93dsm1057209lfl.136.2023.07.19.11.46.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jul 2023 11:46:00 -0700 (PDT)
-Date: Wed, 19 Jul 2023 20:45:59 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00711275D0
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 Jul 2023 18:48:03 +0000 (UTC)
+Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id 660A412007A;
+	Wed, 19 Jul 2023 21:39:33 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 660A412007A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
+	s=mail; t=1689791973;
+	bh=sc+94aLvgVUxBUEzSPbWOsr9WhtmbJCsOLteFFzOoLU=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
+	b=ftS9UdnFVupfX9JxONl46s/RGEHl80jPk77NDDqzvRlD1qSq1jhJ6yXhfHaSPewnr
+	 LEQ6tu0ClcfcCUU9btQ8pcnKoaAO2EJBXjugGbhFMHWzBlTJxypP0F3af+WF7YnUcT
+	 qwRJV+UdIg9Tq/ng5S2MnxsHFZSDjXsqkqprkZ/FAn6+PAzMRaUZQlMaszmoB8jzPf
+	 AAU7c/jMuvSi1AM8yvRzt0m4L7ILTyWgBLaRMTnYKOJhuMJljph7thz7MAefNZECdm
+	 ASZdS2Hm97OvI4aj7PSdUXrCYM7KLsHLwhBPeZ4VRaDC7sbNbBsJ+UEFUFLlGc1JiM
+	 1mc7vWHZzj6DA==
+Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.sberdevices.ru (Postfix) with ESMTPS;
+	Wed, 19 Jul 2023 21:39:33 +0300 (MSK)
+Received: from localhost (100.64.160.123) by p-i-exch-sc-m01.sberdevices.ru
+ (172.16.192.107) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 19 Jul
+ 2023 21:39:33 +0300
+Date: Wed, 19 Jul 2023 21:39:27 +0300
+From: Dmitry Rokosov <ddrokosov@sberdevices.ru>
 To: Rob Herring <robh@kernel.org>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Michael Riesch <michael.riesch@wolfvision.net>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Matt Ranostay <matt.ranostay@konsulko.com>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Ming Qian <ming.qian@nxp.com>, Shijie Qin <shijie.qin@nxp.com>,
-	Zhou Peng <eagle.zhou@nxp.com>, Eddie James <eajames@linux.ibm.com>,
-	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Bin Liu <bin.liu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Krz ysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Yong Deng <yong.deng@magewell.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Benoit Parrot <bparrot@ti.com>, Sean Young <sean@mess.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Sean Wang <sean.wang@mediatek.com>, devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, openbmc@lists.ozlabs.org,
-	linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
-	linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-amlogic@lists.infradead.org
-Subject: Re: [PATCH v2] media: Explicitly include correct DT includes
-Message-ID: <ZLgvZ2ao1tgrRlFu@oden.dyn.berto.se>
-References: <20230718143118.1065743-1-robh@kernel.org>
+CC: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+	<sboyd@kernel.org>, Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>, Eugeniy Paltsev
+	<Eugeniy.Paltsev@synopsys.com>, Florian Fainelli
+	<florian.fainelli@broadcom.com>, Broadcom internal kernel review list
+	<bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, Scott
+ Branden <sbranden@broadcom.com>, Joel Stanley <joel@jms.id.au>, Andrew
+ Jeffery <andrew@aj.id.au>, Neil Armstrong <neil.armstrong@linaro.org>, Sudeep
+ Holla <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, Alex Helms
+	<alexander.helms.jy@renesas.com>, Abel Vesa <abelvesa@kernel.org>, Peng Fan
+	<peng.fan@nxp.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+	<s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+	Nishanth Menon <nm@ti.com>, Tero Kristo <kristo@kernel.org>, Santosh
+ Shilimkar <ssantosh@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jerome
+ Brunet <jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>, Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>, Andrew Lunn
+	<andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>, Sebastian
+ Hesselbarth <sebastian.hesselbarth@gmail.com>, Andy Gross
+	<agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
+	<konrad.dybcio@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+	Heiko Stuebner <heiko@sntech.de>, Krzysztof Kozlowski
+	<krzysztof.kozlowski@linaro.org>, Sylwester Nawrocki
+	<s.nawrocki@samsung.com>, Tomasz Figa <tomasz.figa@gmail.com>, Chanwoo Choi
+	<cw00.choi@samsung.com>, Alim Akhtar <alim.akhtar@samsung.com>, Palmer
+ Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, Dinh
+ Nguyen <dinguyen@kernel.org>, Viresh Kumar <vireshk@kernel.org>, Shiraz
+ Hashim <shiraz.linux.kernel@gmail.com>, <soc@kernel.org>, Orson Zhai
+	<orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan
+ Zhang <zhang.lyra@gmail.com>, Emil Renner Berthing <kernel@esmil.dk>, Hal
+ Feng <hal.feng@starfivetech.com>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+	Emilio =?utf-8?B?TMOzcGV6?= <emilio@elopez.com.ar>, Peter De Schrijver
+	<pdeschrijver@nvidia.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, Thierry
+ Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu
+	<mhiramat@kernel.org>, Michal Simek <michal.simek@amd.com>,
+	<devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-actions@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <linux-rpi-kernel@lists.infradead.org>,
+	<linux-aspeed@lists.ozlabs.org>, <linux-oxnas@groups.io>,
+	<linux-mediatek@lists.infradead.org>, <linux-amlogic@lists.infradead.org>,
+	<linux-arm-msm@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-rockchip@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
+	<linux-riscv@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+	<linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH] clk: Explicitly include correct DT includes
+Message-ID: <20230719183927.c4ykdjw3iekmugzy@CAB-WSD-L081021>
+References: <20230714174342.4052882-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230718143118.1065743-1-robh@kernel.org>
+In-Reply-To: <20230714174342.4052882-1-robh@kernel.org>
+User-Agent: NeoMutt/20220415
+X-Originating-IP: [100.64.160.123]
+X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
+ p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 178730 [Jul 19 2023]
+X-KSMG-AntiSpam-Version: 5.9.59.0
+X-KSMG-AntiSpam-Envelope-From: DDRokosov@sberdevices.ru
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 524 524 9753033d6953787301affc41bead8ed49c47b39d, {Track_E25351}, {Tracking_from_domain_doesnt_match_to}, sberdevices.ru:5.0.1,7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;p-i-exch-sc-m01.sberdevices.ru:5.0.1,7.1.1;100.64.160.123:7.1.2, FromAlignment: s, {Tracking_white_helo}, ApMailHostAddress: 100.64.160.123
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean
+X-KSMG-LinksScanning: Clean
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/07/19 15:29:00 #21641898
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-Hi Rob,
-
-On 2023-07-18 08:31:14 -0600, Rob Herring wrote:
+On Fri, Jul 14, 2023 at 11:43:29AM -0600, Rob Herring wrote:
 > The DT of_device.h and of_platform.h date back to the separate
 > of_platform_bus_type before it as merged into the regular platform bus.
 > As part of that merge prepping Arm DT support 13 years ago, they
@@ -135,14 +122,18 @@ On 2023-07-18 08:31:14 -0600, Rob Herring wrote:
 > 
 > Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
-> v2:
-> - Fix double include of of.h
-> ---
 
-For,
+[...]
 
->  drivers/media/platform/renesas/rcar-isp.c                     | 2 +-
->  drivers/media/platform/renesas/rcar-vin/rcar-core.c           | 1 -
->  drivers/media/platform/renesas/rcar-vin/rcar-csi2.c           | 1 -
+For
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
+>  drivers/clk/meson/a1-peripherals.c               | 2 +-
+>  drivers/clk/meson/a1-pll.c                       | 2 +-
+
+Reviewed-by: Dmitry Rokosov <ddrokosov@sberdevices.ru>
+
+[...]
+
+-- 
+Thank you,
+Dmitry
