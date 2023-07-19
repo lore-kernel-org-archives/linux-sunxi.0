@@ -1,147 +1,56 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mail.croughan.sh (mail.croughan.sh [135.181.193.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AE112B79;
-	Wed, 19 Jul 2023 12:57:33 +0000 (UTC)
-Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36JC13Ru024043;
-	Wed, 19 Jul 2023 12:57:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=vTJllK3QIosIdkN/l1AacXcP7ML5CIMxUDU9jzrNDpA=;
- b=GHGbdYQASDxavATVPpsM1WgWPgS/2U+jpxlUluO2wbWS1BpTVRZM8xxmRTAV1D/cAVHi
- XMox148U3Y6AQV/wV2Lcv1gOs8iqwGdwFBmztXjyvLWrVAhBRti1qz6bdmzG6JuVTWJE
- iBAOYNMouQ6G9DEGC9GBTNkFBJDR5VJcMGx5nb/LMQKumQan3RxQM/+U4Al4cklaXLs0
- Gqm2kb6gA91dWbgE/RpDricOxcKG+9H4PqTxPKheRrurwtEpAD0Ps7f4yUPxjVdBNrip
- ymHqrKhWUJ5QXPGY9qF+VNtFg5s6YJ239xLilYrda5QsVmSMjGAaJITNOPaU15Bd0PLC 7Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rxcen6vht-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Jul 2023 12:57:02 +0000
-Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 36JBoV6T007562;
-	Wed, 19 Jul 2023 12:57:01 GMT
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rxcen6vhc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Jul 2023 12:57:01 +0000
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 36JBUgeR007434;
-	Wed, 19 Jul 2023 12:57:00 GMT
-Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3rv80j7bq8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Jul 2023 12:57:00 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 36JCuxQC61866456
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 Jul 2023 12:56:59 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0697A58056;
-	Wed, 19 Jul 2023 12:56:59 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 069AB58052;
-	Wed, 19 Jul 2023 12:56:56 +0000 (GMT)
-Received: from [9.61.44.182] (unknown [9.61.44.182])
-	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 19 Jul 2023 12:56:55 +0000 (GMT)
-Message-ID: <3663c0e7-4108-c2cc-06cf-ac569f65d101@linux.ibm.com>
-Date: Wed, 19 Jul 2023 08:56:55 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901B91FB2B
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 Jul 2023 17:17:24 +0000 (UTC)
+From: Matthew Croughan <matthew.croughan@nix.how>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nix.how; s=mail;
+	t=1689787036; bh=f4xIuJQrQRXyZNafjmPTj5No4YjDqBwsgyQB3z7zS5Q=;
+	h=From:To:Cc:Subject:Date;
+	b=X/vAN1kPFMYKKFhzjKZhtkaCObuzeuFMQZdZ+6sUoEzoalXuPIuTPMVuQPHT8W7Uc
+	 s/Qk9bf5O9HkcI/s3IKTYSV9KocqELvHxwUJHM5tM5hVGmNl5tBgPoQFOhEBhVJNcX
+	 Z16nGWAUQGSF9Mz8Dwx3kIS1H4gZ0hAW+U6pX3wk=
+To: andre.przywara@arm.com,
+	krzysztof.kozlowski+dt@linaro.org
+Cc: Matthew Croughan <matthew.croughan@nix.how>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: 
+Date: Wed, 19 Jul 2023 18:09:49 +0100
+Message-ID: <20230719171608.3230198-1-matthew.croughan@nix.how>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v11 4/6] iommu/s390: Force ISM devices to use
- IOMMU_DOMAIN_DMA
-Content-Language: en-US
-To: Niklas Schnelle <schnelle@linux.ibm.com>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Gerd Bayer <gbayer@linux.ibm.com>, Julian Ruess <julianr@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Alexandra Winter
- <wintera@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev
- <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang
- <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krishna Reddy
- <vdumpa@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20230717-dma_iommu-v11-0-a7a0b83c355c@linux.ibm.com>
- <20230717-dma_iommu-v11-4-a7a0b83c355c@linux.ibm.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-In-Reply-To: <20230717-dma_iommu-v11-4-a7a0b83c355c@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: mAn_ySuLThAyex-XKSILyYpwW2wAL_f5
-X-Proofpoint-ORIG-GUID: p_U8uENcifu8d_t15JnMCmjpsu3eYgTy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-19_08,2023-07-19_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
- adultscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 malwarescore=0
- priorityscore=1501 suspectscore=0 clxscore=1011 mlxscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
- definitions=main-2307190113
+Content-Transfer-Encoding: 8bit
 
-On 7/17/23 7:00 AM, Niklas Schnelle wrote:
-> ISM devices are virtual PCI devices used for cross-LPAR communication.
-> Unlike real PCI devices ISM devices do not use the hardware IOMMU but
-> inspects IOMMU translation tables directly on IOTLB flush (s390 RPCIT
-> instruction).
-> 
-> While ISM devices keep their DMA allocations static and only very rarely
-> DMA unmap at all, For each IOTLB flush that occurs after unmap the ISM
-> devices will inspect the area of the IOVA space indicated by the flush.
-> This means that for the global IOTLB flushes used by the flush queue
-> mechanism the entire IOVA space would be inspected. In principle this
-> would be fine, albeit potentially unnecessarily slow, it turns out
-> however that ISM devices are sensitive to seeing IOVA addresses that are
-> currently in use in the IOVA range being flushed. Seeing such in-use
-> IOVA addresses will cause the ISM device to enter an error state and
-> become unusable.
-> 
-> Fix this by forcing IOMMU_DOMAIN_DMA to be used for ISM devices. This
-> makes sure IOTLB flushes only cover IOVAs that have been unmapped and
-> also restricts the range of the IOTLB flush potentially reducing latency
-> spikes.
-> 
-> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+Subject: [PATCH v4 0/2] arm64: dts: allwinner: h616: Add Mango Pi MQ-Quad DTS
 
-This makes sense to me.
+V1: Submission
+V2: Alphabetical ordering, added "widora,mangopi-mq-quad" compatible
+V3: Added Signed-off-by, add to device-tree compatible/bindings documentation
+V4:
+- Add separate patch for bindings documentation
+- Regularised comment style
+- Add vcc supplies for gpio according to board schematic
+- Removed unnecessary x-powers,self-working-mode;
+- Added comment regarding ALDO1
+- Removed unnecessary reg_dldo1 regulator, it seems to be connected to nothing
+  in the schematic, no adverse effects observed
 
-Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
+Matthew Croughan (2):
+  arm64: dts: allwinner: h616: Add Mango Pi MQ-Quad DTS
+  dt-bindings: arm: sunxi: add Mango Pi MQ-Quad binding
 
+ .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../allwinner/sun50i-h616-mangopi-mq-quad.dts | 183 ++++++++++++++++++
+ 3 files changed, 189 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-mangopi-mq-quad.dts
+
+-- 
+2.41.0
 
