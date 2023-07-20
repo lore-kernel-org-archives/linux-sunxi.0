@@ -1,34 +1,34 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A38A5E;
-	Thu, 20 Jul 2023 07:39:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53790199E7;
+	Thu, 20 Jul 2023 09:55:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689838779; x=1721374779;
+  t=1689846948; x=1721382948;
   h=message-id:date:mime-version:cc:subject:to:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=u/CMXF3lu6xbOAoxteln+cW6/SG/tWj+VRYeOVr9Ja0=;
-  b=ZvW2dvLSHn+dwmg8PjCIvW6aFlYv6rfDj8kZ3MrMNNvI8F25muOKpVKS
-   TvpnlIVMKQCk6F6N3sjHFhVsVjtwU8l+ecJvwNacjKvvEpsPKcSUosOF6
-   BHJzny00xNcNBaTJVLPrNVWIpox1CN3M6GBnxDENDaXjhR9hnqBbnGPhb
-   LYY/AFdMxpq8WzkujD+YPK2jDhJhDhrzT7TvdaAp4Qy8FD1sFr8E3TO8o
-   tN54+CF3+593+gfdoVH1ZLB4l5WRluu2p+vE/UgHyheSPtHUVXwQ+Y/gE
-   ycLvARKJLnNwAdNGzZUT9vvjJOCXHWl5ZUviBl7GghhMWaMexeu+feM15
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="365544995"
+  bh=exBOpl1Ubj/aUVKReDg2pFkUeY2g+echAWrj39l6FvA=;
+  b=C+oew/Zv6MC1d3TagraFsITAgw2Qp8F7fUMYHqyl1c4xJ175xe41sOMn
+   5CGf0iSH9Xh1zVUkQB4mjEll0xzjKounZeDtYKtPGz//OJjQLFYjIXOG7
+   jcKmx+QGF0K2wF3T0BwAxMwB2tptLAMQbxOaRomrXZ2U7DTeFMbI5T4IM
+   CXQOGYnLcup+5kIXzVG7hj6qgfTkUQ35n4Hi5C7JFpXwYihmAFjM3ANl+
+   QhTg3Emo4KKyqcfbF7fMR4WEuWh0d31khYQXPEfn2jCIwAQ94LO8dcnS4
+   LYsoSXKF3DOKGEJzdfyKVaSErBsNYPa0Q2PzguNq8QG4abXNZoieoAgSr
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="430456922"
 X-IronPort-AV: E=Sophos;i="6.01,218,1684825200"; 
-   d="scan'208";a="365544995"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 00:39:37 -0700
+   d="scan'208";a="430456922"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 02:55:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="1055044515"
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="724329491"
 X-IronPort-AV: E=Sophos;i="6.01,218,1684825200"; 
-   d="scan'208";a="1055044515"
-Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.252.191.114]) ([10.252.191.114])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 00:39:31 -0700
-Message-ID: <32eadc5b-bb39-5bb1-f124-44feead97ce9@linux.intel.com>
-Date: Thu, 20 Jul 2023 15:39:27 +0800
+   d="scan'208";a="724329491"
+Received: from kechengh-mobl.gar.corp.intel.com (HELO [10.252.191.109]) ([10.252.191.109])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 02:55:40 -0700
+Message-ID: <a64b95e8-435d-0659-449a-74a64a659fa7@linux.intel.com>
+Date: Thu, 20 Jul 2023 17:55:36 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -38,7 +38,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
 Cc: baolu.lu@linux.intel.com, Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH 03/10] iommu: Add generic_single_device_group()
+Subject: Re: [PATCH 09/10] iommu: Complete the locking for dev->iommu_group
 Content-Language: en-US
 To: Jason Gunthorpe <jgg@nvidia.com>,
  Baolin Wang <baolin.wang@linux.alibaba.com>,
@@ -49,119 +49,56 @@ To: Jason Gunthorpe <jgg@nvidia.com>,
  Orson Zhai <orsonzhai@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
  Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
  Will Deacon <will@kernel.org>, Chunyan Zhang <zhang.lyra@gmail.com>
-References: <3-v1-3c8177327a47+256-iommu_group_locking_jgg@nvidia.com>
+References: <9-v1-3c8177327a47+256-iommu_group_locking_jgg@nvidia.com>
 From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <3-v1-3c8177327a47+256-iommu_group_locking_jgg@nvidia.com>
+In-Reply-To: <9-v1-3c8177327a47+256-iommu_group_locking_jgg@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 2023/7/19 3:05, Jason Gunthorpe wrote:
-> This implements the common pattern seen in drivers of a single
-> iommu_group for the entire iommu driver. Implement this in core code
-> so the drivers that want this can select it from their ops.
+> Revise the locking for dev->iommu_group so that it has three safe ways to
+> access it:
 > 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->   drivers/iommu/iommu.c | 25 +++++++++++++++++++++++++
->   include/linux/iommu.h |  3 +++
->   2 files changed, 28 insertions(+)
+>   - It is read by a probe'd device driver. So long as a device driver is
+>     probed the dev->iommu_group will be guaranteed stable without further
+>     locking.
 > 
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index 9e41ad4e3219b6..1e0c5d9a0370fb 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -289,6 +289,9 @@ void iommu_device_unregister(struct iommu_device *iommu)
->   	spin_lock(&iommu_device_lock);
->   	list_del(&iommu->list);
->   	spin_unlock(&iommu_device_lock);
-> +
-> +	/* Pairs with the alloc in generic_single_device_group() */
-> +	iommu_group_put(iommu->singleton_group);
->   }
->   EXPORT_SYMBOL_GPL(iommu_device_unregister);
->   
-> @@ -1595,6 +1598,28 @@ struct iommu_group *generic_device_group(struct device *dev)
->   }
->   EXPORT_SYMBOL_GPL(generic_device_group);
->   
-> +/*
-> + * Generic device_group call-back function. It just allocates one
-> + * iommu-group per iommu driver.
-> + */
-> +struct iommu_group *generic_single_device_group(struct device *dev)
-> +{
-> +	struct iommu_device *iommu = dev->iommu->iommu_dev;
-> +
-> +	lockdep_assert_held(&dev_iommu_group_lock);
-> +
-> +	if (!iommu->singleton_group) {
-> +		struct iommu_group *group;
-> +
-> +		group = iommu_group_alloc();
-> +		if (IS_ERR(group))
-> +			return group;
-> +		iommu->singleton_group = group;
-> +	}
-> +	return iommu_group_ref_get(iommu->singleton_group);
-> +}
-> +EXPORT_SYMBOL_GPL(generic_single_device_group);
+>   - Read under the device_lock(), this primarily protects against
+>     parallel probe of the same device, and parallel probe/remove
+> 
+>   - Read/Write under the global dev_iommu_group_lock. This is used during
+>     probe time discovery of groups. Device drivers will scan unlocked
+>     portions of the device tree to locate an already existing group. These
+>     scans can access the dev->iommu_group under the global lock to single
+>     thread determining and installing the group. This ensures that groups
+>     are reliably formed.
+> 
+> Narrow the scope of the global dev_iommu_group_lock to be only during the
+> dev->iommu_group setup, and not for the entire probing.
+> 
+> Prior patches removed the various races inherent to the probe process by
+> consolidating all the work under the group->mutex. In this configuration
+> it is fine if two devices race to the group_device step of a new
+> iommu_group, the group->mutex locking will ensure the group_device and
+> domain setup part remains properly ordered.
+> 
+> Add the missing locking on the remove paths. For iommu_deinit_device() it
+> is necessary to hold the dev_iommu_group_lock due to possible races during
+> probe error unwind.
+> 
+> Fully lock the iommu_group_add/remove_device() path so we can use lockdep
+> assertions. Other than lockdep this is redundant, VFIO no-iommu doesn't
+> use group clustering.
+> 
+> For iommu_release_device() it is redundant, as we expect no external
+> references to the struct device by this point, but it is harmless so
+> add the missing lock to allow lockdep assertions to work.
+> 
+> This resolves the remarks of the comment in __iommu_probe_device().
+> 
+> Signed-off-by: Jason Gunthorpe<jgg@nvidia.com>
 
-When allocating the singleton group for the first time, the group's
-refcount is taken twice. This can cause memory leaks even after calling
-iommu_device_unregister(). Perhaps it can be adjusted as follows?
-
-struct iommu_group *generic_single_device_group(struct device *dev)
-{
-         struct iommu_device *iommu = dev->iommu->iommu_dev;
-         struct iommu_group *group;
-
-         lockdep_assert_held(&dev_iommu_group_lock);
-
-         if (iommu->singleton_group)
-                 return iommu_group_ref_get(iommu->singleton_group);
-
-         group = iommu_group_alloc();
-         if (!IS_ERR(group))
-                 iommu->singleton_group = group;
-
-         return group;
-}
-
-> +
->   /*
->    * Use standard PCI bus topology, isolation features, and DMA alias quirks
->    * to find or create an IOMMU group for a device.
-> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> index b1dcb1b9b17040..f1e18e81fca78b 100644
-> --- a/include/linux/iommu.h
-> +++ b/include/linux/iommu.h
-> @@ -361,6 +361,7 @@ struct iommu_domain_ops {
->    * @list: Used by the iommu-core to keep a list of registered iommus
->    * @ops: iommu-ops for talking to this iommu
->    * @dev: struct device for sysfs handling
-> + * @singleton_group: Used internally for drivers that have only one group
->    * @max_pasids: number of supported PASIDs
->    */
->   struct iommu_device {
-> @@ -368,6 +369,7 @@ struct iommu_device {
->   	const struct iommu_ops *ops;
->   	struct fwnode_handle *fwnode;
->   	struct device *dev;
-> +	struct iommu_group *singleton_group;
->   	u32 max_pasids;
->   };
->   
-> @@ -640,6 +642,7 @@ extern struct iommu_group *pci_device_group(struct device *dev);
->   extern struct iommu_group *generic_device_group(struct device *dev);
->   /* FSL-MC device grouping function */
->   struct iommu_group *fsl_mc_device_group(struct device *dev);
-> +extern struct iommu_group *generic_single_device_group(struct device *dev);
-
-"extern" is not necessary.
-
->   
->   /**
->    * struct iommu_fwspec - per-device IOMMU instance data
+Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
 
 Best regards,
 baolu
