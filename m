@@ -1,75 +1,109 @@
 Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC9802FA58
-	for <linux-sunxi@lists.linux.dev>; Thu, 20 Jul 2023 19:33:28 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-cf284f4d7afso1020678276.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 20 Jul 2023 12:33:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 858D91BE63
+	for <linux-sunxi@lists.linux.dev>; Thu, 20 Jul 2023 19:42:24 +0000 (UTC)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-cfd4ea89978so1011374276.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 20 Jul 2023 12:42:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689881607; x=1690486407;
+        d=linaro.org; s=google; t=1689882143; x=1690486943;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KAA4YKtARNm97BR+WbnNXBQbQzkaBKgEy0iMdJmOHMA=;
-        b=USM3aXLAuUe8po5Nm7yr6OoNGynYpaik6D6wGKUsxVsg8yPFJtC3FFvYKyovC1/iwX
-         wEq15pDuUM1o3uHKp43K+ygQTuIBIp/zDuaiWRlE+twtDrXkATJ/Ln5BIP1HNGGyHsBI
-         KPUGGfGK2Yk/bDNOuBu3v2WLnqsOnuW8shrTxZngwE2gFefnS4/btqQh9rnZDPa/sEdx
-         Nrhp0eHAf9bWlyLcBO8KUmX/C+W/vY9vLqxJO1XQnkZKLaSzPyt3ffCNXPXO+N8tFXus
-         Uv8PlWh+VI1rsS43ONFZjYa3H6vL7t/7wVVsCoRxM2BBQFb8YneUyqCxKd13FFK39wDK
-         StdA==
+        bh=6uboV9zE5viSPMUN9jRcO0cjpaJKLGwKotI/bN04OyY=;
+        b=Is+h2NeaSzJfFfsZ98ro8BWc2npdTi8/mAPrWVvtpsxb716Whq2DsR1nkUJ5zX14Xz
+         79qaflwC3BG2VYXCeK0ijBZtmZDQ1AwFmwaxjZDd/vn/AKdit/VHpHHNt7ZvyrLIlMK1
+         rAvvaKIi1pdCGIE6T6PamxnnJ1xdepfGuegPYvjWZ/2v5uqSbyOmvOqKrH1HZMZxxQ9u
+         TipBUYHRAcaq7G2V/lDcSoviQy3dB4LjRa8c+TMTdx5eHkXHMxyv/6aRPA0MgnDthZDb
+         /qNXdFoMB9q33L3QYVfMXu7JSq0qiwBR5arRe8VeAjZhX1/RRVS46BZipMLM8QxKUS/8
+         /7lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689881607; x=1690486407;
+        d=1e100.net; s=20221208; t=1689882143; x=1690486943;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KAA4YKtARNm97BR+WbnNXBQbQzkaBKgEy0iMdJmOHMA=;
-        b=IugQCQ1gMgJiXz0TCnwt0Mou1fHunuQ9V/cI6draChJ6gBXoxz6CEGnWk7m9xtnNTj
-         gXP7zUW93YRICZSPvU29WmEgpdQxNIOBRKVaAcsjJDp+u7HGuOaioPrxvVL3UBn7lbxC
-         VI7Ky1cK4QoN1ZR6ElHRJWRMC11a3d5WyneM4YvCpfXg31wua1WGc0WzfFP0dsk06msT
-         3KycYS5FcsIMBUndb3fG0760JmoHEBOQo/5RWEk9ppbuF7AfwSqQ6Q6H8eo6GLkpbo8P
-         2O9qR2U9+LK4rjQjVsc5Sx7LXOouBj8o/oaSLNVEOt9z9af5vYMa2u+wZmb0C8/hCbVh
-         5XwA==
-X-Gm-Message-State: ABy/qLa/BYkGAsOzUPzTFildh5dkspdXsQGqd4kxJZcGez2+O7nCIut+
-	vdW8M5ImZETzZ9f1gvfBFnGuNXAySy1edl34pe07iw==
-X-Google-Smtp-Source: APBJJlFMyJGJYZl1X0Xl3JL/kHOPlmQzTpSeOAF+bjJ5Q+BjRCMdplnyIEg/TI+4GvKZXOIBKpca4PlArXmrwwGkwHk=
-X-Received: by 2002:a25:d453:0:b0:c61:8ddc:88db with SMTP id
- m80-20020a25d453000000b00c618ddc88dbmr6321998ybf.6.1689881607489; Thu, 20 Jul
- 2023 12:33:27 -0700 (PDT)
+        bh=6uboV9zE5viSPMUN9jRcO0cjpaJKLGwKotI/bN04OyY=;
+        b=Zj9jgiXhm8MCQpzDPd+f6fjEJ+rTw6z58HhgP8R8Z8VmYeu35ZXj/CSmnlEa91g/OH
+         Ia74kxYwbHLXJS2X22Y3w1lvo6G/4n+Vr3Vi8MyXDMLxh9NZMvNCxReUlnpnmmWMSfFz
+         Uxuy9MB7MczQca1olIowRNct8wM9Rr9sjUZ2dnjiFIQS9e8qKvsfc45f5aLQ30DQyfKx
+         eoNQBlZwaay3fL99AeRQkEn8YXxpJuuiuqs0fj1CcNUt1wv+Vfn1Yq43uVmcSg5NFqIW
+         BGcKwFU2KJ4P6Nh9/+u8KjoGTxtcydSB66ShFNMdEvU4Hx4FskyCpZUx2HCu8+4Vlupq
+         tXOQ==
+X-Gm-Message-State: ABy/qLapAJQKR5f4esPxQ1N7FininJwbxMpKJOi/YHmg/TUVODf0s7V/
+	gHt2SkMfBUq15lyJGUwmtsKzuhI7phBgEFHxRSsprg==
+X-Google-Smtp-Source: APBJJlE7cBabIqsDgOVse9OOZ6aTjmPoq/DJCfwfg6nCOEVEXRqRJUSYnSIJLuoYJ0UvKAptp1crbwCoFVPdkqeY7hY=
+X-Received: by 2002:a25:c50b:0:b0:cdd:6635:a1f8 with SMTP id
+ v11-20020a25c50b000000b00cdd6635a1f8mr5819173ybe.15.1689882143201; Thu, 20
+ Jul 2023 12:42:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230712-pinctrl-sunxi-boudns-v1-1-85f37de79b9f@kernel.org>
-In-Reply-To: <20230712-pinctrl-sunxi-boudns-v1-1-85f37de79b9f@kernel.org>
+References: <20230714174901.4062397-1-robh@kernel.org>
+In-Reply-To: <20230714174901.4062397-1-robh@kernel.org>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 20 Jul 2023 21:33:15 +0200
-Message-ID: <CACRpkdb6P1KjGWNnYWKoG+ZxFCLo7_06zjv_8CGMFoT9S44o1g@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: sunxi: Add some defensiveness for regulators array
-To: Mark Brown <broonie@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+Date: Thu, 20 Jul 2023 21:42:12 +0200
+Message-ID: <CACRpkdYe9b4ZpvYZqkcMq0Jjni_VD_75Zt5oKv4+v9f3pmJbVA@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: Explicitly include correct DT includes
+To: Rob Herring <robh@kernel.org>
+Cc: Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Dong Aisheng <aisheng.dong@nxp.com>, 
+	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	NXP Linux Team <linux-imx@nxp.com>, Sean Wang <sean.wang@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Gregory Clement <gregory.clement@bootlin.com>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Chester Lin <clin@suse.com>, 
+	NXP S32 Linux Team <s32@nxp.com>, Chen-Yu Tsai <wens@csie.org>, Damien Le Moal <dlemoal@kernel.org>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Heiko Stuebner <heiko@sntech.de>, Tony Lindgren <tony@atomide.com>, 
+	Haojian Zhuang <haojian.zhuang@linaro.org>, Daniel Mack <daniel@zonque.org>, 
+	Robert Jarzmik <robert.jarzmik@free.fr>, Andy Gross <agross@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Tomasz Figa <tomasz.figa@gmail.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Sylwester Nawrocki <s.nawrocki@samsung.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Viresh Kumar <vireshk@kernel.org>, Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Emil Renner Berthing <kernel@esmil.dk>, 
+	Jianlong Huang <jianlong.huang@starfivetech.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+	linux-riscv@lists.infradead.org, linux-oxnas@groups.io, 
+	linux-rockchip@lists.infradead.org, linux-omap@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 12, 2023 at 7:20=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
-te:
+On Fri, Jul 14, 2023 at 7:49=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
+:
 
-> The sunxi pinctrl has a fixed size array it uses to store regulators used
-> in the driver. There is currently nothing that ensures that the number of
-> elements in the array is large enough to map the regulators defined by th=
-e
-> individual SoCs. While this is currently the case having an explicit chec=
-k
-> in there will make life easier for anyone debugging memory issues that
-> manifest in the driver so let's add one.
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
 >
-> Signed-off-by: Mark Brown <broonie@kernel.org>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Patch applied.
+It still applied cleanly so I just applied it.
+
+Thanks for attention to detail.
 
 Yours,
 Linus Walleij
