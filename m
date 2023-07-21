@@ -1,86 +1,79 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A0FD19A1F
-	for <linux-sunxi@lists.linux.dev>; Fri, 21 Jul 2023 13:49:51 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 47A182F4;
-	Fri, 21 Jul 2023 06:50:34 -0700 (PDT)
-Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DF4F43F6C4;
-	Fri, 21 Jul 2023 06:49:49 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Tom Rini <trini@konsulko.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Mikhail Kalashnikov <iuncuim@gmail.com>,
-	u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev
-Subject: Pull request: u-boot-sunxi/master for 2023.10
-Date: Fri, 21 Jul 2023 14:48:57 +0100
-Message-Id: <20230721134857.4676-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.8
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F13F27F2C
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 Jul 2023 15:28:04 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-99342a599e9so325657266b.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 21 Jul 2023 08:28:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689953282; x=1690558082;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KjQynSAUQFJ+iQVSHZn81KBk8KudT4uWcOPMPn9BnAo=;
+        b=Fru/HYg81exUfFNYakRh1p7PJqFAlQB17OVPbOLY75bWWrLI1vEFTuHYOvbzrjjkrb
+         xz8A8cDdJn5YcSRAurcFhKyInWFPKGVOXqJoPZ+GNgIHcFoJdfBqO7XXi02ulklmM9DT
+         +KnmT7UygzrNwgatqZD4bYzVD/SoyQuY6OKFxMnGcTce5WvOdrM8plYNWcuVeqgVxDKp
+         dhRmIysVaN8JurvJ7+yoCGdXokjLi0PSe+wE3geekL4oecKxS1N+2GwuEYzsJWdDbtoo
+         58YpJ051a6UttjIZUjMLzL5+/mqFnQSP1yQTrMYnrekrZltGIMTPy2LWhyCer1boQe/r
+         GgBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689953282; x=1690558082;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KjQynSAUQFJ+iQVSHZn81KBk8KudT4uWcOPMPn9BnAo=;
+        b=lh6jWQj2jq4XgSFOm8tHU8cLuT4kK+n+2mpghi5AzHI9ByQ+jfIV0gBse4ZJGZCOFH
+         ffuxN6F5T+IbQL32p1PF/ee43C+7/r/mZ7Vp43TY8V6+Y9tzI32GSeGkHZgl2ekRWykR
+         iCj7HSh8fDAKtmNrC9ZDjNWCt2lGOg11bUigqp2VSURw2LQzLP/+jyoaPydmJkiLQsnB
+         EGi4tVHTR3YzselKqUjWg7WPBm5tzM9zS6UgOAtUIVBGUua9T3RhzyU7fC3XdpFnhBEn
+         ciAfrTFUDTVAy9vV9U1ns+gaEgdaNob7d5iEDqEQoQLUMdbmxNqrrASelboqaG+cYlzP
+         TEqg==
+X-Gm-Message-State: ABy/qLYFCVgo4vz7o3mVU5Eo1Ai1ugr3NcglmYUMk6PEzR35GDeXprGr
+	dT27gkM1ABMJE80HqVKy7JQ=
+X-Google-Smtp-Source: APBJJlG/gk9DPFCa7ss1awkGl2ngITXAEo8YbTZjnoU+2iuYN1nKrXwoKPRdvI6Ex2zlweVIU+pU0Q==
+X-Received: by 2002:a17:906:8478:b0:994:1fee:3066 with SMTP id hx24-20020a170906847800b009941fee3066mr2068645ejc.15.1689953282448;
+        Fri, 21 Jul 2023 08:28:02 -0700 (PDT)
+Received: from localhost (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id d12-20020a17090648cc00b00992b7ff3993sm2289595ejt.126.2023.07.21.08.28.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Jul 2023 08:28:02 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Yangtao Li <frank.li@vivo.com>
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH 1/7] bus: sunxi-rsb: Convert to devm_platform_ioremap_resource()
+Date: Fri, 21 Jul 2023 17:28:00 +0200
+Message-ID: <168995326156.3656340.11878246818706234631.b4-ty@nvidia.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230706072042.31296-1-frank.li@vivo.com>
+References: <20230706072042.31296-1-frank.li@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Hi Tom,
+From: Thierry Reding <treding@nvidia.com>
 
-please pull the first part of the sunxi pull request for this cycle:
 
-For once this adds USB support for two SoCs: the H616 and the F1C100s
-series. The rest is support for LPDDR3 DRAM chips on H616 boards.
+On Thu, 06 Jul 2023 15:20:36 +0800, Yangtao Li wrote:
+> Use devm_platform_ioremap_resource() to simplify code.
+> 
+> 
 
-Gitlab CI passed, and I booted that briefly on an H616 and an F1C200s
-board. I don't have an H616 board with LPDDR3 DRAM, but reportedly that
-works for Mikhail, and doesn't regress on my DDR3 boards.
+Applied, thanks!
 
-Thanks,
-Andre
+[5/7] bus: tegra-gmi: Convert to devm_platform_ioremap_resource()
+      commit: df823d210395341c58e8d346dfc37d6e67e9f2c6
 
-=========================================================
-The following changes since commit 0274eb61e1f2a8e053fb028b6c668c67c0b75b9c:
-
-  Merge tag 'efi-2023-10-rc1-2' of https://source.denx.de/u-boot/custodians/u-boot-efi (2023-07-20 10:19:04 -0400)
-
-are available in the Git repository at:
-
-  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
-
-for you to fetch changes up to ecb896cec75e98d6e5f9bcbf0a87976119443985:
-
-  sunxi: H616: add LPDDR3 DRAM support (2023-07-21 00:54:19 +0100)
-
-----------------------------------------------------------------
-Andre Przywara (10):
-      phy: sun4i-usb: Fix of_xlate() argument check
-      phy: sun4i-usb: add Allwinner F1C100s support
-      sunxi: Kconfig: rework PHY_USB_SUN4I selection
-      phy: sun4i-usb: Replace types with explicit quirk flags
-      phy: sun4i-usb: Add H616 USB PHY quirk support
-      phy: sun4i: Add H616 USB PHY support
-      sunxi: H616: enable USB support for H616 boards
-      sunxi: dram: make MBUS configuration functions static
-      sunxi: H616: dram: const-ify DRAM function parameters
-      sunxi: H616: dram: split struct dram_para
-
-Mikhail Kalashnikov (2):
-      sunxi: H616: add DRAM type selection
-      sunxi: H616: add LPDDR3 DRAM support
-
- arch/arm/include/asm/arch-sunxi/dram_sun50i_h616.h |  12 +-
- arch/arm/mach-sunxi/Kconfig                        |  29 +-
- arch/arm/mach-sunxi/dram_sun50i_h6.c               |   3 +-
- arch/arm/mach-sunxi/dram_sun50i_h616.c             | 383 +++++++++++++--------
- arch/arm/mach-sunxi/dram_sunxi_dw.c                |  18 +-
- arch/arm/mach-sunxi/dram_timings/Makefile          |   4 +-
- arch/arm/mach-sunxi/dram_timings/h616_ddr3_1333.c  |   2 +-
- arch/arm/mach-sunxi/dram_timings/h616_lpddr3.c     |  95 +++++
- configs/orangepi_zero2_defconfig                   |   4 +
- configs/x96_mate_defconfig                         |   3 +
- drivers/phy/allwinner/Kconfig                      |   5 +-
- drivers/phy/allwinner/phy-sun4i-usb.c              | 111 ++++--
- drivers/usb/musb-new/Kconfig                       |   1 +
- 13 files changed, 461 insertions(+), 209 deletions(-)
- create mode 100644 arch/arm/mach-sunxi/dram_timings/h616_lpddr3.c
+Best regards,
+-- 
+Thierry Reding <treding@nvidia.com>
