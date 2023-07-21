@@ -1,136 +1,121 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2064.outbound.protection.outlook.com [40.107.223.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDEC627F00;
-	Fri, 21 Jul 2023 17:20:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oG5dmTtSGURwFxS4BJbjbWLqH3NdUIZg/WWxUihj7ala/yT0FMc3HSUDcOLOujUakfwXbQ8EZqNaF7zO2SHzpK9ALYa2iiUdK4u917E/daIzqmaouZh3qLudx51wUtgfPCbHsq6aqYmQWQtqX3/8Pn9JHscE9uCA8a4ReyNYTrpoSoDkQh5iNykZmb9Qr0NsMCkkiPxwnen7Ow4vWV64yjwTm2Y5oHASEctYM1eaSTsQhOw5GdUOJEqy0HFbY4olWOCRsZTdfSL2VEy2lGEhBGAcouxs7jfBH/y5xZaYgLbVh3hdVk9DS4Ta7cSF8KncJ5btqdvC68EG3WcKhLiYoA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VlG5vnS/MyaS/IjxxzSYf43yUdxCln6KmZcxuo+IotU=;
- b=LrXjE70HFes0/5M9koMbD1ilrdrvMsdWNzOgcADRMzzqI9LkQKwowloN/aNE2sgrrbDksCBAqnimhsAP4gd2LO0ApG6KDXX6kKOknwCkCj3Doht25r7jIApyvYXAaVc5k0CvE6sV6p6n12GrmVAOEh0MYF7hP2x+fEpaALidh7fj8XHrvin+CvjM1iunpS15zqTnvbSqy3kQ9irw0a4yARZ0yUh08uXz2XjG5D5xN+HvuwzSsCNzW1+hAHIdAOJerMMhoB711nmV0lK/vGhAllRhWGDRGkO61Bb9aNBRB1i4UfprKMf0QBN4zatuIGmuqUe5iMn1rwXSIL1M9l9dig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VlG5vnS/MyaS/IjxxzSYf43yUdxCln6KmZcxuo+IotU=;
- b=Pem0uBisk5GlzYuuZyLG6HdI/fkLMiVovaQeiGXREGdkgk1Lk1jXYRFM5wZU+gDMZdAzQmfJfqTTvEn7riW8WhcaBCEXeA3kVB0VKZ7hOaJLL0Lk6sE9of7TC55lST1sUoT2X84Po3z91NVHIWoOB/9cMNZ8dNdk/ZxVYSibkGDnHXrkA1g14txMc6TkFt+mCW6nLyJ//1F+k+wu5L5YAmsBKJJY3OYKSB4CoYP3lMRA0a4li/3/+zTYlysPv2HRTuxQkJDynH1Eq3OlAeqZ2DKXBR/5GwA6ALI0/Nq0HFhT/sJzvpNIMgqL8qXFXmgfiZXvfVO+PfPWofCbZlmuMg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by PH7PR12MB7018.namprd12.prod.outlook.com (2603:10b6:510:1b8::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.24; Fri, 21 Jul
- 2023 17:20:02 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::5111:16e8:5afe:1da1]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::5111:16e8:5afe:1da1%6]) with mapi id 15.20.6609.025; Fri, 21 Jul 2023
- 17:20:02 +0000
-Date: Fri, 21 Jul 2023 14:19:59 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Baolu Lu <baolu.lu@linux.intel.com>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
-	Will Deacon <will@kernel.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
-	Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH 03/10] iommu: Add generic_single_device_group()
-Message-ID: <ZLq+PzR57D+RN2JF@nvidia.com>
-References: <3-v1-3c8177327a47+256-iommu_group_locking_jgg@nvidia.com>
- <32eadc5b-bb39-5bb1-f124-44feead97ce9@linux.intel.com>
- <ZLkiu7IyimCckiFs@nvidia.com>
- <c98c37bb-57c5-faec-1d17-730f3ceb2b21@linux.intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c98c37bb-57c5-faec-1d17-730f3ceb2b21@linux.intel.com>
-X-ClientProxiedBy: SJ0PR03CA0104.namprd03.prod.outlook.com
- (2603:10b6:a03:333::19) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9B91F199
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 Jul 2023 18:05:00 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-579d5d89b41so24704747b3.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 21 Jul 2023 11:05:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google; t=1689962700; x=1690567500;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=giqllqhz6MHYFmGCnSn4DK4LtkqpuHVwHdQhWdWXOmk=;
+        b=gBT/FvbJ8AmuINcCTZXWqbp6tUrRD8CCnVA9qNhlA6HDJcyUh6BGzkAa3GF0zntrkv
+         gFw5XTPxZt4nNWQVU9fw9FsXwQZRL0e93gfkvB/c7KipcLeOrikwXvhskEevde+d2e94
+         P2qUHxW3NN9k2+1i+lqJekpSGQnFA0wYiIx2Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689962700; x=1690567500;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=giqllqhz6MHYFmGCnSn4DK4LtkqpuHVwHdQhWdWXOmk=;
+        b=iY9lG5J47qaabesv1R8P0345MJIDhj0wk2ifVd//koIxH9dUbUoRLHsCAErDNTxWdf
+         irj/wowQOa2/ueBlhfbj5y526LTe7xgPvMnhZZJZ0CqdaVH/ta/GXLCK5Pbnl3NTZR4P
+         o7Pa+cYLqJ6zCEhOIk07Yiltn9s5d/0sJRj0djXfwOK/Oaig/WAJkGCyh1gejlYoltPT
+         5+XJQElFdZalBd+cWWNtF7e6YvUVIrvVyL5h2BFw46+MbtpEx9tCcjQ0fZLMPwf4r4bg
+         mfVNwVuink9L/2ss/hTn7hpio7ez/bJp9u3n13C0LEymSNs2oyl8PtYhtsV6jthV+1bI
+         KzyQ==
+X-Gm-Message-State: ABy/qLYczL4m+7HGCVaWBmpoNQuMA/Mvim1hgaIFUYpZX+QLjp72FpKB
+	oXzNQAceAvAi+8BGJiVrjnlfhQ==
+X-Google-Smtp-Source: APBJJlEZEqtNdlHRZ2S+P457Wx8mTCWTmFZ5EuT3019E2PPKdamfHNlMbzU4boFpdORPvKrD67QxNA==
+X-Received: by 2002:a0d:e20e:0:b0:577:1560:9e17 with SMTP id l14-20020a0de20e000000b0057715609e17mr824651ywe.35.1689962699758;
+        Fri, 21 Jul 2023 11:04:59 -0700 (PDT)
+Received: from bill-the-cat (2603-6081-7b00-6400-81e1-2dbc-e68b-5ea0.res6.spectrum.com. [2603:6081:7b00:6400:81e1:2dbc:e68b:5ea0])
+        by smtp.gmail.com with ESMTPSA id s65-20020a0dd044000000b005832fe29034sm1031671ywd.89.2023.07.21.11.04.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Jul 2023 11:04:59 -0700 (PDT)
+Date: Fri, 21 Jul 2023 14:04:57 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Mikhail Kalashnikov <iuncuim@gmail.com>, u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: Re: Pull request: u-boot-sunxi/master for 2023.10
+Message-ID: <20230721180457.GE3630934@bill-the-cat>
+References: <20230721134857.4676-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|PH7PR12MB7018:EE_
-X-MS-Office365-Filtering-Correlation-Id: d371aa43-b9c9-4b81-c6fc-08db8a0eb804
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	IUaEO9XHYOVyYz0/zdmLpgx3oMSlGx73Ez4lAXfW27C1VYGe7JdNTIt1A09VpiRoxMLxZOeOB2jGVj/bux4YkOMw9Nma/Gd261m3MSpfYz8SZPByy1H9NyCuqyGSQ3ghTwCw0ISsTjvx0f5EgoBlqyUk0C2j3q4puPvqGB4QexT95+di7KM5PjQUAaH7U5Vu2wh7zKqgupYR4lNcsVNGzTzRtB/T/q3I/OyHFwsYJ5n7HtRcPBH473+bF0+nXfBLtrlyjHyO94EWeTYx2tPfLkdndbv27gpKFZplj+5V4VH52FXS1FD0q3spcViOFE3xrONXAat3/bYhjJAy6w3YKj8rZXqR44k6VKzhctuT0p9vJc6xczLquqiUpsMIvj+l63n+O2efRLBuEzEbEQKG6I8ZyJcSOS2vg0zcYI1KN7TCafpe7ahlAP3KriTrd5+7/z/gxXak3vhOdb1CtsZ+z0B57yjBKpIxXsCUQPh4wz80WbwuEeMznTrySjNaydLkGzvRXcqcTQ493inikiOhfROgXb2LVYGW98mxkxeeguJ3eQaz08nksaPKhI80irc+srFs0gzHeOfmrYqxLLn+MthVMkRddFSsBRbVwv2H6dY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39850400004)(346002)(396003)(376002)(366004)(136003)(451199021)(2906002)(4744005)(54906003)(478600001)(41300700001)(8936002)(7416002)(8676002)(5660300002)(66556008)(66476007)(66946007)(4326008)(6916009)(26005)(316002)(2616005)(36756003)(86362001)(186003)(6506007)(83380400001)(6486002)(6512007)(38100700002)(6666004)(41533002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?NqVRzfUntqydxlR5czbOYX+hjPhnrACZNSbaC35bpE7N4eG6e1OoYZJSwjya?=
- =?us-ascii?Q?gvcP4FHEzG0XcFbVknNeT2xbpQ25ef6toZT1I2pPrKwK8keOo1fPo/9vgG6j?=
- =?us-ascii?Q?6swM51RWfGWki+qirjJGmhh2A5YdelDM8TdZgFjqcFIZRYiIw9vjTrNYRNf7?=
- =?us-ascii?Q?bAM6EIg7rWelHUHbt4PPYauQkL0XlwqjmGEfByacJv3OAXTrY1L9l23NHsIF?=
- =?us-ascii?Q?5V7ofwwcxbkYSR7j3Ixp8EZiaqzjqZcnBElg9JnGzWOcVTCsuKeMAOOHVzUy?=
- =?us-ascii?Q?Gmjhhg+NEjTdtA6yh28yB/XANERq8/xrFj2Lc5AwbV0WMNmL7cDuFL579aF8?=
- =?us-ascii?Q?WTvJJU6qBOor1Jw+Dk1lKTwDmoV/oA+j9VQRvJv2ib5vLhyUTrLXe6cyv+hI?=
- =?us-ascii?Q?MiukRVo84ZF9MP159V48FcyRUk1EiCFerIX08HRYgwBoIk8PFGQTuc0jXJXi?=
- =?us-ascii?Q?mH2/JvDllnhuOpIdm+ZuM6zV6HXHWTXdGFqIJqo9Zy81OEK5Tb/BeSFJ6qSs?=
- =?us-ascii?Q?IVo48QSk3lHdbHtO7fqwOS28nhJitSzk/mkI8aF+Pw+y2cZ6c1FA0t6j4BwL?=
- =?us-ascii?Q?+/q/+ckS7yLMekfTvNVOFkN6fVNyQdPO2C46EpK42EDkms59eKtf2IgNnfYv?=
- =?us-ascii?Q?jJW8hrEzop5ynfqu2O190z035F6UldcFs/+WM7xs07+m+olAjoA3SuzvEe7h?=
- =?us-ascii?Q?Vk+Q3MAOybYHHIz+qXKss4q+fAFNKCPfwqNFquHut1MACTp+zLtHzcmrHfp1?=
- =?us-ascii?Q?oci42XhtTsIacJmOZJOTyQBQwICRknabMQvy+ffO3whHLwviWkLmqr/ZR5Vu?=
- =?us-ascii?Q?nqtruEwiFVe3RrJda9fYUFNiGzMKSh7EDoQFvcuKGzdkLboo0zaz1K9utz+4?=
- =?us-ascii?Q?XSe9YgL3JMpIm4qew3nrYVawOq5BrxKLskIE3NfrcJ9s+69aLKYNIAKtvcP2?=
- =?us-ascii?Q?SXmOEVPxwVd7pwKTz3fR7xiul1WiEQE0ciRzG1UgFVQNlv+8s+JMvhc5DFHT?=
- =?us-ascii?Q?EpWHb8WRZIQdco1zjkBzIDEWjeGPP7+NgKgwvQDzwawq01EZKys2FStDMBya?=
- =?us-ascii?Q?Oa4TM3TQB5r2QkGRZ84g/OD13IF09aGV3dDKcb6glqPI/QQeI+7/NETyGdRL?=
- =?us-ascii?Q?68ayR39nfe+oxoBU8l2zrJRM5IHKy1jbVskQW7MA77JZ//pvXe3ceK0bsbsn?=
- =?us-ascii?Q?h+Y9qUeSn6DO+b/+qOrTfIQUVKK2VGvPr78qFPiDC5Z+YZ4qz5MIzcBNWwNa?=
- =?us-ascii?Q?II7KNzfRXUjHCOazRgXsLzeTkrOqxDm1Q4oW8UQ8eWr2BbYTdyy03kEIpVh5?=
- =?us-ascii?Q?24Wj22xOwQDVBzN7OWClVfvHLSPyOfkdWQEECqhOGA/6WF3HUdUVjl3xXuWW?=
- =?us-ascii?Q?pCh5OX/VlJDoqZikcYtJatn3jn+FlpBu2oWjlolXlWcNHMz852AQ6nZPHjyJ?=
- =?us-ascii?Q?3U/b7rYAeEmxm4Nd2oYyA6+fkTHIFIFjGEvg/dNegXp0CGpSW6Tqr1d9ABPj?=
- =?us-ascii?Q?ZN0ImmWhcTsKYpO9PQmfThHZiK/PzyWE2ocaK82pKBo3riYGIXDY9SsexmFc?=
- =?us-ascii?Q?0Xb74RgBix/U7y/uWsM1yC9XrnOjfdaSl1ZKhMwl?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d371aa43-b9c9-4b81-c6fc-08db8a0eb804
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2023 17:20:02.6325
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: p515rP9P72N2ucEaO6mLiHPBgjjEEPmd+1MDVgpCe0WehfoSQsIxzdnx9h2jT98K
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7018
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vjKDcZDgNeKWjDP8"
+Content-Disposition: inline
+In-Reply-To: <20230721134857.4676-1-andre.przywara@arm.com>
+X-Clacks-Overhead: GNU Terry Pratchett
 
-On Thu, Jul 20, 2023 at 10:01:54PM +0800, Baolu Lu wrote:
 
-> Then, another small comment:
-> 
-> iommu->singleton_group will be freed with above put, right? Do you need
-> to set iommu->singleton_group to NULL? Given that iommu_device is not
-> freed here.
+--vjKDcZDgNeKWjDP8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Well, I think the general API is we expect the caller to free the
-iommu_device after calling unregister so this would be like all the
-other places we free or put something then go on to release the
-memory.
+On Fri, Jul 21, 2023 at 02:48:57PM +0100, Andre Przywara wrote:
 
-At the very least if the caller thinks it should re-use the
-iommu_device then it needs to zero it.
+> Hi Tom,
+>=20
+> please pull the first part of the sunxi pull request for this cycle:
+>=20
+> For once this adds USB support for two SoCs: the H616 and the F1C100s
+> series. The rest is support for LPDDR3 DRAM chips on H616 boards.
+>=20
+> Gitlab CI passed, and I booted that briefly on an H616 and an F1C200s
+> board. I don't have an H616 board with LPDDR3 DRAM, but reportedly that
+> works for Mikhail, and doesn't regress on my DDR3 boards.
+>=20
+> Thanks,
+> Andre
+>=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+> The following changes since commit 0274eb61e1f2a8e053fb028b6c668c67c0b75b=
+9c:
+>=20
+>   Merge tag 'efi-2023-10-rc1-2' of https://source.denx.de/u-boot/custodia=
+ns/u-boot-efi (2023-07-20 10:19:04 -0400)
+>=20
+> are available in the Git repository at:
+>=20
+>   https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+>=20
+> for you to fetch changes up to ecb896cec75e98d6e5f9bcbf0a87976119443985:
+>=20
+>   sunxi: H616: add LPDDR3 DRAM support (2023-07-21 00:54:19 +0100)
+>=20
 
-Notice this also doesn't hold the lock while putting it, we require no
-concurrent calls to probe with unregister.
+Applied to u-boot/master, thanks!
 
-Jason
+--=20
+Tom
 
+--vjKDcZDgNeKWjDP8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmS6yMkACgkQFHw5/5Y0
+tyz7uwv9HIkYmF7cN8B4IJPiweFNlNqi8AAzD8UXnOHJsBlUhehzmV72QNDJQXWO
+JjkTOFMBqjDmugrI4elz95FchyZqM++rAvD8r688wJOQSCVc9iYZc6i7Oofb5Amk
+8S440SDs0/5ZpcOXft6XCEKi/nYWjuaYtRnGnIuz2lX31EfUthHy7SiES5Q8Axyh
+07RyE+WCJBmsiDVtcKAfqrRAHr8qbg/G1/QNpKulnFSUV8x26xmZAGNgwtRNQ6m2
+rv4j2pdrNR/IEoS8on/goCKodCQxmnE1/lq7XI6UXr1kfeiLszXvhlGbrwPCwLpQ
+VUdtWJfaEVyqkuIlzNin0kaIG+O4w1VeEj4SrTaYUl/upWNAYNwg7OZqFSZJLPjU
+lOfuNfFGG0icscku9/ihOLYNz1QzIEWuSWQl3YO7lYmZzvQn7VWZryVs/zibHAEA
+rbVppG7jlgdd45zrp8IdobHHJ2suVSQwtYRneDWwrDr0u2f+9ZMF7Ba02Hx4u9KL
+1+EqYNYM
+=8ieF
+-----END PGP SIGNATURE-----
+
+--vjKDcZDgNeKWjDP8--
