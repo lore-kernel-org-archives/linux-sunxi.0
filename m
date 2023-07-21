@@ -1,148 +1,226 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2051.outbound.protection.outlook.com [40.107.94.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766353D75;
-	Fri, 21 Jul 2023 12:04:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ESiCmpHu+CO2gPntqsalspQtc0OQN+oXRWaUw1EEOPGddXDWjurpde0FnSlSt2HBY0bOJVnTMLjGDweGiO3SqzfUXG1DhVuyXG2bvsxr+H5jef7Ilk2SFhvSLkMBpj2cMzuvyYb6tMQVexi75E7JFQD2fKrM5AhH7QLEMWPB78XgzjhpiCBpDbDoaSTPDZbEMtyX62vTokyM5i6WM/jZ6bywxqI/mWHeuZoAeydEv3gibA0QPlEB7bnxJ0A7rVfA39zHwq+/V0pX8CbJj9AByUoMILx5d/BcM8Hz/Z6GRZcoMl1dQZ9EnElk3WDBiwdGFuxRpX2SAXsgvLtj4WQLxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j2TF8sPftjHhRvEpYgHc9KsCMvNukQ4dRQOUlpjcON0=;
- b=XFAIRy7/J8JNnD6ppbXRfyCwvdtbKeT/RosPYmK6OID8VM+gmzJVxmO4E2H3UYotvUJag+dpSdc+6ynudwS8P2wAnhKiKnX8eQMp0+i68rRSYmUTzxiGZlFiLlhEnpCe0O6mxGJN/wjSTKgJB6/OR99JZ5l67WrNN57mS/KaheuDbS8O/sxMVDYLCZITClanbe8I687kPvIqn/WRItRNwBDI7QHyHxWgd3BvLEcJqJ81pMT0sus6yhVw5CFcU3s5iH4geArf4AXSdB9jJvTnoGhul8sy8rVitWRPexLq6zPcVFZoxUykskCuoWI1Fu5S1cQpuQdqif0jFmh72fym3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j2TF8sPftjHhRvEpYgHc9KsCMvNukQ4dRQOUlpjcON0=;
- b=BthwQWw4YOSd4hSP16y5zLORfid5RRU+7LsCEhHwNr3H8fRBy8nBO9IUcAd92t19YE5zXcDhIyoKHk8HCwIKD8//3RNik1Su3PdZ8XaCLXss3v6FX2nlD+l8lMGqHX2UoUXyeCg6wfxjAnnLI9+Ml5wfLxTw5A0YiXzRVKbrDkDJKqZEzAUO2waB9TJuR1hO4Gw87DeoOLExGd1s/mQ9vx86DpKWHd7Z7CgKWm3NUyk8OnI8AvS3A9WQlUnyR521Iepu1hx8cjbG53pfDGn6u8HqjNOXLG0RrIJUr4zrZkDnuy3QnyrNeWHlz9iJHFbSF8dkckSQNN5gCkiECpXgkQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by MN2PR12MB4455.namprd12.prod.outlook.com (2603:10b6:208:265::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.31; Fri, 21 Jul
- 2023 12:04:08 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::5111:16e8:5afe:1da1]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::5111:16e8:5afe:1da1%6]) with mapi id 15.20.6609.025; Fri, 21 Jul 2023
- 12:04:08 +0000
-Date: Fri, 21 Jul 2023 09:04:07 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 321E71E507
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 Jul 2023 13:47:05 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0C78D2F4;
+	Fri, 21 Jul 2023 06:47:43 -0700 (PDT)
+Received: from localhost.localdomain (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4E0C73F6C4;
+	Fri, 21 Jul 2023 06:46:58 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jagan Teki <jagan@amarulasolutions.com>,
+	u-boot@lists.denx.de
+Cc: Samuel Holland <samuel@sholland.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>,
-	"linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
-	Will Deacon <will@kernel.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
-	Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH 07/10] iommu/ipmmu-vmsa: Convert to
- generic_single_device_group()
-Message-ID: <ZLp0NwPJBCTHh7dX@nvidia.com>
-References: <0-v1-3c8177327a47+256-iommu_group_locking_jgg@nvidia.com>
- <7-v1-3c8177327a47+256-iommu_group_locking_jgg@nvidia.com>
- <BN9PR11MB52761FF5AA9D8A24C30A12CA8C3FA@BN9PR11MB5276.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BN9PR11MB52761FF5AA9D8A24C30A12CA8C3FA@BN9PR11MB5276.namprd11.prod.outlook.com>
-X-ClientProxiedBy: CH0PR03CA0447.namprd03.prod.outlook.com
- (2603:10b6:610:10e::24) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+	Icenowy Zheng <uwu@icenowy.me>,
+	Maxim Kiselev <bigunclemax@gmail.com>,
+	Sam Edwards <cfsworks@gmail.com>,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 00/20] sunxi: Allwinner T113s support
+Date: Fri, 21 Jul 2023 14:45:46 +0100
+Message-Id: <20230721134606.4505-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.8
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|MN2PR12MB4455:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1a511224-9be1-4ec3-d9f3-08db89e296b3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	mcMdAZKbAUmzCog4dIvWK2GR7MK+Z9zbhHvV7Y3P/E8wkZRp8xgcYq6cRAU48MvC7ANMoKIoKoEFkAilJfvXcVSrNGEw5Dq9Ar99qtGTpBDcFn8PhCNKzqW6hjvYPPvoTR2yxRXSBjK0iuk7WPD3rI28PlOGeBo8IwqnIP7G7uydwpyxWOR8sak3PBvv7TOl/hzVLo88Lyed1ohto1yLseP69TfQyjFjnzwcGop1hcww4WdOXSPTxeyZ9gg1f36KZ/s7vfilgTuVZjvTsK9nQS0b3/WFkErIzMte0Pwp+ZsTiDar7Q0ngTsDmZ7iWzT5SyLxyX0R22tx7eKGtls0rtgcXuXd3PhQTK4Tiyx8Chkw5FFq1vVkSDcJWmE0RVaJRS3PiLC+VGa1imzTJrZgv1ArcCRzHYehZg21Zsvzwz7TVKxHSwz8s5eUoj1dZ/1RTKLahSg2u8R+JsbKbsyHQh5rNXx90mfs/ZXWTlJkCbtb2NNh0alIvVKnFt6MOd6ViTtSpuc+BcDpVH5xUUanDzSPQJL9IHj2AaLgt4llBNNSSCVZhSW9lUDbMEgaM4rP4KlO6Dp/csZ1dHdiRYZsbOTXjlxg7gxC0269TxWNFpc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(136003)(366004)(39860400002)(396003)(451199021)(6486002)(54906003)(66556008)(478600001)(4744005)(86362001)(2906002)(6506007)(36756003)(2616005)(186003)(316002)(6512007)(5660300002)(26005)(6916009)(8936002)(66476007)(66946007)(41300700001)(38100700002)(7416002)(8676002)(4326008)(41533002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?NmzvTQXRE03BrTEoGwlKLiE6+RYFVQ8sYxgCaMsUcQh/vytQ/3Okxu6IA3ou?=
- =?us-ascii?Q?F9yqNCXmTtzmLA0pEvlTLCdtJ0RoEgA0dQZaU8rdP7Qd18ywfIjsVOYTWqlP?=
- =?us-ascii?Q?LmNAEuSjUSVgoc3v4LE1wW9eeckkzPSH4z55Vo1KLIqksvWF6wLC+DKRMVCH?=
- =?us-ascii?Q?8OFAgmG2C7vT3kGpB21v1bKb+NSIC6Qfsn5GbzAD/jsHSl39MiOkmus1xGyR?=
- =?us-ascii?Q?VpdALRZV+3P3GqIh0gPb42FEKIEiKUakFZy+FKLiLlHSIefw0QGVC5ewWp8d?=
- =?us-ascii?Q?O1pmSn7/Wq9wTibEsOTYFw1ooFLPx+CaUWQ6w7dZd3RRw4VZuSdVt4E+AXDH?=
- =?us-ascii?Q?LzMe15uE2DPisxk4FU2pg8YmYqbY3MlW0CGutqDe8XLR/dGTr2k2T+gDq8tH?=
- =?us-ascii?Q?d+mpjcy0LTqOaCBd9pIQHJPJcUrorYu2AceF+B7hM/VLNrUUIw4V1phFA+7I?=
- =?us-ascii?Q?VQnSOG3d/f0hzMu5hXYRkSp9n3SkSfopvjKghhYwtVSJZfjIYcb/0eiNO66V?=
- =?us-ascii?Q?V/aQGNWoSDzewUPqkStZsjCcEYcg/gB2n/hWqwA4jPZPBIOxV1xe5y7rDMma?=
- =?us-ascii?Q?Xal3VZ+c4+DX6t7voCsf59Xb3T7g5PQG+gpp9Ulw9sFbDL/8ozhG6D0J9YoS?=
- =?us-ascii?Q?LvLLLDOLgdZ/2EMS+QKjl6SsQoNX8iz6cdvzz8SouOW3alD/hmxHM/lQco33?=
- =?us-ascii?Q?TOOx3EM/rVIdGTmrdMs1oioYY0uca0AXecvO8R4md6XvY6rkHOfKeWfxuAdC?=
- =?us-ascii?Q?C3dw3+mRJeI1wVmZvZMLLVZRXLlD7TcKe+zzPjvJcAQCO7HEhwk/nxxSANPA?=
- =?us-ascii?Q?IT0i+c6TI5WfAzWGggRI5yiyl+B1rtbtqcMVqrcQ8iFW300WIDX2aWuTCyfy?=
- =?us-ascii?Q?OFxzKzhkbhJuYY4iC1JCAgAgeCbKXbC/vcYaDhxz34dPpMaZhl6b57SyqHIi?=
- =?us-ascii?Q?rtNeUyGD/oqDUDQdMs8m0MWg9WDPrtYSM/9faAjT7ApOZ55YGJn9sXfb7vH3?=
- =?us-ascii?Q?1YxoNLlNV0oBk8lwrL7KFQVv1rY/pAo+YS4j7bgwwFBZmW2N/6X0Rpy4YNSz?=
- =?us-ascii?Q?vCYjGSSQ8JO+aLaJwtHdkDRpxx6ZzIq59RcuFjeHxc5pWd8qc+K8z7lV6X6B?=
- =?us-ascii?Q?LXIMXqrgtjAhhUuYKGBT+FxOScHV8mSFDqO6/n+kHv+g+sLPVw/GbYm/48js?=
- =?us-ascii?Q?bqR4C0HNTxH8NeXNmBuxY/0AX5tc5dCC5PtzcxgSeDWW2qeUyFpOlsVGhT2d?=
- =?us-ascii?Q?xaQHA+N4ZlkZv0ud0rgOY2nmo40a+2qMdR3/bN7wNt/bFnJv8P//l04dKZZ3?=
- =?us-ascii?Q?5Zp1SwsEok2b6HJwPyO3U8VoG6hCxM3wkN04jrERjSQAhITUIjsW8c+rf6GR?=
- =?us-ascii?Q?HzvLdBXrPFViYV9JNfIUKmQffZEU/mHTRnDXlYtxCBBM9Xd0FonMZuDeP5GM?=
- =?us-ascii?Q?725dao/eMr+gQyxljOh+0jUakRjqpw1X6gpBuI3LCiPtXgg+DZ4T2M8n1HNp?=
- =?us-ascii?Q?UsvtHr+OWMRPfgCy9ArYvgLQNm6u52ody6nuo/N+lKVh0St2hLJmKgR4QIXQ?=
- =?us-ascii?Q?WvXad6wpVW791zXtFpLJioIzt6Jg84UOVxWCFyjy?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a511224-9be1-4ec3-d9f3-08db89e296b3
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2023 12:04:08.7979
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0/PElE4rOeKvqMun/18zGAfzhttpUHLeLnHC7fCc4VPzXAv6cxbm8FjF+st1CKc9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4455
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 21, 2023 at 07:20:21AM +0000, Tian, Kevin wrote:
-> > From: Jason Gunthorpe <jgg@nvidia.com>
-> > Sent: Wednesday, July 19, 2023 3:06 AM
-> > 
-> > -static struct iommu_group *ipmmu_find_group(struct device *dev)
-> > -{
-> > -	struct ipmmu_vmsa_device *mmu = to_ipmmu(dev);
-> > -	struct iommu_group *group;
-> > -
-> > -	if (mmu->group)
-> > -		return iommu_group_ref_get(mmu->group);
-> > -
-> > -	group = iommu_group_alloc();
-> > -	if (!IS_ERR(group))
-> > -		mmu->group = group;
-> > -
-> > -	return group;
-> > -}
-> 
-> Looks existing code has a leak w/o freeing the group in ipmmu_remove().
+Hi,
 
-IIRC many of the drivers had this, or other bugs here.
- 
-> While at it could you add a patch to fix it allowing backport and then this
-> patch to convert to the generic helper?
+this is finally the series adding support for the new SoC series that
+covers the Allwinner D1 siblings R528 and T113s. They all share the
+same die, although the D1 and D1s use RISC-V cores, which requires more
+plumbing, to use the sunxi code across two architectures. Getting the
+R528 support in should help a bit in sorting out what's new peripheral
+code and what is architecture dependent. IIUC, Samuel has that running,
+although with some hacks, the number of which this series tries to reduce.
 
-It isn't worth it, these drivers are never removed, so it is a bug
-that nobody will ever hit.
+The most interesting part of this is the pincontroller rework, this
+tackles two issues:
+- For the first time in the history of mainline Allwinner support the
+  pincontroller changed the register layout. The code here tries to
+  abstract the differences away, so both variants can share the code
+  peacefully.
+- For the above mentioned reason, the pincontroller code is quite old,
+  and is mostly spread out across arch/arm, in a pre-DM style, even
+  though we have real DM support in U-Boot proper. We need the non-DM
+  version for the (ARM-only?) legacy SPL, so can't get rid of that
+  completely. This series also tries to modernise that code, and moves
+  it into board/sunxi/, where it can be more easily shared with RISC-V.
 
-Jason
+The main feature is then of course the T113s support, of which the new
+pinctroller is only one part. Apart from the new pincontroller and the
+usual new SoC bits (like clock and pinmux support), this includes the
+DRAM controller code.
+With the basics in, we add support for the MangoPi MQ-R board, which
+uses the T113s and seems to be a popular board. This should also serve
+as a blueprint for supporting similar boards. The DTs are copied from
+the kernel (as usual).
+
+There are some bits missing, prominently PSCI support. There are good
+patches out there, I just didn't manage to test and review them yet, but
+hopefully they can follow directly in the wake of this series.
+
+This series is based on top of current sunxi/master, which covers the
+first part of the 2023.10 pull request.
+Compared to the RFC post from December(!), there were numerous changes,
+inspired by comments from the community reviewers, many thanks to all
+of them!
+
+A branch is available at:
+https://source.denx.de/u-boot/custodians/u-boot-sunxi.git t113s
+
+Please have a look, review and test.
+
+Cheers,
+Andre
+
+Andre Przywara (18):
+  net: sunxi_emac: chase DT nodes to find PHY regulator
+  sunxi: remove CONFIG_MACPWR
+  pinctrl: sunxi: add GPIO in/out wrappers
+  pinctrl: sunxi: remove struct sunxi_gpio
+  pinctrl: sunxi: move pinctrl code and remove GPIO_EXTRA_HEADER
+  pinctrl: sunxi: move PIO_BASE into sunxi_gpio.h
+  pinctrl: sunxi: add new D1 pinctrl support
+  sunxi: introduce NCAT2 generation model
+  pinctrl: sunxi: add Allwinner D1 pinctrl description
+  sunxi: clock: D1/R528: Enable PLL LDO during PLL1 setup
+  sunxi: clock: support D1/R528 PLL6 clock
+  sunxi: clock: h6: prepare for PRCM less SoCs
+  Kconfig: sunxi: prepare for using drivers/ram/sunxi
+  sunxi: add R528/T113-s3/D1(s) DRAM initialisation code
+  sunxi: add Allwinner R528/T113 SoC support
+  sunxi: refactor serial base addresses to avoid asm/arch/cpu.h
+  ARM: dts: sunxi: add Allwinner T113-s SoC .dtsi
+  sunxi: add MangoPi MQ-R board support
+
+Samuel Holland (2):
+  clk: sunxi: Add support for the D1 CCU
+  riscv: dts: allwinner: Add the D1/D1s SoC devicetree
+
+ arch/arm/Kconfig                              |    1 -
+ arch/arm/cpu/armv7/sunxi/sram.c               |    1 +
+ arch/arm/cpu/armv8/fel_utils.S                |    1 +
+ arch/arm/dts/Makefile                         |    2 +
+ .../arm/dts/sun8i-t113s-mangopi-mq-r-t113.dts |   35 +
+ arch/arm/dts/sun8i-t113s.dtsi                 |   59 +
+ arch/arm/dts/sunxi-d1s-t113-mangopi-mq-r.dtsi |  126 ++
+ arch/arm/dts/sunxi-u-boot.dtsi                |    7 +
+ arch/arm/include/asm/arch-sunxi/boot0.h       |    2 +
+ arch/arm/include/asm/arch-sunxi/clock.h       |    3 +-
+ .../include/asm/arch-sunxi/clock_sun50i_h6.h  |   12 +-
+ arch/arm/include/asm/arch-sunxi/cpu.h         |    2 +
+ arch/arm/include/asm/arch-sunxi/cpu_sun4i.h   |   17 -
+ .../include/asm/arch-sunxi/cpu_sun50i_h6.h    |    7 -
+ arch/arm/include/asm/arch-sunxi/cpu_sun9i.h   |    9 -
+ .../include/asm/arch-sunxi/cpu_sunxi_ncat2.h  |   39 +
+ arch/arm/include/asm/arch-sunxi/mmc.h         |    2 +-
+ arch/arm/include/asm/arch-sunxi/prcm.h        |    2 +-
+ arch/arm/include/asm/arch-sunxi/serial.h      |   32 +
+ arch/arm/include/asm/arch-sunxi/timer.h       |    2 +-
+ arch/arm/mach-sunxi/Kconfig                   |   36 +-
+ arch/arm/mach-sunxi/Makefile                  |    2 +-
+ arch/arm/mach-sunxi/board.c                   |   31 +-
+ arch/arm/mach-sunxi/clock_sun50i_h6.c         |   60 +-
+ arch/arm/mach-sunxi/cpu_info.c                |    2 +
+ arch/arm/mach-sunxi/dram_suniv.c              |    2 +-
+ arch/arm/mach-sunxi/gtbus_sun9i.c             |    1 +
+ arch/arm/mach-sunxi/pinmux.c                  |   78 -
+ arch/arm/mach-sunxi/spl_spi_sunxi.c           |    1 +
+ arch/arm/mach-sunxi/timer.c                   |    1 +
+ arch/riscv/dts/sun20i-common-regulators.dtsi  |   28 +
+ arch/riscv/dts/sun20i-d1.dtsi                 |   66 +
+ arch/riscv/dts/sun20i-d1s.dtsi                |   76 +
+ arch/riscv/dts/sunxi-d1-t113.dtsi             |   15 +
+ arch/riscv/dts/sunxi-d1s-t113.dtsi            |  846 ++++++++++
+ board/sunxi/Makefile                          |    1 +
+ board/sunxi/board.c                           |   13 +-
+ board/sunxi/chip.c                            |    2 +-
+ board/sunxi/pinctrl.c                         |  115 ++
+ common/spl/Kconfig                            |    3 +-
+ configs/Bananapi_M2_Ultra_defconfig           |    1 -
+ configs/Bananapi_defconfig                    |    1 -
+ configs/Bananapro_defconfig                   |    1 -
+ configs/Lamobo_R1_defconfig                   |    1 -
+ configs/Mele_A1000_defconfig                  |    1 -
+ configs/Orangepi_defconfig                    |    1 -
+ configs/Orangepi_mini_defconfig               |    1 -
+ configs/bananapi_m1_plus_defconfig            |    1 -
+ configs/bananapi_m2_plus_h3_defconfig         |    1 -
+ configs/bananapi_m2_plus_h5_defconfig         |    1 -
+ configs/i12-tvbox_defconfig                   |    1 -
+ configs/jesurun_q5_defconfig                  |    1 -
+ configs/mangopi_mq_r_defconfig                |   15 +
+ configs/mixtile_loftq_defconfig               |    1 -
+ configs/nanopi_m1_plus_defconfig              |    1 -
+ configs/nanopi_neo_plus2_defconfig            |    1 -
+ configs/nanopi_r1s_h5_defconfig               |    1 -
+ configs/orangepi_pc2_defconfig                |    1 -
+ configs/orangepi_plus2e_defconfig             |    1 -
+ configs/orangepi_plus_defconfig               |    1 -
+ configs/orangepi_win_defconfig                |    1 -
+ configs/pine_h64_defconfig                    |    1 -
+ configs/zeropi_defconfig                      |    1 -
+ drivers/Makefile                              |    1 +
+ drivers/clk/sunxi/Kconfig                     |    7 +
+ drivers/clk/sunxi/Makefile                    |    1 +
+ drivers/clk/sunxi/clk_d1.c                    |   84 +
+ drivers/clk/sunxi/clk_sunxi.c                 |    5 +
+ drivers/gpio/axp_gpio.c                       |    1 +
+ drivers/gpio/sunxi_gpio.c                     |   50 +-
+ drivers/i2c/mvtwsi.c                          |    3 +-
+ drivers/i2c/sun6i_p2wi.c                      |    2 +-
+ drivers/i2c/sun8i_rsb.c                       |    2 +-
+ drivers/mmc/sunxi_mmc.c                       |   12 +-
+ drivers/net/sun8i_emac.c                      |    9 +-
+ drivers/net/sunxi_emac.c                      |   39 +
+ drivers/pinctrl/sunxi/Kconfig                 |    5 +
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c         |   43 +-
+ drivers/ram/Kconfig                           |    3 +-
+ drivers/ram/Makefile                          |    3 +
+ drivers/ram/sunxi/Kconfig                     |   72 +
+ drivers/ram/sunxi/Makefile                    |    4 +
+ drivers/ram/sunxi/dram_sun20i_d1.c            | 1432 +++++++++++++++++
+ drivers/ram/sunxi/dram_sun20i_d1.h            |   73 +
+ drivers/video/hitachi_tx18d42vm_lcd.c         |    1 +
+ drivers/video/ssd2828.c                       |    1 -
+ drivers/video/sunxi/sunxi_display.c           |    1 +
+ drivers/video/sunxi/sunxi_lcd.c               |    1 +
+ include/configs/sunxi-common.h                |    2 +-
+ include/dt-bindings/clock/sun20i-d1-ccu.h     |  158 ++
+ include/dt-bindings/clock/sun20i-d1-r-ccu.h   |   19 +
+ include/dt-bindings/reset/sun20i-d1-ccu.h     |   79 +
+ include/dt-bindings/reset/sun20i-d1-r-ccu.h   |   16 +
+ .../arch-sunxi/gpio.h => include/sunxi_gpio.h |  104 +-
+ 94 files changed, 3723 insertions(+), 287 deletions(-)
+ create mode 100644 arch/arm/dts/sun8i-t113s-mangopi-mq-r-t113.dts
+ create mode 100644 arch/arm/dts/sun8i-t113s.dtsi
+ create mode 100644 arch/arm/dts/sunxi-d1s-t113-mangopi-mq-r.dtsi
+ create mode 100644 arch/arm/include/asm/arch-sunxi/cpu_sunxi_ncat2.h
+ create mode 100644 arch/arm/include/asm/arch-sunxi/serial.h
+ delete mode 100644 arch/arm/mach-sunxi/pinmux.c
+ create mode 100644 arch/riscv/dts/sun20i-common-regulators.dtsi
+ create mode 100644 arch/riscv/dts/sun20i-d1.dtsi
+ create mode 100644 arch/riscv/dts/sun20i-d1s.dtsi
+ create mode 100644 arch/riscv/dts/sunxi-d1-t113.dtsi
+ create mode 100644 arch/riscv/dts/sunxi-d1s-t113.dtsi
+ create mode 100644 board/sunxi/pinctrl.c
+ create mode 100644 configs/mangopi_mq_r_defconfig
+ create mode 100644 drivers/clk/sunxi/clk_d1.c
+ create mode 100644 drivers/ram/sunxi/Kconfig
+ create mode 100644 drivers/ram/sunxi/Makefile
+ create mode 100644 drivers/ram/sunxi/dram_sun20i_d1.c
+ create mode 100644 drivers/ram/sunxi/dram_sun20i_d1.h
+ create mode 100644 include/dt-bindings/clock/sun20i-d1-ccu.h
+ create mode 100644 include/dt-bindings/clock/sun20i-d1-r-ccu.h
+ create mode 100644 include/dt-bindings/reset/sun20i-d1-ccu.h
+ create mode 100644 include/dt-bindings/reset/sun20i-d1-r-ccu.h
+ rename arch/arm/include/asm/arch-sunxi/gpio.h => include/sunxi_gpio.h (73%)
+
+-- 
+2.35.8
+
