@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B2B319A1F
-	for <linux-sunxi@lists.linux.dev>; Fri, 21 Jul 2023 13:47:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F8BF1E50E
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 Jul 2023 13:47:09 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C3578150C;
-	Fri, 21 Jul 2023 06:47:47 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 400E914BF;
+	Fri, 21 Jul 2023 06:47:46 -0700 (PDT)
 Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 120E23F6C4;
-	Fri, 21 Jul 2023 06:47:02 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 669C63F6C4;
+	Fri, 21 Jul 2023 06:47:01 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>,
 	u-boot@lists.denx.de
@@ -16,9 +16,9 @@ Cc: Samuel Holland <samuel@sholland.org>,
 	Maxim Kiselev <bigunclemax@gmail.com>,
 	Sam Edwards <cfsworks@gmail.com>,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 03/20] pinctrl: sunxi: add GPIO in/out wrappers
-Date: Fri, 21 Jul 2023 14:45:49 +0100
-Message-Id: <20230721134606.4505-4-andre.przywara@arm.com>
+Subject: [PATCH 02/20] sunxi: remove CONFIG_MACPWR
+Date: Fri, 21 Jul 2023 14:45:48 +0100
+Message-Id: <20230721134606.4505-3-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.8
 In-Reply-To: <20230721134606.4505-1-andre.przywara@arm.com>
 References: <20230721134606.4505-1-andre.przywara@arm.com>
@@ -30,165 +30,409 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-So far we were open-coding the pincontroller's GPIO output/input access
-in each function using that.
+The CONFIG_MACPWR Kconfig symbol is used to point to a GPIO that enables
+the power for the Ethernet "MAC" (mostly PHY, really).
+In the DT this is described with the phy-supply property in the MAC DT
+node, pointing to a (GPIO controlled) regulator. Since we need Ethernet
+only in U-Boot proper, and use a DM driver there, we should use the DT
+instead of hardcoding this.
 
-Provide functions that wrap that nicely, and follow the existing pattern
-(set/get_{bank,}), so users don't need to know about the internals, and
-we can abstract the new D1 pinctrl more easily.
+Add code to the sun8i_emac and sunxi_emac drivers to check the DT for
+that regulator and enable it, at probe time. Then drop the current code
+from board.c, which was doing that job before.
+This allows us to remove the MACPWR Kconfig definition and the respective
+values from the defconfigs.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- arch/arm/include/asm/arch-sunxi/gpio.h |  4 +++
- arch/arm/mach-sunxi/pinmux.c           | 28 +++++++++++++++
- drivers/gpio/sunxi_gpio.c              | 49 +++++---------------------
- 3 files changed, 40 insertions(+), 41 deletions(-)
+ arch/arm/mach-sunxi/Kconfig           |  7 -------
+ board/sunxi/board.c                   | 12 +-----------
+ configs/Bananapi_M2_Ultra_defconfig   |  1 -
+ configs/Bananapi_defconfig            |  1 -
+ configs/Bananapro_defconfig           |  1 -
+ configs/Lamobo_R1_defconfig           |  1 -
+ configs/Mele_A1000_defconfig          |  1 -
+ configs/Orangepi_defconfig            |  1 -
+ configs/Orangepi_mini_defconfig       |  1 -
+ configs/bananapi_m1_plus_defconfig    |  1 -
+ configs/bananapi_m2_plus_h3_defconfig |  1 -
+ configs/bananapi_m2_plus_h5_defconfig |  1 -
+ configs/i12-tvbox_defconfig           |  1 -
+ configs/jesurun_q5_defconfig          |  1 -
+ configs/mixtile_loftq_defconfig       |  1 -
+ configs/nanopi_m1_plus_defconfig      |  1 -
+ configs/nanopi_neo_plus2_defconfig    |  1 -
+ configs/nanopi_r1s_h5_defconfig       |  1 -
+ configs/orangepi_pc2_defconfig        |  1 -
+ configs/orangepi_plus2e_defconfig     |  1 -
+ configs/orangepi_plus_defconfig       |  1 -
+ configs/orangepi_win_defconfig        |  1 -
+ configs/pine_h64_defconfig            |  1 -
+ configs/zeropi_defconfig              |  1 -
+ drivers/net/sun8i_emac.c              |  9 +++++++--
+ 25 files changed, 8 insertions(+), 42 deletions(-)
 
-diff --git a/arch/arm/include/asm/arch-sunxi/gpio.h b/arch/arm/include/asm/arch-sunxi/gpio.h
-index 6eaeece4e24..26b7294f9c7 100644
---- a/arch/arm/include/asm/arch-sunxi/gpio.h
-+++ b/arch/arm/include/asm/arch-sunxi/gpio.h
-@@ -221,6 +221,10 @@ void sunxi_gpio_set_cfgbank(struct sunxi_gpio *pio, int bank_offset, u32 val);
- void sunxi_gpio_set_cfgpin(u32 pin, u32 val);
- int sunxi_gpio_get_cfgbank(struct sunxi_gpio *pio, int bank_offset);
- int sunxi_gpio_get_cfgpin(u32 pin);
-+void sunxi_gpio_set_output_bank(struct sunxi_gpio *pio, int pin, bool set);
-+void sunxi_gpio_set_output(u32 pin, bool set);
-+int sunxi_gpio_get_output_bank(struct sunxi_gpio *pio, int pin);
-+int sunxi_gpio_get_output(u32 pin);
- void sunxi_gpio_set_drv(u32 pin, u32 val);
- void sunxi_gpio_set_drv_bank(struct sunxi_gpio *pio, u32 bank_offset, u32 val);
- void sunxi_gpio_set_pull(u32 pin, u32 val);
-diff --git a/arch/arm/mach-sunxi/pinmux.c b/arch/arm/mach-sunxi/pinmux.c
-index c95fcee9f6c..751cac8e099 100644
---- a/arch/arm/mach-sunxi/pinmux.c
-+++ b/arch/arm/mach-sunxi/pinmux.c
-@@ -45,6 +45,34 @@ int sunxi_gpio_get_cfgpin(u32 pin)
- 	return sunxi_gpio_get_cfgbank(pio, pin);
- }
+diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+index a7c5ae80a1e..dff9f5ea947 100644
+--- a/arch/arm/mach-sunxi/Kconfig
++++ b/arch/arm/mach-sunxi/Kconfig
+@@ -695,13 +695,6 @@ config OLD_SUNXI_KERNEL_COMPAT
+ 	Set this to enable various workarounds for old kernels, this results in
+ 	sub-optimal settings for newer kernels, only enable if needed.
  
-+void sunxi_gpio_set_output_bank(struct sunxi_gpio *pio, int pin, bool set)
-+{
-+	u32 mask = 1U << GPIO_NUM(pin);
-+
-+	clrsetbits_le32(&pio->dat, set ? 0 : mask, set ? mask : 0);
-+}
-+
-+void sunxi_gpio_set_output(u32 pin, bool set)
-+{
-+	u32 bank = GPIO_BANK(pin);
-+	struct sunxi_gpio *pio = BANK_TO_GPIO(bank);
-+
-+	sunxi_gpio_set_output_bank(pio, pin, set);
-+}
-+
-+int sunxi_gpio_get_output_bank(struct sunxi_gpio *pio, int pin)
-+{
-+	return !!(readl(&pio->dat) & (1U << GPIO_NUM(pin)));
-+}
-+
-+int sunxi_gpio_get_output(u32 pin)
-+{
-+	u32 bank = GPIO_BANK(pin);
-+	struct sunxi_gpio *pio = BANK_TO_GPIO(bank);
-+
-+	return sunxi_gpio_get_output_bank(pio, pin);
-+}
-+
- void sunxi_gpio_set_drv(u32 pin, u32 val)
+-config MACPWR
+-	string "MAC power pin"
+-	default ""
+-	help
+-	  Set the pin used to power the MAC. This takes a string in the format
+-	  understood by sunxi_name_to_gpio, e.g. PH1 for pin 1 of port H.
+-
+ config MMC1_PINS_PH
+ 	bool "Pins for mmc1 are on Port H"
+ 	depends on MACH_SUN4I || MACH_SUN7I || MACH_SUN8I_R40
+diff --git a/board/sunxi/board.c b/board/sunxi/board.c
+index 7ac50c4ae8c..2db4a2d73ca 100644
+--- a/board/sunxi/board.c
++++ b/board/sunxi/board.c
+@@ -187,7 +187,7 @@ enum env_location env_get_location(enum env_operation op, int prio)
+ /* add board specific code here */
+ int board_init(void)
  {
- 	u32 bank = GPIO_BANK(pin);
-diff --git a/drivers/gpio/sunxi_gpio.c b/drivers/gpio/sunxi_gpio.c
-index f0b42e4fdb7..6dbf0e368f9 100644
---- a/drivers/gpio/sunxi_gpio.c
-+++ b/drivers/gpio/sunxi_gpio.c
-@@ -19,37 +19,6 @@
- #include <dt-bindings/gpio/gpio.h>
+-	__maybe_unused int id_pfr1, ret, macpwr_pin;
++	__maybe_unused int id_pfr1, ret;
  
- #if !CONFIG_IS_ENABLED(DM_GPIO)
--static int sunxi_gpio_output(u32 pin, u32 val)
--{
--	u32 dat;
--	u32 bank = GPIO_BANK(pin);
--	u32 num = GPIO_NUM(pin);
--	struct sunxi_gpio *pio = BANK_TO_GPIO(bank);
+ 	gd->bd->bi_boot_params = (PHYS_SDRAM_0 + 0x100);
+ 
+@@ -224,15 +224,6 @@ int board_init(void)
+ 	if (ret)
+ 		return ret;
+ 
+-	/* strcmp() would look better, but doesn't get optimised away. */
+-	if (CONFIG_MACPWR[0]) {
+-		macpwr_pin = sunxi_name_to_gpio(CONFIG_MACPWR);
+-		if (macpwr_pin >= 0) {
+-			gpio_request(macpwr_pin, "macpwr");
+-			gpio_direction_output(macpwr_pin, 1);
+-		}
+-	}
 -
--	dat = readl(&pio->dat);
--	if (val)
--		dat |= 0x1 << num;
--	else
--		dat &= ~(0x1 << num);
+ #if CONFIG_IS_ENABLED(DM_I2C)
+ 	/*
+ 	 * Temporary workaround for enabling I2C clocks until proper sunxi DM
+@@ -240,7 +231,6 @@ int board_init(void)
+ 	 */
+ 	i2c_init_board();
+ #endif
 -
--	writel(dat, &pio->dat);
--
--	return 0;
--}
--
--static int sunxi_gpio_input(u32 pin)
--{
--	u32 dat;
--	u32 bank = GPIO_BANK(pin);
--	u32 num = GPIO_NUM(pin);
--	struct sunxi_gpio *pio = BANK_TO_GPIO(bank);
--
--	dat = readl(&pio->dat);
--	dat >>= num;
--
--	return dat & 0x1;
--}
--
- int gpio_request(unsigned gpio, const char *label)
- {
+ 	eth_init_board();
+ 
  	return 0;
-@@ -70,18 +39,21 @@ int gpio_direction_input(unsigned gpio)
- int gpio_direction_output(unsigned gpio, int value)
- {
- 	sunxi_gpio_set_cfgpin(gpio, SUNXI_GPIO_OUTPUT);
-+	sunxi_gpio_set_output(gpio, value);
+diff --git a/configs/Bananapi_M2_Ultra_defconfig b/configs/Bananapi_M2_Ultra_defconfig
+index a5fe76af568..2cc7bbbd8b7 100644
+--- a/configs/Bananapi_M2_Ultra_defconfig
++++ b/configs/Bananapi_M2_Ultra_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun8i-r40-bananapi-m2-ultra"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN8I_R40=y
+ CONFIG_DRAM_CLK=576
+-CONFIG_MACPWR="PA17"
+ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+ CONFIG_USB1_VBUS_PIN="PH23"
+ CONFIG_USB2_VBUS_PIN="PH23"
+diff --git a/configs/Bananapi_defconfig b/configs/Bananapi_defconfig
+index 6c2a1f630e8..f4910ba13ac 100644
+--- a/configs/Bananapi_defconfig
++++ b/configs/Bananapi_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun7i-a20-bananapi"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN7I=y
+ CONFIG_DRAM_CLK=432
+-CONFIG_MACPWR="PH23"
+ CONFIG_VIDEO_COMPOSITE=y
+ CONFIG_GMAC_TX_DELAY=3
+ CONFIG_AHCI=y
+diff --git a/configs/Bananapro_defconfig b/configs/Bananapro_defconfig
+index 94fd74754ea..02be8971df9 100644
+--- a/configs/Bananapro_defconfig
++++ b/configs/Bananapro_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun7i-a20-bananapro"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN7I=y
+ CONFIG_DRAM_CLK=432
+-CONFIG_MACPWR="PH23"
+ CONFIG_USB1_VBUS_PIN="PH0"
+ CONFIG_USB2_VBUS_PIN="PH1"
+ CONFIG_VIDEO_COMPOSITE=y
+diff --git a/configs/Lamobo_R1_defconfig b/configs/Lamobo_R1_defconfig
+index 9639cb6aad9..66f57ab3c85 100644
+--- a/configs/Lamobo_R1_defconfig
++++ b/configs/Lamobo_R1_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun7i-a20-lamobo-r1"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN7I=y
+ CONFIG_DRAM_CLK=432
+-CONFIG_MACPWR="PH23"
+ CONFIG_GMAC_TX_DELAY=4
+ CONFIG_AHCI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+diff --git a/configs/Mele_A1000_defconfig b/configs/Mele_A1000_defconfig
+index f5b6d908cdc..9ac2e4839d9 100644
+--- a/configs/Mele_A1000_defconfig
++++ b/configs/Mele_A1000_defconfig
+@@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=y
+ CONFIG_DEFAULT_DEVICE_TREE="sun4i-a10-a1000"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN4I=y
+-CONFIG_MACPWR="PH15"
+ CONFIG_VIDEO_VGA=y
+ CONFIG_VIDEO_COMPOSITE=y
+ CONFIG_AHCI=y
+diff --git a/configs/Orangepi_defconfig b/configs/Orangepi_defconfig
+index c89a9a1f9dd..53edf525ec0 100644
+--- a/configs/Orangepi_defconfig
++++ b/configs/Orangepi_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun7i-a20-orangepi"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN7I=y
+ CONFIG_DRAM_CLK=432
+-CONFIG_MACPWR="PH23"
+ CONFIG_USB1_VBUS_PIN="PH26"
+ CONFIG_USB2_VBUS_PIN="PH22"
+ CONFIG_VIDEO_VGA=y
+diff --git a/configs/Orangepi_mini_defconfig b/configs/Orangepi_mini_defconfig
+index fe9ce808a1e..ccf32670170 100644
+--- a/configs/Orangepi_mini_defconfig
++++ b/configs/Orangepi_mini_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun7i-a20-orangepi-mini"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN7I=y
+ CONFIG_DRAM_CLK=432
+-CONFIG_MACPWR="PH23"
+ CONFIG_MMC_SUNXI_SLOT_EXTRA=3
+ CONFIG_USB1_VBUS_PIN="PH26"
+ CONFIG_USB2_VBUS_PIN="PH22"
+diff --git a/configs/bananapi_m1_plus_defconfig b/configs/bananapi_m1_plus_defconfig
+index 0fbb619d623..a432a01f6b4 100644
+--- a/configs/bananapi_m1_plus_defconfig
++++ b/configs/bananapi_m1_plus_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun7i-a20-bananapi-m1-plus"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN7I=y
+ CONFIG_DRAM_CLK=432
+-CONFIG_MACPWR="PH23"
+ CONFIG_VIDEO_COMPOSITE=y
+ CONFIG_GMAC_TX_DELAY=3
+ CONFIG_AHCI=y
+diff --git a/configs/bananapi_m2_plus_h3_defconfig b/configs/bananapi_m2_plus_h3_defconfig
+index 26ced59fb02..a8f9b5044b0 100644
+--- a/configs/bananapi_m2_plus_h3_defconfig
++++ b/configs/bananapi_m2_plus_h3_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun8i-h3-bananapi-m2-plus"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN8I_H3=y
+ CONFIG_DRAM_CLK=672
+-CONFIG_MACPWR="PD6"
+ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SUN8I_EMAC=y
+diff --git a/configs/bananapi_m2_plus_h5_defconfig b/configs/bananapi_m2_plus_h5_defconfig
+index fb6c945919a..1634f626190 100644
+--- a/configs/bananapi_m2_plus_h5_defconfig
++++ b/configs/bananapi_m2_plus_h5_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun50i-h5-bananapi-m2-plus"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN50I_H5=y
+ CONFIG_DRAM_CLK=672
+-CONFIG_MACPWR="PD6"
+ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SUN8I_EMAC=y
+diff --git a/configs/i12-tvbox_defconfig b/configs/i12-tvbox_defconfig
+index 257dd89af45..37f0f53ae7d 100644
+--- a/configs/i12-tvbox_defconfig
++++ b/configs/i12-tvbox_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun7i-a20-i12-tvbox"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN7I=y
+ CONFIG_DRAM_CLK=384
+-CONFIG_MACPWR="PH21"
+ CONFIG_VIDEO_COMPOSITE=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SPL_I2C=y
+diff --git a/configs/jesurun_q5_defconfig b/configs/jesurun_q5_defconfig
+index 0ff666b2ee5..c99be7cea4e 100644
+--- a/configs/jesurun_q5_defconfig
++++ b/configs/jesurun_q5_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun4i-a10-jesurun-q5"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN4I=y
+ CONFIG_DRAM_CLK=312
+-CONFIG_MACPWR="PH19"
+ CONFIG_USB0_VBUS_PIN="PB9"
+ CONFIG_VIDEO_COMPOSITE=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+diff --git a/configs/mixtile_loftq_defconfig b/configs/mixtile_loftq_defconfig
+index 0e4cdc44670..2f92228eb7b 100644
+--- a/configs/mixtile_loftq_defconfig
++++ b/configs/mixtile_loftq_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun6i-a31-mixtile-loftq"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN6I=y
+ CONFIG_DRAM_ZQ=251
+-CONFIG_MACPWR="PA21"
+ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+ CONFIG_USB1_VBUS_PIN="PH24"
+ CONFIG_USB2_VBUS_PIN=""
+diff --git a/configs/nanopi_m1_plus_defconfig b/configs/nanopi_m1_plus_defconfig
+index 76655d79ae0..078e98b644d 100644
+--- a/configs/nanopi_m1_plus_defconfig
++++ b/configs/nanopi_m1_plus_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun8i-h3-nanopi-m1-plus"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN8I_H3=y
+ CONFIG_DRAM_CLK=408
+-CONFIG_MACPWR="PD6"
+ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SUN8I_EMAC=y
+diff --git a/configs/nanopi_neo_plus2_defconfig b/configs/nanopi_neo_plus2_defconfig
+index 924ff38f17c..85ff31c6fe5 100644
+--- a/configs/nanopi_neo_plus2_defconfig
++++ b/configs/nanopi_neo_plus2_defconfig
+@@ -6,7 +6,6 @@ CONFIG_MACH_SUN50I_H5=y
+ CONFIG_DRAM_CLK=408
+ CONFIG_DRAM_ZQ=3881977
+ # CONFIG_DRAM_ODT_EN is not set
+-CONFIG_MACPWR="PD6"
+ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SUN8I_EMAC=y
+diff --git a/configs/nanopi_r1s_h5_defconfig b/configs/nanopi_r1s_h5_defconfig
+index 27cf172d72a..2a6f94afe40 100644
+--- a/configs/nanopi_r1s_h5_defconfig
++++ b/configs/nanopi_r1s_h5_defconfig
+@@ -6,7 +6,6 @@ CONFIG_MACH_SUN50I_H5=y
+ CONFIG_DRAM_CLK=672
+ CONFIG_DRAM_ZQ=3881977
+ # CONFIG_DRAM_ODT_EN is not set
+-CONFIG_MACPWR="PD6"
+ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SUN8I_EMAC=y
+diff --git a/configs/orangepi_pc2_defconfig b/configs/orangepi_pc2_defconfig
+index 777af8c60ea..fb6fbaf787a 100644
+--- a/configs/orangepi_pc2_defconfig
++++ b/configs/orangepi_pc2_defconfig
+@@ -5,7 +5,6 @@ CONFIG_SPL=y
+ CONFIG_MACH_SUN50I_H5=y
+ CONFIG_DRAM_CLK=672
+ CONFIG_DRAM_ZQ=3881977
+-CONFIG_MACPWR="PD6"
+ CONFIG_SPL_SPI_SUNXI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SPL_I2C=y
+diff --git a/configs/orangepi_plus2e_defconfig b/configs/orangepi_plus2e_defconfig
+index 138a6a72b8c..5e2cbc48ea2 100644
+--- a/configs/orangepi_plus2e_defconfig
++++ b/configs/orangepi_plus2e_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun8i-h3-orangepi-plus2e"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN8I_H3=y
+ CONFIG_DRAM_CLK=672
+-CONFIG_MACPWR="PD6"
+ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SPL_I2C=y
+diff --git a/configs/orangepi_plus_defconfig b/configs/orangepi_plus_defconfig
+index ed585881d49..092ce77a6c4 100644
+--- a/configs/orangepi_plus_defconfig
++++ b/configs/orangepi_plus_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun8i-h3-orangepi-plus"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN8I_H3=y
+ CONFIG_DRAM_CLK=672
+-CONFIG_MACPWR="PD6"
+ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+ CONFIG_USB1_VBUS_PIN="PG13"
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+diff --git a/configs/orangepi_win_defconfig b/configs/orangepi_win_defconfig
+index df11ad8c8fd..3ddaf050a48 100644
+--- a/configs/orangepi_win_defconfig
++++ b/configs/orangepi_win_defconfig
+@@ -3,7 +3,6 @@ CONFIG_ARCH_SUNXI=y
+ CONFIG_DEFAULT_DEVICE_TREE="sun50i-a64-orangepi-win"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN50I=y
+-CONFIG_MACPWR="PD14"
+ CONFIG_SPL_SPI_SUNXI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SPI_FLASH_WINBOND=y
+diff --git a/configs/pine_h64_defconfig b/configs/pine_h64_defconfig
+index 6dac6098d04..4712b8e4694 100644
+--- a/configs/pine_h64_defconfig
++++ b/configs/pine_h64_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun50i-h6-pine-h64"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN50I_H6=y
+ CONFIG_SUNXI_DRAM_H6_LPDDR3=y
+-CONFIG_MACPWR="PC16"
+ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+ CONFIG_USB3_VBUS_PIN="PL5"
+ CONFIG_SPL_SPI_SUNXI=y
+diff --git a/configs/zeropi_defconfig b/configs/zeropi_defconfig
+index 11f3715e6dc..7901bffd159 100644
+--- a/configs/zeropi_defconfig
++++ b/configs/zeropi_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun8i-h3-zeropi"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN8I_H3=y
+ CONFIG_DRAM_CLK=408
+-CONFIG_MACPWR="PD6"
+ # CONFIG_VIDEO_DE2 is not set
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_CONSOLE_MUX=y
+diff --git a/drivers/net/sun8i_emac.c b/drivers/net/sun8i_emac.c
+index 04c3274fbe1..7b60a60ad52 100644
+--- a/drivers/net/sun8i_emac.c
++++ b/drivers/net/sun8i_emac.c
+@@ -29,6 +29,7 @@
+ #include <net.h>
+ #include <reset.h>
+ #include <wait_bit.h>
++#include <power/regulator.h>
  
--	return sunxi_gpio_output(gpio, value);
-+	return 0;
- }
+ #define MDIO_CMD_MII_BUSY		BIT(0)
+ #define MDIO_CMD_MII_WRITE		BIT(1)
+@@ -167,9 +168,8 @@ struct emac_eth_dev {
+ 	struct clk ephy_clk;
+ 	struct reset_ctl tx_rst;
+ 	struct reset_ctl ephy_rst;
+-#if CONFIG_IS_ENABLED(DM_GPIO)
+ 	struct gpio_desc reset_gpio;
+-#endif
++	struct udevice *phy_reg;
+ };
  
- int gpio_get_value(unsigned gpio)
- {
--	return sunxi_gpio_input(gpio);
-+	return sunxi_gpio_get_output(gpio);
- }
  
- int gpio_set_value(unsigned gpio, int value)
- {
--	return sunxi_gpio_output(gpio, value);
-+	sunxi_gpio_set_output(gpio, value);
+@@ -720,6 +720,9 @@ static int sun8i_emac_eth_probe(struct udevice *dev)
+ 
+ 	sun8i_emac_set_syscon(sun8i_pdata, priv);
+ 
++	if (priv->phy_reg)
++		regulator_set_enable(priv->phy_reg, true);
 +
-+	return 0;
- }
+ 	sun8i_mdio_init(dev->name, dev);
+ 	priv->bus = miiphy_get_dev_by_name(dev->name);
  
- int sunxi_name_to_gpio(const char *name)
-@@ -131,13 +103,8 @@ int sunxi_name_to_gpio(const char *name)
- static int sunxi_gpio_get_value(struct udevice *dev, unsigned offset)
- {
- 	struct sunxi_gpio_plat *plat = dev_get_plat(dev);
--	u32 num = GPIO_NUM(offset);
--	unsigned dat;
--
--	dat = readl(&plat->regs->dat);
--	dat >>= num;
+@@ -829,6 +832,8 @@ static int sun8i_emac_eth_of_to_plat(struct udevice *dev)
  
--	return dat & 0x1;
-+	return sunxi_gpio_get_output_bank(plat->regs, offset) & 0x1;
- }
+ 	priv->sysctl_reg = (void *)syscon_base + priv->variant->syscon_offset;
  
- static int sunxi_gpio_get_function(struct udevice *dev, unsigned offset)
-@@ -177,7 +144,7 @@ static int sunxi_gpio_set_flags(struct udevice *dev, unsigned int offset,
- 		u32 value = !!(flags & GPIOD_IS_OUT_ACTIVE);
- 		u32 num = GPIO_NUM(offset);
- 
--		clrsetbits_le32(&plat->regs->dat, 1 << num, value << num);
-+		sunxi_gpio_set_output_bank(plat->regs, num, value);
- 		sunxi_gpio_set_cfgbank(plat->regs, offset, SUNXI_GPIO_OUTPUT);
- 	} else if (flags & GPIOD_IS_IN) {
- 		u32 pull = 0;
++	device_get_supply_regulator(dev, "phy-supply", &priv->phy_reg);
++
+ 	pdata->phy_interface = -1;
+ 	priv->phyaddr = -1;
+ 	priv->use_internal_phy = false;
 -- 
 2.35.8
 
