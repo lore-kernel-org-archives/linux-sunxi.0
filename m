@@ -1,39 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B377F
-	for <linux-sunxi@lists.linux.dev>; Sat, 22 Jul 2023 16:46:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81091C433C7;
-	Sat, 22 Jul 2023 16:46:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848CD63A
+	for <linux-sunxi@lists.linux.dev>; Sat, 22 Jul 2023 20:11:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C120C433C7;
+	Sat, 22 Jul 2023 20:11:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690044409;
-	bh=FUcJ5kyCBceu8cNLWIvq9oyoWX1mBM/NTa8B3HLsfeY=;
+	s=k20201202; t=1690056718;
+	bh=/9qrpDonabY7Xm8MCIwJtyIeTf31N3Re/7USWMHRKcs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Hq9BFN+Qb8kL3PirNWumZYTFEez3EDB0Dy4bM/dvbTvUhL7MSsTBV0Zq1OHrHqzZi
-	 fsUAhXykmE171UPRY0tmDtOhJ3ESTAZNYnEzdA7R4uhJxBCA8B8gihyx2uxgNH1XBd
-	 FXVedcdFt9PjZVqbggvh0wgscpS0K3c2345OF7CXXZ5dpK8AsXMWSMo6XR929DmNto
-	 OeDFDNbRrXw4giBuI24t7VQBOeOlCwqjbZKxKlsZljcnHkVm4lynj7aNLq16ZCoJM4
-	 ohYxvMbVHnyjcwcHa6imFWUEQNPWj4KTKFB4J/U91V3fqLf+nrZU064jO07z+b5Xcb
-	 KLhR80it9bWpg==
-Date: Sat, 22 Jul 2023 17:46:45 +0100
+	b=FAbEVh9Heu4E8u7iKDY+e64+Tk7EG3xFaFcSkA/oiTpv72taAYk9Q+td/YzDreOuA
+	 +2RDHN4MfVsWILebbSVVmIsaG9fSxAwkQ414cfBokjn5dic+30jaw0UExsHy96+Jxb
+	 a1dDPxRZDeutnFDey2kOvsgVzeuqTNNDxVsNhR66qbUcVZWcT+eN1SWU2QnfsSK1l6
+	 V19jdwhKq1ar2D2PS5GmhV0j8vkFyeR6/fSOVSYONuzecfx0FOgzLgn3fknlSs7SxH
+	 Gs2UVudmYXXi6Z0YnplijX7e8pduAdtiuX+Htc3Cj0jZFbfJqUb/vkFpQ8yW7wpY06
+	 VfyppHg6NsFcw==
+Date: Sat, 22 Jul 2023 21:11:54 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
+To: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
 	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hugh Dickins <hughd@google.com>, linux-pm@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] thermal/drivers/sun8i: Don't fail probe due to zone
- registration failure
-Message-ID: <ZLwH9RFnJymdy7YD@finisterre.sirena.org.uk>
-References: <20230718-thermal-sun8i-registration-v1-1-c95b1b070340@kernel.org>
- <5a9ccb708f004e70e2102417eb48b766b03777cd.camel@icenowy.me>
+	Icenowy Zheng <uwu@icenowy.me>
+Subject: Re: [PATCH RESEND RESEND] thermal/of: support thermal zones w/o
+ trips subnode
+Message-ID: <ZLw4CnzLI/QHPGWx@finisterre.sirena.org.uk>
+References: <20230722122534.2279689-1-zhengxingda@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -41,57 +34,52 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pJ7zt3hWz8YVEKZz"
+	protocol="application/pgp-signature"; boundary="qmlxt8wSsnvuRw3d"
 Content-Disposition: inline
-In-Reply-To: <5a9ccb708f004e70e2102417eb48b766b03777cd.camel@icenowy.me>
+In-Reply-To: <20230722122534.2279689-1-zhengxingda@iscas.ac.cn>
 X-Cookie: Give him an evasive answer.
 
 
---pJ7zt3hWz8YVEKZz
-Content-Type: text/plain; charset=utf-8
+--qmlxt8wSsnvuRw3d
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 22, 2023 at 08:11:43PM +0800, Icenowy Zheng wrote:
-> =E5=9C=A8 2023-07-18=E6=98=9F=E6=9C=9F=E4=BA=8C=E7=9A=84 16:04 +0100=EF=
-=BC=8CMark Brown=E5=86=99=E9=81=93=EF=BC=9A
+On Sat, Jul 22, 2023 at 08:25:34PM +0800, Icenowy Zheng wrote:
+> From: Icenowy Zheng <uwu@icenowy.me>
+>=20
+> Although the current device tree binding of thermal zones require the
+> trips subnode, the binding in kernel v5.15 does not require it, and many
+> device trees shipped with the kernel, for example,
+> allwinner/sun50i-a64.dtsi and mediatek/mt8183-kukui.dtsi in ARM64, still
+> comply to the old binding and contain no trips subnode.
+>=20
+> Allow the code to successfully register thermal zones w/o trips subnode
+> for DT binding compatibility now.
+>=20
+> Furtherly, the inconsistency between DTs and bindings should be resolved
+> by either adding empty trips subnode or dropping the trips subnode
+> requirement.
 
-> > Since we currently do not define any trip points for the GPU thermal
-> > zones on at least A64 or H5 this means that we have no thermal
-> > support
-> > on these platforms:
+This makes sense to me - it allows people to see the reported
+temperature even if there's no trips defined which seems more
+helpful than refusing to register.
 
-> > [=C2=A0=C2=A0=C2=A0 1.698703] thermal_sys: Failed to find 'trips' node
-> > [=C2=A0=C2=A0=C2=A0 1.698707] thermal_sys: Failed to find trip points f=
-or thermal-
-> > sensor id=3D1
+Reviewed-by: Mark Brown <broonie@kernel.org>
 
-> I think this is an issue in the core thermal subsystem, and sent a
-> patch; Unfortunately the patch seems to be rejected by linux-arm-kernel
-> (and some other mailing lists)...
-
-It did seem to be a bit of an excessively strict requirement, I was
-going to poke at that myself.  It does seem worthwhile doing the change
-in the sun8i driver anyway, there might be some other issue that causes
-registration to fail which would have the same issue.
-
-> I will then resend it again and put Mark into CC list.
-
-Thanks.
-
---pJ7zt3hWz8YVEKZz
+--qmlxt8wSsnvuRw3d
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmS8B/UACgkQJNaLcl1U
-h9DbHQf/R/NTGVJ5ZHb5w5mBluOwQ43U4PSsTff9jY6HVWrnJNEXSSVFbmfADsWJ
-4nPr/Sv5UEHRMt9fvjV2mm96TwXIk6PcRyoOZ2UYSbth6gmaotVUKfZquoKmvaHJ
-Yi9UmOdbIz1i6Eil0s7UL/ZwuRShzzhxfQRdfyvTix9vryxtd6xkYDqMStdHqwc5
-5SCuPjyK9SvgWG0Rv50qCvS8DOfmOt0wJ22senQ9EWpoQVQzfOz7a/iReEUKBiLe
-15QFff1NN5i2mMzTN6jE0qa4+yxb/SP8LlJ1x/bar6pEZP6YLH3rN/TGEkczo4ej
-ZXV/HHHOmErXSt+FGKjXTJVb93AmGw==
-=W9D9
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmS8OAkACgkQJNaLcl1U
+h9CRvwf9EgwMjwx2a6iutkecp3uFZwWNnW29QRQ4CiMFagDVw0T4QBY1c9lZHt+G
+gWpeUxAmdhOlFOPqUjsECVD4WLb0jgBLR/mTStJlVTfRDh19L7sqdPjv1wusWJRC
+EpvO18flHCvptt/uGpGJSpgSjvsdno2UN15ItUv21WPUo1fcyKymyRDoEREAETHy
+TQNRktd6GG6MxGdDPYtg+H/2UrI80IFS5r608F+lmcjo4J67dI2+x/TiuX5MQ3dD
+zR1NUdaACpYwjEctJ23troInehqwwglXs+CNm/p/WC9sWgfYaKSYdJXpjlS+mHFt
+NVJaVP9uS0BcAJL7sGXEapQApo6Beg==
+=Anzg
 -----END PGP SIGNATURE-----
 
---pJ7zt3hWz8YVEKZz--
+--qmlxt8wSsnvuRw3d--
