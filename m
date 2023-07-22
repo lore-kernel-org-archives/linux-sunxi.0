@@ -1,75 +1,97 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A062908
-	for <linux-sunxi@lists.linux.dev>; Sat, 22 Jul 2023 14:31:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=KOFQHKY9FiS+M1ooBdGcu9VMnSbo7Qp9uGzk3JA61Tc=; b=gWjrQ4i5TaiVDqlOAIfX0xtisS
-	gwfUvVPBeTvGNyZShxKRbKdVUoL36JonhPRVYnygEXTIXpqMc+wztGcxQyLXRwKln/3LFZbh4tjgZ
-	K+gJoM7irVGYDNPIbi4jFH/BnthWOR3J262z10I4hxTM1pHTmJ49Zk2MLVBAKtJXZlnM5yxyWJyt8
-	+ATQ7hHaIbDroehG3a2KrB/oXOQGLGoD3xQbS9qlSUgzaABrMoaS3yoQ4PQjXubPx97Ri9/vjlTxR
-	vN/1GvkWVkN5cgRbdZfj6GLBjXcOcnDnU2iGUeE0EvRGfDEv96DgvVhO2+rfETPst5Ewcv4AdBYjq
-	9ttgRb+A==;
-Received: from [2601:1c2:980:9ec0::2764]
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qNDdl-00Gr7H-0i;
-	Sat, 22 Jul 2023 14:31:25 +0000
-Message-ID: <a60c8c63-509e-682c-16be-1a381b09b1eb@infradead.org>
-Date: Sat, 22 Jul 2023 07:31:22 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B377F
+	for <linux-sunxi@lists.linux.dev>; Sat, 22 Jul 2023 16:46:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81091C433C7;
+	Sat, 22 Jul 2023 16:46:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1690044409;
+	bh=FUcJ5kyCBceu8cNLWIvq9oyoWX1mBM/NTa8B3HLsfeY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Hq9BFN+Qb8kL3PirNWumZYTFEez3EDB0Dy4bM/dvbTvUhL7MSsTBV0Zq1OHrHqzZi
+	 fsUAhXykmE171UPRY0tmDtOhJ3ESTAZNYnEzdA7R4uhJxBCA8B8gihyx2uxgNH1XBd
+	 FXVedcdFt9PjZVqbggvh0wgscpS0K3c2345OF7CXXZ5dpK8AsXMWSMo6XR929DmNto
+	 OeDFDNbRrXw4giBuI24t7VQBOeOlCwqjbZKxKlsZljcnHkVm4lynj7aNLq16ZCoJM4
+	 ohYxvMbVHnyjcwcHa6imFWUEQNPWj4KTKFB4J/U91V3fqLf+nrZU064jO07z+b5Xcb
+	 KLhR80it9bWpg==
+Date: Sat, 22 Jul 2023 17:46:45 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Icenowy Zheng <uwu@icenowy.me>
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>,
+	Yangtao Li <tiny.windzz@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hugh Dickins <hughd@google.com>, linux-pm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] thermal/drivers/sun8i: Don't fail probe due to zone
+ registration failure
+Message-ID: <ZLwH9RFnJymdy7YD@finisterre.sirena.org.uk>
+References: <20230718-thermal-sun8i-registration-v1-1-c95b1b070340@kernel.org>
+ <5a9ccb708f004e70e2102417eb48b766b03777cd.camel@icenowy.me>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH -next] clk: sunxi-ng: Modify mismatched function name
-Content-Language: en-US
-To: Zhang Jianhua <chris.zjh@huawei.com>, mturquette@baylibre.com,
- sboyd@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, ulf.hansson@linaro.org, mripard@kernel.org
-Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20230722153107.2078179-1-chris.zjh@huawei.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230722153107.2078179-1-chris.zjh@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="pJ7zt3hWz8YVEKZz"
+Content-Disposition: inline
+In-Reply-To: <5a9ccb708f004e70e2102417eb48b766b03777cd.camel@icenowy.me>
+X-Cookie: Give him an evasive answer.
 
 
+--pJ7zt3hWz8YVEKZz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 7/22/23 08:31, Zhang Jianhua wrote:
-> No functional modification involved.
-> 
-> drivers/clk/sunxi-ng/ccu_mmc_timing.c:54: warning: expecting prototype for sunxi_ccu_set_mmc_timing_mode(). Prototype was for sunxi_ccu_get_mmc_timing_mode() instead
-> 
-> Fixes: f6f64ed868d3 ("clk: sunxi-ng: Add interface to query or configure MMC timing modes.")
-> Signed-off-by: Zhang Jianhua <chris.zjh@huawei.com>
+On Sat, Jul 22, 2023 at 08:11:43PM +0800, Icenowy Zheng wrote:
+> =E5=9C=A8 2023-07-18=E6=98=9F=E6=9C=9F=E4=BA=8C=E7=9A=84 16:04 +0100=EF=
+=BC=8CMark Brown=E5=86=99=E9=81=93=EF=BC=9A
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> > Since we currently do not define any trip points for the GPU thermal
+> > zones on at least A64 or H5 this means that we have no thermal
+> > support
+> > on these platforms:
+
+> > [=C2=A0=C2=A0=C2=A0 1.698703] thermal_sys: Failed to find 'trips' node
+> > [=C2=A0=C2=A0=C2=A0 1.698707] thermal_sys: Failed to find trip points f=
+or thermal-
+> > sensor id=3D1
+
+> I think this is an issue in the core thermal subsystem, and sent a
+> patch; Unfortunately the patch seems to be rejected by linux-arm-kernel
+> (and some other mailing lists)...
+
+It did seem to be a bit of an excessively strict requirement, I was
+going to poke at that myself.  It does seem worthwhile doing the change
+in the sun8i driver anyway, there might be some other issue that causes
+registration to fail which would have the same issue.
+
+> I will then resend it again and put Mark into CC list.
+
 Thanks.
 
-> ---
->  drivers/clk/sunxi-ng/ccu_mmc_timing.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/clk/sunxi-ng/ccu_mmc_timing.c b/drivers/clk/sunxi-ng/ccu_mmc_timing.c
-> index 23a8d44e2449..78919d7843be 100644
-> --- a/drivers/clk/sunxi-ng/ccu_mmc_timing.c
-> +++ b/drivers/clk/sunxi-ng/ccu_mmc_timing.c
-> @@ -43,7 +43,7 @@ int sunxi_ccu_set_mmc_timing_mode(struct clk *clk, bool new_mode)
->  EXPORT_SYMBOL_GPL(sunxi_ccu_set_mmc_timing_mode);
->  
->  /**
-> - * sunxi_ccu_set_mmc_timing_mode: Get the current MMC clock timing mode
-> + * sunxi_ccu_get_mmc_timing_mode: Get the current MMC clock timing mode
->   * @clk: clock to query
->   *
->   * Return: %0 if the clock is in old timing mode, > %0 if it is in
+--pJ7zt3hWz8YVEKZz
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-~Randy
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmS8B/UACgkQJNaLcl1U
+h9DbHQf/R/NTGVJ5ZHb5w5mBluOwQ43U4PSsTff9jY6HVWrnJNEXSSVFbmfADsWJ
+4nPr/Sv5UEHRMt9fvjV2mm96TwXIk6PcRyoOZ2UYSbth6gmaotVUKfZquoKmvaHJ
+Yi9UmOdbIz1i6Eil0s7UL/ZwuRShzzhxfQRdfyvTix9vryxtd6xkYDqMStdHqwc5
+5SCuPjyK9SvgWG0Rv50qCvS8DOfmOt0wJ22senQ9EWpoQVQzfOz7a/iReEUKBiLe
+15QFff1NN5i2mMzTN6jE0qa4+yxb/SP8LlJ1x/bar6pEZP6YLH3rN/TGEkczo4ej
+ZXV/HHHOmErXSt+FGKjXTJVb93AmGw==
+=W9D9
+-----END PGP SIGNATURE-----
+
+--pJ7zt3hWz8YVEKZz--
