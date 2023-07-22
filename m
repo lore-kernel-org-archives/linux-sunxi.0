@@ -1,144 +1,116 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A1B62A
-	for <linux-sunxi@lists.linux.dev>; Sat, 22 Jul 2023 12:12:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1690027912; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=BxlRx5NQZXcUCGSt+n3ej6CGzJFx+3G8tpxFmPdUgkBoJUy9iS6ACE0GZqyfbGY+SIGw8KECkqeMO1vy8pRoWmFy7EFGXSkQR25+XVzeQMX9tgEJIJIua7MLVs1DM4r/jJ/3jRHRNhRDoVlGND8GkZDOnnQx3oI7U3fXRfm9Afo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1690027912; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=el7ZrIrO9UyXzVKE3KwU/q6tYq8IYFl5e7HnxaVFfq8=; 
-	b=CXqycX3sc0Hh2suMQ1WAYK8A2DPy5ProMLOFUNuRN/Vci2QaMC/zBkoxjUEy1pSjk7CZcIYruCiQSFb+r9LAMq2Mc30s/wKw1SrZ1iRWw+Atw85xvQEOTgLXvhFhPeMhxE2yTocMPurXqcqGjpujXqhOjqWc4YcmiEcOpxNxIgU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1690027912;
-	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=el7ZrIrO9UyXzVKE3KwU/q6tYq8IYFl5e7HnxaVFfq8=;
-	b=dmWYzTMEmXx/zxeZM9mpfIn6To3SpiR8DEQBPPE4qTKpqpXWqmNjB3W3qIgZAvRv
-	lMKrFKReNtHqwLqTnDBN1j+/EcfHzbcVlgDnSoGqTxsUnU93x36XIZSVUSszL1txCNs
-	ugfn+FkqYYCM1xxIcHEFfgSQmGSIl3jqOJVwXYXwcvw1nlIS3TXVsCPqexKk2AgM8jq
-	del+lngdX863PdJGqZluwQsKwmEeES7MQtmbd+MpbTjX+wRqMMSBxO9qIuRMuDiYHRv
-	LfKfQcUR1JR1+ENPob77WnZPopLqzRVS5S9ULR565yLP1V2pwCR/QszdPgPixBSSEi2
-	PF03wm8Fgw==
-Received: from edelgard.fodlan.icenowy.me (120.85.97.227 [120.85.97.227]) by mx.zohomail.com
-	with SMTPS id 1690027909589553.9788050686577; Sat, 22 Jul 2023 05:11:49 -0700 (PDT)
-Message-ID: <5a9ccb708f004e70e2102417eb48b766b03777cd.camel@icenowy.me>
-Subject: Re: [PATCH] thermal/drivers/sun8i: Don't fail probe due to zone
- registration failure
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Mark Brown <broonie@kernel.org>, Vasily Khoruzhick <anarsoul@gmail.com>,
-  Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, Amit
- Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>
-Cc: Hugh Dickins <hughd@google.com>, linux-pm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Sat, 22 Jul 2023 20:11:43 +0800
-In-Reply-To: <20230718-thermal-sun8i-registration-v1-1-c95b1b070340@kernel.org>
-References: 
-	<20230718-thermal-sun8i-registration-v1-1-c95b1b070340@kernel.org>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.44.4 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C4318C11
+	for <linux-sunxi@lists.linux.dev>; Sat, 22 Jul 2023 12:33:22 +0000 (UTC)
+Received: from edelgard.fodlan.icenowy.me (unknown [120.85.97.227])
+	by APP-03 (Coremail) with SMTP id rQCowADX3sbIyrtkuWM4DQ--.21865S2;
+	Sat, 22 Jul 2023 20:25:44 +0800 (CST)
+From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Amit Kucheria <amitk@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	Icenowy Zheng <uwu@icenowy.me>
+Subject: [PATCH RESEND RESEND] thermal/of: support thermal zones w/o trips subnode
+Date: Sat, 22 Jul 2023 20:25:34 +0800
+Message-Id: <20230722122534.2279689-1-zhengxingda@iscas.ac.cn>
+X-Mailer: git-send-email 2.39.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowADX3sbIyrtkuWM4DQ--.21865S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ArWkCryrGr4fJry3ArykAFb_yoW8tr45pF
+	43G3s0yrWkJFs7G3Z2yF18XFZ0kr10yFWxZ3yIkas0ya9xJrWaq3yUJryYqryxCFy8XFWa
+	yryqkryY9FWDJaDanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUyab7Iv0xC_tr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwV
+	C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+	0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr
+	1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxC2
+	0s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI
+	0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE
+	14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20x
+	vaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8
+	JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8FfO7UUUUU==
+X-Originating-IP: [120.85.97.227]
+X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
 
-5ZyoIDIwMjMtMDctMTjmmJ/mnJ/kuoznmoQgMTY6MDQgKzAxMDDvvIxNYXJrIEJyb3du5YaZ6YGT
-77yaCj4gQ3VycmVudGx5IHRoZSBzdW44aSB0aGVybWFsIGRyaXZlciB3aWxsIGZhaWwgdG8gcHJv
-YmUgaWYgYW55IG9mIHRoZQo+IHRoZXJtYWwgem9uZXMgaXQgaXMgcmVnaXN0ZXJpbmcgZmFpbHMg
-dG8gcmVnaXN0ZXIgd2l0aCB0aGUgdGhlcm1hbAo+IGNvcmUuCj4gU2luY2Ugd2UgY3VycmVudGx5
-IGRvIG5vdCBkZWZpbmUgYW55IHRyaXAgcG9pbnRzIGZvciB0aGUgR1BVIHRoZXJtYWwKPiB6b25l
-cyBvbiBhdCBsZWFzdCBBNjQgb3IgSDUgdGhpcyBtZWFucyB0aGF0IHdlIGhhdmUgbm8gdGhlcm1h
-bAo+IHN1cHBvcnQKPiBvbiB0aGVzZSBwbGF0Zm9ybXM6Cj4gCj4gW8KgwqDCoCAxLjY5ODcwM10g
-dGhlcm1hbF9zeXM6IEZhaWxlZCB0byBmaW5kICd0cmlwcycgbm9kZQo+IFvCoMKgwqAgMS42OTg3
-MDddIHRoZXJtYWxfc3lzOiBGYWlsZWQgdG8gZmluZCB0cmlwIHBvaW50cyBmb3IgdGhlcm1hbC0K
-PiBzZW5zb3IgaWQ9MQoKSSB0aGluayB0aGlzIGlzIGFuIGlzc3VlIGluIHRoZSBjb3JlIHRoZXJt
-YWwgc3Vic3lzdGVtLCBhbmQgc2VudCBhCnBhdGNoOyBVbmZvcnR1bmF0ZWx5IHRoZSBwYXRjaCBz
-ZWVtcyB0byBiZSByZWplY3RlZCBieSBsaW51eC1hcm0ta2VybmVsCihhbmQgc29tZSBvdGhlciBt
-YWlsaW5nIGxpc3RzKS4uLgoKSSB3aWxsIHRoZW4gcmVzZW5kIGl0IGFnYWluIGFuZCBwdXQgTWFy
-ayBpbnRvIENDIGxpc3QuCgo+IAo+IGV2ZW4gdGhvdWdoIHRoZSBtYWluIENQVSB0aGVybWFsIHpv
-bmUgb24gYm90aCBTb0NzIGlzIGZ1bGx5Cj4gY29uZmlndXJlZC4KPiBUaGlzIGRvZXMgbm90IHNl
-ZW0gaWRlYWwsIHdoaWxlIHdlIG1heSBub3QgYmUgYWJsZSB0byB1c2UgYWxsIHRoZQo+IHpvbmVz
-Cj4gaXQgc2VlbXMgYmV0dGVyIHRvIGhhdmUgdGhvc2Ugem9uZXMgd2hpY2ggYXJlIHVzYWJsZSBi
-ZSBvcGVyYXRpb25hbC4KPiBJbnN0ZWFkIGp1c3QgY2Fycnkgb24gcmVnaXN0ZXJpbmcgem9uZXMg
-aWYgd2UgZ2V0IGFueSBub24tZGVmZXJyYWwKPiBlcnJvciwgYWxsb3dpbmcgdXNlIG9mIHRob3Nl
-IHpvbmVzIHdoaWNoIGFyZSB1c2FibGUuCj4gCj4gVGhpcyBtZWFucyB0aGF0IHdlIGFsc28gbmVl
-ZCB0byB1cGRhdGUgdGhlIGludGVycnVwdCBoYW5kbGVyIHRvIG5vdAo+IGF0dGVtcHQgdG8gbm90
-aWZ5IHRoZSBjb3JlIGZvciBldmVudHMgb24gem9uZXMgd2hpY2ggd2UgaGF2ZSBub3QKPiByZWdp
-c3RlcmVkLCBJIGRpZG4ndCBzZWUgYW4gYWJpbGl0eSB0byBtYXNrIGluZGl2aWR1YWwgaW50ZXJy
-dXB0cyBhbmQKPiBJIHdvdWxkIGV4cGVjdCB0aGF0IGludGVycnVwdHMgd291bGQgc3RpbGwgYmUg
-aW5kaWNhdGVkIGluIHRoZSBJU1IKPiBldmVuCj4gaWYgdGhleSB3ZXJlIG1hc2tlZC4KPiAKPiBT
-aWduZWQtb2ZmLWJ5OiBNYXJrIEJyb3duIDxicm9vbmllQGtlcm5lbC5vcmc+Cj4gLS0tCj4gSSBu
-b3RpY2VkIHRoaXMgd2hpbGUgdHJ5aW5nIHRvIGRlYnVnIGFuIGlzc3VlIHdpdGggbWVtb3J5IGNv
-cnJ1cHRpb24KPiBvbgo+IGJvb3Qgd2hpY2ggc2luY2UgdGhlIG1lcmdlIHdpbmRvdyBoYXMgcHJl
-dmVudGVkIFBpbmU2NCBQbHVzIChhbiBBNjQpCj4gZnJvbSBib290aW5nIGF0IGFsbDoKPiAKPiDC
-oMKgCj4gaHR0cHM6Ly9zdG9yYWdlLmtlcm5lbGNpLm9yZy9tYWlubGluZS9tYXN0ZXIvdjYuNS1y
-YzIvYXJtNjQvZGVmY29uZmlnL2djYy0xMC9sYWItYmF5bGlicmUvYmFzZWxpbmUtc3VuNTBpLWE2
-NC1waW5lNjQtcGx1cy50eHQKPiAKPiAod2hpY2ggSSBiaXNlY3RlZCB0byBhIHJhbmRvbSBtZW1v
-cnkgbWFuYWdlbWVudCBjaGFuZ2UgdGhhdCBjbGVhcmx5Cj4gd2Fzbid0IGF0IGZhdWx0KSBhbmQg
-aGFzIGJlZW4gY2F1c2luZyBsZXNzIGNvbnNpc3RlbnQgYnV0IHN0aWxsIHZlcnkKPiBzZXZlcmUg
-Ym9vdCBpc3N1ZXMgb24gTGlicmV0ZWNoIFRyaXRpdW0gKGEgSDMpLsKgIFRoZSBjb3JydXB0aW9u
-Cj4gYXBwZWFycwo+IHRvIGhhcHBlbiB3aGVuIHVuYmluZGluZyBhIHRoZSBvbmUgdGhlcm1hbCB6
-b25lIHRoYXQgZG9lcyByZWdpc3RlciwKPiBJJ3ZlCj4gbm90IGZpZ3VyZWQgb3V0IGV4YWN0bHkg
-d2hlcmUuCj4gCj4gVGhlIG1lbW9yeSBjb3JydXB0aW9uIGlzc3VlIG9idmlvdXNseSBuZWVkcyB0
-byBiZSBkZWFsdCB3aXRoIHByb3Blcmx5Cj4gKEknbSBzdGlsbCBkaWdnaW5nIGludG8gaXQpIGJ1
-dCB0aGlzIGRvZXMgYWxsb3cgYm90aCBwbGF0Zm9ybXMgdG8KPiBib290Cj4gcmVsaWFibHkgYW5k
-IHNlZW1zIGxpa2UgYSBzZW5zaWJsZSB0aGluZyB0byBkbyBpbmRlcGVuZGVudGx5LCBpZGVhbGx5
-Cj4gd2UKPiBjb3VsZCBnZXQgdGhpcyBpbiBhcyBhIGZpeC4KPiAtLS0KPiDCoGRyaXZlcnMvdGhl
-cm1hbC9zdW44aV90aGVybWFsLmMgfCAxNiArKysrKysrKysrKysrKy0tCj4gwqAxIGZpbGUgY2hh
-bmdlZCwgMTQgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy90aGVybWFsL3N1bjhpX3RoZXJtYWwuYwo+IGIvZHJpdmVycy90aGVybWFsL3N1bjhp
-X3RoZXJtYWwuYwo+IGluZGV4IDE5NWYzYzVkMGIzOC4uYjY5MTM0NTM4ODY3IDEwMDY0NAo+IC0t
-LSBhL2RyaXZlcnMvdGhlcm1hbC9zdW44aV90aGVybWFsLmMKPiArKysgYi9kcml2ZXJzL3RoZXJt
-YWwvc3VuOGlfdGhlcm1hbC5jCj4gQEAgLTE5MCw2ICsxOTAsOSBAQCBzdGF0aWMgaXJxcmV0dXJu
-X3Qgc3VuOGlfaXJxX3RocmVhZChpbnQgaXJxLCB2b2lkCj4gKmRhdGEpCj4gwqDCoMKgwqDCoMKg
-wqDCoGludCBpOwo+IMKgCj4gwqDCoMKgwqDCoMKgwqDCoGZvcl9lYWNoX3NldF9iaXQoaSwgJmly
-cV9iaXRtYXAsIHRtZGV2LT5jaGlwLT5zZW5zb3JfbnVtKSB7Cj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoC8qIFdlIGFsbG93IHNvbWUgem9uZXMgdG8gbm90IHJlZ2lzdGVyLiAqLwo+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoSVNfRVJSKHRtZGV2LT5zZW5zb3Jb
-aV0udHpkKSkKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oGNvbnRpbnVlOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdGhlcm1hbF96b25l
-X2RldmljZV91cGRhdGUodG1kZXYtPnNlbnNvcltpXS50emQsCj4gwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgCj4gVEhFUk1BTF9FVkVOVF9VTlNQRUNJRklFRCk7Cj4gwqDCoMKgwqDCoMKgwqDC
-oH0KPiBAQCAtNDY1LDggKzQ2OCwxNyBAQCBzdGF0aWMgaW50IHN1bjhpX3Roc19yZWdpc3Rlcihz
-dHJ1Y3QgdGhzX2RldmljZQo+ICp0bWRldikKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIGksCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCAmdG1kZXYtCj4gPnNlbnNvcltpXSwKPiDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICZ0aHNfb3BzKTsKPiAtwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKElTX0VSUih0bWRldi0+c2Vuc29yW2ldLnR6ZCkp
-Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4g
-UFRSX0VSUih0bWRldi0+c2Vuc29yW2ldLnR6ZCk7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAvKgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKiBJZiBhbiBp
-bmRpdmlkdWFsIHpvbmUgZmFpbHMgdG8gcmVnaXN0ZXIgZm9yCj4gcmVhc29ucwo+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKiBvdGhlciB0aGFuIHByb2JlIGRlZmVycmFsIChlZywg
-YSBiYWQgRFQpIHRoZW4KPiBjYXJyeQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-KiBvbiwgb3RoZXIgem9uZXMgbWlnaHQgcmVnaXN0ZXIgc3VjY2Vzc2Z1bGx5Lgo+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgaWYgKElTX0VSUih0bWRldi0+c2Vuc29yW2ldLnR6ZCkpIHsKPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlmIChQVFJfRVJSKHRtZGV2LT5zZW5zb3Jb
-aV0udHpkKSA9PSAtCj4gRVBST0JFX0RFRkVSKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiBQVFJfRVJSKHRtZGV2
-LT5zZW5zb3JbaV0udHpkKTsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoGNvbnRpbnVlOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9Cj4g
-wqAKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRldm1fdGhlcm1hbF9hZGRfaHdt
-b25fc3lzZnModG1kZXYtPmRldiwgdG1kZXYtCj4gPnNlbnNvcltpXS50emQpOwo+IMKgwqDCoMKg
-wqDCoMKgwqB9Cj4gCj4gLS0tCj4gYmFzZS1jb21taXQ6IGZkZjBlYWYxMTQ1MmQ3Mjk0NWFmMzE4
-MDRlMmExMDQ4ZWUxYjU3NGMKPiBjaGFuZ2UtaWQ6IDIwMjMwNzE4LXRoZXJtYWwtc3VuOGktcmVn
-aXN0cmF0aW9uLWRmM2ExMzZjY2FmYQo+IAo+IEJlc3QgcmVnYXJkcywKCg==
+From: Icenowy Zheng <uwu@icenowy.me>
+
+Although the current device tree binding of thermal zones require the
+trips subnode, the binding in kernel v5.15 does not require it, and many
+device trees shipped with the kernel, for example,
+allwinner/sun50i-a64.dtsi and mediatek/mt8183-kukui.dtsi in ARM64, still
+comply to the old binding and contain no trips subnode.
+
+Allow the code to successfully register thermal zones w/o trips subnode
+for DT binding compatibility now.
+
+Furtherly, the inconsistency between DTs and bindings should be resolved
+by either adding empty trips subnode or dropping the trips subnode
+requirement.
+
+Fixes: d0c75fa2c17f ("thermal/of: Initialize trip points separately")
+Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+---
+
+Unfortunately the code gets dropped by mailing lists again and again...
+
+Sorry for the disturbance.
+
+ drivers/thermal/thermal_of.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_of.c
+index 6fb14e521197..2c76df847e84 100644
+--- a/drivers/thermal/thermal_of.c
++++ b/drivers/thermal/thermal_of.c
+@@ -127,15 +127,17 @@ static struct thermal_trip *thermal_of_trips_init(struct device_node *np, int *n
+ 
+ 	trips = of_get_child_by_name(np, "trips");
+ 	if (!trips) {
+-		pr_err("Failed to find 'trips' node\n");
+-		return ERR_PTR(-EINVAL);
++		pr_debug("Failed to find 'trips' node\n");
++		*ntrips = 0;
++		return NULL;
+ 	}
+ 
+ 	count = of_get_child_count(trips);
+ 	if (!count) {
+-		pr_err("No trip point defined\n");
+-		ret = -EINVAL;
+-		goto out_of_node_put;
++		pr_debug("No trip point defined\n");
++		of_node_put(trips);
++		*ntrips = 0;
++		return NULL;
+ 	}
+ 
+ 	tt = kzalloc(sizeof(*tt) * count, GFP_KERNEL);
+@@ -519,7 +521,10 @@ static struct thermal_zone_device *thermal_of_zone_register(struct device_node *
+ 	of_ops->bind = thermal_of_bind;
+ 	of_ops->unbind = thermal_of_unbind;
+ 
+-	mask = GENMASK_ULL((ntrips) - 1, 0);
++	if (ntrips)
++		mask = GENMASK_ULL((ntrips) - 1, 0);
++	else
++		mask = 0;
+ 
+ 	tz = thermal_zone_device_register_with_trips(np->name, trips, ntrips,
+ 						     mask, data, of_ops, tzp,
+-- 
+2.39.1
 
