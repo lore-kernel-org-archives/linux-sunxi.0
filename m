@@ -1,72 +1,75 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A2C17ABB;
-	Sat, 22 Jul 2023 14:02:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690034528; x=1721570528;
-  h=message-id:date:mime-version:cc:subject:to:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=SqJ+O+atMOXabuGL4Lbq05LADBIKGyitXrMQM1qr5Ho=;
-  b=cRNHyiH3vRI+45lSfgTlfrWJNr2ztH+DrP7L5fvqrN2HievMyNBY7AQ+
-   iR/UPJOJnwh8JEipEeJYURydyroSHWXEgsmNI61xvAwnOS5wrK3D1VB3w
-   kArDLbY6ceyQLp8U1QxwgA7/rG8ceV7cgmBTpBNZcVtxGObgyQbRS+fta
-   dXKs5gjuqjmPqST0ezrfOFQZc8yDt0aMUlR4N/aCfufxqBfiiDE1cm5A+
-   yX76HwNVH+OHeWWn2WDVNkWhFBwjihV4bmkHw37zpc1Mzy5elzZ1K/I2A
-   jGH0ZElIkXfre7s5/AWKghBPaR6nlIpEHYOEd70c9CVQEc/XErmIgCKJB
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="398090058"
-X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="398090058"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 07:02:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="760278822"
-X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="760278822"
-Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.249.173.108]) ([10.249.173.108])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 07:02:02 -0700
-Message-ID: <218edab7-ea1f-8629-4270-046e8b7c7fcc@linux.intel.com>
-Date: Sat, 22 Jul 2023 22:02:00 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A062908
+	for <linux-sunxi@lists.linux.dev>; Sat, 22 Jul 2023 14:31:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=KOFQHKY9FiS+M1ooBdGcu9VMnSbo7Qp9uGzk3JA61Tc=; b=gWjrQ4i5TaiVDqlOAIfX0xtisS
+	gwfUvVPBeTvGNyZShxKRbKdVUoL36JonhPRVYnygEXTIXpqMc+wztGcxQyLXRwKln/3LFZbh4tjgZ
+	K+gJoM7irVGYDNPIbi4jFH/BnthWOR3J262z10I4hxTM1pHTmJ49Zk2MLVBAKtJXZlnM5yxyWJyt8
+	+ATQ7hHaIbDroehG3a2KrB/oXOQGLGoD3xQbS9qlSUgzaABrMoaS3yoQ4PQjXubPx97Ri9/vjlTxR
+	vN/1GvkWVkN5cgRbdZfj6GLBjXcOcnDnU2iGUeE0EvRGfDEv96DgvVhO2+rfETPst5Ewcv4AdBYjq
+	9ttgRb+A==;
+Received: from [2601:1c2:980:9ec0::2764]
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1qNDdl-00Gr7H-0i;
+	Sat, 22 Jul 2023 14:31:25 +0000
+Message-ID: <a60c8c63-509e-682c-16be-1a381b09b1eb@infradead.org>
+Date: Sat, 22 Jul 2023 07:31:22 -0700
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Cc: baolu.lu@linux.intel.com, Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH 03/10] iommu: Add generic_single_device_group()
+Subject: Re: [PATCH -next] clk: sunxi-ng: Modify mismatched function name
 Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- David Woodhouse <dwmw2@infradead.org>, Heiko Stuebner <heiko@sntech.de>,
- iommu@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Joerg Roedel <joro@8bytes.org>, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Orson Zhai <orsonzhai@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
- Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
- Will Deacon <will@kernel.org>, Chunyan Zhang <zhang.lyra@gmail.com>
-References: <3-v1-3c8177327a47+256-iommu_group_locking_jgg@nvidia.com>
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <3-v1-3c8177327a47+256-iommu_group_locking_jgg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Zhang Jianhua <chris.zjh@huawei.com>, mturquette@baylibre.com,
+ sboyd@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, ulf.hansson@linaro.org, mripard@kernel.org
+Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20230722153107.2078179-1-chris.zjh@huawei.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230722153107.2078179-1-chris.zjh@huawei.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 2023/7/19 3:05, Jason Gunthorpe wrote:
-> This implements the common pattern seen in drivers of a single
-> iommu_group for the entire iommu driver. Implement this in core code
-> so the drivers that want this can select it from their ops.
+
+
+On 7/22/23 08:31, Zhang Jianhua wrote:
+> No functional modification involved.
 > 
-> Signed-off-by: Jason Gunthorpe<jgg@nvidia.com>
+> drivers/clk/sunxi-ng/ccu_mmc_timing.c:54: warning: expecting prototype for sunxi_ccu_set_mmc_timing_mode(). Prototype was for sunxi_ccu_get_mmc_timing_mode() instead
+> 
+> Fixes: f6f64ed868d3 ("clk: sunxi-ng: Add interface to query or configure MMC timing modes.")
+> Signed-off-by: Zhang Jianhua <chris.zjh@huawei.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
+
 > ---
->   drivers/iommu/iommu.c | 25 +++++++++++++++++++++++++
->   include/linux/iommu.h |  3 +++
->   2 files changed, 28 insertions(+)
+>  drivers/clk/sunxi-ng/ccu_mmc_timing.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/clk/sunxi-ng/ccu_mmc_timing.c b/drivers/clk/sunxi-ng/ccu_mmc_timing.c
+> index 23a8d44e2449..78919d7843be 100644
+> --- a/drivers/clk/sunxi-ng/ccu_mmc_timing.c
+> +++ b/drivers/clk/sunxi-ng/ccu_mmc_timing.c
+> @@ -43,7 +43,7 @@ int sunxi_ccu_set_mmc_timing_mode(struct clk *clk, bool new_mode)
+>  EXPORT_SYMBOL_GPL(sunxi_ccu_set_mmc_timing_mode);
+>  
+>  /**
+> - * sunxi_ccu_set_mmc_timing_mode: Get the current MMC clock timing mode
+> + * sunxi_ccu_get_mmc_timing_mode: Get the current MMC clock timing mode
+>   * @clk: clock to query
+>   *
+>   * Return: %0 if the clock is in old timing mode, > %0 if it is in
 
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
-
-Best regards,
-baolu
+-- 
+~Randy
