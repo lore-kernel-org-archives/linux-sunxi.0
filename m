@@ -1,126 +1,106 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C457C
-	for <linux-sunxi@lists.linux.dev>; Sun, 23 Jul 2023 10:12:52 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3fbea14706eso26150045e9.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 23 Jul 2023 03:12:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690107170; x=1690711970;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BEgvBTwL2MyevdtU3fvRfq/aq6oqUR4xFaMQ6+/3+Dw=;
-        b=MlxfssDoiZeCCc1hfQfLncVCxJNbaoto3CAfuLRXQ7TL4fsC1/4sHePjetyHdovpPF
-         GPvXA9b47AxJlRGBA40U/cLr6SyCZIhtn8EWWU+TT9aurr4gz2EfBYMXaBg7njvMcspi
-         67CLSfQz5x8kooisKa219yLA/WZkTAE0nOccu1Hd7lJtFGCeQqQWwwetO2LEXlg/zCMs
-         Ljjzlt38LZyK7JZCCnh8cRiT6laSOrFfWJe8v1ZK78grDOqQOIrXTeFwO36LK8+UHlCU
-         oXu/wrwMstyQrR1VHDd+c6BP5ic3hD/+NnRLYRHN1YKcHD4q3qrTvU8XavJm2WEf6cvI
-         YbDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690107170; x=1690711970;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BEgvBTwL2MyevdtU3fvRfq/aq6oqUR4xFaMQ6+/3+Dw=;
-        b=h8OgIxPLmwAeBGcyYCmyqEd4rhBjjwdIW1g4ubasNvt02NQJKkhpb6PylngoG48WhI
-         wta+gVixvIclqrYYhV4UzWQiDDVsRyYD7a5xA2xP1AtXjd3hc243iKfVT1OUxQ6pOYJG
-         GMmOtnCaia+8OBhMXNVCT5ZBBFny10Ho5cYLTkoGTygoA+FtdgbQF2d+jqG31DGt6d/4
-         DHmlJKx0AHIbla+6sU86q/rNGSIOlArpBsI+NHu7cb3f2yWi+qXgveATvxTYRTty5QTt
-         IEmiT8JQJT02VhpyxWnXGfDqOyk341ks+EaYwXRYXCALA6m9ZT79OekJ1HRyeNYiLsGk
-         4f+A==
-X-Gm-Message-State: ABy/qLbxDktAIPbgiRM/5fQOD1MonHj6C1lCC8HuGYvIN4KGhGYRv2qX
-	aCWi+LSaKO+tyA0I/MkziWwqLA==
-X-Google-Smtp-Source: APBJJlFclljmtLvrx3OH6OGPme7VeGnFSSo5I5l4mYQuISKyF2Zv98JlqeoiTbq6AdakcgbUjTmNNA==
-X-Received: by 2002:a05:600c:2a54:b0:3fb:ff57:1750 with SMTP id x20-20020a05600c2a5400b003fbff571750mr4850793wme.32.1690107170636;
-        Sun, 23 Jul 2023 03:12:50 -0700 (PDT)
-Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.googlemail.com with ESMTPSA id 3-20020a05600c234300b003fbaa2903f4sm7366620wmq.19.2023.07.23.03.12.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Jul 2023 03:12:50 -0700 (PDT)
-Message-ID: <6d1c0915-1485-d9d6-9fff-0413fb16bd3f@linaro.org>
-Date: Sun, 23 Jul 2023 12:12:49 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E951378
+	for <linux-sunxi@lists.linux.dev>; Sun, 23 Jul 2023 12:38:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B11D6C433C7;
+	Sun, 23 Jul 2023 12:38:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1690115939;
+	bh=DqMrwul8Z+Kp+FVoVrlZHdVil5ffk4Br9Pj1Hqbnxm4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Ob77RBPFBoVTTNibSWxMjo0wYIwPaVtL0+Hj7xKLbn+8iwdFiEl306vNqyY02UYoL
+	 jPYeKJ+MmA8RU2waU4uBNAvx+/k8LWhw1LvDiwwxOYcT8A1N61ZbBJwn2kgvupboS1
+	 BS/Ly2Fwldf5uZurcjDRKOMfZVR+pXchkx2F9ETNpzNFputSU9qCWgDPTK3ficVtVB
+	 hkKcaRcnMnpipcBvew2sRWfQD5EKlTmzr9CfzlxoWvfTNZGhet4PsFi1FmXGnXleMF
+	 gtaTvOuB9gZlAqFWvC0RyHGmfCN2287EnLmncsKSc1B6d50Aw/+XGT9xje7oGzxj+G
+	 JP70unohiRQRQ==
+Date: Sun, 23 Jul 2023 13:38:48 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Michael Hennerich <michael.hennerich@analog.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Alexandru Tachici <alexandru.tachici@analog.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea
+ <claudiu.beznea@microchip.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Andy Gross
+ <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
+ <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>, Orson Zhai
+ <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan
+ Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Crt Mori <cmo@melexis.com>,
+ devicetree@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] iio: adc: Explicitly include correct DT includes
+Message-ID: <20230723133848.5dc96150@jic23-huawei>
+In-Reply-To: <20230715182510.3d09970c@jic23-huawei>
+References: <20230714174628.4057920-1-robh@kernel.org>
+	<20230715182510.3d09970c@jic23-huawei>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH RESEND RESEND] thermal/of: support thermal zones w/o trips
- subnode
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>, Icenowy Zheng <zhengxingda@iscas.ac.cn>
-Cc: Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Icenowy Zheng <uwu@icenowy.me>
-References: <20230722122534.2279689-1-zhengxingda@iscas.ac.cn>
- <ZLw4CnzLI/QHPGWx@finisterre.sirena.org.uk>
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <ZLw4CnzLI/QHPGWx@finisterre.sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Sat, 15 Jul 2023 18:25:10 +0100
+Jonathan Cameron <jic23@kernel.org> wrote:
 
-Hi Mark,
-
-On 22/07/2023 22:11, Mark Brown wrote:
-> On Sat, Jul 22, 2023 at 08:25:34PM +0800, Icenowy Zheng wrote:
->> From: Icenowy Zheng <uwu@icenowy.me>
->>
->> Although the current device tree binding of thermal zones require the
->> trips subnode, the binding in kernel v5.15 does not require it, and many
->> device trees shipped with the kernel, for example,
->> allwinner/sun50i-a64.dtsi and mediatek/mt8183-kukui.dtsi in ARM64, still
->> comply to the old binding and contain no trips subnode.
->>
->> Allow the code to successfully register thermal zones w/o trips subnode
->> for DT binding compatibility now.
->>
->> Furtherly, the inconsistency between DTs and bindings should be resolved
->> by either adding empty trips subnode or dropping the trips subnode
->> requirement.
+> On Fri, 14 Jul 2023 11:46:26 -0600
+> Rob Herring <robh@kernel.org> wrote:
 > 
-> This makes sense to me - it allows people to see the reported
-> temperature even if there's no trips defined which seems more
-> helpful than refusing to register.
+> > The DT of_device.h and of_platform.h date back to the separate
+> > of_platform_bus_type before it as merged into the regular platform bus.
+> > As part of that merge prepping Arm DT support 13 years ago, they
+> > "temporarily" include each other. They also include platform_device.h
+> > and of.h. As a result, there's a pretty much random mix of those include
+> > files used throughout the tree. In order to detangle these headers and
+> > replace the implicit includes with struct declarations, users need to
+> > explicitly include the correct includes.
+> > 
+> > Signed-off-by: Rob Herring <robh@kernel.org>  
+> 
+> Hi Rob,
+> 
+> Just one in here that I noticed isn't quite right. I'd have fixed it 
+> up (and can still do so if nothing else comes up) but I want to give
+> this more time on list anyway so won't pick it up today.
 
-The binding describes the trip points as required and that since the 
-beginning.
+Fixed up whilst applying.
 
-What changed is now the code reflects the required property while before 
-it was permissive, that was an oversight.
+Applied to the togreg branch of iio.git and pushed out as testing to see
+if 0-day can find anything we missed.
 
-Just a reminder about the thermal framework goals:
+Thanks,
 
-   1. It protects the silicon (thus critical and hot trip points)
+Jonathan
 
-   2. It mitigates the temperature (thus cooling device bound to trip 
-points)
-
-   3. It notifies the userspace when a trip point is crossed
-
-So if the thermal zone is described but without any of this goal above, 
-it is pointless.
-
-If the goal is to report the temperature only, then hwmon should be used 
-instead.
-
-If the goal is to mitigate by userspace, then the trip point *must* be 
-used to prevent the userspace polling the temperature. With the trip 
-point the sensor will be set to fire an interrupt at the given trip 
-temperature.
-
-IOW, trip points are not optional
-
-
-
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+> 
+> Jonathan
+> 
+> > diff --git a/drivers/iio/adc/stmpe-adc.c b/drivers/iio/adc/stmpe-adc.c
+> > index 67518e460e05..55e36b40fdf5 100644
+> > --- a/drivers/iio/adc/stmpe-adc.c
+> > +++ b/drivers/iio/adc/stmpe-adc.c
+> > @@ -14,9 +14,10 @@
+> >  #include <linux/kernel.h>
+> >  #include <linux/mfd/stmpe.h>
+> >  #include <linux/module.h>
+> > -#include <linux/of_platform.h>
+> > +#include <linux/of.h>
+> >  #include <linux/platform_device.h>
+> >  #include <linux/device.h>
+> > +#include <linux/of.h>  
+> 
+> Duplicate include.
+> 
 
