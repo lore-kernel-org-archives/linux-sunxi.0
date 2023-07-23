@@ -1,123 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A377FEC7
-	for <linux-sunxi@lists.linux.dev>; Sat, 22 Jul 2023 23:27:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88B7FC433C8;
-	Sat, 22 Jul 2023 23:27:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690068443;
-	bh=C5VTDtOqdmj6Bz6JgxfHCEKJHYyIn7v2H/pyJ1qHGCM=;
-	h=From:Date:Subject:To:Cc:From;
-	b=fumBeebR/fj9xdn8EzaaqJ9QKok8wxdstGCw6EiJin3k5PiQAkG2KkNz6Gz1Ds0LN
-	 GDotCebW5AX3X2f+BFcvxqW1q1McAvTRUDK93mXtfZEIrLVfebrXeHyyjEb1ZyLFNv
-	 uyYNrjOx1HH8Tpx1X62ur6o/H9HLwIVllLVbCd1EsZTQ6KrV09RJGrn38NucQtDdgn
-	 5mdHBKFRU9R1009c0gEAMfbpcl0aQ+t7hhD1xcygkiiaAXMoP5zAnSR5rNtXKGFgKN
-	 sWyuVPCRaJEvsu1UFB2vMYHFZIUDhb+AbpATIjlhnP429Ec8yeecDHpZcGQaDdrVNh
-	 cp/5igG+AETrA==
-From: Mark Brown <broonie@kernel.org>
-Date: Sun, 23 Jul 2023 00:26:54 +0100
-Subject: [PATCH] thermal/of: Fix double free of params during
- unregistration
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8E9EBD
+	for <linux-sunxi@lists.linux.dev>; Sun, 23 Jul 2023 07:25:33 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4R7vvm4Pcdz9tBC;
+	Sun, 23 Jul 2023 09:25:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1690097124;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QUpiLW4Bjo600wsGfn6sWtbls6tv+Y76e5aMy/lLZRI=;
+	b=pL5jsGfH/OXKALWyo2XjDske4VVW7aj41TCh0369DoyEZfqtCZo2q628fGWW0pw2wRmNts
+	pDr8Nu266KYGfBJEtrPr4GShQMq9A4/IvAIPzGoEYPcrE/KdRUuii8WRSgYzCV4hPDSLal
+	3sDpNdrjYGUQ64ezvLempkwb4k2IrdsEB7vIe9Gj3DA/rm/dIZ8WjUuTd73hxZKcNZvyBC
+	89DifAsAT+b/AdgM/3n53/hPqVeLKj15eMRFeIkm8Y+FyHZvzfetfsecGSpwzsTT793g6b
+	95gPumEjD8fq+8d4kq/os/mlm7WBqHxH/WZ84Ao5ZFwPcTR1HJTwOVoyXdpeoQ==
+References: <20230717-pll-mipi_set_rate_parent-v4-0-04acf1d39765@oltmanns.dev>
+ <20230717-pll-mipi_set_rate_parent-v4-8-04acf1d39765@oltmanns.dev>
+ <ho2bblo2hzizst74hfqog3ga4cjf7eead2ntbl4e7xi5c32bhq@qpttu7ayv7vy>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Andre
+ Przywara <andre.przywara@arm.com>, Roman Beranek <me@crly.cz>,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 08/11] clk: sunxi-ng: nkm: Support finding closest rate
+In-reply-to: <ho2bblo2hzizst74hfqog3ga4cjf7eead2ntbl4e7xi5c32bhq@qpttu7ayv7vy>
+Date: Sun, 23 Jul 2023 09:25:10 +0200
+Message-ID: <87ilabqecp.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230723-thermal-fix-of-memory-corruption-v1-1-ed4fa16d199d@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAL1lvGQC/x2N0QqDMAxFf0XybKBG0LFfGT64mtrAaiV1YyL+u
- 8HHA+eee0BhFS7wrA5Q/kmRvBg0dQU+jsvMKJMxkKPW9US4RdY0fjDIH3PAxCnrjj6rftfNxti
- 33tzw6Bp6g2VWZXPvi9dwnheUwZCCcgAAAA==
-To: "Rafael J. Wysocki" <rafael@kernel.org>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, 
- Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>
-Cc: Hugh Dickins <hughd@google.com>, Will Deacon <will@kernel.org>, 
- Icenowy Zheng <uwu@icenowy.me>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev, 
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Mark Brown <broonie@kernel.org>, stable@vger.kernel.org
-X-Mailer: b4 0.13-dev-099c9
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2606; i=broonie@kernel.org;
- h=from:subject:message-id; bh=C5VTDtOqdmj6Bz6JgxfHCEKJHYyIn7v2H/pyJ1qHGCM=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBkvGXVA478VBnEpmpTCC3lkhtcVWQsWgJ581sVm
- 3BnS4HC/CyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZLxl1QAKCRAk1otyXVSH
- 0JDuB/9a/lDjye3WC1siBtiAlqrJwcRmcgSVvUyChe5ZEPX/NPDNQV2sE4Y/pEBW9r7bEfVgWug
- tqEcqEuB5WtxrvMT6cCbg3BEFKMjy+JCJFExYChP5N6bJMwqicSzBsfF0YDBC5Th4H6pGTLP9u8
- ZHlsg4d/3wYEVC/quGwLSSWgn3CulLd/rFDMzIMkYCc5y6XOChONE8A6Su5Bl+G03bQbY7AIEdL
- NS9IMolnTV9NYXaJImgQhjn1AhNHrCbosXp5PNQ6ya6ZK7B0OMWOB4Tee6EGDjJRuegJLqa4GhQ
- pu96tBHNv4NrjuxjnhnBtIPamTSl7r0Yh03594DCXVyhBFVf
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain
 
-Unlike the other data structures provided during registration the
-thermal core takes a copy of the thermal_zone_params provided to it and
-stores that copy in the thermal_zone_device, taking care to free it on
-unregistration.  This is done because the parameters will be modified at
-runtime.
+Hi Maxime,
 
-Unfortunately the thermal_of code assumes that the params structure it
-provides will be used throughout the lifetime of the device and since
-the params are dynamically allocated based on the bindings it attempts
-to free it on unregistration.  This results in not only leaking the
-original params but also double freeing the copy the core made, leading
-to memory corruption.
+On 2023-07-17 at 16:14:58 +0200, Maxime Ripard <mripard@kernel.org> wrote:
+> [[PGP Signed Part:Undecided]]
+> On Mon, Jul 17, 2023 at 03:34:32PM +0200, Frank Oltmanns wrote:
+>> When finding the best rate for a NKM clock, consider rates that are
+>> higher than the requested rate, if the CCU_FEATURE_CLOSEST_RATE flag is
+>> set by using the helper function ccu_is_better_rate().
+>>
+>> Accommodate ccu_mux_helper_determine_rate to this change.
+>>
+>> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+>> ---
+>>  drivers/clk/sunxi-ng/ccu_mux.c |  2 +-
+>>  drivers/clk/sunxi-ng/ccu_nkm.c | 18 ++++++++----------
+>>  2 files changed, 9 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/clk/sunxi-ng/ccu_mux.c b/drivers/clk/sunxi-ng/ccu_mux.c
+>> index 1d557e323169..3ca695439620 100644
+>> --- a/drivers/clk/sunxi-ng/ccu_mux.c
+>> +++ b/drivers/clk/sunxi-ng/ccu_mux.c
+>> @@ -139,7 +139,7 @@ int ccu_mux_helper_determine_rate(struct ccu_common *common,
+>>  			goto out;
+>>  		}
+>>
+>> -		if ((req->rate - tmp_rate) < (req->rate - best_rate)) {
+>> +		if (ccu_is_better_rate(common, req->rate, tmp_rate, best_rate)) {
+>>  			best_rate = tmp_rate;
+>>  			best_parent_rate = parent_rate;
+>>  			best_parent = parent;
+>> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
+>> index 793160bc2d47..5439b9351cd7 100644
+>> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
+>> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
+>> @@ -39,6 +39,7 @@ static unsigned long ccu_nkm_optimal_parent_rate(unsigned long rate, unsigned lo
+>>  }
+>>
+>>  static unsigned long ccu_nkm_find_best_with_parent_adj(struct clk_hw *phw, struct _ccu_nkm *nkm,
+>> +						       struct ccu_common *common,
+>>  						       unsigned long *parent, unsigned long rate)
+>>  {
+>>  	unsigned long best_rate = 0, best_parent_rate = *parent, tmp_parent = *parent;
+>> @@ -54,10 +55,8 @@ static unsigned long ccu_nkm_find_best_with_parent_adj(struct clk_hw *phw, struc
+>>  				tmp_parent = clk_hw_round_rate(phw, tmp_parent);
+>>
+>>  				tmp_rate = tmp_parent * _n * _k / _m;
+>> -				if (tmp_rate > rate)
+>> -					continue;
+>>
+>> -				if ((rate - tmp_rate) < (rate - best_rate)) {
+>> +				if (ccu_is_better_rate(common, rate, tmp_rate, best_rate)) {
+>>  					best_rate = tmp_rate;
+>>  					best_parent_rate = tmp_parent;
+>>  					best_n = _n;
+>> @@ -78,7 +77,7 @@ static unsigned long ccu_nkm_find_best_with_parent_adj(struct clk_hw *phw, struc
+>>  }
+>>
+>>  static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned long rate,
+>> -				       struct _ccu_nkm *nkm)
+>> +				       struct _ccu_nkm *nkm, struct ccu_common *common)
+>
+> Same comment than on patch 7, common should be first in those two functions.
+>
 
-Fix this by instead freeing the params parsed from the DT during
-registration.
+Ok, I wasn't sure what your expectation is for existing functions. For
+ccu_find_best_with_parent_adj the order is:
+  1. *phw
+  2. *nkm
+  3. *common
+  4. *parent
+  5. rate
 
-This issue causing instability on systems where thermal zones are
-unregistered, especially visble on those systems where some zones
-provided by a device have no trip points such as Allwinner systems.
-For example with current mainline an arm64 defconfig is unbootable on
-Pine64 Plus and LibreTech Tritium is massively unstable.  These issues
-have been there for a while and have been made more prominent by recent
-memory management changes.
+We don't have the parent hw in ccu_nkm_find_best. The order prior to
+this patch is:
+  1. parent
+  2. rate
+  3. *nkm
 
-Fixes: 3fd6d6e2b4e80 ("thermal/of: Rework the thermal device tree initialization")
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Cc: stable@vger.kernel.org
----
- drivers/thermal/thermal_of.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+We need to add *common to that, so I could add it to the beginning as
+per your suggestion:
+  1. *common
+  2. parent
+  3. rate
+  4. *nkm
 
-diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_of.c
-index 6fb14e521197..0af11cdfa2c1 100644
---- a/drivers/thermal/thermal_of.c
-+++ b/drivers/thermal/thermal_of.c
-@@ -442,13 +442,11 @@ static int thermal_of_unbind(struct thermal_zone_device *tz,
- static void thermal_of_zone_unregister(struct thermal_zone_device *tz)
- {
- 	struct thermal_trip *trips = tz->trips;
--	struct thermal_zone_params *tzp = tz->tzp;
- 	struct thermal_zone_device_ops *ops = tz->ops;
- 
- 	thermal_zone_device_disable(tz);
- 	thermal_zone_device_unregister(tz);
- 	kfree(trips);
--	kfree(tzp);
- 	kfree(ops);
- }
- 
-@@ -530,6 +528,9 @@ static struct thermal_zone_device *thermal_of_zone_register(struct device_node *
- 		goto out_kfree_tzp;
- 	}
- 
-+	/* The core will take a copy of tzp, free our copy here. */
-+	kfree(tzp);
-+
- 	ret = thermal_zone_device_enable(tz);
- 	if (ret) {
- 		pr_err("Failed to enabled thermal zone '%s', id=%d: %d\n",
+I could also pull *nkm to the beginning (similar to the parent_adj
+version):
+  4. *nkm
+  1. *common
+  2. parent
+  3. rate
 
----
-base-commit: fdf0eaf11452d72945af31804e2a1048ee1b574c
-change-id: 20230722-thermal-fix-of-memory-corruption-73c023f8612b
+Thanks for your feedback,
+  Frank
 
-Best regards,
--- 
-Mark Brown <broonie@kernel.org>
-
+>
+> Once fixed,
+> Acked-by: Maxime Ripard <mripard@kernel.org>
+>
+> Maxime
+>
+> [[End of PGP Signed Part]]
