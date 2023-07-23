@@ -1,45 +1,45 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8F57C
-	for <linux-sunxi@lists.linux.dev>; Sun, 23 Jul 2023 09:40:38 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2b743161832so47007561fa.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 23 Jul 2023 02:40:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CECA47C
+	for <linux-sunxi@lists.linux.dev>; Sun, 23 Jul 2023 09:57:55 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3fc02a92dcfso26346205e9.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 23 Jul 2023 02:57:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690105236; x=1690710036;
+        d=linaro.org; s=google; t=1690106274; x=1690711074;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=0LlZmT4tMDOB873i3zzQ26d5Y0kjAgWR/PhFUxBYLHA=;
-        b=geiHVdXPhueRuZs/egiBJN1uroQUc2XUIobsjZKMrzW9eFIbwVLTk426g5wBfifL83
-         VFPOhOSi+o7FAZUIV190+omtE39ueBbqgd3q8oM3acgpMsY6yYNlwxbyYlCtH9O/OcrD
-         ra2WDkrTZnIjPt7+0CRaI8Zd1qZUxlQgc+KvrDjTfY7Hnqu8ox27MBe0374pXY9przvC
-         vcom30p7z/UzdgLliiWsRRfqoI456l7SK59xvGEpuyxC4rQwZ1SZSm8ijTk7CrwCCaBe
-         GEIxbn5WYglontvA0bcRsBxuLR+JuSgsvkAepEb1trywaC5bZbwtF5EL5zOZMjcetJDN
-         GLzQ==
+        bh=wc6+ATb+qVfVkW0Ae346Tifz/LFJPnNALhIho4FW5hg=;
+        b=DDxcsAlsx37U+kaffhuM55XUaGeVs96s3crQetRLHW8PnIZeZMAype1m3wK/+V+dh7
+         dg8WphG8Q+EsnsO604DAfGkdJPjtYafULGQ3aGMxofj4YoJnSkECofLtCbu66mHca9Ft
+         UMWzRG/g3DM28zTIT+KFSyrxefMTlDGNVNdSaiJZGU3FlXQqzuyOk8ARRrnt1wQt+u2z
+         gLnqtNEtD7NE17dsybBGEwe99S5/KLmWmmvZRo9a5IOVE3HnvXUghmn653iFbJKJ2fKT
+         8+JmTfzHq2jk68syX11MiPjDruT5vPBe/6fSbW3wZdRDJcQQSX2eR2YSVpuhPBNlGCSE
+         vZyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690105236; x=1690710036;
+        d=1e100.net; s=20221208; t=1690106274; x=1690711074;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0LlZmT4tMDOB873i3zzQ26d5Y0kjAgWR/PhFUxBYLHA=;
-        b=jho9IpO5l5iBaOv46LvCagI4QuRhW6/hXtXWE5ymyFUwQ8ZQkJ8Ms0d1o9qYbUf5eC
-         tre0Vcs/r6oFiFMG6s7xyYmb8jx/6HvYP/3wQwR9HoxbTte2iwIPk8w/CKdioc1He13m
-         vU/2Prnju7cqzB+skiyqFVN3m2Dqsw/zLFjbBIN8Rs7PfAYOqBzieyuMs4AzcyZ4Lv3+
-         NL0r0jq0a8WT168A+oqpddkXQsXQ2Pr5Z0i1PHi9SnejK1WCYkq06e++KrV2xCO+JsqT
-         pJCXQBdfUiN88+w4NTlLpn8KMNs92B4pFOvHPwRhuCiP6K/uX7tpwoDf+o/RgWtWJaD3
-         Gueg==
-X-Gm-Message-State: ABy/qLbOfZfP5fjRVDJLxY57R0vep6NuRRHaQuWBfHGQK/inzVNNFtEt
-	SyD5Cd33RFe64mA6pgTXiAS/FA==
-X-Google-Smtp-Source: APBJJlFrWguwFhN5iKtC4ZiJPTAlNGKoD0rvT/DCYS0aE8fiB4TThWkJR3wuZ5V6xoWJSpIyCfFHTA==
-X-Received: by 2002:a19:8c1c:0:b0:4f3:80a3:b40a with SMTP id o28-20020a198c1c000000b004f380a3b40amr3514230lfd.69.1690105235831;
-        Sun, 23 Jul 2023 02:40:35 -0700 (PDT)
+        bh=wc6+ATb+qVfVkW0Ae346Tifz/LFJPnNALhIho4FW5hg=;
+        b=alWSA8elp2pLniRGyMYVpoEy9jAYk0yxHn/5/Wg4PA6+n67MRTfuHO84H/Xxz/KQGl
+         v7ODrH6U3o9JcKfAHL2nMzERLCwZYEqT83m4b2//GOugiwX6HBIu05QGA1sGLjp6EM2T
+         7cNc/XYO1peBdYCyj0/lPK/ywlDPgRB9/eyhVeSuW9hm548nCmF3ciJ9mlxnqYRkL1rX
+         8UydMZayyclDfy98kqHCvDE0+YV5l4xULghz7Apd/tVWEmp4aGI5xi78Ka6zgERXPSb1
+         E/vI+PbceuKDOnnszjZVizybjjLHbrKFinlWlJUfTwBVedEARd7Bb2zCCW9UFCICsijI
+         +1Lg==
+X-Gm-Message-State: ABy/qLbED2krYMLzlU6Iy+4sVMQA8I+jiOA9NeXeFmOon+mm/MzleMIz
+	4AbleaWGt/G+tD1Qg3DfUyic2Q==
+X-Google-Smtp-Source: APBJJlHqy6wlA4DBzHx+V/jAXNo0ijXmnpA3LwNMOd9yV4i1dyEIxJgB1p8SDUDoWJd51ru85W2pGQ==
+X-Received: by 2002:a05:600c:2316:b0:3fc:5a3:367c with SMTP id 22-20020a05600c231600b003fc05a3367cmr5448263wmo.32.1690106273887;
+        Sun, 23 Jul 2023 02:57:53 -0700 (PDT)
 Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.googlemail.com with ESMTPSA id y16-20020a5d6150000000b00313e59cb371sm9253083wrt.12.2023.07.23.02.40.34
+        by smtp.googlemail.com with ESMTPSA id bh17-20020a05600c3d1100b003fbb1ce274fsm25819673wmb.0.2023.07.23.02.57.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Jul 2023 02:40:35 -0700 (PDT)
-Message-ID: <17dc1961-c629-e09f-8979-1e6cbc92534e@linaro.org>
-Date: Sun, 23 Jul 2023 11:40:34 +0200
+        Sun, 23 Jul 2023 02:57:53 -0700 (PDT)
+Message-ID: <f559a614-93d5-121a-8ff3-0da77bc85f44@linaro.org>
+Date: Sun, 23 Jul 2023 11:57:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -48,51 +48,60 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH] thermal/drivers/sun8i: Don't fail probe due to zone
- registration failure
+Subject: Re: [PATCH] thermal/of: Fix double free of params during
+ unregistration
 Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>, Icenowy Zheng <uwu@icenowy.me>
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li
- <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hugh Dickins <hughd@google.com>,
- linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20230718-thermal-sun8i-registration-v1-1-c95b1b070340@kernel.org>
- <5a9ccb708f004e70e2102417eb48b766b03777cd.camel@icenowy.me>
- <ZLwH9RFnJymdy7YD@finisterre.sirena.org.uk>
+To: Mark Brown <broonie@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>
+Cc: Hugh Dickins <hughd@google.com>, Will Deacon <will@kernel.org>,
+ Icenowy Zheng <uwu@icenowy.me>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20230723-thermal-fix-of-memory-corruption-v1-1-ed4fa16d199d@kernel.org>
 From: Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <ZLwH9RFnJymdy7YD@finisterre.sirena.org.uk>
+In-Reply-To: <20230723-thermal-fix-of-memory-corruption-v1-1-ed4fa16d199d@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 
 Hi Mark,
 
-On 22/07/2023 18:46, Mark Brown wrote:
-> On Sat, Jul 22, 2023 at 08:11:43PM +0800, Icenowy Zheng wrote:
->> 在 2023-07-18星期二的 16:04 +0100，Mark Brown写道：
+On 23/07/2023 01:26, Mark Brown wrote:
+> Unlike the other data structures provided during registration the
+> thermal core takes a copy of the thermal_zone_params provided to it and
+> stores that copy in the thermal_zone_device, taking care to free it on
+> unregistration.  This is done because the parameters will be modified at
+> runtime.
 > 
->>> Since we currently do not define any trip points for the GPU thermal
->>> zones on at least A64 or H5 this means that we have no thermal
->>> support
->>> on these platforms:
+> Unfortunately the thermal_of code assumes that the params structure it
+> provides will be used throughout the lifetime of the device and since
+> the params are dynamically allocated based on the bindings it attempts
+> to free it on unregistration.  This results in not only leaking the
+> original params but also double freeing the copy the core made, leading
+> to memory corruption.
 > 
->>> [    1.698703] thermal_sys: Failed to find 'trips' node
->>> [    1.698707] thermal_sys: Failed to find trip points for thermal-
->>> sensor id=1
+> Fix this by instead freeing the params parsed from the DT during
+> registration.
 > 
->> I think this is an issue in the core thermal subsystem, and sent a
->> patch; Unfortunately the patch seems to be rejected by linux-arm-kernel
->> (and some other mailing lists)...
+> This issue causing instability on systems where thermal zones are
+> unregistered, especially visble on those systems where some zones
+> provided by a device have no trip points such as Allwinner systems.
+> For example with current mainline an arm64 defconfig is unbootable on
+> Pine64 Plus and LibreTech Tritium is massively unstable.  These issues
+> have been there for a while and have been made more prominent by recent
+> memory management changes.
 > 
-> It did seem to be a bit of an excessively strict requirement, I was
-> going to poke at that myself.  It does seem worthwhile doing the change
-> in the sun8i driver anyway, there might be some other issue that causes
-> registration to fail which would have the same issue.
+> Fixes: 3fd6d6e2b4e80 ("thermal/of: Rework the thermal device tree initialization")
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> Cc: stable@vger.kernel.org
 
-Why do you want a thermal zone if there is no trip point ?
+I think this issue has been fixed by:
+
+https://lore.kernel.org/all/20230708112720.2897484-2-a.fatoum@pengutronix.de/
+
+Rafael ? Did you pick it up ?
 
 
 -- 
