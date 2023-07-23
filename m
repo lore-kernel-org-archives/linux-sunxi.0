@@ -1,78 +1,104 @@
-Received: from out-11.mta1.migadu.com (out-11.mta1.migadu.com [95.215.58.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E847C
-	for <linux-sunxi@lists.linux.dev>; Sun, 23 Jul 2023 09:19:00 +0000 (UTC)
-Date: Sun, 23 Jul 2023 19:18:33 +1000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1690103938;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IO21JPPuUrj/PlAXDeK+XBpU+sX32D1I5JxlNyZ8yxY=;
-	b=mcwgGlOY5K72c1mv4IEZ+ALhpmQdPQLC1UgX47qkA5/+JSNYwpY8Cbd4NhspuL3PWggka9
-	+Tp2jHAzGIGtZ+JuagzBwKyIzPP4siFbdcgs9wfpdyem9y9iriwEX2r/aqTGuhjvxzxVc8
-	ffa1A5ycZ+NBiAjPiudgTs4V6MapEdVyYxclJ00yN+6eNL1aELb4lfhWFJ1WSBK6Ym3pvX
-	iHirF0aGQHxKYK4bD6TTz55DuI0c8aHiu3JIsxqxZyBIlO4uLbCcLECpeLw+D+a9YodbAA
-	1kEm/i/2HNZZMAsB1qWQpVcPCfX4wgOS3u0c0vrGCvo+vo7rBRMASZjEesF1ow==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: John Watts <contact@jookia.org>
-To: linux-sunxi@lists.linux.dev
-Cc: Wolfgang Grandegger <wg@grandegger.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, linux-can@vger.kernel.org,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v2 2/4] riscv: dts: allwinner: d1: Add CAN controller
- nodes
-Message-ID: <ZLzwaQlS-l_KKpUX@titan>
-References: <20230721221552.1973203-2-contact@jookia.org>
- <20230721221552.1973203-4-contact@jookia.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8F57C
+	for <linux-sunxi@lists.linux.dev>; Sun, 23 Jul 2023 09:40:38 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2b743161832so47007561fa.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 23 Jul 2023 02:40:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690105236; x=1690710036;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0LlZmT4tMDOB873i3zzQ26d5Y0kjAgWR/PhFUxBYLHA=;
+        b=geiHVdXPhueRuZs/egiBJN1uroQUc2XUIobsjZKMrzW9eFIbwVLTk426g5wBfifL83
+         VFPOhOSi+o7FAZUIV190+omtE39ueBbqgd3q8oM3acgpMsY6yYNlwxbyYlCtH9O/OcrD
+         ra2WDkrTZnIjPt7+0CRaI8Zd1qZUxlQgc+KvrDjTfY7Hnqu8ox27MBe0374pXY9przvC
+         vcom30p7z/UzdgLliiWsRRfqoI456l7SK59xvGEpuyxC4rQwZ1SZSm8ijTk7CrwCCaBe
+         GEIxbn5WYglontvA0bcRsBxuLR+JuSgsvkAepEb1trywaC5bZbwtF5EL5zOZMjcetJDN
+         GLzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690105236; x=1690710036;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0LlZmT4tMDOB873i3zzQ26d5Y0kjAgWR/PhFUxBYLHA=;
+        b=jho9IpO5l5iBaOv46LvCagI4QuRhW6/hXtXWE5ymyFUwQ8ZQkJ8Ms0d1o9qYbUf5eC
+         tre0Vcs/r6oFiFMG6s7xyYmb8jx/6HvYP/3wQwR9HoxbTte2iwIPk8w/CKdioc1He13m
+         vU/2Prnju7cqzB+skiyqFVN3m2Dqsw/zLFjbBIN8Rs7PfAYOqBzieyuMs4AzcyZ4Lv3+
+         NL0r0jq0a8WT168A+oqpddkXQsXQ2Pr5Z0i1PHi9SnejK1WCYkq06e++KrV2xCO+JsqT
+         pJCXQBdfUiN88+w4NTlLpn8KMNs92B4pFOvHPwRhuCiP6K/uX7tpwoDf+o/RgWtWJaD3
+         Gueg==
+X-Gm-Message-State: ABy/qLbOfZfP5fjRVDJLxY57R0vep6NuRRHaQuWBfHGQK/inzVNNFtEt
+	SyD5Cd33RFe64mA6pgTXiAS/FA==
+X-Google-Smtp-Source: APBJJlFrWguwFhN5iKtC4ZiJPTAlNGKoD0rvT/DCYS0aE8fiB4TThWkJR3wuZ5V6xoWJSpIyCfFHTA==
+X-Received: by 2002:a19:8c1c:0:b0:4f3:80a3:b40a with SMTP id o28-20020a198c1c000000b004f380a3b40amr3514230lfd.69.1690105235831;
+        Sun, 23 Jul 2023 02:40:35 -0700 (PDT)
+Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.googlemail.com with ESMTPSA id y16-20020a5d6150000000b00313e59cb371sm9253083wrt.12.2023.07.23.02.40.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 23 Jul 2023 02:40:35 -0700 (PDT)
+Message-ID: <17dc1961-c629-e09f-8979-1e6cbc92534e@linaro.org>
+Date: Sun, 23 Jul 2023 11:40:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230721221552.1973203-4-contact@jookia.org>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] thermal/drivers/sun8i: Don't fail probe due to zone
+ registration failure
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>, Icenowy Zheng <uwu@icenowy.me>
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li
+ <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Hugh Dickins <hughd@google.com>,
+ linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20230718-thermal-sun8i-registration-v1-1-c95b1b070340@kernel.org>
+ <5a9ccb708f004e70e2102417eb48b766b03777cd.camel@icenowy.me>
+ <ZLwH9RFnJymdy7YD@finisterre.sirena.org.uk>
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <ZLwH9RFnJymdy7YD@finisterre.sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jul 22, 2023 at 08:15:51AM +1000, John Watts wrote:
-> ...
-> +			/omit-if-no-ref/
-> +			can0_pins: can0-pins {
-> +				pins = "PB2", "PB3";
-> +				function = "can0";
-> +			};
-> ...
-> +		can0: can@2504000 {
-> +			compatible = "allwinner,sun20i-d1-can";
-> +			reg = <0x02504000 0x400>;
-> +			interrupts = <SOC_PERIPHERAL_IRQ(21) IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&ccu CLK_BUS_CAN0>;
-> +			resets = <&ccu RST_BUS_CAN0>;
-> +			status = "disabled";
-> +		};
 
-Just a quick late night question to people with more knowledge than me:
+Hi Mark,
 
-These chips only have one pinctrl configuration for can0 and can1. Should the
-can nodes have this pre-set instead of the board dts doing this?
+On 22/07/2023 18:46, Mark Brown wrote:
+> On Sat, Jul 22, 2023 at 08:11:43PM +0800, Icenowy Zheng wrote:
+>> 在 2023-07-18星期二的 16:04 +0100，Mark Brown写道：
+> 
+>>> Since we currently do not define any trip points for the GPU thermal
+>>> zones on at least A64 or H5 this means that we have no thermal
+>>> support
+>>> on these platforms:
+> 
+>>> [    1.698703] thermal_sys: Failed to find 'trips' node
+>>> [    1.698707] thermal_sys: Failed to find trip points for thermal-
+>>> sensor id=1
+> 
+>> I think this is an issue in the core thermal subsystem, and sent a
+>> patch; Unfortunately the patch seems to be rejected by linux-arm-kernel
+>> (and some other mailing lists)...
+> 
+> It did seem to be a bit of an excessively strict requirement, I was
+> going to poke at that myself.  It does seem worthwhile doing the change
+> in the sun8i driver anyway, there might be some other issue that causes
+> registration to fail which would have the same issue.
 
-I see this happening in sun4i-a10.dtsi for instance, but it also seems like it
-could become a problem when it comes to re-using the dtsi for newer chip variants.
+Why do you want a thermal zone if there is no trip point ?
 
-John.
+
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
+
