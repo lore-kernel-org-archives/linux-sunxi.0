@@ -1,136 +1,127 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95B7EA5
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 Jul 2023 02:35:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1690166140; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=ZrfJnBT5PPj8AQcHREThWNPJLe65zplYQtOkkmEtTNffVeDPqW52EA6Sb44jEJpshU+yjIfLsMnR9z/7QlZG3i55dJ3XcEIZRSWLxcvqLTNLG/WeZpTFnGVUjpaG7YBAP03j379c9czDO2knHTYz7dqEeL/InyW1+sQOSmQh/Wk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1690166140; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=fCs+8rOY6OqljSgwbEboZzCQYQ5WTAbKJVJQ1Ycsj3g=; 
-	b=Fc0n3Ol7lSuXWKrTLesgul+1sbSRWV2RYE45B4hOY0RvNPTCzsBqqXEx7+2xRtx43BG0ZQEBL9ihk/H60KYOEnNdch75Fs2VFtzUaDKTPJghps7Qz4zPNt9SiymNXD1oXiIFKWx7q9RFp/DMle9ONj8Numa8+yPgUwAiaVtQoPg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1690166140;
-	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=fCs+8rOY6OqljSgwbEboZzCQYQ5WTAbKJVJQ1Ycsj3g=;
-	b=AGDvFk+s2HWapb+S9c4ETXFzmDEud1aAcG8ABgHS2tBYFOVqKkE94P27azoRUycu
-	CgjiC9IMEl/9dP0SXsSIvN5wlvPP+QfMq5/EvnMVCAWWlSpATElCzSJ6EeNEMuKuVpB
-	VdBgvD0mol9cimeF2rav1nUyOmuIyfXEudsKK7oGCHQYB6up1E1DzNBMskAOE/cw26Y
-	p2IQIeZC3yXsZQO1mZc9F94N41mzgIFpvUy15vZt4EvCKCOp3qZbYg5HUfc/N2fTH+w
-	kHIhS9NseQ7apcbkgCpAu2OHiiZkgnRb0Vfy8+PTgitUgLBYkiSvbktrDfTXPregYMn
-	R8fIiLF/OQ==
-Received: from edelgard.fodlan.icenowy.me (120.85.97.227 [120.85.97.227]) by mx.zohomail.com
-	with SMTPS id 1690166138874966.9395361401032; Sun, 23 Jul 2023 19:35:38 -0700 (PDT)
-Message-ID: <4633cc276c12081ca6059a537f549d4ec0f61d7d.camel@icenowy.me>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC778EC2
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 Jul 2023 04:25:06 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-66c729f5618so3765965b3a.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 23 Jul 2023 21:25:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1690172706; x=1690777506;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UPd/ArX54wqm/tpIEiEhXcXx1X1EWiF2KSiUxQCQJ7k=;
+        b=RvsdkRDPYfr6N/6c8aZGUc/31/ZJGWi5u6uyeM4gRwE6Uozbh5mcN6VfAItdfyjeK8
+         lECf7dOHIeA1juGAeWddfBG56wZ1O2BX6TAkwg/4yXUs+OdBGAfqKUpCmR5igdBYHFLy
+         i1Dt5V+/H9EaZzEAzzTCA/0ywgyJWmSnyMoBo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690172706; x=1690777506;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UPd/ArX54wqm/tpIEiEhXcXx1X1EWiF2KSiUxQCQJ7k=;
+        b=e4x0jOxAtmjdmomHp/D3iQP/Mu4qPcQksSAmVeTgzwu3OGa2pcvUSpM57Khcp6653d
+         ke3wCVdatkBy1He/nAgSzkvlmgw0am/i+Co8DYgFzZwEQqx5msDxh4j1SULuN9cBZ4By
+         lj+Pt/l8QBwRGdsT4cDC18jwkRVxE1tm0a8rAqe24nNk0a0W71Vj8b7b+j5v6AD8nqbm
+         0kRl6NE4n6XRz38wAsiQqXNPoJQkB+ksisFTZIrhiGrXpXt9TWhAgLbc2FqW8xexLUQZ
+         LGFD/B/sFFoHhpIUVGbRXKWhN1sSj4KhsoSjQ36YqFSLTUEqIachZUtig22tr779t0yw
+         cvhg==
+X-Gm-Message-State: ABy/qLbEFEzn4AQdTuN09nUcPpNB2mgQxXJDEj3SxnNJtj6GNV+ICbp5
+	i4Sy+DdqtEp5hwPyvEMBAU7j0Q==
+X-Google-Smtp-Source: APBJJlH2TXjXyCI+Wm3NdTdlzQ/Md1RTpmdFKaqCFO/is9/DjNxtCBDRl3BbDb8IaKxYTeFcBvfJkw==
+X-Received: by 2002:a05:6a00:2196:b0:668:82fe:16f1 with SMTP id h22-20020a056a00219600b0066882fe16f1mr9170529pfi.1.1690172706143;
+        Sun, 23 Jul 2023 21:25:06 -0700 (PDT)
+Received: from google.com ([2401:fa00:1:10:a3b4:a34b:d387:dea5])
+        by smtp.gmail.com with ESMTPSA id x48-20020a056a000bf000b00666b012baedsm6636251pfu.158.2023.07.23.21.25.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Jul 2023 21:25:05 -0700 (PDT)
+Date: Mon, 24 Jul 2023 12:25:02 +0800
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Mark Brown <broonie@kernel.org>,
+	Icenowy Zheng <zhengxingda@iscas.ac.cn>,
+	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	Icenowy Zheng <uwu@icenowy.me>
 Subject: Re: [PATCH RESEND RESEND] thermal/of: support thermal zones w/o
  trips subnode
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Mark Brown <broonie@kernel.org>, Daniel Lezcano
- <daniel.lezcano@linaro.org>
-Cc: Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Date: Mon, 24 Jul 2023 10:35:34 +0800
-In-Reply-To: <ZL1BtOZp/2Sw5sFL@finisterre.sirena.org.uk>
+Message-ID: <20230724042502.GA2403526@google.com>
 References: <20230722122534.2279689-1-zhengxingda@iscas.ac.cn>
-	 <ZLw4CnzLI/QHPGWx@finisterre.sirena.org.uk>
-	 <6d1c0915-1485-d9d6-9fff-0413fb16bd3f@linaro.org>
-	 <ZL1BtOZp/2Sw5sFL@finisterre.sirena.org.uk>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+ <ZLw4CnzLI/QHPGWx@finisterre.sirena.org.uk>
+ <6d1c0915-1485-d9d6-9fff-0413fb16bd3f@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6d1c0915-1485-d9d6-9fff-0413fb16bd3f@linaro.org>
 
-=E5=9C=A8 2023-07-23=E6=98=9F=E6=9C=9F=E6=97=A5=E7=9A=84 16:05 +0100=EF=BC=
-=8CMark Brown=E5=86=99=E9=81=93=EF=BC=9A
-> On Sun, Jul 23, 2023 at 12:12:49PM +0200, Daniel Lezcano wrote:
-> > On 22/07/2023 22:11, Mark Brown wrote:
->=20
-> > > This makes sense to me - it allows people to see the reported
-> > > temperature even if there's no trips defined which seems more
-> > > helpful than refusing to register.
->=20
-> ...
->=20
-> > If the goal is to report the temperature only, then hwmon should be
-> > used
-> > instead.
->=20
-> Sure, that doesn't seem to be the case in the impacted systems though
-> -
-> AFAICT the issue with these is that it's a generic SoC DT that's not
-> fully fleshed out, either because more data is needed for the silicon
-> or
-> because the numbers need to be system specific for some reason.
+On Sun, Jul 23, 2023 at 12:12:49PM +0200, Daniel Lezcano wrote:
+> 
+> Hi Mark,
+> 
+> On 22/07/2023 22:11, Mark Brown wrote:
+> > On Sat, Jul 22, 2023 at 08:25:34PM +0800, Icenowy Zheng wrote:
+> > > From: Icenowy Zheng <uwu@icenowy.me>
+> > > 
+> > > Although the current device tree binding of thermal zones require the
+> > > trips subnode, the binding in kernel v5.15 does not require it, and many
+> > > device trees shipped with the kernel, for example,
+> > > allwinner/sun50i-a64.dtsi and mediatek/mt8183-kukui.dtsi in ARM64, still
+> > > comply to the old binding and contain no trips subnode.
+> > > 
+> > > Allow the code to successfully register thermal zones w/o trips subnode
+> > > for DT binding compatibility now.
+> > > 
+> > > Furtherly, the inconsistency between DTs and bindings should be resolved
+> > > by either adding empty trips subnode or dropping the trips subnode
+> > > requirement.
+> > 
+> > This makes sense to me - it allows people to see the reported
+> > temperature even if there's no trips defined which seems more
+> > helpful than refusing to register.
+> 
+> The binding describes the trip points as required and that since the
+> beginning.
 
-Well maybe we should move all thermal sensors to hwmon framework, then
-let thermal framework pull the readout from hwmon; but two frameworks
-have the same functionality of reading temperature is the current
-situation, we shouldn't break things.
+Not really. It was made optional in the v5.15 kernel release by commit
 
->=20
-> > If the goal is to mitigate by userspace, then the trip point *must*
-> > be used
-> > to prevent the userspace polling the temperature. With the trip
-> > point the
-> > sensor will be set to fire an interrupt at the given trip
-> > temperature.
->=20
-> I'm not clear a trip point prevent userspace polling if it feels so
-> moved?=C2=A0 Is it just that it makes it more likely that someone will
-> implement something that polls?
->=20
-> > IOW, trip points are not optional
+    22fc857538c3 dt-bindings: thermal: Make trips node optional
 
-If it's declared optional in DT binding in a released kernel version,
-then it's optional, at least it should be optional in practice to
-support this legacy DT binding, and even there are DT files shipped
-with the kernel that utilizes the optionalness. Showing a warning is
-okay, but bailing out is not an option, according to my understand of
-current DT maintaince model.
+> What changed is now the code reflects the required property while before it
+> was permissive, that was an oversight.
+> 
+> Just a reminder about the thermal framework goals:
+> 
+>   1. It protects the silicon (thus critical and hot trip points)
+> 
+>   2. It mitigates the temperature (thus cooling device bound to trip points)
+> 
+>   3. It notifies the userspace when a trip point is crossed
+> 
+> So if the thermal zone is described but without any of this goal above, it
+> is pointless.
+> 
+> If the goal is to report the temperature only, then hwmon should be used
+> instead.
 
->=20
-> I can see printing a loud warning given that the system is not fully
-> configured (there's a warning already, I did nearly comment on this
-> patch downgrading it all the way to a debug log), perhaps even
-> suppressing the registraton of the userspace interface, but returning
-> a
-> failure to the registering driver feels like it's escalating the
-> problem
-> and complicating the driver code.=C2=A0 Suppressing the registration to
-> userspace seemed like it was adding more complexity in the core but
-> it
-> would avoid any potential confusion for userspace.
->=20
-> For me the main issue is the impact on devices that support multiple
-> thermal zones, in order to avoid having working zones stay registered
-> their drivers will all have to handle the possibility of some of the
-> zones failing to register due to missing configuration which is going
-> to
+What about thermal sensors with multiple channels? Some of the channels
+are indeed tied to important hardware blocks like the CPU cores and
+should be tied into the thermal tripping. However other channels might
+only be used for temperature read-out and have no such requirement.
 
-Well I think in the case of Allwinner SoCs, the thermal sensor is a
-multi-channel one, so it's possible that some channels (e.g. the CPU
-sensor) are used for thermal throttling and other channels (e.g. the
-GPU one, considering Mali-400 is quite weak, and usually no DVFS
-equipped) are only used for monitoring.
+Should we be mixing thermal and hwmon APIs in the driver?
 
-We should allow this kind of configuration in kernel. Moving everything
-to hwmon is an option, but it's a too gaint change.
+> If the goal is to mitigate by userspace, then the trip point *must* be used
+> to prevent the userspace polling the temperature. With the trip point the
+> sensor will be set to fire an interrupt at the given trip temperature.
+> 
+> IOW, trip points are not optional
 
-> add complexity both at both registration and runtime and be easy to
-> miss.
-> If the core just accepts the zones then whatever complexity there is
-> gets factored out into the core.
+for measurement points that are used for thermal throttling /
+mitigation.
 
+ChenYu
