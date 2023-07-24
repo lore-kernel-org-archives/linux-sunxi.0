@@ -1,94 +1,78 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDC420F3
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 Jul 2023 08:28:08 +0000 (UTC)
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1qNquo-0007RN-JQ; Mon, 24 Jul 2023 10:27:38 +0200
-Received: from pengutronix.de (unknown [172.20.34.65])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id 53E021F8389;
-	Mon, 24 Jul 2023 08:27:33 +0000 (UTC)
-Date: Mon, 24 Jul 2023 10:27:32 +0200
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: John Watts <contact@jookia.org>
-Cc: linux-sunxi@lists.linux.dev, Wolfgang Grandegger <wg@grandegger.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, linux-can@vger.kernel.org,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v2 0/4] Add support for Allwinner D1 CAN controllers
-Message-ID: <20230724-paving-pep-4c3ca2fae261-mkl@pengutronix.de>
-References: <20230721221552.1973203-2-contact@jookia.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA6C71FB3
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 Jul 2023 10:54:55 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-99313a34b2dso620604666b.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 24 Jul 2023 03:54:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690196094; x=1690800894;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gI3K+gWjupnLtBZp2GGMbX/bKamBXSfBY9DgIsn9yNM=;
+        b=SEssI9sN3jMzuye4o30YXXp7JWh8BngzD5VqDcOA5tl9h6HH2oXfUvHSNQmVSIng5e
+         DFeqY4PXC1C5mzxyxsXNzCFz3uPdfC35M/mLxam5wm0kAfyXe/t+OD/9SjGe2RP6juwX
+         GyP2TYzWos4GNcup5FhPJmGkSZ23DymTZ2ZDRccz3uUvaTLq6r02PdV5KsoVfaZ2bp7U
+         av3aHRhGEi7VkjyTQPTbwigjGmU0bhZcMjp9/mE7UrDSCU+DDsWQfjCwQlTpLgp4q5os
+         vzWl+MTG+WPmz7BSJxBpMZwtMu1SugqtJGqLo65RX2SYZFmYhSf/02jmi1IVStO7zYUI
+         7hGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690196094; x=1690800894;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gI3K+gWjupnLtBZp2GGMbX/bKamBXSfBY9DgIsn9yNM=;
+        b=KluMsSv39vjZHMbqY5ceMnojYMSn6q4hXX8LJUBQHm+8D7pi8fBtwouGV5StA0dF+A
+         n8H1CGySDfSLiwyqEJemIxRlV54pGuI98pMcwBTdohdczsh4EUz3wnc0yuO8fugwEBVA
+         fPTizoO6H6cql3VjjmbvNLdIMheysvyFJTtcRjvyBdBCgROnQxc28JzGI7OUpBfg4ETb
+         QN7WRr5PPQpaj8m4pmFk67kNZ6vgbVo/aJWdKidEzpXC8Z/4lHcCKx7jMuxYEBCTe2/y
+         LqTwcCy0diaWjHkh4ChrkPNkjXmk6H0zs7Sp2DaM1+koCNste2j7l88VL11zQ0mkq+0W
+         exGw==
+X-Gm-Message-State: ABy/qLbnbdbW2U6osVjRjaiXfIaHfvtaL9KgKkSPk72otod15ZpgZ8HC
+	qy3Us4Lc2CUseP6fZMEwc4e55T5vZhBWqSJQrsQ=
+X-Google-Smtp-Source: APBJJlH97Ip8JI48vKZhgJa8L+N+azck53Tc73Ok9HIXhEX0p+lnAaVBmUGMPlXcrQjZmLXqZ5YOqXOTVK6Xhppq0UA=
+X-Received: by 2002:a17:907:760a:b0:988:57b4:2853 with SMTP id
+ jx10-20020a170907760a00b0098857b42853mr8178842ejc.25.1690196093634; Mon, 24
+ Jul 2023 03:54:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bzzg2zjmqpjfr7ls"
-Content-Disposition: inline
-In-Reply-To: <20230721221552.1973203-2-contact@jookia.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:b01:1d::7b
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
-
-
---bzzg2zjmqpjfr7ls
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20230721134606.4505-1-andre.przywara@arm.com> <20230721134606.4505-17-andre.przywara@arm.com>
+In-Reply-To: <20230721134606.4505-17-andre.przywara@arm.com>
+From: Maxim Kiselev <bigunclemax@gmail.com>
+Date: Mon, 24 Jul 2023 13:54:41 +0300
+Message-ID: <CALHCpMigSgwKmwrELba6z_0CueDM4UpS=0aJm9MDQ9X3KFnZTQ@mail.gmail.com>
+Subject: Re: [PATCH 16/20] sunxi: add Allwinner R528/T113 SoC support
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de, 
+	Samuel Holland <samuel@sholland.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Icenowy Zheng <uwu@icenowy.me>, Sam Edwards <cfsworks@gmail.com>, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 22.07.2023 08:15:49, John Watts wrote:
-> This patch series adds support for the Allwinner D1 CAN controllers.
-> It requires adding a new device tree compatible and driver support to
-> work around some hardware quirks.
->=20
-> This has been tested on the Mango Pi MQ Dual running a T113 and a Lichee
-> Panel 86 running a D1.
+=D0=BF=D1=82, 21 =D0=B8=D1=8E=D0=BB. 2023=E2=80=AF=D0=B3. =D0=B2 16:47, And=
+re Przywara <andre.przywara@arm.com>:
+>
+> This adds the remaining code bits to teach U-Boot about Allwinner's
+> newest SoC generation. This was introduced with the RISC-V based
+> Allwinner D1 SoC, which actually shares a die with the ARM cores versions
+> called R528 (BGA, without DRAM) and T113s (QFP, with embedded DRAM).
+>
+> This adds the new Kconfig stanza, using the two newly introduced symbols
+> for the new SoC generation and pincontroller. It also adds the new symbol=
+s
+> to the relavent code places, to set all the hardcoded bits directly.
+>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
 
-Applied to linux-can-next/testing.
+Hi, Andre!
 
-regards,
-Marc
+I just tested this series on my T113s board. Everything works good.
+Thanks for your work!
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
-
---bzzg2zjmqpjfr7ls
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEDs2BvajyNKlf9TJQvlAcSiqKBOgFAmS+NfAACgkQvlAcSiqK
-BOg8Kgf/eJt24Ndvcmh6L+eNtFLgI9sT0zZeRNAKl9MJzbRclkN9kj5PSwfjjXt9
-UyBuvnxjyHDs81oanjq0yLh673plo1Q+PH2S9bx2q0GuWxudK8fIS7K6C3FBO5EI
-cvoAK6cyy33+7LUR7X7w0/0cs8jPUS8znJh7iw3fhr+R9fW+uTzoMDxQsDi9duf7
-OPTBCOiiAnBajqy16/sxFHIyUFAHWYGs0RCgGEu1g4oW8JyPAr4lznp2wEYAPVeX
-oNjCnvJrfNPTqFbIKV9dY8GaYA765qy11toqYmpv/WCxMAOKO52ElS0dko5+nt8S
-ykN0k7XY6EzIqvbjvWh8AzhNvO8Gog==
-=cUGJ
------END PGP SIGNATURE-----
-
---bzzg2zjmqpjfr7ls--
+Tested-by: Maksim Kiselev <bigunclemax@gmail.com>
