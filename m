@@ -1,110 +1,171 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B736311C86
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 Jul 2023 21:35:31 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-4fbaef9871cso7160083e87.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 24 Jul 2023 14:35:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E6711CB7
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 Jul 2023 22:22:14 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-4fb73ba3b5dso7529883e87.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 24 Jul 2023 15:22:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690234529; x=1690839329;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PGqd0Dpk0QJClHF7xv6N5WpusRf7KZmTiJZbeW3YVpA=;
-        b=bSo1bzBSvbXk9nqAD97BGglxykvznOQ1gf/1zYxmZeCE8L1R/RYrEUc23gkSoQG5b8
-         OiGVU3nLrwYUzG3piGFUzrlD4ZLGf5m7vmiXzV8j9YdW/J60doQdsXBm7X6es4kGhpAP
-         mfYubkIN6x9wEBtPmx3fLSNAT6FEBnrzej2RGRjG2dXe+BWflZTTbYaBA7mm+IJ0+ecJ
-         +1pa1LkyANOg23vHe9P4hN1azoy4vCW56+Bhbis14qz84AUYZToVQeoOpW7pBkBJ/dUe
-         Wm7X5+DZdKg5OF22X5KvFlgnRgfkpG+3ub3dEa8xr8FK7kZ/s9Soqj8dqBVUR29zhyN3
-         kSpg==
+        d=linaro.org; s=google; t=1690237333; x=1690842133;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=358vZqiTvej61X45civfUiKJd7hpr9GfM3mB5tO/1oY=;
+        b=CWyKsn+fyo8A461uDHxlWqqNhJomz0p6jdiOowLbkzTOopNmfoNhBambSUtyEO5LNP
+         8ZQxB7OKJaeWWTdMhye3/FhUuSUb6YLLGS6tLS8eTeyjps6Os2KMTEOOdQUN1ADiCs3y
+         tA0O7NC2tWbxVi7BepJAcNSNZkhixC7NKrkyP0vhsnEwjCiYipyYGlcql329pVK4BS47
+         IfmJj/dcHadTRR7pUVMVGXVFDeOJiREG11Vvrqk5HFB7zqjuhkzKS+VYHT76+UwT2Gws
+         qaFPHFJZm9lmjfRt0gfHRI/55a+4obs2xjmHv1pvycZ69nHjRtSM9uYLS680TirWHpGK
+         c0cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690234529; x=1690839329;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PGqd0Dpk0QJClHF7xv6N5WpusRf7KZmTiJZbeW3YVpA=;
-        b=Y3UdhuYWMXVuFCK8hVrfZlZ/ObIFT58k8Odmo08KuVB4PYUw/jSDCl7AUMbY9RjaS3
-         BE9hlSzekBxmBvzlwty/ecoqQzLwzqxr0jp60cJrpgQE4vS4G1LWR1rxKt9+JGqCe2Ik
-         OEc8DYyWUhon+jMKVfMddSi5qjrnCQZX2j9n4ONGSOrBmqeKul77a/4w1gVSNrp9t9Ay
-         Khr/R7FZd45WZ7+Id1eZ/Ekv0ZbT8qqIFaAxjU1ARpDItgsCa/imf58zph/5kvnjFNsm
-         kFn+lQmzV5wN+xyyuyDSvRpydRh0Qga4LgZmLicdhErDSGMl4HvFl+yQLGKx3sN/E8lt
-         gi7Q==
-X-Gm-Message-State: ABy/qLZ0QGnzZTAw7/zM2C30hrVNVW4IJMEsUrgbmEKv+IqpjWpX4dV/
-	05nIZE2MhUUn29+rgHBmano=
-X-Google-Smtp-Source: APBJJlGlS0ny6UsHvHlYOypOEI7Ao8qoTKmL9cK2lJ/LoBv1hnPDT+AUsLfEL5/cbRhNbMkryxxkDQ==
-X-Received: by 2002:a05:6512:480d:b0:4fb:9129:705b with SMTP id eo13-20020a056512480d00b004fb9129705bmr5710559lfb.6.1690234529045;
-        Mon, 24 Jul 2023 14:35:29 -0700 (PDT)
-Received: from new-nest.cgt.local ([2a05:3580:f312:6c00:826c:ae47:61a7:8af8])
-        by smtp.gmail.com with ESMTPSA id m26-20020a056512015a00b004fb745fd22fsm2406675lfo.32.2023.07.24.14.35.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jul 2023 14:35:28 -0700 (PDT)
-From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Kees Cook <keescook@chromium.org>,
-	Tony Luck <tony.luck@intel.com>,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	Jarrah Gosbell <kernel@undef.tools>,
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>
-Cc: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Subject: [PATCH] arm64: dts: pinephone: Add pstore support for PinePhone A64
-Date: Tue, 25 Jul 2023 00:34:57 +0300
-Message-Id: <20230724213457.24593-1-andrej.skvortzov@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        d=1e100.net; s=20221208; t=1690237333; x=1690842133;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=358vZqiTvej61X45civfUiKJd7hpr9GfM3mB5tO/1oY=;
+        b=VxRUw61/eGPYTm6fgSCBK/6xkzwqpx+Ha3P3AxVjcsfN/1l1yqafMJCzCWb/sZnrMj
+         anRJoB5R3K3jxxGCCn6aKVcboJamcU1ZYWKGE8mrDv+wG7WnqdoW1MhcWxdj+PldBJuL
+         SJh6+OQJOERObnTJ6uGhn8uDK8MLPNjoG6Se7VTyd3DzThKlxqzV5Rswsv4FVhR93EUg
+         XAEMK6fseBkfNQTHrd8ujxCVz22kAZTvSMvPfS25s2wMKNs+ldXidZs3tEU4dgfJFDkW
+         BF6iCLlVrhUMVsiW6Zbo4VCD3VHN7vDUSQZiFQI1VXKQe3gj6GHkLIgS9v4V/UiYGaDi
+         hztQ==
+X-Gm-Message-State: ABy/qLYLJeApzqYo0jemZ0Szcj7zL33eIakSbwV7qsjRFN/+CnsdI8Ny
+	ovJjLJ3dJNf9Gspz6QL2/LuhSQ==
+X-Google-Smtp-Source: APBJJlGRGPfacjmUq1tdWpenzld24E4eJsyR1C29jO0mKIDTugwb8qJZ+ixEzpUc6MmlTv/TGWeMgQ==
+X-Received: by 2002:a05:6512:2036:b0:4f6:d7b:2f19 with SMTP id s22-20020a056512203600b004f60d7b2f19mr5787071lfs.24.1690237332390;
+        Mon, 24 Jul 2023 15:22:12 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5? (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+        by smtp.gmail.com with ESMTPSA id x27-20020ac25ddb000000b004fbb69d8791sm2391586lfq.79.2023.07.24.15.22.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Jul 2023 15:22:11 -0700 (PDT)
+Message-ID: <7b250095-8245-53be-e593-cecbc3cc6763@linaro.org>
+Date: Tue, 25 Jul 2023 01:22:11 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v5 14/25] iommu/msm: Implement an IDENTITY domain
+Content-Language: en-GB
+To: Jason Gunthorpe <jgg@nvidia.com>, Andy Gross <agross@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Bjorn Andersson
+ <andersson@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ Kevin Tian <kevin.tian@intel.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ Russell King <linux@armlinux.org.uk>, linuxppc-dev@lists.ozlabs.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Orson Zhai <orsonzhai@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Krishna Reddy
+ <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+ Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>
+Cc: Lu Baolu <baolu.lu@linux.intel.com>, Dmitry Osipenko <digetx@gmail.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Nicolin Chen <nicolinc@nvidia.com>, Niklas Schnelle
+ <schnelle@linux.ibm.com>, Steven Price <steven.price@arm.com>,
+ Thierry Reding <treding@nvidia.com>
+References: <14-v5-d0a204c678c7+3d16a-iommu_all_defdom_jgg@nvidia.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <14-v5-d0a204c678c7+3d16a-iommu_all_defdom_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This patch reserves some memory in the DTS and sets up a
-pstore device tree node to enable pstore support.
+On 24/07/2023 20:22, Jason Gunthorpe wrote:
+> What msm does during omap_iommu_set_platform_dma() is actually putting the
 
-Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+typo: msm driver doesn't use/provide omap_iommu_set_platform_dma().
 
-Gbp-Pq: Topic pinephone
-Gbp-Pq: Name 0161-arm64-dts-pinephone-Add-pstore-support-for-PinePhone.patch
----
- .../boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+> iommu into identity mode.
+> 
+> Move to the new core support for ARM_DMA_USE_IOMMU by defining
+> ops->identity_domain.
+> 
+> This driver does not support IOMMU_DOMAIN_DMA, however it cannot be
+> compiled on ARM64 either. Most likely it is fine to support dma-iommu.c
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>   drivers/iommu/msm_iommu.c | 23 +++++++++++++++++++----
+>   1 file changed, 19 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/iommu/msm_iommu.c b/drivers/iommu/msm_iommu.c
+> index 79d89bad5132b7..26ed81cfeee897 100644
+> --- a/drivers/iommu/msm_iommu.c
+> +++ b/drivers/iommu/msm_iommu.c
+> @@ -443,15 +443,20 @@ static int msm_iommu_attach_dev(struct iommu_domain *domain, struct device *dev)
+>   	return ret;
+>   }
+>   
+> -static void msm_iommu_set_platform_dma(struct device *dev)
+> +static int msm_iommu_identity_attach(struct iommu_domain *identity_domain,
+> +				     struct device *dev)
+>   {
+>   	struct iommu_domain *domain = iommu_get_domain_for_dev(dev);
+> -	struct msm_priv *priv = to_msm_priv(domain);
+> +	struct msm_priv *priv;
+>   	unsigned long flags;
+>   	struct msm_iommu_dev *iommu;
+>   	struct msm_iommu_ctx_dev *master;
+> -	int ret;
+> +	int ret = 0;
+>   
+> +	if (domain == identity_domain || !domain)
+> +		return 0;
+> +
+> +	priv = to_msm_priv(domain);
+>   	free_io_pgtable_ops(priv->iop);
+>   
+>   	spin_lock_irqsave(&msm_iommu_lock, flags);
+> @@ -468,8 +473,18 @@ static void msm_iommu_set_platform_dma(struct device *dev)
+>   	}
+>   fail:
+>   	spin_unlock_irqrestore(&msm_iommu_lock, flags);
+> +	return ret;
+>   }
+>   
+> +static struct iommu_domain_ops msm_iommu_identity_ops = {
+> +	.attach_dev = msm_iommu_identity_attach,
+> +};
+> +
+> +static struct iommu_domain msm_iommu_identity_domain = {
+> +	.type = IOMMU_DOMAIN_IDENTITY,
+> +	.ops = &msm_iommu_identity_ops,
+> +};
+> +
+>   static int msm_iommu_map(struct iommu_domain *domain, unsigned long iova,
+>   			 phys_addr_t pa, size_t pgsize, size_t pgcount,
+>   			 int prot, gfp_t gfp, size_t *mapped)
+> @@ -675,10 +690,10 @@ irqreturn_t msm_iommu_fault_handler(int irq, void *dev_id)
+>   }
+>   
+>   static struct iommu_ops msm_iommu_ops = {
+> +	.identity_domain = &msm_iommu_identity_domain,
+>   	.domain_alloc = msm_iommu_domain_alloc,
+>   	.probe_device = msm_iommu_probe_device,
+>   	.device_group = generic_device_group,
+> -	.set_platform_dma_ops = msm_iommu_set_platform_dma,
+>   	.pgsize_bitmap = MSM_IOMMU_PGSIZES,
+>   	.of_xlate = qcom_iommu_of_xlate,
+>   	.default_domain_ops = &(const struct iommu_domain_ops) {
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-index 87847116ab6d..84f9410b0b70 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-@@ -19,6 +19,22 @@ aliases {
- 		serial0 = &uart0;
- 	};
- 
-+	reserved-memory {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		ranges;
-+
-+		pstore_mem: ramoops@61000000 {
-+			compatible = "ramoops";
-+			reg = <0x61000000 0x100000>;
-+			record-size = <0x20000>;
-+			console-size = <0x20000>;
-+			ftrace-size = <0x20000>;
-+			pmsg-size = <0x20000>;
-+			ecc-size = <16>;
-+		};
-+	};
-+
- 	backlight: backlight {
- 		compatible = "pwm-backlight";
- 		pwms = <&r_pwm 0 50000 PWM_POLARITY_INVERTED>;
 -- 
-2.39.2
+With best wishes
+Dmitry
 
