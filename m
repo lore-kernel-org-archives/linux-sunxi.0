@@ -1,127 +1,94 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC778EC2
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 Jul 2023 04:25:06 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-66c729f5618so3765965b3a.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 23 Jul 2023 21:25:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1690172706; x=1690777506;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UPd/ArX54wqm/tpIEiEhXcXx1X1EWiF2KSiUxQCQJ7k=;
-        b=RvsdkRDPYfr6N/6c8aZGUc/31/ZJGWi5u6uyeM4gRwE6Uozbh5mcN6VfAItdfyjeK8
-         lECf7dOHIeA1juGAeWddfBG56wZ1O2BX6TAkwg/4yXUs+OdBGAfqKUpCmR5igdBYHFLy
-         i1Dt5V+/H9EaZzEAzzTCA/0ywgyJWmSnyMoBo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690172706; x=1690777506;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UPd/ArX54wqm/tpIEiEhXcXx1X1EWiF2KSiUxQCQJ7k=;
-        b=e4x0jOxAtmjdmomHp/D3iQP/Mu4qPcQksSAmVeTgzwu3OGa2pcvUSpM57Khcp6653d
-         ke3wCVdatkBy1He/nAgSzkvlmgw0am/i+Co8DYgFzZwEQqx5msDxh4j1SULuN9cBZ4By
-         lj+Pt/l8QBwRGdsT4cDC18jwkRVxE1tm0a8rAqe24nNk0a0W71Vj8b7b+j5v6AD8nqbm
-         0kRl6NE4n6XRz38wAsiQqXNPoJQkB+ksisFTZIrhiGrXpXt9TWhAgLbc2FqW8xexLUQZ
-         LGFD/B/sFFoHhpIUVGbRXKWhN1sSj4KhsoSjQ36YqFSLTUEqIachZUtig22tr779t0yw
-         cvhg==
-X-Gm-Message-State: ABy/qLbEFEzn4AQdTuN09nUcPpNB2mgQxXJDEj3SxnNJtj6GNV+ICbp5
-	i4Sy+DdqtEp5hwPyvEMBAU7j0Q==
-X-Google-Smtp-Source: APBJJlH2TXjXyCI+Wm3NdTdlzQ/Md1RTpmdFKaqCFO/is9/DjNxtCBDRl3BbDb8IaKxYTeFcBvfJkw==
-X-Received: by 2002:a05:6a00:2196:b0:668:82fe:16f1 with SMTP id h22-20020a056a00219600b0066882fe16f1mr9170529pfi.1.1690172706143;
-        Sun, 23 Jul 2023 21:25:06 -0700 (PDT)
-Received: from google.com ([2401:fa00:1:10:a3b4:a34b:d387:dea5])
-        by smtp.gmail.com with ESMTPSA id x48-20020a056a000bf000b00666b012baedsm6636251pfu.158.2023.07.23.21.25.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jul 2023 21:25:05 -0700 (PDT)
-Date: Mon, 24 Jul 2023 12:25:02 +0800
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc: Mark Brown <broonie@kernel.org>,
-	Icenowy Zheng <zhengxingda@iscas.ac.cn>,
-	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	Icenowy Zheng <uwu@icenowy.me>
-Subject: Re: [PATCH RESEND RESEND] thermal/of: support thermal zones w/o
- trips subnode
-Message-ID: <20230724042502.GA2403526@google.com>
-References: <20230722122534.2279689-1-zhengxingda@iscas.ac.cn>
- <ZLw4CnzLI/QHPGWx@finisterre.sirena.org.uk>
- <6d1c0915-1485-d9d6-9fff-0413fb16bd3f@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDC420F3
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 Jul 2023 08:28:08 +0000 (UTC)
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1qNquo-0007RN-JQ; Mon, 24 Jul 2023 10:27:38 +0200
+Received: from pengutronix.de (unknown [172.20.34.65])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 53E021F8389;
+	Mon, 24 Jul 2023 08:27:33 +0000 (UTC)
+Date: Mon, 24 Jul 2023 10:27:32 +0200
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: John Watts <contact@jookia.org>
+Cc: linux-sunxi@lists.linux.dev, Wolfgang Grandegger <wg@grandegger.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, linux-can@vger.kernel.org,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v2 0/4] Add support for Allwinner D1 CAN controllers
+Message-ID: <20230724-paving-pep-4c3ca2fae261-mkl@pengutronix.de>
+References: <20230721221552.1973203-2-contact@jookia.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bzzg2zjmqpjfr7ls"
 Content-Disposition: inline
-In-Reply-To: <6d1c0915-1485-d9d6-9fff-0413fb16bd3f@linaro.org>
+In-Reply-To: <20230721221552.1973203-2-contact@jookia.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:b01:1d::7b
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On Sun, Jul 23, 2023 at 12:12:49PM +0200, Daniel Lezcano wrote:
-> 
-> Hi Mark,
-> 
-> On 22/07/2023 22:11, Mark Brown wrote:
-> > On Sat, Jul 22, 2023 at 08:25:34PM +0800, Icenowy Zheng wrote:
-> > > From: Icenowy Zheng <uwu@icenowy.me>
-> > > 
-> > > Although the current device tree binding of thermal zones require the
-> > > trips subnode, the binding in kernel v5.15 does not require it, and many
-> > > device trees shipped with the kernel, for example,
-> > > allwinner/sun50i-a64.dtsi and mediatek/mt8183-kukui.dtsi in ARM64, still
-> > > comply to the old binding and contain no trips subnode.
-> > > 
-> > > Allow the code to successfully register thermal zones w/o trips subnode
-> > > for DT binding compatibility now.
-> > > 
-> > > Furtherly, the inconsistency between DTs and bindings should be resolved
-> > > by either adding empty trips subnode or dropping the trips subnode
-> > > requirement.
-> > 
-> > This makes sense to me - it allows people to see the reported
-> > temperature even if there's no trips defined which seems more
-> > helpful than refusing to register.
-> 
-> The binding describes the trip points as required and that since the
-> beginning.
 
-Not really. It was made optional in the v5.15 kernel release by commit
+--bzzg2zjmqpjfr7ls
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-    22fc857538c3 dt-bindings: thermal: Make trips node optional
+On 22.07.2023 08:15:49, John Watts wrote:
+> This patch series adds support for the Allwinner D1 CAN controllers.
+> It requires adding a new device tree compatible and driver support to
+> work around some hardware quirks.
+>=20
+> This has been tested on the Mango Pi MQ Dual running a T113 and a Lichee
+> Panel 86 running a D1.
 
-> What changed is now the code reflects the required property while before it
-> was permissive, that was an oversight.
-> 
-> Just a reminder about the thermal framework goals:
-> 
->   1. It protects the silicon (thus critical and hot trip points)
-> 
->   2. It mitigates the temperature (thus cooling device bound to trip points)
-> 
->   3. It notifies the userspace when a trip point is crossed
-> 
-> So if the thermal zone is described but without any of this goal above, it
-> is pointless.
-> 
-> If the goal is to report the temperature only, then hwmon should be used
-> instead.
+Applied to linux-can-next/testing.
 
-What about thermal sensors with multiple channels? Some of the channels
-are indeed tied to important hardware blocks like the CPU cores and
-should be tied into the thermal tripping. However other channels might
-only be used for temperature read-out and have no such requirement.
+regards,
+Marc
 
-Should we be mixing thermal and hwmon APIs in the driver?
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
 
-> If the goal is to mitigate by userspace, then the trip point *must* be used
-> to prevent the userspace polling the temperature. With the trip point the
-> sensor will be set to fire an interrupt at the given trip temperature.
-> 
-> IOW, trip points are not optional
+--bzzg2zjmqpjfr7ls
+Content-Type: application/pgp-signature; name="signature.asc"
 
-for measurement points that are used for thermal throttling /
-mitigation.
+-----BEGIN PGP SIGNATURE-----
 
-ChenYu
+iQEzBAABCgAdFiEEDs2BvajyNKlf9TJQvlAcSiqKBOgFAmS+NfAACgkQvlAcSiqK
+BOg8Kgf/eJt24Ndvcmh6L+eNtFLgI9sT0zZeRNAKl9MJzbRclkN9kj5PSwfjjXt9
+UyBuvnxjyHDs81oanjq0yLh673plo1Q+PH2S9bx2q0GuWxudK8fIS7K6C3FBO5EI
+cvoAK6cyy33+7LUR7X7w0/0cs8jPUS8znJh7iw3fhr+R9fW+uTzoMDxQsDi9duf7
+OPTBCOiiAnBajqy16/sxFHIyUFAHWYGs0RCgGEu1g4oW8JyPAr4lznp2wEYAPVeX
+oNjCnvJrfNPTqFbIKV9dY8GaYA765qy11toqYmpv/WCxMAOKO52ElS0dko5+nt8S
+ykN0k7XY6EzIqvbjvWh8AzhNvO8Gog==
+=cUGJ
+-----END PGP SIGNATURE-----
+
+--bzzg2zjmqpjfr7ls--
