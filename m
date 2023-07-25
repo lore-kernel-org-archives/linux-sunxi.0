@@ -1,110 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEB82516D
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Jul 2023 19:59:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3334C433CD
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Jul 2023 19:59:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690315168;
-	bh=jVkGbzOh79AEXIeMVY1s/WgLpPOOReQVmsy9pu11HgA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=DEhjBsvrOOkcqhVPMF0ywdTWs8Z08Oh+MPV+DI+LuayXmNg5RPsI+06xanIZr41yf
-	 RulCXs3D/yfE4rW3H0mBUoYYTTekXk7UtuQu/6tPx6E6UGYoVUP//DcKZnKvYdCY7m
-	 LDadwlsN3uiJtuz+P/1vbQiCRFS8xJEgzz56R89YkZUyoeWUBmxW/L2f1uTVJKWxhx
-	 MVlyTrNJ7H+fq//crmAaDyeNM5a++sk5fr1a2lcBtBfETk2FHDfcwxa9aH2EpzoAPn
-	 zp5i4YLu+nwwjALW0PlPIJnHz+Xa+AmKS5YFoc6mujZXB0gvA8UxLyWev/HbE7XmpG
-	 j6X5adm3rh5Kg==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-4fbb281eec6so9375936e87.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 25 Jul 2023 12:59:28 -0700 (PDT)
-X-Gm-Message-State: ABy/qLZHPkOO/KRB4Ew6SNPsc0Sg2Ah9QClv3qYyK4DnyK30wRWizyDq
-	2SaWkfoKCHSnTea9ZD6o92R9rlFC6zYP6nX7Uw==
-X-Google-Smtp-Source: APBJJlFwGjXaJCJydGIeGV4iVYCIq6ysqPH1CxKSwb/h2lZDdMtrrV65McGRvNB57SLo+rUN/j76IhUhQXfq96gAGDg=
-X-Received: by 2002:a2e:8786:0:b0:2b6:dd26:c02a with SMTP id
- n6-20020a2e8786000000b002b6dd26c02amr8693672lji.14.1690315146580; Tue, 25 Jul
- 2023 12:59:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 226CD1F188
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Jul 2023 21:21:21 +0000 (UTC)
+Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-7835ae70e46so231244439f.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 25 Jul 2023 14:21:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690320081; x=1690924881;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ejl2rfjsmb90IERDNkIOn7yrff20Ist6wXDZxeE7lOY=;
+        b=XKfewPS3+ycM3KLZ6+lHyJUv6IHGXuIoUKw/rl+4IK1ufw4gGiie1L9aK7HOrN+gBi
+         Myh1sFmOS2YUPqKyhecR2TN1yrBeANTGk/ZudSuteEFkP4ZvdL3OrdBxawxeh1d99ok+
+         zakOYnA35ZUCX8kksxXwEHkjUYQnZn2G3Su2cXWmV7n+FNGPxHULc7fntzGjntp+8p+q
+         UYSHadootDkhOUSYyj9UGy0IxBxdztnnZ9rNX4TB6LKm4wjs977Ap1V8tfMXRASZMaUU
+         b1rZP8e75f6qDyucxuIlf4X9Je4EZIoZNH3cUueYcFr9e/uxibcNCuPYNt7CyW+JTR9Z
+         t3WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690320081; x=1690924881;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ejl2rfjsmb90IERDNkIOn7yrff20Ist6wXDZxeE7lOY=;
+        b=ON8Rq8TydvYRcEMgCGFaRX7prdlCihXSCllVxrJ/XyA5NeMwgF+Ogt7MquoXmGWREk
+         fzdYkDDiOwlO8hmqRDR/YtgOQ4RaE1vXPDO1IcBfqYIWOmWljgF+kEOLuhyLcnZOih2Y
+         kBcqA0mhAJSpyyacZw1KXiJs9fO+HHnxZ5Mj0/Jqra17TjPHVYb5tIwFWGnZAPi/XAmA
+         VNhpMzFWrkHq7GAh7Wm1y+elchUyQGOgl9dScD9E3jYu5ENlPOz38FPeHjng1cDqfo2y
+         a8KfRnmh7oTg71usHoT07sf5q1wEwtQR9bNertqTebmCpid5siSnS/9++7a19iC4Q3If
+         bh2Q==
+X-Gm-Message-State: ABy/qLYcY9b3JPkPowKo8LhRydlYpM3o1UYzDcHaVUHelH2lWSfd8AUT
+	w3n6Z/z3HOjjaFjR4Csdtw2/qJ50wAXRJQ==
+X-Google-Smtp-Source: APBJJlF20JBnU5M5/frWrtQ1GGMjqvTM5NaTeS5ATNCXaX5x6DY+0Xih/xULnaXAIyd25UOoDpGHdg==
+X-Received: by 2002:a6b:f001:0:b0:783:727b:7073 with SMTP id w1-20020a6bf001000000b00783727b7073mr94175ioc.20.1690320080918;
+        Tue, 25 Jul 2023 14:21:20 -0700 (PDT)
+Received: from ?IPV6:2001:470:42c4:101:a777:7df3:b9ec:588b? ([2001:470:42c4:101:a777:7df3:b9ec:588b])
+        by smtp.gmail.com with ESMTPSA id l6-20020a02a886000000b0042b2e90ed06sm3938548jam.23.2023.07.25.14.21.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Jul 2023 14:21:20 -0700 (PDT)
+Message-ID: <30dd62cd-33e9-a872-fe0c-287e68c8d9ef@gmail.com>
+Date: Tue, 25 Jul 2023 15:21:19 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230724212222.809909-1-robh@kernel.org> <ZMAD25Yp6gCNq+wH@corigine.com>
-In-Reply-To: <ZMAD25Yp6gCNq+wH@corigine.com>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 25 Jul 2023 13:58:54 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+UYF79tUWvHh=5AfrERJPvFRaV4vh1mnbYn_nNjOQTcw@mail.gmail.com>
-Message-ID: <CAL_Jsq+UYF79tUWvHh=5AfrERJPvFRaV4vh1mnbYn_nNjOQTcw@mail.gmail.com>
-Subject: Re: [PATCH v2] net: Explicitly include correct DT includes
-To: Simon Horman <simon.horman@corigine.com>
-Cc: Andreas Larsson <andreas@gaisler.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Iyappan Subramanian <iyappan@os.amperecomputing.com>, 
-	Keyur Chudgar <keyur@os.amperecomputing.com>, Chris Snook <chris.snook@gmail.com>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@microchip.com>, 
-	Madalin Bucur <madalin.bucur@nxp.com>, Claudiu Manoil <claudiu.manoil@nxp.com>, 
-	Vladimir Oltean <vladimir.oltean@nxp.com>, Wei Fang <wei.fang@nxp.com>, 
-	Shenwei Wang <shenwei.wang@nxp.com>, Clark Wang <xiaoning.wang@nxp.com>, 
-	NXP Linux Team <linux-imx@nxp.com>, Sean Anderson <sean.anderson@seco.com>, 
-	Pantelis Antoniou <pantelis.antoniou@gmail.com>, Li Yang <leoyang.li@nxp.com>, 
-	Yisen Zhuang <yisen.zhuang@huawei.com>, Salil Mehta <salil.mehta@huawei.com>, 
-	Douglas Miller <dougmill@linux.ibm.com>, Marcin Wojtas <mw@semihalf.com>, 
-	Russell King <linux@armlinux.org.uk>, Taras Chorny i <taras.chornyi@plvision.eu>, 
-	Mirko Lindner <mlindner@marvell.com>, Stephen Hemminger <stephen@networkplumber.org>, 
-	Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>, Sean Wang <sean.wang@mediatek.com>, 
-	Mark Lee <Mark-MC.Lee@mediatek.com>, Lorenzo Bianconi <lorenzo@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Timur Tabi <timur@kernel.org>, 
-	Sergey Shtylyov <s.shtylyov@omp.ru>, Steve Glendinning <steve.glendinning@shawell.net>, 
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Vinod Koul <vkoul@kernel.org>, 
-	Bhupesh Sharma <bhupesh.sharma@linaro.org>, Emil Renner Berthing <kernel@esmil.dk>, 
-	Samin Guo <samin.guo@starfivetech.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
-	Grygorii Strashko <grygorii.strashko@ti.com>, Kevin Brace <kevinbrace@bracecomputerlab.com>, 
-	Francois Romieu <romieu@fr.zoreil.com>, Michal Simek <michal.simek@amd.com>, 
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>, Alexander Aring <alex.aring@gmail.com>, 
-	Stefan Schmidt <stefan@datenfreihafen.org>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Alex Elder <elder@kernel.org>, A ndrew Lunn <andrew@lunn.ch>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Richard Cochran <richardcochran@gmail.com>, 
-	Alex Elder <elder@linaro.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-amlogic@lists.infradead.org, 
-	linux-oxnas@groups.io, linux-arm-msm@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	linux-omap@vger.kernel.org, linux-wpan@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 02/20] sunxi: remove CONFIG_MACPWR
+Content-Language: en-US
+To: Andre Przywara <andre.przywara@arm.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de
+Cc: Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Icenowy Zheng <uwu@icenowy.me>,
+ Maxim Kiselev <bigunclemax@gmail.com>, linux-sunxi@lists.linux.dev
+References: <20230721134606.4505-1-andre.przywara@arm.com>
+ <20230721134606.4505-3-andre.przywara@arm.com>
+From: Sam Edwards <cfsworks@gmail.com>
+In-Reply-To: <20230721134606.4505-3-andre.przywara@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 25, 2023 at 11:18=E2=80=AFAM Simon Horman <simon.horman@corigin=
-e.com> wrote:
->
-> On Mon, Jul 24, 2023 at 03:22:16PM -0600, Rob Herring wrote:
->
-> ...
->
-> >  90 files changed, 88 insertions(+), 92 deletions(-)
->
-> Hi Rob,
->
-> I suppose that it's reasonable to take this patch through netdev.
-> But it does have a pretty wide surface, and netdev moves a lot.
->
-> As it stands the patch doesn't apply due to a conflict
-> in dwmac-qcom-ethqos.c
+Hi Andre,
 
-It did yesterday... Anyways, looks like 0-day decided to find something els=
-e.
+Series looks good so far! I'm trying to move my testing build over to it 
+now; I will report back when I've been running on it for a little bit.
 
-Rob
+On 7/21/23 07:45, Andre Przywara wrote:
+> diff --git a/board/sunxi/board.c b/board/sunxi/board.c
+> index 7ac50c4ae8c..2db4a2d73ca 100644
+> --- a/board/sunxi/board.c
+> +++ b/board/sunxi/board.c
+> @@ -187,7 +187,7 @@ enum env_location env_get_location(enum env_operation op, int prio)
+>   /* add board specific code here */
+>   int board_init(void)
+>   {
+> -	__maybe_unused int id_pfr1, ret, macpwr_pin;
+> +	__maybe_unused int id_pfr1, ret;
+>   
+>   	gd->bd->bi_boot_params = (PHYS_SDRAM_0 + 0x100);
+>   
+> @@ -224,15 +224,6 @@ int board_init(void)
+>   	if (ret)
+>   		return ret;
+>   
+> -	/* strcmp() would look better, but doesn't get optimised away. */
+> -	if (CONFIG_MACPWR[0]) {
+> -		macpwr_pin = sunxi_name_to_gpio(CONFIG_MACPWR);
+> -		if (macpwr_pin >= 0) {
+> -			gpio_request(macpwr_pin, "macpwr");
+> -			gpio_direction_output(macpwr_pin, 1);
+> -		}
+> -	}
+
+This version of your series does not include the CONFIG_SATAPWR removal 
+(is that intentional or did you miss it?) so these hunks do not apply 
+against master. I was able to cherry-pick the rc series version of the 
+CONFIG_SATAPWR removal and everything applied fine. Just thought you 
+should know!
+
+Cheers,
+Sam
