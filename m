@@ -1,94 +1,198 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526EE8F72
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Jul 2023 07:35:23 +0000 (UTC)
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1qOCZX-0005zf-7L; Tue, 25 Jul 2023 09:35:07 +0200
-Received: from pengutronix.de (unknown [172.20.34.65])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05451ED3A
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Jul 2023 10:59:13 +0000 (UTC)
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPS id 4R9DP42Hyhz49Q7N
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Jul 2023 13:51:52 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1690282312;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nVTFYmNWV1jP27+FDM4eqhSzMI/cuSd7gi5VmMNOAfg=;
+	b=I58/mZha/XrVqwvkdmEqfLdCohC/nvuwymYvaO3Hdth2eQhnIC4Du3+GKRsorvLg2WZiR/
+	xqVPbCx3kUj0WxWPEphFU07c9JamaukGNYh9herk+b+fN5bNSIvqybe6HTBgnskUSvjTIy
+	R0O/pWPr8fhyx/AnZoO+753Spj2cOlMWlhBRH6+QpwEVuWyzP4Zhrgody64BaWlgsGWjYu
+	+xuZzoZCnZG/WbbvWLHR/la9ZYjjvH6RFXlHEfONLv0hHfUeo0HVB7YXGgTPGVku8zDJ0L
+	X0tCFWVtIQDjo4UoPozR4ls2c55vjoKbP0TrgCQpbiqKndWYhbpHRqOYseZa1Q==
+Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4R9DNk1zV3zyRB;
+	Tue, 25 Jul 2023 13:51:33 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1690282303;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nVTFYmNWV1jP27+FDM4eqhSzMI/cuSd7gi5VmMNOAfg=;
+	b=OIKPneVysIIsOt0iRF7c9GoTrhfIJR3pJ1fYanttlyHbKxBnxdV50h3BXqREUF1tnvN/8H
+	ttNqApgMpAYqB7vDQZc+xH2UvgGKtx66Hw1y+pGiPqPEw8hU2G2wzUdMtgPO8868lDUEuC
+	mAamey/Dq8fuzD8h9oyCJhONbjrEu28=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1690282303;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nVTFYmNWV1jP27+FDM4eqhSzMI/cuSd7gi5VmMNOAfg=;
+	b=B8bdNu9uBV5ZXRnWapFwaJRrCRvDVUeUl1pyKdPWhaxXOVJ824gQaLzPRbWHbGIpGc9grs
+	jqcDmI9Bw1kzqTupLqxIloBqC/4NgCsOXWuXufhnKIg2jSO/0Ve1RtJU6Ax3Z+d0PLJPoe
+	dAV05DsdXtLCk2N97Jcdz7E1wVO/iwM=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1690282303; a=rsa-sha256; cv=none;
+	b=vct141sa+XcGyQ1kVIQejOrk1qw2TvdjLqv5zflvOIbiywY4zEj5ryKGPtYOfkQM0he69/
+	7oqKcieTLFTTIM75qqs7mrU3HO4obQNPfyig41htRHqPfObXhKwFeAh5H9FyPca2wIIHTX
+	Wvb5rALlBcEDu3u29PPObFj7UthU4Mw=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id 82F4B1F928B;
-	Tue, 25 Jul 2023 07:35:02 +0000 (UTC)
-Date: Tue, 25 Jul 2023 09:35:02 +0200
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Rob Herring <robh@kernel.org>
-Cc: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	Wolfgang Grandegger <wg@grandegger.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 304E7634C23;
+	Tue, 25 Jul 2023 13:51:33 +0300 (EEST)
+Date: Tue, 25 Jul 2023 10:51:33 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Joe Tessler <jrt@google.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Wenyou Yang <wenyou.yang@microchip.com>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Yong Deng <yong.deng@magewell.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-can@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2] can: Explicitly include correct DT includes, part 2
-Message-ID: <20230725-squeamish-walrus-a6ed8833de74-mkl@pengutronix.de>
-References: <20230724211841.805053-1-robh@kernel.org>
+	Samuel Holland <samuel@sholland.org>,
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>, Sean Young <sean@mess.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 01/28] media: cec: ch7322: drop of_match_ptr for ID table
+Message-ID: <ZL+pNUYymeXv5EoU@valkosipuli.retiisi.eu>
+References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
+ <98a77653-ec58-56c4-9893-3b424f67c87e@linaro.org>
+ <5afcec8b-b8f6-35b0-278a-5de185e4a7a2@xs4all.nl>
+ <ZG9XJCD98VWjGjTN@valkosipuli.retiisi.eu>
+ <ZG9ger4WE2VWoVEF@valkosipuli.retiisi.eu>
+ <158425ec-86e8-ca3e-eed8-e14b37c42730@linaro.org>
+ <ce217ae6-6dd5-26ea-2ce7-95d97ef791c4@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ocgulp7ippdalqz4"
-Content-Disposition: inline
-In-Reply-To: <20230724211841.805053-1-robh@kernel.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:b01:1d::7b
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
-
-
---ocgulp7ippdalqz4
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ce217ae6-6dd5-26ea-2ce7-95d97ef791c4@linaro.org>
 
-On 24.07.2023 15:18:40, Rob Herring wrote:
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
->=20
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Hi Krzysztof,
 
-Applied to linux-can-next/testing.
+On Thu, Jul 13, 2023 at 08:46:58AM +0200, Krzysztof Kozlowski wrote:
+> On 19/06/2023 16:13, Krzysztof Kozlowski wrote:
+> > On 25/05/2023 15:19, Sakari Ailus wrote:
+> >> Hi folks,
+> >>
+> >> On Thu, May 25, 2023 at 03:40:04PM +0300, Sakari Ailus wrote:
+> >>> Hi Hans,
+> >>>
+> >>> On Sat, May 13, 2023 at 11:57:33AM +0200, Hans Verkuil wrote:
+> >>>> On 12/05/2023 18:35, Krzysztof Kozlowski wrote:
+> >>>>> On 12/03/2023 14:12, Krzysztof Kozlowski wrote:
+> >>>>>> The driver can match only via the DT table so the table should be always
+> >>>>>> used and the of_match_ptr does not have any sense (this also allows ACPI
+> >>>>>> matching via PRP0001, even though it might not be relevant here).
+> >>>>>>
+> >>>>>>   drivers/media/cec/i2c/ch7322.c:583:34: error: ‘ch7322_of_match’ defined but not used [-Werror=unused-const-variable=]
+> >>>>>>
+> >>>>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >>>>>> ---
+> >>>>>
+> >>>>> Hans, Sakari,
+> >>>>>
+> >>>>> Can you pick up the patchset? There was positive feedback:
+> >>>>> https://patchwork.linuxtv.org/project/linux-media/patch/20230312131318.351173-1-krzysztof.kozlowski@linaro.org/
+> >>>>>
+> >>>>> but it seems it was not applied.
+> >>>>
+> >>>> I see it is delegated to Sakari in patchwork and marked Under Review, but I don't
+> >>>> see a corresponding pull request for this series.
+> >>>>
+> >>>> Sakari, did something go wrong?
+> >>>
+> >>> I spotted this as Hans notified me in IRC, I wasn't cc'd. Apologies for
+> >>> this --- I intended to take these but I think I must have missed something
+> >>> important in the process. I'll take them now.
+> >>>
+> >>> Thanks.
+> >>
+> >> This no longer applied cleanly. Mostly there was fuzz near .of_match_table
+> >> changes as probe_new (and remove_new?) changes have been recently merged.
+> >> There were other issues as well, I marked a few patches in the set "not
+> >> applicable" as other patches had already done equivalent changes earlier.
+> >>
+> >> There were substance-changing changes in the 20th patch, replied to the
+> >> disuccsion there.
+> >>
+> >> I've pushed the result here and intend to send PR to Mauro soon if there
+> >> are no issues:
+> >>
+> >> <URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=of-match-ptr>
+> > 
+> > One month later, I still don't see this set in the linux-next.  What's
+> > happening here?
+> > 
+> 
+> I don't think this was merged in v6.5-rc1. It's not in linux-next,
+> either. Another month passed...
 
-Thanks,
-Marc
+These are now in the media-stage tree
+<URL:https://git.linuxtv.org/media_stage.git/log/>. Assuming nothing goes
+wrong, these should end up in Linus's tree for 6.6.
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+The issues related to media tree maintenance are being addressed as we're
+changing the process how the tree is maintained. The patches will
+eventually get in still, also expect this to improve in the future.
 
---ocgulp7ippdalqz4
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+Regards,
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEDs2BvajyNKlf9TJQvlAcSiqKBOgFAmS/eyMACgkQvlAcSiqK
-BOi3zAf+PBBM2/u8saJpYng8AekPLMr62E/Shm6AKhzJpIQ9KfWUU60iNcdLffNX
-lOJTO4aWlkGy4zBNHRu96BFcV7f2O/SbHAXSalaZBGr7xwp16nsGa5OXgTzbcPK7
-F8yO0z2+/gNEGJiY85OnMufQ7EKpy7ediD4re0MfGss1rTDxtPh7IP4sTUjZjTgP
-n2kUSLz3Wn1wMbbG65XYGLYwQ93cDLDQBVaofbrwWWmQ3Alu64xocRB7rATc3YnB
-1TRLJNNtHM6GRveHKHCnWksXCPLWhxe+U1QaAybRqEm23GCHpWFEwihFNdrgGmxY
-1rzoVwgLdVQizK17N9saIHKjqQtQfw==
-=UTUe
------END PGP SIGNATURE-----
-
---ocgulp7ippdalqz4--
+Sakari Ailus
