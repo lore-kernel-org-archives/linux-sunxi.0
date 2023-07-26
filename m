@@ -1,93 +1,116 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07A71FB9;
-	Wed, 26 Jul 2023 06:24:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690352687; x=1721888687;
-  h=message-id:date:mime-version:cc:subject:to:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=DlKsXPAKvUQNyaHWuLEMn+YeZGej9B0RE5XdM6qJwbQ=;
-  b=DcTIuyJdgJyXm5llxYf0S5e1ICmTF4gtl5+0U4MRurGjof9kSrKvN6iz
-   uYVkpUcFGWaG3e+KuMFSekhKqmJS4IvlcTH6a6kQgRoCKpPGVfqTPPHpJ
-   kDk0kZvaHFAOztf+oN2fY6pHmPnu+MLjU7LaMZk9hwTKcxk8mV+xqGrRC
-   0zGN6dj1HK8JLq/NsowYt3T6ZG4Or6T4hSgJpT3OUKVUU+A/5cGP1mQvt
-   0qPlwRZuyD1/9zuPnicJFt5ALVG9Tp5dVSLHpxIIYvNf5zf7muXnHzPTN
-   Cjb4LJ1ZSgluvQUPBCZCw3JokrfYddmhm9dR/eagrjnLpn1n/v7CscYCL
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="365384327"
-X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="365384327"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 23:24:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="1057075644"
-X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="1057075644"
-Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.254.208.129]) ([10.254.208.129])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 23:24:20 -0700
-Message-ID: <7186790f-abed-61ba-2d19-6ab66640f30a@linux.intel.com>
-Date: Wed, 26 Jul 2023 14:24:18 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3BD4C99
+	for <linux-sunxi@lists.linux.dev>; Wed, 26 Jul 2023 08:21:01 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-99b78fda9a8so749825966b.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 26 Jul 2023 01:21:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690359660; x=1690964460;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JiHG1lqfKtIgSn5nDbZ/v9AonJn+0BEDVLcqcbo9VMw=;
+        b=eM07wKpFCUyvyGxNYzYTzgCpEijzkJf7hJHDQc+i/xA/jNEnvHA977kYSn0v/43e+H
+         175ADqTKdLFh5yltdkjKiAQquGfKNC7khbSd6pR+Xsx4eMx2/MN2VZeQmwXbsE+avszl
+         GhG4wA39gGhGrK9uymQluTkRgUAZDzHXgwPVmxCwfmXs210k8gYsiols3HHWcv9aT4Ds
+         B5Z2BDhHLmBoPo9mYXDsSY6eOvwzWjtb7mPc02HjZIqeRrsVSMGcDpKgRM69mg01yyna
+         m4onL4BptrTSDHkWGcFMJzCDBAurZ4qUl1eo6zPwT4oPh7wG6VIDUrbWXF86GIUFk+gH
+         ct3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690359660; x=1690964460;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JiHG1lqfKtIgSn5nDbZ/v9AonJn+0BEDVLcqcbo9VMw=;
+        b=NUKOP8NCfG9lHGFhEjaf940YtI5ul9lgfAt9qKUPnNO/BJqGTjnLW6tmvOnEFcjTc6
+         gu2PoCRSvCb/k33T3FA2Kw6YzHHIiIqOKFX44d4xWXIYj5kt1yXRCe8yvMVz2AA0+fjs
+         jh5hOOQK6uKYzQROSr8q1oUCcLOX0dEQ4G6IUyUDzFChgSabtEgjGkEFgQ2KKiqWqiFt
+         8HHRhirMbrmQP9wT5pweUiI7jVP323NxeDvKDNs6XXw0psqVnVQf4knfqLSnJbCrQydB
+         /Rcg/X/cfxVA74nQC1vNDd1EgbGufhgw94LxI2UIy3DnyJDtlFEhj8TW6QSwD8hCViap
+         ilDg==
+X-Gm-Message-State: ABy/qLYMgu0o7L5YNZjN9VSsY/QpZZ+GDpmRkx7VrYAOSoychhkt83t9
+	DyghZt0OiNfDAUe3NlkQ5FgpUA==
+X-Google-Smtp-Source: APBJJlFSv4sPrPVpORIAoXVWqnWYXffFs8Rj+rBO6g/J3M8WgKWJdW/mDG62LCvhpl6DqK28klacEQ==
+X-Received: by 2002:a17:907:7851:b0:982:21a1:c4e0 with SMTP id lb17-20020a170907785100b0098221a1c4e0mr1067754ejc.56.1690359660018;
+        Wed, 26 Jul 2023 01:21:00 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id x10-20020a170906804a00b009893b06e9e3sm9301463ejw.225.2023.07.26.01.20.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jul 2023 01:20:59 -0700 (PDT)
+Message-ID: <f24f29e9-ff06-5d96-df44-7632a933e4c5@linaro.org>
+Date: Wed, 26 Jul 2023 10:20:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Cc: baolu.lu@linux.intel.com, Dmitry Osipenko <digetx@gmail.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Nicolin Chen <nicolinc@nvidia.com>, Niklas Schnelle
- <schnelle@linux.ibm.com>, Steven Price <steven.price@arm.com>,
- Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v5 02/25] iommu: Add IOMMU_DOMAIN_PLATFORM
+Subject: Re: [PATCH 01/28] media: cec: ch7322: drop of_match_ptr for ID table
 Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>, Andy Gross <agross@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Bjorn Andersson
- <andersson@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
- Kevin Tian <kevin.tian@intel.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- Russell King <linux@armlinux.org.uk>, linuxppc-dev@lists.ozlabs.org,
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Joe Tessler <jrt@google.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Rui Miguel Silva <rmfrfs@gmail.com>, Wenyou Yang
+ <wenyou.yang@microchip.com>, Bin Liu <bin.liu@mediatek.com>,
  Matthias Brugger <matthias.bgg@gmail.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Orson Zhai <orsonzhai@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>, Krishna Reddy
- <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
- Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>
-References: <2-v5-d0a204c678c7+3d16a-iommu_all_defdom_jgg@nvidia.com>
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <2-v5-d0a204c678c7+3d16a-iommu_all_defdom_jgg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+ Houlong Wei <houlong.wei@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Patrice Chotard <patrice.chotard@foss.st.com>,
+ Yong Deng <yong.deng@magewell.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Sean Young <sean@mess.org>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org
+References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
+ <98a77653-ec58-56c4-9893-3b424f67c87e@linaro.org>
+ <5afcec8b-b8f6-35b0-278a-5de185e4a7a2@xs4all.nl>
+ <ZG9XJCD98VWjGjTN@valkosipuli.retiisi.eu>
+ <ZG9ger4WE2VWoVEF@valkosipuli.retiisi.eu>
+ <158425ec-86e8-ca3e-eed8-e14b37c42730@linaro.org>
+ <ce217ae6-6dd5-26ea-2ce7-95d97ef791c4@linaro.org>
+ <ZL+pNUYymeXv5EoU@valkosipuli.retiisi.eu>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <ZL+pNUYymeXv5EoU@valkosipuli.retiisi.eu>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 2023/7/25 1:21, Jason Gunthorpe wrote:
-> This is used when the iommu driver is taking control of the dma_ops,
-> currently only on S390 and power spapr. It is designed to preserve the
-> original ops->detach_dev() semantic that these S390 was built around.
+On 25/07/2023 12:51, Sakari Ailus wrote:
+>>
+>> I don't think this was merged in v6.5-rc1. It's not in linux-next,
+>> either. Another month passed...
 > 
-> Provide an opaque domain type and a 'default_domain' ops value that allows
-> the driver to trivially force any single domain as the default domain.
-> 
-> Signed-off-by: Jason Gunthorpe<jgg@nvidia.com>
-> ---
->   drivers/iommu/iommu.c | 14 +++++++++++++-
->   include/linux/iommu.h |  6 ++++++
->   2 files changed, 19 insertions(+), 1 deletion(-)
+> These are now in the media-stage tree
+> <URL:https://git.linuxtv.org/media_stage.git/log/>. Assuming nothing goes
+> wrong, these should end up in Linus's tree for 6.6.
 
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+Great, thank you!
+
+Best regards,
+Krzysztof
+
