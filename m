@@ -1,168 +1,118 @@
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2136.outbound.protection.outlook.com [40.107.215.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A234F1846
-	for <linux-sunxi@lists.linux.dev>; Wed, 26 Jul 2023 04:01:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MlcwkgcHGDI2TqPpiisMMeT0ZLIkpVHKVH/4Xxv+37Zu78HxGuRNmNL6qMCt0nL/68J2yC8uX9GfikSgVN/JwoXAudlQoSwEFJbKGfrig23w7BYl5ucAGwQWZty/IKPBwYHcMujVN/i685qEEy3bOuXnRaRR1MFVfTkmb04502tIJLaEf3Zq38VFnA3tsYK2We3EkvcBHcjaGtXksXXDBgEYLtUuC4MxvsDvFHam+LhGS4JO29Dqipu33MZgs7nTDB+HRWsTj7+SohFtX2224IRXf77tl5k9W3P+VbIdB47vmDeXdJuboVzGS3HC08gycLdoh08dHoXdzBVfQYEUhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3BDV2gitE9ZgnfS93zzj6+ruXHPsGkYOE2qo/yJJ5Ek=;
- b=h1cw918Yd1ry+EpvVr6WMXIxnqPwS8zYYGGNzt6U02ZzKEW5n3sVD3BUQvHh3rzqZ1GCJ8oAGJjgKApsqESYSVQ9QeqWedTzgG3NOz1QTSv1ZZAtJYtrLNLX2ODBesVzJpMRdNMMu3YwYVZVGn2sib7SeHWmsiEFBdKxGN/FBc4VA9es+TlimHZZRrT2qefNJJyDV8WqqXZxOlY/aHeqgzzz8mBQSBX2tYcyNXx0OaZ8J8MEt8bpMtuuSRiLv6W1KUnH7Iy/xdBMNx3bt02edPjeI7W2aK8500b19f5S0DoUAFbj7aJsYLEwhoT+SjcZHHqshoQWoQ2Au78WLX1O5g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3BDV2gitE9ZgnfS93zzj6+ruXHPsGkYOE2qo/yJJ5Ek=;
- b=qroh9Iixb1OsbPnjY51PEiFN7WWzI3lOuDikVcUJQKG2CZ4w1E1QD8HCPoOo3dKjHJ2SfEV5b4cyanRr/L8/gnBRZAV5YD0Yydxe2IoilVNq6RioCiLENmgR2PTmzPwzXEIsZ22dGPT2Wyq/Fxw6VKXCfM3GaPWUzRQZjVNesFP5Cf1UoFeiCRk8WibEuoXVMCzwzUpk51xRXa9rE5rjT7/XWp4/ysziIrt3cDIEZwYBo7MmzHU3GJQk5XYshlTLzBmO2p2M+8THSTi8tvMubb6Nc8XlGAtw7ZybnKS8NJ+1vswRmwfzAs41zJQTsk9NSFmYyJn9l/t6DOj4MSJooQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
- by KL1PR0601MB5463.apcprd06.prod.outlook.com (2603:1096:820:c3::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.25; Wed, 26 Jul
- 2023 04:00:58 +0000
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::732f:ea1d:45a1:1e0b]) by SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::732f:ea1d:45a1:1e0b%3]) with mapi id 15.20.6631.026; Wed, 26 Jul 2023
- 04:00:58 +0000
-From: Yangtao Li <frank.li@vivo.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Yangtao Li <frank.li@vivo.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-mmc@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E851105
+	for <linux-sunxi@lists.linux.dev>; Wed, 26 Jul 2023 04:58:33 +0000 (UTC)
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4039f7e1d3aso52470901cf.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 25 Jul 2023 21:58:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690347512; x=1690952312;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M087Fgq0E4MMh1I/cPVwdFNlx/VQvGhOV2RTHu7YaBU=;
+        b=pU6R0/U1qgBajf5acm5GN3CJoiqNmkCUunPRrSGqoTE9hdz6stnmgrcZ7JA5Q49a5E
+         JtueY3tREN64bfuHdFaLJvjc6PucraeYC5Pj64fBpE/O3yTtBGP51jYxrObvHk8nPyS9
+         MLUEvtEnie2H2jcItTbIC2kKyFJZHnqfPz9+FGixCqXnl5EKyRCXc4c2Uc0WCtXg6kdB
+         iRVaDZwLbSBZMYvXupizNn9YWKiaY0mOczUqCZ+MU7wo4xu3a5oQXxlcplwMYGQ25qH5
+         DGgRyMZY0OKhvvRASDw5vLneZep6G0g2FdoRwsQVnepiKa8iJs9dMMi/1gQjdnARd1m4
+         ng3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690347512; x=1690952312;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=M087Fgq0E4MMh1I/cPVwdFNlx/VQvGhOV2RTHu7YaBU=;
+        b=RzWcIScLR9NEBddq0O8z9GDZAjmlN66ngxGxUAQep8iQn6H6GdYFyBCRlPK36xDAFi
+         rMWsi8vh0pVXUUjXvUKOd6YiyGTbpSgXjO2EDmFfQN3ij82/YEwKdOVKEVF624IvD+zn
+         C0o2DYhU/6op8b2bZoZx8KXtFsfiGSds7yEggbW5ObTcAshwEBQnVKzDppnTQS1oS8Ye
+         6Arw18SmTa1dy8x4YEo6durl6vSBykDslv9l5JB9ApLJpTP/r7paI+Kg4I/JYiADkYME
+         G1iNdc5E/OgN/Q3n5sFpusDLJ4yvB65OLvkI5FZE9wVQ5FPqq7xai5bSggfOKPPqxmi4
+         KFfA==
+X-Gm-Message-State: ABy/qLYFYdO0Bbt7E3rUw8/hEDFOieIMefCQUXCS9uFc+S5WyqN5DT+9
+	Ro3jdEK/7QEPkmzLt0YRBhg=
+X-Google-Smtp-Source: APBJJlGf5vu0wnTC/f1RfEHETiSiriuSo6u0D6X8YQ+PtqkJ4DC2xNEIzE+uILGV6Y37eISxkfemmQ==
+X-Received: by 2002:a05:622a:211:b0:403:f659:d716 with SMTP id b17-20020a05622a021100b00403f659d716mr1349217qtx.63.1690347512666;
+        Tue, 25 Jul 2023 21:58:32 -0700 (PDT)
+Received: from 377044c6c369.cse.ust.hk (191host097.mobilenet.cse.ust.hk. [143.89.191.97])
+        by smtp.gmail.com with ESMTPSA id p6-20020a170902eac600b001bb739e220esm9229001pld.230.2023.07.25.21.58.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jul 2023 21:58:32 -0700 (PDT)
+From: Chengfeng Ye <dg573847474@gmail.com>
+To: shuge@allwinnertech.com,
+	maxime.ripard@free-electrons.com,
+	vkoul@kernel.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	p.zabel@pengutronix.de
+Cc: dmaengine@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 01/61] mmc: sunxi: Convert to platform remove callback returning void
-Date: Wed, 26 Jul 2023 11:59:41 +0800
-Message-Id: <20230726040041.26267-1-frank.li@vivo.com>
-X-Mailer: git-send-email 2.39.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SG2PR02CA0093.apcprd02.prod.outlook.com
- (2603:1096:4:90::33) To SEZPR06MB5269.apcprd06.prod.outlook.com
- (2603:1096:101:78::6)
+	linux-kernel@vger.kernel.org,
+	Chengfeng Ye <dg573847474@gmail.com>
+Subject: [PATCH] dmaengine: sun6i: Fix potential deadlock on &sdev->lock
+Date: Wed, 26 Jul 2023 04:58:26 +0000
+Message-Id: <20230726045826.49554-1-dg573847474@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5269:EE_|KL1PR0601MB5463:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5ba3f6ce-3a51-4f19-c4d2-08db8d8cea96
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	ALd4vzLpCTgLlrooFKH2HPnGprtEEBSQjEVvatApTIprT1rAymjZrQqeGl4uFjMmQOYbPekNZAbJKTQEPbvVDZ4V8NGwBWhW73Wlq27tMxw2/BccxAq/MkxSER41S9ZV5HxSfUrkMA2DU/P9j/pEpkAIVEcLegclUjNfikwXF6rBy6RpQEL3365hK8akXEokVZJYkFpxN6PJevsEO5v9W+eLKBgK4zuXG4NpmRqChopxJ//zq+Lw5dMuftiPKoSntDgxsOE3ly6aNtFbQKzxa8atdztsaYytaWyeYnqS3ARpJOf8FSkv03cVBqhWPQbPg5/9L8wARNVul57YlJd6VeXGnWCMwmXDgYpnwH7kh0OQQAyhP0yHHQpilRpiNuDWPntnjDGHzdKDM4EQudVjHGELd7JOYUlNflzrwD9yT90QA9wrOmNM/HUm7zYIL/xAqFBaIto/scZyNDkTjMngqZNnXtwaigy47LiNGkw8dTzFvTNRcBaEV6WolHuOAj0IlHmrUtZKE2IQ39ZUicB1m3IgU9hi6/Jd03FQlWd3Bg/rfno0PM3rlvqnC6oDAb66iEn+GQvaj6cIXl5lJbDzvU8VaH8qrPCKIW6IDo7GKRkR8z5tz4z+jwi5d4fMO3xg
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(39860400002)(346002)(366004)(376002)(136003)(451199021)(110136005)(54906003)(38350700002)(6512007)(38100700002)(52116002)(6486002)(6666004)(478600001)(41300700001)(5660300002)(2616005)(8936002)(8676002)(66556008)(4326008)(66476007)(66946007)(316002)(186003)(83380400001)(6506007)(26005)(1076003)(86362001)(2906002)(36756003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UVp5dUF3VmhMWExsU2t2S3dZbVY3WTBRdS9RNkFjZDdhVUJMdXFYNTlFaHd5?=
- =?utf-8?B?eW5jbW1WUm9kaXh2b2pVYUhWUVBWZXhXaDU5aUYvNHhmbFRVWTBSR29la2dO?=
- =?utf-8?B?SnRTbmxQTTZ3TzZBRk1Qb3pnUGUwMk9naHlOVzFhWE04bzVPWitTOVhRZXox?=
- =?utf-8?B?em1DdDErclcrMDhPelM0ZlFXZGhRVDc0Y1ZGcm0wRHhrMGFQaG40UlBYTnA0?=
- =?utf-8?B?bENocGpUOXF5eFR0aCtXZTVRc251NTdQdlV0UU05Nm1YdFhvVnZBTHJ1UXNs?=
- =?utf-8?B?L0hlSU5DK1h2WS9HUHF4Y3dtRFZVRjJIa2VGQm9nQzV0K3hxcnFac25CSWNw?=
- =?utf-8?B?blNmeUd3d2Yvano2MDNFMnNyOVlYMmhkL0w3bU9SSnpRUzV1d1g3TVJwTFBr?=
- =?utf-8?B?Q0xjNlpmYWcwb2JSVFlFb2V4MnVnenJjUlpOa2oyWlpSb01EWWdtaHhsVUhq?=
- =?utf-8?B?VERTYUI5MXhwRDBNenM3bVVRdHRVYXNpc3poQm9YRjMrRWtudVpHYThacDlD?=
- =?utf-8?B?Sm5EWHlCTlhweGJ6MUhlRmlvaXlyWGtNY084eDZ1ZE1ycDBBbThQL2p5NVNz?=
- =?utf-8?B?MzExekcvS1VEVFU4VkhzQS9qTXhNUzloQVVXSm0vUVlKb2VIeTh5Zm1mL3lB?=
- =?utf-8?B?MXgrMHRXZnprTEUwVFZjbFp3eFdjMW1xZU9KYVVsT2FjM0dhamJFQ21Wbzc3?=
- =?utf-8?B?M0gwanN2SkJ4OE9aVWZtSWYwaFM2N3YrNS9ySG8xM2UwdzZHQksrRS9NQjl6?=
- =?utf-8?B?blNGWUFOZ0NJUkVkeVM3MThDYnEvclNic3RTM3RIa3dGOUo3WmZYQWFlS1FN?=
- =?utf-8?B?T0VyRXY4SXNWMkpQMmNicFU4eHZlN0lJMjdNc0Y3ekNJalIzMzd4YUlSNEtO?=
- =?utf-8?B?N2MwdUtxWnUxSENiYUtqRnpUR0Y2SHVYRTV6bmpDMDNGaWZNUGNTSzQxM1ZS?=
- =?utf-8?B?cFBpVUJ1L3lNbE84S0NmZmhsL2ttdW83UlFha3RXTlNSY3YvZWNsZ3JaR3hu?=
- =?utf-8?B?RE0rQytUS0FobmhjWTkrdi8zRzFVS01RU1BRVWFDVkZMazJmSUtzVC9UaU4r?=
- =?utf-8?B?L0U2UG5TQ3IxYUZ2NWJIVklFVHgyN090WTQ3WHRpUDQ5Y1ZORzNpRWVDdHo4?=
- =?utf-8?B?cDQ0aHVydFBxNGEwY2RUVVJyYWtaWlkzdDdiOG1hTW5lSU8xVEpKa1F5eUNl?=
- =?utf-8?B?VXZDd2tVNTc2aE9jOFQ4eCs0ZTQ2S3Y5L3RMb01MYlcwNGk1UFcxWTZ1Z1RX?=
- =?utf-8?B?ellLdnRNcENJRjRQZGVxaUlQWnhvdHRHTkxmaVZKa0RmTUNJYlA3QnI1bzdK?=
- =?utf-8?B?Nkd1YmFpSmFjU2lKQi9JZVJWclFDYkVpMkp5Yk9GQkNTQ294aHF1SjUwZy9W?=
- =?utf-8?B?WG1ZRHJYWlJJOCt1ZFZCc0pHYkgvYWl2Z3M5SjE4ZklBaERMUEh3T2ZPa0Ev?=
- =?utf-8?B?M0kweXJNTDZZbVRZYUE1TjZSTU1YTVBqaDMrcjZiS0xYaFdVZHhjUU5WS0NI?=
- =?utf-8?B?MGk0czdWRyttTk9XWGtuRXhFVzNpcXlCQk9wdnM1K212N2Z1WmlTWVNNUkFM?=
- =?utf-8?B?M0JJREsxR21Gb3JNMjh4T1E1K0RQTHJRY1BsSUdXZm9lNEM5RnQ4bmNFeW1H?=
- =?utf-8?B?SjRvTVh3bGdJem9kSG1rbTd6eXc0cVYyQ0UrYjU3MDRZekNDb1ZEd1d3SnNU?=
- =?utf-8?B?VEhKRkIxRU5ac2ZNL1BsdDdjdzM0QlVPQ3RURTFoSGJ4YmRkb3FyWnJKaGp6?=
- =?utf-8?B?SExnTXFQdWZORzloOW5aNWEvYnJQWjQ1dXJ5aDZtcXVlbFdkRXROOWxNVzM4?=
- =?utf-8?B?aGR6azQxZVc2M1hZdFVNNmNrZnRwZWIzTnNFSFZXVytLUC94N0tNVEdKcVI2?=
- =?utf-8?B?NkFycFgrVFdDQ3FXQ1FSRXlrUFBoaURUd1NaS04rSjZGdzlSNkpHU3RSOE1p?=
- =?utf-8?B?QlBoN0dHSTgwelhNZjZyVVo1cVpZbjRIc1VsNXFGOTlDdzBsUElPZTFZaGxU?=
- =?utf-8?B?RWo0YnBLRytLWWNpVFh0KytCSTRNY0tjQUcyczVndWU4TFplN2FQYzk5K3ov?=
- =?utf-8?B?MWRMUTdKSGo4ekMweUZHMURCSDYxbVVoUDVUd3Q3Sko0SmVQSU5ZSUt1KzZC?=
- =?utf-8?Q?iLZ9a5tto/BI/RS+TjIw4cF3W?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ba3f6ce-3a51-4f19-c4d2-08db8d8cea96
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2023 04:00:57.6171
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pGQOb7S5oFvM1sOBl45W4LjCrpWFQ2mGtpHKFHiuBXOzqbHiHyKoppRWEnudIkdVv0WL7XwWpujNuIdz7uu7rA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB5463
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is (mostly) ignored
-and this typically results in resource leaks. To improve here there is a
-quest to make the remove callback return void. In the first step of this
-quest all drivers are converted to .remove_new() which already returns
-void.
+As &sdev->lock is acquired by tasklet sun6i_dma_tasklet() executed under
+softirq context, other acquisition of the same lock under process context
+should disable irq, otherwise deadlock could happen if the soft irq preempt
+the execution while the lock is held in process context on the same CPU.
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+sun6i_dma_terminate_all() and sun6i_dma_pause() callbacks acquire the same
+lock without disabling irq inside the function.
 
-Cc: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-Signed-off-by: Yangtao Li <frank.li@vivo.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Possible deadlock scenario:
+sun6i_dma_pause()
+    -> spin_lock(&sdev->lock);
+        <tasklet softirq interruption>
+        -> sun6i_dma_tasklet()
+        -> spin_lock_irq(&sdev->lock) (deadlock here)
+
+This flaw was found by an experimental static analysis tool I am developing
+for irq-related deadlock.
+
+The tentative patch fixes the potential deadlock by spin_lock_bh() to
+disable softirq.
+
+Signed-off-by: Chengfeng Ye <dg573847474@gmail.com>
 ---
- drivers/mmc/host/sunxi-mmc.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/dma/sun6i-dma.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
-index 69dcb8805e05..d3bd0ac99ec4 100644
---- a/drivers/mmc/host/sunxi-mmc.c
-+++ b/drivers/mmc/host/sunxi-mmc.c
-@@ -1486,7 +1486,7 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
- 	return ret;
- }
- 
--static int sunxi_mmc_remove(struct platform_device *pdev)
-+static void sunxi_mmc_remove(struct platform_device *pdev)
- {
- 	struct mmc_host	*mmc = platform_get_drvdata(pdev);
- 	struct sunxi_mmc_host *host = mmc_priv(mmc);
-@@ -1499,8 +1499,6 @@ static int sunxi_mmc_remove(struct platform_device *pdev)
+diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+index ebfd29888b2f..8bad6ce62ea8 100644
+--- a/drivers/dma/sun6i-dma.c
++++ b/drivers/dma/sun6i-dma.c
+@@ -873,9 +873,9 @@ static int sun6i_dma_pause(struct dma_chan *chan)
+ 		writel(DMA_CHAN_PAUSE_PAUSE,
+ 		       pchan->base + DMA_CHAN_PAUSE);
+ 	} else {
+-		spin_lock(&sdev->lock);
++		spin_lock_bh(&sdev->lock);
+ 		list_del_init(&vchan->node);
+-		spin_unlock(&sdev->lock);
++		spin_unlock_bh(&sdev->lock);
  	}
- 	dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg_dma);
- 	mmc_free_host(mmc);
--
--	return 0;
- }
  
- #ifdef CONFIG_PM
-@@ -1556,7 +1554,7 @@ static struct platform_driver sunxi_mmc_driver = {
- 		.pm = &sunxi_mmc_pm_ops,
- 	},
- 	.probe		= sunxi_mmc_probe,
--	.remove		= sunxi_mmc_remove,
-+	.remove_new	= sunxi_mmc_remove,
- };
- module_platform_driver(sunxi_mmc_driver);
+ 	return 0;
+@@ -914,9 +914,9 @@ static int sun6i_dma_terminate_all(struct dma_chan *chan)
+ 	unsigned long flags;
+ 	LIST_HEAD(head);
+ 
+-	spin_lock(&sdev->lock);
++	spin_lock_bh(&sdev->lock);
+ 	list_del_init(&vchan->node);
+-	spin_unlock(&sdev->lock);
++	spin_unlock_bh(&sdev->lock);
+ 
+ 	spin_lock_irqsave(&vchan->vc.lock, flags);
  
 -- 
-2.39.0
+2.17.1
 
