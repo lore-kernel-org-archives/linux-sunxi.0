@@ -1,30 +1,27 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7864DA93A
-	for <linux-sunxi@lists.linux.dev>; Wed, 26 Jul 2023 23:33:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7757C433C8;
-	Wed, 26 Jul 2023 23:33:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690414392;
-	bh=fCw5MBXiD1lggmFQTITNXliJqRzkSJyOEUC213FVJ/s=;
-	h=From:To:Cc:Subject:Date:From;
-	b=QxxF2VuK4Z+WRForiKwf9x4dZ2lgqeAs2m1MyK60KgGFibdO51duMYi0qN6slcYUE
-	 wJ5QMrZaLvZofNhTqVzlIR1Ab6APHQS65oSAW7Dy4j1m71Aa+8BrhIQnF6It+ufJrs
-	 DGjWFMwtqu7TcsQtF8UJELw/7lrKblN0Z5VFCqyiif+uVasS1ZsoDd/54SGjK5wnl+
-	 CyY5zLf3zHakU3oCLUQZlMQZ5OiTeYoIB5qPleGqtKAqekmq/4Yr0JHCFgcnPIaaeg
-	 zew21QqYT3BmigYoqn2CYdBsf+1L74aRrvrIjKrVYGmuhnv8fTx4B8FvTvc/NO8Nta
-	 kini7+BCk1O9Q==
-Received: (nullmailer pid 3812927 invoked by uid 1000);
-	Wed, 26 Jul 2023 23:33:07 -0000
-From: Rob Herring <robh@kernel.org>
-To: =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@microchip.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Srinivas Neeli <srinivas.neeli@amd.com>, Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, Michal Simek <michal.simek@amd.com>, Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org
- >, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, Xingyu Wu <xingyu.wu@starfivetech.com>, Samin Guo <samin.guo@starfivetech.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
-Cc: linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
-Subject: [PATCH v3] watchdog: Explicitly include correct DT includes
-Date: Wed, 26 Jul 2023 17:33:00 -0600
-Message-Id: <20230726233302.3812749-1-robh@kernel.org>
-X-Mailer: git-send-email 2.40.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13821A93A
+	for <linux-sunxi@lists.linux.dev>; Wed, 26 Jul 2023 23:48:37 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DA350D75;
+	Wed, 26 Jul 2023 16:49:19 -0700 (PDT)
+Received: from localhost.localdomain (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7EF023F6C4;
+	Wed, 26 Jul 2023 16:48:35 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jagan Teki <jagan@amarulasolutions.com>,
+	u-boot@lists.denx.de
+Cc: Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Icenowy Zheng <uwu@icenowy.me>,
+	Maxim Kiselev <bigunclemax@gmail.com>,
+	Sam Edwards <cfsworks@gmail.com>,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] sunxi: remove CONFIG_SATAPWR
+Date: Thu, 27 Jul 2023 00:47:39 +0100
+Message-Id: <20230726234739.14038-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.8
+In-Reply-To: <20230721134606.4505-1-andre.przywara@arm.com>
+References: <20230721134606.4505-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -33,451 +30,376 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The DT of_device.h and of_platform.h date back to the separate
-of_platform_bus_type before it was merged into the regular platform bus.
-As part of that merge prepping Arm DT support 13 years ago, they
-"temporarily" include each other. They also include platform_device.h
-and of.h. As a result, there's a pretty much random mix of those include
-files used throughout the tree. In order to detangle these headers and
-replace the implicit includes with struct declarations, users need to
-explicitly include the correct includes.
+The CONFIG_SATAPWR Kconfig symbol was used to point to a GPIO that
+enables the power for a SATA harddisk.
+In the DT this is described with the target-supply property in the AHCI
+DT node, pointing to a (GPIO controlled) regulator. Since we need SATA
+only in U-Boot proper, and use a DM driver for AHCI there, we should use
+the DT instead of hardcoding this.
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-Acked-by: Alim Akhtar <alim.akhtar@samsung.com>
-Signed-off-by: Rob Herring <robh@kernel.org>
----
-v3:
- - Fix build for lantiq_wdt.c, pic32-dmt.c, pic32-wdt.c
-v2:
- - Add gef_wdt.c and mpc8xxx_wdt.c
----
- drivers/watchdog/armada_37xx_wdt.c | 1 -
- drivers/watchdog/at91rm9200_wdt.c  | 3 +--
- drivers/watchdog/cpwd.c            | 2 +-
- drivers/watchdog/ftwdt010_wdt.c    | 6 ++----
- drivers/watchdog/gef_wdt.c         | 2 +-
- drivers/watchdog/imx2_wdt.c        | 3 +--
- drivers/watchdog/imx7ulp_wdt.c     | 1 -
- drivers/watchdog/lantiq_wdt.c      | 3 ++-
- drivers/watchdog/meson_wdt.c       | 4 ++--
- drivers/watchdog/mpc8xxx_wdt.c     | 4 ++--
- drivers/watchdog/mtk_wdt.c         | 1 -
- drivers/watchdog/of_xilinx_wdt.c   | 3 +--
- drivers/watchdog/pic32-dmt.c       | 1 -
- drivers/watchdog/pic32-wdt.c       | 1 -
- drivers/watchdog/pika_wdt.c        | 2 +-
- drivers/watchdog/qcom-wdt.c        | 1 -
- drivers/watchdog/rave-sp-wdt.c     | 2 +-
- drivers/watchdog/riowd.c           | 2 +-
- drivers/watchdog/rza_wdt.c         | 4 ++--
- drivers/watchdog/rzg2l_wdt.c       | 2 +-
- drivers/watchdog/s3c2410_wdt.c     | 1 -
- drivers/watchdog/sama5d4_wdt.c     | 1 -
- drivers/watchdog/sbsa_gwdt.c       | 3 +--
- drivers/watchdog/starfive-wdt.c    | 3 ++-
- drivers/watchdog/stm32_iwdg.c      | 1 -
- drivers/watchdog/sunxi_wdt.c       | 1 -
- drivers/watchdog/xilinx_wwdt.c     | 4 ++--
- 27 files changed, 24 insertions(+), 38 deletions(-)
+Add code to the sunxi AHCI driver to check the DT for that regulator and
+enable it, at probe time. Then drop the current code from board.c, which
+was doing that job before.
+This allows us to remove the SATAPWR Kconfig definition and the
+respective values from the defconfigs.
+We also select the generic fixed regulator driver, which handles those
+GPIO controlled regulators.
 
-diff --git a/drivers/watchdog/armada_37xx_wdt.c b/drivers/watchdog/armada_37xx_wdt.c
-index e58652939f8a..8133a5d05647 100644
---- a/drivers/watchdog/armada_37xx_wdt.c
-+++ b/drivers/watchdog/armada_37xx_wdt.c
-@@ -14,7 +14,6 @@
- #include <linux/module.h>
- #include <linux/moduleparam.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
- #include <linux/types.h>
-diff --git a/drivers/watchdog/at91rm9200_wdt.c b/drivers/watchdog/at91rm9200_wdt.c
-index d20ec27ba354..558015f08c7a 100644
---- a/drivers/watchdog/at91rm9200_wdt.c
-+++ b/drivers/watchdog/at91rm9200_wdt.c
-@@ -18,6 +18,7 @@
- #include <linux/mfd/syscon.h>
- #include <linux/mfd/syscon/atmel-st.h>
- #include <linux/miscdevice.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/moduleparam.h>
- #include <linux/platform_device.h>
-@@ -26,8 +27,6 @@
- #include <linux/types.h>
- #include <linux/watchdog.h>
- #include <linux/uaccess.h>
--#include <linux/of.h>
--#include <linux/of_device.h>
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+Hi, this patch is actually the first patch in the T113s support series,
+but was missing from the post. Without it the next patches won't apply
+cleanly. It's part of the gitlab branch:
+https://source.denx.de/u-boot/custodians/u-boot-sunxi/-/commits/t113s/
+
+Cheers,
+Andre
+
+ arch/arm/Kconfig                             |  2 ++
+ arch/arm/mach-sunxi/Kconfig                  |  8 --------
+ board/sunxi/board.c                          | 16 +---------------
+ configs/A10-OLinuXino-Lime_defconfig         |  1 -
+ configs/A20-OLinuXino-Lime2-eMMC_defconfig   |  1 -
+ configs/A20-OLinuXino-Lime2_defconfig        |  1 -
+ configs/A20-OLinuXino-Lime_defconfig         |  1 -
+ configs/A20-OLinuXino_MICRO-eMMC_defconfig   |  1 -
+ configs/A20-OLinuXino_MICRO_defconfig        |  1 -
+ configs/A20-Olimex-SOM-EVB_defconfig         |  1 -
+ configs/A20-Olimex-SOM204-EVB-eMMC_defconfig |  1 -
+ configs/A20-Olimex-SOM204-EVB_defconfig      |  1 -
+ configs/Cubieboard2_defconfig                |  1 -
+ configs/Cubieboard_defconfig                 |  1 -
+ configs/Cubietruck_defconfig                 |  1 -
+ configs/Itead_Ibox_A20_defconfig             |  1 -
+ configs/Lamobo_R1_defconfig                  |  1 -
+ configs/Linksprite_pcDuino3_Nano_defconfig   |  1 -
+ configs/Linksprite_pcDuino3_defconfig        |  1 -
+ configs/Sinovoip_BPI_M3_defconfig            |  1 -
+ configs/orangepi_plus_defconfig              |  2 +-
+ drivers/ata/ahci_sunxi.c                     |  9 +++++++++
+ 22 files changed, 13 insertions(+), 41 deletions(-)
+
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index b3115b054c8..422cc01e529 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -1158,6 +1158,8 @@ config ARCH_SUNXI
+ 	imply CMD_GPT
+ 	imply CMD_UBI if MTD_RAW_NAND
+ 	imply DISTRO_DEFAULTS
++	imply DM_REGULATOR
++	imply DM_REGULATOR_FIXED
+ 	imply FAT_WRITE
+ 	imply FIT
+ 	imply OF_LIBFDT_OVERLAY
+diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+index e20c3a3ee92..a7c5ae80a1e 100644
+--- a/arch/arm/mach-sunxi/Kconfig
++++ b/arch/arm/mach-sunxi/Kconfig
+@@ -1008,14 +1008,6 @@ config VIDEO_LCD_TL059WV5C0
  
- #define WDT_DEFAULT_TIME	5	/* seconds */
- #define WDT_MAX_TIME		256	/* seconds */
-diff --git a/drivers/watchdog/cpwd.c b/drivers/watchdog/cpwd.c
-index 47250f9b68c7..901b94d456db 100644
---- a/drivers/watchdog/cpwd.c
-+++ b/drivers/watchdog/cpwd.c
-@@ -31,7 +31,7 @@
- #include <linux/mutex.h>
- #include <linux/io.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
-+#include <linux/platform_device.h>
- #include <linux/uaccess.h>
+ endchoice
  
- #include <asm/irq.h>
-diff --git a/drivers/watchdog/ftwdt010_wdt.c b/drivers/watchdog/ftwdt010_wdt.c
-index 442c5bf63ff4..28f5af752c10 100644
---- a/drivers/watchdog/ftwdt010_wdt.c
-+++ b/drivers/watchdog/ftwdt010_wdt.c
-@@ -14,7 +14,7 @@
- #include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
- #include <linux/watchdog.h>
-@@ -221,20 +221,18 @@ static const struct dev_pm_ops ftwdt010_wdt_dev_pm_ops = {
- 				ftwdt010_wdt_resume)
- };
+-config SATAPWR
+-	string "SATA power pin"
+-	default ""
+-	help
+-	  Set the pins used to power the SATA. This takes a string in the
+-	  format understood by sunxi_name_to_gpio, e.g. PH1 for pin 1 of
+-	  port H.
+-
+ config GMAC_TX_DELAY
+ 	int "GMAC Transmit Clock Delay Chain"
+ 	default 0
+diff --git a/board/sunxi/board.c b/board/sunxi/board.c
+index f321cd58a6e..7ac50c4ae8c 100644
+--- a/board/sunxi/board.c
++++ b/board/sunxi/board.c
+@@ -187,7 +187,7 @@ enum env_location env_get_location(enum env_operation op, int prio)
+ /* add board specific code here */
+ int board_init(void)
+ {
+-	__maybe_unused int id_pfr1, ret, satapwr_pin, macpwr_pin;
++	__maybe_unused int id_pfr1, ret, macpwr_pin;
  
--#ifdef CONFIG_OF
- static const struct of_device_id ftwdt010_wdt_match[] = {
- 	{ .compatible = "faraday,ftwdt010" },
- 	{ .compatible = "cortina,gemini-watchdog" },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, ftwdt010_wdt_match);
--#endif
+ 	gd->bd->bi_boot_params = (PHYS_SDRAM_0 + 0x100);
  
- static struct platform_driver ftwdt010_wdt_driver = {
- 	.probe		= ftwdt010_wdt_probe,
- 	.driver		= {
- 		.name	= "ftwdt010-wdt",
--		.of_match_table = of_match_ptr(ftwdt010_wdt_match),
-+		.of_match_table = ftwdt010_wdt_match,
- 		.pm = &ftwdt010_wdt_dev_pm_ops,
- 	},
- };
-diff --git a/drivers/watchdog/gef_wdt.c b/drivers/watchdog/gef_wdt.c
-index 97afc907f659..6a1db1c783fa 100644
---- a/drivers/watchdog/gef_wdt.c
-+++ b/drivers/watchdog/gef_wdt.c
-@@ -31,7 +31,7 @@
- #include <linux/fs.h>
- #include <linux/of.h>
- #include <linux/of_address.h>
--#include <linux/of_platform.h>
-+#include <linux/platform_device.h>
- #include <linux/io.h>
- #include <linux/uaccess.h>
+@@ -225,20 +225,6 @@ int board_init(void)
+ 		return ret;
  
-diff --git a/drivers/watchdog/imx2_wdt.c b/drivers/watchdog/imx2_wdt.c
-index 6fcc3596103c..1a27665a2f53 100644
---- a/drivers/watchdog/imx2_wdt.c
-+++ b/drivers/watchdog/imx2_wdt.c
-@@ -26,8 +26,7 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/moduleparam.h>
--#include <linux/of_address.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
- #include <linux/watchdog.h>
-diff --git a/drivers/watchdog/imx7ulp_wdt.c b/drivers/watchdog/imx7ulp_wdt.c
-index 7ca486794ba7..c703586c6e5f 100644
---- a/drivers/watchdog/imx7ulp_wdt.c
-+++ b/drivers/watchdog/imx7ulp_wdt.c
-@@ -9,7 +9,6 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/reboot.h>
- #include <linux/watchdog.h>
-diff --git a/drivers/watchdog/lantiq_wdt.c b/drivers/watchdog/lantiq_wdt.c
-index 6fab504af88b..a273b97ebcb4 100644
---- a/drivers/watchdog/lantiq_wdt.c
-+++ b/drivers/watchdog/lantiq_wdt.c
-@@ -9,7 +9,8 @@
- #include <linux/module.h>
- #include <linux/bitops.h>
- #include <linux/watchdog.h>
--#include <linux/of_platform.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
- #include <linux/uaccess.h>
- #include <linux/clk.h>
- #include <linux/io.h>
-diff --git a/drivers/watchdog/meson_wdt.c b/drivers/watchdog/meson_wdt.c
-index 539feaa1f904..497496f64f55 100644
---- a/drivers/watchdog/meson_wdt.c
-+++ b/drivers/watchdog/meson_wdt.c
-@@ -11,11 +11,11 @@
- #include <linux/init.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/moduleparam.h>
--#include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
-+#include <linux/property.h>
- #include <linux/types.h>
- #include <linux/watchdog.h>
- 
-diff --git a/drivers/watchdog/mpc8xxx_wdt.c b/drivers/watchdog/mpc8xxx_wdt.c
-index 1c569be72ea2..867f9f311379 100644
---- a/drivers/watchdog/mpc8xxx_wdt.c
-+++ b/drivers/watchdog/mpc8xxx_wdt.c
-@@ -16,8 +16,8 @@
- #include <linux/fs.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
--#include <linux/of_address.h>
--#include <linux/of_platform.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
- #include <linux/module.h>
- #include <linux/watchdog.h>
- #include <linux/io.h>
-diff --git a/drivers/watchdog/mtk_wdt.c b/drivers/watchdog/mtk_wdt.c
-index a9c437598e7e..b2330b16b497 100644
---- a/drivers/watchdog/mtk_wdt.c
-+++ b/drivers/watchdog/mtk_wdt.c
-@@ -25,7 +25,6 @@
- #include <linux/module.h>
- #include <linux/moduleparam.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/reset-controller.h>
- #include <linux/types.h>
-diff --git a/drivers/watchdog/of_xilinx_wdt.c b/drivers/watchdog/of_xilinx_wdt.c
-index 2a079ca04aa3..05657dc1d36a 100644
---- a/drivers/watchdog/of_xilinx_wdt.c
-+++ b/drivers/watchdog/of_xilinx_wdt.c
-@@ -10,14 +10,13 @@
- #include <linux/clk.h>
- #include <linux/err.h>
- #include <linux/module.h>
-+#include <linux/platform_device.h>
- #include <linux/types.h>
- #include <linux/kernel.h>
- #include <linux/ioport.h>
- #include <linux/watchdog.h>
- #include <linux/io.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
--#include <linux/of_address.h>
- 
- /* Register offsets for the Wdt device */
- #define XWT_TWCSR0_OFFSET   0x0 /* Control/Status Register0 */
-diff --git a/drivers/watchdog/pic32-dmt.c b/drivers/watchdog/pic32-dmt.c
-index bc4ccddc75a3..ab0682492c85 100644
---- a/drivers/watchdog/pic32-dmt.c
-+++ b/drivers/watchdog/pic32-dmt.c
-@@ -12,7 +12,6 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/pm.h>
- #include <linux/watchdog.h>
-diff --git a/drivers/watchdog/pic32-wdt.c b/drivers/watchdog/pic32-wdt.c
-index 6d1a00222991..1d282de312ef 100644
---- a/drivers/watchdog/pic32-wdt.c
-+++ b/drivers/watchdog/pic32-wdt.c
-@@ -12,7 +12,6 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/pm.h>
- #include <linux/watchdog.h>
-diff --git a/drivers/watchdog/pika_wdt.c b/drivers/watchdog/pika_wdt.c
-index a98abd0d3146..782b8c23d99c 100644
---- a/drivers/watchdog/pika_wdt.c
-+++ b/drivers/watchdog/pika_wdt.c
-@@ -23,8 +23,8 @@
- #include <linux/bitops.h>
- #include <linux/uaccess.h>
- #include <linux/io.h>
-+#include <linux/of.h>
- #include <linux/of_address.h>
--#include <linux/of_platform.h>
- 
- #define DRV_NAME "PIKA-WDT"
- 
-diff --git a/drivers/watchdog/qcom-wdt.c b/drivers/watchdog/qcom-wdt.c
-index d776474dcdf3..9e790f0c2096 100644
---- a/drivers/watchdog/qcom-wdt.c
-+++ b/drivers/watchdog/qcom-wdt.c
-@@ -11,7 +11,6 @@
- #include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/watchdog.h>
--#include <linux/of_device.h>
- 
- enum wdt_reg {
- 	WDT_RST,
-diff --git a/drivers/watchdog/rave-sp-wdt.c b/drivers/watchdog/rave-sp-wdt.c
-index 2c95615b6354..5d1c2176d445 100644
---- a/drivers/watchdog/rave-sp-wdt.c
-+++ b/drivers/watchdog/rave-sp-wdt.c
-@@ -13,7 +13,7 @@
- #include <linux/mfd/rave-sp.h>
- #include <linux/module.h>
- #include <linux/nvmem-consumer.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/reboot.h>
- #include <linux/slab.h>
-diff --git a/drivers/watchdog/riowd.c b/drivers/watchdog/riowd.c
-index c04b383e1712..b293792a292a 100644
---- a/drivers/watchdog/riowd.c
-+++ b/drivers/watchdog/riowd.c
-@@ -14,7 +14,7 @@
- #include <linux/miscdevice.h>
- #include <linux/watchdog.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
-+#include <linux/platform_device.h>
- #include <linux/io.h>
- #include <linux/uaccess.h>
- #include <linux/slab.h>
-diff --git a/drivers/watchdog/rza_wdt.c b/drivers/watchdog/rza_wdt.c
-index fe6c2ed35e04..cb4901b3f777 100644
---- a/drivers/watchdog/rza_wdt.c
-+++ b/drivers/watchdog/rza_wdt.c
-@@ -9,9 +9,9 @@
- #include <linux/bitops.h>
- #include <linux/clk.h>
+ 	/* strcmp() would look better, but doesn't get optimised away. */
+-	if (CONFIG_SATAPWR[0]) {
+-		satapwr_pin = sunxi_name_to_gpio(CONFIG_SATAPWR);
+-		if (satapwr_pin >= 0) {
+-			gpio_request(satapwr_pin, "satapwr");
+-			gpio_direction_output(satapwr_pin, 1);
+-
+-			/*
+-			 * Give the attached SATA device time to power-up
+-			 * to avoid link timeouts
+-			 */
+-			mdelay(500);
+-		}
+-	}
+-
+ 	if (CONFIG_MACPWR[0]) {
+ 		macpwr_pin = sunxi_name_to_gpio(CONFIG_MACPWR);
+ 		if (macpwr_pin >= 0) {
+diff --git a/configs/A10-OLinuXino-Lime_defconfig b/configs/A10-OLinuXino-Lime_defconfig
+index df4fdfaba41..57e91d0f017 100644
+--- a/configs/A10-OLinuXino-Lime_defconfig
++++ b/configs/A10-OLinuXino-Lime_defconfig
+@@ -7,7 +7,6 @@ CONFIG_DRAM_CLK=480
+ CONFIG_DRAM_EMR1=4
+ CONFIG_SYS_CLK_FREQ=912000000
+ CONFIG_I2C1_ENABLE=y
+-CONFIG_SATAPWR="PC3"
+ CONFIG_AHCI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SPL_I2C=y
+diff --git a/configs/A20-OLinuXino-Lime2-eMMC_defconfig b/configs/A20-OLinuXino-Lime2-eMMC_defconfig
+index be49e9323a1..44770ffb048 100644
+--- a/configs/A20-OLinuXino-Lime2-eMMC_defconfig
++++ b/configs/A20-OLinuXino-Lime2-eMMC_defconfig
+@@ -8,7 +8,6 @@ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+ CONFIG_USB0_VBUS_PIN="PC17"
+ CONFIG_USB0_VBUS_DET="PH5"
+ CONFIG_I2C1_ENABLE=y
+-CONFIG_SATAPWR="PC3"
+ CONFIG_SPL_SPI_SUNXI=y
+ CONFIG_AHCI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+diff --git a/configs/A20-OLinuXino-Lime2_defconfig b/configs/A20-OLinuXino-Lime2_defconfig
+index 43cd28c3dd0..e10660c933c 100644
+--- a/configs/A20-OLinuXino-Lime2_defconfig
++++ b/configs/A20-OLinuXino-Lime2_defconfig
+@@ -7,7 +7,6 @@ CONFIG_DRAM_CLK=384
+ CONFIG_USB0_VBUS_PIN="PC17"
+ CONFIG_USB0_VBUS_DET="PH5"
+ CONFIG_I2C1_ENABLE=y
+-CONFIG_SATAPWR="PC3"
+ CONFIG_AHCI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SPL_I2C=y
+diff --git a/configs/A20-OLinuXino-Lime_defconfig b/configs/A20-OLinuXino-Lime_defconfig
+index 7c77f38fba6..4ed666a034a 100644
+--- a/configs/A20-OLinuXino-Lime_defconfig
++++ b/configs/A20-OLinuXino-Lime_defconfig
+@@ -5,7 +5,6 @@ CONFIG_SPL=y
+ CONFIG_MACH_SUN7I=y
+ CONFIG_DRAM_CLK=384
+ CONFIG_I2C1_ENABLE=y
+-CONFIG_SATAPWR="PC3"
+ CONFIG_AHCI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SPL_I2C=y
+diff --git a/configs/A20-OLinuXino_MICRO-eMMC_defconfig b/configs/A20-OLinuXino_MICRO-eMMC_defconfig
+index 02116995a3e..ca5869f43d9 100644
+--- a/configs/A20-OLinuXino_MICRO-eMMC_defconfig
++++ b/configs/A20-OLinuXino_MICRO-eMMC_defconfig
+@@ -7,7 +7,6 @@ CONFIG_DRAM_CLK=384
+ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+ CONFIG_I2C1_ENABLE=y
+ CONFIG_VIDEO_VGA=y
+-CONFIG_SATAPWR="PB8"
+ CONFIG_AHCI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SPL_I2C=y
+diff --git a/configs/A20-OLinuXino_MICRO_defconfig b/configs/A20-OLinuXino_MICRO_defconfig
+index 895e8dbcbd2..db4270f9b27 100644
+--- a/configs/A20-OLinuXino_MICRO_defconfig
++++ b/configs/A20-OLinuXino_MICRO_defconfig
+@@ -7,7 +7,6 @@ CONFIG_DRAM_CLK=384
+ CONFIG_MMC_SUNXI_SLOT_EXTRA=3
+ CONFIG_I2C1_ENABLE=y
+ CONFIG_VIDEO_VGA=y
+-CONFIG_SATAPWR="PB8"
+ CONFIG_AHCI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SPL_I2C=y
+diff --git a/configs/A20-Olimex-SOM-EVB_defconfig b/configs/A20-Olimex-SOM-EVB_defconfig
+index 5bcc9f9f3c0..ac900477d1e 100644
+--- a/configs/A20-Olimex-SOM-EVB_defconfig
++++ b/configs/A20-Olimex-SOM-EVB_defconfig
+@@ -7,7 +7,6 @@ CONFIG_DRAM_CLK=384
+ CONFIG_MMC_SUNXI_SLOT_EXTRA=3
+ CONFIG_USB0_VBUS_PIN="PB9"
+ CONFIG_USB0_VBUS_DET="PH5"
+-CONFIG_SATAPWR="PC3"
+ CONFIG_AHCI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SPL_I2C=y
+diff --git a/configs/A20-Olimex-SOM204-EVB-eMMC_defconfig b/configs/A20-Olimex-SOM204-EVB-eMMC_defconfig
+index e5881090dda..00a98140b37 100644
+--- a/configs/A20-Olimex-SOM204-EVB-eMMC_defconfig
++++ b/configs/A20-Olimex-SOM204-EVB-eMMC_defconfig
+@@ -8,7 +8,6 @@ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+ CONFIG_USB0_VBUS_PIN="PC17"
+ CONFIG_USB0_VBUS_DET="PH5"
+ CONFIG_I2C1_ENABLE=y
+-CONFIG_SATAPWR="PC3"
+ CONFIG_GMAC_TX_DELAY=4
+ CONFIG_AHCI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+diff --git a/configs/A20-Olimex-SOM204-EVB_defconfig b/configs/A20-Olimex-SOM204-EVB_defconfig
+index 592a79a6c7e..f4ae3ae6d8b 100644
+--- a/configs/A20-Olimex-SOM204-EVB_defconfig
++++ b/configs/A20-Olimex-SOM204-EVB_defconfig
+@@ -7,7 +7,6 @@ CONFIG_DRAM_CLK=384
+ CONFIG_USB0_VBUS_PIN="PC17"
+ CONFIG_USB0_VBUS_DET="PH5"
+ CONFIG_I2C1_ENABLE=y
+-CONFIG_SATAPWR="PC3"
+ CONFIG_GMAC_TX_DELAY=4
+ CONFIG_AHCI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+diff --git a/configs/Cubieboard2_defconfig b/configs/Cubieboard2_defconfig
+index 0c233687413..ef4f11b7c62 100644
+--- a/configs/Cubieboard2_defconfig
++++ b/configs/Cubieboard2_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun7i-a20-cubieboard2"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN7I=y
+ CONFIG_DRAM_CLK=480
+-CONFIG_SATAPWR="PB8"
+ CONFIG_AHCI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SPL_I2C=y
+diff --git a/configs/Cubieboard_defconfig b/configs/Cubieboard_defconfig
+index 71743f7b8a1..ab3f65ad667 100644
+--- a/configs/Cubieboard_defconfig
++++ b/configs/Cubieboard_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun4i-a10-cubieboard"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN4I=y
+ CONFIG_DRAM_CLK=480
+-CONFIG_SATAPWR="PB8"
+ CONFIG_AHCI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SPL_I2C=y
+diff --git a/configs/Cubietruck_defconfig b/configs/Cubietruck_defconfig
+index 184f305b19d..184143d7086 100644
+--- a/configs/Cubietruck_defconfig
++++ b/configs/Cubietruck_defconfig
+@@ -8,7 +8,6 @@ CONFIG_USB0_VBUS_PIN="PH17"
+ CONFIG_USB0_VBUS_DET="PH22"
+ CONFIG_USB0_ID_DET="PH19"
+ CONFIG_VIDEO_VGA=y
+-CONFIG_SATAPWR="PH12"
+ CONFIG_GMAC_TX_DELAY=1
+ CONFIG_AHCI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+diff --git a/configs/Itead_Ibox_A20_defconfig b/configs/Itead_Ibox_A20_defconfig
+index 5d05f337982..d03fa62196b 100644
+--- a/configs/Itead_Ibox_A20_defconfig
++++ b/configs/Itead_Ibox_A20_defconfig
+@@ -4,7 +4,6 @@ CONFIG_DEFAULT_DEVICE_TREE="sun7i-a20-itead-ibox"
+ CONFIG_SPL=y
+ CONFIG_MACH_SUN7I=y
+ CONFIG_DRAM_CLK=480
+-CONFIG_SATAPWR="PB8"
+ CONFIG_AHCI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SPL_I2C=y
+diff --git a/configs/Lamobo_R1_defconfig b/configs/Lamobo_R1_defconfig
+index 5294608459b..9639cb6aad9 100644
+--- a/configs/Lamobo_R1_defconfig
++++ b/configs/Lamobo_R1_defconfig
+@@ -5,7 +5,6 @@ CONFIG_SPL=y
+ CONFIG_MACH_SUN7I=y
+ CONFIG_DRAM_CLK=432
+ CONFIG_MACPWR="PH23"
+-CONFIG_SATAPWR="PB3"
+ CONFIG_GMAC_TX_DELAY=4
+ CONFIG_AHCI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+diff --git a/configs/Linksprite_pcDuino3_Nano_defconfig b/configs/Linksprite_pcDuino3_Nano_defconfig
+index e3e30a49490..9eb9a918aee 100644
+--- a/configs/Linksprite_pcDuino3_Nano_defconfig
++++ b/configs/Linksprite_pcDuino3_Nano_defconfig
+@@ -6,7 +6,6 @@ CONFIG_MACH_SUN7I=y
+ CONFIG_DRAM_CLK=408
+ CONFIG_DRAM_ZQ=122
+ CONFIG_USB1_VBUS_PIN="PH11"
+-CONFIG_SATAPWR="PH2"
+ CONFIG_GMAC_TX_DELAY=3
+ CONFIG_AHCI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+diff --git a/configs/Linksprite_pcDuino3_defconfig b/configs/Linksprite_pcDuino3_defconfig
+index 1fda0db4c9d..7db10e685bc 100644
+--- a/configs/Linksprite_pcDuino3_defconfig
++++ b/configs/Linksprite_pcDuino3_defconfig
+@@ -5,7 +5,6 @@ CONFIG_SPL=y
+ CONFIG_MACH_SUN7I=y
+ CONFIG_DRAM_CLK=480
+ CONFIG_DRAM_ZQ=122
+-CONFIG_SATAPWR="PH2"
+ CONFIG_AHCI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SPL_I2C=y
+diff --git a/configs/Sinovoip_BPI_M3_defconfig b/configs/Sinovoip_BPI_M3_defconfig
+index 5642e52ec50..ad41dbd26a1 100644
+--- a/configs/Sinovoip_BPI_M3_defconfig
++++ b/configs/Sinovoip_BPI_M3_defconfig
+@@ -12,7 +12,6 @@ CONFIG_USB0_VBUS_PIN="AXP0-VBUS-ENABLE"
+ CONFIG_USB0_ID_DET="PH11"
+ CONFIG_USB1_VBUS_PIN="PD24"
+ CONFIG_AXP_GPIO=y
+-CONFIG_SATAPWR="PD25"
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_CONSOLE_MUX=y
+ CONFIG_PHY_REALTEK=y
+diff --git a/configs/orangepi_plus_defconfig b/configs/orangepi_plus_defconfig
+index 76de72aa228..ed585881d49 100644
+--- a/configs/orangepi_plus_defconfig
++++ b/configs/orangepi_plus_defconfig
+@@ -7,7 +7,6 @@ CONFIG_DRAM_CLK=672
+ CONFIG_MACPWR="PD6"
+ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
+ CONFIG_USB1_VBUS_PIN="PG13"
+-CONFIG_SATAPWR="PG11"
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SPL_I2C=y
+ CONFIG_SPL_SYS_I2C_LEGACY=y
+@@ -16,3 +15,4 @@ CONFIG_SUN8I_EMAC=y
+ CONFIG_SY8106A_POWER=y
+ CONFIG_USB_EHCI_HCD=y
+ CONFIG_USB_OHCI_HCD=y
++CONFIG_USB3_VBUS_PIN="PG11"
+diff --git a/drivers/ata/ahci_sunxi.c b/drivers/ata/ahci_sunxi.c
+index 94a3379c532..9064774e661 100644
+--- a/drivers/ata/ahci_sunxi.c
++++ b/drivers/ata/ahci_sunxi.c
+@@ -7,6 +7,7 @@
+ #include <asm/io.h>
+ #include <asm/gpio.h>
  #include <linux/delay.h>
-+#include <linux/io.h>
- #include <linux/module.h>
--#include <linux/of_address.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/watchdog.h>
++#include <power/regulator.h>
  
-diff --git a/drivers/watchdog/rzg2l_wdt.c b/drivers/watchdog/rzg2l_wdt.c
-index d404953d0e0f..1741f98ca67c 100644
---- a/drivers/watchdog/rzg2l_wdt.c
-+++ b/drivers/watchdog/rzg2l_wdt.c
-@@ -11,7 +11,7 @@
- #include <linux/iopoll.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/reset.h>
-diff --git a/drivers/watchdog/s3c2410_wdt.c b/drivers/watchdog/s3c2410_wdt.c
-index 95416a9bdd4b..2bcc8faa7fa5 100644
---- a/drivers/watchdog/s3c2410_wdt.c
-+++ b/drivers/watchdog/s3c2410_wdt.c
-@@ -23,7 +23,6 @@
- #include <linux/slab.h>
- #include <linux/err.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/mfd/syscon.h>
- #include <linux/regmap.h>
- #include <linux/delay.h>
-diff --git a/drivers/watchdog/sama5d4_wdt.c b/drivers/watchdog/sama5d4_wdt.c
-index aeee934ca51b..71e8b5fbf51f 100644
---- a/drivers/watchdog/sama5d4_wdt.c
-+++ b/drivers/watchdog/sama5d4_wdt.c
-@@ -11,7 +11,6 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/of_irq.h>
- #include <linux/platform_device.h>
- #include <linux/reboot.h>
-diff --git a/drivers/watchdog/sbsa_gwdt.c b/drivers/watchdog/sbsa_gwdt.c
-index fd3cfdda4949..421ebcda62e6 100644
---- a/drivers/watchdog/sbsa_gwdt.c
-+++ b/drivers/watchdog/sbsa_gwdt.c
-@@ -43,10 +43,9 @@
- #include <linux/io.h>
- #include <linux/io-64-nonatomic-lo-hi.h>
- #include <linux/interrupt.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/moduleparam.h>
--#include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/uaccess.h>
- #include <linux/watchdog.h>
-diff --git a/drivers/watchdog/starfive-wdt.c b/drivers/watchdog/starfive-wdt.c
-index 8058fca4d05d..9e6db8e0164f 100644
---- a/drivers/watchdog/starfive-wdt.c
-+++ b/drivers/watchdog/starfive-wdt.c
-@@ -8,7 +8,8 @@
- #include <linux/clk.h>
- #include <linux/iopoll.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/reset.h>
- #include <linux/watchdog.h>
-diff --git a/drivers/watchdog/stm32_iwdg.c b/drivers/watchdog/stm32_iwdg.c
-index 570a71509d2a..fa5e70c4b93a 100644
---- a/drivers/watchdog/stm32_iwdg.c
-+++ b/drivers/watchdog/stm32_iwdg.c
-@@ -17,7 +17,6 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/watchdog.h>
+ #define AHCI_PHYCS0R 0x00c0
+ #define AHCI_PHYCS1R 0x00c4
+@@ -74,6 +75,7 @@ static int sunxi_ahci_phy_init(u8 *reg_base)
  
-diff --git a/drivers/watchdog/sunxi_wdt.c b/drivers/watchdog/sunxi_wdt.c
-index 6cf82922d3fb..b85354a99582 100644
---- a/drivers/watchdog/sunxi_wdt.c
-+++ b/drivers/watchdog/sunxi_wdt.c
-@@ -18,7 +18,6 @@
- #include <linux/module.h>
- #include <linux/moduleparam.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/types.h>
- #include <linux/watchdog.h>
-diff --git a/drivers/watchdog/xilinx_wwdt.c b/drivers/watchdog/xilinx_wwdt.c
-index 2585038d5575..1d998db41533 100644
---- a/drivers/watchdog/xilinx_wwdt.c
-+++ b/drivers/watchdog/xilinx_wwdt.c
-@@ -9,9 +9,9 @@
- #include <linux/interrupt.h>
- #include <linux/io.h>
- #include <linux/ioport.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
--#include <linux/of_address.h>
-+#include <linux/platform_device.h>
- #include <linux/watchdog.h>
- 
- /* Max timeout is calculated at 100MHz source clock */
+ static int sunxi_sata_probe(struct udevice *dev)
+ {
++	struct udevice *reg_dev;
+ 	ulong base;
+ 	u8 *reg;
+ 	int ret;
+@@ -89,6 +91,13 @@ static int sunxi_sata_probe(struct udevice *dev)
+ 		debug("%s: Failed to init phy (err=%d)\n", __func__, ret);
+ 		return ret;
+ 	}
++
++	ret = device_get_supply_regulator(dev, "target-supply", &reg_dev);
++	if (ret == 0) {
++		regulator_set_enable(reg_dev, true);
++		mdelay(500);
++	}
++
+ 	ret = ahci_probe_scsi(dev, base);
+ 	if (ret) {
+ 		debug("%s: Failed to probe (err=%d)\n", __func__, ret);
 -- 
-2.40.1
+2.35.8
 
