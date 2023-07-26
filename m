@@ -1,86 +1,69 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA70DBA43
-	for <linux-sunxi@lists.linux.dev>; Wed, 26 Jul 2023 13:52:17 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9859B1480;
-	Wed, 26 Jul 2023 06:52:53 -0700 (PDT)
-Received: from [10.32.102.67] (e110479.arm.com [10.32.102.67])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CEE5B3F6C4;
-	Wed, 26 Jul 2023 06:52:08 -0700 (PDT)
-Message-ID: <1f2bdeb7-905d-594b-4729-982583e3223e@arm.com>
-Date: Wed, 26 Jul 2023 14:52:00 +0100
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DFAC7E1
+	for <linux-sunxi@lists.linux.dev>; Wed, 26 Jul 2023 18:42:51 +0000 (UTC)
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-563393b63dbso24233eaf.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 26 Jul 2023 11:42:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690396971; x=1691001771;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GHGJiTdlB+dQD70EMhHhI8xvC4trd7Ff2YAN4Uy5bO0=;
+        b=JqqKT/tB8ga9a1tJ92Iy6rvIhMk6pBPgJ5QeldoEVQ2+tp1iFkHDtnsiSoLvub4Vly
+         O1sHy5QRE8Uvt1HJiVDjjxQGFaT8TWrjMHTaLNVrnW+XRHNQw7WnKorQ2TG4lmAzEhwt
+         oGlnzS3KMh5WUAMT2Ktc2nps7OfZOBEkSrd6kS72zFngLZi78fwMAMYAftPaJYrJ3jF+
+         a6hq6wAild/YgudySqDdWFXCWOxwV7P589r2Cn8OMiP/3xF4EB5LzTNBaAheCVc8qdCz
+         3oxHsDm/FCkyHIcAwiv2z7hE/OpiYqUQEZ9Ef5dBnngJRQBf7QH+UulOrHnT7DPG4EvQ
+         MkWg==
+X-Gm-Message-State: ABy/qLaTmSiCFZl/4KeC8VtgCc7LoNMVJUSk5yMpYLGnA6j0mpuLCceP
+	+b3lq4SIx7MA+gizPMF2NuebIk+9I3Z4wt/AmIg=
+X-Google-Smtp-Source: APBJJlH2x90Q7lDJXp2zFV9JTsLkAsPOTtP2AQhhIx6ipnMvhPSFtKFj5OTgP4amlKMBVmsiWEo6/1u7nvN10N6++l4=
+X-Received: by 2002:a05:6870:3291:b0:1bb:8ff4:1830 with SMTP id
+ q17-20020a056870329100b001bb8ff41830mr2906100oac.3.1690396970780; Wed, 26 Jul
+ 2023 11:42:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 02/20] sunxi: remove CONFIG_MACPWR
-Content-Language: en-US
-To: Sam Edwards <cfsworks@gmail.com>, Jagan Teki
- <jagan@amarulasolutions.com>, u-boot@lists.denx.de
-Cc: Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Icenowy Zheng <uwu@icenowy.me>,
- Maxim Kiselev <bigunclemax@gmail.com>, linux-sunxi@lists.linux.dev
-References: <20230721134606.4505-1-andre.przywara@arm.com>
- <20230721134606.4505-3-andre.przywara@arm.com>
- <30dd62cd-33e9-a872-fe0c-287e68c8d9ef@gmail.com>
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <30dd62cd-33e9-a872-fe0c-287e68c8d9ef@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230723-thermal-fix-of-memory-corruption-v1-1-ed4fa16d199d@kernel.org>
+ <f559a614-93d5-121a-8ff3-0da77bc85f44@linaro.org> <ZL054LHAZv8VmIk3@finisterre.sirena.org.uk>
+In-Reply-To: <ZL054LHAZv8VmIk3@finisterre.sirena.org.uk>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 26 Jul 2023 20:42:39 +0200
+Message-ID: <CAJZ5v0jJ+YM=7LUEKB_b5GUsGopLTT0eyPmomYV0OcGQp2gvig@mail.gmail.com>
+Subject: Re: [PATCH] thermal/of: Fix double free of params during unregistration
+To: Mark Brown <broonie@kernel.org>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, Hugh Dickins <hughd@google.com>, 
+	Will Deacon <will@kernel.org>, Icenowy Zheng <uwu@icenowy.me>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	linux-sunxi@lists.linux.dev, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sam,
+On Sun, Jul 23, 2023 at 4:32=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
+te:
+>
+> On Sun, Jul 23, 2023 at 11:57:52AM +0200, Daniel Lezcano wrote:
+> > On 23/07/2023 01:26, Mark Brown wrote:
+>
+> > I think this issue has been fixed by:
+>
+> > https://lore.kernel.org/all/20230708112720.2897484-2-a.fatoum@pengutron=
+ix.de/
+>
+> Yes, that should fix the same issue.
+>
+> > Rafael ? Did you pick it up ?
+>
+> There was a message on the thread saying the patches have been applied
+> for v6.5 but I can't see them in either mainline or -next.
 
+They should be there in linux-next (as of today).
 
-On 25/07/2023 22:21, Sam Edwards wrote:
-> Hi Andre,
-> 
-> Series looks good so far! I'm trying to move my testing build over to it 
-> now; I will report back when I've been running on it for a little bit.
-
-Cool, thanks!
-
-> 
-> On 7/21/23 07:45, Andre Przywara wrote:
->> diff --git a/board/sunxi/board.c b/board/sunxi/board.c
->> index 7ac50c4ae8c..2db4a2d73ca 100644
->> --- a/board/sunxi/board.c
->> +++ b/board/sunxi/board.c
->> @@ -187,7 +187,7 @@ enum env_location env_get_location(enum 
->> env_operation op, int prio)
->>   /* add board specific code here */
->>   int board_init(void)
->>   {
->> -    __maybe_unused int id_pfr1, ret, macpwr_pin;
->> +    __maybe_unused int id_pfr1, ret;
->>       gd->bd->bi_boot_params = (PHYS_SDRAM_0 + 0x100);
->> @@ -224,15 +224,6 @@ int board_init(void)
->>       if (ret)
->>           return ret;
->> -    /* strcmp() would look better, but doesn't get optimised away. */
->> -    if (CONFIG_MACPWR[0]) {
->> -        macpwr_pin = sunxi_name_to_gpio(CONFIG_MACPWR);
->> -        if (macpwr_pin >= 0) {
->> -            gpio_request(macpwr_pin, "macpwr");
->> -            gpio_direction_output(macpwr_pin, 1);
->> -        }
->> -    }
-> 
-> This version of your series does not include the CONFIG_SATAPWR removal 
-> (is that intentional or did you miss it?) so these hunks do not apply 
-> against master. I was able to cherry-pick the rc series version of the 
-> CONFIG_SATAPWR removal and everything applied fine. Just thought you 
-> should know!
-
-Ah, thanks for the heads up! It's actually the first patch, but I 
-apparently had an off-by-one on the git format-patch command line.
-The gitlab repo has the patch:
-https://source.denx.de/u-boot/custodians/u-boot-sunxi/-/commits/t113s/
-
-I will send it separately later today.
-
-Cheers,
-Andre
+Surely, they are present in my linux-next branch.
