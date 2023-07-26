@@ -1,106 +1,86 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4C3BA20;
-	Wed, 26 Jul 2023 10:02:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690365748; x=1721901748;
-  h=message-id:date:mime-version:cc:subject:to:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=fC7EcZ1a0N87YcWZSAEEbxYdBu8EmtydYwOfonr6+KI=;
-  b=jvbqR1ZLjrKHBv0vMBEIXaw4PsCDJub6btXfjSiOW9sHS2rPm/x7pU7Y
-   fMAFo6HDQHQF1u66KRpvdbbGuBFR+1QvQw3yw8qXtKpyWvSd+SWDK2Vdb
-   2r7xBR/E6LcsStp4ea0KOB6ufUXjm961j6Ye3XxIppU7q5nK2vA6BDrOU
-   acOyADy9PdTFHkH7sNPkfX3MxGbWKZvV72/FlobVWA8jm8KXABUN2Ts6v
-   B/HAAa9mpS7gYaDCW8C5mBX2ZRiIy6yUM1AcLFeSi2wtUai0QtFmwezv8
-   DXXFlRflHxYr28HSMb1Veu+jBhy8TTpNKfW9f6p39KNBkopkRvB4XYDbd
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="357971201"
-X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="357971201"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 03:02:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="761594570"
-X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="761594570"
-Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.254.208.129]) ([10.254.208.129])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 03:02:14 -0700
-Message-ID: <1d6e3aba-bdbc-7b56-2f9c-eda6017dbbb5@linux.intel.com>
-Date: Wed, 26 Jul 2023 18:02:12 +0800
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA70DBA43
+	for <linux-sunxi@lists.linux.dev>; Wed, 26 Jul 2023 13:52:17 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9859B1480;
+	Wed, 26 Jul 2023 06:52:53 -0700 (PDT)
+Received: from [10.32.102.67] (e110479.arm.com [10.32.102.67])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CEE5B3F6C4;
+	Wed, 26 Jul 2023 06:52:08 -0700 (PDT)
+Message-ID: <1f2bdeb7-905d-594b-4729-982583e3223e@arm.com>
+Date: Wed, 26 Jul 2023 14:52:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Cc: baolu.lu@linux.intel.com, Dmitry Osipenko <digetx@gmail.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Nicolin Chen <nicolinc@nvidia.com>, Niklas Schnelle
- <schnelle@linux.ibm.com>, Steven Price <steven.price@arm.com>,
- Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v5 23/25] iommu: Add ops->domain_alloc_paging()
+Subject: Re: [PATCH 02/20] sunxi: remove CONFIG_MACPWR
 Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>, Andy Gross <agross@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Bjorn Andersson
- <andersson@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
- Kevin Tian <kevin.tian@intel.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- Russell King <linux@armlinux.org.uk>, linuxppc-dev@lists.ozlabs.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Orson Zhai <orsonzhai@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>, Krishna Reddy
- <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
- Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>
-References: <23-v5-d0a204c678c7+3d16a-iommu_all_defdom_jgg@nvidia.com>
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <23-v5-d0a204c678c7+3d16a-iommu_all_defdom_jgg@nvidia.com>
+To: Sam Edwards <cfsworks@gmail.com>, Jagan Teki
+ <jagan@amarulasolutions.com>, u-boot@lists.denx.de
+Cc: Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Icenowy Zheng <uwu@icenowy.me>,
+ Maxim Kiselev <bigunclemax@gmail.com>, linux-sunxi@lists.linux.dev
+References: <20230721134606.4505-1-andre.przywara@arm.com>
+ <20230721134606.4505-3-andre.przywara@arm.com>
+ <30dd62cd-33e9-a872-fe0c-287e68c8d9ef@gmail.com>
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <30dd62cd-33e9-a872-fe0c-287e68c8d9ef@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2023/7/25 1:22, Jason Gunthorpe wrote:
-> This callback requests the driver to create only a __IOMMU_DOMAIN_PAGING
-> domain, so it saves a few lines in a lot of drivers needlessly checking
-> the type.
-> 
-> More critically, this allows us to sweep out all the
-> IOMMU_DOMAIN_UNMANAGED and IOMMU_DOMAIN_DMA checks from a lot of the
-> drivers, simplifying what is going on in the code and ultimately removing
-> the now-unused special cases in drivers where they did not support
-> IOMMU_DOMAIN_DMA.
-> 
-> domain_alloc_paging() should return a struct iommu_domain that is
-> functionally compatible with ARM_DMA_USE_IOMMU, dma-iommu.c and iommufd.
-> 
-> Be forwards looking and pass in a 'struct device *' argument. We can
-> provide this when allocating the default_domain. No drivers will look at
-> this.
-> 
-> Tested-by: Steven Price<steven.price@arm.com>
-> Tested-by: Marek Szyprowski<m.szyprowski@samsung.com>
-> Tested-by: Nicolin Chen<nicolinc@nvidia.com>
-> Signed-off-by: Jason Gunthorpe<jgg@nvidia.com>
-> ---
->   drivers/iommu/iommu.c | 13 ++++++++++---
->   include/linux/iommu.h |  3 +++
->   2 files changed, 13 insertions(+), 3 deletions(-)
+Hi Sam,
 
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+
+On 25/07/2023 22:21, Sam Edwards wrote:
+> Hi Andre,
+> 
+> Series looks good so far! I'm trying to move my testing build over to it 
+> now; I will report back when I've been running on it for a little bit.
+
+Cool, thanks!
+
+> 
+> On 7/21/23 07:45, Andre Przywara wrote:
+>> diff --git a/board/sunxi/board.c b/board/sunxi/board.c
+>> index 7ac50c4ae8c..2db4a2d73ca 100644
+>> --- a/board/sunxi/board.c
+>> +++ b/board/sunxi/board.c
+>> @@ -187,7 +187,7 @@ enum env_location env_get_location(enum 
+>> env_operation op, int prio)
+>>   /* add board specific code here */
+>>   int board_init(void)
+>>   {
+>> -    __maybe_unused int id_pfr1, ret, macpwr_pin;
+>> +    __maybe_unused int id_pfr1, ret;
+>>       gd->bd->bi_boot_params = (PHYS_SDRAM_0 + 0x100);
+>> @@ -224,15 +224,6 @@ int board_init(void)
+>>       if (ret)
+>>           return ret;
+>> -    /* strcmp() would look better, but doesn't get optimised away. */
+>> -    if (CONFIG_MACPWR[0]) {
+>> -        macpwr_pin = sunxi_name_to_gpio(CONFIG_MACPWR);
+>> -        if (macpwr_pin >= 0) {
+>> -            gpio_request(macpwr_pin, "macpwr");
+>> -            gpio_direction_output(macpwr_pin, 1);
+>> -        }
+>> -    }
+> 
+> This version of your series does not include the CONFIG_SATAPWR removal 
+> (is that intentional or did you miss it?) so these hunks do not apply 
+> against master. I was able to cherry-pick the rc series version of the 
+> CONFIG_SATAPWR removal and everything applied fine. Just thought you 
+> should know!
+
+Ah, thanks for the heads up! It's actually the first patch, but I 
+apparently had an off-by-one on the git format-patch command line.
+The gitlab repo has the patch:
+https://source.denx.de/u-boot/custodians/u-boot-sunxi/-/commits/t113s/
+
+I will send it separately later today.
+
+Cheers,
+Andre
