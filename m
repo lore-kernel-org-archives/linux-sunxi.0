@@ -1,104 +1,278 @@
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 226CD1F188
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Jul 2023 21:21:21 +0000 (UTC)
-Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-7835ae70e46so231244439f.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 25 Jul 2023 14:21:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690320081; x=1690924881;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ejl2rfjsmb90IERDNkIOn7yrff20Ist6wXDZxeE7lOY=;
-        b=XKfewPS3+ycM3KLZ6+lHyJUv6IHGXuIoUKw/rl+4IK1ufw4gGiie1L9aK7HOrN+gBi
-         Myh1sFmOS2YUPqKyhecR2TN1yrBeANTGk/ZudSuteEFkP4ZvdL3OrdBxawxeh1d99ok+
-         zakOYnA35ZUCX8kksxXwEHkjUYQnZn2G3Su2cXWmV7n+FNGPxHULc7fntzGjntp+8p+q
-         UYSHadootDkhOUSYyj9UGy0IxBxdztnnZ9rNX4TB6LKm4wjs977Ap1V8tfMXRASZMaUU
-         b1rZP8e75f6qDyucxuIlf4X9Je4EZIoZNH3cUueYcFr9e/uxibcNCuPYNt7CyW+JTR9Z
-         t3WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690320081; x=1690924881;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ejl2rfjsmb90IERDNkIOn7yrff20Ist6wXDZxeE7lOY=;
-        b=ON8Rq8TydvYRcEMgCGFaRX7prdlCihXSCllVxrJ/XyA5NeMwgF+Ogt7MquoXmGWREk
-         fzdYkDDiOwlO8hmqRDR/YtgOQ4RaE1vXPDO1IcBfqYIWOmWljgF+kEOLuhyLcnZOih2Y
-         kBcqA0mhAJSpyyacZw1KXiJs9fO+HHnxZ5Mj0/Jqra17TjPHVYb5tIwFWGnZAPi/XAmA
-         VNhpMzFWrkHq7GAh7Wm1y+elchUyQGOgl9dScD9E3jYu5ENlPOz38FPeHjng1cDqfo2y
-         a8KfRnmh7oTg71usHoT07sf5q1wEwtQR9bNertqTebmCpid5siSnS/9++7a19iC4Q3If
-         bh2Q==
-X-Gm-Message-State: ABy/qLYcY9b3JPkPowKo8LhRydlYpM3o1UYzDcHaVUHelH2lWSfd8AUT
-	w3n6Z/z3HOjjaFjR4Csdtw2/qJ50wAXRJQ==
-X-Google-Smtp-Source: APBJJlF20JBnU5M5/frWrtQ1GGMjqvTM5NaTeS5ATNCXaX5x6DY+0Xih/xULnaXAIyd25UOoDpGHdg==
-X-Received: by 2002:a6b:f001:0:b0:783:727b:7073 with SMTP id w1-20020a6bf001000000b00783727b7073mr94175ioc.20.1690320080918;
-        Tue, 25 Jul 2023 14:21:20 -0700 (PDT)
-Received: from ?IPV6:2001:470:42c4:101:a777:7df3:b9ec:588b? ([2001:470:42c4:101:a777:7df3:b9ec:588b])
-        by smtp.gmail.com with ESMTPSA id l6-20020a02a886000000b0042b2e90ed06sm3938548jam.23.2023.07.25.14.21.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Jul 2023 14:21:20 -0700 (PDT)
-Message-ID: <30dd62cd-33e9-a872-fe0c-287e68c8d9ef@gmail.com>
-Date: Tue, 25 Jul 2023 15:21:19 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD2615CA
+	for <linux-sunxi@lists.linux.dev>; Wed, 26 Jul 2023 03:36:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21307C433C8;
+	Wed, 26 Jul 2023 03:36:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1690342562;
+	bh=sxLcDLKkcr5fwf9GynK67WfceXdUXdkfWJfBfqa8qr0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Oj8JicSe4yn78ANfBFdZ0dy7fqDM3pwnVNMlbfSX0oD4McOrXlyN0F5xu/IuFH7aM
+	 T2SFsNfyHlRSktyG9t/o/0tmR8yLUwTas4OjeKNLsACWJEqkW40OiwpC+hYDWZx/+N
+	 Qenc9IVkrDuNqIZryUnUgzkOHdJASktg/tQbqoiyipLS66IAjE2R0b58pi5DVO/Bji
+	 UlyApIBvVqkaBVBXu1Acch3aAp3RNeiFF6gYi3pSB9GLiUP+jdl9OIn0datExghZhU
+	 WYQaWt/CH3diZdRn7IjXnw0nP1Fnp68gquVLUw+WliH987Qa0Zp0TD8KbjwDrtfqta
+	 AktIvWzEJWt8w==
+Received: (nullmailer pid 174492 invoked by uid 1000);
+	Wed, 26 Jul 2023 03:35:59 -0000
+From: Rob Herring <robh@kernel.org>
+To: Lee Jones <lee@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: mfd: allwinner: prcm: Simplify conditional schemas
+Date: Tue, 25 Jul 2023 21:35:54 -0600
+Message-Id: <20230726033554.174365-1-robh@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 02/20] sunxi: remove CONFIG_MACPWR
-Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>,
- Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de
-Cc: Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Icenowy Zheng <uwu@icenowy.me>,
- Maxim Kiselev <bigunclemax@gmail.com>, linux-sunxi@lists.linux.dev
-References: <20230721134606.4505-1-andre.przywara@arm.com>
- <20230721134606.4505-3-andre.przywara@arm.com>
-From: Sam Edwards <cfsworks@gmail.com>
-In-Reply-To: <20230721134606.4505-3-andre.przywara@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Andre,
+There's no need for 'additionalProperties' in the if/then schema as there's
+already 'unevaluatedProperties' in the parent schema. With
+'additionalProperties' dropped, 'compatible' and 'phandle' don't need
+to be listed in the conditional schemas as 'compatible' is already in
+the main section and 'phandle' will be implicitly added.
 
-Series looks good so far! I'm trying to move my testing build over to it 
-now; I will report back when I've been running on it for a little bit.
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ .../mfd/allwinner,sun6i-a31-prcm.yaml         | 43 ++-----------------
+ .../mfd/allwinner,sun8i-a23-prcm.yaml         | 42 ------------------
+ 2 files changed, 3 insertions(+), 82 deletions(-)
 
-On 7/21/23 07:45, Andre Przywara wrote:
-> diff --git a/board/sunxi/board.c b/board/sunxi/board.c
-> index 7ac50c4ae8c..2db4a2d73ca 100644
-> --- a/board/sunxi/board.c
-> +++ b/board/sunxi/board.c
-> @@ -187,7 +187,7 @@ enum env_location env_get_location(enum env_operation op, int prio)
->   /* add board specific code here */
->   int board_init(void)
->   {
-> -	__maybe_unused int id_pfr1, ret, macpwr_pin;
-> +	__maybe_unused int id_pfr1, ret;
->   
->   	gd->bd->bi_boot_params = (PHYS_SDRAM_0 + 0x100);
->   
-> @@ -224,15 +224,6 @@ int board_init(void)
->   	if (ret)
->   		return ret;
->   
-> -	/* strcmp() would look better, but doesn't get optimised away. */
-> -	if (CONFIG_MACPWR[0]) {
-> -		macpwr_pin = sunxi_name_to_gpio(CONFIG_MACPWR);
-> -		if (macpwr_pin >= 0) {
-> -			gpio_request(macpwr_pin, "macpwr");
-> -			gpio_direction_output(macpwr_pin, 1);
-> -		}
-> -	}
+diff --git a/Documentation/devicetree/bindings/mfd/allwinner,sun6i-a31-prcm.yaml b/Documentation/devicetree/bindings/mfd/allwinner,sun6i-a31-prcm.yaml
+index cf94176fe1eb..8789e3639ff7 100644
+--- a/Documentation/devicetree/bindings/mfd/allwinner,sun6i-a31-prcm.yaml
++++ b/Documentation/devicetree/bindings/mfd/allwinner,sun6i-a31-prcm.yaml
+@@ -34,6 +34,9 @@ patternProperties:
+           - allwinner,sun6i-a31-clock-reset
+           - fixed-factor-clock
+ 
++    required:
++      - compatible
++
+     allOf:
+       - if:
+           properties:
+@@ -55,25 +58,17 @@ patternProperties:
+             "#clock-cells":
+               const: 0
+ 
+-            # Already checked in the main schema
+-            compatible: true
+-
+             clocks:
+               maxItems: 2
+ 
+             clock-output-names:
+               maxItems: 1
+ 
+-            phandle: true
+-
+           required:
+             - "#clock-cells"
+-            - compatible
+             - clocks
+             - clock-output-names
+ 
+-          additionalProperties: false
+-
+       - if:
+           properties:
+             compatible:
+@@ -85,25 +80,17 @@ patternProperties:
+             "#clock-cells":
+               const: 0
+ 
+-            # Already checked in the main schema
+-            compatible: true
+-
+             clocks:
+               maxItems: 1
+ 
+             clock-output-names:
+               maxItems: 1
+ 
+-            phandle: true
+-
+           required:
+             - "#clock-cells"
+-            - compatible
+             - clocks
+             - clock-output-names
+ 
+-          additionalProperties: false
+-
+       - if:
+           properties:
+             compatible:
+@@ -119,9 +106,6 @@ patternProperties:
+                 offset of the bit controlling this particular gate in
+                 the register.
+ 
+-            # Already checked in the main schema
+-            compatible: true
+-
+             clocks:
+               maxItems: 1
+ 
+@@ -129,16 +113,11 @@ patternProperties:
+               minItems: 1
+               maxItems: 32
+ 
+-            phandle: true
+-
+           required:
+             - "#clock-cells"
+-            - compatible
+             - clocks
+             - clock-output-names
+ 
+-          additionalProperties: false
+-
+       - if:
+           properties:
+             compatible:
+@@ -150,9 +129,6 @@ patternProperties:
+             "#clock-cells":
+               const: 0
+ 
+-            # Already checked in the main schema
+-            compatible: true
+-
+             clocks:
+               maxItems: 4
+               description: >
+@@ -162,16 +138,11 @@ patternProperties:
+             clock-output-names:
+               maxItems: 1
+ 
+-            phandle: true
+-
+           required:
+             - "#clock-cells"
+-            - compatible
+             - clocks
+             - clock-output-names
+ 
+-          additionalProperties: false
+-
+       - if:
+           properties:
+             compatible:
+@@ -183,16 +154,8 @@ patternProperties:
+             "#reset-cells":
+               const: 1
+ 
+-            # Already checked in the main schema
+-            compatible: true
+-
+-            phandle: true
+-
+           required:
+             - "#reset-cells"
+-            - compatible
+-
+-          additionalProperties: false
+ 
+ required:
+   - compatible
+diff --git a/Documentation/devicetree/bindings/mfd/allwinner,sun8i-a23-prcm.yaml b/Documentation/devicetree/bindings/mfd/allwinner,sun8i-a23-prcm.yaml
+index 16c80a7eec49..e51f85519911 100644
+--- a/Documentation/devicetree/bindings/mfd/allwinner,sun8i-a23-prcm.yaml
++++ b/Documentation/devicetree/bindings/mfd/allwinner,sun8i-a23-prcm.yaml
+@@ -57,25 +57,17 @@ patternProperties:
+             "#clock-cells":
+               const: 0
+ 
+-            # Already checked in the main schema
+-            compatible: true
+-
+             clocks:
+               maxItems: 1
+ 
+             clock-output-names:
+               maxItems: 1
+ 
+-            phandle: true
+-
+           required:
+             - "#clock-cells"
+-            - compatible
+             - clocks
+             - clock-output-names
+ 
+-          additionalProperties: false
+-
+       - if:
+           properties:
+             compatible:
+@@ -91,9 +83,6 @@ patternProperties:
+                 offset of the bit controlling this particular gate in
+                 the register.
+ 
+-            # Already checked in the main schema
+-            compatible: true
+-
+             clocks:
+               maxItems: 1
+ 
+@@ -101,16 +90,11 @@ patternProperties:
+               minItems: 1
+               maxItems: 32
+ 
+-            phandle: true
+-
+           required:
+             - "#clock-cells"
+-            - compatible
+             - clocks
+             - clock-output-names
+ 
+-          additionalProperties: false
+-
+       - if:
+           properties:
+             compatible:
+@@ -122,34 +106,8 @@ patternProperties:
+             "#reset-cells":
+               const: 1
+ 
+-            # Already checked in the main schema
+-            compatible: true
+-
+-            phandle: true
+-
+           required:
+             - "#reset-cells"
+-            - compatible
+-
+-          additionalProperties: false
+-
+-      - if:
+-          properties:
+-            compatible:
+-              contains:
+-                const: allwinner,sun8i-a23-codec-analog
+-
+-        then:
+-          properties:
+-            # Already checked in the main schema
+-            compatible: true
+-
+-            phandle: true
+-
+-          required:
+-            - compatible
+-
+-          additionalProperties: false
+ 
+ required:
+   - compatible
+-- 
+2.40.1
 
-This version of your series does not include the CONFIG_SATAPWR removal 
-(is that intentional or did you miss it?) so these hunks do not apply 
-against master. I was able to cherry-pick the rc series version of the 
-CONFIG_SATAPWR removal and everything applied fine. Just thought you 
-should know!
-
-Cheers,
-Sam
