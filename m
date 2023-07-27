@@ -1,105 +1,103 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCA5F27124
-	for <linux-sunxi@lists.linux.dev>; Thu, 27 Jul 2023 16:53:55 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 38C2AD75;
-	Thu, 27 Jul 2023 09:54:38 -0700 (PDT)
-Received: from [10.32.102.67] (e110479.arm.com [10.32.102.67])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 02A833F5A1;
-	Thu, 27 Jul 2023 09:53:52 -0700 (PDT)
-Message-ID: <23f220fd-918e-0e3a-764c-14d11fdf8f4f@arm.com>
-Date: Thu, 27 Jul 2023 17:53:47 +0100
+Received: from unicorn.mansr.com (unicorn.mansr.com [81.2.72.234])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5BC427127
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 Jul 2023 18:35:30 +0000 (UTC)
+Received: from raven.mansr.com (raven.mansr.com [81.2.72.235])
+	by unicorn.mansr.com (Postfix) with ESMTPS id 2CD0515360;
+	Thu, 27 Jul 2023 19:35:28 +0100 (BST)
+Received: by raven.mansr.com (Postfix, from userid 51770)
+	id B46A5221D92; Thu, 27 Jul 2023 19:35:27 +0100 (BST)
+From: =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ linux-rtc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [RFC][PATCH] rtc: sunxi: use external 32k oscillator if provided
+References: <20230727150156.29691-1-mans@mansr.com>
+	<23f220fd-918e-0e3a-764c-14d11fdf8f4f@arm.com>
+Date: Thu, 27 Jul 2023 19:35:27 +0100
+In-Reply-To: <23f220fd-918e-0e3a-764c-14d11fdf8f4f@arm.com> (Andre Przywara's
+	message of "Thu, 27 Jul 2023 17:53:47 +0100")
+Message-ID: <yw1x8rb1xkwg.fsf@mansr.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [RFC][PATCH] rtc: sunxi: use external 32k oscillator if provided
-Content-Language: en-US
-To: Mans Rullgard <mans@mansr.com>, Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: linux-rtc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20230727150156.29691-1-mans@mansr.com>
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20230727150156.29691-1-mans@mansr.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Hi Mans,
+Andre Przywara <andre.przywara@arm.com> writes:
 
-On 27/07/2023 16:01, Mans Rullgard wrote:
-> Set the OSC32K_SRC_SEL bit in the LOSC control register if a clock is
-> specified in the devicetree.
-> 
-> Signed-off-by: Mans Rullgard <mans@mansr.com>
-> ---
-> The newer sun6i rtc driver is a proper clk provider with parent
-> selection.  Doing the same thing in this driver would be difficult
-> while staying compatible with existing devicetrees.  For that reason,
-> this simpler approach seems reasonable.
-> ---
->   drivers/rtc/rtc-sunxi.c | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
-> 
-> diff --git a/drivers/rtc/rtc-sunxi.c b/drivers/rtc/rtc-sunxi.c
-> index 5d019e3a835a..4f1053eab778 100644
-> --- a/drivers/rtc/rtc-sunxi.c
-> +++ b/drivers/rtc/rtc-sunxi.c
-> @@ -5,6 +5,7 @@
->    * Copyright (c) 2013, Carlo Caione <carlo.caione@gmail.com>
->    */
->   
-> +#include <linux/clk.h>
->   #include <linux/delay.h>
->   #include <linux/err.h>
->   #include <linux/fs.h>
-> @@ -21,8 +22,10 @@
->   #include <linux/types.h>
->   
->   #define SUNXI_LOSC_CTRL				0x0000
-> +#define SUNXI_LOSC_CTRL_KEY			(0x16aa << 16)
->   #define SUNXI_LOSC_CTRL_RTC_HMS_ACC		BIT(8)
->   #define SUNXI_LOSC_CTRL_RTC_YMD_ACC		BIT(7)
-> +#define SUNXI_LOSC_CTRL_OSC32K_SRC_SEL		BIT(0)
->   
->   #define SUNXI_RTC_YMD				0x0004
->   
-> @@ -422,6 +425,7 @@ MODULE_DEVICE_TABLE(of, sunxi_rtc_dt_ids);
->   static int sunxi_rtc_probe(struct platform_device *pdev)
->   {
->   	struct sunxi_rtc_dev *chip;
-> +	struct clk *extclk;
->   	int ret;
->   
->   	chip = devm_kzalloc(&pdev->dev, sizeof(*chip), GFP_KERNEL);
-> @@ -455,6 +459,14 @@ static int sunxi_rtc_probe(struct platform_device *pdev)
->   		return -ENODEV;
->   	}
->   
-> +	/* use external oscillator if present */
-> +	extclk = devm_clk_get_optional_enabled(&pdev->dev, NULL);
-> +	if (IS_ERR(extclk))
-> +		return PTR_ERR(extclk);
-> +	if (extclk)
-> +		writel(SUNXI_LOSC_CTRL_KEY | SUNXI_LOSC_CTRL_OSC32K_SRC_SEL,
-> +		       chip->base + SUNXI_LOSC_CTRL);
+> Hi Mans,
+>
+> On 27/07/2023 16:01, Mans Rullgard wrote:
+>> Set the OSC32K_SRC_SEL bit in the LOSC control register if a clock is
+>> specified in the devicetree.
+>> Signed-off-by: Mans Rullgard <mans@mansr.com>
+>> ---
+>> The newer sun6i rtc driver is a proper clk provider with parent
+>> selection.  Doing the same thing in this driver would be difficult
+>> while staying compatible with existing devicetrees.  For that reason,
+>> this simpler approach seems reasonable.
+>> ---
+>>   drivers/rtc/rtc-sunxi.c | 12 ++++++++++++
+>>   1 file changed, 12 insertions(+)
+>> diff --git a/drivers/rtc/rtc-sunxi.c b/drivers/rtc/rtc-sunxi.c
+>> index 5d019e3a835a..4f1053eab778 100644
+>> --- a/drivers/rtc/rtc-sunxi.c
+>> +++ b/drivers/rtc/rtc-sunxi.c
+>> @@ -5,6 +5,7 @@
+>>    * Copyright (c) 2013, Carlo Caione <carlo.caione@gmail.com>
+>>    */
+>>   +#include <linux/clk.h>
+>>   #include <linux/delay.h>
+>>   #include <linux/err.h>
+>>   #include <linux/fs.h>
+>> @@ -21,8 +22,10 @@
+>>   #include <linux/types.h>
+>>     #define SUNXI_LOSC_CTRL				0x0000
+>> +#define SUNXI_LOSC_CTRL_KEY			(0x16aa << 16)
+>>   #define SUNXI_LOSC_CTRL_RTC_HMS_ACC		BIT(8)
+>>   #define SUNXI_LOSC_CTRL_RTC_YMD_ACC		BIT(7)
+>> +#define SUNXI_LOSC_CTRL_OSC32K_SRC_SEL		BIT(0)
+>>     #define SUNXI_RTC_YMD				0x0004
+>>   @@ -422,6 +425,7 @@ MODULE_DEVICE_TABLE(of, sunxi_rtc_dt_ids);
+>>   static int sunxi_rtc_probe(struct platform_device *pdev)
+>>   {
+>>   	struct sunxi_rtc_dev *chip;
+>> +	struct clk *extclk;
+>>   	int ret;
+>>     	chip =3D devm_kzalloc(&pdev->dev, sizeof(*chip), GFP_KERNEL);
+>> @@ -455,6 +459,14 @@ static int sunxi_rtc_probe(struct platform_device *=
+pdev)
+>>   		return -ENODEV;
+>>   	}
+>>   +	/* use external oscillator if present */
+>> +	extclk =3D devm_clk_get_optional_enabled(&pdev->dev, NULL);
+>> +	if (IS_ERR(extclk))
+>> +		return PTR_ERR(extclk);
+>> +	if (extclk)
+>> +		writel(SUNXI_LOSC_CTRL_KEY | SUNXI_LOSC_CTRL_OSC32K_SRC_SEL,
+>> +		       chip->base + SUNXI_LOSC_CTRL);
+>
+> This should be a read-modify-write operation, since we don't want to dist=
+urb
+> other bits in this register.
 
-This should be a read-modify-write operation, since we don't want to 
-disturb other bits in this register.
+Good point.  I guess it's best to leave everything untouched if the
+clock isn't specified, just in case someone has a bootloader that sets
+this bit.
 
-In general this looks OK to me, but would need to be documented in the 
-bindings docs, to allow an optional clocks property.
+> In general this looks OK to me, but would need to be documented in the
+> bindings docs, to allow an optional clocks property.
 
-Cheers,
-Andre
+Sure, I'll make a patch for that as well.
 
-> +
->   	/* clear the alarm count value */
->   	writel(0, chip->base + SUNXI_ALRM_DHMS);
->   
+--=20
+M=E5ns Rullg=E5rd
