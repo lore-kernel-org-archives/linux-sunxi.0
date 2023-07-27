@@ -1,103 +1,84 @@
-Received: from unicorn.mansr.com (unicorn.mansr.com [81.2.72.234])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5BC427127
-	for <linux-sunxi@lists.linux.dev>; Thu, 27 Jul 2023 18:35:30 +0000 (UTC)
-Received: from raven.mansr.com (raven.mansr.com [81.2.72.235])
-	by unicorn.mansr.com (Postfix) with ESMTPS id 2CD0515360;
-	Thu, 27 Jul 2023 19:35:28 +0100 (BST)
-Received: by raven.mansr.com (Postfix, from userid 51770)
-	id B46A5221D92; Thu, 27 Jul 2023 19:35:27 +0100 (BST)
-From: =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- linux-rtc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [RFC][PATCH] rtc: sunxi: use external 32k oscillator if provided
-References: <20230727150156.29691-1-mans@mansr.com>
-	<23f220fd-918e-0e3a-764c-14d11fdf8f4f@arm.com>
-Date: Thu, 27 Jul 2023 19:35:27 +0100
-In-Reply-To: <23f220fd-918e-0e3a-764c-14d11fdf8f4f@arm.com> (Andre Przywara's
-	message of "Thu, 27 Jul 2023 17:53:47 +0100")
-Message-ID: <yw1x8rb1xkwg.fsf@mansr.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C8427132
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 Jul 2023 21:43:58 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (unknown [217.70.183.201])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 9F127C0C8A
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 Jul 2023 21:32:09 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B14E81BF205;
+	Thu, 27 Jul 2023 21:31:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1690493521;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RVzGt1hU6/zJ2p8ESrItLga9WOYSY12aapmt+gJTTm0=;
+	b=KuzkthgvdjwJnivEU/aryJfGIVIwS2Jo2FGYznAjBe2XO2ObIJRvGb4lZ+5IDN1HoNpZYG
+	4od2IsUmCvD1rkxDQUX70EEy/OerDBhxZu3PYbTnWRsnA+Uh3PCr6Soiqs7oTND51Z5H12
+	vPxGYo5bgxbp54fa9pK//rRC9ZjhXRAtXs5LXD+g2zg8loPvxEOC0OU9LKtcey5kXGqFUV
+	3owWu3CEW9oVKY03yZ19bLiumKfiItmQPfrW7xy4+Zjs6amZuo4MDBNNBF0yaCOsre4eZ+
+	CZksNyGouFQz3JfaVim3BzM6WwJl4QqifmvRDrXEUYS0+aUG+hl2XEUkrWRj6g==
+Date: Thu, 27 Jul 2023 23:31:51 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Alessandro Zummo <a.zummo@towertech.it>, Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Eddie Huang <eddie.huang@mediatek.com>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>
+Cc: linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2] rtc: Explicitly include correct DT includes
+Message-ID: <169049349537.641428.12895115995770744599.b4-ty@bootlin.com>
+References: <20230724205456.767430-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230724205456.767430-1-robh@kernel.org>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
-Andre Przywara <andre.przywara@arm.com> writes:
 
-> Hi Mans,
->
-> On 27/07/2023 16:01, Mans Rullgard wrote:
->> Set the OSC32K_SRC_SEL bit in the LOSC control register if a clock is
->> specified in the devicetree.
->> Signed-off-by: Mans Rullgard <mans@mansr.com>
->> ---
->> The newer sun6i rtc driver is a proper clk provider with parent
->> selection.  Doing the same thing in this driver would be difficult
->> while staying compatible with existing devicetrees.  For that reason,
->> this simpler approach seems reasonable.
->> ---
->>   drivers/rtc/rtc-sunxi.c | 12 ++++++++++++
->>   1 file changed, 12 insertions(+)
->> diff --git a/drivers/rtc/rtc-sunxi.c b/drivers/rtc/rtc-sunxi.c
->> index 5d019e3a835a..4f1053eab778 100644
->> --- a/drivers/rtc/rtc-sunxi.c
->> +++ b/drivers/rtc/rtc-sunxi.c
->> @@ -5,6 +5,7 @@
->>    * Copyright (c) 2013, Carlo Caione <carlo.caione@gmail.com>
->>    */
->>   +#include <linux/clk.h>
->>   #include <linux/delay.h>
->>   #include <linux/err.h>
->>   #include <linux/fs.h>
->> @@ -21,8 +22,10 @@
->>   #include <linux/types.h>
->>     #define SUNXI_LOSC_CTRL				0x0000
->> +#define SUNXI_LOSC_CTRL_KEY			(0x16aa << 16)
->>   #define SUNXI_LOSC_CTRL_RTC_HMS_ACC		BIT(8)
->>   #define SUNXI_LOSC_CTRL_RTC_YMD_ACC		BIT(7)
->> +#define SUNXI_LOSC_CTRL_OSC32K_SRC_SEL		BIT(0)
->>     #define SUNXI_RTC_YMD				0x0004
->>   @@ -422,6 +425,7 @@ MODULE_DEVICE_TABLE(of, sunxi_rtc_dt_ids);
->>   static int sunxi_rtc_probe(struct platform_device *pdev)
->>   {
->>   	struct sunxi_rtc_dev *chip;
->> +	struct clk *extclk;
->>   	int ret;
->>     	chip =3D devm_kzalloc(&pdev->dev, sizeof(*chip), GFP_KERNEL);
->> @@ -455,6 +459,14 @@ static int sunxi_rtc_probe(struct platform_device *=
-pdev)
->>   		return -ENODEV;
->>   	}
->>   +	/* use external oscillator if present */
->> +	extclk =3D devm_clk_get_optional_enabled(&pdev->dev, NULL);
->> +	if (IS_ERR(extclk))
->> +		return PTR_ERR(extclk);
->> +	if (extclk)
->> +		writel(SUNXI_LOSC_CTRL_KEY | SUNXI_LOSC_CTRL_OSC32K_SRC_SEL,
->> +		       chip->base + SUNXI_LOSC_CTRL);
->
-> This should be a read-modify-write operation, since we don't want to dist=
-urb
-> other bits in this register.
+On Mon, 24 Jul 2023 14:54:54 -0600, Rob Herring wrote:
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
+> 
+> [...]
 
-Good point.  I guess it's best to leave everything untouched if the
-clock isn't specified, just in case someone has a bootloader that sets
-this bit.
+Applied, thanks!
 
-> In general this looks OK to me, but would need to be documented in the
-> bindings docs, to allow an optional clocks property.
+[1/1] rtc: Explicitly include correct DT includes
+      commit: 48144c2890503b919bc8ee128b63e37008d69250
 
-Sure, I'll make a patch for that as well.
+Best regards,
 
---=20
-M=E5ns Rullg=E5rd
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
