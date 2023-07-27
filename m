@@ -1,91 +1,93 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99A0210794
-	for <linux-sunxi@lists.linux.dev>; Thu, 27 Jul 2023 14:58:17 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1506CD75;
-	Thu, 27 Jul 2023 07:58:54 -0700 (PDT)
-Received: from [10.32.102.67] (e110479.arm.com [10.32.102.67])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6F9D33F5A1;
-	Thu, 27 Jul 2023 07:58:07 -0700 (PDT)
-Message-ID: <7f4a7739-cb03-bda8-df90-e8eb119b732b@arm.com>
-Date: Thu, 27 Jul 2023 15:57:59 +0100
+Received: from unicorn.mansr.com (unicorn.mansr.com [81.2.72.234])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E16E10794
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 Jul 2023 15:08:31 +0000 (UTC)
+Received: from raven.mansr.com (raven.mansr.com [IPv6:2001:8b0:ca0d:1::3])
+	by unicorn.mansr.com (Postfix) with ESMTPS id 70D7D15360;
+	Thu, 27 Jul 2023 16:02:13 +0100 (BST)
+Received: by raven.mansr.com (Postfix, from userid 51770)
+	id 62DC6221D92; Thu, 27 Jul 2023 16:02:13 +0100 (BST)
+From: Mans Rullgard <mans@mansr.com>
+To: Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-rtc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [RFC][PATCH] rtc: sunxi: use external 32k oscillator if provided
+Date: Thu, 27 Jul 2023 16:01:23 +0100
+Message-ID: <20230727150156.29691-1-mans@mansr.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] arm64: dts: pinephone: Add pstore support for PinePhone
- A64
-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Kees Cook <keescook@chromium.org>,
- Tony Luck <tony.luck@intel.com>, "Guilherme G. Piccoli"
- <gpiccoli@igalia.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
- Jarrah Gosbell <kernel@undef.tools>,
- Arnaud Ferraris <arnaud.ferraris@collabora.com>
-References: <20230724213457.24593-1-andrej.skvortzov@gmail.com>
-Content-Language: en-US
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20230724213457.24593-1-andrej.skvortzov@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Set the OSC32K_SRC_SEL bit in the LOSC control register if a clock is
+specified in the devicetree.
 
-On 24/07/2023 22:34, Andrey Skvortsov wrote:
-> This patch reserves some memory in the DTS and sets up a
-> pstore device tree node to enable pstore support.
-> 
-> Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-> 
-> Gbp-Pq: Topic pinephone
-> Gbp-Pq: Name 0161-arm64-dts-pinephone-Add-pstore-support-for-PinePhone.patch
-> ---
->   .../boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 16 ++++++++++++++++
->   1 file changed, 16 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> index 87847116ab6d..84f9410b0b70 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> @@ -19,6 +19,22 @@ aliases {
->   		serial0 = &uart0;
->   	};
->   
-> +	reserved-memory {
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		ranges;
-> +
-> +		pstore_mem: ramoops@61000000 {
-> +			compatible = "ramoops";
-> +			reg = <0x61000000 0x100000>;
+Signed-off-by: Mans Rullgard <mans@mansr.com>
+---
+The newer sun6i rtc driver is a proper clk provider with parent
+selection.  Doing the same thing in this driver would be difficult
+while staying compatible with existing devicetrees.  For that reason,
+this simpler approach seems reasonable.
+---
+ drivers/rtc/rtc-sunxi.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-So what's the significance of this address? That's 528MB into DRAM, so 
-somewhat in the middle of it, fragmenting the physical address space.
-And is there any other firmware component that needs to know about this 
-address?
+diff --git a/drivers/rtc/rtc-sunxi.c b/drivers/rtc/rtc-sunxi.c
+index 5d019e3a835a..4f1053eab778 100644
+--- a/drivers/rtc/rtc-sunxi.c
++++ b/drivers/rtc/rtc-sunxi.c
+@@ -5,6 +5,7 @@
+  * Copyright (c) 2013, Carlo Caione <carlo.caione@gmail.com>
+  */
+ 
++#include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/err.h>
+ #include <linux/fs.h>
+@@ -21,8 +22,10 @@
+ #include <linux/types.h>
+ 
+ #define SUNXI_LOSC_CTRL				0x0000
++#define SUNXI_LOSC_CTRL_KEY			(0x16aa << 16)
+ #define SUNXI_LOSC_CTRL_RTC_HMS_ACC		BIT(8)
+ #define SUNXI_LOSC_CTRL_RTC_YMD_ACC		BIT(7)
++#define SUNXI_LOSC_CTRL_OSC32K_SRC_SEL		BIT(0)
+ 
+ #define SUNXI_RTC_YMD				0x0004
+ 
+@@ -422,6 +425,7 @@ MODULE_DEVICE_TABLE(of, sunxi_rtc_dt_ids);
+ static int sunxi_rtc_probe(struct platform_device *pdev)
+ {
+ 	struct sunxi_rtc_dev *chip;
++	struct clk *extclk;
+ 	int ret;
+ 
+ 	chip = devm_kzalloc(&pdev->dev, sizeof(*chip), GFP_KERNEL);
+@@ -455,6 +459,14 @@ static int sunxi_rtc_probe(struct platform_device *pdev)
+ 		return -ENODEV;
+ 	}
+ 
++	/* use external oscillator if present */
++	extclk = devm_clk_get_optional_enabled(&pdev->dev, NULL);
++	if (IS_ERR(extclk))
++		return PTR_ERR(extclk);
++	if (extclk)
++		writel(SUNXI_LOSC_CTRL_KEY | SUNXI_LOSC_CTRL_OSC32K_SRC_SEL,
++		       chip->base + SUNXI_LOSC_CTRL);
++
+ 	/* clear the alarm count value */
+ 	writel(0, chip->base + SUNXI_ALRM_DHMS);
+ 
+-- 
+2.41.0
 
-Cheers,
-Andre
-
-
-> +			record-size = <0x20000>;
-> +			console-size = <0x20000>;
-> +			ftrace-size = <0x20000>;
-> +			pmsg-size = <0x20000>;
-> +			ecc-size = <16>;
-> +		};
-> +	};
-> +
->   	backlight: backlight {
->   		compatible = "pwm-backlight";
->   		pwms = <&r_pwm 0 50000 PWM_POLARITY_INVERTED>;
