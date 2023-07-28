@@ -1,71 +1,100 @@
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A9817EC
-	for <linux-sunxi@lists.linux.dev>; Fri, 28 Jul 2023 03:35:58 +0000 (UTC)
-Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-348c47ca963so6752125ab.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 27 Jul 2023 20:35:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690515358; x=1691120158;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=InIbwVtvt0FytK0SyJbktUFXouwUDYkCnaXPxw52oVY=;
-        b=CTlJctYA9aYuKi9D2NJHBBT2C0HqXmbFOq6MvGJO8g675wSvjuHTKzkSZTVqigx80Q
-         3QztHLconvyBTZUbkd9IyAFb1s/QOFpLQJPoB2/bP1yjab9yZVj/nuM2DzJqeuuDf/lB
-         ueS+gukS7ap9PCnNbxw+cP5N2w4mCDZ3uqTto6UaiKzX/0sWwt++VSM4joxZ/a1uX481
-         WPk/zXAR9E3soiP9IMukRgZTLJj8v6qJPjYUT1egUwmg7KNsryxE2VWettW6kkmgwiuC
-         F7OVBUBRCQwaaGpzaGgUC4HvxqQrdAEMo9oZuZGiO3K3JyO46/d9wEIMN4Un8w+QkMSN
-         iQEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690515358; x=1691120158;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=InIbwVtvt0FytK0SyJbktUFXouwUDYkCnaXPxw52oVY=;
-        b=a2SppznZIjVQg8zx+AUSTnOQnX0W8sTpMaLdOCo+3s9nGFUabm2dQm0cZrtrsTiwV7
-         OO7JJjCgCof+dfahkcL0qu9FXYil4GnWDxVWWX0kWQTvrtRe5aUVuoTL2a2QLyYKMsa1
-         ZXlt+6yhya2GdxPTgIYAhXF41ujok9bH78kQCjTTC87uVEPurKZgpBCZJcyEj6kGb6ei
-         m7qCHmRYskaG6Y201Gfv75hgW3xJNcPb7hZkcZsV9DGzJn0e0B094gr99rLEXcP1GwQW
-         QdzPOk0wudNb2uPPdl2cLIKz/NQ8PS1A0qlWlXTaiDEEtJb8MkHlDq1v3FUSETEjBwCX
-         pRNQ==
-X-Gm-Message-State: ABy/qLYvA1W1WhKPImmc/VWF7LXtRpml9eJtb4S4Wm66v1pu3IjqrS0B
-	AM8EEdelzThAEY/MAtmHvxEjmCrYfMZw0g==
-X-Google-Smtp-Source: APBJJlHghknCSaSme2YWJQGYxhzbjklK+OGfx+SDTomBKWZCAoM+pHNCRBFw7PDEES8MJcz9R/D/aQ==
-X-Received: by 2002:a05:6e02:1bed:b0:345:d58d:9ade with SMTP id y13-20020a056e021bed00b00345d58d9ademr1609280ilv.3.1690515357955;
-        Thu, 27 Jul 2023 20:35:57 -0700 (PDT)
-Received: from ?IPV6:2001:470:42c4:101:2c9:1ed4:6c6b:b86a? ([2001:470:42c4:101:2c9:1ed4:6c6b:b86a])
-        by smtp.gmail.com with ESMTPSA id g7-20020a02b707000000b0042b1dd89b0bsm824924jam.155.2023.07.27.20.35.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jul 2023 20:35:57 -0700 (PDT)
-Message-ID: <76aabda6-6390-120e-e583-9b7914cbe15d@gmail.com>
-Date: Thu, 27 Jul 2023 21:35:56 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC693D68
+	for <linux-sunxi@lists.linux.dev>; Fri, 28 Jul 2023 03:40:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6D85AC433CA;
+	Fri, 28 Jul 2023 03:40:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1690515623;
+	bh=nh7VNF71Px8+ehWsNezgTEu3Q5hpaEOt5oKxXH92/qA=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=n5OOA0hexFDJfGiqn8bTgbsd1NxuBlbkYDKSx4jve1A1uhS5AnTOvFTQV4JWG7aBf
+	 g/w60ZUiuyy1xVob0CGewYJXVq1VL+QTFR/Web3ZJJ2NNh+cY5USv/q3z7SDcq/wTR
+	 lonQnxK346qjNlcQZfWCfeuaLMI8E7TUSZjSKMLEMehF+DgMrtLu+XmXsACHxfUrce
+	 uCl8v7KPKSe+YopRiOOHSvNs0MFFYZuVftoYlnB7ke0VUB/3LypcDS6Ej2rHAU9kNd
+	 8tKWHNxo+5s5dfDX+o4x42ap7+FrTJwJM45yRjAs4oZ8Nub3PfEMVbrmDiV7UKUGPk
+	 vMj95R4jHRhaw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 417E1C691EE;
+	Fri, 28 Jul 2023 03:40:23 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 15/20] sunxi: add R528/T113-s3/D1(s) DRAM initialisation
- code
-Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>,
- Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de
-Cc: Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Icenowy Zheng <uwu@icenowy.me>,
- Maxim Kiselev <bigunclemax@gmail.com>, linux-sunxi@lists.linux.dev
-References: <20230721134606.4505-1-andre.przywara@arm.com>
- <20230721134606.4505-16-andre.przywara@arm.com>
-From: Sam Edwards <cfsworks@gmail.com>
-In-Reply-To: <20230721134606.4505-16-andre.przywara@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v3] net: Explicitly include correct DT includes
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <169051562326.23821.4231940284607437337.git-patchwork-notify@kernel.org>
+Date: Fri, 28 Jul 2023 03:40:23 +0000
+References: <20230727014944.3972546-1-robh@kernel.org>
+In-Reply-To: <20230727014944.3972546-1-robh@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: andreas@gaisler.com, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, iyappan@os.amperecomputing.com,
+ keyur@os.amperecomputing.com, chris.snook@gmail.com,
+ nicolas.ferre@microchip.com, claudiu.beznea@microchip.com,
+ madalin.bucur@nxp.com, claudiu.manoil@nxp.com, vladimir.oltean@nxp.com,
+ wei.fang@nxp.com, shenwei.wang@nxp.com, xiaoning.wang@nxp.com,
+ linux-imx@nxp.com, sean.anderson@seco.com, pantelis.antoniou@gmail.com,
+ leoyang.li@nxp.com, yisen.zhuang@huawei.com, salil.mehta@huawei.com,
+ dougmill@linux.ibm.com, mw@semihalf.com, linux@armlinux.org.uk,
+ taras.chornyi@plvision.eu, mlindner@marvell.com, stephen@networkplumber.org,
+ nbd@nbd.name, john@phrozen.org, sean.wang@mediatek.com,
+ Mark-MC.Lee@mediatek.com, lorenzo@kernel.org, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, horatiu.vultur@microchip.com,
+ UNGLinuxDriver@microchip.com, alexandre.belloni@bootlin.com,
+ timur@kernel.org, s.shtylyov@omp.ru, steve.glendinning@shawell.net,
+ hayashi.kunihiko@socionext.com, peppe.cavallaro@st.com,
+ alexandre.torgue@foss.st.com, joabreu@synopsys.com,
+ mcoquelin.stm32@gmail.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, neil.armstrong@linaro.org,
+ khilman@baylibre.com, jbrunet@baylibre.com,
+ martin.blumenstingl@googlemail.com, vkoul@kernel.org,
+ bhupesh.sharma@linaro.org, kernel@esmil.dk, samin.guo@starfivetech.com,
+ wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+ thierry.reding@gmail.com, jonathanh@nvidia.com,
+ nobuhiro1.iwamatsu@toshiba.co.jp, grygorii.strashko@ti.com,
+ kevinbrace@bracecomputerlab.com, romieu@fr.zoreil.com, michal.simek@amd.com,
+ radhey.shyam.pandey@amd.com, alex.aring@gmail.com, stefan@datenfreihafen.org,
+ miquel.raynal@bootlin.com, elder@kernel.org, andrew@lunn.ch,
+ hkallweit1@gmail.com, richardcochran@gmail.com, elder@linaro.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-amlogic@lists.infradead.org,
+ linux-oxnas@groups.io, linux-arm-msm@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-wpan@vger.kernel.org
 
-I've had countless successful boots of a T113-s3 using this DRAM 
-controller code, so:
+Hello:
 
-On 7/21/23 07:46, Andre Przywara wrote:
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Tested-by: Sam Edwards <CFSworks@gmail.com>
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Wed, 26 Jul 2023 19:49:39 -0600 you wrote:
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v3] net: Explicitly include correct DT includes
+    https://git.kernel.org/netdev/net-next/c/3d40aed86287
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
