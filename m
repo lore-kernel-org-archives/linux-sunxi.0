@@ -1,80 +1,75 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975E9C2C0
-	for <linux-sunxi@lists.linux.dev>; Fri, 28 Jul 2023 07:30:23 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3fe104df822so1413005e9.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 28 Jul 2023 00:30:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690529421; x=1691134221;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TuQnxh7MQh36hqhWZvA+gANo32GIzZNpZKmW5WUO/yA=;
-        b=C/1HiCTU+Mw+b3eoR6IdkYs/7otP+yYTwa6bk2vFBsbVXTxhoX/gVv2WD5gUWYMsLM
-         MHivd0SfexVStnz/IFab5nvIk/ZsO5nk1cH/Tk97Tdova/9aKS5Jf7jWd3r9X8TjgJJL
-         OpLxP+Z6TQb7XGQXvY5gGy11MROrouVDJDlj4HI6LuooGpQwgEaXN4KPa9l/7U9jVm98
-         lBQSsbN99Qd2tzmuAlrvS9EixejNQ7iD9OJShmho1xx3xhzADntx5Nkpb0ibhmNIB+VD
-         UFzXorGkVVGPc3HJBmUYPt1ME+0ZZlIftv/J2fhTe7fgxwlDDSxENQkru05grMLY7zyZ
-         NSqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690529421; x=1691134221;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TuQnxh7MQh36hqhWZvA+gANo32GIzZNpZKmW5WUO/yA=;
-        b=RVZFxCjEAEe8ezexIlSobVngzMSUPSB02F6G7bBVjROMfFHAjKkDksvSGNHYWVTr6P
-         dWrFMENA2R8qc4EWcFmOpsvABBA2qJ6e0XKiqgFjtkUGVbSW1LbTdLQbgS9RSi3Dj6Vs
-         NP7HBAiEVXeoH8vXa8WzwbnxVRdVYkbAzH1Qpy+lipDQ4MgtLcCLu9fMccmHIAN1k3ZF
-         4ljvRrL7Baa+M7sIBkpUf16oqogPn9xlYoRsb/Wm2hI9n+RbLFz1B99utUYWfVOJQVmf
-         5s6JHcAPMA7mx1thf5FUR+rw2uWMNAK1OPKcbkz7SMsu5e083sU7vrvSQfUrpRozOoZk
-         Fy5A==
-X-Gm-Message-State: ABy/qLYEBmw6voiThM/B3qvlQ7tF+nSS6FIq3pOl4qf61XyOfZC7eg2C
-	LDC6+ZM+Dh4COq3PXjLhARGPrw==
-X-Google-Smtp-Source: APBJJlG3GwSdYyJ9ZD6wjq+xys2sTJGzxdr8OpaSe18YZrBjk762oIdLMk314un2krsQe8jIPFim+w==
-X-Received: by 2002:adf:db4a:0:b0:316:ef23:9276 with SMTP id f10-20020adfdb4a000000b00316ef239276mr1246966wrj.52.1690529421252;
-        Fri, 28 Jul 2023 00:30:21 -0700 (PDT)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id d15-20020adfe84f000000b003174f6dc947sm4086945wrn.32.2023.07.28.00.30.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jul 2023 00:30:20 -0700 (PDT)
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-To: Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
- Vladimir Zapolskiy <vz@mleia.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, Orson Zhai <orsonzhai@gmail.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, 
- Vincent Shih <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>, 
- Rob Herring <robh@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- linux-arm-msm@vger.kernel.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20230714174820.4061387-1-robh@kernel.org>
-References: <20230714174820.4061387-1-robh@kernel.org>
-Subject: Re: [PATCH] nvmem: Explicitly include correct DT includes
-Message-Id: <169052941981.85384.18073685620993485850.b4-ty@linaro.org>
-Date: Fri, 28 Jul 2023 08:30:19 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A57D305;
+	Fri, 28 Jul 2023 09:10:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFF74C433C7;
+	Fri, 28 Jul 2023 09:10:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1690535437;
+	bh=jsukJ3h2ilmz083UcYGengZNcUIJYlLHWk6g/LKxW1A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Jq54e2P2vabTsv0/ZkCTu/TtAKcPA/986KlVzpTtjaLAFsettUVGxIIEhV012qHmY
+	 XjZnDjmAeW2ab1ZsUURkM7jE4L/524t63e/2b+AR7jZDEQXiyB3jMa2BRjo+JEpwRs
+	 l3QdUPJ8w/4urXWddV+VETsCyali7ZkVGVcRJ/K6g+RVz5T9C+bf9WioC+uygEDa9I
+	 Rh3AvZFW0PdulmDiZySwu0Xy2XsI/jHB3Xyi77hPM/dAwa7KUnEsd9+KEupPqjueWP
+	 u1x3RpBtfjI/oksjIHjYF89qn/jUU3ZW18drI+6RQKSDrQ5SYoMzV9cMfadNlCraZU
+	 lW9h48LazI1/g==
+Date: Fri, 28 Jul 2023 10:10:24 +0100
+From: Lee Jones <lee@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Thor Thayer <thor.thayer@linux.intel.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Cristian Ciocaltea <cristian.ciocaltea@gmail.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Tony Lindgren <tony@atomide.com>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com, linux-actions@lists.infradead.org,
+	chrome-platform@lists.linux.dev, alsa-devel@alsa-project.org,
+	linux-mediatek@lists.infradead.org, linux-omap@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-mtd@lists.infradead.org
+Subject: Re: [PATCH] mfd: Explicitly include correct DT includes
+Message-ID: <20230728091024.GE8175@google.com>
+References: <20230714174731.4059811-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230714174731.4059811-1-robh@kernel.org>
 
+On Fri, 14 Jul 2023, Rob Herring wrote:
 
-On Fri, 14 Jul 2023 11:48:19 -0600, Rob Herring wrote:
 > The DT of_device.h and of_platform.h date back to the separate
 > of_platform_bus_type before it as merged into the regular platform bus.
 > As part of that merge prepping Arm DT support 13 years ago, they
@@ -84,14 +79,62 @@ On Fri, 14 Jul 2023 11:48:19 -0600, Rob Herring wrote:
 > replace the implicit includes with struct declarations, users need to
 > explicitly include the correct includes.
 > 
-> [...]
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  drivers/mfd/ab8500-core.c           | 1 -
+>  drivers/mfd/acer-ec-a500.c          | 2 +-
+>  drivers/mfd/act8945a.c              | 2 +-
+>  drivers/mfd/altera-sysmgr.c         | 3 +--
+>  drivers/mfd/arizona-core.c          | 1 -
+>  drivers/mfd/atc260x-core.c          | 1 -
+>  drivers/mfd/bcm590xx.c              | 1 -
+>  drivers/mfd/cros_ec_dev.c           | 2 +-
+>  drivers/mfd/da9052-i2c.c            | 5 +----
+>  drivers/mfd/da9055-i2c.c            | 1 -
+>  drivers/mfd/da9062-core.c           | 2 +-
+>  drivers/mfd/hi655x-pmic.c           | 4 ++--
+>  drivers/mfd/iqs62x.c                | 2 +-
+>  drivers/mfd/lp873x.c                | 2 +-
+>  drivers/mfd/madera-i2c.c            | 1 -
+>  drivers/mfd/madera-spi.c            | 1 -
+>  drivers/mfd/max77620.c              | 1 -
+>  drivers/mfd/max77686.c              | 1 -
+>  drivers/mfd/max77843.c              | 2 +-
+>  drivers/mfd/max8907.c               | 1 -
+>  drivers/mfd/max8925-core.c          | 1 -
+>  drivers/mfd/max8997.c               | 1 -
+>  drivers/mfd/max8998.c               | 1 -
+>  drivers/mfd/mt6358-irq.c            | 5 ++---
+>  drivers/mfd/mt6397-core.c           | 5 +++--
+>  drivers/mfd/mt6397-irq.c            | 5 ++---
+>  drivers/mfd/palmas.c                | 3 ++-
+>  drivers/mfd/qcom-pm8008.c           | 2 +-
+>  drivers/mfd/rave-sp.c               | 2 +-
+>  drivers/mfd/rk8xx-core.c            | 2 +-
+>  drivers/mfd/rohm-bd71828.c          | 2 +-
+>  drivers/mfd/rohm-bd718x7.c          | 2 +-
+>  drivers/mfd/rohm-bd9576.c           | 2 +-
+>  drivers/mfd/rt5033.c                | 2 +-
+>  drivers/mfd/rz-mtu3.c               | 4 +++-
+>  drivers/mfd/sec-core.c              | 2 --
+>  drivers/mfd/sprd-sc27xx-spi.c       | 2 +-
+>  drivers/mfd/ssbi.c                  | 6 +++---
+>  drivers/mfd/stm32-lptimer.c         | 1 +
+>  drivers/mfd/stm32-timers.c          | 1 +
+>  drivers/mfd/sun4i-gpadc.c           | 4 ++--
+>  drivers/mfd/ti-lmu.c                | 1 -
+>  drivers/mfd/ti_am335x_tscadc.c      | 2 +-
+>  drivers/mfd/tps6507x.c              | 1 -
+>  drivers/mfd/tps65090.c              | 1 -
+>  drivers/mfd/tps65217.c              | 1 -
+>  drivers/mfd/tps65218.c              | 1 -
+>  drivers/mfd/tps6594-core.c          | 2 +-
+>  drivers/mfd/twl6040.c               | 2 --
+>  drivers/mfd/wm831x-core.c           | 3 +--
+>  drivers/mtd/chips/cfi_cmdset_0002.c | 3 +--
+>  51 files changed, 42 insertions(+), 66 deletions(-)
 
-Applied, thanks!
+Applied, thanks
 
-[1/1] nvmem: Explicitly include correct DT includes
-      commit: 3e0558db94dbe5e5030a87bfd9a153d519d61b65
-
-Best regards,
 -- 
-Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-
+Lee Jones [李琼斯]
