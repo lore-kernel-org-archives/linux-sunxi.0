@@ -1,140 +1,60 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A57D305;
-	Fri, 28 Jul 2023 09:10:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFF74C433C7;
-	Fri, 28 Jul 2023 09:10:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E346311CBA
+	for <linux-sunxi@lists.linux.dev>; Fri, 28 Jul 2023 11:19:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA656C433C8;
+	Fri, 28 Jul 2023 11:19:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690535437;
-	bh=jsukJ3h2ilmz083UcYGengZNcUIJYlLHWk6g/LKxW1A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Jq54e2P2vabTsv0/ZkCTu/TtAKcPA/986KlVzpTtjaLAFsettUVGxIIEhV012qHmY
-	 XjZnDjmAeW2ab1ZsUURkM7jE4L/524t63e/2b+AR7jZDEQXiyB3jMa2BRjo+JEpwRs
-	 l3QdUPJ8w/4urXWddV+VETsCyali7ZkVGVcRJ/K6g+RVz5T9C+bf9WioC+uygEDa9I
-	 Rh3AvZFW0PdulmDiZySwu0Xy2XsI/jHB3Xyi77hPM/dAwa7KUnEsd9+KEupPqjueWP
-	 u1x3RpBtfjI/oksjIHjYF89qn/jUU3ZW18drI+6RQKSDrQ5SYoMzV9cMfadNlCraZU
-	 lW9h48LazI1/g==
-Date: Fri, 28 Jul 2023 10:10:24 +0100
+	s=k20201202; t=1690543188;
+	bh=A+kMGP5XBUEK/js9vxBBi+9xCO8IUT5dAfe86qUVntM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=iYQtTVQCCNaBv1nTH9V1Qy1DMjl8v0mnrfeidxVDT7X91ewgVRIeI/SRqcpx26/Df
+	 rnJBkqrNku0/+/bRXHvSTr6PpCZNnLdtB2TMRfpla84b1QuDtKTk6nF5NBUEgCT8yI
+	 keyyHlm+J/wuworM5Bnslm038rFQYqJp5uSeQ70E3FUmL8zMBwJT0dzO4J2jiiDoJ9
+	 MhgBBWKmUwx/jZeNHOLKNKZM4yJhQV/y4jCJ04qBY8NvV9QAXobx0FjKpJwvyKVMaV
+	 rZwafc7B0QYbU+vXGwIECm33QO33o7enlf0ZVe6AmHQOZz77VH9HIj65isNwbGtkWM
+	 2oKrI9CWX4VSg==
 From: Lee Jones <lee@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Thor Thayer <thor.thayer@linux.intel.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Cristian Ciocaltea <cristian.ciocaltea@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Tony Lindgren <tony@atomide.com>, Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com, linux-actions@lists.infradead.org,
-	chrome-platform@lists.linux.dev, alsa-devel@alsa-project.org,
-	linux-mediatek@lists.infradead.org, linux-omap@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-mtd@lists.infradead.org
-Subject: Re: [PATCH] mfd: Explicitly include correct DT includes
-Message-ID: <20230728091024.GE8175@google.com>
-References: <20230714174731.4059811-1-robh@kernel.org>
+To: Lee Jones <lee@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
+ Rob Herring <robh@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20230726033554.174365-1-robh@kernel.org>
+References: <20230726033554.174365-1-robh@kernel.org>
+Subject: Re: (subset) [PATCH] dt-bindings: mfd: allwinner: prcm: Simplify
+ conditional schemas
+Message-Id: <169054318538.349489.13231831699309127969.b4-ty@kernel.org>
+Date: Fri, 28 Jul 2023 12:19:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230714174731.4059811-1-robh@kernel.org>
+X-Mailer: b4 0.12.2
 
-On Fri, 14 Jul 2023, Rob Herring wrote:
-
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
+On Tue, 25 Jul 2023 21:35:54 -0600, Rob Herring wrote:
+> There's no need for 'additionalProperties' in the if/then schema as there's
+> already 'unevaluatedProperties' in the parent schema. With
+> 'additionalProperties' dropped, 'compatible' and 'phandle' don't need
+> to be listed in the conditional schemas as 'compatible' is already in
+> the main section and 'phandle' will be implicitly added.
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  drivers/mfd/ab8500-core.c           | 1 -
->  drivers/mfd/acer-ec-a500.c          | 2 +-
->  drivers/mfd/act8945a.c              | 2 +-
->  drivers/mfd/altera-sysmgr.c         | 3 +--
->  drivers/mfd/arizona-core.c          | 1 -
->  drivers/mfd/atc260x-core.c          | 1 -
->  drivers/mfd/bcm590xx.c              | 1 -
->  drivers/mfd/cros_ec_dev.c           | 2 +-
->  drivers/mfd/da9052-i2c.c            | 5 +----
->  drivers/mfd/da9055-i2c.c            | 1 -
->  drivers/mfd/da9062-core.c           | 2 +-
->  drivers/mfd/hi655x-pmic.c           | 4 ++--
->  drivers/mfd/iqs62x.c                | 2 +-
->  drivers/mfd/lp873x.c                | 2 +-
->  drivers/mfd/madera-i2c.c            | 1 -
->  drivers/mfd/madera-spi.c            | 1 -
->  drivers/mfd/max77620.c              | 1 -
->  drivers/mfd/max77686.c              | 1 -
->  drivers/mfd/max77843.c              | 2 +-
->  drivers/mfd/max8907.c               | 1 -
->  drivers/mfd/max8925-core.c          | 1 -
->  drivers/mfd/max8997.c               | 1 -
->  drivers/mfd/max8998.c               | 1 -
->  drivers/mfd/mt6358-irq.c            | 5 ++---
->  drivers/mfd/mt6397-core.c           | 5 +++--
->  drivers/mfd/mt6397-irq.c            | 5 ++---
->  drivers/mfd/palmas.c                | 3 ++-
->  drivers/mfd/qcom-pm8008.c           | 2 +-
->  drivers/mfd/rave-sp.c               | 2 +-
->  drivers/mfd/rk8xx-core.c            | 2 +-
->  drivers/mfd/rohm-bd71828.c          | 2 +-
->  drivers/mfd/rohm-bd718x7.c          | 2 +-
->  drivers/mfd/rohm-bd9576.c           | 2 +-
->  drivers/mfd/rt5033.c                | 2 +-
->  drivers/mfd/rz-mtu3.c               | 4 +++-
->  drivers/mfd/sec-core.c              | 2 --
->  drivers/mfd/sprd-sc27xx-spi.c       | 2 +-
->  drivers/mfd/ssbi.c                  | 6 +++---
->  drivers/mfd/stm32-lptimer.c         | 1 +
->  drivers/mfd/stm32-timers.c          | 1 +
->  drivers/mfd/sun4i-gpadc.c           | 4 ++--
->  drivers/mfd/ti-lmu.c                | 1 -
->  drivers/mfd/ti_am335x_tscadc.c      | 2 +-
->  drivers/mfd/tps6507x.c              | 1 -
->  drivers/mfd/tps65090.c              | 1 -
->  drivers/mfd/tps65217.c              | 1 -
->  drivers/mfd/tps65218.c              | 1 -
->  drivers/mfd/tps6594-core.c          | 2 +-
->  drivers/mfd/twl6040.c               | 2 --
->  drivers/mfd/wm831x-core.c           | 3 +--
->  drivers/mtd/chips/cfi_cmdset_0002.c | 3 +--
->  51 files changed, 42 insertions(+), 66 deletions(-)
+> 
+> [...]
 
-Applied, thanks
+Applied, thanks!
 
--- 
+[1/1] dt-bindings: mfd: allwinner: prcm: Simplify conditional schemas
+      commit: 67b8e8658577b117ea33b83c6c176ecd39caf1ca
+
+--
 Lee Jones [李琼斯]
+
