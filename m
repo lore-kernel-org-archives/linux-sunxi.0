@@ -1,30 +1,41 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CC6339E
-	for <linux-sunxi@lists.linux.dev>; Mon, 31 Jul 2023 01:25:24 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F3080168F;
-	Sun, 30 Jul 2023 18:19:06 -0700 (PDT)
-Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BDD283F5A1;
-	Sun, 30 Jul 2023 18:18:21 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Rob Herring <robh+dt@kernel.org>,
+Received: from out-108.mta1.migadu.com (out-108.mta1.migadu.com [95.215.58.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A31D363
+	for <linux-sunxi@lists.linux.dev>; Mon, 31 Jul 2023 02:37:28 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+	t=1690771046;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=YGR95yRmO0NXcTKJauK/6i2H1oijVAsHSX5nYFdazBc=;
+	b=y7HgKG+7rXDVvsXLOtTK3gUkLL9pojDYe2EIkTioUg9aJ++0jNY+cqS8szvjRCFr6nHIW/
+	vbqgd9yWjb3/Cpf+XbKHMIoBeYm5nFbGDsswyNFtYj+3qm4gl+iW1+cWcZdkDvV+dnS4l4
+	w07+fv3tQn2y/bfWm7P58PLUYNJ9OnC8Wr5k4++4ytaf6Er/gNVXiqJaWYh4TAwVVcVa6q
+	yXH7KehaoRVpsOYt3X3ZbszDzQFVusO8jjCKTQNIobenGbTUHqIpSXPUnnTMKs5gZ/rci3
+	UV51aD7vttu3otTGMjHmhqWN2AYeTPkzK7g1AE8NhXpkdy4MRj+dIRjgTx6VnA==
+From: John Watts <contact@jookia.org>
+To: linux-sunxi@lists.linux.dev
+Cc: John Watts <contact@jookia.org>,
+	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Icenowy Zheng <uwu@icenowy.me>,
+	Samuel Holland <samuel@sholland.org>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Maksim Kiselev <bigunclemax@gmail.com>,
 	devicetree@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] arm64: dts: allwinner: h616: Split Orange Pi Zero 2 DT
-Date: Mon, 31 Jul 2023 02:17:23 +0100
-Message-Id: <20230731011725.7228-2-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.8
-In-Reply-To: <20230731011725.7228-1-andre.przywara@arm.com>
-References: <20230731011725.7228-1-andre.przywara@arm.com>
+Subject: [PATCH] riscv: dts: allwinner: d1: Specify default CAN pins
+Date: Mon, 31 Jul 2023 12:36:59 +1000
+Message-ID: <20230731023701.2581713-1-contact@jookia.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -32,306 +43,38 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-The Orange Pi Zero 2 got a successor (Zero 3), which shares quite some
-DT nodes with the Zero 2, but comes with a different PMIC.
+There are only one set of CAN pins available on these chips.
+Specify these as the default to avoid redundancy in board device trees.
 
-Move the common parts (except the PMIC) into a new shared file, and
-include that from the existing board .dts file.
-
-No functional change, the generated DTB is the same, except some phandle
-numbering differences.
-
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Signed-off-by: John Watts <contact@jookia.org>
 ---
- .../allwinner/sun50i-h616-orangepi-zero2.dts  | 119 +---------------
- .../allwinner/sun50i-h616-orangepi-zerox.dtsi | 131 ++++++++++++++++++
- 2 files changed, 132 insertions(+), 118 deletions(-)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zerox.dtsi
+ arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-index cb8600d0ea1ef..c786b170fb9a8 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-@@ -5,95 +5,19 @@
+diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+index 4086c0cc0f9d..b27c3fc13b0d 100644
+--- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
++++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+@@ -898,6 +898,8 @@ can0: can@2504000 {
+ 			interrupts = <SOC_PERIPHERAL_IRQ(21) IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&ccu CLK_BUS_CAN0>;
+ 			resets = <&ccu RST_BUS_CAN0>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&can0_pins>;
+ 			status = "disabled";
+ 		};
  
- /dts-v1/;
- 
--#include "sun50i-h616.dtsi"
--
--#include <dt-bindings/gpio/gpio.h>
--#include <dt-bindings/interrupt-controller/arm-gic.h>
--#include <dt-bindings/leds/common.h>
-+#include "sun50i-h616-orangepi-zerox.dtsi"
- 
- / {
- 	model = "OrangePi Zero2";
- 	compatible = "xunlong,orangepi-zero2", "allwinner,sun50i-h616";
--
--	aliases {
--		ethernet0 = &emac0;
--		serial0 = &uart0;
--	};
--
--	chosen {
--		stdout-path = "serial0:115200n8";
--	};
--
--	leds {
--		compatible = "gpio-leds";
--
--		led-0 {
--			function = LED_FUNCTION_POWER;
--			color = <LED_COLOR_ID_RED>;
--			gpios = <&pio 2 12 GPIO_ACTIVE_HIGH>; /* PC12 */
--			default-state = "on";
--		};
--
--		led-1 {
--			function = LED_FUNCTION_STATUS;
--			color = <LED_COLOR_ID_GREEN>;
--			gpios = <&pio 2 13 GPIO_ACTIVE_HIGH>; /* PC13 */
--		};
--	};
--
--	reg_vcc5v: vcc5v {
--		/* board wide 5V supply directly from the USB-C socket */
--		compatible = "regulator-fixed";
--		regulator-name = "vcc-5v";
--		regulator-min-microvolt = <5000000>;
--		regulator-max-microvolt = <5000000>;
--		regulator-always-on;
--	};
--
--	reg_usb1_vbus: regulator-usb1-vbus {
--		compatible = "regulator-fixed";
--		regulator-name = "usb1-vbus";
--		regulator-min-microvolt = <5000000>;
--		regulator-max-microvolt = <5000000>;
--		vin-supply = <&reg_vcc5v>;
--		enable-active-high;
--		gpio = <&pio 2 16 GPIO_ACTIVE_HIGH>; /* PC16 */
--	};
- };
- 
--&ehci1 {
--	status = "okay";
--};
--
--/* USB 2 & 3 are on headers only. */
--
- &emac0 {
--	pinctrl-names = "default";
--	pinctrl-0 = <&ext_rgmii_pins>;
--	phy-mode = "rgmii";
--	phy-handle = <&ext_rgmii_phy>;
- 	phy-supply = <&reg_dcdce>;
--	allwinner,rx-delay-ps = <3100>;
--	allwinner,tx-delay-ps = <700>;
--	status = "okay";
--};
--
--&mdio0 {
--	ext_rgmii_phy: ethernet-phy@1 {
--		compatible = "ethernet-phy-ieee802.3-c22";
--		reg = <1>;
--	};
- };
- 
- &mmc0 {
- 	vmmc-supply = <&reg_dcdce>;
--	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
--	bus-width = <4>;
--	status = "okay";
--};
--
--&ohci1 {
--	status = "okay";
- };
- 
- &r_rsb {
-@@ -211,44 +135,3 @@ &pio {
- 	vcc-ph-supply = <&reg_aldo1>;
- 	vcc-pi-supply = <&reg_aldo1>;
- };
--
--&spi0  {
--	status = "okay";
--	pinctrl-names = "default";
--	pinctrl-0 = <&spi0_pins>, <&spi0_cs0_pin>;
--
--	flash@0 {
--		#address-cells = <1>;
--		#size-cells = <1>;
--		compatible = "jedec,spi-nor";
--		reg = <0>;
--		spi-max-frequency = <40000000>;
--	};
--};
--
--&uart0 {
--	pinctrl-names = "default";
--	pinctrl-0 = <&uart0_ph_pins>;
--	status = "okay";
--};
--
--&usbotg {
--	/*
--	 * PHY0 pins are connected to a USB-C socket, but a role switch
--	 * is not implemented: both CC pins are pulled to GND.
--	 * The VBUS pins power the device, so a fixed peripheral mode
--	 * is the best choice.
--	 * The board can be powered via GPIOs, in this case port0 *can*
--	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
--	 * then provided by the GPIOs. Any user of this setup would
--	 * need to adjust the DT accordingly: dr_mode set to "host",
--	 * enabling OHCI0 and EHCI0.
--	 */
--	dr_mode = "peripheral";
--	status = "okay";
--};
--
--&usbphy {
--	usb1_vbus-supply = <&reg_usb1_vbus>;
--	status = "okay";
--};
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zerox.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zerox.dtsi
-new file mode 100644
-index 0000000000000..56c7e1d87bd95
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zerox.dtsi
-@@ -0,0 +1,131 @@
-+// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+/*
-+ * Copyright (C) 2020 Arm Ltd.
-+ */
-+
-+#include "sun50i-h616.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/arm-gic.h>
-+#include <dt-bindings/leds/common.h>
-+
-+/ {
-+	aliases {
-+		ethernet0 = &emac0;
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led-0 {
-+			function = LED_FUNCTION_POWER;
-+			color = <LED_COLOR_ID_RED>;
-+			gpios = <&pio 2 12 GPIO_ACTIVE_HIGH>; /* PC12 */
-+			default-state = "on";
-+		};
-+
-+		led-1 {
-+			function = LED_FUNCTION_STATUS;
-+			color = <LED_COLOR_ID_GREEN>;
-+			gpios = <&pio 2 13 GPIO_ACTIVE_HIGH>; /* PC13 */
-+		};
-+	};
-+
-+	reg_vcc5v: vcc5v {
-+		/* board wide 5V supply directly from the USB-C socket */
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-5v";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-always-on;
-+	};
-+
-+	reg_usb1_vbus: regulator-usb1-vbus {
-+		compatible = "regulator-fixed";
-+		regulator-name = "usb1-vbus";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		vin-supply = <&reg_vcc5v>;
-+		enable-active-high;
-+		gpio = <&pio 2 16 GPIO_ACTIVE_HIGH>; /* PC16 */
-+	};
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+/* USB 2 & 3 are on headers only. */
-+
-+&emac0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&ext_rgmii_pins>;
-+	phy-mode = "rgmii";
-+	phy-handle = <&ext_rgmii_phy>;
-+	allwinner,rx-delay-ps = <3100>;
-+	allwinner,tx-delay-ps = <700>;
-+	status = "okay";
-+};
-+
-+&mdio0 {
-+	ext_rgmii_phy: ethernet-phy@1 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <1>;
-+	};
-+};
-+
-+&mmc0 {
-+	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
-+	bus-width = <4>;
-+	status = "okay";
-+};
-+
-+&ohci1 {
-+	status = "okay";
-+};
-+
-+&spi0  {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&spi0_pins>, <&spi0_cs0_pin>;
-+
-+	flash@0 {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		compatible = "jedec,spi-nor";
-+		reg = <0>;
-+		spi-max-frequency = <40000000>;
-+	};
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_ph_pins>;
-+	status = "okay";
-+};
-+
-+&usbotg {
-+	/*
-+	 * PHY0 pins are connected to a USB-C socket, but a role switch
-+	 * is not implemented: both CC pins are pulled to GND.
-+	 * The VBUS pins power the device, so a fixed peripheral mode
-+	 * is the best choice.
-+	 * The board can be powered via GPIOs, in this case port0 *can*
-+	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
-+	 * then provided by the GPIOs. Any user of this setup would
-+	 * need to adjust the DT accordingly: dr_mode set to "host",
-+	 * enabling OHCI0 and EHCI0.
-+	 */
-+	dr_mode = "peripheral";
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	usb1_vbus-supply = <&reg_usb1_vbus>;
-+	status = "okay";
-+};
+@@ -907,6 +909,8 @@ can1: can@2504400 {
+ 			interrupts = <SOC_PERIPHERAL_IRQ(22) IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&ccu CLK_BUS_CAN1>;
+ 			resets = <&ccu RST_BUS_CAN1>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&can1_pins>;
+ 			status = "disabled";
+ 		};
+ 	};
 -- 
-2.35.8
+2.41.0
 
