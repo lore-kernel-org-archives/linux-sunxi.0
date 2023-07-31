@@ -1,77 +1,165 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B7514F70
-	for <linux-sunxi@lists.linux.dev>; Sun, 30 Jul 2023 22:53:11 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-4fe11652b64so6359511e87.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 30 Jul 2023 15:53:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690757589; x=1691362389;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LolaIywE6Sh5m79upv1Hlv7iJcp6yOQ3wePrb1ubGYo=;
-        b=jTqShHh3AKaXKv+/TOf7Dw67nNE8EsUvCRjvuM8F9L7rnfNY2qpL1Q/maOoBmdqtab
-         Q1qbNzNQq6ZqXcm/LzLenqy4sKr4vz3kR1wrDmMrmQifr8G+SEuHb3i3ArBT2VL7TLj6
-         ZKfwz4Lz4ssg1H1ZlnnIDg7VZD+nbVRBNHzrfPlFVnw97Q0sMpavFJT65tdagB4NVqo6
-         3OnApNsFLLk7DJWQwtePRfmgIw5tEhHz6xU5oGxAZtGNthrOaRCk2wTmFyyX9g7flkCW
-         rrtIxgsT1dXHW3srqz+8ptSc0Q1eGoWuO4ae0Eng4UT7f3bHK0HP7U3d8EzezP5QOtzY
-         nIWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690757589; x=1691362389;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LolaIywE6Sh5m79upv1Hlv7iJcp6yOQ3wePrb1ubGYo=;
-        b=QyaOybm5ZPcPLuYUcqLm1hJ3ktQql/wneaLrC3orVwQG44U0IGzzrauXWtGj7QL1w0
-         kIlsjCYXeYAJLw+FZ8H7UL7fVA63z8+LxUWJsQ3mvq8WNn3KPVUuWncZhice5dADYpHG
-         o7VxKyBnN85AV4bZdBvm0EK545D1FZRQEjhc3m3tfmohC2L5ouSjCmmSeov/IDs5WLIw
-         mNfzUp3+W7y9QGcOVf1abwFX7Uz6wNCB+h2SdAAyv7dMs+5xtvlx04pOLHPVA3jXlUAK
-         IQ1IseLmzXSIos5/90evzIp4Mn5QBC+A4D0UGe99s+SkzlJNMHJs/qvJAtLmsSQuvlIQ
-         YhRg==
-X-Gm-Message-State: ABy/qLb+cJ/mjsl8hYMW3GONv3fRTZHsFXlVn1w4FzpKSTRrBdiBaCde
-	HNJ1MsojsK7Mv5D2nhBR44LVKwU6P0Bh4nyj
-X-Google-Smtp-Source: APBJJlFcCh/Jqh3WTePQM0jpaW7rqln031MmdUN+IobVOmTzYSo6PVlzPI/t5X0zqw0y9G+PCtE+Fw==
-X-Received: by 2002:a19:ca5b:0:b0:4f8:710c:e2c7 with SMTP id h27-20020a19ca5b000000b004f8710ce2c7mr4263989lfj.33.1690757589451;
-        Sun, 30 Jul 2023 15:53:09 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id v24-20020a1cf718000000b003fc05b89e5bsm9604089wmh.34.2023.07.30.15.53.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jul 2023 15:53:08 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mturquette@baylibre.com, sboyd@kernel.org, wens@csie.org,
- samuel@sholland.org, ulf.hansson@linaro.org, mripard@kernel.org,
- Zhang Jianhua <chris.zjh@huawei.com>
-Cc: chris.zjh@huawei.com, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] clk: sunxi-ng: Modify mismatched function name
-Date: Mon, 31 Jul 2023 00:53:07 +0200
-Message-ID: <3174068.5fSG56mABF@jernej-laptop>
-In-Reply-To: <20230722153107.2078179-1-chris.zjh@huawei.com>
-References: <20230722153107.2078179-1-chris.zjh@huawei.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3790D362
+	for <linux-sunxi@lists.linux.dev>; Mon, 31 Jul 2023 01:18:27 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BA00D1692;
+	Sun, 30 Jul 2023 18:19:10 -0700 (PDT)
+Received: from localhost.localdomain (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AACFC3F5A1;
+	Sun, 30 Jul 2023 18:18:25 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Icenowy Zheng <uwu@icenowy.me>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 3/3] arm64: dts: allwinner: h616: Add OrangePi Zero 3 board support
+Date: Mon, 31 Jul 2023 02:17:25 +0100
+Message-Id: <20230731011725.7228-4-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.8
+In-Reply-To: <20230731011725.7228-1-andre.przywara@arm.com>
+References: <20230731011725.7228-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-Dne sobota, 22. julij 2023 ob 17:31:07 CEST je Zhang Jianhua napisal(a):
-> No functional modification involved.
-> 
-> drivers/clk/sunxi-ng/ccu_mmc_timing.c:54: warning: expecting prototype for
-> sunxi_ccu_set_mmc_timing_mode(). Prototype was for
-> sunxi_ccu_get_mmc_timing_mode() instead
-> 
-> Fixes: f6f64ed868d3 ("clk: sunxi-ng: Add interface to query or configure MMC
-> timing modes.") Signed-off-by: Zhang Jianhua <chris.zjh@huawei.com>
+The OrangePi Zero 3 is a development board based on the Allwinner H618 SoC,
+which seems to be just an H616 with more L2 cache. The board itself is a
+slightly updated version of the Orange Pi Zero 2. It features:
+- Four ARM Cortex-A53 cores, Mali-G31 MP2 GPU
+- 1/1.5/2/4 GiB LPDDR4 DRAM SKUs (only up to 1GB on the Zero2)
+- AXP313a PMIC (more capable AXP305 on the Zero2)
+- Raspberry-Pi-1 compatible GPIO header
+- extra 13 pin expansion header, exposing pins for 2x USB 2.0 ports
+- 1 USB 2.0 host port
+- 1 USB 2.0 type C port (power supply + OTG)
+- MicroSD slot
+- on-board 16MiB bootable SPI NOR flash (only 2MB on the Zero2)
+- 1Gbps Ethernet port (via Motorcomm YT8531 PHY) (RTL8211 on the Zero2)
+- micro-HDMI port
+- (yet) unsupported Allwinner WiFi/BT chip
 
-Applied, thanks!
+Add the devicetree file describing the currently supported features,
+namely LEDs, SD card, PMIC, SPI flash, Ethernet, USB.
 
-Best regards,
-Jernej
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ arch/arm64/boot/dts/allwinner/Makefile        |  1 +
+ .../allwinner/sun50i-h618-orangepi-zero3.dts  | 86 +++++++++++++++++++
+ 2 files changed, 87 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
 
+diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+index 6a96494a2e0a3..3b0ad54062381 100644
+--- a/arch/arm64/boot/dts/allwinner/Makefile
++++ b/arch/arm64/boot/dts/allwinner/Makefile
+@@ -40,3 +40,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
++dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
+new file mode 100644
+index 0000000000000..1964e27b7b187
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
+@@ -0,0 +1,86 @@
++// SPDX-License-Identifier: (GPL-2.0+ or MIT)
++/*
++ * Copyright (C) 2023 Arm Ltd.
++ */
++
++/dts-v1/;
++
++#include "sun50i-h616-orangepi-zerox.dtsi"
++
++/ {
++	model = "OrangePi Zero3";
++	compatible = "xunlong,orangepi-zero3", "allwinner,sun50i-h618";
++};
++
++&emac0 {
++	phy-supply = <&reg_dldo1>;
++};
++
++&mmc0 {
++	vmmc-supply = <&reg_dldo1>;
++	broken-cd;
++};
++
++&r_i2c {
++	status = "okay";
++
++	axp313: pmic@36 {
++		compatible = "x-powers,axp313a";
++		interrupt-parent = <&pio>;
++		interrupts = <2 9 IRQ_TYPE_LEVEL_LOW>;	/* PC9 */
++		interrupt-controller;
++		#interrupt-cells = <1>;
++		reg = <0x36>;
++
++		vin1-supply = <&reg_vcc5v>;
++		vin2-supply = <&reg_vcc5v>;
++		vin3-supply = <&reg_vcc5v>;
++
++		regulators {
++			/* Supplies VCC-PLL, so needs to be always on. */
++			reg_aldo1: aldo1 {
++				regulator-always-on;
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++				regulator-name = "vcc1v8";
++			};
++
++			/* Supplies VCC-IO, so needs to be always on. */
++			reg_dldo1: dldo1 {
++				regulator-always-on;
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-name = "vcc3v3";
++			};
++
++			reg_dcdc1: dcdc1 {
++				regulator-always-on;
++				regulator-min-microvolt = <810000>;
++				regulator-max-microvolt = <1100000>;
++				regulator-name = "vdd-gpu-sys";
++			};
++
++			reg_dcdc2: dcdc2 {
++				regulator-always-on;
++				regulator-min-microvolt = <810000>;
++				regulator-max-microvolt = <990000>;
++				regulator-name = "vdd-cpu";
++			};
++
++			reg_dcdc3: dcdc3 {
++				regulator-always-on;
++				regulator-min-microvolt = <1100000>;
++				regulator-max-microvolt = <1100000>;
++				regulator-name = "vdd-dram";
++			};
++		};
++	};
++};
++
++&pio {
++	vcc-pc-supply = <&reg_dldo1>;
++	vcc-pf-supply = <&reg_dldo1>;
++	vcc-pg-supply = <&reg_aldo1>;
++	vcc-ph-supply = <&reg_dldo1>;
++	vcc-pi-supply = <&reg_dldo1>;
++};
+-- 
+2.35.8
 
