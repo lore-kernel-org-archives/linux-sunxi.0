@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A36A362
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A39C39C
 	for <linux-sunxi@lists.linux.dev>; Mon, 31 Jul 2023 01:25:24 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D634E1691;
-	Sun, 30 Jul 2023 18:19:08 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ECB4B1650;
+	Sun, 30 Jul 2023 18:19:04 -0700 (PDT)
 Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C714D3F5A1;
-	Sun, 30 Jul 2023 18:18:23 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D92FC3F5A1;
+	Sun, 30 Jul 2023 18:18:19 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -19,12 +19,10 @@ Cc: Icenowy Zheng <uwu@icenowy.me>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] dt-bindings: arm: sunxi: document Orange Pi Zero 3 board name
-Date: Mon, 31 Jul 2023 02:17:24 +0100
-Message-Id: <20230731011725.7228-3-andre.przywara@arm.com>
+Subject: [PATCH 0/3] sunxi: Orange Pi Zero 3 DT support
+Date: Mon, 31 Jul 2023 02:17:22 +0100
+Message-Id: <20230731011725.7228-1-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.8
-In-Reply-To: <20230731011725.7228-1-andre.przywara@arm.com>
-References: <20230731011725.7228-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -33,31 +31,44 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Orange Pi Zero 3 board is an updated version of the Zero 2 board.
-It uses a SoC called H618, which just seems to be an H616 with more L2
-cache.
+Hi,
 
-Add the board/SoC compatible string pair to the list of known boards.
+Orange Pi recently released the Orange Pi Zero 3 board, which is some
+updated version of their former Zero 2 development board. Some component
+changes (Motorcomm PHY instead of Realtek, different PMIC), some board
+layout changes, and it ships with up to 4GB of DRAM now. The SoC is now
+labelled H618 instead of H616, which apparently is the same, just with
+more L2 cache.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
+Split the existing OPi Zero2 DT, to allow sharing most DT nodes, then
+add the binding documentation and DT for the new board.
 
-diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-index ee8fdd2da869a..58f322b9585f2 100644
---- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-+++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-@@ -997,4 +997,9 @@ properties:
-           - const: xunlong,orangepi-zero2
-           - const: allwinner,sun50i-h616
- 
-+      - description: Xunlong OrangePi Zero 3
-+        items:
-+          - const: xunlong,orangepi-zero3
-+          - const: allwinner,sun50i-h618
-+
- additionalProperties: true
+Linux v6.5-rc boots out of the box (the PMIC driver just made it in),
+and most things work: UART, PSCI, GPIO, SPI flash, SD card, USB.
+Ethernet is almost working, I get an IP address via DHCP, but no further
+packets come through. Might be either a problem with the new Motorcomm
+PHY driver, or some missing delay settings, I have to investigate, any
+help or advice welcome.
+Also let me know if the DT split is a good idea or not, happy to roll
+that back if requested.
+
+Cheers,
+Andre
+
+Andre Przywara (3):
+  arm64: dts: allwinner: h616: Split Orange Pi Zero 2 DT
+  dt-bindings: arm: sunxi: document Orange Pi Zero 3 board name
+  arm64: dts: allwinner: h616: Add OrangePi Zero 3 board support
+
+ .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../allwinner/sun50i-h616-orangepi-zero2.dts  | 119 +---------------
+ .../allwinner/sun50i-h616-orangepi-zerox.dtsi | 131 ++++++++++++++++++
+ .../allwinner/sun50i-h618-orangepi-zero3.dts  |  86 ++++++++++++
+ 5 files changed, 224 insertions(+), 118 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zerox.dtsi
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
+
 -- 
 2.35.8
 
