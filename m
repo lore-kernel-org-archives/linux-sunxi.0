@@ -1,785 +1,185 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2054.outbound.protection.outlook.com [40.107.237.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D528D14F8E
-	for <linux-sunxi@lists.linux.dev>; Mon, 31 Jul 2023 15:42:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6FC6C433C7;
-	Mon, 31 Jul 2023 15:42:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690818152;
-	bh=UchJeP/PgVmHzvKLKtKb9d+C7IiUGzS5DAXWjGC86Wk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SzbwmLxULe19+Px8nqgr2CUwOLrI0tf09/jA2HrikQk5uWLM12lRtDiWM3a5mdv8H
-	 Z1sF+W5xHuZt+dIxg+t7vXokoFqHRo+9uQJsx187IyfWcgUoT6Bw3ML00LfOFCHCCn
-	 A6V1dXEiClexjh0HDh0SaD00TGDnHdnwsnrROz43gjQRnT+xCRTEG7uQkAjvtxwkVK
-	 4u+JZ/AEOYWXfR1ljSQ05OcfVZnwKOCQhRAUPASN+0GslH5xSD2gnt9I/hVyVqY55X
-	 bAwoiXqHUIZdLsWUDQp+TF50CayOoqeCzCmMS6v/L1UaL0upUaL+lFVPTFAlk++F1T
-	 ixVkoeuNEPAkQ==
-Date: Mon, 31 Jul 2023 17:42:29 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Cc: linux-sunxi@lists.linux.dev, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH RFC] clk: sunxi-ng: test: Add integration tests for
- ccu_nkm
-Message-ID: <7hwrskiwpu4x3qwr7sntr7hswswqsj3a2qdje3cwoq7dk3uf5v@5bjhwythmrtz>
-References: <20230730-nkm_clk_tests-v1-1-ed4aad26a815@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1282918C34;
+	Mon, 31 Jul 2023 17:50:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P2HMEIPXRWHXnmFG7b+UOOBtu88drkaOAzsoS+gvk/YP5dU1fnREXf48tI78y38nL7PwCP+QXn4SR5q52YGLaTvJ4z9K8r0qusTI2Uei+m3n+1UmhsjuMgl5yLvw7Vf+BgjihLruvth+EdtMyfL/JWXr2DB+RUeQH2+RzbT24lwqKlm71qpMAwEUkW1zkg/LV35RVfCrb9hFw6zdfy1ys42uiBEENxWhwiZ4g4m+8eQ+Z9JdZaNUzf6hQWW8q/mDkdDRo42120NXHle+bbbohc9dZ6xwkx76sTvPVKby3GMymyucH2DJPHybV17Jh2MyhomS9mIMKir9+78UegsuhQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Wyhbk5va218DoPtymtzpXj65Jm8E3ndEQ+y3/M0iGLc=;
+ b=bu2o+S7KHT1LR0yH1e7bnJKY/D6KU0vGLw1kk2elgp3gEekEPhFEIenCersSjQm6PJqcncIMNg/PGdZ6SO1VJHEr3ykxk3On2I9YqBL8YqbOf6zhBRDPn03AImq/oZwIeNNlvHmzqC9qhEeIaMAhEC6PJD7/blQycFiZUDYNmOdfFyyZAWx1r587L+eMEuJy/7mfvYS64h502QO52hGWXitDM8gYnTyYJSi6XAf/st1eoE5PE1yEuQwWEJpGR1OviQ/nbBD1BTAw4VT60pclUoOrLW7GpeJiPG/qigLdFMqhHsy1PHWFHhJ4g9JJSqlb5W+fiFncaNH5O/Oc9ui/JA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Wyhbk5va218DoPtymtzpXj65Jm8E3ndEQ+y3/M0iGLc=;
+ b=Bnpl1hqVnYXfZ6yGOBckMo3f6tAN7brJkPt61fIbe2TX8rzAgXkmT+5lRWHprNtt41ZvJ3wRdm8A7RL6U3Iqe6+akIvCRyhHtMgy+FrCZgx4+zYy1PPVAEWA5fRSfQV/JHid7aWGIvOKl6ArDktBSMzKMXqOL1cvQcRWpsH4gHBAsA9t5LczeMzO9knH+Tkqje3K5O383cncONCnovtvxRgW0+RDM2lMKRa/qS0bc4UfRLEDtCseGuyh0LYxcto2MtZBlOCY/3763vFJG6LGZunlPl2Tm2CZpxBEi9japcXA3CDYVJ6oi16gVQCXN8C4W25uMHSGlo2BilvviWEEkw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by SJ0PR12MB6992.namprd12.prod.outlook.com (2603:10b6:a03:483::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.43; Mon, 31 Jul
+ 2023 17:50:35 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1%6]) with mapi id 15.20.6631.043; Mon, 31 Jul 2023
+ 17:50:35 +0000
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Baolin Wang <baolin.wang@linux.alibaba.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	iommu@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Will Deacon <will@kernel.org>,
+	Chunyan Zhang <zhang.lyra@gmail.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+	Lu Baolu <baolu.lu@linux.intel.com>
+Subject: [PATCH v2 00/10] Refine the locking for dev->iommu_group
+Date: Mon, 31 Jul 2023 14:50:23 -0300
+Message-ID: <0-v2-b0417f84403e+11f-iommu_group_locking_jgg@nvidia.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: YT4P288CA0034.CANP288.PROD.OUTLOOK.COM
+ (2603:10b6:b01:d3::20) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ckawqhi5jh7lntyk"
-Content-Disposition: inline
-In-Reply-To: <20230730-nkm_clk_tests-v1-1-ed4aad26a815@oltmanns.dev>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|SJ0PR12MB6992:EE_
+X-MS-Office365-Filtering-Correlation-Id: face7454-67e1-48b4-d369-08db91eea44c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	ZN89sLaUSVt1S+vJMg/GBkwB1tLR1DXjKeiZijkxcillopu7G01lc2e22rSS9VB9PM8chHyXmv0FA+3I2zd4bHh0FqYI2TYGv4yrbof60UeJXGzoxXjiaVFrP0xBCeve5rEbCGw5zg2NPfO6QhDOqSfh1VNyE8c/1Eor8dPGaFwiLY84qevS384UKnHe93WHvEBo3cjUqEaJGL5rQYUy2KthWUbt6DCz9D0Thh+JAPbrIIMzcNHghQVRI1bcNs5oCGVD1icMFSi0AhYJQ5vOHgFDhtWHfOUTehPSgxrHuqD5LeSRtQx2b+DjrF8gx7E0m646GgChBliE8IjR0mferEvggHHRsNBJT0rBrp2QbxHAERJ9eT+JRW/6p+qystyv7RO225k4tKCmVWn21n+K3q5PywJ3eZmyKfwRl8W5RQFaQMWB7MRwyGa3OVy7wjZ8on2a23BZDeDQ3j4bhhWHsOvzHR9Jm4/SjNcKW2TuQHVfYMX1MWu5ZblsN8ENxmukduShrhhjyoWIoQJhnRFrVnzn9SoV2tLcA30zGvIMUvSpKRGkz5cn0xKkpdLV6HYJEx7j1mNvG+X7JOmxr1pMrwVXDJCnNvJACxBCYUPxqzAqQUjy4i9D6q8eEejs8hMKMe3WediIB86CayzsOSF3weRtnh2VkOOOLSQh7hETiMSfUloyhzbKe+1oxNWmIRwr1LJQzKcNrhi/K81hpwdm/g==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(346002)(366004)(376002)(136003)(396003)(451199021)(966005)(6512007)(6486002)(36756003)(2616005)(6506007)(26005)(83380400001)(186003)(66946007)(66556008)(7416002)(54906003)(41300700001)(921005)(110136005)(38100700002)(66476007)(86362001)(316002)(5660300002)(4326008)(8676002)(8936002)(2906002)(6666004)(478600001)(4216001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?iPwY/VgkMqsFCbgAUY7VRlddkFNjaZT3PzclgpLJ4BqW5zI3V/IPuaH2zJgA?=
+ =?us-ascii?Q?nHErnKdiPJb+Dw8tU5qfqPrm1DU5vz+43pgzJkhCklk0nlW+2N+6A/aKa/H3?=
+ =?us-ascii?Q?fLS2uAZAkx5HMia2RMBpYmPGSIiGGdoc86B9bvGBq6ou4EP7oswEpcMprhGt?=
+ =?us-ascii?Q?6DWCB2fAnIyOPqbNYh8cacfKk9106k+vPvD9GyCw+OSzCILsgMMRKRjPKLUm?=
+ =?us-ascii?Q?8OeTWkhmBUyyWQJyz20KacsMSJctXpLCUWsngDAuF5cG5Kt1tpSl361UsyKP?=
+ =?us-ascii?Q?Uj6/gbKJhzPAvJouXGZ8uZKZ5SPQwzuel3ip3kRyL6UAuk1MIXbpca2ATSyn?=
+ =?us-ascii?Q?bxRpVZwkpC2W7XXlgFZLt+tQsfZvh/zKcSj4myJJti7QucSWbpPu7sYsZmjY?=
+ =?us-ascii?Q?fBgVPrVMo6gHLeS4vfmSD3NlN+tR2cNBRc/ADq+ekN92HwW7+tPCGZv9Fg7+?=
+ =?us-ascii?Q?nJ4yyGNhYqAugNDwcJZ1QF4soy+X6JrxiehcQK9Di4PgCaUkKvw7bzIvzDmG?=
+ =?us-ascii?Q?MtftVsUDFD/HtVP8g88JwKiS317asRZ1LU+GOZS85gSI6ilAq1r3bIiDL/qd?=
+ =?us-ascii?Q?2J/FGgF6uM4S5cdlx6ikEixHl5nVzph1yOrN1wGTGPTb+LfLUuh47o9Qi4Fv?=
+ =?us-ascii?Q?P4OQhbLSXSbxz5V2AkZRrnLCYpE0tUKcoxJUNMICj8XEGGcSs/irs17+90XU?=
+ =?us-ascii?Q?GYHkttnXbBFwFqUI2chVvqKZcb9JJydHZe0f97F7AcS20t38MKk/QLFrykbB?=
+ =?us-ascii?Q?05y/Z6FVz1o5M0yqChrvhJxRhT9X2Lp4/t1hPVB6bMxT2onkGS7Ck0LT8jXX?=
+ =?us-ascii?Q?ZRUYpl82p/wN/gR8HqEOjweX130I4TLGbVdkX2S2wVv85wvdESfHzWiWD8Sw?=
+ =?us-ascii?Q?zQp8862qTmbfk9EHh5qDwN+FBROfbpfZ7Hh6i79+0YYpPDn6EMSm0zYFUJ4m?=
+ =?us-ascii?Q?36QDR+TPH5bSbRjp5FC/oL34nnqaydAN0jn3DIx0F98AhcZjflqnr4v87fy2?=
+ =?us-ascii?Q?DsDPBd8W126aODbt1cB3KGNJV8AMiO/c/HxGEwx85Jo0ZW5oh+tU04wnHgIv?=
+ =?us-ascii?Q?bMMRLgFWr6sSBp5qqnzBz4T83ydedoQvPvwg5RPZbhxAie0WCal6ulgU1kR4?=
+ =?us-ascii?Q?jidPKfNQMz9KR7lB3KCQ1J9k1b+TeIqUO+nANZgMwDKRzHC+VNsQYWGH1m8Y?=
+ =?us-ascii?Q?Ln8lFTOUDUkLcXlvT9dxtZ9eIGxz+Tmmxh+xXCzBbo7z2QXHfoXOSCxS9OlS?=
+ =?us-ascii?Q?ALfxjZ4eAqNTMjMuavpPbXkgZ44mkMp58b2JqXakK+6d1lYJLcl3sBYKjW9N?=
+ =?us-ascii?Q?k63c3s6IrEM45CSXRq0rZbaVgfw9oBqRPloxzSxZat2Sl67zwA0/OOo27j5+?=
+ =?us-ascii?Q?40ULaEBQv1CmGCR4I4GxgtrWbudAfR91E5WDz9S17rmuvBWbnvmojq129dIo?=
+ =?us-ascii?Q?uBqcv1MvibyQCx/cly2bgo3gnpQ41faYKWKOc67GYNwXcfTw2xS9sVKEzxh2?=
+ =?us-ascii?Q?GGqqua9amIS24zq05dy/I4C0Id3lzRMPazQGU3qvuWQHDZY3XFSygPZQRBGg?=
+ =?us-ascii?Q?dUQEScsVzhIjQYpfPzalmVJx9g9C8bwUBbRqBjmA?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: face7454-67e1-48b4-d369-08db91eea44c
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2023 17:50:34.9127
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8sZMtMjHoKzy38xPg+Moyx14+W1tlezu+216+hi2XIW0gRrRRG4M1Nu7wK1YGz1l
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6992
+
+This series puts the core code usage of dev->iommu_group under a
+consistent set of locking rules. Currently a lot of places in the code
+access this value without any locking or READ_ONCE/etc techniques and it
+is not clear how or why this is safe.
+
+Make it so the following locking rules are used:
+
+ - It is readable by a probe'd device driver. So long as a device driver
+   is probed the dev->iommu_group will be guaranteed stable without further
+   locking. The reader should provide some kind of locking that ensure's
+   its remove() struct device_driver op cannot progress.
+
+ - Read/Write under the device_lock(), this primarily protects against
+   parallel probe of the same device, and parallel probe/remove. This is
+   useful for places that don't naturally have a device driver probed, and
+   should be rare.
+
+ - Read/Write under the global dev_iommu_group_lock. This is used during
+   probe time discovery of groups. Device drivers will scan unlocked
+   portions of the device tree to locate an already existing group. These
+   scans can access the dev->iommu_group under the global lock to single
+   thread determining and installing the group. This ensures that groups
+   are reliably formed.
+
+Add locking assertions to enforce this.
+
+Along the way remove a bunch of opencoded group touching in drivers trying
+to implement a 'single group per driver' approach by providing a core helper
+that does this common algorithm.
+
+Overall this significantly reduces the number of places within
+drivers/iommu calling iommu_group_get or touching groups at all.
+
+This goes on top of Joerg's next tree, it needs the prior series
+"Consolidate the probe_device path".
+
+This is on github: https://github.com/jgunthorpe/linux/commits/iommu_group_locking
+
+v2:
+ - Revise comments
+ - NULL singleton_group during iommu_device_unregister() for clarity
+v1: https://lore.kernel.org/r/0-v1-3c8177327a47+256-iommu_group_locking_jgg@nvidia.com
+
+Jason Gunthorpe (10):
+  iommu: Remove useless group refcounting
+  iommu: Add a lockdep assertion for remaining dev->iommu_group reads
+  iommu: Add generic_single_device_group()
+  iommu/sun50i: Convert to generic_single_device_group()
+  iommu/sprd: Convert to generic_single_device_group()
+  iommu/rockchip: Convert to generic_single_device_group()
+  iommu/ipmmu-vmsa: Convert to generic_single_device_group()
+  iommu/omap: Convert to generic_single_device_group()
+  iommu: Complete the locking for dev->iommu_group
+  iommu/intel: Fix missing locking for show_device_domain_translation()
+
+ drivers/iommu/intel/debugfs.c  |  34 ++++----
+ drivers/iommu/iommu.c          | 155 +++++++++++++++++++++------------
+ drivers/iommu/ipmmu-vmsa.c     |  22 ++---
+ drivers/iommu/omap-iommu.c     |  30 +------
+ drivers/iommu/omap-iommu.h     |   2 +-
+ drivers/iommu/rockchip-iommu.c |  22 +----
+ drivers/iommu/sprd-iommu.c     |  24 +----
+ drivers/iommu/sun50i-iommu.c   |  29 ++----
+ include/linux/iommu.h          |   3 +
+ 9 files changed, 138 insertions(+), 183 deletions(-)
 
 
---ckawqhi5jh7lntyk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+base-commit: a5003e75a1714857c01317d04982eef81331fe2f
+-- 
+2.41.0
 
-Hi Frank,
-
-On Sun, Jul 30, 2023 at 08:48:47AM +0200, Frank Oltmanns wrote:
-> Test the ccu_nkm clock in the context of the clk framework (integration
-> test).
->=20
-> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-> ---
-> In order to facilitate testing the changes I'm currently working on [1]
-> I'm making use of kunit tests.
->=20
-> I'm wondering if these could be useful for inclusion in the kernel. I'm
-> using integration tests because my goal is to test that the clocks work
-> as expected in the context of the clk framework.
->=20
-> Note, that this is just an RFC for now. I want to test the waters to see
-> if anyone thinks that this is worth working on, i.e. if the benefit of
-> this kind of tests is worth the maintenance burden.
->=20
-> Please let me know what you think.
->=20
-> Thanks,
->   Frank
->=20
-> [1]: https://lore.kernel.org/all/20230717-pll-mipi_set_rate_parent-v4-0-0=
-4acf1d39765@oltmanns.dev/
-> ---
->  drivers/clk/sunxi-ng/.kunitconfig   |   4 +
->  drivers/clk/sunxi-ng/Kconfig        |   7 +
->  drivers/clk/sunxi-ng/Makefile       |   8 +
->  drivers/clk/sunxi-ng/ccu_nkm_test.c | 646 ++++++++++++++++++++++++++++++=
-++++++
->  4 files changed, 665 insertions(+)
->=20
-> diff --git a/drivers/clk/sunxi-ng/.kunitconfig b/drivers/clk/sunxi-ng/.ku=
-nitconfig
-> new file mode 100644
-> index 000000000000..a045f762d2cf
-> --- /dev/null
-> +++ b/drivers/clk/sunxi-ng/.kunitconfig
-> @@ -0,0 +1,4 @@
-> +CONFIG_KUNIT=3Dy
-> +CONFIG_COMPILE_TEST=3Dy
-> +CONFIG_COMMON_CLK=3Dy
-> +CONFIG_SUNXI_NKM_KUNIT_TEST=3Dy
-> diff --git a/drivers/clk/sunxi-ng/Kconfig b/drivers/clk/sunxi-ng/Kconfig
-> index b547198a2c65..824eac93ea5a 100644
-> --- a/drivers/clk/sunxi-ng/Kconfig
-> +++ b/drivers/clk/sunxi-ng/Kconfig
-> @@ -119,3 +119,10 @@ config SUN8I_R_CCU
->  	depends on MACH_SUN8I || ARM64 || COMPILE_TEST
-> =20
->  endif
-> +
-> +config SUNXI_NKM_KUNIT_TEST
-> +	tristate "ccu_nkm type Kunit test" if !KUNIT_ALL_TESTS
-> +	depends on KUNIT
-> +	default KUNIT_ALL_TESTS
-> +	help
-> +	  Kunit integration tests for the ccu_nkm type.
-> diff --git a/drivers/clk/sunxi-ng/Makefile b/drivers/clk/sunxi-ng/Makefile
-> index 6b3ae2b620db..16b430f5691b 100644
-> --- a/drivers/clk/sunxi-ng/Makefile
-> +++ b/drivers/clk/sunxi-ng/Makefile
-> @@ -73,3 +73,11 @@ sun8i-r-ccu-y			+=3D ccu-sun8i-r.o
->  sun9i-a80-ccu-y			+=3D ccu-sun9i-a80.o
->  sun9i-a80-de-ccu-y		+=3D ccu-sun9i-a80-de.o
->  sun9i-a80-usb-ccu-y		+=3D ccu-sun9i-a80-usb.o
-> +
-> +# Kunit
-> +obj-$(CONFIG_SUNXI_NKM_KUNIT_TEST)		+=3D ccu_reset.o
-> +obj-$(CONFIG_SUNXI_NKM_KUNIT_TEST)		+=3D ccu_common.o
-> +obj-$(CONFIG_SUNXI_NKM_KUNIT_TEST)		+=3D ccu_mux.o
-> +obj-$(CONFIG_SUNXI_NKM_KUNIT_TEST)		+=3D ccu_gate.o
-> +obj-$(CONFIG_SUNXI_NKM_KUNIT_TEST)	+=3D ccu_nkm.o
-> +obj-$(CONFIG_SUNXI_NKM_KUNIT_TEST)	+=3D ccu_nkm_test.o
-> diff --git a/drivers/clk/sunxi-ng/ccu_nkm_test.c b/drivers/clk/sunxi-ng/c=
-cu_nkm_test.c
-> new file mode 100644
-> index 000000000000..a2cf9f5f95bb
-> --- /dev/null
-> +++ b/drivers/clk/sunxi-ng/ccu_nkm_test.c
-> @@ -0,0 +1,646 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Kunit integration tests for ccu_nkm clocks.
-> + *
-> + * This is an integration test suite as it tests the behaviour of ccu_nk=
-m in the context of the
-> + * kernel's clk framework.
-> + */
-> +#include <linux/clk.h>
-> +#include <linux/clk-provider.h>
-> +
-> +#include "ccu_nkm.h"
-> +
-> +/* for nkm initialization */
-> +#include "ccu_mult.h"
-> +#include "ccu_div.h"
-> +
-> +/* CCU memory */
-> +#include <linux/logic_iomem.h>
-> +#include <linux/io.h>
-> +
-> +#include <kunit/test.h>
-> +#include <kunit/test-bug.h>
-> +
-> +struct ccu_nkm_test_context {
-> +	struct clk_hw parent_hw;
-> +	struct ccu_nkm nkm_clk;
-> +	unsigned long parent_set_rate;
-> +	unsigned long parent_multiplier;
-> +	void __iomem *ccu_iomem;
-> +	u32 reg;
-> +};
-> +
-> +#define PARENT_CLOCK_BASE_RATE	(24 * 1000 * 1000)
-> +#define NKM_REGISTER		0x040
-> +
-> +/***********************************************************************=
-***************************
-> + * Virtual CCU IO memory
-> + *
-> + * Using virtual memory in order to run the suite on user mode linux and=
- without actually affecting
-> + * the hardware.
-> + ***********************************************************************=
-***************************/
-> +#define CCU_IOMEM_START	0x01C20000
-> +#define CCU_IOMEM_SIZE	0x400
-> +
-> +static struct resource virt_ccu_iomem_resource =3D {
-> +	.name	=3D "CCU iomem",
-> +	.start	=3D CCU_IOMEM_START,
-> +	.end	=3D CCU_IOMEM_START + CCU_IOMEM_SIZE - 1,
-> +	.flags	=3D IORESOURCE_MEM,
-> +};
-> +
-> +static unsigned long virt_ccu_iomem_read(void *priv, unsigned int offset=
-, int size)
-> +{
-> +	struct kunit *current_test =3D kunit_get_current_test();
-> +	struct ccu_nkm_test_context *ctx =3D current_test->priv;
-> +	u32 val =3D ctx->reg;
-> +
-> +	pr_info("ccu_nkm_test: Reading val 0x%x from %p, offset 0x%x, size %i\n=
-", val, priv, offset,
-> +		size);
-> +	KUNIT_EXPECT_EQ_MSG(current_test, NKM_REGISTER, offset,
-> +			    "Only reads from offset 0x%x are expected\n", NKM_REGISTER);
-> +	KUNIT_EXPECT_EQ_MSG(current_test, 4, size,
-> +			    "Only reads with size 4 are expected\n");
-> +
-> +	return val;
-> +}
-> +
-> +static void virt_ccu_iomem_write(void *priv, unsigned int offset, int si=
-ze, unsigned long val)
-> +{
-> +	struct kunit *current_test =3D kunit_get_current_test();
-> +	struct ccu_nkm_test_context *ctx =3D current_test->priv;
-> +
-> +	pr_info("ccu_nkm_test: Writing to %p, offset 0x%x, size %i, val 0x%lx\n=
-", priv, offset,
-> +		size, val);
-> +
-> +	/* Only expect writes to the NKM register */
-> +	KUNIT_EXPECT_EQ_MSG(current_test, NKM_REGISTER, offset,
-> +			    "Only writes to offset 0x%x are expected\n", NKM_REGISTER);
-> +	KUNIT_EXPECT_EQ_MSG(current_test, 4, size,
-> +			    "Only writes with size 4 are expected\n");
-> +	ctx->reg =3D val;
-> +}
-> +
-> +static const struct logic_iomem_ops virt_ccu_iomem_ops =3D {
-> +	.read	=3D virt_ccu_iomem_read,
-> +	.write	=3D virt_ccu_iomem_write,
-> +};
-> +
-> +static long virt_ccu_iomem_map(unsigned long offset, size_t size,
-> +			       const struct logic_iomem_ops **ops,
-> +			       void **priv)
-> +{
-> +	pr_debug("ccu_nkm_test: Mapping offset %lu, size %lu\n", offset, size);
-> +
-> +	*ops =3D &virt_ccu_iomem_ops;
-> +	return 0;
-> +}
-> +
-> +static const struct logic_iomem_region_ops virt_ccu_iomem_map_ops =3D {
-> +	.map =3D virt_ccu_iomem_map,
-> +};
-> +
-> +
-
-I think this needs to be part of a larger discussion with the kunit
-maintainers on whether or not mocking entire devices is something we
-should aim for, and if it is, how can be ease that mocking.
-
-Having that boilerplate in each and every driver doesn't look
-sustainable to me.
-
-I also don't really see the point. It will be a nightmare to scale to
-support all of our clocks (let alone all our devices), we don't have any
-idea whether our model is actually the one implemented by the hardware,
-and it's not really what we want to test anyway.
-
-What we want to test is whether the software is sane, so that means that
-we want to make sure that set_parent and set_rate are consistent with
-determine_rate for any given clock. And we don't need to emulate a
-device to do that, we can just overload set_rate and set_parent,
-possibly exporting some internal functions to split the register access
-=66rom the actual coeff computation.
-
-> +struct ccu_nkm_combo {
-> +	u8	n;
-> +	u8	k;
-> +	u8	m;
-> +};
-> +
-> +/*
-> + * This table contains all meaningful combinations of n, k, and m.
-> + * That means that combinations that result in the same clock rate
-> + * are only listed once. For example, both { .n =3D 1, .k =3D 2, .m =3D =
-2}
-> + * and { .n =3D 2, .k =3D 2, .m =3D 4} are valid values for n, k, and m,
-> + * but only the first one is in this list because both result in a
-> + * factor of 1.0.
-> + */
-
-I think we should test both cases.
-
-> +static struct ccu_nkm_combo all_nkm_combos[] =3D {
-> +	{ .n =3D  1, .k =3D  2,  .m =3D 16 /* 0.1250000*/ },
-> +	{ .n =3D  1, .k =3D  2,  .m =3D 15 /* 0.1333333*/ },
-> +	{ .n =3D  1, .k =3D  2,  .m =3D 14 /* 0.1428571*/ },
-> +	{ .n =3D  1, .k =3D  2,  .m =3D 13 /* 0.1538462*/ },
-> +	{ .n =3D  1, .k =3D  2,  .m =3D 12 /* 0.1666667*/ },
-> +	{ .n =3D  1, .k =3D  2,  .m =3D 11 /* 0.1818182*/ },
-> +	{ .n =3D  1, .k =3D  3,  .m =3D 16 /* 0.1875000*/ },
-> +	{ .n =3D  1, .k =3D  2,  .m =3D 10 /* 0.2000000*/ },
-> +	{ .n =3D  1, .k =3D  3,  .m =3D 14 /* 0.2142857*/ },
-> +	{ .n =3D  1, .k =3D  2,  .m =3D  9 /* 0.2222222*/ },
-> +	{ .n =3D  1, .k =3D  3,  .m =3D 13 /* 0.2307692*/ },
-> +	{ .n =3D  1, .k =3D  2,  .m =3D  8 /* 0.2500000*/ },
-> +	{ .n =3D  2, .k =3D  2,  .m =3D 15 /* 0.2666667*/ },
-> +	{ .n =3D  1, .k =3D  3,  .m =3D 11 /* 0.2727273*/ },
-> +	{ .n =3D  1, .k =3D  2,  .m =3D  7 /* 0.2857143*/ },
-> +	{ .n =3D  1, .k =3D  3,  .m =3D 10 /* 0.3000000*/ },
-> +	{ .n =3D  2, .k =3D  2,  .m =3D 13 /* 0.3076923*/ },
-> +	{ .n =3D  1, .k =3D  2,  .m =3D  6 /* 0.3333333*/ },
-> +	{ .n =3D  2, .k =3D  2,  .m =3D 11 /* 0.3636364*/ },
-> +	{ .n =3D  3, .k =3D  2,  .m =3D 16 /* 0.3750000*/ },
-> +	{ .n =3D  1, .k =3D  2,  .m =3D  5 /* 0.4000000*/ },
-> +	{ .n =3D  3, .k =3D  2,  .m =3D 14 /* 0.4285714*/ },
-> +	{ .n =3D  2, .k =3D  2,  .m =3D  9 /* 0.4444444*/ },
-> +	{ .n =3D  3, .k =3D  2,  .m =3D 13 /* 0.4615385*/ },
-> +	{ .n =3D  1, .k =3D  2,  .m =3D  4 /* 0.5000000*/ },
-> +	{ .n =3D  4, .k =3D  2,  .m =3D 15 /* 0.5333333*/ },
-> +	{ .n =3D  3, .k =3D  2,  .m =3D 11 /* 0.5454545*/ },
-> +	{ .n =3D  3, .k =3D  3,  .m =3D 16 /* 0.5625000*/ },
-> +	{ .n =3D  2, .k =3D  2,  .m =3D  7 /* 0.5714286*/ },
-> +	{ .n =3D  3, .k =3D  2,  .m =3D 10 /* 0.6000000*/ },
-> +	{ .n =3D  4, .k =3D  2,  .m =3D 13 /* 0.6153846*/ },
-> +	{ .n =3D  5, .k =3D  2,  .m =3D 16 /* 0.6250000*/ },
-> +	{ .n =3D  3, .k =3D  3,  .m =3D 14 /* 0.6428571*/ },
-> +	{ .n =3D  1, .k =3D  2,  .m =3D  3 /* 0.6666667*/ },
-> +	{ .n =3D  3, .k =3D  3,  .m =3D 13 /* 0.6923077*/ },
-> +	{ .n =3D  5, .k =3D  2,  .m =3D 14 /* 0.7142857*/ },
-> +	{ .n =3D  4, .k =3D  2,  .m =3D 11 /* 0.7272727*/ },
-> +	{ .n =3D  3, .k =3D  2,  .m =3D  8 /* 0.7500000*/ },
-> +	{ .n =3D  5, .k =3D  2,  .m =3D 13 /* 0.7692308*/ },
-> +	{ .n =3D  2, .k =3D  2,  .m =3D  5 /* 0.8000000*/ },
-> +	{ .n =3D  3, .k =3D  3,  .m =3D 11 /* 0.8181818*/ },
-> +	{ .n =3D  5, .k =3D  2,  .m =3D 12 /* 0.8333333*/ },
-> +	{ .n =3D  3, .k =3D  2,  .m =3D  7 /* 0.8571429*/ },
-> +	{ .n =3D  7, .k =3D  2,  .m =3D 16 /* 0.8750000*/ },
-> +	{ .n =3D  4, .k =3D  2,  .m =3D  9 /* 0.8888889*/ },
-> +	{ .n =3D  3, .k =3D  3,  .m =3D 10 /* 0.9000000*/ },
-> +	{ .n =3D  5, .k =3D  2,  .m =3D 11 /* 0.9090909*/ },
-> +	{ .n =3D  6, .k =3D  2,  .m =3D 13 /* 0.9230769*/ },
-> +	{ .n =3D  7, .k =3D  2,  .m =3D 15 /* 0.9333333*/ },
-> +	{ .n =3D  5, .k =3D  3,  .m =3D 16 /* 0.9375000*/ },
-> +	{ .n =3D  1, .k =3D  2,  .m =3D  2 /* 1.0000000*/ },
-> +	{ .n =3D  8, .k =3D  2,  .m =3D 15 /* 1.0666667*/ },
-> +	{ .n =3D  5, .k =3D  3,  .m =3D 14 /* 1.0714286*/ },
-> +	{ .n =3D  7, .k =3D  2,  .m =3D 13 /* 1.0769231*/ },
-> +	{ .n =3D  6, .k =3D  2,  .m =3D 11 /* 1.0909091*/ },
-> +	{ .n =3D  5, .k =3D  2,  .m =3D  9 /* 1.1111111*/ },
-> +	{ .n =3D  9, .k =3D  2,  .m =3D 16 /* 1.1250000*/ },
-> +	{ .n =3D  4, .k =3D  2,  .m =3D  7 /* 1.1428571*/ },
-> +	{ .n =3D  5, .k =3D  3,  .m =3D 13 /* 1.1538462*/ },
-> +	{ .n =3D  7, .k =3D  2,  .m =3D 12 /* 1.1666667*/ },
-> +	{ .n =3D  3, .k =3D  2,  .m =3D  5 /* 1.2000000*/ },
-> +	{ .n =3D  8, .k =3D  2,  .m =3D 13 /* 1.2307692*/ },
-> +	{ .n =3D  5, .k =3D  2,  .m =3D  8 /* 1.2500000*/ },
-> +	{ .n =3D  7, .k =3D  2,  .m =3D 11 /* 1.2727273*/ },
-> +	{ .n =3D  9, .k =3D  2,  .m =3D 14 /* 1.2857143*/ },
-> +	{ .n =3D  7, .k =3D  3,  .m =3D 16 /* 1.3125000*/ },
-> +	{ .n =3D  2, .k =3D  2,  .m =3D  3 /* 1.3333333*/ },
-> +	{ .n =3D  5, .k =3D  3,  .m =3D 11 /* 1.3636364*/ },
-> +	{ .n =3D 11, .k =3D  2,  .m =3D 16 /* 1.3750000*/ },
-> +	{ .n =3D  9, .k =3D  2,  .m =3D 13 /* 1.3846154*/ },
-> +	{ .n =3D  7, .k =3D  2,  .m =3D 10 /* 1.4000000*/ },
-> +	{ .n =3D  5, .k =3D  2,  .m =3D  7 /* 1.4285714*/ },
-> +	{ .n =3D  8, .k =3D  2,  .m =3D 11 /* 1.4545455*/ },
-> +	{ .n =3D 11, .k =3D  2,  .m =3D 15 /* 1.4666667*/ },
-> +	{ .n =3D  3, .k =3D  2,  .m =3D  4 /* 1.5000000*/ },
-> +	{ .n =3D 10, .k =3D  2,  .m =3D 13 /* 1.5384615*/ },
-> +	{ .n =3D  7, .k =3D  2,  .m =3D  9 /* 1.5555556*/ },
-> +	{ .n =3D 11, .k =3D  2,  .m =3D 14 /* 1.5714286*/ },
-> +	{ .n =3D  4, .k =3D  2,  .m =3D  5 /* 1.6000000*/ },
-> +	{ .n =3D  7, .k =3D  3,  .m =3D 13 /* 1.6153846*/ },
-> +	{ .n =3D 13, .k =3D  2,  .m =3D 16 /* 1.6250000*/ },
-> +	{ .n =3D  9, .k =3D  2,  .m =3D 11 /* 1.6363636*/ },
-> +	{ .n =3D  5, .k =3D  2,  .m =3D  6 /* 1.6666667*/ },
-> +	{ .n =3D  9, .k =3D  3,  .m =3D 16 /* 1.6875000*/ },
-> +	{ .n =3D 11, .k =3D  2,  .m =3D 13 /* 1.6923077*/ },
-> +	{ .n =3D  6, .k =3D  2,  .m =3D  7 /* 1.7142857*/ },
-> +	{ .n =3D 13, .k =3D  2,  .m =3D 15 /* 1.7333333*/ },
-> +	{ .n =3D  7, .k =3D  2,  .m =3D  8 /* 1.7500000*/ },
-> +	{ .n =3D  8, .k =3D  2,  .m =3D  9 /* 1.7777778*/ },
-> +	{ .n =3D  9, .k =3D  2,  .m =3D 10 /* 1.8000000*/ },
-> +	{ .n =3D 10, .k =3D  2,  .m =3D 11 /* 1.8181818*/ },
-> +	{ .n =3D 11, .k =3D  2,  .m =3D 12 /* 1.8333333*/ },
-> +	{ .n =3D 12, .k =3D  2,  .m =3D 13 /* 1.8461538*/ },
-> +	{ .n =3D 13, .k =3D  2,  .m =3D 14 /* 1.8571429*/ },
-> +	{ .n =3D 14, .k =3D  2,  .m =3D 15 /* 1.8666667*/ },
-> +	{ .n =3D 15, .k =3D  2,  .m =3D 16 /* 1.8750000*/ },
-> +	{ .n =3D  7, .k =3D  3,  .m =3D 11 /* 1.9090909*/ },
-> +	{ .n =3D  9, .k =3D  3,  .m =3D 14 /* 1.9285714*/ },
-> +	{ .n =3D  1, .k =3D  2,  .m =3D  1 /* 2.0000000*/ },
-> +	{ .n =3D 11, .k =3D  3,  .m =3D 16 /* 2.0625000*/ },
-> +	{ .n =3D  9, .k =3D  3,  .m =3D 13 /* 2.0769231*/ },
-> +	{ .n =3D  7, .k =3D  3,  .m =3D 10 /* 2.1000000*/ },
-> +	{ .n =3D 16, .k =3D  2,  .m =3D 15 /* 2.1333333*/ },
-> +	{ .n =3D 15, .k =3D  2,  .m =3D 14 /* 2.1428571*/ },
-> +	{ .n =3D 14, .k =3D  2,  .m =3D 13 /* 2.1538462*/ },
-> +	{ .n =3D 13, .k =3D  2,  .m =3D 12 /* 2.1666667*/ },
-> +	{ .n =3D 12, .k =3D  2,  .m =3D 11 /* 2.1818182*/ },
-> +	{ .n =3D 11, .k =3D  2,  .m =3D 10 /* 2.2000000*/ },
-> +	{ .n =3D 10, .k =3D  2,  .m =3D  9 /* 2.2222222*/ },
-> +	{ .n =3D  9, .k =3D  2,  .m =3D  8 /* 2.2500000*/ },
-> +	{ .n =3D  8, .k =3D  2,  .m =3D  7 /* 2.2857143*/ },
-> +	{ .n =3D 15, .k =3D  2,  .m =3D 13 /* 2.3076923*/ },
-> +	{ .n =3D  7, .k =3D  2,  .m =3D  6 /* 2.3333333*/ },
-> +	{ .n =3D 11, .k =3D  3,  .m =3D 14 /* 2.3571429*/ },
-> +	{ .n =3D 13, .k =3D  2,  .m =3D 11 /* 2.3636364*/ },
-> +	{ .n =3D  6, .k =3D  2,  .m =3D  5 /* 2.4000000*/ },
-> +	{ .n =3D 13, .k =3D  3,  .m =3D 16 /* 2.4375000*/ },
-> +	{ .n =3D 11, .k =3D  2,  .m =3D  9 /* 2.4444444*/ },
-> +	{ .n =3D  9, .k =3D  3,  .m =3D 11 /* 2.4545455*/ },
-> +	{ .n =3D 16, .k =3D  2,  .m =3D 13 /* 2.4615385*/ },
-> +	{ .n =3D  5, .k =3D  2,  .m =3D  4 /* 2.5000000*/ },
-> +	{ .n =3D 11, .k =3D  3,  .m =3D 13 /* 2.5384615*/ },
-> +	{ .n =3D 14, .k =3D  2,  .m =3D 11 /* 2.5454545*/ },
-> +	{ .n =3D  9, .k =3D  2,  .m =3D  7 /* 2.5714286*/ },
-> +	{ .n =3D 13, .k =3D  2,  .m =3D 10 /* 2.6000000*/ },
-> +	{ .n =3D  7, .k =3D  3,  .m =3D  8 /* 2.6250000*/ },
-> +	{ .n =3D  4, .k =3D  2,  .m =3D  3 /* 2.6666667*/ },
-> +	{ .n =3D  9, .k =3D  3,  .m =3D 10 /* 2.7000000*/ },
-> +	{ .n =3D 15, .k =3D  2,  .m =3D 11 /* 2.7272727*/ },
-> +	{ .n =3D 11, .k =3D  2,  .m =3D  8 /* 2.7500000*/ },
-> +	{ .n =3D 12, .k =3D  3,  .m =3D 13 /* 2.7692308*/ },
-> +	{ .n =3D 13, .k =3D  3,  .m =3D 14 /* 2.7857143*/ },
-> +	{ .n =3D  7, .k =3D  2,  .m =3D  5 /* 2.8000000*/ },
-> +	{ .n =3D 15, .k =3D  3,  .m =3D 16 /* 2.8125000*/ },
-> +	{ .n =3D 10, .k =3D  2,  .m =3D  7 /* 2.8571429*/ },
-> +	{ .n =3D 13, .k =3D  2,  .m =3D  9 /* 2.8888889*/ },
-> +	{ .n =3D 16, .k =3D  2,  .m =3D 11 /* 2.9090909*/ },
-> +	{ .n =3D 11, .k =3D  4,  .m =3D 15 /* 2.9333333*/ },
-> +	{ .n =3D  3, .k =3D  2,  .m =3D  2 /* 3.0000000*/ },
-> +	{ .n =3D 10, .k =3D  4,  .m =3D 13 /* 3.0769231*/ },
-> +	{ .n =3D 14, .k =3D  2,  .m =3D  9 /* 3.1111111*/ },
-> +	{ .n =3D 11, .k =3D  2,  .m =3D  7 /* 3.1428571*/ },
-> +	{ .n =3D  8, .k =3D  2,  .m =3D  5 /* 3.2000000*/ },
-> +	{ .n =3D 15, .k =3D  3,  .m =3D 14 /* 3.2142857*/ },
-> +	{ .n =3D 14, .k =3D  3,  .m =3D 13 /* 3.2307692*/ },
-> +	{ .n =3D 13, .k =3D  2,  .m =3D  8 /* 3.2500000*/ },
-> +	{ .n =3D 12, .k =3D  3,  .m =3D 11 /* 3.2727273*/ },
-> +	{ .n =3D 11, .k =3D  3,  .m =3D 10 /* 3.3000000*/ },
-> +	{ .n =3D  5, .k =3D  2,  .m =3D  3 /* 3.3333333*/ },
-> +	{ .n =3D  9, .k =3D  3,  .m =3D  8 /* 3.3750000*/ },
-> +	{ .n =3D 11, .k =3D  4,  .m =3D 13 /* 3.3846154*/ },
-> +	{ .n =3D 12, .k =3D  2,  .m =3D  7 /* 3.4285714*/ },
-> +	{ .n =3D 15, .k =3D  3,  .m =3D 13 /* 3.4615385*/ },
-> +	{ .n =3D 13, .k =3D  4,  .m =3D 15 /* 3.4666667*/ },
-> +	{ .n =3D  7, .k =3D  2,  .m =3D  4 /* 3.5000000*/ },
-> +	{ .n =3D 13, .k =3D  3,  .m =3D 11 /* 3.5454545*/ },
-> +	{ .n =3D 16, .k =3D  2,  .m =3D  9 /* 3.5555556*/ },
-> +	{ .n =3D  9, .k =3D  2,  .m =3D  5 /* 3.6000000*/ },
-> +	{ .n =3D 10, .k =3D  4,  .m =3D 11 /* 3.6363636*/ },
-> +	{ .n =3D 11, .k =3D  2,  .m =3D  6 /* 3.6666667*/ },
-> +	{ .n =3D 16, .k =3D  3,  .m =3D 13 /* 3.6923077*/ },
-> +	{ .n =3D 13, .k =3D  2,  .m =3D  7 /* 3.7142857*/ },
-> +	{ .n =3D 14, .k =3D  4,  .m =3D 15 /* 3.7333333*/ },
-> +	{ .n =3D 15, .k =3D  2,  .m =3D  8 /* 3.7500000*/ },
-> +	{ .n =3D 14, .k =3D  3,  .m =3D 11 /* 3.8181818*/ },
-> +	{ .n =3D  9, .k =3D  3,  .m =3D  7 /* 3.8571429*/ },
-> +	{ .n =3D 13, .k =3D  3,  .m =3D 10 /* 3.9000000*/ },
-> +	{ .n =3D  2, .k =3D  2,  .m =3D  1 /* 4.0000000*/ },
-> +	{ .n =3D 15, .k =3D  3,  .m =3D 11 /* 4.0909091*/ },
-> +	{ .n =3D 11, .k =3D  3,  .m =3D  8 /* 4.1250000*/ },
-> +	{ .n =3D  7, .k =3D  3,  .m =3D  5 /* 4.2000000*/ },
-> +	{ .n =3D 16, .k =3D  4,  .m =3D 15 /* 4.2666667*/ },
-> +	{ .n =3D 15, .k =3D  2,  .m =3D  7 /* 4.2857143*/ },
-> +	{ .n =3D 14, .k =3D  4,  .m =3D 13 /* 4.3076923*/ },
-> +	{ .n =3D 13, .k =3D  2,  .m =3D  6 /* 4.3333333*/ },
-> +	{ .n =3D 16, .k =3D  3,  .m =3D 11 /* 4.3636364*/ },
-> +	{ .n =3D 11, .k =3D  2,  .m =3D  5 /* 4.4000000*/ },
-> +	{ .n =3D 10, .k =3D  4,  .m =3D  9 /* 4.4444444*/ },
-> +	{ .n =3D  9, .k =3D  2,  .m =3D  4 /* 4.5000000*/ },
-> +	{ .n =3D 16, .k =3D  2,  .m =3D  7 /* 4.5714286*/ },
-> +	{ .n =3D 15, .k =3D  4,  .m =3D 13 /* 4.6153846*/ },
-> +	{ .n =3D  7, .k =3D  2,  .m =3D  3 /* 4.6666667*/ },
-> +	{ .n =3D 11, .k =3D  3,  .m =3D  7 /* 4.7142857*/ },
-> +	{ .n =3D 13, .k =3D  4,  .m =3D 11 /* 4.7272727*/ },
-> +	{ .n =3D 12, .k =3D  2,  .m =3D  5 /* 4.8000000*/ },
-> +	{ .n =3D 13, .k =3D  3,  .m =3D  8 /* 4.8750000*/ },
-> +	{ .n =3D 11, .k =3D  4,  .m =3D  9 /* 4.8888889*/ },
-> +	{ .n =3D 16, .k =3D  4,  .m =3D 13 /* 4.9230769*/ },
-> +	{ .n =3D  5, .k =3D  2,  .m =3D  2 /* 5.0000000*/ },
-> +	{ .n =3D 14, .k =3D  4,  .m =3D 11 /* 5.0909091*/ },
-> +	{ .n =3D 12, .k =3D  3,  .m =3D  7 /* 5.1428571*/ },
-> +	{ .n =3D 13, .k =3D  2,  .m =3D  5 /* 5.2000000*/ },
-> +	{ .n =3D  7, .k =3D  3,  .m =3D  4 /* 5.2500000*/ },
-> +	{ .n =3D  8, .k =3D  2,  .m =3D  3 /* 5.3333333*/ },
-> +	{ .n =3D  9, .k =3D  3,  .m =3D  5 /* 5.4000000*/ },
-> +	{ .n =3D 15, .k =3D  4,  .m =3D 11 /* 5.4545455*/ },
-> +	{ .n =3D 11, .k =3D  2,  .m =3D  4 /* 5.5000000*/ },
-> +	{ .n =3D 13, .k =3D  3,  .m =3D  7 /* 5.5714286*/ },
-> +	{ .n =3D 14, .k =3D  2,  .m =3D  5 /* 5.6000000*/ },
-> +	{ .n =3D 15, .k =3D  3,  .m =3D  8 /* 5.6250000*/ },
-> +	{ .n =3D 10, .k =3D  4,  .m =3D  7 /* 5.7142857*/ },
-> +	{ .n =3D 13, .k =3D  4,  .m =3D  9 /* 5.7777778*/ },
-> +	{ .n =3D 16, .k =3D  4,  .m =3D 11 /* 5.8181818*/ },
-> +	{ .n =3D  3, .k =3D  2,  .m =3D  1 /* 6.0000000*/ },
-> +	{ .n =3D 14, .k =3D  4,  .m =3D  9 /* 6.2222222*/ },
-> +	{ .n =3D 11, .k =3D  4,  .m =3D  7 /* 6.2857143*/ },
-> +	{ .n =3D 16, .k =3D  2,  .m =3D  5 /* 6.4000000*/ },
-> +	{ .n =3D 15, .k =3D  3,  .m =3D  7 /* 6.4285714*/ },
-> +	{ .n =3D 13, .k =3D  2,  .m =3D  4 /* 6.5000000*/ },
-> +	{ .n =3D 11, .k =3D  3,  .m =3D  5 /* 6.6000000*/ },
-> +	{ .n =3D 10, .k =3D  2,  .m =3D  3 /* 6.6666667*/ },
-> +	{ .n =3D  9, .k =3D  3,  .m =3D  4 /* 6.7500000*/ },
-> +	{ .n =3D 16, .k =3D  3,  .m =3D  7 /* 6.8571429*/ },
-> +	{ .n =3D  7, .k =3D  2,  .m =3D  2 /* 7.0000000*/ },
-> +	{ .n =3D 16, .k =3D  4,  .m =3D  9 /* 7.1111111*/ },
-> +	{ .n =3D 12, .k =3D  3,  .m =3D  5 /* 7.2000000*/ },
-> +	{ .n =3D 11, .k =3D  2,  .m =3D  3 /* 7.3333333*/ },
-> +	{ .n =3D 13, .k =3D  4,  .m =3D  7 /* 7.4285714*/ },
-> +	{ .n =3D 15, .k =3D  2,  .m =3D  4 /* 7.5000000*/ },
-> +	{ .n =3D 13, .k =3D  3,  .m =3D  5 /* 7.8000000*/ },
-> +	{ .n =3D  4, .k =3D  2,  .m =3D  1 /* 8.0000000*/ },
-> +	{ .n =3D 11, .k =3D  3,  .m =3D  4 /* 8.2500000*/ },
-> +	{ .n =3D 14, .k =3D  3,  .m =3D  5 /* 8.4000000*/ },
-> +	{ .n =3D 15, .k =3D  4,  .m =3D  7 /* 8.5714286*/ },
-> +	{ .n =3D 13, .k =3D  2,  .m =3D  3 /* 8.6666667*/ },
-> +	{ .n =3D 11, .k =3D  4,  .m =3D  5 /* 8.8000000*/ },
-> +	{ .n =3D  9, .k =3D  2,  .m =3D  2 /* 9.0000000*/ },
-> +	{ .n =3D 16, .k =3D  4,  .m =3D  7 /* 9.1428571*/ },
-> +	{ .n =3D 14, .k =3D  2,  .m =3D  3 /* 9.3333333*/ },
-> +	{ .n =3D 16, .k =3D  3,  .m =3D  5 /* 9.6000000*/ },
-> +	{ .n =3D 13, .k =3D  3,  .m =3D  4 /* 9.7500000*/ },
-> +	{ .n =3D  5, .k =3D  2,  .m =3D  1 /*10.0000000*/ },
-> +	{ .n =3D 13, .k =3D  4,  .m =3D  5 /*10.4000000*/ },
-> +	{ .n =3D  7, .k =3D  3,  .m =3D  2 /*10.5000000*/ },
-> +	{ .n =3D 16, .k =3D  2,  .m =3D  3 /*10.6666667*/ },
-> +	{ .n =3D 11, .k =3D  2,  .m =3D  2 /*11.0000000*/ },
-> +	{ .n =3D 14, .k =3D  4,  .m =3D  5 /*11.2000000*/ },
-> +	{ .n =3D 15, .k =3D  3,  .m =3D  4 /*11.2500000*/ },
-> +	{ .n =3D  6, .k =3D  2,  .m =3D  1 /*12.0000000*/ },
-> +	{ .n =3D 16, .k =3D  4,  .m =3D  5 /*12.8000000*/ },
-> +	{ .n =3D 13, .k =3D  2,  .m =3D  2 /*13.0000000*/ },
-> +	{ .n =3D 10, .k =3D  4,  .m =3D  3 /*13.3333333*/ },
-> +	{ .n =3D  9, .k =3D  3,  .m =3D  2 /*13.5000000*/ },
-> +	{ .n =3D  7, .k =3D  2,  .m =3D  1 /*14.0000000*/ },
-> +	{ .n =3D 11, .k =3D  4,  .m =3D  3 /*14.6666667*/ },
-> +	{ .n =3D 15, .k =3D  2,  .m =3D  2 /*15.0000000*/ },
-> +	{ .n =3D  8, .k =3D  2,  .m =3D  1 /*16.0000000*/ },
-> +	{ .n =3D 11, .k =3D  3,  .m =3D  2 /*16.5000000*/ },
-> +	{ .n =3D 13, .k =3D  4,  .m =3D  3 /*17.3333333*/ },
-> +	{ .n =3D  9, .k =3D  2,  .m =3D  1 /*18.0000000*/ },
-> +	{ .n =3D 14, .k =3D  4,  .m =3D  3 /*18.6666667*/ },
-> +	{ .n =3D 13, .k =3D  3,  .m =3D  2 /*19.5000000*/ },
-> +	{ .n =3D 10, .k =3D  2,  .m =3D  1 /*20.0000000*/ },
-> +	{ .n =3D  7, .k =3D  3,  .m =3D  1 /*21.0000000*/ },
-> +	{ .n =3D 16, .k =3D  4,  .m =3D  3 /*21.3333333*/ },
-> +	{ .n =3D 11, .k =3D  2,  .m =3D  1 /*22.0000000*/ },
-> +	{ .n =3D 15, .k =3D  3,  .m =3D  2 /*22.5000000*/ },
-> +	{ .n =3D 12, .k =3D  2,  .m =3D  1 /*24.0000000*/ },
-> +	{ .n =3D 13, .k =3D  2,  .m =3D  1 /*26.0000000*/ },
-> +	{ .n =3D  9, .k =3D  3,  .m =3D  1 /*27.0000000*/ },
-> +	{ .n =3D 14, .k =3D  2,  .m =3D  1 /*28.0000000*/ },
-> +	{ .n =3D 15, .k =3D  2,  .m =3D  1 /*30.0000000*/ },
-> +	{ .n =3D 16, .k =3D  2,  .m =3D  1 /*32.0000000*/ },
-> +	{ .n =3D 11, .k =3D  3,  .m =3D  1 /*33.0000000*/ },
-> +	{ .n =3D 12, .k =3D  3,  .m =3D  1 /*36.0000000*/ },
-> +	{ .n =3D 13, .k =3D  3,  .m =3D  1 /*39.0000000*/ },
-> +	{ .n =3D 10, .k =3D  4,  .m =3D  1 /*40.0000000*/ },
-> +	{ .n =3D 14, .k =3D  3,  .m =3D  1 /*42.0000000*/ },
-> +	{ .n =3D 11, .k =3D  4,  .m =3D  1 /*44.0000000*/ },
-> +	{ .n =3D 15, .k =3D  3,  .m =3D  1 /*45.0000000*/ },
-> +	{ .n =3D 16, .k =3D  3,  .m =3D  1 /*48.0000000*/ },
-> +	{ .n =3D 13, .k =3D  4,  .m =3D  1 /*52.0000000*/ },
-> +	{ .n =3D 14, .k =3D  4,  .m =3D  1 /*56.0000000*/ },
-> +	{ .n =3D 15, .k =3D  4,  .m =3D  1 /*60.0000000*/ },
-> +	{ .n =3D 16, .k =3D  4,  .m =3D  1 /*64.0000000*/ },
-> +};
-
-This can be turned into a test generator. Also, these are the valid NKM
-combinations, but for a single clock, not all possible NKM clocks,
-right?
-
-> +static void ccu_nkm_test_helper_check_register(struct kunit *test, struc=
-t ccu_nkm *nkm, u32 reg,
-> +					       unsigned long n, unsigned long k, unsigned long m)
-> +{
-> +	unsigned long n_a, k_a, m_a;
-> +
-> +	n_a =3D ((reg & GENMASK(nkm->n.width + nkm->n.shift - 1, nkm->n.shift))=
- >> nkm->n.shift) + 1;
-> +	KUNIT_EXPECT_EQ(test, n, n_a);
-> +	k_a =3D ((reg & GENMASK(nkm->k.width + nkm->k.shift - 1, nkm->k.shift))=
- >> nkm->k.shift) + 1;
-> +	KUNIT_EXPECT_EQ(test, k, k_a);
-> +	m_a =3D ((reg & GENMASK(nkm->m.width + nkm->m.shift - 1, nkm->m.shift))=
- >> nkm->m.shift) + 1;
-> +	KUNIT_EXPECT_EQ(test, m, m_a);
-> +}
-> +
-> +static int ccu_nkm_test_suite_init(struct kunit_suite *suite)
-> +{
-> +	WARN_ON(logic_iomem_add_region(&virt_ccu_iomem_resource,
-> +				       &virt_ccu_iomem_map_ops));
-> +	return 0;
-> +}
-> +
-> +static int ccu_nkm_test_init(struct kunit *test)
-> +{
-> +	struct ccu_nkm_test_context *ctx;
-> +	int ret;
-> +	struct ccu_nkm nkm_clk =3D {
-> +		.enable		=3D BIT(31) | BIT(23) | BIT(22),
-> +		.lock		=3D BIT(28),
-> +		.n		=3D _SUNXI_CCU_MULT(8, 4),
-> +		.k		=3D _SUNXI_CCU_MULT_MIN(4, 2, 2),
-> +		.m		=3D _SUNXI_CCU_DIV(0, 4),
-> +		.common		=3D {
-> +			.reg		=3D NKM_REGISTER,
-> +			.hw.init	=3D CLK_HW_INIT("test-nkm", "test-nkm-parent",
-> +						&ccu_nkm_ops,
-> +						CLK_SET_RATE_UNGATE),
-> +		},
-> +	};
-> +
-> +	ctx =3D kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
-> +	if (!ctx)
-> +		return -ENOMEM;
-> +	test->priv =3D ctx;
-> +
-> +	ctx->ccu_iomem =3D ioremap(CCU_IOMEM_START, CCU_IOMEM_SIZE);
-> +	nkm_clk.common.base =3D ctx->ccu_iomem;
-> +
-> +	ctx->parent_hw.init =3D CLK_HW_INIT_NO_PARENT("test-nkm-parent", &clk_p=
-arent_rate_ops, 0);
-> +	ctx->parent_multiplier =3D 8;
-> +
-> +	ret =3D clk_hw_register(NULL, &ctx->parent_hw);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ctx->nkm_clk =3D nkm_clk;
-> +	ret =3D clk_hw_register(NULL, &ctx->nkm_clk.common.hw);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/*
-> +	 * HACK: Setting the lock bit during initialization, because the nkm cl=
-ock waits for it
-> +	 *       after setting the rate.
-> +	 */
-> +	ctx->reg =3D ctx->nkm_clk.lock;
-> +
-> +	return 0;
-> +}
-> +
-> +static void ccu_nkm_test_exit(struct kunit *test)
-> +{
-> +	struct ccu_nkm_test_context *ctx =3D test->priv;
-> +
-> +	clk_hw_unregister(&ctx->nkm_clk.common.hw);
-> +	clk_hw_unregister(&ctx->parent_hw);
-> +	iounmap(ctx->ccu_iomem);
-> +}
-> +
-> +/*
-> + * Test that the nkm clock provides the target rate if it is a rate that=
- it can actually provide.
-> + */
-> +static void ccu_nkm_test_set_rate_exact(struct kunit *test)
-> +{
-> +	struct ccu_nkm_test_context *ctx =3D test->priv;
-> +	int ret;
-> +	unsigned long target_rate, expected_rate, actual_rate;
-> +	size_t num, i;
-> +
-> +	num =3D ARRAY_SIZE(all_nkm_combos);
-> +	KUNIT_ASSERT_GT(test, num, 0);
-> +
-> +	for (i =3D 0; i < num; i++) {
-> +		target_rate =3D ctx->parent_multiplier * PARENT_CLOCK_BASE_RATE *
-> +			      all_nkm_combos[i].n * all_nkm_combos[i].k / all_nkm_combos[i].m;
-> +
-> +		expected_rate =3D target_rate;
-> +
-> +		ret =3D clk_set_rate(ctx->nkm_clk.common.hw.clk, target_rate);
-> +		KUNIT_EXPECT_EQ(test, 0, ret);
-> +		actual_rate =3D clk_get_rate(ctx->nkm_clk.common.hw.clk);
-> +		KUNIT_EXPECT_EQ(test, expected_rate, actual_rate);
-> +		ccu_nkm_test_helper_check_register(test, &ctx->nkm_clk, ctx->reg,
-> +						   all_nkm_combos[i].n, all_nkm_combos[i].k,
-> +						   all_nkm_combos[i].m);
-> +	}
-> +}
-> +
-> +/*
-> + * Test that the nkm clock rounds down when the target rate is slightly =
-(1 Hz) higher, than a rate
-> + * that it can actually provide.
-> + */
-> +static void ccu_nkm_test_set_rate_round_down_higher(struct kunit *test)
-> +{
-> +	struct ccu_nkm_test_context *ctx =3D test->priv;
-> +	int ret;
-> +	unsigned long target_rate, expected_rate, actual_rate;
-> +	size_t num, i;
-> +
-> +	num =3D ARRAY_SIZE(all_nkm_combos);
-> +	KUNIT_ASSERT_GT(test, num, 0);
-> +
-> +	for (i =3D 0; i < num; i++) {
-> +		target_rate =3D ctx->parent_multiplier * PARENT_CLOCK_BASE_RATE *
-> +			      all_nkm_combos[i].n * all_nkm_combos[i].k / all_nkm_combos[i].m=
- + 1;
-> +		expected_rate =3D target_rate - 1;
-> +
-> +		ret =3D clk_set_rate(ctx->nkm_clk.common.hw.clk, target_rate);
-> +		KUNIT_EXPECT_EQ(test, 0, ret);
-> +		actual_rate =3D clk_get_rate(ctx->nkm_clk.common.hw.clk);
-> +		KUNIT_EXPECT_EQ(test, expected_rate, actual_rate);
-> +		ccu_nkm_test_helper_check_register(test, &ctx->nkm_clk, ctx->reg,
-> +						   all_nkm_combos[i].n, all_nkm_combos[i].k,
-> +						   all_nkm_combos[i].m);
-> +	}
-> +}
-> +
-> +/*
-> + * Test that the nkm clock also rounds down when the target rate is slig=
-htly (1 Hz) lower, than the
-> + * next higher rate that it can actually provide.
-> + */
-> +static void ccu_nkm_test_set_rate_round_down_lower(struct kunit *test)
-> +{
-> +	struct ccu_nkm_test_context *ctx =3D test->priv;
-> +	int ret;
-> +	unsigned long target_rate, expected_rate, actual_rate;
-> +	size_t num, i;
-> +
-> +	num =3D ARRAY_SIZE(all_nkm_combos);
-> +	KUNIT_ASSERT_GT(test, num, 0);
-> +
-> +	/*
-> +	 * The nkm clock does not support overshooting, therefore, always expec=
-t the previous
-> +	 * combination. That means, we need to start the loop at index 1.
-> +	 *
-> +	 * This leaves us with the special case of what happens if we request a=
- rate that is lower
-> +	 * than the lowest supported rate. We'll handle that case after the loo=
-p.
-> +	 */
-> +	for (i =3D 1; i < num; i++) {
-> +		size_t i_e =3D i - 1; /* index of the expected rate */
-> +
-> +		target_rate =3D ctx->parent_multiplier * PARENT_CLOCK_BASE_RATE *
-> +			      all_nkm_combos[i].n * all_nkm_combos[i].k / all_nkm_combos[i].m=
- - 1;
-> +
-> +		expected_rate =3D ctx->parent_multiplier * PARENT_CLOCK_BASE_RATE *
-> +				all_nkm_combos[i_e].n * all_nkm_combos[i_e].k /
-> +				all_nkm_combos[i_e].m;
-> +
-> +		ret =3D clk_set_rate(ctx->nkm_clk.common.hw.clk, target_rate);
-> +		KUNIT_EXPECT_EQ(test, 0, ret);
-> +		actual_rate =3D clk_get_rate(ctx->nkm_clk.common.hw.clk);
-> +		KUNIT_EXPECT_EQ(test, expected_rate, actual_rate);
-> +		ccu_nkm_test_helper_check_register(test, &ctx->nkm_clk, ctx->reg,
-> +						   all_nkm_combos[i_e].n, all_nkm_combos[i_e].k,
-> +						   all_nkm_combos[i_e].m);
-> +	}
-> +
-> +	/*
-> +	 * Request a rate 1 Hz lower than the lowest supported rate: Expect the=
- clock to complain
-> +	 * about it.
-> +	 */
-> +	target_rate =3D ctx->parent_multiplier * PARENT_CLOCK_BASE_RATE *
-> +			all_nkm_combos[0].n * all_nkm_combos[0].k / all_nkm_combos[0].m - 1;
-> +	ret =3D clk_set_rate(ctx->nkm_clk.common.hw.clk, target_rate);
-> +	KUNIT_EXPECT_EQ(test, -EINVAL, ret);
-> +}
-
-I'm also not certain that it's worth testing every possible coeff the
-clock supports. This feels like we're focusing on the wrong thing and
-I'd focus on what it's going to be useful for.
-
-Like, we're testing for a video clock here, with multiple parents it can
-also change the rate of. It would make much more sense to me to have the
-list of all possible video clocks (let's say based on the VESA timings
-pixel clocks) and make sure that for one possible rate, the proper
-parent is muxed in at the proper rate.
-
-Here you're doing some integration testing, but without any actual
-integration and rather focus on getting one of the components super
-reliable but completely ignoring all the others.
-
-Maxime
-
---ckawqhi5jh7lntyk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZMfWZQAKCRDj7w1vZxhR
-xTOHAQDv++dwR0T5wRrpQE+/gtQYmPMw8k5m56MR8jwcqgHGqQD8CBcC+6qFbVAs
-K6mi2stdymxei1jDFQ2vmNa35FGO6Ao=
-=TorU
------END PGP SIGNATURE-----
-
---ckawqhi5jh7lntyk--
