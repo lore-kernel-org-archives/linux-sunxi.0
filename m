@@ -1,246 +1,158 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77FE71426B
-	for <linux-sunxi@lists.linux.dev>; Mon, 31 Jul 2023 09:53:48 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 33235D75;
-	Mon, 31 Jul 2023 02:54:31 -0700 (PDT)
-Received: from [10.32.102.42] (e110479.arm.com [10.32.102.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 472D73F59C;
-	Mon, 31 Jul 2023 02:53:45 -0700 (PDT)
-Message-ID: <a137cb78-f687-e9c6-e6f3-27be92c19da3@arm.com>
-Date: Mon, 31 Jul 2023 10:53:38 +0100
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2064.outbound.protection.outlook.com [40.107.92.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F181800B;
+	Mon, 31 Jul 2023 12:29:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kvH9UWJYfts8U1L/wayxWlUgCLQ+Y0+Ku/apIC6QlpW8/atUfANmdZcESEhY9YmGBIP1I0Bjj7rb2OZG4OMCF4Mvsbb4Di3ep79TvzY6YECrJvgSfcgd4xgeZ+Hbw+Yx5CX7bq8vm8cAXwBJtsaMSOK1aPNtJBYbFXmR8TbdR+ns46lKXBnsF/oMJZdlc7ir8SZyF0OpdwWt8iVWJpDDZ6V7oZLnf4a4IOvB3DHu0GT4XEnnrMKKZo9xrTgXJbf5H51Fx/CVvTPzuhKtjW+axzlQhRKVdSMaawahHJn+/YMHBxF0BFRQJd6OqIBxq01GhOdp3opd3b+dqvbPqEbzyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CtEQgwHL7QaCkNYds3zauhwHQxjzmUu3ELTCUFR8EE0=;
+ b=MQ92IDnC8FwGlTuf3qXLMki5PkgS+a7GPS48gc8Jve8OS3Men00+vE0KBX9BkNoO12Ez9pLL71dZRlShcUCOznBjkSd3m4BLshEXJzznfVQSm/Rg11LYvmfs7e5JB0rgOcObOxE/UKbZt7ZZzDeE6CEONXifWtPm9wd+c6qmuHJaEGbv5mqBWfWTqrid+WeJAL1TV9mFCXTr+f7HuAzLFC4KQ+i1qlD9wJVVE+3Aw46ztzw0kqssbMCyxBcF7u0JCQxx6qs3tJYNd1N2NC6crz30FvCgL9/fiUfZJr62MOpVv6LqZAkpfSU+gc3d9xRS6+Zj2WwVnCf9G95fD8A11w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CtEQgwHL7QaCkNYds3zauhwHQxjzmUu3ELTCUFR8EE0=;
+ b=FnC7QWEkdR+1LH6gc2fg5dNKS9rhYRIT8tx1t20T6IIdVwu//P8fiAD4ecD/P3Zykd+rTc8Frno11B+NRlnxbF9nevLENwtyDHw/pXV53CS8o9jxq4L2mKrJQXCVbIrqMMdMa3d8VGiTUDCWZT7ezPRBFjmr8SxkrM5Zl++3+p8Had7FW/GmtcOCPqH+DJezVsOm7NMmvwDR6Rl7BGtW1qeIsD6s6XI2KhYdBmk8mAAgNGztC1WiE1Qa5Zf0/jE8T7h0CkQLKHVngJ+P1ot8QKiaHblwDwO2mE9QBXDO5qnJ3Fu3Zs5npQpL2C9OAMK/tvGxcnuAUYXDY212rMN76Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by CH2PR12MB4216.namprd12.prod.outlook.com (2603:10b6:610:a8::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.42; Mon, 31 Jul
+ 2023 12:29:20 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1%6]) with mapi id 15.20.6631.043; Mon, 31 Jul 2023
+ 12:29:20 +0000
+Date: Mon, 31 Jul 2023 09:29:17 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Joerg Roedel <joro@8bytes.org>
+Cc: Andy Gross <agross@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+	linuxppc-dev@lists.ozlabs.org,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Matthew Rosato <mjrosato@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Orson Zhai <orsonzhai@gmail.com>, Rob Clark <robdclark@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+	Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Steven Price <steven.price@arm.com>,
+	Thierry Reding <treding@nvidia.com>
+Subject: Re: [PATCH v5 00/25] iommu: Make default_domain's mandatory
+Message-ID: <ZMepHZrLFURXaIoZ@nvidia.com>
+References: <0-v5-d0a204c678c7+3d16a-iommu_all_defdom_jgg@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0-v5-d0a204c678c7+3d16a-iommu_all_defdom_jgg@nvidia.com>
+X-ClientProxiedBy: SJ0PR03CA0375.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a1::20) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 1/1] arm: dts: Enable device-tree overlay support for
- sun8i-h3 pi devices
-To: "MOESSBAUER, Felix" <felix.moessbauer@siemens.com>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>
-Cc: "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
- "wens@csie.org" <wens@csie.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "Matzinger, Manuel Josef" <manuel.matzinger@siemens.com>,
- "Bovensiepen, Daniel (bovi)" <daniel.bovensiepen@siemens.com>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "Gylstorff, Quirin" <quirin.gylstorff@siemens.com>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>
-References: <20230627133703.355893-1-felix.moessbauer@siemens.com>
- <1830379.atdPhlSkOF@jernej-laptop>
- <17c7a0c952913e21d9a323f42a1cfad84ed8a51b.camel@siemens.com>
- <4818881.GXAFRqVoOG@jernej-laptop>
- <6fbb0e557a97555876f8de4a283162a9e7d290b8.camel@siemens.com>
-Content-Language: en-US
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <6fbb0e557a97555876f8de4a283162a9e7d290b8.camel@siemens.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|CH2PR12MB4216:EE_
+X-MS-Office365-Filtering-Correlation-Id: 92bc7af5-e181-4166-70c8-08db91c1c36c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	kSZqP2P0Fg/KhGLhsvonoUuG9S6jGNf1722Goaiic9/wF7BOn+23Jdh64yG87dY17wLCHHLnliclrPMgCiaFgFPUMYtAxzP1OuemzwaqR7fzdyMnjQMtOf5E2Y2gXYVPkN0vBJf3bhJMkCwYdufwTvp5T/dHuYPyFZLbFuzlbrJM/n6ZIOeezKRgkVNwFEt7ON5SBVwR9fq4sLvHqdj+TMHSsGhoFDgiHJg8pNFSJ9hCXB4KkQpNKFBWLslNCmcwTW0Z9yyvwYwVuIKHCjmBO+V1iS7c+b/RRgDWPv1K+Cyqj87n99yYPHqIJcBxpN6h6CwslPQsLeL8G+FBa+0oe42Xo+jPm9h0XwDWZAFXMdFkMjmcgUtQj+b6Br048T5fARODvXxpCe9akNJ1yenVh9REL8BK1WCnmiDqvUmZFyTAWf3BS9yA3Km1vwnohsYf19gtJyX8Yg3lqLvWYdLTD79DR6p+kEIC0yJDdEH/TWVMZ1DywqVxZzqd2OStf0rWslZcEj9kCubOMD0X9NGA/aXMhvOCorlyzWvuAH7RCORFNgK73OluVtP29UEppPwv
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(346002)(39860400002)(366004)(136003)(451199021)(66476007)(86362001)(8676002)(8936002)(316002)(6916009)(4326008)(5660300002)(7406005)(7416002)(41300700001)(66946007)(66556008)(54906003)(38100700002)(478600001)(4744005)(2906002)(6666004)(36756003)(6512007)(6486002)(107886003)(6506007)(26005)(83380400001)(186003)(2616005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?N0wzJB4BCCyjz2G7e2GQfDtBH+pIrIFkcniUahLMQLSQMbCKgOr1KpkWuF12?=
+ =?us-ascii?Q?CZOQvoo6SmYmOJkt56Y78ZUgLx+WuSRCxX8jMOC2Y3dAHUlX4SlmARoYObDZ?=
+ =?us-ascii?Q?+WVHwkqfPDaggpWUh67DH8phZdVtczYeg4Fj/QTeiUHcGmM8g5WiOEi2dZ70?=
+ =?us-ascii?Q?TBAot+Mh1QuUbswLXmECDXchC+ptg/zoIe4C3DwBmuZG9rVSZQFmBPyFi6fV?=
+ =?us-ascii?Q?rdsqmkcPgwAmeyl23C8qi3nqMk50QEcoVXMpdnzcn1qLNjejjw2hmpbRvlMb?=
+ =?us-ascii?Q?l33FIWOyQOLj7XcGRBpXMnLXUpNIeumxlLopC2G/i5SIEWHo/vRtyh30oPQW?=
+ =?us-ascii?Q?9n1b/fZ+A9XWASyDwBDS5wNkEAKDYvOvV2mvcNSPvQomTXs2Xi3trMfkpL+B?=
+ =?us-ascii?Q?QasqJS8GsjZGhf5gOm6AIPuQbyjdBj2gqyv7hEKF2pP4Fus0zerqy1+o2b5A?=
+ =?us-ascii?Q?3gJ5Q38alKBessLVtC5WLuuRlJOSYtGUASmXvRWDFxjbdCmmZAgr1ASDOYvs?=
+ =?us-ascii?Q?E1wXbXgyjX2gsPwgTq7OSvxsKA8zOPLKvVMvLXiWHrVLlfWA/8wvHYAcM+aK?=
+ =?us-ascii?Q?DwvNzXPrbbLHW6S4oeQefqE5ReRqgwEFdRjGbrVT8Ub3MjaNnSpSaS063d3c?=
+ =?us-ascii?Q?hNwI1UIvXCOpjDBf4sqLqTHxnT9vub8SKAQj15+4IzQUBW+Njw5eDs7zLdS9?=
+ =?us-ascii?Q?jBrRQsbT33aWKl+b3xqR8O+KtUKVlFEw6Ne9MKn+8n+RzoCDwmu3zdh/sVyh?=
+ =?us-ascii?Q?MCXAbe36S6xSRX8enNUr2oRYv48rYMBG521CtjTp3TD7Zuq9irSHPoZMMq0a?=
+ =?us-ascii?Q?qs/xccM2B7w5nBnODmDYW/Gp98X8gI9KUe62Zeqitxh+qzNGfe5RvwxbY8lU?=
+ =?us-ascii?Q?bUdcV+cie9wjoBqC0aprnywT+yP1MJuwwo2lwOtjXY7xeUjGMj502ibfCTt4?=
+ =?us-ascii?Q?Ff4wcQo+hRD8H6xXReUIpWCvMvhvvgAP/uzvbblYfotzXzKHpZ1+uvfaCPu2?=
+ =?us-ascii?Q?kNZp/xXoM002Zw6KuGf3LICdm85zODHNBQM46ew+PU33/fRnwt837y3u4NK/?=
+ =?us-ascii?Q?7AUsI8JJEJbQjFo4E4DfAuVtfzfCXvB1S95RuM06kPYiwB+54HBuydtlTbzr?=
+ =?us-ascii?Q?0eS4L0XLwPMo/Q6vnEjZdI1AEf0w6UiCeq4N8jzVqtFWVYtCd14OM72hPbqG?=
+ =?us-ascii?Q?2gZhdEBrqra6MkMWEEiUMDLacbHEdOodl2dMvuAYb/JPOWVRKXQLNMpK9fbM?=
+ =?us-ascii?Q?3cjrPZ17bbltTCz3YC01gVl4YuN8NUxujm1/Z2jy21RzdqJ4J8iLuTsDqUOh?=
+ =?us-ascii?Q?sClBj8slKQkmaLr7qF7QMgJwbFXEoBbwJWOk1CtcvCCXcYj1VP+etdq1ClHw?=
+ =?us-ascii?Q?BDOLtS3wGMKukwu0+V1aHHIz0l60mXFP84BnOPdpO7cZaFmutuppyA0dXOzg?=
+ =?us-ascii?Q?rT/Rfqs94NQKJQ2n9pb2IsDQaHr26fhU1iAxcJq91bJNMehjEAT9NWpPvLsY?=
+ =?us-ascii?Q?nP2jH+A0UNM2ylEPUcidtdPwmErNpV529dsW1sv4T8wz4CrnIGRJ8jbJ6mk+?=
+ =?us-ascii?Q?oyImrhUtLrzQkTQjxLo=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92bc7af5-e181-4166-70c8-08db91c1c36c
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2023 12:29:19.8773
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0je1o1rY/zdIQywA98c2fjrR8Z/kPk/uNcuvsq8q/ZbODf1Ez7gG1p6UT3jXo3ZN
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4216
 
-Hi,
+On Mon, Jul 24, 2023 at 02:21:50PM -0300, Jason Gunthorpe wrote:
+> [ It would be good to get this in linux-next, we have some good test
+> coverage on the ARM side already, thanks! ]
+> 
+> It has been a long time coming, this series completes the default_domain
+> transition and makes it so that the core IOMMU code will always have a
+> non-NULL default_domain for every driver on every
+> platform. set_platform_dma_ops() turned out to be a bad idea, and so
+> completely remove it.
 
-On 31/07/2023 03:46, MOESSBAUER, Felix wrote:
-> On Mon, 2023-07-31 at 00:12 +0200, Jernej Škrabec wrote:
->> Dne sreda, 19. julij 2023 ob 14:26:13 CEST je Moessbauer Felix
->> napisal(a):
->>> On Tue, 2023-07-11 at 21:42 +0200, Jernej Škrabec wrote:
->>>> Dne torek, 27. junij 2023 ob 15:37:03 CEST je Felix Moessbauer
->>>>
->>>> napisal(a):
->>>>> Add the '-@' DTC option for the sun8i-h3 pi-class devices. This
->>>>> option
->>>>> populates the '__symbols__' node that contains all the
->>>>> necessary
->>>>> symbols
->>>>> for supporting device-tree overlays (for instance from the
->>>>> firmware
->>>>> or
->>>>> the bootloader) on these devices.
->>>>>
->>>>> These devices allow various modules to be connected and this
->>>>> enables
->>>>> users to create out-of-tree device-tree overlays for these
->>>>> modules.
->>>>>
->>>>> Please note that this change does increase the size of the
->>>>> resulting DTB
->>>>> by ~30%. For example, with v6.4 increase in size is as follows:
->>>>>
->>>>> 22909 -> 29564 sun8i-h3-orangepi-lite.dtb
->>>>> 24214 -> 30935 sun8i-h3-bananapi-m2-plus.dtb
->>>>> 23915 -> 30664 sun8i-h3-nanopi-m1-plus.dtb
->>>>> 22969 -> 29537 sun8i-h3-nanopi-m1.dtb
->>>>> 24157 -> 30836 sun8i-h3-nanopi-duo2.dtb
->>>>> 24110 -> 30845 sun8i-h3-orangepi-plus2e.dtb
->>>>> 23472 -> 30037 sun8i-h3-orangepi-one.dtb
->>>>> 24600 -> 31410 sun8i-h3-orangepi-plus.dtb
->>>>> 23618 -> 30230 sun8i-h3-orangepi-2.dtb
->>>>> 22170 -> 28548 sun8i-h3-orangepi-zero-plus2.dtb
->>>>> 23258 -> 29795 sun8i-h3-nanopi-neo-air.dtb
->>>>> 23113 -> 29699 sun8i-h3-zeropi.dtb
->>>>> 22803 -> 29270 sun8i-h3-nanopi-neo.dtb
->>>>> 24674 -> 31318 sun8i-h3-nanopi-r1.dtb
->>>>> 23477 -> 30038 sun8i-h3-orangepi-pc.dtb
->>>>> 24622 -> 31380 sun8i-h3-bananapi-m2-plus-v1.2.dtb
->>>>> 23750 -> 30366 sun8i-h3-orangepi-pc-plus.dtb
->>>>>
->>>>> Signed-off-by: Felix Moessbauer <felix.moessbauer@siemens.com>
->>>>> ---
->>>>> Please note that I only tested the overlay on the sun8i-h3-
->>>>> nanopi-
->>>>> neo
->>>>> device. However, the devices are quite similar and in general
->>>>> the
->>>>> change to add symbols should be pretty safe. Similar patches
->>>>> have
->>>>> been
->>>>> applied to various other devices in the past without any
->>>>> negative
->>>>> effect (except for the increased size).
->>>>
->>>> I'm not a fan of this approach. What's wrong with letting kernel
->>>> builders
->>>> specify this flag on their own at compile time? That way size is
->>>> still
->>>> completely in domain of builder.
->>>
->>> That's easier said than done. These symbols are only needed for
->>> some
->>> targets (that are commonly used with overlays). But how should a
->>> general purpose kernel builder like Debian know which DT to build
->>> with
->>> symbols and which without? In Yocto the overlays are not really
->>> needed,
->>> as often the original dts is just patched directly.
->>
->> LibreELEC (distro I help with) has support for DT overlays for some
->> time and
->> it was easy to enable symbols for all DTs with simple "DTC_FLAGS=-@"
->> addition
+Joerg, I think we are done with this now, it has been two months
+since a substantive comment.
 
-So why don't you use the U-Boot provided copy of the DTB? We sync the 
-DTs regularly from the kernel repo to the U-Boot repo, and the U-Boot 
-build system builds all DTBs with overlay support already.
-This also saves you from the hassle to actually find and load the right 
-DTB, as it automatically comes as part of the U-Boot binary.
-On the U-Boot prompt (or rather in a script) you would then do:
-=> fdt move $fdtcontroladdr $fdt_addr_r
-=> load <source> $fdtoverlay_addr_r <your_overlay>.dtbo
-=> fdt apply $fdtoverlay_addr_r
+Can you take it so we have enough time in linux-next?
 
-You could also chime in on this U-Boot patch of mine, that loads and 
-applies all .dtbo files found in a given directory:
-https://lore.kernel.org/u-boot/20230210110213.2531190-1-andre.przywara@arm.com/
+There is a small typo in a commit message, patch 15 should have
+ s/omap_iommu_set_platform_dma/msm_iommu_set_platform_dma/
 
-Cheers,
-Andre
+Let me know if you want me to resend
 
-> 
-> Thanks for the pointer. If this would be a kconfig option, I would
-> agree. There's a patch to add this option, but this did not get
-> accepted [3]. Just manually adding some "magic" options does not feel
-> correct.
-> 
->> to build command [1]. Do you see any downside except knowing you have
->> to
->> include it? On the upside, there is no need to patch each and every
->> file and
->> kernel builder has a choice if overlays should be supported or not.
-> 
-> There is a similar feature request for Debian, but without a decision
-> yet [4]. I just cross-referenced it to this thread.
-> 
->> Note that
->> in some cases overlays can be needed even in the case when board
->> doesn't have
->> expansion ports.
-> 
-> If that is the case, why can't we at least add the patch from [3] and
-> provide the distros an easy option to enable overlays? Once integrated,
-> we can eventually get rid of all the per-device patches in the kernel.
-> 
-> Best regards,
-> Felix
-> 
-> [3] https://www.spinics.net/lists/kernel/msg4252361.html
-> [4] https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=910727
-> 
->>
->> Best regards,
->> Jernej
->>
->> [1]
->> https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/linux/
->> package.mk#L213
->>
->>>
->>> There has been a discussion in 2017 to improve the situation in
->>> general, but without any final decision or implementation [1]. By
->>> that,
->>> these patches got more and more common. I recently sent a very
->>> similar
->>> patch for a riscv board that got accepted [2].
->>>
->>> IMHO it is better to have these patches in the kernel instead of
->>> carrying different variants of this in each Linux distro. IMHO, the
->>> board vendors themselves should add this when they add a board.
->>>
->>> [1]
->>> https://lore.kernel.org/lkml/1502831736-28282-1-git-send-email-trini@konsulk
->>> o.com/ [2]
->>> https://lore.kernel.org/linux-devicetree/20230627080620.329873-1-felix.moess
->>> bauer@siemens.com/
->>>
->>> Best regards,
->>> Felix
->>>
->>>> Best regards,
->>>> Jernej
->>>>
->>>>> Felix Moessbauer
->>>>> Siemens AG
->>>>>
->>>>>   arch/arm/boot/dts/allwinner/Makefile | 19 +++++++++++++++++++
->>>>>   1 file changed, 19 insertions(+)
->>>>>
->>>>> diff --git a/arch/arm/boot/dts/allwinner/Makefile
->>>>> b/arch/arm/boot/dts/allwinner/Makefile index
->>>>> 589a1ce1120a..eebb5a0c873a
->>>>> 100644
->>>>> --- a/arch/arm/boot/dts/allwinner/Makefile
->>>>> +++ b/arch/arm/boot/dts/allwinner/Makefile
->>>>> @@ -179,6 +179,25 @@ dtb-$(CONFIG_MACH_SUN7I) += \
->>>>>          sun7i-a20-pcduino3-nano.dtb \
->>>>>          sun7i-a20-wexler-tab7200.dtb \
->>>>>          sun7i-a20-wits-pro-a20-dkt.dtb
->>>>> +
->>>>> +# Enables support for device-tree overlays for all pis
->>>>> +DTC_FLAGS_sun8i-h3-orangepi-lite := -@
->>>>> +DTC_FLAGS_sun8i-h3-bananapi-m2-plus := -@
->>>>> +DTC_FLAGS_sun8i-h3-nanopi-m1-plus := -@
->>>>> +DTC_FLAGS_sun8i-h3-nanopi-m1 := -@
->>>>> +DTC_FLAGS_sun8i-h3-nanopi-duo2 := -@
->>>>> +DTC_FLAGS_sun8i-h3-orangepi-plus2e := -@
->>>>> +DTC_FLAGS_sun8i-h3-orangepi-one := -@
->>>>> +DTC_FLAGS_sun8i-h3-orangepi-plus := -@
->>>>> +DTC_FLAGS_sun8i-h3-orangepi-2 := -@
->>>>> +DTC_FLAGS_sun8i-h3-orangepi-zero-plus2 := -@
->>>>> +DTC_FLAGS_sun8i-h3-nanopi-neo-air := -@
->>>>> +DTC_FLAGS_sun8i-h3-zeropi := -@
->>>>> +DTC_FLAGS_sun8i-h3-nanopi-neo := -@
->>>>> +DTC_FLAGS_sun8i-h3-nanopi-r1 := -@
->>>>> +DTC_FLAGS_sun8i-h3-orangepi-pc := -@
->>>>> +DTC_FLAGS_sun8i-h3-bananapi-m2-plus-v1.2 := -@
->>>>> +DTC_FLAGS_sun8i-h3-orangepi-pc-plus := -@
->>>>>   dtb-$(CONFIG_MACH_SUN8I) += \
->>>>>          sun8i-a23-evb.dtb \
->>>>>          sun8i-a23-gt90h-v4.dtb \
->>
->>
->>
->>
-> 
+Thanks,
+Jason
