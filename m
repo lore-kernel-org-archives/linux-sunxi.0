@@ -1,158 +1,92 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C434A22EED
-	for <linux-sunxi@lists.linux.dev>; Tue,  1 Aug 2023 14:10:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1690899045; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=h9gRF356ssKPjg2k5q6nQIoGd0VI8Mk8yi2aWuY7FLl9HZww+2x7VTSPBbCUPxTJw4p2sAGOQlfyCPM523roTmdQs0+UeCKkR1O3GyBbgHjsNi7drEkN2D8eSAe7yjZF4FiIjm54kF+cFM5Eca1Tj1KkN8tVtLjl09cG1KuRhp8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1690899045; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=Umue7wpYHFkb33ql48Df3lqSCFV9LrXKhteAa0wF8rE=; 
-	b=gFKm5eN48vNDWsP4iCtrtHDAlqCxJV2mVnf0sLOdNysJqEe8WbPW6/wM8mX1YXjo3cKL7QnfS4hTuhDoUYSz/7jxRuCbjTu9BZLqH1VhRfz2YU+edaM4FRDWlwDflLYqAPr0VwrnDn1HD4UyzP/ayJGK6/A9joPDLCs3qob8QjA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1690899045;
-	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=Umue7wpYHFkb33ql48Df3lqSCFV9LrXKhteAa0wF8rE=;
-	b=AFL1nAv1VOBQUuLEEdgDUUDaia9aJbLmyoEMlf89UMh1sC9JNVw0r0kzcGrgwCH2
-	gssWuISUCWtibEIPA3X9u97oApSjeYRh7VI94u+9kzcF/Ihie1PXtdjU/Ht1SgiHIom
-	ZvreTeIBTw2j5T6Cdr2kt009zsqMHRRBVAPrjvGLWUEaDO96QHVRTW3oYsBgTVMDsTw
-	PYs8zhufx2OcF4Fn+/HXZ9TW3QP2nZ7SkFX4E5rCfQrjhQcBZS9TLJccDth2I7BYk3C
-	9TPZFCPZ4OYN+2zMI7U0BdlmGwIitRm+NiNdIGBXow9jlqUMnwnE0cTMJaeA8Gp6Vdu
-	OSE0BhN4lg==
-Received: from edelgard.fodlan.icenowy.me (120.85.99.175 [120.85.99.175]) by mx.zohomail.com
-	with SMTPS id 1690899039071665.3001028089096; Tue, 1 Aug 2023 07:10:39 -0700 (PDT)
-Message-ID: <c0ccb3021324883fce5d87e27f5abdcccc96503a.camel@icenowy.me>
-Subject: Re: [PATCH RESEND RESEND] thermal/of: support thermal zones w/o
- trips subnode
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Chen-Yu Tsai <wenst@chromium.org>, Daniel Lezcano
-	 <daniel.lezcano@linaro.org>
-Cc: Mark Brown <broonie@kernel.org>, Amit Kucheria <amitk@kernel.org>, Zhang
- Rui <rui.zhang@intel.com>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Date: Tue, 01 Aug 2023 22:10:34 +0800
-In-Reply-To: <20230724042502.GA2403526@google.com>
-References: <20230722122534.2279689-1-zhengxingda@iscas.ac.cn>
-	 <ZLw4CnzLI/QHPGWx@finisterre.sirena.org.uk>
-	 <6d1c0915-1485-d9d6-9fff-0413fb16bd3f@linaro.org>
-	 <20230724042502.GA2403526@google.com>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04723182C0;
+	Tue,  1 Aug 2023 18:45:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E760C433C7;
+	Tue,  1 Aug 2023 18:45:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1690915524;
+	bh=6ecqCthtX5y6DW+x8fFvSPeJvMEWUDYrHhQnKo4fw2g=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=MCgeSAtxkn/Cm+2KX+Cy2ya7BIdT7/jl+ViyqC9GLpRguZ1quqlduJY201e9YY+Gl
+	 tPuWVXKidBwoQEQOGw9dB+OvKt+xnFrB0j54IxicMem/IXJTfyVWG62tXO8z1Oidqn
+	 2NOA3Pu3s2NQonYg8bgH4gYg1I3ajHJTZ18017Ae5m9Oa4tGlZ1fXI3lCOlefo7d8y
+	 ThVJ77i4Sa8SZrf7DUrw4H3M9A25o0ZXrQMqesV5j/lH8f2SyyTLSeFXCYClgzdAqC
+	 onCUY8LhZGFKLCVVvkTKYf+Ki+4WGuZFHhFEKqNomiwiYDAlugFGuYkdZfhNjJFDS6
+	 h8ARfo4bV8Srw==
+From: Vinod Koul <vkoul@kernel.org>
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Ludovic Desroches <ludovic.desroches@microchip.com>, 
+ Tudor Ambarus <tudor.ambarus@linaro.org>, 
+ Paul Cercueil <paul@crapouillou.net>, 
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, 
+ Viresh Kumar <vireshk@kernel.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Li Yang <leoyang.li@nxp.com>, Zhang Wei <zw@zh-kernel.org>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+ Vladimir Zapolskiy <vz@mleia.com>, Sean Wang <sean.wang@mediatek.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ =?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+ Manivannan Sadhasivam <mani@kernel.org>, Sinan Kaya <okaya@kernel.org>, 
+ Andy Gross <agross@ker>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Laxman Dewangan <ldewangan@nvidia.com>, Jon Hunter <jonathanh@nvidia.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
+ Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>
+Cc: devicetree@vger.kernel.org, asahi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, dmaengine@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, linux-mediatek@lists.infradead.org, 
+ linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+ linux-tegra@vger.kernel.org
+In-Reply-To: <20230718143138.1066177-1-robh@kernel.org>
+References: <20230718143138.1066177-1-robh@kernel.org>
+Subject: Re: [PATCH v2] dmaengine: Explicitly include correct DT includes
+Message-Id: <169091550886.69468.9371544048617721749.b4-ty@kernel.org>
+Date: Wed, 02 Aug 2023 00:15:08 +0530
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.3
 
-=E5=9C=A8 2023-07-24=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 12:25 +0800=EF=BC=
-=8CChen-Yu Tsai=E5=86=99=E9=81=93=EF=BC=9A
-> On Sun, Jul 23, 2023 at 12:12:49PM +0200, Daniel Lezcano wrote:
-> >=20
-> > Hi Mark,
-> >=20
-> > On 22/07/2023 22:11, Mark Brown wrote:
-> > > On Sat, Jul 22, 2023 at 08:25:34PM +0800, Icenowy Zheng wrote:
-> > > > From: Icenowy Zheng <uwu@icenowy.me>
-> > > >=20
-> > > > Although the current device tree binding of thermal zones
-> > > > require the
-> > > > trips subnode, the binding in kernel v5.15 does not require it,
-> > > > and many
-> > > > device trees shipped with the kernel, for example,
-> > > > allwinner/sun50i-a64.dtsi and mediatek/mt8183-kukui.dtsi in
-> > > > ARM64, still
-> > > > comply to the old binding and contain no trips subnode.
-> > > >=20
-> > > > Allow the code to successfully register thermal zones w/o trips
-> > > > subnode
-> > > > for DT binding compatibility now.
-> > > >=20
-> > > > Furtherly, the inconsistency between DTs and bindings should be
-> > > > resolved
-> > > > by either adding empty trips subnode or dropping the trips
-> > > > subnode
-> > > > requirement.
-> > >=20
-> > > This makes sense to me - it allows people to see the reported
-> > > temperature even if there's no trips defined which seems more
-> > > helpful than refusing to register.
-> >=20
-> > The binding describes the trip points as required and that since
-> > the
-> > beginning.
->=20
-> Not really. It was made optional in the v5.15 kernel release by
-> commit
->=20
-> =C2=A0=C2=A0=C2=A0 22fc857538c3 dt-bindings: thermal: Make trips node opt=
-ional
 
-I agree, this is why I send this patch (and why I say 'for DT binding
-compatibility now' in the commit message). Further discussion could be
-performed, but this patch should be applied regardless of the result of
-further discussion.
+On Tue, 18 Jul 2023 08:31:35 -0600, Rob Herring wrote:
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
+> 
+> [...]
 
-DT binding compatibility is the unbreakable law.
+Applied, thanks!
 
->=20
-> > What changed is now the code reflects the required property while
-> > before it
-> > was permissive, that was an oversight.
-> >=20
-> > Just a reminder about the thermal framework goals:
-> >=20
-> > =C2=A0 1. It protects the silicon (thus critical and hot trip points)
-> >=20
-> > =C2=A0 2. It mitigates the temperature (thus cooling device bound to
-> > trip points)
-> >=20
-> > =C2=A0 3. It notifies the userspace when a trip point is crossed
-> >=20
-> > So if the thermal zone is described but without any of this goal
-> > above, it
-> > is pointless.
-> >=20
-> > If the goal is to report the temperature only, then hwmon should be
-> > used
-> > instead.
->=20
-> What about thermal sensors with multiple channels? Some of the
-> channels
-> are indeed tied to important hardware blocks like the CPU cores and
-> should be tied into the thermal tripping. However other channels
-> might
-> only be used for temperature read-out and have no such requirement.
->=20
-> Should we be mixing thermal and hwmon APIs in the driver?
+[1/1] dmaengine: Explicitly include correct DT includes
+      commit: 897500c7ea91702966adb9b412fa39400b4edee6
 
-Well you have no right to decide which sensor should be used for
-throttling and which not. So the only way to make the semantic correct
-is just rip every sensor driver out of thermal API to hwmon API, and
-let thermal framework to use hwmon's.
+Best regards,
+-- 
+~Vinod
 
->=20
-> > If the goal is to mitigate by userspace, then the trip point *must*
-> > be used
-> > to prevent the userspace polling the temperature. With the trip
-> > point the
-> > sensor will be set to fire an interrupt at the given trip
-> > temperature.
-> >=20
-> > IOW, trip points are not optional
->=20
-> for measurement points that are used for thermal throttling /
-> mitigation.
->=20
-> ChenYu
->=20
 
