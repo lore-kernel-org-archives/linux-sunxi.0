@@ -1,131 +1,98 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.154.54.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B94100AD
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Aug 2023 19:50:46 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3fb4146e8deso2492175e9.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 02 Aug 2023 12:50:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691005845; x=1691610645;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GIsEdvHTkRHt69kFNg/UK9NrCtXb0lJcor4CbmeS9Hk=;
-        b=R5wZp/xcsv35BlfRKilsYrHF1dhaqJAiOM88mITtX2ac33Ys3k+SZ6hzpyoP/EncS0
-         PlQlnh1B7WsiB34wEYWeyPFGel3GTMWqUs22JBAS+xCX34/eQc8oHTV20pe079jQhUco
-         AldAYBl/7BQOilco0TIDkaCBEW0kNsLo3iTG/2CPGR1jfreq+IHr2a+e3MGq5JIKK8dg
-         SW7X+kfIrvWwvm0b7kU7zwCGGHiZ97UmhrFkkEnCt2Uyb9Ui9eqGZrbQPt1HyrL+vrBA
-         67CIrGTNbdPKee5Va56I3zOhucFhXGpEIe34NknlPMpPBl9onEfZdJ0qge0LONsurRXX
-         uSXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691005845; x=1691610645;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GIsEdvHTkRHt69kFNg/UK9NrCtXb0lJcor4CbmeS9Hk=;
-        b=R3Ilq/sq810k1VkbKHnPxojdcaY17sePScYoDQ+Z8dX/qvJKhrREdDyRpqBqOLjWK/
-         R/mBaQbzGP/eag09Z189heqNS1ZTAqjP3dRyONXZEUrmawG3/UlJlYdVTO5r/psdKchY
-         nu2+oe9G2HY5y/XuHwG+COOitUOEjUkevoXXcsEAJUESWFyMwnAPiEbZBOxBohoQIXyY
-         SKJb5V+nZeHSyw/Suiw6gtrYm3EbD3t/f+WFQ6yyj9Y4+XVfLJ0S9+DZELZjwOppapMt
-         9Alo1H5vgynkBttiKbsmv0cDrNPjUShzGjHUiItAXf4ByVcsMbSeFKBKuwjjcXUQYdKZ
-         EZCw==
-X-Gm-Message-State: ABy/qLbEzHZZWVD36twWlan6wwbGkdD0w6MpwksUORbnxbrT3nqDQCri
-	FmKXGPOli7rL6rBXBkUHAIA=
-X-Google-Smtp-Source: APBJJlHHgd2WIdq0IccJQZ2AKkE0gkK04uGb9tNRmFHgVwOqmlDWdtUcLWuRXjitS2H+CPmD7MrvSg==
-X-Received: by 2002:a1c:7511:0:b0:3fe:2f31:8bf7 with SMTP id o17-20020a1c7511000000b003fe2f318bf7mr2864638wmc.26.1691005844631;
-        Wed, 02 Aug 2023 12:50:44 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id a23-20020a05600c225700b003fc01495383sm2418619wmm.6.2023.08.02.12.50.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Aug 2023 12:50:44 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Maxim Kiselev <bigunclemax@gmail.com>
-Cc: linux-spi@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Mark Brown <broonie@kernel.org>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH v1 3/3] riscv: dts: allwinner: d1: Add QSPI pins node for pinmux
- PC port
-Date: Wed, 02 Aug 2023 21:50:39 +0200
-Message-ID: <5956489.lOV4Wx5bFT@jernej-laptop>
-In-Reply-To:
- <CALHCpMgXy0pLiVR8V48Roi82EJ7Zrx-Xyc-6etjgkmN0B7pb8A@mail.gmail.com>
-References:
- <20230624131632.2972546-1-bigunclemax@gmail.com>
- <10311404.nUPlyArG6x@jernej-laptop>
- <CALHCpMgXy0pLiVR8V48Roi82EJ7Zrx-Xyc-6etjgkmN0B7pb8A@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306DBD51F
+	for <linux-sunxi@lists.linux.dev>; Wed,  2 Aug 2023 22:05:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=biqu3d.com;
+	s=tfld2305; t=1691013905;
+	bh=29xBkderLMxMmkFQAQeIhhv9F/k2g15pds8ZdS3Czo4=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=ThGU9CSDKiY7vBfW3e0j4CFhMj/BreOXelL2GbjOstZewi9T8NArpBqvmQqGAfrle
+	 t0DKanrHgptZMNZr4d6d+vwavjQ0wRw6LS0VWDPbfkGiP/QEwsEks4TzUX8YHACygl
+	 azBPq9Y/iabH59OoxcCv86jqRWSxee/Zniz8rKfA=
+X-QQ-mid: bizesmtp89t1691013860tn2navoo
+Received: from TimeMachine.lan ( [178.41.211.221])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 03 Aug 2023 06:04:06 +0800 (CST)
+X-QQ-SSF: 01400000008000301000B00A0000000
+X-QQ-FEAT: SFhf6fKhx/+5VhPi357MDf5bfAuP/szlvfnkpxvaNDFTzBRvMvCQpY/5Z8FVS
+	erHW4bGC9MNIg1WgtBU10WKRAVkT151IkzeoX77iWhnJyDxGeVElVgNlueOtPufTD+V8rUt
+	NvaKzyTup4ylG0ruhlQKq0G2aeeI0OD9JFTebOy+44TrezReqjfMsWYDjecDmy0dfMEiqeD
+	iGJ2G5WvAIUsa9M343zoWdzKiZeNdx3CUY54SRzkVROtdVG5/zVxW7wXXG4J4YJ7aclXEYz
+	CzNlzvsUamHuO+OVKuUAazr6+7vuzH574X2zmN3LHoORTvxJoC0chb1+ZabLVUktLnGnv4o
+	wh+6XMQvoXFE1+Kssw1LYhTEVo7oOR12Rsu3mNNmab6/lzufdc=
+X-QQ-GoodBg: 2
+X-BIZMAIL-ID: 17632365392127534354
+From: Martin Botka <martin@biqu3d.com>
+To: 
+Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Jami Kettunen <jamipkettunen@somainline.org>,
+	Paul Bouchara <paul.bouchara@somainline.org>,
+	Martin Botka <martin.botka@somainline.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Icenowy Zheng <uwu@icenowy.me>,
+	Ludwig Kormann <ludwig.kormann@ict42.de>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Jagan Teki <jagan@edgeble.ai>,
+	Maxime Ripard <mripard@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1 3/6] dt-bindings: arm: sunxi: Add BigTreeTech Manta board
+Date: Thu,  3 Aug 2023 00:02:36 +0200
+Message-ID: <222684DD3067C1E9+20230802220309.163804-4-martin@biqu3d.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230802220309.163804-1-martin@biqu3d.com>
+References: <20230802220309.163804-1-martin@biqu3d.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:biqu3d.com:qybglogicsvrgz:qybglogicsvrgz5a-1
 
-Dne ponedeljek, 31. julij 2023 ob 17:22:11 CEST je Maxim Kiselev napisal(a):
-> =D0=BF=D0=BD, 31 =D0=B8=D1=8E=D0=BB. 2023=E2=80=AF=D0=B3. =D0=B2 01:30, J=
-ernej =C5=A0krabec <jernej.skrabec@gmail.com>:
-> > Dne sobota, 24. junij 2023 ob 15:16:24 CEST je Maksim Kiselev napisal(a=
-):
-> > > Add pinmux node that describes pins on PC port which required for
-> > > QSPI mode.
-> > >=20
-> > > Signed-off-by: Maksim Kiselev <bigunclemax@gmail.com>
-> > > ---
-> > >=20
-> > >  arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > >=20
-> > > diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-> > > b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi index
-> > > 1bb1e5cae602..9f754dd03d85 100644
-> > > --- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-> > > +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-> > > @@ -131,6 +131,13 @@ uart3_pb_pins: uart3-pb-pins {
-> > >=20
-> > >                               pins =3D "PB6", "PB7";
-> > >                               function =3D "uart3";
-> > >                      =20
-> > >                       };
-> > >=20
-> > > +
-> > > +                     /omit-if-no-ref/
-> > > +                     qspi0_pc_pins: qspi0-pc-pins {
-> > > +                             pins =3D "PC2", "PC3", "PC4", "PC5",
-> >=20
-> > "PC6",
-> >=20
-> > > +                                    "PC7";
-> > > +                             function =3D "spi0";
-> > > +                     };
-> >=20
-> > Sorry for late review, but it seems I'm missing something. D1 manual sa=
-ys
-> > those are pins for ordinary SPI, with HOLD and WP signals. Can they be
-> > repurposed for quad SPI?
->=20
-> Yes, they can. Here is a quote from D1 datasheet (9.3.3.8 SPI
-> Quad-Input/Quad-Output Mode):
-> "Using the quad mode allows data to be transferred to or from the
-> device at 4 times the rate of standard single mode, the data can be
-> read
-> at fast speed using four data bits (MOSI, MISO, IO2 (WP#) and IO3
-> (HOLD#)) at the same time."
+From: Martin Botka <martin.botka@somainline.org>
 
-Alright then.
+Add name & compatible for BigTreeTech Manta boards
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Martin Botka <martin.botka@somainline.org>
+---
+ Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Best regards,
-Jernej
-
-
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index 5ae1b81af6fc..e9e46434dd1a 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -155,6 +155,12 @@ properties:
+         items:
+           - const: bigtreetech,cb1
+           - const: allwinner,sun50i-h616
++          
++      - description: BigTreeTech Manta M4/8P
++        items:
++          - const: bigtreetech,cb1-manta
++          - const: bigtreetech,cb1
++          - const: allwinner,sun50i-h616
+ 
+       - description: Chuwi V7 CW0825
+         items:
+-- 
+2.41.0
 
