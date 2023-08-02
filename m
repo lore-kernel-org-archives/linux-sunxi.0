@@ -1,28 +1,28 @@
 Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.154.54.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306DBD51F
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Aug 2023 22:05:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46C9D51F
+	for <linux-sunxi@lists.linux.dev>; Wed,  2 Aug 2023 22:06:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=biqu3d.com;
-	s=tfld2305; t=1691013905;
-	bh=29xBkderLMxMmkFQAQeIhhv9F/k2g15pds8ZdS3Czo4=;
+	s=tfld2305; t=1691013937;
+	bh=8CSQBeXOdEE/Zh5c0zLbjpVV1nRhTw8BsOCYPcLZTJI=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=ThGU9CSDKiY7vBfW3e0j4CFhMj/BreOXelL2GbjOstZewi9T8NArpBqvmQqGAfrle
-	 t0DKanrHgptZMNZr4d6d+vwavjQ0wRw6LS0VWDPbfkGiP/QEwsEks4TzUX8YHACygl
-	 azBPq9Y/iabH59OoxcCv86jqRWSxee/Zniz8rKfA=
-X-QQ-mid: bizesmtp89t1691013860tn2navoo
+	b=mcRvgLhF7CzdxDiMIBb+bxnpKu1yoAKZv2cd93kHKteZQfIi/MoeertDAQJvSUVbQ
+	 LOHojlUldV5teNGoM9cMnxc65HcFuYcX5ceUIXI9Em2xI2gUrmzDTavAtdQ+qt39C0
+	 7hyscJFR3DTs4R+BXDY5+eTUJUXrIDKE7YSzVoRg=
+X-QQ-mid: bizesmtp89t1691013878t1w1c38q
 Received: from TimeMachine.lan ( [178.41.211.221])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 03 Aug 2023 06:04:06 +0800 (CST)
+	id ; Thu, 03 Aug 2023 06:04:23 +0800 (CST)
 X-QQ-SSF: 01400000008000301000B00A0000000
-X-QQ-FEAT: SFhf6fKhx/+5VhPi357MDf5bfAuP/szlvfnkpxvaNDFTzBRvMvCQpY/5Z8FVS
-	erHW4bGC9MNIg1WgtBU10WKRAVkT151IkzeoX77iWhnJyDxGeVElVgNlueOtPufTD+V8rUt
-	NvaKzyTup4ylG0ruhlQKq0G2aeeI0OD9JFTebOy+44TrezReqjfMsWYDjecDmy0dfMEiqeD
-	iGJ2G5WvAIUsa9M343zoWdzKiZeNdx3CUY54SRzkVROtdVG5/zVxW7wXXG4J4YJ7aclXEYz
-	CzNlzvsUamHuO+OVKuUAazr6+7vuzH574X2zmN3LHoORTvxJoC0chb1+ZabLVUktLnGnv4o
-	wh+6XMQvoXFE1+Kssw1LYhTEVo7oOR12Rsu3mNNmab6/lzufdc=
+X-QQ-FEAT: LE7C6P2vL8Q5wpFtfg3/aaua6ZH2wPDH+4TEzZucfCDKGde4wCnPvt9mPkE/6
+	0g27KuTnW6wyEu9S/klBSBfhRQqkEPTKSqVumDtpS1Q4Y03mmeNqhQOoSGFl7HbepBOrghH
+	YQ4hK2wxatOHJpvJemYnT4seGsYx/9NALJJWFVjqUip7w4gz8qBpMMqMld5nLXjJpCz6H8C
+	QaRO4110poRdXfaFhoV6kuWg2TMjqmVNfxg/NSzgIq/HsTzp91FvBWMQocxtEKzDf5utp6F
+	Crhw5lzCA7+LtedGm8qX74EfQMolkw/lYTTkC1T56RusuRcWa5GzHKMeLXzjWNPX8ws083t
+	misKiXrzllL33ppPX1BBcIsvlrxF2rpNGE18ewM
 X-QQ-GoodBg: 2
-X-BIZMAIL-ID: 17632365392127534354
+X-BIZMAIL-ID: 13327976358446763736
 From: Martin Botka <martin@biqu3d.com>
 To: 
 Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
@@ -39,8 +39,8 @@ Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
 	Andrew Lunn <andrew@lunn.ch>,
-	Icenowy Zheng <uwu@icenowy.me>,
 	Ludwig Kormann <ludwig.kormann@ict42.de>,
+	Icenowy Zheng <uwu@icenowy.me>,
 	Heiko Stuebner <heiko@sntech.de>,
 	Shawn Guo <shawnguo@kernel.org>,
 	Bjorn Andersson <andersson@kernel.org>,
@@ -51,9 +51,9 @@ Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 3/6] dt-bindings: arm: sunxi: Add BigTreeTech Manta board
-Date: Thu,  3 Aug 2023 00:02:36 +0200
-Message-ID: <222684DD3067C1E9+20230802220309.163804-4-martin@biqu3d.com>
+Subject: [PATCH v1 4/6] dt-bindings: arm: sunxi: Add BigTreeTech Pi
+Date: Thu,  3 Aug 2023 00:02:37 +0200
+Message-ID: <060E0BA986DEDEBE+20230802220309.163804-5-martin@biqu3d.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230802220309.163804-1-martin@biqu3d.com>
 References: <20230802220309.163804-1-martin@biqu3d.com>
@@ -69,30 +69,29 @@ Feedback-ID: bizesmtp:biqu3d.com:qybglogicsvrgz:qybglogicsvrgz5a-1
 
 From: Martin Botka <martin.botka@somainline.org>
 
-Add name & compatible for BigTreeTech Manta boards
+Add name & compatible for BigTreeTech Pi board
 
 Signed-off-by: Martin Botka <martin.botka@somainline.org>
 ---
- Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-index 5ae1b81af6fc..e9e46434dd1a 100644
+index e9e46434dd1a..2b527653a303 100644
 --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
 +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-@@ -155,6 +155,12 @@ properties:
-         items:
+@@ -162,6 +162,11 @@ properties:
            - const: bigtreetech,cb1
            - const: allwinner,sun50i-h616
-+          
-+      - description: BigTreeTech Manta M4/8P
-+        items:
-+          - const: bigtreetech,cb1-manta
-+          - const: bigtreetech,cb1
-+          - const: allwinner,sun50i-h616
  
++      - description: BigTreeTech Pi
++        items:
++          - const: bigtreetech,pi
++          - const: allwinner,sun50i-h616
++
        - description: Chuwi V7 CW0825
          items:
+           - const: chuwi,v7-cw0825
 -- 
 2.41.0
 
