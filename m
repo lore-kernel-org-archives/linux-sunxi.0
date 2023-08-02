@@ -1,28 +1,28 @@
 Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.155.65.254])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36953D51F
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Aug 2023 22:06:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2185125BC
+	for <linux-sunxi@lists.linux.dev>; Wed,  2 Aug 2023 22:07:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=biqu3d.com;
-	s=tfld2305; t=1691013996;
-	bh=biEvRZtAy9JobJPGeIzHyKFJl4/+oPo0y3sPVz51oy4=;
+	s=tfld2305; t=1691014016;
+	bh=KuKfICHe8kJpAKODRVYzdda8Hek5/0cPyGj8I7ZATlM=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=niPcKmfNXbrrj6CnlySEXx2/viA1v80OjikgqxKua6Eo1iX/+R4q9hOKpOJ7KEvTd
-	 x6uukCYnvDAEh1LGu6/89p/nuqTSuehcJZkZIJdqLvRVA4s3LjxmNTsM6I95NHAye5
-	 7WIoeyjghtz24yHfrL4fk1J55dxLLluU5IBS1fyo=
-X-QQ-mid: bizesmtp89t1691013911t5qhiqcn
+	b=cGZo2uUmVNRochHlVubsDjPgFcYAwGYPAVZ+YZnf/X+bl56KhP5zhyne+WfSXgziz
+	 7x1cJBHv45b0ACRFqvy26Tm3ODsh4Yfxtpgi6Y5w1OmueZo3LzI8rQ6QY1UpzDNEag
+	 meCanGvVnX0aWRbVT77WNPYDBEqY6JlvzkMq7+fQ=
+X-QQ-mid: bizesmtp89t1691013810t38ek73v
 Received: from TimeMachine.lan ( [178.41.211.221])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 03 Aug 2023 06:04:57 +0800 (CST)
-X-QQ-SSF: 01400000008000301000B00A0000000
-X-QQ-FEAT: ILHsT53NKPjBkPxVUesfz0lluzQZMjsfUmpeg7ogF8xBcSFqv4AAli17hKtgg
-	2oRRAAw9ZlWlpoFqq/6/Os2nmroIVgigJI80z/bv2lQrk/DRnofaOqNr6BtP86m3WRwv84B
-	13JAtfYUj1NKB1DS9wAHbtIRfO9FbBdRDcAGdNqlcDbNGddp8xgT7aFqxhCN676bDUQvHkV
-	9SQNzF10moPjCqHtn5lo3/AJANAJkpHxE22TapC5iB1T+iF11Ux8EQdCh6AM5n/QbHTLGYu
-	sOvWZ+yNs72KT57f7EezxKhIR+az1xLhNd1t0evt/6mbVQIRNhPFo+TbOH6KATeJjwPPXZl
-	XJd7H5T2FskHLMivZr1KD2jvpGAVj88Evq1nJbLnCRw7Vgcw5no1HQHavBcmA==
+	id ; Thu, 03 Aug 2023 06:03:11 +0800 (CST)
+X-QQ-SSF: 01400000008000201000B00A0000000
+X-QQ-FEAT: iDzLjIm7mlb6svzCVDKdtprdYr5Ri/HS/vKXlXvRaJu43GC2mBGpFg65hutKI
+	VEq5zJRTqZ9of6v/teJS70B3V4Cuy1Q51oVsX7YKe0I2SduKmIdoHh175Ng3iWEEJ11xHm0
+	mV6tqRfz7I3kq67ecFnK3V5QmJlrAwhZL8ZjQFB36pA5zcm81W5RLW4+Yc1rBQxJAbLAwQ5
+	a2bqTIJQDcB8JKnpDnGHSwRRemeh0J+9RuaEoB0z6IaFag2ISYCjIeCnP9pXJHRTe5X+QsD
+	HnWFSnETtxbJPY8psOBGvV7EnJ/qdHNQ1C/ubOT6TffaqnRs40q7gDZy1ETG4uXYXeBBMge
+	B1idzazbfcreHgLsNjXEjVy5bvznjXxM5r02sTh0e4dKyQGr2E=
 X-QQ-GoodBg: 2
-X-BIZMAIL-ID: 11005468934301047537
+X-BIZMAIL-ID: 14097724008001462046
 From: Martin Botka <martin@biqu3d.com>
 To: 
 Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
@@ -52,12 +52,10 @@ Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 6/6] arm64: dts: allwinner: h616: Add BigTreeTech Pi support
-Date: Thu,  3 Aug 2023 00:02:39 +0200
-Message-ID: <DFE9B2F1349F69AE+20230802220309.163804-7-martin@biqu3d.com>
+Subject: [PATCH v1 0/6] Add BigTreeTech CB1 SoM & Boards
+Date: Thu,  3 Aug 2023 00:02:33 +0200
+Message-ID: <910F0CD8FD751C0C+20230802220309.163804-1-martin@biqu3d.com>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230802220309.163804-1-martin@biqu3d.com>
-References: <20230802220309.163804-1-martin@biqu3d.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -68,73 +66,43 @@ Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:biqu3d.com:qybglogicsvrgz:qybglogicsvrgz5a-1
 
-The BigTreeTech Pi is an H616 based board based on CB1.
-Just in Rpi format board.
+Hello,
+This series adds a vendor prefix for BigTreeTech and adds BigTreeTech CB1,
+Manta board and BigTreeTech Pi.
 
-It features the same internals as BTT CB1 but adds:
-    - Fan port
-    - IR receiver
-    - 24V DC power supply via terminal plugs
-    - USB to CAN module connector (The actual USB to CAN happens on the external module)
+CB1 is just an SoM thats based on AllWinner H616.
+BigTreeTech Manta boards are expander boards for CB1 and BigTreeTech Pi
+is an CB1 in Rpi style with few additional things like IR receiver and fan port
+on GPIO.
 
-List of currently working things is the same as BTT CB1.
+This work started before I was hired by BigTreeTech and thus majority of the
+patches are from SoMainline email and few are from my work email.
 
-Signed-off-by: Martin Botka <martin@biqu3d.com>
----
- .../allwinner/sun50i-h616-bigtreetech-pi.dts  | 44 +++++++++++++++++++
- 1 file changed, 44 insertions(+)
+This series depends on commit https://lkml.org/lkml/2023/8/2/801
+"dt-bindings: mfd: x-powers,axp152: make interrupt optional for more chips".
+
+Cheers,
+Martin
+
+Martin Botka (6):
+  dt-bindings: vendor-prefixes: Add BigTreeTech
+  dt-bindings: arm: sunxi: Add BigTreeTech CB1
+  dt-bindings: arm: sunxi: Add BigTreeTech Manta board
+  dt-bindings: arm: sunxi: Add BigTreeTech Pi
+  arm64: dts: allwinner: h616: Add BigTreeTech CB1 SoM & boards support
+  arm64: dts: allwinner: h616: Add BigTreeTech Pi support
+
+ .../devicetree/bindings/arm/sunxi.yaml        |  16 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../sun50i-h616-bigtreetech-cb1-manta.dts     |  20 +++
+ .../sun50i-h616-bigtreetech-cb1.dtsi          | 164 ++++++++++++++++++
+ .../allwinner/sun50i-h616-bigtreetech-pi.dts  |  44 +++++
+ 6 files changed, 247 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
-new file mode 100644
-index 000000000000..05f39b3606ba
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
-@@ -0,0 +1,44 @@
-+// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+/*
-+ * Copyright (C) 2023 Martin Botka <martin@biqu3d.com>.
-+ */
-+
-+/dts-v1/;
-+
-+#include "sun50i-h616-bigtreetech-cb1.dtsi"
-+
-+/ {
-+	compatible = "bigtreetech,pi", "allwinner,sun50i-h616";
-+};
-+
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+&ohci0 {
-+	status = "okay";
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+&ohci1 {
-+	status = "okay";
-+};
-+
-+&ehci2 {
-+	status = "okay";
-+};
-+
-+&ohci2 {
-+	status = "okay";
-+};
-+
-+&ehci3 {
-+	status = "okay";
-+};
-+
-+&ohci3 {
-+	status = "okay";
-+};
 -- 
 2.41.0
 
