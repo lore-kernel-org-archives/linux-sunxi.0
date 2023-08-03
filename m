@@ -1,26 +1,25 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A862BEA0
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Aug 2023 22:44:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EADBC433C9;
-	Thu,  3 Aug 2023 22:44:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6E0EA0
+	for <linux-sunxi@lists.linux.dev>; Thu,  3 Aug 2023 22:44:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABDB6C433C8;
+	Thu,  3 Aug 2023 22:44:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691102678;
-	bh=MOwEwZXV75zhxhA5ZluJWONcMdP8WYi3FHPfFhLBRIQ=;
+	s=k20201202; t=1691102684;
+	bh=brmdhvzyvAA0agZSGAy0sXXc2XvdgvNnDJ7I2JsnpoA=;
 	h=From:Date:Subject:References:In-Reply-To:List-Id:To:Cc:From;
-	b=Gorzm2KBvbdF/eBCCih5/bVppiZj+BdzD0cAAEpmaPwfpho4wfyw4l2aziCPqD9Zd
-	 y4f4P/Sb+zyePzcdYkm2vdVS6LBchFdhQhN7qp900gfmC8VQr82uVJsPPmBBEV+GHv
-	 1ML7nkK7mMOK1QMhUZpsZjyKN/9iQJqlWN+g9CCc4NcsBueuhJZBfczGZ33DIKdMh0
-	 3gSdLMlGbrPXceHuMFSkQUG+mOjtl9rsfpGlh/bQi2c95xD8L2UPx08CkKmbEhTgPG
-	 hjHWp/LcFLPqdhF77ecY+2aEaPV67xsC4WsAgdsaNyL3njOhGKLvu+XvHKTXogxMB3
-	 9Wf432z4NNsJA==
-Received: (nullmailer pid 3693792 invoked by uid 1000);
+	b=CiOJmAJ+wHXAE1D+uCR/CBPk7eSgbn1doh2vYQk83ymXIOgUMOfbIAbV36PI0TBHe
+	 JPDNW9iVLRmpjrql7lg/RRybjAYXycBN9495J706CBGZa5NPeMjRxMsoxvazihy9J6
+	 R/nEirHQkIE3QXZj7a//eRnClC/C0RDrS+0rKbN82x/bv3NDWoqQN59BushkbXT+NQ
+	 Kx7idYtBcAb4kQ7aIZBgmLjZDsL/k9pI7zc6AOUiAIsB4M6DbkTWh2ePGfJi2iol7Z
+	 IW6E6p1CMOiNqQbfiW+7nLqo5BzVRQ57vBOJbdcND0pJsrGGOlfieAOZhQxI3PlXzG
+	 P3dE4OoTarXIQ==
+Received: (nullmailer pid 3693764 invoked by uid 1000);
 	Thu, 03 Aug 2023 22:42:55 -0000
 From: Rob Herring <robh@kernel.org>
-Date: Thu, 03 Aug 2023 16:43:01 -0600
-Subject: [PATCH v2 21/23] soc: sunxi: Explicitly include correct DT
- includes
+Date: Thu, 03 Aug 2023 16:42:47 -0600
+Subject: [PATCH v2 07/23] ARM: mmp: Drop unused includes
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -29,7 +28,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230803-dt-header-cleanups-for-soc-v2-21-d8de2cc88bff@kernel.org>
+Message-Id: <20230803-dt-header-cleanups-for-soc-v2-7-d8de2cc88bff@kernel.org>
 References: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 In-Reply-To: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 List-Id: <soc.lore.kernel.org>
@@ -38,35 +37,64 @@ To: soc@kernel.org, Patrice Chotard <patrice.chotard@foss.st.com>, Tsahee Zidenb
 Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-pm@vger.kernel.org
 X-Mailer: b4 0.13-dev
 
-The DT of_device.h and of_platform.h date back to the separate
-of_platform_bus_type before it as merged into the regular platform bus.
-As part of that merge prepping Arm DT support 13 years ago, they
-"temporarily" include each other. They also include platform_device.h
-and of.h. As a result, there's a pretty much random mix of those include
-files used throughout the tree. In order to detangle these headers and
-replace the implicit includes with struct declarations, users need to
-explicitly include the correct includes.
+Several includes are not needed, so drop them.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
-v2:
- - Drop sun20i-ppu.c which moved
----
- drivers/soc/sunxi/sunxi_sram.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm/mach-mmp/mmp-dt.c  | 3 ---
+ arch/arm/mach-mmp/mmp2-dt.c | 4 ----
+ arch/arm/mach-mmp/mmp3.c    | 4 ----
+ 3 files changed, 11 deletions(-)
 
-diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
-index 4c4864cd2342..4458b2e0562b 100644
---- a/drivers/soc/sunxi/sunxi_sram.c
-+++ b/drivers/soc/sunxi/sunxi_sram.c
-@@ -15,7 +15,7 @@
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_address.h>
--#include <linux/of_device.h>
-+#include <linux/of_platform.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
+diff --git a/arch/arm/mach-mmp/mmp-dt.c b/arch/arm/mach-mmp/mmp-dt.c
+index 3f43c0867dca..8479996a8f2e 100644
+--- a/arch/arm/mach-mmp/mmp-dt.c
++++ b/arch/arm/mach-mmp/mmp-dt.c
+@@ -6,12 +6,9 @@
+  *  Author: Haojian Zhuang <haojian.zhuang@marvell.com>
+  */
+ 
+-#include <linux/irqchip.h>
+-#include <linux/of_platform.h>
+ #include <linux/of_clk.h>
+ #include <linux/clocksource.h>
+ #include <asm/mach/arch.h>
+-#include <asm/mach/time.h>
+ #include <asm/hardware/cache-tauros2.h>
+ 
+ #include "common.h"
+diff --git a/arch/arm/mach-mmp/mmp2-dt.c b/arch/arm/mach-mmp/mmp2-dt.c
+index 34a5fe4b3949..e5ddc327651b 100644
+--- a/arch/arm/mach-mmp/mmp2-dt.c
++++ b/arch/arm/mach-mmp/mmp2-dt.c
+@@ -6,13 +6,9 @@
+  *  Author: Haojian Zhuang <haojian.zhuang@marvell.com>
+  */
+ 
+-#include <linux/io.h>
+-#include <linux/irqchip.h>
+-#include <linux/of_platform.h>
+ #include <linux/of_clk.h>
+ #include <linux/clocksource.h>
+ #include <asm/mach/arch.h>
+-#include <asm/mach/time.h>
+ #include <asm/hardware/cache-tauros2.h>
+ 
+ #include "common.h"
+diff --git a/arch/arm/mach-mmp/mmp3.c b/arch/arm/mach-mmp/mmp3.c
+index b0e86964f302..073a4ee219cb 100644
+--- a/arch/arm/mach-mmp/mmp3.c
++++ b/arch/arm/mach-mmp/mmp3.c
+@@ -5,10 +5,6 @@
+  *  Copyright (C) 2019 Lubomir Rintel <lkundrak@v3.sk>
+  */
+ 
+-#include <linux/io.h>
+-#include <linux/irqchip.h>
+-#include <linux/of_platform.h>
+-#include <linux/clk-provider.h>
+ #include <asm/mach/arch.h>
+ #include <asm/hardware/cache-l2x0.h>
  
 
 -- 
