@@ -1,25 +1,25 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4BAEA0
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Aug 2023 22:43:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3E4CC433C8;
-	Thu,  3 Aug 2023 22:43:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1532DEA0
+	for <linux-sunxi@lists.linux.dev>; Thu,  3 Aug 2023 22:43:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 710AEC433CA;
+	Thu,  3 Aug 2023 22:43:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691102615;
-	bh=kctz/l+HgXckSr6lVdAzsQHOS1XESSmOihgpTHJWf9g=;
+	s=k20201202; t=1691102620;
+	bh=zb9vj/VoMfFtM5/p26omsqagLrngLAbUMPXWG2NxI2Y=;
 	h=From:Date:Subject:References:In-Reply-To:List-Id:To:Cc:From;
-	b=T6mNtFCyRS5oK0vEok38vwwn5WIkSnHOxfrlW2LiTFvlyzPOGs6vpCggN3ekIMaMM
-	 X1dJXxrYrRLIaxKyROcB1BxGvZfu4np/or/T8E1ydIuxLNG6jftYrr8voPz4BBP6lf
-	 D+uQSa+QH8pYFHLiZGeKKxYKG8nZWJ1kT6vBbCDDCP4pn1A99AjoGVKQ22TyO+Ko6l
-	 C3RLceVqm3X96S75wWVZpXyNiFSt36SlCcvr8s4MHB6/je5fCWzMDplUy4V7obTOFY
-	 5SACrSQMk7BltBiWPXo8+AMt2mOXgT9v+S7XJkz1pWjBDSNxhEr0DzbkBqHpWPlKSy
-	 qgIM2TSKlG1pw==
-Received: (nullmailer pid 3693770 invoked by uid 1000);
+	b=Dypy6XjJ8UlxQtx4tlAY1sAXXOmSwlE3SPBIuZWPKi5pJqxbskihd07u1ZcqWFkAC
+	 0aBI10Qc65Y59tkMXN+BxpV3yDSMp3JFeXtyAbRzTOXR26SyFPQhSmQJi8t1E0/mMa
+	 QMT2Lmm3W6332ZslnZmUgwH976KM96jt433wdVaQuaFPthMHayKMUeiLbTCFSvnBSc
+	 uhAHOk/ldwSKKlQZGJl2VjEZAfODgurQr/RirLvWgcL1/qRV0hgXWyqt+mPCwscPAB
+	 WrxAcNEQCSe7hx3Ibu1IhlYMRjUYECDyPrcKqiLRYiCyyJcMJ/8G44Kl0KcPl0wCWR
+	 xOAKDEvHwD7jg==
+Received: (nullmailer pid 3693754 invoked by uid 1000);
 	Thu, 03 Aug 2023 22:42:55 -0000
 From: Rob Herring <robh@kernel.org>
-Date: Thu, 03 Aug 2023 16:42:50 -0600
-Subject: [PATCH v2 10/23] ARM: nspire: Drop unused includes
+Date: Thu, 03 Aug 2023 16:42:42 -0600
+Subject: [PATCH v2 02/23] ARM: sti: Drop unused includes
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -28,7 +28,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230803-dt-header-cleanups-for-soc-v2-10-d8de2cc88bff@kernel.org>
+Message-Id: <20230803-dt-header-cleanups-for-soc-v2-2-d8de2cc88bff@kernel.org>
 References: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 In-Reply-To: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 List-Id: <soc.lore.kernel.org>
@@ -37,36 +37,25 @@ To: soc@kernel.org, Patrice Chotard <patrice.chotard@foss.st.com>, Tsahee Zidenb
 Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-pm@vger.kernel.org
 X-Mailer: b4 0.13-dev
 
-Several includes are not needed, so drop them. io.h was implicitly included
-and is needed.
+Several includes are not needed, so drop them.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- arch/arm/mach-nspire/nspire.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ arch/arm/mach-sti/board-dt.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/arch/arm/mach-nspire/nspire.c b/arch/arm/mach-nspire/nspire.c
-index 2d4abb0288b9..d20974a9fbc1 100644
---- a/arch/arm/mach-nspire/nspire.c
-+++ b/arch/arm/mach-nspire/nspire.c
-@@ -5,17 +5,10 @@
-  *	Copyright (C) 2013 Daniel Tang <tangrs@tangrs.id.au>
+diff --git a/arch/arm/mach-sti/board-dt.c b/arch/arm/mach-sti/board-dt.c
+index ffecbf29646f..488084b61b4a 100644
+--- a/arch/arm/mach-sti/board-dt.c
++++ b/arch/arm/mach-sti/board-dt.c
+@@ -4,8 +4,6 @@
+  * Author(s): Srinivas Kandagatla <srinivas.kandagatla@st.com>
   */
- #include <linux/init.h>
--#include <linux/of_irq.h>
--#include <linux/of_address.h>
+ 
+-#include <linux/irq.h>
 -#include <linux/of_platform.h>
--#include <linux/irqchip.h>
--#include <linux/irqchip/arm-vic.h>
--#include <linux/clkdev.h>
--#include <linux/amba/bus.h>
-+#include <linux/io.h>
- 
+ #include <asm/hardware/cache-l2x0.h>
  #include <asm/mach/arch.h>
- #include <asm/mach-types.h>
--#include <asm/mach/map.h>
- 
- #include "mmio.h"
  
 
 -- 
