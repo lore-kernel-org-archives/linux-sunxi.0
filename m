@@ -1,25 +1,25 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81713EA0
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Aug 2023 22:43:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 919CBC433CB;
-	Thu,  3 Aug 2023 22:43:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC561EA0
+	for <linux-sunxi@lists.linux.dev>; Thu,  3 Aug 2023 22:43:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A6A6C433C8;
+	Thu,  3 Aug 2023 22:43:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691102599;
-	bh=yNac8cdh7PtNxa3/l8ZFB4AJ4haYPXAfmlYHjQUhMyA=;
+	s=k20201202; t=1691102604;
+	bh=LE/XDowk5+bfHcdcMZjUt4SjulJG+jSjBmEGWOHgvdM=;
 	h=From:Date:Subject:References:In-Reply-To:List-Id:To:Cc:From;
-	b=RaX0FHM9a/B74jUpXgTPfn5AB+RGSZk3sHsd2XRrQB0REaPYRHh6yB9ixboPBa2cL
-	 o3ol4eHhyvpMPQeWaiODSZs5faofafcJqr1hQ+HNhQogTt4wWyav+kTnqPFAAaCPDo
-	 dt6rPoK5kHsU1CQ5DFUUPSXndOhHUcmT5e/HgXOhxr95jJPftHGyVI3Vllj0VMEz/b
-	 oQC59TP/ATH2ja7bC7Zm7AxMEIMnKoXGUetaXQLDQ6H+cNCz4Jn1qn2K4CuxwKC/tB
-	 rZTqDxVGrTldMhew5gXS0bJ83mtoKfqvd0Gdnh+7jqqzE06u9qltIoyMt/r6uOEXPt
-	 cpg5b0zGeIHCQ==
-Received: (nullmailer pid 3693762 invoked by uid 1000);
+	b=gR6XTCEi6ZqtGeLf13UlcSwHtVmKFOdhv9RNhk6vKtUc7NKo2S7v3znSiDsuIf1iu
+	 vDApD3bRuVdhEzXCM/fnN7/AfJceYPsIH+XwMAPO9k9hfaNspqr1PfasJE0aHFl3jx
+	 ahoMBHXD/P4VJLVAkKJwxYMzXocdujLO/5gI3MbzFtRlRKW9tcvlQfkMYGX/4hCzs2
+	 ZDjC6NnmmLMrWmAeEiRWK8kof3SaubaLrL21a/UBv4X2BVM8zqB+S389fhBCbpfj1H
+	 w4c7+cKuYBBVL8dXnLnz/h9bdwlDkeb+GE7iFWHLqks8yvSGcn/zMTt2AtIkSj/37l
+	 RpBSa5mYH90NA==
+Received: (nullmailer pid 3693776 invoked by uid 1000);
 	Thu, 03 Aug 2023 22:42:55 -0000
 From: Rob Herring <robh@kernel.org>
-Date: Thu, 03 Aug 2023 16:42:46 -0600
-Subject: [PATCH v2 06/23] ARM: hpe: Drop unused includes
+Date: Thu, 03 Aug 2023 16:42:53 -0600
+Subject: [PATCH v2 13/23] ARM: versatile: Drop unused includes
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -28,7 +28,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230803-dt-header-cleanups-for-soc-v2-6-d8de2cc88bff@kernel.org>
+Message-Id: <20230803-dt-header-cleanups-for-soc-v2-13-d8de2cc88bff@kernel.org>
 References: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 In-Reply-To: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 List-Id: <soc.lore.kernel.org>
@@ -37,26 +37,27 @@ To: soc@kernel.org, Patrice Chotard <patrice.chotard@foss.st.com>, Tsahee Zidenb
 Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-pm@vger.kernel.org
 X-Mailer: b4 0.13-dev
 
-of_platform.h is not needed, so drop it.
+Several includes are not needed, so drop them.
 
-Acked-by: Nick Hawkins <nick.hawkins@hpe.com>
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- arch/arm/mach-hpe/gxp.c | 1 -
- 1 file changed, 1 deletion(-)
+ arch/arm/mach-versatile/realview.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/arch/arm/mach-hpe/gxp.c b/arch/arm/mach-hpe/gxp.c
-index ef3341373006..581c8da517b8 100644
---- a/arch/arm/mach-hpe/gxp.c
-+++ b/arch/arm/mach-hpe/gxp.c
-@@ -1,7 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /* Copyright (C) 2022 Hewlett-Packard Enterprise Development Company, L.P. */
- 
+diff --git a/arch/arm/mach-versatile/realview.c b/arch/arm/mach-versatile/realview.c
+index feab66080ba2..a3933e2373d5 100644
+--- a/arch/arm/mach-versatile/realview.c
++++ b/arch/arm/mach-versatile/realview.c
+@@ -4,9 +4,7 @@
+  *
+  * Author: Linus Walleij <linus.walleij@linaro.org>
+  */
 -#include <linux/of_platform.h>
  #include <asm/mach/arch.h>
+-#include <asm/hardware/cache-l2x0.h>
  
- static const char * const gxp_board_dt_compat[] = {
+ static const char *const realview_dt_platform_compat[] __initconst = {
+ 	"arm,realview-eb",
 
 -- 
 2.40.1
