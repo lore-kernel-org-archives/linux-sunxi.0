@@ -1,31 +1,30 @@
 Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.154.54.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822DC182C8
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Aug 2023 15:46:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6CD182C8
+	for <linux-sunxi@lists.linux.dev>; Thu,  3 Aug 2023 15:47:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=biqu3d.com;
-	s=tfld2305; t=1691077561;
-	bh=9itqY6Wgw5GgXR3xB++ndoCEbBsHTl393lPDnaxaAjY=;
+	s=tfld2305; t=1691077603;
+	bh=vEUJQiTvEBG1+8Thcde8Im23KjWtFftPqnOmL2GHGV8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=iYwfmiuWdcR5dmGtbQHu3EKnLgL9Cmd0zQrOCoBrbzMTUvUwiZR7ttmFkcFAAhvHO
-	 nuMgvLYMolCryu93G5ZuF/qwIGAqVia8pnJZwwQtg8zYKVXNbBuADp7OWXdXPkPt3m
-	 Rg2ou1vrmqQ4MBQFZYfL1D44oKziuN2hdetthocE=
-X-QQ-mid: bizesmtp74t1691077514tkf8fhcb
+	b=K2PuctE69nxr0rUot2PNv4ylshdtRVSeIl/yN9hKHhRo7YfKrrppI/h9ygf2x/HqO
+	 1cAV+bd0j10nClp1xvNVKLJOqHBRsNrNRSJYoYo/phVTRa5HnaVPObZ/08P8XExgXs
+	 irxaSAQHMhaY8rE6awq+vZ4SwUiSBQEky6rCtaO8=
+X-QQ-mid: bizesmtp72t1691077560t8gsk891
 Received: from [192.168.2.144] ( [178.41.211.221])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 03 Aug 2023 23:45:02 +0800 (CST)
+	id ; Thu, 03 Aug 2023 23:45:48 +0800 (CST)
 X-QQ-SSF: 01400000000000402000000A0000000
-X-QQ-FEAT: vLOCICHxEeD144kjiyvBVlfmmWfGFzD33ioHK7gbvaMUtB98c2fZL9ALtgsQj
-	sPbxdlzg5ZAwV5zhTYQsO5Zu1Rt4NdK2Yk2BMZ3Yzd/unsCdZXyH7QWjoDriVgwnESOe2qL
-	X+bDPh1/oCuWw2zO9E9bHHf8b/gX6BKSHQPd7eGFnHS33klwW/Z6XO5lBMfHewUxPkx/Bd+
-	1c5D58Nis3gXxBD6PqaybSRR3WIjEw9M4asyIbr6y7rEMi+y4RBjRHYGYvH2r+ROg5EIGvd
-	6grOLc5hNf34cZVojQ8AlgqGKJ+nJOqfxHQEHOun+MAc3LScnBcRIQj4V9F33bwvJPGKfB/
-	BqWdjNrLdECJuMmFqwqyTqxkDlkfRWRkhE64xwzzcCkal4SOlJoAa/GdHg8bnA4uWRgm0tm
-	Fx7jpH0LE5c=
+X-QQ-FEAT: +ynUkgUhZJlN12CIkCekGp9zU8fBqaUp7Mo7KoBT1wwh+SAS/eNdGKnz7i+WE
+	m+5kBwl0ZVCwSs+KuNx/TCAJdo6mzgwucEwIFAkaa3sRNUKszz25vjSrwJJJ3AdzibnQXM9
+	c+tSm3QOjkt2eXcJUmXw6RaKY2T15s3rYtmp6rqltVdNgHypdtwRpCBRzkF/hQRl1PmBFLO
+	lUQSFI+aLUIdWUUKfB/pFt71QC1Q3kHumbf/Nu1yHnNBFuctyhndbjzhsmeN764fN8Y6AiP
+	4hLIWea/DFZ07VCu1LX7vg+lFhBOmeL6SIgVwdsB6KH/ma1RWEF2JvTaDMuUsPuG1K3YjOf
+	s95WRMGUhH9AOkEhAlngWrkrqE1NLZrL9eAqyudOMvHvF2NeGFqgRjcVrshMXZDpslShIbx
 X-QQ-GoodBg: 2
-X-BIZMAIL-ID: 6842329673790885231
-Message-ID: <DE358EDBFBB38BFB+37244c66-7f98-7e23-86eb-985c316e57ad@biqu3d.com>
-Date: Thu, 3 Aug 2023 17:45:01 +0200
+X-BIZMAIL-ID: 2364252577527369001
+Message-ID: <15C903493507AF24+e69c7dde-58ae-f55d-3d1f-b41891caded7@biqu3d.com>
+Date: Thu, 3 Aug 2023 17:45:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -34,19 +33,19 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH v1 6/6] arm64: dts: allwinner: h616: Add BigTreeTech Pi
- support
+Subject: Re: [PATCH v1 1/6] dt-bindings: vendor-prefixes: Add BigTreeTech
 Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  Jami Kettunen <jamipkettunen@somainline.org>,
  Paul Bouchara <paul.bouchara@somainline.org>,
- Martin Botka <martin.botka@somainline.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Martin Botka <martin.botka@somainline.org>,
+ Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
  Samuel Holland <samuel@sholland.org>, Andrew Lunn <andrew@lunn.ch>,
  Icenowy Zheng <uwu@icenowy.me>, Ludwig Kormann <ludwig.kormann@ict42.de>,
  Heiko Stuebner <heiko@sntech.de>, Shawn Guo <shawnguo@kernel.org>,
@@ -56,10 +55,10 @@ Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org
 References: <20230802220309.163804-1-martin@biqu3d.com>
- <DFE9B2F1349F69AE+20230802220309.163804-7-martin@biqu3d.com>
- <20230803133913.368d055d@donnerap.manchester.arm.com>
+ <32C9B4A9A60647F1+20230802220309.163804-2-martin@biqu3d.com>
+ <0bb37521-0ea8-b343-b801-d57ee17fde55@linaro.org>
 From: Martin Botka <martin@biqu3d.com>
-In-Reply-To: <20230803133913.368d055d@donnerap.manchester.arm.com>
+In-Reply-To: <0bb37521-0ea8-b343-b801-d57ee17fde55@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
@@ -67,120 +66,37 @@ Feedback-ID: bizesmtp:biqu3d.com:qybglogicsvrgz:qybglogicsvrgz5a-1
 
 
 
-On 8/3/23 2:39 PM, Andre Przywara wrote:
-> On Thu,  3 Aug 2023 00:02:39 +0200
-> Martin Botka <martin@biqu3d.com> wrote:
-> 
-> Hi,
-> 
->> The BigTreeTech Pi is an H616 based board based on CB1.
->> Just in Rpi format board.
+On 8/3/23 4:27 PM, Krzysztof Kozlowski wrote:
+> On 03/08/2023 00:02, Martin Botka wrote:
+>> From: Martin Botka <martin.botka@somainline.org>
 >>
->> It features the same internals as BTT CB1 but adds:
->>      - Fan port
->>      - IR receiver
-> 
-> You would then need to enable the "ir" node, check the X96 Mate .dts.
-Got it.
-> 
-> And I think this "ADXL345 SPI" connector justifies enabling the respective
-> SPI node.
-Yea the accelerator. Sadly this is bit hard to actually test fully if 
-not wired up to a printer. Tho i do have a spare board to serve as fake 
-printer. Klipper will not know any better :)
-> 
->>      - 24V DC power supply via terminal plugs
->>      - USB to CAN module connector (The actual USB to CAN happens on the external module)
-> 
-> Still confused how this works. So you would need to connect an USB->CAN
-> adapter to one of the USB ports, but how do you feed the CAN signal back
-> to the board? Or if this is done via this port, where does it go then? To
-> the GPIO header?
-OK so its not great but an USB port is also connected to 2x2 pin 
-connector and secondary 2x2 pin connector slightly away. The USB to CAN 
-module plugs into these 2x2 pin connectors where one serves as USB and 
-the other one receives the CAN signal from the module and just wires it 
-up to an XH2.54 3 pin connector with CAN+ CAN- and GND.
-> 
->> List of currently working things is the same as BTT CB1.
+>> BigTreeTech is a company based in Shenzhen that makes
+>> 3D printers and accessories.
 >>
->> Signed-off-by: Martin Botka <martin@biqu3d.com>
+>> Add prefix for it.
+>>
+>> Signed-off-by: Martin Botka <martin.botka@somainline.org>
 >> ---
->>   .../allwinner/sun50i-h616-bigtreetech-pi.dts  | 44 +++++++++++++++++++
-> 
-> Please wire this up in the Makefile as well, otherwise we will miss out on
-> the build testing and DTB checking.
-YEP very much my bad on that one. Didnt add the file during git add :)
-> 
->>   1 file changed, 44 insertions(+)
->>   create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
+>>   Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>>   1 file changed, 2 insertions(+)
 >>
->> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
->> new file mode 100644
->> index 000000000000..05f39b3606ba
->> --- /dev/null
->> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
->> @@ -0,0 +1,44 @@
->> +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
->> +/*
->> + * Copyright (C) 2023 Martin Botka <martin@biqu3d.com>.
->> + */
->> +
->> +/dts-v1/;
->> +
->> +#include "sun50i-h616-bigtreetech-cb1.dtsi"
->> +
->> +/ {
->> +	compatible = "bigtreetech,pi", "allwinner,sun50i-h616";
->> +};
->> +
->> +&ehci0 {
->> +	status = "okay";
->> +};
->> +
->> +&ohci0 {
->> +	status = "okay";
->> +};
->> +
->> +&ehci1 {
->> +	status = "okay";
->> +};
->> +
->> +&ohci1 {
->> +	status = "okay";
->> +};
->> +
->> +&ehci2 {
->> +	status = "okay";
->> +};
->> +
->> +&ohci2 {
->> +	status = "okay";
->> +};
->> +
->> +&ehci3 {
->> +	status = "okay";
->> +};
->> +
->> +&ohci3 {
->> +	status = "okay";
->> +};
+>> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+>> index af60bf1a6664..1d5f86e3f099 100644
+>> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+>> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+>> @@ -194,6 +194,8 @@ patternProperties:
+>>       description: Beckhoff Automation GmbH & Co. KG
+>>     "^bitmain,.*":
+>>       description: Bitmain Technologies
+>> +  "^bigtreetech,.*":
 > 
-> Oh wow, it really connects all four USB ports directly to the SoC? Nice.
-It indeed does :)
-> Do you have access to the schematic to check what the power supply
-> situation is? Are all ports hardwired to a fixed 5V source?
-Correct just fixed 5V. Tho with the changes needed in CB1 DTSI file no 
-change will be necessary here for this :)
-> 
-> And you would of course need to adjust this file according to the
-> changes requested in the previous patch, so that you have the UART,
-> stdout-path and other moved nodes in here.
-Got it will do.
+> Please keep alphabetical order.
+Got it.
 
 Cheers,
 Martin
 > 
-> Cheers,
-> Andre
+> Best regards,
+> Krzysztof
+> 
 > 
