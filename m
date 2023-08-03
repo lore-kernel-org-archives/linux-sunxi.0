@@ -1,25 +1,25 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6E0EA0
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Aug 2023 22:44:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABDB6C433C8;
-	Thu,  3 Aug 2023 22:44:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C97AEA0
+	for <linux-sunxi@lists.linux.dev>; Thu,  3 Aug 2023 22:44:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC354C433C9;
+	Thu,  3 Aug 2023 22:44:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691102684;
-	bh=brmdhvzyvAA0agZSGAy0sXXc2XvdgvNnDJ7I2JsnpoA=;
+	s=k20201202; t=1691102690;
+	bh=HEvwiFwtwrQigYxf1FyUgXT3mcug8YpoFOKKl+P163w=;
 	h=From:Date:Subject:References:In-Reply-To:List-Id:To:Cc:From;
-	b=CiOJmAJ+wHXAE1D+uCR/CBPk7eSgbn1doh2vYQk83ymXIOgUMOfbIAbV36PI0TBHe
-	 JPDNW9iVLRmpjrql7lg/RRybjAYXycBN9495J706CBGZa5NPeMjRxMsoxvazihy9J6
-	 R/nEirHQkIE3QXZj7a//eRnClC/C0RDrS+0rKbN82x/bv3NDWoqQN59BushkbXT+NQ
-	 Kx7idYtBcAb4kQ7aIZBgmLjZDsL/k9pI7zc6AOUiAIsB4M6DbkTWh2ePGfJi2iol7Z
-	 IW6E6p1CMOiNqQbfiW+7nLqo5BzVRQ57vBOJbdcND0pJsrGGOlfieAOZhQxI3PlXzG
-	 P3dE4OoTarXIQ==
-Received: (nullmailer pid 3693764 invoked by uid 1000);
+	b=KUbmXKnsOm3iZaX6g9dwtXdrw7cdhfO5+ETedZUfq8MrNanrK9Ywv7LS+KUIO7ByH
+	 kZ4VMoM5ZokSRbsCDaKqgEu7NzHlfWzjQdEn2o6dNY7Ya/gPJ4Wsei1ceiRV+jPQ5w
+	 1P0YG5pAVfZ1veJThDVakEeW9mFlQZrc6Iv1tvufhDuu3l1Lp3oJFO/Z5ZmR9Kocpt
+	 nVbQINeZFqfhI8fUKIaIAqz2Cn+pHTlLuK/TmUF29ktvF9jp01ncWEmdMvpTuUmOZy
+	 bT/iqmtu3ohFm++p3JFHtcECTFo1/BTfukoGsehb76UFBGpGP4V6J7FacKZdGXLF5R
+	 9W0ioz5MipwQw==
+Received: (nullmailer pid 3693768 invoked by uid 1000);
 	Thu, 03 Aug 2023 22:42:55 -0000
 From: Rob Herring <robh@kernel.org>
-Date: Thu, 03 Aug 2023 16:42:47 -0600
-Subject: [PATCH v2 07/23] ARM: mmp: Drop unused includes
+Date: Thu, 03 Aug 2023 16:42:49 -0600
+Subject: [PATCH v2 09/23] ARM: npcm: Drop unused includes
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -28,7 +28,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230803-dt-header-cleanups-for-soc-v2-7-d8de2cc88bff@kernel.org>
+Message-Id: <20230803-dt-header-cleanups-for-soc-v2-9-d8de2cc88bff@kernel.org>
 References: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 In-Reply-To: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 List-Id: <soc.lore.kernel.org>
@@ -41,61 +41,26 @@ Several includes are not needed, so drop them.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- arch/arm/mach-mmp/mmp-dt.c  | 3 ---
- arch/arm/mach-mmp/mmp2-dt.c | 4 ----
- arch/arm/mach-mmp/mmp3.c    | 4 ----
- 3 files changed, 11 deletions(-)
+ arch/arm/mach-npcm/platsmp.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/arch/arm/mach-mmp/mmp-dt.c b/arch/arm/mach-mmp/mmp-dt.c
-index 3f43c0867dca..8479996a8f2e 100644
---- a/arch/arm/mach-mmp/mmp-dt.c
-+++ b/arch/arm/mach-mmp/mmp-dt.c
-@@ -6,12 +6,9 @@
-  *  Author: Haojian Zhuang <haojian.zhuang@marvell.com>
-  */
+diff --git a/arch/arm/mach-npcm/platsmp.c b/arch/arm/mach-npcm/platsmp.c
+index 21633c70fe7f..41891d3aa124 100644
+--- a/arch/arm/mach-npcm/platsmp.c
++++ b/arch/arm/mach-npcm/platsmp.c
+@@ -5,12 +5,9 @@
+ #define pr_fmt(fmt) "nuvoton,npcm7xx-smp: " fmt
  
--#include <linux/irqchip.h>
+ #include <linux/delay.h>
+-#include <linux/device.h>
+ #include <linux/smp.h>
+ #include <linux/io.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
 -#include <linux/of_platform.h>
- #include <linux/of_clk.h>
- #include <linux/clocksource.h>
- #include <asm/mach/arch.h>
--#include <asm/mach/time.h>
- #include <asm/hardware/cache-tauros2.h>
- 
- #include "common.h"
-diff --git a/arch/arm/mach-mmp/mmp2-dt.c b/arch/arm/mach-mmp/mmp2-dt.c
-index 34a5fe4b3949..e5ddc327651b 100644
---- a/arch/arm/mach-mmp/mmp2-dt.c
-+++ b/arch/arm/mach-mmp/mmp2-dt.c
-@@ -6,13 +6,9 @@
-  *  Author: Haojian Zhuang <haojian.zhuang@marvell.com>
-  */
- 
--#include <linux/io.h>
--#include <linux/irqchip.h>
--#include <linux/of_platform.h>
- #include <linux/of_clk.h>
- #include <linux/clocksource.h>
- #include <asm/mach/arch.h>
--#include <asm/mach/time.h>
- #include <asm/hardware/cache-tauros2.h>
- 
- #include "common.h"
-diff --git a/arch/arm/mach-mmp/mmp3.c b/arch/arm/mach-mmp/mmp3.c
-index b0e86964f302..073a4ee219cb 100644
---- a/arch/arm/mach-mmp/mmp3.c
-+++ b/arch/arm/mach-mmp/mmp3.c
-@@ -5,10 +5,6 @@
-  *  Copyright (C) 2019 Lubomir Rintel <lkundrak@v3.sk>
-  */
- 
--#include <linux/io.h>
--#include <linux/irqchip.h>
--#include <linux/of_platform.h>
--#include <linux/clk-provider.h>
- #include <asm/mach/arch.h>
- #include <asm/hardware/cache-l2x0.h>
- 
+ #include <linux/of_address.h>
+ #include <asm/cacheflush.h>
+ #include <asm/smp.h>
 
 -- 
 2.40.1
