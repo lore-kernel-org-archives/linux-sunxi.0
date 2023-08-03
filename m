@@ -1,25 +1,26 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340D6EA0
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Aug 2023 22:44:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4184EC433C7;
-	Thu,  3 Aug 2023 22:44:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A862BEA0
+	for <linux-sunxi@lists.linux.dev>; Thu,  3 Aug 2023 22:44:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EADBC433C9;
+	Thu,  3 Aug 2023 22:44:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691102672;
-	bh=ooI1TM9H8LnZ1gnuyjNAccMoo4FYLVdXFfZiGCq2Yj4=;
+	s=k20201202; t=1691102678;
+	bh=MOwEwZXV75zhxhA5ZluJWONcMdP8WYi3FHPfFhLBRIQ=;
 	h=From:Date:Subject:References:In-Reply-To:List-Id:To:Cc:From;
-	b=ZCo5HKGYpVq8NzpJpLR7qDtlgY33ewPxQDSQKN00GSUwrP2vu6waonVoKiNdOHP76
-	 YQdR9Yso99hwTzqmD096JE8S+qOa9VGOOCejhlrKxPpXVd3Bv42Yt+AYU6nykXRTq/
-	 UObuZK3vBPHy4k5CY8OiBtrDMN0pvDWx0tNH2DteRo8R8Va5Q6pACtSozbrPv41WXh
-	 yQRIOw2le11kuLvdhW3/AnWykwdqLtchKw2av8vaxzRpqYMBoH8Z2NivVOIl6tDpNY
-	 sdyhS1bhJFdysDhyRhpkZ1SILQJ3s9jHUpN+TImpvp9UKHnGsyNGgaObq883KmaNKr
-	 jTnlIuoJ0vQDQ==
-Received: (nullmailer pid 3693758 invoked by uid 1000);
+	b=Gorzm2KBvbdF/eBCCih5/bVppiZj+BdzD0cAAEpmaPwfpho4wfyw4l2aziCPqD9Zd
+	 y4f4P/Sb+zyePzcdYkm2vdVS6LBchFdhQhN7qp900gfmC8VQr82uVJsPPmBBEV+GHv
+	 1ML7nkK7mMOK1QMhUZpsZjyKN/9iQJqlWN+g9CCc4NcsBueuhJZBfczGZ33DIKdMh0
+	 3gSdLMlGbrPXceHuMFSkQUG+mOjtl9rsfpGlh/bQi2c95xD8L2UPx08CkKmbEhTgPG
+	 hjHWp/LcFLPqdhF77ecY+2aEaPV67xsC4WsAgdsaNyL3njOhGKLvu+XvHKTXogxMB3
+	 9Wf432z4NNsJA==
+Received: (nullmailer pid 3693792 invoked by uid 1000);
 	Thu, 03 Aug 2023 22:42:55 -0000
 From: Rob Herring <robh@kernel.org>
-Date: Thu, 03 Aug 2023 16:42:44 -0600
-Subject: [PATCH v2 04/23] ARM: berlin: Drop unused includes
+Date: Thu, 03 Aug 2023 16:43:01 -0600
+Subject: [PATCH v2 21/23] soc: sunxi: Explicitly include correct DT
+ includes
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -28,7 +29,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230803-dt-header-cleanups-for-soc-v2-4-d8de2cc88bff@kernel.org>
+Message-Id: <20230803-dt-header-cleanups-for-soc-v2-21-d8de2cc88bff@kernel.org>
 References: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 In-Reply-To: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 List-Id: <soc.lore.kernel.org>
@@ -37,29 +38,36 @@ To: soc@kernel.org, Patrice Chotard <patrice.chotard@foss.st.com>, Tsahee Zidenb
 Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-pm@vger.kernel.org
 X-Mailer: b4 0.13-dev
 
-Several includes are not needed, so drop them.
+The DT of_device.h and of_platform.h date back to the separate
+of_platform_bus_type before it as merged into the regular platform bus.
+As part of that merge prepping Arm DT support 13 years ago, they
+"temporarily" include each other. They also include platform_device.h
+and of.h. As a result, there's a pretty much random mix of those include
+files used throughout the tree. In order to detangle these headers and
+replace the implicit includes with struct declarations, users need to
+explicitly include the correct includes.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- arch/arm/mach-berlin/berlin.c | 5 -----
- 1 file changed, 5 deletions(-)
+v2:
+ - Drop sun20i-ppu.c which moved
+---
+ drivers/soc/sunxi/sunxi_sram.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm/mach-berlin/berlin.c b/arch/arm/mach-berlin/berlin.c
-index 2424ad40190c..13d5c899f09e 100644
---- a/arch/arm/mach-berlin/berlin.c
-+++ b/arch/arm/mach-berlin/berlin.c
-@@ -8,11 +8,6 @@
-  *  (c) Marvell International Ltd.
-  */
+diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
+index 4c4864cd2342..4458b2e0562b 100644
+--- a/drivers/soc/sunxi/sunxi_sram.c
++++ b/drivers/soc/sunxi/sunxi_sram.c
+@@ -15,7 +15,7 @@
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+-#include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
  
--#include <linux/init.h>
--#include <linux/io.h>
--#include <linux/kernel.h>
--#include <linux/of_platform.h>
--#include <asm/hardware/cache-l2x0.h>
- #include <asm/mach/arch.h>
- 
- static const char * const berlin_dt_compat[] = {
 
 -- 
 2.40.1
