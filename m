@@ -1,25 +1,26 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C97AEA0
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Aug 2023 22:44:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC354C433C9;
-	Thu,  3 Aug 2023 22:44:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9CBEEA0
+	for <linux-sunxi@lists.linux.dev>; Thu,  3 Aug 2023 22:44:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72102C433C7;
+	Thu,  3 Aug 2023 22:44:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691102690;
-	bh=HEvwiFwtwrQigYxf1FyUgXT3mcug8YpoFOKKl+P163w=;
+	s=k20201202; t=1691102696;
+	bh=EG6wteoRKMUzGH3S4j4SiutYgMfWkWVmMw+mXkKw68E=;
 	h=From:Date:Subject:References:In-Reply-To:List-Id:To:Cc:From;
-	b=KUbmXKnsOm3iZaX6g9dwtXdrw7cdhfO5+ETedZUfq8MrNanrK9Ywv7LS+KUIO7ByH
-	 kZ4VMoM5ZokSRbsCDaKqgEu7NzHlfWzjQdEn2o6dNY7Ya/gPJ4Wsei1ceiRV+jPQ5w
-	 1P0YG5pAVfZ1veJThDVakEeW9mFlQZrc6Iv1tvufhDuu3l1Lp3oJFO/Z5ZmR9Kocpt
-	 nVbQINeZFqfhI8fUKIaIAqz2Cn+pHTlLuK/TmUF29ktvF9jp01ncWEmdMvpTuUmOZy
-	 bT/iqmtu3ohFm++p3JFHtcECTFo1/BTfukoGsehb76UFBGpGP4V6J7FacKZdGXLF5R
-	 9W0ioz5MipwQw==
-Received: (nullmailer pid 3693768 invoked by uid 1000);
+	b=Rrpdzqv8rHIruF82jM9itbrjUleCE8hjl/vFpG5D3Rsb72QJEXeg7BAi6bEm6wFcq
+	 sleVO1jv34wGSBmUFvwb8Ja1AxMycUwDBGjufCbpgVlZzCj+Rk+BokhI4PZCNrGZjK
+	 D7oWGOa02v8xTxORRtdu9H27hMTHCmpVOye17J+E9+nOuFbD/cT5qSMcZRyXXO+wnC
+	 Ft9KguW1lPbRQ1rp8661AFrkMTSAH6me2l1vfdIGqTW2sytBliwgdR7didbvIPp7Xd
+	 za+z1eXJEjvcYLOxZoOjgQhzfuYmQ3pN3CIYJXMkpItquqLef3nym28wCJxGlVfxrQ
+	 7LpUR2hRGBBTQ==
+Received: (nullmailer pid 3693778 invoked by uid 1000);
 	Thu, 03 Aug 2023 22:42:55 -0000
 From: Rob Herring <robh@kernel.org>
-Date: Thu, 03 Aug 2023 16:42:49 -0600
-Subject: [PATCH v2 09/23] ARM: npcm: Drop unused includes
+Date: Thu, 03 Aug 2023 16:42:54 -0600
+Subject: [PATCH v2 14/23] ARM: mvebu: Explicitly include correct DT
+ includes
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -28,7 +29,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230803-dt-header-cleanups-for-soc-v2-9-d8de2cc88bff@kernel.org>
+Message-Id: <20230803-dt-header-cleanups-for-soc-v2-14-d8de2cc88bff@kernel.org>
 References: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 In-Reply-To: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 List-Id: <soc.lore.kernel.org>
@@ -37,30 +38,47 @@ To: soc@kernel.org, Patrice Chotard <patrice.chotard@foss.st.com>, Tsahee Zidenb
 Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-pm@vger.kernel.org
 X-Mailer: b4 0.13-dev
 
-Several includes are not needed, so drop them.
+The DT of_device.h and of_platform.h date back to the separate
+of_platform_bus_type before it as merged into the regular platform bus.
+As part of that merge prepping Arm DT support 13 years ago, they
+"temporarily" include each other. They also include platform_device.h
+and of.h. As a result, there's a pretty much random mix of those include
+files used throughout the tree. In order to detangle these headers and
+replace the implicit includes with struct declarations, users need to
+explicitly include the correct includes.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- arch/arm/mach-npcm/platsmp.c | 3 ---
- 1 file changed, 3 deletions(-)
+ arch/arm/mach-mvebu/kirkwood.c | 1 +
+ arch/arm/mach-mvebu/pmsu.c     | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/mach-npcm/platsmp.c b/arch/arm/mach-npcm/platsmp.c
-index 21633c70fe7f..41891d3aa124 100644
---- a/arch/arm/mach-npcm/platsmp.c
-+++ b/arch/arm/mach-npcm/platsmp.c
-@@ -5,12 +5,9 @@
- #define pr_fmt(fmt) "nuvoton,npcm7xx-smp: " fmt
- 
- #include <linux/delay.h>
--#include <linux/device.h>
- #include <linux/smp.h>
- #include <linux/io.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
--#include <linux/of_platform.h>
+diff --git a/arch/arm/mach-mvebu/kirkwood.c b/arch/arm/mach-mvebu/kirkwood.c
+index 8ff34753e760..73b2a86d6489 100644
+--- a/arch/arm/mach-mvebu/kirkwood.c
++++ b/arch/arm/mach-mvebu/kirkwood.c
+@@ -15,6 +15,7 @@
  #include <linux/of_address.h>
- #include <asm/cacheflush.h>
- #include <asm/smp.h>
+ #include <linux/of_net.h>
+ #include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <asm/hardware/cache-feroceon-l2.h>
+ #include <asm/mach/arch.h>
+diff --git a/arch/arm/mach-mvebu/pmsu.c b/arch/arm/mach-mvebu/pmsu.c
+index 6f366d8c4231..79c5171f06ec 100644
+--- a/arch/arm/mach-mvebu/pmsu.c
++++ b/arch/arm/mach-mvebu/pmsu.c
+@@ -23,8 +23,8 @@
+ #include <linux/kernel.h>
+ #include <linux/mbus.h>
+ #include <linux/mvebu-pmsu.h>
++#include <linux/of.h>
+ #include <linux/of_address.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/resource.h>
+ #include <linux/slab.h>
 
 -- 
 2.40.1
