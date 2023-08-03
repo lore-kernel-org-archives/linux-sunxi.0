@@ -1,30 +1,30 @@
 Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.154.54.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6CD182C8
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Aug 2023 15:47:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44A123BE1
+	for <linux-sunxi@lists.linux.dev>; Thu,  3 Aug 2023 15:52:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=biqu3d.com;
-	s=tfld2305; t=1691077603;
-	bh=vEUJQiTvEBG1+8Thcde8Im23KjWtFftPqnOmL2GHGV8=;
+	s=tfld2305; t=1691077904;
+	bh=c6hFVhu8IksY+L1isInXQkxJGCppe2/DOz14aNlE2hI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=K2PuctE69nxr0rUot2PNv4ylshdtRVSeIl/yN9hKHhRo7YfKrrppI/h9ygf2x/HqO
-	 1cAV+bd0j10nClp1xvNVKLJOqHBRsNrNRSJYoYo/phVTRa5HnaVPObZ/08P8XExgXs
-	 irxaSAQHMhaY8rE6awq+vZ4SwUiSBQEky6rCtaO8=
-X-QQ-mid: bizesmtp72t1691077560t8gsk891
+	b=IXf9dSpWEgaubk1xnqZIqvxTWMR7ZKaafC1WM8fNoXvK5VqvNibqM5+6ex+Nm7Sbe
+	 Iz1OEoe6FgP88VY+3f1+wcw+SDbnWRfkd2czxQp2m814wARjeyOPL7Zri6bNpOAYYq
+	 J27vatEWiy7E16c0rlaNMNr3L1vElmW/rvTx+4uY=
+X-QQ-mid: bizesmtp76t1691077857tu7elv4u
 Received: from [192.168.2.144] ( [178.41.211.221])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 03 Aug 2023 23:45:48 +0800 (CST)
+	id ; Thu, 03 Aug 2023 23:50:45 +0800 (CST)
 X-QQ-SSF: 01400000000000402000000A0000000
-X-QQ-FEAT: +ynUkgUhZJlN12CIkCekGp9zU8fBqaUp7Mo7KoBT1wwh+SAS/eNdGKnz7i+WE
-	m+5kBwl0ZVCwSs+KuNx/TCAJdo6mzgwucEwIFAkaa3sRNUKszz25vjSrwJJJ3AdzibnQXM9
-	c+tSm3QOjkt2eXcJUmXw6RaKY2T15s3rYtmp6rqltVdNgHypdtwRpCBRzkF/hQRl1PmBFLO
-	lUQSFI+aLUIdWUUKfB/pFt71QC1Q3kHumbf/Nu1yHnNBFuctyhndbjzhsmeN764fN8Y6AiP
-	4hLIWea/DFZ07VCu1LX7vg+lFhBOmeL6SIgVwdsB6KH/ma1RWEF2JvTaDMuUsPuG1K3YjOf
-	s95WRMGUhH9AOkEhAlngWrkrqE1NLZrL9eAqyudOMvHvF2NeGFqgRjcVrshMXZDpslShIbx
+X-QQ-FEAT: W+onFc5Tw4PG4OgGzcrbSq3SNJNCAX668+fM7+4uFuHR/EV1k9ENzQro0VfHX
+	DeWCrfsc7KHpi/+OcnFfWo9/8Jg6ab3nCPZzuQ7lYU3drXoLLXtOsOSe+Y/I7XABZEUCKBt
+	Ny3p06rK1IPLAfc5sbD5QfdCGLg4oLjMqXa3EKrbertkrTHTCvYAIbeM5XNXZfhSqZV9QWQ
+	p9MC63uVY6FDL5EySiZUqCFro8JfvusWxRoz1aYqCP+nf7tvd73QLduk4ZYXHjGkzKARhyk
+	ZS+7KVAiRsDj/fsUKS4qZRyCQaxB3xYmWtdZs4ing+b+qz281n3GEuz1LQu1GHUA0xanaYm
+	3L66NCJ0cmpIhQfrpFoi68oymQMzQ29VcTfWYT3GAZ2N75bhBWfu9aTyqHtqqwq16sYqVKh
 X-QQ-GoodBg: 2
-X-BIZMAIL-ID: 2364252577527369001
-Message-ID: <15C903493507AF24+e69c7dde-58ae-f55d-3d1f-b41891caded7@biqu3d.com>
-Date: Thu, 3 Aug 2023 17:45:48 +0200
+X-BIZMAIL-ID: 2003181577924122140
+Message-ID: <0FF79B770AD31251+44408a50-d082-f3db-a60b-59ed0cb75e42@biqu3d.com>
+Date: Thu, 3 Aug 2023 17:50:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -33,7 +33,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH v1 1/6] dt-bindings: vendor-prefixes: Add BigTreeTech
+Subject: Re: [PATCH v1 5/6] arm64: dts: allwinner: h616: Add BigTreeTech CB1
+ SoM & boards support
 Content-Language: en-US
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
@@ -46,8 +47,8 @@ Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Andrew Lunn <andrew@lunn.ch>,
- Icenowy Zheng <uwu@icenowy.me>, Ludwig Kormann <ludwig.kormann@ict42.de>,
+ Samuel Holland <samuel@sholland.org>, Icenowy Zheng <uwu@icenowy.me>,
+ Ludwig Kormann <ludwig.kormann@ict42.de>, Andrew Lunn <andrew@lunn.ch>,
  Heiko Stuebner <heiko@sntech.de>, Shawn Guo <shawnguo@kernel.org>,
  Bjorn Andersson <andersson@kernel.org>,
  Chris Morgan <macromorgan@hotmail.com>, Jagan Teki <jagan@edgeble.ai>,
@@ -55,10 +56,10 @@ Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org
 References: <20230802220309.163804-1-martin@biqu3d.com>
- <32C9B4A9A60647F1+20230802220309.163804-2-martin@biqu3d.com>
- <0bb37521-0ea8-b343-b801-d57ee17fde55@linaro.org>
+ <85E425AED000D34C+20230802220309.163804-6-martin@biqu3d.com>
+ <9f1210b8-1726-a7a3-622b-8fef778cba3e@linaro.org>
 From: Martin Botka <martin@biqu3d.com>
-In-Reply-To: <0bb37521-0ea8-b343-b801-d57ee17fde55@linaro.org>
+In-Reply-To: <9f1210b8-1726-a7a3-622b-8fef778cba3e@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
@@ -66,35 +67,57 @@ Feedback-ID: bizesmtp:biqu3d.com:qybglogicsvrgz:qybglogicsvrgz5a-1
 
 
 
-On 8/3/23 4:27 PM, Krzysztof Kozlowski wrote:
+On 8/3/23 4:28 PM, Krzysztof Kozlowski wrote:
 > On 03/08/2023 00:02, Martin Botka wrote:
 >> From: Martin Botka <martin.botka@somainline.org>
 >>
->> BigTreeTech is a company based in Shenzhen that makes
->> 3D printers and accessories.
+>> CB1 is Compute Module style board that plugs into Rpi board style adapter or
+>> Manta 3D printer boards (M4P/M8P).
 >>
->> Add prefix for it.
->>
->> Signed-off-by: Martin Botka <martin.botka@somainline.org>
->> ---
->>   Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
->> index af60bf1a6664..1d5f86e3f099 100644
->> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
->> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
->> @@ -194,6 +194,8 @@ patternProperties:
->>       description: Beckhoff Automation GmbH & Co. KG
->>     "^bitmain,.*":
->>       description: Bitmain Technologies
->> +  "^bigtreetech,.*":
+>> The SoM features:
+>>    - H616 SoC
+>>    - 1GiB of RAM
+>>    - AXP313A PMIC
+>>    - RTL8189FTV WiFi
 > 
-> Please keep alphabetical order.
+> ...
+> 
+>> +&mmc0 {
+>> +	vmmc-supply = <&reg_dldo1>;
+>> +	broken-cd;
+>> +	bus-width = <4>;
+>> +	status = "okay";
+>> +};
+>> +
+>> +&mmc1 {
+>> +	vmmc-supply = <&reg_vcc33_wifi>;
+>> +	vqmmc-supply = <&reg_vcc_wifi_io>;
+>> +	mmc-pwrseq = <&wifi_pwrseq>;
+>> +	bus-width = <4>;
+>> +	non-removable;
+>> +	mmc-ddr-1_8v;
+>> +	status = "okay";
+>> +
+>> +	rtl8189ftv: sdio_wifi@1 {
+> 
+> No underxcores in node names. Generic node names, so probably "wifi".
 Got it.
+> 
+>> +		reg = <1>;
+> 
+> Missing compatible?
+No it is an explicitly defined SDIO device so we can add ethernet alias 
+for it so we can for example set the MAC address of it via u-boot and etc :)
+
+The actual driver for it is out of tree and from the current state of it 
+looks like will be for a while.
+Orange Pi Zero Plus based on H5 does this exact thing as well for the 
+same purpose with the same wifi chip :)
 
 Cheers,
 Martin
+> 
+> 
 > 
 > Best regards,
 > Krzysztof
