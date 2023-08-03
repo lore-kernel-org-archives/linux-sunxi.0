@@ -1,25 +1,25 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA07EA0
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Aug 2023 22:44:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59A4BC433C7;
-	Thu,  3 Aug 2023 22:44:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A127EEA0
+	for <linux-sunxi@lists.linux.dev>; Thu,  3 Aug 2023 22:44:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1252EC433C8;
+	Thu,  3 Aug 2023 22:44:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691102653;
-	bh=kteogynxAW7+pSqJ+F5ajc09a1cS6TIo4KO19Vs6RtE=;
+	s=k20201202; t=1691102660;
+	bh=prG9EyLTNfHDqOF6uZVSzYO6KHwa1ZJ65S1OeS16o4U=;
 	h=From:Date:Subject:References:In-Reply-To:List-Id:To:Cc:From;
-	b=FJ1+duqUPdJnrC2BObDXwwr6wBo9yowp0ny1+RIX+QLR6FQg3iGkACB0X4smaJb2r
-	 Zm3mOxrKxTM1LstEvrjFZYdSAw7OVemsCAIJYL7crSvWXRxnTeAiWfg9X1K0XQ9HS4
-	 qgihX0X70Ig4jHM62HvxGKm0hKEUEUiRc6QglCXFDLE2PMth+AhdTa27UmCR/bkW9j
-	 KOLDJn8lZ7eau9gqTn9PvwGFOzD2/QtAZh7Fm0Mjmd2P4GF257OWGlLUa2vgcfCIRQ
-	 SAdRvo2UO6VCfMOMAVzAHdxqZrHBywMEQsOjbduuGTaBK+CzY6YLecnzBsvgzYypZl
-	 b5LP0YHZNqbYg==
-Received: (nullmailer pid 3693772 invoked by uid 1000);
+	b=draOJyVJLQBKyS4iqncW0BU01+r0cep3aYPRMDZm0f5BYhZFvK9xiQJhE8Enq5To6
+	 sMUmRoj1APMm3b7dIxmepA413QzLle9nTDSYvxGTWIDJBFGtF2YHXRvTMh8FKWnt9r
+	 pSEnH0y0v8oyWO/mbL7GCCn6q808jdGVZtfgCEL/zT1kRxnmG/sixqpamgLlZ2P/yj
+	 fRPkfr/3L3oJqhHI5b1mBgcReCzF1dfudndFFIDO1qQopUI0Sy5MNY8jjT6eHOilvd
+	 Az2PkZbLhwC60TmC2wgLyZbgMXZic9Z20SjV30/+w/4w+t3YekZtXVAfiZvw1hUc2u
+	 5S5tOl7Xsd2mA==
+Received: (nullmailer pid 3693756 invoked by uid 1000);
 	Thu, 03 Aug 2023 22:42:55 -0000
 From: Rob Herring <robh@kernel.org>
-Date: Thu, 03 Aug 2023 16:42:51 -0600
-Subject: [PATCH v2 11/23] ARM: pxa: Drop unused includes
+Date: Thu, 03 Aug 2023 16:42:43 -0600
+Subject: [PATCH v2 03/23] ARM: alpine: Drop unused includes
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -28,7 +28,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230803-dt-header-cleanups-for-soc-v2-11-d8de2cc88bff@kernel.org>
+Message-Id: <20230803-dt-header-cleanups-for-soc-v2-3-d8de2cc88bff@kernel.org>
 References: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 In-Reply-To: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 List-Id: <soc.lore.kernel.org>
@@ -37,31 +37,26 @@ To: soc@kernel.org, Patrice Chotard <patrice.chotard@foss.st.com>, Tsahee Zidenb
 Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-pm@vger.kernel.org
 X-Mailer: b4 0.13-dev
 
-Several includes are not needed, so drop them.
+of_platform.h is not needed, drop it.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- arch/arm/mach-pxa/pxa-dt.c | 6 ------
- 1 file changed, 6 deletions(-)
+ arch/arm/mach-alpine/alpine_machine.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/arch/arm/mach-pxa/pxa-dt.c b/arch/arm/mach-pxa/pxa-dt.c
-index 5e5d543fdf46..a292de91dce5 100644
---- a/arch/arm/mach-pxa/pxa-dt.c
-+++ b/arch/arm/mach-pxa/pxa-dt.c
-@@ -5,13 +5,7 @@
-  *  Copyright (C) 2012 Daniel Mack
+diff --git a/arch/arm/mach-alpine/alpine_machine.c b/arch/arm/mach-alpine/alpine_machine.c
+index d256a99e9b99..bc491bbbabf8 100644
+--- a/arch/arm/mach-alpine/alpine_machine.c
++++ b/arch/arm/mach-alpine/alpine_machine.c
+@@ -5,8 +5,6 @@
+  * Copyright (C) 2015 Annapurna Labs Ltd.
   */
  
--#include <linux/irq.h>
--#include <linux/irqdomain.h>
--#include <linux/of_irq.h>
 -#include <linux/of_platform.h>
+-
  #include <asm/mach/arch.h>
--#include <asm/mach/time.h>
--#include "irqs.h"
  
- #include "generic.h"
- 
+ static const char * const al_match[] __initconst = {
 
 -- 
 2.40.1
