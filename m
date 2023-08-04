@@ -1,13 +1,13 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 561FDBE64
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Aug 2023 13:31:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95C0CAD37
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Aug 2023 13:35:43 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 92FED1007;
-	Fri,  4 Aug 2023 06:32:34 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6705A1007;
+	Fri,  4 Aug 2023 06:36:25 -0700 (PDT)
 Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9852C3F5A1;
-	Fri,  4 Aug 2023 06:31:48 -0700 (PDT)
-Date: Fri, 4 Aug 2023 14:31:45 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 653133F5A1;
+	Fri,  4 Aug 2023 06:35:39 -0700 (PDT)
+Date: Fri, 4 Aug 2023 14:35:37 +0100
 From: Andre Przywara <andre.przywara@arm.com>
 To: Martin Botka <martin@biqu3d.com>
 Cc: martin.botka1@gmail.com, Konrad Dybcio <konrad.dybcio@somainline.org>,
@@ -18,19 +18,19 @@ Cc: martin.botka1@gmail.com, Konrad Dybcio <konrad.dybcio@somainline.org>,
  Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
  <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Icenowy Zheng <uwu@icenowy.me>,
- Ludwig Kormann <ludwig.kormann@ict42.de>, Andrew Lunn <andrew@lunn.ch>,
- Heiko Stuebner <heiko@sntech.de>, Shawn Guo <shawnguo@kernel.org>, Bjorn
+ Samuel Holland <samuel@sholland.org>, Andrew Lunn <andrew@lunn.ch>, Icenowy
+ Zheng <uwu@icenowy.me>, Ludwig Kormann <ludwig.kormann@ict42.de>, Heiko
+ Stuebner <heiko@sntech.de>, Shawn Guo <shawnguo@kernel.org>, Bjorn
  Andersson <andersson@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
  Jagan Teki <jagan@edgeble.ai>, Maxime Ripard <mripard@kernel.org>,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] arm64: dts: allwinner: h616: Add BigTreeTech CB1
- SoM & boards support
-Message-ID: <20230804143145.061c8b95@donnerap.manchester.arm.com>
-In-Reply-To: <3DE536B6217490F4+20230804090102.273029-4-martin@biqu3d.com>
+Subject: Re: [PATCH v2 4/4] arm64: dts: allwinner: h616: Add BigTreeTech Pi
+ support
+Message-ID: <20230804143537.0c91e802@donnerap.manchester.arm.com>
+In-Reply-To: <92B0AD8F9717BDE3+20230804090102.273029-5-martin@biqu3d.com>
 References: <20230804090102.273029-1-martin@biqu3d.com>
-	<3DE536B6217490F4+20230804090102.273029-4-martin@biqu3d.com>
+	<92B0AD8F9717BDE3+20230804090102.273029-5-martin@biqu3d.com>
 Organization: ARM
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
@@ -42,81 +42,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri,  4 Aug 2023 11:00:31 +0200
+On Fri,  4 Aug 2023 11:00:32 +0200
 Martin Botka <martin@biqu3d.com> wrote:
 
 Hi,
 
-thanks for the changes. Some minor things left ...
-
-> From: Martin Botka <martin.botka@somainline.org>
+> The BigTreeTech Pi is an H616 based board based on CB1.
+> Just in Rpi format board.
 > 
-> CB1 is Compute Module style board that plugs into Rpi board style adapter or
-> Manta 3D printer boards (M4P/M8P).
+> It features the same internals as BTT CB1 but adds:
+>     - Fan port
+>     - IR receiver
+>     - ADXL345 Accelerometer connector via SPI
+>     - 24V DC power supply via terminal plugs
+>     - USB to CAN module connector (The actual USB to CAN happens on the external module)
 > 
-> The SoM features:
->   - H616 SoC
->   - 1GiB of RAM
->   - AXP313A PMIC
->   - RTL8189FTV WiFi
+> List of currently working things is same as BTT CB1 but also:
+>     - IR receiver
+>     - ADXL345 connector
 > 
-> Boards feature:
->   - 4x USB via USB2 hub (usb1 on SoM).
->   - SDcard slot for loading images.
->   - Ethernet port wired to the internal PHY. (100M)
->   - 2x HDMI 2.0. (Only 1 usable on CB1)
->   - Power and Status LEDs. (Only Status LED usable on CB1)
->   - 40 pin GPIO header
-> 
-> Currently working:
->   - Booting
->   - USB (USB-OTG doesnt work)
->   - UART
->   - MMC
->   - Status LED
->   - WiFi (RTL8189FS via out of tree driver)
-> 
-> I didnt want to duplicate things so the manta DTS can also be used on BTT pi4b adapter.
-> CB1 SoM has its own DTSI file in case other boards shows up that accept this SoM.
-> 
-> Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> Signed-off-by: Martin Botka <martin@biqu3d.com>
 > ---
 > Changes in V2:
->     - Fixed whitespace errors
->     - Move UART into carrier boards and BTT Pi
->     - Remove usb1-vbus regulator
->     - Fix ranges and naming of AXP313A rails
->     - Add comment specifying why broken-cd in mmc0 is needed
->     - Rename sdio_wifi to wifi
->     - Specify in commit description that USB-OTG doesnt work
+>     - Add UART alongside aliases and chosen for it
+>     - Add model string
+>     - Enable IR receiver
+>     - Enable SPI0 for ADXL345 connector
 > 
->  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
->  .../sun50i-h616-bigtreetech-cb1-manta.dts     |  35 +++++
->  .../sun50i-h616-bigtreetech-cb1.dtsi          | 142 ++++++++++++++++++
->  3 files changed, 178 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
+>  arch/arm64/boot/dts/allwinner/Makefile        |  1 +
+>  .../allwinner/sun50i-h616-bigtreetech-pi.dts  | 68 +++++++++++++++++++
+>  2 files changed, 69 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
 > 
 > diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-> index 6a96494a2e0a..7b386428510b 100644
+> index 7b386428510b..0b6232a7f328 100644
 > --- a/arch/arm64/boot/dts/allwinner/Makefile
 > +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> @@ -38,5 +38,6 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64-model-b.dtb
+> @@ -39,5 +39,6 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64-model-b.dtb
 >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
 >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-cb1-manta.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-cb1-manta.dtb
+> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-pi.dtb
 >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
 >  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
 > new file mode 100644
-> index 000000000000..9a30d7d627d9
+> index 000000000000..cbeedf147ab6
 > --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts
-> @@ -0,0 +1,35 @@
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
+> @@ -0,0 +1,68 @@
 > +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
 > +/*
-> + * Copyright (C) 2023 Martin Botka <martin.botka@somainline.org>.
+> + * Copyright (C) 2023 Martin Botka <martin@biqu3d.com>.
 > + */
 > +
 > +/dts-v1/;
@@ -124,13 +101,11 @@ thanks for the changes. Some minor things left ...
 > +#include "sun50i-h616-bigtreetech-cb1.dtsi"
 > +
 > +/ {
-> +	compatible = "bigtreetech,cb1-manta", "allwinner,sun50i-h616";
+> +	model = "BigTreeTech Pi"
 
-This must follow what you just added to sunxi.yaml, so:
-"bigtreetech,cb1-manta", "bigtreetech,cb1", "allwinner,sun50i-h616";
+missing semicolon
 
-And you need the human readable "model" string *here*.
-
+> +	compatible = "bigtreetech,pi", "allwinner,sun50i-h616";
 > +
 > +	aliases {
 > +		serial0 = &uart0;
@@ -141,7 +116,27 @@ And you need the human readable "model" string *here*.
 > +	};
 > +};
 > +
+> +&ehci0 {
+> +	status = "okay";
+> +};
+> +
 > +&ehci1 {
+> +	status = "okay";
+> +};
+> +
+> +&ehci2 {
+> +	status = "okay";
+> +};
+> +
+> +&ehci3 {
+> +	status = "okay";
+> +};
+> +
+> +&ir {
+> +	status = "okay";
+> +};
+> +
+> +&ohci0 {
 > +	status = "okay";
 > +};
 > +
@@ -149,173 +144,35 @@ And you need the human readable "model" string *here*.
 > +	status = "okay";
 > +};
 > +
+> +&ohci2 {
+> +	status = "okay";
+> +};
+> +
+> +&ohci3 {
+> +	status = "okay";
+> +};
+> +
+> +&spi0 {
+> +	/* SPI connection for onboard connector for ADXL345 accelerometer */
+
+You need to specify the pinctrl properties here, since there is no
+default. I guess it's PortC? Then you can copy from the OPiZero2, just
+check the CS situation.
+
+> +	status = "okay";
+> +}
+
+missing semicolon;
+
+Rest looks fine.
+
+Thanks,
+Andre
+
+> +
 > +&uart0 {
 > +	pinctrl-names = "default";
 > +	pinctrl-0 = <&uart0_ph_pins>;
-> +	status = "okay";
-> +};
-> +
-
-Extra empty line here.
-
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
-> new file mode 100644
-> index 000000000000..669c05f642dd
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
-> @@ -0,0 +1,142 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-> +/*
-> + * Copyright (C) 2023 Martin Botka <martin.botka@somainline.org>.
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include "sun50i-h616.dtsi"
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/interrupt-controller/arm-gic.h>
-> +#include <dt-bindings/leds/common.h>
-> +
-> +/ {
-> +	model = "BigTreeTech CB1"
-
-Apart from the missing semicolon, which actually breaks the build (as you
-have discovered yourself): there shouldn't be a model string in a .dtsi
-file, that should be confined to the final board .dts, just as a human
-readable form of the board compatible string. So drop this here, and add
-the respective name to the two .dts files.
-
-Rest looks fine now, thanks.
-
-Cheers,
-Andre
-
-
-> +	aliases {
-> +		ethernet0 = &rtl8189ftv;
-> +	};
-> +
-> +	leds {
-> +		compatible = "gpio-leds";
-> +
-> +		led-0 {
-> +			function = LED_FUNCTION_STATUS;
-> +			color = <LED_COLOR_ID_GREEN>;
-> +			gpios = <&pio 7 5 GPIO_ACTIVE_HIGH>; /* PH5 */
-> +		};
-> +	};
-> +
-> +	reg_vcc5v: regulator-vcc5v {
-> +		/* board wide 5V supply from carrier boards */
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-5v";
-> +		regulator-min-microvolt = <5000000>;
-> +		regulator-max-microvolt = <5000000>;
-> +		regulator-always-on;
-> +	};
-> +
-> +	reg_vcc33_wifi: vcc33-wifi {
-> +		/* Always on 3.3V regulator for WiFi */
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc33-wifi";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +		regulator-always-on;
-> +		vin-supply = <&reg_vcc5v>;
-> +	};
-> +
-> +	reg_vcc_wifi_io: vcc-wifi-io {
-> +		/* Always on 1.8V/300mA regulator for WiFi */
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-wifi-io";
-> +		regulator-min-microvolt = <1800000>;
-> +		regulator-max-microvolt = <1800000>;
-> +		regulator-always-on;
-> +		vin-supply = <&reg_vcc33_wifi>;
-> +	};
-> +
-> +	wifi_pwrseq: wifi-pwrseq {
-> +		compatible = "mmc-pwrseq-simple";
-> +		clocks = <&rtc 1>;
-> +		clock-names = "ext_clock";
-> +		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
-> +		post-power-on-delay-ms = <200>;
-> +	};
-> +};
-> +
-> +&mmc0 {
-> +	vmmc-supply = <&reg_dldo1>;
-> +	/* Card detection pin is not connected */
-> +	broken-cd;
-> +	bus-width = <4>;
-> +	status = "okay";
-> +};
-> +
-> +&mmc1 {
-> +	vmmc-supply = <&reg_vcc33_wifi>;
-> +	vqmmc-supply = <&reg_vcc_wifi_io>;
-> +	mmc-pwrseq = <&wifi_pwrseq>;
-> +	bus-width = <4>;
-> +	non-removable;
-> +	mmc-ddr-1_8v;
-> +	status = "okay";
-> +
-> +	rtl8189ftv: wifi@1 {
-> +		reg = <1>;
-> +	};
-> +};
-> +
-> +&r_i2c {
-> +	status = "okay";
-> +
-> +	axp313a: pmic@36 {
-> +		compatible = "x-powers,axp313a";
-> +		reg = <0x36>;
-> +		interrupt-controller;
-> +		#interrupt-cells = <1>;
-> +
-> +		regulators{
-> +			reg_dcdc1: dcdc1 {
-> +				regulator-name = "vdd-gpu-sys";
-> +				regulator-min-microvolt = <810000>;
-> +				regulator-max-microvolt = <990000>;
-> +				regulator-always-on;
-> +			};
-> +
-> +			reg_dcdc2: dcdc2 {
-> +				regulator-name = "vdd-cpu";
-> +				regulator-min-microvolt = <810000>;
-> +				regulator-max-microvolt = <1100000>;
-> +				regulator-ramp-delay = <200>;
-> +				regulator-always-on;
-> +			};
-> +
-> +			reg_dcdc3: dcdc3 {
-> +				regulator-name = "vcc-dram";
-> +				regulator-min-microvolt = <1350000>;
-> +				regulator-max-microvolt = <1350000>;
-> +				regulator-always-on;
-> +			};
-> +
-> +			reg_aldo1: aldo1 {
-> +				regulator-name = "vcc-1v8-pll";
-> +				regulator-min-microvolt = <1800000>;
-> +				regulator-max-microvolt = <1800000>;
-> +				regulator-always-on;
-> +			};
-> +
-> +			reg_dldo1: dldo1 {
-> +				regulator-name = "vcc-3v3-io";
-> +				regulator-min-microvolt = <3300000>;
-> +				regulator-max-microvolt = <3300000>;
-> +				regulator-always-on;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&usbphy {
 > +	status = "okay";
 > +};
 
