@@ -1,61 +1,65 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C82BA4D
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Aug 2023 14:39:45 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3fe4cdb727cso2316035e9.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Aug 2023 07:39:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33FCC2CF
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Aug 2023 14:48:58 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-31771bb4869so2016257f8f.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 04 Aug 2023 07:48:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691159983; x=1691764783;
+        d=gmail.com; s=20221208; t=1691160537; x=1691765337;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/keJTTgc2oKYX00bfWRy8iHTbGm3dqXm1dsaxhchcPc=;
-        b=KvfYSC7CEGPj1YKXYXG8g17C2CnIly55fHMe4Bh/zvSSV8wQcCvIDANJDAg7EFYs4k
-         Rgxq2Sa7zYSYpyWedo5/COPTTpFMxQYLDBQI7zXnifk11g5RpHYI/SSkODB7BPR1kNpu
-         RH7IzSbez5tb7/fYj4Hgo4DtniyoeeUIIFaHyRMwuZrj7tw3vyB9o/43BIuP0FLOgz58
-         9JAc9SwqVHqix78jPoFsov0VCFE2WP8aO4cJsRZj8iN8yy74PjUZeWOM2cdpy/zy6HP9
-         dK7t/LUbhrN2i4Rd2ji/MrW/GO4Vl88dDHD+/PEvM3S7rmZO5ja3j96DAqugQMhrowPi
-         hbaQ==
+        bh=CN8A9mYHMUSzpwLCsjndAvOatiyxevrG4rZNW9RnBD8=;
+        b=UbxFV6iEDf8BZo5PlZ0RER6V9nhmtulIsuCSOYEQiMT9wAGhYPcDns/oSY7brgxMrH
+         eTCFuwzxOK/MmcHSsI+AAlAPMrrmN/9r8ygPrpJNMKjPdLOrwdclKGqecGvy1aDjzYYg
+         PkhVrw4Szwo9txJnX7zRjQ6nXtwOp4gUEsjE8q7IEQNJMHV25QcrlPAV7RgWxgrPE1Km
+         /aTSf+0cCIyNfsEKSQ2fG8JSEyOfSZxUZJhHnyUiaNZ6IAHHPmIwfo3poO9PuL0nsHNc
+         g0vJB4cyrXM+2iuoidwxUjjY/DKVsaFW+CJ6uC6AQhUlAgA5l5WSmoAYqrSxOsb5gUQT
+         yfAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691159983; x=1691764783;
+        d=1e100.net; s=20221208; t=1691160537; x=1691765337;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/keJTTgc2oKYX00bfWRy8iHTbGm3dqXm1dsaxhchcPc=;
-        b=ag5fi0ow26sz+B7ptpZjjTz1lG3QE1MjKJj1CVmp70665/y+3A7wgcj1jYQ/krems2
-         ssYu17LgKZswx2brVAku11ywiZdr9sedSo02KnKULLKLvs+x6Awz9zOmG7szjBE0hZtE
-         MRJBiVQeMunL0cRx0tsqca7+1lL5tWtC+8FQ8jK01nMsVx6V+zFpEVu5YZHAqiOj6Tc0
-         UHPRpRJvTIVfUGkQACaekUnx8qUCH6HRxnthxXw16HGexfxBDpuIUIGlFuF6J0XMmAwz
-         y5wbyhElqK8YvbVydhMc9+x7pTwv9UjZx6XQ5jVuMgEJUgC2oYjQa2OUXtS5AIBBjzA0
-         dLPA==
-X-Gm-Message-State: AOJu0YxKSrmcb8nv/tdx7GYTRWirTqx6gjC8Tk3k3qM+L899qCt87EFN
-	oCaIyfussQhhbvNJVD1FqoHp4BVilcdSVg==
-X-Google-Smtp-Source: AGHT+IF3frUwbfH0b36TWheEdo2zyf2bWjXefALR0x/pFUcE5xwHRR11pBKFVe1FSUbK1lZJev7c/w==
-X-Received: by 2002:a7b:cc95:0:b0:3fc:3f31:4233 with SMTP id p21-20020a7bcc95000000b003fc3f314233mr1884635wma.38.1691159983036;
-        Fri, 04 Aug 2023 07:39:43 -0700 (PDT)
+        bh=CN8A9mYHMUSzpwLCsjndAvOatiyxevrG4rZNW9RnBD8=;
+        b=LenwSml3QwctvGZWhiW9wYDXnfogT+7z1MaGXYQzomA79JaIcajgwZb3VoBw9WLgaR
+         dJekEc/I9BwS5vkB4PEPYH+E5cB/qb2eGMuwdAM5NbnOe9FkQ8zjdT2bsPVzqfNl5fJh
+         mnwGWHXji3VJNuMbcB+pw0Eaud4ct93tT1uaed9nqeFcDDpxpJdnIj3gp5DWuZy40aJh
+         7GK873o+drtL2qc/w58TFx0qV3tHJAVco58zuv4oqwmzn82+zfmYEcqwHJKDVwQ+J8qH
+         XePGmxHCrM2deyxNy5HgjZEy+JBCU6HDIgAxzmOpKuJ2LiGofyRNJ0P0QM3StwB4p8ln
+         IKwA==
+X-Gm-Message-State: AOJu0Yy8/GxGcIS1SKbge5FTumPoY2Hjj/CVbs3hhsUAo+mTZRSZxRmT
+	nY+eBtv46fk7GjS3WEu0VmU=
+X-Google-Smtp-Source: AGHT+IECR5G/m3KGNK8itqMj7Bnz1simeoZBuU4tCBWIwRkFVpJMmnSqPocPr2sy5Kos6amA1F1L3w==
+X-Received: by 2002:a05:6000:1284:b0:317:5a99:4549 with SMTP id f4-20020a056000128400b003175a994549mr1437844wrx.0.1691160536384;
+        Fri, 04 Aug 2023 07:48:56 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id f22-20020a1cc916000000b003fbc9d178a8sm6834019wmb.4.2023.08.04.07.39.41
+        by smtp.gmail.com with ESMTPSA id j6-20020adff006000000b00317b0155502sm2731877wro.8.2023.08.04.07.48.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Aug 2023 07:39:42 -0700 (PDT)
+        Fri, 04 Aug 2023 07:48:56 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: John Watts <contact@jookia.org>
-Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Maksim Kiselev <bigunclemax@gmail.com>, devicetree@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, mkl@pengutronix.de
-Subject: Re: [PATCH] riscv: dts: allwinner: d1: Specify default CAN pins
-Date: Fri, 04 Aug 2023 16:39:41 +0200
-Message-ID: <5696365.DvuYhMxLoT@jernej-laptop>
-In-Reply-To: <ZMyZ5kZSiiJHtdeS@titan>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "MOESSBAUER, Felix" <felix.moessbauer@siemens.com>,
+ "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
+ "wens@csie.org" <wens@csie.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "Matzinger, Manuel Josef" <manuel.matzinger@siemens.com>,
+ "Bovensiepen, Daniel (bovi)" <daniel.bovensiepen@siemens.com>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "Gylstorff, Quirin" <quirin.gylstorff@siemens.com>
+Subject:
+ Re: [PATCH 1/1] arm: dts: Enable device-tree overlay support for sun8i-h3 pi
+ devices
+Date: Fri, 04 Aug 2023 16:48:54 +0200
+Message-ID: <2290668.ElGaqSPkdT@jernej-laptop>
+In-Reply-To: <20230804153029.7ac9a6e6@donnerap.manchester.arm.com>
 References:
- <20230731023701.2581713-1-contact@jookia.org>
- <3248110.44csPzL39Z@jernej-laptop> <ZMyZ5kZSiiJHtdeS@titan>
+ <20230627133703.355893-1-felix.moessbauer@siemens.com>
+ <5853794.MhkbZ0Pkbq@jernej-laptop>
+ <20230804153029.7ac9a6e6@donnerap.manchester.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -65,36 +69,339 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-Dne petek, 04. avgust 2023 ob 08:25:42 CEST je John Watts napisal(a):
-> On Thu, Aug 03, 2023 at 10:59:30PM +0200, Jernej =C5=A0krabec wrote:
-> > pinctrl-names and pinctrl-0 are usually at the top. However, since there
-> > is no hard rule (I've seen it mixed), I'm fine with it.
+Dne petek, 04. avgust 2023 ob 16:30:29 CEST je Andre Przywara napisal(a):
+> On Thu, 03 Aug 2023 23:26:28 +0200
+> Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
 >=20
-> Happy to change if needed.
-
-If you don't mind, please do.
-
+> Hi,
 >=20
-> > Since original DT node entry goes through netdev tree, this should be
-> > picked there or it can be dropped there and I pick both patches or I can
-> > pick patch for later kernel version.
+> > Dne torek, 01. avgust 2023 ob 13:59:49 CEST je MOESSBAUER, Felix=20
+napisal(a):
+> > > On Mon, 2023-07-31 at 10:53 +0100, Andre Przywara wrote:
+> > > > Hi,
+> > > >=20
+> > > > On 31/07/2023 03:46, MOESSBAUER, Felix wrote:
+> > > > > On Mon, 2023-07-31 at 00:12 +0200, Jernej =C5=A0krabec wrote:
+> > > > > > Dne sreda, 19. julij 2023 ob 14:26:13 CEST je Moessbauer Felix
+> > > > > >=20
+> > > > > > napisal(a):
+> > > > > > > On Tue, 2023-07-11 at 21:42 +0200, Jernej =C5=A0krabec wrote:
+> > > > > > > > Dne torek, 27. junij 2023 ob 15:37:03 CEST je Felix
+> > > > > > > > Moessbauer
+> > > > > > > >=20
+> > > > > > > > napisal(a):
+> > > > > > > > > Add the '-@' DTC option for the sun8i-h3 pi-class devices.
+> > > > > > > > > This
+> > > > > > > > > option
+> > > > > > > > > populates the '__symbols__' node that contains all the
+> > > > > > > > > necessary
+> > > > > > > > > symbols
+> > > > > > > > > for supporting device-tree overlays (for instance from the
+> > > > > > > > > firmware
+> > > > > > > > > or
+> > > > > > > > > the bootloader) on these devices.
+> > > > > > > > >=20
+> > > > > > > > > These devices allow various modules to be connected and
+> > > > > > > > > this
+> > > > > > > > > enables
+> > > > > > > > > users to create out-of-tree device-tree overlays for these
+> > > > > > > > > modules.
+> > > > > > > > >=20
+> > > > > > > > > Please note that this change does increase the size of the
+> > > > > > > > > resulting DTB
+> > > > > > > > > by ~30%. For example, with v6.4 increase in size is as
+> > > > > > > > > follows:
+> > > > > > > > >=20
+> > > > > > > > > 22909 -> 29564 sun8i-h3-orangepi-lite.dtb
+> > > > > > > > > 24214 -> 30935 sun8i-h3-bananapi-m2-plus.dtb
+> > > > > > > > > 23915 -> 30664 sun8i-h3-nanopi-m1-plus.dtb
+> > > > > > > > > 22969 -> 29537 sun8i-h3-nanopi-m1.dtb
+> > > > > > > > > 24157 -> 30836 sun8i-h3-nanopi-duo2.dtb
+> > > > > > > > > 24110 -> 30845 sun8i-h3-orangepi-plus2e.dtb
+> > > > > > > > > 23472 -> 30037 sun8i-h3-orangepi-one.dtb
+> > > > > > > > > 24600 -> 31410 sun8i-h3-orangepi-plus.dtb
+> > > > > > > > > 23618 -> 30230 sun8i-h3-orangepi-2.dtb
+> > > > > > > > > 22170 -> 28548 sun8i-h3-orangepi-zero-plus2.dtb
+> > > > > > > > > 23258 -> 29795 sun8i-h3-nanopi-neo-air.dtb
+> > > > > > > > > 23113 -> 29699 sun8i-h3-zeropi.dtb
+> > > > > > > > > 22803 -> 29270 sun8i-h3-nanopi-neo.dtb
+> > > > > > > > > 24674 -> 31318 sun8i-h3-nanopi-r1.dtb
+> > > > > > > > > 23477 -> 30038 sun8i-h3-orangepi-pc.dtb
+> > > > > > > > > 24622 -> 31380 sun8i-h3-bananapi-m2-plus-v1.2.dtb
+> > > > > > > > > 23750 -> 30366 sun8i-h3-orangepi-pc-plus.dtb
+> > > > > > > > >=20
+> > > > > > > > > Signed-off-by: Felix Moessbauer
+> > > > > > > > > <felix.moessbauer@siemens.com>
+> > > > > > > > > ---
+> > > > > > > > > Please note that I only tested the overlay on the sun8i-h=
+3-
+> > > > > > > > > nanopi-
+> > > > > > > > > neo
+> > > > > > > > > device. However, the devices are quite similar and in
+> > > > > > > > > general
+> > > > > > > > > the
+> > > > > > > > > change to add symbols should be pretty safe. Similar
+> > > > > > > > > patches
+> > > > > > > > > have
+> > > > > > > > > been
+> > > > > > > > > applied to various other devices in the past without any
+> > > > > > > > > negative
+> > > > > > > > > effect (except for the increased size).
+> > > > > > > >=20
+> > > > > > > > I'm not a fan of this approach. What's wrong with letting
+> > > > > > > > kernel
+> > > > > > > > builders
+> > > > > > > > specify this flag on their own at compile time? That way si=
+ze
+> > > > > > > > is
+> > > > > > > > still
+> > > > > > > > completely in domain of builder.
+> > >=20
+> > > At least the Debian maintainers decided to NOT include the -@ for all
+> > > targets, but purely rely on what the kernel offers [5]. They motivate
+> > > this with a similar decision made in the Kernel. This brings us back =
+to
+> > > my patch which enables the -@ for particular boards in the Kernel
+> > > itself.
+> > >=20
+> > > [5] https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D910727#28
+> > >=20
+> > > > > > > That's easier said than done. These symbols are only needed f=
+or
+> > > > > > > some
+> > > > > > > targets (that are commonly used with overlays). But how should
+> > > > > > > a
+> > > > > > > general purpose kernel builder like Debian know which DT to
+> > > > > > > build
+> > > > > > > with
+> > > > > > > symbols and which without? In Yocto the overlays are not real=
+ly
+> > > > > > > needed,
+> > > > > > > as often the original dts is just patched directly.
+> > > > > >=20
+> > > > > > LibreELEC (distro I help with) has support for DT overlays for
+> > > > > > some
+> > > > > > time and
+> > > > > > it was easy to enable symbols for all DTs with simple
+> > > > > > "DTC_FLAGS=3D-@"
+> > > > > > addition
+> > > >=20
+> > > > So why don't you use the U-Boot provided copy of the DTB? We sync t=
+he
+> > > > DTs regularly from the kernel repo to the U-Boot repo, and the U-Bo=
+ot
+> > > > build system builds all DTBs with overlay support already.
+> > > > This also saves you from the hassle to actually find and load the
+> > > > right
+> > > > DTB, as it automatically comes as part of the U-Boot binary.
+> > > > On the U-Boot prompt (or rather in a script) you would then do:
+> > > > =3D> fdt move $fdtcontroladdr $fdt_addr_r
+> > > > =3D> load <source> $fdtoverlay_addr_r <your_overlay>.dtbo
+> > > > =3D> fdt apply $fdtoverlay_addr_r
+> > >=20
+> > > For systems that use u-boot this is a very convenient option. Thanks
+> > > for bringing this up. However, there are other boot-chains where this
+> > > is not an option.
 >=20
-> Do I have to do something based on this, like resend my patch?
+> What other firmware / bootloader would those boards use then? And how wou=
+ld
+> the overlays be applied then? Can't the DTs then not be built with overlay
+> support in this other firmware build process?
+>=20
+> > Also, with this argument no target in the Kernel
+> >=20
+> > > would need to be compiled with -@.
+> > >=20
+> > > My understanding was that adding the -@ is generally accepted if it is
+> > > only done on a per-device basis (which this patch does), but not
+> > > accepted for whole architectures. By that, I expect to see many simil=
+ar
+> > > patches in the future.
+> >=20
+> > I don't necessarly agree with this approach, but since other ways are
+> > rejected, I'll merge this one if there are no further complaints.
+>=20
+> Well, I don't really mind too much, but I don't think this is sustainable:
+> - The requirement to apply overlays is not really confined to just a few
+> named boards, because anyone could find a reason why they would need to
+> change something. So what about the
+> sun8i-h3-emlid-neutis-n5h3-devboard.dts, for instance?
 
-Nothing on your side.
-
-Marc, since you took original patch through netdev tree, what is your decis=
-ion=20
-here?
+I completely agree with you on "not sustainable", but unfortunately catch a=
+ll=20
+solution with kernel config was rejected. I don't see any other option.
 
 Best regards,
-Jernej
+Jernej=20
 
 >=20
+> - I understand that this might sound like a broken record, but I still
+> consider the whole idea of building DTBs through the *kernel* build
+> system, then somehow deploying them along with the kernel and letting the
+> board's firmware load them again as somewhat bonkers to begin with.
+> Although by now it apparently became so ubiquitous that most people seem
+> to accept this as a given.
+>=20
+> As the devicetree describes the device, it should be considered part of
+> the firmware, so just integrating it into the firmware (SPL/bootloader) is
+> the natural choice. And in this process you can choose to build with
+> overlay support - which is exactly what U-Boot does.
+>=20
+> I consider the Linux kernel repository just the canonical place to store
+> the DT files, although more for historic than for really good reasons.
+> So building them using the kernel build system is more a matter of build
+> testing and validation than something really to be used.
+>=20
+> Cheers,
+> Andre.
+>=20
+> > Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> >=20
 > > Best regards,
 > > Jernej
->=20
-> John
+> >=20
+> > > Cheers,
+> > > Felix
+> > >=20
+> > > > You could also chime in on this U-Boot patch of mine, that loads and
+> > > > applies all .dtbo files found in a given directory:
+> > > > https://lore.kernel.org/u-boot/20230210110213.2531190-1-andre.przyw=
+ara
+> > > > @arm
+> > > > .com/
+> > > >=20
+> > > > Cheers,
+> > > > Andre
+> > > >=20
+> > > > > Thanks for the pointer. If this would be a kconfig option, I would
+> > > > > agree. There's a patch to add this option, but this did not get
+> > > > > accepted [3]. Just manually adding some "magic" options does not
+> > > > > feel
+> > > > > correct.
+> > > > >=20
+> > > > > > to build command [1]. Do you see any downside except knowing you
+> > > > > > have
+> > > > > > to
+> > > > > > include it? On the upside, there is no need to patch each and
+> > > > > > every
+> > > > > > file and
+> > > > > > kernel builder has a choice if overlays should be supported or
+> > > > > > not.
+> > > > >=20
+> > > > > There is a similar feature request for Debian, but without a
+> > > > > decision
+> > > > > yet [4]. I just cross-referenced it to this thread.
+> > > > >=20
+> > > > > > Note that
+> > > > > > in some cases overlays can be needed even in the case when board
+> > > > > > doesn't have
+> > > > > > expansion ports.
+> > > > >=20
+> > > > > If that is the case, why can't we at least add the patch from [3]
+> > > > > and
+> > > > > provide the distros an easy option to enable overlays? Once
+> > > > > integrated,
+> > > > > we can eventually get rid of all the per-device patches in the
+> > > > > kernel.
+> > > > >=20
+> > > > > Best regards,
+> > > > > Felix
+> > > > >=20
+> > > > > [3] https://www.spinics.net/lists/kernel/msg4252361.html
+> > > > > [4] https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D910727
+> > > > >=20
+> > > > > > Best regards,
+> > > > > > Jernej
+> > > > > >=20
+> > > > > > [1]
+> > > > > > https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/=
+lin
+> > > > > > ux/
+> > > > > > package.mk#L213
+> > > > > >=20
+> > > > > > > There has been a discussion in 2017 to improve the situation =
+in
+> > > > > > > general, but without any final decision or implementation [1].
+> > > > > > > By
+> > > > > > > that,
+> > > > > > > these patches got more and more common. I recently sent a very
+> > > > > > > similar
+> > > > > > > patch for a riscv board that got accepted [2].
+> > > > > > >=20
+> > > > > > > IMHO it is better to have these patches in the kernel instead
+> > > > > > > of
+> > > > > > > carrying different variants of this in each Linux distro. IMH=
+O,
+> > > > > > > the
+> > > > > > > board vendors themselves should add this when they add a boar=
+d.
+> > > > > > >=20
+> > > > > > > [1]
+> > > > > > > https://lore.kernel.org/lkml/1502831736-28282-1-git-send-emai=
+l-t
+> > > > > > > rini
+> > > > > > > @konsulk
+> > =20
+> >  o.com/ [2]
+> > =20
+> > > > > > > https://lore.kernel.org/linux-devicetree/20230627080620.32987=
+3-1
+> > > > > > > -fel
+> > > > > > > ix.moess
+> > =20
+> >  bauer@siemens.com/
+> > =20
+> > > > > > > Best regards,
+> > > > > > > Felix
+> > > > > > >=20
+> > > > > > > > Best regards,
+> > > > > > > > Jernej
+> > > > > > > >=20
+> > > > > > > > > Felix Moessbauer
+> > > > > > > > > Siemens AG
+> > > > > > > > >=20
+> > > > > > > > >   arch/arm/boot/dts/allwinner/Makefile | 19
+> > > > > > > > >=20
+> > > > > > > > > +++++++++++++++++++
+> > > > > > > > >=20
+> > > > > > > > >   1 file changed, 19 insertions(+)
+> > > > > > > > >=20
+> > > > > > > > > diff --git a/arch/arm/boot/dts/allwinner/Makefile
+> > > > > > > > > b/arch/arm/boot/dts/allwinner/Makefile index
+> > > > > > > > > 589a1ce1120a..eebb5a0c873a
+> > > > > > > > > 100644
+> > > > > > > > > --- a/arch/arm/boot/dts/allwinner/Makefile
+> > > > > > > > > +++ b/arch/arm/boot/dts/allwinner/Makefile
+> > > > > > > > > @@ -179,6 +179,25 @@ dtb-$(CONFIG_MACH_SUN7I) +=3D \
+> > > > > > > > >=20
+> > > > > > > > >          sun7i-a20-pcduino3-nano.dtb \
+> > > > > > > > >          sun7i-a20-wexler-tab7200.dtb \
+> > > > > > > > >          sun7i-a20-wits-pro-a20-dkt.dtb
+> > > > > > > > >=20
+> > > > > > > > > +
+> > > > > > > > > +# Enables support for device-tree overlays for all pis
+> > > > > > > > > +DTC_FLAGS_sun8i-h3-orangepi-lite :=3D -@
+> > > > > > > > > +DTC_FLAGS_sun8i-h3-bananapi-m2-plus :=3D -@
+> > > > > > > > > +DTC_FLAGS_sun8i-h3-nanopi-m1-plus :=3D -@
+> > > > > > > > > +DTC_FLAGS_sun8i-h3-nanopi-m1 :=3D -@
+> > > > > > > > > +DTC_FLAGS_sun8i-h3-nanopi-duo2 :=3D -@
+> > > > > > > > > +DTC_FLAGS_sun8i-h3-orangepi-plus2e :=3D -@
+> > > > > > > > > +DTC_FLAGS_sun8i-h3-orangepi-one :=3D -@
+> > > > > > > > > +DTC_FLAGS_sun8i-h3-orangepi-plus :=3D -@
+> > > > > > > > > +DTC_FLAGS_sun8i-h3-orangepi-2 :=3D -@
+> > > > > > > > > +DTC_FLAGS_sun8i-h3-orangepi-zero-plus2 :=3D -@
+> > > > > > > > > +DTC_FLAGS_sun8i-h3-nanopi-neo-air :=3D -@
+> > > > > > > > > +DTC_FLAGS_sun8i-h3-zeropi :=3D -@
+> > > > > > > > > +DTC_FLAGS_sun8i-h3-nanopi-neo :=3D -@
+> > > > > > > > > +DTC_FLAGS_sun8i-h3-nanopi-r1 :=3D -@
+> > > > > > > > > +DTC_FLAGS_sun8i-h3-orangepi-pc :=3D -@
+> > > > > > > > > +DTC_FLAGS_sun8i-h3-bananapi-m2-plus-v1.2 :=3D -@
+> > > > > > > > > +DTC_FLAGS_sun8i-h3-orangepi-pc-plus :=3D -@
+> > > > > > > > >=20
+> > > > > > > > >   dtb-$(CONFIG_MACH_SUN8I) +=3D \
+> > > > > > > > >  =20
+> > > > > > > > >          sun8i-a23-evb.dtb \
+> > > > > > > > >          sun8i-a23-gt90h-v4.dtb \
 
 
 
