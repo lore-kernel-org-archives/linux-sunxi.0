@@ -1,43 +1,43 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB2918026
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Aug 2023 19:03:16 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-317b31203c7so2187483f8f.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Aug 2023 12:03:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBDDB1BF1E
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Aug 2023 19:05:41 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3fe2048c910so22610695e9.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 04 Aug 2023 12:05:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691175794; x=1691780594;
+        d=gmail.com; s=20221208; t=1691175940; x=1691780740;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aBQznZc6KngA0qSX8JhcbfCzyQcmohoYG9cU4rXPPQk=;
-        b=LDEC7ag2o3gTORvOstYA3ZrCBzX0wu0RuaKKvZAF47hjYUMgw4IqJUc7PzopJeWR0R
-         Fw5VHUHA9kqKRFSA9R4+weld8Bj8zp6APiKfBF163vBnEWZDZxENPtxDDqSy2DRA6aV+
-         dYRuKm5BQ1Yw34VU8K45IbOgSxgxbQatxm7M57nSXjUCg7u+aVZD06rUHj91zb9b7t9I
-         7Eup6AlYYAYuh56/fPiOMsfwORkkGf9cfBXK2D8PKERDbmVxY7vurxbqDyhLHF2oK6Xc
-         MMq3lOfAOGciv2IGZIdsb2CGn0r2MhbvoP3rTxHAnhdZDROCpWyI2/P8PNvMzgbHR/72
-         2eMA==
+        bh=RImfxtxvGtLO2n9zPJtV/vphcAvXDGCdvAZ0GbDbKrk=;
+        b=sQ/fQqqtQOaPptev4nG45CWIPf3ZJmox/dXbVk/wnAnyPSDQgvEB1sGCfzREKDHyxz
+         uMrYsS5yWsVqKOPLEszFO9lH4VE65Cz9c9p05HnHvakq7AtBEsNPBj+M3wcyozDNPTAw
+         9ubz1s2RBijzpI+vuzs1rnn0LgZGWXogRuLqMRHPRb3Cvs2Gsu8E8J4a/sj91PF4kYGG
+         3PWdbW553UZUYx3DOf/uixvEkElav2rbAZfXMs4KPDV0M/L02RuFEv5lZC7ik+N/8M/L
+         SdPl4NuUYkX2WGrRwF/Y656nfT6EiwhJjrpygWVd18YE9kgd9BpeBnW0tCpGG5q7dVNZ
+         UrXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691175794; x=1691780594;
+        d=1e100.net; s=20221208; t=1691175940; x=1691780740;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aBQznZc6KngA0qSX8JhcbfCzyQcmohoYG9cU4rXPPQk=;
-        b=UYZsinIy49UOA1awslBTktV79cRlav25gTjh+NL3/T1GxEa4CmvQKCpCmC5hEZzPS1
-         ieyoqHROk4TOs244olC8y8cujHmLAUaP9pRD4yGt7EpkWQcweaN0abZ+VwjaTwLKhtfH
-         mpHpIpzsk2lo/lNQMp4v87edstXqe9+gQ67z4O/AGGxISM12ASdBH0wOi+QrwQVXz9vl
-         iZbxAPhCZcQjab8BdoT3jL4ctkq9xCXX7vFKQGiNrvadVQ/xNpqT1i0uzALli6k9E4Uu
-         hhC7c8b5gwie51gkeynnKZyMfKsAIWWLcSEo7oDJM/3Q4e75l+vRXf4uOvjFcRPUz73M
-         r2Eg==
-X-Gm-Message-State: AOJu0YwR7nHfih29ME1geWC83cLboKNk7pA95G3juWdnFIy/jr6XrbPJ
-	YdG1VhcEwy6+Rk9sPzeZucw=
-X-Google-Smtp-Source: AGHT+IEYJGHc532Wwdt2wL64d5EBMgXcif26NnW434MUKhvoFJEJh0b+cNfvs8etfBAolMfVUJK18A==
-X-Received: by 2002:adf:ed0f:0:b0:314:1aed:8f5f with SMTP id a15-20020adfed0f000000b003141aed8f5fmr1593821wro.34.1691175794130;
-        Fri, 04 Aug 2023 12:03:14 -0700 (PDT)
+        bh=RImfxtxvGtLO2n9zPJtV/vphcAvXDGCdvAZ0GbDbKrk=;
+        b=Zlz53O+ZKjlA7kIWehhQ4lIuM5cYcgmtuRZTiGZXtDc+fmkwzTSrYEEsuOcLAVJ9hF
+         QfqSaeMjsNafbigS5J88qrVOg7xErGPHoIWwEljq5LeKkNHflPh/9er63AhBd6wwwRKX
+         JAFrqcmmmrld91i4Ym+Cu8p5E6dTISa0ED6ueBs6eRRlpxXgGTrJ3kikEvd3aKHCwtYA
+         MEIsgUVaBpxN2/0lGm+TOMMdZixF3jqNZfhOln0MQfaQeCV5rhy/mpnb8ONU4Yy5wc+O
+         LpK1tJRIx1QwxO+IEk+E0aJnRsOxaG3DO2drsnybvk4fPa/jq+5bNjuiVaBOWMx8eGVS
+         IE3Q==
+X-Gm-Message-State: AOJu0Yy6rjJEzcK1qlJXXxC6y3yP5n2xoYgVDQ+0OVBe7n0hCP9l+Jp1
+	oTCs2oJtuBpSb8vfiVVGWXU=
+X-Google-Smtp-Source: AGHT+IEn1aXb9mEpqN8jQUJqVtnlCntlV7okng3mYJc7tFxDGgv2efEXqCJ0/u4COACFPhXcJalyeA==
+X-Received: by 2002:a7b:cc87:0:b0:3fe:4e4e:bedb with SMTP id p7-20020a7bcc87000000b003fe4e4ebedbmr172426wma.4.1691175939761;
+        Fri, 04 Aug 2023 12:05:39 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id g6-20020a056000118600b00314398e4dd4sm3137260wrx.54.2023.08.04.12.03.13
+        by smtp.gmail.com with ESMTPSA id 22-20020a05600c22d600b003fe2de3f94fsm3063043wmg.12.2023.08.04.12.05.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Aug 2023 12:03:13 -0700 (PDT)
+        Fri, 04 Aug 2023 12:05:38 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -48,14 +48,14 @@ Cc: Icenowy Zheng <uwu@icenowy.me>,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org
 Subject:
- Re: [PATCH v2 2/3] dt-bindings: arm: sunxi: document Orange Pi Zero 3 board
- name
-Date: Fri, 04 Aug 2023 21:03:12 +0200
-Message-ID: <5696551.DvuYhMxLoT@jernej-laptop>
-In-Reply-To: <20230804170856.1237202-3-andre.przywara@arm.com>
+ Re: [PATCH v2 3/3] arm64: dts: allwinner: h616: Add OrangePi Zero 3 board
+ support
+Date: Fri, 04 Aug 2023 21:05:36 +0200
+Message-ID: <4500165.LvFx2qVVIh@jernej-laptop>
+In-Reply-To: <20230804170856.1237202-4-andre.przywara@arm.com>
 References:
  <20230804170856.1237202-1-andre.przywara@arm.com>
- <20230804170856.1237202-3-andre.przywara@arm.com>
+ <20230804170856.1237202-4-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -65,40 +65,164 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne petek, 04. avgust 2023 ob 19:08:55 CEST je Andre Przywara napisal(a):
-> The Orange Pi Zero 3 board is an updated version of the Zero 2 board.
-> It uses a SoC called H618, which just seems to be an H616 with more L2
-> cache.
+Dne petek, 04. avgust 2023 ob 19:08:56 CEST je Andre Przywara napisal(a):
+> The OrangePi Zero 3 is a development board based on the Allwinner H618 SoC,
+> which seems to be just an H616 with more L2 cache. The board itself is a
+> slightly updated version of the Orange Pi Zero 2. It features:
+> - Four ARM Cortex-A53 cores, Mali-G31 MP2 GPU
+> - 1/1.5/2/4 GiB LPDDR4 DRAM SKUs (only up to 1GB on the Zero2)
+> - AXP313a PMIC (more capable AXP305 on the Zero2)
+> - Raspberry-Pi-1 compatible GPIO header
+> - extra 13 pin expansion header, exposing pins for 2x USB 2.0 ports
+> - 1 USB 2.0 host port
+> - 1 USB 2.0 type C port (power supply + OTG)
+> - MicroSD slot
+> - on-board 16MiB bootable SPI NOR flash (only 2MB on the Zero2)
+> - 1Gbps Ethernet port (via Motorcomm YT8531 PHY) (RTL8211 on the Zero2)
+> - micro-HDMI port
+> - (yet) unsupported Allwinner WiFi/BT chip
 > 
-> Add the board/SoC compatible string pair to the list of known boards.
+> Add the devicetree file describing the currently supported features,
+> namely LEDs, SD card, PMIC, SPI flash, USB. Ethernet seems unstable at
+> the moment, though the basic functionality works.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  arch/arm64/boot/dts/allwinner/Makefile        |  1 +
+>  .../allwinner/sun50i-h618-orangepi-zero3.dts  | 94 +++++++++++++++++++
+>  2 files changed, 95 insertions(+)
+>  create mode 100644
+> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/Makefile
+> b/arch/arm64/boot/dts/allwinner/Makefile index 6a96494a2e0a3..3b0ad54062381
+> 100644
+> --- a/arch/arm64/boot/dts/allwinner/Makefile
+> +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> @@ -40,3 +40,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
+> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
+> b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts new file
+> mode 100644
+> index 0000000000000..96a6851728111
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
+> @@ -0,0 +1,94 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +/*
+> + * Copyright (C) 2023 Arm Ltd.
+> + */
+> +
+> +/dts-v1/;
+> +
+> +#include "sun50i-h616-orangepi-zero.dtsi"
+> +
+> +/ {
+> +	model = "OrangePi Zero3";
+> +	compatible = "xunlong,orangepi-zero3", "allwinner,sun50i-h618";
+> +};
+> +
+> +&emac0 {
+> +	phy-supply = <&reg_dldo1>;
+> +};
+> +
+> +&ext_rgmii_phy {
+> +	motorcomm,clk-out-frequency-hz = <125000000>;
+> +};
+> +
+> +&mmc0 {
+> +	/*
+> +	 * The schematic shows the card detect pin wired up to PF6, via an
+> +	 * inverter, but it just doesn't work.
+> +	 */
+> +	broken-cd;
+> +	vmmc-supply = <&reg_dldo1>;
+> +};
+> +
+> +&r_i2c {
+> +	status = "okay";
+> +
+> +	axp313: pmic@36 {
+> +		compatible = "x-powers,axp313a";
+> +		reg = <0x36>;
+> +		#interrupt-cells = <1>;
+> +		interrupt-controller;
+> +		interrupt-parent = <&pio>;
+> +		interrupts = <2 9 IRQ_TYPE_LEVEL_LOW>;	/* PC9 */
+> +
+> +		vin1-supply = <&reg_vcc5v>;
+> +		vin2-supply = <&reg_vcc5v>;
+> +		vin3-supply = <&reg_vcc5v>;
+> +
+> +		regulators {
+> +			/* Supplies VCC-PLL, so needs to be always 
+on. */
+> +			reg_aldo1: aldo1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = 
+<1800000>;
+> +				regulator-max-microvolt = 
+<1800000>;
+> +				regulator-name = "vcc1v8";
+> +			};
+> +
+> +			/* Supplies VCC-IO, so needs to be always on. 
+*/
+> +			reg_dldo1: dldo1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = 
+<3300000>;
+> +				regulator-max-microvolt = 
+<3300000>;
+> +				regulator-name = "vcc3v3";
+> +			};
+> +
+> +			reg_dcdc1: dcdc1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = 
+<810000>;
+> +				regulator-max-microvolt = 
+<990000>;
+> +				regulator-name = "vdd-gpu-sys";
+> +			};
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Is it safe to change sys voltage when system is running?
 
 Best regards,
 Jernej
 
-> ---
->  Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml
-> b/Documentation/devicetree/bindings/arm/sunxi.yaml index
-> ee8fdd2da869a..58f322b9585f2 100644
-> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> @@ -997,4 +997,9 @@ properties:
->            - const: xunlong,orangepi-zero2
->            - const: allwinner,sun50i-h616
-> 
-> +      - description: Xunlong OrangePi Zero 3
-> +        items:
-> +          - const: xunlong,orangepi-zero3
-> +          - const: allwinner,sun50i-h618
 > +
->  additionalProperties: true
+> +			reg_dcdc2: dcdc2 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = 
+<810000>;
+> +				regulator-max-microvolt = 
+<1100000>;
+> +				regulator-name = "vdd-cpu";
+> +			};
+> +
+> +			reg_dcdc3: dcdc3 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = 
+<1100000>;
+> +				regulator-max-microvolt = 
+<1100000>;
+> +				regulator-name = "vdd-dram";
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&pio {
+> +	vcc-pc-supply = <&reg_dldo1>;
+> +	vcc-pf-supply = <&reg_dldo1>;
+> +	vcc-pg-supply = <&reg_aldo1>;
+> +	vcc-ph-supply = <&reg_dldo1>;
+> +	vcc-pi-supply = <&reg_dldo1>;
+> +};
 
 
 
