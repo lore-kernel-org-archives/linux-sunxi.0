@@ -1,45 +1,45 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D76F2846C
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Aug 2023 09:37:30 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-99c897d33ecso126622366b.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Aug 2023 02:37:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 218009479
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Aug 2023 09:39:23 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-99bcfe28909so255180266b.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 04 Aug 2023 02:39:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691141849; x=1691746649;
+        d=linaro.org; s=google; t=1691141962; x=1691746762;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ldSCG+6LPCN3GhOyLEkZnY6hjS6A7mk0dYNnbDmjePo=;
-        b=pxcxlQSG4c0ekuugNe7J/VBx3DparTKH6aU2NfbMhCqFcu1uBMIOTmV36b5n9B2wXx
-         2ic7wb6gh8C0XgnUv+8UTz7IsIYSPBpGKs2UNoZ4BFLq30a3KTegJDFRUjYOWDrIPL1v
-         QSQPYzAaIhwXbszkJYxfEko+57sxV0k9boirQeBgjfOiGsiV4BOeLrF/nouftxnxr3Oy
-         IUv9orhhnY3GAGY5M2HKWlO6RMIe6heyyId2ualfkchG1ophTPYDICGmdLKVNP4mzKYQ
-         0JzL+U0a0z3sGT47CfoS6GtUuxy8YheAUk9ExEq/PjYor/eryYQ9RKX2bAfIWcCaK42Y
-         9E2Q==
+        bh=SqFgyxgqKy35egMtAQEDXFAX67wWyryg2XIdy5uYFb0=;
+        b=klneINchgp12vI4XsOnGJdC/i6io2p0bGAbVYSLuLGGSKaI4DCgPyT6EXqHyJlj5f6
+         oVoR5gVtEn8dcNnZrKI2TKFQn9BvurZMt9sTQgURH0ED6AhIQLb2eyDWX4NRCnHTxhGI
+         Y6HBt+IeM/iPvkVk5jc6MeACweiXFf0loc6kzYrIGt/4kHGiWnSMxt7O4aLAMWACa8tB
+         pRhnbJjU1Rr+HzlfPTvsJRgTiVU3ENTVM06HalwlATMrKjy7kf1fkN/KVd2RTAJLb4IV
+         a8ee3uHaX90n4uKJHM+oc3pg1yKqSOr8FSfvAdnqq+IU9hW2g+ay7mTrz3xg2IqO2JWN
+         CC/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691141849; x=1691746649;
+        d=1e100.net; s=20221208; t=1691141962; x=1691746762;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ldSCG+6LPCN3GhOyLEkZnY6hjS6A7mk0dYNnbDmjePo=;
-        b=RBHAyvy8CMRIa99dTwDginGDUetrAdxW5OFNAcStz56A/47ouiWsQDCRQnU9cwHxZZ
-         etJqz81UvQs4UYzDF8mIAXBVBP/5ZNKD6LiHajI+YDyPxsBBP5D4VJ0OWcYmkTlo/bTf
-         Qs6/VCUMD47AOxuB/fQRnNAZRFkQ/Hw+irTrWqMEWBJvB1juP4Mp5O9RaK0Dul95jOXF
-         0XWofiyd2CWPD0hVeJzZ2MYTxH9o0WHMf/kUXmq2vJJLyZYmc+JvqqpYSYxwotJQ91QL
-         9gZceXbuIxE+MjKpNJ8PCNfaiwpALOLmxA6EJBqfOi06a9NT7mKo1tDRKjpClvF8AXa3
-         FzQQ==
-X-Gm-Message-State: AOJu0YyhlZ7h+s4sV7tdqZHw4iSdGwpbOwrSfYnN+LKOtndbXCMXqV6C
-	Nt5JyWSmCl6+Cx532KSulSVkyw==
-X-Google-Smtp-Source: AGHT+IGvg/xMMV17wiJBz5ohTtX2f3abYbGt2Syqm1MyR5UOQm2AuKUvMAoVGZ1hdzgZzOZGhf00Pg==
-X-Received: by 2002:a17:907:7888:b0:99b:7297:fbf5 with SMTP id ku8-20020a170907788800b0099b7297fbf5mr1124105ejc.61.1691141848923;
-        Fri, 04 Aug 2023 02:37:28 -0700 (PDT)
+        bh=SqFgyxgqKy35egMtAQEDXFAX67wWyryg2XIdy5uYFb0=;
+        b=RlfdjVZYBFpxwcxFsFcLzPQU2pv/mnaUoP1FW7SvIMV87E4UTxsaYN9exGHNUmK/4v
+         6rblx+gRtHAUFdBrRmWArPC/sZQGFzLrsqr6vk6q/nq/eBwAbni4fC2xTOr0aYU/DGDN
+         rFjW3NUhzYfFnzzPSzmayNGyCwOj4HRxqBUBkDvMBCZjHrOAHGD81k+QZKzJ5SdB6zPj
+         +aOXFQZ7OXcXDXzL5FtlAzxj4R92cRjF8kFic6OmkdaZGFKW1jFSoCvr0Suw7RfSjY3w
+         nu6MlGonEBJ071r8HjNDD5AK7tEoBfsi6jecT4tr151AgQqeZExfdqNtCLBaockbOjly
+         i+bw==
+X-Gm-Message-State: AOJu0YwlXQaPjfSUTNZ3O7Gt258FBry3UC7rYJNVKxZjGNqkju5MvtUd
+	L9z4b8Y+kTBY8F0NKYF/UMGRbw==
+X-Google-Smtp-Source: AGHT+IHYGRFd8aUGz4ZpQSn8X692eIjgbM4iTHu71H0jGFofVuKtYwFdPegnaRkxfeBlJ+vOWRygLw==
+X-Received: by 2002:a17:907:75c8:b0:993:d75b:63ea with SMTP id jl8-20020a17090775c800b00993d75b63eamr1114333ejc.16.1691141962066;
+        Fri, 04 Aug 2023 02:39:22 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.222.245])
-        by smtp.gmail.com with ESMTPSA id z5-20020a170906434500b00977cad140a8sm1040821ejm.218.2023.08.04.02.37.26
+        by smtp.gmail.com with ESMTPSA id bn10-20020a170906c0ca00b00992b0745548sm1047976ejb.152.2023.08.04.02.39.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Aug 2023 02:37:28 -0700 (PDT)
-Message-ID: <d0d7f1ef-4549-e563-e83e-6a6aab40eb38@linaro.org>
-Date: Fri, 4 Aug 2023 11:37:26 +0200
+        Fri, 04 Aug 2023 02:39:21 -0700 (PDT)
+Message-ID: <f17d22ad-97c4-3e9c-7e98-6251be4be58e@linaro.org>
+Date: Fri, 4 Aug 2023 11:39:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -48,7 +48,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.14.0
-Subject: Re: [PATCH v2 1/4] dt-bindings: vendor-prefixes: Add BigTreeTech
+Subject: Re: [PATCH v2 2/4] dt-bindings: arm: sunxi: Add BigTreeTech boards
 Content-Language: en-US
 To: Martin Botka <martin@biqu3d.com>, martin.botka1@gmail.com
 Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
@@ -61,8 +61,8 @@ Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Icenowy Zheng <uwu@icenowy.me>,
- Andrew Lunn <andrew@lunn.ch>, Ludwig Kormann <ludwig.kormann@ict42.de>,
+ Samuel Holland <samuel@sholland.org>, Andrew Lunn <andrew@lunn.ch>,
+ Icenowy Zheng <uwu@icenowy.me>, Ludwig Kormann <ludwig.kormann@ict42.de>,
  Heiko Stuebner <heiko@sntech.de>, Shawn Guo <shawnguo@kernel.org>,
  Bjorn Andersson <andersson@kernel.org>,
  Chris Morgan <macromorgan@hotmail.com>, Jagan Teki <jagan@edgeble.ai>,
@@ -70,22 +70,23 @@ Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org
 References: <20230804090102.273029-1-martin@biqu3d.com>
- <C2CB4DF32C2C55DC+20230804090102.273029-2-martin@biqu3d.com>
+ <7029E91796EC6A20+20230804090102.273029-3-martin@biqu3d.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <C2CB4DF32C2C55DC+20230804090102.273029-2-martin@biqu3d.com>
+In-Reply-To: <7029E91796EC6A20+20230804090102.273029-3-martin@biqu3d.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 04/08/2023 11:00, Martin Botka wrote:
 > From: Martin Botka <martin.botka@somainline.org>
 > 
-> BigTreeTech is a company based in Shenzhen that makes
-> 3D printers and accessories.
-> 
-> Add prefix for it.
+> Add name & compatible for BigTreeTech Manta boards and
+> BigTreeTech Pi
 > 
 > Signed-off-by: Martin Botka <martin.botka@somainline.org>
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+> Changes in V2:
+>     - Remove CB1 SoM as its own entry
+
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
