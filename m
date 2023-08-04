@@ -1,28 +1,28 @@
 Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.154.54.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC7B9449
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D758B9479
 	for <linux-sunxi@lists.linux.dev>; Fri,  4 Aug 2023 09:03:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=biqu3d.com;
-	s=tfld2305; t=1691139773;
-	bh=JgVNZzIhlR6H9gFXmbCf8H3Qt2YzotlwqrsJXwmccCo=;
+	s=tfld2305; t=1691139763;
+	bh=G96HVMbLI1rU6p4k3yG0aS8re6ZL3+6cwgPKnuBJvBs=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=A0Ai0juRZcD+mX+0pFlu3RxVK3Q4uJWRvp1KZTn1Lnmcn/TM8W7+Ca8fohlt0OPGw
-	 vHa1/OJnXUABwN78JRhlK4qdGcROYQedocdT04Lvrq/L/Vdc9ZddmflON00c9YZ+wS
-	 CyJZoRbPfxbV4c96Im/wiAzvXFe51WVhALIFuENI=
-X-QQ-mid: bizesmtp65t1691139730to70lhm5
+	b=d2a8Mij6o+w//GVdCOO2xmlVgiODZsipnzTmi4dJOBlnGPWpmruZqE/89lHs6jCNS
+	 Zyt9LeTzwl25NcfGhLrQq4sGWg0vKNuTFcOi09W94DOWetCvQn2ulDOLHR5FYQ3jA9
+	 3o2lDOF2y8BsbROPJmpIWgPhPPkw/e296A9xMvts=
+X-QQ-mid: bizesmtp65t1691139711trsfg9py
 Received: from localhost.localdomain ( [178.41.211.221])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 04 Aug 2023 17:01:54 +0800 (CST)
+	id ; Fri, 04 Aug 2023 17:01:36 +0800 (CST)
 X-QQ-SSF: 01400000000000404000000A0000000
-X-QQ-FEAT: bhet8yMU7vnuaKYQvQUAFldXCMttqStdUfNe0fI+vevf21iJgX6Wayc84GUXt
-	+uw0N5BbrA0/8LtvzWgTmd9CV/6OsJfOaYKX7Hjs9i3yF4wyESfhn//IUYV8QfGXeUSHt40
-	HMAeNP/VRFqWvSmNQNsWwjPwe/fY9MoO6wcQOMLzykEWIIdAjYLdDpBfU1QgbzcC37Mp4W3
-	Op2I1V07yB4rpnuAuPsGd/iGDTRhD6ThMfc0n5ucWeTAp96ctfmEqdweB647obnRf5qX8wG
-	T+wqxccTYeDAwXSDWsbVA5wKvAvuZUn1et7rWznIf6KVas6wOtInyCPQbsAY/7izjCqyfD3
-	3a8RP4K/T3NVfxoRmZ19kMJwwix035x+y2hOrPOmjyh219jgKE2vN+q7rGWNBWNL6ODcdcl
+X-QQ-FEAT: 3M0okmaRx3iNoq7ZaVT6vK4nsgC5VWMtIff9yGzFL4IQNx1BhKVoI9bhHacUg
+	3ZoLXNYsxaUbFMvFwLKXiIzyJB1VeQhw8oU81RgwJFhT7p8swrE+wuUDXW/cmQipS5EEyN/
+	MnWKlx7j9bzWitRjfDUEUXj2Ukr9uUc8/KVAeg+VHlrwNZ+Ruog6e+E3dk0mf8rgaXvC5Ls
+	qPdSLq3JpxDYxIDB4hOCNS5eHSMDg7gYX76KCtyuCfh8G60GcbKuwG125+Il2Ndr0QK6GMk
+	PET7JhqT+SWSpQLMTtYyQPfDyIgtk7TCJ8o3c8qLyiP1Q/hVWjvT4s9ROiHuxmRGAps9PTv
+	yPJGQhDO6nRxcn9/OCXN1uNet6XTBR1ZZomQZoy9EO4O9aIt2CrKvd+DKupezhuxbltMgnw
 X-QQ-GoodBg: 2
-X-BIZMAIL-ID: 7036281750618526681
+X-BIZMAIL-ID: 17424578226797176994
 From: Martin Botka <martin@biqu3d.com>
 To: martin.botka1@gmail.com
 Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
@@ -38,8 +38,8 @@ Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Andrew Lunn <andrew@lunn.ch>,
 	Icenowy Zheng <uwu@icenowy.me>,
+	Andrew Lunn <andrew@lunn.ch>,
 	Ludwig Kormann <ludwig.kormann@ict42.de>,
 	Heiko Stuebner <heiko@sntech.de>,
 	Shawn Guo <shawnguo@kernel.org>,
@@ -51,9 +51,9 @@ Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/4] dt-bindings: arm: sunxi: Add BigTreeTech boards
-Date: Fri,  4 Aug 2023 11:00:30 +0200
-Message-ID: <7029E91796EC6A20+20230804090102.273029-3-martin@biqu3d.com>
+Subject: [PATCH v2 1/4] dt-bindings: vendor-prefixes: Add BigTreeTech
+Date: Fri,  4 Aug 2023 11:00:29 +0200
+Message-ID: <C2CB4DF32C2C55DC+20230804090102.273029-2-martin@biqu3d.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230804090102.273029-1-martin@biqu3d.com>
 References: <20230804090102.273029-1-martin@biqu3d.com>
@@ -69,40 +69,33 @@ Feedback-ID: bizesmtp:biqu3d.com:qybglogicsvrgz:qybglogicsvrgz5a-1
 
 From: Martin Botka <martin.botka@somainline.org>
 
-Add name & compatible for BigTreeTech Manta boards and
-BigTreeTech Pi
+BigTreeTech is a company based in Shenzhen that makes
+3D printers and accessories.
+
+Add prefix for it.
 
 Signed-off-by: Martin Botka <martin.botka@somainline.org>
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 ---
 Changes in V2:
-    - Remove CB1 SoM as its own entry
-    - Squash BTT Pi and manta patches into 1
+    - Fix alphabetical order
 
- Documentation/devicetree/bindings/arm/sunxi.yaml | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-index ee8fdd2da869..b90d2a7dbe2d 100644
---- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-+++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-@@ -151,6 +151,17 @@ properties:
-           - const: roofull,beelink-x2
-           - const: allwinner,sun8i-h3
- 
-+      - description: BigTreeTech Manta M4/8P
-+        items:
-+          - const: bigtreetech,cb1-manta
-+          - const: bigtreetech,cb1
-+          - const: allwinner,sun50i-h616
-+
-+      - description: BigTreeTech Pi
-+        items:
-+          - const: bigtreetech,pi
-+          - const: allwinner,sun50i-h616
-+
-       - description: Chuwi V7 CW0825
-         items:
-           - const: chuwi,v7-cw0825
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index af60bf1a6664..a1f3bb7be860 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -192,6 +192,8 @@ patternProperties:
+     description: BeagleBoard.org Foundation
+   "^bhf,.*":
+     description: Beckhoff Automation GmbH & Co. KG
++  "^bigtreetech,.*":
++    description: Shenzhen BigTree Tech Co., LTD
+   "^bitmain,.*":
+     description: Bitmain Technologies
+   "^blutek,.*":
 -- 
 2.41.0
 
