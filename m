@@ -1,229 +1,209 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBDDB1BF1E
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Aug 2023 19:05:41 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3fe2048c910so22610695e9.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Aug 2023 12:05:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 345ED440E;
+	Fri,  4 Aug 2023 19:06:53 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-31768ce2e81so2146821f8f.1;
+        Fri, 04 Aug 2023 12:06:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691175940; x=1691780740;
+        d=gmail.com; s=20221208; t=1691176012; x=1691780812;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RImfxtxvGtLO2n9zPJtV/vphcAvXDGCdvAZ0GbDbKrk=;
-        b=sQ/fQqqtQOaPptev4nG45CWIPf3ZJmox/dXbVk/wnAnyPSDQgvEB1sGCfzREKDHyxz
-         uMrYsS5yWsVqKOPLEszFO9lH4VE65Cz9c9p05HnHvakq7AtBEsNPBj+M3wcyozDNPTAw
-         9ubz1s2RBijzpI+vuzs1rnn0LgZGWXogRuLqMRHPRb3Cvs2Gsu8E8J4a/sj91PF4kYGG
-         3PWdbW553UZUYx3DOf/uixvEkElav2rbAZfXMs4KPDV0M/L02RuFEv5lZC7ik+N/8M/L
-         SdPl4NuUYkX2WGrRwF/Y656nfT6EiwhJjrpygWVd18YE9kgd9BpeBnW0tCpGG5q7dVNZ
-         UrXw==
+        bh=c+mKs9GVqXrgLKiydu37dkxuWRwX9m6vUvXBGA4iGEQ=;
+        b=pJXcyaij59wykiKOA9tCEB8S4gg3Z1GHrOT8L9w9quvTeK3CJwd93TcMmgeH9qsTmX
+         jA5YMPXtem49OKIeZuBW/B7z7dS8WFJdH65DKww5XyYHLXhgTnbsAwscbEHTb6mbtrZZ
+         BZa8BIBGOH4Q+SkpavEdH0otXnzRijACuCopeESvO+XHcmL3ZXNW9EGslJl77px9Boeb
+         GqQnVqw0k6HMm2l7+XHIGKAPYRVqgCsnRSsJE1fnLs2Nj797U07C0NurMSGCn8/yNgCc
+         lDyCVZnGxxnzNo6RW2GsgNpucmHIvVKiEjxprA51NTiam2O4cd25vg7MKR2tt8ini3Xu
+         IdIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691175940; x=1691780740;
+        d=1e100.net; s=20221208; t=1691176012; x=1691780812;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RImfxtxvGtLO2n9zPJtV/vphcAvXDGCdvAZ0GbDbKrk=;
-        b=Zlz53O+ZKjlA7kIWehhQ4lIuM5cYcgmtuRZTiGZXtDc+fmkwzTSrYEEsuOcLAVJ9hF
-         QfqSaeMjsNafbigS5J88qrVOg7xErGPHoIWwEljq5LeKkNHflPh/9er63AhBd6wwwRKX
-         JAFrqcmmmrld91i4Ym+Cu8p5E6dTISa0ED6ueBs6eRRlpxXgGTrJ3kikEvd3aKHCwtYA
-         MEIsgUVaBpxN2/0lGm+TOMMdZixF3jqNZfhOln0MQfaQeCV5rhy/mpnb8ONU4Yy5wc+O
-         LpK1tJRIx1QwxO+IEk+E0aJnRsOxaG3DO2drsnybvk4fPa/jq+5bNjuiVaBOWMx8eGVS
-         IE3Q==
-X-Gm-Message-State: AOJu0Yy6rjJEzcK1qlJXXxC6y3yP5n2xoYgVDQ+0OVBe7n0hCP9l+Jp1
-	oTCs2oJtuBpSb8vfiVVGWXU=
-X-Google-Smtp-Source: AGHT+IEn1aXb9mEpqN8jQUJqVtnlCntlV7okng3mYJc7tFxDGgv2efEXqCJ0/u4COACFPhXcJalyeA==
-X-Received: by 2002:a7b:cc87:0:b0:3fe:4e4e:bedb with SMTP id p7-20020a7bcc87000000b003fe4e4ebedbmr172426wma.4.1691175939761;
-        Fri, 04 Aug 2023 12:05:39 -0700 (PDT)
+        bh=c+mKs9GVqXrgLKiydu37dkxuWRwX9m6vUvXBGA4iGEQ=;
+        b=ZkvHIwp+B1dkm9h6iD1yEJ6ed5/nJuLX54gf5McCTdQTbcjZOxvfEADdVWhqT4YHC7
+         51CtXP5HN9gNxyfilavi/azFGNMd4zO1NaOrAIiF06pw8uGOJ8RxtK2Q9m+eUMLuq6Cu
+         FSeQ5N9Rj02FBWFY5+yu6rtjZx2KI/NYnDn+3dCvxWR+CdDMt9cE+dl3PmmJLnqsBRG4
+         5uywL+W7gq6ILphZ+SDMaQg0kASwfAdEoUgDQSeD71tcRxxEOqIKDxx+qkLM+c3FDDBi
+         LCp/nTym58SfY3g3MwHEo7EwGrWpgSeH+cNNXD3SlCGVJXb/QOnMuGvyDllvX5MCKqrF
+         KcYw==
+X-Gm-Message-State: AOJu0YxkxP0shqpPcy5alxfICbGo/yznvNNOMyK5uNxeu9cTdcKKJHvg
+	52QdF7FJq2zcCpDSBRoyQIo=
+X-Google-Smtp-Source: AGHT+IHpybGIS5pubkiM9vt8iNkqlu2gS6LosaHfJR1MT91WNa9XG7Bef9hWZF/8p1yMJF9KzrDRaA==
+X-Received: by 2002:a5d:4a4a:0:b0:317:6175:95fd with SMTP id v10-20020a5d4a4a000000b00317617595fdmr1855584wrs.43.1691176011920;
+        Fri, 04 Aug 2023 12:06:51 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id 22-20020a05600c22d600b003fe2de3f94fsm3063043wmg.12.2023.08.04.12.05.37
+        by smtp.gmail.com with ESMTPSA id x12-20020adfec0c000000b0031274a184d5sm3143402wrn.109.2023.08.04.12.06.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Aug 2023 12:05:38 -0700 (PDT)
+        Fri, 04 Aug 2023 12:06:51 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: Icenowy Zheng <uwu@icenowy.me>,
- Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Pavel Machek <pavel@ucw.cz>,
+ Lee Jones <lee@kernel.org>, Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Alexander Shiyan <shc_work@mail.ru>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Paul Cercueil <paul@crapouillou.net>, Vladimir Zapolskiy <vz@mleia.com>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Daire McNamara <daire.mcnamara@microchip.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Jonathan =?ISO-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
+ Heiko Stuebner <heiko@sntech.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Michael Walle <michael@walle.cc>,
+ Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>,
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Hammer Hsieh <hammerh0314@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+ Sean Anderson <sean.anderson@seco.com>, Michal Simek <michal.simek@amd.com>,
+ Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Anjelique Melendez <quic_amelende@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>, linux-pwm@vger.kernel.org,
+ linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ chrome-platform@lists.linux.dev, linux-mips@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
 Subject:
- Re: [PATCH v2 3/3] arm64: dts: allwinner: h616: Add OrangePi Zero 3 board
- support
-Date: Fri, 04 Aug 2023 21:05:36 +0200
-Message-ID: <4500165.LvFx2qVVIh@jernej-laptop>
-In-Reply-To: <20230804170856.1237202-4-andre.przywara@arm.com>
+ Re: [PATCH v2 1/2] pwm: Manage owner assignment implicitly for drivers
+Date: Fri, 04 Aug 2023 21:06:45 +0200
+Message-ID: <4820522.GXAFRqVoOG@jernej-laptop>
+In-Reply-To: <20230804142707.412137-2-u.kleine-koenig@pengutronix.de>
 References:
- <20230804170856.1237202-1-andre.przywara@arm.com>
- <20230804170856.1237202-4-andre.przywara@arm.com>
+ <20230804142707.412137-1-u.kleine-koenig@pengutronix.de>
+ <20230804142707.412137-2-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-Dne petek, 04. avgust 2023 ob 19:08:56 CEST je Andre Przywara napisal(a):
-> The OrangePi Zero 3 is a development board based on the Allwinner H618 SoC,
-> which seems to be just an H616 with more L2 cache. The board itself is a
-> slightly updated version of the Orange Pi Zero 2. It features:
-> - Four ARM Cortex-A53 cores, Mali-G31 MP2 GPU
-> - 1/1.5/2/4 GiB LPDDR4 DRAM SKUs (only up to 1GB on the Zero2)
-> - AXP313a PMIC (more capable AXP305 on the Zero2)
-> - Raspberry-Pi-1 compatible GPIO header
-> - extra 13 pin expansion header, exposing pins for 2x USB 2.0 ports
-> - 1 USB 2.0 host port
-> - 1 USB 2.0 type C port (power supply + OTG)
-> - MicroSD slot
-> - on-board 16MiB bootable SPI NOR flash (only 2MB on the Zero2)
-> - 1Gbps Ethernet port (via Motorcomm YT8531 PHY) (RTL8211 on the Zero2)
-> - micro-HDMI port
-> - (yet) unsupported Allwinner WiFi/BT chip
-> 
-> Add the devicetree file describing the currently supported features,
-> namely LEDs, SD card, PMIC, SPI flash, USB. Ethernet seems unstable at
-> the moment, though the basic functionality works.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Dne petek, 04. avgust 2023 ob 16:27:06 CEST je Uwe Kleine-K=F6nig napisal(a=
+):
+> Instead of requiring each driver to care for assigning the owner member
+> of struct pwm_ops, handle that implicitly using a macro. Note that the
+> owner member has to be moved to struct pwm_chip, as the ops structure
+> usually lives in read-only memory and so cannot be modified.
+>=20
+> The upside is that new lowlevel drivers cannot forget the assignment and
+> save one line each. The pwm-crc driver didn't assign .owner, that's not
+> a problem in practise though as the driver cannot be compiled as a
+> module.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 > ---
->  arch/arm64/boot/dts/allwinner/Makefile        |  1 +
->  .../allwinner/sun50i-h618-orangepi-zero3.dts  | 94 +++++++++++++++++++
->  2 files changed, 95 insertions(+)
->  create mode 100644
-> arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/Makefile
-> b/arch/arm64/boot/dts/allwinner/Makefile index 6a96494a2e0a3..3b0ad54062381
-> 100644
-> --- a/arch/arm64/boot/dts/allwinner/Makefile
-> +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> @@ -40,3 +40,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-> b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts new file
-> mode 100644
-> index 0000000000000..96a6851728111
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-> @@ -0,0 +1,94 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-> +/*
-> + * Copyright (C) 2023 Arm Ltd.
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include "sun50i-h616-orangepi-zero.dtsi"
-> +
-> +/ {
-> +	model = "OrangePi Zero3";
-> +	compatible = "xunlong,orangepi-zero3", "allwinner,sun50i-h618";
-> +};
-> +
-> +&emac0 {
-> +	phy-supply = <&reg_dldo1>;
-> +};
-> +
-> +&ext_rgmii_phy {
-> +	motorcomm,clk-out-frequency-hz = <125000000>;
-> +};
-> +
-> +&mmc0 {
-> +	/*
-> +	 * The schematic shows the card detect pin wired up to PF6, via an
-> +	 * inverter, but it just doesn't work.
-> +	 */
-> +	broken-cd;
-> +	vmmc-supply = <&reg_dldo1>;
-> +};
-> +
-> +&r_i2c {
-> +	status = "okay";
-> +
-> +	axp313: pmic@36 {
-> +		compatible = "x-powers,axp313a";
-> +		reg = <0x36>;
-> +		#interrupt-cells = <1>;
-> +		interrupt-controller;
-> +		interrupt-parent = <&pio>;
-> +		interrupts = <2 9 IRQ_TYPE_LEVEL_LOW>;	/* PC9 */
-> +
-> +		vin1-supply = <&reg_vcc5v>;
-> +		vin2-supply = <&reg_vcc5v>;
-> +		vin3-supply = <&reg_vcc5v>;
-> +
-> +		regulators {
-> +			/* Supplies VCC-PLL, so needs to be always 
-on. */
-> +			reg_aldo1: aldo1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = 
-<1800000>;
-> +				regulator-max-microvolt = 
-<1800000>;
-> +				regulator-name = "vcc1v8";
-> +			};
-> +
-> +			/* Supplies VCC-IO, so needs to be always on. 
-*/
-> +			reg_dldo1: dldo1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = 
-<3300000>;
-> +				regulator-max-microvolt = 
-<3300000>;
-> +				regulator-name = "vcc3v3";
-> +			};
-> +
-> +			reg_dcdc1: dcdc1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = 
-<810000>;
-> +				regulator-max-microvolt = 
-<990000>;
-> +				regulator-name = "vdd-gpu-sys";
-> +			};
+>  drivers/gpio/gpio-mvebu.c             |  1 -
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c |  1 -
+>  drivers/leds/rgb/leds-qcom-lpg.c      |  1 -
+>  drivers/pwm/core.c                    | 24 ++++++++++++++----------
+>  drivers/pwm/pwm-ab8500.c              |  1 -
+>  drivers/pwm/pwm-apple.c               |  1 -
+>  drivers/pwm/pwm-atmel-hlcdc.c         |  1 -
+>  drivers/pwm/pwm-atmel-tcb.c           |  1 -
+>  drivers/pwm/pwm-atmel.c               |  1 -
+>  drivers/pwm/pwm-bcm-iproc.c           |  1 -
+>  drivers/pwm/pwm-bcm-kona.c            |  1 -
+>  drivers/pwm/pwm-bcm2835.c             |  1 -
+>  drivers/pwm/pwm-berlin.c              |  1 -
+>  drivers/pwm/pwm-brcmstb.c             |  1 -
+>  drivers/pwm/pwm-clk.c                 |  1 -
+>  drivers/pwm/pwm-clps711x.c            |  1 -
+>  drivers/pwm/pwm-cros-ec.c             |  1 -
+>  drivers/pwm/pwm-dwc.c                 |  1 -
+>  drivers/pwm/pwm-ep93xx.c              |  1 -
+>  drivers/pwm/pwm-fsl-ftm.c             |  1 -
+>  drivers/pwm/pwm-hibvt.c               |  1 -
+>  drivers/pwm/pwm-img.c                 |  1 -
+>  drivers/pwm/pwm-imx-tpm.c             |  1 -
+>  drivers/pwm/pwm-imx1.c                |  1 -
+>  drivers/pwm/pwm-imx27.c               |  1 -
+>  drivers/pwm/pwm-intel-lgm.c           |  1 -
+>  drivers/pwm/pwm-iqs620a.c             |  1 -
+>  drivers/pwm/pwm-jz4740.c              |  1 -
+>  drivers/pwm/pwm-keembay.c             |  1 -
+>  drivers/pwm/pwm-lp3943.c              |  1 -
+>  drivers/pwm/pwm-lpc18xx-sct.c         |  1 -
+>  drivers/pwm/pwm-lpc32xx.c             |  1 -
+>  drivers/pwm/pwm-lpss.c                |  1 -
+>  drivers/pwm/pwm-mediatek.c            |  1 -
+>  drivers/pwm/pwm-meson.c               |  1 -
+>  drivers/pwm/pwm-microchip-core.c      |  1 -
+>  drivers/pwm/pwm-mtk-disp.c            |  1 -
+>  drivers/pwm/pwm-mxs.c                 |  1 -
+>  drivers/pwm/pwm-ntxec.c               |  1 -
+>  drivers/pwm/pwm-omap-dmtimer.c        |  1 -
+>  drivers/pwm/pwm-pca9685.c             |  1 -
+>  drivers/pwm/pwm-pxa.c                 |  1 -
+>  drivers/pwm/pwm-raspberrypi-poe.c     |  1 -
+>  drivers/pwm/pwm-rcar.c                |  1 -
+>  drivers/pwm/pwm-renesas-tpu.c         |  1 -
+>  drivers/pwm/pwm-rockchip.c            |  1 -
+>  drivers/pwm/pwm-rz-mtu3.c             |  1 -
+>  drivers/pwm/pwm-samsung.c             |  1 -
+>  drivers/pwm/pwm-sifive.c              |  1 -
+>  drivers/pwm/pwm-sl28cpld.c            |  1 -
+>  drivers/pwm/pwm-spear.c               |  1 -
+>  drivers/pwm/pwm-sprd.c                |  1 -
+>  drivers/pwm/pwm-sti.c                 |  1 -
+>  drivers/pwm/pwm-stm32-lp.c            |  1 -
+>  drivers/pwm/pwm-stm32.c               |  1 -
+>  drivers/pwm/pwm-stmpe.c               |  1 -
+>  drivers/pwm/pwm-sun4i.c               |  1 -
 
-Is it safe to change sys voltage when system is running?
+=46or sun4i:
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
-> +
-> +			reg_dcdc2: dcdc2 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = 
-<810000>;
-> +				regulator-max-microvolt = 
-<1100000>;
-> +				regulator-name = "vdd-cpu";
-> +			};
-> +
-> +			reg_dcdc3: dcdc3 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = 
-<1100000>;
-> +				regulator-max-microvolt = 
-<1100000>;
-> +				regulator-name = "vdd-dram";
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&pio {
-> +	vcc-pc-supply = <&reg_dldo1>;
-> +	vcc-pf-supply = <&reg_dldo1>;
-> +	vcc-pg-supply = <&reg_aldo1>;
-> +	vcc-ph-supply = <&reg_dldo1>;
-> +	vcc-pi-supply = <&reg_dldo1>;
-> +};
-
+>  drivers/pwm/pwm-sunplus.c             |  1 -
+>  drivers/pwm/pwm-tegra.c               |  1 -
+>  drivers/pwm/pwm-tiecap.c              |  1 -
+>  drivers/pwm/pwm-tiehrpwm.c            |  1 -
+>  drivers/pwm/pwm-twl-led.c             |  2 --
+>  drivers/pwm/pwm-twl.c                 |  2 --
+>  drivers/pwm/pwm-visconti.c            |  1 -
+>  drivers/pwm/pwm-vt8500.c              |  1 -
+>  drivers/pwm/pwm-xilinx.c              |  1 -
+>  drivers/staging/greybus/pwm.c         |  1 -
+>  include/linux/pwm.h                   | 10 ++++++----
 
 
 
