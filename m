@@ -1,133 +1,100 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F07E5BA4D
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Aug 2023 14:38:16 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-3fbea147034so20705905e9.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Aug 2023 07:38:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C82BA4D
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Aug 2023 14:39:45 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3fe4cdb727cso2316035e9.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 04 Aug 2023 07:39:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691159895; x=1691764695;
+        d=gmail.com; s=20221208; t=1691159983; x=1691764783;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BM5R+rkSeL9WIp21l2emysOOucIRf/CjafaqigjE3ns=;
-        b=P52o47d9dHG1aUMZwk0pd23gUMU1gSEcAaorjtm0PUBSc4CTskirX886xdzRJezLg6
-         M4MtQIA6juxB9+sFPFH3EPWi9hMPTVDd1wwyWh3PmXuu1po0m+repmiBQFo72mEPoUaF
-         CKzmuVyB06487jxO3URnO0OYZ2cjQP/ZYPY+Ly4YmQO1h8Ul1MwxJiS6CzfTEpBkUg4D
-         GvHC2AtRasiPCNfOkLFtYCr2iYrhUrXdaNuwr9xpfY5akGkjLPDtWAHv3doGspA8ZqzA
-         BVho52Djxf/ClpbDDROl0ciKQJHwoe5ELFkv+xQsoTFDKnytt8GlFd+Ntd6Geakv25p/
-         LA8g==
+        bh=/keJTTgc2oKYX00bfWRy8iHTbGm3dqXm1dsaxhchcPc=;
+        b=KvfYSC7CEGPj1YKXYXG8g17C2CnIly55fHMe4Bh/zvSSV8wQcCvIDANJDAg7EFYs4k
+         Rgxq2Sa7zYSYpyWedo5/COPTTpFMxQYLDBQI7zXnifk11g5RpHYI/SSkODB7BPR1kNpu
+         RH7IzSbez5tb7/fYj4Hgo4DtniyoeeUIIFaHyRMwuZrj7tw3vyB9o/43BIuP0FLOgz58
+         9JAc9SwqVHqix78jPoFsov0VCFE2WP8aO4cJsRZj8iN8yy74PjUZeWOM2cdpy/zy6HP9
+         dK7t/LUbhrN2i4Rd2ji/MrW/GO4Vl88dDHD+/PEvM3S7rmZO5ja3j96DAqugQMhrowPi
+         hbaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691159895; x=1691764695;
+        d=1e100.net; s=20221208; t=1691159983; x=1691764783;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BM5R+rkSeL9WIp21l2emysOOucIRf/CjafaqigjE3ns=;
-        b=hilmY/CorBloiqhxTKzDXBus1CujBsoh7L6bzv/sIlDR5eGRgawV2cXw7zYMuTwWEZ
-         UNL32NURn1CbHGUM3PkD3pM5+4FnA61oPpAefBYTR0UGnQJDF9y7+VWyXBDo4V4uBk+u
-         hb4kZBBQeeEpJTwDKP+QbR9IL7aIgNfi++1iVtnqMFH+NKC7a127zJxkAdNpn71f9KF0
-         ScRhzF/i4cqGOuVPEhJ0llTxzqgEYarryIuJ5RmhBBL2Nf6j0nkIXsjeNTh7h5+7wNta
-         C1Ms5zail3bmM3vJq90A3LpSdOIIfLlQQFLgD4b93YGo+oRm9rLhzYPMfzKSda4Wuc3E
-         RiRg==
-X-Gm-Message-State: AOJu0Ywr5gcoY9TIpwbu1hZLExsj/c52paCsgAFoZId8nNHtFlHUXraZ
-	wVN6Gm8qnylL39iBJP98PLA=
-X-Google-Smtp-Source: AGHT+IFR8gDqjRYqyXRMOxF0JJDJ3mrxElW64dDSszEM8SNr/lPevhKIntH0L12mO9e2OcoWVt3KOw==
-X-Received: by 2002:a1c:7c05:0:b0:3fb:e4ce:cc65 with SMTP id x5-20020a1c7c05000000b003fbe4cecc65mr1591896wmc.25.1691159894687;
-        Fri, 04 Aug 2023 07:38:14 -0700 (PDT)
+        bh=/keJTTgc2oKYX00bfWRy8iHTbGm3dqXm1dsaxhchcPc=;
+        b=ag5fi0ow26sz+B7ptpZjjTz1lG3QE1MjKJj1CVmp70665/y+3A7wgcj1jYQ/krems2
+         ssYu17LgKZswx2brVAku11ywiZdr9sedSo02KnKULLKLvs+x6Awz9zOmG7szjBE0hZtE
+         MRJBiVQeMunL0cRx0tsqca7+1lL5tWtC+8FQ8jK01nMsVx6V+zFpEVu5YZHAqiOj6Tc0
+         UHPRpRJvTIVfUGkQACaekUnx8qUCH6HRxnthxXw16HGexfxBDpuIUIGlFuF6J0XMmAwz
+         y5wbyhElqK8YvbVydhMc9+x7pTwv9UjZx6XQ5jVuMgEJUgC2oYjQa2OUXtS5AIBBjzA0
+         dLPA==
+X-Gm-Message-State: AOJu0YxKSrmcb8nv/tdx7GYTRWirTqx6gjC8Tk3k3qM+L899qCt87EFN
+	oCaIyfussQhhbvNJVD1FqoHp4BVilcdSVg==
+X-Google-Smtp-Source: AGHT+IF3frUwbfH0b36TWheEdo2zyf2bWjXefALR0x/pFUcE5xwHRR11pBKFVe1FSUbK1lZJev7c/w==
+X-Received: by 2002:a7b:cc95:0:b0:3fc:3f31:4233 with SMTP id p21-20020a7bcc95000000b003fc3f314233mr1884635wma.38.1691159983036;
+        Fri, 04 Aug 2023 07:39:43 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id f9-20020a7bc8c9000000b003fba92fad35sm6833727wml.26.2023.08.04.07.38.11
+        by smtp.gmail.com with ESMTPSA id f22-20020a1cc916000000b003fbc9d178a8sm6834019wmb.4.2023.08.04.07.39.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Aug 2023 07:38:14 -0700 (PDT)
+        Fri, 04 Aug 2023 07:39:42 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: soc@kernel.org, Patrice Chotard <patrice.chotard@foss.st.com>,
- Tsahee Zidenberg <tsahee@annapurnalabs.com>,
- Antoine Tenart <atenart@kernel.org>, Jisheng Zhang <jszhang@kernel.org>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>,
- Jean-Marie Verdun <verdun@hpe.com>, Nick Hawkins <nick.hawkins@hpe.com>,
- Lubomir Rintel <lkundrak@v3.sk>, Linus Walleij <linus.walleij@linaro.org>,
- Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>,
- Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>,
- Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>,
- Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>, Heiko Stuebner <heiko@sntech.de>,
- Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Shiraz Has him <shiraz.linux.kernel@gmail.com>,
- Stuart Yoder <stuyoder@gmail.com>, Laurentiu Tudor <laurentiu.tudor@nxp.com>,
- Jay Fang <f.fangjian@huawei.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Cristian Marussi <cristian.marussi@arm.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Dinh Nguyen <dinguyen@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Michal Simek <michal.simek@amd.com>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Ulf Hansson <ulf.hansson@linaro.org>, Li Yang <leoyang.li@nxp.com>,
- Qiang Zhao <qiang.zhao@nxp.com>, Rob Herring <robh@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- openbmc@lists.ozlabs.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-mediatek@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, linux-pm@vger.kernel.org
-Subject:
- Re: [PATCH v2 21/23] soc: sunxi: Explicitly include correct DT includes
-Date: Fri, 04 Aug 2023 16:38:11 +0200
-Message-ID: <2690872.mvXUDI8C0e@jernej-laptop>
-In-Reply-To:
- <20230803-dt-header-cleanups-for-soc-v2-21-d8de2cc88bff@kernel.org>
+To: John Watts <contact@jookia.org>
+Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Maksim Kiselev <bigunclemax@gmail.com>, devicetree@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, mkl@pengutronix.de
+Subject: Re: [PATCH] riscv: dts: allwinner: d1: Specify default CAN pins
+Date: Fri, 04 Aug 2023 16:39:41 +0200
+Message-ID: <5696365.DvuYhMxLoT@jernej-laptop>
+In-Reply-To: <ZMyZ5kZSiiJHtdeS@titan>
 References:
- <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
- <20230803-dt-header-cleanups-for-soc-v2-21-d8de2cc88bff@kernel.org>
+ <20230731023701.2581713-1-contact@jookia.org>
+ <3248110.44csPzL39Z@jernej-laptop> <ZMyZ5kZSiiJHtdeS@titan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Dne petek, 04. avgust 2023 ob 00:43:01 CEST je Rob Herring napisal(a):
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Dne petek, 04. avgust 2023 ob 08:25:42 CEST je John Watts napisal(a):
+> On Thu, Aug 03, 2023 at 10:59:30PM +0200, Jernej =C5=A0krabec wrote:
+> > pinctrl-names and pinctrl-0 are usually at the top. However, since there
+> > is no hard rule (I've seen it mixed), I'm fine with it.
+>=20
+> Happy to change if needed.
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+If you don't mind, please do.
 
-Should I take this through sunxi tree?
+>=20
+> > Since original DT node entry goes through netdev tree, this should be
+> > picked there or it can be dropped there and I pick both patches or I can
+> > pick patch for later kernel version.
+>=20
+> Do I have to do something based on this, like resend my patch?
+
+Nothing on your side.
+
+Marc, since you took original patch through netdev tree, what is your decis=
+ion=20
+here?
 
 Best regards,
 Jernej
 
-> ---
-> v2:
->  - Drop sun20i-ppu.c which moved
-> ---
->  drivers/soc/sunxi/sunxi_sram.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
-> index 4c4864cd2342..4458b2e0562b 100644
-> --- a/drivers/soc/sunxi/sunxi_sram.c
-> +++ b/drivers/soc/sunxi/sunxi_sram.c
-> @@ -15,7 +15,7 @@
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/of_address.h>
-> -#include <linux/of_device.h>
-> +#include <linux/of_platform.h>
->  #include <linux/platform_device.h>
->  #include <linux/regmap.h>
+>=20
+> > Best regards,
+> > Jernej
+>=20
+> John
 
 
 
