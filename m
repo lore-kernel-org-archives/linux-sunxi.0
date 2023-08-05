@@ -1,81 +1,104 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.155.65.254])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF571FA5
-	for <linux-sunxi@lists.linux.dev>; Sat,  5 Aug 2023 07:12:57 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-52327d63d7cso576345a12.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 05 Aug 2023 00:12:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691219576; x=1691824376;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6EYKHh9zvdAN2J1bA5/eS1HMxCXCRGCzihmZHexGE78=;
-        b=k1k3AGZmulqQC8ludWvwxbPiYrcVqk+o7I68hdA9euUYhnNu7buw3mc9Lm7HHiDDkz
-         u/r86NEkT9ycpKdcFLo+o6FGvlxHbT7bzJ52FVp2/gpPUe7hy3+EHe+n50gfFt5qbu/t
-         7/Z2B91DENrTVCGt28Dsr/Tt8z7eyC5/oE7IBXjocUG46pnhI63N5RwCCEpdCMkExvk+
-         s8roCyu4Xfj8MHQbRKo71dx1BM5qaKq2bPh49C7L3kPlLg403q2ySgeHlM8bK7zhlx9e
-         jXNDlrxhICvlw2xIvO/js9FwG4CRqjlK6rDjmnz3XoXTWW+mB0/p1u4/7FX03bFZ0Ypw
-         0Xiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691219576; x=1691824376;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6EYKHh9zvdAN2J1bA5/eS1HMxCXCRGCzihmZHexGE78=;
-        b=MnyLEeuwcp44tP6uUbueKz6kJLcJSlzYn+6QByQITXIh97vCE3wTDaf/hMA0sxnetp
-         5zN6P0vYA0A8i55Z+f+Oj4/8lUj+Cg5aac+o1ax0uca8i2rNYcXqwkJbEe20EVFdZaHH
-         5GEoE21jvTBI4T1snngx3oVtBtqsdd523nhkdSppaWuZRZdg/oUUQgNmesoBVwvcUTXO
-         N/xF9tTh3AvPpGXjRNp9KI62jDmSe0KkWaER9MgZLtxef/0lGrPCHhKiIuvEZKswbBnY
-         mNHa+1DzHIrTEmDeei22tohCWQdo6vOpjv6j2Qnvr7RNl2pcv6wWKg0puy3pExp8y5pB
-         gQPw==
-X-Gm-Message-State: AOJu0YwJRy2K+sNMD9fWXuur7uhzdaNeJnH3lnjA1F0zzI9yCJP+gken
-	Q/Jr8pexDUpiEWVme9UafwA1Vw==
-X-Google-Smtp-Source: AGHT+IEBKGPV9a+L0ZJ9F30Yqa3AMwT7ZmB0w3Kd7xbiSD1oCem6izMufS7UEUKCnXqOxqNDfjIOIg==
-X-Received: by 2002:a17:906:2081:b0:99b:c689:3f3d with SMTP id 1-20020a170906208100b0099bc6893f3dmr3165876ejq.25.1691219576097;
-        Sat, 05 Aug 2023 00:12:56 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.245])
-        by smtp.gmail.com with ESMTPSA id bw4-20020a170906c1c400b009829d2e892csm2366994ejb.15.2023.08.05.00.12.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Aug 2023 00:12:55 -0700 (PDT)
-Message-ID: <c113197b-038f-c2a1-bc83-4e009b4ac187@linaro.org>
-Date: Sat, 5 Aug 2023 09:12:53 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575701FA0
+	for <linux-sunxi@lists.linux.dev>; Sat,  5 Aug 2023 08:38:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=biqu3d.com;
+	s=tfld2305; t=1691224704;
+	bh=YO7xaf8Rw9sIuANokm3AXhy2ulC5+4s81L69XDEqscg=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=HX2TfOxAulK2GOa5U3zV6zZIoOTgHo3eFJbfavLzL3LG0Q+C4fETcto49Zjnt3y77
+	 HdqIEH5DQ7KQ2k7qVeCUYp1YYZuYYmSyrjAScGbHS792pV/M9dAE95rbhY5SixQCqi
+	 Bmwb9kgrkbVbyrMvKNE5SlbTs4OAtKdMFiytgqpU=
+X-QQ-mid: bizesmtp83t1691224649tmlj0e6s
+Received: from localhost.localdomain ( [178.41.211.221])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Sat, 05 Aug 2023 16:37:15 +0800 (CST)
+X-QQ-SSF: 01400000000000505000000A0000000
+X-QQ-FEAT: QityeSR92A0eFaU+9AmEeJIKBufKLOpgIZ2BiszHxyMcN02vfQ7BG1GRDRb/5
+	+7mFtP+YVz8iU6bQVF29KqlAyXgAn6PUNuMBivkEl4SKyobtNPFn9Bpk7QAm5N+ND6ENbN4
+	wz5igm00ibYJFofyqvunnmLmRZ72Hnq+HCrH4hqPUp1n2xBIz1OZNpZNO+AwoO+eWLBA0Zl
+	3dXMmtzER6rlbellNh1h2U+Hp3j5LldQ921UeYOuf8XpwnnJoYyqW56c5MqLMNACcFn8eeq
+	sNxeJl14JWjQLkcmGrBFJsDmhnUju7AFKbxFxnhaYeq7PE/21nJXvKGNRYJvn5BH9K2uoau
+	s4x3Lp15u4xZGduGClflaZy8i9L7BFTH23A+FKxqT9wiAmbAECcGxT6NDiSVrKsSWhBtnea
+X-QQ-GoodBg: 2
+X-BIZMAIL-ID: 17380161915380750607
+From: Martin Botka <martin@biqu3d.com>
+To: martin.botka1@gmail.com
+Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Jami Kettunen <jamipkettunen@somainline.org>,
+	Paul Bouchara <paul.bouchara@somainline.org>,
+	Martin Botka <martin.botka@somainline.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Icenowy Zheng <uwu@icenowy.me>,
+	Ludwig Kormann <ludwig.kormann@ict42.de>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Jagan Teki <jagan@edgeble.ai>,
+	Maxime Ripard <mripard@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 1/4] dt-bindings: vendor-prefixes: Add BigTreeTech
+Date: Sat,  5 Aug 2023 10:36:04 +0200
+Message-ID: <3E7672223AA6FBAF+20230805083636.788048-2-martin@biqu3d.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230805083636.788048-1-martin@biqu3d.com>
+References: <20230805083636.788048-1-martin@biqu3d.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v5 2/2] arm64: dts: allwinner: h616: Add Mango Pi MQ-Quad
- DTS
-Content-Language: en-US
-To: Matthew Croughan <matthew.croughan@nix.how>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20230805044558.279473-2-matthew.croughan@nix.how>
- <20230805044558.279473-4-matthew.croughan@nix.how>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230805044558.279473-4-matthew.croughan@nix.how>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:biqu3d.com:qybglogicsvrgz:qybglogicsvrgz5a-1
 
-On 05/08/2023 06:42, Matthew Croughan wrote:
-> Mango Pi MQ Quad is a H616 based SBC, add basic support for the board
-> and its peripherals
-> 
-> Signed-off-by: Matthew Croughan <matthew.croughan@nix.how>
-> 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+From: Martin Botka <martin.botka@somainline.org>
 
-This is FAKE, no. Please do not invent fake tags.
+BigTreeTech is a company based in Shenzhen that makes
+3D printers and accessories.
 
-Best regards,
-Krzysztof
+Add prefix for it.
+
+Signed-off-by: Martin Botka <martin.botka@somainline.org>
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+Changes in V2:
+    - Fix alphabetical order
+Changes in V3: none
+
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index af60bf1a6664..a1f3bb7be860 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -192,6 +192,8 @@ patternProperties:
+     description: BeagleBoard.org Foundation
+   "^bhf,.*":
+     description: Beckhoff Automation GmbH & Co. KG
++  "^bigtreetech,.*":
++    description: Shenzhen BigTree Tech Co., LTD
+   "^bitmain,.*":
+     description: Bitmain Technologies
+   "^blutek,.*":
+-- 
+2.41.0
 
