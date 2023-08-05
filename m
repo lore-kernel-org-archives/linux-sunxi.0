@@ -1,131 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.croughan.sh (mail.croughan.sh [135.181.193.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A320910EA;
-	Sat,  5 Aug 2023 20:36:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8402EC433C7;
-	Sat,  5 Aug 2023 20:36:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691267773;
-	bh=HV9N1662vFNg45/injmUeZzoXqqRaYKc6xS67ObhrCE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=T8b37KpHrfdrHcPTjbp9eehNf/qy/zQ094uspwpe3knxbV/SAwFyOO+iL6poGeRt5
-	 mmN2THgQL8TANiBbUZTIqmUiv0S7zyq3SAoSc1CzwM7lN991SYLqic8rCimc7bWwRI
-	 Vu7ZXvkbMfRfxqG+wpJINgbL+2KpSYU+uMd2Pk44r5RPsQzRq94XsuoRFZfLcF3djQ
-	 F5MggUSz0nkmmAejuORlF5VcmTYFbpwgyjqW04dzJAO9QAMzfqz5myArTvUzYEHRfd
-	 0AdEI801aM4xbN8FAEhz4+QIYaCxO1e4lYxIngw3YRdHEiuSSaRBpD/K+KyiSmsD0z
-	 8QDHViYep2Zwg==
-Date: Sat, 5 Aug 2023 22:36:10 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Andy Shevchenko <andy@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3109C10EA
+	for <linux-sunxi@lists.linux.dev>; Sat,  5 Aug 2023 23:38:00 +0000 (UTC)
+From: Matthew Croughan <matthew.croughan@nix.how>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nix.how; s=mail;
+	t=1691278675; bh=ozH0GhiwKpf+3WO7HJRyIfSC4fni4M0Jmnu12HwytJg=;
+	h=From:To:Cc:Subject:Date;
+	b=jZroIgsjXw8+ZLSdV8FdySv3mfJs1zZ6c4ZCR1xHayM0Tbayobv1VesodrEy3glqB
+	 H2ad1S+0+fHDVPdJupaEAaBOaayjgvV8Q4hv/95vA3oDl3KJx0HmpqqaQWNtw9IOen
+	 vqQRNicInVQeeyLT2YUA+XkB2tWNolwxNKQw6CSc=
+To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Alexander Shiyan <shc_work@mail.ru>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Michael Walle <michael@walle.cc>, Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	Hammer Hsieh <hammerh0314@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Sean Anderson <sean.anderson@seco.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Anjelique Melendez <quic_amelende@quicinc.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Luca Weiss <luca@z3ntu.xyz>,
-	Bjorn Andersson <quic_bjorande@quicinc.com>,
-	linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	chrome-platform@lists.linux.dev, linux-mips@vger.kernel.org,
-	linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 1/2] pwm: Manage owner assignment implicitly for
- drivers
-Message-ID: <20230805203610.jl7eea2lasmg2as2@intel.intel>
-References: <20230804142707.412137-1-u.kleine-koenig@pengutronix.de>
- <20230804142707.412137-2-u.kleine-koenig@pengutronix.de>
+	Andre Przywara <andre.przywara@arm.com>
+Cc: Matthew Croughan <matthew.croughan@nix.how>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v6 0/2] arm64: dts: allwinner: h616: Add Mango Pi MQ-Quad DTS
+Date: Sun,  6 Aug 2023 00:34:54 +0100
+Message-ID: <20230805233715.1216456-1-matthew.croughan@nix.how>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230804142707.412137-2-u.kleine-koenig@pengutronix.de>
 
-Hi Uwe,
+V1: Submission
+V2: Alphabetical ordering, added "widora,mangopi-mq-quad" compatible
+V3: Added Signed-off-by, add to device-tree compatible/bindings documentation
+V4:
+- Add separate patch for bindings documentation
+- Regularised comment style
+- Add vcc supplies for gpio according to board schematic
+- Removed unnecessary x-powers,self-working-mode;
+- Added comment regarding ALDO1
+- Removed unnecessary reg_dldo1 regulator, it seems to be connected to nothing
+  in the schematic, no adverse effects observed
+V5:
+- Switch ordering of patches
+- Fix comment style
+- Add Reviewed-by tag
+V6:
+- Corrected Reviewed-by tags on commits
+- pass #interrupt-cells = <1> to axp313a
+- pass interrupt-controller to axp313a
 
-On Fri, Aug 04, 2023 at 04:27:06PM +0200, Uwe Kleine-König wrote:
-> Instead of requiring each driver to care for assigning the owner member
-> of struct pwm_ops, handle that implicitly using a macro. Note that the
-> owner member has to be moved to struct pwm_chip, as the ops structure
-> usually lives in read-only memory and so cannot be modified.
-> 
-> The upside is that new lowlevel drivers cannot forget the assignment and
-> save one line each. The pwm-crc driver didn't assign .owner, that's not
-> a problem in practise though as the driver cannot be compiled as a
+Matthew Croughan (2):
+  dt-bindings: arm: sunxi: add Mango Pi MQ-Quad binding
+  arm64: dts: allwinner: h616: Add Mango Pi MQ-Quad DTS
 
-/practise/practice/
+ .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../allwinner/sun50i-h616-mangopi-mq-quad.dts | 187 ++++++++++++++++++
+ 3 files changed, 193 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-mangopi-mq-quad.dts
 
-> module.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+-- 
+2.41.0
 
-Acked-by: Andi Shyti <andi.shyti@kernel.org> 
-
-Thanks,
-Andi
