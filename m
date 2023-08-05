@@ -1,106 +1,70 @@
-Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.155.65.254])
+Received: from out-95.mta1.migadu.com (out-95.mta1.migadu.com [95.215.58.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8EF23A2
-	for <linux-sunxi@lists.linux.dev>; Sat,  5 Aug 2023 09:11:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=biqu3d.com;
-	s=tfld2305; t=1691226685;
-	bh=tCVGwYmH50PWl+o20qdQhoi5gPRP2yF0Bm+CSmqYkuk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=K7NtTZ/i+DLLtLhHPwAggxCJ4Oe5bWqFMfvNmzS00iyMh/JVqXj6D625tEZUZH7eL
-	 hplpMZKr9ufaJoVoghD30k3aou1Hbi4JrF5T/Lk6JMeVslu7TeDtFYJRsH9Y2yhaVg
-	 devBvR/woQqs2sTWnjKiQHvEvVaVhBUtrVWURV6g=
-X-QQ-mid: bizesmtp91t1691226631teaq6ssf
-Received: from [192.168.2.144] ( [178.41.211.221])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Sat, 05 Aug 2023 17:10:22 +0800 (CST)
-X-QQ-SSF: 01400000000000505000000A0000000
-X-QQ-FEAT: WfQrrMZtGtFovJwejNLv8JZXlZ7C07o8Fu3mKjDmX6ousr2sTmky8+nbFxL/B
-	sWl53XJvVYdP4PIFwo0dBszuNJpuY0ckthLst1uzH3TQ58fXHhPNkQhJRIRnTtsCeUBm9ZH
-	yw6CqAABNt5j3La90Xj1AlOLT5h/R4JXa6SIMz/r00S+BqNDAfnQ2XuzFMtVg2awQRTaSrK
-	rPhGVXbA8WRcJ18eImFtYY+G3GQzo8qKjkwQcsM5tX5cRQSwCPXKFg274n68Kn+mm2biOQs
-	chp7Yx3e809ArUBzzVQtwRVMNhyDIRd/5dDA7hU98OsIyyXcppyE+s95rQURopC/DDkUr0C
-	oUQem5M/nZrZ8yq4AHLkek3TRDdiU8D7hjdtRNHrzXaLu69RfhXVIPyzMhLRpPSKEqYE1PX
-X-QQ-GoodBg: 2
-X-BIZMAIL-ID: 3745282866020157789
-Message-ID: <F5302321A81D0C37+344e333c-241a-8132-b1eb-748e35b58082@biqu3d.com>
-Date: Sat, 5 Aug 2023 11:10:21 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF2D23A2
+	for <linux-sunxi@lists.linux.dev>; Sat,  5 Aug 2023 10:45:40 +0000 (UTC)
+Date: Sat, 5 Aug 2023 20:42:59 +1000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+	t=1691232338;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FpB0D3mxI9kO/4n6kQP6vW7np01C4MPqEWX1agkDUuM=;
+	b=gHfgjkGCHQ9obOeEfPj+rXReZOqs6s5Y3WfqT1BD5VbUn7wfUCTkIR1nmCvI4aTXO4b9Q3
+	x+yNXqQkoCwG0YtlsPF7gPzZWnB93RJw0EnB+NnPGg6ABVyL8ZZXLwV29Dj/y6xwiVttd7
+	ybaOzUh12C2oICB8d1EHO0Aof1e+7NaFFGwEJCWbGP3MVS01sQWOVFB/2zZI7TKQ4Bfwt6
+	xk86AXc6c/yH/a6l5Cp5yhrQOqQpOqooqL6QHJB6DjVsgyzZN5SqVOv0ePnOFZrptXlCsu
+	iB4nR3ob1y3DOFsDGM2FBZJGhI8GDfeLAD67J9k6P8RccZgR1A8N/z2bwUMAAQ==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: John Watts <contact@jookia.org>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Chen-Yu Tsai <wens@csie.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Maksim Kiselev <bigunclemax@gmail.com>, devicetree@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	mkl@pengutronix.de
+Subject: Re: [PATCH] riscv: dts: allwinner: d1: Specify default CAN pins
+Message-ID: <ZM4nswDuc5YBfEyV@titan>
+References: <20230731023701.2581713-1-contact@jookia.org>
+ <3248110.44csPzL39Z@jernej-laptop>
+ <ZMyZ5kZSiiJHtdeS@titan>
+ <5696365.DvuYhMxLoT@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v3 0/4] Add BigTreeTech CB1 SoM & Boards
-Content-Language: en-US
-To: Conor Dooley <conor@kernel.org>
-Cc: martin.botka1@gmail.com, Konrad Dybcio <konrad.dybcio@somainline.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Jami Kettunen <jamipkettunen@somainline.org>,
- Paul Bouchara <paul.bouchara@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Andrew Lunn <andrew@lunn.ch>,
- Icenowy Zheng <uwu@icenowy.me>, Ludwig Kormann <ludwig.kormann@ict42.de>,
- Heiko Stuebner <heiko@sntech.de>, Shawn Guo <shawnguo@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Chris Morgan <macromorgan@hotmail.com>, Jagan Teki <jagan@edgeble.ai>,
- Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <5EB3DB1D7F80A40F+20230805083636.788048-1-martin@biqu3d.com>
- <20230805-whenever-likely-f16d8b2424ac@spud>
-From: Martin Botka <martin@biqu3d.com>
-In-Reply-To: <20230805-whenever-likely-f16d8b2424ac@spud>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:biqu3d.com:qybglogicsvrgz:qybglogicsvrgz5a-1
+In-Reply-To: <5696365.DvuYhMxLoT@jernej-laptop>
+X-Migadu-Flow: FLOW_OUT
 
+On Fri, Aug 04, 2023 at 04:39:41PM +0200, Jernej Škrabec wrote:
+> If you don't mind, please do.
 
+Just to clarify, something like this:
 
-On 8/5/23 11:01 AM, Conor Dooley wrote:
-> On Sat, Aug 05, 2023 at 10:36:03AM +0200, Martin Botka wrote:
->> Hello,
->> This series adds a vendor prefix for BigTreeTech and adds BigTreeTech CB1,
->> Manta board and BigTreeTech Pi.
->>
->> CB1 is just an SoM thats based on AllWinner H616.
->> BigTreeTech Manta boards are expander boards for CB1 and BigTreeTech Pi
->> is an CB1 in Rpi style with few additional things like IR receiver and fan port
->> on GPIO.
->>
->> This work started before I was hired by BigTreeTech and thus majority of the
->> patches are from SoMainline email and few are from my work email.
->>
->> This series depends on commit https://lkml.org/lkml/2023/8/2/801
->> "dt-bindings: mfd: x-powers,axp152: make interrupt optional for more chips".
-> 
-> I dunno what you are doing, but FYI the threading on your emails is not
-> quite right, with the cover letter disconnected from the rest of the
-> series. git send-email can send the covers alongside the patches and
-> correctly set the threading. Your 1/4 has a in-reply-to header with a
-> message-id that doesn't exist.
+                can0: can@2504000 {
+                        pinctrl-names = "default";
+                        pinctrl-0 = <&can0_pins>;
+                        compatible = "allwinner,sun20i-d1-can";
+                        reg = <0x02504000 0x400>;
+                        interrupts = <SOC_PERIPHERAL_IRQ(21) IRQ_TYPE_LEVEL_HIGH>;
+                        clocks = <&ccu CLK_BUS_CAN0>;
+                        resets = <&ccu RST_BUS_CAN0>;
+                        status = "disabled";
+                };
 
-Heya. Yea we are currently trying to figure it out.
+I couldn't find any dtsi files that put pinctrl stuff at the top.
 
-Before sending everything looks OK and when testing with somainline.org 
-mail it does send it all properly so we are kinda betting on the SMTP
-provider doing some funky stuff. Sadly not much i can do with that.
-
-We will try to see if we cant force it via client to send it properly.
-> 
->     1 ND  Aug 05 Martin Botka    (8.2K) ┌─>[PATCH v3 4/4] arm64: dts: allwinner: h616: Add BigTreeTech Pi support
->     2 ND  Aug 05 Martin Botka    ( 12K) ├─>[PATCH v3 3/4] arm64: dts: allwinner: h616: Add BigTreeTech CB1 SoM & boards support
->     3  D  Aug 05 Martin Botka    (  41) ├─>[PATCH v3 2/4] dt-bindings: arm: sunxi: Add BigTreeTech boards
->     4  D  Aug 05 Martin Botka    (  34) ┴─>[PATCH v3 1/4] dt-bindings: vendor-prefixes: Add BigTreeTech
->     5     Aug 05 Martin Botka    (  38) [PATCH v3 0/4] Add BigTreeTech CB1 SoM & Boards
-> 
-> 
-
+John.
