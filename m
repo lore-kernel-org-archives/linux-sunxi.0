@@ -1,29 +1,29 @@
 Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 771F13D76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936003D8C
 	for <linux-sunxi@lists.linux.dev>; Sun,  6 Aug 2023 13:07:41 +0000 (UTC)
 Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4RJfr41dY4z9sWC;
-	Sun,  6 Aug 2023 15:07:32 +0200 (CEST)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4RJfrB21Yxz9smF;
+	Sun,  6 Aug 2023 15:07:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1691327252;
+	s=MBO0001; t=1691327258;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9mBnj/sxnS9zwU8wD2TdC9KZuObHfj2Iut9ShLW7rE4=;
-	b=wHuAxDd5BgHWIy6qClaImBiXiz/M/Zjisvencs4WrxtVHowJY7QMuX1AMU+ecZ6RXbfulk
-	8hTzWQ6ad7Ggmczrn7uj9rN/7Bf6TMf5iqDGuLrkoi3BbJTLPDE0dYFZ+vpARcN2jW3Ixq
-	9B10OAvjJwTRlakt27SFudJEyqhaDWn34pRokALYu2g3cihTnbLomOS20bdS1OybtyF2jG
-	017Zgfc8AiebXjBRyOKLlJTOIfAjvcTwjuyq/oYP6Q9OW5nZN0QaUFUVaiSgWw3+6Vz4+s
-	wK81Bvcr/X525oadT+CJnNL8wPSYuL67pAhsJIYJ1b8dTF5mi4LLwX3UhxVB9A==
+	bh=TjD5RUuDvuJH5h092AsaV1mTvvtxTHcezWL7uVLhzVw=;
+	b=WCIkSL59yRzbxO7Cd+5CXfhrgRYJ/GOmpNs51kMCd5Bu7oVwa9XhpUsS5bX32JmZEfdrUT
+	wYb0CVU2wPmreomP1pEOvXC5p/pwsTIlQvJVdS+aqY1SxmhYRDk8B/0daapvaFsdFV2eD1
+	Zqki1CdcY/gsArMj30ul0jFvLWIE7nwNxj3FNzX0ISkswUKJCs7CRYJFQLG2EmdFzplg22
+	AhtzSWPG/pCXTE3BWfgPA2+avtkupHPuNgEwitIlOOmTUE805Vb0u4YCbjqGxTeGmp+QvX
+	JgOEhNrs7NAHUglyt2LNbOU6xBoseWpcydZIJdBRkgRYq+NkT+ccNQG3haNPJw==
 From: Frank Oltmanns <frank@oltmanns.dev>
-Date: Sun, 06 Aug 2023 15:06:49 +0200
-Subject: [PATCH v5 04/11] clk: sunxi-ng: Add feature to find closest rate
+Date: Sun, 06 Aug 2023 15:06:53 +0200
+Subject: [PATCH v5 08/11] clk: sunxi-ng: mux: Support finding closest rate
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -32,7 +32,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230806-pll-mipi_set_rate_parent-v5-4-db4f5ca33fc3@oltmanns.dev>
+Message-Id: <20230806-pll-mipi_set_rate_parent-v5-8-db4f5ca33fc3@oltmanns.dev>
 References: <20230806-pll-mipi_set_rate_parent-v5-0-db4f5ca33fc3@oltmanns.dev>
 In-Reply-To: <20230806-pll-mipi_set_rate_parent-v5-0-db4f5ca33fc3@oltmanns.dev>
 To: Maxime Ripard <mripard@kernel.org>, 
@@ -44,45 +44,115 @@ To: Maxime Ripard <mripard@kernel.org>,
 Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Frank Oltmanns <frank@oltmanns.dev>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=925; i=frank@oltmanns.dev;
- h=from:subject:message-id; bh=gnSO2u9KSds+yso2ENUmK1fTBfjNRGShsPD5HpXqe+0=;
- b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBkz5sHEM2bFxC57sgboTsWggrljhrWXTJ1sKB8/
- d6pVtHgP3uJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZM+bBwAKCRCaaaIIlErT
- x7EzC/45nGmbcJ73KqZZrpd0scAqn1wgPmLY7YmnJRLCFRL0DyJoyefI5555Tu7iOPHyDmTu8+P
- DyqrPk7HwfcRBIBpyUtqataoEnbSZxbx74lOU0MRqaLAkXdwSM7L9PTgvCF2Elg8/T+Mv8i+VB4
- ksXbh9Vn7mE4XAZULzw+A9msFsYJtZjbNI2nSX04jnWAFhJXk8ptnXbnh1LVxoejuQvFPgwxWHa
- CoWz02j7Idxjk7O9qYGP+o/ds4gSrARi+YbhWFmgQoFVbKs9nK86FgNhuiWNM3CfAfDt1jpMm5F
- h9wEhgYB9huYKxaEXMNVkVOvwp/5EsTHB/aiZiK24CDXhQl/BN1N1RBdMmpnaqq487fJdhQFquj
- poQjvpBgLT5b6M/xX7x+OcaX1JAN6hcNJ9bgnFErVqqAUNVOMKNTY1B85yQbHHGb+zsVGy3/+xJ
- Eja11qHPeLfmVbwGwxEkceJf4M5m/gY7BFG4G4myBa16v0GSXW0/W/1tSQEP+ZxVR4hdU=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3440; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=OvKXg4vQ+wbmZqDkAPDAPHykvEpUGR9vUTxoWn/TvUI=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBkz5sH2rQD7N/pKO3IK5DJNPbc4o7hwgupuHQYO
+ TDQwMj2j4iJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZM+bBwAKCRCaaaIIlErT
+ x5riC/wJLP4De2988WYJxP7YFoz01YlNlZ5JrrNcLp6JQXF9WgmXZLSszca6hxejUI4Ls+oy2yr
+ mwh3tHNoWMxP0S/heYro7SWGvsMfnKJrjT/N4zP4qPBbraqeMHT9VcNRO5o8llNXopH5d+zxYkn
+ uk4XNFB0beUcnesz+4YUirpwxBwvlvpvrF5B1BMltbjrVkJNuQQobsDnxXAYQGcL2MLuddks0SQ
+ zwK1rRBuTKs2gGysrmWd3bc/ZBQyo+ta8bPc6JlpkPwA7Iw10yO1OhpgkA97ZttwUw6K0o443dj
+ U6rvciUazUIk4tW+MREXoCnOJ5U5PrRtiFxSqfVP8Af+AUj4T0M7gyk0giiYZ9alYK+kwHlV+GP
+ /SSudMzjQMFGtTYsR3LuY0ju2+1PWpqg748JPGMB0SjTbpuiku+7UGED5fEHYepVdB8QWhqeJTS
+ F9104esWTQYC5u8VZWq/rPGVyialabn9GLuNlkvYPJNEb93Ws9s62FyQy9sRx7GZeI0uI=
 X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
  fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
-X-Rspamd-Queue-Id: 4RJfr41dY4z9sWC
+X-Rspamd-Queue-Id: 4RJfrB21Yxz9smF
 
-The default behaviour of clocks in the sunxi-ng driver is to select a
-clock rate that is closest to but less than the requested rate.
-
-Add the CCU_FEATURE_CLOSEST_RATE flag, which can be used to allow clocks
-to find the closest rate instead.
+When finding the best rate for a mux clock, consider rates that are
+higher than the requested rate when CCU_FEATURE_ROUND_CLOSEST is used.
+Furthermore, introduce an initialization macro that sets this flag.
 
 Acked-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
 ---
- drivers/clk/sunxi-ng/ccu_common.h | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/clk/sunxi-ng/ccu_mux.c | 13 ++++++++++++-
+ drivers/clk/sunxi-ng/ccu_mux.h | 38 +++++++++++++++++++++++++++-----------
+ 2 files changed, 39 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/clk/sunxi-ng/ccu_common.h b/drivers/clk/sunxi-ng/ccu_common.h
-index fbf16c6b896d..5ad219f041d5 100644
---- a/drivers/clk/sunxi-ng/ccu_common.h
-+++ b/drivers/clk/sunxi-ng/ccu_common.h
-@@ -18,6 +18,7 @@
- #define CCU_FEATURE_MMC_TIMING_SWITCH	BIT(6)
- #define CCU_FEATURE_SIGMA_DELTA_MOD	BIT(7)
- #define CCU_FEATURE_KEY_FIELD		BIT(8)
-+#define CCU_FEATURE_CLOSEST_RATE	BIT(9)
+diff --git a/drivers/clk/sunxi-ng/ccu_mux.c b/drivers/clk/sunxi-ng/ccu_mux.c
+index 3ca695439620..5edc63b46651 100644
+--- a/drivers/clk/sunxi-ng/ccu_mux.c
++++ b/drivers/clk/sunxi-ng/ccu_mux.c
+@@ -242,6 +242,17 @@ static int ccu_mux_set_parent(struct clk_hw *hw, u8 index)
+ 	return ccu_mux_helper_set_parent(&cm->common, &cm->mux, index);
+ }
  
- /* MMC timing mode switch bit */
- #define CCU_MMC_NEW_TIMING_MODE		BIT(30)
++static int ccu_mux_determine_rate(struct clk_hw *hw,
++				  struct clk_rate_request *req)
++{
++	struct ccu_mux *cm = hw_to_ccu_mux(hw);
++
++	if (cm->common.features & CCU_FEATURE_CLOSEST_RATE)
++		return clk_mux_determine_rate_flags(hw, req, CLK_MUX_ROUND_CLOSEST);
++
++	return clk_mux_determine_rate_flags(hw, req, 0);
++}
++
+ static unsigned long ccu_mux_recalc_rate(struct clk_hw *hw,
+ 					 unsigned long parent_rate)
+ {
+@@ -259,7 +270,7 @@ const struct clk_ops ccu_mux_ops = {
+ 	.get_parent	= ccu_mux_get_parent,
+ 	.set_parent	= ccu_mux_set_parent,
+ 
+-	.determine_rate	= __clk_mux_determine_rate,
++	.determine_rate	= ccu_mux_determine_rate,
+ 	.recalc_rate	= ccu_mux_recalc_rate,
+ };
+ EXPORT_SYMBOL_NS_GPL(ccu_mux_ops, SUNXI_CCU);
+diff --git a/drivers/clk/sunxi-ng/ccu_mux.h b/drivers/clk/sunxi-ng/ccu_mux.h
+index 2c1811a445b0..eb1172ebbd94 100644
+--- a/drivers/clk/sunxi-ng/ccu_mux.h
++++ b/drivers/clk/sunxi-ng/ccu_mux.h
+@@ -46,20 +46,36 @@ struct ccu_mux {
+ 	struct ccu_common	common;
+ };
+ 
++#define SUNXI_CCU_MUX_TABLE_WITH_GATE_FEAT(_struct, _name, _parents, _table,	\
++				     _reg, _shift, _width, _gate,		\
++				     _flags, _features)				\
++	struct ccu_mux _struct = {						\
++		.enable	= _gate,						\
++		.mux	= _SUNXI_CCU_MUX_TABLE(_shift, _width, _table),		\
++		.common	= {							\
++			.reg		= _reg,					\
++			.hw.init	= CLK_HW_INIT_PARENTS(_name,		\
++							      _parents,		\
++							      &ccu_mux_ops,	\
++							      _flags),		\
++			.features	= _features,				\
++		}								\
++	}
++
++#define SUNXI_CCU_MUX_TABLE_WITH_GATE_CLOSEST(_struct, _name, _parents,	\
++					      _table, _reg, _shift,	\
++					      _width, _gate, _flags)	\
++	SUNXI_CCU_MUX_TABLE_WITH_GATE_FEAT(_struct, _name, _parents,	\
++					   _table, _reg, _shift,	\
++					   _width, _gate, _flags,	\
++					   CCU_FEATURE_CLOSEST_RATE)
++
+ #define SUNXI_CCU_MUX_TABLE_WITH_GATE(_struct, _name, _parents, _table,	\
+ 				     _reg, _shift, _width, _gate,	\
+ 				     _flags)				\
+-	struct ccu_mux _struct = {					\
+-		.enable	= _gate,					\
+-		.mux	= _SUNXI_CCU_MUX_TABLE(_shift, _width, _table),	\
+-		.common	= {						\
+-			.reg		= _reg,				\
+-			.hw.init	= CLK_HW_INIT_PARENTS(_name,	\
+-							      _parents, \
+-							      &ccu_mux_ops, \
+-							      _flags),	\
+-		}							\
+-	}
++	SUNXI_CCU_MUX_TABLE_WITH_GATE_FEAT(_struct, _name, _parents,	\
++					   _table, _reg, _shift,	\
++					   _width, _gate, _flags, 0)
+ 
+ #define SUNXI_CCU_MUX_WITH_GATE(_struct, _name, _parents, _reg,		\
+ 				_shift, _width, _gate, _flags)		\
 
 -- 
 2.41.0
