@@ -1,73 +1,66 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C0728EF
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Aug 2023 14:11:21 +0000 (UTC)
-Received: from i53875a28.versanet.de ([83.135.90.40] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1qSe0b-0003bR-VL; Sun, 06 Aug 2023 15:41:26 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: soc@kernel.org, Patrice Chotard <patrice.chotard@foss.st.com>,
- Tsahee Zidenberg <tsahee@annapurnalabs.com>,
- Antoine Tenart <atenart@kernel.org>, Jisheng Zhang <jszhang@kernel.org>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>,
- Jean-Marie Verdun <verdun@hpe.com>, Nick Hawkins <nick.hawkins@hpe.com>,
- Lubomir Rintel <lkundrak@v3.sk>, Linus Walleij <linus.walleij@linaro.org>,
- Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>,
- Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>,
- Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>,
- Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>, Liviu Dudau <liviu.dudau@arm.com>,
- Sudeep Holla <sudeep.holla@arm.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Shiraz Has him <shiraz.linux.kernel@gmail.com>,
- Stuart Yoder <stuyoder@gmail.com>, Laurentiu Tudor <laurentiu.tudor@nxp.com>,
- Jay Fang <f.fangjian@huawei.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Cristian Marussi <cristian.marussi@arm.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Dinh Nguyen <dinguyen@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Michal Simek <michal.simek@amd.com>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Ulf Hansson <ulf.hansson@linaro.org>, Li Yang <leoyang.li@nxp.com>,
- Qiang Zhao <qiang.zhao@nxp.com>, Rob Herring <robh@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- openbmc@lists.ozlabs.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-mediatek@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v2 12/23] ARM: rockchip: Drop unused includes
-Date: Sun, 06 Aug 2023 15:41:22 +0200
-Message-ID: <21971720.EfDdHjke4D@diego>
-In-Reply-To:
- <20230803-dt-header-cleanups-for-soc-v2-12-d8de2cc88bff@kernel.org>
-References:
- <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
- <20230803-dt-header-cleanups-for-soc-v2-12-d8de2cc88bff@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72FC35696
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Aug 2023 18:04:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F23FC433C8;
+	Sun,  6 Aug 2023 18:04:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1691345092;
+	bh=R0jDL4VOB0TXPVk/kSGZ4LYNLUyti/l/sAW8hldzcVA=;
+	h=Date:From:To:Cc:Subject:From;
+	b=X5hU+HF8LxTPLv0BQ68yEug0sO7ancxlbLtKJOeu6GocVAIwDh5eq3CsoqdhIsCZY
+	 9lFdHV5YCBLXt1T2Iq70BIqxZzBvEd/s/bPbmxKCqkMP5wFoBkUn0RhnrMRpJdEs+4
+	 2E134csHeStAqXp1Oa2RXthxUGGrsAgapOZare/Nr5MeukGvs5CEXMSlkkpPsl6DAs
+	 XME2KA6sMJfEE6vEn4uj8Qgo1vWk9CYWu0c9ySTbHw6ZYLf6/LhFVWrcdFlevn8SqN
+	 KswWpcsEUAV0tlM2Ays2xoxeJhGRoivWUEmrUOOadE63k0d6bPWag00mufRCJ+hGSh
+	 G/wKgWpBKqJtg==
+Date: Sun, 6 Aug 2023 20:04:48 +0200
+From: Jernej Skrabec <jernej@kernel.org>
+To: mturquette@baylibre.com, sboyd@kernel.org
+Cc: wens@csie.org, samuel@sholland.org, linux-clk@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [GIT PULL] Allwinner clock changes for 6.6
+Message-ID: <20230806180448.GA126918@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Am Freitag, 4. August 2023, 00:42:52 CEST schrieb Rob Herring:
-> Several includes are not needed, so drop them.
-> 
-> of_platform.h is not needed, but it implicitly includes of.h which is
-> needed.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Hi!
 
-Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+Please pull following clock changes for 6.6.
 
+Best regards,
+Jernej
 
+The following changes since commit 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5:
+
+  Linux 6.5-rc1 (2023-07-09 13:53:13 -0700)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-clk-for-6.6-1
+
+for you to fetch changes up to 075d9ca5b4e17f84fd1c744a405e69ec743be7f0:
+
+  clk: sunxi-ng: Modify mismatched function name (2023-07-31 00:52:36 +0200)
+
+----------------------------------------------------------------
+- Convert sun9i-mmc clock to use devm_platform_get_and_ioremap_resource()
+- Fix function name in a comment in ccu_mmc_timing.c
+
+----------------------------------------------------------------
+Yangtao Li (1):
+      clk: sunxi: sun9i-mmc: Use devm_platform_get_and_ioremap_resource()
+
+Zhang Jianhua (1):
+      clk: sunxi-ng: Modify mismatched function name
+
+ drivers/clk/sunxi-ng/ccu_mmc_timing.c |  2 +-
+ drivers/clk/sunxi/clk-sun9i-mmc.c     | 10 ++++------
+ 2 files changed, 5 insertions(+), 7 deletions(-)
