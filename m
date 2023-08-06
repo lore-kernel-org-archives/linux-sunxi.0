@@ -1,198 +1,168 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4819B53BE
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Aug 2023 13:48:12 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-977e0fbd742so503638266b.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 06 Aug 2023 06:48:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691329690; x=1691934490;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j+Xsg9YY5Dq6KDm40Wq5sVdBaVtBYpXspCdRFB3jlUc=;
-        b=cW1U6kol2AVYOcg2TqCC4Wew5k3K69d4xm1LCQ8g2gzInHi8Q2Eh2pcMazj/ZOYgeu
-         EBjYTMj4HzMlW8M8JU4cgRq4JaNek6tYN5E7NtM9g3nBHPwbBnRn4OcZRzQNFPz3YFfa
-         BuATZYDVCYVI39obMpAT/vkiZy2u0X7EI4vqqqeBdEZ64UGGJVwu4I8TCBwUr4SfY/Nf
-         9QLSCpnVtc53LjzACQNojWDzAOcAk7TC3zzR+3AWuVgOvLiXL9VEZ4kQuumZerXRdjno
-         4IGQUCcvj8sn4jKvtJwND/UmNn7MVlUjNhkNzxEX+nSrHmIV3frjaN+wgGkESy3k17oW
-         NDjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691329690; x=1691934490;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=j+Xsg9YY5Dq6KDm40Wq5sVdBaVtBYpXspCdRFB3jlUc=;
-        b=S/yMBHvuaZNtvD+dFZSWVh9yIaRl//1DoaMmYv0s08ASpzSUAvQtmpiF0W71du4ZXA
-         CeLuAutU1GNkIRq5fIhRY48oxRCgqQcQtF/UdIGHp1xO0ctvlPVKXMRIBXVowshN9XSj
-         7GagGdYYxj3rpow4WfV/zs0UHN0khWuz2jzipwRLVTA+Y+s/PTb3LRzE2Zudsq49m+YM
-         owC7hldlYkRfBDLUgqda83Cm4H7gv7YH02AHkx63IBU3VLApbrIjoGC/kXfXsqmfKV+8
-         q6vR3LVCzlKFdgPrvPgdIBTAWwDBiDqXCQtr0QKF0HTLdJKwv0JekVQd545wyXqKIjo7
-         XTRA==
-X-Gm-Message-State: AOJu0YxSmBKX18xpR2TWmRCsBlfWvT9tMaR3SWtk7ozTtSf+6sBqq+l6
-	vay2W5D1G/ok1XLCdLpMa1w=
-X-Google-Smtp-Source: AGHT+IEIvAXs0DV7ge7oOrAiLcptXmsCx2UmaHjaSTPXZOkGHv+2G25/3DKb5m3MRtq98l+13U/scQ==
-X-Received: by 2002:a17:906:3082:b0:99b:f4fa:805f with SMTP id 2-20020a170906308200b0099bf4fa805fmr5782462ejv.28.1691329690189;
-        Sun, 06 Aug 2023 06:48:10 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id r13-20020a170906704d00b0098e34446464sm3946765ejj.25.2023.08.06.06.48.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Aug 2023 06:48:09 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Andre Przywara <andre.przywara@arm.com>, Roman Beranek <me@crly.cz>,
- Frank Oltmanns <frank@oltmanns.dev>
-Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Frank Oltmanns <frank@oltmanns.dev>
-Subject:
- Re: [PATCH v5 10/11] clk: sunxi-ng: a64: select closest rate for pll-video0
-Date: Sun, 06 Aug 2023 15:48:08 +0200
-Message-ID: <2162023.Icojqenx9y@jernej-laptop>
-In-Reply-To:
- <20230806-pll-mipi_set_rate_parent-v5-10-db4f5ca33fc3@oltmanns.dev>
-References:
- <20230806-pll-mipi_set_rate_parent-v5-0-db4f5ca33fc3@oltmanns.dev>
- <20230806-pll-mipi_set_rate_parent-v5-10-db4f5ca33fc3@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5371F28EF
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Aug 2023 13:57:07 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4RJgxC5Jwjz9sbh;
+	Sun,  6 Aug 2023 15:57:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1691330223;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UWdULM/cMKhvgQZZICo8f8j2JPsZ03rAx8n6aRyuTRA=;
+	b=cRrsE4QE68olJg41DT12TrP6oz9WiyLfh3ctxU8hb6u72TCHbjPe9kNDHQEtpjCu5h4CrJ
+	G8sKs9jUK90tY8wNxFnRYBsd8ksnBchzceLuUYuW4BZ6KDans2C1W9qgmtgfk4V4FeGZaf
+	WSKB+PIQbC3x8SfejzP9l6fLvB9cBoLFe3ccIfsg6N+I9VWqkUB/OtaDlXNJpr/LcmZkma
+	ong5/6JgPHopQGK0/5/J/auUoD8jDqYB64gEgz9MIZ3aLTZ5zRMn8yf3seQSJrWaimAagW
+	srxG6/Q4OkM0Rb0EE0G8idbPWvLQvgbsFCV4KB0Eo0gRqB0Rkiw+V8y5h10KiA==
+References: <20230806-pll-mipi_set_rate_parent-v5-0-db4f5ca33fc3@oltmanns.dev>
+ <20230806-pll-mipi_set_rate_parent-v5-2-db4f5ca33fc3@oltmanns.dev>
+ <3752134.kQq0lBPeGt@jernej-laptop>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai
+ <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Andre Przywara
+ <andre.przywara@arm.com>, Roman Beranek <me@crly.cz>,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 02/11] clk: sunxi-ng: nkm: consider alternative
+ parent rates when determining rate
+In-reply-to: <3752134.kQq0lBPeGt@jernej-laptop>
+Date: Sun, 06 Aug 2023 15:57:00 +0200
+Message-ID: <87h6pc9sur.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-
-Dne nedelja, 06. avgust 2023 ob 15:06:55 CEST je Frank Oltmanns napisal(a):
-> Selecting the closest rate for pll-video0 instead of the closest rate
-> that is less than the requested rate has no downside for this clock,
-> while allowing for selecting a more suitable rate, e.g. for the
-> connected panels.
-> 
-> Furthermore, the algorithm that sets an NKM clock's parent benefits from
-> the closest rate. Without it, the NKM clock's rate might drift away from
-> the requested rate in the multiple successive calls to
-> ccu_nkm_determine_rate that the clk framework performs when setting a
-> clock rate.
-> 
-> Therefore, configure pll-video0 and, in consequence, all of its
-> descendents to select the closest rate.
-> 
-> Acked-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Best regards,
-Jernej
-
-> ---
->  drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 33
-> ++++++++++++++------------------- 1 file changed, 14 insertions(+), 19
-> deletions(-)
-> 
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-> b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c index a139a5c438d4..73c84d20f3ee
-> 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-> @@ -68,7 +68,7 @@ static SUNXI_CCU_NM_WITH_SDM_GATE_LOCK(pll_audio_base_clk,
-> "pll-audio-base", BIT(28),	/* lock */
->  				       CLK_SET_RATE_UNGATE);
-> 
-> -static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX(pll_video0_clk,
-> "pll-video0", +static
-> SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_CLOSEST(pll_video0_clk,
-> "pll-video0", "osc24M", 0x010,
->  						192000000,	
-/* Minimum rate */
->  						1008000000,	
-/* Maximum rate */
-> @@ -181,6 +181,7 @@ static struct ccu_nkm pll_mipi_clk = {
->  		.hw.init	= CLK_HW_INIT("pll-mipi", "pll-video0",
->  					      &ccu_nkm_ops,
->  					      
-CLK_SET_RATE_UNGATE | CLK_SET_RATE_PARENT),
-> +		.features	= CCU_FEATURE_CLOSEST_RATE,
->  	},
->  };
-> 
-> @@ -531,24 +532,18 @@ static SUNXI_CCU_M_WITH_MUX_GATE(de_clk, "de",
-> de_parents,
-> 
->  static const char * const tcon0_parents[] = { "pll-mipi", "pll-video0-2x"
-> }; static const u8 tcon0_table[] = { 0, 2, };
-> -static SUNXI_CCU_MUX_TABLE_WITH_GATE(tcon0_clk, "tcon0", tcon0_parents,
-> +static SUNXI_CCU_MUX_TABLE_WITH_GATE_CLOSEST(tcon0_clk, "tcon0",
-> tcon0_parents, tcon0_table, 0x118, 24, 3, BIT(31),
->  				     CLK_SET_RATE_PARENT);
-> 
->  static const char * const tcon1_parents[] = { "pll-video0", "pll-video1" };
-> static const u8 tcon1_table[] = { 0, 2, };
-> -static struct ccu_div tcon1_clk = {
-> -	.enable		= BIT(31),
-> -	.div		= _SUNXI_CCU_DIV(0, 4),
-> -	.mux		= _SUNXI_CCU_MUX_TABLE(24, 2, tcon1_table),
-> -	.common		= {
-> -		.reg		= 0x11c,
-> -		.hw.init	= CLK_HW_INIT_PARENTS("tcon1",
-> -						      
-tcon1_parents,
-> -						      
-&ccu_div_ops,
-> -						      
-CLK_SET_RATE_PARENT),
-> -	},
-> -};
-> +static SUNXI_CCU_M_WITH_MUX_TABLE_GATE_CLOSEST(tcon1_clk, "tcon1",
-> tcon1_parents, +					       
-tcon1_table, 0x11c,
-> +					       0, 4,	/* M */
-> +					       24, 2,	/* mux 
-*/
-> +					       BIT(31),	/* gate 
-*/
-> +					       
-CLK_SET_RATE_PARENT);
-> 
->  static const char * const deinterlace_parents[] = { "pll-periph0",
-> "pll-periph1" }; static SUNXI_CCU_M_WITH_MUX_GATE(deinterlace_clk,
-> "deinterlace", deinterlace_parents, @@ -578,8 +573,8 @@ static
-> SUNXI_CCU_GATE(avs_clk,		"avs",		"osc24M", 
-0x144, BIT(31), 0);
-> 
->  static const char * const hdmi_parents[] = { "pll-video0", "pll-video1" };
-> -static SUNXI_CCU_M_WITH_MUX_GATE(hdmi_clk, "hdmi", hdmi_parents,
-> -				 0x150, 0, 4, 24, 2, BIT(31), 
-CLK_SET_RATE_PARENT);
-> +static SUNXI_CCU_M_WITH_MUX_GATE_CLOSEST(hdmi_clk, "hdmi", hdmi_parents,
-> +					 0x150, 0, 4, 24, 2, 
-BIT(31), CLK_SET_RATE_PARENT);
-> 
->  static SUNXI_CCU_GATE(hdmi_ddc_clk,	"hdmi-ddc",	"osc24M",
->  		      0x154, BIT(31), 0);
-> @@ -591,9 +586,9 @@ static SUNXI_CCU_M_WITH_MUX_GATE(mbus_clk, "mbus",
-> mbus_parents,
-> 
->  static const char * const dsi_dphy_parents[] = { "pll-video0",
-> "pll-periph0" }; static const u8 dsi_dphy_table[] = { 0, 2, };
-> -static SUNXI_CCU_M_WITH_MUX_TABLE_GATE(dsi_dphy_clk, "dsi-dphy",
-> -				       dsi_dphy_parents, 
-dsi_dphy_table,
-> -				       0x168, 0, 4, 8, 2, 
-BIT(15), CLK_SET_RATE_PARENT);
-> +static SUNXI_CCU_M_WITH_MUX_TABLE_GATE_CLOSEST(dsi_dphy_clk, "dsi-dphy",
-> +					       
-dsi_dphy_parents, dsi_dphy_table,
-> +					       0x168, 0, 4, 8, 
-2, BIT(15), CLK_SET_RATE_PARENT);
-> 
->  static SUNXI_CCU_M_WITH_GATE(gpu_clk, "gpu", "pll-gpu",
->  			     0x1a0, 0, 3, BIT(31), 
-CLK_SET_RATE_PARENT);
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 
+On 2023-08-06 at 15:32:29 +0200, Jernej =C5=A0krabec <jernej.skrabec@gmail.=
+com> wrote:
+> Dne nedelja, 06. avgust 2023 ob 15:06:47 CEST je Frank Oltmanns napisal(a=
+):
+>> In case the CLK_SET_RATE_PARENT flag is set, consider using a different
+>> parent rate when determining a new rate.
+>>
+>> To find the best match for the requested rate, perform the following
+>> steps for each NKM combination:
+>>  - calculate the optimal parent rate,
+>>  - find the best parent rate that the parent clock actually supports
+>>  - use that parent rate to calculate the effective rate.
+>>
+>> In case the clk does not support setting the parent rate, use the same
+>> algorithm as before.
+>>
+>> Acked-by: Maxime Ripard <mripard@kernel.org>
+>> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+>> ---
+>>  drivers/clk/sunxi-ng/ccu_nkm.c | 45
+>> +++++++++++++++++++++++++++++++++++++++++- 1 file changed, 44
+>> insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_n=
+km.c
+>> index f267142e58b3..ea1b77e9b57f 100644
+>> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
+>> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
+>> @@ -6,6 +6,7 @@
+>>
+>>  #include <linux/clk-provider.h>
+>>  #include <linux/io.h>
+>> +#include <linux/math.h>
+>
+> Why do you need above include?
 
+It's not needed. It's a leftover from an earlier version. I'll remove it
+in v6.
 
+Thank you for your review,
+  Frank
+
+>
+> Best regards,
+> Jernej
+>
+>>
+>>  #include "ccu_gate.h"
+>>  #include "ccu_nkm.h"
+>> @@ -16,6 +17,45 @@ struct _ccu_nkm {
+>>  	unsigned long	m, min_m, max_m;
+>>  };
+>>
+>> +static unsigned long ccu_nkm_find_best_with_parent_adj(struct clk_hw
+>> *parent_hw, +
+>        unsigned long *parent, unsigned long rate,
+>> +
+> struct _ccu_nkm *nkm)
+>> +{
+>> +	unsigned long best_rate =3D 0, best_parent_rate =3D *parent, tmp_parent
+> =3D
+>> *parent; +	unsigned long best_n =3D 0, best_k =3D 0, best_m =3D 0;
+>> +	unsigned long _n, _k, _m;
+>> +
+>> +	for (_k =3D nkm->min_k; _k <=3D nkm->max_k; _k++) {
+>> +		for (_n =3D nkm->min_n; _n <=3D nkm->max_n; _n++) {
+>> +			for (_m =3D nkm->min_m; _m <=3D nkm->max_m; _m++)
+> {
+>> +				unsigned long tmp_rate;
+>> +
+>> +				tmp_parent =3D
+> clk_hw_round_rate(parent_hw, rate * _m / (_n * _k));
+>> +
+>> +				tmp_rate =3D tmp_parent * _n * _k /
+> _m;
+>> +				if (tmp_rate > rate)
+>> +					continue;
+>> +
+>> +				if ((rate - tmp_rate) < (rate -
+> best_rate)) {
+>> +					best_rate =3D tmp_rate;
+>> +					best_parent_rate =3D
+> tmp_parent;
+>> +					best_n =3D _n;
+>> +					best_k =3D _k;
+>> +					best_m =3D _m;
+>> +				}
+>> +			}
+>> +		}
+>> +	}
+>> +
+>> +	nkm->n =3D best_n;
+>> +	nkm->k =3D best_k;
+>> +	nkm->m =3D best_m;
+>> +
+>> +	*parent =3D best_parent_rate;
+>> +
+>> +	return best_rate;
+>> +}
+>> +
+>>  static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned l=
+ong
+>> rate, struct _ccu_nkm *nkm)
+>>  {
+>> @@ -124,7 +164,10 @@ static unsigned long ccu_nkm_round_rate(struct
+>> ccu_mux_internal *mux, if (nkm->common.features &
+>> CCU_FEATURE_FIXED_POSTDIV)
+>>  		rate *=3D nkm->fixed_post_div;
+>>
+>> -	rate =3D ccu_nkm_find_best(*parent_rate, rate, &_nkm);
+>> +	if (!clk_hw_can_set_rate_parent(&nkm->common.hw))
+>> +		rate =3D ccu_nkm_find_best(*parent_rate, rate, &_nkm);
+>> +	else
+>> +		rate =3D ccu_nkm_find_best_with_parent_adj(parent_hw,
+> parent_rate, rate,
+>> &_nkm);
+>>
+>>  	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
+>>  		rate /=3D nkm->fixed_post_div;
