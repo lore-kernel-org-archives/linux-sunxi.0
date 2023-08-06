@@ -1,27 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72FC35696
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Aug 2023 18:04:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F23FC433C8;
-	Sun,  6 Aug 2023 18:04:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB355696
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Aug 2023 18:05:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61E7BC433C7;
+	Sun,  6 Aug 2023 18:05:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691345092;
-	bh=R0jDL4VOB0TXPVk/kSGZ4LYNLUyti/l/sAW8hldzcVA=;
-	h=Date:From:To:Cc:Subject:From;
-	b=X5hU+HF8LxTPLv0BQ68yEug0sO7ancxlbLtKJOeu6GocVAIwDh5eq3CsoqdhIsCZY
-	 9lFdHV5YCBLXt1T2Iq70BIqxZzBvEd/s/bPbmxKCqkMP5wFoBkUn0RhnrMRpJdEs+4
-	 2E134csHeStAqXp1Oa2RXthxUGGrsAgapOZare/Nr5MeukGvs5CEXMSlkkpPsl6DAs
-	 XME2KA6sMJfEE6vEn4uj8Qgo1vWk9CYWu0c9ySTbHw6ZYLf6/LhFVWrcdFlevn8SqN
-	 KswWpcsEUAV0tlM2Ays2xoxeJhGRoivWUEmrUOOadE63k0d6bPWag00mufRCJ+hGSh
-	 G/wKgWpBKqJtg==
-Date: Sun, 6 Aug 2023 20:04:48 +0200
+	s=k20201202; t=1691345150;
+	bh=qIxqAICGpKfnAqV7j1VEaT95XeAMT+WWsugf9Men4Dc=;
+	h=Date:From:List-Id:To:Cc:Subject:From;
+	b=bCTTek7nQC8ZID9Csgc7mR6HTMynXFXr83U3zmPs2klCgagM2xFvevBNIzB/WWHJD
+	 RjmpLvoPZkhU3z0cW10hCsjnA3HHcuOc90ENNJcdJWc7+7tDSJqT5HeTMITMWY9hKL
+	 AYKlskQG6X6VbuHWBY4PX8MY7Kgh9L3BZEbnbg27hyKHIl3xNndons05j4GV3g9K3g
+	 srLLQM39DJw6jW9gSQ/phsB+Hu+q8mKN+3D06gk1mboOZFiG/GQDjI04LkJYH+1aQR
+	 qpSa82ue5+ZmbeQmshNRANmhUrFeoPrYI0dVziNJNmzPhRxwvslzQhonHDWrhQ1cza
+	 IGrLkACq7vg/g==
+Date: Sun, 6 Aug 2023 20:05:46 +0200
 From: Jernej Skrabec <jernej@kernel.org>
-To: mturquette@baylibre.com, sboyd@kernel.org
-Cc: wens@csie.org, samuel@sholland.org, linux-clk@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [GIT PULL] Allwinner clock changes for 6.6
-Message-ID: <20230806180448.GA126918@jernej-laptop>
+List-Id: <soc.lore.kernel.org>
+To: arm@kernel.org, soc@kernel.org
+Cc: wens@csie.org, samuel@sholland.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: [GIT PULL] Allwinner device tree changes for 6.6
+Message-ID: <20230806180546.GA127039@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -33,7 +34,7 @@ Content-Disposition: inline
 
 Hi!
 
-Please pull following clock changes for 6.6.
+Please pull following DT changes for 6.6.
 
 Best regards,
 Jernej
@@ -44,23 +45,36 @@ The following changes since commit 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5:
 
 are available in the Git repository at:
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-clk-for-6.6-1
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-dt-for-6.6-1
 
-for you to fetch changes up to 075d9ca5b4e17f84fd1c744a405e69ec743be7f0:
+for you to fetch changes up to 0801a3a9f35854c91f1f3ab8e879c3d14912d214:
 
-  clk: sunxi-ng: Modify mismatched function name (2023-07-31 00:52:36 +0200)
-
-----------------------------------------------------------------
-- Convert sun9i-mmc clock to use devm_platform_get_and_ioremap_resource()
-- Fix function name in a comment in ccu_mmc_timing.c
+  arm: dts: Enable device-tree overlay support for sun8i-h3 pi devices (2023-08-06 13:56:55 +0200)
 
 ----------------------------------------------------------------
-Yangtao Li (1):
-      clk: sunxi: sun9i-mmc: Use devm_platform_get_and_ioremap_resource()
+- Add D1 GPADC node
+- Introduce support for OrangePi Zero 3 SBC
+- Enable DT overlay support for Allwinner H3 boards
 
-Zhang Jianhua (1):
-      clk: sunxi-ng: Modify mismatched function name
+----------------------------------------------------------------
+Andre Przywara (3):
+      arm64: dts: allwinner: h616: Split Orange Pi Zero 2 DT
+      dt-bindings: arm: sunxi: document Orange Pi Zero 3 board name
+      arm64: dts: allwinner: h616: Add OrangePi Zero 3 board support
 
- drivers/clk/sunxi-ng/ccu_mmc_timing.c |  2 +-
- drivers/clk/sunxi/clk-sun9i-mmc.c     | 10 ++++------
- 2 files changed, 5 insertions(+), 7 deletions(-)
+Felix Moessbauer (1):
+      arm: dts: Enable device-tree overlay support for sun8i-h3 pi devices
+
+Maksim Kiselev (1):
+      riscv: dts: allwinner: d1: Add GPADC node
+
+ Documentation/devicetree/bindings/arm/sunxi.yaml   |   5 +
+ arch/arm/boot/dts/allwinner/Makefile               |  19 +++
+ arch/arm64/boot/dts/allwinner/Makefile             |   1 +
+ .../dts/allwinner/sun50i-h616-orangepi-zero.dtsi   | 134 +++++++++++++++++++++
+ .../dts/allwinner/sun50i-h616-orangepi-zero2.dts   | 119 +-----------------
+ .../dts/allwinner/sun50i-h618-orangepi-zero3.dts   |  94 +++++++++++++++
+ arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi  |  10 ++
+ 7 files changed, 264 insertions(+), 118 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
