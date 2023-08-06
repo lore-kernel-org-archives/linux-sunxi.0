@@ -1,168 +1,73 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5371F28EF
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Aug 2023 13:57:07 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4RJgxC5Jwjz9sbh;
-	Sun,  6 Aug 2023 15:57:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1691330223;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UWdULM/cMKhvgQZZICo8f8j2JPsZ03rAx8n6aRyuTRA=;
-	b=cRrsE4QE68olJg41DT12TrP6oz9WiyLfh3ctxU8hb6u72TCHbjPe9kNDHQEtpjCu5h4CrJ
-	G8sKs9jUK90tY8wNxFnRYBsd8ksnBchzceLuUYuW4BZ6KDans2C1W9qgmtgfk4V4FeGZaf
-	WSKB+PIQbC3x8SfejzP9l6fLvB9cBoLFe3ccIfsg6N+I9VWqkUB/OtaDlXNJpr/LcmZkma
-	ong5/6JgPHopQGK0/5/J/auUoD8jDqYB64gEgz9MIZ3aLTZ5zRMn8yf3seQSJrWaimAagW
-	srxG6/Q4OkM0Rb0EE0G8idbPWvLQvgbsFCV4KB0Eo0gRqB0Rkiw+V8y5h10KiA==
-References: <20230806-pll-mipi_set_rate_parent-v5-0-db4f5ca33fc3@oltmanns.dev>
- <20230806-pll-mipi_set_rate_parent-v5-2-db4f5ca33fc3@oltmanns.dev>
- <3752134.kQq0lBPeGt@jernej-laptop>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai
- <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Andre Przywara
- <andre.przywara@arm.com>, Roman Beranek <me@crly.cz>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 02/11] clk: sunxi-ng: nkm: consider alternative
- parent rates when determining rate
-In-reply-to: <3752134.kQq0lBPeGt@jernej-laptop>
-Date: Sun, 06 Aug 2023 15:57:00 +0200
-Message-ID: <87h6pc9sur.fsf@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C0728EF
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Aug 2023 14:11:21 +0000 (UTC)
+Received: from i53875a28.versanet.de ([83.135.90.40] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1qSe0b-0003bR-VL; Sun, 06 Aug 2023 15:41:26 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: soc@kernel.org, Patrice Chotard <patrice.chotard@foss.st.com>,
+ Tsahee Zidenberg <tsahee@annapurnalabs.com>,
+ Antoine Tenart <atenart@kernel.org>, Jisheng Zhang <jszhang@kernel.org>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+ Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>,
+ Jean-Marie Verdun <verdun@hpe.com>, Nick Hawkins <nick.hawkins@hpe.com>,
+ Lubomir Rintel <lkundrak@v3.sk>, Linus Walleij <linus.walleij@linaro.org>,
+ Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>,
+ Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>,
+ Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>,
+ Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>,
+ Robert Jarzmik <robert.jarzmik@free.fr>, Liviu Dudau <liviu.dudau@arm.com>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
+ Shiraz Has him <shiraz.linux.kernel@gmail.com>,
+ Stuart Yoder <stuyoder@gmail.com>, Laurentiu Tudor <laurentiu.tudor@nxp.com>,
+ Jay Fang <f.fangjian@huawei.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Cristian Marussi <cristian.marussi@arm.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Dinh Nguyen <dinguyen@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Michal Simek <michal.simek@amd.com>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Li Yang <leoyang.li@nxp.com>,
+ Qiang Zhao <qiang.zhao@nxp.com>, Rob Herring <robh@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ openbmc@lists.ozlabs.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-mediatek@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v2 12/23] ARM: rockchip: Drop unused includes
+Date: Sun, 06 Aug 2023 15:41:22 +0200
+Message-ID: <21971720.EfDdHjke4D@diego>
+In-Reply-To:
+ <20230803-dt-header-cleanups-for-soc-v2-12-d8de2cc88bff@kernel.org>
+References:
+ <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
+ <20230803-dt-header-cleanups-for-soc-v2-12-d8de2cc88bff@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+
+Am Freitag, 4. August 2023, 00:42:52 CEST schrieb Rob Herring:
+> Several includes are not needed, so drop them.
+> 
+> of_platform.h is not needed, but it implicitly includes of.h which is
+> needed.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
 
-On 2023-08-06 at 15:32:29 +0200, Jernej =C5=A0krabec <jernej.skrabec@gmail.=
-com> wrote:
-> Dne nedelja, 06. avgust 2023 ob 15:06:47 CEST je Frank Oltmanns napisal(a=
-):
->> In case the CLK_SET_RATE_PARENT flag is set, consider using a different
->> parent rate when determining a new rate.
->>
->> To find the best match for the requested rate, perform the following
->> steps for each NKM combination:
->>  - calculate the optimal parent rate,
->>  - find the best parent rate that the parent clock actually supports
->>  - use that parent rate to calculate the effective rate.
->>
->> In case the clk does not support setting the parent rate, use the same
->> algorithm as before.
->>
->> Acked-by: Maxime Ripard <mripard@kernel.org>
->> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
->> ---
->>  drivers/clk/sunxi-ng/ccu_nkm.c | 45
->> +++++++++++++++++++++++++++++++++++++++++- 1 file changed, 44
->> insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_n=
-km.c
->> index f267142e58b3..ea1b77e9b57f 100644
->> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
->> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
->> @@ -6,6 +6,7 @@
->>
->>  #include <linux/clk-provider.h>
->>  #include <linux/io.h>
->> +#include <linux/math.h>
->
-> Why do you need above include?
-
-It's not needed. It's a leftover from an earlier version. I'll remove it
-in v6.
-
-Thank you for your review,
-  Frank
-
->
-> Best regards,
-> Jernej
->
->>
->>  #include "ccu_gate.h"
->>  #include "ccu_nkm.h"
->> @@ -16,6 +17,45 @@ struct _ccu_nkm {
->>  	unsigned long	m, min_m, max_m;
->>  };
->>
->> +static unsigned long ccu_nkm_find_best_with_parent_adj(struct clk_hw
->> *parent_hw, +
->        unsigned long *parent, unsigned long rate,
->> +
-> struct _ccu_nkm *nkm)
->> +{
->> +	unsigned long best_rate =3D 0, best_parent_rate =3D *parent, tmp_parent
-> =3D
->> *parent; +	unsigned long best_n =3D 0, best_k =3D 0, best_m =3D 0;
->> +	unsigned long _n, _k, _m;
->> +
->> +	for (_k =3D nkm->min_k; _k <=3D nkm->max_k; _k++) {
->> +		for (_n =3D nkm->min_n; _n <=3D nkm->max_n; _n++) {
->> +			for (_m =3D nkm->min_m; _m <=3D nkm->max_m; _m++)
-> {
->> +				unsigned long tmp_rate;
->> +
->> +				tmp_parent =3D
-> clk_hw_round_rate(parent_hw, rate * _m / (_n * _k));
->> +
->> +				tmp_rate =3D tmp_parent * _n * _k /
-> _m;
->> +				if (tmp_rate > rate)
->> +					continue;
->> +
->> +				if ((rate - tmp_rate) < (rate -
-> best_rate)) {
->> +					best_rate =3D tmp_rate;
->> +					best_parent_rate =3D
-> tmp_parent;
->> +					best_n =3D _n;
->> +					best_k =3D _k;
->> +					best_m =3D _m;
->> +				}
->> +			}
->> +		}
->> +	}
->> +
->> +	nkm->n =3D best_n;
->> +	nkm->k =3D best_k;
->> +	nkm->m =3D best_m;
->> +
->> +	*parent =3D best_parent_rate;
->> +
->> +	return best_rate;
->> +}
->> +
->>  static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned l=
-ong
->> rate, struct _ccu_nkm *nkm)
->>  {
->> @@ -124,7 +164,10 @@ static unsigned long ccu_nkm_round_rate(struct
->> ccu_mux_internal *mux, if (nkm->common.features &
->> CCU_FEATURE_FIXED_POSTDIV)
->>  		rate *=3D nkm->fixed_post_div;
->>
->> -	rate =3D ccu_nkm_find_best(*parent_rate, rate, &_nkm);
->> +	if (!clk_hw_can_set_rate_parent(&nkm->common.hw))
->> +		rate =3D ccu_nkm_find_best(*parent_rate, rate, &_nkm);
->> +	else
->> +		rate =3D ccu_nkm_find_best_with_parent_adj(parent_hw,
-> parent_rate, rate,
->> &_nkm);
->>
->>  	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
->>  		rate /=3D nkm->fixed_post_div;
