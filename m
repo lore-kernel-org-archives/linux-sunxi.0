@@ -1,98 +1,318 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 301BE33C9
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Aug 2023 11:42:32 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-522dd6b6438so4585683a12.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 06 Aug 2023 04:42:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F3B33D4
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Aug 2023 11:51:39 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-4fe2de785e7so6004804e87.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 06 Aug 2023 04:51:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691322150; x=1691926950;
+        d=gmail.com; s=20221208; t=1691322698; x=1691927498;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HumppwNUn3TA8YpQ0fQzm7WpQytFg98rX1E8vNluGYU=;
-        b=COX4FRzPg5Df7S7scGkL1a1jxSkgE4lsLMpzoAKRInM2N2donpYwiXDjSi/uGQQJdm
-         wnKu5zkOi4+z2eDvgysSiv8+wnzUSluY4wQ5tf23SqJnRh34l9MsjY0f81HXTwdimI/K
-         GW8UQJRJil0ochVBGECpvNlVOUpC2TpR46BNRdtqybtoE/quddDakVx+BSAAn7/1Sdlz
-         XZkfNvlLlGjfuEjcvAlf6iTnTjcI9tIHvIk9iB2wzLyKG0GKDLCon/LnZE/cu205nyvc
-         ZpUbvtf3cSHF9m1L8NZHvlpkWXujyLx4Z8+cLnkrtFr4Tat+wekNAvvveNMSRtuJZOmO
-         bM3w==
+        bh=uSegRepTwLPnXiUntiRa8X8cOH9xGOm2xw2wPMUtKGg=;
+        b=mWYIoanLfnktzVBbEXpR8CNDx0mgUaNc4QdnR0Xrgls6h0+OKuhVMPOvGsJtbDSsTF
+         RxLLF0KllFSvWwVfol0qvezBHiBlOak6mcBQ2FEqeXciM4g68mvgXhMNDYQS/EuUUTtM
+         8E3UTo9T2Q1B1f37UFSIJ4rrpZyfu3Az3QmTSU+TDKQ0RL8GfQeQvfuR/BevCU07/FZb
+         OafcEJ/EPkmWlC/Tp04BJ7H28x4F1gmdUIQBYmV08Y8ynhktQ9GC6aSFnwlyswhAWcKf
+         X4c1WYEKfVeHUMllqUrrh6nUQWa313lTr/cekfopgZIirtRKUFfJHeZdHVVekaMFSmBy
+         P3ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691322150; x=1691926950;
+        d=1e100.net; s=20221208; t=1691322698; x=1691927498;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HumppwNUn3TA8YpQ0fQzm7WpQytFg98rX1E8vNluGYU=;
-        b=GKSSLQKY+vjKhdZC7prW9xRkT+34+wzWrsNKJZ/ncusfqxHHGQ3Yz3EbsQ+Ers99HT
-         lTPFpcxWzJdFDdTVj6OpDGMNCgo14zBBDV2/73UhmtNHsO7Fk0QvbKz6yNknS+IXAoQq
-         O8NCSGibbwb2hsfYZZTqoBy1hk23GV2prRzfNttTfPfZr6HAxt49E7oyLgZtuSwhATgY
-         0BYVk9c+zZMeiTV4ugZTUerCCcXd6QJTV9acgWwIb2MZRBCLleAZZi96vhMb/fdt148I
-         YJcemF6atlLyr0VJj2CRnEvoD2vuwl9qdo4SxD+G6Gc4IIWi/Hdwi4GNL+lcpUbFFmcM
-         MuTA==
-X-Gm-Message-State: AOJu0YzxOQfD1AnZ6WUVZDUYbolwj5kvSGlQSWx8OOjyh7QTgbaQ5GDm
-	9vQw0gGdu1hhk8t8vJaWrTc=
-X-Google-Smtp-Source: AGHT+IEEg3PkfDxHcETaO7LHnXNw+qJwjWb90KaZ3707q9E0qH0cZ2HLszMui/vhh35dCWWOEYUkRQ==
-X-Received: by 2002:a50:fc12:0:b0:522:c0ea:15d with SMTP id i18-20020a50fc12000000b00522c0ea015dmr4929062edr.41.1691322150093;
-        Sun, 06 Aug 2023 04:42:30 -0700 (PDT)
+        bh=uSegRepTwLPnXiUntiRa8X8cOH9xGOm2xw2wPMUtKGg=;
+        b=LriXei6SZS1tJcdIFtYK2nODVGwZ9uk6AnZJwwDe8OXaQTMko2It9lXJzXz7t03+1+
+         q/upE2UlArbSnu4RGqvNq6tjRm2tDyv2MjFHhvFX+FmWTdahir0tNhGwq1NST+QMkCSZ
+         t+2WiD3wYNd3WItGCDCXJTfPMQDx5EjE4eoPVvy9xAXJB/hj1bo49zrLxU+f4vYMpUS4
+         uih+4IkWV4B2RnC649PbbMGcuAQ3yjEp+Zx5Ulzkg76RnTxjKV7yhWbm2tNElNE3vBvb
+         8gLDu63ZJz4dxzlH9FeGkHURUGq67KBKKbH/Vw7IEAd0M18Jmi8MNZvA+8nmAj+xNkDG
+         f0Vg==
+X-Gm-Message-State: AOJu0YwWuFg/KxpdHBlOFy0dG+UxB7SMDaoiI32vnDeOZqjpJlnS8jZB
+	RMJOcqrNpBNdTR+vmELPRy4=
+X-Google-Smtp-Source: AGHT+IEPlxMTuUEU7CB6rXL95xZ/zc5jRJORtE6U8tMI2zzQLoxtVWhNj6S7L+Tr/Bpu+DtoeCc9Eg==
+X-Received: by 2002:a05:6512:34d2:b0:4f8:7513:8cac with SMTP id w18-20020a05651234d200b004f875138cacmr3451801lfr.48.1691322697578;
+        Sun, 06 Aug 2023 04:51:37 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id d2-20020a056402516200b0052275deb475sm3787539ede.23.2023.08.06.04.42.28
+        by smtp.gmail.com with ESMTPSA id g3-20020a50ee03000000b0052314366967sm3788421eds.80.2023.08.06.04.51.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Aug 2023 04:42:29 -0700 (PDT)
+        Sun, 06 Aug 2023 04:51:37 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: John Watts <contact@jookia.org>
-Cc: Maksim Kiselev <bigunclemax@gmail.com>, aou@eecs.berkeley.edu,
- conor+dt@kernel.org, davem@davemloft.net, devicetree@vger.kernel.org,
- edumazet@google.com, krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-can@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-sunxi@lists.linux.dev, mkl@pengutronix.de, netdev@vger.kernel.org,
- pabeni@redhat.com, palmer@dabbelt.com, paul.walmsley@sifive.com,
- robh+dt@kernel.org, samuel@sholland.org, wens@csie.org, wg@grandegger.com
+To: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Matthew Croughan <matthew.croughan@nix.how>
+Cc: Matthew Croughan <matthew.croughan@nix.how>,
+ Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
 Subject:
- Re: [PATCH v2 2/4] riscv: dts: allwinner: d1: Add CAN controller nodes
-Date: Sun, 06 Aug 2023 13:42:28 +0200
-Message-ID: <4848155.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <ZM8-yfRVscYjxp2p@titan>
+ Re: [PATCH v6 2/2] arm64: dts: allwinner: h616: Add Mango Pi MQ-Quad DTS
+Date: Sun, 06 Aug 2023 13:51:36 +0200
+Message-ID: <2151035.irdbgypaU6@jernej-laptop>
+In-Reply-To: <20230805233715.1216456-3-matthew.croughan@nix.how>
 References:
- <20230721221552.1973203-4-contact@jookia.org>
- <2690764.mvXUDI8C0e@jernej-laptop> <ZM8-yfRVscYjxp2p@titan>
+ <20230805233715.1216456-1-matthew.croughan@nix.how>
+ <20230805233715.1216456-3-matthew.croughan@nix.how>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Dne nedelja, 06. avgust 2023 ob 08:33:45 CEST je John Watts napisal(a):
-> On Sat, Aug 05, 2023 at 07:49:51PM +0200, Jernej =C5=A0krabec wrote:
-> > Dne sobota, 05. avgust 2023 ob 18:51:53 CEST je John Watts napisal(a):
-> > > On Sat, Aug 05, 2023 at 07:40:52PM +0300, Maksim Kiselev wrote:
-> > > > Hi John, Jernej
-> > > > Should we also keep a pinctrl nodes itself in alphabetical order?
-> > > > I mean placing a CAN nodes before `clk_pg11_pin` node?
-> > > > Looks like the other nodes sorted in this way...
-> > >=20
-> > > Good catch. Now that you mention it, the device tree nodes are sorted
-> > > by memory order too! These should be after i2c3.
-> > >=20
-> > > It looks like I might need to do a patch to re-order those too.
-> >=20
-> > It would be better if DT patches are dropped from netdev tree and then
-> > post
-> > new versions.
-> >=20
-> > Best regards,
-> > Jernej
->=20
-> Agreed. Is there a way to request that? Or will the maintainer just read
-> this?
+Dne nedelja, 06. avgust 2023 ob 01:34:56 CEST je Matthew Croughan napisal(a):
+> Mango Pi MQ Quad is a H616 based SBC, add basic support for the board
+> and its peripherals
+> 
+> Signed-off-by: Matthew Croughan <matthew.croughan@nix.how>
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+>  .../allwinner/sun50i-h616-mangopi-mq-quad.dts | 187 ++++++++++++++++++
+>  2 files changed, 188 insertions(+)
+>  create mode 100644
+> arch/arm64/boot/dts/allwinner/sun50i-h616-mangopi-mq-quad.dts
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/Makefile
+> b/arch/arm64/boot/dts/allwinner/Makefile index 6a96494a2e0a..06c5b97dbfc3
+> 100644
+> --- a/arch/arm64/boot/dts/allwinner/Makefile
+> +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> @@ -38,5 +38,6 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64-model-b.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
+> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-mangopi-mq-quad.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-mangopi-mq-quad.dts
+> b/arch/arm64/boot/dts/allwinner/sun50i-h616-mangopi-mq-quad.dts new file
+> mode 100644
+> index 000000000000..6121c14bc66b
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-mangopi-mq-quad.dts
+> @@ -0,0 +1,187 @@
+> +/* SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> + * Copyright (C) 2020 Arm Ltd.
+> + *
+> + * Copyright (C) 2023 Matthew Croughan <matthew.croughan@nix.how>
+> + */
+> +
+> +/dts-v1/;
+> +
+> +#include "sun50i-h616.dtsi"
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> +#include <dt-bindings/leds/common.h>
+> +
+> +/ {
+> +	model = "MangoPi MQ-Quad";
+> +	compatible = "widora,mangopi-mq-quad", "allwinner,sun50i-h616";
+> +
+> +	aliases {
+> +		serial0 = &uart0;
+> +	};
+> +
+> +	chosen {
+> +		stdout-path = "serial0:115200n8";
+> +	};
+> +
+> +	leds {
+> +		compatible = "gpio-leds";
+> +
+> +		led-0 {
+> +			function = LED_FUNCTION_STATUS;
+> +			color = <LED_COLOR_ID_GREEN>;
+> +			gpios = <&pio 2 13 GPIO_ACTIVE_HIGH>; /* PC13 
+*/
+> +		};
+> +	};
+> +
+> +	reg_vcc5v: vcc5v {
+> +		/* board wide 5V supply directly from the USB-C socket 
+*/
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vcc-5v";
+> +		regulator-min-microvolt = <5000000>;
+> +		regulator-max-microvolt = <5000000>;
+> +		regulator-always-on;
+> +	};
+> +
+> +	reg_vcc3v3: vcc3v3 {
+> +		/* board wide 3V3 supply directly from SY8008 regulator 
+*/
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vcc-3v3";
+> +		regulator-min-microvolt = <3300000>;
+> +		regulator-max-microvolt = <3300000>;
+> +		regulator-always-on;
+> +	};
+> +
+> +	wifi_pwrseq: wifi-pwrseq {
+> +		compatible = "mmc-pwrseq-simple";
+> +		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
+> +	};
+> +};
+> +
+> +&ehci1 {
+> +	status = "okay";
+> +};
+> +
+> +&pio {
+> +	vcc-pc-supply = <&reg_vcc3v3>;
+> +	vcc-pg-supply = <&reg_vcc3v3>;
+> +	vcc-pi-supply = <&reg_vcc3v3>;
+> +};
+> +
+> +/* USB 2 & 3 are on headers only. */
+> +
+> +&mmc0 {
+> +	vmmc-supply = <&reg_vcc3v3>;
+> +	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
+> +	bus-width = <4>;
+> +	status = "okay";
+> +};
+> +
+> +&mmc1 {
+> +	bus-width = <4>;
+> +	mmc-pwrseq = <&wifi_pwrseq>;
+> +	non-removable;
+> +	vmmc-supply = <&reg_vcc3v3>;
+> +	vqmmc-supply = <&reg_vcc3v3>;
+> +	pinctrl-0 = <&mmc1_pins>;
+> +	pinctrl-names = "default";
+> +	status = "okay";
+> +
+> +	rtl8723ds: wifi@1 {
+> +		reg = <1>;
+> +		interrupt-parent = <&pio>;
+> +		interrupts = <6 15 IRQ_TYPE_LEVEL_LOW>; /* PG15 */
+> +		interrupt-names = "host-wake";
 
-Hopefully it will.
+There is no point having device node with properties but without compatible. 
+You also don't provide any ethernet alias, which would allow U-Boot to add MAC 
+property.
+
+In any case, rtw88 driver now supports rtl8723ds, but it's loaded based on 
+SDIO ID. It doesn't take any info from DT yet.
+
+I suggest that you drop it for now and if/when rtw88 driver gains support for 
+taking GPIO property for host wakeup, it's added then.
 
 Best regards,
 Jernej
+
+> +	};
+> +};
+> +
+> +
+> +&uart1 {
+> +	uart-has-rtscts;
+> +	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
+> +	pinctrl-names = "default";
+> +	status = "okay";
+> +
+> +	bluetooth {
+> +		compatible = "realtek,rtl8723ds-bt";
+> +		device-wake-gpios = <&pio 6 17 GPIO_ACTIVE_HIGH>; /* 
+PG17 */
+> +		enable-gpios = <&pio 6 19 GPIO_ACTIVE_HIGH>; /* PG19 */
+> +		host-wake-gpios = <&pio 6 16 GPIO_ACTIVE_HIGH>; /* PG16 
+*/
+> +	};
+> +};
+> +
+> +&ohci1 {
+> +	status = "okay";
+> +};
+> +
+> +&r_i2c {
+> +	status = "okay";
+> +
+> +	axp313a: pmic@36 {
+> +		compatible = "x-powers,axp313a";
+> +		interrupt-controller;
+> +		#interrupt-cells = <1>;
+> +		reg = <0x36>;
+> +		regulators {
+> +			/*
+> +			 * ALDO1 is feeding both VCC-PLL and VCC-
+DCXO, always-on is required,
+> +			 * as removing power would cut the 1.8v 
+supply for the RAM
+> +			 */
+> +			reg_aldo1: aldo1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = 
+<1800000>;
+> +				regulator-max-microvolt = 
+<1800000>;
+> +				regulator-name = "vcc-1v8";
+> +			};
+> +
+> +			reg_dcdc1: dcdc1 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = 
+<810000>;
+> +				regulator-max-microvolt = 
+<990000>;
+> +				regulator-name = "vdd-gpu-sys";
+> +			};
+> +
+> +			reg_dcdc2: dcdc2 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = 
+<810000>;
+> +				regulator-max-microvolt = 
+<1100000>;
+> +				regulator-name = "vdd-cpu";
+> +			};
+> +
+> +			reg_dcdc3: dcdc3 {
+> +				regulator-always-on;
+> +				regulator-min-microvolt = 
+<1500000>;
+> +				regulator-max-microvolt = 
+<1500000>;
+> +				regulator-name = "vdd-dram";
+> +			};
+> +
+> +		};
+> +	};
+> +};
+> +
+> +&uart0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&uart0_ph_pins>;
+> +	status = "okay";
+> +};
+> +
+> +&usbotg {
+> +	/*
+> +	 * PHY0 pins are connected to a USB-C socket, but a role switch
+> +	 * is not implemented: both CC pins are pulled to GND.
+> +	 * The VBUS pins power the device, so a fixed peripheral mode
+> +	 * is the best choice.
+> +	 * The board can be powered via GPIOs, in this case port0 *can*
+> +	 * act as a host (with a cable/adapter ignoring CC), as VBUS is
+> +	 * then provided by the GPIOs. Any user of this setup would
+> +	 * need to adjust the DT accordingly: dr_mode set to "host",
+> +	 * enabling OHCI0 and EHCI0.
+> +	 */
+> +	dr_mode = "peripheral";
+> +	status = "okay";
+> +};
+> +
+> +&usbphy {
+> +	usb1_vbus-supply = <&reg_vcc5v>;
+> +	status = "okay";
+> +};
 
 
 
