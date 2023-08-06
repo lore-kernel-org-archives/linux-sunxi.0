@@ -1,43 +1,43 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F041E28EF
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Aug 2023 13:32:47 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-99bfcf4c814so543488466b.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 06 Aug 2023 06:32:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904CA28EF
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Aug 2023 13:33:11 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-4fe10f0f4d1so6061177e87.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 06 Aug 2023 06:33:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691328766; x=1691933566;
+        d=gmail.com; s=20221208; t=1691328789; x=1691933589;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ord0VE1gzw6fjyq/8Y2drSOTCzaAFST4WDc+L9TSzDw=;
-        b=P4vCFPRCDkh/3Vge3m5VHzaX/BPWceyKv0EwV2HZD2tQf0/7W4pyu5BTIJ6lq9aH5h
-         svQeFbnUIp8AEuQLiZ6a5tbfFglZrD4FrroBywBi+qup2AuEbuIrC7vJOHUufRexC2Is
-         Q3zTfyma3RT0aF9OLXgf9lm0WYR8F3r/TuM8soTRLBVp4vIZm1Q4WEep4Yg0+T7pqUXU
-         7QlgVIsVUOoXtz0WraCyPekV11YTqFRKSMzovkYCCNjHRVHH5DrwqFAHFfBy8LHqYY70
-         TRn48waodP6Hk9AG1qRXFUOBh58zr4Tw7Dx29Y4PoP93ysY+tZgARU7B1MQcgd+e69aG
-         oB0w==
+        bh=hM7OnaKmFiiSy0YU2WCKkAldSyarebqNo/myAZ18qU8=;
+        b=FJfZuaM4j80QUdDjysNJZOw02GVH0GcWm7lp/coj/KtptlBxP8a6GNNgV/5TKV4+SD
+         CQfj/rNryEbF5GyZskXib6qk02JT5OFf3urcA+N7jSMniHQJu2WwOsabSTFd7XAlYQGG
+         9kOafQghRR6MtX1C8ni+Dn+oUSG10SMjR2gCh7yxx+zGkvtterCJ1PVQWsElaljWW/0Y
+         KJe1jAN8hNkEBRx7owVUISMWPBF3zQmQ2xt5VOhjv+1DSkVSA00Uew14xnEmYHPBq/C2
+         tq441o40Tti1ERPTlmub34tuklk3MxWvMFQFITM7t3uCsT+EpFwEBEi4Rj8EyheUAAF0
+         +YAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691328766; x=1691933566;
+        d=1e100.net; s=20221208; t=1691328789; x=1691933589;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ord0VE1gzw6fjyq/8Y2drSOTCzaAFST4WDc+L9TSzDw=;
-        b=PsGq/MKWLvKDyIKZxrL8eV4mjdlnR4iz4RHo3Bo42BlW84XSsq6hXc3p4gFPr640Et
-         k9JswH0q+LN5dTfXvf5vMSaAzz7pSeQXyRYanySoWaDpy8+sZZez9rHKdn7PD+43VL1D
-         H6TuSHIaFSK03YsGPbICax7rjYEMDpvdT9vrO4m1SD5ifkSW+u/O+W+WanIfDBaEx9b9
-         bGBBycgIQYsCWQkWeubT9TFw9RThZRjFkv2BZfHbEq4uTT7ohoP3LFBVcOeqJA/swVeH
-         fhqhPT2X24ZDPSSU5q92A1QtLvi9FJBvdNGTONTP8Ew0y1lxHtUQBbu+XJzMcttyP8L3
-         jwvw==
-X-Gm-Message-State: AOJu0YypjGyV1GD5GXIQ5dFnpqhHqfXsDAB2w+SNGcNgB1eO5WL3B3EN
-	fR+icyqCKqs9ARDB9dxMdS8=
-X-Google-Smtp-Source: AGHT+IGNgKA2tggoo8ssFL0zKai5UNRF86d4MEDqV+zq9foUkTbJFcP6xe9KlyRCsLFBGoaFwvXwyg==
-X-Received: by 2002:a17:906:3050:b0:99c:6692:7f76 with SMTP id d16-20020a170906305000b0099c66927f76mr6869185ejd.16.1691328765775;
-        Sun, 06 Aug 2023 06:32:45 -0700 (PDT)
+        bh=hM7OnaKmFiiSy0YU2WCKkAldSyarebqNo/myAZ18qU8=;
+        b=ZY9+pX3FIJcmo7FpO8WHf3DnDQvpn/VrZQY6IgF97Gqi+l0sLKS7ZUlJwLrs4z94p7
+         prtACR6ogbbZu0bpvsH0a7Vv6Jd8+6nxIN3IEpZgBAl9isd6quXlSIRA71ej/k0vtm91
+         6Zjxi8FsmEzydP2AbSRlDBZvc/tkl8w4sMEvYCB0X9VLdhcvu1Nc6mDHMGKR8AYxqLa6
+         RsvyCRURLHLE9oOKJj7vXTN+lp1EJwgL8jzBWIgjq6VcCBdajaIx8dGQdzd5HcCh1LXU
+         lV93AOgpR+vBOPoCcOCqBnb5Tfz7YPTTU5robWQYTlFQnRoACz5HRQ0CRVgLgnyuTL0H
+         q2hQ==
+X-Gm-Message-State: AOJu0YwE/FsPOBjpZnhG5Dy/cunVags2/hnOJwwkWB5xsbVFrtsXktNg
+	dYGFW5mGjpDQ1bLFv7wIdhg=
+X-Google-Smtp-Source: AGHT+IHpsJxV8MF78Dy5TgBPH8NmXIYmknmepVRE2sYKgeBkvcU+vR0WIy+JY0Vy32lTiWtBkDtPhA==
+X-Received: by 2002:a05:6512:311c:b0:4f6:3677:54e with SMTP id n28-20020a056512311c00b004f63677054emr3910959lfb.36.1691328789322;
+        Sun, 06 Aug 2023 06:33:09 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id r4-20020a170906280400b00988e953a586sm3932281ejc.61.2023.08.06.06.32.44
+        by smtp.gmail.com with ESMTPSA id t18-20020aa7d712000000b0051e0be09297sm3946253edq.53.2023.08.06.06.33.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Aug 2023 06:32:45 -0700 (PDT)
+        Sun, 06 Aug 2023 06:33:09 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Maxime Ripard <mripard@kernel.org>,
  Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
@@ -47,15 +47,14 @@ To: Maxime Ripard <mripard@kernel.org>,
 Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
  Frank Oltmanns <frank@oltmanns.dev>
-Subject:
- Re: [PATCH v5 03/11] clk: sunxi-ng: a64: allow pll-mipi to set parent's rate
-Date: Sun, 06 Aug 2023 15:32:43 +0200
-Message-ID: <9144277.CDJkKcVGEf@jernej-laptop>
+Subject: Re: [PATCH v5 04/11] clk: sunxi-ng: Add feature to find closest rate
+Date: Sun, 06 Aug 2023 15:33:07 +0200
+Message-ID: <5854308.MhkbZ0Pkbq@jernej-laptop>
 In-Reply-To:
- <20230806-pll-mipi_set_rate_parent-v5-3-db4f5ca33fc3@oltmanns.dev>
+ <20230806-pll-mipi_set_rate_parent-v5-4-db4f5ca33fc3@oltmanns.dev>
 References:
  <20230806-pll-mipi_set_rate_parent-v5-0-db4f5ca33fc3@oltmanns.dev>
- <20230806-pll-mipi_set_rate_parent-v5-3-db4f5ca33fc3@oltmanns.dev>
+ <20230806-pll-mipi_set_rate_parent-v5-4-db4f5ca33fc3@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -65,38 +64,37 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne nedelja, 06. avgust 2023 ob 15:06:48 CEST je Frank Oltmanns napisal(a):
-> The nkm clock now supports setting the parent's rate. Utilize this
-> option to find the optimal rate for pll-mipi.
+Dne nedelja, 06. avgust 2023 ob 15:06:49 CEST je Frank Oltmanns napisal(a):
+> The default behaviour of clocks in the sunxi-ng driver is to select a
+> clock rate that is closest to but less than the requested rate.
+> 
+> Add the CCU_FEATURE_CLOSEST_RATE flag, which can be used to allow clocks
+> to find the closest rate instead.
 > 
 > Acked-by: Maxime Ripard <mripard@kernel.org>
 > Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
 > ---
->  drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/clk/sunxi-ng/ccu_common.h | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-> b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c index 41519185600a..a139a5c438d4
-> 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-> @@ -179,7 +179,8 @@ static struct ccu_nkm pll_mipi_clk = {
->  	.common		= {
->  		.reg		= 0x040,
->  		.hw.init	= CLK_HW_INIT("pll-mipi", "pll-video0",
-> -					      &ccu_nkm_ops, 
-CLK_SET_RATE_UNGATE),
-> +					      &ccu_nkm_ops,
-> +					      
-CLK_SET_RATE_UNGATE | CLK_SET_RATE_PARENT),
->  	},
->  };
+> diff --git a/drivers/clk/sunxi-ng/ccu_common.h
+> b/drivers/clk/sunxi-ng/ccu_common.h index fbf16c6b896d..5ad219f041d5 100644
+> --- a/drivers/clk/sunxi-ng/ccu_common.h
+> +++ b/drivers/clk/sunxi-ng/ccu_common.h
+> @@ -18,6 +18,7 @@
+>  #define CCU_FEATURE_MMC_TIMING_SWITCH	BIT(6)
+>  #define CCU_FEATURE_SIGMA_DELTA_MOD	BIT(7)
+>  #define CCU_FEATURE_KEY_FIELD		BIT(8)
+> +#define CCU_FEATURE_CLOSEST_RATE	BIT(9)
+> 
+>  /* MMC timing mode switch bit */
+>  #define CCU_MMC_NEW_TIMING_MODE		BIT(30)
 
 
 
