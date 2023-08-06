@@ -1,125 +1,260 @@
-Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.155.65.254])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F013333D4
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Aug 2023 12:06:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=biqu3d.com;
-	s=tfld2305; t=1691323550;
-	bh=QQlkrQlRMOL64jl7dj3sFnA05/M+vwVYe0FHD7Y9Ceg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=DwStBJnVa7A5SGGNRDEczUobmMsILAvYhv+om12x5vRdqwFZWBv30hcOHjrFteqdn
-	 nG9W5UZxUEq9IYgdW44sn/ye+vOcvBRxqLfrCVAfy/42xEPklfrvquPDtyCTivfy2H
-	 18htS5VIEHuN03kITtIpUaH0RsEIAsWzIi2IowE8=
-X-QQ-mid: bizesmtp84t1691323481t1apgc4x
-Received: from [192.168.2.144] ( [178.41.211.221])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Sun, 06 Aug 2023 20:04:06 +0800 (CST)
-X-QQ-SSF: 01400000000000704000000A0000000
-X-QQ-FEAT: I8hG9CuxGDLqrFNU3xoRzpwZvtXb1JXP/B5t77gXroA70Q3Fe/tCzZQszBzGU
-	A8hO6mKFnoN6GoWJXMyuxuYjWoEzZ8fbDy3KMA1CvgZ5Uglwjcw7cr/FjRI4QhEchHr26Tv
-	owu3ImbCEa2phAOVhtBm4eTdRcrc5plqsnnIBc19Oa7AflB+fQHrhwwqmSMg2D8Ueu1u8Qq
-	DDnsk3YKFMyjtmvwp665WKO/5FDgIJbVD2TIaKh3jSoEW8iAKp5OYIA6gZEOh4rYQ0WTDSx
-	X9v2BGv9tuJu7/I0thiOOtzbKqf33NmvXGrkoyAFha8Lw4w03mzgi2Zlc3FbkNBllnzQm1G
-	za3IahcnvL7DqPts/GS692qiucktk263P+P1NNg
-X-QQ-GoodBg: 2
-X-BIZMAIL-ID: 9840284520535786506
-Message-ID: <49CEE97731867667+423c5685-7bb7-d402-5496-af6aec276230@biqu3d.com>
-Date: Sun, 6 Aug 2023 14:04:01 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE29C28EF
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Aug 2023 13:07:33 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4RJfqw0hXnz9scG;
+	Sun,  6 Aug 2023 15:07:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1691327244;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=3lueAWjew8VQDPCjTbo4tk50Lh644cdw3fEshm5hvMw=;
+	b=Ph1WfJ7DVcWNlJv59rDYhTQrfu2XFg+FmDImw/4fUGHhuNgmpkKPBD0u54ap0r63Eu8QvR
+	YbQp1uYT+8ExlVyTPmUYs4gfmmoJfVBBOTiH4Z+oqorw+OaRVNHTm+wcu1uqBFMuFZ6FP1
+	gfo4IwJVYBEx08kNov3V5IMK4cb7lqN4AeLjMKV5kaAQ8chmU++TSQhFUn7PhjU02mB8qx
+	lkOs8UOthsNRB0f4Q/h4LptFNneVczilKg8nVeCX7Mj7isIO8o9yT5QB/kj5DheMOBe0/A
+	yLUoHk/eLfjKMG1JyZWF0YRiP/Km3lb55y6v3+dZt4hdqcsLiELwXmLUmgRIgw==
+From: Frank Oltmanns <frank@oltmanns.dev>
+Subject: [PATCH v5 00/11] clk: sunxi-ng: Consider alternative parent rates
+ when determining NKM clock rate
+Date: Sun, 06 Aug 2023 15:06:45 +0200
+Message-Id: <20230806-pll-mipi_set_rate_parent-v5-0-db4f5ca33fc3@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v3 0/4] Add BigTreeTech CB1 SoM & Boards
-Content-Language: en-US
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- martin.botka1@gmail.com
-Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Jami Kettunen <jamipkettunen@somainline.org>,
- Paul Bouchara <paul.bouchara@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Andrew Lunn <andrew@lunn.ch>,
- Icenowy Zheng <uwu@icenowy.me>, Ludwig Kormann <ludwig.kormann@ict42.de>,
- Heiko Stuebner <heiko@sntech.de>, Shawn Guo <shawnguo@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Chris Morgan <macromorgan@hotmail.com>, Jagan Teki <jagan@edgeble.ai>,
- Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <5EB3DB1D7F80A40F+20230805083636.788048-1-martin@biqu3d.com>
- <3242042.aeNJFYEL58@jernej-laptop>
-From: Martin Botka <martin@biqu3d.com>
-In-Reply-To: <3242042.aeNJFYEL58@jernej-laptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:biqu3d.com:qybglogicsvrgz:qybglogicsvrgz5a-1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOWaz2QC/43OwU7EIBSF4VeZsJYJcCkVV76HMQ2FiyW2tAFCN
+ JO+u3Q2jsZMXP6L8+VcSMYUMJOn04UkrCGHNbboHk7ETia+IQ2uNRFMAFNC0W2e6RK2MGQsQzI
+ Fh80kjIUCKPCWOYXKkzbfEvrwcaVfXlv7tC60TAnNDcg504xLOHMQousppz6Z+P68zmUxMeazw
+ 3pgU8hlTZ/Xm1Uc5D8eVUEZVT1ojWOnlRM/2eNUhW+rZ+KOBc2Sytnx0RhtR/uHJW8s3t+xZLO
+ YNNZzB7pX3S9r3/cvsjCMn5gBAAA=
+To: Maxime Ripard <mripard@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Andre Przywara <andre.przywara@arm.com>, Roman Beranek <me@crly.cz>
+Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Frank Oltmanns <frank@oltmanns.dev>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9476; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=Y6huA7pRQGwiTek/nSvFoba3zhhGz8ZczovKE7oT2Yw=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBkz5sGyv4+SCmulPpBFGgmUzpdHByc4p5tOltiO
+ BFMBe/JPrCJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZM+bBgAKCRCaaaIIlErT
+ x5EWC/9ioHMNbbrdqFIujdKfDFEsis42cuyRU+iNPFh6M3dgin1az1Pc/0/l97/db6EsuNEnqUK
+ Lmf4ZH6sDosmpud6xp3FlBMgAah80eyMcRkXVslxMPTsNJHzeFLdNmRPG4JNTBk93CNTKgf9eI5
+ jzDVoH05NVIEisL35nHPNW7ourwkiYccza+NOuUYUept1DV+yzXpKlzwUTGzhEjb0ERy8GK2AMr
+ bj3H32j63EQ2PvkaN/1z9MmsrVNFBiXfvV7bwznSYZQ/F3cUHT6Ew/BYRO7p125fX/URT7h+7WI
+ 9UtzHhaXZNaTrT+2BoPervjm7mzKrUN4CzaZBr8hYN5v9IiKPTmCDSoywUhIFJ8gmLo6QHqO8C6
+ Hw0zKQ4hds1pazrBBaMSp4RHDVG7xAyCsayfJ1gPQ9fjbBflsL8rSVEixnh6A7Ij0Bdc8hiTg4W
+ SnGaGpoqlkeVq5dHI6Fku9BP/h/3Wju2bDmSn3z9SHpiGBeQvhhNEI1vZjQlhGMX3m92k=
+X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
+ fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
+X-Rspamd-Queue-Id: 4RJfqw0hXnz9scG
 
+This patchset enables NKM clocks to consider alternative parent rates
+and utilize this new feature to adjust the pll-video0 clock on Allwinner
+A64.
 
+Furthermore, with this patchset pll-video0 considers rates that are
+higher than the requested rate when finding the closest rate. In
+consequence, higher rates are also considered by pll-video0's
+descandents. In total, after applying this patchset, finding the closest
+rate is supported by:
+  - ccu_nm
+  - ccu_nkm
+  - ccu_mux
+  - ccu_div
 
-On 8/6/23 1:54 PM, Jernej Škrabec wrote:
-> Dne sobota, 05. avgust 2023 ob 10:36:03 CEST je Martin Botka napisal(a):
->> Hello,
->> This series adds a vendor prefix for BigTreeTech and adds BigTreeTech CB1,
->> Manta board and BigTreeTech Pi.
->>
->> CB1 is just an SoM thats based on AllWinner H616.
->> BigTreeTech Manta boards are expander boards for CB1 and BigTreeTech Pi
->> is an CB1 in Rpi style with few additional things like IR receiver and fan
->> port on GPIO.
->>
->> This work started before I was hired by BigTreeTech and thus majority of the
->> patches are from SoMainline email and few are from my work email.
->>
->> This series depends on commit https://lkml.org/lkml/2023/8/2/801
->> "dt-bindings: mfd: x-powers,axp152: make interrupt optional for more chips".
-> 
-> What's the status of above patch?
-Hello,
+This allows us to achieve an optimal rate for driving the board's panel.
 
-AXP313a and AXP305 are missing an IRQ check and thus V2 with the chips 
-added to the check will be needed and should be sent out by Andre soon :)
+To provide some context, the clock structure involved in this process is
+as follows:
+    clock                       clock type
+    --------------------------------------
+    pll-video0                  ccu_nm
+       pll-mipi                 ccu_nkm
+          tcon0                 ccu_mux
+             tcon-data-clock    sun4i_dclk
 
-Cheers,
-Martin
-> 
-> I won't merge this series until it's accepted and merged.
-> 
-> Best regards,
-> Jernej
-> 
->>
->> Cheers,
->> Martin
->>
->> Martin Botka (4):
->>    dt-bindings: vendor-prefixes: Add BigTreeTech
->>    dt-bindings: arm: sunxi: Add BigTreeTech boards
->>    arm64: dts: allwinner: h616: Add BigTreeTech CB1 SoM & boards support
->>    arm64: dts: allwinner: h616: Add BigTreeTech Pi support
->>
->>   .../devicetree/bindings/arm/sunxi.yaml        |  11 ++
->>   .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
->>   arch/arm64/boot/dts/allwinner/Makefile        |   2 +
->>   .../sun50i-h616-bigtreetech-cb1-manta.dts     |  35 +++++
->>   .../sun50i-h616-bigtreetech-cb1.dtsi          | 140 ++++++++++++++++++
->>   .../allwinner/sun50i-h616-bigtreetech-pi.dts  |  70 +++++++++
->>   6 files changed, 260 insertions(+)
->>   create mode 100644
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts create
->> mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
->> create mode 100644
->> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
-> 
-> 
-> 
-> 
-> 
+The divider between tcon0 and tcon-data-clock is fixed at 4. Therefore,
+in order to achieve a rate that closely matches the desired rate of the
+panel, pll-mipi needs to operate at a specific rate.
+
+Tests
+=====
+So far, this has been successfully tested on the A64-based Pinephone
+using three different panel rates:
+
+ 1. A panel rate that can be matched exactly by pll-video0.
+ 2. A panel rate that requires pll-video0 to undershoot to get the
+    closest rate.
+ 3. A panel rate that requires pll-video0 to overshoot to get the
+    closest rate.
+
+Test records:
+
+Re 1:
+-----
+Panel requests tcon-data-clock of 103500000 Hz, i.e., pll-mipi needs to
+run at 414000000 Hz. This results in the following clock rates:
+   clock                            rate
+   -------------------------------------
+    pll-video0                 207000000
+       hdmi-phy-clk             51750000
+       hdmi                    207000000
+       tcon1                   207000000
+       pll-mipi                414000000
+          tcon0                414000000
+             tcon-data-clock   103500000
+
+The results of the find_best calls:
+ccu_nkm_find_best_with_parent_adj: rate=414000000, best_rate=414000000, best_parent_rate=207000000, n=1, k=2, m=1
+ccu_nkm_find_best_with_parent_adj: rate=414000000, best_rate=414000000, best_parent_rate=207000000, n=1, k=2, m=1
+ccu_nkm_find_best_with_parent_adj: rate=414000000, best_rate=414000000, best_parent_rate=207000000, n=1, k=2, m=1
+ccu_nkm_find_best_with_parent_adj: rate=414000000, best_rate=414000000, best_parent_rate=207000000, n=1, k=2, m=1
+ccu_nkm_find_best: rate=414000000, best_rate=414000000, parent_rate=207000000, n=1, k=2, m=1
+
+Re 2:
+-----
+Panel requests tcon-data-clock of 103650000 Hz, i.e., pll-mipi needs to
+run at 414600000 Hz. This results in the following clock rates:
+   clock                            rate
+   -------------------------------------
+    pll-video0                 282666666
+       hdmi-phy-clk             70666666
+       hdmi                    282666666
+       tcon1                   282666666
+       pll-mipi                414577776
+          tcon0                414577776
+             tcon-data-clock   103644444
+
+The results of the find_best calls:
+ccu_nkm_find_best_with_parent_adj: rate=414600000, best_rate=414577776, best_parent_rate=282666666, n=11, k=2, m=15
+ccu_nkm_find_best_with_parent_adj: rate=414600000, best_rate=414577776, best_parent_rate=282666666, n=11, k=2, m=15
+ccu_nkm_find_best_with_parent_adj: rate=414577776, best_rate=414577776, best_parent_rate=282666666, n=11, k=2, m=15
+ccu_nkm_find_best_with_parent_adj: rate=414577776, best_rate=414577776, best_parent_rate=282666666, n=11, k=2, m=15
+ccu_nkm_find_best: rate=414577776, best_rate=414577776, parent_rate=282666666, n=11, k=2, m=15
+
+Re 3:
+-----
+Panel requests tcon-data-clock of 112266000 Hz, i.e., pll-mipi needs to
+run at 449064000 Hz. This results in the following clock rates:
+   clock                            rate
+   -------------------------------------
+    pll-video0                 207272727
+       hdmi-phy-clk             51818181
+       hdmi                    207272727
+       tcon1                   207272727
+       pll-mipi                449090908
+          tcon0                449090908
+             tcon-data-clock   112272727
+
+The results of the find_best calls:
+ccu_nkm_find_best_with_parent_adj: rate=449064000, best_rate=449090908, best_parent_rate=207272727, n=13, k=2, m=12
+ccu_nkm_find_best_with_parent_adj: rate=449064000, best_rate=449090908, best_parent_rate=207272727, n=13, k=2, m=12
+ccu_nkm_find_best_with_parent_adj: rate=449090908, best_rate=449090908, best_parent_rate=207272727, n=13, k=2, m=12
+ccu_nkm_find_best_with_parent_adj: rate=449090908, best_rate=449090908, best_parent_rate=207272727, n=13, k=2, m=12
+ccu_nkm_find_best: rate=449090908, best_rate=449090908, parent_rate=207272727, n=13, k=2, m=12
+
+Changelog:
+----------
+Changes in v5:
+ - Remove the dedicated function for calculating the optimal parent rate
+   for nkm clocks that was introduced in v2 and again in v4. Instead use
+   a simple calculation and require the parent clock to select the
+   closest rate to achieve optimal results.
+ - Change the order of parameters of nkm_best_rate and
+   nkm_best_rate_with_parent_adj as requested my Maxime Ripard.
+ - Prefer to not reset the rate of the nkm clock's parent if the ideal
+   rate can be reached using the parent's current rate, copying the
+   behavior of ccu_mp.
+ - Link to v4: https://lore.kernel.org/r/20230717-pll-mipi_set_rate_parent-v4-0-04acf1d39765@oltmanns.dev
+
+Changes in v4:
+ - Re-introduce a dedicated function for calculating the optimal parent
+   rate for nkm clocks that was introduced in v2 and removed in v3. It
+   turned out that not having this functionality introduces a bug when
+   the parent does not support finding the closest rate:
+   https://lore.kernel.org/all/87pm4xg2ub.fsf@oltmanns.dev/
+ - Incorporate review remarks:
+    - Correcting the parameter name for ccu_nkm_round_rate()'s parent HW
+      is now in a separate patch.
+    - Use correct parameter order in ccu_nkm_find_best_with_parent_adj.
+    - Add ccu_is_better_rate() and use it for determining the best rate
+      for nm and nkm, as well as ccu_mux_helper_determine_rate.
+    - Consistently introduce new macros for clock variants that support
+      finding the closest rate instead of updating existing macros.
+    - Use wrapper function for determining a ccu_mux's rate in order to
+      support finding the closest rate.
+ - Link to v3: https://lore.kernel.org/r/20230702-pll-mipi_set_rate_parent-v3-0-46dcb8aa9cbc@oltmanns.dev
+
+Changes in v3:
+ - Use dedicated function for finding the best rate in cases where an
+   nkm clock supports setting its parent's rate, streamlining it with
+   the structure that is used in other sunxi-ng ccus such as ccu_mp
+   (PATCH 1).
+ - Therefore, remove the now obsolete comments that were introduced in
+   v2 (PATCH 1).
+ - Remove the dedicated function for calculating the optimal parent rate
+   for nkm clocks that was introduced in v2. Instead use a simple
+   calculation and require the parent clock to select the closest rate to
+   achieve optimal results (PATCH 1).
+ - Therefore, add support to set the closest rate for nm clocks (because
+   pll-mipi's parent pll-video0 is an nm clock) and all clock types that
+   are descendants of a64's pll-video0, i.e., nkm, mux, and div (PATCH 3
+   et. seq.).
+ - Link to v2: https://lore.kernel.org/all/20230611090143.132257-1-frank@oltmanns.dev/
+
+Changes in V2:
+ - Move optimal parent rate calculation to dedicated function
+ - Choose a parent rate that does not to overshoot requested rate
+ - Add comments to ccu_nkm_find_best
+ - Make sure that best_parent_rate stays at original parent rate in the unlikely
+   case that all combinations overshoot.
+
+Link to V1:
+https://lore.kernel.org/lkml/20230605190745.366882-1-frank@oltmanns.dev/
+
+---
+Frank Oltmanns (11):
+      clk: sunxi-ng: nkm: Use correct parameter name for parent HW
+      clk: sunxi-ng: nkm: consider alternative parent rates when determining rate
+      clk: sunxi-ng: a64: allow pll-mipi to set parent's rate
+      clk: sunxi-ng: Add feature to find closest rate
+      clk: sunxi-ng: Add helper function to find closest rate
+      clk: sunxi-ng: nm: Support finding closest rate
+      clk: sunxi-ng: nkm: Support finding closest rate
+      clk: sunxi-ng: mux: Support finding closest rate
+      clk: sunxi-ng: div: Support finding closest rate
+      clk: sunxi-ng: a64: select closest rate for pll-video0
+      clk: sunxi-ng: nkm: Prefer current parent rate
+
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 36 ++++++++++------------
+ drivers/clk/sunxi-ng/ccu_common.c     | 12 ++++++++
+ drivers/clk/sunxi-ng/ccu_common.h     |  6 ++++
+ drivers/clk/sunxi-ng/ccu_div.h        | 30 +++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu_mux.c        | 15 ++++++++--
+ drivers/clk/sunxi-ng/ccu_mux.h        | 38 +++++++++++++++++-------
+ drivers/clk/sunxi-ng/ccu_nkm.c        | 56 ++++++++++++++++++++++++++++++-----
+ drivers/clk/sunxi-ng/ccu_nm.c         | 13 ++++----
+ drivers/clk/sunxi-ng/ccu_nm.h         | 48 ++++++++++++++++++++++++++++--
+ 9 files changed, 203 insertions(+), 51 deletions(-)
+---
+base-commit: 6995e2de6891c724bfeb2db33d7b87775f913ad1
+change-id: 20230626-pll-mipi_set_rate_parent-3363fc0d6e6f
+
+Best regards,
+-- 
+Frank Oltmanns <frank@oltmanns.dev>
+
