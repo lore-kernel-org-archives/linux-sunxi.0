@@ -1,103 +1,125 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.155.65.254])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590AF33D4
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Aug 2023 11:57:32 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-9923833737eso497617766b.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 06 Aug 2023 04:57:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691323050; x=1691927850;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GqoxJy61U5ChrDZNF8qDxNxWhT9NIH9OWQGAhIzhydw=;
-        b=bAeErR5z+KL6iDu4vHfBWAeoBNY0HhNpgLr6W9016/m1/Q7u4m0mEVyOUj6cAFuy8N
-         BXJVNiU5X6T7KpJW+KPH5zGOClem8PBlkYYpR4I0w1vPtHD4ep6n65iet4384FJntcl0
-         MaOlgZ/4U2PjNwE3GMFNZR7vvRqafap+H9LK02G3g1VyAD0kVM29JZXdiNbxt8DRz6cd
-         mLUEsBysA0Nl+pbOx9PIHtY8XzOIwNeFqxKarF7qs1xgMhz712SeJm3SF4XPgxz91wAf
-         8BsSoJLDnvIM/dxhpbwG+yQzNFYk82JAjW8UscirG4qq7s1erGcj0/3RqPT4WFWPlj7I
-         sAww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691323050; x=1691927850;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GqoxJy61U5ChrDZNF8qDxNxWhT9NIH9OWQGAhIzhydw=;
-        b=ACE2fYbQk3wrn+U/U+C8IoUXlzDSwbd//jlq6GAiTH6wI1hXhWNMWiw17gIRV7/Yyv
-         fP3Qjzv4O1y4wPIghvmK14XywbI+1XegE0CVxs2M2QJgLhy8i/9mwOH/RcWPwg5cVuLm
-         Hm0o9pj9643UA1qrLqk5pFPc/CXMW+TXK5ERw1H1on2LdAsCAHuZygI3kADIYTgGzRJs
-         /H0fgcUYbZ06musZ5ReSqSFfxi5OZI3ZZrhfNRd0ehZI6e40Ts9xifWA5aObTRsIkWsI
-         ZBDXQsY2IzWh7Jq/IIJNsLHrHrZJoFoCvHLV7aHu0WM0z3W+LdBNT35BTalSsftN/VSj
-         EeQw==
-X-Gm-Message-State: AOJu0Yzgt585MtoAR7DKG6NFpo79lhHbRruPNZ0ryAzkuISQCN08t73i
-	OILFRjbWo8YXb2a26wA5BbI=
-X-Google-Smtp-Source: AGHT+IFfWOtMWlI51gsCD4KJlOf/jtK+BT5g9LX8JW2dluKBVWt32FyiV+Y7h9uROFpJfzveZv3u1g==
-X-Received: by 2002:a17:906:10b:b0:99b:4bab:2839 with SMTP id 11-20020a170906010b00b0099b4bab2839mr7104599eje.55.1691323050318;
-        Sun, 06 Aug 2023 04:57:30 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id r7-20020a056402034700b0052241b8fd0bsm3789431edw.29.2023.08.06.04.57.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Aug 2023 04:57:29 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
- Felix Moessbauer <felix.moessbauer@siemens.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Daniel Bovensiepen <daniel.bovensiepen@siemens.com>,
- Quirin Gylstorff <quirin.gylstorff@siemens.com>,
- manuel.matzinger@siemens.com, devicetree@vger.kernel.org,
- linux-sunxi@lists.linux.dev, Felix Moessbauer <felix.moessbauer@siemens.com>
-Subject:
- Re: [PATCH 1/1] arm: dts: Enable device-tree overlay support for sun8i-h3 pi
- devices
-Date: Sun, 06 Aug 2023 13:57:28 +0200
-Message-ID: <2233256.iZASKD2KPV@jernej-laptop>
-In-Reply-To: <20230627133703.355893-1-felix.moessbauer@siemens.com>
-References: <20230627133703.355893-1-felix.moessbauer@siemens.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F013333D4
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Aug 2023 12:06:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=biqu3d.com;
+	s=tfld2305; t=1691323550;
+	bh=QQlkrQlRMOL64jl7dj3sFnA05/M+vwVYe0FHD7Y9Ceg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=DwStBJnVa7A5SGGNRDEczUobmMsILAvYhv+om12x5vRdqwFZWBv30hcOHjrFteqdn
+	 nG9W5UZxUEq9IYgdW44sn/ye+vOcvBRxqLfrCVAfy/42xEPklfrvquPDtyCTivfy2H
+	 18htS5VIEHuN03kITtIpUaH0RsEIAsWzIi2IowE8=
+X-QQ-mid: bizesmtp84t1691323481t1apgc4x
+Received: from [192.168.2.144] ( [178.41.211.221])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Sun, 06 Aug 2023 20:04:06 +0800 (CST)
+X-QQ-SSF: 01400000000000704000000A0000000
+X-QQ-FEAT: I8hG9CuxGDLqrFNU3xoRzpwZvtXb1JXP/B5t77gXroA70Q3Fe/tCzZQszBzGU
+	A8hO6mKFnoN6GoWJXMyuxuYjWoEzZ8fbDy3KMA1CvgZ5Uglwjcw7cr/FjRI4QhEchHr26Tv
+	owu3ImbCEa2phAOVhtBm4eTdRcrc5plqsnnIBc19Oa7AflB+fQHrhwwqmSMg2D8Ueu1u8Qq
+	DDnsk3YKFMyjtmvwp665WKO/5FDgIJbVD2TIaKh3jSoEW8iAKp5OYIA6gZEOh4rYQ0WTDSx
+	X9v2BGv9tuJu7/I0thiOOtzbKqf33NmvXGrkoyAFha8Lw4w03mzgi2Zlc3FbkNBllnzQm1G
+	za3IahcnvL7DqPts/GS692qiucktk263P+P1NNg
+X-QQ-GoodBg: 2
+X-BIZMAIL-ID: 9840284520535786506
+Message-ID: <49CEE97731867667+423c5685-7bb7-d402-5496-af6aec276230@biqu3d.com>
+Date: Sun, 6 Aug 2023 14:04:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v3 0/4] Add BigTreeTech CB1 SoM & Boards
+Content-Language: en-US
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ martin.botka1@gmail.com
+Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Jami Kettunen <jamipkettunen@somainline.org>,
+ Paul Bouchara <paul.bouchara@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Andrew Lunn <andrew@lunn.ch>,
+ Icenowy Zheng <uwu@icenowy.me>, Ludwig Kormann <ludwig.kormann@ict42.de>,
+ Heiko Stuebner <heiko@sntech.de>, Shawn Guo <shawnguo@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Chris Morgan <macromorgan@hotmail.com>, Jagan Teki <jagan@edgeble.ai>,
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <5EB3DB1D7F80A40F+20230805083636.788048-1-martin@biqu3d.com>
+ <3242042.aeNJFYEL58@jernej-laptop>
+From: Martin Botka <martin@biqu3d.com>
+In-Reply-To: <3242042.aeNJFYEL58@jernej-laptop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:biqu3d.com:qybglogicsvrgz:qybglogicsvrgz5a-1
 
-Dne torek, 27. junij 2023 ob 15:37:03 CEST je Felix Moessbauer napisal(a):
-> Add the '-@' DTC option for the sun8i-h3 pi-class devices. This option
-> populates the '__symbols__' node that contains all the necessary symbols
-> for supporting device-tree overlays (for instance from the firmware or
-> the bootloader) on these devices.
+
+
+On 8/6/23 1:54 PM, Jernej Škrabec wrote:
+> Dne sobota, 05. avgust 2023 ob 10:36:03 CEST je Martin Botka napisal(a):
+>> Hello,
+>> This series adds a vendor prefix for BigTreeTech and adds BigTreeTech CB1,
+>> Manta board and BigTreeTech Pi.
+>>
+>> CB1 is just an SoM thats based on AllWinner H616.
+>> BigTreeTech Manta boards are expander boards for CB1 and BigTreeTech Pi
+>> is an CB1 in Rpi style with few additional things like IR receiver and fan
+>> port on GPIO.
+>>
+>> This work started before I was hired by BigTreeTech and thus majority of the
+>> patches are from SoMainline email and few are from my work email.
+>>
+>> This series depends on commit https://lkml.org/lkml/2023/8/2/801
+>> "dt-bindings: mfd: x-powers,axp152: make interrupt optional for more chips".
 > 
-> These devices allow various modules to be connected and this enables
-> users to create out-of-tree device-tree overlays for these modules.
+> What's the status of above patch?
+Hello,
+
+AXP313a and AXP305 are missing an IRQ check and thus V2 with the chips 
+added to the check will be needed and should be sent out by Andre soon :)
+
+Cheers,
+Martin
 > 
-> Please note that this change does increase the size of the resulting DTB
-> by ~30%. For example, with v6.4 increase in size is as follows:
+> I won't merge this series until it's accepted and merged.
 > 
-> 22909 -> 29564 sun8i-h3-orangepi-lite.dtb
-> 24214 -> 30935 sun8i-h3-bananapi-m2-plus.dtb
-> 23915 -> 30664 sun8i-h3-nanopi-m1-plus.dtb
-> 22969 -> 29537 sun8i-h3-nanopi-m1.dtb
-> 24157 -> 30836 sun8i-h3-nanopi-duo2.dtb
-> 24110 -> 30845 sun8i-h3-orangepi-plus2e.dtb
-> 23472 -> 30037 sun8i-h3-orangepi-one.dtb
-> 24600 -> 31410 sun8i-h3-orangepi-plus.dtb
-> 23618 -> 30230 sun8i-h3-orangepi-2.dtb
-> 22170 -> 28548 sun8i-h3-orangepi-zero-plus2.dtb
-> 23258 -> 29795 sun8i-h3-nanopi-neo-air.dtb
-> 23113 -> 29699 sun8i-h3-zeropi.dtb
-> 22803 -> 29270 sun8i-h3-nanopi-neo.dtb
-> 24674 -> 31318 sun8i-h3-nanopi-r1.dtb
-> 23477 -> 30038 sun8i-h3-orangepi-pc.dtb
-> 24622 -> 31380 sun8i-h3-bananapi-m2-plus-v1.2.dtb
-> 23750 -> 30366 sun8i-h3-orangepi-pc-plus.dtb
+> Best regards,
+> Jernej
 > 
-> Signed-off-by: Felix Moessbauer <felix.moessbauer@siemens.com>
-
-Applied, thanks!
-
-Best regards,
-Jernej
-
-
+>>
+>> Cheers,
+>> Martin
+>>
+>> Martin Botka (4):
+>>    dt-bindings: vendor-prefixes: Add BigTreeTech
+>>    dt-bindings: arm: sunxi: Add BigTreeTech boards
+>>    arm64: dts: allwinner: h616: Add BigTreeTech CB1 SoM & boards support
+>>    arm64: dts: allwinner: h616: Add BigTreeTech Pi support
+>>
+>>   .../devicetree/bindings/arm/sunxi.yaml        |  11 ++
+>>   .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+>>   arch/arm64/boot/dts/allwinner/Makefile        |   2 +
+>>   .../sun50i-h616-bigtreetech-cb1-manta.dts     |  35 +++++
+>>   .../sun50i-h616-bigtreetech-cb1.dtsi          | 140 ++++++++++++++++++
+>>   .../allwinner/sun50i-h616-bigtreetech-pi.dts  |  70 +++++++++
+>>   6 files changed, 260 insertions(+)
+>>   create mode 100644
+>> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts create
+>> mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
+>> create mode 100644
+>> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
+> 
+> 
+> 
+> 
+> 
