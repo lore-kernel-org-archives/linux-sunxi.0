@@ -1,188 +1,129 @@
-Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.154.54.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9951DDBA
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Aug 2023 15:03:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=biqu3d.com;
-	s=tfld2305; t=1691420585;
-	bh=kNVEUFAVbS7sLP87QPT3dDszG0RMz4xD/Y9tyFDq03g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=aBLzsGz0vmMZnH9IoRpJ6eMl7pdwtxUk/6VOMJRZdjN+hjd7zFPO30+zFTaZgNLau
-	 /HEECMlKfoLpGbQ4rwfDqmvbGRl10nUjLY/P6evo8zcJnhPc1dNvszJaMu3tnzPG8+
-	 14t5RzDeJqL3vCwG8TZ6RnEtLrEn0/9kNRthziP0=
-X-QQ-mid: bizesmtp65t1691420492tlem05vv
-Received: from [192.168.2.144] ( [178.41.211.221])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 07 Aug 2023 23:01:20 +0800 (CST)
-X-QQ-SSF: 01400000000000803000000A0000000
-X-QQ-FEAT: vLOCICHxEeDuURQkrq4byYu69a2AxguMzD+YTtCk31skVC+RB3e/NzUVuEsKY
-	o3uR5vLOje3vb56E15ctcOVyd6F8mfwZqWNGTu1AN7XXEMzrLsUpt6jpGtXj8Xs8KVUV2GD
-	Um8qkcAo4uY0beuH86GJ25VjvJt7eb9zu3np1/0B6GJzJ3vJ/A7333Ojbs2y3dBgzgc2gNk
-	Hj2mUYM6IdQJbwgoSChlUD1OWhYUvR6qsi50EWgCKr2Ale9Ytx/k178AYpdSceQDFK9n0S3
-	luF/vzOg9EJksY+uHIV2lgvKGUBY/0EW30BrO/k80VwMTrLNKp2jFp8+vMuf2ifaC7IQPUQ
-	VNlwL6+HWe+BnfrdOb6PBZnJvtAnj4Kac+hQHclC6C2ygio3hhCTdazg06nGoKhmL6YdBjj
-	90t5wjGEKTA=
-X-QQ-GoodBg: 2
-X-BIZMAIL-ID: 10160666789589212089
-Message-ID: <A5FB84817C757588+1d5864c8-7059-5195-1f3a-617015f3e9ab@biqu3d.com>
-Date: Mon, 7 Aug 2023 17:01:19 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1059DFC15
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Aug 2023 15:27:04 +0000 (UTC)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-d0b597e7ac1so5264761276.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 07 Aug 2023 08:27:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1691422024; x=1692026824;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pRItn2cF5TQNt64raTRsWPd5Q0EJhD3/KF9OeDZ1Jek=;
+        b=MUElYBBzp1nPLlNHE6f/TMFiwNBEnp4Jh6A6+RXtQRmfIPxPveRZ6FSfvExGpHEGoB
+         RiwQQQxoK/oWcZ1+Ls05mu9ejhCXsQ2dUL1r0Kc6+JldzbZTVfBMJ+14l7tCB3/VFwM8
+         Y/DaiHPImTPCgI+S4a/8uWx8qZVK9u5sqRdc5zw9BXE9M2F6fPwyWWl4t+ZkK2PtuTFi
+         /GwylrICjRXYosRcN3l5CqE5HrLmurEEGMIsJmx1k7ga9EPPnKZgoAL+d6Rqmp/IiGy8
+         7SDUc8lLFjCOfstH631w+MQ/5F4gCNV69IDXo0Uogb/QrQvPBTD+I+H4+Rxdi65+8hhl
+         /NgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691422024; x=1692026824;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pRItn2cF5TQNt64raTRsWPd5Q0EJhD3/KF9OeDZ1Jek=;
+        b=iheNE1yVCXwCEZ3kdqHk+LzjMI6ddeO9FuJ77MxEtvEI62gpqCiOWFpp6sT/T0uFT3
+         fkB+FfgXIMYorl79dWec14btwmp05QXdy22D4Gb5/ftKIZccia8hmZl/RZLIj3tovwRU
+         lCknHoBHK98a+To85VkleNJ48RikZ012mNr5Ni+beqXAphq4HgOwjGkmIIAoJhIBWyW7
+         vp62E8QSGsq6Wy429YAyapqs6mcKAsX885/2HhY6MeiVQc3n9OdQW9WIOvgk08J/OIFC
+         qqc+jrVqv273U/jmaZPbSZsZg2jGB2Z1L2mmc0/g6A/6fuwdfd672VkU1ohnFZ6wnHDF
+         806A==
+X-Gm-Message-State: AOJu0Yxk+JZ3ojFDwUpmtNRuPLWXl+Qvvdp4ULLHhU68aJFp3jeuP/wk
+	yssiad2jN0yUOtxhE2JX8NmG32CLSmMqeJdJYfc3+g==
+X-Google-Smtp-Source: AGHT+IEnVXumr0NCmry9RyuOxY6r32vIR+eeIv8r9xUwQJax2apeM8tRM+axH69DYQH98HK4UUlOM0RO2JbMTbOXpMg=
+X-Received: by 2002:a25:2396:0:b0:c12:29ac:1d36 with SMTP id
+ j144-20020a252396000000b00c1229ac1d36mr10222700ybj.7.1691422023820; Mon, 07
+ Aug 2023 08:27:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v4 4/4] arm64: dts: allwinner: h616: Add BigTreeTech Pi
- support
-Content-Language: en-US
-To: Martin Botka <martin.botka1@gmail.com>
-Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Jami Kettunen <jamipkettunen@somainline.org>,
- Paul Bouchara <paul.bouchara@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Ludwig Kormann <ludwig.kormann@ict42.de>, Andrew Lunn <andrew@lunn.ch>,
- Icenowy Zheng <uwu@icenowy.me>, Heiko Stuebner <heiko@sntech.de>,
- Shawn Guo <shawnguo@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Chris Morgan <macromorgan@hotmail.com>, Jagan Teki <jagan@edgeble.ai>,
- Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20230807145349.2220490-1-martin@biqu3d.com>
- <09BFA974F83AB0E8+20230807145349.2220490-5-martin@biqu3d.com>
-From: Martin Botka <martin@biqu3d.com>
-In-Reply-To: <09BFA974F83AB0E8+20230807145349.2220490-5-martin@biqu3d.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:biqu3d.com:qybglogicsvrgz:qybglogicsvrgz5a-1
+References: <20230727070051.17778-1-frank.li@vivo.com>
+In-Reply-To: <20230727070051.17778-1-frank.li@vivo.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 7 Aug 2023 17:26:27 +0200
+Message-ID: <CAPDyKFr5smUN5VHCo-O_iFB=qzHFg5Gn9d6wm3bw+5UEy9n=Ww@mail.gmail.com>
+Subject: Re: [PATCH v3 01/62] mmc: sunxi: Convert to platform remove callback
+ returning void
+To: Yangtao Li <frank.li@vivo.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Forgot to mark it but no changes from v3 in this patch.
+On Thu, 27 Jul 2023 at 09:01, Yangtao Li <frank.li@vivo.com> wrote:
+>
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is (mostly) ignored
+> and this typically results in resource leaks. To improve here there is a
+> quest to make the remove callback return void. In the first step of this
+> quest all drivers are converted to .remove_new() which already returns
+> void.
+>
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+>
+> Cc: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> Signed-off-by: Yangtao Li <frank.li@vivo.com>
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-On 8/7/23 4:53 PM, Martin Botka wrote:
-> The BigTreeTech Pi is an H616 based board based on CB1.
-> Just in Rpi format board.
-> 
-> It features the same internals as BTT CB1 but adds:
->      - Fan port
->      - IR receiver
->      - ADXL345 Accelerometer connector via SPI
->      - 24V DC power supply via terminal plugs
->      - USB to CAN module connector (The actual USB to CAN happens on the external module)
-> 
-> List of currently working things is same as BTT CB1 but also:
->      - IR receiver
->      - ADXL345 connector
-> 
-> Signed-off-by: Martin Botka <martin@biqu3d.com>
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Normally I would prefer one patch per host driver, but in this series
+the changes are so trivial that it just becomes more difficult for me
+to manage.
+
+Please squash all changes that convert from using ->remove() to
+.remove_new() into one single patch for the mmc host drivers. Note
+that, I discovered there are some additional cleanups being part of
+the series, those deserve to be submitted indepently of this.
+
+Kind regards
+Uffe
+
 > ---
-> Changes in V2:
->      - Add UART alongside aliases and chosen for it
->      - Add model string
->      - Enable IR receiver
->      - Enable SPI0 for ADXL345 connector
-> Changes in V3:
->      - Add missing semicolons
->      - Add pinctrl for SPI0
-> 
->   arch/arm64/boot/dts/allwinner/Makefile        |  1 +
->   .../allwinner/sun50i-h616-bigtreetech-pi.dts  | 70 +++++++++++++++++++
->   2 files changed, 71 insertions(+)
->   create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-> index 7b386428510b..0b6232a7f328 100644
-> --- a/arch/arm64/boot/dts/allwinner/Makefile
-> +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> @@ -39,5 +39,6 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64-model-b.dtb
->   dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
->   dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
->   dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-cb1-manta.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-pi.dtb
->   dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
->   dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
-> new file mode 100644
-> index 000000000000..b0d0386e8f13
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
-> @@ -0,0 +1,70 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-> +/*
-> + * Copyright (C) 2023 Martin Botka <martin@biqu3d.com>.
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include "sun50i-h616-bigtreetech-cb1.dtsi"
-> +
-> +/ {
-> +	model = "BigTreeTech Pi";
-> +	compatible = "bigtreetech,pi", "allwinner,sun50i-h616";
-> +
-> +	aliases {
-> +		serial0 = &uart0;
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = "serial0:115200n8";
-> +	};
-> +};
-> +
-> +&ehci0 {
-> +	status = "okay";
-> +};
-> +
-> +&ehci1 {
-> +	status = "okay";
-> +};
-> +
-> +&ehci2 {
-> +	status = "okay";
-> +};
-> +
-> +&ehci3 {
-> +	status = "okay";
-> +};
-> +
-> +&ir {
-> +	status = "okay";
-> +};
-> +
-> +&ohci0 {
-> +	status = "okay";
-> +};
-> +
-> +&ohci1 {
-> +	status = "okay";
-> +};
-> +
-> +&ohci2 {
-> +	status = "okay";
-> +};
-> +
-> +&ohci3 {
-> +	status = "okay";
-> +};
-> +
-> +&spi0 {
-> +	/* SPI connection for onboard connector for ADXL345 accelerometer */
-> +	status = "okay";
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&spi0_pins>, <&spi0_cs0_pin>;
-> +};
-> +
-> +&uart0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&uart0_ph_pins>;
-> +	status = "okay";
-> +};
+>  drivers/mmc/host/sunxi-mmc.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
+> index 69dcb8805e05..d3bd0ac99ec4 100644
+> --- a/drivers/mmc/host/sunxi-mmc.c
+> +++ b/drivers/mmc/host/sunxi-mmc.c
+> @@ -1486,7 +1486,7 @@ static int sunxi_mmc_probe(struct platform_device *=
+pdev)
+>         return ret;
+>  }
+>
+> -static int sunxi_mmc_remove(struct platform_device *pdev)
+> +static void sunxi_mmc_remove(struct platform_device *pdev)
+>  {
+>         struct mmc_host *mmc =3D platform_get_drvdata(pdev);
+>         struct sunxi_mmc_host *host =3D mmc_priv(mmc);
+> @@ -1499,8 +1499,6 @@ static int sunxi_mmc_remove(struct platform_device =
+*pdev)
+>         }
+>         dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg_d=
+ma);
+>         mmc_free_host(mmc);
+> -
+> -       return 0;
+>  }
+>
+>  #ifdef CONFIG_PM
+> @@ -1556,7 +1554,7 @@ static struct platform_driver sunxi_mmc_driver =3D =
+{
+>                 .pm =3D &sunxi_mmc_pm_ops,
+>         },
+>         .probe          =3D sunxi_mmc_probe,
+> -       .remove         =3D sunxi_mmc_remove,
+> +       .remove_new     =3D sunxi_mmc_remove,
+>  };
+>  module_platform_driver(sunxi_mmc_driver);
+>
+> --
+> 2.39.0
+>
