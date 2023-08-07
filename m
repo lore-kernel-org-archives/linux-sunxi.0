@@ -1,129 +1,123 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-122.mta1.migadu.com (out-122.mta1.migadu.com [95.215.58.122])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1059DFC15
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Aug 2023 15:27:04 +0000 (UTC)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-d0b597e7ac1so5264761276.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 07 Aug 2023 08:27:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691422024; x=1692026824;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pRItn2cF5TQNt64raTRsWPd5Q0EJhD3/KF9OeDZ1Jek=;
-        b=MUElYBBzp1nPLlNHE6f/TMFiwNBEnp4Jh6A6+RXtQRmfIPxPveRZ6FSfvExGpHEGoB
-         RiwQQQxoK/oWcZ1+Ls05mu9ejhCXsQ2dUL1r0Kc6+JldzbZTVfBMJ+14l7tCB3/VFwM8
-         Y/DaiHPImTPCgI+S4a/8uWx8qZVK9u5sqRdc5zw9BXE9M2F6fPwyWWl4t+ZkK2PtuTFi
-         /GwylrICjRXYosRcN3l5CqE5HrLmurEEGMIsJmx1k7ga9EPPnKZgoAL+d6Rqmp/IiGy8
-         7SDUc8lLFjCOfstH631w+MQ/5F4gCNV69IDXo0Uogb/QrQvPBTD+I+H4+Rxdi65+8hhl
-         /NgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691422024; x=1692026824;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pRItn2cF5TQNt64raTRsWPd5Q0EJhD3/KF9OeDZ1Jek=;
-        b=iheNE1yVCXwCEZ3kdqHk+LzjMI6ddeO9FuJ77MxEtvEI62gpqCiOWFpp6sT/T0uFT3
-         fkB+FfgXIMYorl79dWec14btwmp05QXdy22D4Gb5/ftKIZccia8hmZl/RZLIj3tovwRU
-         lCknHoBHK98a+To85VkleNJ48RikZ012mNr5Ni+beqXAphq4HgOwjGkmIIAoJhIBWyW7
-         vp62E8QSGsq6Wy429YAyapqs6mcKAsX885/2HhY6MeiVQc3n9OdQW9WIOvgk08J/OIFC
-         qqc+jrVqv273U/jmaZPbSZsZg2jGB2Z1L2mmc0/g6A/6fuwdfd672VkU1ohnFZ6wnHDF
-         806A==
-X-Gm-Message-State: AOJu0Yxk+JZ3ojFDwUpmtNRuPLWXl+Qvvdp4ULLHhU68aJFp3jeuP/wk
-	yssiad2jN0yUOtxhE2JX8NmG32CLSmMqeJdJYfc3+g==
-X-Google-Smtp-Source: AGHT+IEnVXumr0NCmry9RyuOxY6r32vIR+eeIv8r9xUwQJax2apeM8tRM+axH69DYQH98HK4UUlOM0RO2JbMTbOXpMg=
-X-Received: by 2002:a25:2396:0:b0:c12:29ac:1d36 with SMTP id
- j144-20020a252396000000b00c1229ac1d36mr10222700ybj.7.1691422023820; Mon, 07
- Aug 2023 08:27:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5559107B6
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Aug 2023 19:20:38 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+	t=1691436036;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=3MO64bm8DFoP+FtMNEmWQlPXqTMO4IBSAv4wntQ0uL4=;
+	b=vDj1LhgzTqUvdYIJ+GyYNE/S8OovxIjbJAVnxEAJfbetB2Bs8LgZrUgjIh5e9wb2/CSec/
+	T6ClYlSomL585prfZpsCyjU1Yf/RigIoIk+BSNJa2xVEEKj2i7zjsCd5wgKlFmVeLFL16c
+	Pv6WpVr/YpPZFiTE4Am8W7lEnPOghWTv1sxC+jaamcOwz9wwpAdnRvdIvEPjV2woQ7R6y5
+	aJfWJlt+sUyrZhv1yYqMACRb618Kmg5tbsYnLkserZbGzBHulv4rkNDXMUvmX90psWhoEe
+	ViGgRiWSf+46Dgz+GRls+3yOA/18n9rNoU36Av4tPtBbttJEViMFeW1B/VphVA==
+From: John Watts <contact@jookia.org>
+To: linux-sunxi@lists.linux.dev
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maksim Kiselev <bigunclemax@gmail.com>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	John Watts <contact@jookia.org>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	devicetree@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] riscv: dts: allwinner: d1: Add CAN controller nodes
+Date: Tue,  8 Aug 2023 05:19:52 +1000
+Message-ID: <20230807191952.2019208-1-contact@jookia.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230727070051.17778-1-frank.li@vivo.com>
-In-Reply-To: <20230727070051.17778-1-frank.li@vivo.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 7 Aug 2023 17:26:27 +0200
-Message-ID: <CAPDyKFr5smUN5VHCo-O_iFB=qzHFg5Gn9d6wm3bw+5UEy9n=Ww@mail.gmail.com>
-Subject: Re: [PATCH v3 01/62] mmc: sunxi: Convert to platform remove callback
- returning void
-To: Yangtao Li <frank.li@vivo.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, 27 Jul 2023 at 09:01, Yangtao Li <frank.li@vivo.com> wrote:
->
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
->
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
->
-> Cc: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> Signed-off-by: Yangtao Li <frank.li@vivo.com>
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+The Allwinner D1, T113 provide two CAN controllers that are variants
+of the R40 controller.
 
-Normally I would prefer one patch per host driver, but in this series
-the changes are so trivial that it just becomes more difficult for me
-to manage.
+I have tested support for these controllers on two boards:
 
-Please squash all changes that convert from using ->remove() to
-.remove_new() into one single patch for the mmc host drivers. Note
-that, I discovered there are some additional cleanups being part of
-the series, those deserve to be submitted indepently of this.
+- A Lichee Panel RV 86 Panel running a D1 chip
+- A Mango Pi MQ Dual running a T113-s3 chip
 
-Kind regards
-Uffe
+Both of these fully support both CAN controllers.
 
-> ---
->  drivers/mmc/host/sunxi-mmc.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
-> index 69dcb8805e05..d3bd0ac99ec4 100644
-> --- a/drivers/mmc/host/sunxi-mmc.c
-> +++ b/drivers/mmc/host/sunxi-mmc.c
-> @@ -1486,7 +1486,7 @@ static int sunxi_mmc_probe(struct platform_device *=
-pdev)
->         return ret;
->  }
->
-> -static int sunxi_mmc_remove(struct platform_device *pdev)
-> +static void sunxi_mmc_remove(struct platform_device *pdev)
->  {
->         struct mmc_host *mmc =3D platform_get_drvdata(pdev);
->         struct sunxi_mmc_host *host =3D mmc_priv(mmc);
-> @@ -1499,8 +1499,6 @@ static int sunxi_mmc_remove(struct platform_device =
-*pdev)
->         }
->         dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg_d=
-ma);
->         mmc_free_host(mmc);
-> -
-> -       return 0;
->  }
->
->  #ifdef CONFIG_PM
-> @@ -1556,7 +1554,7 @@ static struct platform_driver sunxi_mmc_driver =3D =
-{
->                 .pm =3D &sunxi_mmc_pm_ops,
->         },
->         .probe          =3D sunxi_mmc_probe,
-> -       .remove         =3D sunxi_mmc_remove,
-> +       .remove_new     =3D sunxi_mmc_remove,
->  };
->  module_platform_driver(sunxi_mmc_driver);
->
-> --
-> 2.39.0
->
+Signed-off-by: John Watts <contact@jookia.org>
+---
+Changes in v3:
+- Set default pinctrl for can controller
+- Moved can nodes to proper location
+- Moved can pins to proper location
+
+ .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 34 +++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+
+diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+index d59b4acf183a..24f2e70d5886 100644
+--- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
++++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+@@ -52,6 +52,18 @@ pio: pinctrl@2000000 {
+ 			#gpio-cells = <3>;
+ 			#interrupt-cells = <3>;
+ 
++			/omit-if-no-ref/
++			can0_pins: can0-pins {
++				pins = "PB2", "PB3";
++				function = "can0";
++			};
++
++			/omit-if-no-ref/
++			can1_pins: can1-pins {
++				pins = "PB4", "PB5";
++				function = "can1";
++			};
++
+ 			/omit-if-no-ref/
+ 			clk_pg11_pin: clk-pg11-pin {
+ 				pins = "PG11";
+@@ -356,6 +368,28 @@ i2c3: i2c@2502c00 {
+ 			#size-cells = <0>;
+ 		};
+ 
++		can0: can@2504000 {
++			pinctrl-names = "default";
++			pinctrl-0 = <&can0_pins>;
++			compatible = "allwinner,sun20i-d1-can";
++			reg = <0x02504000 0x400>;
++			interrupts = <SOC_PERIPHERAL_IRQ(21) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_CAN0>;
++			resets = <&ccu RST_BUS_CAN0>;
++			status = "disabled";
++		};
++
++		can1: can@2504400 {
++			pinctrl-names = "default";
++			pinctrl-0 = <&can1_pins>;
++			compatible = "allwinner,sun20i-d1-can";
++			reg = <0x02504400 0x400>;
++			interrupts = <SOC_PERIPHERAL_IRQ(22) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_CAN1>;
++			resets = <&ccu RST_BUS_CAN1>;
++			status = "disabled";
++		};
++
+ 		syscon: syscon@3000000 {
+ 			compatible = "allwinner,sun20i-d1-system-control";
+ 			reg = <0x3000000 0x1000>;
+-- 
+2.41.0
+
