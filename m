@@ -1,126 +1,98 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6823D81
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Aug 2023 07:30:56 +0000 (UTC)
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1qSuhO-0001q7-82; Mon, 07 Aug 2023 09:30:42 +0200
-Received: from pengutronix.de (unknown [172.20.34.65])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0BE4434
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Aug 2023 09:36:36 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id D86E72058CB;
-	Mon,  7 Aug 2023 07:30:40 +0000 (UTC)
-Date: Mon, 7 Aug 2023 09:30:40 +0200
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: John Watts <contact@jookia.org>, Maksim Kiselev <bigunclemax@gmail.com>,
-	aou@eecs.berkeley.edu, conor+dt@kernel.org, davem@davemloft.net,
-	devicetree@vger.kernel.org, edumazet@google.com,
-	krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-can@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, netdev@vger.kernel.org,
-	pabeni@redhat.com, palmer@dabbelt.com, paul.walmsley@sifive.com,
-	robh+dt@kernel.org, samuel@sholland.org, wens@csie.org,
-	wg@grandegger.com
-Subject: Re: [PATCH v2 2/4] riscv: dts: allwinner: d1: Add CAN controller
- nodes
-Message-ID: <20230807-thorn-sponge-bd59b35feebe-mkl@pengutronix.de>
-References: <20230721221552.1973203-4-contact@jookia.org>
- <2690764.mvXUDI8C0e@jernej-laptop>
- <ZM8-yfRVscYjxp2p@titan>
- <4848155.31r3eYUQgx@jernej-laptop>
- <20230807-denatured-gangrene-e6f37ba5f9ef-mkl@pengutronix.de>
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4RKB682fjfz9sqc;
+	Mon,  7 Aug 2023 11:36:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1691400992;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=kZpxdp3WWrr68mqrd9vM4xeTDmgXtm3KexoKUIzHbkI=;
+	b=fkdPRm4TNu3wr+E8D6PfuCvJIg7gHvuQwksCCOcW8F9IZ09vG7kZFxy+i/rPxPtOdFRgVM
+	5uBXNCtO6s01bqrL6bpWib+nYV99229QzJ4JS7sBJm+ZJtpn6yUBogL3kJtLID7415kE2Y
+	0AhJA8uqnj+L6ZkyZPhgfYE2cWi7CCXaOZwV2i+d94nrTkP4mze4b7iTr0W5FTygrZ3CtD
+	9RJKsqoOxiMrJ2jP087wiOBCA7T4d+h1nHL3rQcUeiQ3qpvTxX+i2FARkwxmjP0oCHLrp5
+	35lPm3Nei7no5UmFmfwsTvo57w/pJ1R3hleEgDMl4qpDEocoyQRGi68VtfUVkQ==
+From: Frank Oltmanns <frank@oltmanns.dev>
+Subject: [PATCH 0/3] pll-video0 notifier for v6.5+
+Date: Mon, 07 Aug 2023 11:36:01 +0200
+Message-Id: <20230807-a64_pll_video0_notifier-v1-0-8a7ccdc14c79@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="llt7j25uzpb3nty6"
-Content-Disposition: inline
-In-Reply-To: <20230807-denatured-gangrene-e6f37ba5f9ef-mkl@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:b01:1d::7b
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAG70GQC/x3MQQqAIBBA0avErBM0paKrREjaVAOhoSGBePek5
+ Vv8nyFiIIwwNRkCJorkXYVoG7Dn6g5ktFVDxzvJRz6wtVf6vi6daEPPtfMP7YSBiV5ZY4fRSCW
+ g1nfAnd7/PC+lfID2kKtpAAAA
+To: Icenowy Zheng <uwu@icenowy.me>
+Cc: =?utf-8?q?Ond=C5=99ej_Jirman?= <x@xnux.eu>, linux-sunxi@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org, Frank Oltmanns <frank@oltmanns.dev>, 
+ Icenowy Zheng <icenowy@aosc.io>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1754; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=nROP7YwIq8z+AbK2M57i28CNGajVkLEvqKGf+Qa+z+g=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBk0Lsel5t0vFMa3FpDdYJNYlKBTD4f2MSyVUVnO
+ DqAEyQ7LESJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZNC7HgAKCRCaaaIIlErT
+ x/wcC/4rVzHTyaruPSCt+z70dYHY1fAt0kST9cIhJhQEKa3gZaVA7eIWKgnUwyEHSkLLwU/Y2ME
+ aXJmrAYgHWtCbci6OE8aZqdQPKTttbqQw/Uza2Hsi+qj5j691Xo5PX3SzE7/Jc3i6YMqku+7djy
+ lDktVFeAN0JmPdneMv58PIuzs1z+4tFIFUqgQ2H+JSzX9LB7wLRlifMWJkVKw/1NO5cUBlRMNde
+ ErqV5OzvOPChDX88dG5cxO1c3j09etPnbyrvZ+c3Ftyeqd+ICMFU9bTu5THbhBzEDc9TBWioLGs
+ WoAZCR1wXsKdpIa10tvsww2KhzI7R/9RNhLucP8NigPKOp8/JeBe0ukLIP8v7WtaDMv6dgBZLFy
+ vMydaNtI0pg/YZyOQG8lSqSDhuXQ0IE8Dlml5QWII5aI/5uGSqjCQZa8/KBa4NZFEAJW7CUhzHP
+ Lrl8gPN12Ohl+urVisUNxXrSUs4mmbgV7ittNf0uPNueK1kBd33OVyZl/swsZZ7LlffKM=
+X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
+ fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
 
+Hi Icenowy,
 
---llt7j25uzpb3nty6
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+it is my understanding that you are the original author of the following
+patches are in Ondřej's 6.4 branch [1] [2] [3] but not in his 6.5
+branch. I assume it is because of merge conflicts as the part about
+setting the parent has already been fixed in the 6.5 release candidates.
 
-On 07.08.2023 09:16:41, Marc Kleine-Budde wrote:
-> On 06.08.2023 13:42:28, Jernej =C5=A0krabec wrote:
-> > Dne nedelja, 06. avgust 2023 ob 08:33:45 CEST je John Watts napisal(a):
-> > > On Sat, Aug 05, 2023 at 07:49:51PM +0200, Jernej =C5=A0krabec wrote:
-> > > > Dne sobota, 05. avgust 2023 ob 18:51:53 CEST je John Watts napisal(=
-a):
-> > > > > On Sat, Aug 05, 2023 at 07:40:52PM +0300, Maksim Kiselev wrote:
-> > > > > > Hi John, Jernej
-> > > > > > Should we also keep a pinctrl nodes itself in alphabetical orde=
-r?
-> > > > > > I mean placing a CAN nodes before `clk_pg11_pin` node?
-> > > > > > Looks like the other nodes sorted in this way...
-> > > > >=20
-> > > > > Good catch. Now that you mention it, the device tree nodes are so=
-rted
-> > > > > by memory order too! These should be after i2c3.
-> > > > >=20
-> > > > > It looks like I might need to do a patch to re-order those too.
-> > > >=20
-> > > > It would be better if DT patches are dropped from netdev tree and t=
-hen
-> > > > post
-> > > > new versions.
-> > > >=20
-> > > > Best regards,
-> > > > Jernej
-> > >=20
-> > > Agreed. Is there a way to request that? Or will the maintainer just r=
-ead
-> > > this?
-> >=20
-> > Hopefully it will.
->=20
-> I'm just catching up on last week's post (I had a long off-line
-> weekend).
->=20
-> I'll revert the DT changes and send a PR to net-next.
+Therefore I've removed those parts and adopted the commit message of
+PATCH 2. I've removed your SoB, because I think you'd need to sign of
+the revised version. Especially patch 2 has become a bit simpler and I'm
+wondering if it makes sense to try to upstream the three patches now.
+What do you think?
 
-Here's the revert:
+Thank you for your amazing work!
 
-| https://lore.kernel.org/all/20230807-riscv-allwinner-d1-revert-can-contro=
-ller-nodes-v1-1-eb3f70b435d9@pengutronix.de/
+Best regards,
+  Frank
 
-Marc
+[1]: https://github.com/megous/linux/commit/2cd3d57adf83e2d091baed77e1aafc01d545d123
+[2]: https://github.com/megous/linux/commit/c9c7bfe22f0fefdfc1dc2ce84b452964112399d7
+[3]: https://github.com/megous/linux/commit/e19ccee10a8492535b6cda1ba97cccc2074d6e65
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+---
+Icenowy Zheng (3):
+      clk: sunxi-ng: add support for rate resetting notifier
+      clk: sunxi-ng: a64: keep tcon0 clock rate when pll-video0's rate changes
+      drm/sun4i: tcon: hand over the duty to keep TCON0 clock to CCU on A64
 
---llt7j25uzpb3nty6
-Content-Type: application/pgp-signature; name="signature.asc"
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 15 +++++++++++++++
+ drivers/clk/sunxi-ng/ccu_common.c     | 22 ++++++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu_common.h     | 12 ++++++++++++
+ drivers/gpu/drm/sun4i/sun4i_tcon.c    | 15 +++++++++++++--
+ drivers/gpu/drm/sun4i/sun4i_tcon.h    |  1 +
+ 5 files changed, 63 insertions(+), 2 deletions(-)
+---
+base-commit: 1cf5c37ee3c2334a964c65e52b4e0c59b4332d7c
+change-id: 20230807-a64_pll_video0_notifier-164cbc78b341
 
------BEGIN PGP SIGNATURE-----
+Best regards,
+-- 
+Frank Oltmanns <frank@oltmanns.dev>
 
-iQEzBAABCgAdFiEEDs2BvajyNKlf9TJQvlAcSiqKBOgFAmTQnZ0ACgkQvlAcSiqK
-BOgJNgf/YNyefVqQQvPihS3Ab6HIs4mMvN3hqRLH4teavOkBVATTaG35qXtZqgt/
-teGW+v3n/TlqwvMvgk9znMb2nYDylooyDvaNNOaa+SPjOTK0yzyBLXTeWaMbCINO
-ZGAWV3l83jm8I08RYOfZK/pe4R3kUGj+JXxqjc6T5tScEgix6Bqbdy6Y1ebq81el
-O+l7Nd/rYDPXqo8AHishESrhRdxGQX0aVvFasOcGNrZtesOdm/xunRwhw8iV3uDE
-uKG7h+OStWf4Ymff8uGd8GgYkJ6DSIQyVL5Qwuw4YVd95TSb2I4Cxhm0or9imY4Y
-iOuWa/BBZ47vOWLBOTfAvba9pbRatA==
-=XMKz
------END PGP SIGNATURE-----
-
---llt7j25uzpb3nty6--
