@@ -1,41 +1,40 @@
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B19B8210D
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Aug 2023 07:15:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679CA210D
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Aug 2023 07:16:58 +0000 (UTC)
 Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <mkl@pengutronix.de>)
-	id 1qSuRu-000883-Pg; Mon, 07 Aug 2023 09:14:42 +0200
+	id 1qSuTs-0008Tg-09; Mon, 07 Aug 2023 09:16:44 +0200
 Received: from pengutronix.de (unknown [172.20.34.65])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(Client did not present a certificate)
 	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id 1A506205885;
-	Mon,  7 Aug 2023 07:14:39 +0000 (UTC)
-Date: Mon, 7 Aug 2023 09:14:38 +0200
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 192BD20588D;
+	Mon,  7 Aug 2023 07:16:42 +0000 (UTC)
+Date: Mon, 7 Aug 2023 09:16:41 +0200
 From: Marc Kleine-Budde <mkl@pengutronix.de>
 To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: John Watts <contact@jookia.org>, linux-sunxi@lists.linux.dev,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Chen-Yu Tsai <wens@csie.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Maksim Kiselev <bigunclemax@gmail.com>, devicetree@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] riscv: dts: allwinner: d1: Specify default CAN pins
-Message-ID: <20230807-leverage-manatee-687c46db39f8-mkl@pengutronix.de>
-References: <20230731023701.2581713-1-contact@jookia.org>
- <3248110.44csPzL39Z@jernej-laptop>
- <ZMyZ5kZSiiJHtdeS@titan>
- <5696365.DvuYhMxLoT@jernej-laptop>
+Cc: John Watts <contact@jookia.org>, Maksim Kiselev <bigunclemax@gmail.com>,
+	aou@eecs.berkeley.edu, conor+dt@kernel.org, davem@davemloft.net,
+	devicetree@vger.kernel.org, edumazet@google.com,
+	krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-can@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, netdev@vger.kernel.org,
+	pabeni@redhat.com, palmer@dabbelt.com, paul.walmsley@sifive.com,
+	robh+dt@kernel.org, samuel@sholland.org, wens@csie.org,
+	wg@grandegger.com
+Subject: Re: [PATCH v2 2/4] riscv: dts: allwinner: d1: Add CAN controller
+ nodes
+Message-ID: <20230807-denatured-gangrene-e6f37ba5f9ef-mkl@pengutronix.de>
+References: <20230721221552.1973203-4-contact@jookia.org>
+ <2690764.mvXUDI8C0e@jernej-laptop>
+ <ZM8-yfRVscYjxp2p@titan>
+ <4848155.31r3eYUQgx@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -43,48 +42,53 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xgydx3hdd5gawx7l"
+	protocol="application/pgp-signature"; boundary="knn54obranxnvfa4"
 Content-Disposition: inline
-In-Reply-To: <5696365.DvuYhMxLoT@jernej-laptop>
+In-Reply-To: <4848155.31r3eYUQgx@jernej-laptop>
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:b01:1d::7b
 X-SA-Exim-Mail-From: mkl@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
 
---xgydx3hdd5gawx7l
+--knn54obranxnvfa4
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 04.08.2023 16:39:41, Jernej =C5=A0krabec wrote:
-> Dne petek, 04. avgust 2023 ob 08:25:42 CEST je John Watts napisal(a):
-> > On Thu, Aug 03, 2023 at 10:59:30PM +0200, Jernej =C5=A0krabec wrote:
-> > > pinctrl-names and pinctrl-0 are usually at the top. However, since th=
-ere
-> > > is no hard rule (I've seen it mixed), I'm fine with it.
+On 06.08.2023 13:42:28, Jernej =C5=A0krabec wrote:
+> Dne nedelja, 06. avgust 2023 ob 08:33:45 CEST je John Watts napisal(a):
+> > On Sat, Aug 05, 2023 at 07:49:51PM +0200, Jernej =C5=A0krabec wrote:
+> > > Dne sobota, 05. avgust 2023 ob 18:51:53 CEST je John Watts napisal(a):
+> > > > On Sat, Aug 05, 2023 at 07:40:52PM +0300, Maksim Kiselev wrote:
+> > > > > Hi John, Jernej
+> > > > > Should we also keep a pinctrl nodes itself in alphabetical order?
+> > > > > I mean placing a CAN nodes before `clk_pg11_pin` node?
+> > > > > Looks like the other nodes sorted in this way...
+> > > >=20
+> > > > Good catch. Now that you mention it, the device tree nodes are sort=
+ed
+> > > > by memory order too! These should be after i2c3.
+> > > >=20
+> > > > It looks like I might need to do a patch to re-order those too.
+> > >=20
+> > > It would be better if DT patches are dropped from netdev tree and then
+> > > post
+> > > new versions.
+> > >=20
+> > > Best regards,
+> > > Jernej
 > >=20
-> > Happy to change if needed.
+> > Agreed. Is there a way to request that? Or will the maintainer just read
+> > this?
 >=20
-> If you don't mind, please do.
->=20
-> >=20
-> > > Since original DT node entry goes through netdev tree, this should be
-> > > picked there or it can be dropped there and I pick both patches or I =
-can
-> > > pick patch for later kernel version.
-> >=20
-> > Do I have to do something based on this, like resend my patch?
->=20
-> Nothing on your side.
->=20
-> Marc, since you took original patch through netdev tree, what is your dec=
-ision=20
-> here?
+> Hopefully it will.
 
-I'll take the DT patches though linux-can-next to net-next.
+I'm just catching up on last week's post (I had a long off-line
+weekend).
 
-regards,
+I'll revert the DT changes and send a PR to net-next.
+
 Marc
 
 --=20
@@ -93,19 +97,19 @@ Embedded Linux                   | https://www.pengutronix.de |
 Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
 Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
 
---xgydx3hdd5gawx7l
+--knn54obranxnvfa4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEDs2BvajyNKlf9TJQvlAcSiqKBOgFAmTQmdoACgkQvlAcSiqK
-BOgNigf/WQ0j4jhWfbYXaY/33E7hWV8x/a7lA0uFjqImrlzx6N9e9haXbCDz8Prm
-wlqXv10RoPcam5UnDHoDmeg7RASAIkLBKAFiuTpWZnOEiV77CB8H7sHELLiT8hOg
-W1R26KjIU0a3TFrBy3vfRZc+lRL3Jxcu7X/eh+dMUM9N+bMf0x7h+MW5Wx4CbC6k
-SR0j4D5Cxgi5EcXjGl8SJxatOmfGxBkjlKgJmiw0vUI5ISgluQrZF3m9adflXAza
-IoPSI+WPU7uMHIvMvRv0Ed4MvNhZabRATEAjOTvJsmq0grjT4rk9xYv4ZGEET/Rm
-xSbfq22jvd65w0kOt5NvtJs/NzZxVQ==
-=MX/Y
+iQEzBAABCgAdFiEEDs2BvajyNKlf9TJQvlAcSiqKBOgFAmTQmlYACgkQvlAcSiqK
+BOgEOAf/fUZfi2B2HANlxUlb4fdyka/TP5ZLHNHvg7p3zeXtN/14VVOHERsUPbXh
+Kldv7yC7b/fwT8eNXA00kF7stor8jzf2pmRnH0O1Nq/OeOezlf6neZxWwzitGCbL
+qWYirtSsJw5oN4Q/hxohHL2y9CX2jCXK9f6TQ3eMzr2vhXCrtDxLKPBaL0Abb1qv
+vRdIDpQtXYpYWsXXlP1Fw9PArbvZ3mDVFDnBpYIri/nt7wX+TYveOjVOn1h8W+Im
+dbFqaDjgwOe4SWL2oWpVMQAWOAs4gCM3af9aC/zcXbYXnEHZduRWlPs/g9kNo13L
+IP3YMj70efZqX1eHk2reC0R/Ppf/Xw==
+=TA6D
 -----END PGP SIGNATURE-----
 
---xgydx3hdd5gawx7l--
+--knn54obranxnvfa4--
