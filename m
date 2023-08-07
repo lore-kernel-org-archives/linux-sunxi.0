@@ -1,29 +1,29 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE21D538
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Aug 2023 12:44:22 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE284D52D
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Aug 2023 12:44:26 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4RKGGq0HCKz9snG;
-	Mon,  7 Aug 2023 14:44:19 +0200 (CEST)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4RKGGv3BnLz9sW7;
+	Mon,  7 Aug 2023 14:44:23 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1691412259;
+	s=MBO0001; t=1691412263;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5lFYFCdN0sdgDJqab568y4FkGp83iqOD14+wLiTmK/k=;
-	b=X+esrlXFZ/MEzzW7OH4/kL8xjhT4yVMKWsJ5rwQ2pis+OhbiLwOrAzmFdeCjIF4xBvzfq1
-	h5pEqnjdul3/J+w59+Ai4b4d60AXkZk9TD9b+hW/utWoHSTc/4a14hq1RNfcOzkXHCvChk
-	FIASFa1vjfsMgnBmlOuMV6BpTxuMW4plr4gEnU28BrAuVbgW7guqj7jjso/sucAeH9zyie
-	aFfV/ZI8g0tRq6Qbk3dsCRHkyil6Vtucf/GsRJAVBKdrPMUGeP3I/h0Dq6C2w+ypJCUI6C
-	vnJB7BP6ZzJvzJgYaYSSxlkRwBkDv/h/YX+v3uBj5+S66cN5fr5ElGCVJiA2VA==
+	bh=eujE6oPZv+zmJCFxuwNd5VPBn5IlE6vd2cc/1IpSkXc=;
+	b=Y1z6Z9dbD+y1cpjLhNyi5Zd1auL26Zaea26L4auYxOnb7gY/t1T63Qn1SspKzzzaWFymKv
+	K/bqQXnYbTDFmS9MHm38d14vse6oAdAWh/UxdZthEgZVkCuI25ovn+rQdU9Z+kjuQz2RoD
+	pbohH+fLmF7Td9avv8QkGczZJOsGczso5j6KWRfr35yVS38LfgyI5ROYLZRoIdl0zjGsvx
+	xsCAiwrsQV0cbPY2imTw9jpLz0oZUWqhhZAmVeoGZpb2CiLyTZ9HwTddNEFTRP4A6LaftN
+	dSiqazAAqdEzi55CxIDcX/9jaSWqM/LYHvvaMiNDOrx0zEp5Uz0I23arZ+fUpg==
 From: Frank Oltmanns <frank@oltmanns.dev>
-Date: Mon, 07 Aug 2023 14:43:42 +0200
-Subject: [PATCH v6 09/11] clk: sunxi-ng: div: Support finding closest rate
+Date: Mon, 07 Aug 2023 14:43:44 +0200
+Subject: [PATCH v6 11/11] clk: sunxi-ng: nkm: Prefer current parent rate
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -32,7 +32,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230807-pll-mipi_set_rate_parent-v6-9-f173239a4b59@oltmanns.dev>
+Message-Id: <20230807-pll-mipi_set_rate_parent-v6-11-f173239a4b59@oltmanns.dev>
 References: <20230807-pll-mipi_set_rate_parent-v6-0-f173239a4b59@oltmanns.dev>
 In-Reply-To: <20230807-pll-mipi_set_rate_parent-v6-0-f173239a4b59@oltmanns.dev>
 To: Maxime Ripard <mripard@kernel.org>, 
@@ -44,80 +44,44 @@ To: Maxime Ripard <mripard@kernel.org>,
 Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Frank Oltmanns <frank@oltmanns.dev>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2176; i=frank@oltmanns.dev;
- h=from:subject:message-id; bh=lF1bB9W1an2uvrdtnkgXzTklsJAiLLQesxIoCOqHDY4=;
- b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBk0OcLKCUZ4KFM13LA61e9BOpBla9sUzPL6WeP6
- Hn7EqWG2ZiJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZNDnCwAKCRCaaaIIlErT
- x2z+C/9qavB0kYFaXXtRGKJopVSzHgKC9VKmG3SqdHxyG8n9a4h66qSaL47rv0CEngYPlJ6PVVs
- 8FxzFcBqT+1Xzy6/0ZMhCLo2ADnhUgsqVJX7FyR0iO6LeGzNB2chyZUzQP5dBlGozfSYu4bMiek
- 5ZkXSV8g7fOMDim28WQ8uOMVa4Pv8XQVqjm4sichhiSZpy4V2wBTFuBPAq5v1eGZohKn3GmuWAm
- VaN5fugkDoRbzrEOX/IpcV0NTk0O2XCUX4Q8NiCobERNlqRMLwqX8FgGy83AB1tu2Bumbj/adpz
- gFPPK/iSP3FEr4F7Kn32YzaSDD9BqtWXmcbvP8fYxLgMBM2RcBaTcXr4cVHSrTDLmbbJNIF4yy/
- SGRAUOIMUxSQt5SVtfEcAYeKS83+a6/HCXFtTHsVu4ONnM23d+ssYfnA8XX+PbT325r695Tgdv2
- fXuIqA0vfT8TaqbTafAcyDmzN8+XE1UtThaNmhy8Sc4zptakKYaFsE1lIH4Sq7GUmXXQY=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=975; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=nX7O6HIGcIL6L1G1S3ONo9eulQgwHWxaNoxqcrZCmdE=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBk0OcLfaRyp447JpXrEZFmI4EHjbwF9UWfiLNWq
+ QOaFHIRNpmJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZNDnCwAKCRCaaaIIlErT
+ x60gC/9o+RMltX9ZY6ftQCMuJXLFJlqfRCHw9zBPZWmougN1+w6ltG1Tp0m/y2ITx6pTgi25D6+
+ KD9Ipv4gUg0pfpZxgUbIibzgzLktFCj8nsWuwP6RoczbZf2cz5EC6uJPCppRY8n8VoCYJ3MQXCj
+ AkFvx/V/K+DxWpCdqbaBhBXC04tGPbx/UehIXdK/1dgtg17uq4t3lM+2tCN9i413FTp9mbpR/1X
+ a2Yb9ESG+SVVTmTUy1VkBBofGvCCN0Mymk/vGv2ofXjuAuo2xZ5Wy47wkKIvy+XV9VG+u6IY3Bi
+ ltLW6QAHXbhdtcCFk4YCSakotisQcD7kTSmJc31x0LZq0LwzbJ3bfWVyLWkEwlNDxkA9SPQPOEE
+ IXQ56SwHsSRbtoC5ovgn13hmyRv0o9W6nerBobz1bNYtciMCLURFL74OfvCueBeHym+XjUYp5fS
+ KPWPeR89A3oydQ4e4zuHAgXaEELjn8CvW2H96XYViGCxkQZuBFiSMCAQWS1Y/BA+/ZY/Q=
 X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
  fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
+X-Rspamd-Queue-Id: 4RKGGv3BnLz9sW7
 
-Add initalization macros for divisor clocks with mux
-(SUNXI_CCU_M_WITH_MUX) to support finding the closest rate. This clock
-type requires the appropriate flags to be set in the .common structure
-(for the mux part of the clock) and the .div part.
+Similar to ccu_mp, if the current parent rate allows getting the ideal
+rate, prefer to not change the parent clock's rate.
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
 ---
- drivers/clk/sunxi-ng/ccu_div.h | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ drivers/clk/sunxi-ng/ccu_nkm.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/clk/sunxi-ng/ccu_div.h b/drivers/clk/sunxi-ng/ccu_div.h
-index 948e2b0c0c3b..90d49ee8e0cc 100644
---- a/drivers/clk/sunxi-ng/ccu_div.h
-+++ b/drivers/clk/sunxi-ng/ccu_div.h
-@@ -143,6 +143,26 @@ struct ccu_div {
- 		},							\
- 	}
+diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
+index a714dcf0dfc1..eed64547ad42 100644
+--- a/drivers/clk/sunxi-ng/ccu_nkm.c
++++ b/drivers/clk/sunxi-ng/ccu_nkm.c
+@@ -34,7 +34,8 @@ static unsigned long ccu_nkm_find_best_with_parent_adj(struct ccu_common *common
  
-+#define SUNXI_CCU_M_WITH_MUX_TABLE_GATE_CLOSEST(_struct, _name,		\
-+						_parents, _table,	\
-+						_reg,			\
-+						_mshift, _mwidth,	\
-+						_muxshift, _muxwidth,	\
-+						_gate, _flags)		\
-+	struct ccu_div _struct = {					\
-+		.enable	= _gate,					\
-+		.div	= _SUNXI_CCU_DIV_FLAGS(_mshift, _mwidth, CLK_DIVIDER_ROUND_CLOSEST), \
-+		.mux	= _SUNXI_CCU_MUX_TABLE(_muxshift, _muxwidth, _table), \
-+		.common	= {						\
-+			.reg		= _reg,				\
-+			.hw.init	= CLK_HW_INIT_PARENTS(_name,	\
-+							      _parents, \
-+							      &ccu_div_ops, \
-+							      _flags),	\
-+			.features	= CCU_FEATURE_CLOSEST_RATE,	\
-+		},							\
-+	}
-+
- #define SUNXI_CCU_M_WITH_MUX_GATE(_struct, _name, _parents, _reg,	\
- 				  _mshift, _mwidth, _muxshift, _muxwidth, \
- 				  _gate, _flags)			\
-@@ -152,6 +172,16 @@ struct ccu_div {
- 					_muxshift, _muxwidth,		\
- 					_gate, _flags)
+ 				tmp_rate = tmp_parent * _n * _k / _m;
  
-+#define SUNXI_CCU_M_WITH_MUX_GATE_CLOSEST(_struct, _name, _parents,	\
-+					  _reg, _mshift, _mwidth,	\
-+					  _muxshift, _muxwidth,		\
-+					  _gate, _flags)		\
-+	SUNXI_CCU_M_WITH_MUX_TABLE_GATE_CLOSEST(_struct, _name,		\
-+						_parents, NULL,		\
-+						_reg, _mshift, _mwidth,	\
-+						_muxshift, _muxwidth,	\
-+						_gate, _flags)
-+
- #define SUNXI_CCU_M_WITH_MUX(_struct, _name, _parents, _reg,		\
- 			     _mshift, _mwidth, _muxshift, _muxwidth,	\
- 			     _flags)					\
+-				if (ccu_is_better_rate(common, rate, tmp_rate, best_rate)) {
++				if (ccu_is_better_rate(common, rate, tmp_rate, best_rate) ||
++				    (tmp_parent == *parent && tmp_rate == best_rate)) {
+ 					best_rate = tmp_rate;
+ 					best_parent_rate = tmp_parent;
+ 					best_n = _n;
 
 -- 
 2.41.0
