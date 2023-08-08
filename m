@@ -1,123 +1,187 @@
-Received: from out-122.mta1.migadu.com (out-122.mta1.migadu.com [95.215.58.122])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5559107B6
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Aug 2023 19:20:38 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1691436036;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=3MO64bm8DFoP+FtMNEmWQlPXqTMO4IBSAv4wntQ0uL4=;
-	b=vDj1LhgzTqUvdYIJ+GyYNE/S8OovxIjbJAVnxEAJfbetB2Bs8LgZrUgjIh5e9wb2/CSec/
-	T6ClYlSomL585prfZpsCyjU1Yf/RigIoIk+BSNJa2xVEEKj2i7zjsCd5wgKlFmVeLFL16c
-	Pv6WpVr/YpPZFiTE4Am8W7lEnPOghWTv1sxC+jaamcOwz9wwpAdnRvdIvEPjV2woQ7R6y5
-	aJfWJlt+sUyrZhv1yYqMACRb618Kmg5tbsYnLkserZbGzBHulv4rkNDXMUvmX90psWhoEe
-	ViGgRiWSf+46Dgz+GRls+3yOA/18n9rNoU36Av4tPtBbttJEViMFeW1B/VphVA==
-From: John Watts <contact@jookia.org>
-To: linux-sunxi@lists.linux.dev
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maksim Kiselev <bigunclemax@gmail.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	John Watts <contact@jookia.org>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	devicetree@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] riscv: dts: allwinner: d1: Add CAN controller nodes
-Date: Tue,  8 Aug 2023 05:19:52 +1000
-Message-ID: <20230807191952.2019208-1-contact@jookia.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F72220FF
+	for <linux-sunxi@lists.linux.dev>; Tue,  8 Aug 2023 10:32:00 +0000 (UTC)
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-79a83720538so1583611241.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 08 Aug 2023 03:32:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1691490719; x=1692095519;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GuLpUzj425ksYkwQNwyCuqLBetYDot3qhVx39suIMw0=;
+        b=CW1wmSS3XnGDPuztAUvBaWlWSmKupzqD7zKqc2IMowY3PPppepGN4v5MgAqnF9DH02
+         AdD5qc49aYsLGv23+ZifJ1z6ilNUrRVGCerE30r2PozoroL1KW70ZvhPs6F72OOA+gqI
+         pliAgJFlXTEHnNhobcHkrX952OYeH8QLgP2tM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691490719; x=1692095519;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GuLpUzj425ksYkwQNwyCuqLBetYDot3qhVx39suIMw0=;
+        b=Cdy61OPlelQJzTP/Vf6eCSk5nvwrKeGq79Y+IdhX+T3jo0zSo66dmV8Hl6Rtf0jxXv
+         afm18oEiwPB+bDmBVGy/XmL/U7cvLrre0qVPKfGcD0FAIQOy1Xb2YrJ188y9BzNcrkhq
+         Q2npCRI0iy+J7I2AipxyMfLq1IupG6fk/63YxE57l/HjlGJvKniDvWuWkQMw0gillJKq
+         bgI4qw9j2R+pXPrQ3SP6IofFhRd0ZRBqql5fTH/7opXxgabUHMaP/APwQO4FLRqYwsxu
+         uUIqTgHNtCVJyB5c9SME3azu8ZM0IecD21rOfACB8Ky5GaOyI8xgumFfXf1wX2ZjKgDB
+         /f0Q==
+X-Gm-Message-State: AOJu0YwbKAQSpHotqxyNzJiNSDl0O03bz36i2qRloB5DAp89EAzWGFfk
+	TCR0B7AO2+Uo25WfFkhJ3M+A01vSHu28Qo4DzJvL1A==
+X-Google-Smtp-Source: AGHT+IHe//IfhEQskoa+DmwWaMX7MNnPiXh2Oww7kuRlFj5Ce4sr0YypupqEhLK7goxUc4ZTN1/MKRprjeA1YzeduZA=
+X-Received: by 2002:a05:6102:150:b0:437:e5ce:7e8f with SMTP id
+ a16-20020a056102015000b00437e5ce7e8fmr6782940vsr.4.1691490719095; Tue, 08 Aug
+ 2023 03:31:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <0-v2-b0417f84403e+11f-iommu_group_locking_jgg@nvidia.com> <ZNDpfCoeFxA56ZlU@8bytes.org>
+In-Reply-To: <ZNDpfCoeFxA56ZlU@8bytes.org>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Tue, 8 Aug 2023 18:31:47 +0800
+Message-ID: <CAGXv+5E-f9AteAYkmXYzVDZFSA_royc7-bS5LcrzzuHDnXccwA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/10] Refine the locking for dev->iommu_group
+To: Joerg Roedel <joro@8bytes.org>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	David Woodhouse <dwmw2@infradead.org>, Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Orson Zhai <orsonzhai@gmail.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Alex Williamson <alex.williamson@redhat.com>, 
+	Lu Baolu <baolu.lu@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The Allwinner D1, T113 provide two CAN controllers that are variants
-of the R40 controller.
+Hi,
 
-I have tested support for these controllers on two boards:
+On Mon, Aug 7, 2023 at 8:54=E2=80=AFPM Joerg Roedel <joro@8bytes.org> wrote=
+:
+>
+> On Mon, Jul 31, 2023 at 02:50:23PM -0300, Jason Gunthorpe wrote:
+> > Jason Gunthorpe (10):
+> >   iommu: Remove useless group refcounting
+> >   iommu: Add a lockdep assertion for remaining dev->iommu_group reads
+> >   iommu: Add generic_single_device_group()
+> >   iommu/sun50i: Convert to generic_single_device_group()
+> >   iommu/sprd: Convert to generic_single_device_group()
+> >   iommu/rockchip: Convert to generic_single_device_group()
+> >   iommu/ipmmu-vmsa: Convert to generic_single_device_group()
+> >   iommu/omap: Convert to generic_single_device_group()
+> >   iommu: Complete the locking for dev->iommu_group
+> >   iommu/intel: Fix missing locking for show_device_domain_translation()
+> >
+> >  drivers/iommu/intel/debugfs.c  |  34 ++++----
+> >  drivers/iommu/iommu.c          | 155 +++++++++++++++++++++------------
+> >  drivers/iommu/ipmmu-vmsa.c     |  22 ++---
+> >  drivers/iommu/omap-iommu.c     |  30 +------
+> >  drivers/iommu/omap-iommu.h     |   2 +-
+> >  drivers/iommu/rockchip-iommu.c |  22 +----
+> >  drivers/iommu/sprd-iommu.c     |  24 +----
+> >  drivers/iommu/sun50i-iommu.c   |  29 ++----
+> >  include/linux/iommu.h          |   3 +
+> >  9 files changed, 138 insertions(+), 183 deletions(-)
+>
+> Applied, thanks for the nice cleanup!
 
-- A Lichee Panel RV 86 Panel running a D1 chip
-- A Mango Pi MQ Dual running a T113-s3 chip
+This series seems to cause a hung task during boot on MediaTek platforms.
+It hangs with next-20230808. Reverting the 10 commits from this series
+makes the system boot up again.
 
-Both of these fully support both CAN controllers.
+ChenYu
 
-Signed-off-by: John Watts <contact@jookia.org>
----
-Changes in v3:
-- Set default pinctrl for can controller
-- Moved can nodes to proper location
-- Moved can pins to proper location
+Logs follow.
 
- .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 34 +++++++++++++++++++
- 1 file changed, 34 insertions(+)
+INFO: task swapper/0:1 blocked for more than 122 seconds.
+      Not tainted 6.5.0-rc5-next-20230808-08004-g396bbe23dbf4 #859
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:swapper/0       state:D stack:0     pid:1     ppid:0      flags:0x0000=
+0008
+Call trace:
+ __switch_to+0x138/0x1e8
+ __schedule+0x728/0x1388
+ schedule+0xa8/0x170
+ schedule_timeout+0x19c/0x1b8
+ __wait_for_common+0x250/0x2c0
+ wait_for_completion+0x28/0x40
+ __flush_work+0x37c/0x6c0
+ flush_work+0x1c/0x30
+ deferred_probe_initcall+0x60/0xd0
+ do_one_initcall+0xe0/0x4a0
+ kernel_init_freeable+0x3a4/0x730
+ kernel_init+0x2c/0x1f8
+ ret_from_fork+0x10/0x20
+INFO: task kworker/u18:1:67 blocked for more than 122 seconds.
+      Not tainted 6.5.0-rc5-next-20230808-08004-g396bbe23dbf4 #859
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:kworker/u18:1   state:D stack:0     pid:67    ppid:2      flags:0x0000=
+0008
+Workqueue: events_unbound deferred_probe_work_func
+Call trace:
+ __switch_to+0x138/0x1e8
+ __schedule+0x728/0x1388
+ schedule+0xa8/0x170
+ schedule_preempt_disabled+0x44/0x80
+ __mutex_lock+0x3fc/0x598
+ mutex_lock_nested+0x2c/0x40
+ __iommu_probe_device+0xb8/0x6e0
+ probe_iommu_group+0x18/0x38
+ bus_for_each_dev+0xe4/0x168
+ bus_iommu_probe+0x8c/0x240
+ iommu_device_register+0x120/0x1b0
+ mtk_iommu_probe+0x494/0x7a0
+ platform_probe+0x94/0x100
+ really_probe+0x1e4/0x3e8
+ __driver_probe_device+0xc0/0x1a0
+ driver_probe_device+0x110/0x1f0
+ __device_attach_driver+0xf0/0x1b0
+ bus_for_each_drv+0xf0/0x170
+ __device_attach+0x120/0x240
+ device_initial_probe+0x1c/0x30
+ bus_probe_device+0xdc/0xe8
+ deferred_probe_work_func+0xf0/0x140
+ process_one_work+0x3b0/0x910
+ worker_thread+0x33c/0x610
+ kthread+0x1dc/0x1f0
+ ret_from_fork+0x10/0x20
 
-diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-index d59b4acf183a..24f2e70d5886 100644
---- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-+++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-@@ -52,6 +52,18 @@ pio: pinctrl@2000000 {
- 			#gpio-cells = <3>;
- 			#interrupt-cells = <3>;
- 
-+			/omit-if-no-ref/
-+			can0_pins: can0-pins {
-+				pins = "PB2", "PB3";
-+				function = "can0";
-+			};
-+
-+			/omit-if-no-ref/
-+			can1_pins: can1-pins {
-+				pins = "PB4", "PB5";
-+				function = "can1";
-+			};
-+
- 			/omit-if-no-ref/
- 			clk_pg11_pin: clk-pg11-pin {
- 				pins = "PG11";
-@@ -356,6 +368,28 @@ i2c3: i2c@2502c00 {
- 			#size-cells = <0>;
- 		};
- 
-+		can0: can@2504000 {
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&can0_pins>;
-+			compatible = "allwinner,sun20i-d1-can";
-+			reg = <0x02504000 0x400>;
-+			interrupts = <SOC_PERIPHERAL_IRQ(21) IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_CAN0>;
-+			resets = <&ccu RST_BUS_CAN0>;
-+			status = "disabled";
-+		};
-+
-+		can1: can@2504400 {
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&can1_pins>;
-+			compatible = "allwinner,sun20i-d1-can";
-+			reg = <0x02504400 0x400>;
-+			interrupts = <SOC_PERIPHERAL_IRQ(22) IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_CAN1>;
-+			resets = <&ccu RST_BUS_CAN1>;
-+			status = "disabled";
-+		};
-+
- 		syscon: syscon@3000000 {
- 			compatible = "allwinner,sun20i-d1-system-control";
- 			reg = <0x3000000 0x1000>;
--- 
-2.41.0
+Showing all locks held in the system:
+4 locks held by kworker/u18:1/67:
+ #0: ffffff80c001b538 ((wq_completion)events_unbound){+.+.}-{0:0}, at:
+process_one_work+0x2c4/0x910
+ #1: ffffffc080777d40 (deferred_probe_work){+.+.}-{0:0}, at:
+process_one_work+0x2c4/0x910
+ #2: ffffff80c14090f8 (&dev->mutex){....}-{3:3}, at: __device_attach+0x8c/0=
+x240
+ #3: ffffff80c14090f8 (&dev->mutex){....}-{3:3}, at:
+__iommu_probe_device+0xb8/0x6e0
+1 lock held by khungtaskd/70:
+ #0: ffffffe379f945a0 (rcu_read_lock){....}-{1:2}, at:
+debug_show_all_locks+0x24/0x220
 
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+Kernel panic - not syncing: hung_task: blocked tasks
+CPU: 4 PID: 70 Comm: khungtaskd Not tainted
+6.5.0-rc5-next-20230808-08004-g396bbe23dbf4 #859
+55426859c267064a381312eb869e94c28566a87f
+Hardware name: Google juniper sku16 board (DT)
+Call trace:
+ dump_backtrace+0xa0/0x100
+ show_stack+0x20/0x38
+ dump_stack_lvl+0xdc/0x148
+ dump_stack+0x1c/0x28
+ panic+0x460/0x4d8
+ watchdog+0x4a4/0x9d0
+ kthread+0x1dc/0x1f0
+ ret_from_fork+0x10/0x20
+SMP: stopping secondary CPUs
+Kernel Offset: 0x22f7000000 from 0xffffffc080000000
+PHYS_OFFSET: 0x40000000
+CPU features: 0x0000000c,92010000,0800421b
+Memory Limit: none
+Rebooting in 30 seconds..
