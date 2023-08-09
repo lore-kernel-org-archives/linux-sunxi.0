@@ -1,45 +1,45 @@
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6479924509
-	for <linux-sunxi@lists.linux.dev>; Wed,  9 Aug 2023 22:34:31 +0000 (UTC)
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-3498795048aso1295845ab.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 09 Aug 2023 15:34:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F4E82452C
+	for <linux-sunxi@lists.linux.dev>; Wed,  9 Aug 2023 22:44:32 +0000 (UTC)
+Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-3492905f546so1301415ab.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 09 Aug 2023 15:44:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691620470; x=1692225270;
+        d=gmail.com; s=20221208; t=1691621071; x=1692225871;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=pLzyYcq9iF6HJheiLOndlSozTXyWHSqLtHUKzJeKXiI=;
-        b=HIK6/cpy3PuusUQFScOuaNEuP5SFwkjQlJ5g2lvNRgLpLyihlYFL3xVwsrvaPj8DSp
-         DdY2HPB3AtIKm/3p918bvILYD1jQpKr2ETbnDDV101NVKa531oTc6UgXQCW3xxz0e3kH
-         EQ1QpckF7GyM5gyYWEa3DErkkQIspfjqC5AcJBU9+isyAO7bpwbDRMdU2VuifACBCurk
-         J8/dIzYQO3E+PGAMLsT6BLYUQJ9sSFoV5tVTWgLEr4CM/21lJwF/3Ssx1MGoMYENSuxF
-         WsvnGNaJif2HKHmci2zhzalo3ocdypwYjr/0i8bPcInp+KxPPvIa7rSZi60wOnQcQu4z
-         nf4w==
+        bh=b9z60Tmfid0bY6/H18uiD5bPcjWAixU09H2TTPOlMaY=;
+        b=g6uKI46h6elK5WyJgxgxTpKBCxOxdgbZ1S2032E4k9J5FOkLOCzoStuWK2HZzFjKBI
+         nN6CV5o/t4W6u9+FKjJZsNp8O9h5RtPV9SrouP+qPcyKe0x01xVvb044+yHvHE8S3Gvr
+         s/qXIv7VjORnODB13cWRDomtIwjK8HMf4KkyR7+9e6zQz6kOguCZuNC6ypdaTbP7O5Gi
+         nbrZgKyQe6UYQbw/f4cdCZLEGTtE1MOUjnO8AGnTrHfzX7ozQY+0z2XHB6Gv5IWuROMG
+         J8ftKp6gM6A0HUu+ybSwE070a0c833jdtZZ+3wsRq2l1bV/hsIxFs8wiOOV2pFSrsNhg
+         eTJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691620470; x=1692225270;
+        d=1e100.net; s=20221208; t=1691621071; x=1692225871;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pLzyYcq9iF6HJheiLOndlSozTXyWHSqLtHUKzJeKXiI=;
-        b=YFdaCfMLmx4DLasHwQ5DrdOzoU8tCwQkhqV5UT7f3XgI/v0b2dLKmp1XA/mdnyxCzI
-         3iJaaTdKF1bmIn04DTt2qJl/qZ4AbXd8el4fycIKsYWR1DhnZbIUbp6qNeSCVpBeD/Kp
-         unfPZPqdIwIKMJmUknW/sOQNZO0qt5325lf/dHWBk97eh+WSwfuH3khOD8hlVLmisJ4K
-         6qeS94NWIqiHGixED5e5cde3E/Zi/vzZRpGFDmgtdD00YajIF5DoSgk+qMQuPFDDvr4r
-         PG6L/ISCf3ddU7EITyXRX9Dsa0Dp/GVJSRVxKsnKk9p+WMU9FCmOU2VmEFc0MvDfPUE/
-         sBmQ==
-X-Gm-Message-State: AOJu0YwoLJG8hjVYMmTG3El86K2ifCVt8SMygAHrbbS2/4YUSkcyn8rD
-	plt+U4oIkdKx0zOai91gVno=
-X-Google-Smtp-Source: AGHT+IHTWMDb324F5P8/eT3kLbsgHOwrl0Jrp2JhoqfINPUqeVvMuQcyXcUFqvpB4kxivkCmnHIOsA==
-X-Received: by 2002:a05:6e02:1d81:b0:349:862e:a863 with SMTP id h1-20020a056e021d8100b00349862ea863mr697581ila.15.1691620470216;
-        Wed, 09 Aug 2023 15:34:30 -0700 (PDT)
+        bh=b9z60Tmfid0bY6/H18uiD5bPcjWAixU09H2TTPOlMaY=;
+        b=WCRjIAaZUSqE9M0cpHF4EFqQc6eGPZN+yqKRySzkHQ9lae1j1Ss5MMjg900U0C+8xT
+         EPTMEzk3Hv1zkI8ecKGt0HygfwLXPgCehnM8BdYYfGcwv3eabUgUVRp/CqRYTUpm32Wx
+         rRvt/zfcsTj9l02wdyY4rBsvYJUlg1O4jnJ3cGNlzL7JjHckgWtIDkVZto7cDWTAD83n
+         XkymlwpBcO3qNgefde/PEGRYQumtE9REBplnUiY5O2dEdKONFRGH8iJ0G6rxUqqL2Tl9
+         FcoQt9DYARl9+XTp7/yfIBPxcmQpKHNtqkQ/hHyPyOskLSvsepPiq5Q0Q1Y/URR4qgJk
+         /wBA==
+X-Gm-Message-State: AOJu0Yw2ZpoHE17m4lcSUyyQJX+gbhRQgLQSJdfViZIu80feHY8Wis0t
+	j4B8VhGgVZpKYFe2GyizzBaTwMzIElgrQQ==
+X-Google-Smtp-Source: AGHT+IGlxI1Sm3HtvOgNa4Tsa/6v1PrdggJkTPk2ilXGqFsjSBEvkHHoewfOgjYVMG/5yjh3bIIREw==
+X-Received: by 2002:a05:6e02:1bcc:b0:349:2bab:9e47 with SMTP id x12-20020a056e021bcc00b003492bab9e47mr682482ilv.12.1691621071312;
+        Wed, 09 Aug 2023 15:44:31 -0700 (PDT)
 Received: from ?IPV6:2001:470:42c4:101:6e71:1f10:2120:d11d? ([2001:470:42c4:101:6e71:1f10:2120:d11d])
-        by smtp.gmail.com with ESMTPSA id u21-20020a02aa95000000b0042b28813816sm8412jai.14.2023.08.09.15.34.29
+        by smtp.gmail.com with ESMTPSA id gj20-20020a0566386a1400b0042b34d4d07fsm8385jab.156.2023.08.09.15.44.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Aug 2023 15:34:29 -0700 (PDT)
-Message-ID: <21596546-48a8-36bf-8324-a5e07bf6d0a9@gmail.com>
-Date: Wed, 9 Aug 2023 16:34:28 -0600
+        Wed, 09 Aug 2023 15:44:30 -0700 (PDT)
+Message-ID: <08e119b6-0f05-b0f2-bb7f-0f0b251ec917@gmail.com>
+Date: Wed, 9 Aug 2023 16:44:30 -0600
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -48,7 +48,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH 19/20] ARM: dts: sunxi: add Allwinner T113-s SoC .dtsi
+Subject: Re: [PATCH 09/20] pinctrl: sunxi: add Allwinner D1 pinctrl
+ description
 Content-Language: en-US
 To: Andre Przywara <andre.przywara@arm.com>,
  Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de
@@ -56,50 +57,43 @@ Cc: Samuel Holland <samuel@sholland.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>, Icenowy Zheng <uwu@icenowy.me>,
  Maxim Kiselev <bigunclemax@gmail.com>, linux-sunxi@lists.linux.dev
 References: <20230721134606.4505-1-andre.przywara@arm.com>
- <20230721134606.4505-20-andre.przywara@arm.com>
+ <20230721134606.4505-10-andre.przywara@arm.com>
 From: Sam Edwards <cfsworks@gmail.com>
-In-Reply-To: <20230721134606.4505-20-andre.przywara@arm.com>
+In-Reply-To: <20230721134606.4505-10-andre.przywara@arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 7/21/23 07:46, Andre Przywara wrote:
-> The Allwinner T113-s SoC is apparently using the same (or at least a very
-> similar) die as the D1/D1s, but replaces the single RISC-V core with
-> two Arm Cortex-A7 cores.
-> Since the D1 core .dtsi already describes all common peripherals, we
-> just need a DT describing the ARM specific peripherals: the CPU cores,
-> the Generic Timer, the GIC and the PMU.
-> We include the core .dtsi directly from the riscv DT directory.
-> 
-> The ARM core version of the DT specifies the CPUX watchdog as
-> "reserved", which means it won't be recognised by U-Boot. Override this
-> in our generic sunxi-u-boot.dtsi, to let U-Boot pick up this watchdog,
-> so that the generic reset driver will work.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Sam Edwards <CFSworks@gmail.com>
-Tested-by: Sam Edwards <CFSworks@gmail.com>
-
-> diff --git a/arch/arm/dts/sunxi-u-boot.dtsi b/arch/arm/dts/sunxi-u-boot.dtsi
-> index af419c7e590..a0c8abb7033 100644
-> --- a/arch/arm/dts/sunxi-u-boot.dtsi
-> +++ b/arch/arm/dts/sunxi-u-boot.dtsi
-> @@ -23,6 +23,13 @@
->   	};
+On 7/21/23 07:45, Andre Przywara wrote:
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> index fc80fe50b14..c6115112688 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> @@ -748,6 +748,28 @@ static const struct sunxi_pinctrl_desc __maybe_unused sun50i_h616_r_pinctrl_desc
+>   	.num_banks	= 1,
 >   };
 >   
-> +/* Let U-Boot be the firmware layer that controls the watchdog. */
-> +#ifdef CONFIG_MACH_SUN8I_R528
-> +&wdt {
-> +	status = "okay";
-> +};
+> +static const struct sunxi_pinctrl_function sun20i_d1_pinctrl_functions[] = {
+> +	{ "emac",	8 },	/* PE0-PE15 */
+> +	{ "gpio_in",	0 },
+> +	{ "gpio_out",	1 },
+> +	{ "mmc0",	2 },	/* PF0-PF5 */
+> +	{ "mmc2",	3 },	/* PC1-PC7 */
+> +	{ "spi0",	2 },	/* PC2-PC7 */
+> +#if IS_ENABLED(CONFIG_UART0_PORT_F)
+> +	{ "uart0",	3 },	/* PF2-PF4 */
+
+/* PF2, PF4 */ ?
+
+> +#else
+> +	{ "uart0",	6 },	/* PB2-PB3 */
+
+/* PB0-PB1 */ ?
+
 > +#endif
-> +
->   &binman {
->   	u-boot-sunxi-with-spl {
->   		filename = "u-boot-sunxi-with-spl.bin";
+> +	{ "uart3",	7 },	/* PB6-PB9 */
 
-Nice!!
+/* PB6-PB7 */ ?
 
-Thanks,
+> +};
+Cheers,
 Sam
