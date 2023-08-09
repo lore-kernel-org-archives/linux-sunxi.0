@@ -1,84 +1,77 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Received: from mout.web.de (mout.web.de [212.227.17.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F8A376
-	for <linux-sunxi@lists.linux.dev>; Wed,  9 Aug 2023 03:15:03 +0000 (UTC)
-Received: from canpemm500007.china.huawei.com (unknown [172.30.72.57])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RLFTc369Hz1hwMC;
-	Wed,  9 Aug 2023 11:12:04 +0800 (CST)
-Received: from localhost (10.174.179.215) by canpemm500007.china.huawei.com
- (7.192.104.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 9 Aug
- 2023 11:14:53 +0800
-From: Yue Haibing <yuehaibing@huawei.com>
-To: <clabbe.montjoie@gmail.com>, <herbert@gondor.apana.org.au>,
-	<davem@davemloft.net>, <wens@csie.org>, <jernej.skrabec@gmail.com>,
-	<samuel@sholland.org>, <yuehaibing@huawei.com>
-CC: <linux-crypto@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>
-Subject: [PATCH -next] crypto: allwinner - Remove unused function declarations
-Date: Wed, 9 Aug 2023 11:14:43 +0800
-Message-ID: <20230809031443.39312-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7714D3C3F
+	for <linux-sunxi@lists.linux.dev>; Wed,  9 Aug 2023 06:11:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=s29768273; t=1691561467; x=1692166267; i=markus.elfring@web.de;
+ bh=CR6EgYDQptplQppD4a1pbnT+XzeFXpCisAKzauYQ0D0=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=JXDzXJ2rTTu0Reu5cHlqUUJM0RV4+Ht+WfEdGpG3DGCWhkuS15ZJc4+/xO9GXetWrv0tyTI
+ OIVHTtCfaEYo0U+8hGp8eyYqR3csGKhleoYEBE9NYZj8bqkPg1mcoBvCGc4+sO8vhvhO2wbP0
+ 46fpDl4ojeyqOjSGy/1JcykBkcsvWb/tS2SsCeiakuiRpwt5mfhwVoT3tCYvBoRWJzsqGYaPZ
+ 7D44GcTa0pcv+fyvtworqrhdanE//B8/ywp7xIozD7jOK7gZdMCILHWim0mV7wBxnsPsUGttO
+ +HEuDIJ8w4JOl3JcHCRLPhO6nFK3hP7qW37kNmcNLq6RQDTz3qeg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1M1aHx-1qUzBY39Kd-002ocN; Wed, 09
+ Aug 2023 08:11:07 +0200
+Message-ID: <23c9ff53-82f3-491a-91f7-131cba6c607d@web.de>
+Date: Wed, 9 Aug 2023 08:10:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.179.215]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- canpemm500007.china.huawei.com (7.192.104.62)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v3] riscv: dts: allwinner: d1: Add CAN controller nodes
+To: Conor Dooley <conor@kernel.org>, linux-can@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ kernel-janitors@vger.kernel.org, John Watts <contact@jookia.org>
+Cc: Albert Ou <aou@eecs.berkeley.edu>, Chen-Yu Tsai <wens@csie.org>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Maksim Kiselev <bigunclemax@gmail.com>,
+ Marc Kleine-Budde <mkl@pengutronix.de>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Rob Herring <robh+dt@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20230807191952.2019208-1-contact@jookia.org>
+ <49ce2d9c-eb38-4ceb-bae1-0409df876e9b@web.de>
+ <20230808-swerve-tartly-07140c59539e@spud>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20230808-swerve-tartly-07140c59539e@spud>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:vc4RSDTSTk/fGcfShTXLNUrXlNB2Vyv+JJiK9m6Dmn7E3oKaYqX
+ s8kfD84BD37Oy3oPBza9KmRtT184K5+XIFHnL9VIEwQKnx605ahNg2Os4hpm05g6fWS4g7k
+ J4iXwmDrcwWPJ4J/qWtlBa6/hbaDtB2nGwxCzSXkOiOXlOSzHADiDpMFKJu95uI5nC7USsR
+ f+ThR86lqZqtvOCxzwHSg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:/CtHlBkDZzw=;lOvXretq27LFIYsb8VR2mgdVUFB
+ V/7/wUwBnKCHLZ5Dqm5pZkPA3CQra3vGSBSyGeDm4/7iBHKg1ERyIM5WwTn2thmHmxpfyiTUO
+ RdzI+lAIdeoNWiwmW6U7X+hjqgAgnfGZW/1zlfu01zmDh3Ho7R++I8VzknWcycgeEKN4+nlt2
+ 33/7zA5VAzH8N4IYH2RxNdqizhh4fXGE8Bovu9JWpq4E2oyBm4M4LCfqLf7CVJYovW+D0K+Ck
+ nKE/svY0VORit/ro07sv9IxJxhQjtM3zlNvA2NtoNydfLrCC4UhkJybr4lAPlEV0C6ops11A4
+ oIl05wyw5n6dQlFCNf+bQcqzOY436eAc7sTFd5pkG/S428rFpTqyToUR5HClt2Y0MOfZrVe0I
+ x/aWuETLSkx0TeDPL95WZyWOGFjmwxkWB/iEntHBsc8tHFxywx9tmV4wdpT8Vd9mjQGUDT2Mx
+ lcxgD3IDQAsPFfW4vAKs+XQkHnjySmOB0+Zh3nQiWinkDC2G3wvmbwurrTL7/OcwlAq+Enu7i
+ OWztCZ9mQwpu6lG0uEFne9NzP58HrnAvhvxfMpSSiP8NPMkwTS993AarqivjC3OGURpjMrqYt
+ E3gwfLBG5o/4A9qX6bywiMLVeLnw1d9HWQB7Cs1RQJQ9WvQPVvI9qPlGaaAIOjLmuBbRMBXa2
+ LHhhLnEqMo7R1hPStKPdgxouwc/EhIt0rndigxxZ5O981nkVx4GxWX/25c7e7+CCgexwi8gZf
+ fpD/vGc5QVwgi0Bi0dOiX2+oCMvUoguDwNnnC8G7U4PqMd/p1wc2mGdKu5CA4kk07DbDAVhBP
+ JQTJZItiUu0nbrDyX9G0PsTvNbzPDfXzxl1blAGozXdOZ2kc28A8cYeDm2Ohfo7Nt8wRs8+6h
+ RWfxJxY/L4yoLnZuCS7jWoLyG44Hdm03WR02MfbdtGiRxKqpKQYMvLkx+0eKEgNdVc5JO0FvH
+ jjnFMQ==
 
-Commit 06f751b61329 ("crypto: allwinner - Add sun8i-ce Crypto Engine")
-declared but never implemented sun8i_ce_enqueue().
-Commit 56f6d5aee88d ("crypto: sun8i-ce - support hash algorithms")
-declared but never implemented sun8i_ce_hash().
-Commit f08fcced6d00 ("crypto: allwinner - Add sun8i-ss cryptographic offloader")
-declared but never implemented sun8i_ss_enqueue().
+> Markus, please stop bothering developers with nuisance comments.
 
-Signed-off-by: Yue Haibing <yuehaibing@huawei.com>
----
- drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h | 3 ---
- drivers/crypto/allwinner/sun8i-ss/sun8i-ss.h | 2 --
- 2 files changed, 5 deletions(-)
+Why do you interpret a recurring patch review in such a direction?
 
-diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h
-index 27029fb77e29..4742b48ef52e 100644
---- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h
-+++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h
-@@ -347,8 +347,6 @@ struct sun8i_ce_alg_template {
- 	char fbname[CRYPTO_MAX_ALG_NAME];
- };
- 
--int sun8i_ce_enqueue(struct crypto_async_request *areq, u32 type);
--
- int sun8i_ce_aes_setkey(struct crypto_skcipher *tfm, const u8 *key,
- 			unsigned int keylen);
- int sun8i_ce_des3_setkey(struct crypto_skcipher *tfm, const u8 *key,
-@@ -367,7 +365,6 @@ void sun8i_ce_hash_craexit(struct crypto_tfm *tfm);
- int sun8i_ce_hash_init(struct ahash_request *areq);
- int sun8i_ce_hash_export(struct ahash_request *areq, void *out);
- int sun8i_ce_hash_import(struct ahash_request *areq, const void *in);
--int sun8i_ce_hash(struct ahash_request *areq);
- int sun8i_ce_hash_final(struct ahash_request *areq);
- int sun8i_ce_hash_update(struct ahash_request *areq);
- int sun8i_ce_hash_finup(struct ahash_request *areq);
-diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss.h b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss.h
-index df6f08f6092f..bfe305261e9a 100644
---- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss.h
-+++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss.h
-@@ -293,8 +293,6 @@ struct sun8i_ss_alg_template {
- 	char fbname[CRYPTO_MAX_ALG_NAME];
- };
- 
--int sun8i_ss_enqueue(struct crypto_async_request *areq, u32 type);
--
- int sun8i_ss_aes_setkey(struct crypto_skcipher *tfm, const u8 *key,
- 			unsigned int keylen);
- int sun8i_ss_des3_setkey(struct crypto_skcipher *tfm, const u8 *key,
--- 
-2.34.1
+How much do mentioned concerns hinder the integration of the discussed patch?
 
+Regards,
+Markus
