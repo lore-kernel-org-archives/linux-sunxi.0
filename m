@@ -1,94 +1,102 @@
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ACB8366
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Aug 2023 08:19:19 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-d62bdd1a97dso586367276.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 10 Aug 2023 01:19:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691655558; x=1692260358;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=78OX4fId0Em709uz0mp6uxgk8bb4IwlDXBz/uTj2fjY=;
-        b=YAetKf4q0nZa/dO71z7++J7KKpe1E1CC7O3ahafQ7APpHv5jmvyn5BBv2mwDpYC5is
-         aCqkyV5eahWJcbkNVk0H4ZuATN+jOIeGgJTiNul2i5t9tXVMigNJA6VlxX/a8OMvNSIA
-         YaLs/IE+usEOobqLkPYKtN3CknTSd/aP7iBrjDMEftqOkGi4Hzn8W27JugL/elhtZAtS
-         lvN5G1ptPirqDO85jdOp47BWA9MJm/z4Kcuzuh6yVL2pnLpcF/Uw4mERq/Siv1vZ2eMQ
-         WGKJAkQHqeDReRN5me9rxTKini4wIOwCZjirxG0wunRnpyvqVfZs1EDQzXiZjCK8xLxA
-         VFLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691655558; x=1692260358;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=78OX4fId0Em709uz0mp6uxgk8bb4IwlDXBz/uTj2fjY=;
-        b=UweizZmdK1TgNsczjSeSn0YcTyBaDY0EeNVVnZvbW+l9+RlcH58jsiuTymIXeJYzFn
-         Khseki8RB6bFHGYVUDo7n9Ddr57RckqGrCBqlypDhTCnzXSO/HUUGZg3Zo+xvPHr/0pk
-         anTsNkMrD78h2Ut5E0zt7zYP46U9t5ZbDFKTpQUSO2obTy1h+wM5p2yCjaeOZ3IxAHeB
-         Bjyb+JJvJBEg9fRX4T6N3Bkv1ipy/7R4sUmToMxg2fKXx5G5/ztRH2AtqUlBUIIVyjQG
-         YDBYjUp7am+tKJZbZerdj8r0AOo3lTEcOLmfJHXyfWsNYpq3UPgHHvKrkwP4eYGbStzU
-         oPQw==
-X-Gm-Message-State: AOJu0Yxjm/u0ewqy4lia7wfFgf8b1a5p7wGwl7Apa9VrvRjS2ZlQ4EM6
-	U2L3EAtzGtMSXp5SavJhUafbBmdBLBqJz+2JFgwBIA==
-X-Google-Smtp-Source: AGHT+IG5aWoH89NQGXx33HlD2q+rxamc3JsaObqeeE5H8gH+u446bjvEEFYnXEHJg1VQn5y6v1yXRNGsOkfTWSlQZaU=
-X-Received: by 2002:a25:d711:0:b0:d1a:b59c:502d with SMTP id
- o17-20020a25d711000000b00d1ab59c502dmr1894292ybg.18.1691655558135; Thu, 10
- Aug 2023 01:19:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A861E1A9
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Aug 2023 13:18:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03E1EC433C7
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Aug 2023 13:18:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1691673504;
+	bh=mbigJpGS4WoULRHUK4EfHdbdi7SQCXGaf99EX6XTHl0=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=JWWwJWM1HZtMNpTw/s7Ixl6qqngAo7pz4fwpLg+9rVQtQ2E4Np0x22xWf6fZyTGa8
+	 4+JEUzlrGbzeHoEx8VMX9nMnvTiqr5xTX5rFCHWfkU/NKaUs4LAJ2QjWcmenrt9sb7
+	 Tq81v0/m7wDOV1AV6+G5kYHHyxbhZvogCZMy2DCtfwRMI3Rnxi5P//+QnRRFc30Ma4
+	 4XFRF9iochWDGDRkhalnLzZ5LPy90se67LCjzXpa/FjZt6laKpGTc8OJGOfl3lj+oG
+	 qdwE8ozpuSIeuG+ETL6RiwjojqBOu46wQpde2QwsXUS21PnhCINtmTkUHdZPs05qAY
+	 +vLOPu42/1IZw==
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-564ef63a010so1498196a12.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 10 Aug 2023 06:18:23 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yxjp/BmzH1yMw5mlgJmh7QI9wxOSScWGHtr+t2BTJ0QUnJcILXW
+	QFoFYYQuXN48Vetvi9GipTGCTut8LBDnY7vnElY=
+X-Google-Smtp-Source: AGHT+IHOx9/WWwkVcYH2MMs/XrF/9tqNcOh0Bxz25sWEAurlWxQVxYPJfGJmGeg/NzvHVWw/gM9zJHSj0ihOhgo/ysw=
+X-Received: by 2002:a17:90b:3a89:b0:268:c5af:d253 with SMTP id
+ om9-20020a17090b3a8900b00268c5afd253mr2725005pjb.8.1691673503547; Thu, 10 Aug
+ 2023 06:18:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org> <20230803-dt-header-cleanups-for-soc-v2-13-d8de2cc88bff@kernel.org>
-In-Reply-To: <20230803-dt-header-cleanups-for-soc-v2-13-d8de2cc88bff@kernel.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 10 Aug 2023 10:19:07 +0200
-Message-ID: <CACRpkdYsdKCrQpfoXZFv1XqT-o1skX=TDY-WJ1CSpgavMb+UrQ@mail.gmail.com>
-Subject: Re: [PATCH v2 13/23] ARM: versatile: Drop unused includes
-To: Rob Herring <robh@kernel.org>
-Cc: soc@kernel.org, Patrice Chotard <patrice.chotard@foss.st.com>, 
-	Tsahee Zidenberg <tsahee@annapurnalabs.com>, Antoine Tenart <atenart@kernel.org>, 
-	Jisheng Zhang <jszhang@kernel.org>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Gregory Clement <gregory.clement@bootlin.com>, Jean-Marie Verdun <verdun@hpe.com>, 
-	Nick Hawkins <nick.hawkins@hpe.com>, Lubomir Rintel <lkundrak@v3.sk>, 
-	Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, 
-	Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, 
-	Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, 
-	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
-	Robert Jarzmik <robert.jarzmik@free.fr>, Heiko Stuebner <heiko@sntech.de>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Viresh Kumar <vireshk@kernel.org>, 
-	Shiraz Has him <shiraz.linux.kernel@gmail.com>, Stuart Yoder <stuyoder@gmail.com>, 
-	Laurentiu Tudor <laurentiu.tudor@nxp.com>, Jay Fang <f.fangjian@huawei.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Cristian Marussi <cristian.marussi@arm.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Michal Simek <michal.simek@amd.com>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Li Yang <leoyang.li@nxp.com>, 
-	Qiang Zhao <qiang.zhao@nxp.com>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, 
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
-	linux-tegra@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
-	linux-pm@vger.kernel.org
+References: <20230807-a64_pll_video0_notifier-v1-0-8a7ccdc14c79@oltmanns.dev>
+In-Reply-To: <20230807-a64_pll_video0_notifier-v1-0-8a7ccdc14c79@oltmanns.dev>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Thu, 10 Aug 2023 21:18:12 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64ZxaizTOLMZfJKujAZqZCiowbotxBhvfCmLV_exF-ooQ@mail.gmail.com>
+Message-ID: <CAGb2v64ZxaizTOLMZfJKujAZqZCiowbotxBhvfCmLV_exF-ooQ@mail.gmail.com>
+Subject: Re: [PATCH 0/3] pll-video0 notifier for v6.5+
+To: Frank Oltmanns <frank@oltmanns.dev>
+Cc: Icenowy Zheng <uwu@icenowy.me>, =?UTF-8?Q?Ond=C5=99ej_Jirman?= <x@xnux.eu>, 
+	linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+	Icenowy Zheng <icenowy@aosc.io>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 4, 2023 at 12:43=E2=80=AFAM Rob Herring <robh@kernel.org> wrote=
-:
-
-> Several includes are not needed, so drop them.
+On Mon, Aug 7, 2023 at 5:36=E2=80=AFPM Frank Oltmanns <frank@oltmanns.dev> =
+wrote:
 >
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> Hi Icenowy,
+>
+> it is my understanding that you are the original author of the following
+> patches are in Ond=C5=99ej's 6.4 branch [1] [2] [3] but not in his 6.5
+> branch. I assume it is because of merge conflicts as the part about
+> setting the parent has already been fixed in the 6.5 release candidates.
+>
+> Therefore I've removed those parts and adopted the commit message of
+> PATCH 2. I've removed your SoB, because I think you'd need to sign of
+> the revised version. Especially patch 2 has become a bit simpler and I'm
+> wondering if it makes sense to try to upstream the three patches now.
+> What do you think?
+>
+> Thank you for your amazing work!
+>
+> Best regards,
+>   Frank
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+Please send to all maintainers and relevant mailing lists (as given
+by get_maintainers.pl).
 
-Yours,
-Linus Walleij
+
+> [1]: https://github.com/megous/linux/commit/2cd3d57adf83e2d091baed77e1aaf=
+c01d545d123
+> [2]: https://github.com/megous/linux/commit/c9c7bfe22f0fefdfc1dc2ce84b452=
+964112399d7
+> [3]: https://github.com/megous/linux/commit/e19ccee10a8492535b6cda1ba97cc=
+cc2074d6e65
+>
+> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+> ---
+> Icenowy Zheng (3):
+>       clk: sunxi-ng: add support for rate resetting notifier
+>       clk: sunxi-ng: a64: keep tcon0 clock rate when pll-video0's rate ch=
+anges
+>       drm/sun4i: tcon: hand over the duty to keep TCON0 clock to CCU on A=
+64
+>
+>  drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 15 +++++++++++++++
+>  drivers/clk/sunxi-ng/ccu_common.c     | 22 ++++++++++++++++++++++
+>  drivers/clk/sunxi-ng/ccu_common.h     | 12 ++++++++++++
+>  drivers/gpu/drm/sun4i/sun4i_tcon.c    | 15 +++++++++++++--
+>  drivers/gpu/drm/sun4i/sun4i_tcon.h    |  1 +
+>  5 files changed, 63 insertions(+), 2 deletions(-)
+> ---
+> base-commit: 1cf5c37ee3c2334a964c65e52b4e0c59b4332d7c
+> change-id: 20230807-a64_pll_video0_notifier-164cbc78b341
+>
+> Best regards,
+> --
+> Frank Oltmanns <frank@oltmanns.dev>
+>
+>
