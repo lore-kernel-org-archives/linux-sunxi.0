@@ -1,99 +1,98 @@
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F4E82452C
-	for <linux-sunxi@lists.linux.dev>; Wed,  9 Aug 2023 22:44:32 +0000 (UTC)
-Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-3492905f546so1301415ab.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 09 Aug 2023 15:44:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FCC366
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Aug 2023 08:18:45 +0000 (UTC)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-58451f0fefeso8388627b3.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 10 Aug 2023 01:18:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691621071; x=1692225871;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=b9z60Tmfid0bY6/H18uiD5bPcjWAixU09H2TTPOlMaY=;
-        b=g6uKI46h6elK5WyJgxgxTpKBCxOxdgbZ1S2032E4k9J5FOkLOCzoStuWK2HZzFjKBI
-         nN6CV5o/t4W6u9+FKjJZsNp8O9h5RtPV9SrouP+qPcyKe0x01xVvb044+yHvHE8S3Gvr
-         s/qXIv7VjORnODB13cWRDomtIwjK8HMf4KkyR7+9e6zQz6kOguCZuNC6ypdaTbP7O5Gi
-         nbrZgKyQe6UYQbw/f4cdCZLEGTtE1MOUjnO8AGnTrHfzX7ozQY+0z2XHB6Gv5IWuROMG
-         J8ftKp6gM6A0HUu+ybSwE070a0c833jdtZZ+3wsRq2l1bV/hsIxFs8wiOOV2pFSrsNhg
-         eTJw==
+        d=linaro.org; s=google; t=1691655524; x=1692260324;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N1S3yE96sxZWitB4oiJ30vpkB3MWLEMpL6UDMSJWZXU=;
+        b=sKRwat/bRypjQs0GDj+E5aX6U0l+rdH2Ppp7jgbUiwQQsqjEaK0abvIScLRA0wD+XB
+         V+k33vveoWCeS1c6XgCqjjXWr//cl1HyFtdD8ttwfDC6tU5h0yWEtUhgAWWlSrBAqi9t
+         tXTEm4YMv0WM1uBDtQtenVY2VwUD4UxTzpZEwHsGCFe7Z/2lAj6TisZ1wfKRqkKtHkMv
+         q4kQ3tqQ3kjjJBlQFVfvfmjVGvTI9ZG6qPa9xIgWc3cwJulHzC1kKt6V4uv2UEb2aMy8
+         OAS7Hff9YtpzqDV058P27LVyQvRktH36oLc1Ux2VOWBYO61uLfbyzTdGhTV/qpGrAtF8
+         glUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691621071; x=1692225871;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=b9z60Tmfid0bY6/H18uiD5bPcjWAixU09H2TTPOlMaY=;
-        b=WCRjIAaZUSqE9M0cpHF4EFqQc6eGPZN+yqKRySzkHQ9lae1j1Ss5MMjg900U0C+8xT
-         EPTMEzk3Hv1zkI8ecKGt0HygfwLXPgCehnM8BdYYfGcwv3eabUgUVRp/CqRYTUpm32Wx
-         rRvt/zfcsTj9l02wdyY4rBsvYJUlg1O4jnJ3cGNlzL7JjHckgWtIDkVZto7cDWTAD83n
-         XkymlwpBcO3qNgefde/PEGRYQumtE9REBplnUiY5O2dEdKONFRGH8iJ0G6rxUqqL2Tl9
-         FcoQt9DYARl9+XTp7/yfIBPxcmQpKHNtqkQ/hHyPyOskLSvsepPiq5Q0Q1Y/URR4qgJk
-         /wBA==
-X-Gm-Message-State: AOJu0Yw2ZpoHE17m4lcSUyyQJX+gbhRQgLQSJdfViZIu80feHY8Wis0t
-	j4B8VhGgVZpKYFe2GyizzBaTwMzIElgrQQ==
-X-Google-Smtp-Source: AGHT+IGlxI1Sm3HtvOgNa4Tsa/6v1PrdggJkTPk2ilXGqFsjSBEvkHHoewfOgjYVMG/5yjh3bIIREw==
-X-Received: by 2002:a05:6e02:1bcc:b0:349:2bab:9e47 with SMTP id x12-20020a056e021bcc00b003492bab9e47mr682482ilv.12.1691621071312;
-        Wed, 09 Aug 2023 15:44:31 -0700 (PDT)
-Received: from ?IPV6:2001:470:42c4:101:6e71:1f10:2120:d11d? ([2001:470:42c4:101:6e71:1f10:2120:d11d])
-        by smtp.gmail.com with ESMTPSA id gj20-20020a0566386a1400b0042b34d4d07fsm8385jab.156.2023.08.09.15.44.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Aug 2023 15:44:30 -0700 (PDT)
-Message-ID: <08e119b6-0f05-b0f2-bb7f-0f0b251ec917@gmail.com>
-Date: Wed, 9 Aug 2023 16:44:30 -0600
+        d=1e100.net; s=20221208; t=1691655524; x=1692260324;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N1S3yE96sxZWitB4oiJ30vpkB3MWLEMpL6UDMSJWZXU=;
+        b=Z41ol2HVPzbBLHJVr9rdApSHQS6GTMnncJ+0ai5QbKBZ1d2V/YGys8OABpOY8uf2t0
+         PfQeeNMXPsxWP0E5IGNJSDARyFxhIDKwGEC8r+2e1WyE2Fo9qcLXt1w71QAGTY4LqnSI
+         5MgN/7ZqF1oJUEK/Ugz5oTag4FBax5GYCvoIt8ovlRXcCxw3E8cbDpdi7vLRVSTAUx+4
+         fZX7XPZ4Ki5rIvUOaW2f23ravVts24pmYNH2ja2GvJO8r1VlLe9WuEtBZ0jo0lC87Vv3
+         NmSx1DFD6ovbuzQuFU2gYI64vrgmPKiQ3Xf0ScBAsdJetOgdGkCGK6zcbNTlcDcLSN9p
+         Db0w==
+X-Gm-Message-State: AOJu0YyyyAgYPxc0WsQCHaBbavH9mi7gtenBXe/wMpofU6uDQUiqcQgw
+	i1LROKLNHvzgHXQpC2KKwVOx97LOWTP8u6b8k1OeBg==
+X-Google-Smtp-Source: AGHT+IE+UnSxHykLJJfIQch1e5QQ0u1bPECfUCUFUDCntbpI1NXH0v2rJAWr/evYDXltegUQu7z4Swu4ag0Zr1/V/sw=
+X-Received: by 2002:a25:3611:0:b0:d4c:aa71:8294 with SMTP id
+ d17-20020a253611000000b00d4caa718294mr1849966yba.33.1691655524705; Thu, 10
+ Aug 2023 01:18:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 09/20] pinctrl: sunxi: add Allwinner D1 pinctrl
- description
-Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>,
- Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de
-Cc: Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Icenowy Zheng <uwu@icenowy.me>,
- Maxim Kiselev <bigunclemax@gmail.com>, linux-sunxi@lists.linux.dev
-References: <20230721134606.4505-1-andre.przywara@arm.com>
- <20230721134606.4505-10-andre.przywara@arm.com>
-From: Sam Edwards <cfsworks@gmail.com>
-In-Reply-To: <20230721134606.4505-10-andre.przywara@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org> <20230803-dt-header-cleanups-for-soc-v2-8-d8de2cc88bff@kernel.org>
+In-Reply-To: <20230803-dt-header-cleanups-for-soc-v2-8-d8de2cc88bff@kernel.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 10 Aug 2023 10:18:33 +0200
+Message-ID: <CACRpkdaX=nABoxGMAK+3uEHOt1imucK6LXXRrNuAYFiH3-jt7g@mail.gmail.com>
+Subject: Re: [PATCH v2 08/23] ARM: nomadik: Drop unused includes
+To: Rob Herring <robh@kernel.org>
+Cc: soc@kernel.org, Patrice Chotard <patrice.chotard@foss.st.com>, 
+	Tsahee Zidenberg <tsahee@annapurnalabs.com>, Antoine Tenart <atenart@kernel.org>, 
+	Jisheng Zhang <jszhang@kernel.org>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Gregory Clement <gregory.clement@bootlin.com>, Jean-Marie Verdun <verdun@hpe.com>, 
+	Nick Hawkins <nick.hawkins@hpe.com>, Lubomir Rintel <lkundrak@v3.sk>, 
+	Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, 
+	Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, 
+	Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, 
+	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
+	Robert Jarzmik <robert.jarzmik@free.fr>, Heiko Stuebner <heiko@sntech.de>, 
+	Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Viresh Kumar <vireshk@kernel.org>, 
+	Shiraz Has him <shiraz.linux.kernel@gmail.com>, Stuart Yoder <stuyoder@gmail.com>, 
+	Laurentiu Tudor <laurentiu.tudor@nxp.com>, Jay Fang <f.fangjian@huawei.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Cristian Marussi <cristian.marussi@arm.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Dinh Nguyen <dinguyen@kernel.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Michal Simek <michal.simek@amd.com>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Li Yang <leoyang.li@nxp.com>, 
+	Qiang Zhao <qiang.zhao@nxp.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, 
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-tegra@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
+	linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/21/23 07:45, Andre Przywara wrote:
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> index fc80fe50b14..c6115112688 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> @@ -748,6 +748,28 @@ static const struct sunxi_pinctrl_desc __maybe_unused sun50i_h616_r_pinctrl_desc
->   	.num_banks	= 1,
->   };
->   
-> +static const struct sunxi_pinctrl_function sun20i_d1_pinctrl_functions[] = {
-> +	{ "emac",	8 },	/* PE0-PE15 */
-> +	{ "gpio_in",	0 },
-> +	{ "gpio_out",	1 },
-> +	{ "mmc0",	2 },	/* PF0-PF5 */
-> +	{ "mmc2",	3 },	/* PC1-PC7 */
-> +	{ "spi0",	2 },	/* PC2-PC7 */
-> +#if IS_ENABLED(CONFIG_UART0_PORT_F)
-> +	{ "uart0",	3 },	/* PF2-PF4 */
+On Fri, Aug 4, 2023 at 12:44=E2=80=AFAM Rob Herring <robh@kernel.org> wrote=
+:
 
-/* PF2, PF4 */ ?
+> Several includes are not needed, so drop them.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-> +#else
-> +	{ "uart0",	6 },	/* PB2-PB3 */
+Thanks for cleaning out this.
 
-/* PB0-PB1 */ ?
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-> +#endif
-> +	{ "uart3",	7 },	/* PB6-PB9 */
+Will you funnel this to ARM SoC with the rest?
 
-/* PB6-PB7 */ ?
-
-> +};
-Cheers,
-Sam
+Yours,
+Linus Walleij
