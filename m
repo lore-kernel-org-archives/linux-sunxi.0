@@ -1,102 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A861E1A9
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Aug 2023 13:18:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03E1EC433C7
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Aug 2023 13:18:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691673504;
-	bh=mbigJpGS4WoULRHUK4EfHdbdi7SQCXGaf99EX6XTHl0=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=JWWwJWM1HZtMNpTw/s7Ixl6qqngAo7pz4fwpLg+9rVQtQ2E4Np0x22xWf6fZyTGa8
-	 4+JEUzlrGbzeHoEx8VMX9nMnvTiqr5xTX5rFCHWfkU/NKaUs4LAJ2QjWcmenrt9sb7
-	 Tq81v0/m7wDOV1AV6+G5kYHHyxbhZvogCZMy2DCtfwRMI3Rnxi5P//+QnRRFc30Ma4
-	 4XFRF9iochWDGDRkhalnLzZ5LPy90se67LCjzXpa/FjZt6laKpGTc8OJGOfl3lj+oG
-	 qdwE8ozpuSIeuG+ETL6RiwjojqBOu46wQpde2QwsXUS21PnhCINtmTkUHdZPs05qAY
-	 +vLOPu42/1IZw==
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-564ef63a010so1498196a12.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 10 Aug 2023 06:18:23 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yxjp/BmzH1yMw5mlgJmh7QI9wxOSScWGHtr+t2BTJ0QUnJcILXW
-	QFoFYYQuXN48Vetvi9GipTGCTut8LBDnY7vnElY=
-X-Google-Smtp-Source: AGHT+IHOx9/WWwkVcYH2MMs/XrF/9tqNcOh0Bxz25sWEAurlWxQVxYPJfGJmGeg/NzvHVWw/gM9zJHSj0ihOhgo/ysw=
-X-Received: by 2002:a17:90b:3a89:b0:268:c5af:d253 with SMTP id
- om9-20020a17090b3a8900b00268c5afd253mr2725005pjb.8.1691673503547; Thu, 10 Aug
- 2023 06:18:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38831E1A2
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Aug 2023 14:55:31 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-4fe3b86cec1so1481151e87.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 10 Aug 2023 07:55:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691679330; x=1692284130;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2564u1RCwp6T70h9ImuxER+KFtiLslRkuYUu2639brw=;
+        b=rlgexnSBpRWcYGERk1ufOXcDU9xu+ARb+//tL549YX2UPuhsJBZI3Hod6koOcClTTT
+         RWirBWharsZNGFKMhKI7SMHLkXLx8n1BROJxo41jqmjKNZP23vPDUtWNcentLk55PlKD
+         8FVugWGPicg8n6pQq3u4c3I7TBhVLYN9ZGDLptK6EW0dBsxNawIBbLS7WM+no2IqkXAk
+         EBaX7RDuM0F9mPw0xOG4AG5kdGweAy9m/1NqnBtGWVoOOhmM1O6Rxhr6AniRgOzWyxMz
+         1PavFZGnmAmi1qRtlfupsWZh7RaOJ0w8U4PFPvnKxC3Jiw8+QBxpRq9q9jPhmwCa2FI5
+         yduA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691679330; x=1692284130;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2564u1RCwp6T70h9ImuxER+KFtiLslRkuYUu2639brw=;
+        b=XMzdyBKogWSIFMOXgfktX5FOv2UX0YU6eCShhznT5EKF2jXz5F8B3QNJrnMLDh9+eW
+         m6EfMlcJ9Wr+7XCPE274wBDOWog4crMp1owJGdefxL9XyJ4yLO5/Ee7d+3ui8rTyrVrc
+         cwSSLWIFaYUX7mnBdBsjQu8NbIojrpzc8Zl9guiW6f5rN2NYlqvomDdmJQXIwhRM4pPk
+         3tv9l+hBPK/TDo5nx7VAnCUDCoWxjFJTjpzLSFWaEbqjpcqq8RhAFbHc7qPGf7Vs+QEa
+         I3w1nhK9Ue2iHXG/LIn1eBLIFA9IfkIXDNfOk2bzslU54e/ZZCcbEm+vCMehERBucxuo
+         jWbQ==
+X-Gm-Message-State: AOJu0YzXsf6r8HWlGwucc/wlmKi39F0cJqd4LG/QJalrNdc5XrF7UbLG
+	aKqINe/DVJ9/wjraM7t1XA==
+X-Google-Smtp-Source: AGHT+IGYJ3DnAbqcyDEcR2VWIyf3tdxbEXLnLUz4wdNvOR2aNwCwCaAWXGcie5uSYp6/E/zfOc+ujA==
+X-Received: by 2002:a05:6512:3453:b0:4f8:d385:41bd with SMTP id j19-20020a056512345300b004f8d38541bdmr1941957lfr.8.1691679329350;
+        Thu, 10 Aug 2023 07:55:29 -0700 (PDT)
+Received: from localhost.localdomain (mail.pulsar-telecom.ru. [94.181.180.60])
+        by smtp.gmail.com with ESMTPSA id p12-20020ac246cc000000b004fe0de39fddsm308496lfo.290.2023.08.10.07.55.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Aug 2023 07:55:28 -0700 (PDT)
+From: Aleksandr Shubin <privatesub2@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: Aleksandr Shubin <privatesub2@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Andre Przywara <andre.przywara@arm.com>,
+	linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH v4 0/3] Add support for Allwinner PWM on D1/T113s/R329 SoCs
+Date: Thu, 10 Aug 2023 17:54:25 +0300
+Message-Id: <20230810145443.1053387-1-privatesub2@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230807-a64_pll_video0_notifier-v1-0-8a7ccdc14c79@oltmanns.dev>
-In-Reply-To: <20230807-a64_pll_video0_notifier-v1-0-8a7ccdc14c79@oltmanns.dev>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Thu, 10 Aug 2023 21:18:12 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64ZxaizTOLMZfJKujAZqZCiowbotxBhvfCmLV_exF-ooQ@mail.gmail.com>
-Message-ID: <CAGb2v64ZxaizTOLMZfJKujAZqZCiowbotxBhvfCmLV_exF-ooQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] pll-video0 notifier for v6.5+
-To: Frank Oltmanns <frank@oltmanns.dev>
-Cc: Icenowy Zheng <uwu@icenowy.me>, =?UTF-8?Q?Ond=C5=99ej_Jirman?= <x@xnux.eu>, 
-	linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org, 
-	Icenowy Zheng <icenowy@aosc.io>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 7, 2023 at 5:36=E2=80=AFPM Frank Oltmanns <frank@oltmanns.dev> =
-wrote:
->
-> Hi Icenowy,
->
-> it is my understanding that you are the original author of the following
-> patches are in Ond=C5=99ej's 6.4 branch [1] [2] [3] but not in his 6.5
-> branch. I assume it is because of merge conflicts as the part about
-> setting the parent has already been fixed in the 6.5 release candidates.
->
-> Therefore I've removed those parts and adopted the commit message of
-> PATCH 2. I've removed your SoB, because I think you'd need to sign of
-> the revised version. Especially patch 2 has become a bit simpler and I'm
-> wondering if it makes sense to try to upstream the three patches now.
-> What do you think?
->
-> Thank you for your amazing work!
->
-> Best regards,
->   Frank
+Hi,
 
-Please send to all maintainers and relevant mailing lists (as given
-by get_maintainers.pl).
+This series adds support for PWM controller on new
+Allwinner's SoCs, such as D1, T113s and R329. The implemented driver
+provides basic functionality for control PWM channels.
 
+v2:
+ - fix dt-bindings
+ - fix a remark in the driver
 
-> [1]: https://github.com/megous/linux/commit/2cd3d57adf83e2d091baed77e1aaf=
-c01d545d123
-> [2]: https://github.com/megous/linux/commit/c9c7bfe22f0fefdfc1dc2ce84b452=
-964112399d7
-> [3]: https://github.com/megous/linux/commit/e19ccee10a8492535b6cda1ba97cc=
-cc2074d6e65
->
-> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-> ---
-> Icenowy Zheng (3):
->       clk: sunxi-ng: add support for rate resetting notifier
->       clk: sunxi-ng: a64: keep tcon0 clock rate when pll-video0's rate ch=
-anges
->       drm/sun4i: tcon: hand over the duty to keep TCON0 clock to CCU on A=
-64
->
->  drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 15 +++++++++++++++
->  drivers/clk/sunxi-ng/ccu_common.c     | 22 ++++++++++++++++++++++
->  drivers/clk/sunxi-ng/ccu_common.h     | 12 ++++++++++++
->  drivers/gpu/drm/sun4i/sun4i_tcon.c    | 15 +++++++++++++--
->  drivers/gpu/drm/sun4i/sun4i_tcon.h    |  1 +
->  5 files changed, 63 insertions(+), 2 deletions(-)
-> ---
-> base-commit: 1cf5c37ee3c2334a964c65e52b4e0c59b4332d7c
-> change-id: 20230807-a64_pll_video0_notifier-164cbc78b341
->
-> Best regards,
-> --
-> Frank Oltmanns <frank@oltmanns.dev>
->
->
+v3:
+ - fix dt-bindings
+ - fix sunxi-d1s-t113.dtsi
+
+v4:
+ - fix a remark in the driver
+
+Aleksandr Shubin (3):
+  dt-bindings: pwm: Add binding for Allwinner D1/T113-S3/R329 PWM
+    controller
+  pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM support
+  riscv: dts: allwinner: d1: Add pwm node
+
+ .../bindings/pwm/allwinner,sun20i-pwm.yaml    |  86 +++++
+ .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  11 +
+ drivers/pwm/Kconfig                           |  10 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-sun20i.c                      | 323 ++++++++++++++++++
+ 5 files changed, 431 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pwm/allwinner,sun20i-pwm.yaml
+ create mode 100644 drivers/pwm/pwm-sun20i.c
+
+-- 
+2.25.1
+
