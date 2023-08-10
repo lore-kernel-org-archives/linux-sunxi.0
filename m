@@ -1,52 +1,52 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FCC366
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Aug 2023 08:18:45 +0000 (UTC)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-58451f0fefeso8388627b3.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 10 Aug 2023 01:18:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ACB8366
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Aug 2023 08:19:19 +0000 (UTC)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-d62bdd1a97dso586367276.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 10 Aug 2023 01:19:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691655524; x=1692260324;
+        d=linaro.org; s=google; t=1691655558; x=1692260358;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=N1S3yE96sxZWitB4oiJ30vpkB3MWLEMpL6UDMSJWZXU=;
-        b=sKRwat/bRypjQs0GDj+E5aX6U0l+rdH2Ppp7jgbUiwQQsqjEaK0abvIScLRA0wD+XB
-         V+k33vveoWCeS1c6XgCqjjXWr//cl1HyFtdD8ttwfDC6tU5h0yWEtUhgAWWlSrBAqi9t
-         tXTEm4YMv0WM1uBDtQtenVY2VwUD4UxTzpZEwHsGCFe7Z/2lAj6TisZ1wfKRqkKtHkMv
-         q4kQ3tqQ3kjjJBlQFVfvfmjVGvTI9ZG6qPa9xIgWc3cwJulHzC1kKt6V4uv2UEb2aMy8
-         OAS7Hff9YtpzqDV058P27LVyQvRktH36oLc1Ux2VOWBYO61uLfbyzTdGhTV/qpGrAtF8
-         glUQ==
+        bh=78OX4fId0Em709uz0mp6uxgk8bb4IwlDXBz/uTj2fjY=;
+        b=YAetKf4q0nZa/dO71z7++J7KKpe1E1CC7O3ahafQ7APpHv5jmvyn5BBv2mwDpYC5is
+         aCqkyV5eahWJcbkNVk0H4ZuATN+jOIeGgJTiNul2i5t9tXVMigNJA6VlxX/a8OMvNSIA
+         YaLs/IE+usEOobqLkPYKtN3CknTSd/aP7iBrjDMEftqOkGi4Hzn8W27JugL/elhtZAtS
+         lvN5G1ptPirqDO85jdOp47BWA9MJm/z4Kcuzuh6yVL2pnLpcF/Uw4mERq/Siv1vZ2eMQ
+         WGKJAkQHqeDReRN5me9rxTKini4wIOwCZjirxG0wunRnpyvqVfZs1EDQzXiZjCK8xLxA
+         VFLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691655524; x=1692260324;
+        d=1e100.net; s=20221208; t=1691655558; x=1692260358;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=N1S3yE96sxZWitB4oiJ30vpkB3MWLEMpL6UDMSJWZXU=;
-        b=Z41ol2HVPzbBLHJVr9rdApSHQS6GTMnncJ+0ai5QbKBZ1d2V/YGys8OABpOY8uf2t0
-         PfQeeNMXPsxWP0E5IGNJSDARyFxhIDKwGEC8r+2e1WyE2Fo9qcLXt1w71QAGTY4LqnSI
-         5MgN/7ZqF1oJUEK/Ugz5oTag4FBax5GYCvoIt8ovlRXcCxw3E8cbDpdi7vLRVSTAUx+4
-         fZX7XPZ4Ki5rIvUOaW2f23ravVts24pmYNH2ja2GvJO8r1VlLe9WuEtBZ0jo0lC87Vv3
-         NmSx1DFD6ovbuzQuFU2gYI64vrgmPKiQ3Xf0ScBAsdJetOgdGkCGK6zcbNTlcDcLSN9p
-         Db0w==
-X-Gm-Message-State: AOJu0YyyyAgYPxc0WsQCHaBbavH9mi7gtenBXe/wMpofU6uDQUiqcQgw
-	i1LROKLNHvzgHXQpC2KKwVOx97LOWTP8u6b8k1OeBg==
-X-Google-Smtp-Source: AGHT+IE+UnSxHykLJJfIQch1e5QQ0u1bPECfUCUFUDCntbpI1NXH0v2rJAWr/evYDXltegUQu7z4Swu4ag0Zr1/V/sw=
-X-Received: by 2002:a25:3611:0:b0:d4c:aa71:8294 with SMTP id
- d17-20020a253611000000b00d4caa718294mr1849966yba.33.1691655524705; Thu, 10
- Aug 2023 01:18:44 -0700 (PDT)
+        bh=78OX4fId0Em709uz0mp6uxgk8bb4IwlDXBz/uTj2fjY=;
+        b=UweizZmdK1TgNsczjSeSn0YcTyBaDY0EeNVVnZvbW+l9+RlcH58jsiuTymIXeJYzFn
+         Khseki8RB6bFHGYVUDo7n9Ddr57RckqGrCBqlypDhTCnzXSO/HUUGZg3Zo+xvPHr/0pk
+         anTsNkMrD78h2Ut5E0zt7zYP46U9t5ZbDFKTpQUSO2obTy1h+wM5p2yCjaeOZ3IxAHeB
+         Bjyb+JJvJBEg9fRX4T6N3Bkv1ipy/7R4sUmToMxg2fKXx5G5/ztRH2AtqUlBUIIVyjQG
+         YDBYjUp7am+tKJZbZerdj8r0AOo3lTEcOLmfJHXyfWsNYpq3UPgHHvKrkwP4eYGbStzU
+         oPQw==
+X-Gm-Message-State: AOJu0Yxjm/u0ewqy4lia7wfFgf8b1a5p7wGwl7Apa9VrvRjS2ZlQ4EM6
+	U2L3EAtzGtMSXp5SavJhUafbBmdBLBqJz+2JFgwBIA==
+X-Google-Smtp-Source: AGHT+IG5aWoH89NQGXx33HlD2q+rxamc3JsaObqeeE5H8gH+u446bjvEEFYnXEHJg1VQn5y6v1yXRNGsOkfTWSlQZaU=
+X-Received: by 2002:a25:d711:0:b0:d1a:b59c:502d with SMTP id
+ o17-20020a25d711000000b00d1ab59c502dmr1894292ybg.18.1691655558135; Thu, 10
+ Aug 2023 01:19:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org> <20230803-dt-header-cleanups-for-soc-v2-8-d8de2cc88bff@kernel.org>
-In-Reply-To: <20230803-dt-header-cleanups-for-soc-v2-8-d8de2cc88bff@kernel.org>
+References: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org> <20230803-dt-header-cleanups-for-soc-v2-13-d8de2cc88bff@kernel.org>
+In-Reply-To: <20230803-dt-header-cleanups-for-soc-v2-13-d8de2cc88bff@kernel.org>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 10 Aug 2023 10:18:33 +0200
-Message-ID: <CACRpkdaX=nABoxGMAK+3uEHOt1imucK6LXXRrNuAYFiH3-jt7g@mail.gmail.com>
-Subject: Re: [PATCH v2 08/23] ARM: nomadik: Drop unused includes
+Date: Thu, 10 Aug 2023 10:19:07 +0200
+Message-ID: <CACRpkdYsdKCrQpfoXZFv1XqT-o1skX=TDY-WJ1CSpgavMb+UrQ@mail.gmail.com>
+Subject: Re: [PATCH v2 13/23] ARM: versatile: Drop unused includes
 To: Rob Herring <robh@kernel.org>
 Cc: soc@kernel.org, Patrice Chotard <patrice.chotard@foss.st.com>, 
 	Tsahee Zidenberg <tsahee@annapurnalabs.com>, Antoine Tenart <atenart@kernel.org>, 
@@ -81,18 +81,14 @@ Cc: soc@kernel.org, Patrice Chotard <patrice.chotard@foss.st.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 4, 2023 at 12:44=E2=80=AFAM Rob Herring <robh@kernel.org> wrote=
+On Fri, Aug 4, 2023 at 12:43=E2=80=AFAM Rob Herring <robh@kernel.org> wrote=
 :
 
 > Several includes are not needed, so drop them.
 >
 > Signed-off-by: Rob Herring <robh@kernel.org>
 
-Thanks for cleaning out this.
-
 Acked-by: Linus Walleij <linus.walleij@linaro.org>
-
-Will you funnel this to ARM SoC with the rest?
 
 Yours,
 Linus Walleij
