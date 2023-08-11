@@ -1,21 +1,21 @@
-Received: from out-111.mta1.migadu.com (out-111.mta1.migadu.com [95.215.58.111])
+Received: from out-118.mta1.migadu.com (out-118.mta1.migadu.com [95.215.58.118])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D98FB8468
-	for <linux-sunxi@lists.linux.dev>; Fri, 11 Aug 2023 20:14:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831338468
+	for <linux-sunxi@lists.linux.dev>; Fri, 11 Aug 2023 20:15:08 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1691784898;
+	t=1691784906;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QeLKekQPGIWeXPPUTKz0UKXYLZ76J8hy48F28uG+rX0=;
-	b=LToGtkDrOCSOVpZih3iIpGEia0EWeKKZmc8sXDwvIDst79QFhcJMmKPTrN3sDyjY1Wy2V+
-	6d5pHC5gzuuL+DV3YeuRE4CYWcZnwxcupNJ3tJ80rEWDQ6JfN4SLY7DiGJYwKfqWtUjjJo
-	hlQ3qR7G7/W+ktYvQSU1ELwD75mHRMwo2GrfLValj+Rr+pHqoyjnO1uKCyC4tQbuSZ0b23
-	oJrlGZFLUvH42hPAC5gr/y6pY7gbYWeaM2Q7ApnKbPjjkWEH2BueC6PRj0KLdKAGt0IrlZ
-	4qb39dtKKzPT7NmuAjpPVfonV6xd//g4n3/p05BnPMSkG5/Ihe01O7RRs5AdGw==
+	bh=/hW1ak8KgoejCSW9QrrxKnaZZBYUUgvs8EvZwonWW7Q=;
+	b=CD4lRSohS0DnXE6VQTtKXerkV30clc05gHhy1KjszANLvk8PDxlFSV7Qua/nro9kKonJHc
+	e8eoHeaLZp5s7KZlNwDK34rkKsUWBfUCmWTCwRWVwy5QVgHHMZM8sSork3+go0HP+WS2zL
+	+wBm7nWZHqrkbT8zDGGfazKRPg1VK2rWYNYP0YW6raQ/isdg1uta45WuZX3DZboZBPOXsr
+	DA0c5ijB5Kpf3Kj+R7DF+Ni0j9/bqE9IkI7pP9wCtKYgDEMMQjTSXd1APKUViWkkroB+Sh
+	CrJoPs2fjzC35iszArbzoMgCTxYKK2L00BJPuquI4sL0bH08DFY/JDbOupdFfg==
 From: John Watts <contact@jookia.org>
 To: alsa-devel@alsa-project.org
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -35,9 +35,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 5/7] ASoC: sunxi: sun4i-i2s: Detect TDM slots based on channel slots
-Date: Sat, 12 Aug 2023 06:14:04 +1000
-Message-ID: <20230811201406.4096210-6-contact@jookia.org>
+Subject: [RFC PATCH 6/7] dt-bindings: sound: sun4i-i2s: Add channel-dins property
+Date: Sat, 12 Aug 2023 06:14:05 +1000
+Message-ID: <20230811201406.4096210-7-contact@jookia.org>
 In-Reply-To: <20230811201406.4096210-1-contact@jookia.org>
 References: <20230811201406.4096210-1-contact@jookia.org>
 Precedence: bulk
@@ -49,47 +49,55 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-The current controller code assumes a 1:1 relationship between audio
-channel and TDM slot. This may not be the case when slots are set
-explicitly. Instead figure out how many slots we need based on the
-number of slots used in the channel map.
+The R329 variant of the sun4i I2S controller supports multiple
+data input pins (din pins) for receiving data. Each channel can have
+its data input pin configured.
 
-This allows the case of reading multiple data pins on a single slot.
+Allow this to be configured using a new channel-dins property.
 
 Signed-off-by: John Watts <contact@jookia.org>
 ---
- sound/soc/sunxi/sun4i-i2s.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ .../sound/allwinner,sun4i-a10-i2s.yaml        | 22 +++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/sound/soc/sunxi/sun4i-i2s.c b/sound/soc/sunxi/sun4i-i2s.c
-index 019a4856c90b..6347aaaed016 100644
---- a/sound/soc/sunxi/sun4i-i2s.c
-+++ b/sound/soc/sunxi/sun4i-i2s.c
-@@ -271,6 +271,7 @@ static int sun4i_i2s_read_channel_slots(struct device *dev, struct sun4i_i2s *i2
- {
- 	struct device_node *np = dev->of_node;
- 	int max_channels = ARRAY_SIZE(i2s->channel_dins);
-+	int slot_max;
- 	int ret;
+diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-i2s.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-i2s.yaml
+index 739114fb6549..402549f9941c 100644
+--- a/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-i2s.yaml
++++ b/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-i2s.yaml
+@@ -52,6 +52,13 @@ properties:
+       - const: apb
+       - const: mod
  
- 	/* Use a 1:1 mapping by default */
-@@ -290,6 +291,16 @@ static int sun4i_i2s_read_channel_slots(struct device *dev, struct sun4i_i2s *i2
- 	if (ret < 0)
- 		return ret;
++  channel-dins:
++    $ref: /schemas/types.yaml#/definitions/uint8-array
++    description:
++      This is a list of DIN pin numbers, each used for a receiving I2S
++      channel. Pins are mapped to channels based on array index.
++      Channel 0 is the first number, then channel 1, and so on.
++
+   # Even though it only applies to subschemas under the conditionals,
+   # not listing them here will trigger a warning because of the
+   # additionalsProperties set to false.
+@@ -144,4 +151,19 @@ examples:
+         dma-names = "rx", "tx";
+     };
  
-+	for (int i = 0; i < ret; ++i) {
-+		int slot = i2s->channel_slots[i];
++  - |
++    i2s0_d1: i2s@2032000 {
++            #sound-dai-cells = <0>;
++            compatible = "allwinner,sun20i-d1-i2s",
++                         "allwinner,sun50i-r329-i2s";
++            reg = <0x2032000 0x1000>;
++            interrupts = <0 26 0>;
++            clocks = <&ccu 86>, <&ccu 82>;
++            clock-names = "apb", "mod";
++            resets = <&ccu 34>;
++            dmas = <&dma 3>, <&dma 3>;
++            dma-names = "rx", "tx";
++            channel-dins = /bits/ 8 <0 0 1 1 2 2>;
++    };
 +
-+		if (slot_max < slot)
-+			slot_max = slot;
-+	}
-+
-+	/* Add 1 to be inclusive of slot 0 */
-+	i2s->slots = slot_max + 1;
-+
- 	return 0;
- }
- 
+ ...
 -- 
 2.41.0
 
