@@ -1,62 +1,42 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-124.mta0.migadu.com (out-124.mta0.migadu.com [91.218.175.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DBD8468
-	for <linux-sunxi@lists.linux.dev>; Fri, 11 Aug 2023 19:40:43 +0000 (UTC)
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-76af2cb7404so174066785a.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 11 Aug 2023 12:40:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691782842; x=1692387642;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=K8XAdlCauzuqTqX7DL7uCr2jVWlrna5hii1a8kj15JE=;
-        b=i6oD9bghJDTu1zIQIV4UtUAx1+dPDP6CDrtzU9vghK3CiuknavQ6GqZJhbsOQVSMI2
-         OV8W/NB2Z2SY+Jkf8lUEOxUjQIqmbxHu6jquYhiyp/0M2+yG8f/qDgaq2CbO2dLVp1dq
-         +7/kqN0uTWYkwyjAuNnr6AuOtZG/vR6lP0L427ToteS19YuwsytmuMdebanfvGRNNOx5
-         3p6DSoODvzu+GeZZd+si7+4RKOumeXVfqkLQLG8yaIArCBk+UWiLylcKWRB56HRCX/vX
-         82k9L25AmzIFT5jInmSyANwga3Ke6p4QgJraLbfmT7IY/+7D/ca0rZ788xZWoQBtKi2z
-         bVyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691782842; x=1692387642;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=K8XAdlCauzuqTqX7DL7uCr2jVWlrna5hii1a8kj15JE=;
-        b=R88HdiVNzQUPEqjW+HkgF7ujYTJEqWsK5NfJIjcv9GP/4WpdlFhlV0zX69cDML0QhF
-         QpXvNAzJKyU+lNMO1QTXPYlYlbiM1NhZ7yV0n2XIea91USo2RMqE4m2uBYQy8GaxZGOP
-         Q/gcAe/ojLBuTO9PW5PmEAH1iTkFUsRo2tQ7Yi4yryDB/0AUc3fq7sWKdbSmOW+nVgR9
-         +LemygxCuu4fpnMYpRczGYSWL7Smb0JIE1iY/i1BKUM+SLRUwOgGrelMqWFo4OF/qlG2
-         Wc4Z1R5HIeafAhT23mHq+Of6KvkKj7cgol+smi5bKmohziicdfBX/5lBV3furhwOXwa4
-         mLcg==
-X-Gm-Message-State: AOJu0Yy4m8M9OQGyqWaaGVXqPjkJxEQZai3+kOH8qbdqh1E5x3mC77Dd
-	MiB33enSGpw8uRvO9u5oe8o=
-X-Google-Smtp-Source: AGHT+IEd6FKDf2LUftPdhsoDiwuk7hY3RyxprWEjQIOiy+tECLHywU9E044swelPCq0F+bD0scVt7w==
-X-Received: by 2002:a05:620a:24c:b0:767:4016:29f3 with SMTP id q12-20020a05620a024c00b00767401629f3mr2941226qkn.58.1691782842614;
-        Fri, 11 Aug 2023 12:40:42 -0700 (PDT)
-Received: from localhost.localdomain ([92.85.190.61])
-        by smtp.gmail.com with ESMTPSA id j1-20020ac84f81000000b003ef2db16e72sm1375329qtw.94.2023.08.11.12.40.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Aug 2023 12:40:42 -0700 (PDT)
-From: Andrei Coardos <aboutphysycs@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E502AB48
+	for <linux-sunxi@lists.linux.dev>; Fri, 11 Aug 2023 20:14:16 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+	t=1691784855;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6hBtpLiHEAUCKZrFtYgu+mEZQfu4FFrE7uRZuwIPRHo=;
+	b=xiIIaoSI6Jtq489azAwmEJ/yFbLyZbRhnHjLmq9FFFDqsuGS6QLvxM3Q710jZif6S1KdLi
+	CO1yUsvfc9rneaCC3Q7n/p3PMmt3yuTVxSUjjoN7BwOMXtK6rEYEfiyPnFNyR2Ct8xWAgh
+	eMTD0kdGCv8eB5xjlNm154x1CvIkTLpljwUmQGI50pG81iPoLboEBJDtkVtpCHXNO4F+gI
+	D9OSkB32lWJ0zbQPHAcNdxT/4A6hle46rcOAQfHBlbOpTRXlWl76FNcrcPoGY8BYMXTw1S
+	Z0Y8sgtWBtPxwv83OLKrESUeJvBU2jwGXuUK1/a1CvPp5b1pmDdkXtdzL2O5vw==
+From: John Watts <contact@jookia.org>
+To: alsa-devel@alsa-project.org
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	John Watts <contact@jookia.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Maxime Ripard <mripard@kernel.org>,
+	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org
-Cc: samuel@sholland.org,
-	jernej.skrabec@gmail.com,
-	wens@csie.org,
-	rui.zhang@intel.com,
-	amitk@kernel.org,
-	daniel.lezcano@linaro.org,
-	rafael@kernel.org,
-	tiny.windzz@gmail.com,
-	anarsoul@gmail.com,
-	alex@shruggie.ro,
-	Andrei Coardos <aboutphysycs@gmail.com>
-Subject: [PATCH] thermal: sun8i_thermal: remove unneeded call to platform_set_drvdata()
-Date: Fri, 11 Aug 2023 22:40:32 +0300
-Message-Id: <20230811194032.4240-1-aboutphysycs@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/7] sun4i-i2s: Support channel remapping
+Date: Sat, 12 Aug 2023 06:13:59 +1000
+Message-ID: <20230811201406.4096210-1-contact@jookia.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -64,30 +44,74 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-This function call was found to be unnecessary as there is no equivalent
-platform_get_drvdata() call to access the private data of the driver. Also,
-the private data is defined in this driver, so there is no risk of it being
-accessed outside of this driver file.
+Hi there,
 
-Signed-off-by: Andrei Coardos <aboutphysycs@gmail.com>
----
- drivers/thermal/sun8i_thermal.c | 2 --
- 1 file changed, 2 deletions(-)
+A while back I put out this thread:
+How do I set up multiple codecs on one I2S - without TDM?"
+https://lore.kernel.org/all/ZMBRMnv0GQF4wyfQ@titan/
+This is my specific use case and motivation for this patch series.
 
-diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-index 195f3c5d0b38..61a2f287ac90 100644
---- a/drivers/thermal/sun8i_thermal.c
-+++ b/drivers/thermal/sun8i_thermal.c
-@@ -489,8 +489,6 @@ static int sun8i_ths_probe(struct platform_device *pdev)
- 	if (!tmdev->chip)
- 		return -EINVAL;
- 
--	platform_set_drvdata(pdev, tmdev);
--
- 	ret = sun8i_ths_resource_init(tmdev);
- 	if (ret)
- 		return ret;
+I posted how I managed to configure the audio-graph-card2 to allow
+doing this in conjunction with some register hacking, but I now have
+an initial patch series to support this in the sun4i-i2s driver.
+
+Now I've tested this on the T113-s3 with 3 wm8782s and it works well,
+but I'm marking this as RFC as I think I'm out of my depth here and
+I'd like to know the direction I need to take this: I'm new to
+kernel development and I'm genuinely unsure what are best practices
+and which are bad practices design-wise.
+
+My main concerns are the following:
+
+First, I split up channel-dins and channel-slots. This is mainly
+because I implemented one first but both of them only make sense
+together. The registers themselves use a format of a byte per
+channel with the upper nibble being the din and the lower being
+the slot. Perhaps this is a better format to copy?
+
+Second, I use u8 arrays on the device tree. This is done so I can
+just read the array easily, but it also means I can't make this
+property contingent on a compatible string in the schema as $ref
+doesn't seem to be allowed there.
+
+Third, channel-slots is available on all sun4i-i2s controllers,
+but I only have it implemented on the R329 variant for now when
+there are multiple din pins.
+I could add support for this on older controllers but there's not
+really a use case for manual configuration as there's no DIN
+and I don't have hardware to test it on.
+
+Fourth, I don't limit the readable channels to the channels
+listed. Reading more channels than you have currently results in
+the controller assuming you want to use TDM, but that's not the
+case here and you can have strange duplicate channels show up.
+
+Fifth, it might be a good idea to increase the maximum channels
+from 8 to 16, especially if people are going to be running
+multiple TDM streams on one controller.
+
+Sixth, the channel-slots only apply to capture, not playback.
+This is something I just realized now when writing and forgot
+to document in the patch set.
+
+Thanks for your time,
+John.
+
+John Watts (7):
+  ASoC: sunxi: sun4i-i2s: Prepare for runtime DIN pin selection
+  ASoC: sunxi: sun4i-i2s: Use channel-dins device tree property
+  ASoC: sunxi: sun4i-i2s: Prepare for runtime channel slot selection
+  ASoC: sunxi: sun4i-i2s: Use channel-slots device tree property
+  ASoC: sunxi: sun4i-i2s: Detect TDM slots based on channel slots
+  dt-bindings: sound: sun4i-i2s: Add channel-dins property
+  dt-bindings: sound: sun4i-i2s: Add channel-slots property
+
+ .../sound/allwinner,sun4i-a10-i2s.yaml        |  30 +++++
+ sound/soc/sunxi/sun4i-i2s.c                   | 106 +++++++++++++++++-
+ 2 files changed, 132 insertions(+), 4 deletions(-)
+
 -- 
-2.34.1
+2.41.0
 
