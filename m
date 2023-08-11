@@ -1,82 +1,104 @@
-Received: from relay01.th.seeweb.it (relay01.th.seeweb.it [5.144.164.162])
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3ECA46
-	for <linux-sunxi@lists.linux.dev>; Fri, 11 Aug 2023 11:41:41 +0000 (UTC)
-Received: from [127.0.0.1] (bband-dyn221.178-41-211.t-com.sk [178.41.211.221])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3AD63B3
+	for <linux-sunxi@lists.linux.dev>; Fri, 11 Aug 2023 13:22:25 +0000 (UTC)
+Received: from [192.168.2.144] (bband-dyn221.178-41-211.t-com.sk [178.41.211.221])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 4168E1F554;
-	Fri, 11 Aug 2023 13:02:51 +0200 (CEST)
+	by m-r2.th.seeweb.it (Postfix) with ESMTPSA id D6FF33ECF7;
+	Fri, 11 Aug 2023 15:12:40 +0200 (CEST)
+Date: Fri, 11 Aug 2023 15:12:34 +0200
 From: Martin Botka <martin.botka@somainline.org>
-Subject: [PATCH 0/3] Enable Security ID for H616
-Date: Fri, 11 Aug 2023 13:02:33 +0200
-Message-Id: <20230811-sid-h616-v1-0-d1dfc9f47b19@somainline.org>
+Subject: Re: [PATCH 2/3] nvmem: sunxi_sid: Add support for H616 SID
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Rob Herring
+	<robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Alan Ma
+	<tech@biqu3d.com>, Marijn Suijten <marijn.suijten@somainline.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+	Konrad Dybcio <konrad.dybcio@somainline.org>
+Message-Id: <Y0A8ZR.WOK201QL3WRP1@somainline.org>
+In-Reply-To: <20230811121754.3a4dc270@donnerap.manchester.arm.com>
+References: <20230811-sid-h616-v1-0-d1dfc9f47b19@somainline.org>
+	<20230811-sid-h616-v1-2-d1dfc9f47b19@somainline.org>
+	<20230811121754.3a4dc270@donnerap.manchester.arm.com>
+X-Mailer: geary/43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAEkV1mQC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI2MDC0ND3eLMFN0MM0MzXWPzJHNz41RTS1NzQyWg8oKi1LTMCrBR0bG1tQB
- FWm5MWgAAAA==
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Andre Przywara <andre.przywara@arm.com>, Alan Ma <tech@biqu3d.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>, 
- Konrad Dybcio <konrad.dybcio@somainline.org>, 
- Martin Botka <martin.botka@somainline.org>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1691751771; l=1045;
- i=martin.botka@somainline.org; s=20230811; h=from:subject:message-id;
- bh=6xJkidVHp8SgP6L0h5BYyWYG+hDj5KF//REwfLnI3r0=;
- b=5jqqhjU/LGVi1nZGPfxt81TytjWNxhZABFvjXNfDFjo8ngJD4m7jdeye6PsNREejwOEY3tT0E
- uQ09mTTF3a7B1BfJIUZwY3ULYPuZAnPN1VJuYPrGcos4j4IEWYoDzbR
-X-Developer-Key: i=martin.botka@somainline.org; a=ed25519;
- pk=aTCd3jmwU8GrJidWg3DSKLpdVMcpFzXzCSLXLR6NtWU=
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-Hello,
 
-This patch series enables Security ID (SID) support for AllWinner H616.
 
-SID support is an requirement for few things:
-    - Thermal sensors
-    - CPU Binning ID (cpufreq will use this)
-    - EPhy
+On Fri, Aug 11 2023 at 12:17:54 PM +01:00:00, Andre Przywara 
+<andre.przywara@arm.com> wrote:
+> On Fri, 11 Aug 2023 13:02:35 +0200
+> Martin Botka <martin.botka@somainline.org> wrote:
+> 
+> Hi Martin,
+> 
+>>  Add support for the H616 SID controller.
+> 
+> thanks for upstreaming this!
+> 
+>> 
+>>  The config can be reused from A64.
+>> 
+>>  Signed-off-by: Martin Botka <martin.botka@somainline.org>
+>>  ---
+>>   drivers/nvmem/sunxi_sid.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>> 
+>>  diff --git a/drivers/nvmem/sunxi_sid.c b/drivers/nvmem/sunxi_sid.c
+>>  index a970f1741cc6..df6fb5e0b724 100644
+>>  --- a/drivers/nvmem/sunxi_sid.c
+>>  +++ b/drivers/nvmem/sunxi_sid.c
+>>  @@ -216,6 +216,7 @@ static const struct of_device_id 
+>> sunxi_sid_of_match[] = {
+>>   	{ .compatible = "allwinner,sun50i-a64-sid", .data = 
+>> &sun50i_a64_cfg },
+>>   	{ .compatible = "allwinner,sun50i-h5-sid", .data = 
+>> &sun50i_a64_cfg },
+>>   	{ .compatible = "allwinner,sun50i-h6-sid", .data = &sun50i_h6_cfg 
+>> },
+>>  +	{ .compatible = "allwinner,sun50i-h616-sid", .data = 
+>> &sun50i_a64_cfg },
+> 
+> You don't need a new compatible string, then.
+> Just use
+>   compatible = "allwinner,sun50i-h616-sid", 
+> "allwinner,sun50i-a64-sid";
+> in the DT, and add that combo to the binding, then you don't need any
+> driver patches at all - with the added benefit of that already working
+> with existing kernels.
+I added it cause H5 and A83T were added after their DT binding was in 
+and they also use A64 config.
+But I will drop this patch and use a64 compatible if that is the 
+prefered way :)
+> 
+> Though I wonder if that has really only 256 bytes of fuses? Do we 
+> have any
+> evidence of that?
+Datasheet has 0 info regarding this. The way i got the size and offset 
+was to check the vendor code.
+The values matched A64.
+> 
+> Cheers,
+> Andre
+> 
+>>   	{/* sentinel */},
+>>   };
+>>   MODULE_DEVICE_TABLE(of, sunxi_sid_of_match);
+>> 
+> 
 
-This patch series doesn't add support for the consumers.
-Those will come in the future via their own series.
-
-Cheers,
-Martin
-
-Signed-off-by: Martin Botka <martin.botka@somainline.org>
----
-Martin Botka (3):
-      dt-bindings: nvmem: SID: Add binding for H616 SID controller
-      nvmem: sunxi_sid: Add support for H616 SID
-      arm64: dts: allwinner: h616: Add SID controller node
-
- .../devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml         | 1 +
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi                     | 7 +++++++
- drivers/nvmem/sunxi_sid.c                                          | 1 +
- 3 files changed, 9 insertions(+)
----
-base-commit: 52a93d39b17dc7eb98b6aa3edb93943248e03b2f
-change-id: 20230811-sid-h616-37b773e59571
-
-Best regards,
--- 
-Martin Botka <martin.botka@somainline.org>
 
