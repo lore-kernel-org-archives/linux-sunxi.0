@@ -1,133 +1,186 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FC7D2F4E
-	for <linux-sunxi@lists.linux.dev>; Fri, 11 Aug 2023 22:43:38 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A20F113E;
-	Fri, 11 Aug 2023 15:44:20 -0700 (PDT)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C5C243F59C;
-	Fri, 11 Aug 2023 15:43:35 -0700 (PDT)
-Date: Fri, 11 Aug 2023 23:42:37 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Maxime Ripard
- <mripard@kernel.org>
-Cc: Martin Botka <martin.botka@somainline.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Alan Ma <tech@biqu3d.com>, Marijn Suijten
- <marijn.suijten@somainline.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@somainline.org>, Konrad Dybcio
- <konrad.dybcio@somainline.org>
-Subject: Re: [PATCH 2/3] nvmem: sunxi_sid: Add support for H616 SID
-Message-ID: <20230811234212.2236c814@slackpad.lan>
-In-Reply-To: <Y0A8ZR.WOK201QL3WRP1@somainline.org>
-References: <20230811-sid-h616-v1-0-d1dfc9f47b19@somainline.org>
-	<20230811-sid-h616-v1-2-d1dfc9f47b19@somainline.org>
-	<20230811121754.3a4dc270@donnerap.manchester.arm.com>
-	<Y0A8ZR.WOK201QL3WRP1@somainline.org>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1135AEA2;
+	Sat, 12 Aug 2023 01:36:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691804208; x=1723340208;
+  h=message-id:date:mime-version:cc:subject:to:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=InQwijdXw9W+QsSLGg97dJTKcOqeU8+07ewmIVxJV4I=;
+  b=bEsO3LkSooP1OKQUrX/Wt0IPNQz5fXcxNg3FcgqBA5/zHvkiWVxch3cU
+   7YpoFcPWbqsDFfWOugKxDDi4dysDO/iTg1U2gH9wpklitqADyYV2jKIpg
+   rIyYVARzw5GdZyk8CxxdEOk7tycs2N2O3EI9MDsq4G/NSbU+xyO5OUWbK
+   RW+ECtcUv+lyXkdCtOh5F68gthWlRM/YKg1F+dqLEIVkzBao8TI0IuxHK
+   MlXa/76POqx59RDvUF2h+5bWbva8S167bw0bcWgQVto5YQgfwdqSPOgIA
+   LXWbsIZIt+BvSqLugJgAY+ZGaBDTuSXkwiY4pa3P/tqksgqdnB7m7Wgtm
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="371797625"
+X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
+   d="scan'208";a="371797625"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 18:36:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="1063472658"
+X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
+   d="scan'208";a="1063472658"
+Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.254.215.79]) ([10.254.215.79])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 18:36:35 -0700
+Message-ID: <dde32ea5-2b1a-1148-c329-3c52ffcb71a7@linux.intel.com>
+Date: Sat, 12 Aug 2023 09:36:33 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Cc: baolu.lu@linux.intel.com, Dmitry Osipenko <digetx@gmail.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Nicolin Chen <nicolinc@nvidia.com>, Niklas Schnelle
+ <schnelle@linux.ibm.com>, Steven Price <steven.price@arm.com>,
+ Thierry Reding <treding@nvidia.com>
+Subject: Re: [PATCH v6 02/25] iommu: Add IOMMU_DOMAIN_PLATFORM
+To: Jason Gunthorpe <jgg@nvidia.com>, Andy Gross <agross@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Bjorn Andersson
+ <andersson@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ Kevin Tian <kevin.tian@intel.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ Russell King <linux@armlinux.org.uk>, linuxppc-dev@lists.ozlabs.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Orson Zhai <orsonzhai@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Krishna Reddy
+ <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+ Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>
+References: <2-v6-e8114faedade+425-iommu_all_defdom_jgg@nvidia.com>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <2-v6-e8114faedade+425-iommu_all_defdom_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 11 Aug 2023 15:12:34 +0200
-Martin Botka <martin.botka@somainline.org> wrote:
-
-Hi,
-
-Maxime, Srinivas, can you possibly shed some light on the exact scope of
-this nvmem DT binding? See below for more details ...
-
-> On Fri, Aug 11 2023 at 12:17:54 PM +01:00:00, Andre Przywara 
-> <andre.przywara@arm.com> wrote:
-> > On Fri, 11 Aug 2023 13:02:35 +0200
-> > Martin Botka <martin.botka@somainline.org> wrote:
-> > 
-> > Hi Martin,
-> >   
-> >>  Add support for the H616 SID controller.  
-> > 
-> > thanks for upstreaming this!
-> >   
-> >> 
-> >>  The config can be reused from A64.
-> >> 
-> >>  Signed-off-by: Martin Botka <martin.botka@somainline.org>
-> >>  ---
-> >>   drivers/nvmem/sunxi_sid.c | 1 +
-> >>   1 file changed, 1 insertion(+)
-> >> 
-> >>  diff --git a/drivers/nvmem/sunxi_sid.c b/drivers/nvmem/sunxi_sid.c
-> >>  index a970f1741cc6..df6fb5e0b724 100644
-> >>  --- a/drivers/nvmem/sunxi_sid.c
-> >>  +++ b/drivers/nvmem/sunxi_sid.c
-> >>  @@ -216,6 +216,7 @@ static const struct of_device_id 
-> >> sunxi_sid_of_match[] = {
-> >>   	{ .compatible = "allwinner,sun50i-a64-sid", .data = 
-> >> &sun50i_a64_cfg },
-> >>   	{ .compatible = "allwinner,sun50i-h5-sid", .data = 
-> >> &sun50i_a64_cfg },
-> >>   	{ .compatible = "allwinner,sun50i-h6-sid", .data = &sun50i_h6_cfg 
-> >> },
-> >>  +	{ .compatible = "allwinner,sun50i-h616-sid", .data = 
-> >> &sun50i_a64_cfg },  
-> > 
-> > You don't need a new compatible string, then.
-> > Just use
-> >   compatible = "allwinner,sun50i-h616-sid", 
-> > "allwinner,sun50i-a64-sid";
-> > in the DT, and add that combo to the binding, then you don't need any
-> > driver patches at all - with the added benefit of that already working
-> > with existing kernels.  
-> I added it cause H5 and A83T were added after their DT binding was in 
-> and they also use A64 config.
-
-Yeah, I saw this, and going back in the commit messages I found this:
-"The H5 SoC have a SID controller that looks like the one in A64, the
-cells are in the same offset but doesn't contain the same data (thermal
-sensor calibration for example)."
-
-So does the compatible string for the NVMEM *controller* really
-encompass the location, encoding and meaning of all its NVMEM cells?
-Isn't that described independently by the child nodes, that put names
-to addresses, and that are referenced by other DT nodes?
-Or was it originally not the case, and the scope changed over time?
-
-It's certainly no biggie to use a single compatible string, and add a
-single line to the driver (like in this patch), but it would be good to
-know if this is really the intention.
-
-Cheers,
-Andre
-
-> But I will drop this patch and use a64 compatible if that is the 
-> prefered way :)
-> > 
-> > Though I wonder if that has really only 256 bytes of fuses? Do we 
-> > have any
-> > evidence of that?  
-> Datasheet has 0 info regarding this. The way i got the size and offset 
-> was to check the vendor code.
-> The values matched A64.
-> > 
-> > Cheers,
-> > Andre
-> >   
-> >>   	{/* sentinel */},
-> >>   };
-> >>   MODULE_DEVICE_TABLE(of, sunxi_sid_of_match);
-> >>   
-> >   
+On 2023/8/3 8:07, Jason Gunthorpe wrote:
+> This is used when the iommu driver is taking control of the dma_ops,
+> currently only on S390 and power spapr. It is designed to preserve the
+> original ops->detach_dev() semantic that these S390 was built around.
 > 
+> Provide an opaque domain type and a 'default_domain' ops value that allows
+> the driver to trivially force any single domain as the default domain.
 > 
+> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>   drivers/iommu/iommu.c | 14 +++++++++++++-
+>   include/linux/iommu.h |  6 ++++++
+>   2 files changed, 19 insertions(+), 1 deletion(-)
 > 
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index 5e3cdc9f3a9e78..c64365169b678d 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -1705,6 +1705,17 @@ iommu_group_alloc_default_domain(struct iommu_group *group, int req_type)
+>   
+>   	lockdep_assert_held(&group->mutex);
+>   
+> +	/*
+> +	 * Allow legacy drivers to specify the domain that will be the default
+> +	 * domain. This should always be either an IDENTITY or PLATFORM domain.
+> +	 * Do not use in new drivers.
+> +	 */
+> +	if (bus->iommu_ops->default_domain) {
+> +		if (req_type)
+> +			return ERR_PTR(-EINVAL);
+> +		return bus->iommu_ops->default_domain;
+> +	}
+> +
+>   	if (req_type)
+>   		return __iommu_group_alloc_default_domain(bus, group, req_type);
+>   
+> @@ -1967,7 +1978,8 @@ void iommu_domain_free(struct iommu_domain *domain)
+>   	if (domain->type == IOMMU_DOMAIN_SVA)
+>   		mmdrop(domain->mm);
+>   	iommu_put_dma_cookie(domain);
+> -	domain->ops->free(domain);
+> +	if (domain->ops->free)
+> +		domain->ops->free(domain);
+>   }
+>   EXPORT_SYMBOL_GPL(iommu_domain_free);
+>   
+> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+> index e05c93b6c37fba..87aebba474e093 100644
+> --- a/include/linux/iommu.h
+> +++ b/include/linux/iommu.h
+> @@ -64,6 +64,7 @@ struct iommu_domain_geometry {
+>   #define __IOMMU_DOMAIN_DMA_FQ	(1U << 3)  /* DMA-API uses flush queue    */
+>   
+>   #define __IOMMU_DOMAIN_SVA	(1U << 4)  /* Shared process address space */
+> +#define __IOMMU_DOMAIN_PLATFORM	(1U << 5)
+>   
+>   #define IOMMU_DOMAIN_ALLOC_FLAGS ~__IOMMU_DOMAIN_DMA_FQ
+>   /*
+> @@ -81,6 +82,8 @@ struct iommu_domain_geometry {
+>    *				  invalidation.
+>    *	IOMMU_DOMAIN_SVA	- DMA addresses are shared process addresses
+>    *				  represented by mm_struct's.
+> + *	IOMMU_DOMAIN_PLATFORM	- Legacy domain for drivers that do their own
+> + *				  dma_api stuff. Do not use in new drivers.
+>    */
+>   #define IOMMU_DOMAIN_BLOCKED	(0U)
+>   #define IOMMU_DOMAIN_IDENTITY	(__IOMMU_DOMAIN_PT)
+> @@ -91,6 +94,7 @@ struct iommu_domain_geometry {
+>   				 __IOMMU_DOMAIN_DMA_API |	\
+>   				 __IOMMU_DOMAIN_DMA_FQ)
+>   #define IOMMU_DOMAIN_SVA	(__IOMMU_DOMAIN_SVA)
+> +#define IOMMU_DOMAIN_PLATFORM	(__IOMMU_DOMAIN_PLATFORM)
+>   
+>   struct iommu_domain {
+>   	unsigned type;
+> @@ -256,6 +260,7 @@ struct iommu_iotlb_gather {
+>    * @owner: Driver module providing these ops
+>    * @identity_domain: An always available, always attachable identity
+>    *                   translation.
+> + * @default_domain: If not NULL this will always be set as the default domain.
+>    */
+>   struct iommu_ops {
+>   	bool (*capable)(struct device *dev, enum iommu_cap);
+> @@ -290,6 +295,7 @@ struct iommu_ops {
+>   	unsigned long pgsize_bitmap;
+>   	struct module *owner;
+>   	struct iommu_domain *identity_domain;
+> +	struct iommu_domain *default_domain;
 
+I am imaging whether we can merge above two pointers into a single one.
+It is either an IDENTITY or PLATFORM domain and the core will choose it
+as the default domain of a group if iommu_group_alloc_default_domain()
+fails to allocate one through the iommu dev_ops.
+
+Those iommu drivers that could result in a NULL default domain could
+provide such domain and guarantee that this domain is always usable for
+devices.
+
+Probably we could give it a more meaningful name? For example,
+supplemental_domain or rescue_domain?
+
+I am not sure whether this can address the NULL-default-domain issues
+of all drivers this series tries to address. So just for discussion
+purpose.
+
+Best regards,
+baolu
