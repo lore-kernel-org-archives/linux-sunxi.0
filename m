@@ -1,109 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E6E1849;
-	Sat, 12 Aug 2023 05:01:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691816498; x=1723352498;
-  h=message-id:date:mime-version:cc:subject:to:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=8ESbiLHr+YCgav0uKLzgJWB6fuptDUr8xuFAEutcc9g=;
-  b=eIia5ItIbWR7COp6ipg1ZQK3kKUaSAtgQVwByV6TodkErLoK9i2Zsu0g
-   +w1MyPO8lc7EoPA1FiowUtDJNtte6F0JNuMqxWH3NJkNw3LcEj16zuk0L
-   ahq48G7XRZuPo9cPAyXURGBLC0ON1ZvJ0JBUZ7V6bYcu+RLcUeawojK+i
-   uy5RT1taXg+4yDuB4tT2pSd5g9QYfuj+a46/IYgOyeuhANSwkh8cJtKcK
-   +vMwvHXVkQ7Wtxwrkanxw9TEAW8ueR8nLB4oZrUjhtTe+6d6kgQav3iGy
-   TZolSmW8RXCs+AXptWYxThvEXUJ5AAzxesu45bcPmiTG0VlkkSTYf8Vg/
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="375513660"
-X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="375513660"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 22:01:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="767872740"
-X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="767872740"
-Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.254.214.60]) ([10.254.214.60])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 22:01:26 -0700
-Message-ID: <d4451419-627b-36de-0b0f-3a7e8bc59a35@linux.intel.com>
-Date: Sat, 12 Aug 2023 13:01:24 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D907628
+	for <linux-sunxi@lists.linux.dev>; Sat, 12 Aug 2023 08:36:23 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4RNDXM1LdVz9sQy;
+	Sat, 12 Aug 2023 10:36:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1691829379;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/XrpGj268ANMqkjJ6sRh0UhhiU8sMWrdHHUqI9pS91s=;
+	b=vmhA+EIaLrUpwMcko+AudKWsALqGC+AVYVapN/DOQXnZvwkbkGgVraQzIiymY3VgTiA9Pq
+	nSU6oeH09LqyNolsW+LKFKcADoTfm0jWy2mYI1PLQE7tk009JxFVbWjvIu9Wm43F2E9iSc
+	kabSb6ZoIZ1+p7puOV9Y7mkd26jRMja/qEA5C2G8XtdyZCrfKS41iWcdcu49aNTveKPGUJ
+	xd0HFdnFb+hahS3qQ1XqprB7ODpOtQFu9KVASsRv8diWDFNnwJVx0RFof9G6YD/u0/Z4Ws
+	5Cn/PgcI8Qpr/Oe3NTCnCGjrmN6mMU2HdOiQYbA0ZlEudE1ZvxrUFF4xx+/6lw==
+References: <20230807-a64_pll_video0_notifier-v1-0-8a7ccdc14c79@oltmanns.dev>
+ <CAGb2v64ZxaizTOLMZfJKujAZqZCiowbotxBhvfCmLV_exF-ooQ@mail.gmail.com>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: wens@kernel.org
+Cc: Icenowy Zheng <uwu@icenowy.me>, =?utf-8?Q?Ond=C5=99ej?= Jirman
+ <x@xnux.eu>,
+ linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org, Icenowy
+ Zheng <icenowy@aosc.io>
+Subject: Re: [PATCH 0/3] pll-video0 notifier for v6.5+
+In-reply-to: <CAGb2v64ZxaizTOLMZfJKujAZqZCiowbotxBhvfCmLV_exF-ooQ@mail.gmail.com>
+Date: Sat, 12 Aug 2023 10:36:06 +0200
+Message-ID: <87leegk689.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Cc: baolu.lu@linux.intel.com, Dmitry Osipenko <digetx@gmail.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Nicolin Chen <nicolinc@nvidia.com>, Niklas Schnelle
- <schnelle@linux.ibm.com>, Steven Price <steven.price@arm.com>,
- Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v6 15/25] iommufd/selftest: Make the mock iommu driver
- into a real driver
-Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>, Andy Gross <agross@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Bjorn Andersson
- <andersson@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
- Kevin Tian <kevin.tian@intel.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- Russell King <linux@armlinux.org.uk>, linuxppc-dev@lists.ozlabs.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Orson Zhai <orsonzhai@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>, Krishna Reddy
- <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
- Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>
-References: <15-v6-e8114faedade+425-iommu_all_defdom_jgg@nvidia.com>
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <15-v6-e8114faedade+425-iommu_all_defdom_jgg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 2023/8/3 8:08, Jason Gunthorpe wrote:
-> +/*
-> + * Register an iommu driver against a single bus. This is only used by iommufd
-> + * selftest to create a mock iommu driver. The caller must provide
-> + * some memory to hold a notifier_block.
-> + */
-> +int iommu_device_register_bus(struct iommu_device *iommu,
-> +			      const struct iommu_ops *ops, struct bus_type *bus,
-> +			      struct notifier_block *nb)
-> +{
-> +	int err;
-> +
-> +	iommu->ops = ops;
-> +	nb->notifier_call = iommu_bus_notifier;
-> +	err = bus_register_notifier(bus, nb);
-> +	if (err)
-> +		return err;
-> +
-> +	spin_lock(&iommu_device_lock);
-> +	list_add_tail(&iommu->list, &iommu_device_list);
-> +	spin_unlock(&iommu_device_lock);
-> +
-> +	bus->iommu_ops = ops;
-> +	err = bus_iommu_probe(bus);
 
-By the way, bus_iommu_probe() has been changed in iommu-next, so it
-needs to be rebased here.
+On 2023-08-10 at 21:18:12 +0800, Chen-Yu Tsai <wens@kernel.org> wrote:
+> On Mon, Aug 7, 2023 at 5:36=E2=80=AFPM Frank Oltmanns <frank@oltmanns.dev=
+> wrote:
+>>
+>> Hi Icenowy,
+>>
+>> it is my understanding that you are the original author of the following
+>> patches are in Ond=C5=99ej's 6.4 branch [1] [2] [3] but not in his 6.5
+>> branch. I assume it is because of merge conflicts as the part about
+>> setting the parent has already been fixed in the 6.5 release candidates.
+>>
+>> Therefore I've removed those parts and adopted the commit message of
+>> PATCH 2. I've removed your SoB, because I think you'd need to sign of
+>> the revised version. Especially patch 2 has become a bit simpler and I'm
+>> wondering if it makes sense to try to upstream the three patches now.
+>> What do you think?
+>>
+>> Thank you for your amazing work!
+>>
+>> Best regards,
+>>   Frank
+>
+> Please send to all maintainers and relevant mailing lists (as given
+> by get_maintainers.pl).
+>
 
-Best regards,
-baolu
+Thank you for pointing this out. This was actually intended as an RFC
+specifically for Icenowy, but I forgot to mark it as such.
+
+Furthermore, I decided to cc the two lists because I had trouble
+receiving Icenowy's mails in the past and I wanted to make sure I could
+at least browse the archives for responses.
+
+I'll take more care next time.
+
+Thanks,
+  Frank
+
+>
+>
+>> [1]: https://github.com/megous/linux/commit/2cd3d57adf83e2d091baed77e1aa=
+fc01d545d123
+>> [2]: https://github.com/megous/linux/commit/c9c7bfe22f0fefdfc1dc2ce84b45=
+2964112399d7
+>> [3]: https://github.com/megous/linux/commit/e19ccee10a8492535b6cda1ba97c=
+ccc2074d6e65
+>>
+>> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+>> ---
+>> Icenowy Zheng (3):
+>>       clk: sunxi-ng: add support for rate resetting notifier
+>>       clk: sunxi-ng: a64: keep tcon0 clock rate when pll-video0's rate c=
+hanges
+>>       drm/sun4i: tcon: hand over the duty to keep TCON0 clock to CCU on =
+A64
+>>
+>>  drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 15 +++++++++++++++
+>>  drivers/clk/sunxi-ng/ccu_common.c     | 22 ++++++++++++++++++++++
+>>  drivers/clk/sunxi-ng/ccu_common.h     | 12 ++++++++++++
+>>  drivers/gpu/drm/sun4i/sun4i_tcon.c    | 15 +++++++++++++--
+>>  drivers/gpu/drm/sun4i/sun4i_tcon.h    |  1 +
+>>  5 files changed, 63 insertions(+), 2 deletions(-)
+>> ---
+>> base-commit: 1cf5c37ee3c2334a964c65e52b4e0c59b4332d7c
+>> change-id: 20230807-a64_pll_video0_notifier-164cbc78b341
+>>
+>> Best regards,
+>> --
+>> Frank Oltmanns <frank@oltmanns.dev>
+>>
+>>
