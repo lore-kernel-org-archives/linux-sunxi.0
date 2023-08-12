@@ -1,170 +1,224 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2051.outbound.protection.outlook.com [40.107.223.51])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE9A20FB;
-	Sat, 12 Aug 2023 11:28:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b7OL79NaSPERuHxqswW6x/vlFVQQYjwDsjcPKfCxZO51p9jeKlBhE7eEyLe4KyaWcIRqsikJG5v54EjeW2w+EVjnZxhkQJB93PPoAYV7TIQkiPWDp1KcWaeLfGgSNxuv1silbTmYCjcUjh4EpO0Iv5vURXc8ROSOvxLXWWiW/uHHoVRppr4+33c+ivwggH2pIxX+u4e9Gr8N6Bu8qed3wBmQMpkuyuqtZWZJDrLS7LmViQfCItfRQBgTqb9oWgZ3LG01kiDtPtob2vbJPiTJwMrapQqjQ6ZNd5psRqOo0aKTblU+USPeS251f9dTnN1eN5u69ugpIj93STxQ5iwi8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rRM2xdLxGBDxpPvsRXUsdUBMz3A2DTbCI4aCO3pctCQ=;
- b=cSMaLisz1bU4d6meX/OjXa0svEZaXL8Ldi2jdqrFW1J7NFx10FaZ3sYdvyFosRkzP0fjmLpUKEt8QSZOj5qOpDw+mMCqJUyXgZbpgaGdSIvw/Ho8w/rA8rnAQciu1G7z6phfyHNqgb6guwmJ9rA7kMn6F7Zd/xNxGzI1f6Ldledg/v7dXoGYvCrQepfWuspqv8LS7Fu2mRBntmkwEmVd2xhGd0315i8mtiU6LAhBBF/YVEsmTsJOM4TIFNA83hffZ6zGsMuc5le99k6IRlBr+KR+jBYmRL+yiZeASP6Gxqaefgfz1vwx99yrBA8iXckLvoRYl2MoqDFfsaK2dAeMlg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rRM2xdLxGBDxpPvsRXUsdUBMz3A2DTbCI4aCO3pctCQ=;
- b=onx72AgIMzeJMPmrW4EFaLgxY1ELWaJ0kEhq4/zPPfEW4oV8q0vGdvo/TYXrs1UwfVPBeZuvTmOm6PYFy1jWc8soHNZyJj4bSUSjcyB0WO00W8zldgsaknfSdarv8t1fURf74SnKgXflOO0329W1pJlFs0Yyz27zs6BYhd0tlBecXJel1ABCXBEenSbol4hR0Fbfo/omBBC0eYDdeWRJg0QBVbMnZScj/zkmDcMKDiLerd2EpC5CyDULIPiEeiqoylV5i83QKsseFTU28enCRdNe8hasxIHGblJgZRsAU9+5/G4hO5gI7/miQDTm5yiKX3kvJQse9PbxiEXjbf8/xw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by PH0PR12MB7908.namprd12.prod.outlook.com (2603:10b6:510:28e::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.22; Sat, 12 Aug
- 2023 11:28:38 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::5111:16e8:5afe:1da1]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::5111:16e8:5afe:1da1%6]) with mapi id 15.20.6678.023; Sat, 12 Aug 2023
- 11:28:37 +0000
-Date: Sat, 12 Aug 2023 08:28:34 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Baolu Lu <baolu.lu@linux.intel.com>
-Cc: Andy Gross <agross@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-	linuxppc-dev@lists.ozlabs.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Matthew Rosato <mjrosato@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Orson Zhai <orsonzhai@gmail.com>, Rob Clark <robdclark@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Samuel Holland <samuel@sholland.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5922323C7;
+	Sat, 12 Aug 2023 14:46:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691851582; x=1723387582;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YCfr+Nz7HHzCOXY0udKVpPrS0ljXtJL5gnyuyd57AMw=;
+  b=Rjjq2le4di/p73afmS+dEaXhBsJV85B1VSku5N2mtDXY8x7biQ15g+zM
+   5OnLF3T8RVAmqgJQ/PuQCoXZpktxc8vRaUG/rOywIeAKZIXepJQm/35SZ
+   PNBVhDVZfAE7jKefLJw+4Vy1uaQDHRosfI5OCuiQUpzBIhBYBFfhPvi28
+   7BOCAi1lNIfykhhYRYCV46K9TutxZLUIVcrJGqrEZxgv1CdDE78HgDm50
+   OUzkQlMYFAZWDZ5pQSkSdfs2zKZUzZHALqc2i+u9L8HBL7OiaXb5h6C51
+   Uxw13BwIKUP6cZuSpycekRQE1qPh/sCrLEsbiFdJ6W1eqsuqT1ouf1lw1
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="370731528"
+X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
+   d="scan'208";a="370731528"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 07:46:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="979503000"
+X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
+   d="scan'208";a="979503000"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 12 Aug 2023 07:46:16 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qUpsd-0008d2-1y;
+	Sat, 12 Aug 2023 14:46:15 +0000
+Date: Sat, 12 Aug 2023 22:46:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aleksandr Shubin <privatesub2@gmail.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Aleksandr Shubin <privatesub2@gmail.com>,
 	Thierry Reding <thierry.reding@gmail.com>,
-	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
-	Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Steven Price <steven.price@arm.com>,
-	Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v6 02/25] iommu: Add IOMMU_DOMAIN_PLATFORM
-Message-ID: <ZNds4kejneylOYBE@nvidia.com>
-References: <2-v6-e8114faedade+425-iommu_all_defdom_jgg@nvidia.com>
- <dde32ea5-2b1a-1148-c329-3c52ffcb71a7@linux.intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dde32ea5-2b1a-1148-c329-3c52ffcb71a7@linux.intel.com>
-X-ClientProxiedBy: BYAPR07CA0094.namprd07.prod.outlook.com
- (2603:10b6:a03:12b::35) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Andre Przywara <andre.przywara@arm.com>, linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v4 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM
+ support
+Message-ID: <202308122212.SOHP09RP-lkp@intel.com>
+References: <20230810145443.1053387-3-privatesub2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|PH0PR12MB7908:EE_
-X-MS-Office365-Filtering-Correlation-Id: a25a0592-74f5-43cb-fe1a-08db9b274526
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	JcOjWbb1rmqWFJSeUlcP404Wd7uifK0tlwNuwW7iq5TunBKKrYpdz+YOnHquBQuscA7ZPSuyZyhdFUjXdQEmiQd11ogSsOlKrdjhN+7BxsdcG4pwjOJbgL2ZUnq745Rfu2u1YDJI0/Tl4OGgHYGD9APaJwLE0GqJdeB5hazTolGhpTkOo+6/NlG+AAo36k/fdwzyFaCSt9sPiJy7udVsq2ZpWJU/07hp3U+FItwGU58DL6oQB/M/IuIPkoxz4Bpiu2dvgCUM2Y9z7AVV/Rnili6fi0V8S8R65y+wu4DofepESZ7WKY2CkSt5zaPPh6e5ESHTMnn0fZ9EWZBWG8uRoWeJ4y419+WFd6AWWVX37pYtHnS6NsDOaVOm3cfTWnbLmoa3haKKaE+oSXixJDONH7lfXyravdrUp7QP2a9SFofMBHqUzhys5ybi/Ts7EgxElc1uf2I2PjhZQqPVaCIKpk4yIbigvunNZpxYXQU1iDlc7Xf9Aqx0IlrYMQGzTDQxvqjr40VSXvkxdMZl5jBE/fEQJe+MDQpXbjspD/1lQs7eIJdv5rv7w6Hg3oF7Z5Df
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(376002)(346002)(39860400002)(396003)(136003)(451199021)(1800799006)(186006)(6486002)(6666004)(6512007)(54906003)(478600001)(2616005)(107886003)(6506007)(26005)(2906002)(4326008)(6916009)(316002)(66946007)(66476007)(41300700001)(5660300002)(8676002)(66556008)(7406005)(7416002)(8936002)(38100700002)(86362001)(36756003)(83380400001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?YwWwAKFhrK5RsN1Nqyw4lu4KztkvFIwmLRUTXzJQJ/EcD85ScwfT+JCkKJzz?=
- =?us-ascii?Q?zTTwIGmmSPpB3pPfuMy5KnreVOiC5Pj6tep7x/pjluW/2Yav6+7rokQDLUvL?=
- =?us-ascii?Q?GEpqHNu+Qi0DORY5T6OJjHvyZarywDRXN6nySktJ6RPDPnzReVY8FTlaM1CH?=
- =?us-ascii?Q?qMo2iiPRpIq+9k9QVUz23JBgSOutvIP/tXBnmIbtdMxiSpX3B8ZYLJ56sUg3?=
- =?us-ascii?Q?ViYOVojWAJ7Q6zNgkFo6nsCtM4GZRLpwUsEBwfoEB78DDMaDqxtQsXzVO70z?=
- =?us-ascii?Q?NUphbViO1kaQgB125zNf71Nn6jGu9BGLyNzuOCB3zWjPCySC2Cwrn1bSq7x/?=
- =?us-ascii?Q?f9kJ1/h0M/T3vyxhehvyg5mGjwiLw1YVPUEZBNm0RhHJu02rIs2fe/HhUXwh?=
- =?us-ascii?Q?2T/iR0ahYtsIMxfzR2dNlvPmtzQAzJmCADFYfyY1Qxr7tmCYxeYPMtr65kaY?=
- =?us-ascii?Q?SqOxUEK6rHH8u2ba2JgNRNFU2SrLC6ET83ivFfr2T4EgeKnGNZZy4tnquRwH?=
- =?us-ascii?Q?r4BXsotiR0DDaSAcM/daGxxJ7xmTz4G/eJw3Imw+qHdYyeGREkYI+Pjk5s+Z?=
- =?us-ascii?Q?f8ifk6rZHR/3QPIhGB5YXqWWSFn+NtQmWUUmYRgrWSQuHYfFtIVXYqHn3Q9H?=
- =?us-ascii?Q?gbOgsveCPPNhZf/8Uux9WF73lxtOIKwzYq/P+o52UgEoyt5xBlApQGZr+92s?=
- =?us-ascii?Q?1ZtjWeirrD/LKrxAaxuzMnCNUSCNBHE8f9tT32aUCrV171riWaKcVdzBii5O?=
- =?us-ascii?Q?6fKlh105CgPspi3uBlIoQUghCAX+PxV3G5ORKJ4QSMVvSPTO46dJysJ+j+hA?=
- =?us-ascii?Q?xsPHf2xAeLRjThFIptIkie7wO/YiKGjt+dy9VQbMyGmqP9j0oRJA+FRvO/sJ?=
- =?us-ascii?Q?jipMDzQYbkVIMKA0mO8y4bpPh4Z8nzr4skCjHI/xaE22v+Z3mQhBBfUi++Lt?=
- =?us-ascii?Q?pe9VGZTKvCmJQy0y4NOAoNzhzDAv35WfZf25Inzei7+RFJzOzfd5Ngz8/4Dn?=
- =?us-ascii?Q?w2rIRutosXQWRIzZUWZzuwmtzlSSpX3982RFR/jsR/FzDF9xtgkl0iIaPOBZ?=
- =?us-ascii?Q?1GkCNRDOu6pfW3XDMRfGrjGVddn7shHWb4Jo+hwZYHYcslUnWX+y4Pf5qavD?=
- =?us-ascii?Q?Zgceibv7rJ6Ldndm7xppihzHLyZCRXZ6E9QwY5LaazXWBWvf6hXuwJJepslr?=
- =?us-ascii?Q?iqFpnhUtpzRYRdQZnkOXKiK8ero4iwTIDC08yohrBz4C6QYLYx1os3x5DE6K?=
- =?us-ascii?Q?eCOU0YPfc3ddlLiVRglaluIedyS1BDaSTo035kFUA3CLLtreanMJ5G5yt8Nc?=
- =?us-ascii?Q?OrRkXYlVh6SFTxO9AoO/PoY4NfhmIbzyYjkPscCD/FGtbpY2DA69OotzATkx?=
- =?us-ascii?Q?CAuRQWhL8iArbliw5JWOGclxpqnl0sQ58O7FI7JBn7K1hr5myXeKbsQPS+7z?=
- =?us-ascii?Q?pqIjJpF15WyuFMH+LxzkgItETZo6xWaajrtxRPawWIdAGSR/LwWpMgOjdzqd?=
- =?us-ascii?Q?hVd1yXaFZR88GM9L3iG1TyPJ8zJBdlbi724bKOxG6bHDlxwmjbeQIrhNqWOd?=
- =?us-ascii?Q?jDkex0akNDafDNCG4xDr31rqBbglmd8m+WdL6CeX?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a25a0592-74f5-43cb-fe1a-08db9b274526
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2023 11:28:37.4044
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UedRypMQQ26XX5UGML5ZoRx8UpSgH+aDI5E+KzzOwJ7R825wYBkysyMCjd4Tr+hg
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7908
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230810145443.1053387-3-privatesub2@gmail.com>
 
-On Sat, Aug 12, 2023 at 09:36:33AM +0800, Baolu Lu wrote:
-> > @@ -290,6 +295,7 @@ struct iommu_ops {
-> >   	unsigned long pgsize_bitmap;
-> >   	struct module *owner;
-> >   	struct iommu_domain *identity_domain;
-> > +	struct iommu_domain *default_domain;
-> 
-> I am imaging whether we can merge above two pointers into a single one.
-> It is either an IDENTITY or PLATFORM domain and the core will choose it
-> as the default domain of a group if iommu_group_alloc_default_domain()
-> fails to allocate one through the iommu dev_ops.
+Hi Aleksandr,
 
-I think that would be the wrong direction..
+kernel test robot noticed the following build warnings:
 
-identity_domain is a pointer that is always, ALWAYS an identity
-domain. It is the shortcut for drivers (and all drivers should do
-this) that implement a global static identity domain.
+[auto build test WARNING on thierry-reding-pwm/for-next]
+[also build test WARNING on sunxi/sunxi/for-next robh/for-next linus/master v6.5-rc5 next-20230809]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-default_domain is a shortcut to avoid implementing the entire flow
-around def_domain_type/domain_alloc for special cases. For this patch
-the specialc ase is the IOMMU_DOMAIN_PLATFORM.
+url:    https://github.com/intel-lab-lkp/linux/commits/Aleksandr-Shubin/dt-bindings-pwm-Add-binding-for-Allwinner-D1-T113-S3-R329-PWM-controller/20230810-225849
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git for-next
+patch link:    https://lore.kernel.org/r/20230810145443.1053387-3-privatesub2%40gmail.com
+patch subject: [PATCH v4 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM support
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230812/202308122212.SOHP09RP-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230812/202308122212.SOHP09RP-lkp@intel.com/reproduce)
 
-We'll probably also get a blocking_domain pointer here too.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308122212.SOHP09RP-lkp@intel.com/
 
-All of this is removing the type multiplexor in alloc_domain so we can
-so  alloc_domain_paging()
+All warnings (new ones prefixed by >>):
 
-> Probably we could give it a more meaningful name? For example,
-> supplemental_domain or rescue_domain?
+   drivers/pwm/pwm-sun20i.c: In function 'sun20i_pwm_apply':
+>> drivers/pwm/pwm-sun20i.c:121:48: warning: unused variable 'tmp' [-Wunused-variable]
+     121 |         u64 bus_rate, hosc_rate, clk_div, val, tmp;
+         |                                                ^~~
 
-But that isn't what it is for, default_domain is the operational
-domain for attached drivers..
 
-Jason
+vim +/tmp +121 drivers/pwm/pwm-sun20i.c
+
+   115	
+   116	static int sun20i_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+   117				    const struct pwm_state *state)
+   118	{
+   119		struct sun20i_pwm_chip *sun20i_chip = to_sun20i_pwm_chip(chip);
+   120		u32 clk_gate, clk_cfg, pwm_en, ctl, period;
+ > 121		u64 bus_rate, hosc_rate, clk_div, val, tmp;
+   122		u32 prescaler, div_m;
+   123		bool use_bus_clk;
+   124		int ret = 0;
+   125	
+   126		mutex_lock(&sun20i_chip->mutex);
+   127	
+   128		pwm_en = sun20i_pwm_readl(sun20i_chip, PWM_ENABLE);
+   129	
+   130		if (state->enabled != pwm->state.enabled)
+   131			clk_gate = sun20i_pwm_readl(sun20i_chip, PWM_CLK_GATE);
+   132	
+   133		if (state->enabled != pwm->state.enabled && !state->enabled) {
+   134			clk_gate &= ~PWM_CLK_GATE_GATING(pwm->hwpwm);
+   135			pwm_en &= ~PWM_ENABLE_EN(pwm->hwpwm);
+   136			sun20i_pwm_writel(sun20i_chip, pwm_en, PWM_ENABLE);
+   137			sun20i_pwm_writel(sun20i_chip, clk_gate, PWM_CLK_GATE);
+   138		}
+   139	
+   140		if (state->polarity != pwm->state.polarity ||
+   141		    state->duty_cycle != pwm->state.duty_cycle ||
+   142		    state->period != pwm->state.period) {
+   143			ctl = sun20i_pwm_readl(sun20i_chip, PWM_CTL(pwm->hwpwm));
+   144			clk_cfg = sun20i_pwm_readl(sun20i_chip, PWM_CLK_CFG(pwm->hwpwm));
+   145			hosc_rate = clk_get_rate(sun20i_chip->clk_hosc);
+   146			bus_rate = clk_get_rate(sun20i_chip->clk_bus);
+   147			if (pwm_en & PWM_ENABLE_EN(pwm->hwpwm ^ 1)) {
+   148				/* if the neighbor channel is enable, check period only */
+   149				use_bus_clk = FIELD_GET(PWM_CLK_CFG_SRC, clk_cfg) != 0;
+   150				val = state->period * (use_bus_clk ? bus_rate : hosc_rate);
+   151				do_div(val, NSEC_PER_SEC);
+   152	
+   153				div_m = FIELD_GET(PWM_CLK_CFG_DIV_M, clk_cfg);
+   154			} else {
+   155				/* check period and select clock source */
+   156				use_bus_clk = false;
+   157				val = state->period * hosc_rate;
+   158				do_div(val, NSEC_PER_SEC);
+   159				if (val <= 1) {
+   160					use_bus_clk = true;
+   161					val = state->period * bus_rate;
+   162					do_div(val, NSEC_PER_SEC);
+   163					if (val <= 1) {
+   164						ret = -EINVAL;
+   165						goto unlock_mutex;
+   166					}
+   167				}
+   168				div_m = fls(DIV_ROUND_DOWN_ULL(val, PWM_MAGIC));
+   169				if (div_m >= 9) {
+   170					ret = -EINVAL;
+   171					goto unlock_mutex;
+   172				}
+   173	
+   174				/* set up the CLK_DIV_M and clock CLK_SRC */
+   175				clk_cfg = FIELD_PREP(PWM_CLK_CFG_DIV_M, div_m);
+   176				clk_cfg |= FIELD_PREP(PWM_CLK_CFG_SRC, use_bus_clk);
+   177	
+   178				sun20i_pwm_writel(sun20i_chip, clk_cfg, PWM_CLK_CFG(pwm->hwpwm));
+   179			}
+   180	
+   181			/* calculate prescaler, PWM entire cycle */
+   182			clk_div = val >> div_m;
+   183			if (clk_div <= 65534) {
+   184				prescaler = 0;
+   185			} else {
+   186				prescaler = DIV_ROUND_UP_ULL(clk_div - 65534, 65535);
+   187				if (prescaler >= 256) {
+   188					ret = -EINVAL;
+   189					goto unlock_mutex;
+   190				}
+   191				do_div(clk_div, prescaler + 1);
+   192			}
+   193	
+   194			period = FIELD_PREP(PWM_PERIOD_ENTIRE_CYCLE, clk_div);
+   195	
+   196			/* set duty cycle */
+   197			val = state->duty_cycle * (use_bus_clk ? bus_rate : hosc_rate);
+   198			do_div(val, NSEC_PER_SEC);
+   199			clk_div = val >> div_m;
+   200			do_div(clk_div, prescaler + 1);
+   201	
+   202			/*
+   203			 * The formula of the output period and the duty-cycle for PWM are as follows.
+   204			 * T period = (PWM01_CLK / PWM0_PRESCALE_K)^-1 * (PPR0.PWM_ENTIRE_CYCLE + 1)
+   205			 * T high-level = (PWM01_CLK / PWM0_PRESCALE_K)^-1 * PPR0.PWM_ACT_CYCLE
+   206			 * Duty-cycle = T high-level / T period
+   207			 * In accordance with this formula, in order to set the duty-cycle to 100%,
+   208			 * it is necessary that PWM_ACT_CYCLE >= PWM_ENTIRE_CYCLE + 1
+   209			 */
+   210			if (state->duty_cycle == state->period)
+   211				clk_div++;
+   212			period |= FIELD_PREP(PWM_PERIOD_ACT_CYCLE, clk_div);
+   213			sun20i_pwm_writel(sun20i_chip, period, PWM_PERIOD(pwm->hwpwm));
+   214	
+   215			ctl = FIELD_PREP(PWM_CTL_PRESCAL_K, prescaler);
+   216			if (state->polarity == PWM_POLARITY_NORMAL)
+   217				ctl |= PWM_CTL_ACT_STA;
+   218	
+   219			sun20i_pwm_writel(sun20i_chip, ctl, PWM_CTL(pwm->hwpwm));
+   220		}
+   221	
+   222		if (state->enabled != pwm->state.enabled && state->enabled) {
+   223			clk_gate &= ~PWM_CLK_GATE_BYPASS(pwm->hwpwm);
+   224			clk_gate |= PWM_CLK_GATE_GATING(pwm->hwpwm);
+   225			pwm_en |= PWM_ENABLE_EN(pwm->hwpwm);
+   226			sun20i_pwm_writel(sun20i_chip, pwm_en, PWM_ENABLE);
+   227			sun20i_pwm_writel(sun20i_chip, clk_gate, PWM_CLK_GATE);
+   228		}
+   229	
+   230	unlock_mutex:
+   231		mutex_unlock(&sun20i_chip->mutex);
+   232	
+   233		return ret;
+   234	}
+   235	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
