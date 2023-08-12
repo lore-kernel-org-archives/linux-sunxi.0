@@ -1,38 +1,40 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D907628
-	for <linux-sunxi@lists.linux.dev>; Sat, 12 Aug 2023 08:36:23 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC99628
+	for <linux-sunxi@lists.linux.dev>; Sat, 12 Aug 2023 08:39:39 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4RNDXM1LdVz9sQy;
-	Sat, 12 Aug 2023 10:36:19 +0200 (CEST)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4RNDc14Cn9z9skN;
+	Sat, 12 Aug 2023 10:39:29 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1691829379;
+	s=MBO0001; t=1691829569;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/XrpGj268ANMqkjJ6sRh0UhhiU8sMWrdHHUqI9pS91s=;
-	b=vmhA+EIaLrUpwMcko+AudKWsALqGC+AVYVapN/DOQXnZvwkbkGgVraQzIiymY3VgTiA9Pq
-	nSU6oeH09LqyNolsW+LKFKcADoTfm0jWy2mYI1PLQE7tk009JxFVbWjvIu9Wm43F2E9iSc
-	kabSb6ZoIZ1+p7puOV9Y7mkd26jRMja/qEA5C2G8XtdyZCrfKS41iWcdcu49aNTveKPGUJ
-	xd0HFdnFb+hahS3qQ1XqprB7ODpOtQFu9KVASsRv8diWDFNnwJVx0RFof9G6YD/u0/Z4Ws
-	5Cn/PgcI8Qpr/Oe3NTCnCGjrmN6mMU2HdOiQYbA0ZlEudE1ZvxrUFF4xx+/6lw==
+	bh=ArSlNANKt5fVqedX9q261tcndTrTB23Mm5NRgz3SKP0=;
+	b=XrMoQKM2v7LfJS9BxI79ThF0DhUs7Vtvt9f1fF6s+tMuDqpUyo8yPdZygmaqNZF8yPVlkA
+	SLErpVAdXY+em4TkdkFLCpdqm6y0sQGQ+YKTon2F6H2r6Pbq/LloASsVTcDbw/SooEkilW
+	Uqa0i5z3CbTnyxj/lbqPmtv22G0eRJWnsa1W0wpnEf9cpkQdnQyTTOXCb/v2D5zGPSC2O0
+	N/FljPnU4BkNRTwzK6NLTt9HWCRION0xSkjzZ2GGjvrxCyQ1Yw5iCmO4E5ueMyo9CQTOXy
+	gNce+so1OFNz0wPhEimBuuDGeJmzjo7ZGCUVGEyn/bTg6HeUCNeTS+Ee5n4Org==
 References: <20230807-a64_pll_video0_notifier-v1-0-8a7ccdc14c79@oltmanns.dev>
- <CAGb2v64ZxaizTOLMZfJKujAZqZCiowbotxBhvfCmLV_exF-ooQ@mail.gmail.com>
+ <20230807-a64_pll_video0_notifier-v1-2-8a7ccdc14c79@oltmanns.dev>
+ <16a690b357f34db0ba852a63d86ba13b9ded5924.camel@icenowy.me>
+ <87il9rtc7y.fsf@oltmanns.dev>
+ <af2fc72a8206ababe7f4ec7af0667ba39c6df2d4.camel@icenowy.me>
 From: Frank Oltmanns <frank@oltmanns.dev>
-To: wens@kernel.org
-Cc: Icenowy Zheng <uwu@icenowy.me>, =?utf-8?Q?Ond=C5=99ej?= Jirman
- <x@xnux.eu>,
- linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org, Icenowy
- Zheng <icenowy@aosc.io>
-Subject: Re: [PATCH 0/3] pll-video0 notifier for v6.5+
-In-reply-to: <CAGb2v64ZxaizTOLMZfJKujAZqZCiowbotxBhvfCmLV_exF-ooQ@mail.gmail.com>
-Date: Sat, 12 Aug 2023 10:36:06 +0200
-Message-ID: <87leegk689.fsf@oltmanns.dev>
+To: Icenowy Zheng <uwu@icenowy.me>
+Cc: Ond?0?0ej Jirman <x@xnux.eu>, linux-sunxi@lists.linux.dev,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 2/3] clk: sunxi-ng: a64: keep tcon0 clock rate when
+ pll-video0's rate changes
+In-reply-to: <af2fc72a8206ababe7f4ec7af0667ba39c6df2d4.camel@icenowy.me>
+Date: Sat, 12 Aug 2023 10:39:28 +0200
+Message-ID: <87h6p4k62n.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -41,76 +43,110 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 4RNDc14Cn9z9skN
 
 
-On 2023-08-10 at 21:18:12 +0800, Chen-Yu Tsai <wens@kernel.org> wrote:
-> On Mon, Aug 7, 2023 at 5:36=E2=80=AFPM Frank Oltmanns <frank@oltmanns.dev=
-> wrote:
+On 2023-08-07 at 18:22:26 +0800, Icenowy Zheng <uwu@icenowy.me> wrote:
+> =E5=9C=A8 2023-08-07=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 11:48 +0200=EF=
+=BC=8CFrank Oltmanns=E5=86=99=E9=81=93=EF=BC=9A
 >>
->> Hi Icenowy,
+>> On 2023-08-07 at 17:43:52 +0800, Icenowy Zheng <uwu@icenowy.me>
+>> wrote:
+>> > =E5=9C=A8 2023-08-07=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 11:36 +0200=
+=EF=BC=8CFrank Oltmanns=E5=86=99=E9=81=93=EF=BC=9A
+>> > > From: Icenowy Zheng <icenowy@aosc.io>
+>> > >
+>> > > Notify TCON0 clock (and in consequence PLL-MIPI by
+>> > > CLK_SET_RATE_PARENT)
+>> > > to reset when PLL-Video0 changes (because of HDMI PHY clk which
+>> > > is a
+>> > > child of PLL-Video0 and has CLK_SET_RATE_PARENT set). In this way
+>> > > we
+>> > > can
+>> > > get clock tree to satisfy both pipelines.
+>> >
+>> > Well for fixing one's patch that contains SoB, use the following
+>> > format:
+>> >
+>> > Signed-off-by: A <a@a.local>
+>> > [B: fixed something]
+>> > Signed-off-by: B <b@b.local>
 >>
->> it is my understanding that you are the original author of the following
->> patches are in Ond=C5=99ej's 6.4 branch [1] [2] [3] but not in his 6.5
->> branch. I assume it is because of merge conflicts as the part about
->> setting the parent has already been fixed in the 6.5 release candidates.
->>
->> Therefore I've removed those parts and adopted the commit message of
->> PATCH 2. I've removed your SoB, because I think you'd need to sign of
->> the revised version. Especially patch 2 has become a bit simpler and I'm
->> wondering if it makes sense to try to upstream the three patches now.
->> What do you think?
->>
->> Thank you for your amazing work!
->>
->> Best regards,
->>   Frank
+>> Ah, okay. Will do. But I keep A in the "From: " line, correct?
 >
-> Please send to all maintainers and relevant mailing lists (as given
-> by get_maintainers.pl).
+> Yes.
 >
 
-Thank you for pointing this out. This was actually intended as an RFC
-specifically for Icenowy, but I forgot to mark it as such.
-
-Furthermore, I decided to cc the two lists because I had trouble
-receiving Icenowy's mails in the past and I wanted to make sure I could
-at least browse the archives for responses.
-
-I'll take more care next time.
+One more thing: You seem to be using a new mail address. Do you want me
+to replace the "From" and SoB's with the new address?
 
 Thanks,
   Frank
 
 >
->
->> [1]: https://github.com/megous/linux/commit/2cd3d57adf83e2d091baed77e1aa=
-fc01d545d123
->> [2]: https://github.com/megous/linux/commit/c9c7bfe22f0fefdfc1dc2ce84b45=
-2964112399d7
->> [3]: https://github.com/megous/linux/commit/e19ccee10a8492535b6cda1ba97c=
-ccc2074d6e65
 >>
->> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
->> ---
->> Icenowy Zheng (3):
->>       clk: sunxi-ng: add support for rate resetting notifier
->>       clk: sunxi-ng: a64: keep tcon0 clock rate when pll-video0's rate c=
-hanges
->>       drm/sun4i: tcon: hand over the duty to keep TCON0 clock to CCU on =
-A64
+>> Thanks,
+>> =C2=A0 Frank
 >>
->>  drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 15 +++++++++++++++
->>  drivers/clk/sunxi-ng/ccu_common.c     | 22 ++++++++++++++++++++++
->>  drivers/clk/sunxi-ng/ccu_common.h     | 12 ++++++++++++
->>  drivers/gpu/drm/sun4i/sun4i_tcon.c    | 15 +++++++++++++--
->>  drivers/gpu/drm/sun4i/sun4i_tcon.h    |  1 +
->>  5 files changed, 63 insertions(+), 2 deletions(-)
->> ---
->> base-commit: 1cf5c37ee3c2334a964c65e52b4e0c59b4332d7c
->> change-id: 20230807-a64_pll_video0_notifier-164cbc78b341
->>
->> Best regards,
->> --
->> Frank Oltmanns <frank@oltmanns.dev>
->>
->>
+>> > > ---
+>> > > =C2=A0drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 15 +++++++++++++++
+>> > > =C2=A01 file changed, 15 insertions(+)
+>> > >
+>> > > diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+>> > > b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+>> > > index ef567775fc95..93beedb0428e 100644
+>> > > --- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+>> > > +++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+>> > > @@ -943,6 +943,17 @@ static struct ccu_mux_nb sun50i_a64_cpu_nb =3D
+>> > > {
+>> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.bypass_index=C2=A0=
+=C2=A0=C2=A0=3D 1, /* index of 24 MHz oscillator */
+>> > > =C2=A0};
+>> > > =C2=A0
+>> > > +/*
+>> > > + * Since PLL-Video0 is an ancestor of both tcon0 and HDMI PYH,
+>> > > tcon0
+>> > > clock will
+>> > > + * conflict with HDMI PHY clock which is on another display
+>> > > pipeline.
+>> > > + *
+>> > > + * Therefore, a notifier is required to restore the rate of
+>> > > TCON0
+>> > > when the rate
+>> > > + * of PLL-Video0 changed.
+>> > > + */
+>> > > +static struct ccu_rate_reset_nb
+>> > > sun50i_a64_pll_video0_reset_tcon0_nb
+>> > > =3D {
+>> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.common=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=3D &pll_video0_clk.common,
+>> > > +};
+>> > > +
+>> > > =C2=A0static int sun50i_a64_ccu_probe(struct platform_device *pdev)
+>> > > =C2=A0{
+>> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0void __iomem *reg;
+>> > > @@ -978,6 +989,10 @@ static int sun50i_a64_ccu_probe(struct
+>> > > platform_device *pdev)
+>> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ccu_mux_notifier_reg=
+ister(pll_cpux_clk.common.hw.clk,
+>> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &sun50i_a64_cpu_n=
+b);
+>> > > =C2=A0
+>> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* Reset the rate of TCON=
+0 clock when PLL-VIDEO0 is
+>> > > changed
+>> > > */
+>> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sun50i_a64_pll_video0_res=
+et_tcon0_nb.target_clk =3D
+>> > > tcon0_clk.common.hw.clk;
+>> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ccu_rate_reset_notifier_r=
+egister(&sun50i_a64_pll_video0_r
+>> > > eset
+>> > > _tcon0_nb);
+>> > > +
+>> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return 0;
+>> > > =C2=A0}
+>> > > =C2=A0
+>> > >
