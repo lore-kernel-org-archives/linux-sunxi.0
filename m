@@ -1,224 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5922323C7;
-	Sat, 12 Aug 2023 14:46:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691851582; x=1723387582;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YCfr+Nz7HHzCOXY0udKVpPrS0ljXtJL5gnyuyd57AMw=;
-  b=Rjjq2le4di/p73afmS+dEaXhBsJV85B1VSku5N2mtDXY8x7biQ15g+zM
-   5OnLF3T8RVAmqgJQ/PuQCoXZpktxc8vRaUG/rOywIeAKZIXepJQm/35SZ
-   PNBVhDVZfAE7jKefLJw+4Vy1uaQDHRosfI5OCuiQUpzBIhBYBFfhPvi28
-   7BOCAi1lNIfykhhYRYCV46K9TutxZLUIVcrJGqrEZxgv1CdDE78HgDm50
-   OUzkQlMYFAZWDZ5pQSkSdfs2zKZUzZHALqc2i+u9L8HBL7OiaXb5h6C51
-   Uxw13BwIKUP6cZuSpycekRQE1qPh/sCrLEsbiFdJ6W1eqsuqT1ouf1lw1
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="370731528"
-X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="370731528"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 07:46:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="979503000"
-X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="979503000"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 12 Aug 2023 07:46:16 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qUpsd-0008d2-1y;
-	Sat, 12 Aug 2023 14:46:15 +0000
-Date: Sat, 12 Aug 2023 22:46:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Aleksandr Shubin <privatesub2@gmail.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Aleksandr Shubin <privatesub2@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Andre Przywara <andre.przywara@arm.com>, linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v4 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM
- support
-Message-ID: <202308122212.SOHP09RP-lkp@intel.com>
-References: <20230810145443.1053387-3-privatesub2@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B26215A4
+	for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 04:13:34 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-687ca37628eso3149046b3a.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 12 Aug 2023 21:13:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691900013; x=1692504813;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HI593M9zMN8epqOMj2ahalMMsfEOiEZNyKM6XMUdoUI=;
+        b=lGVRaoVsMECCBjYPG+pQ8+jN0I8mzMPiJ11/TU1sqDI03gKn053jifdT09SUw+NIPJ
+         VB3HWBilWS5/mhd4KQIJ9kEIZi/RLl1y2RjQLUuaE18l5HzTlDRuzZ1MT5iDhfghljjA
+         +0Pkp7Nn/25bNp5QL+8mM96iOgggvdWJoNqT4r5/sR+6prvf6fFTg+xui8+8GGbaCjz0
+         pGqv9yGpC8KlonJC6j8mOUb8RHg0/JkF2PxHnYD/3j4v4h/G3k/3G8c1vpTEKl0gD8zV
+         q7JxUnLDDhC+KDjkcs5Auz9iuq3SSB1A/f274fvzdQv2eQMdc3y7D5S/QfV61QEWS88q
+         eJLg==
+X-Gm-Message-State: AOJu0YwKhukgP2RW0BqzpRfoZle3L1DTDatZN6ED2o69ejBDhIDJ1q0o
+	ytlFrKhQX3Gt3jwAtl7vUarRkYYIA8pSUg==
+X-Google-Smtp-Source: AGHT+IHn/SxbpWHQiOJ8g2adQZ0b4h52Qcus2LnH4C9AHqVuiKgksGv98DnxHmdUuPw07RGMTu7FKg==
+X-Received: by 2002:a05:6a20:1606:b0:13f:cd07:2b40 with SMTP id l6-20020a056a20160600b0013fcd072b40mr8927770pzj.3.1691900013471;
+        Sat, 12 Aug 2023 21:13:33 -0700 (PDT)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com. [209.85.214.175])
+        by smtp.gmail.com with ESMTPSA id b18-20020aa78112000000b00659b8313d08sm5607405pfi.78.2023.08.12.21.13.21
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 12 Aug 2023 21:13:22 -0700 (PDT)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1bdba48eccdso15877035ad.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 12 Aug 2023 21:13:21 -0700 (PDT)
+X-Received: by 2002:a17:902:e741:b0:1bb:8e13:deba with SMTP id
+ p1-20020a170902e74100b001bb8e13debamr7297585plf.11.1691900000803; Sat, 12 Aug
+ 2023 21:13:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230810145443.1053387-3-privatesub2@gmail.com>
+References: <20230731023701.2581713-1-contact@jookia.org> <3248110.44csPzL39Z@jernej-laptop>
+In-Reply-To: <3248110.44csPzL39Z@jernej-laptop>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Sun, 13 Aug 2023 12:13:09 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66g1On2uy0_15ZA5-uXcrLSg7V-tsw8zLo=tUY_HUW00g@mail.gmail.com>
+Message-ID: <CAGb2v66g1On2uy0_15ZA5-uXcrLSg7V-tsw8zLo=tUY_HUW00g@mail.gmail.com>
+Subject: Re: [PATCH] riscv: dts: allwinner: d1: Specify default CAN pins
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, John Watts <contact@jookia.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Samuel Holland <samuel@sholland.org>, 
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Maksim Kiselev <bigunclemax@gmail.com>, 
+	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	mkl@pengutronix.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Aleksandr,
+On Fri, Aug 4, 2023 at 4:59=E2=80=AFAM Jernej =C5=A0krabec <jernej.skrabec@=
+gmail.com> wrote:
+>
+> /cc Marc
+>
+> Dne ponedeljek, 31. julij 2023 ob 04:36:59 CEST je John Watts napisal(a):
+> > There are only one set of CAN pins available on these chips.
+> > Specify these as the default to avoid redundancy in board device trees.
+> >
+> > Signed-off-by: John Watts <contact@jookia.org>
+> > ---
+> >  arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+> > b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi index
+> > 4086c0cc0f9d..b27c3fc13b0d 100644
+> > --- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+> > +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+> > @@ -898,6 +898,8 @@ can0: can@2504000 {
+> >                       interrupts =3D <SOC_PERIPHERAL_IRQ(21)
+> IRQ_TYPE_LEVEL_HIGH>;
+> >                       clocks =3D <&ccu CLK_BUS_CAN0>;
+> >                       resets =3D <&ccu RST_BUS_CAN0>;
+> > +                     pinctrl-names =3D "default";
+> > +                     pinctrl-0 =3D <&can0_pins>;
+> >                       status =3D "disabled";
+> >               };
+>
+> pinctrl-names and pinctrl-0 are usually at the top. However, since there =
+is no
+> hard rule (I've seen it mixed), I'm fine with it.
 
-kernel test robot noticed the following build warnings:
+AFAIK this only applies to board files where there are mostly none of the
+resource (clocks, reg, resets, interrupts) properties. OOTH the compatible
+property is always the first property. I would normally put the pinctrl
+stuff after the internal resources, since it is an external property.
+In the SoC dtsi files, they would end up after the resource properties
+I mentioned above, and before the "status" property.
 
-[auto build test WARNING on thierry-reding-pwm/for-next]
-[also build test WARNING on sunxi/sunxi/for-next robh/for-next linus/master v6.5-rc5 next-20230809]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+ChenYu
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aleksandr-Shubin/dt-bindings-pwm-Add-binding-for-Allwinner-D1-T113-S3-R329-PWM-controller/20230810-225849
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git for-next
-patch link:    https://lore.kernel.org/r/20230810145443.1053387-3-privatesub2%40gmail.com
-patch subject: [PATCH v4 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230812/202308122212.SOHP09RP-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230812/202308122212.SOHP09RP-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308122212.SOHP09RP-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/pwm/pwm-sun20i.c: In function 'sun20i_pwm_apply':
->> drivers/pwm/pwm-sun20i.c:121:48: warning: unused variable 'tmp' [-Wunused-variable]
-     121 |         u64 bus_rate, hosc_rate, clk_div, val, tmp;
-         |                                                ^~~
-
-
-vim +/tmp +121 drivers/pwm/pwm-sun20i.c
-
-   115	
-   116	static int sun20i_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-   117				    const struct pwm_state *state)
-   118	{
-   119		struct sun20i_pwm_chip *sun20i_chip = to_sun20i_pwm_chip(chip);
-   120		u32 clk_gate, clk_cfg, pwm_en, ctl, period;
- > 121		u64 bus_rate, hosc_rate, clk_div, val, tmp;
-   122		u32 prescaler, div_m;
-   123		bool use_bus_clk;
-   124		int ret = 0;
-   125	
-   126		mutex_lock(&sun20i_chip->mutex);
-   127	
-   128		pwm_en = sun20i_pwm_readl(sun20i_chip, PWM_ENABLE);
-   129	
-   130		if (state->enabled != pwm->state.enabled)
-   131			clk_gate = sun20i_pwm_readl(sun20i_chip, PWM_CLK_GATE);
-   132	
-   133		if (state->enabled != pwm->state.enabled && !state->enabled) {
-   134			clk_gate &= ~PWM_CLK_GATE_GATING(pwm->hwpwm);
-   135			pwm_en &= ~PWM_ENABLE_EN(pwm->hwpwm);
-   136			sun20i_pwm_writel(sun20i_chip, pwm_en, PWM_ENABLE);
-   137			sun20i_pwm_writel(sun20i_chip, clk_gate, PWM_CLK_GATE);
-   138		}
-   139	
-   140		if (state->polarity != pwm->state.polarity ||
-   141		    state->duty_cycle != pwm->state.duty_cycle ||
-   142		    state->period != pwm->state.period) {
-   143			ctl = sun20i_pwm_readl(sun20i_chip, PWM_CTL(pwm->hwpwm));
-   144			clk_cfg = sun20i_pwm_readl(sun20i_chip, PWM_CLK_CFG(pwm->hwpwm));
-   145			hosc_rate = clk_get_rate(sun20i_chip->clk_hosc);
-   146			bus_rate = clk_get_rate(sun20i_chip->clk_bus);
-   147			if (pwm_en & PWM_ENABLE_EN(pwm->hwpwm ^ 1)) {
-   148				/* if the neighbor channel is enable, check period only */
-   149				use_bus_clk = FIELD_GET(PWM_CLK_CFG_SRC, clk_cfg) != 0;
-   150				val = state->period * (use_bus_clk ? bus_rate : hosc_rate);
-   151				do_div(val, NSEC_PER_SEC);
-   152	
-   153				div_m = FIELD_GET(PWM_CLK_CFG_DIV_M, clk_cfg);
-   154			} else {
-   155				/* check period and select clock source */
-   156				use_bus_clk = false;
-   157				val = state->period * hosc_rate;
-   158				do_div(val, NSEC_PER_SEC);
-   159				if (val <= 1) {
-   160					use_bus_clk = true;
-   161					val = state->period * bus_rate;
-   162					do_div(val, NSEC_PER_SEC);
-   163					if (val <= 1) {
-   164						ret = -EINVAL;
-   165						goto unlock_mutex;
-   166					}
-   167				}
-   168				div_m = fls(DIV_ROUND_DOWN_ULL(val, PWM_MAGIC));
-   169				if (div_m >= 9) {
-   170					ret = -EINVAL;
-   171					goto unlock_mutex;
-   172				}
-   173	
-   174				/* set up the CLK_DIV_M and clock CLK_SRC */
-   175				clk_cfg = FIELD_PREP(PWM_CLK_CFG_DIV_M, div_m);
-   176				clk_cfg |= FIELD_PREP(PWM_CLK_CFG_SRC, use_bus_clk);
-   177	
-   178				sun20i_pwm_writel(sun20i_chip, clk_cfg, PWM_CLK_CFG(pwm->hwpwm));
-   179			}
-   180	
-   181			/* calculate prescaler, PWM entire cycle */
-   182			clk_div = val >> div_m;
-   183			if (clk_div <= 65534) {
-   184				prescaler = 0;
-   185			} else {
-   186				prescaler = DIV_ROUND_UP_ULL(clk_div - 65534, 65535);
-   187				if (prescaler >= 256) {
-   188					ret = -EINVAL;
-   189					goto unlock_mutex;
-   190				}
-   191				do_div(clk_div, prescaler + 1);
-   192			}
-   193	
-   194			period = FIELD_PREP(PWM_PERIOD_ENTIRE_CYCLE, clk_div);
-   195	
-   196			/* set duty cycle */
-   197			val = state->duty_cycle * (use_bus_clk ? bus_rate : hosc_rate);
-   198			do_div(val, NSEC_PER_SEC);
-   199			clk_div = val >> div_m;
-   200			do_div(clk_div, prescaler + 1);
-   201	
-   202			/*
-   203			 * The formula of the output period and the duty-cycle for PWM are as follows.
-   204			 * T period = (PWM01_CLK / PWM0_PRESCALE_K)^-1 * (PPR0.PWM_ENTIRE_CYCLE + 1)
-   205			 * T high-level = (PWM01_CLK / PWM0_PRESCALE_K)^-1 * PPR0.PWM_ACT_CYCLE
-   206			 * Duty-cycle = T high-level / T period
-   207			 * In accordance with this formula, in order to set the duty-cycle to 100%,
-   208			 * it is necessary that PWM_ACT_CYCLE >= PWM_ENTIRE_CYCLE + 1
-   209			 */
-   210			if (state->duty_cycle == state->period)
-   211				clk_div++;
-   212			period |= FIELD_PREP(PWM_PERIOD_ACT_CYCLE, clk_div);
-   213			sun20i_pwm_writel(sun20i_chip, period, PWM_PERIOD(pwm->hwpwm));
-   214	
-   215			ctl = FIELD_PREP(PWM_CTL_PRESCAL_K, prescaler);
-   216			if (state->polarity == PWM_POLARITY_NORMAL)
-   217				ctl |= PWM_CTL_ACT_STA;
-   218	
-   219			sun20i_pwm_writel(sun20i_chip, ctl, PWM_CTL(pwm->hwpwm));
-   220		}
-   221	
-   222		if (state->enabled != pwm->state.enabled && state->enabled) {
-   223			clk_gate &= ~PWM_CLK_GATE_BYPASS(pwm->hwpwm);
-   224			clk_gate |= PWM_CLK_GATE_GATING(pwm->hwpwm);
-   225			pwm_en |= PWM_ENABLE_EN(pwm->hwpwm);
-   226			sun20i_pwm_writel(sun20i_chip, pwm_en, PWM_ENABLE);
-   227			sun20i_pwm_writel(sun20i_chip, clk_gate, PWM_CLK_GATE);
-   228		}
-   229	
-   230	unlock_mutex:
-   231		mutex_unlock(&sun20i_chip->mutex);
-   232	
-   233		return ret;
-   234	}
-   235	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>
+> Since original DT node entry goes through netdev tree, this should be pic=
+ked
+> there or it can be dropped there and I pick both patches or I can pick pa=
+tch
+> for later kernel version.
+>
+> Best regards,
+> Jernej
+>
+> >
+> > @@ -907,6 +909,8 @@ can1: can@2504400 {
+> >                       interrupts =3D <SOC_PERIPHERAL_IRQ(22)
+> IRQ_TYPE_LEVEL_HIGH>;
+> >                       clocks =3D <&ccu CLK_BUS_CAN1>;
+> >                       resets =3D <&ccu RST_BUS_CAN1>;
+> > +                     pinctrl-names =3D "default";
+> > +                     pinctrl-0 =3D <&can1_pins>;
+> >                       status =3D "disabled";
+> >               };
+> >       };
+>
+>
+>
+>
