@@ -1,128 +1,168 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F8E6FA6
-	for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 15:42:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1691941341; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=GLYiWXgJUhEyoT+jjCbLCK9slf4xaJ7xtMTWn5gUpFBFM+eA6a7j3bZ1eaHrWRW9FyxaOZPOWCSxqe13UuWszYDLX0Y4XrE431HXoBMSG3Rg+igIZaJ9pK1OyVjFzHFQPXahLMzVC+ZsxJJz3CTnV4ZtWhfQMeQcaklUZg1nJjc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1691941341; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=Xr4+S0vpdbjaiNNF/llD4Sx8PfSNTyDvnpd6CmUya5w=; 
-	b=G4+Wt4/Iv9lTdi/n6PPF375aXPJA6hHi2jvh5xpoLQrPy3an49bdDSRhXpJWYN59GrY17QkKYnEbYjJuIi/0EbNNsycxrzx6jPg6DjTsfYsgPZxpvb9gchehVwQkrE0jT09irJSk16iHZsUOv7m4TajgHPjKRUl0JhH1hWuz8OI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1691941341;
-	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=Xr4+S0vpdbjaiNNF/llD4Sx8PfSNTyDvnpd6CmUya5w=;
-	b=IAmvP4o3HLSyxr6TAhTszlBUsNFSbqY4YcI1LJffcojrGxCFZIvgReCKDYFW0OZd
-	xEXM8fnn7qF85Sai3EJHhFKJl90nPvrubmvvInHN2rRRifntjh5Co+dpyBSLq4MxluI
-	bbOisnPiR52F20aTxn4gaTbNUgz7EeiStafhH7V4URFhA80OVYmrkasFloDI55Ndf9s
-	gZccyWkkUxJ0lgJdACb0uGBOcrd1io3+NmsYTZBQ2N1AheSOf8Byq5Z8DnwEhy+w63D
-	wvKqZwJix8q+66MqVUqMHfY9QW1w4VLlCY+wFBsRtEiPODJo+haQ88piYGncMMtnTv4
-	rb9hCNrhGg==
-Received: from edelgard.fodlan.icenowy.me (120.85.97.224 [120.85.97.224]) by mx.zohomail.com
-	with SMTPS id 1691941339762761.0310215430785; Sun, 13 Aug 2023 08:42:19 -0700 (PDT)
-Message-ID: <200cfafd7ba034d7620740c510c703f3acbeb721.camel@icenowy.me>
-Subject: Re: [PATCH v4 4/4] arm64: dts: allwinner: h616: Add BigTreeTech Pi
- support
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Martin Botka <martin@biqu3d.com>, Martin Botka <martin.botka1@gmail.com>
-Cc: Konrad Dybcio <konrad.dybcio@somainline.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@somainline.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, Jami Kettunen
- <jamipkettunen@somainline.org>,  Paul Bouchara
- <paul.bouchara@somainline.org>, Martin Botka <martin.botka@somainline.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A481E846E
+	for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 15:52:15 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-3fe4ad22eb0so34669675e9.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 08:52:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691941933; x=1692546733;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jxZB8Bvxf2i6g0itAu/aZvi5st5Wi/lMv29R3fR4iKg=;
+        b=RMQTlgzePEFPMO5TX98XGROuHpDl/1FjcA4TAOv10hTt1hzA04AvotCAmbl4/w8dDz
+         I0FaAlDgCFzcttnF55p2a8ArKvW4YSdv8sK4UVcVg4Lk+tDqL+xWzZFsh5FM3W38RYMU
+         AVRUoIjruy474fpsVmF8gr0X5Dskrgzu/s2CNKnBWd5S+ZVbodTmzS/JE4rHXOZ4mtxm
+         lceXiL7zHV1gtzqxgtgVDyvURwgaCqbFgthuRY/2WMbasP9c1SwLLVu196Iw7xw3S5U1
+         coWBkYV9+S8V9ENvtbW4U+kyxUivr/ladGH/UFy2bXG9pWY3cz/ISa7gORDAAv8ot4NA
+         irHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691941933; x=1692546733;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jxZB8Bvxf2i6g0itAu/aZvi5st5Wi/lMv29R3fR4iKg=;
+        b=RWnPn9SBlLF+S8imC7mSr84ahlSWfw2FRG3zuSJ69NqasTPF4cUAu+iv+NQURkt0t5
+         V9H42kAk/cAD/ZQMmsOgLlVqgZ4NceMF33Yv+zPPluuZSDOaJnE8fvm536QlrL1SNaVm
+         Qe3dVoI+GS70XpqXelv7rRa6HeFBeiUL9taJWDd20KqtlC516laXDUABPpe8Z7jc0H10
+         3+TciP78aXUZ6wPdYuROgRQWjcFKczdHHZF8f8z6JvW3f0DbGJXeJotZFCLL4oEt0U40
+         TzYhHfyFIRF7Ud2C59KPZvAZIBai/pCZeY4gFwFXsSgabW1gg2xbh2+EDzfBfBRqMlnU
+         PrPw==
+X-Gm-Message-State: AOJu0Yxuomf8KuwYMiRye5BUcDK7ho+fki/w8vvEmqh8sSYbdNm0bfDc
+	T8xJidsM+XRPspDagsfB3RQ=
+X-Google-Smtp-Source: AGHT+IFlHIyk7ybfCQ4MKzl6E0S5aFAJ3pYBcN4WJP4JPGZRc8p8QatB4G9Ti/zCmn5l9n5jLHE3yQ==
+X-Received: by 2002:a7b:c389:0:b0:3fe:26bf:65ea with SMTP id s9-20020a7bc389000000b003fe26bf65eamr6047985wmj.29.1691941933466;
+        Sun, 13 Aug 2023 08:52:13 -0700 (PDT)
+Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
+        by smtp.gmail.com with ESMTPSA id y10-20020a1c4b0a000000b003fe2f3a89d4sm11665280wma.7.2023.08.13.08.52.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Aug 2023 08:52:13 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Martin Botka <martin.botka1@gmail.com>, Martin Botka <martin@biqu3d.com>
+Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Jami Kettunen <jamipkettunen@somainline.org>,
+ Paul Bouchara <paul.bouchara@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
  Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>,  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Ludwig
- Kormann <ludwig.kormann@ict42.de>, Andrew Lunn <andrew@lunn.ch>, Heiko
- Stuebner <heiko@sntech.de>, Shawn Guo <shawnguo@kernel.org>, Bjorn
- Andersson <andersson@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
- Jagan Teki <jagan@edgeble.ai>, Maxime Ripard <mripard@kernel.org>,
- devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org
-Date: Sun, 13 Aug 2023 23:42:10 +0800
-In-Reply-To: <09BFA974F83AB0E8+20230807145349.2220490-5-martin@biqu3d.com>
-References: <20230807145349.2220490-1-martin@biqu3d.com>
-	 <09BFA974F83AB0E8+20230807145349.2220490-5-martin@biqu3d.com>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Ludwig Kormann <ludwig.kormann@ict42.de>, Icenowy Zheng <uwu@icenowy.me>,
+ Andrew Lunn <andrew@lunn.ch>, Heiko Stuebner <heiko@sntech.de>,
+ Shawn Guo <shawnguo@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Chris Morgan <macromorgan@hotmail.com>, Jagan Teki <jagan@edgeble.ai>,
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH v4 3/4] arm64: dts: allwinner: h616: Add BigTreeTech CB1 SoM &
+ boards support
+Date: Sun, 13 Aug 2023 17:52:10 +0200
+Message-ID: <3249535.44csPzL39Z@jernej-laptop>
+In-Reply-To: <3017957701F1CF4A+20230807145349.2220490-4-martin@biqu3d.com>
+References:
+ <20230807145349.2220490-1-martin@biqu3d.com>
+ <3017957701F1CF4A+20230807145349.2220490-4-martin@biqu3d.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-=E5=9C=A8 2023-08-07=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 16:53 +0200=EF=BC=
-=8CMartin Botka=E5=86=99=E9=81=93=EF=BC=9A
-> The BigTreeTech Pi is an H616 based board based on CB1.
-> Just in Rpi format board.
->=20
-> It features the same internals as BTT CB1 but adds:
-> =C2=A0=C2=A0=C2=A0 - Fan port
-> =C2=A0=C2=A0=C2=A0 - IR receiver
-> =C2=A0=C2=A0=C2=A0 - ADXL345 Accelerometer connector via SPI
-> =C2=A0=C2=A0=C2=A0 - 24V DC power supply via terminal plugs
-> =C2=A0=C2=A0=C2=A0 - USB to CAN module connector (The actual USB to CAN h=
-appens on
-> the external module)
->=20
-> List of currently working things is same as BTT CB1 but also:
-> =C2=A0=C2=A0=C2=A0 - IR receiver
-> =C2=A0=C2=A0=C2=A0 - ADXL345 connector
->=20
-> Signed-off-by: Martin Botka <martin@biqu3d.com>
+Hi Martin,
+
+since this will be obviously delayed to 6.7 cycle due to mfd patch not being 
+merged in time, I have few nits below.
+
+Dne ponedeljek, 07. avgust 2023 ob 16:53:23 CEST je Martin Botka napisal(a):
+> From: Martin Botka <martin.botka@somainline.org>
+> 
+> CB1 is Compute Module style board that plugs into Rpi board style adapter or
+> Manta 3D printer boards (M4P/M8P).
+> 
+> The SoM features:
+>   - H616 SoC
+>   - 1GiB of RAM
+>   - AXP313A PMIC
+>   - RTL8189FTV WiFi
+> 
+> Boards feature:
+>   - 4x USB via USB2 hub (usb1 on SoM).
+>   - SDcard slot for loading images.
+>   - Ethernet port wired to the internal PHY. (100M)
+>   - 2x HDMI 2.0. (Only 1 usable on CB1)
+>   - Power and Status LEDs. (Only Status LED usable on CB1)
+>   - 40 pin GPIO header
+> 
+> Currently working:
+>   - Booting
+>   - USB
+>   - UART
+>   - MMC
+>   - Status LED
+>   - WiFi (RTL8189FS via out of tree driver)
+> 
+> I didnt want to duplicate things so the manta DTS can also be used on BTT
+> pi4b adapter. CB1 SoM has its own DTSI file in case other boards shows up
+> that accept this SoM.
+> 
+> Signed-off-by: Martin Botka <martin.botka@somainline.org>
 > Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 > ---
 > Changes in V2:
-> =C2=A0=C2=A0=C2=A0 - Add UART alongside aliases and chosen for it
-> =C2=A0=C2=A0=C2=A0 - Add model string
-> =C2=A0=C2=A0=C2=A0 - Enable IR receiver
-> =C2=A0=C2=A0=C2=A0 - Enable SPI0 for ADXL345 connector
+>     - Fixed whitespace errors
+>     - Move UART into carrier boards and BTT Pi
+>     - Remove usb1-vbus regulator
+>     - Fix ranges and naming of AXP313A rails
+>     - Add comment specifying why broken-cd in mmc0 is needed
+>     - Rename sdio_wifi to wifi
+>     - Specify in commit description that USB-OTG doesnt work
 > Changes in V3:
-> =C2=A0=C2=A0=C2=A0 - Add missing semicolons
-> =C2=A0=C2=A0=C2=A0 - Add pinctrl for SPI0
->=20
-> =C2=A0arch/arm64/boot/dts/allwinner/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 1 +
-> =C2=A0.../allwinner/sun50i-h616-bigtreetech-pi.dts=C2=A0 | 70
-> +++++++++++++++++++
-> =C2=A02 files changed, 71 insertions(+)
-> =C2=A0create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-
-> bigtreetech-pi.dts
->=20
+>     - Add missed semicolons
+>     - Move model string from dtsi to board dts
+>     - Add cb1 compatible
+>     - Remove extra empty line
+> Changed in V4:
+>     - Extend the range of vcc-dram to 1.5V (1.35V max caused issues with
+> booting up
+> 
+>  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+>  .../sun50i-h616-bigtreetech-cb1-manta.dts     |  35 +++++
+>  .../sun50i-h616-bigtreetech-cb1.dtsi          | 140 ++++++++++++++++++
+>  3 files changed, 176 insertions(+)
+>  create mode 100644
+> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts create
+> mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
+> 
 > diff --git a/arch/arm64/boot/dts/allwinner/Makefile
-> b/arch/arm64/boot/dts/allwinner/Makefile
-> index 7b386428510b..0b6232a7f328 100644
+> b/arch/arm64/boot/dts/allwinner/Makefile index 6a96494a2e0a..7b386428510b
+> 100644
 > --- a/arch/arm64/boot/dts/allwinner/Makefile
 > +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> @@ -39,5 +39,6 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-pine-h64-
-> model-b.dtb
-> =C2=A0dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-tanix-tx6.dtb
-> =C2=A0dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-tanix-tx6-mini.dtb
-> =C2=A0dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-bigtreetech-cb1-manta.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-bigtreetech-pi.dtb
-> =C2=A0dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-orangepi-zero2.dtb
-> =C2=A0dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-x96-mate.dtb
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-
-> pi.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
-> new file mode 100644
-> index 000000000000..b0d0386e8f13
+> @@ -38,5 +38,6 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64-model-b.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
+> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-bigtreetech-cb1-manta.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
+> diff --git
+> a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts
+> b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts new
+> file mode 100644
+> index 000000000000..dbce61b355d6
 > --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
-> @@ -0,0 +1,70 @@
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts
+> @@ -0,0 +1,35 @@
 > +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
 > +/*
-> + * Copyright (C) 2023 Martin Botka <martin@biqu3d.com>.
+> + * Copyright (C) 2023 Martin Botka <martin.botka@somainline.org>.
 > + */
 > +
 > +/dts-v1/;
@@ -130,75 +170,202 @@ appens on
 > +#include "sun50i-h616-bigtreetech-cb1.dtsi"
 > +
 > +/ {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0model =3D "BigTreeTech Pi";
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0compatible =3D "bigtreetech,pi=
-", "allwinner,sun50i-h616";
-
-As you say it's based on CB1 too, why no CB1 compatible here? (although
-the manta compatible won't apply)
-
+> +	model = "BigTreeTech CB1";
+> +	compatible = "bigtreetech,cb1-manta", "bigtreetech,cb1",
+> "allwinner,sun50i-h616"; +
+> +	aliases {
+> +		serial0 = &uart0;
+> +	};
 > +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aliases {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0serial0 =3D &uart0;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0};
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0chosen {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0stdout-path =3D "serial0:115200n8";
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0};
-> +};
-> +
-> +&ehci0 {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
+> +	chosen {
+> +		stdout-path = "serial0:115200n8";
+> +	};
 > +};
 > +
 > +&ehci1 {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
-> +};
-> +
-> +&ehci2 {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
-> +};
-> +
-> +&ehci3 {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
-> +};
-> +
-> +&ir {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
-> +};
-> +
-> +&ohci0 {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
+> +	status = "okay";
 > +};
 > +
 > +&ohci1 {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
-> +};
-> +
-> +&ohci2 {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
-> +};
-> +
-> +&ohci3 {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
-> +};
-> +
-> +&spi0 {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* SPI connection for onboard =
-connector for ADXL345
-> accelerometer */
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pinctrl-names =3D "default";
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pinctrl-0 =3D <&spi0_pins>, <&=
-spi0_cs0_pin>;
+> +	status = "okay";
 > +};
 > +
 > +&uart0 {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pinctrl-names =3D "default";
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pinctrl-0 =3D <&uart0_ph_pins>=
-;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&uart0_ph_pins>;
+> +	status = "okay";
 > +};
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
+> b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi new file
+> mode 100644
+> index 000000000000..5e756f217813
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
+> @@ -0,0 +1,140 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +/*
+> + * Copyright (C) 2023 Martin Botka <martin.botka@somainline.org>.
+> + */
+> +
+> +/dts-v1/;
+> +
+> +#include "sun50i-h616.dtsi"
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> +#include <dt-bindings/leds/common.h>
+> +
+> +/ {
+> +	aliases {
+> +		ethernet0 = &rtl8189ftv;
+> +	};
+> +
+> +	leds {
+> +		compatible = "gpio-leds";
+> +
+> +		led-0 {
+> +			function = LED_FUNCTION_STATUS;
+> +			color = <LED_COLOR_ID_GREEN>;
+> +			gpios = <&pio 7 5 GPIO_ACTIVE_HIGH>; /* PH5 
+*/
+> +		};
+> +	};
+> +
+> +	reg_vcc5v: regulator-vcc5v {
+> +		/* board wide 5V supply from carrier boards */
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vcc-5v";
+> +		regulator-min-microvolt = <5000000>;
+> +		regulator-max-microvolt = <5000000>;
+> +		regulator-always-on;
+> +	};
+> +
+> +	reg_vcc33_wifi: vcc33-wifi {
+> +		/* Always on 3.3V regulator for WiFi */
+
+Please drop the comment. It's pretty obvious from properties.
+
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vcc33-wifi";
+> +		regulator-min-microvolt = <3300000>;
+> +		regulator-max-microvolt = <3300000>;
+> +		regulator-always-on;
+> +		vin-supply = <&reg_vcc5v>;
+> +	};
+> +
+> +	reg_vcc_wifi_io: vcc-wifi-io {
+> +		/* Always on 1.8V/300mA regulator for WiFi */
+
+Ditto.
+
+Once fixed, you can add:
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Best regards,
+Jernej
+
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vcc-wifi-io";
+> +		regulator-min-microvolt = <1800000>;
+> +		regulator-max-microvolt = <1800000>;
+> +		regulator-always-on;
+> +		vin-supply = <&reg_vcc33_wifi>;
+> +	};
+> +
+> +	wifi_pwrseq: wifi-pwrseq {
+> +		compatible = "mmc-pwrseq-simple";
+> +		clocks = <&rtc 1>;
+> +		clock-names = "ext_clock";
+> +		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
+> +		post-power-on-delay-ms = <200>;
+> +	};
+> +};
+> +
+> +&mmc0 {
+> +	vmmc-supply = <&reg_dldo1>;
+> +	/* Card detection pin is not connected */
+> +	broken-cd;
+> +	bus-width = <4>;
+> +	status = "okay";
+> +};
+> +
+> +&mmc1 {
+> +	vmmc-supply = <&reg_vcc33_wifi>;
+> +	vqmmc-supply = <&reg_vcc_wifi_io>;
+> +	mmc-pwrseq = <&wifi_pwrseq>;
+> +	bus-width = <4>;
+> +	non-removable;
+> +	mmc-ddr-1_8v;
+> +	status = "okay";
+> +
+> +	rtl8189ftv: wifi@1 {
+> +		reg = <1>;
+> +	};
+> +};
+> +
+> +&r_i2c {
+> +	status = "okay";
+> +
+> +	axp313a: pmic@36 {
+> +		compatible = "x-powers,axp313a";
+> +		reg = <0x36>;
+> +		interrupt-controller;
+> +		#interrupt-cells = <1>;
+> +
+> +		regulators{
+> +			reg_dcdc1: dcdc1 {
+> +				regulator-name = "vdd-gpu-sys";
+> +				regulator-min-microvolt = 
+<810000>;
+> +				regulator-max-microvolt = 
+<990000>;
+> +				regulator-always-on;
+> +			};
+> +
+> +			reg_dcdc2: dcdc2 {
+> +				regulator-name = "vdd-cpu";
+> +				regulator-min-microvolt = 
+<810000>;
+> +				regulator-max-microvolt = 
+<1100000>;
+> +				regulator-ramp-delay = <200>;
+> +				regulator-always-on;
+> +			};
+> +
+> +			reg_dcdc3: dcdc3 {
+> +				regulator-name = "vcc-dram";
+> +				regulator-min-microvolt = 
+<1350000>;
+> +				regulator-max-microvolt = 
+<1500000>;
+> +				regulator-always-on;
+> +			};
+> +
+> +			reg_aldo1: aldo1 {
+> +				regulator-name = "vcc-1v8-pll";
+> +				regulator-min-microvolt = 
+<1800000>;
+> +				regulator-max-microvolt = 
+<1800000>;
+> +				regulator-always-on;
+> +			};
+> +
+> +			reg_dldo1: dldo1 {
+> +				regulator-name = "vcc-3v3-io";
+> +				regulator-min-microvolt = 
+<3300000>;
+> +				regulator-max-microvolt = 
+<3300000>;
+> +				regulator-always-on;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&usbphy {
+> +	status = "okay";
+> +};
+
+
+
 
