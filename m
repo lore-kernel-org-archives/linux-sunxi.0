@@ -1,57 +1,71 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2856FA6
-	for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 15:32:57 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3fe4a89e8c4so32372705e9.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 08:32:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D276FA6
+	for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 15:36:24 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3fe12baec61so31997775e9.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 08:36:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691940775; x=1692545575;
+        d=gmail.com; s=20221208; t=1691940983; x=1692545783;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AHC2PrwVZbPBq2NkHpw5N6Fi7dCDYwmxUMmMrb2ihiw=;
-        b=aPusA+Kfzfaakwp2yGbsos5TOM37I7KTnn8UJ3i7+jaL4ed1jeqI3cbYEDExF71Jk2
-         J5FOulBtQoFay0nuzb39SYTh1htAu1NMxdXW1MpduspuRSAmbGpkIvFRnlNBAgiFowtB
-         6Zu+ehPo9FaEWJiD9zG88CtM74ImJBDk0+IfSoC1To/0niGYbWcUOBuGym0wChsbvq8I
-         Chk/7IxWBuk+TLPZR1DN4i6KwmvTPtXWDHbnOUK8980iuu06vFy82bIValMpVlAsdF0u
-         GijiRbEBI+z7Ug0L6kyMHyjsYpYgTUeuCjiLlqudfCcwbKS4RBl/b6AeJGmu3mU8MINe
-         inRQ==
+        bh=0HmyT9viofQwFO46Ag0TcEyc/eSeZtVKY9Vgh1cnGEs=;
+        b=asGfA/zadH3EzscS9pqL8hD9PkPJ4/WZnKGgBg0rVwo4UdOWRev46I9/CnAf6guzUf
+         NW0XrD20NpxsstWqh4FekZXXReMmJQmc8rJnDKIWFMoKqPredd7AGIyzbhcBoBiPKlUc
+         ZVZht/Elip16apR/VnS6qQLpvWYfML4xwHVlMYINasLxg0tw75NB0BYV4dEv4OX02bi3
+         oW5Y1EgGUSr6JM8t/WAmbTofAVVVivJbSyMWFCSCYRf9SypRLlhPBudbAOHedSZuOucF
+         3gtv2bkpHr6c/qVEQwsASu22PrIUZEVvhGlEIFUa94hmgNRRvf1vQA38gSTPnkEjKuV8
+         JLOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691940775; x=1692545575;
+        d=1e100.net; s=20221208; t=1691940983; x=1692545783;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AHC2PrwVZbPBq2NkHpw5N6Fi7dCDYwmxUMmMrb2ihiw=;
-        b=Vgsjcw+wMbKkTktYo6nNxSdurLFDGECmx5IxfjEvYWTTrwl15s7AKdNq6M1rVZSUXz
-         sjzP72uJXFHrzBhxjODtz2XmOI+pAEc/ZVMhLj+yLOUbYkcLPO3v5YZs1QW/5VHf6nGU
-         Ko/PAgdKmK5A4Gipicfxkyo2SsOYNH8YIGhNrqksISLxLkj9hiFQfzG1EZiwv2vSdfCY
-         Q25FPqxKXmAlizpetkdkOEyZpAxbzhAcCGPMfxlVTALCdqtZaSMVbyzd8vlp4+kgSSev
-         J3g3MphUBAx2XPBFF2ZSOYLdzEL69JqZcKV/g2B7F/aZr2+p+GzBi5n8jMgBTn8Ohh0r
-         D1iA==
-X-Gm-Message-State: AOJu0YyNoobc27rZytRZcXL0Ru3qUFzUQR32RJbsyvCGltA92Gk03d4g
-	IzIOMAV0gQWXvFFL7mBrQlM=
-X-Google-Smtp-Source: AGHT+IHSXe6/T9CvpBgMmER/udVuOtLH8XRr2Nb2vBbWHtGXoCITBGWe9aN7L3n59eUjgEY5U8t3SA==
-X-Received: by 2002:a7b:c8c5:0:b0:3fe:2079:196c with SMTP id f5-20020a7bc8c5000000b003fe2079196cmr5748914wml.16.1691940774826;
-        Sun, 13 Aug 2023 08:32:54 -0700 (PDT)
+        bh=0HmyT9viofQwFO46Ag0TcEyc/eSeZtVKY9Vgh1cnGEs=;
+        b=RtlVQVUYHAjZGH0+AkI7gFsHQVs2SV7D6F0bVAahs/reuwxlUV9CQi5Wkr666cvwIf
+         1hreY6B2+aXa5NGC7ofGsrSLFn2zPdYE4xEwHD8KUrPzm5QSG8nKtgcNrvTJVsJFAluT
+         n6NxhwCKGTZU+y0NJVB1s0jFpl2ul9kpO+CAz1YAihPNIyU93RlyeLPf4uDtkkccxOAx
+         h8Zw5ySypLWK4vXce+f3hPpajRw9pkz4crBGMycgKjG2d0Nm2qzqnkZ09NoNMeD7iRCc
+         g6Tmtmn1qXMPBwnuNMMYP6lwDwdeB+fliF5i5fgCel+QVpyU77GrMxmUdRciPWV4VV2f
+         OKQQ==
+X-Gm-Message-State: AOJu0Yyv1GuCJqha3MQoecqPb8R0z0tyEnBhysgGK2WtxVHT5yZqGPNq
+	smC1zE+/dVjqB8nil3dv+Vw=
+X-Google-Smtp-Source: AGHT+IE9qkC2Ej8imYc6src4+3L/KGU0/FB4hp4AxhdHUalCY46flCcIBsPMWdx2pp/wNCgM4p9F0g==
+X-Received: by 2002:a5d:42d2:0:b0:317:52d2:d05f with SMTP id t18-20020a5d42d2000000b0031752d2d05fmr5663858wrr.26.1691940982982;
+        Sun, 13 Aug 2023 08:36:22 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id h16-20020a5d6e10000000b003176bd661fasm11698387wrz.116.2023.08.13.08.32.53
+        by smtp.gmail.com with ESMTPSA id w17-20020adff9d1000000b00313f61889ecsm11645608wrr.66.2023.08.13.08.36.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Aug 2023 08:32:54 -0700 (PDT)
+        Sun, 13 Aug 2023 08:36:22 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
- Andrei Coardos <aboutphysycs@gmail.com>
-Cc: samuel@sholland.org, wens@csie.org, rui.zhang@intel.com, amitk@kernel.org,
- daniel.lezcano@linaro.org, rafael@kernel.org, tiny.windzz@gmail.com,
- anarsoul@gmail.com, alex@shruggie.ro, Andrei Coardos <aboutphysycs@gmail.com>
-Subject:
- Re: [PATCH] thermal: sun8i_thermal: remove unneeded call to
- platform_set_drvdata()
-Date: Sun, 13 Aug 2023 17:32:52 +0200
-Message-ID: <4850013.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <20230811194032.4240-1-aboutphysycs@gmail.com>
-References: <20230811194032.4240-1-aboutphysycs@gmail.com>
+To: Martin Botka <martin.botka1@gmail.com>, Martin Botka <martin@biqu3d.com>
+Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Jami Kettunen <jamipkettunen@somainline.org>,
+ Paul Bouchara <paul.bouchara@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Andre Przywara <andre.przywara@arm.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Icenowy Zheng <uwu@icenowy.me>,
+ Ludwig Kormann <ludwig.kormann@ict42.de>, Andrew Lunn <andrew@lunn.ch>,
+ Heiko Stuebner <heiko@sntech.de>, Shawn Guo <shawnguo@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Chris Morgan <macromorgan@hotmail.com>, Jagan Teki <jagan@edgeble.ai>,
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/4] dt-bindings: vendor-prefixes: Add BigTreeTech
+Date: Sun, 13 Aug 2023 17:36:20 +0200
+Message-ID: <2291546.ElGaqSPkdT@jernej-laptop>
+In-Reply-To: <EB8B7A5FD2D8E12A+20230807145349.2220490-2-martin@biqu3d.com>
+References:
+ <20230807145349.2220490-1-martin@biqu3d.com>
+ <EB8B7A5FD2D8E12A+20230807145349.2220490-2-martin@biqu3d.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,36 +75,45 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne petek, 11. avgust 2023 ob 21:40:32 CEST je Andrei Coardos napisal(a):
-> This function call was found to be unnecessary as there is no equivalent
-> platform_get_drvdata() call to access the private data of the driver. Also,
-> the private data is defined in this driver, so there is no risk of it being
-> accessed outside of this driver file.
+Dne ponedeljek, 07. avgust 2023 ob 16:53:21 CEST je Martin Botka napisal(a):
+> From: Martin Botka <martin.botka@somainline.org>
 > 
-> Signed-off-by: Andrei Coardos <aboutphysycs@gmail.com>
+> BigTreeTech is a company based in Shenzhen that makes
+> 3D printers and accessories.
+> 
+> Add prefix for it.
+> 
+> Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
 > ---
->  drivers/thermal/sun8i_thermal.c | 2 --
->  1 file changed, 2 deletions(-)
+> Changes in V2:
+>     - Fix alphabetical order
+> Changes in V3,V4: none
 > 
-> diff --git a/drivers/thermal/sun8i_thermal.c
-> b/drivers/thermal/sun8i_thermal.c index 195f3c5d0b38..61a2f287ac90 100644
-> --- a/drivers/thermal/sun8i_thermal.c
-> +++ b/drivers/thermal/sun8i_thermal.c
-> @@ -489,8 +489,6 @@ static int sun8i_ths_probe(struct platform_device *pdev)
-> if (!tmdev->chip)
->  		return -EINVAL;
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> -	platform_set_drvdata(pdev, tmdev);
-> -
->  	ret = sun8i_ths_resource_init(tmdev);
->  	if (ret)
->  		return ret;
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> b/Documentation/devicetree/bindings/vendor-prefixes.yaml index
+> af60bf1a6664..a1f3bb7be860 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -192,6 +192,8 @@ patternProperties:
+>      description: BeagleBoard.org Foundation
+>    "^bhf,.*":
+>      description: Beckhoff Automation GmbH & Co. KG
+> +  "^bigtreetech,.*":
+> +    description: Shenzhen BigTree Tech Co., LTD
+>    "^bitmain,.*":
+>      description: Bitmain Technologies
+>    "^blutek,.*":
 
 
 
