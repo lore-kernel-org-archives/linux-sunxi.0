@@ -1,132 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507BE46A6;
-	Sun, 13 Aug 2023 12:11:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691928705; x=1723464705;
-  h=message-id:date:mime-version:cc:subject:to:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=EPKMap/YIslWzTcA4tjCBfC0/lQThAIgVXzQUtL7nv8=;
-  b=icaOnKDWPE1BMRDDJeFghD0tGekqpGSNrZztug49hOs9VMIGHySckCkw
-   Er3cAap5Ga/h3ZyvTvlFm3A3Ot9mB2PsLsK5o/m1Kb2j1POXR0Vs2BNLB
-   wC58PABNmQMijCbZRY0I/Y0rJHtzoejMKtHjYyd6XxbHd0qHpFdCvBU4o
-   d6g3OLeXhXp5pQPIf5BpeFF/iJh6CwhGqwYIwhg06nQR+UFAZ5YmQ70kU
-   K6YwtjciWwAe/Ohe8afuY8m+Y610k/MF535D/cCttYksobCLGMtH2ldtA
-   solT0XRcmsKm9UN7Ev4iMbPLUtc9UoKJhf4O+gDS5Yp5VP456Qzs3lTN6
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="356852429"
-X-IronPort-AV: E=Sophos;i="6.01,170,1684825200"; 
-   d="scan'208";a="356852429"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2023 05:11:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="906929981"
-X-IronPort-AV: E=Sophos;i="6.01,170,1684825200"; 
-   d="scan'208";a="906929981"
-Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.249.169.238]) ([10.249.169.238])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2023 05:11:32 -0700
-Message-ID: <a9651d96-dbfb-aece-0811-2b36c4eb0a07@linux.intel.com>
-Date: Sun, 13 Aug 2023 20:11:30 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFAB62C9D
+	for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 12:49:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B96DC433C8;
+	Sun, 13 Aug 2023 12:49:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1691930971;
+	bh=BYexDixxqUqkU/OW4CfXRghNk+OuJSdJWWSfKlrybdU=;
+	h=Date:From:List-Id:To:Cc:Subject:From;
+	b=bLQ6q06nMkeeutsqchY0SxI7Ergt7rCQrKi3JIeY1thCkm/F0NnLvsoFqGjrnkPg6
+	 IKpvRPEAdaOPjyLcfhi+fNMm/sOlxjfUaK9gwKeZGs7AHs1bb+APHF3DfvfmjjsB0x
+	 Ih5iAk7aKgroTIBYN7Jqun12nhNNGXo7JxY3JwtqxBWuDj/5sWM7Z0PIuUPkhQJ53Z
+	 Lhb6cd2+MwWVYTZ/NT9Cyr7qNFVdg81AzT3eU3F9D6/T0QPKHZVVxKGJTZgGuKQdkN
+	 j1s2AZFhbz2Y4MbUk7G1iwG/WNbWCCMD4CuSG+ziiUIhzuf6/Irgs595awP4bG7ENI
+	 oE0X4l5aMd8kQ==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 09F745F9B4; Sun, 13 Aug 2023 20:49:28 +0800 (CST)
+Date: Sun, 13 Aug 2023 20:49:27 +0800
+From: Chen-Yu Tsai <wens@kernel.org>
+List-Id: <soc.lore.kernel.org>
+To: soc@kernel.org
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [GIT PULL] Allwinner device tree changes for 6.6 - part 2
+Message-ID: <ZNjRV0kJ7v7+DAH5@wens.tw>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Cc: baolu.lu@linux.intel.com, Andy Gross <agross@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Bjorn Andersson
- <andersson@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
- Kevin Tian <kevin.tian@intel.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- Russell King <linux@armlinux.org.uk>, linuxppc-dev@lists.ozlabs.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Orson Zhai <orsonzhai@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>, Krishna Reddy
- <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
- Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Dmitry Osipenko <digetx@gmail.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Nicolin Chen <nicolinc@nvidia.com>, Niklas Schnelle
- <schnelle@linux.ibm.com>, Steven Price <steven.price@arm.com>,
- Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v6 02/25] iommu: Add IOMMU_DOMAIN_PLATFORM
-To: Jason Gunthorpe <jgg@nvidia.com>
-References: <2-v6-e8114faedade+425-iommu_all_defdom_jgg@nvidia.com>
- <dde32ea5-2b1a-1148-c329-3c52ffcb71a7@linux.intel.com>
- <ZNds4kejneylOYBE@nvidia.com>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <ZNds4kejneylOYBE@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2023/8/12 19:28, Jason Gunthorpe wrote:
-> On Sat, Aug 12, 2023 at 09:36:33AM +0800, Baolu Lu wrote:
->>> @@ -290,6 +295,7 @@ struct iommu_ops {
->>>    	unsigned long pgsize_bitmap;
->>>    	struct module *owner;
->>>    	struct iommu_domain *identity_domain;
->>> +	struct iommu_domain *default_domain;
->>
->> I am imaging whether we can merge above two pointers into a single one.
->> It is either an IDENTITY or PLATFORM domain and the core will choose it
->> as the default domain of a group if iommu_group_alloc_default_domain()
->> fails to allocate one through the iommu dev_ops.
-> 
-> I think that would be the wrong direction..
-> 
-> identity_domain is a pointer that is always, ALWAYS an identity
-> domain. It is the shortcut for drivers (and all drivers should do
-> this) that implement a global static identity domain.
+Hi,
 
-I see. I originally thought this was special for arm32.
+Please pull an additional patch that we'd like included for the v6.6
+cycle. This pull request stacks on top of the previous one sent by Jernej
+last week.
 
-> 
-> default_domain is a shortcut to avoid implementing the entire flow
-> around def_domain_type/domain_alloc for special cases. For this patch
-> the specialc ase is the IOMMU_DOMAIN_PLATFORM.
+FYI my GPG key expired and was only just renewed. You will have to fetch
+the updated key from either keys.openpgp.org or keyserver.ubuntu.com.
 
-I think this is special for drivers like s390. You don't want it to be
-used beyond those special drivers, right?
 
-If so, the naming of default_domain seems to be a bit generic. I can't
-think of a better one, hence I am fine if you keep as it-is. After all,
-the comment for this field has already explained it very clearly.
+Thanks
+ChenYu
 
-> We'll probably also get a blocking_domain pointer here too.
 
-Yes.
+The following changes since commit 0801a3a9f35854c91f1f3ab8e879c3d14912d214:
 
-> 
-> All of this is removing the type multiplexor in alloc_domain so we can
-> so  alloc_domain_paging()
+  arm: dts: Enable device-tree overlay support for sun8i-h3 pi devices (2023-08-06 13:56:55 +0200)
 
-Agreed with you. The dummy domains like identity and blocking could be
-avoided from calling ops->domain_alloc.
+are available in the Git repository at:
 
->> Probably we could give it a more meaningful name? For example,
->> supplemental_domain or rescue_domain?
-> 
-> But that isn't what it is for, default_domain is the operational
-> domain for attached drivers..
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-dt-for-6.6-2
 
-Best regards,
-baolu
+for you to fetch changes up to f05af44f691351bfd954f39ec376666dc5e1b869:
+
+  riscv: dts: allwinner: d1: Add CAN controller nodes (2023-08-13 14:12:35 +0800)
+
+----------------------------------------------------------------
+- Add D1 CAN controller nodes
+
+----------------------------------------------------------------
+John Watts (1):
+      riscv: dts: allwinner: d1: Add CAN controller nodes
+
+ arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 34 +++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
