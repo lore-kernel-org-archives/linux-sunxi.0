@@ -1,127 +1,204 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841A26FA6
-	for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 15:38:04 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3fe8242fc4dso27439865e9.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 08:38:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691941082; x=1692545882;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XNmDOME263tbNnJDox2WuqRcHXZN+XqB+OMfOqpA9xQ=;
-        b=WNqBOi4ZZC6V6xRgRLsfitnrUocDN44nmI2hwUzUaFeK2Ey4eCQ3XiKbzkPj+8IK+f
-         Zc6QGbNAD3ZYzDXGt1BR/HDnQi0Z+205k54AX+n7M17nfRK54q3Q4m70bI0JWL4SnPPG
-         sAQGDvFGjh0VhrcdkKsVw1l0PvHFscTPBEk/TRg29lw128Tg8y2cFzAjZcxB7b24kS2G
-         AlPAn4LgKVWHKasQYODf1oyDyFku+7pnoGwibto1NqnoVpzDxHrQQwjP70B5R781EDg0
-         z6X8UkWVyXrx/BF+H+MZGgPCvN4w35lD2Xdz29stgweKUhTAGvKgs1isa9pPzw3pabWL
-         /yWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691941082; x=1692545882;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XNmDOME263tbNnJDox2WuqRcHXZN+XqB+OMfOqpA9xQ=;
-        b=NxtoDFCfUvJPlzqWUiv2WUTh/qshZmr1H9EYgDweY25d+PBmmdwERZKPa8CY5wQGmr
-         2oQ0+2QfyT2rTvCBtG5t30SykkFACNza4GkUDUP8I8H42DvaKV+UJomiyo/jqCEjBnru
-         rOYYEs9ILXExAf4EMFGKsoRLV1S+3+FD4SYYXiM6Xyec2yKJ33+gWBVQGuICK69K5Q3w
-         uax3tLPjcC8uluETuO0Qc2C9cHPseX36wYsUCjrLNAbAqXk3LJrzLTZkSMc1spRJNKZm
-         kRk2WQnT2qX2aacE0D+R7i843TaW00yCaP1361TnIy64i4yertQGc/JKZm254to28Ytu
-         pv1w==
-X-Gm-Message-State: AOJu0YwbJNjzBryy/2wab5BGpCja58hhSqhDmOUlWj1CWZDT4ipkLqj4
-	NMLEBDCsENzQ+tzB9zSxxUQ=
-X-Google-Smtp-Source: AGHT+IFR9Cvz4CIyUP1iq9gFAC2zyjVR2KXeCO2wabvTXPUPFUWnjVOzIYFmlO4lwwSjRS33Gmro6A==
-X-Received: by 2002:a05:600c:3648:b0:3fd:29cf:20c5 with SMTP id y8-20020a05600c364800b003fd29cf20c5mr5963620wmq.7.1691941082325;
-        Sun, 13 Aug 2023 08:38:02 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id p19-20020a05600c205300b003fe17901fcdsm14472709wmg.32.2023.08.13.08.38.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Aug 2023 08:38:02 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Martin Botka <martin.botka1@gmail.com>, Martin Botka <martin@biqu3d.com>
-Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Jami Kettunen <jamipkettunen@somainline.org>,
- Paul Bouchara <paul.bouchara@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Andre Przywara <andre.przywara@arm.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Ludwig Kormann <ludwig.kormann@ict42.de>, Icenowy Zheng <uwu@icenowy.me>,
- Andrew Lunn <andrew@lunn.ch>, Heiko Stuebner <heiko@sntech.de>,
- Shawn Guo <shawnguo@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Chris Morgan <macromorgan@hotmail.com>, Jagan Teki <jagan@edgeble.ai>,
- Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] dt-bindings: arm: sunxi: Add BigTreeTech boards
-Date: Sun, 13 Aug 2023 17:37:59 +0200
-Message-ID: <1859280.tdWV9SEqCh@jernej-laptop>
-In-Reply-To: <309C7C26158AF852+20230807145349.2220490-3-martin@biqu3d.com>
-References:
- <20230807145349.2220490-1-martin@biqu3d.com>
- <309C7C26158AF852+20230807145349.2220490-3-martin@biqu3d.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F8E6FA6
+	for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 15:42:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1691941341; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=GLYiWXgJUhEyoT+jjCbLCK9slf4xaJ7xtMTWn5gUpFBFM+eA6a7j3bZ1eaHrWRW9FyxaOZPOWCSxqe13UuWszYDLX0Y4XrE431HXoBMSG3Rg+igIZaJ9pK1OyVjFzHFQPXahLMzVC+ZsxJJz3CTnV4ZtWhfQMeQcaklUZg1nJjc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1691941341; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=Xr4+S0vpdbjaiNNF/llD4Sx8PfSNTyDvnpd6CmUya5w=; 
+	b=G4+Wt4/Iv9lTdi/n6PPF375aXPJA6hHi2jvh5xpoLQrPy3an49bdDSRhXpJWYN59GrY17QkKYnEbYjJuIi/0EbNNsycxrzx6jPg6DjTsfYsgPZxpvb9gchehVwQkrE0jT09irJSk16iHZsUOv7m4TajgHPjKRUl0JhH1hWuz8OI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1691941341;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=Xr4+S0vpdbjaiNNF/llD4Sx8PfSNTyDvnpd6CmUya5w=;
+	b=IAmvP4o3HLSyxr6TAhTszlBUsNFSbqY4YcI1LJffcojrGxCFZIvgReCKDYFW0OZd
+	xEXM8fnn7qF85Sai3EJHhFKJl90nPvrubmvvInHN2rRRifntjh5Co+dpyBSLq4MxluI
+	bbOisnPiR52F20aTxn4gaTbNUgz7EeiStafhH7V4URFhA80OVYmrkasFloDI55Ndf9s
+	gZccyWkkUxJ0lgJdACb0uGBOcrd1io3+NmsYTZBQ2N1AheSOf8Byq5Z8DnwEhy+w63D
+	wvKqZwJix8q+66MqVUqMHfY9QW1w4VLlCY+wFBsRtEiPODJo+haQ88piYGncMMtnTv4
+	rb9hCNrhGg==
+Received: from edelgard.fodlan.icenowy.me (120.85.97.224 [120.85.97.224]) by mx.zohomail.com
+	with SMTPS id 1691941339762761.0310215430785; Sun, 13 Aug 2023 08:42:19 -0700 (PDT)
+Message-ID: <200cfafd7ba034d7620740c510c703f3acbeb721.camel@icenowy.me>
+Subject: Re: [PATCH v4 4/4] arm64: dts: allwinner: h616: Add BigTreeTech Pi
+ support
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Martin Botka <martin@biqu3d.com>, Martin Botka <martin.botka1@gmail.com>
+Cc: Konrad Dybcio <konrad.dybcio@somainline.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@somainline.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Jami Kettunen
+ <jamipkettunen@somainline.org>,  Paul Bouchara
+ <paul.bouchara@somainline.org>, Martin Botka <martin.botka@somainline.org>,
+ Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>,  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Ludwig
+ Kormann <ludwig.kormann@ict42.de>, Andrew Lunn <andrew@lunn.ch>, Heiko
+ Stuebner <heiko@sntech.de>, Shawn Guo <shawnguo@kernel.org>, Bjorn
+ Andersson <andersson@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Jagan Teki <jagan@edgeble.ai>, Maxime Ripard <mripard@kernel.org>,
+ devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org
+Date: Sun, 13 Aug 2023 23:42:10 +0800
+In-Reply-To: <09BFA974F83AB0E8+20230807145349.2220490-5-martin@biqu3d.com>
+References: <20230807145349.2220490-1-martin@biqu3d.com>
+	 <09BFA974F83AB0E8+20230807145349.2220490-5-martin@biqu3d.com>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-ZohoMailClient: External
 
-Dne ponedeljek, 07. avgust 2023 ob 16:53:22 CEST je Martin Botka napisal(a):
-> From: Martin Botka <martin.botka@somainline.org>
-> 
-> Add name & compatible for BigTreeTech Manta boards and
-> BigTreeTech Pi
-> 
-> Signed-off-by: Martin Botka <martin.botka@somainline.org>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Best regards,
-Jernej
-
+=E5=9C=A8 2023-08-07=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 16:53 +0200=EF=BC=
+=8CMartin Botka=E5=86=99=E9=81=93=EF=BC=9A
+> The BigTreeTech Pi is an H616 based board based on CB1.
+> Just in Rpi format board.
+>=20
+> It features the same internals as BTT CB1 but adds:
+> =C2=A0=C2=A0=C2=A0 - Fan port
+> =C2=A0=C2=A0=C2=A0 - IR receiver
+> =C2=A0=C2=A0=C2=A0 - ADXL345 Accelerometer connector via SPI
+> =C2=A0=C2=A0=C2=A0 - 24V DC power supply via terminal plugs
+> =C2=A0=C2=A0=C2=A0 - USB to CAN module connector (The actual USB to CAN h=
+appens on
+> the external module)
+>=20
+> List of currently working things is same as BTT CB1 but also:
+> =C2=A0=C2=A0=C2=A0 - IR receiver
+> =C2=A0=C2=A0=C2=A0 - ADXL345 connector
+>=20
+> Signed-off-by: Martin Botka <martin@biqu3d.com>
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 > ---
 > Changes in V2:
->     - Remove CB1 SoM as its own entry
->     - Squash BTT Pi and manta patches into 1
-> Changes in V3,V4: none
-> 
->  Documentation/devicetree/bindings/arm/sunxi.yaml | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml
-> b/Documentation/devicetree/bindings/arm/sunxi.yaml index
-> ee8fdd2da869..b90d2a7dbe2d 100644
-> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> @@ -151,6 +151,17 @@ properties:
->            - const: roofull,beelink-x2
->            - const: allwinner,sun8i-h3
-> 
-> +      - description: BigTreeTech Manta M4/8P
-> +        items:
-> +          - const: bigtreetech,cb1-manta
-> +          - const: bigtreetech,cb1
-> +          - const: allwinner,sun50i-h616
+> =C2=A0=C2=A0=C2=A0 - Add UART alongside aliases and chosen for it
+> =C2=A0=C2=A0=C2=A0 - Add model string
+> =C2=A0=C2=A0=C2=A0 - Enable IR receiver
+> =C2=A0=C2=A0=C2=A0 - Enable SPI0 for ADXL345 connector
+> Changes in V3:
+> =C2=A0=C2=A0=C2=A0 - Add missing semicolons
+> =C2=A0=C2=A0=C2=A0 - Add pinctrl for SPI0
+>=20
+> =C2=A0arch/arm64/boot/dts/allwinner/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 1 +
+> =C2=A0.../allwinner/sun50i-h616-bigtreetech-pi.dts=C2=A0 | 70
+> +++++++++++++++++++
+> =C2=A02 files changed, 71 insertions(+)
+> =C2=A0create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-
+> bigtreetech-pi.dts
+>=20
+> diff --git a/arch/arm64/boot/dts/allwinner/Makefile
+> b/arch/arm64/boot/dts/allwinner/Makefile
+> index 7b386428510b..0b6232a7f328 100644
+> --- a/arch/arm64/boot/dts/allwinner/Makefile
+> +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> @@ -39,5 +39,6 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-pine-h64-
+> model-b.dtb
+> =C2=A0dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-tanix-tx6.dtb
+> =C2=A0dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-tanix-tx6-mini.dtb
+> =C2=A0dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-bigtreetech-cb1-manta.dtb
+> +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-bigtreetech-pi.dtb
+> =C2=A0dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-orangepi-zero2.dtb
+> =C2=A0dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-x96-mate.dtb
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-
+> pi.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
+> new file mode 100644
+> index 000000000000..b0d0386e8f13
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
+> @@ -0,0 +1,70 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> +/*
+> + * Copyright (C) 2023 Martin Botka <martin@biqu3d.com>.
+> + */
 > +
-> +      - description: BigTreeTech Pi
-> +        items:
-> +          - const: bigtreetech,pi
-> +          - const: allwinner,sun50i-h616
+> +/dts-v1/;
 > +
->        - description: Chuwi V7 CW0825
->          items:
->            - const: chuwi,v7-cw0825
+> +#include "sun50i-h616-bigtreetech-cb1.dtsi"
+> +
+> +/ {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0model =3D "BigTreeTech Pi";
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0compatible =3D "bigtreetech,pi=
+", "allwinner,sun50i-h616";
 
+As you say it's based on CB1 too, why no CB1 compatible here? (although
+the manta compatible won't apply)
 
-
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aliases {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0serial0 =3D &uart0;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0};
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0chosen {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0stdout-path =3D "serial0:115200n8";
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0};
+> +};
+> +
+> +&ehci0 {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
+> +};
+> +
+> +&ehci1 {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
+> +};
+> +
+> +&ehci2 {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
+> +};
+> +
+> +&ehci3 {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
+> +};
+> +
+> +&ir {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
+> +};
+> +
+> +&ohci0 {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
+> +};
+> +
+> +&ohci1 {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
+> +};
+> +
+> +&ohci2 {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
+> +};
+> +
+> +&ohci3 {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
+> +};
+> +
+> +&spi0 {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* SPI connection for onboard =
+connector for ADXL345
+> accelerometer */
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pinctrl-names =3D "default";
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pinctrl-0 =3D <&spi0_pins>, <&=
+spi0_cs0_pin>;
+> +};
+> +
+> +&uart0 {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pinctrl-names =3D "default";
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pinctrl-0 =3D <&uart0_ph_pins>=
+;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0status =3D "okay";
+> +};
 
