@@ -1,43 +1,43 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D276FA6
-	for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 15:36:24 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3fe12baec61so31997775e9.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 08:36:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841A26FA6
+	for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 15:38:04 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3fe8242fc4dso27439865e9.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 08:38:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691940983; x=1692545783;
+        d=gmail.com; s=20221208; t=1691941082; x=1692545882;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0HmyT9viofQwFO46Ag0TcEyc/eSeZtVKY9Vgh1cnGEs=;
-        b=asGfA/zadH3EzscS9pqL8hD9PkPJ4/WZnKGgBg0rVwo4UdOWRev46I9/CnAf6guzUf
-         NW0XrD20NpxsstWqh4FekZXXReMmJQmc8rJnDKIWFMoKqPredd7AGIyzbhcBoBiPKlUc
-         ZVZht/Elip16apR/VnS6qQLpvWYfML4xwHVlMYINasLxg0tw75NB0BYV4dEv4OX02bi3
-         oW5Y1EgGUSr6JM8t/WAmbTofAVVVivJbSyMWFCSCYRf9SypRLlhPBudbAOHedSZuOucF
-         3gtv2bkpHr6c/qVEQwsASu22PrIUZEVvhGlEIFUa94hmgNRRvf1vQA38gSTPnkEjKuV8
-         JLOw==
+        bh=XNmDOME263tbNnJDox2WuqRcHXZN+XqB+OMfOqpA9xQ=;
+        b=WNqBOi4ZZC6V6xRgRLsfitnrUocDN44nmI2hwUzUaFeK2Ey4eCQ3XiKbzkPj+8IK+f
+         Zc6QGbNAD3ZYzDXGt1BR/HDnQi0Z+205k54AX+n7M17nfRK54q3Q4m70bI0JWL4SnPPG
+         sAQGDvFGjh0VhrcdkKsVw1l0PvHFscTPBEk/TRg29lw128Tg8y2cFzAjZcxB7b24kS2G
+         AlPAn4LgKVWHKasQYODf1oyDyFku+7pnoGwibto1NqnoVpzDxHrQQwjP70B5R781EDg0
+         z6X8UkWVyXrx/BF+H+MZGgPCvN4w35lD2Xdz29stgweKUhTAGvKgs1isa9pPzw3pabWL
+         /yWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691940983; x=1692545783;
+        d=1e100.net; s=20221208; t=1691941082; x=1692545882;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0HmyT9viofQwFO46Ag0TcEyc/eSeZtVKY9Vgh1cnGEs=;
-        b=RtlVQVUYHAjZGH0+AkI7gFsHQVs2SV7D6F0bVAahs/reuwxlUV9CQi5Wkr666cvwIf
-         1hreY6B2+aXa5NGC7ofGsrSLFn2zPdYE4xEwHD8KUrPzm5QSG8nKtgcNrvTJVsJFAluT
-         n6NxhwCKGTZU+y0NJVB1s0jFpl2ul9kpO+CAz1YAihPNIyU93RlyeLPf4uDtkkccxOAx
-         h8Zw5ySypLWK4vXce+f3hPpajRw9pkz4crBGMycgKjG2d0Nm2qzqnkZ09NoNMeD7iRCc
-         g6Tmtmn1qXMPBwnuNMMYP6lwDwdeB+fliF5i5fgCel+QVpyU77GrMxmUdRciPWV4VV2f
-         OKQQ==
-X-Gm-Message-State: AOJu0Yyv1GuCJqha3MQoecqPb8R0z0tyEnBhysgGK2WtxVHT5yZqGPNq
-	smC1zE+/dVjqB8nil3dv+Vw=
-X-Google-Smtp-Source: AGHT+IE9qkC2Ej8imYc6src4+3L/KGU0/FB4hp4AxhdHUalCY46flCcIBsPMWdx2pp/wNCgM4p9F0g==
-X-Received: by 2002:a5d:42d2:0:b0:317:52d2:d05f with SMTP id t18-20020a5d42d2000000b0031752d2d05fmr5663858wrr.26.1691940982982;
-        Sun, 13 Aug 2023 08:36:22 -0700 (PDT)
+        bh=XNmDOME263tbNnJDox2WuqRcHXZN+XqB+OMfOqpA9xQ=;
+        b=NxtoDFCfUvJPlzqWUiv2WUTh/qshZmr1H9EYgDweY25d+PBmmdwERZKPa8CY5wQGmr
+         2oQ0+2QfyT2rTvCBtG5t30SykkFACNza4GkUDUP8I8H42DvaKV+UJomiyo/jqCEjBnru
+         rOYYEs9ILXExAf4EMFGKsoRLV1S+3+FD4SYYXiM6Xyec2yKJ33+gWBVQGuICK69K5Q3w
+         uax3tLPjcC8uluETuO0Qc2C9cHPseX36wYsUCjrLNAbAqXk3LJrzLTZkSMc1spRJNKZm
+         kRk2WQnT2qX2aacE0D+R7i843TaW00yCaP1361TnIy64i4yertQGc/JKZm254to28Ytu
+         pv1w==
+X-Gm-Message-State: AOJu0YwbJNjzBryy/2wab5BGpCja58hhSqhDmOUlWj1CWZDT4ipkLqj4
+	NMLEBDCsENzQ+tzB9zSxxUQ=
+X-Google-Smtp-Source: AGHT+IFR9Cvz4CIyUP1iq9gFAC2zyjVR2KXeCO2wabvTXPUPFUWnjVOzIYFmlO4lwwSjRS33Gmro6A==
+X-Received: by 2002:a05:600c:3648:b0:3fd:29cf:20c5 with SMTP id y8-20020a05600c364800b003fd29cf20c5mr5963620wmq.7.1691941082325;
+        Sun, 13 Aug 2023 08:38:02 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id w17-20020adff9d1000000b00313f61889ecsm11645608wrr.66.2023.08.13.08.36.21
+        by smtp.gmail.com with ESMTPSA id p19-20020a05600c205300b003fe17901fcdsm14472709wmg.32.2023.08.13.08.38.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Aug 2023 08:36:22 -0700 (PDT)
+        Sun, 13 Aug 2023 08:38:02 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Martin Botka <martin.botka1@gmail.com>, Martin Botka <martin@biqu3d.com>
 Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
@@ -51,21 +51,21 @@ Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Icenowy Zheng <uwu@icenowy.me>,
- Ludwig Kormann <ludwig.kormann@ict42.de>, Andrew Lunn <andrew@lunn.ch>,
- Heiko Stuebner <heiko@sntech.de>, Shawn Guo <shawnguo@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Ludwig Kormann <ludwig.kormann@ict42.de>, Icenowy Zheng <uwu@icenowy.me>,
+ Andrew Lunn <andrew@lunn.ch>, Heiko Stuebner <heiko@sntech.de>,
+ Shawn Guo <shawnguo@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Chris Morgan <macromorgan@hotmail.com>, Jagan Teki <jagan@edgeble.ai>,
  Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/4] dt-bindings: vendor-prefixes: Add BigTreeTech
-Date: Sun, 13 Aug 2023 17:36:20 +0200
-Message-ID: <2291546.ElGaqSPkdT@jernej-laptop>
-In-Reply-To: <EB8B7A5FD2D8E12A+20230807145349.2220490-2-martin@biqu3d.com>
+Subject: Re: [PATCH v4 2/4] dt-bindings: arm: sunxi: Add BigTreeTech boards
+Date: Sun, 13 Aug 2023 17:37:59 +0200
+Message-ID: <1859280.tdWV9SEqCh@jernej-laptop>
+In-Reply-To: <309C7C26158AF852+20230807145349.2220490-3-martin@biqu3d.com>
 References:
  <20230807145349.2220490-1-martin@biqu3d.com>
- <EB8B7A5FD2D8E12A+20230807145349.2220490-2-martin@biqu3d.com>
+ <309C7C26158AF852+20230807145349.2220490-3-martin@biqu3d.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -75,16 +75,13 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne ponedeljek, 07. avgust 2023 ob 16:53:21 CEST je Martin Botka napisal(a):
+Dne ponedeljek, 07. avgust 2023 ob 16:53:22 CEST je Martin Botka napisal(a):
 > From: Martin Botka <martin.botka@somainline.org>
 > 
-> BigTreeTech is a company based in Shenzhen that makes
-> 3D printers and accessories.
-> 
-> Add prefix for it.
+> Add name & compatible for BigTreeTech Manta boards and
+> BigTreeTech Pi
 > 
 > Signed-off-by: Martin Botka <martin.botka@somainline.org>
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
@@ -94,26 +91,36 @@ Jernej
 
 > ---
 > Changes in V2:
->     - Fix alphabetical order
+>     - Remove CB1 SoM as its own entry
+>     - Squash BTT Pi and manta patches into 1
 > Changes in V3,V4: none
 > 
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+>  Documentation/devicetree/bindings/arm/sunxi.yaml | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> b/Documentation/devicetree/bindings/vendor-prefixes.yaml index
-> af60bf1a6664..a1f3bb7be860 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -192,6 +192,8 @@ patternProperties:
->      description: BeagleBoard.org Foundation
->    "^bhf,.*":
->      description: Beckhoff Automation GmbH & Co. KG
-> +  "^bigtreetech,.*":
-> +    description: Shenzhen BigTree Tech Co., LTD
->    "^bitmain,.*":
->      description: Bitmain Technologies
->    "^blutek,.*":
+> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml
+> b/Documentation/devicetree/bindings/arm/sunxi.yaml index
+> ee8fdd2da869..b90d2a7dbe2d 100644
+> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
+> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> @@ -151,6 +151,17 @@ properties:
+>            - const: roofull,beelink-x2
+>            - const: allwinner,sun8i-h3
+> 
+> +      - description: BigTreeTech Manta M4/8P
+> +        items:
+> +          - const: bigtreetech,cb1-manta
+> +          - const: bigtreetech,cb1
+> +          - const: allwinner,sun50i-h616
+> +
+> +      - description: BigTreeTech Pi
+> +        items:
+> +          - const: bigtreetech,pi
+> +          - const: allwinner,sun50i-h616
+> +
+>        - description: Chuwi V7 CW0825
+>          items:
+>            - const: chuwi,v7-cw0825
 
 
 
