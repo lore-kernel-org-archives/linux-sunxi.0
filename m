@@ -1,94 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744C02C9D
-	for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 13:29:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5617C433C8;
-	Sun, 13 Aug 2023 13:29:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691933395;
-	bh=ZZsPFbtEI+d7KwPstp7Cp4sfHUwluG7vLjmLy7GWpaU=;
-	h=Date:From:To:Cc:Subject:From;
-	b=KrUS1AGDcKb8CbI+1AEWp/52kIs3XqTXqPTbzUGyGO8DdMkbLnZvI7uTjZwEsFlIX
-	 Krz0iOk5KCM8vWENlJYO/j4vjSOj4K/68ArfYCRgLUunaYa0Ma80+Xyy75CRsHhsFO
-	 ePJX8RaQwilsn6IhgHtM69UwYgQZoPNkiBtpU1qa03OADg9i1ZIVh1179QhPZXSNl0
-	 mbcrlfYBO0OnFXdyUptTv/QmXewtXXO8BZP0MgHvFpudxFvCWqYyZJaCutfr3cXTCd
-	 kHLtNYymDly1fA7q+DtM0Dn5V9AEB9gycsrPr4+DXjsxMim6ZUi3H90KXiRBc30pRE
-	 79xB8kB38ELJw==
-Received: by wens.tw (Postfix, from userid 1000)
-	id 331915FB0F; Sun, 13 Aug 2023 21:29:53 +0800 (CST)
-Date: Sun, 13 Aug 2023 21:29:53 +0800
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
-	linux-clk@vger.kernel.org
-Subject: [GIT PULL] Allwinner clock changes for 6.6 part 2
-Message-ID: <ZNja0W8oQ0PLAc7l@wens.tw>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71426FA6;
+	Sun, 13 Aug 2023 15:22:36 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-99bf1f632b8so501009766b.1;
+        Sun, 13 Aug 2023 08:22:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691940155; x=1692544955;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U72ij9H7xly/POAmuR9nZYqDM563QnNZZvNrcGFMct4=;
+        b=Q3uvwX+W38PXuccnalF83pEuAl0sXt0s0GtTBY/WJuv6AG0oG3EQBjR4HStycfv6HC
+         4LrvSgwnC5C+IrdaZS2HT8jx+7+oxrTLX5x/uvG1w9mrOL8OsddMgHxXyqRTzgIp6Wx1
+         j8U5CXH2HSTnXUL9kkWRElcSSBRYeRxeJgydXojH8QBRvfj823ForbSoWBHDiHT5NQO9
+         LFad+1AEVusqHj8+Zg5HgdAh2gVcGuImQoOXrixHF0DoSLxTvDZN3lzl04rIUBJgMhiS
+         ppD6iFlzhDISDFqgP1DIjSE3+PmaliegaYnmruWtcMEDGpTLhI8an9NQJ6T8M91mek+C
+         gx5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691940155; x=1692544955;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=U72ij9H7xly/POAmuR9nZYqDM563QnNZZvNrcGFMct4=;
+        b=Y1qC6SJNlQUe7gDjt9/Ka0KbFde5FEGsECRJowkjJ7KMV3/aIeAUywpupbbKuw5KnQ
+         rIaO/P3sM95hXIJ19zn4gRxiZ/ELNuSQLb403Vp4zNvTnVlX9EdzlztTF02y/8IyGgRr
+         MVfpAYCOazUsOptKfGqsYamxxGqKdBxfmxIuOI1MyOEbPDT2tKTF8AQkywKl0AUVxu9e
+         QGLvQ8+NAwcxb9GV6z06xA0lkM4TTxHWkUn8usG6y0Z58/VVxo+b4SwW7xuxY99sBUfu
+         +OClQj6pUxAQFFAdXERtVYJL310rScJk055/j7D7apUrBJWzHaP2BrfuIAGo81pjC+Yq
+         ANfQ==
+X-Gm-Message-State: AOJu0Yz5SP3g1WEk36DLthL2WjnMOm3a1EWnB5zkbAVen4D0OVYVqSQ1
+	Ph2aEgl8YZJmh/NJU0XUnwk=
+X-Google-Smtp-Source: AGHT+IEq8lcT27+3KXWyXugbFwqrq92P97+ZW1qmGMQsqWgCVvad8+1JiyLdlFsV4rDaqfoiy0EtMg==
+X-Received: by 2002:a17:906:5a57:b0:99a:e756:57bf with SMTP id my23-20020a1709065a5700b0099ae75657bfmr6293953ejc.7.1691940154549;
+        Sun, 13 Aug 2023 08:22:34 -0700 (PDT)
+Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
+        by smtp.gmail.com with ESMTPSA id cd19-20020a170906b35300b0098e42bef732sm4632902ejb.183.2023.08.13.08.22.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Aug 2023 08:22:34 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: perex@perex.cz, tiwai@suse.com, claudiu.beznea@tuxon.dev,
+ lgirdwood@gmail.com, broonie@kernel.org, nicolas.ferre@microchip.com,
+ alexandre.belloni@bootlin.com, peda@axentia.se, lars@metafoo.de,
+ nuno.sa@analog.com, povik+lin@cutebit.org, wens@csie.org,
+ samuel@sholland.org, robh@kernel.org, u.kleine-koenig@pengutronix.de,
+ alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org,
+ asahi@lists.linux.dev, linux-sunxi@lists.linux.dev,
+ Ruan Jinjie <ruanjinjie@huawei.com>
+Cc: ruanjinjie@huawei.com
+Subject:
+ Re: [PATCH -next 3/5] ASoC: sunxi: sun4i-spdif: Remove redundant
+ of_match_ptr()
+Date: Sun, 13 Aug 2023 17:22:31 +0200
+Message-ID: <2691934.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20230811071426.2343133-4-ruanjinjie@huawei.com>
+References:
+ <20230811071426.2343133-1-ruanjinjie@huawei.com>
+ <20230811071426.2343133-4-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi,
+Dne petek, 11. avgust 2023 ob 09:14:24 CEST je Ruan Jinjie napisal(a):
+> The driver depends on CONFIG_OF, it is not necessary to use
+> of_match_ptr() here.
+> 
+> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
 
-Please pull another round of Allwinner clk patches for the 6.6 cycle.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Best regards,
+Jernej
+
+> ---
+>  sound/soc/sunxi/sun4i-spdif.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/sunxi/sun4i-spdif.c b/sound/soc/sunxi/sun4i-spdif.c
+> index ff18d4113aac..c2b55d2e5fe1 100644
+> --- a/sound/soc/sunxi/sun4i-spdif.c
+> +++ b/sound/soc/sunxi/sun4i-spdif.c
+> @@ -718,7 +718,7 @@ static const struct dev_pm_ops sun4i_spdif_pm = {
+>  static struct platform_driver sun4i_spdif_driver = {
+>  	.driver		= {
+>  		.name	= "sun4i-spdif",
+> -		.of_match_table = of_match_ptr(sun4i_spdif_of_match),
+> +		.of_match_table = sun4i_spdif_of_match,
+>  		.pm	= &sun4i_spdif_pm,
+>  	},
+>  	.probe		= sun4i_spdif_probe,
 
 
-Thanks
-ChenYu
 
 
-The following changes since commit 075d9ca5b4e17f84fd1c744a405e69ec743be7f0:
-
-  clk: sunxi-ng: Modify mismatched function name (2023-07-31 00:52:36 +0200)
-
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-clk-for-6.6-2
-
-for you to fetch changes up to a69f9463397e56666b113eebb2e99956aacf6929:
-
-  clk: sunxi-ng: nkm: Prefer current parent rate (2023-08-09 23:41:44 +0800)
-
-----------------------------------------------------------------
-Allwinner clock changes for 6.6 part 2
-
-- Parameter name correction for ccu_nkm_round_rate()
-- Implement CLK_SET_RATE_PARENT for NKM clocks, i.e. consider alternative
-  parent rates when determining clock rates
-- Set CLK_SET_RATE_PARENT for A64 pll-mipi
-- Support finding closest (as opposed to closest but not higher) clock
-  rate for NM, NKM, mux and div type clocks, as use it for A64
-  pll-video0
-- Prefer current parent rate if able to generate ideal clock rate for
-  NKM clocks
-
-----------------------------------------------------------------
-Frank Oltmanns (11):
-      clk: sunxi-ng: nkm: Use correct parameter name for parent HW
-      clk: sunxi-ng: nkm: consider alternative parent rates when determining rate
-      clk: sunxi-ng: a64: allow pll-mipi to set parent's rate
-      clk: sunxi-ng: Add feature to find closest rate
-      clk: sunxi-ng: Add helper function to find closest rate
-      clk: sunxi-ng: nm: Support finding closest rate
-      clk: sunxi-ng: nkm: Support finding closest rate
-      clk: sunxi-ng: mux: Support finding closest rate
-      clk: sunxi-ng: div: Support finding closest rate
-      clk: sunxi-ng: a64: select closest rate for pll-video0
-      clk: sunxi-ng: nkm: Prefer current parent rate
-
- drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 41 ++++++++++++--------------
- drivers/clk/sunxi-ng/ccu_common.c     | 12 ++++++++
- drivers/clk/sunxi-ng/ccu_common.h     |  6 ++++
- drivers/clk/sunxi-ng/ccu_div.h        | 30 +++++++++++++++++++
- drivers/clk/sunxi-ng/ccu_mux.c        | 15 ++++++++--
- drivers/clk/sunxi-ng/ccu_mux.h        | 38 +++++++++++++++++-------
- drivers/clk/sunxi-ng/ccu_nkm.c        | 55 ++++++++++++++++++++++++++++++-----
- drivers/clk/sunxi-ng/ccu_nm.c         | 13 ++++-----
- drivers/clk/sunxi-ng/ccu_nm.h         | 48 ++++++++++++++++++++++++++++--
- 9 files changed, 204 insertions(+), 54 deletions(-)
