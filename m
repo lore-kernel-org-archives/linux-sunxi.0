@@ -1,129 +1,161 @@
 Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B26215A4
-	for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 04:13:34 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-687ca37628eso3149046b3a.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 12 Aug 2023 21:13:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3461415A4
+	for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 04:17:42 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-687087d8ddaso3308384b3a.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 12 Aug 2023 21:17:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691900013; x=1692504813;
+        d=1e100.net; s=20221208; t=1691900262; x=1692505062;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :reply-to:in-reply-to:references:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=HI593M9zMN8epqOMj2ahalMMsfEOiEZNyKM6XMUdoUI=;
-        b=lGVRaoVsMECCBjYPG+pQ8+jN0I8mzMPiJ11/TU1sqDI03gKn053jifdT09SUw+NIPJ
-         VB3HWBilWS5/mhd4KQIJ9kEIZi/RLl1y2RjQLUuaE18l5HzTlDRuzZ1MT5iDhfghljjA
-         +0Pkp7Nn/25bNp5QL+8mM96iOgggvdWJoNqT4r5/sR+6prvf6fFTg+xui8+8GGbaCjz0
-         pGqv9yGpC8KlonJC6j8mOUb8RHg0/JkF2PxHnYD/3j4v4h/G3k/3G8c1vpTEKl0gD8zV
-         q7JxUnLDDhC+KDjkcs5Auz9iuq3SSB1A/f274fvzdQv2eQMdc3y7D5S/QfV61QEWS88q
-         eJLg==
-X-Gm-Message-State: AOJu0YwKhukgP2RW0BqzpRfoZle3L1DTDatZN6ED2o69ejBDhIDJ1q0o
-	ytlFrKhQX3Gt3jwAtl7vUarRkYYIA8pSUg==
-X-Google-Smtp-Source: AGHT+IHn/SxbpWHQiOJ8g2adQZ0b4h52Qcus2LnH4C9AHqVuiKgksGv98DnxHmdUuPw07RGMTu7FKg==
-X-Received: by 2002:a05:6a20:1606:b0:13f:cd07:2b40 with SMTP id l6-20020a056a20160600b0013fcd072b40mr8927770pzj.3.1691900013471;
-        Sat, 12 Aug 2023 21:13:33 -0700 (PDT)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com. [209.85.214.175])
-        by smtp.gmail.com with ESMTPSA id b18-20020aa78112000000b00659b8313d08sm5607405pfi.78.2023.08.12.21.13.21
+        bh=CLMyURC53hwz5v812uK/eVgyKmTJ3lphiPgO1Kd5Ijk=;
+        b=KQpQiJtndMpr/fuJhnWdE7XoRv+FYkWjlwnJTz9iJ8kTw4itAmuJVdwXspvDHIDFU+
+         wzQP8G2AW+S+OElY1lYkPeF0bby4/KNKj8ZsSPtw9xkifVlVFy0Y5Vwxo0v7j2oTd6ez
+         4hze8k0d/T6HjA7NkmvbXbAvAnERnAF3fvJD6i6XboBLc+NKQuHExv3SK9xcnwggaIBd
+         PqeFEzAEPvYvSCf55K/E77LijlzkaZIg0b/CZ2ogRE6YNkZlJEsODmCuuOUQextv9w/0
+         zXX4KvLftUQI8l/d/OtIwmkoF6IFLtotLodNVNV0l7Gk4AW79CSXMr60lEiD86mG5rcy
+         OYPA==
+X-Gm-Message-State: AOJu0Yx2t+kJWi/SGhlU8GmrQZuZulWVywBfBTSyknl1WUtfqLp13LmM
+	gxSDf0YLvbCyh84AAVJ5fU3RqBACmFKRRA==
+X-Google-Smtp-Source: AGHT+IFT+Ujrc8QihL7BDLUn4c9eOud16dWcIDapDzKrshRf+jeYUvLVLetM9rs6rz8ef47rhcR9bQ==
+X-Received: by 2002:a05:6a00:c87:b0:668:81c5:2f8d with SMTP id a7-20020a056a000c8700b0066881c52f8dmr8239554pfv.3.1691900262284;
+        Sat, 12 Aug 2023 21:17:42 -0700 (PDT)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com. [209.85.216.45])
+        by smtp.gmail.com with ESMTPSA id u10-20020aa7838a000000b00660d80087a8sm5614051pfm.187.2023.08.12.21.17.39
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 12 Aug 2023 21:13:22 -0700 (PDT)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1bdba48eccdso15877035ad.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 12 Aug 2023 21:13:21 -0700 (PDT)
-X-Received: by 2002:a17:902:e741:b0:1bb:8e13:deba with SMTP id
- p1-20020a170902e74100b001bb8e13debamr7297585plf.11.1691900000803; Sat, 12 Aug
- 2023 21:13:20 -0700 (PDT)
+        Sat, 12 Aug 2023 21:17:39 -0700 (PDT)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-26b44247123so437280a91.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 12 Aug 2023 21:17:39 -0700 (PDT)
+X-Received: by 2002:a17:90a:8d0c:b0:263:f8e3:5a2a with SMTP id
+ c12-20020a17090a8d0c00b00263f8e35a2amr5198981pjo.36.1691900259095; Sat, 12
+ Aug 2023 21:17:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230731023701.2581713-1-contact@jookia.org> <3248110.44csPzL39Z@jernej-laptop>
-In-Reply-To: <3248110.44csPzL39Z@jernej-laptop>
+References: <20230807191952.2019208-1-contact@jookia.org>
+In-Reply-To: <20230807191952.2019208-1-contact@jookia.org>
 Reply-To: wens@csie.org
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Sun, 13 Aug 2023 12:13:09 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66g1On2uy0_15ZA5-uXcrLSg7V-tsw8zLo=tUY_HUW00g@mail.gmail.com>
-Message-ID: <CAGb2v66g1On2uy0_15ZA5-uXcrLSg7V-tsw8zLo=tUY_HUW00g@mail.gmail.com>
-Subject: Re: [PATCH] riscv: dts: allwinner: d1: Specify default CAN pins
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, John Watts <contact@jookia.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
+Date: Sun, 13 Aug 2023 12:17:27 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66vqrNZ-ga-1O_bQ16BWXH=RmSHo2Kb+WHJyw-Nm1kWVg@mail.gmail.com>
+Message-ID: <CAGb2v66vqrNZ-ga-1O_bQ16BWXH=RmSHo2Kb+WHJyw-Nm1kWVg@mail.gmail.com>
+Subject: Re: [PATCH v3] riscv: dts: allwinner: d1: Add CAN controller nodes
+To: John Watts <contact@jookia.org>
+Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Samuel Holland <samuel@sholland.org>, 
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Maksim Kiselev <bigunclemax@gmail.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Maksim Kiselev <bigunclemax@gmail.com>, 
+	Marc Kleine-Budde <mkl@pengutronix.de>, Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
 	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	mkl@pengutronix.de
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 4, 2023 at 4:59=E2=80=AFAM Jernej =C5=A0krabec <jernej.skrabec@=
-gmail.com> wrote:
+On Tue, Aug 8, 2023 at 3:20=E2=80=AFAM John Watts <contact@jookia.org> wrot=
+e:
 >
-> /cc Marc
+> The Allwinner D1, T113 provide two CAN controllers that are variants
+> of the R40 controller.
 >
-> Dne ponedeljek, 31. julij 2023 ob 04:36:59 CEST je John Watts napisal(a):
-> > There are only one set of CAN pins available on these chips.
-> > Specify these as the default to avoid redundancy in board device trees.
-> >
-> > Signed-off-by: John Watts <contact@jookia.org>
-> > ---
-> >  arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-> > b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi index
-> > 4086c0cc0f9d..b27c3fc13b0d 100644
-> > --- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-> > +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-> > @@ -898,6 +898,8 @@ can0: can@2504000 {
-> >                       interrupts =3D <SOC_PERIPHERAL_IRQ(21)
-> IRQ_TYPE_LEVEL_HIGH>;
-> >                       clocks =3D <&ccu CLK_BUS_CAN0>;
-> >                       resets =3D <&ccu RST_BUS_CAN0>;
-> > +                     pinctrl-names =3D "default";
-> > +                     pinctrl-0 =3D <&can0_pins>;
-> >                       status =3D "disabled";
-> >               };
+> I have tested support for these controllers on two boards:
 >
-> pinctrl-names and pinctrl-0 are usually at the top. However, since there =
-is no
-> hard rule (I've seen it mixed), I'm fine with it.
+> - A Lichee Panel RV 86 Panel running a D1 chip
+> - A Mango Pi MQ Dual running a T113-s3 chip
+>
+> Both of these fully support both CAN controllers.
+>
+> Signed-off-by: John Watts <contact@jookia.org>
+> ---
+> Changes in v3:
+> - Set default pinctrl for can controller
+> - Moved can nodes to proper location
+> - Moved can pins to proper location
+>
+>  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 34 +++++++++++++++++++
+>  1 file changed, 34 insertions(+)
+>
+> diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/ris=
+cv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+> index d59b4acf183a..24f2e70d5886 100644
+> --- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+> +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+> @@ -52,6 +52,18 @@ pio: pinctrl@2000000 {
+>                         #gpio-cells =3D <3>;
+>                         #interrupt-cells =3D <3>;
+>
+> +                       /omit-if-no-ref/
 
-AFAIK this only applies to board files where there are mostly none of the
-resource (clocks, reg, resets, interrupts) properties. OOTH the compatible
-property is always the first property. I would normally put the pinctrl
-stuff after the internal resources, since it is an external property.
-In the SoC dtsi files, they would end up after the resource properties
-I mentioned above, and before the "status" property.
+Just FYI this likely ends up doing nothing if you also have them
+referenced through a default pinctrl setting. They end up always
+referenced and always included. For the D1 series it looks like no
+peripheral has default pinctrl setting given.
+
+We can still keep it though. It would help when future chip variants
+specify different pinmuxes.
+
+> +                       can0_pins: can0-pins {
+> +                               pins =3D "PB2", "PB3";
+> +                               function =3D "can0";
+> +                       };
+> +
+> +                       /omit-if-no-ref/
+> +                       can1_pins: can1-pins {
+> +                               pins =3D "PB4", "PB5";
+> +                               function =3D "can1";
+> +                       };
+> +
+>                         /omit-if-no-ref/
+>                         clk_pg11_pin: clk-pg11-pin {
+>                                 pins =3D "PG11";
+> @@ -356,6 +368,28 @@ i2c3: i2c@2502c00 {
+>                         #size-cells =3D <0>;
+>                 };
+>
+> +               can0: can@2504000 {
+> +                       pinctrl-names =3D "default";
+> +                       pinctrl-0 =3D <&can0_pins>;
+
+The compatible string should be the first property. In other sunxi SoC dtsi
+files, we put the pinctrl just before the "status" property if it's present
+to specify a default pin muxing.
+
+I can fix it up while applying.
 
 ChenYu
 
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
->
-> Since original DT node entry goes through netdev tree, this should be pic=
-ked
-> there or it can be dropped there and I pick both patches or I can pick pa=
-tch
-> for later kernel version.
->
-> Best regards,
-> Jernej
->
-> >
-> > @@ -907,6 +909,8 @@ can1: can@2504400 {
-> >                       interrupts =3D <SOC_PERIPHERAL_IRQ(22)
-> IRQ_TYPE_LEVEL_HIGH>;
-> >                       clocks =3D <&ccu CLK_BUS_CAN1>;
-> >                       resets =3D <&ccu RST_BUS_CAN1>;
-> > +                     pinctrl-names =3D "default";
-> > +                     pinctrl-0 =3D <&can1_pins>;
-> >                       status =3D "disabled";
-> >               };
-> >       };
->
->
+> +                       compatible =3D "allwinner,sun20i-d1-can";
+> +                       reg =3D <0x02504000 0x400>;
+> +                       interrupts =3D <SOC_PERIPHERAL_IRQ(21) IRQ_TYPE_L=
+EVEL_HIGH>;
+> +                       clocks =3D <&ccu CLK_BUS_CAN0>;
+> +                       resets =3D <&ccu RST_BUS_CAN0>;
+> +                       status =3D "disabled";
+> +               };
+> +
+> +               can1: can@2504400 {
+> +                       pinctrl-names =3D "default";
+> +                       pinctrl-0 =3D <&can1_pins>;
+> +                       compatible =3D "allwinner,sun20i-d1-can";
+> +                       reg =3D <0x02504400 0x400>;
+> +                       interrupts =3D <SOC_PERIPHERAL_IRQ(22) IRQ_TYPE_L=
+EVEL_HIGH>;
+> +                       clocks =3D <&ccu CLK_BUS_CAN1>;
+> +                       resets =3D <&ccu RST_BUS_CAN1>;
+> +                       status =3D "disabled";
+> +               };
+> +
+>                 syscon: syscon@3000000 {
+>                         compatible =3D "allwinner,sun20i-d1-system-contro=
+l";
+>                         reg =3D <0x3000000 0x1000>;
+> --
+> 2.41.0
 >
 >
