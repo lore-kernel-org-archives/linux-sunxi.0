@@ -1,441 +1,457 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E288F77
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Aug 2023 10:16:22 +0000 (UTC)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-589f784a972so5366907b3.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 14 Aug 2023 03:16:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185278F77
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Aug 2023 10:22:11 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-99c1f6f3884so567627666b.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 14 Aug 2023 03:22:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692008181; x=1692612981;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=G0o4ebEFlNAX87hZsAliF30Sgi/kb42lIQpZnbBPD0w=;
-        b=EURjeFEt1mx+tMUkzQBGoZyzgEkG/r33KhBgEKXFd9I43Gs6EQUnkIjes014Ls0PDY
-         ktIff5+/Acxarq8NnzK/ha9FGUgJcgkP6lHasUY0EfFK5SXWN3v8DqqM1XmeQDMziaCI
-         8paelRM9LSofW77B3vgJq6R9hinSeBlHkrtHjftlrgfD4Fm4fLyMb0meX0gSVKFVplec
-         bwGO7DiEjIjPVExzUPdiKOvx2JmwoOSAMJHZxA8eEGl42Ptz1sso0TAayIJC0W5iCBM1
-         RIOA+YawT2zqh1lRS98e542Fqq6qmS8v7c001ixx3FqM/P2Q95003YFi9ZtBza2IZREa
-         wG/g==
+        d=gmail.com; s=20221208; t=1692008530; x=1692613330;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mIm/soAm2sqvo7n3TF3xNos6LhFpQ9euYNbZFzKmPkU=;
+        b=k6hfI/wfPtIHB+EYp6RhshoVIrmf5ges7Bl63a1cAdXZvG5iuZRl77T3uf6JhUJOgh
+         vZgggOoJKGufco48uihM50+gkApgnMFirUnMJJUdygM4oRPtyDWCSJtlecrjyWbGoAwM
+         lKIJewMs33Tk10Lzu+1Gi3cBOa7GicG0kTr/QnxLr0V8yR9xFS6QlutLIL+gYCE7U/vG
+         /UwBuC5zr/C/VMBv4U0nlMrDb33Ylt92yjmMAIHTJlsZqyZj53J/ufXVWokiQsNz1KO2
+         FVEmqV5Gtp6gAdnI9gwluwmdZNeoP1S4FKTVT/H457kIM4dBV1Y7df2YzJcoFtsQcuF8
+         qljA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692008181; x=1692612981;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=G0o4ebEFlNAX87hZsAliF30Sgi/kb42lIQpZnbBPD0w=;
-        b=GUYIhPfgdGhyLq1DsOktm8pG72Y2+rikXf26jIZAHCp2QKjjtxbLB2+MncSKn7bhwN
-         V7VRmY0jXrzOXa398XcY2A67g1wB1Uz71tBeLWFyqH85PT57me/V32LZugE0g4awpwoz
-         K05yWfrKdSAys76eUVvH4lesMXAJDsDuWIfurZf7ndHYthNOlzk6sFaQrP449s8reKh2
-         MG41lcdCqfjlJ+sOtRhpjxhEdd3luaK1Clv5jXu0s/6fBhAPHx9GP70y0cGCf0IkPAa5
-         qpIgZ1PFMzmgt/Y6JIBhr/QaK556mNjT8PrCEPu8VlV4rNn+lHJ6LTLRFBxx1x/GOpVF
-         EOpg==
-X-Gm-Message-State: AOJu0YzO8tNAKQy+UrSDeUUDFesG6RoRgLFpIE3wvuvxefor9bvLaKij
-	sWexVSEwsNBhkZ+0M8Ios0g/ICJMZTlKEm4W2hk=
-X-Google-Smtp-Source: AGHT+IFRXFmnvs1XP7+ZHAGTY7osbFn2VU8DYPbpsxpCxMfuFkIh3fMd176Ur3qxcwUGUEf2b3tGgCAI19AXpgWko3E=
-X-Received: by 2002:a0d:e201:0:b0:589:fb7b:4932 with SMTP id
- l1-20020a0de201000000b00589fb7b4932mr1667312ywe.42.1692008181196; Mon, 14 Aug
- 2023 03:16:21 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692008530; x=1692613330;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mIm/soAm2sqvo7n3TF3xNos6LhFpQ9euYNbZFzKmPkU=;
+        b=T87YFX6e/TeBHn5p0qQm+7Q1VCu0+K3mzgR8QN5PKAcYGuboGN6Om33R2r4N4Bb7VP
+         LL48uiHOar/vd7WK2JHmLEOzDqN1gjTjKvde/U8ojemj9aTLQsgf6484y7MMfi/1HKN9
+         skMNKP4mmwona6XK0R0+IZ8HQUdoT44BqJZHtuJoLouWp4IBlZ5dmb6JNuz0a6axU4zQ
+         jmU+L/w+h3owiNzbLYxEhbAAvPiagwtdDFKLK0hWuP8XfdB0F5yZzlleiHwuRGvtf5ZZ
+         /pLu8MaeYpksT7DDSYZR/F/4c7tKJj8qXYmr5aDhSppNNaJnI5KWWHfHx2okke2eTyj9
+         LHmQ==
+X-Gm-Message-State: AOJu0Yyk6Xx9EL63vsh3HnxxAJ7tfekmDGCK9yMUV/f3PTZbst8PJ8ga
+	T5tdqS8Acw3nZJOPod+xWXU=
+X-Google-Smtp-Source: AGHT+IHoCjkqf8+sexzP/XhE7NtIvoztCMsYC3dpIhKtsD7s5Hp08+sQY+Ve09sWKURjX5sDhAD+PQ==
+X-Received: by 2002:a17:906:116:b0:99c:55c0:ad11 with SMTP id 22-20020a170906011600b0099c55c0ad11mr8225480eje.23.1692008529818;
+        Mon, 14 Aug 2023 03:22:09 -0700 (PDT)
+Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
+        by smtp.gmail.com with ESMTPSA id f16-20020a170906561000b00992076f4a01sm5517911ejq.190.2023.08.14.03.22.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Aug 2023 03:22:09 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Martin Botka <martin.botka@somainline.org>
+Cc: Martin Botka <martin.botka1@gmail.com>, Martin Botka <martin@biqu3d.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Jami Kettunen <jamipkettunen@somainline.org>,
+ Paul Bouchara <paul.bouchara@somainline.org>,
+ Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Ludwig Kormann <ludwig.kormann@ict42.de>, Icenowy Zheng <uwu@icenowy.me>,
+ Andrew Lunn <andrew@lunn.ch>, Heiko Stuebner <heiko@sntech.de>,
+ Shawn Guo <shawnguo@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Chris Morgan <macromorgan@hotmail.com>, Jagan Teki <jagan@edgeble.ai>,
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH v4 3/4] arm64: dts: allwinner: h616: Add BigTreeTech CB1 SoM &
+ boards support
+Date: Mon, 14 Aug 2023 12:22:06 +0200
+Message-ID: <7555655.EvYhyI6sBW@jernej-laptop>
+In-Reply-To: <C18CZR.UPG8WJSWEO3L2@somainline.org>
+References:
+ <20230807145349.2220490-1-martin@biqu3d.com>
+ <3249535.44csPzL39Z@jernej-laptop> <C18CZR.UPG8WJSWEO3L2@somainline.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAGgoGu7Vim82Hu1JKc+m6cPkcn7+WWDFwK5P_YE6grFQS9E21Q@mail.gmail.com>
- <ZNm2ihdTojuPJM2f@debian.me>
-In-Reply-To: <ZNm2ihdTojuPJM2f@debian.me>
-From: Fawad Lateef <fawadlateef@gmail.com>
-Date: Mon, 14 Aug 2023 11:16:09 +0100
-Message-ID: <CAGgoGu5XuHhVbnrNKBzhZyZH993bBHiLgjTrtyofvePZ-dxLow@mail.gmail.com>
-Subject: Re: Question regarding Linux-6.3.5 and Sunxi A20 NAND/NFC support
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	kernelnewbies <kernelnewbies@kernelnewbies.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>, 
-	Viresh Kumar <viresh.kumar@linaro.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Tony Lindgren <tony@atomide.com>, Linux Devicetree <devicetree@vger.kernel.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Linux sunXi <linux-sunxi@lists.linux.dev>, boris.brezillon@collabora.com
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Bagas,
+Dne nedelja, 13. avgust 2023 ob 18:20:00 CEST je Martin Botka napisal(a):
+> On Sun, Aug 13 2023 at 05:52:10 PM +02:00:00, Jernej =C5=A0krabec
+>=20
+> <jernej.skrabec@gmail.com> wrote:
+> > Hi Martin,
+> >=20
+> > since this will be obviously delayed to 6.7 cycle due to mfd patch
+> > not being
+> > merged in time, I have few nits below.
+> >=20
+> > Dne ponedeljek, 07. avgust 2023 ob 16:53:23 CEST je Martin Botka
+> >=20
+> > napisal(a):
+> >>  From: Martin Botka <martin.botka@somainline.org>
+> >> =20
+> >>  CB1 is Compute Module style board that plugs into Rpi board style
+> >>=20
+> >> adapter or
+> >>=20
+> >>  Manta 3D printer boards (M4P/M8P).
+> >> =20
+> >>  The SoM features:
+> >>    - H616 SoC
+> >>    - 1GiB of RAM
+> >>    - AXP313A PMIC
+> >>    - RTL8189FTV WiFi
+> >> =20
+> >>  Boards feature:
+> >>    - 4x USB via USB2 hub (usb1 on SoM).
+> >>    - SDcard slot for loading images.
+> >>    - Ethernet port wired to the internal PHY. (100M)
+> >>    - 2x HDMI 2.0. (Only 1 usable on CB1)
+> >>    - Power and Status LEDs. (Only Status LED usable on CB1)
+> >>    - 40 pin GPIO header
+> >> =20
+> >>  Currently working:
+> >>    - Booting
+> >>    - USB
+> >>    - UART
+> >>    - MMC
+> >>    - Status LED
+> >>    - WiFi (RTL8189FS via out of tree driver)
+> >> =20
+> >>  I didnt want to duplicate things so the manta DTS can also be used
+> >>=20
+> >> on BTT
+> >>=20
+> >>  pi4b adapter. CB1 SoM has its own DTSI file in case other boards
+> >>=20
+> >> shows up
+> >>=20
+> >>  that accept this SoM.
+> >> =20
+> >>  Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> >>  Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> >>  ---
+> >> =20
+> >>  Changes in V2:
+> >>      - Fixed whitespace errors
+> >>      - Move UART into carrier boards and BTT Pi
+> >>      - Remove usb1-vbus regulator
+> >>      - Fix ranges and naming of AXP313A rails
+> >>      - Add comment specifying why broken-cd in mmc0 is needed
+> >>      - Rename sdio_wifi to wifi
+> >>      - Specify in commit description that USB-OTG doesnt work
+> >> =20
+> >>  Changes in V3:
+> >>      - Add missed semicolons
+> >>      - Move model string from dtsi to board dts
+> >>      - Add cb1 compatible
+> >>      - Remove extra empty line
+> >> =20
+> >>  Changed in V4:
+> >>      - Extend the range of vcc-dram to 1.5V (1.35V max caused issues
+> >>=20
+> >> with
+> >>=20
+> >>  booting up
+> >> =20
+> >>   arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+> >>   .../sun50i-h616-bigtreetech-cb1-manta.dts     |  35 +++++
+> >>   .../sun50i-h616-bigtreetech-cb1.dtsi          | 140
+> >>=20
+> >> ++++++++++++++++++
+> >>=20
+> >>   3 files changed, 176 insertions(+)
+> >>   create mode 100644
+> >> =20
+> >>  arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts
+> >>=20
+> >> create
+> >>=20
+> >>  mode 100644
+> >>=20
+> >> arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
+> >>=20
+> >>  diff --git a/arch/arm64/boot/dts/allwinner/Makefile
+> >>  b/arch/arm64/boot/dts/allwinner/Makefile index
+> >>=20
+> >> 6a96494a2e0a..7b386428510b
+> >>=20
+> >>  100644
+> >>  --- a/arch/arm64/boot/dts/allwinner/Makefile
+> >>  +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> >>  @@ -38,5 +38,6 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-pine-h64.dtb
+> >> =20
+> >>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-pine-h64-model-b.dtb
+> >>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-tanix-tx6.dtb
+> >>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-tanix-tx6-mini.dtb
+> >> =20
+> >>  +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-bigtreetech-cb1-manta.dtb
+> >> =20
+> >>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-orangepi-zero2.dtb
+> >>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-x96-mate.dtb
+> >> =20
+> >>  diff --git
+> >>=20
+> >> a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts
+> >>=20
+> >> b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts
+> >> new
+> >>=20
+> >>  file mode 100644
+> >>  index 000000000000..dbce61b355d6
+> >>  --- /dev/null
+> >>  +++
+> >>=20
+> >> b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1-manta.dts
+> >>=20
+> >>  @@ -0,0 +1,35 @@
+> >>  +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> >>  +/*
+> >>  + * Copyright (C) 2023 Martin Botka <martin.botka@somainline.org>.
+> >>  + */
+> >>  +
+> >>  +/dts-v1/;
+> >>  +
+> >>  +#include "sun50i-h616-bigtreetech-cb1.dtsi"
+> >>  +
+> >>  +/ {
+> >>  +	model =3D "BigTreeTech CB1";
+> >>  +	compatible =3D "bigtreetech,cb1-manta", "bigtreetech,cb1",
+> >>  "allwinner,sun50i-h616"; +
+> >>  +	aliases {
+> >>  +		serial0 =3D &uart0;
+> >>  +	};
+> >>  +
+> >>  +	chosen {
+> >>  +		stdout-path =3D "serial0:115200n8";
+> >>  +	};
+> >>  +};
+> >>  +
+> >>  +&ehci1 {
+> >>  +	status =3D "okay";
+> >>  +};
+> >>  +
+> >>  +&ohci1 {
+> >>  +	status =3D "okay";
+> >>  +};
+> >>  +
+> >>  +&uart0 {
+> >>  +	pinctrl-names =3D "default";
+> >>  +	pinctrl-0 =3D <&uart0_ph_pins>;
+> >>  +	status =3D "okay";
+> >>  +};
+> >>  diff --git
+> >>=20
+> >> a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
+> >>=20
+> >>  b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
+> >>=20
+> >> new file
+> >>=20
+> >>  mode 100644
+> >>  index 000000000000..5e756f217813
+> >>  --- /dev/null
+> >>  +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi
+> >>  @@ -0,0 +1,140 @@
+> >>  +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> >>  +/*
+> >>  + * Copyright (C) 2023 Martin Botka <martin.botka@somainline.org>.
+> >>  + */
+> >>  +
+> >>  +/dts-v1/;
+> >>  +
+> >>  +#include "sun50i-h616.dtsi"
+> >>  +
+> >>  +#include <dt-bindings/gpio/gpio.h>
+> >>  +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> >>  +#include <dt-bindings/leds/common.h>
+> >>  +
+> >>  +/ {
+> >>  +	aliases {
+> >>  +		ethernet0 =3D &rtl8189ftv;
+> >>  +	};
+> >>  +
+> >>  +	leds {
+> >>  +		compatible =3D "gpio-leds";
+> >>  +
+> >>  +		led-0 {
+> >>  +			function =3D LED_FUNCTION_STATUS;
+> >>  +			color =3D <LED_COLOR_ID_GREEN>;
+> >>  +			gpios =3D <&pio 7 5 GPIO_ACTIVE_HIGH>; /* PH5
+> >=20
+> > */
+> >=20
+> >>  +		};
+> >>  +	};
+> >>  +
+> >>  +	reg_vcc5v: regulator-vcc5v {
+> >>  +		/* board wide 5V supply from carrier boards */
+> >>  +		compatible =3D "regulator-fixed";
+> >>  +		regulator-name =3D "vcc-5v";
+> >>  +		regulator-min-microvolt =3D <5000000>;
+> >>  +		regulator-max-microvolt =3D <5000000>;
+> >>  +		regulator-always-on;
+> >>  +	};
+> >>  +
+> >>  +	reg_vcc33_wifi: vcc33-wifi {
+> >>  +		/* Always on 3.3V regulator for WiFi */
+> >=20
+> > Please drop the comment. It's pretty obvious from properties.
+> >=20
+> >>  +		compatible =3D "regulator-fixed";
+> >>  +		regulator-name =3D "vcc33-wifi";
+> >>  +		regulator-min-microvolt =3D <3300000>;
+> >>  +		regulator-max-microvolt =3D <3300000>;
+> >>  +		regulator-always-on;
+> >>  +		vin-supply =3D <&reg_vcc5v>;
+> >>  +	};
+> >>  +
+> >>  +	reg_vcc_wifi_io: vcc-wifi-io {
+> >>  +		/* Always on 1.8V/300mA regulator for WiFi */
+> >=20
+> > Ditto.
+> >=20
+> > Once fixed, you can add:
+> > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> >=20
+> > Best regards,
+> > Jernej
+>=20
+> Got it for both comments. Will send V5 tomorrow.
 
-On Mon, 14 Aug 2023 at 06:07, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->
-> On Mon, Aug 14, 2023 at 12:40:26AM +0100, Fawad Lateef wrote:
-> > Hi,
-> >
-> > I am trying to make Linux-6.3.5 working on Olimex/Sunxi A20 SOM with NAND.
-> >
-> > Found that the Sunxi A20 NAND is supported in mainline kernel
-> > (drivers/mtd/nand/raw/sunxi_nand.c) and following the guidelines here
-> > (https://linux-sunxi.org/Mainline_NAND_Howto); I added the NFC chip
-> > pin information in sunxi-a20.dtsi and defined/enabled the nfc
-> > controller in the sunxi-a20-olinuxino-micro.dts files.
-> >
-> > The changes I made are below. Problem is when I define the nfc node
-> > entry in dts file "without" pinctrl entry (pinctrl-0 = <&nand_pins_a>,
-> > <&nand_cs0_pins_a>, <&nand_rb0_pins_a>;), the sunxi_nfc_probe function
-> > is called (though the No NAND chip is detected).
-> >
-> > And if I define the pinctrl-0  in the nfc node, all I see related to
-> > NAND/sunxi in the kernel boot log is this line:  platform
-> > 1c03000.nand-controller: deferred probe pending.
-> >
-> > Can someone please guide me why the deferred probe is pending but
-> > never call the sunxi_nfc_probe function?  And without pinctrl-0 entry
-> > why probe function is being called?
-> >
-> > Seems like I am missing something basic here and any pointers to debug
-> > this will be appreciated.
-> >
-> >
-> > --- linux-6.3.5.orig/arch/arm/boot/dts/sun7i-a20-olinuxino-micro.dts
-> > 2023-05-30 14:17:29.000000000 +0100
-> > +++ linux-6.3.5/arch/arm/boot/dts/sun7i-a20-olinuxino-micro.dts
-> > 2023-08-13 23:27:22.405058025 +0100
-> > @@ -56,7 +56,7 @@
-> >
-> >   aliases {
-> >   serial0 = &uart0;
-> > - serial1 = &uart6;
-> > + serial1 = &uart2;
-> >   serial2 = &uart7;
-> >   spi0 = &spi1;
-> >   spi1 = &spi2;
-> > @@ -66,17 +66,6 @@
-> >   stdout-path = "serial0:115200n8";
-> >   };
-> >
-> > - hdmi-connector {
-> > - compatible = "hdmi-connector";
-> > - type = "a";
-> > -
-> > - port {
-> > - hdmi_con_in: endpoint {
-> > - remote-endpoint = <&hdmi_out_con>;
-> > - };
-> > - };
-> > - };
-> > -
-> >   leds {
-> >   compatible = "gpio-leds";
-> >   pinctrl-names = "default";
-> > @@ -90,16 +79,55 @@
-> >   };
-> >  };
-> >
-> > -&ahci {
-> > - target-supply = <&reg_ahci_5v>;
-> > +&nfc {
-> > + pinctrl-names = "default";
-> > + pinctrl-0 = <&nand_pins_a>, <&nand_cs0_pins_a>, <&nand_rb0_pins_a>;
-> >   status = "okay";
-> > +
-> > + nand@0 {
-> > + #address-cells = <2>;
-> > + #size-cells = <2>;
-> > + reg = <0>;
-> > + allwinner,rb = <0>;
-> > +
-> > + nand-ecc-mode = "hw";
-> > + nand-on-flash-bbt;
-> > + };
-> > +
-> > + boot0@0 {
-> > + label = "boot0";
-> > + reg = /bits/ 64 <0x0 0x200000>;
-> > + };
-> > +
-> > + boot0-rescue@200000 {
-> > + label = "boot0-rescue";
-> > + reg = /bits/ 64 <0x200000 0x200000>;
-> > + };
-> > +
-> > + uboot@400000 {
-> > + label = "uboot";
-> > + reg = /bits/ 64 <0x400000 0x200000>;
-> > + };
-> > +
-> > + uboot-rescue@600000 {
-> > + label = "uboot-rescue";
-> > + reg = /bits/ 64 <0x600000 0x200000>;
-> > + };
-> > +
-> > + main@800000 {
-> > + label = "main";
-> > + reg = /bits/ 64 <0x800000 0xff800000>;
-> > + };
-> > +
-> >  };
-> >
-> > -&codec {
-> > +&ahci {
-> > + target-supply = <&reg_ahci_5v>;
-> >   status = "okay";
-> >  };
-> >
-> >  &cpu0 {
-> > + clock-frequency = <900000000>;
-> >   cpu-supply = <&reg_dcdc2>;
-> >  };
-> >
-> > @@ -123,34 +151,24 @@
-> >   status = "okay";
-> >  };
-> >
-> > -&hdmi {
-> > - status = "okay";
-> > -};
-> > -
-> > -&hdmi_out {
-> > - hdmi_out_con: endpoint {
-> > - remote-endpoint = <&hdmi_con_in>;
-> > - };
-> > -};
-> > -
-> >  &i2c0 {
-> > - status = "okay";
-> > +        status = "okay";
-> >
-> > - axp209: pmic@34 {
-> > - reg = <0x34>;
-> > - interrupt-parent = <&nmi_intc>;
-> > - interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
-> > - };
-> > +        axp209: pmic@34 {
-> > +                reg = <0x34>;
-> > +                interrupt-parent = <&nmi_intc>;
-> > +                interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
-> > +        };
-> >  };
-> >
-> >  &i2c1 {
-> > - status = "okay";
-> > +        status = "okay";
-> >
-> > - eeprom: eeprom@50 {
-> > - compatible = "atmel,24c16";
-> > - reg = <0x50>;
-> > - pagesize = <16>;
-> > - };
-> > +        eeprom: eeprom@50 {
-> > +                compatible = "atmel,24c16";
-> > +                reg = <0x50>;
-> > +                pagesize = <16>;
-> > +        };
-> >  };
-> >
-> >  &i2c2 {
-> > @@ -160,55 +178,6 @@
-> >  &lradc {
-> >   vref-supply = <&reg_vcc3v0>;
-> >   status = "okay";
-> > -
-> > - button-191 {
-> > - label = "Volume Up";
-> > - linux,code = <KEY_VOLUMEUP>;
-> > - channel = <0>;
-> > - voltage = <191274>;
-> > - };
-> > -
-> > - button-392 {
-> > - label = "Volume Down";
-> > - linux,code = <KEY_VOLUMEDOWN>;
-> > - channel = <0>;
-> > - voltage = <392644>;
-> > - };
-> > -
-> > - button-601 {
-> > - label = "Menu";
-> > - linux,code = <KEY_MENU>;
-> > - channel = <0>;
-> > - voltage = <601151>;
-> > - };
-> > -
-> > - button-795 {
-> > - label = "Search";
-> > - linux,code = <KEY_SEARCH>;
-> > - channel = <0>;
-> > - voltage = <795090>;
-> > - };
-> > -
-> > - button-987 {
-> > - label = "Home";
-> > - linux,code = <KEY_HOMEPAGE>;
-> > - channel = <0>;
-> > - voltage = <987387>;
-> > - };
-> > -
-> > - button-1184 {
-> > - label = "Esc";
-> > - linux,code = <KEY_ESC>;
-> > - channel = <0>;
-> > - voltage = <1184678>;
-> > - };
-> > -
-> > - button-1398 {
-> > - label = "Enter";
-> > - linux,code = <KEY_ENTER>;
-> > - channel = <0>;
-> > - voltage = <1398804>;
-> > - };
-> >  };
-> >
-> >  &gmac_mdio {
-> > @@ -239,10 +208,6 @@
-> >   status = "okay";
-> >  };
-> >
-> > -&otg_sram {
-> > - status = "okay";
-> > -};
-> > -
-> >  &pio {
-> >   gmac_txerr: gmac-txerr-pin {
-> >   pins = "PA17";
-> > @@ -323,9 +288,9 @@
-> >   status = "okay";
-> >  };
-> >
-> > -&uart6 {
-> > +&uart2 {
-> >   pinctrl-names = "default";
-> > - pinctrl-0 = <&uart6_pi_pins>;
-> > + pinctrl-0 = <&uart2_pi_pins>;
-> >   status = "okay";
-> >  };
-> >
-> > @@ -352,3 +317,28 @@
-> >   usb2_vbus-supply = <&reg_usb2_vbus>;
-> >   status = "okay";
-> >  };
-> > +
-> > +&fe0 {
-> > + status = "disabled";
-> > +};
-> > +
-> > +&fe1 {
-> > + status = "disabled";
-> > +};
-> > +
-> > +&be0 {
-> > + status = "disabled";
-> > +};
-> > +
-> > +&be1 {
-> > + status = "disabled";
-> > +};
-> > +
-> > +&tcon0 {
-> > + status = "disabled";
-> > +};
-> > +
-> > +&tcon1 {
-> > + status = "disabled";
-> > +};
-> > +
-> >
-> >
-> > --- linux-6.3.5.orig/arch/arm/boot/dts/sun7i-a20.dtsi 2023-05-30
-> > 14:17:29.000000000 +0100
-> > +++ linux-6.3.5/arch/arm/boot/dts/sun7i-a20.dtsi 2023-08-08
-> > 00:30:04.689288733 +0100
-> > @@ -345,6 +345,58 @@
-> >   #size-cells = <0>;
-> >   };
-> >
-> > + nand_pins_a: nand_base0@0 {
-> > + allwinner,pins = "PC0", "PC1", "PC2",
-> > + "PC5", "PC8", "PC9", "PC10",
-> > + "PC11", "PC12", "PC13", "PC14",
-> > + "PC15", "PC16";
-> > + allwinner,function = "nand0";
-> > + allwinner,drive = <SUN4I_PINCTRL_10_MA>;
-> > + allwinner,pull = <SUN4I_PINCTRL_NO_PULL>;
-> > + };
-> > +
-> > + nand_cs0_pins_a: nand_cs@0 {
-> > + allwinner,pins = "PC4";
-> > + allwinner,function = "nand0";
-> > + allwinner,drive = <SUN4I_PINCTRL_10_MA>;
-> > + allwinner,pull = <SUN4I_PINCTRL_NO_PULL>;
-> > + };
-> > +
-> > + nand_cs1_pins_a: nand_cs@1 {
-> > + allwinner,pins = "PC3";
-> > + allwinner,function = "nand0";
-> > + allwinner,drive = <SUN4I_PINCTRL_10_MA>;
-> > + allwinner,pull = <SUN4I_PINCTRL_NO_PULL>;
-> > + };
-> > +
-> > + nand_cs2_pins_a: nand_cs@2 {
-> > + allwinner,pins = "PC17";
-> > + allwinner,function = "nand0";
-> > + allwinner,drive = <SUN4I_PINCTRL_10_MA>;
-> > + allwinner,pull = <SUN4I_PINCTRL_NO_PULL>;
-> > + };
-> > +
-> > + nand_cs3_pins_a: nand_cs@3 {
-> > + allwinner,pins = "PC18";
-> > + allwinner,function = "nand0";
-> > + allwinner,drive = <SUN4I_PINCTRL_10_MA>;
-> > + allwinner,pull = <SUN4I_PINCTRL_NO_PULL>;
-> > + };
-> > +
-> > + nand_rb0_pins_a: nand_rb@0 {
-> > + allwinner,pins = "PC6";
-> > + allwinner,function = "nand0";
-> > + allwinner,drive = <SUN4I_PINCTRL_10_MA>;
-> > + allwinner,pull = <SUN4I_PINCTRL_NO_PULL>;
-> > + };
-> > +
-> > + nand_rb1_pins_a: nand_rb@1 {
-> > + allwinner,pins = "PC7";
-> > + allwinner,function = "nand0";
-> > + allwinner,drive = <SUN4I_PINCTRL_10_MA>;
-> > + allwinner,pull = <SUN4I_PINCTRL_NO_PULL>;
-> > + };
-> > +
-> >   spi0: spi@1c05000 {
-> >   compatible = "allwinner,sun4i-a10-spi";
-> >   reg = <0x01c05000 0x1000>;
-> >
-> >
->
-> Thanks for the suggestion diff. Can you submit it as formal patch against
-> current sunxi/for-next tree [1]? See
-> Documentation/process/submitting-patches.rst for how to properly submit
-> patches.
->
+You should not send new versions before all discussions are finished, in th=
+is=20
+case for adxl345. If in doubt, ask, but certainly wait on response.
 
-Sorry for my unclear email. I am currently facing issues when trying
-to enable and use the MTD driver for A20 SOM (implemented and likely
-maintained by Boris Brezillion); I am confused why the probe is not
-called in deferred probe case and overall NAND on A20 SOM is not
-detected.
+Best regards,
+Jernej
 
-I hope to get help in this regard, and of-course as soon as I got it
-working, I will submit patches to be included in the kernel and DTS
-files.
-
-I am not sure why there are DTS files for A20 SOMs (especially one
-sunxi-a20-olinuxino-micro.dts  which supposed to have NAND on the SOM)
-without any NAND pinctrl and nfc node defined. When the kernel have
-driver for it and I assume it should be working.
-
-Added Boris Brezellion in the CC list, hoping to get some pointers and
-suggestions from him too.
-
-Thanks
-
-Fawad Lateef
+>=20
+> Cheers,
+> Martin
+>=20
+> >>  +		compatible =3D "regulator-fixed";
+> >>  +		regulator-name =3D "vcc-wifi-io";
+> >>  +		regulator-min-microvolt =3D <1800000>;
+> >>  +		regulator-max-microvolt =3D <1800000>;
+> >>  +		regulator-always-on;
+> >>  +		vin-supply =3D <&reg_vcc33_wifi>;
+> >>  +	};
+> >>  +
+> >>  +	wifi_pwrseq: wifi-pwrseq {
+> >>  +		compatible =3D "mmc-pwrseq-simple";
+> >>  +		clocks =3D <&rtc 1>;
+> >>  +		clock-names =3D "ext_clock";
+> >>  +		reset-gpios =3D <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
+> >>  +		post-power-on-delay-ms =3D <200>;
+> >>  +	};
+> >>  +};
+> >>  +
+> >>  +&mmc0 {
+> >>  +	vmmc-supply =3D <&reg_dldo1>;
+> >>  +	/* Card detection pin is not connected */
+> >>  +	broken-cd;
+> >>  +	bus-width =3D <4>;
+> >>  +	status =3D "okay";
+> >>  +};
+> >>  +
+> >>  +&mmc1 {
+> >>  +	vmmc-supply =3D <&reg_vcc33_wifi>;
+> >>  +	vqmmc-supply =3D <&reg_vcc_wifi_io>;
+> >>  +	mmc-pwrseq =3D <&wifi_pwrseq>;
+> >>  +	bus-width =3D <4>;
+> >>  +	non-removable;
+> >>  +	mmc-ddr-1_8v;
+> >>  +	status =3D "okay";
+> >>  +
+> >>  +	rtl8189ftv: wifi@1 {
+> >>  +		reg =3D <1>;
+> >>  +	};
+> >>  +};
+> >>  +
+> >>  +&r_i2c {
+> >>  +	status =3D "okay";
+> >>  +
+> >>  +	axp313a: pmic@36 {
+> >>  +		compatible =3D "x-powers,axp313a";
+> >>  +		reg =3D <0x36>;
+> >>  +		interrupt-controller;
+> >>  +		#interrupt-cells =3D <1>;
+> >>  +
+> >>  +		regulators{
+> >>  +			reg_dcdc1: dcdc1 {
+> >>  +				regulator-name =3D "vdd-gpu-sys";
+> >>  +				regulator-min-microvolt =3D
+> >=20
+> > <810000>;
+> >=20
+> >>  +				regulator-max-microvolt =3D
+> >=20
+> > <990000>;
+> >=20
+> >>  +				regulator-always-on;
+> >>  +			};
+> >>  +
+> >>  +			reg_dcdc2: dcdc2 {
+> >>  +				regulator-name =3D "vdd-cpu";
+> >>  +				regulator-min-microvolt =3D
+> >=20
+> > <810000>;
+> >=20
+> >>  +				regulator-max-microvolt =3D
+> >=20
+> > <1100000>;
+> >=20
+> >>  +				regulator-ramp-delay =3D <200>;
+> >>  +				regulator-always-on;
+> >>  +			};
+> >>  +
+> >>  +			reg_dcdc3: dcdc3 {
+> >>  +				regulator-name =3D "vcc-dram";
+> >>  +				regulator-min-microvolt =3D
+> >=20
+> > <1350000>;
+> >=20
+> >>  +				regulator-max-microvolt =3D
+> >=20
+> > <1500000>;
+> >=20
+> >>  +				regulator-always-on;
+> >>  +			};
+> >>  +
+> >>  +			reg_aldo1: aldo1 {
+> >>  +				regulator-name =3D "vcc-1v8-pll";
+> >>  +				regulator-min-microvolt =3D
+> >=20
+> > <1800000>;
+> >=20
+> >>  +				regulator-max-microvolt =3D
+> >=20
+> > <1800000>;
+> >=20
+> >>  +				regulator-always-on;
+> >>  +			};
+> >>  +
+> >>  +			reg_dldo1: dldo1 {
+> >>  +				regulator-name =3D "vcc-3v3-io";
+> >>  +				regulator-min-microvolt =3D
+> >=20
+> > <3300000>;
+> >=20
+> >>  +				regulator-max-microvolt =3D
+> >=20
+> > <3300000>;
+> >=20
+> >>  +				regulator-always-on;
+> >>  +			};
+> >>  +		};
+> >>  +	};
+> >>  +};
+> >>  +
+> >>  +&usbphy {
+> >>  +	status =3D "okay";
+> >>  +};
 
 
-> Thanks.
->
-> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git/log/?h=sunxi/for-next
->
-> --
-> An old man doll... just what I always wanted! - Clara
+
+
