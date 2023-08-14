@@ -1,267 +1,132 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3C7AD4C
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Aug 2023 10:26:12 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-99c3c8adb27so566179266b.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 14 Aug 2023 03:26:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FFFAD4C
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Aug 2023 10:28:41 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5236c9ff275so5589637a12.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 14 Aug 2023 03:28:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692008771; x=1692613571;
+        d=gmail.com; s=20221208; t=1692008919; x=1692613719;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=W4zjyeRMuBKgoq3hmDr9Mo+DcQOEM3UuViZKKoModSY=;
-        b=Bguv/UE2Sfx3jvCanC8euGtc1kvHTgMM4jZ/lvr+5dTVV8LD48+m9MrvXS3uG2z+77
-         UFKBf6eiLerUjeeqcEjahL+Kq9o7iwJVdlvZYoZw/VpGqoYBf8TsDAiUYe5o3sfgpQRs
-         qseBdNOi2oybPotapBsgsCsGftulUmzJ/qVg8q93KnKsWlaKfQ6G3QhznDsTjAkb+ppG
-         3AsdXvxaNCvPnxWZcEXlsM5nHRmRGyn6xMGf8ERpd4lb6wlYHzyJ8sZIDOmOtGv2Ffff
-         k13UzTVv0ez7aqdiwa15ESDfedo4gFLbDJ7/DW8bkC2LszdR5++pcZ29XAE2bFRQlw/f
-         EnnA==
+        bh=FD+dZC6ILC0zBFJ75+s8TCoV5USuF9fK+77Nw8Aje0w=;
+        b=KWdqfZ62xxlrvlMKf2qpi7YAx2rbvFG/rCy6KhPTmVZphJsw4o2qpe1XzHr2ulW9ig
+         dJocY4tSGDsDN8BwwO1YOQawk66HkEn80/HhW/9hlO6rOow7AfWW5ejsrLhaPH16P9kI
+         wf7SMRXGkVgrdLwcNcHzBNB7TdGjz+ahTGskjF0PqMlDTx7kItkd0xOLzJyi1Kjn74TF
+         IZ3bJUC1Dq/EpL3zzYFza3Qn5PV29G9w5keslAkAtcSJCAw/AkZGh8bevjk/lcV5+KDs
+         IWxarqq5J8fQu8ZYSNrror9GhedNj152iiEaVa+GX1N6T82hz+c11S0hNGGo6iqScOVF
+         mMNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692008771; x=1692613571;
+        d=1e100.net; s=20221208; t=1692008919; x=1692613719;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=W4zjyeRMuBKgoq3hmDr9Mo+DcQOEM3UuViZKKoModSY=;
-        b=CPf2wju9mnfXGFtYPU6Hyj9Y/KMaKbjRv8Kab+jK0/HLiSe4ieX+34JB1tBHKso7On
-         wQxdoGSbYy0XUY1vnyNf1P2Q6Y3fl2GOIH2paJKclGkyJcC0GBvR2UYZczIaQ6CiBCZj
-         l/XaKfD/WmkWqi/uPs0C0H9cQww5Tv9txFcm8rc4GkRyoFmpA8mVIAUcD8Zb+flr/l99
-         6mee199KnRdNOSQ7bhMEEhmmyf8TDq6P05+GciIXDEWDvRBQWIIIN5n7+13KBcuipL5D
-         QrooLm/UzbuDe14MQvJK1L9OdZpHPGOUBd7gOQrwhTiFl2BtPBbO2Fypc7yrPRVZTS3g
-         iNvw==
-X-Gm-Message-State: AOJu0YyMftOWMaDQg8TD78I9pT0OAVfFHU7dQMjXX3bItMTxm1SqhjwY
-	P2YNwoxL/Pt1OjjDGGVxKu0=
-X-Google-Smtp-Source: AGHT+IFhHceTnKnUf+I8/zas6a7NbC69cC8vBbAuFWmrToAEQRR+VMbGF0PMZmTdaa5BBo7GLcql6g==
-X-Received: by 2002:a17:907:1dce:b0:99b:d098:1ffd with SMTP id og14-20020a1709071dce00b0099bd0981ffdmr7273943ejc.62.1692008770779;
-        Mon, 14 Aug 2023 03:26:10 -0700 (PDT)
+        bh=FD+dZC6ILC0zBFJ75+s8TCoV5USuF9fK+77Nw8Aje0w=;
+        b=a8SWsTzDQtXWE2GWMskjr5VL4I/VRML5t/a5EIAtlZbkpG1HEHvwWhjX9ka4/5bgTI
+         a1hHaJ/frLmBVCQubfWhIiBgh3cGZO7udc/YBAUULlO6NIr6kiONrqkC70fg6DT7UdOS
+         aSVEo/4tLv8AhFIr1yamrrraXSqQK8w11gaG9HBEJ6AouHrt2B/zcXppJFYsDUVPg8yk
+         xHRtR0rsKBWBmMyYAHwYVE8XxfosX5P2sGKfaM/gy/yVbyGPWYaXaQtRpvjG1sr4/xpF
+         /7jrUcmBUnNPQ+8qszQVNnf58KhTd5oWvBBYNAJ4bsSG66l/4geMJhskSKmyF5cVTgCl
+         nXyw==
+X-Gm-Message-State: AOJu0YwK4IJvyJpEwiJTmUrnc6avSF+5mI6NSvrFi3ctU9TQ/asvnZUD
+	U607uNr0hETaNE/jlxEFqXk=
+X-Google-Smtp-Source: AGHT+IGLLfnjCAgn+nWhTlM7HypGsXCTlLNpZzQ1NwgZFCaXqFMayOU8fjnnL5sKdfMF6InnHfyjDw==
+X-Received: by 2002:a17:906:1da1:b0:99b:c2d4:ddd8 with SMTP id u1-20020a1709061da100b0099bc2d4ddd8mr6745353ejh.31.1692008919572;
+        Mon, 14 Aug 2023 03:28:39 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id jo5-20020a170906f6c500b009786c8249d6sm5566641ejb.175.2023.08.14.03.26.08
+        by smtp.gmail.com with ESMTPSA id w14-20020a1709060a0e00b0099b5a71b0bfsm5490638ejf.94.2023.08.14.03.28.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Aug 2023 03:26:10 -0700 (PDT)
+        Mon, 14 Aug 2023 03:28:39 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Martin Botka <martin.botka@somainline.org>
-Cc: Martin Botka <martin.botka1@gmail.com>, Martin Botka <martin@biqu3d.com>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Jami Kettunen <jamipkettunen@somainline.org>,
- Paul Bouchara <paul.bouchara@somainline.org>,
- Andre Przywara <andre.przywara@arm.com>, Martin Botka <martin@biqu3d.com>,
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Martin Botka <martin.botka@somainline.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Ludwig Kormann <ludwig.kormann@ict42.de>, Andrew Lunn <andrew@lunn.ch>,
- Icenowy Zheng <uwu@icenowy.me>, Heiko Stuebner <heiko@sntech.de>,
- Shawn Guo <shawnguo@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Chris Morgan <macromorgan@hotmail.com>, Jagan Teki <jagan@edgeble.ai>,
- Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Andre Przywara <andre.przywara@arm.com>, Alan Ma <tech@biqu3d.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>
 Subject:
- Re: [PATCH v4 4/4] arm64: dts: allwinner: h616: Add BigTreeTech Pi support
-Date: Mon, 14 Aug 2023 12:26:07 +0200
-Message-ID: <9148039.CDJkKcVGEf@jernej-laptop>
-In-Reply-To: <168CZR.KVQVUV8KXJ5Y1@somainline.org>
+ Re: [PATCH v2 1/2] dt-bindings: nvmem: SID: Add binding for H616 SID
+ controller
+Date: Mon, 14 Aug 2023 12:28:36 +0200
+Message-ID: <5856748.MhkbZ0Pkbq@jernej-laptop>
+In-Reply-To: <DKGDZR.4G4SZ781MVSV2@somainline.org>
 References:
- <20230807145349.2220490-1-martin@biqu3d.com>
- <10318766.nUPlyArG6x@jernej-laptop> <168CZR.KVQVUV8KXJ5Y1@somainline.org>
+ <20230814-sid-h616-v2-0-0267749b4471@somainline.org>
+ <830e5e34-f6de-3233-4a12-06c8390169d1@linaro.org>
+ <DKGDZR.4G4SZ781MVSV2@somainline.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Dne nedelja, 13. avgust 2023 ob 18:22:49 CEST je Martin Botka napisal(a):
-> On Sun, Aug 13 2023 at 05:55:35 PM +02:00:00, Jernej =C5=A0krabec
->=20
-> <jernej.skrabec@gmail.com> wrote:
-> > Dne ponedeljek, 07. avgust 2023 ob 16:53:24 CEST je Martin Botka
-> >=20
-> > napisal(a):
-> >>  The BigTreeTech Pi is an H616 based board based on CB1.
-> >>  Just in Rpi format board.
-> >> =20
-> >>  It features the same internals as BTT CB1 but adds:
-> >>      - Fan port
-> >>      - IR receiver
-> >>      - ADXL345 Accelerometer connector via SPI
-> >>      - 24V DC power supply via terminal plugs
-> >>      - USB to CAN module connector (The actual USB to CAN happens on
-> >>=20
-> >> the
-> >>=20
-> >>  external module)
-> >> =20
-> >>  List of currently working things is same as BTT CB1 but also:
-> >>      - IR receiver
-> >>      - ADXL345 connector
-> >> =20
-> >>  Signed-off-by: Martin Botka <martin@biqu3d.com>
-> >>  Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Dne ponedeljek, 14. avgust 2023 ob 10:21:49 CEST je Martin Botka napisal(a):
+> On Mon, Aug 14 2023 at 10:08:38 AM +02:00:00, Krzysztof Kozlowski
+> 
+> <krzysztof.kozlowski@linaro.org> wrote:
+> > On 14/08/2023 08:38, Martin Botka wrote:
+> >>  Add binding for the SID controller found in H616 SoC
+> >>  
+> >>  Signed-off-by: Martin Botka <martin.botka@somainline.org>
 > >>  ---
-> >> =20
-> >>  Changes in V2:
-> >>      - Add UART alongside aliases and chosen for it
-> >>      - Add model string
-> >>      - Enable IR receiver
-> >>      - Enable SPI0 for ADXL345 connector
-> >> =20
-> >>  Changes in V3:
-> >>      - Add missing semicolons
-> >>      - Add pinctrl for SPI0
-> >>  =20
-> >>   arch/arm64/boot/dts/allwinner/Makefile        |  1 +
-> >>   .../allwinner/sun50i-h616-bigtreetech-pi.dts  | 70
-> >>=20
-> >> +++++++++++++++++++
-> >>=20
-> >>   2 files changed, 71 insertions(+)
-> >>   create mode 100644
-> >> =20
-> >>  arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
-> >> =20
-> >>  diff --git a/arch/arm64/boot/dts/allwinner/Makefile
-> >>  b/arch/arm64/boot/dts/allwinner/Makefile index
-> >>=20
-> >> 7b386428510b..0b6232a7f328
-> >>=20
-> >>  100644
-> >>  --- a/arch/arm64/boot/dts/allwinner/Makefile
-> >>  +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> >>  @@ -39,5 +39,6 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D
-> >>=20
-> >> sun50i-h6-pine-h64-model-b.dtb
-> >>=20
-> >>  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-tanix-tx6.dtb
-> >> =20
-> >>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-tanix-tx6-mini.dtb
-> >>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-bigtreetech-cb1-manta.dtb
-> >> =20
-> >>  +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-bigtreetech-pi.dtb
-> >> =20
-> >>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-orangepi-zero2.dtb
-> >>   dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-x96-mate.dtb
-> >> =20
+> >> 
+> >> Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml
+> >> 
+> >> | 1 +
+> >> | 
+> >>   1 file changed, 1 insertion(+)
+> >>  
 > >>  diff --git
-> >>=20
-> >> a/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
-> >>=20
-> >>  b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts new
-> >>=20
-> >> file
-> >>=20
-> >>  mode 100644
-> >>  index 000000000000..b0d0386e8f13
-> >>  --- /dev/null
-> >>  +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-pi.dts
-> >>  @@ -0,0 +1,70 @@
-> >>  +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-> >>  +/*
-> >>  + * Copyright (C) 2023 Martin Botka <martin@biqu3d.com>.
-> >>  + */
-> >>  +
-> >>  +/dts-v1/;
-> >>  +
-> >>  +#include "sun50i-h616-bigtreetech-cb1.dtsi"
-> >>  +
-> >>  +/ {
-> >>  +	model =3D "BigTreeTech Pi";
-> >>  +	compatible =3D "bigtreetech,pi", "allwinner,sun50i-h616";
-> >>  +
-> >>  +	aliases {
-> >>  +		serial0 =3D &uart0;
-> >>  +	};
-> >>  +
-> >>  +	chosen {
-> >>  +		stdout-path =3D "serial0:115200n8";
-> >>  +	};
-> >>  +};
-> >>  +
-> >>  +&ehci0 {
-> >>  +	status =3D "okay";
-> >>  +};
-> >>  +
-> >>  +&ehci1 {
-> >>  +	status =3D "okay";
-> >>  +};
-> >>  +
-> >>  +&ehci2 {
-> >>  +	status =3D "okay";
-> >>  +};
-> >>  +
-> >>  +&ehci3 {
-> >>  +	status =3D "okay";
-> >>  +};
-> >>  +
-> >>  +&ir {
-> >>  +	status =3D "okay";
-> >>  +};
-> >>  +
-> >>  +&ohci0 {
-> >>  +	status =3D "okay";
-> >>  +};
-> >>  +
-> >>  +&ohci1 {
-> >>  +	status =3D "okay";
-> >>  +};
-> >>  +
-> >>  +&ohci2 {
-> >>  +	status =3D "okay";
-> >>  +};
-> >>  +
-> >>  +&ohci3 {
-> >>  +	status =3D "okay";
-> >>  +};
-> >>  +
-> >>  +&spi0 {
-> >>  +	/* SPI connection for onboard connector for ADXL345 accelerometer
-> >=20
-> > */
-> >=20
-> >>  +	status =3D "okay";
-> >>  +	pinctrl-names =3D "default";
-> >>  +	pinctrl-0 =3D <&spi0_pins>, <&spi0_cs0_pin>;
-> >=20
-> > Driver and compatible for ADXL345 already exists, why don't you add
-> > child node
-> > for it?
-> >=20
+> >> 
+> >> a/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml
+> >> b/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml
+> >> 
+> >>  index 296001e7f498..2ec0a1b8f803 100644
+> >>  ---
+> >> 
+> >> a/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml
+> >> 
+> >>  +++
+> >> 
+> >> b/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml
+> >> 
+> >>  @@ -27,6 +27,7 @@ properties:
+> >>             - const: allwinner,sun50i-a64-sid
+> >>         
+> >>         - const: allwinner,sun50i-h5-sid
+> >>         - const: allwinner,sun50i-h6-sid
+> >>  
+> >>  +      - const: allwinner,sun50i-h616-sid
+> > 
+> > It does not look like you tested the DTS against bindings. Please run
+> > `make dtbs_check` (see
+> > Documentation/devicetree/bindings/writing-schema.rst or
+> > https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sour
+> > ces-with-the-devicetree-schema/ for instructions).
+> > 
 > > Best regards,
-> > Jernej
->=20
-> Ah. So the ADXL345 actually wont be driven by kernel.
+> > Krzysztof
+> 
+> Yea completely forgot. Sorry for that.
+> 
+> Will send v3 tomorrow with proper binding patch using items with enums
 
-DT is hardware description, it's not concerned what is done on software sid=
-e,=20
-either kernel or user space.
-
-> The SPI connection is enabled so that klipper (3d printer firmware) can
-> be told to look for ADXL345 at this SPI and use it on its own.
->=20
-> Klipper will initialize and communicate with the ADXL on its own.
-
-What do you mean by firmware? User space app? In this case I suppose you'll=
- use=20
-direct SPI commands from user space? AFAIK that's less and less supported b=
-y=20
-kernel (in contrast to I2C).
+Don't. You have cca. 1 month time now, since you missed at least window for DT 
+changes for 6.6.
 
 Best regards,
 Jernej
-
->=20
-> >>  +};
-> >>  +
-> >>  +&uart0 {
-> >>  +	pinctrl-names =3D "default";
-> >>  +	pinctrl-0 =3D <&uart0_ph_pins>;
-> >>  +	status =3D "okay";
-> >>  +};
-
 
 
 
