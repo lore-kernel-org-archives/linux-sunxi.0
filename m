@@ -1,103 +1,90 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610F7257D
-	for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 18:58:44 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-4fe98583a6fso3216551e87.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 13 Aug 2023 11:58:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shruggie-ro.20221208.gappssmtp.com; s=20221208; t=1691953122; x=1692557922;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KbRMQLgn6q8vxhzEowCXC6DM0VIy22uIjp0J0FlZhHw=;
-        b=mEZqOEzFE/NHDpIJnP+f47/xucTwmNrnya1FWJHPVprnNFpuerfe0PTM7FEVUY1eMw
-         wfkq7myj4csEPiDqvJaRm1KHqZmGGATAB+0+jNoGlNI4qCPmJuRpO3tWgV3vNcUgm+Bf
-         CuuJ5jGA+lAAw3IKAFw4npqGdwJbujzYEu4d6y6zYhYV+Iwdpr0HArrzYUpaJ8EkJDo0
-         9JGxpKtO/W/ysympLiTnDg+sy87A7Kfoxgy6XhODa6oTCk+XqhxFkpoQr6p/sEHmB3lK
-         wrJs5jPCUzjHntDOzh3meRkoCNPBtaOUwlrxdjstHx94D5a+W8LBnxSc5wyvgkUspT0G
-         /6FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691953122; x=1692557922;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KbRMQLgn6q8vxhzEowCXC6DM0VIy22uIjp0J0FlZhHw=;
-        b=dweFlknbTXdg96tiQRYBMizM9fPlkfVIKCI5JPDLJlhPurLSOl06OL7w+kcLWk7VOB
-         tl6LIKLoQPPUfhoSJVwNPib4yV+q9s8tLPt5K3YzXQZwfp0qlFC69i6YRcB6H7JPbs9M
-         6wTNPkz1YwInNP4yoc6U7dnimgcB5U+aFCpihyUQTBNv5TSc1pRbT/7Mi6ts4YW9NrXF
-         0SG2DBr0Dc+vkdp2S68/4TKhu0K8BLdBli5De1K4Z076wIscTYLDWQYVqIZ0PuzdPWwS
-         rkCfkYKF0e/U9lGVImvIxMqj+0wCBh2T53h45LCXfTuYs5N64+LbS0vGZB8TzZSAGbaj
-         tUlg==
-X-Gm-Message-State: AOJu0YzFbjbesghg5o+qfdTivYM1I2VXaAfTFya/xk34qehdrpgMjBbI
-	TwJVmPeu5SE4NYcKSXLhF9lM6fblGKb5yZqzpo/WOg==
-X-Google-Smtp-Source: AGHT+IEvpOk8ea7m2X3vZBrE0Ny9SDQyHNrazCNWd1S+UiFY+XEC89xad6T9d4vx8VCEZ/bYmPfek7fR6mdGzHzZntc=
-X-Received: by 2002:a05:6512:a8d:b0:4fb:748f:604e with SMTP id
- m13-20020a0565120a8d00b004fb748f604emr6617146lfu.36.1691953122076; Sun, 13
- Aug 2023 11:58:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC48161;
+	Mon, 14 Aug 2023 00:33:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4822C433C7;
+	Mon, 14 Aug 2023 00:33:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1691973209;
+	bh=hhzk3CoCzoUmIzvYF+9ERXn0jLZ8kN4BZJDwzOq7VBE=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=LbXvGA0gtpbpnKZd2KdyjgVS0tjBoqroWIa09uSOnZsD83+Xc5teNPj/Umv1te9GV
+	 UP/xkQT9R2KLv9Z+S9sFVKJ45tYwbNAGUdgu3uU//c30GmFsTvnShffTudkMz/sJnE
+	 I38OmS8SohLbMxYdHrOKxwmH0Bz2CpY9k0wT6I8okZH6RQE3MJtTGSpK6JLlFAeppH
+	 MxSRxPaioINRpLTIRajIbkWmlwBb4bKB5HwDAS720ags5APTJSrhdHd4AC9U5+WUDn
+	 t+x8X5ddasyMFuX+EGNNpDIPcNsbNlQxHmd2RA3UANjUgtixSdw4Z/wIQoVjBO9HhK
+	 cEFqU2n8ly0Ng==
+From: Mark Brown <broonie@kernel.org>
+To: perex@perex.cz, tiwai@suse.com, claudiu.beznea@tuxon.dev, 
+ lgirdwood@gmail.com, nicolas.ferre@microchip.com, 
+ alexandre.belloni@bootlin.com, peda@axentia.se, lars@metafoo.de, 
+ nuno.sa@analog.com, povik+lin@cutebit.org, wens@csie.org, 
+ jernej.skrabec@gmail.com, samuel@sholland.org, robh@kernel.org, 
+ u.kleine-koenig@pengutronix.de, alsa-devel@alsa-project.org, 
+ linux-arm-kernel@lists.infradead.org, asahi@lists.linux.dev, 
+ linux-sunxi@lists.linux.dev, Ruan Jinjie <ruanjinjie@huawei.com>
+In-Reply-To: <20230811071426.2343133-1-ruanjinjie@huawei.com>
+References: <20230811071426.2343133-1-ruanjinjie@huawei.com>
+Subject: Re: [PATCH -next 0/5] sound: Remove redundant of_match_ptr() macro
+Message-Id: <169197320455.2741913.15830734476730877425.b4-ty@kernel.org>
+Date: Mon, 14 Aug 2023 01:33:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230811194032.4240-1-aboutphysycs@gmail.com> <4850013.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <4850013.31r3eYUQgx@jernej-laptop>
-From: Alexandru Ardelean <alex@shruggie.ro>
-Date: Sun, 13 Aug 2023 21:58:31 +0300
-Message-ID: <CAH3L5QoVd45nR9HmAkSKJh7EnVXr1Jx6wqQ9j=x0AtNdqGjDaA@mail.gmail.com>
-Subject: Re: [PATCH] thermal: sun8i_thermal: remove unneeded call to platform_set_drvdata()
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, 
-	Andrei Coardos <aboutphysycs@gmail.com>, samuel@sholland.org, wens@csie.org, 
-	rui.zhang@intel.com, amitk@kernel.org, daniel.lezcano@linaro.org, 
-	rafael@kernel.org, tiny.windzz@gmail.com, anarsoul@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-099c9
 
-On Sun, Aug 13, 2023 at 6:32=E2=80=AFPM Jernej =C5=A0krabec <jernej.skrabec=
-@gmail.com> wrote:
->
-> Dne petek, 11. avgust 2023 ob 21:40:32 CEST je Andrei Coardos napisal(a):
-> > This function call was found to be unnecessary as there is no equivalen=
-t
-> > platform_get_drvdata() call to access the private data of the driver. A=
-lso,
-> > the private data is defined in this driver, so there is no risk of it b=
-eing
-> > accessed outside of this driver file.
-> >
-> > Signed-off-by: Andrei Coardos <aboutphysycs@gmail.com>
->
+On Fri, 11 Aug 2023 15:14:21 +0800, Ruan Jinjie wrote:
+> Since these sound drivers depend on CONFIG_OF, there is
+> no need to wrap the macro of_match_ptr() here.
+> 
+> Ruan Jinjie (5):
+>   ASoC: atmel: Remove redundant of_match_ptr()
+>   ASoC: atmel: tse850-pcm5142: Remove redundant of_match_ptr()
+>   ASoC: sunxi: sun4i-spdif: Remove redundant of_match_ptr()
+>   ASoC: ssm3515: Remove redundant of_match_ptr()
+>   ALSA: Remove redundant of_match_ptr()
+> 
+> [...]
 
-Reviewed-by: Alexandru Ardelean <alex@shruggie.ro>
+Applied to
 
-> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
->
-> Best regards,
-> Jernej
->
-> > ---
-> >  drivers/thermal/sun8i_thermal.c | 2 --
-> >  1 file changed, 2 deletions(-)
-> >
-> > diff --git a/drivers/thermal/sun8i_thermal.c
-> > b/drivers/thermal/sun8i_thermal.c index 195f3c5d0b38..61a2f287ac90 1006=
-44
-> > --- a/drivers/thermal/sun8i_thermal.c
-> > +++ b/drivers/thermal/sun8i_thermal.c
-> > @@ -489,8 +489,6 @@ static int sun8i_ths_probe(struct platform_device *=
-pdev)
-> > if (!tmdev->chip)
-> >               return -EINVAL;
-> >
-> > -     platform_set_drvdata(pdev, tmdev);
-> > -
-> >       ret =3D sun8i_ths_resource_init(tmdev);
-> >       if (ret)
-> >               return ret;
->
->
->
->
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/5] ASoC: atmel: Remove redundant of_match_ptr()
+      commit: 67ed781228bdcca7a0d2058cf62d0c1860898330
+[2/5] ASoC: atmel: tse850-pcm5142: Remove redundant of_match_ptr()
+      commit: f83e34034fcc5fd0551d9257b710b61d999a8174
+[3/5] ASoC: sunxi: sun4i-spdif: Remove redundant of_match_ptr()
+      commit: 29546c3af6319a8a5308d4add1226343031da65b
+[4/5] ASoC: ssm3515: Remove redundant of_match_ptr()
+      commit: 6136b6a281b40cb795a76f1769eeb7ef5026b86f
+[5/5] ALSA: Remove redundant of_match_ptr()
+      commit: f479832b42df596775c1e787e02c7277bfba6a4a
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
