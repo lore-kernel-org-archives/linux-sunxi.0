@@ -1,227 +1,84 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay01.th.seeweb.it (relay01.th.seeweb.it [5.144.164.162])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32658BF1
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Aug 2023 07:41:27 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-307d58b3efbso3524895f8f.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 14 Aug 2023 00:41:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691998886; x=1692603686;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=zitqku576TZpQnQPr3Oh2ohHuEFbeZPBBxEvo1sZc+Q=;
-        b=c2ibWsrtxlpOl2l93H8I7dwO30O1xssdh4p/RrE2q8N2J8sUQOiLfPy4jrHUDNecWQ
-         B9Xl7UbuevI0/fpeC3Cqz4JjJBdAc1fM3Sx+NRxxOWZwKyMRK3wSy1FRjBCN1vRcCJ3V
-         iNaGpXWAcpuPTu7ilq8+T4iAp1Du1dTft6ZdWvtZ4YteQjS4RMAl8rEkUzkK3U48fPQ3
-         Ta+6PDHsz/O7Bxk8FyAYZKsv9wLW0hBYeG+zmWBSRbPB9cFQZwP3sWc7W4O0II/GdFDH
-         XLs0zYerpdo1H3GjEXSiYzl+d1vN7CnfVNDwP6MnTibEClBZjnwlup1Vh8wpi7JEvqyE
-         zjQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691998886; x=1692603686;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zitqku576TZpQnQPr3Oh2ohHuEFbeZPBBxEvo1sZc+Q=;
-        b=QRYupYF6gVgQxhN++e/fpZQWIuVv4yDDcaSDgOYgYVaRoKhsCKH/AfK7mW/Jp52Zfh
-         O+VS3vbLmW/58MWUyXp7i8PyYffLbj0widcZFBylKZ2o7XlxNVgZgpaC6AcMjwehfC1U
-         o7FabWSvffp1QKkNWt8clS46Mnjf14SJ5XEpMRLmqfaLVl380rvtHF7n3D1iHRKrdKik
-         LXjFzXFOasgL0IJsKfJnZi7GIAIzrFbcsLxiHxEY52eSBgztryQpkp37mYtpxRHW8Wm4
-         syCq5hBRJOJkyRmMlmuxnF6r2Ex5UEsVJHz0px/hLpf7iKiiFbVpCRjf5G+mRikW49kA
-         d+wA==
-X-Gm-Message-State: AOJu0Yy1h1OGznYgMrOCnU4L9UFa8uwM7wtvFopsddhsHVGGcNXuX3VG
-	juYp9qrF7o+EZpoXRSor1FKXUw==
-X-Google-Smtp-Source: AGHT+IFYfAjXxtZPBAO6xzW1e3FH1h7mkoQ3yNtVsbL8sLdvSW5eTgH/X76mW18QMBp5iOQDIcXGqw==
-X-Received: by 2002:adf:ee87:0:b0:317:5e0d:c249 with SMTP id b7-20020adfee87000000b003175e0dc249mr6776837wro.35.1691998885785;
-        Mon, 14 Aug 2023 00:41:25 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:a3d8:b217:d82c:9bc0? ([2a01:e0a:982:cbb0:a3d8:b217:d82c:9bc0])
-        by smtp.gmail.com with ESMTPSA id k3-20020a5d6283000000b00317643a93f4sm13507243wru.96.2023.08.14.00.41.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Aug 2023 00:41:25 -0700 (PDT)
-Message-ID: <81500a13-0fed-e9d4-7f51-552b888a98e1@linaro.org>
-Date: Mon, 14 Aug 2023 09:41:21 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EAF3946E
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Aug 2023 08:07:10 +0000 (UTC)
+Received: from [192.168.2.137] (bband-dyn221.178-41-211.t-com.sk [178.41.211.221])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 514261F540;
+	Mon, 14 Aug 2023 10:07:08 +0200 (CEST)
+From: Martin Botka <martin.botka@somainline.org>
+Date: Mon, 14 Aug 2023 10:07:04 +0200
+Subject: [PATCH v5 2/4] dt-bindings: arm: sunxi: Add BigTreeTech boards
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH v2 1/2] pwm: Manage owner assignment implicitly for
- drivers
-Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Alexander Shiyan <shc_work@mail.ru>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Paul Cercueil <paul@crapouillou.net>, Vladimir Zapolskiy <vz@mleia.com>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Conor Dooley <conor.dooley@microchip.com>,
- Daire McNamara <daire.mcnamara@microchip.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
- Heiko Stuebner <heiko@sntech.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Michael Walle <michael@walle.cc>,
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
- <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Hammer Hsieh <hammerh0314@gmail.com>, Jonathan Hunter
- <jonathanh@nvidia.com>, Nobuhiro Iwamatsu
- <nobuhiro1.iwamatsu@toshiba.co.jp>, Sean Anderson <sean.anderson@seco.com>,
- Michal Simek <michal.simek@amd.com>, Johan Hovold <johan@kernel.org>,
- Alex Elder <elder@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Anjelique Melendez <quic_amelende@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
- Bjorn Andersson <quic_bjorande@quicinc.com>, linux-pwm@vger.kernel.org,
- linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- chrome-platform@lists.linux.dev, linux-mips@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
-References: <20230804142707.412137-1-u.kleine-koenig@pengutronix.de>
- <20230804142707.412137-2-u.kleine-koenig@pengutronix.de>
-Organization: Linaro Developer Services
-In-Reply-To: <20230804142707.412137-2-u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230814-b4-cb1-v5-2-92135086dee4@somainline.org>
+References: <20230814-b4-cb1-v5-0-92135086dee4@somainline.org>
+In-Reply-To: <20230814-b4-cb1-v5-0-92135086dee4@somainline.org>
+To: Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>, 
+ Alan Ma <tech@biqu3d.com>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>, 
+ Konrad Dybcio <konrad.dybcio@somainline.org>, 
+ Martin Botka <martin@biqu3d.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Martin Botka <martin.botka@somainline.org>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1692000426; l=1182;
+ i=martin.botka@somainline.org; s=20230811; h=from:subject:message-id;
+ bh=qtqWQccplJuFFEgG0lgMMMT5+E2RuoC7YtAGYvsMFyc=;
+ b=DoPds3Cj5GLOvwXsztjCtAmOkVbKYKP7s7zzhU1WPHOKDoZBeyAD/DTzDbM9Q06D3wBxyqx8x
+ M+LYi36USiXC/723xkRkAA+D/7lroNcu8pU6gqtVWsp3ufAY4mtZFgX
+X-Developer-Key: i=martin.botka@somainline.org; a=ed25519;
+ pk=aTCd3jmwU8GrJidWg3DSKLpdVMcpFzXzCSLXLR6NtWU=
 
-On 04/08/2023 16:27, Uwe Kleine-König wrote:
-> Instead of requiring each driver to care for assigning the owner member
-> of struct pwm_ops, handle that implicitly using a macro. Note that the
-> owner member has to be moved to struct pwm_chip, as the ops structure
-> usually lives in read-only memory and so cannot be modified.
-> 
-> The upside is that new lowlevel drivers cannot forget the assignment and
-> save one line each. The pwm-crc driver didn't assign .owner, that's not
-> a problem in practise though as the driver cannot be compiled as a
-> module.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->   drivers/gpio/gpio-mvebu.c             |  1 -
->   drivers/gpu/drm/bridge/ti-sn65dsi86.c |  1 -
->   drivers/leds/rgb/leds-qcom-lpg.c      |  1 -
->   drivers/pwm/core.c                    | 24 ++++++++++++++----------
->   drivers/pwm/pwm-ab8500.c              |  1 -
->   drivers/pwm/pwm-apple.c               |  1 -
->   drivers/pwm/pwm-atmel-hlcdc.c         |  1 -
->   drivers/pwm/pwm-atmel-tcb.c           |  1 -
->   drivers/pwm/pwm-atmel.c               |  1 -
->   drivers/pwm/pwm-bcm-iproc.c           |  1 -
->   drivers/pwm/pwm-bcm-kona.c            |  1 -
->   drivers/pwm/pwm-bcm2835.c             |  1 -
->   drivers/pwm/pwm-berlin.c              |  1 -
->   drivers/pwm/pwm-brcmstb.c             |  1 -
->   drivers/pwm/pwm-clk.c                 |  1 -
->   drivers/pwm/pwm-clps711x.c            |  1 -
->   drivers/pwm/pwm-cros-ec.c             |  1 -
->   drivers/pwm/pwm-dwc.c                 |  1 -
->   drivers/pwm/pwm-ep93xx.c              |  1 -
->   drivers/pwm/pwm-fsl-ftm.c             |  1 -
->   drivers/pwm/pwm-hibvt.c               |  1 -
->   drivers/pwm/pwm-img.c                 |  1 -
->   drivers/pwm/pwm-imx-tpm.c             |  1 -
->   drivers/pwm/pwm-imx1.c                |  1 -
->   drivers/pwm/pwm-imx27.c               |  1 -
->   drivers/pwm/pwm-intel-lgm.c           |  1 -
->   drivers/pwm/pwm-iqs620a.c             |  1 -
->   drivers/pwm/pwm-jz4740.c              |  1 -
->   drivers/pwm/pwm-keembay.c             |  1 -
->   drivers/pwm/pwm-lp3943.c              |  1 -
->   drivers/pwm/pwm-lpc18xx-sct.c         |  1 -
->   drivers/pwm/pwm-lpc32xx.c             |  1 -
->   drivers/pwm/pwm-lpss.c                |  1 -
->   drivers/pwm/pwm-mediatek.c            |  1 -
->   drivers/pwm/pwm-meson.c               |  1 -
+Add name & compatible for BigTreeTech Manta boards and
+BigTreeTech Pi
 
-Acked-by: Neil Armstrong <neil.armstrong@linaro.org> # pwm-meson
+Signed-off-by: Martin Botka <martin.botka@somainline.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ Documentation/devicetree/bindings/arm/sunxi.yaml | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
->   drivers/pwm/pwm-microchip-core.c      |  1 -
->   drivers/pwm/pwm-mtk-disp.c            |  1 -
->   drivers/pwm/pwm-mxs.c                 |  1 -
->   drivers/pwm/pwm-ntxec.c               |  1 -
->   drivers/pwm/pwm-omap-dmtimer.c        |  1 -
->   drivers/pwm/pwm-pca9685.c             |  1 -
->   drivers/pwm/pwm-pxa.c                 |  1 -
->   drivers/pwm/pwm-raspberrypi-poe.c     |  1 -
->   drivers/pwm/pwm-rcar.c                |  1 -
->   drivers/pwm/pwm-renesas-tpu.c         |  1 -
->   drivers/pwm/pwm-rockchip.c            |  1 -
->   drivers/pwm/pwm-rz-mtu3.c             |  1 -
->   drivers/pwm/pwm-samsung.c             |  1 -
->   drivers/pwm/pwm-sifive.c              |  1 -
->   drivers/pwm/pwm-sl28cpld.c            |  1 -
->   drivers/pwm/pwm-spear.c               |  1 -
->   drivers/pwm/pwm-sprd.c                |  1 -
->   drivers/pwm/pwm-sti.c                 |  1 -
->   drivers/pwm/pwm-stm32-lp.c            |  1 -
->   drivers/pwm/pwm-stm32.c               |  1 -
->   drivers/pwm/pwm-stmpe.c               |  1 -
->   drivers/pwm/pwm-sun4i.c               |  1 -
->   drivers/pwm/pwm-sunplus.c             |  1 -
->   drivers/pwm/pwm-tegra.c               |  1 -
->   drivers/pwm/pwm-tiecap.c              |  1 -
->   drivers/pwm/pwm-tiehrpwm.c            |  1 -
->   drivers/pwm/pwm-twl-led.c             |  2 --
->   drivers/pwm/pwm-twl.c                 |  2 --
->   drivers/pwm/pwm-visconti.c            |  1 -
->   drivers/pwm/pwm-vt8500.c              |  1 -
->   drivers/pwm/pwm-xilinx.c              |  1 -
->   drivers/staging/greybus/pwm.c         |  1 -
->   include/linux/pwm.h                   | 10 ++++++----
->   68 files changed, 20 insertions(+), 82 deletions(-)
-> 
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index ee8fdd2da869..b90d2a7dbe2d 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -151,6 +151,17 @@ properties:
+           - const: roofull,beelink-x2
+           - const: allwinner,sun8i-h3
+ 
++      - description: BigTreeTech Manta M4/8P
++        items:
++          - const: bigtreetech,cb1-manta
++          - const: bigtreetech,cb1
++          - const: allwinner,sun50i-h616
++
++      - description: BigTreeTech Pi
++        items:
++          - const: bigtreetech,pi
++          - const: allwinner,sun50i-h616
++
+       - description: Chuwi V7 CW0825
+         items:
+           - const: chuwi,v7-cw0825
 
-<snip>
-
-> diff --git a/drivers/pwm/pwm-meson.c b/drivers/pwm/pwm-meson.c
-> index 25519cddc2a9..5bea53243ed2 100644
-> --- a/drivers/pwm/pwm-meson.c
-> +++ b/drivers/pwm/pwm-meson.c
-> @@ -335,7 +335,6 @@ static const struct pwm_ops meson_pwm_ops = {
->   	.free = meson_pwm_free,
->   	.apply = meson_pwm_apply,
->   	.get_state = meson_pwm_get_state,
-> -	.owner = THIS_MODULE,
->   };
->   
->   static const char * const pwm_meson8b_parent_names[] = {
-
-<snip>
+-- 
+2.41.0
 
