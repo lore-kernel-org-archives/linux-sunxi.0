@@ -1,64 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE526625
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Aug 2023 00:37:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D465C433C8;
-	Tue, 15 Aug 2023 00:37:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692059870;
-	bh=ubU1qJZKk3bzBUfLAI3KRwP4DlPCyvxsYECxwGBOIZ0=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=VWCd4Jj+OtVbHhGPBlB4TnL6MIIsQYALM63RjU23lnzstIU3uPnBWIidNpfgsy+Qy
-	 4aK/XcOLLk6KddsW5blqjQsm0XFbenXoll2BmXLp5DgJnEdydnjjn0yxQidM6hUR7q
-	 uZ1mtRGC22KNkaIZOx8ge4vwbFT4M/kyTXcHWlt7r1mJWZMk+vdPqpUeM+gSWH2cc3
-	 duSGDd4ABI8ksrIqnRsJe0dQXI4spwJx73V3BYU4ZfKMjl4QopCSOyD6EowXJz8iM0
-	 uA33sWVQg92qvN0hJzP2x2qg/b8N9pxFi6IxLcvzPQsErjdBRFBhYWxqg0L6Ey620V
-	 sjXabOVhvHixg==
-Message-ID: <f0f5ecf30d429755880dc530d71df405.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA75625;
+	Tue, 15 Aug 2023 00:57:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692061025; x=1723597025;
+  h=message-id:date:mime-version:cc:subject:to:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=EMtekiFoo0Tblby6wZQ8ziVNSJFBHzBXovBoPNar8KU=;
+  b=dUBnHrVqBwVz/BIyiNggvUg+BtAWocp/xySTicWL7ortznwzjr9KhBYC
+   bDJkRmiiwtcdL4gBQeDS0MvdYI3FuQoZyMITXLIzvv5RXA+tYcywDu8bZ
+   90nj2lJ8eToDokYSyvY+BNO1XkEna1sBxWZZAbu6pOQDMIo3gwDRhzMLV
+   qRNVRliridk0/pp6NXoXR/n0W26lWU8fxEefSxUbiOUkYfrFZE2+WS3zj
+   tMF9YTYQ1DW15tstjflfWw+ubJNh36VYZGUE5Q9DxWensGF9jWo54CYC5
+   Ci/P4IJ1Y0J9tk/Og5qzsAmVrwyvknXuHnGP6tThKg1abYNd1YG0TIF6n
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="362322777"
+X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
+   d="scan'208";a="362322777"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 17:56:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="857243905"
+X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
+   d="scan'208";a="857243905"
+Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.254.215.149]) ([10.254.215.149])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 17:56:42 -0700
+Message-ID: <d645ddff-f274-7a01-6b06-3f5a7afef8fe@linux.intel.com>
+Date: Tue, 15 Aug 2023 08:56:40 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <ZNja0W8oQ0PLAc7l@wens.tw>
-References: <ZNja0W8oQ0PLAc7l@wens.tw>
-Subject: Re: [GIT PULL] Allwinner clock changes for 6.6 part 2
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org
-To: Chen-Yu Tsai <wens@kernel.org>
-Date: Mon, 14 Aug 2023 17:37:48 -0700
-User-Agent: alot/0.10
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Cc: baolu.lu@linux.intel.com, Andy Gross <agross@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Bjorn Andersson
+ <andersson@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ Kevin Tian <kevin.tian@intel.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ Russell King <linux@armlinux.org.uk>, linuxppc-dev@lists.ozlabs.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Orson Zhai <orsonzhai@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Krishna Reddy
+ <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+ Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Dmitry Osipenko <digetx@gmail.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Nicolin Chen <nicolinc@nvidia.com>, Niklas Schnelle
+ <schnelle@linux.ibm.com>, Steven Price <steven.price@arm.com>,
+ Thierry Reding <treding@nvidia.com>
+Subject: Re: [PATCH v6 17/25] iommu/qcom_iommu: Add an IOMMU_IDENTITIY_DOMAIN
+Content-Language: en-US
+To: Jason Gunthorpe <jgg@nvidia.com>
+References: <17-v6-e8114faedade+425-iommu_all_defdom_jgg@nvidia.com>
+ <8cef9a0d-15ba-f8af-7e22-d4d3063c97bf@linux.intel.com>
+ <ZNpJ5irR4XeLw6qG@nvidia.com>
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <ZNpJ5irR4XeLw6qG@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Quoting Chen-Yu Tsai (2023-08-13 06:29:53)
-> Hi,
->=20
-> Please pull another round of Allwinner clk patches for the 6.6 cycle.
->=20
->=20
-> Thanks
-> ChenYu
->=20
->=20
-> The following changes since commit 075d9ca5b4e17f84fd1c744a405e69ec743be7=
-f0:
->=20
->   clk: sunxi-ng: Modify mismatched function name (2023-07-31 00:52:36 +02=
-00)
->=20
-> are available in the Git repository at:
->=20
->   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/su=
-nxi-clk-for-6.6-2
->=20
-> for you to fetch changes up to a69f9463397e56666b113eebb2e99956aacf6929:
->=20
->   clk: sunxi-ng: nkm: Prefer current parent rate (2023-08-09 23:41:44 +08=
-00)
->=20
-> ----------------------------------------------------------------
+On 2023/8/14 23:36, Jason Gunthorpe wrote:
+> On Mon, Aug 14, 2023 at 02:32:33PM +0800, Baolu Lu wrote:
+> 
+>>> +	pm_runtime_get_sync(qcom_iommu->dev);
+>>> +	for (i = 0; i < fwspec->num_ids; i++) {
+>>> +		struct qcom_iommu_ctx *ctx = to_ctx(qcom_domain, fwspec->ids[i]);
+>>> +
+>>> +		/* Disable the context bank: */
+>>> +		iommu_writel(ctx, ARM_SMMU_CB_SCTLR, 0);
+>>> +
+>>> +		ctx->domain = NULL;
+>> Does setting ctx->domain to NULL still match this semantics?
+> Yes, I did not try to fix this driver. NULL means identity in the
+> ctx->domain.
 
-Thanks. Pulled into clk-next
+Okay.
+
+Best regards,
+baolu
