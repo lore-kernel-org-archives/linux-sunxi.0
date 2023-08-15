@@ -1,128 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A3317C4;
-	Tue, 15 Aug 2023 01:34:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692063284; x=1723599284;
-  h=message-id:date:mime-version:cc:subject:to:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=jkr/6uy80FBJ1zVM9rO0oVAo4kuNs+82saVQaD5txn0=;
-  b=O91pmpZhWOUplfzsbpbaCjTCf7t4R+uB2LvPPMUqGuCJBQ0n6GjD2iuN
-   MPSURO3h6uidav/BdE0r2nDvWTEV3WQtG2i0gdFWiySiuVDqJ8CZRFXDf
-   yHrBKnl+lVWdz6oY8DsoBCA6jvE4zGP9bLXrZzbxRLfKGCzFf4w6ERDBB
-   WLkqqAevRC/u2IU8E3up9qbeNa32b/UfltBmy2PbSPrYwa8lEN/QsFIRx
-   eeRpN06XnDqD4QveUCnQxjuU0fu8zSHtAfICoZ3OH+G4KZvFRMIBOkOw0
-   duXZNZOiCEsNamJLolm+OH90M9WLK1tP1x5nxfAZpW63eBJq8FR58FNa5
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="436073282"
-X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="436073282"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 18:34:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="768654964"
-X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="768654964"
-Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.254.215.149]) ([10.254.215.149])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 18:34:30 -0700
-Message-ID: <7fdbf6a5-87a2-65c1-7c1e-d7b936dd3a67@linux.intel.com>
-Date: Tue, 15 Aug 2023 09:34:28 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0764C15C
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Aug 2023 11:41:19 +0000 (UTC)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-d6265142e21so5136906276.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 15 Aug 2023 04:41:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1692099678; x=1692704478;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DEvbIYBzqlpIbOwD2jshBnebopDU4klP4ZBGtz/pQuE=;
+        b=X3k0VgdImwLs8QKcRHdbHT9eFroEIF0IMV1dfxc0uH1u0PBhjdHCp+ls0y6y2S2bJJ
+         hWcNx8HqHT2V0Lu/e2pAehvNA2lm5459HhyifUnn8vbN4jW2xLwhXdL2UTv1GQBO8+m5
+         LjB8kUmSGmUnf24UpULRfjNFRTYDXqNHTQ0NK5tn6OQTUXd0d8alJ4DUcxO2NSUgj7t/
+         UhE59MHNvpnzgOzdNmbY7fIfSGkypRS57G9323c0lJx6t8tIXJQ6Aui5wGe+XtpnqXRy
+         fiPCC7LV2Wr6LMso0py3geqZkAmfvqoZ7+62y4YqcxSuahWa3KtXuXR4nIQma/iC7sG2
+         8vzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692099678; x=1692704478;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DEvbIYBzqlpIbOwD2jshBnebopDU4klP4ZBGtz/pQuE=;
+        b=EDY9R2ExSu43a9+5SIzE5oLypDrC9eJ5z580hpggoj33cCHEnh+Rlyz5+t37nuAujF
+         zlnYk7OaROsQesiAzqHikvKEpPj0AGgBmjXA85Pt6R2xGlq5X/pP7kPblP9XG2PiIiwU
+         b5mNr9DEAsgK2K2XKMeELa85V4QOwwTRYbVNLhwW5InmHUvDv9Apc313L5Nh2d72Xaa/
+         mzybc07sNDNOA+GvWTImH5wnCXuFeKsOA1W77A7Kh35pQ/UNHBaReHIO7p+yJNdNK3OO
+         eP3yRzMr7KHZJAbE733YLzkqwEo/zKO5eiTp6GbVjIX7D1GOnySc/JOCu5L5+t5MxMrv
+         xgNQ==
+X-Gm-Message-State: AOJu0Yx9GjeHN44rUJ3qvq9SeKpT+HoI2MfBXsP6C5fWnV17PCIjVFI6
+	HxteWEFo+S7HbVvu5+bjFgkdFFFHSL4s0xAwavTPWA==
+X-Google-Smtp-Source: AGHT+IGqqVEBuRmiao39L6hulgTQo9WV9b/yGcuLKO6d2VRjQFykkOwgZpNtoMOiF8U9pOBkiPjPEieITDA1co8zhmI=
+X-Received: by 2002:a25:23d6:0:b0:d05:1eb8:2c43 with SMTP id
+ j205-20020a2523d6000000b00d051eb82c43mr11982408ybj.30.1692099678580; Tue, 15
+ Aug 2023 04:41:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Cc: baolu.lu@linux.intel.com, Andy Gross <agross@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Bjorn Andersson
- <andersson@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
- Kevin Tian <kevin.tian@intel.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- Russell King <linux@armlinux.org.uk>, linuxppc-dev@lists.ozlabs.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Orson Zhai <orsonzhai@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>, Krishna Reddy
- <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
- Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Dmitry Osipenko <digetx@gmail.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Nicolin Chen <nicolinc@nvidia.com>, Niklas Schnelle
- <schnelle@linux.ibm.com>, Steven Price <steven.price@arm.com>,
- Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v6 00/25] iommu: Make default_domain's mandatory
-Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>
-References: <0-v6-e8114faedade+425-iommu_all_defdom_jgg@nvidia.com>
- <50feed07-f89a-dfc2-d8a8-16f9bf0fe937@linux.intel.com>
- <ZNpksUtIY+3N1Hn3@nvidia.com>
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <ZNpksUtIY+3N1Hn3@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230727070051.17778-1-frank.li@vivo.com> <CAPDyKFr5smUN5VHCo-O_iFB=qzHFg5Gn9d6wm3bw+5UEy9n=Ww@mail.gmail.com>
+In-Reply-To: <CAPDyKFr5smUN5VHCo-O_iFB=qzHFg5Gn9d6wm3bw+5UEy9n=Ww@mail.gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 15 Aug 2023 13:40:42 +0200
+Message-ID: <CAPDyKFpv_KzH0KcQVUsysBpWohdwEz=+JXN6QTuw0_+jxh94SQ@mail.gmail.com>
+Subject: Re: [PATCH v3 01/62] mmc: sunxi: Convert to platform remove callback
+ returning void
+To: Yangtao Li <frank.li@vivo.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2023/8/15 1:30, Jason Gunthorpe wrote:
-> On Mon, Aug 14, 2023 at 04:43:23PM +0800, Baolu Lu wrote:
-> 
->>> This is on github:https://github.com/jgunthorpe/linux/commits/iommu_all_defdom
->> It seems that after this series, all ARM iommu drivers are able to
->> support the IDENTITY default domain, hence perhaps we can remove below
->> code?
-> Yes, but this code is still used
-> 
->> If I remember it correctly, the background of this part of code is
->> that some arm drivers didn't support IDENTITY domain, so fall back to
->> DMA domain if IDENTITY domain allocation fails.
-> Not quite..
-> 
-> 	if (req_type)
-> 		return __iommu_group_alloc_default_domain(group, req_type);
-> 
-> req_type == 0 can still happen because it depends on what
-> def_domain_type returns, which is still 0 in alot of cases
-> 
-> 	/* The driver gave no guidance on what type to use, try the default */
-> 	dom = __iommu_group_alloc_default_domain(group, iommu_def_domain_type);
-> 	if (dom)
-> 		return dom;
-> 
-> So we try the default which might be IDENTITY/DMA/DMA_FQ - still have
-> to do this.
-> 
-> 	/* Otherwise IDENTITY and DMA_FQ defaults will try DMA */
-> 	if (iommu_def_domain_type == IOMMU_DOMAIN_DMA)
-> 		return NULL;
-> 	dom = __iommu_group_alloc_default_domain(group, IOMMU_DOMAIN_DMA);
-> 	if (!dom)
-> 		return NULL;
-> 
-> 	pr_warn("Failed to allocate default IOMMU domain of type %u for group %s - Falling back to IOMMU_DOMAIN_DMA",
-> 		iommu_def_domain_type, group->name);
-> 
-> And this hunk is primarily a fallback in case the DMA_FQ didn't
-> work. Then we try normal DMA.
-> 
-> That it also protected against not implementing IDENTITY is a side
-> effect, so I think we have to keep all of this still.
+On Mon, 7 Aug 2023 at 17:26, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+>
+> On Thu, 27 Jul 2023 at 09:01, Yangtao Li <frank.li@vivo.com> wrote:
+> >
+> > The .remove() callback for a platform driver returns an int which makes
+> > many driver authors wrongly assume it's possible to do error handling b=
+y
+> > returning an error code. However the value returned is (mostly) ignored
+> > and this typically results in resource leaks. To improve here there is =
+a
+> > quest to make the remove callback return void. In the first step of thi=
+s
+> > quest all drivers are converted to .remove_new() which already returns
+> > void.
+> >
+> > Trivially convert this driver from always returning zero in the remove
+> > callback to the void returning variant.
+> >
+> > Cc: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> > Signed-off-by: Yangtao Li <frank.li@vivo.com>
+> > Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>
+> Normally I would prefer one patch per host driver, but in this series
+> the changes are so trivial that it just becomes more difficult for me
+> to manage.
+>
+> Please squash all changes that convert from using ->remove() to
+> .remove_new() into one single patch for the mmc host drivers. Note
+> that, I discovered there are some additional cleanups being part of
+> the series, those deserve to be submitted indepently of this.
 
-Okay, fair enough. Thanks for the explanation.
+Okay, so I decided to pick the series anyway. Applied for next (except
+for patch 62 which went to fixes), thanks!
 
-Best regards,
-baolu
+Kind regards
+Uffe
+
+
+
+>
+> Kind regards
+> Uffe
+>
+> > ---
+> >  drivers/mmc/host/sunxi-mmc.c | 6 ++----
+> >  1 file changed, 2 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.=
+c
+> > index 69dcb8805e05..d3bd0ac99ec4 100644
+> > --- a/drivers/mmc/host/sunxi-mmc.c
+> > +++ b/drivers/mmc/host/sunxi-mmc.c
+> > @@ -1486,7 +1486,7 @@ static int sunxi_mmc_probe(struct platform_device=
+ *pdev)
+> >         return ret;
+> >  }
+> >
+> > -static int sunxi_mmc_remove(struct platform_device *pdev)
+> > +static void sunxi_mmc_remove(struct platform_device *pdev)
+> >  {
+> >         struct mmc_host *mmc =3D platform_get_drvdata(pdev);
+> >         struct sunxi_mmc_host *host =3D mmc_priv(mmc);
+> > @@ -1499,8 +1499,6 @@ static int sunxi_mmc_remove(struct platform_devic=
+e *pdev)
+> >         }
+> >         dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg=
+_dma);
+> >         mmc_free_host(mmc);
+> > -
+> > -       return 0;
+> >  }
+> >
+> >  #ifdef CONFIG_PM
+> > @@ -1556,7 +1554,7 @@ static struct platform_driver sunxi_mmc_driver =
+=3D {
+> >                 .pm =3D &sunxi_mmc_pm_ops,
+> >         },
+> >         .probe          =3D sunxi_mmc_probe,
+> > -       .remove         =3D sunxi_mmc_remove,
+> > +       .remove_new     =3D sunxi_mmc_remove,
+> >  };
+> >  module_platform_driver(sunxi_mmc_driver);
+> >
+> > --
+> > 2.39.0
+> >
