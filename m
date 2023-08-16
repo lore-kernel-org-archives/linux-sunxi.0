@@ -1,87 +1,117 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from chg.server2.ideacentral.com (unknown [108.163.232.234])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28F1C2DF
-	for <linux-sunxi@lists.linux.dev>; Wed, 16 Aug 2023 08:52:14 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3fbd33a57b6so62725245e9.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 16 Aug 2023 01:52:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692175933; x=1692780733;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZF/nTYGo6AW2Li21Ls1m8D3SKJzTrxJCZtlOZBDuU7k=;
-        b=gtqKb9bOjk1bosBMYoHQt15/YI3AowGeIPy7hx2pMkR+bxlJSMT96PCo6XaJF/0CY+
-         5awBgQOqscd33S46Fpoc9oDU7iNHIwrgT0s0/g6KWvKQJOSEfMUU75yKvEWJC7g9cSAn
-         8tArOgt9Ykq0WgEvBQfayMkOkW9cdCppdF/QfCOlTMwRcmoIBbKuikjXvLyR86WdRdvg
-         tGZyRDP1oVVqB82zxEtcBdDn3jGt3fcaANqcaz/Pcu2SEg7cD9xTSa/LWwL7I8820nnE
-         wsN+6E0s3Foa9qIDOjksQls1sQSrbUl7Z+GH3KrEydLRO0zPbFAMJ+GJKdQF73hnnKZk
-         YjXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692175933; x=1692780733;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZF/nTYGo6AW2Li21Ls1m8D3SKJzTrxJCZtlOZBDuU7k=;
-        b=h4kvmdm4k/GdVHlgmDdvQmNNn9sErQMnkxhNZjWf+jwa9V3IOCKppGszj/Sx9NgS31
-         v0PGHnxh9kZwXqCFMOGlk1nY/NIfiGDl2G/tSqb8lIhWfNlwj4J0kzoMPoZSigOhH3f3
-         hsGBVlq1/18ELuwopfSgcwdt5uWP/ymwlJLBFeI0PSwVljA6p5SEgD3ShWb/ls0uWeV4
-         0kdCGfxAZnLp1nXAGB2zcgTGBCV/fdrvZrpmbZuWtY6x1puH1zs5HGSm0JB+lZILQ46U
-         S5+hh+hLppdx3htKSSKGc61oQ3vrolTHESo3fRzQ/dpNvFpqQFLWlcnNVBjf179TOJxk
-         aNnw==
-X-Gm-Message-State: AOJu0YyW1YuJt/3y5TqtLhMCMZizPx6ovg1xZalTvPj42IfsguIZQp7d
-	LjYd40Bb0t2KbXE6DTagp/7w/g==
-X-Google-Smtp-Source: AGHT+IFU7+fWoHJZgaDyV1OqwMo/9sJ3P6CAcyUM64PehXJvMQe4Ai52t2bXxImv6lcC98UcBoHxsQ==
-X-Received: by 2002:a05:600c:289:b0:3f7:f2d0:b904 with SMTP id 9-20020a05600c028900b003f7f2d0b904mr905156wmk.8.1692175932743;
-        Wed, 16 Aug 2023 01:52:12 -0700 (PDT)
-Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.googlemail.com with ESMTPSA id t15-20020a7bc3cf000000b003fe601a7d46sm23473464wmj.45.2023.08.16.01.52.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Aug 2023 01:52:12 -0700 (PDT)
-Message-ID: <69a2bef8-efcc-2ca2-debd-201555833e43@linaro.org>
-Date: Wed, 16 Aug 2023 10:52:11 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1BCCC2F0
+	for <linux-sunxi@lists.linux.dev>; Wed, 16 Aug 2023 09:03:07 +0000 (UTC)
+Received: from mailnull by ns-196.awsdns-24.com with local (Exim 4.96)
+	id 1qWCQl-006vOl-0i
+	for linux-sunxi@lists.linux.dev;
+	Wed, 16 Aug 2023 04:03:07 -0500
+X-Failed-Recipients: linux-sunxi@lists.linux.dev
+Auto-Submitted: auto-replied
+From: Mail Delivery System <Mailer-Daemon@ns-196.awsdns-24.com>
+To: linux-sunxi@lists.linux.dev
+References: <20230816100258.B626FAF3CD9EBBD6@lists.linux.dev>
+Content-Type: multipart/report; report-type=delivery-status; boundary=1692176587-eximdsn-207882275
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] thermal/drivers/sun8i: Free calibration nvmem after
- reading it
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>, Vasily Khoruzhick <anarsoul@gmail.com>,
- Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20230719-thermal-sun8i-free-nvmem-v1-1-f553d5afef79@kernel.org>
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <20230719-thermal-sun8i-free-nvmem-v1-1-f553d5afef79@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Mail delivery failed: returning message to sender
+Message-Id: <E1qWCQl-006vOl-0i@ns-196.awsdns-24.com>
+Date: Wed, 16 Aug 2023 04:03:07 -0500
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - ns-196.awsdns-24.com
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - 
+X-Get-Message-Sender-Via: ns-196.awsdns-24.com: sender_ident via received_protocol == local: mailnull/primary_hostname/system user
+X-Authenticated-Sender: ns-196.awsdns-24.com: mailnull
 
-On 19/07/2023 02:58, Mark Brown wrote:
-> The sun8i thermal driver reads calibration data via the nvmem API at
-> startup, updating the device configuration and not referencing the data
-> again.  Rather than explicitly freeing the nvmem data the driver relies
-> on devm_ to release it, even though the data is never referenced again.
-> The allocation is still tracked so it's not leaked but this is notable
-> when looking at the code and is a little wasteful so let's instead
-> explicitly free the nvmem after we're done with it.
-> 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
+--1692176587-eximdsn-207882275
+Content-type: text/plain; charset=us-ascii
 
-Applied, thanks
+This message was created automatically by mail delivery software.
 
+A message that you sent could not be delivered to one or more of its
+recipients. This is a permanent error. The following address(es) failed:
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+  linux-sunxi@lists.linux.dev
+    host smtp.subspace.kernel.org [44.238.234.78]
+    SMTP error from remote mail server after end of data:
+    550 5.7.1 Blocked by SpamAssassin
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+--1692176587-eximdsn-207882275
+Content-type: message/delivery-status
 
+Reporting-MTA: dns; ns-196.awsdns-24.com
+
+Action: failed
+Final-Recipient: rfc822;linux-sunxi@lists.linux.dev
+Status: 5.0.0
+Remote-MTA: dns; smtp.subspace.kernel.org
+Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
+
+--1692176587-eximdsn-207882275
+Content-type: message/rfc822
+
+Return-path: <linux-sunxi@lists.linux.dev>
+Received: from v-104-153-108-120.unman-vds.premium-chicago.nfoservers.com ([104.153.108.120]:62583)
+	by ns-196.awsdns-24.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux-sunxi@lists.linux.dev>)
+	id 1qWCQd-006uW6-1B
+	for linux-sunxi@lists.linux.dev;
+	Wed, 16 Aug 2023 04:02:59 -0500
+From: lists.linux.devAdministrator<linux-sunxi@lists.linux.dev>
+To: linux-sunxi@lists.linux.dev
+Subject: =?UTF-8?B?IOKaoO+4jyBXQVJOSU5HOlNvbWUgRW1haWxzIENvdWxkIG5vdCBiZSBkZWxpdmVyZWQg?=
+Date: 16 Aug 2023 10:02:58 +0100
+Message-ID: <20230816100258.B626FAF3CD9EBBD6@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+
+<html><head><title></title>
+<meta name=3D"GENERATOR" content=3D"MSHTML 11.00.9600.19003">
+<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
+</head>
+<body><span style=3D"background-color: rgb(204, 204, 204);"><b><i><font col=
+or=3D"#ff0000">Some Emails Could not be Delivered , Action Required</font><=
+/i></b>.</span><div><br><font color=3D"#3d85c6"><font size=3D"4"><b>Quarant=
+ined Messages Report</b> </font>&nbsp;</font><br>linux-sunxi@lists.linux.de=
+v<div>16-08-2023, 08:00AM <br>&nbsp;<br>Dear linux-sunxi,</div><div><br>
+4 messages addressed to you are currently on hold awaiting your further act=
+ion. You can release all of your held messages and permit or block future e=
+mails from the senders, or manage messages individually.<br><br>
+<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPa=
+nxX?clientID=3Dlinux-sunxi@lists.linux.dev" target=3D"_blank" data-saferedi=
+recturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Ema=
+il-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFw=
+LZWfJX-xB2LHrk7CvessvAOsg">Review all</a>
+&nbsp; &nbsp;<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGb=
+cFJkycxN8DaPanxX?clientID=3Dlinux-sunxi@lists.linux.dev" target=3D"_blank" =
+data-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/=
+%23%5B%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;us=
+g=3DAFQjCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Release all</a>
+&nbsp; &nbsp; <a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRG=
+bcFJkycxN8DaPanxX?clientID=3Dlinux-sunxi@lists.linux.dev" target=3D"_blank"=
+ data-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga=
+/%23%5B%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;u=
+sg=3DAFQjCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Block all</a><br><br>Further Infor=
+mation: <br>
+To view your entire quarantine inbox or manage your preferences, <a href=3D=
+"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPanxX?client=
+ID=3Dlinux-sunxi@lists.linux.dev" target=3D"_blank" data-saferedirecturl=3D=
+"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email-%5D%5D&=
+amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZWfJX-xB2=
+LHrk7CvessvAOsg">Click Here</a><br><br>The system generated this notice on =
+16-08-2023, at 09:00AM<br>Do not reply to this automated message.<br>
+&copy; 2023 lists.linux.dev. All rights reserved.</div></div>
+</body></html>
+
+--1692176587-eximdsn-207882275--
