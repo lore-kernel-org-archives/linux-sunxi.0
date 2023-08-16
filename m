@@ -1,156 +1,109 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38CF1D2EE
-	for <linux-sunxi@lists.linux.dev>; Wed, 16 Aug 2023 10:05:02 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-31965c94001so3782102f8f.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 16 Aug 2023 03:05:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692180301; x=1692785101;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AXexP5J2IB86LOs7JUU2PjEMrJazlbcjbHMuFD834+M=;
-        b=i4mEovXgQd4EmL17YmGNfmx7BiPnJ8rYLqIZVgELKnIDaVjme+nSNmkXBgq1r01riU
-         D9jbtq5YKdgzJp04nLuzumD2SCASPuHNpMfdgvpST4bKpzUlOEAXFur+pFGWF+hqxYfu
-         dMhtF4P7BJngyc1ERtiYgY2Dt+bC7gy48nYIx7wtOAQjsuDZCQdO505WLSoUWAZSE/Ye
-         wIwjgJXh2y0sxy7BO3+KAcUnDeFiZMFwg9Q03O7zL8vUSnoBOMhQ5QYE0H78MnJWHE9d
-         pgcWzLp3BH5AvxDi555Rn/cPWDq0L2GALv3NqaeiQ0a98rN3QbWRhq3FhZVnu/QDV+/7
-         BLZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692180301; x=1692785101;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AXexP5J2IB86LOs7JUU2PjEMrJazlbcjbHMuFD834+M=;
-        b=eTqjscGZHocjwwjLoNNIXyqguKePppel8I55QkVbPkhCl/2bNs0IszvVk1Cpi8pZ7A
-         H7B2GnIX2ptHuDoCmpuYsSN6eWRXB957Ko6MqbeWQASCqHlcMdz34MJDQCEYFxqKvlcA
-         LImsjrXBzGRLgn2UiXCLu+/JoWaqvC/tfikAr8jwB4e37y9JpgjS29rfc6/WRnOwrb/8
-         3QWA47hjvJ6T9Q5CeM5vDDNJseSbr4zcrzHIcNjiozFadrUlzZ9wcqNKFDqaV4SZ84xn
-         vXJc+oLIdueL1bitYXwa58E318gk5FhMOZjA6OAXyMc97rZRJ7wWxLrENvKyYHM8eBU7
-         iH1Q==
-X-Gm-Message-State: AOJu0YylerNjYG/ql5C9kyiPeWgOfQwSU+M7DgU2RYzgIleYd/6Ms4VQ
-	g6rZMFed40adAhlQsbBP6NC3bg==
-X-Google-Smtp-Source: AGHT+IE7WTr4mwMLvR3/of6jx6jHLQJNhj1JGefVICNU1EcR9Md8dsCZ3SrFuXbKjenuHFR0Jnl06w==
-X-Received: by 2002:adf:d0c3:0:b0:319:62ba:5d08 with SMTP id z3-20020adfd0c3000000b0031962ba5d08mr994283wrh.33.1692180301070;
-        Wed, 16 Aug 2023 03:05:01 -0700 (PDT)
-Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.googlemail.com with ESMTPSA id d10-20020a056000114a00b00301a351a8d6sm20552461wrx.84.2023.08.16.03.05.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Aug 2023 03:05:00 -0700 (PDT)
-Message-ID: <47417e4b-f230-7182-5cb5-c76b34b635c0@linaro.org>
-Date: Wed, 16 Aug 2023 12:04:59 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6A4DDBA;
+	Wed, 16 Aug 2023 10:18:07 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::229])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 2976CC7E6D;
+	Wed, 16 Aug 2023 10:10:01 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5B9CDFF806;
+	Wed, 16 Aug 2023 10:09:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1692180593;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=h5lQWAeW+NPtPE1/7EDtPleEl+xEGXup9jpMcYQ0n6M=;
+	b=DlYF10Orb/YRYdAJs40h8geepm6lgzERhMPFuAx1rfJ/3D5mqvGKAigz3jivXKPYWOycQn
+	qpxAjJqFrAc0N299pIhFnHFZHdgK/nvL9HTAX6AZ9bhMxRgSGiwOGvbiQ5XggUY7Yo0wMm
+	oWEo+kO2upJ/QaYtpHrS5Eon0/ocUF6tCrRS5RA1aHOJHnPiLy3qMkcZSPBPSWSheJ65qe
+	H/fSWk1/uHEdaiXI8H0F5lcOYbUqDsyg/lDKX8wUzaV3CfgNe+U5nbe9xR2BN7TsKKUFy3
+	njFLId+hO/MILW2rbPy3ZtCs67tNbZoIXSYuzxmrVTDZP/UGsG6PEk+X5scbOg==
+Date: Wed, 16 Aug 2023 12:09:47 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Ruan Jinjie <ruanjinjie@huawei.com>
+Cc: TheSven73@gmail.com, gregkh@linuxfoundation.org, mripard@kernel.org,
+	mchehab@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
+	samuel@sholland.org, linux-staging@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH -next 2/2] media: staging: media: sunxi: cedrus: Remove
+ redundant of_match_ptr()
+Message-ID: <ZNyga6GGlSiKpMqE@aptenodytes>
+References: <20230811024945.2256437-1-ruanjinjie@huawei.com>
+ <20230811024945.2256437-3-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH RESEND RESEND] thermal/of: support thermal zones w/o trips
- subnode
-Content-Language: en-US
-To: Icenowy Zheng <zhengxingda@iscas.ac.cn>, Amit Kucheria
- <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Mark Brown <broonie@kernel.org>
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Icenowy Zheng <uwu@icenowy.me>
-References: <20230722122534.2279689-1-zhengxingda@iscas.ac.cn>
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <20230722122534.2279689-1-zhengxingda@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="A9Pa7haUiISTifj7"
+Content-Disposition: inline
+In-Reply-To: <20230811024945.2256437-3-ruanjinjie@huawei.com>
+X-GND-Sasl: paul.kocialkowski@bootlin.com
 
-On 22/07/2023 14:25, Icenowy Zheng wrote:
-> From: Icenowy Zheng <uwu@icenowy.me>
-> 
-> Although the current device tree binding of thermal zones require the
-> trips subnode, the binding in kernel v5.15 does not require it, and many
-> device trees shipped with the kernel, for example,
-> allwinner/sun50i-a64.dtsi and mediatek/mt8183-kukui.dtsi in ARM64, still
-> comply to the old binding and contain no trips subnode.
-> 
-> Allow the code to successfully register thermal zones w/o trips subnode
-> for DT binding compatibility now.
-> 
-> Furtherly, the inconsistency between DTs and bindings should be resolved
-> by either adding empty trips subnode or dropping the trips subnode
-> requirement.
-> 
-> Fixes: d0c75fa2c17f ("thermal/of: Initialize trip points separately")
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+
+--A9Pa7haUiISTifj7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Fri 11 Aug 23, 10:49, Ruan Jinjie wrote:
+> The driver depends on CONFIG_OF, it is not necessary to use
+> of_match_ptr() here.
+>=20
+> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
+
+Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Thanks for the patch!
+
+Paul
+
 > ---
-> 
-> Unfortunately the code gets dropped by mailing lists again and again...
-> 
-> Sorry for the disturbance.
-> 
->   drivers/thermal/thermal_of.c | 17 +++++++++++------
->   1 file changed, 11 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_of.c
-> index 6fb14e521197..2c76df847e84 100644
-> --- a/drivers/thermal/thermal_of.c
-> +++ b/drivers/thermal/thermal_of.c
-> @@ -127,15 +127,17 @@ static struct thermal_trip *thermal_of_trips_init(struct device_node *np, int *n
->   
->   	trips = of_get_child_by_name(np, "trips");
->   	if (!trips) {
-> -		pr_err("Failed to find 'trips' node\n");
-> -		return ERR_PTR(-EINVAL);
-> +		pr_debug("Failed to find 'trips' node\n");
-> +		*ntrips = 0;
+>  drivers/staging/media/sunxi/cedrus/cedrus.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
+g/media/sunxi/cedrus/cedrus.c
+> index 8e248d4a0aec..f52df6836045 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> @@ -708,7 +708,7 @@ static struct platform_driver cedrus_driver =3D {
+>  	.remove_new	=3D cedrus_remove,
+>  	.driver		=3D {
+>  		.name		=3D CEDRUS_NAME,
+> -		.of_match_table	=3D of_match_ptr(cedrus_dt_match),
+> +		.of_match_table	=3D cedrus_dt_match,
+>  		.pm		=3D &cedrus_dev_pm_ops,
+>  	},
+>  };
+> --=20
+> 2.34.1
+>=20
 
-set ntrips at the beginning of the function.
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
-> +		return NULL;
+--A9Pa7haUiISTifj7
+Content-Type: application/pgp-signature; name="signature.asc"
 
-return ERR_PTR(-ENXIO);
+-----BEGIN PGP SIGNATURE-----
 
->   	}
->   
->   	count = of_get_child_count(trips);
->   	if (!count) {
-> -		pr_err("No trip point defined\n");
-> -		ret = -EINVAL;
-> -		goto out_of_node_put;
-> +		pr_debug("No trip point defined\n");
-> +		of_node_put(trips);
-> +		*ntrips = 0;
-> +		return NULL;
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmTcoGsACgkQ3cLmz3+f
+v9EqXwf8CN23uyCZvWuHCFCGwyazYagcl06F9igVRFlNx1JcpSilPC0s/vCeZzks
+240k+JQDOqoIeC6sHKJfyfBWSEWwc7j7GnKQRZnVA0+bU5fl4f3/wDWzKl6hnUVR
+aW6ZVyVigGKuTeGw3DwvRXvdFHPvLwAuDJ3SYz2E51XJ06KPaVxZyu2ifoQUqIXk
+RWUJkZR6e/lt/9376J5JItKThqFa8LEe2RBk3E55GeNHBXBr2d/9Q36XW/wdow38
+E84wzyD4jFeO1iRdm1n0rZIojgtwTc2iPxm+OM8vvGaCdgliLpfpezZZ+1zWuJCq
+5+q6bs4Dr5apCGu86U3CcviVi3oL2w==
+=frhy
+-----END PGP SIGNATURE-----
 
-Why not keep goto out_of_node_put ?
-
->   	}
->   
->   	tt = kzalloc(sizeof(*tt) * count, GFP_KERNEL);
-> @@ -519,7 +521,10 @@ static struct thermal_zone_device *thermal_of_zone_register(struct device_node *
-
-
-The function should check the return value of thermal_of_trips_init()
-
-If this one returns -ENXIO, it should pr_warn().
-
->   	of_ops->bind = thermal_of_bind;
->   	of_ops->unbind = thermal_of_unbind;
->   
-> -	mask = GENMASK_ULL((ntrips) - 1, 0);
-> +	if (ntrips)
-> +		mask = GENMASK_ULL((ntrips) - 1, 0);
-> +	else
-> +		mask = 0;
-
-	mask = ntrips ? GENMASK_ULL((ntrips) - 1, 0) : 0;
-
->   	tz = thermal_zone_device_register_with_trips(np->name, trips, ntrips,
->   						     mask, data, of_ops, tzp,
-
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
-
+--A9Pa7haUiISTifj7--
