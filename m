@@ -1,60 +1,86 @@
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0168C20E7
-	for <linux-sunxi@lists.linux.dev>; Wed, 16 Aug 2023 17:13:47 +0000 (UTC)
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-56c711a88e8so4935890eaf.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 16 Aug 2023 10:13:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692206027; x=1692810827;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tVPX9Qa4Xv1MB/edAOyjTE0H1MKHMiTKe7y4N2vO1R4=;
-        b=l7BaRVB2Li7p6CutjFiA5K7oKI5cZJeiG9dnXioxpX6ijutkWmyHenD6xii6D/atuB
-         xnR4m1gTx3FrTMRk3P+FhqSwKFH9TTE4FZeT1C/sdTb1INiLcGSR+daWQvVCSYI4l1Am
-         b2qwe8PogkSXbpDsrEhG6rkWDwxM+O1GS9IsaXvKaMHalOkKQ0I9s1SP5kGwkA6Lmax1
-         6oZX3NnAICyltiLoayzKBlH75zziXkLw82cY0ee2Q9DUejOoNPQZpM9AvxglVsdGYof+
-         kcHR2v9fvxUniR3YZKpQ8W8S4Mb8sjJfHu/DjbjphfSErgQmFHY4zYptCHaEIqZDI9tS
-         bHQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692206027; x=1692810827;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tVPX9Qa4Xv1MB/edAOyjTE0H1MKHMiTKe7y4N2vO1R4=;
-        b=LKeFc0nSDtISmJ7jGAWmn9Rk3ikpGoBTg66pYaGsGwZ5gcwr2tQeIQBJ420SbnJVrP
-         HSN3ULiTppI1ZHQiK30xx6XDdr/YPbh26HXgdvqBpiip1ORM+/dGlyP7j0QnhaRQLumM
-         A+ZPCawqYcnQ+0BLSIHwzZiAOKpzzBwKtcbU//ik4Ti1eoVL2JOM8oajqKgUe8Jqs+Ga
-         QCmSyiKnUZkhK0ARVr7pIfrZSMJVfsESKW5vCNfqqe4PYVAUN4uchqLaDOz/tEMdYvww
-         oUjBt/HOqN4qer6aCcs96Gts8GEs6/rnsKRnTvD0Y3yy3gOBTFOMu1rWzeDDxpuG+Gde
-         oalQ==
-X-Gm-Message-State: AOJu0YytdDnzx1v1NRseiqu9EIFFPaob5/rJluu9P5k3fZwlJHHTmRnL
-	BXM1Ez7XuUcPNSbcYGTDnQpjIzMkySCV2xML11Q=
-X-Google-Smtp-Source: AGHT+IGXbdnXyVMyt77d6rfz8tCBtsRlaDJFQsG39SIT4aN2489OiJHDAhWJhJ04YU5adP2Won5oD5Venmj/kqq7Yuc=
-X-Received: by 2002:a05:6358:70c:b0:139:d5d5:7a8f with SMTP id
- e12-20020a056358070c00b00139d5d57a8fmr3388507rwj.30.1692206026723; Wed, 16
- Aug 2023 10:13:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED44B389
+	for <linux-sunxi@lists.linux.dev>; Thu, 17 Aug 2023 02:45:35 +0000 (UTC)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.53])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RR8R63hSzzNn0t;
+	Thu, 17 Aug 2023 10:41:54 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemi500012.china.huawei.com
+ (7.221.188.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Thu, 17 Aug
+ 2023 10:45:25 +0800
+From: Li Zetao <lizetao1@huawei.com>
+To: <miquel.raynal@bootlin.com>, <richard@nod.at>, <vigneshr@ti.com>,
+	<michal.simek@amd.com>, <vz@mleia.com>, <matthias.bgg@gmail.com>,
+	<angelogioacchino.delregno@collabora.com>, <mcoquelin.stm32@gmail.com>,
+	<alexandre.torgue@foss.st.com>, <wens@csie.org>, <jernej.skrabec@gmail.com>,
+	<samuel@sholland.org>, <stefan@agner.ch>, <tudor.ambarus@linaro.org>,
+	<pratyush@kernel.org>, <michael@walle.cc>, <frank.li@vivo.com>
+CC: <robh@kernel.org>, <martin.blumenstingl@googlemail.com>,
+	<philmd@linaro.org>, <geert+renesas@glider.be>,
+	<u.kleine-koenig@pengutronix.de>, <rogerq@kernel.org>,
+	<paul@crapouillou.net>, <nicolas.ferre@microchip.com>,
+	<yangyingliang@huawei.com>, <dmitry.torokhov@gmail.com>, <heiko@sntech.de>,
+	<christophe.leroy@csgroup.eu>, <christophe.kerello@foss.st.com>,
+	<jinpu.wang@ionos.com>, <lizetao1@huawei.com>,
+	<linux-mtd@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>,
+	<linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>
+Subject: [PATCH -next 00/11] mtd: Use devm_clk_get_enabled() to simplify the drivers.
+Date: Thu, 17 Aug 2023 10:44:58 +0800
+Message-ID: <20230817024509.3951629-1-lizetao1@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230726051727.64088-1-dg573847474@gmail.com>
-In-Reply-To: <20230726051727.64088-1-dg573847474@gmail.com>
-From: Chengfeng Ye <dg573847474@gmail.com>
-Date: Thu, 17 Aug 2023 01:13:34 +0800
-Message-ID: <CAAo+4rXRdMQgM-ck+jfTdRQOFafbUx0880G6MQayK5EEwXHLbQ@mail.gmail.com>
-Subject: Re: [PATCH v2] dmaengine: sun6i: Fix potential deadlock on &sdev->lock
-To: vkoul@kernel.org, wens@csie.org, jernej.skrabec@gmail.com, 
-	samuel@sholland.org, p.zabel@pengutronix.de, jaswinder.singh@linaro.org
-Cc: dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.90.53.73]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemi500012.china.huawei.com (7.221.188.12)
+X-CFilter-Loop: Reflected
 
-Dear maintainers,
+Commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prepared
+and enabled clocks") provides a new helper function for prepared and
+enabled clocks when a driver keeps a clock prepared (or enabled) during
+the whole lifetime of the driver. So where drivers get clocks and enable
+them immediately, it can be combined into a single function
+devm_clk_get_*enabled(). Moreover, the unprepare and disable function
+has been registered to devm_clk_state, and before devm_clk_state is
+released, the clocks will be unprepareed and disable, so it is unnecessary
+to unprepare and disable clock explicitly when remove drivers or in the
+error handling path.
 
-May I ask if someone would like to spend some time reviewing the patch?
+Li Zetao (11):
+  mtd: spear_smi: Use helper function devm_clk_get_enabled()
+  mtd: rawnand: arasan: Use helper function devm_clk_get_enabled()
+  mtd: rawnand: fsmc: Use helper function devm_clk_get_enabled()
+  mtd: rawnand: intel: Use helper function devm_clk_get_enabled()
+  mtd: rawnand: lpc32xx_slc: Use helper function devm_clk_get_enabled()
+  mtd: rawnand: mpc5121: Use helper function devm_clk_get_enabled()
+  mtd: rawnand: mtk: Use helper function devm_clk_get_enabled()
+  mtd: rawnand: stm32_fmc2: Use helper function devm_clk_get_enabled()
+  mtd: rawnand: sunxi: Use helper function devm_clk_get_enabled()
+  mtd: rawnand: vf610_nfc: Use helper function devm_clk_get_enabled()
+  mtd: spi-nor: Use helper function devm_clk_get_enabled()
 
-Thanks,
-Chengfeng
+ drivers/mtd/devices/spear_smi.c               | 15 ++-------
+ drivers/mtd/nand/raw/arasan-nand-controller.c | 29 +++-------------
+ drivers/mtd/nand/raw/fsmc_nand.c              |  8 +----
+ drivers/mtd/nand/raw/intel-nand-controller.c  | 15 ++-------
+ drivers/mtd/nand/raw/lpc32xx_slc.c            | 12 ++-----
+ drivers/mtd/nand/raw/mpc5121_nfc.c            | 11 ++-----
+ drivers/mtd/nand/raw/mtk_nand.c               | 20 ++++-------
+ drivers/mtd/nand/raw/stm32_fmc2_nand.c        | 17 +++-------
+ drivers/mtd/nand/raw/sunxi_nand.c             | 29 ++++------------
+ drivers/mtd/nand/raw/vf610_nfc.c              | 29 +++++-----------
+ drivers/mtd/spi-nor/controllers/nxp-spifi.c   | 33 ++++---------------
+ 11 files changed, 48 insertions(+), 170 deletions(-)
+
+-- 
+2.34.1
+
