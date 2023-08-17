@@ -1,15 +1,15 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 543D4644
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Aug 2023 02:45:38 +0000 (UTC)
-Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.53])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RR8R957c5ztRwX;
-	Thu, 17 Aug 2023 10:41:57 +0800 (CST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2F1397
+	for <linux-sunxi@lists.linux.dev>; Thu, 17 Aug 2023 02:45:39 +0000 (UTC)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.54])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RR8Sq0XFRzVkPQ;
+	Thu, 17 Aug 2023 10:43:23 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemi500012.china.huawei.com
  (7.221.188.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Thu, 17 Aug
- 2023 10:45:34 +0800
+ 2023 10:45:28 +0800
 From: Li Zetao <lizetao1@huawei.com>
 To: <miquel.raynal@bootlin.com>, <richard@nod.at>, <vigneshr@ti.com>,
 	<michal.simek@amd.com>, <vz@mleia.com>, <matthias.bgg@gmail.com>,
@@ -27,9 +27,9 @@ CC: <robh@kernel.org>, <martin.blumenstingl@googlemail.com>,
 	<linux-mtd@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-mediatek@lists.infradead.org>,
 	<linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>
-Subject: [PATCH -next 08/11] mtd: rawnand: stm32_fmc2: Use helper function devm_clk_get_enabled()
-Date: Thu, 17 Aug 2023 10:45:06 +0800
-Message-ID: <20230817024509.3951629-9-lizetao1@huawei.com>
+Subject: [PATCH -next 03/11] mtd: rawnand: fsmc: Use helper function devm_clk_get_enabled()
+Date: Thu, 17 Aug 2023 10:45:01 +0800
+Message-ID: <20230817024509.3951629-4-lizetao1@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230817024509.3951629-1-lizetao1@huawei.com>
 References: <20230817024509.3951629-1-lizetao1@huawei.com>
@@ -56,56 +56,45 @@ handling path.
 
 Signed-off-by: Li Zetao <lizetao1@huawei.com>
 ---
- drivers/mtd/nand/raw/stm32_fmc2_nand.c | 17 ++++-------------
- 1 file changed, 4 insertions(+), 13 deletions(-)
+ drivers/mtd/nand/raw/fsmc_nand.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/mtd/nand/raw/stm32_fmc2_nand.c b/drivers/mtd/nand/raw/stm32_fmc2_nand.c
-index 2f9e43f64dd7..88811139aaf5 100644
---- a/drivers/mtd/nand/raw/stm32_fmc2_nand.c
-+++ b/drivers/mtd/nand/raw/stm32_fmc2_nand.c
-@@ -1951,21 +1951,17 @@ static int stm32_fmc2_nfc_probe(struct platform_device *pdev)
+diff --git a/drivers/mtd/nand/raw/fsmc_nand.c b/drivers/mtd/nand/raw/fsmc_nand.c
+index 7b4742420dfc..ab1b9a5c93e9 100644
+--- a/drivers/mtd/nand/raw/fsmc_nand.c
++++ b/drivers/mtd/nand/raw/fsmc_nand.c
+@@ -1066,16 +1066,12 @@ static int __init fsmc_nand_probe(struct platform_device *pdev)
+ 	host->regs_va = base + FSMC_NOR_REG_SIZE +
+ 		(host->bank * FSMC_NAND_BANK_SZ);
  
- 	init_completion(&nfc->complete);
- 
--	nfc->clk = devm_clk_get(nfc->cdev, NULL);
--	if (IS_ERR(nfc->clk))
-+	nfc->clk = devm_clk_get_enabled(nfc->cdev, NULL);
-+	if (IS_ERR(nfc->clk)) {
-+		dev_err(dev, "can not get and enable the clock\n");
- 		return PTR_ERR(nfc->clk);
--
--	ret = clk_prepare_enable(nfc->clk);
--	if (ret) {
--		dev_err(dev, "can not enable the clock\n");
--		return ret;
+-	host->clk = devm_clk_get(&pdev->dev, NULL);
++	host->clk = devm_clk_get_enabled(&pdev->dev, NULL);
+ 	if (IS_ERR(host->clk)) {
+ 		dev_err(&pdev->dev, "failed to fetch block clock\n");
+ 		return PTR_ERR(host->clk);
  	}
  
- 	rstc = devm_reset_control_get(dev, NULL);
- 	if (IS_ERR(rstc)) {
- 		ret = PTR_ERR(rstc);
- 		if (ret == -EPROBE_DEFER)
--			goto err_clk_disable;
-+			return ret;
- 	} else {
- 		reset_control_assert(rstc);
- 		reset_control_deassert(rstc);
-@@ -2018,9 +2014,6 @@ static int stm32_fmc2_nfc_probe(struct platform_device *pdev)
- 	sg_free_table(&nfc->dma_data_sg);
- 	sg_free_table(&nfc->dma_ecc_sg);
- 
--err_clk_disable:
--	clk_disable_unprepare(nfc->clk);
+-	ret = clk_prepare_enable(host->clk);
+-	if (ret)
+-		return ret;
 -
+ 	/*
+ 	 * This device ID is actually a common AMBA ID as used on the
+ 	 * AMBA PrimeCell bus. However it is not a PrimeCell.
+@@ -1157,7 +1153,6 @@ static int __init fsmc_nand_probe(struct platform_device *pdev)
+ 		dma_release_channel(host->read_dma_chan);
+ disable_clk:
+ 	fsmc_nand_disable(host);
+-	clk_disable_unprepare(host->clk);
+ 
  	return ret;
  }
- 
-@@ -2045,8 +2038,6 @@ static void stm32_fmc2_nfc_remove(struct platform_device *pdev)
- 	sg_free_table(&nfc->dma_data_sg);
- 	sg_free_table(&nfc->dma_ecc_sg);
- 
--	clk_disable_unprepare(nfc->clk);
--
- 	stm32_fmc2_nfc_wp_enable(nand);
+@@ -1182,7 +1177,6 @@ static void fsmc_nand_remove(struct platform_device *pdev)
+ 			dma_release_channel(host->write_dma_chan);
+ 			dma_release_channel(host->read_dma_chan);
+ 		}
+-		clk_disable_unprepare(host->clk);
+ 	}
  }
  
 -- 
