@@ -1,15 +1,15 @@
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE91396
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Aug 2023 02:45:41 +0000 (UTC)
-Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.55])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4RR8Tq4PPFz1GDc3;
-	Thu, 17 Aug 2023 10:44:15 +0800 (CST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91A6644
+	for <linux-sunxi@lists.linux.dev>; Thu, 17 Aug 2023 02:45:40 +0000 (UTC)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.53])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RR8Rz442wzFqjg;
+	Thu, 17 Aug 2023 10:42:39 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemi500012.china.huawei.com
  (7.221.188.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Thu, 17 Aug
- 2023 10:45:35 +0800
+ 2023 10:45:36 +0800
 From: Li Zetao <lizetao1@huawei.com>
 To: <miquel.raynal@bootlin.com>, <richard@nod.at>, <vigneshr@ti.com>,
 	<michal.simek@amd.com>, <vz@mleia.com>, <matthias.bgg@gmail.com>,
@@ -27,9 +27,9 @@ CC: <robh@kernel.org>, <martin.blumenstingl@googlemail.com>,
 	<linux-mtd@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-mediatek@lists.infradead.org>,
 	<linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>
-Subject: [PATCH -next 09/11] mtd: rawnand: sunxi: Use helper function devm_clk_get_enabled()
-Date: Thu, 17 Aug 2023 10:45:07 +0800
-Message-ID: <20230817024509.3951629-10-lizetao1@huawei.com>
+Subject: [PATCH -next 10/11] mtd: rawnand: vf610_nfc: Use helper function devm_clk_get_enabled()
+Date: Thu, 17 Aug 2023 10:45:08 +0800
+Message-ID: <20230817024509.3951629-11-lizetao1@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230817024509.3951629-1-lizetao1@huawei.com>
 References: <20230817024509.3951629-1-lizetao1@huawei.com>
@@ -56,77 +56,96 @@ handling path.
 
 Signed-off-by: Li Zetao <lizetao1@huawei.com>
 ---
- drivers/mtd/nand/raw/sunxi_nand.c | 29 ++++++-----------------------
- 1 file changed, 6 insertions(+), 23 deletions(-)
+ drivers/mtd/nand/raw/vf610_nfc.c | 29 +++++++++--------------------
+ 1 file changed, 9 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
-index 64c09eae951d..9abf38049d35 100644
---- a/drivers/mtd/nand/raw/sunxi_nand.c
-+++ b/drivers/mtd/nand/raw/sunxi_nand.c
-@@ -2094,37 +2094,26 @@ static int sunxi_nfc_probe(struct platform_device *pdev)
- 	if (irq < 0)
- 		return irq;
+diff --git a/drivers/mtd/nand/raw/vf610_nfc.c b/drivers/mtd/nand/raw/vf610_nfc.c
+index dcdf33dbaef2..1ce9d5c2b1f7 100644
+--- a/drivers/mtd/nand/raw/vf610_nfc.c
++++ b/drivers/mtd/nand/raw/vf610_nfc.c
+@@ -834,21 +834,15 @@ static int vf610_nfc_probe(struct platform_device *pdev)
+ 	if (IS_ERR(nfc->regs))
+ 		return PTR_ERR(nfc->regs);
  
--	nfc->ahb_clk = devm_clk_get(dev, "ahb");
-+	nfc->ahb_clk = devm_clk_get_enabled(dev, "ahb");
- 	if (IS_ERR(nfc->ahb_clk)) {
- 		dev_err(dev, "failed to retrieve ahb clk\n");
- 		return PTR_ERR(nfc->ahb_clk);
+-	nfc->clk = devm_clk_get(&pdev->dev, NULL);
+-	if (IS_ERR(nfc->clk))
++	nfc->clk = devm_clk_get_enabled(&pdev->dev, NULL);
++	if (IS_ERR(nfc->clk)) {
++		dev_err(nfc->dev, "Unable to get and enable clock!\n");
+ 		return PTR_ERR(nfc->clk);
+-
+-	err = clk_prepare_enable(nfc->clk);
+-	if (err) {
+-		dev_err(nfc->dev, "Unable to enable clock!\n");
+-		return err;
  	}
  
--	ret = clk_prepare_enable(nfc->ahb_clk);
--	if (ret)
--		return ret;
--
--	nfc->mod_clk = devm_clk_get(dev, "mod");
-+	nfc->mod_clk = devm_clk_get_enabled(dev, "mod");
- 	if (IS_ERR(nfc->mod_clk)) {
- 		dev_err(dev, "failed to retrieve mod clk\n");
--		ret = PTR_ERR(nfc->mod_clk);
--		goto out_ahb_clk_unprepare;
-+		return PTR_ERR(nfc->mod_clk);
- 	}
- 
--	ret = clk_prepare_enable(nfc->mod_clk);
--	if (ret)
--		goto out_ahb_clk_unprepare;
--
- 	nfc->reset = devm_reset_control_get_optional_exclusive(dev, "ahb");
--	if (IS_ERR(nfc->reset)) {
--		ret = PTR_ERR(nfc->reset);
--		goto out_mod_clk_unprepare;
+ 	of_id = of_match_device(vf610_nfc_dt_ids, &pdev->dev);
+-	if (!of_id) {
+-		err = -ENODEV;
+-		goto err_disable_clk;
 -	}
-+	if (IS_ERR(nfc->reset))
-+		return PTR_ERR(nfc->reset);
++	if (!of_id)
++		return -ENODEV;
  
- 	ret = reset_control_deassert(nfc->reset);
- 	if (ret) {
- 		dev_err(dev, "reset err %d\n", ret);
--		goto out_mod_clk_unprepare;
-+		return ret;
+ 	nfc->variant = (enum vf610_nfc_variant)of_id->data;
+ 
+@@ -858,9 +852,8 @@ static int vf610_nfc_probe(struct platform_device *pdev)
+ 			if (nand_get_flash_node(chip)) {
+ 				dev_err(nfc->dev,
+ 					"Only one NAND chip supported!\n");
+-				err = -EINVAL;
+ 				of_node_put(child);
+-				goto err_disable_clk;
++				return -EINVAL;
+ 			}
+ 
+ 			nand_set_flash_node(chip, child);
+@@ -869,8 +862,7 @@ static int vf610_nfc_probe(struct platform_device *pdev)
+ 
+ 	if (!nand_get_flash_node(chip)) {
+ 		dev_err(nfc->dev, "NAND chip sub-node missing!\n");
+-		err = -ENODEV;
+-		goto err_disable_clk;
++		return -ENODEV;
  	}
  
- 	nfc->caps = of_device_get_match_data(&pdev->dev);
-@@ -2163,10 +2152,6 @@ static int sunxi_nfc_probe(struct platform_device *pdev)
- 		dma_release_channel(nfc->dmac);
- out_ahb_reset_reassert:
- 	reset_control_assert(nfc->reset);
--out_mod_clk_unprepare:
--	clk_disable_unprepare(nfc->mod_clk);
--out_ahb_clk_unprepare:
--	clk_disable_unprepare(nfc->ahb_clk);
+ 	chip->options |= NAND_NO_SUBPAGE_WRITE;
+@@ -880,7 +872,7 @@ static int vf610_nfc_probe(struct platform_device *pdev)
+ 	err = devm_request_irq(nfc->dev, irq, vf610_nfc_irq, 0, DRV_NAME, nfc);
+ 	if (err) {
+ 		dev_err(nfc->dev, "Error requesting IRQ!\n");
+-		goto err_disable_clk;
++		return err;
+ 	}
  
- 	return ret;
+ 	vf610_nfc_preinit_controller(nfc);
+@@ -892,7 +884,7 @@ static int vf610_nfc_probe(struct platform_device *pdev)
+ 	/* Scan the NAND chip */
+ 	err = nand_scan(chip, 1);
+ 	if (err)
+-		goto err_disable_clk;
++		return err;
+ 
+ 	platform_set_drvdata(pdev, nfc);
+ 
+@@ -904,8 +896,6 @@ static int vf610_nfc_probe(struct platform_device *pdev)
+ 
+ err_cleanup_nand:
+ 	nand_cleanup(chip);
+-err_disable_clk:
+-	clk_disable_unprepare(nfc->clk);
+ 	return err;
  }
-@@ -2181,8 +2166,6 @@ static void sunxi_nfc_remove(struct platform_device *pdev)
  
- 	if (nfc->dmac)
- 		dma_release_channel(nfc->dmac);
--	clk_disable_unprepare(nfc->mod_clk);
--	clk_disable_unprepare(nfc->ahb_clk);
+@@ -918,7 +908,6 @@ static void vf610_nfc_remove(struct platform_device *pdev)
+ 	ret = mtd_device_unregister(nand_to_mtd(chip));
+ 	WARN_ON(ret);
+ 	nand_cleanup(chip);
+-	clk_disable_unprepare(nfc->clk);
  }
  
- static const struct sunxi_nfc_caps sunxi_nfc_a10_caps = {
+ #ifdef CONFIG_PM_SLEEP
 -- 
 2.34.1
 
