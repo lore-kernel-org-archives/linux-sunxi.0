@@ -1,388 +1,91 @@
-Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A592918
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Aug 2023 20:43:40 +0000 (UTC)
-Received: from eig-obgw-6010a.ext.cloudfilter.net ([10.0.30.248])
-	by cmsmtp with ESMTP
-	id WcMCqzdNfQFHRWjoiqmZQW; Thu, 17 Aug 2023 20:42:04 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id WjohqlCYnJJfoWjohqXKwD; Thu, 17 Aug 2023 20:42:03 +0000
-X-Authority-Analysis: v=2.4 cv=V4lubMri c=1 sm=1 tr=0 ts=64de861b
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=WzbPXH4gqzPVN0x6HrNMNA==:17
- a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
- a=IkcTkHD0fZMA:10 a=UttIx32zK-AA:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
- a=IpJZQVW2AAAA:8 a=VwQbUJbxAAAA:8 a=c-n4J4-pAAAA:8 a=XPfOMz_LAAAA:8
- a=P-IC7800AAAA:8 a=pGLkceISAAAA:8 a=KKAkSRfTAAAA:8 a=QX4gbG5DAAAA:8
- a=zu6OG0ZhAAAA:8 a=FlkJ-zHRAAAA:8 a=JfrnYn6hAAAA:8 a=voM4FWlXAAAA:8
- a=e5mUnYsNAAAA:8 a=cm27Pg_UAAAA:8 a=mYo5tDoLIR1weVEbl60A:9 a=QEXdDO2ut3YA:10
- a=IawgGOuG5U0WyFbmm1f5:22 a=AjGcO6oz07-iQ99wixmX:22 a=L0NDqeB7ZLmQzAogN4cw:22
- a=mTuXyI7nMZpd5pdLa428:22 a=d3PnA9EDa4IxuAV0gXij:22 a=cvBusfyB2V15izCimMoJ:22
- a=AbAUZ8qAyYyZVLSsDulk:22 a=pAN39diAhXWuPx0-Vjn3:22 a=rcJ5IfC3ewqtVv14NVGK:22
- a=1CNFftbPRP8L7MoqJWF3:22 a=IC2XNlieTeVoXbcui8wp:22 a=Vxmtnl_E_bksehYqCbjh:22
- a=xmb-EsYY8bH0VWELuYED:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=9rxpK7oeGH/u4pk+tUlKyS3S2P3FaP+s+fkAyW7pq9A=; b=XOVQVo3BxnVxjOb5JTZPc40fxM
-	kKgmgj9iW/7Y4Slx9vP5PaviKcedkWxT+9RtGsQ4j/GbICmsy+bapQ8DK56v68nIRPMiXKIo1UY8a
-	XUUQS4FPcPkXiP6fkZmGdTOXdDPGD2QKagMI8kmxe6RdaUDJ4q3KxaGW6SoqC6e9APUDICSktVMMr
-	lK/EQ+ga8+iHTkymF1e7yyo+Ma0Qtrql4wrdztg9JavHJpv9+HpmYSs2MdGg52pcAY18Qf7qHI6wd
-	9sN26nXpV8jZCrIT0TNhD3B7B2KpadAofLE1SoMkAiAUZ4U0vigqXuDTyp4BrzNRms7eRvjvdA/Ew
-	yIX9zgpw==;
-Received: from 187-162-21-192.static.axtel.net ([187.162.21.192]:38244 helo=[192.168.15.8])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1qWjoa-001B6O-2R;
-	Thu, 17 Aug 2023 15:41:57 -0500
-Message-ID: <00ce86aa-a5fa-6f89-6e3d-5dd2830d0665@embeddedor.com>
-Date: Thu, 17 Aug 2023 14:42:41 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 289A418031
+	for <linux-sunxi@lists.linux.dev>; Thu, 17 Aug 2023 21:21:48 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-58caaedb20bso2811597b3.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 17 Aug 2023 14:21:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692307308; x=1692912108;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bOsJhNQoYOmFJimTxaJ2mCEMh67hQeGjwrVTDjEnLSc=;
+        b=TPpXhy+K1amcpaItC/ed4ueSEE/vXLBV37L0U6/4TdOwYOXUGHidIxyLeJ855ApD3H
+         oDYlcUS74zFmYL6eH28+wHzC9YxLzFs+OpCV2DVcetcWTCbSVQNeYdQGSFK+FThsvMIY
+         RO5IXOiS6OvvhxNXyUGeYhTrePsgYMhEgiVMCbzKOjw30Y//ytN3kPRHEuK1kZVmG/AF
+         cDjGWNVEwq6K67K+cEVhDcyLj+94WUGZJEtvOokIPU9caXSIRCmyINJElm/IMjvnfEn6
+         m4Ju2t6PeSZWlALjduMmSKltL0B3e3YkiXr1p2dLRtCQxbjqWrEkRLaTikMyTyWNS12I
+         szMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692307308; x=1692912108;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bOsJhNQoYOmFJimTxaJ2mCEMh67hQeGjwrVTDjEnLSc=;
+        b=ExVbkFfCmqslt5+HkC8b7TmH4lrkxcZZQtZnZaXCeM+j4Y4YgNwSaPaE3gOof/c5oD
+         D/EwApn25aAiUhzZdEhgS5RNJjCD62mDqYwec0JDRgKWoFkxNhlAf9dYpcgpY0YJk0Sj
+         TN5OQ60pUXc3rbJnnX8eJEp6d0nR6nTHnKaOA539/P2FMh6Qur2OnjZ0soqXeBYBnGRw
+         d85QhLDnjPNDsDCEFdKxJugDrxfVhCwlPhMb9Ludqvw6kQjFhEgMRTmFowI8mfBn16rU
+         AnvXdB+Sdm/0PKsh1ZnOdmeNR15i80Y2Tbf3OQADnVWozVyBgyO+gMAD4CFF7QJqgSVC
+         9dQw==
+X-Gm-Message-State: AOJu0Yz2g0F0IYhOpqFLVTRbdkzJGVrBAVgAhmtTZ8h2bp/50oMOOA0Q
+	/wfllQOLoL7sg4hWbMWqhrR6D5LLAEBiEd6Qqz0=
+X-Google-Smtp-Source: AGHT+IGQXTWxmdciEZxIzZP/m4iBdXR2/9RjqgCWXFOWD1UKeTLBCsQK/MaM+1qERKqXAU3q08FpBTVkStU29ojPqmQ=
+X-Received: by 2002:a81:8a81:0:b0:58d:b9f3:adde with SMTP id
+ a123-20020a818a81000000b0058db9f3addemr463939ywg.51.1692307307925; Thu, 17
+ Aug 2023 14:21:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] clk: Annotate struct clk_hw_onecell_data with
- __counted_by
-Content-Language: en-US
-To: Kees Cook <keescook@chromium.org>,
- Michael Turquette <mturquette@baylibre.com>
-Cc: Stephen Boyd <sboyd@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>, Taichi Sugaya
- <sugaya.taichi@socionext.com>, Takao Orito <orito.takao@socionext.com>,
- Qin Jian <qinjian@cqplus1.com>, Andrew Lunn <andrew@lunn.ch>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Sergio Paracuellos <sergio.paracuellos@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Samuel Holland <samuel@sholland.org>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
- linux-hardening@vger.kernel.org
-References: <20230817203019.never.795-kees@kernel.org>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <20230817203019.never.795-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.21.192
-X-Source-L: No
-X-Exim-ID: 1qWjoa-001B6O-2R
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-21-192.static.axtel.net ([192.168.15.8]) [187.162.21.192]:38244
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 8
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfKGTU7jGgZ+XIFjytbCsdKYI+CljYNB1MrUUXdtEdVVu5YTdGySosoqfVMyUKDQiqGDtyCaEWkzpzfm02FM1IR0a5v4rsyunB3lG3cXf6mDItwfZb5pU
- k4rC6FoZHPSQxcHQZQLAZk8qGHxIqBkSU28aGvnlbwCHsWuH8Nv23CNp6hUvG2AJRe/s9TyLRlxeAEgnkuZXS8QrnBshHs8CjcgoSewKWhvMwH2zcGici4m9
+References: <CAGgoGu7Vim82Hu1JKc+m6cPkcn7+WWDFwK5P_YE6grFQS9E21Q@mail.gmail.com>
+ <ZNm2ihdTojuPJM2f@debian.me> <CAGgoGu5XuHhVbnrNKBzhZyZH993bBHiLgjTrtyofvePZ-dxLow@mail.gmail.com>
+ <CAGgoGu5iTE1xeupwTUUAcJv59294dNQJEf9oUWQKF72hrpFxRw@mail.gmail.com> <ZNwWNopPItNwKCTV@titan>
+In-Reply-To: <ZNwWNopPItNwKCTV@titan>
+From: Fawad Lateef <fawadlateef@gmail.com>
+Date: Thu, 17 Aug 2023 22:21:35 +0100
+Message-ID: <CAGgoGu4R2Y5Yj4zEQyekZK0Vkb+XpWg+mudmW3LNmfq3tCFDjw@mail.gmail.com>
+Subject: Re: Question regarding Linux-6.3.5 and Sunxi A20 NAND/NFC support
+To: John Watts <contact@jookia.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux sunXi <linux-sunxi@lists.linux.dev>, 
+	kernelnewbies <kernelnewbies@kernelnewbies.org>, boris.brezillon@collabora.com
+Content-Type: text/plain; charset="UTF-8"
 
+On Wed, 16 Aug 2023 at 01:20, John Watts <contact@jookia.org> wrote:
+>
+> On Tue, Aug 15, 2023 at 11:01:02PM +0100, Fawad Lateef wrote:
+> > Hi everyone,
+> >
+> > Can someone guide me? I am not sure what I am missing here.
+> >
+> > I am trying to debug the code but I assume that the SUNXI NAND driver
+> > is supposed to be working and that something is missing from my
+> > changes and additions to the dts/dtsi for A20 SOM.
+> >
+> > Thanks in advance
+>
+> Hi there Fawad,
+>
+> I've hit this problem before and it's usually been because the pins are being
+> used by another peripheral already
+>
+> Could you post the kernel log? It might have some notes on this.
+>
+> John.
 
+Hi John,
 
-On 8/17/23 14:30, Kees Cook wrote:
-> Prepare for the coming implementation by GCC and Clang of the __counted_by
-> attribute. Flexible array members annotated with __counted_by can have
-> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
-> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
-> functions).
-> 
-> As found with Coccinelle[1], add __counted_by for struct clk_hw_onecell_data.
-> Additionally, since the element count member must be set before accessing
-> the annotated flexible array member, move its initialization earlier.
-> 
-> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
-> 
-> Cc: Michael Turquette <mturquette@baylibre.com>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Cc: Andrew Jeffery <andrew@aj.id.au>
-> Cc: Taichi Sugaya <sugaya.taichi@socionext.com>
-> Cc: Takao Orito <orito.takao@socionext.com>
-> Cc: Qin Jian <qinjian@cqplus1.com>
-> Cc: Andrew Lunn <andrew@lunn.ch>
-> Cc: Gregory Clement <gregory.clement@bootlin.com>
-> Cc: Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
-> Cc: Andy Gross <agross@kernel.org>
-> Cc: Bjorn Andersson <andersson@kernel.org>
-> Cc: Konrad Dybcio <konrad.dybcio@linaro.org>
-> Cc: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Samuel Holland <samuel@sholland.org>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: Kishon Vijay Abraham I <kishon@kernel.org>
-> Cc: linux-clk@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-aspeed@lists.ozlabs.org
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: linux-mediatek@lists.infradead.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-sunxi@lists.linux.dev
-> Cc: linux-phy@lists.infradead.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+Thanks for your help. I found the reason for my issue. I defined the
+pinctrl information under the "soc" next to "nfc" entry in
+sunxi-a20.dtsi which was messing it up.
 
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+I moved them inside the "pio" dtsi block and NAND is detected now.
+Though almost all blocks are reported as bad-blocks.  I am thinking
+that it's happening as I don't have partition information defined in
+DTS. Do you think that this is the reason for bad-blocks reporting?
 
-Thanks
---
-Gustavo
+Regards,
 
-> ---
->   drivers/clk/clk-aspeed.c                    | 3 +--
->   drivers/clk/clk-ast2600.c                   | 2 +-
->   drivers/clk/clk-gemini.c                    | 2 +-
->   drivers/clk/clk-milbeaut.c                  | 3 +--
->   drivers/clk/clk-sp7021.c                    | 3 +--
->   drivers/clk/mvebu/cp110-system-controller.c | 2 +-
->   drivers/clk/qcom/clk-cpu-8996.c             | 2 +-
->   drivers/clk/ralink/clk-mt7621.c             | 3 +--
->   drivers/gpu/drm/sun4i/sun8i_tcon_top.c      | 3 +--
->   drivers/phy/qualcomm/phy-qcom-edp.c         | 2 +-
->   include/linux/clk-provider.h                | 2 +-
->   11 files changed, 11 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/clk/clk-aspeed.c b/drivers/clk/clk-aspeed.c
-> index 284710adaef5..ff84191d0fe8 100644
-> --- a/drivers/clk/clk-aspeed.c
-> +++ b/drivers/clk/clk-aspeed.c
-> @@ -701,6 +701,7 @@ static void __init aspeed_cc_init(struct device_node *np)
->   				  GFP_KERNEL);
->   	if (!aspeed_clk_data)
->   		return;
-> +	aspeed_clk_data->num = ASPEED_NUM_CLKS;
->   
->   	/*
->   	 * This way all clocks fetched before the platform device probes,
-> @@ -732,8 +733,6 @@ static void __init aspeed_cc_init(struct device_node *np)
->   		aspeed_ast2500_cc(map);
->   	else
->   		pr_err("unknown platform, failed to add clocks\n");
-> -
-> -	aspeed_clk_data->num = ASPEED_NUM_CLKS;
->   	ret = of_clk_add_hw_provider(np, of_clk_hw_onecell_get, aspeed_clk_data);
->   	if (ret)
->   		pr_err("failed to add DT provider: %d\n", ret);
-> diff --git a/drivers/clk/clk-ast2600.c b/drivers/clk/clk-ast2600.c
-> index f9e27f95a967..909c3137c428 100644
-> --- a/drivers/clk/clk-ast2600.c
-> +++ b/drivers/clk/clk-ast2600.c
-> @@ -839,6 +839,7 @@ static void __init aspeed_g6_cc_init(struct device_node *np)
->   				      ASPEED_G6_NUM_CLKS), GFP_KERNEL);
->   	if (!aspeed_g6_clk_data)
->   		return;
-> +	aspeed_g6_clk_data->num = ASPEED_G6_NUM_CLKS;
->   
->   	/*
->   	 * This way all clocks fetched before the platform device probes,
-> @@ -860,7 +861,6 @@ static void __init aspeed_g6_cc_init(struct device_node *np)
->   	}
->   
->   	aspeed_g6_cc(map);
-> -	aspeed_g6_clk_data->num = ASPEED_G6_NUM_CLKS;
->   	ret = of_clk_add_hw_provider(np, of_clk_hw_onecell_get, aspeed_g6_clk_data);
->   	if (ret)
->   		pr_err("failed to add DT provider: %d\n", ret);
-> diff --git a/drivers/clk/clk-gemini.c b/drivers/clk/clk-gemini.c
-> index a23fa6d47ef1..2572d15aadd0 100644
-> --- a/drivers/clk/clk-gemini.c
-> +++ b/drivers/clk/clk-gemini.c
-> @@ -404,6 +404,7 @@ static void __init gemini_cc_init(struct device_node *np)
->   				  GFP_KERNEL);
->   	if (!gemini_clk_data)
->   		return;
-> +	gemini_clk_data->num = GEMINI_NUM_CLKS;
->   
->   	/*
->   	 * This way all clock fetched before the platform device probes,
-> @@ -457,7 +458,6 @@ static void __init gemini_cc_init(struct device_node *np)
->   	gemini_clk_data->hws[GEMINI_CLK_APB] = hw;
->   
->   	/* Register the clocks to be accessed by the device tree */
-> -	gemini_clk_data->num = GEMINI_NUM_CLKS;
->   	of_clk_add_hw_provider(np, of_clk_hw_onecell_get, gemini_clk_data);
->   }
->   CLK_OF_DECLARE_DRIVER(gemini_cc, "cortina,gemini-syscon", gemini_cc_init);
-> diff --git a/drivers/clk/clk-milbeaut.c b/drivers/clk/clk-milbeaut.c
-> index 050fd4fb588f..18c20aff45f7 100644
-> --- a/drivers/clk/clk-milbeaut.c
-> +++ b/drivers/clk/clk-milbeaut.c
-> @@ -618,6 +618,7 @@ static void __init m10v_cc_init(struct device_node *np)
->   
->   	if (!m10v_clk_data)
->   		return;
-> +	m10v_clk_data->num = M10V_NUM_CLKS;
->   
->   	base = of_iomap(np, 0);
->   	if (!base) {
-> @@ -654,8 +655,6 @@ static void __init m10v_cc_init(struct device_node *np)
->   					base + CLKSEL(1), 0, 3, 0, rclk_table,
->   					&m10v_crglock, NULL);
->   	m10v_clk_data->hws[M10V_RCLK_ID] = hw;
-> -
-> -	m10v_clk_data->num = M10V_NUM_CLKS;
->   	of_clk_add_hw_provider(np, of_clk_hw_onecell_get, m10v_clk_data);
->   }
->   CLK_OF_DECLARE_DRIVER(m10v_cc, "socionext,milbeaut-m10v-ccu", m10v_cc_init);
-> diff --git a/drivers/clk/clk-sp7021.c b/drivers/clk/clk-sp7021.c
-> index 11d22043ddd7..01d3c4c7b0b2 100644
-> --- a/drivers/clk/clk-sp7021.c
-> +++ b/drivers/clk/clk-sp7021.c
-> @@ -621,6 +621,7 @@ static int sp7021_clk_probe(struct platform_device *pdev)
->   				GFP_KERNEL);
->   	if (!clk_data)
->   		return -ENOMEM;
-> +	clk_data->num = CLK_MAX;
->   
->   	hws = clk_data->hws;
->   	pd_ext.index = 0;
-> @@ -688,8 +689,6 @@ static int sp7021_clk_probe(struct platform_device *pdev)
->   			return PTR_ERR(hws[i]);
->   	}
->   
-> -	clk_data->num = CLK_MAX;
-> -
->   	return devm_of_clk_add_hw_provider(dev, of_clk_hw_onecell_get, clk_data);
->   }
->   
-> diff --git a/drivers/clk/mvebu/cp110-system-controller.c b/drivers/clk/mvebu/cp110-system-controller.c
-> index 84c8900542e4..03c59bf22106 100644
-> --- a/drivers/clk/mvebu/cp110-system-controller.c
-> +++ b/drivers/clk/mvebu/cp110-system-controller.c
-> @@ -240,9 +240,9 @@ static int cp110_syscon_common_probe(struct platform_device *pdev,
->   				      GFP_KERNEL);
->   	if (!cp110_clk_data)
->   		return -ENOMEM;
-> +	cp110_clk_data->num = CP110_CLK_NUM;
->   
->   	cp110_clks = cp110_clk_data->hws;
-> -	cp110_clk_data->num = CP110_CLK_NUM;
->   
->   	/* Register the PLL0 which is the root of the hw tree */
->   	pll0_name = ap_cp_unique_name(dev, syscon_node, "pll0");
-> diff --git a/drivers/clk/qcom/clk-cpu-8996.c b/drivers/clk/qcom/clk-cpu-8996.c
-> index 592c7c3cdeb7..72689448a653 100644
-> --- a/drivers/clk/qcom/clk-cpu-8996.c
-> +++ b/drivers/clk/qcom/clk-cpu-8996.c
-> @@ -590,6 +590,7 @@ static int qcom_cpu_clk_msm8996_driver_probe(struct platform_device *pdev)
->   	data = devm_kzalloc(dev, struct_size(data, hws, 2), GFP_KERNEL);
->   	if (!data)
->   		return -ENOMEM;
-> +	data->num = 2;
->   
->   	base = devm_platform_ioremap_resource(pdev, 0);
->   	if (IS_ERR(base))
-> @@ -605,7 +606,6 @@ static int qcom_cpu_clk_msm8996_driver_probe(struct platform_device *pdev)
->   
->   	data->hws[0] = &pwrcl_pmux.clkr.hw;
->   	data->hws[1] = &perfcl_pmux.clkr.hw;
-> -	data->num = 2;
->   
->   	return devm_of_clk_add_hw_provider(dev, of_clk_hw_onecell_get, data);
->   }
-> diff --git a/drivers/clk/ralink/clk-mt7621.c b/drivers/clk/ralink/clk-mt7621.c
-> index d95a33293b0a..92d14350c4b3 100644
-> --- a/drivers/clk/ralink/clk-mt7621.c
-> +++ b/drivers/clk/ralink/clk-mt7621.c
-> @@ -521,6 +521,7 @@ static int mt7621_clk_probe(struct platform_device *pdev)
->   				GFP_KERNEL);
->   	if (!clk_data)
->   		return -ENOMEM;
-> +	clk_data->num = count;
->   
->   	for (i = 0; i < ARRAY_SIZE(mt7621_clks_base); i++)
->   		clk_data->hws[i] = mt7621_clk_early[i];
-> @@ -537,8 +538,6 @@ static int mt7621_clk_probe(struct platform_device *pdev)
->   		goto unreg_clk_fixed;
->   	}
->   
-> -	clk_data->num = count;
-> -
->   	ret = devm_of_clk_add_hw_provider(dev, of_clk_hw_onecell_get, clk_data);
->   	if (ret) {
->   		dev_err(dev, "Couldn't add clk hw provider\n");
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_tcon_top.c b/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
-> index 6f076cf4b403..a1ca3916f42b 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
-> @@ -141,6 +141,7 @@ static int sun8i_tcon_top_bind(struct device *dev, struct device *master,
->   				GFP_KERNEL);
->   	if (!clk_data)
->   		return -ENOMEM;
-> +	clk_data->num = CLK_NUM;
->   	tcon_top->clk_data = clk_data;
->   
->   	spin_lock_init(&tcon_top->reg_lock);
-> @@ -213,8 +214,6 @@ static int sun8i_tcon_top_bind(struct device *dev, struct device *master,
->   			goto err_unregister_gates;
->   		}
->   
-> -	clk_data->num = CLK_NUM;
-> -
->   	ret = of_clk_add_hw_provider(dev->of_node, of_clk_hw_onecell_get,
->   				     clk_data);
->   	if (ret)
-> diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
-> index e0e722b9be31..8e5078304646 100644
-> --- a/drivers/phy/qualcomm/phy-qcom-edp.c
-> +++ b/drivers/phy/qualcomm/phy-qcom-edp.c
-> @@ -744,6 +744,7 @@ static int qcom_edp_clks_register(struct qcom_edp *edp, struct device_node *np)
->   	data = devm_kzalloc(edp->dev, struct_size(data, hws, 2), GFP_KERNEL);
->   	if (!data)
->   		return -ENOMEM;
-> +	data->num = 2;
->   
->   	snprintf(name, sizeof(name), "%s::link_clk", dev_name(edp->dev));
->   	init.ops = &qcom_edp_dp_link_clk_ops;
-> @@ -763,7 +764,6 @@ static int qcom_edp_clks_register(struct qcom_edp *edp, struct device_node *np)
->   
->   	data->hws[0] = &edp->dp_link_hw;
->   	data->hws[1] = &edp->dp_pixel_hw;
-> -	data->num = 2;
->   
->   	return devm_of_clk_add_hw_provider(edp->dev, of_clk_hw_onecell_get, data);
->   }
-> diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
-> index 0f0cd01906b4..ec32ec58c59f 100644
-> --- a/include/linux/clk-provider.h
-> +++ b/include/linux/clk-provider.h
-> @@ -1379,7 +1379,7 @@ struct clk_onecell_data {
->   
->   struct clk_hw_onecell_data {
->   	unsigned int num;
-> -	struct clk_hw *hws[];
-> +	struct clk_hw *hws[] __counted_by(num);
->   };
->   
->   #define CLK_OF_DECLARE(name, compat, fn) \
+Fawad Lateef
