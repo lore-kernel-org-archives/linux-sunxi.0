@@ -1,118 +1,263 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2655518011
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Aug 2023 10:29:03 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-4fe655796faso1082084e87.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 18 Aug 2023 03:29:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692354542; x=1692959342;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=z9lhOsL9u2m/0CCpIqf7Y1Re49YhKns/kxGsCRmuFFg=;
-        b=Nk6lY/sji1554KDrGzAZ+vjyXmGCo042ElgTPya1gKwgEeUMJIcdq/wL5qfJOk4V6r
-         QpUtBXig489jzJ+hQHTfCcgZU7XF9+yuaQMzyuQk8iZDjOikQiIfZPwoK0Wg/COQrxl9
-         tst75NqToCwol8oi2fiM6+jxiNJKAd1RLZH3SeN+pBuIuKH/WuKDnSXySgnPRpO5W/nb
-         PPFXaNQ0Lf/DUU/JfkmOr6zu49ydwb49B3UEb+1l9Tdp03W7hGXDylEcrHtOjmw/+PJj
-         v6/iWoWcPIdSZfJBq2lglvRE39FwKzxVyKCNINBSk3RSKBjQ8EqABkiisBSTpwTrZ7hk
-         QKyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692354542; x=1692959342;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=z9lhOsL9u2m/0CCpIqf7Y1Re49YhKns/kxGsCRmuFFg=;
-        b=i6gBgTt2PRz7017KofPx/leNBCed6SrIe1WjDIxdJwnbtHkL1b8O1X30TkNOfWhuGN
-         pOukIvBwLG44/Awwogw+3253bpgJ0nFCnMRiZNDCZpshXS3xp0EdCd25x6FYbGQ605TM
-         ko8WgVxbDGpiDIfie6jFgT1+pQFc+JIFsatOQ3yRTQV37kGICnVGr9nmeovf7mo7UXSl
-         pUZjvD/K7SfVzZn/uiu1kf9Hb4/nW9A/dUgayds89TDugaw+2T//xPYe0ke45sHCXcDB
-         UFytAn5hNS1I4imPc+0Kjyn1xFdx7dQQhFvjSIXKy1rz8tQQJ63B+PJ51PNVgxiT0ze1
-         o9nA==
-X-Gm-Message-State: AOJu0Yyp+u8JEGiLBXfblClgb6Q0e8Jn9CtatEgKoye+xHr9hyY4nDqa
-	76GAwIeK6zXj/qbvqsG1QD/Fvg==
-X-Google-Smtp-Source: AGHT+IF40zslK9J+qU/URMrIBd2SvGHNIaxIqpROmnBlnsAtbhU8eCxr4zTdpXbQVvv4xnV2w+38qw==
-X-Received: by 2002:a05:6512:3613:b0:4fe:347c:874b with SMTP id f19-20020a056512361300b004fe347c874bmr1333211lfs.8.1692354541864;
-        Fri, 18 Aug 2023 03:29:01 -0700 (PDT)
-Received: from 1.. ([79.115.63.195])
-        by smtp.gmail.com with ESMTPSA id h6-20020a1ccc06000000b003fe8b249df1sm2338909wmb.41.2023.08.18.03.28.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Aug 2023 03:29:01 -0700 (PDT)
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-To: Li Zetao <lizetao1@huawei.com>
-Cc: Tudor Ambarus <tudor.ambarus@linaro.org>,
-	alexandre.torgue@foss.st.com,
-	angelogioacchino.delregno@collabora.com,
-	christophe.kerello@foss.st.com,
-	christophe.leroy@csgroup.eu,
-	dmitry.torokhov@gmail.com,
-	frank.li@vivo.com,
-	geert+renesas@glider.be,
-	heiko@sntech.de,
-	jernej.skrabec@gmail.com,
-	jinpu.wang@ionos.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-mtd@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev,
-	martin.blumenstingl@googlemail.com,
-	matthias.bgg@gmail.com,
-	mcoquelin.stm32@gmail.com,
-	michael@walle.cc,
-	michal.simek@amd.com,
-	miquel.raynal@bootlin.com,
-	nicolas.ferre@microchip.com,
-	paul@crapouillou.net,
-	philmd@linaro.org,
-	pratyush@kernel.org,
-	richard@nod.at,
-	robh@kernel.org,
-	rogerq@kernel.org,
-	samuel@sholland.org,
-	stefan@agner.ch,
-	u.kleine-koenig@pengutronix.de,
-	vigneshr@ti.com,
-	vz@mleia.com,
-	wens@csie.org,
-	yangyingliang@huawei.com
-Subject: (subset) [PATCH -next v2 00/12] mtd: Use devm_clk_get_*() helper function to simplify the drivers.
-Date: Fri, 18 Aug 2023 13:28:15 +0300
-Message-Id: <169235440227.51486.16999366988462758608.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230818074642.308166-1-lizetao1@huawei.com>
-References: <20230817024509.3951629-1-lizetao1@huawei.com> <20230818074642.308166-1-lizetao1@huawei.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4322E17FF9
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Aug 2023 10:29:36 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A48E9D75;
+	Fri, 18 Aug 2023 03:30:16 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 570A03F762;
+	Fri, 18 Aug 2023 03:29:33 -0700 (PDT)
+Date: Fri, 18 Aug 2023 11:29:30 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Martin Botka <martin.botka@somainline.org>
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li
+ <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, Daniel
+ Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria <amitk@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Alan Ma <tech@biqu3d.com>, Luke Harrison
+ <bttuniversity@biqu3d.com>, Marijn Suijten <marijn.suijten@somainline.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, Martin Botka
+ <martin@biqu3d.com>
+Subject: Re: [PATCH 2/3] thermal: sun8i: Add support for H616 THS controller
+Message-ID: <20230818112930.6b152491@donnerap.manchester.arm.com>
+In-Reply-To: <20230818-ths-h616-v1-2-0e1e058b9c7a@somainline.org>
+References: <20230818-ths-h616-v1-0-0e1e058b9c7a@somainline.org>
+	<20230818-ths-h616-v1-2-0e1e058b9c7a@somainline.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1031; i=tudor.ambarus@linaro.org; h=from:subject:message-id; bh=qpBLrC/ilH/3fBZL7I10FOtEch8tT5TWABqedTkdJLw=; b=owEBbQGS/pANAwAKAUtVT0eljRTpAcsmYgBk30e9B36HHQiy8MTzJoUhZP19kuOAqlZ0xMr5A nGWgVSVIACJATMEAAEKAB0WIQQdQirKzw7IbV4d/t9LVU9HpY0U6QUCZN9HvQAKCRBLVU9HpY0U 6SA9B/0bzJF2vkTay6CKZ3yxN1Qxor783Yen8TkIj1p7DKify7NmufB/YhIAWBjfBO4GpRl13s1 CjdOosz5zEZROL6X8tTpfxeSh0ND9LdnrAnUT73t4Zv6LpZfSmi2ACGdM9kOJUDj/ZTBM+5Vpw8 OwaqfV4pf0E4kSxStDENPPGV7HnolpkQjZhotKlZrd/RaLGKpZFuaVUWI4Va5Xia8dG/MvFoH69 jLFs6mGZGvoduGY6IeDSwIZT8c5gf8WhwlIqvXsLbhvF4ep9M6Y/VJTrx6ENfbLPoIYhkdDVILi eIdzLGW6/Qtz25I001dRDfNw7EKpXDe4XBsZKwnIrRmkMkAV
-X-Developer-Key: i=tudor.ambarus@linaro.org; a=openpgp; fpr=280B06FD4CAAD2980C46DDDF4DB1B079AD29CF3D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, 18 Aug 2023 15:46:30 +0800, Li Zetao wrote:
-> Commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prepared
-> and enabled clocks") provides a new helper function for prepared and
-> enabled clocks when a driver keeps a clock prepared (or enabled) during
-> the whole lifetime of the driver. So where drivers get clocks and enable
-> them immediately, it can be combined into a single function
-> devm_clk_get_*(). Moreover, the unprepare and disable function
-> has been registered to devm_clk_state, and before devm_clk_state is
-> released, the clocks will be unprepareed and disable, so it is unnecessary
-> to unprepare and disable clock explicitly when remove drivers or in the
-> error handling path.
+On Fri, 18 Aug 2023 10:43:17 +0200
+Martin Botka <martin.botka@somainline.org> wrote:
+
+Hi Martin,
+
+many thanks for the time and effort for upstreaming this!
+
+> Add support for the thermal sensor found in H616 SoC
+> which slightly resembles the H6 thermal sensor
+> controller with few changes like 4 sensors.
 > 
-> [...]
+> Signed-off-by: Martin Botka <martin.botka@somainline.org>
+> ---
+>  drivers/thermal/sun8i_thermal.c | 115 ++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 115 insertions(+)
+> 
+> diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
+> index 195f3c5d0b38..9d73e4313ad8 100644
+> --- a/drivers/thermal/sun8i_thermal.c
+> +++ b/drivers/thermal/sun8i_thermal.c
+> @@ -108,6 +108,12 @@ static int sun50i_h5_calc_temp(struct ths_device *tmdev,
+>  		return -1590 * reg / 10 + 276000;
+>  }
+>  
+> +static int sun50i_h616_calc_temp(struct ths_device *tmdev,
+> +			       int id, int reg)
+> +{
+> +	return (reg + tmdev->chip->offset) * tmdev->chip->scale;
 
-Applied to git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git,
-spi-nor/next branch. Thanks!
+So if my school maths is not letting me down, this is the same as the
+sun8i_ths_calc_temp() function, when using:
+scale = h616_scale * -10
+offset = h616_offset * h616_scale
 
-[11/12] mtd: spi-nor: nxp-spifi: Use helper function devm_clk_get_enabled()
-        https://git.kernel.org/mtd/c/69d50d0461a1
+So we do not need this new function, when we use:
++	.offset = 263655,
++	.scale = 810,
+below, right?
+Those values are not only positive, but also seem closer to the other
+SoC's values.
+This of course requires some small adjustment in the calibrate function,
+to accommodate for the changed scale, but I leave this up as an exercise
+to the reader ;-)
+
+Martin, can you confirm that this works?
+
+> +}
+> +
+>  static int sun8i_ths_get_temp(struct thermal_zone_device *tz, int *temp)
+>  {
+>  	struct tsensor *s = thermal_zone_device_priv(tz);
+> @@ -278,6 +284,64 @@ static int sun50i_h6_ths_calibrate(struct ths_device *tmdev,
+>  	return 0;
+>  }
+>  
+> +static int sun50i_h616_ths_calibrate(struct ths_device *tmdev,
+> +				   u16 *caldata, int callen)
+
+nit: alignment
+
+> +{
+> +	struct device *dev = tmdev->dev;
+> +	int i, ft_temp;
+> +
+> +	if (!caldata[0])
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * h616 efuse THS calibration data layout:
+> +	 *
+> +	 * 0      11  16     27   32     43   48    57
+> +	 * +----------+-----------+-----------+-----------+
+> +	 * |  temp |  |sensor0|   |sensor1|   |sensor2|   |
+> +	 * +----------+-----------+-----------+-----------+
+> +	 *                      ^           ^           ^
+> +	 *                      |           |           |
+> +	 *                      |           |           sensor3[11:8]
+> +	 *                      |           sensor3[7:4]
+> +	 *                      sensor3[3:0]
+> +	 *
+> +	 * The calibration data on the H616 is the ambient temperature and
+> +	 * sensor values that are filled during the factory test stage.
+> +	 *
+> +	 * The unit of stored FT temperature is 0.1 degreee celusis.
+
+nit: degree Celsius
+
+> +	 */
+> +	ft_temp = caldata[0] & FT_TEMP_MASK;
+> +
+> +	for (i = 0; i < tmdev->chip->sensor_num; i++) {
+> +		int delta, cdata, offset, reg;
+> +
+> +		if (i == 3)
+> +			reg = (caldata[1] >> 12)
+> +			      | (caldata[2] >> 12 << 4)
+> +			      | (caldata[3] >> 12 << 8);
+
+Can you add parentheses around the (caldata[2|3] >> 12) part? Makes it a
+bit more readable.
+
+> +		else
+> +			reg = (int)caldata[i + 1] & TEMP_CALIB_MASK;
+> +
+> +		delta = (ft_temp * 100 - tmdev->chip->calc_temp(tmdev, i, reg))
+> +			/ tmdev->chip->scale;
+
+Looks a bit odd, can you write this as over two lines?
+		delta = ft_temp ...;
+		delta /= tmdev->chip_scale;
+
+(And this would be the place where you adjust the calculation to use the
+new scale value).
+
+> +		cdata = CALIBRATE_DEFAULT - delta;
+> +		if (cdata & ~TEMP_CALIB_MASK) {
+> +			dev_warn(dev, "sensor%d is not calibrated.\n", i);
+> +
+> +			continue;
+> +		}
+> +
+> +		offset = (i % 2) * 16;
+> +		regmap_update_bits(tmdev->regmap,
+> +				   SUN50I_H6_THS_TEMP_CALIB + (i / 2 * 4),
+> +				   0xfff << offset,
+
+That should be TEMP_CALIB_MASK << offset, compare the H6 code.
+
+> +				   cdata << offset);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int sun8i_ths_calibrate(struct ths_device *tmdev)
+>  {
+>  	struct nvmem_cell *calcell;
+> @@ -453,6 +517,43 @@ static int sun50i_h6_thermal_init(struct ths_device *tmdev)
+>  	return 0;
+>  }
+>  
+> +static int sun50i_h616_thermal_init(struct ths_device *tmdev)
+> +{
+> +	int val;
+> +
+> +	/*
+> +	 * T_acq = 20us
+> +	 * clkin = 24MHz
+> +	 *
+> +	 * x = T_acq * clkin - 1
+> +	 *   = 479
+> +	 */
+> +	regmap_write(tmdev->regmap, SUN50I_THS_CTRL0,
+> +		     SUN8I_THS_CTRL0_T_ACQ0(47) | SUN8I_THS_CTRL2_T_ACQ1(479));
+
+So this whole function is the same as the H6 (diff it!), except this line.
+Which is actually also the same, just written differently (47 == 0x2f).
+Can you please double check this, and if you agree, remove the whole
+function and just use the H6 version?
 
 Cheers,
--- 
-Tudor Ambarus <tudor.ambarus@linaro.org>
+Andre
+
+
+> +	/* average over 4 samples */
+> +	regmap_write(tmdev->regmap, SUN50I_H6_THS_MFC,
+> +		     SUN50I_THS_FILTER_EN |
+> +		     SUN50I_THS_FILTER_TYPE(1));
+> +	/*
+> +	 * clkin = 24MHz
+> +	 * filter_samples = 4
+> +	 * period = 0.25s
+> +	 *
+> +	 * x = period * clkin / 4096 / filter_samples - 1
+> +	 *   = 365
+> +	 */
+> +	regmap_write(tmdev->regmap, SUN50I_H6_THS_PC,
+> +		     SUN50I_H6_THS_PC_TEMP_PERIOD(365));
+> +	/* enable sensor */
+> +	val = GENMASK(tmdev->chip->sensor_num - 1, 0);
+> +	regmap_write(tmdev->regmap, SUN50I_H6_THS_ENABLE, val);
+> +	/* thermal data interrupt enable */
+> +	val = GENMASK(tmdev->chip->sensor_num - 1, 0);
+> +	regmap_write(tmdev->regmap, SUN50I_H6_THS_DIC, val);
+> +
+> +	return 0;
+> +}
+> +
+>  static int sun8i_ths_register(struct ths_device *tmdev)
+>  {
+>  	int i;
+> @@ -608,6 +709,19 @@ static const struct ths_thermal_chip sun50i_h6_ths = {
+>  	.calc_temp = sun8i_ths_calc_temp,
+>  };
+>  
+> +static const struct ths_thermal_chip sun50i_h616_ths = {
+> +	.sensor_num = 4,
+> +	.has_bus_clk_reset = true,
+> +	.ft_deviation = 8000,
+> +	.offset = -3255,
+> +	.scale = -81,
+> +	.temp_data_base = SUN50I_H6_THS_TEMP_DATA,
+> +	.calibrate = sun50i_h616_ths_calibrate,
+> +	.init = sun50i_h616_thermal_init,
+> +	.irq_ack = sun50i_h6_irq_ack,
+> +	.calc_temp = sun50i_h616_calc_temp,
+> +};
+> +
+>  static const struct of_device_id of_ths_match[] = {
+>  	{ .compatible = "allwinner,sun8i-a83t-ths", .data = &sun8i_a83t_ths },
+>  	{ .compatible = "allwinner,sun8i-h3-ths", .data = &sun8i_h3_ths },
+> @@ -616,6 +730,7 @@ static const struct of_device_id of_ths_match[] = {
+>  	{ .compatible = "allwinner,sun50i-a100-ths", .data = &sun50i_a100_ths },
+>  	{ .compatible = "allwinner,sun50i-h5-ths", .data = &sun50i_h5_ths },
+>  	{ .compatible = "allwinner,sun50i-h6-ths", .data = &sun50i_h6_ths },
+> +	{ .compatible = "allwinner,sun50i-h616-ths", .data = &sun50i_h616_ths },
+>  	{ /* sentinel */ },
+>  };
+>  MODULE_DEVICE_TABLE(of, of_ths_match);
+> 
+
