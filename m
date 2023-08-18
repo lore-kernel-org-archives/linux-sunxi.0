@@ -1,23 +1,26 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46800168BC
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Aug 2023 08:12:55 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E2973FF803;
-	Fri, 18 Aug 2023 08:12:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE061643D
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Aug 2023 08:18:21 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::226])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id D9FDBD4D8C
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Aug 2023 08:10:18 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A4AEDC0006;
+	Fri, 18 Aug 2023 08:10:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1692346367;
+	t=1692346210;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mzCVM+bK0VlZhouGuHfDfVW0KdhBecM197MixCtRvfQ=;
-	b=Jmp83XkDTC2MO6piwR/S+JMNYHW0Y17nyiWqjHmyKqLeJqK0dnwSYn4/4EZ8nhuwB95D6l
-	DK6mzVDiQeV2or5bZ/qCdESjI+eJ0d5I35Y4K+n1kp7aV0dBDct1+0GnUjTinv72HIAIuJ
-	GXIKPdqOkWIdD19loGNKnSoo5AKAzWMX+58BKdjhkYcEZeQI9RFkgdggJNxO8z27J43LKK
-	ztYe9QtVJymUiC+HoooqV10fY6+WTU0F2yUV3rd5jWJpzak1WbkF1rSa4beE/zB0TIv1ad
-	+StZn7GOnXF/njiTIb/fCXUqwnHVKZyH3c7ML+WKoXdBACeSHBlBedQMaOaVMw==
-Date: Fri, 18 Aug 2023 10:12:42 +0200
+	bh=wqOgD7ZoLrRwoPQ6qx0lOE1XYmfnede4CdcT9bV4Jsc=;
+	b=DnB9JI4Ca7uwgiF0bvp+pcJaDAuqYCJFY4nlqFC5yPHpDNq3HQ4B2BO/O0jiugKRq+M5rS
+	pHfQqN4xZ06WVRAIjE+lqx2jNgpH5a49WKKW/n+v2eHeZ+D7JBEoYxf3Y0EDEU4U89nTRV
+	4YlnozEQRShzs8M472CrjUtXqqv/ns9UlZQhBoQEgM//jbhn+Hq3YhhfVzFahxMoKObu0w
+	47MrHQXFEbxePXUDhEEvTjQvM9WvnWYk2mDmkCY7BiZ1PuPN+3yU9RgZWVp5g8Mnr+sg5S
+	rEYfY8cWATOtHZFMNFs0jZUXnimcdlVD0joK56CH+QWcWbbm2jXtgFHq4AHd1Q==
+Date: Fri, 18 Aug 2023 10:10:04 +0200
 From: Miquel Raynal <miquel.raynal@bootlin.com>
 To: Li Zetao <lizetao1@huawei.com>
 Cc: <alexandre.torgue@foss.st.com>,
@@ -38,12 +41,11 @@ Cc: <alexandre.torgue@foss.st.com>,
  <yangyingliang@huawei.com>
 Subject: Re: [PATCH -next v2 02/12] mtd: rawnand: arasan: Use helper
  function devm_clk_get_enabled()
-Message-ID: <20230818101242.12f54b5d@xps-13>
-In-Reply-To: <20230818101004.4f2cd343@xps-13>
+Message-ID: <20230818101004.4f2cd343@xps-13>
+In-Reply-To: <20230818074642.308166-3-lizetao1@huawei.com>
 References: <20230817024509.3951629-1-lizetao1@huawei.com>
 	<20230818074642.308166-1-lizetao1@huawei.com>
 	<20230818074642.308166-3-lizetao1@huawei.com>
-	<20230818101004.4f2cd343@xps-13>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
@@ -56,41 +58,28 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-GND-Sasl: miquel.raynal@bootlin.com
 
+Hi Li,
 
-miquel.raynal@bootlin.com wrote on Fri, 18 Aug 2023 10:10:04 +0200:
+lizetao1@huawei.com wrote on Fri, 18 Aug 2023 15:46:32 +0800:
 
-> Hi Li,
->=20
-> lizetao1@huawei.com wrote on Fri, 18 Aug 2023 15:46:32 +0800:
->=20
-> > Since commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prepa=
-red
-> > and enabled clocks"), devm_clk_get() and clk_prepare_enable() can now b=
-e =20
->=20
-> > replaced by devm_clk_get_enabled() when driver enable (and possibly =20
->=20
-> For all the commit logs:		  the driver enables (and possibly prepares)
->=20
-> > prepare) the clocks for the whole lifetime of the device. Moreover, it =
-is
-> > no longer necessary to unprepare and disable the clock explicitly, so d=
-rop =20
->=20
-> For all the commit logs:		       the clocks
->=20
-> The ",so drop the label xxx" is not needed I believe.
->=20
-> > the label "disable_bus_clk" and "disable_controller_clk".
+> Since commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prepared
+> and enabled clocks"), devm_clk_get() and clk_prepare_enable() can now be
 
-Actually it does not bother, just keep it.
+> replaced by devm_clk_get_enabled() when driver enable (and possibly
 
-> > Signed-off-by: Li Zetao <lizetao1@huawei.com>
-> > --- =20
+For all the commit logs:		  the driver enables (and possibly prepares)
+
+> prepare) the clocks for the whole lifetime of the device. Moreover, it is
+> no longer necessary to unprepare and disable the clock explicitly, so drop
+
+For all the commit logs:		       the clocks
+
+The ",so drop the label xxx" is not needed I believe.
+
+> the label "disable_bus_clk" and "disable_controller_clk".
 >=20
-> Thanks,
-> Miqu=C3=A8l
-
+> Signed-off-by: Li Zetao <lizetao1@huawei.com>
+> ---
 
 Thanks,
 Miqu=C3=A8l
