@@ -1,79 +1,96 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C812215AE3
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Aug 2023 08:21:16 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (unknown [217.70.183.196])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id F045EC5BE3
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Aug 2023 08:11:24 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2F8D1E0003;
-	Fri, 18 Aug 2023 08:11:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1692346277;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=20wNMj8fVoVyKhboSQHfoKHw647G9BheWqVVEyUS5uM=;
-	b=E1kP1jnX29Q4qu4glrInautWz/RFHmzs5BNl+IerHY5vYL3V689QYZSLwGU3EW/Kj8mcTa
-	MY+D3fgMG+MK5C1j4+xNmHyEgANAJi1Na5Syh9v4yUsJj71FyBGTcgDjSlynxglSMkgrhk
-	QSq+PLzMOiHWIs8s4nI6ofe1I5XX0eZuv7nGJVhRniU+3RhgWwxSQESkuqPh9S8jkwHKMU
-	fEZlgnpP5gP+gWcqvXHpywClkvqh8XMuNDsemLABP9mFuz+FOwuh/QuU/Fz2e8It0nhUF3
-	/vwUryhfRLuFEHBth5h38xGCZ5eIWq8Uu70+nwW0kLYDz2hiF0Ttkun/IsrPDg==
-Date: Fri, 18 Aug 2023 10:11:10 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Li Zetao <lizetao1@huawei.com>
-Cc: <alexandre.torgue@foss.st.com>,
- <angelogioacchino.delregno@collabora.com>,
- <christophe.kerello@foss.st.com>, <christophe.leroy@csgroup.eu>,
- <dmitry.torokhov@gmail.com>, <frank.li@vivo.com>,
- <geert+renesas@glider.be>, <heiko@sntech.de>, <jernej.skrabec@gmail.com>,
- <jinpu.wang@ionos.com>, <linux-arm-kernel@lists.infradead.org>,
- <linux-mediatek@lists.infradead.org>, <linux-mtd@lists.infradead.org>,
- <linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>,
- <martin.blumenstingl@googlemail.com>, <matthias.bgg@gmail.com>,
- <mcoquelin.stm32@gmail.com>, <michael@walle.cc>, <michal.simek@amd.com>,
- <nicolas.ferre@microchip.com>, <paul@crapouillou.net>, <philmd@linaro.org>,
- <pratyush@kernel.org>, <richard@nod.at>, <robh@kernel.org>,
- <rogerq@kernel.org>, <samuel@sholland.org>, <stefan@agner.ch>,
- <tudor.ambarus@linaro.org>, <u.kleine-koenig@pengutronix.de>,
- <vigneshr@ti.com>, <vz@mleia.com>, <wens@csie.org>,
- <yangyingliang@huawei.com>
-Subject: Re: [PATCH -next v2 03/12] mtd: rawnand: fsmc: Use helper function
- devm_clk_get_enabled()
-Message-ID: <20230818101110.23fad57d@xps-13>
-In-Reply-To: <20230818074642.308166-4-lizetao1@huawei.com>
-References: <20230817024509.3951629-1-lizetao1@huawei.com>
-	<20230818074642.308166-1-lizetao1@huawei.com>
-	<20230818074642.308166-4-lizetao1@huawei.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093043D7F
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Aug 2023 08:43:38 +0000 (UTC)
+Received: from v0.lan (bband-dyn221.178-41-211.t-com.sk [178.41.211.221])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by m-r2.th.seeweb.it (Postfix) with ESMTPSA id B0A2C3F434;
+	Fri, 18 Aug 2023 10:43:30 +0200 (CEST)
+From: Martin Botka <martin.botka@somainline.org>
+Subject: [PATCH 0/3] Add support for H616 Thermal system
+Date: Fri, 18 Aug 2023 10:43:15 +0200
+Message-Id: <20230818-ths-h616-v1-0-0e1e058b9c7a@somainline.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACMv32QC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI2MDC0NT3ZKMYt0MM0MzXXPzJKOUJFMzUyMTSyWg8oKi1LTMCrBR0bG1tQD
+ 4NbNwWgAAAA==
+To: Vasily Khoruzhick <anarsoul@gmail.com>, 
+ Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, 
+ Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>, 
+ Alan Ma <tech@biqu3d.com>, Luke Harrison <bttuniversity@biqu3d.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>, 
+ Konrad Dybcio <konrad.dybcio@somainline.org>, 
+ Martin Botka <martin@biqu3d.com>, 
+ Martin Botka <martin.botka@somainline.org>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1692348210; l=1200;
+ i=martin.botka@somainline.org; s=20230811; h=from:subject:message-id;
+ bh=oPf+y+X9G61ZiyJ0sWXCSR3pYFSNT3sI7CxnPTuVGUk=;
+ b=CiPh4dzgiTuqa3g7g56zD4Z7eL8tPj0JiSuc5fl5HtJB6DB+t5+GrUBrD2B22CSKZoTyMO9H/
+ nVu3pUsBIwgCNGIBjwFE6qv+d56vJ7GTum4m0uTkjeC3Cd/9FC4OWXy
+X-Developer-Key: i=martin.botka@somainline.org; a=ed25519;
+ pk=aTCd3jmwU8GrJidWg3DSKLpdVMcpFzXzCSLXLR6NtWU=
 
-Hi Li,
+Hello,
 
-lizetao1@huawei.com wrote on Fri, 18 Aug 2023 15:46:33 +0800:
+This patch series adds support to thermal system
+found in H616 SoC.
 
-> Since commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prepared
-> and enabled clocks"), devm_clk_get() and clk_prepare_enable() can now be
-> replaced by devm_clk_get_enabled() when driver enable (and possibly
-> prepare) the clocks for the whole lifetime of the device. Moreover, it is
-> no longer necessary to unprepare and disable the clock explicitly. The
-> label "disable_clk" no longer makes sense, rename it to "disable_fsmc".
+There are 4 thermal sensors in this SoC.
+One for GPU, CPU, DRAM and VE.
 
-Yep, please keep this last sentence here, it is useful.
+Trips while unused for now until cpufreq is implemented
+(WIP) are required by dt-bindings and thus included here.
 
-> Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> Signed-off-by: Li Zetao <lizetao1@huawei.com>
-> ---
+Cheers,
+Martin
 
-Thanks,
-Miqu=C3=A8l
+---------------
+
+Hello,
+Im very much not sure if the trips should be included or not.
+Since they are not optional part I decided to add them but
+please let me know.
+
+Cheers,
+Martin
+
+Signed-off-by: Martin Botka <martin.botka@somainline.org>
+---
+Martin Botka (3):
+      dt-bindings: thermal: sun8i: Add binding for H616 THS controller
+      thermal: sun8i: Add support for H616 THS controller
+      arm64: dts: allwinner: h616: Add thermal sensor and thermal zones
+
+ .../bindings/thermal/allwinner,sun8i-a83t-ths.yaml |   3 +
+ arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi     |  87 ++++++++++++++++
+ drivers/thermal/sun8i_thermal.c                    | 115 +++++++++++++++++++++
+ 3 files changed, 205 insertions(+)
+---
+base-commit: a25793039a9cd5ac67d38a86dd2eb414abb93aa6
+change-id: 20230815-ths-h616-77b2db565249
+
+Best regards,
+-- 
+Martin Botka <martin.botka@somainline.org>
+
