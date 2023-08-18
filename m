@@ -1,68 +1,103 @@
-Received: from out-57.mta0.migadu.com (out-57.mta0.migadu.com [91.218.175.57])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E20613E
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Aug 2023 04:45:38 +0000 (UTC)
-Date: Fri, 18 Aug 2023 14:41:08 +1000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1692333936;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AqEuvMUt2iX6Thy2whkDMydqr25IsjJ4JATm7CmA4rU=;
-	b=FWDCnVztAe35jNcI9/V0DTer5UMDmXgJLpJJyK0ysq9k3R8rIw3y/TYyy06ahetPQrvu1p
-	J76WxJoLSdz/1G5EtRIJMlkMxG2BrE+5Ybxwuir53+cU+iwuPU3A7ogMwQbHZOxH+rvz5x
-	afxTk20VjrdBm7btuPhs2efF6bZLdL6jKMRwo5TNEWZiiVezJ5M0KGGQjSissuDzriTNR/
-	7fMZhZ3Sd1OV+yMPj6PCRGpEdhfo1IqOP2VL/a0fnK1QZutBAKKdSwvtxfUmRks8ms4bjN
-	dC4MN9HNdQ3uu8DWqVqQiJnxTVYqz4bLOjGx7j/pO+/N2sMydKjtk6Jj1pPB8g==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: John Watts <contact@jookia.org>
-To: Fawad Lateef <fawadlateef@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux sunXi <linux-sunxi@lists.linux.dev>,
-	kernelnewbies <kernelnewbies@kernelnewbies.org>,
-	boris.brezillon@collabora.com
-Subject: Re: Question regarding Linux-6.3.5 and Sunxi A20 NAND/NFC support
-Message-ID: <ZN72ZMSPBYvStfzy@titan>
-References: <CAGgoGu7Vim82Hu1JKc+m6cPkcn7+WWDFwK5P_YE6grFQS9E21Q@mail.gmail.com>
- <ZNm2ihdTojuPJM2f@debian.me>
- <CAGgoGu5XuHhVbnrNKBzhZyZH993bBHiLgjTrtyofvePZ-dxLow@mail.gmail.com>
- <CAGgoGu5iTE1xeupwTUUAcJv59294dNQJEf9oUWQKF72hrpFxRw@mail.gmail.com>
- <ZNwWNopPItNwKCTV@titan>
- <CAGgoGu4R2Y5Yj4zEQyekZK0Vkb+XpWg+mudmW3LNmfq3tCFDjw@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F96CE56C
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Aug 2023 07:47:09 +0000 (UTC)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.55])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RRv751dK3zkX6d;
+	Fri, 18 Aug 2023 15:45:37 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemi500012.china.huawei.com
+ (7.221.188.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Fri, 18 Aug
+ 2023 15:46:59 +0800
+From: Li Zetao <lizetao1@huawei.com>
+To: <lizetao1@huawei.com>
+CC: <alexandre.torgue@foss.st.com>, <angelogioacchino.delregno@collabora.com>,
+	<christophe.kerello@foss.st.com>, <christophe.leroy@csgroup.eu>,
+	<dmitry.torokhov@gmail.com>, <frank.li@vivo.com>, <geert+renesas@glider.be>,
+	<heiko@sntech.de>, <jernej.skrabec@gmail.com>, <jinpu.wang@ionos.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	<linux-mtd@lists.infradead.org>, <linux-stm32@st-md-mailman.stormreply.com>,
+	<linux-sunxi@lists.linux.dev>, <martin.blumenstingl@googlemail.com>,
+	<matthias.bgg@gmail.com>, <mcoquelin.stm32@gmail.com>, <michael@walle.cc>,
+	<michal.simek@amd.com>, <miquel.raynal@bootlin.com>,
+	<nicolas.ferre@microchip.com>, <paul@crapouillou.net>, <philmd@linaro.org>,
+	<pratyush@kernel.org>, <richard@nod.at>, <robh@kernel.org>,
+	<rogerq@kernel.org>, <samuel@sholland.org>, <stefan@agner.ch>,
+	<tudor.ambarus@linaro.org>, <u.kleine-koenig@pengutronix.de>,
+	<vigneshr@ti.com>, <vz@mleia.com>, <wens@csie.org>,
+	<yangyingliang@huawei.com>
+Subject: [PATCH -next v2 00/12] mtd: Use devm_clk_get_*() helper function to simplify the drivers.
+Date: Fri, 18 Aug 2023 15:46:30 +0800
+Message-ID: <20230818074642.308166-1-lizetao1@huawei.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230817024509.3951629-1-lizetao1@huawei.com>
+References: <20230817024509.3951629-1-lizetao1@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGgoGu4R2Y5Yj4zEQyekZK0Vkb+XpWg+mudmW3LNmfq3tCFDjw@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.90.53.73]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemi500012.china.huawei.com (7.221.188.12)
+X-CFilter-Loop: Reflected
 
-On Thu, Aug 17, 2023 at 10:21:35PM +0100, Fawad Lateef wrote:
-> Hi John,
-> 
-> Thanks for your help. I found the reason for my issue. I defined the
-> pinctrl information under the "soc" next to "nfc" entry in
-> sunxi-a20.dtsi which was messing it up.
-> 
-> I moved them inside the "pio" dtsi block and NAND is detected now.
+Commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prepared
+and enabled clocks") provides a new helper function for prepared and
+enabled clocks when a driver keeps a clock prepared (or enabled) during
+the whole lifetime of the driver. So where drivers get clocks and enable
+them immediately, it can be combined into a single function
+devm_clk_get_*(). Moreover, the unprepare and disable function
+has been registered to devm_clk_state, and before devm_clk_state is
+released, the clocks will be unprepareed and disable, so it is unnecessary
+to unprepare and disable clock explicitly when remove drivers or in the
+error handling path.
 
-Congratulations!
+Change log:
 
-> Though almost all blocks are reported as bad-blocks.  I am thinking
-> that it's happening as I don't have partition information defined in
-> DTS. Do you think that this is the reason for bad-blocks reporting?
+v2:
+ - Modify the format of the reference commit, use "since" instead of
+ "after".
+ - Drop the helper functions mtk_nfc_enable_clk() and
+ mtk_nfc_disable_clk(), because both of them now have a single user.
+ - Add a new patch, replace devm_clk_get_optional() +
+ clk_prepare_enable() with devm_clk_get_optional_enabled().
 
-I don't have much knowledge here but you might want to confirm the
-contents of your bad block table is being read and has correct values.
+v1: https://lore.kernel.org/all/20230817024509.3951629-1-lizetao1@huawei.com/
 
-This might help: https://linux-sunxi.org/Mainline_NAND_Howto
+Li Zetao (12):
+  mtd: spear_smi: Use helper function devm_clk_get_enabled()
+  mtd: rawnand: arasan: Use helper function devm_clk_get_enabled()
+  mtd: rawnand: fsmc: Use helper function devm_clk_get_enabled()
+  mtd: rawnand: intel: Use helper function devm_clk_get_enabled()
+  mtd: rawnand: lpc32xx_slc: Use helper function devm_clk_get_enabled()
+  mtd: rawnand: mpc5121: Use helper function devm_clk_get_enabled()
+  mtd: rawnand: mtk: Use helper function devm_clk_get_enabled()
+  mtd: rawnand: stm32_fmc2: Use helper function devm_clk_get_enabled()
+  mtd: rawnand: sunxi: Use helper function devm_clk_get_enabled()
+  mtd: rawnand: vf610_nfc: Use helper function devm_clk_get_enabled()
+  mtd: spi-nor: nxp-spifi: Use helper function devm_clk_get_enabled()
+  mtd: rawnand: orion: Use helper function
+    devm_clk_get_optional_enabled()
 
-> Regards,
-> 
-> Fawad Lateef
+ drivers/mtd/devices/spear_smi.c               | 15 +----
+ drivers/mtd/nand/raw/arasan-nand-controller.c | 29 ++-------
+ drivers/mtd/nand/raw/fsmc_nand.c              | 12 +---
+ drivers/mtd/nand/raw/intel-nand-controller.c  | 15 +----
+ drivers/mtd/nand/raw/lpc32xx_slc.c            | 12 +---
+ drivers/mtd/nand/raw/mpc5121_nfc.c            | 11 +---
+ drivers/mtd/nand/raw/mtk_nand.c               | 62 ++++++-------------
+ drivers/mtd/nand/raw/orion_nand.c             | 22 ++-----
+ drivers/mtd/nand/raw/stm32_fmc2_nand.c        | 17 ++---
+ drivers/mtd/nand/raw/sunxi_nand.c             | 29 ++-------
+ drivers/mtd/nand/raw/vf610_nfc.c              | 29 +++------
+ drivers/mtd/spi-nor/controllers/nxp-spifi.c   | 33 ++--------
+ 12 files changed, 67 insertions(+), 219 deletions(-)
 
-John.
+-- 
+2.34.1
+
