@@ -1,143 +1,96 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4034BE56C
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Aug 2023 07:47:28 +0000 (UTC)
-Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.56])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RRv5Z323BzFqk7;
-	Fri, 18 Aug 2023 15:44:18 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500012.china.huawei.com
- (7.221.188.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Fri, 18 Aug
- 2023 15:47:16 +0800
-From: Li Zetao <lizetao1@huawei.com>
-To: <lizetao1@huawei.com>
-CC: <alexandre.torgue@foss.st.com>, <angelogioacchino.delregno@collabora.com>,
-	<christophe.kerello@foss.st.com>, <christophe.leroy@csgroup.eu>,
-	<dmitry.torokhov@gmail.com>, <frank.li@vivo.com>, <geert+renesas@glider.be>,
-	<heiko@sntech.de>, <jernej.skrabec@gmail.com>, <jinpu.wang@ionos.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-mtd@lists.infradead.org>, <linux-stm32@st-md-mailman.stormreply.com>,
-	<linux-sunxi@lists.linux.dev>, <martin.blumenstingl@googlemail.com>,
-	<matthias.bgg@gmail.com>, <mcoquelin.stm32@gmail.com>, <michael@walle.cc>,
-	<michal.simek@amd.com>, <miquel.raynal@bootlin.com>,
-	<nicolas.ferre@microchip.com>, <paul@crapouillou.net>, <philmd@linaro.org>,
-	<pratyush@kernel.org>, <richard@nod.at>, <robh@kernel.org>,
-	<rogerq@kernel.org>, <samuel@sholland.org>, <stefan@agner.ch>,
-	<tudor.ambarus@linaro.org>, <u.kleine-koenig@pengutronix.de>,
-	<vigneshr@ti.com>, <vz@mleia.com>, <wens@csie.org>,
-	<yangyingliang@huawei.com>
-Subject: [PATCH -next v2 11/12] mtd: spi-nor: nxp-spifi: Use helper function devm_clk_get_enabled()
-Date: Fri, 18 Aug 2023 15:46:41 +0800
-Message-ID: <20230818074642.308166-12-lizetao1@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230818074642.308166-1-lizetao1@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46800168BC
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Aug 2023 08:12:55 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E2973FF803;
+	Fri, 18 Aug 2023 08:12:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1692346367;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mzCVM+bK0VlZhouGuHfDfVW0KdhBecM197MixCtRvfQ=;
+	b=Jmp83XkDTC2MO6piwR/S+JMNYHW0Y17nyiWqjHmyKqLeJqK0dnwSYn4/4EZ8nhuwB95D6l
+	DK6mzVDiQeV2or5bZ/qCdESjI+eJ0d5I35Y4K+n1kp7aV0dBDct1+0GnUjTinv72HIAIuJ
+	GXIKPdqOkWIdD19loGNKnSoo5AKAzWMX+58BKdjhkYcEZeQI9RFkgdggJNxO8z27J43LKK
+	ztYe9QtVJymUiC+HoooqV10fY6+WTU0F2yUV3rd5jWJpzak1WbkF1rSa4beE/zB0TIv1ad
+	+StZn7GOnXF/njiTIb/fCXUqwnHVKZyH3c7ML+WKoXdBACeSHBlBedQMaOaVMw==
+Date: Fri, 18 Aug 2023 10:12:42 +0200
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Li Zetao <lizetao1@huawei.com>
+Cc: <alexandre.torgue@foss.st.com>,
+ <angelogioacchino.delregno@collabora.com>,
+ <christophe.kerello@foss.st.com>, <christophe.leroy@csgroup.eu>,
+ <dmitry.torokhov@gmail.com>, <frank.li@vivo.com>,
+ <geert+renesas@glider.be>, <heiko@sntech.de>, <jernej.skrabec@gmail.com>,
+ <jinpu.wang@ionos.com>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-mtd@lists.infradead.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>,
+ <martin.blumenstingl@googlemail.com>, <matthias.bgg@gmail.com>,
+ <mcoquelin.stm32@gmail.com>, <michael@walle.cc>, <michal.simek@amd.com>,
+ <nicolas.ferre@microchip.com>, <paul@crapouillou.net>, <philmd@linaro.org>,
+ <pratyush@kernel.org>, <richard@nod.at>, <robh@kernel.org>,
+ <rogerq@kernel.org>, <samuel@sholland.org>, <stefan@agner.ch>,
+ <tudor.ambarus@linaro.org>, <u.kleine-koenig@pengutronix.de>,
+ <vigneshr@ti.com>, <vz@mleia.com>, <wens@csie.org>,
+ <yangyingliang@huawei.com>
+Subject: Re: [PATCH -next v2 02/12] mtd: rawnand: arasan: Use helper
+ function devm_clk_get_enabled()
+Message-ID: <20230818101242.12f54b5d@xps-13>
+In-Reply-To: <20230818101004.4f2cd343@xps-13>
 References: <20230817024509.3951629-1-lizetao1@huawei.com>
- <20230818074642.308166-1-lizetao1@huawei.com>
+	<20230818074642.308166-1-lizetao1@huawei.com>
+	<20230818074642.308166-3-lizetao1@huawei.com>
+	<20230818101004.4f2cd343@xps-13>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemi500012.china.huawei.com (7.221.188.12)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-Since commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prepared
-and enabled clocks"), devm_clk_get() and clk_prepare_enable() can now be
-replaced by devm_clk_get_enabled() when driver enable (and possibly
-prepare) the clocks for the whole lifetime of the device. Moreover, it is
-no longer necessary to unprepare and disable the clock explicitly, so drop
-the label "dis_clks" and "dis_clk_reg".
 
-Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
-Signed-off-by: Li Zetao <lizetao1@huawei.com>
----
-v1 -> v2: Modify commit message.
-v1: https://lore.kernel.org/all/20230817024509.3951629-12-lizetao1@huawei.com/
+miquel.raynal@bootlin.com wrote on Fri, 18 Aug 2023 10:10:04 +0200:
 
- drivers/mtd/spi-nor/controllers/nxp-spifi.c | 33 ++++-----------------
- 1 file changed, 6 insertions(+), 27 deletions(-)
+> Hi Li,
+>=20
+> lizetao1@huawei.com wrote on Fri, 18 Aug 2023 15:46:32 +0800:
+>=20
+> > Since commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prepa=
+red
+> > and enabled clocks"), devm_clk_get() and clk_prepare_enable() can now b=
+e =20
+>=20
+> > replaced by devm_clk_get_enabled() when driver enable (and possibly =20
+>=20
+> For all the commit logs:		  the driver enables (and possibly prepares)
+>=20
+> > prepare) the clocks for the whole lifetime of the device. Moreover, it =
+is
+> > no longer necessary to unprepare and disable the clock explicitly, so d=
+rop =20
+>=20
+> For all the commit logs:		       the clocks
+>=20
+> The ",so drop the label xxx" is not needed I believe.
+>=20
+> > the label "disable_bus_clk" and "disable_controller_clk".
 
-diff --git a/drivers/mtd/spi-nor/controllers/nxp-spifi.c b/drivers/mtd/spi-nor/controllers/nxp-spifi.c
-index 337e83bf3362..5d8f47ab146f 100644
---- a/drivers/mtd/spi-nor/controllers/nxp-spifi.c
-+++ b/drivers/mtd/spi-nor/controllers/nxp-spifi.c
-@@ -394,30 +394,18 @@ static int nxp_spifi_probe(struct platform_device *pdev)
- 	if (IS_ERR(spifi->flash_base))
- 		return PTR_ERR(spifi->flash_base);
- 
--	spifi->clk_spifi = devm_clk_get(&pdev->dev, "spifi");
-+	spifi->clk_spifi = devm_clk_get_enabled(&pdev->dev, "spifi");
- 	if (IS_ERR(spifi->clk_spifi)) {
--		dev_err(&pdev->dev, "spifi clock not found\n");
-+		dev_err(&pdev->dev, "spifi clock not found or unable to enable\n");
- 		return PTR_ERR(spifi->clk_spifi);
- 	}
- 
--	spifi->clk_reg = devm_clk_get(&pdev->dev, "reg");
-+	spifi->clk_reg = devm_clk_get_enabled(&pdev->dev, "reg");
- 	if (IS_ERR(spifi->clk_reg)) {
--		dev_err(&pdev->dev, "reg clock not found\n");
-+		dev_err(&pdev->dev, "reg clock not found or unable to enable\n");
- 		return PTR_ERR(spifi->clk_reg);
- 	}
- 
--	ret = clk_prepare_enable(spifi->clk_reg);
--	if (ret) {
--		dev_err(&pdev->dev, "unable to enable reg clock\n");
--		return ret;
--	}
--
--	ret = clk_prepare_enable(spifi->clk_spifi);
--	if (ret) {
--		dev_err(&pdev->dev, "unable to enable spifi clock\n");
--		goto dis_clk_reg;
--	}
--
- 	spifi->dev = &pdev->dev;
- 	platform_set_drvdata(pdev, spifi);
- 
-@@ -430,24 +418,17 @@ static int nxp_spifi_probe(struct platform_device *pdev)
- 	flash_np = of_get_next_available_child(pdev->dev.of_node, NULL);
- 	if (!flash_np) {
- 		dev_err(&pdev->dev, "no SPI flash device to configure\n");
--		ret = -ENODEV;
--		goto dis_clks;
-+		return -ENODEV;
- 	}
- 
- 	ret = nxp_spifi_setup_flash(spifi, flash_np);
- 	of_node_put(flash_np);
- 	if (ret) {
- 		dev_err(&pdev->dev, "unable to setup flash chip\n");
--		goto dis_clks;
-+		return ret;
- 	}
- 
- 	return 0;
--
--dis_clks:
--	clk_disable_unprepare(spifi->clk_spifi);
--dis_clk_reg:
--	clk_disable_unprepare(spifi->clk_reg);
--	return ret;
- }
- 
- static int nxp_spifi_remove(struct platform_device *pdev)
-@@ -455,8 +436,6 @@ static int nxp_spifi_remove(struct platform_device *pdev)
- 	struct nxp_spifi *spifi = platform_get_drvdata(pdev);
- 
- 	mtd_device_unregister(&spifi->nor.mtd);
--	clk_disable_unprepare(spifi->clk_spifi);
--	clk_disable_unprepare(spifi->clk_reg);
- 
- 	return 0;
- }
--- 
-2.34.1
+Actually it does not bother, just keep it.
 
+> > Signed-off-by: Li Zetao <lizetao1@huawei.com>
+> > --- =20
+>=20
+> Thanks,
+> Miqu=C3=A8l
+
+
+Thanks,
+Miqu=C3=A8l
