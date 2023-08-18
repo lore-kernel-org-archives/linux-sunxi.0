@@ -1,366 +1,158 @@
-Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2087.outbound.protection.outlook.com [40.107.220.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3034717FE9
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Aug 2023 12:25:47 +0000 (UTC)
-Received: from [192.168.2.144] (bband-dyn221.178-41-211.t-com.sk [178.41.211.221])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 1F2161F896;
-	Fri, 18 Aug 2023 14:25:37 +0200 (CEST)
-Date: Fri, 18 Aug 2023 14:25:32 +0200
-From: Martin Botka <martin.botka@somainline.org>
-Subject: Re: [PATCH 2/3] thermal: sun8i: Add support for H616 THS controller
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li
-	<tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria <amitk@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
-	<conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
-	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Alan Ma <tech@biqu3d.com>, Luke Harrison
-	<bttuniversity@biqu3d.com>, Marijn Suijten <marijn.suijten@somainline.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
-	Konrad Dybcio <konrad.dybcio@somainline.org>, Martin Botka
-	<martin@biqu3d.com>
-Message-Id: <KI6LZR.QB3G3JWHXXOD@somainline.org>
-In-Reply-To: <20230818130659.49346be5@donnerap.manchester.arm.com>
-References: <20230818-ths-h616-v1-0-0e1e058b9c7a@somainline.org>
-	<20230818-ths-h616-v1-2-0e1e058b9c7a@somainline.org>
-	<20230818112930.6b152491@donnerap.manchester.arm.com>
-	<CB2LZR.1KPTPXNXKA5H3@somainline.org>
-	<20230818130659.49346be5@donnerap.manchester.arm.com>
-X-Mailer: geary/43.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC8B374;
+	Fri, 18 Aug 2023 16:51:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jfH/otTwOilZnJaFdt8oWojczcV3uJ4gWBhzCJB831SHNmFDGGS3E+WLgv+l79oB2Wr0yV0Zz/DAaLUYoSvRkYR+yAiEBgydhHKWnX9gyDo+XHwXOQphu59WFwDQffvqJ+f+EKT2QMn4E2KXkhlVmu8cTsatX0I81agIsbve28kpmfn3xbwBCKrYUCBgd7GSlZp5DRCOQn4P/wXdEaXlkjX1nYPZzN7Vq1FTw/wGKfTe5W2N1LnPqv9ZeE5wu9UEgYNhsqdfYHmNpr2W1OlmKrtSiY21JYJW3S2/oiBv3+/x5NdQwRTJUgYOjHvOm1s/c1EaIOXaGCOGSXI1x5nfhA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CWy3MqAmy3A1zOkrWt3gqIcP8Zk3sUZ5dFlzQEHYoEE=;
+ b=oXx4byN3eOAJ5ryNXaH7R6PLZ8huSQSIgbCajZC9zu35ojgsH9H604EmN7vwxLli6Neaz9fIWAefxFM7ERkFuETBmj1/or9jvZeVxukJ4qYQu6TPlgZ4dAl8ZBdjRTDUNIXMSVKN3+YU1ZGVVteN0f447kBxnpu31O3FH1o2XE8X8zx+GIX/HYDjJKxUrkb1uNCSit+mcZF5566Opfv5JG459+Dv/JDyKSXxFOGDyKM9pUqAYvtG1hje+PV5blqlUxr8picr1+aAMEp9Q769lHtgpg8ZRqp+25BZgphZe4VtQORjb3K6D6nhnhVydnnDwnX1jB/xi60LUNBO31ccBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CWy3MqAmy3A1zOkrWt3gqIcP8Zk3sUZ5dFlzQEHYoEE=;
+ b=HGYM4zA9aWurWxXyMxuIHYPadKly2ei1NNDQVg4Hl8jL6K9bN+K3BLRB53u7p+9YcZU4YJG/pP2LaLRq4vBW+z4XL1vGBiWh/+qgLYoJtQuW/uUAzxZv8dIOf9AeaJaPqDCujeSBG+gj0S+kaxwlxY7CkowOu30FyVoTUvtenI+4mnwZjvxQgPtKJblD/06pK2+FwX3n9kUO20GCGvXHCdQPW4itsSTGLkoNfnpcXkGRxh98DJcrRruFPodfZMyPRGqrOAxi2STGPXc6zjbebAfH91whPSkFpFDgMIHyVn9Z8tp0F/ktqyQdxsH4x++7cnVFAY/f0j5bokxntvRA+g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by DS7PR12MB5863.namprd12.prod.outlook.com (2603:10b6:8:7a::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.31; Fri, 18 Aug
+ 2023 16:51:02 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1%6]) with mapi id 15.20.6678.031; Fri, 18 Aug 2023
+ 16:51:02 +0000
+Date: Fri, 18 Aug 2023 13:51:01 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Niklas Schnelle <schnelle@linux.ibm.com>
+Cc: Joerg Roedel <joro@8bytes.org>, Matthew Rosato <mjrosato@linux.ibm.com>,
+	Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Gerd Bayer <gbayer@linux.ibm.com>,
+	Julian Ruess <julianr@linux.ibm.com>,
+	Pierre Morel <pmorel@linux.ibm.com>,
+	Alexandra Winter <wintera@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Yong Wu <yong.wu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v11 0/6] iommu/dma: s390 DMA API conversion and optimized
+ IOTLB flushing
+Message-ID: <ZN+hdYiubQkjviwI@ziepe.ca>
+References: <20230717-dma_iommu-v11-0-a7a0b83c355c@linux.ibm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230717-dma_iommu-v11-0-a7a0b83c355c@linux.ibm.com>
+X-ClientProxiedBy: BL0PR02CA0066.namprd02.prod.outlook.com
+ (2603:10b6:207:3d::43) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DS7PR12MB5863:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9400bdb7-fbfc-4cc5-0767-08dba00b4e7f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	6MckZO9GX2200qK8cRFCq8uetipJd1Vs+VUVove04fqaEb80OBnonA2IH7cS/WL9xkEmhACinpIpv+hnQ4HbLQ18jqoZeo5xKISgRgmE2xlkxQ+xog9IILutsW6vNjnZ0JlBI+jwxSpETNdWF3u6+mopYjhGyRjBR3cpnvtR4u7NLfFIo/2Xnk4U/b+E1TeqfWH7QgLHuRU8GuNQSiZX2Hse1n74mt8InUpJEkzCPsJ7O4AL50fj2P70PUvlJPDmAsgEjTHQVP35Jla0Zvw+SWjr0gQd4c+oVHI+MF4AZ7jfcIHIkM47N3XUfXjWz2ALCa29H17w32PJ3idLJC6nU5nq5AWsATS/SZy6mkDnMTDMjA/7oF+eOV5TQb4azWcQx3sMMEGTMokv6MWrQjjSmGT8oMk3xBG4Bu7Nj+Xa2hOKd0zqVuvr+SjKzqNCuoErOG65tsnJnmcmKKjUpM9JXlZDvgesHPK08csMe4irfINuiZx5CmVoBh0zF02JXJ3nbDZnPxle9uH9QZahbxexEHFaczmXrVrdR8KVIHVNouKo31Vw+3dLu88dxMR/PHIeh+IoPFgoWnPT0heszdd4bbZvhixsD5yFt10TYCSOoqE=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(376002)(39860400002)(346002)(136003)(396003)(1800799009)(186009)(451199024)(66899024)(4744005)(7416002)(7406005)(2906002)(478600001)(6486002)(66946007)(66476007)(6506007)(54906003)(316002)(6916009)(66556008)(5660300002)(6512007)(4326008)(9686003)(8936002)(41300700001)(8676002)(26005)(86362001)(36756003)(38100700002)(67856001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?GMc4OuAGNQzbLAYQY2PIzWAX7tHhgXnmzqVyAuv+cE0Wkas0ApV+cTxqTp7G?=
+ =?us-ascii?Q?7RNunQdYfONLsFACN01YkGsVRXVd5PjX5mQwqVRtttYPSE9TSDXz7vq+dh0k?=
+ =?us-ascii?Q?TZMhBaVLCAkNgHjaS4GTdxZbXGJuvqE2WwhzehAUV+WkQI+edlP6yJ2RoJ9M?=
+ =?us-ascii?Q?hDSGDiz9v1GQs5XLpuHVBMnsztmigQX3ZF0y8JqbV2fsHK7Ov9gaSmk2TwvO?=
+ =?us-ascii?Q?zB3S2C8CMvVsnAPlTEcAxXL1LL4rPQujd8YH/9+BVZQE4KFcHrHoERKpiSk2?=
+ =?us-ascii?Q?b8wDSqyvq/zAaPU+2V3GSd4aZziduUi9NXzpLksZGGDggfppYvexzzcYSN9C?=
+ =?us-ascii?Q?PJog2RXWUdBv5/xj7yGVuohnpPewtMNXh17ZawJLT9JB4b7lMWOLRy/fRLxX?=
+ =?us-ascii?Q?6M1VO664C2kyJCEsKncEoLU8mq4JrpkmIkCj3X4kHGKLOh+6RH8JVGRHC3js?=
+ =?us-ascii?Q?ZR9BhAtrpkUngirgRvL4j82idBav/ekqf78dZj3lCnHQGoxh6vRgbfaBPQRQ?=
+ =?us-ascii?Q?nF6rBzYn0x7LD/zeJEEqA+3dd1qwdWhSdj5XibdyosiOtc7iNgef6KWHXgmJ?=
+ =?us-ascii?Q?8ryINA608j28n+s8q0/GNohw8lNAMk5t8t08GWrjRx8FM6gi8QZBNp9jmNfh?=
+ =?us-ascii?Q?Ncu/DVFVEFgJsqAISjAWxiRDcva/5Fwd5vgN/0zcGWpjKW7k8CMNDlst9F4z?=
+ =?us-ascii?Q?k4BcSyhTidwJWuYKHq7KH1StQz0UbFzEh9C++sRGLRB3Pzx1BSjKClbPheFV?=
+ =?us-ascii?Q?+DmCjiUjcup/mVvTkjM5Goyh/6WEdX4ta9vPNu9yyAGXFCtjDGK3W11s2tMP?=
+ =?us-ascii?Q?BUxl/Tpqlm71pRabRvZnisa3e1kMs0oZ/Mt6OGU78YpUMn4M2jMkIOLnGmZO?=
+ =?us-ascii?Q?AgQs7Xs90ktycSwkya5HZjHfXBW6O+S0FNayg0LBmPZyQVA6i9rAt4UbSBjn?=
+ =?us-ascii?Q?BRS9l59KsyeLj/kMJ09Wgu07MK6m0WiFycm7V7ywtMsYnzpCDXxpBO5Vb/Fe?=
+ =?us-ascii?Q?1QwHgV/867/rb1TYm3Lqq60Cg1tHYKx4FxxH8WvpnPnEV3kbSvxaI/Krr9j/?=
+ =?us-ascii?Q?t64H10pV+jrYCuK83O+b9In36K+XA1W0VzUSOM8I73P5nylEnXC9lD5dMhe8?=
+ =?us-ascii?Q?7MF3YpdDG34VdVwHtKe7Y7gSNpmpvRafY8hXtOjqGi7pWelOllbeEH8G4QH/?=
+ =?us-ascii?Q?AuBK2Vmhglx99crs1WQWDcwagUH7Y8EJ1TyXc07Xnf13bOhmLziYZKtmNYVo?=
+ =?us-ascii?Q?aoE8JD9ZVYfoCrcOQT3Di2y84ZPtCeLwodnXWgg++ECg8ot3en6RVpc08Mpy?=
+ =?us-ascii?Q?UAgN+x1Z1jmWNfaj2C6l/SwMJT0YLLL1JMecTygZcUF5M+OzadMRl5SFiilD?=
+ =?us-ascii?Q?wGnW8UkaC6U+3Q81qw6NFLyV1LJhpzR9Vr4czx+fhZ1Xho+syZOpwgUNa76K?=
+ =?us-ascii?Q?fF0lm/St9MFVm1pwNxZ/+GlCyZam8bj+jJyhBc/FWKdMVqK2bwLsnuG8scbr?=
+ =?us-ascii?Q?f1uiwseTZFYEtPVQiFjFrOGcEMppzBgRf2L6pgrbFpUhheZbnLZyaAMt8Eek?=
+ =?us-ascii?Q?TJOYbL9oKCj5myPgNKRjWaZBi1rghXlBrlFUrSMb?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9400bdb7-fbfc-4cc5-0767-08dba00b4e7f
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2023 16:51:02.7147
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: P6z3FWapc2cHzyAuAVFEYAxWmtTwa7HqsfQbPwYMnsi7jS8PNn8soMMN61k1O8JM
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5863
 
+On Mon, Jul 17, 2023 at 01:00:00PM +0200, Niklas Schnelle wrote:
+> Hi All,
+> 
+> This patch series converts s390's PCI support from its platform specific DMA
+> API implementation in arch/s390/pci/pci_dma.c to the common DMA IOMMU layer.
+> The conversion itself is done in patches 3-4 with patch 2 providing the final
+> necessary IOMMU driver improvement to handle s390's special IOTLB flush
+> out-of-resource indication in virtualized environments. Patches 1-2 may be
+> applied independently. The conversion itself only touches the s390 IOMMU driver
+> and s390 arch code moving over remaining functions from the s390 DMA API
+> implementation. No changes to common code are necessary.
 
+It has been another month with no comments, what is needed to get this
+merged?
 
-On Fri, Aug 18 2023 at 01:06:59 PM +01:00:00, Andre Przywara 
-<andre.przywara@arm.com> wrote:
-> On Fri, 18 Aug 2023 12:54:48 +0200
-> Martin Botka <martin.botka@somainline.org> wrote:
-> 
-> Hi Martin,
-> 
->>  On Fri, Aug 18 2023 at 11:29:30 AM +01:00:00, Andre Przywara
->>  <andre.przywara@arm.com> wrote:
->>  > On Fri, 18 Aug 2023 10:43:17 +0200
->>  > Martin Botka <martin.botka@somainline.org> wrote:
->>  >
->>  > Hi Martin,
->>  >
->>  > many thanks for the time and effort for upstreaming this!
->>  >
->>  >>  Add support for the thermal sensor found in H616 SoC
->>  >>  which slightly resembles the H6 thermal sensor
->>  >>  controller with few changes like 4 sensors.
->>  >>
->>  >>  Signed-off-by: Martin Botka <martin.botka@somainline.org>
->>  >>  ---
->>  >>   drivers/thermal/sun8i_thermal.c | 115
->>  >> ++++++++++++++++++++++++++++++++++++++++
->>  >>   1 file changed, 115 insertions(+)
->>  >>
->>  >>  diff --git a/drivers/thermal/sun8i_thermal.c
->>  >> b/drivers/thermal/sun8i_thermal.c
->>  >>  index 195f3c5d0b38..9d73e4313ad8 100644
->>  >>  --- a/drivers/thermal/sun8i_thermal.c
->>  >>  +++ b/drivers/thermal/sun8i_thermal.c
->>  >>  @@ -108,6 +108,12 @@ static int sun50i_h5_calc_temp(struct
->>  >> ths_device *tmdev,
->>  >>   		return -1590 * reg / 10 + 276000;
->>  >>   }
->>  >>
->>  >>  +static int sun50i_h616_calc_temp(struct ths_device *tmdev,
->>  >>  +			       int id, int reg)
->>  >>  +{
->>  >>  +	return (reg + tmdev->chip->offset) * tmdev->chip->scale;
->>  >
->>  > So if my school maths is not letting me down, this is the same as 
->> the
->>  > sun8i_ths_calc_temp() function, when using:
->>  > scale = h616_scale * -10
->>  > offset = h616_offset * h616_scale
->>  >
->>  > So we do not need this new function, when we use:
->>  > +	.offset = 263655,
->>  > +	.scale = 810,
->>  > below, right?
->>  That looks correct. Seems like my brain has let me down once again 
->> hehe.
-> 
-> Well, I guess you took the code from some BSP drop, right? And "same 
-> code
-> written differently" is a common pattern in those vendor kernels, 
-> because
-> they work on this "new SoC, new Linux kernel" premise, and miss out in
-> factoring out the commonalities. Which on the other hand is something 
-> that
-> Linux maintainers tend to push for.
-More or less yes.
-> 
->>  > Those values are not only positive, but also seem closer to the 
->> other
->>  > SoC's values.
->>  > This of course requires some small adjustment in the calibrate
->>  > function,
->>  > to accommodate for the changed scale, but I leave this up as an
->>  > exercise
->>  > to the reader ;-)
->>  >
->>  > Martin, can you confirm that this works?
->>  Will do :)
->>  >
->>  >>  +}
->>  >>  +
->>  >>   static int sun8i_ths_get_temp(struct thermal_zone_device *tz, 
->> int
->>  >> *temp)
->>  >>   {
->>  >>   	struct tsensor *s = thermal_zone_device_priv(tz);
->>  >>  @@ -278,6 +284,64 @@ static int sun50i_h6_ths_calibrate(struct
->>  >> ths_device *tmdev,
->>  >>   	return 0;
->>  >>   }
->>  >>
->>  >>  +static int sun50i_h616_ths_calibrate(struct ths_device *tmdev,
->>  >>  +				   u16 *caldata, int callen)
->>  >
->>  > nit: alignment
->>  ack
->>  >
->>  >>  +{
->>  >>  +	struct device *dev = tmdev->dev;
->>  >>  +	int i, ft_temp;
->>  >>  +
->>  >>  +	if (!caldata[0])
->>  >>  +		return -EINVAL;
->>  >>  +
->>  >>  +	/*
->>  >>  +	 * h616 efuse THS calibration data layout:
->>  >>  +	 *
->>  >>  +	 * 0      11  16     27   32     43   48    57
->>  >>  +	 * +----------+-----------+-----------+-----------+
->>  >>  +	 * |  temp |  |sensor0|   |sensor1|   |sensor2|   |
->>  >>  +	 * +----------+-----------+-----------+-----------+
->>  >>  +	 *                      ^           ^           ^
->>  >>  +	 *                      |           |           |
->>  >>  +	 *                      |           |           sensor3[11:8]
->>  >>  +	 *                      |           sensor3[7:4]
->>  >>  +	 *                      sensor3[3:0]
->>  >>  +	 *
->>  >>  +	 * The calibration data on the H616 is the ambient 
->> temperature and
->>  >>  +	 * sensor values that are filled during the factory test 
->> stage.
->>  >>  +	 *
->>  >>  +	 * The unit of stored FT temperature is 0.1 degreee celusis.
->>  >
->>  > nit: degree Celsius
->>  .... I can't even legit excuse this typo (If it even can be called
->>  typo). Got it tho.
->>  >
->>  >>  +	 */
->>  >>  +	ft_temp = caldata[0] & FT_TEMP_MASK;
->>  >>  +
->>  >>  +	for (i = 0; i < tmdev->chip->sensor_num; i++) {
->>  >>  +		int delta, cdata, offset, reg;
->>  >>  +
->>  >>  +		if (i == 3)
->>  >>  +			reg = (caldata[1] >> 12)
->>  >>  +			      | (caldata[2] >> 12 << 4)
->>  >>  +			      | (caldata[3] >> 12 << 8);
->>  >
->>  > Can you add parentheses around the (caldata[2|3] >> 12) part? 
->> Makes
->>  > it a
->>  > bit more readable.
->>  yep
->>  >
->>  >>  +		else
->>  >>  +			reg = (int)caldata[i + 1] & TEMP_CALIB_MASK;
->>  >>  +
->>  >>  +		delta = (ft_temp * 100 - tmdev->chip->calc_temp(tmdev, i, 
->> reg))
->>  >>  +			/ tmdev->chip->scale;
->>  >
->>  > Looks a bit odd, can you write this as over two lines?
->>  > 		delta = ft_temp ...;
->>  > 		delta /= tmdev->chip_scale;
->>  can do.
->>  >
->>  > (And this would be the place where you adjust the calculation to 
->> use
->>  > the
->>  > new scale value).
->>  yep. Tho it is bit of a spoiler for the reader ;)
->>  >
->>  >>  +		cdata = CALIBRATE_DEFAULT - delta;
->>  >>  +		if (cdata & ~TEMP_CALIB_MASK) {
->>  >>  +			dev_warn(dev, "sensor%d is not calibrated.\n", i);
->>  >>  +
->>  >>  +			continue;
->>  >>  +		}
->>  >>  +
->>  >>  +		offset = (i % 2) * 16;
->>  >>  +		regmap_update_bits(tmdev->regmap,
->>  >>  +				   SUN50I_H6_THS_TEMP_CALIB + (i / 2 * 4),
->>  >>  +				   0xfff << offset,
->>  >
->>  > That should be TEMP_CALIB_MASK << offset, compare the H6 code.
->>  Agreed. Missed this one. Ty.
->>  >
->>  >>  +				   cdata << offset);
->>  >>  +	}
->>  >>  +
->>  >>  +	return 0;
->>  >>  +}
->>  >>  +
->>  >>   static int sun8i_ths_calibrate(struct ths_device *tmdev)
->>  >>   {
->>  >>   	struct nvmem_cell *calcell;
->>  >>  @@ -453,6 +517,43 @@ static int sun50i_h6_thermal_init(struct
->>  >> ths_device *tmdev)
->>  >>   	return 0;
->>  >>   }
->>  >>
->>  >>  +static int sun50i_h616_thermal_init(struct ths_device *tmdev)
->>  >>  +{
->>  >>  +	int val;
->>  >>  +
->>  >>  +	/*
->>  >>  +	 * T_acq = 20us
->>  >>  +	 * clkin = 24MHz
->>  >>  +	 *
->>  >>  +	 * x = T_acq * clkin - 1
->>  >>  +	 *   = 479
->>  >>  +	 */
->>  >>  +	regmap_write(tmdev->regmap, SUN50I_THS_CTRL0,
->>  >>  +		     SUN8I_THS_CTRL0_T_ACQ0(47) | 
->> SUN8I_THS_CTRL2_T_ACQ1(479));
->>  >
->>  > So this whole function is the same as the H6 (diff it!), except 
->> this
->>  > line.
->>  > Which is actually also the same, just written differently (47 ==
->>  > 0x2f).
->>  > Can you please double check this, and if you agree, remove the 
->> whole
->>  > function and just use the H6 version?
->>  They are not the same. Yes the 47 can be replaced with the unknown
->>  value from H6.
->>  What isnt the same is the CTRL at the end. CTRL0 in H6 and CTRL2 in
->>  H616. A very
->>  small change :)
-> 
-> But the definitions of SUN8I_THS_CTRL2_T_ACQ1 and 
-> SUN50I_THS_CTRL0_T_ACQ
-> are the same, aren't they?
-oh my yea you are absolutely correct. I will test if they produce the 
-same bit pattern.
-If so i will drop this function completely :)
-> I wonder if we are missing one piece of info for the H6 here, so the
-> "magic" 47 isn't actually magic, but there is some formula involving
-> clocks, similar to the one that results in 479.
-> Because then this would be more similar across the different SoCs: 
-> there
-> are *two* timing values for each SoC, and they just happen to be the 
-> same
-> for the H3 (20us), but are different for the H6 and H616 (one 2us, the
-> other 20us). And then your H616 line would make sense for the H6 as 
-> well:
-> 		2us				20us
-> 	SUN8I_THS_CTRL0_T_ACQ0(47) | SUN8I_THS_CTRL2_T_ACQ1(479));
-> 
-> In any case I still believe the H6 line results in the very same bit
-> pattern than your H616 line, but I am happy to stand corrected.
-> In which case I would ask you to unify the code anyway, somehow, so 
-> you
-> better hope I am right ;-)
-> 
-> Cheers,
-> Andre
-> 
->>  >>  +	/* average over 4 samples */
->>  >>  +	regmap_write(tmdev->regmap, SUN50I_H6_THS_MFC,
->>  >>  +		     SUN50I_THS_FILTER_EN |
->>  >>  +		     SUN50I_THS_FILTER_TYPE(1));
->>  >>  +	/*
->>  >>  +	 * clkin = 24MHz
->>  >>  +	 * filter_samples = 4
->>  >>  +	 * period = 0.25s
->>  >>  +	 *
->>  >>  +	 * x = period * clkin / 4096 / filter_samples - 1
->>  >>  +	 *   = 365
->>  >>  +	 */
->>  >>  +	regmap_write(tmdev->regmap, SUN50I_H6_THS_PC,
->>  >>  +		     SUN50I_H6_THS_PC_TEMP_PERIOD(365));
->>  >>  +	/* enable sensor */
->>  >>  +	val = GENMASK(tmdev->chip->sensor_num - 1, 0);
->>  >>  +	regmap_write(tmdev->regmap, SUN50I_H6_THS_ENABLE, val);
->>  >>  +	/* thermal data interrupt enable */
->>  >>  +	val = GENMASK(tmdev->chip->sensor_num - 1, 0);
->>  >>  +	regmap_write(tmdev->regmap, SUN50I_H6_THS_DIC, val);
->>  >>  +
->>  >>  +	return 0;
->>  >>  +}
->>  >>  +
->>  >>   static int sun8i_ths_register(struct ths_device *tmdev)
->>  >>   {
->>  >>   	int i;
->>  >>  @@ -608,6 +709,19 @@ static const struct ths_thermal_chip
->>  >> sun50i_h6_ths = {
->>  >>   	.calc_temp = sun8i_ths_calc_temp,
->>  >>   };
->>  >>
->>  >>  +static const struct ths_thermal_chip sun50i_h616_ths = {
->>  >>  +	.sensor_num = 4,
->>  >>  +	.has_bus_clk_reset = true,
->>  >>  +	.ft_deviation = 8000,
->>  >>  +	.offset = -3255,
->>  >>  +	.scale = -81,
->>  >>  +	.temp_data_base = SUN50I_H6_THS_TEMP_DATA,
->>  >>  +	.calibrate = sun50i_h616_ths_calibrate,
->>  >>  +	.init = sun50i_h616_thermal_init,
->>  >>  +	.irq_ack = sun50i_h6_irq_ack,
->>  >>  +	.calc_temp = sun50i_h616_calc_temp,
->>  >>  +};
->>  >>  +
->>  >>   static const struct of_device_id of_ths_match[] = {
->>  >>   	{ .compatible = "allwinner,sun8i-a83t-ths", .data =
->>  >> &sun8i_a83t_ths },
->>  >>   	{ .compatible = "allwinner,sun8i-h3-ths", .data = 
->> &sun8i_h3_ths },
->>  >>  @@ -616,6 +730,7 @@ static const struct of_device_id 
->> of_ths_match[]
->>  >> = {
->>  >>   	{ .compatible = "allwinner,sun50i-a100-ths", .data =
->>  >> &sun50i_a100_ths },
->>  >>   	{ .compatible = "allwinner,sun50i-h5-ths", .data = 
->> &sun50i_h5_ths
->>  >> },
->>  >>   	{ .compatible = "allwinner,sun50i-h6-ths", .data = 
->> &sun50i_h6_ths
->>  >> },
->>  >>  +	{ .compatible = "allwinner,sun50i-h616-ths", .data =
->>  >> &sun50i_h616_ths },
->>  >>   	{ /* sentinel */ },
->>  >>   };
->>  >>   MODULE_DEVICE_TABLE(of, of_ths_match);
->>  >>
->>  >
->> 
->> 
-> 
+Getting the arches converted to the standard dma ops is a big deal,
+can we please conclude this?
 
-
+Thanks,
+Jason
