@@ -1,187 +1,92 @@
-Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it [5.144.164.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82564748C
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Aug 2023 14:03:59 +0000 (UTC)
-Received: from [192.168.2.137] (bband-dyn221.178-41-211.t-com.sk [178.41.211.221])
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B07FB15C0;
+	Mon, 21 Aug 2023 14:36:52 +0000 (UTC)
+Received: from 8bytes.org (pd9fe95be.dip0.t-ipconnect.de [217.254.149.190])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 510F53F324;
-	Mon, 21 Aug 2023 16:03:51 +0200 (CEST)
-From: Martin Botka <martin.botka@somainline.org>
-Date: Mon, 21 Aug 2023 16:03:48 +0200
-Subject: [PATCH v2 3/3] arm64: dts: allwinner: h616: Add thermal sensor and
- thermal zones
+	by mail.8bytes.org (Postfix) with ESMTPSA id 4CE0C2819E9;
+	Mon, 21 Aug 2023 16:36:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1692628611;
+	bh=+WiTQ5AG7r8y4G1Zww7KAS8SkcWV0o+RqcA6fs2lTPo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cCuzifo9x0D9qOt89G/4/PiqD/F+u4B/70l6IQpdB42jnyWjZAjz6KPgC0KIJ5pot
+	 yclZplhO935QvwccMrgOtmFHXq3eiyDLUhMvZiDp7Z1uCnQEBb9DWAMAxasIaPyHYq
+	 a4eQTWVPUC2Ofc8zeYGvrhV9slFe/AwBVAzPWiByhFvVRg2Dwo6GYRuq1SDa/M6D2R
+	 sY0F1aYmy5lkzE3WB90VPyGeQs8XtRdRd40i7Gqc0UnXnz42dsYsAcZAzCYTfLPIIB
+	 IeikCsXnKvSGRsvIQ6KRIPv23/3ONC+w0IGRIkYtlssEYICD4kne0F5md7TvoUKscG
+	 Wl6tO+kp8hFKw==
+Date: Mon, 21 Aug 2023 16:36:49 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Robin Murphy <robin.murphy@arm.com>, Andy Gross <agross@kernel.org>,
+	David Airlie <airlied@gmail.com>, alsa-devel@alsa-project.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Andrzej Hajda <andrzej.hajda@intel.com>, ath10k@lists.infradead.org,
+	ath11k@lists.infradead.org, Mark Brown <broonie@kernel.org>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Christian Gmeiner <christian.gmeiner@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>, devicetree@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	dri-devel@lists.freedesktop.org, Emma Anholt <emma@anholt.net>,
+	etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	Frank Rowand <frowand.list@gmail.com>, iommu@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Kalle Valo <kvalo@kernel.org>, Lucas Stach <l.stach@pengutronix.de>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Russell King <linux+etnaviv@armlinux.org.uk>,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, linux-wireless@vger.kernel.org,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Maxime Ripard <mripard@kernel.org>, Sinan Kaya <okaya@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	Jeff Johnson <quic_jjohnson@quicinc.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Rob Clark <robdclark@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+	Samuel Holland <samuel@sholland.org>, Sean Paul <sean@poorly.run>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <jroedel@suse.de>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH] iommu: Remove the device_lock_assert() from
+ __iommu_probe_device()
+Message-ID: <ZON2gRogBhjmpNIl@8bytes.org>
+References: <0-v1-98d20e768c66+7-of_dma_lock_jgg@nvidia.com>
+ <78114fd6-9b83-92ba-418f-6cc7bda9df9b@arm.com>
+ <ZONdwclGOBaxxqtq@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230821-ths-h616-v2-3-cda60d556798@somainline.org>
-References: <20230821-ths-h616-v2-0-cda60d556798@somainline.org>
-In-Reply-To: <20230821-ths-h616-v2-0-cda60d556798@somainline.org>
-To: Vasily Khoruzhick <anarsoul@gmail.com>, 
- Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, 
- Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>, 
- Alan Ma <tech@biqu3d.com>, Luke Harrison <bttuniversity@biqu3d.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>, 
- Konrad Dybcio <konrad.dybcio@somainline.org>, 
- Martin Botka <martin@biqu3d.com>, 
- Martin Botka <martin.botka@somainline.org>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1692626628; l=3135;
- i=martin.botka@somainline.org; s=20230811; h=from:subject:message-id;
- bh=Y5wSSzIWuOFKSGGZMNJjnzIykv3kiku+VUt8NVG55u0=;
- b=7EqC6e2dCq8+IHUQbrSK/ZIw526FrhhLr0JeelOvsJp1ijiF9qXcOtLFt9HQJg6vhbKiJtIGw
- wVuertO4HyZDwx5j+3/wWqHiU6KJfvu92iSpV5FjkzUs1QKbOaIlE1C
-X-Developer-Key: i=martin.botka@somainline.org; a=ed25519;
- pk=aTCd3jmwU8GrJidWg3DSKLpdVMcpFzXzCSLXLR6NtWU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZONdwclGOBaxxqtq@nvidia.com>
 
-There are 4 thermal sensors:
-- CPU
-- GPU
-- VE
-- DRAM
+On Mon, Aug 21, 2023 at 09:51:13AM -0300, Jason Gunthorpe wrote:
+> So now that Joerg has dropped it - what is your big idea to make the
+> locking actually work right?
 
-Add the thermal sensor configuration and thermal zones
+I am not opposed to the general idea. When putting it into the tree I
+wasn't aware how many users still need to be adapted to properly work
+with this.
 
-Signed-off-by: Martin Botka <martin.botka@somainline.org>
----
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 87 ++++++++++++++++++++++++++
- 1 file changed, 87 insertions(+)
+We can do another try once the issues have been sorted out and you have
+agreed with Robin on a workable way forward.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index d549d277d972..063db9634e5f 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -9,6 +9,7 @@
- #include <dt-bindings/clock/sun6i-rtc.h>
- #include <dt-bindings/reset/sun50i-h616-ccu.h>
- #include <dt-bindings/reset/sun50i-h6-r-ccu.h>
-+#include <dt-bindings/thermal/thermal.h>
- 
- / {
- 	interrupt-parent = <&gic>;
-@@ -138,6 +139,10 @@ sid: efuse@3006000 {
- 			reg = <0x03006000 0x1000>;
- 			#address-cells = <1>;
- 			#size-cells = <1>;
-+
-+			ths_calibration: thermal-sensor-calibration@14 {
-+				reg = <0x14 0x8>;
-+			};
- 		};
- 
- 		watchdog: watchdog@30090a0 {
-@@ -511,6 +516,18 @@ mdio0: mdio {
- 			};
- 		};
- 
-+		ths: thermal-sensor@5070400 {
-+			compatible = "allwinner,sun50i-h616-ths";
-+			reg = <0x05070400 0x400>;
-+			interrupts = <GIC_SPI 19 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_THS>;
-+			clock-names = "bus";
-+			resets = <&ccu RST_BUS_THS>;
-+			nvmem-cells = <&ths_calibration>;
-+			nvmem-cell-names = "calibration";
-+			#thermal-sensor-cells = <1>;
-+		};
-+
- 		usbotg: usb@5100000 {
- 			compatible = "allwinner,sun50i-h616-musb",
- 				     "allwinner,sun8i-h3-musb";
-@@ -755,4 +772,74 @@ r_rsb: rsb@7083000 {
- 			#size-cells = <0>;
- 		};
- 	};
-+
-+	thermal-zones {
-+		cpu-thermal {
-+			polling-delay-passive = <500>;
-+			polling-delay = <1000>;
-+			thermal-sensors = <&ths 2>;
-+			sustainable-power = <1000>;
-+
-+			trips {
-+				cpu_threshold: cpu-trip-0 {
-+					temperature = <60000>;
-+					type = "passive";
-+					hysteresis = <0>;
-+				};
-+				cpu_target: cpu-trip-1 {
-+					temperature = <70000>;
-+					type = "passive";
-+					hysteresis = <0>;
-+				};
-+				cpu_critical: cpu-trip-2 {
-+					temperature = <110000>;
-+					type = "critical";
-+					hysteresis = <0>;
-+				};
-+			};
-+		};
-+
-+		gpu-thermal {
-+			polling-delay-passive = <500>;
-+			polling-delay = <1000>;
-+			thermal-sensors = <&ths 0>;
-+			sustainable-power = <1100>;
-+
-+			trips {
-+				gpu_temp_critical: gpu-trip-0 {
-+					temperature = <110000>;
-+					type = "critical";
-+					hysteresis = <0>;
-+				};
-+			};
-+		};
-+
-+		ve-thermal {
-+			polling-delay-passive = <0>;
-+			polling-delay = <0>;
-+			thermal-sensors = <&ths 1>;
-+
-+			trips {
-+				ve_temp_critical: ve-trip-0 {
-+					temperature = <110000>;
-+					type = "critical";
-+					hysteresis = <0>;
-+				};
-+			};
-+		};
-+
-+		ddr-thermal {
-+			polling-delay-passive = <0>;
-+			polling-delay = <0>;
-+			thermal-sensors = <&ths 3>;
-+
-+			trips {
-+				ddr_temp_critical: ddr-trip-0 {
-+					temperature = <110000>;
-+					type = "critical";
-+					hysteresis = <0>;
-+				};
-+			};
-+		};
-+	};
- };
+Regards,
 
--- 
-2.41.0
-
+	Joerg
